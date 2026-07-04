@@ -1,0 +1,8 @@
+{
+  // AI Agent Library の markdownlint 設定
+  // 日本語の長文段落を許容する
+  "MD013": false,
+  // front matter の title と本文 H1 の併用はこのライブラリの仕様
+  // (テンプレートで H1 = title と定めている。CLAUDE.md 参照)
+  "MD025": { "front_matter_title": "" }
+}

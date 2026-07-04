@@ -11,4 +11,4 @@
 
 | ファイル | 内容 |
 | --- | --- |
-| `learning-roadmap.md` | AI Agent 学習ロードマップ(読者タイプ別の読む順序) |
+| [learning-roadmap.md](learning-roadmap.md) | AI Agent 学習ロードマップ(読者タイプ別の読む順序) |

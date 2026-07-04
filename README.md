@@ -73,5 +73,5 @@ ai-agent-library/
 
 ## ステータス
 
-- 現在: **構造設計フェーズ完了、コンテンツ執筆前**
-- 次のステップ: [ROADMAP.md](ROADMAP.md) の Phase 1 (概要 + 最重要概念) から執筆開始
+- 現在: **Phase 1 完了**(2026-07-05 時点。[学習ロードマップ](docs/00-overview/learning-roadmap.md) と [AI Agent とは何か](docs/01-concepts/what-is-an-ai-agent.md) を公開)
+- 次のステップ: [ROADMAP.md](ROADMAP.md) の Phase 2(基礎概念)から執筆継続

@@ -40,13 +40,13 @@
 - [x] ディレクトリ構成・README.md・CLAUDE.md・テンプレート・ROADMAP・GLOSSARY の作成
 - [x] 構造設計のマルチエージェントレビューと反映
 
-### Phase 1: 入口と土台
+### Phase 1: 入口と土台 — ✅ 完了(2026-07-05)
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
-| 1-1 | 学習ロードマップ執筆 | `00-overview/learning-roadmap.md` | 未着手 |
-| 1-2 | Agent の定義と分類(会話型・ツール実行型・コンピュータ操作型を含む) | `01-concepts/what-is-an-ai-agent.md` | 未着手 |
-| 1-R | Phase 1 レビュー(リンク・テンプレート準拠・GLOSSARY 登録漏れの確認) | — | 未着手 |
+| 1-1 | 学習ロードマップ執筆 | `00-overview/learning-roadmap.md` | 完了 |
+| 1-2 | Agent の定義と分類(会話型・ツール実行型・コンピュータ操作型を含む) | `01-concepts/what-is-an-ai-agent.md` | 完了 |
+| 1-R | Phase 1 レビュー(リンク・テンプレート準拠・GLOSSARY 登録漏れの確認) | — | 完了 |
 
 ### Phase 2: 基礎概念(01-concepts)
 

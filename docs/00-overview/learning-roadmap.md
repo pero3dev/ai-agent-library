@@ -1,0 +1,105 @@
+---
+title: "AI Agent 学習ロードマップ"
+category: "overview"
+level: "basic"
+status: "published"
+last_updated: "2026-07-05"
+tags: ["learning-roadmap", "ai-agent"]
+---
+
+# AI Agent 学習ロードマップ
+
+## この記事の目的
+
+このライブラリを「どの順で読むか」を、自分の目的に合わせて決められるようになります。8 つのセクションの役割と依存関係を把握し、読者タイプ別の推奨ルートから自分に合うものを選べる状態がゴールです。
+
+## 対象読者
+
+- このライブラリを初めて訪れたソフトウェアエンジニア全般
+- チームに AI Agent の学習を導入する立場のテックリード・エンジニアリングマネージャー
+
+## 前提知識
+
+- LLM API(チャット補完 API)を一度でも呼び出した経験があること。システムプロンプトとユーザーメッセージの区別が付けば十分です
+- このライブラリ内の前提ドキュメントはありません(本記事が入口です)
+
+## 本文
+
+### 概要: 8 セクションの構成と依存関係
+
+このライブラリは「概念 → 設計 → 実装 → 評価 → 運用」という開発ライフサイクルの順にセクションを並べ、セキュリティと事例を横断テーマとして置いています。
+
+```mermaid
+flowchart TD
+    O["00-overview<br/>全体像(本記事)"] --> C1["01-concepts<br/>基礎概念"]
+    C1 --> A2["02-architecture<br/>設計"]
+    A2 --> I3["03-implementation<br/>実装"]
+    I3 --> E4["04-evaluation<br/>評価"]
+    E4 --> P5["05-operations<br/>運用"]
+    C1 --> S6["06-security<br/>セキュリティ"]
+    A2 --> S6
+    I3 --> CS7["07-case-studies<br/>事例"]
+    S6 --> CS7
+    P5 --> CS7
+```
+
+矢印は「先に読んでおくと理解が速い」という依存関係です。上から順にすべて読む必要はなく、次の推奨ルートから選んでください。
+
+### 読者タイプ別の推奨ルート
+
+| タイプ | 状況 | 推奨ルート |
+| --- | --- | --- |
+| A: 入門 | AI Agent をこれから学ぶ | [01-concepts](../01-concepts/README.md) を上から順に → `workflow-vs-agent.md` → [03-implementation](../03-implementation/README.md) → `agent-evaluation-basics.md` → `prompt-injection.md` |
+| B: 設計担当 | 要件を受けて設計を始める | [AI Agent とは何か](../01-concepts/what-is-an-ai-agent.md) → `agent-loop.md` → [02-architecture](../02-architecture/README.md) を全部 → `threat-model-overview.md` |
+| C: 実装担当 | 設計済みのものを実装する | [03-implementation](../03-implementation/README.md) を全部 → `examples/` のサンプル → [04-evaluation](../04-evaluation/README.md) |
+| D: 運用・SRE | 既存の Agent を本番運用する | [05-operations](../05-operations/README.md) を全部 → `regression-testing.md` → [06-security](../06-security/README.md) |
+| E: セキュリティ | Agent システムをレビュー・監査する | [06-security](../06-security/README.md) を全部 → `tool-use.md` → `human-in-the-loop.md` |
+
+個別ドキュメントの執筆状況は各セクションの README で確認できます(ファイル名がリンクになっているものが執筆済み、バッククォートのままの名前は計画段階です)。
+
+### セクションごとの読みどころ
+
+- [01-concepts](../01-concepts/README.md) — 「Agent とは何か」から始まる基礎概念。**全読者に共通の土台**で、他セクションはここの用語を前提にします
+- [02-architecture](../02-architecture/README.md) — 「Agent にするか、Workflow で済ませるか」など、コードを書く前の設計判断。**過剰な Agent 化を防ぐ**視点を提供します
+- [03-implementation](../03-implementation/README.md) — ツール定義・プロンプト・構造化出力などの実装パターン。`examples/` の動くコードと対で読みます
+- [04-evaluation](../04-evaluation/README.md) — 「作ったが品質が分からない」を防ぐ評価設計。**実装と同時に読み始める**ことを推奨します
+- [05-operations](../05-operations/README.md) — 可観測性・コスト・インシデント対応など本番運用の実務
+- [06-security](../06-security/README.md) — プロンプトインジェクションを筆頭とする Agent 固有の脅威と対策。**設計初期に一読**してください
+- [07-case-studies](../07-case-studies/README.md) — 具体事例とアンチパターン詳解。他セクションを読んだあとの総仕上げ
+
+### 学習の進め方の指針
+
+1. **概念(01)を飛ばさない**。フレームワークの API はすぐ変わりますが、Agent ループやツール使用(tool use)の原理は変わりません
+2. **評価(04)とセキュリティ(06)を「あとで」にしない**。どちらも後付けが最も高くつく領域です
+3. 読むだけでなく、`examples/` のサンプルを手元で動かして確かめてください(Phase 4 以降で追加予定)
+
+## 実務での注意点
+
+### アンチパターン
+
+- **いきなりフレームワークから学び始める** → 抽象化の下で何が起きているか分からず、不具合時にデバッグできない → 先に [01-concepts](../01-concepts/README.md) で生の仕組み(ループ・ツール呼び出し)を理解してからフレームワークに進む
+- **デモが動いた時点で「学習完了」と判断する** → Agent は動くものを作るより、品質を保証し運用し続ける方が難しい → 04(評価)と 05(運用)までをスコープに含めて学習計画を立てる
+- **セキュリティを本番直前に初めて調べる** → プロンプトインジェクション対策は後付けしにくく、設計変更を強いられる → 設計段階で 06 の脅威モデルに目を通す
+
+### チェックリスト
+
+学習を始める前のセルフチェック:
+
+- [ ] 自分の読者タイプ(A〜E)を決めた
+- [ ] 作りたいもの(または運用するもの)を 1 文で説明できる
+- [ ] LLM API を呼び出せる開発環境がある(examples を動かすため)
+- [ ] 読む予定のセクションの README にざっと目を通した
+
+## 関連トピック
+
+- [AI Agent とは何か](../01-concepts/what-is-an-ai-agent.md) — 本記事の次に最初に読む 1 本
+- 各セクションの詳細は上記「セクションごとの読みどころ」の各 README リンクを参照
+
+## 参考資料
+
+- [Building Effective Agents(Anthropic)](https://www.anthropic.com/research/building-effective-agents) — Workflow と Agent の区別、シンプルさを優先する設計原則(アクセス日: 2026-07-05)
+- [LLM Powered Autonomous Agents(Lilian Weng)](https://lilianweng.github.io/posts/2023-06-23-agent/) — プランニング・メモリ・ツールという構成要素の古典的な整理(アクセス日: 2026-07-05)
+
+## TODO・未確認事項
+
+> **TODO(要確認):** 参考資料に挙げた外部記事の URL 有効性と、より新しい公式の学習ガイド(Anthropic / OpenAI / Google)の有無を各社公式サイトで確認する(最終確認: 2026-07)

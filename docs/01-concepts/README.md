@@ -11,7 +11,7 @@
 
 | ファイル | 内容 |
 | --- | --- |
-| `what-is-an-ai-agent.md` | AI Agent とは何か(定義・分類: 会話型・ツール実行型・コンピュータ操作型) |
+| [what-is-an-ai-agent.md](what-is-an-ai-agent.md) | AI Agent とは何か(定義・分類: 会話型・ツール実行型・コンピュータ操作型) |
 | `agent-loop.md` | Agent ループ(観測・思考・行動のサイクル) |
 | `tool-use.md` | ツール使用(Tool Use / Function Calling。自前実装と MCP 等の標準プロトコルの関係を含む) |
 | `memory-and-state.md` | メモリと状態管理(短期・長期・外部記憶、セッション管理と履歴圧縮を含む) |

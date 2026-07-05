@@ -11,8 +11,8 @@ Agent 固有の脅威と対策を扱うセクションです。従来の Web セ
 
 | ファイル | 内容 |
 | --- | --- |
-| `threat-model-overview.md` | Agent の脅威モデル概観(脅威の列挙と分類。防御層の設計は guardrails へ) |
-| `prompt-injection.md` | プロンプトインジェクション(直接・間接)と対策 |
-| `tool-permissions-and-sandboxing.md` | ツール権限設計とサンドボックス(外部 MCP サーバーの信頼、コンピュータ操作型の隔離を含む) |
-| `data-exfiltration.md` | データ漏えい(exfiltration)経路と対策 |
-| `guardrails.md` | ガードレール(入力・出力・アクションの 3 層防御の設計) |
+| [threat-model-overview.md](threat-model-overview.md) | Agent の脅威モデル概観(脅威の列挙と分類。防御層の設計は guardrails へ) |
+| [prompt-injection.md](prompt-injection.md) | プロンプトインジェクション(直接・間接)と対策 |
+| [tool-permissions-and-sandboxing.md](tool-permissions-and-sandboxing.md) | ツール権限設計とサンドボックス(外部 MCP サーバーの信頼、コンピュータ操作型の隔離を含む) |
+| [data-exfiltration.md](data-exfiltration.md) | データ漏えい(exfiltration)経路と対策 |
+| [guardrails.md](guardrails.md) | ガードレール(入力・出力・アクションの 3 層防御の設計) |

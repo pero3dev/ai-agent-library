@@ -58,9 +58,9 @@ MCP(Model Context Protocol)は、ツールやデータソースを LLM アプリ
 
 1. **ツール説明文の汚染(tool poisoning)** — ツールの説明文はモデルへのプロンプトの一部です。悪意ある(または改ざんされた)サーバーは、説明文経由でモデルの挙動を操作しえます
 2. **過剰な権限** — サーバーに渡す認証情報のスコープが広いと、Agent の誤動作・乗っ取り時の被害がそのまま広がります
-3. **結果経由の間接プロンプトインジェクション** — ツールが返す内容(外部サイトの本文など)に埋め込まれた指示をモデルが実行してしまう構造的リスク(`prompt-injection.md`、執筆予定)
+3. **結果経由の間接プロンプトインジェクション** — ツールが返す内容(外部サイトの本文など)に埋め込まれた指示をモデルが実行してしまう構造的リスク([プロンプトインジェクション](../06-security/prompt-injection.md))
 
-基本対策は、信頼できる提供元のサーバーに限定する・バージョンを固定する・認証情報のスコープを最小にする・危険な操作に承認を挟む([Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md))ことです。詳細は `tool-permissions-and-sandboxing.md`(執筆予定)で扱います。
+基本対策は、信頼できる提供元のサーバーに限定する・バージョンを固定する・認証情報のスコープを最小にする・危険な操作に承認を挟む([Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md))ことです。詳細は [ツール権限設計とサンドボックス](../06-security/tool-permissions-and-sandboxing.md) で扱います。
 
 ## 実務での注意点
 
@@ -83,7 +83,7 @@ MCP(Model Context Protocol)は、ツールやデータソースを LLM アプリ
 - [ツール使用](../01-concepts/tool-use.md) — 共通の基盤となる仕組み
 - [ツール定義の設計](tool-definition-design.md) — 自前実装側の設計
 - [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) — 危険な操作への承認
-- `tool-permissions-and-sandboxing.md`(執筆予定)— 権限設計とサンドボックスの詳細
+- [ツール権限設計とサンドボックス](../06-security/tool-permissions-and-sandboxing.md) — 権限設計とサンドボックスの詳細
 - [フレームワーク選定ガイド](framework-selection.md) — MCP 対応はフレームワーク選定の観点の 1 つ
 
 ## 参考資料

@@ -11,6 +11,8 @@
 
 | ファイル | 内容 |
 | --- | --- |
-| `common-anti-patterns.md` | よくあるアンチパターン集(全セクション横断) |
+| [common-anti-patterns.md](common-anti-patterns.md) | よくあるアンチパターン集(全セクション横断) |
+| [case-study-expense-agent.md](case-study-expense-agent.md) | 経費精算アシスタントの段階的 Agent 化(成功事例・構成事例) |
+| [case-study-email-assistant-incident.md](case-study-email-assistant-incident.md) | メールアシスタントの情報漏えいインシデント(失敗事例・構成事例) |
 
-ケーススタディの題材は Phase 8 着手時に選定します([ROADMAP.md](../../ROADMAP.md) 参照)。
+ケーススタディは、本ライブラリの設計判断を通しで見せるための**架空の構成事例**です(各記事冒頭に注記)。

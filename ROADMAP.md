@@ -99,25 +99,26 @@
 | 6-4 | インシデント対応(暴走・コスト急騰・品質劣化時の停止と復旧) | `incident-response.md` | 完了 |
 | 6-R | Phase 6 レビュー | — | 完了 |
 
-### Phase 7: セキュリティ(06-security)
+### Phase 7: セキュリティ(06-security)— ✅ 完了(2026-07-05)
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
-| 7-1 | Agent の脅威モデル概観(脅威の列挙と分類) | `threat-model-overview.md` | 未着手 |
-| 7-2 | プロンプトインジェクション | `prompt-injection.md` | 未着手 |
-| 7-3 | ツール権限設計とサンドボックス(外部 MCP サーバーの信頼、コンピュータ操作型の隔離を含む)+ データ漏えい対策 | `tool-permissions-and-sandboxing.md`, `data-exfiltration.md` | 未着手 |
-| 7-4 | ガードレール(入力・出力・アクションの 3 層防御の設計) | `guardrails.md` | 未着手 |
-| 7-R | Phase 7 レビュー | — | 未着手 |
+| 7-1 | Agent の脅威モデル概観(脅威の列挙と分類) | `threat-model-overview.md` | 完了 |
+| 7-2 | プロンプトインジェクション | `prompt-injection.md` | 完了 |
+| 7-3 | ツール権限設計とサンドボックス(外部 MCP サーバーの信頼、コンピュータ操作型の隔離を含む)+ データ漏えい対策 | `tool-permissions-and-sandboxing.md`, `data-exfiltration.md` | 完了 |
+| 7-4 | ガードレール(入力・出力・アクションの 3 層防御の設計) | `guardrails.md` | 完了 |
+| 7-R | Phase 7 レビュー | — | 完了 |
 
-### Phase 8: ケーススタディと全体統合
+### Phase 8: ケーススタディと全体統合 — ✅ 完了(2026-07-05)
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
-| 8-1 | アンチパターン集(横断) | `07-case-studies/common-anti-patterns.md` | 未着手 |
-| 8-2 | ケーススタディ 1〜2 本(題材は着手時に選定) | `07-case-studies/` | 未着手 |
-| 8-3a | 全体リンク検査(front matter・docs ↔ examples を含む) | 全体 | 未着手 |
-| 8-3b | GLOSSARY 完成(登録漏れの補完) | `GLOSSARY.md` | 未着手 |
-| 8-3c | `TODO(要確認)` の棚卸し | 全体 | 未着手 |
+| 8-1 | アンチパターン集(横断) | `07-case-studies/common-anti-patterns.md` | 完了 |
+| 8-2 | ケーススタディ 2 本(経費精算の段階的 Agent 化 / メール漏えいインシデント) | `07-case-studies/case-study-expense-agent.md`, `case-study-email-assistant-incident.md` | 完了 |
+| 8-3a | 全体リンク検査(front matter・docs ↔ examples を含む) | 全体 | 完了 |
+| 8-3b | GLOSSARY 完成(登録漏れの補完) | `GLOSSARY.md` | 完了 |
+| 8-3c | `TODO(要確認)` の棚卸し | 全体 | 完了 |
+| 8-R | Phase 8 レビュー(全体統合の最終確認) | — | 完了 |
 
 ## Claude への依頼テンプレート
 

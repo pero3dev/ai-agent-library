@@ -52,11 +52,11 @@ tags: ["computer-use", "multimodal"]
 
 ### 詳細: この類型に固有の 3 つのリスク
 
-1. **画面経由の間接プロンプトインジェクション** — Agent は画面に映るものすべてを「読み」ます。閲覧した Web ページや受信メールに埋め込まれた悪意ある指示を、タスクの指示と混同する攻撃面が構造的に存在します(`prompt-injection.md`、執筆予定)
+1. **画面経由の間接プロンプトインジェクション** — Agent は画面に映るものすべてを「読み」ます。閲覧した Web ページや受信メールに埋め込まれた悪意ある指示を、タスクの指示と混同する攻撃面が構造的に存在します([プロンプトインジェクション](../06-security/prompt-injection.md))
 2. **誤操作の実害** — 画面上の「送信」「購入」「削除」ボタンは本物です。テキスト生成の失敗と違い、誤操作はその場で現実の副作用になります
 3. **認証情報との近接** — 操作対象はログイン済みセッションであることが多く、Agent の誤動作・乗っ取りがそのまま認証済み権限の悪用につながります
 
-対策の基本形は、**専用のサンドボックス環境**(専用 VM・専用ブラウザプロファイル・最小権限の専用アカウント)で動かし、**不可逆操作の前に人間の承認**を挟むことです。詳細は `tool-permissions-and-sandboxing.md`(執筆予定)と [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) で扱います。
+対策の基本形は、**専用のサンドボックス環境**(専用 VM・専用ブラウザプロファイル・最小権限の専用アカウント)で動かし、**不可逆操作の前に人間の承認**を挟むことです。詳細は [ツール権限設計とサンドボックス](../06-security/tool-permissions-and-sandboxing.md) と [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) で扱います。
 
 ### 設計判断: API があるなら API
 
@@ -90,8 +90,8 @@ tags: ["computer-use", "multimodal"]
 - [AI Agent とは何か](what-is-an-ai-agent.md) — 3 類型の中での位置づけ
 - [Agent ループ](agent-loop.md) — 画面観測ループの基本構造
 - [ツール使用](tool-use.md) — API 連携という第一選択肢
-- `tool-permissions-and-sandboxing.md`(執筆予定)— サンドボックス設計の詳細
-- `prompt-injection.md`(執筆予定)— 画面経由の間接インジェクション
+- [ツール権限設計とサンドボックス](../06-security/tool-permissions-and-sandboxing.md) — サンドボックス設計の詳細
+- [プロンプトインジェクション](../06-security/prompt-injection.md) — 画面経由の間接インジェクション
 
 ## 参考資料
 

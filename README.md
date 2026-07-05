@@ -37,7 +37,7 @@ ai-agent-library/
 │   ├── 06-security/          # セキュリティ(プロンプトインジェクション、権限設計 等)
 │   └── 07-case-studies/      # ケーススタディ・アンチパターン詳解
 ├── examples/
-│   ├── python/               # Python サンプルコード(将来追加)
+│   ├── python/               # Python サンプルコード(tool-use を収録)
 │   └── typescript/           # TypeScript サンプルコード(将来追加)
 └── assets/
     └── diagrams/             # 図版のエクスポート画像(図の正本は本文埋め込みの Mermaid)
@@ -73,5 +73,5 @@ ai-agent-library/
 
 ## ステータス
 
-- 現在: **Phase 6 完了**(2026-07-05 時点。[00-overview](docs/00-overview/README.md) 1 本、[01-concepts](docs/01-concepts/README.md) 8 本、[02-architecture](docs/02-architecture/README.md) 5 本、[03-implementation](docs/03-implementation/README.md) 6 本、[04-evaluation](docs/04-evaluation/README.md) 4 本、[05-operations](docs/05-operations/README.md) 5 本と最初の [Python サンプル](examples/python/tool-use/README.md) を公開)
-- 次のステップ: [ROADMAP.md](ROADMAP.md) の Phase 7(セキュリティ)から執筆継続
+- 現在: **Phase 0〜8 完了・初版一巡(2026-07-05 時点)**。全 8 セクションで **37 本**を公開しています — [00-overview](docs/00-overview/README.md) 1 本、[01-concepts](docs/01-concepts/README.md) 8 本、[02-architecture](docs/02-architecture/README.md) 5 本、[03-implementation](docs/03-implementation/README.md) 6 本、[04-evaluation](docs/04-evaluation/README.md) 4 本、[05-operations](docs/05-operations/README.md) 5 本、[06-security](docs/06-security/README.md) 5 本、[07-case-studies](docs/07-case-studies/README.md) 3 本、および最初の [Python サンプル](examples/python/tool-use/README.md)。用語は [GLOSSARY.md](GLOSSARY.md)(32 エントリ)から横断的に辿れます
+- 次のステップ: 初版は完成。以降は [ROADMAP.md](ROADMAP.md) の「定期メンテナンス」(`TODO(要確認)` の棚卸し、モデル・フレームワーク情報の鮮度確認、`examples/` の実行確認)に移行します

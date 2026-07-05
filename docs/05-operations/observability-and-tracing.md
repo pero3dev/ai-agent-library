@@ -73,7 +73,7 @@ flowchart TD
 - 保持期間を決めます(全文は短く、集計メトリクスは長く)
 - アクセス制御を分けます(全文トレースの閲覧権限は調査担当に限定します)
 
-漏えい経路としての詳細は `data-exfiltration.md`(執筆予定)で扱います。
+漏えい経路としての詳細は [データ漏えい対策](../06-security/data-exfiltration.md) で扱います。
 
 ### 設計判断: 何で作るか
 
@@ -111,7 +111,7 @@ flowchart TD
 - [コスト管理](cost-management.md) — トークン・コスト計測の詳細
 - [インシデント対応](incident-response.md) — アラートの先の対応手順
 - [バージョニング・デプロイ・モデル更新追従](versioning-and-model-updates.md) — トレースに記録するバージョンの管理
-- `data-exfiltration.md`(執筆予定)— ログ経由の情報漏えい対策
+- [データ漏えい対策](../06-security/data-exfiltration.md) — ログ経由の情報漏えい対策
 
 ## 参考資料
 

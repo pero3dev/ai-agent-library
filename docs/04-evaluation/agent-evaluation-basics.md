@@ -89,7 +89,7 @@ flowchart LR
 | --- | --- |
 | プロトタイプ | 目視 + 手元 10 ケース程度の再実行。この段階で重厚なハーネスは作らない |
 | 投入前 | ハーネス + 50 件規模のデータセット + 関係者で合意した合格基準 |
-| 運用中 | 本番ログからのケース追加、CI での回帰実行([回帰テストと CI 組み込み](regression-testing.md))、本番監視(`observability-and-tracing.md`、執筆予定)との接続 |
+| 運用中 | 本番ログからのケース追加、CI での回帰実行([回帰テストと CI 組み込み](regression-testing.md))、本番監視([可観測性とトレーシング](../05-operations/observability-and-tracing.md))との接続 |
 
 ## 実務での注意点
 
@@ -116,7 +116,7 @@ flowchart LR
 - [軌跡(trajectory)評価](trajectory-evaluation.md) — 途中経路の評価の詳細
 - [回帰テストと CI 組み込み](regression-testing.md) — 評価を継続的に回す仕組み
 - [Agent ループ](../01-concepts/agent-loop.md) — 評価対象の実行構造
-- `observability-and-tracing.md`(執筆予定)— 本番側の観測との接続
+- [可観測性とトレーシング](../05-operations/observability-and-tracing.md) — 本番側の観測との接続
 
 ## 参考資料
 

@@ -91,7 +91,7 @@ Agent ループでは、コンテキストは静的な文書ではなく**毎周
 - [ツール使用](../01-concepts/tool-use.md) — 実行時取得を支える仕組み
 - [RAG と Agent の関係・使い分け](../01-concepts/rag-vs-agent.md) — 検索結果という構成要素の設計
 - [Agent 向けプロンプト設計](../03-implementation/agent-prompt-design.md) — システムプロンプト(静的部分)の書き方
-- `cost-management.md`(執筆予定)— プロンプトキャッシュとコストの実務
+- [コスト管理](../05-operations/cost-management.md) — プロンプトキャッシュとコストの実務
 
 ## 参考資料
 

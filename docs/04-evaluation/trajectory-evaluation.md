@@ -57,7 +57,7 @@ tags: ["trajectory-evaluation", "evaluation", "agent-loop"]
 
 ### 詳細: 前提は軌跡の構造化された記録
 
-軌跡評価は、ループの各ステップ(種別・ツール名・引数・結果・トークン量・所要時間)が**構造化された形式で記録されている**ことが前提です。この記録は本番の可観測性(`observability-and-tracing.md`、執筆予定)で必要になるものと同じです。評価専用の後付けログを作らず、**評価と本番で共通のトレース形式**に最初から投資すると、本番で起きた失敗をそのまま評価ケースへ変換できるようになります。
+軌跡評価は、ループの各ステップ(種別・ツール名・引数・結果・トークン量・所要時間)が**構造化された形式で記録されている**ことが前提です。この記録は本番の可観測性([可観測性とトレーシング](../05-operations/observability-and-tracing.md))で必要になるものと同じです。評価専用の後付けログを作らず、**評価と本番で共通のトレース形式**に最初から投資すると、本番で起きた失敗をそのまま評価ケースへ変換できるようになります。
 
 ### 設計判断: 経路をどこまで縛るか
 
@@ -91,7 +91,7 @@ tags: ["trajectory-evaluation", "evaluation", "agent-loop"]
 - [Agent 評価の基礎](agent-evaluation-basics.md) — 最終成果評価との使い分け
 - [LLM-as-a-Judge](llm-as-a-judge.md) — 軌跡レビューに使う judge の設計と検証
 - [エラー処理・リトライ・フォールバック設計](../02-architecture/error-handling-and-retries.md) — 「エラー回復」観点が検証する対象の設計側
-- `observability-and-tracing.md`(執筆予定)— 軌跡記録の本番運用側
+- [可観測性とトレーシング](../05-operations/observability-and-tracing.md) — 軌跡記録の本番運用側
 
 ## 参考資料
 

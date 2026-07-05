@@ -89,15 +89,15 @@
 | 5-3 | 回帰テストと CI 組み込み | `regression-testing.md` | 完了 |
 | 5-R | Phase 5 レビュー | — | 完了 |
 
-### Phase 6: 運用(05-operations)
+### Phase 6: 運用(05-operations)— ✅ 完了(2026-07-05)
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
-| 6-1 | 可観測性とトレーシング | `observability-and-tracing.md` | 未着手 |
-| 6-2 | コスト管理 + レイテンシ最適化 | `cost-management.md`, `latency-optimization.md` | 未着手 |
-| 6-3 | バージョニング・デプロイ(段階的リリース・ロールバック)・モデル更新追従 | `versioning-and-model-updates.md` | 未着手 |
-| 6-4 | インシデント対応(暴走・コスト急騰・品質劣化時の停止と復旧) | `incident-response.md` | 未着手 |
-| 6-R | Phase 6 レビュー | — | 未着手 |
+| 6-1 | 可観測性とトレーシング | `observability-and-tracing.md` | 完了 |
+| 6-2 | コスト管理 + レイテンシ最適化 | `cost-management.md`, `latency-optimization.md` | 完了 |
+| 6-3 | バージョニング・デプロイ(段階的リリース・ロールバック)・モデル更新追従 | `versioning-and-model-updates.md` | 完了 |
+| 6-4 | インシデント対応(暴走・コスト急騰・品質劣化時の停止と復旧) | `incident-response.md` | 完了 |
+| 6-R | Phase 6 レビュー | — | 完了 |
 
 ### Phase 7: セキュリティ(06-security)
 

@@ -65,7 +65,7 @@ tags: ["regression-testing", "evaluation"]
 | プロンプト・ツール定義の変更、ツールの追加 | L1 + L2 + L3(まず smoke、通ればフル) |
 | モデルのバージョン更新 | フルスイート + judge の再検証(人手ラベルとの一致率から) |
 
-モデル更新は「コード変更ゼロで挙動が全面的に変わる」イベントです。評価なしで取り込まず、新旧モデルで同一スイートを実行して比較してから切り替えます。judge のモデルも更新するなら、judge 自体の一致率検証([LLM-as-a-Judge](llm-as-a-judge.md))からやり直します。運用の詳細は `versioning-and-model-updates.md`(執筆予定)で扱います。
+モデル更新は「コード変更ゼロで挙動が全面的に変わる」イベントです。評価なしで取り込まず、新旧モデルで同一スイートを実行して比較してから切り替えます。judge のモデルも更新するなら、judge 自体の一致率検証([LLM-as-a-Judge](llm-as-a-judge.md))からやり直します。運用の詳細は [バージョニング・デプロイ・モデル更新追従](../05-operations/versioning-and-model-updates.md) で扱います。
 
 ### 詳細: 落ちたときの動線と資産化
 
@@ -99,7 +99,7 @@ tags: ["regression-testing", "evaluation"]
 - [LLM-as-a-Judge](llm-as-a-judge.md) — judge 自体も回帰テストの対象
 - [軌跡(trajectory)評価](trajectory-evaluation.md) — 落ちたケースの原因調査の道具
 - [フレームワーク選定ガイド](../03-implementation/framework-selection.md) — 評価との統合しやすさは選定軸の 1 つ
-- `versioning-and-model-updates.md`(執筆予定)— モデル更新イベントの運用手順
+- [バージョニング・デプロイ・モデル更新追従](../05-operations/versioning-and-model-updates.md) — モデル更新イベントの運用手順
 
 ## 参考資料
 

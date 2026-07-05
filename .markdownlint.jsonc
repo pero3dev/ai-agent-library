@@ -4,5 +4,8 @@
   "MD013": false,
   // front matter の title と本文 H1 の併用はこのライブラリの仕様
   // (テンプレートで H1 = title と定めている。CLAUDE.md 参照)
-  "MD025": { "front_matter_title": "" }
+  "MD025": { "front_matter_title": "" },
+  // TODO(要確認)はブロック引用 1 件 = 1 TODO の書式(CLAUDE.md 参照)。
+  // 複数 TODO を空行区切りで並べるのは意図した表記のため MD028 は無効化
+  "MD028": false
 }

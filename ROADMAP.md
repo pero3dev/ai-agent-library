@@ -48,15 +48,15 @@
 | 1-2 | Agent の定義と分類(会話型・ツール実行型・コンピュータ操作型を含む) | `01-concepts/what-is-an-ai-agent.md` | 完了 |
 | 1-R | Phase 1 レビュー(リンク・テンプレート準拠・GLOSSARY 登録漏れの確認) | — | 完了 |
 
-### Phase 2: 基礎概念(01-concepts)
+### Phase 2: 基礎概念(01-concepts)— ✅ 完了(2026-07-05)
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
-| 2-1 | Agent ループ + ツール使用(自前実装と MCP 等の標準プロトコルの関係を含む) | `agent-loop.md`, `tool-use.md` | 未着手 |
-| 2-2 | メモリと状態管理(セッション管理・履歴圧縮を含む)+ プランニング | `memory-and-state.md`, `planning-and-reasoning.md` | 未着手 |
-| 2-3 | RAG と Agent の関係 + シングル/マルチエージェント | `rag-vs-agent.md`, `single-vs-multi-agent.md` | 未着手 |
-| 2-4 | コンピュータ操作型・マルチモーダル Agent | `computer-use-and-multimodal-agents.md` | 未着手 |
-| 2-R | Phase 2 レビュー(相互リンク・用語統一・GLOSSARY 登録漏れ) | — | 未着手 |
+| 2-1 | Agent ループ + ツール使用(自前実装と MCP 等の標準プロトコルの関係を含む) | `agent-loop.md`, `tool-use.md` | 完了 |
+| 2-2 | メモリと状態管理(セッション管理・履歴圧縮を含む)+ プランニング | `memory-and-state.md`, `planning-and-reasoning.md` | 完了 |
+| 2-3 | RAG と Agent の関係 + シングル/マルチエージェント | `rag-vs-agent.md`, `single-vs-multi-agent.md` | 完了 |
+| 2-4 | コンピュータ操作型・マルチモーダル Agent | `computer-use-and-multimodal-agents.md` | 完了 |
+| 2-R | Phase 2 レビュー(相互リンク・用語統一・GLOSSARY 登録漏れ) | — | 完了 |
 
 ### Phase 3: アーキテクチャ(02-architecture)
 

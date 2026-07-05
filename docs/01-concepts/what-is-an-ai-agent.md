@@ -56,9 +56,9 @@ flowchart LR
 | 要素 | 役割 | 詳細ドキュメント |
 | --- | --- | --- |
 | LLM | 状況を観測し、次の行動を決める判断の中枢 | — |
-| ツール使用(tool use) | 検索・API 呼び出し・コード実行など、外界への働きかけ | `tool-use.md`(執筆予定) |
-| Agent ループ(agent loop) | 「観測 → 思考 → 行動」を繰り返し、完了・失敗・上限で止める制御 | `agent-loop.md`(執筆予定) |
-| メモリ / 状態 | 会話履歴・中間成果物・長期記憶の管理 | `memory-and-state.md`(執筆予定) |
+| ツール使用(tool use) | 検索・API 呼び出し・コード実行など、外界への働きかけ | [tool-use.md](tool-use.md) |
+| Agent ループ(agent loop) | 「観測 → 思考 → 行動」を繰り返し、完了・失敗・上限で止める制御 | [agent-loop.md](agent-loop.md) |
+| メモリ / 状態 | 会話履歴・中間成果物・長期記憶の管理 | [memory-and-state.md](memory-and-state.md) |
 
 この 4 要素の外側に、権限制御やガードレール(実行前の検証層)、監視といった運用系の仕組みが付きます(それぞれ 06-security・05-operations で扱います)。
 
@@ -83,7 +83,7 @@ flowchart LR
 | --- | --- | --- | --- |
 | 会話型 | 自然言語の対話 + 限定的なツール | サポートチャットボット、社内ヘルプデスク | 会話履歴の肥大、話題の脱線、根拠のない回答 |
 | ツール実行型 | API・コード・データ | コーディング Agent、データ分析 Agent、調査 Agent | 誤操作の影響範囲、ツール権限の設計、実行時間 |
-| コンピュータ操作型(computer use) | 画面(スクリーンショット)とマウス・キーボード操作 | ブラウザ操作 Agent、GUI 業務の自動化 | 誤クリックの実害、処理の遅さ、画面経由の間接的な攻撃(詳細は `computer-use-and-multimodal-agents.md` で扱う予定) |
+| コンピュータ操作型(computer use) | 画面(スクリーンショット)とマウス・キーボード操作 | ブラウザ操作 Agent、GUI 業務の自動化 | 誤クリックの実害、処理の遅さ、画面経由の間接的な攻撃(詳細は [computer-use-and-multimodal-agents.md](computer-use-and-multimodal-agents.md)) |
 
 類型によって、必要なサンドボックス・評価方法・レイテンシ特性が大きく変わります。要件定義の段階でどの類型かを明確にしてください。
 
@@ -124,8 +124,8 @@ Agent という方式を採用する前の確認:
 ## 関連トピック
 
 - [AI Agent 学習ロードマップ](../00-overview/learning-roadmap.md) — 本記事の次に読む記事の選び方
-- `agent-loop.md`(執筆予定)— 「観測 → 思考 → 行動」ループの動作原理
-- `tool-use.md`(執筆予定)— ツール使用の仕組みと設計
+- [Agent ループ](agent-loop.md) — 「観測 → 思考 → 行動」ループの動作原理
+- [ツール使用](tool-use.md) — ツール使用の仕組みと設計
 - `workflow-vs-agent.md`(執筆予定)— 本記事の設計判断をトレードオフ表で詳細化
 
 ## 参考資料

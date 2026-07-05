@@ -58,15 +58,15 @@
 | 2-4 | コンピュータ操作型・マルチモーダル Agent | `computer-use-and-multimodal-agents.md` | 完了 |
 | 2-R | Phase 2 レビュー(相互リンク・用語統一・GLOSSARY 登録漏れ) | — | 完了 |
 
-### Phase 3: アーキテクチャ(02-architecture)
+### Phase 3: アーキテクチャ(02-architecture)— ✅ 完了(2026-07-05)
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
-| 3-1 | Workflow vs Agent の設計判断 | `workflow-vs-agent.md` | 未着手 |
-| 3-2 | コンテキストエンジニアリング | `context-engineering.md` | 未着手 |
-| 3-3 | オーケストレーションパターン(直列・並列・階層。外部エージェント連携・A2A 等の標準プロトコルの概観を含む) | `orchestration-patterns.md` | 未着手 |
-| 3-4 | Human-in-the-Loop 設計 + エラー処理・リトライ設計 | `human-in-the-loop.md`, `error-handling-and-retries.md` | 未着手 |
-| 3-R | Phase 3 レビュー | — | 未着手 |
+| 3-1 | Workflow vs Agent の設計判断 | `workflow-vs-agent.md` | 完了 |
+| 3-2 | コンテキストエンジニアリング | `context-engineering.md` | 完了 |
+| 3-3 | オーケストレーションパターン(直列・並列・階層。外部エージェント連携・A2A 等の標準プロトコルの概観を含む) | `orchestration-patterns.md` | 完了 |
+| 3-4 | Human-in-the-Loop 設計 + エラー処理・リトライ設計 | `human-in-the-loop.md`, `error-handling-and-retries.md` | 完了 |
+| 3-R | Phase 3 レビュー | — | 完了 |
 
 ### Phase 4: 実装(03-implementation)+ サンプルコード基盤
 

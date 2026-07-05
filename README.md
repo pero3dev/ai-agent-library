@@ -73,5 +73,5 @@ ai-agent-library/
 
 ## ステータス
 
-- 現在: **Phase 2 完了**(2026-07-05 時点。[01-concepts](docs/01-concepts/README.md) の基礎概念 8 本と [学習ロードマップ](docs/00-overview/learning-roadmap.md) を公開)
-- 次のステップ: [ROADMAP.md](ROADMAP.md) の Phase 3(アーキテクチャ)から執筆継続
+- 現在: **Phase 3 完了**(2026-07-05 時点。[00-overview](docs/00-overview/README.md) 1 本、[01-concepts](docs/01-concepts/README.md) 8 本、[02-architecture](docs/02-architecture/README.md) 5 本を公開)
+- 次のステップ: [ROADMAP.md](ROADMAP.md) の Phase 4(実装 + サンプルコード基盤)から執筆継続

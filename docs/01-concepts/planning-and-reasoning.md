@@ -87,7 +87,7 @@ Agent の「考える」部分を構成する主要パターン — 逐次判断
 - [Agent ループ](agent-loop.md) — 思考が実行される場所
 - [メモリと状態管理](memory-and-state.md) — 計画を作業状態として持つ方法
 - [シングルエージェントとマルチエージェント](single-vs-multi-agent.md) — 生成と批評を別 Agent に分ける発展形
-- `orchestration-patterns.md`(執筆予定)— 計画を Workflow 構造に固定する選択肢
+- [オーケストレーションパターン](../02-architecture/orchestration-patterns.md) — 計画を Workflow 構造に固定する選択肢
 
 ## 参考資料
 

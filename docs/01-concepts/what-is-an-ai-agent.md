@@ -73,7 +73,7 @@ flowchart LR
 | 単一 Agent ループ | 手順・ツール選択を LLM が実行時に決定 | 中 | 高い | 中〜高コスト / 難しい |
 | マルチエージェント | 複数の Agent が分担・協調 | 低い | 最も高い | 高コスト / 最も難しい |
 
-右に行くほど扱える問題は広がりますが、予測可能性・コスト・デバッグ性を差し出すことになります。**左で足りるなら左を選ぶ**のが原則です(詳細は `workflow-vs-agent.md` で扱う予定です)。
+右に行くほど扱える問題は広がりますが、予測可能性・コスト・デバッグ性を差し出すことになります。**左で足りるなら左を選ぶ**のが原則です(詳細は [Workflow 型 vs Agent 型の使い分け](../02-architecture/workflow-vs-agent.md))。
 
 ### 詳細: Agent の 3 類型
 
@@ -126,7 +126,7 @@ Agent という方式を採用する前の確認:
 - [AI Agent 学習ロードマップ](../00-overview/learning-roadmap.md) — 本記事の次に読む記事の選び方
 - [Agent ループ](agent-loop.md) — 「観測 → 思考 → 行動」ループの動作原理
 - [ツール使用](tool-use.md) — ツール使用の仕組みと設計
-- `workflow-vs-agent.md`(執筆予定)— 本記事の設計判断をトレードオフ表で詳細化
+- [Workflow 型 vs Agent 型の使い分け](../02-architecture/workflow-vs-agent.md) — 本記事の設計判断をトレードオフ表で詳細化
 
 ## 参考資料
 

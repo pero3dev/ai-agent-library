@@ -29,7 +29,7 @@ tags: ["rag", "retrieval", "tool-use"]
 
 検索拡張生成(RAG: Retrieval-Augmented Generation)とは、外部の知識ソースを検索し、結果を LLM の入力に加えて、回答の根拠にする手法です。
 
-「RAG vs Agent」という比較をよく見かけますが、この 2 つは対立概念ではありません。**RAG は「知識をどう与えるか」、Agent は「制御をどう与えるか」** — 軸が異なるため、組み合わせ自由です。実際にこの問いが意味しているのはたいてい「検索を固定パイプラインで行うか、Agent の判断に任せるか」であり、それは [Workflow 型 vs Agent](what-is-an-ai-agent.md) の使い分けと同じ構図です。
+「RAG vs Agent」という比較をよく見かけますが、この 2 つは対立概念ではありません。**RAG は「知識をどう与えるか」、Agent は「制御をどう与えるか」** — 軸が異なるため、組み合わせ自由です。実際にこの問いが意味しているのはたいてい「検索を固定パイプラインで行うか、Agent の判断に任せるか」であり、それは [Workflow 型 vs Agent 型の使い分け](../02-architecture/workflow-vs-agent.md) と同じ構図です。
 
 ### 詳細: 3 つの構成
 
@@ -91,7 +91,7 @@ flowchart LR
 - [AI Agent とは何か](what-is-an-ai-agent.md) — Workflow 型 vs Agent という同型の判断
 - [ツール使用](tool-use.md) — 検索をツールにする仕組み
 - [メモリと状態管理](memory-and-state.md) — 長期記憶の読み出しとしての検索
-- `context-engineering.md`(執筆予定)— 検索結果をコンテキストにどう組み込むか
+- [コンテキストエンジニアリング](../02-architecture/context-engineering.md) — 検索結果をコンテキストにどう組み込むか
 
 ## 参考資料
 

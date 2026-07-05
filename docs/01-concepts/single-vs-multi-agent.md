@@ -69,7 +69,7 @@ flowchart TD
 - **パイプライン型** — 「調査 → 執筆 → 校閲」のように直列に受け渡します
 - **生成・批評型(generator-critic)** — 作る Agent と評価する Agent を分けます。リフレクション([プランニングと推論](planning-and-reasoning.md))の多エージェント版で、同一コンテキストでの自己評価より批判が効きやすくなります
 
-より詳細なパターンと、組織・システム境界を越える外部エージェント連携(A2A 等の標準プロトコル)は `orchestration-patterns.md`(執筆予定)で扱います。
+より詳細なパターンと、組織・システム境界を越える外部エージェント連携(A2A 等の標準プロトコル)は [オーケストレーションパターン](../02-architecture/orchestration-patterns.md) で扱います。
 
 ### 設計判断: まずシングルで粘る
 
@@ -103,7 +103,7 @@ flowchart TD
 - [AI Agent とは何か](what-is-an-ai-agent.md) — 自律性スペクトラム上の位置づけ
 - [プランニングと推論](planning-and-reasoning.md) — 生成・批評分離の単一 Agent 版(リフレクション)
 - [メモリと状態管理](memory-and-state.md) — コンテキスト分離が効く理由
-- `orchestration-patterns.md`(執筆予定)— 協調パターンの詳細と外部エージェント連携
+- [オーケストレーションパターン](../02-architecture/orchestration-patterns.md) — 協調パターンの詳細と外部エージェント連携
 
 ## 参考資料
 

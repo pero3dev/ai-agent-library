@@ -68,17 +68,17 @@
 | 3-4 | Human-in-the-Loop 設計 + エラー処理・リトライ設計 | `human-in-the-loop.md`, `error-handling-and-retries.md` | 完了 |
 | 3-R | Phase 3 レビュー | — | 完了 |
 
-### Phase 4: 実装(03-implementation)+ サンプルコード基盤
+### Phase 4: 実装(03-implementation)+ サンプルコード基盤 — ✅ 完了(2026-07-05)
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
-| 4-1 | ツール定義の設計 | `tool-definition-design.md` | 未着手 |
-| 4-2 | Agent 向けプロンプト設計 + 構造化出力 | `agent-prompt-design.md`, `structured-output.md` | 未着手 |
-| 4-3 | ツール接続標準(MCP とエコシステム) | `mcp-and-tool-protocols.md` | 未着手 |
-| 4-4 | ストリーミングと Agent の UX 実装パターン(進捗提示・中断・軌道修正) | `streaming-and-agent-ux.md` | 未着手 |
-| 4-5 | フレームワーク選定ガイド(変化が速いため TODO(要確認) 前提で骨子中心) | `framework-selection.md` | 未着手 |
-| 4-6 | examples/ 基盤整備(最初の Python サンプル 1 本 + 依存固定 + 実行手順) | `examples/python/tool-use/` | 未着手 |
-| 4-R | Phase 4 レビュー(docs ↔ examples の双方向リンク確認を含む) | — | 未着手 |
+| 4-1 | ツール定義の設計 | `tool-definition-design.md` | 完了 |
+| 4-2 | Agent 向けプロンプト設計 + 構造化出力 | `agent-prompt-design.md`, `structured-output.md` | 完了 |
+| 4-3 | ツール接続標準(MCP とエコシステム) | `mcp-and-tool-protocols.md` | 完了 |
+| 4-4 | ストリーミングと Agent の UX 実装パターン(進捗提示・中断・軌道修正) | `streaming-and-agent-ux.md` | 完了 |
+| 4-5 | フレームワーク選定ガイド(変化が速いため TODO(要確認) 前提で骨子中心) | `framework-selection.md` | 完了 |
+| 4-6 | examples/ 基盤整備(最初の Python サンプル 1 本 + 依存固定 + 実行手順) | `examples/python/tool-use/` | 完了 |
+| 4-R | Phase 4 レビュー(docs ↔ examples の双方向リンク確認を含む) | — | 完了 |
 
 ### Phase 5: 評価(04-evaluation)
 

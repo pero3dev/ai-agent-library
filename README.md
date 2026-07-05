@@ -73,5 +73,5 @@ ai-agent-library/
 
 ## ステータス
 
-- 現在: **Phase 3 完了**(2026-07-05 時点。[00-overview](docs/00-overview/README.md) 1 本、[01-concepts](docs/01-concepts/README.md) 8 本、[02-architecture](docs/02-architecture/README.md) 5 本を公開)
-- 次のステップ: [ROADMAP.md](ROADMAP.md) の Phase 4(実装 + サンプルコード基盤)から執筆継続
+- 現在: **Phase 4 完了**(2026-07-05 時点。[00-overview](docs/00-overview/README.md) 1 本、[01-concepts](docs/01-concepts/README.md) 8 本、[02-architecture](docs/02-architecture/README.md) 5 本、[03-implementation](docs/03-implementation/README.md) 6 本と最初の [Python サンプル](examples/python/tool-use/README.md) を公開)
+- 次のステップ: [ROADMAP.md](ROADMAP.md) の Phase 5(評価)から執筆継続

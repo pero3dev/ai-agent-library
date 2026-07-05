@@ -82,7 +82,7 @@ sequenceDiagram
 
 ツールを 1 つずつ自前で定義する方法に加えて、2026 年時点では **MCP(Model Context Protocol)** のような標準プロトコルで既存のツールサーバーに接続する形態が広く使われています。概念上はどちらも「ツール」であり、本記事の仕組み(定義を渡す → 要求が返る → アプリ側で実行)がそのまま当てはまります。
 
-接続の実務は `mcp-and-tool-protocols.md`(執筆予定)、外部ツールサーバーをどこまで信頼するかという安全性の論点は `tool-permissions-and-sandboxing.md`(執筆予定)で扱います。
+接続の実務は [ツール接続標準(MCP とエコシステム)](../03-implementation/mcp-and-tool-protocols.md)、外部ツールサーバーをどこまで信頼するかという安全性の論点は `tool-permissions-and-sandboxing.md`(執筆予定)で扱います。
 
 > **TODO(要確認):** MCP の仕様バージョンと主要クライアント / サーバーの対応状況を公式サイト(modelcontextprotocol.io)で確認する(最終確認: 2026-07)
 
@@ -115,8 +115,9 @@ sequenceDiagram
 - [Agent ループ](agent-loop.md) — ツール使用が組み込まれるループ全体
 - [AI Agent とは何か](what-is-an-ai-agent.md) — ツールが Agent の構成要素である位置づけ
 - [RAG と Agent の関係・使い分け](rag-vs-agent.md) — 「検索をツールにする」代表的な応用
-- `tool-definition-design.md`(執筆予定)— 定義設計の実践プラクティス集
-- `mcp-and-tool-protocols.md`(執筆予定)— MCP による接続の実務
+- [ツール定義の設計](../03-implementation/tool-definition-design.md) — 定義設計の実践プラクティス集
+- [ツール接続標準(MCP とエコシステム)](../03-implementation/mcp-and-tool-protocols.md) — MCP による接続の実務
+- [examples/python/tool-use/](../../examples/python/tool-use/README.md) — 本記事の仕組みを実装した動くサンプル
 
 ## 参考資料
 

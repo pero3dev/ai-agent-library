@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Node.js(TypeScript サンプル用)
+node_modules/
+
+# 環境変数・秘密情報
+.env
+.env.*
+
+# OS / エディタ
+.DS_Store
+Thumbs.db

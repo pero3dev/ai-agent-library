@@ -108,6 +108,8 @@ def run_agent(task: str) -> str:
     raise StepLimitExceeded("最大ステップ数に達しました")  # 上限による強制終了
 ```
 
+この擬似コードを実際の SDK で動く形にした完全版が [examples/python/tool-use/](../../examples/python/tool-use/README.md) にあります。
+
 ## 実務での注意点
 
 ### アンチパターン

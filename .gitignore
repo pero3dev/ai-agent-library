@@ -22,3 +22,4 @@ website/content/
 website/generated/
 website/public/_pagefind/
 website/next-env.d.ts
+website/dev-server.log

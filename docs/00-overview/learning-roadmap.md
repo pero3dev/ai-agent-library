@@ -3,7 +3,7 @@ title: "AI Agent 学習ロードマップ"
 category: "overview"
 level: "basic"
 status: "published"
-last_updated: "2026-07-05"
+last_updated: "2026-07-06"
 tags: ["learning-roadmap", "ai-agent"]
 ---
 
@@ -11,7 +11,7 @@ tags: ["learning-roadmap", "ai-agent"]
 
 ## この記事の目的
 
-このライブラリを「どの順で読むか」を、自分の目的に合わせて決められるようになります。8 つのセクションの役割と依存関係を把握し、読者タイプ別の推奨ルートから自分に合うものを選べる状態がゴールです。
+このライブラリを「どの順で読むか」を、自分の目的に合わせて決められるようになります。9 つのセクションの役割と依存関係を把握し、読者タイプ別の推奨ルートから自分に合うものを選べる状態がゴールです。
 
 ## 対象読者
 
@@ -25,9 +25,9 @@ tags: ["learning-roadmap", "ai-agent"]
 
 ## 本文
 
-### 概要: 8 セクションの構成と依存関係
+### 概要: 9 セクションの構成と依存関係
 
-このライブラリは「概念 → 設計 → 実装 → 評価 → 運用」という開発ライフサイクルの順にセクションを並べ、セキュリティと事例を横断テーマとして置いています。
+このライブラリは「概念 → 設計 → 実装 → 評価 → 運用」という開発ライフサイクルの順にセクションを並べ、セキュリティと事例を横断テーマとして置いています。08(コーディングエージェント)は「Agent を**使う**側」の独立したテーマで、01 の基礎概念だけを前提に読めます。
 
 ```mermaid
 flowchart TD
@@ -41,9 +41,11 @@ flowchart TD
     I3 --> CS7["07-case-studies<br/>事例"]
     S6 --> CS7
     P5 --> CS7
+    C1 --> CA8["08-coding-agents<br/>コーディングエージェント"]
+    S6 -.-> CA8
 ```
 
-矢印は「先に読んでおくと理解が速い」という依存関係です。上から順にすべて読む必要はなく、次の推奨ルートから選んでください。
+矢印は「先に読んでおくと理解が速い」という依存関係です(点線は必須ではない補助的な依存)。上から順にすべて読む必要はなく、次の推奨ルートから選んでください。
 
 ### 読者タイプ別の推奨ルート
 
@@ -54,6 +56,7 @@ flowchart TD
 | C: 実装担当 | 設計済みのものを実装する | [03-implementation](../03-implementation/README.md) を全部 → `examples/` のサンプル → [04-evaluation](../04-evaluation/README.md) |
 | D: 運用・SRE | 既存の Agent を本番運用する | [05-operations](../05-operations/README.md) を全部 → [回帰テストと CI 組み込み](../04-evaluation/regression-testing.md) → [06-security](../06-security/README.md) |
 | E: セキュリティ | Agent システムをレビュー・監査する | [06-security](../06-security/README.md) を全部 → [ツール使用](../01-concepts/tool-use.md) → [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) |
+| F: エージェント活用 | Claude Code 等のコーディングエージェントを使う・導入する | [AI Agent とは何か](../01-concepts/what-is-an-ai-agent.md) → [Agent ループ](../01-concepts/agent-loop.md) → [08-coding-agents](../08-coding-agents/README.md) を「この章の読み方」の順で |
 
 個別ドキュメントの執筆状況は各セクションの README で確認できます(ファイル名がリンクになっているものが執筆済み、バッククォートのままの名前は計画段階です)。
 
@@ -66,6 +69,7 @@ flowchart TD
 - [05-operations](../05-operations/README.md) — 可観測性・コスト・インシデント対応など本番運用の実務
 - [06-security](../06-security/README.md) — プロンプトインジェクションを筆頭とする Agent 固有の脅威と対策。**設計初期に一読**してください
 - [07-case-studies](../07-case-studies/README.md) — 具体事例とアンチパターン詳解。他セクションを読んだあとの総仕上げ
+- [08-coding-agents](../08-coding-agents/README.md) — Claude Code などのコーディングエージェントを**使う**側の体系(選定・設定・セキュリティ・チーム導入)。01 だけ読めば独立して読めます
 
 ### 学習の進め方の指針
 
@@ -85,7 +89,7 @@ flowchart TD
 
 学習を始める前のセルフチェック:
 
-- [ ] 自分の読者タイプ(A〜E)を決めた
+- [ ] 自分の読者タイプ(A〜F)を決めた
 - [ ] 作りたいもの(または運用するもの)を 1 文で説明できる
 - [ ] LLM API を呼び出せる開発環境がある(examples を動かすため)
 - [ ] 読む予定のセクションの README にざっと目を通した

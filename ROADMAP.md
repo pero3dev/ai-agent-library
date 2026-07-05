@@ -120,6 +120,22 @@
 | 8-3c | `TODO(要確認)` の棚卸し | 全体 | 完了 |
 | 8-R | Phase 8 レビュー(全体統合の最終確認) | — | 完了 |
 
+### Phase A: AI コーディングエージェント章(08-coding-agents)— ✅ 完了(2026-07-06)
+
+設計書は [CODING-AGENTS-PLAN.md](CODING-AGENTS-PLAN.md)。ツール別ページの執筆前に、設計書 §11 の調査タスク(C-R1〜C-R10)で公式情報の裏取りを実施済み(記録: `research/coding-agents/`、調査日 2026-07-05)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| A-0 | 章スケルトン(セクション README、ROADMAP・ルート README・doc-template の category・website 反映) | `08-coding-agents/README.md` ほか同期一式 | 完了 |
+| A-1 | 分類と全体像 + 選定基準 | `coding-agents-overview.md`, `coding-agent-selection.md` | 完了 |
+| A-2 | ツール別: Claude Code / OpenAI Codex / Gemini | `claude-code.md`, `openai-codex.md`, `gemini-cli-and-code-assist.md` | 完了 |
+| A-3 | ツール別: GitHub Copilot / Cursor / Windsurf | `github-copilot.md`, `cursor.md`, `windsurf.md` | 完了 |
+| A-4 | ツール別: Devin / OSS 系俯瞰 | `devin.md`, `open-source-coding-agents.md` | 完了 |
+| A-5 | ルールファイルと設定 + 依頼設計 | `coding-agent-rules-and-config.md`, `coding-agent-prompting.md` | 完了 |
+| A-6 | セキュリティ + チーム導入 | `coding-agent-security.md`, `coding-agent-team-adoption.md` | 完了 |
+| A-7 | 評価 + 比較表(全ツールページ完了後) | `coding-agent-evaluation.md`, `coding-agents-comparison.md` | 完了 |
+| A-R | フェーズレビュー(published 化、比較表と各ページの整合、learning-roadmap への組み込み、GLOSSARY、website 反映確認) | — | 完了 |
+
 ## Claude への依頼テンプレート
 
 ```text
@@ -132,4 +148,5 @@ CLAUDE.md の執筆ルールと templates/doc-template.md に従い、
 
 - `TODO(要確認)` の全文検索 → 棚卸し(四半期ごと目安)
 - モデル・フレームワーク情報の鮮度確認(front matter の `last_updated` が 6 か月以上前のものを優先)
+- **08-coding-agents のツール情報の定点観測**(各ページの「変わりやすい項目」と比較表。製品名・プラン・学習ポリシーの変化が速いため四半期ごと必須。`research/coding-agents/` の調査メモを更新起点にする)
 - `examples/` の実行確認と各サンプル README の動作確認日の更新(四半期ごと目安)

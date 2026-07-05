@@ -58,6 +58,18 @@ export const READER_ROUTES = [
       { title: 'ツール使用', href: '/docs/concepts/tool-use', note: '攻撃面の源泉となる仕組み' },
       { title: 'Human-in-the-Loop 設計', href: '/docs/architecture/human-in-the-loop', note: '承認ゲートの設計と承認疲れ' }
     ]
+  },
+  {
+    key: 'F',
+    label: 'エージェント活用',
+    persona: 'Claude Code 等のコーディングエージェントを使う・導入する',
+    steps: [
+      { title: 'AI Agent とは何か', href: '/docs/concepts/what-is-an-ai-agent', note: '前提となる最小限の概念' },
+      { title: 'Agent ループ', href: '/docs/concepts/agent-loop', note: 'コーディングエージェントの動作原理そのもの' },
+      { title: '分類と全体像', href: '/docs/coding-agents/coding-agents-overview', note: '提供形態 5 分類と自律性の軸' },
+      { title: '選定基準と使い分け', href: '/docs/coding-agents/coding-agent-selection', note: '制約で絞り、試用で決める' },
+      { title: '権限とセキュリティ', href: '/docs/coding-agents/coding-agent-security', note: '導入前に必ず読む防御設計' }
+    ]
   }
 ]
 

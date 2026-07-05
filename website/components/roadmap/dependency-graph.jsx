@@ -20,10 +20,12 @@ const POSITIONS = {
   evaluation: { x: 240, y: 480 },
   operations: { x: 240, y: 600 },
   security: { x: 560, y: 300 },
-  'case-studies': { x: 560, y: 540 }
+  'case-studies': { x: 560, y: 540 },
+  'coding-agents': { x: 560, y: 60 }
 }
 
-// learning-roadmap.md の Mermaid と同じ依存(矢印 = 先に読むと理解が速い)
+// learning-roadmap.md の Mermaid と同じ依存(矢印 = 先に読むと理解が速い)。
+// 第 3 要素 'dashed' は Mermaid の点線(-.->)に対応
 const EDGES = [
   ['overview', 'concepts'],
   ['concepts', 'architecture'],
@@ -34,7 +36,9 @@ const EDGES = [
   ['architecture', 'security'],
   ['implementation', 'case-studies'],
   ['security', 'case-studies'],
-  ['operations', 'case-studies']
+  ['operations', 'case-studies'],
+  ['concepts', 'coding-agents'],
+  ['security', 'coding-agents', 'dashed']
 ]
 
 /** next-themes が <html class="dark"> を付け外しするのを監視する(依存追加なしの簡易フック) */
@@ -74,12 +78,12 @@ export function DependencyGraph() {
     style: { width: 200 }
   }))
 
-  const edges = EDGES.map(([source, target]) => ({
+  const edges = EDGES.map(([source, target, variant]) => ({
     id: `${source}-${target}`,
     source,
     target,
     animated: false,
-    style: { strokeWidth: 1.5 }
+    style: variant === 'dashed' ? { strokeWidth: 1.5, strokeDasharray: '6 4' } : { strokeWidth: 1.5 }
   }))
 
   const hoveredSection = hovered ? sections.find(s => s.slug === hovered) : null

@@ -15,7 +15,8 @@
 1. **初学者**: [docs/00-overview/](docs/00-overview/) の学習ロードマップから始め、[docs/01-concepts/](docs/01-concepts/) を順に読む
 2. **設計フェーズの人**: [docs/02-architecture/](docs/02-architecture/) の設計判断ガイドとアンチパターンを参照する
 3. **運用・セキュリティ担当**: [docs/05-operations/](docs/05-operations/) と [docs/06-security/](docs/06-security/) を直接参照する
-4. **用語を調べたい人**: [GLOSSARY.md](GLOSSARY.md) から該当ドキュメントへ辿る
+4. **Claude Code などのコーディングエージェントを使いたい人**: [docs/08-coding-agents/](docs/08-coding-agents/) の分類と全体像から読み始める
+5. **用語を調べたい人**: [GLOSSARY.md](GLOSSARY.md) から該当ドキュメントへ辿る
 
 ## ディレクトリ構成
 
@@ -24,9 +25,13 @@ ai-agent-library/
 ├── README.md                 # 本ファイル。プロジェクト概要と全体構成
 ├── CLAUDE.md                 # Claude(AI アシスタント)向けの執筆ルール・規約
 ├── ROADMAP.md                # 執筆計画・トピック一覧・タスク分割
+├── CODING-AGENTS-PLAN.md     # AI コーディングエージェント章(docs/08)の追加計画
+├── WEBSITE-PLAN.md           # ドキュメントサイト(website/)の設計・進行状況
 ├── GLOSSARY.md               # 用語集(各ドキュメントへの横断インデックス)
 ├── templates/
-│   └── doc-template.md       # 全ドキュメント共通の Markdown テンプレート
+│   ├── doc-template.md       # 全ドキュメント共通の Markdown テンプレート
+│   ├── tool-doc-template.md  # コーディングエージェント「ツール別ページ」用テンプレート
+│   └── tool-comparison-template.md  # ツール比較表のテンプレート
 ├── docs/
 │   ├── 00-overview/          # 全体像・学習ロードマップ・このライブラリの読み方
 │   ├── 01-concepts/          # 基礎概念(Agent とは何か、Agent ループ、ツール使用、メモリ 等)
@@ -35,10 +40,14 @@ ai-agent-library/
 │   ├── 04-evaluation/        # 評価・テスト(評価設計、LLM-as-a-Judge、回帰テスト 等)
 │   ├── 05-operations/        # 運用・監視(可観測性、コスト管理、バージョニング 等)
 │   ├── 06-security/          # セキュリティ(プロンプトインジェクション、権限設計 等)
-│   └── 07-case-studies/      # ケーススタディ・アンチパターン詳解
+│   ├── 07-case-studies/      # ケーススタディ・アンチパターン詳解
+│   └── 08-coding-agents/     # AI コーディングエージェント(選定・設定・セキュリティ・ツール別)
 ├── examples/
 │   ├── python/               # Python サンプルコード(tool-use を収録)
 │   └── typescript/           # TypeScript サンプルコード(将来追加)
+├── research/
+│   └── coding-agents/        # 執筆前の公式情報調査メモ(docs 規約の対象外)
+├── website/                  # ドキュメントサイト(Nextra。docs/ を正本として sync で取り込み)
 └── assets/
     └── diagrams/             # 図版のエクスポート画像(図の正本は本文埋め込みの Mermaid)
 ```
@@ -55,8 +64,11 @@ ai-agent-library/
 | [docs/05-operations/](docs/05-operations/) | 本番運用の実務 | 可観測性、コスト、デプロイ、インシデント対応、モデル更新への追従 |
 | [docs/06-security/](docs/06-security/) | Agent 固有の脅威と対策 | 脅威モデル、対策パターン、レビューチェックリスト |
 | [docs/07-case-studies/](docs/07-case-studies/) | 具体事例から学ぶ | 成功・失敗事例の構造化された分析。一般論は他章へ |
+| [docs/08-coding-agents/](docs/08-coding-agents/) | AI コーディングエージェントを実務で使う | 選定基準、設定・依頼設計、セキュリティ、チーム導入、ツール別リファレンス。Agent を「作る」側の話は 02・03 章へ |
 | [templates/](templates/) | 執筆の一貫性を担保する | ドキュメントテンプレート。本文コンテンツは置かない |
 | [examples/](examples/) | 動くサンプルコード | docs から参照される最小構成のコード。ドキュメント本文は置かない |
+| [research/](research/coding-agents/) | 執筆前の公式情報調査メモ | 出典 URL・確認日付きの調査記録。docs の執筆規約は適用しない |
+| [website/](website/) | ドキュメントサイトの実装 | Nextra ベースのサイト。docs/ が正本で、sync スクリプトが取り込む(設計は [WEBSITE-PLAN.md](WEBSITE-PLAN.md)) |
 | [assets/](assets/) | 図版のエクスポート画像置き場 | 画像出力が必要になった図のみ。図の正本は各ドキュメント本文の Mermaid コードブロック |
 
 ## ドキュメントの探し方
@@ -73,5 +85,5 @@ ai-agent-library/
 
 ## ステータス
 
-- 現在: **Phase 0〜8 完了・初版一巡(2026-07-05 時点)**。全 8 セクションで **37 本**を公開しています — [00-overview](docs/00-overview/README.md) 1 本、[01-concepts](docs/01-concepts/README.md) 8 本、[02-architecture](docs/02-architecture/README.md) 5 本、[03-implementation](docs/03-implementation/README.md) 6 本、[04-evaluation](docs/04-evaluation/README.md) 4 本、[05-operations](docs/05-operations/README.md) 5 本、[06-security](docs/06-security/README.md) 5 本、[07-case-studies](docs/07-case-studies/README.md) 3 本、および最初の [Python サンプル](examples/python/tool-use/README.md)。用語は [GLOSSARY.md](GLOSSARY.md)(32 エントリ)から横断的に辿れます
-- 次のステップ: 初版は完成。以降は [ROADMAP.md](ROADMAP.md) の「定期メンテナンス」(`TODO(要確認)` の棚卸し、モデル・フレームワーク情報の鮮度確認、`examples/` の実行確認)に移行します
+- 現在: **Phase 0〜8 + Phase A(コーディングエージェント章)完了(2026-07-06 時点)**。全 9 セクションで **53 本**を公開しています — [00-overview](docs/00-overview/README.md) 1 本、[01-concepts](docs/01-concepts/README.md) 8 本、[02-architecture](docs/02-architecture/README.md) 5 本、[03-implementation](docs/03-implementation/README.md) 6 本、[04-evaluation](docs/04-evaluation/README.md) 4 本、[05-operations](docs/05-operations/README.md) 5 本、[06-security](docs/06-security/README.md) 5 本、[07-case-studies](docs/07-case-studies/README.md) 3 本、[08-coding-agents](docs/08-coding-agents/README.md) 16 本、および最初の [Python サンプル](examples/python/tool-use/README.md)。用語は [GLOSSARY.md](GLOSSARY.md)(35 エントリ)から横断的に辿れます
+- 次のステップ: ドキュメントサイトの公開準備(Phase W5、[WEBSITE-PLAN.md](WEBSITE-PLAN.md))。並行して [ROADMAP.md](ROADMAP.md) の「定期メンテナンス」(`TODO(要確認)` の棚卸し — 特に 08 章のツール情報は変化が速いため四半期ごと必須、`examples/` の実行確認)を継続します

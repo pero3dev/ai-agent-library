@@ -1,0 +1,7 @@
+# research/ は執筆前調査メモ(docs 規約・lint の対象外。CODING-AGENTS-PLAN.md §13)
+research/
+# website の生成物・依存
+website/content/
+website/generated/
+website/node_modules/
+website/.next/

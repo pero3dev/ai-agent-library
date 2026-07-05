@@ -80,14 +80,14 @@
 | 4-6 | examples/ 基盤整備(最初の Python サンプル 1 本 + 依存固定 + 実行手順) | `examples/python/tool-use/` | 完了 |
 | 4-R | Phase 4 レビュー(docs ↔ examples の双方向リンク確認を含む) | — | 完了 |
 
-### Phase 5: 評価(04-evaluation)
+### Phase 5: 評価(04-evaluation)— ✅ 完了(2026-07-05)
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
-| 5-1 | Agent 評価の基礎(何をどう測るか) | `agent-evaluation-basics.md` | 未着手 |
-| 5-2 | LLM-as-a-Judge + 軌跡(trajectory)評価 | `llm-as-a-judge.md`, `trajectory-evaluation.md` | 未着手 |
-| 5-3 | 回帰テストと CI 組み込み | `regression-testing.md` | 未着手 |
-| 5-R | Phase 5 レビュー | — | 未着手 |
+| 5-1 | Agent 評価の基礎(何をどう測るか) | `agent-evaluation-basics.md` | 完了 |
+| 5-2 | LLM-as-a-Judge + 軌跡(trajectory)評価 | `llm-as-a-judge.md`, `trajectory-evaluation.md` | 完了 |
+| 5-3 | 回帰テストと CI 組み込み | `regression-testing.md` | 完了 |
+| 5-R | Phase 5 レビュー | — | 完了 |
 
 ### Phase 6: 運用(05-operations)
 

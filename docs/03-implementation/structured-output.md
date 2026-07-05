@@ -98,7 +98,7 @@ def extract(text: str) -> dict:
 - [ツール使用](../01-concepts/tool-use.md) — スキーマ強制の原型
 - [Agent 向けプロンプト設計](agent-prompt-design.md) — 指示ベースの出力制御との使い分け
 - [ツール定義の設計](tool-definition-design.md) — スキーマ設計の共通原則(enum・形式例)
-- `llm-as-a-judge.md`(執筆予定)— 評価スコアという構造化出力の代表例
+- [LLM-as-a-Judge](../04-evaluation/llm-as-a-judge.md) — 評価スコアという構造化出力の代表例
 
 ## 参考資料
 

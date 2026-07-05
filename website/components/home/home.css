@@ -1,0 +1,520 @@
+/* トップページ専用スタイル。
+   - ダークモード: next-themes が <html class="dark"> を付与する前提で .dark を上書き
+   - アニメーションは理解補助の範囲に留め、prefers-reduced-motion で停止する */
+
+.home {
+  --home-fg: #18181b;
+  --home-muted: #52525b;
+  --home-faint: #a1a1aa;
+  --home-bg-card: #ffffff;
+  --home-bg-soft: #fafafa;
+  --home-border: #e4e4e7;
+  --home-accent: #4f46e5;
+  --home-accent-soft: #eef2ff;
+
+  color: var(--home-fg);
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 1.5rem 6rem;
+}
+
+.dark .home {
+  --home-fg: #fafafa;
+  --home-muted: #a1a1aa;
+  --home-faint: #71717a;
+  --home-bg-card: #18181b;
+  --home-bg-soft: #111113;
+  --home-border: #27272a;
+  --home-accent: #818cf8;
+  --home-accent-soft: #1e1b4b;
+}
+
+/* ---------- 共通 ---------- */
+
+.home section {
+  margin-top: 5rem;
+}
+
+.home-section-kicker {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--home-accent);
+  margin: 0 0 0.4rem;
+}
+
+.home-section-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  line-height: 1.3;
+}
+
+.home-section-lead {
+  color: var(--home-muted);
+  margin: 0 0 1.8rem;
+  max-width: 44rem;
+  line-height: 1.8;
+}
+
+/* ---------- ヒーロー ---------- */
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 3rem;
+  align-items: center;
+  padding-top: 4.5rem;
+}
+
+.hero-kicker {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--home-accent);
+  margin: 0 0 1rem;
+}
+
+.hero-title {
+  font-size: clamp(1.9rem, 4.5vw, 2.9rem);
+  font-weight: 800;
+  line-height: 1.35;
+  margin: 0 0 1.2rem;
+  letter-spacing: -0.01em;
+}
+
+.hero-title em {
+  font-style: normal;
+  background: linear-gradient(transparent 62%, var(--home-accent-soft) 62%);
+}
+
+.hero-lead {
+  color: var(--home-muted);
+  line-height: 1.9;
+  margin: 0 0 2rem;
+  max-width: 36rem;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.65rem 1.4rem;
+  border-radius: 0.6rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--home-accent);
+  color: #fff;
+}
+
+.btn-ghost {
+  border: 1px solid var(--home-border);
+  color: var(--home-fg);
+  background: var(--home-bg-card);
+}
+
+/* Agent ループの図(純 CSS) */
+
+.hero-visual {
+  display: flex;
+  justify-content: center;
+}
+
+.loop-ring {
+  position: relative;
+  width: 15rem;
+  height: 15rem;
+  border-radius: 50%;
+  border: 2px dashed var(--home-border);
+}
+
+.loop-arc {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: var(--home-accent);
+  animation: loop-spin 8s linear infinite;
+}
+
+@keyframes loop-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loop-node {
+  position: absolute;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  background: var(--home-bg-card);
+  border: 1px solid var(--home-border);
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.06);
+}
+
+.loop-node-1 {
+  top: -0.9rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.loop-node-2 {
+  bottom: 12%;
+  right: -1.6rem;
+}
+
+.loop-node-3 {
+  bottom: 12%;
+  left: -1.6rem;
+}
+
+.loop-center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--home-muted);
+  line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loop-arc {
+    animation: none;
+  }
+
+  .btn,
+  .concept-card,
+  .section-card {
+    transition: none;
+  }
+}
+
+/* ---------- 学習ルート ---------- */
+
+.route-explorer {
+  border: 1px solid var(--home-border);
+  border-radius: 1rem;
+  overflow: hidden;
+  background: var(--home-bg-card);
+}
+
+.route-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--home-border);
+  background: var(--home-bg-soft);
+}
+
+.route-tab {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0.85rem 1.2rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--home-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.route-tab:hover {
+  color: var(--home-fg);
+}
+
+.route-tab.is-active {
+  color: var(--home-accent);
+  border-bottom-color: var(--home-accent);
+  background: var(--home-bg-card);
+}
+
+.route-tab-key {
+  display: inline-grid;
+  place-content: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  background: var(--home-accent-soft);
+  color: var(--home-accent);
+  font-size: 0.75rem;
+}
+
+.route-panel {
+  padding: 1.6rem 1.8rem 1.8rem;
+}
+
+.route-persona {
+  margin: 0 0 1.2rem;
+  color: var(--home-muted);
+  font-size: 0.95rem;
+}
+
+.route-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.route-step {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  position: relative;
+  padding: 0.55rem 0;
+}
+
+.route-step:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 0.85rem;
+  top: 2.4rem;
+  bottom: -0.4rem;
+  width: 2px;
+  background: var(--home-border);
+}
+
+.route-step-num {
+  flex: none;
+  display: grid;
+  place-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: var(--home-accent-soft);
+  color: var(--home-accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
+}
+
+.route-step-body a {
+  font-weight: 600;
+  color: var(--home-fg);
+  text-decoration: none;
+  border-bottom: 1px solid var(--home-border);
+}
+
+.route-step-body a:hover {
+  color: var(--home-accent);
+  border-bottom-color: var(--home-accent);
+}
+
+.route-step-body p {
+  margin: 0.15rem 0 0;
+  font-size: 0.88rem;
+  color: var(--home-muted);
+}
+
+.route-more {
+  margin: 1.4rem 0 0;
+  font-size: 0.88rem;
+  color: var(--home-muted);
+}
+
+.route-more a {
+  color: var(--home-accent);
+}
+
+/* ---------- 概念カード ---------- */
+
+.concept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr));
+  gap: 1rem;
+}
+
+.concept-card {
+  display: block;
+  padding: 1.2rem 1.3rem;
+  border: 1px solid var(--home-border);
+  border-radius: 0.9rem;
+  background: var(--home-bg-card);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.concept-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--home-accent);
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.07);
+}
+
+.concept-name {
+  display: block;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.concept-english {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--home-faint);
+  margin-top: 0.1rem;
+}
+
+.concept-summary {
+  margin: 0.6rem 0 0;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--home-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---------- アンチパターンの共通根 ---------- */
+
+.root-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1rem;
+}
+
+.root-card {
+  padding: 1.4rem 1.5rem;
+  border: 1px solid var(--home-border);
+  border-left: 3px solid var(--home-accent);
+  border-radius: 0.9rem;
+  background: var(--home-bg-card);
+}
+
+.root-num {
+  display: inline-grid;
+  place-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--home-accent-soft);
+  color: var(--home-accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.root-title {
+  margin: 0.7rem 0 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.root-body {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.8;
+  color: var(--home-muted);
+}
+
+.root-link {
+  display: inline-block;
+  margin-top: 0.8rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--home-accent);
+  text-decoration: none;
+}
+
+/* ---------- セクショングリッド ---------- */
+
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 1rem;
+}
+
+.section-card {
+  display: block;
+  padding: 1.2rem 1.3rem;
+  border: 1px solid var(--home-border);
+  border-radius: 0.9rem;
+  background: var(--home-bg-card);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.section-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--home-accent);
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.07);
+}
+
+.section-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.section-num {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--home-accent);
+  letter-spacing: 0.05em;
+}
+
+.section-count {
+  font-size: 0.75rem;
+  color: var(--home-faint);
+}
+
+.section-title {
+  margin: 0.5rem 0 0.4rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.section-desc {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--home-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---------- レスポンシブ ---------- */
+
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding-top: 2.5rem;
+  }
+
+  .hero-visual {
+    order: -1;
+  }
+
+  .loop-ring {
+    width: 11rem;
+    height: 11rem;
+  }
+
+  .home section {
+    margin-top: 3.5rem;
+  }
+}

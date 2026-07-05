@@ -1,0 +1,559 @@
+/* 記事ページの自動装飾スタイル(WEBSITE-PLAN.md §5 段階 2)。
+   next-themes が <html class="dark"> を付与する前提で .dark を上書きする */
+
+/* ---------- front matter バッジ ---------- */
+
+.doc-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 1.4rem 0 0;
+  font-size: 0.75rem;
+}
+
+.doc-meta-level {
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.doc-meta-level-basic {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.doc-meta-level-intermediate {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.doc-meta-level-advanced {
+  background: #fae8ff;
+  color: #86198f;
+}
+
+.dark .doc-meta-level-basic {
+  background: #14532d;
+  color: #bbf7d0;
+}
+
+.dark .doc-meta-level-intermediate {
+  background: #1e3a8a;
+  color: #bfdbfe;
+}
+
+.dark .doc-meta-level-advanced {
+  background: #701a75;
+  color: #f5d0fe;
+}
+
+.doc-meta-tag {
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid #e4e4e7;
+  color: #52525b;
+}
+
+.dark .doc-meta-tag {
+  border-color: #3f3f46;
+  color: #a1a1aa;
+}
+
+.doc-meta-updated {
+  margin-left: auto;
+  color: #a1a1aa;
+}
+
+/* ---------- TODO(要確認) コールアウト ---------- */
+
+.todo-callout {
+  margin: 1.5rem 0;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid #fcd34d;
+  border-left-width: 4px;
+  border-radius: 0.6rem;
+  background: #fffbeb;
+}
+
+.dark .todo-callout {
+  border-color: #92700c;
+  background: #2a2205;
+}
+
+.todo-callout-label {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #92400e;
+  margin-bottom: 0.3rem;
+}
+
+.dark .todo-callout-label {
+  color: #fcd34d;
+}
+
+.todo-callout-body {
+  font-size: 0.9rem;
+}
+
+.todo-callout-body p {
+  margin: 0;
+}
+
+/* ---------- アンチパターン / チェックリスト ---------- */
+
+.practice-section {
+  margin: 1rem 0 2rem;
+  padding: 1.1rem 1.3rem;
+  border: 1px solid;
+  border-radius: 0.8rem;
+}
+
+.practice-antipattern {
+  border-color: #fecaca;
+  background: #fef7f7;
+}
+
+.dark .practice-antipattern {
+  border-color: #7f1d1d;
+  background: #1c0f0f;
+}
+
+.practice-antipattern > ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.practice-antipattern > ul > li {
+  padding: 0.65rem 0 0.65rem 1.6rem;
+  position: relative;
+}
+
+.practice-antipattern > ul > li::before {
+  content: '✕';
+  position: absolute;
+  left: 0.1rem;
+  top: 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #dc2626;
+}
+
+.dark .practice-antipattern > ul > li::before {
+  color: #f87171;
+}
+
+.practice-antipattern > ul > li + li {
+  border-top: 1px dashed #fecaca;
+}
+
+.dark .practice-antipattern > ul > li + li {
+  border-top-color: #7f1d1d;
+}
+
+.practice-checklist {
+  border-color: #bbf7d0;
+  background: #f6fef9;
+}
+
+.dark .practice-checklist {
+  border-color: #14532d;
+  background: #0c1a10;
+}
+
+.practice-checklist ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.practice-checklist li {
+  padding: 0.35rem 0;
+}
+
+.checklist-box {
+  width: 1.05rem;
+  height: 1.05rem;
+  margin-right: 0.55rem;
+  vertical-align: -0.18rem;
+  accent-color: #16a34a;
+  cursor: pointer;
+}
+
+/* ---------- 用語リンク(ホバーで要約) ---------- */
+
+.glossary-term {
+  position: relative;
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dotted #818cf8;
+  cursor: help;
+}
+
+.glossary-term:hover,
+.glossary-term:focus-visible {
+  color: #4f46e5;
+}
+
+.dark .glossary-term:hover,
+.dark .glossary-term:focus-visible {
+  color: #a5b4fc;
+}
+
+.glossary-term-popover {
+  position: absolute;
+  bottom: calc(100% + 0.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 19rem;
+  max-width: 80vw;
+  padding: 0.7rem 0.9rem;
+  border-radius: 0.6rem;
+  border: 1px solid #e4e4e7;
+  background: #ffffff;
+  color: #3f3f46;
+  font-size: 0.8rem;
+  line-height: 1.7;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.12);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.12s ease;
+  z-index: 40;
+  pointer-events: none;
+}
+
+.dark .glossary-term-popover {
+  border-color: #3f3f46;
+  background: #18181b;
+  color: #d4d4d8;
+}
+
+.glossary-term:hover .glossary-term-popover,
+.glossary-term:focus-visible .glossary-term-popover {
+  opacity: 1;
+  visibility: visible;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glossary-term-popover {
+    transition: none;
+  }
+}
+
+/* ---------- カスタムページ共通(/glossary, /tags, /roadmap) ---------- */
+
+.page-shell {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 6rem;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0 0 0.6rem;
+}
+
+.page-lead {
+  color: #52525b;
+  line-height: 1.9;
+  margin: 0 0 2rem;
+}
+
+.dark .page-lead {
+  color: #a1a1aa;
+}
+
+.nav-extra-link {
+  font-size: 0.9rem;
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+.nav-extra-link:hover {
+  opacity: 1;
+}
+
+.doc-meta-tag:hover {
+  border-color: #4f46e5;
+  color: #4f46e5;
+}
+
+.dark .doc-meta-tag:hover {
+  border-color: #818cf8;
+  color: #a5b4fc;
+}
+
+/* ---------- 用語集ページ ---------- */
+
+.glossary-filter {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 1px solid #e4e4e7;
+  border-radius: 0.7rem;
+  font-size: 0.95rem;
+  background: #fff;
+  color: inherit;
+  margin-bottom: 1.5rem;
+}
+
+.dark .glossary-filter {
+  border-color: #3f3f46;
+  background: #18181b;
+}
+
+.glossary-filter:focus {
+  outline: 2px solid #818cf8;
+  outline-offset: 1px;
+}
+
+.glossary-empty {
+  color: #a1a1aa;
+}
+
+.glossary-group-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 2rem 0 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid #e4e4e7;
+}
+
+.dark .glossary-group-title {
+  border-bottom-color: #27272a;
+}
+
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 1rem;
+}
+
+.glossary-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid #e4e4e7;
+  border-radius: 0.9rem;
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.dark .glossary-card {
+  border-color: #27272a;
+  background: #18181b;
+}
+
+.glossary-card:hover {
+  transform: translateY(-2px);
+  border-color: #4f46e5;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.07);
+}
+
+.glossary-card-name {
+  font-weight: 700;
+}
+
+.glossary-card-english {
+  font-size: 0.75rem;
+  color: #a1a1aa;
+  margin-top: 0.1rem;
+}
+
+.glossary-card-summary {
+  margin: 0.55rem 0 0.7rem;
+  font-size: 0.84rem;
+  line-height: 1.7;
+  color: #52525b;
+  flex: 1;
+}
+
+.dark .glossary-card-summary {
+  color: #a1a1aa;
+}
+
+.glossary-card-more {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #4f46e5;
+}
+
+.dark .glossary-card-more {
+  color: #a5b4fc;
+}
+
+/* ---------- タグ別一覧ページ ---------- */
+
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.tag-chip {
+  padding: 0.3rem 0.8rem;
+  border: 1px solid #e4e4e7;
+  border-radius: 999px;
+  font-size: 0.83rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.dark .tag-chip {
+  border-color: #3f3f46;
+}
+
+.tag-chip:hover {
+  border-color: #4f46e5;
+  color: #4f46e5;
+}
+
+.dark .tag-chip:hover {
+  border-color: #818cf8;
+  color: #a5b4fc;
+}
+
+.tag-chip-count {
+  color: #a1a1aa;
+  font-size: 0.75rem;
+}
+
+.tag-section {
+  margin-top: 2.2rem;
+  scroll-margin-top: 5rem;
+}
+
+.tag-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 0.7rem;
+}
+
+.tag-title-count {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #a1a1aa;
+  margin-left: 0.4rem;
+}
+
+.tag-articles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tag-articles li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px dashed #e4e4e7;
+}
+
+.dark .tag-articles li {
+  border-bottom-color: #27272a;
+}
+
+.tag-articles a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.tag-articles a:hover {
+  color: #4f46e5;
+}
+
+.dark .tag-articles a:hover {
+  color: #a5b4fc;
+}
+
+/* ---------- 依存マップページ ---------- */
+
+.dep-graph-canvas {
+  height: 34rem;
+  border: 1px solid #e4e4e7;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: #fafafa;
+}
+
+.dark .dep-graph-canvas {
+  border-color: #27272a;
+  background: #111113;
+}
+
+.dep-node {
+  cursor: pointer;
+}
+
+.dep-node .dep-node-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  text-align: left;
+  padding: 0.2rem 0.1rem;
+}
+
+.dep-node-num {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #4f46e5;
+  letter-spacing: 0.06em;
+}
+
+.dark .dep-node-num {
+  color: #a5b4fc;
+}
+
+.dep-node-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.dep-node-count {
+  font-size: 0.72rem;
+  color: #a1a1aa;
+}
+
+.dep-graph-panel {
+  margin-top: 1rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid #e4e4e7;
+  border-radius: 0.8rem;
+  min-height: 5.5rem;
+}
+
+.dark .dep-graph-panel {
+  border-color: #27272a;
+}
+
+.dep-panel-title {
+  margin: 0 0 0.3rem;
+  font-weight: 700;
+}
+
+.dep-panel-desc {
+  margin: 0 0 0.3rem;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #52525b;
+}
+
+.dark .dep-panel-desc {
+  color: #a1a1aa;
+}
+
+.dep-panel-hint {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #a1a1aa;
+}

@@ -14,3 +14,11 @@ node_modules/
 # OS / エディタ
 .DS_Store
 Thumbs.db
+
+# website(ドキュメントサイト)の生成物
+website/.next/
+website/out/
+website/content/
+website/generated/
+website/public/_pagefind/
+website/next-env.d.ts

@@ -136,6 +136,18 @@
 | A-7 | 評価 + 比較表(全ツールページ完了後) | `coding-agent-evaluation.md`, `coding-agents-comparison.md` | 完了 |
 | A-R | フェーズレビュー(published 化、比較表と各ページの整合、learning-roadmap への組み込み、GLOSSARY、website 反映確認) | — | 完了 |
 
+### Phase B: コーディングエージェント章の拡張 — 実践・コスト最適化・自動化 — ✅ 完了(2026-07-06)
+
+設計は [CODING-AGENTS-PLAN.md](CODING-AGENTS-PLAN.md) §14。ツール別実践ページの執筆前に追加調査(C-R11〜C-R13)を実施済み(記録: `research/coding-agents/*-practice.md`、調査日 2026-07-06)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| B-1 | 横断 2 本(コスト最適化・自動化パターン) | `coding-agent-cost-optimization.md`, `coding-agent-automation-patterns.md` | 完了 |
+| B-2 | Claude Code 実践ガイド(C-R11 反映) | `claude-code-in-practice.md` | 完了 |
+| B-3 | OpenAI Codex 実践ガイド(C-R12 反映) | `openai-codex-in-practice.md` | 完了 |
+| B-4 | GitHub Copilot 実践ガイド(C-R13 反映) | `github-copilot-in-practice.md` | 完了 |
+| B-R | フェーズレビュー(既存ページとの相互リンク・README / GLOSSARY / website 反映・published 化) | — | 完了 |
+
 ## Claude への依頼テンプレート
 
 ```text

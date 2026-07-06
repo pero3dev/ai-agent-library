@@ -27,5 +27,10 @@ Claude Code や GitHub Copilot などの AI コーディングエージェント
 | [windsurf.md](windsurf.md) | Windsurf(現: Devin Desktop。専用 IDE 型) |
 | [devin.md](devin.md) | Devin(クラウド完全自律型) |
 | [open-source-coding-agents.md](open-source-coding-agents.md) | オープンソースのコーディングエージェント俯瞰(Aider / Cline / OpenHands 等) |
+| [coding-agent-cost-optimization.md](coding-agent-cost-optimization.md) | コスト最適化(課金モデル別の方針・コンテキスト管理・モデル使い分け) |
+| [coding-agent-automation-patterns.md](coding-agent-automation-patterns.md) | 自動化・業務効率化パターン(委任・CI 組み込み・定期実行・並列化) |
+| [claude-code-in-practice.md](claude-code-in-practice.md) | Claude Code 実践ガイド(機能の使いどころ・コスト削減・効率化) |
+| [openai-codex-in-practice.md](openai-codex-in-practice.md) | OpenAI Codex 実践ガイド(同上) |
+| [github-copilot-in-practice.md](github-copilot-in-practice.md) | GitHub Copilot 実践ガイド(同上) |
 
 執筆順・タスク分割はリポジトリ直下の `CODING-AGENTS-PLAN.md` と `ROADMAP.md`(Phase A)を参照してください。ツール別ページの製品情報は変化が速いため、各ページ本文冒頭の「最終確認日」を必ず確認してください(執筆前調査の出典記録はリポジトリの `research/coding-agents/` にあります)。

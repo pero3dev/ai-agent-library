@@ -120,7 +120,7 @@ flowchart LR
 
 ## 参考資料
 
-- [Claude Code Best Practices(Anthropic Engineering)](https://www.anthropic.com/engineering/claude-code-best-practices) — 依頼の具体化・検証手段の提供に関する公式プラクティス(アクセス日: 2026-07-05)
+- [Claude Code Best Practices(公式ドキュメント)](https://code.claude.com/docs/en/best-practices) — 依頼の具体化・検証手段の提供に関する公式プラクティス(旧エンジニアリングブログの統合先)(アクセス日: 2026-07-06)
 
 ## TODO・未確認事項
 

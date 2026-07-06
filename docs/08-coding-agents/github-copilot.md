@@ -115,6 +115,7 @@ GitHub Copilot は、コード補完から始まり、2026 年時点では GitHu
 
 ## 関連トピック
 
+- [GitHub Copilot 実践ガイド](github-copilot-in-practice.md) — 導入後の使いこなし(機能の使い分け・AI Credits 管理・自動化)
 - [主要コーディングエージェント比較](coding-agents-comparison.md) — 他ツールとの横断比較
 - [ルールファイルと設定の設計](coding-agent-rules-and-config.md) — copilot-instructions.md / AGENTS.md の内容設計
 - [コーディングエージェントの権限とセキュリティ](coding-agent-security.md) — CI 上で動くエージェントの権限設計

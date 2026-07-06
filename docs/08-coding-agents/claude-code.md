@@ -117,6 +117,7 @@ Claude Code は Anthropic が提供するコーディングエージェントで
 
 ## 関連トピック
 
+- [Claude Code 実践ガイド](claude-code-in-practice.md) — 導入後の使いこなし(スキル・サブエージェント・コスト削減・自動化)
 - [主要コーディングエージェント比較](coding-agents-comparison.md) — 他ツールとの横断比較
 - [ルールファイルと設定の設計](coding-agent-rules-and-config.md) — CLAUDE.md の内容設計
 - [コーディングエージェントの権限とセキュリティ](coding-agent-security.md) — 権限モデル設計の一般論

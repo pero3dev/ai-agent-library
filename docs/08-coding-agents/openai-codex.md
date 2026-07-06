@@ -120,6 +120,7 @@ Codex は OpenAI のコーディングエージェント製品群です。まず
 
 ## 関連トピック
 
+- [OpenAI Codex 実践ガイド](openai-codex-in-practice.md) — 導入後の使いこなし(機能の使いどころ・コスト削減・自動化)
 - [主要コーディングエージェント比較](coding-agents-comparison.md) — 他ツールとの横断比較
 - [ルールファイルと設定の設計](coding-agent-rules-and-config.md) — AGENTS.md の内容設計
 - [コーディングエージェントの権限とセキュリティ](coding-agent-security.md) — サンドボックス・承認モデルの一般論

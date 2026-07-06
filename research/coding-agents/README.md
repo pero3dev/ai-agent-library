@@ -20,3 +20,6 @@
 | [open-source.md](open-source.md) | Aider / Cline / Continue / OpenHands / Goose / opencode | C-R8 |
 | [pricing-index.md](pricing-index.md) | 横断: 料金ページ・プラン名・課金単位の一覧 | C-R9 |
 | [data-handling-index.md](data-handling-index.md) | 横断: データ取り扱い・学習利用ポリシーの一覧 | C-R10 |
+| [claude-code-practice.md](claude-code-practice.md) | Claude Code の実践・コスト観点(調査日 2026-07-06) | C-R11 |
+| [openai-codex-practice.md](openai-codex-practice.md) | OpenAI Codex の実践・コスト観点(調査日 2026-07-06) | C-R12 |
+| [github-copilot-practice.md](github-copilot-practice.md) | GitHub Copilot の実践・コスト観点(調査日 2026-07-06) | C-R13 |

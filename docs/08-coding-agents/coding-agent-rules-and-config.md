@@ -121,7 +121,7 @@ flowchart TB
 ## 参考資料
 
 - [AGENTS.md](https://agents.md/) — ツール横断のルールファイル共通形式の公式サイト(アクセス日: 2026-07-05)
-- [Claude Code Best Practices(Anthropic Engineering)](https://www.anthropic.com/engineering/claude-code-best-practices) — CLAUDE.md の内容設計に関する公式プラクティス(アクセス日: 2026-07-05)
+- [Claude Code Best Practices(公式ドキュメント)](https://code.claude.com/docs/en/best-practices) — CLAUDE.md の内容設計に関する公式プラクティス(旧エンジニアリングブログの統合先)(アクセス日: 2026-07-06)
 
 ## TODO・未確認事項
 

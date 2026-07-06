@@ -2,7 +2,7 @@
 
 「どう書くか」を扱うセクションです。実装パターン・コード例・フレームワークの比較を提供します。概念の説明は 01-concepts へのリンクで済ませ、重複解説しません。
 
-- **置くもの**: 実装パターン、コード例(または `examples/` への参照)、ツール接続、ユーザー向け応答の実装パターン(ストリーミング・進捗提示・中断)、フレームワーク選定ガイド
+- **置くもの**: 実装パターン、コード例(または `examples/` への参照)、ツール接続、ユーザー向け応答の実装パターン(ストリーミング・進捗提示・中断)、フレームワーク・モデルの選定ガイド
 - **置かないもの**: 概念の再説明(→ 01-concepts)、動くコード一式(→ `examples/`)
 
 ## 収録予定ドキュメント
@@ -17,3 +17,5 @@
 | [mcp-and-tool-protocols.md](mcp-and-tool-protocols.md) | ツール接続標準(MCP とエコシステム。自前ツールとの使い分け) |
 | [streaming-and-agent-ux.md](streaming-and-agent-ux.md) | ストリーミングと Agent の UX 実装パターン(進捗提示・中断・軌道修正) |
 | [framework-selection.md](framework-selection.md) | フレームワーク選定ガイド |
+| [model-selection.md](model-selection.md) | モデル選定ガイド(判断軸・用途別の使い分け・ティア混在設計) |
+| [llm-landscape.md](llm-landscape.md) | 主要 LLM の全体像(プロバイダー別カタログ。鮮度リスク集約ページ) |

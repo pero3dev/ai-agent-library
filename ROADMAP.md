@@ -148,6 +148,16 @@
 | B-4 | GitHub Copilot 実践ガイド(C-R13 反映) | `github-copilot-in-practice.md` | 完了 |
 | B-R | フェーズレビュー(既存ページとの相互リンク・README / GLOSSARY / website 反映・published 化) | — | 完了 |
 
+### Phase C: 主要 AI モデルガイド(03-implementation)— ✅ 完了(2026-07-06)
+
+主要 LLM の特性・コスト・使用場面を扱う 2 本を 03-implementation に追加(モデル名を具体的に扱う正本。08 章はここへリンクする)。執筆前調査(M-R1〜M-R4: Anthropic / OpenAI / Google / オープンウェイト)は `research/models/` に記録済み(調査日 2026-07-06)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| C-1 | モデル選定ガイド(判断軸 7 つ・用途別の使い分け・ティア混在設計) | `03-implementation/model-selection.md` | 完了 |
+| C-2 | 主要 LLM の全体像(プロバイダー別カタログ。鮮度リスクをここに閉じ込める) | `03-implementation/llm-landscape.md` | 完了 |
+| C-R | フェーズレビュー(08 章からの導線・README / GLOSSARY / website 反映・published 化) | — | 完了 |
+
 ## Claude への依頼テンプレート
 
 ```text
@@ -161,4 +171,5 @@ CLAUDE.md の執筆ルールと templates/doc-template.md に従い、
 - `TODO(要確認)` の全文検索 → 棚卸し(四半期ごと目安)
 - モデル・フレームワーク情報の鮮度確認(front matter の `last_updated` が 6 か月以上前のものを優先)
 - **08-coding-agents のツール情報の定点観測**(各ページの「変わりやすい項目」と比較表。製品名・プラン・学習ポリシーの変化が速いため四半期ごと必須。`research/coding-agents/` の調査メモを更新起点にする)
+- **モデルガイド(model-selection / llm-landscape)の定点観測**(モデル名・価格帯・退役日程。四半期ごと必須。`research/models/` の調査メモを更新起点にする。直近の注目: Sonnet 5 導入価格終了 2026-09 / Gemini 2.5 系終了 2026-10 / OpenAI o 系退役 2026-12)
 - `examples/` の実行確認と各サンプル README の動作確認日の更新(四半期ごと目安)

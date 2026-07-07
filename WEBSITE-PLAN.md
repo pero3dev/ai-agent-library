@@ -3,7 +3,7 @@
 このファイルは、`ai-agent-library` の Markdown 知識資産を Web ドキュメントサイトへ発展させるための設計判断と作業計画を管理します(執筆計画の正本は引き続き [ROADMAP.md](ROADMAP.md))。
 
 - 作成日: 2026-07-05
-- ステータス: **W4(インタラクティブ UI)完了**(2026-07-05)。/roadmap(React Flow 依存マップ)・/glossary(用語カード + フィルタ)・/tags(タグ別一覧)を追加。残りは W5(公開準備)のみ
+- ステータス: **W5(公開)完了 = 全フェーズ完了**(2026-07-07)。ホスティングは GitHub Pages(リポジトリを public 化のうえ、Actions からデプロイ)。公開 URL: <https://pero3dev.github.io/ai-agent-library/>
 
 ## 1. 現状調査サマリ
 
@@ -160,7 +160,7 @@ ai-agent-library/
 | W2: 全量表示 — ✅ 完了(W0/W1 に吸収) | 全 47 ページの表示・Pagefind 検索・サイドバー・リンク全量検証(未解決 0)は W0/W1 で達成 | 達成 |
 | W3: 自動装飾 — ✅ 完了(2026-07-05) | 段階 2 を実装: ①TODO(要確認)→ コールアウト ②アンチパターン/チェックリスト節 → 装飾コンテナ ③`- [ ]` → クリック可能なチェックボックス ④front matter(level/tags/更新日)→ ヘッダーバッジ ⑤GLOSSARY 登録語の本文初出 → ホバー要約付き用語リンク(38 ページに注入)。すべて原本無変更 | 達成 |
 | W4: インタラクティブ — ✅ 完了(2026-07-05) | ①`/roadmap`: React Flow 依存マップ(ノードクリックで移動・ホバーで概要・ダークモード追従)②`/glossary`: 用語カードページ(32 語・テキストフィルタ・カスタムページ化し content 生成から除外)③`/tags`: タグ別一覧(43 タグ)+ 記事バッジからのリンク ④ナビバーに 3 ページへの導線。**ケーススタディのステップ表示は見送り**(原本に汎用構造がなく記事固有実装になるため。必要なら原本に構造を導入してから) | 達成 |
-| W5: 仕上げ・公開 | OG 画像、a11y 点検、パフォーマンス(Lighthouse)、CI(markdownlint + リンク検査 + サイトビルド)、ホスティング設定 | 公開 + CI グリーン |
+| W5: 仕上げ・公開 — ✅ 完了(2026-07-07) | ①静的エクスポート対応(`STATIC_EXPORT` / `NEXT_PUBLIC_BASE_PATH` の環境変数駆動。ローカル開発は無影響)+ postbuild で Pagefind インデックスを `out/` へ複製 ②OG メタデータ(metadataBase / og / twitter)+ OG 画像(`app/opengraph-image.jsx`、ビルド時静的生成。satori に日本語フォントがないため文言は英語)③navbar の生 `<a>` を next/link 化(basePath 追従)④CI(`.github/workflows/ci.yml`: markdownlint + 静的エクスポートビルド + main への push で Pages デプロイ。リンク検査は sync の未解決リンク検出で担保)⑤ホスティング = GitHub Pages(リポジトリ public 化・build_type=workflow・Actions 変数 DEPLOY_PAGES / SITE_URL / SITE_BASE_PATH) | 達成(公開 + CI グリーン) |
 
 各フェーズの最後に、執筆フェーズと同様の独立レビュー(表示崩れ・リンク・原本との内容一致)を置きます。
 
@@ -178,10 +178,12 @@ ai-agent-library/
 - ~~コンテンツディレクトリの外部参照可否(§4)~~ → W0 で解消(sync スクリプト方式を採用・実装済み)
 - ~~Mermaid の SSR 対応(§7)~~ → W0 で解消(Nextra 組み込み)
 - zod override(4.1.12 固定)の解除時期 — Nextra 更新時にリリースノートで確認(§3)
-- @xyflow/react の RSC での使い方 — W4 実装時に確認(§7)
-- ホスティングと検索方式の相性 — W5 で確認(§8)
-- カスタムページ(/glossary・/tags・/roadmap)は Pagefind の索引対象外(`data-pagefind-body` は docs ページのみ)。用語は解説記事側で検索可能なため実害は小さいが、W5 で索引対象に含めるか判断する
+- ~~@xyflow/react の RSC での使い方 — W4 実装時に確認(§7)~~ → W4 で解消(client component 化)
+- ~~ホスティングと検索方式の相性 — W5 で確認(§8)~~ → W5 で解消(GitHub Pages + 静的エクスポート。Pagefind の読み込みは Nextra が basePath を付与することをビルド成果物で確認済み)
+- ~~カスタムページの Pagefind 索引~~ → W5 で決定: **docs のみ索引のまま**とする(用語は解説記事側で検索可能で実害が小さく、カスタムページは導線が明確なため。必要になれば `data-pagefind-body` の付与で拡張)
 - ~~サイドバーの記事並び順(セクション README の表の順を反映)~~ → W1 で解消(sync が README の収録表をパースして `_meta.js` を生成)
+
+> **TODO(要確認):** 公開サイトで検索結果リンクの basePath 挙動と Lighthouse(パフォーマンス・a11y)を確認する。問題があれば本ファイルに追記して対処する(最終確認: 2026-07)
 
 ## 11. 開発時の運用メモ
 

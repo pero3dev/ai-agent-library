@@ -117,6 +117,7 @@ sequenceDiagram
 - [RAG と Agent の関係・使い分け](rag-vs-agent.md) — 「検索をツールにする」代表的な応用
 - [ツール定義の設計](../03-implementation/tool-definition-design.md) — 定義設計の実践プラクティス集
 - [ツール接続標準(MCP とエコシステム)](../03-implementation/mcp-and-tool-protocols.md) — MCP による接続の実務
+- [LLM の能力と限界の由来](../10-llm-foundations/capabilities-and-limits.md) — ツールが LLM の構造的弱点を補うという理論的根拠
 - [examples/python/tool-use/](../../examples/python/tool-use/README.md) — 本記事の仕組みを実装した動くサンプル
 
 ## 参考資料

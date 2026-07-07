@@ -221,6 +221,38 @@
 | I-2 | ベンチマーク地図(P-R4 反映・鮮度管理型)+ ナレッジ Agent 事例 | `04-evaluation/agent-benchmarks-landscape.md`, `07-case-studies/case-study-knowledge-agent.md` | 完了 |
 | I-R | フェーズレビュー + 全体統合(learning-roadmap・依存マップの最終確認、skill-map の advanced 例示更新、published 化・README / GLOSSARY / website 反映確認) | — | 完了 |
 
+### Phase J: 別冊拡張 — LLM 基礎(10-llm-foundations 新設)— ✅ 完了(2026-07-07)
+
+設計は [SUPPLEMENTARY-PLAN.md](SUPPLEMENTARY-PLAN.md)(Phase J〜L・11 本の別冊計画)。LLM 基礎は原理が安定しているため執筆前調査は不要(調査タスク Q-R1〜Q-R3 は該当フェーズの着手時に実施)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| J-0 | 10-llm-foundations スケルトン(セクション README・doc-template の category・website 反映・ルート README) | `10-llm-foundations/README.md` ほか同期一式 | 完了 |
+| J-1 | 生成の仕組み + トークナイザ | `how-llms-generate-text.md`, `tokenization.md` | 完了 |
+| J-2 | 注意機構 + 学習パイプライン | `attention-and-context.md`, `llm-training-pipeline.md` | 完了 |
+| J-3 | 能力と限界 | `capabilities-and-limits.md` | 完了 |
+| J-R | フェーズレビュー + 既存記事からの逆リンク(context-engineering・cost-management・guardrails・tool-use)+ learning-roadmap の 11 セクション化(published 化・README / GLOSSARY / website 反映確認) | — | 完了 |
+
+### Phase K: 別冊拡張 — プロンプト技法・会話データ基盤 — ✅ 完了(2026-07-07)
+
+設計は [SUPPLEMENTARY-PLAN.md](SUPPLEMENTARY-PLAN.md)。調査タスク Q-R3(会話データの規制要件)は独立実施せず、P-R5 の調査メモ(`research/professional/compliance.md`)と `compliance-and-governance.md` を規制面の正本として参照(決定ログ参照)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| K-1 | プロンプト技法カタログ(汎用。Agent 特化記事との分担明記) | `03-implementation/prompt-engineering-fundamentals.md` | 完了 |
+| K-2 | 会話データの管理基盤(収集・機微処理・保持と削除・活用・アクセス統制) | `05-operations/conversation-data-management.md` | 完了 |
+| K-R | フェーズレビュー + 逆リンク(agent-prompt-design・coding-agent-prompting・observability・compliance)(published 化・README / GLOSSARY / website 反映確認) | — | 完了 |
+
+### Phase L: 別冊拡張 — フィジカル AI 概観・業界規制マップ(最終フェーズ)— ✅ 完了(2026-07-07)
+
+設計は [SUPPLEMENTARY-PLAN.md](SUPPLEMENTARY-PLAN.md)。執筆前に調査タスク Q-R1(フィジカル AI / VLA の現在地)・Q-R2(業界規制の一次情報所在)を実施(記録: `research/supplementary/physical-ai.md`, `regulations.md`、調査日 2026-07-07)。L-2(金融・医療の考慮点 2 本)は縮小決定により収録しない(決定ログ参照。ユーザー確認済み)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| L-1 | フィジカル AI 概観(Q-R1 反映)+ 業界規制の入口マップ(Q-R2 反映・免責 + 鮮度管理型) | `01-concepts/physical-ai-overview.md`, `09-business/industry-regulations-map.md` | 完了 |
+| L-2 | 金融・医療の考慮点 | —(縮小決定により対象外) | 対象外 |
+| L-R | フェーズレビュー + 全体統合(learning-roadmap・依存マップの最終確認、逆リンク、published 化・README / GLOSSARY / website 反映確認) | — | 完了 |
+
 ## Claude への依頼テンプレート
 
 ```text
@@ -239,4 +271,6 @@ CLAUDE.md の執筆ルールと templates/doc-template.md に従い、
 - **規制動向の定点観測**(`06-security/compliance-and-governance.md` の「変わりやすい項目」。四半期ごと。`research/professional/compliance.md` を更新起点にする。直近の注目: EU omnibus 官報公布 / EU 透明性義務 2026-08-02 適用 / 日本の個情法改正案の成立 / California SB 942 系 2026-08-02 施行)
 - **音声 API・FT 提供状況の定点観測**(`03-implementation/voice-agents.md` と `fine-tuning-and-distillation.md` の TODO・変わりやすい項目。四半期ごと。`research/professional/voice-agents.md`, `fine-tuning.md` を更新起点にする。直近の注目: OpenAI FT プラットフォーム縮小の帰趨 / Gemini Live の GA 化)
 - **エージェントベンチマーク動向の定点観測**(`04-evaluation/agent-benchmarks-landscape.md` の「変わりやすい項目」。四半期ごと。`research/professional/benchmarks.md` を更新起点にする。直近の注目: SWE-bench Pro / Terminal-Bench 2.x への重心移行の定着 / OSWorld 2.0・GAIA2・τ³-bench のスコア推移)
+- **業界規制の定点観測**(`09-business/industry-regulations-map.md` の全表の版数。四半期ごと。`research/supplementary/regulations.md` を更新起点にする。直近の注目: 厚労省ガイドライン第 7.0 版の詳細 / DS-920 第 2.0 版の運用 / 金融庁 AI DP の次期改訂 / 個情法改正案の成立)
+- **フィジカル AI の定点観測**(`01-concepts/physical-ai-overview.md` の「変わりやすい項目」。四半期ごと。`research/supplementary/physical-ai.md` を更新起点にする。直近の注目: モデル世代・提供形態の変化 / 共通ベンチマークの成立)
 - `examples/` の実行確認と各サンプル README の動作確認日の更新(四半期ごと目安)

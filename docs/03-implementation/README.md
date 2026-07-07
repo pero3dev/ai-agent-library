@@ -25,3 +25,4 @@
 | [computer-use-implementation.md](computer-use-implementation.md) | ブラウザ・コンピュータ操作の実装(要素特定・待機と検証・安全策) |
 | [voice-agents.md](voice-agents.md) | 音声エージェントの実装(パイプライン vs speech-to-speech・会話制御・評価) |
 | [fine-tuning-and-distillation.md](fine-tuning-and-distillation.md) | ファインチューニングと蒸留(選ぶ前の判断・手法概観・データ準備・運用) |
+| [prompt-engineering-fundamentals.md](prompt-engineering-fundamentals.md) | プロンプトエンジニアリングの基礎技法(汎用技法カタログ。Agent 特化記事の前提) |

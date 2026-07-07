@@ -58,7 +58,8 @@ const SECTION_TITLES = {
   security: '06. セキュリティ',
   'case-studies': '07. ケーススタディ',
   'coding-agents': '08. コーディングエージェント',
-  business: '09. ビジネス実務'
+  business: '09. ビジネス実務',
+  'llm-foundations': '10. LLM 基礎'
 }
 
 const warnings = []

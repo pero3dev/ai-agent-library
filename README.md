@@ -17,7 +17,8 @@
 3. **運用・セキュリティ担当**: [docs/05-operations/](docs/05-operations/) と [docs/06-security/](docs/06-security/) を直接参照する
 4. **Claude Code などのコーディングエージェントを使いたい人**: [docs/08-coding-agents/](docs/08-coding-agents/) の分類と全体像から読み始める
 5. **Agent 導入を企画・推進する人**: [docs/09-business/](docs/09-business/) のユースケース発見から読み始める
-6. **用語を調べたい人**: [GLOSSARY.md](GLOSSARY.md) から該当ドキュメントへ辿る
+6. **LLM の挙動を仕組みから理解したい人**: [docs/10-llm-foundations/](docs/10-llm-foundations/) を上から順に読む(01 と並行して読めます)
+7. **用語を調べたい人**: [GLOSSARY.md](GLOSSARY.md) から該当ドキュメントへ辿る
 
 ## ディレクトリ構成
 
@@ -45,7 +46,8 @@ ai-agent-library/
 │   ├── 06-security/          # セキュリティ(プロンプトインジェクション、権限設計 等)
 │   ├── 07-case-studies/      # ケーススタディ・アンチパターン詳解
 │   ├── 08-coding-agents/     # AI コーディングエージェント(選定・設定・セキュリティ・ツール別)
-│   └── 09-business/          # ビジネス実務(ユースケース選定・PoC → 本番・ROI)
+│   ├── 09-business/          # ビジネス実務(ユースケース選定・PoC → 本番・ROI)
+│   └── 10-llm-foundations/   # LLM 基礎(生成の仕組み・トークン・注意機構・学習・能力限界)
 ├── examples/
 │   ├── python/               # Python サンプルコード(tool-use を収録)
 │   └── typescript/           # TypeScript サンプルコード(将来追加)
@@ -72,6 +74,7 @@ ai-agent-library/
 | [docs/07-case-studies/](docs/07-case-studies/) | 具体事例から学ぶ | 成功・失敗事例の構造化された分析。一般論は他章へ |
 | [docs/08-coding-agents/](docs/08-coding-agents/) | AI コーディングエージェントを実務で使う | 選定基準、設定・依頼設計、セキュリティ、チーム導入、ツール別リファレンス。Agent を「作る」側の話は 02・03 章へ |
 | [docs/09-business/](docs/09-business/) | Agent 案件を企画から本番まで推進する | ユースケース選定、要件定義、PoC → 本番、ROI。技術的な設計判断は 02 章、稼働後の運用は 05 章へ |
+| [docs/10-llm-foundations/](docs/10-llm-foundations/) | 「LLM 自体がなぜそう振る舞うか」の基礎 | 生成・トークン・注意機構・学習工程・能力限界の直感。数式による理論解説、Agent の概念(→ 01 章)は置かない |
 | [templates/](templates/) | 執筆の一貫性を担保する | ドキュメントテンプレート。本文コンテンツは置かない |
 | [examples/](examples/) | 動くサンプルコード | docs から参照される最小構成のコード。ドキュメント本文は置かない |
 | [research/](research/coding-agents/) | 執筆前の公式情報調査メモ | 出典 URL・確認日付きの調査記録。docs の執筆規約は適用しない |
@@ -92,5 +95,5 @@ ai-agent-library/
 
 ## ステータス
 
-- 現在: **Phase 0〜8 + Phase A〜I(コーディングエージェント章・モデルガイド・ビジネス実務新設・プロフェッショナル化拡張の全 24 タスク)完了(2026-07-07 時点)**。全 10 セクションで **83 本**を公開しています — [00-overview](docs/00-overview/README.md) 2 本、[01-concepts](docs/01-concepts/README.md) 8 本、[02-architecture](docs/02-architecture/README.md) 8 本、[03-implementation](docs/03-implementation/README.md) 14 本、[04-evaluation](docs/04-evaluation/README.md) 7 本、[05-operations](docs/05-operations/README.md) 7 本、[06-security](docs/06-security/README.md) 8 本、[07-case-studies](docs/07-case-studies/README.md) 5 本、[08-coding-agents](docs/08-coding-agents/README.md) 21 本、[09-business](docs/09-business/README.md) 3 本、および最初の [Python サンプル](examples/python/tool-use/README.md)。用語は [GLOSSARY.md](GLOSSARY.md)(58 エントリ)から横断的に辿れます
-- 次のステップ: ドキュメントサイトの公開準備(Phase W5、[WEBSITE-PLAN.md](WEBSITE-PLAN.md))と、拡張計画で除外した領域の別冊計画([SUPPLEMENTARY-PLAN.md](SUPPLEMENTARY-PLAN.md)、未着手)。並行して [ROADMAP.md](ROADMAP.md) の「定期メンテナンス」(`TODO(要確認)` の棚卸し — 特に 08 章のツール情報・モデルガイド・エージェント認証の標準動向・規制動向・音声/FT 提供状況・ベンチマーク動向は変化が速いため四半期ごと必須、`examples/` の実行確認)を継続します
+- 現在: **Phase 0〜8 + Phase A〜L(コーディングエージェント章・モデルガイド・プロフェッショナル化拡張・別冊拡張のすべて)完了(2026-07-07 時点)**。全 11 セクションで **92 本**を公開しています — [00-overview](docs/00-overview/README.md) 2 本、[01-concepts](docs/01-concepts/README.md) 9 本、[02-architecture](docs/02-architecture/README.md) 8 本、[03-implementation](docs/03-implementation/README.md) 15 本、[04-evaluation](docs/04-evaluation/README.md) 7 本、[05-operations](docs/05-operations/README.md) 8 本、[06-security](docs/06-security/README.md) 8 本、[07-case-studies](docs/07-case-studies/README.md) 5 本、[08-coding-agents](docs/08-coding-agents/README.md) 21 本、[09-business](docs/09-business/README.md) 4 本、[10-llm-foundations](docs/10-llm-foundations/README.md) 5 本、および最初の [Python サンプル](examples/python/tool-use/README.md)。用語は [GLOSSARY.md](GLOSSARY.md)(67 エントリ)から横断的に辿れます
+- 次のステップ: ドキュメントサイトの公開準備(Phase W5、[WEBSITE-PLAN.md](WEBSITE-PLAN.md))。並行して [ROADMAP.md](ROADMAP.md) の「定期メンテナンス」(`TODO(要確認)` の棚卸し — 特に 08 章のツール情報・モデルガイド・エージェント認証の標準動向・規制動向・音声/FT 提供状況・ベンチマーク動向は変化が速いため四半期ごと必須、`examples/` の実行確認)を継続します

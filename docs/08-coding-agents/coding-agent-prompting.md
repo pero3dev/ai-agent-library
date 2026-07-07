@@ -115,6 +115,7 @@ flowchart LR
 
 - [ルールファイルと設定の設計](coding-agent-rules-and-config.md) — 依頼文と恒常ルールの分担
 - [Agent 向けプロンプト設計](../03-implementation/agent-prompt-design.md) — エージェントを「作る」側のプロンプト設計
+- [プロンプトエンジニアリングの基礎技法](../03-implementation/prompt-engineering-fundamentals.md) — 依頼設計の土台になる汎用技法
 - [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) — 計画承認・レビューの一般論
 - [コンテキストエンジニアリング](../02-architecture/context-engineering.md) — コンテキスト汚染と仕切り直しの背景理論
 

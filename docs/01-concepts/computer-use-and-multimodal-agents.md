@@ -92,6 +92,7 @@ tags: ["computer-use", "multimodal"]
 - [ツール使用](tool-use.md) — API 連携という第一選択肢
 - [ツール権限設計とサンドボックス](../06-security/tool-permissions-and-sandboxing.md) — サンドボックス設計の詳細
 - [プロンプトインジェクション](../06-security/prompt-injection.md) — 画面経由の間接インジェクション
+- [フィジカル AI とロボティクスの概観](physical-ai-overview.md) — 「観測して行動する」ループの連続線上にある物理世界側
 
 ## 参考資料
 

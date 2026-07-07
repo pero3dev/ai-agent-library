@@ -19,3 +19,4 @@
 | [rag-vs-agent.md](rag-vs-agent.md) | RAG と Agent の関係・使い分け |
 | [single-vs-multi-agent.md](single-vs-multi-agent.md) | シングルエージェントとマルチエージェント |
 | [computer-use-and-multimodal-agents.md](computer-use-and-multimodal-agents.md) | コンピュータ操作型・マルチモーダル Agent(画面観測ループの特性とリスク) |
+| [physical-ai-overview.md](physical-ai-overview.md) | フィジカル AI とロボティクスの概観(ソフトウェア Agent との共通点と本質的な違い・VLA) |

@@ -158,6 +158,69 @@
 | C-2 | 主要 LLM の全体像(プロバイダー別カタログ。鮮度リスクをここに閉じ込める) | `03-implementation/llm-landscape.md` | 完了 |
 | C-R | フェーズレビュー(08 章からの導線・README / GLOSSARY / website 反映・published 化) | — | 完了 |
 
+### Phase D: プロフェッショナル化拡張 — 土台(09-business 新設・スキルマップ・ビジネス実務)— ✅ 完了(2026-07-06)
+
+設計は [EXPANSION-PLAN.md](EXPANSION-PLAN.md)(Phase D〜I・24 本の全体計画)。Phase D は原則が安定した方法論のみを扱うため執筆前調査は不要(調査タスク P-R1〜P-R6 は該当フェーズの着手時に実施)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| D-0 | 09-business スケルトン(セクション README・doc-template の category・website 反映・ルート README) | `09-business/README.md` ほか同期一式 | 完了 |
+| D-1 | スキルマップ + learning-roadmap 改訂(読者タイプ G・依存図への 09 追加。learning-roadmap は既 published の改訂で status は据え置き) | `00-overview/skill-map.md` ほか | 完了 |
+| D-2 | ユースケース発見と要件定義 + PoC から本番への進め方 | `usecase-discovery.md`, `poc-to-production.md` | 完了 |
+| D-R | フェーズレビュー(published 化・README / GLOSSARY / website 反映確認) | — | 完了 |
+
+### Phase E: プロフェッショナル化拡張 — P1 実装・保証(advanced 4 本)— ✅ 完了(2026-07-06)
+
+設計は [EXPANSION-PLAN.md](EXPANSION-PLAN.md)。E-3 の執筆前に調査タスク P-R1(エージェント認証の標準化動向)を実施(記録: `research/professional/agent-identity.md`、調査日 2026-07-06)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| E-1 | RAG 実装パターン(examples の RAG サンプルは見送り。決定ログ参照) | `03-implementation/rag-implementation-patterns.md` | 完了 |
+| E-2 | 評価データセット + デプロイとスケーリング | `04-evaluation/evaluation-datasets.md`, `05-operations/deployment-and-scaling.md` | 完了 |
+| E-3 | エージェントの認証・認可(P-R1 反映・鮮度管理型) | `06-security/agent-identity-and-auth.md` | 完了 |
+| E-R | フェーズレビュー(published 化・README / GLOSSARY / website 反映確認) | — | 完了 |
+
+### Phase F: プロフェッショナル化拡張 — P2 前半(非同期・記憶・プロンプト資産・改善ループ)— ✅ 完了(2026-07-06)
+
+設計は [EXPANSION-PLAN.md](EXPANSION-PLAN.md)。F-1 の執筆前に調査タスク P-R2(耐久実行・ワークフローエンジンの動向)を実施(記録: `research/professional/durable-execution.md`、調査日 2026-07-06)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| F-1 | 非同期・耐久実行(P-R2 反映) + 長期記憶の実装 | `02-architecture/async-and-durable-agents.md`, `03-implementation/long-term-memory-implementation.md` | 完了 |
+| F-2 | プロンプト資産管理 + フィードバックループ | `03-implementation/prompt-management.md`, `05-operations/feedback-loops.md` | 完了 |
+| F-R | フェーズレビュー(published 化・README / GLOSSARY / website 反映確認) | — | 完了 |
+
+### Phase G: プロフェッショナル化拡張 — P2 後半(レッドチーミング・コンプライアンス・オンライン評価)— ✅ 完了(2026-07-07)
+
+設計は [EXPANSION-PLAN.md](EXPANSION-PLAN.md)。G-1 の執筆前に調査タスク P-R5(規制動向の一次情報)を実施(記録: `research/professional/compliance.md`、調査日 2026-07-07)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| G-1 | レッドチーミング + コンプライアンスとガバナンス(P-R5 反映・鮮度管理型) | `06-security/red-teaming-agents.md`, `06-security/compliance-and-governance.md` | 完了 |
+| G-2 | オンライン評価と A/B テスト | `04-evaluation/online-evaluation-and-ab-testing.md` | 完了 |
+| G-R | フェーズレビュー(published 化・README / GLOSSARY / website 反映確認) | — | 完了 |
+
+### Phase H: プロフェッショナル化拡張 — P2 応用(操作型・音声・FT・ROI・事例)— ✅ 完了(2026-07-07)
+
+設計は [EXPANSION-PLAN.md](EXPANSION-PLAN.md)。執筆前に調査タスク P-R3(音声 API の動向)・P-R6(FT・蒸留の提供形態)を実施(記録: `research/professional/voice-agents.md`, `fine-tuning.md`、調査日 2026-07-07)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| H-1 | コンピュータ操作の実装 + 音声エージェント(P-R3 反映) | `03-implementation/computer-use-implementation.md`, `voice-agents.md` | 完了 |
+| H-2 | ファインチューニングと蒸留(P-R6 反映) | `03-implementation/fine-tuning-and-distillation.md` | 完了 |
+| H-3 | ROI とビジネスケース + サポート Agent 事例 | `09-business/roi-and-business-case.md`, `07-case-studies/case-study-customer-support-agent.md` | 完了 |
+| H-R | フェーズレビュー(published 化・README / GLOSSARY / website 反映確認) | — | 完了 |
+
+### Phase I: プロフェッショナル化拡張 — P3 発展(マルチテナント・API 設計・ベンチマーク・事例)— ✅ 完了(2026-07-07)
+
+設計は [EXPANSION-PLAN.md](EXPANSION-PLAN.md)。I-2 の執筆前に調査タスク P-R4(公開ベンチマークの一覧・リーダーボード・評価方法論)を実施(記録: `research/professional/benchmarks.md`、調査日 2026-07-07)。これで EXPANSION-PLAN の全 24 タスク(新規 23 本 + learning-roadmap 改訂)が完了。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| I-1 | マルチテナント設計 + エージェントの API 設計 | `02-architecture/multi-tenancy-and-isolation.md`, `agent-api-design.md` | 完了 |
+| I-2 | ベンチマーク地図(P-R4 反映・鮮度管理型)+ ナレッジ Agent 事例 | `04-evaluation/agent-benchmarks-landscape.md`, `07-case-studies/case-study-knowledge-agent.md` | 完了 |
+| I-R | フェーズレビュー + 全体統合(learning-roadmap・依存マップの最終確認、skill-map の advanced 例示更新、published 化・README / GLOSSARY / website 反映確認) | — | 完了 |
+
 ## Claude への依頼テンプレート
 
 ```text
@@ -172,4 +235,8 @@ CLAUDE.md の執筆ルールと templates/doc-template.md に従い、
 - モデル・フレームワーク情報の鮮度確認(front matter の `last_updated` が 6 か月以上前のものを優先)
 - **08-coding-agents のツール情報の定点観測**(各ページの「変わりやすい項目」と比較表。製品名・プラン・学習ポリシーの変化が速いため四半期ごと必須。`research/coding-agents/` の調査メモを更新起点にする)
 - **モデルガイド(model-selection / llm-landscape)の定点観測**(モデル名・価格帯・退役日程。四半期ごと必須。`research/models/` の調査メモを更新起点にする。直近の注目: Sonnet 5 導入価格終了 2026-09 / Gemini 2.5 系終了 2026-10 / OpenAI o 系退役 2026-12)
+- **エージェント認証の標準動向の定点観測**(`06-security/agent-identity-and-auth.md` の「変わりやすい項目」。四半期ごと。`research/professional/agent-identity.md` を更新起点にする。直近の注目: OAuth 2.1 の IESG 提出予定 2026-12 / MCP 認可仕様の次期リビジョン)
+- **規制動向の定点観測**(`06-security/compliance-and-governance.md` の「変わりやすい項目」。四半期ごと。`research/professional/compliance.md` を更新起点にする。直近の注目: EU omnibus 官報公布 / EU 透明性義務 2026-08-02 適用 / 日本の個情法改正案の成立 / California SB 942 系 2026-08-02 施行)
+- **音声 API・FT 提供状況の定点観測**(`03-implementation/voice-agents.md` と `fine-tuning-and-distillation.md` の TODO・変わりやすい項目。四半期ごと。`research/professional/voice-agents.md`, `fine-tuning.md` を更新起点にする。直近の注目: OpenAI FT プラットフォーム縮小の帰趨 / Gemini Live の GA 化)
+- **エージェントベンチマーク動向の定点観測**(`04-evaluation/agent-benchmarks-landscape.md` の「変わりやすい項目」。四半期ごと。`research/professional/benchmarks.md` を更新起点にする。直近の注目: SWE-bench Pro / Terminal-Bench 2.x への重心移行の定着 / OSWorld 2.0・GAIA2・τ³-bench のスコア推移)
 - `examples/` の実行確認と各サンプル README の動作確認日の更新(四半期ごと目安)

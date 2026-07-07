@@ -103,6 +103,7 @@ flowchart LR
 - [ツール権限設計とサンドボックス](tool-permissions-and-sandboxing.md) — 被害上限を決める権限の設計
 - [データ漏えい対策](data-exfiltration.md) — 三重奏と漏えい経路の各論
 - [ガードレール](guardrails.md) — 対策を実装する 3 層の枠組み
+- [エージェントのレッドチーミング](red-teaming-agents.md) — 脅威モデルを実際に攻撃して検証する演習
 - [ツール接続標準(MCP とエコシステム)](../03-implementation/mcp-and-tool-protocols.md) — サプライチェーン面
 - [インシデント対応](../05-operations/incident-response.md) — 攻撃を受けたときの停止と復旧
 

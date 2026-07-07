@@ -57,7 +57,8 @@ const SECTION_TITLES = {
   operations: '05. 運用',
   security: '06. セキュリティ',
   'case-studies': '07. ケーススタディ',
-  'coding-agents': '08. コーディングエージェント'
+  'coding-agents': '08. コーディングエージェント',
+  business: '09. ビジネス実務'
 }
 
 const warnings = []

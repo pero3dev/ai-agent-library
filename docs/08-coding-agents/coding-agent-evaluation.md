@@ -92,6 +92,7 @@ tags: ["coding-agents", "evaluation"]
 ## 関連トピック
 
 - [Agent 評価の基礎](../04-evaluation/agent-evaluation-basics.md) — 評価設計の一般原則
+- [エージェントベンチマークの全体像](../04-evaluation/agent-benchmarks-landscape.md) — コーディング以外も含む公開ベンチマークの地図と読み方
 - [回帰テストと CI 組み込み](../04-evaluation/regression-testing.md) — 評価セットの継続運用
 - [LLM-as-a-Judge](../04-evaluation/llm-as-a-judge.md) — 人手レビューの一部自動化に使う場合の注意
 - [バージョニングとモデル更新追従](../05-operations/versioning-and-model-updates.md) — 再評価が必要になる背景

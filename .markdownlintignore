@@ -1,5 +1,7 @@
 # research/ は執筆前調査メモ(docs 規約・lint の対象外。CODING-AGENTS-PLAN.md §13)
 research/
+# 依存(リポジトリ直下に lint ツールを入れた場合の残骸を含む)
+node_modules/
 # website の生成物・依存
 website/content/
 website/generated/

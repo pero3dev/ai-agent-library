@@ -19,3 +19,9 @@
 | [framework-selection.md](framework-selection.md) | フレームワーク選定ガイド |
 | [model-selection.md](model-selection.md) | モデル選定ガイド(判断軸・用途別の使い分け・ティア混在設計) |
 | [llm-landscape.md](llm-landscape.md) | 主要 LLM の全体像(プロバイダー別カタログ。鮮度リスク集約ページ) |
+| [rag-implementation-patterns.md](rag-implementation-patterns.md) | RAG 実装パターン(チャンキング・検索方式・リランキング・Agentic RAG・権限反映) |
+| [long-term-memory-implementation.md](long-term-memory-implementation.md) | 長期記憶の実装(抽出・保存・想起・忘却・プライバシー) |
+| [prompt-management.md](prompt-management.md) | プロンプト資産の管理とバージョニング(テンプレート化・変更フロー・実験の記録) |
+| [computer-use-implementation.md](computer-use-implementation.md) | ブラウザ・コンピュータ操作の実装(要素特定・待機と検証・安全策) |
+| [voice-agents.md](voice-agents.md) | 音声エージェントの実装(パイプライン vs speech-to-speech・会話制御・評価) |
+| [fine-tuning-and-distillation.md](fine-tuning-and-distillation.md) | ファインチューニングと蒸留(選ぶ前の判断・手法概観・データ準備・運用) |

@@ -109,6 +109,7 @@ flowchart TD
 - [Agent ループ](../01-concepts/agent-loop.md) — 記録対象の実行構造
 - [軌跡(trajectory)評価](../04-evaluation/trajectory-evaluation.md) — 同じトレースを評価に使う
 - [コスト管理](cost-management.md) — トークン・コスト計測の詳細
+- [フィードバックループの運用](feedback-loops.md) — 品質シグナルを検知で終わらせず改善に還流させる運用側
 - [インシデント対応](incident-response.md) — アラートの先の対応手順
 - [バージョニング・デプロイ・モデル更新追従](versioning-and-model-updates.md) — トレースに記録するバージョンの管理
 - [データ漏えい対策](../06-security/data-exfiltration.md) — ログ経由の情報漏えい対策

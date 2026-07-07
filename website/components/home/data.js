@@ -70,6 +70,17 @@ export const READER_ROUTES = [
       { title: '選定基準と使い分け', href: '/docs/coding-agents/coding-agent-selection', note: '制約で絞り、試用で決める' },
       { title: '権限とセキュリティ', href: '/docs/coding-agents/coding-agent-security', note: '導入前に必ず読む防御設計' }
     ]
+  },
+  {
+    key: 'G',
+    label: 'プロフェッショナル志向',
+    persona: '全領域を実務レベルに広げ、案件を推進する',
+    steps: [
+      { title: 'スキルマップで自己評価', href: '/docs/overview/skill-map', note: '8 領域の現在地を測り、重点領域を選ぶ' },
+      { title: '弱い領域のセクションへ', href: '/docs/overview/learning-roadmap', note: '各セクション README の順に読み進める' },
+      { title: 'ユースケース発見と要件定義', href: '/docs/business/usecase-discovery', note: '「何をやるか」を選び、成功基準を合意する' },
+      { title: 'PoC から本番への進め方', href: '/docs/business/poc-to-production', note: '関門・段階的リリース・撤退基準の設計' }
+    ]
   }
 ]
 

@@ -101,6 +101,7 @@ Agent ループでは履歴が 1 周ごとに増え続けます([Agent ループ
 ## 関連トピック
 
 - [Agent ループ](agent-loop.md) — 履歴が増える仕組みの根本
+- [長期記憶の実装](../03-implementation/long-term-memory-implementation.md) — 本記事の長期記憶層の実装編(抽出・保存・想起・忘却)
 - [RAG と Agent の関係・使い分け](rag-vs-agent.md) — 長期記憶の読み出し(検索)の設計
 - [プランニングと推論](planning-and-reasoning.md) — 計画を作業状態として持つ運用
 - [コンテキストエンジニアリング](../02-architecture/context-engineering.md) — コンテキスト全体の組み立ての設計論

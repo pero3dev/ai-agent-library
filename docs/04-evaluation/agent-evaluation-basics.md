@@ -115,6 +115,8 @@ flowchart LR
 - [LLM-as-a-Judge](llm-as-a-judge.md) — 開放的な出力の採点方法の詳細
 - [軌跡(trajectory)評価](trajectory-evaluation.md) — 途中経路の評価の詳細
 - [回帰テストと CI 組み込み](regression-testing.md) — 評価を継続的に回す仕組み
+- [オンライン評価と A/B テスト](online-evaluation-and-ab-testing.md) — 本番トラフィックで真の効果を確かめる評価
+- [エージェントベンチマークの全体像](agent-benchmarks-landscape.md) — 自社評価の外側にある公開ベンチマークの地図と読み方
 - [Agent ループ](../01-concepts/agent-loop.md) — 評価対象の実行構造
 - [可観測性とトレーシング](../05-operations/observability-and-tracing.md) — 本番側の観測との接続
 

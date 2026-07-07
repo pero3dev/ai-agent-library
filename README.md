@@ -32,6 +32,26 @@ ai-agent-library/
 ├── CODING-AGENTS-PLAN.md     # AI コーディングエージェント章(docs/08)の追加計画
 ├── EXPANSION-PLAN.md         # プロフェッショナル化拡張(docs/09 ほか 24 本)の追加計画
 ├── SUPPLEMENTARY-PLAN.md     # 拡張計画で除外した領域の別冊計画(LLM 基礎ほか)
+├── DEEP-DIVE-PLAN.md         # プロンプト・コンテキスト・ハーネス・ループ詳解(7 本)の追加計画
+├── LLM-INTERNALS-PLAN.md     # LLM 内部構造・学術編(新セクション 11、8 本)の追加計画
+├── SE-CODING-AGENTS-PLAN.md  # システムエンジニア向けコーディングエージェント活用(08 章 SE シリーズ、7 本)の追加計画
+├── MULTIMODAL-PLAN.md        # モダリティ・生成 AI 応用(新セクション 12、7 本)の追加計画
+├── DOMAIN-AGENTS-PLAN.md     # エージェント応用・ドメイン特化(新セクション 13、12 本)の追加計画
+├── DATA-KNOWLEDGE-PLAN.md    # データ・知識基盤(既存 03・05 章へ 6 本)の追加計画
+├── LLMOPS-PLAN.md            # モデル運用・インフラ LLMOps(既存 05・03 章へ 7 本)の追加計画
+├── TRUST-SECURITY-PLAN.md    # セキュリティ・信頼・法務(既存 06・09 章へ 8 本)の追加計画
+├── EVAL-QUALITY-PLAN.md      # 評価・品質の深掘り(既存 04 章へ 5 本)の追加計画
+├── UX-PRODUCT-PLAN.md        # UX・プロダクトデザイン(新セクション 14 ほか 6 本)の追加計画
+├── ORG-PROCESS-PLAN.md       # 組織・プロセス・人材(既存 09 章へ 5 本)の追加計画
+├── FOUNDATIONS-EXTENSION-PLAN.md  # 基礎・理論の拡張(既存 01・03・10・11 章へ 5 本)の追加計画
+├── ECOSYSTEM-PLAN.md         # 業界・エコシステム動向(既存 4 章へ 4 本)の追加計画
+├── CASES-EXAMPLES-PLAN.md    # ケーススタディ 3 本 + examples 5 件の拡充計画
+├── HUMAN-AI-PLAN.md          # 人と AI の協働・認知(新セクション 15、4 本)の追加計画
+├── RELIABILITY-PLAN.md       # AI 信頼性エンジニアリング(既存 05 章へ 3 本)の追加計画
+├── AGENT-INFRA-PLAN.md       # エージェント基盤技術詳解(既存 03 章へ 2 本)の追加計画
+├── AI-STRATEGY-PLAN.md       # AI 戦略・調達・持続性(既存 09・05 章へ 4 本)の追加計画
+├── MODEL-PROMPTING-PLAN.md   # 主要モデル特化プロンプティング(既存 03 章へ 4 本・鮮度管理型)の追加計画
+├── PRIORITY-MAP.md           # 未着手 18 計画(107 本)の推奨実施順(ウェーブ制)
 ├── WEBSITE-PLAN.md           # ドキュメントサイト(website/)の設計・進行状況
 ├── GLOSSARY.md               # 用語集(各ドキュメントへの横断インデックス)
 ├── templates/

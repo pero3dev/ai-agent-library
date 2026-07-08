@@ -1,6 +1,6 @@
 # RELIABILITY-PLAN — AI 信頼性エンジニアリング 追加計画
 
-> **ステータス: 設計案(2026-07-07 作成、ユーザーの選定に基づく。着手指示待ち)。**
+> **ステータス: 完了(2026-07-07 作成。2026-07-08 に Phase AX を完了 = ai-slo-design / chaos-engineering-for-ai / long-running-agents の 3 本 published)。**
 > 運用の残りギャップ — 品質の SLO 化・カオスエンジニアリング・常駐エージェントのライフサイクル — を SRE の語彙で埋める追加計画です。進捗の正本は着手後 [ROADMAP.md](ROADMAP.md) に置きます。
 
 ## 1. 位置づけとギャップ分析

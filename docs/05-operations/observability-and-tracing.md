@@ -114,6 +114,7 @@ flowchart TD
 - [バージョニング・デプロイ・モデル更新追従](versioning-and-model-updates.md) — トレースに記録するバージョンの管理
 - [データ漏えい対策](../06-security/data-exfiltration.md) — ログ経由の情報漏えい対策
 - [会話データの管理基盤](conversation-data-management.md) — 記録した会話データのライフサイクル管理(本記事の下流)
+- [AI 品質の SLO 設計](ai-slo-design.md) — 計測した指標を目標(SLI/SLO)として宣言・運用する
 
 ## 参考資料
 

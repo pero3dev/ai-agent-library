@@ -331,9 +331,19 @@
 | AL-1 | 公平性 + 日本語品質 | `04-evaluation/fairness-and-bias-evaluation.md`, `japanese-quality-evaluation.md` | 完了 |
 | AL-R | フェーズレビュー + 統合(agent-evaluation-basics・online-evaluation-and-ab-testing からの逆リンク・published 化・同期一式) | — | 完了 |
 
-## 未着手の拡張計画(残 14 計画)
+### Phase AX: AI 信頼性エンジニアリング — SLO・カオス・常駐(RELIABILITY)— ✅ 完了(2026-07-08)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)が完了しました。残る拡張計画は 14 本(計 85 本 + examples 5 件、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+設計は [RELIABILITY-PLAN.md](RELIABILITY-PLAN.md)。SRE の方法論を AI 固有の面に適用するため執筆前調査は不要(EVAL-QUALITY の evaluation-environments を注入演習の実行環境として参照)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| AX-1 | SLO 設計 + カオスエンジニアリング | `05-operations/ai-slo-design.md`, `chaos-engineering-for-ai.md` | 完了 |
+| AX-2 | 常駐エージェントのライフサイクル | `long-running-agents.md` | 完了 |
+| AX-R | フェーズレビュー(observability-and-tracing・online-evaluation-and-ab-testing・incident-response・error-handling-and-retries・deployment-and-scaling・async-and-durable-agents・long-term-memory-implementation からの逆リンク・published 化・同期一式) | — | 完了 |
+
+## 未着手の拡張計画(残 13 計画)
+
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)が完了しました。残る拡張計画は 13 本(計 82 本 + examples 5 件、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 

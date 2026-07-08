@@ -125,6 +125,7 @@ LLM プロバイダーの障害・遅延は起きる前提で設計します。
 - [レイテンシ最適化](latency-optimization.md) — 同期構成を維持したい場合の応答時間短縮
 - [インシデント対応](incident-response.md) — 縮退・停止手段との接続
 - [PoC から本番への進め方](../09-business/poc-to-production.md) — 本記事の内容が「本番化の関門」になる位置づけ
+- [AI システムのカオスエンジニアリング](chaos-engineering-for-ai.md) — フォールバック多重化・縮退を障害注入で検証する
 
 ## 参考資料
 

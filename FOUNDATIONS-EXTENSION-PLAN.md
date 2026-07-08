@@ -1,7 +1,7 @@
 # FOUNDATIONS-EXTENSION-PLAN — 基礎・理論の拡張 追加計画
 
-> **ステータス: 実施中(2026-07-07 作成。2026-07-08 に Phase AQ 完了 = reasoning-models(10)/ slm-strategy(03)の 2 本 published。残りは Phase AR = 世界モデル・AI の歴史・マルチモーダル内部)。**
-> 既存の基礎層(01・10 章)を拡張する 5 本 — 推論モデル・SLM 戦略・世界モデル・AI の歴史・マルチモーダルモデルの内部 — の追加計画です。進捗の正本は着手後 [ROADMAP.md](ROADMAP.md) に置きます。
+> **ステータス: 完了(2026-07-07 作成。2026-07-08 に Phase AQ = reasoning-models(10)/ slm-strategy(03)、Phase AR = world-models-overview(01)/ ai-history-and-lineage(01)/ multimodal-models(10、#5 縮小案を採用)の計 5 本すべて published)。**
+> 既存の基礎層(01・10 章)を拡張する 5 本 — 推論モデル・SLM 戦略・世界モデル・AI の歴史・マルチモーダルモデルの内部 — の追加計画です。進捗の正本は [ROADMAP.md](ROADMAP.md) に置きます。
 
 ## 1. 位置づけとギャップ分析
 

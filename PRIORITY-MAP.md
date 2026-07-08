@@ -1,6 +1,6 @@
 # PRIORITY-MAP — 未着手計画の推奨実施順
 
-> **ステータス: 運用中(2026-07-07 作成・2026-07-08 更新)。** 拡張計画のうち DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION 前半(Phase AQ・2 本)が完了し、**第 2 波(基盤の深掘り)が完了**。残る拡張計画 13 本(計 80 本 + examples 5 件、次は第 3 波)の推奨実施順です。フェーズの完了・計画の変更時に本ファイルも同じセッションで更新します(進捗の正本は [ROADMAP.md](ROADMAP.md)、各計画の内容は各 PLAN ファイルが正本)。
+> **ステータス: 運用中(2026-07-07 作成・2026-07-08 更新)。** 拡張計画のうち DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)が完了し、**第 2 波(基盤の深掘り)が完了**。残る拡張計画 12 本(計 77 本 + examples 5 件、次は第 3 波)の推奨実施順です。フェーズの完了・計画の変更時に本ファイルも同じセッションで更新します(進捗の正本は [ROADMAP.md](ROADMAP.md)、各計画の内容は各 PLAN ファイルが正本)。
 
 ## 1. 評価軸
 
@@ -58,7 +58,7 @@
 | フェーズ | 計画 | 本数 | 根拠 |
 | --- | --- | --- | --- |
 | S → T → U | [LLM-INTERNALS](LLM-INTERNALS-PLAN.md)(学術編・新 11 章) | 8 | 独立性が高くいつでも実施可。数式レンダリング検証(S-0)を含む大型。読者層が相対的に狭いため波 5 |
-| AR | [FOUNDATIONS-EXTENSION](FOUNDATIONS-EXTENSION-PLAN.md) 後半(世界モデル・歴史・MM 内部) | 3 | #5(MM 内部)は LLM-INTERNALS 採用後。physical-ai メモ再利用 |
+| ✅ AR 完了(2026-07-08) | [FOUNDATIONS-EXTENSION](FOUNDATIONS-EXTENSION-PLAN.md) 後半(世界モデル・歴史・MM 内部) | 3(完了) | #5(MM 内部)は LLM-INTERNALS 未採用のため計画の縮小案(数式なし・10 章)で対応。physical-ai メモ再利用。**これで FOUNDATIONS-EXTENSION 全 5 本が完了** |
 | AW | [HUMAN-AI](HUMAN-AI-PLAN.md)(新 15 章) | 4 | ユニークな差別化だが緊急性は低い |
 | AS → AT | [ECOSYSTEM](ECOSYSTEM-PLAN.md) | 4 | **鮮度負担 +2 が最重**(業界マップ・OSS)。research-literacy(AT-1 内)は安定・価値○のため単独繰り上げ可 |
 

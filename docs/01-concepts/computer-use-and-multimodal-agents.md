@@ -93,6 +93,7 @@ tags: ["computer-use", "multimodal"]
 - [ツール権限設計とサンドボックス](../06-security/tool-permissions-and-sandboxing.md) — サンドボックス設計の詳細
 - [プロンプトインジェクション](../06-security/prompt-injection.md) — 画面経由の間接インジェクション
 - [フィジカル AI とロボティクスの概観](physical-ai-overview.md) — 「観測して行動する」ループの連続線上にある物理世界側
+- [マルチモーダルモデルの仕組み(数式なしの直感)](../10-llm-foundations/multimodal-models.md) — 画面・画像を内部でどう扱うか(コスト・精度の崖の由来)
 
 ## 参考資料
 

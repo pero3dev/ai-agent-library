@@ -17,5 +17,6 @@
 | [llm-training-pipeline.md](llm-training-pipeline.md) | LLM の学習パイプライン(事前学習 → SFT → 選好調整と、幻覚・迎合の由来) |
 | [capabilities-and-limits.md](capabilities-and-limits.md) | LLM の能力と限界の由来(得意・不得意の構造とツールによる補完) |
 | [reasoning-models.md](reasoning-models.md) | 推論モデル(考える時間を使う LLM。仕組みの直感・向き不向き・思考量制御・overthinking・評価) |
+| [multimodal-models.md](multimodal-models.md) | マルチモーダルモデルの仕組み(数式なしの直感。表現ベクトル化・パッチ・統一系列・トークン経済) |
 
-読む順序はこの表の並びを推奨します(生成の仕組み → トークン → 注意機構 → 学習 → 能力 → 推論モデルの順で積み上がります)。
+読む順序はこの表の並びを推奨します(生成の仕組み → トークン → 注意機構 → 学習 → 能力 → 推論モデルの順で積み上がります)。マルチモーダルは注意機構(統一系列)を前提とするため、上の 6 本のあとに読むのが自然です。

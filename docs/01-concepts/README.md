@@ -20,3 +20,5 @@
 | [single-vs-multi-agent.md](single-vs-multi-agent.md) | シングルエージェントとマルチエージェント |
 | [computer-use-and-multimodal-agents.md](computer-use-and-multimodal-agents.md) | コンピュータ操作型・マルチモーダル Agent(画面観測ループの特性とリスク) |
 | [physical-ai-overview.md](physical-ai-overview.md) | フィジカル AI とロボティクスの概観(ソフトウェア Agent との共通点と本質的な違い・VLA) |
+| [world-models-overview.md](world-models-overview.md) | 世界モデルの概観(生成的シミュレーション・行動結果予測・訓練評価インフラの 3 用法) |
+| [ai-history-and-lineage.md](ai-history-and-lineage.md) | AI の歴史と系譜(深層学習 → Transformer → LLM → Agent を転換点で辿る) |

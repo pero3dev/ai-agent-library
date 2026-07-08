@@ -352,9 +352,19 @@
 
 残りは Phase AR(世界モデル + AI の歴史 + マルチモーダル内部)。**これで PRIORITY-MAP 第 2 波(基盤の深掘り)が完了。**
 
-## 未着手の拡張計画(残 13 計画)
+### Phase AR: 基礎・理論の拡張 後半 — 世界モデル・AI の歴史・マルチモーダル(FOUNDATIONS-EXTENSION 第 2 弾)— ✅ 完了(2026-07-08)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION 前半(Phase AQ・2 本)が完了し、PRIORITY-MAP 第 2 波が完了しました。残る拡張計画は 13 本(うち FOUNDATIONS-EXTENSION は AR の 3 本が残り。計 80 本 + examples 5 件、フェーズ記号 AR・S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は第 3 波)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+設計は [FOUNDATIONS-EXTENSION-PLAN.md](FOUNDATIONS-EXTENSION-PLAN.md)。執筆前調査は不要(世界モデルは `research/supplementary/physical-ai.md` を再利用)。#5 マルチモーダルは LLM-INTERNALS(11 章)が未採用のため、計画の**縮小案**どおり数式なしの直感版 `multimodal-models.md` を 10 章に配置。**これで FOUNDATIONS-EXTENSION 計画(全 5 本)が完了。**
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| AR-1 | 世界モデル + AI の歴史 | `01-concepts/world-models-overview.md`, `01-concepts/ai-history-and-lineage.md` | 完了 |
+| AR-2 | マルチモーダルモデルの仕組み(数式なし直感版・10 章) | `10-llm-foundations/multimodal-models.md` | 完了 |
+| AR-R | フェーズレビュー(physical-ai-overview・what-is-an-ai-agent・computer-use-and-multimodal-agents・attention-and-context・how-llms-generate-text からの逆リンク・published 化・同期一式) | — | 完了 |
+
+## 未着手の拡張計画(残 12 計画)
+
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)が完了し、PRIORITY-MAP 第 2 波が完了しました。残る拡張計画は 12 本(計 77 本 + examples 5 件、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は第 3 波)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 

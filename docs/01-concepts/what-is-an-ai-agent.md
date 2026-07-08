@@ -124,6 +124,7 @@ Agent という方式を採用する前の確認:
 ## 関連トピック
 
 - [AI Agent 学習ロードマップ](../00-overview/learning-roadmap.md) — 本記事の次に読む記事の選び方
+- [AI の歴史と系譜(深層学習から Agent まで)](ai-history-and-lineage.md) — 「なぜ今エージェントなのか」を系譜でつかむ背景記事
 - [Agent ループ](agent-loop.md) — 「観測 → 思考 → 行動」ループの動作原理
 - [ツール使用](tool-use.md) — ツール使用の仕組みと設計
 - [Workflow 型 vs Agent 型の使い分け](../02-architecture/workflow-vs-agent.md) — 本記事の設計判断をトレードオフ表で詳細化

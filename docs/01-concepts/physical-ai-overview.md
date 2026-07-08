@@ -95,6 +95,7 @@ tags: ["physical-ai", "multimodal", "ai-agent"]
 ## 関連トピック
 
 - [コンピュータ操作型・マルチモーダル Agent](computer-use-and-multimodal-agents.md) — 最も近い隣接領域(連続線上の 1 つ手前)
+- [世界モデルの概観](world-models-overview.md) — 本記事のデータ「製造」・シミュレータの文脈を一般化した概念整理
 - [AI Agent とは何か](what-is-an-ai-agent.md) — 共通の骨格(観測・思考・行動)
 - [オーケストレーションパターン](../02-architecture/orchestration-patterns.md) — 計画層 + 実行層の分離というソフトウェア側の同型
 - [ガードレール](../06-security/guardrails.md) — 「モデルの外側で強制する」安全思想の共通根

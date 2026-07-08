@@ -111,6 +111,7 @@ LLM の非決定性には 2 つの層があります。
 - [ストリーミングと Agent の UX 実装パターン](../03-implementation/streaming-and-agent-ux.md) — 逐次生成を UX に活かす側
 - [レイテンシ最適化](../05-operations/latency-optimization.md) — 出力長比例の構造への対処
 - [プランニングと推論](../01-concepts/planning-and-reasoning.md) — 「考察を書かせると精度が変わる」の実務側
+- [マルチモーダルモデルの仕組み(数式なしの直感)](multimodal-models.md) — 画像・音声入力も次トークン予測の枠組みに載る応用
 
 ## 参考資料
 

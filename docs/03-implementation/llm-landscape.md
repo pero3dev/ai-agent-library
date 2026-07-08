@@ -138,6 +138,7 @@ tags: ["model-selection"]
 - [コスト管理](../05-operations/cost-management.md) — 料金構造(キャッシュ・バッチ)の原理
 - [バージョニングとモデル更新追従](../05-operations/versioning-and-model-updates.md) — 退役・世代交代への追従運用
 - [コーディングエージェントのコスト最適化](../08-coding-agents/coding-agent-cost-optimization.md) — 「使う側」のモデル使い分け
+- [Claude](claude-prompting.md) / [OpenAI(GPT 系)](openai-prompting.md) / [Gemini](gemini-prompting.md) 特化プロンプティングガイド — 各モデルへのプロンプトの書き方
 
 ## 参考資料
 

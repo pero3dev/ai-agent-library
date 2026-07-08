@@ -26,3 +26,15 @@
 | [voice-agents.md](voice-agents.md) | 音声エージェントの実装(パイプライン vs speech-to-speech・会話制御・評価) |
 | [fine-tuning-and-distillation.md](fine-tuning-and-distillation.md) | ファインチューニングと蒸留(選ぶ前の判断・手法概観・データ準備・運用) |
 | [prompt-engineering-fundamentals.md](prompt-engineering-fundamentals.md) | プロンプトエンジニアリングの基礎技法(汎用技法カタログ。Agent 特化記事の前提) |
+| [prompt-engineering-patterns.md](prompt-engineering-patterns.md) | プロンプトエンジニアリングの上級パターン(構造化・例示・思考・出力・長文・頑健性の詳解) |
+| [prompt-optimization.md](prompt-optimization.md) | プロンプト最適化(評価駆動の改善サイクル・失敗モード別対策・自動最適化の原理) |
+| [loop-feedback-and-verification.md](loop-feedback-and-verification.md) | ループ内フィードバックと検証器の設計(ツール結果整形・エラーメッセージ設計・検証器の 3 種と配置・自己修正・検証改竄対策) |
+| [claude-prompting.md](claude-prompting.md) | Claude 特化プロンプティングガイド(XML・アダプティブ思考/effort・prefill 移行・長文配置・世代差。鮮度管理型) |
+| [openai-prompting.md](openai-prompting.md) | OpenAI(GPT 系)特化プロンプティングガイド(指示階層・reasoning effort・Structured Outputs・世代差。鮮度管理型) |
+| [gemini-prompting.md](gemini-prompting.md) | Gemini 特化プロンプティングガイド(few-shot 重視・thinking_level・サンプリング・マルチモーダル・世代差。鮮度管理型) |
+| [cross-model-prompting.md](cross-model-prompting.md) | モデル間の違いと移行(横断比較。相違の構造マップ・移行チェックリスト・マルチプロバイダー設計。鮮度管理型) |
+| [embeddings.md](embeddings.md) | 埋め込み(embeddings)の選定と運用(類似度の意味・選定軸・次元・非対称検索・モデル更新=全再インデックス) |
+| [vector-databases.md](vector-databases.md) | ベクトルデータベースの選定と運用(類型・ANN・フィルタ/権限反映の対応力・スケール・小規模の現実解) |
+| [data-preprocessing-for-llm.md](data-preprocessing-for-llm.md) | LLM 向けデータ前処理パイプライン(抽出・クリーニング・重複排除・メタデータ設計・増分更新) |
+| [graph-rag-and-knowledge-graphs.md](graph-rag-and-knowledge-graphs.md) | GraphRAG とナレッジグラフ(グラフ型知識表現の使いどころ・構築の限界・型・「本当にグラフが要るか」の判断) |
+| [synthetic-data-for-training.md](synthetic-data-for-training.md) | 学習用合成データの実務(用途の型・生成・品質管理・モデル崩壊・権利・評価データとの分離) |

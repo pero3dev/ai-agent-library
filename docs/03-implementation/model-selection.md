@@ -131,6 +131,7 @@ flowchart TD
 - [コスト管理](../05-operations/cost-management.md) — トークン課金・キャッシュの原理
 - [バージョニングとモデル更新追従](../05-operations/versioning-and-model-updates.md) — ピン止めと更新運用
 - [コーディングエージェントのコスト最適化](../08-coding-agents/coding-agent-cost-optimization.md) — 「使う側」でのモデル使い分け
+- [モデル間の違いと移行(横断比較)](cross-model-prompting.md) — 選んだ/乗り換えるモデルへのプロンプトの書き方(各社の特化ガイドへの入口)
 
 ## 参考資料
 

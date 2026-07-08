@@ -117,6 +117,7 @@ flowchart LR
 - [長期記憶の実装](../03-implementation/long-term-memory-implementation.md) — 削除要求が波及するもう 1 つの保存層
 - [マルチテナント設計](../02-architecture/multi-tenancy-and-isolation.md) — テナント境界でのログ・削除の扱い
 - [データ漏えい対策](../06-security/data-exfiltration.md) — 外部送信・持ち出し経路の防御
+- [AI のためのデータガバナンス](data-governance-for-ai.md) — 「AI に食わせる知識源データ」側の管理(本記事は「AI が生む会話ログ」側。対の記事)
 
 ## 参考資料
 

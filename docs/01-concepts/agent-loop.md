@@ -133,6 +133,8 @@ def run_agent(task: str) -> str:
 - [メモリと状態管理](memory-and-state.md) — 履歴の増加への対処
 - [プランニングと推論](planning-and-reasoning.md) — ループ内の「思考」の設計
 - [エラー処理・リトライ・フォールバック設計](../02-architecture/error-handling-and-retries.md) — リトライ・フォールバックの設計
+- [ハーネスエンジニアリング](../02-architecture/harness-engineering.md) — ループを含むモデル外側の全体を設計対象にする発展
+- [ループエンジニアリング](../02-architecture/loop-engineering.md) — 型・停止条件の詳解・迷走の検知と介入など制御の詳細
 
 ## 参考資料
 

@@ -93,6 +93,8 @@ Agent ループでは、コンテキストは静的な文書ではなく**毎周
 - [Agent 向けプロンプト設計](../03-implementation/agent-prompt-design.md) — システムプロンプト(静的部分)の書き方
 - [コスト管理](../05-operations/cost-management.md) — プロンプトキャッシュとコストの実務
 - [注意機構とコンテキストウィンドウの仕組み](../10-llm-foundations/attention-and-context.md) — 本記事の原則(厳選・前方固定)の理論的裏付け
+- [コンテキスト設計の実践パターン](context-engineering-patterns.md) — 本記事の原則を具体の設計(レイアウト・予算・取得・計測)に落とす
+- [コンテキストの圧縮と隔離](context-compaction-and-isolation.md) — 増え続ける動的部分(履歴)を健全に保つ手段
 
 ## 参考資料
 

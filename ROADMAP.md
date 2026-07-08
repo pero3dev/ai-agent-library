@@ -253,9 +253,68 @@
 | L-2 | 金融・医療の考慮点 | —(縮小決定により対象外) | 対象外 |
 | L-R | フェーズレビュー + 全体統合(learning-roadmap・依存マップの最終確認、逆リンク、published 化・README / GLOSSARY / website 反映確認) | — | 完了 |
 
-## 未着手の拡張計画(18 本)
+### Phase M: 詳解拡張 — プロンプトエンジニアリング(DEEP-DIVE 第 1 弾)— ✅ 完了(2026-07-07)
 
-2026-07-07 時点で、追加の拡張計画 18 本(計 107 本 + examples 5 件、フェーズ記号 M〜BA)が設計済み・未着手です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+設計は [DEEP-DIVE-PLAN.md](DEEP-DIVE-PLAN.md)(M〜O・7 本)。原理が安定した領域のため執筆前調査は不要(自動最適化のフレームワーク動向のみ TODO 前提)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| M-1 | プロンプト上級パターン + プロンプト最適化 | `03-implementation/prompt-engineering-patterns.md`, `prompt-optimization.md` | 完了 |
+| M-R | フェーズレビュー + 逆リンク(fundamentals・agent-prompt-design)(published 化・README / GLOSSARY / website 反映確認) | — | 完了 |
+
+### Phase N: 詳解拡張 — コンテキストエンジニアリング(DEEP-DIVE 第 2 弾)— ✅ 完了(2026-07-07)
+
+設計は [DEEP-DIVE-PLAN.md](DEEP-DIVE-PLAN.md)。原則が安定した領域のため執筆前調査は不要。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| N-1 | コンテキスト実践パターン + 圧縮と隔離 | `02-architecture/context-engineering-patterns.md`, `context-compaction-and-isolation.md` | 完了 |
+| N-R | フェーズレビュー + 逆リンク(context-engineering・memory-and-state・coding-agent-cost-optimization)(published 化・README / GLOSSARY / website 反映確認) | — | 完了 |
+
+### Phase O: 詳解拡張 — ハーネス・ループエンジニアリング(DEEP-DIVE 第 3 弾)— ✅ 完了(2026-07-08)
+
+設計は [DEEP-DIVE-PLAN.md](DEEP-DIVE-PLAN.md)。原理が安定した領域のため執筆前調査は不要(ハーネス依存の実証は `research/professional/benchmarks.md` を根拠に再利用)。これで DEEP-DIVE 計画の全 7 本(M〜O)が完了。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| O-1 | ハーネスエンジニアリング + ループエンジニアリング | `02-architecture/harness-engineering.md`, `loop-engineering.md` | 完了 |
+| O-2 | ループ内フィードバックと検証器 | `03-implementation/loop-feedback-and-verification.md` | 完了 |
+| O-R | フェーズレビュー + 三層の相互リンク総点検(agent-loop・planning-and-reasoning・framework-selection・tool-definition-design・agent-benchmarks-landscape からの逆リンク、published 化・README / GLOSSARY / website 反映確認) | — | 完了 |
+
+### Phase BA: モデル特化プロンプティング(MODEL-PROMPTING)— ✅ 完了(2026-07-08)
+
+設計は [MODEL-PROMPTING-PLAN.md](MODEL-PROMPTING-PLAN.md)。全 4 本が鮮度管理型・調査必須。執筆前に PE-R1〜R3(Anthropic / OpenAI / Google の公式プロンプト推奨)を実施(記録: `research/prompting/`、調査日 2026-07-08)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| BA-1 | Claude 特化ガイド(PE-R1 反映) | `03-implementation/claude-prompting.md` | 完了 |
+| BA-2 | OpenAI + Gemini 特化ガイド(PE-R2・R3 反映) | `openai-prompting.md`, `gemini-prompting.md` | 完了 |
+| BA-3 | 横断比較・移行(3 本完成後) | `cross-model-prompting.md` | 完了 |
+| BA-R | フェーズレビュー(3 本の骨格一貫性・fundamentals / patterns / agent-prompt-design / llm-landscape / model-selection / versioning / prompt-management からの逆リンク・published 化・定期メンテナンス統合) | — | 完了 |
+
+### Phase AD: データ・知識基盤 — 埋め込み・ベクトル DB・前処理(DATA-KNOWLEDGE 第 1 弾)— ✅ 完了(2026-07-08)
+
+設計は [DATA-KNOWLEDGE-PLAN.md](DATA-KNOWLEDGE-PLAN.md)。原則が安定した領域のため執筆前調査は不要(製品名は本文に置かず、類型・選定軸で記述)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| AD-1 | 埋め込み + ベクトル DB | `03-implementation/embeddings.md`, `vector-databases.md` | 完了 |
+| AD-2 | 前処理パイプライン | `data-preprocessing-for-llm.md` | 完了 |
+| AD-R | フェーズレビュー(rag-implementation-patterns・long-term-memory-implementation・multi-tenancy-and-isolation・case-study-knowledge-agent からの逆リンク・published 化・同期一式) | — | 完了 |
+
+### Phase AE: データ・知識基盤 — GraphRAG・合成データ・データガバナンス(DATA-KNOWLEDGE 第 2 弾)— ✅ 完了(2026-07-08)
+
+設計は [DATA-KNOWLEDGE-PLAN.md](DATA-KNOWLEDGE-PLAN.md)。原則が安定した領域のため執筆前調査は不要(教師モデル出力の利用条件のみ TODO 前提)。これで DATA-KNOWLEDGE 計画の全 6 本(AD + AE)が完了。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| AE-1 | GraphRAG + 学習用合成データ | `03-implementation/graph-rag-and-knowledge-graphs.md`, `synthetic-data-for-training.md` | 完了 |
+| AE-2 | データガバナンス | `05-operations/data-governance-for-ai.md` | 完了 |
+| AE-R | フェーズレビュー + 統合(evaluation-datasets・fine-tuning-and-distillation・rag-implementation-patterns・case-study-knowledge-agent・conversation-data-management・compliance-and-governance からの逆リンク・published 化・同期一式) | — | 完了 |
+
+## 未着手の拡張計画(残 15 計画)
+
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)が完了しました。残る拡張計画は 15 本(計 90 本 + examples 5 件、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 
@@ -270,7 +329,7 @@ CLAUDE.md の執筆ルールと templates/doc-template.md に従い、
 - `TODO(要確認)` の全文検索 → 棚卸し(四半期ごと目安)
 - モデル・フレームワーク情報の鮮度確認(front matter の `last_updated` が 6 か月以上前のものを優先)
 - **08-coding-agents のツール情報の定点観測**(各ページの「変わりやすい項目」と比較表。製品名・プラン・学習ポリシーの変化が速いため四半期ごと必須。`research/coding-agents/` の調査メモを更新起点にする)
-- **モデルガイド(model-selection / llm-landscape)の定点観測**(モデル名・価格帯・退役日程。四半期ごと必須。`research/models/` の調査メモを更新起点にする。直近の注目: Sonnet 5 導入価格終了 2026-09 / Gemini 2.5 系終了 2026-10 / OpenAI o 系退役 2026-12)
+- **モデルガイド(model-selection / llm-landscape)+ モデル特化プロンプティング(claude / openai / gemini / cross-model-prompting)の定点観測**(モデル名・価格帯・退役日程・各社の思考制御/構造化出力/prefill などプロンプト仕様。四半期ごと必須。`research/models/` と `research/prompting/` の調査メモを更新起点にする。直近の注目: Sonnet 5 導入価格終了 2026-09 / Gemini 2.5 系終了 2026-10 / OpenAI o 系退役 2026-12 / OpenAI `v1/prompts` 停止 2026-11-30)
 - **エージェント認証の標準動向の定点観測**(`06-security/agent-identity-and-auth.md` の「変わりやすい項目」。四半期ごと。`research/professional/agent-identity.md` を更新起点にする。直近の注目: OAuth 2.1 の IESG 提出予定 2026-12 / MCP 認可仕様の次期リビジョン)
 - **規制動向の定点観測**(`06-security/compliance-and-governance.md` の「変わりやすい項目」。四半期ごと。`research/professional/compliance.md` を更新起点にする。直近の注目: EU omnibus 官報公布 / EU 透明性義務 2026-08-02 適用 / 日本の個情法改正案の成立 / California SB 942 系 2026-08-02 施行)
 - **音声 API・FT 提供状況の定点観測**(`03-implementation/voice-agents.md` と `fine-tuning-and-distillation.md` の TODO・変わりやすい項目。四半期ごと。`research/professional/voice-agents.md`, `fine-tuning.md` を更新起点にする。直近の注目: OpenAI FT プラットフォーム縮小の帰趨 / Gemini Live の GA 化)

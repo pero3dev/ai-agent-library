@@ -150,6 +150,7 @@ flowchart LR
 - [プロンプト資産の管理とバージョニング](../03-implementation/prompt-management.md) — テナント設定を資産として扱う基盤
 - [コスト管理](../05-operations/cost-management.md) — コスト構造とメータリングの技術面
 - [コンプライアンスとガバナンス](../06-security/compliance-and-governance.md) — データ所在地・削除義務など分離要求の出どころ
+- [ベクトルデータベースの選定と運用](../03-implementation/vector-databases.md) — ベクトルインデックスのテナント分離の実装
 
 ## 参考資料
 

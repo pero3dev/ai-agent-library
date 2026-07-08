@@ -1,6 +1,6 @@
 # DATA-KNOWLEDGE-PLAN — データ・知識基盤 追加計画
 
-> **ステータス: 設計案(2026-07-07 作成、ユーザーの選定に基づく。着手指示待ち)。**
+> **ステータス: 完了(2026-07-07 作成。2026-07-08 に Phase AD(embeddings / vector-databases / data-preprocessing-for-llm)と Phase AE(graph-rag-and-knowledge-graphs / synthetic-data-for-training / data-governance-for-ai)を完了 = 全 6 本 published)。**
 > RAG・記憶・学習の品質を下から決める**データ・知識基盤**(埋め込み・ベクトル DB・ナレッジグラフ・前処理・合成データ・データガバナンス)の追加計画です。進捗の正本は着手後 [ROADMAP.md](ROADMAP.md) に置きます。
 
 ## 1. 位置づけとギャップ分析

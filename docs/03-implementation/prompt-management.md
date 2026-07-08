@@ -113,6 +113,7 @@ flowchart LR
 - [回帰テストと CI 組み込み](../04-evaluation/regression-testing.md) — 変更フローのゲート
 - [評価データセットの構築と保守](../04-evaluation/evaluation-datasets.md) — 開発セットと判定セットの分割
 - [コスト管理](../05-operations/cost-management.md) — 固定部分の分離とプロンプトキャッシュ効率
+- [モデル間の違いと移行(横断比較)](cross-model-prompting.md) — モデル別プロンプトバリアントの管理
 
 ## 参考資料
 

@@ -100,6 +100,8 @@ tags: ["rag", "retrieval", "data-exfiltration"]
 - [フィードバックループの運用](../05-operations/feedback-loops.md) — 報告を文書改善へ還流させる仕組み
 - [ケーススタディ: カスタマーサポート Agent](case-study-customer-support-agent.md) — 案件推進に重心を置いた対の事例
 - [ケーススタディ: 経費精算アシスタントの段階的 Agent 化](case-study-expense-agent.md) — 技術構成の育て方に重心を置いた対の事例
+- [LLM 向けデータ前処理パイプライン](../03-implementation/data-preprocessing-for-llm.md) — 鮮度管理・派生データ権限・メタデータ設計の技術側
+- [AI のためのデータガバナンス](../05-operations/data-governance-for-ai.md) — 知識源の品質を組織で担保する仕組み(本事例の一般化)
 
 ## 参考資料
 

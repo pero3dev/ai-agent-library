@@ -125,6 +125,7 @@ flowchart LR
 - [コンテキストエンジニアリング](../02-architecture/context-engineering.md) — 常時注入する記憶とコンテキスト予算の設計
 - [データ漏えい対策](../06-security/data-exfiltration.md) — 記憶ストア経由の漏えい経路と分離
 - [可観測性とトレーシング](../05-operations/observability-and-tracing.md) — どの記憶が注入されたかの記録
+- [埋め込み(embeddings)の選定と運用](embeddings.md) — 記憶の想起に使うベクトル検索の埋め込み層
 
 ## 参考資料
 

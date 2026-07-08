@@ -121,6 +121,7 @@ flowchart TD
 - [評価データセットの構築と保守](evaluation-datasets.md) — 自社版ベンチマークの作り方(汚染防止の考え方は自社評価にも適用できます)
 - [モデル選定ガイド](../03-implementation/model-selection.md) — ベンチマークを選定判断に位置づける側
 - [コーディングエージェントの評価](../08-coding-agents/coding-agent-evaluation.md) — ツール製品選定の文脈でのベンチマークの読み方
+- [ハーネスエンジニアリング](../02-architecture/harness-engineering.md) — ハーネス依存という読み方を「設計側」から扱う記事
 
 ## 参考資料
 

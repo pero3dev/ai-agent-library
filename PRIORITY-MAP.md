@@ -1,6 +1,6 @@
 # PRIORITY-MAP — 未着手計画の推奨実施順
 
-> **ステータス: 運用中(2026-07-07 作成)。** 未着手の拡張計画 18 本(計 107 本 + examples 5 件)の推奨実施順です。フェーズの完了・計画の変更時に本ファイルも同じセッションで更新します(進捗の正本は [ROADMAP.md](ROADMAP.md)、各計画の内容は各 PLAN ファイルが正本)。
+> **ステータス: 運用中(2026-07-07 作成・2026-07-08 更新)。** 拡張計画のうち DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)が完了し、残る拡張計画 15 本(計 90 本 + examples 5 件)の推奨実施順です。フェーズの完了・計画の変更時に本ファイルも同じセッションで更新します(進捗の正本は [ROADMAP.md](ROADMAP.md)、各計画の内容は各 PLAN ファイルが正本)。
 
 ## 1. 評価軸
 
@@ -21,14 +21,14 @@
 
 | フェーズ | 計画 | 本数 | 根拠 |
 | --- | --- | --- | --- |
-| M → N → O | [DEEP-DIVE](DEEP-DIVE-PLAN.md)(プロンプト/コンテキスト/ハーネス/ループ) | 7 | 価値◎・調査ゼロ・全計画の分担参照先になる中核。三層の内側から |
-| BA | [MODEL-PROMPTING](MODEL-PROMPTING-PLAN.md)(モデル特化ガイド) | 4 | 価値◎(具体需要)。M(プロンプト詳解)の直後が理想。調査 3 件必須・鮮度負担 +4 だが需要が上回る |
+| ✅ M・N・O 完了(2026-07-08) | [DEEP-DIVE](DEEP-DIVE-PLAN.md)(プロンプト/コンテキスト/ハーネス/ループ) | 7(完了) | 価値◎・調査ゼロ・全計画の分担参照先になる中核。三層の内側から |
+| ✅ BA 完了(2026-07-08) | [MODEL-PROMPTING](MODEL-PROMPTING-PLAN.md)(モデル特化ガイド) | 4(完了) | 価値◎(具体需要)。PE-R1〜R3 の調査を `research/prompting/` に記録。鮮度負担 +4 は定点観測へ統合済み |
 
 ### 第 2 波: 基盤の深掘り(調査ほぼゼロ・既存章の直下)
 
 | フェーズ | 計画 | 本数 | 根拠 |
 | --- | --- | --- | --- |
-| AD → AE | [DATA-KNOWLEDGE](DATA-KNOWLEDGE-PLAN.md)(埋め込み・ベクトル DB ほか) | 6 | 価値◎(RAG 下層)・調査ゼロ |
+| ✅ AD・AE 完了(2026-07-08) | [DATA-KNOWLEDGE](DATA-KNOWLEDGE-PLAN.md)(埋め込み・ベクトル DB ほか) | 6(完了) | 価値◎(RAG 下層)・調査ゼロ。AD=embeddings/vector-databases/data-preprocessing、AE=graph-rag/synthetic-data/data-governance |
 | AK → AL | [EVAL-QUALITY](EVAL-QUALITY-PLAN.md)(評価環境・シミュレータほか) | 5 | 価値○・調査ゼロ。**benchmarks 調査メモ(2026-07)が新しいうちに書くと楽** |
 | AX | [RELIABILITY](RELIABILITY-PLAN.md)(SLO・カオス・常駐) | 3 | 価値○・調査ゼロ。AK の評価環境を参照するため EVAL の後が滑らか |
 | AQ | [FOUNDATIONS-EXTENSION](FOUNDATIONS-EXTENSION-PLAN.md) 前半(推論モデル・SLM) | 2 | **reasoning-models は散在言及の正本化で、早いほど他記事のリンク先として効く** |

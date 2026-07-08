@@ -105,6 +105,7 @@ Agent ループでは履歴が 1 周ごとに増え続けます([Agent ループ
 - [RAG と Agent の関係・使い分け](rag-vs-agent.md) — 長期記憶の読み出し(検索)の設計
 - [プランニングと推論](planning-and-reasoning.md) — 計画を作業状態として持つ運用
 - [コンテキストエンジニアリング](../02-architecture/context-engineering.md) — コンテキスト全体の組み立ての設計論
+- [コンテキストの圧縮と隔離](../02-architecture/context-compaction-and-isolation.md) — 本記事の圧縮手法の先(トリガ・階層化・隔離・仕切り直し)
 
 ## 参考資料
 

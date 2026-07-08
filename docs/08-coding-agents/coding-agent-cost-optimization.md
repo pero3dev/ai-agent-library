@@ -100,6 +100,7 @@ tags: ["coding-agents", "cost-management", "prompt-caching"]
 
 - [コスト管理](../05-operations/cost-management.md) — エージェントを「作る」側のコスト設計(プロンプトキャッシュの原理)
 - [コンテキストエンジニアリング](../02-architecture/context-engineering.md) — 本記事の技術的背景
+- [コンテキストの圧縮と隔離](../02-architecture/context-compaction-and-isolation.md) — 手動コンパクションの一般設計論(トリガ・残すもの・失敗モード)
 - [コーディングエージェントへの依頼設計](coding-agent-prompting.md) — 無駄なループを減らす依頼の書き方
 - [自動化・業務効率化パターン](coding-agent-automation-patterns.md) — 自動化時のコスト上限設計
 - 各ツールの具体操作: [Claude Code 実践ガイド](claude-code-in-practice.md) / [OpenAI Codex 実践ガイド](openai-codex-in-practice.md) / [GitHub Copilot 実践ガイド](github-copilot-in-practice.md)

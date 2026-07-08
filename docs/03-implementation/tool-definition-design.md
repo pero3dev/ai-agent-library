@@ -104,6 +104,7 @@ tags: ["tool-use", "function-calling"]
 - [コンテキストエンジニアリング](../02-architecture/context-engineering.md) — ツールセットを絞る理由
 - [examples/python/tool-use/](../../examples/python/tool-use/README.md) — 本記事の内容を実装した動くサンプル
 - [ツール接続標準(MCP とエコシステム)](mcp-and-tool-protocols.md) — 既存ツールサーバーを使う場合の考え方
+- [ループ内フィードバックと検証器の設計](loop-feedback-and-verification.md) — ツール結果・エラーをループ内でどう整形して返すか
 
 ## 参考資料
 

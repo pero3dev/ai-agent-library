@@ -60,7 +60,8 @@ const SECTION_TITLES = {
   'coding-agents': '08. コーディングエージェント',
   business: '09. ビジネス実務',
   'llm-foundations': '10. LLM 基礎',
-  multimodal: '12. モダリティ応用'
+  multimodal: '12. モダリティ応用',
+  'domain-agents': '13. ドメイン応用'
 }
 
 const warnings = []

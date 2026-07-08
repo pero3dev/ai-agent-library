@@ -465,9 +465,23 @@
 | AJ-1 | 著作権・知財マップ(免責 + 鮮度管理型)+ 責任と説明責任(免責) | `09-business/ai-copyright-and-ip-map.md`, `09-business/agent-liability-and-accountability.md` | 完了 |
 | AJ-R | フェーズレビュー + 統合(compliance-and-governance / industry-regulations-map / incident-response からの逆リンク・published 化・同期一式・定点観測に著作権を統合。**免責方式の逸脱=内容解説をしていないかをレビュー**) | — | 完了 |
 
-## 未着手の拡張計画(残 8 計画)
+### Phase AA: ドメイン応用 第 1 陣 — ディープリサーチ・データ分析・RPA(DOMAIN-AGENTS 第 1 弾・新セクション 13)— ✅ 完了(2026-07-09)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。残る拡張計画は 8 本(計 45 本 + examples 5 件、第 4〜5 波、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は第 4 波の DOMAIN-AGENTS〔AA〜AC〕・CASES-EXAMPLES〔AU-2 失敗事例は繰り上げ可〕・UX-PRODUCT〔AM・AN〕・ORG-PROCESS〔AO・AP〕等)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+設計は [DOMAIN-AGENTS-PLAN.md](DOMAIN-AGENTS-PLAN.md)。新セクション `13-domain-agents`(ドメイン別エージェント設計。01〜06・10 章の「ドメイン非依存の作り方」に対する「横の設計ガイド」)を新設し、第 1 陣 3 本を執筆。deep-research / data-analysis は調査不要、rpa は執筆前調査 DA-R1(`research/domain-agents/rpa.md`、主要 RPA/自動化ベンダーの Agent 統合動向を公式一次情報で類型化)を反映。**rpa 本文はベンダー中立(類型と判断軸)に徹し、製品名は調査メモと鮮度管理型ページに閉じ込める**方針(generation・enterprise-constraints と同型)。**これで PRIORITY-MAP 第 4 波の先頭が着手。**残りは Phase AB(パーソナルアシスタント・検索体験・執筆翻訳・教育、調査不要)・Phase AC(先端応用 + 第 2 期 4 本、DA-R2 調査必須)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| AA-0 | 13-domain-agents スケルトン(セクション README・doc-template の category・website 反映・ルート README) | `13-domain-agents/README.md` ほか同期一式 | 完了 |
+| DA-R1 | RPA ベンダーの AI Agent 統合動向調査(公式一次情報のみ・優劣比較なし) | `research/domain-agents/rpa.md` | 完了 |
+| AA-1 | ディープリサーチ + データ分析 | `13-domain-agents/deep-research-agents.md`, `data-analysis-agents.md` | 完了 |
+| AA-2 | RPA と Agent(DA-R1 反映・鮮度管理型) | `13-domain-agents/rpa-and-agents.md` | 完了 |
+| AA-R | フェーズレビュー + 統合(usecase-discovery / rag-implementation-patterns / computer-use-implementation からの逆リンク・GLOSSARY 3 語〔ディープリサーチ・Text-to-SQL・セマンティックレイヤー〕・published 化・同期一式・定点観測追加) | — | 完了 |
+
+残りは Phase AB(パーソナルアシスタント・検索体験・執筆翻訳・教育)・Phase AC(先端応用 + 第 2 期 4 本、DA-R2 調査必須)。
+
+## 未着手・進行中の拡張計画(残 8 計画)
+
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が着手(Phase AA・第 1 陣 3 本 + 新セクション 13)**。残る拡張計画は 8 本(うち DOMAIN-AGENTS は Phase AB・AC が残り。全体で 42 本 + examples 5 件、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は DOMAIN-AGENTS の続き〔AB・AC〕、または CASES-EXAMPLES〔AU-2 失敗事例は繰り上げ可〕・UX-PRODUCT〔AM・AN〕・ORG-PROCESS〔AO・AP〕等)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 
@@ -492,4 +506,5 @@ CLAUDE.md の執筆ルールと templates/doc-template.md に従い、
 - **サービング・ゲートウェイ OSS の定点観測**(`05-operations/self-hosted-inference.md`・`llm-gateway.md` と `03-implementation/local-and-on-device-llm.md` の「変わりやすい項目」。推論エンジン・ローカル実行系・ゲートウェイ OSS は開発が活発で機能差・ライセンスが動きやすいため四半期ごと。`research/llmops/serving.md` を更新起点にする。直近の注目: OpenAI 互換 API の対応範囲拡大 / OSS コアとエンタープライズ機能の境界 / 量子化形式の追随)
 - **生成 AI(画像・動画)・リアルタイム/TTS API の定点観測**(`12-multimodal/` の生成系・リアルタイム系(image-generation-integration・video-ai-overview・speech-synthesis-and-voice-design・realtime-multimodal-agents)の「変わりやすい項目」。生成モデルの顔ぶれ・尺/解像度・商用利用条件・来歴(C2PA/透かし)・リアルタイム映像入力仕様・音声クローンの同意要件は変化が非常に速いため四半期ごと。`research/multimodal/generation.md`・`realtime-tts.md` を更新起点にする。直近の注目: Imagen の 2026-08-17 停止と Nano Banana 移行 / 動画生成の尺・音声同期 / 各社の来歴機能の対象拡大)
 - **来歴標準・フロンティアセーフティ・なりすまし・著作権/知財の定点観測**(`06-security/` の発展層(content-provenance-and-detection・frontier-safety-overview・deepfake-and-impersonation-defense)と `09-business/ai-copyright-and-ip-map` の「変わりやすい項目」。C2PA 仕様の版/ISO 化・電子透かしの対象/堅牢性主張・各社フロンティア安全フレームワークの版・各国 AISI の名称/所在・公的機関のなりすまし注意喚起・著作権/知財の公的資料(文化庁・知財本部・特許庁・米著作権局・EU AI Act Art.53)は変化が速いため四半期ごと。`research/trust/provenance.md`・`frontier-safety.md`・`copyright.md` を更新起点にする。直近の注目: ISO/DIS 22144 の最終化 / RSP・Preparedness・FSF の改版 / US CAISI・英 AISI の改称後の動向 / 知財本部の検討会ページ移転・「プリンシプル・コード(仮称)」の策定 / 米著作権局 Part 3(学習)最終版)
+- **RPA/自動化ベンダーの Agent 統合動向の定点観測**(`13-domain-agents/rpa-and-agents.md` の「動向(類型)」節と最終確認日。主要 RPA/自動化製品のエージェント機能・オーケストレーション層・提供形態(オンプレ/エアギャップ・BYO-LLM)・統制機能は発表が活発で変化が速いため四半期ごと。`research/domain-agents/rpa.md` を更新起点にする。直近の注目: SS&C Blue Prism WorkHQ の本文再取得と GA / UiPath Automation Suite のオンプレ agentic 拡張・準拠標準 / Microsoft の RPA vs CUA 公式表の改訂 / WinActor の AI 連携ライセンス改定)
 - `examples/` の実行確認と各サンプル README の動作確認日の更新(四半期ごと目安)

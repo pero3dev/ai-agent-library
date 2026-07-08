@@ -505,7 +505,19 @@
 
 **これで DOMAIN-AGENTS(全 12 本 + 新セクション 13)が完結。**
 
-## 未着手の拡張計画(残 8 計画)
+### Phase AU: ケーススタディ拡充 — ヘルプデスク・データ分析・失敗事例(CASES-EXAMPLES 第 1 弾)— ✅ 完了(2026-07-09)
+
+設計は [CASES-EXAMPLES-PLAN.md](CASES-EXAMPLES-PLAN.md)。07-case-studies に構成事例 3 本を追加(調査不要・架空事例)。it-helpdesk = 実行系の段階導入(権限/承認/監査)、data-analysis = もっともらしい誤りとの戦い(13 章 data-analysis-agents の物語版)、failed-poc = **撤退した失敗事例**(デモの罠・撤退基準・サンクコスト)。これで 07 章は成功 4 : 失敗 2 の構成に。examples(AV)は別フェーズ。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| AU-1 | ヘルプデスク事例 + データ分析事例 | `07-case-studies/case-study-it-helpdesk-agent.md`, `case-study-data-analysis-agent.md` | 完了 |
+| AU-2 | 失敗事例(PoC 死) | `07-case-studies/case-study-failed-poc.md` | 完了 |
+| AU-R | フェーズレビュー + 統合(07 README・roi-and-business-case / poc-to-production / agent-identity-and-auth / data-analysis-agents からの逆リンク・published 化) | — | 完了 |
+
+残りは Phase AV(examples 5 件・モック実行検証)。
+
+## 未着手・進行中の拡張計画(残 8 計画)
 
 2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**。残る拡張計画は 8 本(CASES-EXAMPLES・UX-PRODUCT・ORG-PROCESS・AGENT-INFRA・AI-STRATEGY・LLM-INTERNALS・HUMAN-AI・ECOSYSTEM。全体で 33 本 + examples 5 件、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は CASES-EXAMPLES〔AU-2 失敗事例は繰り上げ可〕・UX-PRODUCT〔AM・AN・新 14〕・ORG-PROCESS〔AO・AP〕等)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 

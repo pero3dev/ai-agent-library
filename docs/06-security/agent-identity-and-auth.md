@@ -165,6 +165,7 @@ flowchart LR
 - [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) — 権限で解決しない高リスク操作の承認ゲート
 - [ツール接続標準(MCP とエコシステム)](../03-implementation/mcp-and-tool-protocols.md) — MCP サーバー接続の全体像
 - [可観測性とトレーシング](../05-operations/observability-and-tracing.md) — 帰属ログとトレースの突き合わせ
+- [ケーススタディ: 社内 IT ヘルプデスク Agent](../07-case-studies/case-study-it-helpdesk-agent.md) — 実行系での最小権限・帰属・監査証跡の実例
 
 ## 参考資料
 

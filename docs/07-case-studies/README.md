@@ -16,7 +16,10 @@
 | [case-study-email-assistant-incident.md](case-study-email-assistant-incident.md) | メールアシスタントの情報漏えいインシデント(失敗事例・構成事例) |
 | [case-study-customer-support-agent.md](case-study-customer-support-agent.md) | カスタマーサポート Agent(案件推進〜運用改善の通し事例・構成事例) |
 | [case-study-knowledge-agent.md](case-study-knowledge-agent.md) | 社内ナレッジ Agent(権限反映検索と鮮度運用を主題にした RAG 運用の構成事例) |
+| [case-study-it-helpdesk-agent.md](case-study-it-helpdesk-agent.md) | 社内 IT ヘルプデスク Agent(実行系の段階導入・権限/承認/監査の構成事例) |
+| [case-study-data-analysis-agent.md](case-study-data-analysis-agent.md) | データ分析 Agent(もっともらしい誤りに気付き検証可能な構造へ作り直す苦戦→改善の事例) |
+| [case-study-failed-poc.md](case-study-failed-poc.md) | 撤退したプロジェクト(PoC 死・コスト爆発・撤退判断を扱う**失敗事例**) |
 
-ケーススタディは、本ライブラリの設計判断を通しで見せるための**架空の構成事例**です(各記事冒頭に注記)。
+ケーススタディは、本ライブラリの設計判断を通しで見せるための**架空の構成事例**です(各記事冒頭に注記)。成功事例だけでなく、[メールアシスタントの情報漏えいインシデント](case-study-email-assistant-incident.md) と [撤退したプロジェクト](case-study-failed-poc.md) という**失敗事例**も含み、「うまくいかなかった判断」から学べるようにしています。
 
 特定シナリオを「縦の物語」で通す本セクションに対し、ドメインごとの設計判断を横断的に体系化した「ドメイン設計ガイド」は [13-domain-agents](../13-domain-agents/README.md) にあります(縦の事例と横のガイドで相互に補完します)。

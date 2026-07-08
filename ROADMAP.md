@@ -455,9 +455,19 @@
 
 残りは Phase AJ(著作権・知財マップ + 責任と説明責任、TS-R1 調査必須・免責方式)。
 
-## 未着手の拡張計画(残 9 計画)
+### Phase AJ: 法務層 — 著作権・知財マップ + 責任と説明責任(TRUST-SECURITY 第 3 弾)— ✅ 完了(2026-07-08)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**が完了し、さらに第 3 波の **TRUST-SECURITY 前半(Phase AH・AI・6 本)**に着手しました(PRIORITY-MAP 第 2 波完了 + 第 3 波の SE-CODING-AGENTS・LLMOPS・MULTIMODAL 完了)。残る拡張計画は 9 本(うち TRUST-SECURITY は Phase AJ の 2 本が残り。計 47 本 + examples 5 件、フェーズ記号 AJ・S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は TRUST-SECURITY を閉じる AJ〔著作権/知財マップ・責任、TS-R1 調査・免責方式〕等)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+設計は [TRUST-SECURITY-PLAN.md](TRUST-SECURITY-PLAN.md)。09-business の法務層 2 本。**免責方式に徹し、法的助言・内容解説・適法/違法の断定はしない**(industry-regulations-map と同型の「入口マップ」方式)。ai-copyright は執筆前調査 TS-R1(`research/trust/copyright.md`、文化庁「AI と著作権」・知財本部・特許庁・米著作権局・EU AI Act Art.53 の**所在案内のみ**)を反映。**これで TRUST-SECURITY 計画(全 8 本)が完了 = PRIORITY-MAP 第 3 波が完了。**定期メンテナンスの「来歴標準・フロンティアセーフティ」の定点観測に著作権を統合。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| TS-R1 | AI と著作権・知財の一次情報の所在調査 | `research/trust/copyright.md` | 完了 |
+| AJ-1 | 著作権・知財マップ(免責 + 鮮度管理型)+ 責任と説明責任(免責) | `09-business/ai-copyright-and-ip-map.md`, `09-business/agent-liability-and-accountability.md` | 完了 |
+| AJ-R | フェーズレビュー + 統合(compliance-and-governance / industry-regulations-map / incident-response からの逆リンク・published 化・同期一式・定点観測に著作権を統合。**免責方式の逸脱=内容解説をしていないかをレビュー**) | — | 完了 |
+
+## 未着手の拡張計画(残 8 計画)
+
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。残る拡張計画は 8 本(計 45 本 + examples 5 件、第 4〜5 波、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は第 4 波の DOMAIN-AGENTS〔AA〜AC〕・CASES-EXAMPLES〔AU-2 失敗事例は繰り上げ可〕・UX-PRODUCT〔AM・AN〕・ORG-PROCESS〔AO・AP〕等)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 
@@ -481,5 +491,5 @@ CLAUDE.md の執筆ルールと templates/doc-template.md に従い、
 - **フィジカル AI の定点観測**(`01-concepts/physical-ai-overview.md` の「変わりやすい項目」。四半期ごと。`research/supplementary/physical-ai.md` を更新起点にする。直近の注目: モデル世代・提供形態の変化 / 共通ベンチマークの成立)
 - **サービング・ゲートウェイ OSS の定点観測**(`05-operations/self-hosted-inference.md`・`llm-gateway.md` と `03-implementation/local-and-on-device-llm.md` の「変わりやすい項目」。推論エンジン・ローカル実行系・ゲートウェイ OSS は開発が活発で機能差・ライセンスが動きやすいため四半期ごと。`research/llmops/serving.md` を更新起点にする。直近の注目: OpenAI 互換 API の対応範囲拡大 / OSS コアとエンタープライズ機能の境界 / 量子化形式の追随)
 - **生成 AI(画像・動画)・リアルタイム/TTS API の定点観測**(`12-multimodal/` の生成系・リアルタイム系(image-generation-integration・video-ai-overview・speech-synthesis-and-voice-design・realtime-multimodal-agents)の「変わりやすい項目」。生成モデルの顔ぶれ・尺/解像度・商用利用条件・来歴(C2PA/透かし)・リアルタイム映像入力仕様・音声クローンの同意要件は変化が非常に速いため四半期ごと。`research/multimodal/generation.md`・`realtime-tts.md` を更新起点にする。直近の注目: Imagen の 2026-08-17 停止と Nano Banana 移行 / 動画生成の尺・音声同期 / 各社の来歴機能の対象拡大)
-- **来歴標準・フロンティアセーフティ・なりすまし注意喚起の定点観測**(`06-security/` の発展層(content-provenance-and-detection・frontier-safety-overview・deepfake-and-impersonation-defense)の「変わりやすい項目」。C2PA 仕様の版/ISO 化・電子透かしの対象/堅牢性主張・各社フロンティア安全フレームワークの版・各国 AISI の名称/所在・公的機関のなりすまし注意喚起は変化が速いため四半期ごと。`research/trust/provenance.md`・`frontier-safety.md` を更新起点にする。直近の注目: ISO/DIS 22144 の最終化 / RSP・Preparedness・FSF の改版 / US CAISI・英 AISI の改称後の動向。**AJ 完了時に著作権の定点観測を統合**)
+- **来歴標準・フロンティアセーフティ・なりすまし・著作権/知財の定点観測**(`06-security/` の発展層(content-provenance-and-detection・frontier-safety-overview・deepfake-and-impersonation-defense)と `09-business/ai-copyright-and-ip-map` の「変わりやすい項目」。C2PA 仕様の版/ISO 化・電子透かしの対象/堅牢性主張・各社フロンティア安全フレームワークの版・各国 AISI の名称/所在・公的機関のなりすまし注意喚起・著作権/知財の公的資料(文化庁・知財本部・特許庁・米著作権局・EU AI Act Art.53)は変化が速いため四半期ごと。`research/trust/provenance.md`・`frontier-safety.md`・`copyright.md` を更新起点にする。直近の注目: ISO/DIS 22144 の最終化 / RSP・Preparedness・FSF の改版 / US CAISI・英 AISI の改称後の動向 / 知財本部の検討会ページ移転・「プリンシプル・コード(仮称)」の策定 / 米著作権局 Part 3(学習)最終版)
 - `examples/` の実行確認と各サンプル README の動作確認日の更新(四半期ごと目安)

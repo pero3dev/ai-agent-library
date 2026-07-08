@@ -114,6 +114,7 @@ SLM 化の可否は、**タスクごとに評価**して決めます。
 - [ループ内フィードバックと検証器の設計](loop-feedback-and-verification.md) — 検証による昇格
 - [Workflow 型 vs Agent 型の使い分け](../02-architecture/workflow-vs-agent.md) — 定型部品を SLM に割り当てる構成
 - [コスト管理](../05-operations/cost-management.md) / [レイテンシ最適化](../05-operations/latency-optimization.md) — SLM 化が効かせるコスト・速度
+- [ローカル・オンデバイス LLM の実務](local-and-on-device-llm.md) — 小型モデルを端末・ローカルで動かす実行環境(本記事の戦略の実装)
 
 ## 参考資料
 

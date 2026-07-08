@@ -39,3 +39,4 @@
 | [graph-rag-and-knowledge-graphs.md](graph-rag-and-knowledge-graphs.md) | GraphRAG とナレッジグラフ(グラフ型知識表現の使いどころ・構築の限界・型・「本当にグラフが要るか」の判断) |
 | [synthetic-data-for-training.md](synthetic-data-for-training.md) | 学習用合成データの実務(用途の型・生成・品質管理・モデル崩壊・権利・評価データとの分離) |
 | [slm-strategy.md](slm-strategy.md) | 小型言語モデル(SLM)の活用戦略(得意領域と崖・SLM ファースト・ルーティング・タスク特化・評価) |
+| [local-and-on-device-llm.md](local-and-on-device-llm.md) | ローカル・オンデバイス LLM の実務(向くユースケース・実行環境の類型・量子化形式・品質ギャップ検証・ハイブリッド・配布) |

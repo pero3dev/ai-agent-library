@@ -1,7 +1,7 @@
 # LLMOPS-PLAN — モデル運用・インフラ(LLMOps)追加計画
 
-> **ステータス: 設計案(2026-07-07 作成、ユーザーの選定に基づく。着手指示待ち)。**
-> モデルを「借りる・持つ・混ぜる」ためのインフラ層 — セルフホスト推論・ゲートウェイ・ローカル実行・キャッシュ・バッチ・既存 MLOps との統合 — の追加計画です。進捗の正本は着手後 [ROADMAP.md](ROADMAP.md) に置きます。
+> **ステータス: 完了(2026-07-07 作成。2026-07-08 に Phase AF〔self-hosted-inference・gpu-and-hardware-basics・llm-gateway〕+ Phase AG〔local-and-on-device-llm・semantic-caching・batch-processing・mlops-and-llmops〕の全 7 本 published。LO-R1 調査は `research/llmops/serving.md`)。**
+> モデルを「借りる・持つ・混ぜる」ためのインフラ層 — セルフホスト推論・ゲートウェイ・ローカル実行・キャッシュ・バッチ・既存 MLOps との統合 — の追加計画です。進捗の正本は [ROADMAP.md](ROADMAP.md) に置きます。
 
 ## 1. 位置づけとギャップ分析
 

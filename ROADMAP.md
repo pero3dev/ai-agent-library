@@ -383,9 +383,30 @@
 | X-2 | 制約と導入(企業制約〔SE-R1 反映〕 + 顧客合意形成) | `08-coding-agents/se-enterprise-constraints.md`, `08-coding-agents/se-client-adoption.md` | 完了 |
 | X-R | フェーズレビュー + 統合(読者タイプ H 追加・website 同期・coding-agent-security / industry-regulations-map / roi-and-business-case / coding-agent-team-adoption / coding-agent-automation-patterns からの逆リンク・GLOSSARY 4 語・published 化・同期一式) | — | 完了 |
 
-## 未着手の拡張計画(残 11 計画)
+### Phase AF: モデル運用・インフラ 前半 — セルフホスト・GPU 基礎・ゲートウェイ(LLMOPS 第 1 弾)— ✅ 完了(2026-07-08)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**が完了しました(PRIORITY-MAP 第 2 波完了 + 第 3 波先頭 SE-CODING-AGENTS 完了)。残る拡張計画は 11 本(計 70 本 + examples 5 件、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は第 3 波の AF→AG〔LLMOPS〕等)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+設計は [LLMOPS-PLAN.md](LLMOPS-PLAN.md)。モデルを「借りる・持つ・混ぜる」インフラ層の前半。執筆前調査 LO-R1(`research/llmops/serving.md`、推論エンジン・ローカル実行系・ゲートウェイ OSS の提供形態/ライセンス/機能・公式のみ・2026-07-08、ベンチマークは扱わない)を self-hosted-inference / llm-gateway に反映。05 章 README に「LLMOps」区切り行を追加。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| LO-R1 | サービング・ローカル・ゲートウェイ OSS の執筆前調査 | `research/llmops/serving.md` | 完了 |
+| AF-1 | セルフホスト推論 + GPU・ハードウェア基礎 | `05-operations/self-hosted-inference.md`, `05-operations/gpu-and-hardware-basics.md` | 完了 |
+| AF-2 | LLM ゲートウェイ | `05-operations/llm-gateway.md` | 完了 |
+| AF-R | フェーズレビュー(deployment / model-selection / multi-tenancy 等からの逆リンク・published 化・同期一式) | — | 完了 |
+
+### Phase AG: モデル運用・インフラ 後半 — ローカル・キャッシュ・バッチ・MLOps(LLMOPS 第 2 弾)— ✅ 完了(2026-07-08)
+
+設計は [LLMOPS-PLAN.md](LLMOPS-PLAN.md)。後半 4 本(ローカル/オンデバイス・セマンティックキャッシュ・バッチ処理・MLOps 統合)。local-and-on-device-llm は LO-R1 を再利用、他 3 本は調査不要。**これで LLMOPS 計画(全 7 本)が完了。**ROADMAP 定期メンテナンスに「サービング・ゲートウェイ OSS の定点観測」を追加。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| AG-1 | ローカル・オンデバイス LLM + セマンティックキャッシュ | `03-implementation/local-and-on-device-llm.md`, `05-operations/semantic-caching.md` | 完了 |
+| AG-2 | バッチ処理 + MLOps 統合 | `05-operations/batch-processing.md`, `05-operations/mlops-and-llmops.md` | 完了 |
+| AG-R | フェーズレビュー + 統合(cost-management / versioning / fine-tuning / slm-strategy / se-enterprise-constraints との相互リンク・GLOSSARY 5 語〔LLM ゲートウェイ・セマンティックキャッシュ・連続バッチング・量子化・LLMOps〕・published 化・同期一式・定点観測追加) | — | 完了 |
+
+## 未着手の拡張計画(残 10 計画)
+
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**が完了しました(PRIORITY-MAP 第 2 波完了 + 第 3 波の SE-CODING-AGENTS・LLMOPS 完了)。残る拡張計画は 10 本(計 63 本 + examples 5 件、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は第 3 波の Y〔MULTIMODAL 理解系〕・AH〔TRUST-SECURITY サプライチェーン〕等)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 
@@ -407,4 +428,5 @@ CLAUDE.md の執筆ルールと templates/doc-template.md に従い、
 - **エージェントベンチマーク動向の定点観測**(`04-evaluation/agent-benchmarks-landscape.md` の「変わりやすい項目」。四半期ごと。`research/professional/benchmarks.md` を更新起点にする。直近の注目: SWE-bench Pro / Terminal-Bench 2.x への重心移行の定着 / OSWorld 2.0・GAIA2・τ³-bench のスコア推移)
 - **業界規制の定点観測**(`09-business/industry-regulations-map.md` の全表の版数。四半期ごと。`research/supplementary/regulations.md` を更新起点にする。直近の注目: 厚労省ガイドライン第 7.0 版の詳細 / DS-920 第 2.0 版の運用 / 金融庁 AI DP の次期改訂 / 個情法改正案の成立)
 - **フィジカル AI の定点観測**(`01-concepts/physical-ai-overview.md` の「変わりやすい項目」。四半期ごと。`research/supplementary/physical-ai.md` を更新起点にする。直近の注目: モデル世代・提供形態の変化 / 共通ベンチマークの成立)
+- **サービング・ゲートウェイ OSS の定点観測**(`05-operations/self-hosted-inference.md`・`llm-gateway.md` と `03-implementation/local-and-on-device-llm.md` の「変わりやすい項目」。推論エンジン・ローカル実行系・ゲートウェイ OSS は開発が活発で機能差・ライセンスが動きやすいため四半期ごと。`research/llmops/serving.md` を更新起点にする。直近の注目: OpenAI 互換 API の対応範囲拡大 / OSS コアとエンタープライズ機能の境界 / 量子化形式の追随)
 - `examples/` の実行確認と各サンプル README の動作確認日の更新(四半期ごと目安)

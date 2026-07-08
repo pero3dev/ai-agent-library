@@ -127,6 +127,8 @@ tags: ["se-practice", "enterprise-constraints", "air-gapped"]
 - [保守・運用フェーズでの活用](se-maintenance-and-operations.md) — 本番データ・環境の境界線の具体
 - [業界別規制マップ](../09-business/industry-regulations-map.md) — 規制産業での要請の入口
 - [コンプライアンスとガバナンス](../06-security/compliance-and-governance.md) — データ取り扱い・監査の横断層
+- [セルフホスト推論の実務](../05-operations/self-hosted-inference.md) — 閉域網で「自社ホスト(サーバー側)」を選ぶときの技術
+- [ローカル・オンデバイス LLM の実務](../03-implementation/local-and-on-device-llm.md) — 閉域網で「端末・ローカル実行」を選ぶときの技術
 
 ## 参考資料
 

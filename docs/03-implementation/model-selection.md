@@ -134,6 +134,8 @@ flowchart TD
 - [モデル間の違いと移行(横断比較)](cross-model-prompting.md) — 選んだ/乗り換えるモデルへのプロンプトの書き方(各社の特化ガイドへの入口)
 - [推論モデル(考える時間を使う LLM)](../10-llm-foundations/reasoning-models.md) — 選定の「推論」軸の仕組みと使いどころの詳解
 - [小型言語モデル(SLM)の活用戦略](slm-strategy.md) — ティア混在の「小型を既定にする」戦略詳解
+- [ローカル・オンデバイス LLM の実務](local-and-on-device-llm.md) — 端末・ローカルで動かすという提供形態の選択
+- [セルフホスト推論の実務](../05-operations/self-hosted-inference.md) — API を借りず自分で提供する選択と運用
 
 ## 参考資料
 

@@ -139,6 +139,7 @@ tags: ["model-selection"]
 - [バージョニングとモデル更新追従](../05-operations/versioning-and-model-updates.md) — 退役・世代交代への追従運用
 - [コーディングエージェントのコスト最適化](../08-coding-agents/coding-agent-cost-optimization.md) — 「使う側」のモデル使い分け
 - [Claude](claude-prompting.md) / [OpenAI(GPT 系)](openai-prompting.md) / [Gemini](gemini-prompting.md) 特化プロンプティングガイド — 各モデルへのプロンプトの書き方
+- [セルフホスト推論の実務](../05-operations/self-hosted-inference.md) — オープンウェイトモデルを実際に動かす提供層
 
 ## 参考資料
 

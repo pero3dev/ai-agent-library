@@ -372,9 +372,20 @@
 | V-2 | 上流・テスト工程 | `08-coding-agents/se-requirements-and-design.md`, `08-coding-agents/se-test-process.md` | 完了 |
 | V-R | フェーズレビュー(08 README のシリーズ区切り・usecase-discovery / regression-testing からの逆リンク・published 化・同期一式) | — | 完了 |
 
-## 未着手の拡張計画(残 12 計画)
+### Phase X: SE 実践シリーズ 後半 — レガシー・保守・制約・顧客合意(SE-CODING-AGENTS 第 2 弾)— ✅ 完了(2026-07-08)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)が完了し、PRIORITY-MAP 第 2 波が完了。さらに第 3 波の SE-CODING-AGENTS 前半(Phase V・3 本)に着手済みです。残る拡張計画は 12 本(うち SE-CODING-AGENTS は Phase X の 4 本が残り。計 74 本 + examples 5 件、フェーズ記号 X・S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+設計は [SE-CODING-AGENTS-PLAN.md](SE-CODING-AGENTS-PLAN.md)。SE 実践シリーズの後半 4 本で、下流工程(レガシー理解・保守運用)と商流・環境(企業制約・顧客合意)を扱う。**これで SE-CODING-AGENTS 計画(全 7 本)が完了。**se-enterprise-constraints は鮮度管理型で、執筆前調査 SE-R1(`research/se/enterprise-offerings.md`、エンタープライズ提供形態の一次情報・2026-07-08)を反映。learning-roadmap に**読者タイプ H(企業システム開発)**を追加し website の READER_ROUTES も同期。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| SE-R1 | エンタープライズ提供形態の執筆前調査 | `research/se/enterprise-offerings.md` | 完了 |
+| X-1 | 下流工程(レガシー理解 + 保守・運用) | `08-coding-agents/se-legacy-code-analysis.md`, `08-coding-agents/se-maintenance-and-operations.md` | 完了 |
+| X-2 | 制約と導入(企業制約〔SE-R1 反映〕 + 顧客合意形成) | `08-coding-agents/se-enterprise-constraints.md`, `08-coding-agents/se-client-adoption.md` | 完了 |
+| X-R | フェーズレビュー + 統合(読者タイプ H 追加・website 同期・coding-agent-security / industry-regulations-map / roi-and-business-case / coding-agent-team-adoption / coding-agent-automation-patterns からの逆リンク・GLOSSARY 4 語・published 化・同期一式) | — | 完了 |
+
+## 未着手の拡張計画(残 11 計画)
+
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**が完了しました(PRIORITY-MAP 第 2 波完了 + 第 3 波先頭 SE-CODING-AGENTS 完了)。残る拡張計画は 11 本(計 70 本 + examples 5 件、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は第 3 波の AF→AG〔LLMOPS〕等)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 

@@ -81,6 +81,17 @@ export const READER_ROUTES = [
       { title: 'ユースケース発見と要件定義', href: '/docs/business/usecase-discovery', note: '「何をやるか」を選び、成功基準を合意する' },
       { title: 'PoC から本番への進め方', href: '/docs/business/poc-to-production', note: '関門・段階的リリース・撤退基準の設計' }
     ]
+  },
+  {
+    key: 'H',
+    label: '企業システム開発(SIer・情シス)',
+    persona: '受託・社内の企業システム開発でコーディングエージェントを工程横断で使う',
+    steps: [
+      { title: '分類と全体像', href: '/docs/coding-agents/coding-agents-overview', note: '前提となるツールの提供形態と自律性の軸' },
+      { title: 'SE 工程別活用マップ', href: '/docs/coding-agents/se-process-map', note: 'V 字モデルで各工程の使いどころと人が握る責任を一望' },
+      { title: '自分の工程の記事へ', href: '/docs/coding-agents/se-requirements-and-design', note: '要件定義・設計 / テスト / レガシー / 保守の各記事' },
+      { title: '企業システム環境の制約と対応', href: '/docs/coding-agents/se-enterprise-constraints', note: '閉域網・監査・持ち込み承認と提供形態の判断' }
+    ]
   }
 ]
 

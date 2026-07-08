@@ -61,6 +61,7 @@ flowchart TD
 | E: セキュリティ | Agent システムをレビュー・監査する | [06-security](../06-security/README.md) を全部 → [ツール使用](../01-concepts/tool-use.md) → [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) |
 | F: エージェント活用 | Claude Code 等のコーディングエージェントを使う・導入する | [AI Agent とは何か](../01-concepts/what-is-an-ai-agent.md) → [Agent ループ](../01-concepts/agent-loop.md) → [08-coding-agents](../08-coding-agents/README.md) を「この章の読み方」の順で |
 | G: プロフェッショナル志向 | 全領域を実務レベルに広げ、案件を推進する | [スキルマップ](skill-map.md)で自己評価 → 弱い領域のセクションを README の順に → [ユースケース発見と要件定義](../09-business/usecase-discovery.md) → [PoC から本番への進め方](../09-business/poc-to-production.md) |
+| H: 企業システム開発(SIer・情シス) | 受託・社内の企業システム開発でコーディングエージェントを工程横断で使う | [AI コーディングエージェントの分類と全体像](../08-coding-agents/coding-agents-overview.md) → [SE 工程別活用マップ](../08-coding-agents/se-process-map.md) → 自分の工程の記事(要件定義・設計 / テスト / レガシー / 保守)→ [企業システム環境の制約と対応](../08-coding-agents/se-enterprise-constraints.md) |
 
 個別ドキュメントの執筆状況は各セクションの README で確認できます(ファイル名がリンクになっているものが執筆済み、バッククォートのままの名前は計画段階です)。
 
@@ -95,7 +96,7 @@ flowchart TD
 
 学習を始める前のセルフチェック:
 
-- [ ] 自分の読者タイプ(A〜G)を決めた
+- [ ] 自分の読者タイプ(A〜H)を決めた
 - [ ] 作りたいもの(または運用するもの)を 1 文で説明できる
 - [ ] LLM API を呼び出せる開発環境がある(examples を動かすため)
 - [ ] 読む予定のセクションの README にざっと目を通した

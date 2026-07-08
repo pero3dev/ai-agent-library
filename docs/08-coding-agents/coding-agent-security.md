@@ -116,6 +116,7 @@ flowchart LR
 - [ツール権限設計とサンドボックス](../06-security/tool-permissions-and-sandboxing.md) — 権限設計・隔離技術の一般論
 - [データ漏えい対策](../06-security/data-exfiltration.md) — 読み取り + 外部送信の経路の防ぎ方
 - [チーム導入とレビュー体制](coding-agent-team-adoption.md) — 組織としてのポリシー整備
+- [企業システム環境の制約と対応](se-enterprise-constraints.md) — 顧客資産を扱う際の「そもそも渡してよいか・どの提供形態か」の判断(本記事の手前の可否判断)
 
 ## 参考資料
 

@@ -115,6 +115,7 @@ flowchart LR
 - [コーディングエージェントのコスト最適化](coding-agent-cost-optimization.md) — 自動化の消費制御
 - [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) — 人手ゲートの一般論
 - 各ツールの具体設定: [Claude Code 実践ガイド](claude-code-in-practice.md) / [OpenAI Codex 実践ガイド](openai-codex-in-practice.md) / [GitHub Copilot 実践ガイド](github-copilot-in-practice.md)
+- [保守・運用フェーズでの活用](se-maintenance-and-operations.md) — 定型保守作業の自動化(本記事の型を保守文脈に適用する側)
 
 ## 参考資料
 

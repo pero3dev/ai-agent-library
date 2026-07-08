@@ -1,6 +1,6 @@
 # PRIORITY-MAP — 未着手計画の推奨実施順
 
-> **ステータス: 運用中(2026-07-07 作成・2026-07-08 更新)。** 拡張計画のうち DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)が完了し、**第 2 波(基盤の深掘り)が完了**。残る拡張計画 12 本(計 77 本 + examples 5 件、次は第 3 波)の推奨実施順です。フェーズの完了・計画の変更時に本ファイルも同じセッションで更新します(進捗の正本は [ROADMAP.md](ROADMAP.md)、各計画の内容は各 PLAN ファイルが正本)。
+> **ステータス: 運用中(2026-07-07 作成・2026-07-08 更新)。** 拡張計画のうち DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)が完了し **第 2 波(基盤の深掘り)が完了**、さらに **第 3 波先頭の SE-CODING-AGENTS(Phase V・X・7 本)も完了**。残る拡張計画 11 本(計 70 本 + examples 5 件、次は第 3 波の続き)の推奨実施順です。フェーズの完了・計画の変更時に本ファイルも同じセッションで更新します(進捗の正本は [ROADMAP.md](ROADMAP.md)、各計画の内容は各 PLAN ファイルが正本)。
 
 ## 1. 評価軸
 
@@ -37,7 +37,7 @@
 
 | フェーズ | 計画 | 本数 | 根拠 |
 | --- | --- | --- | --- |
-| ✅ V 完了 → X | [SE-CODING-AGENTS](SE-CODING-AGENTS-PLAN.md) | 7(V の 3 本完了・X の 4 本残り) | 価値◎(SE 層の需要)。**Phase V(工程マップ・上流・テスト)完了(2026-07-08)**。残る Phase X(レガシー・保守 + 制約・顧客合意)は SE-R1 調査必須。**08 章の調査メモ(2026-07)が新しいうちが有利** |
+| ✅ V・X 完了 | [SE-CODING-AGENTS](SE-CODING-AGENTS-PLAN.md) | 7(完了) | 価値◎(SE 層の需要)。**Phase V(工程マップ・上流・テスト)+ Phase X(レガシー・保守・企業制約〔SE-R1 反映〕・顧客合意)完了(2026-07-08)**。learning-roadmap に読者タイプ H を追加。**これで第 3 波の先頭が完了** |
 | AF → AG | [LLMOPS](LLMOPS-PLAN.md)(セルフホスト・ゲートウェイほか) | 7 | 価値◎(閉域網需要)。SE の制約記事と相互補完。調査 1 件 |
 | Y → Z | [MULTIMODAL](MULTIMODAL-PLAN.md)(ドキュメント AI ほか) | 7 | Y(理解系)は調査ゼロで価値◎。Z(生成系)は調査 2 件・鮮度負担 +2 |
 | AH → AI → AJ | [TRUST-SECURITY](TRUST-SECURITY-PLAN.md) | 8 | AH(サプライチェーン・攻撃)は調査ゼロで価値◎。AI・AJ は調査 3 件・鮮度負担 +3。**compliance メモ(2026-07)の再利用は早いほど楽** |

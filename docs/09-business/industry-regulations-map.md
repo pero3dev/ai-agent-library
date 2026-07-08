@@ -146,6 +146,7 @@ flowchart TD
 - [ユースケース発見と要件定義](usecase-discovery.md) — 規制確認の入力(何をやるか・どのデータを使うか)
 - [会話データの管理基盤](../05-operations/conversation-data-management.md) — データフロー・保持・削除の実装側
 - [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) — 「人間による監視」の設計
+- [企業システム環境の制約と対応](../08-coding-agents/se-enterprise-constraints.md) — 規制産業でコーディングエージェントを使う際の提供形態・データ経路の判断
 
 ## 参考資料
 

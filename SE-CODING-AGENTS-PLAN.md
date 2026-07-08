@@ -1,6 +1,6 @@
 # SE-CODING-AGENTS-PLAN — システムエンジニア向け AI コーディングエージェント活用計画
 
-> **ステータス: Phase V 完了・Phase X 未着手(2026-07-07 作成。2026-07-08 に Phase V = se-process-map・se-requirements-and-design・se-test-process の 3 本 published)。残りは Phase X(se-legacy-code-analysis・se-maintenance-and-operations・se-enterprise-constraints・se-client-adoption の 4 本 + SE-R1 調査)。**
+> **ステータス: 完了(2026-07-07 作成。2026-07-08 に Phase V〔se-process-map・se-requirements-and-design・se-test-process〕+ Phase X〔se-legacy-code-analysis・se-maintenance-and-operations・se-enterprise-constraints・se-client-adoption〕の全 7 本 published。SE-R1 調査は `research/se/enterprise-offerings.md`。learning-roadmap に読者タイプ H を追加)。**
 > 日本の企業システム開発における**システムエンジニア(SE)**に特化して、AI コーディングエージェントの活用方法を工程横断で網羅する追加計画です。進捗の正本は [ROADMAP.md](ROADMAP.md) に置きます。
 
 ## 1. 位置づけ: 08 章(開発者視点)の上に「工程と商流の層」を足す

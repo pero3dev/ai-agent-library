@@ -132,6 +132,8 @@ flowchart TD
 - [バージョニングとモデル更新追従](../05-operations/versioning-and-model-updates.md) — ピン止めと更新運用
 - [コーディングエージェントのコスト最適化](../08-coding-agents/coding-agent-cost-optimization.md) — 「使う側」でのモデル使い分け
 - [モデル間の違いと移行(横断比較)](cross-model-prompting.md) — 選んだ/乗り換えるモデルへのプロンプトの書き方(各社の特化ガイドへの入口)
+- [推論モデル(考える時間を使う LLM)](../10-llm-foundations/reasoning-models.md) — 選定の「推論」軸の仕組みと使いどころの詳解
+- [小型言語モデル(SLM)の活用戦略](slm-strategy.md) — ティア混在の「小型を既定にする」戦略詳解
 
 ## 参考資料
 

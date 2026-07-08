@@ -93,6 +93,7 @@ Agent の総レイテンシは次の和です。
 - [可観測性とトレーシング](observability-and-tracing.md) — レイテンシ内訳の計測基盤
 - [ツール定義の設計](../03-implementation/tool-definition-design.md) — 往復回数を減らすツール粒度
 - [Workflow 型 vs Agent 型の使い分け](../02-architecture/workflow-vs-agent.md) — 「考えさせない」部分の切り出し
+- [推論モデル(考える時間を使う LLM)](../10-llm-foundations/reasoning-models.md) — 思考トークンがレイテンシを増やす仕組みと思考量の制御
 
 ## 参考資料
 

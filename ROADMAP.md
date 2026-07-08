@@ -341,9 +341,20 @@
 | AX-2 | 常駐エージェントのライフサイクル | `long-running-agents.md` | 完了 |
 | AX-R | フェーズレビュー(observability-and-tracing・online-evaluation-and-ab-testing・incident-response・error-handling-and-retries・deployment-and-scaling・async-and-durable-agents・long-term-memory-implementation からの逆リンク・published 化・同期一式) | — | 完了 |
 
+### Phase AQ: 基礎・理論の拡張 前半 — 推論モデル・SLM 戦略(FOUNDATIONS-EXTENSION 第 1 弾)— ✅ 完了(2026-07-08)
+
+設計は [FOUNDATIONS-EXTENSION-PLAN.md](FOUNDATIONS-EXTENSION-PLAN.md)。原則が安定した領域のため執筆前調査は不要(推論モデルの提供形態は TODO 前提・類型で記述)。散在していた「推論モデル」の言及を reasoning-models に正本化。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| AQ-1 | 推論モデル + SLM 戦略 | `10-llm-foundations/reasoning-models.md`, `03-implementation/slm-strategy.md` | 完了 |
+| AQ-R | フェーズレビュー(model-selection・capabilities-and-limits・prompt-engineering-fundamentals・latency-optimization・fine-tuning-and-distillation からの逆リンク・published 化・同期一式) | — | 完了 |
+
+残りは Phase AR(世界モデル + AI の歴史 + マルチモーダル内部)。**これで PRIORITY-MAP 第 2 波(基盤の深掘り)が完了。**
+
 ## 未着手の拡張計画(残 13 計画)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)が完了しました。残る拡張計画は 13 本(計 82 本 + examples 5 件、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION 前半(Phase AQ・2 本)が完了し、PRIORITY-MAP 第 2 波が完了しました。残る拡張計画は 13 本(うち FOUNDATIONS-EXTENSION は AR の 3 本が残り。計 80 本 + examples 5 件、フェーズ記号 AR・S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は第 3 波)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 

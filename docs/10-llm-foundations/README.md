@@ -16,5 +16,6 @@
 | [attention-and-context.md](attention-and-context.md) | 注意機構とコンテキストウィンドウの仕組み(KV キャッシュ・長文の品質劣化) |
 | [llm-training-pipeline.md](llm-training-pipeline.md) | LLM の学習パイプライン(事前学習 → SFT → 選好調整と、幻覚・迎合の由来) |
 | [capabilities-and-limits.md](capabilities-and-limits.md) | LLM の能力と限界の由来(得意・不得意の構造とツールによる補完) |
+| [reasoning-models.md](reasoning-models.md) | 推論モデル(考える時間を使う LLM。仕組みの直感・向き不向き・思考量制御・overthinking・評価) |
 
-読む順序はこの表の並びを推奨します(生成の仕組み → トークン → 注意機構 → 学習 → 能力の順で積み上がります)。
+読む順序はこの表の並びを推奨します(生成の仕組み → トークン → 注意機構 → 学習 → 能力 → 推論モデルの順で積み上がります)。

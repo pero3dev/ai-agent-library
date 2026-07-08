@@ -38,3 +38,4 @@
 | [data-preprocessing-for-llm.md](data-preprocessing-for-llm.md) | LLM 向けデータ前処理パイプライン(抽出・クリーニング・重複排除・メタデータ設計・増分更新) |
 | [graph-rag-and-knowledge-graphs.md](graph-rag-and-knowledge-graphs.md) | GraphRAG とナレッジグラフ(グラフ型知識表現の使いどころ・構築の限界・型・「本当にグラフが要るか」の判断) |
 | [synthetic-data-for-training.md](synthetic-data-for-training.md) | 学習用合成データの実務(用途の型・生成・品質管理・モデル崩壊・権利・評価データとの分離) |
+| [slm-strategy.md](slm-strategy.md) | 小型言語モデル(SLM)の活用戦略(得意領域と崖・SLM ファースト・ルーティング・タスク特化・評価) |

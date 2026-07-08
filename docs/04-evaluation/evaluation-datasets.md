@@ -129,6 +129,7 @@ flowchart LR
 - [RAG 実装パターン](../03-implementation/rag-implementation-patterns.md) — 検索(recall@k)用の質問・正解チャンク対応表の作り方
 - [PoC から本番への進め方](../09-business/poc-to-production.md) — PoC から本番へ持ち越す最重要資産としての評価データセット
 - [学習用合成データの実務](../03-implementation/synthetic-data-for-training.md) — 学習用の合成データ(本記事の評価用と厳格に分離する)
+- [ユーザーシミュレータの設計](user-simulator-design.md) — 合成の盲点共有が対話評価(ユーザー役 LLM)でも起きる
 
 ## 参考資料
 

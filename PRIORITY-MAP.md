@@ -1,6 +1,6 @@
 # PRIORITY-MAP — 未着手計画の推奨実施順
 
-> **ステータス: 運用中(2026-07-07 作成・2026-07-08 更新)。** 拡張計画のうち DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)が完了し、残る拡張計画 15 本(計 90 本 + examples 5 件)の推奨実施順です。フェーズの完了・計画の変更時に本ファイルも同じセッションで更新します(進捗の正本は [ROADMAP.md](ROADMAP.md)、各計画の内容は各 PLAN ファイルが正本)。
+> **ステータス: 運用中(2026-07-07 作成・2026-07-08 更新)。** 拡張計画のうち DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY 第 1 弾(Phase AK・3 本)が完了し、残る拡張計画 15 本(うち EVAL-QUALITY は AL の 2 本が残り。計 87 本 + examples 5 件)の推奨実施順です。フェーズの完了・計画の変更時に本ファイルも同じセッションで更新します(進捗の正本は [ROADMAP.md](ROADMAP.md)、各計画の内容は各 PLAN ファイルが正本)。
 
 ## 1. 評価軸
 
@@ -29,7 +29,7 @@
 | フェーズ | 計画 | 本数 | 根拠 |
 | --- | --- | --- | --- |
 | ✅ AD・AE 完了(2026-07-08) | [DATA-KNOWLEDGE](DATA-KNOWLEDGE-PLAN.md)(埋め込み・ベクトル DB ほか) | 6(完了) | 価値◎(RAG 下層)・調査ゼロ。AD=embeddings/vector-databases/data-preprocessing、AE=graph-rag/synthetic-data/data-governance |
-| AK → AL | [EVAL-QUALITY](EVAL-QUALITY-PLAN.md)(評価環境・シミュレータほか) | 5 | 価値○・調査ゼロ。**benchmarks 調査メモ(2026-07)が新しいうちに書くと楽** |
+| ✅ AK 完了(2026-07-08)→ AL | [EVAL-QUALITY](EVAL-QUALITY-PLAN.md)(評価環境・シミュレータほか) | 5(残 AL 2) | 価値○・調査ゼロ。AK=evaluation-environments/user-simulator-design/confidence-and-calibration、AL=公平性/日本語品質 |
 | AX | [RELIABILITY](RELIABILITY-PLAN.md)(SLO・カオス・常駐) | 3 | 価値○・調査ゼロ。AK の評価環境を参照するため EVAL の後が滑らか |
 | AQ | [FOUNDATIONS-EXTENSION](FOUNDATIONS-EXTENSION-PLAN.md) 前半(推論モデル・SLM) | 2 | **reasoning-models は散在言及の正本化で、早いほど他記事のリンク先として効く** |
 

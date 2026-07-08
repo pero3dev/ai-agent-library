@@ -312,9 +312,21 @@
 | AE-2 | データガバナンス | `05-operations/data-governance-for-ai.md` | 完了 |
 | AE-R | フェーズレビュー + 統合(evaluation-datasets・fine-tuning-and-distillation・rag-implementation-patterns・case-study-knowledge-agent・conversation-data-management・compliance-and-governance からの逆リンク・published 化・同期一式) | — | 完了 |
 
+### Phase AK: 評価・品質の深掘り — 評価環境・シミュレータ・較正(EVAL-QUALITY 第 1 弾)— ✅ 完了(2026-07-08)
+
+設計は [EVAL-QUALITY-PLAN.md](EVAL-QUALITY-PLAN.md)。原則が安定した領域のため執筆前調査は不要(`research/professional/benchmarks.md` の τ-bench・評価環境の知見を再利用)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| AK-1 | 評価環境 + ユーザーシミュレータ | `04-evaluation/evaluation-environments.md`, `user-simulator-design.md` | 完了 |
+| AK-2 | 信頼度と較正 | `confidence-and-calibration.md` | 完了 |
+| AK-R | フェーズレビュー(agent-evaluation-basics・regression-testing・human-in-the-loop・evaluation-datasets からの逆リンク・published 化・同期一式) | — | 完了 |
+
+残りは Phase AL(公平性 + 日本語品質の 2 本)。
+
 ## 未着手の拡張計画(残 15 計画)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)が完了しました。残る拡張計画は 15 本(計 90 本 + examples 5 件、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY 第 1 弾(Phase AK・3 本)が完了しました。残る拡張計画は 15 本(うち EVAL-QUALITY は AL の 2 本が残り。計 87 本 + examples 5 件、フェーズ記号 AL・S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 

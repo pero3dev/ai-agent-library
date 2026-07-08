@@ -119,6 +119,9 @@ flowchart LR
 - [エージェントベンチマークの全体像](agent-benchmarks-landscape.md) — 自社評価の外側にある公開ベンチマークの地図と読み方
 - [Agent ループ](../01-concepts/agent-loop.md) — 評価対象の実行構造
 - [可観測性とトレーシング](../05-operations/observability-and-tracing.md) — 本番側の観測との接続
+- [エージェント評価環境の構築](evaluation-environments.md) — 評価を実行する環境(モック・状態付きサンドボックス)の構築(発展層)
+- [ユーザーシミュレータの設計](user-simulator-design.md) — 対話型 Agent の評価に使うユーザー役 LLM(発展層)
+- [信頼度と較正(calibration)](confidence-and-calibration.md) — 確信度を取り出し低信頼時に縮退する(発展層)
 
 ## 参考資料
 

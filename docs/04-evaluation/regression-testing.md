@@ -100,6 +100,7 @@ tags: ["regression-testing", "evaluation"]
 - [軌跡(trajectory)評価](trajectory-evaluation.md) — 落ちたケースの原因調査の道具
 - [フレームワーク選定ガイド](../03-implementation/framework-selection.md) — 評価との統合しやすさは選定軸の 1 つ
 - [バージョニング・デプロイ・モデル更新追従](../05-operations/versioning-and-model-updates.md) — モデル更新イベントの運用手順
+- [エージェント評価環境の構築](evaluation-environments.md) — 回帰スイートを載せる評価環境(モック・状態リセット)
 
 ## 参考資料
 

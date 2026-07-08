@@ -148,6 +148,7 @@ flowchart TD
 - [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) — 「人間による監視」の設計
 - [企業システム環境の制約と対応](../08-coding-agents/se-enterprise-constraints.md) — 規制産業でコーディングエージェントを使う際の提供形態・データ経路の判断
 - [AI と著作権・知的財産の入口マップ](ai-copyright-and-ip-map.md) — 同じ入口マップ方式の知財版(業界規制とは別の確認軸)
+- [教育・学習支援エージェントの設計](../13-domain-agents/education-agents.md) — 教育分野の規制・子どものデータ保護の確認先(本マップの教育の項へ接続)
 
 ## 参考資料
 

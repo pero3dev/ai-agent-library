@@ -118,6 +118,7 @@ flowchart TD
 - [インシデント対応](../05-operations/incident-response.md) — 検知・縮退・影響特定・復旧の手順
 - [よくあるアンチパターン集(横断)](common-anti-patterns.md) — 本事例が踏んだ罠の一覧
 - [ケーススタディ: 経費精算アシスタントの段階的 Agent 化](case-study-expense-agent.md) — 対になる成功事例
+- [パーソナルアシスタントの設計](../13-domain-agents/personal-assistant-design.md) — 本事例の教訓を設計に一般化(横断権限の最小化・自律度の段階・間接注入への防御)
 
 ## 参考資料
 

@@ -479,9 +479,21 @@
 
 残りは Phase AB(パーソナルアシスタント・検索体験・執筆翻訳・教育)・Phase AC(先端応用 + 第 2 期 4 本、DA-R2 調査必須)。
 
+### Phase AB: ドメイン応用 第 2 陣 — アシスタント・検索・執筆翻訳・教育(DOMAIN-AGENTS 第 2 弾)— ✅ 完了(2026-07-09)
+
+設計は [DOMAIN-AGENTS-PLAN.md](DOMAIN-AGENTS-PLAN.md)。13-domain-agents に 4 本を追加(調査不要・原則安定)。personal-assistant = 権限最小化 × 自律度の段階 × 間接注入への防御(email-assistant インシデントを教材に)、search-experience = 回答型 UX(出典/確度/「見つからない」)× 知識源の品質が上限、writing-and-translation = 長文の分割統治 × スタイル/用語統制 × MTPE、education = 段階的ヒント × 学習者モデル × 安全(未成年・依存)× 規制の確認先。残りは Phase AC(先端応用 + 第 2 期 4 本、DA-R2 調査必須)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| AB-1 | パーソナルアシスタント + 検索体験 | `13-domain-agents/personal-assistant-design.md`, `search-experience-redesign.md` | 完了 |
+| AB-2 | 執筆・翻訳 + 教育 | `13-domain-agents/writing-and-translation-workflows.md`, `education-agents.md` | 完了 |
+| AB-R | フェーズレビュー + 統合(case-study-email-assistant-incident / case-study-knowledge-agent / rag-implementation-patterns / industry-regulations-map / japanese-quality-evaluation からの逆リンク・deep-research ↔ search の相互リンク・GLOSSARY 2 語〔アンサーエンジン・機械翻訳後編集〕・published 化・同期一式) | — | 完了 |
+
+残りは Phase AC(先端応用 emerging-agent-domains + 第 2 期 4 本〔表計算・予測時系列・人事採用・法務〕、DA-R2 調査必須・鮮度管理型。AC-R で learning-roadmap 13 化 + 07 章との相互リンク)。
+
 ## 未着手・進行中の拡張計画(残 8 計画)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が着手(Phase AA・第 1 陣 3 本 + 新セクション 13)**。残る拡張計画は 8 本(うち DOMAIN-AGENTS は Phase AB・AC が残り。全体で 42 本 + examples 5 件、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は DOMAIN-AGENTS の続き〔AB・AC〕、または CASES-EXAMPLES〔AU-2 失敗事例は繰り上げ可〕・UX-PRODUCT〔AM・AN〕・ORG-PROCESS〔AO・AP〕等)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が進行(Phase AA・AB・第 1〜2 陣 7 本 + 新セクション 13)**。残る拡張計画は 8 本(うち DOMAIN-AGENTS は Phase AC が残り。全体で 38 本 + examples 5 件、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は DOMAIN-AGENTS の続き〔AC・DA-R2 調査必須〕、または CASES-EXAMPLES〔AU-2 失敗事例は繰り上げ可〕・UX-PRODUCT〔AM・AN〕・ORG-PROCESS〔AO・AP〕等)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 

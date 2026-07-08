@@ -1,6 +1,6 @@
 # PRIORITY-MAP — 未着手計画の推奨実施順
 
-> **ステータス: 運用中(2026-07-07 作成・2026-07-09 更新)。** 拡張計画のうち DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)が完了し **第 2 波(基盤の深掘り)が完了**、さらに **第 3 波の SE-CODING-AGENTS(Phase V・X・7 本)・LLMOPS(Phase AF・AG・7 本)・MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)・TRUST-SECURITY(Phase AH・AI・AJ・8 本)も完了 = 第 3 波が完了**。さらに **第 4 波の DOMAIN-AGENTS が着手(Phase AA・第 1 陣 3 本 + 新セクション 13、2026-07-09)**。残る拡張計画 8 本(うち DOMAIN-AGENTS は AB・AC が残り。全体で 42 本 + examples 5 件、次は DOMAIN-AGENTS の続き〔AB・AC〕・CASES-EXAMPLES・UX-PRODUCT・ORG-PROCESS 等)の推奨実施順です。フェーズの完了・計画の変更時に本ファイルも同じセッションで更新します(進捗の正本は [ROADMAP.md](ROADMAP.md)、各計画の内容は各 PLAN ファイルが正本)。
+> **ステータス: 運用中(2026-07-07 作成・2026-07-09 更新)。** 拡張計画のうち DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)が完了し **第 2 波(基盤の深掘り)が完了**、さらに **第 3 波の SE-CODING-AGENTS(Phase V・X・7 本)・LLMOPS(Phase AF・AG・7 本)・MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)・TRUST-SECURITY(Phase AH・AI・AJ・8 本)も完了 = 第 3 波が完了**。さらに **第 4 波の DOMAIN-AGENTS が進行(Phase AA・AB・第 1〜2 陣 7 本 + 新セクション 13、2026-07-09)**。残る拡張計画 8 本(うち DOMAIN-AGENTS は AC が残り。全体で 38 本 + examples 5 件、次は DOMAIN-AGENTS の続き〔AC・DA-R2 調査必須〕・CASES-EXAMPLES・UX-PRODUCT・ORG-PROCESS 等)の推奨実施順です。フェーズの完了・計画の変更時に本ファイルも同じセッションで更新します(進捗の正本は [ROADMAP.md](ROADMAP.md)、各計画の内容は各 PLAN ファイルが正本)。
 
 ## 1. 評価軸
 
@@ -46,7 +46,7 @@
 
 | フェーズ | 計画 | 本数 | 根拠 |
 | --- | --- | --- | --- |
-| ✅ AA 完了(2026-07-09)/ AB → AC | [DOMAIN-AGENTS](DOMAIN-AGENTS-PLAN.md)(12 本・新 13 章) | 12(うち 3 完了) | 価値○〜◎。**Phase AA(ディープリサーチ・データ分析・RPA〔DA-R1 反映〕+ 新セクション 13)完了**。残り AB(アシスタント・検索・執筆翻訳・教育)・AC(先端応用 + 第 2 期 4 本・DA-R2)。EVAL の fairness(人事採用が参照)と DEEP-DIVE の loop の後が滑らか |
+| ✅ AA・AB 完了(2026-07-09)/ AC | [DOMAIN-AGENTS](DOMAIN-AGENTS-PLAN.md)(12 本・新 13 章) | 12(うち 7 完了) | 価値○〜◎。**Phase AA(ディープリサーチ・データ分析・RPA〔DA-R1 反映〕+ 新セクション 13)・AB(アシスタント・検索・執筆翻訳・教育)完了**。残り AC(先端応用 emerging + 第 2 期 4 本〔表計算・予測・人事採用・法務〕・DA-R2 調査必須)。EVAL の fairness(人事採用が参照)と DEEP-DIVE の loop の後が滑らか |
 | AU → AV | [CASES-EXAMPLES](CASES-EXAMPLES-PLAN.md)(事例 + examples) | 3 + 5 | **失敗事例(AU-2)は単独で早期繰り上げ可**(依存なし・差別化大)。データ分析事例は DOMAIN の後が理想。AV(examples)は完全独立でいつでも |
 | AM → AN | [UX-PRODUCT](UX-PRODUCT-PLAN.md)(新 14 章) | 6 | 価値○・調査ゼロ |
 | AO → AP | [ORG-PROCESS](ORG-PROCESS-PLAN.md) | 5 | 価値○・調査ゼロ |

@@ -102,6 +102,7 @@ tags: ["rag", "retrieval", "data-exfiltration"]
 - [ケーススタディ: 経費精算アシスタントの段階的 Agent 化](case-study-expense-agent.md) — 技術構成の育て方に重心を置いた対の事例
 - [LLM 向けデータ前処理パイプライン](../03-implementation/data-preprocessing-for-llm.md) — 鮮度管理・派生データ権限・メタデータ設計の技術側
 - [AI のためのデータガバナンス](../05-operations/data-governance-for-ai.md) — 知識源の品質を組織で担保する仕組み(本事例の一般化)
+- [検索体験の再設計](../13-domain-agents/search-experience-redesign.md) — 本事例の教訓(知識源の品質が上限)を検索プロダクトの設計に一般化
 
 ## 参考資料
 

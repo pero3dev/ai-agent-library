@@ -109,6 +109,7 @@ tags: ["evaluation", "japanese"]
 - [エージェントベンチマークの全体像](agent-benchmarks-landscape.md) — 公開日本語ベンチの読み方(帯・自社評価を正とする規律)
 - [トークナイザとトークン経済](../10-llm-foundations/tokenization.md) — 日本語のトークン効率(表記・コストにも影響)
 - [プロンプトエンジニアリングの上級パターン](../03-implementation/prompt-engineering-patterns.md) — 文体・形式を出力側で整える技法
+- [執筆・翻訳ワークフローの設計](../13-domain-agents/writing-and-translation-workflows.md) — 日本語品質の評価を執筆・翻訳の量産工程に組み込む応用
 
 ## 参考資料
 

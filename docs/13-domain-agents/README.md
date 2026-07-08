@@ -16,10 +16,10 @@
 | [deep-research-agents.md](deep-research-agents.md) | ディープリサーチ型エージェントの設計(調査計画・多段検索の制御・出典管理・レポート設計・評価) |
 | [data-analysis-agents.md](data-analysis-agents.md) | データ分析エージェント(Text-to-SQL・セマンティックレイヤー・実行と検証のループ・もっともらしい嘘のグラフ対策・権限) |
 | [rpa-and-agents.md](rpa-and-agents.md) | RPA と Agent の使い分け・移行戦略(特性比較・共存パターン・移行の優先順位・統制の引き継ぎ。動向は鮮度管理型) |
-| `personal-assistant-design.md` | パーソナルアシスタントの設計(横断アクセス・自律度の段階・記憶とパーソナライズ・間接注入への防御) |
-| `search-experience-redesign.md` | 検索体験の再設計(社内検索とアンサーエンジン・回答型 UX・検索ログという資産・評価の 2 層) |
-| `writing-and-translation-workflows.md` | 執筆・翻訳ワークフローの設計(長文の分割統治・スタイル/用語の統制・MTPE の工程・レビュー工程) |
-| `education-agents.md` | 教育・学習支援エージェントの設計(段階的ヒント・学習者モデル・安全・学習効果の測定) |
+| [personal-assistant-design.md](personal-assistant-design.md) | パーソナルアシスタントの設計(横断アクセス・自律度の段階・記憶とパーソナライズ・間接注入への防御) |
+| [search-experience-redesign.md](search-experience-redesign.md) | 検索体験の再設計(社内検索とアンサーエンジン・回答型 UX・検索ログという資産・評価の 2 層) |
+| [writing-and-translation-workflows.md](writing-and-translation-workflows.md) | 執筆・翻訳ワークフローの設計(長文の分割統治・スタイル/用語の統制・MTPE の工程・レビュー工程) |
+| [education-agents.md](education-agents.md) | 教育・学習支援エージェントの設計(段階的ヒント・学習者モデル・安全・学習効果の測定) |
 | `emerging-agent-domains.md` | 先端応用の概観(科学研究・シミュレーション/NPC・エージェント経済。鮮度管理型) |
 | `spreadsheet-agents.md` | 表計算・構造化データ操作エージェント(表の理解・数式 vs 値・再計算の突き合わせ・破壊検知) |
 | `time-series-and-forecasting.md` | 予測・時系列タスクと LLM(効く場所と効かない場所・ハイブリッド構成・後付け説明の危険) |

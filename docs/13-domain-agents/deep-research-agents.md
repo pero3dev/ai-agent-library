@@ -142,6 +142,7 @@ flowchart LR
 - [信頼度と較正](../04-evaluation/confidence-and-calibration.md) — 確度の表現と過信の回避
 - [構造化出力](../03-implementation/structured-output.md) — 主張・出典・確度の構造化
 - [評価データセット](../04-evaluation/evaluation-datasets.md) — 網羅性・出典正確性の評価セット作り
+- [検索体験の再設計](search-experience-redesign.md) — 人間向けの検索・回答体験(本記事は自律調査のレポート生成)
 - [ユースケース発見](../09-business/usecase-discovery.md) — ディープリサーチ型が向く/向かない業務の見極め
 
 ## 参考資料

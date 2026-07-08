@@ -106,6 +106,8 @@ flowchart LR
 - [エージェントのレッドチーミング](red-teaming-agents.md) — 脅威モデルを実際に攻撃して検証する演習
 - [ツール接続標準(MCP とエコシステム)](../03-implementation/mcp-and-tool-protocols.md) — サプライチェーン面
 - [インシデント対応](../05-operations/incident-response.md) — 攻撃を受けたときの停止と復旧
+- [AI サプライチェーンセキュリティ](ai-supply-chain-security.md) — 上流(導入前)の信頼を脅威モデルに足す
+- [新興攻撃パターンの体系](advanced-attack-patterns.md) — 記憶・知識源・ツール・マルチエージェント経由の発展形
 
 ## 参考資料
 

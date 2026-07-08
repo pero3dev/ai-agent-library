@@ -429,9 +429,21 @@
 | Z-2 | 音声合成と声の設計 + リアルタイムマルチモーダル | `12-multimodal/speech-synthesis-and-voice-design.md`, `12-multimodal/realtime-multimodal-agents.md` | 完了 |
 | Z-R | フェーズレビュー + 統合(learning-roadmap 12 セクション化・voice-agents / conversation-data-management からの逆リンク・GLOSSARY 2 語〔インペインティング・音声クローン〕・published 化・同期一式・定点観測追加) | — | 完了 |
 
+### Phase AH: セキュリティ発展層 — サプライチェーン・新興攻撃・プライバシー技術(TRUST-SECURITY 第 1 弾)— ✅ 完了(2026-07-08)
+
+設計は [TRUST-SECURITY-PLAN.md](TRUST-SECURITY-PLAN.md)。06-security の発展層 3 本(既存 8 本「脅威 → 防御」の後ろに「発展層」として並べる)。調査不要(AH 系は原則安定・部分確認のみ)。**防御側に徹し、攻撃手順・ペイロードは書かない**方針(red-teaming で確立した方針を継承)。06 章 README に「発展層」区切り行を追加。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| AH-1 | サプライチェーン + 新興攻撃パターン | `06-security/ai-supply-chain-security.md`, `06-security/advanced-attack-patterns.md` | 完了 |
+| AH-2 | プライバシー強化技術 | `06-security/privacy-enhancing-technologies.md` | 完了 |
+| AH-R | フェーズレビュー(threat-model-overview・prompt-injection・tool-permissions-and-sandboxing・long-term-memory-implementation・rag-implementation-patterns・conversation-data-management からの逆リンク・GLOSSARY 4 語〔サプライチェーン攻撃・メモリポイズニング・差分プライバシー・連合学習〕・published 化・同期一式) | — | 完了 |
+
+残りは Phase AI(来歴と検出 + ディープフェイク防御 + フロンティアセーフティ、TS-R2・TS-R3 調査必須)・Phase AJ(著作権・知財マップ + 責任と説明責任、TS-R1 調査必須・免責方式)。
+
 ## 未着手の拡張計画(残 9 計画)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**が完了しました(PRIORITY-MAP 第 2 波完了 + 第 3 波の SE-CODING-AGENTS・LLMOPS・MULTIMODAL 完了)。残る拡張計画は 9 本(計 53 本 + examples 5 件、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は第 3 波を閉じる AH〔TRUST-SECURITY サプライチェーン・調査ゼロ〕等)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**が完了し、さらに第 3 波の **TRUST-SECURITY 前半(Phase AH・3 本)**に着手しました(PRIORITY-MAP 第 2 波完了 + 第 3 波の SE-CODING-AGENTS・LLMOPS・MULTIMODAL 完了)。残る拡張計画は 9 本(うち TRUST-SECURITY は Phase AI・AJ の 5 本が残り。計 50 本 + examples 5 件、フェーズ記号 AI・AJ・S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は TRUST-SECURITY を進める AI〔来歴・ディープフェイク・フロンティアセーフティ、TS-R2・TS-R3 調査〕等)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 

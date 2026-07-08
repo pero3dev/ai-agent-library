@@ -119,6 +119,7 @@ flowchart LR
 - [データ漏えい対策](../06-security/data-exfiltration.md) — 外部送信・持ち出し経路の防御
 - [AI のためのデータガバナンス](data-governance-for-ai.md) — 「AI に食わせる知識源データ」側の管理(本記事は「AI が生む会話ログ」側。対の記事)
 - [リアルタイムマルチモーダル Agent](../12-multimodal/realtime-multimodal-agents.md) — 常時観測で生じる映像・音声データの保持・削除・同意(本記事の映像版)
+- [プライバシー強化技術の概観](../06-security/privacy-enhancing-technologies.md) — マスキングの先の技術(差分プライバシー・連合学習等)の見取り図
 
 ## 参考資料
 

@@ -127,6 +127,7 @@ flowchart LR
 - [可観測性とトレーシング](../05-operations/observability-and-tracing.md) — どの記憶が注入されたかの記録
 - [埋め込み(embeddings)の選定と運用](embeddings.md) — 記憶の想起に使うベクトル検索の埋め込み層
 - [常駐エージェントのライフサイクル管理](../05-operations/long-running-agents.md) — 長期運用で記憶を棚卸し・仕切り直す運用
+- [新興攻撃パターンの体系](../06-security/advanced-attack-patterns.md) — 記憶への注入(メモリポイズニング)の防御面
 
 ## 参考資料
 

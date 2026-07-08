@@ -1,7 +1,7 @@
 # TRUST-SECURITY-PLAN — セキュリティ・信頼・法務 追加計画
 
-> **ステータス: 設計案(2026-07-07 作成、ユーザーの選定に基づく。着手指示待ち)。**
-> 06-security の発展層(サプライチェーン・新興攻撃・プライバシー技術・来歴と検出・フロンティアセーフティ)と、09-business の法務層(著作権・責任)を追加する計画です。進捗の正本は着手後 [ROADMAP.md](ROADMAP.md) に置きます。
+> **ステータス: Phase AH 完了・Phase AI/AJ 未着手(2026-07-07 作成。2026-07-08 に Phase AH〔ai-supply-chain-security・advanced-attack-patterns・privacy-enhancing-technologies の 3 本、06 発展層〕published)。残りは Phase AI〔content-provenance-and-detection・deepfake-and-impersonation-defense・frontier-safety-overview + TS-R2・TS-R3 調査〕・Phase AJ〔ai-copyright-and-ip-map・agent-liability-and-accountability + TS-R1 調査、免責方式〕。**
+> 06-security の発展層(サプライチェーン・新興攻撃・プライバシー技術・来歴と検出・フロンティアセーフティ)と、09-business の法務層(著作権・責任)を追加する計画です。進捗の正本は [ROADMAP.md](ROADMAP.md) に置きます。
 
 ## 1. 位置づけとギャップ分析
 

@@ -404,9 +404,22 @@
 | AG-2 | バッチ処理 + MLOps 統合 | `05-operations/batch-processing.md`, `05-operations/mlops-and-llmops.md` | 完了 |
 | AG-R | フェーズレビュー + 統合(cost-management / versioning / fine-tuning / slm-strategy / se-enterprise-constraints との相互リンク・GLOSSARY 5 語〔LLM ゲートウェイ・セマンティックキャッシュ・連続バッチング・量子化・LLMOps〕・published 化・同期一式・定点観測追加) | — | 完了 |
 
+### Phase Y: モダリティ応用 前半 — ドキュメント AI・画像理解・マルチモーダル RAG(MULTIMODAL 第 1 弾)— ✅ 完了(2026-07-08)
+
+設計は [MULTIMODAL-PLAN.md](MULTIMODAL-PLAN.md)。**新セクション `12-multimodal`(モダリティ応用)を新設**し(Y-0 スケルトン)、理解系 3 本を追加。調査不要(Y 系は原則安定)。既存の voice-agents / computer-use-implementation(03)は正本のまま維持し、12 章から参照。website は sync の SECTION_TITLES に `multimodal` を追加、dependency-graph に 12 のノード + `implementation -.-> multimodal` の点線を追加、doc-template の category に `multimodal` を追加。learning-roadmap の 12 セクション化・依存マップの本格更新は Phase Z(Z-R)で実施。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| Y-0 | 12-multimodal スケルトン | `12-multimodal/README.md`・doc-template category・sync SECTION_TITLES・dependency-graph・ルート README 構成 | 完了 |
+| Y-1 | ドキュメント AI + 画像理解 | `12-multimodal/document-ai.md`, `12-multimodal/vision-understanding-patterns.md` | 完了 |
+| Y-2 | マルチモーダル RAG | `12-multimodal/multimodal-rag.md` | 完了 |
+| Y-R | フェーズレビュー(rag-implementation-patterns / structured-output / computer-use-and-multimodal-agents からの逆リンク・GLOSSARY 4 語〔VLM・ドキュメント AI・OCR・マルチモーダル RAG〕・published 化・同期一式) | — | 完了 |
+
+残りは Phase Z(画像生成・動画・音声合成・リアルタイム、MM-R2・MM-R3 調査必須)。
+
 ## 未着手の拡張計画(残 10 計画)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**が完了しました(PRIORITY-MAP 第 2 波完了 + 第 3 波の SE-CODING-AGENTS・LLMOPS 完了)。残る拡張計画は 10 本(計 63 本 + examples 5 件、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は第 3 波の Y〔MULTIMODAL 理解系〕・AH〔TRUST-SECURITY サプライチェーン〕等)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**が完了し、さらに第 3 波の **MULTIMODAL 前半(Phase Y・新セクション 12 + 3 本)**に着手しました。残る拡張計画は 10 本(うち MULTIMODAL は Phase Z の 4 本が残り。計 60 本 + examples 5 件、フェーズ記号 Z・S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は第 3 波の AH〔TRUST-SECURITY サプライチェーン〕、MULTIMODAL を閉じる Z 等)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 

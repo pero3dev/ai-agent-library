@@ -69,7 +69,8 @@ ai-agent-library/
 │   ├── 07-case-studies/      # ケーススタディ・アンチパターン詳解
 │   ├── 08-coding-agents/     # AI コーディングエージェント(選定・設定・セキュリティ・ツール別)
 │   ├── 09-business/          # ビジネス実務(ユースケース選定・PoC → 本番・ROI)
-│   └── 10-llm-foundations/   # LLM 基礎(生成の仕組み・トークン・注意機構・学習・能力限界)
+│   ├── 10-llm-foundations/   # LLM 基礎(生成の仕組み・トークン・注意機構・学習・能力限界)
+│   └── 12-multimodal/        # モダリティ・生成 AI 応用(文書・画像・動画・音声の理解と生成)
 ├── examples/
 │   ├── python/               # Python サンプルコード(tool-use を収録)
 │   └── typescript/           # TypeScript サンプルコード(将来追加)
@@ -97,6 +98,7 @@ ai-agent-library/
 | [docs/08-coding-agents/](docs/08-coding-agents/) | AI コーディングエージェントを実務で使う | 選定基準、設定・依頼設計、セキュリティ、チーム導入、ツール別リファレンス。Agent を「作る」側の話は 02・03 章へ |
 | [docs/09-business/](docs/09-business/) | Agent 案件を企画から本番まで推進する | ユースケース選定、要件定義、PoC → 本番、ROI。技術的な設計判断は 02 章、稼働後の運用は 05 章へ |
 | [docs/10-llm-foundations/](docs/10-llm-foundations/) | 「LLM 自体がなぜそう振る舞うか」の基礎 | 生成・トークン・注意機構・学習工程・能力限界の直感。数式による理論解説、Agent の概念(→ 01 章)は置かない |
+| [docs/12-multimodal/](docs/12-multimodal/) | テキスト以外のモダリティの理解と生成の実務 | 文書構造化・画像読解・マルチモーダル RAG・画像/動画/音声の生成・リアルタイム観測。生成モデルの理論・制作技法論は置かない |
 | [templates/](templates/) | 執筆の一貫性を担保する | ドキュメントテンプレート。本文コンテンツは置かない |
 | [examples/](examples/) | 動くサンプルコード | docs から参照される最小構成のコード。ドキュメント本文は置かない |
 | [research/](research/coding-agents/) | 執筆前の公式情報調査メモ | 出典 URL・確認日付きの調査記録。docs の執筆規約は適用しない |
@@ -117,5 +119,5 @@ ai-agent-library/
 
 ## ステータス
 
-- 現在: **Phase 0〜8 + Phase A〜O・BA・AD・AE・AK・AL・AX・AQ・AR・V・X・AF・AG(コーディングエージェント章・モデルガイド・プロフェッショナル化拡張・別冊拡張・詳解拡張第 1〜3 弾・モデル特化プロンプティング・データ知識基盤・評価品質・信頼性エンジニアリング・基礎拡張・SE 実践シリーズ・LLMOps)完了(2026-07-08 時点)**。全 11 セクションで **136 本**を公開しています — [00-overview](docs/00-overview/README.md) 2 本、[01-concepts](docs/01-concepts/README.md) 11 本、[02-architecture](docs/02-architecture/README.md) 12 本、[03-implementation](docs/03-implementation/README.md) 29 本、[04-evaluation](docs/04-evaluation/README.md) 12 本、[05-operations](docs/05-operations/README.md) 18 本、[06-security](docs/06-security/README.md) 8 本、[07-case-studies](docs/07-case-studies/README.md) 5 本、[08-coding-agents](docs/08-coding-agents/README.md) 28 本、[09-business](docs/09-business/README.md) 4 本、[10-llm-foundations](docs/10-llm-foundations/README.md) 7 本、および最初の [Python サンプル](examples/python/tool-use/README.md)。用語は [GLOSSARY.md](GLOSSARY.md)(102 エントリ)から横断的に辿れます
+- 現在: **Phase 0〜8 + Phase A〜O・BA・AD・AE・AK・AL・AX・AQ・AR・V・X・AF・AG・Y(コーディングエージェント章・モデルガイド・プロフェッショナル化拡張・別冊拡張・詳解拡張第 1〜3 弾・モデル特化プロンプティング・データ知識基盤・評価品質・信頼性エンジニアリング・基礎拡張・SE 実践シリーズ・LLMOps・モダリティ応用前半)完了(2026-07-08 時点)**。全 12 セクションで **139 本**を公開しています — [00-overview](docs/00-overview/README.md) 2 本、[01-concepts](docs/01-concepts/README.md) 11 本、[02-architecture](docs/02-architecture/README.md) 12 本、[03-implementation](docs/03-implementation/README.md) 29 本、[04-evaluation](docs/04-evaluation/README.md) 12 本、[05-operations](docs/05-operations/README.md) 18 本、[06-security](docs/06-security/README.md) 8 本、[07-case-studies](docs/07-case-studies/README.md) 5 本、[08-coding-agents](docs/08-coding-agents/README.md) 28 本、[09-business](docs/09-business/README.md) 4 本、[10-llm-foundations](docs/10-llm-foundations/README.md) 7 本、[12-multimodal](docs/12-multimodal/README.md) 3 本、および最初の [Python サンプル](examples/python/tool-use/README.md)。用語は [GLOSSARY.md](GLOSSARY.md)(106 エントリ)から横断的に辿れます
 - 次のステップ: ドキュメントサイトの公開準備(Phase W5、[WEBSITE-PLAN.md](WEBSITE-PLAN.md))。並行して [ROADMAP.md](ROADMAP.md) の「定期メンテナンス」(`TODO(要確認)` の棚卸し — 特に 08 章のツール情報・モデルガイド・エージェント認証の標準動向・規制動向・音声/FT 提供状況・ベンチマーク動向は変化が速いため四半期ごと必須、`examples/` の実行確認)を継続します

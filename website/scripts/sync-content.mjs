@@ -59,7 +59,8 @@ const SECTION_TITLES = {
   'case-studies': '07. ケーススタディ',
   'coding-agents': '08. コーディングエージェント',
   business: '09. ビジネス実務',
-  'llm-foundations': '10. LLM 基礎'
+  'llm-foundations': '10. LLM 基礎',
+  multimodal: '12. モダリティ応用'
 }
 
 const warnings = []

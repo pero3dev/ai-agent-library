@@ -99,6 +99,7 @@ def extract(text: str) -> dict:
 - [Agent 向けプロンプト設計](agent-prompt-design.md) — 指示ベースの出力制御との使い分け
 - [ツール定義の設計](tool-definition-design.md) — スキーマ設計の共通原則(enum・形式例)
 - [LLM-as-a-Judge](../04-evaluation/llm-as-a-judge.md) — 評価スコアという構造化出力の代表例
+- [ドキュメント AI(帳票・PDF の構造化)](../12-multimodal/document-ai.md) — 文書からの抽出結果を型で保証する応用(形式保証と内容保証の違い)
 
 ## 参考資料
 

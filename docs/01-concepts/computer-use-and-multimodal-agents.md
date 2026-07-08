@@ -94,6 +94,7 @@ tags: ["computer-use", "multimodal"]
 - [プロンプトインジェクション](../06-security/prompt-injection.md) — 画面経由の間接インジェクション
 - [フィジカル AI とロボティクスの概観](physical-ai-overview.md) — 「観測して行動する」ループの連続線上にある物理世界側
 - [マルチモーダルモデルの仕組み(数式なしの直感)](../10-llm-foundations/multimodal-models.md) — 画面・画像を内部でどう扱うか(コスト・精度の崖の由来)
+- [画像理解の実務パターン](../12-multimodal/vision-understanding-patterns.md) — 画面・画像を「読解」する側のプロンプトと限界(本記事は「操作」側)
 
 ## 参考資料
 

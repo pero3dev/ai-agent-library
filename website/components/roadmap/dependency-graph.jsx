@@ -23,7 +23,8 @@ const POSITIONS = {
   'case-studies': { x: 560, y: 540 },
   'coding-agents': { x: 560, y: 60 },
   business: { x: -80, y: 560 },
-  'llm-foundations': { x: -80, y: 180 }
+  'llm-foundations': { x: -80, y: 180 },
+  multimodal: { x: -80, y: 370 }
 }
 
 // learning-roadmap.md の Mermaid と同じ依存(矢印 = 先に読むと理解が速い)。
@@ -43,7 +44,8 @@ const EDGES = [
   ['security', 'coding-agents', 'dashed'],
   ['concepts', 'business'],
   ['evaluation', 'business', 'dashed'],
-  ['concepts', 'llm-foundations', 'dashed']
+  ['concepts', 'llm-foundations', 'dashed'],
+  ['implementation', 'multimodal', 'dashed']
 ]
 
 /** next-themes が <html class="dark"> を付け外しするのを監視する(依存追加なしの簡易フック) */

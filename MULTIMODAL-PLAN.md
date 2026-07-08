@@ -1,7 +1,7 @@
 # MULTIMODAL-PLAN — モダリティ・生成 AI 応用 追加計画
 
-> **ステータス: 設計案(2026-07-07 作成、ユーザーの選定に基づく。着手指示待ち)。**
-> テキスト以外のモダリティ(文書・画像・動画・音声)の**理解と生成**を実務に組み込むための追加計画です。進捗の正本は着手後 [ROADMAP.md](ROADMAP.md) に置きます。
+> **ステータス: Phase Y 完了・Phase Z 未着手(2026-07-07 作成。2026-07-08 に新セクション `12-multimodal` を新設し Phase Y = document-ai・vision-understanding-patterns・multimodal-rag の 3 本 published)。残りは Phase Z(image-generation-integration・video-ai-overview・speech-synthesis-and-voice-design・realtime-multimodal-agents の 4 本 + MM-R2・MM-R3 調査)。**
+> テキスト以外のモダリティ(文書・画像・動画・音声)の**理解と生成**を実務に組み込むための追加計画です。進捗の正本は [ROADMAP.md](ROADMAP.md) に置きます。
 
 ## 1. 位置づけとギャップ分析
 

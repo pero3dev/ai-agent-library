@@ -11,7 +11,7 @@
 # front matter は機械可読メタデータのみ。
 # 対象読者・前提知識・関連トピックは本文セクションが正であり、ここに重複させない。
 title: "(日本語のトピック名。H1 と一致させる)"
-category: "(セクション名: overview | concepts | architecture | implementation | evaluation | operations | security | case-studies | coding-agents | business | llm-foundations)"
+category: "(セクション名: overview | concepts | architecture | implementation | evaluation | operations | security | case-studies | coding-agents | business | llm-foundations | multimodal)"
 level: "(basic | intermediate | advanced)"
 status: "draft"          # draft(フェーズレビュー未通過)| published(通過済み)
 last_updated: "YYYY-MM-DD"  # 本文の内容(事実・推奨・コード)を変更したら更新。誤字修正のみでは更新しない

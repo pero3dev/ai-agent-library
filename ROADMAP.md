@@ -362,9 +362,19 @@
 | AR-2 | マルチモーダルモデルの仕組み(数式なし直感版・10 章) | `10-llm-foundations/multimodal-models.md` | 完了 |
 | AR-R | フェーズレビュー(physical-ai-overview・what-is-an-ai-agent・computer-use-and-multimodal-agents・attention-and-context・how-llms-generate-text からの逆リンク・published 化・同期一式) | — | 完了 |
 
+### Phase V: SE 実践シリーズ 前半 — 工程別マップ・上流・テスト(SE-CODING-AGENTS 第 1 弾)— ✅ 完了(2026-07-08)
+
+設計は [SE-CODING-AGENTS-PLAN.md](SE-CODING-AGENTS-PLAN.md)。日本の企業システム開発の**工程**(V 字モデル)に軸を置き、08 章のツール基礎の上に「工程の層」を足す SE 実践シリーズの前半 3 本。調査不要。08 章 README の収録表に「SE 実践シリーズ」区切り行を追加(sync の収録表パースは `[x.md](` 行のみ拾うため区切り行は無視され安全と確認 = §9 TODO 解消)。残りは Phase X(レガシー・保守 + 制約・顧客合意、SE-R1 調査必須)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| V-1 | 工程別活用マップ(シリーズの背骨) | `08-coding-agents/se-process-map.md` | 完了 |
+| V-2 | 上流・テスト工程 | `08-coding-agents/se-requirements-and-design.md`, `08-coding-agents/se-test-process.md` | 完了 |
+| V-R | フェーズレビュー(08 README のシリーズ区切り・usecase-discovery / regression-testing からの逆リンク・published 化・同期一式) | — | 完了 |
+
 ## 未着手の拡張計画(残 12 計画)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)が完了し、PRIORITY-MAP 第 2 波が完了しました。残る拡張計画は 12 本(計 77 本 + examples 5 件、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は第 3 波)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)が完了し、PRIORITY-MAP 第 2 波が完了。さらに第 3 波の SE-CODING-AGENTS 前半(Phase V・3 本)に着手済みです。残る拡張計画は 12 本(うち SE-CODING-AGENTS は Phase X の 4 本が残り。計 74 本 + examples 5 件、フェーズ記号 X・S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 

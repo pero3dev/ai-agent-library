@@ -101,6 +101,7 @@ tags: ["regression-testing", "evaluation"]
 - [フレームワーク選定ガイド](../03-implementation/framework-selection.md) — 評価との統合しやすさは選定軸の 1 つ
 - [バージョニング・デプロイ・モデル更新追従](../05-operations/versioning-and-model-updates.md) — モデル更新イベントの運用手順
 - [エージェント評価環境の構築](evaluation-environments.md) — 回帰スイートを載せる評価環境(モック・状態リセット)
+- [テスト工程での活用](../08-coding-agents/se-test-process.md) — 企業システム開発のテスト工程でコーディングエージェントを使う SE 実践側
 
 ## 参考資料
 

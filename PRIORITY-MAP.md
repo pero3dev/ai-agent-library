@@ -37,7 +37,7 @@
 
 | フェーズ | 計画 | 本数 | 根拠 |
 | --- | --- | --- | --- |
-| V → X | [SE-CODING-AGENTS](SE-CODING-AGENTS-PLAN.md) | 7 | 価値◎(SE 層の需要)。**08 章の調査メモ(2026-07)が新しいうちが有利**。調査 1 件 |
+| ✅ V 完了 → X | [SE-CODING-AGENTS](SE-CODING-AGENTS-PLAN.md) | 7(V の 3 本完了・X の 4 本残り) | 価値◎(SE 層の需要)。**Phase V(工程マップ・上流・テスト)完了(2026-07-08)**。残る Phase X(レガシー・保守 + 制約・顧客合意)は SE-R1 調査必須。**08 章の調査メモ(2026-07)が新しいうちが有利** |
 | AF → AG | [LLMOPS](LLMOPS-PLAN.md)(セルフホスト・ゲートウェイほか) | 7 | 価値◎(閉域網需要)。SE の制約記事と相互補完。調査 1 件 |
 | Y → Z | [MULTIMODAL](MULTIMODAL-PLAN.md)(ドキュメント AI ほか) | 7 | Y(理解系)は調査ゼロで価値◎。Z(生成系)は調査 2 件・鮮度負担 +2 |
 | AH → AI → AJ | [TRUST-SECURITY](TRUST-SECURITY-PLAN.md) | 8 | AH(サプライチェーン・攻撃)は調査ゼロで価値◎。AI・AJ は調査 3 件・鮮度負担 +3。**compliance メモ(2026-07)の再利用は早いほど楽** |

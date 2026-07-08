@@ -32,5 +32,9 @@ Claude Code や GitHub Copilot などの AI コーディングエージェント
 | [claude-code-in-practice.md](claude-code-in-practice.md) | Claude Code 実践ガイド(機能の使いどころ・コスト削減・効率化) |
 | [openai-codex-in-practice.md](openai-codex-in-practice.md) | OpenAI Codex 実践ガイド(同上) |
 | [github-copilot-in-practice.md](github-copilot-in-practice.md) | GitHub Copilot 実践ガイド(同上) |
+| **── SE 実践シリーズ ──** | 日本の企業システム開発(SIer・情シス)の**工程と商流**に軸を置く実践記事群。上記のツール選定・設定・依頼設計・セキュリティを前提にする(設計は `SE-CODING-AGENTS-PLAN.md`) |
+| [se-process-map.md](se-process-map.md) | SE 工程別活用マップ(V 字モデルで各工程の使いどころ・人が握る責任を一望。シリーズの背骨) |
+| [se-requirements-and-design.md](se-requirements-and-design.md) | 要件定義・設計工程での活用(観点出し・設計書ドラフト・整合性チェック・Excel 設計書文化への現実解) |
+| [se-test-process.md](se-test-process.md) | テスト工程での活用(テスト観点/ケース生成・自己検証の罠・品質保証責任は人) |
 
-執筆順・タスク分割はリポジトリ直下の `CODING-AGENTS-PLAN.md` と `ROADMAP.md`(Phase A)を参照してください。ツール別ページの製品情報は変化が速いため、各ページ本文冒頭の「最終確認日」を必ず確認してください(執筆前調査の出典記録はリポジトリの `research/coding-agents/` にあります)。
+執筆順・タスク分割はリポジトリ直下の `CODING-AGENTS-PLAN.md`・`SE-CODING-AGENTS-PLAN.md` と `ROADMAP.md`(Phase A・V)を参照してください。ツール別ページの製品情報は変化が速いため、各ページ本文冒頭の「最終確認日」を必ず確認してください(執筆前調査の出典記録はリポジトリの `research/coding-agents/` にあります)。

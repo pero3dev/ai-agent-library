@@ -491,9 +491,23 @@
 
 残りは Phase AC(先端応用 emerging-agent-domains + 第 2 期 4 本〔表計算・予測時系列・人事採用・法務〕、DA-R2 調査必須・鮮度管理型。AC-R で learning-roadmap 13 化 + 07 章との相互リンク)。
 
-## 未着手・進行中の拡張計画(残 8 計画)
+### Phase AC: ドメイン応用 第 3 陣 — 先端応用 + 第 2 期(表計算・予測・人事・法務)(DOMAIN-AGENTS 完結)— ✅ 完了(2026-07-09)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が進行(Phase AA・AB・第 1〜2 陣 7 本 + 新セクション 13)**。残る拡張計画は 8 本(うち DOMAIN-AGENTS は Phase AC が残り。全体で 38 本 + examples 5 件、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は DOMAIN-AGENTS の続き〔AC・DA-R2 調査必須〕、または CASES-EXAMPLES〔AU-2 失敗事例は繰り上げ可〕・UX-PRODUCT〔AM・AN〕・ORG-PROCESS〔AO・AP〕等)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+設計は [DOMAIN-AGENTS-PLAN.md](DOMAIN-AGENTS-PLAN.md)。13-domain-agents に 5 本を追加し、**DOMAIN-AGENTS 計画(全 12 本 + 新セクション 13)が完結**。emerging は執筆前調査 DA-R2(`research/domain-agents/emerging.md`、科学研究支援・シミュレーション/NPC・エージェント経済の**実証/構想を区別**して整理)を反映した鮮度管理型。spreadsheet(生きた計算モデルの破壊防止)・time-series(数値予測は専用手法・LLM は解釈層)は調査不要。hr・legal は**免責方式**(規制内容を解説せず確認先の提示に徹する)。AC-R で learning-roadmap を 13 セクション化(Mermaid `I3 -.-> DA13`・概要/読みどころ)、07 章 README に「ドメイン設計ガイドは 13 章」を追加、定期メンテナンスに「先端応用の定点観測」を追加。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| DA-R2 | 先端 3 領域の現在地調査(実証/構想の区別重視・公式/査読優先) | `research/domain-agents/emerging.md` | 完了 |
+| AC-1 | 先端応用の概観(DA-R2 反映・鮮度管理型) | `13-domain-agents/emerging-agent-domains.md` | 完了 |
+| AC-2 | 表計算 + 予測・時系列 | `13-domain-agents/spreadsheet-agents.md`, `time-series-and-forecasting.md` | 完了 |
+| AC-3 | 人事・採用 + 法務(いずれも免責方式) | `13-domain-agents/hr-and-recruitment-ai.md`, `legal-review-agents.md` | 完了 |
+| AC-R | フェーズレビュー + 統合(learning-roadmap 13 化・07 章相互リンク・data-analysis/fairness/document-ai/ai-copyright/mcp からの逆リンク・GLOSSARY 2 語〔エージェント経済・生成エージェント〕・published 化・同期一式・定点観測追加) | — | 完了 |
+
+**これで DOMAIN-AGENTS(全 12 本 + 新セクション 13)が完結。**
+
+## 未着手の拡張計画(残 8 計画)
+
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**。残る拡張計画は 8 本(CASES-EXAMPLES・UX-PRODUCT・ORG-PROCESS・AGENT-INFRA・AI-STRATEGY・LLM-INTERNALS・HUMAN-AI・ECOSYSTEM。全体で 33 本 + examples 5 件、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は CASES-EXAMPLES〔AU-2 失敗事例は繰り上げ可〕・UX-PRODUCT〔AM・AN・新 14〕・ORG-PROCESS〔AO・AP〕等)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 
@@ -519,4 +533,5 @@ CLAUDE.md の執筆ルールと templates/doc-template.md に従い、
 - **生成 AI(画像・動画)・リアルタイム/TTS API の定点観測**(`12-multimodal/` の生成系・リアルタイム系(image-generation-integration・video-ai-overview・speech-synthesis-and-voice-design・realtime-multimodal-agents)の「変わりやすい項目」。生成モデルの顔ぶれ・尺/解像度・商用利用条件・来歴(C2PA/透かし)・リアルタイム映像入力仕様・音声クローンの同意要件は変化が非常に速いため四半期ごと。`research/multimodal/generation.md`・`realtime-tts.md` を更新起点にする。直近の注目: Imagen の 2026-08-17 停止と Nano Banana 移行 / 動画生成の尺・音声同期 / 各社の来歴機能の対象拡大)
 - **来歴標準・フロンティアセーフティ・なりすまし・著作権/知財の定点観測**(`06-security/` の発展層(content-provenance-and-detection・frontier-safety-overview・deepfake-and-impersonation-defense)と `09-business/ai-copyright-and-ip-map` の「変わりやすい項目」。C2PA 仕様の版/ISO 化・電子透かしの対象/堅牢性主張・各社フロンティア安全フレームワークの版・各国 AISI の名称/所在・公的機関のなりすまし注意喚起・著作権/知財の公的資料(文化庁・知財本部・特許庁・米著作権局・EU AI Act Art.53)は変化が速いため四半期ごと。`research/trust/provenance.md`・`frontier-safety.md`・`copyright.md` を更新起点にする。直近の注目: ISO/DIS 22144 の最終化 / RSP・Preparedness・FSF の改版 / US CAISI・英 AISI の改称後の動向 / 知財本部の検討会ページ移転・「プリンシプル・コード(仮称)」の策定 / 米著作権局 Part 3(学習)最終版)
 - **RPA/自動化ベンダーの Agent 統合動向の定点観測**(`13-domain-agents/rpa-and-agents.md` の「動向(類型)」節と最終確認日。主要 RPA/自動化製品のエージェント機能・オーケストレーション層・提供形態(オンプレ/エアギャップ・BYO-LLM)・統制機能は発表が活発で変化が速いため四半期ごと。`research/domain-agents/rpa.md` を更新起点にする。直近の注目: SS&C Blue Prism WorkHQ の本文再取得と GA / UiPath Automation Suite のオンプレ agentic 拡張・準拠標準 / Microsoft の RPA vs CUA 公式表の改訂 / WinActor の AI 連携ライセンス改定)
+- **先端応用(科学研究・シミュレーション・エージェント経済)の定点観測**(`13-domain-agents/emerging-agent-domains.md` の最終確認日。実証/構想の別が動きやすい鮮度管理型のため四半期ごと。`research/domain-agents/emerging.md` の定点観測項目を更新起点にする。直近の注目: 科学 AI(Co-Scientist の Nature 論文本文・A-Lab 訂正の顛末・「end-to-end 自律」系プレプリントの査読/追試)/ 生成エージェント「1,000 人」続報の査読 / 決済プロトコルの仕様→稼働の移行・標準の統治主体(MCP=AAIF・A2A=Linux Foundation・AP2=FIDO)/ 暗号資産 AI エージェント市場の投機と実利用の乖離)
 - `examples/` の実行確認と各サンプル README の動作確認日の更新(四半期ごと目安)

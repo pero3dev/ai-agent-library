@@ -85,6 +85,7 @@ MCP(Model Context Protocol)は、ツールやデータソースを LLM アプリ
 - [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) — 危険な操作への承認
 - [ツール権限設計とサンドボックス](../06-security/tool-permissions-and-sandboxing.md) — 権限設計とサンドボックスの詳細
 - [フレームワーク選定ガイド](framework-selection.md) — MCP 対応はフレームワーク選定の観点の 1 つ
+- [先端応用の概観(科学研究・シミュレーション・エージェント経済)](../13-domain-agents/emerging-agent-domains.md) — 通信標準(MCP・A2A)がエージェント経済の土台になる位置づけ
 
 ## 参考資料
 

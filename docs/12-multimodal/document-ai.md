@@ -107,6 +107,7 @@ tags: ["document-ai", "ocr", "structured-output"]
 - [信頼度と較正(calibration)](../04-evaluation/confidence-and-calibration.md) — 人手振り分けの確信度判断
 - [評価データセットの構築と保守](../04-evaluation/evaluation-datasets.md) — グラウンドトゥルースの作り方
 - [マルチモーダルモデルの仕組み(数式なしの直感)](../10-llm-foundations/multimodal-models.md) — 画像入力のコスト・精度の崖
+- [表計算・構造化データ操作エージェント](../13-domain-agents/spreadsheet-agents.md) — 抽出後の「編集可能な表(生きた計算モデル)」の操作
 
 ## 参考資料
 

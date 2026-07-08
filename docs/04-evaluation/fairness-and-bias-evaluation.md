@@ -110,6 +110,7 @@ tags: ["evaluation", "fairness"]
 - [ガードレール](../06-security/guardrails.md) — 問題表現を出力側で止める対応手段
 - [コンプライアンスとガバナンス](../06-security/compliance-and-governance.md) — 差別禁止など規制・法務の要求(本記事の測定をつなぐ先)
 - [LLM の学習パイプライン(事前学習から選好調整まで)](../10-llm-foundations/llm-training-pipeline.md) — 偏りが学習データ・調整に由来する仕組み
+- [人事・採用領域の AI(高リスク用途の設計)](../13-domain-agents/hr-and-recruitment-ai.md) — 本記事の公平性評価を最も切実に必要とする適用先
 
 ## 参考資料
 

@@ -1,6 +1,6 @@
 # EVAL-QUALITY-PLAN — 評価・品質の深掘り 追加計画
 
-> **ステータス: 実施中(2026-07-07 作成。2026-07-08 に Phase AK 完了 = evaluation-environments / user-simulator-design / confidence-and-calibration の 3 本 published。残りは Phase AL の 2 本 = 公平性・日本語品質)。**
+> **ステータス: 完了(2026-07-07 作成。2026-07-08 に Phase AK(evaluation-environments / user-simulator-design / confidence-and-calibration)と Phase AL(fairness-and-bias-evaluation / japanese-quality-evaluation)を完了 = 全 5 本 published)。**
 > 04-evaluation の発展層 — 評価環境の構築・ユーザーシミュレータ・信頼度較正・公平性・日本語品質 — の追加計画です。進捗の正本は着手後 [ROADMAP.md](ROADMAP.md) に置きます。
 
 ## 1. 位置づけとギャップ分析

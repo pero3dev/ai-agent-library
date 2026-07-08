@@ -1,6 +1,6 @@
 # PRIORITY-MAP — 未着手計画の推奨実施順
 
-> **ステータス: 運用中(2026-07-07 作成・2026-07-08 更新)。** 拡張計画のうち DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)が完了し **第 2 波(基盤の深掘り)が完了**、さらに **第 3 波の SE-CODING-AGENTS(Phase V・X・7 本)・LLMOPS(Phase AF・AG・7 本)も完了、MULTIMODAL 前半(Phase Y・新セクション 12 + 3 本)に着手**。残る拡張計画 10 本(うち MULTIMODAL は Phase Z が残り。計 60 本 + examples 5 件、次は第 3 波の続き)の推奨実施順です。フェーズの完了・計画の変更時に本ファイルも同じセッションで更新します(進捗の正本は [ROADMAP.md](ROADMAP.md)、各計画の内容は各 PLAN ファイルが正本)。
+> **ステータス: 運用中(2026-07-07 作成・2026-07-08 更新)。** 拡張計画のうち DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)が完了し **第 2 波(基盤の深掘り)が完了**、さらに **第 3 波の SE-CODING-AGENTS(Phase V・X・7 本)・LLMOPS(Phase AF・AG・7 本)・MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)も完了**。残る拡張計画 9 本(計 53 本 + examples 5 件、次は第 3 波を閉じる AH〔TRUST-SECURITY〕等)の推奨実施順です。フェーズの完了・計画の変更時に本ファイルも同じセッションで更新します(進捗の正本は [ROADMAP.md](ROADMAP.md)、各計画の内容は各 PLAN ファイルが正本)。
 
 ## 1. 評価軸
 
@@ -39,7 +39,7 @@
 | --- | --- | --- | --- |
 | ✅ V・X 完了 | [SE-CODING-AGENTS](SE-CODING-AGENTS-PLAN.md) | 7(完了) | 価値◎(SE 層の需要)。**Phase V(工程マップ・上流・テスト)+ Phase X(レガシー・保守・企業制約〔SE-R1 反映〕・顧客合意)完了(2026-07-08)**。learning-roadmap に読者タイプ H を追加。**これで第 3 波の先頭が完了** |
 | ✅ AF・AG 完了 | [LLMOPS](LLMOPS-PLAN.md)(セルフホスト・ゲートウェイほか) | 7(完了) | 価値◎(閉域網需要)。**Phase AF(セルフホスト・GPU 基礎・ゲートウェイ)+ Phase AG(ローカル・キャッシュ・バッチ・MLOps)完了(2026-07-08)**。SE の制約記事(閉域網)と相互リンク。調査 LO-R1 = `research/llmops/serving.md` |
-| ✅ Y 完了 → Z | [MULTIMODAL](MULTIMODAL-PLAN.md)(ドキュメント AI ほか) | 7(Y の新セクション 12 + 3 本完了・Z の 4 本残り) | **Phase Y(理解系: document-ai・vision-understanding-patterns・multimodal-rag、新セクション 12-multimodal)完了(2026-07-08)**。残る Z(生成系: 画像/動画/音声/リアルタイム)は調査 MM-R2・MM-R3 必須・鮮度負担 +2 |
+| ✅ Y・Z 完了 | [MULTIMODAL](MULTIMODAL-PLAN.md)(ドキュメント AI ほか) | 7(完了・新セクション 12) | **Phase Y(理解系)+ Phase Z(生成系: 画像/動画/音声/リアルタイム、MM-R2・MM-R3 反映)完了(2026-07-08)**。新セクション 12-multimodal を新設、learning-roadmap を 12 セクション化 |
 | AH → AI → AJ | [TRUST-SECURITY](TRUST-SECURITY-PLAN.md) | 8 | AH(サプライチェーン・攻撃)は調査ゼロで価値◎。AI・AJ は調査 3 件・鮮度負担 +3。**compliance メモ(2026-07)の再利用は早いほど楽** |
 
 ### 第 4 波: 新章の応用群・組織・事例

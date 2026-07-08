@@ -16,9 +16,9 @@
 | [document-ai.md](document-ai.md) | ドキュメント AI(帳票・PDF の構造化。OCR と VLM 直読の使い分け・レイアウト解析・抽出結果の検証・RAG への接続) |
 | [vision-understanding-patterns.md](vision-understanding-patterns.md) | 画像理解の実務パターン(ユースケース類型別のプロンプト・構造化出力併用・視覚の限界と対策・評価) |
 | [multimodal-rag.md](multimodal-rag.md) | マルチモーダル RAG(テキスト化索引・マルチモーダル埋め込み・ページ画像 VLM 読解の 3 構成と使い分け・根拠提示) |
-| `image-generation-integration.md` | 画像生成のプロダクト組み込み(選定軸・一貫性管理・安全と権利・レビューゲート) |
-| `video-ai-overview.md` | 動画生成・理解の概観(理解と生成の現在地・実務ユースケースの見極め。鮮度管理型) |
-| `speech-synthesis-and-voice-design.md` | 音声合成(TTS)と声の設計(選定軸・声の設計・音声クローンの統制・発音制御・評価) |
-| `realtime-multimodal-agents.md` | リアルタイムマルチモーダル Agent(継続観測・応答タイミング・プロアクティブ介入・プライバシー。鮮度管理型) |
+| [image-generation-integration.md](image-generation-integration.md) | 画像生成のプロダクト組み込み(選定軸・一貫性管理・安全と権利・来歴・レビューゲート) |
+| [video-ai-overview.md](video-ai-overview.md) | 動画生成・理解の概観(理解と生成の現在地・実務ユースケースの見極め。鮮度管理型) |
+| [speech-synthesis-and-voice-design.md](speech-synthesis-and-voice-design.md) | 音声合成(TTS)と声の設計(選定軸・声の設計・音声クローンの統制・発音制御・評価) |
+| [realtime-multimodal-agents.md](realtime-multimodal-agents.md) | リアルタイムマルチモーダル Agent(継続観測・応答タイミング・プロアクティブ介入・プライバシー。鮮度管理型) |
 
 執筆順・タスク分割はリポジトリ直下の `MULTIMODAL-PLAN.md` と `ROADMAP.md`(Phase Y・Z)を参照してください。動画・リアルタイム・生成系のページは変化が速いため、各ページ本文冒頭の「最終確認日」を必ず確認してください。

@@ -124,6 +124,8 @@ flowchart TB
 - [非同期・長時間タスクの設計(耐久実行)](../02-architecture/async-and-durable-agents.md) — 「折り返します」型の長いタスクの永続化
 - [Agent 評価の基礎](../04-evaluation/agent-evaluation-basics.md) — トランスクリプトに適用する評価の土台
 - [可観測性とトレーシング](../05-operations/observability-and-tracing.md) — トランスクリプト・レイテンシの記録
+- [音声合成(TTS)と声の設計](../12-multimodal/speech-synthesis-and-voice-design.md) — 出力部品としての TTS と非対話用途(読み上げ・ナレーション)
+- [リアルタイムマルチモーダル Agent](../12-multimodal/realtime-multimodal-agents.md) — 音声に映像(カメラ・画面)を足した継続観測型
 
 ## 参考資料
 

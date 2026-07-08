@@ -118,6 +118,7 @@ flowchart LR
 - [マルチテナント設計](../02-architecture/multi-tenancy-and-isolation.md) — テナント境界でのログ・削除の扱い
 - [データ漏えい対策](../06-security/data-exfiltration.md) — 外部送信・持ち出し経路の防御
 - [AI のためのデータガバナンス](data-governance-for-ai.md) — 「AI に食わせる知識源データ」側の管理(本記事は「AI が生む会話ログ」側。対の記事)
+- [リアルタイムマルチモーダル Agent](../12-multimodal/realtime-multimodal-agents.md) — 常時観測で生じる映像・音声データの保持・削除・同意(本記事の映像版)
 
 ## 参考資料
 

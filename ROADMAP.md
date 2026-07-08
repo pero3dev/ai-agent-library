@@ -417,9 +417,21 @@
 
 残りは Phase Z(画像生成・動画・音声合成・リアルタイム、MM-R2・MM-R3 調査必須)。
 
-## 未着手の拡張計画(残 10 計画)
+### Phase Z: モダリティ応用 後半 — 画像生成・動画・音声合成・リアルタイム(MULTIMODAL 第 2 弾)— ✅ 完了(2026-07-08)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**が完了し、さらに第 3 波の **MULTIMODAL 前半(Phase Y・新セクション 12 + 3 本)**に着手しました。残る拡張計画は 10 本(うち MULTIMODAL は Phase Z の 4 本が残り。計 60 本 + examples 5 件、フェーズ記号 Z・S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は第 3 波の AH〔TRUST-SECURITY サプライチェーン〕、MULTIMODAL を閉じる Z 等)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+設計は [MULTIMODAL-PLAN.md](MULTIMODAL-PLAN.md)。生成系・リアルタイム系 4 本(すべて鮮度管理型)。執筆前調査 MM-R2(`research/multimodal/generation.md`、画像・動画生成の提供形態/商用利用/来歴・公式のみ・優劣比較なし)を image-generation / video に、MM-R3(`research/multimodal/realtime-tts.md`、リアルタイム視覚ストリーミング + 単体 TTS の日本語/クローン・P-R3 音声メモの差分)を speech-synthesis / realtime に反映。**これで MULTIMODAL 計画(全 7 本)+ 新セクション 12 が完了。**learning-roadmap を 12 セクション化(Mermaid に `I3 -.-> MM12`・読みどころ追加)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| MM-R2 | 画像・動画生成の提供状況調査 | `research/multimodal/generation.md` | 完了 |
+| MM-R3 | リアルタイム視覚 + 単体 TTS 調査 | `research/multimodal/realtime-tts.md` | 完了 |
+| Z-1 | 画像生成の組み込み + 動画概観 | `12-multimodal/image-generation-integration.md`, `12-multimodal/video-ai-overview.md` | 完了 |
+| Z-2 | 音声合成と声の設計 + リアルタイムマルチモーダル | `12-multimodal/speech-synthesis-and-voice-design.md`, `12-multimodal/realtime-multimodal-agents.md` | 完了 |
+| Z-R | フェーズレビュー + 統合(learning-roadmap 12 セクション化・voice-agents / conversation-data-management からの逆リンク・GLOSSARY 2 語〔インペインティング・音声クローン〕・published 化・同期一式・定点観測追加) | — | 完了 |
+
+## 未着手の拡張計画(残 9 計画)
+
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**が完了しました(PRIORITY-MAP 第 2 波完了 + 第 3 波の SE-CODING-AGENTS・LLMOPS・MULTIMODAL 完了)。残る拡張計画は 9 本(計 53 本 + examples 5 件、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は第 3 波を閉じる AH〔TRUST-SECURITY サプライチェーン・調査ゼロ〕等)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 
@@ -442,4 +454,5 @@ CLAUDE.md の執筆ルールと templates/doc-template.md に従い、
 - **業界規制の定点観測**(`09-business/industry-regulations-map.md` の全表の版数。四半期ごと。`research/supplementary/regulations.md` を更新起点にする。直近の注目: 厚労省ガイドライン第 7.0 版の詳細 / DS-920 第 2.0 版の運用 / 金融庁 AI DP の次期改訂 / 個情法改正案の成立)
 - **フィジカル AI の定点観測**(`01-concepts/physical-ai-overview.md` の「変わりやすい項目」。四半期ごと。`research/supplementary/physical-ai.md` を更新起点にする。直近の注目: モデル世代・提供形態の変化 / 共通ベンチマークの成立)
 - **サービング・ゲートウェイ OSS の定点観測**(`05-operations/self-hosted-inference.md`・`llm-gateway.md` と `03-implementation/local-and-on-device-llm.md` の「変わりやすい項目」。推論エンジン・ローカル実行系・ゲートウェイ OSS は開発が活発で機能差・ライセンスが動きやすいため四半期ごと。`research/llmops/serving.md` を更新起点にする。直近の注目: OpenAI 互換 API の対応範囲拡大 / OSS コアとエンタープライズ機能の境界 / 量子化形式の追随)
+- **生成 AI(画像・動画)・リアルタイム/TTS API の定点観測**(`12-multimodal/` の生成系・リアルタイム系(image-generation-integration・video-ai-overview・speech-synthesis-and-voice-design・realtime-multimodal-agents)の「変わりやすい項目」。生成モデルの顔ぶれ・尺/解像度・商用利用条件・来歴(C2PA/透かし)・リアルタイム映像入力仕様・音声クローンの同意要件は変化が非常に速いため四半期ごと。`research/multimodal/generation.md`・`realtime-tts.md` を更新起点にする。直近の注目: Imagen の 2026-08-17 停止と Nano Banana 移行 / 動画生成の尺・音声同期 / 各社の来歴機能の対象拡大)
 - `examples/` の実行確認と各サンプル README の動作確認日の更新(四半期ごと目安)

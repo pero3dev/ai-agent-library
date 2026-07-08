@@ -1,6 +1,6 @@
 # CASES-EXAMPLES-PLAN — ケーススタディ・サンプルコード拡充計画
 
-> **ステータス: 設計案(2026-07-07 作成、ユーザーの選定に基づく。着手指示待ち)。**
+> **ステータス: 完了(2026-07-07 作成、ユーザーの選定に基づく。Phase AU〔ケーススタディ 3 本 = IT ヘルプデスク・データ分析・撤退した失敗事例〕・Phase AV〔examples 5 件 = structured-output・evaluation-harness・rag-basics・mcp-server・multi-agent、全件モック実行検証〕を 2026-07-09 に完了。CASES-EXAMPLES 完結)。**
 > 07-case-studies の構成事例 3 本(**失敗事例を含む**)と、`examples/` の動くサンプルコード 5 件の拡充計画です。他計画と性格が異なり、**examples はコード実行環境の検証を伴います**。進捗の正本は着手後 [ROADMAP.md](ROADMAP.md) に置きます。
 
 ## 1. 位置づけとギャップ分析

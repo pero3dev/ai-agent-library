@@ -517,9 +517,21 @@
 
 残りは Phase AV(examples 5 件・モック実行検証)。
 
-## 未着手・進行中の拡張計画(残 8 計画)
+### Phase AV: サンプルコード拡充 — examples 5 件(CASES-EXAMPLES 第 2 弾)— ✅ 完了(2026-07-09)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**。残る拡張計画は 8 本(CASES-EXAMPLES・UX-PRODUCT・ORG-PROCESS・AGENT-INFRA・AI-STRATEGY・LLM-INTERNALS・HUMAN-AI・ECOSYSTEM。全体で 33 本 + examples 5 件、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は CASES-EXAMPLES〔AU-2 失敗事例は繰り上げ可〕・UX-PRODUCT〔AM・AN・新 14〕・ORG-PROCESS〔AO・AP〕等)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+設計は [CASES-EXAMPLES-PLAN.md](CASES-EXAMPLES-PLAN.md)。examples/python に 5 件を追加(1 → 6 件)。全件が **`--mock` 実行(API キー不要・標準ライブラリのみ)** をサポートし、本セッションでモック実行を検証(全件 exit=0)。実 API 動作は各自の環境で確認する方針(各 README の動作確認欄・§8-1 の推奨)。LLM 呼び出しは `llm_client.py` に隔離。website の sync に 6 examples を取り込み、docs ↔ examples 双方向リンクを整備。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| AV-1 | structured-output + evaluation-harness | 2 ディレクトリ一式(コード・README・requirements) | 完了 |
+| AV-2 | rag-basics + mcp-server + multi-agent | 3 ディレクトリ一式 | 完了 |
+| AV-R | 全サンプルのモック実行検証・docs ↔ examples 双方向リンク(structured-output / agent-evaluation-basics / regression-testing / rag-implementation-patterns / mcp-and-tool-protocols / orchestration-patterns / single-vs-multi-agent)・sync 取り込み・ルート README 更新 | — | 完了 |
+
+**これで CASES-EXAMPLES(ケーススタディ 3 + examples 5)が完結。**
+
+## 未着手の拡張計画(残 7 計画)
+
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**、および **CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件)**。残る拡張計画は 7 本(UX-PRODUCT・ORG-PROCESS・AGENT-INFRA・AI-STRATEGY・LLM-INTERNALS・HUMAN-AI・ECOSYSTEM。全体で 30 本、examples は完了、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は UX-PRODUCT〔AM・AN・新 14〕・ORG-PROCESS〔AO・AP〕等、いずれも調査ゼロ)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 

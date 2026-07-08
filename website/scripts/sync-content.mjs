@@ -169,14 +169,25 @@ async function collectFiles() {
   // content には生成せず、docs からのリンクだけ /glossary へ書き換える
   routeMap.set('GLOSSARY.md', '/glossary')
 
-  routeMap.set('examples/python/tool-use/README.md', `${BASE_PATH}/examples/python-tool-use`)
-  files.push({
-    abs: path.join(REPO_ROOT, 'examples', 'python', 'tool-use', 'README.md'),
-    repoRel: 'examples/python/tool-use/README.md',
-    outRel: 'examples/python-tool-use.md',
-    section: 'examples',
-    slug: 'python-tool-use'
-  })
+  // examples/python 配下の各サンプル README を取り込む(各ディレクトリの README.md が対象)
+  const EXAMPLE_DIRS = [
+    'tool-use',
+    'structured-output',
+    'evaluation-harness',
+    'rag-basics',
+    'mcp-server',
+    'multi-agent'
+  ]
+  for (const name of EXAMPLE_DIRS) {
+    routeMap.set(`examples/python/${name}/README.md`, `${BASE_PATH}/examples/python-${name}`)
+    files.push({
+      abs: path.join(REPO_ROOT, 'examples', 'python', name, 'README.md'),
+      repoRel: `examples/python/${name}/README.md`,
+      outRel: `examples/python-${name}.md`,
+      section: 'examples',
+      slug: `python-${name}`
+    })
+  }
 
   return { routeMap, files, sections }
 }

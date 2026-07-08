@@ -104,6 +104,7 @@ flowchart TD
 - [プランニングと推論](planning-and-reasoning.md) — 生成・批評分離の単一 Agent 版(リフレクション)
 - [メモリと状態管理](memory-and-state.md) — コンテキスト分離が効く理由
 - [オーケストレーションパターン](../02-architecture/orchestration-patterns.md) — 協調パターンの詳細と外部エージェント連携
+- [examples/python/multi-agent/](../../examples/python/multi-agent/README.md) — 計画役 + 実行役の 2 エージェントの最小実装(モック実行可)
 
 ## 参考資料
 

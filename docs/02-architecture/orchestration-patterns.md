@@ -101,6 +101,7 @@ flowchart TD
 - [プランニングと推論](../01-concepts/planning-and-reasoning.md) — 計画を構造(オーケストレーション)に固定する選択
 - [エラー処理・リトライ・フォールバック設計](error-handling-and-retries.md) — ノード間のエラー伝搬への対処
 - [Human-in-the-Loop 設計](human-in-the-loop.md) — フロー内への承認ポイントの配置
+- [examples/python/multi-agent/](../../examples/python/multi-agent/README.md) — 計画役 + 実行役の最小オーケストレーション(モック実行可)
 
 ## 参考資料
 

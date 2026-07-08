@@ -124,6 +124,7 @@ flowchart LR
 - [信頼度と較正(calibration)](confidence-and-calibration.md) — 確信度を取り出し低信頼時に縮退する(発展層)
 - [公平性・バイアスの評価](fairness-and-bias-evaluation.md) — 属性・グループの品質差と偏りの評価(発展層)
 - [日本語品質の評価](japanese-quality-evaluation.md) — 敬語・文体・表記など日本語固有の品質(発展層)
+- [examples/python/evaluation-harness/](../../examples/python/evaluation-harness/README.md) — データセット・実行・判定・レポートの 4 部品の最小実装(モック実行可)
 
 ## 参考資料
 

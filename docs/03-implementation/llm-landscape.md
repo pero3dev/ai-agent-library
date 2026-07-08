@@ -140,6 +140,7 @@ tags: ["model-selection"]
 - [コーディングエージェントのコスト最適化](../08-coding-agents/coding-agent-cost-optimization.md) — 「使う側」のモデル使い分け
 - [Claude](claude-prompting.md) / [OpenAI(GPT 系)](openai-prompting.md) / [Gemini](gemini-prompting.md) 特化プロンプティングガイド — 各モデルへのプロンプトの書き方
 - [セルフホスト推論の実務](../05-operations/self-hosted-inference.md) — オープンウェイトモデルを実際に動かす提供層
+- [フロンティアセーフティの概観](../06-security/frontier-safety-overview.md) — 提供者の安全フレームワーク・システムカードの読み方(調達時の評価軸)
 
 ## 参考資料
 

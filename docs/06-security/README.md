@@ -23,3 +23,6 @@ Agent 固有の脅威と対策を扱うセクションです。従来の Web セ
 | [ai-supply-chain-security.md](ai-supply-chain-security.md) | AI サプライチェーンセキュリティ(モデル・重み・データ・MCP・スキルを実行前に検証する受け入れプロセス) |
 | [advanced-attack-patterns.md](advanced-attack-patterns.md) | 新興攻撃パターンの体系(記憶・知識源・ツール・マルチエージェント経由の注入と既存防御へのマップ) |
 | [privacy-enhancing-technologies.md](privacy-enhancing-technologies.md) | プライバシー強化技術の概観(マスキング → 匿名化 → 差分プライバシー → 連合学習 → 秘密計算の見取り図) |
+| [content-provenance-and-detection.md](content-provenance-and-detection.md) | 生成物の来歴と検出(C2PA/透かしの仕組みと剥がれ方・検出の限界「断定しない」・組織運用。鮮度管理型) |
+| [deepfake-and-impersonation-defense.md](deepfake-and-impersonation-defense.md) | ディープフェイク・なりすまし防御(声/顔を本人確認に使わない・コールバック検証・多重化・公的注意喚起) |
+| [frontier-safety-overview.md](frontier-safety-overview.md) | フロンティアセーフティの概観(能力の安全・共通 4 段構造・AISI・調達時の評価軸。鮮度管理型) |

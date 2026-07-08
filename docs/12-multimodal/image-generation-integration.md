@@ -118,6 +118,7 @@ tags: ["image-generation", "inpainting", "content-provenance"]
 - [業界別規制マップ](../09-business/industry-regulations-map.md) — 権利・法的論点の確認入口
 - [セルフホスト推論の実務](../05-operations/self-hosted-inference.md) — オープンウェイト画像モデルを自ホストする場合
 - [マルチモーダルモデルの仕組み(数式なしの直感)](../10-llm-foundations/multimodal-models.md) — 「理解」と「生成」は別能力・別課金という区別
+- [生成物の来歴と検出](../06-security/content-provenance-and-detection.md) — 来歴(C2PA/透かし)の仕組みと剥がれ方・組織運用の詳解
 
 ## 参考資料
 

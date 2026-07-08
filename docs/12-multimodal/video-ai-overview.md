@@ -119,6 +119,7 @@ tags: ["video-ai", "video-generation", "video-understanding"]
 - [画像生成のプロダクト組み込み](image-generation-integration.md) — 生成の権利・来歴の隣接論点
 - [コスト管理](../05-operations/cost-management.md) — 動画のコスト見積もり
 - [業界別規制マップ](../09-business/industry-regulations-map.md) — 権利・法的論点の確認入口
+- [生成物の来歴と検出](../06-security/content-provenance-and-detection.md) — 生成動画の来歴(C2PA/透かし)の仕組みと組織運用
 
 ## 参考資料
 

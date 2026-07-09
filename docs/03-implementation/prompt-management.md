@@ -114,6 +114,7 @@ flowchart LR
 - [評価データセットの構築と保守](../04-evaluation/evaluation-datasets.md) — 開発セットと判定セットの分割
 - [コスト管理](../05-operations/cost-management.md) — 固定部分の分離とプロンプトキャッシュ効率
 - [モデル間の違いと移行(横断比較)](cross-model-prompting.md) — モデル別プロンプトバリアントの管理
+- [プロンプト・エージェント資産の組織共有](../09-business/ai-asset-sharing.md) — 1 チームの管理を組織横断の共有・再利用へ広げる
 
 ## 参考資料
 

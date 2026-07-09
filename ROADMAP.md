@@ -552,9 +552,30 @@
 
 **これで UX-PRODUCT(全 6 本 + 新セクション 14)が完結。**
 
-## 未着手の拡張計画(残 6 計画)
+### Phase AO: 組織・プロセス 前半 — 開発プロセス・チームトポロジー・資産共有(ORG-PROCESS 第 1 弾)— ✅ 完了(2026-07-09)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件)**、および **UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14)**。残る拡張計画は 6 本(ORG-PROCESS・AGENT-INFRA・AI-STRATEGY・LLM-INTERNALS・HUMAN-AI・ECOSYSTEM。全体で 24 本、examples は完了、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は ORG-PROCESS〔AO・AP・調査ゼロ〕等)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+設計は [ORG-PROCESS-PLAN.md](ORG-PROCESS-PLAN.md)。新セクションは作らず 09-business に追加(憲章を「案件と組織の推進」へ半歩拡張)。ai-native-development-process(重心移動・レビューが律速)・ai-team-topologies(CoE/分散/プラットフォーム型)・ai-asset-sharing(組織横断の資産流通・社内サプライチェーン)。調査ゼロ。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| AO-1 | 開発プロセス再設計 + チームトポロジー | `09-business/ai-native-development-process.md`, `ai-team-topologies.md` | 完了 |
+| AO-2 | 資産の組織共有 | `09-business/ai-asset-sharing.md` | 完了 |
+| AO-R | レビュー(skill-map / coding-agent-team-adoption / prompt-management からの逆リンク・09 README 憲章更新・published 化) | — | 完了 |
+
+### Phase AP: 組織・プロセス 後半 — 利用ポリシー・スキルシフト(ORG-PROCESS 完結)— ✅ 完了(2026-07-09)
+
+設計は [ORG-PROCESS-PLAN.md](ORG-PROCESS-PLAN.md)。後半 2 本で **ORG-PROCESS(全 5 本、すべて 09-business)が完結**。ai-usage-policy(社内ルール作り・シャドー AI。規制側 = compliance-and-governance と分担)・skill-shift-and-change-management(スキルの重心移動・変化管理)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| AP-1 | 利用ポリシー + スキルシフト | `09-business/ai-usage-policy.md`, `skill-shift-and-change-management.md` | 完了 |
+| AP-R | フェーズレビュー + 統合(compliance との分担確認・compliance-and-governance / poc-to-production / skill-map からの逆リンク・GLOSSARY 3 語〔CoE・シャドー AI・プラットフォームチーム〕・published 化・同期一式) | — | 完了 |
+
+**これで ORG-PROCESS(全 5 本、09-business を 7 → 12 本に)が完結。**
+
+## 未着手の拡張計画(残 5 計画)
+
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件)**、**UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14)**、および **ORG-PROCESS が完結(Phase AO・AP・全 5 本・09-business)**。残る拡張計画は 5 本(AGENT-INFRA・AI-STRATEGY・LLM-INTERNALS・HUMAN-AI・ECOSYSTEM。全体で 19 本、examples は完了、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次はいずれも調査を伴う: AGENT-INFRA〔AY・サンドボックスは調査ゼロで繰り上げ可〕・AI-STRATEGY〔AZ〕・LLM-INTERNALS〔S〜U・新 11・大型〕・HUMAN-AI〔AW・新 15〕・ECOSYSTEM〔AS・AT〕)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 

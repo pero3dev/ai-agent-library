@@ -107,6 +107,7 @@ tags: ["coding-agents", "human-in-the-loop", "cost-management"]
 - [コスト管理](../05-operations/cost-management.md) — 従量課金の予算管理の一般論
 - [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) — レビュー・承認の設計原則
 - [顧客・プロジェクトへの導入合意形成](se-client-adoption.md) — 自社チームでなく顧客・商流側の合意形成(受託開発の対)
+- [AI 前提の開発プロセス再設計](../09-business/ai-native-development-process.md) — ツール導入に留まらない開発プロセス自体の再設計(組織側の実務)
 
 ## 参考資料
 

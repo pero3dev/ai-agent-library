@@ -1,6 +1,6 @@
 # ORG-PROCESS-PLAN — 組織・プロセス・人材 追加計画
 
-> **ステータス: 設計案(2026-07-07 作成、ユーザーの選定に基づく。着手指示待ち)。**
+> **ステータス: 完了(2026-07-07 作成、ユーザーの選定に基づく。Phase AO〔前半 3 本 = ai-native-development-process・ai-team-topologies・ai-asset-sharing〕・Phase AP〔後半 2 本 = ai-usage-policy・skill-shift-and-change-management〕を 2026-07-09 に完了。ORG-PROCESS 完結・09-business に 5 本追加〔7→12〕)。**
 > AI を組織に定着させる側の実務 — 開発プロセスの再設計・チームトポロジー・資産の組織共有・利用ポリシー・スキルシフト — の追加計画です。進捗の正本は着手後 [ROADMAP.md](ROADMAP.md) に置きます。
 
 ## 1. 位置づけとギャップ分析

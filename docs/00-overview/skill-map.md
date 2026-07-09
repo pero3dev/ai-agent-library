@@ -140,6 +140,8 @@ flowchart TD
 - [ユースケース発見と要件定義](../09-business/usecase-discovery.md) — S7(ビジネス実務)の最初の 1 本
 - [PoC から本番への進め方](../09-business/poc-to-production.md) — S7 の 2 本目。実践題材を本番まで運ぶ方法論
 - [よくあるアンチパターン集](../07-case-studies/common-anti-patterns.md) — 8 領域を横断する失敗の共通根。自己評価の答え合わせに使える
+- [AI 時代のチームトポロジー](../09-business/ai-team-topologies.md) — 個人の役割像を組織図に落とす(集中/分散/プラットフォーム)
+- [スキルシフトと変化管理](../09-business/skill-shift-and-change-management.md) — スキルの変化を組織として計画的に支える
 
 ## 参考資料
 

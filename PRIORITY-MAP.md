@@ -1,6 +1,6 @@
 # PRIORITY-MAP — 未着手計画の推奨実施順
 
-> **ステータス: 運用中(2026-07-07 作成・2026-07-09 更新)。** 拡張計画のうち DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)が完了し **第 2 波(基盤の深掘り)が完了**、さらに **第 3 波の SE-CODING-AGENTS(Phase V・X・7 本)・LLMOPS(Phase AF・AG・7 本)・MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)・TRUST-SECURITY(Phase AH・AI・AJ・8 本)も完了 = 第 3 波が完了**。さらに **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13、2026-07-09)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件、2026-07-09)**、**UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14、2026-07-09)**、**ORG-PROCESS が完結(Phase AO・AP・全 5 本・09-business、2026-07-09)**、**AGENT-INFRA が完結(Phase AY・全 2 本・03-implementation、2026-07-09)**、および **AI-STRATEGY が完結(Phase AZ・全 4 本・09-business 3 本 + 05-operations 1 本、2026-07-09)= 第 4 波が完結**。残る拡張計画 3 本(LLM-INTERNALS・HUMAN-AI・ECOSYSTEM。全体で 13 本、examples は完了、いずれも大型か調査を伴う)の推奨実施順です。フェーズの完了・計画の変更時に本ファイルも同じセッションで更新します(進捗の正本は [ROADMAP.md](ROADMAP.md)、各計画の内容は各 PLAN ファイルが正本)。
+> **ステータス: 運用中(2026-07-07 作成・2026-07-09 更新)。** 拡張計画のうち DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)が完了し **第 2 波(基盤の深掘り)が完了**、さらに **第 3 波の SE-CODING-AGENTS(Phase V・X・7 本)・LLMOPS(Phase AF・AG・7 本)・MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)・TRUST-SECURITY(Phase AH・AI・AJ・8 本)も完了 = 第 3 波が完了**。さらに **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13、2026-07-09)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件、2026-07-09)**、**UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14、2026-07-09)**、**ORG-PROCESS が完結(Phase AO・AP・全 5 本・09-business、2026-07-09)**、**AGENT-INFRA が完結(Phase AY・全 2 本・03-implementation、2026-07-09)**、および **AI-STRATEGY が完結(Phase AZ・全 4 本・09-business 3 本 + 05-operations 1 本、2026-07-09)= 第 4 波が完結**。さらに **第 5 波 LLM-INTERNALS の第 1 弾 = Phase S 完了(新セクション 11-llm-internals + Transformer・注意変種・MoE の 3 本、数式 KaTeX 検証済み、2026-07-09)**。残る拡張計画 3 本(LLM-INTERNALS〔T〜U 残〕・HUMAN-AI・ECOSYSTEM。全体で 10 本、examples は完了、いずれも大型か調査を伴う)の推奨実施順です。フェーズの完了・計画の変更時に本ファイルも同じセッションで更新します(進捗の正本は [ROADMAP.md](ROADMAP.md)、各計画の内容は各 PLAN ファイルが正本)。
 
 ## 1. 評価軸
 
@@ -57,7 +57,7 @@
 
 | フェーズ | 計画 | 本数 | 根拠 |
 | --- | --- | --- | --- |
-| S → T → U | [LLM-INTERNALS](LLM-INTERNALS-PLAN.md)(学術編・新 11 章) | 8 | 独立性が高くいつでも実施可。数式レンダリング検証(S-0)を含む大型。読者層が相対的に狭いため波 5 |
+| 🔄 S 完了(2026-07-09。T → U 残) | [LLM-INTERNALS](LLM-INTERNALS-PLAN.md)(学術編・新 11 章) | 8(S: 3 完了) | **Phase S(新セクション 11 + Transformer・注意変種・MoE 3 本)完了。数式は Nextra `latex:true` + sync に remark-math で有効化・S-0 でビルド HTML の KaTeX を検証済み**。残り T(スケーリング則・アラインメント理論)・U(推論機構・解釈可能性〔IN-R1〕・ICL)。読者層が相対的に狭いため波 5 |
 | ✅ AR 完了(2026-07-08) | [FOUNDATIONS-EXTENSION](FOUNDATIONS-EXTENSION-PLAN.md) 後半(世界モデル・歴史・MM 内部) | 3(完了) | #5(MM 内部)は LLM-INTERNALS 未採用のため計画の縮小案(数式なし・10 章)で対応。physical-ai メモ再利用。**これで FOUNDATIONS-EXTENSION 全 5 本が完了** |
 | AW | [HUMAN-AI](HUMAN-AI-PLAN.md)(新 15 章) | 4 | ユニークな差別化だが緊急性は低い |
 | AS → AT | [ECOSYSTEM](ECOSYSTEM-PLAN.md) | 4 | **鮮度負担 +2 が最重**(業界マップ・OSS)。research-literacy(AT-1 内)は安定・価値○のため単独繰り上げ可 |

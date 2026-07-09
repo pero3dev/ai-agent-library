@@ -70,6 +70,7 @@ ai-agent-library/
 │   ├── 08-coding-agents/     # AI コーディングエージェント(選定・設定・セキュリティ・ツール別)
 │   ├── 09-business/          # ビジネス実務(ユースケース選定・PoC → 本番・ROI)
 │   ├── 10-llm-foundations/   # LLM 基礎(生成の仕組み・トークン・注意機構・学習・能力限界)
+│   ├── 11-llm-internals/     # LLM 内部構造・学術編(Transformer 数式・注意変種・MoE 内部。10 章の「なぜ」を数式で)
 │   ├── 12-multimodal/        # モダリティ・生成 AI 応用(文書・画像・動画・音声の理解と生成)
 │   ├── 13-domain-agents/     # ドメイン別エージェント設計(リサーチ・データ分析・RPA ほか応用ドメインの設計判断)
 │   └── 14-ux-and-product/    # UX・プロダクトデザイン(体験設計・会話設計・チャット以外の UI・プロアクティブ性)
@@ -100,6 +101,7 @@ ai-agent-library/
 | [docs/08-coding-agents/](docs/08-coding-agents/) | AI コーディングエージェントを実務で使う | 選定基準、設定・依頼設計、セキュリティ、チーム導入、ツール別リファレンス。Agent を「作る」側の話は 02・03 章へ |
 | [docs/09-business/](docs/09-business/) | Agent 案件を企画から本番まで推進する | ユースケース選定、要件定義、PoC → 本番、ROI。技術的な設計判断は 02 章、稼働後の運用は 05 章へ |
 | [docs/10-llm-foundations/](docs/10-llm-foundations/) | 「LLM 自体がなぜそう振る舞うか」の基礎 | 生成・トークン・注意機構・学習工程・能力限界の直感。数式による理論解説、Agent の概念(→ 01 章)は置かない |
+| [docs/11-llm-internals/](docs/11-llm-internals/) | LLM の内部構造を数式と原論文で(10 章の学術的下層) | Transformer の数式・注意の変種・MoE 内部・スケーリング則・アラインメント理論・推論機構・解釈可能性。線形代数の教材化、分散学習の実装は置かない |
 | [docs/12-multimodal/](docs/12-multimodal/) | テキスト以外のモダリティの理解と生成の実務 | 文書構造化・画像読解・マルチモーダル RAG・画像/動画/音声の生成・リアルタイム観測。生成モデルの理論・制作技法論は置かない |
 | [docs/13-domain-agents/](docs/13-domain-agents/) | 応用ドメインごとのエージェント設計判断 | ドメイン特性分析・定番アーキテクチャの型・固有の落とし穴・評価設計。ドメイン非依存の作り方は 01〜06 章、業務知識そのものは置かない |
 | [docs/14-ux-and-product/](docs/14-ux-and-product/) | 非決定的な AI システムの体験設計 | UX パターン・会話設計・チャット以外の UI・プロアクティブ性・アクセシビリティ。実装は 03 章、ビジュアル/ブランドデザインの一般論は置かない |
@@ -123,5 +125,5 @@ ai-agent-library/
 
 ## ステータス
 
-- 現在: **Phase 0〜8 + Phase A〜O・BA・AD・AE・AK・AL・AX・AQ・AR・V・X・AF・AG・Y・Z・AH・AI・AJ・AA・AB・AC・AU・AV・AM・AN・AO・AP・AY・AZ(コーディングエージェント章・モデルガイド・プロフェッショナル化拡張・別冊拡張・詳解拡張第 1〜3 弾・モデル特化プロンプティング・データ知識基盤・評価品質・信頼性エンジニアリング・基礎拡張・SE 実践シリーズ・LLMOps・モダリティ応用・セキュリティ発展層・法務層・ドメイン応用・ケーススタディ拡充・サンプルコード拡充・UX プロダクト・組織プロセス・エージェント基盤・AI 戦略調達)完了(2026-07-09 時点)**。全 14 セクションで **183 本**を公開しています — [00-overview](docs/00-overview/README.md) 2 本、[01-concepts](docs/01-concepts/README.md) 11 本、[02-architecture](docs/02-architecture/README.md) 12 本、[03-implementation](docs/03-implementation/README.md) 31 本、[04-evaluation](docs/04-evaluation/README.md) 12 本、[05-operations](docs/05-operations/README.md) 19 本、[06-security](docs/06-security/README.md) 14 本、[07-case-studies](docs/07-case-studies/README.md) 8 本、[08-coding-agents](docs/08-coding-agents/README.md) 28 本、[09-business](docs/09-business/README.md) 15 本、[10-llm-foundations](docs/10-llm-foundations/README.md) 7 本、[12-multimodal](docs/12-multimodal/README.md) 7 本、[13-domain-agents](docs/13-domain-agents/README.md) 12 本、[14-ux-and-product](docs/14-ux-and-product/README.md) 5 本、および 6 件の [Python サンプル](examples/python/tool-use/README.md)(tool-use・structured-output・evaluation-harness・rag-basics・mcp-server・multi-agent。各 `--mock` で API キーなし実行可)。用語は [GLOSSARY.md](GLOSSARY.md)(137 エントリ)から横断的に辿れます
+- 現在: **Phase 0〜8 + Phase A〜O・BA・AD・AE・AK・AL・AX・AQ・AR・V・X・AF・AG・Y・Z・AH・AI・AJ・AA・AB・AC・AU・AV・AM・AN・AO・AP・AY・AZ・S(コーディングエージェント章・モデルガイド・プロフェッショナル化拡張・別冊拡張・詳解拡張第 1〜3 弾・モデル特化プロンプティング・データ知識基盤・評価品質・信頼性エンジニアリング・基礎拡張・SE 実践シリーズ・LLMOps・モダリティ応用・セキュリティ発展層・法務層・ドメイン応用・ケーススタディ拡充・サンプルコード拡充・UX プロダクト・組織プロセス・エージェント基盤・AI 戦略調達・LLM 内部構造〔学術編〕)完了(2026-07-09 時点)**。全 15 セクションで **186 本**を公開しています — [00-overview](docs/00-overview/README.md) 2 本、[01-concepts](docs/01-concepts/README.md) 11 本、[02-architecture](docs/02-architecture/README.md) 12 本、[03-implementation](docs/03-implementation/README.md) 31 本、[04-evaluation](docs/04-evaluation/README.md) 12 本、[05-operations](docs/05-operations/README.md) 19 本、[06-security](docs/06-security/README.md) 14 本、[07-case-studies](docs/07-case-studies/README.md) 8 本、[08-coding-agents](docs/08-coding-agents/README.md) 28 本、[09-business](docs/09-business/README.md) 15 本、[10-llm-foundations](docs/10-llm-foundations/README.md) 7 本、[11-llm-internals](docs/11-llm-internals/README.md) 3 本、[12-multimodal](docs/12-multimodal/README.md) 7 本、[13-domain-agents](docs/13-domain-agents/README.md) 12 本、[14-ux-and-product](docs/14-ux-and-product/README.md) 5 本、および 6 件の [Python サンプル](examples/python/tool-use/README.md)(tool-use・structured-output・evaluation-harness・rag-basics・mcp-server・multi-agent。各 `--mock` で API キーなし実行可)。用語は [GLOSSARY.md](GLOSSARY.md)(139 エントリ)から横断的に辿れます
 - 次のステップ: ドキュメントサイトの公開準備(Phase W5、[WEBSITE-PLAN.md](WEBSITE-PLAN.md))。並行して [ROADMAP.md](ROADMAP.md) の「定期メンテナンス」(`TODO(要確認)` の棚卸し — 特に 08 章のツール情報・モデルガイド・エージェント認証の標準動向・規制動向・音声/FT 提供状況・ベンチマーク動向は変化が速いため四半期ごと必須、`examples/` の実行確認)を継続します

@@ -18,6 +18,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkGfm from 'remark-gfm'
+import remarkMath from 'remark-math'
 import remarkMdx from 'remark-mdx'
 import remarkParse from 'remark-parse'
 import remarkStringify from 'remark-stringify'
@@ -26,10 +27,13 @@ import { applyDecorations } from '../lib/doc-decorations.mjs'
 
 // 原本は素の Markdown としてパースし(remark-mdx を含めない = 本文の < や { を JSX と誤解釈しない)、
 // 装飾コンポーネントを注入した結果を MDX として直列化する(エスケープは remark-mdx が正しく行う)
-const mdParser = unified().use(remarkParse).use(remarkGfm).use(remarkFrontmatter, ['yaml'])
+// remark-math を両側に入れ、$...$ / $$...$$ を数式ノードとして扱う(本文の markdown エスケープ
+// {}・_・\ を数式内に適用させない = KaTeX へ素の LaTeX を渡す)。レンダリングは next.config の latex:true。
+const mdParser = unified().use(remarkParse).use(remarkGfm).use(remarkMath).use(remarkFrontmatter, ['yaml'])
 const mdxWriter = unified()
   .use(remarkStringify, { bullet: '-', emphasis: '*', rule: '-' })
   .use(remarkGfm)
+  .use(remarkMath)
   .use(remarkFrontmatter, ['yaml'])
   .use(remarkMdx)
 
@@ -60,6 +64,7 @@ const SECTION_TITLES = {
   'coding-agents': '08. コーディングエージェント',
   business: '09. ビジネス実務',
   'llm-foundations': '10. LLM 基礎',
+  'llm-internals': '11. LLM 内部構造',
   multimodal: '12. モダリティ応用',
   'domain-agents': '13. ドメイン応用',
   'ux-and-product': '14. UX・プロダクト'

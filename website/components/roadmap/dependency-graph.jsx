@@ -24,6 +24,7 @@ const POSITIONS = {
   'coding-agents': { x: 560, y: 60 },
   business: { x: -80, y: 560 },
   'llm-foundations': { x: -80, y: 180 },
+  'llm-internals': { x: -320, y: 180 },
   multimodal: { x: -80, y: 370 },
   'domain-agents': { x: 560, y: 720 },
   'ux-and-product': { x: -80, y: 720 }
@@ -47,6 +48,7 @@ const EDGES = [
   ['concepts', 'business'],
   ['evaluation', 'business', 'dashed'],
   ['concepts', 'llm-foundations', 'dashed'],
+  ['llm-foundations', 'llm-internals', 'dashed'],
   ['implementation', 'multimodal', 'dashed'],
   ['implementation', 'domain-agents', 'dashed'],
   ['architecture', 'ux-and-product', 'dashed']

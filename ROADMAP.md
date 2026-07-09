@@ -600,9 +600,22 @@
 
 **これで AI-STRATEGY(全 4 本、09: 12 → 15 本・05: 18 → 19 本)が完結。**
 
+### Phase S: LLM 内部構造(学術編)— Transformer・注意変種・MoE(LLM-INTERNALS 第 1 弾)— ✅ 完了(2026-07-09)
+
+設計は [LLM-INTERNALS-PLAN.md](LLM-INTERNALS-PLAN.md)。新セクション `11-llm-internals`(LLM 内部構造・学術編)を新設し、3 本を追加。10-llm-foundations(実務直感・数式なし)の学術的下層に位置づけ、各記事は「結果の式 + 日本語読み下し」+ 原論文(arXiv)必須。**数式は Nextra の `latex: true`(KaTeX)を有効化 + sync パイプラインに remark-math を追加(素の LaTeX を保つ)して実現し、S-0 でビルド HTML の KaTeX レンダリングを検証済み**。書誌は arXiv 公式で確認(19 本)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| S-0 | 11-llm-internals スケルトン + 数式レンダリング(KaTeX)有効化・検証 | セクション README・doc-template category・sync SECTION_TITLES・dependency-graph・next.config `latex:true`・sync に remark-math | 完了 |
+| S-1 | Transformer アーキテクチャ詳解 | `11-llm-internals/transformer-architecture.md` | 完了 |
+| S-2 | 注意の変種と長コンテキスト + MoE の内部構造 | `11-llm-internals/attention-variants-and-long-context.md`, `mixture-of-experts-internals.md` | 完了 |
+| S-R | フェーズレビュー(数式の読み下し・書誌確認)+ 同期(GLOSSARY 2 語〔残差ストリーム・RoPE〕+ MoE エントリ更新・published 化) | — | 完了 |
+
+**11-llm-internals に 3 本(183 → 186 本、セクション 14 → 15 個目)。残り LLM-INTERNALS は T(事前学習・スケーリング則 + アラインメント理論)・U(推論機構 + 解釈可能性〔IN-R1 調査必須〕+ 文脈内学習)。learning-roadmap の 15 セクション化と 10 章 5 本からの逆リンクは U-R で実施(dependency-graph.jsx の POSITIONS/EDGES は S-0 で追加済み)。**
+
 ## 未着手の拡張計画(残 3 計画)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件)**、**UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14)**、**ORG-PROCESS が完結(Phase AO・AP・全 5 本・09-business)**、**AGENT-INFRA が完結(Phase AY・全 2 本・03-implementation)**、および **AI-STRATEGY が完結(Phase AZ・全 4 本・09-business 3 本 + 05-operations 1 本)**。残る拡張計画は 3 本(LLM-INTERNALS・HUMAN-AI・ECOSYSTEM。全体で 13 本、examples は完了、フェーズ記号 S〜AW)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(残りはいずれも大型か調査を伴う: LLM-INTERNALS〔S〜U・新 11・数式レンダリング検証を伴う大型〕・HUMAN-AI〔AW・新 15〕・ECOSYSTEM〔AS・AT・鮮度負担 +2〕)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件)**、**UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14)**、**ORG-PROCESS が完結(Phase AO・AP・全 5 本・09-business)**、**AGENT-INFRA が完結(Phase AY・全 2 本・03-implementation)**、および **AI-STRATEGY が完結(Phase AZ・全 4 本・09-business 3 本 + 05-operations 1 本)**。残る拡張計画は 3 本(LLM-INTERNALS〔S 完了・T〜U 残〕・HUMAN-AI・ECOSYSTEM。全体で 10 本、examples は完了、フェーズ記号 T〜U・AW・AS〜AT)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(残りはいずれも大型か調査を伴う: LLM-INTERNALS〔S 完了・残 T〜U・新 11・数式は KaTeX で検証済み〕・HUMAN-AI〔AW・新 15〕・ECOSYSTEM〔AS・AT・鮮度負担 +2〕)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 

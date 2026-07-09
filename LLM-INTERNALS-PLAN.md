@@ -1,6 +1,6 @@
 # LLM-INTERNALS-PLAN — LLM 内部構造(学術編)追加計画
 
-> **ステータス: 設計案(2026-07-07 作成、ユーザーの追加要望に基づく。着手指示待ち)。**
+> **ステータス: 進行中(2026-07-07 作成、ユーザーの追加要望に基づく。Phase S〔S-0 スケルトン + 数式 KaTeX 有効化・検証 / S-1 transformer-architecture / S-2 attention-variants-and-long-context・mixture-of-experts-internals〕を 2026-07-09 に完了。新セクション `11-llm-internals` + 3 本 published。残り T〔pretraining-and-scaling-laws・alignment-theory〕・U〔inference-internals・interpretability-basics〔IN-R1〕・in-context-learning-and-memorization〕)。**
 > LLM のモデル内部構造・学習理論・推論機構・解釈可能性を、**数式と原論文への参照を伴う学術的な粒度**で扱う新セクション `docs/11-llm-internals/` の追加計画です。進捗の正本は着手後 [ROADMAP.md](ROADMAP.md) に置きます。
 
 ## 1. 経緯と位置づけ: 「直感の 10 章」の下に「学術の 11 章」を敷く

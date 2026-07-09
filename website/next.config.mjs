@@ -7,7 +7,9 @@ const withNextra = nextra({
   // ドキュメント(content/)は /docs 配下で配信する(トップページ等のカスタムページと分離)
   contentDirBasePath: '/docs',
   // コードブロックは検索インデックスから除外(サンプルコードのノイズを避ける)
-  search: { codeblocks: false }
+  search: { codeblocks: false },
+  // 数式(KaTeX)を有効化する(11-llm-internals の学術記事用。remark-math + rehype-katex が有効になる)
+  latex: true
 })
 
 // 公開ビルド用の環境変数(WEBSITE-PLAN §8 W5):

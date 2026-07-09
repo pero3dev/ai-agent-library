@@ -586,9 +586,23 @@
 
 **これで AGENT-INFRA(全 2 本、03: 29 → 31 本)が完結。**
 
-## 未着手の拡張計画(残 4 計画)
+### Phase AZ: AI 戦略・調達・持続性(AI-STRATEGY 完結)— ✅ 完了(2026-07-09)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件)**、**UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14)**、**ORG-PROCESS が完結(Phase AO・AP・全 5 本・09-business)**、および **AGENT-INFRA が完結(Phase AY・全 2 本・03-implementation)**。残る拡張計画は 4 本(AI-STRATEGY・LLM-INTERNALS・HUMAN-AI・ECOSYSTEM。全体で 17 本、examples は完了、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(残りはいずれも調査を伴うか大型: AI-STRATEGY〔AZ・調査 2 件〕・LLM-INTERNALS〔S〜U・新 11・数式レンダリング検証を伴う大型〕・HUMAN-AI〔AW・新 15〕・ECOSYSTEM〔AS・AT・鮮度負担 +2〕)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+設計は [AI-STRATEGY-PLAN.md](AI-STRATEGY-PLAN.md)。09-business に 3 本(自社モデル戦略・AI 調達・地政学マップ)、05-operations に 1 本(グリーン AI)を追加。ST-R1(輸出規制・データ主権の一次情報所在)・ST-R2(環境開示の所在)を反映。地政学マップは免責 + 鮮度管理型(内容解説をせず確認先の所在に徹する)、グリーン AI はコスト最適化との共通性を軸に置く。定期メンテナンスに「輸出規制・環境開示の定点観測」を追加。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| AZ-1 | 自社モデル戦略 + AI 調達(調査不要) | `09-business/own-model-strategy.md`, `09-business/ai-procurement.md` | 完了 |
+| ST-R1 | 輸出規制・データ主権の一次情報所在調査(内容解釈はしない) | `research/strategy/geopolitics.md` | 完了 |
+| ST-R2 | AI の環境負荷に関する公式情報の所在調査 | `research/strategy/green-ai.md` | 完了 |
+| AZ-2 | 地政学マップ(ST-R1・免責 + 鮮度管理型)+ グリーン AI(ST-R2) | `09-business/ai-geopolitics-map.md`, `05-operations/green-ai.md` | 完了 |
+| AZ-R | フェーズレビュー + 統合(model-selection / fine-tuning / poc-to-production / roi / compliance / industry-regulations-map / llm-landscape / cost-management / se-client-adoption からの逆リンク・GLOSSARY 4 語〔継続事前学習・グリーン AI・データ主権・輸出管理〕・published 化・同期一式・定点観測追加) | — | 完了 |
+
+**これで AI-STRATEGY(全 4 本、09: 12 → 15 本・05: 18 → 19 本)が完結。**
+
+## 未着手の拡張計画(残 3 計画)
+
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件)**、**UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14)**、**ORG-PROCESS が完結(Phase AO・AP・全 5 本・09-business)**、**AGENT-INFRA が完結(Phase AY・全 2 本・03-implementation)**、および **AI-STRATEGY が完結(Phase AZ・全 4 本・09-business 3 本 + 05-operations 1 本)**。残る拡張計画は 3 本(LLM-INTERNALS・HUMAN-AI・ECOSYSTEM。全体で 13 本、examples は完了、フェーズ記号 S〜AW)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(残りはいずれも大型か調査を伴う: LLM-INTERNALS〔S〜U・新 11・数式レンダリング検証を伴う大型〕・HUMAN-AI〔AW・新 15〕・ECOSYSTEM〔AS・AT・鮮度負担 +2〕)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 
@@ -615,4 +629,5 @@ CLAUDE.md の執筆ルールと templates/doc-template.md に従い、
 - **来歴標準・フロンティアセーフティ・なりすまし・著作権/知財の定点観測**(`06-security/` の発展層(content-provenance-and-detection・frontier-safety-overview・deepfake-and-impersonation-defense)と `09-business/ai-copyright-and-ip-map` の「変わりやすい項目」。C2PA 仕様の版/ISO 化・電子透かしの対象/堅牢性主張・各社フロンティア安全フレームワークの版・各国 AISI の名称/所在・公的機関のなりすまし注意喚起・著作権/知財の公的資料(文化庁・知財本部・特許庁・米著作権局・EU AI Act Art.53)は変化が速いため四半期ごと。`research/trust/provenance.md`・`frontier-safety.md`・`copyright.md` を更新起点にする。直近の注目: ISO/DIS 22144 の最終化 / RSP・Preparedness・FSF の改版 / US CAISI・英 AISI の改称後の動向 / 知財本部の検討会ページ移転・「プリンシプル・コード(仮称)」の策定 / 米著作権局 Part 3(学習)最終版)
 - **RPA/自動化ベンダーの Agent 統合動向の定点観測**(`13-domain-agents/rpa-and-agents.md` の「動向(類型)」節と最終確認日。主要 RPA/自動化製品のエージェント機能・オーケストレーション層・提供形態(オンプレ/エアギャップ・BYO-LLM)・統制機能は発表が活発で変化が速いため四半期ごと。`research/domain-agents/rpa.md` を更新起点にする。直近の注目: SS&C Blue Prism WorkHQ の本文再取得と GA / UiPath Automation Suite のオンプレ agentic 拡張・準拠標準 / Microsoft の RPA vs CUA 公式表の改訂 / WinActor の AI 連携ライセンス改定)
 - **先端応用(科学研究・シミュレーション・エージェント経済)の定点観測**(`13-domain-agents/emerging-agent-domains.md` の最終確認日。実証/構想の別が動きやすい鮮度管理型のため四半期ごと。`research/domain-agents/emerging.md` の定点観測項目を更新起点にする。直近の注目: 科学 AI(Co-Scientist の Nature 論文本文・A-Lab 訂正の顛末・「end-to-end 自律」系プレプリントの査読/追試)/ 生成エージェント「1,000 人」続報の査読 / 決済プロトコルの仕様→稼働の移行・標準の統治主体(MCP=AAIF・A2A=Linux Foundation・AP2=FIDO)/ 暗号資産 AI エージェント市場の投機と実利用の乖離)
+- **輸出規制・環境開示の定点観測**(`09-business/ai-geopolitics-map.md` と `05-operations/green-ai.md` の「変わりやすい項目」・最終確認日。輸出管理規則・制裁/エンドユーザーリスト・データ保護規則・プロバイダーの環境開示・ESG 制度は変化が速いため四半期ごと。`research/strategy/geopolitics.md`・`green-ai.md` を更新起点にする。直近の注目: 米 BIS の先端コンピューティング関連規則の改定 / 各制裁リストの更新 / EU デュアルユース管理品目リスト / インド DPDP 規則・EU 十分性認定 / AWS CCFT 後継移行(2026-06-30 廃止予定)/ EU CSRD・EED の適用範囲)
 - `examples/` の実行確認と各サンプル README の動作確認日の更新(四半期ごと目安)

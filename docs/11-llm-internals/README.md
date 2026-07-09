@@ -22,6 +22,6 @@ LLM の**モデル内部構造・学習理論・推論機構・解釈可能性**
 | [mixture-of-experts-internals.md](mixture-of-experts-internals.md) | MoE の内部構造(疎な活性化・ルーティング・負荷分散・専門化・総 vs アクティブパラメータの数理) |
 | [pretraining-and-scaling-laws.md](pretraining-and-scaling-laws.md) | 事前学習とスケーリング則(次トークン予測・パープレキシティ・Chinchilla・データ側・創発性論争) |
 | [alignment-theory.md](alignment-theory.md) | アラインメントの理論(RLHF の定式化・DPO の導出・報酬の過剰最適化・RLVR) |
-| `inference-internals.md` | 推論の内部機構(サンプリングの数理・プリフィル/デコードの計算量・投機的デコーディング・量子化) |
-| `interpretability-basics.md` | LLM の解釈可能性の基礎(プロービング・帰属・回路・重ね合わせと SAE・応用と限界。鮮度管理型) |
-| `in-context-learning-and-memorization.md` | 文脈内学習と記憶の科学(ICL の理論仮説・few-shot の研究知見・grokking・二重降下・データ汚染) |
+| [inference-internals.md](inference-internals.md) | 推論の内部機構(サンプリングの数理・プリフィル/デコードの計算量・投機的デコーディング・量子化) |
+| [interpretability-basics.md](interpretability-basics.md) | LLM の解釈可能性の基礎(プロービング・帰属・回路・重ね合わせと SAE・応用と限界。鮮度管理型) |
+| [in-context-learning-and-memorization.md](in-context-learning-and-memorization.md) | 文脈内学習と記憶の科学(ICL の理論仮説・few-shot の研究知見・grokking・二重降下・データ汚染) |

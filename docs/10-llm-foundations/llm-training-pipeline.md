@@ -96,6 +96,8 @@ flowchart LR
 - [LLM-as-a-Judge](../04-evaluation/llm-as-a-judge.md) — 迎合バイアスを踏まえた判定設計
 - [RAG と Agent の関係・使い分け](../01-concepts/rag-vs-agent.md) — 知識の期限・穴への構造的対処
 - [LLM の能力と限界の由来](capabilities-and-limits.md) — 次に読む 1 本(能力の見積りへ)
+- [事前学習とスケーリング則](../11-llm-internals/pretraining-and-scaling-laws.md) — 事前学習の目的関数・スケーリング則の学術的な詳解(本記事のさらに深く)
+- [アラインメントの理論(RLHF から DPO・RLVR まで)](../11-llm-internals/alignment-theory.md) — 選好調整の定式化(RLHF/DPO)の学術的な詳解
 
 ## 参考資料
 

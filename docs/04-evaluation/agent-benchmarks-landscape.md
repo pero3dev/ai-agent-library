@@ -123,6 +123,7 @@ flowchart TD
 - [コーディングエージェントの評価](../08-coding-agents/coding-agent-evaluation.md) — ツール製品選定の文脈でのベンチマークの読み方
 - [ハーネスエンジニアリング](../02-architecture/harness-engineering.md) — ハーネス依存という読み方を「設計側」から扱う記事
 - [AI 出力の検証習慣](../15-human-ai/verifying-ai-outputs.md) — ベンチマークの高スコアを鵜呑みにしない個人の検証習慣(汚染の割り引き)
+- [AI 情報の追い方(一次情報の目利き)](../00-overview/research-literacy.md) — ベンチマークの読み方を情報源全般の目利きに一般化(自己報告・ハイプの割り引き)
 
 ## 参考資料
 

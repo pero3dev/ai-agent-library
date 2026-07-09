@@ -13,3 +13,4 @@
 | --- | --- |
 | [learning-roadmap.md](learning-roadmap.md) | AI Agent 学習ロードマップ(読者タイプ別の読む順序) |
 | [skill-map.md](skill-map.md) | AI Agent プロフェッショナルのスキルマップ(8 領域の自己評価と学習パス) |
+| [research-literacy.md](research-literacy.md) | AI 情報の追い方(情報源の階層〔一次/準一次/二次〕・論文の実務的な読み方・ハイプの見分け・定点観測の仕組み・追わないものを決める) |

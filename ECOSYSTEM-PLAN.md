@@ -1,6 +1,6 @@
 # ECOSYSTEM-PLAN — 業界・エコシステム動向 追加計画
 
-> **ステータス: 進行中(2026-07-07 作成、ユーザーの選定に基づく。Phase AS を 2026-07-10 に完了。ai-industry-map〔09〕・open-source-ai-ecosystem〔03〕の 2 本 published〔鮮度管理型・EC-R1 反映〕。残り AT〔ai-standards-and-certification・research-literacy・EC-R2 必須〕)。**
+> **ステータス: 完了(2026-07-07 作成、ユーザーの選定に基づく。Phase AS・AT を 2026-07-10 に完了。ai-industry-map〔09〕・open-source-ai-ecosystem〔03〕・ai-standards-and-certification〔06〕・research-literacy〔00〕の 4 本 published〔鮮度管理型/入口マップ・EC-R1/EC-R2 反映〕。定点観測 2 系統を追加。これで ECOSYSTEM 完結 = 設計した全 20 拡張計画が完結)。**
 > AI 業界の構造・オープンソースエコシステム・規格認証・研究情報の追い方という「地図と情報リテラシー」の追加計画です。**4 本中 2 本が鮮度管理型**という、鮮度リスクを引き受ける性格の計画のため、定点観測の運用込みで設計します。進捗の正本は着手後 [ROADMAP.md](ROADMAP.md) に置きます。
 
 ## 1. 位置づけとギャップ分析

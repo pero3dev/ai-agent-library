@@ -19,6 +19,7 @@ Agent 固有の脅威と対策を扱うセクションです。従来の Web セ
 | [agent-identity-and-auth.md](agent-identity-and-auth.md) | エージェントの認証・認可(個別 ID・委任・権限の交差・帰属・資格情報 vault) |
 | [red-teaming-agents.md](red-teaming-agents.md) | エージェントのレッドチーミング(演習設計・手動/自動・修正の優先順位・継続運用) |
 | [compliance-and-governance.md](compliance-and-governance.md) | コンプライアンスとガバナンス(規制の地図・会話ログのデータ保護・監査・ベンダー契約) |
+| [ai-standards-and-certification.md](ai-standards-and-certification.md) | AI 規格・認証の実務(規格の地図〔要求事項型/指針/任意 FW〕・認証 ≠ 安全・適合の進め方・監査・取得判断。ISO/IEC 42001 ほか・入口マップ+免責) |
 | **── 発展層(信頼・新興攻撃・プライバシー技術)──** | 上記の基本(脅威 → 防御)の後に、上流(サプライチェーン)・攻撃の進化・プライバシー技術を足す(設計は `TRUST-SECURITY-PLAN.md`) |
 | [ai-supply-chain-security.md](ai-supply-chain-security.md) | AI サプライチェーンセキュリティ(モデル・重み・データ・MCP・スキルを実行前に検証する受け入れプロセス) |
 | [advanced-attack-patterns.md](advanced-attack-patterns.md) | 新興攻撃パターンの体系(記憶・知識源・ツール・マルチエージェント経由の注入と既存防御へのマップ) |

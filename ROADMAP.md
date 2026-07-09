@@ -663,9 +663,23 @@
 
 **これで ECOSYSTEM 前半(2 本、195 → 197 本)が完了。残りは AT(規格・認証 + 情報の追い方・EC-R2 必須)。両記事は鮮度管理型(3 点セット)で、プレイヤー名は代表例・ライセンスは「オープン ≠ 商用自由」を軸に断定回避。定点観測「業界マップ・OSS エコシステムの定点観測」は AT-R でまとめて追加(research/ecosystem/ を更新起点)。**
 
-## 未着手の拡張計画(残 1 計画)
+### Phase AT: 業界・エコシステム動向 後半 — 規格・認証 + 情報の追い方(ECOSYSTEM 完結・全拡張計画完結)— ✅ 完了(2026-07-10)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件)**、**UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14)**、**ORG-PROCESS が完結(Phase AO・AP・全 5 本・09-business)**、**AGENT-INFRA が完結(Phase AY・全 2 本・03-implementation)**、および **AI-STRATEGY が完結(Phase AZ・全 4 本・09-business 3 本 + 05-operations 1 本)**。残る拡張計画は 1 本(ECOSYSTEM〔AS 完了・AT 残〕。全体で 2 本、examples は完了、フェーズ記号 AT)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(残りは ECOSYSTEM の後半〔AT・規格認証 + 情報の追い方・EC-R2・2 本〕のみ(全拡張計画の最後))。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+設計は [ECOSYSTEM-PLAN.md](ECOSYSTEM-PLAN.md)。06 に ai-standards-and-certification、00 に research-literacy を追加。EC-R2 調査 = `research/ecosystem/standards.md`(ISO/IEC 42001・NIST AI RMF・EU 整合規格〔JTC 21〕・JIS Q 42001:2025・ISMS-AC 認定制度の公式一次情報。認証 ≠ 安全を軸に)。ai-standards は入口マップ + 免責、research-literacy は本ライブラリ自身の調査方法論(`research/` 一次情報メモ・「変わりやすい項目」運用)の一般化。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| EC-R2 | AI 規格・認証の一次情報(ISO/IEC 42001・NIST AI RMF・EU 整合規格・国内 JIS/ISMS-AC) | `research/ecosystem/standards.md` | 完了 |
+| AT-1 | 規格・認証(EC-R2 反映・入口マップ)+ 情報の追い方 | `06-security/ai-standards-and-certification.md`, `00-overview/research-literacy.md` | 完了 |
+| AT-R | フェーズレビュー + 統合(compliance-and-governance → ai-standards、agent-benchmarks-landscape → research-literacy の逆リンク・GLOSSARY 2 語〔ISO/IEC 42001・一次情報〕・published 化・定点観測 2 系統追加・鮮度管理型の総量棚卸し) | — | 完了 |
+
+**これで ECOSYSTEM(全 4 本、197 → 199 本)が完結。ai-standards は「認証 ≠ 安全」「規格 ≠ 認証(指針/任意 FW は認証対象外)」を軸に断定回避 + 免責、初認証/初認定の日付の食い違いは断定せず。research-literacy は情報源の階層(一次/準一次/二次)・追わないものを決める。**
+
+**★ これで設計した全 20 拡張計画(フェーズ記号 A〜AZ・S〜U)がすべて完結しました。ライブラリは 16 セクション・199 本・GLOSSARY 153 語・examples 6 件。以後は四半期の定期メンテナンス(定点観測)のみです。**
+
+## 未着手の拡張計画(なし — 全 20 拡張計画が完結)
+
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件)**、**UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14)**、**ORG-PROCESS が完結(Phase AO・AP・全 5 本・09-business)**、**AGENT-INFRA が完結(Phase AY・全 2 本・03-implementation)**、および **AI-STRATEGY が完結(Phase AZ・全 4 本・09-business 3 本 + 05-operations 1 本)**。**設計した全 20 拡張計画がすべて完結しました(残りの未着手拡張計画はありません)。** 経緯と各計画の内容は各 `*-PLAN.md` を、実施順の記録は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照してください。以後の作業は、下記「定期メンテナンス」の定点観測(四半期ごと)が中心になります。
 
 ## Claude への依頼テンプレート
 
@@ -693,4 +707,6 @@ CLAUDE.md の執筆ルールと templates/doc-template.md に従い、
 - **RPA/自動化ベンダーの Agent 統合動向の定点観測**(`13-domain-agents/rpa-and-agents.md` の「動向(類型)」節と最終確認日。主要 RPA/自動化製品のエージェント機能・オーケストレーション層・提供形態(オンプレ/エアギャップ・BYO-LLM)・統制機能は発表が活発で変化が速いため四半期ごと。`research/domain-agents/rpa.md` を更新起点にする。直近の注目: SS&C Blue Prism WorkHQ の本文再取得と GA / UiPath Automation Suite のオンプレ agentic 拡張・準拠標準 / Microsoft の RPA vs CUA 公式表の改訂 / WinActor の AI 連携ライセンス改定)
 - **先端応用(科学研究・シミュレーション・エージェント経済)の定点観測**(`13-domain-agents/emerging-agent-domains.md` の最終確認日。実証/構想の別が動きやすい鮮度管理型のため四半期ごと。`research/domain-agents/emerging.md` の定点観測項目を更新起点にする。直近の注目: 科学 AI(Co-Scientist の Nature 論文本文・A-Lab 訂正の顛末・「end-to-end 自律」系プレプリントの査読/追試)/ 生成エージェント「1,000 人」続報の査読 / 決済プロトコルの仕様→稼働の移行・標準の統治主体(MCP=AAIF・A2A=Linux Foundation・AP2=FIDO)/ 暗号資産 AI エージェント市場の投機と実利用の乖離)
 - **輸出規制・環境開示の定点観測**(`09-business/ai-geopolitics-map.md` と `05-operations/green-ai.md` の「変わりやすい項目」・最終確認日。輸出管理規則・制裁/エンドユーザーリスト・データ保護規則・プロバイダーの環境開示・ESG 制度は変化が速いため四半期ごと。`research/strategy/geopolitics.md`・`green-ai.md` を更新起点にする。直近の注目: 米 BIS の先端コンピューティング関連規則の改定 / 各制裁リストの更新 / EU デュアルユース管理品目リスト / インド DPDP 規則・EU 十分性認定 / AWS CCFT 後継移行(2026-06-30 廃止予定)/ EU CSRD・EED の適用範囲)
+- **AI 業界マップ・OSS エコシステムの定点観測**(`09-business/ai-industry-map.md`・`03-implementation/open-source-ai-ecosystem.md` の「変わりやすい項目」・最終確認日。各層の代表プレイヤーの顔ぶれ・垂直統合・モデルライセンスの版/規模条件・OSAID の版・Hugging Face の規約構造・OSS の GitHub 組織移管/統合は変化が速いため四半期ごと。`research/ecosystem/industry-oss.md` を更新起点にする)
+- **AI 規格・認証の定点観測**(`06-security/ai-standards-and-certification.md` の「変わりやすい項目」・最終確認日。ISO/IEC 42001 の版・SC 42 の新規格・NIST AI RMF の改訂・EU 整合規格〔JTC 21〕の進捗・JIS Q 42001 の版・ISMS-AC 認定制度の立ち上がりは四半期ごと。`research/ecosystem/standards.md` を更新起点にする)
 - `examples/` の実行確認と各サンプル README の動作確認日の更新(四半期ごと目安)

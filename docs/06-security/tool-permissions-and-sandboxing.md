@@ -108,6 +108,7 @@ tags: ["tool-permissions", "sandboxing", "tool-use"]
 - [ツール接続標準(MCP とエコシステム)](../03-implementation/mcp-and-tool-protocols.md) — 外部サーバー接続の基礎
 - [インシデント対応](../05-operations/incident-response.md) — ツール単位の無効化(動的な権限制御)
 - [AI サプライチェーンセキュリティ](ai-supply-chain-security.md) — 実行前の受け入れ検証(本記事は実行時の隔離・権限)
+- [コード実行サンドボックスの実装](../03-implementation/code-execution-sandboxes.md) — 隔離を実現する実装技術の選択(コンテナ/microVM/Wasm ほか。本記事は原則が正本)
 
 ## 参考資料
 

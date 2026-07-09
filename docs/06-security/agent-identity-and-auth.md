@@ -166,6 +166,7 @@ flowchart LR
 - [ツール接続標準(MCP とエコシステム)](../03-implementation/mcp-and-tool-protocols.md) — MCP サーバー接続の全体像
 - [可観測性とトレーシング](../05-operations/observability-and-tracing.md) — 帰属ログとトレースの突き合わせ
 - [ケーススタディ: 社内 IT ヘルプデスク Agent](../07-case-studies/case-study-it-helpdesk-agent.md) — 実行系での最小権限・帰属・監査証跡の実例
+- [エージェント間連携プロトコル](../03-implementation/agent-interop-protocols.md) — 組織間連携での認証・認可(相互運用プロトコルの観点)
 
 ## 参考資料
 

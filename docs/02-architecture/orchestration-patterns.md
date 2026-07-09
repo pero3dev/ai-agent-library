@@ -102,6 +102,7 @@ flowchart TD
 - [エラー処理・リトライ・フォールバック設計](error-handling-and-retries.md) — ノード間のエラー伝搬への対処
 - [Human-in-the-Loop 設計](human-in-the-loop.md) — フロー内への承認ポイントの配置
 - [examples/python/multi-agent/](../../examples/python/multi-agent/README.md) — 計画役 + 実行役の最小オーケストレーション(モック実行可)
+- [エージェント間連携プロトコル](../03-implementation/agent-interop-protocols.md) — 組織・システムを越えた協調の標準(A2A 等。発見・委譲・信頼の設計)
 
 ## 参考資料
 

@@ -40,3 +40,5 @@
 | [synthetic-data-for-training.md](synthetic-data-for-training.md) | 学習用合成データの実務(用途の型・生成・品質管理・モデル崩壊・権利・評価データとの分離) |
 | [slm-strategy.md](slm-strategy.md) | 小型言語モデル(SLM)の活用戦略(得意領域と崖・SLM ファースト・ルーティング・タスク特化・評価) |
 | [local-and-on-device-llm.md](local-and-on-device-llm.md) | ローカル・オンデバイス LLM の実務(向くユースケース・実行環境の類型・量子化形式・品質ギャップ検証・ハイブリッド・配布) |
+| [code-execution-sandboxes.md](code-execution-sandboxes.md) | コード実行サンドボックスの実装(守る対象・実装技術の類型〔コンテナ/microVM/Wasm ほか〕・ライフサイクル・エグレス制御・マルチテナント分離) |
+| [agent-interop-protocols.md](agent-interop-protocols.md) | エージェント間連携プロトコル(ツール接続との非対称・発見/委譲/認証の 5 要素・信頼の段階設計・攻撃面・標準の現在地。鮮度管理型) |

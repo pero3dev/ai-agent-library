@@ -1,6 +1,6 @@
 # PRIORITY-MAP — 未着手計画の推奨実施順
 
-> **ステータス: 運用中(2026-07-07 作成・2026-07-09 更新)。** 拡張計画のうち DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)が完了し **第 2 波(基盤の深掘り)が完了**、さらに **第 3 波の SE-CODING-AGENTS(Phase V・X・7 本)・LLMOPS(Phase AF・AG・7 本)・MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)・TRUST-SECURITY(Phase AH・AI・AJ・8 本)も完了 = 第 3 波が完了**。さらに **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13、2026-07-09)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件、2026-07-09)**、**UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14、2026-07-09)**、および **ORG-PROCESS が完結(Phase AO・AP・全 5 本・09-business、2026-07-09)**。残る拡張計画 5 本(AGENT-INFRA・AI-STRATEGY・LLM-INTERNALS・HUMAN-AI・ECOSYSTEM。全体で 19 本、examples は完了、いずれも調査を伴うか大型)の推奨実施順です。フェーズの完了・計画の変更時に本ファイルも同じセッションで更新します(進捗の正本は [ROADMAP.md](ROADMAP.md)、各計画の内容は各 PLAN ファイルが正本)。
+> **ステータス: 運用中(2026-07-07 作成・2026-07-09 更新)。** 拡張計画のうち DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)が完了し **第 2 波(基盤の深掘り)が完了**、さらに **第 3 波の SE-CODING-AGENTS(Phase V・X・7 本)・LLMOPS(Phase AF・AG・7 本)・MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)・TRUST-SECURITY(Phase AH・AI・AJ・8 本)も完了 = 第 3 波が完了**。さらに **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13、2026-07-09)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件、2026-07-09)**、**UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14、2026-07-09)**、**ORG-PROCESS が完結(Phase AO・AP・全 5 本・09-business、2026-07-09)**、および **AGENT-INFRA が完結(Phase AY・全 2 本・03-implementation、2026-07-09)**。残る拡張計画 4 本(AI-STRATEGY・LLM-INTERNALS・HUMAN-AI・ECOSYSTEM。全体で 17 本、examples は完了、いずれも調査を伴うか大型)の推奨実施順です。フェーズの完了・計画の変更時に本ファイルも同じセッションで更新します(進捗の正本は [ROADMAP.md](ROADMAP.md)、各計画の内容は各 PLAN ファイルが正本)。
 
 ## 1. 評価軸
 
@@ -50,7 +50,7 @@
 | ✅ AU・AV 完了(2026-07-09) | [CASES-EXAMPLES](CASES-EXAMPLES-PLAN.md)(事例 + examples) | 3 + 5(完了) | **Phase AU(IT ヘルプデスク・データ分析・撤退した失敗事例)+ AV(examples 5 件・全件 `--mock` 実行検証)完了**。examples は API キーなしで動作検証可、docs ↔ examples 双方向リンク整備済み |
 | ✅ AM・AN 完了(2026-07-09) | [UX-PRODUCT](UX-PRODUCT-PLAN.md)(新 14 章) | 6(完了) | **Phase AM(UX パターン・会話設計・チャット以外の UI)+ AN(プロアクティブ・a11y・価格設計)完了 = 新セクション 14 + 全 6 本**。価格設計のみ 09-business |
 | ✅ AO・AP 完了(2026-07-09) | [ORG-PROCESS](ORG-PROCESS-PLAN.md) | 5(完了) | **Phase AO(開発プロセス再設計・チームトポロジー・資産共有)+ AP(利用ポリシー・スキルシフト)完了 = 09-business に 5 本(7→12)**。新セクションなし。09 憲章を「案件と組織の推進」へ拡張 |
-| AY | [AGENT-INFRA](AGENT-INFRA-PLAN.md)(サンドボックス・プロトコル) | 2 | サンドボックス(AY-1)は価値◎・調査ゼロで繰り上げ可。プロトコル(AY-2)は調査必須・鮮度負担 +1 |
+| ✅ AY 完了(2026-07-09) | [AGENT-INFRA](AGENT-INFRA-PLAN.md)(サンドボックス・プロトコル) | 2(完了) | **code-execution-sandboxes(隔離技術の選定)+ agent-interop-protocols(IF-R1 反映・鮮度管理型)完了 = 03 に 2 本**。IF-R1 = `research/infra/agent-protocols.md`。定点観測は認証標準と統合 |
 | AZ | [AI-STRATEGY](AI-STRATEGY-PLAN.md)(自社モデル・調達ほか) | 4 | 価値○。調査 2 件・鮮度負担 +1 |
 
 ### 第 5 波: 大型・独立・維持負担の大きいもの

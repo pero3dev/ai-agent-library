@@ -573,9 +573,22 @@
 
 **これで ORG-PROCESS(全 5 本、09-business を 7 → 12 本に)が完結。**
 
-## 未着手の拡張計画(残 5 計画)
+### Phase AY: エージェント基盤技術詳解 — サンドボックス実装・連携プロトコル(AGENT-INFRA 完結)— ✅ 完了(2026-07-09)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件)**、**UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14)**、および **ORG-PROCESS が完結(Phase AO・AP・全 5 本・09-business)**。残る拡張計画は 5 本(AGENT-INFRA・AI-STRATEGY・LLM-INTERNALS・HUMAN-AI・ECOSYSTEM。全体で 19 本、examples は完了、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次はいずれも調査を伴う: AGENT-INFRA〔AY・サンドボックスは調査ゼロで繰り上げ可〕・AI-STRATEGY〔AZ〕・LLM-INTERNALS〔S〜U・新 11・大型〕・HUMAN-AI〔AW・新 15〕・ECOSYSTEM〔AS・AT〕)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+設計は [AGENT-INFRA-PLAN.md](AGENT-INFRA-PLAN.md)。03-implementation に 2 本を追加。code-execution-sandboxes(コンテナ/microVM/Wasm ほか隔離技術の選定・調査ゼロ)・agent-interop-protocols(IF-R1 反映・鮮度管理型)。定期メンテナンスに「エージェント間プロトコルの定点観測」を追加(認証標準の観測と統合)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| AY-1 | コード実行サンドボックス | `03-implementation/code-execution-sandboxes.md` | 完了 |
+| IF-R1 | エージェント間プロトコルの現在地調査(A2A/MCP/AP2・公式一次情報) | `research/infra/agent-protocols.md` | 完了 |
+| AY-2 | エージェント間連携プロトコル(IF-R1 反映・鮮度管理型) | `03-implementation/agent-interop-protocols.md` | 完了 |
+| AY-R | フェーズレビュー + 統合(tool-permissions / multi-tenancy / mcp-and-tool-protocols / orchestration-patterns / agent-identity-and-auth からの逆リンク・GLOSSARY 3 語〔microVM・WebAssembly・エージェントカード〕+ A2A 更新・published 化・同期一式・定点観測追加) | — | 完了 |
+
+**これで AGENT-INFRA(全 2 本、03: 29 → 31 本)が完結。**
+
+## 未着手の拡張計画(残 4 計画)
+
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件)**、**UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14)**、**ORG-PROCESS が完結(Phase AO・AP・全 5 本・09-business)**、および **AGENT-INFRA が完結(Phase AY・全 2 本・03-implementation)**。残る拡張計画は 4 本(AI-STRATEGY・LLM-INTERNALS・HUMAN-AI・ECOSYSTEM。全体で 17 本、examples は完了、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(残りはいずれも調査を伴うか大型: AI-STRATEGY〔AZ・調査 2 件〕・LLM-INTERNALS〔S〜U・新 11・数式レンダリング検証を伴う大型〕・HUMAN-AI〔AW・新 15〕・ECOSYSTEM〔AS・AT・鮮度負担 +2〕)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 
@@ -591,7 +604,7 @@ CLAUDE.md の執筆ルールと templates/doc-template.md に従い、
 - モデル・フレームワーク情報の鮮度確認(front matter の `last_updated` が 6 か月以上前のものを優先)
 - **08-coding-agents のツール情報の定点観測**(各ページの「変わりやすい項目」と比較表。製品名・プラン・学習ポリシーの変化が速いため四半期ごと必須。`research/coding-agents/` の調査メモを更新起点にする)
 - **モデルガイド(model-selection / llm-landscape)+ モデル特化プロンプティング(claude / openai / gemini / cross-model-prompting)の定点観測**(モデル名・価格帯・退役日程・各社の思考制御/構造化出力/prefill などプロンプト仕様。四半期ごと必須。`research/models/` と `research/prompting/` の調査メモを更新起点にする。直近の注目: Sonnet 5 導入価格終了 2026-09 / Gemini 2.5 系終了 2026-10 / OpenAI o 系退役 2026-12 / OpenAI `v1/prompts` 停止 2026-11-30)
-- **エージェント認証の標準動向の定点観測**(`06-security/agent-identity-and-auth.md` の「変わりやすい項目」。四半期ごと。`research/professional/agent-identity.md` を更新起点にする。直近の注目: OAuth 2.1 の IESG 提出予定 2026-12 / MCP 認可仕様の次期リビジョン)
+- **エージェント認証・連携プロトコルの標準動向の定点観測**(`06-security/agent-identity-and-auth.md` と `03-implementation/agent-interop-protocols.md` の「変わりやすい項目」・最終確認日。四半期ごと。`research/professional/agent-identity.md`・`research/infra/agent-protocols.md` を更新起点にする。直近の注目: OAuth 2.1 の IESG 提出予定 2026-12 / MCP 認可仕様の次期リビジョンと AAIF ガバナンス / A2A の仕様バージョン・レジストリ API 標準化・AAIF 傘下入りの有無 / 決済 AP2 の mandate モデルと FIDO 標準化 / ACP・AGNTCY の収斂)
 - **規制動向の定点観測**(`06-security/compliance-and-governance.md` の「変わりやすい項目」。四半期ごと。`research/professional/compliance.md` を更新起点にする。直近の注目: EU omnibus 官報公布 / EU 透明性義務 2026-08-02 適用 / 日本の個情法改正案の成立 / California SB 942 系 2026-08-02 施行)
 - **音声 API・FT 提供状況の定点観測**(`03-implementation/voice-agents.md` と `fine-tuning-and-distillation.md` の TODO・変わりやすい項目。四半期ごと。`research/professional/voice-agents.md`, `fine-tuning.md` を更新起点にする。直近の注目: OpenAI FT プラットフォーム縮小の帰趨 / Gemini Live の GA 化)
 - **エージェントベンチマーク動向の定点観測**(`04-evaluation/agent-benchmarks-landscape.md` の「変わりやすい項目」。四半期ごと。`research/professional/benchmarks.md` を更新起点にする。直近の注目: SWE-bench Pro / Terminal-Bench 2.x への重心移行の定着 / OSWorld 2.0・GAIA2・τ³-bench のスコア推移)

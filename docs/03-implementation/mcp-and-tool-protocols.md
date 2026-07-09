@@ -87,6 +87,7 @@ MCP(Model Context Protocol)は、ツールやデータソースを LLM アプリ
 - [フレームワーク選定ガイド](framework-selection.md) — MCP 対応はフレームワーク選定の観点の 1 つ
 - [先端応用の概観(科学研究・シミュレーション・エージェント経済)](../13-domain-agents/emerging-agent-domains.md) — 通信標準(MCP・A2A)がエージェント経済の土台になる位置づけ
 - [examples/python/mcp-server/](../../examples/python/mcp-server/README.md) — ツール 2 つの最小 MCP サーバー(権限強制の考え方・自己テスト可)
+- [エージェント間連携プロトコル](agent-interop-protocols.md) — 「ツールを呼ぶ(MCP)」の先、「相手エージェントに任せる(A2A)」連携の設計
 
 ## 参考資料
 

@@ -650,9 +650,22 @@
 
 **これで HUMAN-AI(全 4 本、新セクション 15・191 → 195 本)が完結。ai-career-strategy は断定的な将来予測を避け、構造と選択肢の提示に徹した(レビュー観点)。**
 
+### Phase AS: 業界・エコシステム動向 前半 — 業界レイヤーマップ + OSS エコシステム(ECOSYSTEM 前半)— ✅ 完了(2026-07-10)
+
+設計は [ECOSYSTEM-PLAN.md](ECOSYSTEM-PLAN.md)。09 に ai-industry-map、03 に open-source-ai-ecosystem を追加(いずれも鮮度管理型)。EC-R1 調査 = `research/ecosystem/industry-oss.md`(業界レイヤーの代表例・OSS ハブ規約・モデルライセンス類型の現行版・OSAID。中立 = 代表例のみ・シェア/資本関係は扱わない)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| EC-R1 | 業界レイヤーと OSS エコシステムの現在地(代表例・ハブ規約・ライセンス類型の現行版・公式一次情報) | `research/ecosystem/industry-oss.md` | 完了 |
+| AS-1 | 業界レイヤーマップ(EC-R1 反映・鮮度管理型) | `09-business/ai-industry-map.md` | 完了 |
+| AS-2 | オープンソースエコシステム(EC-R1 反映・鮮度管理型) | `03-implementation/open-source-ai-ecosystem.md` | 完了 |
+| AS-R | フェーズレビュー(llm-landscape との分担確認・published 化・同期一式)+ 逆リンク(llm-landscape / model-selection → ai-industry-map、llm-landscape / open-source-coding-agents → open-source-ai-ecosystem)+ GLOSSARY 2 語〔コピーレフト・モデルカード〕+ オープンウェイト更新 | — | 完了 |
+
+**これで ECOSYSTEM 前半(2 本、195 → 197 本)が完了。残りは AT(規格・認証 + 情報の追い方・EC-R2 必須)。両記事は鮮度管理型(3 点セット)で、プレイヤー名は代表例・ライセンスは「オープン ≠ 商用自由」を軸に断定回避。定点観測「業界マップ・OSS エコシステムの定点観測」は AT-R でまとめて追加(research/ecosystem/ を更新起点)。**
+
 ## 未着手の拡張計画(残 1 計画)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件)**、**UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14)**、**ORG-PROCESS が完結(Phase AO・AP・全 5 本・09-business)**、**AGENT-INFRA が完結(Phase AY・全 2 本・03-implementation)**、および **AI-STRATEGY が完結(Phase AZ・全 4 本・09-business 3 本 + 05-operations 1 本)**。残る拡張計画は 1 本(ECOSYSTEM。全体で 4 本、examples は完了、フェーズ記号 AS〜AT)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(残りは ECOSYSTEM〔AS・AT・鮮度負担 +2・4 本〕のみ(全拡張計画の最後))。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件)**、**UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14)**、**ORG-PROCESS が完結(Phase AO・AP・全 5 本・09-business)**、**AGENT-INFRA が完結(Phase AY・全 2 本・03-implementation)**、および **AI-STRATEGY が完結(Phase AZ・全 4 本・09-business 3 本 + 05-operations 1 本)**。残る拡張計画は 1 本(ECOSYSTEM〔AS 完了・AT 残〕。全体で 2 本、examples は完了、フェーズ記号 AT)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(残りは ECOSYSTEM の後半〔AT・規格認証 + 情報の追い方・EC-R2・2 本〕のみ(全拡張計画の最後))。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 

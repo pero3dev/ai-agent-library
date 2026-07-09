@@ -138,6 +138,7 @@ flowchart TD
 - [セルフホスト推論の実務](../05-operations/self-hosted-inference.md) — API を借りず自分で提供する選択と運用
 - [フロンティアセーフティの概観](../06-security/frontier-safety-overview.md) — 「提供者の安全体制」を選定軸に足す(機微用途で重要)
 - [「自社モデルを持つか」の判断](../09-business/own-model-strategy.md) — モデルを「持つ/持たない」の経営・投資判断(モデル選定の上位)
+- [AI 業界レイヤーマップ](../09-business/ai-industry-map.md) — 提供元の業界構造・依存と調達リスクの地図(選定の背景)
 
 ## 参考資料
 

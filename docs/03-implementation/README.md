@@ -42,3 +42,4 @@
 | [local-and-on-device-llm.md](local-and-on-device-llm.md) | ローカル・オンデバイス LLM の実務(向くユースケース・実行環境の類型・量子化形式・品質ギャップ検証・ハイブリッド・配布) |
 | [code-execution-sandboxes.md](code-execution-sandboxes.md) | コード実行サンドボックスの実装(守る対象・実装技術の類型〔コンテナ/microVM/Wasm ほか〕・ライフサイクル・エグレス制御・マルチテナント分離) |
 | [agent-interop-protocols.md](agent-interop-protocols.md) | エージェント間連携プロトコル(ツール接続との非対称・発見/委譲/認証の 5 要素・信頼の段階設計・攻撃面・標準の現在地。鮮度管理型) |
+| [open-source-ai-ecosystem.md](open-source-ai-ecosystem.md) | オープンソース AI エコシステム(ハブ・ライセンス類型〔オープン ≠ 商用自由〕・モデルカードの読み方・派生モデルの信頼・持続性。鮮度管理型) |

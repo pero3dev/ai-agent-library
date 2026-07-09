@@ -142,6 +142,8 @@ tags: ["model-selection"]
 - [セルフホスト推論の実務](../05-operations/self-hosted-inference.md) — オープンウェイトモデルを実際に動かす提供層
 - [フロンティアセーフティの概観](../06-security/frontier-safety-overview.md) — 提供者の安全フレームワーク・システムカードの読み方(調達時の評価軸)
 - [AI と地政学・輸出規制の入口マップ](../09-business/ai-geopolitics-map.md) — 供給集中・輸出管理という提供元選定の地政学リスクの確認先
+- [AI 業界レイヤーマップ](../09-business/ai-industry-map.md) — モデル層の上下を含む業界全体の地図(本記事はモデル層の詳細)
+- [オープンソース AI エコシステム](open-source-ai-ecosystem.md) — オープンウェイトのライセンス類型・ハブ・派生モデルの信頼(本記事のオープンウェイト節の詳解)
 
 ## 参考資料
 

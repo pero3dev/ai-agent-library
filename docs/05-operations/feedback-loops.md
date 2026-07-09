@@ -108,6 +108,7 @@ flowchart LR
 - [バージョニング・デプロイ・モデル更新追従](versioning-and-model-updates.md) — 改善をリリースし新旧比較する仕組み
 - [プロンプト資産の管理とバージョニング](../03-implementation/prompt-management.md) — 改善の実施側の変更フロー
 - [PoC から本番への進め方](../09-business/poc-to-production.md) — 本番化後の改善体制としての位置づけ
+- [AI プロダクトの UX パターン](../14-ux-and-product/ai-ux-patterns.md) — 訂正・評価の導線を体験に組み込む(フィードバック収集の入口 UX)
 
 ## 参考資料
 

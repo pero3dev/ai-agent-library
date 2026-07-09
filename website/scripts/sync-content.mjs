@@ -61,7 +61,8 @@ const SECTION_TITLES = {
   business: '09. ビジネス実務',
   'llm-foundations': '10. LLM 基礎',
   multimodal: '12. モダリティ応用',
-  'domain-agents': '13. ドメイン応用'
+  'domain-agents': '13. ドメイン応用',
+  'ux-and-product': '14. UX・プロダクト'
 }
 
 const warnings = []

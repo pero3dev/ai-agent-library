@@ -529,9 +529,32 @@
 
 **これで CASES-EXAMPLES(ケーススタディ 3 + examples 5)が完結。**
 
-## 未着手の拡張計画(残 7 計画)
+### Phase AM: UX・プロダクト 前半 — UX パターン・会話設計・チャット以外の UI(UX-PRODUCT 第 1 弾)— ✅ 完了(2026-07-09)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**、および **CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件)**。残る拡張計画は 7 本(UX-PRODUCT・ORG-PROCESS・AGENT-INFRA・AI-STRATEGY・LLM-INTERNALS・HUMAN-AI・ECOSYSTEM。全体で 30 本、examples は完了、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は UX-PRODUCT〔AM・AN・新 14〕・ORG-PROCESS〔AO・AP〕等、いずれも調査ゼロ)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+設計は [UX-PRODUCT-PLAN.md](UX-PRODUCT-PLAN.md)。新セクション `14-ux-and-product`(UX・プロダクトデザイン)を新設し、前半 3 本を執筆(調査ゼロ)。ai-ux-patterns(不確実性/誤り/待ち時間/信頼の較正)・conversation-design(ペルソナ/トーン/境界)・beyond-chat-ui(プロンプトレス/成果物 UI/バックグラウンド)。実装は streaming-and-agent-ux が正本のまま(本セクションは上位のパターン言語)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| AM-0 | 14-ux-and-product スケルトン(README・doc-template category・website 反映・ルート README) | `14-ux-and-product/README.md` ほか同期一式 | 完了 |
+| AM-1 | UX パターン + 会話設計 | `14-ux-and-product/ai-ux-patterns.md`, `conversation-design.md` | 完了 |
+| AM-2 | チャットを超える UI | `14-ux-and-product/beyond-chat-ui.md` | 完了 |
+| AM-R | レビュー(streaming-and-agent-ux / human-in-the-loop / feedback-loops からの逆リンク・published 化) | — | 完了 |
+
+### Phase AN: UX・プロダクト 後半 — プロアクティブ・アクセシビリティ・価格設計(UX-PRODUCT 完結)— ✅ 完了(2026-07-09)
+
+設計は [UX-PRODUCT-PLAN.md](UX-PRODUCT-PLAN.md)。後半 3 本で **UX-PRODUCT(全 6 本 + 新セクション 14)が完結**。proactive-agent-ux(段階/閾値/通知疲れ)・accessibility-and-ai(AI UI の a11y + AI による支援)は 14 章、ai-pricing-and-packaging(価格モデルの類型・原価連動・特定価格に触れず)は 09-business。AN-R で learning-roadmap を 14 セクション化(Mermaid `A2 -.-> UX14`・概要/読みどころ)。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| AN-1 | プロアクティブ UX + アクセシビリティ | `14-ux-and-product/proactive-agent-ux.md`, `accessibility-and-ai.md` | 完了 |
+| AN-2 | 価格設計(09) | `09-business/ai-pricing-and-packaging.md` | 完了 |
+| AN-R | フェーズレビュー + 統合(learning-roadmap 14 化・agent-prompt-design / roi-and-business-case / cost-management / async-and-durable-agents からの逆リンク・GLOSSARY 4 語〔会話設計・プロアクティブ・プロンプトレス UI・成果物 UI〕・published 化・同期一式) | — | 完了 |
+
+**これで UX-PRODUCT(全 6 本 + 新セクション 14)が完結。**
+
+## 未着手の拡張計画(残 6 計画)
+
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件)**、および **UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14)**。残る拡張計画は 6 本(ORG-PROCESS・AGENT-INFRA・AI-STRATEGY・LLM-INTERNALS・HUMAN-AI・ECOSYSTEM。全体で 24 本、examples は完了、フェーズ記号 S〜AZ)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(次は ORG-PROCESS〔AO・AP・調査ゼロ〕等)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 

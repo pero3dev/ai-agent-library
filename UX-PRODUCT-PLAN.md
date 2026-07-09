@@ -1,6 +1,6 @@
 # UX-PRODUCT-PLAN — UX・プロダクトデザイン 追加計画
 
-> **ステータス: 設計案(2026-07-07 作成、ユーザーの選定に基づく。着手指示待ち)。**
+> **ステータス: 完了(2026-07-07 作成、ユーザーの選定に基づく。Phase AM〔前半 3 本 = ai-ux-patterns・conversation-design・beyond-chat-ui + 新セクション 14〕・Phase AN〔後半 3 本 = proactive-agent-ux・accessibility-and-ai + 09 の ai-pricing-and-packaging〕を 2026-07-09 に完了。UX-PRODUCT 完結)。**
 > AI プロダクトの体験設計 — UX パターン・会話設計・プロアクティブ性・チャットを超える UI・価格設計・アクセシビリティ — の追加計画です。進捗の正本は着手後 [ROADMAP.md](ROADMAP.md) に置きます。
 
 ## 1. 位置づけとギャップ分析

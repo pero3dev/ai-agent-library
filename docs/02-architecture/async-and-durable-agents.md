@@ -151,6 +151,7 @@ flowchart LR
 - [ストリーミングと Agent の UX 実装パターン](../03-implementation/streaming-and-agent-ux.md) — 進捗をユーザーに届ける実装
 - [バージョニング・デプロイ・モデル更新追従](../05-operations/versioning-and-model-updates.md) — 実行中インスタンスとコード変更の共存
 - [常駐エージェントのライフサイクル管理](../05-operations/long-running-agents.md) — 長期間動き続ける個体の劣化・世代交代・退役
+- [チャットを超える UI](../14-ux-and-product/beyond-chat-ui.md) — バックグラウンド実行の UX 面(投げて後で受け取る)
 
 ## 参考資料
 

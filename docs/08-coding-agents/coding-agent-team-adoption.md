@@ -108,6 +108,8 @@ tags: ["coding-agents", "human-in-the-loop", "cost-management"]
 - [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) — レビュー・承認の設計原則
 - [顧客・プロジェクトへの導入合意形成](se-client-adoption.md) — 自社チームでなく顧客・商流側の合意形成(受託開発の対)
 - [AI 前提の開発プロセス再設計](../09-business/ai-native-development-process.md) — ツール導入に留まらない開発プロセス自体の再設計(組織側の実務)
+- [オートメーションバイアスとスキル退化](../15-human-ai/automation-bias-and-deskilling.md) — レビューが形骸化する認知的背景と育成問題
+- [AI 出力の検証習慣](../15-human-ai/verifying-ai-outputs.md) — チームのレビュー担当が身につける個人の検証技法
 
 ## 参考資料
 

@@ -1,6 +1,6 @@
 # HUMAN-AI-PLAN — 人と AI の協働(認知・個人)追加計画
 
-> **ステータス: 設計案(2026-07-07 作成、ユーザーの選定に基づく。着手指示待ち)。**
+> **ステータス: 完了(2026-07-07 作成、ユーザーの選定に基づく。Phase AW を 2026-07-09 に完了。新セクション `15-human-ai` + 4 本 published〔automation-bias-and-deskilling・verifying-ai-outputs・ai-career-strategy・ai-literacy-training-design〕。learning-roadmap 16 セクション化・逆リンク済み。GLOSSARY 2 語〔オートメーションバイアス・スキル退化〕)。**
 > システムと組織の設計(既存 92 本 + 各計画)に対して未カバーの「**使う人間の側**」— 認知バイアス・検証の習慣・キャリア・リテラシー教育 — を扱う追加計画です。進捗の正本は着手後 [ROADMAP.md](ROADMAP.md) に置きます。
 
 ## 1. 位置づけとギャップ分析

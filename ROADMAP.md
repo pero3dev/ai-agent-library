@@ -637,9 +637,22 @@
 
 **これで LLM-INTERNALS(全 8 本、新セクション 11・188 → 191 本)が完結。dependency-graph.jsx の POSITIONS/EDGES は S-0 で追加済み、learning-roadmap の 15 セクション化は U-R で実施。**
 
-## 未着手の拡張計画(残 2 計画)
+### Phase AW: 人と AI の協働(認知・個人)新設 — HUMAN-AI 完結 — ✅ 完了(2026-07-09)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件)**、**UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14)**、**ORG-PROCESS が完結(Phase AO・AP・全 5 本・09-business)**、**AGENT-INFRA が完結(Phase AY・全 2 本・03-implementation)**、および **AI-STRATEGY が完結(Phase AZ・全 4 本・09-business 3 本 + 05-operations 1 本)**。残る拡張計画は 2 本(HUMAN-AI・ECOSYSTEM。全体で 8 本、examples は完了、フェーズ記号 AW・AS〜AT)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(残りは HUMAN-AI〔AW・新セクション 15・4 本〕・ECOSYSTEM〔AS・AT・鮮度負担 +2・4 本〕)。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
+設計は [HUMAN-AI-PLAN.md](HUMAN-AI-PLAN.md)。新セクション `15-human-ai`(人と AI の協働)を新設し、4 本を追加。仕組み(承認・レビュー)の手前にある「使う人間の側」の認知と技能(過信・検証・キャリア・研修)を扱う。書誌はオートメーションバイアス古典(Bainbridge 1983 / Parasuraman & Riley 1997 / Parasuraman & Manzey 2010 / Skitka 1999 等)を調査エージェントで確認。
+
+| タスク | 内容 | 成果物 | ステータス |
+| --- | --- | --- | --- |
+| AW-0 | 15-human-ai スケルトン(README・doc-template category `human-ai`・sync SECTION_TITLES・dependency-graph〔overview -.-> human-ai〕・ルート README) | `15-human-ai/README.md` ほか同期一式 | 完了 |
+| AW-1 | オートメーションバイアス + 出力の検証習慣 | `15-human-ai/automation-bias-and-deskilling.md`, `verifying-ai-outputs.md` | 完了 |
+| AW-2 | キャリア戦略 + リテラシー研修設計 | `15-human-ai/ai-career-strategy.md`, `ai-literacy-training-design.md` | 完了 |
+| AW-R | フェーズレビュー + 統合(learning-roadmap の 16 セクション化〔Mermaid `O -.-> H15`〕・skill-map / human-in-the-loop / coding-agent-team-adoption / agent-benchmarks-landscape からの逆リンク・GLOSSARY 2 語〔オートメーションバイアス・スキル退化〕・published 化・同期一式) | — | 完了 |
+
+**これで HUMAN-AI(全 4 本、新セクション 15・191 → 195 本)が完結。ai-career-strategy は断定的な将来予測を避け、構造と選択肢の提示に徹した(レビュー観点)。**
+
+## 未着手の拡張計画(残 1 計画)
+
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件)**、**UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14)**、**ORG-PROCESS が完結(Phase AO・AP・全 5 本・09-business)**、**AGENT-INFRA が完結(Phase AY・全 2 本・03-implementation)**、および **AI-STRATEGY が完結(Phase AZ・全 4 本・09-business 3 本 + 05-operations 1 本)**。残る拡張計画は 1 本(ECOSYSTEM。全体で 4 本、examples は完了、フェーズ記号 AS〜AT)です。各計画の内容は各 `*-PLAN.md` を、**推奨実施順は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照**してください(残りは ECOSYSTEM〔AS・AT・鮮度負担 +2・4 本〕のみ(全拡張計画の最後))。着手したフェーズは従来どおり本ファイルにタスク表を追記して管理します。
 
 ## Claude への依頼テンプレート
 

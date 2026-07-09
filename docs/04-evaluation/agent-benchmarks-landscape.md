@@ -122,6 +122,7 @@ flowchart TD
 - [モデル選定ガイド](../03-implementation/model-selection.md) — ベンチマークを選定判断に位置づける側
 - [コーディングエージェントの評価](../08-coding-agents/coding-agent-evaluation.md) — ツール製品選定の文脈でのベンチマークの読み方
 - [ハーネスエンジニアリング](../02-architecture/harness-engineering.md) — ハーネス依存という読み方を「設計側」から扱う記事
+- [AI 出力の検証習慣](../15-human-ai/verifying-ai-outputs.md) — ベンチマークの高スコアを鵜呑みにしない個人の検証習慣(汚染の割り引き)
 
 ## 参考資料
 

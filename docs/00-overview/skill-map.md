@@ -142,6 +142,7 @@ flowchart TD
 - [よくあるアンチパターン集](../07-case-studies/common-anti-patterns.md) — 8 領域を横断する失敗の共通根。自己評価の答え合わせに使える
 - [AI 時代のチームトポロジー](../09-business/ai-team-topologies.md) — 個人の役割像を組織図に落とす(集中/分散/プラットフォーム)
 - [スキルシフトと変化管理](../09-business/skill-shift-and-change-management.md) — スキルの変化を組織として計画的に支える
+- [AI 時代のエンジニアキャリア戦略](../15-human-ai/ai-career-strategy.md) — 自己評価を個人のキャリア戦略(何を深め・任せ・価値を出すか)に接続する
 
 ## 参考資料
 

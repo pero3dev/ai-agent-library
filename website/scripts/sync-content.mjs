@@ -67,7 +67,8 @@ const SECTION_TITLES = {
   'llm-internals': '11. LLM 内部構造',
   multimodal: '12. モダリティ応用',
   'domain-agents': '13. ドメイン応用',
-  'ux-and-product': '14. UX・プロダクト'
+  'ux-and-product': '14. UX・プロダクト',
+  'human-ai': '15. 人と AI の協働'
 }
 
 const warnings = []

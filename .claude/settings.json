@@ -1,0 +1,46 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node scripts/validate-docs.mjs:*)",
+      "Bash(node scripts/check-links.mjs:*)",
+      "Bash(node scripts/todo-report.mjs:*)",
+      "Bash(npm run validate:*)",
+      "Bash(npm run links:*)",
+      "Bash(npm run todos:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git branch:*)",
+      "Bash(npx --yes markdownlint-cli:*)",
+      "Bash(python -m py_compile:*)",
+      "WebSearch"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-generated.mjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/validate-doc.mjs\"",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

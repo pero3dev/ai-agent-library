@@ -15,6 +15,9 @@ node_modules/
 .DS_Store
 Thumbs.db
 
+# Claude Code(個人ローカル設定はコミットしない。.claude/settings.json 等の共有設定はコミットする)
+.claude/settings.local.json
+
 # website(ドキュメントサイト)の生成物
 website/.next/
 website/out/

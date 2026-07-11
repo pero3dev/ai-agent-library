@@ -1,4 +1,9 @@
 {
+  "scripts": {
+    "validate": "node scripts/validate-docs.mjs --all",
+    "links": "node scripts/check-links.mjs",
+    "todos": "node scripts/todo-report.mjs"
+  },
   "dependencies": {
     "@xyflow/react": "^12.11.1"
   }

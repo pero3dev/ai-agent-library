@@ -23,6 +23,19 @@ jobs:
       - name: markdownlint
         run: npx --yes markdownlint-cli "**/*.md" -p .markdownlintignore
 
+  # docs の規約検証(scripts/ は依存ゼロなので npm ci 不要)
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: front matter / 固定 H2 / TODO(要確認) 書式
+        run: node scripts/validate-docs.mjs --all
+      - name: 相対リンク切れ / セクション README 収録表
+        run: node scripts/check-links.mjs
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -50,7 +63,7 @@ jobs:
 
   deploy:
     if: github.ref == 'refs/heads/main' && vars.DEPLOY_PAGES == 'true'
-    needs: [lint, build]
+    needs: [lint, build, docs]
     runs-on: ubuntu-latest
     permissions:
       pages: write

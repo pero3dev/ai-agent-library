@@ -102,8 +102,18 @@ ROADMAP.md は **タスク単位** の進捗だけを管理します。対応関
 - 作業を依頼されたら、まず [ROADMAP.md](ROADMAP.md) で現在のフェーズと担当タスクを確認する
 - 大量のドキュメントを一括生成しない。ROADMAP のタスク分割単位(1 セッション 1〜3 ファイル)を守る
 - 既存ドキュメントと矛盾する内容を書く前に、関連ドキュメントを読み、矛盾があれば指摘してユーザーに確認する
-- レビュー観点(フェーズレビュー X-R でも同じものを使う):
+- レビュー観点(フェーズレビュー X-R でも同じものを使う。1〜3 は下記「検証ツールと自動化」のスクリプトで機械化済み。4 と内容の質は人手 / doc-reviewer サブエージェントで見る):
   1. テンプレート準拠(固定 H2 がすべて存在するか)
   2. リンク切れなし(docs ↔ examples の双方向リンクを含む)
   3. `TODO(要確認)` の書式統一
   4. 同期漏れなし(セクション README のリンク化 / ROADMAP ステータス / GLOSSARY / `status` / `last_updated`)
+
+## 検証ツールと自動化
+
+- レビュー観点 1〜3 は `scripts/` で機械チェックできる(CI の docs ジョブでも同じものが走る):
+  - `node scripts/validate-docs.mjs <file|--all>` — front matter / 固定 H2 / `TODO(要確認)` 書式
+  - `node scripts/check-links.mjs` — 相対リンク切れ(大文字小文字の不一致を含む)+ セクション README 収録表の漏れ
+  - `node scripts/todo-report.mjs` — `TODO(要確認)` の棚卸し(「最終確認」月ごとの集計。`--json` あり)
+- docs/ の `.md` を編集するとフックが validate-docs を自動実行し、問題があればその場で指摘される
+- `website/content/` `website/generated/` `website/out/` は sync-content.mjs / next build の生成物のため、フックが書き込みをブロックする(正本は docs/。手書き上書きページのみ `website/content-src/`)
+- 定型作業はスキルを使う: `/quarterly-maintenance`(四半期定点観測)/ `/new-doc`(新規作成 + 同期更新)/ `/publish-review`(draft → published のフェーズレビュー)/ `/examples-check`(サンプルの実行確認)

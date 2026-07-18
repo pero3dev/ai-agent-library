@@ -1,0 +1,14 @@
+# テキストは作業ツリーでも LF に正規化する(CRLF による front matter 誤認を防ぐ = C2)。
+# sync-content.mjs も読込時に CRLF→LF 正規化するが、こちらは根本の予防。
+* text=auto eol=lf
+
+# バイナリは変換しない
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.pdf binary

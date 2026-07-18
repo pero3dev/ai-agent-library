@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import { DependencyGraph } from '../../components/roadmap/dependency-graph'
+import sections from '../../generated/sections.json'
 
 export const metadata = {
   title: '依存マップ',
-  description: '8 セクションの依存関係をインタラクティブに辿れます。'
+  description: `${sections.length} セクションの依存関係をインタラクティブに辿れます。`
 }
 
 export default function RoadmapPage() {

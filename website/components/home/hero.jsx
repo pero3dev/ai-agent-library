@@ -1,4 +1,8 @@
 import Link from 'next/link'
+import sections from '../../generated/sections.json'
+
+// 記事総数は sync が生成した sections.json から算出する(手書きの件数を持たない)
+const totalDocs = sections.reduce((sum, s) => sum + s.count, 0)
 
 /**
  * ヒーローセクション。右側の Agent ループ図は純 CSS アニメーション
@@ -15,7 +19,7 @@ export function Hero() {
           <em>実務の設計判断</em>を学ぶ。
         </h1>
         <p className="hero-lead">
-          AI Agent の概念・設計・実装・評価・運用・セキュリティを体系的に。全 37 本のドキュメントに、設計判断の基準・アンチパターン・チェックリストを収録しています。
+          AI Agent の概念・設計・実装・評価・運用・セキュリティを体系的に。全 {totalDocs} 本のドキュメントに、設計判断の基準・アンチパターン・チェックリストを収録しています。
         </p>
         <div className="hero-actions">
           <Link className="btn btn-primary" href="#routes">

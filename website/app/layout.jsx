@@ -4,7 +4,8 @@ import { getPageMap } from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
 import './docs.css'
 
-// 公開 URL(OG タグの絶対 URL 解決に使用)。ホスティング確定後に SITE_URL を設定する
+// 公開 URL(OG タグの絶対 URL 解決に使用)。CI は vars.SITE_URL から NEXT_PUBLIC_SITE_URL を渡す
+// (公開先: https://pero3dev.github.io/ai-agent-library/)。ローカルは localhost:3000
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
 export const metadata = {
@@ -48,6 +49,12 @@ export default async function RootLayout({ children }) {
           navbar={navbar}
           pageMap={await getPageMap()}
           footer={footer}
+          // 「Edit this page」「Feedback」は既定で上流 shuding/nextra を指す 404 リンクになる。
+          // content/ は sync の生成物で docs/ 正本へ 1:1 対応しないため、両リンクを無効化する(C12)。
+          // docsRepositoryBase も既定(shuding/nextra)を実リポジトリに上書きし、設定 JSON から上流参照を消す
+          docsRepositoryBase="https://github.com/pero3dev/ai-agent-library"
+          editLink={null}
+          feedback={{ content: null }}
         >
           {children}
         </Layout>

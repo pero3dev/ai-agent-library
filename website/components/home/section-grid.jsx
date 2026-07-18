@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import sections from '../../generated/sections.json'
 
-/** 8 セクションのカードグリッド。データは sync が生成した sections.json */
+/** 全セクションのカードグリッド。データは sync が生成した sections.json(件数・セクション数はここが正) */
 export function SectionGrid() {
   return (
     <div className="section-grid">

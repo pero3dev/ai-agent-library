@@ -4,6 +4,7 @@ import { ConceptCards } from '../components/home/concept-cards'
 import { Hero } from '../components/home/hero'
 import { RouteExplorer } from '../components/home/route-explorer'
 import { SectionGrid } from '../components/home/section-grid'
+import sections from '../generated/sections.json'
 import '../components/home/home.css'
 
 export const metadata = {
@@ -48,7 +49,7 @@ export default function HomePage() {
       <section>
         <p className="home-section-kicker">ALL SECTIONS</p>
         <h2 className="home-section-title">セクション一覧</h2>
-        <p className="home-section-lead">概念から運用・セキュリティまで、全 8 セクション。</p>
+        <p className="home-section-lead">概念から運用・セキュリティまで、全 {sections.length} セクション。</p>
         <SectionGrid />
       </section>
     </main>

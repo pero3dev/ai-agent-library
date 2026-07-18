@@ -10,6 +10,8 @@
     "prebuild": "npm run sync",
     "build": "next build",
     "postbuild": "node scripts/postbuild.mjs",
+    "clean": "node scripts/clean.mjs",
+    "build:clean": "npm run clean && npm run build",
     "start": "next start"
   },
   "dependencies": {

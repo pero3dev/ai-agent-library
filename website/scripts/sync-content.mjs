@@ -37,6 +37,19 @@ const mdxWriter = unified()
   .use(remarkFrontmatter, ['yaml'])
   .use(remarkMdx)
 
+// 生成した MDX を「MDX として」再パースして安全性を検証するためのパーサ。
+// docs 本文はメンテナが書く前提だが、素の Markdown 中の生 HTML(<script> 等)や
+// 行頭 import/export は remark-mdx 直列化で「実行される MDX」へ昇格しうる(検証済み)。
+// そこで sync が注入する 3 コンポーネント以外の JSX / ESM / {式} / 生 HTML を拒否する。
+const mdxValidator = unified()
+  .use(remarkParse)
+  .use(remarkGfm)
+  .use(remarkMath)
+  .use(remarkFrontmatter, ['yaml'])
+  .use(remarkMdx)
+
+const ALLOWED_JSX = new Set(['TodoCallout', 'PracticeSection', 'GlossaryTerm'])
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const WEBSITE_ROOT = path.resolve(__dirname, '..')
 const REPO_ROOT = path.resolve(WEBSITE_ROOT, '..')
@@ -71,7 +84,48 @@ const SECTION_TITLES = {
   'human-ai': '15. 人と AI の協働'
 }
 
-const warnings = []
+const warnings = [] // 非致命(サイドバー末尾送りなど)
+const errors = [] // 致命(未解決リンク・読込失敗・許可されない MDX)。1 件でも exit 1
+
+/* ---------- MDX 安全性ガード(C3) ---------- */
+
+/** 生成 MDX を再パースし、許可コンポーネント以外の JSX / ESM / {式} / 生 HTML を検出したら errors に積む */
+function assertSafeMdx(mdx, repoRel) {
+  let tree
+  try {
+    tree = mdxValidator.parse(mdx)
+  } catch (e) {
+    errors.push(`${repoRel}: 生成 MDX の再パースに失敗(${e.message})`)
+    return
+  }
+  const bad = new Set()
+  const walk = node => {
+    if (!node || typeof node !== 'object') return
+    switch (node.type) {
+      case 'html':
+        bad.add('生 HTML')
+        break
+      case 'mdxjsEsm':
+        bad.add('import/export (ESM)')
+        break
+      case 'mdxFlowExpression':
+      case 'mdxTextExpression':
+        bad.add('{式}')
+        break
+      case 'mdxJsxFlowElement':
+      case 'mdxJsxTextElement':
+        if (!ALLOWED_JSX.has(node.name)) bad.add(`JSX <${node.name ?? '?'}>`)
+        break
+    }
+    for (const child of node.children ?? []) walk(child)
+  }
+  walk(tree)
+  if (bad.size) {
+    errors.push(
+      `${repoRel}: 許可されない MDX 構造 → ${[...bad].join(' / ')}(docs 本文に生 HTML・import/export・{式} を書かない。図は Mermaid コードフェンス内に)`
+    )
+  }
+}
 
 /* ---------- パースユーティリティ ---------- */
 
@@ -224,20 +278,59 @@ function rewriteLinks(text, repoRel, routeMap) {
         const resolved = path.posix.normalize(path.posix.join(srcDir, target))
         const route = routeMap.get(resolved)
         if (route) return `](${route}${hash})`
-        warnings.push(`${repoRel}: 未解決の .md リンク → ${target}(そのまま残置)`)
+        errors.push(`${repoRel}: 未解決の .md リンク → ${target}(サイトに存在しないルート)`)
         return whole
       })
     })
     .join('\n')
 }
 
+/** OUT_DIR 配下の .md/.mdx から、ビルドで生成されるべきルート一覧を導出する(C5 のルート網羅チェック用) */
+async function collectContentRoutes(dir, base = '') {
+  const routes = []
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    const rel = base ? `${base}/${entry.name}` : entry.name
+    if (entry.isDirectory()) {
+      routes.push(...(await collectContentRoutes(path.join(dir, entry.name), rel)))
+    } else if (/\.mdx?$/.test(entry.name)) {
+      const stripped = rel.replace(/\.mdx?$/, '').replace(/\/index$/, '').replace(/^index$/, '')
+      routes.push(stripped ? `${BASE_PATH}/${stripped}` : BASE_PATH)
+    }
+  }
+  return routes
+}
+
 /* ---------- メイン ---------- */
 
 async function main() {
   const { routeMap, files, sections } = await collectFiles()
+  const includeDrafts = process.env.INCLUDE_DRAFTS === '1'
+
+  // 全ファイルを一度だけ読み、CRLF を LF へ正規化する(C2)。読み込み失敗は致命(C4)
+  const texts = new Map()
+  for (const file of files) {
+    try {
+      texts.set(file.repoRel, (await readFile(file.abs, 'utf8')).replace(/\r\n/g, '\n'))
+    } catch {
+      errors.push(`読み込み失敗: ${file.repoRel}`)
+    }
+  }
+
+  // draft は既定で公開しない(C7)。INCLUDE_DRAFTS=1 のときだけ含める。
+  // 除外した記事はルートも消し、そこへのリンクを未解決(=致命)として検出させる
+  const activeFiles = files.filter(file => {
+    const text = texts.get(file.repoRel)
+    if (text != null && getFrontMatterField(text, 'status') === 'draft' && !includeDrafts) {
+      routeMap.delete(file.repoRel)
+      return false
+    }
+    return true
+  })
+  const droppedDrafts = files.length - activeFiles.length
+  if (droppedDrafts > 0) console.log(`draft を ${droppedDrafts} 本除外しました(INCLUDE_DRAFTS=1 で含める)`)
 
   // 用語の自動リンク用データ(長い語を優先してマッチさせるため名前の長い順)
-  const glossaryText = await readFile(path.join(REPO_ROOT, 'GLOSSARY.md'), 'utf8')
+  const glossaryText = (await readFile(path.join(REPO_ROOT, 'GLOSSARY.md'), 'utf8')).replace(/\r\n/g, '\n')
   const glossaryJson = parseGlossary(glossaryText, routeMap)
   const glossaryForLinks = glossaryJson
     .filter(e => e.href && e.summary)
@@ -256,14 +349,9 @@ async function main() {
   const readmeTexts = new Map() // sectionSlug -> README 原文
   const articleMeta = [] // タグ別一覧用 { title, route, level, tags }
   let count = 0
-  for (const file of files) {
-    let text
-    try {
-      text = await readFile(file.abs, 'utf8')
-    } catch {
-      warnings.push(`読み込み失敗: ${file.repoRel}`)
-      continue
-    }
+  for (const file of activeFiles) {
+    const text = texts.get(file.repoRel)
+    if (text == null) continue // 読込失敗は上で errors に記録済み
     titles.set(file.repoRel, getTitle(text))
     if (file.slug === 'index' && file.section) readmeTexts.set(file.section, text)
     if (file.repoRel.startsWith('docs/') && file.slug !== 'index') {
@@ -282,6 +370,7 @@ async function main() {
     const tree = mdParser.parse(out)
     applyDecorations(tree, { route: routeMap.get(file.repoRel), glossary: glossaryForLinks })
     out = String(mdxWriter.stringify(tree))
+    assertSafeMdx(out, file.repoRel) // C3: 許可外の JSX / ESM / {式} / 生 HTML を拒否
 
     const outPath = path.join(OUT_DIR, file.outRel.replace(/\.md$/, '.mdx'))
     await mkdir(path.dirname(outPath), { recursive: true })
@@ -303,7 +392,7 @@ async function main() {
     for (const slug of order) {
       meta[slug] = titles.get(`docs/${s.dirName}/${slug}.md`) ?? slug
     }
-    const inSection = files.filter(f => f.section === s.slug && f.slug !== 'index').map(f => f.slug)
+    const inSection = activeFiles.filter(f => f.section === s.slug && f.slug !== 'index').map(f => f.slug)
     for (const slug of inSection) {
       if (!(slug in meta)) {
         warnings.push(`${s.dirName}/README.md の収録表に ${slug}.md がない(サイドバー末尾に回る)`)
@@ -319,7 +408,7 @@ async function main() {
     title: SECTION_TITLES[s.slug] ?? s.slug,
     description: parseReadmeDescription(readmeTexts.get(s.slug) ?? ''),
     route: `${BASE_PATH}/${s.slug}`,
-    count: files.filter(f => f.section === s.slug && f.slug !== 'index').length
+    count: activeFiles.filter(f => f.section === s.slug && f.slug !== 'index').length
   }))
   await writeFile(path.join(GEN_DIR, 'sections.json'), JSON.stringify(sectionsJson, null, 2), 'utf8')
 
@@ -342,12 +431,21 @@ async function main() {
   // 手書きページ(content-src/)を最後に重ねる(同名は手書きが勝つ)
   await cp(CONTENT_SRC, OUT_DIR, { recursive: true, force: true })
 
+  // generated/routes.json(C5: postbuild のルート網羅チェックが照合する期待ルート一覧)
+  const routes = (await collectContentRoutes(OUT_DIR)).sort()
+  await writeFile(path.join(GEN_DIR, 'routes.json'), JSON.stringify(routes, null, 2), 'utf8')
+
   console.log(
-    `sync 完了: 記事 ${count} 本 / セクション ${sections.length} / 用語 ${glossaryJson.length} 語 → content/ + generated/`
+    `sync 完了: 記事 ${count} 本 / セクション ${sections.length} / 用語 ${glossaryJson.length} 語 / ルート ${routes.length} → content/ + generated/`
   )
   if (warnings.length) {
     console.log(`\n警告 ${warnings.length} 件:`)
     for (const w of warnings) console.log(`  - ${w}`)
+  }
+  if (errors.length) {
+    console.error(`\nエラー ${errors.length} 件(sync を中断します):`)
+    for (const e of errors) console.error(`  - ${e}`)
+    process.exit(1)
   }
 }
 

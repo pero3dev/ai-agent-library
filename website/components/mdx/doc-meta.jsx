@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 const LEVEL_LABELS = {
   basic: '初級',
   intermediate: '中級',
@@ -13,9 +15,9 @@ export function DocMeta({ metadata = {} }) {
     <div className="doc-meta">
       {level && <span className={`doc-meta-level doc-meta-level-${level}`}>{LEVEL_LABELS[level] ?? level}</span>}
       {hasTags && tags.map(tag => (
-        <a key={tag} className="doc-meta-tag" href={`/tags#tag-${tag}`}>
+        <Link key={tag} className="doc-meta-tag" href={`/tags#tag-${tag}`}>
           {tag}
-        </a>
+        </Link>
       ))}
       {lastUpdated && <span className="doc-meta-updated">更新: {lastUpdated}</span>}
     </div>

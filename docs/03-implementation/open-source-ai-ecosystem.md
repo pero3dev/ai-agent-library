@@ -27,7 +27,7 @@ tags: ["open-source", "licensing", "ecosystem"]
 
 ## 本文
 
-> **最終確認日:** 2026-07-10 — 本記事が挙げるライセンス類型・ハブ・OSS の代表例と所在はこの日付時点のものです。各一次情報 URL と確認状況は、リポジトリ内 `research/ecosystem/industry-oss.md` を参照してください。**本記事は法的助言ではありません。** ライセンスの適法性判断は法務に確認してください。
+> **最終確認日:** 2026-08-18 — 本記事が挙げるライセンス類型・ハブ・OSS の代表例と所在はこの日付時点のものです。各一次情報 URL と確認状況は、リポジトリ内 `research/ecosystem/industry-oss.md` を参照してください。**本記事は法的助言ではありません。** ライセンスの適法性判断は法務に確認してください。
 
 ### 概要: エコシステムを地図として持つ
 
@@ -127,9 +127,9 @@ OSS の採用は、**誰が保守しているか・続くか**の見極めを含
 
 ## 参考資料
 
-- [The Open Source AI Definition(OSI)](https://opensource.org/ai/open-source-ai-definition) — オープンソース AI の定義(OSAID・現行 1.0)。オープンウェイトとの区別(アクセス日: 2026-07-10)
+- [The Open Source AI Definition(OSI)](https://opensource.org/ai/open-source-ai-definition) — オープンソース AI の定義(OSAID・現行 1.0)。オープンウェイトとの区別(アクセス日: 2026-08-18)
 - [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0) — 寛容型ライセンスの条文(特許条項・NOTICE)(アクセス日: 2026-07-10)
-- [Model Cards(Hugging Face Hub docs)](https://huggingface.co/docs/hub/model-cards) — モデルカードの仕組みとメタデータ(`license`・`base_model`)(アクセス日: 2026-07-10)
+- [Model Cards(Hugging Face Hub docs)](https://huggingface.co/docs/hub/model-cards) — モデルカードの仕組みとメタデータ(`license`・`base_model`)(アクセス日: 2026-08-18)
 - [Model Cards for Model Reporting](https://arxiv.org/abs/1810.03993) — モデルカードの原典(Mitchell et al., 2019、アクセス日: 2026-07-10)
 - [Datasheets for Datasets](https://arxiv.org/abs/1803.09010) — データシートの原典(Gebru et al.、アクセス日: 2026-07-10)
 
@@ -137,8 +137,8 @@ OSS の採用は、**誰が保守しているか・続くか**の見極めを含
 
 ## TODO・未確認事項
 
-> **TODO(要確認):** モデルライセンスの版・規模条件・用途制限、および採用ライセンス(同一ベンダーでも世代で寛容型 ↔ 独自規約が変わりうる)は、現行版のモデルカード・公式規約で必ず確認する。本記事は類型と読み方に徹し、具体条項は断定していない(所在は `research/ecosystem/industry-oss.md`)(最終確認: 2026-07)
+> **TODO(要確認):** モデルライセンスの版・規模条件・用途制限、および採用ライセンス(同一ベンダーでも世代で寛容型 ↔ 独自規約が変わりうる)は、現行版のモデルカード・公式規約で必ず確認する。本記事は類型と読み方に徹し、具体条項は断定していない(所在は `research/ecosystem/industry-oss.md`)(最終確認: 2026-08)
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** モデルライセンスの現行版と規模条件、OSI Open Source AI Definition の版、Hugging Face の規約構造、OSS フレームワークの GitHub 組織移管・統合・メンテナンス状態を四半期ごとに一次情報で確認する(`research/ecosystem/industry-oss.md` を更新起点にする)(最終確認: 2026-07)
+> **TODO(要確認):** モデルライセンスの現行版と規模条件、OSI Open Source AI Definition の版、Hugging Face の規約構造、OSS フレームワークの GitHub 組織移管・統合・メンテナンス状態を四半期ごとに一次情報で確認する(`research/ecosystem/industry-oss.md` を更新起点にする)(最終確認: 2026-08)

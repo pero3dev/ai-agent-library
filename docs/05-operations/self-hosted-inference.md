@@ -3,7 +3,7 @@ title: "セルフホスト推論の実務"
 category: "operations"
 level: "advanced"
 status: "published"
-last_updated: "2026-07-08"
+last_updated: "2026-08-18"
 tags: ["self-hosting", "inference-serving", "gpu"]
 ---
 
@@ -41,18 +41,19 @@ tags: ["self-hosting", "inference-serving", "gpu"]
 
 ### 推論サーバーの類型と代表例
 
-セルフホストの中核が**推論サーバー(サービングエンジン)**です。大きく 2 類型あり、用途で選びます(具体のエンジンは変化が速いため 2026-07 時点の代表例)。
+セルフホストの中核が**推論サーバー(サービングエンジン)**です。大きく 2 類型あり、用途で選びます(具体のエンジンは変化が速いため 2026-08 時点の代表例)。
 
-| 類型 | 用途 | 代表例(2026-07 時点・OSS) |
+| 類型 | 用途 | 代表例(2026-08 時点・OSS) |
 | --- | --- | --- |
-| 高スループット系(サーバー GPU) | 多数同時リクエストを高効率で捌く | vLLM・SGLang・Hugging Face TGI・LMDeploy・NVIDIA TensorRT-LLM(NVIDIA 専用)。汎用サーバーの Triton(backend 経由) |
+| 高スループット系(サーバー GPU) | 多数同時リクエストを高効率で捌く | vLLM・SGLang・LMDeploy・NVIDIA TensorRT-LLM(NVIDIA 専用)。汎用サーバーの Triton(backend 経由) |
 | 軽量・ローカル系 | 個人・端末・小規模での実行 | [ローカル・オンデバイス LLM の実務](../03-implementation/local-and-on-device-llm.md)を参照 |
 
-- サーバー用途では、上記の高スループット系エンジンが定番です。多くが**連続バッチング**・**KV キャッシュの効率管理**・**量子化**・**OpenAI 互換 API** を備え、既存の OpenAI クライアントからそのまま叩けることが多いです(2026-07 時点で vLLM・SGLang・TGI・LMDeploy は OpenAI 互換 API を明記)
+- サーバー用途では、上記の高スループット系エンジンが定番です。多くが**連続バッチング**・**KV キャッシュの効率管理**・**量子化**・**OpenAI 互換 API** を備え、既存の OpenAI クライアントからそのまま叩けることが多いです(2026-08 時点で vLLM・SGLang・LMDeploy に加え、TensorRT-LLM も `trtllm-serve` コマンドで OpenAI 互換 API を明記)
+- **顔ぶれは入れ替わる**: かつて定番だった Hugging Face TGI は、メンテナンスモード告知を経て 2026-03 にリポジトリがアーカイブされました(README は代替として vLLM・SGLang・llama.cpp・MLX を案内)。採用時は機能だけでなく開発が継続しているかも確認します
 - **ハードウェア束縛に注意**: NVIDIA 専用のエンジン(TensorRT-LLM)と、より広いハードに対応するものがあります。手持ち/調達予定の GPU に合うかを確認します
 - ライセンスは主要 OSS の多くが寛容(Apache-2.0・MIT・BSD 系)ですが、**採用時に最新の公式情報で確認**します(下記 TODO)
 
-> **TODO(要確認):** 推論エンジンの顔ぶれ・機能・対応モデル・ライセンスは開発が非常に活発で動きやすい。本文は 2026-07 時点の代表例に留めており、採用時に各エンジンの公式リポジトリ/ドキュメントと調査メモ `research/llmops/serving.md` の「変わりやすい項目」で最新を確認する(最終確認: 2026-07)
+> **TODO(要確認):** 推論エンジンの顔ぶれ・機能・対応モデル・ライセンスは開発が非常に活発で動きやすい。本文は 2026-08 時点の代表例に留めており、採用時に各エンジンの公式リポジトリ/ドキュメントと調査メモ `research/llmops/serving.md` の「変わりやすい項目」で最新を確認する(最終確認: 2026-08)
 
 ### スループットの作り: 連続バッチングと KV キャッシュ
 
@@ -130,8 +131,8 @@ tags: ["self-hosting", "inference-serving", "gpu"]
 
 - [vLLM(公式リポジトリ)](https://github.com/vllm-project/vllm) — 連続バッチング・PagedAttention・OpenAI 互換 API を備える推論エンジンの例(アクセス日: 2026-07-08)
 - [SGLang(公式リポジトリ)](https://github.com/sgl-project/sglang) — RadixAttention による prefix caching 等を備える推論エンジンの例(アクセス日: 2026-07-08)
-- [Hugging Face Text Generation Inference(公式リポジトリ)](https://github.com/huggingface/text-generation-inference) — 本番推論サービングの例(アクセス日: 2026-07-08)
+- [Hugging Face Text Generation Inference(公式リポジトリ)](https://github.com/huggingface/text-generation-inference) — アーカイブ済み(2026-03-21)・read-only。「顔ぶれは入れ替わる」の実例として参照(アクセス日: 2026-08-18)
 
 ## TODO・未確認事項
 
-> **TODO(要確認):** 推論エンジンの顔ぶれ・機能・対応モデル・ライセンスは開発が非常に活発で動きやすい。本文は 2026-07 時点の代表例に留めており、採用時に各エンジンの公式リポジトリ/ドキュメントと調査メモ `research/llmops/serving.md` の「変わりやすい項目」で最新を確認する(最終確認: 2026-07)
+> **TODO(要確認):** 推論エンジンの顔ぶれ・機能・対応モデル・ライセンスは開発が非常に活発で動きやすい。本文は 2026-08 時点の代表例に留めており、採用時に各エンジンの公式リポジトリ/ドキュメントと調査メモ `research/llmops/serving.md` の「変わりやすい項目」で最新を確認する(最終確認: 2026-08)

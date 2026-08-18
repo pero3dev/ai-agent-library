@@ -691,6 +691,8 @@ CLAUDE.md の執筆ルールと templates/doc-template.md に従い、
 
 ## 定期メンテナンス(フェーズ完了後も継続)
 
+2026-08 の全系統一括実施の計画と進捗は [MAINTENANCE-2026Q3-PLAN.md](MAINTENANCE-2026Q3-PLAN.md) を参照してください。
+
 - `TODO(要確認)` の全文検索 → 棚卸し(四半期ごと目安)
 - モデル・フレームワーク情報の鮮度確認(front matter の `last_updated` が 6 か月以上前のものを優先)
 - **08-coding-agents のツール情報の定点観測**(各ページの「変わりやすい項目」と比較表。製品名・プラン・学習ポリシーの変化が速いため四半期ごと必須。`research/coding-agents/` の調査メモを更新起点にする)

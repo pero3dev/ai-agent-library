@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node 'c:\\dev\\ai-agent-library\\.codex\\hooks\\guard-generated.mjs'",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node 'c:\\dev\\ai-agent-library\\.codex\\hooks\\validate-doc.mjs'",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

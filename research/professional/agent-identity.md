@@ -1,6 +1,6 @@
 # AI エージェントの認証・認可(agent identity)調査メモ
 
-- **調査日**: 2026-07-06
+- **調査日**: 2026-07-06(初回)/ **定点観測**: 2026-08-18(四半期。MCP 現行リビジョン 2026-07-28 への更新〔§2.6〕・Google Cloud Agent Identity の GA 昇格・identity-chaining rev -17・OpenAI の取得経路の変化を反映)
 - **調査目的**: `docs/06-security/agent-identity-and-auth.md` の執筆材料。エージェント ID・委任・認可に関する標準化動向と主要ベンダー機能を、公式一次情報のみで整理する
 - **根拠の方針**: IETF(datatracker.ietf.org / RFC)、modelcontextprotocol.io、各社公式ドキュメント・公式プレスリリースのみを根拠とします。個人ブログ・まとめ記事は使用していません。URL はすべて実際にアクセスして内容を確認済みです
 - **確度表記**: 「公式明記」= 公式ページに明文あり / 「公式から推測」= 公式記述からの合理的推測 / 「未確認」= 今回確認できず
@@ -16,7 +16,7 @@
 | RFC 8693「OAuth 2.0 Token Exchange」は 2020 年 1 月発行の Proposed Standard。グラントタイプ `urn:ietf:params:oauth:grant-type:token-exchange` を定義 | https://datatracker.ietf.org/doc/rfc8693/ | 2026-07-06 | 公式明記 |
 | RFC 8693 は subject token(誰の代理か)と actor token(実際に行動する主体)を分離し、**impersonation(なりすまし: A は B と区別できない)と delegation(委任: A が B を代理していることが明示される)を区別**する | https://datatracker.ietf.org/doc/rfc8693/ | 2026-07-06 | 公式明記 |
 | RFC 8693 の **`act`(actor)クレーム**は「委任が発生したこと」と「行動している当事者」を JWT 内で表現する。ネスト可能で委任チェーンを表せる(最外が現在のアクター)。**`may_act` クレーム**は「ある当事者が別の当事者の代理になることを認可されている」ことを表す | https://datatracker.ietf.org/doc/rfc8693/ | 2026-07-06 | 公式明記 |
-| OAuth 2.1 は 2026-07 時点でまだ RFC ではなく Internet-Draft。現行は `draft-ietf-oauth-v2-1-15`(2026-03-02)。IESG 提出のマイルストーンは 2026 年 12 月 | https://datatracker.ietf.org/doc/draft-ietf-oauth-v2-1/ | 2026-07-06 | 公式明記 |
+| OAuth 2.1 は 2026-08 時点でまだ RFC ではなく Internet-Draft。現行は `draft-ietf-oauth-v2-1-15`(2026-03-02)。IESG 提出のマイルストーンは 2026 年 12 月(2026-08-18 再確認: リビジョン・マイルストーンとも変更なし) | https://datatracker.ietf.org/doc/draft-ietf-oauth-v2-1/ | 2026-08-18 | 公式明記 |
 | OAuth 2.1 の主な変更点: Implicit グラント削除、PKCE 必須化、RFC 6749/6750/8252/9700 等のセキュリティ BCP の統合 | https://datatracker.ietf.org/doc/draft-ietf-oauth-v2-1/ | 2026-07-06 | 公式明記 |
 | 「on-behalf-of(OBO)フロー」という名称は IETF 標準ではなく Microsoft identity platform の実装(`jwt-bearer` グラントによる中間 API の代理アクセス)。IETF 側の一般化は RFC 8693 | https://learn.microsoft.com/en-us/entra/agent-id/agent-oauth-protocols | 2026-07-06 | 公式明記(Microsoft ドキュメントが OBO を自社プロトコルドキュメントとして案内) |
 
@@ -24,8 +24,8 @@
 
 | 事実 | 出典 URL | 確認日 | 確度 |
 | --- | --- | --- | --- |
-| `draft-ietf-oauth-identity-chaining-16`「OAuth Identity and Authorization Chaining Across Domains」(2026-06-26)は OAuth WG 文書で、**IESG 提出済み・RFC Editor Queue** まで進行。RFC 8693(Token Exchange)+ RFC 7523(JWT bearer)を組み合わせ、複数トラストドメインをまたいでユーザー ID と認可を伝搬する | https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-chaining/ | 2026-07-06 | 公式明記 |
-| `draft-ietf-oauth-identity-assertion-authz-grant-04`「Identity Assertion JWT Authorization Grant(ID-JAG)」(2026-05-21)は OAuth WG 採択済み・Standards Track。著者は Aaron Parecki(Okta)、Karl McGuinness、Brian Campbell(Ping Identity)。企業 IdP の ID トークン/SAML アサーションを subject token として Token Exchange(トークンタイプ `urn:ietf:params:oauth:token-type:id-jag`)し、別アプリの認可サーバーからアクセストークンを得る。**Appendix A.4 に「AI Agent using External Tools」のユースケースが明記** | https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-assertion-authz-grant/ | 2026-07-06 | 公式明記 |
+| `draft-ietf-oauth-identity-chaining`「OAuth Identity and Authorization Chaining Across Domains」は OAuth WG 文書で、**RFC Editor Queue** まで進行(2026-08-18 時点の最新は rev -17〔2026-07-19〕。RFC 番号は未付与)。RFC 8693(Token Exchange)+ RFC 7523(JWT bearer)を組み合わせ、複数トラストドメインをまたいでユーザー ID と認可を伝搬する | https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-chaining/ | 2026-08-18 | 公式明記 |
+| `draft-ietf-oauth-identity-assertion-authz-grant-04`「Identity Assertion JWT Authorization Grant(ID-JAG)」(2026-05-21)は OAuth WG 採択済み・Standards Track。著者は Aaron Parecki(Okta)、Karl McGuinness、Brian Campbell(Ping Identity)。企業 IdP の ID トークン/SAML アサーションを subject token として Token Exchange(トークンタイプ `urn:ietf:params:oauth:token-type:id-jag`)し、別アプリの認可サーバーからアクセストークンを得る。**Appendix A.4 に「AI Agent using External Tools」のユースケースが明記**(2026-08-18 再確認: rev -04 のまま変更なし) | https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-assertion-authz-grant/ | 2026-08-18 | 公式明記 |
 | `draft-oauth-ai-agents-on-behalf-of-user-02`「OAuth 2.0 Extension: On-Behalf-Of User Authorization for AI Agents」(2025-08-25)は **WG 未採択の個人ドラフトで、2026-07 時点では expired**。認可リクエストに `requested_actor`、トークン交換に `actor_token` を導入し、user → client → agent の監査可能な委任チェーンをアクセストークンのクレームで表現する提案 | https://datatracker.ietf.org/doc/draft-oauth-ai-agents-on-behalf-of-user/ | 2026-07-06 | 公式明記 |
 | `draft-ietf-oauth-client-id-metadata-document-01`「OAuth Client ID Metadata Document(CIMD)」(2026-03-02)は OAuth WG 採択済み。HTTPS URL 自体を `client_id` として使い、その URL にクライアントメタデータ JSON を置くことで事前登録なしのクライアント識別を可能にする(MCP が採用。後述) | https://datatracker.ietf.org/doc/draft-ietf-oauth-client-id-metadata-document/ | 2026-07-06 | 公式明記 |
 
@@ -35,16 +35,18 @@
 | --- | --- | --- | --- |
 | WIMSE(Workload Identity in Multi System Environments)WG はワークロード ID の伝搬・表現・処理を標準化する IETF WG。憲章は OAuth・JWT・SPIFFE 間の相互運用ギャップを課題として明記。憲章段階では AI エージェントへの言及なし | https://datatracker.ietf.org/wg/wimse/about/ | 2026-07-06 | 公式明記 |
 | WG 文書(2026-07 時点): `draft-ietf-wimse-arch-07`(アーキテクチャ、2026-03-02)、`draft-ietf-wimse-http-signature-03`、`draft-ietf-wimse-identifier-02`、`draft-ietf-wimse-mutual-tls-01`、`draft-ietf-wimse-workload-creds-02`(2026-07-02)、`draft-ietf-wimse-wpt-01`(Workload Proof Token)。`draft-ietf-wimse-workload-identity-practices-05` は IESG 審査中 | https://datatracker.ietf.org/wg/wimse/documents/ | 2026-07-06 | 公式明記 |
-| AI エージェント関連は**すべて WG 未採択の個人ドラフト**: `draft-ni-wimse-ai-agent-identity-02`(WIMSE Applicability for AI Agents)、`draft-munoz-wimse-authorization-evidence-00`(AI エージェント行為の署名付き認可証跡)、`draft-nennemann-wimse-ect-00`(分散エージェントワークフロー向け Execution Context Token)、`draft-reece-wimse-cross-org-delegation-00`(組織間委任の問題定義)、`draft-jiang-wimse-heterogeneous-credential-01` | https://datatracker.ietf.org/wg/wimse/documents/ | 2026-07-06 | 公式明記 |
+| AI エージェント関連は**すべて WG 未採択の個人ドラフト**: `draft-ni-wimse-ai-agent-identity-02`(WIMSE Applicability for AI Agents)、`draft-munoz-wimse-authorization-evidence-00`(AI エージェント行為の署名付き認可証跡)、`draft-nennemann-wimse-ect-00`(分散エージェントワークフロー向け Execution Context Token)、`draft-reece-wimse-cross-org-delegation-00`(組織間委任の問題定義)、`draft-jiang-wimse-heterogeneous-credential-01`(2026-08-18 再確認: いずれも WG 未採択の個人ドラフトのまま。改版のみで採択・失効の変化なし) | https://datatracker.ietf.org/wg/wimse/documents/ | 2026-08-18 | 公式明記 |
 | `draft-ni-wimse-ai-agent-identity-02`(2026-02-28、個人ドラフト)は、エージェントにユーザー・デバイスから独立した ID と短寿命クレデンシャルを与え、エージェント ID と所有者 ID を暗号学的に束ねる「dual-identity credential」を提案。OAuth スコープの継承は対象外と明記 | https://datatracker.ietf.org/doc/draft-ni-wimse-ai-agent-identity/ | 2026-07-06 | 公式明記 |
 
 **小括**: 「AI エージェント専用の OAuth 標準」はまだ存在しません。実務で参照すべきは (1) RFC 8693(`act`/`may_act` による委任表現)、(2) WG 採択済みでエージェントユースケースを含む ID-JAG、(3) RFC 目前の identity-chaining の 3 つで、エージェント固有の提案(WIMSE 系・on-behalf-of-user 系)はすべて個人ドラフト段階です。
 
 ---
 
-## 2. MCP の認可仕様(2026-07 時点)
+## 2. MCP の認可仕様
 
-### 2.1 現行リビジョンと準拠標準
+> **注(2026-08-18 定点観測):** §2.1〜2.5 は 2025-11-25 版時点の調査記録です。MCP 仕様の現行(Current)リビジョンは **2026-07-28** に更新されました(破壊的変更を含む大改版)。差分は §2.6 を参照。
+
+### 2.1 現行リビジョンと準拠標準(2025-11-25 版時点)
 
 | 事実 | 出典 URL | 確認日 | 確度 |
 | --- | --- | --- | --- |
@@ -81,6 +83,16 @@
 - 認可仕様は 2025-03-26 → 2025-06-18(RS/AS 分離、RFC 9728・RFC 8707 導入)→ 2025-11-25(CIMD、OIDC Discovery、step-up)と**毎リビジョンで大きく変わっています**(公式明記、各版 changelog)。
 - 依拠する OAuth 2.1 と CIMD が**どちらもまだ Internet-Draft**(しかも MCP が参照するのは OAuth 2.1 draft-13・CIMD draft-00 と、IETF 側の最新版より古いピン留め)である点は、実装の互換性リスクとして書く価値があります(公式明記の参照バージョンからの整理)。
 
+### 2.6 定点観測(2026-08-18): 現行リビジョン 2026-07-28 への更新
+
+| 事実 | 出典 URL | 確認日 | 確度 |
+| --- | --- | --- | --- |
+| MCP 仕様の現行(Current)リビジョンが **2026-07-28** に更新(破壊的変更を含む大改版)。本体の主な変更: **ステートレス化**(`initialize`/`notifications/initialized` ハンドシェイク廃止、プロトコルバージョン・ケイパビリティは各リクエストの `_meta` で搬送、`server/discover` RPC の実装が MUST)、**プロトコルレベルのセッション(`Mcp-Session-Id` ヘッダー)の削除**、**tasks のコア外し(公式拡張 `io.modelcontextprotocol/tasks` 化)**、**Roots / Sampling / Logging 機能の Deprecated 化** | https://modelcontextprotocol.io/specification/2026-07-28/changelog | 2026-08-18 | 公式明記 |
+| 認可章(2026-07-28 版)で**維持**されたもの: RS/AS 分離、`resource` パラメータ MUST(RFC 8707)、トークンパススルー禁止、RFC 9728(Protected Resource Metadata)MUST、段階的スコープ同意(step-up)— §2.2〜2.4 の骨格は**すべて維持** | https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization | 2026-08-18 | 公式明記 |
+| 認可章(2026-07-28 版)の**変更点**: (1) **動的クライアント登録(RFC 7591)は CIMD 優先の方針で正式に Deprecated**(CIMD 未対応の認可サーバーとの後方互換のため残置)。(2) **RFC 9207 の `iss` パラメータ検証を追加**(AS は認可応答に `iss` を含めることが SHOULD、クライアントは `iss` があれば記録済み issuer と照合してからコード引き換えすることが MUST。SEP-2468) | https://modelcontextprotocol.io/specification/2026-07-28/changelog / https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization | 2026-08-18 | 公式明記 |
+| 参照ピンは **OAuth 2.1 draft-13・CIMD draft-00 のまま**(§2.5 で指摘した「IETF 側最新より古いピン留め」の互換性リスクは 2026-07-28 版でも継続) | https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization | 2026-08-18 | 公式明記 |
+| 認可拡張(ext-auth)は **Enterprise-Managed Authorization(stable)/ Client Credentials(draft)** の 2 つのまま変更なし | https://github.com/modelcontextprotocol/ext-auth | 2026-08-18 | 公式明記 |
+
 ---
 
 ## 3. 主要ベンダーのエージェント ID 機能(2026-07 時点)
@@ -113,7 +125,7 @@
 
 | 事実 | 出典 URL | 確認日 | 確度 |
 | --- | --- | --- | --- |
-| Google Cloud IAM の **Agent Identity** は 2026-07 時点で **Preview**(Pre-GA Offerings Terms 適用と明記) | https://docs.cloud.google.com/iam/docs/agent-identity-overview | 2026-07-06 | 公式明記 |
+| Google Cloud IAM の **Agent Identity** は、**コア機能が GA に昇格**(2026-08-18 確認。2026-07-06 時点では Preview だった)。**Auth manager は Preview のまま** | https://docs.cloud.google.com/iam/docs/agent-identity-overview | 2026-08-18 | 公式明記 |
 | エージェントごとに **SPIFFE 標準に基づく一意の SPIFFE ID** と X.509 証明書(有効期間 24 時間、自動更新)を割り当て。「強く証明(attest)され、エージェントのライフサイクルに紐づき、ホストされるリソース URI に直接マップされる」 | https://docs.cloud.google.com/iam/docs/agent-identity-overview | 2026-07-06 | 公式明記 |
 | エージェントは `principal://TRUST_DOMAIN/...` 形式の **IAM プリンシパル**になり、直接権限を付与できる。サービスアカウントよりも安全なプリンシパルと位置づけ。アクセストークンはエージェントの X.509 証明書に**暗号学的に束縛(certificate-bound tokens、mTLS バインディング)**され、Google 管理の Context-Aware Access ポリシーで意図されたランタイム外からの利用を防ぐ | https://docs.cloud.google.com/iam/docs/agent-identity-overview | 2026-07-06 | 公式明記 |
 | **Auth manager**(Preview): アウトバウンドのツール認証向け中央資格情報 vault 兼ブローカー。API キー、OAuth クライアント ID/シークレット、またはエンドユーザーのアクセストークンによる OAuth 委任(ユーザー代理)を設定できる | https://docs.cloud.google.com/iam/docs/agent-identity-overview | 2026-07-06 | 公式明記 |
@@ -131,6 +143,7 @@
 | XAA の標準面の実体は OAuth WG の **ID-JAG ドラフト**(著者に Okta の Aaron Parecki。1.2 節参照) | https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-assertion-authz-grant/ | 2026-07-06 | 公式明記(著者所属から。「XAA = ID-JAG」の対応付け自体は公式から推測) |
 | Auth0 の AI エージェント向け製品(ドキュメント上の名称は「Auth0 for AI Agents」、旧称 Auth for GenAI): (1) ユーザー認証(OAuth 2.0 / OIDC、対話型・ヘッドレス両対応)、(2) **Token Vault**(サードパーティ API トークンの取得・保管・リフレッシュを代行)、(3) **非同期認可**(CIBA 等の標準による human-in-the-loop 承認)、(4) RAG 向け細粒度認可(Auth0 FGA によるドキュメント単位のアクセス制御)。LangChain / LlamaIndex / Vercel AI / Google Genkit 等と統合 | https://auth0.com/ai/docs | 2026-07-06 | 公式明記 |
 | Auth0「Auth for GenAI」の GA / preview の別 | — | 2026-07-06 | 未確認(auth0.com/ai と docs に availability の明記を発見できず。Okta の 2025-09-25 リリースでは XAA の Auth0 対応が「soon available」との表現) |
+| 2026-08-18 再確認: XAA は「段階的提供中」の整理のまま妥当。XAA 対応アプリの **Okta Integration Network(OIN)提出手順が developer blog(2026-07-06 公開)で公開**され、エコシステム整備は進行。ただしプレスの「Okta Workforce 顧客は 2026 年 8 月から OIN 経由で利用開始」の実地開始は一次情報で確認できず。Auth0 の提供区分の明記なしも継続 | https://developer.okta.com/blog/2026/07/06/submit-oin-xaa | 2026-08-18 | 公式明記(OIN 提出手順の公開)/ 未確認(2026-08 提供開始の実地・Auth0 の提供区分) |
 
 ### 3.5 Anthropic
 
@@ -147,6 +160,8 @@
 | --- | --- | --- | --- |
 | 公式 Agents SDK(Python)ドキュメントは、資格情報の既定を **`OPENAI_API_KEY` 環境変数**とし、起動前に環境変数を設定できない場合のみ `set_default_openai_key()` を使う、という環境変数ベースの構成を案内(コードへの埋め込みは示していない) | https://openai.github.io/openai-agents-python/config/ | 2026-07-06 | 公式明記 |
 | OpenAI のエージェント資格情報に関するより包括的な推奨(API キー安全ベストプラクティス記事、Connectors/MCP の認可ガイド等) | https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety | 2026-07-06 | 未確認(help.openai.com / platform.openai.com は fetch が 403 で内容確認不可) |
+| 2026-08-18 再確認: **developers.openai.com の Production best practices が「API キーは環境変数またはシークレット管理サービス経由で扱い、ハードコードしない」ことを公式明記**(API キー安全ベストプラクティスの TODO は解消)。取得経路の変化: developers.openai.com は機械取得可能(help.openai.com は 403 継続) | https://developers.openai.com/api/docs/guides/production-best-practices | 2026-08-18 | 公式明記 |
+| Connectors(MCP コネクタ)の OAuth 認可ガイド | — | 2026-08-18 | 未確認(2026-08-18 の再調査でも未確認。docs 側の TODO(要確認) はこの項目のみに絞って継続) |
 
 ---
 
@@ -181,14 +196,14 @@
 
 執筆する `docs/06-security/agent-identity-and-auth.md` では、以下は断定を避けるか `TODO(要確認)` を付けてください。
 
-1. **OAuth 2.1 の RFC 化**: 2026-07 時点で draft-15、IESG 提出マイルストーンは 2026 年 12 月。RFC 番号が付いたら本文・MCP 関連の記述を更新する必要があります。
-2. **MCP 仕様のリビジョン**: 現行 2025-11-25。認可章は毎リビジョンで大きく変わってきた実績があり(DCR 中心 → RFC 9728 分離 → CIMD 中心)、次期リビジョンで CIMD の参照版更新や拡張(ext-auth)の本体取り込みがあり得ます。仕様参照は必ずバージョン付き URL で書くこと。
+1. **OAuth 2.1 の RFC 化**: 2026-08 時点で draft-15、IESG 提出マイルストーンは 2026 年 12 月(2026-08-18 再確認: 変更なし)。RFC 番号が付いたら本文・MCP 関連の記述を更新する必要があります。
+2. **MCP 仕様のリビジョン**: 現行 2026-07-28(2026-08-18 確認。§2.6 参照)。認可章は毎リビジョンで大きく変わってきた実績があり(DCR 中心 → RFC 9728 分離 → CIMD 中心 → DCR の正式 Deprecated 化)、次期リビジョンで CIMD の参照版更新や拡張(ext-auth)の本体取り込みがあり得ます。仕様参照は必ずバージョン付き URL で書くこと。
 3. **IETF のエージェント系ドラフト**: ID-JAG(draft-ietf-oauth-identity-assertion-authz-grant)と identity-chaining は改版・RFC 化が近い可能性が高い一方、WIMSE の AI エージェント系・on-behalf-of-user 系はすべて個人ドラフトで、消滅(expired)・改名・WG 採択のいずれもあり得ます。ドラフト名とリビジョンを固定して書かない。
 4. **ベンダーの提供状況(GA / Preview / EA)**:
-   - Google Cloud Agent Identity は Preview(Pre-GA)。GA 時に仕様・課金が変わる可能性を明記。
-   - Okta XAA は 2026-08 に Okta Integration Network での提供開始予定、Auth0 B2B は 2026-07 末 early access 予定という「予定」ベースの情報を含む。
+   - Google Cloud Agent Identity は**コア機能が GA**(2026-08-18 確認)。Auth manager は Preview のままで、GA 時に仕様・課金が変わる可能性を明記。
+   - Okta XAA は 2026-08 に Okta Integration Network での提供開始予定、Auth0 B2B は 2026-07 末 early access 予定という「予定」ベースの情報を含む(2026-08-18 時点でも「段階的提供中」の整理が妥当。OIN 提出手順は公開済みだが、提供開始の実地は一次情報で確認できず)。
    - Auth0「Auth for GenAI」の GA/preview は未確認のまま。
    - Microsoft Entra Agent ID は GA だが、作成ウィザードなど一部 Preview 機能が混在し、管理面は Microsoft Agent 365 への統合が進行中(構成が動く)。
 5. **製品名の変動**: Google は Vertex AI Agent Engine → Gemini Enterprise Agent Platform への再編が進行中で、Agentspace 系の名称も変わっている可能性が高い(未確認)。Auth0 も「Auth for GenAI」→「Auth0 for AI Agents」と表記が揺れている。名称は「2026-07 時点では」の限定付きで書く。
 6. **ライセンス・料金**(Microsoft Agent 365 ライセンス要件等)は特に変わりやすく、本文には書かず公式ページへのリンクに留めるのが安全。
-7. **OpenAI の推奨**: 今回 help.openai.com / platform.openai.com が fetch 不可(403)で、Agents SDK ドキュメント以外は未確認。執筆前に `TODO(要確認): OpenAI のエージェント資格情報に関する公式推奨(API キー安全ベストプラクティス、Connectors の OAuth)を platform.openai.com で確認する(最終確認: 2026-07)` を残すこと。
+7. **OpenAI の推奨**: 2026-08-18 の再調査で **API キー管理の公式明記(developers.openai.com の Production best practices)を確認し、この部分の TODO は解消**(§3.6)。未確認で残るのは **Connectors の OAuth 認可ガイドのみ**で、docs 側の TODO(要確認) はこれに絞って継続する(help.openai.com の 403 は継続。developers.openai.com は取得可)。

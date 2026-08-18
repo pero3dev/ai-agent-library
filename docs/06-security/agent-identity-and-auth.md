@@ -3,7 +3,7 @@ title: "エージェントの認証・認可"
 category: "security"
 level: "advanced"
 status: "published"
-last_updated: "2026-07-06"
+last_updated: "2026-08-18"
 tags: ["agent-identity", "tool-permissions", "mcp"]
 ---
 
@@ -11,7 +11,7 @@ tags: ["agent-identity", "tool-permissions", "mcp"]
 
 ## この記事の目的
 
-「このエージェントは誰として動くのか」を設計できるようになります。エージェント自身の ID、ユーザーからの委任、権限の最小化、行為の帰属(誰の責任か)、資格情報の受け渡しという 5 つの問いに分解し、2026-07 時点の標準化状況(専用標準は未成立)を踏まえた実務の組み立て方を扱います。
+「このエージェントは誰として動くのか」を設計できるようになります。エージェント自身の ID、ユーザーからの委任、権限の最小化、行為の帰属(誰の責任か)、資格情報の受け渡しという 5 つの問いに分解し、2026-08 時点の標準化状況(専用標準は未成立)を踏まえた実務の組み立て方を扱います。
 
 ## 対象読者
 
@@ -26,7 +26,7 @@ tags: ["agent-identity", "tool-permissions", "mcp"]
 
 ## 本文
 
-> **最終確認日:** 2026-07-06 — 本記事が触れる標準(IETF ドラフト・MCP 仕様)と各社機能の状況(GA / Preview)はこの日時点の公式一次情報に基づきます。調査記録は `research/professional/agent-identity.md` にあります。
+> **最終確認日:** 2026-08-18 — 本記事が触れる標準(IETF ドラフト・MCP 仕様)と各社機能の状況(GA / Preview)はこの日時点の公式一次情報に基づきます。調査記録は `research/professional/agent-identity.md` にあります。
 
 ### 概要: 「誰として動くのか」を 5 つの問いに分解する
 
@@ -47,7 +47,7 @@ flowchart LR
     A -->|actor + subject を記録| L["監査ログ"]
 ```
 
-2026-07 時点で「AI エージェント専用」の認証・認可標準は存在せず、既存の OAuth 部品(トークン交換・委任クレーム)の組み合わせが実務解です。標準の現在地は後述の「標準化の動向」にまとめます。
+2026-08 時点で「AI エージェント専用」の認証・認可標準は存在せず、既存の OAuth 部品(トークン交換・委任クレーム)の組み合わせが実務解です。標準の現在地は後述の「標準化の動向」にまとめます。
 
 ### 2 つのアイデンティティモデル
 
@@ -80,7 +80,7 @@ flowchart LR
 ユーザー代理型でやりがちな誤りは、**ユーザーの権限をそのまま全部エージェントに渡す**ことです。人間には「変な指示は無視する」判断力がありますが、エージェントは間接プロンプトインジェクションで攻撃者の指示を実行し得ます。つまり **エージェントに渡した権限は、すべて攻撃面になる** 前提で設計します。
 
 - **交差(intersection)**: エージェントの実効権限 = ユーザーの権限 ∩ エージェントに許可した操作、にします。「ユーザーができること」ではなく「このエージェントの職務に必要なこと」が上限です
-- **タスク単位に絞る**: 常時フルスコープではなく、タスクの種類に応じたスコープでトークンを発行します。MCP の認可仕様(2025-11-25 版)にも、必要になった時点でスコープを追加要求する段階的同意(step-up)が入りました
+- **タスク単位に絞る**: 常時フルスコープではなく、タスクの種類に応じたスコープでトークンを発行します。MCP の認可仕様にも、必要になった時点でスコープを追加要求する段階的同意(step-up)が入っています(2025-11-25 版で導入され、現行 2026-07-28 版でも維持)
 - **高リスク操作は権限で解決しない**: 送金・削除・外部送信のような操作は、スコープを与えた上で人間の承認を挟みます([Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md))。認可の標準側でも、人間の非同期承認を組み込むアプローチ(CIBA 等)が製品化されています
 - **ツール層との分担**: 本記事のアイデンティティ層(誰として・どのスコープで)と、[ツール権限設計とサンドボックス](tool-permissions-and-sandboxing.md)のツール層(どのツールを・どの引数制約で)は重ねて使います。どちらか一方では守れません
 
@@ -103,7 +103,7 @@ flowchart LR
 - **MCP サーバーへの認可**: MCP の認可仕様は OAuth ベースで、リソースサーバー(MCP サーバー)と認可サーバーの分離、トークンの対象(audience)検証、そして **受け取ったトークンをそのまま上流 API へ転送する「トークンパススルー」の禁止**を定めています。パススルーは、権限のない主体が権限のある仲介者を悪用する混乱した代理人(confused deputy)問題の典型経路です([ツール接続標準(MCP とエコシステム)](../03-implementation/mcp-and-tool-protocols.md))
 - **長寿命 API キーからの脱却**: 静的な API キーを配るのではなく、実行環境の ID から短寿命トークンへ交換するフェデレーション(workload identity federation)を使うと、「漏れる鍵」自体をなくせます。使う場合のキーはシークレットマネージャ保管 + 定期ローテーションが最低線です
 
-### 標準化の動向(2026-07 時点)
+### 標準化の動向(2026-08 時点)
 
 変化が速い領域なので、「何が確定していて、何がまだ動いているか」を分けて把握します。
 
@@ -111,24 +111,24 @@ flowchart LR
 
 - OAuth 2.0 Token Exchange(RFC 8693、2020 年発行): subject / actor の分離、`act` / `may_act` クレームによる委任チェーン表現。エージェント委任の実務の基礎語彙です
 
-**採択済み・成立が近い標準**(いずれも 2026-07 時点で IETF ドラフト):
+**採択済み・成立が近い標準**(いずれも 2026-08 時点で IETF ドラフト):
 
 - **ID-JAG**(Identity Assertion JWT Authorization Grant): 企業 IdP のアサーションを起点に別アプリのトークンを得る OAuth WG 採択ドラフトで、仕様の付録に AI エージェントのユースケースが明記されています。ID 管理ベンダーの「Cross App Access(XAA)」(著者と仕様構成から ID-JAG をベースにしているとみられます)は、MCP の公式認可拡張(Enterprise-Managed Authorization)に採用されました
 - **identity-chaining**: 複数トラストドメインをまたいでユーザー ID と認可を伝搬する仕様で、RFC 化の最終段階にあります
-- 一方、「AI エージェント専用」を掲げる提案(WIMSE ワーキンググループのエージェント系ドラフト、on-behalf-of-user 拡張など)は 2026-07 時点ですべて個人ドラフト段階で、うち on-behalf-of-user 拡張は既に失効(expired)しています。OAuth 2.1 自体もまだドラフトです
+- 一方、「AI エージェント専用」を掲げる提案(WIMSE ワーキンググループのエージェント系ドラフト、on-behalf-of-user 拡張など)は 2026-08 時点ですべて個人ドラフト段階で、うち on-behalf-of-user 拡張は既に失効(expired)しています。OAuth 2.1 自体もまだドラフトです
 
-**MCP の認可仕様**(現行リビジョン 2025-11-25):
+**MCP の認可仕様**(現行リビジョン 2026-07-28):
 
-- MCP サーバー = OAuth のリソースサーバーという整理、認可サーバーの分離、`resource` パラメータ必須、トークンパススルー禁止、事前登録なしクライアントの識別方式(CIMD)などを規定しています
+- MCP サーバー = OAuth のリソースサーバーという整理、認可サーバーの分離、`resource` パラメータ必須、トークンパススルー禁止、事前登録なしクライアントの識別方式(CIMD)は、現行 2026-07-28 版でも維持されています。同版では動的クライアント登録(RFC 7591)が CIMD 優先の方針で正式に非推奨(Deprecated)となり(後方互換のため残置)、認可サーバー発行者の検証(RFC 9207 の `iss` 検証)が追加されました
 - 認可章はリビジョンごとに大きく変わってきた実績があるため、実装時は必ず **バージョン付きの仕様 URL** を参照し、更新を追う前提で設計します
 
-**主要ベンダーの提供状況**(名称・提供区分は 2026-07 時点。詳細と出典は調査メモ参照):
+**主要ベンダーの提供状況**(名称・提供区分は 2026-08 時点。詳細と出典は調査メモ参照):
 
 | 提供元 | 概要 | 状況 |
 | --- | --- | --- |
 | Microsoft(Entra Agent ID) | エージェント個別 ID(blueprint → agent identity)、条件付きアクセス・監査ログ、非対話の confidential client 設計 | GA(一部機能は Preview) |
 | AWS(Bedrock AgentCore Identity) | インバウンド / アウトバウンド認証の分離、OAuth トークン等の token vault | GA |
-| Google Cloud(Agent Identity) | エージェントに SPIFFE ID + 短寿命 X.509 を直接割り当て、証明書に束縛されたトークンを発行 | Preview |
+| Google Cloud(Agent Identity) | エージェントに SPIFFE ID + 短寿命 X.509 を直接割り当て、証明書に束縛されたトークンを発行 | GA(Auth manager は Preview) |
 | Okta / Auth0 | XAA(ID-JAG がベースとみられるクロスアプリ認可)、token vault、CIBA による非同期の人間承認 | 段階的提供中 |
 | Anthropic | API 認証のフェデレーション(SPIFFE・各社 IdP 対応)、エージェント用資格情報のエグレス時差し替え型 vault | 提供中 |
 
@@ -171,21 +171,21 @@ flowchart LR
 ## 参考資料
 
 - [RFC 8693: OAuth 2.0 Token Exchange(IETF)](https://datatracker.ietf.org/doc/rfc8693/) — subject / actor の分離と `act` クレームによる委任表現(アクセス日: 2026-07-06)
-- [MCP Authorization(2025-11-25 リビジョン)](https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization) — MCP サーバーの OAuth ベース認可仕様(アクセス日: 2026-07-06)
-- [Identity Assertion JWT Authorization Grant(IETF OAuth WG ドラフト)](https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-assertion-authz-grant/) — AI エージェントのツールアクセスをユースケースに含むクロスアプリ認可(アクセス日: 2026-07-06)
-- [Microsoft Entra Agent ID](https://learn.microsoft.com/en-us/entra/agent-id/what-is-microsoft-entra-agent-id) — エージェント個別 ID・条件付きアクセス・監査の商用実装例(アクセス日: 2026-07-06)
+- [MCP Authorization(2026-07-28 リビジョン)](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization) — MCP サーバーの OAuth ベース認可仕様(アクセス日: 2026-08-18)
+- [Identity Assertion JWT Authorization Grant(IETF OAuth WG ドラフト)](https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-assertion-authz-grant/) — AI エージェントのツールアクセスをユースケースに含むクロスアプリ認可(アクセス日: 2026-08-18)
+- [Microsoft Entra Agent ID](https://learn.microsoft.com/en-us/entra/agent-id/what-is-microsoft-entra-agent-id) — エージェント個別 ID・条件付きアクセス・監査の商用実装例(アクセス日: 2026-08-18)
 - [Amazon Bedrock AgentCore Identity](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/identity.html) — インバウンド / アウトバウンド認証と token vault(アクセス日: 2026-07-06)
-- [Google Cloud IAM: Agent Identity](https://docs.cloud.google.com/iam/docs/agent-identity-overview) — SPIFFE ID と証明書束縛トークンによるエージェント ID(アクセス日: 2026-07-06)
+- [Google Cloud IAM: Agent Identity](https://docs.cloud.google.com/iam/docs/agent-identity-overview) — SPIFFE ID と証明書束縛トークンによるエージェント ID(アクセス日: 2026-08-18)
 - [Okta: Cross App Access パートナー発表](https://www.okta.com/newsroom/press-releases/okta-announces-cross-app-access-partners/) — XAA の MCP 公式認可拡張への採用(アクセス日: 2026-07-06)
 - [Claude API: Authentication](https://platform.claude.com/docs/en/manage-claude/authentication) — API キーと workload identity federation の使い分け(アクセス日: 2026-07-06)
 
 ## TODO・未確認事項
 
-> **TODO(要確認):** OpenAI のエージェント資格情報に関する公式推奨(API キー安全ベストプラクティス、Connectors の OAuth 認可)を platform.openai.com で確認する(今回の調査では取得できず)(最終確認: 2026-07)
+> **TODO(要確認):** OpenAI の Connectors の OAuth 認可ガイドを developers.openai.com / platform.openai.com で確認する。API キー管理については developers.openai.com の Production best practices に「環境変数またはシークレット管理サービスで扱う」旨の公式明記を確認済みで、残るのは Connectors の認可のみ(最終確認: 2026-08)
 
 ### 変わりやすい項目(定点観測)
 
-- OAuth 2.1 の RFC 化(2026-07 時点でドラフト。IESG 提出予定 2026-12)
-- MCP 認可仕様の次期リビジョン(認可章はリビジョンごとに大きく変わる実績。CIMD・拡張仕様の扱い)
-- IETF のエージェント関連ドラフトの採択・失効(ID-JAG、identity-chaining、WIMSE のエージェント系個人ドラフト)
-- 各社のエージェント ID 機能の提供区分(Google Cloud Agent Identity の GA 化、Okta XAA / Auth0 の提供拡大)と製品名の再編
+- OAuth 2.1 の RFC 化(2026-08 時点でドラフト。IESG 提出予定 2026-12)
+- MCP 認可仕様の次期リビジョン(現行 2026-07-28。認可章はリビジョンごとに大きく変わる実績。CIMD・拡張仕様の扱い)
+- IETF のエージェント関連ドラフトの採択・失効(ID-JAG、identity-chaining の RFC 番号付与、WIMSE のエージェント系個人ドラフト)
+- 各社のエージェント ID 機能の提供区分(Google Cloud Auth manager の GA 化、Okta XAA / Auth0 の提供拡大)と製品名の再編

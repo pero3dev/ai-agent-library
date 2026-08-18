@@ -7,6 +7,8 @@
 
 確認日はすべて 2026-07-10。取得手段が WebFetch で本文を読めたものを「公式確認済み(本文取得)」、URL の存在を検索で確認したが本文未読のものを「公式ページ存在(内容未読)」としています。
 
+**観測ログ(2026-08-18 定点観測)**: OSAID 1.0 / HF ToS 二層構造 / Llama 4 Community License(700M MAU)/ Gemma Terms(2026-04-01 版)/ llama.cpp(ggml-org・MIT)/ vLLM / LangChain / awesome-japanese-llm を一次情報で再確認、**docs 本文に影響する差分なし**。HF Content Policy の実 URL と AutoGen のメンテナンスモード入りを新たに一次確認(本文の該当節に反映済み)。大型買収・垂直統合の個別イベントは二次情報のみで一次裏取り不能だったため観測のみ(docs は個社名を書かない方針のため影響なし。次回も「構造を覆すイベントの有無」だけ確認する)。
+
 ---
 
 ## A. AI 業界のレイヤー構造(代表例)
@@ -55,7 +57,7 @@
 - **一次情報 URL(代表例・存在確認レベル)**: LangChain / LangGraph https://github.com/langchain-ai/langchain (公式サイト https://www.langchain.com/ )、 LlamaIndex https://github.com/run-llama/llama_index 、 Microsoft Agent Framework(旧 AutoGen + Semantic Kernel の統合) https://github.com/microsoft/autogen 、 CrewAI https://github.com/crewAIInc/crewAI 、 推論サーバ vLLM https://github.com/vllm-project/vllm 、 Hugging Face Transformers https://github.com/huggingface/transformers
 - **扱う範囲(中立記述)**: モデルとアプリの間に立ち、オーケストレーション/エージェント構築/推論最適化/ツール接続などを担う層。OSS が厚い層である点を示す(詳細は B 章と重複)。
 - **確認日**: 2026-07-10
-- **確度**: 公式リポジトリ存在(検索確認)。AutoGen が「メンテナンスモード・Agent Framework へ統合」との情報は二次情報のため、記事では「統合が進んでいる」程度に留めるか TODO(要確認)を付す
+- **確度**: 公式リポジトリ存在(検索確認)。AutoGen の「メンテナンスモード・新規は Microsoft Agent Framework へ(移行ガイドあり・コミュニティ管理に移行)」は README で公式確認済み(本文取得、2026-08-18)。後継リポジトリは https://github.com/microsoft/agent-framework (MIT・.NET/Python)
 - **備考**: この層は「上下(モデル層・クラウド層)から機能を取り込まれやすい」という構造が二次情報で共通指摘されるが、個社の栄枯は評価しない。
 
 ### (5) アプリケーション層
@@ -92,17 +94,17 @@
 ### モデル/データセットハブ(Hugging Face)
 
 - **確認先**: Hugging Face 公式(Hub ドキュメント・利用規約)
-- **一次情報 URL**: 本体 https://huggingface.co/ 、 利用規約 https://huggingface.co/terms-of-service 、 モデルカード仕様(Hub docs) https://huggingface.co/docs/hub/model-cards 、 データセットカード https://huggingface.co/docs/hub/datasets-cards 、 コンテンツポリシー https://huggingface.co/content-guidelines (ToS から参照される。URL は要確認)
+- **一次情報 URL**: 本体 https://huggingface.co/ 、 利用規約 https://huggingface.co/terms-of-service 、 モデルカード仕様(Hub docs) https://huggingface.co/docs/hub/model-cards 、 データセットカード https://huggingface.co/docs/hub/datasets-cards 、 コンテンツポリシー https://huggingface.co/content-policy (Effective Date: 2025-04-10。本文取得済み 2026-08-18)
 - **扱う範囲(中立記述)**: モデル/データセット/Spaces を共有するハブ。**規約構造**として、ToS 本体は「Definitions / Service Usage / Content Ownership / IP・DMCA / 免責」等の章立てを持ち、具体的な利用禁止事項・モデレーションは別文書(Content Policy / Code of Conduct)に委譲されている、という**所在**を示す。モデルカード/データセットカードは repo 内の `README.md`(先頭の YAML front matter = 機械可読メタデータ + 本文)として実装され、`license` フィールドでライセンスを宣言する仕組みである点を示す。
 - **確認日**: 2026-07-10
-- **確度**: ToS 章立て・モデルカード仕様は公式確認済み(本文取得)。Content Policy の個別 URL は未確認(内容未読)
+- **確度**: ToS 章立て・モデルカード仕様は公式確認済み(本文取得)。Content Policy も公式確認済み(本文取得、2026-08-18)
 - **備考**: 「規約の詳細本文」は変わりやすいので、記事では「ToS 本体 + 別紙 Content Policy/Code of Conduct という二層構造」という所在の特定にとどめ、条項の断定はしない。モデルカードの `license: other` + `license_name`/`license_link` で独自ライセンスを宣言できる仕組みは C 章(独自制限付きライセンス)と接続する。
 
 ### OSS フレームワーク/エージェント(類型ごとの代表例)
 
 - **確認先**: 各 OSS 公式リポジトリ
 - **一次情報 URL(代表例・存在確認レベル)**:
-  - オーケストレーション/エージェント: LangChain・LangGraph https://github.com/langchain-ai/langchain 、 LlamaIndex https://github.com/run-llama/llama_index 、 Microsoft AutoGen / Agent Framework https://github.com/microsoft/autogen 、 CrewAI https://github.com/crewAIInc/crewAI
+  - オーケストレーション/エージェント: LangChain・LangGraph https://github.com/langchain-ai/langchain 、 LlamaIndex https://github.com/run-llama/llama_index 、 Microsoft AutoGen(メンテナンスモード) https://github.com/microsoft/autogen → 後継 Microsoft Agent Framework https://github.com/microsoft/agent-framework 、 CrewAI https://github.com/crewAIInc/crewAI
   - モデル実行/学習ライブラリ: Hugging Face Transformers https://github.com/huggingface/transformers
   - 高スループット推論サーバ: vLLM https://github.com/vllm-project/vllm
 - **扱う範囲(中立記述)**: 「OSS が厚い層」であることと、類型(オーケストレーション/エージェント、推論サーバ、学習・変換ライブラリ、ローカル実行系)ごとに代表例が存在することを示す。個々の優劣・スター数・採用状況は扱わない。
@@ -116,8 +118,8 @@
 - **一次情報 URL**: Ollama https://ollama.com/ (GitHub https://github.com/ollama/ollama )、 llama.cpp https://github.com/ggml-org/llama.cpp (ggml/GGUF フォーマットの本家)
 - **扱う範囲(中立記述)**: 手元のマシンでモデルを動かす実行系。llama.cpp が C/C++ の推論エンジン(GGUF フォーマット)で、Ollama はその上に CLI・モデル管理を載せた利用しやすいラッパ、という**構造の所在**を示す。
 - **確認日**: 2026-07-10
-- **確度**: 公式リポジトリ存在(検索確認)。llama.cpp が MIT である点は二次情報レベル(記事では各自確認)
-- **備考**: llama.cpp の GitHub 組織は `ggml-org`(旧 `ggerganov`)へ移行済みとの情報あり。リンクは `ggml-org/llama.cpp` を優先しつつ執筆時に最終確認。スター数等の数値は扱わない。
+- **確度**: 公式リポジトリ存在(検索確認)。llama.cpp の MIT はライセンスバッジ・LICENSE ファイルで公式確認済み(2026-08-18)
+- **備考**: llama.cpp の GitHub 組織は `ggml-org`(旧 `ggerganov`)へ移行済み(2026-08-18 確認)。スター数等の数値は扱わない。
 
 ---
 
@@ -245,4 +247,4 @@
 - **公式確認済み(本文取得)**: Apache License 2.0 条文、MIT License(OSI)、Gemma Terms of Use(2026-04-01 版)、Llama 4 Community License(GitHub LICENSE, 700M MAU・Built with Llama)、Hugging Face モデルカード仕様・ToS 章立て、OSI Open Source AI Definition 1.0、LLM-jp 日本語 LLM カタログ。
 - **公式ページ存在(内容未読)/リポジトリ存在**: 各社公式ホームページ(半導体・クラウド・基盤モデル)、OSS フレームワーク/ローカル実行系の GitHub、OpenRAIL の HF ブログ・RAIL サイト、原典論文 arXiv。
 - **二次情報**: 層分けの枠組み、垂直統合の観察、OpenRAIL 禁止用途の具体、日本モデルのベース関係、「OSI が Llama をオープンソースでないと述べた」個別発言。
-- **未確認**: Hugging Face Content Policy の個別 URL、Gemma 一部世代の Apache 2.0 適用、SIer 層の個別代表例。
+- **未確認**: Gemma 一部世代の Apache 2.0 適用、SIer 層の個別代表例。(Hugging Face Content Policy の個別 URL は 2026-08-18 に公式確認済みへ格上げ)

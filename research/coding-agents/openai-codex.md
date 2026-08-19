@@ -5,6 +5,19 @@
 - **調査方法**: [CODING-AGENTS-PLAN.md](../../CODING-AGENTS-PLAN.md) §7 の 12 項目チェックリスト。公式情報(developers.openai.com / github.com/openai / openai.com / help.openai.com)のみを根拠とし、第三者記事は使用していません
 - **確度の凡例**: 公式明記 / 公式から推測 / 第三者(本メモでは第三者根拠なし)
 
+## 2026-08-18 定点観測での更新
+
+| 確認した事実 | 出典 URL | 確認日 | 確度 |
+| --- | --- | --- | --- |
+| **公式 docs が learn.chatgpt.com/docs へ移転**(ChatGPT との統合ドキュメントサイト)。旧 developers.openai.com/codex 系 URL は 308 リダイレクトで生存。本メモの旧 URL 出典はリダイレクトで到達可能 | <https://learn.chatgpt.com/docs> | 2026-08-18 | 公式明記 |
+| **現行モデルは gpt-5.6 ファミリー(sol / terra / luna)**。gpt-5.4 / gpt-5.4-mini は **2026-08-31 に Codex から退役予定**(後継として terra / luna を案内)。`gpt-5.3-codex-spark` は Pro 限定 research preview のまま | <https://learn.chatgpt.com/docs/models> | 2026-08-18 | 公式明記 |
+| gpt-5.6 の GA 開始日を 2026-07-09 とする情報は二次情報のみで、一次情報では確認できず(断定しない) | — | 2026-08-18 | 第三者(未確定) |
+| デスクトップアプリは統合ドキュメントで「**ChatGPT desktop app**」表記に変更。macOS / Windows に加え **Linux 版が 2026-08-11 に preview**(Ubuntu / Debian / Fedora) | <https://learn.chatgpt.com/docs/app> | 2026-08-18 | 公式明記 |
+| Chrome 拡張・App Server が提供面として正式掲載(2026-07 時点は「ナビ項目として存在」だった) | <https://learn.chatgpt.com/docs> | 2026-08-18 | 公式明記 |
+| CLI は 0.146 / 0.147 系。**Agent Plugins** の追加、**MCP 2026-07-28 仕様への対応**を確認 | <https://github.com/openai/codex/releases> | 2026-08-18 | 公式明記 |
+| プラン構成・5 時間ウィンドウ + 週次の利用制限構造・超過クレジット制に変更なし | <https://learn.chatgpt.com/docs/pricing> | 2026-08-18 | 公式明記 |
+| help.openai.com は **2026-08-18 も直接取得 403 継続**(§9 の学習利用既定の根拠記事を含む)。個人プランの学習利用既定は再確認できていないが反証情報もなし → 現記述維持 | — | 2026-08-18 | 未確認(機械取得不能) |
+
 ## 前提: 製品構成の全体像
 
 「Codex」は単一製品ではなく、同じエージェントを複数の面(surface)で提供する製品群です(確認日: 2026-07-05、出典: <https://developers.openai.com/codex>、公式明記)。

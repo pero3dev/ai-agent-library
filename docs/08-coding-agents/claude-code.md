@@ -3,7 +3,7 @@ title: "Claude Code"
 category: "coding-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-07-06"
+last_updated: "2026-08-18"
 tags: ["coding-agents", "mcp"]
 ---
 
@@ -27,7 +27,7 @@ Anthropic のコーディングエージェント Claude Code の提供形態・
 
 ## 本文
 
-> **最終確認日:** 2026-07-05 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
+> **最終確認日:** 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
 
 ### 概要
 
@@ -51,7 +51,7 @@ Claude Code は Anthropic が提供するコーディングエージェントで
 | CI 連携 | GitHub Actions・GitLab CI/CD、PR 自動レビュー、Slack 連携 | CI ランナー |
 | Agent SDK | Python / TypeScript ライブラリとして同じエージェントループを組み込み | 任意 |
 
-- 対応 OS は macOS / Windows(ネイティブ・WSL)/ 主要 Linux。2026-07 時点で Web 版は research preview 表記です
+- 対応 OS は macOS / Windows(ネイティブ・WSL)/ 主要 Linux。2026-08 時点で Web 版は research preview 表記です
 - クラウド実行では全アウトバウンド通信がセキュリティプロキシを経由し、GitHub の実トークンはサンドボックス内に渡されません。セッション終了後に VM は破棄されます
 
 ### リポジトリ理解・編集・実行の仕組み
@@ -70,7 +70,7 @@ Claude Code は Anthropic が提供するコーディングエージェントで
 
 ### 権限管理とセキュリティ
 
-- **権限モード** は 6 種(既定の Manual = 都度承認、acceptEdits、plan = 読み取り専用、auto = research preview、dontAsk、bypassPermissions = 隔離環境専用)。ルールは allow / ask / deny で、評価順は deny → ask → allow 固定です
+- **権限モード** は 6 種(Manual = 都度承認、acceptEdits、plan = 読み取り専用、auto = 分類器レビュー付き自動承認、dontAsk、bypassPermissions = 隔離環境専用)。既定モードは認証経路で異なり、2026-08 時点では **Pro / Max / Team プランの組み込み開始モードが `auto`** です(v2.1.228 以降。ネイティブ Windows は v2.1.233 以降)。Enterprise・Console(API キー)・`claude -p`・Agent SDK・Bedrock 等の経由では従来どおり `default`(Manual)が既定で、組織は managed settings の `disableAutoMode` で `auto` を組織的に禁止できます。ルールは allow / ask / deny で、評価順は deny → ask → allow 固定です
 - **OS サンドボックス**(macOS Seatbelt / Linux・WSL2 bubblewrap)を内蔵しますが**既定では無効**です。有効化すると境界内の Bash を自動実行に切り替えられます。ネイティブ Windows は非対応です。「権限 = 常時オン、サンドボックス = オプトイン」という関係を混同しないでください
 - サンドボックスのネットワークはドメイン単位のデフォルト拒否 + 初回承認です。既定では TLS を終端しないため、公式自身が限界(広いドメイン許可は持ち出し経路になり得る)と、より強い保証にはカスタムプロキシ + TLS 検査を推奨することを明記しています
 - 認証情報保護(`sandbox.credentials` による読取拒否・環境変数マスク)、WebFetch の隔離コンテキスト処理、コマンドインジェクション検出、fail-closed 照合などの防御があります
@@ -86,6 +86,7 @@ Claude Code は Anthropic が提供するコーディングエージェントで
 ### チーム導入と提供プラン
 
 - 認証経路はサブスクリプション(Pro / Max / Team / Enterprise)と API 従量(Console)、および Bedrock / Vertex / Foundry 経由があります。Free プランでは利用できません
+- Team プランは standard / premium の両シート種別とも Claude Code を含みます(両者の差は使用量枠〔premium は standard の約 5 倍〕です。なお Enterprise で Web 版を利用するには premium seat が必要です)
 - Enterprise では SSO・ロールベース権限・コンプライアンス API・組織全体の managed policy settings が提供されます。managed settings は MDM 配布のほかサーバー配信(クラウドセッションにも適用)が可能で、`disableBypassPermissionsMode` などで危険なモードを組織的に禁止できます
 - 監視は OpenTelemetry メトリクス、クラウドセッションの監査ログ、ワークスペース単位の支出上限などで行います
 - 料金・使用量制限の具体値は変動が激しいため本記事には記載しません。公式料金ページ(参考資料)で確認してください。構造としては「定額プラン + 使用量上限(時間窓 + 週次、チャット製品と共通プール)+ 上限後の追加クレジット」です
@@ -125,19 +126,18 @@ Claude Code は Anthropic が提供するコーディングエージェントで
 
 ## 参考資料
 
-- [Claude Code Docs(公式)](https://code.claude.com/docs/en/overview) — 機能・提供形態の一次情報(アクセス日: 2026-07-05)
-- [Permissions](https://code.claude.com/docs/en/permissions) — 権限モデルの仕様(アクセス日: 2026-07-05)
+- [Claude Code Docs(公式)](https://code.claude.com/docs/en/overview) — 機能・提供形態の一次情報(アクセス日: 2026-08-18)
+- [Permissions](https://code.claude.com/docs/en/permissions) — 権限ルールの仕様(アクセス日: 2026-07-05)
+- [Permission modes](https://code.claude.com/docs/en/permission-modes) — 権限モードと既定モードの仕様(アクセス日: 2026-08-18)
 - [Sandboxing](https://code.claude.com/docs/en/sandboxing) — サンドボックスの仕様と限界(アクセス日: 2026-07-05)
-- [Data usage](https://code.claude.com/docs/en/data-usage) — データ保持・学習利用の既定(アクセス日: 2026-07-05)
-- [料金ページ](https://claude.com/pricing) — プラン体系(アクセス日: 2026-07-05)
+- [Data usage](https://code.claude.com/docs/en/data-usage) — データ保持・学習利用の既定(アクセス日: 2026-08-18)
+- [料金ページ](https://claude.com/pricing) — プラン体系(アクセス日: 2026-08-18)
 - [Anthropic Trust Center](https://trust.anthropic.com/) — コンプライアンス認証(アクセス日: 2026-07-05)
 
 ## TODO・未確認事項
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** Claude Code on the web(research preview)と権限モード `auto`(research preview)・Agent teams(experimental)のステータス変化を公式ドキュメントで確認する(最終確認: 2026-07)
+> **TODO(要確認):** Claude Code on the web(research preview)と Agent teams(experimental)のステータス変化を公式ドキュメントで確認する(2026-08-18 確認: 両者とも継続。権限モード `auto` は research preview を外れ Pro / Max / Team の既定モードになったため監視対象から除外。最終確認: 2026-08)
 
-> **TODO(要確認):** サブスクリプションの使用量制限の具体的構造・対象プランを公式ヘルプセンターで確認する(数値は流動的なため本文には構造のみ記載。最終確認: 2026-07)
-
-> **TODO(要確認):** Team プランのシート種別(standard / premium)と Claude Code 利用可否の対応関係を公式料金ページで確認する(最終確認: 2026-07)
+> **TODO(要確認):** サブスクリプションの使用量制限の具体的構造・対象プランを公式ヘルプセンターで確認する(2026-08-18 確認: 5 時間窓 + 週次上限・チャット製品と共通プール・超過後 usage credits の構造に変更なし。数値は流動的なため本文には構造のみ記載。最終確認: 2026-08)

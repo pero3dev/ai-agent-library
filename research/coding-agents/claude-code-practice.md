@@ -9,6 +9,15 @@
 
 > **注**: 本メモは docs/ 規約(テンプレート・固定 H2)の対象外です(CODING-AGENTS-PLAN.md §13)。
 
+## 2026-08-18 定点観測での更新
+
+| 確認した事実 | 出典 URL | 確認日 | 確度 |
+| --- | --- | --- | --- |
+| **Agent teams のコスト倍率は「teammates が plan モードで動く場合に約 7 倍」という条件付き表現**であることを再確認(§2.2 ⑩ の記録どおり。docs 本文は無条件の「約 7 倍」だったため条件付き表現に修正済み) | https://code.claude.com/docs/en/costs#agent-team-token-costs | 2026-08-18 | 公式明記 |
+| キャッシュ読み取り単価(標準入力の約 10%)に変更なし。TTL の構造(サブスクリプションは 1 時間 TTL 自動適用・API キー等は既定 5 分・**usage credits 消費中は 5 分に自動降格、`ENABLE_PROMPT_CACHING_1H=1` で 1 時間を維持可**)も §2.4 の記録から変更なし。docs 本文のキャッシュ節に TTL の注記を追加済み | https://code.claude.com/docs/en/prompt-caching#cache-lifetime | 2026-08-18 | 公式明記 |
+| Routines は research preview 継続、GitLab CI/CD は beta 継続。**auto モードは research preview を終了し Pro / Max / Team の built-in starting mode になった**(詳細は [claude-code.md](claude-code.md) の 2026-08-18 更新表) | https://code.claude.com/docs/en/routines, https://code.claude.com/docs/en/gitlab-ci-cd, https://code.claude.com/docs/en/permission-modes | 2026-08-18 | 公式明記 |
+| GitHub Actions の `--max-turns` 既定 10 は今回の観測では再確認できず(継続監視) | — | 2026-08-18 | 未確認 |
+
 ---
 
 ## 1. 機能の使いどころ
@@ -331,11 +340,11 @@
 
 > **TODO(要確認):** headless の `--input-format`(stream-json 入力)の仕様を CLI リファレンス(https://code.claude.com/docs/en/cli-reference)で確認する(headless ページには記載なし。最終確認: 2026-07)
 
-> **TODO(要確認):** Routines(research preview)・GitLab CI/CD(beta)・auto mode(research preview)のステータス変化を執筆直前に再確認する(最終確認: 2026-07)
+> **TODO(要確認):** Routines(research preview)・GitLab CI/CD(beta)のステータス変化を執筆直前に再確認する(2026-08-18 確認: 両者とも継続。auto mode は research preview を終了し Pro / Max / Team の既定モードになったため監視対象から除外〔冒頭の更新表参照〕。最終確認: 2026-08)
 
 > **TODO(要確認):** OpenTelemetry のメトリクス名・属性一覧は monitoring-usage ページの機械取得結果に基づく。執筆時に本文へ転記するメトリクス名(特に `claude_code.cost.usage` の属性)はページを直接再確認する(最終確認: 2026-07)
 
-> **TODO(要確認):** プロンプトキャッシュの cache read 単価(「約 10%」)と 1 時間 TTL の書込割増率の最新値を https://platform.claude.com/docs/en/build-with-claude/prompt-caching で確認する(最終確認: 2026-07)
+> **TODO(要確認):** プロンプトキャッシュの cache read 単価(「約 10%」)と 1 時間 TTL の書込割増率の最新値を https://platform.claude.com/docs/en/build-with-claude/prompt-caching で確認する(2026-08-18 確認: cache read 約 10% と TTL 構造〔サブスク 1 時間自動・usage credits 消費中 5 分降格〕は変更なし。1 時間 TTL の書込割増率の具体値は未確認のまま。最終確認: 2026-08)
 
 ## 主な出典一覧
 

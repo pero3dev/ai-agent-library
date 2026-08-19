@@ -3,7 +3,7 @@ title: "GitHub Copilot"
 category: "coding-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-07-06"
+last_updated: "2026-08-18"
 tags: ["coding-agents", "mcp"]
 ---
 
@@ -25,7 +25,7 @@ GitHub Copilot の多層的な機能群(補完 / Chat / エージェントモー
 
 ## 本文
 
-> **最終確認日:** 2026-07-05 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
+> **最終確認日:** 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
 
 ### 概要
 
@@ -35,7 +35,7 @@ GitHub Copilot は、コード補完から始まり、2026 年時点では GitHu
 
 1. **名称変更**: 非同期エージェント「Copilot coding agent」は「**Copilot cloud agent**」に改称されました(2026-04)
 2. **課金変更**: プレミアムリクエスト制は「**GitHub AI Credits**」(トークン量 × 各モデルのレートで消費するクレジット制)に置き換わりました(2026-06)。補完は有料プランで無制限のままです
-3. **学習ポリシー変更**: 2026-04-24 から **Free / Pro / Pro+ の対話データは既定でモデル学習に利用**されます(オプトアウト方式)。Business / Enterprise は契約で学習利用が禁止されており対象外です
+3. **学習ポリシー変更**: 2026-04-24 から **Free / Pro / Pro+ / Max の対話データは既定でモデル学習に利用**されます(オプトアウト方式)。Business / Enterprise は契約で学習利用が禁止されており対象外です
 
 ### 提供形態と実行環境
 
@@ -71,15 +71,15 @@ GitHub Copilot は、コード補完から始まり、2026 年時点では GitHu
 
 - **CLI**: 実行前承認が既定で、`--allow-tool` / `--deny-tool` による許可・拒否リスト、計画を先に出す plan モードがあります
 - **cloud agent の権限境界**は多層です: push は `copilot/` ブランチのみ、**依頼者は Copilot の PR を自分で承認できない**(レビュー統制の維持)、ブランチ保護の適用、ワークフロー実行の人手ゲート、**ファイアウォールによるインターネットアクセス制限**(組織で強制可能)、生成コードの CodeQL・secret scanning・依存関係分析による自動チェック
-- **コンテンツ除外(content exclusion)の重要な注意**: Business / Enterprise で設定できる除外パスは補完と Chat では尊重されますが、**IDE の Edit・Agent モードは 2026-07 時点で未対応、cloud agent は除外ファイルも見えて更新できる**と公式に明記されています。「除外設定があるから安全」とは言えません
-- **データ学習の既定**: Free / Pro / Pro+ は既定で学習利用(オプトアウト可)、Business / Enterprise は契約で禁止。学習データは Microsoft を含むグループ会社と共有されえますが、サードパーティ AI プロバイダーには共有されません
+- **コンテンツ除外(content exclusion)の重要な注意**: Business / Enterprise で設定できる除外パスは補完と Chat では尊重されますが、**IDE の Edit・Agent モードは 2026-08 時点でも未対応**と公式に明記されています。cloud agent が除外を考慮しない旨の従来の公式記述は 2026-08 の定点観測では再確認できませんでした(「TODO・未確認事項」参照。効かない前提で扱うのが安全です)。いずれにせよ「除外設定があるから安全」とは言えません
+- **データ学習の既定**: Free / Pro / Pro+ / Max は既定で学習利用(オプトアウト可)、Business / Enterprise は契約で禁止。学習データは Microsoft を含むグループ会社と共有されえますが、サードパーティ AI プロバイダーには共有されません
 - 公開コード一致フィルター(候補を公開コードと突合して非表示にする Block 設定)がありますが、**cloud agent は Block 設定でも一致コードを生成しうる**(ログに一致情報を表示)点に注意が必要です
 
 ### 外部連携(MCP・CI・API)
 
 - MCP クライアントは IDE 各種・CLI で利用でき、**GitHub.com 上の MCP 設定は cloud agent と code review の両方に適用**されます。cloud agent には GitHub MCP server と Playwright MCP server が既定で有効です
 - 組織は「MCP servers in Copilot」ポリシーで制御できます(適用は Business / Enterprise のシート保有者のみ。また Cursor 等サードパーティアプリからの GitHub MCP server 利用はこのポリシーの対象外です)
-- GitHub 上で**サードパーティのコーディングエージェント(Claude・Codex)を有効化**する仕組み(public preview)があり、GitHub がエージェントの実行プラットフォームになる方向性が見えます
+- GitHub 上で**サードパーティのコーディングエージェント(Claude・Codex)を有効化**する仕組み(public preview。エージェントが生成したコードへのセキュリティ検証は 2026-06-09 に GA)があり、GitHub がエージェントの実行プラットフォームになる方向性が見えます
 - cloud agent の REST API、利用状況メトリクス API(cloud agent のアクティブユーザー集計)があります
 
 ### チーム導入と提供プラン
@@ -95,20 +95,20 @@ GitHub Copilot は、コード補完から始まり、2026 年時点では GitHu
 **向き不向き(特性として)**:
 
 - 向く: GitHub 中心の開発フロー(Issue → PR → レビューにエージェントが自然に組み込まれる)、既存の GitHub 組織管理(シート・監査・ポリシー)に統合したい組織、補完からエージェントまで 1 契約で段階導入したいチーム
-- 注意が要る: GitHub 以外の SCM では価値が大きく下がります。コンテンツ除外がエージェント系機能で効かない点は機密領域があるリポジトリで要検討です。個人プラン(Free/Pro/Pro+)の学習利用の既定は 2026-04 に変わったため、個人利用者は設定確認が必要です
+- 注意が要る: GitHub 以外の SCM では価値が大きく下がります。コンテンツ除外がエージェント系機能で効かない点は機密領域があるリポジトリで要検討です。個人プラン(Free / Pro / Pro+ / Max)の学習利用の既定は 2026-04 に変わったため、個人利用者は設定確認が必要です
 
 ## 実務での注意点
 
 ### アンチパターン
 
 - **旧名称・旧制度の知識で設計する** — coding agent(現 cloud agent)・プレミアムリクエスト(現 AI Credits)・学習ポリシーはすべて 2026 年上半期に変わりました。→ 直近の公式 Changelog を確認してから導入設計します
-- **コンテンツ除外を機密保護として過信する** — Edit / Agent モードと cloud agent には効きません。→ 機密ファイルはリポジトリ分離・権限設計([権限とセキュリティ](coding-agent-security.md))で守ります
+- **コンテンツ除外を機密保護として過信する** — Edit / Agent モードには効かず、cloud agent の対応状況も 2026-08 時点で公式記述を確認できていません(効かない前提が安全です)。→ 機密ファイルはリポジトリ分離・権限設計([権限とセキュリティ](coding-agent-security.md))で守ります
 - **cloud agent のワークフロー自動実行を安易に有効化する** — 人手ゲートは生成コードが CI 権限で走ることへの防御層です。→ 無効化する場合は CI トークンのスコープと保護ルールを先に確認します
 
 ### チェックリスト
 
 - [ ] 個人プラン利用者の学習利用オプトアウト設定を確認したか(組織プランなら契約上対象外であることを確認したか)
-- [ ] コンテンツ除外が効かない機能(Edit / Agent / cloud agent)を前提にした機密管理になっているか
+- [ ] コンテンツ除外が効かない・保証されない機能(Edit / Agent モード、対応未確認の cloud agent)を前提にした機密管理になっているか
 - [ ] cloud agent のファイアウォール・ワークフロー承認ゲートを組織ポリシーで管理しているか
 - [ ] AI Credits の予算制御(管理者側の上限)を設定したか
 - [ ] AGENTS.md / copilot-instructions.md の使い分けと優先順位(個人 > リポジトリ > 組織)を理解して配置したか
@@ -124,11 +124,11 @@ GitHub Copilot は、コード補完から始まり、2026 年時点では GitHu
 ## 参考資料
 
 - [GitHub Copilot features](https://docs.github.com/en/copilot/get-started/features) — 機能群の一次情報(アクセス日: 2026-07-05)
-- [About Copilot cloud agent](https://docs.github.com/en/copilot/concepts/agents/coding-agent/about-coding-agent) — 非同期エージェントの仕様と制約(アクセス日: 2026-07-05)
+- [About Copilot cloud agent](https://docs.github.com/en/copilot/concepts/agents/coding-agent/about-coding-agent) — 非同期エージェントの仕様と制約(アクセス日: 2026-08-18)
 - [Risks and mitigations](https://docs.github.com/en/copilot/concepts/agents/cloud-agent/risks-and-mitigations) — cloud agent のセキュリティ設計(アクセス日: 2026-07-05)
-- [学習ポリシー変更の告知](https://github.blog/news-insights/company-news/updates-to-github-copilot-interaction-data-usage-policy/) — 2026-04-24 発効の内容(アクセス日: 2026-07-05)
+- [学習ポリシー変更の告知](https://github.blog/news-insights/company-news/updates-to-github-copilot-interaction-data-usage-policy/) — 2026-04-24 発効の内容(アクセス日: 2026-08-18)
 - [AI Credits への移行告知](https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/) — 課金制度の一次情報(アクセス日: 2026-07-05)
-- [Copilot plans(料金)](https://github.com/features/copilot/plans) — プラン体系(アクセス日: 2026-07-05)
+- [Copilot plans(料金)](https://github.com/features/copilot/plans) — プラン体系(アクセス日: 2026-08-18)
 - [GitHub Copilot Trust Center](https://copilot.github.trust.page/) — コンプライアンス情報の参照先(アクセス日: 2026-07-05)
 
 ## TODO・未確認事項
@@ -137,8 +137,8 @@ GitHub Copilot は、コード補完から始まり、2026 年時点では GitHu
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** AI Credits のプラン別付与量と料金を公式料金ページで確認する(2026-04 の発表値から既に増額されており変動が速い。最終確認: 2026-07)
+> **TODO(要確認):** AI Credits のプラン別付与量と料金を公式料金ページで確認する(2026-08-18 確認: 付与量は 2026-07 の記録値から変動なし。変動が速いため定点観測は継続。最終確認: 2026-08)
 
-> **TODO(要確認):** preview 段階の機能群(サンドボックス・Copilot Memory・サードパーティエージェント・Spark・Agentic workflows)のステータス変化を Changelog で確認する(最終確認: 2026-07)
+> **TODO(要確認):** preview 段階の機能群(サンドボックス・Copilot Memory・サードパーティエージェント・Agentic Workflows)のステータス変化を Changelog で確認する(2026-08-18 確認: いずれも public preview 継続。Copilot Memory は JetBrains 対応が追加〔2026-08-11〕。Spark は 2026-08-04 告知で非推奨化・2026-08-31 アクセス終了のため監視対象から除外。最終確認: 2026-08)
 
-> **TODO(要確認):** コンテンツ除外の Edit / Agent モード対応状況の変化を公式ドキュメントで確認する(最終確認: 2026-07)
+> **TODO(要確認):** コンテンツ除外の Edit / Agent モード対応状況の変化(2026-08-18 確認: 未対応のまま)と、「cloud agent は除外を考慮しない」とする従来記述の現行の扱い(2026-08-18 の定点観測では再確認できず)を content exclusion 関連の公式ドキュメントで確認する(最終確認: 2026-08)

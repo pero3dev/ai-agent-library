@@ -6,6 +6,14 @@
 - **確度の凡例**: 公式明記 / 公式から推測(未確認は「未確認」と明記)
 - **既存メモとの関係**: 選定観点(実行環境・IDE 対応・設定ファイルの仕様・権限・セキュリティ・プラン体系など)は [github-copilot.md](github-copilot.md)(2026-07-05 調査)を参照。本メモは重複部分を再掲せず「既存メモ参照」と記す
 
+## 2026-08-18 定点観測での更新
+
+| 確認した事実 | 出典 URL | 確認日 | 確度 |
+| --- | --- | --- | --- |
+| **変動なしを確認**: プラン別 Credits 付与量(Pro 1,500 / Pro+ 7,000 / Max 20,000 の base + flex 構造。§2.3)・auto model selection の割引 10%(§2.2)・キャッシュ済みトークン単価 = 入力の 10%(§2.1)は、いずれも 2026-07-06 の記録値から変動なし | https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing, https://docs.github.com/en/copilot/tutorials/optimize-ai-usage | 2026-08-18 | 公式明記 |
+| **Copilot Memory は public preview 継続 + JetBrains IDE 対応が追加**(2026-08-11)。保持期間 28 日(§1.4)は今回の観測では再確認できず(2026-07-06 時点の記録のまま) | https://github.blog/changelog/ (2026-08-11) | 2026-08-18 | 公式明記(保持 28 日のみ未確認) |
+| automations・Agentic Workflows は public preview 継続。automations の実行回数上限は引き続き未確認 | https://docs.github.com/en/copilot/concepts/agents/cloud-agent/about-automations | 2026-08-18 | 公式明記(上限のみ未確認) |
+
 ## 1. 機能の使いどころ(公式ガイダンス)
 
 ### 1.1 タスク種別ごとのツール選択(公式マッピング)

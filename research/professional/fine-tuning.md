@@ -1,6 +1,7 @@
 # ファインチューニング・蒸留の各社公式メニュー 調査メモ
 
 - **調査日**: 2026-07-07
+- **更新日**: 2026-08-18(四半期定点観測。OpenAI FT の段階的終了日程の確定〔§2.1〕、`gpt-4.1-nano` の deprecation〔§2.1〕、Anthropic 用語集の文言微修正〔§4〕、Bedrock FT 対象への Nova 2 Lite 追加〔§5〕、Vertex 細部の未確認継続〔§3〕を反映)
 - **調査目的**: `docs/03-implementation/fine-tuning-and-distillation.md`(ファインチューニングと蒸留)の執筆材料。記事は原則(プロンプト/RAG/FT の使い分け、SFT・選好学習・蒸留の概観、データ準備、運用)を扱い、各社の提供形態は「2026-07 時点」の注記付きで軽く触れる方針。したがって本メモは「各社が何を公式に提供しているか(提供の有無と形態)」に絞る。個別の価格・具体的手順は対象外
 - **根拠の方針**: 各社公式ドキュメント(developers.openai.com / platform.openai.com、cloud.google.com / docs.cloud.google.com、platform.claude.com、docs.aws.amazon.com)と各社公式ブログのみを根拠とします。個人ブログ・比較記事は使用していません
 - **確度表記**: 「公式明記」= 公式ページに明文あり / 「公式から推測」= 公式記述からの合理的推測 / 「未確認」= 今回確認できず
@@ -28,14 +29,15 @@
 
 ## 2. OpenAI
 
-### 2.1 最重要: fine-tuning プラットフォームの縮小(2026-07 時点)
+### 2.1 最重要: fine-tuning プラットフォームの縮小(2026-08-18 更新: 段階的な終了日程が確定)
 
 | 事実 | 出典 URL | 確認日 | 確度 |
 | --- | --- | --- | --- |
-| **「OpenAI is winding down the fine-tuning platform. The platform is no longer accessible to new users, but existing users of the fine-tuning platform will be able to create training jobs for the coming months.」** という告知が、SFT・DPO・model optimization の各ガイド冒頭に掲載されている(= 新規ユーザーには非開放、既存ユーザーも「今後数か月」で終了の見込み) | https://developers.openai.com/api/docs/guides/supervised-fine-tuning / https://developers.openai.com/api/docs/guides/model-optimization / https://developers.openai.com/api/docs/guides/direct-preference-optimization | 2026-07-07 | 公式明記 |
-| FT 済みモデルは、**ベースモデルが非推奨(deprecated)になるまでは推論に利用可能**("All fine-tuned models will remain available for inference until their base models are deprecated.") | https://developers.openai.com/api/docs/guides/supervised-fine-tuning | 2026-07-07 | 公式明記 |
+| **fine-tuning プラットフォームの段階的な終了日程が確定**(deprecations ページ = 一次情報): **2026-05-07** = FT を一度も実施していない組織は新規 FT ジョブ作成不可 → **2026-07-02** = 直近 60 日間に FT モデルの推論がない組織も作成不可 → **2027-01-06** = 既存のアクティブな顧客も新規 FT ジョブ作成不可。2026-07-07 時点に各ガイド冒頭へ掲載されていた「existing users of the fine-tuning platform will be able to create training jobs for the coming months」という不定の表記は、この確定日程に置き換わった | https://platform.openai.com/docs/deprecations(旧告知: https://developers.openai.com/api/docs/guides/supervised-fine-tuning / https://developers.openai.com/api/docs/guides/model-optimization / https://developers.openai.com/api/docs/guides/direct-preference-optimization) | 2026-08-18(初出の縮小告知は 2026-07-07 確認) | 公式明記 |
+| FT 済みモデルは、**ベースモデルが非推奨(deprecated)になるまでは推論に利用可能**("All fine-tuned models will remain available for inference until their base models are deprecated.") | https://developers.openai.com/api/docs/guides/supervised-fine-tuning | 2026-07-07 / 2026-08-18(再確認: 変更なし) | 公式明記 |
+| **`gpt-4.1-nano` は 2026-10-23 に deprecation**(推奨代替は `gpt-5.6-luna`)。FT 対象だった nano を含むため、nano ベースの FT 済みモデルは同日で推論も終了することに直結する(上記「ベース deprecation まで」の具体化) | https://platform.openai.com/docs/deprecations | 2026-08-18 | 公式明記 |
 
-**執筆上の含意**: 記事で「OpenAI の fine-tuning API」を現在形で紹介するのは 2026-07 時点では不正確になり得ます。「かつて SFT/DPO/RFT/蒸留を提供していたが、2026 年半ばに新規受付を停止し縮小中」と時制を明示するのが安全です。ただし機能の概念説明(SFT/DPO/蒸留とは何か)の教材としては依然有効です。
+**執筆上の含意**: 記事で「OpenAI の fine-tuning API」を現在形で紹介するのは不正確になり得ます。「かつて SFT/DPO/RFT/蒸留を提供していたが、2026 年半ばに新規受付を停止し縮小中」と時制を明示するのが安全です。ただし機能の概念説明(SFT/DPO/蒸留とは何か)の教材としては依然有効です。**(2026-08-18 更新)** 終了日程が確定したため、「2026-05-07 / 2026-07-02 の段階的制限を経て、2027-01-06 に既存顧客も新規 FT ジョブ作成不可」と日付で書けるようになりました。完全終了(2027-01-06)の実施確認は次回観測で行います。
 
 ### 2.2 提供していた(いる)手法と対象モデル
 
@@ -88,6 +90,8 @@
 | --- | --- | --- | --- |
 | Vertex AI は Gemini だけでなく**オープンモデル(例: Llama 3.1 系)向けにも Supervised fine-tuning と Distillation を提供**。GenAI SDK の `vertexai.tuning` から実施 | https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/tuning/open-model-tuning | 2026-07-07 | 公式明記(ページ存在・タイトルを確認。対応モデル一覧の本文は未取得) |
 
+> **2026-08-18 再確認**: Vertex の tuning 系ドキュメントは引き続き動的レンダリングで本文を直接取得できず、細部(Gemini 3.x 系 SFT の提供有無・蒸留の GA / preview 状態・LoRA / データ件数)を一次情報で確認できていない。二次情報では「Gemini 3.x 系の SFT は未提供・蒸留は preview 継続」と示唆されるが、一次 docs 本文で裏取りできないため確度は「未確認」のまま = TODO 継続(次回観測でも確認対象)。
+
 ### 3.4 FT を選ぶ前の順序・データ準備(Google)
 
 | 事実 | 出典 URL | 確認日 | 確度 |
@@ -101,9 +105,9 @@
 
 | 事実 | 出典 URL | 確認日 | 確度 |
 | --- | --- | --- | --- |
-| **Claude の第一者 API はファインチューニングを提供していない**。用語集の fine-tuning 項に次の明文: 「**Our API does not currently offer fine-tuning, but please ask your Anthropic contact if you are interested in exploring this option.**」 | https://platform.claude.com/docs/en/about-claude/glossary | 2026-07-07 | 公式明記 |
+| **Claude の第一者 API はファインチューニングを提供していない**。用語集の fine-tuning 項に次の明文: 「**The Claude API does not currently offer fine-tuning, but ask your Anthropic contact if you are interested in exploring this option.**」(2026-08-18 再確認時に文言が微修正されていた。旧: 「Our API does not currently offer fine-tuning, but please ask your Anthropic contact ...」。非提供という内容に変更なし) | https://platform.claude.com/docs/en/about-claude/glossary | 2026-07-07 / 2026-08-18 | 公式明記 |
 | 用語集は RLHF・Pretraining・RAG を解説語として掲載するが、これらは「Claude がどう作られたか」の説明であり、**顧客向けの SFT/DPO/蒸留メニューは掲載されていない**(distillation・LoRA の項も無し) | 同上 | 2026-07-07 | 公式明記(不掲載の確認) |
-| **例外ルート: Amazon Bedrock 経由の fine-tuning**。ただし fine-tune 可能な Anthropic モデルは **Claude 3 Haiku のみ**(`anthropic.claude-3-haiku-20240307-v1:0:200k`、単一リージョン us-west-2)。Opus 4.x / Sonnet 5 / Haiku 4.5 / Fable 5 など現行世代は fine-tune 非対応 | https://docs.aws.amazon.com/bedrock/latest/userguide/custom-model-fine-tuning.html | 2026-07-07 | 公式明記(サポート表を確認) |
+| **例外ルート: Amazon Bedrock 経由の fine-tuning**。ただし fine-tune 可能な Anthropic モデルは **Claude 3 Haiku のみ**(`anthropic.claude-3-haiku-20240307-v1:0:200k`、単一リージョン us-west-2)。Opus 4.x / Sonnet 5 / Haiku 4.5 / Fable 5 など現行世代は fine-tune 非対応 | https://docs.aws.amazon.com/bedrock/latest/userguide/custom-model-fine-tuning.html | 2026-07-07 / 2026-08-18(再確認: Claude 3 Haiku のみで変更なし) | 公式明記(サポート表を確認) |
 | Bedrock の Claude 3 Haiku FT は 2024 年に GA 化。ローンチ時点で **テキストベース・最大 32K コンテキスト**対応と告知 | https://www.anthropic.com/news/fine-tune-claude-3-haiku | 2026-07-07 | 公式明記(告知) |
 | FT 済み Claude モデルは Bedrock の **Provisioned Throughput** でホストして推論する | https://platform.claude.com/cookbook/finetuning-finetuning-on-bedrock(検索経由で確認) | 2026-07-07 | 公式から推測 |
 
@@ -117,6 +121,7 @@
 | --- | --- | --- | --- |
 | オープンウェイトモデル(Meta Llama 系など)は**自前で FT 可能**。マネージド経路の例として Vertex AI は Llama 3.1 系の SFT/蒸留を提供 | https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/tuning/open-model-tuning | 2026-07-07 | 公式明記 |
 | Amazon Bedrock も Meta Llama 3.1/3.2/3.3 系や Amazon Nova 系を fine-tune 対象として提供(= オープン系/自社モデルは FT 対象が広い) | https://docs.aws.amazon.com/bedrock/latest/userguide/custom-model-fine-tuning.html | 2026-07-07 | 公式明記(サポート表を確認) |
+| **2026-08-18 再確認**: Bedrock の FT 対象表に **Nova 2 Lite**(`amazon.nova-2-lite-v1:0:256k`、us-east-1)が追加されている。Anthropic モデルの FT 対象は引き続き Claude 3 Haiku のみ | https://docs.aws.amazon.com/bedrock/latest/userguide/custom-model-fine-tuning.html | 2026-08-18 | 公式明記(サポート表を確認) |
 | 代表的な手法名(full FT / LoRA / QLoRA / SFT / DPO)はオープンエコシステムで一般的(自前インフラ + OSS ライブラリで実施)。深掘りは記事の対象外 | —(一般的技術知識。特定の一次ソースに依らない) | 2026-07-07 | 公式から推測 |
 
 **執筆上の含意**: 「クローズドな API 各社が FT メニューを絞る/畳む一方、オープンウェイトは LoRA 等で自前 FT できる自由度が強み」という対比が 2026-07 時点で成立します。ただし手法名の列挙にとどめ、深掘りはしない方針を維持。
@@ -149,10 +154,10 @@
 
 ## 執筆時の注意(変わりやすい項目)
 
-1. **OpenAI の fine-tuning 縮小は最優先で再確認**。2026-07-07 時点で「winding down / 新規非開放 / 既存も coming months で終了」の告知。記事公開時には**完全終了しているか、代替(蒸留・RFT 含む)がどう案内されているか**が変わっている可能性が高い。→ `TODO(要確認)` 必須。確認先: https://developers.openai.com/api/docs/guides/model-optimization
-2. **OpenAI の FT 対象モデルは GPT-4.1 系スナップショット(gpt-4.1 / mini / nano、2025-04-14)** に固定されており、フロンティア世代(GPT-5 系等)は FT 対象ではない。縮小方針と整合的。記事でモデル名を出す場合は日付付きスナップショットである点に注意
-3. **Google の SFT 対応 Gemini モデルと GA/preview 状態**は世代更新が速い。今回 GA を明記で確認できたのは Gemini 2.5 Flash のみ。Pro / Flash-Lite、および蒸留(preview)の状態は執筆時に docs で要確認。→ `TODO(要確認)`
+1. **OpenAI の fine-tuning 縮小は最優先で再確認**。2026-07-07 時点で「winding down / 新規非開放 / 既存も coming months で終了」の告知。**(2026-08-18 更新)** deprecations ページで段階的終了日程が確定(2026-05-07 → 2026-07-02 → 2027-01-06。§2.1)。次回観測では **2027-01-06 の完全終了(既存顧客の新規ジョブ作成不可)が実施されたか**を確認する。確認先: https://platform.openai.com/docs/deprecations / https://developers.openai.com/api/docs/guides/model-optimization
+2. **OpenAI の FT 対象モデルは GPT-4.1 系スナップショット(gpt-4.1 / mini / nano、2025-04-14)** に固定されており、フロンティア世代(GPT-5 系等)は FT 対象ではない。縮小方針と整合的。記事でモデル名を出す場合は日付付きスナップショットである点に注意。**(2026-08-18 更新)** このうち `gpt-4.1-nano` は **2026-10-23 に deprecation**(推奨代替 `gpt-5.6-luna`。nano ベース FT モデルの推論終了に直結)。次回観測で deprecation 後の FT 対象一覧を確認する(§2.1)
+3. **Google の SFT 対応 Gemini モデルと GA/preview 状態**は世代更新が速い。今回 GA を明記で確認できたのは Gemini 2.5 Flash のみ。Pro / Flash-Lite、および蒸留(preview)の状態は執筆時に docs で要確認。→ `TODO(要確認)`。**(2026-08-18 更新)** 一次 docs 本文は引き続き取得不能。二次情報では Gemini 3.x 系 SFT 未提供・蒸留 preview 継続と示唆されるが「未確認」のまま。次回観測でも Vertex の Gemini 3.x SFT を確認対象にする(§3)
 4. **Google docs の細部(LoRA/アダプタの有無・最小データ件数)は今回未取得**。動的レンダリングで WebFetch がナビしか返さないため。執筆時に "About supervised fine-tuning for Gemini models" 本文を人手で確認すること。確認先: https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini-supervised-tuning
-5. **Anthropic の FT 対象は Claude 3 Haiku のみ(Bedrock 経由)**。Claude 3 Haiku 自体が旧世代で、Bedrock 側の退役スケジュール次第で FT 対象から外れる可能性がある。記事では「現行世代 Claude は FT 不可」という点を強調するのが安全。確認先: https://docs.aws.amazon.com/bedrock/latest/userguide/custom-model-fine-tuning.html
+5. **Anthropic の FT 対象は Claude 3 Haiku のみ(Bedrock 経由)**。Claude 3 Haiku 自体が旧世代で、Bedrock 側の退役スケジュール次第で FT 対象から外れる可能性がある。記事では「現行世代 Claude は FT 不可」という点を強調するのが安全。**(2026-08-18 再確認)** Claude 3 Haiku のみで変更なし(§4)。確認先: https://docs.aws.amazon.com/bedrock/latest/userguide/custom-model-fine-tuning.html
 6. **「プロンプト → RAG → FT」の順序**は業界の通説だが、この 3 段を一枚で明示する公式ページは各社に乏しい。記事では各社の実際の記載(OpenAI = evals + prompt engineering を先に / FT は最後)に沿って、断定を避けて書くこと
 7. **openai.com 公式ブログ本文が 403** で取れないため、OpenAI の蒸留・料金系は developers.openai.com(docs/cookbook)を一次参照にした。記事で openai.com ブログを引く場合はアクセス可否を再確認

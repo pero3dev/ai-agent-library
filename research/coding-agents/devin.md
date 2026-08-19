@@ -8,6 +8,16 @@
 - Web アプリ: <https://app.devin.ai>
 - 記録様式: `確認した事実 | 出典 URL | 確認日 | 確度(公式明記 / 公式から推測 / 第三者)`
 
+## 2026-08-18 定点観測での更新
+
+| 確認した事実 | 出典 URL | 確認日 | 確度 |
+| --- | --- | --- | --- |
+| **Devin Fusion**(2026-06-29 発表・preview): フロンティアモデルの主エージェントに低コストな sidekick モデルを組み合わせるハイブリッド構成のハーネス。コスト削減効果は発表時 35% → **2026-08-07 の同記事更新で最大 60%** に引き上げ | <https://cognition.com/blog/devin-fusion> | 2026-08-18 | 公式明記 |
+| プラン・課金(Free $0 / Pro $20 / Max $200 / Teams 最低 $80、クォータ + クレジット制、Enterprise のみ ACU)に変更なし。**devin.ai 直下が 429 で機械取得できず**、docs.devin.ai の Billing ドキュメントで確認 | <https://docs.devin.ai/admin/billing/self-serve.md> | 2026-08-18 | 公式明記 |
+| 学習利用の既定(セルフサーブは既定で学習利用されうる・オプトアウト可)に変更なし | <https://docs.devin.ai/admin/security.md> | 2026-08-18 | 公式明記 |
+| Windows VM サポートの限定提供、Devin CLI の Knowledge / Playbooks / Secrets 未対応、いずれも継続 | <https://docs.devin.ai> | 2026-08-18 | 公式明記 |
+| SWE 1.6 の現行の位置づけ(Fusion 登場後のモデルライン内での扱い)は一次情報で確認できず(継続監視) | — | 2026-08-18 | 未確認 |
+
 ## 前提: 製品ライン全体像(Windsurf 買収後の再編)
 
 執筆時に最も注意すべき点。「Devin」は 2026-07 時点で単一製品ではなく、**Devin ブランドに統一された製品ファミリー**です。

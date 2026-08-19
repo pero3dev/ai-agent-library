@@ -5,6 +5,17 @@
 - **方針**: [CODING-AGENTS-PLAN.md](../../CODING-AGENTS-PLAN.md) §7 の情報源優先順位に従い、公式サイト・公式ドキュメント・公式リポジトリ(GitHub API メタデータ含む)のみを根拠とする。確度は「公式明記 / 公式から推測 / 第三者」の 3 区分。未確認事項は「未確認」と明記
 - **注意**: 俯瞰記事用のため 8 観点(①形態 ②ライセンス・開発主体 ③対応モデル ④リポジトリ理解・編集 ⑤コマンド実行・承認 ⑥MCP ⑦ルール・設定 ⑧活発さ)に絞る。§7 の 12 項目フル調査ではない
 
+## 2026-08-18 定点観測での更新(⑧活発さの再確認)
+
+| ツール | 確認した事実 | 出典 URL | 確認日 | 確度 |
+| --- | --- | --- | --- | --- |
+| Aider | 最新リリースは v0.86.0(2025-08-09)のまま = **リリース停止が約 1 年(12 か月超)に拡大**。リポジトリは非アーカイブ | GitHub API(repos/Aider-AI/aider, releases/latest) | 2026-08-18 | 公式明記(日付)/ 公式から推測(停滞という評価) |
+| Cline | 活発に継続。desktop 系のリリースラインが登場(次回定点観測で位置づけを確認) | GitHub API(repos/cline/cline) | 2026-08-18 | 公式明記 |
+| Continue | **read-only 継続**。買収後のサポート方針(既存ユーザーへの影響)の一次情報は引き続き取得できず | <https://github.com/continuedev/continue> | 2026-08-18 | 公式明記(read-only)/ 未確認(サポート方針) |
+| OpenHands | 活発。最新リリース **v1.14.0(2026-08-17)** | GitHub API(releases/latest) | 2026-08-18 | 公式明記 |
+| Goose | GitHub org は **aaif-goose**(AAIF 移管後)のまま継続。最新リリース v1.46.0 | GitHub API(releases/latest) | 2026-08-18 | 公式明記 |
+| opencode | GitHub org は **anomalyco** のまま継続。最新リリース v1.18.18 | GitHub API(releases/latest) | 2026-08-18 | 公式明記 |
+
 ## Aider
 
 | 項目 | 確認した事実 | 出典 URL | 確認日 | 確度 |

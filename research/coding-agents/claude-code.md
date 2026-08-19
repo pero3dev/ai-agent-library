@@ -8,6 +8,17 @@
 
 > **注**: 本メモは docs/ 規約(テンプレート・固定 H2)の対象外です(CODING-AGENTS-PLAN.md §13)。
 
+## 2026-08-18 定点観測での更新
+
+| 確認した事実 | 出典 URL | 確認日 | 確度 |
+| --- | --- | --- | --- |
+| **権限モード `auto` は research preview 表記を終了**し、**Pro / Max / Team プランの built-in starting mode(既定モード)**になった(v2.1.228 以降。ネイティブ Windows は v2.1.233 以降)。Enterprise・Console(API キー)・`claude -p`・Agent SDK・Bedrock 等経由は従来どおり `default`(Manual)が既定。managed settings の `disableAutoMode` で組織的に禁止可能。モードは 6 種のまま(permission-modes ページが新設され既定モードの正になった) | https://code.claude.com/docs/en/permission-modes | 2026-08-18 | 公式明記 |
+| **Team プランは standard / premium の両シート種別とも Claude Code を含む**。両者の差は使用量枠(premium は standard の約 5 倍)。Enterprise で Web 版を利用するには premium seat が必要 | https://claude.com/pricing | 2026-08-18 | 公式明記 |
+| Claude Code on the web は research preview 継続、Agent teams は experimental 継続 | https://code.claude.com/docs/en/claude-code-on-the-web, https://code.claude.com/docs/en/features-overview | 2026-08-18 | 公式明記 |
+| データ学習・保持の既定(Consumer / Commercial の対比・保持年数)に変更なし。プラン構成にも変更なし | https://code.claude.com/docs/en/data-usage, https://claude.com/pricing | 2026-08-18 | 公式明記 |
+| 使用量制限の構造(5 時間窓 + 週次上限・チャット製品と共通プール・超過後 usage credits)に変更なし | https://code.claude.com/docs/en/costs | 2026-08-18 | 公式明記 |
+| 新しい提供面(参考): クラウド実行の self-hosted environments、Auto-fix PR、非 GitHub リポジトリのローカルバンドルアップロード(100MB)、GHES 対応 | https://code.claude.com/docs/en/claude-code-on-the-web | 2026-08-18 | 公式明記(docs 本文には未反映。次回更新の候補) |
+
 ---
 
 ## 1. 実行環境
@@ -228,11 +239,11 @@
 
 > **TODO(要確認):** trust.anthropic.com の認証一覧(CSA STAR 等の有無)をブラウザで直接確認する(SPA のため機械取得不可。最終確認: 2026-07)
 
-> **TODO(要確認):** Team プランで Claude Code 利用に premium seat が必須かどうか(料金ページの表記は「Team は Claude Code を含む」だが、standard/premium seat と Claude Code 利用可否の対応関係の明文を確認する)(最終確認: 2026-07)
+> **TODO(要確認):** ~~Team プランで Claude Code 利用に premium seat が必須かどうか~~ **解消**(2026-08-18 確認: standard / premium 両シートとも Claude Code を含む。差は使用量枠約 5 倍と、Enterprise の Web 版利用に premium seat が必要な点。冒頭「2026-08-18 定点観測での更新」参照。最終確認: 2026-08)
 
-> **TODO(要確認):** Claude Code on the web の research preview 表記が GA に変わっていないか、対象プランの変更がないかを確認する(最終確認: 2026-07)
+> **TODO(要確認):** Claude Code on the web の research preview 表記が GA に変わっていないか、対象プランの変更がないかを確認する(2026-08-18 確認: research preview 継続。定点観測は継続。最終確認: 2026-08)
 
-> **TODO(要確認):** 権限モード `auto` (research preview) と Agent teams (experimental) のステータス変化を確認する(最終確認: 2026-07)
+> **TODO(要確認):** ~~権限モード `auto`(research preview)のステータス変化~~ **解消**(2026-08-18 確認: research preview を終了し Pro / Max / Team の built-in starting mode になった。冒頭の更新表参照)。Agent teams(experimental)のステータス変化は引き続き確認する(2026-08-18 確認: experimental 継続。最終確認: 2026-08)
 
 ## 主な出典一覧
 

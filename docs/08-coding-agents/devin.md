@@ -3,7 +3,7 @@ title: "Devin"
 category: "coding-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-07-06"
+last_updated: "2026-08-18"
 tags: ["coding-agents", "mcp"]
 ---
 
@@ -28,13 +28,13 @@ tags: ["coding-agents", "mcp"]
 
 ## 本文
 
-> **最終確認日:** 2026-07-05 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
+> **最終確認日:** 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
 
 ### 概要
 
 Devin は Cognition が提供する自律型コーディングエージェントです。公式の位置づけは「AI ソフトウェアエンジニア」で、タスク規模の目安として「人間なら 3 時間以内で終わるタスクならおそらく実行できる」と公式が示しています。5 分類([全体像](coding-agents-overview.md))ではクラウド実行型・GitHub / Issue 連携型の代表例です。
 
-2025 年の Windsurf 買収を経て、2026-07 時点の Cognition 製品は **Devin Cloud(本記事)/ Devin Desktop(旧 Windsurf)/ Devin CLI / Devin Review** の 4 本柱に統一されています。モデルは独自の SWE 系モデルを中心に、上位プランでは他社フロンティアモデルも選択できます。
+2025 年の Windsurf 買収を経て、2026-08 時点の Cognition 製品は **Devin Cloud(本記事)/ Devin Desktop(旧 Windsurf)/ Devin CLI / Devin Review** の 4 本柱に統一されています。モデルは独自の SWE 系モデルを中心に、上位プランでは他社フロンティアモデルも選択できます。また 2026-06-29 発表の **Devin Fusion**(preview)は、フロンティアモデルの主エージェントに低コストな sidekick モデルを組み合わせるハイブリッド構成のハーネスで、公式ブログはコスト削減効果を発表時の 35% から 2026-08-07 の更新で最大 60% に引き上げています。
 
 他ツールとの最大の違いは承認モデルです: **コマンド単位の事前承認は存在せず、「委任 → 自律実行 → 事後レビュー」型**で運用します。
 
@@ -64,7 +64,7 @@ Devin への「教え込み」は複数の機構に分かれています。
 | **Blueprints** | 実行環境(VM)の宣言的定義 |
 | **Secrets** | 認証情報の管理(保存時暗号化、セッションには環境変数として注入) |
 
-Knowledge / Playbook は API で組織横断的に管理でき、チーム標準の配布が可能です。なお Devin CLI は 2026-07 時点で Knowledge / Playbooks / Secrets に未対応という機能差があります。
+Knowledge / Playbook は API で組織横断的に管理でき、チーム標準の配布が可能です。なお Devin CLI は 2026-08 時点で Knowledge / Playbooks / Secrets に未対応という機能差があります。
 
 ### 権限管理とセキュリティ
 
@@ -120,11 +120,12 @@ Knowledge / Playbook は API で組織横断的に管理でき、チーム標準
 
 ## 参考資料
 
-- [Devin 公式ドキュメント](https://docs.devin.ai/) — 機能・環境・API の一次情報(アクセス日: 2026-07-05)
+- [Devin 公式ドキュメント](https://docs.devin.ai/) — 機能・環境・API の一次情報(アクセス日: 2026-08-18)
 - [When to use Devin](https://docs.devin.ai/essential-guidelines/when-to-use-devin.md) — 公式のタスク適性ガイド(アクセス日: 2026-07-05)
-- [Security(admin)](https://docs.devin.ai/admin/security.md) — 学習利用の既定・SOC 2(アクセス日: 2026-07-05)
+- [Security(admin)](https://docs.devin.ai/admin/security.md) — 学習利用の既定・SOC 2(アクセス日: 2026-08-18)
 - [AI Guardrails](https://docs.devin.ai/enterprise/features/ai-guardrails.md) — Enterprise の防御レイヤー(アクセス日: 2026-07-05)
-- [料金ページ](https://devin.ai/pricing) — プラン体系(アクセス日: 2026-07-05)
+- [Devin Fusion(公式ブログ)](https://cognition.com/blog/devin-fusion) — ハイブリッド構成の発表とコスト削減効果(アクセス日: 2026-08-18)
+- [料金ページ](https://devin.ai/pricing) — プラン体系(アクセス日: 2026-07-05。2026-08-18 は 429 で機械取得できず、[Billing ドキュメント](https://docs.devin.ai/admin/billing/self-serve.md) でプラン・課金の変更なしを確認)
 - [Cognition Trust Center](https://trust.cognition.ai/) — コンプライアンス情報(アクセス日: 2026-07-05)
 
 ## TODO・未確認事項
@@ -133,8 +134,8 @@ Knowledge / Playbook は API で組織横断的に管理でき、チーム標準
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** プラン構成と課金体系(クォータ + クレジット制、Enterprise の ACU)を公式料金ページ・billing ドキュメントで確認する(Windsurf 統合直後で変動余地が大きい。最終確認: 2026-07)
+> **TODO(要確認):** プラン構成と課金体系(クォータ + クレジット制、Enterprise の ACU)を公式料金ページ・billing ドキュメントで確認する(2026-08-18 は devin.ai 直下が 429 のため docs.devin.ai 側で変更なしを確認。最終確認: 2026-08)
 
-> **TODO(要確認):** モデルライン(SWE 系・Devin Fusion)の位置づけと提供プラン条件を確認する(最終確認: 2026-07)
+> **TODO(要確認):** モデルライン(SWE 1.6 の現行の位置づけ・Devin Fusion の提供プラン条件と preview 解除)を確認する(Fusion のコスト削減効果は 2026-08-07 更新の公式ブログで最大 60%。最終確認: 2026-08)
 
-> **TODO(要確認):** Windows VM サポート(限定提供)と Devin CLI の機能ギャップ(Knowledge / Playbooks / Secrets 未対応)の解消状況を確認する(最終確認: 2026-07)
+> **TODO(要確認):** Windows VM サポート(限定提供)と Devin CLI の機能ギャップ(Knowledge / Playbooks / Secrets 未対応)の解消状況を確認する(2026-08 時点でいずれも継続。最終確認: 2026-08)

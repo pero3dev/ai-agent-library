@@ -5,6 +5,16 @@
 - **調査方法**: [CODING-AGENTS-PLAN.md](../../CODING-AGENTS-PLAN.md) §7 のチェックリスト 12 項目。公式ドキュメント(docs.github.com)・GitHub 公式ブログ / Changelog・公式料金ページのみを根拠とし、第三者記事は根拠にしていない
 - **確度の凡例**: 公式明記 / 公式から推測 / 第三者(本メモでは「第三者」を根拠とした事実は記載しない)
 
+## 2026-08-18 定点観測での更新
+
+| 確認した事実 | 出典 URL | 確認日 | 確度 |
+| --- | --- | --- | --- |
+| **学習利用既定の対象プランは「Free / Pro / Pro+ / Max」の 4 プラン**(2026-04-24 発効・オプトアウト方式)。2026-07-05 時点のメモは「Free / Pro / Pro+」と記録していたが、Max も対象であることを確認し docs 本文([github-copilot.md](../../docs/08-coding-agents/github-copilot.md)・比較表・[data-handling-index.md](data-handling-index.md))に反映済み。Business / Enterprise は契約で禁止(不変) | https://github.blog/news-insights/company-news/updates-to-github-copilot-interaction-data-usage-policy/ | 2026-08-18 | 公式明記 |
+| **Spark は非推奨化**: 2026-08-04 告知、**2026-08-31 にアクセス終了**(デプロイ済みアプリは稼働継続)。§12 の Spark 行は過去の記録として残す。**GitHub Models も 2026-07-30 に退役** | https://github.blog/changelog/ (2026-08-04 Spark deprecation / 2026-07-30 GitHub Models retirement) | 2026-08-18 | 公式明記 |
+| GA 化の記録: サードパーティエージェントが生成したコードのセキュリティ検証 GA(2026-06-09)/ **Copilot SDK GA**(2026-06-02)/ **GitHub Copilot App GA**(2026-06-17)/ **code review の Agent Skills + MCP 対応 GA**(2026-07-29) | https://github.blog/changelog/ (各日付) | 2026-08-18 | 公式明記 |
+| 不変を確認: cloud agent 59 分制限・全有料プランで利用可 / プラン 7 種(Free / Student / Pro / Pro+ / Max / Business / Enterprise)/ AI Credits 制(1 credit = $0.01)/ サンドボックス public preview 継続 / Copilot Memory public preview 継続(+ JetBrains 対応 2026-08-11)/ Agentic Workflows public preview 継続 / サードパーティエージェント preview 継続 | https://docs.github.com/en/copilot (各ページ) | 2026-08-18 | 公式明記 |
+| コンテンツ除外: Edit / Agent モード未対応は継続。**「cloud agent は content exclusions を考慮しない」とする従来記述は今回の観測では再確認できず**(§9 の該当行は 2026-07-05 時点の記録。docs 本文は「対応状況未確認・効かない前提が安全」の表現に変更済み) | https://docs.github.com/en/copilot/concepts/context/content-exclusion | 2026-08-18 | 一部未確認 |
+
 ## 2026 年上半期の重要な名称・制度変更(執筆時の最重要注意)
 
 執筆時に旧称・旧制度と混同しやすい変更が 3 件ある。

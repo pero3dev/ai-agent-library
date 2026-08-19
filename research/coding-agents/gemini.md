@@ -5,6 +5,17 @@
 - **調査方法**: [CODING-AGENTS-PLAN.md](../../CODING-AGENTS-PLAN.md) §7 のチェックリスト 12 項目。公式ドキュメント・公式ブログ・公式リポジトリのみを根拠とし、第三者記事は根拠にしていません
 - **記録様式**: `項目 | 確認した事実 | 出典 URL | 確認日 | 確度(公式明記 / 公式から推測 / 第三者)`
 
+## 2026-08-18 定点観測での更新
+
+| 確認した事実 | 出典 URL | 確認日 | 確度 |
+| --- | --- | --- | --- |
+| **Antigravity の製品・プラン詳細を確認(2026-07 の TODO 解消)**: 製品構成は Antigravity 2.0 / Antigravity CLI / Antigravity IDE / SDK。プランは **Individual(無料 $0)/ Google AI Pro / Google AI Ultra / Organization(Google Cloud 経由)**。Gemini 系に加えて **Claude 系モデルにも対応** | <https://antigravity.google/> | 2026-08-18 | 公式明記 |
+| **無料 Gemini API キーの学習ポリシー確定(2026-07 の TODO 解消)**: Gemini API 追加利用規約(2026-03-23 発効)で、**Unpaid Services は提出コンテンツを製品改善に使用**(人手レビューあり得る・機密情報を送らない旨の公式注意あり)、**Paid Services は学習に不使用** | <https://ai.google.dev/gemini-api/terms> | 2026-08-18 | 公式明記 |
+| **consumer 版 GitHub コードレビューは現行 docs から記載消滅**。deprecations にカテゴリあり → サンセット済みとみられる(完了日の一次確認は未了)。enterprise 版は Preview 継続 | <https://developers.google.com/gemini-code-assist/docs/deprecations/code-assist-individuals> | 2026-08-18 | 公式明記(消滅の観察。完了日は未確認) |
+| Code Assist ライセンス経由の学習不使用(CDPA 準拠)は継続 | <https://docs.cloud.google.com/gemini/docs/discover/data-governance> | 2026-08-18 | 公式明記 |
+| Jules: Public Beta・個人 Google アカウントのみ・利用制限値(15 / 100 / 300 タスク/日等)は同値で継続。**Business / Enterprise 向けは interest form の受付のみ** | <https://jules.google/docs> | 2026-08-18 | 公式明記 |
+| 個人向け提供終了(2026-06-18)の告知内容に変更なし。**Gemini CLI リポジトリ README には旧記載(個人無料枠)が残存**(矛盾継続。廃止告知ページが正) | <https://github.com/google-gemini/gemini-cli> | 2026-08-18 | 公式明記(矛盾の観察) |
+
 > **最重要(執筆前に必読):** 2026-06-18 に個人向け(consumer)提供が大きく再編されました。**Gemini Code Assist for individuals(個人無料版)、Google AI Pro / Ultra 経由の利用は、Gemini Code Assist IDE 拡張・Gemini CLI ともに提供停止**され、移行先として **Antigravity ファミリー(Antigravity CLI 含む)** が案内されています。Code Assist Standard / Enterprise ライセンスと有料 API キー経由の利用は継続です。2026 年 1 月以前の知識(「Gemini CLI は個人 Google アカウントで無料 60 req/分・1,000 req/日」等)のまま書くと誤りになります。詳細は各節参照。
 
 ## 3 製品の関係(読者の混乱点の整理)

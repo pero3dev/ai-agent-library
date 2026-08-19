@@ -7,6 +7,18 @@
 - **確度の凡例**: 公式明記 / 公式から推測
 - **補足**: developers.openai.com のドキュメントは URL 末尾に `.md` を付けると raw Markdown を取得できる(例: `/codex/pricing.md`)。定点観測に便利
 
+## 2026-08-18 定点観測での更新
+
+| 確認した事実 | 出典 URL | 確認日 | 確度 |
+| --- | --- | --- | --- |
+| **公式 docs が learn.chatgpt.com/docs へ移転**(旧 developers.openai.com/codex 系 URL は 308 リダイレクトで生存)。本メモの旧 URL 出典はリダイレクトで到達可能。pricing の定点観測 URL は <https://learn.chatgpt.com/docs/pricing> に更新 | <https://learn.chatgpt.com/docs> | 2026-08-18 | 公式明記 |
+| **gpt-5.6 ファミリーのクレジットレート**(入力 / キャッシュ済み入力 / 出力): Sol 125 / 12.5 / 750、Terra 50 / 5 / 300、Luna 5 / 0.5 / 30。GPT-5.4 mini は 18.75 / 1.875 / 113(2026-08-31 に Codex から退役予定)。**キャッシュ済み入力 = 通常入力の 1/10 の関係は不変** | <https://learn.chatgpt.com/docs/pricing> | 2026-08-18 | 公式明記 |
+| **Fast mode の消費倍率が明細化**: GPT-5.6 / 5.5 系 = 2.5 倍、GPT-5.4 = 2 倍(docs 本文の「2〜2.5 倍」のレンジ表記は維持可能) | <https://learn.chatgpt.com/docs/speed> | 2026-08-18 | 公式明記 |
+| 軽量モデルの公式案内は mini 系から **gpt-5.6-luna 等**へ移行(gpt-5.4-mini 退役に伴う) | <https://learn.chatgpt.com/docs/models> | 2026-08-18 | 公式明記 |
+| プラン別の 5 時間ウィンドウ + 週次の制限構造・超過クレジット制・Code Review 別枠の扱いに変更なし | <https://learn.chatgpt.com/docs/pricing> | 2026-08-18 | 公式明記 |
+| CLI は 0.146 / 0.147 系。**Agent Plugins** の追加、**MCP 2026-07-28 仕様への対応**を確認 | <https://github.com/openai/codex/releases> | 2026-08-18 | 公式明記 |
+| help.openai.com のレートカード記事は 2026-08-18 も直接取得 403 継続 | — | 2026-08-18 | 未確認(機械取得不能) |
+
 ## 1. 機能の使いどころ
 
 ### 1-1. ローカル ⇔ クラウドの使い分けとハンドオフ

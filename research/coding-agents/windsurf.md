@@ -10,6 +10,17 @@
   - cognition.ai は cognition.com へ 301 リダイレクト(確認日 2026-07-05)
   - ただし **JetBrains 等の既存 IDE 向けプラグインは「Windsurf Plugins」ブランドのまま存続**(下記 §2)。「Windsurf」という名前が完全に消えたわけではない
 
+## 2026-08-18 定点観測での更新
+
+| 確認した事実 | 出典 URL | 確認日 | 確度 |
+| --- | --- | --- | --- |
+| **Devin Local の「preview」ラベルが公式ドキュメント本体から消滅**。「Subagents (Preview)」のみ Preview 表記が残る。GA の明示宣言も見当たらないため、「preview」とも「GA」とも断定しない(docs 本文は表現を修正済み) | <https://docs.devin.ai/desktop> | 2026-08-18 | 公式明記(ラベル消滅の観察) |
+| レガシー Cascade の実際の提供終了は一次確定できず。FAQ は「through July」の表記のまま、changelog(v3.6.21)にはレガシー Cascade 併存の兆候あり | <https://docs.devin.ai/desktop/devin-desktop-faq.md> | 2026-08-18 | 未確認(継続監視) |
+| プラン・料金に変更なし(FAQ「Pricing is unchanged.」の記載継続)。**devin.ai 直下は 429 で機械取得できず**、docs.devin.ai 側で確認 | <https://docs.devin.ai/desktop/devin-desktop-faq.md> | 2026-08-18 | 公式明記 |
+| ACU 統合は進行の傍証のみ: changelog v3.7.16 に Enterprise 向け「ACU thresholds」の記載。正確な換算・統合状況は引き続き未確認 | <https://docs.devin.ai/desktop/changelog> | 2026-08-18 | 公式明記(傍証のみ) |
+| **個人向け利用規約ページが 429 で再確認不能**。学習利用の既定(Autocomplete 既定使用・Chat のオプトアウト制約)は 2026-04-14 版準拠の現記述を維持 | <https://devin.ai/windsurf/terms-of-service-individual/> | 2026-08-18 | 未確認(機械取得不能) |
+| Windsurf Plugins(JetBrains 含む)の存続、Devin Local の Memories セッション間永続化の未対応、いずれも継続。開発は活発(**v3.7.25 = 2026-08-13 リリース**) | <https://docs.devin.ai/desktop/changelog> | 2026-08-18 | 公式明記 |
+
 ## 提供体制の経緯(最重要確認項目)
 
 2026-07-05 時点の結論: **提供元は Cognition。旧 Windsurf(専用 IDE)は「Devin Desktop」に改名され、Devin 製品ファミリーの一部として活発に開発継続中**(最新リリース v3.4.22 は 2026-07-04 付で、調査日前日まで更新が続いている)。

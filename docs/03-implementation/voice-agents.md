@@ -3,7 +3,7 @@ title: "音声エージェントの実装"
 category: "implementation"
 level: "advanced"
 status: "published"
-last_updated: "2026-07-07"
+last_updated: "2026-08-18"
 tags: ["voice-agents", "streaming", "multimodal"]
 ---
 
@@ -54,7 +54,7 @@ flowchart TB
 | 会話の自然さ | ターン検出・割り込みを自前(またはミドルウェア)で組む | 割り込み・ターンテイキングが API 標準機能 |
 | 部品の差し替え | STT・LLM・TTS を個別に選定・交換できる | モデルとベンダーに一体で依存する |
 
-選択の目安です。**電話応対のような自然な会話体験が主目的**で、割り込みへの即応が要るなら speech-to-speech 型が有利です。**各段の可視性が必須**(発話前のポリシーチェック、承認ゲート、確定的な会話ログ)な業務や、**既存のテキスト Agent を音声化**する場合はパイプライン型が堅実です。2026-07 時点では、speech-to-speech の API は主要ベンダーの一部が一般提供・一部がプレビュー段階で、パイプライン型を公式の想定構成とするベンダーもあります。提供状況は変化が速いため、選定時に各社公式ドキュメントで確認してください(調査記録: `research/professional/voice-agents.md`)。
+選択の目安です。**電話応対のような自然な会話体験が主目的**で、割り込みへの即応が要るなら speech-to-speech 型が有利です。**各段の可視性が必須**(発話前のポリシーチェック、承認ゲート、確定的な会話ログ)な業務や、**既存のテキスト Agent を音声化**する場合はパイプライン型が堅実です。2026-08 時点では、speech-to-speech の API は主要ベンダーの一部が一般提供・一部がプレビュー段階で、パイプライン型を公式の想定構成とするベンダーもあります。提供状況は変化が速いため、選定時に各社公式ドキュメントで確認してください(調査記録: `research/professional/voice-agents.md`)。
 
 なお両者は排他ではありません。「検証はパイプライン型で始めて資産(プロンプト・評価)を作り、体験要件が確認できたら speech-to-speech に載せ替える」という段階的な進め方も現実的です。
 
@@ -64,7 +64,7 @@ flowchart TB
 
 - **パイプライン型は「全段ストリーミング」が定石**: STT の逐次確定 → LLM のストリーミング出力を文単位で区切る → 文ごとに TTS へ流す、という構成で、全文完成を待たずに話し始められます。体感レイテンシを 3 割前後下げた公式実測例もあります([ストリーミングと Agent の UX 実装パターン](streaming-and-agent-ux.md)の音声版です)
 - **段ごとに計測する**: STT 確定まで・LLM の最初のトークンまで・TTS の最初の音声チャンクまで、を分けて計測し、どこがボトルネックかを特定します。平均でなく分布(p95)で管理します
-- **接続方式**: ブラウザ・モバイルなどクライアント直結は WebRTC、サーバー間は WebSocket、という使い分けが公式に案内されています。電話は SIP 接続や電話基盤(CPaaS)経由の統合が提供されており、自前で音声搬送を作る必要はほぼありません(2026-07 時点)
+- **接続方式**: ブラウザ・モバイルなどクライアント直結は WebRTC、サーバー間は WebSocket、という使い分けが公式に案内されています。電話は SIP 接続や電話基盤(CPaaS)経由の統合が提供されており、自前で音声搬送を作る必要はほぼありません(2026-08 時点)
 - **沈黙を埋める**: 処理が長引く場面では、つなぎの発話(「確認しますね」)で沈黙を埋めます。次節のツール実行と組み合わせて設計します
 
 ### 会話制御: ターン検出と割り込み
@@ -77,7 +77,7 @@ flowchart TB
 
 音声エージェントも行動はツール呼び出しです。音声固有の設計点は次のとおりです。
 
-- **音声セッション中の function calling**: 主要な speech-to-speech API はリアルタイムセッション中のツール呼び出しに対応しています(2026-07 時点)。パイプライン型では LLM 段で通常どおりツールを使います
+- **音声セッション中の function calling**: 主要な speech-to-speech API はリアルタイムセッション中のツール呼び出しに対応しています(2026-08 時点)。パイプライン型では LLM 段で通常どおりツールを使います
 - **ツール実行中の沈黙**: 数秒かかるツールの間、無言だと体験が壊れます。対策は (1) 実行前にひとこと発話(「調べますね」)、(2) ツール実行中も会話を継続できる非同期ツール実行(対応 API がある)、(3) 長い処理は「調べて折り返します」で会話を閉じ、完了後に通知する([非同期・長時間タスクの設計(耐久実行)](../02-architecture/async-and-durable-agents.md)への接続)
 - **高リスク操作の承認を音声だけにしない**: 「はい」の一言を不可逆操作(送金・解約)の承認にすると、聞き間違い・言い間違い・本人性の問題を抱えます。金額や対象の**復唱確認**を最低限とし、リスクが高い操作は別チャネル(アプリ・SMS)での確認を挟みます([Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md))
 
@@ -130,10 +130,10 @@ flowchart TB
 ## 参考資料
 
 - [Voice agents(OpenAI)](https://developers.openai.com/api/docs/guides/voice-agents) — speech-to-speech とパイプラインの 2 択整理と使い分けの公式ガイド(アクセス日: 2026-07-07)
-- [Gemini Live API(Google)](https://ai.google.dev/gemini-api/docs/live-api) — リアルタイム音声対話 API の例(2026-07 時点で Preview)(アクセス日: 2026-07-07)
-- [Amazon Nova speech-to-speech(AWS)](https://docs.aws.amazon.com/nova/latest/nova2-userguide/using-conversational-speech.html) — 双方向ストリームと非同期ツール実行の例(アクセス日: 2026-07-07)
-- [Low-latency voice assistant with ElevenLabs + Claude(Anthropic Cookbook)](https://platform.claude.com/cookbook/third-party-elevenlabs-low-latency-stt-claude-tts) — パイプライン型の実装とレイテンシ実測の公式例(アクセス日: 2026-07-07)
+- [Gemini Live API(Google)](https://ai.google.dev/gemini-api/docs/live-api) — リアルタイム音声対話 API の例。2026-08 時点で Gemini Developer API 版は Preview、Vertex AI 版は 2025-12-13 に GA(Gemini 2.5 Flash Native Audio)(アクセス日: 2026-08-18)
+- [Amazon Nova speech-to-speech(AWS)](https://docs.aws.amazon.com/nova/latest/nova2-userguide/using-conversational-speech.html) — 双方向ストリームと非同期ツール実行の例(アクセス日: 2026-08-18)
+- [Low-latency voice assistant with ElevenLabs + Claude(Anthropic Cookbook)](https://platform.claude.com/cookbook/third-party-elevenlabs-low-latency-stt-claude-tts) — パイプライン型の実装とレイテンシ実測の公式例(アクセス日: 2026-08-18)
 
 ## TODO・未確認事項
 
-> **TODO(要確認):** 各社のリアルタイム音声 API の提供状況(GA / Preview)・モデル名・セッション上限・電話統合の対応先は変化が速い。選定時に各社公式ドキュメントで最新を確認する(一次情報の記録: `research/professional/voice-agents.md`)(最終確認: 2026-07)
+> **TODO(要確認):** 各社のリアルタイム音声 API の提供状況(GA / Preview)・モデル名・セッション上限・電話統合の対応先は変化が速い。選定時に各社公式ドキュメントで最新を確認する(一次情報の記録: `research/professional/voice-agents.md`)(最終確認: 2026-08)

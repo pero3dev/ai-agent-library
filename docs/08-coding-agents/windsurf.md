@@ -3,7 +3,7 @@ title: "Windsurf(現: Devin Desktop)"
 category: "coding-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-07-06"
+last_updated: "2026-08-18"
 tags: ["coding-agents", "mcp"]
 ---
 
@@ -27,7 +27,7 @@ tags: ["coding-agents", "mcp"]
 
 ## 本文
 
-> **最終確認日:** 2026-07-05 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
+> **最終確認日:** 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
 
 ### 概要
 
@@ -40,14 +40,14 @@ Windsurf は Codeium を前身とする専用 IDE 型のコーディングエー
 | 2026-04 | 「Windsurf 2.0」— Agent Command Center と「Devin in Windsurf」(エディタからクラウドの Devin へ委任) |
 | 2026-06-02 | **「Devin Desktop」へ改名**(プラン・料金・拡張・設定は自動引き継ぎ)。中核エージェントも Cascade から「Devin Local」(Rust 製の新ハーネス、preview)へ移行開始 |
 
-2026-07 時点の結論: **提供元は Cognition。製品は Devin ファミリーの一員として活発に開発が継続しています**(調査日前日まで新バージョンがリリースされています)。「Windsurf」の名前は、既存 IDE(JetBrains / VS Code / Vim 等)向けの「Windsurf Plugins」に残っています。
+2026-08 時点の結論: **提供元は Cognition。製品は Devin ファミリーの一員として活発に開発が継続しています**(2026-08-13 リリースの v3.7.25 まで確認)。「Windsurf」の名前は、既存 IDE(JetBrains / VS Code / Vim 等)向けの「Windsurf Plugins」に残っています。
 
 ### 提供形態と実行環境
 
 | 面 | 内容 | 実行場所 |
 | --- | --- | --- |
 | Devin Desktop(旧 Windsurf) | 専用 IDE(VS Code 系と後方互換)。macOS / Windows / Linux | ローカル |
-| Devin Local(旧 Cascade の後継) | IDE 内エージェント(preview)。Devin CLI と共通ハーネス | ローカル |
+| Devin Local(旧 Cascade の後継) | IDE 内エージェント。Devin CLI と共通ハーネス(2026-08 時点で本体の preview 表記は外れ、Subagents のみ「Preview」。GA の明示宣言は未確認) | ローカル |
 | Windsurf Plugins | JetBrains / VS Code / Visual Studio / Vim / Emacs / Xcode 等の既存 IDE 向けプラグイン | ローカル |
 | Devin CLI | ローカルの CLI エージェント(macOS / Linux / WSL / Windows) | ローカル |
 | クラウド委任 | エディタから Devin(クラウド)へタスクを委任し PR をエディタ内レビュー(全プランに含まれる) | クラウド([Devin](devin.md)) |
@@ -60,14 +60,14 @@ Windsurf は Codeium を前身とする専用 IDE 型のコーディングエー
 - **ファイル編集**: 編集はエディタ内の diff 領域で hunk 単位に承認・却下できます。Cascade の変更はプロンプト単位で巻き戻せます(巻き戻しの取り消しは不可)
 - **コマンド実行**: Cascade の自動実行レベルは 4 段階(Disabled / Allowlist Only / Auto / Turbo)+ 許可・拒否リストです。新しい Devin Local は **Deny / Ask / Allow ルール × スコープ(読取 / 書込 / コマンド / HTTP / MCP)× 階層(プロジェクト / ユーザー / 組織)** の権限モデルに再設計されています
 
-**移行期の注意**: 2026-07 時点はレガシー Cascade から Devin Local への移行期で、両方の仕様が公式ドキュメントに併存しています。設定を調べる際はどちらのエージェントの仕様かを確認してください。
+**移行期の注意**: 2026-08 時点もレガシー Cascade から Devin Local への移行期で、両方の仕様が公式ドキュメントに併存しています。設定を調べる際はどちらのエージェントの仕様かを確認してください。
 
 ### 設定ファイルとカスタマイズ
 
 - ワークスペースルールは `.devin/rules/*.md` が推奨です(レガシー `.windsurf/rules/`・`.windsurfrules` は後方互換)。グローバルルールは `global_rules.md` です
 - **AGENTS.md に対応**しています(ルートは常時適用、サブディレクトリは自動 glob 適用)
 - ルール適用モードは 4 種(always_on / model_decision / glob / manual)です
-- **Memories**: Cascade が会話から自動生成するメモがローカルに保存されます。チーム共有にはルールまたは AGENTS.md への転記が公式推奨です。なお Devin Local は preview 段階で Memories のセッション間永続化に未対応で、代わりに Devin CLI と共通の **Skills**(再利用可能な指示バンドル)を使います
+- **Memories**: Cascade が会話から自動生成するメモがローカルに保存されます。チーム共有にはルールまたは AGENTS.md への転記が公式推奨です。なお Devin Local は 2026-08 時点で Memories のセッション間永続化に未対応で、代わりに Devin CLI と共通の **Skills**(再利用可能な指示バンドル)を使います
 - 改名に伴い設定パスが移行中で、`~/.devin/`・`~/.windsurf/`・旧 Codeium 時代の `~/.codeium/windsurf/` が**混在**しています。ドキュメント参照時は要注意です
 
 ### 権限管理とセキュリティ
@@ -96,7 +96,7 @@ Windsurf は Codeium を前身とする専用 IDE 型のコーディングエー
 **向き不向き(特性として)**:
 
 - 向く: Devin(クラウド)と IDE を一体で使いたいチーム(委任 → エディタ内 PR レビューの往復が製品として統合されている)、ACP で複数エージェントを 1 つの IDE に集約したい場合、既存 IDE を変えられない人向けのプラグイン経路があること
-- 注意が要る: **買収・改名・エージェント移行(Cascade → Devin Local)が直近で起きており、情報の鮮度リスクがこの章の中で最も高い製品です**。ドキュメント・設定パス・課金単位が移行期の混在状態にあるため、導入評価は最新の公式情報で行い、preview 段階の機能(Devin Local)への依存度を確認してください
+- 注意が要る: **買収・改名・エージェント移行(Cascade → Devin Local)が直近で起きており、情報の鮮度リスクがこの章の中で最も高い製品です**。ドキュメント・設定パス・課金単位が移行期の混在状態にあるため、導入評価は最新の公式情報で行い、移行途上・Preview 段階の機能(Devin Local の Subagents 等)への依存度を確認してください
 
 ## 実務での注意点
 
@@ -111,7 +111,7 @@ Windsurf は Codeium を前身とする専用 IDE 型のコーディングエー
 - [ ] 評価に使った情報が改名(2026-06)後の公式ドキュメントか
 - [ ] 利用プランの学習利用の既定とオプトアウト(Data Controls / ZDR)を確認したか
 - [ ] リモートインデックス利用時のデータフロー(埋め込み共有・コード削除)を組織ポリシーと突き合わせたか
-- [ ] Devin Local(preview)への依存箇所と、レガシー Cascade の提供終了影響を確認したか
+- [ ] Devin Local への依存箇所と、レガシー Cascade の提供終了影響を確認したか
 - [ ] ACP で外部エージェントを使う場合、プライバシーポリシー適用外になることをチームが理解しているか
 
 ## 関連トピック
@@ -126,9 +126,9 @@ Windsurf は Codeium を前身とする専用 IDE 型のコーディングエー
 - [Devin Desktop(旧 Windsurf)公式ページ](https://devin.ai/desktop) — 現在の製品ポジション(アクセス日: 2026-07-05)
 - [Windsurf is now Devin Desktop(改名告知)](https://devin.ai/blog/windsurf-is-now-devin-desktop/) — 改名と Devin Local の発表(アクセス日: 2026-07-05)
 - [Cognition の買収発表](https://cognition.com/blog/windsurf) — 2025-07-14 の一次情報(アクセス日: 2026-07-05)
-- [Devin Desktop ドキュメント](https://docs.devin.ai/desktop) — 機能・権限・管理の一次情報(アクセス日: 2026-07-05)
-- [個人向け利用規約](https://devin.ai/windsurf/terms-of-service-individual/) — 学習利用の既定(アクセス日: 2026-07-05)
-- [料金ページ](https://devin.ai/pricing) — Devin ファミリー統合後のプラン(アクセス日: 2026-07-05)
+- [Devin Desktop ドキュメント](https://docs.devin.ai/desktop) — 機能・権限・管理の一次情報(アクセス日: 2026-08-18)
+- [個人向け利用規約](https://devin.ai/windsurf/terms-of-service-individual/) — 学習利用の既定(アクセス日: 2026-07-05。2026-08-18 はページが 429 で機械取得できず再確認未了)
+- [料金ページ](https://devin.ai/pricing) — Devin ファミリー統合後のプラン(アクセス日: 2026-07-05。2026-08-18 は 429 で機械取得できず。改名 FAQ の「料金は変更なし」の記載は継続)
 
 ## TODO・未確認事項
 
@@ -136,8 +136,10 @@ Windsurf は Codeium を前身とする専用 IDE 型のコーディングエー
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** レガシー Cascade の提供終了時期(公式内で「2026-07-01 まで」と「7 月いっぱい」の表記揺れあり)と Devin Local(preview)の GA 化を changelog で確認する(最終確認: 2026-07)
+> **TODO(要確認):** レガシー Cascade の実際の提供終了と Devin Local の GA 明示宣言の有無を changelog・公式 FAQ で確認する(2026-08-18 時点も FAQ は「7 月いっぱい」の表記のままで実終了は一次確定できず、changelog にはレガシー Cascade 併存の兆候あり。Devin Local 本体の preview 表記は外れたが GA 宣言も未確認。最終確認: 2026-08)
 
-> **TODO(要確認):** プラン構成・クレジットと ACU の統合状況を料金ページで確認する(最終確認: 2026-07)
+> **TODO(要確認):** プラン構成・クレジットと ACU の統合状況を料金ページで確認する(2026-08-18 は devin.ai 直下が 429 で機械取得できず。v3.7.16 の changelog に Enterprise 向け ACU thresholds の記載があり統合進行の傍証のみ。最終確認: 2026-08)
 
-> **TODO(要確認):** 「Windsurf Plugins」ブランドの存続と機能範囲(Cascade 系機能の提供状況)を確認する(最終確認: 2026-07)
+> **TODO(要確認):** 「Windsurf Plugins」ブランドの存続と機能範囲(Cascade 系機能の提供状況)を確認する(2026-08 時点で JetBrains plugin の存続を確認。最終確認: 2026-08)
+
+> **TODO(要確認):** 個人向け利用規約(2026-04 版)の学習利用の既定(Autocomplete 既定使用・Chat のオプトアウト制約)を再確認する(2026-08-18 時点でページが 429 のため再確認未了。本文は 2026-04 版準拠。最終確認: 2026-08)

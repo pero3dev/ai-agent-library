@@ -3,7 +3,7 @@ title: "OpenAI Codex 実践ガイド"
 category: "coding-agents"
 level: "intermediate"
 status: "published"
-last_updated: "2026-07-06"
+last_updated: "2026-08-18"
 tags: ["coding-agents", "cost-management", "prompt-caching"]
 ---
 
@@ -25,7 +25,7 @@ OpenAI Codex の機能(ローカル / クラウドの各面・スキル・サブ
 
 ## 本文
 
-> **最終確認日:** 2026-07-06 — 本記事の機能・消費の仕様はこの日付時点の公式ドキュメントに基づきます。制限値・レートは特に変わりやすいため、必ず公式ページ(参考資料)で最新値を確認してください。
+> **最終確認日:** 2026-08-18 — 本記事の機能・消費の仕様はこの日付時点の公式ドキュメントに基づきます。制限値・レートは特に変わりやすいため、必ず公式ページ(参考資料)で最新値を確認してください。
 
 ### 面の使い分けとハンドオフ
 
@@ -59,17 +59,17 @@ Codex は拡張機構が多いため、公式の使い分け指針(Customization
 
 ### コスト削減: 制限の構造とレバー
 
-**構造の理解が先です**(2026-07 時点): ローカルのメッセージとクラウドタスクは**同一の 5 時間ウィンドウを共有**し、週次制限が追加で適用されます。表向きは「メッセージ数」ですが内部の計量はトークンベースのクレジットで、モデル・入出力・キャッシュ有無でレートが異なります。
+**構造の理解が先です**(2026-08 時点): ローカルのメッセージとクラウドタスクは**同一の 5 時間ウィンドウを共有**し、週次制限が追加で適用されます。表向きは「メッセージ数」ですが内部の計量はトークンベースのクレジットで、モデル・入出力・キャッシュ有無でレートが異なります。
 
 そのうえで、公式が明記する節約レバーは次のとおりです。
 
 1. **プロンプトと注入コンテキストの削減** — 不要なコンテキストを削る、AGENTS.md を階層にネストして「そのディレクトリで必要な分だけ」注入する
 2. **MCP サーバーの絞り込み** — 接続した MCP はすべてコンテキストを太らせ、制限を消費します。使っていないものは外します
-3. **軽量モデルへの切替** — ルーチンタスクは軽量系(mini 系)へ。サブエージェントにも軽量モデルを割り当てるのが公式の想定です
+3. **軽量モデルへの切替** — ルーチンタスクは軽量系(gpt-5.6-luna 等)へ(従来案内されていた gpt-5.4-mini は 2026-08-31 に Codex から退役予定)。サブエージェントにも軽量モデルを割り当てるのが公式の想定です
 4. **推論レベルをタスクに合わせる** — 速いタスクは Low、複雑な変更だけ High 以上に
 5. **スレッドはタスク単位** — 「プロジェクト単位の 1 スレッド運用」は公式の「よくある間違い」リストに載っています。肥大化したスレッドの継続は消費を膨らませます([コスト最適化](coding-agent-cost-optimization.md) の一般原則どおり)
 
-相対関係として押さえる価値がある事実(2026-07 時点、絶対値は変動): **キャッシュ済み入力は通常入力の約 1/10 のレート**(同一スレッドの継続はキャッシュが効きやすい)、**Fast mode は速度 1.5 倍の代わりに消費 2〜2.5 倍**(急がないタスクでは切るのが明確な節約)、モデル間の入力レートは数倍差があります。
+相対関係として押さえる価値がある事実(2026-08 時点、絶対値は変動): **キャッシュ済み入力は通常入力の約 1/10 のレート**(同一スレッドの継続はキャッシュが効きやすい)、**Fast mode は速度 1.5 倍の代わりに消費 2〜2.5 倍**(急がないタスクでは切るのが明確な節約)、モデル間の入力レートには数倍〜数十倍の差があります。
 
 - 逆に、**サブエージェントの多用は消費を増やします**(「同等の単一エージェント実行よりトークンを消費する」と公式明記)。並列化の便益と消費のトレードオフで判断してください
 - 残量確認は CLI の `/status` と Web の使用量ダッシュボードです。コンパクションは自動(閾値は `model_auto_compact_token_limit` で調整可)+ 手動 `/compact` があります
@@ -103,7 +103,7 @@ Codex は拡張機構が多いため、公式の使い分け指針(Customization
 
 - **1 つのスレッドをプロジェクト全体で使い続ける** — 消費が毎ターン膨らみ、品質も落ちます(公式の「よくある間違い」筆頭)。→ タスク単位でスレッドを切り、`/compact`・新スレッドを使い分けます
 - **MCP・サブエージェントを「便利そうだから」全部盛りにする** — 常時コンテキストと消費が増え、制限に早く当たります。→ 公式の導入順序(AGENTS.md → スキル → MCP → サブエージェント)に従い、使っていないものを外します
-- **Fast mode を常時オンにする** — 消費が 2〜2.5 倍(2026-07 時点)になります。→ 対話的な反復など速度が効く場面に限定します
+- **Fast mode を常時オンにする** — 消費が 2〜2.5 倍(2026-08 時点)になります。→ 対話的な反復など速度が効く場面に限定します
 - **手動で安定していないワークフローを automations・自動レビューに載せる** — 失敗が定期的に量産されます。→ 通常スレッドで成功パターンを固めてから自動化します([自動化パターン](coding-agent-automation-patterns.md))
 
 ### チェックリスト
@@ -124,12 +124,12 @@ Codex は拡張機構が多いため、公式の使い分け指針(Customization
 
 ## 参考資料
 
-- [Codex Best Practices(公式)](https://developers.openai.com/codex/learn/best-practices) — プロンプト 4 要素・よくある間違い(アクセス日: 2026-07-06)
-- [Codex Workflows(公式)](https://developers.openai.com/codex/workflows) — 面別の使い分けとハンドオフ(アクセス日: 2026-07-06)
-- [Codex pricing(公式)](https://developers.openai.com/codex/pricing) — 制限の構造・節約テクニック・レート(アクセス日: 2026-07-06)
-- [Non-interactive mode(公式)](https://developers.openai.com/codex/noninteractive) — `codex exec` の仕様(アクセス日: 2026-07-06)
-- [GitHub integration(公式)](https://developers.openai.com/codex/integrations/github) — 自動レビューと Review guidelines(アクセス日: 2026-07-06)
-- [Customization(公式)](https://developers.openai.com/codex/concepts/customization) — 拡張機構の使い分け指針(アクセス日: 2026-07-06)
+- [Codex Best Practices(公式)](https://learn.chatgpt.com/docs/learn/best-practices) — プロンプト 4 要素・よくある間違い。公式 docs は 2026-08 時点で ChatGPT との統合サイト(learn.chatgpt.com)へ移転済み(旧 developers.openai.com/codex 系 URL は 308 リダイレクトで生存)(アクセス日: 2026-08-18)
+- [Codex Workflows(公式)](https://learn.chatgpt.com/docs/workflows) — 面別の使い分けとハンドオフ(アクセス日: 2026-08-18)
+- [Codex pricing(公式)](https://learn.chatgpt.com/docs/pricing) — 制限の構造・節約テクニック・レート(アクセス日: 2026-08-18)
+- [Non-interactive mode(公式)](https://learn.chatgpt.com/docs/noninteractive) — `codex exec` の仕様(アクセス日: 2026-08-18)
+- [GitHub integration(公式)](https://learn.chatgpt.com/docs/integrations/github) — 自動レビューと Review guidelines(アクセス日: 2026-08-18)
+- [Customization(公式)](https://learn.chatgpt.com/docs/concepts/customization) — 拡張機構の使い分け指針(アクセス日: 2026-08-18)
 
 ## TODO・未確認事項
 
@@ -137,6 +137,6 @@ Codex は拡張機構が多いため、公式の使い分け指針(Customization
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** プラン別の 5 時間ウィンドウ制限値・モデル別クレジットレート・Fast mode の倍率を公式ページ(developers.openai.com/codex/pricing・/speed・/models)で確認する(数値は 2026-07 時点の相対関係のみ本文に記載。最終確認: 2026-07)
+> **TODO(要確認):** プラン別の 5 時間ウィンドウ制限値・モデル別クレジットレート・Fast mode の倍率を公式ページ(learn.chatgpt.com/docs/pricing・/docs/speed・/docs/models)で確認する(数値は 2026-08 時点の相対関係のみ本文に記載。最終確認: 2026-08)
 
-> **TODO(要確認):** help.openai.com のレートカード記事(2026-07 時点で直接取得 403)の本文をブラウザで確認する(最終確認: 2026-07)
+> **TODO(要確認):** help.openai.com のレートカード記事(2026-08-18 時点も直接取得 403)の本文をブラウザで確認する(最終確認: 2026-08)

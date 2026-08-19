@@ -3,7 +3,7 @@ title: "主要コーディングエージェント比較"
 category: "coding-agents"
 level: "intermediate"
 status: "published"
-last_updated: "2026-07-06"
+last_updated: "2026-08-18"
 tags: ["coding-agents"]
 ---
 
@@ -24,7 +24,7 @@ tags: ["coding-agents"]
 
 ## 本文
 
-> **最終確認日:** 2026-07-05 — 全表の内容はこの日付時点の各公式情報に基づきます(各ツール別記事の調査と同一時点)。この分野は月単位で変わるため、意思決定の際は必ず各ツールページと一次情報を確認してください。
+> **最終確認日:** 2026-08-18(Claude Code / Cursor / GitHub Copilot の行)/ 2026-07-05(その他のツールの行)— 全表の内容は各日付時点の各公式情報に基づきます(各ツール別記事の調査と同一時点)。この分野は月単位で変わるため、意思決定の際は必ず各ツールページと一次情報を確認してください。
 
 ### 概要と読み方
 
@@ -62,12 +62,12 @@ tags: ["coding-agents"]
 
 | ツール | 実行場所 | サンドボックス | 承認モデル(既定) | 学習利用の既定 |
 | --- | --- | --- | --- | --- |
-| Claude Code | ローカル(+ クラウド VM) | 内蔵(**既定オフ**。Win ネイティブ非対応) | 都度承認(6 モード、deny → ask → allow) | Consumer: ユーザー設定次第で利用 / Commercial: 不使用 |
+| Claude Code | ローカル(+ クラウド VM) | 内蔵(**既定オフ**。Win ネイティブ非対応) | Pro/Max/Team: 既定 auto(分類器レビュー)/ Enterprise・API 経由: 都度承認(Manual)(全 6 モード、deny → ask → allow) | Consumer: ユーザー設定次第で利用 / Commercial: 不使用 |
 | OpenAI Codex | ローカル(+ クラウドコンテナ) | **既定で有効**(workspace-write)+ ネットワーク既定オフ | サンドボックスモード × 承認ポリシーの 2 軸 | 個人: ChatGPT 設定に従い利用されうる / Business 以上: 不使用 |
 | Gemini CLI | ローカル | オプトイン(5 方式から選択) | 都度承認(auto_edit / plan、全自動はフラグ限定) | ライセンス経由: 不使用 / 無料 API キー: 要確認 |
 | Gemini Code Assist | ローカル IDE | ? | 承認制(自動承認はオプトイン) | 不使用(公式明記) |
 | Jules | クラウド VM | VM 隔離 | 計画承認 → 自律実行 | プライベートリポジトリで不使用(公式明記) |
-| GitHub Copilot | IDE ローカル + GitHub Actions | preview(ローカル / クラウド) | IDE: 承認制 / cloud agent: 事後型 + 多層ゲート(ブランチ・ワークフロー承認・FW) | Free/Pro/Pro+: **既定で利用**(オプトアウト可)/ Business 以上: 契約で禁止 |
+| GitHub Copilot | IDE ローカル + GitHub Actions | preview(ローカル / クラウド) | IDE: 承認制 / cloud agent: 事後型 + 多層ゲート(ブランチ・ワークフロー承認・FW) | Free/Pro/Pro+/Max: **既定で利用**(オプトアウト可)/ Business 以上: 契約で禁止 |
 | Cursor | ローカル(+ クラウド VM) | macOS / Linux(Run Modes 内) | Auto-review(許可リスト + 分類器) | Privacy Mode 無効時: 利用 / 有効時: 不使用(Enterprise は既定オン + 強制可) |
 | Windsurf / Devin Desktop | ローカル | Devin Local が対応(組織強制可) | Cascade: 4 段階レベル / Devin Local: Deny・Ask・Allow × スコープ | 個人: 既定で利用(オプトアウト可、Chat は制約)/ Enterprise: 不使用 |
 | Devin | クラウド VM(セッション毎隔離) | VM 隔離が前提 | **事前承認なし**(委任 → 事後レビュー + Enterprise Guardrails) | セルフサーブ: **既定で利用**(オプトアウト可)/ Enterprise: 不使用 |
@@ -118,7 +118,7 @@ tags: ["coding-agents"]
 
 ### アンチパターン
 
-- **この表だけで最終決定する** — 表は 2026-07-05 時点のスナップショットで、○ の深さも表現できていません。→ 候補を絞る道具として使い、決定は各ツールページ + 一次情報 + 社内試用([評価](coding-agent-evaluation.md))で行います
+- **この表だけで最終決定する** — 表は 2026-08-18(Claude Code / Cursor / GitHub Copilot)・2026-07-05(その他)時点のスナップショットで、○ の深さも表現できていません。→ 候補を絞る道具として使い、決定は各ツールページ + 一次情報 + 社内試用([評価](coding-agent-evaluation.md))で行います
 - **「学習利用の既定」列を読み飛ばす** — 2026 年に複数ベンダーが既定を変更しており、個人プランと組織プランで正反対のことが常態です。→ 契約予定のプラン条件で必ず確認します
 - **表の鮮度を確認せずに引用する** — 社内資料への転載は陳腐化した情報の拡散になりがちです。→ 転載ではなく本記事(と各ツールページ)への参照にし、最終確認日を併記します
 
@@ -127,7 +127,7 @@ tags: ["coding-agents"]
 - [ ] 候補ツールについて、表ではなく各ツールページと一次情報を確認したか
 - [ ] 学習利用の既定を「契約予定のプラン」の条件で確認したか
 - [ ] 落とせない制約([選定基準](coding-agent-selection.md))で絞ってから機能比較に進んだか
-- [ ] 最終確認日(2026-07-05)以降の変更がないか、意思決定の直前に主要項目を再確認したか
+- [ ] 各行の最終確認日以降の変更がないか、意思決定の直前に主要項目を再確認したか
 
 ## 関連トピック
 
@@ -137,21 +137,21 @@ tags: ["coding-agents"]
 
 ## 参考資料
 
-各セルの根拠は各ツール別記事の「参考資料」(すべてアクセス日: 2026-07-05)と、リポジトリ内 `research/coding-agents/` の調査メモ(出典 URL・確度付き)を参照してください。代表的な一次情報:
+各セルの根拠は各ツール別記事の「参考資料」(アクセス日は各記事を参照)と、リポジトリ内 `research/coding-agents/` の調査メモ(出典 URL・確度付き)を参照してください。代表的な一次情報:
 
-- [Claude Code Docs](https://code.claude.com/docs/en/overview)(アクセス日: 2026-07-05)
+- [Claude Code Docs](https://code.claude.com/docs/en/overview)(アクセス日: 2026-08-18)
 - [OpenAI Codex Docs](https://developers.openai.com/codex)(アクセス日: 2026-07-05)
 - [Gemini Code Assist Docs](https://docs.cloud.google.com/gemini/docs/codeassist/overview)(アクセス日: 2026-07-05)
-- [GitHub Copilot Docs](https://docs.github.com/en/copilot)(アクセス日: 2026-07-05)
-- [Cursor Docs](https://cursor.com/docs)(アクセス日: 2026-07-05)
+- [GitHub Copilot Docs](https://docs.github.com/en/copilot)(アクセス日: 2026-08-18)
+- [Cursor Docs](https://cursor.com/docs)(アクセス日: 2026-08-18)
 - [Devin Docs](https://docs.devin.ai/)(アクセス日: 2026-07-05)
 
 ## TODO・未確認事項
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** 全表(特に「学習利用の既定」「プラン体系」)を四半期ごとに各公式ページで再確認し、行単位で最終確認日を更新する(最終確認: 2026-07)
+> **TODO(要確認):** 全表(特に「学習利用の既定」「プラン体系」)を四半期ごとに各公式ページで再確認し、行単位で最終確認日を更新する(2026-08-18 に Claude Code / Cursor / GitHub Copilot の行を再確認・更新。その他の行は 2026-07-05 時点のまま。最終確認: 2026-08)
 
-> **TODO(要確認):** 「?」セル(Code Assist のサンドボックス・ロールバック、Jules の MCP、Gemini 個人向けの現行無料枠)を各公式ドキュメントで確認する(最終確認: 2026-07)
+> **TODO(要確認):** 「?」セル(Code Assist のサンドボックス・ロールバック、Jules の MCP、Gemini 個人向けの現行無料枠)を各公式ドキュメントで確認する(2026-08-18 の定点観測は Claude Code / Cursor / GitHub Copilot 対象のため未解消。最終確認: 2026-08)
 
-> **TODO(要確認):** preview / beta 段階の機能(Claude Code Web、Copilot サンドボックス、Devin Local、Jules)の GA 化を確認する(最終確認: 2026-07)
+> **TODO(要確認):** preview / beta 段階の機能(Claude Code Web、Copilot サンドボックス、Devin Local、Jules)の GA 化を確認する(2026-08-18 確認: Claude Code Web は research preview 継続・Copilot サンドボックスは public preview 継続。Devin Local・Jules は未確認。最終確認: 2026-08)

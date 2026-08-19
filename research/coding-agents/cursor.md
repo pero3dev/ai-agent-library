@@ -6,6 +6,17 @@
 - **記録様式**: `項目 | 確認した事実 | 出典 URL | 確認日 | 確度(公式明記 / 公式から推測 / 第三者)`
 - **注記**: 旧 docs.cursor.com は cursor.com/docs へ 308 リダイレクト(確認日 2026-07-05)。出典はすべて新 URL で記載
 
+## 2026-08-18 定点観測での更新
+
+| 確認した事実 | 出典 URL | 確認日 | 確度 |
+| --- | --- | --- | --- |
+| **Bugbot の対応プラットフォームが 4 つに拡大**: GitHub(GitHub Enterprise Server 含む)/ GitLab(Self-Hosted 含む)/ Bitbucket(Data Center 含む)/ Azure DevOps(限定提供)。docs 本文([cursor.md](../../docs/08-coding-agents/cursor.md))に反映済み | https://cursor.com/docs/bugbot | 2026-08-18 | 公式明記 |
+| プラン構成(Hobby / Pro / Pro+ / Ultra / Teams Standard・Premium / Enterprise)に変更なし。**インド限定の低価格プラン Cursor Start(₹649/月)が 2026-07-28 に新設**されたが、グローバルのティア構成は不変(docs 本文には反映しない) | https://cursor.com/pricing | 2026-08-18 | 公式明記 |
+| Run Modes 3 種(Auto-review 推奨既定 / Allowlist / Run Everything)・サンドボックス方式(macOS Seatbelt / Linux Landlock + seccomp)・「not a hard security boundary」の明記、いずれも変更なし | https://cursor.com/docs/agent/security/run-modes | 2026-08-18 | 公式明記 |
+| Privacy Mode の既定(Enterprise 既定オン + 強制可)・Cloud Agents のみコード保存・ZDR 例外モデルとして Claude Fable 5 を名指しする記述、いずれも変更なし | https://cursor.com/data-use | 2026-08-18 | 公式明記 |
+| 新機能(参考・docs 本文には未反映): **Origin Code Hosting**(Cursor 自身のコードホスティング。early beta、2026-08-17)・**Cloud Agents Builds**(2026-08-13)・**iPad アプリ**(2026-07-29) | https://cursor.com/changelog | 2026-08-18 | 公式明記(changelog) |
+| Cursor SDK の機能範囲(2026-06 の大幅更新以降の変化)は一次情報で確認できず(継続監視) | — | 2026-08-18 | 未確認 |
+
 ## 1. 実行環境
 
 | 確認した事実 | 出典 URL | 確認日 | 確度 |

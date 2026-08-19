@@ -1,6 +1,7 @@
 # 音声エージェント(voice agents)の現行 API・アーキテクチャ選択肢(2026-07 時点)調査メモ
 
 - **調査日**: 2026-07-07
+- **更新日**: 2026-08-18(四半期定点観測。§2.1 の文字起こしモデル更新と旧 realtime 系の deprecation、§2.2 の Vertex AI 版 GA の訂正とモデルリリース日、§2.5 価格スナップショット、§8 次回観測への引き継ぎを追記)
 - **調査目的**: `docs/03-implementation/voice-agents.md`(音声エージェントの実装)の執筆材料。記事本体は原則(パイプライン型 vs speech-to-speech 型の選択、割り込み・ターンテイキング、レイテンシ設計、ツール併用、評価)を扱い、具体的な API・モデル名は「2026-07 時点」の注記付きで軽く触れる方針。そのため本メモは「各社が何を公式に提供し、どのアーキテクチャを推奨しているか」に絞る
 - **根拠の方針**: 各社公式ドキュメント(developers.openai.com / platform.openai.com / openai.com、ai.google.dev、docs.aws.amazon.com / aws.amazon.com、platform.claude.com)と公式ブログのみを根拠とします。個人ブログ・比較記事は使用していません
 - **確度表記**: 「公式明記」= 公式ページに明文あり(URL に実際にアクセスして本文を確認済み) / 「公式から推測」= 公式記述からの合理的推測 / 「未確認」= 今回確認できず(直接アクセス不可を含む)
@@ -46,6 +47,8 @@ OpenAI の Voice agents ガイドは、音声エージェントの構成を **2 
 | GA 版モデル系統の呼称は **`gpt-realtime`**(launch 名)。ガイドの現行例は `gpt-realtime-2.1`。旧 beta では `gpt-4o-realtime-preview` 系が使われていた(移行元の「beta インターフェース」に相当) | https://developers.openai.com/api/docs/guides/realtime | 2026-07-07 | 公式明記(`gpt-realtime` / `gpt-realtime-2.1`)+ 公式から推測(旧 beta モデル名の系譜) |
 | 接続方式は 3 種: **WebRTC**(ブラウザ・モバイルなど音声を直接扱うクライアント向け)、**WebSocket**(サーバがメディアパイプライン/通話系/ワーカから生音声を受ける場合)、**SIP**(電話系の音声エージェント向け) | https://developers.openai.com/api/docs/guides/realtime | 2026-07-07 | 公式明記 |
 | リアルタイムセッション中の **ツール(function calling)** に対応。`session.update` または `response.create` の `tools` で定義し、モデルは `type: "function_call"`(`name` / `call_id` / `arguments`)を返す。結果は `conversation.item.create` の `type: "function_call_output"` で返す。function tools に加え **MCP サーバ / connector** も接続できると案内 | https://developers.openai.com/api/docs/guides/realtime-conversations / https://developers.openai.com/api/docs/guides/realtime | 2026-07-07 | 公式明記 |
+| **2026-08-18 再確認**: 文字起こし用モデルは **`gpt-live-transcribe`**($0.017/min)としてガイド・料金ページに掲載され、`gpt-realtime-whisper` の記載は確認できず。ただし「`gpt-live-transcribe` が `gpt-realtime-whisper` を置き換えた」という明言は OpenAI スタッフの X ポストのみで、公式 docs 上に新旧の対応関係の明記はない | https://developers.openai.com/api/docs/guides/realtime + OpenAI 料金ページ(モデル・価格)/ OpenAI スタッフ X ポスト(置換の明言) | 2026-08-18 | 公式明記(`gpt-live-transcribe` の存在・価格)+ **二次情報**(置換の明言) |
+| **2026-08-18 追記**: 小型版 **`gpt-realtime-2.1-mini`** が提供されている。また旧 realtime 系モデル(`gpt-realtime` / `gpt-realtime-mini` / `gpt-4o-realtime` / `gpt-4o-mini-realtime`)は **2027-01-20 に deprecation**(移行先は 2.1 系)と deprecations ページに掲載 | https://platform.openai.com/docs/deprecations | 2026-08-18 | 公式明記 |
 
 ### 2.2 Google Gemini Live API
 
@@ -57,6 +60,8 @@ OpenAI の Voice agents ガイドは、音声エージェントの構成を **2 
 | 音声フォーマット: 入力は raw 16-bit PCM / 16kHz / little-endian(MIME `audio/pcm;rate=16000`)、出力は 24kHz | https://ai.google.dev/gemini-api/docs/live-api/capabilities | 2026-07-07 | 公式明記 |
 | **セッション長の制限**: 音声のみは 15 分、音声+動画は 2 分。セッション管理手法により延長可能 | https://ai.google.dev/gemini-api/docs/live-api/capabilities | 2026-07-07 | 公式明記 |
 | **ツール(function calling)** に対応。`gemini-3.1-flash-live-preview` は function calling が **sequential のみ**。`gemini-2.5-flash-live-preview` は関数宣言で `behavior` を **`NON_BLOCKING`** に設定すると「関数実行中もモデルが対話を続けられる」 | https://ai.google.dev/gemini-api/docs/live-api/capabilities | 2026-07-07 | 公式明記 |
+| **2026-08-18 訂正・追記**: **Vertex AI 版 Live API は 2025-12-13 に GA**(Gemini 2.5 Flash Native Audio)。前回調査(2026-07-07)は ai.google.dev 側のみを見て「Preview」と総括していたが、Vertex AI 側は当時すでに GA だった(**前回調査の見落としであり、2026-08 の新イベントではない**)。**ai.google.dev(Gemini Developer API)側は Preview 継続**(2026-08-13 付の changelog まで確認しても GA の記載なし) | Vertex AI 側の Live API ドキュメント(GA 表記)/ https://ai.google.dev/gemini-api/docs/changelog | 2026-08-18 | 公式明記 |
+| **2026-08-18 追記**: `gemini-3.1-flash-live-preview` のリリース日は **2026-03-26**(changelog で確認) | https://ai.google.dev/gemini-api/docs/changelog | 2026-08-18 | 公式明記 |
 
 ### 2.3 Amazon Nova Sonic / Nova 2 Sonic
 
@@ -68,6 +73,7 @@ OpenAI の Voice agents ガイドは、音声エージェントの構成を **2 
 | Nova 2 Sonic の対応言語(自動言語検出・切替あり): 英語(US, UK, India, Australia)、フランス語、イタリア語、ドイツ語、スペイン語、ポルトガル語、ヒンディー語。同一セッション内で言語を跨げる **polyglot voice** あり | https://docs.aws.amazon.com/nova/latest/nova2-userguide/using-conversational-speech.html | 2026-07-07 | 公式明記 |
 | Nova 2 Sonic の **コネクション上限は 8 分**。コネクション更新・セッション継続のパターンがコードサンプルで提供される | https://docs.aws.amazon.com/nova/latest/nova2-userguide/using-conversational-speech.html | 2026-07-07 | 公式明記 |
 | **ツール / エージェント対応**: function calling、RAG による knowledge grounding、agentic workflow をサポート。Nova 2 は **非同期ツール呼び出し(asynchronous tool handling)** で「ツール実行中もアシスタントが話し続けられる」 | https://docs.aws.amazon.com/nova/latest/nova2-userguide/using-conversational-speech.html | 2026-07-07 | 公式明記 |
+| **2026-08-18 再確認**: Nova 2 Sonic に変更なし(GA・モデル ID `amazon.nova-2-sonic-v1:0`・双方向ストリーム・非同期ツールの提供形態は 2026-07-07 時点から変わらず) | https://docs.aws.amazon.com/nova/latest/nova2-userguide/using-conversational-speech.html | 2026-08-18 | 公式明記 |
 
 ### 2.4 Anthropic Claude(native な realtime 音声 API は確認できず)
 
@@ -75,8 +81,21 @@ OpenAI の Voice agents ガイドは、音声エージェントの構成を **2 
 | --- | --- | --- | --- |
 | Claude API には **native な speech-to-speech / realtime 音声入出力 API を確認できず**。公式 Cookbook は「ElevenLabs の STT/TTS + Claude(テキスト推論)」による **パイプライン型**の低レイテンシ音声アシスタントを提示(STT → `messages.create`(例: `claude-haiku-4-5`)→ TTS) | https://platform.claude.com/cookbook/third-party-elevenlabs-low-latency-stt-claude-tts | 2026-07-07 | 公式明記(Cookbook がパイプライン型)+ 公式から推測(native API の不在) |
 | 低レイテンシ化の推奨として Claude の **streaming API**(最初のトークンを早く受けて perceived latency を下げる)、TTS 側の **WebSocket ストリーミング** を挙げる | https://platform.claude.com/cookbook/third-party-elevenlabs-low-latency-stt-claude-tts | 2026-07-07 | 公式明記 |
+| **2026-08-18 再確認**: native な speech-to-speech / realtime 音声 API は引き続き確認できず(不在の継続)。なお消費者向けアプリの Claude voice mode に関する 2026-07-23 付の更新報道があるが、TechCrunch による**二次情報**であり、API としての音声提供ではない | https://platform.claude.com/docs(不在の確認)/ TechCrunch 報道(voice mode) | 2026-08-18 | 公式から推測(不在の確認)+ **二次情報**(voice mode 報道) |
 
 > 注: 「Claude に native realtime 音声 API がない」は不在の証明であり、確度は「公式から推測」に留めています。執筆時は最新の Claude ドキュメントで再確認してください(§7)。
+
+### 2.5 価格スナップショット(2026-08-18 時点)
+
+四半期定点観測(2026-08-18)で各社公式料金ページから確認した値。価格は変動が速いため、引用時は必ず確認日を併記すること。
+
+| モデル | 音声入力 | 音声出力 | 分課金の目安 | 確認日 |
+| --- | --- | --- | --- | --- |
+| `gpt-realtime-2.1`(OpenAI) | $32 / 1M tokens | $64 / 1M tokens | —(audio トークン課金) | 2026-08-18 |
+| `gpt-realtime-2.1-mini`(OpenAI) | $10 / 1M tokens | $20 / 1M tokens | —(audio トークン課金) | 2026-08-18 |
+| `gpt-realtime-translate`(OpenAI) | — | — | $0.034/min | 2026-08-18 |
+| `gpt-live-transcribe`(OpenAI) | — | — | $0.017/min | 2026-08-18 |
+| `gemini-3.1-flash-live-preview`(Google) | $3.00 / 1M tokens | $12.00 / 1M tokens | 入力 $0.005/min / 出力 $0.018/min | 2026-08-18 |
 
 ---
 
@@ -107,6 +126,8 @@ OpenAI の Voice agents ガイドは、音声エージェントの構成を **2 
 | Anthropic(Claude): 接続方式は通常の Messages API(HTTP / streaming)。音声・電話は STT/TTS・メディア基盤側で扱う | https://platform.claude.com/cookbook/third-party-elevenlabs-low-latency-stt-claude-tts | 2026-07-07 | 公式から推測 |
 
 **執筆用の整理:** 「ブラウザ・低レイテンシ = WebRTC / サーバ間 = WebSocket」という使い分けは OpenAI が最も明確に公式化しています(WebRTC 推奨は client 接続の性能一貫性が理由)。Gemini Live は WebSocket 一本(client 直結時は ephemeral token 推奨)。電話統合は OpenAI(SIP native)と Amazon(主要 CPaaS との直接統合)が公式に前面へ出しており、Gemini は Live API 単体では SIP 直結の記載を確認できませんでした。
+
+> **2026-08-18 再確認**: 接続方式の提供形態(OpenAI = WebRTC / WebSocket / SIP、Gemini Live = WebSocket、Nova 2 Sonic = 双方向ストリーム + CPaaS 統合)に変更なし。
 
 ---
 
@@ -149,10 +170,21 @@ OpenAI の Voice agents ガイドは、音声エージェントの構成を **2 
 
 記事本文では以下を断定で書かず、`TODO(要確認)` 前提で扱うことを推奨します。
 
-1. **提供ステータスとモデル名**: OpenAI Realtime は GA(主力 `gpt-realtime-2.1`)、Amazon Nova 2 Sonic は GA(2025-12-02、`amazon.nova-2-sonic-v1:0`)ですが、Gemini Live API は **Preview** です。Gemini のモデル名(`gemini-3.1-flash-live-preview` / `gemini-2.5-flash-live-preview`)は preview 表記で改称・世代更新が速いので、引用時は必ず確認日を併記してください。
+1. **提供ステータスとモデル名**: OpenAI Realtime は GA(主力 `gpt-realtime-2.1`)、Amazon Nova 2 Sonic は GA(2025-12-02、`amazon.nova-2-sonic-v1:0`)ですが、Gemini Live API は **Preview** です(**2026-08-18 更新**: Preview 継続は ai.google.dev 側のみ。Vertex AI 版は 2025-12-13 に GA 済み。§2.2)。Gemini のモデル名(`gemini-3.1-flash-live-preview` / `gemini-2.5-flash-live-preview`)は preview 表記で改称・世代更新が速いので、引用時は必ず確認日を併記してください。
 2. **数値・上限の変動**: Gemini のセッション上限(音声 15 分 / 音声+動画 2 分)、Nova 2 のコネクション上限(8 分)、VAD の推奨無音長(500–800ms)などは変わりやすい数値です。断定引用は避けるか確認日付きで。
 3. **既定 VAD モード**: OpenAI は「VAD 対応セッションの既定は `server_vad`」です(調査中に一部要約で `semantic_vad` が既定と出ましたが、専用の VAD ガイドで `server_vad` が既定と確認・訂正済み)。`semantic_vad` は明示設定で使うモードとして扱ってください。
-4. **Claude の音声対応**: 「native な realtime 音声 API がない」は不在に基づく判断です。Anthropic が将来 realtime/音声 API を出す可能性があるため、執筆時に platform.claude.com の最新ドキュメントで再確認してください。記事では「Claude は 2026-07 時点でパイプライン型(サードパーティ STT/TTS)が公式の想定」と限定して書くのが安全です。
+4. **Claude の音声対応**: 「native な realtime 音声 API がない」は不在に基づく判断です。Anthropic が将来 realtime/音声 API を出す可能性があるため、執筆時に platform.claude.com の最新ドキュメントで再確認してください。記事では「Claude は 2026-07 時点でパイプライン型(サードパーティ STT/TTS)が公式の想定」と限定して書くのが安全です(**2026-08-18 再確認**: 不在の継続を確認。消費者向け voice mode の報道は API 提供ではない。§2.4)。
 5. **電話(SIP/telephony)統合の一覧**: OpenAI は SIP を native 提供、Amazon は主要 CPaaS(Connect / Twilio / Vonage / Audiocodes)+ メディア基盤(LiveKit / Pipecat)との直接統合を公式化。Gemini Live は WebSocket 一本で SIP 直結の記載は今回未確認。統合先リストは各社で頻繁に更新されるため、記事では「電話は多くが SIP か CPaaS 経由で接続」という原則に留めるのが無難です。
 6. **数値レイテンシ・評価メトリクス**: 各社の公式 speech-to-speech ドキュメントに「◯ms 以内」等の数値目標や標準評価フレームワークは今回見当たりませんでした(未確認)。記事のレイテンシ・評価パートは「first-audio latency」「ターンテイキング調整のトレードオフ」という定性軸で書き、数値はパイプライン実測例(Claude Cookbook)を一例として紹介する構成が、後から陳腐化しにくいです。
 7. **アクセス不可だったソース**: gpt-realtime 発表ブログ(https://openai.com/index/introducing-gpt-realtime/)は 403 で本文取得できず。GA・SIP・semantic VAD 等の該当事実は developers.openai.com の各ガイドで裏取り済みです。platform.openai.com 配下(realtime-models-prompting 等)は SPA のため本文未精読(存在のみ確認)。
+
+---
+
+## 8. 次回観測への引き継ぎ(2026-08-18)
+
+「音声 API・FT 提供状況」系統の次回観測で確認する項目:
+
+1. **OpenAI FT の完全終了(2027-01-06)の実施確認** — 既存のアクティブな顧客も新規 FT ジョブを作成できなくなる日程が実施されたか(`research/professional/fine-tuning.md` §2.1)
+2. **ai.google.dev 側 Live API の GA 化** — Vertex AI 版は 2025-12-13 に GA 済み。Gemini Developer API 側は 2026-08-13 付 changelog まで Preview 継続(§2.2)
+3. **`gpt-4.1-nano` deprecation(2026-10-23)後の FT 対象一覧** — nano ベース FT モデルの推論終了の帰結を確認(`research/professional/fine-tuning.md` §2.1)
+4. **Vertex AI の Gemini 3.x SFT** — 一次 docs 本文が取得できておらず未確認のまま(蒸留は preview 継続とされる。`research/professional/fine-tuning.md` §3)

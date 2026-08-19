@@ -3,7 +3,7 @@ title: "GitHub Copilot 実践ガイド"
 category: "coding-agents"
 level: "intermediate"
 status: "published"
-last_updated: "2026-07-06"
+last_updated: "2026-08-18"
 tags: ["coding-agents", "cost-management", "prompt-caching"]
 ---
 
@@ -25,7 +25,7 @@ GitHub Copilot の機能群(補完 / Chat / agent mode / cloud agent / code revi
 
 ## 本文
 
-> **最終確認日:** 2026-07-06 — 本記事の機能・消費の仕様はこの日付時点の公式ドキュメントに基づきます。単価・付与量は特に変わりやすいため、必ず公式ページ(参考資料)で最新値を確認してください。
+> **最終確認日:** 2026-08-18(AI Credits の付与・割引・キャッシュ単価と preview 機能のステータスを再確認。その他の記述は 2026-07-06 時点)— 本記事の機能・消費の仕様は各日付時点の公式ドキュメントに基づきます。単価・付与量は特に変わりやすいため、必ず公式ページ(参考資料)で最新値を確認してください。
 
 ### タスク別の機能の使い分け
 
@@ -51,7 +51,7 @@ CLI では、複雑な複数ファイル変更に **plan モード**(「具体�
 - **prompt files**(`.github/prompts/*.prompt.md`)は再利用プロンプトを `/名前` で呼び出す仕組み、**Agent Skills**(`.github/skills/` 等)は手順 + スクリプトのパッケージで cloud agent・code review・CLI が読み込みます。「同じ依頼を繰り返している」ものから順にスキル化します
 - **custom agents**(`.github/agents/*.md`)は cloud agent の特化版を定義でき、組織リポジトリ(`.github`)で全社配布もできます。Issue 割当時・API からも指定可能です
 - **Copilot Spaces** はコンテキストの束ね方に特性があります: リポジトリ添付は検索で関連部分のみ取得(大規模向き)、**ファイル添付は毎クエリ全文が載る**(常に参照させたい少数ファイル向き)。この差は精度と消費の両方に効きます
-- **Copilot Memory**(preview)はリポジトリの事実と個人の嗜好を記憶し、cloud agent・code review・CLI で共有されます(未使用の記憶は自動削除されます。保持期間は 2026-07 時点で 28 日)
+- **Copilot Memory**(preview)はリポジトリの事実と個人の嗜好を記憶し、cloud agent・code review・CLI で共有されます(2026-08-11 以降は JetBrains IDE でも利用可)。未使用の記憶は自動削除されます(保持期間は 2026-07 時点の公式記述で 28 日)
 
 ### コスト削減: AI Credits の構造とレバー
 
@@ -64,8 +64,8 @@ CLI では、複雑な複数ファイル変更に **plan モード**(「具体�
 公式チュートリアル「Optimizing your AI usage」の主な削減策は次のとおりです。
 
 - **計画は強いモデル、実装は安いモデル** — フェーズ間でセッションを分けます。モデルの単価はカテゴリ間で桁が変わるほど違います(2026-07 時点で両端およそ数十倍)。定型作業(リファクタ・整形・ドキュメント)は軽量モデルで十分と公式が明記しています
-- **auto model selection で割引** — 自動モデル選択の利用には割引(2026-07 時点で 10%)があります
-- **キャッシュを壊さない** — キャッシュ済みトークンは入力単価の 10% です(2026-07 時点)。ただし**セッション途中のモデル切替・reasoning level やツール構成の変更・長時間放置後の復帰**でキャッシュは無効化されます。「タスクが変わったらモデルを切り替える」のではなく「**セッションを分けてから切り替える**」のが消費面の正解です
+- **auto model selection で割引** — 自動モデル選択の利用には割引(2026-08 時点で 10%)があります
+- **キャッシュを壊さない** — キャッシュ済みトークンは入力単価の 10% です(2026-08 時点)。ただし**セッション途中のモデル切替・reasoning level やツール構成の変更・長時間放置後の復帰**でキャッシュは無効化されます。「タスクが変わったらモデルを切り替える」のではなく「**セッションを分けてから切り替える**」のが消費面の正解です
 - **コンテキスト衛生** — タスク切替時の `/new`・`/clear`、CLI の `/compact`、`/context` での内訳確認
 - **指示ファイルの整備自体が削減策** — リポジトリ構造を custom instructions に書いておくと、エージェントの探索的なファイル読み(入力トークン)が減ります。cloud agent では `copilot-setup-steps.yml` による依存の事前インストールが「環境構築の試行錯誤」の消費を削ります
 - **ツールセットを絞る** — ツール定義もトークンを消費します。タスクに関係あるものだけ有効化します
@@ -121,6 +121,6 @@ CLI では、複雑な複数ファイル変更に **plan モード**(「具体�
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** モデル別単価・プラン別 Credits 付与量(base + flex)・auto model selection の割引率・キャッシュ単価比率を公式ページ(models-and-pricing)で確認する(本文には 2026-07 時点の相対関係のみ記載。最終確認: 2026-07)
+> **TODO(要確認):** モデル別単価・プラン別 Credits 付与量(base + flex)・auto model selection の割引率・キャッシュ単価比率を公式ページ(models-and-pricing)で確認する(2026-08-18 確認: 付与量・割引率 10%・キャッシュ単価比率 10% とも 2026-07 の記録値から変動なし。本文には相対関係のみ記載。最終確認: 2026-08)
 
-> **TODO(要確認):** preview 機能(automations・Agentic Workflows・custom agents の対応 IDE・Copilot Memory)のステータスと仕様変化を Changelog で確認する(最終確認: 2026-07)
+> **TODO(要確認):** preview 機能(automations・Agentic Workflows・custom agents の対応 IDE・Copilot Memory)のステータスと仕様変化を Changelog で確認する(2026-08-18 確認: automations・Agentic Workflows・Copilot Memory は public preview 継続。Copilot Memory は JetBrains 対応が追加〔2026-08-11〕。Memory の保持 28 日と automations の実行回数上限は再確認できず継続監視。最終確認: 2026-08)

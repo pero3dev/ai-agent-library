@@ -7,12 +7,12 @@
 | ツール | 学習利用の既定 | オプトアウト等の条件 | 主要文書 |
 | --- | --- | --- | --- |
 | Claude Code | Consumer(Free/Pro/Max): ユーザー設定オンで学習利用(保持 5 年 / オフで 30 日)。Commercial(Team/Enterprise/API): 不使用(保持 30 日、Enterprise は ZDR 個別適用可) | claude.ai の Data Privacy 設定 | <https://code.claude.com/docs/en/data-usage> |
-| OpenAI Codex | 個人プラン: ChatGPT のデータ設定に従い学習利用されうる + Codex 独自の環境学習設定。Business / Enterprise / Edu / API: 不使用(Enterprise は ZDR 対応) | プライバシーポータルの「do not train」設定 | <https://help.openai.com/en/articles/5722486>(2026-07-05 時点 403、要ブラウザ確認) |
-| Gemini CLI / Code Assist | Code Assist ライセンス経由: 不使用(CDPA 準拠を公式明記)。無料 API キー経由: Gemini API 規約に従う(未確認) | — | <https://docs.cloud.google.com/gemini/docs/discover/data-governance> |
+| OpenAI Codex | 個人プラン: ChatGPT のデータ設定に従い学習利用されうる + Codex 独自の環境学習設定。Business / Enterprise / Edu / API: 不使用(Enterprise は ZDR 対応) | プライバシーポータルの「do not train」設定 | <https://help.openai.com/en/articles/5722486>(2026-07-05 時点 403・2026-08-18 も 403 継続で機械取得不能、要ブラウザ確認。反証情報なし) |
+| Gemini CLI / Code Assist | Code Assist ライセンス経由: 不使用(CDPA 準拠を公式明記)。無料 API キー経由(Unpaid Services): **学習利用あり**(提出コンテンツを製品改善に使用・人手レビューあり得ると規約明記。機密情報を送らない旨の公式注意あり。2026-03-23 発効版で 2026-08-18 確認)。有料 API(Paid Services): 不使用 | — | <https://docs.cloud.google.com/gemini/docs/discover/data-governance> / <https://ai.google.dev/gemini-api/terms> |
 | Jules | プライベートリポジトリで学習不使用(FAQ 明記)。無料 / 有料の差は未確認 | — | <https://jules.google/docs/faq> |
-| GitHub Copilot | Free / Pro / Pro+: **既定で学習利用**(2026-04-24 発効、オプトアウト方式)。Business / Enterprise: 契約で禁止 | Copilot settings の Privacy 配下 | <https://github.blog/news-insights/company-news/updates-to-github-copilot-interaction-data-usage-policy/> |
+| GitHub Copilot | Free / Pro / Pro+ / Max: **既定で学習利用**(2026-04-24 発効、オプトアウト方式。対象が Max を含む 4 プランであることを 2026-08-18 に確認)。Business / Enterprise: 契約で禁止 | Copilot settings の Privacy 配下 | <https://github.blog/news-insights/company-news/updates-to-github-copilot-interaction-data-usage-policy/> |
 | Cursor | Privacy Mode 無効時: 学習利用と公式明記。有効時: 不使用 + モデルプロバイダーと ZDR(例外モデルあり)。Enterprise: Privacy Mode 既定オン + 強制可。Cloud Agents のみコード保存が必要 | Privacy Mode 設定 | <https://cursor.com/data-use> |
-| Windsurf(Devin Desktop) | 個人: Autocomplete 既定利用(オプトアウト可)、Chat はオプトアウトすると機能不可(個人規約 2026-04-14 版)。有料: Data Controls でオプトアウト → ZDR 有効化。Enterprise: 書面同意なしに不使用 | Data Controls 設定 | <https://devin.ai/windsurf/terms-of-service-individual/> / <https://docs.devin.ai/admin/security> |
+| Windsurf(Devin Desktop) | 個人: Autocomplete 既定利用(オプトアウト可)、Chat はオプトアウトすると機能不可(個人規約 2026-04-14 版。規約ページは 2026-08-18 時点 429 で機械取得不能・再確認未了)。有料: Data Controls でオプトアウト → ZDR 有効化。Enterprise: 書面同意なしに不使用 | Data Controls 設定 | <https://devin.ai/windsurf/terms-of-service-individual/> / <https://docs.devin.ai/admin/security> |
 | Devin | セルフサーブ(有償含む): **既定で学習利用されうる**(オプトアウト可 → ZDR 有効化)。Enterprise: 既定不使用 | Data Controls 設定 | <https://docs.devin.ai/admin/security> |
 | OSS 系 | ツール自体は学習しない(ローカル実行)。**BYOK 接続先のモデルプロバイダーのポリシーに従う** | プロバイダーごとに確認 | 各プロバイダーの規約 |
 

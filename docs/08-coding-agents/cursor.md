@@ -3,7 +3,7 @@ title: "Cursor"
 category: "coding-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-07-06"
+last_updated: "2026-08-18"
 tags: ["coding-agents", "mcp"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["coding-agents", "mcp"]
 
 ## 本文
 
-> **最終確認日:** 2026-07-05 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
+> **最終確認日:** 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
 
 ### 概要
 
@@ -45,7 +45,7 @@ Cursor は Anysphere が提供する専用 IDE 型のコーディングエージ
 | CLI(`agent`) | 対話 + 非対話(print)モード。CI 利用を公式が明記 | ローカル / CI |
 | Cloud Agents | 隔離 VM でリポジトリをクローンし並列実行(旧称: background agents) | クラウド |
 | Web / モバイル | cursor.com/agents から Cloud Agents を操作(iOS アプリあり) | クラウド |
-| Bugbot | PR の自動レビュー | クラウド(GitHub / Bitbucket 連携) |
+| Bugbot | PR の自動レビュー。GitHub(GitHub Enterprise Server 含む)/ GitLab(Self-Hosted 含む)/ Bitbucket(Data Center 含む)/ Azure DevOps(限定提供)の 4 プラットフォームに対応 | クラウド |
 | Automations / SDK | スケジュール・トリガー起動、TypeScript / Python SDK | クラウド / 任意 |
 
 対応 OS は macOS / Windows / Linux です。Cloud Agents の環境は `.cursor/environment.json`(スナップショット / Dockerfile)で定義します。
@@ -67,7 +67,7 @@ Cursor は Anysphere が提供する専用 IDE 型のコーディングエージ
 - 読み取り・検索は承認不要、状態を変える操作は Run Modes に従います。**ネットワークは既定で制限**されており(GitHub・Web 検索等のみ)、任意の宛先への通信はできません
 - サンドボックスは macOS = Seatbelt、Linux = Landlock + seccomp です(Windows の対応は公式ドキュメントで未確認)。ワークスペース内のみ読み書き可、`.git/` と Cursor 設定ファイルは保護されます
 - **公式自身が「許可リスト・ガードレールはベストエフォートであり、ハードなセキュリティ境界ではない」と明記**しています。プロンプトインジェクションによる回避可能性まで公式が言及している点は誠実であり、利用側はこの前提で権限を設計すべきです([権限とセキュリティ](coding-agent-security.md))
-- **データ学習の既定は Privacy Mode に依存します**: Privacy Mode 無効時はコードベースデータ・プロンプト等を**学習に利用すると公式明記**。有効時は学習に使われず、モデルプロバイダーともゼロデータ保持(ZDR)契約です(例外モデルあり: 2026-07 時点で Claude Fable 5 は安全性審査のため入出力を保存)。個人プランは手動有効化、**Enterprise は既定オン + 無効化の禁止(強制)が可能**です
+- **データ学習の既定は Privacy Mode に依存します**: Privacy Mode 無効時はコードベースデータ・プロンプト等を**学習に利用すると公式明記**。有効時は学習に使われず、モデルプロバイダーともゼロデータ保持(ZDR)契約です(例外モデルあり: 2026-08 時点で Claude Fable 5 は安全性審査のため入出力を保存)。個人プランは手動有効化、**Enterprise は既定オン + 無効化の禁止(強制)が可能**です
 - 注意: Privacy Mode は「コードを送らない」機能ではありません。推論のためのコード送信は行われ、「学習利用しない + 保持しない」を保証する機能です
 - コンプライアンスは SOC 2 Type II、GDPR(DPA)、HIPAA BAA(Enterprise)、顧客管理暗号鍵(CMEK)等が公表されています
 
@@ -117,12 +117,13 @@ Cursor は Anysphere が提供する専用 IDE 型のコーディングエージ
 
 ## 参考資料
 
-- [Cursor Docs(公式)](https://cursor.com/docs) — 機能・設定の一次情報(アクセス日: 2026-07-05)
+- [Cursor Docs(公式)](https://cursor.com/docs) — 機能・設定の一次情報(アクセス日: 2026-08-18)
 - [Codebase Indexing](https://cursor.com/docs/context/codebase-indexing) — インデックス方式とデータの流れ(アクセス日: 2026-07-05)
-- [Run Modes](https://cursor.com/docs/agent/security/run-modes) — 承認モデルとサンドボックスの仕様(アクセス日: 2026-07-05)
-- [Data Use](https://cursor.com/data-use) — 学習利用と Privacy Mode の仕様(アクセス日: 2026-07-05)
+- [Run Modes](https://cursor.com/docs/agent/security/run-modes) — 承認モデルとサンドボックスの仕様(アクセス日: 2026-08-18)
+- [Bugbot](https://cursor.com/docs/bugbot) — PR 自動レビューの対応プラットフォーム(アクセス日: 2026-08-18)
+- [Data Use](https://cursor.com/data-use) — 学習利用と Privacy Mode の仕様(アクセス日: 2026-08-18)
 - [Security](https://cursor.com/security) — コンプライアンス認証・インフラ(アクセス日: 2026-07-05)
-- [料金ページ](https://cursor.com/pricing) — プラン体系(アクセス日: 2026-07-05)
+- [料金ページ](https://cursor.com/pricing) — プラン体系(アクセス日: 2026-08-18)
 
 ## TODO・未確認事項
 
@@ -130,8 +131,8 @@ Cursor は Anysphere が提供する専用 IDE 型のコーディングエージ
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** プラン構成(Pro / Pro+ / Ultra、Teams Standard / Premium)と含有利用枠を公式料金ページで確認する(最終確認: 2026-07)
+> **TODO(要確認):** プラン構成(Pro / Pro+ / Ultra、Teams Standard / Premium)と含有利用枠を公式料金ページで確認する(2026-08-18 確認: 構成に変更なし。インド限定の低価格プラン Cursor Start が 2026-07-28 に新設されたがグローバル構成は不変。最終確認: 2026-08)
 
-> **TODO(要確認):** 既定 Run Mode(3.6 で Auto-review 化)と ZDR 例外モデルの一覧の変化を公式ドキュメントで確認する(最終確認: 2026-07)
+> **TODO(要確認):** 既定 Run Mode(3.6 で Auto-review 化)と ZDR 例外モデルの一覧の変化を公式ドキュメントで確認する(2026-08-18 確認: 既定 Auto-review・ZDR 例外〔Claude Fable 5〕とも変更なし。最終確認: 2026-08)
 
-> **TODO(要確認):** Cursor SDK の機能範囲(2026-06 に大幅更新)と Bugbot の課金・対応プラットフォームを確認する(最終確認: 2026-07)
+> **TODO(要確認):** Cursor SDK の機能範囲(2026-06 に大幅更新)と Bugbot の課金方式を確認する(2026-08-18 確認: SDK の 2026-06 以降の変化は一次情報で確認できず。Bugbot の対応プラットフォームは 4 つへの拡大を確認し本文へ反映済み。最終確認: 2026-08)

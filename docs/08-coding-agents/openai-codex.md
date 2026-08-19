@@ -3,7 +3,7 @@ title: "OpenAI Codex"
 category: "coding-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-07-06"
+last_updated: "2026-08-18"
 tags: ["coding-agents", "mcp"]
 ---
 
@@ -25,7 +25,7 @@ OpenAI のコーディングエージェント Codex の製品構成(CLI / IDE �
 
 ## 本文
 
-> **最終確認日:** 2026-07-05 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
+> **最終確認日:** 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
 
 ### 概要
 
@@ -43,13 +43,14 @@ Codex は OpenAI のコーディングエージェント製品群です。まず
 | --- | --- | --- |
 | Codex CLI | ターミナルの対話型エージェント。OSS(Apache-2.0、Rust 製) | ローカル |
 | IDE 拡張 | VS Code 系(Cursor・Windsurf 含む)+ JetBrains。クラウドタスクの委任・監視も可能 | ローカル |
-| Codex アプリ | デスクトップアプリ(macOS / Windows)。並列スレッド・git worktree・定期実行 | ローカル |
+| デスクトップアプリ | 統合ドキュメントでは「ChatGPT desktop app」表記。macOS / Windows に加え、**Linux 版が 2026-08-11 に preview**(Ubuntu / Debian / Fedora)。並列スレッド・git worktree・定期実行 | ローカル |
 | Codex cloud | OpenAI 管理の隔離コンテナでタスク実行、PR として提出 | クラウド |
 | コードレビュー | PR コメントで `@codex review`、または全 PR 自動レビュー | クラウド(GitHub 連携) |
 | GitHub Action / `codex exec` / SDK | CI・自動化用の非対話実行、TypeScript / Python SDK | CI・任意 |
 | Slack / Linear 連携 | メンションからクラウドタスクを起動 | クラウド |
 
 - 対応 OS は macOS / Linux / Windows です
+- このほか Chrome 拡張・App Server も提供面として統合ドキュメントに正式掲載されています(2026-08 時点)
 - クラウド実行は 2 フェーズ構成です: セットアップフェーズ(依存取得のためネットワークあり)→ エージェントフェーズ(**既定でオフライン**。ネットワークは明示的に有効化)。ローカルとクラウドで権限モデルが異なる点は導入時の確認事項です
 
 ### リポジトリ理解・編集・実行の仕組み
@@ -128,11 +129,11 @@ Codex は OpenAI のコーディングエージェント製品群です。まず
 
 ## 参考資料
 
-- [Codex Docs(公式)](https://developers.openai.com/codex) — 製品構成・機能の一次情報(アクセス日: 2026-07-05)
-- [Agent approvals & security](https://developers.openai.com/codex/agent-approvals-security) — サンドボックスと承認ポリシーの仕様(アクセス日: 2026-07-05)
-- [AGENTS.md guide](https://developers.openai.com/codex/guides/agents-md) — ルールファイルの読み込み仕様(アクセス日: 2026-07-05)
-- [Codex pricing](https://developers.openai.com/codex/pricing) — プラン別提供条件・利用制限(アクセス日: 2026-07-05)
-- [openai/codex(GitHub)](https://github.com/openai/codex) — CLI のソースコード(Apache-2.0)(アクセス日: 2026-07-05)
+- [Codex Docs(公式)](https://learn.chatgpt.com/docs) — 製品構成・機能の一次情報。2026-08 時点で ChatGPT との統合ドキュメントサイト(learn.chatgpt.com)へ移転済み(旧 developers.openai.com/codex 系 URL は 308 リダイレクトで生存)(アクセス日: 2026-08-18)
+- [Agent approvals & security](https://learn.chatgpt.com/docs/agent-approvals-security) — サンドボックスと承認ポリシーの仕様(アクセス日: 2026-08-18)
+- [AGENTS.md guide](https://learn.chatgpt.com/docs/guides/agents-md) — ルールファイルの読み込み仕様(アクセス日: 2026-08-18)
+- [Codex pricing](https://learn.chatgpt.com/docs/pricing) — プラン別提供条件・利用制限(アクセス日: 2026-08-18)
+- [openai/codex(GitHub)](https://github.com/openai/codex) — CLI のソースコード(Apache-2.0)(アクセス日: 2026-08-18)
 
 ## TODO・未確認事項
 
@@ -141,8 +142,8 @@ Codex は OpenAI のコーディングエージェント製品群です。まず
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** 対応モデルの世代(2026-07 時点は gpt-5.5 系)とプラン別レート制限を公式ドキュメント(developers.openai.com/codex/models・/pricing)で確認する(最終確認: 2026-07)
+> **TODO(要確認):** 対応モデルの世代(2026-08 時点は gpt-5.6 系: sol / terra / luna。gpt-5.4 / gpt-5.4-mini は 2026-08-31 に Codex から退役予定)とプラン別レート制限を公式ドキュメント(learn.chatgpt.com/docs/models・/docs/pricing)で確認する(最終確認: 2026-08)
 
-> **TODO(要確認):** 製品面の追加(Chrome 拡張・App Server・computer use 等が拡大中)を changelog で確認する(最終確認: 2026-07)
+> **TODO(要確認):** 製品面の追加・変更(Chrome 拡張・App Server は 2026-08 時点で正式掲載済み。デスクトップの Linux preview の GA 化、computer use 等)を changelog で確認する(最終確認: 2026-08)
 
-> **TODO(要確認):** help.openai.com のプラン別利用条件・学習利用設定の記事本文を確認する(2026-07-05 時点で直接取得が 403 のため間接確認に留まる。最終確認: 2026-07)
+> **TODO(要確認):** help.openai.com のプラン別利用条件・学習利用設定の記事本文を確認する(2026-08-18 時点も直接取得が 403 のため間接確認に留まる。個人プランの学習利用の既定は再確認できていないが反証もない。最終確認: 2026-08)

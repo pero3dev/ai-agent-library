@@ -2,6 +2,7 @@
 
 - **対象**: OpenAI のモデルファミリー(2026-07 時点の現行世代)
 - **調査日**: 2026-07-06
+- **更新日**: 2026-08-18(四半期定点観測。文末の「観測ログ(2026-08-18 定点観測)」に GPT-5.6 世代・`reasoning.mode`・退役 2 件を追記。本文の表は 2026-07-06 時点のまま)
 - **用途**: 「主要 LLM の全体像(モデルカタログ)」「モデル選定ガイド」執筆の一次資料
 - **根拠の方針**: OpenAI 公式ドキュメント(developers.openai.com / openai.com)と Microsoft Learn(Azure 公式)のみを根拠とします。第三者記事・ベンチマークまとめサイトは使用していません
 - **確度表記**: 「公式明記」= 公式ページに明文あり / 「公式から推測」= 公式記述からの合理的推測 / 「未確認」= 今回確認できず
@@ -177,6 +178,19 @@
 | モデル選定ガイド | https://developers.openai.com/api/docs/guides/model-selection | 精度→コスト最適化の 2 段階 |
 | Codex 向けモデル | https://developers.openai.com/codex/models | コーディング用途の推奨 |
 | Azure モデル一覧 | https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/models-sold-directly-by-azure | 旧 azure/ai-foundry/openai/concepts/models から誘導 |
+
+## 観測ログ(2026-08-18 定点観測)
+
+docs は本観測の結果を反映済み(llm-landscape / model-selection / openai-prompting / cross-model-prompting、`last_updated: 2026-08-18`)。出典はモデル概要・料金・deprecations・latest-model の各公式ページ(確認日 2026-08-18、特記なき限り公式明記)。
+
+1. **GPT-5.6 世代が登場**: `gpt-5.6-sol`(フラッグシップ、$5/$30)/ `gpt-5.6-terra`(低価格、$2/$12)/ `gpt-5.6-luna`(軽量、$0.20/$1.20)。いずれも 1.05M 入力 / 128K 出力、knowledge cutoff 2026-02-16。エイリアス `gpt-5.6` は sol を指す。**5.5 / 5.4 系は提供継続だが位置づけは後退**(名称体系が mini / nano から terra / luna に変わった点に注意)
+2. **pro は専用モデルから `reasoning.mode` パラメータへ**: `reasoning.mode: "standard" | "pro"` で指定する形に変わり、o3-pro / gpt-5-pro の移行先表記は **`gpt-5.6-sol` + `reasoning.mode: "pro"`**。effort とは独立したパラメータ
+3. **effort 集合に `max` が追加**: GPT-5.6 世代は `minimal` 非対応で none / low / medium / high / xhigh / max。**GPT-5.6 の既定は medium**(5.5 と同じ)
+4. **退役 2 件**: ①`gpt-5.2-chat-latest` / `gpt-5.3-chat-latest` は **2026-08-10 に退役完了**(§1 の表のとおり実施)②**レガシー音声・realtime・文字起こし系 9 モデルが 2027-01-20 退役予定**(2026-07-20 告知)
+5. **変更なしの確認**: o 系(o3 / o3-pro)・gpt-5 初代の退役 2026-12-11 は据え置き(移行先表記は 5.6 系に更新)。`v1/prompts` 停止 2026-11-30 も据え置き。272K トークン超の長文割増(入力 2 倍・出力 1.5 倍)継続。Structured Outputs・Responses API 推奨も変更なし
+6. **料金傾向値の再確認**: 入力単価幅は luna($0.20)〜 sol($5)で **約 25 倍が引き続き成立**。出力 = 入力の 6 倍・キャッシュ読取 1/10・バッチ半額も成立
+
+> **TODO(要確認):** `reasoning.mode: "pro"` 実行時の価格条件(専用単価か倍率か)を公式料金ページで確認する。旧 `gpt-5.5-pro`($30/$180)のような専用価格表記が 5.6 世代でどうなったか、今回の取得では確定できず(最終確認: 2026-08)
 
 ## 未確認事項(執筆前に要フォロー)
 

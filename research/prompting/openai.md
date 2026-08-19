@@ -1,6 +1,7 @@
 # PE-R2 調査メモ — OpenAI(GPT 系)公式プロンプト推奨
 
 - **調査日**: 2026-07-08
+- **更新日**: 2026-08-18(四半期定点観測。文末の「観測ログ(2026-08-18 定点観測)」に GPT-5.6 世代の effort / `reasoning.mode` と確認不能事項を追記。本文の表は 2026-07-08 時点のまま)
 - **性格**: 本メモは公開ドキュメントではなく、`docs/03-implementation/` のプロンプトエンジニアリング関連記事を執筆するための**非公開の一次情報整理**です。断定調で書いていますが、確度欄を必ず併読してください。
 - **調査目的**: OpenAI(GPT 系)公式のプロンプトエンジニアリング推奨を、公式一次情報(platform / developers.openai.com、cookbook)ベースで整理する。特に「推論モデル(reasoning)と非推論モデルの書き分け」「Responses API と指示階層」「Structured Outputs」「prefill 可否」を重点確認する。
 - **根拠の方針**: `developers.openai.com`(旧 `platform.openai.com/docs/*` からの 301/308 リダイレクト先。以下「公式 docs」)と `developers.openai.com/cookbook`(旧 `cookbook.openai.com`)のみを一次情報とする。個人ブログ・比較記事は補助的にのみ用い、確度を落とす。
@@ -229,3 +230,16 @@
 - **GPT-4.1 prompting guide(長コンテキスト作法・冒頭/末尾反復指示)**: 今回未フェッチ。GPT-4.1 は前世代のため優先度を下げた。長コンテキストの旧作法を記事化する場合は別途取得推奨。URL: https://developers.openai.com/cookbook/examples/gpt4-1_prompting_guide
 - **GPT-5.5 専用の cookbook prompting guide の存在**: 未確認。GPT-5.5 のプロンプト指針は公式 docs の「Using GPT-5.5」(latest-model)を一次とした。Simon Willison が "GPT-5.5 prompting guide"(2026-04-25)を掲載しているが二次情報。
 - **`reasoning.effort` の `minimal` と `none` の厳密な差**: Reasoning models ページに両者が列挙されるが、`minimal`(GPT-5 世代の呼称)と `none`(GPT-5.4/5.5 世代の呼称)の関係・共存が世代で揺れており、統一的定義は未確認。世代を明示して書くこと。
+
+---
+
+## 観測ログ(2026-08-18 定点観測)
+
+docs は本観測の結果を反映済み(openai-prompting / cross-model-prompting、`last_updated: 2026-08-18`)。確認日 2026-08-18、特記なき限り公式確認済み(モデル面の詳細は `research/models/openai.md` の観測ログを参照)。
+
+1. **GPT-5.6 世代への交代でプロンプト面の差分**: effort 集合に **`max` が追加**され、GPT-5.6 世代は `minimal` 非対応(none / low / medium / high / xhigh / max)。**既定は GPT-5.6 / 5.5 とも `medium`**。§10 の「水準集合が増減する」が的中(前回時点の xhigh 止まりは失効)
+2. **`reasoning.mode`(`standard` / `pro`)が新設**: 旧 pro 専用モデル(o3-pro / gpt-5-pro)の移行先は `gpt-5.6-sol` + `reasoning.mode: "pro"`。**effort と独立のパラメータ**で、思考制御の説明は「effort(思考量)+ mode(コンピュート量)」の 2 軸になった
+3. **確認不能事項(要約経由でしか取得できず断定不可)**: ①**overthinking 警告の現行原文** — GPT-5.6 世代版では「`max` は最難関タスクに留め `xhigh` と比較する」といった表現に変化している可能性があるが、原文を直接取得できず。②**指示階層(安全 > 不変条件 > 決定ルール > 文体)の定式化の現行原文** — Prompt guidance の現行版で同じ 4 層定式化が維持されているか未確認。docs 側は両者とも「2026-07 確認分」と時点明示 + TODO 化で対応
+4. **変更なしの確認**: `v1/prompts` 停止 2026-11-30 は据え置き。Structured Outputs・Responses API 推奨・zero-shot 先行の few-shot 方針も変更なし
+
+> **TODO(要確認):** overthinking 警告と指示階層の現行原文を「Reasoning best practices」「Prompt guidance」の直接取得で確認する(2026-08-18 時点では要約経由のみ)。あわせて GPT-5.6 世代の cookbook prompting guide の有無を確認する(最終確認: 2026-08)

@@ -1,6 +1,7 @@
 # PE-R3 調査メモ — Google(Gemini)公式プロンプト推奨
 
 - **調査日**: 2026-07-08
+- **更新日**: 2026-08-18(四半期定点観測。文末の「観測ログ(2026-08-18 定点観測)」に 3.6 / 3.7 Flash 対応・thinking_budget 記述消失・developer guide の乖離を追記。本文の表は 2026-07-08 時点のまま)
 - **調査目的**: プロンプトエンジニアリング系ドキュメントの執筆材料。「Google(Gemini)公式が推奨するプロンプト設計」を、公式一次情報のみで整理する。**本メモは非公開の執筆用整理**であり、そのまま公開ドキュメントにはしない
 - **根拠の方針**: `ai.google.dev`(Gemini API docs)および `cloud.google.com` / `docs.cloud.google.com`(Vertex / Gemini Enterprise Agent Platform)の公式ページを WebFetch / WebSearch で直接確認。二次情報(個人ブログ・まとめ)は確度を落として補助的にのみ扱う
 - **鮮度の注意**: 調査者(Claude)の知識カットオフより現在(2026-07-08)が新しい。モデル名・機能名は記憶で断定せず公式ページで確認した。確認できない世代・機能は「未確認」とした
@@ -194,3 +195,19 @@
 
 - WebFetch の本文は小型モデルの要約を経ているため、**API フィールド名の綴り**(`response_format` / `response_mime_type` / `tool_choice` / `thinking_summaries` など)は SDK 名と REST 名が正規化されている可能性がある。**公開ドキュメント執筆時・実装時は必ず公式リファレンス(https://ai.google.dev/api)で綴りを再確認**すること。
 - 引用(英語原文)は要約経由のものを含むため、逐語の完全一致は保証しない。ニュアンスは公式ページで最終確認する。
+
+---
+
+## 観測ログ(2026-08-18 定点観測)
+
+docs は本観測の結果を反映済み(gemini-prompting / cross-model-prompting、`last_updated: 2026-08-18`)。確認日 2026-08-18、特記なき限り公式確認済み(モデル面の詳細は `research/models/google.md` の観測ログを参照)。
+
+1. **前提モデル群の交代**: 安定版は 3.7 Flash(新フラッグシップ Flash・2026-08 登場)・3.6 Flash(2026-07-21 登場)・3.5 Flash-Lite / 3.1 Flash-Lite に。**3.5 Flash はレガシー扱い**、2.5 系は「終了日未定」(2026-10-16 終了告知は撤回)。§0 の「GA は 3.5 Flash と 3.1 Flash-Lite」は失効
+2. **thinking_level のモデル別既定が更新**: 3.7 Flash = `medium`(**`minimal` 非対応**)、3.6 Flash = `medium`、3.5 Flash-Lite = `minimal`、3.1 Pro preview = `high`。§4 の既定表(3.5 Flash = medium 等)は旧世代分のみ有効
+3. **`thinking_budget` の記述が公式ページから消失**: §4 の「legacy の thinking_budget は引き続きサポート」の根拠だった記述が Thinking / gemini-3 ページ上で確認できなくなった。**継続サポートか終了かは断定不可**のため、docs 側は「前提にしない + TODO」に書き換え済み
+4. **gemini-3 developer guide に 3.6 / 3.7 Flash が未反映**: モデル一覧ページとの**乖離**を確認(developer guide の thinking_level・minimal 対応の記述は 3 Flash / 3.1 世代のまま)。ページ間で情報の鮮度が割れている点は引用時に注意
+5. **変更なしの確認**: few-shot 常時推奨・temperature 既定 1.0 維持(下げると looping / 劣化)・長文「資料先・質問末尾」・Interactions API GA(推奨)/ generateContent legacy はいずれも変更なし
+
+> **TODO(要確認):** `thinking_budget`(数値予算)の継続サポート可否を Thinking ページと API リファレンス(https://ai.google.dev/api)で確認する。2026-08-18 時点では公式ページから記述が消失しており確定できない(最終確認: 2026-08)
+
+> **TODO(要確認):** gemini-3 developer guide への 3.6 / 3.7 Flash 反映(thinking_level の対応レベル・minimal 対応の現行化)を次回定点観測で確認する(最終確認: 2026-08)

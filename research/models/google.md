@@ -2,6 +2,7 @@
 
 - **対象**: Google の Gemini モデルファミリー(2026-07 時点の現行世代)
 - **調査日**: 2026-07-06
+- **更新日**: 2026-08-18(四半期定点観測。文末の「観測ログ(2026-08-18 定点観測)」に 3.6 / 3.7 Flash 登場・2.5 系終了告知の撤回・取得揺れを追記。本文の表は 2026-07-06 時点のまま)
 - **用途**: 「主要 LLM の全体像(モデルカタログ)」「モデル選定ガイド」執筆の一次資料
 - **根拠の方針**: Google 公式ドキュメント(ai.google.dev / cloud.google.com / docs.cloud.google.com)のみを根拠とします。第三者記事・ベンチマークまとめサイトは使用していません
 - **確度表記**: 「公式明記」= 公式ページに明文あり / 「公式から推測」= 公式記述からの合理的推測 / 「未確認」= 今回確認できず
@@ -143,6 +144,22 @@
 | Vertex AI モデル一覧 | https://docs.cloud.google.com/vertex-ai/generative-ai/docs/models | cloud.google.com からリダイレクト |
 | Vertex AI 料金 | https://cloud.google.com/vertex-ai/generative-ai/pricing | エンドポイント別(グローバル / リージョン)価格 |
 | 更新履歴 | https://ai.google.dev/gemini-api/docs/changelog | 今回未取得(**未確認**) |
+
+## 観測ログ(2026-08-18 定点観測)
+
+docs は本観測の結果を反映済み(llm-landscape / model-selection / gemini-prompting、`last_updated: 2026-08-18`)。出典はモデル一覧・料金・deprecations の各公式ページ(確認日 2026-08-18、特記なき限り公式明記)。
+
+1. **Gemini 3.6 Flash(2026-07-21)と 3.7 Flash(2026-08)が登場**: **3.7 Flash が新しいフラッグシップ Flash(New Stable)**で、3.6 Flash も安定版として提供。**3.5 Flash はレガシー扱いへ**。また **3.5 Flash-Lite(Stable)** が軽量ティアに追加された(§1 の「Flash 系最上位 = 3.5 Flash」「軽量 = 3.1 Flash-Lite のみ」は失効)
+2. **2.5 系の 2026-10-16 提供終了は撤回され「終了日未定」に**: 移行先表記は 2.5 Pro → `gemini-3.1-pro-preview`、2.5 Flash → `gemini-3.6-flash`。§1 の「2.5 系 3 モデルが 2026-10-16 に一斉終了しうる」という含意は失効(終了告知が撤回される例として記録)
+3. **3.7 Flash は導入価格 $0.75/$3.75(2026-12-31 まで)**: 2027-01 から $1.50/$7.50 に引き上げ予定(3.6 Flash も同価格 $1.50/$7.50)
+4. **3.1 Pro は依然プレビューのみ**(Pro ティアの GA 不在が継続)
+5. **取得揺れ**: `gemini-3-flash-preview` の提供終了日は取得のたびに値が割れ、**確認不能**(移行先が 3.6 である点は一致)。次回に再確認
+6. **thinking_level のモデル別既定**: 3.7 Flash = medium(`minimal` 非対応)、3.6 Flash = medium、3.5 Flash-Lite = minimal、3.1 Pro preview = high(プロンプティング面の詳細は `research/prompting/google.md`)
+7. **料金傾向値の再確認**: 3.7 Flash の恒久価格($1.50/$7.50)でも出力 = 入力の 5 倍・キャッシュ読取 ≒ 1 割・バッチ半額が成立
+
+> **TODO(要確認):** `gemini-3-flash-preview` の提供終了日を deprecations ページで再確認する(2026-08-18 時点では取得結果が割れて確定できず。移行先は `gemini-3.6-flash`)(最終確認: 2026-08)
+
+> **TODO(要確認):** Gemini 3.6 / 3.7 Flash の個別仕様(コンテキスト長・最大出力・knowledge cutoff・対応機能)をモデル詳細ページで確認する。今回はモデル一覧・料金・deprecations のみの確認で、詳細ページは未取得(最終確認: 2026-08)
 
 ## 未確認事項・執筆時の注意
 

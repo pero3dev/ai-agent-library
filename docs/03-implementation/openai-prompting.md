@@ -3,7 +3,7 @@ title: "OpenAI(GPT 系)特化プロンプティングガイド"
 category: "implementation"
 level: "intermediate"
 status: "published"
-last_updated: "2026-07-08"
+last_updated: "2026-08-18"
 tags: ["prompt-design", "model-selection"]
 ---
 
@@ -28,7 +28,7 @@ OpenAI の GPT ファミリーに対して、**公式ガイドが推奨する具
 
 ## 本文
 
-> **最終確認日:** 2026-07-08 — 本記事の機能名・仕様・モデル別推奨は、この日付時点の OpenAI 公式ドキュメント([参考資料](#参考資料))に基づきます。個別モデルの仕様は変わるため、断定は避け「〜時点」を明記しています。
+> **最終確認日:** 2026-08-18 — 本記事の機能名・仕様・モデル別推奨は、この日付時点の OpenAI 公式ドキュメント([参考資料](#参考資料))に基づきます(一部、確認できていない項目は本文と TODO に明記)。個別モデルの仕様は変わるため、断定は避け「〜時点」を明記しています。
 
 ### 概要: 汎用記事との分担
 
@@ -44,9 +44,9 @@ Claude・Gemini との横並び比較と移行は [モデル間の違いと移�
 
 ### モデルファミリーの前提(プロンプトに効く差分だけ)
 
-顔ぶれ・価格・選び方は [モデルカタログ](llm-landscape.md) が正本です。プロンプト設計に効く差分だけを押さえます(2026-07 時点)。
+顔ぶれ・価格・選び方は [モデルカタログ](llm-landscape.md) が正本です。プロンプト設計に効く差分だけを押さえます(2026-08 時点)。
 
-- **推論は本体に統合された**: かつての推論特化「o シリーズ」は縮小し、GPT-5.x 本体の **reasoning effort** で思考量を制御する形が標準です(2026-07 時点で o 系は退役が進行中。退役日程は [モデルカタログ](llm-landscape.md) を参照)
+- **推論は本体に統合された**: かつての推論特化「o シリーズ」は縮小し、GPT-5.x 本体の **reasoning effort** で思考量を制御する形が標準です(o 系は 2026-12-11 退役予定で、移行先は GPT-5.6 系。退役日程は [モデルカタログ](llm-landscape.md) を参照)
 - **モデルは「同僚」で例える**: 公式は推論内蔵モデルを「ゴールを渡せば任せられる上級同僚」、軽量モデルを「明示的な指示で最も動く新人同僚」と説明します。書き方の粒度を変える指針です
 - **一部の作法は不要になった**: 出力スキーマの強い言い回しや「ステップバイステップで考えて」は、Structured Outputs と推論内蔵化により不要・逆効果になりました(後述)
 
@@ -55,7 +55,7 @@ Claude・Gemini との横並び比較と移行は [モデル間の違いと移�
 GPT 系のプロンプトは**役割の階層**で設計します。
 
 - **役割は developer / user / assistant**: `developer`(アプリ開発者の指示)は `user`(エンドユーザーの指示)より優先されます。推論モデルでは developer メッセージが従来の system メッセージを置き換えます(Responses API では `instructions` パラメータが `input` 内のプロンプトより優先)
-- **指示は重要度で階層化する**: 上から (1) 安全・プライバシー等の譲れない制約、(2) 必須の出力項目・真の不変条件、(3) 判断が要る場面の決定ルール、(4) 人格・文体(最下位)。ユーザー指示は文体は上書きできても上位の制約は拘束されたままです
+- **指示は重要度で階層化する**: 上から (1) 安全・プライバシー等の譲れない制約、(2) 必須の出力項目・真の不変条件、(3) 判断が要る場面の決定ルール、(4) 人格・文体(最下位)。ユーザー指示は文体は上書きできても上位の制約は拘束されたままです(この 4 層の定式化は 2026-07 確認分。現行ガイドの原文は再確認できていません。後述の TODO 参照)
 - **矛盾・曖昧を残さない**: GPT-5 系は矛盾した指示の解消に推論トークンを浪費し、特に脆弱です。判断が要る箇所への `ALWAYS` / `NEVER` の乱用も避け、真の不変条件にだけ使います
 
 ### 構造化の推奨記法
@@ -70,12 +70,13 @@ GPT 系のプロンプトは**役割の階層**で設計します。
 - **例と指示を厳密に整合させる**: 例が指示と矛盾すると、特に推論モデルで害になります(前述の矛盾脆弱性)
 - **軽量モデルには「流れ」を見せる**: 小型モデル(mini / nano)には最終フォーマットだけでなく、正しい処理の流れを 1 例示すのが効きます
 
-### 思考の制御: reasoning effort
+### 思考の制御: reasoning effort と reasoning.mode
 
-GPT-5.x は推論を内蔵し、**reasoning effort** で思考とツール使用の労力を制御します(2026-07 時点)。
+GPT-5.x は推論を内蔵し、**reasoning effort** で思考とツール使用の労力を制御します(2026-08 時点)。
 
-- **effort は none / minimal / low / medium / high / xhigh**(モデル依存)。既定は世代で変わります(例: GPT-5.5 は `medium`、GPT-5.2 は `none`)。移行時は先行世代のプロファイルに合わせて明示ピン留めします
-- **effort は品質の主ノブではなく最後の微調整ノブ**: 「上げれば品質が上がる」は誤りです。矛盾した指示・弱い停止条件・自由なツールアクセスがあると、高 effort は**過剰思考(overthinking)や無駄な探索、品質の退行**を招きます。上げるのは評価で正当化できるときだけです
+- **effort は none / minimal / low / medium / high / xhigh / max**(集合はモデル依存。GPT-5.6 世代は `minimal` 非対応で none / low / medium / high / xhigh / max)。既定は世代で変わります(例: GPT-5.6 / 5.5 は `medium`、GPT-5.2 は `none`)。移行時は先行世代のプロファイルに合わせて明示ピン留めします
+- **高コンピュート実行は `reasoning.mode` で指定する**: かつての専用 pro モデル(o3-pro / gpt-5-pro)は、`reasoning.mode`(`standard` / `pro`)のパラメータ指定に置き換わりました(公式の移行先は `gpt-5.6-sol` + `reasoning.mode: "pro"`)。effort とは独立したパラメータで、数分かけてでも最高品質の回答が要る難問にだけ使います
+- **effort は品質の主ノブではなく最後の微調整ノブ**: 「上げれば品質が上がる」は誤りです。矛盾した指示・弱い停止条件・自由なツールアクセスがあると、高 effort は**過剰思考(overthinking)や無駄な探索、品質の退行**を招きます。上げるのは評価で正当化できるときだけです(この警告の定式化は 2026-07 確認分。`max` 追加後の現行原文は再確認できていません。後述の TODO 参照)
 - **推論内蔵モデルには手順を細かく書かない**: 「ステップバイステップで考えて」は不要です。**ゴール・強い制約・明示的な出力契約**を与え、中間手順は内部推論に任せます([上級パターンの思考制御](prompt-engineering-patterns.md)の GPT 版)
 - **生の思考は API から見えない**: 推論トークンは可視化されません。ステートレスで推論を跨ぐには暗号化済み推論内容を差し戻す必要があります
 
@@ -101,18 +102,18 @@ GPT-5.x は推論を内蔵し、**reasoning effort** で思考とツール使用
 
 ### 世代交代で見直すこと
 
-GPT-5.5 のような新世代は**ドロップイン置換ではなく、再チューニング前提**です(2026-07 時点)。
+GPT-5.6 のような新世代は**ドロップイン置換ではなく、再チューニング前提**です(2026-08 時点)。
 
 - **最小プロンプトから始める**: 製品契約を保つ最小のプロンプトから始め、代表例で effort・verbosity・ツール記述・出力形式を微調整します。旧プロンプトスタックを丸ごと持ち込まないこと
 - **移行時のプロンプト掃除**: 現在日付を消す(モデルが UTC 日付を把握済み)、出力スキーマを消して Structured Outputs へ、キャッシュ最適化(静的を先・動的を後)
-- **既定 effort の変化に注意**: 既定の reasoning effort は世代で変わります(例: 5.2 は none、5.5 は medium)。無指定のままだとレイテンシ・コストのプロファイルが変わります
+- **既定 effort の変化に注意**: 既定の reasoning effort は世代で変わります(例: 5.2 は none、5.5 / 5.6 は medium)。無指定のままだとレイテンシ・コストのプロファイルが変わります
 - **逐語的な解釈**: 新世代はプロンプトを字義通り・網羅的に解釈します。既定文体は簡潔・直接なので、温かみや特定の人格が要るなら明示します
 
 移行作業の運用(回帰評価・段階リリース)は [バージョニングとモデル更新追従](../05-operations/versioning-and-model-updates.md) が正本です。
 
 ### 効かない・不要になった俗説
 
-以下は OpenAI 公式が非推奨・不要とするものです(2026-07 時点)。
+以下は OpenAI 公式が非推奨・不要とするものです(2026-08 時点)。
 
 - **推論モデルへの「ステップバイステップで考えて」**: 内部で推論するため不要
 - **一貫した JSON のための「強い言い回し」の書式指示**: Structured Outputs でスキーマ遵守が保証されるため不要
@@ -157,23 +158,25 @@ GPT-5.5 のような新世代は**ドロップイン置換ではなく、再チ�
 
 ## 参考資料
 
-- [Prompt engineering(OpenAI)](https://developers.openai.com/api/docs/guides/prompt-engineering) / [Prompt guidance(OpenAI)](https://developers.openai.com/api/docs/guides/prompt-guidance) — 構造化・階層・整形の指針(アクセス日: 2026-07-08)
-- [Reasoning best practices(OpenAI)](https://developers.openai.com/api/docs/guides/reasoning-best-practices) / [Reasoning models(OpenAI)](https://developers.openai.com/api/docs/guides/reasoning) — 推論モデルへの書き方・effort(アクセス日: 2026-07-08)
-- [Using the latest model(OpenAI)](https://developers.openai.com/api/docs/guides/latest-model) — 最新世代への移行考慮点(アクセス日: 2026-07-08)
-- [Structured Outputs(OpenAI)](https://developers.openai.com/api/docs/guides/structured-outputs) — スキーマ強制出力(アクセス日: 2026-07-08)
+- [Prompt engineering(OpenAI)](https://developers.openai.com/api/docs/guides/prompt-engineering) / [Prompt guidance(OpenAI)](https://developers.openai.com/api/docs/guides/prompt-guidance) — 構造化・階層・整形の指針(アクセス日: 2026-07-08。2026-08-18 時点の全文は再確認できず、指示階層の現行原文は TODO 参照)
+- [Reasoning best practices(OpenAI)](https://developers.openai.com/api/docs/guides/reasoning-best-practices) / [Reasoning models(OpenAI)](https://developers.openai.com/api/docs/guides/reasoning) — 推論モデルへの書き方・effort・`reasoning.mode`(アクセス日: Reasoning models は 2026-08-18、Reasoning best practices は 2026-07-08。overthinking 警告の現行原文は TODO 参照)
+- [Using the latest model(OpenAI)](https://developers.openai.com/api/docs/guides/latest-model) — 最新世代への移行考慮点(アクセス日: 2026-08-18)
+- [Structured Outputs(OpenAI)](https://developers.openai.com/api/docs/guides/structured-outputs) — スキーマ強制出力(アクセス日: 2026-08-18)
 - [GPT-5 prompting guide(OpenAI Cookbook)](https://developers.openai.com/cookbook/examples/gpt-5/gpt-5_prompting_guide) — エージェント・ツール文脈の実例(アクセス日: 2026-07-08)
 
 ## TODO・未確認事項
 
 > **TODO(要確認):** 停止シーケンス(`stop`)の現行 API 仕様、および Anthropic 型の assistant prefill の可否は、プロンプト系ガイドでは扱われず未確定です。必要時に公式 API リファレンスで確認する(最終確認: 2026-07)
 
+> **TODO(要確認):** 過剰思考(overthinking)警告と指示階層(安全 > 不変条件 > 決定ルール > 文体)の現行原文を「Reasoning best practices」「Prompt guidance」で再確認する。2026-08-18 時点では要約経由でしか取得できず断定不可。GPT-5.6 世代版では overthinking 警告が「`max` は最難関タスクに留め `xhigh` と比較する」といった表現に変わっている可能性があります(最終確認: 2026-08)
+
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** 四半期ごとに OpenAI 公式の「Prompt guidance」「Reasoning models」「Using the latest model」ページと GPT-5.x 系 cookbook で次を再確認する(更新起点: `research/prompting/openai.md`、最終確認: 2026-07):
+> **TODO(要確認):** 四半期ごとに OpenAI 公式の「Prompt guidance」「Reasoning models」「Using the latest model」ページと GPT-5.x 系 cookbook で次を再確認する(更新起点: `research/prompting/openai.md`、最終確認: 2026-08):
 >
-> - 現行フロンティア世代と既定 reasoning effort(現在: GPT-5.5 = medium、旧世代で異なる)
-> - reasoning effort の水準集合(none / minimal / low / medium / high / xhigh)
+> - 現行フロンティア世代と既定 reasoning effort(現在: GPT-5.6 / 5.5 = medium、旧世代で異なる)
+> - reasoning effort の水準集合(none / minimal / low / medium / high / xhigh / max。GPT-5.6 世代は `minimal` 非対応)と `reasoning.mode`(standard / pro)の対応モデル
 > - developer / system メッセージの用語と指示階層(Model Spec の更新)
 > - Structured Outputs の対応モデルと未対応スキーマ機能
-> - 再利用プロンプトオブジェクト(`v1/prompts`)の停止(2026-11-30 予定)
+> - 再利用プロンプトオブジェクト(`v1/prompts`)の停止(2026-11-30 予定のまま据え置き)
 > - ドキュメントドメイン(`platform.openai.com` → `developers.openai.com` へ移行済み)

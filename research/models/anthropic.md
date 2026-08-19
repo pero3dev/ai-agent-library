@@ -2,6 +2,7 @@
 
 - **対象**: Anthropic の Claude モデルファミリー(2026-07 時点の現行世代)
 - **調査日**: 2026-07-06
+- **更新日**: 2026-08-18(四半期定点観測。文末の「観測ログ(2026-08-18 定点観測)」に差分を追記し、TODO 2 件を消化。本文の表は 2026-07-06 時点のまま)
 - **用途**: 「主要 LLM の全体像(モデルカタログ)」「モデル選定ガイド」執筆の一次資料
 - **根拠の方針**: Anthropic 公式ドキュメント(platform.claude.com / claude.com)のみを根拠とします。第三者記事・ベンチマークまとめサイトは使用していません
 - **確度表記**: 「公式明記」= 公式ページに明文あり / 「公式から推測」= 公式記述からの合理的推測 / 「未確認」= 今回確認できず
@@ -172,10 +173,22 @@ docs 本文には桁感のみ転記する方針。具体値は本メモを正と
 
 - 補足: タスク起点で示された docs.claude.com / platform.claude.com のうち、今回実際に取得できた正本は platform.claude.com 配下でした。anthropic.com/pricing は現在 claude.com/pricing が案内先になっています(docs の pricing ページが claude.com/pricing を「最新価格の参照先」として明記)
 
+## 観測ログ(2026-08-18 定点観測)
+
+docs は本観測の結果を反映済み(llm-landscape / model-selection / claude-prompting、`last_updated: 2026-08-18`)。出典はモデル概要・pricing・model-deprecations の各公式ページ(確認日 2026-08-18、特記なき限り公式明記)。
+
+1. **Claude Opus 5 登場**: `claude-opus-5` が上位ティアの新モデルに。$5/$25(入力/出力、Opus 4.8 と同額)、1M 入力 / 128K 出力、cutoff 2026-05、退役は最短 2027-07-24。選定の出発点は「迷ったらまず **Opus 5**」に変わり、**Opus 4.8 は Legacy 表へ**移動
+2. **Sonnet 5 の導入価格($2/$10)が恒久化**: 2026-09-01 の標準価格($3/$15)への引き上げは**中止**と公式明記 → 前回 TODO(導入価格終了の確認)は消化。§3 の「2026-09-01〜、標準価格」行は失効
+3. **Opus 4.1 は 2026-08-05 に退役完了**(Mythos Preview は 2026-06-30 退役済み)→ 前回 TODO(退役完了の確認)は消化
+4. **Haiku 4.5 は軽量ティアの最新のまま**(変更なし)
+5. **Fast mode は Opus 5 / Opus 4.8 の research preview** として提供($10/$50)。Opus 4.7 版の削除(2026-07-24)は実施済み
+6. **思考の既定**: Opus 5 は**思考既定オン**で、effort `xhigh` / `max` 時の `thinking: {type: "disabled"}` は 400 エラー。Opus 4.8 / 4.7 の「明示設定しないと思考オフ」は継続
+7. **effort の推奨開始点**: Opus 5 は `high`(既定)開始が公式推奨。Opus 4.7 / 4.8 のコーディング用途 `xhigh` 開始は継続
+8. **ミッドセッション system メッセージが拡大**: 対応モデルは Opus 5 / Fable 5 / Mythos 5 に(専用ページ化: https://platform.claude.com/docs/en/build-with-claude/mid-conversation-system-messages)。Opus 4.7 は 400 エラー。**Opus 4.8 の可否は確定できず**(TODO は `research/prompting/anthropic.md` 側で管理)
+9. **構造化出力(`output_config.format`)は継続**。料金傾向値(出力 = 入力の 5 倍・キャッシュ読取 ≒ 1 割・バッチ半額)も成立を再確認
+
 ## 未確認事項・TODO
 
 - Microsoft Foundry でのモデル別提供リスト(特にレガシーモデル)→ **未確認**。確認先: https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry
 
-> **TODO(要確認):** Sonnet 5 の導入価格(2026-08-31 まで $2/$10)が終了する 2026-09-01 前後に pricing ページを再確認し、docs 本文の桁感記述に影響がないか確認する(最終確認: 2026-07-06)
-
-> **TODO(要確認):** Opus 4.1(2026-08-05 退役)と Mythos Preview(2026-06-30 退役)の退役完了を model-deprecations ページで確認し、レガシー表の記述を更新する(最終確認: 2026-07-06)
+> **TODO(要確認):** Fast mode(Opus 5 / 4.8 の research preview、$10/$50)の GA 化・価格変更の有無と、Opus 5 の退役関連情報(現在は最短 2027-07-24)を次回定点観測で pricing / model-deprecations ページで確認する(最終確認: 2026-08)

@@ -1,6 +1,7 @@
 # PE-R1 調査メモ — Anthropic(Claude)公式プロンプト推奨
 
 - **調査日**: 2026-07-08
+- **更新日**: 2026-08-18(四半期定点観測。文末の「観測ログ(2026-08-18 定点観測)」に思考ドキュメント再編・Opus 5・ミッドセッション拡大を追記。本文の表は 2026-07-08 時点のまま)
 - **調査目的**: `docs/03-implementation/` 配下のプロンプトエンジニアリング系ドキュメント執筆材料。Anthropic(Claude)公式のプロンプトエンジニアリング推奨を、公式一次情報のみで整理する
 - **性質**: これは公開しない執筆用の整理メモです。断定調で書いてある事実も、最終的な docs 本文では確度と `TODO(要確認)` の要否を各自で再判断してください
 - **根拠の方針**: `platform.claude.com`(Claude 公式ドキュメント)を WebFetch で直接取得した内容のみを「公式確認済み」として採用します。既知の現行事実(Claude Code の claude-api スキル由来)は、可能な範囲で公式ページで裏取りし出典を付しています
@@ -217,3 +218,18 @@ docs 本文で断定を避けるか `TODO(要確認)` を付けるべき、変�
 | `prompting-claude-sonnet-5` / `prompting-claude-fable-5` | **個別取得せず** | best-practices・effort・adaptive-thinking から Sonnet 5 / Fable 5 の要点は間接採録済み。深掘りが必要なら追加取得を推奨 |
 
 > **TODO(要確認):** `stop_sequences` の現行 Messages API 仕様(最新モデルでの対応可否)を API リファレンスで確認する(最終確認: 2026-07)。また Sonnet 5 / Fable 5 の個別プロンプトページ本文を必要に応じて追加取得する(最終確認: 2026-07)。
+
+---
+
+## 観測ログ(2026-08-18 定点観測)
+
+docs は本観測の結果を反映済み(claude-prompting / cross-model-prompting、`last_updated: 2026-08-18`)。確認日 2026-08-18、特記なき限り公式確認済み。
+
+1. **思考ドキュメントの再編(§10-10 の「ドキュメント構成が動く」が的中)**: 思考制御の正本は `/build-with-claude/thinking` になり、「**Steering thinking and cost**(`thinking-steering-and-cost`)」「**Tool workflows**」「**Troubleshooting**」の分冊構成に。**旧 `adaptive-thinking` ページの URL は Steering thinking へ移行**。本メモ §4 の出典 URL(`.../adaptive-thinking`)は旧 URL である点に注意。あわせて新機能 **Task budgets** が思考系ドキュメントに登場(詳細は次回調査)
+2. **Claude Opus 5 登場に伴うプロンプト面の差分**: Opus 5 は**思考既定オン**で、effort `xhigh` / `max` 時の `thinking: {type: "disabled"}` は **400 エラー**。推奨開始 effort は **`high`(既定)**(「effort は応答の長さを確実に縮める手段ではない」との注記付き)。Opus 4.8 / 4.7 の「明示設定しないと思考オフ」「コーディングは `xhigh` 開始」は継続
+3. **ミッドセッション system メッセージが拡大・専用ページ化**: 対応モデルは **Opus 5 / Fable 5 / Mythos 5** に(§1 の「Opus 4.8 のみ」は失効)。専用ページ `/build-with-claude/mid-conversation-system-messages` が新設され、migration-guide 内の節から独立。**Opus 4.7 は 400 エラー**と明記。**Opus 4.8 の対応可否はページから読み取れず確定できない**(下記 TODO)
+4. **変更なしの確認**: prefill 非対応の境界(4.6 以降 400)・`budget_tokens` 廃止・サンプリングパラメータ 400・XML タグ第一選択・few-shot 3〜5 個・構造化出力 `output_config.format` はいずれも変更なし(`output_format` 旧名サポートの終了日は引き続き未提示)
+
+> **TODO(要確認):** ミッドセッション system メッセージの Opus 4.8 対応可否を専用ページ(`/build-with-claude/mid-conversation-system-messages`)で確認する。2026-08-18 時点では Opus 5 / Fable 5 / Mythos 5 の対応と Opus 4.7 の 400 のみ確認できた(最終確認: 2026-08)
+
+> **TODO(要確認):** 新機能 Task budgets の仕様(対象モデル・`max_tokens` / effort との関係)を thinking 系ページで確認し、docs への反映要否を判断する(最終確認: 2026-08)

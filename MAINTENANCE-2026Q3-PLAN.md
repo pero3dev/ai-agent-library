@@ -106,7 +106,7 @@ ROADMAP の「直近の注目」に挙がった期日のうち、すでに到来
 | バッチ | 状態 | 実施日 | コミット |
 | --- | --- | --- | --- |
 | Phase 0 | 完了 | 2026-08-18 | PR #2(rebase マージ・main 570f055)。CI の npm audit ゲート検出の website 依存脆弱性 7 件も解消。マージ後のデプロイ成功確認済み |
-| M1 | 未着手 | — | — |
+| M1 | 完了 | 2026-08-18 | モデルガイド・プロンプティング 6 本(Opus 5 / GPT-5.6 世代 / Gemini 3.7 Flash / Sonnet 5 価格恒久化 / 2.5 系終了撤回)/ 生成 AI・リアルタイム 4 本(本文差分ゼロ・Imagen 停止確認)/ 規制動向(EU 2026/1744 発効・個情法改正成立・SB 942 施行) |
 | M2 | 完了 | 2026-08-18 | coding-agents 13 本 + 比較表(Claude Code auto 既定化・Copilot 学習対象 Max 追加・Spark 終了・Codex docs 移転/5.6 世代・Devin Fusion・Antigravity 確定)/ ベンチマーク(TB 3.0・HAL 一時停止)/ 音声・FT(Vertex Live GA・FT 終了日程 2027-01-06) |
 | M3 | 完了 | 2026-08-18 | 認証・プロトコル(MCP 2026-07-28 大改版反映・A2A の AAIF 編入・AP2 FIDO 寄贈)/ サービング OSS(TGI アーカイブ反映・TODO 4 件解消)/ 業界マップ・OSS(本文差分ゼロ・確度更新) |
 | M4 | 未着手 | — | — |

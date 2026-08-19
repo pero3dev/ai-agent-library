@@ -3,7 +3,7 @@ title: "モデル間の違いと移行(横断比較)"
 category: "implementation"
 level: "intermediate"
 status: "published"
-last_updated: "2026-07-08"
+last_updated: "2026-08-18"
 tags: ["prompt-design", "model-selection"]
 ---
 
@@ -27,7 +27,7 @@ tags: ["prompt-design", "model-selection"]
 
 ## 本文
 
-> **最終確認日:** 2026-07-08 — 本記事の各社仕様は、この日付時点の 3 つの特化ガイド(それぞれの一次情報に基づく)を統合したものです。個別仕様は各特化ガイドと公式ページを正とします。
+> **最終確認日:** 2026-08-18 — 本記事の各社仕様は、この日付時点の 3 つの特化ガイド(それぞれの一次情報に基づく)を統合したものです。個別仕様は各特化ガイドと公式ページを正とします。
 
 ### 概要: 何が普遍で、何がモデル依存か
 
@@ -44,14 +44,14 @@ tags: ["prompt-design", "model-selection"]
 
 ### 相違の構造マップ(3 社横並び)
 
-本記事の核です。プロンプト設計に効く差分を並べます(2026-07 時点。詳細と根拠は各特化ガイド)。
+本記事の核です。プロンプト設計に効く差分を並べます(2026-08 時点。詳細と根拠は各特化ガイド)。
 
 | 観点 | Claude | OpenAI(GPT 系) | Gemini |
 | --- | --- | --- | --- |
 | 構造化記法 | **XML タグが第一選択** | Markdown 見出し + XML タグ併用、既定は素のパラグラフ、入れ子箇条書きを避ける | XML タグ・Markdown 見出しの**どちらでも可** |
 | システム指示 | `system`(役割)。会話途中の system は一部モデルのみ | **developer > user の指示階層**。推論モデルでは developer が system を置換 | `system_instruction` / 冒頭に重要指示 |
 | 例示(few-shot) | Relevant / Diverse / Structured、`<example>` タグ | **zero-shot を先に、必要なら** few-shot | **常時推奨**・全例でフォーマット統一 |
-| 思考制御の名前 | アダプティブ思考 + **effort**(low〜max) | **reasoning effort**(none〜xhigh) | **thinking_level**(minimal〜high) |
+| 思考制御の名前 | アダプティブ思考 + **effort**(low〜max) | **reasoning effort**(none〜max)+ **reasoning.mode**(standard / pro) | **thinking_level**(minimal〜high) |
 | 出力形式の強制 | 構造化出力(`output_config.format`) | Structured Outputs(strict `json_schema`) | JSON スキーマ強制 |
 | 応答書き出し指定(prefill) | 最新世代で**非対応(400)** | 主要技法として非採用 | 未確認(前提にしない) |
 | サンプリング温度 | 非既定値は最新世代で**400** | 下げてよい(決定性狙いで慣用) | **既定 1.0 維持を強く推奨**(下げると劣化) |
@@ -121,7 +121,7 @@ tags: ["prompt-design", "model-selection"]
 ## 参考資料
 
 - 各社公式のプロンプトガイド・移行ガイドは、それぞれの特化ガイド([Claude](claude-prompting.md) / [OpenAI](openai-prompting.md) / [Gemini](gemini-prompting.md))の参考資料を参照してください(本記事はそれらの差分を統合したものです)。
-- [Model migration guide(Anthropic)](https://platform.claude.com/docs/en/about-claude/models/migration-guide) — トークナイザ差など移行時の代表的な非互換の例(アクセス日: 2026-07-08)
+- [Model migration guide(Anthropic)](https://platform.claude.com/docs/en/about-claude/models/migration-guide) — トークナイザ差など移行時の代表的な非互換の例(アクセス日: 2026-08-18)
 
 ## TODO・未確認事項
 
@@ -129,4 +129,4 @@ tags: ["prompt-design", "model-selection"]
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** 四半期ごとに、3 つの特化ガイド([Claude](claude-prompting.md) / [OpenAI](openai-prompting.md) / [Gemini](gemini-prompting.md))の「変わりやすい項目」を更新したうえで、本記事の横並び表(相違の構造マップ)を突き合わせて更新する。特に思考制御パラメータの名前・値域・既定、サンプリングの扱い、prefill の対応可否は各社で変化しやすい(更新起点: `research/prompting/` の 3 メモ、最終確認: 2026-07)
+> **TODO(要確認):** 四半期ごとに、3 つの特化ガイド([Claude](claude-prompting.md) / [OpenAI](openai-prompting.md) / [Gemini](gemini-prompting.md))の「変わりやすい項目」を更新したうえで、本記事の横並び表(相違の構造マップ)を突き合わせて更新する。特に思考制御パラメータの名前・値域・既定、サンプリングの扱い、prefill の対応可否は各社で変化しやすい(更新起点: `research/prompting/` の 3 メモ、最終確認: 2026-08)

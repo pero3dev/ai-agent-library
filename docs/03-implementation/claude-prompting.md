@@ -3,7 +3,7 @@ title: "Claude 特化プロンプティングガイド"
 category: "implementation"
 level: "intermediate"
 status: "published"
-last_updated: "2026-07-08"
+last_updated: "2026-08-18"
 tags: ["prompt-design", "model-selection"]
 ---
 
@@ -28,7 +28,7 @@ Anthropic の Claude ファミリーに対して、**公式ガイドが推奨す
 
 ## 本文
 
-> **最終確認日:** 2026-07-08 — 本記事の機能名・仕様・モデル別推奨は、この日付時点の Anthropic 公式ドキュメント([参考資料](#参考資料))に基づきます。個別モデルの仕様は変わるため、断定は避け「〜時点」を明記しています。
+> **最終確認日:** 2026-08-18 — 本記事の機能名・仕様・モデル別推奨は、この日付時点の Anthropic 公式ドキュメント([参考資料](#参考資料))に基づきます。個別モデルの仕様は変わるため、断定は避け「〜時点」を明記しています。
 
 ### 概要: 汎用記事との分担
 
@@ -44,7 +44,7 @@ OpenAI・Gemini との横並び比較と移行は [モデル間の違いと移�
 
 ### モデルファミリーの前提(プロンプトに効く差分だけ)
 
-顔ぶれ・価格・選び方は [モデルカタログ](llm-landscape.md) が正本です。ここではプロンプト設計に効く差分だけを押さえます(2026-07 時点)。
+顔ぶれ・価格・選び方は [モデルカタログ](llm-landscape.md) が正本です。ここではプロンプト設計に効く差分だけを押さえます(2026-08 時点)。
 
 - **思考は「モード」ではなくパラメータで制御する**: 推論専用の別モデルはなく、汎用モデルの思考の深さを**アダプティブ思考**と **effort** で制御します(後述)
 - **世代でプロンプトの効き方が変わる**: 最新世代(Opus 4.7 以降)は指示をより**逐語的に**解釈し、旧世代向けの「補助」が過剰・不要になります(後述の移行)
@@ -55,7 +55,7 @@ OpenAI・Gemini との横並び比較と移行は [モデル間の違いと移�
 - **役割はシステムプロンプトで与える**: 用途に合わせて挙動とトーンを絞れます。**一文でも効果があり**(「あなたは Python に詳しいコーディング支援です」)、大げさな人格設定より判断基準を書く方が効きます([上級パターンの役割設計](prompt-engineering-patterns.md))
 - **指示に「なぜ」を添える**: 「省略記号を使うな」より「読み上げられるので省略記号を使わないで」の方が、Claude は理由から一般化して従います
 - **明確・直接に書く**: 公式の黄金律は「文脈のない同僚に見せて混乱するならモデルも混乱する」。順序や網羅性が重要なら番号付き・箇条書きの手順で与えます
-- **会話の途中で指示を差し込む**: セッション中に方針を変える指示は、`messages` 配列に `role: "system"` のメッセージとして追加できます(**2026-07 時点では Opus 4.8 のみ対応**)。開始時から効かせる指示は最上位の `system` を使います
+- **会話の途中で指示を差し込む**: セッション中に方針を変える指示は、`messages` 配列に `role: "system"` のメッセージとして追加できます(**2026-08 時点では Opus 5 / Fable 5 / Mythos 5 が対応**。Opus 4.7 では 400 エラー、Opus 4.8 の対応可否は未確認)。開始時から効かせる指示は最上位の `system` を使います
 
 ### 構造化: XML タグが第一選択
 
@@ -75,12 +75,21 @@ Claude 公式は例示を「出力の形式・トーン・構造を操る最も�
 
 ### 思考の制御: アダプティブ思考と effort
 
-Claude の思考制御は、固定のトークン予算ではなく **2 つのつまみ**で行います(2026-07 時点)。
+Claude の思考制御は、固定のトークン予算ではなく **2 つのつまみ**で行います(2026-08 時点)。
 
 | つまみ | 何をするか | 補足 |
 | --- | --- | --- |
-| アダプティブ思考(`thinking: {type: "adaptive"}`) | 複雑さに応じて「いつ・どれだけ考えるか」をモデルが動的に決める | Fable 5 は常時オン。Opus 4.8/4.7 は明示設定しないと思考オフ。Sonnet 5 は既定オン |
-| effort(`output_config.effort`) | 思考だけでなく応答全体(テキスト・ツール呼び出し)の労力を `low`〜`max` で調整 | `high` が既定(= 未指定と同じ)。コーディング・エージェント用途は `xhigh` 推奨 |
+| アダプティブ思考(`thinking: {type: "adaptive"}`) | 複雑さに応じて「いつ・どれだけ考えるか」をモデルが動的に決める | 既定はモデルで異なる(下表) |
+| effort(`output_config.effort`) | 思考だけでなく応答全体(テキスト・ツール呼び出し)の労力を `low`〜`max` で調整 | `high` が既定(= 未指定と同じ)。推奨開始点はモデルで異なる(下表) |
+
+モデル別の既定と推奨開始点は次のとおりです(2026-08 時点)。
+
+| モデル | 思考の既定 | 推奨開始 effort(コーディング・エージェント用途) |
+| --- | --- | --- |
+| Claude Opus 5 | 既定オン。effort `xhigh` / `max` では `thinking: {type: "disabled"}` が 400 エラー | `high`(既定)から開始が公式推奨。effort は応答の長さを確実に縮める手段ではない |
+| Claude Fable 5 | 常時オン(無効化不可) | まず既定の `high`、最も要求の高い作業のみ `xhigh` |
+| Claude Sonnet 5 | 既定オン | `high`(既定) |
+| Claude Opus 4.8 / 4.7 | 明示設定しないと思考オフ | `xhigh` 開始が公式推奨 |
 
 - **固定のトークン予算(`budget_tokens`)は使わない**: 旧世代の手法で、**最新世代では 400 エラー**になります。ハード上限が要るなら effort を下げるか `max_tokens` を使います
 - **プロンプトでも思考を誘導できる**: 思考が多すぎるなら「When in doubt, respond directly.」、増やしたいなら「Think carefully before responding.」をユーザーターン末尾に添えます
@@ -118,7 +127,7 @@ Claude の思考制御は、固定のトークン予算ではなく **2 つの�
 
 ### 世代交代で見直すこと
 
-Claude はモデル更新のたびにプロンプトを見直す前提です(2026-07 時点で最新世代に共通する変化)。
+Claude はモデル更新のたびにプロンプトを見直す前提です(2026-08 時点で最新世代に共通する変化)。
 
 - **逐語的な解釈**: 指示を暗黙に一般化しなくなりました。広く適用したい規則はスコープを明示します(「最初のセクションだけでなく全セクションに適用して」)
 - **冗長性の自動調整**: タスクの複雑さで応答長を変えます。固定の長さが要るなら明示します
@@ -171,23 +180,26 @@ Claude はモデル更新のたびにプロンプトを見直す前提です(202
 
 ## 参考資料
 
-- [Prompt engineering overview(Anthropic)](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview) — プロンプト設計の入口(アクセス日: 2026-07-08)
-- [Claude prompting best practices(Anthropic)](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices) — 全モデル共通技法 + モデル別ガイド + 移行考慮点の正本(アクセス日: 2026-07-08)
-- [Adaptive thinking(Anthropic)](https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking) / [Effort(Anthropic)](https://platform.claude.com/docs/en/build-with-claude/effort) — 思考制御の仕様(アクセス日: 2026-07-08)
-- [Structured outputs(Anthropic)](https://platform.claude.com/docs/en/build-with-claude/structured-outputs) — `output_config.format` の仕様(アクセス日: 2026-07-08)
-- [Model migration guide(Anthropic)](https://platform.claude.com/docs/en/about-claude/models/migration-guide) — 世代間の変更点(prefill 廃止・サンプリング・トークナイザ)(アクセス日: 2026-07-08)
+- [Prompt engineering overview(Anthropic)](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview) — プロンプト設計の入口(アクセス日: 2026-08-18)
+- [Claude prompting best practices(Anthropic)](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices) — 全モデル共通技法 + モデル別ガイド + 移行考慮点の正本(アクセス日: 2026-08-18)
+- [Thinking(Anthropic)](https://platform.claude.com/docs/en/build-with-claude/thinking) — 思考制御の正本。2026-08 時点で「Steering thinking and cost」「Tool workflows」「Troubleshooting」の分冊構成に再編済み(旧 Adaptive thinking ページの URL は Steering thinking へ移行)(アクセス日: 2026-08-18)
+- [Effort(Anthropic)](https://platform.claude.com/docs/en/build-with-claude/effort) — effort の仕様(アクセス日: 2026-08-18)
+- [Structured outputs(Anthropic)](https://platform.claude.com/docs/en/build-with-claude/structured-outputs) — `output_config.format` の仕様(アクセス日: 2026-08-18)
+- [Model migration guide(Anthropic)](https://platform.claude.com/docs/en/about-claude/models/migration-guide) — 世代間の変更点(prefill 廃止・サンプリング・トークナイザ)(アクセス日: 2026-08-18)
 
 ## TODO・未確認事項
 
 > **TODO(要確認):** `stop_sequences` の現行 Messages API での扱い(最新モデルでの対応可否)を公式 API リファレンスで確認する。best practices ページ上ではプロンプト技法として特筆されず、prefill・構造化出力に置き換わっている(最終確認: 2026-07)
 
+> **TODO(要確認):** ミッドセッション system メッセージの Opus 4.8 での対応可否を公式ドキュメント(専用ページ)で確認する。2026-08-18 時点では Opus 5 / Fable 5 / Mythos 5 の対応と Opus 4.7 の 400 エラーのみ確認できた(最終確認: 2026-08)
+
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** 四半期ごとに Anthropic 公式の「Claude prompting best practices」「adaptive thinking」「effort」ページで次を再確認する(更新起点: `research/prompting/anthropic.md`、最終確認: 2026-07):
+> **TODO(要確認):** 四半期ごとに Anthropic 公式の「Claude prompting best practices」と thinking 系ページ(分冊)・「effort」ページで次を再確認する(更新起点: `research/prompting/anthropic.md`、最終確認: 2026-08):
 >
-> - モデル世代・ラインアップ(現在: Fable 5 / Opus 4.8・4.7 / Sonnet 5 / Haiku 4.5)
-> - アダプティブ思考の対応と既定(常時オン / 既定オン / 明示オン / 手動不可の別)、`budget_tokens` 廃止の範囲
-> - effort のレベル名・`xhigh` の対応モデル・モデル別推奨開始点
-> - prefill 非対応の境界(現在: 4.6 以降)、`output_format` → `output_config.format` の旧名サポート終了
-> - ミッドセッション system メッセージの対応モデル(現在: Opus 4.8 のみ)
-> - 公式ドキュメント構成(個別テクニックページ → 単一 best practices ページへの統合が進行中)
+> - モデル世代・ラインアップ(現在: Fable 5 / Opus 5 / Sonnet 5 / Haiku 4.5。Opus 4.8 以前の Opus はレガシー)
+> - アダプティブ思考の対応と既定(常時オン / 既定オン / 明示オン / 手動不可の別。現在: Opus 5 は既定オンで `xhigh` / `max` 時は無効化不可)、`budget_tokens` 廃止の範囲
+> - effort のレベル名・`xhigh` の対応モデル・モデル別推奨開始点(現在: Opus 5 は `high` 開始、Opus 4.8 / 4.7 は `xhigh` 開始)
+> - prefill 非対応の境界(現在: 4.6 以降)、`output_format` → `output_config.format` の旧名サポート終了(終了日は 2026-08 時点で未提示)
+> - ミッドセッション system メッセージの対応モデル(現在: Opus 5 / Fable 5 / Mythos 5。Opus 4.8 は未確認)
+> - 公式ドキュメント構成(思考関連は thinking + Steering thinking and cost + Tool workflows + Troubleshooting の分冊構成へ再編済み)と新機能 Task budgets の位置づけ

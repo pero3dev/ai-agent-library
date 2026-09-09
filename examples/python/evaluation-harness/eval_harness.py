@@ -42,19 +42,14 @@ def classify_prompt(text: str) -> str:
 
 
 def run_case(llm, case: dict) -> str:
-    """実行系: 評価対象を 1 ケースに走らせ、正規化した出力を返す。"""
-    raw = llm.complete(classify_prompt(case["input"]))
-    # 余分な語が付いても拾えるよう、CATEGORIES の並び順で最初に一致した語へ正規化する
-    # (単純化のため、応答内での語の登場順は見ていない)。
-    for category in CATEGORIES:
-        if category in raw:
-            return category
-    return raw.strip()
+    """実行系: 評価対象を 1 ケースに走らせ、生の出力を解析用に保持する。"""
+    return llm.complete(classify_prompt(case["input"]))
 
 
 def judge(predicted: str, expected: str) -> bool:
-    """採点系: ここでは完全一致。開放的な出力なら LLM-as-a-Judge に差し替える。"""
-    return predicted == expected
+    """採点系: 前後の空白だけを除去し、許容ラベルとの完全一致で判定する。"""
+    label = predicted.strip()
+    return label in CATEGORIES and label == expected
 
 
 def report(results: list[dict]) -> float:

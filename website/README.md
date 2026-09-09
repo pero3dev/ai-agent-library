@@ -22,6 +22,8 @@ npm ci
 | `npm run build` | 静的ビルド(sync → next build → Pagefind → ルート網羅チェック) |
 | `npm run build:clean` | `.next` / `out` を消してからビルド(**公開相当のビルドはこれを使う**) |
 | `npm run clean` | `.next` / `out` を削除 |
+| `npm test` | MDX 属性・静的 HTML の回帰検査 |
+| `npm run test:browser` | ビルド済み `out/` のキーボード操作・検索・Mermaid をブラウザーで検査 |
 
 ## 生成物と正本の対応
 
@@ -37,9 +39,22 @@ npm ci
 - **CRLF 正規化**: 読込時に LF へ正規化(`.gitattributes` でも作業ツリーを LF に統一)
 - **未解決リンク / 読込失敗**: `sync` が `exit 1`(不完全な公開物を防ぐ)
 - **MDX ガード**: 生成 MDX を再パースし、`TodoCallout` / `PracticeSection` / `GlossaryTerm`
-  以外の JSX・`import`/`export`・`{式}`・生 HTML を検出したらビルドを失敗させる
+  以外の JSX・`import`/`export`・`{式}`・生 HTML を検出したらビルドを失敗させる。
+  許可コンポーネントでも属性式・spread は拒否し、挿入する文字列属性と値だけを許可する
 - **draft ゲート**: `status: draft` は既定で除外。`INCLUDE_DRAFTS=1` で開発時のみ含める
 - **ルート網羅チェック**: `generated/routes.json` の期待ルートが `out/` に全て生成されたか postbuild で照合
+- **入口・本文移動チェック**: 全セクションへの本文リンクと、各 HTML の一意なスキップ先を照合
+
+## ブラウザー回帰検査
+
+公開ビルドの環境変数を設定して `npm run build:clean` を実行した後、同じ `NEXT_PUBLIC_BASE_PATH` を維持して実行します。
+
+```bash
+npx playwright install chromium
+npm run test:browser
+```
+
+テストが `127.0.0.1:4183` に専用サーバーを起動し、終了時に停止します。Windows でインストール済み Edge を使う場合は、PowerShell で `$env:PLAYWRIGHT_CHANNEL='msedge'` を指定できます。CI は Chromium を使用します。失敗時のトレースは `test-results/` に保存します(生成物・Git 管理外)。
 
 ## 公開ビルドの環境変数(CI)
 

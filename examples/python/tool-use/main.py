@@ -12,6 +12,7 @@ docs/03-implementation/tool-definition-design.md の内容を
 """
 
 import json
+import re
 import sys
 
 import anthropic
@@ -71,7 +72,11 @@ def execute_tool(name: str, tool_input: dict) -> str:
         raise ValueError(f"未知のツールです: {name}")
 
     month = tool_input.get("month", "")
-    if len(month) != 7 or month[4] != "-":
+    if (
+        not isinstance(month, str)
+        or re.fullmatch(r"[0-9]{4}-(0[1-9]|1[0-2])", month) is None
+        or month.startswith("0000-")
+    ):
         # エラーメッセージは actionable に。モデルはこれを読んで引数を直す
         raise ValueError("month は YYYY-MM 形式で指定してください(例: 2026-06)")
 
@@ -80,9 +85,21 @@ def execute_tool(name: str, tool_input: dict) -> str:
     return json.dumps({"count": len(records), "records": records}, ensure_ascii=False)
 
 
-def run_agent(task: str) -> str:
+class AgentStopped(RuntimeError):
+    """正常完了しなかった応答。途中のテキストは成功結果と分けて保持する。"""
+
+    def __init__(self, reason: str, partial_text: str) -> None:
+        self.reason = reason
+        self.partial_text = partial_text
+        super().__init__(f"Agent は未完了です: stop_reason={reason}")
+
+
+def run_agent(task: str, *, client=None) -> str:
     """観測 → 思考 → 行動の最小ループ(agent-loop.md の擬似コードの実装)。"""
-    client = anthropic.Anthropic()  # 認証情報は環境変数 ANTHROPIC_API_KEY 等から解決される
+    if client is None:
+        # 認証情報は環境変数から解決。テストは HTTP モックの SDK クライアントを渡す。
+        with anthropic.Anthropic() as owned_client:
+            return run_agent(task, client=owned_client)
     history = [{"role": "user", "content": task}]
 
     for step in range(1, MAX_STEPS + 1):
@@ -95,11 +112,23 @@ def run_agent(task: str) -> str:
         )
         history.append({"role": "assistant", "content": response.content})
 
-        if response.stop_reason != "tool_use":
-            # 最終応答(正常完了)。tool_use 以外の停止理由は警告として表示する
-            if response.stop_reason != "end_turn":
-                print(f"[warn] stop_reason={response.stop_reason}", file=sys.stderr)
-            return next((b.text for b in response.content if b.type == "text"), "")
+        text = "".join(b.text for b in response.content if b.type == "text")
+        reason = response.stop_reason
+        if reason == "end_turn":
+            if not text.strip() or any(b.type == "tool_use" for b in response.content):
+                raise AgentStopped("invalid_final_response", text)
+            return text
+        if reason in ("max_tokens", "model_context_window_exceeded"):
+            # 不完全なツール入力も実行しない。上限を変えた再試行は呼び出し側が判断する。
+            raise AgentStopped(reason, text)
+        if reason == "pause_turn":
+            # 継続可能な停止。応答を履歴に残して再開し、MAX_STEPS は引き続き適用する。
+            continue
+        if reason == "refusal":
+            raise AgentStopped(reason, text)
+        if reason != "tool_use":
+            # stop_sequence はこのサンプルでは設定していない。未知の理由も成功扱いしない。
+            raise AgentStopped(str(reason), text)
 
         # ツール呼び出し要求(行動)。結果は 1 つの user メッセージにまとめて返す
         tool_results = []
@@ -121,6 +150,8 @@ def run_agent(task: str) -> str:
                     "is_error": is_error,
                 }
             )
+        if not tool_results:
+            raise AgentStopped("missing_tool_calls", text)
         history.append({"role": "user", "content": tool_results})
 
     raise RuntimeError(f"最大ステップ数({MAX_STEPS})に達しました。途中経過: {len(history)} メッセージ")
@@ -132,4 +163,10 @@ if __name__ == "__main__":
         if len(sys.argv) > 1
         else "社員 E12345 の 2026 年 5 月と 6 月の経費精算の状況を教えてください。"
     )
-    print(run_agent(question))
+    try:
+        print(run_agent(question))
+    except AgentStopped as error:
+        print(str(error), file=sys.stderr)
+        if error.partial_text:
+            print(f"途中出力(未完了): {error.partial_text}", file=sys.stderr)
+        sys.exit(1)

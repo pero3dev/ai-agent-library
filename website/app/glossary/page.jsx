@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function GlossaryPage() {
   return (
-    <main className="page-shell">
+    <main id="nextra-skip-nav" tabIndex={-1} className="page-shell">
       <p className="home-section-kicker">GLOSSARY</p>
       <h1 className="page-title">用語集</h1>
       <p className="page-lead">

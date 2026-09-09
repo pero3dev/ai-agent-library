@@ -13,7 +13,7 @@ export const metadata = {
 
 export default function HomePage() {
   return (
-    <main className="home">
+    <main id="nextra-skip-nav" tabIndex={-1} className="home">
       <Hero />
 
       <section id="routes">

@@ -7,6 +7,7 @@
  */
 import { execSync } from 'node:child_process'
 import { cpSync, existsSync, readFileSync, rmSync } from 'node:fs'
+import { checkExportSkipTargets, missingSectionLinks } from '../lib/export-checks.mjs'
 
 execSync('npx pagefind --site .next/server/app --output-path public/_pagefind', {
   stdio: 'inherit'
@@ -32,4 +33,18 @@ if (existsSync('out')) {
     process.exit(1)
   }
   console.log(`postbuild: ルート網羅チェック OK(${routes.length}/${routes.length})`)
+
+  const skip = checkExportSkipTargets('out')
+  const docsIndex = existsSync('out/docs.html') ? 'out/docs.html' : 'out/docs/index.html'
+  const html = readFileSync(docsIndex, 'utf8')
+  // サイドバーのリンクで漏れを隠さないよう、記事本文だけを対象にする。
+  const article = html.match(/<article\b[^>]*>([\s\S]*?)<\/article>/i)?.[1] ?? ''
+  const sections = JSON.parse(readFileSync('generated/sections.json', 'utf8'))
+  const missingSections = missingSectionLinks(article, sections, process.env.NEXT_PUBLIC_BASE_PATH || '')
+  if (skip.errors.length || missingSections.length) {
+    for (const error of skip.errors) console.error(`postbuild: ${error}`)
+    for (const route of missingSections) console.error(`postbuild: /docs 本文にセクションリンクがありません: ${route}`)
+    process.exit(1)
+  }
+  console.log(`postbuild: skip target OK(${skip.count} HTML)、/docs のセクション網羅 OK(${sections.length})`)
 }

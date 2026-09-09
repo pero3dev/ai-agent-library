@@ -34,4 +34,6 @@ class AnthropicLLM:
             max_tokens=256,
             messages=[{"role": "user", "content": prompt}],
         )
+        if message.stop_reason != "end_turn":
+            raise RuntimeError(f"LLM 応答は未完了です: stop_reason={message.stop_reason}")
         return "".join(block.text for block in message.content if block.type == "text")

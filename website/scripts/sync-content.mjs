@@ -24,6 +24,7 @@ import remarkParse from 'remark-parse'
 import remarkStringify from 'remark-stringify'
 import { unified } from 'unified'
 import { applyDecorations } from '../lib/doc-decorations.mjs'
+import { findUnsafeMdx } from '../lib/mdx-safety.mjs'
 
 // 原本は素の Markdown としてパースし(remark-mdx を含めない = 本文の < や { を JSX と誤解釈しない)、
 // 装飾コンポーネントを注入した結果を MDX として直列化する(エスケープは remark-mdx が正しく行う)
@@ -41,15 +42,6 @@ const mdxWriter = unified()
 // docs 本文はメンテナが書く前提だが、素の Markdown 中の生 HTML(<script> 等)や
 // 行頭 import/export は remark-mdx 直列化で「実行される MDX」へ昇格しうる(検証済み)。
 // そこで sync が注入する 3 コンポーネント以外の JSX / ESM / {式} / 生 HTML を拒否する。
-const mdxValidator = unified()
-  .use(remarkParse)
-  .use(remarkGfm)
-  .use(remarkMath)
-  .use(remarkFrontmatter, ['yaml'])
-  .use(remarkMdx)
-
-const ALLOWED_JSX = new Set(['TodoCallout', 'PracticeSection', 'GlossaryTerm'])
-
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const WEBSITE_ROOT = path.resolve(__dirname, '..')
 const REPO_ROOT = path.resolve(WEBSITE_ROOT, '..')
@@ -91,36 +83,8 @@ const errors = [] // 致命(未解決リンク・読込失敗・許可されな�
 
 /** 生成 MDX を再パースし、許可コンポーネント以外の JSX / ESM / {式} / 生 HTML を検出したら errors に積む */
 function assertSafeMdx(mdx, repoRel) {
-  let tree
-  try {
-    tree = mdxValidator.parse(mdx)
-  } catch (e) {
-    errors.push(`${repoRel}: 生成 MDX の再パースに失敗(${e.message})`)
-    return
-  }
-  const bad = new Set()
-  const walk = node => {
-    if (!node || typeof node !== 'object') return
-    switch (node.type) {
-      case 'html':
-        bad.add('生 HTML')
-        break
-      case 'mdxjsEsm':
-        bad.add('import/export (ESM)')
-        break
-      case 'mdxFlowExpression':
-      case 'mdxTextExpression':
-        bad.add('{式}')
-        break
-      case 'mdxJsxFlowElement':
-      case 'mdxJsxTextElement':
-        if (!ALLOWED_JSX.has(node.name)) bad.add(`JSX <${node.name ?? '?'}>`)
-        break
-    }
-    for (const child of node.children ?? []) walk(child)
-  }
-  walk(tree)
-  if (bad.size) {
+  const bad = findUnsafeMdx(mdx)
+  if (bad.length) {
     errors.push(
       `${repoRel}: 許可されない MDX 構造 → ${[...bad].join(' / ')}(docs 本文に生 HTML・import/export・{式} を書かない。図は Mermaid コードフェンス内に)`
     )
@@ -249,6 +213,14 @@ async function collectFiles() {
       slug: `python-${name}`
     })
   }
+  routeMap.set('examples/tests/README.md', `${BASE_PATH}/examples/regression-tests`)
+  files.push({
+    abs: path.join(REPO_ROOT, 'examples', 'tests', 'README.md'),
+    repoRel: 'examples/tests/README.md',
+    outRel: 'examples/regression-tests.md',
+    section: 'examples',
+    slug: 'regression-tests'
+  })
 
   return { routeMap, files, sections }
 }

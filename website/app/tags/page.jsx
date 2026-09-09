@@ -10,7 +10,7 @@ const LEVEL_LABELS = { basic: '初級', intermediate: '中級', advanced: '上�
 
 export default function TagsPage() {
   return (
-    <main className="page-shell">
+    <main id="nextra-skip-nav" tabIndex={-1} className="page-shell">
       <p className="home-section-kicker">TAGS</p>
       <h1 className="page-title">タグ別一覧</h1>
       <p className="page-lead">

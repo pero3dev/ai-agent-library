@@ -1,0 +1,4603 @@
+{
+  "as_of": "2026-09-10",
+  "timezone": "Asia/Tokyo",
+  "base_commit": "7eba40d41b49e05afabc0fa97b052e9b17da95d0",
+  "article_count": 199,
+  "section_readme_count": 16,
+  "articles": [
+    {
+      "path": "docs/00-overview/learning-roadmap.md",
+      "title": "AI Agent 学習ロードマップ",
+      "last_updated": "2026-07-09",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/00-overview/research-literacy.md",
+      "title": "AI 情報の追い方(一次情報の目利き)",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/00-overview/skill-map.md",
+      "title": "AI Agent プロフェッショナルのスキルマップ",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/01-concepts/agent-loop.md",
+      "title": "Agent ループ",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/01-concepts/ai-history-and-lineage.md",
+      "title": "AI の歴史と系譜(深層学習から Agent まで)",
+      "last_updated": "2026-07-08",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/01-concepts/computer-use-and-multimodal-agents.md",
+      "title": "コンピュータ操作型・マルチモーダル Agent",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "A05"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/01-concepts/memory-and-state.md",
+      "title": "メモリと状態管理",
+      "last_updated": "2026-07-05",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/01-concepts/physical-ai-overview.md",
+      "title": "フィジカル AI とロボティクスの概観",
+      "last_updated": "2026-07-07",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-04",
+        "PH-05",
+        "PH-06"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/01-concepts/planning-and-reasoning.md",
+      "title": "プランニングと推論",
+      "last_updated": "2026-07-05",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/01-concepts/rag-vs-agent.md",
+      "title": "RAG と Agent の関係・使い分け",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/01-concepts/single-vs-multi-agent.md",
+      "title": "シングルエージェントとマルチエージェント",
+      "last_updated": "2026-07-05",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/01-concepts/tool-use.md",
+      "title": "ツール使用(Tool Use / Function Calling)",
+      "last_updated": "2026-07-05",
+      "todo_count": 3,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/01-concepts/what-is-an-ai-agent.md",
+      "title": "AI Agent とは何か",
+      "last_updated": "2026-07-05",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/01-concepts/world-models-overview.md",
+      "title": "世界モデルの概観",
+      "last_updated": "2026-07-08",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "PH-05"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/02-architecture/agent-api-design.md",
+      "title": "エージェントの API 設計",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "M04"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/02-architecture/async-and-durable-agents.md",
+      "title": "非同期・長時間タスクの設計(耐久実行)",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "M04"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/02-architecture/context-compaction-and-isolation.md",
+      "title": "コンテキストの圧縮と隔離",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "M05"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/02-architecture/context-engineering-patterns.md",
+      "title": "コンテキスト設計の実践パターン",
+      "last_updated": "2026-07-07",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/02-architecture/context-engineering.md",
+      "title": "コンテキストエンジニアリング",
+      "last_updated": "2026-07-05",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/02-architecture/error-handling-and-retries.md",
+      "title": "エラー処理・リトライ・フォールバック設計",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/02-architecture/harness-engineering.md",
+      "title": "ハーネスエンジニアリング",
+      "last_updated": "2026-07-08",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/02-architecture/human-in-the-loop.md",
+      "title": "Human-in-the-Loop 設計",
+      "last_updated": "2026-07-05",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/02-architecture/loop-engineering.md",
+      "title": "ループエンジニアリング",
+      "last_updated": "2026-07-08",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/02-architecture/multi-tenancy-and-isolation.md",
+      "title": "マルチテナント設計",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/02-architecture/orchestration-patterns.md",
+      "title": "オーケストレーションパターン",
+      "last_updated": "2026-07-05",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/02-architecture/workflow-vs-agent.md",
+      "title": "Workflow 型 vs Agent 型の使い分け",
+      "last_updated": "2026-07-05",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/03-implementation/agent-interop-protocols.md",
+      "title": "エージェント間連携プロトコル",
+      "last_updated": "2026-08-18",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/03-implementation/agent-prompt-design.md",
+      "title": "Agent 向けプロンプト設計",
+      "last_updated": "2026-07-05",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/03-implementation/claude-prompting.md",
+      "title": "Claude 特化プロンプティングガイド",
+      "last_updated": "2026-08-18",
+      "todo_count": 3,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "M01",
+        "M05"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/03-implementation/code-execution-sandboxes.md",
+      "title": "コード実行サンドボックスの実装",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/03-implementation/computer-use-implementation.md",
+      "title": "ブラウザ・コンピュータ操作の実装",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "A05"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/03-implementation/cross-model-prompting.md",
+      "title": "モデル間の違いと移行(横断比較)",
+      "last_updated": "2026-08-18",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "M02",
+        "M03",
+        "M05"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/03-implementation/data-preprocessing-for-llm.md",
+      "title": "LLM 向けデータ前処理パイプライン",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/03-implementation/embeddings.md",
+      "title": "埋め込み(embeddings)の選定と運用",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/03-implementation/fine-tuning-and-distillation.md",
+      "title": "ファインチューニングと蒸留",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "FT01",
+        "FT02"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/03-implementation/framework-selection.md",
+      "title": "フレームワーク選定ガイド",
+      "last_updated": "2026-07-05",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "T25"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/03-implementation/gemini-prompting.md",
+      "title": "Gemini 特化プロンプティングガイド",
+      "last_updated": "2026-08-18",
+      "todo_count": 3,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "M02",
+        "M08"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/03-implementation/graph-rag-and-knowledge-graphs.md",
+      "title": "GraphRAG とナレッジグラフ",
+      "last_updated": "2026-07-08",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/03-implementation/llm-landscape.md",
+      "title": "主要 LLM の全体像(モデルカタログ)",
+      "last_updated": "2026-09-10",
+      "todo_count": 3,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "M01",
+        "M02",
+        "M07",
+        "M09",
+        "M10",
+        "M11",
+        "T24"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/03-implementation/local-and-on-device-llm.md",
+      "title": "ローカル・オンデバイス LLM の実務",
+      "last_updated": "2026-07-08",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/03-implementation/long-term-memory-implementation.md",
+      "title": "長期記憶の実装",
+      "last_updated": "2026-07-06",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/03-implementation/loop-feedback-and-verification.md",
+      "title": "ループ内フィードバックと検証器の設計",
+      "last_updated": "2026-07-08",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/03-implementation/mcp-and-tool-protocols.md",
+      "title": "ツール接続標準(MCP とエコシステム)",
+      "last_updated": "2026-07-05",
+      "todo_count": 3,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "D02"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/03-implementation/model-selection.md",
+      "title": "モデル選定ガイド",
+      "last_updated": "2026-08-18",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/03-implementation/open-source-ai-ecosystem.md",
+      "title": "オープンソース AI エコシステム",
+      "last_updated": "2026-07-10",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "T24"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/03-implementation/openai-prompting.md",
+      "title": "OpenAI(GPT 系)特化プロンプティングガイド",
+      "last_updated": "2026-08-18",
+      "todo_count": 3,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "M03",
+        "M04",
+        "M06"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/03-implementation/prompt-engineering-fundamentals.md",
+      "title": "プロンプトエンジニアリングの基礎技法",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/03-implementation/prompt-engineering-patterns.md",
+      "title": "プロンプトエンジニアリングの上級パターン",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/03-implementation/prompt-management.md",
+      "title": "プロンプト資産の管理とバージョニング",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/03-implementation/prompt-optimization.md",
+      "title": "プロンプト最適化(評価駆動の改善と自動化)",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/03-implementation/rag-implementation-patterns.md",
+      "title": "RAG 実装パターン",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/03-implementation/slm-strategy.md",
+      "title": "小型言語モデル(SLM)の活用戦略",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/03-implementation/streaming-and-agent-ux.md",
+      "title": "ストリーミングと Agent の UX 実装パターン",
+      "last_updated": "2026-07-05",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "M04"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/03-implementation/structured-output.md",
+      "title": "構造化出力",
+      "last_updated": "2026-07-05",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/03-implementation/synthetic-data-for-training.md",
+      "title": "学習用合成データの実務",
+      "last_updated": "2026-07-08",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/03-implementation/tool-definition-design.md",
+      "title": "ツール定義の設計",
+      "last_updated": "2026-07-05",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/03-implementation/vector-databases.md",
+      "title": "ベクトルデータベースの選定と運用",
+      "last_updated": "2026-07-08",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/03-implementation/voice-agents.md",
+      "title": "音声エージェントの実装",
+      "last_updated": "2026-08-18",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "A03"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/04-evaluation/agent-benchmarks-landscape.md",
+      "title": "エージェントベンチマークの全体像",
+      "last_updated": "2026-08-18",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "B01"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/04-evaluation/agent-evaluation-basics.md",
+      "title": "Agent 評価の基礎",
+      "last_updated": "2026-07-05",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/04-evaluation/confidence-and-calibration.md",
+      "title": "信頼度と較正(calibration)",
+      "last_updated": "2026-07-08",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/04-evaluation/evaluation-datasets.md",
+      "title": "評価データセットの構築と保守",
+      "last_updated": "2026-07-06",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/04-evaluation/evaluation-environments.md",
+      "title": "エージェント評価環境の構築",
+      "last_updated": "2026-07-08",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/04-evaluation/fairness-and-bias-evaluation.md",
+      "title": "公平性・バイアスの評価",
+      "last_updated": "2026-07-08",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/04-evaluation/japanese-quality-evaluation.md",
+      "title": "日本語品質の評価",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/04-evaluation/llm-as-a-judge.md",
+      "title": "LLM-as-a-Judge",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/04-evaluation/online-evaluation-and-ab-testing.md",
+      "title": "オンライン評価と A/B テスト",
+      "last_updated": "2026-07-07",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/04-evaluation/regression-testing.md",
+      "title": "回帰テストと CI 組み込み",
+      "last_updated": "2026-07-05",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/04-evaluation/trajectory-evaluation.md",
+      "title": "軌跡(trajectory)評価",
+      "last_updated": "2026-07-05",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/04-evaluation/user-simulator-design.md",
+      "title": "ユーザーシミュレータの設計",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/05-operations/ai-slo-design.md",
+      "title": "AI 品質の SLO 設計",
+      "last_updated": "2026-07-08",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/05-operations/batch-processing.md",
+      "title": "バッチ処理の設計(バッチ API の活用)",
+      "last_updated": "2026-09-10",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/05-operations/chaos-engineering-for-ai.md",
+      "title": "AI システムのカオスエンジニアリング",
+      "last_updated": "2026-07-08",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/05-operations/conversation-data-management.md",
+      "title": "会話データの管理基盤",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/05-operations/cost-management.md",
+      "title": "コスト管理",
+      "last_updated": "2026-07-05",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "M06"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/05-operations/data-governance-for-ai.md",
+      "title": "AI のためのデータガバナンス",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/05-operations/deployment-and-scaling.md",
+      "title": "デプロイとスケーリング",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/05-operations/feedback-loops.md",
+      "title": "フィードバックループの運用",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/05-operations/gpu-and-hardware-basics.md",
+      "title": "GPU・AI ハードウェアの基礎",
+      "last_updated": "2026-09-10",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/05-operations/green-ai.md",
+      "title": "AI の環境負荷とグリーン AI",
+      "last_updated": "2026-07-09",
+      "todo_count": 3,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "EG-06",
+        "EG-07",
+        "EG-08",
+        "EG-09",
+        "EG-10",
+        "EG-11"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/05-operations/incident-response.md",
+      "title": "インシデント対応",
+      "last_updated": "2026-07-05",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/05-operations/latency-optimization.md",
+      "title": "レイテンシ最適化",
+      "last_updated": "2026-07-05",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/05-operations/llm-gateway.md",
+      "title": "LLM ゲートウェイの設計",
+      "last_updated": "2026-07-08",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "T16"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/05-operations/long-running-agents.md",
+      "title": "常駐エージェントのライフサイクル管理",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/05-operations/mlops-and-llmops.md",
+      "title": "MLOps と LLMOps の統合",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/05-operations/observability-and-tracing.md",
+      "title": "可観測性とトレーシング",
+      "last_updated": "2026-07-05",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/05-operations/self-hosted-inference.md",
+      "title": "セルフホスト推論の実務",
+      "last_updated": "2026-08-18",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/05-operations/semantic-caching.md",
+      "title": "セマンティックキャッシュと応答再利用",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/05-operations/versioning-and-model-updates.md",
+      "title": "バージョニング・デプロイ・モデル更新追従",
+      "last_updated": "2026-07-05",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/06-security/advanced-attack-patterns.md",
+      "title": "新興攻撃パターンの体系(記憶・知識源・ツール・マルチエージェント)",
+      "last_updated": "2026-07-08",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/06-security/agent-identity-and-auth.md",
+      "title": "エージェントの認証・認可",
+      "last_updated": "2026-08-18",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "AU01",
+        "AU02",
+        "AU04"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/06-security/ai-standards-and-certification.md",
+      "title": "AI 規格・認証の実務(ISO/IEC 42001 ほか)",
+      "last_updated": "2026-07-10",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "GOV08",
+        "GOV09",
+        "GOV10",
+        "GOV11"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/06-security/ai-supply-chain-security.md",
+      "title": "AI サプライチェーンセキュリティ",
+      "last_updated": "2026-07-08",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/06-security/compliance-and-governance.md",
+      "title": "コンプライアンスとガバナンス",
+      "last_updated": "2026-08-18",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "GOV03",
+        "GOV04",
+        "GOV05",
+        "GOV06",
+        "GOV07"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/06-security/content-provenance-and-detection.md",
+      "title": "生成物の来歴と検出",
+      "last_updated": "2026-07-08",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "TS-02",
+        "TS-07"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/06-security/data-exfiltration.md",
+      "title": "データ漏えい対策",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/06-security/deepfake-and-impersonation-defense.md",
+      "title": "ディープフェイク・なりすましへの防御",
+      "last_updated": "2026-07-08",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "TS-05"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/06-security/frontier-safety-overview.md",
+      "title": "フロンティアセーフティの概観",
+      "last_updated": "2026-07-08",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "GOV09",
+        "TS-03",
+        "TS-04"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/06-security/guardrails.md",
+      "title": "ガードレール",
+      "last_updated": "2026-07-05",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/06-security/privacy-enhancing-technologies.md",
+      "title": "プライバシー強化技術の概観",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/06-security/prompt-injection.md",
+      "title": "プロンプトインジェクション",
+      "last_updated": "2026-07-05",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/06-security/red-teaming-agents.md",
+      "title": "エージェントのレッドチーミング",
+      "last_updated": "2026-07-07",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/06-security/threat-model-overview.md",
+      "title": "Agent の脅威モデル概観",
+      "last_updated": "2026-07-05",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/06-security/tool-permissions-and-sandboxing.md",
+      "title": "ツール権限設計とサンドボックス",
+      "last_updated": "2026-07-05",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/07-case-studies/case-study-customer-support-agent.md",
+      "title": "ケーススタディ: カスタマーサポート Agent",
+      "last_updated": "2026-07-07",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/07-case-studies/case-study-data-analysis-agent.md",
+      "title": "ケーススタディ: データ分析 Agent(もっともらしい誤りとの戦い)",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/07-case-studies/case-study-email-assistant-incident.md",
+      "title": "ケーススタディ: メールアシスタントの情報漏えいインシデント",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/07-case-studies/case-study-expense-agent.md",
+      "title": "ケーススタディ: 経費精算アシスタントの段階的 Agent 化",
+      "last_updated": "2026-07-05",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/07-case-studies/case-study-failed-poc.md",
+      "title": "ケーススタディ: 撤退したプロジェクト(PoC 死とコスト爆発)",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/07-case-studies/case-study-it-helpdesk-agent.md",
+      "title": "ケーススタディ: 社内 IT ヘルプデスク Agent(実行系の段階導入)",
+      "last_updated": "2026-07-09",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/07-case-studies/case-study-knowledge-agent.md",
+      "title": "ケーススタディ: 社内ナレッジ Agent(RAG 運用)",
+      "last_updated": "2026-07-07",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/07-case-studies/common-anti-patterns.md",
+      "title": "よくあるアンチパターン集(横断)",
+      "last_updated": "2026-07-05",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/08-coding-agents/claude-code-in-practice.md",
+      "title": "Claude Code 実践ガイド",
+      "last_updated": "2026-08-18",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "T03",
+        "T04",
+        "T05",
+        "T06"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/08-coding-agents/claude-code.md",
+      "title": "Claude Code",
+      "last_updated": "2026-08-18",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "T06"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agent-automation-patterns.md",
+      "title": "自動化・業務効率化パターン",
+      "last_updated": "2026-07-06",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agent-cost-optimization.md",
+      "title": "コーディングエージェントのコスト最適化",
+      "last_updated": "2026-07-06",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agent-evaluation.md",
+      "title": "コーディングエージェントの評価",
+      "last_updated": "2026-07-05",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agent-prompting.md",
+      "title": "コーディングエージェントへの依頼設計",
+      "last_updated": "2026-07-05",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agent-rules-and-config.md",
+      "title": "ルールファイルと設定の設計",
+      "last_updated": "2026-07-05",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agent-security.md",
+      "title": "コーディングエージェントの権限とセキュリティ",
+      "last_updated": "2026-07-05",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agent-selection.md",
+      "title": "コーディングエージェントの選定基準と使い分け",
+      "last_updated": "2026-07-05",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agent-team-adoption.md",
+      "title": "チーム導入とレビュー体制",
+      "last_updated": "2026-07-05",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agents-comparison.md",
+      "title": "主要コーディングエージェント比較",
+      "last_updated": "2026-08-18",
+      "todo_count": 3,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "T01",
+        "T06",
+        "T07",
+        "T11",
+        "T20",
+        "T23"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agents-overview.md",
+      "title": "AI コーディングエージェントの分類と全体像",
+      "last_updated": "2026-07-05",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/08-coding-agents/cursor.md",
+      "title": "Cursor",
+      "last_updated": "2026-08-18",
+      "todo_count": 3,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "T02",
+        "T07",
+        "T28"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/08-coding-agents/devin.md",
+      "title": "Devin",
+      "last_updated": "2026-08-18",
+      "todo_count": 3,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "T26",
+        "T27"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/08-coding-agents/gemini-cli-and-code-assist.md",
+      "title": "Gemini CLI と Gemini Code Assist",
+      "last_updated": "2026-08-18",
+      "todo_count": 4,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "T19",
+        "T20",
+        "T21"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/08-coding-agents/github-copilot-in-practice.md",
+      "title": "GitHub Copilot 実践ガイド",
+      "last_updated": "2026-08-18",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "T09"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/08-coding-agents/github-copilot.md",
+      "title": "GitHub Copilot",
+      "last_updated": "2026-08-18",
+      "todo_count": 3,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "T08",
+        "T09",
+        "T10",
+        "T22"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/08-coding-agents/open-source-coding-agents.md",
+      "title": "オープンソースのコーディングエージェント",
+      "last_updated": "2026-08-18",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "T23"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/08-coding-agents/openai-codex-in-practice.md",
+      "title": "OpenAI Codex 実践ガイド",
+      "last_updated": "2026-08-18",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "T13",
+        "T14",
+        "T15"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/08-coding-agents/openai-codex.md",
+      "title": "OpenAI Codex",
+      "last_updated": "2026-09-10",
+      "todo_count": 4,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "T11",
+        "T12",
+        "T14"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/08-coding-agents/se-client-adoption.md",
+      "title": "顧客・プロジェクトへの導入合意形成",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/08-coding-agents/se-enterprise-constraints.md",
+      "title": "企業システム環境の制約と対応(閉域網・監査・持ち込み承認)",
+      "last_updated": "2026-07-08",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/08-coding-agents/se-legacy-code-analysis.md",
+      "title": "レガシーコード理解と仕様復元",
+      "last_updated": "2026-07-08",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/08-coding-agents/se-maintenance-and-operations.md",
+      "title": "保守・運用フェーズでの活用",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/08-coding-agents/se-process-map.md",
+      "title": "SE 工程別活用マップ(V 字モデルで見る使いどころ)",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/08-coding-agents/se-requirements-and-design.md",
+      "title": "要件定義・設計工程での活用",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/08-coding-agents/se-test-process.md",
+      "title": "テスト工程での活用",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/08-coding-agents/windsurf.md",
+      "title": "Windsurf(現: Devin Desktop)",
+      "last_updated": "2026-08-18",
+      "todo_count": 4,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "T01"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/09-business/agent-liability-and-accountability.md",
+      "title": "エージェントの責任と説明責任",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/09-business/ai-asset-sharing.md",
+      "title": "プロンプト・エージェント資産の組織共有",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/09-business/ai-copyright-and-ip-map.md",
+      "title": "AI と著作権・知的財産の入口マップ",
+      "last_updated": "2026-07-08",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "TS-01"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/09-business/ai-geopolitics-map.md",
+      "title": "AI と地政学・輸出規制の入口マップ",
+      "last_updated": "2026-07-09",
+      "todo_count": 3,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "EG-01",
+        "EG-02",
+        "EG-03",
+        "EG-04",
+        "EG-05",
+        "EG-12"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/09-business/ai-industry-map.md",
+      "title": "AI 業界レイヤーマップ",
+      "last_updated": "2026-07-10",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/09-business/ai-native-development-process.md",
+      "title": "AI 前提の開発プロセス再設計",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/09-business/ai-pricing-and-packaging.md",
+      "title": "AI 機能の価格設計とパッケージング",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/09-business/ai-procurement.md",
+      "title": "AI 調達・ベンダー選定の実務",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/09-business/ai-team-topologies.md",
+      "title": "AI 時代のチームトポロジー",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/09-business/ai-usage-policy.md",
+      "title": "AI 利用ポリシー策定の実務",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/09-business/industry-regulations-map.md",
+      "title": "業界別規制の入口マップ",
+      "last_updated": "2026-07-07",
+      "todo_count": 3,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "GOV01",
+        "GOV02",
+        "GOV03",
+        "GOV13"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/09-business/own-model-strategy.md",
+      "title": "「自社モデルを持つか」の判断",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/09-business/poc-to-production.md",
+      "title": "PoC から本番への進め方",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/09-business/roi-and-business-case.md",
+      "title": "ROI とビジネスケース",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/09-business/skill-shift-and-change-management.md",
+      "title": "スキルシフトと変化管理",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/09-business/usecase-discovery.md",
+      "title": "ユースケース発見と要件定義",
+      "last_updated": "2026-07-06",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/10-llm-foundations/attention-and-context.md",
+      "title": "注意機構とコンテキストウィンドウの仕組み",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/10-llm-foundations/capabilities-and-limits.md",
+      "title": "LLM の能力と限界の由来",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "title": "LLM はどうやってテキストを生成するか",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "title": "LLM の学習パイプライン(事前学習から選好調整まで)",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/10-llm-foundations/multimodal-models.md",
+      "title": "マルチモーダルモデルの仕組み(数式なしの直感)",
+      "last_updated": "2026-07-08",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/10-llm-foundations/reasoning-models.md",
+      "title": "推論モデル(考える時間を使う LLM)",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/10-llm-foundations/tokenization.md",
+      "title": "トークナイザとトークン経済",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/11-llm-internals/alignment-theory.md",
+      "title": "アラインメントの理論(RLHF から DPO・RLVR まで)",
+      "last_updated": "2026-07-09",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "title": "注意機構の変種と長コンテキスト技術",
+      "last_updated": "2026-07-09",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+      "title": "文脈内学習と記憶の科学",
+      "last_updated": "2026-07-09",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/11-llm-internals/inference-internals.md",
+      "title": "推論の内部機構(サンプリング・KV キャッシュ・量子化)",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/11-llm-internals/interpretability-basics.md",
+      "title": "LLM の解釈可能性の基礎",
+      "last_updated": "2026-07-09",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "title": "MoE の内部構造",
+      "last_updated": "2026-07-09",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "title": "事前学習とスケーリング則",
+      "last_updated": "2026-07-09",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/11-llm-internals/transformer-architecture.md",
+      "title": "Transformer アーキテクチャ詳解",
+      "last_updated": "2026-07-09",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/12-multimodal/document-ai.md",
+      "title": "ドキュメント AI(帳票・PDF の構造化)",
+      "last_updated": "2026-09-10",
+      "todo_count": 2,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/12-multimodal/image-generation-integration.md",
+      "title": "画像生成のプロダクト組み込み",
+      "last_updated": "2026-07-08",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "A02"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/12-multimodal/multimodal-rag.md",
+      "title": "マルチモーダル RAG",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/12-multimodal/realtime-multimodal-agents.md",
+      "title": "リアルタイムマルチモーダル Agent",
+      "last_updated": "2026-07-08",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "A04"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/12-multimodal/speech-synthesis-and-voice-design.md",
+      "title": "音声合成(TTS)と声の設計",
+      "last_updated": "2026-07-08",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "A06"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/12-multimodal/video-ai-overview.md",
+      "title": "動画生成・理解の概観",
+      "last_updated": "2026-07-08",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "A01",
+        "A02",
+        "A04"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/12-multimodal/vision-understanding-patterns.md",
+      "title": "画像理解の実務パターン",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/13-domain-agents/data-analysis-agents.md",
+      "title": "データ分析エージェント",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/13-domain-agents/deep-research-agents.md",
+      "title": "ディープリサーチ型エージェントの設計",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/13-domain-agents/education-agents.md",
+      "title": "教育・学習支援エージェントの設計",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/13-domain-agents/emerging-agent-domains.md",
+      "title": "先端応用の概観(科学研究・シミュレーション・エージェント経済)",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/13-domain-agents/hr-and-recruitment-ai.md",
+      "title": "人事・採用領域の AI(高リスク用途の設計)",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/13-domain-agents/legal-review-agents.md",
+      "title": "契約レビュー・法務ドメイン Agent",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/13-domain-agents/personal-assistant-design.md",
+      "title": "パーソナルアシスタントの設計",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/13-domain-agents/rpa-and-agents.md",
+      "title": "RPA と Agent の使い分け・移行戦略",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [
+        "RPA01",
+        "RPA02",
+        "RPA03"
+      ],
+      "result": "update_candidate_identified"
+    },
+    {
+      "path": "docs/13-domain-agents/search-experience-redesign.md",
+      "title": "検索体験の再設計",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/13-domain-agents/spreadsheet-agents.md",
+      "title": "表計算・構造化データ操作エージェント",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/13-domain-agents/time-series-and-forecasting.md",
+      "title": "予測・時系列タスクと LLM",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/13-domain-agents/writing-and-translation-workflows.md",
+      "title": "執筆・翻訳ワークフローの設計",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/14-ux-and-product/accessibility-and-ai.md",
+      "title": "アクセシビリティと AI",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/14-ux-and-product/ai-ux-patterns.md",
+      "title": "AI プロダクトの UX パターン",
+      "last_updated": "2026-07-09",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/14-ux-and-product/beyond-chat-ui.md",
+      "title": "チャットを超える UI(プロンプトレス設計)",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/14-ux-and-product/conversation-design.md",
+      "title": "会話設計(ペルソナ・トーン・境界)",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/14-ux-and-product/proactive-agent-ux.md",
+      "title": "プロアクティブエージェントの UX",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/15-human-ai/ai-career-strategy.md",
+      "title": "AI 時代のエンジニアキャリア戦略",
+      "last_updated": "2026-09-10",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/15-human-ai/ai-literacy-training-design.md",
+      "title": "AI リテラシー研修の設計",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/15-human-ai/automation-bias-and-deskilling.md",
+      "title": "オートメーションバイアスとスキル退化",
+      "last_updated": "2026-07-09",
+      "todo_count": 1,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    },
+    {
+      "path": "docs/15-human-ai/verifying-ai-outputs.md",
+      "title": "AI 出力の検証習慣",
+      "last_updated": "2026-09-10",
+      "todo_count": 0,
+      "scan": "date/version/vendor/URL/TODO risk extraction; not full claim verification",
+      "finding_ids": [],
+      "result": "risk_scan_only_no_update_candidate_recorded"
+    }
+  ],
+  "findings": [
+    {
+      "id": "M01",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "Claude Fable 5.1 とキャッシュ価格を同期",
+      "targets": [
+        "docs/03-implementation/llm-landscape.md:39",
+        "docs/03-implementation/claude-prompting.md:90",
+        "research/models/anthropic.md",
+        "research/prompting/anthropic.md"
+      ],
+      "current": "Fable 5を最高能力の例とし、キャッシュ読取を入力の約1割と一般化。",
+      "change": "9/1公開のFable 5.1を追加。入力/出力$10/$50、読取$0.25/MTok(入力の2.5%)を他モデルの10%と分ける。常時adaptive thinkingと30日保持条件も同期。",
+      "sources": [
+        "https://platform.claude.com/docs/en/models/overview",
+        "https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1"
+      ],
+      "source_date": "2026-09-01",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "M02",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "Gemini 3.8 Flash を現行カタログとプロンプトへ反映",
+      "targets": [
+        "docs/03-implementation/llm-landscape.md:80",
+        "docs/03-implementation/gemini-prompting.md:49",
+        "docs/03-implementation/cross-model-prompting.md:54",
+        "research/models/google.md",
+        "research/prompting/google.md"
+      ],
+      "current": "3.7 Flashを最新とし、3.6/3.7の個別仕様に未確認が残る。",
+      "change": "9/2 GAの3.8 Flash、入力1,048,576/出力65,536、low/medium/high・既定medium・minimal非対応を明記。3.7導入価格と3.8価格を混同しない。",
+      "sources": [
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash",
+        "https://ai.google.dev/gemini-api/docs/latest-model",
+        "https://ai.google.dev/gemini-api/docs/changelog"
+      ],
+      "source_date": "2026-09-02",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "M03",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "Astra の移行条件を OpenAI 特化ガイドにも反映",
+      "targets": [
+        "docs/03-implementation/openai-prompting.md:47",
+        "docs/03-implementation/openai-prompting.md:77",
+        "docs/03-implementation/cross-model-prompting.md:54",
+        "research/prompting/openai.md"
+      ],
+      "current": "モデル一覧はAstra対応だが特化ガイドは5.6中心。",
+      "change": "Astraのnone/minimal非対応、tool callingはResponses、sampling非対応、EU residencyのFast不可、承認で止まり過ぎる場合の指示調整をモデル別に追記。5.6の有効設定を一律削除しない。",
+      "sources": [
+        "https://developers.openai.com/api/docs/guides/latest-model",
+        "https://developers.openai.com/api/docs/models/gpt-6-astra"
+      ],
+      "source_date": "2026-09-10現行資料確認（公開日未確認）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "M04",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "非同期ツールと実行中の指示変更を具体化",
+      "targets": [
+        "docs/03-implementation/streaming-and-agent-ux.md",
+        "docs/02-architecture/async-and-durable-agents.md",
+        "docs/02-architecture/agent-api-design.md",
+        "docs/03-implementation/openai-prompting.md"
+      ],
+      "current": "中断・軌道修正は一般原則中心で新APIへの対応がない。",
+      "change": "async:trueのツール結果をcall_idで返す設計とWebSocketのmid-turn steeringを例示。未完了ツール、キャンセル、遅延結果、状態と承認の再評価を設計判断に加える。耐久実行の保証とは分離。",
+      "sources": [
+        "https://developers.openai.com/api/docs/guides/async-tool-calling",
+        "https://developers.openai.com/api/docs/guides/steering"
+      ],
+      "source_date": "2026-09-10現行資料確認（公開日未確認）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "M05",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "Fable 5.1 の tool_choice と思考履歴の非互換",
+      "targets": [
+        "docs/03-implementation/claude-prompting.md:125",
+        "docs/03-implementation/cross-model-prompting.md:73",
+        "docs/02-architecture/context-compaction-and-isolation.md",
+        "research/prompting/anthropic.md"
+      ],
+      "current": "旧世代を前提に出力制御・履歴の再利用を説明。",
+      "change": "tool_choice any/toolが400、strict tool use等との違い、8/31以降新規アカウントで思考ブロック前のsystem/tools/履歴改変が400になる条件を追加。per-message effortとturn-scoped systemのbeta条件を記録。",
+      "sources": [
+        "https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1",
+        "https://platform.claude.com/docs/en/release-notes/overview"
+      ],
+      "source_date": "2026-09-01",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "M06",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "キャッシュの世代別課金と途中設定変更",
+      "targets": [
+        "docs/05-operations/cost-management.md:51",
+        "docs/03-implementation/openai-prompting.md:108",
+        "research/models/openai.md",
+        "research/prompting/anthropic.md"
+      ],
+      "current": "前方一致の原則のみ。OpenAI調査メモには5.6 pro価格など未確認が残る。",
+      "change": "OpenAIのprompt_cache_options.ttl、cache_write_tokens、境界と書込課金を実装時チェックに追加。config_update/Claude per-message effortでキャッシュを保持する条件と非対応条件を示す。system本文の書き換えと、API仕様が認めるeffort等の設定変更は別に扱う。設定変更の例から任意のプロンプト変更でキャッシュを保持できるとは一般化しない。",
+      "sources": [
+        "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "https://developers.openai.com/api/docs/guides/latest-model",
+        "https://platform.claude.com/docs/en/release-notes/overview"
+      ],
+      "source_date": "2026-09-10現行資料確認（公開日未確認）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "M07",
+      "priority": "P1",
+      "kind": "訂正必要",
+      "title": "Qwen3.8 のライセンス未確認を解消",
+      "targets": [
+        "docs/03-implementation/llm-landscape.md:97",
+        "docs/03-implementation/llm-landscape.md:104",
+        "research/models/open-weights.md"
+      ],
+      "current": "Qwen3.8はライセンス未確認。3.6までApache-2.0。",
+      "change": "対象2.4T-A95B-FP8は独自Qwen3.8-Max License。一定規模製品の表示義務、MaaS/AI Work Assistant事業で連結年間収益5千万ドル超の場合の別契約、内部利用例外を整理。全Qwen系列へ一般化しない。",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B-FP8/blob/main/LICENSE"
+      ],
+      "source_date": "2026-09-10現行資料確認（公開日未確認）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "A01",
+      "priority": "P1",
+      "kind": "訂正必要",
+      "title": "Videos API / Sora 2 APIモデルの9月24日終了を明記",
+      "targets": [
+        "research/multimodal/generation.md:85",
+        "research/multimodal/generation.md:89",
+        "docs/12-multimodal/video-ai-overview.md:90",
+        "docs/12-multimodal/video-ai-overview.md:127",
+        "ROADMAP.md"
+      ],
+      "current": "8/18再確認で変更なし・API提供の代表と記載し、終了日がない。",
+      "change": "3/24告知のVideos APIとSora 2 aliases/snapshotsの9/24終了を明記。新規採用例から移行・終了例へ。アプリの状態をAPI終了だけで推定しない。",
+      "sources": [
+        "https://developers.openai.com/api/docs/deprecations",
+        "https://developers.openai.com/api/reference/typescript/resources/videos/methods/create"
+      ],
+      "source_date": "告知2026-03-24 / 終了2026-09-24",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "A02",
+      "priority": "P1",
+      "kind": "訂正必要",
+      "title": "Nova Canvas / Reel / Sonic の提供期限",
+      "targets": [
+        "research/multimodal/generation.md:33",
+        "research/multimodal/generation.md:109",
+        "research/professional/voice-agents.md:34",
+        "research/multimodal/realtime-tts.md",
+        "docs/12-multimodal/image-generation-integration.md",
+        "docs/12-multimodal/video-ai-overview.md",
+        "ROADMAP.md"
+      ],
+      "current": "Reel9/30だけ把握しCanvasは未確認、Sonic旧新を並べる。",
+      "change": "AWS lifecycle表でCanvas v1:0、Reel v1:0/v1:1は9/30、Sonic v1/Premierは9/14予定。モデルIDと地域を分けて更新。旧版とNova 2を混同せず、後継は別途適合評価。",
+      "sources": [
+        "https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle.html"
+      ],
+      "source_date": "終了2026-09-14 / 2026-09-30",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "A03",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "音声認識の新APIと終了日を音声記事へ同期",
+      "targets": [
+        "research/professional/voice-agents.md:33",
+        "docs/03-implementation/voice-agents.md:139",
+        "research/models/openai.md",
+        "research/multimodal/realtime-tts.md"
+      ],
+      "current": "OpenAI8/26告知は一覧だけ9月確認、音声起点メモは8/18。GoogleパイプラインはCloud STT/TTS中心。",
+      "change": "whisper-1等の2027/2/26終了とgpt-live-transcribe/gpt-transcribeへの移行を同期。Gemini3.5 Transcribe/Liveの8/19公開を追加し、Developer API Live全体のGAと混同しない。",
+      "sources": [
+        "https://developers.openai.com/api/docs/deprecations",
+        "https://ai.google.dev/gemini-api/docs/changelog"
+      ],
+      "source_date": "2026-08-19 / 2026-08-26",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "A04",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "動画の能動的読解と Gemini Omni のGA",
+      "targets": [
+        "docs/12-multimodal/video-ai-overview.md:41",
+        "research/multimodal/generation.md:90",
+        "docs/12-multimodal/realtime-multimodal-agents.md"
+      ],
+      "current": "固定FPSでの動画読解、Veo中心の生成比較。",
+      "change": "9/1 agentic video understandingを固定フレームとの別方式として追加。8/27 GAのgemini-omni-1.1-flashと旧preview9/30停止を追跡。公表された削減率を一般保証にしない。",
+      "sources": [
+        "https://ai.google.dev/gemini-api/docs/changelog"
+      ],
+      "source_date": "2026-08-27 / 2026-09-01",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "A05",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "Claude computer/browser use と Files/Skills GA",
+      "targets": [
+        "docs/03-implementation/computer-use-implementation.md",
+        "docs/01-concepts/computer-use-and-multimodal-agents.md",
+        "research/prompting/anthropic.md"
+      ],
+      "current": "実装原則中心で8/19以降のGA toolset/API境界を未反映。",
+      "change": "computer_toolset_20260801/browser_toolset_20260801、まとめて行う操作、ページ要素参照、upload opt-inと旧版移行を代表実装に追加。Files/Skills GAとbeta互換レスポンスの違いも関連メモに記録。",
+      "sources": [
+        "https://platform.claude.com/docs/en/agents-and-tools/tool-use/computer-use-tool",
+        "https://platform.claude.com/docs/en/build-with-claude/skills-guide",
+        "https://platform.claude.com/docs/en/release-notes/overview"
+      ],
+      "source_date": "2026-08-19",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "D01",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "Anthropic Python SDK 1系への移行計画",
+      "targets": [
+        "examples/python/tool-use/requirements.txt:1",
+        "examples/python/structured-output/requirements.txt:3",
+        "examples/python/rag-basics/requirements.txt:4",
+        "examples/python/evaluation-harness/requirements.txt:3",
+        "examples/python/multi-agent/requirements.txt:3",
+        "examples/tests/test_regressions.py:17",
+        "examples/tests/README.md:12"
+      ],
+      "current": "0.116.0固定でhttpx.MockTransportを利用。",
+      "change": "現行1.4.0(9/4)を候補に、httpx2への移行、削除API、テストtransportの変更を確認。固定旧版の既存テストは成功済みで、現行サンプルの故障とは判定しない。",
+      "sources": [
+        "https://github.com/anthropics/anthropic-sdk-python/blob/main/MIGRATION.md",
+        "https://github.com/anthropics/anthropic-sdk-python/releases/tag/v1.4.0",
+        "https://pypi.org/project/anthropic/"
+      ],
+      "source_date": "v1.0 2026-08-20 / v1.4.0 2026-09-04",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "D02",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "MCP SDK 2系と入門・サンプルの版を揃える",
+      "targets": [
+        "examples/python/mcp-server/requirements.txt:3",
+        "examples/python/mcp-server/mcp_server.py:105",
+        "examples/tests/test_regressions.py",
+        "docs/03-implementation/mcp-and-tool-protocols.md:42"
+      ],
+      "current": "mcp1.28.1・FastMCP、入門TODOは7月。認証・相互運用記事のみ7/28仕様を反映。",
+      "change": "現行2.2.0のMCPServer/Client構成とMRTR、statelessを入門にも接続。1.x継続なら保守系・対応リビジョンを明記。2.2のredirect/issuer/legacy idle制限と未実装拡張も確認して移行テストする。",
+      "sources": [
+        "https://github.com/modelcontextprotocol/python-sdk/blob/main/docs/whats-new.md",
+        "https://github.com/modelcontextprotocol/python-sdk/blob/main/VERSIONING.md",
+        "https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.2.0",
+        "https://blog.modelcontextprotocol.io/posts/2026-07-28/"
+      ],
+      "source_date": "v2.2.0 2026-09-07",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "D03",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "GitHub Actions の Node 24 対応世代へ更新",
+      "targets": [
+        ".github/workflows/ci.yml"
+      ],
+      "current": "checkout/setup-node v4、setup-python v5、Pages v3/v4をSHA固定。直前CIでNode20廃止・Node24強制の注記が発生。",
+      "change": "現行checkout7.0.1/setup-node7/setup-python7/upload-pages-artifact5/deploy-pages5.0.1の移行差分を読み、SHA固定を維持して更新検証。CI成功中なので障害発生とはしない。",
+      "sources": [
+        "https://github.com/actions/checkout/releases/tag/v7.0.1",
+        "https://github.com/actions/setup-node/releases/tag/v7.0.0",
+        "https://github.com/actions/setup-python/releases/tag/v7.0.0",
+        "https://github.com/actions/upload-pages-artifact/releases/tag/v5.0.0",
+        "https://github.com/actions/deploy-pages/releases/tag/v5.0.1",
+        "https://github.com/pero3dev/ai-agent-library/actions/runs/34393561986"
+      ],
+      "source_date": "2026-09-10現行資料確認（公開日未確認）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "D04",
+      "priority": "P3",
+      "kind": "補足推奨",
+      "title": "React / React Flow の互換更新候補",
+      "targets": [
+        "website/package.json",
+        "website/package-lock.json"
+      ],
+      "current": "React/react-dom19.2.7、@xyflow/react12.11.2。",
+      "change": "npm outdatedで19.3.0/12.11.6を確認。新しいだけで必須にせず変更履歴とNextra互換性を評価し、依存マップ/検索/keyboard/Mermaid回帰を更新時に実施。Next16.3.4等はoutdated対象外。",
+      "sources": [
+        "https://www.npmjs.com/package/react",
+        "https://www.npmjs.com/package/@xyflow/react"
+      ],
+      "source_date": "2026-09-10現行資料確認（公開日未確認）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "B01",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "Terminal-Bench 4.0 と検証版の評価地図",
+      "targets": [
+        "docs/04-evaluation/agent-benchmarks-landscape.md:55",
+        "docs/04-evaluation/agent-benchmarks-landscape.md:62",
+        "docs/04-evaluation/agent-benchmarks-landscape.md:132",
+        "research/professional/benchmarks.md",
+        "ROADMAP.md"
+      ],
+      "current": "Terminal-Bench3.0を現行後継とする。WebArenaはほぼ飽和と要約。",
+      "change": "公式現行はTerminal-Bench4.0、FrontierBench URLはtbenchへredirect。版・harness・費用を更新。WebArena-Verifiedの監査済みtaskとnetwork trace評価を補足し旧版飽和を全派生に拡張しない。数値ランキングは未取得。",
+      "sources": [
+        "https://www.tbench.ai/",
+        "https://github.com/ServiceNow/webarena-verified/blob/main/README.md"
+      ],
+      "source_date": "2026-09-10現行資料確認（公開日未確認）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "M08",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "Gemini の thinking_budget を一律の移行対象にしない",
+      "targets": [
+        "docs/03-implementation/gemini-prompting.md:82",
+        "docs/03-implementation/gemini-prompting.md:114",
+        "docs/03-implementation/gemini-prompting.md:144",
+        "research/prompting/google.md"
+      ],
+      "current": "Thinkingガイドから数値予算の記述が消えたため継続対応不明、既存依存の移行を推奨。",
+      "change": "公式Python SDKのThinkingConfigにはthinking_budgetが現存し、Live API公式も2.5 FlashのthinkingBudgetを説明している。3系thinking_level推奨は維持しつつ、モデル/API別の対応表に訂正する。SDKの型の存在だけで全モデルの受理は保証しない。GenerateContent RESTページは取得タイムアウトで、実呼出し互換性は未検証。",
+      "sources": [
+        "https://raw.githubusercontent.com/googleapis/python-genai/main/google/genai/types.py",
+        "https://ai.google.dev/gemini-api/docs/live-api/capabilities"
+      ],
+      "source_date": "2026-09-10現表示",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "AU01",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "OpenAI Connectors OAuth の未確認を解消",
+      "targets": [
+        "docs/06-security/agent-identity-and-auth.md:184",
+        "research/professional/agent-identity.md:164"
+      ],
+      "current": "ConnectorsのOAuth認可ガイドを未確認として残す。",
+      "change": "公式ガイドがauthorizationへOAuth access tokenを渡し、クライアント登録と認可はアプリ側で行うと明記。スコープで利用ツールが変わる点も記録しTODOを解消できる。ChatGPTの接続設定とはAPI面を分け、実際のIdP登録・refresh・失効テストは別途必要。",
+      "sources": [
+        "https://developers.openai.com/api/docs/guides/tools-connectors-mcp"
+      ],
+      "source_date": "2026-09-10現表示",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "AU02",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "Google Agent Identity auth manager のGAを反映",
+      "targets": [
+        "docs/06-security/agent-identity-and-auth.md:131",
+        "research/professional/agent-identity.md:203"
+      ],
+      "current": "Agent IdentityはGA、Auth managerはPreview。",
+      "change": "8/22リリースノートはauth managerおよびAgent Identity APIsのGAを明記。新APIとlegacy IAM Connectors APIの役割、8/14 GAのVPC Service Controls/組織制約も更新候補。個別手順ページのPreview表示が残る場合は製品全体の提供区分と機能別条件を分ける。",
+      "sources": [
+        "https://docs.cloud.google.com/iam/docs/release-notes",
+        "https://docs.cloud.google.com/iam/docs/auth-manager-overview"
+      ],
+      "source_date": "2026-08-22",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "AU03",
+      "priority": "P3",
+      "kind": "補足推奨",
+      "title": "OAuth 2.1 の改版を調査メモへ追記",
+      "targets": [
+        "research/professional/agent-identity.md:19",
+        "research/professional/agent-identity.md:199"
+      ],
+      "current": "OAuth2.1はdraft-15、2026-03-02版。",
+      "change": "9/2版draft-16へ参照を更新。依然Internet-DraftでありRFC成立としない。identity-chainingは-17/RFC Editor待ち、ID-JAGは-04で今回変更なし。",
+      "sources": [
+        "https://datatracker.ietf.org/doc/draft-ietf-oauth-v2-1/",
+        "https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-chaining/",
+        "https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-assertion-authz-grant/"
+      ],
+      "source_date": "2026-09-02",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "M09",
+      "priority": "P1",
+      "kind": "訂正必要",
+      "title": "Mistral Medium 3.5 は重み公開済み・Modified MIT",
+      "targets": [
+        "docs/03-implementation/llm-landscape.md:104",
+        "docs/03-implementation/llm-landscape.md:107",
+        "research/models/open-weights.md:155",
+        "research/models/open-weights.md:235"
+      ],
+      "current": "最上位Medium3.5はプロプライエタリ/API専用。Mistralオープン系は追加条件なしと総括。",
+      "change": "公式にMedium3.5-128Bの重み公開、256k contextを確認。Modified MITは会社/雇用主の前月連結月商2千万ドル超なら権利行使不可で別商用契約または公式ホスト利用が必要。Large3等Apache2.0とは個別に区別する。",
+      "sources": [
+        "https://huggingface.co/mistralai/Mistral-Medium-3.5-128B",
+        "https://huggingface.co/mistralai/Mistral-Medium-3.5-128B/blob/main/LICENSE",
+        "https://docs.mistral.ai/resources/changelogs"
+      ],
+      "source_date": "2026-04-28公開 / 2026-09-10条文確認",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "M10",
+      "priority": "P1",
+      "kind": "訂正必要",
+      "title": "Kimi K3 の重み公開と独自契約条件を確認",
+      "targets": [
+        "docs/03-implementation/llm-landscape.md:109",
+        "docs/03-implementation/llm-landscape.md:167",
+        "research/models/open-weights.md:250"
+      ],
+      "current": "K2系を紹介、K3の重み公開は未一次確認。",
+      "change": "Moonshot公式配布とKimi K3 Licenseを確認。MaaS事業者の連結12か月収益2千万ドル超の別契約、一定規模製品のUI表示義務、内部利用/公式製品・認定推論パートナー例外を記録。Qwen3.8の5千万ドル/AI Work Assistant条件とは異なるため一括化しない。",
+      "sources": [
+        "https://huggingface.co/moonshotai/Kimi-K3",
+        "https://huggingface.co/moonshotai/Kimi-K3/blob/main/LICENSE"
+      ],
+      "source_date": "2026-09-10現表示",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "M11",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "DeepSeek V4 のGA・API・価格条件を更新",
+      "targets": [
+        "research/models/open-weights.md:111",
+        "docs/03-implementation/llm-landscape.md:106"
+      ],
+      "current": "4/24版V4と旧モード区分、8/18は基本ライン変更なしのみ。",
+      "change": "8/13 Pro GA、Pro/Flashのlow/high/max、Responses APIネイティブ対応、8/16 16:00 UTC導入のpeak/off-peak料金をメモへ追記。モデル名据置でも提供段階や経路・価格が変わる実例にする。",
+      "sources": [
+        "https://api-docs.deepseek.com/news/news260813/"
+      ],
+      "source_date": "2026-08-13 / 2026-08-16",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "AU04",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "Okta XAA の提供と設定移行を追跡",
+      "targets": [
+        "research/professional/agent-identity.md:204",
+        "docs/06-security/agent-identity-and-auth.md:132"
+      ],
+      "current": "8月OIN開始予定など予定ベースで段階的提供と整理。",
+      "change": "2026.08.0 Preview環境リリースノートはManaged connectionタブによるXAA設定の廃止予定とResource Serverへの再設定を案内する。既存設定が止まる条件をresearchの監視項目へ追加。時期はupcoming releaseのみで未確定、全環境GAとはしない。",
+      "sources": [
+        "https://help.okta.com/oie/en-us/content/topics/releasenotes/preview.htm"
+      ],
+      "source_date": "2026.08.0 / 2026-09-10現表示",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "A06",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "Eleven v3 のWebSocket経路をTTSと対話で分離",
+      "targets": [
+        "research/multimodal/realtime-tts.md:62",
+        "docs/12-multimodal/speech-synthesis-and-voice-design.md"
+      ],
+      "current": "WebSocket TTS対応とeleven_v3を同じ行で紹介し、経路の違いが不明。",
+      "change": "単一音声TTS stream-inputはeleven_v3非対応。v3はText to Dialogue WebSocket別経路でvoices/inputs構造も異なる。製品単位の対応表をモデル/endpoint単位へ改める。本文のベンダー中立なストリーミング原則は維持。",
+      "sources": [
+        "https://elevenlabs.io/docs/eleven-api/guides/how-to/websockets/tts-vs-ttd-websockets",
+        "https://elevenlabs.io/docs/eleven-api/guides/how-to/websockets/realtime-tts"
+      ],
+      "source_date": "2026-09-10現表示",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "FT01",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "Gemini 3系SFTの提供を一次資料で確定",
+      "targets": [
+        "research/professional/fine-tuning.md:76",
+        "research/professional/fine-tuning.md:93",
+        "docs/03-implementation/fine-tuning-and-distillation.md:72",
+        "docs/03-implementation/fine-tuning-and-distillation.md:146"
+      ],
+      "current": "Google tuning本文を未取得、Gemini3系SFTは未提供と二次情報が示唆すると記録。",
+      "change": "公式本文でGemini3.5 Flash/3.1 Flash-Liteと2.5系列のSFT対応を確認。6/22 release notesの3系Public Preview、us-central1/europe-west4 tuningとus/eu servingを記録。全フロンティア対応や全手法GAとは一般化しない。蒸留の詳細・GAは別途未確認。",
+      "sources": [
+        "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/tuning/supervised-tuning",
+        "https://docs.cloud.google.com/gemini-enterprise-agent-platform/release-notes"
+      ],
+      "source_date": "2026-06-22 / 2026-09-10本文取得",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "FT02",
+      "priority": "P1",
+      "kind": "訂正必要",
+      "title": "Claude 3 Haiku の Bedrock FT 経路と本日のEOL",
+      "targets": [
+        "research/professional/fine-tuning.md:110",
+        "docs/03-implementation/fine-tuning-and-distillation.md:73",
+        "ROADMAP.md"
+      ],
+      "current": "Claude第一者ではFTなし、BedrockのClaude3 HaikuのみGAで利用可能と説明。",
+      "change": "AWSはClaude3 HaikuのLegacy開始2026-03-10、EOL2026-09-10を公表。Legacy移行後は新規FTジョブ/新規Provisioned Throughput作成不可とするため、新規採用経路の説明を訂正する。モデルID/region/既存custom deploymentを分ける。本日実際にAPIが停止したかは呼出し検証していない。",
+      "sources": [
+        "https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle.html",
+        "https://docs.aws.amazon.com/bedrock/latest/userguide/custom-model-fine-tuning.html"
+      ],
+      "source_date": "Legacy2026-03-10 / EOL2026-09-10",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "GOV01",
+      "priority": "P1",
+      "kind": "訂正必要",
+      "title": "FISC 安全対策基準は第14版",
+      "targets": [
+        "docs/09-business/industry-regulations-map.md:72",
+        "docs/09-business/industry-regulations-map.md:157",
+        "research/supplementary/regulations.md"
+      ],
+      "current": "第13版(2025-03)を現行版とする。",
+      "change": "第14版が2026-03-25発刊。AI/生成AI・サイバー・PQC拡充の公表情報を反映する。有償全文は未取得で条項差分まで確認済みとはしない。",
+      "sources": [
+        "https://www.fisc.or.jp/publication/book/007219.php",
+        "https://www.fisc.or.jp/topics/2026.php"
+      ],
+      "source_date": "2026-03-25",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "GOV02",
+      "priority": "P1",
+      "kind": "訂正必要",
+      "title": "FDUA ガイドライン1.2を反映",
+      "targets": [
+        "docs/09-business/industry-regulations-map.md:74",
+        "research/supplementary/regulations.md"
+      ],
+      "current": "1.1(2025-07)を紹介。",
+      "change": "8/5公表の1.2へ更新。エージェントの接続先・権限・行動のリスク、AIレジリエンス/ガバナンスの拡充を追跡対象にする。",
+      "sources": [
+        "https://www.fdua.org/news/202608051",
+        "https://www.fdua.org/news/20260812"
+      ],
+      "source_date": "2026-08-05",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "GOV03",
+      "priority": "P1",
+      "kind": "訂正必要",
+      "title": "個人情報保護法改正の法番号・段階施行・PPC予定",
+      "targets": [
+        "docs/09-business/industry-regulations-map.md:171",
+        "docs/09-business/industry-regulations-map.md:175",
+        "docs/06-security/compliance-and-governance.md:59",
+        "docs/06-security/compliance-and-governance.md:162",
+        "ROADMAP.md:706"
+      ],
+      "current": "法案の成立/法番号や施行令・指針を未確認とする。",
+      "change": "7/10成立・7/17公布の令和8年法律第56号、PPC9/9工程表を反映。主な施行は公布から2年以内の政令指定日(未確定)、一部罰則は2027-01-17。9月中旬以降の子ども/顔特徴データ/統計・委託/漏えい/課徴金の順次意見募集は予定として追跡。将来時点のe-Gov統合条文を現行条文と誤認しない。",
+      "sources": [
+        "https://www.ppc.go.jp/personalinfo/legal/r8kaiseihogohou/",
+        "https://www.ppc.go.jp/files/pdf/260909_kongonosusumekatanitsuite.pdf",
+        "https://www.ppc.go.jp/files/pdf/260717_houritsu.pdf",
+        "https://laws.e-gov.go.jp/document?lawid=415AC0000000057_20270117_508AC0000000056"
+      ],
+      "source_date": "公布2026-07-17 / 工程表2026-09-09",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "GOV04",
+      "priority": "P1",
+      "kind": "訂正必要",
+      "title": "California AI透明性法の義務主体と日付を分離",
+      "targets": [
+        "docs/06-security/compliance-and-governance.md:61"
+      ],
+      "current": "プラットフォーム義務が2027〜2028年と一括記載。",
+      "change": "BPC22757.3.1/.3.2のオンライン/生成AIホスティングプラットフォームは2027-01-01、.3.3の撮影機器メーカーは2028-01-01。基礎義務2026-08-02と合わせ主体別に訂正する。",
+      "sources": [
+        "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=BPC&division=8.&title=&part=&chapter=25.&article="
+      ],
+      "source_date": "2026-09-10現行条文確認",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "GOV05",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "FTC AI accuracy policy は提案段階",
+      "targets": [
+        "docs/06-security/compliance-and-governance.md:164",
+        "research/professional/compliance.md"
+      ],
+      "current": "FTC policy statementの一次確認が未了。",
+      "change": "7/1に提案を公表し7/31までコメント募集。final policyとは区別する。州法が既に全面無効化されたとも書かない。",
+      "sources": [
+        "https://www.ftc.gov/news-events/news/press-releases/2026/07/ftc-seeks-public-comment-policy-statement-addressing-ai-accuracy",
+        "https://www.ftc.gov/system/files/ftc_gov/pdf/ai-policy-statement_0.pdf",
+        "https://www.ftc.gov/legal-library/browse/policy-statements"
+      ],
+      "source_date": "2026-07-01",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "GOV06",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "Colorado ADMT とチャットボット規則案の工程",
+      "targets": [
+        "docs/06-security/compliance-and-governance.md:61",
+        "research/professional/compliance.md"
+      ],
+      "current": "改正法と規則制定の概要のみ。",
+      "change": "AG8/11ドラフト、次回9/23予定、10/26コメント期限、義務2027-01-01を記録。ADMT SB26-189とチャットボット/未成年保護HB26-1263を分ける。HB署名日は公式資料間に差があり未確定、xAI訴訟の最終判断も未確認。",
+      "sources": [
+        "https://coag.gov/ai/",
+        "https://leg.colorado.gov/bills/sb26-189",
+        "https://leg.colorado.gov/bills/hb26-1263"
+      ],
+      "source_date": "2026-08-11",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "GOV07",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "EU AI Act の新禁止行為と既存モデル透明性の適用日",
+      "targets": [
+        "docs/06-security/compliance-and-governance.md:52",
+        "docs/06-security/compliance-and-governance.md:55",
+        "research/professional/compliance.md"
+      ],
+      "current": "禁止行為は施行済みと総括し既存生成AIの表示期限を12月と記す。",
+      "change": "Regulation(EU)2026/1744原文を確認。Article111(4)の期限を2026-12-02と精密化。新規追加Art5(1)(ba)/(bb)等にも12/2適用があるため全禁止行為を一括しない。非同意親密画像/児童性的虐待コンテンツの条文範囲を区別。高リスク2027-12-02/2028-08-02は維持。",
+      "sources": [
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32026R1744"
+      ],
+      "source_date": "公布2026-07-24 / 発効2026-07-27",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "GOV08",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "EN18286:2026 の発行と整合規格の推定効を区別",
+      "targets": [
+        "docs/06-security/ai-standards-and-certification.md:133",
+        "docs/06-security/ai-standards-and-certification.md:141",
+        "research/ecosystem/standards.md"
+      ],
+      "current": "prEN18286をdraft/最終化待ちとして扱う。",
+      "change": "7月にEN18286:2026発行、AI Act17のQMSを支援。規格発行・EC評価・OJ引用は別段階で、発行だけで適合推定効が生じるとはしない。他prEN18228/18282/18229-1はEnquiry。",
+      "sources": [
+        "https://www.cencenelec.eu/news-events/news/2026/en-in-the-spotlight/2026-07-30-ai-quality-management/",
+        "https://digital-strategy.ec.europa.eu/en/policies/ai-act-standardisation"
+      ],
+      "source_date": "2026-07",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "GOV09",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "AISI 評価観点ガイド1.20とロボティクス版",
+      "targets": [
+        "docs/06-security/ai-standards-and-certification.md:137",
+        "research/ecosystem/standards.md",
+        "docs/06-security/frontier-safety-overview.md:73",
+        "docs/06-security/frontier-safety-overview.md:127",
+        "research/trust/frontier-safety.md:79"
+      ],
+      "current": "2025年の評価観点ガイド中心。",
+      "change": "7/7の1.20(エージェント関連更新)と7/23ロボティクスガイドを追記。規格認証と評価ガイドの位置づけを分け、physical-ai側の資料とも同期する。 Agentの観測と制御・自律挙動・外部相互作用の項目をfrontier-safetyからも参照する。",
+      "sources": [
+        "https://aisi.go.jp/output/output_information/260707/",
+        "https://aisi.go.jp/output/output_framework/guide_to_evaluation_perspective_on_ai_safety/",
+        "https://www.ipa.go.jp/pressrelease/2026/press20260723.html"
+      ],
+      "source_date": "2026-07-07 / 2026-07-23",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "GOV10",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "NISTの公開AI文書化ガイダンス・テンプレートZero Draft",
+      "targets": [
+        "docs/06-security/ai-standards-and-certification.md:51",
+        "docs/06-security/ai-standards-and-certification.md:145",
+        "research/ecosystem/standards.md"
+      ],
+      "current": "NISTはRMF更新中心で監視。",
+      "change": "7/29公開のAI documentation template Zero Draftと9/16コメント期限を監視対象へ追加。確定済み認証規格とはしない。",
+      "sources": [
+        "https://www.nist.gov/artificial-intelligence/ai-standards"
+      ],
+      "source_date": "2026-07-29 / 締切2026-09-16",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "GOV11",
+      "priority": "P3",
+      "kind": "訂正必要",
+      "title": "国内初の認証と認定を区別",
+      "targets": [
+        "docs/06-security/ai-standards-and-certification.md:72",
+        "docs/06-security/ai-standards-and-certification.md:145",
+        "research/ecosystem/standards.md"
+      ],
+      "current": "初認証/初認定の公式表現が矛盾するとの未確認。",
+      "change": "SGSの2025-04はSGSグループの国内初認証、JIPDEC2026-01-14は認証機関2社の初認定。7/7名簿はSGS/TUVの2社。用語・主体・日付を分けて未確認を解消できる。",
+      "sources": [
+        "https://www.sgs.com/ja-jp/news/2025/04/sgs-issues-its-first-ever-iso-iec-42001-certification-in-japan",
+        "https://www.jipdec.or.jp/news/pressrelease/20260114.html",
+        "https://isms.jp/aims/lst/isr/index.html"
+      ],
+      "source_date": "2026-01-14 / 名簿2026-07-07",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "GOV12",
+      "priority": "P3",
+      "kind": "訂正必要",
+      "title": "ISO42005/42006の発行年月を一次情報へ統一",
+      "targets": [
+        "research/ecosystem/standards.md"
+      ],
+      "current": "ISO42005を二次情報の2025-04として記録。",
+      "change": "ISO公式は42005が2025-05、42006が2025-07でともにpublished。本文の年/役割は維持できる。有償全文の要求条項は未精査。",
+      "sources": [
+        "https://www.iso.org/standard/42005",
+        "https://www.iso.org/standard/42006"
+      ],
+      "source_date": "2025-05 / 2025-07",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "GOV13",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "FDA TPLC draft と PCCP final の版を更新",
+      "targets": [
+        "docs/09-business/industry-regulations-map.md:171",
+        "research/supplementary/regulations.md"
+      ],
+      "current": "TPLCのfinal化不明、PCCPは2024-12-03版が現行との記録。",
+      "change": "FDA公式索引でTPLC2025-01-07はDraftのまま、PCCPは2025-08-18 Finalと確認。必要に応じCDS2026-01-29 Finalも追記し文書ごとのdraft/finalを分ける。",
+      "sources": [
+        "https://www.fda.gov/medical-devices/digital-health-center-excellence/guidances-digital-health-content"
+      ],
+      "source_date": "2025-08-18 / 2026-09-10現表示",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "TS-01",
+      "priority": "P1",
+      "kind": "訂正必要",
+      "title": "知財本部AIプリンシプル・コードの正式公開と申出開始予定を反映",
+      "targets": [
+        "docs/09-business/ai-copyright-and-ip-map.md:174",
+        "docs/09-business/ai-copyright-and-ip-map.md:183",
+        "research/trust/copyright.md:115"
+      ],
+      "current": "官邸から内閣官房への移転中、プリンシプル・コード（仮称）の策定待ちとして扱っている。",
+      "change": "専用ページに日本語・英語の正式コード、開示事項の具体例、様式を公開済み。申出受付開始は2026-10-26予定であり、2026-09-10時点では未開始。旧『策定待ち』『移転中』を更新し、申出開始予定と公開済み資料を分ける。正式採択日・公開日は専用ページから特定できず、2026-08-18の第13回検討会開催日と同一視しない。Web取得失敗後、PowerShell Invoke-WebRequestで公式ページHTTP200と本文・PDFリンクを確認。PDF本文自体は未精読。",
+      "sources": [
+        "https://www.cas.go.jp/jp/seisakukaigi/titeki2/ai_principle_code/index.html",
+        "https://www.cas.go.jp/jp/seisakukaigi/titeki2/ai_kentoukai/kaisai/index.html",
+        "https://www.cas.go.jp/jp/seisakukaigi/titeki2/ai_kentoukai/kaisai/pdf/ai_principle_code.pdf"
+      ],
+      "source_date": "公開日未特定。申出開始予定2026-10-26。専用ページ掲載状況を2026-09-10確認",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "TS-02",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "ISO 22144の段階をISO公式情報へ置換",
+      "targets": [
+        "docs/06-security/content-provenance-and-detection.md:47",
+        "docs/06-security/content-provenance-and-detection.md:83",
+        "docs/06-security/content-provenance-and-detection.md:128",
+        "research/trust/provenance.md:39",
+        "ROADMAP.md:710"
+      ],
+      "current": "researchは二次情報をもとにISO/DIS 22144のfast trackと記載。本文の国際標準化進行中という一般説明は矛盾しない。",
+      "change": "ISO公式ページの表示はISO/CD 22144、Under development、stage30.99（CD approved for registration as DIS）。完成した国際規格ではない。researchの版名・段階を公式表示へ訂正し、本文ではC2PA仕様公開とISO規格成立を区別する。段階の履歴日2024-10-28と2026年の確認日を混同しない。",
+      "sources": [
+        "https://www.iso.org/standard/90726.html"
+      ],
+      "source_date": "公式掲載状態2026-09-10。stage30.99履歴日2024-10-28",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "TS-03",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "Anthropic RSP 3.4とAugust 2026 Risk Reportへ研究メモを更新",
+      "targets": [
+        "docs/06-security/frontier-safety-overview.md:35",
+        "docs/06-security/frontier-safety-overview.md:73",
+        "docs/06-security/frontier-safety-overview.md:89",
+        "docs/06-security/frontier-safety-overview.md:127",
+        "research/trust/frontier-safety.md:24",
+        "research/trust/frontier-safety.md:108",
+        "research/trust/frontier-safety.md:134"
+      ],
+      "current": "researchのRSP確認は3.3（2026-05-26）まで。本文の共通枠組みの概説はおおむね維持できる。",
+      "change": "RSPは3.4が2026-07-08発効。公式ページ更新日2026-08-14。August2026 Risk Reportも2026-08-14公表、coverage dateは2026-07-15。v3.4は自動化R&D閾値、内部非墨消し版を少なくとも200人に配布する扱い、報告対象日と公表日の区別、墨消し表示、部分ごとの外部レビュー等を変更。版・発効日・報告日・対象日を別欄にし、モデルカードだけでなくRisk Reportも確認先に追加する。186頁の報告書は表紙・対象日・構成を確認した範囲であり、全リスク評価結果は精査していない。",
+      "sources": [
+        "https://www.anthropic.com/responsible-scaling-policy",
+        "https://www.anthropic.com/aug-2026-risk-report"
+      ],
+      "source_date": "RSP3.4発効2026-07-08、Risk Report公表2026-08-14、対象日2026-07-15",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "TS-04",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "PreparednessとFrontier Governanceの関連及び8月方針を補足",
+      "targets": [
+        "docs/06-security/frontier-safety-overview.md:39",
+        "docs/06-security/frontier-safety-overview.md:70",
+        "research/trust/frontier-safety.md:32"
+      ],
+      "current": "Preparedness v2（2025-04-15）中心で、researchには旧403取得失敗も残る。",
+      "change": "Preparedness更新記事を直接取得できた。2026-05-28公開のFrontier Governance FrameworkはPreparednessを基礎に法制度・カリフォルニアやEU Codeとの整合を説明。2026-08-18のcyber能力に関する記事は訓練・研究・配備の隔離、監視、alignment等の強化と将来のPreparedness改定予定を示す。取得不能メモを解消し、制度との接続と公表文書の種類を補足する。8月記事を新Preparedness版が発行済みという根拠にしない。",
+      "sources": [
+        "https://openai.com/index/updating-our-preparedness-framework/",
+        "https://openai.com/index/openai-frontier-governance-framework/",
+        "https://openai.com/index/pacing-model-development-cyber-capabilities/"
+      ],
+      "source_date": "2025-04-15、2026-05-28、2026-08-18",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "TS-05",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "捜査機関のなりすましと被害回復詐欺を通報手順へ追加",
+      "targets": [
+        "docs/06-security/deepfake-and-impersonation-defense.md:32",
+        "docs/06-security/deepfake-and-impersonation-defense.md:63",
+        "docs/06-security/deepfake-and-impersonation-defense.md:111",
+        "docs/06-security/deepfake-and-impersonation-defense.md:118",
+        "research/trust/provenance.md:106"
+      ],
+      "current": "2025-05-15のFBI警告と独立経路による本人確認が中心。",
+      "change": "FBI/IC3は2026-07-20、偽IC3苦情フォーム、FBI幹部を装うdeepfake、被害回復を装った再被害を警告。通報先自体が偽装されるケースを追加し、既知の公式URLから通報先へ直接到達する手順を訓練に含める。2025年の警告が誤りになったわけではない。",
+      "sources": [
+        "https://www.ic3.gov/PSA/2026/PSA260720"
+      ],
+      "source_date": "2026-07-20",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "TS-07",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "Claudeのtext watermarkとFiles API取得時C2PAを具体例へ追加",
+      "targets": [
+        "docs/06-security/content-provenance-and-detection.md:47",
+        "docs/06-security/content-provenance-and-detection.md:83",
+        "research/trust/provenance.md"
+      ],
+      "current": "来歴とwatermarkを一般的に整理しているが、2026-09-01のClaude対応は未反映。",
+      "change": "Claude Fable5.1/Mythos5.1の生成textはAnthropicのtext watermarkを持つ。code executionが生成した対応image/video/audioファイルはClaude APIのFiles APIで取得したときC2PA Content Credentialsを持つ。一般的なC2PA説明に具体例を追加し、対応媒体・生成経路・取得経路・後工程での保持を確認する設計判断へつなげる。全生成物や通常textにC2PAが付くと一般化しない。rootからの共有後、この担当でも公式release notes本文を独立取得した。",
+      "sources": [
+        "https://platform.claude.com/docs/en/release-notes/overview"
+      ],
+      "source_date": "2026-09-01",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "PH-01",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "Helixを旧35自由度・2層の例だけで説明しない",
+      "targets": [
+        "docs/01-concepts/physical-ai-overview.md:40",
+        "docs/01-concepts/physical-ai-overview.md:62",
+        "research/supplementary/physical-ai.md:24",
+        "research/supplementary/physical-ai.md:62",
+        "research/supplementary/physical-ai.md:189"
+      ],
+      "current": "Helixを上半身35自由度、低速の計画と高速の制御という2層の代表として記載。",
+      "change": "Helix02は2026-01-27公開で全身制御、S2/S1/S0の3階層。公式説明はS1が200Hz、S0が1kHz。本文の共通原理は『計画と高速制御の分離』とし、階層数は実装で異なると明確化。旧Helixの35自由度は世代を限定する。4分間の自律デモはベンダー発表の実証であり、汎用作業のSLAや第三者検証ではない。",
+      "sources": [
+        "https://www.figure.ai/news/helix-02"
+      ],
+      "source_date": "2026-01-27",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "PH-02",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "VLA共通ベンチマークが存在しないという断定を限定",
+      "targets": [
+        "docs/01-concepts/physical-ai-overview.md:64",
+        "research/supplementary/physical-ai.md:14",
+        "research/supplementary/physical-ai.md:214"
+      ],
+      "current": "VLAには共通ベンチマーク/リーダーボードがなく比較できないと読める記述。",
+      "change": "LIBEROは130タスク・4スイートの公開評価基盤を提供し、openpiにはπ0.5-LIBERO checkpointがある。Isaac Lab-Arenaも評価基盤を公開。『特定の課題・embodiment・シミュレーションでの共通比較は存在するが、異なる実機の汎用能力を一つの数値で比べる基盤は未成熟』へ変更し、評価条件の一致を確認させる。LIBERO公式サイト本文は取得失敗したが著者公式GitHubを取得。",
+      "sources": [
+        "https://github.com/Lifelong-Robot-Learning/LIBERO",
+        "https://raw.githubusercontent.com/Physical-Intelligence/openpi/main/README.md",
+        "https://developer.nvidia.com/isaac/lab-arena"
+      ],
+      "source_date": "各公式リポジトリの掲載状態2026-09-10。LIBEROは2023公開の既存基盤",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "PH-03",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "Gemini Robotics 2系の提供段階とER1.6の日付を更新",
+      "targets": [
+        "docs/01-concepts/physical-ai-overview.md:55",
+        "docs/01-concepts/physical-ai-overview.md:120",
+        "research/supplementary/physical-ai.md:33"
+      ],
+      "current": "Gemini Robotics/ERの旧世代を中心に、一般API提供と限定利用を区別。researchのER1.6の日付は2026-06としている。",
+      "change": "Gemini Robotics2/ER2/On-Device2は2026-07-30公開。ER2はAI Studio、Enterprise Agent Platformはprivate preview、Robotics2とOn-Device2はearly-access partner経由として提供段階を分ける。旧ER1.6の公式モデルカード日付は2026-04-20で、researchの2026-06も訂正対象。モデル紹介と商用一般提供を同一視しない。",
+      "sources": [
+        "https://deepmind.google/blog/gemini-robotics-2-brings-whole-body-intelligence-to-robots/",
+        "https://deepmind.google/models/model-cards/",
+        "https://deepmind.google/blog/gemini-robotics-er-1-6/"
+      ],
+      "source_date": "Robotics2系2026-07-30、ER1.6モデルカード2026-04-20",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "PH-04",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "GR00T N1.7の公開物とN2の予定を分離",
+      "targets": [
+        "docs/01-concepts/physical-ai-overview.md:60",
+        "docs/01-concepts/physical-ai-overview.md:120",
+        "research/supplementary/physical-ai.md:54"
+      ],
+      "current": "researchの公開基盤はGR00T N1.6を中心に整理。",
+      "change": "公式Isaac-GR00TリポジトリはN1.7のGA、重み・reference codeのApache2.0、ONNX/TensorRT、評価情報を掲載。2026-07-07公式記事もend-to-end開発手順を説明。2026-03-16のN2 preview発表は年末提供予定であり、GAとして扱わない。researchと参考資料を公開済みartifactへ更新する。",
+      "sources": [
+        "https://github.com/NVIDIA/Isaac-GR00T",
+        "https://developer.nvidia.com/blog/develop-humanoid-robot-policies-end-to-end-with-nvidia-isaac-gr00t/",
+        "https://nvidianews.nvidia.com/news/nvidia-expands-open-model-families-to-power-the-next-wave-of-agentic-physical-and-healthcare-ai"
+      ],
+      "source_date": "N1.7開発記事2026-07-07、N2 preview発表2026-03-16。GA掲載状況2026-09-10",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "PH-05",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "世界モデルと行動方策を結合するWAMを整理へ追加",
+      "targets": [
+        "docs/01-concepts/world-models-overview.md:34",
+        "docs/01-concepts/world-models-overview.md:63",
+        "docs/01-concepts/world-models-overview.md:97",
+        "docs/01-concepts/physical-ai-overview.md:64",
+        "research/supplementary/physical-ai.md:176"
+      ],
+      "current": "世界モデルの3用途を分け、主に評価/学習基盤としてVLAの直接行動生成と区別。",
+      "change": "DreamZero（2026-02-17論文）は事前学習video diffusionをもとに将来videoと連続actionを共同生成するWorld Action Model。3用途は排他的分類ではなく、予測と行動方策が結合する設計もあると補足する。研究論文・公開研究実装の段階であり商用一般提供としない。",
+      "sources": [
+        "https://arxiv.org/abs/2602.15922",
+        "https://research.nvidia.com/labs/gear/publications/",
+        "https://github.com/dreamzero0/dreamzero/blob/main/README.md"
+      ],
+      "source_date": "2026-02-17",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "PH-06",
+      "priority": "P3",
+      "kind": "補足推奨",
+      "title": "PIの実顧客導入事例を介入付き運用として補足",
+      "targets": [
+        "docs/01-concepts/physical-ai-overview.md:61",
+        "docs/01-concepts/physical-ai-overview.md:66",
+        "research/supplementary/physical-ai.md:132",
+        "research/supplementary/physical-ai.md:212"
+      ],
+      "current": "researchにThe Physical Intelligence Layerの本文未取得、最新モデルの提供方法が未確認として残る。",
+      "change": "2026-02-24公式記事を取得。Weaveの顧客ランドリーとUltraの顧客倉庫でπ0.6を使う実導入、遠隔介入/HITLを説明。パートナー自身の執筆による実例として研究メモを更新し、実機運用での介入率・回復経路の重要性を補強する。一般に購入可能なAPI、完全自律、第三者保証のSLAとは解釈しない。",
+      "sources": [
+        "https://www.pi.website/blog/partner"
+      ],
+      "source_date": "2026-02-24",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "EG-01",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "BISのUAE向け条件付き優遇を輸出規制監視へ追加",
+      "targets": [
+        "docs/09-business/ai-geopolitics-map.md:66",
+        "docs/09-business/ai-geopolitics-map.md:183",
+        "docs/09-business/ai-geopolitics-map.md:189",
+        "research/strategy/geopolitics.md:39"
+      ],
+      "current": "BISは入口リンクのみ、researchはAI Diffusion非執行等を中心に整理。",
+      "change": "BISは2026-07-10、UAEをD:3/D:4から除外しA:5へ追加、条件を満たす承認済み企業のadvanced AI chip/serverにlicense-free eligibilityを与えるfavorable treatmentを発表。国名だけでなく企業・条件・規則の照合を確認項目へ追加する。『UAE向けすべて免許不要』とはしない。発表の法令リンク2026-14132はアクセス制限、GovInfoミラーも取得不能。正確な法令発効日は未確認。Justiaは2026-07-14掲載と表示するが二次情報のため発効根拠には採用していない。",
+      "sources": [
+        "https://www.bis.gov/news-updates",
+        "https://www.federalregister.gov/d/2026-14132"
+      ],
+      "source_date": "BIS発表2026-07-10。法令の発効日は未確認",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "EG-02",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "最終親会社の本社所在地を輸出相談用の事実リストへ追加",
+      "targets": [
+        "docs/09-business/ai-geopolitics-map.md:66",
+        "docs/09-business/ai-geopolitics-map.md:70",
+        "docs/09-business/ai-geopolitics-map.md:118",
+        "research/strategy/geopolitics.md:39"
+      ],
+      "current": "相手方・用途の情報収集を勧めるがultimate parentの本社所在地は明示していない。",
+      "change": "BISの2026-05-31 guidanceは、D:5/Macauに本社またはultimate parentを持つentityに対するadvanced computing関連の許可要件が、第三国所在でもAI Diffusion非執行とは別に継続すると説明。法務に渡す事実へ直接相手方と最終親会社の本社所在を追加し、対象ECCN・用途・取引条件を照合する。あらゆるクラウドサービスが自動的に対象と一般化しない。公式PDF1頁を取得。",
+      "sources": [
+        "https://media.bis.gov/media/documents/bis-guidance-may-31-2026.pdf"
+      ],
+      "source_date": "2026-05-31",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "EG-03",
+      "priority": "P3",
+      "kind": "補足推奨",
+      "title": "EU dual-useのAnnex I更新を法令番号と日付で管理",
+      "targets": [
+        "docs/09-business/ai-geopolitics-map.md:68",
+        "docs/09-business/ai-geopolitics-map.md:172",
+        "research/strategy/geopolitics.md:55"
+      ],
+      "current": "EU dual-useの公式入口のみを掲載。",
+      "change": "EC公式入口が示す更新はDelegated Regulation(EU)2025/2003でAnnex Iを改正。採択2025-09-08、OJ公布2025-11-14、翌日発効2025-11-15。researchに法令番号を固定し、同ページのSeptember2024 Excelは法令の代替にしない。今回取得した公式入口の掲載状況であり、2026年の更新が全世界で存在しないと断定するものではない。251頁PDFの冒頭・発効規定を確認した範囲。",
+      "sources": [
+        "https://policy.trade.ec.europa.eu/help-exporters-and-importers/exporting-dual-use-items_en",
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202502003"
+      ],
+      "source_date": "採択2025-09-08、公布2025-11-14、発効2025-11-15",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "EG-04",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "DPDP Rules最終原文の取得不能を解消し段階施行を整理",
+      "targets": [
+        "docs/09-business/ai-geopolitics-map.md:81",
+        "docs/09-business/ai-geopolitics-map.md:179",
+        "docs/09-business/ai-geopolitics-map.md:189",
+        "research/strategy/geopolitics.md:102"
+      ],
+      "current": "MeitY Rules本文にアクセスできず、段階施行の詳細を要確認としている。",
+      "change": "MeitYの最終Gazette原文を取得。G.S.R.846(E)文書日2025-11-13、PIBの2025-11-17解説は通知日2025-11-14と説明。英語p24 Rule1(2)はRules1,2,17–21を公布時、1(3)はRule4を公布1年後、1(4)はRules3,5–16,22,23を公布18か月後に施行。旧取得不能TODOを正式原文と段階ごとの対象へ更新する。発表時のfull operationalisationを全条文即日施行と読まない。日単位の各期限は公布日と通知日の取り扱いも含め別途専門確認とし、文書日から自動計算して断定しない。",
+      "sources": [
+        "https://www.meity.gov.in/static/uploads/2025/11/53450e6e5dc0bfa85ebd78686cadad39.pdf",
+        "https://www.pib.gov.in/PressNoteDetails.aspx?ModuleId=3&NoteId=156054&lang=1&reg=3",
+        "https://www.meity.gov.in/static/uploads/2026/04/46face7d48c8f6a97030f713ad5fdab4.pdf"
+      ],
+      "source_date": "通知文書2025-11-13、PIB記載の通知日2025-11-14、PIB解説2025-11-17",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "EG-05",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "CACの取得不能メモを越境データ専用索引へ更新",
+      "targets": [
+        "docs/09-business/ai-geopolitics-map.md:80",
+        "docs/09-business/ai-geopolitics-map.md:185",
+        "research/strategy/geopolitics.md:93"
+      ],
+      "current": "CAC公式本文が取得不能で国外アクセスの制約が残ると記述。",
+      "change": "CACトップと越境データの公式専用索引を取得できた。索引は2025-06-27の『数据出境安全评估申报指南（第三版）』や標準契約・認証を掲載。2026-08-12の個人情報保護政策法規FAQページも取得。取得不能の一律メモを到達できた正式入口・文書名へ更新し、個別条項の適用確認は残す。FAQの全文解釈や全規制の横断比較は未実施。",
+      "sources": [
+        "https://www.cac.gov.cn/",
+        "https://www.cac.gov.cn/wxzw/sjzl/sjcjaqpg/A09370801index_1.htm",
+        "https://www.cac.gov.cn/2026-08/12/c_1788195297373459.htm"
+      ],
+      "source_date": "第三版ガイド掲載2025-06-27、FAQ2026-08-12",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "EG-06",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "AWS CCFTの後継をSustainability consoleへ具体化",
+      "targets": [
+        "docs/05-operations/green-ai.md:80",
+        "docs/05-operations/green-ai.md:82",
+        "docs/05-operations/green-ai.md:146",
+        "research/strategy/green-ai.md:34",
+        "research/strategy/green-ai.md:70",
+        "research/strategy/green-ai.md:186"
+      ],
+      "current": "CCFTの2026-06-30廃止予告と後継確認TODOが残り、Scopeの説明も旧範囲を前提にしている。",
+      "change": "AWS Sustainability consoleは2026-03-31 GA。無料でBilling権限を要しない専用console、Scope1/2/3、market-based/location-based、service/region粒度、API/CSVを提供。現行user guideは月次排出量と年次water withdrawalsも説明。後継名・取得経路・測定境界を具体化する。旧CCFT release notesは取得時もwill be deprecated June30と未来形を残しており、実際の旧UI閉鎖は操作検証していない。後継の利用可能と旧画面停止の実確認を混同しない。",
+      "sources": [
+        "https://aws.amazon.com/about-aws/whats-new/2026/03/aws-launches-sustainability-console/",
+        "https://aws.amazon.com/sustainability/tools/console/",
+        "https://docs.aws.amazon.com/sustainability/latest/userguide/getting-started.html",
+        "https://docs.aws.amazon.com/ccft/latest/releasenotes/what-is-ccftrn.html"
+      ],
+      "source_date": "後継GA2026-03-31、旧CCFT廃止予告日2026-06-30",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "EG-07",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "SCI for AIを策定中からGSF批准済み仕様へ更新",
+      "targets": [
+        "docs/05-operations/green-ai.md:80",
+        "docs/05-operations/green-ai.md:134",
+        "research/strategy/green-ai.md:123"
+      ],
+      "current": "SCI for AIを策定中として扱っている。",
+      "change": "GSF公式トップはSCI for AIをRatified December2025と表示し、規格ページもQ4 2025 ratification/Q1 2026 publicationの工程を示す。GSF仕様として批准済みへ更新し、AI lifecycleに応じた境界定義を紹介する。基本SCIのISO/IEC21031:2024とGSFのAI拡張は別であり、AI拡張までISO規格化済みとは記さない。",
+      "sources": [
+        "https://greensoftware.foundation/",
+        "https://greensoftware.foundation/standards/sci-ai/"
+      ],
+      "source_date": "批准2025-12。現行仕様掲載状況2026-09-10",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "EG-08",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "CSRD簡素化を最終承認後の状態へ更新",
+      "targets": [
+        "docs/05-operations/green-ai.md:88",
+        "docs/05-operations/green-ai.md:148",
+        "research/strategy/green-ai.md:154"
+      ],
+      "current": "CSRD/ESRSの簡素化が動いていると抽象的に記載し、researchも提案段階中心。",
+      "change": "Councilは2026-02-24に簡素化法制を最終承認。公式発表は企業の対象閾値を従業員1000人超かつ純売上€450m超と説明し、第三国企業・移行措置は別条件。researchを提案段階から最終承認へ更新し、本文は改正法令と加盟国での国内法化確認を促す。今回、確定法令番号と各国の適用日は未照合のため、具体的な義務判定に使えるところまで確認済みとはしない。",
+      "sources": [
+        "https://www.consilium.europa.eu/en/press/press-releases/2026/02/24/council-signs-off-simplification-of-sustainability-reporting-and-due-diligence-requirements-to-boost-eu-competitiveness/"
+      ],
+      "source_date": "2026-02-24",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "EG-09",
+      "priority": "P3",
+      "kind": "補足推奨",
+      "title": "EEDデータセンター報告FAQ1.8と格付けの実際の段階を追跡",
+      "targets": [
+        "docs/05-operations/green-ai.md:137",
+        "docs/05-operations/green-ai.md:148",
+        "research/strategy/green-ai.md:101",
+        "research/strategy/green-ai.md:163"
+      ],
+      "current": "EED databaseの入口のみを示し、格付けパッケージを策定監視項目とする。",
+      "change": "EC hubに2026-07-28掲載のFAQは本文表紙v1.8 July2026。500kW以上の年次報告を説明。URLのfilenameに1v7とあっても本文版を優先する。格付けpackageはページ上preparingのままで、意見募集は2026-03-26〜2026-04-23。researchへFAQ版を追記し、Q2予定が経過しただけで採択済みとしない。79頁のFAQ全論点を法律レビューしたわけではない。",
+      "sources": [
+        "https://energy.ec.europa.eu/topics/energy-efficiency/energy-efficiency-targets-directive-and-rules/energy-efficiency-directive/energy-performance-data-centres_en",
+        "https://energy.ec.europa.eu/document/download/2597a32b-c791-4d87-a9da-57b64a3c4d7d_en?filename=2026_07_03+FAQ+on+European+database+on+data+centres+1v7-AA(1).pdf"
+      ],
+      "source_date": "FAQ本文版2026-07、hub掲載2026-07-28",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "EG-10",
+      "priority": "P3",
+      "kind": "補足推奨",
+      "title": "クラウド環境報告を最新の実績年と公開版へ更新",
+      "targets": [
+        "docs/05-operations/green-ai.md:82",
+        "docs/05-operations/green-ai.md:144",
+        "research/strategy/green-ai.md:16"
+      ],
+      "current": "researchにMicrosoft2025 fact sheetやAmazon2024 summaryなど旧年の資料が残る。",
+      "change": "Googleは2025実績を扱う2026 Environmental Report、Microsoftは2026 Environmental Sustainability Report、Amazon hubは2025 Sustainability Reportを掲載。研究メモの参照を更新して公表年と実績年を分ける。環境数値を比較掲載するには年度・組織境界・保証対象・推計方法を追加確認する。今回の資料存在確認だけでベンダー間数値の比較可能性を保証しない。",
+      "sources": [
+        "https://sustainability.google/google-2026-environmental-report/",
+        "https://www.microsoft.com/en-us/corporate-responsibility/topics/sustainability/report/",
+        "https://www.microsoft.com/en-us/corporate-responsibility/reports-hub",
+        "https://sustainability.aboutamazon.com/reports"
+      ],
+      "source_date": "Google/Microsoft2026報告、Amazon2025報告。掲載状況2026-09-10",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "EG-11",
+      "priority": "P3",
+      "kind": "補足推奨",
+      "title": "IEAの2026年Energy and AI資料へ参照を追加",
+      "targets": [
+        "docs/05-operations/green-ai.md:59",
+        "docs/05-operations/green-ai.md:135",
+        "research/strategy/green-ai.md:83"
+      ],
+      "current": "本文はIEA2025 Energy and AIが主参照で、researchの2026年資料は取得不能。",
+      "change": "2026-04-16公開のKey Questions on Energy and AIとexecutive summaryを取得。参考資料へ追加しresearchの旧アクセス不能を解消する。タスク当たり効率と利用量・タスク構成の変化を分ける設計判断を補強する。今回マクロ予測の全数値や前提を再計算していない。",
+      "sources": [
+        "https://www.iea.org/reports/key-questions-on-energy-and-ai",
+        "https://www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary"
+      ],
+      "source_date": "2026-04-16",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "EG-12",
+      "priority": "P3",
+      "kind": "補足推奨",
+      "title": "EU十分性認定の直近決定と再審査を研究メモへ追加",
+      "targets": [
+        "docs/09-business/ai-geopolitics-map.md:79",
+        "docs/09-business/ai-geopolitics-map.md:174",
+        "research/strategy/geopolitics.md:68"
+      ],
+      "current": "十分性認定の公式入口を掲載するのみ。",
+      "change": "EC公式一覧にBrazilの2026-01-26 decisionとKoreaの2026-07-23 first reviewを掲載。本文の一般説明は維持できるが、researchの直近監視例へ追加し、認定決定と既存決定の再審査を区別する。個々のデータ移転が無条件で許されるとの記述にはしない。",
+      "sources": [
+        "https://commission.europa.eu/law/law-topic/data-protection/international-dimension-data-protection/adequacy-decisions_en",
+        "https://eur-lex.europa.eu/legal-content/en/TXT/?uri=CELEX:32026D0179"
+      ],
+      "source_date": "Brazil決定2026-01-26、Korea再審査2026-07-23",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T01",
+      "priority": "P1",
+      "kind": "訂正必要",
+      "title": "Windsurfの現行契約と学習オプトアウト条件を更新",
+      "targets": [
+        "docs/08-coding-agents/windsurf.md:77",
+        "docs/08-coding-agents/windsurf.md:106",
+        "docs/08-coding-agents/windsurf.md:145",
+        "docs/08-coding-agents/coding-agents-comparison.md:72",
+        "research/coding-agents/data-handling-index.md:15",
+        "research/coding-agents/data-handling-index.md:16"
+      ],
+      "current": "旧4月規約を前提に、Chatの学習オプトアウトでは利用できないと説明しています。",
+      "change": "旧規約URLは2026-06-30のCognition Platform Termsへ転送されます。§3.3.1の有料tierでの学習オプトアウト（Teamsは管理者のみ）と、§3.3.3の安全・不正・法的保持の例外へ更新します。Freeを含む全プラン対応やChat停止の継続は断定しません。既存契約の重大変更は掲載30日後の適用という条件も区別します。",
+      "sources": [
+        "https://cognition.com/legal/platform-terms-of-service",
+        "https://docs.devin.ai/admin/security"
+      ],
+      "source_date": "2026-06-30（既存契約の重大変更は掲載30日後）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T02",
+      "priority": "P1",
+      "kind": "訂正必要",
+      "title": "Cursor Privacy Modeの保持例外とBYOKの経路を反映",
+      "targets": [
+        "docs/08-coding-agents/cursor.md:56",
+        "docs/08-coding-agents/cursor.md:70",
+        "docs/08-coding-agents/cursor.md:71",
+        "docs/08-coding-agents/cursor.md:93",
+        "research/coding-agents/data-handling-index.md:14"
+      ],
+      "current": "Privacy Modeについて、学習・保持がないことを広く保証する説明になっています。",
+      "change": "2026-09-03のData Useに基づき、不正分類器でフラグが立った場合の保持、非ZDRモデルのユーザー表示と管理者opt-in、暗号化された一時ファイルキャッシュを区別します。コード保存をCloud Agentsだけに限定せず、BYOKもCursor backend経由であることを反映します。",
+      "sources": [
+        "https://cursor.com/data-use"
+      ],
+      "source_date": "2026-09-03",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T03",
+      "priority": "P1",
+      "kind": "訂正必要",
+      "title": "Claude Codeのmax-turns既定10という誤記を訂正",
+      "targets": [
+        "docs/08-coding-agents/claude-code-in-practice.md:72",
+        "docs/08-coding-agents/claude-code-in-practice.md:132",
+        "research/coding-agents/claude-code-practice.md"
+      ],
+      "current": "--max-turnsの既定値を10としています。",
+      "change": "現行CLIの既定値は無制限です。GitHub Actionのclaude_argsも既定は空であり、10は明示的に設定する例として扱います。既定の上限があるという前提で無人実行の費用・終了条件を設計しないよう訂正します。",
+      "sources": [
+        "https://code.claude.com/docs/en/cli-reference",
+        "https://code.claude.com/docs/en/github-actions",
+        "https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md"
+      ],
+      "source_date": "公開日不明（2026-09-10に現行一次資料を確認）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T04",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "Claude Codeのeffort変更時にキャッシュを維持できる条件を反映",
+      "targets": [
+        "docs/08-coding-agents/claude-code-in-practice.md:62",
+        "docs/08-coding-agents/claude-code-in-practice.md:92",
+        "docs/08-coding-agents/claude-code-in-practice.md:99",
+        "research/coding-agents/claude-code-practice.md"
+      ],
+      "current": "effortの変更は常にキャッシュを失効させると説明しています。",
+      "change": "Claude Code v2.1.260以降でFable 5.1をAPI keyまたはClaude subscriptionで使用する場合、effort変更時もキャッシュを維持できます。Bedrock、Google Agent Platform、ゲートウェイ等は対象外であり、betaおよびHIPAAの条件も確認対象として明示します。モデル変更による失効と分けて説明します。",
+      "sources": [
+        "https://code.claude.com/docs/en/prompt-caching"
+      ],
+      "source_date": "公開日不明（2026-09-10に現行一次資料を確認）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T05",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "Claude Codeの主会話とsubagentのキャッシュTTL設定を追加",
+      "targets": [
+        "docs/08-coding-agents/claude-code-in-practice.md:60",
+        "research/coding-agents/claude-code-practice.md:217"
+      ],
+      "current": "主会話1時間、subagent 5分という固定の整理です。",
+      "change": "v2.1.242以降のpromptCacheTtl / CLAUDE_CODE_PROMPT_CACHE_TTLと、subagentPromptCacheTtl / CLAUDE_CODE_SUBAGENT_PROMPT_CACHE_TTLを追記します。旧ENABLE_PROMPT_CACHING_1Hは廃止と扱わず、設定の優先順位として整理します。",
+      "sources": [
+        "https://code.claude.com/docs/en/prompt-caching"
+      ],
+      "source_date": "公開日不明（2026-09-10に現行一次資料を確認）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T06",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "Claude Codeのself-hosted environments public betaを追加",
+      "targets": [
+        "docs/08-coding-agents/claude-code.md:48",
+        "docs/08-coding-agents/claude-code.md:55",
+        "docs/08-coding-agents/claude-code-in-practice.md:74",
+        "docs/08-coding-agents/coding-agents-comparison.md:65"
+      ],
+      "current": "クラウド実行をAnthropicのVM上の実行として説明しています。",
+      "change": "Team / Enterprise向けで既定off、CLI v2.1.224以降のself-hosted environments public betaを追加します。web、app、CLI、Routinesのタスクを自社実行基盤に接続できますが、推論・キューには外向きHTTPSが必要です。ZDR組織、Security、Code Reviewは対象外であり、推論のオンプレミス化とは区別します。",
+      "sources": [
+        "https://code.claude.com/docs/en/self-hosted-environments"
+      ],
+      "source_date": "公開日不明（2026-09-10に現行一次資料を確認）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T07",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "Cursorのself-hosted machinesと共有poolを比較へ追加",
+      "targets": [
+        "docs/08-coding-agents/cursor.md:46",
+        "docs/08-coding-agents/cursor.md:54",
+        "docs/08-coding-agents/coding-agents-comparison.md:71"
+      ],
+      "current": "Cloud Agentの実行環境をCloud VMのみとして整理しています。",
+      "change": "2026-09-02公開のself-hosted machines、My Machines、team poolによる自社実行基盤の選択肢を追加します。ツール実行環境の変更であり、モデル通信のオンプレミス化を意味しないことを明確にします。",
+      "sources": [
+        "https://cursor.com/changelog",
+        "https://cursor.com/docs/cloud-agent/self-hosted/integrations"
+      ],
+      "source_date": "2026-09-02",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T08",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "Copilot appとCLIのcontent exclusion GAをIDEと分けて記載",
+      "targets": [
+        "docs/08-coding-agents/github-copilot.md:74",
+        "docs/08-coding-agents/github-copilot.md:98",
+        "docs/08-coding-agents/github-copilot.md:144",
+        "research/coding-agents/github-copilot.md"
+      ],
+      "current": "Agent系のcontent exclusion非対応を広くまとめています。",
+      "change": "2026-09-02にBusiness / EnterpriseのCopilot appとCLIでcontent exclusionがGAになりました。IDEのEdit / Agentは引き続き対象外です。cloud agentをappと同一視せず、その適用範囲の未確認TODOは維持します。",
+      "sources": [
+        "https://github.blog/changelog/2026-09-02-content-exclusions-generally-available-in-copilot-app-and-cli/",
+        "https://docs.github.com/en/copilot/concepts/context/content-exclusion"
+      ],
+      "source_date": "2026-09-02",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T09",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "Copilot code reviewのPR承認public previewを追加",
+      "targets": [
+        "docs/08-coding-agents/github-copilot.md:50",
+        "docs/08-coding-agents/github-copilot.md:93",
+        "docs/08-coding-agents/github-copilot-in-practice.md:41",
+        "docs/08-coding-agents/github-copilot-in-practice.md:79"
+      ],
+      "current": "Copilotによるレビューを人の承認に先立つレビューとして扱っています。",
+      "change": "2026-09-01のpublic previewではCopilotのPR approvalをrequired approvalsへ算入できます。既定off、管理者によるpath指定、新規commitによる承認失効を説明します。人による承認を必須にする運用方針は、製品が承認できるかという能力と分けて記載します。",
+      "sources": [
+        "https://github.blog/changelog/2026-09-01-copilot-code-review-can-now-approve-pull-requests/"
+      ],
+      "source_date": "2026-09-01",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T10",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "Copilot選択モデルの2026年10月2日廃止予定を追加",
+      "targets": [
+        "docs/08-coding-agents/github-copilot.md:140",
+        "docs/08-coding-agents/github-copilot.md:142",
+        "research/coding-agents/github-copilot.md"
+      ],
+      "current": "2026-09-03に告知されたCopilotの選択モデル廃止予定が未反映です。",
+      "change": "2026-10-02のGemini 3.5 / 3.6 Flash、Kimi K2.7 Code、Claude Opus 4.7の廃止と、Gemini 3.8 Flash、Kimi K3、Claude Opus 5への移行先を追加します。Copilot上の提供終了であり、ベンダーAPI自体の退役とは混同しません。",
+      "sources": [
+        "https://github.blog/changelog/2026-09-03-upcoming-deprecation-of-selected-github-copilot-models/"
+      ],
+      "source_date": "2026-09-03告知、2026-10-02廃止予定",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T11",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "Codexのpermission profiles betaと旧設定の関係を追加",
+      "targets": [
+        "docs/08-coding-agents/openai-codex.md:71",
+        "docs/08-coding-agents/openai-codex.md:79",
+        "docs/08-coding-agents/coding-agents-comparison.md:66",
+        "research/coding-agents/openai-codex.md"
+      ],
+      "current": "権限を従来のsandboxとapprovalの組み合わせで説明しています。",
+      "change": "permission profiles betaのdefault_permissions、[permissions]、:read-only、:workspaceを追加し、旧設定との併存および優先関係を整理します。管理者のallowed_permission_profilesは0.138.0以降であり、network.enabledとfeatures.network_proxyは別の設定です。",
+      "sources": [
+        "https://learn.chatgpt.com/docs/permissions"
+      ],
+      "source_date": "公開日不明（2026-09-10に現行一次資料を確認）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T12",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "Codex Auto-reviewの対象範囲を権限説明へ追加",
+      "targets": [
+        "docs/08-coding-agents/openai-codex.md:71",
+        "docs/08-coding-agents/openai-codex.md:79",
+        "research/coding-agents/openai-codex.md"
+      ],
+      "current": "操作承認の判断先をユーザーのみとして説明しています。",
+      "change": "Auto-reviewを追加し、その対象は承認要求が生じる操作であると明示します。approval neverやfull accessの操作全般について安全を保証する仕組みとは説明しません。",
+      "sources": [
+        "https://learn.chatgpt.com/docs/sandboxing/auto-review"
+      ],
+      "source_date": "公開日不明（2026-09-10に現行一次資料を確認）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T13",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "Codex subagentの委任条件を提供面ごとに訂正",
+      "targets": [
+        "docs/08-coding-agents/openai-codex-in-practice.md:52",
+        "research/coding-agents/openai-codex-practice.md"
+      ],
+      "current": "ユーザーによる直接の明示指示がある場合だけsubagentを使うと説明しています。",
+      "change": "AGENTS.mdやskillsの委任指示も使用根拠になります。Work Ultraの能動委任も含め、提供面ごとの挙動を分けて説明し、直接のユーザー指示だけに限定する記述を訂正します。",
+      "sources": [
+        "https://learn.chatgpt.com/docs/agent-configuration/subagents"
+      ],
+      "source_date": "公開日不明（2026-09-10に現行一次資料を確認）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T14",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "Codexの5.4 mini退役を認証経路ごとに同期",
+      "targets": [
+        "docs/08-coding-agents/openai-codex-in-practice.md:68",
+        "docs/08-coding-agents/openai-codex.md:95"
+      ],
+      "current": "実践記事は5.4 miniを2026-08-31退役予定として扱い、認証経路の区別が十分に同期されていません。",
+      "change": "ChatGPT sign-inでの提供終了とAPI key経由の提供を分けます。製品記事に既にある区別を実践記事へ同期し、過ぎた終了日を今後の予定として書かないよう更新します。",
+      "sources": [
+        "https://learn.chatgpt.com/docs/models"
+      ],
+      "source_date": "2026-08-31提供終了（ChatGPT sign-in）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T15",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "Codex Fastの速度・creditとAPI Priority料金を分離",
+      "targets": [
+        "docs/08-coding-agents/openai-codex-in-practice.md:72",
+        "docs/08-coding-agents/openai-codex-in-practice.md:106",
+        "research/coding-agents/openai-codex-practice.md"
+      ],
+      "current": "Fastの速度を1.5倍、消費を2〜2.5倍と一般化しています。",
+      "change": "速度1.5倍の記載は5.6 / 5.5 / 5.4等の対象モデルに限定します。Astra Fastは利用可能な場合に2.5倍creditですが、速度も同じ倍率と明記されてはいません。API Priorityの2倍料金とは別の体系として説明します。",
+      "sources": [
+        "https://learn.chatgpt.com/docs/agent-configuration/speed",
+        "https://learn.chatgpt.com/docs/models"
+      ],
+      "source_date": "公開日不明（2026-09-10に現行一次資料を確認）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T16",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "Kong AI Gateway 2.0と旧プラグイン・OSSライセンスを分離",
+      "targets": [
+        "docs/05-operations/llm-gateway.md:50",
+        "research/llmops/serving.md:146",
+        "research/llmops/serving.md:175",
+        "research/llmops/serving.md:203"
+      ],
+      "current": "Kong AI Gateway製品全体をOSSとして整理し、旧プラグイン中心の説明をしています。",
+      "change": "2026-09-01 GAのAI Gateway 2.0は独立したruntime、control plane、Admin API、versionを持ちます。従来のKong Gateway 3.xプラグインと分け、Kong coreのApacheライセンスを製品全体に適用しません。旧プラグインの廃止は意味しません。無印AI ProxyのFree / OSS利用範囲は未確定として残します。",
+      "sources": [
+        "https://konghq.com/blog/product-releases/kong-ai-gateway-2-0-ga",
+        "https://developer.konghq.com/ai-gateway/"
+      ],
+      "source_date": "2026-09-01",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T17",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "TensorRT-LLMのLTX-2モデル配下のライセンス例外を追加",
+      "targets": [
+        "research/llmops/serving.md:48",
+        "research/llmops/serving.md:191"
+      ],
+      "current": "TensorRT-LLM全体を無条件にApacheライセンスとしています。",
+      "change": "主ライセンスはApacheですが、tensorrt_llm/_torch/visual_gen/models/ltx2/にはLTX-2 Community Licenseの例外があります。導入日を推測せず、取得する構成物に応じて個別ライセンスを確認する形へ訂正します。",
+      "sources": [
+        "https://github.com/NVIDIA/TensorRT-LLM/blob/main/LICENSE"
+      ],
+      "source_date": "公開日不明（2026-09-10に現行一次資料を確認）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T18",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "LM Studioの現行App Termsと有料機能条件を反映",
+      "targets": [
+        "research/llmops/serving.md:105",
+        "research/llmops/serving.md:197"
+      ],
+      "current": "2025-07-01の無償提供を基準に整理しています。",
+      "change": "2026-08-23のApp Termsには有料機能、subscription、usage credit等があります。personal / internal businessの許諾と再配布・SaaS制限の継続を併記し、すべての無料機能が終了したとは書きません。",
+      "sources": [
+        "https://lmstudio.ai/app-terms"
+      ],
+      "source_date": "2026-08-23",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T19",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "Antigravityの組織向け導入経路を反映",
+      "targets": [
+        "docs/08-coding-agents/gemini-cli-and-code-assist.md:45",
+        "docs/08-coding-agents/gemini-cli-and-code-assist.md:87"
+      ],
+      "current": "組織利用をCode Assistへ一本化し、Antigravityの組織対応を将来の確認事項として扱っています。",
+      "change": "現行pricingにはOrganizationとGoogle Cloud統合の導入経路があります。実在する選択肢を分けて説明し、組織利用の経路が未提供であるかのような整理を訂正します。",
+      "sources": [
+        "https://antigravity.google/pricing"
+      ],
+      "source_date": "公開日不明（2026-09-10に現行一次資料を確認）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T20",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "Gemini個人向け提供終了とAPIデータ利用条件を比較表へ同期",
+      "targets": [
+        "docs/08-coding-agents/coding-agents-comparison.md:67",
+        "docs/08-coding-agents/coding-agents-comparison.md:95",
+        "docs/08-coding-agents/gemini-cli-and-code-assist.md:43",
+        "docs/08-coding-agents/gemini-cli-and-code-assist.md:76"
+      ],
+      "current": "無料APIの学習利用や個人向け提供の再編を未確認として扱う記述が比較表等に残っています。",
+      "change": "本体記事で確認済みの情報を同期します。Gemini Code Assist for individualsのIDE / CLIは2026-06-18に終了したことを2026-09-02更新の廃止案内で確認できます。2026-03-23規約のUnpaid Servicesでは改善利用、Paid Servicesではその目的に不使用という区分を反映します。地域等による例外はT21で分けます。",
+      "sources": [
+        "https://developers.google.com/gemini-code-assist/docs/deprecations/code-assist-individuals",
+        "https://ai.google.dev/gemini-api/terms"
+      ],
+      "source_date": "個人向け終了2026-06-18、廃止案内更新2026-09-02、規約発効2026-03-23",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T21",
+      "priority": "P3",
+      "kind": "補足推奨",
+      "title": "Gemini APIのPaidデータ条件に該当する地域・課金設定を補足",
+      "targets": [
+        "docs/08-coding-agents/gemini-cli-and-code-assist.md:76",
+        "docs/08-coding-agents/gemini-cli-and-code-assist.md:143",
+        "research/coding-agents/data-handling-index.md"
+      ],
+      "current": "無料利用と有料利用の二分だけでデータ利用条件を整理しています。",
+      "change": "2026-03-23発効の規約ではEEA、Switzerland、UKの無料利用にもPaid Servicesのデータ条件が適用されます。また実際の請求発生だけでなくCloud Billing有効化等の条件があるため、支払額のみで分類しないよう補足します。",
+      "sources": [
+        "https://ai.google.dev/gemini-api/terms"
+      ],
+      "source_date": "2026-03-23",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T22",
+      "priority": "P3",
+      "kind": "補足推奨",
+      "title": "Copilot for JetBrainsの企業管理sandbox previewを追加",
+      "targets": [
+        "docs/08-coding-agents/github-copilot.md:70",
+        "docs/08-coding-agents/github-copilot.md:76",
+        "docs/08-coding-agents/github-copilot.md:142"
+      ],
+      "current": "2026-09-08公開のJetBrains向けenterprise-managed sandboxが未反映です。",
+      "change": "public previewのenterprise-managed sandboxと管理者overrideを補足します。JetBrains向けの提供であり、すべてのIDEでGAしたとは扱いません。",
+      "sources": [
+        "https://github.blog/changelog/2026-09-08-enterprise-managed-sandbox-in-copilot-for-jetbrains/"
+      ],
+      "source_date": "2026-09-08",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T23",
+      "priority": "P3",
+      "kind": "補足推奨",
+      "title": "Clineのdesktop提供面を任意の比較項目へ追加",
+      "targets": [
+        "docs/08-coding-agents/open-source-coding-agents.md:41",
+        "docs/08-coding-agents/coding-agents-comparison.md:50"
+      ],
+      "current": "Clineの提供面をIDE / CLI / SDKで整理しています。",
+      "change": "公式リポジトリとreleasesにあるdesktopも選択肢へ追加できます。2026-09-09のdesktop-v0.0.24を確認しましたが、GAかどうかは未確認であり、安定提供の断定は避けます。",
+      "sources": [
+        "https://github.com/cline/cline",
+        "https://github.com/cline/cline/releases"
+      ],
+      "source_date": "2026-09-09（desktop-v0.0.24）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T24",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "Gemma 4のApache 2.0を旧世代の独自規約から分離",
+      "targets": [
+        "research/ecosystem/industry-oss.md:176",
+        "research/ecosystem/industry-oss.md:250",
+        "docs/03-implementation/llm-landscape.md:104",
+        "docs/03-implementation/llm-landscape.md:109",
+        "docs/03-implementation/open-source-ai-ecosystem.md"
+      ],
+      "current": "Gemmaを独自規約として一括で整理し、Apacheの適用を未確認として扱っています。",
+      "change": "公式条文で確認できるGemma 4のApache 2.0と旧世代のGemma Termsを分けます。Termsは2026-04-01版ですが、Gemma 4への適用開始日をこの日と推測しません。",
+      "sources": [
+        "https://ai.google.dev/gemma/terms",
+        "https://ai.google.dev/gemma/apache_2"
+      ],
+      "source_date": "Terms 2026-04-01版（Gemma 4の適用開始日は未確認）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T25",
+      "priority": "P3",
+      "kind": "補足推奨",
+      "title": "Microsoft Agent Framework 1.0の提供段階を調査メモへ追加",
+      "targets": [
+        "research/ecosystem/industry-oss.md:57",
+        "research/ecosystem/industry-oss.md:60",
+        "research/ecosystem/industry-oss.md:107",
+        "docs/03-implementation/framework-selection.md"
+      ],
+      "current": "AutoGenのmaintenance移行後の後継について、提供段階が具体化されていません。",
+      "change": "2026-04-03公開のMicrosoft Agent Framework 1.0はproduction-readyで、安定した.NET / Python APIと長期supportを示します。AutoGenのmaintenance継続と併記します。フレームワーク選定の一般原則を述べる本文の改稿は必須ではなく、研究メモや具体例の更新候補です。",
+      "sources": [
+        "https://github.com/microsoft/autogen",
+        "https://devblogs.microsoft.com/agent-framework/microsoft-agent-framework-version-1-0/",
+        "https://github.com/microsoft/agent-framework"
+      ],
+      "source_date": "2026-04-03",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T26",
+      "priority": "P3",
+      "kind": "補足推奨",
+      "title": "Devinの監視対象にSWE-1.7を追加",
+      "targets": [
+        "docs/08-coding-agents/devin.md:139",
+        "research/coding-agents/devin.md:19",
+        "research/coding-agents/devin.md:33",
+        "research/coding-agents/devin.md:207"
+      ],
+      "current": "SWE-1.6を直近モデルの監視対象として記載しています。",
+      "change": "2026-07-08の公式発表とpricingに掲載されているSWE-1.7を監視対象へ追加します。SWE-1.6の提供終了までは確認していないため、新世代の追加と旧世代の廃止を分けます。",
+      "sources": [
+        "https://cognition.com/blog/swe-1-7",
+        "https://devin.ai/pricing"
+      ],
+      "source_date": "2026-07-08",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T27",
+      "priority": "P3",
+      "kind": "補足推奨",
+      "title": "Devin Enterpriseのprivate MCP接続条件を追加",
+      "targets": [
+        "docs/08-coding-agents/devin.md:78",
+        "research/coding-agents/devin.md"
+      ],
+      "current": "2026-08-21の企業向け接続・設定の追加が未反映です。",
+      "change": "Enterprise向けprivate MCP、private tunnel、custom CA、企業設定のorg overrideを補足できます。Enterpriseの提供範囲であり、全プランの機能とは説明しません。",
+      "sources": [
+        "https://docs.devin.ai/release-notes/overview"
+      ],
+      "source_date": "2026-08-21",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "T28",
+      "priority": "P3",
+      "kind": "補足推奨",
+      "title": "Cursor Originとsubscriptionsを任意の自動化例へ追加",
+      "targets": [
+        "docs/08-coding-agents/cursor.md",
+        "research/coding-agents/cursor.md"
+      ],
+      "current": "Cursorの基本動作は維持できますが、2026年8月の新しい開始・起動方法は未反映です。",
+      "change": "2026-08-27のSCM未接続で開始するOriginと、2026-08-19のPR / Slack / schedule subscriptionsを具体例の候補として追加できます。既存の基本動作の誤りを直す必須修正とは区別します。",
+      "sources": [
+        "https://cursor.com/changelog"
+      ],
+      "source_date": "Origin 2026-08-27、subscriptions 2026-08-19",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "RPA01",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "WorkHQ の名称発表と Agentic Workflows の GA・サポート期限を区別",
+      "targets": [
+        "research/domain-agents/rpa.md:12",
+        "research/domain-agents/rpa.md:96",
+        "research/domain-agents/rpa.md:127",
+        "docs/13-domain-agents/rpa-and-agents.md:145",
+        "ROADMAP.md:711"
+      ],
+      "current": "WorkHQ は 4/29 発表としており、GA を未確認としています。",
+      "change": "Agentic Workflows は 3/27 GA です。Next Generation（現 WorkHQ）、Blue Prism Cloud、Enterprise 7.4.1 以降という対象条件と、名称発表を分けて記録します。Design Studio 3.20.0–3.21.0 / Digital Worker 2.38.0–2.39.0 は 9/30 にサポート終了しますが、2025.25 以前の同梱版は対象外です。SS&C AI Gateway の Qwen3-30B-A3B は 6/12 頃の廃止通知まで確認でき、実停止日は未確認です。",
+      "sources": [
+        "https://documentation.blueprism.com/workhq/en-us/announcements/announcements.htm"
+      ],
+      "source_date": "2026-03-27（GA）、2026-07-20（ページ）、2026-09-30（対象版サポート終了）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "RPA02",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "WinActor 7.7 と AI 支援の利用上限切替・外部通信条件を補足",
+      "targets": [
+        "research/domain-agents/rpa.md:109",
+        "research/domain-agents/rpa.md:129",
+        "docs/13-domain-agents/rpa-and-agents.md:145",
+        "ROADMAP.md:711"
+      ],
+      "current": "WinActor 7.6 を監視対象とし、AI 支援の無制限期間から利用上限への切替を記録していません。",
+      "change": "2025-09-04 告知の脚注では無制限期間は 2026 年 9 月末までで、10 月から上限と追加パックへ切り替わります。現行 7.7 の AI ヘルプ、VBScript から Python への移行支援を補足します。正確なリリース日、上限数量、価格は未確認です。AI 連携は NTT-AT サーバーと Azure OpenAI への外部通信を伴うため、閉域 RPA と混同しないよう条件を記載します。",
+      "sources": [
+        "https://www.ntt-at.co.jp/news/2025/detail/release250904.html",
+        "https://winactor.biz/product/winactor_v7.html",
+        "https://winactor.biz/use/manual.html"
+      ],
+      "source_date": "2025-09-04（告知）、2026-09 末（無制限期間終了）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "RPA03",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "UiPath Maestro の自己ホスト提供と TaaS の配置条件を補足",
+      "targets": [
+        "research/domain-agents/rpa.md:51",
+        "research/domain-agents/rpa.md:52",
+        "research/domain-agents/rpa.md:126",
+        "docs/13-domain-agents/rpa-and-agents.md:145"
+      ],
+      "current": "UiPath の 5/5 発表を中心に記録しています。",
+      "change": "Maestro Automation Suite 2.2510.2 は 4/15 に EKS / AKS / OpenShift の自己ホストを提供し、2.2510.3 は 7/23 にリソース使用を改善しています。TaaS はクラスタ内の Kubernetes deployments であり、名称だけで外部 SaaS と判定できません。一方、全機能や利用モデルが閉域に収まるという一般化は避け、配置と外部接続を個別に確認します。",
+      "sources": [
+        "https://docs.uipath.com/maestro/automation-suite/2.2510/release-notes/2-2510-2",
+        "https://docs.uipath.com/maestro/automation-suite/2.2510/release-notes/2-2510-3",
+        "https://docs.uipath.com/automation-suite/automation-suite/2.2510/installation-guide-eks-aks/kubernetes-cluster-and-nodes"
+      ],
+      "source_date": "2026-04-15、2026-07-23",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "RPA04",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "Copilot Studio computer use の GA 条件と古い RPA 比較を同期",
+      "targets": [
+        "research/domain-agents/rpa.md:66",
+        "research/domain-agents/rpa.md:68",
+        "research/domain-agents/rpa.md:124",
+        "ROADMAP.md:711"
+      ],
+      "current": "1/20 時点の古い比較表に基づく「GA のみなら RPA」という条件が、次の行の computer use GA 記録と矛盾しています。",
+      "change": "5/13 の公式告知と 7/3 更新の computer use 資料では、OpenAI CUA / Sonnet 4.5 は GA、Sonnet 4.6 / Opus 4.6 は Experimental です。古い GA 条件を現行の選定理由から除き、モデルごとの提供状態を分けます。全地域の展開完了は未検証です。",
+      "sources": [
+        "https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/agent-tools",
+        "https://learn.microsoft.com/en-us/microsoft-copilot-studio/computer-use",
+        "https://techcommunity.microsoft.com/blog/copilot-studio-blog/computer-using-agents-in-microsoft-copilot-studio-are-now-generally-available/4519427/replies/4527780"
+      ],
+      "source_date": "2026-05-13（告知）、2026-07-03（資料更新）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "RPA05",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "Copilot Studio の harness と agent flows / workflows を区別",
+      "targets": [
+        "research/domain-agents/rpa.md:22",
+        "research/domain-agents/rpa.md:62",
+        "research/domain-agents/rpa.md:64",
+        "research/domain-agents/rpa.md:124"
+      ],
+      "current": "generative orchestration と agent flows を中心に説明しています。",
+      "change": "8/27 の harness 資料に沿い、GitHub Copilot harness、standard、Copilot chat の 3 種類を整理します。agent flows は standard（classic）に属し、新 workflows は別の仕組みです。Power Automate から agent flow への一方向変換と、新 workflows へは変換できない条件を区別します。容量を使い切ると新規実行がブロックされるため、容量監視も更新候補に含めます。",
+      "sources": [
+        "https://learn.microsoft.com/en-us/microsoft-copilot-studio/harnesses-overview",
+        "https://learn.microsoft.com/en-us/microsoft-copilot-studio/flows-overview"
+      ],
+      "source_date": "2026-08-27（harness 資料）、2026-08-03（flows 資料）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "RPA06",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "Automation Anywhere の Mozart と機能ごとの提供状態を補足",
+      "targets": [
+        "research/domain-agents/rpa.md:22",
+        "research/domain-agents/rpa.md:79",
+        "research/domain-agents/rpa.md:124"
+      ],
+      "current": "APA、PRE、Studio を中心に記録しています。",
+      "change": "Mozart Orchestrator を追加し、5/19 発表時点で AI Evaluations は GA、Enterprise Claw / AAI Code は public preview、Context Intelligence Graph は preview で Q3 GA 予定、Process Simulation は別の予定であることを区別します。9/10 時点の GA 完了を予定から推定しません。30% の精度改善はベンダー内部評価として扱います。",
+      "sources": [
+        "https://www.automationanywhere.com/products/agentic-process-automation-system",
+        "https://www.automationanywhere.com/company/press-room/automation-anywhere-unveils-2026-platform-enhancements-run-ai-driven-processes",
+        "https://www.automationanywhere.com/company/press-room?year=2026"
+      ],
+      "source_date": "2026-05-19",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "EM01",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "Robin の査読出版と人が実験する検証範囲を更新",
+      "targets": [
+        "research/domain-agents/emerging.md:35",
+        "research/domain-agents/emerging.md:78",
+        "research/domain-agents/emerging.md:120"
+      ],
+      "current": "Robin を査読前の研究として記録しています。",
+      "change": "「A multi-agent system for automating scientific discovery」は 5/19 に Nature で公開され、655 巻 497–505 ページに収録されています。人が実験してデータを返す semi-autonomous の構成、ripasudil / KL001 の in vitro 検証を記載します。独立追試、臨床効果、完全無人化の証明とは扱いません。",
+      "sources": [
+        "https://www.nature.com/articles/s41586-026-10652-y",
+        "https://www.natureasia.com/en/info/press-releases/detail/9330"
+      ],
+      "source_date": "2026-05-19",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "EM02",
+      "priority": "P3",
+      "kind": "補足推奨",
+      "title": "AI co-scientist の出版書誌と確認できた証拠の範囲を補足",
+      "targets": [
+        "research/domain-agents/emerging.md:33",
+        "research/domain-agents/emerging.md:74",
+        "research/domain-agents/emerging.md:118"
+      ],
+      "current": "Co-Scientist の出版状況は DeepMind の表明を主な根拠としています。",
+      "change": "出版社書誌では 5/19 公開、7/1 Version of Record、7/9 号の Nature 655 巻 487–496 ページです。DOI 検索と広報から scientist-in-the-loop と 3 件の生物医学的検証を確認しました。通常の本文取得は認証エラー、PMC は CAPTCHA のため、全論文を直接精査したとはしません。91% 等の結果に対する独立追試は未確認です。",
+      "sources": [
+        "https://www.nature.com/articles/s41586-026-10644-y",
+        "https://doi.org/10.1038/s41586-026-10644-y",
+        "https://www.natureasia.com/en/info/press-releases/detail/9330"
+      ],
+      "source_date": "2026-05-19（公開）、2026-07-01（Version of Record）、2026-07-09（号）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "EM03",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "A-Lab の訂正文に基づき新規性と成功数を修正",
+      "targets": [
+        "research/domain-agents/emerging.md:37",
+        "research/domain-agents/emerging.md:82",
+        "research/domain-agents/emerging.md:83",
+        "research/domain-agents/emerging.md:119"
+      ],
+      "current": "「17 日で 41 の新規化合物」を記録し、訂正については二次情報を根拠としています。",
+      "change": "1/19 公開の Author Correction を著者機関 UC の全文で確認しました。新規性は予測プラットフォームにとっての新規性であり、科学的な新発見とは限りません。学習データ混入の Zn2Cr3FeO8 を除外し、残る 40 件のうち 36 件を再確認、4 件は XRD 同定が不確定なため成功数から除外しています。撤回や全件失敗という表現も不適切です。",
+      "sources": [
+        "https://www.nature.com/articles/s41586-025-09992-y",
+        "https://escholarship.org/content/qt4kb4s6pg/qt4kb4s6pg_noSplash_e2c3d812b2171874cfeca482fc6c214c.pdf",
+        "https://repositories.cdlib.org/uc/item/4kb4s6pg"
+      ],
+      "source_date": "2026-01-19（公開）、2026-02-05（号）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "EM04",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "1,000 人シミュレーション研究の論文リンク・版・評価指標を修正",
+      "targets": [
+        "research/domain-agents/emerging.md:43",
+        "research/domain-agents/emerging.md:91",
+        "research/domain-agents/emerging.md:125",
+        "research/domain-agents/emerging.md:156"
+      ],
+      "current": "旧題と 85% の値を記載し、Project Sid の arXiv ID 2411.00114 へ誤ってリンクしています。",
+      "change": "正しい arXiv ID は 2411.10109 です。6/28 の v3 は「LLM Agents Grounded in Self-Reports Enable General-Purpose Simulation of Individuals」です。GSS に対する本人の 2 週間後の再回答一致度を基準とした比率は、面接 83%、質問 82%、両方 86%、人口統計 74% です。旧 85% は初期版の履歴として区別し、一般的な行動予測の正答率とは表現しません。査読誌への掲載は未確認です。",
+      "sources": [
+        "https://arxiv.org/abs/2411.10109",
+        "https://arxiv.org/abs/2411.10109v3"
+      ],
+      "source_date": "2026-06-28（v3）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "EM05",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "PUBG Ally の出荷表現を期間限定ベータと実装構成へ修正",
+      "targets": [
+        "research/domain-agents/emerging.md:47",
+        "research/domain-agents/emerging.md:93",
+        "research/domain-agents/emerging.md:121"
+      ],
+      "current": "PUBG Ally を 2025 年に出荷済みの事例として記録しています。",
+      "change": "公式情報で確認できるのは 2026-06-17〜30 の Arcade における 2 週間の public beta です。6/17 の告知と 6/25 の技術記事に基づき、行動木による即応とローカル SLM による認知・対話という構成を記載し、Audio2Face だけの説明と区別します。9/10 時点での恒常提供は未確認です。",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/news/pubg-ally-ai-teammate-beta-available-now/",
+        "https://developer.nvidia.com/blog/how-krafton-built-pubg-ally-a-co-playable-character-powered-by-nvidia-ace/",
+        "https://www.nvidia.com/en-us/geforce/news/nvidia-ace-autonomous-ai-companions-pubg-naraka-bladepoint/"
+      ],
+      "source_date": "2026-06-17（告知）、2026-06-25（技術記事）",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "EM06",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "ChatGPT commerce の現行方針を商品発見と加盟店 checkout に更新",
+      "targets": [
+        "research/domain-agents/emerging.md:55",
+        "research/domain-agents/emerging.md:106",
+        "research/domain-agents/emerging.md:107",
+        "research/domain-agents/emerging.md:122"
+      ],
+      "current": "2025 年 9 月の Etsy 単品 Instant Checkout を現行例とし、その後の縮小は二次情報で記録しています。",
+      "change": "3/24 の OpenAI 一次情報に基づき、商品発見への重点移動、加盟店独自の checkout 体験を認める方針、ACP feeds による販促拡張へ更新します。ChatGPT 内の購入がすべて廃止されたという表現は避けます。",
+      "sources": [
+        "https://openai.com/index/powering-product-discovery-in-chatgpt/",
+        "https://openai.com/index/buy-it-in-chatgpt/"
+      ],
+      "source_date": "2026-03-24",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "EM07",
+      "priority": "P2",
+      "kind": "補足推奨",
+      "title": "Agent 決済の実取引 pilot と一般提供を区別して補足",
+      "targets": [
+        "research/domain-agents/emerging.md:55",
+        "research/domain-agents/emerging.md:108",
+        "research/domain-agents/emerging.md:122"
+      ],
+      "current": "Mastercard / Visa の実購買の状況を未確認としています。",
+      "change": "6/2 の Worldline / ING / Mastercard は、オランダの実カード会員と加盟店を使った production での実取引ですが、最終的な人の明示承認を伴う pilot です。4/8 の Visa Connect も特定パートナーの pilot として扱います。6/10 の Visa と OpenAI、Mastercard Agent Pay for Machines の追加発表を補足します。全地域 GA や継続的な大量の実利用は未確認です。",
+      "sources": [
+        "https://www.mastercard.com/news/europe/en/newsroom/press-releases/en/2026/worldline-ing-and-mastercard-complete-a-live-end-to-end-european-agentic-payment-in-production/",
+        "https://investor.visa.com/news/news-details/2026/Visa-Opens-the-Door-to-AI-Driven-Shopping-for-Businesses-Worldwide/",
+        "https://usa.visa.com/about-visa/newsroom/press-releases.releaseid.22496.html",
+        "https://www.mastercard.com/us/en/news-and-trends/press/2026/june/mastercard-launches-agent-pay-for-machines.html"
+      ],
+      "source_date": "2026-04-08、2026-06-02、2026-06-10",
+      "checked_at": "2026-09-10"
+    },
+    {
+      "id": "EM08",
+      "priority": "P2",
+      "kind": "訂正必要",
+      "title": "AP2 v0.2 の FIDO 寄贈と Mandate の現行構成を更新",
+      "targets": [
+        "research/domain-agents/emerging.md:57",
+        "research/domain-agents/emerging.md:103",
+        "research/domain-agents/emerging.md:104",
+        "research/domain-agents/emerging.md:123"
+      ],
+      "current": "初期の Intent / Cart Mandate を中心に記載し、FIDO への移管は検索結果だけで記録しています。",
+      "change": "4/28 の Google 本文に基づき、FIDO への寄贈と v0.2 公開を確認済みとして更新します。現仕様の Checkout / Payment Mandate、Human Present / Not Present、open / closed の委任を整理します。docs 本文 68 行目の決定的な検証という説明は、現仕様でも MUST に対応しており変更不要です。",
+      "sources": [
+        "https://ap2-protocol.org/ap2/specification/",
+        "https://blog.google/products-and-platforms/platforms/google-pay/agent-payments-protocol-fido-alliance/"
+      ],
+      "source_date": "2026-04-28",
+      "checked_at": "2026-09-10"
+    }
+  ],
+  "coverage": [
+    {
+      "system": "LLMモデル + ベンダー別プロンプティング",
+      "scope": "モデルカタログ、各社prompting、移行・キャッシュ・モデル調査メモ",
+      "confirmed": "M01–M11、Astra/Gemini/Claudeの最新モデル固有条件とオープンウェイトの個別ライセンスを確認。",
+      "unchanged": "Astraモデル一覧の導入自体は既に反映。モデル選定・前方一致キャッシュ・回帰評価の原則は維持。",
+      "unverified": "モデル全リージョン/全価格/全sampling組合せの実呼出し、Metaの全ライセンス再取得、モデル間の品質比較は未実施。",
+      "sources": [
+        "https://developers.openai.com/api/docs/guides/latest-model",
+        "https://platform.claude.com/docs/en/models/overview",
+        "https://ai.google.dev/gemini-api/docs/changelog",
+        "https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B-FP8/blob/main/LICENSE",
+        "https://docs.mistral.ai/resources/changelogs"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "認証・相互運用",
+      "scope": "認証記事、MCP入門/サンプル、相互運用、IETF/ベンダー/プロトコル調査メモ",
+      "confirmed": "AU01–AU04、D02。Google Auth manager GA、OpenAI OAuth guide到達、MCP SDK2.2を確認。",
+      "unchanged": "OAuth2.1はdraft、ID-JAG-04、identity-chaining-17/RFC Editor待ち。MCP現行7/28、A2A1.0/AAIFの大枠は維持可能。Entra GAと一部Previewの混在も継続。",
+      "unverified": "IETF全個人ドラフトの採択/失効、全ベンダーtenantでのGA機能・認証フロー、AP2の実取引は未検証。",
+      "sources": [
+        "https://datatracker.ietf.org/doc/draft-ietf-oauth-v2-1/",
+        "https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-assertion-authz-grant/",
+        "https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-chaining/",
+        "https://learn.microsoft.com/en-us/entra/agent-id/whats-new-agent-id",
+        "https://docs.cloud.google.com/iam/docs/release-notes",
+        "https://a2a-protocol.org/latest/blog/category/announcements/"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "音声API / FT提供メニュー",
+      "scope": "voice-agents、fine-tuning-and-distillation、関連research",
+      "confirmed": "A02/A03/FT01。音声廃止計画とGoogle3系SFT対応を確認。 FT02のClaude3 Haiku EOL/Legacy時FT制限も確認。",
+      "unchanged": "OpenAIのself-service FT新規ジョブ終了2027-01-06、FT推論はベースモデル寿命と別管理という記述は維持。",
+      "unverified": "Google蒸留ページ取得失敗、全FT手法のGA/全クラウドモデル対応や学習品質は未検証。",
+      "sources": [
+        "https://developers.openai.com/api/docs/deprecations",
+        "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/tuning/supervised-tuning",
+        "https://docs.cloud.google.com/gemini-enterprise-agent-platform/release-notes",
+        "https://ai.google.dev/gemini-api/docs/changelog"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "ベンチマーク",
+      "scope": "agent-benchmarks-landscapeと研究メモ、評価関連記事への波及",
+      "confirmed": "B01。Terminal-Bench4.0とWebArena-Verifiedの版/評価方式を確認。",
+      "unchanged": "BFCL V4、HAL更新停止、GAIA2公式dataset800シナリオ/10universesとself-published leaderboardの扱いを確認。",
+      "unverified": "SWE-bench Pro/OSWorld2.0/GAIA2等の全スコアは収集していない。AndroidWorld等を実行していない。ランキング順位/飽和率の確定更新は別途必要。",
+      "sources": [
+        "https://www.tbench.ai/",
+        "https://github.com/ServiceNow/webarena-verified/blob/main/README.md",
+        "https://gorilla.cs.berkeley.edu/leaderboard.html",
+        "https://hal.cs.princeton.edu/",
+        "https://huggingface.co/datasets/meta-agents-research-environments/gaia2/blob/main/README.md"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "画像・動画生成API + リアルタイム / TTS",
+      "scope": "12-multimodal、computer-use、generation/realtime-tts調査メモ",
+      "confirmed": "A01/A02/A04/A05/A06。Sora/Nova終了、Omni GA、agentic video、Claude toolsets、Eleven v3 endpointを確認。",
+      "unchanged": "Gemini Developer API LiveのPreview、Live3.1/2.5のthinking方式の差を確認。",
+      "unverified": "ElevenLabs全changelogはサイズ超過。全音声ベンダーの料金/日本語品質、Azure/GCP/AWSの全voice/model、日本語発音辞書の網羅照合は未実施。Deepgram changelog入口のみで全更新の影響は未精査。",
+      "sources": [
+        "https://developers.openai.com/api/docs/deprecations",
+        "https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle.html",
+        "https://ai.google.dev/gemini-api/docs/changelog",
+        "https://ai.google.dev/gemini-api/docs/live-api/capabilities",
+        "https://elevenlabs.io/docs/eleven-api/guides/how-to/websockets/tts-vs-ttd-websockets"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "来歴・フロンティア安全・なりすまし・著作権",
+      "targets": [
+        "docs/06-security/content-provenance-and-detection.md",
+        "docs/06-security/frontier-safety-overview.md",
+        "docs/06-security/deepfake-and-impersonation-defense.md",
+        "docs/09-business/ai-copyright-and-ip-map.md",
+        "research/trust/provenance.md",
+        "research/trust/frontier-safety.md",
+        "research/trust/copyright.md",
+        "ROADMAP.md:710"
+      ],
+      "item": "C2PA仕様版",
+      "classification": "変更なし",
+      "evidence": "公式GitHubの現行公開仕様リンクは2.4で、対応する公式仕様ページを取得した。既存researchの2.4は維持できる。ISO段階は別論点としてTS-02で要更新。",
+      "sources": [
+        "https://github.com/c2pa-org/specifications",
+        "https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "来歴・フロンティア安全・なりすまし・著作権",
+      "item": "ISO・RSP・Preparedness・Japan AISI・なりすまし・Claude来歴機能",
+      "classification": "要更新",
+      "evidence": "TS-02〜TS-05 / TS-07 / GOV09。公式一次資料により版の訂正、以前の取得不能の解消、2026-07〜09の新資料を確認。記事のベンダー中立な基本構造は維持しつつ参照と限定条件を更新する。",
+      "finding_ids": [
+        "TS-02",
+        "TS-03",
+        "TS-04",
+        "TS-05",
+        "GOV09",
+        "TS-07"
+      ],
+      "sources": [
+        "https://www.iso.org/standard/90726.html",
+        "https://www.anthropic.com/responsible-scaling-policy",
+        "https://openai.com/index/openai-frontier-governance-framework/",
+        "https://aisi.go.jp/output/output_information/260707/",
+        "https://www.ic3.gov/PSA/2026/PSA260720",
+        "https://platform.claude.com/docs/en/release-notes/overview"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "来歴・フロンティア安全・なりすまし・著作権",
+      "item": "Google DeepMind Frontier Safety Framework",
+      "classification": "変更なし",
+      "evidence": "公式frontier-safety入口と更新記事はFSF3.1（2026-04-17）を示し、既存researchの版とTCL導入の説明に差分なし。すべてのモデル別評価結果を検証したものではない。",
+      "sources": [
+        "https://deepmind.google/frontier-safety/",
+        "https://deepmind.google/blog/strengthening-our-frontier-safety-framework/"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "来歴・フロンティア安全・なりすまし・著作権",
+      "item": "米英評価機関の改称と外部評価",
+      "classification": "変更なし",
+      "evidence": "NIST公式はCAISI、英国公式はAI Security Instituteを用い、既存記述と一致。CAISIの公式hubは2026-07-23 Kimi K3、2026-07-17 GLM5.2の評価も掲載。これらを認証取得と呼ばない。",
+      "sources": [
+        "https://www.nist.gov/caisi",
+        "https://www.aisi.gov.uk/about"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "来歴・フロンティア安全・なりすまし・著作権",
+      "item": "日本のAIプリンシプル・コード",
+      "classification": "要更新",
+      "evidence": "TS-01。正式コードと様式の公開、2026-10-26申出開始予定を公式専用ページで確認。専用ページはWebツール失敗後にInvoke-WebRequestで取得。正式公開日、PDF全条項の解釈は未確認。",
+      "finding_ids": [
+        "TS-01"
+      ],
+      "sources": [
+        "https://www.cas.go.jp/jp/seisakukaigi/titeki2/ai_principle_code/index.html"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "来歴・フロンティア安全・なりすまし・著作権",
+      "item": "USCO Copyright and AI報告書",
+      "classification": "変更なし",
+      "evidence": "USCO公式AIページはPart3を2025-05-09公開のPre-Publication Versionとして継続掲載し、正式版は将来公開という説明が残る。Part1は2024-07-31、Part2は2025-01-29。Part3正式版が出たとはしない。",
+      "sources": [
+        "https://www.copyright.gov/ai/"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "来歴・フロンティア安全・なりすまし・著作権",
+      "item": "文化庁のAIと著作権資料",
+      "classification": "変更なし",
+      "evidence": "文化庁公式は『AIと著作権に関する考え方』2024-03-15、『チェックリスト＆ガイダンス』2024-07-31を掲載し、既存researchの参照版と一致。個別訴訟や全法解釈が変わらないという意味ではない。",
+      "sources": [
+        "https://www.bunka.go.jp/seisaku/chosakuken/aiandcopyright.html"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "来歴・フロンティア安全・なりすまし・著作権",
+      "item": "JPOのAI関連発明事例",
+      "classification": "確認不能",
+      "evidence": "公式検索結果から英語のAI関連発明事例ページ更新2026-05-25、研修教材2026-02-25を確認したが、日本語入口の直接取得はInternalErrorで本文差分は未精査。改訂された法解釈があるとは結論しない。",
+      "sources": [
+        "https://www.jpo.go.jp/system/patent/gaiyo/sesaku/ai/index.html",
+        "https://www.jpo.go.jp/e/system/laws/rule/guideline/patent/ai_jirei_e.html",
+        "https://www.jpo.go.jp/e/news/kokusai/developing/training/e-learning/study_2026-01.html"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "来歴・フロンティア安全・なりすまし・著作権",
+      "item": "FTCなりすまし規則の個人への拡張",
+      "classification": "確認不能",
+      "evidence": "FY2026予算資料や2026-08-14規制agendaの検索結果を得たが、個人への拡張に関する最終規則本文・発効日を一次確認できなかった。既存のSNPRM段階という説明を無条件に変更なしとは分類しない。",
+      "sources": [
+        "https://www.govinfo.gov/content/pkg/FR-2026-08-14/pdf/2026-16617.pdf"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "来歴・フロンティア安全・なりすまし・著作権",
+      "item": "NIST AI100-4全文、C2PA全実装・各権利訴訟",
+      "classification": "確認不能",
+      "evidence": "NIST AI100-4の改版有無と全本文、各生成サービスの全対応媒体、個別著作権訴訟・和解・補償条項はこの担当の一次比較を完了していない。抽出した主要監視項目の検証をもってこれらの現在性まで保証しない。",
+      "sources": [],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "輸出規制・越境データ・環境",
+      "targets": [
+        "docs/09-business/ai-geopolitics-map.md",
+        "docs/05-operations/green-ai.md",
+        "research/strategy/geopolitics.md",
+        "research/strategy/green-ai.md",
+        "ROADMAP.md:713"
+      ],
+      "item": "BIS・EU dual-use・DPDP・CAC・十分性認定",
+      "classification": "要更新",
+      "evidence": "EG-01〜EG-05、EG-12。主に公式入口のままになった研究メモの更新と取得不能TODOの解消。UAE発効日やCSRD等の法務判断に必要な未確認境界は各findingに明記した。",
+      "finding_ids": [
+        "EG-01",
+        "EG-02",
+        "EG-03",
+        "EG-04",
+        "EG-05",
+        "EG-12"
+      ],
+      "sources": [
+        "https://www.bis.gov/news-updates",
+        "https://media.bis.gov/media/documents/bis-guidance-may-31-2026.pdf",
+        "https://policy.trade.ec.europa.eu/help-exporters-and-importers/exporting-dual-use-items_en",
+        "https://www.meity.gov.in/static/uploads/2025/11/53450e6e5dc0bfa85ebd78686cadad39.pdf",
+        "https://www.cac.gov.cn/wxzw/sjzl/sjcjaqpg/A09370801index_1.htm",
+        "https://commission.europa.eu/law/law-topic/data-protection/international-dimension-data-protection/adequacy-decisions_en"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "輸出規制・越境データ・環境",
+      "item": "OFACとCSLの入口",
+      "classification": "変更なし",
+      "evidence": "OFAC Sanctions List Serviceと米商務省Consolidated Screening Listの公式入口を取得し、既存の確認先は有効。個別entityの追加削除・全リストの現時点照合を実施したという意味ではない。",
+      "sources": [
+        "https://ofac.treasury.gov/sanctions-list-service",
+        "https://www.trade.gov/consolidated-screening-list"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "輸出規制・越境データ・環境",
+      "item": "BIS Entity List・METI外国ユーザーリスト最新版",
+      "classification": "確認不能",
+      "evidence": "BIS Entity List本文およびMETI外国ユーザーリストの現行PDF取得に失敗。METI検索で2026-04-24更新の関連QAを得たが、最新リストの版・内容の根拠には採用していない。",
+      "sources": [
+        "https://www.bis.gov/entity-list",
+        "https://www.meti.go.jp/policy/anpo/law_document/tutatu/t04shinsei/t04shinsei_ulkohyo.pdf"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "輸出規制・越境データ・環境",
+      "item": "2026-08末の米国remote-access AI chip規制報道",
+      "classification": "確認不能",
+      "evidence": "The Information等の二次報道のみを検索で確認し、規則本文・公布・施行を一次確認できなかった。BIS5月guidanceと同一の新規則として扱わず、施行済みという本文追記は推奨しない。",
+      "sources": [],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "輸出規制・越境データ・環境",
+      "item": "AWS・SCI for AI・CSRD・EED・IEA・環境報告",
+      "classification": "要更新",
+      "evidence": "EG-06〜EG-11。AWS後継GAとSCI for AI批准は旧TODOを具体的に解消できる。CSRDは最終承認を確認したが各国適用日は未確認。EED格付けは現公式ページにpreparingと記載する範囲までで、予定経過から採択を推測していない。",
+      "finding_ids": [
+        "EG-06",
+        "EG-07",
+        "EG-08",
+        "EG-09",
+        "EG-10",
+        "EG-11"
+      ],
+      "sources": [
+        "https://aws.amazon.com/sustainability/tools/console/",
+        "https://greensoftware.foundation/standards/sci-ai/",
+        "https://www.consilium.europa.eu/en/press/press-releases/2026/02/24/council-signs-off-simplification-of-sustainability-reporting-and-due-diligence-requirements-to-boost-eu-competitiveness/",
+        "https://energy.ec.europa.eu/topics/energy-efficiency/energy-efficiency-targets-directive-and-rules/energy-efficiency-directive/energy-performance-data-centres_en",
+        "https://www.iea.org/reports/key-questions-on-energy-and-ai"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "輸出規制・越境データ・環境",
+      "item": "Meta環境報告の掲載版",
+      "classification": "変更なし",
+      "evidence": "Meta公式は2025 Sustainability Report（公開2025-09-12）を掲載しており、その入口は有効。別経路にも2026報告が存在しないという結論ではない。",
+      "sources": [
+        "https://sustainability.atmeta.com/"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "輸出規制・越境データ・環境",
+      "item": "OpenAI/Anthropicの包括的環境報告・旧CCFT停止・ベンダー比較値",
+      "classification": "確認不能",
+      "evidence": "OpenAI/Anthropicの包括的環境報告は一次資料を特定できず、非開示と断定しない。AWS旧CCFT画面が実際に停止したかは未操作。各ベンダーの環境報告は存在・年度を確認したが、全測定境界・保証・数値整合は未比較。",
+      "sources": [
+        "https://docs.aws.amazon.com/ccft/latest/releasenotes/what-is-ccftrn.html"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "フィジカルAI・世界モデル",
+      "targets": [
+        "docs/01-concepts/physical-ai-overview.md",
+        "docs/01-concepts/world-models-overview.md",
+        "research/supplementary/physical-ai.md",
+        "ROADMAP.md:707"
+      ],
+      "item": "Helix・Gemini Robotics・GR00T・LIBERO・DreamZero・PI顧客事例",
+      "classification": "要更新",
+      "evidence": "PH-01〜PH-06。Helixの世代と階層、VLAベンチマーク不存在の断定は訂正必要。モデル世代や提供段階、WAMとの重なり、介入込み実運用は補足推奨。",
+      "finding_ids": [
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-04",
+        "PH-05",
+        "PH-06"
+      ],
+      "sources": [
+        "https://www.figure.ai/news/helix-02",
+        "https://deepmind.google/blog/gemini-robotics-2-brings-whole-body-intelligence-to-robots/",
+        "https://github.com/NVIDIA/Isaac-GR00T",
+        "https://github.com/Lifelong-Robot-Learning/LIBERO",
+        "https://arxiv.org/abs/2602.15922",
+        "https://www.pi.website/blog/partner"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "フィジカルAI・世界モデル",
+      "item": "openpiの公開チェックポイント",
+      "classification": "変更なし",
+      "evidence": "公式READMEはπ0/π0-FAST/π0.5と関連checkpointを公開しており、公開重みを限定して紹介する既存整理を維持できる。π0.7の重みが会社全体のどの経路にも非公開という結論ではない。",
+      "sources": [
+        "https://raw.githubusercontent.com/Physical-Intelligence/openpi/main/README.md"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "フィジカルAI・世界モデル",
+      "item": "Cosmos3の公開docsとモデル構成",
+      "classification": "変更なし",
+      "evidence": "公式docsはCosmos3、Reasoner+Generator構成、language/image/video/audio/action sequenceを扱うモデルと公開artifactを掲載（docs更新2026-08-18）。researchは既にCosmos3を収録しており、世代名の訂正は不要。全API互換や全ライセンス条項は検証していない。",
+      "sources": [
+        "https://docs.nvidia.com/cosmos/latest/cosmos3/index.html"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "フィジカルAI・世界モデル",
+      "item": "Figure Index",
+      "classification": "参考・監視",
+      "evidence": "2026-08-25公式発表のIndexはphysical AI向けデータ基盤の参考事例。既存本文の訂正根拠としては採用せず、今後の監視資料として記録する。数値やデータの一般公開を確認したとはしない。",
+      "sources": [
+        "https://www.figure.ai/news/introducing-index"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "フィジカルAI・世界モデル",
+      "item": "GR00T N2一般提供・π0.7公開重み・Helix外販・Genie最新版・実機出荷数",
+      "classification": "確認不能",
+      "evidence": "N2は公式previewと年末予定までを確認。π0.7の一般公開重み、Helixの外部提供条件、Genieの最新世代比較、Tesla/1X/Agility等の出荷実績はこの担当で最新一次情報の検証を完了していない。予定やデモを出荷・GA・汎用能力の証明へ読み替えない。",
+      "sources": [
+        "https://nvidianews.nvidia.com/news/nvidia-expands-open-model-families-to-power-the-next-wave-of-agentic-physical-and-healthcare-ai",
+        "https://raw.githubusercontent.com/Physical-Intelligence/openpi/main/README.md"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "コーディングエージェント",
+      "scope": "docs/08-coding-agents/およびresearch/coding-agents/の製品、規約、権限、提供面に関する主要監視項目を一次資料と照合。全記事の全事実や全設定の実挙動を検証したものではありません。",
+      "confirmed": "T01–T15、T19–T23、T26–T28。データ利用・保持の例外、無人実行の既定値、キャッシュ条件、自社実行基盤、Copilotの提供範囲、Codexの権限と委任条件、モデル提供・料金条件、各製品の追加機能を確認しました。",
+      "unchanged": "GitHub Sparkの2026-08-31終了（既存deploy継続）およびGitHub Modelsの2026-07-30終了は既に反映済みです。Claude Codeのauto既定に関するPro / Max / TeamとEnterprise / APIの区別、webのresearch preview、Cascadeが2つのlocal agentsの一方である説明を維持できます。Devin Fusionはpreviewであり、2026-08-07発表の最大60%という効果は条件付きの自己報告として扱います。Devin / Cursorのplan構成、JulesのPublic Betaおよびprivate repositoryを学習に使わない条件は維持できます。Aiderは0.86.0（2025-08-09）、ContinueはREADMEで非積極保守・read-only・finalの方針を示しますが、GitHubのarchivedフラグはfalseです。OpenHands / Goose / opencodeは公式releasesの継続を確認しました。活動の継続は安全性の保証ではありません。",
+      "unverified": "Fusionのplan別GA、Code Assist GitHub reviewのconsumer終了日とEnterprise GA、Copilot cloud agentのcontent exclusion、Julesの企業向けGA、Goose / opencode等のすべての権限既定は未確認です。サービス全提供面の実行や全記事の全行検証は実施していません。",
+      "sources": [
+        "https://github.blog/changelog/2026-08-04-upcoming-deprecation-of-github-spark-on-github-com/",
+        "https://code.claude.com/docs/en/permission-modes",
+        "https://code.claude.com/docs/en/claude-code-on-the-web",
+        "https://docs.devin.ai/desktop/cascade/cascade",
+        "https://cognition.com/blog/devin-fusion",
+        "https://devin.ai/pricing",
+        "https://cursor.com/pricing",
+        "https://jules.google/docs/faq/",
+        "https://github.com/Aider-AI/aider",
+        "https://github.com/continuedev/continue",
+        "https://github.com/OpenHands/OpenHands",
+        "https://github.com/block/goose",
+        "https://github.com/anomalyco/opencode"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "サービング・ゲートウェイ・ローカル推論",
+      "scope": "self-hosted-inference、llm-gateway、local-and-on-device-llmとresearch/llmops/serving.mdについて、提供形態、ライセンス、API互換の主要条件を一次資料と照合。",
+      "confirmed": "T16–T18。Kong AI Gateway 2.0の独立製品化、TensorRT-LLM配下のライセンス例外、LM Studioの有料機能を含む現行App Termsを確認しました。versionが新しいだけで必須更新とはしていません。",
+      "unchanged": "TGIの2026-03-21 archive / read-onlyは既に反映されています。Ollama Responsesは0.13.3以降でstatelessのみであり、previous_response_id、conversation、tool_choice、logprobsは非対応です。公式リポジトリの主ライセンスはvLLM / SGLang / LMDeployがApache 2.0、TritonがBSD 3-Clause、Ollama / llama.cpp / mlx-lm / PortkeyがMIT、LiteLLMがMITとenterprise別LICENSEという整理を維持できます。LM Studioのpersonal / internal business許諾と再配布・SaaS制限の骨格は維持できますが、料金条件はT18で分けます。",
+      "unverified": "無印Kong AI ProxyのFree / OSS利用範囲の明示、全endpoint / backendの実互換、TensorRT-LLMのライセンス例外が導入された日は未確認です。各プロジェクトの全依存物・重みのライセンスや実際の推論性能を保証する検証ではありません。",
+      "sources": [
+        "https://github.com/huggingface/text-generation-inference",
+        "https://docs.ollama.com/api/openai-compatibility.md",
+        "https://github.com/vllm-project/vllm",
+        "https://github.com/sgl-project/sglang",
+        "https://github.com/InternLM/lmdeploy",
+        "https://github.com/triton-inference-server/server",
+        "https://github.com/ollama/ollama",
+        "https://github.com/ggml-org/llama.cpp",
+        "https://github.com/ml-explore/mlx-lm",
+        "https://github.com/Portkey-AI/gateway",
+        "https://github.com/BerriAI/litellm",
+        "https://lmstudio.ai/app-terms"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "AI業界マップ・OSSエコシステム・フレームワーク選定",
+      "scope": "docs/09-business/ai-industry-map.md、docs/03-implementation/open-source-ai-ecosystem.md、framework-selection.md、llm-landscape.md、research/ecosystem/industry-oss.mdの主要な提供形態・ライセンス・後継フレームワークの監視項目を一次資料と照合。",
+      "confirmed": "T24–T25。Gemma 4に適用するApache 2.0と旧世代の規約の区別、Microsoft Agent Framework 1.0のproduction-readyという提供段階を確認しました。",
+      "unchanged": "OSAID 1.0の4つの自由と必要情報、Hugging Faceのサービス規約・content policyと個別モデルライセンスの2層、AutoGenのmaintenanceおよび後継推奨の整理を維持できます。一般原則の構造を覆す差分は確認していませんが、これは各記事の全行の現在性を検証したという意味ではありません。",
+      "unverified": "Llama 4の現行条文における700M MAU条件は2026年8月のメモに依拠しており、今回の変更なし確認には含めません。すべての買収・統合に関する市場調査は対象外です。",
+      "sources": [
+        "https://opensource.org/ai/open-source-ai-definition",
+        "https://huggingface.co/terms-of-service",
+        "https://huggingface.co/content-policy",
+        "https://github.com/microsoft/autogen",
+        "https://ai.google.dev/gemma/terms",
+        "https://ai.google.dev/gemma/apache_2",
+        "https://devblogs.microsoft.com/agent-framework/microsoft-agent-framework-version-1-0/"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "一般規制",
+      "scope": "compliance-and-governance.md と research/professional/compliance.md。GOV03–GOV07 の確認結果。",
+      "confirmed": "APPI 改正の成立・公布、米国州法の適用主体・規則案、FTC の提案段階、EU 規則本文を確認しました。GOV03–GOV07 は主台帳に収録済みです。",
+      "unchanged": "EU 高リスク義務の 2027-12-02 / 2028-08-02、透明性義務の 2026-08-02 と 7/20 ガイド、AI 事業者ガイドライン 1.2（3/31）、PPC のプロンプトへの個人データ入力に関する注意の整理は維持できます。",
+      "unverified": "NTIA / 商務省の EO14365 に基づく州法評価の完成リスト、APPI 全面施行の政令、Colorado の xAI 訴訟最終判決は未確認です。HB26-1263 の署名日は公式資料間で相違があり断定しません。",
+      "sources": [
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32026R1744",
+        "https://digital-strategy.ec.europa.eu/en/library/guidelines-transparency-obligations-providers-and-deployers-ai-systems",
+        "https://www.meti.go.jp/shingikai/mono_info_service/ai_shakai_jisso/pdf/20260331_1.pdf",
+        "https://www.ppc.go.jp/news/careful_information/230602_AI_utilize_alert/"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "業界規制",
+      "scope": "industry-regulations-map.md、research/supplementary/regulations.md、hr-and-recruitment-ai.md。GOV01 / GOV02 / GOV03 / GOV13 の確認結果。",
+      "confirmed": "FISC 第 14 版、FDUA 1.2、APPI 改正、FDA ガイダンスの出版状態を確認しました。該当 GOV 指摘は主台帳に収録済みです。",
+      "unchanged": "厚労省の医療情報システム安全管理ガイドライン 7.0 は 2026 年 6 月の案内と 5 PDF で確認しました。金融庁 AI DP 1.1（3/3）、DS920 2.0（6/12）、FDA TPLC 2025-01-07 の Draft 状態は維持できます。HR 関連の PPC / EEOC / NYC 等の公的参照先も内容と役割を確認しました。",
+      "unverified": "厚労省 7.0 の AI 固有記述は未精査であり、AI の文字列検索で不一致だったことだけで記述がないとは断定しません。7 月予定の Q&A 実体、取得できなかった経産省医療提供事業者ガイドライン、HAIP / JaDHA の後継版の有無、FISC 第 14 版の有償全文の条項差分は未確認です。",
+      "sources": [
+        "https://www.mhlw.go.jp/stf/shingi/0000516275_00006.html",
+        "https://www.fsa.go.jp/news/r7/sonota/20260303/aidp.html",
+        "https://www.digital.go.jp/en/news/decb64eb-f26e-41cb-8d37-f3dd173108b8",
+        "https://www.fda.gov/medical-devices/digital-health-center-excellence/guidances-digital-health-content",
+        "https://www.ppc.go.jp/personalinfo/legal/guidelines_tsusoku/",
+        "https://www.eeoc.gov/eeoc-disability-related-resources/artificial-intelligence-and-ada",
+        "https://home4.nyc.gov/site/dca/about/automated-employment-decision-tools.page"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "AI規格・認証",
+      "scope": "AI 規格・認証の記事と research/ecosystem/standards.md。GOV08–GOV12 の確認結果。",
+      "confirmed": "EN 18286:2026、AISI ガイド 1.20、NIST の公開文書 Zero Draft、AIMS 認定・認証の役割、ISO 規格書誌を確認しました。GOV08–GOV12 は主台帳に収録済みです。",
+      "unchanged": "ISO 42001:2023 / 42005:2025 / 42006:2025 の書誌と scope を確認しました。NIST AI RMF 1.0 は改訂作業中であり、2.0 が発行済みとはしません。ISMS-AC の認定、2 つの認証機関、各組織の AIMS 認証という構造は維持できます。",
+      "unverified": "有償 ISO / JIS の逐条比較、EN 18286 の官報（OJ）引用完了、NIST 重要インフラ Profile の Final は未確認です。規格の発行、EC 評価、OJ 引用を区別し、Profile は Concept Note の確認までとします。",
+      "sources": [
+        "https://www.iso.org/standard/42001",
+        "https://www.iso.org/standard/42005",
+        "https://www.iso.org/standard/42006",
+        "https://www.nist.gov/itl/ai-risk-management-framework",
+        "https://isms.jp/aims/lst/isr/index.html"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "RPA・自動化",
+      "scope": "docs/13-domain-agents/rpa-and-agents.md と research/domain-agents/rpa.md。RPA01–RPA06 の確認結果。",
+      "confirmed": "WorkHQ / Agentic Workflows、WinActor、UiPath Maestro、Copilot Studio computer use と harness、Automation Anywhere の提供状態と期限を確認しました。主な更新対象は research の製品情報です。",
+      "unchanged": "Maestro の RPA / Agent / 人の統合、Power Automate から agent flow への不可逆変換と課金変更、Microsoft の本番 BYO / hosted prototype 指針は維持できます。監督機能を必ず停止する安全装置とみなさない説明、Automation Anywhere を既存 RPA / BPM に接続して全面置換を避ける方針も維持できます。",
+      "unverified": "Microsoft computer use の全商用リージョン展開完了、UiPath 全構成の air gap、WinActor 7.7 の発売日と 10 月以降の上限・価格、Automation Anywhere の Q3 GA 予定の完了、ISO / FedRAMP / AIUC 認証の個別 scope の第三者照合は未確認です。",
+      "sources": [
+        "https://documentation.blueprism.com/workhq/en-us/announcements/announcements.htm",
+        "https://docs.uipath.com/maestro/automation-cloud/latest/user-guide/overview",
+        "https://learn.microsoft.com/en-us/microsoft-copilot-studio/flows-overview",
+        "https://learn.microsoft.com/en-us/microsoft-copilot-studio/faqs-computer-use",
+        "https://www.automationanywhere.com/products/agentic-process-automation-system"
+      ],
+      "checked_at": "2026-09-10"
+    },
+    {
+      "system": "先端応用",
+      "scope": "docs/13-domain-agents/emerging-agent-domains.md と research/domain-agents/emerging.md。EM01–EM08 の確認結果。",
+      "confirmed": "科学 Agent の出版状態と A-Lab 訂正、個人シミュレーション論文の版と評価、PUBG Ally の期間限定ベータ、ChatGPT commerce の方針、カード実取引 pilot、AP2 v0.2 を確認しました。 書誌の補足観測として、Project Sidの初回公開日2024-10-31も確認しました（メモの11月表記は出典整理時に精密化できます）。",
+      "unchanged": "docs 68 行目の AP2 の決定的検証は現仕様の MUST と対応しています。FIDO への寄贈は 4/28 の本文で確認しました。Sakana AI Scientist-v2 の 3 論文中 1 件が workshop 受理水準という結果は著者報告であり、システム論文の査読採録とは区別します。Project Sid（2411.00114）は Minecraft / PIANO の 10–1,000+ Agent のデモで、研究デモという位置づけは維持できます。Virtual Agent Economies（2509.10147）は 2025-09-12 v1 の概念論文です。",
+      "unverified": "科学 Agent の独立追試・臨床効果、Virtual Lab の 92 個 / 2 個等の全実験詳細、NPC の恒常提供と inZOI / NARAKA の全条件、x402 の Base 1.19 億 / Solana 3,500 万 / 年換算 6 億ドルという計数範囲の裏付け、カード決済の全地域 GA と継続取引量、1,000 人論文の査読誌掲載は未確認です。暗号 AI 市場の時価総額・下落は古い二次情報の snapshot であり、実利用の根拠にはできません。",
+      "sources": [
+        "https://ap2-protocol.org/ap2/specification/",
+        "https://blog.google/products-and-platforms/platforms/google-pay/agent-payments-protocol-fido-alliance/",
+        "https://arxiv.org/abs/2504.08066",
+        "https://sakana.ai/ai-scientist-first-publication/",
+        "https://arxiv.org/abs/2411.00114",
+        "https://arxiv.org/abs/2509.10147"
+      ],
+      "checked_at": "2026-09-10"
+    }
+  ],
+  "audit_status": "identified_not_applied",
+  "summary": {
+    "findings": 107,
+    "by_priority": {
+      "P2": 75,
+      "P1": 14,
+      "P3": 18
+    },
+    "by_kind": {
+      "訂正必要": 56,
+      "補足推奨": 51
+    },
+    "affected_articles": 48,
+    "affected_files": 94,
+    "primary_source_urls": 206,
+    "coverage_systems": 16
+  },
+  "verification": {
+    "type": "artifact-only",
+    "checks": [
+      "JSON schema and unique IDs",
+      "107 findings / 16 systems / 199 article records",
+      "target paths and line bounds",
+      "local report links",
+      "markdownlint",
+      "git diff --check"
+    ],
+    "not_performed": [
+      "paid/live model API calls",
+      "fine-tuning jobs",
+      "full benchmark reruns",
+      "article or dependency updates"
+    ]
+  }
+}

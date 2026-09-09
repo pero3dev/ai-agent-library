@@ -1,11 +1,12 @@
 {
   "private": true,
   "scripts": {
+    "test": "node --test scripts/*.test.mjs",
     "lint:md": "markdownlint \"**/*.md\" -p .markdownlintignore",
     "validate": "node scripts/validate-docs.mjs --all",
     "links": "node scripts/check-links.mjs",
     "todos": "node scripts/todo-report.mjs",
-    "check": "npm run lint:md && npm run validate && npm run links && npm run todos"
+    "check": "npm test && npm run lint:md && npm run validate && npm run links && npm run todos"
   },
   "devDependencies": {
     "markdownlint-cli": "^0.49.1"

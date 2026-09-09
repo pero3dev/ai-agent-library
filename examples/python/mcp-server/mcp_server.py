@@ -12,15 +12,13 @@ MCP(Model Context Protocol)は、ツールやデータソースを LLM アプリ
 - ツールの「説明文」で権限をお願いするのではなく、**サーバー側の実装で強制**します。
   下の submit_expense は金額上限を実装側でチェックします(モデルが指示を無視しても効く)。
 - 「誰が呼んでいるか(認可)」は、本来 MCP サーバー/ホスト側で認証情報から判断します。
-  このサンプルは通信部分を持たないため、認可は擬似的にコメントで示すに留めます。
+  このサンプルはローカル stdio 接続のみで、利用者別の認証・認可は実装していません。
   実運用では docs/06-security/agent-identity-and-auth.md と tool-permissions-and-sandboxing.md を参照。
 
 実行:
     python mcp_server.py --mock   # ツール関数を直接呼ぶ自己テスト(mcp パッケージ不要・API キー不要)
     python mcp_server.py          # 実 MCP サーバーとして stdio で起動(要 `pip install -r requirements.txt` + MCP クライアント)
 """
-from __future__ import annotations
-
 import argparse
 import sys
 
@@ -54,13 +52,13 @@ def submit_expense(amount: int, memo: str) -> str:
     memo:   用途メモ
     """
     # 権限の強制はプロンプトのお願いでなく、ここ(実装側)で行う。
-    if amount < 0:
-        return "エラー: 金額が不正です。"
+    if type(amount) is not int or amount < 0:
+        raise ValueError("金額は 0 以上の整数(円)で指定してください。")
     if amount >= APPROVAL_REQUIRED_THRESHOLD:
         # 高額は自動実行せず、承認フローへ回す(Human-in-the-Loop)。
         return (
             f"承認が必要: {amount} 円の申請は上長承認が必要です。"
-            "承認ゲートに回しました(自動提出はしません)。"
+            "このサンプルは自動提出しません。実運用では承認フローへ渡してください。"
         )
     # 実運用ではここで申請 API を呼ぶ。サンプルなので受理メッセージのみ返す。
     return f"受理: {amount} 円の経費申請を提出しました(用途: {memo})。"
@@ -68,8 +66,19 @@ def submit_expense(amount: int, memo: str) -> str:
 
 def _register(mcp) -> None:
     """FastMCP にツールを登録する(サーバー起動時のみ呼ばれる)。"""
+    from mcp.server.fastmcp.exceptions import ToolError
+    from pydantic import StrictInt
+
     mcp.tool()(get_expense_policy)
-    mcp.tool()(submit_expense)
+
+    @mcp.tool(name="submit_expense")
+    def submit_expense_tool(amount: StrictInt, memo: str) -> str:
+        """経費を提出します。金額は 0 以上の整数(円)。5 万円以上は承認が必要です。"""
+        try:
+            return submit_expense(amount, memo)
+        except ValueError as error:
+            # 文字列の通常結果で返さず、MCP の isError=true に変換する。
+            raise ToolError(str(error)) from error
 
 
 def selftest() -> int:
@@ -80,6 +89,12 @@ def selftest() -> int:
     print("submit_expense(80000, 'PC') ->", submit_expense(80000, "PC"))
     assert "承認が必要" in submit_expense(80000, "PC"), "上限チェックが効いていません"
     assert "受理" in submit_expense(3000, "タクシー"), "通常提出が失敗しています"
+    try:
+        submit_expense(-1, "不正な申請")
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("不正金額を成功扱いしています")
     print("自己テスト OK: 上限チェックとツール動作を確認しました。")
     return 0
 

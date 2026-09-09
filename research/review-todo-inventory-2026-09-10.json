@@ -1,0 +1,1118 @@
+[
+  {
+    "file": "docs/00-overview/learning-roadmap.md",
+    "line": 127,
+    "month": "2026-07",
+    "text": "参考資料に挙げた外部記事の URL 有効性と、より新しい公式の学習ガイド(Anthropic / OpenAI / Google)の有無を各社公式サイトで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/01-concepts/agent-loop.md",
+    "line": 157,
+    "month": "2026-07",
+    "text": "主要フレームワーク(Claude Agent SDK、LangGraph 等)のループ実装が持つ停止条件のデフォルト値を各公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/01-concepts/computer-use-and-multimodal-agents.md",
+    "line": 109,
+    "month": "2026-07",
+    "text": "主要ベンダーのコンピュータ操作機能(computer use API)の最新仕様・対応環境・推奨サンドボックス構成を各社公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/01-concepts/memory-and-state.md",
+    "line": 116,
+    "month": "2026-07",
+    "text": "主要モデルのコンテキストウィンドウ上限とプロンプトキャッシュ(履歴再送コストの削減機能)の最新仕様を各社公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/01-concepts/physical-ai-overview.md",
+    "line": 120,
+    "month": "2026-07",
+    "text": "各系統のモデル世代と提供形態(一般 API / オープンウェイト / 限定パートナー)、共通ベンチマークの成立状況を、四半期ごとに各社公式ページで再確認する(`research/supplementary/physical-ai.md` を更新起点にする)。直近の注目: 推論層 API の一般公開範囲の拡大、最新世代 VLA のオープンソース化の有無、評価基盤(シミュレーションベンチマーク)の標準化(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/01-concepts/planning-and-reasoning.md",
+    "line": 59,
+    "month": "2026-07",
+    "text": "主要モデルの推論モードの名称・制御パラメータ・料金体系を各社公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/01-concepts/planning-and-reasoning.md",
+    "line": 100,
+    "month": "2026-07",
+    "text": "主要モデルの推論モードの名称・制御パラメータ・料金体系を各社公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/01-concepts/rag-vs-agent.md",
+    "line": 111,
+    "month": "2026-07",
+    "text": "埋め込みモデル・検索手法(ハイブリッド検索・リランキング等)の有力な選択肢は変化が速いため、実装選定時に公開ベンチマーク(MTEB 等)と各ベンダーの公式ドキュメントで最新の比較情報を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/01-concepts/single-vs-multi-agent.md",
+    "line": 116,
+    "month": "2026-07",
+    "text": "エージェント間連携の標準プロトコル(A2A 等)の成熟度・採用状況を公式仕様とコミュニティ動向で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/01-concepts/tool-use.md",
+    "line": 87,
+    "month": "2026-07",
+    "text": "MCP の仕様バージョンと主要クライアント / サーバーの対応状況を公式サイト(modelcontextprotocol.io)で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/01-concepts/tool-use.md",
+    "line": 130,
+    "month": "2026-07",
+    "text": "MCP の仕様バージョンと主要クライアント / サーバーの対応状況を公式サイト(modelcontextprotocol.io)で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/01-concepts/tool-use.md",
+    "line": 132,
+    "month": "2026-07",
+    "text": "主要ベンダー(Anthropic / OpenAI / Google)のツール使用 API の呼称・並列ツール呼び出しの仕様差を各公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/01-concepts/what-is-an-ai-agent.md",
+    "line": 139,
+    "month": "2026-07",
+    "text": "主要ベンダー(Anthropic / OpenAI / Google)の Agent 定義・分類に関する最新の公式ドキュメントを確認し、本記事の 3 類型・スペクトラム整理と大きな齟齬がないか照合する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/01-concepts/world-models-overview.md",
+    "line": 97,
+    "month": "2026-07",
+    "text": "世界モデルの個別モデル(生成シミュレータ・world foundation model)の顔ぶれ・能力・提供形態は変化が速く、横並びの共通ベンチマークも未確立。本文は 3 つの用法という安定した整理に絞っており、具体の動向は各社公式ページと `research/supplementary/physical-ai.md` の更新で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/02-architecture/async-and-durable-agents.md",
+    "line": 170,
+    "month": "2026-07",
+    "text": "耐久実行エンジン・フレームワークのエージェント統合(提供状況・API 名・履歴/状態サイズの上限値)は変化が速い。採用検討時に各公式ドキュメントで最新を確認する(一次情報の記録: `research/professional/durable-execution.md`)(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/02-architecture/context-engineering.md",
+    "line": 105,
+    "month": "2026-07",
+    "text": "プロンプトキャッシュの仕様(キャッシュ境界の指定方法・有効期間・割引率)を主要ベンダーの公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/02-architecture/multi-tenancy-and-isolation.md",
+    "line": 166,
+    "month": "2026-09",
+    "text": "採用する LLM プロバイダーの組織・プロジェクト・モデル単位の共有上限と専用容量の契約条件を、各社公式ドキュメントと利用アカウントの設定で確認する(最終確認: 2026-09)"
+  },
+  {
+    "file": "docs/02-architecture/orchestration-patterns.md",
+    "line": 74,
+    "month": "2026-07",
+    "text": "A2A 等のエージェント間連携プロトコルの仕様・採用状況を公式仕様リポジトリと主要ベンダーの対応発表で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/02-architecture/orchestration-patterns.md",
+    "line": 114,
+    "month": "2026-07",
+    "text": "A2A 等のエージェント間連携プロトコルの仕様・採用状況を公式仕様リポジトリと主要ベンダーの対応発表で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/agent-interop-protocols.md",
+    "line": 138,
+    "month": "2026-08",
+    "text": "エージェント間連携の標準(A2A の仕様バージョン・レジストリ API の標準化・MCP のガバナンス・決済プロトコル AP2 の mandate モデル・標準の収斂/ガバナンス移管)は変化が速い。`research/infra/agent-protocols.md` の定点観測項目に沿って、公式仕様と標準化団体の発表を四半期ごとに確認する。認証・認可の IETF/OAuth 動向は `research/professional/agent-identity.md` を更新起点にする(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/03-implementation/agent-prompt-design.md",
+    "line": 106,
+    "month": "2026-07",
+    "text": "モデル世代ごとの指示追従特性の変化(強い指示の過剰発火など)は各社のモデル移行ガイドで最新情報を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/claude-prompting.md",
+    "line": 192,
+    "month": "2026-07",
+    "text": "`stop_sequences` の現行 Messages API での扱い(最新モデルでの対応可否)を公式 API リファレンスで確認する。best practices ページ上ではプロンプト技法として特筆されず、prefill・構造化出力に置き換わっている(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/claude-prompting.md",
+    "line": 194,
+    "month": "2026-08",
+    "text": "ミッドセッション system メッセージの Opus 4.8 での対応可否を公式ドキュメント(専用ページ)で確認する。2026-08-18 時点では Opus 5 / Fable 5 / Mythos 5 の対応と Opus 4.7 の 400 エラーのみ確認できた(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/03-implementation/claude-prompting.md",
+    "line": 198,
+    "month": "2026-08",
+    "text": "四半期ごとに Anthropic 公式の「Claude prompting best practices」と thinking 系ページ(分冊)・「effort」ページで次を再確認する(更新起点: `research/prompting/anthropic.md`、最終確認: 2026-08):"
+  },
+  {
+    "file": "docs/03-implementation/code-execution-sandboxes.md",
+    "line": 145,
+    "month": "2026-09",
+    "text": "採用するマネージドサンドボックス・microVM・隔離ランタイムについて、隔離境界・起動レイテンシ・対応言語・テナント分離の要件を満たすか、各製品の公式仕様と採用構成の実測で確認する。本文の製品名は仕組みを説明する例であり、選定済みの推奨製品一覧ではない(最終確認: 2026-09)"
+  },
+  {
+    "file": "docs/03-implementation/computer-use-implementation.md",
+    "line": 139,
+    "month": "2026-07",
+    "text": "主要ベンダーのコンピュータ操作・ブラウザ操作機能(computer use / ブラウザ操作ツール)の最新仕様・提供する操作プリミティブ・推奨サンドボックス構成を各社公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/cross-model-prompting.md",
+    "line": 132,
+    "month": "2026-08",
+    "text": "四半期ごとに、3 つの特化ガイド([Claude](claude-prompting.md) / [OpenAI](openai-prompting.md) / [Gemini](gemini-prompting.md))の「変わりやすい項目」を更新したうえで、本記事の横並び表(相違の構造マップ)を突き合わせて更新する。特に思考制御パラメータの名前・値域・既定、サンプリングの扱い、prefill の対応可否は各社で変化しやすい(更新起点: `research/prompting/` の 3 メモ、最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/03-implementation/embeddings.md",
+    "line": 151,
+    "month": "2026-07",
+    "text": "有力な埋め込みモデル(多言語・日本語・ドメイン特化)と、その非対称検索の推奨作法・次元削減の対応は変化が速い。選定時に公開ベンチマーク(MTEB 等)と利用候補モデルの公式ドキュメントで最新状況を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/fine-tuning-and-distillation.md",
+    "line": 146,
+    "month": "2026-08",
+    "text": "各社の FT・蒸留の提供状況は 2026-08 時点でも大きく動いている(段階的な終了日程の公表、対象モデルの限定、GA / preview の変動)。検討時に必ず各社公式ドキュメントで最新の提供有無・対象モデルを確認する(一次情報の記録: `research/professional/fine-tuning.md`)(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/03-implementation/framework-selection.md",
+    "line": 55,
+    "month": "2026-07",
+    "text": "主要フレームワーク(ベンダー公式 SDK、LangGraph 等のオーケストレーション框組、その他)の機能比較は変化が非常に速い。選定時に各公式ドキュメントで上記 8 軸を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/framework-selection.md",
+    "line": 103,
+    "month": "2026-07",
+    "text": "主要フレームワークの機能比較(8 軸)は選定時に各公式ドキュメントで確認する。本記事には意図的に個別評価を書いていない(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/gemini-prompting.md",
+    "line": 172,
+    "month": "2026-07",
+    "text": "Gemini(Interactions / generateContent)での応答書き出し指定(prefill 相当)の可否、および構造化出力・ツール関連のフィールド名の正確な綴りは、公式リファレンス(ai.google.dev/api)で確認する。本記事の要点は要約経由の一次情報整理に基づくため、実装時の綴りは一次リファレンスを正とする(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/gemini-prompting.md",
+    "line": 174,
+    "month": "2026-08",
+    "text": "thinking_budget(数値予算)の継続サポート可否を公式の「Thinking」ページと API リファレンスで確認する。2026-08-18 時点では公式ページから記述が消失しており、legacy としての受け付け継続かサポート終了かを断定できない(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/03-implementation/gemini-prompting.md",
+    "line": 178,
+    "month": "2026-08",
+    "text": "四半期ごとに Google 公式の「Prompting strategies」「Gemini 3 developer guide」「Thinking」ページで次を再確認する(更新起点: `research/prompting/google.md`、最終確認: 2026-08):"
+  },
+  {
+    "file": "docs/03-implementation/graph-rag-and-knowledge-graphs.md",
+    "line": 130,
+    "month": "2026-07",
+    "text": "GraphRAG のフレームワーク・ツール(グラフ構築・検索の実装手段)と、コミュニティ検出・名寄せの標準的手法は発展途上で変化が速い。導入時に最新の実装選択肢と各手法の成熟度を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/llm-landscape.md",
+    "line": 73,
+    "month": "2026-09",
+    "text": "採用時に OpenAI のモデル別ページ・料金・退役日程で、対象 API モデル ID の提供状態、終了予定の変更、実行モード、長文・キャッシュの価格条件を確認する(最終確認: 2026-09)"
+  },
+  {
+    "file": "docs/03-implementation/llm-landscape.md",
+    "line": 165,
+    "month": "2026-08",
+    "text": "全カタログ表(モデル名・ティア・価格帯・ステータス)を四半期ごとに各社公式ページで再確認する。OpenAI は 2026-09-10 に部分更新済み。他社の次回確認対象は Gemini 3.7 Flash の導入価格終了の扱いなど、各節の 8 月時点の情報との差分(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/03-implementation/llm-landscape.md",
+    "line": 167,
+    "month": "2026-08",
+    "text": "プレビューモデルの GA 化(Gemini 3.1 Pro)、Gemini 3.6 / 3.7 Flash の個別仕様(コンテキスト長・knowledge cutoff)、オープンウェイト各ファミリーの新世代(特に Qwen3.8 のライセンス・コンテキスト長、Kimi K3 の一次確認)を確認する(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/03-implementation/local-and-on-device-llm.md",
+    "line": 64,
+    "month": "2026-08",
+    "text": "ローカル実行ツール・量子化形式・対応モデルは開発が非常に活発で動きやすい。本文は 2026-07 時点の代表例に留めており、採用時に各ツールの公式情報と調査メモ `research/llmops/serving.md` の「変わりやすい項目」で最新を確認する(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/03-implementation/local-and-on-device-llm.md",
+    "line": 127,
+    "month": "2026-08",
+    "text": "ローカル実行ツール・量子化形式・対応モデル・OpenAI 互換 API の対応範囲は開発が非常に活発で動きやすい。本文は 2026-07 時点の代表例に留めており、採用時に各ツールの公式情報と調査メモ `research/llmops/serving.md` の「変わりやすい項目」で最新を確認する(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/03-implementation/long-term-memory-implementation.md",
+    "line": 138,
+    "month": "2026-07",
+    "text": "主要ベンダー・フレームワークの記憶機能(モデル API の memory 系ツール、エージェントフレームワークの記憶モジュール)の提供状況と仕様を、採用検討時に各公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/mcp-and-tool-protocols.md",
+    "line": 42,
+    "month": "2026-07",
+    "text": "MCP の仕様バージョン・トランスポート(stdio / Streamable HTTP)・認可の仕組みの最新状況を公式サイト(modelcontextprotocol.io)で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/mcp-and-tool-protocols.md",
+    "line": 98,
+    "month": "2026-07",
+    "text": "MCP の仕様バージョン・トランスポート(stdio / Streamable HTTP)・認可の仕組みの最新状況を公式サイト(modelcontextprotocol.io)で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/mcp-and-tool-protocols.md",
+    "line": 100,
+    "month": "2026-07",
+    "text": "エージェント間連携(A2A 等)と MCP の役割分担の整理は変化が速いため、執筆時点の整理([オーケストレーションパターン](../02-architecture/orchestration-patterns.md))と齟齬がないか定期確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/model-selection.md",
+    "line": 153,
+    "month": "2026-08",
+    "text": "用途別表の「具体例(2026-08 時点)」のモデル名を、各社公式のモデル一覧ページで四半期ごとに確認する(世代交代が速い。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/03-implementation/model-selection.md",
+    "line": 155,
+    "month": "2026-08",
+    "text": "料金構造の傾向値(出力 5〜6 倍・キャッシュ 1 割前後・バッチ半額)が各社の現行料金でも成り立つかを確認する(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/03-implementation/open-source-ai-ecosystem.md",
+    "line": 140,
+    "month": "2026-08",
+    "text": "モデルライセンスの版・規模条件・用途制限、および採用ライセンス(同一ベンダーでも世代で寛容型 ↔ 独自規約が変わりうる)は、現行版のモデルカード・公式規約で必ず確認する。本記事は類型と読み方に徹し、具体条項は断定していない(所在は `research/ecosystem/industry-oss.md`)(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/03-implementation/open-source-ai-ecosystem.md",
+    "line": 144,
+    "month": "2026-08",
+    "text": "モデルライセンスの現行版と規模条件、OSI Open Source AI Definition の版、Hugging Face の規約構造、OSS フレームワークの GitHub 組織移管・統合・メンテナンス状態を四半期ごとに一次情報で確認する(`research/ecosystem/industry-oss.md` を更新起点にする)(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/03-implementation/openai-prompting.md",
+    "line": 169,
+    "month": "2026-07",
+    "text": "停止シーケンス(`stop`)の現行 API 仕様、および Anthropic 型の assistant prefill の可否は、プロンプト系ガイドでは扱われず未確定です。必要時に公式 API リファレンスで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/openai-prompting.md",
+    "line": 171,
+    "month": "2026-08",
+    "text": "過剰思考(overthinking)警告と指示階層(安全 > 不変条件 > 決定ルール > 文体)の現行原文を「Reasoning best practices」「Prompt guidance」で再確認する。2026-08-18 時点では要約経由でしか取得できず断定不可。GPT-5.6 世代版では overthinking 警告が「`max` は最難関タスクに留め `xhigh` と比較する」といった表現に変わっている可能性があります(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/03-implementation/openai-prompting.md",
+    "line": 175,
+    "month": "2026-08",
+    "text": "四半期ごとに OpenAI 公式の「Prompt guidance」「Reasoning models」「Using the latest model」ページと GPT-5.x 系 cookbook で次を再確認する(更新起点: `research/prompting/openai.md`、最終確認: 2026-08):"
+  },
+  {
+    "file": "docs/03-implementation/prompt-engineering-fundamentals.md",
+    "line": 119,
+    "month": "2026-07",
+    "text": "段階的推論など明示的技法の有効性がモデル世代でどう変わるかを、利用中モデルの公式プロンプトガイド・移行ガイドで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/prompt-engineering-patterns.md",
+    "line": 134,
+    "month": "2026-07",
+    "text": "区切り記法・応答の書き出し指定(prefill)・停止シーケンスの対応状況と推奨形式はモデルごとに異なる。採用前に利用中モデルの公式プロンプトガイドで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/prompt-management.md",
+    "line": 126,
+    "month": "2026-07",
+    "text": "プロンプトレジストリ・実験管理を提供する製品や各社プラットフォーム機能(プロンプトのバージョン管理・比較実験)の動向を、ツール選定時に各公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/prompt-optimization.md",
+    "line": 138,
+    "month": "2026-07",
+    "text": "自動プロンプト最適化フレームワークの動向(名前・提供形態・評価との接続方式)は変化が速い。導入検討時に候補の公式ドキュメントで確認し、本文は原理(候補生成 × 評価 × 選択)の説明に留める(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/rag-implementation-patterns.md",
+    "line": 180,
+    "month": "2026-07",
+    "text": "埋め込みモデル・リランキングモデル・ベクトル DB の有力な選択肢は変化が速い。実装選定時に公開ベンチマーク(MTEB 等)と各ベンダー公式ドキュメントで最新状況を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/slm-strategy.md",
+    "line": 125,
+    "month": "2026-07",
+    "text": "SLM の顔ぶれ・性能帯・「どこまでできるか」の崖の位置は、世代交代で変化する。本文は戦略に徹し、具体の性能は [主要 LLM の全体像](llm-landscape.md) と各モデル公式ページの実測で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/streaming-and-agent-ux.md",
+    "line": 96,
+    "month": "2026-07",
+    "text": "ストリーミングイベントの種類(ツール入力の逐次ストリーミング等)はベンダー・バージョンで差があるため、実装時に対象 API の公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/structured-output.md",
+    "line": 42,
+    "month": "2026-07",
+    "text": "各社の構造化出力機能の名称・スキーマ制約(サポートされる JSON Schema のサブセット)・対応モデルを公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/structured-output.md",
+    "line": 111,
+    "month": "2026-07",
+    "text": "各社の構造化出力機能の名称・スキーマ制約(サポートされる JSON Schema のサブセット)・対応モデルを公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/synthetic-data-for-training.md",
+    "line": 130,
+    "month": "2026-07",
+    "text": "教師モデル出力の学習利用条件(蒸留・合成データ生成に他社モデルの出力を使えるか)は提供者・時期で変わる。利用時に、利用中モデルの利用規約と [コンプライアンスとガバナンス](../06-security/compliance-and-governance.md) のベンダー契約確認で最新の条件を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/tool-definition-design.md",
+    "line": 116,
+    "month": "2026-07",
+    "text": "strict モード(スキーマ準拠の保証)や並列ツール呼び出しの制御など、ベンダー固有のツール定義オプションの最新仕様を各社公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/vector-databases.md",
+    "line": 131,
+    "month": "2026-07",
+    "text": "専用ベクトル DB・既存 DB のベクトル拡張・マネージド検索サービスの有力な選択肢と、そのフィルタ・ハイブリッド・量子化の対応状況は変化が速い。選定時に候補製品の公式ドキュメントで最新状況を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/03-implementation/voice-agents.md",
+    "line": 139,
+    "month": "2026-08",
+    "text": "各社のリアルタイム音声 API の提供状況(GA / Preview)・モデル名・セッション上限・電話統合の対応先は変化が速い。選定時に各社公式ドキュメントで最新を確認する(一次情報の記録: `research/professional/voice-agents.md`)(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/04-evaluation/agent-benchmarks-landscape.md",
+    "line": 146,
+    "month": "2026-08",
+    "text": "カテゴリ別の代表ベンチマークの顔ぶれ・飽和状況・リーダーボードの運用状態を、四半期ごとに各公式ページで再確認する(`research/professional/benchmarks.md` を更新起点にする)。直近の注目: Terminal-Bench 3.0(2026-07 公開)のスコア推移と 2.1 との並存状況、SWE-bench Pro トップ帯の推移、HAL の新モデル追加再開の有無、GAIA2 の一次数値の取得、OSWorld 2.0 のスコア推移。なお WebArena・AndroidWorld・BFCL・安全性系の行は 2026-07 確認のまま(次回の観測で一巡させる)(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/04-evaluation/agent-evaluation-basics.md",
+    "line": 136,
+    "month": "2026-07",
+    "text": "評価プラットフォーム・評価支援ツールの機能は変化が速いため、本文では意図的に個別製品に触れていない。選定時に各公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/04-evaluation/fairness-and-bias-evaluation.md",
+    "line": 121,
+    "month": "2026-07",
+    "text": "公平性評価の具体手法・公開バイアス評価データセット、および差別禁止に関わる規制要求は変化する。導入時に最新の手法と、[コンプライアンスとガバナンス](../06-security/compliance-and-governance.md) の規制動向を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/04-evaluation/japanese-quality-evaluation.md",
+    "line": 120,
+    "month": "2026-07",
+    "text": "日本語評価ベンチマーク・リーダーボードの顔ぶれは変化が速い。本文では帯と確認方法のみを扱っており、選定時に最新の日本語ベンチマークとその評価方法論を各公式ページで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/04-evaluation/llm-as-a-judge.md",
+    "line": 110,
+    "month": "2026-07",
+    "text": "judge に使うモデルの選定基準(能力とコストのバランス)はモデル世代の更新で変わるため、導入・更新時に人手ラベルとの一致率を再測定して確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/04-evaluation/regression-testing.md",
+    "line": 113,
+    "month": "2026-07",
+    "text": "CI からの並列実行時のレートリミットと推奨リトライは利用ベンダー・プランに依存するため、導入時に対象 API の公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/04-evaluation/trajectory-evaluation.md",
+    "line": 102,
+    "month": "2026-07",
+    "text": "軌跡の記録形式の標準(OpenTelemetry の生成 AI 向け semantic conventions 等)の成熟度と採用状況を、トレース基盤の導入時に各公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/05-operations/ai-slo-design.md",
+    "line": 122,
+    "month": "2026-07",
+    "text": "judge ベースの SLI を扱う際は、判定コストと判定器の較正という前提条件を [LLM-as-a-Judge](../04-evaluation/llm-as-a-judge.md) の較正手順と整合させる。judge・モデルの世代交代で較正がずれるため、SLI の測り直しを定期に組み込む(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/05-operations/batch-processing.md",
+    "line": 40,
+    "month": "2026-07",
+    "text": "バッチ API の割引率・完了までの目安時間・1 ジョブの上限(件数・サイズ)・対応モデルはプロバイダーごとに異なり変化も速い。採用時に各プロバイダーの公式ドキュメントで最新を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/05-operations/batch-processing.md",
+    "line": 114,
+    "month": "2026-07",
+    "text": "バッチ API の割引率・完了までの目安時間・1 ジョブの上限(件数・サイズ)・対応モデルはプロバイダーごとに異なり変化も速い。採用時に各プロバイダーの公式ドキュメントで最新を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/05-operations/cost-management.md",
+    "line": 59,
+    "month": "2026-07",
+    "text": "モデル単価・キャッシュの割引率と書き込みコスト・バッチ割引は変化が速い。試算時に各ベンダーの公式料金表で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/05-operations/cost-management.md",
+    "line": 111,
+    "month": "2026-07",
+    "text": "モデル単価・キャッシュ割引率・バッチ割引は変化が速いため本文に数値を書いていない。試算時に各ベンダーの公式料金表で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/05-operations/deployment-and-scaling.md",
+    "line": 140,
+    "month": "2026-07",
+    "text": "各プロバイダーのレート制限の体系(ティア・引き上げ手続き・キューイング機能の提供状況)は変化が速い。設計時に各社公式ドキュメントで最新の制限値と緩和手段を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/05-operations/gpu-and-hardware-basics.md",
+    "line": 87,
+    "month": "2026-07",
+    "text": "GPU・アクセラレータの具体的な製品・世代・VRAM 容量・価格は変化が非常に速い。本文は類型と概算に徹しており、具体の選定時は各ベンダーの最新製品情報とクラウドの GPU インスタンス一覧で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/05-operations/gpu-and-hardware-basics.md",
+    "line": 123,
+    "month": "2026-07",
+    "text": "GPU・アクセラレータの具体的な製品・世代・VRAM 容量・価格は変化が非常に速い。本文は類型と概算に徹しており、具体の選定時は各ベンダーの最新製品情報とクラウドの GPU インスタンス一覧で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/05-operations/green-ai.md",
+    "line": 144,
+    "month": "2026-07",
+    "text": "主要クラウド/AI プロバイダーの環境開示(PUE・WUE・CFE 比率・スコープ別排出)は年次で更新され変動する。数値を引用する際は各社の最新サステナビリティレポートで確認する(所在は `research/strategy/green-ai.md`)(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/05-operations/green-ai.md",
+    "line": 146,
+    "month": "2026-07",
+    "text": "顧客向けカーボン算定ツールの提供形態は変化が速い(例: AWS Customer Carbon Footprint Tool は後継サービスへの移行が告知されている)。利用時に各クラウドの公式ページで現行のツール名・仕様を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/05-operations/green-ai.md",
+    "line": 148,
+    "month": "2026-07",
+    "text": "ESG 開示制度(EU CSRD/ESRS E1 の適用範囲・簡素化の動向、EU EED のデータセンター・レーティングスキーム)は変化中。自社が対象かと最新の要求内容は各制度の公式ページと法務・サステナビリティ部門で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/05-operations/incident-response.md",
+    "line": 129,
+    "month": "2026-07",
+    "text": "LLM API 障害時のステータス確認先・SLA・フェイルオーバー先(別リージョン・別ベンダー)の選択肢は利用ベンダーに依存する。運用設計時に各ベンダーの公式情報で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/05-operations/latency-optimization.md",
+    "line": 104,
+    "month": "2026-07",
+    "text": "並列ツール呼び出しの API サポート状況(1 応答での複数ツール要求の扱い)はベンダー・モデルで差があるため、実装時に対象 API の公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/05-operations/llm-gateway.md",
+    "line": 57,
+    "month": "2026-08",
+    "text": "LLM ゲートウェイの OSS/マネージドの顔ぶれ・機能・ライセンス(OSS コアと有償機能の境界)は変化が速い。本文は 2026-07 時点の代表例に留めており、採用時に各製品の公式情報と調査メモ `research/llmops/serving.md` で最新を確認する(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/05-operations/llm-gateway.md",
+    "line": 132,
+    "month": "2026-08",
+    "text": "LLM ゲートウェイの OSS/マネージドの顔ぶれ・機能・ライセンス(OSS コアと有償機能の境界)は変化が速い。本文は 2026-07 時点の代表例に留めており、採用時に各製品の公式情報と調査メモ `research/llmops/serving.md` で最新を確認する(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/05-operations/observability-and-tracing.md",
+    "line": 82,
+    "month": "2026-07",
+    "text": "OpenTelemetry GenAI semantic conventions の安定度(2026 年時点で開発中ステータス)と、LLM 監視プラットフォーム各種の機能は変化が速い。導入時に公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/05-operations/observability-and-tracing.md",
+    "line": 125,
+    "month": "2026-07",
+    "text": "OpenTelemetry GenAI semantic conventions の安定度と主要監視プラットフォームの対応状況を、導入時に公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/05-operations/self-hosted-inference.md",
+    "line": 56,
+    "month": "2026-08",
+    "text": "推論エンジンの顔ぶれ・機能・対応モデル・ライセンスは開発が非常に活発で動きやすい。本文は 2026-08 時点の代表例に留めており、採用時に各エンジンの公式リポジトリ/ドキュメントと調査メモ `research/llmops/serving.md` の「変わりやすい項目」で最新を確認する(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/05-operations/self-hosted-inference.md",
+    "line": 138,
+    "month": "2026-08",
+    "text": "推論エンジンの顔ぶれ・機能・対応モデル・ライセンスは開発が非常に活発で動きやすい。本文は 2026-08 時点の代表例に留めており、採用時に各エンジンの公式リポジトリ/ドキュメントと調査メモ `research/llmops/serving.md` の「変わりやすい項目」で最新を確認する(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/05-operations/versioning-and-model-updates.md",
+    "line": 55,
+    "month": "2026-07",
+    "text": "利用ベンダーのモデルバージョニング規約(スナップショット・エイリアスの提供形態)と廃止ポリシー・告知期間を、各ベンダーの公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/05-operations/versioning-and-model-updates.md",
+    "line": 115,
+    "month": "2026-07",
+    "text": "各ベンダーのモデルバージョニング規約(スナップショット・エイリアス)と廃止ポリシー・告知期間を公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/06-security/agent-identity-and-auth.md",
+    "line": 184,
+    "month": "2026-08",
+    "text": "OpenAI の Connectors の OAuth 認可ガイドを developers.openai.com / platform.openai.com で確認する。API キー管理については developers.openai.com の Production best practices に「環境変数またはシークレット管理サービスで扱う」旨の公式明記を確認済みで、残るのは Connectors の認可のみ(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/06-security/ai-standards-and-certification.md",
+    "line": 141,
+    "month": "2026-07",
+    "text": "ISO/IEC 42001 の改訂、関連規格(42005・42006 ほか)の追補、EU 整合規格(JTC 21)の個別番号・ステータス、日本の認定制度(ISMS-AC「AIMS 適合性評価制度」)の認証機関・取得組織の状況は動く。取得を検討する際は各公式(iso.org・nist.gov・digital-strategy.ec.europa.eu・isms.jp)で現行を確認する(所在は `research/ecosystem/standards.md`)(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/06-security/ai-standards-and-certification.md",
+    "line": 145,
+    "month": "2026-07",
+    "text": "ISO/IEC 42001 の版・SC 42 の新規格、NIST AI RMF の改訂、EU 整合規格の進捗、日本の JIS Q 42001 の版・ISMS-AC 認定制度の立ち上がり(初認証/初認定の時系列は公式で食い違いがあり、日付は断定しない)を四半期ごとに確認する(`research/ecosystem/standards.md` を更新起点にする)(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/06-security/compliance-and-governance.md",
+    "line": 162,
+    "month": "2026-08",
+    "text": "日本の改正個人情報保護法(課徴金制度)の施行日(政令)と法律番号を個人情報保護委員会 / e-Gov で確認する(2026-08-18 時点では公布済み・施行日未確定)(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/06-security/compliance-and-governance.md",
+    "line": 164,
+    "month": "2026-08",
+    "text": "米国 EO 14365 派生の FTC 政策声明・商務省の州法評価リストの公表有無を一次情報で確認する(2026-08-18 時点では二次情報のみで一次未確認)(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/06-security/content-provenance-and-detection.md",
+    "line": 128,
+    "month": "2026-07",
+    "text": "来歴標準(C2PA)の版・国際標準化の状況、電子透かしの対象・堅牢性、検出ツールの提供状況、規制上の表示義務は変化が速い。本文は仕組みと限界の読み方に徹しており、採用時に各標準団体・各社・公的機関の公式ページと調査メモ `research/trust/provenance.md` の「変わりやすい項目」で最新を確認する。検出ツールの精度主張はベンダー自己報告として扱い、断定に用いない(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/06-security/data-exfiltration.md",
+    "line": 109,
+    "month": "2026-07",
+    "text": "主要 LLM ベンダー・監視 SaaS のデータ保持・学習利用ポリシーは変更されうるため、契約・導入時に各社の公式ポリシーで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/06-security/deepfake-and-impersonation-defense.md",
+    "line": 118,
+    "month": "2026-07",
+    "text": "ディープフェイク・なりすまし詐欺の手口と、公的機関の注意喚起・ガイダンスは継続的に更新される。本文は防御プロセスの原則に徹しており、最新の手口・注意喚起は各公的機関(FBI/IC3・FTC・警察庁・消費者庁・IPA 等)の公式ページと調査メモ `research/trust/provenance.md` で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/06-security/frontier-safety-overview.md",
+    "line": 127,
+    "month": "2026-07",
+    "text": "各社フロンティア安全フレームワークの名称・現行版、各国 AI 安全機関の名称・所在・役割は改版・改称のペースが速い。本文は共通構造と読み方に徹しており、採用時に各社・各機関の公式ページと調査メモ `research/trust/frontier-safety.md` の「変わりやすい項目」で最新を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/06-security/guardrails.md",
+    "line": 106,
+    "month": "2026-07",
+    "text": "ガードレール実装の支援ライブラリ・マネージドサービスの選択肢は変化が速いため本文で個別評価していない。導入時に各公式ドキュメントで機能(3 層のどこを担うか)を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/06-security/prompt-injection.md",
+    "line": 72,
+    "month": "2026-07",
+    "text": "インジェクション耐性(指示階層の遵守)はモデル世代で改善が続いている。利用モデルの安全性ドキュメントとシステムカードで最新の評価を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/06-security/prompt-injection.md",
+    "line": 109,
+    "month": "2026-07",
+    "text": "利用モデルのインジェクション耐性(指示階層)の最新評価を、ベンダーの安全性ドキュメント・システムカードで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/06-security/red-teaming-agents.md",
+    "line": 138,
+    "month": "2026-07",
+    "text": "レッドチーミング支援ツール・自動攻撃生成フレームワーク・公開された攻撃データセットは変化が速い。導入時に OWASP・NIST 等の公式情報と各ツールの公式ドキュメントで最新を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/06-security/threat-model-overview.md",
+    "line": 119,
+    "month": "2026-07",
+    "text": "OWASP の LLM・Agent 向け脅威分類は改版が続いている。レビュー基準に使う際は OWASP 公式サイトで最新版を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/06-security/tool-permissions-and-sandboxing.md",
+    "line": 119,
+    "month": "2026-07",
+    "text": "MCP の認可(OAuth 等)とツール定義の完全性検証の仕様は発展中のため、実装時に公式仕様(modelcontextprotocol.io)で最新状況を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/08-coding-agents/claude-code-in-practice.md",
+    "line": 130,
+    "month": "2026-08",
+    "text": "research preview / beta 機能(Routines・GitLab CI/CD)のステータス変化を公式ドキュメントで確認する(2026-08-18 確認: Routines は research preview 継続・GitLab CI/CD は beta 継続。auto モードは research preview を終了し Pro / Max / Team の既定モードになったため監視対象から除外〔詳細は [Claude Code](claude-code.md)〕。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/claude-code-in-practice.md",
+    "line": 132,
+    "month": "2026-08",
+    "text": "キャッシュ読み取り単価の比率(約 10%)・TTL(5 分 / 1 時間)・Agent teams のコスト倍率・`--max-turns` 既定値などの数値を costs / prompt-caching ページで確認する(2026-08-18 確認: 読み取り約 10% と TTL の構造は変更なし・Agent teams 倍率は「plan モードで動く場合に約 7 倍」の条件付き表現へ変化し本文反映済み。`--max-turns` 既定 10 のみ再確認できず継続監視。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/claude-code.md",
+    "line": 141,
+    "month": "2026-08",
+    "text": "Claude Code on the web(research preview)と Agent teams(experimental)のステータス変化を公式ドキュメントで確認する(2026-08-18 確認: 両者とも継続。権限モード `auto` は research preview を外れ Pro / Max / Team の既定モードになったため監視対象から除外。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/claude-code.md",
+    "line": 143,
+    "month": "2026-08",
+    "text": "サブスクリプションの使用量制限の具体的構造・対象プランを公式ヘルプセンターで確認する(2026-08-18 確認: 5 時間窓 + 週次上限・チャット製品と共通プール・超過後 usage credits の構造に変更なし。数値は流動的なため本文には構造のみ記載。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/coding-agent-automation-patterns.md",
+    "line": 127,
+    "month": "2026-07",
+    "text": "定番パターン表の各行について、主要ツールの公式サポート状況(機能名)を四半期の定点観測時に確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/08-coding-agents/coding-agent-cost-optimization.md",
+    "line": 115,
+    "month": "2026-07",
+    "text": "各ツールの課金対象・上限機能の一覧(本文の課金モデル 3 型の具体対応)を、四半期の定点観測時に各公式料金ページで再確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/08-coding-agents/coding-agent-evaluation.md",
+    "line": 46,
+    "month": "2026-07",
+    "text": "2026 年時点で参照すべき主要ベンチマークの種類と各スコアの最新値を、引用前に一次情報(各ベンチマークの公式リーダーボード)で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/08-coding-agents/coding-agent-evaluation.md",
+    "line": 108,
+    "month": "2026-07",
+    "text": "2026 年時点の主要ベンチマーク(SWE-bench 派生・ターミナル操作系など)の一覧と、各ツールベンダーが公表している評価条件を一次情報で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/08-coding-agents/coding-agent-rules-and-config.md",
+    "line": 46,
+    "month": "2026-07",
+    "text": "各ツールの対応形式(特に AGENTS.md サポートの有無と読み込み優先順位)を各公式ドキュメントで確認する。対応状況は 2025〜2026 年に急速に変化している(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/08-coding-agents/coding-agent-rules-and-config.md",
+    "line": 128,
+    "month": "2026-07",
+    "text": "各ツールのルールファイル対応形式(AGENTS.md サポート・階層合成の優先順位)を各公式ドキュメントで確認し、本文の対応表を更新する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/08-coding-agents/coding-agent-security.md",
+    "line": 128,
+    "month": "2026-07",
+    "text": "各ツールのサンドボックス実装方式(OS レベル隔離かコンテナか)と既定の承認モードを、比較記事の執筆時に各公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/08-coding-agents/coding-agent-selection.md",
+    "line": 102,
+    "month": "2026-07",
+    "text": "「機能の収斂」の具体的な状況(MCP・ルールファイル対応の網羅率)を、比較記事の表 A/C の完成後に本文の記述と突き合わせる(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/08-coding-agents/coding-agent-team-adoption.md",
+    "line": 120,
+    "month": "2026-07",
+    "text": "主要ツールの組織管理機能(SSO・ポリシー強制・監査ログ)の提供プラン条件を、比較記事の執筆時に各公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/08-coding-agents/coding-agents-comparison.md",
+    "line": 153,
+    "month": "2026-08",
+    "text": "全表(特に「学習利用の既定」「プラン体系」)を四半期ごとに各公式ページで再確認し、行単位で最終確認日を更新する(2026-08-18 に Claude Code / Cursor / GitHub Copilot の行を再確認・更新。その他の行は 2026-07-05 時点のまま。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/coding-agents-comparison.md",
+    "line": 155,
+    "month": "2026-08",
+    "text": "「?」セル(Code Assist のサンドボックス・ロールバック、Jules の MCP、Gemini 個人向けの現行無料枠)を各公式ドキュメントで確認する(2026-08-18 の定点観測は Claude Code / Cursor / GitHub Copilot 対象のため未解消。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/coding-agents-comparison.md",
+    "line": 157,
+    "month": "2026-08",
+    "text": "preview / beta 段階の機能(Claude Code Web、Copilot サンドボックス、Devin Local、Jules)の GA 化を確認する(2026-08-18 確認: Claude Code Web は research preview 継続・Copilot サンドボックスは public preview 継続。Devin Local・Jules は未確認。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/coding-agents-overview.md",
+    "line": 123,
+    "month": "2026-08",
+    "text": "5 分類の代表例に挙げたツール名・提供形態を、各ツール別記事の執筆時(公式情報の裏取り後)に再確認する(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/cursor.md",
+    "line": 134,
+    "month": "2026-08",
+    "text": "プラン構成(Pro / Pro+ / Ultra、Teams Standard / Premium)と含有利用枠を公式料金ページで確認する(2026-08-18 確認: 構成に変更なし。インド限定の低価格プラン Cursor Start が 2026-07-28 に新設されたがグローバル構成は不変。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/cursor.md",
+    "line": 136,
+    "month": "2026-08",
+    "text": "既定 Run Mode(3.6 で Auto-review 化)と ZDR 例外モデルの一覧の変化を公式ドキュメントで確認する(2026-08-18 確認: 既定 Auto-review・ZDR 例外〔Claude Fable 5〕とも変更なし。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/cursor.md",
+    "line": 138,
+    "month": "2026-08",
+    "text": "Cursor SDK の機能範囲(2026-06 に大幅更新)と Bugbot の課金方式を確認する(2026-08-18 確認: SDK の 2026-06 以降の変化は一次情報で確認できず。Bugbot の対応プラットフォームは 4 つへの拡大を確認し本文へ反映済み。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/devin.md",
+    "line": 137,
+    "month": "2026-08",
+    "text": "プラン構成と課金体系(クォータ + クレジット制、Enterprise の ACU)を公式料金ページ・billing ドキュメントで確認する(2026-08-18 は devin.ai 直下が 429 のため docs.devin.ai 側で変更なしを確認。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/devin.md",
+    "line": 139,
+    "month": "2026-08",
+    "text": "モデルライン(SWE 1.6 の現行の位置づけ・Devin Fusion の提供プラン条件と preview 解除)を確認する(Fusion のコスト削減効果は 2026-08-07 更新の公式ブログで最大 60%。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/devin.md",
+    "line": 141,
+    "month": "2026-08",
+    "text": "Windows VM サポート(限定提供)と Devin CLI の機能ギャップ(Knowledge / Playbooks / Secrets 未対応)の解消状況を確認する(2026-08 時点でいずれも継続。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/gemini-cli-and-code-assist.md",
+    "line": 139,
+    "month": "2026-08",
+    "text": "Antigravity のプラン構成(Individual 無料 / Pro / Ultra / Organization)・対応モデル・Code Assist との役割分担の変化を公式ページ(antigravity.google)で確認する(製品内容は 2026-08-18 に確認済み。変化が速いため定点観測を継続。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/gemini-cli-and-code-assist.md",
+    "line": 141,
+    "month": "2026-08",
+    "text": "Code Assist の GitHub コードレビュー consumer 版サンセットの完了日の一次情報と、enterprise 版(Preview)の GA 化を確認する(2026-08 時点で consumer 版は現行 docs から記載消滅・廃止カテゴリ化を確認済み、完了日の断定は未了。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/gemini-cli-and-code-assist.md",
+    "line": 143,
+    "month": "2026-08",
+    "text": "Gemini API 利用規約の学習利用ポリシー(Unpaid = 製品改善に使用 / Paid = 不使用。2026-03-23 発効版)の改定有無を確認する(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/gemini-cli-and-code-assist.md",
+    "line": 145,
+    "month": "2026-08",
+    "text": "Jules のステータス(Public Beta)とチーム向け提供の有無の変化を確認する(2026-08 時点で Public Beta・個人アカウントのみ・利用制限値は変化なし。Business / Enterprise は interest form 受付のみ。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/github-copilot-in-practice.md",
+    "line": 124,
+    "month": "2026-08",
+    "text": "モデル別単価・プラン別 Credits 付与量(base + flex)・auto model selection の割引率・キャッシュ単価比率を公式ページ(models-and-pricing)で確認する(2026-08-18 確認: 付与量・割引率 10%・キャッシュ単価比率 10% とも 2026-07 の記録値から変動なし。本文には相対関係のみ記載。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/github-copilot-in-practice.md",
+    "line": 126,
+    "month": "2026-08",
+    "text": "preview 機能(automations・Agentic Workflows・custom agents の対応 IDE・Copilot Memory)のステータスと仕様変化を Changelog で確認する(2026-08-18 確認: automations・Agentic Workflows・Copilot Memory は public preview 継続。Copilot Memory は JetBrains 対応が追加〔2026-08-11〕。Memory の保持 28 日と automations の実行回数上限は再確認できず継続監視。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/github-copilot.md",
+    "line": 140,
+    "month": "2026-08",
+    "text": "AI Credits のプラン別付与量と料金を公式料金ページで確認する(2026-08-18 確認: 付与量は 2026-07 の記録値から変動なし。変動が速いため定点観測は継続。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/github-copilot.md",
+    "line": 142,
+    "month": "2026-08",
+    "text": "preview 段階の機能群(サンドボックス・Copilot Memory・サードパーティエージェント・Agentic Workflows)のステータス変化を Changelog で確認する(2026-08-18 確認: いずれも public preview 継続。Copilot Memory は JetBrains 対応が追加〔2026-08-11〕。Spark は 2026-08-04 告知で非推奨化・2026-08-31 アクセス終了のため監視対象から除外。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/github-copilot.md",
+    "line": 144,
+    "month": "2026-08",
+    "text": "コンテンツ除外の Edit / Agent モード対応状況の変化(2026-08-18 確認: 未対応のまま)と、「cloud agent は除外を考慮しない」とする従来記述の現行の扱い(2026-08-18 の定点観測では再確認できず)を content exclusion 関連の公式ドキュメントで確認する(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/open-source-coding-agents.md",
+    "line": 101,
+    "month": "2026-08",
+    "text": "各プロジェクトの活動状況(最新リリース日・ガバナンス)を GitHub で確認する。本記事の存続性評価は 2026-08-18 時点のスナップショット(Cline 活発 / OpenHands v1.14.0 = 2026-08-17 / Goose = aaif-goose v1.46.0 / opencode = anomalyco v1.18.18)であり、この分野は数か月で状況が変わる(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/open-source-coding-agents.md",
+    "line": 103,
+    "month": "2026-08",
+    "text": "Continue の買収後のサポート方針(既存ユーザーへの影響)を公式アナウンスで確認する(2026-08-18 時点もリポジトリは read-only のまま、サポート方針の一次情報は取得できず。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/openai-codex-in-practice.md",
+    "line": 140,
+    "month": "2026-08",
+    "text": "プラン別の 5 時間ウィンドウ制限値・モデル別クレジットレート・Fast mode の倍率を公式ページ(learn.chatgpt.com/docs/pricing・/docs/speed・/docs/models)で確認する(数値は 2026-08 時点の相対関係のみ本文に記載。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/openai-codex-in-practice.md",
+    "line": 142,
+    "month": "2026-08",
+    "text": "help.openai.com のレートカード記事(2026-08-18 時点も直接取得 403)の本文をブラウザで確認する(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/openai-codex.md",
+    "line": 150,
+    "month": "2026-09",
+    "text": "対応モデルと認証方式ごとの提供状況を公式 Models ページで確認する。2026-09-10 の一覧は GPT-6 Astra と GPT-5.6 系を推奨し、ChatGPT 認証での GPT-5.4 系の退役日を 2026-08-31 と案内している。保存済み設定・定期実行のモデル ID を採用時に点検する(最終確認: 2026-09)"
+  },
+  {
+    "file": "docs/08-coding-agents/openai-codex.md",
+    "line": 152,
+    "month": "2026-08",
+    "text": "プラン別レート制限・クレジット条件を公式 Pricing ページ(learn.chatgpt.com/docs/pricing)で再確認する。モデル節の 9 月更新では価格・利用枠を再検証していない(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/openai-codex.md",
+    "line": 154,
+    "month": "2026-08",
+    "text": "製品面の追加・変更(Chrome 拡張・App Server は 2026-08 時点で正式掲載済み。デスクトップの Linux preview の GA 化、computer use 等)を changelog で確認する(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/openai-codex.md",
+    "line": 156,
+    "month": "2026-08",
+    "text": "help.openai.com のプラン別利用条件・学習利用設定の記事本文を確認する(2026-08-18 時点も直接取得が 403 のため間接確認に留まる。個人プランの学習利用の既定は再確認できていないが反証もない。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/se-enterprise-constraints.md",
+    "line": 143,
+    "month": "2026-07",
+    "text": "個別ツールのエンタープライズ提供形態(閉域網・自社ホスト・VPC・ZDR・データ残留対応地域・コンプライアンス認証)は変化が非常に速い。本文は 2026-07 時点の一般類型に徹しており、採用時は各社公式ページと調査メモ `research/se/enterprise-offerings.md` の「変わりやすい項目(定点観測)」で最新を確認する。とくに Trust Center 系ページは動的表示で機械取得できないことがあり、ブラウザでの確認が要る(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/08-coding-agents/se-legacy-code-analysis.md",
+    "line": 81,
+    "month": "2026-07",
+    "text": "COBOL・VB 等のレガシー言語/環境に対する各コーディングエージェント・モデルの対応度は変化が速く、公式の網羅的な言明も少ない。採用前に対象言語の実コードでの読解・変換精度を実測し、各ツール公式ドキュメントで対応言語を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/08-coding-agents/se-legacy-code-analysis.md",
+    "line": 124,
+    "month": "2026-07",
+    "text": "COBOL・VB 等のレガシー言語/環境に対する各コーディングエージェント・モデルの対応度は変化が速く、公式の網羅的な言明も少ない。採用前に対象言語の実コードでの読解・変換精度を実測し、各ツール公式ドキュメントで対応言語を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/08-coding-agents/windsurf.md",
+    "line": 139,
+    "month": "2026-08",
+    "text": "レガシー Cascade の実際の提供終了と Devin Local の GA 明示宣言の有無を changelog・公式 FAQ で確認する(2026-08-18 時点も FAQ は「7 月いっぱい」の表記のままで実終了は一次確定できず、changelog にはレガシー Cascade 併存の兆候あり。Devin Local 本体の preview 表記は外れたが GA 宣言も未確認。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/windsurf.md",
+    "line": 141,
+    "month": "2026-08",
+    "text": "プラン構成・クレジットと ACU の統合状況を料金ページで確認する(2026-08-18 は devin.ai 直下が 429 で機械取得できず。v3.7.16 の changelog に Enterprise 向け ACU thresholds の記載があり統合進行の傍証のみ。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/windsurf.md",
+    "line": 143,
+    "month": "2026-08",
+    "text": "「Windsurf Plugins」ブランドの存続と機能範囲(Cascade 系機能の提供状況)を確認する(2026-08 時点で JetBrains plugin の存続を確認。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/08-coding-agents/windsurf.md",
+    "line": 145,
+    "month": "2026-08",
+    "text": "個人向け利用規約(2026-04 版)の学習利用の既定(Autocomplete 既定使用・Chat のオプトアウト制約)を再確認する(2026-08-18 時点でページが 429 のため再確認未了。本文は 2026-04 版準拠。最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/09-business/ai-copyright-and-ip-map.md",
+    "line": 183,
+    "month": "2026-07",
+    "text": "本記事の資料名・版・発行主体を四半期ごとに各発行主体の公式ページで再確認する(`research/trust/copyright.md` を更新起点にする)。直近の注目: 文化庁のガイダンス追補、知財本部の検討会ページの移転先(kantei.go.jp → 内閣官房 cas.go.jp)と「プリンシプル・コード(仮称)」の策定状況、特許庁の産構審での検討、米国著作権局 Part 3(学習)の最終版公表、EU GPAI 学習内容要約テンプレートの運用(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/09-business/ai-copyright-and-ip-map.md",
+    "line": 185,
+    "month": "2026-07",
+    "text": "本記事は入口マップ(法的助言ではない確認先の提示)であり、個別案件の適法性・権利帰属・侵害の判断は一次情報と法務・弁護士・弁理士に確認する(内容解説をしない方針の維持。最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/09-business/ai-geopolitics-map.md",
+    "line": 183,
+    "month": "2026-07",
+    "text": "輸出管理規則・制裁/エンドユーザーリスト・データ規制はいずれも改定が速い。特定の規則番号・しきい値・掲載団体・対象国を本記事は断定していない。参照時に各当局の公式ページ・官報で現行版・対象を現物確認する(所在は `research/strategy/geopolitics.md`)(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/09-business/ai-geopolitics-map.md",
+    "line": 185,
+    "month": "2026-07",
+    "text": "中国 CAC の一次情報(PIPL 越境移転の規定)は、国外からの公式ページ到達性が不安定で本調査では本文を確認できていない。中国関連の確認は、所管当局が CAC であることを前提に、現地法務・専門家を通じて一次情報を確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/09-business/ai-geopolitics-map.md",
+    "line": 189,
+    "month": "2026-07",
+    "text": "本記事の全表(所管当局・公式ソース)のリンク生存と、各規則・リストの現行版を四半期ごとに確認する(`research/strategy/geopolitics.md` を更新起点にする)。直近の注目: 米国 BIS の先端コンピューティング関連規則の改定、各制裁/エンドユーザーリストの更新、EU デュアルユース管理品目リストの改定、各国データ保護規則(インド DPDP 規則・EU 十分性認定)の動向(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/09-business/ai-industry-map.md",
+    "line": 127,
+    "month": "2026-08",
+    "text": "各層の代表プレイヤーの顔ぶれ(特にミドルウェア層・アプリ層)は流動的で、垂直統合の動きも速い。本記事は「層の役割」の構造に徹しており、現行の企業名・顔ぶれは各社公式・中立カタログで確認する(所在は `research/ecosystem/industry-oss.md`)(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/09-business/ai-industry-map.md",
+    "line": 131,
+    "month": "2026-08",
+    "text": "各層の代表プレイヤーの顔ぶれ、垂直統合の動向、日本の国産基盤モデルの顔ぶれと政策・調達動向を四半期ごとに一次情報で確認する(`research/ecosystem/industry-oss.md` を更新起点にする)。本記事はシェア・資本関係・調達額を扱わず、構造に限定している(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/09-business/ai-pricing-and-packaging.md",
+    "line": 115,
+    "month": "2026-07",
+    "text": "モデル API の価格・課金体系は変動するため、原価側([コスト管理](../05-operations/cost-management.md))の価格前提を四半期ごとに確認し、価格モデルの類型に新しい型(成果課金の普及など)が出ていないかを見直す。本記事は特定価格に触れず類型で書く方針(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/09-business/ai-usage-policy.md",
+    "line": 113,
+    "month": "2026-07",
+    "text": "AI 利用に関わる社内ルールの前提(規制要求・各社ツールのデータ利用条件)は変化する。規制側は [コンプライアンスとガバナンス](../06-security/compliance-and-governance.md) と [業界別規制の入口マップ](industry-regulations-map.md) の定点観測に従い、本記事は「社内ルール作りの実務」に範囲を保つ(規制内容の解説はしない)(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/09-business/industry-regulations-map.md",
+    "line": 169,
+    "month": "2026-07",
+    "text": "厚生労働省「医療情報システムの安全管理に関するガイドライン」第 7.0 版(2026-06)に AI・生成 AI 関連の記載があるかを、同省の概要資料で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/09-business/industry-regulations-map.md",
+    "line": 171,
+    "month": "2026-07",
+    "text": "米国 FDA の AI 機器ライフサイクル管理ドラフトガイダンス(2025-01)の最終化状況と、個人情報保護法改正案(課徴金制度・2026-04 国会提出)の成立状況を各公式サイトで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/09-business/industry-regulations-map.md",
+    "line": 175,
+    "month": "2026-07",
+    "text": "本記事の全表(文書名・版数・発行主体)を四半期ごとに各発行主体の公式ページで再確認する(`research/supplementary/regulations.md` を更新起点にする)。直近の注目: 厚労省ガイドライン第 7.0 版の詳細、DS-920 第 2.0 版の運用状況、金融庁 AI ディスカッションペーパーの次期改訂、個人情報保護法改正案の成立(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/10-llm-foundations/multimodal-models.md",
+    "line": 91,
+    "month": "2026-07",
+    "text": "各モデルが「入力理解のみか、画像・音声生成も含むか」「動画・音声の対応範囲」「画像のトークン換算式」は製品ごとに異なり変化も速い。本文は共通の直感に絞っており、具体は各モデル公式ドキュメントと [主要 LLM の全体像](../03-implementation/llm-landscape.md) で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/10-llm-foundations/multimodal-models.md",
+    "line": 127,
+    "month": "2026-07",
+    "text": "本記事は数式なしの直感に徹しており、実装(エンコーダの構造・画像トークンの正確な換算・動画/音声の扱い)はモデルごとに異なる。個別の対応範囲・課金は各モデル公式ドキュメントで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/10-llm-foundations/reasoning-models.md",
+    "line": 131,
+    "month": "2026-07",
+    "text": "推論モデルの提供形態(思考量の制御パラメータの名称・思考の可視性・課金の扱い)はモデルごとに異なり変化も速い。本文は類型で書いており、具体は各モデル公式ドキュメントとモデル別プロンプティングガイドで確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/11-llm-internals/alignment-theory.md",
+    "line": 156,
+    "month": "2026-07",
+    "text": "アラインメント手法(RLVR・プロセス報酬・オンライン選好最適化)は研究の動きが速い。本記事は確立した定式化(RLHF・DPO・報酬過剰最適化)に軸を置いており、最新手法は各研究の一次情報で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/11-llm-internals/attention-variants-and-long-context.md",
+    "line": 156,
+    "month": "2026-07",
+    "text": "注意の変種(KV 圧縮・スパース/線形注意・SSM ハイブリッド)と長コンテキスト技術は研究・採用が動き続けている。本記事は方式の原理に限定しており、個別モデルの現行の採用方式・対応長は各モデルの公式仕様で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+    "line": 130,
+    "month": "2026-07",
+    "text": "文脈内学習の理論(暗黙のベイズ・学習アルゴリズム模倣・誘導ヘッド)は決着しておらず研究が続いている。本記事は主要仮説の併記に留めており、最新の理解は各研究の一次情報で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/11-llm-internals/interpretability-basics.md",
+    "line": 139,
+    "month": "2026-07",
+    "text": "解釈可能性は研究フロンティアで変化が速い。本記事は手法の考え方と限界に軸を置き、有効性を断定していない。具体的な手法・成果・モデル名は各研究の一次情報(arXiv・Transformer Circuits Thread 等)で最新を確認する(所在は `research/internals/interpretability.md`)(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/11-llm-internals/interpretability-basics.md",
+    "line": 143,
+    "month": "2026-07",
+    "text": "SAE・回路研究の後継動向(より大きなモデルへの適用・attribution graphs・回路追跡)、SAE の評価と批判(特徴単位の妥当性への反証・代替手法)、機構的解釈可能性の安全監査への実運用が「期待」から「標準」へ動くかを四半期ごとに確認する(`research/internals/interpretability.md` を更新起点にする)。Scaling Monosemanticity の arXiv 版の有無も含め、引用時に一次情報で番号を再確認(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+    "line": 153,
+    "month": "2026-07",
+    "text": "推論時計算のスケーリング(推論モデルの学習・test-time compute)は研究・製品とも動きが速い。本記事は系譜と原理に限定しており、最新の手法・スケーリング指数は各研究の一次情報で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/12-multimodal/document-ai.md",
+    "line": 54,
+    "month": "2026-07",
+    "text": "OCR エンジン・VLM の文書読解精度・提供形態(専用ドキュメント AI サービスを含む)は変化が速い。本文は方式の使い分けに徹しており、具体のエンジン・モデルの精度は対象文書での実測と各公式情報で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/12-multimodal/document-ai.md",
+    "line": 119,
+    "month": "2026-07",
+    "text": "OCR エンジン・VLM の文書読解精度・専用ドキュメント AI サービスの提供形態は変化が速い。本文は方式の使い分けに徹しており、具体のエンジン・モデルの精度は対象文書での実測と各公式情報で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/12-multimodal/image-generation-integration.md",
+    "line": 131,
+    "month": "2026-08",
+    "text": "画像生成モデルの顔ぶれ・機能・**商用利用条件(権利帰属・IP 補償・オープンウェイトのライセンス層)・来歴機能(C2PA / 透かし)**は変化が非常に速く、法的可否は各社規約・地域法で分岐する。本文は選定軸と類型に徹しており、採用時に各社公式ページ・利用規約と調査メモ `research/multimodal/generation.md` の「変わりやすい項目」で最新を確認する。権利の可否は断定せず法務で確認する(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/12-multimodal/realtime-multimodal-agents.md",
+    "line": 141,
+    "month": "2026-08",
+    "text": "リアルタイムマルチモーダル API の映像入力仕様(フレームレート上限・native 連続映像の有無・入力方式)・セッション上限・課金単位・提供ステータスは変化が非常に速い。本文は設計原則に徹しており、採用時に各社公式ページと調査メモ `research/multimodal/realtime-tts.md` の「変わりやすい項目」で最新を確認する(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/12-multimodal/speech-synthesis-and-voice-design.md",
+    "line": 131,
+    "month": "2026-08",
+    "text": "TTS サービスのモデル名・エンジン世代・日本語ボイスの顔ぶれ・日本語 SSML の対応タグ(読み仮名・音素・固有名詞指定)・音声クローンの同意/審査要件・課金単位は変化が速い。本文は選定軸と統制の類型に徹しており、採用時に各社公式ページと調査メモ `research/multimodal/realtime-tts.md` で最新を確認する。とくに日本語の発音制御は実機での検証が要る(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/12-multimodal/video-ai-overview.md",
+    "line": 132,
+    "month": "2026-08",
+    "text": "動画生成モデルの顔ぶれ・尺・解像度・音声同期・来歴機能・商用利用条件、および動画理解のトークン課金・既定 FPS は変化が非常に速い。本文は現在地の読み方と類型に徹しており、採用時に各社公式ページ・利用規約と調査メモ `research/multimodal/generation.md` の「変わりやすい項目」で最新を確認する。権利の可否は断定せず法務で確認する(最終確認: 2026-08)"
+  },
+  {
+    "file": "docs/13-domain-agents/hr-and-recruitment-ai.md",
+    "line": 133,
+    "month": "2026-09",
+    "text": "導入する地域・用途ごとに、本文の厚生労働省・個人情報保護委員会・欧州委員会・EEOC・DCWP の公式ページで、対象範囲・義務・適用日の変更を法務と確認する。2026-09-10 は確認先を調べた日であり、個別案件への適合判断は未実施(最終確認: 2026-09)"
+  },
+  {
+    "file": "docs/13-domain-agents/legal-review-agents.md",
+    "line": 127,
+    "month": "2026-07",
+    "text": "AI による法務支援と業際規制(弁護士法等)の関係の最新を一次情報で確認する。本記事は内容を断定せず確認先の提示に留めるため、具体の適法性は各社の法務・弁護士と [業界別規制の入口マップ](../09-business/industry-regulations-map.md) で追う(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/13-domain-agents/rpa-and-agents.md",
+    "line": 145,
+    "month": "2026-07",
+    "text": "主要 RPA/自動化ベンダーのエージェント機能・提供形態(クラウド/オンプレ・ライセンス階層・統制機能)の最新を各社公式で確認する。製品名・機能名は本文に固定せず `research/domain-agents/rpa.md` と本節に閉じ込める(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/15-human-ai/ai-career-strategy.md",
+    "line": 122,
+    "month": "2026-07",
+    "text": "労働市場・職種の動向は変化が速く、本記事は意図的に断定的予測を避けている。個別の意思決定にあたっては、最新の一次情報(公的統計・信頼できる調査)を各自で確認する(最終確認: 2026-07)"
+  },
+  {
+    "file": "docs/15-human-ai/automation-bias-and-deskilling.md",
+    "line": 127,
+    "month": "2026-07",
+    "text": "LLM 協働文脈でのオートメーションバイアス・スキル退化の実証研究は増えつつある(例: 専門家でも誤った LLM 助言で判断精度が下がりうる、との報告)。古典(1983〜2010)の枠組みは安定だが、AI 固有の最新知見は各研究の一次情報で確認する(最終確認: 2026-07)"
+  }
+]

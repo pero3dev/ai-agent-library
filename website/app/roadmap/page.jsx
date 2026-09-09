@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function RoadmapPage() {
   return (
-    <main className="page-shell">
+    <main id="nextra-skip-nav" tabIndex={-1} className="page-shell">
       <p className="home-section-kicker">DEPENDENCY MAP</p>
       <h1 className="page-title">依存マップ</h1>
       <p className="page-lead">

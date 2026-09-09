@@ -1,0 +1,52 @@
+AI Agent Library website review evidence (2026-09-10)
+Workspace: C:\dev\ai-agent-library
+Scope: website/ and .github/workflows/ci.yml. Read-only review; generated build artifacts permitted.
+No tracked source edits, dependency upgrades, deployment, push, or messaging to third parties.
+Runtime: Windows PowerShell, Node v24.16.0. CI Node 22 runtime was not reproduced.
+
+Command: cd website; STATIC_EXPORT=1, NEXT_PUBLIC_BASE_PATH=/ai-agent-library, NEXT_PUBLIC_SITE_URL=https://pero3dev.github.io/ai-agent-library; npm run build:clean
+Result: exit 0. Next.js 16.3.1. Compiled in 71s; generated 229 static pages.
+Sync: 221 input Markdown files, 16 sections, 153 glossary terms, 222 expected content routes.
+Postbuild: Pagefind 1.5.2 Extended, 228 HTML files, 222 indexed Japanese pages, 10136 words. Expected route check 222/222.
+Output: C:\dev\ai-agent-library\website\out
+Warnings: inferred workspace root from multiple lockfiles; generated untracked MDX files have no Git last-modified timestamps.
+
+Command: cd website; npm audit --json
+Result: exit 1; critical 1, high 2, moderate 2, total 5 affected packages.
+Affected locked versions: next 16.3.1, sharp 0.35.3, @xmldom/xmldom 0.9.10. Also baseline-browser-mapping and speech-rule-engine.
+CI enforces npm audit --audit-level=high in .github/workflows/ci.yml:102-104; deploy depends on build at line 122.
+Verified advisories:
+https://github.com/advisories/GHSA-p293-qw3h-jr36 (patched Next.js 16.3.3)
+https://github.com/advisories/GHSA-2xp9-vwfh-vxw4 (patched Next.js 16.3.3)
+https://github.com/advisories/GHSA-rgj7-g3m4-5g8c (patched sharp 0.35.4)
+Static GitHub Pages deployment does not run Next.js server or image optimization; public RCE exposure was not established.
+
+Generated HTML inspection: Python HTMLParser over all 228 HTML files; 117071 anchor href attributes.
+Resolved local path candidates: literal path, path.html, path/index.html after stripping /ai-agent-library; external links excluded.
+Missing local paths: 0. Links escaping configured basePath: 0.
+Missing fragment IDs: 6, all #nextra-skip-nav on index.html, glossary.html, roadmap.html, tags.html, 404.html, _not-found.html.
+No real browser UI or Lighthouse run. Root agent reported CUA available browsers=[] and handled static server separately.
+
+Generated Pagefind runtime check: loaded actual generated JS/WASM in Node with file-fetch adapter; options({baseUrl:'/'}) matching Nextra.
+Query: ツール使用. Results: 2.
+/docs/concepts/tool-use.html - ツール使用(Tool Use / Function Calling)
+/docs/examples/python-tool-use.html - tool-use — ツール使用の最小 Agent ループ(Python)
+Nextra Search renders results as NextLink, which applies configured basePath. Browser search interaction not performed.
+
+MDX guard proof (no files changed): source Markdown <GlossaryTerm href={1+1}>probe</GlossaryTerm>
+Passed equivalent remark Markdown parser and remark-mdx writer, then exact assertSafeMdx function extracted from repository source.
+Guard errors: []. AST retains mdxJsxAttributeValueExpression with value 1+1.
+@mdx-js/mdx evaluate using React jsx runtime returned props.href=2 and children=probe.
+Cause: website/scripts/sync-content.mjs:115-120 checks allowed JSX names and only walks children, never expression-valued attributes.
+Threat model: Markdown-only contributions assumed non-executable by documented guard; not isolation against repository-wide source writers.
+No malicious code, secrets read, external requests, or filesystem side effects were used in the proof.
+
+Index drift: website/content-src/index.mdx:19-20 ends section links at 10-llm-foundations.
+Generated sections 11-15 exist with 8+7+12+5+4=36 articles, but have no entry in the /docs body list.
+
+Additional document findings:
+ROI incorrectly defined as net benefit (difference) in docs/09-business/roi-and-business-case.md:28-30.
+Primary definition https://business.gov.au/finance/financial-tools-and-templates/key-financial-terms: net profit divided by investment cost, expressed as percentage.
+Potential double counting: review labor listed as cost and subtracted again in benefit hours; should clarify accounting basis.
+Shadow-run safety condition missing in docs/09-business/poc-to-production.md:78 ('zero impact' despite no explicit side-effect suppression).
+Canonical local articles require suppressing side-effecting tools: docs/05-operations/versioning-and-model-updates.md:63,94; docs/04-evaluation/online-evaluation-and-ab-testing.md:78.

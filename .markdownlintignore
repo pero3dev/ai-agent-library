@@ -9,3 +9,6 @@ website/content/
 website/generated/
 website/node_modules/
 website/.next/
+website/out/
+website/test-results/
+website/playwright-report/

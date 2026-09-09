@@ -1,0 +1,351 @@
+{
+  "python": "3.11.3 | packaged by Anaconda, Inc. | (main, Apr 19 2023, 23:46:34) [MSC v.1916 64 bit (AMD64)]",
+  "root": "C:\\dev\\ai-agent-library\\examples\\python",
+  "live_llm_requests": 0,
+  "packages": {
+    "anthropic": "0.116.0",
+    "mcp": "1.28.1"
+  },
+  "smoke": [
+    {
+      "folder": "structured-output",
+      "command": [
+        "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-review-examples-acb2d66d5c75411c9b54019364d7139c\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "structured_output.py",
+        "--mock"
+      ],
+      "exit": 0,
+      "stdout": "[試行 1] 検証 NG: priority は ['低', '中', '高'] のいずれか(実際: '至急')\n[試行 2] 検証 OK: {\"category\": \"請求\", \"priority\": \"高\", \"summary\": \"二重引き落としの確認依頼\"}\n最終結果: {\"category\": \"請求\", \"priority\": \"高\", \"summary\": \"二重引き落としの確認依頼\"}\n",
+      "stderr": ""
+    },
+    {
+      "folder": "evaluation-harness",
+      "command": [
+        "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-review-examples-acb2d66d5c75411c9b54019364d7139c\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "eval_harness.py",
+        "--mock"
+      ],
+      "exit": 0,
+      "stdout": "=== ケース別結果 ===\n  [OK ] c1: 予測='請求' / 正解='請求'\n  [OK ] c2: 予測='技術' / 正解='技術'\n  [OK ] c3: 予測='解約' / 正解='解約'\n  [NG ] c4: 予測='その他' / 正解='請求'\n  [OK ] c5: 予測='技術' / 正解='技術'\n=== 合格率: 4/5 = 80%(閾値 80%)===\n",
+      "stderr": ""
+    },
+    {
+      "folder": "rag-basics",
+      "command": [
+        "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-review-examples-acb2d66d5c75411c9b54019364d7139c\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "rag.py",
+        "--mock",
+        "経費の申請締切はいつですか?"
+      ],
+      "exit": 0,
+      "stdout": "質問: 経費の申請締切はいつですか?\n=== 検索結果(上位) ===\n  [d2] score=0.377 : 経費の申請締切は毎月末日です。締切を過ぎた申請は翌月分として扱われ、翌月の給与で精算されます。\n  [d4] score=0.151 : 5 万円以上の経費は事前申請と上長承認が必要です。承認されていない高額経費は差し戻されます。\n=== 回答 ===\n(モック生成)資料によると: 経費の申請締切は毎月末日です。締切を過ぎた申請は翌月分として扱われ、翌月の給与で精算されます。 [d2]\n",
+      "stderr": ""
+    },
+    {
+      "folder": "multi-agent",
+      "command": [
+        "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-review-examples-acb2d66d5c75411c9b54019364d7139c\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "multi_agent.py",
+        "--mock"
+      ],
+      "exit": 0,
+      "stdout": "タスク: 東京・大阪・札幌の気温を調べて、平均気温を求める\n=== 計画役の分解 ===\n  1. 東京\n  2. 大阪\n  3. 札幌\n=== 実行役の実行 ===\n  - 東京の気温は 28 度でした。(気温=28)\n  - 大阪の気温は 30 度でした。(気温=30)\n  - 札幌の気温は 24 度でした。(気温=24)\n=== 集約 ===\n  平均気温: 27.3 度(3 都市)\n",
+      "stderr": ""
+    },
+    {
+      "folder": "mcp-server",
+      "command": [
+        "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-review-examples-acb2d66d5c75411c9b54019364d7139c\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "mcp_server.py",
+        "--mock"
+      ],
+      "exit": 0,
+      "stdout": "get_expense_policy('締切') -> 経費の申請締切は毎月末日です。締切超過分は翌月扱いになります。\nget_expense_policy('謎') -> 該当する規定が見つかりませんでした。項目例: 締切 / 上限 / 領収書\nsubmit_expense(3000, 'タクシー') -> 受理: 3000 円の経費申請を提出しました(用途: タクシー)。\nsubmit_expense(80000, 'PC') -> 承認が必要: 80000 円の申請は上長承認が必要です。承認ゲートに回しました(自動提出はしません)。\n自己テスト OK: 上限チェックとツール動作を確認しました。\n",
+      "stderr": ""
+    }
+  ],
+  "evaluation_false_positive": [
+    {
+      "id": "c1",
+      "input": "請求額が二重に引き落とされています",
+      "expected": "請求",
+      "raw": "請求ではありません。判定できません。",
+      "predicted": "請求",
+      "ok": true
+    },
+    {
+      "id": "c2",
+      "input": "アプリが起動しません。エラーコード 500 が出ます",
+      "expected": "技術",
+      "raw": "技術ではありません。判定できません。",
+      "predicted": "技術",
+      "ok": true
+    },
+    {
+      "id": "c3",
+      "input": "来月末で解約したいです",
+      "expected": "解約",
+      "raw": "解約ではありません。判定できません。",
+      "predicted": "解約",
+      "ok": true
+    },
+    {
+      "id": "c4",
+      "input": "先月分の領収書を再発行してください",
+      "expected": "請求",
+      "raw": "請求ではありません。判定できません。",
+      "predicted": "請求",
+      "ok": true
+    },
+    {
+      "id": "c5",
+      "input": "ログインするとすぐに落ちます",
+      "expected": "技術",
+      "raw": "技術ではありません。判定できません。",
+      "predicted": "技術",
+      "ok": true
+    }
+  ],
+  "multi_agent_invalid_plans": [
+    {
+      "plan": "",
+      "return": null,
+      "stdout": "タスク: 東京・大阪・札幌の気温を調べて、平均気温を求める\n=== 計画役の分解 ===\n=== 実行役の実行 ===\n=== 集約 ===\n  平均気温: 0.0 度(0 都市)\n",
+      "stderr": ""
+    },
+    {
+      "plan": "東京\n大阪\n北海道札幌市",
+      "return": null,
+      "stdout": "タスク: 東京・大阪・札幌の気温を調べて、平均気温を求める\n=== 計画役の分解 ===\n  1. 東京\n  2. 大阪\n  3. 北海道札幌市\n=== 実行役の実行 ===\n  - reported(気温=28)\n  - reported(気温=30)\n  - reported(気温=-999)\n=== 集約 ===\n  平均気温: 29.0 度(2 都市)\n",
+      "stderr": ""
+    },
+    {
+      "plan": "東京\n大阪\n札幌\n東京",
+      "return": null,
+      "stdout": "タスク: 東京・大阪・札幌の気温を調べて、平均気温を求める\n=== 計画役の分解 ===\n  1. 東京\n  2. 大阪\n  3. 札幌\n  4. 東京\n=== 実行役の実行 ===\n  - reported(気温=28)\n  - reported(気温=30)\n  - reported(気温=24)\n  - reported(気温=28)\n=== 集約 ===\n  平均気温: 27.5 度(4 都市)\n",
+      "stderr": ""
+    }
+  ],
+  "tool_invalid_months": {
+    "abcd-ef": {
+      "count": 0,
+      "records": []
+    },
+    "2026-13": {
+      "count": 0,
+      "records": []
+    },
+    "2026-00": {
+      "count": 0,
+      "records": []
+    }
+  },
+  "tool_incomplete_stops": [
+    {
+      "stop_reason": "max_tokens",
+      "return": "first",
+      "stdout": "",
+      "stderr": "[warn] stop_reason=max_tokens\n"
+    },
+    {
+      "stop_reason": "model_context_window_exceeded",
+      "return": "first",
+      "stdout": "",
+      "stderr": "[warn] stop_reason=model_context_window_exceeded\n"
+    },
+    {
+      "stop_reason": "end_turn",
+      "return": "first",
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "anthropic_real_sdk_mock_http": {
+    "return": "mocked-http-complete",
+    "stdout": "",
+    "stderr": "[step 1] tool: search_expenses input: {'employee_id': 'E12345', 'month': '2026-06'}\n[step 1] tool: search_expenses input: {'employee_id': 'E12345', 'month': '2026/06'}\n",
+    "request_bodies": [
+      {
+        "max_tokens": 16000,
+        "messages": [
+          {
+            "role": "user",
+            "content": "audit"
+          }
+        ],
+        "model": "claude-opus-4-8",
+        "system": "あなたは社内の経費精算アシスタントです。ツールで取得した事実だけに基づいて回答し、データにないことは推測せず「分かりません」と答えてください。金額は日本円で、内訳が分かる形で報告してください。",
+        "tools": [
+          {
+            "name": "search_expenses",
+            "description": "社員の経費精算履歴を検索します。精算の状況・金額・日付についての質問を受けたときに使ってください。経費の新規申請・修正・削除はできません(照会専用)。月をまたぐ質問は月ごとに複数回呼び出してください。",
+            "input_schema": {
+              "type": "object",
+              "properties": {
+                "employee_id": {
+                  "type": "string",
+                  "description": "社員 ID(例: E12345)"
+                },
+                "month": {
+                  "type": "string",
+                  "description": "対象月。YYYY-MM 形式(例: 2026-06)"
+                }
+              },
+              "required": [
+                "employee_id",
+                "month"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "max_tokens": 16000,
+        "messages": [
+          {
+            "role": "user",
+            "content": "audit"
+          },
+          {
+            "role": "assistant",
+            "content": [
+              {
+                "id": "tool-1",
+                "input": {
+                  "employee_id": "E12345",
+                  "month": "2026-06"
+                },
+                "name": "search_expenses",
+                "type": "tool_use"
+              },
+              {
+                "id": "tool-2",
+                "input": {
+                  "employee_id": "E12345",
+                  "month": "2026/06"
+                },
+                "name": "search_expenses",
+                "type": "tool_use"
+              }
+            ]
+          },
+          {
+            "role": "user",
+            "content": [
+              {
+                "type": "tool_result",
+                "tool_use_id": "tool-1",
+                "content": "{\"count\": 2, \"records\": [{\"date\": \"2026-06-03\", \"amount\": 12800, \"category\": \"出張交通費\", \"status\": \"精算済み\"}, {\"date\": \"2026-06-17\", \"amount\": 4500, \"category\": \"書籍\", \"status\": \"承認待ち\"}]}",
+                "is_error": false
+              },
+              {
+                "type": "tool_result",
+                "tool_use_id": "tool-2",
+                "content": "ツールエラー: month は YYYY-MM 形式で指定してください(例: 2026-06)",
+                "is_error": true
+              }
+            ]
+          }
+        ],
+        "model": "claude-opus-4-8",
+        "system": "あなたは社内の経費精算アシスタントです。ツールで取得した事実だけに基づいて回答し、データにないことは推測せず「分かりません」と答えてください。金額は日本円で、内訳が分かる形で報告してください。",
+        "tools": [
+          {
+            "name": "search_expenses",
+            "description": "社員の経費精算履歴を検索します。精算の状況・金額・日付についての質問を受けたときに使ってください。経費の新規申請・修正・削除はできません(照会専用)。月をまたぐ質問は月ごとに複数回呼び出してください。",
+            "input_schema": {
+              "type": "object",
+              "properties": {
+                "employee_id": {
+                  "type": "string",
+                  "description": "社員 ID(例: E12345)"
+                },
+                "month": {
+                  "type": "string",
+                  "description": "対象月。YYYY-MM 形式(例: 2026-06)"
+                }
+              },
+              "required": [
+                "employee_id",
+                "month"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "mcp_real_stdio": {
+    "protocol": "2025-11-25",
+    "tools": [
+      "get_expense_policy",
+      "submit_expense"
+    ],
+    "calls": [
+      {
+        "amount": -1,
+        "isError": false,
+        "content": [
+          "エラー: 金額が不正です。"
+        ]
+      },
+      {
+        "amount": 0,
+        "isError": false,
+        "content": [
+          "受理: 0 円の経費申請を提出しました(用途: audit)。"
+        ]
+      },
+      {
+        "amount": 49999,
+        "isError": false,
+        "content": [
+          "受理: 49999 円の経費申請を提出しました(用途: audit)。"
+        ]
+      },
+      {
+        "amount": 50000,
+        "isError": false,
+        "content": [
+          "承認が必要: 50000 円の申請は上長承認が必要です。承認ゲートに回しました(自動提出はしません)。"
+        ]
+      },
+      {
+        "amount": 1.5,
+        "isError": true,
+        "content": [
+          "Error executing tool submit_expense: 1 validation error for submit_expenseArguments\namount\n  Input should be a valid integer, got a number with a fractional part [type=int_from_float, input_value=1.5, input_type=float]\n    For further information visit https://errors.pydantic.dev/2.13/v/int_from_float"
+        ]
+      },
+      {
+        "amount": true,
+        "isError": false,
+        "content": [
+          "受理: 1 円の経費申請を提出しました(用途: audit)。"
+        ]
+      },
+      {
+        "amount": "bad",
+        "isError": true,
+        "content": [
+          "Error executing tool submit_expense: 1 validation error for submit_expenseArguments\namount\n  Input should be a valid integer, unable to parse string as an integer [type=int_parsing, input_value='bad', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/int_parsing"
+        ]
+      }
+    ]
+  }
+}

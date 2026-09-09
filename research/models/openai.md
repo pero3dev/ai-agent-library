@@ -2,11 +2,22 @@
 
 - **対象**: OpenAI のモデルファミリー(2026-07 時点の現行世代)
 - **調査日**: 2026-07-06
-- **更新日**: 2026-08-18(四半期定点観測。文末の「観測ログ(2026-08-18 定点観測)」に GPT-5.6 世代・`reasoning.mode`・退役 2 件を追記。本文の表は 2026-07-06 時点のまま)
+- **更新日**: 2026-09-10(レビュー S04 による部分確認。下記 9 月の記録を優先し、7 月・8 月の表は当時の履歴として保持)
 - **用途**: 「主要 LLM の全体像(モデルカタログ)」「モデル選定ガイド」執筆の一次資料
 - **根拠の方針**: OpenAI 公式ドキュメント(developers.openai.com / openai.com)と Microsoft Learn(Azure 公式)のみを根拠とします。第三者記事・ベンチマークまとめサイトは使用していません
 - **確度表記**: 「公式明記」= 公式ページに明文あり / 「公式から推測」= 公式記述からの合理的推測 / 「未確認」= 今回確認できず
 - **重要な注意**: 旧 `platform.openai.com/docs/*` は `developers.openai.com/api/docs/*` へ 301 リダイレクトされます(2026-07-06 確認)。定点観測 URL は新ドメイン側を正とします
+
+## 2026-09-10 レビュー修正時の部分確認
+
+| 確認対象 | 結果 | 一次資料 |
+| --- | --- | --- |
+| モデル構成 | GPT-6 Astra が最上位として追加され、GPT-5.6 Sol / Terra / Luna も掲載されています | [モデル一覧](https://developers.openai.com/api/docs/models) |
+| Astra の条件 | モデル ID `gpt-6-astra`、effort は low〜max。長文・キャッシュ・実行モードの料金条件をモデル別に確認する必要があります | [Astra](https://developers.openai.com/api/docs/models/gpt-6-astra) |
+| Codex の退役と API | ChatGPT 認証の Codex の GPT-5.4 系退役を、API キー認証や API モデルの提供終了へ一般化しません | [Codex Models](https://learn.chatgpt.com/docs/models) |
+| API の退役日 | 本文の英語月表記を確認し、GPT-5 初代・o3/o3-pro の対象スナップショットは Dec 11, 2026、旧音声系の対象モデルは Jan 20, 2027 の終了予定を再確認。2026-08-26 告知の文字起こしモデルの Feb 26, 2027 終了予定も反映しました。ID 単位の対象確認が必要です | [Deprecations](https://developers.openai.com/api/docs/deprecations) |
+
+アクセス日はいずれも 2026-09-10 です。確認した差分は [モデルカタログ](../../docs/03-implementation/llm-landscape.md) へ反映しました。他社・Azure の提供条件、全 API の退役項目、プラン別利用枠を一括再確認したものではありません。
 
 主な出典(いずれも確認日 2026-07-06):
 

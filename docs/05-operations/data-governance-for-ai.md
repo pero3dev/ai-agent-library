@@ -3,7 +3,7 @@ title: "AI のためのデータガバナンス"
 category: "operations"
 level: "intermediate"
 status: "published"
-last_updated: "2026-07-08"
+last_updated: "2026-09-10"
 tags: ["data-governance", "data-quality"]
 ---
 
@@ -11,7 +11,7 @@ tags: ["data-governance", "data-quality"]
 
 ## この記事の目的
 
-「AI の品質は知識源の品質で決まる」という構造を、個人の頑張りではなく**組織の仕組み**に変えられるようになります。データオーナーシップ・AI 向けデータカタログ・品質基準・AI 利用可否の分類を設計し、AI 導入をデータ衛生の改善につなげる運用を作れる状態がゴールです。
+知識源の品質が RAG・ナレッジ Agent の品質を制約する問題を、**組織の仕組み**で扱えるようになります。データオーナーシップ・AI 向けデータカタログ・品質基準・AI 利用可否の分類を設計し、AI 導入をデータ衛生の改善につなげる運用を作れる状態がゴールです。
 
 ## 対象読者
 
@@ -21,7 +21,7 @@ tags: ["data-governance", "data-quality"]
 ## 前提知識
 
 - [LLM 向けデータ前処理パイプライン](../03-implementation/data-preprocessing-for-llm.md) — 知識源を取り込む技術側(本記事はその組織・運用側)
-- [ケーススタディ: 社内ナレッジ Agent](../07-case-studies/case-study-knowledge-agent.md) — 「知識源の品質が Agent の品質」を物語で示す事例
+- [ケーススタディ: 社内ナレッジ Agent](../07-case-studies/case-study-knowledge-agent.md) — 知識源の品質と権限を扱う架空の設計例
 
 ## 本文
 
@@ -38,7 +38,7 @@ tags: ["data-governance", "data-quality"]
 
 ### AI 品質はデータ品質に律速される
 
-RAG・ナレッジ Agent の品質は、モデルやプロンプトの上手さ以前に、**知識源データの品質で頭打ち**になります([ケーススタディ: 社内ナレッジ Agent](../07-case-studies/case-study-knowledge-agent.md) が示すとおり)。
+RAG・ナレッジ Agent では、誤った・古い知識源を使い続けると、検索や生成だけの改善では誤答を解消できない場合があります。以下はその問題を考えるための例です。[ケーススタディ: 社内ナレッジ Agent](../07-case-studies/case-study-knowledge-agent.md)も架空の設計例として参照できます。
 
 - 古い規定が検索に載れば、Agent は自信を持って古い答えを返します
 - 責任者不明の文書は、間違いを見つけても誰も直せません
@@ -124,13 +124,14 @@ RAG・ナレッジ Agent の品質は、モデルやプロンプトの上手さ�
 - [会話データの管理基盤](conversation-data-management.md) — 「AI が生むデータ(会話ログ)」の管理(対になる記事)
 - [コンプライアンスとガバナンス](../06-security/compliance-and-governance.md) — 規制・AI 利用ポリシー・監査(制度面の正本)
 - [LLM 向けデータ前処理パイプライン](../03-implementation/data-preprocessing-for-llm.md) — 知識源を取り込む技術側(メタデータ・重複排除)
-- [ケーススタディ: 社内ナレッジ Agent](../07-case-studies/case-study-knowledge-agent.md) — データ品質が Agent 品質を決める事例
+- [ケーススタディ: 社内ナレッジ Agent](../07-case-studies/case-study-knowledge-agent.md) — データ品質・権限管理を扱う架空の設計例
 - [フィードバックループの運用](feedback-loops.md) — 知識源の問題を改善タスクに還流させる仕組み
 - [データ漏えい対策](../06-security/data-exfiltration.md) — 権限・機微度の分類が防ぐ漏えい
 
 ## 参考資料
 
-- なし(AI のためのデータガバナンスは、確立したデータマネジメントの実践(オーナーシップ・カタログ・品質管理)を AI 特有の要件 — 知識源の鮮度・AI 利用可否の分類 — に沿って整理したものであり、単一の一次資料はありません。規制・コンプライアンス面は [コンプライアンスとガバナンス](../06-security/compliance-and-governance.md) の参考資料を参照してください)
+- [Gebru et al. — Datasheets for Datasets](https://arxiv.org/abs/1803.09010) — データセットの目的・構成・収集方法・推奨用途などを文書化する提案。本記事では知識源のカタログと責任分担の設計に応用しています(アクセス日: 2026-09-10)
+- 規制・コンプライアンス面の一次資料は[コンプライアンスとガバナンス](../06-security/compliance-and-governance.md)を参照してください。
 
 ## TODO・未確認事項
 

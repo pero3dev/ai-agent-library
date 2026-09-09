@@ -26,3 +26,5 @@ website/generated/
 website/public/_pagefind/
 website/next-env.d.ts
 website/dev-server.log
+website/test-results/
+website/playwright-report/

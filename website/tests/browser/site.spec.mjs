@@ -4,6 +4,18 @@ import { readFileSync } from 'node:fs'
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
 const route = value => `${basePath}${value}`
 
+test('static export serves canonical RSC prefetch segment filenames', async ({ request }) => {
+  for (const pathname of [
+    '/roadmap/__next.roadmap.__PAGE__.txt',
+    '/docs/concepts/tool-use/__next.docs.$oc$mdxPath.__PAGE__.txt'
+  ]) {
+    const response = await request.get(route(pathname))
+    expect(response.status()).toBe(200)
+    expect(response.headers()['content-type']).toContain('text/plain')
+    expect(await response.text()).not.toMatch(/<!doctype html/i)
+  }
+})
+
 for (const pathname of ['/', '/glossary', '/roadmap', '/tags', '/review-missing-page']) {
   test(`keyboard skip link moves focus to main: ${pathname}`, async ({ page }) => {
     const response = await page.goto(route(pathname))
@@ -29,12 +41,9 @@ test('dependency graph shows every section and navigates from a node', async ({ 
   await graph.scrollIntoViewIfNeeded()
   await expect(graph.locator('.react-flow__node')).toHaveCount(16)
   const concepts = graph.locator('.react-flow__node[data-id="concepts"]')
-  // fitView can move the node after its initial layout. Re-enter after that movement.
-  await expect(async () => {
-    await page.mouse.move(0, 0)
-    await concepts.hover()
-    await expect(graph.locator('.dep-panel-title')).toHaveText('01. 基礎概念', { timeout: 500 })
-  }).toPass({ timeout: 10_000 })
+  await concepts.hover()
+  await expect(graph.locator('.dep-panel-title')).toHaveText('01. 基礎概念')
+  await expect(concepts).toBeVisible()
   await concepts.click()
   await expect(page).toHaveURL(/\/docs\/concepts(?:\.html)?$/)
 })

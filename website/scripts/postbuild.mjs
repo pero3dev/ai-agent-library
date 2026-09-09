@@ -8,12 +8,16 @@
 import { execSync } from 'node:child_process'
 import { cpSync, existsSync, readFileSync, rmSync } from 'node:fs'
 import { checkExportSkipTargets, missingSectionLinks } from '../lib/export-checks.mjs'
+import { materializeExportSegments } from '../lib/export-segments.mjs'
 
 execSync('npx pagefind --site .next/server/app --output-path public/_pagefind', {
   stdio: 'inherit'
 })
 
 if (existsSync('out')) {
+  const segments = materializeExportSegments('out')
+  console.log(`postbuild: セグメント互換出力 ${segments.created} 件追加、${segments.existing} 件は同一内容を確認`)
+
   rmSync('out/_pagefind', { recursive: true, force: true })
   cpSync('public/_pagefind', 'out/_pagefind', { recursive: true })
   console.log('postbuild: public/_pagefind → out/_pagefind に複製しました')

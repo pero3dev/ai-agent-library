@@ -3,7 +3,7 @@
 import { Background, Controls, ReactFlow } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import sections from '../../generated/sections.json'
 
 /**
@@ -75,7 +75,9 @@ export function DependencyGraph() {
   const isDark = useIsDark()
   const [hovered, setHovered] = useState(null)
 
-  const nodes = sections.map(section => ({
+  // Keep user-node references stable during hover updates. React Flow retains
+  // measured dimensions by reference; recreating nodes hides them until remeasured.
+  const nodes = useMemo(() => sections.map(section => ({
     id: section.slug,
     position: POSITIONS[section.slug] ?? { x: 0, y: 0 },
     data: {
@@ -91,15 +93,15 @@ export function DependencyGraph() {
     },
     className: 'dep-node',
     style: { width: 200 }
-  }))
+  })), [])
 
-  const edges = EDGES.map(([source, target, variant]) => ({
+  const edges = useMemo(() => EDGES.map(([source, target, variant]) => ({
     id: `${source}-${target}`,
     source,
     target,
     animated: false,
     style: variant === 'dashed' ? { strokeWidth: 1.5, strokeDasharray: '6 4' } : { strokeWidth: 1.5 }
-  }))
+  })), [])
 
   const hoveredSection = hovered ? sections.find(s => s.slug === hovered) : null
 

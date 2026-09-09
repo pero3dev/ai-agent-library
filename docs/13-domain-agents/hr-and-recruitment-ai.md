@@ -3,7 +3,7 @@ title: "人事・採用領域の AI(高リスク用途の設計)"
 category: "domain-agents"
 level: "intermediate"
 status: "published"
-last_updated: "2026-07-09"
+last_updated: "2026-09-10"
 tags: ["hr", "recruitment", "fairness", "high-risk"]
 ---
 
@@ -24,13 +24,13 @@ tags: ["hr", "recruitment", "fairness", "high-risk"]
 
 - [公平性・バイアスの評価](../04-evaluation/fairness-and-bias-evaluation.md) — 属性による差を測る評価(本記事の公平性の適用先)
 - [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) — 「最終判断は人」を組み込む設計
-- [業界別規制の入口マップ](../09-business/industry-regulations-map.md) — 規制の確認先(入口マップ方式)
+- [業界別規制の入口マップ](../09-business/industry-regulations-map.md) — 金融・医療等の確認先を整理する方法(人事・採用の確認先は本記事の本文)
 
 ## 本文
 
 ### 概要: 人事・採用は「間違えると人生に影響する」高リスク用途
 
-人事・採用の AI は、採否・評価という**個人の人生に直接影響する判断**に関わります。誤りや偏りが、特定の属性の人を不当に排除しうるため、多くの枠組みで「高リスク」に分類される領域です。技術的に「できる」ことと、「やってよい・どこまで任せてよい」ことの間に、大きな隔たりがあります。
+人事・採用の AI は、採否・評価という**個人の人生に直接影響する判断**に関わります。誤りや偏りが、特定の属性の人を不当に排除しうるため、重大な被害を想定して設計します。法令上の「高リスク」分類や義務の適用は地域・用途で異なり、本文の確認先から個別に確かめます。
 
 したがって設計は、精度の追求だけでなく、**公平性・透明性・人の最終判断・規制の確認**を前提から組み込みます。本記事は規制の内容には踏み込まず(免責のとおり)、設計者が押さえるべき論点と、確認すべき一次情報の所在を示します。
 
@@ -44,7 +44,7 @@ tags: ["hr", "recruitment", "fairness", "high-risk"]
 | 面接支援 | 質問案の生成・記録の整理 | 評価そのものは人。記録・補助に留める |
 | 評価支援 | 評価材料の整理・観点の提示 | 評価の決定は人。材料提供に留める |
 
-- **「最終判断は人」が構造的に要る**: 採否・評価の最終決定を AI に委ねることは、規制・倫理の両面で強く戒められます。AI は材料を整理・提示し、**判断は人が行い、その判断に責任を持つ**構造にします([Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md))
+- **「最終判断は人」を設計方針にする**: 本記事では、個人への不利益を見落とさないため、AI が材料を整理・提示し、**判断は人が行い、その判断に責任を持つ**構造を推奨します。人が根拠を確認し、AI の提案を却下・修正できる権限と時間を確保します([Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md))
 - **自動的な不利益処分を避ける**: 「AI が自動で不合格にする」ような、人の関与なく個人に不利益を与える設計は、特に慎重にします。支援と自動決定の境界を明確にします
 - **用途ごとにリスクを評価する**: すべてを一律に扱わず、用途ごとに「間違えたときの被害」と「必要な人の関与」を評価します([ユースケース発見](../09-business/usecase-discovery.md))
 
@@ -61,9 +61,19 @@ tags: ["hr", "recruitment", "fairness", "high-risk"]
 
 人事・採用の AI には、地域・分野ごとに規制やガイドラインが関わりえます。本記事は内容を解説せず、**確認先の所在**を示します(免責のとおり)。
 
-- **高リスク分類の枠組みを確認する**: 一部の枠組みでは、雇用・採用での AI 利用が「高リスク」に位置づけられ、固有の要求(リスク管理・透明性・人の監督など)がかかりえます。適用の有無・内容は[業界別規制の入口マップ](../09-business/industry-regulations-map.md)を入口に、一次情報で確認します
+- **高リスク分類の枠組みを確認する**: 雇用・採用での AI 利用について、下表の欧州委員会の AI Act 案内から高リスク分類、適用日、提供者・利用者の義務の原文へ進みます。対象地域・用途・当事者の役割を特定してから適用を確認します
 - **国内の労働・職業関連の枠組みを確認する**: 採用・雇用に関わる国内の法令・指針が関わりえます。これも一次情報で確認します([コンプライアンスとガバナンス](../06-security/compliance-and-governance.md)の規制層)
 - **確認先の提示に徹する**: 本記事は「どの規制がどう適用されるか」を断定しません。何を・どの一次情報で確認するかの所在を示し、判断は法務・専門家に委ねます
+
+| 地域・論点 | 一次情報の確認先 | 導入前に確認すること |
+| --- | --- | --- |
+| 日本・採用基準 | [厚生労働省: 公正な採用選考の基本](https://kouseisaiyou.mhlw.go.jp/basic.html) | 職務の適性・能力に基づく選考と、収集・評価に含める情報の妥当性 |
+| 日本・応募者データ | [個人情報保護委員会: 通則編](https://www.ppc.go.jp/personalinfo/legal/guidelines_tsusoku/) | 利用目的、要配慮個人情報、委託・第三者提供、安全管理。海外移転は該当する別編も確認 |
+| EU・AI の用途分類 | [欧州委員会: AI Act](https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai) | 雇用・採用用途の分類、適用日、例外、人の監督等の要求 |
+| 米国・障害と採用ツール | [EEOC: Artificial Intelligence and the ADA](https://www.eeoc.gov/eeoc-disability-related-resources/artificial-intelligence-and-ada) | 障害者差別や合理的配慮に関する採用ツールの論点 |
+| 米国ニューヨーク市・自動採用判断 | [DCWP: Automated Employment Decision Tools](https://home4.nyc.gov/site/dca/about/automated-employment-decision-tools.page) | 対象ツール・地域の定義、バイアス監査、結果公表、通知の要否 |
+
+確認先のアクセス日は 2026-09-10 です。この表は地域を網羅するものでも、各製品が適合するという判定でもありません。本記事の「最終判断は人」は導入時の設計方針です。人が承認する構成だけで規制要件を満たすとはせず、用途・データ・運用を含めて確認します。
 
 ### 候補者・従業員への透明性
 
@@ -85,7 +95,7 @@ tags: ["hr", "recruitment", "fairness", "high-risk"]
 
 ### アンチパターン
 
-- **採否・評価の最終判断を AI に委ねる** → 規制・倫理の両面で問題があり、誤りが個人の人生に影響する → 最終判断は人が行い責任を持つ構造にする
+- **採否・評価の最終判断を検証なく AI に委ねる** → 誤りや偏りが個人に不利益を与える → 人が根拠を検証して最終判断し、適用される規制も確認する
 - **人の関与なく自動で不利益処分をする** → 不当な排除のリスク → 支援と自動決定の境界を明確にし、自動不合格を避ける
 - **公平性を一度測って終わりにする** → モデル更新・変化で偏りが再発する → 属性による差を運用に組み込んで継続測定する
 - **規制の適用を自己判断で断定する** → 誤った遵守判断のリスク → 内容を断定せず、一次情報と法務で確認する(本記事も確認先の提示に徹する)
@@ -106,15 +116,18 @@ tags: ["hr", "recruitment", "fairness", "high-risk"]
 
 - [公平性・バイアスの評価](../04-evaluation/fairness-and-bias-evaluation.md) — 属性による差の測定(本記事の公平性の適用先)
 - [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) — 「最終判断は人」の組み込み
-- [業界別規制の入口マップ](../09-business/industry-regulations-map.md) — 雇用・採用の規制の確認入口
+- [業界別規制の入口マップ](../09-business/industry-regulations-map.md) — 金融・医療・公共・教育など、他分野の確認先の整理
 - [コンプライアンスとガバナンス](../06-security/compliance-and-governance.md) — 規制・監査の横断層
 - [エージェントの責任と説明責任](../09-business/agent-liability-and-accountability.md) — 説明責任の技術的裏付け
 - [PoC から本番への進め方](../09-business/poc-to-production.md) — 段階的導入と合意形成
 
 ## 参考資料
 
-- [業界別規制の入口マップ](../09-business/industry-regulations-map.md) — 雇用・採用を含む分野別規制の確認先(アクセス日: 2026-07-09)
+- [公正な採用選考の基本(厚生労働省)](https://kouseisaiyou.mhlw.go.jp/basic.html) — 採用基準と情報収集の基本(アクセス日: 2026-09-10)
+- [AI Act(欧州委員会)](https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai) — 用途分類・義務・適用日の原文への入口(アクセス日: 2026-09-10)
+- [Artificial Intelligence and the ADA(EEOC)](https://www.eeoc.gov/eeoc-disability-related-resources/artificial-intelligence-and-ada) — 採用ツールと障害に関する差別・配慮の確認先(アクセス日: 2026-09-10)
+- [Automated Employment Decision Tools(DCWP)](https://home4.nyc.gov/site/dca/about/automated-employment-decision-tools.page) — ニューヨーク市の対象範囲・監査・通知の確認先(アクセス日: 2026-09-10)
 
 ## TODO・未確認事項
 
-> **TODO(要確認):** 雇用・採用領域での AI 規制(高リスク分類の要求・国内の労働/職業関連の枠組み)の最新を一次情報で確認する。本記事は内容を断定せず確認先の提示に留めるため、具体の適用は [業界別規制の入口マップ](../09-business/industry-regulations-map.md) と法務で追う(最終確認: 2026-07)
+> **TODO(要確認):** 導入する地域・用途ごとに、本文の厚生労働省・個人情報保護委員会・欧州委員会・EEOC・DCWP の公式ページで、対象範囲・義務・適用日の変更を法務と確認する。2026-09-10 は確認先を調べた日であり、個別案件への適合判断は未実施(最終確認: 2026-09)

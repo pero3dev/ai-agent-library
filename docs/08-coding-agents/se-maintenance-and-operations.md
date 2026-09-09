@@ -3,7 +3,7 @@ title: "保守・運用フェーズでの活用"
 category: "coding-agents"
 level: "intermediate"
 status: "published"
-last_updated: "2026-07-08"
+last_updated: "2026-09-10"
 tags: ["se-practice", "maintenance", "operations"]
 ---
 
@@ -27,7 +27,7 @@ tags: ["se-practice", "maintenance", "operations"]
 
 ### 概要: 保守での使いどころと分担
 
-保守・運用は、調査・改修・記録が繰り返される工程で、**調査の補助と定型作業の自動化**にエージェントが効きます。ただし対象は**本番に関わる稼働システム**であり、扱う情報と操作の境界線が他工程より厳格になります。
+保守・運用では、反復する調査・改修・記録を**調査の補助と定型作業の自動化**の候補にできます。下表は本記事の役割分担案であり、各作業の効率向上を保証するものではありません。本番に関わる稼働システムを扱うため、情報と操作の範囲を先に決め、効果とレビュー負荷を測ります。
 
 | 保守の作業 | エージェントの役割(発散・下書き) | 人が握ること・境界線 |
 | --- | --- | --- |
@@ -116,7 +116,8 @@ tags: ["se-practice", "maintenance", "operations"]
 
 ## 参考資料
 
-- なし(本記事は保守・運用の方法論そのものの解説ではなく、その各作業へコーディングエージェントの活用を対応づけた実務整理のためです。Agent システム自体の運用・可観測性は本ライブラリの [05-operations](../05-operations/README.md) を参照してください)
+- [Application card: GitHub Copilot Chat](https://docs.github.com/en/copilot/responsible-use/chat) — 生成コード・説明の誤り、機微な処理でのレビューとテストに関する提供者の説明。本記事の保守業務への割り当ては独自の設計案です(アクセス日: 2026-09-10)
+- [NIST SP 800-218: Secure Software Development Framework](https://csrc.nist.gov/pubs/sp/800/218/final) — PW.7/PW.8 のコード検証、RV.3 の原因分析・再発防止。Agent に固有の効率向上を示す資料ではありません(アクセス日: 2026-09-10)
 
 ## TODO・未確認事項
 

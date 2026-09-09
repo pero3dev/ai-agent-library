@@ -3,7 +3,7 @@ title: "プロンプト・エージェント資産の組織共有"
 category: "business"
 level: "intermediate"
 status: "published"
-last_updated: "2026-07-09"
+last_updated: "2026-09-10"
 tags: ["asset-sharing", "organization", "reuse", "governance"]
 ---
 
@@ -71,9 +71,9 @@ tags: ["asset-sharing", "organization", "reuse", "governance"]
 
 共有資産は、**供給する人**がいないと集まりません。作って共有するインセンティブを設計します。
 
-- **供給を評価する**: 良い資産を共有した人が評価される仕組みにします。共有が「余計な手間」でしかないと、誰も供給しません
+- **供給を評価する**: 良い資産を共有した人が評価される仕組みにします。共有の負担に見合う評価や支援がなければ、供給が続かない可能性があります
 - **共有を軽くする**: 共有の手間を小さくします。登録が面倒だと、良い資産が手元に眠ります
-- **利用のフィードバックを返す**: 「あなたの資産が○回使われた」といったフィードバックが、供給の動機になります
+- **利用のフィードバックを返す**: 「あなたの資産が○回使われた」といったフィードバックが、供給の動機になるか、協力者の負荷や評価と併せて確かめます
 
 ### セキュリティ(共有資産のサプライチェーン面)
 
@@ -114,7 +114,8 @@ tags: ["asset-sharing", "organization", "reuse", "governance"]
 
 ## 参考資料
 
-- 本リポジトリの執筆テンプレート `templates/doc-template.md` — 記事構造の共通形式(アクセス日: 2026-07-09)
+- [CNCF Platforms White Paper](https://tag-app-delivery.cncf.io/whitepapers/platforms/) — 共通能力の再利用、内部利用者の需要、プラットフォームの運用。本記事の AI 資産への適用は設計上の提案です(アクセス日: 2026-09-10)
+- [NIST AI RMF 1.0 — Core](https://airc.nist.gov/airmf-resources/airmf/5-sec-core/) — GOVERN 6 の第三者ソフトウェア・データのリスク管理(アクセス日: 2026-09-10)
 
 ## TODO・未確認事項
 

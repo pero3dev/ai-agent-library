@@ -3,7 +3,7 @@ title: "OpenAI Codex"
 category: "coding-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-08-18"
+last_updated: "2026-09-10"
 tags: ["coding-agents", "mcp"]
 ---
 
@@ -25,7 +25,7 @@ OpenAI のコーディングエージェント Codex の製品構成(CLI / IDE �
 
 ## 本文
 
-> **最終確認日:** 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
+> **最終確認日:** モデル・カスタムプロバイダーと AGENTS.md の読込上限は 2026-09-10、他の製品仕様・提供形態は 2026-08-18 — 部分更新です。主な出典は「参考資料」を参照してください。
 
 ### 概要
 
@@ -55,7 +55,7 @@ Codex は OpenAI のコーディングエージェント製品群です。まず
 
 ### リポジトリ理解・編集・実行の仕組み
 
-- **リポジトリ理解**: 事前の埋め込みインデックスを構築する記述は公式ドキュメントになく、オンデマンド探索型と判断できます(公式から推測)。AGENTS.md をセッション冒頭で取り込みます(1 ファイル既定 32 KiB 上限)
+- **リポジトリ理解**: 事前の埋め込みインデックスを構築する記述は公式ドキュメントになく、オンデマンド探索型と判断できます(公式から推測)。AGENTS.md 等のプロジェクト指示を階層順に連結し、**合計**が `project_doc_max_bytes` の既定 32 KiB に達すると打ち切ります(1 ファイルごとの上限ではありません)
 - **ファイル編集**: TUI 上で構文ハイライト付き diff をレビューできます。ロールバックの専用機構はなく、**通常の git ワークフローでレビュー・巻き戻す**設計です(公式明記)。デスクトップアプリは worktree で並列変更を分離し、diff 検査からコミット・プッシュまで行えます
 - **コマンド実行**: サンドボックスモードと承認ポリシーの組み合わせで制御されます(次節)。非対話実行 `codex exec`、セッション再開 `codex resume`、`/review` によるローカル変更のレビューがあります
 
@@ -90,6 +90,10 @@ Codex は OpenAI のコーディングエージェント製品群です。まず
 
 ### チーム導入と提供プラン
 
+2026-09-10 の公式モデル一覧は **GPT-6 Astra** と **GPT-5.6 Sol / Terra / Luna** を推奨候補として掲載しています。保存済み設定・カスタムエージェント・定期実行では、利用するモデル ID を明示して確認します。
+
+ChatGPT 認証の Codex では `gpt-5.4` / `gpt-5.4-mini` の退役日が **2026-08-31** と案内されており、公式の置換先はそれぞれ `gpt-5.6-terra` / `gpt-5.6-luna` です。**OpenAI API と API キー認証の Codex はこの退役の対象外**です。認証方式を区別せず API の設定まで一律に変更しないようにします。
+
 - Codex は ChatGPT の各プラン(Free / Go / Plus / Pro / Business / Edu / Enterprise)に含まれます(Free / Go は限定的)。API キー認証による従量課金も選べます
 - 利用制限は「5 時間ウィンドウあたりのメッセージ数」構造で、超過分はクレジット購入で継続できます。具体値は変動が激しいため公式料金ページ(参考資料)で確認してください
 - 組織管理: ワークスペース設定で Codex Local / cloud の利用可否を制御、`requirements.toml` による集中ポリシー、Analytics API(利用状況)、Compliance API(ログ・タスクの追跡)が提供されます
@@ -101,7 +105,7 @@ Codex は OpenAI のコーディングエージェント製品群です。まず
 **向き不向き(特性として)**:
 
 - 向く: ChatGPT を組織契約済みのチーム(追加契約なしで開始可能)、サンドボックス・ネットワーク遮断を既定にしたい組織、AGENTS.md でマルチツール標準化を進めたいチーム、CLI の OSS 性(挙動の検証可能性)を重視する場合
-- 注意が要る: OpenAI モデル前提のため、モデル選択の自由度を最優先する場合は BYOK 型の検討が必要です。クラウド実行は GitHub 連携が前提の設計です。個人プランではデータ学習の既定設定の確認が必須です
+- 注意が要る: ChatGPT 認証の提供モデルと、API キー・カスタムプロバイダーを設定する場合の選択肢は異なります。公式 Models は Chat Completions または Responses API に対応する他社モデル・プロバイダーへの接続も案内しており、利用する提供面の設定・機能互換性を確認します。クラウド実行は GitHub 連携が前提の設計です。個人プランではデータ学習の既定設定の確認が必須です
 
 ## 実務での注意点
 
@@ -129,9 +133,10 @@ Codex は OpenAI のコーディングエージェント製品群です。まず
 
 ## 参考資料
 
+- [Codex Models](https://learn.chatgpt.com/docs/models) — 推奨モデル、ChatGPT 認証に限る退役・置換先、Other models のカスタムプロバイダー設定(アクセス日: 2026-09-10)
 - [Codex Docs(公式)](https://learn.chatgpt.com/docs) — 製品構成・機能の一次情報。2026-08 時点で ChatGPT との統合ドキュメントサイト(learn.chatgpt.com)へ移転済み(旧 developers.openai.com/codex 系 URL は 308 リダイレクトで生存)(アクセス日: 2026-08-18)
 - [Agent approvals & security](https://learn.chatgpt.com/docs/agent-approvals-security) — サンドボックスと承認ポリシーの仕様(アクセス日: 2026-08-18)
-- [AGENTS.md guide](https://learn.chatgpt.com/docs/guides/agents-md) — ルールファイルの読み込み仕様(アクセス日: 2026-08-18)
+- [AGENTS.md guide](https://learn.chatgpt.com/docs/agent-configuration/agents-md) — ルールファイルの階層と連結後の読込上限(アクセス日: 2026-09-10)
 - [Codex pricing](https://learn.chatgpt.com/docs/pricing) — プラン別提供条件・利用制限(アクセス日: 2026-08-18)
 - [openai/codex(GitHub)](https://github.com/openai/codex) — CLI のソースコード(Apache-2.0)(アクセス日: 2026-08-18)
 
@@ -142,7 +147,9 @@ Codex は OpenAI のコーディングエージェント製品群です。まず
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** 対応モデルの世代(2026-08 時点は gpt-5.6 系: sol / terra / luna。gpt-5.4 / gpt-5.4-mini は 2026-08-31 に Codex から退役予定)とプラン別レート制限を公式ドキュメント(learn.chatgpt.com/docs/models・/docs/pricing)で確認する(最終確認: 2026-08)
+> **TODO(要確認):** 対応モデルと認証方式ごとの提供状況を公式 Models ページで確認する。2026-09-10 の一覧は GPT-6 Astra と GPT-5.6 系を推奨し、ChatGPT 認証での GPT-5.4 系の退役日を 2026-08-31 と案内している。保存済み設定・定期実行のモデル ID を採用時に点検する(最終確認: 2026-09)
+
+> **TODO(要確認):** プラン別レート制限・クレジット条件を公式 Pricing ページ(learn.chatgpt.com/docs/pricing)で再確認する。モデル節の 9 月更新では価格・利用枠を再検証していない(最終確認: 2026-08)
 
 > **TODO(要確認):** 製品面の追加・変更(Chrome 拡張・App Server は 2026-08 時点で正式掲載済み。デスクトップの Linux preview の GA 化、computer use 等)を changelog で確認する(最終確認: 2026-08)
 

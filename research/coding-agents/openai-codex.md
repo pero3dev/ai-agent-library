@@ -5,6 +5,14 @@
 - **調査方法**: [CODING-AGENTS-PLAN.md](../../CODING-AGENTS-PLAN.md) §7 の 12 項目チェックリスト。公式情報(developers.openai.com / github.com/openai / openai.com / help.openai.com)のみを根拠とし、第三者記事は使用していません
 - **確度の凡例**: 公式明記 / 公式から推測 / 第三者(本メモでは第三者根拠なし)
 
+## 2026-09-10 レビュー修正時のモデル確認
+
+[公式 Models](https://learn.chatgpt.com/docs/models)(アクセス日: 2026-09-10)で GPT-6 Astra と GPT-5.6 Sol / Terra / Luna の掲載を確認しました。ChatGPT 認証での GPT-5.4 / GPT-5.4 mini の退役日は 2026-08-31、置換先は Terra / Luna と案内されています。API キー認証の Codex と OpenAI API は対象外です。
+
+独立レビューで [AGENTS.md guide](https://learn.chatgpt.com/docs/agent-configuration/agents-md)(アクセス日: 2026-09-10)も確認しました。旧記録の「1 ファイル既定 32 KiB」は誤りで、プロジェクト指示を連結した合計が `project_doc_max_bytes` に達すると打ち切る仕様です。また Models の Other models は Chat Completions または Responses API 対応のモデル・プロバイダーへの接続を案内しているため、OpenAI モデルに限定されるという説明を訂正しました。
+
+これらの差分を [OpenAI Codex](../../docs/08-coding-agents/openai-codex.md) に反映しました。以下の 8 月の表は履歴です。9 月の確認はモデル・カスタムプロバイダーと上記指示読込仕様に限り、プラン・レート制限・他の提供形態まで再検証済みとは扱いません。
+
 ## 2026-08-18 定点観測での更新
 
 | 確認した事実 | 出典 URL | 確認日 | 確度 |

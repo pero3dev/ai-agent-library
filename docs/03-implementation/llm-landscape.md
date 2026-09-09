@@ -3,7 +3,7 @@ title: "主要 LLM の全体像(モデルカタログ)"
 category: "implementation"
 level: "basic"
 status: "published"
-last_updated: "2026-08-18"
+last_updated: "2026-09-10"
 tags: ["model-selection"]
 ---
 
@@ -27,7 +27,7 @@ tags: ["model-selection"]
 
 ## 本文
 
-> **最終確認日:** 2026-08-18 — 本記事のモデル構成・仕様・価格帯はこの日付時点の各公式ページに基づきます。具体的な単価は転記せず桁感のみ記載します(正確な値は参考資料の公式料金ページと、リポジトリ内 `research/models/` の調査メモを参照)。
+> **最終確認日:** OpenAI 節と早見表の OpenAI 行は 2026-09-10、他社と共通構造の説明は 2026-08-18 — 部分更新のため、他社まで 9 月時点で再確認したという意味ではありません。具体的な単価は転記せず桁感のみ記載します(正確な値は参考資料の公式料金ページと、リポジトリ内 `research/models/` の調査メモを参照)。
 
 ### 地図の読み方: 各社に共通する構造
 
@@ -56,18 +56,21 @@ tags: ["model-selection"]
 
 ### OpenAI(GPT ファミリー)
 
-| ティア | モデル(2026-08 時点) | 位置づけ(公式表現の要旨) |
+| ティア | モデル(2026-09-10 確認) | 位置づけ(公式表現の要旨) |
 | --- | --- | --- |
-| フラッグシップ | GPT-5.6(`gpt-5.6-sol`) | コーディング・プロフェッショナルワーク向けの最新世代。エイリアス `gpt-5.6` は sol を指す |
-| 低価格フラッグシップ | `gpt-5.6-terra` | 5.6 世代の能力をより低コストで |
-| 軽量 | `gpt-5.6-luna` | 分類・抽出・ランキングなど速度とコスト最優先 |
-| 高コンピュート(モード指定) | `reasoning.mode: "pro"` | 数分かけてでも最高品質の回答が必要な難問向け。専用モデルではなく GPT-5.6 へのパラメータ指定(standard / pro)に変わった |
-| 移行期の旧世代 | GPT-5.5 / 5.4 系 | 提供継続だが位置づけは後退。移行先は 5.6 系 |
+| 最上位 | GPT-6 Astra(`gpt-6-astra`) | 複雑な推論・コード・コンピューター操作・調査など、難しい一連の作業向け |
+| GPT-5.6 上位 | GPT-5.6 Sol(`gpt-5.6-sol`) | プロフェッショナルワーク向け。`gpt-5.6` は Sol のエイリアス |
+| バランス | GPT-5.6 Terra(`gpt-5.6-terra`) | 能力とコストのバランスを取る候補 |
+| 軽量 | GPT-5.6 Luna(`gpt-5.6-luna`) | コストを重視する大量処理の候補 |
 
-- **特性**: 5.6 世代は約 1.05M 入力 / 128K 出力。画像入力対応。推論は effort(none〜max、モデル依存)で制御し、**272K トークン超の入力には割増**(入力 2 倍・出力 1.5 倍)があります。リアルタイム音声(gpt-realtime 系)・画像生成(gpt-image 系)・動画生成(sora 系)は別系統です
-- **コスト帯**(2026-08 時点の桁感): 入力単価は luna から sol まで約 25 倍の幅(おおよそ \$0.2〜\$5 / 1M トークン)、出力はその約 6 倍。pro 実行(`reasoning.mode`)の価格条件は公式料金ページで確認してください
-- **使用場面**: 公式の選定ガイドは「**まず GPT-5.6 で精度目標を達成し、その後に精度を保てる最も小さく速いモデル(terra / luna)へ置き換える**」という 2 段階アプローチ。effort の上げすぎによる過剰思考(overthinking)の害を公式自身が警告しています
-- **補足**: かつての推論特化「o シリーズ」の o3 / o3-pro と gpt-5 初代は 2026-12-11 に退役予定で、公式の移行先は GPT-5.6 系です(o3-pro / gpt-5-pro の移行先は `gpt-5.6-sol` + `reasoning.mode: "pro"`)。レガシーの音声・realtime・文字起こし系 9 モデルは 2027-01-20 に退役予定です(2026-07-20 告知)。ChatGPT 追随の `chat-latest` は本番利用非推奨(中身が随時変わる)と公式が明記しています
+- **特性**: Astra と GPT-5.6 系は約 1.05M のコンテキスト枠 / 最大 128K 出力、テキスト・画像入力に対応します。Astra の effort は low / medium / high / xhigh / max。モデルごとに許可値を確認し、GPT-5.6 の設定をそのまま移植しません
+- **費用**: 軽量から最上位まで入力単価には数十倍の幅があります。Astra は 272K 入力トークン超でリクエスト全体の入力・キャッシュ単価と出力単価に割増があるため、長文・キャッシュ書き込み・実行モードの条件を含めて見積もります
+- **選定**: 公式一覧は難しい作業に Astra、能力と費用のバランスに Terra、大量処理に Luna を案内しています。自社の品質基準・遅延・費用で候補を比較し、モデル名だけで一律に切り替えません
+- **Codex との区別**: ChatGPT 認証の Codex では GPT-5.4 / 5.4 mini の退役日が 2026-08-31 と案内されています。この変更は API キー認証の Codex と OpenAI API の提供終了を意味しません([OpenAI Codex](../08-coding-agents/openai-codex.md))
+
+- **API の終了予定**: 2026-09-10 の公式退役表では、GPT-5 初代・o3/o3-pro の対象スナップショットは 2026-12-11、旧音声・realtime 系の対象モデルは 2027-01-20 の終了予定です。8 月 26 日には `whisper-1`・`gpt-4o-transcribe` 系の対象モデルについて 2027-02-26 の終了予定も追加されています。名称が似たモデルを一括扱いせず、利用中の ID と表の行を照合します。
+
+> **TODO(要確認):** 採用時に OpenAI のモデル別ページ・料金・退役日程で、対象 API モデル ID の提供状態、終了予定の変更、実行モード、長文・キャッシュの価格条件を確認する(最終確認: 2026-09)
 
 ### Google(Gemini ファミリー)
 
@@ -107,12 +110,12 @@ tags: ["model-selection"]
 
 ### 迷わないための早見表
 
-各社公式の推奨をそのまま並べた「最初の一手」です。用途からの詳しい逆引きは [モデル選定ガイド](model-selection.md) を参照してください。
+公式のモデル位置づけを、本ライブラリの評価の開始候補として整理した表です。用途からの詳しい逆引きは [モデル選定ガイド](model-selection.md) を参照してください。OpenAI 行は 2026-09-10、他社の行は 2026-08-18 の確認範囲です。
 
 | プロバイダー | 迷ったときの既定 | 単純・大量処理 | 最難関タスク |
 | --- | --- | --- | --- |
 | Anthropic | Opus 5(本番の大半は Sonnet 5) | Haiku 4.5 | Fable 5 |
-| OpenAI | GPT-5.6 で精度確認 → terra / luna へ | `gpt-5.6-luna` | GPT-5.6(`reasoning.mode: "pro"`) |
+| OpenAI | Astra / Sol で品質上限を比較 → Terra / Luna の費用と速度を評価 | `gpt-5.6-luna` | GPT-6 Astra(推論の強さも評価する) |
 | Google | Gemini 3.7 Flash | Gemini 3.5 Flash-Lite | Gemini 3.1 Pro(プレビューである点に注意) |
 
 ## 実務での注意点
@@ -148,7 +151,8 @@ tags: ["model-selection"]
 ## 参考資料
 
 - [Claude モデル一覧](https://platform.claude.com/docs/en/about-claude/models/overview) / [料金](https://platform.claude.com/docs/en/about-claude/pricing) / [退役日程](https://platform.claude.com/docs/en/about-claude/model-deprecations)(アクセス日: 2026-08-18)
-- [OpenAI モデル一覧](https://developers.openai.com/api/docs/models) / [料金](https://developers.openai.com/api/docs/pricing) / [退役日程](https://developers.openai.com/api/docs/deprecations)(アクセス日: 2026-08-18)
+- [OpenAI モデル一覧](https://developers.openai.com/api/docs/models) / [GPT-6 Astra の仕様・価格条件](https://developers.openai.com/api/docs/models/gpt-6-astra) / [API 退役日程](https://developers.openai.com/api/docs/deprecations)(アクセス日: 2026-09-10)
+- [OpenAI 料金](https://developers.openai.com/api/docs/pricing) — 採用時に実行モードを含めて確認する入口(アクセス日: 2026-08-18)
 - [Gemini モデル一覧](https://ai.google.dev/gemini-api/docs/models) / [料金](https://ai.google.dev/gemini-api/docs/pricing) / [提供終了](https://ai.google.dev/gemini-api/docs/deprecations)(アクセス日: 2026-08-18)
 - オープンウェイト系: [Meta Llama(Hugging Face)](https://huggingface.co/meta-llama) / [Qwen(GitHub)](https://github.com/QwenLM) / [DeepSeek(Hugging Face)](https://huggingface.co/deepseek-ai) / [Mistral モデル一覧](https://docs.mistral.ai/models/overview) / [gpt-oss(GitHub)](https://github.com/openai/gpt-oss)(アクセス日: Meta / Qwen / DeepSeek は 2026-08-18、Mistral / gpt-oss は 2026-07-06)
 
@@ -158,6 +162,6 @@ tags: ["model-selection"]
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** 全カタログ表(モデル名・ティア・価格帯・ステータス)を四半期ごとに各社公式ページで再確認する。次回の注目イベント: OpenAI o 系・gpt-5 初代の退役(2026-12-11)、Gemini 3.7 Flash の導入価格終了(2026-12-31)、OpenAI レガシー音声・realtime・文字起こし系の退役(2027-01-20)(最終確認: 2026-08)
+> **TODO(要確認):** 全カタログ表(モデル名・ティア・価格帯・ステータス)を四半期ごとに各社公式ページで再確認する。OpenAI は 2026-09-10 に部分更新済み。他社の次回確認対象は Gemini 3.7 Flash の導入価格終了の扱いなど、各節の 8 月時点の情報との差分(最終確認: 2026-08)
 
 > **TODO(要確認):** プレビューモデルの GA 化(Gemini 3.1 Pro)、Gemini 3.6 / 3.7 Flash の個別仕様(コンテキスト長・knowledge cutoff)、オープンウェイト各ファミリーの新世代(特に Qwen3.8 のライセンス・コンテキスト長、Kimi K3 の一次確認)を確認する(最終確認: 2026-08)

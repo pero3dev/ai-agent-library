@@ -567,8 +567,10 @@
       "phase": "S3",
       "kind": "unit-test",
       "sha256_before": "955d4661b75367cfc939dce20b2b5e887d404d2dc658330b46fb89b2c911d2eb",
-      "status": "planned",
-      "references": []
+      "status": "moved",
+      "references": [],
+      "sha256_after": "5f25902e2efb245c049a150266bd992a6913dbad870aefa3f316e76cb078d9e1",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "scripts/freshness-policy.test.mjs",
@@ -576,10 +578,12 @@
       "phase": "S3",
       "kind": "unit-test",
       "sha256_before": "ea0dc91ec5a365cd18abf8227e814ce9cb4fc3dd629193f14f630f563bc8f1ba",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "scripts/eval-harness.mjs"
-      ]
+      ],
+      "sha256_after": "4ab8527fdf667b0d2340961db2867971d2904a929e32ea10917774ba7074900a",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "scripts/freshness-registry.test.mjs",
@@ -587,10 +591,12 @@
       "phase": "S3",
       "kind": "unit-test",
       "sha256_before": "2d4c9e2877bc86412ed74629a76f3d453ed0d66421c8a2340e5752cbc4bbe3e0",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "scripts/eval-harness.mjs"
-      ]
+      ],
+      "sha256_after": "b04f490604951eb428343c6584cc134b24c4ce730566c6d78b35590c719960fd",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "scripts/freshness-run.test.mjs",
@@ -598,11 +604,13 @@
       "phase": "S3",
       "kind": "unit-test",
       "sha256_before": "3ff1408863eee5927cb6ceb0f3bc559cf66100eeeaf413b9f2bf726a28ae9c93",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "package.json",
         "scripts/eval-harness.mjs"
-      ]
+      ],
+      "sha256_after": "b73c9c205074115971602737101fa1c653afc664540657dad5d1d7145ae32a6a",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "scripts/github-evidence.test.mjs",
@@ -610,10 +618,12 @@
       "phase": "S3",
       "kind": "unit-test",
       "sha256_before": "91fd772b395f39bfafd09fbd60b0ef063852df69be1d97a5777c4de7f24026f6",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "scripts/eval-harness.mjs"
-      ]
+      ],
+      "sha256_after": "d2032fe3862816e92faee07dcaac28bb882eabf30f318d36e4d2c66f2ec81d70",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "scripts/harness-policy.test.mjs",
@@ -621,10 +631,12 @@
       "phase": "S3",
       "kind": "unit-test",
       "sha256_before": "03b4467c8a3d332170bf973048b15448d142842530a9bf6998341f1b8aa06453",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "scripts/eval-harness.mjs"
-      ]
+      ],
+      "sha256_after": "580d4da8c92c3f644363bd08e8a9d59337c6800435ac75ae2986187796a61283",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "scripts/harness-run.test.mjs",
@@ -632,11 +644,13 @@
       "phase": "S3",
       "kind": "unit-test",
       "sha256_before": "19c614032be9c6af0d815ab7c6336a0ce37589ccca47f5bd58a9085f399d4f2c",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "package.json",
         "scripts/eval-harness.mjs"
-      ]
+      ],
+      "sha256_after": "ba838fe0a9761f05a944d0fca9f3715d8c85891ccb4d7cee62f2d148c0df2290",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "scripts/harness-tooling.test.mjs",
@@ -644,10 +658,12 @@
       "phase": "S3",
       "kind": "unit-test",
       "sha256_before": "4947d45fe65c09f1fe05130d2aab42be465567a97880533816ab2e88c17caa45",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "package.json"
-      ]
+      ],
+      "sha256_after": "f8b612959700919248d64690e2fc309dd0004646fb34e9487a1d4d1792da1f2d",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "scripts/hooks.test.mjs",
@@ -655,12 +671,14 @@
       "phase": "S3",
       "kind": "unit-test",
       "sha256_before": "2670d84b971905b639052b72f95f516eb4168a030d587e65c558ed37a70f3935",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "harness-improvement-plan.md",
         "package.json",
         "scripts/eval-harness.mjs"
-      ]
+      ],
+      "sha256_after": "cc4ca97353f4a78439b41f382d3642849d50d071a266f2d9fedfb792894b331f",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "scripts/markdown-validation.test.mjs",
@@ -668,11 +686,13 @@
       "phase": "S3",
       "kind": "unit-test",
       "sha256_before": "2d957eb9380052cceb5f3b61366b84564e7cfd2962c0d51f4d774f239bb0cfe1",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "package.json",
         "scripts/eval-harness.mjs"
-      ]
+      ],
+      "sha256_after": "003a4b18fe743622ab30eb935acd75afdeb0cd0139427285876ac2f3a13353e0",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "scripts/sync-harness.test.mjs",
@@ -680,11 +700,13 @@
       "phase": "S3",
       "kind": "unit-test",
       "sha256_before": "49dbf02f00a29d4b0387c8324d52ef3612516dac7672c2a701c1a262154c4b92",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "CONTRIBUTING.md",
         "scripts/eval-harness.mjs"
-      ]
+      ],
+      "sha256_after": "3009595a5b99ae3b56a87ec2c8a9df8ef37aa15e6ea3089a6b5bf21d40515949",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "scripts/validate-docs-cli.test.mjs",
@@ -692,8 +714,10 @@
       "phase": "S3",
       "kind": "unit-test",
       "sha256_before": "84e1a1bdb23d97ef9b0c9ed02a92fdf537ccbf43828b809f259fa42ccd43b734",
-      "status": "planned",
-      "references": []
+      "status": "moved",
+      "references": [],
+      "sha256_after": "fb5e1e258e14ae75e270da5fdbcf168d6c62875d969bf21af1ae6f3da0988fcd",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "scripts/lib/windows-test-path.mjs",
@@ -701,11 +725,13 @@
       "phase": "S3",
       "kind": "test-helper",
       "sha256_before": "55ba295fdee87eaa315a368f222fa2a20786cbbeb94d880d3d3467d3b29333c5",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "scripts/freshness-run.test.mjs",
         "scripts/hooks.test.mjs"
-      ]
+      ],
+      "sha256_after": "55ba295fdee87eaa315a368f222fa2a20786cbbeb94d880d3d3467d3b29333c5",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "tests/harness/authoring-prompt.txt.example",
@@ -713,10 +739,12 @@
       "phase": "S3",
       "kind": "inert-fixture",
       "sha256_before": "1749d6e1b72f83440d84b4b2430ded4eeb9cbfcdeda3326c03fd5180997d1ce6",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "scripts/eval-harness.mjs"
-      ]
+      ],
+      "sha256_after": "1749d6e1b72f83440d84b4b2430ded4eeb9cbfcdeda3326c03fd5180997d1ce6",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "tests/harness/external-source.txt.example",
@@ -724,8 +752,10 @@
       "phase": "S3",
       "kind": "inert-fixture",
       "sha256_before": "15898f9850cf644a4059bea9ba87479abd400ef601336aec36f099f02a6ffc26",
-      "status": "planned",
-      "references": []
+      "status": "moved",
+      "references": [],
+      "sha256_after": "15898f9850cf644a4059bea9ba87479abd400ef601336aec36f099f02a6ffc26",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "website/scripts/export-checks.test.mjs",
@@ -733,8 +763,10 @@
       "phase": "S3",
       "kind": "website-unit-test",
       "sha256_before": "99023a63974315841449fc99990a5711cef9291f1b469d2e17a18609caab59fc",
-      "status": "planned",
-      "references": []
+      "status": "moved",
+      "references": [],
+      "sha256_after": "3a54868866a6ee9c6f9e9c69774a66dc7e937d415b4d0ade9353a84cf24a3c8d",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "website/scripts/export-segments.test.mjs",
@@ -742,8 +774,10 @@
       "phase": "S3",
       "kind": "website-unit-test",
       "sha256_before": "1a9292c7d1f28c7b234c6ece03391145314b4b2ba8f47965ecd17ecaf7dbdd0f",
-      "status": "planned",
-      "references": []
+      "status": "moved",
+      "references": [],
+      "sha256_after": "c529abdce9467f45e3d2ef3c80fc7095bd1da752d690eb2cd1596d2c3678416a",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "website/scripts/markdown-routes.test.mjs",
@@ -751,8 +785,10 @@
       "phase": "S3",
       "kind": "website-unit-test",
       "sha256_before": "19f12143e080cc2520e9451335ddbe3a2952ccaa012ad0361e014cee07d13b46",
-      "status": "planned",
-      "references": []
+      "status": "moved",
+      "references": [],
+      "sha256_after": "e4e152500995c542aeb02fa36c2e4fc808b03c81d508b9073b9bef605cca339f",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "website/scripts/mdx-safety.test.mjs",
@@ -760,15 +796,19 @@
       "phase": "S3",
       "kind": "website-unit-test",
       "sha256_before": "e6111aa73eb17865e18a1e522bcb5417ef9be2e4999ee447b20a1953d4c2022f",
-      "status": "planned",
-      "references": []
+      "status": "moved",
+      "references": [],
+      "sha256_after": "69551c142ddf8a4ef52667247bdaa24670e907dbd047d5b63d9c217a3ede4ef0",
+      "completed_on": "2026-09-11"
     }
   ],
   "conditional_removals": [
     {
       "path": ".codex/hooks/edited-paths.mjs",
       "condition": "current test migrated to core; no supported external entry contract",
-      "status": "planned"
+      "status": "removed",
+      "completed_on": "2026-09-11",
+      "evidence": "test now imports hook-core; no active hook or supported external caller"
     },
     {
       "path": "examples/typescript/.gitkeep",

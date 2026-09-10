@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "run_id": "20260910t051816467z-aff02e28",
+  "base_sha": "bf6b607cd679a23afb9273b79f563c5bf0b9c806",
+  "writer_run_id": "/root/freshness-writer-20260910t051816467z-aff02e28",
+  "started_at": "2026-09-10T05:18:16.467Z",
+  "completed_at": "2026-09-10T05:30:16.474Z",
+  "systems": [
+    "coding-agents"
+  ],
+  "observations": [
+    {
+      "system_id": "coding-agents",
+      "status": "changed",
+      "summary": "受入確認として2記事のCodex定期タスク・非対話認証・CI分担の節を照合。CODEX_API_KEYの対応範囲を訂正し、Local/worktreeの稼働条件、ChatGPTとAPI課金の区別、Actionsとの分担例を反映。系統全体や他ツールの機能・レートは今回未観測。",
+      "sources": [
+        {
+          "url": "https://learn.chatgpt.com/docs/automations",
+          "accessed_at": "2026-09-10T05:19:04Z"
+        },
+        {
+          "url": "https://learn.chatgpt.com/docs/auth",
+          "accessed_at": "2026-09-10T05:19:04Z"
+        },
+        {
+          "url": "https://learn.chatgpt.com/docs/non-interactive-mode",
+          "accessed_at": "2026-09-10T05:19:04Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/08-coding-agents/openai-codex-in-practice.md",
+        "docs/08-coding-agents/coding-agent-automation-patterns.md"
+      ]
+    }
+  ],
+  "changes": [
+    {
+      "kind": "substantive",
+      "observation_indices": [
+        0
+      ],
+      "summary": "定期タスクの実行条件・管理方法・認証別課金を追加し、CODEX_API_KEYの対応範囲を訂正。",
+      "path": "docs/08-coding-agents/openai-codex-in-practice.md"
+    },
+    {
+      "kind": "substantive",
+      "observation_indices": [
+        0
+      ],
+      "summary": "CI内モデル実行時の認証と、ローカル定期更新＋Actions検証公開の設計例を区別。",
+      "path": "docs/08-coding-agents/coding-agent-automation-patterns.md"
+    },
+    {
+      "kind": "supporting",
+      "observation_indices": [
+        0
+      ],
+      "summary": "一次資料の確認範囲を記録し、現行仕様・設計上の推論・旧観測を区別。",
+      "path": "research/coding-agents/openai-codex-practice.md"
+    }
+  ],
+  "review": {
+    "reviewed_at": "2026-09-10T05:29:14Z",
+    "verdict": "approved",
+    "risk": "low",
+    "content_digest": "1650f429e06fb4caf2fba178da22aa9e85798f0be674806f38fb308d0d65713c",
+    "reviewer_run_id": "/root/freshness_acceptance_review",
+    "independent": true
+  }
+}

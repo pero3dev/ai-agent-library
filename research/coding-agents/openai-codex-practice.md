@@ -29,6 +29,16 @@ Fast の速度 1.5 倍は GPT-5.6 / 5.5 / 5.4 の案内で、credit は 5.6 / 5.
 
 出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://learn.chatgpt.com/docs/agent-configuration/speed) / [一次資料 2](https://learn.chatgpt.com/docs/models)
 
+### 定期タスク・非対話認証の確認範囲を追加
+
+2026-09-10 に次の 3 ページの本文を取得しました。`CODEX_API_KEY` の対応範囲、Scheduled の実行場所・稼働条件・管理画面、認証方式ごとの課金区分を確認したもので、以下の旧観測全体を再確認したものではありません。
+
+- `CODEX_API_KEY` は `codex exec` だけでなく `codex review`・TypeScript SDK・`codex exec-server --remote` にも対応します。保存済み CLI 認証の再利用と、API キーを必要な呼び出しだけに渡す注意事項を区別します(公式明記)
+- Scheduled はデスクトップアプリのプロジェクトディレクトリ / worktree で実行でき、ローカルファイルが必要なら PC とアプリを起動しておく必要があります。Web は PC のフォルダーを直接使えず、CLI に Scheduled の管理画面はありません(公式明記)
+- ChatGPT 認証の契約枠と、API キー認証の OpenAI Platform 課金は別です(公式明記)。ローカルで調査・編集・PR を行い、Actions で検証・マージ後の公開を行う分担は、これらの仕様から組み立てた設計例です。マージ方針の推奨を変更するものではありません(公式仕様に基づく設計上の推論)
+
+出典(アクセス日: 2026-09-10): [Scheduled tasks](https://learn.chatgpt.com/docs/automations) / [Authentication](https://learn.chatgpt.com/docs/auth) / [Non-interactive mode](https://learn.chatgpt.com/docs/non-interactive-mode)。本文取得時刻: 2026-09-10T05:19:04Z。反映先: [実践ガイド](../../docs/08-coding-agents/openai-codex-in-practice.md) / [自動化パターン](../../docs/08-coding-agents/coding-agent-automation-patterns.md)。
+
 
 ## 2026-08-18 定点観測での更新
 
@@ -75,7 +85,7 @@ Fast の速度 1.5 倍は GPT-5.6 / 5.5 / 5.4 の案内で、credit は 5.6 / 5.
 | セッション再開 | `codex exec resume --last "..."` / `codex exec resume <SESSION_ID>` |
 | CI 向けフラグ | `--ephemeral`(セッションのロールアウトファイルをディスクに残さない)、`--skip-git-repo-check`、`--ignore-user-config`、`--ignore-rules` |
 | サンドボックス既定 | exec は **read-only が既定**。必要最小限の権限を明示指定せよという方針 |
-| CI 認証 | `CODEX_API_KEY=<key> codex exec ...` のインライン環境変数(**exec のみ**サポート)。「リポジトリが制御するコードや信頼できないアクションに API キーを晒すな」と明記 |
+| 非対話実行の認証 | 保存済み CLI 認証を再利用。`CODEX_API_KEY` を必要な呼び出しだけに指定でき、`codex exec`・`codex review`・TypeScript SDK・`codex exec-server --remote` に対応。「リポジトリが制御するコードや信頼できないアクションに API キーを晒すな」という注意事項は維持(この行のみ 2026-09-10 に [現行ページ](https://learn.chatgpt.com/docs/non-interactive-mode)で訂正) |
 
 - 終了コード(exit code)の一覧仕様: **未確認**(ページから抽出できず。執筆時に `codex exec --help` で実機確認を推奨)
 
@@ -88,7 +98,7 @@ Fast の速度 1.5 倍は GPT-5.6 / 5.5 / 5.4 の案内で、credit は 5.6 / 5.
 - コスト面: ローカルの `/review` は通常の利用制限にカウントされる。GitHub 経由のレビューだけが「Code Review 使用量」として扱われる(§2-1 参照)
 - 別概念に注意: `approvals_reviewer = "auto_review"`(サンドボックス境界の承認を人間の代わりにレビュアーエージェントが判断する機能)は PR レビューとは別物。「Auto-review is a reviewer swap, not a permission grant」であり、権限を広げるものではない。`approval_policy` が対話型のときのみ機能(出典: <https://developers.openai.com/codex/concepts/sandboxing/auto-review>、確認日: 2026-07-06、公式明記)
 
-### 1-4. デスクトップアプリ: worktree 並列と automations
+### 1-4. デスクトップアプリ: worktree 並列と定期タスク
 
 出典: <https://developers.openai.com/codex/app/features>(確認日: 2026-07-06、いずれも公式明記)。
 
@@ -97,7 +107,13 @@ Fast の速度 1.5 倍は GPT-5.6 / 5.5 / 5.4 の案内で、credit は 5.6 / 5.
 - diff ペインで Git diff を確認し、**インラインコメントで Codex に修正指示**、チャンク/ファイル単位のステージ・リバートが可能。コミット・プッシュ・PR 作成までアプリ内で完結
 - スレッド管理も Codex に依頼できる(関連スレッド検索・既存スレッド継続・ピン留め・アーカイブ)
 
-automations(出典: <https://developers.openai.com/codex/app/automations>、確認日: 2026-07-06、いずれも公式明記):
+定期タスクの現行確認範囲(出典: [Scheduled tasks](https://learn.chatgpt.com/docs/automations) / [Authentication](https://learn.chatgpt.com/docs/auth)、アクセス日: 2026-09-10、公式明記):
+
+- Scheduled で有効・一時停止・完了済みタスクと実行履歴を管理します。デスクトップアプリではローカルのプロジェクトディレクトリまたは worktree で実行でき、PC とアプリの稼働が必要です
+- Web の定期タスクはアップロード済みの資料・接続ツールを利用します。PC のフォルダーは直接操作できません。Codex CLI はプロンプト・スキル・スクリプトの準備と試験に使えますが、Scheduled の管理画面はありません
+- ChatGPT 認証では契約の利用枠、API キー認証では通常の API 料金を使います。Scheduled のプラン別利用資格・詳細な消費制限は今回の未確認範囲です
+
+以下は **2026-07-06 の automations の調査履歴**です。種類の名称・旧 Triage 画面・作成方法は今回再確認しておらず、現行手順の根拠にしません(旧出典: <https://developers.openai.com/codex/app/automations>)。
 
 | 種類 | 動作 | 向く用途 |
 | --- | --- | --- |
@@ -108,7 +124,7 @@ automations(出典: <https://developers.openai.com/codex/app/automations>、確�
 - 「Triage」セクションが受信箱として機能し、発見事項のある実行が表示される(未読フィルタあり)
 - Git リポジトリでは automation を**ローカルまたは専用 worktree** で実行可能。「Worktrees keep automation changes separate from unfinished local work」
 - 公式ベストプラクティス: スケジュール化する前に「プロンプトを通常スレッドで手動テストする」。スレッド automation のプロンプトには「各 wake-up で何をすべきか・いつ止まるべきか」を書く
-- automations の利用制限消費の扱い(専用枠か通常枠か): **未確認**
+- automations の利用制限消費の扱いは旧調査時点では未確認でした。2026-09-10 に認証別の課金区分を上記のとおり確認しました。プラン別の利用資格・詳細な制限値は未確認です
 
 ### 1-5. サブエージェント(config.toml の `[agents]`)
 
@@ -342,7 +358,7 @@ Linear(出典: <https://developers.openai.com/codex/integrations/linear>、確�
 ## 未確認事項・執筆時の再確認リスト
 
 1. `codex exec` の終了コード仕様(§1-2)— 実機の `--help` で確認
-2. automations の利用制限消費の扱い(§1-4)
+2. Scheduled のプラン別利用資格・詳細な消費制限(§1-4。認証別の課金区分のみ 2026-09-10 に確認)
 3. `gpt-5.3-codex-spark` のクレジットレート(§2-3)
 4. クラウドタスク 1 件あたりのクレジット換算・並列 attempts の課金(§2-5)
 5. 全 PR 自動レビューの消費レートと draft PR の扱い(§4-4)

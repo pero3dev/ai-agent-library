@@ -34,8 +34,8 @@ function gitFixture(t) {
   fs.mkdirSync(root);
   const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] }).trim();
   git('init', '-b', 'main');
-  git('-c', 'user.name=Freshness Fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '--allow-empty', '-m', 'Initialize isolated fixture');
-  git('update-ref', 'refs/remotes/origin/main', 'HEAD');
+  git('config', 'user.name', 'Freshness Fixture');
+  git('config', 'user.email', 'fixture@example.invalid');
   for (const file of ['docs/01-concepts/models.md', 'docs/08-coding-agents/coding.md', 'research/core/models.md']) {
     fs.mkdirSync(path.dirname(path.join(root, file)), { recursive: true });
     fs.writeFileSync(path.join(root, file), '# Fixture\n');
@@ -49,6 +49,11 @@ function gitFixture(t) {
     '<!-- freshness-registry:end -->',
     ''
   ].join('\n'));
+  fs.writeFileSync(path.join(root, 'GLOSSARY.md'), '# Fixture glossary\n');
+  fs.writeFileSync(path.join(root, 'README.md'), '# Fixture index\n');
+  git('add', '--', 'docs', 'research', 'ROADMAP.md', 'GLOSSARY.md', 'README.md');
+  git('commit', '-m', 'Initialize isolated fixture');
+  git('update-ref', 'refs/remotes/origin/main', 'HEAD');
   return { directory, root, git, dir: storageDirectory(root), run: (...args) => main([...args, '--root', root]) };
 }
 test('weekly mode uses JST rather than runner timezone', () => {
@@ -109,7 +114,7 @@ test('interrupted checkpoint resumes the same run, selected systems, pending ite
   const input = path.join(fixture.directory, 'checkpoint-input.json');
   writeJson(input, checkpoint);
   fixture.run('checkpoint', '--run', input);
-  assert.equal(loadState(fixture.dir).systems['models-prompting'], undefined);
+  assert.equal(loadState(fixture.dir).systems['models-prompting']?.last_verified_at, undefined);
   assert.equal(loadState(fixture.dir).runs[first.run_id], undefined);
   fixture.run('release', '--run-id', first.run_id, '--attempt-id', first.attempt_id);
 
@@ -253,5 +258,120 @@ test('resumed CLI run rejects the prior attempt for publication, checkpoint, com
   assert.equal(loadState(fixture.dir).runs[first.run_id], undefined);
   assert.equal(JSON.parse(fs.readFileSync(ownerFile, 'utf8')).attempt_id, resumed.attempt_id);
   assert.equal(fixture.run('assert-lock', '--run-id', resumed.run_id, '--attempt-id', resumed.attempt_id).ok, true);
+  fixture.run('release', '--run-id', resumed.run_id, '--attempt-id', resumed.attempt_id);
+});
+
+test('checkpoint pending survives interruption and repeated resolution is idempotent through finish', t => {
+  const fixture = gitFixture(t);
+  const prepared = fixture.run('prepare', '--mode', 'manual', '--ids', 'models-prompting');
+  const checkpoint = JSON.parse(fs.readFileSync(prepared.checkpoint, 'utf8'));
+  const input = path.join(fixture.directory, 'pending-resolution-input.json');
+  const pending = { id: 'checkpoint-source', system_id: 'models-prompting', reason: 'Official source did not respond', next_retry_at: '2030-01-01T00:00:00Z' };
+  checkpoint.pending = [pending];
+  writeJson(input, checkpoint);
+  fixture.run('checkpoint', '--run', input, '--attempt-id', prepared.attempt_id);
+  const pendingState = loadState(fixture.dir);
+  assert.deepEqual(pendingState.pending, [{ ...pending, run_id: prepared.run_id }]);
+  assert.deepEqual(pendingState.systems, {});
+  assert.deepEqual(pendingState.runs, {});
+  fixture.run('release', '--run-id', prepared.run_id, '--attempt-id', prepared.attempt_id);
+
+  const resumed = fixture.run('prepare', '--mode', 'rotation');
+  assert.equal(resumed.run_id, prepared.run_id);
+  assert.deepEqual(resumed.previous_pending, [{ ...pending, run_id: prepared.run_id }]);
+  const resolution = JSON.parse(fs.readFileSync(resumed.checkpoint, 'utf8'));
+  resolution.pending = [];
+  resolution.resolved_pending_ids = [pending.id];
+  resolution.completed_systems = ['models-prompting'];
+  writeJson(input, resolution);
+  fixture.run('checkpoint', '--run', input, '--attempt-id', resumed.attempt_id);
+  const resolvedState = loadState(fixture.dir);
+  assert.deepEqual(resolvedState.pending, []);
+  assert.deepEqual(resolvedState.pending_resolutions[pending.id], { run_id: prepared.run_id, system_id: 'models-prompting' });
+  assert.deepEqual(resolvedState.systems, {});
+  assert.deepEqual(resolvedState.runs, {});
+  fixture.run('checkpoint', '--run', input, '--attempt-id', resumed.attempt_id);
+  assert.deepEqual(loadState(fixture.dir), resolvedState);
+  const unknown = { ...resolution, resolved_pending_ids: ['never-pending'] };
+  writeJson(input, unknown);
+  assert.throws(() => fixture.run('checkpoint', '--run', input, '--attempt-id', resumed.attempt_id), /Unknown resolved pending/i);
+  assert.deepEqual(loadState(fixture.dir), resolvedState);
+  writeJson(input, resolution);
+  fixture.run('finish', '--run', input, '--attempt-id', resumed.attempt_id, '--outcome', 'observed');
+  const finishedState = loadState(fixture.dir);
+  assert.deepEqual(finishedState.pending, []);
+  assert.ok(finishedState.systems['models-prompting'].last_verified_at);
+  assert.equal(finishedState.runs[prepared.run_id].outcome, 'observed');
+});
+
+test('checkpoint snapshots article and research changes without changing index, branch or working files', t => {
+  const fixture = gitFixture(t);
+  const prepared = fixture.run('prepare', '--mode', 'manual', '--ids', 'models-prompting');
+  const article = path.join(fixture.root, 'docs/01-concepts/models.md');
+  fs.writeFileSync(article, '# Staged article\n');
+  fixture.git('add', '--', 'docs/01-concepts/models.md');
+  fs.writeFileSync(article, '# Article edited after staging\n');
+  fs.appendFileSync(path.join(fixture.root, 'ROADMAP.md'), '\nFollow-up observation.\n');
+  fs.appendFileSync(path.join(fixture.root, 'GLOSSARY.md'), '\nUpdated term.\n');
+  fs.appendFileSync(path.join(fixture.root, 'README.md'), '\nUpdated index.\n');
+  fs.writeFileSync(path.join(fixture.root, 'research/core/new-observation.md'), '# New untracked research\n');
+  fs.writeFileSync(path.join(fixture.root, 'scratch-local.txt'), 'Unrelated staged work\n');
+  fs.writeFileSync(path.join(fixture.root, '.env'), 'FIXTURE_SECRET=do-not-snapshot\n');
+  fs.writeFileSync(path.join(fixture.root, 'research/core/private.env'), 'FIXTURE_SECRET=do-not-snapshot\n');
+  fixture.git('add', '--', 'scratch-local.txt');
+  const headBefore = fixture.git('rev-parse', 'HEAD');
+  const branchBefore = fixture.git('symbolic-ref', 'HEAD');
+  const statusBefore = fixture.git('status', '--porcelain=v1', '--untracked-files=all');
+  const indexFile = path.resolve(fixture.root, fixture.git('rev-parse', '--git-path', 'index'));
+  const indexBefore = fs.readFileSync(indexFile);
+  const workingFiles = ['docs/01-concepts/models.md', 'ROADMAP.md', 'GLOSSARY.md', 'README.md', 'research/core/new-observation.md', 'scratch-local.txt', '.env', 'research/core/private.env'];
+  const beforeContents = workingFiles.map(file => fs.readFileSync(path.join(fixture.root, file), 'utf8'));
+
+  fixture.run('checkpoint', '--run', prepared.checkpoint, '--attempt-id', prepared.attempt_id);
+  const saved = JSON.parse(fs.readFileSync(prepared.checkpoint, 'utf8'));
+  assert.match(saved.snapshot_commit, /^[a-f0-9]{40}$/);
+  assert.equal(saved.snapshot_head, headBefore);
+  assert.equal(fixture.git('rev-parse', `refs/freshness/checkpoints/${prepared.run_id}`), saved.snapshot_commit);
+  assert.equal(fixture.git('rev-parse', `${saved.snapshot_commit}^`), headBefore);
+  assert.equal(fixture.git('show', `${saved.snapshot_commit}:docs/01-concepts/models.md`), '# Article edited after staging');
+  assert.equal(fixture.git('show', `${saved.snapshot_commit}:research/core/new-observation.md`), '# New untracked research');
+  assert.match(fixture.git('show', `${saved.snapshot_commit}:ROADMAP.md`), /Follow-up observation/);
+  assert.match(fixture.git('show', `${saved.snapshot_commit}:GLOSSARY.md`), /Updated term/);
+  assert.match(fixture.git('show', `${saved.snapshot_commit}:README.md`), /Updated index/);
+  const snapshotFiles = new Set(fixture.git('ls-tree', '-r', '--name-only', saved.snapshot_commit).split('\n'));
+  assert.equal(snapshotFiles.has('scratch-local.txt'), false);
+  assert.equal(snapshotFiles.has('.env'), false);
+  assert.equal(snapshotFiles.has('research/core/private.env'), false);
+  assert.deepEqual(fs.readFileSync(indexFile), indexBefore);
+  assert.equal(fixture.git('rev-parse', 'HEAD'), headBefore);
+  assert.equal(fixture.git('symbolic-ref', 'HEAD'), branchBefore);
+  assert.equal(fixture.git('status', '--porcelain=v1', '--untracked-files=all'), statusBefore);
+  assert.deepEqual(workingFiles.map(file => fs.readFileSync(path.join(fixture.root, file), 'utf8')), beforeContents);
+  fixture.run('release', '--run-id', prepared.run_id, '--attempt-id', prepared.attempt_id);
+});
+
+test('suspend persists unfinished work and PR then releases its attempt for same-run resumption', t => {
+  const fixture = gitFixture(t);
+  const prepared = fixture.run('prepare', '--mode', 'manual', '--ids', 'models-prompting');
+  const checkpoint = JSON.parse(fs.readFileSync(prepared.checkpoint, 'utf8'));
+  checkpoint.pr_url = 'https://github.com/pero3dev/ai-agent-library/pull/999';
+  checkpoint.notes = ['Independent review passed; waiting for CI.'];
+  checkpoint.pending = [{ id: 'source-still-unavailable', system_id: 'models-prompting', reason: 'Source remains inaccessible' }];
+  const input = path.join(fixture.directory, 'suspended-input.json');
+  writeJson(input, checkpoint);
+  fixture.run('suspend', '--run', input, '--attempt-id', prepared.attempt_id);
+  assert.equal(fs.existsSync(path.join(fixture.dir, 'lock')), false);
+  const saved = JSON.parse(fs.readFileSync(prepared.checkpoint, 'utf8'));
+  assert.equal(saved.status, 'in_progress');
+  assert.match(saved.snapshot_commit, /^[a-f0-9]{40}$/);
+  assert.equal(loadState(fixture.dir).runs[prepared.run_id], undefined);
+  assert.equal(loadState(fixture.dir).pending[0].id, 'source-still-unavailable');
+  const resumed = fixture.run('prepare', '--mode', 'rotation');
+  assert.equal(resumed.run_id, prepared.run_id);
+  assert.notEqual(resumed.attempt_id, prepared.attempt_id);
+  assert.equal(resumed.resuming, true);
+  assert.equal(resumed.pr_url, checkpoint.pr_url);
+  assert.deepEqual(resumed.notes, checkpoint.notes);
+  assert.equal(resumed.snapshot_commit, saved.snapshot_commit);
   fixture.run('release', '--run-id', resumed.run_id, '--attempt-id', resumed.attempt_id);
 });

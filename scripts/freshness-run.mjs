@@ -13,6 +13,36 @@ const git = (root, ...args) => execFileSync('git', args, { cwd: root, encoding: 
 export function storageDirectory(root) {
   return path.resolve(root, git(root, 'rev-parse', '--git-common-dir'), 'freshness');
 }
+export function snapshotWork(root, dir, runId) {
+  assertRunId(runId);
+  fs.mkdirSync(dir, { recursive: true });
+  const index = path.join(dir, `snapshot-index-${crypto.randomUUID()}`);
+  const snapshotOptions = {
+    cwd: root, encoding: 'utf8', windowsHide: true,
+    env: { ...process.env, GIT_INDEX_FILE: index }, stdio: ['ignore', 'pipe', 'pipe']
+  };
+  const snapshotGit = (...args) => execFileSync('git', args, snapshotOptions).trim();
+  try {
+    const head = git(root, 'rev-parse', 'HEAD');
+    snapshotGit('read-tree', head);
+    const candidates = ['docs', 'research', 'ROADMAP.md', 'GLOSSARY.md', 'README.md'];
+    const paths = snapshotGit('ls-files', '--cached', '--others', '--exclude-standard', '-z', '--', ...candidates)
+      .split('\0').filter(file => candidates.slice(2).includes(file) || /^(docs|research)\/.*\.(md|json)$/.test(file));
+    if (paths.length) execFileSync('git', ['--literal-pathspecs', 'add', '-A', '--pathspec-from-file=-', '--pathspec-file-nul'], {
+      ...snapshotOptions, stdio: ['pipe', 'pipe', 'pipe'], input: `${[...new Set(paths)].join('\0')}\0`
+    });
+    const tree = snapshotGit('write-tree');
+    const commit = tree === git(root, 'rev-parse', `${head}^{tree}`) ? head : snapshotGit(
+      '-c', 'user.name=Codex', '-c', 'user.email=codex@openai.com',
+      'commit-tree', tree, '-p', head, '-m', `WIP freshness ${runId}\n\nCo-authored-by: Codex <codex@openai.com>`
+    );
+    git(root, 'update-ref', `refs/freshness/checkpoints/${runId}`, commit);
+    return { snapshot_commit: commit, snapshot_head: head };
+  } finally {
+    if (fs.existsSync(index)) fs.unlinkSync(index);
+    if (fs.existsSync(`${index}.lock`)) fs.unlinkSync(`${index}.lock`);
+  }
+}
 function writeJson(file, value) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   const tmp = `${file}.${crypto.randomUUID()}.tmp`;
@@ -109,18 +139,23 @@ export function applyCompletion(state, checkpoint, outcome, now = new Date()) {
   if (completed.some(id => pending.some(item => item.system_id === id))) throw new Error('A system with pending items cannot be fully verified.');
   if (outcome === 'merged' && (!/^[a-f0-9]{40}$/.test(checkpoint.merge_sha ?? '') || !/^https:\/\/github\.com\/pero3dev\/ai-agent-library\/pull\/\d+$/.test(checkpoint.pr_url ?? ''))) throw new Error('Merged outcome requires a PR and merge SHA');
   const result = structuredClone(state);
+  result.pending_resolutions ??= {};
   const resolved = checkpoint.resolved_pending_ids ?? [];
   if (!Array.isArray(resolved) || resolved.some(id => typeof id !== 'string')) throw new Error('Invalid resolved pending IDs');
   for (const id of resolved) {
     const old = state.pending.find(item => item.id === id);
-    if (!old) throw new Error('Unknown resolved pending ID');
+    const prior = result.pending_resolutions[id];
+    if (!old && !(prior?.run_id === checkpoint.run_id && ids.includes(prior.system_id))) throw new Error('Unknown resolved pending ID');
     if (old && !ids.includes(old.system_id)) throw new Error('Cannot resolve another system\'s pending item');
+    if (pending.some(item => item.id === id)) throw new Error('A pending item cannot also be resolved');
+    if (old) result.pending_resolutions[id] = { run_id: checkpoint.run_id, system_id: old.system_id };
   }
   result.pending = result.pending.filter(item => !resolved.includes(item.id));
   for (const item of pending) {
     const old = result.pending.find(entry => entry.id === item.id);
     if (old && old.system_id !== item.system_id) throw new Error('Pending ID belongs to a different system');
     result.pending = result.pending.filter(entry => entry.id !== item.id);
+    delete result.pending_resolutions[item.id];
     result.pending.push({ ...item, run_id: checkpoint.run_id });
   }
   if (completed.some(id => result.pending.some(item => item.system_id === id))) throw new Error('Existing pending items prevent full verification.');
@@ -174,7 +209,7 @@ export function main(argv = process.argv.slice(2)) {
     }
     return { ...checkpoint, resuming: Boolean(interrupted), current_main_sha: git(root, 'rev-parse', 'origin/main'), dry_run: Boolean(options.dryRun), checkpoint: path.join(dir, 'runs', `${runId}.json`), evidence: `research/freshness-runs/${runId}.json`, branch: `automation/freshness-${runId}`, targets: systems, previous_pending: state.pending };
   }
-  if (command === 'checkpoint' || command === 'finish') {
+  if (command === 'checkpoint' || command === 'suspend' || command === 'finish') {
     if (!options.run) throw new Error('--run is required');
     const checkpoint = JSON.parse(fs.readFileSync(path.resolve(options.run), 'utf8'));
     assertRunId(checkpoint.run_id);
@@ -183,12 +218,19 @@ export function main(argv = process.argv.slice(2)) {
     const registry = readRegistry(root);
     if (!Array.isArray(checkpoint.systems) || checkpoint.systems.some(id => !registry.some(row => row.id === id))) throw new Error('Unknown system');
     // Validate completion/pending fields even during an intermediate checkpoint.
-    const state = applyCompletion(loadState(dir), checkpoint, command === 'finish' ? options.outcome : 'held', now);
+    const previous = loadState(dir);
+    const state = applyCompletion(previous, checkpoint, command === 'finish' ? options.outcome : 'held', now);
     if (command === 'finish') {
       writeJson(path.join(dir, 'state.json'), state);
       writeJson(path.join(dir, 'runs', `${checkpoint.run_id}.json`), { ...checkpoint, status: options.outcome, saved_at: now.toISOString() });
       releaseLock(dir, checkpoint.run_id, options['attempt-id'] ?? checkpoint.attempt_id);
-    } else writeJson(path.join(dir, 'runs', `${checkpoint.run_id}.json`), { ...checkpoint, status: 'in_progress', saved_at: now.toISOString() });
+    } else {
+      const snapshot = snapshotWork(root, dir, checkpoint.run_id);
+      // Persist follow-ups without claiming the observation or PR is complete.
+      writeJson(path.join(dir, 'state.json'), { ...previous, pending: state.pending, pending_resolutions: state.pending_resolutions });
+      writeJson(path.join(dir, 'runs', `${checkpoint.run_id}.json`), { ...checkpoint, ...snapshot, status: 'in_progress', saved_at: now.toISOString() });
+      if (command === 'suspend') releaseLock(dir, checkpoint.run_id, options['attempt-id'] ?? checkpoint.attempt_id);
+    }
     return { saved: true, command, run_id: checkpoint.run_id, storage: dir };
   }
   if (command === 'assert-lock' || command === 'release') {
@@ -198,7 +240,7 @@ export function main(argv = process.argv.slice(2)) {
     if (command === 'release') releaseLock(dir, options['run-id'], options['attempt-id']);
     return { ok: true, command };
   }
-  throw new Error('Commands: prepare, checkpoint, finish, assert-lock, release, status');
+  throw new Error('Commands: prepare, checkpoint, suspend, finish, assert-lock, release, status');
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   try { console.log(JSON.stringify(main(), null, 2)); }

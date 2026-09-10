@@ -84,17 +84,22 @@ node scripts/freshness-run.mjs checkpoint --run '<checkpoint の絶対パス>'
 node scripts/freshness-run.mjs finish --run '<checkpoint の絶対パス>' --outcome observed
 ```
 
-`finish` の outcome は `observed` / `merged` / `held` / `failed` です。merged には PR URL とマージ SHA が必要です。`completed_systems` は、その系統の宣言した確認範囲に残件がない場合だけ指定します。
+`finish` の outcome は `observed` / `merged` / `held` / `failed` です。merged には PR URL とマージ SHA が必要です。`completed_systems` は、その系統の宣言した確認範囲に残件がない場合だけ指定します。レビュー・CI・公開確認を次回へ引き継ぐ場合は `finish held` ではなく `suspend --run '<checkpoint の絶対パス>' --attempt-id '<開始時の attempt_id>'` を使います。差分・残件を保存し、未完了状態を維持して lock を解放します。
 
 ## 保存場所と復旧
 
-観測状態・未完了 checkpoint・排他 lock は Git の common directory 配下の `freshness/` に保存します。通常の配置では `C:\dev\ai-agent-library\.git\freshness\` です。worktree 間で同じ状態を共有し、アプリの一時 worktree が削除されても失われません。ファイルはコミットされず、秘密情報を記録しません。
+観測状態・未完了 checkpoint・排他 lock は Git の common directory 配下の `freshness/` に保存します。通常の配置では `C:\dev\ai-agent-library\.git\freshness\` です。worktree 間で同じ状態を共有し、アプリの一時 worktree が削除されても記録が残ります。状態ファイルはコミットされず、秘密情報を記録しません。
+
+`checkpoint` / `suspend` は `docs/` と `research/` の Markdown・JSON、および `ROADMAP.md`、`GLOSSARY.md`、`README.md` の変更を、一時的な Git index を使ってローカルの WIP コミットへ保存します。保存先は `refs/freshness/checkpoints/<run_id>` です。実際の index・ブランチ・作業ファイルは変更せず、この ref をリモートへ push しません。これら以外の未コミットファイルと、最後の checkpoint 後の編集は保存対象外です。
+
+復元時は checkpoint の `snapshot_commit` と `snapshot_head`、既存ブランチ・PR head を比較します。ブランチが snapshot の親のままであれば、きれいな worktree でそのブランチへ `git merge --ff-only <snapshot_commit>` を実行できます。ブランチがなければ snapshot から作成します。ブランチが既に先へ進んだ場合や他の worktree で使用中の場合は、履歴を確認して差分を統合します。最新 main が変わっていれば統合後に checkpoint・evidence の `base_sha` を更新し、根拠・digest・レビュー・CI を取り直します。
 
 | 情報 | 保存先 | 意味 |
 | --- | --- | --- |
 | 系統と対象 | ROADMAP の registry 表 | 人とスクリプトが読む正本 |
 | 最終試行・最終確認・再試行日 | `freshness/state.json` | 本文の更新日と分離した巡回状態 |
 | 作業途中の確認範囲・残件 | `freshness/runs/<run_id>.json` | 利用制限・中断からの再開 |
+| 記事・調査資料の保存済み差分 | `refs/freshness/checkpoints/<run_id>` | 一時 worktree 消失時にも復元できる WIP コミット |
 | 排他状態 | `freshness/lock/owner.json` | 同じ clone の複数 worktree による重複作業を防止 |
 | マージする変更の根拠 | `research/freshness-runs/<run_id>.json` | PR とともに残る証拠 |
 
@@ -107,7 +112,7 @@ node scripts/freshness-run.mjs finish --run '<checkpoint の絶対パス>' --out
 ## 導入の確認項目
 
 - 定期タスク 2 件に、正しいプロジェクト・Worktree・曜日・日本時間・プロンプトを登録する。
-- 「今すぐ実行」で 1 回試し、checkpoint、一次情報、独立レビュー、PR の CI、マージ後の公開を確認する。
+- 一時的な試験用スケジュールでアプリの実起動を確認し、記事更新の試行で checkpoint、一次情報、独立レビュー、PR の CI、マージ後の公開を確認する。
 - PC とアプリの起動状態、Codex 契約枠、GitHub 認証を確認する。
 - 初期数回は PR の内容と未確認の扱いを見て、対象数や周期を調整する。
 

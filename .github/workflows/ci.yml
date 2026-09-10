@@ -55,7 +55,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Run actionlint
+      - name: Install pinned actionlint
         env:
           ACTIONLINT_VERSION: 1.7.12
           ACTIONLINT_SHA256: 8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
@@ -66,7 +66,8 @@ jobs:
             "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/${archive}"
           echo "${ACTIONLINT_SHA256}  ${archive}" | sha256sum -c -
           tar -xzf "$archive" actionlint
-          ./actionlint -color
+      - name: Run actionlint
+        run: ./actionlint -color
 
   # docs の規約検証。リンクの Markdown パーサは root lockfile の固定依存を使用する。
   docs:
@@ -89,6 +90,37 @@ jobs:
         run: node scripts/check-links.mjs
       - name: ハーネスと文書検証の回帰検査
         run: node --test scripts/*.test.mjs
+
+  harness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci --ignore-scripts
+      - run: npm run check:harness
+
+  # Windows 固有のパス・worktree・排他・hook adapter を確認する。サイト一式は build job。
+  harness-windows:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci --ignore-scripts
+      - run: npm run test:harness:windows
 
   examples:
     runs-on: ubuntu-latest
@@ -157,7 +189,7 @@ jobs:
 
   deploy:
     if: github.ref == 'refs/heads/main' && vars.DEPLOY_PAGES == 'true'
-    needs: [lint, actionlint, build, docs, examples]
+    needs: [lint, actionlint, build, docs, examples, harness, harness-windows]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:

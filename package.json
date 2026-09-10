@@ -6,11 +6,21 @@
     "validate": "node scripts/validate-docs.mjs --all",
     "links": "node scripts/check-links.mjs",
     "todos": "node scripts/todo-report.mjs",
-    "check": "npm test && npm run lint:md && npm run validate && npm run links && npm run todos"
+    "check": "npm test && npm run lint:md && npm run validate && npm run links && npm run todos && npm run check:harness",
+    "check:harness": "node scripts/check-harness.mjs",
+    "harness:doctor": "node scripts/harness-doctor.mjs",
+    "harness:context": "node scripts/harness-context.mjs",
+    "harness:health": "node scripts/harness-health.mjs",
+    "check:ci": "node scripts/check-ci.mjs",
+    "check:docs": "npm run validate && npm run links",
+    "harness:run": "node scripts/harness-run.mjs",
+    "test:harness:windows": "node --test scripts/hooks.test.mjs scripts/freshness-run.test.mjs scripts/harness-run.test.mjs scripts/markdown-validation.test.mjs scripts/harness-tooling.test.mjs"
   },
   "devDependencies": {
     "github-slugger": "2.0.0",
+    "js-yaml": "5.2.3",
     "markdown-it": "14.3.0",
-    "markdownlint-cli": "^0.49.1"
+    "markdownlint-cli": "^0.49.1",
+    "smol-toml": "1.7.2"
   }
 }

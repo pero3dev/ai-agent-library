@@ -412,6 +412,13 @@ test('task parsing ignores fenced examples and HTML comments rather than treatin
   assert.throws(() => roadmapTasks(hidden, [a, b]), /タスク表を取得できません/)
 })
 
+test('old and relocated test areas keep their harness policy classification', () => {
+  for (const file of ['scripts/hook.test.mjs', 'tests/harness/rules.example', 'tests/unit/hooks.test.mjs', 'tests/helpers/windows-test-path.mjs', 'tests/fixtures/harness/rules.example']) assert.equal(classifyPath(file), 'harness', file)
+  assert.equal(classifyPath('website/tests/unit/routes.test.mjs'), 'website')
+  assert.equal(classifyPath('examples/tests/test_samples.py'), 'examples')
+  assert.equal(classifyPath('project/plans/engineering/structure-cleanup.md'), 'repository')
+})
+
 test('task artifact links resolve document reference definitions and ignore escaped inline code', () => {
   const text = roadmap().replace('`agent-loop.md`, `tool-use.md`', '[Agent][agent], `tool-use.md`, \\`fake.md\\`') + '\n[agent]: docs/01-concepts/agent-loop.md\n'
   assert.deepEqual(roadmapTasks(text, [a, b]).get('T-1').artifacts, [a, b])

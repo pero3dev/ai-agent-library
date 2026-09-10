@@ -1,0 +1,718 @@
+{
+  "schema_version": 1,
+  "baseline_sha": "948a418cc0f78f1846238cf23c13d63c4efdc8a2",
+  "created_at": "2026-09-10T17:12:28.903Z",
+  "plan": "project/plans/engineering/structure-cleanup.md",
+  "note": "references are baseline text matches, not semantic permission to rewrite historical JSON/logs; glob/root/import dependencies are handled in S1/S3",
+  "moves": [
+    {
+      "from": "AGENT-INFRA-PLAN.md",
+      "to": "project/plans/content/agent-infra.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "22c20ab63a91a7f1cc27a0e1734972f837f3643a989fa68a30b12e8c9e95d2be",
+      "status": "planned",
+      "references": [
+        "AI-STRATEGY-PLAN.md",
+        "PRIORITY-MAP.md",
+        "README.md",
+        "ROADMAP.md"
+      ]
+    },
+    {
+      "from": "AI-STRATEGY-PLAN.md",
+      "to": "project/plans/content/ai-strategy.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "4017a37f1d80958f8730fdcae2f7852ae192cc40fe09b4bd06433cd9f499b1ef",
+      "status": "planned",
+      "references": [
+        "MODEL-PROMPTING-PLAN.md",
+        "PRIORITY-MAP.md",
+        "README.md",
+        "ROADMAP.md"
+      ]
+    },
+    {
+      "from": "CASES-EXAMPLES-PLAN.md",
+      "to": "project/plans/content/cases-examples.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "5fb3f660b92e830a0a2ebb2bca28c46b3747dd9f4ea1d15253f4b55741ae8251",
+      "status": "planned",
+      "references": [
+        "HUMAN-AI-PLAN.md",
+        "PRIORITY-MAP.md",
+        "README.md",
+        "ROADMAP.md"
+      ]
+    },
+    {
+      "from": "CODING-AGENTS-PLAN.md",
+      "to": "project/plans/content/coding-agents.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "13ce56007eb3b5ce858c9c2d4df1aff9b3eb1ef6274b48ef9167f1479141483c",
+      "status": "planned",
+      "references": [
+        "DOMAIN-AGENTS-PLAN.md",
+        "PRIORITY-MAP.md",
+        "README.md",
+        "ROADMAP.md",
+        "docs/08-coding-agents/README.md",
+        "research/coding-agents/README.md",
+        "research/coding-agents/claude-code-practice.md",
+        "research/coding-agents/claude-code.md",
+        "research/coding-agents/cursor.md",
+        "research/coding-agents/devin.md",
+        "research/coding-agents/gemini.md",
+        "research/coding-agents/github-copilot.md",
+        "research/coding-agents/open-source.md",
+        "research/coding-agents/openai-codex.md",
+        "research/coding-agents/windsurf.md"
+      ]
+    },
+    {
+      "from": "DATA-KNOWLEDGE-PLAN.md",
+      "to": "project/plans/content/data-knowledge.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "bbfd859cbe25f791d723f7149d79d5120bf56a1bbcd2b37c87b8125f17345468",
+      "status": "planned",
+      "references": [
+        "LLMOPS-PLAN.md",
+        "PRIORITY-MAP.md",
+        "README.md",
+        "ROADMAP.md"
+      ]
+    },
+    {
+      "from": "DEEP-DIVE-PLAN.md",
+      "to": "project/plans/content/deep-dive.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "984d91a62aed0a8caa4ba2b2f2b81939cbb7ce02d294d1b3acaf12b61869b049",
+      "status": "planned",
+      "references": [
+        "LLM-INTERNALS-PLAN.md",
+        "PRIORITY-MAP.md",
+        "README.md",
+        "ROADMAP.md"
+      ]
+    },
+    {
+      "from": "DOMAIN-AGENTS-PLAN.md",
+      "to": "project/plans/content/domain-agents.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "ae1cfbbf7d8729741291f4a482863ede093142a28c07598b2e4f78d57cf05ccb",
+      "status": "planned",
+      "references": [
+        "DATA-KNOWLEDGE-PLAN.md",
+        "PRIORITY-MAP.md",
+        "README.md",
+        "ROADMAP.md",
+        "docs/13-domain-agents/README.md"
+      ]
+    },
+    {
+      "from": "ECOSYSTEM-PLAN.md",
+      "to": "project/plans/content/ecosystem.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "d47990dcdb8ef6e1b53e38b9b354ed91965561699e9e4335f098585f2d78fff7",
+      "status": "planned",
+      "references": [
+        "CASES-EXAMPLES-PLAN.md",
+        "PRIORITY-MAP.md",
+        "README.md",
+        "ROADMAP.md"
+      ]
+    },
+    {
+      "from": "EVAL-QUALITY-PLAN.md",
+      "to": "project/plans/content/eval-quality.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "f16afdbe0753d72a7b3da14fb612718c67c3d84ea01f6e922a80b0f765fa69d8",
+      "status": "planned",
+      "references": [
+        "PRIORITY-MAP.md",
+        "README.md",
+        "ROADMAP.md",
+        "UX-PRODUCT-PLAN.md"
+      ]
+    },
+    {
+      "from": "EXPANSION-PLAN.md",
+      "to": "project/plans/content/expansion.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "21a19e11753e0b144edd8545a0b0ae1ded3722c4ae78f7fd4fc4c6a01e51a599",
+      "status": "planned",
+      "references": [
+        "LLM-INTERNALS-PLAN.md",
+        "README.md",
+        "ROADMAP.md",
+        "SUPPLEMENTARY-PLAN.md"
+      ]
+    },
+    {
+      "from": "FOUNDATIONS-EXTENSION-PLAN.md",
+      "to": "project/plans/content/foundations-extension.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "a4f89de4c1e9ecf83e19844825e68f3e618abb1b5d1a55a532be34e3f5ce4cbd",
+      "status": "planned",
+      "references": [
+        "ECOSYSTEM-PLAN.md",
+        "PRIORITY-MAP.md",
+        "README.md",
+        "ROADMAP.md"
+      ]
+    },
+    {
+      "from": "HUMAN-AI-PLAN.md",
+      "to": "project/plans/content/human-ai.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "f8742c79b8d788c59ec146755ecf921bf8795cce5fdf698e6dbc45fe7f79fc7a",
+      "status": "planned",
+      "references": [
+        "PRIORITY-MAP.md",
+        "README.md",
+        "RELIABILITY-PLAN.md",
+        "ROADMAP.md"
+      ]
+    },
+    {
+      "from": "LLM-INTERNALS-PLAN.md",
+      "to": "project/plans/content/llm-internals.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "3ecb6cbaf90e32ce82b3e02979604b9015be714433926299258504a826e19165",
+      "status": "planned",
+      "references": [
+        "FOUNDATIONS-EXTENSION-PLAN.md",
+        "LLMOPS-PLAN.md",
+        "MULTIMODAL-PLAN.md",
+        "PRIORITY-MAP.md",
+        "README.md",
+        "ROADMAP.md",
+        "SUPPLEMENTARY-PLAN.md"
+      ]
+    },
+    {
+      "from": "LLMOPS-PLAN.md",
+      "to": "project/plans/content/llmops.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "930de0f81db50b73ec5a1b66953e51d1923fd7fab7937f4fbfbd4023e49bb1b3",
+      "status": "planned",
+      "references": [
+        "PRIORITY-MAP.md",
+        "README.md",
+        "ROADMAP.md",
+        "TRUST-SECURITY-PLAN.md",
+        "docs/05-operations/README.md"
+      ]
+    },
+    {
+      "from": "MAINTENANCE-2026Q3-PLAN.md",
+      "to": "project/plans/maintenance/2026q3.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "67a5f657795da83e6b158f3b1cbe847fff7146258ebac41ede37177afd95d2fe",
+      "status": "planned",
+      "references": [
+        "ROADMAP.md",
+        "research/review-maintenance-2026-09-10.md",
+        "review-2026-09-10.md"
+      ]
+    },
+    {
+      "from": "MODEL-PROMPTING-PLAN.md",
+      "to": "project/plans/content/model-prompting.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "6b7c925a8d84743d6d13dcb25a146aabe874048e945afb1a0d0a5e99f5832a83",
+      "status": "planned",
+      "references": [
+        "PRIORITY-MAP.md",
+        "README.md",
+        "ROADMAP.md"
+      ]
+    },
+    {
+      "from": "MULTIMODAL-PLAN.md",
+      "to": "project/plans/content/multimodal.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "9117a943e0d17c8aff2b7e88a5b1bceee9a01acc0d7a034b13f10b8041b305ce",
+      "status": "planned",
+      "references": [
+        "DOMAIN-AGENTS-PLAN.md",
+        "PRIORITY-MAP.md",
+        "README.md",
+        "ROADMAP.md",
+        "docs/12-multimodal/README.md"
+      ]
+    },
+    {
+      "from": "ORG-PROCESS-PLAN.md",
+      "to": "project/plans/content/org-process.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "17807978fb9142d3e0700c7f237a3bdd5f596af8ea507c05606f7419d26605cc",
+      "status": "planned",
+      "references": [
+        "FOUNDATIONS-EXTENSION-PLAN.md",
+        "PRIORITY-MAP.md",
+        "README.md",
+        "ROADMAP.md"
+      ]
+    },
+    {
+      "from": "RELIABILITY-PLAN.md",
+      "to": "project/plans/content/reliability.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "0c2891b8b85eff61bebc48ea2f885fbfd0f86c57af718d2bb36c02f75228ba60",
+      "status": "planned",
+      "references": [
+        "AGENT-INFRA-PLAN.md",
+        "PRIORITY-MAP.md",
+        "README.md",
+        "ROADMAP.md"
+      ]
+    },
+    {
+      "from": "SE-CODING-AGENTS-PLAN.md",
+      "to": "project/plans/content/se-coding-agents.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "69a355dfef7706c6f3134df36c129142ec147a472e16c017401ae6faebf7278a",
+      "status": "planned",
+      "references": [
+        "DOMAIN-AGENTS-PLAN.md",
+        "PRIORITY-MAP.md",
+        "README.md",
+        "ROADMAP.md",
+        "docs/08-coding-agents/README.md"
+      ]
+    },
+    {
+      "from": "SUPPLEMENTARY-PLAN.md",
+      "to": "project/plans/content/supplementary.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "58d82ec0a9510466028fad9b38560bebb7dd82dfaf125bbdec435f47be7f2469",
+      "status": "planned",
+      "references": [
+        "EXPANSION-PLAN.md",
+        "LLM-INTERNALS-PLAN.md",
+        "README.md",
+        "ROADMAP.md"
+      ]
+    },
+    {
+      "from": "TRUST-SECURITY-PLAN.md",
+      "to": "project/plans/content/trust-security.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "de16d6a51899f6b6f8ec5990bae131680577f4cc69b83eb903b8456f03cd7a22",
+      "status": "planned",
+      "references": [
+        "EVAL-QUALITY-PLAN.md",
+        "PRIORITY-MAP.md",
+        "README.md",
+        "ROADMAP.md",
+        "docs/06-security/README.md"
+      ]
+    },
+    {
+      "from": "UX-PRODUCT-PLAN.md",
+      "to": "project/plans/content/ux-product.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "3a2aa5626f6393fd64b08ab967c872e39a33f014c70c978273fb2856d3f9bdde",
+      "status": "planned",
+      "references": [
+        "ORG-PROCESS-PLAN.md",
+        "PRIORITY-MAP.md",
+        "README.md",
+        "ROADMAP.md",
+        "docs/14-ux-and-product/README.md"
+      ]
+    },
+    {
+      "from": "WEBSITE-PLAN.md",
+      "to": "project/plans/engineering/website.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "1ce0ae09cfa6d0b891dfd4aef1e1bf3cadf75d373ba212836cfbbc76ebb300c6",
+      "status": "planned",
+      "references": [
+        "README.md",
+        "website/README.md",
+        "website/components/home/data.js",
+        "website/lib/doc-decorations.mjs",
+        "website/mdx-components.js",
+        "website/scripts/sync-content.mjs"
+      ]
+    },
+    {
+      "from": "PRIORITY-MAP.md",
+      "to": "project/plans/content/priority-map.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "eca2a9cb8a542c5f7a53cd06c14affe36127fb09a0a09b87008592957823214e",
+      "status": "planned",
+      "references": [
+        "README.md",
+        "ROADMAP.md"
+      ]
+    },
+    {
+      "from": "freshness-automation-plan.md",
+      "to": "project/plans/engineering/freshness-automation.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "4d9c1931a87dd8b581c62c409df432a1326e4f2d6f772f4affc3ccae2c3aba20",
+      "status": "planned",
+      "references": []
+    },
+    {
+      "from": "harness-improvement-plan.md",
+      "to": "project/plans/engineering/harness-improvement.md",
+      "phase": "S2",
+      "kind": "plan",
+      "sha256_before": "2993ca6eba0768b13cea825f9a99e06b297c32306c8d26dafe342eec2b67f8db",
+      "status": "planned",
+      "references": [
+        "harness-implementation-status.md"
+      ]
+    },
+    {
+      "from": "freshness-audit-2026-09-10.md",
+      "to": "project/records/2026-09-10/freshness-audit.md",
+      "phase": "S2",
+      "kind": "record",
+      "sha256_before": "a445480e713bef7d035a6f74c03424f8ffa7ed271775792149f50f0f14005a45",
+      "status": "planned",
+      "references": [
+        "MAINTENANCE-2026Q3-PLAN.md",
+        "ROADMAP.md",
+        "freshness-update-2026-09-10.md"
+      ]
+    },
+    {
+      "from": "freshness-update-2026-09-10.md",
+      "to": "project/records/2026-09-10/freshness-update.md",
+      "phase": "S2",
+      "kind": "record",
+      "sha256_before": "f07f773e0dbd5dbac80e82b60660d91c87fd42c6a366476a20e9ced87b1e9798",
+      "status": "planned",
+      "references": [
+        "MAINTENANCE-2026Q3-PLAN.md",
+        "ROADMAP.md",
+        "freshness-audit-2026-09-10.md"
+      ]
+    },
+    {
+      "from": "freshness-automation-setup.md",
+      "to": "project/records/2026-09-10/freshness-automation-setup.md",
+      "phase": "S2",
+      "kind": "record",
+      "sha256_before": "876aa47727519d84141e85177f582ecfcc5da745e23f00f9ee3cd152e8080b21",
+      "status": "planned",
+      "references": [
+        "freshness-automation-plan.md",
+        "freshness-automation.md",
+        "harness-improvement-plan.md"
+      ]
+    },
+    {
+      "from": "harness-implementation-status.md",
+      "to": "project/records/2026-09-10/harness-acceptance.md",
+      "phase": "S2",
+      "kind": "record",
+      "sha256_before": "fc12a2b4fbd3947524900386471070bf60e50c2bc1515c97acaf18af506db336",
+      "status": "planned",
+      "references": [
+        "CONTRIBUTING.md",
+        "harness-improvement-plan.md"
+      ]
+    },
+    {
+      "from": "review-2026-09-10.md",
+      "to": "project/records/2026-09-10/review.md",
+      "phase": "S2",
+      "kind": "record",
+      "sha256_before": "e5afb8943e179f6fddca068c5e150378aba3b9bf9ba1944aa8188c589deedc03",
+      "status": "planned",
+      "references": [
+        "research/review-maintenance-2026-09-10.md",
+        "research/review-sources-applications-2026-09-10.md",
+        "review-remediation-2026-09-10.md"
+      ]
+    },
+    {
+      "from": "review-remediation-2026-09-10.md",
+      "to": "project/records/2026-09-10/review-remediation.md",
+      "phase": "S2",
+      "kind": "record",
+      "sha256_before": "17c26a840aab312bc3fe3ac744dca243dd02f6b81a4a913cb2bab324bb1b1362",
+      "status": "planned",
+      "references": [
+        "harness-improvement-plan.md",
+        "research/review-sources-foundations-2026-09-10.md"
+      ]
+    },
+    {
+      "from": "review-evidence/2026-09-10/examples-audit.json",
+      "to": "project/records/2026-09-10/evidence/examples-audit.json",
+      "phase": "S2",
+      "kind": "immutable-evidence",
+      "sha256_before": "0cbb8a2d4ca55b7435f0ce041efc9e17296e7c7b81e960fc639093fc28662581",
+      "status": "planned",
+      "references": [
+        "review-2026-09-10.md"
+      ]
+    },
+    {
+      "from": "review-evidence/2026-09-10/website-audit.txt",
+      "to": "project/records/2026-09-10/evidence/website-audit.txt",
+      "phase": "S2",
+      "kind": "immutable-evidence",
+      "sha256_before": "871b047e795c6d20115529bd2c55335fea704070f88118ed46f61d115fa797a1",
+      "status": "planned",
+      "references": [
+        "review-2026-09-10.md"
+      ]
+    },
+    {
+      "from": "scripts/eval-harness.test.mjs",
+      "to": "tests/unit/eval-harness.test.mjs",
+      "phase": "S3",
+      "kind": "unit-test",
+      "sha256_before": "955d4661b75367cfc939dce20b2b5e887d404d2dc658330b46fb89b2c911d2eb",
+      "status": "planned",
+      "references": []
+    },
+    {
+      "from": "scripts/freshness-policy.test.mjs",
+      "to": "tests/unit/freshness-policy.test.mjs",
+      "phase": "S3",
+      "kind": "unit-test",
+      "sha256_before": "ea0dc91ec5a365cd18abf8227e814ce9cb4fc3dd629193f14f630f563bc8f1ba",
+      "status": "planned",
+      "references": [
+        "scripts/eval-harness.mjs"
+      ]
+    },
+    {
+      "from": "scripts/freshness-registry.test.mjs",
+      "to": "tests/unit/freshness-registry.test.mjs",
+      "phase": "S3",
+      "kind": "unit-test",
+      "sha256_before": "2d4c9e2877bc86412ed74629a76f3d453ed0d66421c8a2340e5752cbc4bbe3e0",
+      "status": "planned",
+      "references": [
+        "scripts/eval-harness.mjs"
+      ]
+    },
+    {
+      "from": "scripts/freshness-run.test.mjs",
+      "to": "tests/unit/freshness-run.test.mjs",
+      "phase": "S3",
+      "kind": "unit-test",
+      "sha256_before": "3ff1408863eee5927cb6ceb0f3bc559cf66100eeeaf413b9f2bf726a28ae9c93",
+      "status": "planned",
+      "references": [
+        "package.json",
+        "scripts/eval-harness.mjs"
+      ]
+    },
+    {
+      "from": "scripts/github-evidence.test.mjs",
+      "to": "tests/unit/github-evidence.test.mjs",
+      "phase": "S3",
+      "kind": "unit-test",
+      "sha256_before": "91fd772b395f39bfafd09fbd60b0ef063852df69be1d97a5777c4de7f24026f6",
+      "status": "planned",
+      "references": [
+        "scripts/eval-harness.mjs"
+      ]
+    },
+    {
+      "from": "scripts/harness-policy.test.mjs",
+      "to": "tests/unit/harness-policy.test.mjs",
+      "phase": "S3",
+      "kind": "unit-test",
+      "sha256_before": "03b4467c8a3d332170bf973048b15448d142842530a9bf6998341f1b8aa06453",
+      "status": "planned",
+      "references": [
+        "scripts/eval-harness.mjs"
+      ]
+    },
+    {
+      "from": "scripts/harness-run.test.mjs",
+      "to": "tests/unit/harness-run.test.mjs",
+      "phase": "S3",
+      "kind": "unit-test",
+      "sha256_before": "19c614032be9c6af0d815ab7c6336a0ce37589ccca47f5bd58a9085f399d4f2c",
+      "status": "planned",
+      "references": [
+        "package.json",
+        "scripts/eval-harness.mjs"
+      ]
+    },
+    {
+      "from": "scripts/harness-tooling.test.mjs",
+      "to": "tests/unit/harness-tooling.test.mjs",
+      "phase": "S3",
+      "kind": "unit-test",
+      "sha256_before": "4947d45fe65c09f1fe05130d2aab42be465567a97880533816ab2e88c17caa45",
+      "status": "planned",
+      "references": [
+        "package.json"
+      ]
+    },
+    {
+      "from": "scripts/hooks.test.mjs",
+      "to": "tests/unit/hooks.test.mjs",
+      "phase": "S3",
+      "kind": "unit-test",
+      "sha256_before": "2670d84b971905b639052b72f95f516eb4168a030d587e65c558ed37a70f3935",
+      "status": "planned",
+      "references": [
+        "harness-improvement-plan.md",
+        "package.json",
+        "scripts/eval-harness.mjs"
+      ]
+    },
+    {
+      "from": "scripts/markdown-validation.test.mjs",
+      "to": "tests/unit/markdown-validation.test.mjs",
+      "phase": "S3",
+      "kind": "unit-test",
+      "sha256_before": "2d957eb9380052cceb5f3b61366b84564e7cfd2962c0d51f4d774f239bb0cfe1",
+      "status": "planned",
+      "references": [
+        "package.json",
+        "scripts/eval-harness.mjs"
+      ]
+    },
+    {
+      "from": "scripts/sync-harness.test.mjs",
+      "to": "tests/unit/sync-harness.test.mjs",
+      "phase": "S3",
+      "kind": "unit-test",
+      "sha256_before": "49dbf02f00a29d4b0387c8324d52ef3612516dac7672c2a701c1a262154c4b92",
+      "status": "planned",
+      "references": [
+        "CONTRIBUTING.md",
+        "scripts/eval-harness.mjs"
+      ]
+    },
+    {
+      "from": "scripts/validate-docs-cli.test.mjs",
+      "to": "tests/unit/validate-docs-cli.test.mjs",
+      "phase": "S3",
+      "kind": "unit-test",
+      "sha256_before": "84e1a1bdb23d97ef9b0c9ed02a92fdf537ccbf43828b809f259fa42ccd43b734",
+      "status": "planned",
+      "references": []
+    },
+    {
+      "from": "scripts/lib/windows-test-path.mjs",
+      "to": "tests/helpers/windows-test-path.mjs",
+      "phase": "S3",
+      "kind": "test-helper",
+      "sha256_before": "55ba295fdee87eaa315a368f222fa2a20786cbbeb94d880d3d3467d3b29333c5",
+      "status": "planned",
+      "references": [
+        "scripts/freshness-run.test.mjs",
+        "scripts/hooks.test.mjs"
+      ]
+    },
+    {
+      "from": "tests/harness/authoring-prompt.txt.example",
+      "to": "tests/fixtures/harness/authoring-prompt.txt.example",
+      "phase": "S3",
+      "kind": "inert-fixture",
+      "sha256_before": "1749d6e1b72f83440d84b4b2430ded4eeb9cbfcdeda3326c03fd5180997d1ce6",
+      "status": "planned",
+      "references": [
+        "scripts/eval-harness.mjs"
+      ]
+    },
+    {
+      "from": "tests/harness/external-source.txt.example",
+      "to": "tests/fixtures/harness/external-source.txt.example",
+      "phase": "S3",
+      "kind": "inert-fixture",
+      "sha256_before": "15898f9850cf644a4059bea9ba87479abd400ef601336aec36f099f02a6ffc26",
+      "status": "planned",
+      "references": []
+    },
+    {
+      "from": "website/scripts/export-checks.test.mjs",
+      "to": "website/tests/unit/export-checks.test.mjs",
+      "phase": "S3",
+      "kind": "website-unit-test",
+      "sha256_before": "99023a63974315841449fc99990a5711cef9291f1b469d2e17a18609caab59fc",
+      "status": "planned",
+      "references": []
+    },
+    {
+      "from": "website/scripts/export-segments.test.mjs",
+      "to": "website/tests/unit/export-segments.test.mjs",
+      "phase": "S3",
+      "kind": "website-unit-test",
+      "sha256_before": "1a9292c7d1f28c7b234c6ece03391145314b4b2ba8f47965ecd17ecaf7dbdd0f",
+      "status": "planned",
+      "references": []
+    },
+    {
+      "from": "website/scripts/markdown-routes.test.mjs",
+      "to": "website/tests/unit/markdown-routes.test.mjs",
+      "phase": "S3",
+      "kind": "website-unit-test",
+      "sha256_before": "19f12143e080cc2520e9451335ddbe3a2952ccaa012ad0361e014cee07d13b46",
+      "status": "planned",
+      "references": []
+    },
+    {
+      "from": "website/scripts/mdx-safety.test.mjs",
+      "to": "website/tests/unit/mdx-safety.test.mjs",
+      "phase": "S3",
+      "kind": "website-unit-test",
+      "sha256_before": "e6111aa73eb17865e18a1e522bcb5417ef9be2e4999ee447b20a1953d4c2022f",
+      "status": "planned",
+      "references": []
+    }
+  ],
+  "conditional_removals": [
+    {
+      "path": ".codex/hooks/edited-paths.mjs",
+      "condition": "current test migrated to core; no supported external entry contract",
+      "status": "planned"
+    },
+    {
+      "path": "examples/typescript/.gitkeep",
+      "condition": "future examples documented without an empty directory",
+      "status": "planned"
+    }
+  ],
+  "protected": [
+    "docs article paths and categories",
+    "research/**/*.json",
+    "automation/*.txt",
+    "freshness-automation.md",
+    "active hook definitions/adapters/core",
+    "90-day evaluation evidence",
+    "personal configuration and application-managed worktrees"
+  ]
+}

@@ -110,7 +110,7 @@ export async function checkHarness(root = ROOT, { trackedFiles, hooks } = {}) {
     try {
       const command = await import(pathToFileURL(path.join(root, 'scripts/lib/hook-command.mjs')))
       const core = await import(pathToFileURL(path.join(root, 'scripts/lib/hook-core.mjs')))
-      contracts = { hookCommand: command.hookCommand, generatedPath: core.generatedPath }
+      contracts = { hookCommand: command.hookCommand, codexWindowsHookCommand: command.codexWindowsHookCommand, generatedPath: core.generatedPath }
     } catch (error) { problems.push(`共通 hook contract を読めません: ${error.code ?? error.message}`) }
   }
   if (contracts) {
@@ -119,6 +119,7 @@ export async function checkHarness(root = ROOT, { trackedFiles, hooks } = {}) {
       for (const [event, mode] of [['PreToolUse', 'guard'], ['PostToolUse', 'validate']]) {
         const entries = settings.hooks?.[event]
         if (!Array.isArray(entries) || entries.length !== 1 || entries[0].hooks?.length !== 1 || entries[0].hooks[0].type !== 'command' || entries[0].hooks[0].command !== contracts.hookCommand(client, mode)) problems.push(`${file}: ${event} command が共通 contract と不一致です`)
+        if (client === 'codex' && entries?.[0]?.hooks?.[0]?.commandWindows !== contracts.codexWindowsHookCommand(mode)) problems.push(`${file}: ${event} commandWindows が共通 contract と不一致です`)
         const matcher = new RegExp(entries?.[0]?.matcher ?? '(?!)')
         for (const tool of ['Edit', 'Write', 'MultiEdit', ...(client === 'codex' ? ['apply_patch'] : [])]) if (!matcher.test(tool)) problems.push(`${file}: matcher が ${tool} を対象にしません`)
         const timeout = entries?.[0]?.hooks?.[0]?.timeout

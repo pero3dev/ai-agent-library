@@ -178,10 +178,13 @@ function configuredFixture(t) {
   if (!existsSync(path.join(root, 'harness/profiles.json'))) write('harness/profiles.json', { schema_version: 1, profiles: Object.fromEntries(['new-doc', 'article-update', 'freshness', 'publish-review', 'examples', 'website', 'harness'].map(name => [name, { allowed_roots: [], allowed_files: [], extensions: [], completion: 'local', review_required: false }])) })
   for (const file of ['.codex/hooks.json', '.claude/settings.json']) {
     const config = JSON.parse(readFileSync(path.join(root, file), 'utf8'))
-    for (const event of ['PreToolUse', 'PostToolUse']) config.hooks[event][0].hooks[0].command = 'fixture-expected-command'
+    for (const event of ['PreToolUse', 'PostToolUse']) {
+      config.hooks[event][0].hooks[0].command = 'fixture-expected-command'
+      if (file === '.codex/hooks.json') config.hooks[event][0].hooks[0].commandWindows = 'fixture-expected-windows-command'
+    }
     write(file, config)
   }
-  return { root, write, options: { trackedFiles: [], hooks: { hookCommand: () => 'fixture-expected-command', generatedPath: file => file.startsWith('website/generated/') } } }
+  return { root, write, options: { trackedFiles: [], hooks: { hookCommand: () => 'fixture-expected-command', codexWindowsHookCommand: () => 'fixture-expected-windows-command', generatedPath: file => file.startsWith('website/generated/') } } }
 }
 
 test('harness verification detects source drift, role metadata, hook changes and tracked generated files', async t => {
@@ -220,4 +223,19 @@ test('hook command mismatch and malformed settings are not a successful harness 
   assert.equal(result.verified, false)
   assert.match(result.problems.join('\n'), /command が共通 contract と不一致/)
   assert.match(result.problems.join('\n'), /\.codex\/hooks\.json/)
+})
+
+test('Codex Windows hook override cannot be removed or drift even when portable commands match', async t => {
+  const { root, write, options } = configuredFixture(t)
+  const original = JSON.parse(readFileSync(path.join(root, '.codex/hooks.json'), 'utf8'))
+  for (const event of ['PreToolUse', 'PostToolUse']) {
+    for (const value of [undefined, 'different-command', null]) {
+      const config = structuredClone(original)
+      config.hooks[event][0].hooks[0].commandWindows = value
+      write('.codex/hooks.json', config)
+      const result = await checkHarness(root, options)
+      assert.equal(result.verified, false)
+      assert.match(result.problems.join('\n'), new RegExp(`${event} commandWindows`))
+    }
+  }
 })

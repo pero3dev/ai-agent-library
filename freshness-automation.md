@@ -52,7 +52,9 @@ PR 操作をローカルの認証で行うため、Actions の `GITHUB_TOKEN` �
 
 各 PR は `research/freshness-runs/<run_id>.json` を 1 件含めます。[結果スキーマ](scripts/schemas/freshness-result.schema.json)に従い、一次資料 URL・確認時刻・確認した主張・変更先・独立レビュー結果を記録します。
 
-レビューする差分の digest は、base・変更パス・Git blob・ファイル属性から計算します。evidence 自身は digest から除き、自己参照を避けます。編集後に本文が変われば digest が変わり、以前のレビュー結果ではチェックが通りません。
+新規実行は schema 2 を使います。レビューする digest は、base・変更パス・Git blob・ファイル属性に加え、正規化した根拠・観測・変更分類から計算します。JSON のキー順と空白、レビュー結果自身と実行の開始・完了時刻は対象外です。本文だけでなく根拠 URL・取得時刻・主張・変更分類が変わった場合も、stage と digest 計算をやり直して再レビューします。最初の digest 計算前に根拠を含む manifest を stage する必要があります。
+
+旧 schema 1 の過去記録は [旧スキーマ](scripts/schemas/freshness-result-v1.schema.json)と `validateArchivedResultShape` / `legacyContentDigest` で閲覧・検証できます。これらを新規 PR の受理には使いません。2026-09-10 の切替開始時点に旧形式の未完了 run / PR はありませんでした。将来同様の切替をする場合は、継続中の実行を完了させるか、保存後に新形式へ移行してレビューを取り直してから、新形式を必須化します。
 
 このチェックが保証するのは、証拠記録の形式、差分との対応、日付・権限範囲です。**根拠の内容が正しいことや、実際に独立した判断が行われたことを機械的に証明するものではありません。** その部分は、別の doc-reviewer 実行が一次資料と本文を読み直し、実行 ID と判定を記録する運用で確認します。
 

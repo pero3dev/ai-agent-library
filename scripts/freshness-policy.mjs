@@ -16,8 +16,8 @@ const git = (cwd, args) => execFileSync('git', args, { cwd, encoding: 'utf8', ma
 const show = (cwd, revision, file) => git(cwd, ['show', `${revision}:${file}`]).replace(/\r\n/g, '\n')
 
 /** schema が使用する JSON Schema のサブセットだけを検査する(依存ゼロ)。 */
-export function validateResultShape(value, rule = schema, location = '$') {
-  if (rule.$ref) return validateResultShape(value, schema.$defs[rule.$ref.split('/').at(-1)], location)
+export function validateResultShape(value, rule = schema, location = '$', root = rule) {
+  if (rule.$ref) return validateResultShape(value, root.$defs[rule.$ref.split('/').at(-1)], location, root)
   if ('const' in rule) assert(value === rule.const, `${location}: const が不一致`)
   if (rule.enum) assert(rule.enum.includes(value), `${location}: 許可されていない値`)
   if (rule.type) {
@@ -32,12 +32,12 @@ export function validateResultShape(value, rule = schema, location = '$') {
   if (Array.isArray(value)) {
     assert(value.length >= (rule.minItems ?? 0) && value.length <= (rule.maxItems ?? Infinity), `${location}: 件数が不正`)
     if (rule.uniqueItems) assert(new Set(value.map(item => JSON.stringify(item))).size === value.length, `${location}: 重複`)
-    value.forEach((item, index) => validateResultShape(item, rule.items, `${location}[${index}]`))
+    value.forEach((item, index) => validateResultShape(item, rule.items, `${location}[${index}]`, root))
   } else if (value && typeof value === 'object') {
     for (const key of rule.required ?? []) assert(Object.hasOwn(value, key), `${location}.${key}: 必須`)
     for (const [key, item] of Object.entries(value)) {
       assert(rule.additionalProperties !== false || Object.hasOwn(rule.properties ?? {}, key), `${location}.${key}: 未知のキー`)
-      if (rule.properties?.[key]) validateResultShape(item, rule.properties[key], `${location}.${key}`)
+      if (rule.properties?.[key]) validateResultShape(item, rule.properties[key], `${location}.${key}`, root)
     }
   }
 }
@@ -54,10 +54,38 @@ function changesBetween(cwd, base, head) {
   return changes.sort((a, b) => a.path < b.path ? -1 : a.path > b.path ? 1 : 0)
 }
 
-/** Manifest は自己参照を避けるため除外。パス・種別・mode・両 blob の SHA を束縛する。 */
-export function contentDigest({ cwd = process.cwd(), base, head }) {
+/** 過去 schema 1 の閲覧・検証専用。新しい PR の受理には使用しない。 */
+export function legacyContentDigest({ cwd = process.cwd(), base, head }) {
   const records = changesBetween(cwd, base, head).filter(change => !evidencePattern.test(change.path))
   return createHash('sha256').update(JSON.stringify(records)).digest('hex')
+}
+
+function canonical(value) {
+  if (Array.isArray(value)) return value.map(canonical)
+  if (value && typeof value === 'object') return Object.fromEntries(Object.keys(value).sort().map(key => [key, canonical(value[key])]))
+  return value
+}
+
+/** 本文の Git 差分と根拠・変更分類を束縛する。レビュー自身と保存時刻は自己参照を避けて除く。 */
+export function contentDigest({ cwd = process.cwd(), base, head }) {
+  const changes = changesBetween(cwd, base, head)
+  const evidence = changes.filter(change => evidencePattern.test(change.path))
+  assert(evidence.length === 1, 'digest: 根拠を含む manifest を 1 件 stage してから計算する必要がある')
+  const manifest = JSON.parse(show(cwd, head, evidence[0].path))
+  assert(manifest.schema_version === 2, 'digest: 新規レビューには schema_version 2 が必要')
+  const { schema_version, run_id, base_sha, writer_run_id, systems, observations, changes: declarations } = manifest
+  for (const key of ['run_id', 'base_sha', 'writer_run_id', 'systems', 'observations', 'changes']) assert(Object.hasOwn(manifest, key), `digest: ${key} が必要`)
+  const payload = {
+    records: changes.filter(change => !evidencePattern.test(change.path)),
+    evidence_path: evidence[0].path,
+    evidence: { schema_version, run_id, base_sha, writer_run_id, systems, observations, changes: declarations }
+  }
+  return createHash('sha256').update(JSON.stringify(canonical(payload))).digest('hex')
+}
+
+export function validateArchivedResultShape(value) {
+  const legacy = JSON.parse(readFileSync(new URL('./schemas/freshness-result-v1.schema.json', import.meta.url), 'utf8'))
+  validateResultShape(value, legacy)
 }
 
 function timestamp(value, label) {
@@ -135,7 +163,7 @@ export function checkFreshnessPolicy({ cwd = process.cwd(), base, head, branch, 
       assert(url.protocol === 'https:' && !url.username && !url.password, '根拠 URL は認証情報を含まない HTTPS が必要')
       assert(url.hostname !== 'localhost' && !/^127\.|^10\.|^192\.168\.|^169\.254\.|^\[/.test(url.hostname), '根拠 URL は公開一次情報が必要')
       const accessed = timestamp(source.accessed_at, 'accessed_at')
-      assert(accessed >= started && accessed <= completed, 'accessed_at は実行区間内である必要がある')
+      assert(accessed >= started && accessed <= reviewed, 'accessed_at は実行開始後かつレビュー以前である必要がある')
       for (const field of ['published_at', 'effective_at']) if (source[field]) timestamp(`${source[field]}T00:00:00Z`, field)
     }
   }

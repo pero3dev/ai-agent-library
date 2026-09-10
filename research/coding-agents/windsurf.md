@@ -2,7 +2,7 @@
 
 - **対象**: Windsurf — **2026-06-02 に「Devin Desktop」へ改名済み**(提供元: Cognition)
 - **調査日**: 2026-07-05
-- **調査方法**: [CODING-AGENTS-PLAN.md](../../CODING-AGENTS-PLAN.md) §7 の 12 項目チェックリストに従い、公式サイト(windsurf.com / devin.ai / cognition.com)・公式ドキュメント(docs.devin.ai)・公式ブログ・利用規約のみを根拠として確認。第三者記事は根拠にしていません
+- **調査方法**: [coding-agents.md](../../project/plans/content/coding-agents.md) §7 の 12 項目チェックリストに従い、公式サイト(windsurf.com / devin.ai / cognition.com)・公式ドキュメント(docs.devin.ai)・公式ブログ・利用規約のみを根拠として確認。第三者記事は根拠にしていません
 - **記録様式**: `確認した事実 | 出典 URL | 確認日 | 確度(公式明記 / 公式から推測 / 第三者)`
 - **最重要注記(執筆時必読)**:
   - windsurf.com は https://devin.ai/desktop へ **308 恒久リダイレクト**(確認日 2026-07-05)。同ページ冒頭に「Windsurf is now Devin Desktop」と明記

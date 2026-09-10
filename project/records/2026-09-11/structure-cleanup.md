@@ -21,11 +21,11 @@
 
 | 工程 | 状態 | 対象・証拠・次の操作 |
 | --- | --- | --- |
-| S0 | 実施中 | baselineと旧新パス54件を保存。worktree・削除候補を個別照合中 |
-| S1 | 導入待ち | project走査・profile・PR分類・教材検査の先行互換を実装。独立レビューmust0、278試験成功。PR・CI・マージへ |
-| S2 | 未完了 | 文書33件と監査出力2件、索引・参照を別worktreeで整理。S1導入後に統合 |
-| S3 | 未着手 | 単体試験・helper・固定課題の配置と実行入口を同期 |
-| S4 | 調査中 | 不要物の処置を条件別に記録。前日の評価証拠は保持 |
+| S0 | 完了 | baseline・旧新パス54件・worktreeの取り込み証拠と削除条件を保存 |
+| S1 | 完了 | PR #26の9必須チェック、マージ・公開照合成功 |
+| S2 | 導入待ち | 文書33件と監査出力2件を移動。root15/Markdown8、記事本文・研究JSON・214タスク不変 |
+| S3 | 実装済み | 単体試験・helper・固定課題を移動。root278、Windows110、website26、offline eval242試験成功。S2後に導入 |
+| S4 | 実施中 | 旧worktree14件と対応ローカルbranch・remote10件をバックアップ後に解放。生成物と恒久検査は後続 |
 | S5 | 未着手 | 新checkoutの受入、全CI・公開照合、最終配置と残す理由を確認 |
 
 ## 検証と証拠の扱い
@@ -39,3 +39,21 @@
 `npm ci` と `npm run check` が成功しました。278試験が成功しskipは0件、記事・章索引215ファイル、相対リンク279ファイル/4,979リンク、ハーネス定義30ファイルを検査しました。`--include` の不正・欠落・大文字小文字違い・リンク経由の入力は失敗します。移動先projectの壊れたリンク・アンカー、researchの明示対象、新旧試験領域の分類と不活性な教材も回帰試験で確認しました。親担当の独立レビューは必須指摘0件です。
 
 実装時に利用制限で一度中断しました。保存済み差分を確認してから同じ所有範囲を再開し、上記の全体検証を完了しました。中断した試行を成功した試験へ数え直してはいません。
+
+[PR #26](https://github.com/pero3dev/ai-agent-library/pull/26) はhead `6990d636b5417e9795650a9a9d9c2da263c220ae` の9チェック成功後、merge `6013793b8e3bd665c5af4027b6dd2537bd6e0e66` に進みました。main CI `34511960017`、deployment `6378034130` と公開HTTP200・本文を2026-09-10T18:06:48.119Zにライブ照合しました。
+
+## S2の確認
+
+移行台帳の文書33件・監査出力2件を移動し、project/researchの索引とREADMEの構成案内を整備しました。旧計画の数値は当時の記録として保ち、採択時点・完了状態・後継の現行手順を明示しています。現行参照は移動先へ更新し、過去の証拠JSONのパスとdigestは変更していません。
+
+記事本文・research JSONの変更は0件、ROADMAPの214タスクのID・状態・成果物は不変、監査出力2件のSHA256も不変です。S1の検査で変更したresearch Markdownを追加指定し、294ファイル/5,322リンクが成功しました。実装コメントとignoreコメントの旧計画名も同期しました。
+
+移動後の `npm run check` は278試験・skip 0件で成功しました。独立レビューは必須指摘0件、推奨指摘1件でした。索引のコーディングエージェント章を計画本文に合わせてA・B表記へ修正しました。
+
+## S4のworktree整理
+
+旧兄弟worktree14件のHEAD、通常/ignored差分、実体パス、リンク属性、PRのsquash/cherry-pick結果を個別照合しました。ignoredデータは依存・生成物だけで、実受入の保持対象は含みません。所有担当の作業終了を確認し、削除直前にもHEAD・状態・登録先を再検査しました。
+
+`refs/archive/structure-cleanup/2026-09-11/harness/` 配下の保持refと、common Git directoryの `structure-cleanup/completed-worktrees.bundle` を作成・検証してから、`git worktree remove` で14件を解放しました。対応するローカルbranch14件と、HEADが一致するremote branch10件も整理しました。remote更新は観測したSHAのleaseを条件とし、mainには適用していません。回収したファイルの論理サイズ合計は1,759,625,334 bytesです。
+
+実受入の差分が残るGit内2件、アプリ管理2件、独立Claude評価コピー1件は保持します。削除一覧・取り込み証拠・復元refはローカルの `structure-cleanup/worktrees-inventory.json`、`worktree-removal-results.json`、`remote-branch-removal.json` に保存しました。復元時はbundleまたは保持refから記録されたHEADでworktreeを作成し、依存をlockfileから再導入します。

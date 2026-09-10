@@ -21,4 +21,4 @@
 | [speech-synthesis-and-voice-design.md](speech-synthesis-and-voice-design.md) | 音声合成(TTS)と声の設計(選定軸・声の設計・音声クローンの統制・発音制御・評価) |
 | [realtime-multimodal-agents.md](realtime-multimodal-agents.md) | リアルタイムマルチモーダル Agent(継続観測・応答タイミング・プロアクティブ介入・プライバシー。鮮度管理型) |
 
-執筆順・タスク分割はリポジトリ直下の `MULTIMODAL-PLAN.md` と `ROADMAP.md`(Phase Y・Z)を参照してください。動画・リアルタイム・生成系のページは変化が速いため、各ページ本文冒頭の「最終確認日」を必ず確認してください。
+執筆順・タスク分割はリポジトリ内の `project/plans/content/multimodal.md` と `ROADMAP.md`(Phase Y・Z)を参照してください。動画・リアルタイム・生成系のページは変化が速いため、各ページ本文冒頭の「最終確認日」を必ず確認してください。

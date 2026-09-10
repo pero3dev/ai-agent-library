@@ -2,11 +2,11 @@
 
 - **対象ツール**: Claude Code(提供元: Anthropic)
 - **調査日**: 2026-07-05
-- **調査方法**: CODING-AGENTS-PLAN.md §7 の調査チェックリスト 12 項目に従い、公式ドキュメント(code.claude.com/docs)・公式料金ページ(claude.com/pricing)・公式ヘルプセンター(support.claude.com)・Trust Center 関連の公式情報のみを根拠として確認
+- **調査方法**: project/plans/content/coding-agents.md §7 の調査チェックリスト 12 項目に従い、公式ドキュメント(code.claude.com/docs)・公式料金ページ(claude.com/pricing)・公式ヘルプセンター(support.claude.com)・Trust Center 関連の公式情報のみを根拠として確認
 - **確度の凡例**: 「公式明記」= 公式ページに明文あり / 「公式から推測」= 公式記述からの合理的推測(明文なし) / 「第三者」= 第三者情報のみ(本文の根拠にしない)
 - **記録様式**: `確認した事実 | 出典 URL | 確認日 | 確度`
 
-> **注**: 本メモは docs/ 規約(テンプレート・固定 H2)の対象外です(CODING-AGENTS-PLAN.md §13)。
+> **注**: 本メモは docs/ 規約(テンプレート・固定 H2)の対象外です(project/plans/content/coding-agents.md §13)。
 
 ## 2026-09-10 鮮度更新の反映
 

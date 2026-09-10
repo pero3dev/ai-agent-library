@@ -1,8 +1,8 @@
 # examples — サンプルコード
 
-docs から参照される、動くサンプルコードを置くディレクトリです(Phase 4 以降で追加)。
+docs から参照される、自己完結のサンプルコードを置くディレクトリです。Python の 6 サンプルと横断試験を収録しています。TypeScript は将来の追加予定で、実サンプルを作るときにディレクトリを追加します。
 
-## ルール(詳細は [CLAUDE.md](../CLAUDE.md))
+## ルール(詳細は [サンプル規約](../harness/writing-rules.md#サンプルコードのルール))
 
 - 配置: `examples/<言語>/<トピック名>/`(トピック名は対応する docs のファイル名と揃える)
 - 各サンプルは自己完結とし、実行方法を書いた `README.md` を必ず含める
@@ -16,6 +16,6 @@ docs から参照される、動くサンプルコードを置くディレクト
 
 ```text
 examples/
-├── python/       # Python サンプル
-└── typescript/   # TypeScript サンプル
+├── python/       # Python サンプル 6 件。各 README に実行方法・確認条件
+└── tests/        # Python 横断試験・固定依存
 ```

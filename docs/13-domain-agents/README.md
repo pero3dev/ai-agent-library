@@ -26,4 +26,4 @@
 | [hr-and-recruitment-ai.md](hr-and-recruitment-ai.md) | 人事・採用領域の AI(高リスク用途の設計・公平性評価・規制の確認先・透明性。免責付き) |
 | [legal-review-agents.md](legal-review-agents.md) | 契約レビュー・法務ドメイン Agent(向く業務の切り出し・見落としの非対称リスク・根拠提示・業際配慮。免責付き) |
 
-執筆順・タスク分割はリポジトリ直下の `DOMAIN-AGENTS-PLAN.md` と `ROADMAP.md`(Phase AA・AB・AC)を参照してください。RPA 統合動向・先端応用のページは変化が速いため、各ページ本文冒頭の「最終確認日」を必ず確認してください。
+執筆順・タスク分割はリポジトリ内の `project/plans/content/domain-agents.md` と `ROADMAP.md`(Phase AA・AB・AC)を参照してください。RPA 統合動向・先端応用のページは変化が速いため、各ページ本文冒頭の「最終確認日」を必ず確認してください。

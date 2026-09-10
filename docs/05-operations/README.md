@@ -24,7 +24,7 @@ Agent システムを本番で動かし続けるための実務を扱うセク�
 | [chaos-engineering-for-ai.md](chaos-engineering-for-ai.md) | AI システムのカオスエンジニアリング(AI 固有の障害注入・仮説駆動の演習・実施環境・定常化・還流) |
 | [long-running-agents.md](long-running-agents.md) | 常駐エージェントのライフサイクル管理(長期劣化の類型・定期メンテナンス・世代交代・個体差・退役) |
 | [green-ai.md](green-ai.md) | AI の環境負荷とグリーン AI(負荷の構造・コスト最適化と共通の削減施策・測定の限界とプロバイダー開示の読み方・報告需要への備え・グリーンウォッシュ回避) |
-| **── LLMOps(モデル運用・インフラ)──** | モデルを「借りる・持つ・混ぜる」インフラ層。API 前提の運用の下に、提供層そのものの設計を足す(設計は `LLMOPS-PLAN.md`) |
+| **── LLMOps(モデル運用・インフラ)──** | モデルを「借りる・持つ・混ぜる」インフラ層。API 前提の運用の下に、提供層そのものの設計を足す(設計は `project/plans/content/llmops.md`) |
 | [self-hosted-inference.md](self-hosted-inference.md) | セルフホスト推論の実務(判断・推論エンジンの類型・スループット・VRAM 見積り・量子化・監視・モデル更新) |
 | [gpu-and-hardware-basics.md](gpu-and-hardware-basics.md) | GPU・AI ハードウェアの基礎(なぜ GPU か・VRAM 概算・メモリ帯域律速・類型・調達 TCO) |
 | [llm-gateway.md](llm-gateway.md) | LLM ゲートウェイの設計(キー一元化・モデル抽象化・ルーティング・フォールバック・マルチテナント・落とし穴) |

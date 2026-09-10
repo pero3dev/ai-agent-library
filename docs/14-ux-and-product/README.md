@@ -21,4 +21,4 @@
 
 価格設計は [AI 機能の価格設計とパッケージング](../09-business/ai-pricing-and-packaging.md)(09-business)にあります。
 
-執筆順・タスク分割はリポジトリ直下の `UX-PRODUCT-PLAN.md` と `ROADMAP.md`(Phase AM・AN)を参照してください。
+執筆順・タスク分割はリポジトリ内の `project/plans/content/ux-product.md` と `ROADMAP.md`(Phase AM・AN)を参照してください。

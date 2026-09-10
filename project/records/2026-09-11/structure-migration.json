@@ -11,13 +11,15 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "22c20ab63a91a7f1cc27a0e1734972f837f3643a989fa68a30b12e8c9e95d2be",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "AI-STRATEGY-PLAN.md",
         "PRIORITY-MAP.md",
         "README.md",
         "ROADMAP.md"
-      ]
+      ],
+      "sha256_after": "469a92699074ecbe600cba9493823923a79001e2830afd724dfd795a34f820c1",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "AI-STRATEGY-PLAN.md",
@@ -25,13 +27,15 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "4017a37f1d80958f8730fdcae2f7852ae192cc40fe09b4bd06433cd9f499b1ef",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "MODEL-PROMPTING-PLAN.md",
         "PRIORITY-MAP.md",
         "README.md",
         "ROADMAP.md"
-      ]
+      ],
+      "sha256_after": "6b9d3b5f7184e1ae571ee66d7afa62e15338b04c830b79823ed0befc72709fb2",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "CASES-EXAMPLES-PLAN.md",
@@ -39,13 +43,15 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "5fb3f660b92e830a0a2ebb2bca28c46b3747dd9f4ea1d15253f4b55741ae8251",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "HUMAN-AI-PLAN.md",
         "PRIORITY-MAP.md",
         "README.md",
         "ROADMAP.md"
-      ]
+      ],
+      "sha256_after": "4b7312dcc6cc306034bc8b868aa3b7f466330a4e6356fab3ef5ed2a7c41e9ab2",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "CODING-AGENTS-PLAN.md",
@@ -53,7 +59,7 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "13ce56007eb3b5ce858c9c2d4df1aff9b3eb1ef6274b48ef9167f1479141483c",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "DOMAIN-AGENTS-PLAN.md",
         "PRIORITY-MAP.md",
@@ -70,7 +76,9 @@
         "research/coding-agents/open-source.md",
         "research/coding-agents/openai-codex.md",
         "research/coding-agents/windsurf.md"
-      ]
+      ],
+      "sha256_after": "8020c63081d0de7a5512284d50d283e30d8db4cb2aec925910079db5467a0b46",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "DATA-KNOWLEDGE-PLAN.md",
@@ -78,13 +86,15 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "bbfd859cbe25f791d723f7149d79d5120bf56a1bbcd2b37c87b8125f17345468",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "LLMOPS-PLAN.md",
         "PRIORITY-MAP.md",
         "README.md",
         "ROADMAP.md"
-      ]
+      ],
+      "sha256_after": "711e352126eafc0145a1b72b3fa828ed6b8cb420d08122232c9833480cf1fa9a",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "DEEP-DIVE-PLAN.md",
@@ -92,13 +102,15 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "984d91a62aed0a8caa4ba2b2f2b81939cbb7ce02d294d1b3acaf12b61869b049",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "LLM-INTERNALS-PLAN.md",
         "PRIORITY-MAP.md",
         "README.md",
         "ROADMAP.md"
-      ]
+      ],
+      "sha256_after": "3a2f4fd9b218066476b219a5e349f83c003c196e039b7149b0056bcd2073656f",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "DOMAIN-AGENTS-PLAN.md",
@@ -106,14 +118,16 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "ae1cfbbf7d8729741291f4a482863ede093142a28c07598b2e4f78d57cf05ccb",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "DATA-KNOWLEDGE-PLAN.md",
         "PRIORITY-MAP.md",
         "README.md",
         "ROADMAP.md",
         "docs/13-domain-agents/README.md"
-      ]
+      ],
+      "sha256_after": "8d09c2e136ad4983d08408e07bdda3a92d98201d7929160427e752ad91db61e8",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "ECOSYSTEM-PLAN.md",
@@ -121,13 +135,15 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "d47990dcdb8ef6e1b53e38b9b354ed91965561699e9e4335f098585f2d78fff7",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "CASES-EXAMPLES-PLAN.md",
         "PRIORITY-MAP.md",
         "README.md",
         "ROADMAP.md"
-      ]
+      ],
+      "sha256_after": "4ce1cd09e19207968c9bdb06f3779179e467411c56959559dfb455f1684cd4f2",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "EVAL-QUALITY-PLAN.md",
@@ -135,13 +151,15 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "f16afdbe0753d72a7b3da14fb612718c67c3d84ea01f6e922a80b0f765fa69d8",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "PRIORITY-MAP.md",
         "README.md",
         "ROADMAP.md",
         "UX-PRODUCT-PLAN.md"
-      ]
+      ],
+      "sha256_after": "283be21457ab975f3e402a18aefdb3004e5662f45fc9f55b2b0baea79da606fb",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "EXPANSION-PLAN.md",
@@ -149,13 +167,15 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "21a19e11753e0b144edd8545a0b0ae1ded3722c4ae78f7fd4fc4c6a01e51a599",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "LLM-INTERNALS-PLAN.md",
         "README.md",
         "ROADMAP.md",
         "SUPPLEMENTARY-PLAN.md"
-      ]
+      ],
+      "sha256_after": "c741d7b0b3312b06872a3b71786c09d3c8bb84d8ef5d6db805aafe024e507e6f",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "FOUNDATIONS-EXTENSION-PLAN.md",
@@ -163,13 +183,15 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "a4f89de4c1e9ecf83e19844825e68f3e618abb1b5d1a55a532be34e3f5ce4cbd",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "ECOSYSTEM-PLAN.md",
         "PRIORITY-MAP.md",
         "README.md",
         "ROADMAP.md"
-      ]
+      ],
+      "sha256_after": "fa609e08554d64231bb1bc9436943bf8232056963a320d77128ba9d14933d112",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "HUMAN-AI-PLAN.md",
@@ -177,13 +199,15 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "f8742c79b8d788c59ec146755ecf921bf8795cce5fdf698e6dbc45fe7f79fc7a",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "PRIORITY-MAP.md",
         "README.md",
         "RELIABILITY-PLAN.md",
         "ROADMAP.md"
-      ]
+      ],
+      "sha256_after": "d3e2419f7443f6a4662af8a91948aec101ced45b7bd59a06158aa65408feccef",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "LLM-INTERNALS-PLAN.md",
@@ -191,7 +215,7 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "3ecb6cbaf90e32ce82b3e02979604b9015be714433926299258504a826e19165",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "FOUNDATIONS-EXTENSION-PLAN.md",
         "LLMOPS-PLAN.md",
@@ -200,7 +224,9 @@
         "README.md",
         "ROADMAP.md",
         "SUPPLEMENTARY-PLAN.md"
-      ]
+      ],
+      "sha256_after": "98aa9e709674d346665b35e0473eaecc4031a9ff51e50320c08c82e3f2985a74",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "LLMOPS-PLAN.md",
@@ -208,14 +234,16 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "930de0f81db50b73ec5a1b66953e51d1923fd7fab7937f4fbfbd4023e49bb1b3",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "PRIORITY-MAP.md",
         "README.md",
         "ROADMAP.md",
         "TRUST-SECURITY-PLAN.md",
         "docs/05-operations/README.md"
-      ]
+      ],
+      "sha256_after": "3de200316e7fbcfed6b31c7dff738ca173a4850eb8463dd30c59a9828ec9bb02",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "MAINTENANCE-2026Q3-PLAN.md",
@@ -223,12 +251,14 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "67a5f657795da83e6b158f3b1cbe847fff7146258ebac41ede37177afd95d2fe",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "ROADMAP.md",
         "research/review-maintenance-2026-09-10.md",
         "review-2026-09-10.md"
-      ]
+      ],
+      "sha256_after": "f87348e6c25ce9c8695a10dcaee29acd2d293fc019cd703ea24e0e7916330890",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "MODEL-PROMPTING-PLAN.md",
@@ -236,12 +266,14 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "6b7c925a8d84743d6d13dcb25a146aabe874048e945afb1a0d0a5e99f5832a83",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "PRIORITY-MAP.md",
         "README.md",
         "ROADMAP.md"
-      ]
+      ],
+      "sha256_after": "78d35c216dd137f7b8b40e1f51ddc13260938ded80743970c30b5e524a41a50d",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "MULTIMODAL-PLAN.md",
@@ -249,14 +281,16 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "9117a943e0d17c8aff2b7e88a5b1bceee9a01acc0d7a034b13f10b8041b305ce",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "DOMAIN-AGENTS-PLAN.md",
         "PRIORITY-MAP.md",
         "README.md",
         "ROADMAP.md",
         "docs/12-multimodal/README.md"
-      ]
+      ],
+      "sha256_after": "ab33c6dae70c73f4c74420d3653105a65005d327ed6d687f89858d5a68e5e6d0",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "ORG-PROCESS-PLAN.md",
@@ -264,13 +298,15 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "17807978fb9142d3e0700c7f237a3bdd5f596af8ea507c05606f7419d26605cc",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "FOUNDATIONS-EXTENSION-PLAN.md",
         "PRIORITY-MAP.md",
         "README.md",
         "ROADMAP.md"
-      ]
+      ],
+      "sha256_after": "5922f457b2c6d04c10e67410f7d11973d9b1b1607e819486c823dfe231aca1cc",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "RELIABILITY-PLAN.md",
@@ -278,13 +314,15 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "0c2891b8b85eff61bebc48ea2f885fbfd0f86c57af718d2bb36c02f75228ba60",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "AGENT-INFRA-PLAN.md",
         "PRIORITY-MAP.md",
         "README.md",
         "ROADMAP.md"
-      ]
+      ],
+      "sha256_after": "28eeeac2c7f9f61c19032b4b34c972af6a180730fa0287f9427d0e7fefa50222",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "SE-CODING-AGENTS-PLAN.md",
@@ -292,14 +330,16 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "69a355dfef7706c6f3134df36c129142ec147a472e16c017401ae6faebf7278a",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "DOMAIN-AGENTS-PLAN.md",
         "PRIORITY-MAP.md",
         "README.md",
         "ROADMAP.md",
         "docs/08-coding-agents/README.md"
-      ]
+      ],
+      "sha256_after": "dec5e4bf29ebbbefe3bde1ad180abf03de96ee68232a33ad2246dc90ee3f5df7",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "SUPPLEMENTARY-PLAN.md",
@@ -307,13 +347,15 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "58d82ec0a9510466028fad9b38560bebb7dd82dfaf125bbdec435f47be7f2469",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "EXPANSION-PLAN.md",
         "LLM-INTERNALS-PLAN.md",
         "README.md",
         "ROADMAP.md"
-      ]
+      ],
+      "sha256_after": "338d171a775148fc99a4694d44d068b699f610ba8afab0861fb176a2ab38c08b",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "TRUST-SECURITY-PLAN.md",
@@ -321,14 +363,16 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "de16d6a51899f6b6f8ec5990bae131680577f4cc69b83eb903b8456f03cd7a22",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "EVAL-QUALITY-PLAN.md",
         "PRIORITY-MAP.md",
         "README.md",
         "ROADMAP.md",
         "docs/06-security/README.md"
-      ]
+      ],
+      "sha256_after": "b2e6d4cf9db4440eb35268be80a922ba9f8ae3c978b5c481aff180b840127b3b",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "UX-PRODUCT-PLAN.md",
@@ -336,14 +380,16 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "3a2aa5626f6393fd64b08ab967c872e39a33f014c70c978273fb2856d3f9bdde",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "ORG-PROCESS-PLAN.md",
         "PRIORITY-MAP.md",
         "README.md",
         "ROADMAP.md",
         "docs/14-ux-and-product/README.md"
-      ]
+      ],
+      "sha256_after": "f02b32e47b2e5ff0e2fdab78c9db77a290259aeaef9f54851b583f510db3c99f",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "WEBSITE-PLAN.md",
@@ -351,7 +397,7 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "1ce0ae09cfa6d0b891dfd4aef1e1bf3cadf75d373ba212836cfbbc76ebb300c6",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "README.md",
         "website/README.md",
@@ -359,7 +405,9 @@
         "website/lib/doc-decorations.mjs",
         "website/mdx-components.js",
         "website/scripts/sync-content.mjs"
-      ]
+      ],
+      "sha256_after": "2c84a1e40145f4104d5929561f5ad570cddbecbf829376948550de2a9e3e8d2f",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "PRIORITY-MAP.md",
@@ -367,11 +415,13 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "eca2a9cb8a542c5f7a53cd06c14affe36127fb09a0a09b87008592957823214e",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "README.md",
         "ROADMAP.md"
-      ]
+      ],
+      "sha256_after": "d8b379fad2766f168c84e1ad78ee002f004699886c1f1f1ccf82e55933f674f4",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "freshness-automation-plan.md",
@@ -379,8 +429,10 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "4d9c1931a87dd8b581c62c409df432a1326e4f2d6f772f4affc3ccae2c3aba20",
-      "status": "planned",
-      "references": []
+      "status": "moved",
+      "references": [],
+      "sha256_after": "6c5419697f4422a18e0db8f52c522c64d24fe54ef5fc2b2f728e27a710952f69",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "harness-improvement-plan.md",
@@ -388,10 +440,12 @@
       "phase": "S2",
       "kind": "plan",
       "sha256_before": "2993ca6eba0768b13cea825f9a99e06b297c32306c8d26dafe342eec2b67f8db",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "harness-implementation-status.md"
-      ]
+      ],
+      "sha256_after": "51d9166f7c41d00d874b13102862208bd74a8b291bd2fd9ecf76120dbde9f105",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "freshness-audit-2026-09-10.md",
@@ -399,12 +453,14 @@
       "phase": "S2",
       "kind": "record",
       "sha256_before": "a445480e713bef7d035a6f74c03424f8ffa7ed271775792149f50f0f14005a45",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "MAINTENANCE-2026Q3-PLAN.md",
         "ROADMAP.md",
         "freshness-update-2026-09-10.md"
-      ]
+      ],
+      "sha256_after": "d29d3a67061e2f929228dfa7d81433daee76ebe0daee6743eba50cff3acf5bed",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "freshness-update-2026-09-10.md",
@@ -412,12 +468,14 @@
       "phase": "S2",
       "kind": "record",
       "sha256_before": "f07f773e0dbd5dbac80e82b60660d91c87fd42c6a366476a20e9ced87b1e9798",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "MAINTENANCE-2026Q3-PLAN.md",
         "ROADMAP.md",
         "freshness-audit-2026-09-10.md"
-      ]
+      ],
+      "sha256_after": "00624f39fe61ca176af0c377d8243ba921eb4be68cdcdfcca91daeedd8d7fdb5",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "freshness-automation-setup.md",
@@ -425,12 +483,14 @@
       "phase": "S2",
       "kind": "record",
       "sha256_before": "876aa47727519d84141e85177f582ecfcc5da745e23f00f9ee3cd152e8080b21",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "freshness-automation-plan.md",
         "freshness-automation.md",
         "harness-improvement-plan.md"
-      ]
+      ],
+      "sha256_after": "58531b8d3edc6a830fa780caf39e1174892a396e9b358f9d12713a189572bdc1",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "harness-implementation-status.md",
@@ -438,11 +498,13 @@
       "phase": "S2",
       "kind": "record",
       "sha256_before": "fc12a2b4fbd3947524900386471070bf60e50c2bc1515c97acaf18af506db336",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "CONTRIBUTING.md",
         "harness-improvement-plan.md"
-      ]
+      ],
+      "sha256_after": "86e9615ac0bbe7c9cb485745d71c4b3b4f5441948cd326cf6fb620577cf365bc",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "review-2026-09-10.md",
@@ -450,12 +512,14 @@
       "phase": "S2",
       "kind": "record",
       "sha256_before": "e5afb8943e179f6fddca068c5e150378aba3b9bf9ba1944aa8188c589deedc03",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "research/review-maintenance-2026-09-10.md",
         "research/review-sources-applications-2026-09-10.md",
         "review-remediation-2026-09-10.md"
-      ]
+      ],
+      "sha256_after": "437e940b4353df88e4878f4fa63fc5c061a98e0e4820a5bc9b46d7da55b38756",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "review-remediation-2026-09-10.md",
@@ -463,11 +527,13 @@
       "phase": "S2",
       "kind": "record",
       "sha256_before": "17c26a840aab312bc3fe3ac744dca243dd02f6b81a4a913cb2bab324bb1b1362",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "harness-improvement-plan.md",
         "research/review-sources-foundations-2026-09-10.md"
-      ]
+      ],
+      "sha256_after": "a7e144333796db1489f08388cd16bd599fce550a3c97aa728ed8814502191caa",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "review-evidence/2026-09-10/examples-audit.json",
@@ -475,10 +541,12 @@
       "phase": "S2",
       "kind": "immutable-evidence",
       "sha256_before": "0cbb8a2d4ca55b7435f0ce041efc9e17296e7c7b81e960fc639093fc28662581",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "review-2026-09-10.md"
-      ]
+      ],
+      "sha256_after": "0cbb8a2d4ca55b7435f0ce041efc9e17296e7c7b81e960fc639093fc28662581",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "review-evidence/2026-09-10/website-audit.txt",
@@ -486,10 +554,12 @@
       "phase": "S2",
       "kind": "immutable-evidence",
       "sha256_before": "871b047e795c6d20115529bd2c55335fea704070f88118ed46f61d115fa797a1",
-      "status": "planned",
+      "status": "moved",
       "references": [
         "review-2026-09-10.md"
-      ]
+      ],
+      "sha256_after": "871b047e795c6d20115529bd2c55335fea704070f88118ed46f61d115fa797a1",
+      "completed_on": "2026-09-11"
     },
     {
       "from": "scripts/eval-harness.test.mjs",

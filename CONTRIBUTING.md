@@ -9,6 +9,7 @@
 - **[harness/writing-rules.md](harness/writing-rules.md)** — 文体・命名・状態・同期更新・サンプルの詳細規約
 - **[templates/doc-template.md](templates/doc-template.md)** — docs の新規学習記事を作るベースです(固定 H2 セクションの削除・改名は不可)
 - **[ROADMAP.md](ROADMAP.md)** — フェーズと担当タスク、定期メンテナンスの一覧
+- **[project/README.md](project/README.md)** — プロジェクトの計画・実施記録。新しい計画や完了報告はここから辿れる配置にします
 
 ## ドキュメントを追加・変更するとき
 
@@ -125,7 +126,7 @@ npm run eval:harness -- --mode collect --run /absolute/path/evaluation
 
 `collect` は全パスと全コマンドをローカルの `summary.json` に保存します。標準出力は件数・先頭10パス・完全記録の位置を表示し、縮約の有無を明示します。`dependency_install` の成功は依存準備の結果であり、Agentの起動や記事品質の成功を意味しません。
 
-実Agent側にも、そのfixtureでGitを読める実効権限が必要です。Windowsのsandboxでは、ホスト側の準備が成功しても別ユーザーの所有権判定でGitが拒否される場合があります。その場合は失敗したコマンドと実行面を記録し、ホスト側の検証結果と分けます。一時領域やcacheの設定だけで、Git権限まで整ったと判断しません。確認済みの条件は [実施記録](harness-implementation-status.md#実行面ごとの互換性) を参照してください。
+実Agent側にも、そのfixtureでGitを読める実効権限が必要です。Windowsのsandboxでは、ホスト側の準備が成功しても別ユーザーの所有権判定でGitが拒否される場合があります。その場合は失敗したコマンドと実行面を記録し、ホスト側の検証結果と分けます。一時領域やcacheの設定だけで、Git権限まで整ったと判断しません。確認済みの条件は [実施記録](project/records/2026-09-10/harness-acceptance.md#実行面ごとの互換性) を参照してください。
 
 比較時は同じ課題・モデル設定・開始条件を使い、単一試行から一般的な成功率を推定しません。発火していない hook、未取得の使用量、権限や認証で起動できなかった面は明示します。実クライアントの hook、読み取り専用担当、停止・再開、定期起動は、固定執筆課題とは別の受入シナリオです。
 

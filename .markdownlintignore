@@ -1,4 +1,4 @@
-# research/ は執筆前調査メモ(docs 規約・lint の対象外。CODING-AGENTS-PLAN.md §13)
+# research/ は執筆前調査メモ(docs 規約・lint の対象外。project/plans/content/coding-agents.md §13)
 research/
 # .claude/ は Claude Code のハーネス設定(スキル・エージェント定義。公開ドキュメントではない)
 .claude/

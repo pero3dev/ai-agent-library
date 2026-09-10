@@ -2,7 +2,7 @@
 
 - **対象**: GitHub Copilot(コード補完 / Copilot Chat / エージェントモード / Copilot cloud agent(旧称 Copilot coding agent)/ Copilot code review / Copilot CLI ほか)
 - **調査日**: 2026-07-05
-- **調査方法**: [CODING-AGENTS-PLAN.md](../../CODING-AGENTS-PLAN.md) §7 のチェックリスト 12 項目。公式ドキュメント(docs.github.com)・GitHub 公式ブログ / Changelog・公式料金ページのみを根拠とし、第三者記事は根拠にしていない
+- **調査方法**: [coding-agents.md](../../project/plans/content/coding-agents.md) §7 のチェックリスト 12 項目。公式ドキュメント(docs.github.com)・GitHub 公式ブログ / Changelog・公式料金ページのみを根拠とし、第三者記事は根拠にしていない
 - **確度の凡例**: 公式明記 / 公式から推測 / 第三者(本メモでは「第三者」を根拠とした事実は記載しない)
 
 ## EXTRA-CODING-01: Copilot の enterprise managed permissions GA

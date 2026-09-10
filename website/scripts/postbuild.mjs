@@ -1,5 +1,5 @@
 /**
- * ビルド後処理(WEBSITE-PLAN §8 W5):
+ * ビルド後処理(project/plans/engineering/website.md §8 W5):
  * 1. Pagefind で検索インデックスを生成(ソースは .next/server/app のプリレンダー HTML)
  * 2. 静的エクスポート(out/)が存在する場合、生成したインデックスを out/_pagefind へ複製する
  *    — next build(output: 'export')は public/ を out/ へコピーした「後」に postbuild が走るため、

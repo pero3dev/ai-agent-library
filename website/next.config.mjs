@@ -12,7 +12,7 @@ const withNextra = nextra({
   latex: true
 })
 
-// 公開ビルド用の環境変数(WEBSITE-PLAN §8 W5):
+// 公開ビルド用の環境変数(project/plans/engineering/website.md §8 W5):
 //   STATIC_EXPORT=1            → 静的エクスポート(out/ を生成。GitHub Pages 等の静的ホスティング用)
 //   NEXT_PUBLIC_BASE_PATH      → サブパス配信時のベースパス(例: /ai-agent-library)。未設定ならルート配信
 // ローカル開発(next dev / 通常の next build)ではどちらも未設定のままでよい。

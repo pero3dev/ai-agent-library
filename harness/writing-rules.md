@@ -58,6 +58,8 @@ ROADMAP.md は **タスク単位** の進捗だけを管理します。対応関
 
 `docs/` の学習記事は次の構造を持つこと。セクション README、GLOSSARY、ROADMAP、調査・運用文書、スキルには記事テンプレートを強制しません。詳細は [templates/doc-template.md](../templates/doc-template.md) を参照。
 
+記事の front matter はトップレベルの 6 項目を 1 行ずつ記述します。文字列の単一・二重引用符、引用符外のコメント、単純な非引用文字列、1 行の tags 配列に対応します。入れ子・複数行値・不正な行は検証で拒否します。
+
 1. YAML front matter — **機械可読メタデータのみ**: `title` / `category` / `level` / `status` / `last_updated` / `tags`(対象読者・前提知識・関連トピックは本文セクションが正であり、front matter に重複させない)
 2. `# タイトル`(H1、日本語)
 3. `## この記事の目的`

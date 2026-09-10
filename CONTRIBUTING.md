@@ -23,7 +23,9 @@ Node.js と npm を準備し、ルート直下で lockfile の依存をインス
 
 ```bash
 npm ci
-npm run check      # 単体試験、Markdown lint、記事規約、相対リンク、TODO 棚卸し
+npm run check      # 単体試験、Markdown lint、記事規約、相対リンク、TODO 棚卸し、ハーネス検査
+npm run check:ci   # CI 共通の検査一覧・必要環境・未実施の表示
+npm run check:ci -- --run articles,links,harness  # ID を明示したローカル実行
 ```
 
 個別に実行する場合:
@@ -62,7 +64,39 @@ node --test scripts/sync-harness.test.mjs
 
 生成先は手修正しません。共通規約や手順を変更したら正本を編集して再生成します。未管理の互換ファイルは自動削除せず、所有者と必要な互換性を確認します。製品固有の hooks・agents・権限設定は各製品のディレクトリで保守します。
 
+### 診断・対象の抽出・稼働状況
+
+```bash
+npm run check:harness
+npm run harness:doctor
+npm run harness:context -- --profile article-update --task 2-1
+npm run harness:health
+npm run harness:run -- status
+```
+
+`check:harness` は共通正本の同期、設定の構文と必須項目、スキル・担当の参照、hook command、生成物の Git 追跡、教材設定の不活性を検査します。Markdown のリンク解析と設定の YAML/TOML 解析は root lockfile の固定依存を使うため、`npm ci` が必要です。記事の編集フックが使う基本検証は Node.js 標準ライブラリで動きます。
+
+`harness:doctor` は版の取得、必要な設定値と由来、Git 状態を表示します。個人設定は `.codex/config.toml` の model・sandbox・approval・hooks・当該 project trust のみを表示し、認証ファイルや会話履歴は読みません。親セッションによる上書き、hook trust・実発火、モデルの利用可否を設定値だけで成功扱いにしません。PATH の Codex と共通 Git ディレクトリに追加した公式 CLI は別の実行ファイルとして確認します。
+
+Node.js は 22 以降、Python は 3.11 以降が必要です。診断は版の取得成功と要求版への適合を分けます。Python の PATH が要求を満たさない Windows 環境では、既存の `py -3.11`、`py -3` を順に確認します。`check:ci` の Python 検査も同じ選択を使い、環境のインストールや PATH の変更は行いません。選ばれた Python に `examples/tests/requirements.txt` の依存を準備してください。
+
+共通 Git ディレクトリの `harness-tools/python/` に専用 venv がある場合は優先します。`harness:doctor` と `check:ci` の `--python <実行ファイルの絶対パス>` でも明示できます。専用 venv を準備する場合は、Python 3.11 以降の `-m venv <共通Gitディレクトリ>/harness-tools/python` で作成し、その venv の Python で `-X utf8 -m pip install -r examples/tests/requirements.txt` を実行します。個人のグローバル環境は変更しません。
+
+実 Agent の結果は `harness:doctor -- --observations <記録.json>` で渡せます。形式は `schema_version: 1` と `observations` 配列で、各項目は `kind` / `surface` / `binary`(任意) / `version`(任意) / `result`(`passed`・`failed`・`unknown`) / `observed_at`(ISO 日時) / `evidence`(根拠の位置)です。診断時に再実行した証拠にはせず、観測した製品・版・日時の結果として表示します。
+
+`harness:context` は profile、commit、必要な規約、指定した ROADMAP タスクの状態と成果物を返します。ROADMAP の全文を作業コンテキストへ複製しません。実際のタスク表を解析し、未作成の記事は作成予定・未検出として表示します。曖昧な記事名や重複タスクはエラーにします。終了条件と許可根拠は実際の依頼を作業契約へ記録します。
+
+`harness:health` は既存 runtime の読み取り用 status と定期タスクの Status を再利用し、設定、アプリ登録、起動、完了、保存済みの公開証拠、滞留、復旧待ちを分けます。取得できない面は `unknown` と表示します。新しい GitHub 公開確認を行うコマンドではありません。
+
+検査一覧は [harness/verification.json](harness/verification.json) が正本です。`check:harness` は一覧の command / cwd と CI の実行 step の一致も検査します。`check:ci` の既定動作は一覧表示で、各結果は `not-run` です。`--run` には必要な検査 ID を明示します。別 OS の検査、必要環境のない検査、失敗した検査を完了扱いにしません。公開ジョブと有料 API は実行対象に含めません。サイトの静的ビルドを選ぶときは `STATIC_EXPORT=1` と公開先の base path を設定してください。CI では Ubuntu の全体検証に加え、Windows のパス・フック・排他・中断再開を限定して検証します。
+
 新しい規約を、その変更自身の承認根拠に使いません。静的・単体・モック試験で確認した範囲と、実 Agent・GitHub・公開先で確認した範囲を分けます。教材用の自動認識される設定は `.example` 等で保存し、動作試験時だけ所有する隔離ディレクトリへ展開します。
+
+### ローカル記録の保管と棚卸し
+
+完了 run とそのログは完了後 90 日間、WIP ref は対象作業の完了後 90 日間保持します。未完了・要判断の記録は期間で削除しません。共通 Git ディレクトリの状態・ログ領域が 500 MiB を超えた場合は、`harness:health` の容量表示を使って棚卸しします。容量超過を理由に自動削除することはありません。
+
+削除する前に run の状態、対応する PR、公開結果、残すべき検証証拠を照合します。ファイル削除は resolved 絶対パスが common Git 配下の所有する状態・ログ領域に収まることを確認してから行います。WIP ref も所有する作業との対応を確認します。認証情報や会話全文を、公開する記録やログへ含めません。
 
 ## ライセンス
 

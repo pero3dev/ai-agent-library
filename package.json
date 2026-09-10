@@ -9,6 +9,8 @@
     "check": "npm test && npm run lint:md && npm run validate && npm run links && npm run todos"
   },
   "devDependencies": {
+    "github-slugger": "2.0.0",
+    "markdown-it": "14.3.0",
     "markdownlint-cli": "^0.49.1"
   }
 }

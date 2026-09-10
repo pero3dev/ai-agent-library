@@ -68,7 +68,7 @@ jobs:
           tar -xzf "$archive" actionlint
           ./actionlint -color
 
-  # docs の規約検証(scripts/ は依存ゼロなので npm ci 不要)
+  # docs の規約検証。リンクの Markdown パーサは root lockfile の固定依存を使用する。
   docs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -79,11 +79,15 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - name: Install documentation validation dependencies
+        run: npm ci --ignore-scripts
       - name: front matter / 固定 H2 / TODO(要確認) 書式
         run: node scripts/validate-docs.mjs --all
       - name: 相対リンク切れ / セクション README 収録表
         run: node scripts/check-links.mjs
-      - name: 編集フックの回帰検査
+      - name: ハーネスと文書検証の回帰検査
         run: node --test scripts/*.test.mjs
 
   examples:

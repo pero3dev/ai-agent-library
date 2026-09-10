@@ -12,7 +12,7 @@
       "Bash(git log:*)",
       "Bash(git show:*)",
       "Bash(git branch:*)",
-      "Bash(npx --yes markdownlint-cli:*)",
+      "Bash(npm run lint:md:*)",
       "Bash(python -m py_compile:*)",
       "WebSearch"
     ]

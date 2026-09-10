@@ -138,7 +138,7 @@ export function inspectEdits(mode, edit, repoRoot) {
       continue
     }
     // 外部ファイルは当リポジトリの規約対象外。外部 symlink の本文も読み込まない。
-    if (physicalRelative === null || relative === null || !/^docs\/[^/]+\/[^/]+\.md$/i.test(relative)) continue
+    if (physicalRelative === null || relative === null || !/^docs\/.*\.md$/i.test(relative)) continue
     let text
     try {
       text = readFileSync(physical, 'utf8')

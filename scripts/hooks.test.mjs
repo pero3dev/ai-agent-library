@@ -226,6 +226,20 @@ test('both adapters validate all MultiEdit docs and report read failures', t => 
   }
 })
 
+test('both adapters report Markdown placed outside the article directory depth', t => {
+  const repo = fixtureRoot(t)
+  copyHooks(repo)
+  mkdirSync(path.join(repo, 'docs/01-concepts/deep'), { recursive: true })
+  for (const file of ['docs/misplaced.md', 'docs/01-concepts/deep/misplaced.md']) {
+    writeFileSync(path.join(repo, file), '# Wrong location\n')
+    for (const client of ['codex', 'claude']) {
+      const result = invokeAdapter(client, 'validate-doc.mjs', { tool_name: 'Write', cwd: repo, tool_input: { file_path: file } }, repo)
+      assert.equal(result.status, 2)
+      assert.match(result.stderr, /misplaced\.md/)
+    }
+  }
+})
+
 test('configured commands locate a detached worktree from its subdirectory on both adapters', t => {
   const fixture = fixtureRoot(t)
   const repo = path.join(fixture, 'source repo')

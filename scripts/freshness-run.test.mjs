@@ -105,6 +105,36 @@ test('missing local state starts empty without pretending an earlier audit was c
   assert.deepEqual(loadState(path.join(os.tmpdir(), `absent-${Date.now()}`)), blank());
 });
 
+test('status reports active and completed records without changing legacy state or inventing verification', t => {
+  const f = gitFixture(t);
+  const first = f.run('prepare', '--mode', 'manual', '--ids', 'models-prompting');
+  const initialStatus = f.run('status');
+  assert.equal(initialStatus.records.length, 1);
+  assert.equal(initialStatus.records[0].status, 'in_progress');
+  f.run('finish', '--run', first.checkpoint, '--outcome', 'observed');
+  const stateFile = path.join(f.dir, 'state.json');
+  const state = loadState(f.dir);
+  state.runs['legacy-run'] = { outcome: 'merged', completed_at: '2026-01-01T00:00:00Z', publication: 'verified' };
+  writeJson(stateFile, state);
+  const stateBefore = fs.readFileSync(stateFile, 'utf8'), checkpointBefore = fs.readFileSync(first.checkpoint, 'utf8');
+  const status = f.run('status', '--dry-run');
+  assert.equal(status.records.length, 2); assert.equal(status.interrupted.length, 0);
+  const completed = status.records.find(record => record.run_id === first.run_id);
+  assert.equal(completed.status, 'observed'); assert.ok(completed.started_at); assert.ok(completed.finished_at);
+  assert.equal(status.records.find(record => record.run_id === 'legacy-run').github_verification, undefined);
+  assert.equal(fs.readFileSync(stateFile, 'utf8'), stateBefore);
+  assert.equal(fs.readFileSync(first.checkpoint, 'utf8'), checkpointBefore);
+});
+
+test('prepare rejects a linked run directory and releases only its new attempt', t => {
+  const f = gitFixture(t), external = path.join(f.directory, 'external');
+  fs.mkdirSync(external); fs.mkdirSync(f.dir, { recursive: true });
+  fs.symlinkSync(external, path.join(f.dir, 'runs'), process.platform === 'win32' ? 'junction' : 'dir');
+  assert.throws(() => f.run('prepare', '--mode', 'manual', '--ids', 'models-prompting'), /symlink/);
+  assert.deepEqual(fs.readdirSync(external), []);
+  assert.equal(fs.existsSync(path.join(f.dir, 'lock')), false);
+});
+
 test('interrupted checkpoint resumes the same run, selected systems, pending items and notes', t => {
   const fixture = gitFixture(t);
   const first = fixture.run('prepare', '--mode', 'manual', '--ids', 'models-prompting');
@@ -291,11 +321,13 @@ test('checkpoint pending survives interruption and repeated resolution is idempo
   assert.deepEqual(resolvedState.systems, {});
   assert.deepEqual(resolvedState.runs, {});
   fixture.run('checkpoint', '--run', input, '--attempt-id', resumed.attempt_id);
-  assert.deepEqual(loadState(fixture.dir), resolvedState);
+  const repeatedState = loadState(fixture.dir);
+  assert.equal(repeatedState.generation, resolvedState.generation + 1);
+  assert.deepEqual({ ...repeatedState, generation: resolvedState.generation }, resolvedState);
   const unknown = { ...resolution, resolved_pending_ids: ['never-pending'] };
   writeJson(input, unknown);
   assert.throws(() => fixture.run('checkpoint', '--run', input, '--attempt-id', resumed.attempt_id), /Unknown resolved pending/i);
-  assert.deepEqual(loadState(fixture.dir), resolvedState);
+  assert.deepEqual(loadState(fixture.dir), repeatedState);
   writeJson(input, resolution);
   fixture.run('finish', '--run', input, '--attempt-id', resumed.attempt_id, '--outcome', 'observed');
   const finishedState = loadState(fixture.dir);
@@ -318,6 +350,9 @@ test('checkpoint snapshots article and research changes without changing index, 
   fs.writeFileSync(path.join(fixture.root, 'scratch-local.txt'), 'Unrelated staged work\n');
   fs.writeFileSync(path.join(fixture.root, '.env'), 'FIXTURE_SECRET=do-not-snapshot\n');
   fs.writeFileSync(path.join(fixture.root, 'research/core/private.env'), 'FIXTURE_SECRET=do-not-snapshot\n');
+  fs.writeFileSync(path.join(fixture.root, 'research/core/Credentials.store.json'), '{"fixture":"excluded"}');
+  fs.writeFileSync(path.join(fixture.root, 'research/core/credentials.json'), '{"fixture":"excluded"}');
+  fs.writeFileSync(path.join(fixture.root, 'research/core/.ENV.json'), '{"fixture":"excluded"}');
   fixture.git('add', '--', 'scratch-local.txt');
   const headBefore = fixture.git('rev-parse', 'HEAD');
   const branchBefore = fixture.git('symbolic-ref', 'HEAD');
@@ -342,6 +377,9 @@ test('checkpoint snapshots article and research changes without changing index, 
   assert.equal(snapshotFiles.has('scratch-local.txt'), false);
   assert.equal(snapshotFiles.has('.env'), false);
   assert.equal(snapshotFiles.has('research/core/private.env'), false);
+  assert.equal(snapshotFiles.has('research/core/Credentials.store.json'), false);
+  assert.equal(snapshotFiles.has('research/core/credentials.json'), false);
+  assert.equal(snapshotFiles.has('research/core/.ENV.json'), false);
   assert.deepEqual(fs.readFileSync(indexFile), indexBefore);
   assert.equal(fixture.git('rev-parse', 'HEAD'), headBefore);
   assert.equal(fixture.git('symbolic-ref', 'HEAD'), branchBefore);
@@ -374,4 +412,41 @@ test('suspend persists unfinished work and PR then releases its attempt for same
   assert.deepEqual(resumed.notes, checkpoint.notes);
   assert.equal(resumed.snapshot_commit, saved.snapshot_commit);
   fixture.run('release', '--run-id', resumed.run_id, '--attempt-id', resumed.attempt_id);
+});
+
+test('future external wait leaves its run queued and permits another system to progress', t => {
+  const fixture = gitFixture(t);
+  const first = fixture.run('prepare', '--mode', 'manual', '--ids', 'models-prompting');
+  fixture.run('suspend', '--run', first.checkpoint, '--attempt-id', first.attempt_id, '--wait-until', '2030-01-01T00:00:00Z', '--wait-reason', 'Waiting for CI');
+  const second = fixture.run('prepare', '--mode', 'rotation');
+  assert.notEqual(second.run_id, first.run_id);
+  assert.deepEqual(second.systems, ['coding-agents']);
+  const queue = fixture.run('status').queue;
+  assert.equal(queue.waiting_external[0].run_id, first.run_id);
+  fixture.run('release', '--run-id', second.run_id, '--attempt-id', second.attempt_id);
+});
+
+test('usage-limit checkpoint saves the narrow snapshot and releases its lease', t => {
+  const fixture = gitFixture(t);
+  const prepared = fixture.run('prepare', '--mode', 'manual', '--ids', 'models-prompting');
+  fs.writeFileSync(path.join(fixture.root, 'docs/01-concepts/models.md'), '# Preserve at limit\n');
+  const result = fixture.run('checkpoint', '--run', prepared.checkpoint, '--attempt-id', prepared.attempt_id, '--usage-limit');
+  assert.equal(result.budget.reason, 'usage_limit');
+  assert.equal(fs.existsSync(path.join(fixture.dir, 'lock')), false);
+  const saved = JSON.parse(fs.readFileSync(prepared.checkpoint, 'utf8'));
+  assert.equal(saved.queue_state, 'waiting_external');
+  assert.equal(saved.status, 'in_progress');
+  assert.equal(loadState(fixture.dir).runs[prepared.run_id], undefined);
+  assert.equal(fixture.git('show', `${saved.snapshot_commit}:docs/01-concepts/models.md`), '# Preserve at limit');
+});
+
+test('dry-run checkpoint does not update state, records, or snapshots', t => {
+  const fixture = gitFixture(t);
+  const prepared = fixture.run('prepare', '--mode', 'manual', '--ids', 'models-prompting');
+  const before = fs.readFileSync(prepared.checkpoint, 'utf8');
+  const result = fixture.run('checkpoint', '--run', prepared.checkpoint, '--attempt-id', prepared.attempt_id, '--dry-run');
+  assert.equal(result.dry_run, true);
+  assert.equal(fs.readFileSync(prepared.checkpoint, 'utf8'), before);
+  assert.equal(fs.existsSync(path.join(fixture.dir, 'state.json')), false);
+  fixture.run('release', '--run-id', prepared.run_id, '--attempt-id', prepared.attempt_id);
 });

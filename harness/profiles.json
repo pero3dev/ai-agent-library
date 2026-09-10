@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "profiles": {
+    "new-doc": {
+      "change_manifests": true,
+      "allowed_roots": [
+        "docs/",
+        "research/"
+      ],
+      "extensions": [
+        ".md",
+        ".json"
+      ],
+      "allowed_files": [
+        "ROADMAP.md",
+        "GLOSSARY.md",
+        "README.md"
+      ],
+      "completion": "local",
+      "review_required": true
+    },
+    "article-update": {
+      "change_manifests": true,
+      "allowed_roots": [
+        "docs/",
+        "research/"
+      ],
+      "extensions": [
+        ".md",
+        ".json"
+      ],
+      "allowed_files": [
+        "ROADMAP.md",
+        "GLOSSARY.md",
+        "README.md"
+      ],
+      "completion": "local",
+      "review_required": true
+    },
+    "freshness": {
+      "allowed_roots": [
+        "docs/",
+        "research/"
+      ],
+      "extensions": [
+        ".md",
+        ".json"
+      ],
+      "allowed_files": [
+        "ROADMAP.md",
+        "GLOSSARY.md",
+        "README.md"
+      ],
+      "completion": "published",
+      "review_required": true,
+      "runtime": "freshness-run"
+    },
+    "publish-review": {
+      "change_manifests": true,
+      "allowed_roots": [
+        "docs/",
+        "research/"
+      ],
+      "extensions": [
+        ".md",
+        ".json"
+      ],
+      "allowed_files": [
+        "ROADMAP.md",
+        "GLOSSARY.md",
+        "README.md"
+      ],
+      "completion": "local",
+      "review_required": true
+    },
+    "examples": {
+      "allowed_roots": [
+        "examples/",
+        "docs/"
+      ],
+      "extensions": [
+        ".py",
+        ".ts",
+        ".js",
+        ".mjs",
+        ".json",
+        ".txt",
+        ".md",
+        ".toml",
+        ".lock"
+      ],
+      "allowed_files": [],
+      "completion": "local",
+      "review_required": false
+    },
+    "website": {
+      "allowed_roots": [
+        "website/"
+      ],
+      "extensions": [
+        "*"
+      ],
+      "allowed_files": [],
+      "completion": "published",
+      "review_required": false
+    },
+    "harness": {
+      "allowed_roots": [
+        "scripts/",
+        "tests/",
+        "automation/",
+        "harness/",
+        ".agents/",
+        ".claude/",
+        ".codex/",
+        ".github/"
+      ],
+      "extensions": [
+        "*"
+      ],
+      "root_markdown": true,
+      "allowed_files": [
+        "AGENTS.md",
+        "CLAUDE.md",
+        "CONTRIBUTING.md",
+        "README.md",
+        "ROADMAP.md",
+        "package.json",
+        "package-lock.json",
+        ".gitignore",
+        ".markdownlintignore",
+        ".markdownlint.yaml",
+        ".markdownlint.jsonc",
+        ".gitattributes"
+      ],
+      "completion": "local",
+      "review_required": false
+    }
+  }
+}

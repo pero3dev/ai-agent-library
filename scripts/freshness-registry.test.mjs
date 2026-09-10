@@ -152,3 +152,17 @@ test('selection does not mutate state or catalog and is deterministic for ties',
   assert.deepEqual(selectedIds(registry, state, { now }), ['one', 'two'])
   assert.equal(JSON.stringify({ registry, state }), before)
 })
+
+test('cadence arrival is required and its exact boundary is eligible', () => {
+  const registry = [system('one', 7)]
+  const state = { systems: { one: { last_verified_at: '2026-09-03T00:00:00Z' } } }
+  assert.deepEqual(selectedIds(registry, state, { now: '2026-09-09T23:59:59Z' }), [])
+  assert.deepEqual(selectedIds(registry, state, { now: '2026-09-10T00:00:00Z' }), ['one'])
+})
+
+test('automatic selection skips repeat observations on the same JST day and occupied systems before limiting', () => {
+  const registry = ['one', 'two', 'three', 'four'].map(id => system(id, 7))
+  const state = { systems: { one: { last_attempted_at: '2026-09-09T15:00:00Z' } }, pending: [{ system_id: 'one' }] }
+  assert.deepEqual(selectedIds(registry, state, { now: '2026-09-10T01:00:00Z', excludeIds: ['two', 'three'] }), ['four'])
+  assert.deepEqual(selectedIds(registry, state, { now: '2026-09-10T01:00:00Z', mode: 'manual', ids: ['one'] }), ['one'])
+})

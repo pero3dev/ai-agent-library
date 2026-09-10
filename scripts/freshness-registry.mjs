@@ -119,7 +119,7 @@ function timestamp(value, field, fallback) {
  * last_verified_at represents a completed observation, never front-matter last_updated.
  * Rotation ignores pending urgency so fixed weekly work cannot starve other systems.
  */
-export function selectSystems(registry, state = {}, { mode = 'rotation', now = new Date(), limit = 3, ids = [] } = {}) {
+export function selectSystems(registry, state = {}, { mode = 'rotation', now = new Date(), limit = 3, ids = [], excludeIds = [] } = {}) {
   if (!Array.isArray(registry) || !registry.length) fail('選定対象の registry がありません')
   if (!Number.isInteger(limit) || limit < 1 || limit > 3) fail('limit は 1〜3 にしてください')
   if (!['weekly_focus', 'rotation', 'manual'].includes(mode)) fail(`未対応の選定モードです: ${mode}`)
@@ -148,15 +148,12 @@ export function selectSystems(registry, state = {}, { mode = 'rotation', now = n
   }
   const observed = id => timestamp(systems[id]?.last_verified_at, `${id}.last_verified_at`, -Infinity)
   const attempted = id => timestamp(systems[id]?.last_attempted_at, `${id}.last_attempted_at`, -Infinity)
-  const eligible = registry.filter(({ id }) => timestamp(systems[id]?.next_retry_at, `${id}.next_retry_at`, -Infinity) <= nowMs)
   const oldest = (a, b) => {
     // Explicit comparisons avoid Infinity - Infinity producing NaN.
     if (observed(a.id) !== observed(b.id)) return observed(a.id) < observed(b.id) ? -1 : 1
     if (attempted(a.id) !== attempted(b.id)) return attempted(a.id) < attempted(b.id) ? -1 : 1
     return a.id.localeCompare(b.id, 'en')
   }
-  if (mode === 'rotation') return [...eligible].sort(oldest).slice(0, limit)
-
   const pendingDue = new Map()
   for (const item of state.pending ?? []) {
     if (!item || typeof item !== 'object' || Array.isArray(item)) fail('pending の項目はオブジェクトで指定してください')
@@ -167,6 +164,14 @@ export function selectSystems(registry, state = {}, { mode = 'rotation', now = n
     if (['closed', 'resolved', 'completed'].includes(item.status) || retry > nowMs) continue
     for (const id of targets) pendingDue.set(id, Math.min(pendingDue.get(id) ?? Infinity, due))
   }
+  const jstDay = value => Number.isFinite(value) ? new Date(value + 9 * 60 * 60 * 1000).toISOString().slice(0, 10) : null
+  if (!Array.isArray(excludeIds) || excludeIds.some(id => !byId.has(id))) fail('除外対象に未知の ID があります')
+  const eligible = registry.filter(({ id, cadenceDays }) => {
+    if (excludeIds.includes(id) || timestamp(systems[id]?.next_retry_at, `${id}.next_retry_at`, -Infinity) > nowMs) return false
+    if (jstDay(Math.max(observed(id), attempted(id))) === jstDay(nowMs)) return false
+    return observed(id) + cadenceDays * DAY <= nowMs || pendingDue.has(id) || Boolean(systems[id]?.next_retry_at)
+  })
+  if (mode === 'rotation') return [...eligible].sort(oldest).slice(0, limit)
   const selected = FOCUS_IDS.map(id => eligible.find(system => system.id === id)).filter(Boolean).slice(0, limit)
   const others = eligible.filter(system => !selected.includes(system)).sort((a, b) => {
     const aDue = pendingDue.get(a.id) ?? Infinity

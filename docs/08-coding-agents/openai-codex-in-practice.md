@@ -25,7 +25,7 @@ OpenAI Codex の機能(ローカル / クラウドの各面・スキル・サブ
 
 ## 本文
 
-> **最終確認日:** サブエージェントの委任条件、モデル退役、Fast の速度・課金区分は 2026-09-10、その他は 2026-08-18 の公式ドキュメントに基づきます。制限値・レートは特に変わりやすいため、必ず公式ページ(参考資料)で最新値を確認してください。
+> **最終確認日:** サブエージェントの委任条件、モデル退役、Fast の速度・課金区分、定期タスクの実行場所・認証別課金、`CODEX_API_KEY` の対応範囲は 2026-09-10、その他は 2026-08-18 の公式ドキュメントに基づきます。制限値・レートは特に変わりやすいため、必ず公式ページ(参考資料)で最新値を確認してください。
 
 ### 面の使い分けとハンドオフ
 
@@ -50,7 +50,7 @@ Codex は拡張機構が多いため、公式の使い分け指針(Customization
 | スキル(`.agents/skills/`) | 反復するワークフロー(リリース手順・レビュー定型・移行手順)。「同じプロンプトを使い回し始めたらスキル化」が公式の判断基準 |
 | MCP | リポジトリの外にある能力(Issue トラッカー・デザインツール・共有ドキュメント) |
 | サブエージェント(`.codex/agents/*.toml`) | ノイズの多い・専門化したタスクの委任。直接の依頼、適用される AGENTS.md・スキルの委任指示に従って起動 |
-| automations(デスクトップ) | 定期チェック。「スキル = 方法、automations = スケジュール」 |
+| 定期タスク(Scheduled) | 定期チェック。スキルで定めた作業手順をスケジュールに従って実行 |
 
 ローカルのアプリ・CLI・IDE では、直接のユーザー指示に加え、適用される AGENTS.md やスキルの委任指示も起動根拠になります。ChatGPT Work では通常は明示的に委任を依頼し、利用資格のある Ultra では速度・品質に寄与する独立作業を能動的に委任できます。提供面と設定を記録し、「指示していないから絶対に起動しない」という前提で消費上限を決めないようにします。
 
@@ -84,7 +84,7 @@ Codex は拡張機構が多いため、公式の使い分け指針(Customization
 
 - 進捗は stderr、**最終メッセージのみ stdout** に出る(パイプ前提)。`--json` で JSON Lines、`--output-schema` で構造化出力([構造化出力](../03-implementation/structured-output.md))を強制できます
 - サンドボックスは **read-only が既定**。書き込みが要る場合だけ明示的に緩めます
-- CI 認証は `CODEX_API_KEY` のインライン指定(exec のみ)。「リポジトリが制御するコードに API キーを晒すな」という公式警告どおり、信頼できないコードとの分離が前提です
+- `codex exec` は保存済みの CLI 認証を再利用します。API キーを明示する場合の `CODEX_API_KEY` は `codex exec`・`codex review`・TypeScript SDK・`codex exec-server --remote` に対応します。必要な呼び出しだけに渡し、「リポジトリが制御するコードに API キーを晒すな」という公式警告どおり、信頼できないコードとの分離が前提です
 
 **GitHub Action(`openai/codex-action@v1`)** は prompt-file 指定で PR レビュー等を組めます。`safety-strategy`(既定 `drop-sudo`)で権限を落とし、公式自身が「ユーザー入力のサニタイズによるプロンプトインジェクション対策」「ジョブの最終ステップに置く」「トリガーを信頼できるユーザーに制限」を指針にしています。
 
@@ -92,7 +92,11 @@ Codex は拡張機構が多いため、公式の使い分け指針(Customization
 
 **チャットからの委任**: Slack はスレッド文脈を自動参照するため再説明が不要です。Linear は**トリアージルールで条件に合う Issue を Codex に自動アサイン**でき、人手ゼロの委任パターンが組めます([自動化パターン](coding-agent-automation-patterns.md) の Issue トリアージの実装例)。
 
-**automations(デスクトップ)**: スレッド付随型(文脈を保持して定期的に起こす。長時間処理の監視向け)と独立型(毎回クリーン実行して Triage 受信箱に報告)の 2 種があります。公式ベストプラクティスは「スケジュール化する前に通常スレッドで手動テスト」です。
+**定期タスク(Scheduled)**: デスクトップアプリでは、ローカルのプロジェクトディレクトリまたは隔離された worktree で実行できます。ローカルファイルを使う回は、PC の電源とアプリの起動が必要です。Web の定期タスクはアップロード済みの資料や接続ツールを使えますが、PC のフォルダーを直接操作できません。作成・更新はアプリまたは Web のチャットから依頼し、実行状況は Scheduled で管理します。Codex CLI には Scheduled の管理画面はありません。
+
+ChatGPT でログインしたローカル Codex は契約の利用枠を使います。API キーで実行すると、ChatGPT の契約枠ではなく OpenAI Platform の API 料金で課金されます。定期実行を設計するときは実行場所と認証方式を分けて確認し、利用制限による中断も見込んでおきます。
+
+設計例として、**ローカルの定期タスクが一次情報の調査・記事編集・PR 作成を担当し、GitHub Actions が文書検証・ビルド・マージ後の公開を担当する**分担があります。ChatGPT 認証でローカルのモデル実行を行う構成なら、モデル実行用の API キーを Actions に用意する必要はありません。記事内容のレビューとマージ条件はリポジトリの運用に従います。スケジュール化の前には通常スレッドで手順を試します。
 
 ### 品質を上げる公式プラクティス
 
@@ -108,7 +112,7 @@ Codex は拡張機構が多いため、公式の使い分け指針(Customization
 - **1 つのスレッドをプロジェクト全体で使い続ける** — 消費が毎ターン膨らみ、品質も落ちます(公式の「よくある間違い」筆頭)。→ タスク単位でスレッドを切り、`/compact`・新スレッドを使い分けます
 - **MCP・サブエージェントを「便利そうだから」全部盛りにする** — 常時コンテキストと消費が増え、制限に早く当たります。→ 公式の導入順序(AGENTS.md → スキル → MCP → サブエージェント)に従い、使っていないものを外します
 - **Fast mode を常時オンにする** — 対象モデルと認証方式に応じて消費が増えます(2026-09-10 のモデル別条件は本文参照)。→ 対話的な反復など速度が効く場面に限定します
-- **手動で安定していないワークフローを automations・自動レビューに載せる** — 失敗が定期的に量産されます。→ 通常スレッドで成功パターンを固めてから自動化します([自動化パターン](coding-agent-automation-patterns.md))
+- **手動で安定していないワークフローを定期タスク・自動レビューに載せる** — 失敗が定期的に量産されます。→ 通常スレッドで成功パターンを固めてから自動化します([自動化パターン](coding-agent-automation-patterns.md))
 
 ### チェックリスト
 
@@ -133,13 +137,15 @@ Codex は拡張機構が多いため、公式の使い分け指針(Customization
 - [Codex Best Practices(公式)](https://learn.chatgpt.com/docs/learn/best-practices) — プロンプト 4 要素・よくある間違い。公式 docs は 2026-08 時点で ChatGPT との統合サイト(learn.chatgpt.com)へ移転済み(旧 developers.openai.com/codex 系 URL は 308 リダイレクトで生存)(アクセス日: 2026-08-18)
 - [Codex Workflows(公式)](https://learn.chatgpt.com/docs/workflows) — 面別の使い分けとハンドオフ(アクセス日: 2026-08-18)
 - [Codex pricing(公式)](https://learn.chatgpt.com/docs/pricing) — 制限の構造・節約テクニック・レート(アクセス日: 2026-08-18)
-- [Non-interactive mode(公式)](https://learn.chatgpt.com/docs/noninteractive) — `codex exec` の仕様(アクセス日: 2026-08-18)
+- [Non-interactive mode(公式)](https://learn.chatgpt.com/docs/non-interactive-mode) — 保存済み認証の再利用・`CODEX_API_KEY` の対応範囲(アクセス日: 2026-09-10)
+- [Scheduled tasks(公式)](https://learn.chatgpt.com/docs/automations) — ローカル / worktree の稼働条件、Web と CLI の管理・実行範囲(アクセス日: 2026-09-10)
+- [Authentication(公式)](https://learn.chatgpt.com/docs/auth) — ChatGPT の契約枠と API キー課金の区別(アクセス日: 2026-09-10)
 - [GitHub integration(公式)](https://learn.chatgpt.com/docs/integrations/github) — 自動レビューと Review guidelines(アクセス日: 2026-08-18)
 - [Customization(公式)](https://learn.chatgpt.com/docs/concepts/customization) — 拡張機構の使い分け指針(アクセス日: 2026-08-18)
 
 ## TODO・未確認事項
 
-- `codex exec` の終了コード仕様、automations の制限消費の扱い、全 PR 自動レビューの消費レートと draft PR の扱いは公式ドキュメントで確認できていません(未確認)
+- `codex exec` の終了コード仕様、Scheduled のプラン別の利用資格・詳細な消費制限、全 PR 自動レビューの消費レートと draft PR の扱いは未確認です。定期実行で使う ChatGPT 認証と API キー認証の課金区分は本文のとおりです
 
 ### 変わりやすい項目(定点観測)
 

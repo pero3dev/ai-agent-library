@@ -3,7 +3,7 @@ title: "自動化・業務効率化パターン"
 category: "coding-agents"
 level: "intermediate"
 status: "published"
-last_updated: "2026-07-06"
+last_updated: "2026-09-10"
 tags: ["coding-agents", "workflow"]
 ---
 
@@ -24,6 +24,8 @@ tags: ["coding-agents", "workflow"]
 - [コーディングエージェントの権限とセキュリティ](coding-agent-security.md) — 無人実行の権限設計
 
 ## 本文
+
+> **最終確認日:** Codex の定期タスクと認証仕様を 2026-09-10 の公式資料で確認し、CI との役割分担を設計例として追記しました。他ツールの機能一覧を同日に再確認したものではありません。
 
 ### 概要: 自動化の 3 段階
 
@@ -65,11 +67,13 @@ flowchart LR
 - **出力を機械可読にする** — 後続ステップが判定できるよう、構造化出力(JSON など)や終了コードの仕様を確認して使います
 - **タイムアウトと上限を必ず設定する** — 無人実行での暴走は誰も止めません。実行時間・試行回数・コスト上限([コスト最適化](coding-agent-cost-optimization.md))を CI 側とツール側の両方に置きます
 - **CI トークンのスコープを最小にする** — エージェントの権限上限は CI トークンで決まります。書き込み範囲を絞り、デプロイ用シークレットと同居させないでください
-- **認証は API キー系を使う** — 対話ログイン前提のサブスクリプション認証は CI に向きません。CI 用の認証経路(API キー・サービスアカウント)と課金の扱いを確認します
+- **CI runner 内でモデルを実行する場合は、対応する非対話認証を用意する** — API キー・サービスアカウントなど、製品がサポートする CI 用の認証経路と課金の扱いを確認します。ローカルでモデルを実行し、CI は検証・公開を担当する構成とは区別します
 
 ### 定期実行(スケジュール)
 
 依存更新・棚卸し・レポート生成など「毎回同じ依頼」は、スケジュール実行機能(Claude Code の Routines、Devin のスケジュールセッション、Cursor の Automations、cron + ヘッドレス実行など)に乗せられます。
+
+例えば、ChatGPT 認証のローカル Codex の定期タスクで調査・編集・PR 作成を行い、GitHub Actions で文書検証やマージ後の公開を行う分担もできます。この場合、Actions 側でモデル実行用の API キーは不要です。PC・アプリの稼働条件、Web との違い、契約枠と API 課金の区別は [OpenAI Codex 実践ガイド](openai-codex-in-practice.md)を参照してください。
 
 - 依頼文はリポジトリ管理し、実行のたびに同じものを使います(再現性とレビュー可能性)
 - 結果の通知先(PR・チャット)を必ず設計します。「静かに失敗し続ける定期ジョブ」は存在しないのと同じです
@@ -119,6 +123,8 @@ flowchart LR
 
 ## 参考資料
 
+- [Scheduled tasks(公式)](https://learn.chatgpt.com/docs/automations) / [Authentication(公式)](https://learn.chatgpt.com/docs/auth) — Codex のローカル定期実行と認証別の課金(アクセス日: 2026-09-10)
+- [Non-interactive mode(公式)](https://learn.chatgpt.com/docs/non-interactive-mode) — モデルを CI 内で実行する場合の認証経路(アクセス日: 2026-09-10)
 - [Claude Code GitHub Actions(公式)](https://code.claude.com/docs/en/github-actions) — CI 組み込みの公式実装例(アクセス日: 2026-07-05)
 - [About Copilot cloud agent(GitHub Docs)](https://docs.github.com/en/copilot/concepts/agents/coding-agent/about-coding-agent) — Issue 起点の自動化の公式仕様(アクセス日: 2026-07-05)
 

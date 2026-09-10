@@ -110,6 +110,7 @@
         "tests/",
         "automation/",
         "harness/",
+        "project/",
         ".agents/",
         ".claude/",
         ".codex/",

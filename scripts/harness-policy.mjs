@@ -41,7 +41,7 @@ export function classifyPath(file) {
   if (file.startsWith('docs/') || ['GLOSSARY.md', 'ROADMAP.md'].includes(file)) return 'article-support'
   if (file.startsWith('examples/')) return 'examples'
   if (file.startsWith('website/')) return 'website'
-  if (/^(?:\.agents\/|\.codex\/|\.claude\/|\.github\/|scripts\/|harness\/|tests\/harness\/)/.test(file) || ['AGENTS.md', 'CLAUDE.md', 'package.json', 'package-lock.json'].includes(file)) return 'harness'
+  if (/^(?:\.agents\/|\.codex\/|\.claude\/|\.github\/|scripts\/|harness\/|tests\/(?:harness|unit|helpers|fixtures)\/)/.test(file) || ['AGENTS.md', 'CLAUDE.md', 'package.json', 'package-lock.json'].includes(file)) return 'harness'
   if (file.startsWith('research/')) return 'research'
   return 'repository'
 }

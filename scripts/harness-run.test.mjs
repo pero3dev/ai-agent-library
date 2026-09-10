@@ -37,6 +37,9 @@ test('profiles reject traversal, generated files, credentials and broadened fres
   const profiles = readProfiles();
   for (const file of ['../private.md', 'scripts/../../x.md', 'C:/x.md', 'scripts/.env', 'scripts/auth.json', 'website/out/index.html', 'website/content/page.md']) assert.equal(pathAllowed(file, profiles.harness), false, file);
   assert.equal(pathAllowed('scripts/test.mjs', profiles.harness), true);
+  assert.equal(pathAllowed('project/plans/engineering/structure-cleanup.md', profiles.harness), true);
+  assert.equal(pathAllowed('project/records/2026-09-10/evidence/result.json', profiles.harness), true);
+  for (const name of ['new-doc', 'article-update', 'publish-review', 'freshness']) assert.equal(pathAllowed('project/plans/engineering/structure-cleanup.md', profiles[name]), false, name);
   assert.equal(pathAllowed('website/app/page.tsx', profiles.website), true);
   assert.equal(pathAllowed('scripts/test.mjs', profiles['article-update']), false);
   for (const file of ['website/Content/page.md', 'website/.NEXT/page.json', 'website/dev-server.log', 'website/app/Credentials.JSON', 'website/app/.ENV.local', 'website/app/key.PEM']) assert.equal(pathAllowed(file, profiles.website), false, file);

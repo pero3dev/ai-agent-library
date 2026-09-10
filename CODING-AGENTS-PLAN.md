@@ -381,13 +381,13 @@ Phase A の章は「選定と安全な導入」を主眼としたため、各ツ
 
 - **目的**: 従量・クレジット型の消費構造を理解し、品質を落とさずに消費を減らす判断ができる
 - **本文 H3 案**: 概要(何にコストがかかるか: 入力トークン支配・エージェントループの反復) / 課金モデル別の最適化方針(シート・従量・クレジット・クォータ) / コンテキスト管理 = コスト管理(セッションの仕切り直し・コンパクション・不要ファイルの除外・ルールファイル肥大の代償) / モデルの使い分け(タスク難易度と単価のマッチング) / 並列・自律実行の消費制御(暴走対策・支出上限・自動スリープ) / 測定と可視化(利用ダッシュボード・単価の読み方)
-- **関連**: [コスト管理](../05-operations/cost-management.md)(作る側)、[コンテキストエンジニアリング](../02-architecture/context-engineering.md)
+- **関連**: [コスト管理](docs/05-operations/cost-management.md)(作る側)、[コンテキストエンジニアリング](docs/02-architecture/context-engineering.md)
 
 #### coding-agent-automation-patterns.md — 自動化・業務効率化パターン(横断)
 
 - **目的**: 「対話 → 委任 → 自動化」の段階を設計し、定型タスクをエージェントに移せるようになる
 - **本文 H3 案**: 概要(自動化の 3 段階と向くタスクの条件) / 定番パターン集(PR 自動レビュー・Issue トリアージ・依存更新・テスト補強・ドキュメント生成・リリースノート) / 非対話実行と CI 組み込み(headless / exec / print モード) / 定期実行(スケジュールセッション・Routines・Automations) / 並列化(git worktree・クラウド並列委任) / 自動化の失敗設計(冪等性・通知・人手ゲート・コスト上限)
-- **関連**: [権限とセキュリティ](coding-agent-security.md)(CI 権限)、[評価](coding-agent-evaluation.md)(自動化の品質監視)
+- **関連**: [権限とセキュリティ](docs/08-coding-agents/coding-agent-security.md)(CI 権限)、[評価](docs/08-coding-agents/coding-agent-evaluation.md)(自動化の品質監視)
 
 #### claude-code-in-practice.md — Claude Code 実践ガイド
 

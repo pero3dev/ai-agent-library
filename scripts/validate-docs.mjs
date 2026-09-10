@@ -49,7 +49,7 @@ if (args.includes('--all')) {
     const abs = path.resolve(arg)
     const repoRel = toRepoRel(abs)
     // docs/ 配下の .md のみが対象。それ以外は黙ってスキップ(フックから無差別に呼べるように)
-    if (/^docs\/[^/]+\/[^/]+\.md$/.test(repoRel)) {
+    if (/^docs\/.*\.md$/i.test(repoRel)) {
       targets.push({ abs, repoRel })
     }
   }

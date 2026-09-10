@@ -1,0 +1,77 @@
+{
+  "schema_version": 2,
+  "run_id": "20260910t080131121z-190c5e22",
+  "base_sha": "0e3ca13bd629d81a60fd921d2f6df9ae94fafb66",
+  "writer_run_id": "01a08a55-9420-7f51-a0f3-26cfa82b9715",
+  "started_at": "2026-09-10T08:01:31.121Z",
+  "systems": [
+    "coding-agents"
+  ],
+  "observations": [
+    {
+      "system_id": "coding-agents",
+      "status": "changed",
+      "summary": "AGENTS.md読込範囲だけを確認。公式本文は起動時にproject rootから開始cwdまでchainを構築しcwdで探索終了と明記。ネスト配置のみで必要な指示が常に注入されると読めた説明とチェックリストを訂正。調査担当 /root/source_check が08:02:01Z〜08:02:03Zに取得。実Agent読込試験・料金・モデル・セキュリティ推奨・系統全体は未検証。",
+      "sources": [
+        {
+          "url": "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
+          "accessed_at": "2026-09-10T08:02:03Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/08-coding-agents/openai-codex-in-practice.md",
+        "docs/08-coding-agents/coding-agent-rules-and-config.md"
+      ]
+    },
+    {
+      "system_id": "coding-agents",
+      "status": "unverifiable",
+      "summary": "参照先全文の自動注入保証は指定公式資料から確認不能。保証として採用せず、明示して読むよう依頼し結果を確認する運用上の設計例として区別した。保証を前提にした記述は残さないため本訂正の追加調査は不要。",
+      "sources": [
+        {
+          "url": "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
+          "accessed_at": "2026-09-10T08:02:03Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/08-coding-agents/openai-codex-in-practice.md",
+        "docs/08-coding-agents/coding-agent-rules-and-config.md"
+      ]
+    }
+  ],
+  "changes": [
+    {
+      "path": "docs/08-coding-agents/openai-codex-in-practice.md",
+      "kind": "substantive",
+      "observation_indices": [
+        0
+      ],
+      "summary": "開始cwdと階層の自動探索範囲、明示的な読込依頼を区別。published維持、更新日2026-09-10。"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agent-rules-and-config.md",
+      "kind": "substantive",
+      "observation_indices": [
+        0
+      ],
+      "summary": "開始cwdと階層の自動探索範囲、明示的な読込依頼を区別。published維持、更新日2026-09-10。"
+    },
+    {
+      "path": "research/coding-agents/openai-codex-practice.md",
+      "kind": "supporting",
+      "observation_indices": [
+        0
+      ],
+      "summary": "既存の階層化記述を訂正し、実取得UTC区間・一次資料・限定範囲と未検証を記録。"
+    }
+  ],
+  "review": {
+    "verdict": "approved",
+    "risk": "low",
+    "independent": true,
+    "reviewer_run_id": "/root/final_review",
+    "reviewed_at": "2026-09-10T08:09:31Z",
+    "content_digest": "3d9dcd0bee51e96eb19950388e6d48cc533b8e6284d58365806b4118cfb3d1e9"
+  },
+  "completed_at": "2026-09-10T08:10:04.797Z"
+}

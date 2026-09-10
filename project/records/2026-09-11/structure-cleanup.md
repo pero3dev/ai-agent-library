@@ -4,7 +4,7 @@
 
 ## 目的・所有・許可
 
-[採択計画](../../plans/engineering/structure-cleanup.md)のS0〜S5を完了します。ユーザーの「計画書すべてが完了するまで自律的に作業を進めてください」に基づき、対象ファイルの移動・整理、条件を満たす不要物の削除、ブランチ・コミット・push・PR・マージ・公開確認を行います。すべてのコミットとsquash本文に `Co-authored-by: Codex <codex@openai.com>` を付けます。
+[採択計画](../../plans/engineering/structure-cleanup.md)のS0〜S5を完了しました。ユーザーの「計画書すべてが完了するまで自律的に作業を進めてください」に基づき、対象ファイルの移動・整理、条件を満たす不要物の削除、ブランチ・コミット・push・PR・マージ・公開確認を実施しました。コミットとsquash本文に `Co-authored-by: Codex <codex@openai.com>` を付けています。
 
 正本記事の内容・URL、定期タスクのpromptとcwd、実働hookの設定と実装、研究JSONと実受入の生証拠、個人設定は保護します。移動する内容・試験の範囲は [移行台帳](structure-migration.json) を正とします。新配置を検査するコードはS1で先行導入します。
 
@@ -17,7 +17,7 @@
 - 既存worktreeとbranchのHEAD、全追跡ファイルのSHA256はcommon Git directoryの `structure-cleanup/baseline.json` に保存しました。
 - 親担当はS0の台帳・S1の統合とGitHub導入を所有します。別担当がS1コード、独立worktreeでS2文書、読み取り担当がS4削除候補の調査を行います。
 
-## 進捗と再開点
+## 工程の完了
 
 | 工程 | 状態 | 対象・証拠・次の操作 |
 | --- | --- | --- |
@@ -25,8 +25,8 @@
 | S1 | 完了 | PR #26の9必須チェック、マージ・公開照合成功 |
 | S2 | 完了 | PR #27の9必須チェック、マージ・公開照合成功。root15/Markdown8 |
 | S3 | 完了 | PR #28の9必須チェック・マージ成功。移動19件の試験・実行入口を維持 |
-| S4 | 導入待ち | 旧worktree14件・生成物13箇所を解放。旧入口・placeholder削除、恒久検査と手順を実装 |
-| S5 | ローカル受入完了 | fresh checkoutの全検証と不変照合に成功。S4のCI・公開照合と今回の作業コピー解放が残る |
+| S4 | 完了 | 旧worktree14件・生成物13箇所を解放。旧入口・placeholder削除、恒久検査と手順を導入 |
+| S5 | 完了 | fresh checkoutの全検証、不変照合、PR #29のCI・公開照合、今回の作業コピー4件の解放を完了 |
 
 ## 検証と証拠の扱い
 
@@ -58,7 +58,7 @@
 
 root全体278件、Windows重点110件、website単体26件、offline evalの9suite・242件がすべて成功し、skipは0件でした。依存監査・スキル同期・差分検査も成功しました。親担当の独立レビューは必須指摘0件です。S2を取り込んだmerge `1b9385c4042573b21e8442cf02b4fd94b38f6df6` でも全体278試験と281ファイル/5,112リンクを再確認しました。原ログと移動照合はcommon Git directoryの `structure-tests-*`、`structure-cleanup/s3-integrated-check.log` に保存しています。
 
-[PR #28](https://github.com/pero3dev/ai-agent-library/pull/28) はhead `ef759ca4ca871430b5b601eea0802a5d22071c86` からmerge `d3dde747e26af7a5def9ed1177ab4db4bca2e016` へ進みました。公開のライブ照合は最終受入に併記します。
+[PR #28](https://github.com/pero3dev/ai-agent-library/pull/28) はhead `ef759ca4ca871430b5b601eea0802a5d22071c86` からmerge `d3dde747e26af7a5def9ed1177ab4db4bca2e016` へ進みました。main CI `34514087948`、deployment `6378399941` と公開HTTP200・本文を2026-09-10T18:29:50.639Zにライブ照合しました。
 
 ## S4のworktree整理
 
@@ -76,7 +76,7 @@ root全体278件、Windows重点110件、website単体26件、offline evalの9su
 
 独立レビューで見つかった大小混在Markdown拡張子の検査脱落と、旧Windows helper配置の検出漏れを修正しました。追加回帰を含む構造試験9件の再レビューは必須指摘0件です。親担当はコマンド接続と運用文書も確認しました。
 
-fresh checkoutでの再生成・ブラウザー試験が成功した後、main checkoutの生成物とPython cache計13箇所、933,277,555 bytesを削除しました。サイトの `.next/`・`out/`・`content/`・`generated/`・`public/_pagefind/`・`next-env.d.ts`、旧devログと対象cacheだけを扱っています。devログは削除前にSHA付きでcommon Gitへ保管しました。対象一覧、絶対パス境界、全階層のreparse point、容量・更新時刻の不変、稼働サーバーの終了を確認してから、同じPowerShell内で削除しました。
+fresh checkoutでの再生成・ブラウザー試験が成功した後、main checkoutの生成物とPython cache計13箇所、933,277,555 bytesを削除しました。サイトの `.next/`・`out/`・`content/`・`generated/`・`public/_pagefind/`・`test-results/`、旧devログと対象cacheだけを扱っています。`next-env.d.ts` と `playwright-report/` は事前確認で未存在でした。devログは削除前にSHA付きでcommon Gitへ保管しました。対象一覧、絶対パス境界、全階層のreparse point、容量・更新時刻の不変、稼働サーバーの終了を確認してから、同じPowerShell内で削除しました。
 
 記録は `structure-cleanup/generated-cleanup-preflight.json`、`generated-cleanup-rechecked.json`、`generated-cleanup-results.json` です。常用のroot/website依存、補助ツール、保持対象の評価証拠は残しています。サイト生成物はlockfileから依存を準備し、正本から `npm run sync` と公開条件の `npm run build:clean` で再生成できます。既存14worktreeと合わせた削除対象の論理サイズは2,692,902,889 bytesで、ディスク割当容量の実測や保管コピーを差し引いた純削減値ではありません。
 
@@ -98,3 +98,26 @@ fresh checkoutでの再生成・ブラウザー試験が成功した後、main c
 全試験のskipは0件です。原ログ・実行時刻・exit・ログSHA・環境を `structure-cleanup/s5-acceptance.json`、生成URL一覧を `s5-routes.json` に保存しました。実働Agentや定期タスクを再実行した証拠ではありません。Windows sandboxのGit所有権という既存の未成功条件は [先行受入記録](../2026-09-10/harness-acceptance.md#実行面ごとの互換性)のままです。
 
 開始時との照合では、記事199件のGit本文・category・派生URL、章16パス、research JSON9件、実働hook8ファイル、登録用prompt2件、本番TOML2件が不変でした。生成223ルートも旧出力の集合・SHAと一致しています。1記事の旧checkoutにあったCRLF表現はGit本文のLFとの表現差として区別し、本文変更へ数えていません。照合スクリプトと結果は `structure-cleanup/verify-preservation.mjs`、`preservation-acceptance-built.json` に保存しました。
+
+## 公開・作業領域の解放と最終状態
+
+[PR #29](https://github.com/pero3dev/ai-agent-library/pull/29) はhead `0303fb9a587c5a81a3dafb30286c1568241c7ba0` の9必須チェック成功後、merge `83741fc1c79ec8ef6045b3a1c8a5e95190b38ea3` に進みました。main CI `34514903631`、deployment `6378539662`、トップと代表記事のHTTP200・本文を2026-09-10T18:35:44.860Zにライブ照合しました。各PRの生照合結果は `structure-cleanup/pr26-publication.json` から `pr29-publication.json` に保存しています。
+
+今回使った文書・試験・恒久検査・fresh受入の4worktreeも解放しました。各HEAD、未保存/ignoredファイル、同一common Git、絶対パス境界、全階層のリンク、担当の終了を再確認し、`refs/archive/structure-cleanup/2026-09-11/structure/` と検証済みの `structure-worktrees.bundle` に復元元を保存しています。受入のURL一覧とログはcheckout外へ保存済みです。4件の論理サイズは2,266,934,353 bytesで、作業中に新規導入した依存・生成物を含むため、開始時からの削減量へ加算しません。対応する4本のlocal/remote作業branchも、SHAを照合して解放しました。
+
+さらに、取り込みと実runからの非参照を確認した旧branch5本のlocal/remoteと、server側で既に削除済みだった追跡ref3件を整理しました。旧branchは `refs/archive/structure-cleanup/2026-09-11/legacy/` と `legacy-branches.bundle` に保持しています。台帳は `remaining-branches-inventory.json`、実行結果は `legacy-branch-removal-results.json` です。158件のruntime/eval JSONを確認し、単一JSONとして読めなかった2件も連結された通知・完了サマリとして再解析しました。未解析の記録を残して非参照と判断してはいません。
+
+| 保持対象 | 残す理由・次の判断 |
+| --- | --- |
+| Git内のhook/review評価worktree 2件と独立Claude評価コピー1件 | 実受入の差分・証拠です。完了後90日の保持と所有・復旧条件を満たしてから個別判断 |
+| アプリ管理worktree 2件 | セッションと対応するアプリ管理領域です。アプリの管理導線で扱います |
+| 過去の定期実行branch 2本 | 実runのsnapshot/checkpointまたはアプリworktreeが参照しています |
+| `audit/freshness-2026-09-10` | main祖先に含まれない監査commitが残っています |
+| `maintenance/2026q3-m4-m6` | HEADは取り込み済みですが、同名PRとの所有・完了対応が曖昧なため元の入口を保持 |
+| root/website依存・専用Codex/Python | 継続作業に必要な常用環境です。package/lockfileと専用ツールの境界を維持 |
+
+最終棚卸しではmain checkout・common Git・登録worktree4件を重複なく計測し、通常ファイルの合計は約1.39 GiBでした。対象内の読取エラーとリンク除外は0、mainと登録worktreeのサイト生成物は0 bytesです。独立Claudeコピーなど未登録の領域は含みません。区分と観測時刻は `structure-cleanup/final-storage-inventory.json` が正本です。
+
+独自のcommon Git内ログをGit metadataへ混ぜないよう、既知のGitファイル名・ディレクトリだけを当該区分へ分類し、残りは「その他のローカルファイル」にしました。大文字の独自ログも対象にした回帰を追加し、独立再レビューの必須指摘は0件です。補正後の `npm run check` も287試験・skip 0件、文書・リンク・構造検査を含め成功しました。これはfresh受入後の容量分類の補正であり、サイト・hook・定期実行コードの変更ではありません。
+
+移行台帳54件はすべて移動済み、条件付き削除2件も完了です。ルートは15ファイル・Markdown8、記事の入口と公開URL、ROADMAP全214タスク、本番定期タスクを維持しています。以後は [project索引](../../README.md)から計画・実施記録を辿り、[CONTRIBUTING](../../../CONTRIBUTING.md#配置の維持)の検査と棚卸しを通常運用に使います。

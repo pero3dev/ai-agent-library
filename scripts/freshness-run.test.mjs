@@ -291,11 +291,13 @@ test('checkpoint pending survives interruption and repeated resolution is idempo
   assert.deepEqual(resolvedState.systems, {});
   assert.deepEqual(resolvedState.runs, {});
   fixture.run('checkpoint', '--run', input, '--attempt-id', resumed.attempt_id);
-  assert.deepEqual(loadState(fixture.dir), resolvedState);
+  const repeatedState = loadState(fixture.dir);
+  assert.equal(repeatedState.generation, resolvedState.generation + 1);
+  assert.deepEqual({ ...repeatedState, generation: resolvedState.generation }, resolvedState);
   const unknown = { ...resolution, resolved_pending_ids: ['never-pending'] };
   writeJson(input, unknown);
   assert.throws(() => fixture.run('checkpoint', '--run', input, '--attempt-id', resumed.attempt_id), /Unknown resolved pending/i);
-  assert.deepEqual(loadState(fixture.dir), resolvedState);
+  assert.deepEqual(loadState(fixture.dir), repeatedState);
   writeJson(input, resolution);
   fixture.run('finish', '--run', input, '--attempt-id', resumed.attempt_id, '--outcome', 'observed');
   const finishedState = loadState(fixture.dir);
@@ -374,4 +376,41 @@ test('suspend persists unfinished work and PR then releases its attempt for same
   assert.deepEqual(resumed.notes, checkpoint.notes);
   assert.equal(resumed.snapshot_commit, saved.snapshot_commit);
   fixture.run('release', '--run-id', resumed.run_id, '--attempt-id', resumed.attempt_id);
+});
+
+test('future external wait leaves its run queued and permits another system to progress', t => {
+  const fixture = gitFixture(t);
+  const first = fixture.run('prepare', '--mode', 'manual', '--ids', 'models-prompting');
+  fixture.run('suspend', '--run', first.checkpoint, '--attempt-id', first.attempt_id, '--wait-until', '2030-01-01T00:00:00Z', '--wait-reason', 'Waiting for CI');
+  const second = fixture.run('prepare', '--mode', 'rotation');
+  assert.notEqual(second.run_id, first.run_id);
+  assert.deepEqual(second.systems, ['coding-agents']);
+  const queue = fixture.run('status').queue;
+  assert.equal(queue.waiting_external[0].run_id, first.run_id);
+  fixture.run('release', '--run-id', second.run_id, '--attempt-id', second.attempt_id);
+});
+
+test('usage-limit checkpoint saves the narrow snapshot and releases its lease', t => {
+  const fixture = gitFixture(t);
+  const prepared = fixture.run('prepare', '--mode', 'manual', '--ids', 'models-prompting');
+  fs.writeFileSync(path.join(fixture.root, 'docs/01-concepts/models.md'), '# Preserve at limit\n');
+  const result = fixture.run('checkpoint', '--run', prepared.checkpoint, '--attempt-id', prepared.attempt_id, '--usage-limit');
+  assert.equal(result.budget.reason, 'usage_limit');
+  assert.equal(fs.existsSync(path.join(fixture.dir, 'lock')), false);
+  const saved = JSON.parse(fs.readFileSync(prepared.checkpoint, 'utf8'));
+  assert.equal(saved.queue_state, 'waiting_external');
+  assert.equal(saved.status, 'in_progress');
+  assert.equal(loadState(fixture.dir).runs[prepared.run_id], undefined);
+  assert.equal(fixture.git('show', `${saved.snapshot_commit}:docs/01-concepts/models.md`), '# Preserve at limit');
+});
+
+test('dry-run checkpoint does not update state, records, or snapshots', t => {
+  const fixture = gitFixture(t);
+  const prepared = fixture.run('prepare', '--mode', 'manual', '--ids', 'models-prompting');
+  const before = fs.readFileSync(prepared.checkpoint, 'utf8');
+  const result = fixture.run('checkpoint', '--run', prepared.checkpoint, '--attempt-id', prepared.attempt_id, '--dry-run');
+  assert.equal(result.dry_run, true);
+  assert.equal(fs.readFileSync(prepared.checkpoint, 'utf8'), before);
+  assert.equal(fs.existsSync(path.join(fixture.dir, 'state.json')), false);
+  fixture.run('release', '--run-id', prepared.run_id, '--attempt-id', prepared.attempt_id);
 });

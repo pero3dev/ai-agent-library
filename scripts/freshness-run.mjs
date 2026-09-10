@@ -3,51 +3,21 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { readRegistry, selectSystems } from './freshness-registry.mjs';
 
-const RUN_ID = /^[a-z0-9][a-z0-9-]{1,79}$/;
+import { git, snapshotOwned, writeJson, assertRunId, readLock, acquireLock, releaseLock, assertOwner, withLockMutex, saveGeneration, recoverGeneration, queuedRuns, budgetStatus } from './lib/harness-state.mjs';
+export { acquireLock, releaseLock } from './lib/harness-state.mjs';
 const OUTCOMES = new Set(['observed', 'merged', 'held', 'failed']);
-const git = (root, ...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', windowsHide: true }).trim();
 export function storageDirectory(root) {
   return path.resolve(root, git(root, 'rev-parse', '--git-common-dir'), 'freshness');
 }
-export function snapshotWork(root, dir, runId) {
-  assertRunId(runId);
-  fs.mkdirSync(dir, { recursive: true });
-  const index = path.join(dir, `snapshot-index-${crypto.randomUUID()}`);
-  const snapshotOptions = {
-    cwd: root, encoding: 'utf8', windowsHide: true,
-    env: { ...process.env, GIT_INDEX_FILE: index }, stdio: ['ignore', 'pipe', 'pipe']
-  };
-  const snapshotGit = (...args) => execFileSync('git', args, snapshotOptions).trim();
-  try {
-    const head = git(root, 'rev-parse', 'HEAD');
-    snapshotGit('read-tree', head);
-    const candidates = ['docs', 'research', 'ROADMAP.md', 'GLOSSARY.md', 'README.md'];
-    const paths = snapshotGit('ls-files', '--cached', '--others', '--exclude-standard', '-z', '--', ...candidates)
-      .split('\0').filter(file => candidates.slice(2).includes(file) || /^(docs|research)\/.*\.(md|json)$/.test(file));
-    if (paths.length) execFileSync('git', ['--literal-pathspecs', 'add', '-A', '--pathspec-from-file=-', '--pathspec-file-nul'], {
-      ...snapshotOptions, stdio: ['pipe', 'pipe', 'pipe'], input: `${[...new Set(paths)].join('\0')}\0`
-    });
-    const tree = snapshotGit('write-tree');
-    const commit = tree === git(root, 'rev-parse', `${head}^{tree}`) ? head : snapshotGit(
-      '-c', 'user.name=Codex', '-c', 'user.email=codex@openai.com',
-      'commit-tree', tree, '-p', head, '-m', `WIP freshness ${runId}\n\nCo-authored-by: Codex <codex@openai.com>`
-    );
-    git(root, 'update-ref', `refs/freshness/checkpoints/${runId}`, commit);
-    return { snapshot_commit: commit, snapshot_head: head };
-  } finally {
-    if (fs.existsSync(index)) fs.unlinkSync(index);
-    if (fs.existsSync(`${index}.lock`)) fs.unlinkSync(`${index}.lock`);
-  }
-}
-function writeJson(file, value) {
-  fs.mkdirSync(path.dirname(file), { recursive: true });
-  const tmp = `${file}.${crypto.randomUUID()}.tmp`;
-  fs.writeFileSync(tmp, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
-  fs.renameSync(tmp, file);
+export function snapshotWork(root, dir, runId, beforePublish = () => {}) {
+  return snapshotOwned(root, dir, runId, {
+    candidates: ['docs', 'research', 'ROADMAP.md', 'GLOSSARY.md', 'README.md'],
+    accepts: file => ['ROADMAP.md', 'GLOSSARY.md', 'README.md'].includes(file) || /^(docs|research)\/.*\.(md|json)$/.test(file),
+    refPrefix: 'freshness', beforePublish
+  });
 }
 export function loadState(dir) {
   const file = path.join(dir, 'state.json');
@@ -68,56 +38,6 @@ export function interruptedRuns(dir) {
     if (name !== `${record.run_id}.json`) throw new Error('Checkpoint file/ID mismatch');
     return record;
   }).filter(record => record.status === 'in_progress' && !committedRuns[record.run_id]).sort((a, b) => a.started_at.localeCompare(b.started_at));
-}
-function assertRunId(id) {
-  if (typeof id !== 'string' || !RUN_ID.test(id)) throw new Error('Invalid run ID');
-}
-function readLock(dir) {
-  const file = path.join(dir, 'lock', 'owner.json');
-  return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : null;
-}
-function withLockMutex(dir, action) {
-  fs.mkdirSync(dir, { recursive: true });
-  const mutex = path.join(dir, 'lock-mutex');
-  try { fs.mkdirSync(mutex); }
-  catch (error) {
-    if (error.code === 'EEXIST') throw new Error('Lock recovery is already running. Retry later; inspect a persistent lock-mutex before removing it.');
-    throw error;
-  }
-  try { return action(); }
-  finally { fs.rmdirSync(mutex); }
-}
-export function acquireLock(dir, runId, now = new Date()) {
-  assertRunId(runId);
-  return withLockMutex(dir, () => {
-    const lockDir = path.join(dir, 'lock');
-    if (fs.existsSync(lockDir)) {
-      const owner = readLock(dir);
-      if (!owner || !Number.isFinite(Date.parse(owner.expires_at)) || Date.parse(owner.expires_at) > now.getTime()) {
-        throw new Error(`Another freshness run owns the lock: ${owner?.run_id ?? 'incomplete lock; inspect manually'}`);
-      }
-      // All acquisition/release paths share this mutex, including expired-owner recovery.
-      fs.renameSync(lockDir, path.join(dir, `expired-lock-${crypto.randomUUID()}`));
-    }
-    fs.mkdirSync(lockDir);
-    const owner = { run_id: runId, attempt_id: crypto.randomUUID(), started_at: now.toISOString(), expires_at: new Date(now.getTime() + 6 * 60 * 60 * 1000).toISOString() };
-    writeJson(path.join(lockDir, 'owner.json'), owner);
-    return owner;
-  });
-}
-export function releaseLock(dir, runId, attemptId) {
-  assertRunId(runId);
-  return withLockMutex(dir, () => {
-    const owner = readLock(dir);
-    if (!owner || owner.run_id !== runId || (attemptId && owner.attempt_id !== attemptId)) throw new Error('Lock owner changed; do not publish this run.');
-    fs.unlinkSync(path.join(dir, 'lock', 'owner.json'));
-    fs.rmdirSync(path.join(dir, 'lock'));
-  });
-}
-function assertOwner(dir, id, attemptId) {
-  if (typeof attemptId !== 'string' || !/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(attemptId)) throw new Error('A valid lock attempt_id is required');
-  const owner = readLock(dir);
-  if (!owner || owner.run_id !== id || (attemptId && owner.attempt_id !== attemptId) || Date.parse(owner.expires_at) <= Date.now()) throw new Error('Run does not own the current lock attempt; stop before GitHub writes.');
 }
 export function automaticMode(now = new Date()) {
   const day = new Date(now.getTime() + 9 * 60 * 60 * 1000).getUTCDay();
@@ -175,7 +95,9 @@ export function parseArgs(argv) {
   while (argv.length) {
     const flag = argv.shift();
     if (flag === '--dry-run') options.dryRun = true;
-    else if (['--mode', '--ids', '--run', '--run-id', '--attempt-id', '--outcome', '--root'].includes(flag)) {
+    else if (flag === '--usage-limit') options.usageLimit = true;
+    else if (flag === '--needs-decision') options.needsDecision = true;
+    else if (['--mode', '--ids', '--run', '--run-id', '--attempt-id', '--outcome', '--root', '--wait-until', '--wait-reason', '--time-budget-minutes'].includes(flag)) {
       if (!argv.length || argv[0].startsWith('--')) throw new Error(`Missing value: ${flag}`);
       options[flag.slice(2)] = argv.shift();
     } else throw new Error(`Unknown argument: ${flag}`);
@@ -189,25 +111,46 @@ export function main(argv = process.argv.slice(2)) {
   const now = new Date();
   if (command === 'status') {
     const state = loadState(dir);
-    return { storage: dir, lock: readLock(dir), interrupted: interruptedRuns(dir), ...state };
+    const interrupted = interruptedRuns(dir);
+    return { storage: dir, lock: readLock(dir), interrupted, queue: queuedRuns(interrupted, now), recovery: recoverGeneration(dir), compatibility: { schema_version: state.schema_version, automatic_migration: false }, ...state };
   }
   if (command === 'prepare') {
+    const recovery = recoverGeneration(dir);
+    if (recovery.needed) {
+      if (options.dryRun) return { status: 'recovery_required', recovery, dry_run: true };
+      const recoveryOwner = acquireLock(dir, `recovery-${crypto.randomUUID()}`, now);
+      try { withLockMutex(dir, () => recoverGeneration(dir, { dryRun: false })); }
+      finally { releaseLock(dir, recoveryOwner.run_id, recoveryOwner.attempt_id); }
+    }
     const registry = readRegistry(root);
     const state = loadState(dir);
-    const interrupted = interruptedRuns(dir)[0];
+    const allInterrupted = interruptedRuns(dir);
+    const queue = queuedRuns(allInterrupted, now);
+    const interrupted = queue.ready[0];
     const mode = interrupted?.mode ?? (!options.mode || options.mode === 'auto' ? automaticMode(now) : options.mode);
     const selected = interrupted
       ? selectSystems(registry, state, { mode: 'manual', now, limit: 3, ids: interrupted.systems })
-      : selectSystems(registry, state, { mode, now, limit: 3, ids: options.ids?.split(',') });
-    const systems = selected.map(row => typeof row === 'string' ? registry.find(entry => entry.id === row) : row);
-    if (!systems.length) return { status: 'nothing_due', mode };
+      : selectSystems(registry, state, { mode, now, limit: 3, ids: options.ids?.split(','), excludeIds: allInterrupted.flatMap(record => record.systems) });
+    const occupied = new Set(allInterrupted.flatMap(record => record.systems));
+    const systems = selected.map(row => typeof row === 'string' ? registry.find(entry => entry.id === row) : row).filter(row => interrupted || !occupied.has(row.id));
+    if (!systems.length) return { status: 'nothing_due', mode, waiting: queue.waiting_external.length, needs_decision: queue.needs_decision.length };
     const runId = interrupted?.run_id ?? `${now.toISOString().replace(/[-:.]/g, '').toLowerCase()}-${crypto.randomUUID().slice(0, 8)}`;
     const checkpoint = interrupted ?? { schema_version: 1, run_id: runId, status: 'in_progress', mode, started_at: now.toISOString(), base_sha: git(root, 'rev-parse', 'origin/main'), systems: systems.map(row => row.id), completed_systems: [], pending: [], resolved_pending_ids: [], notes: [] };
     if (!options.dryRun) {
       checkpoint.attempt_id = acquireLock(dir, runId, now).attempt_id;
+      const minutes = Number(options['time-budget-minutes'] ?? 300);
+      if (!Number.isFinite(minutes) || minutes < 3 || minutes > 350) {
+        releaseLock(dir, runId, checkpoint.attempt_id);
+        throw new Error('time-budget-minutes must be 3..350');
+      }
+      checkpoint.queue_state = 'ready';
+      checkpoint.next_eligible_at = null;
+      checkpoint.budget = { deadline_at: new Date(now.getTime() + minutes * 60000).toISOString(), save_margin_seconds: 120 };
       writeJson(path.join(dir, 'runs', `${runId}.json`), checkpoint);
     }
-    return { ...checkpoint, resuming: Boolean(interrupted), current_main_sha: git(root, 'rev-parse', 'origin/main'), dry_run: Boolean(options.dryRun), checkpoint: path.join(dir, 'runs', `${runId}.json`), evidence: `research/freshness-runs/${runId}.json`, branch: `automation/freshness-${runId}`, targets: systems, previous_pending: state.pending };
+    let orphanSnapshot = null;
+    try { const savedRef = git(root, 'rev-parse', `refs/freshness/checkpoints/${runId}`); if (savedRef !== checkpoint.snapshot_commit) orphanSnapshot = savedRef; } catch { /* No snapshot has been made yet. */ }
+    return { ...checkpoint, resuming: Boolean(interrupted), current_main_sha: git(root, 'rev-parse', 'origin/main'), orphan_snapshot_commit: orphanSnapshot, dry_run: Boolean(options.dryRun), checkpoint: path.join(dir, 'runs', `${runId}.json`), evidence: `research/freshness-runs/${runId}.json`, branch: `automation/freshness-${runId}`, targets: systems, previous_pending: state.pending };
   }
   if (command === 'checkpoint' || command === 'suspend' || command === 'finish') {
     if (!options.run) throw new Error('--run is required');
@@ -215,23 +158,49 @@ export function main(argv = process.argv.slice(2)) {
     assertRunId(checkpoint.run_id);
     if (options['attempt-id'] && options['attempt-id'] !== checkpoint.attempt_id) throw new Error('Checkpoint belongs to another attempt');
     assertOwner(dir, checkpoint.run_id, options['attempt-id'] ?? checkpoint.attempt_id);
+    if (options['wait-until']) checkpoint.next_eligible_at = options['wait-until'];
+    if (options['wait-reason']) checkpoint.wait_reason = options['wait-reason'];
+    if (options.needsDecision) checkpoint.queue_state = 'needs_decision';
+    else if (options['wait-until']) checkpoint.queue_state = 'waiting_external';
+    if (options.usageLimit) checkpoint.budget = { ...checkpoint.budget, stop_reason: 'usage_limit' };
+    const budget = budgetStatus(checkpoint, now);
+    if (budget.must_save && command !== 'finish') {
+      checkpoint.queue_state = 'waiting_external';
+      checkpoint.wait_reason = budget.reason;
+      checkpoint.next_eligible_at = new Date(now.getTime() + (budget.reason === 'usage_limit' ? 24 * 60 : 5) * 60000).toISOString();
+    }
+    queuedRuns([checkpoint], now);
+    if (checkpoint.queue_state === 'waiting_external' && (!checkpoint.next_eligible_at || !checkpoint.wait_reason)) throw new Error('External waits require next_eligible_at and wait_reason');
     const registry = readRegistry(root);
     if (!Array.isArray(checkpoint.systems) || checkpoint.systems.some(id => !registry.some(row => row.id === id))) throw new Error('Unknown system');
+    if (options.dryRun) return { dry_run: true, command, run_id: checkpoint.run_id, storage: dir, external_verification_required: command === 'finish' && options.outcome === 'merged' };
     // Validate completion/pending fields even during an intermediate checkpoint.
+    const save = () => {
     const previous = loadState(dir);
     const state = applyCompletion(previous, checkpoint, command === 'finish' ? options.outcome : 'held', now);
     if (command === 'finish') {
-      writeJson(path.join(dir, 'state.json'), state);
-      writeJson(path.join(dir, 'runs', `${checkpoint.run_id}.json`), { ...checkpoint, status: options.outcome, saved_at: now.toISOString() });
+      withLockMutex(dir, () => saveGeneration(dir, state, { ...checkpoint, status: options.outcome, saved_at: now.toISOString() }, { beforeCommit: () => assertOwner(dir, checkpoint.run_id, checkpoint.attempt_id) }));
       releaseLock(dir, checkpoint.run_id, options['attempt-id'] ?? checkpoint.attempt_id);
     } else {
-      const snapshot = snapshotWork(root, dir, checkpoint.run_id);
+      const snapshot = withLockMutex(dir, () => {
+        assertOwner(dir, checkpoint.run_id, checkpoint.attempt_id);
+        return snapshotWork(root, dir, checkpoint.run_id, () => assertOwner(dir, checkpoint.run_id, checkpoint.attempt_id));
+      });
       // Persist follow-ups without claiming the observation or PR is complete.
-      writeJson(path.join(dir, 'state.json'), { ...previous, pending: state.pending, pending_resolutions: state.pending_resolutions });
-      writeJson(path.join(dir, 'runs', `${checkpoint.run_id}.json`), { ...checkpoint, ...snapshot, status: 'in_progress', saved_at: now.toISOString() });
-      if (command === 'suspend') releaseLock(dir, checkpoint.run_id, options['attempt-id'] ?? checkpoint.attempt_id);
+      withLockMutex(dir, () => saveGeneration(dir, { ...previous, pending: state.pending, pending_resolutions: state.pending_resolutions }, { ...checkpoint, ...snapshot, status: 'in_progress', saved_at: now.toISOString() }, { beforeCommit: () => assertOwner(dir, checkpoint.run_id, checkpoint.attempt_id) }));
+      if (command === 'suspend' || budget.must_save) releaseLock(dir, checkpoint.run_id, options['attempt-id'] ?? checkpoint.attempt_id);
     }
-    return { saved: true, command, run_id: checkpoint.run_id, storage: dir };
+    return { saved: true, command, run_id: checkpoint.run_id, storage: dir, budget };
+    };
+    if (command === 'finish' && options.outcome === 'merged') {
+      return import('./lib/github-evidence.mjs').then(({ verifyGithubEvidence }) => {
+        checkpoint.github_verification = verifyGithubEvidence({ root, prUrl: checkpoint.pr_url, expectedHead: checkpoint.head_sha ?? git(root, 'rev-parse', 'HEAD'), requirePublication: true, publicationUrls: checkpoint.publication_urls ?? [] });
+        checkpoint.merge_sha = checkpoint.github_verification.merge_sha;
+        checkpoint.publication = checkpoint.github_verification.publication;
+        return save();
+      });
+    }
+    return save();
   }
   if (command === 'assert-lock' || command === 'release') {
     assertRunId(options['run-id']);
@@ -243,6 +212,6 @@ export function main(argv = process.argv.slice(2)) {
   throw new Error('Commands: prepare, checkpoint, suspend, finish, assert-lock, release, status');
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  try { console.log(JSON.stringify(main(), null, 2)); }
+  try { console.log(JSON.stringify(await main(), null, 2)); }
   catch (error) { console.error(error.message); process.exitCode = 1; }
 }

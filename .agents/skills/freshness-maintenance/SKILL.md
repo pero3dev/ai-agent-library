@@ -30,7 +30,7 @@ description: Codex の定期タスクから既存記事の鮮度を確認し、�
 - `freshness-checker` に対象記事・research 起点・注目事項を渡し、一次情報を Web で検索して本文を開かせます。価格・提供条件・仕様・予定日は実行日の資料で確認します。
 - 各項目を `changed / unchanged / unverifiable / failed` に分類します。取得失敗や裏付け不足を unchanged にしません。将来の終了予定は、日付が過ぎただけでは実停止と断定しません。
 - 根拠が揃う内容を既存記事へ反映します。記事の実質変更時だけ `last_updated` を実行日の日本時間の日付へ更新し、status は維持します。参考資料・research・用語集・比較表を必要な範囲で同期します。
-- 調査結果の JSON は [結果スキーマ](../../../scripts/schemas/freshness-result.schema.json) に従います。`writer_run_id` に現在の実行 ID、`observations` に根拠、`changes` に evidence 自身を除く変更ファイルを過不足なく記録します。`sources.accessed_at` は実際の確認時刻を UTC の ISO 8601 形式で記録します。
+- 調査結果の JSON は [結果スキーマ](../../../scripts/schemas/freshness-result.schema.json) の `schema_version: 2` に従います。`writer_run_id` に現在の実行 ID、`observations` に根拠、`changes` に evidence 自身を除く変更ファイルを過不足なく記録します。`sources.accessed_at` は実際の確認時刻を UTC の ISO 8601 形式で記録し、レビュー以前の取得であることを確認します。実取得時刻を得られない場合は再取得し、日付から時刻を補完しません。
 - 独立レビューへ渡す本文は目安 5 記事までに分けます。同期が不可欠な変更は同じ一群として扱います。対象範囲を広げるために検証スクリプトを書き換えません。
 
 確認不能は checkpoint の `pending` に `{id, system_id, reason, next_retry_at}` を保存します。ID は再実行でも維持します。完了した未解決項目の ID だけを `resolved_pending_ids` に入れます。対象外系統の残件を削除しません。
@@ -42,11 +42,11 @@ description: Codex の定期タスクから既存記事の鮮度を確認し、�
 本文の変更がなければ空 PR を作りません。確認日時だけを進めるコミットも不要です。完了範囲を checkpoint に記録し、`finish --outcome observed` で終了します。この非対話運用では、quarterly-maintenance の「変更なしの TODO 確認月更新」は実行台帳への記録で代替します。
 
 1. `npm ci` が必要なら実行し、`npm run check` を通します。
-2. 変更したファイルだけを stage し、`git write-tree` で候補の tree SHA を得ます。
-3. `node scripts/freshness-policy.mjs --base <base_sha> --head <tree_sha> --branch <branch> --print-digest` で本文差分の digest を取得します。
-4. **別の doc-reviewer サブエージェント**へ元記事・変更後・一次資料・digest を渡し、[レビュー指示](references/review.md)に従う独立レビューを依頼します。サブエージェントを使えない回はレビュー待ちで保留し、自分の編集を独立レビュー済みと記録しません。
-5. 指摘を修正したら digest を再計算し、別実行で再レビューします。最大 2 往復で解決しなければ保留します。
-6. `review` に結果と別実行 ID、`risk`、時刻、確認した digest を記録します。evidence を `research/freshness-runs/<run_id>.json` に保存し、全変更を stage して policy を再実行します。完成時刻は調査・レビュー時刻より後にします。
+2. 本文と根拠・変更分類を確定し、evidence を `research/freshness-runs/<run_id>.json` に保存します。レビュー前は暫定の `review: {"verdict":"changes_requested"}` とし、未取得のレビュアー ID・時刻を作りません。この段階は完全な結果スキーマを満たす必要がなく、`--print-digest` のみを実行できます。変更したファイルと evidence を stage し、`git write-tree` で候補の tree SHA を得ます。
+3. `node scripts/freshness-policy.mjs --base <base_sha> --head <tree_sha> --branch <branch> --print-digest` で本文差分と正規化した根拠の digest を取得します。レビュー結果自身と開始・完了時刻は digest に含みません。
+4. **別の doc-reviewer サブエージェント**へリポジトリ、base SHA、候補 tree SHA、branch、evidence path、変更パス、digest を渡し、[レビュー指示](references/review.md)に従う独立レビューを依頼します。レビュアーは `git show <SHA>:<path>` で不変の本文・manifest を読み、digest を自分で再計算して一致を確認します。作業ディレクトリの未 stage 本文で代替しません。サブエージェントを使えない回はレビュー待ちで保留し、自分の編集を独立レビュー済みと記録しません。
+5. 本文・根拠・変更分類を修正したら stage と digest 計算をやり直し、別実行で再レビューします。最大 2 往復で解決しなければ保留します。
+6. `review` に結果と別実行 ID、`risk`、時刻、確認した digest を記録します。完成時刻を調査・レビュー時刻より後にして evidence を保存し、全変更を stage します。**`git write-tree` をもう一度実行して最終候補の tree SHA を取得**し、その SHA を `--head` に渡して policy を再実行します。レビュー前の tree SHA を使い回しません。
 7. `git diff --cached --check` と stage 内容を確認してコミットします。push の直前に `node scripts/freshness-run.mjs assert-lock --run-id <run_id> --attempt-id <prepare で取得した attempt_id>`、main の SHA、既存 PR head を再確認します。
 8. `gh pr list --head <branch>` で重複を避け、現在の GitHub 認証で push・PR 作成または更新します。PR 本文は一時ファイルを使い `--body-file` で渡します。対象・変更・出典・レビュー・検証・残件を簡潔に記録します。
 

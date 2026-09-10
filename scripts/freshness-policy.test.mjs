@@ -4,7 +4,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'nod
 import os from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
-import { checkFreshnessPolicy, contentDigest, validateResultShape } from './freshness-policy.mjs'
+import { checkFreshnessPolicy, contentDigest, legacyContentDigest, validateResultShape, validateArchivedResultShape } from './freshness-policy.mjs'
 
 const articlePath = 'docs/01-concepts/agent-loop.md'
 const runId = '2026-09-10-test'
@@ -35,7 +35,7 @@ function fixture(t) {
   const base = tree()
   write(articlePath, article('一次資料で確認した主張です。').replace('last_updated: "2026-09-09"', 'last_updated: "2026-09-10"'))
   const manifest = {
-    schema_version: 1, run_id: runId, base_sha: base, writer_run_id: 'writer-001',
+    schema_version: 2, run_id: runId, base_sha: base, writer_run_id: 'writer-001',
     started_at: '2026-09-10T00:00:00Z', completed_at: '2026-09-10T01:00:00Z', systems: ['concepts'],
     observations: [{ system_id: 'concepts', status: 'changed', summary: '一次情報を確認しました。',
       sources: [{ url: 'https://example.com/official', accessed_at: '2026-09-10T00:10:00Z', published_at: '2026-09-09' }], affected_docs: [articlePath] }],
@@ -43,6 +43,7 @@ function fixture(t) {
     review: { verdict: 'approved', risk: 'low', independent: true, reviewer_run_id: 'reviewer-002', reviewed_at: '2026-09-10T00:50:00Z', content_digest: '0'.repeat(64) }
   }
   const finish = ({ refreshDigest = true } = {}) => {
+    write(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)
     if (refreshDigest) manifest.review.content_digest = contentDigest({ cwd, base, head: tree() })
     write(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)
     return tree()
@@ -68,6 +69,55 @@ test('a content change after review invalidates the digest, while the manifest h
   assert.equal(contentDigest({ cwd: f.cwd, base: f.base, head }), f.manifest.review.content_digest)
   f.write(articlePath, article('レビュー後の変更です。').replace('last_updated: "2026-09-09"', 'last_updated: "2026-09-10"'))
   assert.throws(() => f.check({ refreshDigest: false }), /content_digest/)
+})
+
+for (const [name, mutate] of [
+  ['URL', f => { f.manifest.observations[0].sources[0].url = 'https://example.com/replaced' }],
+  ['source time', f => { f.manifest.observations[0].sources[0].accessed_at = '2026-09-10T00:11:00Z' }],
+  ['claim', f => { f.manifest.observations[0].summary = '別の主張です。' }],
+  ['classification', f => { f.manifest.changes[0].summary = '異なる更新理由です。' }]
+]) {
+  test(`evidence-only ${name} changes invalidate the final review`, t => {
+    const f = fixture(t)
+    f.finish()
+    mutate(f)
+    assert.throws(() => f.check({ refreshDigest: false }), /content_digest/)
+    assert.equal(f.check().articles, 1)
+  })
+}
+
+test('JSON formatting and key order do not change the reviewed meaning', t => {
+  const f = fixture(t)
+  const before = f.finish()
+  const digest = contentDigest({ cwd: f.cwd, base: f.base, head: before })
+  const reordered = Object.fromEntries(Object.entries(f.manifest).reverse())
+  f.write(manifestPath, JSON.stringify(reordered))
+  assert.equal(contentDigest({ cwd: f.cwd, base: f.base, head: f.tree() }), digest)
+  f.manifest.completed_at = '2026-09-10T01:01:00Z'
+  f.manifest.review.reviewed_at = '2026-09-10T00:51:00Z'
+  assert.equal(f.check({ refreshDigest: false }).articles, 1)
+})
+
+test('legacy records remain readable but cannot bypass new-PR requirements', t => {
+  const f = fixture(t)
+  f.manifest.schema_version = 1
+  f.manifest.review.content_digest = legacyContentDigest({ cwd: f.cwd, base: f.base, head: f.tree() })
+  validateArchivedResultShape(f.manifest)
+  assert.throws(() => f.check({ refreshDigest: false }), /const/)
+  f.manifest.schema_version = 2
+  assert.throws(() => f.check({ refreshDigest: false }), /content_digest/)
+  assert.equal(f.check().articles, 1)
+})
+
+test('sources fetched after the asserted review require a later review', t => {
+  const f = fixture(t)
+  f.manifest.observations[0].sources[0].accessed_at = '2026-09-10T00:55:00Z'
+  assert.throws(() => f.check(), /レビュー以前/)
+})
+
+test('digest preparation requires staged source evidence', t => {
+  const f = fixture(t)
+  assert.throws(() => contentDigest({ cwd: f.cwd, base: f.base, head: f.tree() }), /manifest を 1 件 stage/)
 })
 
 for (const [name, mutate, error] of [
@@ -157,6 +207,9 @@ test('deleting files cannot be disguised by changes metadata', t => {
   f.git(['rm', '--cached', '--', 'GLOSSARY.md'])
   let head = f.git(['write-tree'])
   f.manifest.changes.push({ path: 'GLOSSARY.md', kind: 'supporting', observation_indices: [0], summary: '削除です。' })
+  f.write(manifestPath, JSON.stringify(f.manifest))
+  f.git(['add', '--', manifestPath])
+  head = f.git(['write-tree'])
   f.manifest.review.content_digest = contentDigest({ cwd: f.cwd, base: f.base, head })
   f.write(manifestPath, JSON.stringify(f.manifest))
   f.git(['add', '--', manifestPath])

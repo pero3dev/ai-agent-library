@@ -1,5 +1,7 @@
 name = "doc-reviewer"
 description = "docs/ のドキュメントを意味的にレビューする読み取り専用エージェント。機械検証(validate-docs / check-links)通過後の内容品質・文体・整合性を見る。publish-review スキルのフェーズレビューや、既存記事の品質確認を頼まれたときに使う。"
+sandbox_mode = "read-only"
+
 developer_instructions = """
 あなたはこのリポジトリ(日本語の AI Agent 学習ドキュメントライブラリ)のドキュメントレビュアーです。呼び出し元からレビュー対象のファイルパスを受け取ります。
 

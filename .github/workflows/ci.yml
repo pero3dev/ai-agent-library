@@ -42,6 +42,8 @@ jobs:
       # markdownlint-cli は devDependency として lockfile で固定(旧: npx --yes で毎回取得)
       - name: Install dependencies
         run: npm ci
+      - name: Audit documentation tooling
+        run: npm audit --audit-level=high
       - name: markdownlint
         run: npm run lint:md
 
@@ -60,7 +62,7 @@ jobs:
         run: |
           set -euo pipefail
           archive="actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
-          curl -fsSL -o "$archive" \
+          curl -fsSL --retry 3 --retry-delay 2 --retry-max-time 60 -o "$archive" \
             "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/${archive}"
           echo "${ACTIONLINT_SHA256}  ${archive}" | sha256sum -c -
           tar -xzf "$archive" actionlint

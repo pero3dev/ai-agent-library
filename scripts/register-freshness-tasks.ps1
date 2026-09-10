@@ -60,7 +60,7 @@ if ($Mode -eq 'Pause') {
 $database = Join-Path $TaskDataRoot 'sqlite\codex-dev.db'
 if (-not (Test-Path -LiteralPath $database)) { Write-Output 'Desktop registration database is not available; file creation does not prove registration.'; exit 0 }
 $statusScript = @'
-import json, sqlite3, sys
+import json, re, sqlite3, sys
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
 database, *ids = sys.argv[1:]
@@ -70,6 +70,10 @@ rows = c.execute('SELECT id,name,status,rrule,cwds,execution_environment,model,n
 result = []
 for row in rows:
     entry = dict(row)
+    config_file = Path(database).parent.parent / 'automations' / entry['id'] / 'automation.toml'
+    config_text = config_file.read_text(encoding='utf-8') if config_file.exists() else ''
+    configured_status = re.search(r'^status = "(ACTIVE|PAUSED)"\s*$', config_text, re.MULTILINE)
+    entry['configured_status'] = configured_status.group(1) if configured_status else None
     for key in ('next_run_at','last_run_at'):
         entry[key + '_jst'] = datetime.fromtimestamp(entry[key]/1000, timezone(timedelta(hours=9))).isoformat() if entry[key] is not None else None
     result.append(entry)

@@ -6,7 +6,7 @@ import path from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { editedPaths } from '../.codex/hooks/edited-paths.mjs'
-import { generatedPath, normalizeEditEvent, relativeInside } from './lib/hook-core.mjs'
+import { generatedPath, lexicalPath, normalizeEditEvent, relativeInside } from './lib/hook-core.mjs'
 import { hookCommand } from './lib/hook-command.mjs'
 import { windowsShortPath } from './lib/windows-test-path.mjs'
 
@@ -220,6 +220,8 @@ test('Windows 8.3 event cwd names preserve source checks, generated guards and f
   mkdirSync(foreign)
   mkdirSync(path.join(repo, 'docs/01-concepts'), { recursive: true })
   writeFileSync(path.join(repo, 'docs/01-concepts/invalid.md'), '# 不正な記事\n')
+  const externalAlias = path.join(foreign, 'back-to-repo')
+  symlinkSync(path.join(repo, 'docs/01-concepts'), externalAlias, 'junction')
   const short = windowsShortPath(repo)
   if (!short.path) { t.skip(short.reason); return }
   const shortForeign = windowsShortPath(foreign)
@@ -233,6 +235,19 @@ test('Windows 8.3 event cwd names preserve source checks, generated guards and f
     const invalid = invokeAdapter(client, 'validate-doc.mjs', { cwd: short.path, tool_input: { file_path: 'docs/01-concepts/invalid.md' } }, repo)
     assert.equal(invalid.status, 2)
     assert.match(invalid.stderr, /invalid\.md.*front-matter/)
+    const absoluteArticle = invokeAdapter(client, 'validate-doc.mjs', { cwd: repo, tool_input: { file_path: path.join(short.path, 'docs/01-concepts/invalid.md') } }, repo)
+    assert.equal(absoluteArticle.status, 2)
+    assert.match(absoluteArticle.stderr, /invalid\.md.*front-matter/)
+    const missingOutput = path.join(short.path, 'website/out/missing-directory/new.html')
+    assert.equal(lexicalPath(missingOutput), path.join(realpathSync.native(repo), 'website/out/missing-directory/new.html'))
+    const absoluteGenerated = invokeAdapter(client, 'guard-generated.mjs', { cwd: repo, tool_input: { file_path: missingOutput } }, repo)
+    assert.equal(absoluteGenerated.status, 2)
+    assert.match(absoluteGenerated.stderr, /生成物/)
+    const externalFile = path.join(externalAlias, 'invalid.md')
+    assert.equal(lexicalPath(externalFile), path.join(realpathSync.native(foreign), 'back-to-repo/invalid.md'))
+    const externalArticle = invokeAdapter(client, 'validate-doc.mjs', { cwd: repo, tool_input: { file_path: externalFile } }, repo)
+    assert.equal(externalArticle.status, 0, externalArticle.stderr)
+    assert.equal(externalArticle.stderr, '', 'an external symlink must not turn into an owned article')
     const outside = invokeAdapter(client, 'guard-generated.mjs', { cwd: shortForeign.path, tool_input: { file_path: 'source.md' } }, repo)
     assert.equal(outside.status, 2)
     assert.match(outside.stderr, /cwd.*リポジトリ外/)

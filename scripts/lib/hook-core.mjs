@@ -4,7 +4,7 @@
  * 対応する編集ツールのフィードバックであり、シェルや競合する symlink 操作を
  * 封じる sandbox ではない。PostToolUse の exit 2 は変更を取り消さない。
  */
-import { readFileSync, realpathSync } from 'node:fs'
+import { lstatSync, readFileSync, realpathSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { validateDoc } from './validate-core.mjs'
@@ -48,6 +48,29 @@ export function physicalPath(file) {
       parent = next
     }
   }
+}
+
+/** 8.3 名を長名へ揃えるが、編集対象の lexical boundary は symlink を越えて広げない。 */
+export function lexicalPath(file) {
+  const absolute = path.resolve(file)
+  if (process.platform !== 'win32') return absolute
+  const volume = path.parse(absolute).root
+  const parts = absolute.slice(volume.length).split(path.sep).filter(Boolean)
+  let resolved = volume
+  for (const [index, part] of parts.entries()) {
+    const current = path.join(resolved, part)
+    try {
+      // この地点より先は lexical な表記を維持する。外部リンクから repo 内へ
+      // 戻るパスを、直接所有する編集対象として検証しない。
+      if (lstatSync(current).isSymbolicLink()) return path.join(current, ...parts.slice(index + 1))
+      resolved = realpathSync.native(current)
+    } catch (error) {
+      if (error.code !== 'ENOENT') throw error
+      // 新規ファイルは既存親の長名だけを使い、未作成の末尾を保つ。
+      return path.join(current, ...parts.slice(index + 1))
+    }
+  }
+  return resolved
 }
 
 /** adapter の配置が root の正本。process.cwd や別リポジトリから推測しない。 */
@@ -118,7 +141,7 @@ export function resolveEditedPaths(edit, repoRoot) {
   const root = realpathSync.native(repoRoot)
   const cwd = physicalPath(edit.cwd ?? root)
   if (relativeInside(root, cwd) === null) throw new Error('イベント cwd がフックのリポジトリ外です')
-  return [...new Set(edit.paths.map(file => path.resolve(cwd, file)))]
+  return [...new Set(edit.paths.map(file => lexicalPath(path.resolve(cwd, file))))]
 }
 
 export function editedPaths(event, repoRoot) {

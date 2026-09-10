@@ -58,6 +58,34 @@ test('a reviewed existing published article passes using immutable Git trees', t
   assert.equal(f.check().files, 2)
 })
 
+for (const [status, date] of [
+  ['"published" # publication', '"2026-09-10" # verified'],
+  ['"\\u0070ublished"', '"\\u0032026-09-10"'],
+  ["'published'", "'2026-09-10'"]
+]) test(`freshness front matter shares article YAML semantics for ${status}`, t => {
+  const f = fixture(t)
+  f.write(articlePath, article('一次資料で確認した主張です。').replace('status: "published"', `status: ${status}`).replace('last_updated: "2026-09-09"', `last_updated: ${date}`))
+  assert.equal(f.check().articles, 1)
+})
+
+for (const status of ['"draft" # publication', '"\\u0064raft"']) test(`freshness cannot retain publication using ${status}`, t => {
+  const f = fixture(t)
+  f.write(articlePath, article('一次資料で確認した主張です。').replace('status: "published"', `status: ${status}`).replace('2026-09-09', '2026-09-10'))
+  assert.throws(() => f.check(), /published/)
+})
+
+test('freshness normalizes BOM and CR-only lines before checking a date-only update', t => {
+  const f = fixture(t)
+  f.write(articlePath, '\uFEFF' + article('元の主張です。').replace('last_updated: "2026-09-09"', 'last_updated: "2026-09-10"').replaceAll('\n', '\r'))
+  assert.throws(() => f.check(), /日付だけ/)
+})
+
+test('freshness rejects malformed front matter instead of silently ignoring extra YAML rows', t => {
+  const f = fixture(t)
+  f.write(articlePath, article('一次資料で確認した主張です。').replace('status: "published"', 'status: "published"\n invalid nesting').replace('last_updated: "2026-09-09"', 'last_updated: "2026-09-10"'))
+  assert.throws(() => f.check(), /正しい front matter/)
+})
+
 test('regular branches do not require a freshness manifest', () => {
   assert.equal(checkFreshnessPolicy({ branch: 'fix/ordinary-work' }).skipped, true)
   assert.throws(() => checkFreshnessPolicy({}), /branch が必要/)

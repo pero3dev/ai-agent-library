@@ -1,0 +1,43 @@
+# 候補 tree は Git のデータとしてだけ読み、候補コード・設定・依存を実行しない。
+name: Harness policy
+
+on:
+  pull_request_target:
+    branches: [main]
+    types: [opened, synchronize, reopened, edited, ready_for_review]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: harness-policy-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  harness-policy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+      - name: Install trusted base dependencies without lifecycle scripts
+        run: npm ci --ignore-scripts
+      - name: Check candidate data with trusted base policy
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          HEAD_BRANCH: ${{ github.head_ref }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          [[ "$BASE_SHA" =~ ^[a-f0-9]{40}$ && "$HEAD_SHA" =~ ^[a-f0-9]{40}$ ]]
+          [[ "$PR_NUMBER" =~ ^[0-9]+$ ]]
+          git fetch --no-tags origin "refs/pull/$PR_NUMBER/head"
+          [[ "$(git rev-parse FETCH_HEAD)" == "$HEAD_SHA" ]]
+          node scripts/harness-policy.mjs --base "$BASE_SHA" --head "$HEAD_SHA" --branch "$HEAD_BRANCH"

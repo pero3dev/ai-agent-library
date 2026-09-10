@@ -6,6 +6,7 @@ import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { matchesPattern, parseRegistry } from './freshness-registry.mjs'
+import { parseFrontMatter, parseScalar, toLines } from './lib/md-utils.mjs'
 
 const schema = JSON.parse(readFileSync(new URL('./schemas/freshness-result.schema.json', import.meta.url), 'utf8'))
 const evidencePattern = /^research\/freshness-runs\/([a-z0-9][a-z0-9-]{3,79})\.json$/
@@ -13,7 +14,7 @@ const articlePattern = /^docs\/[0-9]{2}-[a-z0-9-]+\/[a-z0-9-]+\.md$/
 const fail = message => { throw new Error(message) }
 const assert = (condition, message) => { if (!condition) fail(message) }
 const git = (cwd, args) => execFileSync('git', args, { cwd, encoding: 'utf8', maxBuffer: 8 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'] })
-const show = (cwd, revision, file) => git(cwd, ['show', `${revision}:${file}`]).replace(/\r\n/g, '\n')
+const show = (cwd, revision, file) => toLines(git(cwd, ['show', `${revision}:${file}`])).join('\n')
 
 /** schema が使用する JSON Schema のサブセットだけを検査する(依存ゼロ)。 */
 export function validateResultShape(value, rule = schema, location = '$', root = rule) {
@@ -95,12 +96,14 @@ function timestamp(value, label) {
 }
 
 function frontMatter(text) {
-  const match = /^---\n([\s\S]*?)\n---(?:\n|$)/.exec(text)
-  assert(match, 'front matter が必要')
+  const frontMatter = parseFrontMatter(toLines(text))
+  assert(frontMatter && !frontMatter.unclosed && !frontMatter.errors.length, '正しい front matter が必要')
   const field = key => {
-    const lines = match[1].split('\n').filter(line => line.startsWith(`${key}:`))
-    assert(lines.length === 1, `front matter: ${key} は 1 件必要`)
-    return lines[0].slice(key.length + 1).trim().replace(/^(["'])(.*)\1$/, '$2')
+    const fields = frontMatter.fields.filter(field => field.key === key)
+    assert(fields.length === 1, `front matter: ${key} は 1 件必要`)
+    const value = parseScalar(fields[0].value)
+    assert(value !== null, `front matter: ${key} は文字列が必要`)
+    return value
   }
   return { status: field('status'), lastUpdated: field('last_updated') }
 }

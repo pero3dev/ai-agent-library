@@ -24,9 +24,9 @@
 | S0 | 完了 | baseline・旧新パス54件・worktreeの取り込み証拠と削除条件を保存 |
 | S1 | 完了 | PR #26の9必須チェック、マージ・公開照合成功 |
 | S2 | 完了 | PR #27の9必須チェック、マージ・公開照合成功。root15/Markdown8 |
-| S3 | 導入待ち | 単体試験・helper・固定課題を移動。root278、Windows110、website26、offline eval242試験成功。S2統合後も全体検査成功 |
-| S4 | 実施中 | 旧worktree14件と対応ローカルbranch・remote10件をバックアップ後に解放。生成物と恒久検査は後続 |
-| S5 | 未着手 | 新checkoutの受入、全CI・公開照合、最終配置と残す理由を確認 |
+| S3 | 完了 | PR #28の9必須チェック・マージ成功。移動19件の試験・実行入口を維持 |
+| S4 | 導入待ち | 旧worktree14件・生成物13箇所を解放。旧入口・placeholder削除、恒久検査と手順を実装 |
+| S5 | ローカル受入完了 | fresh checkoutの全検証と不変照合に成功。S4のCI・公開照合と今回の作業コピー解放が残る |
 
 ## 検証と証拠の扱い
 
@@ -58,6 +58,8 @@
 
 root全体278件、Windows重点110件、website単体26件、offline evalの9suite・242件がすべて成功し、skipは0件でした。依存監査・スキル同期・差分検査も成功しました。親担当の独立レビューは必須指摘0件です。S2を取り込んだmerge `1b9385c4042573b21e8442cf02b4fd94b38f6df6` でも全体278試験と281ファイル/5,112リンクを再確認しました。原ログと移動照合はcommon Git directoryの `structure-tests-*`、`structure-cleanup/s3-integrated-check.log` に保存しています。
 
+[PR #28](https://github.com/pero3dev/ai-agent-library/pull/28) はhead `ef759ca4ca871430b5b601eea0802a5d22071c86` からmerge `d3dde747e26af7a5def9ed1177ab4db4bca2e016` へ進みました。公開のライブ照合は最終受入に併記します。
+
 ## S4のworktree整理
 
 旧兄弟worktree14件のHEAD、通常/ignored差分、実体パス、リンク属性、PRのsquash/cherry-pick結果を個別照合しました。ignoredデータは依存・生成物だけで、実受入の保持対象は含みません。所有担当の作業終了を確認し、削除直前にもHEAD・状態・登録先を再検査しました。
@@ -65,3 +67,34 @@ root全体278件、Windows重点110件、website単体26件、offline evalの9su
 `refs/archive/structure-cleanup/2026-09-11/harness/` 配下の保持refと、common Git directoryの `structure-cleanup/completed-worktrees.bundle` を作成・検証してから、`git worktree remove` で14件を解放しました。対応するローカルbranch14件と、HEADが一致するremote branch10件も整理しました。remote更新は観測したSHAのleaseを条件とし、mainには適用していません。回収したファイルの論理サイズ合計は1,759,625,334 bytesです。
 
 実受入の差分が残るGit内2件、アプリ管理2件、独立Claude評価コピー1件は保持します。削除一覧・取り込み証拠・復元refはローカルの `structure-cleanup/worktrees-inventory.json`、`worktree-removal-results.json`、`remote-branch-removal.json` に保存しました。復元時はbundleまたは保持refから記録されたHEADでworktreeを作成し、依存をlockfileから再導入します。
+
+## S4の配置契約と生成物整理
+
+[配置契約](../../../harness/structure.json)にルート15ファイル・Markdown8、新配置、正本と生成物、保持期間と削除条件を記録しました。`npm run check:structure` は追跡された旧配置・生成物・依存・リンクと、project Markdownのリンク検査脱落を拒否します。既存の `check:harness` に接続し、9必須CIチェックの名称・権限を維持しています。
+
+読み取り専用の `npm run structure:inventory` はcheckoutとcommon Gitを用途別に計測し、`--worktrees` 指定時だけ登録worktreeを追加します。容量区分の重複、未計測範囲、リンク・読取失敗、論理サイズと割当容量の違いを表示し、自動削除はしません。配置・保持・解放の手順を [CONTRIBUTING](../../../CONTRIBUTING.md#ローカル記録の保管と棚卸し)へ追加しました。
+
+独立レビューで見つかった大小混在Markdown拡張子の検査脱落と、旧Windows helper配置の検出漏れを修正しました。追加回帰を含む構造試験9件の再レビューは必須指摘0件です。親担当はコマンド接続と運用文書も確認しました。
+
+fresh checkoutでの再生成・ブラウザー試験が成功した後、main checkoutの生成物とPython cache計13箇所、933,277,555 bytesを削除しました。サイトの `.next/`・`out/`・`content/`・`generated/`・`public/_pagefind/`・`next-env.d.ts`、旧devログと対象cacheだけを扱っています。devログは削除前にSHA付きでcommon Gitへ保管しました。対象一覧、絶対パス境界、全階層のreparse point、容量・更新時刻の不変、稼働サーバーの終了を確認してから、同じPowerShell内で削除しました。
+
+記録は `structure-cleanup/generated-cleanup-preflight.json`、`generated-cleanup-rechecked.json`、`generated-cleanup-results.json` です。常用のroot/website依存、補助ツール、保持対象の評価証拠は残しています。サイト生成物はlockfileから依存を準備し、正本から `npm run sync` と公開条件の `npm run build:clean` で再生成できます。既存14worktreeと合わせた削除対象の論理サイズは2,692,902,889 bytesで、ディスク割当容量の実測や保管コピーを差し引いた純削減値ではありません。
+
+## S5のfresh checkout受入
+
+所有・HEAD・終了条件を記録した新checkoutの `579def7d74e6355eaadee21f81ef33bd3940d51c` で、lockfileから依存を新規導入しました。Node 24.16.0 / npm 11.13.0 / 専用Python 3.11.3、公開条件 `STATIC_EXPORT=1`、base path `/ai-agent-library` を使用しています。
+
+| 検証 | 結果 |
+| --- | --- |
+| root全体 | 287/287成功、構造検査480追跡ファイル・root15/Markdown8 |
+| Windows重点 | 110/110成功 |
+| offline eval | 9suite・242/242成功 |
+| Python横断 | 17/17成功。有料API呼出なし |
+| website単体 | 26/26成功 |
+| clean静的ビルド | 223/223ルート、229 HTML、16章を検査 |
+| ブラウザー | 既存Edge 152.0.4191.66で17/17成功。代表記事、用語集、依存マップ、検索、キーボード操作 |
+| 依存監査 | root/websiteとも指摘0件 |
+
+全試験のskipは0件です。原ログ・実行時刻・exit・ログSHA・環境を `structure-cleanup/s5-acceptance.json`、生成URL一覧を `s5-routes.json` に保存しました。実働Agentや定期タスクを再実行した証拠ではありません。Windows sandboxのGit所有権という既存の未成功条件は [先行受入記録](../2026-09-10/harness-acceptance.md#実行面ごとの互換性)のままです。
+
+開始時との照合では、記事199件のGit本文・category・派生URL、章16パス、research JSON9件、実働hook8ファイル、登録用prompt2件、本番TOML2件が不変でした。生成223ルートも旧出力の集合・SHAと一致しています。1記事の旧checkoutにあったCRLF表現はGit本文のLFとの表現差として区別し、本文変更へ数えていません。照合スクリプトと結果は `structure-cleanup/verify-preservation.mjs`、`preservation-acceptance-built.json` に保存しました。

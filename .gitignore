@@ -4,7 +4,7 @@ __pycache__/
 .venv/
 venv/
 
-# Node.js(TypeScript サンプル用)
+# Node.js(root検証・website・将来のTypeScriptサンプル)
 node_modules/
 
 # 環境変数・秘密情報

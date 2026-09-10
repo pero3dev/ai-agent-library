@@ -75,7 +75,7 @@ npm run harness:health
 npm run harness:run -- status
 ```
 
-`check:harness` は共通正本の同期、設定の構文と必須項目、スキル・担当の参照、hook command、生成物の Git 追跡、教材設定の不活性を検査します。Markdown のリンク解析と設定の YAML/TOML 解析は root lockfile の固定依存を使うため、`npm ci` が必要です。記事の編集フックが使う基本検証は Node.js 標準ライブラリで動きます。
+`check:harness` は共通正本の同期、設定の構文と必須項目、スキル・担当の参照、hook command、生成物の Git 追跡、教材設定の不活性と、下記の配置契約を検査します。`npm run check` と既存 CI の harness ジョブから同じ構造検査を実行します。Markdown のリンク解析と設定の YAML/TOML 解析は root lockfile の固定依存を使うため、`npm ci` が必要です。記事の編集フックが使う基本検証は Node.js 標準ライブラリで動きます。
 
 `harness:doctor` は版の取得、必要な設定値と由来、Git 状態を表示します。個人設定は `.codex/config.toml` の model・sandbox・approval・hooks・当該 project trust のみを表示し、認証ファイルや会話履歴は読みません。親セッションによる上書き、hook trust・実発火、モデルの利用可否を設定値だけで成功扱いにしません。PATH の Codex と共通 Git ディレクトリに追加した公式 CLI は別の実行ファイルとして確認します。
 
@@ -132,9 +132,37 @@ npm run eval:harness -- --mode collect --run /absolute/path/evaluation
 
 ### ローカル記録の保管と棚卸し
 
-完了 run とそのログは完了後 90 日間、WIP ref は対象作業の完了後 90 日間保持します。未完了・要判断の記録は期間で削除しません。共通 Git ディレクトリの状態・ログ領域が 500 MiB を超えた場合は、`harness:health` の容量表示を使って棚卸しします。容量超過を理由に自動削除することはありません。
+完了 run とそのログは完了後 90 日間、WIP ref は対象作業の完了後 90 日間保持します。未完了・要判断の記録は期間で削除しません。共通 Git ディレクトリの状態・ログ領域が 500 MiB を超えた場合は棚卸しします。`harness:health` は対象の状態・ログ領域を報告するため、依存・生成物・補助ツール・別 worktree も確認するときは次の容量一覧を使います。容量超過を理由に自動削除することはありません。
 
 削除する前に run の状態、対応する PR、公開結果、残すべき検証証拠を照合します。ファイル削除は resolved 絶対パスが common Git 配下の所有する状態・ログ領域に収まることを確認してから行います。WIP ref も所有する作業との対応を確認します。認証情報や会話全文を、公開する記録やログへ含めません。
+
+```bash
+npm run structure:inventory
+npm run structure:inventory -- --worktrees
+npm run structure:inventory -- --root C:/dev/ai-agent-library --worktrees
+```
+
+既定では実行対象の checkout と common Git directory を読み取りで測定します。`--worktrees` を付けると、同じ common Git を共有すると確認できた登録 worktree を追加します。登録されていない兄弟フォルダや独立コピーは探索しません。測定入口とその祖先の symlink/junction は拒否し、内部のリンク・特殊ファイルは辿らず、読取エラーとともに未計測として表示します。測定対象ファイルの本文は読みません。配置契約の JSON と Git の追跡・登録情報は別に参照します。
+
+容量は通常ファイルの論理サイズであり、ディスクの割当容量ではありません。正本・依存・サイト生成物・Git metadata・評価記録と作業コピー・補助ツール・その他を分け、親子関係にある測定入口を重複加算しません。common Git 内の評価領域や補助ツールは、その中の依存も用途別の区分に含めます。選択しなかった worktree が測定入口の内側にある場合、容量は親の測定に含まれても、その checkout の追跡ファイル一覧は未取得です。各行の `storage` と `tracked_inventory` で区別します。
+
+`completeness` は測定した入口内の結果を表し、`not-measured` の範囲を含む端末全体の容量を示しません。500 MiB の通知は、この一覧の測定合計に対する棚卸しの目安です。証拠の経過日数・削除可否は判定せず、削除するオプションもありません。
+
+worktree を作るときは、所有するタスク、元 HEAD、担当者、終了条件、残す証拠を作業記録へ書きます。解放時は PR のマージだけでなく、最終差分の取り込み、追跡・未追跡・ignored の未保存データ、稼働プロセスや run、証拠の保管先を個別に確認します。squash されたブランチを祖先判定だけで未マージ・削除可と決めません。対象の絶対パス、処置理由、容量、復元元の commit や再生成手順を一覧に保存してから、確認した worktree を `git worktree remove` で登録ごと解放します。
+
+生成物を整理するときも、サーバー・ビルドの停止、正本と再生成手順、対象の実体パスと reparse point の有無を確認します。削除範囲を先に列挙し、常用の依存・ツールや保持対象の証拠を含めません。リポジトリ全体の `git clean -fdx` や `.git/` の一括削除は使いません。
+
+### 配置の維持
+
+配置契約は [harness/structure.json](harness/structure.json)、計画と実施記録の入口は [project/README.md](project/README.md) です。ルートは入口・規約・package など 15 ファイル、うち Markdown 8 ファイルに絞り、新しい計画は `project/plans/`、実施記録は `project/records/YYYY-MM-DD/` に置きます。正本・生成物の区分と新しい文書ディレクトリの検査対象を同じ変更で確認します。
+
+```bash
+npm run check:structure
+```
+
+構造検査は Git の追跡ファイルを使い、未許可のルートファイル・トップディレクトリ、廃止した配置、追跡された生成物・依存・リンク、新しい `project/` Markdown と必須索引のリンク検査漏れを拒否します。未追跡ファイルの不要判定や文書の意味的な正しさを確認するものではありません。提出対象は stage してから検査し、内容と必要性は別にレビューします。
+
+ルートの単体試験は `tests/unit/`、試験専用 helper は `tests/helpers/`、不活性な固定課題は `tests/fixtures/harness/` に置きます。サイトの単体試験は `website/tests/unit/`、ブラウザー試験は `website/tests/browser/`、Python 横断試験は `examples/tests/` を維持します。CLI の入口と共通実装は `scripts/`、根拠記録の schema は `scripts/schemas/` のままです。`research/freshness-runs/` の既存 JSON、ローカル run 状態、snapshot、digest に結び付く履歴の配置・内容を、整理の都合で書き換えません。
 
 ## ライセンス
 

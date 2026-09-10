@@ -813,7 +813,9 @@
     {
       "path": "examples/typescript/.gitkeep",
       "condition": "future examples documented without an empty directory",
-      "status": "planned"
+      "status": "removed",
+      "completed_on": "2026-09-11",
+      "evidence": "examples/README.md records future TypeScript examples; no current sample"
     }
   ],
   "protected": [

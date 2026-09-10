@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "root_files": [
+    ".gitattributes", ".gitignore", ".markdownlint.jsonc", ".markdownlintignore",
+    "AGENTS.md", "CLAUDE.md", "CONTRIBUTING.md", "GLOSSARY.md", "LICENSE",
+    "README.md", "ROADMAP.md", "SECURITY.md", "freshness-automation.md",
+    "package-lock.json", "package.json"
+  ],
+  "top_directories": [
+    ".agents", ".claude", ".codex", ".github", "assets", "automation", "docs",
+    "examples", "harness", "project", "research", "scripts", "templates", "tests", "website"
+  ],
+  "required_files": ["project/README.md", "research/README.md"],
+  "markdown_coverage_roots": ["project"],
+  "retired_paths": [".codex/hooks/edited-paths.mjs", "examples/typescript/.gitkeep", "scripts/lib/windows-test-path.mjs"],
+  "retired_directories": ["tests/harness"],
+  "retention": {
+    "completed_evidence_minimum_days": 90,
+    "inventory_threshold_bytes": 524288000,
+    "automatic_deletion": false,
+    "deletion_requires": ["owned-absolute-path", "completed-use", "saved-evidence", "recovery-method", "no-reparse-point"]
+  }
+}

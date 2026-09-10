@@ -7,7 +7,8 @@ import { cli, git, parseOptions, ROOT } from './lib/tooling-common.mjs'
 
 const key = value => process.platform === 'win32' ? path.resolve(value).toLowerCase() : path.resolve(value)
 const within = (parent, child) => { const relative = path.relative(parent, child); return relative === '' || relative !== '..' && !relative.startsWith(`..${path.sep}`) && !path.isAbsolute(relative) }
-const labels = { source: '追跡正本・実装', dependencies: '依存', site_generated: 'サイト生成物', git_metadata: 'Git metadata', evaluation: '評価・実行記録と作業コピー', helper_tools: '補助ツール', local_other: 'その他の未追跡ファイル' }
+const labels = { source: '追跡正本・実装', dependencies: '依存', site_generated: 'サイト生成物', git_metadata: 'Git metadata', evaluation: '評価・実行記録と作業コピー', helper_tools: '補助ツール', local_other: 'その他のローカルファイル' }
+const gitMetadataFiles = new Set(['HEAD', 'ORIG_HEAD', 'FETCH_HEAD', 'MERGE_HEAD', 'MERGE_MODE', 'MERGE_MSG', 'AUTO_MERGE', 'REBASE_HEAD', 'CHERRY_PICK_HEAD', 'REVERT_HEAD', 'BISECT_LOG', 'BISECT_NAMES', 'BISECT_EXPECTED_REV', 'BISECT_START', 'COMMIT_EDITMSG', 'SQUASH_MSG', 'config', 'config.worktree', 'description', 'index', 'packed-refs', 'shallow', 'commondir', 'gitdir'])
 
 // 明示した測定入口も祖先の junction/symlink を含めて確認する。内部リンクは walk で除外する。
 function checkedDirectory(directory) {
@@ -35,7 +36,8 @@ export function inventoryCategory(absolute, { common, checkouts }) {
     const relative = path.relative(common, absolute).split(path.sep).join('/')
     if (/^harness-tools(?:\/|$)/.test(relative)) return 'helper_tools'
     if (/^(?:harness|freshness|harness-eval|harness-evaluations)(?:\/|$)/.test(relative)) return 'evaluation'
-    return 'git_metadata'
+    if (/^(?:objects|refs|logs|hooks|info|worktrees|rr-cache|lfs)(?:\/|$)/.test(relative) || gitMetadataFiles.has(relative.replace(/\.lock$/, ''))) return 'git_metadata'
+    return 'local_other'
   }
   const checkout = checkouts.filter(row => within(row.path, absolute)).sort((a, b) => b.path.length - a.path.length)[0]
   if (!checkout) return 'local_other'

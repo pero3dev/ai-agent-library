@@ -37,7 +37,9 @@ export function physicalPath(file) {
   let parent = path.resolve(file)
   while (true) {
     try {
-      return path.resolve(realpathSync(parent), ...suffix)
+      // Windows の通常版 realpathSync は 8.3 名を残す場合がある。
+      // native 版で長名へ揃え、adapter root / event cwd の実体を同じ表記で比較する。
+      return path.resolve(realpathSync.native(parent), ...suffix)
     } catch (error) {
       if (error.code !== 'ENOENT') throw error
       const next = path.dirname(parent)
@@ -50,7 +52,7 @@ export function physicalPath(file) {
 
 /** adapter の配置が root の正本。process.cwd や別リポジトリから推測しない。 */
 export function rootFromAdapter(adapterUrl) {
-  return realpathSync(path.resolve(path.dirname(fileURLToPath(adapterUrl)), '..', '..'))
+  return realpathSync.native(path.resolve(path.dirname(fileURLToPath(adapterUrl)), '..', '..'))
 }
 
 function patchPaths(command) {
@@ -113,7 +115,7 @@ export function normalizeEditEvent(event) {
 }
 
 export function resolveEditedPaths(edit, repoRoot) {
-  const root = realpathSync(repoRoot)
+  const root = realpathSync.native(repoRoot)
   const cwd = physicalPath(edit.cwd ?? root)
   if (relativeInside(root, cwd) === null) throw new Error('イベント cwd がフックのリポジトリ外です')
   return [...new Set(edit.paths.map(file => path.resolve(cwd, file)))]
@@ -125,7 +127,7 @@ export function editedPaths(event, repoRoot) {
 
 export function inspectEdits(mode, edit, repoRoot) {
   if (!['guard', 'validate'].includes(mode)) throw new Error('不明なフック種別です')
-  const root = realpathSync(repoRoot)
+  const root = realpathSync.native(repoRoot)
   const messages = []
   for (const file of resolveEditedPaths(edit, root)) {
     const relative = relativeInside(root, file)

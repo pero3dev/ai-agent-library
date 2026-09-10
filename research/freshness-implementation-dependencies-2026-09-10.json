@@ -1,0 +1,258 @@
+{
+  "as_of": "2026-09-10",
+  "scope": "dependencies-and-examples",
+  "verification_type": "official-source-review-local-mock-sdk-transport-stdio-unit-and-static-checks",
+  "audit_source": "research/freshness-audit-data-2026-09-10.json",
+  "findings": [
+    {
+      "id": "D01",
+      "status": "applied",
+      "files": [
+        "examples/python/tool-use/requirements.txt",
+        "examples/python/tool-use/README.md",
+        "examples/python/structured-output/requirements.txt",
+        "examples/python/structured-output/README.md",
+        "examples/python/rag-basics/requirements.txt",
+        "examples/python/rag-basics/README.md",
+        "examples/python/evaluation-harness/requirements.txt",
+        "examples/python/evaluation-harness/README.md",
+        "examples/python/multi-agent/requirements.txt",
+        "examples/python/multi-agent/README.md",
+        "examples/python/tool-use/main.py",
+        "examples/tests/requirements.txt",
+        "examples/tests/test_regressions.py",
+        "examples/tests/README.md"
+      ],
+      "evidence": "5 サンプルの anthropic を 0.116.0 から 1.4.0 に固定更新。テストと tool-use --mock の Client/Response/MockTransport を httpx2 2.12.0 に移行。Messages API の既存実装は削除済み sampling 引数・Text Completions を使っていないことを確認。SDK 要求生成・応答解析・停止理由・ツール結果の成功/失敗/ID・全テキスト保持が新 SDK で成功。6 README の検証日と SDK 版を同期し、実 API 未確認を保持。",
+      "sources": [
+        "https://github.com/anthropics/anthropic-sdk-python/blob/v1.4.0/MIGRATION.md",
+        "https://github.com/anthropics/anthropic-sdk-python/releases/tag/v1.4.0",
+        "https://pypi.org/project/anthropic/1.4.0/",
+        "https://pypi.org/project/httpx2/2.12.0/"
+      ],
+      "remaining_uncertainty": "実 API の品質・モデル利用可否・料金・TLS/社内 CA は未検証。テストは HTTP モックで外部通信しない。"
+    },
+    {
+      "id": "D02",
+      "status": "applied",
+      "files": [
+        "examples/python/mcp-server/requirements.txt",
+        "examples/python/mcp-server/mcp_server.py",
+        "examples/python/mcp-server/README.md",
+        "examples/tests/test_regressions.py",
+        "examples/tests/README.md",
+        "docs/03-implementation/mcp-and-tool-protocols.md"
+      ],
+      "evidence": "mcp 1.28.1 から 2.2.0、FastMCP から MCPServer、旧 ClientSession から Client、timedelta から秒数、Python isError から is_error へ移行。実 stdio 子プロセスに auto(2026-07-28) と legacy(2025-11-25) で接続し、仕様版・サーバー名・2 ツールの一覧/スキーマ・規定検索・金額7境界・JSON別名 isError を検証。入門本文は SDK/仕様版の分離、ホストとクライアントの役割、新旧接続と MRTR、HTTP/stateless の限界を更新。v1 が重大不具合/security保守を継続する点と v2.2.0 の Tasks/DPoP/jwt-bearer 未実装を記載。",
+      "sources": [
+        "https://github.com/modelcontextprotocol/python-sdk/blob/v2.2.0/docs/whats-new.md",
+        "https://github.com/modelcontextprotocol/python-sdk/blob/v2.2.0/docs/migration.md",
+        "https://github.com/modelcontextprotocol/python-sdk/blob/v2.2.0/VERSIONING.md",
+        "https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.2.0",
+        "https://py.sdk.modelcontextprotocol.io/client/",
+        "https://py.sdk.modelcontextprotocol.io/run/deploy/",
+        "https://blog.modelcontextprotocol.io/posts/2026-07-28/"
+      ],
+      "official_release_review": [
+        "HTTP redirect は同一 origin または同一 host の http→https のみ追従",
+        "旧方式の idle HTTP session は既定30分・最大10,000。継続 GET stream/新仕様/stateless は対象外",
+        "OAuth issuer照合はlegacyにも適用。insufficient_scope以外の403は再試行しない。metadataの5xx/429取得失敗はlegacyへfallbackしない",
+        "Tasks(SEP-2663)、DPoP、jwt-bearer grant は未実装"
+      ],
+      "remaining_uncertainty": "ローカル stdio のみ実通信。Streamable HTTP/OAuth/複数レプリカ/MRTR/実ホストの権限UIの受入検査は対象外。公式確認済みのHTTP保護をこのサンプルで試験済みとは扱わない。"
+    },
+    {
+      "id": "D03",
+      "status": "applied",
+      "files": [
+        ".github/workflows/ci.yml"
+      ],
+      "evidence": "5 Actions を公式リリースタグの Git ref(type=commit) と SHA を照合し固定更新。各 SHA の action.yml の runtime を確認。upload-pages-artifact は composite から SHA 固定 upload-artifact v7 を使用。Node24 Action runtime と、ジョブで選ぶ Node22 を区別。persist-credentials:false/最小権限/公開条件を保持。Python cache key に参照先の各 requirements.txt も含めた。actionlint 1.7.12 の公式 Windows zip SHA256 検証後に workflow 静的検査成功。",
+      "sources": [
+        "https://github.com/actions/checkout/releases/tag/v7.0.1",
+        "https://github.com/actions/setup-node/releases/tag/v7.0.0",
+        "https://github.com/actions/setup-python/releases/tag/v7.0.0",
+        "https://github.com/actions/upload-pages-artifact/releases/tag/v5.0.0",
+        "https://github.com/actions/deploy-pages/releases/tag/v5.0.1"
+      ],
+      "action_pins": [
+        {
+          "repository": "actions/checkout",
+          "tag": "v7.0.1",
+          "sha": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "runtime": "node24"
+        },
+        {
+          "repository": "actions/setup-node",
+          "tag": "v7.0.0",
+          "sha": "820762786026740c76f36085b0efc47a31fe5020",
+          "runtime": "node24"
+        },
+        {
+          "repository": "actions/setup-python",
+          "tag": "v7.0.0",
+          "sha": "5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "runtime": "node24"
+        },
+        {
+          "repository": "actions/upload-pages-artifact",
+          "tag": "v5.0.0",
+          "sha": "fc324d3547104276b827a68afc52ff2a11cc49c9",
+          "runtime": "composite",
+          "nested_action": "actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f (v7.0.0)"
+        },
+        {
+          "repository": "actions/deploy-pages",
+          "tag": "v5.0.1",
+          "sha": "368f82528645a54fb793d4d04e342629a3f51346",
+          "runtime": "node24"
+        }
+      ],
+      "remaining_uncertainty": "GitHub hosted ubuntu-latest を対象。実際の Actions/Pages 実行結果は root の delivery 段階で確認する。self-hosted runner/GHES はこのリポジトリの受入対象外。"
+    },
+    {
+      "id": "D04",
+      "status": "applied",
+      "files": [
+        "website/package.json",
+        "website/package-lock.json"
+      ],
+      "evidence": "react/react-dom を 19.3.0、@xyflow/react を 12.11.6 に更新し npm install 成功。Next16.3.4/Nextra4.6.1/ReactFlow12.11.6 の peerDependencies を npm registry で照合。npm ls は React19.3.0 に重複なく解決し peer errorなし。lockfileの変更は対象3 packageと必要な scheduler0.28.0/@xyflow/system0.0.82 のみ。23 unit checks と ReactFlowProvider の React DOM SSR smoke 成功、npm install auditは脆弱性0。",
+      "sources": [
+        "https://github.com/facebook/react/releases/tag/v19.3.0",
+        "https://github.com/xyflow/xyflow/releases/tag/@xyflow/react@12.11.6",
+        "https://registry.npmjs.org/react/19.3.0",
+        "https://registry.npmjs.org/@xyflow%2freact/12.11.6",
+        "https://registry.npmjs.org/nextra/4.6.1",
+        "https://registry.npmjs.org/next/16.3.4"
+      ],
+      "remaining_uncertainty": "本台帳は依存解決・unit・SSR smokeまで。全体 static export build と browser regression は root が統合後に担当する。"
+    }
+  ],
+  "verification": {
+    "environment": {
+      "os": "Windows",
+      "python": "3.11.3",
+      "node": "24.16.0",
+      "python_environment": "isolated temporary venv",
+      "packages": {
+        "anthropic": "1.4.0",
+        "httpx2": "2.12.0",
+        "mcp": "2.2.0",
+        "mcp-types": "2.2.0",
+        "anyio": "4.15.1",
+        "pydantic": "2.13.5"
+      }
+    },
+    "python_regressions": {
+      "command": "python -X utf8 -B -m unittest discover -s examples/tests -v",
+      "exit_code": 0,
+      "tests": 17,
+      "elapsed_seconds": 6.471,
+      "result": "OK",
+      "coverage": [
+        "Anthropic SDK httpx2 MockTransport",
+        "MCP stdio auto=2026-07-28 / legacy=2025-11-25",
+        "6 sample mock subprocesses",
+        "incomplete outputs, classification, plans, partial observations, tool errors"
+      ]
+    },
+    "mock_examples": [
+      {
+        "sample": "tool-use",
+        "command": "python main.py --mock",
+        "exit_code": 0,
+        "stdout": "2026-05: 28400 円、2026-06: 17300 円(モック応答)\n",
+        "stderr": "[step 1] tool: search_expenses input: {'employee_id': 'E12345', 'month': '2026-05'}\n[step 1] tool: search_expenses input: {'employee_id': 'E12345', 'month': '2026-06'}\n"
+      },
+      {
+        "sample": "structured-output",
+        "command": "python structured_output.py --mock",
+        "exit_code": 0,
+        "stdout": "[試行 1] 検証 NG: priority は ['低', '中', '高'] のいずれか(実際: '至急')\n[試行 2] 検証 OK: {\"category\": \"請求\", \"priority\": \"高\", \"summary\": \"二重引き落としの確認依頼\"}\n最終結果: {\"category\": \"請求\", \"priority\": \"高\", \"summary\": \"二重引き落としの確認依頼\"}\n",
+        "stderr": ""
+      },
+      {
+        "sample": "evaluation-harness",
+        "command": "python eval_harness.py --mock",
+        "exit_code": 0,
+        "stdout": "=== ケース別結果 ===\n  [OK ] c1: 予測='請求' / 正解='請求'\n  [OK ] c2: 予測='技術' / 正解='技術'\n  [OK ] c3: 予測='解約' / 正解='解約'\n  [NG ] c4: 予測='その他' / 正解='請求'\n  [OK ] c5: 予測='技術' / 正解='技術'\n=== 合格率: 4/5 = 80%(閾値 80%)===\n",
+        "stderr": ""
+      },
+      {
+        "sample": "rag-basics",
+        "command": "python rag.py --mock 経費の申請締切はいつですか?",
+        "exit_code": 0,
+        "stdout": "質問: 経費の申請締切はいつですか?\n=== 検索結果(上位) ===\n  [d2] score=0.377 : 経費の申請締切は毎月末日です。締切を過ぎた申請は翌月分として扱われ、翌月の給与で精算されます。\n  [d4] score=0.151 : 5 万円以上の経費は事前申請と上長承認が必要です。承認されていない高額経費は差し戻されます。\n=== 回答 ===\n(モック生成)資料によると: 経費の申請締切は毎月末日です。締切を過ぎた申請は翌月分として扱われ、翌月の給与で精算されます。 [d2]\n",
+        "stderr": ""
+      },
+      {
+        "sample": "mcp-server",
+        "command": "python mcp_server.py --mock",
+        "exit_code": 0,
+        "stdout": "get_expense_policy('締切') -> 経費の申請締切は毎月末日です。締切超過分は翌月扱いになります。\nget_expense_policy('謎') -> 該当する規定が見つかりませんでした。項目例: 締切 / 上限 / 領収書\nsubmit_expense(3000, 'タクシー') -> 受理: 3000 円の経費申請を提出しました(用途: タクシー)。\nsubmit_expense(80000, 'PC') -> 承認が必要: 80000 円の申請は上長承認が必要です。このサンプルは自動提出しません。実運用では承認フローへ渡してください。\n自己テスト OK: 上限チェックとツール動作を確認しました。\n",
+        "stderr": ""
+      },
+      {
+        "sample": "multi-agent",
+        "command": "python multi_agent.py --mock",
+        "exit_code": 0,
+        "stdout": "タスク: 東京・大阪・札幌の気温を調べて、平均気温を求める\n=== 計画役の分解 ===\n  1. 東京\n  2. 大阪\n  3. 札幌\n=== 実行役の実行 ===\n  - 東京の気温は 28 度でした。(気温=28)\n  - 大阪の気温は 30 度でした。(気温=30)\n  - 札幌の気温は 24 度でした。(気温=24)\n=== 集約 ===\n  平均気温: 27.3 度(3 都市)\n",
+        "stderr": ""
+      }
+    ],
+    "pip_check": {
+      "command": "python -m pip check",
+      "exit_code": 0,
+      "result": "No broken requirements found."
+    },
+    "website": {
+      "install": "npm install react@19.3.0 react-dom@19.3.0 @xyflow/react@12.11.6",
+      "install_exit_code": 0,
+      "audited_packages": 442,
+      "vulnerabilities": 0,
+      "unit_command": "npm test",
+      "unit_exit_code": 0,
+      "unit_tests_passed": 23,
+      "peer_check": "npm ls react react-dom @xyflow/react next nextra",
+      "peer_check_exit_code": 0,
+      "ssr_smoke": "renderToStaticMarkup(ReactFlowProvider > span) produced <span>flow provider smoke</span>",
+      "ssr_smoke_exit_code": 0
+    },
+    "actionlint": {
+      "version": "1.7.12",
+      "archive": "actionlint_1.7.12_windows_amd64.zip",
+      "sha256": "6e7241b51e6817ea6a047693d8e6fed13b31819c9a0dd6c5a726e1592d22f6e9",
+      "checksum_source": "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_checksums.txt",
+      "command": "actionlint -no-color .github/workflows/ci.yml",
+      "exit_code": 0
+    },
+    "docs": {
+      "validator": "node scripts/validate-docs.mjs docs/03-implementation/mcp-and-tool-protocols.md",
+      "validator_result": "OK: 1 files",
+      "markdownlint": "npx markdownlint-cli docs/03-implementation/mcp-and-tool-protocols.md \"examples/**/*.md\"",
+      "markdownlint_exit_code": 0,
+      "relative_links": "node scripts/check-links.mjs",
+      "relative_links_result": "OK: 225 files, 4014 links",
+      "whitespace": "git diff --check -- examples docs/03-implementation/mcp-and-tool-protocols.md .github/workflows/ci.yml website/package.json website/package-lock.json",
+      "whitespace_exit_code": 0
+    },
+    "real_llm_api_called": false,
+    "remote_mcp_auth_tested": false,
+    "full_website_validation_owner": "root"
+  },
+  "summary": {
+    "assigned_findings": 4,
+    "applied_findings": 4,
+    "remaining_findings": 0
+  },
+  "integration_validation": {
+    "as_of": "2026-09-10",
+    "root_check": "passed: 11 hook tests / markdownlint / 215 docs / 225 files and 4018 relative links",
+    "static_build": "passed: 223 routes / 229 HTML / 16 sections",
+    "browser": "passed: 17 tests on installed Microsoft Edge with /ai-agent-library basePath",
+    "representative_updated_content": "6 routes verified in generated HTML",
+    "initial_browser_attempt": "Bundled Chromium executable missing. No site assertion failures in this attempt; rerun with supported msedge channel passed.",
+    "pending_external_verification": "PR CI / main CI and Pages deployment are tracked in GitHub"
+  }
+}

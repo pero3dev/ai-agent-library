@@ -1,11 +1,12 @@
 # 業界別規制・ガイドラインの一次情報 調査メモ
 
-- **調査日**: 2026-07-07
+- **初回調査日**: 2026-07-07
+- **差分更新日**: 2026-09-10(FISC・FDUA・FDA・PPC)。それ以外の行の確認日は据え置きです
 - **調査目的**: `docs/09-business/industry-regulations-map.md`(業界別規制・ガイドラインマップ)の執筆材料。記事は規制の内容解説をせず「何を・どの一次情報で確認するか」のマップに徹する方針のため、本メモも**文書の存在・正式名称・発行主体・最新版・URL の確認**を中心とし、内容の説明は 1〜2 行に留める。日本国内が主、海外は参照レベル
 - **根拠の方針**: 政府公式(go.jp / lg.jp)、公的機関(PMDA・FISC・日銀)、業界団体公式(全銀協・FDUA・HAIP・JaDHA)、米国公式(federalreserve.gov / fda.gov / nist.gov / federalregister.gov)のみを根拠とします。法律事務所・ベンダーブログの解説は裏取りの補助にのみ使用し、出典には挙げていません
 - **確度表記**: 「公式確認済み」= 公式サイトを WebFetch で直接確認 / 「二次情報」= 検索スニペット等で公式ドメインの文書名・日付を確認(直接取得は未実施) / 「未確認」= 今回確認できず
 - **横断規制との関係**: EU AI Act・日本の AI 推進法・個人情報保護法改正・AI 事業者ガイドライン・NIST AI RMF の詳細は [research/professional/compliance.md](../professional/compliance.md)(調査日 2026-07-07)で調査済み。本メモでは所在の再掲のみ行い、重複調査はしていない
-- **取得上の注意**: fsa.go.jp・soumu.go.jp・mhlw.go.jp・digital.go.jp・pmda.go.jp・fisc.or.jp・zenginkyo.or.jp・federalreserve.gov は今回 WebFetch で直接取得できた。mext.go.jp は PDF のみでテキスト抽出不可、fda.gov はハブページ・ガイダンス検索ページとも 404(URL 移転の可能性)のため検索スニペットで裏取りした
+- **取得上の注意**: 初回調査では FDA の個別 URL が 404 だったが、2026-09-10 はデジタルヘルス・ガイダンス索引を直接取得し、TPLC / PCCP / CDS の日付とステータスを確認した。その他の取得状況は各行を参照。
 
 ---
 
@@ -17,7 +18,7 @@
 | 人工知能関連技術の研究開発及び活用の推進に関する法律(AI 推進法)・適正性確保に関する指針・人工知能基本計画 | 内閣府(AI 戦略本部) | 法律: 令和 7 年法律第 53 号(全面施行 2025-09-01)/ 指針: 2025-12-19 本部決定 / 基本計画: 2025-12-23 閣議決定 | https://www8.cao.go.jp/cstp/ai/ai_act/ai_act.html / https://www8.cao.go.jp/cstp/ai/ai_guideline/ai_guideline.html | 2026-07-07 | 公式確認済み(compliance.md 調査時) |
 | 生成 AI サービスの利用に関する注意喚起等 | 個人情報保護委員会(PPC) | 2023-06-02 公表(一般利用者向け・事業者向け・OpenAI 宛の 3 点構成) | https://www.ppc.go.jp/news/careful_information/230602_AI_utilize_alert/ | 2026-07-07 | 公式確認済み(compliance.md 調査時) |
 | DeepSeek に関する情報提供 | 個人情報保護委員会(事務局) | 2025-02-03 公表(2025-03-05 更新)。個人情報が中国国内サーバーに保存され中国法が適用される点の注意 | https://www.ppc.go.jp/news/careful_information/250203_alert_deepseek/ / PPC 注意情報の一覧 https://www.ppc.go.jp/news/careful_information/ | 2026-07-07 | 二次情報 |
-| 個人情報保護法改正案(課徴金制度等) | 個人情報保護委員会 | 2026-04-07 閣議決定・国会提出。**成立状況は 2026-07-07 時点で未確認** | https://www.ppc.go.jp/news/press/2026/260407/ | 2026-07-07 | 公式確認済み(compliance.md 調査時)/ 成立状況は未確認 |
+| 個人情報保護法改正(課徴金制度等) | 個人情報保護委員会 | 2026-07-10 成立・7/17 公布(令和 8 年法律第 56 号)。主な施行日は公布から 2 年以内の政令指定日で未確定。一部罰則は 2027-01-17。9/9 工程表は基本的考え方の議論・意見交換・ヒアリングと、その後の条文案・正式公募を区別 | https://www.ppc.go.jp/personalinfo/legal/r8kaiseihogohou/ / https://www.ppc.go.jp/files/pdf/260909_kongonosusumekatanitsuite.pdf | 2026-09-10 | 公式確認済み。主な施行日・最終化は未確定 |
 
 **小括**: 横断系は compliance.md が正。記事のマップでは「横断 → 業界別」の 2 層で書き、横断の詳細は `docs/06-security/compliance-and-governance.md` への内部リンクで済ませられます。
 
@@ -38,14 +39,14 @@
 
 | 文書 | 発行主体 | 最新版 | 出典 URL | 確認日 | 確度 |
 | --- | --- | --- | --- | --- | --- |
-| 金融機関等コンピュータシステムの安全対策基準・解説書 | 公益財団法人 金融情報システムセンター(FISC) | **第 13 版(2025-03-21 公表)が現行**。第 13 版で **AI・生成 AI 関連の解説追加と新規基準項目の設置**を確認(ほかに経済安全保障推進法対応・オペレーショナルレジリエンス等)。本文は有償頒布 | https://www.fisc.or.jp/topics/006665.php / ガイドライン一覧 https://www.fisc.or.jp/publication/guideline_pdf.php | 2026-07-07 | 公式確認済み(公表ページを直接取得) |
+| 金融機関等コンピュータシステムの安全対策基準・解説書 | 公益財団法人 金融情報システムセンター(FISC) | **第 14 版(2026-03-25 発刊)**。公表概要では AI・生成 AI、サイバーセキュリティ、PQC、障害事例等を反映。一般向け本文は有償 | https://www.fisc.or.jp/publication/book/007219.php / https://www.fisc.or.jp/topics/2026.php | 2026-09-10 | 公式の書籍概要・発刊情報を確認。有償全文と条項差分は未確認 |
 | 金融機関による生成 AI の業務への利活用に関する暫定的考察 | FISC | 2023-12 公表。生成 AI の課題を情報セキュリティ面・倫理面に分類して考察 | 後続文書(次行)の PDF 内で言及。FISC サイト内の単独 URL は今回特定できず | 2026-07-07 | 二次情報(公表主体・時期のみ確認) |
 | 金融機関による AI の業務への利活用に関する安全対策の観点からの考察 | FISC | 2024-09-24 公表。暫定的考察を発展させ AI 全般の課題と対応策を整理 | https://www.fisc.or.jp/document/public/file/ai_opinion_20240924.pdf | 2026-07-07 | 二次情報 |
 | 「フロンティア AI」による脅威変化を踏まえたサイバーセキュリティ管理態勢について | 一般社団法人 全国銀行協会 | 2026-06-16 公表。高度 AI による脆弱性発見・攻撃コード生成の高速化を踏まえた会員銀行向け参考例(金融庁・日銀の要請を受けたもの)。**全銀協名義の「生成 AI 利活用指針」に当たる文書は今回確認できず** | https://www.zenginkyo.or.jp/news/2026/n061601/ | 2026-07-07 | 公式確認済み(ページを直接取得) |
-| 金融生成 AI ガイドライン | 一般社団法人 金融データ活用推進協会(FDUA) | **第 1.1 版(2025-07-14 公表)が最新**。第 1.0 版は 2024-08 公開(2024-12 書籍化)。第 1.1 版で AI エージェントとガバナンスの項目を追加。業界自主ガイドライン | https://www.fdua.org/news/20250714-02 / 生成 AI WG https://www.fdua.org/activities/generativeai | 2026-07-07 | 二次情報 |
+| 金融生成 AI ガイドライン | 一般社団法人 金融データ活用推進協会(FDUA) | **第 1.2 版(2026-08-05 公表)**。Agent の接続・権限・実行や想定外動作、AI レジリエンス・ガバナンスの対応を拡充 | https://www.fdua.org/news/202608051 / https://www.fdua.org/news/20260812 | 2026-09-10 | 公式公表情報を確認 |
 | 金融システムレポート別冊「金融機関における生成 AI の利用状況とリスク管理」 | 日本銀行 | 初出 2024-10-21、続編 2025-09-30。規制ではなく実態調査(利用状況・リスク管理のサーベイ) | https://www.boj.or.jp/research/brp/fsr/fsrb241021.htm / 2025 年版 PDF https://www.boj.or.jp/research/brp/fsr/data/fsrb250930.pdf | 2026-07-07 | 二次情報 |
 
-**小括**: 金融は「金融庁(モデル・リスク管理原則 2021 + AI DP 1.1)/ FISC(安全対策基準第 13 版 = AI 増補あり)/ 業界自主(FDUA 1.1 版)」の 3 層で書けます。全銀協は生成 AI の包括指針ではなくサイバーセキュリティ観点の文書(2026-06)が最新である点に注意。
+**小括**: 金融は「金融庁(モデル・リスク管理原則 2021 + AI DP 1.1)/ FISC(安全対策基準第 14 版)/ 業界自主(FDUA 1.2 版)」の 3 層で書けます。全銀協は生成 AI の包括指針ではなくサイバーセキュリティ観点の文書(2026-06)が最新である点に注意。
 
 ---
 
@@ -87,7 +88,7 @@
 | デジタル社会推進標準ガイドライン DS-920「行政の進化と革新のための生成 AI の調達・利活用に係るガイドライン」 | デジタル庁(デジタル社会推進会議幹事会決定) | **第 2.0 版(2026-06-12 決定)が最新**。第 1.0 版は 2025-05-27 策定。対象が政府機関の生成 AI システム(第 2.0 版で音声・画像へ拡大)。各府省庁の AI 統括責任者(CAIO)体制や調達チェックの枠組みを規定 | 英語版ニュース https://www.digital.go.jp/en/news/decb64eb-f26e-41cb-8d37-f3dd173108b8 / 第 2.0 版本文 PDF https://www.digital.go.jp/assets/contents/node/information/field_ref_resources/decb64eb-f26e-41cb-8d37-f3dd173108b8/59054b35/20260612_resources_standard_guidelines_guideline_01.pdf | 2026-07-07 | 公式確認済み(英語版ニュースページを直接取得。第 2.0 版の決定日・改定趣旨を確認) |
 | DeepSeek 等の生成 AI の業務利用に関する注意喚起(事務連絡) | デジタル社会推進会議幹事会事務局 | 2025-02-06 発出。政府機関での特定サービス利用に関する注意喚起 | https://www.digital.go.jp/assets/contents/node/basic_page/field_ref_resources/d2a5bbd2-ae8f-450c-adaa-33979181d26a/e7bfeba7/20250206_councils_social-promotion-executive_outline_01.pdf | 2026-07-07 | 二次情報 |
 
-**小括**: 行政向けは DS-920 が中核で、地方自治体には直接の義務はないものの事実上の参照基準になっています。第 2.0 版(2026-06-12)は公表から 1 か月未満と新しいため、二次解説の多くは第 1.0 版ベースである点に注意。
+**小括**: 行政向けは DS-920 が中核で、地方自治体には直接の義務はないものの事実上の参照基準になっています。第 2.0 版(2026-06-12)は初回調査時点では公表から 1 か月未満であったため、二次解説の多くは第 1.0 版ベースである点に注意。
 
 ---
 
@@ -105,18 +106,22 @@
 | --- | --- | --- | --- | --- | --- |
 | NIST AI Risk Management Framework(AI RMF 1.0)+ Generative AI Profile(NIST-AI-600-1) | 米国 NIST | AI RMF 1.0: 2023-01-26 / GenAI Profile: 2024-07-26。**AI RMF 1.0 は改訂作業中**(compliance.md 調査時に確認) | https://www.nist.gov/itl/ai-risk-management-framework | 2026-07-07 | 公式確認済み(compliance.md 調査時) |
 | SR 11-7「Supervisory Guidance on Model Risk Management」→ **SR 26-2「Revised Guidance on Model Risk Management」に置換** | 米国 FRB(SR 11-7 は OCC と共同) | **SR 26-2(2026-04-17 発行)が SR 11-7(2011-04-04)を「supersedes and replaces」と明記**。15 年の監督経験を踏まえリスクベースアプローチを強調 | SR 26-2 https://www.federalreserve.gov/supervisionreg/srletters/SR2602.htm / 本文 PDF https://www.federalreserve.gov/supervisionreg/srletters/SR2602.pdf / 旧 SR 11-7 https://www.federalreserve.gov/supervisionreg/srletters/sr1107.htm | 2026-07-07 | 公式確認済み(SR 26-2 ページを直接取得)/ 旧 SR 11-7 の URL のみ二次情報 |
-| FDA: Marketing Submission Recommendations for a Predetermined Change Control Plan for Artificial Intelligence-Enabled Device Software Functions(PCCP 最終ガイダンス) | 米国 FDA | **Final guidance(2024-12-03 公表)**。市販後のモデル更新を事前承認する PCCP の枠組み | https://www.fda.gov/regulatory-information/search-fda-guidance-documents/marketing-submission-recommendations-predetermined-change-control-plan-artificial-intelligence | 2026-07-07 | 二次情報(fda.gov の直接取得は 404 のため) |
-| FDA: Artificial Intelligence-Enabled Device Software Functions: Lifecycle Management and Marketing Submission Recommendations(ドラフトガイダンス) | 米国 FDA | **Draft guidance(2025-01-06 公表、Federal Register 掲載 2025-01-07)**。TPLC(製品ライフサイクル全体)でのリスク管理と申請文書の推奨。**2026-07-07 時点で最終化されたかは未確認** | Federal Register https://www.federalregister.gov/documents/2025/01/07/2024-31543/artificial-intelligence-enabled-device-software-functions-lifecycle-management-and-marketing | 2026-07-07 | 二次情報 / 最終化状況は未確認 |
+| FDA: Marketing Submission Recommendations for a Predetermined Change Control Plan for Artificial Intelligence-Enabled Device Software Functions(PCCP) | 米国 FDA | **2025-08-18、Final**。旧 2024-12-03 版を現行版とする記録を更新 | https://www.fda.gov/medical-devices/digital-health-center-excellence/guidances-digital-health-content | 2026-09-10 | FDA 公式索引の発行日・ステータス確認 |
+| FDA: Artificial Intelligence-Enabled Device Software Functions: Lifecycle Management and Marketing Submission Recommendations(TPLC) | 米国 FDA | **2025-01-07、Draft** のまま。CDS(Clinical Decision Support Software)の **2026-01-29、Final** とは別文書 | https://www.fda.gov/medical-devices/digital-health-center-excellence/guidances-digital-health-content | 2026-09-10 | FDA 公式索引の発行日・Draft / Final を確認 |
 | FDA: AI-Enabled Medical Devices(ハブページ。認可済み AI 医療機器リストを含む) | 米国 FDA | 常設ページ。旧ハブ「Artificial Intelligence in Software as a Medical Device」の URL は取得時 404 で、移転の可能性 | https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-enabled-medical-devices | 2026-07-07 | 二次情報(URL の存在のみ確認) |
 
 ---
 
 ## 執筆時の注意(変わりやすい項目)
 
-1. **2025〜2026 年に改版されたばかりの文書が多い**: 厚労省 GL 第 7.0 版(2026-06)、3 省 2 GL 事業者側第 2.0 版(2025-03)、DS-920 第 2.0 版(2026-06-12)、AI DP 第 1.1 版(2026-03-03)、FISC 第 13 版(2025-03-21)、SR 26-2(2026-04-17)。**Web 上の二次解説は旧版ベースが大半**のため、記事では「版数 + 公表年月 + 公式 URL」を必ずセットで書き、確認日を併記する
+1. **2025〜2026 年に改版されたばかりの文書が多い**: 厚労省 GL 第 7.0 版(2026-06)、3 省 2 GL 事業者側第 2.0 版(2025-03)、DS-920 第 2.0 版(2026-06-12)、AI DP 第 1.1 版(2026-03-03)、FISC 第 14 版(2026-03-25)、SR 26-2(2026-04-17)。**Web 上の二次解説は旧版ベースが大半**のため、記事では「版数 + 公表年月 + 公式 URL」を必ずセットで書き、確認日を併記する
 2. **SR 11-7 は 2026-04-17 に SR 26-2 へ置換済み**。「金融の AI ガバナンスの古典 = SR 11-7」という定番の記述をそのまま書くと 2026 年時点では不正確。「SR 11-7(2011)→ SR 26-2(2026)に改訂」と書く
 3. **厚労省 GL 第 7.0 版の AI 関連記載の有無は未確認**。記事で「第 7.0 版で生成 AI に言及」などと書く場合は概要資料 PDF(mhlw.go.jp)の精読が必要 → `TODO(要確認)` 候補
-4. **FDA のライフサイクル管理ドラフトガイダンス(2025-01)の最終化状況は未確認**。fda.gov の該当 URL が 404 だったため、執筆時に FDA guidance database で再確認 → `TODO(要確認)` 候補
-5. **FISC 安全対策基準は有償頒布**のため本文の直接引用はできない。「第 13 版で AI・生成 AI の基準項目が新設された」という事実(公表ページで確認済み)の紹介に留める
-6. **全銀協名義の包括的な生成 AI 指針は存在が確認できなかった**。「銀行業界の生成 AI 指針」として書けるのは FISC の考察 2 本(2023-12 / 2024-09)と FDUA ガイドライン(第 1.1 版)であり、発行主体を取り違えないこと
-7. **個人情報保護法改正案(課徴金制度)の成立状況**は 2026-07-07 時点で未確認。医療・金融とも個人データの扱いが論点になるため、成立すれば全業界の記述に影響する → 執筆時に PPC サイトで要確認
+4. **FDA の TPLC は 2025-01-07 Draft、PCCP は 2025-08-18 Final** と公式索引で再確認済み。今後の TPLC 最終化を同索引で追跡する。
+5. **FISC 安全対策基準第 14 版の一般向け本文は有償**。公表概要で改訂分野は確認できるが、条項差分を確認済みとはしない。
+6. **全銀協名義の包括的な生成 AI 指針は存在が確認できなかった**。「銀行業界の生成 AI 指針」として書けるのは FISC の考察 2 本(2023-12 / 2024-09)と FDUA ガイドライン(第 1.2 版)であり、発行主体を取り違えないこと
+7. **個人情報保護法改正は成立・公布済み**。PPC の施行準備工程と政令指定日を追う。2026-09-09 工程表の 9 月中旬以降の委員会議論・意見交換を、正式パブリックコメントの開始と混同しない。
+
+## 2026-09-10 の差分確認範囲
+
+GOV01・GOV02・GOV03・GOV13 を本文へ反映しました。FISC の有償条項、厚労省第 7.0 版の AI 関連記載、各制度の個別案件への適用は未確認です。FDA は索引の版・ステータス確認であり、個別機器の承認可否を判断していません。

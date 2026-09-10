@@ -1,7 +1,7 @@
 # ファインチューニング・蒸留の各社公式メニュー 調査メモ
 
 - **調査日**: 2026-07-07
-- **更新日**: 2026-08-18(四半期定点観測。OpenAI FT の段階的終了日程の確定〔§2.1〕、`gpt-4.1-nano` の deprecation〔§2.1〕、Anthropic 用語集の文言微修正〔§4〕、Bedrock FT 対象への Nova 2 Lite 追加〔§5〕、Vertex 細部の未確認継続〔§3〕を反映)
+- **更新日**: 2026-09-10(上の鮮度更新を優先。旧観測は履歴として保持)
 - **調査目的**: `docs/03-implementation/fine-tuning-and-distillation.md`(ファインチューニングと蒸留)の執筆材料。記事は原則(プロンプト/RAG/FT の使い分け、SFT・選好学習・蒸留の概観、データ準備、運用)を扱い、各社の提供形態は「2026-07 時点」の注記付きで軽く触れる方針。したがって本メモは「各社が何を公式に提供しているか(提供の有無と形態)」に絞る。個別の価格・具体的手順は対象外
 - **根拠の方針**: 各社公式ドキュメント(developers.openai.com / platform.openai.com、cloud.google.com / docs.cloud.google.com、platform.claude.com、docs.aws.amazon.com)と各社公式ブログのみを根拠とします。個人ブログ・比較記事は使用していません
 - **確度表記**: 「公式明記」= 公式ページに明文あり / 「公式から推測」= 公式記述からの合理的推測 / 「未確認」= 今回確認できず
@@ -11,6 +11,21 @@
   - `cloud.google.com` / `docs.cloud.google.com` の tuning 系ドキュメントは動的レンダリングのため WebFetch では**目次(ナビ)のみ**が返り、本文の細部(対応モデル一覧・LoRA/アダプタ・最小件数)を直接取得できないページが多かった。方式の有無はナビ構造 + 公式ブログで確定できたが、細部は Google Cloud 公式ブログや検索経由で裏取りし、取れないものは「未確認」とした
 
 ---
+
+## 2026-09-10 鮮度更新
+
+Google公式SFT本文を取得し、Gemini3.5 Flash/3.1 Flash-Liteおよび2.5 Pro/Flash/Flash-Liteを対応一覧で確認しました。3系は2026-06-22 Public Preview告知。3系の学習endpointはus-central1/europe-west4、配信はus/eu multi-region、SFTはSLAのCovered Service対象外です。「3系未提供」とする以前の推測は訂正します。蒸留の詳細・全手法GAは未確認です。
+
+Bedrock Claude3 Haiku (anthropic.claude-3-haiku-20240307-v1:0)は3/10 Legacy、9/10 EOLと公式のLegacyモデル表に掲載されています。Legacy移行後は新規FTジョブ・新規PT不可です。既存custom modelのon-demand配備や既存PTの扱いは別条件で、新規採用できる経路として紹介しません。当日実際のAPI停止は未検証で、AWSの対象地域・個別契約を確認します。
+
+一次資料(アクセス日: 2026-09-10):
+
+- https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/tuning/supervised-tuning
+- https://docs.cloud.google.com/gemini-enterprise-agent-platform/release-notes
+- https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle-legacy.html
+- https://docs.aws.amazon.com/bedrock/latest/userguide/custom-model-fine-tuning.html
+
+以下の旧表・観測ログは当時の履歴です。現在の採用判断では上の訂正と公式資料を優先します。
 
 ## 1. 手法の定義と各社が公式に使う用語(横断整理)
 

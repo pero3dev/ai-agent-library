@@ -21,6 +21,8 @@ MCP(Model Context Protocol)で 2 つのツールを公開する最小のサー�
 - Python 3.11 以降(`--mock` の自己テストは追加依存なし・標準ライブラリのみで動きます)
 - 実サーバー起動時のみ: `pip install -r requirements.txt`(`mcp` パッケージ)と、接続する MCP クライアント
 
+固定 SDK は `mcp==2.2.0` です。サーバーは `MCPServer` を使い、2026-07-28 の要求方式と 2025-11-25 の初期化方式を扱います。Python 側の結果は `is_error`、通信の JSON は `isError` です。v1 の `FastMCP` からの差分は [公式移行ガイド](https://py.sdk.modelcontextprotocol.io/migration/) を参照してください(アクセス日: 2026-09-10)。
+
 ## 実行
 
 ```bash
@@ -35,8 +37,8 @@ python mcp_server.py
 ## 動作確認日
 
 - **自己テスト(`--mock`)**: 2026-09-10 に確認(Python 3.11.3、追加依存なし)
-- **実 MCP サーバー起動(クライアント接続)**: 2026-09-10 に確認(Python 3.11.3、mcp 1.28.1、ローカル stdio)。initialize・list_tools・call_tool と、不正金額の `isError=true`、通常受理・高額の承認案内を確認([実行手順](../../tests/README.md))
+- **実 MCP サーバー起動(クライアント接続)**: 2026-09-10 に確認(Python 3.11.3、mcp 2.2.0、ローカル stdio)。`Client(mode="auto")` の server/discover(2026-07-28)、`Client(mode="legacy")` の initialize(2025-11-25)、両方式の list_tools・call_tool と、不正金額の `isError=true`、通常受理・高額の承認案内を確認([実行手順](../../tests/README.md))
 
 ## TODO・未確認事項
 
-> **TODO(要確認):** MCP 仕様・`mcp` SDK は更新が速いため、SDK 更新時に公式の Tools 仕様と FastMCP API を確認し、stdio 回帰テストを再実行する。接続先ホストの権限設定と利用者別の認証・認可は別途確認する(最終確認: 2026-09)
+> **TODO(要確認):** MCP 仕様・`mcp` SDK は更新が速いため、SDK 更新時に公式の Tools 仕様と MCPServer / Client API を確認し、stdio 回帰テストを再実行する。接続先ホストの権限設定と利用者別の認証・認可は別途確認する(最終確認: 2026-09)

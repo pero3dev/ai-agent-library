@@ -5,6 +5,29 @@
 - **調査方法**: [CODING-AGENTS-PLAN.md](../../CODING-AGENTS-PLAN.md) §7 の 12 項目チェックリスト。公式情報(developers.openai.com / github.com/openai / openai.com / help.openai.com)のみを根拠とし、第三者記事は使用していません
 - **確度の凡例**: 公式明記 / 公式から推測 / 第三者(本メモでは第三者根拠なし)
 
+## 2026-09-10 鮮度更新の反映
+
+対象記事の本文・比較・TODO に次の確認結果を反映しました。一次資料の文書確認であり、実サービスでの設定・実行の受入試験は行っていません。以下の旧日付の記録は調査履歴です。現行判断には本節と対応する docs を使います。
+
+### T11: Codexのpermission profiles betaと旧設定の関係を追加
+
+permission profiles beta の default_permissions / [permissions.<name>]、組み込み :read-only / :workspace を追加しました。旧 sandbox 設定との合成ではなく、通常は読み込まれた旧 sandbox_mode / --sandbox が優先します。管理者 allowed_permission_profiles がある場合は profiles を強制し、混在導入では 0.138.0 以降への統一と旧設定除去が必要です。network.enabled と features.network_proxy は別で、後者なしではドメイン規則を強制しません。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://learn.chatgpt.com/docs/permissions)
+
+### T12: Codex Auto-reviewの対象範囲を権限説明へ追加
+
+Auto-review は対話型ポリシーが発生させる承認要求を別エージェントが審査する仕組みです。通常の許可済み操作を毎回検査せず、never では要求がなく、full access の操作全般の安全保証にもなりません。PR review とは区別して本文へ追加しました。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://learn.chatgpt.com/docs/sandboxing/auto-review)
+
+### T14: Codexの5.4 mini退役を認証経路ごとに同期
+
+GPT-5.4 / 5.4 mini は ChatGPT sign-in の Codex で 2026-08-31 提供終了です。API key 認証の Codex と OpenAI API は対象外です。本体記事の区分を実践ガイドに同期し、退役予定という過去日表現を修正しました。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://learn.chatgpt.com/docs/models)
+
+
 ## 2026-09-10 レビュー修正時のモデル確認
 
 [公式 Models](https://learn.chatgpt.com/docs/models)(アクセス日: 2026-09-10)で GPT-6 Astra と GPT-5.6 Sol / Terra / Luna の掲載を確認しました。ChatGPT 認証での GPT-5.4 / GPT-5.4 mini の退役日は 2026-08-31、置換先は Terra / Luna と案内されています。API キー認証の Codex と OpenAI API は対象外です。

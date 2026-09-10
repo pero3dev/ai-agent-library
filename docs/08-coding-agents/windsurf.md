@@ -3,7 +3,7 @@ title: "Windsurf(現: Devin Desktop)"
 category: "coding-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-08-18"
+last_updated: "2026-09-10"
 tags: ["coding-agents", "mcp"]
 ---
 
@@ -27,7 +27,7 @@ tags: ["coding-agents", "mcp"]
 
 ## 本文
 
-> **最終確認日:** 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
+> **最終確認日:** データ利用・契約条件は 2026-09-10、その他は 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
 
 ### 概要
 
@@ -74,7 +74,7 @@ Windsurf は Codeium を前身とする専用 IDE 型のコーディングエー
 
 - Devin Local は OS レベルサンドボックス(ファイルシステム分離 + ドメイン単位のネットワークフィルタ)に対応し、**エンタープライズ管理者はサンドボックスを組織全体に強制**できます
 - 管理者制御: コマンド許可 / 拒否リストの組織配布、MCP のホワイトリスト・カスタムレジストリ、ACP レジストリの配布、端末管理ポリシー(拡張の発行者制限・テレメトリ制御を Group Policy / MDM で配布)
-- **データ学習の既定はプラン・機能で異なります**: 個人向け規約(2026-04 更新)では、Autocomplete のデータは既定でモデル改善に使用(オプトアウト可)、**Chat はオプトアウトすると機能自体が使えなくなる**とされています。有料プランでは Data Controls から学習利用をオプトアウトでき、その場合 ZDR(Zero Data Retention)が有効になります。エンタープライズは書面同意なしに学習利用しないと明記されています
+- **データ学習は現行契約とプランで確認します**: 旧個人規約 URL は 2026-06-30 更新の Cognition Platform Terms に転送されます。§3.3.1 は顧客データの学習・改善利用と、有料 tier のオプトアウトを規定しています(Teams の操作権限は管理者のみ)。オプトアウト後はモデルプロバイダーの ZDR が有効になりますが、§3.3.3 は安全・不正検知、規約適合性の審査、法的要請による保持・開示を例外としています。Enterprise は個別契約とセキュリティ文書を併せて確認します。旧規約の「Chat はオプトアウトで利用不可」を現行条件として引き継ぎません。既存契約の重大変更は掲載から 30 日間は旧規約が優先するため、更新日と適用日も分けます
 - コンプライアンスは SOC 2 Type II(Cognition のセキュリティページに記載)。SSO(SAML / OIDC)・RBAC は Enterprise 向けに提供されます
 
 ### 外部連携(MCP・CI・API)
@@ -103,7 +103,7 @@ Windsurf は Codeium を前身とする専用 IDE 型のコーディングエー
 ### アンチパターン
 
 - **2025 年以前の「Windsurf」情報で評価する** — 提供元(Cognition)・製品名(Devin Desktop)・中核エージェント(Devin Local)・契約体系(Devin プランに統合)のすべてが変わりました。→ devin.ai / docs.devin.ai の現行情報のみを根拠にします
-- **Chat の学習利用オプトアウトの扱いを個人プランで見落とす** — 個人向け規約ではオプトアウトと機能利用がトレードオフです。→ 業務利用は有料プラン + Data Controls(または Enterprise 契約)を前提にします
+- **旧個人規約や「ZDR」の名称だけで保持条件を決める** — 現行契約は有料 tier のオプトアウトと安全・法的保持の例外を区別しています。→ 契約版、プラン、管理者設定、例外を業務のデータ要件と照合します
 - **レガシー Cascade の設定情報を Devin Local に適用する** — 権限モデルが別物です(4 段階レベル vs Deny/Ask/Allow × スコープ)。→ どちらのエージェントの仕様かを確認してから設定します
 
 ### チェックリスト
@@ -127,7 +127,8 @@ Windsurf は Codeium を前身とする専用 IDE 型のコーディングエー
 - [Windsurf is now Devin Desktop(改名告知)](https://devin.ai/blog/windsurf-is-now-devin-desktop/) — 改名と Devin Local の発表(アクセス日: 2026-07-05)
 - [Cognition の買収発表](https://cognition.com/blog/windsurf) — 2025-07-14 の一次情報(アクセス日: 2026-07-05)
 - [Devin Desktop ドキュメント](https://docs.devin.ai/desktop) — 機能・権限・管理の一次情報(アクセス日: 2026-08-18)
-- [個人向け利用規約](https://devin.ai/windsurf/terms-of-service-individual/) — 学習利用の既定(アクセス日: 2026-07-05。2026-08-18 はページが 429 で機械取得できず再確認未了)
+- [Cognition Platform Terms](https://cognition.com/legal/platform-terms-of-service) — 2026-06-30 更新版の §3.3 と変更適用条件(アクセス日: 2026-09-10)
+- [Devin Security](https://docs.devin.ai/admin/security) — Enterprise とセルフサーブのデータ管理(アクセス日: 2026-09-10)
 - [料金ページ](https://devin.ai/pricing) — Devin ファミリー統合後のプラン(アクセス日: 2026-07-05。2026-08-18 は 429 で機械取得できず。改名 FAQ の「料金は変更なし」の記載は継続)
 
 ## TODO・未確認事項
@@ -142,4 +143,4 @@ Windsurf は Codeium を前身とする専用 IDE 型のコーディングエー
 
 > **TODO(要確認):** 「Windsurf Plugins」ブランドの存続と機能範囲(Cascade 系機能の提供状況)を確認する(2026-08 時点で JetBrains plugin の存続を確認。最終確認: 2026-08)
 
-> **TODO(要確認):** 個人向け利用規約(2026-04 版)の学習利用の既定(Autocomplete 既定使用・Chat のオプトアウト制約)を再確認する(2026-08-18 時点でページが 429 のため再確認未了。本文は 2026-04 版準拠。最終確認: 2026-08)
+> **TODO(要確認):** Cognition Platform Terms と Data Controls のプラン別適用を公式規約・管理文書で確認する。2026-09-10 に有料 tier のオプトアウトと保持例外を反映済み。Free のオプトアウト提供範囲と既存の個別契約への適用は未確認(最終確認: 2026-09)

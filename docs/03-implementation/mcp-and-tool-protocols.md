@@ -3,7 +3,7 @@ title: "ツール接続標準(MCP とエコシステム)"
 category: "implementation"
 level: "intermediate"
 status: "published"
-last_updated: "2026-07-05"
+last_updated: "2026-09-10"
 tags: ["mcp", "tool-use"]
 ---
 
@@ -27,19 +27,40 @@ MCP(Model Context Protocol)がどんな問題を解決する標準なのかを�
 
 ### 概要: N × M 問題を解く標準
 
-MCP(Model Context Protocol)は、ツールやデータソースを LLM アプリケーションに接続するためのオープンな標準プロトコルです。解決する問題はシンプルで、**N 個のアプリケーション × M 個のサービスの接続を、それぞれ個別に実装しなくて済むようにする**ことです。サービス側が一度 MCP サーバーを提供すれば、MCP 対応のあらゆるアプリケーション(ホスト)から利用できます。
+MCP(Model Context Protocol)は、ツールやデータソースを LLM アプリケーションに接続するためのオープンな標準プロトコルです。解決する問題はシンプルで、**N 個のアプリケーション × M 個のサービスの接続を、それぞれ個別に実装しなくて済むようにする**ことです。サービス側が MCP サーバーを提供すれば、対応する仕様版・トランスポート・機能を持つ複数のアプリケーション(ホスト)から再利用できます。
 
-概念上は [ツール使用](../01-concepts/tool-use.md) で見た仕組みと同じです — ツールの定義一覧がモデルに渡り、モデルが呼び出し要求を出し、実行結果が返ります。違いは「ツールの実装がどこにあるか」だけです。
+概念上は [ツール使用](../01-concepts/tool-use.md) と同じく、ツール定義を受け取ったモデルが呼び出しを要求し、アプリケーションが実行結果を返します。MCP はこの接続部分に、機能の発見、要求・応答の形式、仕様版への対応を加えます。モデルのツール選択や、業務上の認可を自動的に正しくする仕組みではありません。
 
 ### 詳細: 構成要素
 
 | 要素 | 役割 |
 | --- | --- |
-| MCP ホスト(クライアント) | LLM アプリケーション側。サーバーに接続し、ツール一覧を取得してモデルに渡す |
+| MCP ホスト | LLM アプリケーション全体。利用者との対話、モデルへのツール提示、実行承認を管理する |
+| MCP クライアント | ホスト内で、接続先サーバーとのプロトコル処理を担当する |
 | MCP サーバー | ツール・リソースを提供する側。サービス公式のものと、コミュニティ製がある |
 | ツール / リソース / プロンプト | サーバーが公開するプリミティブ。ツール(実行できる操作)が中心 |
 
-> **TODO(要確認):** MCP の仕様バージョン・トランスポート(stdio / Streamable HTTP)・認可の仕組みの最新状況を公式サイト(modelcontextprotocol.io)で確認する(最終確認: 2026-07)
+### 仕様版と SDK の版を分けて選ぶ
+
+2026-09-10 確認時点の仕様は **2026-07-28**、このライブラリの Python サンプルは **`mcp==2.2.0`** です。SDK の版番号と、相手が使うプロトコルの版は別に記録します。v2 サーバーは新旧両方の接続方式を扱いますが、利用できる機能は要求に適用される仕様版によって変わります。
+
+| 観点 | 2025-11-25 までの方式 | 2026-07-28 の方式 |
+| --- | --- | --- |
+| 接続の開始 | `initialize` による初期化と機能の合意 | `server/discover` による発見。各要求の `_meta` に仕様版とクライアント機能を含める |
+| HTTP の状態 | ステートフルな運用ではセッションと接続先の維持を考慮する | 通常の要求をセッションに依存せず別のレプリカで処理できる |
+| サーバーが追加情報を必要とする場合 | クライアントへ要求を送り返す方式 | 複数往復要求(multi-round-trip request、MRTR)で必要な入力を返し、クライアントが回答付きで再要求する |
+
+Python SDK の `Client` は既定の `mode="auto"` で `server/discover` を試し、旧サーバーでは `initialize` に戻ります。`mode="legacy"` は旧方式を明示します。この違いは stdio にも適用されます。新仕様の接続ではサーバー起点の sampling・roots・push elicitation をそのまま使えないため、移行時は MRTR に対応したリゾルバーへ変更するか、必要な接続を旧方式に限定します。[仕様公開記事](https://blog.modelcontextprotocol.io/posts/2026-07-28/) と [Python SDK の移行ガイド](https://py.sdk.modelcontextprotocol.io/migration/) に基づく整理です(アクセス日: 2026-09-10)。
+
+トランスポートは、同じ端末の子プロセスへ接続する **標準入出力(stdio)** と、リモート接続に使う **Streamable HTTP** を基本に選びます。HTTP の認可は接続方式とは別の設計です。stdio サンプルを HTTP で公開するだけでは利用者別の認証・認可は付きません。また、新仕様でセッションが不要になっても、MRTR の封印済み `request_state` を複数レプリカで検証する鍵や、通知の共有は必要です。旧方式のクライアントのセッション管理も残ります。詳細は [認証・認可](../06-security/agent-identity-and-auth.md) と [SDK の配置・スケール手順](https://py.sdk.modelcontextprotocol.io/run/deploy/) を参照してください(アクセス日: 2026-09-10)。
+
+### Python サンプルで確認する境界
+
+[最小 MCP サーバー](../../examples/python/mcp-server/README.md) は `MCPServer` に読み取り・申請の 2 ツールを登録します。v1 の `FastMCP` と import パスを置き換え、クライアントは `Client`、Python のエラー判定は `result.is_error` を使います。通信上の JSON フィールドは引き続き `isError` です。業務エラーをモデルに伝えるときは `ToolError` を使い、プロトコルエラーを表す `MCPError` と区別します。
+
+サンプルの回帰テストは、同じ v2 サーバーを別プロセスで起動し、新方式(2026-07-28)と旧方式(2025-11-25)でツール一覧・呼び出し・不正金額・承認が必要な金額を検証します。自己テストの `--mock` はツール関数を直接呼ぶだけなので、stdio 接続の検証とは別です。どちらも経費 API や実際の承認フローへは接続しません。
+
+SDK v2 への更新は新仕様の全機能への対応を意味しません。2.2.0 では SEP-2663 の Tasks 拡張、DPoP、JWT bearer grant は未実装です。既存システムが移行できない場合、v1 系は重大な不具合・セキュリティ修正を受ける保守系として残ります。`<2` の上限と対応プロトコルを明記し、その系統の最新修正版を追います。[SDK 2.2.0](https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.2.0) と [サポート方針](https://github.com/modelcontextprotocol/python-sdk/blob/v2.2.0/VERSIONING.md) を確認してください(アクセス日: 2026-09-10)。
 
 ### 設計判断: 自前ツールか、MCP サーバーか
 
@@ -77,6 +98,8 @@ MCP(Model Context Protocol)は、ツールやデータソースを LLM アプリ
 - [ ] モデルに渡るツール一覧を実際に確認した(数・説明文の品質)
 - [ ] 副作用のあるツールに承認・権限制御がかかっている
 - [ ] サーバーのバージョン固定・更新手順が決まっている
+- [ ] SDK とプロトコルの版を記録し、接続先のトランスポート・機能・新旧方式を検証した
+- [ ] 業務エラーとプロトコルエラーを区別し、SDK 更新後も失敗を成功扱いしないことを確認した
 
 ## 関連トピック
 
@@ -91,10 +114,14 @@ MCP(Model Context Protocol)は、ツールやデータソースを LLM アプリ
 
 ## 参考資料
 
-- [Model Context Protocol 公式サイト](https://modelcontextprotocol.io/) — 仕様・SDK・サーバー一覧(アクセス日: 2026-07-05)
+- [Model Context Protocol 2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28) — 対象とする仕様版(アクセス日: 2026-09-10)
+- [The 2026-07-28 Specification](https://blog.modelcontextprotocol.io/posts/2026-07-28/) — 要求単位の設計と MRTR(アクセス日: 2026-09-10)
+- [MCP Python SDK: Migration Guide](https://py.sdk.modelcontextprotocol.io/migration/) — v1 から v2 の API・通信・認可変更(アクセス日: 2026-09-10)
+- [MCP Python SDK 2.2.0](https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.2.0) — サンプルで固定する版(アクセス日: 2026-09-10)
+- [MCP Python SDK: Versioning](https://github.com/modelcontextprotocol/python-sdk/blob/v2.2.0/VERSIONING.md) — v1/v2 の保守方針(アクセス日: 2026-09-10)
 
 ## TODO・未確認事項
 
-> **TODO(要確認):** MCP の仕様バージョン・トランスポート(stdio / Streamable HTTP)・認可の仕組みの最新状況を公式サイト(modelcontextprotocol.io)で確認する(最終確認: 2026-07)
+> **TODO(要確認):** HTTP 公開時に MCP の公式認可仕様と SDK の配置手順を照合し、接続先ホストのトランスポート・要求仕様版・利用者別権限を実環境で検証する。ローカル stdio 回帰テストは HTTP 認可の受入検査を含まない(最終確認: 2026-09)
 
-> **TODO(要確認):** エージェント間連携(A2A 等)と MCP の役割分担の整理は変化が速いため、執筆時点の整理([オーケストレーションパターン](../02-architecture/orchestration-patterns.md))と齟齬がないか定期確認する(最終確認: 2026-07)
+> **TODO(要確認):** SEP-2663 の Tasks・DPoP・JWT bearer grant を必要とする接続では、MCP Python SDK の公式リリースノートで実装状況を再確認する(最終確認: 2026-09)

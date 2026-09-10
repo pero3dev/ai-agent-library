@@ -5,6 +5,24 @@
 - **注意:** 生成モデルの顔ぶれ・商用利用条件・来歴(プロビナンス)機能は **変化が非常に速い**。本メモは **2026-08-18 時点のスナップショット**(初版 2026-07-08)であり、優劣比較(スコア・作例・「どれが綺麗か」)は一切行わない。扱うのは **提供形態・商用利用条件・来歴機能の有無** のみ。実装・契約時は必ず各社の一次情報を再確認すること
 - **根拠:** 各ベンダーの公式ドキュメント・公式ブログ・利用規約ページのみを一次情報として採用。まとめ記事・SNS は原則不採用(採用時は確度「二次情報」と明記)
 
+## 2026-09-10 鮮度更新
+
+2026-09-10 の終了日程確認: OpenAI Videos API、sora-2/sora-2-pro と退役表の対象スナップショットは 2026-09-24 終了予定(3/24告知)。8月の「変更なし」は終了予定の見落としがあり、新規採用例としては使いません。Soraアプリの状態はAPI終了だけで推定しません。
+
+AWS の2026-09-07以前に公開されたモデル用の正本は model-lifecycle-legacy.html へ移っています。Canvas v1:0 とReel v1:0はap-northeast-1/eu-west-1/us-east-1、Reel v1:1はus-east-1で9/30 EOL。Sonic v1:0とPremier v1:0は9/14 EOLです。Nova2とは別です。
+
+Gemini Omni 1.1 Flashは8/27 GA、旧omni-flash-previewはdeprecations表で9/30 shutdown。9/1公開のagentic video understandingは必要なframe/transcript/audioを動的に要求する方式で、固定FPSと別に評価します。最大88%削減はベンダー報告で、一般保証ではありません。
+
+一次資料(アクセス日: 2026-09-10):
+
+- https://developers.openai.com/api/docs/deprecations
+- https://developers.openai.com/api/reference/typescript/resources/videos/methods/create
+- https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle-legacy.html
+- https://ai.google.dev/gemini-api/docs/changelog
+- https://ai.google.dev/gemini-api/docs/deprecations
+
+以下の旧表・観測ログは当時の履歴です。現在の採用判断では上の訂正と公式資料を優先します。
+
 ## 確度マーカーの定義
 
 | マーカー | 意味 |

@@ -3,7 +3,7 @@ title: "Claude 特化プロンプティングガイド"
 category: "implementation"
 level: "intermediate"
 status: "published"
-last_updated: "2026-08-18"
+last_updated: "2026-09-10"
 tags: ["prompt-design", "model-selection"]
 ---
 
@@ -28,7 +28,7 @@ Anthropic の Claude ファミリーに対して、**公式ガイドが推奨す
 
 ## 本文
 
-> **最終確認日:** 2026-08-18 — 本記事の機能名・仕様・モデル別推奨は、この日付時点の Anthropic 公式ドキュメント([参考資料](#参考資料))に基づきます。個別モデルの仕様は変わるため、断定は避け「〜時点」を明記しています。
+> **最終確認日:** 2026-09-10 — Fable 5.1 の非互換と設定更新を確認しました。従来の共通指針は参考資料の確認日を参照してください。
 
 ### 概要: 汎用記事との分担
 
@@ -82,12 +82,12 @@ Claude の思考制御は、固定のトークン予算ではなく **2 つの�
 | アダプティブ思考(`thinking: {type: "adaptive"}`) | 複雑さに応じて「いつ・どれだけ考えるか」をモデルが動的に決める | 既定はモデルで異なる(下表) |
 | effort(`output_config.effort`) | 思考だけでなく応答全体(テキスト・ツール呼び出し)の労力を `low`〜`max` で調整 | `high` が既定(= 未指定と同じ)。推奨開始点はモデルで異なる(下表) |
 
-モデル別の既定と推奨開始点は次のとおりです(2026-08 時点)。
+モデル別の既定と推奨開始点は次のとおりです。Fable 5.1 は 2026-09-10 の確認結果、その他は 2026-08 の確認範囲です。
 
 | モデル | 思考の既定 | 推奨開始 effort(コーディング・エージェント用途) |
 | --- | --- | --- |
 | Claude Opus 5 | 既定オン。effort `xhigh` / `max` では `thinking: {type: "disabled"}` が 400 エラー | `high`(既定)から開始が公式推奨。effort は応答の長さを確実に縮める手段ではない |
-| Claude Fable 5 | 常時オン(無効化不可) | まず既定の `high`、最も要求の高い作業のみ `xhigh` |
+| Claude Fable 5.1 | 常時オン(無効化不可)。入力 / 出力枠は 1M / 128K | まず既定の `high`、最も要求の高い作業のみ `xhigh` |
 | Claude Sonnet 5 | 既定オン | `high`(既定) |
 | Claude Opus 4.8 / 4.7 | 明示設定しないと思考オフ | `xhigh` 開始が公式推奨 |
 
@@ -124,6 +124,16 @@ Claude の思考制御は、固定のトークン予算ではなく **2 つの�
 - **強調のトーンを下げる**: 「CRITICAL: You MUST use this tool...」は最新モデルでは過剰反応(over-trigger)を招きます。「Use this tool when...」程度に抑えます
 - **ツールを使ってほしいのに使わないなら、定義側に「いつ・どう使うか」を書く**: effort を上げるとツール使用も増えます(特に Opus 4.8)
 - **サブエージェント委任は控えめが既定**: 最新世代は明示指示なしでは委任を控えます。並列で回したいなら「独立した作業は委任する」と明示します(コンテキスト分離の設計は [圧縮と隔離](../02-architecture/context-compaction-and-isolation.md))
+
+### Fable 5.1 の移行境界
+
+2026-09-01 公開の Fable 5.1 では、`tool_choice` の `any` / `tool` が 400 エラーになります。`auto` + ツール定義の `strict: true` は引数のスキーマを制約しますが、呼出し自体の強制とは別です。JSON が必要なだけなら構造化出力へ移し、必要な操作はツール記述と指示で明示します。
+
+思考ブロック前の system・tools・過去のメッセージを変更すると、保持した思考との結び付きが無効になります。2026-08-31 以降に作成されたアカウントでは検査が強制され、無効なブロックの再送は既定で 400 です。それ以前のアカウントや明示的な drop 設定では扱いが異なります。履歴は追記し、圧縮は対応するサーバー側機構か、思考の再送方針を定めたクライアント処理で行います。Fable 5.1 の思考を旧モデルへ渡すとブロックが破棄されるため、フォールバック時にも継続性を検証します。
+
+会話途中の effort 更新は `mid-conversation-output-config-2026-07-01` beta と対応モデル・提供経路を確認します。Fable 5.1 / Mythos 5.1 / Opus 5 の Claude API と Google Cloud が対象です。ターン限定の system は `clear_at: "next_user_message"` と `mid-conversation-system-clear-at-2026-08-21` beta を使い、期限後も履歴から削除せず再送します。任意の過去本文の編集とは区別します。
+
+Fable 5.1 のキャッシュ読取は入力単価の 2.5% です。また 30 日保持があり、Anthropic の明示的許可がない限り ZDR では利用できません。能力評価とともに [モデルカタログ](llm-landscape.md) の費用・保持条件を確認します。
 
 ### 世代交代で見直すこと
 
@@ -180,6 +190,8 @@ Claude はモデル更新のたびにプロンプトを見直す前提です(202
 
 ## 参考資料
 
+- [What’s new in Claude Fable 5.1](https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1) — 強制ツール・思考の結び付き・beta・保持条件(アクセス日: 2026-09-10)
+
 - [Prompt engineering overview(Anthropic)](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview) — プロンプト設計の入口(アクセス日: 2026-08-18)
 - [Claude prompting best practices(Anthropic)](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices) — 全モデル共通技法 + モデル別ガイド + 移行考慮点の正本(アクセス日: 2026-08-18)
 - [Thinking(Anthropic)](https://platform.claude.com/docs/en/build-with-claude/thinking) — 思考制御の正本。2026-08 時点で「Steering thinking and cost」「Tool workflows」「Troubleshooting」の分冊構成に再編済み(旧 Adaptive thinking ページの URL は Steering thinking へ移行)(アクセス日: 2026-08-18)
@@ -195,9 +207,9 @@ Claude はモデル更新のたびにプロンプトを見直す前提です(202
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** 四半期ごとに Anthropic 公式の「Claude prompting best practices」と thinking 系ページ(分冊)・「effort」ページで次を再確認する(更新起点: `research/prompting/anthropic.md`、最終確認: 2026-08):
+> **TODO(要確認):** 四半期ごとに Anthropic 公式の「Claude prompting best practices」と thinking 系ページ(分冊)・「effort」ページで次を再確認する(更新起点: `research/prompting/anthropic.md`、最終確認: 2026-09):
 >
-> - モデル世代・ラインアップ(現在: Fable 5 / Opus 5 / Sonnet 5 / Haiku 4.5。Opus 4.8 以前の Opus はレガシー)
+> - モデル世代・ラインアップ(2026-09-10 確認: Fable 5.1 / Opus 5 / Sonnet 5 / Haiku 4.5。Opus 4.8 以前の Opus はレガシー)
 > - アダプティブ思考の対応と既定(常時オン / 既定オン / 明示オン / 手動不可の別。現在: Opus 5 は既定オンで `xhigh` / `max` 時は無効化不可)、`budget_tokens` 廃止の範囲
 > - effort のレベル名・`xhigh` の対応モデル・モデル別推奨開始点(現在: Opus 5 は `high` 開始、Opus 4.8 / 4.7 は `xhigh` 開始)
 > - prefill 非対応の境界(現在: 4.6 以降)、`output_format` → `output_config.format` の旧名サポート終了(終了日は 2026-08 時点で未提示)

@@ -3,7 +3,7 @@ title: "リアルタイムマルチモーダル Agent"
 category: "multimodal"
 level: "advanced"
 status: "published"
-last_updated: "2026-07-08"
+last_updated: "2026-09-10"
 tags: ["realtime", "multimodal", "streaming"]
 ---
 
@@ -29,7 +29,7 @@ tags: ["realtime", "multimodal", "streaming"]
 
 リアルタイムマルチモーダル Agent は、カメラ・画面・音声を**継続的に観測**し、必要なタイミングで支援するエージェントです。1 往復ずつのターン型と違い、「常に入力が流れ、いつ応答するかを自分で判断する」のが本質です。音声リアルタイムの基礎([音声エージェント](../03-implementation/voice-agents.md))を前提に、本記事は**視覚(映像)を足すこと**で生じる設計判断を扱います。画面の操作は [コンピュータ操作エージェントの実装](../03-implementation/computer-use-implementation.md) が正本で、本記事は観測・支援側です。
 
-> **最終確認日: 2026-08-18。** リアルタイム API の映像入力の仕様(フレームレート上限・セッション上限)は変化が速く、2026-08 時点の値です。代表例と数値は一般類型・スナップショットとして読み、採用時は各社公式で再確認してください(後述の「変わりやすい項目」)。
+> **最終確認日: 2026-09-10。** リアルタイム API の映像入力の仕様(フレームレート上限・セッション上限)は変化が速く、2026-08 時点の値です。代表例と数値は一般類型・スナップショットとして読み、採用時は各社公式で再確認してください(後述の「変わりやすい項目」)。
 
 ### 「映像入力」の実態: 連続動画ではなくフレーム列
 
@@ -99,6 +99,12 @@ tags: ["realtime", "multimodal", "streaming"]
 
 調査メモ `research/multimodal/realtime-tts.md`(2026-08-18 時点)に、この定点観測の詳細と出典を記録しています。
 
+### 保存済み動画の能動的な読解と区別する
+
+動画から必要な時刻の情報を取りに行く能動的な動画読解(agentic video understanding)もあります。Google は 2026-09-01 に、モデルがタイムラインを移動して transcript・frame・audio を必要に応じて要求する方式を案内しました。固定 FPS で全体を読む方式と比較し、追加取得の待ち時間と合計トークンを計測します。公表された最大削減率を自分たちの入力への保証にはしません。
+
+これは保存済み動画の探索であり、常時接続の Live API が同じ方式・モデルに対応することを意味しません。また 2026-08-27 GA の Gemini Omni 1.1 Flash は動画生成・編集の系統です。入力の観測、保存動画の検索、生成の各 API を分けて選定します。
+
 ## 実務での注意点
 
 ### アンチパターン
@@ -132,6 +138,8 @@ tags: ["realtime", "multimodal", "streaming"]
 - [コンパクションとコンテキスト分離](../02-architecture/context-compaction-and-isolation.md) — 長時間ストリームの圧縮
 
 ## 参考資料
+
+- [提供仕様・終了日程: ai.google.dev](https://ai.google.dev/gemini-api/docs/changelog)(アクセス日: 2026-09-10)
 
 - [Gemini Live API capabilities(Google)](https://ai.google.dev/gemini-api/docs/live-api/capabilities) — リアルタイム音声・映像入力(フレーム列・セッション上限)の例(2026-08 時点で Preview)(アクセス日: 2026-08-18)
 - [Realtime conversations(OpenAI)](https://developers.openai.com/api/docs/guides/realtime-conversations) — 会話への画像差し込み(離散画像入力)の例(アクセス日: 2026-08-18)

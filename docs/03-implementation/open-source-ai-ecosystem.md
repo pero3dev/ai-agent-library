@@ -3,7 +3,7 @@ title: "オープンソース AI エコシステム"
 category: "implementation"
 level: "intermediate"
 status: "published"
-last_updated: "2026-07-10"
+last_updated: "2026-09-10"
 tags: ["open-source", "licensing", "ecosystem"]
 ---
 
@@ -27,7 +27,7 @@ tags: ["open-source", "licensing", "ecosystem"]
 
 ## 本文
 
-> **最終確認日:** 2026-08-18 — 本記事が挙げるライセンス類型・ハブ・OSS の代表例と所在はこの日付時点のものです。各一次情報 URL と確認状況は、リポジトリ内 `research/ecosystem/industry-oss.md` を参照してください。**本記事は法的助言ではありません。** ライセンスの適法性判断は法務に確認してください。
+> **最終確認日:** 2026-09-10 — Gemma の世代別ライセンスと Microsoft Agent Framework の差分を確認しました。その他のライセンス類型・ハブ・OSS の代表例は各参考資料の従来の確認日を参照してください。各一次情報 URL と確認状況は、リポジトリ内 `research/ecosystem/industry-oss.md` を参照してください。**本記事は法的助言ではありません。** ライセンスの適法性判断は法務に確認してください。
 
 ### 概要: エコシステムを地図として持つ
 
@@ -93,6 +93,10 @@ OSS の採用は、**誰が保守しているか・続くか**の見極めを含
 - **セルフホストの前提**: どのモデル・実行系を、どのライセンスで動かすか([セルフホスト推論の実務](../05-operations/self-hosted-inference.md)・[ローカル・オンデバイス LLM の実務](local-and-on-device-llm.md))
 - **業界の地図と接続**: OSS が厚いミドルウェア層の力学([AI 業界レイヤーマップ](../09-business/ai-industry-map.md))
 
+### 同じ系列でもライセンスを引き継がない
+
+Gemma 4 は Apache-2.0、旧世代は対象を限定した Gemma Terms です。公式 Terms の冒頭が Gemma 4 の別ライセンスへ案内しています。2026-04-01 は Terms の版の日付で、Gemma 4 の適用開始日とは推測しません。重みの許諾と OSAID の要件を満たすかどうかも別の判断です。Qwen3.8・Kimi K3・Mistral Medium 3.5 の独自条件は [モデルカタログ](llm-landscape.md) の配布物別の表を参照してください。
+
 ## 実務での注意点
 
 ### アンチパターン
@@ -126,6 +130,9 @@ OSS の採用は、**誰が保守しているか・続くか**の見極めを含
 - [モデル選定ガイド](model-selection.md) — オープンウェイトを選定判断に位置づける
 
 ## 参考資料
+
+- [一次資料: ai.google.dev](https://ai.google.dev/gemma/terms)(アクセス日: 2026-09-10)
+- [一次資料: ai.google.dev](https://ai.google.dev/gemma/apache_2)(アクセス日: 2026-09-10)
 
 - [The Open Source AI Definition(OSI)](https://opensource.org/ai/open-source-ai-definition) — オープンソース AI の定義(OSAID・現行 1.0)。オープンウェイトとの区別(アクセス日: 2026-08-18)
 - [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0) — 寛容型ライセンスの条文(特許条項・NOTICE)(アクセス日: 2026-07-10)

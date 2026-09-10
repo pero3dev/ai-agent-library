@@ -1,1 +1,3 @@
-anthropic==0.116.0
+anthropic==1.4.0
+# --mock が直接使う SDK と同じ HTTP クライアント。
+httpx2==2.12.0

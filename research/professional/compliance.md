@@ -1,6 +1,7 @@
 # AI 規制・ガバナンスの一次情報 調査メモ
 
-- **調査日**: 2026-07-07
+- **初回調査日**: 2026-07-07
+- **差分更新日**: 2026-09-10(EU・PPC・California・Colorado・FTC、Gemini API データ条項)。他の行の確認日は据え置きです
 - **調査目的**: `docs/06-security/compliance-and-governance.md`(コンプライアンスとガバナンス)の執筆材料。「何が存在し、いつ適用され、どの一次情報を見るべきか」のレベルで、EU / 日本 / 米国の規制、国際規格、主要 LLM ベンダーのデータ取扱いポリシーを公式一次情報のみで整理する
 - **根拠の方針**: EU 公式(eur-lex / digital-strategy.ec.europa.eu / consilium.europa.eu / europarl.europa.eu / ai-act-service-desk.ec.europa.eu)、日本の政府公式(内閣府 / e-Gov / 個人情報保護委員会 / 総務省 / 経産省)、米国公式(whitehouse.gov / 州議会公式)、nist.gov、各社公式ドキュメントのみを根拠とします。法律事務所・個人ブログの解説は使用していません
 - **確度表記**: 「公式明記」= 公式ページ・公式資料に明文あり / 「公式から推測」= 公式記述からの合理的推測 / 「未確認」= 今回確認できず
@@ -18,20 +19,21 @@
 | リスクベースの 4 分類: **(1) 許容できないリスク(禁止)**= 8 つの禁止プラクティス(有害な操作、ソーシャルスコアリング、法執行目的のリアルタイム遠隔生体識別等)、**(2) 高リスク**(雇用・教育・重要サービス等。リスク評価、データ品質、ログ、人間による監視等の義務)、**(3) 透明性リスク**(AI と対話していることの開示、生成コンテンツの識別可能化、ディープフェイクのラベリング)、**(4) 最小リスク**(義務なし。大半の AI がここ) | https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai | 2026-07-07 | 公式明記 |
 | これに加えて **GPAI(汎用 AI)モデル提供者の義務**が横断的に存在する(1.4 参照) | 同上 | 2026-07-07 | 公式明記 |
 
-### 1.2 適用タイムライン(2026-07 時点、omnibus 改正反映後)
+### 1.2 適用タイムライン(2026-09-10 確認、omnibus 改正反映後)
 
 | 適用開始日 | 対象 | 出典 URL | 確認日 | 確度 |
 | --- | --- | --- | --- | --- |
 | 2024-08-01 | 発効 | https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai | 2026-07-07 | 公式明記 |
-| 2025-02-02 | 禁止プラクティス(適用済み) | 同上 | 2026-07-07 | 公式明記 |
+| 2025-02-02 | 既存の禁止プラクティス(適用済み。2026 年追加類型は別行) | 同上 | 2026-07-07 | 公式明記 |
 | 2025-08-02 | ガバナンス規定・GPAI モデル義務(適用済み) | 同上 | 2026-07-07 | 公式明記 |
 | 2026-08-02 | 全般適用(透明性義務 = 生成コンテンツの開示等を含む) | 同上 | 2026-07-07 | 公式明記 |
 | **2027-12-02**(旧: 2026-08-02) | **高リスクシステム(Annex III の単体システム: 雇用・教育・生体認証・インフラ・移民等)の義務** — omnibus で 16 か月延期 | https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai / https://www.consilium.europa.eu/en/press/press-releases/2026/06/29/artificial-intelligence-council-gives-final-green-light-to-simplify-and-streamline-rules/ | 2026-07-07 | 公式明記 |
 | **2028-08-02**(旧: 2027-08-02) | **高リスクシステム(Annex I の規制対象製品に組み込まれるもの)の義務** | 同上(旧日付は規則 Art. 113 由来。条文の直接取得は不可) | 2026-07-07 | 公式明記(旧日付のみ公式から推測) |
+| **2026-12-02** | 新設の Article 5(1)(ba)/(bb)および(1a)/(1b)の禁止行為関連条項。既存生成 AI システムの Article 50(2)遵守期限(Article 111(4)、2026-08-02 より前に市場投入されたシステムに限定) | https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX%3A32026R1744 | 2026-09-10 | 公式条文確認 |
 
-### 1.3 Digital Omnibus(AI)の確定状況 — 提案ではなく成立済み
+### 1.3 Digital Omnibus(AI)の確定状況 — 公布・発効済み
 
-2025 年に報じられた「高リスク義務の延期・簡素化」は、2026-07 時点では**提案段階ではなく立法プロセスを完了(採択済み)**です。ただし官報(OJ)公布は調査日時点で未確認です。
+高リスク義務の延期・簡素化は **Regulation (EU) 2026/1744** として 2026-07-24 に EU 官報へ掲載され、7/27 に発効しました。2026-09-10 に EUR-Lex の条文と文書情報を確認しました。以下の採択過程は当時の記録です。
 
 | 事実 | 出典 URL | 確認日 | 確度 |
 | --- | --- | --- | --- |
@@ -39,7 +41,7 @@
 | 理事会・欧州議会・欧州委員会が**暫定合意(2026-05-07)** | https://www.consilium.europa.eu/en/press/press-releases/2026/05/07/artificial-intelligence-council-and-parliament-agree-to-simplify-and-streamline-rules/ | 2026-07-07 | 公式明記(consilium は直接取得 403。公式ページの検索経由で内容確認) |
 | 欧州議会本会議が可決(**2026-06-16**、賛成 423 / 反対 57 / 棄権 174) | https://www.europarl.europa.eu/legislative-train/package-digital-package/file-digital-omnibus-on-ai | 2026-07-07 | 公式明記 |
 | 理事会が最終承認(**2026-06-29**)。「Omnibus VII」簡素化パッケージの一部 | https://www.consilium.europa.eu/en/press/press-releases/2026/06/29/artificial-intelligence-council-gives-final-green-light-to-simplify-and-streamline-rules/ | 2026-07-07 | 公式明記(同上の注記) |
-| 官報公布の 3 日後に発効。**2026-07-07 時点で OJ 公布・規則番号は未確認** | 同上 | 2026-07-07 | 公式明記(発効規定)/ 公布は未確認 |
+| **Regulation (EU) 2026/1744、2026-07-24 公布・7/27 発効**。Article 111(4)の期限は 12/2、新設禁止行為の適用日も 12/2。高リスク期限は 2027-12-02 / 2028-08-02 | https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX%3A32026R1744 | 2026-09-10 | 公式条文・文書情報確認 |
 | 主な内容: 高リスク義務の延期(1.2 の表)、**国内 AI サンドボックス設置期限を 2027-08-02 に延期**、**Art. 50(2)(生成コンテンツのマーキング)の実装猶予を短縮し新期限 2026-12-02**、**Art. 5 に新禁止(非同意の性的・親密画像の生成、CSAM 生成)を追加** | 同上 | 2026-07-07 | 公式明記 |
 
 ### 1.4 provider(提供者)/ deployer(導入者)/ GPAI の義務構造
@@ -78,7 +80,8 @@
 | 個人情報保護委員会(PPC)は **2023-06-02 に「生成AIサービスの利用に関する注意喚起等」**を公表。OpenAI 宛の注意喚起と、一般利用者・事業者向け注意喚起の 2 本立て | https://www.ppc.go.jp/news/careful_information/230602_AI_utilize_alert/ | 2026-07-07 | 公式明記 |
 | 事業者向け要点: **個人データを含むプロンプトを入力し、それが応答生成以外の目的(モデル学習等)に利用される場合、本人同意なしでは個人情報保護法違反となるおそれ**。OpenAI 宛では要配慮個人情報の同意なし取得への対応を要請 | 同上(別添 PDF: https://www.ppc.go.jp/files/pdf/230602_alert_generative_AI_service.pdf ) | 2026-07-07 | 公式明記(要旨は公表 PDF で確認) |
 | いわゆる 3 年ごと見直しの「**制度改正方針**」を 2026-01-09 に公表 | https://www.ppc.go.jp/files/pdf/01-1_seidokaiseihousin.pdf | 2026-07-07 | 公式明記(表題確認) |
-| **「個人情報の保護に関する法律等の一部を改正する法律案」が 2026-04-07 に閣議決定され国会(第 221 回)に提出**。主な内容: 課徴金制度の新設(違法な取扱いで財産上の利益を得た場合)、生体情報の利用停止等請求の拡充、統計作成目的の第三者提供の同意不要化等。**成立状況は 2026-07-07 時点で未確認(審議中)** | https://www.ppc.go.jp/news/press/2026/260407/ | 2026-07-07 | 公式明記(法案内容)/ 成立状況は未確認 |
+| **個人情報の保護に関する法律等の一部を改正する法律(令和 8 年法律第 56 号)**は 2026-07-10 成立・7/17 公布。主な施行は公布から 2 年以内の政令指定日(未確定)、一部罰則は 2027-01-17 | https://www.ppc.go.jp/personalinfo/legal/r8kaiseihogohou/ / https://www.ppc.go.jp/files/pdf/260717_houritsu.pdf / https://laws.e-gov.go.jp/document?lawid=415AC0000000057_20270117_508AC0000000056 | 2026-09-10 | 公式確認。e-Gov は将来施行版として参照 |
+| **9/9 工程表**: 9 月中旬に子ども・顔特徴データ等、9 月下旬〜10 月上旬に統計作成・委託先・漏えい等、10 月中旬に課徴金等の基本的考え方を議論する予定。意見交換・ヒアリングと、その後の条文案・正式公募を分ける | https://www.ppc.go.jp/files/pdf/260909_kongonosusumekatanitsuite.pdf | 2026-09-10 | PDF 本文を取得。会合日程は調整中・公募開始日は未確定 |
 
 ### 2.3 AI 事業者ガイドライン(経産省・総務省)
 
@@ -101,6 +104,7 @@
 | **EO 14179「Removing Barriers to American Leadership in Artificial Intelligence」(2025-01-23)**: バイデン政権の EO 14110(2023-10-30、安全・セキュリティ重視)を撤回し、180 日以内の AI Action Plan 策定を指示 | https://www.whitehouse.gov/presidential-actions/2025/01/removing-barriers-to-american-leadership-in-artificial-intelligence/ | 2026-07-07 | 公式明記 |
 | **America's AI Action Plan(2025 年 7 月)**が whitehouse.gov に公表されている(政策文書であり法令ではない) | https://www.whitehouse.gov/wp-content/uploads/2025/07/Americas-AI-Action-Plan.pdf | 2026-07-07 | 公式明記(PDF の存在・所在を確認。本文のテキスト抽出は不可のため内容詳細は未確認) |
 | **EO 14365「Ensuring a National Policy Framework for Artificial Intelligence」(2025-12-11)**: 州 AI 法への対抗を明示。(1) 司法長官による AI Litigation Task Force 設置(30 日以内)、(2) 商務省による BEAD 補助金の条件付け(「過重な AI 法」を持つ州を不適格化)、(3) FTC への政策声明指示(90 日以内)、(4) 州法をプリエンプトする連邦立法の提言作成。子供の安全・インフラ・州政府調達等はカーブアウト | https://www.whitehouse.gov/presidential-actions/2025/12/eliminating-state-law-obstruction-of-national-artificial-intelligence-policy/ | 2026-07-07 | 公式明記 |
+| **FTC の AI accuracy 政策声明案**: 2026-07-01 公表、コメント期限は 7/31。提案段階であり、最終政策・州法の一律無効化の根拠としない | https://www.ftc.gov/news-events/news/press-releases/2026/07/ftc-seeks-public-comment-policy-statement-addressing-ai-accuracy / https://www.ftc.gov/legal-library/browse/policy-statements | 2026-09-10 | 公式提案の公表を確認。最終化は未確認 |
 
 ### 3.2 州法の代表例 (1): Colorado AI Act — 2 度の延期と縮小改正
 
@@ -110,6 +114,8 @@
 | **SB 25B-004(特別会期、2025-08-28 署名)**: 適用開始を **2026-06-30 に延期** | https://leg.colorado.gov/bills/sb25b-004 | 2026-07-07 | 公式明記 |
 | **SB 26-189(2026-05-14 署名)**: SB 24-205 の規定を**廃止・再制定**し、ADMT(automated decision-making technology)法へ再構成。リスク管理プログラム義務・年次影響評価義務を廃止し、消費者通知・不利益決定の説明(30 日以内)・人による再審査・記録保存(3 年)等の透明性中心の義務へ縮小。法律自体は 2026-08-12 発効、**実体的義務(developer の技術文書等)は 2027-01-01 から** | https://leg.colorado.gov/bills/sb26-189 | 2026-07-07 | 公式明記 |
 | 結論: **2026-07-07 時点で Colorado の AI 法の実体的義務はまだ適用されていない**(2027-01-01 から) | 同上 | 2026-07-07 | 公式明記 |
+| **Chatbot Safety Act(HB 26-1263)**は ADMT と別法。対話 AI の開示・未成年保護等の義務は 2027-01-01 から。署名日は公式資料間に差があるため断定しない | https://coag.gov/ai/ / https://leg.colorado.gov/bills/hb26-1263 | 2026-09-10 | 義務開始・対象を公式確認 |
+| **規則案**: ADMT / Chatbot Safety を扱う案を 8/11 に提出。9/23 までに改訂案共有予定、10/26 がコメント期限(審理継続時は延長)。xAI 関連訴訟の最終判断は未確認 | https://coag.gov/ai/ | 2026-09-10 | 公式工程・案の段階を確認 |
 
 ### 3.3 州法の代表例 (2): California — 複数の法律が段階施行
 
@@ -118,7 +124,7 @@
 | **SB 53「Transparency in Frontier Artificial Intelligence Act(TFAIA)」(2025-09-29 成立)**: 大規模フロンティア開発者に frontier AI framework(破滅的リスク管理方針)の公表、デプロイ前の透明性レポート、重大安全インシデントの州緊急サービス局への報告(15 日以内、切迫時 24 時間)、内部通報者保護を義務付け。罰金は違反あたり最大 100 万ドル。2026-01-01 から適用 | https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260SB53 | 2026-07-07 | 公式明記(成立日・義務内容)/ 適用開始日は公式から推測(カリフォルニア州法の通常発効ルール) |
 | **AB 2013(生成 AI 学習データの透明性、2024-09-28 成立)**: 生成 AI 開発者に学習データセットの概要(出所、データポイント数、著作権・個人情報の含有等)の Web 公表を義務付け。**2026-01-01 から適用(施行済み)** | https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240AB2013 | 2026-07-07 | 公式明記 |
 | **SB 942「California AI Transparency Act」(2024-09-19 成立)**: 大規模生成 AI プロバイダに無償の AI 検出ツール、manifest / latent disclosure(可視表示と埋め込みメタデータ)を義務付け。当初 2026-01-01 施行 | https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB942 | 2026-07-07 | 公式明記 |
-| **AB 853(2025-10-13 成立)が SB 942 を改正し、施行を 2026-08-02 に延期**。大規模オンラインプラットフォームは 2027-01-01、キャプチャデバイスメーカーは 2028-01-01 の段階適用。**つまり SB 942 系の義務は 2026-07-07 時点で未施行(2026-08-02 施行予定)** | https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260AB853 | 2026-07-07 | 公式明記 |
+| **California AI Transparency Act(AB 853 改正後)**: 基礎義務は 2026-08-02 に適用。BPC §22757.3.1 の大規模オンラインプラットフォームと §22757.3.2 の生成 AI ホスティングプラットフォームは 2027-01-01、§22757.3.3 の撮影機器メーカーは 2028-01-01。主体ごとに区別 | https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=BPC&division=8.&title=&part=&chapter=25.&article= | 2026-09-10 | 現行州法典で operative date を確認 |
 
 **小括**: 「州ごとのパッチワーク」は Colorado(延期と縮小を繰り返し 2027 年適用へ)と California(複数の法律が 2026 年から段階施行)の対比で裏取りできます。さらに連邦 EO 14365 が州法への訴訟・補助金条件付けを指示しており、**州法の適用見通し自体が流動的**である点が 2026-07 時点の最重要ポイントです。
 
@@ -162,26 +168,28 @@
 
 | 事実 | 出典 URL | 確認日 | 確度 |
 | --- | --- | --- | --- |
-| **Gemini API の無償枠(unpaid services)は、提出コンテンツと応答を「製品・サービスと機械学習技術の提供・改善・開発」に利用する**(人間のレビューあり)。機密情報を送信しないよう明記 | https://ai.google.dev/gemini-api/terms | 2026-07-07 | 公式明記 |
-| **Gemini API の有償(paid services)では、プロンプト・応答を製品改善に使わない**。ログは不正利用検出・法令遵守のための一時的なもの | 同上 | 2026-07-07 | 公式明記 |
+| **Gemini API / AI Studio の Unpaid Services**では提出コンテンツ・応答を製品・サービス・機械学習技術の改善等へ利用し、人間のレビューがある。ただし利用者が **EEA・スイス・英国**にいる場合、無償を含む全サービスに Paid Services のデータ条項が適用される | https://ai.google.dev/gemini-api/terms | 2026-09-10 | 公式本文確認 |
+| **Paid Services**ではプロンプト・応答を製品改善に使わない。Gemini API は有効な Cloud Billing アカウントに紐づくプロジェクト経由、AI Studio はそのプロジェクトへのアクセス権または Workspace enterprise アカウントが条件。実請求が 0 円でも該当し得る。不正利用防止・法令対応の一時保持とは区別 | https://ai.google.dev/gemini-api/terms | 2026-09-10 | 公式本文確認 |
 | Vertex AI(Google Cloud)のデータガバナンス文書(顧客データを許可なく学習利用しない旨で知られる)は、ページの動的レンダリングにより本文を確認できず | https://docs.cloud.google.com/vertex-ai/generative-ai/docs/data-governance | 2026-07-07 | 未確認(URL の存在のみ確認) |
 | Google Cloud の DPA(Cloud Data Processing Addendum) | https://cloud.google.com/terms/data-processing-addendum | 2026-07-07 | 未確認(今回未取得。参照先としてのみ記載) |
 
-**小括**: 3 社とも「**API / 商用経由の入力は既定で学習に使わない**」ことを公式に明記しています。ただし Google は**有償・無償で既定が反転**する(無償枠は学習利用あり)点が実務上の落とし穴です。ZDR は Anthropic・OpenAI とも「既定ではなく審査・承認制」であることも、ベンダー契約の論点として正確に書く必要があります。
+**小括**: 商用・API という呼称だけでは判定せず、利用者の地域・対象製品・課金プロジェクト・契約に対応するデータ条項を見る。Gemini API では EEA・スイス・英国の地域例外と Paid Services のアカウント条件を確認する。Anthropic / OpenAI の ZDR は別途適格性・承認・対象機能の確認が必要。
 
 ---
 
 ## 執筆時の注意(変わりやすい項目)
 
-1. **EU omnibus の官報公布**: 2026-06-29 に理事会採択済みだが、2026-07-07 時点で OJ 公布・改正規則番号は未確認。記事執筆時に公布状況と規則番号を確認すること(公布 3 日後に発効)。→ `TODO(要確認)` 候補
+1. **EU omnibus は 2026/1744 として公布・発効済み**。新設禁止類型・既存生成 AI の期限(12/2)と、高リスク義務の 2027 / 2028 年期限を別管理する。
 2. **2026-08-02 の透明性義務(Art. 50)適用開始**: 記事の公開時期によって「適用直前」か「適用済み」かの記述が変わる。生成コンテンツのマーキング(Art. 50(2))の実装猶予は 2026-12-02 まで
-3. **日本の個人情報保護法改正案**: 2026-04-07 閣議決定・国会提出済みで、成立すれば課徴金制度が導入される大きな変化。成立・施行時期は執筆時に PPC サイトで要確認
-4. **米国は二重に流動的**: (a) EO 14365 に基づく州法への訴訟・FTC 政策声明・連邦プリエンプション立法の帰趨、(b) Colorado は 2027-01-01 適用開始(再延期の可能性)、California SB 942 系は 2026-08-02 施行予定。州法の記述は「執筆時点のスナップショット」であることを記事中で明示するべき
+3. **日本の改正法は成立・公布済み**。PPC の基本的考え方の議論、ヒアリング、正式パブコメ、施行を別イベントとして追う。主な政令指定日は未確定。
+4. **米国は二重に流動的**: (a) EO 14365 に基づく州法への訴訟・FTC 政策声明・連邦プリエンプション立法の帰趨、(b) Colorado は 2027-01-01 適用開始(再延期の可能性)、California の基礎義務は 2026-08-02 適用済み、主体別の義務は 2027 / 2028 年。州法の記述は「執筆時点のスナップショット」であることを記事中で明示するべき
 5. **NIST AI RMF は改訂作業中**: 「AI RMF 1.0」とバージョンを明記し、改訂版(2.0 等)の公表を執筆時に確認すること
 6. **ベンダーポリシーの URL・内容は頻繁に変わる**: 今回も support.anthropic.com → privacy.claude.com、platform.openai.com → developers.openai.com への移転を確認。記事にはポリシーの内容を書き写しすぎず「既定 + 公式 URL」の紹介に留め、確認日を併記するのが安全
 7. **AI 事業者ガイドライン第 1.2 版の改訂詳細**(AI エージェント・フィジカル AI の扱い)は公式 PDF での一次確認が未了。引用する場合は本文 PDF を精読すること
 
-## 観測ログ(2026-08-18 定点観測)
+## 観測ログ(2026-08-18 定点観測、当時の記録)
+
+この節は履歴です。EUR-Lex 本文取得・正確な期限、PPC 法律番号、FTC 案の所在、Gemini API の地域例外は 2026-09-10 に上の該当節で更新済みです。以下の「未確認」は当時の取得状況を示します。
 
 docs は本観測の結果を反映済み(`last_updated: 2026-08-18`)。前節の懸念事項の帰結と新規事実:
 
@@ -193,3 +201,11 @@ docs は本観測の結果を反映済み(`last_updated: 2026-08-18`)。前節�
 6. **EO 14365 派生(FTC 政策声明・商務省の州法評価リスト)**: 一次情報で公表有無を確認できず(商務省リストは「期限 2026-03-11 超過も未公表」との二次情報のみ)→ docs に TODO 新設
 7. **NIST AI RMF は 1.0 が最新のまま**(改訂中と公式明記・プロファイルはコンセプトノート段階)。**AI 事業者ガイドラインも第 1.2 版のまま**(総務省の改版履歴で確認)
 8. **ベンダー 3 社(Anthropic / OpenAI / Google)の学習利用既定・保持・ZDR の記述は変更なし**(現行ページで再確認・docs のアクセス日を 2026-08-18 に更新)
+
+## 2026-09-10 の残る確認事項
+
+- PPC の主な施行日・政令・規則・ガイドラインの最終化
+- FTC 政策声明案の最終化、商務省 / NTIA の州法評価リスト、Colorado の規則最終化・訴訟の判断
+- 有償規格・業界基準の全文と個別案件への法的適用
+
+上の該当箇所で GOV03〜GOV07 と T21 の横断差分を反映しました。今回取得が不安定だった FTC / EUR-Lex は公式検索結果と公式の代替ページで補完し、PPC 9/9 PDF は HTTP 200 の本文を取得しました。

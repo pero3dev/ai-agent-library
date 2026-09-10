@@ -265,6 +265,10 @@ LLM の応答を生成と同時に逐次受信・表示する方式。Agent の�
 
 環境の生成的シミュレーション・行動結果の予測・エージェント訓練/評価インフラという 3 つの用法を持つモデル群の総称。「賢い個体そのもの」ではなく「賢い個体を作るための工場・練習場」として、学習・評価インフラの用法が先行して実用化しつつある。→ [世界モデルの概観](docs/01-concepts/world-models-overview.md)
 
+### 世界行動モデル(World Action Model / WAM)
+
+将来の映像とロボットの行動を共同生成するモデルの類型です。世界の予測と行動方策を結ぶ研究として、独立追試や対象の身体構成を確認します。→ [世界モデルの概観](docs/01-concepts/world-models-overview.md)
+
 ### セマンティックキャッシュ(Semantic Cache)
 
 入力の意味的な近さを使い、過去の応答を再利用する出力側キャッシュ。ヒット率は入力分布・しきい値・再利用条件に依存する。「類似 ≠ 同一」による誤ヒットの被害、権限・鮮度・主体の一致を評価して採否を決める。入力側のプロンプトキャッシュとは別物。→ [セマンティックキャッシュと応答再利用](docs/05-operations/semantic-caching.md)
@@ -360,6 +364,10 @@ Agent を経由して機微データが外部に出ること。間接プロン�
 ### パープレキシティ(Perplexity)
 
 言語モデルの予測の鋭さを表す指標で、交差エントロピー損失を指数に乗せたもの。「次のトークンで平均何択くらい迷っているか」の目安。トークナイザ・評価データに依存するため、異なる条件間で直接比較できない。→ [事前学習とスケーリング則](docs/11-llm-internals/pretraining-and-scaling-laws.md)
+
+### 非同期ツール呼び出し(Async Tool Calling)
+
+ツールの完了を待つ間にも Agent が別の処理を進め、後から呼び出し ID に対応した結果を受け取る方式です。キャンセルや遅延結果、再開後の承認をアプリ側で管理し、実行状態の耐久保存とは分けて設計します。→ [非同期・長時間実行 Agent](docs/02-architecture/async-and-durable-agents.md)
 
 ### 評価ハーネス(Evaluation Harness)
 
@@ -551,6 +559,10 @@ LLM を判断の中枢に置き、ツールを使いながら、目標達成ま�
 
 AI 活用の知見・標準を集約する専門組織。導入初期や専門人材が少ない段階で、知見を貯めて標準を作るのに向く。組織が成熟したら分散・プラットフォーム型へ移行し、CoE がボトルネックにならないようにする。→ [AI 時代のチームトポロジー](docs/09-business/ai-team-topologies.md)
 
+### configuration_update
+
+OpenAI Responses API で、対応モデルの会話中の推論設定を入力項目として変更する仕組みです。プロンプトの任意改変とは異なり、対象モデル・サービス種別・履歴圧縮などの制約があります。→ [OpenAI モデル特化プロンプティング](docs/03-implementation/openai-prompting.md)
+
 ### DPO(Direct Preference Optimization)
 
 報酬モデルの学習と強化学習の 2 段を、選好データから直接 1 段で最適化する選好調整の手法。「報酬モデルは方策に暗黙に含まれる」ことを使い、正規化定数を消去して選好から直接学ぶ。実装が軽い一方、明示的報酬モデルがないぶん細かい制御は RLHF に劣る。→ [アラインメントの理論](docs/11-llm-internals/alignment-theory.md)
@@ -587,6 +599,14 @@ AI 活用の知見・標準を集約する専門組織。導入初期や専門�
 
 LLM アプリの開発・評価・提供・監視を扱う運用。実験管理・多面評価・CI/CD 等は MLOps と共通し、プロンプト・検索文脈・ツール実行・トークン費用の管理を加える。外部 API 利用か自社学習かで、モデル学習・提供に対する責任範囲が変わる。→ [MLOps と LLMOps の統合](docs/05-operations/mlops-and-llmops.md)
 
+### MaaS(モデル提供サービス / Model as a Service)
+
+モデルの推論能力を外部へサービスとして提供する事業です。モデルライセンスの追加契約条件に登場する場合があり、事業範囲・収益の集計主体・例外は配布物ごとの条文で確認します。→ [主要 LLM の全体像](docs/03-implementation/llm-landscape.md)
+
+### Mandate(AP2)
+
+AP2 で購入内容や支払い権限を拘束する、署名付きの委任情報です。v0.2 の Checkout / Payment Mandate と open / closed の制約を照合し、初期版のデータ構造と混在させません。→ [先端応用の概観](docs/13-domain-agents/emerging-agent-domains.md)
+
 ### MCP(Model Context Protocol)
 
 ツールやデータソースを LLM アプリケーションに接続するための標準プロトコル。概要は [ツール使用](docs/01-concepts/tool-use.md)、接続の実務は [ツール接続標準(MCP とエコシステム)](docs/03-implementation/mcp-and-tool-protocols.md)
@@ -598,6 +618,10 @@ LLM アプリの開発・評価・提供・監視を扱う運用。実験管理�
 ### MoE(Mixture of Experts)
 
 推論のたびに一部のパラメータ(エキスパート)だけを起動するモデル構造。総パラメータ(メモリ要件)とアクティブパラメータ(速度・計算量)を分けて評価する必要がある。内部構造(ルーティング・負荷分散・専門化)は [MoE の内部構造](docs/11-llm-internals/mixture-of-experts-internals.md)、選定上の意味は [主要 LLM の全体像](docs/03-implementation/llm-landscape.md)
+
+### MRTR(複数往復要求 / Multi-round-trip Request)
+
+MCP でサーバーが処理に必要な入力を応答し、クライアントが回答と `request_state` を添えて再要求する方式です。処理の続きに必要な情報を往復させる仕組みで、単なる通信失敗時のリトライとは区別します。→ [MCP とツール連携の標準化](docs/03-implementation/mcp-and-tool-protocols.md)
 
 ### OCR(光学文字認識 / Optical Character Recognition)
 
@@ -641,7 +665,7 @@ LLM アプリの開発・評価・提供・監視を扱う運用。実験管理�
 
 ### VLA(Vision-Language-Action)モデル
 
-視覚・言語の基盤モデルをロボットの実演データで拡張し、視覚入力と言語指示から直接ロボットの行動を出力するモデル。2026 年時点のフィジカル AI の中核類型で、共通ベンチマークは未確立のため性能の横並び比較はできない。→ [フィジカル AI とロボティクスの概観](docs/01-concepts/physical-ai-overview.md)
+視覚・言語の基盤モデルをロボットの実演データで拡張し、視覚入力と言語指示から直接ロボットの行動を出力するモデル。LIBERO などの公開評価基盤で条件を揃えた比較は可能ですが、身体構成・データ・実機条件が異なる結果を、そのまま汎用能力の順位にはできません。→ [フィジカル AI とロボティクスの概観](docs/01-concepts/physical-ai-overview.md)
 
 ### VLM(視覚言語モデル / Vision-Language Model)
 

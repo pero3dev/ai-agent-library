@@ -3,7 +3,7 @@ title: "Claude Code"
 category: "coding-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-08-18"
+last_updated: "2026-09-10"
 tags: ["coding-agents", "mcp"]
 ---
 
@@ -27,7 +27,7 @@ Anthropic のコーディングエージェント Claude Code の提供形態・
 
 ## 本文
 
-> **最終確認日:** 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
+> **最終確認日:** self-hosted environments は 2026-09-10、その他は 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
 
 ### 概要
 
@@ -46,13 +46,15 @@ Claude Code は Anthropic が提供するコーディングエージェントで
 | CLI | `claude` コマンド。対話型 + 非対話(`-p`)実行 | ローカル |
 | IDE 拡張 | VS Code 拡張(Cursor にも導入可)・JetBrains プラグイン | ローカル |
 | デスクトップアプリ | セッション管理・diff レビュー用 GUI(macOS / Windows / Linux) | ローカル |
-| Web + iOS(Claude Code on the web) | ブラウザからセッション作成・監視 | Anthropic 管理 VM(セッションごとに使い捨て) |
+| Web + iOS(Claude Code on the web) | ブラウザからセッション作成・監視 | Anthropic 管理 VM、または自社実行基盤(public beta) |
 | Remote Control | ローカルで実行中のセッションをブラウザ・スマホから操作 | ローカル(操作のみリモート) |
 | CI 連携 | GitHub Actions・GitLab CI/CD、PR 自動レビュー、Slack 連携 | CI ランナー |
 | Agent SDK | Python / TypeScript ライブラリとして同じエージェントループを組み込み | 任意 |
 
 - 対応 OS は macOS / Windows(ネイティブ・WSL)/ 主要 Linux。2026-08 時点で Web 版は research preview 表記です
-- クラウド実行では全アウトバウンド通信がセキュリティプロキシを経由し、GitHub の実トークンはサンドボックス内に渡されません。セッション終了後に VM は破棄されます
+- Anthropic 管理のクラウド実行では全アウトバウンド通信がセキュリティプロキシを経由し、GitHub の実トークンはサンドボックス内に渡されません。セッション終了後に VM は破棄されます
+
+**自社実行基盤(self-hosted environments)** は Team / Enterprise 向けの public beta で、既定は off、runner ホストに CLI v2.1.224 以降が必要です。runner は Linux / macOS に対応し、Windows ネイティブでは使えません(Windows 上では Linux コンテナを利用)。開発者の操作端末とは別の条件です。Web・アプリ・CLI・Routines から開始した cloud session を自社の runner へ送れます。リポジトリや生成ファイルは自社ホストに置けますが、会話・ツール結果は推論のため Anthropic API へ送られ、セッション履歴・キューも Anthropic 側で管理されます。外向き HTTPS が必要で、推論のオンプレミス化ではありません。ZDR 組織、Claude Security、Code Review は対象外です。
 
 ### リポジトリ理解・編集・実行の仕組み
 
@@ -125,6 +127,8 @@ Claude Code は Anthropic が提供するコーディングエージェントで
 - [MCP とツール接続標準](../03-implementation/mcp-and-tool-protocols.md) — MCP 連携の仕組み
 
 ## 参考資料
+
+- [Self-hosted environments](https://code.claude.com/docs/en/self-hosted-environments) / [Quickstart](https://code.claude.com/docs/en/self-hosted-environments-quickstart) — public beta の対象・実行場所と推論通信の境界(アクセス日: 2026-09-10)
 
 - [Claude Code Docs(公式)](https://code.claude.com/docs/en/overview) — 機能・提供形態の一次情報(アクセス日: 2026-08-18)
 - [Permissions](https://code.claude.com/docs/en/permissions) — 権限ルールの仕様(アクセス日: 2026-07-05)

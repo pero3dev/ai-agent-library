@@ -8,6 +8,29 @@
 - Web アプリ: <https://app.devin.ai>
 - 記録様式: `確認した事実 | 出典 URL | 確認日 | 確度(公式明記 / 公式から推測 / 第三者)`
 
+## 2026-09-10 鮮度更新の反映
+
+対象記事の本文・比較・TODO に次の確認結果を反映しました。一次資料の文書確認であり、実サービスでの設定・実行の受入試験は行っていません。以下の旧日付の記録は調査履歴です。現行判断には本節と対応する docs を使います。
+
+### T01: Windsurfの現行契約と学習オプトアウト条件を更新
+
+現行契約は 2026-06-30 更新の Cognition Platform Terms です。旧 Windsurf 個人規約 URL から転送されます。§3.3.1 の有料 tier の opt-out(Teams は管理者のみ)、モデルプロバイダー ZDR、§3.3.3 の安全・不正・法的保持例外を本文・比較へ反映しました。旧「Chat を opt-out すると使えない」は現行条件から削除しました。重大変更は掲載 30 日後に既存契約へ適用する規定で、Free の opt-out や個別契約への適用は未確認です。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://cognition.com/legal/platform-terms-of-service) / [一次資料 2](https://docs.devin.ai/admin/security)
+
+### T26: Devinの監視対象にSWE-1.7を追加
+
+2026-07-08 の SWE-1.7 発表と現行 pricing 掲載を本文へ追加し、監視対象を更新しました。SWE-1.6 の提供終了は確認できておらず、世代追加と廃止を分けています。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://cognition.com/blog/swe-1-7) / [一次資料 2](https://devin.ai/pricing)
+
+### T27: Devin Enterpriseのprivate MCP接続条件を追加
+
+2026-08-21 に企業単位の MCP 配布と組織独自設定の override を確認しました。専用デプロイではプライベート MCP の OAuth / tool call が private tunnel 経由になり、Enterprise 管理者は private CA bundle を登録できます。Enterprise 全体の管理機能と dedicated deployment の接続条件を分けて追記しました。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://docs.devin.ai/release-notes/overview)
+
+
 ## 2026-08-18 定点観測での更新
 
 | 確認した事実 | 出典 URL | 確認日 | 確度 |
@@ -204,5 +227,5 @@
 ## 執筆時の注意・未確認事項まとめ
 
 - **未確認**: VM スペック、並列セッション数の上限、API レート制限の具体値、モノレポでのインデックス制約、秘密値のモデルに対するマスキング、セルフサーブ課金体系の改定時期、Devin Fusion の詳細(モデルの位置づけ)
-- **鮮度リスク大(定点観測候補)**: プラン名と価格(2026-06 の Windsurf 統合直後で変動余地大)、ACU とクォータ / クレジットの仕組み、製品名(Windsurf → Devin Desktop 改称直後。docs 内に旧名残存: `.codeium/windsurf` パス、`windsurf-*` ページ名)、Devin Fusion / SWE 1.6 などモデルライン、Windows VM サポートの提供範囲(現在は限定提供)、CLI の機能ギャップ(Knowledge / Playbooks / Secrets 未対応)
+- **鮮度リスク大(定点観測候補)**: プラン名と価格(2026-06 の Windsurf 統合直後で変動余地大)、ACU とクォータ / クレジットの仕組み、製品名(Windsurf → Devin Desktop 改称直後。docs 内に旧名残存: `.codeium/windsurf` パス、`windsurf-*` ページ名)、Devin Fusion / SWE-1.7 と SWE-1.6 の継続条件などモデルライン、Windows VM サポートの提供範囲(現在は限定提供)、CLI の機能ギャップ(Knowledge / Playbooks / Secrets 未対応)
 - **執筆方針メモ**: ① `devin.md` は Devin Cloud(自律型)を主軸に、Desktop / CLI / Review は「Devin ブランドの製品ファミリー」として整理し、IDE 詳細は `windsurf.md` と相互リンク ② 承認モデルは「コマンド単位の事前承認なし・委任 → 自律実行 → 事後レビュー + Enterprise Guardrails」として、Claude Code 等の都度承認型との対比で書くと分かりやすい ③ 学習利用の既定(有償セルフサーブでも既定オン・オプトアウト方式、Enterprise のみ既定オフ)は選定上の重要事実として明記する

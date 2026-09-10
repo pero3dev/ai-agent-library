@@ -7,12 +7,35 @@
 - **確度の凡例**: 公式明記 / 公式から推測
 - **補足**: developers.openai.com のドキュメントは URL 末尾に `.md` を付けると raw Markdown を取得できる(例: `/codex/pricing.md`)。定点観測に便利
 
+## 2026-09-10 鮮度更新の反映
+
+対象記事の本文・比較・TODO に次の確認結果を反映しました。一次資料の文書確認であり、実サービスでの設定・実行の受入試験は行っていません。以下の旧日付の記録は調査履歴です。現行判断には本節と対応する docs を使います。
+
+### T13: Codex subagentの委任条件を提供面ごとに訂正
+
+ローカル Codex は直接の依頼だけでなく、適用される AGENTS.md・skills の委任指示も起動根拠にします。Work は通常は明示依頼、利用資格のある Ultra は速度・品質に寄与する作業を能動委任します。旧「直接の明示指示のみ」を本文・資料で訂正しました。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://learn.chatgpt.com/docs/agent-configuration/subagents)
+
+### T14: Codexの5.4 mini退役を認証経路ごとに同期
+
+GPT-5.4 / 5.4 mini は ChatGPT sign-in の Codex で 2026-08-31 提供終了です。API key 認証の Codex と OpenAI API は対象外です。本体記事の区分を実践ガイドに同期し、退役予定という過去日表現を修正しました。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://learn.chatgpt.com/docs/models)
+
+### T15: Codex Fastの速度・creditとAPI Priority料金を分離
+
+Fast の速度 1.5 倍は GPT-5.6 / 5.5 / 5.4 の案内で、credit は 5.6 / 5.5 が 2.5 倍、5.4 が 2 倍です。Astra は利用可能な場合に 2.5 倍 credit ですが同じ速度倍率は未明記です。ChatGPT credit と API token pricing は別で、GPT-5.6 API Priority の 2 倍料金と混同しないよう訂正しました。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://learn.chatgpt.com/docs/agent-configuration/speed) / [一次資料 2](https://learn.chatgpt.com/docs/models)
+
+
 ## 2026-08-18 定点観測での更新
 
 | 確認した事実 | 出典 URL | 確認日 | 確度 |
 | --- | --- | --- | --- |
 | **公式 docs が learn.chatgpt.com/docs へ移転**(旧 developers.openai.com/codex 系 URL は 308 リダイレクトで生存)。本メモの旧 URL 出典はリダイレクトで到達可能。pricing の定点観測 URL は <https://learn.chatgpt.com/docs/pricing> に更新 | <https://learn.chatgpt.com/docs> | 2026-08-18 | 公式明記 |
-| **gpt-5.6 ファミリーのクレジットレート**(入力 / キャッシュ済み入力 / 出力): Sol 125 / 12.5 / 750、Terra 50 / 5 / 300、Luna 5 / 0.5 / 30。GPT-5.4 mini は 18.75 / 1.875 / 113(2026-08-31 に Codex から退役予定)。**キャッシュ済み入力 = 通常入力の 1/10 の関係は不変** | <https://learn.chatgpt.com/docs/pricing> | 2026-08-18 | 公式明記 |
+| **gpt-5.6 ファミリーのクレジットレート**(入力 / キャッシュ済み入力 / 出力): Sol 125 / 12.5 / 750、Terra 50 / 5 / 300、Luna 5 / 0.5 / 30。GPT-5.4 mini は 18.75 / 1.875 / 113(2026-08-31 に ChatGPT 認証の Codex で提供終了(API key は対象外、2026-09-10 追記))。**キャッシュ済み入力 = 通常入力の 1/10 の関係は不変** | <https://learn.chatgpt.com/docs/pricing> | 2026-08-18 | 公式明記 |
 | **Fast mode の消費倍率が明細化**: GPT-5.6 / 5.5 系 = 2.5 倍、GPT-5.4 = 2 倍(docs 本文の「2〜2.5 倍」のレンジ表記は維持可能) | <https://learn.chatgpt.com/docs/speed> | 2026-08-18 | 公式明記 |
 | 軽量モデルの公式案内は mini 系から **gpt-5.6-luna 等**へ移行(gpt-5.4-mini 退役に伴う) | <https://learn.chatgpt.com/docs/models> | 2026-08-18 | 公式明記 |
 | プラン別の 5 時間ウィンドウ + 週次の制限構造・超過クレジット制・Code Review 別枠の扱いに変更なし | <https://learn.chatgpt.com/docs/pricing> | 2026-08-18 | 公式明記 |
@@ -100,9 +123,9 @@ job_max_runtime_seconds = 1800  # ワーカーの既定タイムアウト
 
 - **カスタムエージェント**は独立 TOML ファイルで定義: `~/.codex/agents/`(個人)または `.codex/agents/`(プロジェクト)。必須フィールドは `name` / `description`(いつ使うかの案内)/ `developer_instructions`(中核指示)。任意で `model`、`model_reasoning_effort`、`sandbox_mode`、`nickname_candidates`、`[mcp_servers.<name>]`
 - **組み込みエージェント**は 3 種: `default`(汎用)/ `worker`(実装実行向け)/ `explorer`(読み取り中心のコード探索)
-- 起動は明示指示のみ: 「Codex only spawns a new agent when you explicitly ask it to do so」。例: 「Spawn one agent per point... wait for all of them」。`/agent` でアクティブなスレッドを切り替え
+- 委任は直接の依頼のほか AGENTS.md / skills の指示にも従う(2026-09-10 訂正、T13)。Work Ultra の能動委任とローカルの条件を区別する。`/agent` でアクティブなスレッドを切り替え
 - カスタムエージェントは**親のサンドボックスポリシーを継承**する
-- コスト警告(公式): 「Subagent workflows consume more tokens than comparable single-agent runs」。深い入れ子は「token usage, latency, and local resource consumption」を増やす → 軽量モデル(`gpt-5.4-mini`)をサブエージェントに割り当てるのが公式の想定(§2-3)
+- コスト警告(公式): 「Subagent workflows consume more tokens than comparable single-agent runs」。深い入れ子は「token usage, latency, and local resource consumption」を増やす → 軽量モデル(例: `gpt-5.6-luna`)をサブエージェントに割り当てるのが公式の想定(§2-3)
 
 ### 1-6. スキル
 

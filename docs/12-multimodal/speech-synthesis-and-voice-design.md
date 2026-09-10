@@ -3,7 +3,7 @@ title: "音声合成(TTS)と声の設計"
 category: "multimodal"
 level: "intermediate"
 status: "published"
-last_updated: "2026-07-08"
+last_updated: "2026-09-10"
 tags: ["text-to-speech", "voice-design", "voice-cloning"]
 ---
 
@@ -29,7 +29,7 @@ tags: ["text-to-speech", "voice-design", "voice-cloning"]
 
 音声合成は、対話エージェントの出力段だけのものではありません。**読み上げ(記事・ドキュメント)・ナレーション(教材・動画)・音声通知**など、非対話の用途が広くあります。本記事はこの**出力部品としての TTS**と、「声」というプロダクト資産の設計を扱います。音声対話のループ設計(ターンテイキング・割り込み・speech-to-speech とパイプラインの選択)は [音声エージェント(voice agents)](../03-implementation/voice-agents.md) が正本です。
 
-> **最終確認日: 2026-08-18。** 本記事で触れる TTS サービス・モデル名・日本語対応・音声クローンの条件は変化が速いため、代表例は「2026-08 時点」の一般類型として読み、採用時は各社公式ページで再確認してください(後述の TODO)。
+> **最終確認日: 2026-09-10。** 本記事で触れる TTS サービス・モデル名・日本語対応・音声クローンの条件は変化が速いため、代表例は「2026-08 時点」の一般類型として読み、採用時は各社公式ページで再確認してください(後述の TODO)。
 
 ### 選定軸
 
@@ -88,6 +88,17 @@ TTS も評価します。ただし音声の評価は、テキストと違う観�
 - **自然さ(不自然でないか)**: イントネーション・間・感情が用途に合うか。ナレーションでは特に重要です
 - **崩れやすいケースを含める**: 長文・固有名詞・数値・記号・外国語混じりなど、崩れやすいケースを評価に含めます([Agent 評価の基礎](../04-evaluation/agent-evaluation-basics.md)の考え方を音声出力に適用)。「短い定型文は綺麗だが、実際の原稿で崩れる」を見逃さないようにします
 
+### WebSocket はモデルとエンドポイントの組合せで選ぶ
+
+「製品が WebSocket に対応している」だけでは接続先を決められません。2026-09-10 確認の ElevenLabs には次の別経路があります。
+
+| 経路 | モデル・音声の指定 | 入力契約 |
+| --- | --- | --- |
+| /v1/text-to-speech/{voice_id}/stream-input | Flash / Multilingual v2 等。eleven_v3 は非対応 | URL で 1 音声を固定し、text を送ります |
+| /v1/text-to-dialogue/stream-input | eleven_v3 系 | 初回に voices を登録し、以後は inputs の要素ごとに text / voice_id を送ります |
+
+モデル名だけを v3 に変えて従来の TTS メッセージを送る移行はできません。対話側のターン境界、バッファ、割込み、セッション枠も確認し、音声品質と応答遅延を同じ条件で測ります。
+
 ## 実務での注意点
 
 ### アンチパターン
@@ -120,6 +131,8 @@ TTS も評価します。ただし音声の評価は、テキストと違う観�
 - [ディープフェイク・なりすましへの防御](../06-security/deepfake-and-impersonation-defense.md) — 音声クローンの悪用(外部からのなりすまし)への防御(本記事は自社利用の統制)
 
 ## 参考資料
+
+- [提供仕様・終了日程: elevenlabs.io](https://elevenlabs.io/docs/eleven-api/guides/how-to/websockets/tts-vs-ttd-websockets)(アクセス日: 2026-09-10)
 
 - [Text to speech(OpenAI)](https://developers.openai.com/api/docs/guides/text-to-speech) — TTS API とストリーミング・スタイル指示の例(アクセス日: 2026-08-18)
 - [Chirp 3: HD voices(Google Cloud Text-to-Speech)](https://docs.cloud.google.com/text-to-speech/docs/chirp3-hd) — ストリーミング TTS・SSML 対応の例(アクセス日: 2026-08-18)

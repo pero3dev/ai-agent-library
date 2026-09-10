@@ -3,7 +3,7 @@ title: "GitHub Copilot"
 category: "coding-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-08-18"
+last_updated: "2026-09-10"
 tags: ["coding-agents", "mcp"]
 ---
 
@@ -25,7 +25,7 @@ GitHub Copilot の多層的な機能群(補完 / Chat / エージェントモー
 
 ## 本文
 
-> **最終確認日:** 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
+> **最終確認日:** content exclusion、PR 承認、モデル廃止予定、企業管理 sandbox は 2026-09-10、その他は 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
 
 ### 概要
 
@@ -47,12 +47,14 @@ GitHub Copilot は、コード補完から始まり、2026 年時点では GitHu
 | Copilot Chat | IDE / GitHub.com / Mobile | 質問 | ask / edit / agent のモードを持つ |
 | エージェントモード | IDE 内(同期・対話的) | チャットでモード選択 | 編集は Keep / Undo、コマンドは承認制 |
 | **Copilot cloud agent** | GitHub Actions 上の使い捨て環境(非同期) | Issue 割当・`@copilot`・外部連携・REST API | `copilot/` ブランチ + PR。1 セッション最大 59 分 |
-| Copilot code review | GitHub.com(+ 主要 IDE) | レビュアー指定 / 自動レビュー設定 | 依存管理ファイル・ログ・SVG は対象外 |
+| Copilot code review | GitHub.com(+ 主要 IDE) | レビュアー指定 / 自動レビュー設定 | PR 承認は管理者 opt-in の public preview |
 | Copilot CLI | ローカルターミナル | `copilot` コマンド | エージェント型 CLI。GitHub MCP server 内蔵 |
 
 - 対応 IDE は VS Code / Visual Studio / JetBrains / Xcode / Eclipse など広範です(機能ごとに対応状況が異なります)
 - cloud agent の起動は Issue 割当・PR メンションに加え、Jira / Linear / Slack / Teams / Azure Boards 連携、スケジュール起動、REST API に対応します
 - ローカル / クラウドのサンドボックスが public preview で追加されています(2026-06)
+
+2026-09-01 の public preview では、レビュー概要の approval assessment(承認可能性の評価)に加え、管理者が有効化すると Copilot 自身の PR 承認を required approvals に算入できます。承認機能は既定 off で、企業・組織・リポジトリの設定と対象パスで範囲を制御し、新しい commit が push されると承認は失効します。assessment だけでは必要承認数に算入されません。人の承認を必須にするかは組織の運用方針として別に定めます。
 
 ### リポジトリ理解・編集・実行の仕組み
 
@@ -69,9 +71,11 @@ GitHub Copilot は、コード補完から始まり、2026 年時点では GitHu
 
 ### 権限管理とセキュリティ
 
+- **企業管理の操作権限**: 2026-09-09 に Business / Enterprise 向けの enterprise managed permissions が app・CLI・Agent Host を使う VS Code セッションで GA になりました。シェル、ファイル読み取り・編集、ネットワークドメインを拒否 / 人の承認 / 承認なしに分類し、利用者・ワークスペース設定、自動承認や保存済み承認では管理者の制限を緩められません
+- **JetBrains**: 2026-09-08 に enterprise-managed sandbox が public preview で公開されました。企業管理者のポリシーが利用者の sandbox 設定を上書きします。JetBrains 向けの提供であり、全 IDE での GA を意味しません
 - **CLI**: 実行前承認が既定で、`--allow-tool` / `--deny-tool` による許可・拒否リスト、計画を先に出す plan モードがあります
 - **cloud agent の権限境界**は多層です: push は `copilot/` ブランチのみ、**依頼者は Copilot の PR を自分で承認できない**(レビュー統制の維持)、ブランチ保護の適用、ワークフロー実行の人手ゲート、**ファイアウォールによるインターネットアクセス制限**(組織で強制可能)、生成コードの CodeQL・secret scanning・依存関係分析による自動チェック
-- **コンテンツ除外(content exclusion)の重要な注意**: Business / Enterprise で設定できる除外パスは補完と Chat では尊重されますが、**IDE の Edit・Agent モードは 2026-08 時点でも未対応**と公式に明記されています。cloud agent が除外を考慮しない旨の従来の公式記述は 2026-08 の定点観測では再確認できませんでした(「TODO・未確認事項」参照。効かない前提で扱うのが安全です)。いずれにせよ「除外設定があるから安全」とは言えません
+- **コンテンツ除外(content exclusion)は提供面ごとに異なります**: Business / Enterprise の Copilot app と CLI は 2026-09-02 に GA となり、企業・組織・リポジトリの除外パスを尊重します。一方、IDE の Edit / Agent モードは未対応です。Copilot app と cloud agent は別の提供面で、cloud agent への適用は今回も未確認です。補完・Chat・app・CLI の対応を全エージェントへ一般化しないようにします
 - **データ学習の既定**: Free / Pro / Pro+ / Max は既定で学習利用(オプトアウト可)、Business / Enterprise は契約で禁止。学習データは Microsoft を含むグループ会社と共有されえますが、サードパーティ AI プロバイダーには共有されません
 - 公開コード一致フィルター(候補を公開コードと突合して非表示にする Block 設定)がありますが、**cloud agent は Block 設定でも一致コードを生成しうる**(ログに一致情報を表示)点に注意が必要です
 
@@ -88,6 +92,8 @@ GitHub Copilot は、コード補完から始まり、2026 年時点では GitHu
 - 課金は「シート + AI Credits(トークン量 × 各モデルのレートで消費)」の構造です。補完・Next edit suggestions は Credits を消費しません。自動 code review の消費は **PR 作成者に帰属**します。超過時は管理者の予算制御に従います(旧制度のような低性能モデルへの自動フォールバックは廃止)
 - 組織管理は Policies タブ(機能可用性・preview 機能・MCP・サードパーティエージェント)と Models タブで行い、**エンタープライズのポリシーは組織側で上書きできません**。監査ログ・利用メトリクスも GitHub 標準の仕組みに統合されています
 
+**モデル移行期限**: 2026-09-03 の告知では、Copilot 上の Gemini 3.5 / 3.6 Flash、Kimi K2.7 Code、Claude Opus 4.7 は **2026-10-02 に廃止予定**です。案内された移行先はそれぞれ Gemini 3.8 Flash、Kimi K3、Claude Opus 5 です。保存したモデル選択・組織 allowlist・自動化を期限前に点検します。これは Copilot の提供終了で、各社 API 自体の退役日ではありません。
+
 ### 代表的なユースケースと向き不向き
 
 **公式が想定する用途**: cloud agent はリポジトリ調査・実装計画・バグ修正・機能実装・テストカバレッジ改善・技術的負債対応、code review は人のレビュー前の多角的チェック(公式自身が「すべての問題を見つける保証はない。フィードバックは必ず検証を」と明記)、CLI はターミナルからの GitHub 操作・コード作業です。
@@ -95,14 +101,14 @@ GitHub Copilot は、コード補完から始まり、2026 年時点では GitHu
 **向き不向き(特性として)**:
 
 - 向く: GitHub 中心の開発フロー(Issue → PR → レビューにエージェントが自然に組み込まれる)、既存の GitHub 組織管理(シート・監査・ポリシー)に統合したい組織、補完からエージェントまで 1 契約で段階導入したいチーム
-- 注意が要る: GitHub 以外の SCM では価値が大きく下がります。コンテンツ除外がエージェント系機能で効かない点は機密領域があるリポジトリで要検討です。個人プラン(Free / Pro / Pro+ / Max)の学習利用の既定は 2026-04 に変わったため、個人利用者は設定確認が必要です
+- 注意が要る: GitHub 以外の SCM では価値が大きく下がります。コンテンツ除外は app / CLI に対応し、IDE Edit / Agent は未対応、cloud agent は未確認という違いを機密管理へ反映する必要があります。個人プラン(Free / Pro / Pro+ / Max)の学習利用の既定は 2026-04 に変わったため、個人利用者は設定確認が必要です
 
 ## 実務での注意点
 
 ### アンチパターン
 
 - **旧名称・旧制度の知識で設計する** — coding agent(現 cloud agent)・プレミアムリクエスト(現 AI Credits)・学習ポリシーはすべて 2026 年上半期に変わりました。→ 直近の公式 Changelog を確認してから導入設計します
-- **コンテンツ除外を機密保護として過信する** — Edit / Agent モードには効かず、cloud agent の対応状況も 2026-08 時点で公式記述を確認できていません(効かない前提が安全です)。→ 機密ファイルはリポジトリ分離・権限設計([権限とセキュリティ](coding-agent-security.md))で守ります
+- **コンテンツ除外を機密保護として過信する** — IDE の Edit / Agent モードには効かず、cloud agent の対応状況も 2026-09-10 時点で確認できていません(効かない前提が安全です)。→ 機密ファイルはリポジトリ分離・権限設計([権限とセキュリティ](coding-agent-security.md))で守ります
 - **cloud agent のワークフロー自動実行を安易に有効化する** — 人手ゲートは生成コードが CI 権限で走ることへの防御層です。→ 無効化する場合は CI トークンのスコープと保護ルールを先に確認します
 
 ### チェックリスト
@@ -123,6 +129,13 @@ GitHub Copilot は、コード補完から始まり、2026 年時点では GitHu
 
 ## 参考資料
 
+- [Enterprise managed permissions](https://github.blog/changelog/2026-09-09-enterprise-managed-permissions-for-github-copilot-agent-operations/) — app・CLI・VS Code Agent Host の GA(アクセス日: 2026-09-10)
+
+- [Content exclusion の app / CLI GA](https://github.blog/changelog/2026-09-02-content-exclusions-generally-available-in-copilot-app-and-cli/) / [機能別の除外範囲](https://docs.github.com/en/copilot/concepts/context/content-exclusion)(アクセス日: 2026-09-10)
+- [PR approval public preview](https://github.blog/changelog/2026-09-01-copilot-code-review-can-now-approve-pull-requests/) — 必要承認への算入と管理者設定(アクセス日: 2026-09-10)
+- [2026-10-02 のモデル廃止予定](https://github.blog/changelog/2026-09-03-upcoming-deprecation-of-selected-github-copilot-models/)(アクセス日: 2026-09-10)
+- [JetBrains の企業管理 sandbox](https://github.blog/changelog/2026-09-08-enterprise-managed-sandbox-in-copilot-for-jetbrains/) — public preview(アクセス日: 2026-09-10)
+
 - [GitHub Copilot features](https://docs.github.com/en/copilot/get-started/features) — 機能群の一次情報(アクセス日: 2026-07-05)
 - [About Copilot cloud agent](https://docs.github.com/en/copilot/concepts/agents/coding-agent/about-coding-agent) — 非同期エージェントの仕様と制約(アクセス日: 2026-08-18)
 - [Risks and mitigations](https://docs.github.com/en/copilot/concepts/agents/cloud-agent/risks-and-mitigations) — cloud agent のセキュリティ設計(アクセス日: 2026-07-05)
@@ -137,8 +150,10 @@ GitHub Copilot は、コード補完から始まり、2026 年時点では GitHu
 
 ### 変わりやすい項目(定点観測)
 
+> **TODO(要確認):** 2026-10-02 の Copilot モデル廃止の実施、PR 承認と JetBrains の企業管理 sandbox の preview 後の状態を公式 Changelog で確認する。提供面・管理者設定と合わせて採用時に点検する(最終確認: 2026-09)
+
 > **TODO(要確認):** AI Credits のプラン別付与量と料金を公式料金ページで確認する(2026-08-18 確認: 付与量は 2026-07 の記録値から変動なし。変動が速いため定点観測は継続。最終確認: 2026-08)
 
 > **TODO(要確認):** preview 段階の機能群(サンドボックス・Copilot Memory・サードパーティエージェント・Agentic Workflows)のステータス変化を Changelog で確認する(2026-08-18 確認: いずれも public preview 継続。Copilot Memory は JetBrains 対応が追加〔2026-08-11〕。Spark は 2026-08-04 告知で非推奨化・2026-08-31 アクセス終了のため監視対象から除外。最終確認: 2026-08)
 
-> **TODO(要確認):** コンテンツ除外の Edit / Agent モード対応状況の変化(2026-08-18 確認: 未対応のまま)と、「cloud agent は除外を考慮しない」とする従来記述の現行の扱い(2026-08-18 の定点観測では再確認できず)を content exclusion 関連の公式ドキュメントで確認する(最終確認: 2026-08)
+> **TODO(要確認):** content exclusion の IDE Edit / Agent 対応と cloud agent の適用範囲を公式ドキュメントで確認する。app / CLI の GA は反映済み。IDE は未対応、cloud agent は未確認(最終確認: 2026-09)

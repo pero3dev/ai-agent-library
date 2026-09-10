@@ -9,6 +9,35 @@
 
 > **注**: 本メモは docs/ 規約(テンプレート・固定 H2)の対象外です(CODING-AGENTS-PLAN.md §13)。
 
+## 2026-09-10 鮮度更新の反映
+
+対象記事の本文・比較・TODO に次の確認結果を反映しました。一次資料の文書確認であり、実サービスでの設定・実行の受入試験は行っていません。以下の旧日付の記録は調査履歴です。現行判断には本節と対応する docs を使います。
+
+### T03: Claude Codeのmax-turns既定10という誤記を訂正
+
+CLI の --max-turns は既定で無制限、Action の claude_args は既定空です。旧記録の「既定 10」は誤りとして訂正しました。10 は明示設定の例であり、CI は反復上限・timeout・concurrency を指定します。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://code.claude.com/docs/en/cli-reference) / [一次資料 2](https://code.claude.com/docs/en/github-actions) / [一次資料 3](https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md)
+
+### T04: Claude Codeのeffort変更時にキャッシュを維持できる条件を反映
+
+Claude Code v2.1.260 以降の Fable 5.1 を API key / Claude subscription で使う場合、effort 変更でもキャッシュを維持します。Bedrock・Google Cloud Agent Platform・Claude apps gateway、実験 beta 無効化・HIPAA 構成は対象外です。モデル変更は別キャッシュになるため、effort 変更と分けて本文を訂正しました。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://code.claude.com/docs/en/prompt-caching)
+
+### T05: Claude Codeの主会話とsubagentのキャッシュTTL設定を追加
+
+v2.1.242 以降の主会話 promptCacheTtl / CLAUDE_CODE_PROMPT_CACHE_TTL と、その他の subagentPromptCacheTtl / CLAUDE_CODE_SUBAGENT_PROMPT_CACHE_TTL を反映しました。値は 5m / 1h。強制 5 分 → 対象 env → 対象 setting → subagent experimental cacheTtl → 旧 ENABLE_PROMPT_CACHING_1H → 既定の順です。experimental は v2.1.248 以降、usage credits 中の 1h は無視されます。旧変数は廃止ではなく、subagent の 5 分も変更不能な固定値ではありません。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://code.claude.com/docs/en/prompt-caching)
+
+### T06: Claude Codeのself-hosted environments public betaを追加
+
+Team / Enterprise 向け self-hosted environments は public beta、既定 off、runner ホストに CLI v2.1.224 以降が必要です。runner は Linux / macOS、Windows は Linux container を使います。Web・アプリ・CLI・Routines の cloud session を自社 runner へ送れますが、推論・会話履歴・キューは Anthropic 側で、外向き HTTPS が必要です。ZDR 組織、Security、Code Review は対象外で、推論オンプレミス化とは区別しました。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://code.claude.com/docs/en/self-hosted-environments) / [Quickstart](https://code.claude.com/docs/en/self-hosted-environments-quickstart)
+
+
 ## 2026-08-18 定点観測での更新
 
 | 確認した事実 | 出典 URL | 確認日 | 確度 |
@@ -16,7 +45,7 @@
 | **Agent teams のコスト倍率は「teammates が plan モードで動く場合に約 7 倍」という条件付き表現**であることを再確認(§2.2 ⑩ の記録どおり。docs 本文は無条件の「約 7 倍」だったため条件付き表現に修正済み) | https://code.claude.com/docs/en/costs#agent-team-token-costs | 2026-08-18 | 公式明記 |
 | キャッシュ読み取り単価(標準入力の約 10%)に変更なし。TTL の構造(サブスクリプションは 1 時間 TTL 自動適用・API キー等は既定 5 分・**usage credits 消費中は 5 分に自動降格、`ENABLE_PROMPT_CACHING_1H=1` で 1 時間を維持可**)も §2.4 の記録から変更なし。docs 本文のキャッシュ節に TTL の注記を追加済み | https://code.claude.com/docs/en/prompt-caching#cache-lifetime | 2026-08-18 | 公式明記 |
 | Routines は research preview 継続、GitLab CI/CD は beta 継続。**auto モードは research preview を終了し Pro / Max / Team の built-in starting mode になった**(詳細は [claude-code.md](claude-code.md) の 2026-08-18 更新表) | https://code.claude.com/docs/en/routines, https://code.claude.com/docs/en/gitlab-ci-cd, https://code.claude.com/docs/en/permission-modes | 2026-08-18 | 公式明記 |
-| GitHub Actions の `--max-turns` 既定 10 は今回の観測では再確認できず(継続監視) | — | 2026-08-18 | 未確認 |
+| 旧「--max-turns 既定 10」は誤記(2026-09-10 に CLI の既定無制限と訂正、T03 参照) | — | 2026-08-18 | 未確認 |
 
 ---
 
@@ -209,12 +238,12 @@
 | --- | --- | --- | --- |
 | キャッシュは**プレフィックス完全一致**。リクエストは「システムプロンプト(ツール定義・output style 含む)→ プロジェクトコンテキスト(CLAUDE.md・auto memory・rules)→ 会話」の順に、変化しにくいものが先頭になるよう構成される。プレフィックス途中の変化は**それ以降すべて**を再計算させる(ファイル単位・セグメント単位のキャッシュはない) | https://code.claude.com/docs/en/prompt-caching#how-the-cache-is-organized | 2026-07-06 | 公式明記 |
 | 料金影響: `cache_read_input_tokens` は**標準入力単価の約 10%** で課金。`cache_creation_input_tokens` はキャッシュ書込レート | https://code.claude.com/docs/en/prompt-caching#check-cache-performance | 2026-07-06 | 公式明記 |
-| **キャッシュを無効化するアクション(公式リスト全 8 種)**: ① `/model` でのモデル切替(モデルごとに別キャッシュ。会話全履歴をキャッシュなしで再読) ② `/effort` 変更(effort もキャッシュキー。会話開始後は確認ダイアログが出る) ③ fast mode オン(初回のみ。ヘッダがキャッシュキーに入る) ④ MCP サーバーの接続/切断(**deferred ツール(既定)なら無害**。プレフィックスにロードされる場合のみ無効化。stdio プロセス終了・HTTP セッション失効・自動再接続でも起こり得る) ⑤ プラグインの有効/無効(**MCP サーバーを含むプラグインのみ**。skills・agents・hooks 等は追記のみでキャッシュ安全) ⑥ ツール名全体の deny ルール追加(`Bash` 等。組み込みツール定義がシステムプロンプト層のため。`Bash(rm *)` のようなスコープ付き deny は無害) ⑦ コンパクション(会話層のみ。設計上の意図的無効化) ⑧ Claude Code のアップグレード(システムプロンプト・ツール定義が変わる) | https://code.claude.com/docs/en/prompt-caching#actions-that-invalidate-the-cache | 2026-07-06 | 公式明記 |
+| **キャッシュを無効化するアクション(公式リスト全 8 種)**: ① `/model` でのモデル切替(モデルごとに別キャッシュ。会話全履歴をキャッシュなしで再読) ② `/effort` 変更(多くの構成で失効。Fable 5.1 の維持条件は T04 参照) ③ fast mode オン(初回のみ。ヘッダがキャッシュキーに入る) ④ MCP サーバーの接続/切断(**deferred ツール(既定)なら無害**。プレフィックスにロードされる場合のみ無効化。stdio プロセス終了・HTTP セッション失効・自動再接続でも起こり得る) ⑤ プラグインの有効/無効(**MCP サーバーを含むプラグインのみ**。skills・agents・hooks 等は追記のみでキャッシュ安全) ⑥ ツール名全体の deny ルール追加(`Bash` 等。組み込みツール定義がシステムプロンプト層のため。`Bash(rm *)` のようなスコープ付き deny は無害) ⑦ コンパクション(会話層のみ。設計上の意図的無効化) ⑧ Claude Code のアップグレード(システムプロンプト・ツール定義が変わる) | https://code.claude.com/docs/en/prompt-caching#actions-that-invalidate-the-cache | 2026-07-06 | 公式明記 |
 | 派生的な注意: `opusplan` 設定では **plan モードの出入りごとにモデルスイッチ = キャッシュ無効化**。Fable 5 の automatic model fallback もモデルスイッチ。**アップグレード後に長いセッションを resume すると全履歴をキャッシュなしで再処理**(「最も高価なリクエストになり得る」と明記)。`DISABLE_AUTOUPDATER=1` で適用タイミングを制御可 | https://code.claude.com/docs/en/prompt-caching#switching-models, #upgrading-claude-code | 2026-07-06 | 公式明記 |
 | **キャッシュを保つアクション**: リポジトリのファイル編集(読みは追記)/ CLAUDE.md の途中編集(ただし**反映もされない**。次の `/clear`・`/compact`・再起動でロード)/ output style 変更(同上)/ 権限モード切替(opusplan の plan だけ例外)/ スキル・コマンド起動(メッセージとして追記)/ `/recap` / `/rewind` / サブエージェント起動(親のプレフィックスは無傷) | https://code.claude.com/docs/en/prompt-caching#actions-that-keep-the-cache | 2026-07-06 | 公式明記 |
 | **TTL**: 5 分と 1 時間の 2 種。**サブスクリプションでは自動的に 1 時間 TTL**(定額のため追加負担なし。ただし usage credits 消費中は 5 分に自動ダウン)。API キー・Bedrock 等では既定 5 分、`ENABLE_PROMPT_CACHING_1H=1` でオプトイン(書込単価は高くなる)。`FORCE_PROMPT_CACHING_5M=1` で強制 5 分。キャッシュヒットのたびにタイマーはリセット | https://code.claude.com/docs/en/prompt-caching#cache-lifetime | 2026-07-06 | 公式明記 |
 | キャッシュのスコープ: 実質「1 マシン× 1 ディレクトリ」(システムプロンプトに作業ディレクトリ・OS・シェル・auto memory パスが埋め込まれるため)。**同一リポジトリでも worktree ごとに別キャッシュ**。同ディレクトリの並列セッションは共有。逐次セッションは起動時 git status が一致する場合のみ共有 | https://code.claude.com/docs/en/prompt-caching#cache-scope | 2026-07-06 | 公式明記 |
-| サブエージェントは独自の会話・独自キャッシュ(初回はヒットなし)。**サブエージェントの TTL はサブスクでも 5 分固定**。fork は親キャッシュを初回から読む(§1.2) | https://code.claude.com/docs/en/prompt-caching#subagents-and-the-cache | 2026-07-06 | 公式明記 |
+| サブエージェントは独自の会話・独自キャッシュ(初回はヒットなし)。**サブエージェントの TTL はサブスクでも既定 5 分、変更可(T05)**。fork は親キャッシュを初回から読む(§1.2) | https://code.claude.com/docs/en/prompt-caching#subagents-and-the-cache | 2026-07-06 | 公式明記 |
 | 計測: statusline の `current_usage`(`cache_creation_input_tokens` / `cache_read_input_tokens`)。read:creation 比が高ければ良好。creation が毎ターン高いままなら何かがプレフィックスを変えている。組織横断は OTel(ユーザー・セッション別のキャッシュトークン) | https://code.claude.com/docs/en/prompt-caching#check-cache-performance | 2026-07-06 | 公式明記 |
 | 公式 Tip(総括): 「**モデルと effort はセッション冒頭に決める。`/compact` はタスク間の自然な区切りに取っておく。タスク中の変更が少ないほどキャッシュヒット率は上がる**」 | https://code.claude.com/docs/en/prompt-caching#how-the-cache-is-organized | 2026-07-06 | 公式明記 |
 | 無効化オプション: `DISABLE_PROMPT_CACHING`(全モデル)/ `DISABLE_PROMPT_CACHING_HAIKU` / `_SONNET` / `_OPUS` / `_FABLE`(デバッグ用。通常は有効のまま推奨) | https://code.claude.com/docs/en/prompt-caching#disable-prompt-caching | 2026-07-06 | 公式明記 |
@@ -288,7 +317,7 @@
 | v1 で GA(beta から破壊的変更: `mode` 廃止=自動判定、`direct_prompt`→`prompt`、`max_turns`・`model`・`allowed_tools` 等は `claude_args` の CLI フラグへ移行) | https://code.claude.com/docs/en/github-actions#upgrading-from-beta | 2026-07-06 | 公式明記 |
 | 入力パラメータ: `prompt`(平文またはスキル起動。省略時はコメントの trigger phrase に反応)/ `claude_args`(任意の CLI 引数パススルー)/ `plugin_marketplaces` / `plugins` / `anthropic_api_key` / `github_token` / `trigger_phrase`(既定 `@claude`)/ `use_bedrock` / `use_vertex` | https://code.claude.com/docs/en/github-actions#action-parameters | 2026-07-06 | 公式明記 |
 | モード自動判定: issue/PR コメントイベント+prompt なし → `@claude` メンション応答(interactive)。`prompt` 指定 → 即時実行(automation。cron や PR オープン等の任意イベントで駆動) | https://code.claude.com/docs/en/github-actions | 2026-07-06 | 公式明記 |
-| `claude_args` の主要フラグ: **`--max-turns`(既定 10)**・`--model`・`--allowedTools`・`--mcp-config`・`--append-system-prompt`・`--debug` | https://code.claude.com/docs/en/github-actions#pass-cli-arguments | 2026-07-06 | 公式明記 |
+| `claude_args` の主要フラグ: **`--max-turns`(未指定は無制限。2026-09-10 訂正)**・`--model`・`--allowedTools`・`--mcp-config`・`--append-system-prompt`・`--debug` | https://code.claude.com/docs/en/github-actions#pass-cli-arguments | 2026-07-06 | 公式明記 |
 | **コスト構造は 2 層**: ① GitHub Actions 分(GitHub ホストランナーの分数消費)② API トークン。**公式の最適化 4 項目**: 具体的な `@claude` 指示で無駄な API 呼び出しを減らす / `--max-turns` で反復上限 / **workflow レベルのタイムアウトで暴走ジョブ防止** / GitHub の concurrency 制御で並列実行を制限 | https://code.claude.com/docs/en/github-actions#ci-costs | 2026-07-06 | 公式明記 |
 | `prompt` にスキル起動を渡せる: リポジトリ内 `.claude/skills/` のスキルは `actions/checkout` 後に `/skill-name`、プラグインのスキルは `plugin_marketplaces` + `plugins` で導入して `/plugin-name:skill-name`(PR ごとの `/code-review` 実行例あり) | https://code.claude.com/docs/en/github-actions#using-skills | 2026-07-06 | 公式明記 |
 | セキュリティ: API キーは必ず GitHub Secrets(`ANTHROPIC_API_KEY`)。Bedrock / Agent Platform では **OIDC / Workload Identity Federation で静的キーレス認証**を推奨、カスタム GitHub App 推奨。App 権限は Contents / Issues / Pull requests の Read & Write | https://code.claude.com/docs/en/github-actions#security-considerations, #using-with-amazon-bedrock-and-google-cloud | 2026-07-06 | 公式明記 |
@@ -331,10 +360,10 @@
 2. **プロンプトキャッシュは「何をすると高くなるか」の裏返しで書くと実務的**: 無効化 8 アクション(§2.4)のうち日常で踏みやすいのは「モデル/effort のセッション途中変更」「opusplan での plan トグル」「アップグレード直後の長セッション resume」。数値(10% 課金、TTL 5 分/1 時間)は流動的なので確認日併記。
 3. **旧ブログの扱い**: anthropic.com/engineering/claude-code-best-practices は docs へ 308 リダイレクト。旧ブログを出典に書かない。「Explore→Plan→Code→Commit」は現 docs にも 4 フェーズとして現存、「TDD」「Safe YOLO」は表現が変わっている(§3 冒頭)。
 4. **スキル=旧カスタムスラッシュコマンド**という統合関係は明記する価値が高い(読者の既存知識と接続できる)。`.claude/commands/` が動き続ける点も。
-5. **コスト観点でのサブエージェントは両刃**: 隔離でメイン会話を守る一方、キャッシュは独自(TTL 5 分固定)・CLAUDE.md 再ロードあり。fork はキャッシュ再利用で安い、という対比が書ける。
+5. **コスト観点でのサブエージェントは両刃**: 隔離でメイン会話を守る一方、キャッシュは独自(TTL 既定 5 分、変更可(T05))・CLAUDE.md 再ロードあり。fork はキャッシュ再利用で安い、という対比が書ける。
 6. **バージョン依存の機能が多い**(v2.1.x で細かく挙動が変わる)。ガイド本文ではバージョン番号を列挙せず「2026 年 7 月時点の docs による」とし、細部は出典リンクに委ねる。
 7. **Routines・GitLab CI・auto mode は research preview / beta**。断定形で「使える」と書かず、状態を併記する。
-8. **数値の扱い**: `--max-turns` 既定 10、スキル 1,536 文字上限、MEMORY.md 200 行 / 25KB、fork 深さ 5、stdin 10MB などは仕様変更されやすい。本文に書くなら確認日を、それ以外は仕組みのみ記述。
+8. **数値の扱い**: `--max-turns` の上限明示(既定無制限)、スキル 1,536 文字上限、MEMORY.md 200 行 / 25KB、fork 深さ 5、stdin 10MB などは仕様変更されやすい。本文に書くなら確認日を、それ以外は仕組みのみ記述。
 
 ## TODO(要確認)
 
@@ -344,7 +373,7 @@
 
 > **TODO(要確認):** OpenTelemetry のメトリクス名・属性一覧は monitoring-usage ページの機械取得結果に基づく。執筆時に本文へ転記するメトリクス名(特に `claude_code.cost.usage` の属性)はページを直接再確認する(最終確認: 2026-07)
 
-> **TODO(要確認):** プロンプトキャッシュの cache read 単価(「約 10%」)と 1 時間 TTL の書込割増率の最新値を https://platform.claude.com/docs/en/build-with-claude/prompt-caching で確認する(2026-08-18 確認: cache read 約 10% と TTL 構造〔サブスク 1 時間自動・usage credits 消費中 5 分降格〕は変更なし。1 時間 TTL の書込割増率の具体値は未確認のまま。最終確認: 2026-08)
+> **TODO(要確認):** 採用モデル別の cache read / write 単価と TTL・effort 維持の提供条件を公式 pricing / prompt-caching で確認する。T04 / T05 は 2026-09-10 反映済みで、約 10% を全モデルへ一般化しない(最終確認: 2026-09)
 
 ## 主な出典一覧
 

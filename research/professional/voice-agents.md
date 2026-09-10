@@ -1,12 +1,28 @@
 # 音声エージェント(voice agents)の現行 API・アーキテクチャ選択肢(2026-07 時点)調査メモ
 
 - **調査日**: 2026-07-07
-- **更新日**: 2026-08-18(四半期定点観測。§2.1 の文字起こしモデル更新と旧 realtime 系の deprecation、§2.2 の Vertex AI 版 GA の訂正とモデルリリース日、§2.5 価格スナップショット、§8 次回観測への引き継ぎを追記)
+- **更新日**: 2026-09-10(上の鮮度更新を優先。旧観測は履歴として保持)
 - **調査目的**: `docs/03-implementation/voice-agents.md`(音声エージェントの実装)の執筆材料。記事本体は原則(パイプライン型 vs speech-to-speech 型の選択、割り込み・ターンテイキング、レイテンシ設計、ツール併用、評価)を扱い、具体的な API・モデル名は「2026-07 時点」の注記付きで軽く触れる方針。そのため本メモは「各社が何を公式に提供し、どのアーキテクチャを推奨しているか」に絞る
 - **根拠の方針**: 各社公式ドキュメント(developers.openai.com / platform.openai.com / openai.com、ai.google.dev、docs.aws.amazon.com / aws.amazon.com、platform.claude.com)と公式ブログのみを根拠とします。個人ブログ・比較記事は使用していません
 - **確度表記**: 「公式明記」= 公式ページに明文あり(URL に実際にアクセスして本文を確認済み) / 「公式から推測」= 公式記述からの合理的推測 / 「未確認」= 今回確認できず(直接アクセス不可を含む)
 
 ---
+
+## 2026-09-10 鮮度更新
+
+OpenAI 8/26告知: whisper-1/gpt-4o-transcribe/gpt-4o-mini-transcribe/gpt-4o-transcribe-diarizeは2027-02-26終了。gpt-live-transcribe/gpt-transcribeへの移行で、話者分離・時刻・入力形式・遅延を検証します。旧realtime系2027-01-20終了とは別の行です。
+
+Gemini3.5 Transcribe/Transcribe LiveのGAは公式changelogの2026-08-26記録で確認しました。監査の8/19は訂正します。専用STTのGAを、Developer APIの音声対話用Live全体へ一般化しません。
+
+Nova Sonic v1:0は9/14 EOL(ap-northeast-1/eu-north-1/us-east-1)、Nova Premier v1:0も9/14(us-east-1/us-east-2/us-west-2)。Nova2世代は別です。FTのGoogle3系未取得事項は今回対応一覧を確認済みで、fine-tuning.mdの9月更新を参照します。
+
+一次資料(アクセス日: 2026-09-10):
+
+- https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle-legacy.html
+- https://developers.openai.com/api/docs/deprecations
+- https://ai.google.dev/gemini-api/docs/changelog
+
+以下の旧表・観測ログは当時の履歴です。現在の採用判断では上の訂正と公式資料を優先します。
 
 ## 1. 2 つのアーキテクチャ(パイプライン型 vs speech-to-speech)の定義と各社の位置づけ
 

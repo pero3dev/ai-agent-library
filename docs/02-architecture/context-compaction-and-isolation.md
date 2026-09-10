@@ -110,6 +110,12 @@ flowchart TD
 - **偽の連続性**: 要約が滑らかだと、情報が失われたことに人もモデルも気付きにくいものです。圧縮の前後で重要情報が保持されているかを検証する仕組み(残すリストとの照合)を入れます
 - **タイミングの悪さ**: 作業の途中で圧縮が入ると直後の品質が落ちます。フェーズ境界トリガで回避します
 
+### 思考ブロックと会話履歴の結び付き
+
+暗号化・署名付きの思考ブロックは、本文の要約と同じように切り貼りできるとは限りません。2026-09-01 公開の Claude Fable 5.1 では、思考ブロックより前の system・tools・履歴を変更すると、そのブロックの結び付きが無効になります。2026-08-31 以降の新規アカウントでは検査が強制され、再送は既定で 400 エラーになります。
+
+履歴を追記する方式、対応するサーバー側の compaction / context editing、思考を再送しない方針を決めたクライアント側要約を使い分けます。一時的な指示は、対応するターン限定 system 機構で追加し、過去の本文を挿入・削除しません。また Fable 5.1 の思考は旧モデルでは破棄されます。フォールバック時には可視の結論・未完了作業・承認状態を別に保存し、思考の引継ぎだけに依存しない設計にします。
+
 ## 実務での注意点
 
 ### アンチパターン
@@ -143,6 +149,8 @@ flowchart TD
 - [非同期・長時間タスクの設計(耐久実行)](async-and-durable-agents.md) — 外部化した状態からの中断・再開
 
 ## 参考資料
+
+- [What’s new in Claude Fable 5.1](https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1) — 本文の仕様例(アクセス日: 2026-09-10)
 
 - [OWASP: LLM Prompt Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html) — 非信頼入力・ツール呼び出しの検証と最小権限。本記事ではこれを子と親の境界にも適用(アクセス日: 2026-09-10)
 - [Effective context engineering for AI agents(Anthropic)](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) — 圧縮・サブエージェントによる隔離を含むコンテキスト管理の設計(アクセス日: 2026-07-07)

@@ -1,0 +1,370 @@
+{
+  "as_of": "2026-09-10",
+  "scope": "coding-agents",
+  "verification_type": "official-document-review-and-static-checks",
+  "findings": [
+    {
+      "id": "T01",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/windsurf.md",
+        "docs/08-coding-agents/coding-agents-comparison.md",
+        "research/coding-agents/windsurf.md",
+        "research/coding-agents/devin.md",
+        "research/coding-agents/data-handling-index.md",
+        "docs/08-coding-agents/devin.md"
+      ],
+      "evidence": "現行契約は 2026-06-30 更新の Cognition Platform Terms です。旧 Windsurf 個人規約 URL から転送されます。§3.3.1 の有料 tier の opt-out(Teams は管理者のみ)、モデルプロバイダー ZDR、§3.3.3 の安全・不正・法的保持例外を本文・比較へ反映しました。旧「Chat を opt-out すると使えない」は現行条件から削除しました。重大変更は掲載 30 日後に既存契約へ適用する規定で、Free の opt-out や個別契約への適用は未確認です。",
+      "sources": [
+        "https://cognition.com/legal/platform-terms-of-service",
+        "https://docs.devin.ai/admin/security"
+      ]
+    },
+    {
+      "id": "T02",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/cursor.md",
+        "research/coding-agents/cursor.md",
+        "research/coding-agents/data-handling-index.md"
+      ],
+      "evidence": "2026-09-03 の Data Use に基づき、Privacy Mode での学習不使用と、安全性調査時の保持、非 ZDR モデルの表示 / 管理者 opt-in を区別しました。BYOK も Cursor backend 経由です。暗号化された一時ファイルキャッシュもあるため、Cloud Agents だけがコードを保存するという整理を訂正しました。個別モデルの保持期間・UI 設定の実地確認はしていません。",
+      "sources": [
+        "https://cursor.com/data-use"
+      ]
+    },
+    {
+      "id": "T03",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/claude-code-in-practice.md",
+        "research/coding-agents/claude-code-practice.md"
+      ],
+      "evidence": "CLI の --max-turns は既定で無制限、Action の claude_args は既定空です。旧記録の「既定 10」は誤りとして訂正しました。10 は明示設定の例であり、CI は反復上限・timeout・concurrency を指定します。",
+      "sources": [
+        "https://code.claude.com/docs/en/cli-reference",
+        "https://code.claude.com/docs/en/github-actions",
+        "https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md"
+      ]
+    },
+    {
+      "id": "T04",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/claude-code-in-practice.md",
+        "research/coding-agents/claude-code-practice.md"
+      ],
+      "evidence": "Claude Code v2.1.260 以降の Fable 5.1 を API key / Claude subscription で使う場合、effort 変更でもキャッシュを維持します。Bedrock・Google Cloud Agent Platform・Claude apps gateway、実験 beta 無効化・HIPAA 構成は対象外です。モデル変更は別キャッシュになるため、effort 変更と分けて本文を訂正しました。",
+      "sources": [
+        "https://code.claude.com/docs/en/prompt-caching"
+      ]
+    },
+    {
+      "id": "T05",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/claude-code-in-practice.md",
+        "research/coding-agents/claude-code-practice.md"
+      ],
+      "evidence": "v2.1.242 以降の主会話 promptCacheTtl / CLAUDE_CODE_PROMPT_CACHE_TTL と、その他の subagentPromptCacheTtl / CLAUDE_CODE_SUBAGENT_PROMPT_CACHE_TTL を反映しました。値は 5m / 1h。強制 5 分 → 対象 env → 対象 setting → subagent experimental cacheTtl → 旧 ENABLE_PROMPT_CACHING_1H → 既定の順です。experimental は v2.1.248 以降、usage credits 中の 1h は無視されます。旧変数は廃止ではなく、subagent の 5 分も変更不能な固定値ではありません。",
+      "sources": [
+        "https://code.claude.com/docs/en/prompt-caching"
+      ]
+    },
+    {
+      "id": "T06",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/claude-code.md",
+        "docs/08-coding-agents/claude-code-in-practice.md",
+        "docs/08-coding-agents/coding-agents-comparison.md",
+        "research/coding-agents/claude-code-practice.md",
+        "research/coding-agents/claude-code.md"
+      ],
+      "evidence": "Team / Enterprise 向け self-hosted environments は public beta、既定 off、CLI v2.1.224 以降です。Web・アプリ・CLI・Routines の cloud session を自社 runner へ送れますが、推論・会話履歴・キューは Anthropic 側で、外向き HTTPS が必要です。ZDR 組織、Security、Code Review は対象外で、推論オンプレミス化とは区別しました。 CLI 下限は runner ホストの条件で、Quickstart は Linux / macOS、Windows は Linux container 利用と明記しています。",
+      "sources": [
+        "https://code.claude.com/docs/en/self-hosted-environments",
+        "https://code.claude.com/docs/en/self-hosted-environments-quickstart"
+      ]
+    },
+    {
+      "id": "T07",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/cursor.md",
+        "docs/08-coding-agents/coding-agents-comparison.md",
+        "research/coding-agents/cursor.md"
+      ],
+      "evidence": "2026-09-02 の self-hosted machines と My Machines / team pool を実行環境表へ追加しました。自社ツール実行基盤を選ぶ機能であり、モデル通信をオンプレミスにする機能ではありません。接続・隔離の実地検証はしていません。",
+      "sources": [
+        "https://cursor.com/changelog",
+        "https://cursor.com/docs/cloud-agent/self-hosted/integrations"
+      ]
+    },
+    {
+      "id": "T08",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/github-copilot.md",
+        "research/coding-agents/github-copilot.md"
+      ],
+      "evidence": "2026-09-02 に Business / Enterprise の Copilot app と CLI で content exclusion が GA になりました。IDE Edit / Agent は未対応、cloud agent は適用未確認のままです。app と cloud agent を同一視する整理を避け、本文・TODO を同期しました。",
+      "sources": [
+        "https://github.blog/changelog/2026-09-02-content-exclusions-generally-available-in-copilot-app-and-cli/",
+        "https://docs.github.com/en/copilot/concepts/context/content-exclusion"
+      ]
+    },
+    {
+      "id": "T09",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/github-copilot.md",
+        "docs/08-coding-agents/github-copilot-in-practice.md",
+        "research/coding-agents/github-copilot.md",
+        "research/coding-agents/github-copilot-practice.md"
+      ],
+      "evidence": "2026-09-01 の PR approval は public preview です。assessment だけでは required approvals に算入されず、管理者が既定 off の承認機能を有効にすると実際の承認を算入できます。対象パスを制御でき、新 commit で失効します。人の承認を必須とする運用方針は別に定めるよう本体・実践へ反映しました。",
+      "sources": [
+        "https://github.blog/changelog/2026-09-01-copilot-code-review-can-now-approve-pull-requests/"
+      ]
+    },
+    {
+      "id": "T10",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/github-copilot.md",
+        "research/coding-agents/github-copilot.md"
+      ],
+      "evidence": "2026-09-03 告知の Copilot モデル廃止予定は 2026-10-02 です。Gemini 3.5 / 3.6 Flash → 3.8 Flash、Kimi K2.7 Code → Kimi K3、Claude Opus 4.7 → Opus 5 を本文・監視 TODO へ追加しました。プロバイダー API 全体の退役ではありません。",
+      "sources": [
+        "https://github.blog/changelog/2026-09-03-upcoming-deprecation-of-selected-github-copilot-models/"
+      ]
+    },
+    {
+      "id": "T11",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/openai-codex.md",
+        "docs/08-coding-agents/coding-agents-comparison.md",
+        "research/coding-agents/openai-codex.md"
+      ],
+      "evidence": "permission profiles beta の default_permissions / [permissions.<name>]、組み込み :read-only / :workspace を追加しました。旧 sandbox 設定との合成ではなく、通常は読み込まれた旧 sandbox_mode / --sandbox が優先します。管理者 allowed_permission_profiles がある場合は profiles を強制し、混在導入では 0.138.0 以降への統一と旧設定除去が必要です。network.enabled と features.network_proxy は別で、後者なしではドメイン規則を強制しません。",
+      "sources": [
+        "https://learn.chatgpt.com/docs/permissions"
+      ]
+    },
+    {
+      "id": "T12",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/openai-codex.md",
+        "research/coding-agents/openai-codex.md"
+      ],
+      "evidence": "Auto-review は対話型ポリシーが発生させる承認要求を別エージェントが審査する仕組みです。通常の許可済み操作を毎回検査せず、never では要求がなく、full access の操作全般の安全保証にもなりません。PR review とは区別して本文へ追加しました。",
+      "sources": [
+        "https://learn.chatgpt.com/docs/sandboxing/auto-review"
+      ]
+    },
+    {
+      "id": "T13",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/openai-codex-in-practice.md",
+        "research/coding-agents/openai-codex-practice.md"
+      ],
+      "evidence": "ローカル Codex は直接の依頼だけでなく、適用される AGENTS.md・skills の委任指示も起動根拠にします。Work は通常は明示依頼、利用資格のある Ultra は速度・品質に寄与する作業を能動委任します。旧「直接の明示指示のみ」を本文・資料で訂正しました。",
+      "sources": [
+        "https://learn.chatgpt.com/docs/agent-configuration/subagents"
+      ]
+    },
+    {
+      "id": "T14",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/openai-codex-in-practice.md",
+        "docs/08-coding-agents/openai-codex.md",
+        "research/coding-agents/openai-codex.md",
+        "research/coding-agents/openai-codex-practice.md"
+      ],
+      "evidence": "GPT-5.4 / 5.4 mini は ChatGPT sign-in の Codex で 2026-08-31 提供終了です。API key 認証の Codex と OpenAI API は対象外です。本体記事の区分を実践ガイドに同期し、退役予定という過去日表現を修正しました。",
+      "sources": [
+        "https://learn.chatgpt.com/docs/models"
+      ]
+    },
+    {
+      "id": "T15",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/openai-codex-in-practice.md",
+        "research/coding-agents/openai-codex-practice.md",
+        "research/coding-agents/pricing-index.md"
+      ],
+      "evidence": "Fast の速度 1.5 倍は GPT-5.6 / 5.5 / 5.4 の案内で、credit は 5.6 / 5.5 が 2.5 倍、5.4 が 2 倍です。Astra は利用可能な場合に 2.5 倍 credit ですが同じ速度倍率は未明記です。ChatGPT credit と API token pricing は別で、GPT-5.6 API Priority の 2 倍料金と混同しないよう訂正しました。",
+      "sources": [
+        "https://learn.chatgpt.com/docs/agent-configuration/speed",
+        "https://learn.chatgpt.com/docs/models"
+      ]
+    },
+    {
+      "id": "T19",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/gemini-cli-and-code-assist.md",
+        "research/coding-agents/gemini.md",
+        "research/coding-agents/pricing-index.md"
+      ],
+      "evidence": "Antigravity Organization は現行 pricing に Google Cloud 経由の Antigravity 2.0 / CLI、Cloud Project 統合、Agent Platform 従量課金として掲載されています。Code Assist が組織導入唯一の経路という説明を訂正しました。一部 Gemini Enterprise app 契約への同梱は対象顧客へ展開中です。",
+      "sources": [
+        "https://antigravity.google/pricing"
+      ]
+    },
+    {
+      "id": "T20",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/coding-agents-comparison.md",
+        "docs/08-coding-agents/gemini-cli-and-code-assist.md",
+        "research/coding-agents/gemini.md",
+        "research/coding-agents/data-handling-index.md"
+      ],
+      "evidence": "2026-09-02 更新の廃止案内で個人向け Code Assist IDE / CLI の 2026-06-18 終了を再確認しました。Standard / Enterprise は継続です。Gemini API の Unpaid は改善利用、Paid はその目的に不使用という確認済み条件を比較表へ同期しました。地域・課金設定は T21 の区分を使います。",
+      "sources": [
+        "https://developers.google.com/gemini-code-assist/docs/deprecations/code-assist-individuals",
+        "https://ai.google.dev/gemini-api/terms"
+      ]
+    },
+    {
+      "id": "T21",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/gemini-cli-and-code-assist.md",
+        "research/coding-agents/gemini.md",
+        "research/coding-agents/data-handling-index.md"
+      ],
+      "evidence": "2026-03-23 発効規約は EEA・スイス・英国の無料利用にも Paid のデータ条項を適用します。Gemini API は有効な Cloud Billing に紐づく project 経由が Paid、AI Studio は課金 project へのアクセスまたは Workspace enterprise account の条件もあります。支払額がゼロだけで Unpaid としないよう本文・横断表を更新しました。",
+      "sources": [
+        "https://ai.google.dev/gemini-api/terms"
+      ]
+    },
+    {
+      "id": "T22",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/github-copilot.md",
+        "research/coding-agents/github-copilot.md"
+      ],
+      "evidence": "2026-09-08 の JetBrains enterprise-managed sandbox は public preview です。管理者ポリシーの強制を追加し、他 IDE の GA と一般化していません。組織内の実地適用は未検証です。",
+      "sources": [
+        "https://github.blog/changelog/2026-09-08-enterprise-managed-sandbox-in-copilot-for-jetbrains/"
+      ]
+    },
+    {
+      "id": "T23",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/open-source-coding-agents.md",
+        "docs/08-coding-agents/coding-agents-comparison.md",
+        "research/coding-agents/open-source.md"
+      ],
+      "evidence": "公式 releases の 2026-09-09 desktop-v0.0.24 を根拠に Cline Desktop を本体・比較へ追加しました。release があることと GA は別で、製品全体の GA は未確認です。",
+      "sources": [
+        "https://github.com/cline/cline",
+        "https://github.com/cline/cline/releases"
+      ]
+    },
+    {
+      "id": "T26",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/devin.md",
+        "research/coding-agents/devin.md"
+      ],
+      "evidence": "2026-07-08 の SWE-1.7 発表と現行 pricing 掲載を本文へ追加し、監視対象を更新しました。SWE-1.6 の提供終了は確認できておらず、世代追加と廃止を分けています。",
+      "sources": [
+        "https://cognition.com/blog/swe-1-7",
+        "https://devin.ai/pricing"
+      ]
+    },
+    {
+      "id": "T27",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/devin.md",
+        "research/coding-agents/devin.md"
+      ],
+      "evidence": "2026-08-21 に企業単位の MCP 配布と組織独自設定の override を確認しました。専用デプロイではプライベート MCP の OAuth / tool call が private tunnel 経由になり、Enterprise 管理者は private CA bundle を登録できます。Enterprise 全体の管理機能と dedicated deployment の接続条件を分けて追記しました。",
+      "sources": [
+        "https://docs.devin.ai/release-notes/overview"
+      ]
+    },
+    {
+      "id": "T28",
+      "status": "applied",
+      "files": [
+        "docs/08-coding-agents/cursor.md",
+        "research/coding-agents/cursor.md"
+      ],
+      "evidence": "2026-08-27 の SCM 接続なしで始める Origin と、2026-08-19 の PR / Slack / schedule subscriptions を起動・自動化例へ追加しました。subscriptions は Cloud Agents 向けで、終了条件と CI / review の責任を決める設計判断に結びつけました。",
+      "sources": [
+        "https://cursor.com/changelog"
+      ]
+    }
+  ],
+  "additional_findings": [
+    {
+      "id": "EXTRA-CODING-01",
+      "status": "applied",
+      "title": "Copilot の enterprise managed permissions GA",
+      "files": [
+        "docs/08-coding-agents/github-copilot.md",
+        "docs/08-coding-agents/coding-agents-comparison.md",
+        "research/coding-agents/github-copilot.md"
+      ],
+      "evidence": "2026-09-09 に Business / Enterprise の app、CLI、Agent Host を使う VS Code で GA。shell / file / domain を制御し、利用者・workspace・自動承認・既承認による制限緩和を禁止。JetBrains sandbox preview とは別。",
+      "sources": [
+        "https://github.blog/changelog/2026-09-09-enterprise-managed-permissions-for-github-copilot-agent-operations/"
+      ]
+    },
+    {
+      "id": "EXTRA-CODING-02",
+      "status": "applied",
+      "title": "Continue の保守方針とアーカイブ属性を区別",
+      "files": [
+        "docs/08-coding-agents/open-source-coding-agents.md",
+        "docs/08-coding-agents/coding-agents-comparison.md",
+        "research/coding-agents/open-source.md"
+      ],
+      "evidence": "公式 README は no longer actively maintained / read-only / final 2.0.0 を記載。GitHub REST API は archived=false、disabled=false。README の方針とサービスの属性を区別して記載し、保守終了判断は維持。",
+      "sources": [
+        "https://github.com/continuedev/continue",
+        "https://api.github.com/repos/continuedev/continue"
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "command": "node scripts/validate-docs.mjs <12 changed coding articles>",
+      "result": "passed: 12 files"
+    },
+    {
+      "command": "npx markdownlint-cli \"docs/08-coding-agents/*.md\"",
+      "result": "passed"
+    },
+    {
+      "command": "node scripts/check-links.mjs",
+      "result": "passed: 225 files, 4008 links at check time; concurrent edits may change counts"
+    },
+    {
+      "command": "git diff --check -- docs/08-coding-agents research/coding-agents",
+      "result": "passed"
+    }
+  ],
+  "summary": {
+    "assigned_findings": 23,
+    "applied": 23,
+    "additional_findings": 2,
+    "changed_articles": 12,
+    "changed_research_files": 14,
+    "runtime_verification": false
+  }
+}

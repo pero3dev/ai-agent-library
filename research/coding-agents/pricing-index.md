@@ -2,6 +2,7 @@
 
 - **調査日**: 2026-07-05(各ツール別調査メモ C-R1〜C-R8 からの集約)
 - **方針**: docs/ 本文には金額を転記しない。本メモは参照先 URL と課金構造の記録が目的(金額メモは各ツール別調査メモを参照)
+- 2026-09-10 の補足: Antigravity Organization は Google Cloud 経由で提供され、Code Assist と別の組織導入経路です([公式 pricing](https://antigravity.google/pricing)、アクセス日: 2026-09-10)。Codex Fast のモデル別 credit と API Priority は別体系です([実践メモ](openai-codex-practice.md) の T15)。以下の表の数値・他プランを一括再検証したものではありません
 - 詳細な出典・確度は各ツール別メモ(`claude-code.md` 等)の §11 を参照
 
 | ツール | プラン名(2026-07-05 時点) | 課金単位・構造 | 料金参照先(正) |

@@ -3,7 +3,7 @@ title: "フレームワーク選定ガイド"
 category: "implementation"
 level: "intermediate"
 status: "published"
-last_updated: "2026-07-05"
+last_updated: "2026-09-10"
 tags: ["framework-selection"]
 ---
 
@@ -68,6 +68,10 @@ Agent 開発のフレームワークを「名前」ではなく「選定軸」�
 
 どれを選んでも、**ビジネスロジックとフレームワークの境界を保つ**ことが保険になります。ツールの実装・プロンプト・評価データセットをフレームワーク非依存のモジュールに置き、フレームワークには「配線」だけをさせる構成なら、乗り換えのコストは配線の書き直しで済みます。
 
+### 統合後の提供段階を確認する例
+
+Microsoft Agent Framework 1.0 は 2026-04-03 に .NET / Python の production-ready 版として発表され、安定 API と長期サポート方針を示しています。AutoGen の maintenance 方針と後継フレームワークの提供段階を別に記録します。既存コードを単に改名せず、状態・ツール・監査・再開の契約を代表タスクで比較し、採用機能の安定性を確認します。
+
 ## 実務での注意点
 
 ### アンチパターン
@@ -95,6 +99,9 @@ Agent 開発のフレームワークを「名前」ではなく「選定軸」�
 - [ハーネスエンジニアリング](../02-architecture/harness-engineering.md) — フレームワーク=既製ハーネスを、全体設計と自作の判断に位置づける視点
 
 ## 参考資料
+
+- [一次資料: devblogs.microsoft.com](https://devblogs.microsoft.com/agent-framework/microsoft-agent-framework-version-1-0/)(アクセス日: 2026-09-10)
+- [一次資料: github.com](https://github.com/microsoft/autogen)(アクセス日: 2026-09-10)
 
 - [Building Effective Agents(Anthropic)](https://www.anthropic.com/research/building-effective-agents) — 「まずシンプルに、フレームワークは理解してから」という本記事の土台となる原則(アクセス日: 2026-07-05)
 

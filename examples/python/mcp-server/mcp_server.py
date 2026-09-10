@@ -65,8 +65,8 @@ def submit_expense(amount: int, memo: str) -> str:
 
 
 def _register(mcp) -> None:
-    """FastMCP にツールを登録する(サーバー起動時のみ呼ばれる)。"""
-    from mcp.server.fastmcp.exceptions import ToolError
+    """MCPServer にツールを登録する(サーバー起動時のみ呼ばれる)。"""
+    from mcp.server.mcpserver.exceptions import ToolError
     from pydantic import StrictInt
 
     mcp.tool()(get_expense_policy)
@@ -102,7 +102,7 @@ def selftest() -> int:
 def serve() -> int:
     """実 MCP サーバーとして stdio で起動する(mcp パッケージが必要)。"""
     try:
-        from mcp.server.fastmcp import FastMCP  # 遅延 import(--mock では不要)
+        from mcp.server import MCPServer  # 遅延 import(--mock では不要)
     except ImportError:
         print(
             "mcp パッケージが見つかりません。`pip install -r requirements.txt` を実行するか、"
@@ -110,7 +110,7 @@ def serve() -> int:
             file=sys.stderr,
         )
         return 1
-    mcp = FastMCP("expense-tools")
+    mcp = MCPServer("expense-tools")
     _register(mcp)
     mcp.run()  # stdio トランスポートで待ち受け(MCP クライアントから接続)
     return 0

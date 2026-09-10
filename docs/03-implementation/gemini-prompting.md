@@ -3,7 +3,7 @@ title: "Gemini 特化プロンプティングガイド"
 category: "implementation"
 level: "intermediate"
 status: "published"
-last_updated: "2026-08-18"
+last_updated: "2026-09-10"
 tags: ["prompt-design", "model-selection"]
 ---
 
@@ -28,7 +28,7 @@ Google の Gemini ファミリーに対して、**公式ガイドが推奨する
 
 ## 本文
 
-> **最終確認日:** 2026-08-18 — 本記事の機能名・仕様・モデル別推奨は、この日付時点の Google 公式ドキュメント([参考資料](#参考資料))に基づきます(一部、確認できていない項目は本文と TODO に明記)。個別モデルの仕様は変わるため、断定は避け「〜時点」を明記しています。
+> **最終確認日:** 2026-09-10 — Gemini 3.8 Flash のモデル仕様と、数値思考予算のモデル / API 別の扱いを更新しました。共通指針は各参考資料の確認日を参照してください。
 
 ### 概要: 汎用記事との分担
 
@@ -44,10 +44,10 @@ Claude・OpenAI との横並び比較と移行は [モデル間の違いと移�
 
 ### モデルファミリーの前提(プロンプトに効く差分だけ)
 
-顔ぶれ・価格・選び方は [モデルカタログ](llm-landscape.md) が正本です。プロンプト設計に効く差分だけを押さえます(2026-08 時点)。
+顔ぶれ・価格・選び方は [モデルカタログ](llm-landscape.md) が正本です。プロンプト設計に効く差分だけを押さえます。Gemini 3.8 Flash は 2026-09-10 に確認し、従来モデルの共通指針は各参考資料の確認日を基にしています。
 
-- **現行は Gemini 3 系**: 安定版は Gemini 3.7 Flash(最新のフラッグシップ Flash・2026-08 登場)・3.6 Flash(2026-07-21 登場)・3.5 Flash-Lite / 3.1 Flash-Lite(軽量)で、プレビューの 3.1 Pro などがあります。3.5 Flash はレガシー扱いに移りました。旧世代の 2.5 系も提供中で、**終了日は未定**です(2026-10-16 提供終了の告知は撤回されました)
-- **思考は thinking_level で制御する**: 固定のトークン予算ではなく、相対的な思考量として制御します(後述)
+- **現行は Gemini 3 系**: 安定版は Gemini 3.8 Flash(2026-09-02 GA、入力 1,048,576 / 出力 65,536 トークン)・3.7 Flash・3.6 Flash(2026-07-21 登場)・3.5 Flash-Lite / 3.1 Flash-Lite(軽量)で、プレビューの 3.1 Pro などがあります。3.5 Flash はレガシー扱いに移りました。旧世代の 2.5 系も提供中で、**終了日は未定**です(2026-10-16 提供終了の告知は撤回されました)
+- **3 系は thinking_level を基本にする**: 数値予算の有無はモデル / API 別に確認します。2.5 系の Live API と一括化しません(後述)
 - **マルチモーダルが最大の差別化点**: text / image / audio / video を同格の入力として扱えます。プロンプトはこれを前提に書きます
 - **サンプリングパラメータは既定のまま**が公式推奨で、これは他社の慣行と逆向きです(後述)
 
@@ -79,7 +79,7 @@ Claude・OpenAI との横並び比較と移行は [モデル間の違いと移�
 Gemini 3 系の思考制御は **thinking_level**(相対的な思考量の許容)で行います(2026-08 時点)。
 
 - **既定は動的思考(dynamic thinking)**: 複雑さに応じて思考量を自動調整します。thinking_level は minimal / low / medium / high で、モデルごとに既定と対応レベルが異なります(2026-08 時点の既定の例: 3.7 Flash は medium で `minimal` 非対応、3.6 Flash は medium、3.5 Flash-Lite は minimal、3.1 Pro プレビューは high)
-- **旧来の thinking_budget(数値)は前提にしない**: 2026-08-18 時点では、数値予算(thinking_budget)の記述が公式の Thinking ページから消えており、継続サポートの可否が確認できません。新規実装は thinking_level を使い、既存の thinking_budget 依存には移行を計画します(後述の TODO 参照)
+- **thinking_budget は一律に廃止されたわけではありません**: 2026-09-10 の公式 Python SDK の ThinkingConfig に数値の `thinking_budget` があり、Live API 公式も 2.5 Flash の `thinkingBudget` を説明しています。3.8 Flash は low / medium / high(既定 medium、minimal 非対応)を使います。SDK に型があることだけでは、すべてのモデルが同じフィールドを受理するとは判断できません
 - **複雑な CoT の作り込みをやめる**: 「ステップごとに考えて」を長々と書くより、`thinking_level: high` に任せるのが公式の推奨です([上級パターンの思考制御](prompt-engineering-patterns.md)の Gemini 版)
 - **思考署名(thought signatures)は SDK 任せ**: マルチターンで推論を継続するために必要な暗号化状態で、SDK が自動処理します。手動設定は不要です
 
@@ -111,7 +111,7 @@ Gemini 3 系の思考制御は **thinking_level**(相対的な思考量の許容
 
 - **複雑な CoT スキャフォールドを `thinking_level: high` に置き換える**
 - **決定性のための明示的な temperature 設定を外す**(既定に戻す)
-- **thinking_budget(数値)を thinking_level(相対許容)へ**(thinking_budget は公式ページから記述が消失。後述の TODO 参照)
+- **移行先の API とモデルに合わせて思考制御を選ぶ**: 3 系は thinking_level を基本とします。2.5 Live の数値予算まで機械的に書き換えません
 - **既定が簡潔になった**: 2.5 で得ていた冗長さが要るなら明示的に要求します
 - **API 面の移行**: 従来の `generateContent` から新しい Interactions API(ステートフル)への移行が進んでいます。一部機能は片方にのみあります
 
@@ -141,7 +141,7 @@ Gemini 3 系の思考制御は **thinking_level**(相対的な思考量の許容
 
 - [ ] 役割・制約・出力形式を system instruction かプロンプト冒頭に置いた
 - [ ] few-shot 例を入れ、全例で構造・フォーマットを統一した(多すぎない)
-- [ ] 思考制御を thinking_level で行い、thinking_budget(公式ページから記述消失)に依存していない
+- [ ] 対象モデル・API の thinking_level / thinking_budget 対応と既定を確認し、実際のリクエストで検証した
 - [ ] `temperature` などサンプリングパラメータを既定のまま使っている
 - [ ] 機械処理する出力を JSON スキーマで強制し、アプリ側でも検証している
 - [ ] 長文は資料を先・質問を末尾に置き、転換句を挟んでいる
@@ -161,6 +161,9 @@ Gemini 3 系の思考制御は **thinking_level**(相対的な思考量の許容
 
 ## 参考資料
 
+- [Gemini 3.8 Flash](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash) — モデル仕様(アクセス日: 2026-09-10)
+- [Live API capabilities](https://ai.google.dev/gemini-api/docs/live-api/capabilities) / [Python SDK ThinkingConfig](https://github.com/googleapis/python-genai/blob/main/google/genai/types.py) — 数値予算の説明・型(アクセス日: 2026-09-10)
+
 - [Prompting strategies(Google Gemini API)](https://ai.google.dev/gemini-api/docs/prompting-strategies) — 構造化・few-shot・長文・マルチモーダルの指針(アクセス日: 2026-08-18)
 - [Gemini 3 developer guide(Google)](https://ai.google.dev/gemini-api/docs/gemini-3) — 世代固有の推奨(thinking_level・サンプリング・移行)(アクセス日: 2026-08-18。2026-08-18 時点では 3.6 / 3.7 Flash が未反映で、モデル一覧ページと乖離あり)
 - [Thinking(Google Gemini API)](https://ai.google.dev/gemini-api/docs/thinking) — thinking_level・思考署名(アクセス日: 2026-08-18)
@@ -171,15 +174,15 @@ Gemini 3 系の思考制御は **thinking_level**(相対的な思考量の許容
 
 > **TODO(要確認):** Gemini(Interactions / generateContent)での応答書き出し指定(prefill 相当)の可否、および構造化出力・ツール関連のフィールド名の正確な綴りは、公式リファレンス(ai.google.dev/api)で確認する。本記事の要点は要約経由の一次情報整理に基づくため、実装時の綴りは一次リファレンスを正とする(最終確認: 2026-07)
 
-> **TODO(要確認):** thinking_budget(数値予算)の継続サポート可否を公式の「Thinking」ページと API リファレンスで確認する。2026-08-18 時点では公式ページから記述が消失しており、legacy としての受け付け継続かサポート終了かを断定できない(最終確認: 2026-08)
+> **TODO(要確認):** 採用するモデル ID と GenerateContent / Interactions / Live API の組合せで thinking_budget / thinking_level の受理と排他条件を公式リファレンスと実呼出しで確認する。SDK の型と 2.5 Live の説明は確認済みですが、全モデルの呼出し互換性は未検証です(最終確認: 2026-09)
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** 四半期ごとに Google 公式の「Prompting strategies」「Gemini 3 developer guide」「Thinking」ページで次を再確認する(更新起点: `research/prompting/google.md`、最終確認: 2026-08):
+> **TODO(要確認):** 四半期ごとに Google 公式の「Prompting strategies」「Gemini 3 developer guide」「Thinking」ページで次を再確認する(更新起点: `research/prompting/google.md`、最終確認: 2026-09):
 >
-> - 現行モデル世代とモデル ID(現在: 3.7 Flash が主力 GA、3.6 Flash も GA、3.5 Flash はレガシー、3.1 Pro はプレビュー、2.5 系は終了日未定〔2026-10-16 終了告知は撤回〕)
+> - 現行モデル世代とモデル ID(2026-09-10 確認: 3.8 Flash が主力 GA、3.7 Flash も GA、3.6 Flash も GA、3.5 Flash はレガシー、3.1 Pro はプレビュー、2.5 系は終了日未定〔2026-10-16 終了告知は撤回〕)
 > - API 面(Interactions API が推奨 / generateContent が legacy への移行)
-> - thinking 制御の書き方(thinking_level の値・モデル別既定〔現在: 3.7 / 3.6 Flash は medium、3.5 Flash-Lite は minimal、3.1 Pro プレビューは high〕、thinking_budget の記述消失の追跡)
+> - thinking 制御の書き方(thinking_level の値・モデル別既定〔現在: 3.8 / 3.7 / 3.6 Flash は medium、3.5 Flash-Lite は minimal、3.1 Pro プレビューは high〕、thinking_budget のモデル / API 別の対応)
 > - 構造化出力のフィールド名と対応スキーマ機能
 > - サンプリングパラメータの推奨(現在は「既定維持」)
 > - マルチモーダル解像度設定と画像セグメンテーションの対応世代

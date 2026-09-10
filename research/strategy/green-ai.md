@@ -2,10 +2,10 @@
 
 ## 調査メモ: AI の環境負荷に関する公式情報の所在(ST-R2)
 
-- **調査日**: 2026-07-09
+- **調査日**: 2026-07-09。EG-06〜EG-11 更新確認: 2026-09-10。未更新の記録は各項目の確認日を参照
 - **調査目的**: `docs/` の記事「AI の環境負荷とグリーン AI」(green-ai.md)の裏取り。方針は **中立** かつ **所在特定**。特定プロバイダーの優劣比較はしない。個別の推計値(1 クエリあたり CO2 など)は変化が速く比較に使うと誤解を生むため、**「どこを見れば最新の開示があるか」の一次情報 URL の特定**を主目的とし、数値は断定しない
 - **確度の付け方**: 「公式確認済み」= 公式ページを WebFetch で直接取得できたもの / 「公式ページ存在(内容未読)」= 公式ドメインの URL・文書名を検索で確認したが本文は直接未取得 / 「ベンダー自己報告」= プロバイダー自身が公表する環境主張(第三者保証の有無は別途注記が必要)/ 「二次情報」= 公式以外での確認 / 「未確認」
-- **取得メモ**: `iea.org` は今回 WebFetch が HTTP 403 を返したため「公式ページ存在(内容未読)」扱い。`ghgprotocol.org`・`greensoftware.foundation`・`energy.ec.europa.eu` は直接取得できた
+- **取得メモ**: IEA の 2026 年資料は 2026-09-10 に取得済み。資料の存在・要旨の確認と、全文の数値再計算・独立検証を区別します。
 
 ---
 
@@ -15,30 +15,26 @@
 
 ### Google / Alphabet(サステナビリティレポート)
 
-- **確認先**: Google Sustainability / Environmental Report(年次)
-- **一次情報 URL**: https://sustainability.google/reports/ (レポート一覧) / https://sustainability.google/operations/ / データセンター単体 https://datacenters.google/operating-sustainably/ / 24x7 CFE 手法 https://sustainability.google/reports/24x7-carbon-free-energy-data-centers/ / ブログ告知例 https://blog.google/company-news/outreach-and-initiatives/sustainability/
-- **開示・扱う項目(中立記述)**: フリート平均 PUE、24/7 カーボンフリー電力(CFE)比率(時間単位マッチング)、水使用量・水補充(replenishment)、スコープ 1/2/3 排出、ネットゼロ目標(2030)。手法解説として 24/7 CFE の考え方を別ドキュメント化
-- **確認日**: 2026-07-09
-- **確度**: ベンダー自己報告(公式ドメイン URL は検索で確認、本文は直接未取得)
-- **備考**: 2025 年版・2026 年版の告知ページが並存。年版の最新性は執筆時に再確認が必要
+- **確認済み公開版**: 2026 Environmental Report。2025 年実績を扱います。
+- **一次情報**: https://sustainability.google/google-2026-environmental-report/
+- **確認日 / 確度**: 2026-09-10 / 公式報告の掲載を確認。数値は事業者の自己報告です。
+- **引用時**: PUE、CFE、水、Scope 1/2/3 は実績期間・組織境界・保証範囲を本文で照合します。他社の公表年だけを合わせて比較しません。
 
 ### Microsoft(Environmental Sustainability Report)
 
-- **確認先**: Microsoft Environmental Sustainability Report(年次)/ データセンター向けページ
-- **一次情報 URL**: https://www.microsoft.com/en-us/corporate-responsibility/sustainability/report/ / データセンター https://datacenters.microsoft.com/sustainability/ / 計測手法(Azure ブログ)https://azure.microsoft.com/en-us/blog/how-microsoft-measures-datacenter-water-and-energy-use-to-improve-azure-cloud-sustainability/ / データファクトシート PDF(例)https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/msc/documents/presentations/CSR/2025-Microsoft-Environmental-Data-Fact-Sheet-PDF.pdf
-- **開示・扱う項目(中立記述)**: PUE・WUE(L/kWh)、carbon negative / water positive / zero waste の 2030 目標、スコープ 1/2/3、再エネ調達、冷却技術(direct-to-chip 等)。ファクトシートで数値の一覧を提供
-- **確認日**: 2026-07-09
-- **確度**: ベンダー自己報告(公式ドメイン URL は検索で確認)
-- **備考**: 「water positive」「carbon negative」は **目標・相殺・補充を含む主張**であり、実消費と区別して読む必要がある(グリーンウォッシュ注意)
+- **確認済み公開版**: 2026 Environmental Sustainability Report。旧 2025 fact sheet を現行版と扱いません。
+- **一次情報**: https://www.microsoft.com/en-us/corporate-responsibility/topics/sustainability/report/ / https://www.microsoft.com/en-us/corporate-responsibility/reports-hub
+- **確認日 / 確度**: 2026-09-10 / 公式報告の掲載確認。数値・目標は自己報告で、実績期間と保証対象の照合は引用時に必要です。
+- **注意**: water positive / carbon negative の目標・相殺・補充と、実消費・実排出を区別します。
 
 ### Amazon / AWS(Amazon Sustainability + AWS)
 
-- **確認先**: Amazon Sustainability(全社)/ AWS Sustainability(クラウド)/ Customer Carbon Footprint Tool(顧客向け)
-- **一次情報 URL**: 全社 https://sustainability.aboutamazon.com/ / AWS https://aws.amazon.com/sustainability/ / データセンター https://aws.amazon.com/sustainability/data-centers/ / 顧客カーボン算定手法 PDF https://sustainability.aboutamazon.com/aws-customer-carbon-footprint-methodology.pdf / AWS サマリ PDF https://sustainability.aboutamazon.com/2024-amazon-sustainability-report-aws-summary.pdf
-- **開示・扱う項目(中立記述)**: グローバル PUE、WUE(L/kWh)、water positive(2030)進捗、再エネ調達、Customer Carbon Footprint Tool(CCFT)による顧客単位スコープ 1/2 排出。方法論 PDF を別掲
-- **確認日**: 2026-07-09
-- **確度**: ベンダー自己報告(公式ドメイン URL は検索で確認)
-- **備考**: 検索スニペット上、CCFT は 2026-06-30 に廃止し後継サービスへ移行予定との記述あり。**顧客向けツールの提供形態は変更が速い**ため、URL とツール名は執筆時に再確認(TODO 化推奨)
+- **確認済み公開版**: Amazon hub は 2025 Sustainability Report を掲載しています。https://sustainability.aboutamazon.com/reports
+- **後継サービス**: AWS Sustainability console は 2026-03-31 GA。無料、専用コンソール、Scope 1 / 2 / 3、立地ベース/市場ベース、サービス/リージョン粒度、API / CSV を提供します。Billing 権限を要求せず専用のアクセス権限を使います。
+- **データ**: ガイドは月次排出量と年次取水量(water withdrawals)を説明します。AI 個別リクエストの直接測定ではなく、サービスへ配賦する境界を別途記録します。
+- **一次情報**: https://aws.amazon.com/about-aws/whats-new/2026/03/aws-launches-sustainability-console/ / https://aws.amazon.com/sustainability/tools/console/ / https://docs.aws.amazon.com/sustainability/latest/userguide/getting-started.html
+- **旧 CCFT**: release notes は 2026-06-30 の廃止予告を掲載していますが、2026-09-10 の取得時にも未来形が残ります。後継の提供と旧 UI の実停止を区別し、アカウント画面での停止検証は未実施です。https://docs.aws.amazon.com/ccft/latest/releasenotes/what-is-ccftrn.html
+- **確認日 / 確度**: 2026-09-10 / 公式本文確認。環境数値の独立検証は未実施。
 
 ### Meta(Sustainability Report)
 
@@ -70,7 +66,7 @@
 ### (参考)顧客向けクラウドカーボン算定ツール
 
 - **確認先**: 各クラウドが提供する顧客単位の排出可視化ツール(記事の「利用者が自分の使用分をどう測るか」に対応)
-- **一次情報 URL**: Google Cloud Carbon Footprint https://cloud.google.com/carbon-footprint / Microsoft Emissions Impact Dashboard https://www.microsoft.com/en-us/sustainability/emissions-impact-dashboard / AWS Customer Carbon Footprint Tool(上記 Amazon 項の方法論 PDF)
+- **一次情報 URL**: Google Cloud Carbon Footprint https://cloud.google.com/carbon-footprint / Microsoft Emissions Impact Dashboard https://www.microsoft.com/en-us/sustainability/emissions-impact-dashboard / AWS Sustainability console https://aws.amazon.com/sustainability/tools/console/ (2026-03-31 GA、2026-09-10 更新確認)
 - **開示・扱う項目(中立記述)**: サービス/リージョン/期間別のスコープ 2(location-based / market-based)排出。ツールにより スコープ 1・3 も対象。いずれも GHG プロトコル準拠を掲げる
 - **確認日**: 2026-07-09
 - **確度**: ベンダー自己報告(公式ドメイン URL は検索で確認)
@@ -82,12 +78,10 @@
 
 ### IEA(国際エネルギー機関)Energy and AI
 
-- **確認先**: IEA "Energy and AI"(2025 公表)および関連の "Key Questions on Energy and AI"、データセンター電力に関するニュース/分析
-- **一次情報 URL**: レポート https://www.iea.org/reports/energy-and-ai / エグゼクティブサマリ https://www.iea.org/reports/energy-and-ai/executive-summary / 需要 https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai / 供給 https://www.iea.org/reports/energy-and-ai/energy-supply-for-ai / PDF(Key Questions)https://iea.blob.core.windows.net/assets/3179f7f8-01f6-4dd6-bffa-c9f7b73f1dc9/KeyQuestionsonEnergyandAI.pdf
-- **開示・扱う項目(中立記述)**: 世界のデータセンター電力消費の見通し(TWh、世界電力に占める比率)、AI 特化データセンターの伸び、電源構成、AI タスクあたりのエネルギー効率改善。国際横断の一次分析
-- **確認日**: 2026-07-09
-- **確度**: 公式ページ存在(内容未読)— WebFetch が HTTP 403。URL・文書名・扱う論点は検索で確認
-- **備考**: 将来推計はシナリオ幅が大きい。記事では単一の見通し値を断定せず「IEA のシナリオでは幅がある」と書く
+- **資料**: Energy and AI (2025) に加え、Key Questions on Energy and AI が 2026-04-16 公開。
+- **一次情報**: https://www.iea.org/reports/energy-and-ai / https://www.iea.org/reports/key-questions-on-energy-and-ai / https://www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary
+- **確認日 / 確度**: 2026-09-10 / 2026 年資料と要旨を取得済み。旧アクセス不能記録を更新しました。
+- **設計への含意**: タスク当たりの効率と、利用回数・タスク構成による総需要の変化を別に測ります。将来推計はシナリオと算定境界に依存し、全数値・前提の再計算は未実施です。
 
 ### LBNL / 米国エネルギー省(DOE)2024 US Data Center Energy Usage Report
 
@@ -100,14 +94,10 @@
 
 ### EU 欧州委員会 データセンターのエネルギー性能報告(公的データベース)
 
-- **確認先**: European Commission(エネルギー効率指令 EED に基づくデータセンター報告義務・欧州データベース)
-- **一次情報 URL**: https://energy.ec.europa.eu/topics/energy-efficiency/energy-efficiency-targets-directive-and-rules/energy-efficiency-directive/energy-performance-data-centres_en / 委任規則の告知・レーティングスキーム関連 https://energy.ec.europa.eu/news/rating-scheme-data-centres-eu-commission-launches-call-feedback-2026-03-27_en / 最低性能基準 https://energy.ec.europa.eu/resources/preparatory-studies/minimum-performance-standards-eu-data-centres_en
-- **開示・扱う項目(中立記述)**: 一定規模(設置 IT 電力 500kW 超)のデータセンターに年次報告義務。委任規則(EU)2024/1364 が報告項目・KPI(エネルギー性能・水フットプリント等)と欧州データベースを規定。集計値を EU/国レベルで公開。第 2 段のサステナビリティ・レーティング/ラベルを検討中
-- **確認日**: 2026-07-09
-- **確度**: 公式確認済み(委員会ページを直接取得。ただし個別 KPI の一覧は本文で明示されず要一次確認)
-- **備考**: これは **プロバイダー自己報告と異なる公的集計** の入口。単一事業者ではなく地域集計として読む
-
----
+- **一次情報**: https://energy.ec.europa.eu/topics/energy-efficiency/energy-efficiency-targets-directive-and-rules/energy-efficiency-directive/energy-performance-data-centres_en
+- **確認日 / 確度**: 2026-09-10 / EC hub と FAQ の版・概要を確認。
+- **FAQ**: hub 掲載 2026-07-28、PDF 表紙 v1.8 July 2026。URL の filename に 1v7 があっても本文版を優先します。IT 設備の設置電力需要 500 kW 以上の年次報告を説明します。79 頁の全法的論点のレビューは未実施です。
+- **格付け**: EC ページは preparing と記載。2026-03-26〜04-23 の意見募集と将来計画は、採択・施行とは別です。Q2 の予定経過だけで採択済みとしません。
 
 ## 3. AI/ML の排出量推計の代表的な方法論
 
@@ -122,12 +112,10 @@
 
 ### Green Software Foundation — Software Carbon Intensity(SCI)/ ISO/IEC 21031
 
-- **確認先**: Green Software Foundation(GSF)Software Standards Working Group
-- **一次情報 URL**: SCI https://greensoftware.foundation/standards/sci/ / SCI for AI(AI 向け拡張)https://greensoftware.foundation/standards/sci-ai/ / 仕様リポジトリ https://github.com/Green-Software-Foundation/sci / ISO 標準 https://www.iso.org/standard/86612.html(ISO/IEC 21031:2024)
-- **開示・扱う項目(中立記述)**: ソフトウェアの機能単位(ユーザー/トランザクション/API コール等)あたりの炭素強度を **レート**で算定する方法論。式 `SCI = (E × I + M) per R`(E=消費電力、I=電力の炭素強度、M=製造時の内包排出、R=機能単位)。SCI for AI は AI ライフサイクル(データ準備〜学習〜推論)向け拡張
-- **確認日**: 2026-07-09
-- **確度**: 公式確認済み(SCI ページを直接取得。ISO 番号 21031:2024 を確認)/ SCI for AI ページは公式ページ存在(内容未読)
-- **備考**: 相殺(オフセット)を含めず「実効率」を示すレート指標である点が特徴。総量会計(GHG プロトコル)とは目的が異なる
+- **基本 SCI**: 機能単位あたりの炭素強度を算定する ISO/IEC 21031:2024。総量会計とは目的が異なります。
+- **SCI for AI**: GSF 公式トップは Ratified December 2025 と表示。GSF 仕様として批准済みで、AI ライフサイクル(データ準備・学習・推論等)の算定境界を扱います。AI 拡張まで ISO 規格化済みとは扱いません。
+- **一次情報**: https://greensoftware.foundation/ / https://greensoftware.foundation/standards/sci-ai/ / https://greensoftware.foundation/standards/sci/
+- **確認日 / 確度**: 2026-09-10 / GSF 本文確認。ISO 規格全文の精査は未実施です。
 
 ### GHG プロトコル(企業排出会計の基盤)/ PUE・WUE の標準
 
@@ -153,12 +141,10 @@
 
 ### EU CSRD / ESRS E1(気候変動開示)
 
-- **確認先**: EU(企業サステナビリティ報告指令 CSRD、欧州サステナビリティ報告基準 ESRS の E1)
-- **一次情報 URL**: EFRAG(基準策定主体)https://www.efrag.org/ / 欧州委員会 CSRD 概要 https://finance.ec.europa.eu/capital-markets-union-and-financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en
-- **開示・扱う項目(中立記述)**: ESRS E1 が対象企業にスコープ 1/2/3 の GHG 排出開示等を要求し、方法論として GHG プロトコルを参照(スコープ 3 は 15 カテゴリ)。制度の内容解釈は記事では行わず入口のみ示す
-- **確認日**: 2026-07-09
-- **確度**: 公式ページ存在(内容未読)/ GHG プロトコル参照関係は二次情報での確認
-- **備考**: CSRD/ESRS は適用範囲・簡素化(Omnibus 等)が変化中。**最新の適用状況は執筆時に一次確認**し `TODO(要確認)` を残す。EFRAG 公式 URL は執筆時に再確認
+- **更新**: EU 理事会は 2026-02-24、サステナビリティ報告・デューデリジェンスの簡素化法制を最終承認しました。提案段階の記述を更新します。
+- **公式発表の範囲**: 企業の対象閾値は従業員 1,000 人超かつ純売上 4.5 億ユーロ超。第三国企業・移行措置は別条件です。
+- **一次情報**: https://www.consilium.europa.eu/en/press/press-releases/2026/02/24/council-signs-off-simplification-of-sustainability-reporting-and-due-diligence-requirements-to-boost-eu-competitiveness/
+- **確認日 / 確度**: 2026-09-10 / 理事会の最終承認発表を確認。確定法令番号、加盟国ごとの国内法化・適用日は未照合です。具体的な自社義務は法令・国内法と法務部門で確認します。
 
 ### EU EED データセンター報告(公的データベース)— 再掲
 
@@ -183,5 +169,5 @@
 - **自己報告の扱い**: プロバイダーのサステナビリティレポートは **自己申告**。第三者保証(assurance)の有無、対象期間、算定境界を確認し、社間の単純比較は避ける。数値は年次更新される前提で「最新は各社レポート参照」と書く
 - **グリーンウォッシュ回避**: 「carbon negative」「water positive」「再エネ 100%」「ネットゼロ」は **相殺・証書調達・水補充・目標** を含む主張であり、実消費・実排出の削減とは別概念。**24/7 CFE(時間単位マッチング)と年間マッチングの違い**、実削減と相殺の違いを区別して記述する
 - **AI ラボの単独開示は限定的(2026 年時点)**: Anthropic・OpenAI の包括的な環境開示は今回特定できず。これを一方的に不利と評さず、「単独開示は発展途上」「インフラを担うクラウド側の開示で近似する読み方がある」と中立に書き、`TODO(要確認)` を残す
-- **規制・ツールは変化が速い**: CSRD/ESRS の適用範囲、EU EED レーティングスキーム、AWS CCFT の後継移行(2026-06-30 廃止予定の記述あり)などは流動的。URL・制度名・提供形態は執筆セッションで再確認し、断定を避ける
+- **規制・ツールの追跡**: AWS Sustainability console の GA、GSF SCI for AI の批准、CSRD の理事会最終承認は確認済みです。残るのは旧 CCFT の実画面停止、国内法適用、EED 格付けの採択・施行など、対象を絞った確認です。
 - **記事の立ち位置**: 数値の比較表は作らず、「どの一次情報で最新値を確認するか」の所在マップに徹する。自主開示(レポート)と義務報告(EED)、総量会計(GHG プロトコル)と効率レート(SCI)、施設指標(PUE/WUE)を **役割ごとに整理**すると読者が使い分けられる

@@ -12,6 +12,24 @@
 
 ---
 
+## 2026-09-10 鮮度更新
+
+ElevenLabs WebSocket は二系統です。TTS /v1/text-to-speech/{voice_id}/stream-input はFlash/Multilingual v2等でeleven_v3非対応。v3は/v1/text-to-dialogue/stream-inputを使い、voices登録後にinputs配列でtext/voice_idを送ります。旧行の製品単位の対応表から全モデル共通と読める記述を訂正します。
+
+OpenAI whisper-1/gpt-4o-transcribe/gpt-4o-mini-transcribe/gpt-4o-transcribe-diarizeは2027-02-26終了、gpt-live-transcribe/gpt-transcribeが代替候補です。Gemini3.5 Transcribe/LiveのGA告知は公式changelogの2026-08-26見出しに掲載(監査要約の8/19を訂正)。音声対話Live API全体のGAとは別です。
+
+AWS旧Nova Sonic v1:0は2026-09-14 EOL(ap-northeast-1/eu-north-1/us-east-1)。Nova2 Sonicの世代・地域・対話仕様とは分けます。
+
+一次資料(アクセス日: 2026-09-10):
+
+- https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle-legacy.html
+- https://developers.openai.com/api/docs/deprecations
+- https://ai.google.dev/gemini-api/docs/changelog
+- https://elevenlabs.io/docs/eleven-api/guides/how-to/websockets/tts-vs-ttd-websockets
+- https://elevenlabs.io/docs/eleven-api/guides/how-to/websockets/realtime-tts
+
+以下の旧表・観測ログは当時の履歴です。現在の採用判断では上の訂正と公式資料を優先します。
+
 ## A. リアルタイムマルチモーダルの「視覚」入力(音声は既知なので差分のみ)
 
 ### A.1 各社の映像(カメラ・画面)入力の対応状況

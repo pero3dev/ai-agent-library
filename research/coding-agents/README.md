@@ -1,6 +1,6 @@
 # research/coding-agents — 執筆前調査メモ
 
-[docs/08-coding-agents/](../../docs/08-coding-agents/README.md) の執筆前に行う公式情報調査のメモ置き場です。[CODING-AGENTS-PLAN.md](../../CODING-AGENTS-PLAN.md) §7 の調査チェックリスト(12 項目)に従って記録します。
+[docs/08-coding-agents/](../../docs/08-coding-agents/README.md) の執筆前に行う公式情報調査のメモ置き場です。[coding-agents.md](../../project/plans/content/coding-agents.md) §7 の調査チェックリスト(12 項目)に従って記録します。
 
 - このディレクトリは docs/ の執筆規約(テンプレート・固定 H2)の**対象外**です
 - 各事実に **出典 URL・確認日(YYYY-MM-DD)・確度(公式明記 / 公式から推測 / 第三者)** を付けます

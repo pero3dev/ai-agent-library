@@ -14,6 +14,7 @@
 | --- | --- |
 | `docs/` の学習記事、索引、用語集 | [執筆規約](harness/writing-rules.md)、新規記事は [テンプレート](templates/doc-template.md) |
 | `research/` の調査・観測記録 | [執筆規約の調査記録](harness/writing-rules.md#調査記録と運用文書)。記事テンプレートは適用しません |
+| `project/` の計画・実施記録 | [計画と実施記録の索引](project/README.md)。採択時点の計画と現行の運用手順を区別します |
 | `examples/` のサンプル | [サンプル規約](harness/writing-rules.md#サンプルコードのルール)、各サンプルの README |
 | `website/` のサイト | [CONTRIBUTING.md](CONTRIBUTING.md#サイトwebsiteを変更するとき)、`website/package.json` の検証コマンド |
 | 指示・スキル・フック・`scripts/`・CI | この共通契約、[CONTRIBUTING.md](CONTRIBUTING.md#ハーネスを変更するとき)、変更する実行面の設定と試験 |

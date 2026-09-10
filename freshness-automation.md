@@ -122,4 +122,4 @@ node scripts/freshness-run.mjs finish --run '<checkpoint の絶対パス>' --att
 - PC とアプリの起動状態、Codex 契約枠、GitHub 認証を確認する。
 - 初期数回は PR の内容と未確認の扱いを見て、対象数や周期を調整する。
 
-構築時の実測結果と登録状態は [導入記録](freshness-automation-setup.md)で追跡します。
+構築時の実測結果と登録状態は [導入記録](project/records/2026-09-10/freshness-automation-setup.md)で追跡します。

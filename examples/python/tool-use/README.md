@@ -5,6 +5,7 @@
 - [Agent ループ](../../../docs/01-concepts/agent-loop.md) — 観測 → 思考 → 行動のループ、停止条件、エラーを観測として返す原則
 - [ツール使用](../../../docs/01-concepts/tool-use.md) — ツール定義と「モデルは実行しない」構造
 - [ツール定義の設計](../../../docs/03-implementation/tool-definition-design.md) — 説明文・スキーマ・エラーメッセージの設計
+- [経費精算 Agent の設計事例](../../../docs/07-case-studies/case-study-expense-agent.md) — このサンプルを使った段階的な設計・検証
 
 ## 前提
 

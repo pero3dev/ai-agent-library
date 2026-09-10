@@ -25,6 +25,8 @@ import remarkStringify from 'remark-stringify'
 import { unified } from 'unified'
 import { applyDecorations } from '../lib/doc-decorations.mjs'
 import { findUnsafeMdx } from '../lib/mdx-safety.mjs'
+import { readmeArticleOrder, rewriteMarkdownRoutes } from '../lib/markdown-routes.mjs'
+import { forEachLine, parseFrontMatter, parseTagsArray, toLines, unquote } from '../../scripts/lib/md-utils.mjs'
 
 // 原本は素の Markdown としてパースし(remark-mdx を含めない = 本文の < や { を JSX と誤解釈しない)、
 // 装飾コンポーネントを注入した結果を MDX として直列化する(エスケープは remark-mdx が正しく行う)
@@ -94,36 +96,31 @@ function assertSafeMdx(mdx, repoRel) {
 /* ---------- パースユーティリティ ---------- */
 
 function getFrontMatterBlock(text) {
-  if (!text.startsWith('---\n')) return null
-  const end = text.indexOf('\n---', 4)
-  return end === -1 ? null : text.slice(4, end)
+  return parseFrontMatter(toLines(text))
 }
 
 function getTitle(text) {
   const fm = getFrontMatterBlock(text)
-  const m = fm?.match(/^title:\s*"?(.+?)"?\s*$/m)
-  if (m) return m[1]
+  const field = fm?.fields.find(field => field.key === 'title')
+  if (field) return unquote(field.value)
   return text.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? null
 }
 
 function getFrontMatterField(text, name) {
   const fm = getFrontMatterBlock(text)
-  return fm?.match(new RegExp(`^${name}:\\s*"?([^"\\n]+?)"?\\s*$`, 'm'))?.[1] ?? null
+  const field = fm?.fields.find(field => field.key === name)
+  return field ? unquote(field.value) : null
 }
 
 function getFrontMatterTags(text) {
   const fm = getFrontMatterBlock(text)
-  const m = fm?.match(/^tags:\s*\[(.*)\]\s*$/m)
-  if (!m) return []
-  return m[1]
-    .split(',')
-    .map(s => s.trim().replace(/^"|"$/g, ''))
-    .filter(Boolean)
+  const field = fm?.fields.find(field => field.key === 'tags')
+  return field ? (parseTagsArray(field.value) ?? []) : []
 }
 
 /** セクション README の収録表から、ファイルの掲載順を得る */
 function parseReadmeOrder(text) {
-  return [...text.matchAll(/^\|\s*\[([\w-]+)\.md\]\(/gm)].map(m => m[1])
+  return readmeArticleOrder(mdParser.parse(text))
 }
 
 /** セクション README の H1 直後の説明段落(トップページのセクショングリッド用) */
@@ -143,7 +140,9 @@ function parseReadmeDescription(text) {
 
 /** コードフェンスを除去したテキストを返す(GLOSSARY の書式例フェンス対策) */
 function stripCodeFences(text) {
-  return text.replace(/^(```|~~~)[\s\S]*?^\1\s*$/gm, '')
+  const lines = []
+  forEachLine(toLines(text), (line, _lineNo, inFence) => lines.push(inFence ? '' : line))
+  return lines.join('\n')
 }
 
 /** GLOSSARY.md → 構造化データ。見出しは「用語名(English)」形式(全角括弧) */
@@ -234,29 +233,6 @@ function ensureFrontMatter(text, repoRel) {
   return `---\ntitle: "${title}"\n---\n\n${text}`
 }
 
-function rewriteLinks(text, repoRel, routeMap) {
-  const srcDir = path.posix.dirname(repoRel)
-  let inFence = false
-  return text
-    .split('\n')
-    .map(line => {
-      if (/^\s*(```|~~~)/.test(line)) {
-        inFence = !inFence
-        return line
-      }
-      if (inFence) return line
-      return line.replace(/\]\(([^)\s]+?\.md)(#[^)]*)?\)/g, (whole, target, hash = '') => {
-        if (/^https?:/.test(target)) return whole
-        const resolved = path.posix.normalize(path.posix.join(srcDir, target))
-        const route = routeMap.get(resolved)
-        if (route) return `](${route}${hash})`
-        errors.push(`${repoRel}: 未解決の .md リンク → ${target}(サイトに存在しないルート)`)
-        return whole
-      })
-    })
-    .join('\n')
-}
-
 /** OUT_DIR 配下の .md/.mdx から、ビルドで生成されるべきルート一覧を導出する(C5 のルート網羅チェック用) */
 async function collectContentRoutes(dir, base = '') {
   const routes = []
@@ -336,10 +312,9 @@ async function main() {
     }
 
     let out = ensureFrontMatter(text, file.repoRel)
-    out = rewriteLinks(out, file.repoRel, routeMap)
-
     // 定型構造の自動装飾(TODO・アンチパターン・チェックリスト・用語リンク)→ MDX として出力
     const tree = mdParser.parse(out)
+    errors.push(...rewriteMarkdownRoutes(tree, file.repoRel, routeMap))
     applyDecorations(tree, { route: routeMap.get(file.repoRel), glossary: glossaryForLinks })
     out = String(mdxWriter.stringify(tree))
     assertSafeMdx(out, file.repoRel) // C3: 許可外の JSX / ESM / {式} / 生 HTML を拒否

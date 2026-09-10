@@ -5,7 +5,7 @@
  * scripts/validate-docs.mjs(CLI / CI)と .claude/hooks/validate-doc.mjs(編集後フック)が共用。
  * ファイル内で閉じる検査のみを行う(リンク網羅・README 収録表は scripts/check-links.mjs)。
  */
-import { forEachLine, parseFrontMatter, parseTagsArray, toLines, unquote } from './md-utils.mjs'
+import { forEachLine, parseFrontMatter, parseScalar, parseTagsArray, toLines, unquote } from './md-utils.mjs'
 
 /** front matter category の許容値(templates/doc-template.md の enum と一致させる) */
 export const CATEGORIES = [
@@ -56,14 +56,17 @@ const TODO_VARIANT_RE = /TODO\s*[(（]\s*要確認\s*[)）]/
  * 1 ドキュメントを検証する。
  * @param {string} repoRel リポジトリルートからの相対パス(docs/NN-section/name.md、区切りは /)
  * @param {string} text ファイル内容
- * @returns {{line: number, check: 'front-matter'|'h2'|'todo', message: string}[]}
+ * @returns {{line: number, check: string, message: string}[]}
  */
 export function validateDoc(repoRel, text) {
   const issues = []
   const push = (line, check, message) => issues.push({ line, check, message })
   const lines = toLines(text)
-  const isReadme = /\/README\.md$/.test(repoRel)
+  const isReadme = /^docs\/\d{2}-[a-z0-9]+(?:-[a-z0-9]+)*\/README\.md$/.test(repoRel)
   const sectionName = repoRel.match(/^docs\/\d\d-([a-z0-9-]+)\//)?.[1] ?? null
+  if (!isReadme && !/^docs\/\d{2}-[a-z0-9]+(?:-[a-z0-9]+)*\/[a-z0-9]+(?:-[a-z0-9]+)*\.md$/.test(repoRel)) {
+    push(1, 'filename', '記事は docs/NN-section-name/topic-name.md の英語ケバブケースで配置してください')
+  }
 
   // front matter を先に解析し、本文スキャンから front matter 領域を除外する
   // (YAML コメントの「# ...」行を H1 として誤検知しないため)
@@ -75,12 +78,21 @@ export function validateDoc(repoRel, text) {
   const h2s = [] // { line, text }
   const h3s = [] // { line, text }
   const todoIssues = []
-  forEachLine(lines, (line, lineNo, inFence) => {
+  // 記入ガイドなどの HTML コメントを内容として数えない。改行数は維持する。
+  const visibleLines = toLines(lines.join('\n').replace(/<!--[\s\S]*?(?:-->|$)/g, match => match.replace(/[^\n]/g, ' ')))
+  const substantiveLines = new Set()
+  const fence = forEachLine(visibleLines, (line, lineNo, inFence, kind) => {
+    if (lineNo > fmEndLine && kind !== 'open' && kind !== 'close' && line.trim() &&
+      (inFence || !/^\s*(?:#{1,6}\s|(?:[-*_]\s*){3,}$)/.test(line))) substantiveLines.add(lineNo)
+    if (kind === 'open' && !line.replace(/^(?: {0,3}>[ \t]?)+/, '').replace(/^ {0,3}(?:`{3,}|~{3,})/, '').trim()) {
+      push(lineNo, 'fence', 'コードフェンスには言語を指定してください')
+    }
     if (inFence || lineNo <= fmEndLine) return
-    let m
-    if ((m = line.match(/^#\s+(.+?)\s*$/))) h1s.push({ line: lineNo, text: m[1] })
-    else if ((m = line.match(/^##\s+(.+?)\s*$/))) h2s.push({ line: lineNo, text: m[1] })
-    else if ((m = line.match(/^###\s+(.+?)\s*$/))) h3s.push({ line: lineNo, text: m[1] })
+    const heading = line.match(/^ {0,3}(#{1,3})[ \t]+(.+?)[ \t]*$/)
+    if (heading) {
+      const collection = [h1s, h2s, h3s][heading[1].length - 1]
+      collection.push({ line: lineNo, text: heading[2].replace(/[ \t]+#+$/, '').trim() })
+    }
     if (line.includes('TODO(要確認)')) {
       if (!TODO_LINE_RE.test(line)) {
         todoIssues.push({
@@ -96,6 +108,7 @@ export function validateDoc(repoRel, text) {
       })
     }
   })
+  if (fence.unclosedFence !== null) push(fence.unclosedFence, 'fence', 'コードフェンスが閉じられていません')
   for (const t of todoIssues) push(t.line, 'todo', t.message)
 
   // README.md は front matter / テンプレート H2 の対象外(TODO 書式のみ検査)
@@ -108,10 +121,14 @@ export function validateDoc(repoRel, text) {
   } else if (fm.unclosed) {
     push(1, 'front-matter', 'front matter が閉じられていません(--- が見つかりません)')
   } else {
+    for (const error of fm.errors) push(error.line, 'front-matter', error.message)
     const byKey = new Map()
     for (const f of fm.fields) {
       if (byKey.has(f.key)) push(f.line, 'front-matter', `フィールド ${f.key} が重複しています`)
       byKey.set(f.key, f)
+      if (f.key !== 'tags' && parseScalar(f.value) === null) {
+        push(f.line, 'front-matter', `${f.key} は 1 行の文字列で書いてください(引用符の対応・値の型を確認)`)
+      }
       if (!REQUIRED_FIELDS.includes(f.key)) {
         push(
           f.line,
@@ -224,18 +241,30 @@ export function validateDoc(repoRel, text) {
     }
   }
 
+  for (const h of h2s.filter(h => fixedSet.has(h.text))) {
+    const endLine = h2s.find(next => next.line > h.line)?.line ?? lines.length + 1
+    if (![...substantiveLines].some(line => line > h.line && line < endLine)) {
+      push(h.line, 'h2', `固定 H2 「## ${h.text}」の本文が空です(見出し・コメントだけでは完成しません)`)
+    }
+  }
+
   // 「実務での注意点」の中に ### アンチパターン / ### チェックリスト が必要
   const notesH2 = h2s.find(h => h.text === '実務での注意点')
   if (notesH2) {
     const nextH2Line = h2s.find(h => h.line > notesH2.line)?.line ?? Infinity
     for (const name of ['アンチパターン', 'チェックリスト']) {
-      const inside = h3s.some(h => h.text === name && h.line > notesH2.line && h.line < nextH2Line)
+      const inside = h3s.find(h => h.text === name && h.line > notesH2.line && h.line < nextH2Line)
       if (!inside) {
         push(
           notesH2.line,
           'h2',
           `「## 実務での注意点」の中に「### ${name}」がありません(該当しない場合も「該当なし(理由)」を書いて残す規約です)`
         )
+      } else {
+        const endLine = Math.min(h3s.find(h => h.line > inside.line)?.line ?? Infinity, nextH2Line)
+        if (![...substantiveLines].some(line => line > inside.line && line < endLine)) {
+          push(inside.line, 'h2', `「### ${name}」の本文が空です(該当しない場合は理由を書いてください)`)
+        }
       }
     }
   }

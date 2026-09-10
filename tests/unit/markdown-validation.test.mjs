@@ -4,10 +4,10 @@ import { mkdirSync, mkdtempSync, readFileSync, renameSync, rmSync, symlinkSync, 
 import os from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
-import { checkLinks, collectLinkTargets } from './check-links.mjs'
-import { collectDocs, forEachLine, parseFrontMatter, REPO_ROOT, splitLocalDestination, toLines } from './lib/md-utils.mjs'
-import { parseMarkdownLinks } from './lib/markdown-links.mjs'
-import { validateDoc } from './lib/validate-core.mjs'
+import { checkLinks, collectLinkTargets } from '../../scripts/check-links.mjs'
+import { collectDocs, forEachLine, parseFrontMatter, REPO_ROOT, splitLocalDestination, toLines } from '../../scripts/lib/md-utils.mjs'
+import { parseMarkdownLinks } from '../../scripts/lib/markdown-links.mjs'
+import { validateDoc } from '../../scripts/lib/validate-core.mjs'
 
 const file = 'docs/01-concepts/agent-loop.md'
 const valid = readFileSync(path.join(REPO_ROOT, file), 'utf8').replace(/\r\n/g, '\n')

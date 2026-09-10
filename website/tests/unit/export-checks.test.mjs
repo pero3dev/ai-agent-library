@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { missingSectionLinks, skipTargetErrors } from '../lib/export-checks.mjs'
+import { missingSectionLinks, skipTargetErrors } from '../../lib/export-checks.mjs'
 
 test('skip navigation requires exactly one target, including error pages', () => {
   const link = '<a href="#nextra-skip-nav">Skip</a>'

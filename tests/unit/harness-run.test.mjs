@@ -4,8 +4,8 @@ import path from 'node:path';
 import os from 'node:os';
 import test from 'node:test';
 import { execFileSync } from 'node:child_process';
-import { main, storage, pathAllowed, validateContract, readProfiles, reconcile } from './harness-run.mjs';
-import { saveGeneration, recoverGeneration, queuedRuns, budgetStatus, acquireLock, releaseLock, releaseLockIfOwned, readLock, snapshotOwned } from './lib/harness-state.mjs';
+import { main, storage, pathAllowed, validateContract, readProfiles, reconcile } from '../../scripts/harness-run.mjs';
+import { saveGeneration, recoverGeneration, queuedRuns, budgetStatus, acquireLock, releaseLock, releaseLockIfOwned, readLock, snapshotOwned } from '../../scripts/lib/harness-state.mjs';
 
 const json = (file, data) => { fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, JSON.stringify(data)); };
 function fixture(t) {

@@ -73,7 +73,7 @@ node scripts/freshness-run.mjs prepare --mode rotation --dry-run
 node scripts/freshness-run.mjs status
 
 # 関連する回帰テスト
-node --test scripts/freshness-*.test.mjs
+node --test tests/unit/freshness-*.test.mjs
 
 # 全文書の検証
 npm run check

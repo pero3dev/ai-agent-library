@@ -3,7 +3,7 @@ import test from 'node:test'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkGfm from 'remark-gfm'
-import { readmeArticleOrder, rewriteMarkdownRoutes } from '../lib/markdown-routes.mjs'
+import { readmeArticleOrder, rewriteMarkdownRoutes } from '../../lib/markdown-routes.mjs'
 
 const parser = unified().use(remarkParse).use(remarkGfm)
 

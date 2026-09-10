@@ -5,9 +5,9 @@ import os from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
-import { checkHarnessPolicy, classifyPath, requiredChecks, reviewDigest, roadmapTasks } from './harness-policy.mjs'
+import { checkHarnessPolicy, classifyPath, requiredChecks, reviewDigest, roadmapTasks } from '../../scripts/harness-policy.mjs'
 
-const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const a = 'docs/01-concepts/agent-loop.md'
 const b = 'docs/01-concepts/tool-use.md'
 const c = 'docs/01-concepts/new-article.md'

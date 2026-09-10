@@ -4,7 +4,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'nod
 import os from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
-import { checkFreshnessPolicy, contentDigest, legacyContentDigest, validateResultShape, validateArchivedResultShape } from './freshness-policy.mjs'
+import { checkFreshnessPolicy, contentDigest, legacyContentDigest, validateResultShape, validateArchivedResultShape } from '../../scripts/freshness-policy.mjs'
 
 const articlePath = 'docs/01-concepts/agent-loop.md'
 const runId = '2026-09-10-test'
@@ -246,7 +246,7 @@ test('deleting files cannot be disguised by changes metadata', t => {
 })
 
 test('schema itself remains strict about bounded systems and independent review', () => {
-  const schema = JSON.parse(readFileSync(new URL('./schemas/freshness-result.schema.json', import.meta.url), 'utf8'))
+  const schema = JSON.parse(readFileSync(new URL('../../scripts/schemas/freshness-result.schema.json', import.meta.url), 'utf8'))
   assert.equal(schema.properties.systems.maxItems, 3)
   assert.equal(schema.properties.review.properties.independent.const, true)
   assert.throws(() => validateResultShape({}), /必須/)

@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "test": "node --test scripts/*.test.mjs",
+    "test": "node --test tests/unit/*.test.mjs",
     "lint:md": "markdownlint \"**/*.md\" -p .markdownlintignore",
     "validate": "node scripts/validate-docs.mjs --all",
     "links": "node scripts/check-links.mjs",
@@ -15,7 +15,7 @@
     "check:docs": "npm run validate && npm run links",
     "harness:run": "node scripts/harness-run.mjs",
     "eval:harness": "node scripts/eval-harness.mjs",
-    "test:harness:windows": "node --test scripts/hooks.test.mjs scripts/freshness-run.test.mjs scripts/harness-run.test.mjs scripts/markdown-validation.test.mjs scripts/harness-tooling.test.mjs"
+    "test:harness:windows": "node --test tests/unit/hooks.test.mjs tests/unit/freshness-run.test.mjs tests/unit/harness-run.test.mjs tests/unit/markdown-validation.test.mjs tests/unit/harness-tooling.test.mjs"
   },
   "devDependencies": {
     "github-slugger": "2.0.0",

@@ -20,7 +20,7 @@
 
 | 計画 | 対応フェーズ | 完了日 |
 | --- | --- | --- |
-| [コーディングエージェント章](plans/content/coding-agents.md) | A | 2026-07-06 |
+| [コーディングエージェント章](plans/content/coding-agents.md) | A・B | 2026-07-06 |
 | [プロフェッショナル化拡張](plans/content/expansion.md) | D〜I | 2026-07-07 |
 | [周辺・基礎領域](plans/content/supplementary.md) | J〜L | 2026-07-07 |
 | [プロンプト・コンテキスト・ハーネス・ループ詳解](plans/content/deep-dive.md) | M〜O | 2026-07-08 |

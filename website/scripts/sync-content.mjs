@@ -2,7 +2,7 @@
 /**
  * sync-content.mjs — docs/(正本)→ website/content/(生成物)の同期スクリプト
  *
- * 方針(WEBSITE-PLAN.md §4-5):
+ * 方針(project/plans/engineering/website.md §4-5):
  * - 原本の Markdown は一切変更しない。変換はすべてこのスクリプトに集約する
  * - コードフェンス内のリンク・見出しは書き換えない
  * - content/ と generated/ は毎回再生成(いずれも git 管理外)

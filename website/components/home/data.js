@@ -2,7 +2,7 @@
  * トップページの編集データ。
  * 原本: docs/00-overview/learning-roadmap.md(読者タイプ別ルート)と
  *       docs/07-case-studies/common-anti-patterns.md(3 つの共通根)。
- * 原本を更新したら、このファイルも同期すること(WEBSITE-PLAN.md §5 段階 3)。
+ * 原本を更新したら、このファイルも同期すること(project/plans/engineering/website.md §5 段階 3)。
  */
 
 export const READER_ROUTES = [

@@ -60,7 +60,7 @@ node scripts/todo-report.mjs           # TODO(要確認) の棚卸し
 ```bash
 node scripts/sync-harness.mjs --write  # 正本から Claude 互換入口を更新
 node scripts/sync-harness.mjs --check  # 不一致・未管理の互換ファイルを検出
-node --test scripts/sync-harness.test.mjs
+node --test tests/unit/sync-harness.test.mjs
 ```
 
 生成先は手修正しません。共通規約や手順を変更したら正本を編集して再生成します。未管理の互換ファイルは自動削除せず、所有者と必要な互換性を確認します。製品固有の hooks・agents・権限設定は各製品のディレクトリで保守します。

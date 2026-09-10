@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { parseOptions, summarizeEvents, assertArchiveTree, assertUnlinked, articleStatus, prepareExecutionEnvironment, executionEnvironment, seedDependencies, consoleSummary, SCRATCH_DIRECTORY } from './eval-harness.mjs';
+import { parseOptions, summarizeEvents, assertArchiveTree, assertUnlinked, articleStatus, prepareExecutionEnvironment, executionEnvironment, seedDependencies, consoleSummary, SCRATCH_DIRECTORY } from '../../scripts/eval-harness.mjs';
 
 function fixture(t) {
   const parent = fs.realpathSync.native(os.tmpdir());

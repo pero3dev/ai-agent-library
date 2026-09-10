@@ -5,12 +5,11 @@ import os from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
-import { editedPaths } from '../.codex/hooks/edited-paths.mjs'
-import { generatedPath, lexicalPath, normalizeEditEvent, relativeInside } from './lib/hook-core.mjs'
-import { codexWindowsHookCommand, hookCommand } from './lib/hook-command.mjs'
-import { windowsShortPath } from './lib/windows-test-path.mjs'
+import { editedPaths, generatedPath, lexicalPath, normalizeEditEvent, relativeInside } from '../../scripts/lib/hook-core.mjs'
+import { codexWindowsHookCommand, hookCommand } from '../../scripts/lib/hook-command.mjs'
+import { windowsShortPath } from '../helpers/windows-test-path.mjs'
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const patch = (...lines) => ({ tool_name: 'apply_patch', cwd: root, tool_input: { command: ['*** Begin Patch', ...lines, '*** End Patch'].join('\n') } })
 const invoke = (script, event, cwd = root) => spawnSync(process.execPath, [path.join(root, '.codex/hooks', script)], {
   input: typeof event === 'string' ? event : JSON.stringify(event), encoding: 'utf8', cwd

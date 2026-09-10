@@ -3,12 +3,12 @@ import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, 
 import os from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
-import { checkHarness, isActiveTeachingFile, parseConfiguration, validateSchemaReferences, verificationDrift } from './check-harness.mjs'
-import { checkCommand, describeChecks, runChecks } from './check-ci.mjs'
-import { selectTask } from './harness-context.mjs'
-import { readObservations, selectedConfig } from './harness-doctor.mjs'
-import { measureStorage, summarizeHealth } from './harness-health.mjs'
-import { filesUnder, resolvePython, ROOT, versionSupported } from './lib/tooling-common.mjs'
+import { checkHarness, isActiveTeachingFile, parseConfiguration, validateSchemaReferences, verificationDrift } from '../../scripts/check-harness.mjs'
+import { checkCommand, describeChecks, runChecks } from '../../scripts/check-ci.mjs'
+import { selectTask } from '../../scripts/harness-context.mjs'
+import { readObservations, selectedConfig } from '../../scripts/harness-doctor.mjs'
+import { measureStorage, summarizeHealth } from '../../scripts/harness-health.mjs'
+import { filesUnder, resolvePython, ROOT, versionSupported } from '../../scripts/lib/tooling-common.mjs'
 
 function fixture(t) {
   const base = path.resolve(os.tmpdir())
@@ -174,7 +174,7 @@ test('selected CI checks reject bad IDs before execution and retain failed and o
 function configuredFixture(t) {
   const { root, write } = fixture(t)
   for (const entry of readdirSync(ROOT, { withFileTypes: true })) if (entry.isFile() && entry.name.endsWith('.md')) cpSync(path.join(ROOT, entry.name), path.join(root, entry.name))
-  for (const dir of ['.agents', '.claude', '.codex', '.github', 'harness', 'templates', 'examples', 'docs', 'scripts/schemas']) if (existsSync(path.join(ROOT, dir))) cpSync(path.join(ROOT, dir), path.join(root, dir), { recursive: true, filter: source => !source.split(path.sep).some(part => ['node_modules', '.venv', '__pycache__'].includes(part)) })
+  for (const dir of ['.agents', '.claude', '.codex', '.github', 'harness', 'project', 'templates', 'examples', 'docs', 'scripts/schemas']) if (existsSync(path.join(ROOT, dir))) cpSync(path.join(ROOT, dir), path.join(root, dir), { recursive: true, filter: source => !source.split(path.sep).some(part => ['node_modules', '.venv', '__pycache__'].includes(part)) })
   if (!existsSync(path.join(root, 'harness/profiles.json'))) write('harness/profiles.json', { schema_version: 1, profiles: Object.fromEntries(['new-doc', 'article-update', 'freshness', 'publish-review', 'examples', 'website', 'harness'].map(name => [name, { allowed_roots: [], allowed_files: [], extensions: [], completion: 'local', review_required: false }])) })
   for (const file of ['.codex/hooks.json', '.claude/settings.json']) {
     const config = JSON.parse(readFileSync(path.join(root, file), 'utf8'))

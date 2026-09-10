@@ -3,7 +3,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSyn
 import os from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
-import { sharedSkills, syncHarness } from './sync-harness.mjs'
+import { sharedSkills, syncHarness } from '../../scripts/sync-harness.mjs'
 
 function fixture(t) {
   const base = path.resolve(os.tmpdir())

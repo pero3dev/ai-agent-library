@@ -23,8 +23,8 @@
 | --- | --- | --- |
 | S0 | 完了 | baseline・旧新パス54件・worktreeの取り込み証拠と削除条件を保存 |
 | S1 | 完了 | PR #26の9必須チェック、マージ・公開照合成功 |
-| S2 | 導入待ち | 文書33件と監査出力2件を移動。root15/Markdown8、記事本文・研究JSON・214タスク不変 |
-| S3 | 実装済み | 単体試験・helper・固定課題を移動。root278、Windows110、website26、offline eval242試験成功。S2後に導入 |
+| S2 | 完了 | PR #27の9必須チェック、マージ・公開照合成功。root15/Markdown8 |
+| S3 | 導入待ち | 単体試験・helper・固定課題を移動。root278、Windows110、website26、offline eval242試験成功。S2統合後も全体検査成功 |
 | S4 | 実施中 | 旧worktree14件と対応ローカルbranch・remote10件をバックアップ後に解放。生成物と恒久検査は後続 |
 | S5 | 未着手 | 新checkoutの受入、全CI・公開照合、最終配置と残す理由を確認 |
 
@@ -49,6 +49,14 @@
 記事本文・research JSONの変更は0件、ROADMAPの214タスクのID・状態・成果物は不変、監査出力2件のSHA256も不変です。S1の検査で変更したresearch Markdownを追加指定し、294ファイル/5,322リンクが成功しました。実装コメントとignoreコメントの旧計画名も同期しました。
 
 移動後の `npm run check` は278試験・skip 0件で成功しました。独立レビューは必須指摘0件、推奨指摘1件でした。索引のコーディングエージェント章を計画本文に合わせてA・B表記へ修正しました。
+
+[PR #27](https://github.com/pero3dev/ai-agent-library/pull/27) はhead `3b437d41d260879e78754bf9540ef9aa69efddcc` の9チェック成功後、merge `6cd767c91e37f7a44a4144aa9138aac1579998d0` に進みました。main CI `34513406195`、deployment `6378281845` と公開HTTP200・本文を2026-09-10T18:20:15.031Zにライブ照合しました。
+
+## S3の確認
+
+試験12件・helper1件・不活性な固定課題2件・website試験4件の計19件を移動し、実行入口7件を更新しました。試験のimport、root算出、fixtureコピーだけを配置に合わせ、移動前後の試験宣言数を照合しました。旧互換wrapperは試験からcoreを直接参照するよう変更して削除し、実働hookの設定・adapter・coreは維持しています。
+
+root全体278件、Windows重点110件、website単体26件、offline evalの9suite・242件がすべて成功し、skipは0件でした。依存監査・スキル同期・差分検査も成功しました。親担当の独立レビューは必須指摘0件です。S2を取り込んだmerge `1b9385c4042573b21e8442cf02b4fd94b38f6df6` でも全体278試験と281ファイル/5,112リンクを再確認しました。原ログと移動照合はcommon Git directoryの `structure-tests-*`、`structure-cleanup/s3-integrated-check.log` に保存しています。
 
 ## S4のworktree整理
 

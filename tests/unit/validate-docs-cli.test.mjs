@@ -4,7 +4,7 @@ import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writ
 import os from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
-import { REPO_ROOT } from './lib/md-utils.mjs'
+import { REPO_ROOT } from '../../scripts/lib/md-utils.mjs'
 
 const article = 'docs/01-concepts/agent-loop.md'
 const valid = readFileSync(path.join(REPO_ROOT, article), 'utf8')

@@ -145,7 +145,7 @@ function prepare(options) {
   fs.appendFileSync(path.join(checkout, 'ROADMAP.md'), '\n## 隔離評価タスク\n\n| タスク | 内容 | 成果物 | ステータス |\n| --- | --- | --- | --- |\n| HARNESS-EVAL-1 | Agentの停止条件と予算の設計 | `01-concepts/termination-budget.md` | 未着手 |\n');
   run('git', ['add', '.'], { cwd: checkout });
   run('git', ['commit', '-m', 'Prepare isolated harness evaluation', '-m', 'Co-authored-by: Codex <codex@openai.com>'], { cwd: checkout });
-  const prompt = fs.readFileSync(path.join(root, 'tests/harness/authoring-prompt.txt.example'), 'utf8');
+  const prompt = fs.readFileSync(path.join(root, 'tests/fixtures/harness/authoring-prompt.txt.example'), 'utf8');
   fs.writeFileSync(path.join(directory, 'prompt.txt'), prompt);
   const record = { schema_version: 1, scenario: options.scenario, source_sha: ref, fixture_sha: run('git', ['rev-parse', 'HEAD'], { cwd: checkout }).stdout.trim(), prompt_sha256: crypto.createHash('sha256').update(prompt).digest('hex'), created_at: new Date().toISOString(), checkout, execution_contract: executionContract, dependency_install: { command: executionContract.dependency_install_command, result: 'not-run' }, instruction_bytes: fs.statSync(path.join(checkout, 'AGENTS.md')).size, status: 'prepared', evidence_class: 'fixture-preparation' };
   fs.writeFileSync(path.join(directory, 'evaluation.json'), `${JSON.stringify(record, null, 2)}\n`);
@@ -231,7 +231,7 @@ export async function main(argv = process.argv.slice(2)) {
   if (options.mode === 'prepare') return prepare(options);
   if (options.mode === 'collect') return collect(options.run);
   if (options.mode === 'agent') return agent(options);
-  const result = run(process.execPath, ['--test', ...suites.map(file => path.join(root, 'scripts', file))], { cwd: root });
+  const result = run(process.execPath, ['--test', ...suites.map(file => path.join(root, 'tests/unit', file))], { cwd: root });
   return { evidence_class: 'offline-fixture', passed: true, suites, report: result.stdout, actual_agent: 'not-run', github: 'not-run', publication: 'not-run' };
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main().then(result => console.log(JSON.stringify(consoleSummary(result), null, 2))).catch(error => { console.error(error.message); process.exitCode = 1; });

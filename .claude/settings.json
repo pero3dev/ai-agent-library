@@ -20,11 +20,11 @@
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Edit|Write|MultiEdit",
+        "matcher": "^(Edit|Write|MultiEdit)$",
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-generated.mjs\"",
+            "command": "node -e \"(async()=>{const fs=require('node:fs'),p=require('node:path'),u=require('node:url');const candidate=process.env.CLAUDE_PROJECT_DIR;if(!candidate||!p.isAbsolute(candidate))throw Error('Project root is unavailable');const r=fs.realpathSync(candidate),core=p.join(r,'scripts/lib/hook-core.mjs');const entry=p.join(r,'.claude/hooks/guard-generated.mjs');for(const file of [core,entry])if(fs.realpathSync(file)!==file)throw Error('Hook path resolves outside its expected location');if(fs.readFileSync(core,'utf8').split(/\\r?\\n/,1)[0]!=='// ai-agent-library:hook-core-v1')throw Error('Not an AI Agent Library hook root');await import(u.pathToFileURL(entry).href)})().catch(e=>{console.error('Hook startup failed: '+e.message);process.exitCode=2})\"",
             "timeout": 10
           }
         ]
@@ -32,11 +32,11 @@
     ],
     "PostToolUse": [
       {
-        "matcher": "Edit|Write|MultiEdit",
+        "matcher": "^(Edit|Write|MultiEdit)$",
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/validate-doc.mjs\"",
+            "command": "node -e \"(async()=>{const fs=require('node:fs'),p=require('node:path'),u=require('node:url');const candidate=process.env.CLAUDE_PROJECT_DIR;if(!candidate||!p.isAbsolute(candidate))throw Error('Project root is unavailable');const r=fs.realpathSync(candidate),core=p.join(r,'scripts/lib/hook-core.mjs');const entry=p.join(r,'.claude/hooks/validate-doc.mjs');for(const file of [core,entry])if(fs.realpathSync(file)!==file)throw Error('Hook path resolves outside its expected location');if(fs.readFileSync(core,'utf8').split(/\\r?\\n/,1)[0]!=='// ai-agent-library:hook-core-v1')throw Error('Not an AI Agent Library hook root');await import(u.pathToFileURL(entry).href)})().catch(e=>{console.error('Hook startup failed: '+e.message);process.exitCode=2})\"",
             "timeout": 15
           }
         ]

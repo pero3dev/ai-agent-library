@@ -92,6 +92,37 @@ Node.js は 22 以降、Python は 3.11 以降が必要です。診断は版の�
 
 新しい規約を、その変更自身の承認根拠に使いません。静的・単体・モック試験で確認した範囲と、実 Agent・GitHub・公開先で確認した範囲を分けます。教材用の自動認識される設定は `.example` 等で保存し、動作試験時だけ所有する隔離ディレクトリへ展開します。
 
+### 作業の保存と再開
+
+`harness:run` は `harness/profiles.json` の作業区分と、JSON の作業契約を使います。契約には `profile`、`goal`、`authorization`、重複しない相対パスの `owned_paths`、終了条件の `completion` を記録します。安定した `task_key` を指定すると同じ未完了作業を検出できます。定期最新化は既存の `freshness-run` を使い、共通の排他を共有します。
+
+```bash
+npm run harness:run -- start --contract /absolute/path/task.json
+npm run harness:run -- checkpoint --run-id <run-id> --attempt-id <attempt-id>
+npm run harness:run -- suspend --run-id <run-id> --attempt-id <attempt-id> --usage-limit
+npm run harness:run -- resume --run-id <run-id> --dry-run
+npm run harness:run -- resume --run-id <run-id> --apply
+```
+
+開始・再開で返された `attempt_id` を保存処理へ渡します。外部待ちは理由と次回確認時刻を持ち、解消した証拠がある場合だけ `resume --ready --wait-reason <理由>` で進めます。復元は所有する隔離ブランチで行い、main の変更や他者の未保存差分を照合します。利用制限を指定した試験は、実際に契約枠を使い切った試験と区別します。
+
+完了前に候補をコミットし、`verify` を実行します。`finish` はその tree に結び付いた検証と、作業区分に必要な内容レビューを要求します。`new-doc` の draft PR で公開レビューの記録を省略できても、共通 runtime の内容レビュー契約は残ります。レビュー記録は `decision: approved`、`tree_sha`、作業 run と異なる `reviewer_run_id` を持ち、checkpoint の JSON で引き渡します。`merged` / `published` の完了には、`pr_url`、`head_sha`、必要な `publication_urls` を記録し、実 GitHub と公開先を再照合します。
+
+保存先は common Git directory 配下です。クライアントの sandbox が `.git` を読み取り専用にする実行面では、明示した作業領域の権限を確認します。`start` が拒否された場合を、中断保存や再開の成功と表示しません。
+
+### ハーネスの評価
+
+```bash
+npm run eval:harness
+npm run eval:harness -- --mode prepare --ref <比較対象のcommit>
+npm run eval:harness -- --mode agent --ref <比較対象のcommit> --binary /absolute/path/codex
+npm run eval:harness -- --mode collect --run /absolute/path/evaluation
+```
+
+既定はオフラインの回帰試験です。`agent` は明示したネイティブ Codex と既存の ChatGPT 認証・モデル設定で、固定した新規 draft 執筆課題を実行します。独立した Git fixture を common Git directory に作成し、API キーへの切替、リモートの作成・更新、成果物の自動コミットは行いません。`prepare` は実 Agent を起動しません。実行ログはローカルに留め、`collect` が返す版・thread・使用量・所要時間・変更範囲と、別に行う内容レビューを評価記録へまとめます。終了コードやコマンド数だけで品質の合格を決めません。
+
+比較時は同じ課題・モデル設定・開始条件を使い、単一試行から一般的な成功率を推定しません。発火していない hook、未取得の使用量、権限や認証で起動できなかった面は明示します。実クライアントの hook、読み取り専用担当、停止・再開、定期起動は、固定執筆課題とは別の受入シナリオです。
+
 ### ローカル記録の保管と棚卸し
 
 完了 run とそのログは完了後 90 日間、WIP ref は対象作業の完了後 90 日間保持します。未完了・要判断の記録は期間で削除しません。共通 Git ディレクトリの状態・ログ領域が 500 MiB を超えた場合は、`harness:health` の容量表示を使って棚卸しします。容量超過を理由に自動削除することはありません。

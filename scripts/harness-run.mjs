@@ -5,7 +5,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { git, snapshotOwned, assertRunId, readLock, acquireLock, releaseLock, assertOwner, withLockMutex, saveGeneration, recoverGeneration, queuedRuns, budgetStatus } from './lib/harness-state.mjs';
+import { git, snapshotOwned, isPreservablePath, assertRunId, readLock, acquireLock, releaseLock, releaseLockIfOwned, assertOwner, assertNoLinkedTargets, withLockMutex, saveGeneration, recoverGeneration, queuedRuns, budgetStatus } from './lib/harness-state.mjs';
 
 const moduleRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const sha = /^[a-f0-9]{40}$/;
@@ -28,9 +28,8 @@ export function readProfiles() {
   return catalog.profiles;
 }
 export function pathAllowed(file, profile) {
-  if (typeof file !== 'string' || !file || path.isAbsolute(file) || file.includes('\\') || file.includes(':') || file.split('/').some(part => !part || part === '.' || part === '..')) return false;
-  if (/(^|\/)(?:node_modules|\.git|\.next|out|test-results|playwright-report)(\/|$)/.test(file) || /^website\/(?:content|generated|public\/_pagefind)\//.test(file) || file === 'website/next-env.d.ts') return false;
-  if (/(^|\/)(?:\.env(?:\..*)?|auth\.json|credentials(?:\..*)?|\.npmrc|id_rsa|id_ed25519)$/.test(file) || /\.(?:pem|pfx|key|env)$/.test(file)) return false;
+  if (!isPreservablePath(file)) return false;
+  if (profile.change_manifests && /^harness\/changes\/[a-z0-9][a-z0-9-]{3,79}\.json$/.test(file)) return true;
   return profile.allowed_files.includes(file) || (profile.root_markdown && !file.includes('/') && file.endsWith('.md')) || (profile.allowed_roots.some(prefix => file.startsWith(prefix)) && (profile.extensions.includes('*') || profile.extensions.includes(path.posix.extname(file))));
 }
 function owned(file, paths) { return paths.some(entry => entry.endsWith('/') ? file.startsWith(entry) : file === entry); }
@@ -41,7 +40,7 @@ export function validateContract(contract, profiles = readProfiles()) {
   if (contract.task_key !== undefined && (typeof contract.task_key !== 'string' || !contract.task_key.trim())) throw new Error('task_key must be a nonempty string');
   if (!Array.isArray(contract.owned_paths) || !contract.owned_paths.length || new Set(contract.owned_paths).size !== contract.owned_paths.length) throw new Error('Contract requires unique owned_paths');
   for (const file of contract.owned_paths) {
-    const valid = file.endsWith('/') ? profile.allowed_roots.some(prefix => file.startsWith(prefix)) && pathAllowed(`${file}probe${profile.extensions.includes('*') ? '.md' : profile.extensions[0]}`, profile) : pathAllowed(file, profile);
+    const valid = file.endsWith('/') ? (profile.change_manifests && file === 'harness/changes/') || profile.allowed_roots.some(prefix => file.startsWith(prefix)) && pathAllowed(`${file}probe${profile.extensions.includes('*') ? '.md' : profile.extensions[0]}`, profile) : pathAllowed(file, profile);
     if (!valid) throw new Error(`Owned path is outside profile: ${file}`);
   }
   if (!['local', 'merged', 'published', 'observed'].includes(contract.completion ?? profile.completion)) throw new Error('Invalid completion condition');
@@ -61,13 +60,6 @@ function save(dir, locks, record, now) {
     state.runs[record.run_id] = { run_id: record.run_id, task_key: record.task_key, status: record.status, queue_state: record.queue_state, started_at: record.started_at, next_eligible_at: record.next_eligible_at ?? null };
     return saveGeneration(dir, state, next, { beforeCommit: () => assertOwner(locks, record.run_id, record.attempt_id) });
   });
-}
-function assertNoLinkedTargets(root, paths) {
-  for (const file of paths) {
-    for (let current = path.resolve(root, file); current !== root; current = path.dirname(current)) {
-      if (fs.existsSync(current) && fs.lstatSync(current).isSymbolicLink()) throw new Error(`Owned path contains a symlink: ${file}`);
-    }
-  }
 }
 function snapshot(root, dir, record, profile) {
   const paths = git(root, 'ls-files', '--cached', '--others', '--exclude-standard', '-z', '--', ...record.owned_paths).split('\0').filter(Boolean).filter(file => owned(file, record.owned_paths) && pathAllowed(file, profile));
@@ -159,7 +151,8 @@ export async function main(argv = process.argv.slice(2), deps = {}) {
     const record = { schema_version: 1, run_id: runId, task_key: taskKey, profile: contract.profile, goal: contract.goal, authorization: contract.authorization, owned_paths: contract.owned_paths, completion: contract.completion ?? profile.completion, status: 'in_progress', queue_state: 'ready', started_at: now.toISOString(), worktree: root, branch: gitMaybe(root, 'symbolic-ref', '--short', 'HEAD'), base_sha: base, budget: budgetFor(options, now), notes: [], pending: [] };
     if (options['dry-run']) return { ...record, dry_run: true };
     record.attempt_id = acquireLock(locks, runId, now).attempt_id;
-    return { ...save(dir, locks, record, now), checkpoint: path.join(dir, 'runs', `${runId}.json`) };
+    try { return { ...save(dir, locks, record, now), checkpoint: path.join(dir, 'runs', `${runId}.json`) }; }
+    catch (error) { releaseLockIfOwned(locks, runId, record.attempt_id); throw error; }
   }
   if (!options.run && !options['run-id']) throw new Error('--run <checkpoint JSON> or --run-id is required');
   const input = options.run ? JSON.parse(fs.readFileSync(path.resolve(options.run), 'utf8')) : null;
@@ -179,29 +172,30 @@ export async function main(argv = process.argv.slice(2), deps = {}) {
     if (options['dry-run']) return { run_id: record.run_id, reconciliation: check, dry_run: true };
     const resumedBudget = budgetFor(options, now);
     record.attempt_id = acquireLock(locks, record.run_id, now).attempt_id;
-    record.budget = resumedBudget;
-    record.queue_state = 'ready';
-    record.next_eligible_at = null;
-    if (options['accept-base']) {
-      const currentMain = gitMaybe(root, 'rev-parse', 'origin/main');
-      if (options['accept-base'] !== currentMain || !check.clean || gitMaybe(root, 'merge-base', '--is-ancestor', currentMain, 'HEAD') === null) {
-        releaseLock(locks, record.run_id, record.attempt_id);
-        throw new Error('Accept base only after integrating current main in a clean worktree');
+    try {
+      record.budget = resumedBudget;
+      record.queue_state = 'ready';
+      record.next_eligible_at = null;
+      if (options['accept-base']) {
+        const currentMain = gitMaybe(root, 'rev-parse', 'origin/main');
+        if (options['accept-base'] !== currentMain || !check.clean || gitMaybe(root, 'merge-base', '--is-ancestor', currentMain, 'HEAD') === null) {
+          throw new Error('Accept base only after integrating current main in a clean worktree');
+        }
+        record.base_sha = currentMain;
+        delete record.review; delete record.verification;
       }
-      record.base_sha = currentMain;
-      delete record.review; delete record.verification;
-    }
-    if (['rebase_and_review', 'pr_head_changed', 'compare_divergence'].includes(check.action)) { delete record.review; delete record.verification; }
-    if (options.apply && check.action === 'restore_snapshot') {
-      const branch = gitMaybe(root, 'symbolic-ref', '--short', 'HEAD');
-      if (['main', 'master'].includes(branch)) { releaseLock(locks, record.run_id, record.attempt_id); throw new Error('Restore requires an isolated task branch or detached worktree'); }
-      git(root, 'merge', '--ff-only', check.snapshot_commit);
-      record.snapshot_commit = check.snapshot_commit;
-      record.snapshot_head = check.snapshot_head;
-      record.worktree = root;
-    }
-    record = save(dir, locks, record, now);
-    return { ...record, reconciliation: check, restored: Boolean(options.apply && check.action === 'restore_snapshot'), checkpoint: path.join(dir, 'runs', `${record.run_id}.json`) };
+      if (['rebase_and_review', 'pr_head_changed', 'compare_divergence'].includes(check.action)) { delete record.review; delete record.verification; }
+      if (options.apply && check.action === 'restore_snapshot') {
+        const branch = gitMaybe(root, 'symbolic-ref', '--short', 'HEAD');
+        if (['main', 'master'].includes(branch)) throw new Error('Restore requires an isolated task branch or detached worktree');
+        git(root, 'merge', '--ff-only', '--no-overwrite-ignore', check.snapshot_commit);
+        record.snapshot_commit = check.snapshot_commit;
+        record.snapshot_head = check.snapshot_head;
+        record.worktree = root;
+      }
+      record = save(dir, locks, record, now);
+      return { ...record, reconciliation: check, restored: Boolean(options.apply && check.action === 'restore_snapshot'), checkpoint: path.join(dir, 'runs', `${record.run_id}.json`) };
+    } catch (error) { releaseLockIfOwned(locks, record.run_id, record.attempt_id); throw error; }
   }
   const attempt = options['attempt-id'];
   if (!attempt) throw new Error('--attempt-id captured from start/resume is required');

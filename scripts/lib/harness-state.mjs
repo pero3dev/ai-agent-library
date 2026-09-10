@@ -5,8 +5,30 @@ import { execFileSync } from 'node:child_process';
 
 const RUN_ID = /^[a-z0-9][a-z0-9-]{1,79}$/;
 export const git = (root, ...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+export function isPreservablePath(file) {
+  if (typeof file !== 'string' || !file || path.isAbsolute(file) || file.includes('\\') || file.includes(':') || file.split('/').some(part => !part || part === '.' || part === '..')) return false;
+  const lower = file.toLowerCase();
+  if (/(^|\/)(?:node_modules|\.git|\.next|out|test-results|playwright-report)(\/|$)/.test(lower) || /^website\/(?:content|generated|public\/_pagefind)(\/|$)/.test(lower) || ['website/next-env.d.ts', 'website/dev-server.log'].includes(lower)) return false;
+  return !/(^|\/)(?:\.env(?:\..*)?|auth\.json|credentials(?:\..*)?|\.npmrc|id_rsa|id_ed25519)$/.test(lower) && !/\.(?:pem|pfx|key|env)$/.test(lower);
+}
+export function assertNoLinkedTargets(root, paths) {
+  root = path.resolve(root);
+  for (const file of paths) {
+    const target = path.resolve(root, file);
+    for (let current = target; current !== root; current = path.dirname(current)) {
+      if (path.dirname(current) === current) throw new Error('Path is outside the checked root');
+      let stat;
+      try { stat = fs.lstatSync(current); }
+      catch (error) { if (error.code !== 'ENOENT') throw error; }
+      if (stat?.isSymbolicLink()) throw new Error(`Path contains a symlink: ${file}`);
+      if (stat && current !== target && !stat.isDirectory()) throw new Error(`Parent path is not a directory: ${file}`);
+    }
+  }
+}
 export function snapshotOwned(root, dir, runId, { candidates, accepts, refPrefix = 'harness', beforePublish = () => {} }) {
   assertRunId(runId);
+  assertNoLinkedTargets(root, candidates);
+  assertNoLinkedTargets(path.dirname(dir), [path.basename(dir)]);
   fs.mkdirSync(dir, { recursive: true });
   const index = path.join(dir, `snapshot-index-${crypto.randomUUID()}`);
   const snapshotOptions = {
@@ -18,7 +40,8 @@ export function snapshotOwned(root, dir, runId, { candidates, accepts, refPrefix
     const head = git(root, 'rev-parse', 'HEAD');
     snapshotGit('read-tree', head);
     const paths = snapshotGit('ls-files', '--cached', '--others', '--exclude-standard', '-z', '--', ...candidates)
-      .split('\0').filter(accepts);
+      .split('\0').filter(file => isPreservablePath(file) && accepts(file));
+    assertNoLinkedTargets(root, paths);
     if (paths.length) execFileSync('git', ['--literal-pathspecs', 'add', '-A', '--pathspec-from-file=-', '--pathspec-file-nul'], {
       ...snapshotOptions, stdio: ['pipe', 'pipe', 'pipe'], input: `${[...new Set(paths)].join('\0')}\0`
     });
@@ -86,6 +109,17 @@ export function releaseLock(dir, runId, attemptId) {
     fs.rmdirSync(path.join(dir, 'lock'));
   });
 }
+// Failure cleanup must never release a replacement attempt that acquired the lease.
+export function releaseLockIfOwned(dir, runId, attemptId) {
+  assertRunId(runId);
+  return withLockMutex(dir, () => {
+    const owner = readLock(dir);
+    if (!owner || owner.run_id !== runId || owner.attempt_id !== attemptId) return false;
+    fs.unlinkSync(path.join(dir, 'lock', 'owner.json'));
+    fs.rmdirSync(path.join(dir, 'lock'));
+    return true;
+  });
+}
 export function assertOwner(dir, id, attemptId) {
   if (typeof attemptId !== 'string' || !/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(attemptId)) throw new Error('A valid lock attempt_id is required');
   const owner = readLock(dir);
@@ -99,6 +133,8 @@ function readGeneration(dir) {
 }
 export function recoverGeneration(dir, { dryRun = true } = {}) {
   dir = path.resolve(dir);
+  assertNoLinkedTargets(path.dirname(dir), [path.basename(dir)]);
+  assertNoLinkedTargets(dir, ['journal.json', 'state.json']);
   const file = path.join(dir, 'journal.json');
   if (!fs.existsSync(file)) return { needed: false, dry_run: dryRun };
   const journal = JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -107,10 +143,7 @@ export function recoverGeneration(dir, { dryRun = true } = {}) {
   if (current > journal.generation || current < journal.generation - 1) throw new Error('Journal conflicts with stored generation');
   for (const [name, value] of Object.entries(journal.files)) {
     if (!value || value.generation !== journal.generation || (name.startsWith('runs/') && name !== `runs/${value.run_id}.json`)) throw new Error('Journal record generation/ID mismatch');
-    const destination = path.join(dir, name);
-    for (let ancestor = destination; ancestor !== path.resolve(dir); ancestor = path.dirname(ancestor)) {
-      if (fs.existsSync(ancestor) && fs.lstatSync(ancestor).isSymbolicLink()) throw new Error('Journal destination contains a symlink');
-    }
+    assertNoLinkedTargets(dir, [name]);
   }
   if (!dryRun) {
     for (const [name, value] of Object.entries(journal.files)) writeJson(path.join(dir, name), value);
@@ -124,8 +157,10 @@ export function recoverGeneration(dir, { dryRun = true } = {}) {
 export function saveGeneration(dir, state, record, { beforeCommit = () => {}, fault = () => {} } = {}) {
   dir = path.resolve(dir);
   beforeCommit();
-  recoverGeneration(dir, { dryRun: false });
   assertRunId(record.run_id);
+  assertNoLinkedTargets(path.dirname(dir), [path.basename(dir)]);
+  assertNoLinkedTargets(dir, ['journal.json', 'state.json', `runs/${record.run_id}.json`]);
+  recoverGeneration(dir, { dryRun: false });
   const generation = readGeneration(dir) + 1;
   const files = { 'state.json': { ...state, generation }, [`runs/${record.run_id}.json`]: { ...record, generation } };
   const journal = { schema_version: 1, generation, files };

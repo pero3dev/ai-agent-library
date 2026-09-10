@@ -2,6 +2,7 @@
   "schema_version": 1,
   "profiles": {
     "new-doc": {
+      "change_manifests": true,
       "allowed_roots": [
         "docs/",
         "research/"
@@ -19,6 +20,7 @@
       "review_required": true
     },
     "article-update": {
+      "change_manifests": true,
       "allowed_roots": [
         "docs/",
         "research/"
@@ -54,6 +56,7 @@
       "runtime": "freshness-run"
     },
     "publish-review": {
+      "change_manifests": true,
       "allowed_roots": [
         "docs/",
         "research/"

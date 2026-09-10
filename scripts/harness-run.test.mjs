@@ -5,7 +5,7 @@ import os from 'node:os';
 import test from 'node:test';
 import { execFileSync } from 'node:child_process';
 import { main, storage, pathAllowed, validateContract, readProfiles, reconcile } from './harness-run.mjs';
-import { saveGeneration, recoverGeneration, queuedRuns, budgetStatus, acquireLock, releaseLock, snapshotOwned } from './lib/harness-state.mjs';
+import { saveGeneration, recoverGeneration, queuedRuns, budgetStatus, acquireLock, releaseLock, releaseLockIfOwned, readLock, snapshotOwned } from './lib/harness-state.mjs';
 
 const json = (file, data) => { fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, JSON.stringify(data)); };
 function fixture(t) {
@@ -39,8 +39,63 @@ test('profiles reject traversal, generated files, credentials and broadened fres
   assert.equal(pathAllowed('scripts/test.mjs', profiles.harness), true);
   assert.equal(pathAllowed('website/app/page.tsx', profiles.website), true);
   assert.equal(pathAllowed('scripts/test.mjs', profiles['article-update']), false);
+  for (const file of ['website/Content/page.md', 'website/.NEXT/page.json', 'website/dev-server.log', 'website/app/Credentials.JSON', 'website/app/.ENV.local', 'website/app/key.PEM']) assert.equal(pathAllowed(file, profiles.website), false, file);
   assert.throws(() => validateContract({ profile: 'freshness', goal: 'x', authorization: 'x', owned_paths: ['scripts/'] }), /freshness uses/);
   assert.throws(() => validateContract({ profile: 'harness', goal: 'x', authorization: 'x', owned_paths: ['scripts/../website/'] }), /outside profile/);
+});
+
+test('article profiles own only the designated manifest JSON namespace', async t => {
+  const profiles = readProfiles();
+  for (const name of ['new-doc', 'article-update', 'publish-review']) {
+    assert.equal(pathAllowed('harness/changes/review-one.json', profiles[name]), true);
+    for (const file of ['harness/changes/note.md', 'harness/changes/nested/review-one.json', 'harness/other.json']) assert.equal(pathAllowed(file, profiles[name]), false, file);
+    validateContract({ profile: name, goal: 'Update articles', authorization: 'User requested', owned_paths: ['harness/changes/'] });
+  }
+  assert.equal(pathAllowed('harness/changes/review-one.json', profiles.freshness), false);
+  const f = fixture(t);
+  json(f.contract, { profile: 'article-update', goal: 'Update articles', authorization: 'User requested', owned_paths: ['harness/changes/'] });
+  const record = await active(f);
+  json(path.join(f.root, 'harness/changes/review-one.json'), { run_id: 'review-one' });
+  fs.writeFileSync(path.join(f.root, 'harness/changes/note.md'), 'not an owned manifest');
+  const saved = await f.run('checkpoint', '--run-id', record.run_id, '--attempt-id', record.attempt_id);
+  assert.match(f.git('show', `${saved.snapshot_commit}:harness/changes/review-one.json`), /review-one/);
+  assert.doesNotMatch(f.git('ls-tree', '-r', '--name-only', saved.snapshot_commit), /note\.md/);
+  await release(f, record);
+});
+
+test('start rejects dangling linked ownership before acquiring a lease', async t => {
+  const f = fixture(t);
+  const linked = path.join(f.root, 'scripts/linked');
+  fs.symlinkSync(path.join(f.directory, 'absent'), linked, process.platform === 'win32' ? 'junction' : 'dir');
+  json(f.contract, { profile: 'harness', goal: 'Update scripts', authorization: 'User requested', owned_paths: ['scripts/linked/'] });
+  assert.equal(fs.existsSync(linked), false);
+  await assert.rejects(active(f), /symlink/);
+  assert.equal(readLock(f.locks), null);
+});
+
+test('start save failure releases its attempt without partial state and permits retry', async t => {
+  const f = fixture(t);
+  fs.mkdirSync(f.dir, { recursive: true }); fs.writeFileSync(path.join(f.dir, 'runs'), 'obstructed directory');
+  await assert.rejects(active(f), /EEXIST|ENOTDIR|Parent path is not a directory/);
+  assert.equal(readLock(f.locks), null);
+  assert.equal(fs.existsSync(path.join(f.dir, 'journal.json')), false);
+  assert.equal(fs.existsSync(path.join(f.dir, 'state.json')), false);
+  fs.unlinkSync(path.join(f.dir, 'runs'));
+  const retry = await active(f);
+  assert.equal(retry.status, 'in_progress');
+  assert.equal(fs.existsSync(path.join(f.dir, 'journal.json')), false);
+  await release(f, retry);
+});
+
+test('failure cleanup preserves another run or a replacement attempt', t => {
+  const f = fixture(t);
+  const first = acquireLock(f.locks, 'run-one');
+  releaseLock(f.locks, first.run_id, first.attempt_id);
+  const replacement = acquireLock(f.locks, 'run-one');
+  assert.equal(releaseLockIfOwned(f.locks, first.run_id, first.attempt_id), false);
+  assert.equal(releaseLockIfOwned(f.locks, 'other-run', replacement.attempt_id), false);
+  assert.deepEqual(readLock(f.locks), replacement);
+  releaseLock(f.locks, replacement.run_id, replacement.attempt_id);
 });
 
 test('start and all dry-run variants preserve files; repeated start reuses the active task', async t => {
@@ -99,6 +154,42 @@ test('a lost linked worktree restores its snapshot into a clean detached worktre
   await main(['release', '--run-id', resumed.run_id, '--attempt-id', resumed.attempt_id, '--root', replacement], f.deps);
 });
 
+test('snapshot restore preserves ignored files and releases the failed resume attempt', async t => {
+  const f = fixture(t);
+  json(f.contract, { profile: 'harness', goal: 'Create one script', authorization: 'User requested', owned_paths: ['scripts/new.mjs'] });
+  const record = await active(f);
+  fs.writeFileSync(path.join(f.root, 'scripts/new.mjs'), 'snapshot content\n');
+  const saved = await f.run('suspend', '--run-id', record.run_id, '--attempt-id', record.attempt_id);
+  const replacement = path.join(f.directory, 'replacement');
+  f.git('worktree', 'add', '--detach', replacement, 'HEAD');
+  fs.appendFileSync(path.join(f.root, '.git/info/exclude'), '\nscripts/new.mjs\n');
+  const ignored = path.join(replacement, 'scripts/new.mjs');
+  fs.writeFileSync(ignored, 'user ignored content\n');
+  const head = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: replacement, encoding: 'utf8' }).trim();
+  await assert.rejects(main(['resume', '--run-id', record.run_id, '--apply', '--root', replacement], f.deps), /overwritten by merge|merge.*ff-only/s);
+  assert.equal(fs.readFileSync(ignored, 'utf8'), 'user ignored content\n');
+  assert.equal(execFileSync('git', ['rev-parse', 'HEAD'], { cwd: replacement, encoding: 'utf8' }).trim(), head);
+  assert.equal(readLock(f.locks), null);
+  assert.equal(f.git('rev-parse', `refs/harness/checkpoints/${record.run_id}`), saved.snapshot_commit);
+  fs.unlinkSync(ignored);
+  const resumed = await main(['resume', '--run-id', record.run_id, '--apply', '--root', replacement], f.deps);
+  assert.equal(resumed.restored, true);
+  await main(['release', '--run-id', resumed.run_id, '--attempt-id', resumed.attempt_id, '--root', replacement], f.deps);
+});
+
+test('resume save failure releases its attempt and leaves the saved snapshot recoverable', async t => {
+  const f = fixture(t), record = await active(f);
+  const saved = await f.run('suspend', '--run-id', record.run_id, '--attempt-id', record.attempt_id);
+  const stateFile = path.join(f.dir, 'state.json'), original = fs.readFileSync(stateFile);
+  fs.unlinkSync(stateFile); fs.mkdirSync(stateFile);
+  await assert.rejects(f.run('resume', '--run-id', record.run_id), /EISDIR|EPERM/);
+  assert.equal(readLock(f.locks), null);
+  assert.equal(f.git('rev-parse', `refs/harness/checkpoints/${record.run_id}`), saved.snapshot_commit);
+  fs.rmdirSync(stateFile); fs.writeFileSync(stateFile, original);
+  const resumed = await f.run('resume', '--run-id', record.run_id);
+  await release(f, resumed);
+});
+
 test('resume preserves a dirty worktree and invalidates review after main or PR head drift', async t => {
   const f = fixture(t), record = await active(f);
   fs.writeFileSync(path.join(f.root, 'scripts/example.mjs'), 'saved work\n');
@@ -155,6 +246,16 @@ for (const phase of ['journal', 'state.json', 'runs/run-crash.json']) test(`jour
   assert.equal(JSON.parse(fs.readFileSync(path.join(f.dir, 'state.json'))).generation, 1);
   assert.deepEqual(JSON.parse(fs.readFileSync(path.join(f.dir, 'runs/run-crash.json'))).notes, record.notes);
   assert.equal(recoverGeneration(f.dir).needed, false);
+});
+
+test('initial generation refuses linked destinations before any external or journal write', t => {
+  const f = fixture(t), external = path.join(f.directory, 'external');
+  fs.mkdirSync(external); fs.mkdirSync(f.dir);
+  fs.symlinkSync(external, path.join(f.dir, 'runs'), process.platform === 'win32' ? 'junction' : 'dir');
+  assert.throws(() => saveGeneration(f.dir, { schema_version: 1, runs: {} }, { schema_version: 1, run_id: 'run-linked' }), /symlink/);
+  assert.deepEqual(fs.readdirSync(external), []);
+  assert.equal(fs.existsSync(path.join(f.dir, 'journal.json')), false);
+  assert.equal(fs.existsSync(path.join(f.dir, 'state.json')), false);
 });
 
 test('snapshot saved before the journal is discoverable after interruption', async t => {

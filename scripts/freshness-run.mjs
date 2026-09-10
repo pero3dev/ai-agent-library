@@ -6,7 +6,7 @@ import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { readRegistry, selectSystems } from './freshness-registry.mjs';
 
-import { git, snapshotOwned, writeJson, assertRunId, readLock, acquireLock, releaseLock, assertOwner, withLockMutex, saveGeneration, recoverGeneration, queuedRuns, budgetStatus } from './lib/harness-state.mjs';
+import { git, snapshotOwned, writeJson, assertRunId, readLock, acquireLock, releaseLock, releaseLockIfOwned, assertOwner, assertNoLinkedTargets, withLockMutex, saveGeneration, recoverGeneration, queuedRuns, budgetStatus } from './lib/harness-state.mjs';
 export { acquireLock, releaseLock } from './lib/harness-state.mjs';
 const OUTCOMES = new Set(['observed', 'merged', 'held', 'failed']);
 export function storageDirectory(root) {
@@ -28,16 +28,24 @@ export function loadState(dir) {
   }
   return state;
 }
-export function interruptedRuns(dir) {
+export function readRunRecords(dir, state = loadState(dir)) {
   const runsDir = path.join(dir, 'runs');
-  if (!fs.existsSync(runsDir)) return [];
-  const committedRuns = loadState(dir).runs;
-  return fs.readdirSync(runsDir).filter(name => name.endsWith('.json')).map(name => {
+  const records = new Map();
+  for (const [id, result] of Object.entries(state.runs)) {
+    assertRunId(id);
+    records.set(id, { run_id: id, status: result.outcome, finished_at: result.completed_at, ...result });
+  }
+  for (const name of (fs.existsSync(runsDir) ? fs.readdirSync(runsDir) : []).filter(name => name.endsWith('.json'))) {
     const record = JSON.parse(fs.readFileSync(path.join(runsDir, name), 'utf8'));
     assertRunId(record.run_id);
     if (name !== `${record.run_id}.json`) throw new Error('Checkpoint file/ID mismatch');
-    return record;
-  }).filter(record => record.status === 'in_progress' && !committedRuns[record.run_id]).sort((a, b) => a.started_at.localeCompare(b.started_at));
+    const completed = state.runs[record.run_id];
+    records.set(record.run_id, { ...record, ...(completed ? { status: completed.outcome, finished_at: record.finished_at ?? completed.completed_at } : {}) });
+  }
+  return [...records.values()].sort((a, b) => (a.started_at ?? a.finished_at ?? '').localeCompare(b.started_at ?? b.finished_at ?? ''));
+}
+export function interruptedRuns(dir) {
+  return readRunRecords(dir).filter(record => record.status === 'in_progress');
 }
 export function automaticMode(now = new Date()) {
   const day = new Date(now.getTime() + 9 * 60 * 60 * 1000).getUTCDay();
@@ -111,8 +119,9 @@ export function main(argv = process.argv.slice(2)) {
   const now = new Date();
   if (command === 'status') {
     const state = loadState(dir);
-    const interrupted = interruptedRuns(dir);
-    return { storage: dir, lock: readLock(dir), interrupted, queue: queuedRuns(interrupted, now), recovery: recoverGeneration(dir), compatibility: { schema_version: state.schema_version, automatic_migration: false }, ...state };
+    const records = readRunRecords(dir, state);
+    const interrupted = records.filter(record => record.status === 'in_progress');
+    return { storage: dir, lock: readLock(dir), interrupted, records, queue: queuedRuns(interrupted, now), recovery: recoverGeneration(dir), compatibility: { schema_version: state.schema_version, automatic_migration: false }, ...state };
   }
   if (command === 'prepare') {
     const recovery = recoverGeneration(dir);
@@ -137,16 +146,17 @@ export function main(argv = process.argv.slice(2)) {
     const runId = interrupted?.run_id ?? `${now.toISOString().replace(/[-:.]/g, '').toLowerCase()}-${crypto.randomUUID().slice(0, 8)}`;
     const checkpoint = interrupted ?? { schema_version: 1, run_id: runId, status: 'in_progress', mode, started_at: now.toISOString(), base_sha: git(root, 'rev-parse', 'origin/main'), systems: systems.map(row => row.id), completed_systems: [], pending: [], resolved_pending_ids: [], notes: [] };
     if (!options.dryRun) {
-      checkpoint.attempt_id = acquireLock(dir, runId, now).attempt_id;
       const minutes = Number(options['time-budget-minutes'] ?? 300);
-      if (!Number.isFinite(minutes) || minutes < 3 || minutes > 350) {
-        releaseLock(dir, runId, checkpoint.attempt_id);
-        throw new Error('time-budget-minutes must be 3..350');
-      }
+      if (!Number.isFinite(minutes) || minutes < 3 || minutes > 350) throw new Error('time-budget-minutes must be 3..350');
+      checkpoint.attempt_id = acquireLock(dir, runId, now).attempt_id;
       checkpoint.queue_state = 'ready';
       checkpoint.next_eligible_at = null;
       checkpoint.budget = { deadline_at: new Date(now.getTime() + minutes * 60000).toISOString(), save_margin_seconds: 120 };
-      writeJson(path.join(dir, 'runs', `${runId}.json`), checkpoint);
+      try {
+        assertNoLinkedTargets(dir, [`runs/${runId}.json`]);
+        writeJson(path.join(dir, 'runs', `${runId}.json`), checkpoint);
+      }
+      catch (error) { releaseLockIfOwned(dir, runId, checkpoint.attempt_id); throw error; }
     }
     let orphanSnapshot = null;
     try { const savedRef = git(root, 'rev-parse', `refs/freshness/checkpoints/${runId}`); if (savedRef !== checkpoint.snapshot_commit) orphanSnapshot = savedRef; } catch { /* No snapshot has been made yet. */ }
@@ -179,7 +189,7 @@ export function main(argv = process.argv.slice(2)) {
     const previous = loadState(dir);
     const state = applyCompletion(previous, checkpoint, command === 'finish' ? options.outcome : 'held', now);
     if (command === 'finish') {
-      withLockMutex(dir, () => saveGeneration(dir, state, { ...checkpoint, status: options.outcome, saved_at: now.toISOString() }, { beforeCommit: () => assertOwner(dir, checkpoint.run_id, checkpoint.attempt_id) }));
+      withLockMutex(dir, () => saveGeneration(dir, state, { ...checkpoint, status: options.outcome, finished_at: now.toISOString(), saved_at: now.toISOString() }, { beforeCommit: () => assertOwner(dir, checkpoint.run_id, checkpoint.attempt_id) }));
       releaseLock(dir, checkpoint.run_id, options['attempt-id'] ?? checkpoint.attempt_id);
     } else {
       const snapshot = withLockMutex(dir, () => {

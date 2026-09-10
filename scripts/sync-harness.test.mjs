@@ -84,3 +84,28 @@ test('directory links are rejected before writing through a generated destinatio
   assert.throws(() => syncHarness(root, { write: true }), /symlink/)
   assert.throws(() => readFileSync(path.join(outside, 'new-doc/SKILL.md')), { code: 'ENOENT' })
 })
+
+test('a dangling output file link never creates its target', t => {
+  const root = fixture(t)
+  const target = path.join(root, 'user-owned-missing-file.md')
+  try { symlinkSync(target, path.join(root, 'CLAUDE.md'), 'file') } catch (error) {
+    if (error.code === 'EPERM') return t.skip('File symlink creation requires platform permission; Linux CI covers this case')
+    throw error
+  }
+  assert.throws(() => syncHarness(root, { write: true }), /symlink/)
+  assert.throws(() => readFileSync(target), { code: 'ENOENT' })
+})
+
+test('canonical instruction links are rejected before reading or copying their content', t => {
+  const root = fixture(t)
+  const source = path.join(root, 'AGENTS.md')
+  const target = path.join(root, 'private-source.md')
+  writeFileSync(target, 'Not an instruction source.\n')
+  rmSync(source)
+  try { symlinkSync(target, source, 'file') } catch (error) {
+    if (error.code === 'EPERM') return t.skip('File symlink creation requires platform permission; Linux CI covers this case')
+    throw error
+  }
+  assert.throws(() => syncHarness(root, { write: true }), /symlink/)
+  assert.throws(() => readFileSync(path.join(root, 'CLAUDE.md')), { code: 'ENOENT' })
+})

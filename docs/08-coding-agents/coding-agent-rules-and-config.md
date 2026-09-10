@@ -3,7 +3,7 @@ title: "ルールファイルと設定の設計"
 category: "coding-agents"
 level: "intermediate"
 status: "published"
-last_updated: "2026-07-05"
+last_updated: "2026-09-10"
 tags: ["coding-agents", "context-engineering"]
 ---
 
@@ -85,6 +85,8 @@ flowchart TB
 - **ユーザーレベル**には個人の好みだけを書き、プロジェクトの規約を書かない(チームメンバー間で挙動が変わるため)
 - 合成の順序・優先度はツールごとに異なるため、併用時は各ツールの仕様を確認します
 
+Codex の起動時の自動読込は、プロジェクトルートから開始時の作業ディレクトリ(cwd)までの経路が対象です。cwd より下は探索しないため、ルートで起動しただけでは `apps/web/AGENTS.md` はこの経路に入りません。下位の規約を使うには、そのディレクトリで起動して読込結果を確認します。ルートで作業を始める運用なら、共通の入口に対象別の規約パスと読む条件を書き、必要な文書を明示的に読むよう依頼する方法があります。これは運用上の設計例であり、パス参照だけで参照先の全文が自動注入されるという仕様ではありません。[Codex の公式説明](https://learn.chatgpt.com/docs/agent-configuration/agents-md)(アクセス日: 2026-09-10)
+
 ### 保守と形骸化防止
 
 ルールファイルは書いた瞬間から陳腐化が始まります。運用として機能させるには次の 3 つが有効です。
@@ -120,6 +122,7 @@ flowchart TB
 
 ## 参考資料
 
+- [Custom instructions with AGENTS.md(公式)](https://learn.chatgpt.com/docs/agent-configuration/agents-md) — Codex の開始 cwd と探索範囲(アクセス日: 2026-09-10)
 - [AGENTS.md](https://agents.md/) — ツール横断のルールファイル共通形式の公式サイト(アクセス日: 2026-07-05)
 - [Claude Code Best Practices(公式ドキュメント)](https://code.claude.com/docs/en/best-practices) — CLAUDE.md の内容設計に関する公式プラクティス(旧エンジニアリングブログの統合先)(アクセス日: 2026-07-06)
 

@@ -11,6 +11,16 @@
 
 対象記事の本文・比較・TODO に次の確認結果を反映しました。一次資料の文書確認であり、実サービスでの設定・実行の受入試験は行っていません。以下の旧日付の記録は調査履歴です。現行判断には本節と対応する docs を使います。
 
+### AGENTS.md の開始 cwd と探索範囲を訂正
+
+2026-09-10 の確認対象は、[実践ガイド](../../docs/08-coding-agents/openai-codex-in-practice.md)のコンテキスト削減・チェックリストと、[ルールファイルと設定](../../docs/08-coding-agents/coding-agent-rules-and-config.md)の階層説明だけです。料金・モデル・サンドボックス推奨や coding-agents 系統全体は再検証していません。
+
+- 公式明記: 指示チェーンは起動時に構築し、プロジェクト範囲では root から開始 cwd までを探索します。cwd に達したら止まるため、ルートで開始して下位ファイルを置くだけでは、そのファイルは開始時チェーンに入りません
+- 公式明記: `--cd subdir` で起動して有効な指示ファイルを確認する方法が示されています。階層内の override 優先と結合サイズ上限も適用されます
+- 運用上の設計例: ルートの入口に規約パスと読む条件を書き、必要な文書を明示して読むよう依頼し、読込結果を確認します。リンク先全文の自動注入保証は本資料から確認できないため、その保証としては記載しません
+
+出典: [Custom instructions with AGENTS.md](https://learn.chatgpt.com/docs/agent-configuration/agents-md) の How Codex discovers guidance / Layer project instructions / Verify your setup。調査担当 `/root/source_check` の本文実取得区間: **2026-09-10T08:02:01Z〜2026-09-10T08:02:03Z**、再照合: 2026-09-10T08:02:17Z〜2026-09-10T08:02:20Z。manifest の accessed_at は最初の取得完了時刻です。文書による仕様確認であり、実 Codex の読込動作を試験した記録ではありません。
+
 ### T13: Codex subagentの委任条件を提供面ごとに訂正
 
 ローカル Codex は直接の依頼だけでなく、適用される AGENTS.md・skills の委任指示も起動根拠にします。Work は通常は明示依頼、利用資格のある Ultra は速度・品質に寄与する作業を能動委任します。旧「直接の明示指示のみ」を本文・資料で訂正しました。
@@ -185,7 +195,7 @@ statusMessage = "Checking Bash command"
 
 - 推奨コンテンツ(Best practices): リポジトリレイアウト、ビルド・テスト・lint コマンド、エンジニアリング規約、禁止事項(do-not rules)、作業完了の検証方法。`/init` でスターターを生成。「A short, accurate `AGENTS.md` is more useful than a long file full of vague rules」(出典: <https://developers.openai.com/codex/learn/best-practices>、確認日: 2026-07-06、公式明記)
 - 更新のトリガー(Customization ページ): 「Repeated mistakes(繰り返すミス)」「Too much reading(毎回読ませすぎ)」「Recurring PR feedback(PR で繰り返される指摘)」が出たら AGENTS.md に昇格させる(出典: <https://developers.openai.com/codex/concepts/customization>、確認日: 2026-07-06、公式明記)
-- **コスト面の階層運用**: AGENTS.md を階層にネストして「注入されるコンテキストを絞る」ことが公式の節約テクとして明記(§2-2)
+- **コスト面の階層運用**: 階層化だけで読込範囲が適切になるとは限りません。起動時の root→cwd の探索経路と専門規約の配置を合わせます(2026-09-10 訂正、上記の限定観測を参照)
 - **Review guidelines**: リポジトリトップの AGENTS.md に `## Review guidelines` セクションを書くと GitHub コードレビューの観点になる。例(公式): 「Don't log PII.」「Verify that authentication middleware wraps every route.」。「Codex applies guidance from the closest `AGENTS.md` to each changed file」— パッケージ固有の観点は深い階層に置く(出典: <https://developers.openai.com/codex/integrations/github>、確認日: 2026-07-06、公式明記)
 
 ### 1-9. カスタマイズ機構の使い分け(公式の指針)
@@ -220,7 +230,7 @@ statusMessage = "Checking Bash command"
 pricing ページの「使用量を節約するには」に相当する公式推奨(出典: <https://developers.openai.com/codex/pricing>、確認日: 2026-07-06、公式明記):
 
 1. **プロンプトサイズの制御**: 「Be precise with instructions... remove unnecessary context」
-2. **AGENTS.md の削減**: ファイルをネストして注入コンテキストを絞る
+2. **AGENTS.md の削減**: 共通ルールを短くし、開始 cwd までの読込経路を確認します。下位に配置するだけで開始時に自動読込されるとは扱いません(2026-09-10 訂正、上記の限定観測を参照)
 3. **MCP サーバーの絞り込み**: 「Every MCP... adds more context... uses more of your limit」— 使っていない MCP は外す
 4. **小さいモデルへの切替**: ルーチンタスクは GPT-5.4 mini へ
 

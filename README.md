@@ -27,7 +27,9 @@
 ```text
 ai-agent-library/
 ├── README.md                 # 本ファイル。プロジェクト概要と全体構成
-├── CLAUDE.md                 # Claude(AI アシスタント)向けの執筆ルール・規約
+├── AGENTS.md                 # 作業の入口・共通契約の正本
+├── CLAUDE.md                 # AGENTS.md から生成する Claude Code 互換入口
+├── harness/                  # 詳細規約とハーネスの運用資料
 ├── ROADMAP.md                # 執筆計画・トピック一覧・タスク分割
 ├── CODING-AGENTS-PLAN.md     # AI コーディングエージェント章(docs/08)の追加計画
 ├── EXPANSION-PLAN.md         # プロフェッショナル化拡張(docs/09 ほか 24 本)の追加計画
@@ -121,7 +123,7 @@ ai-agent-library/
 
 ## コントリビューション(執筆ルール)
 
-執筆ルール・命名規約・テンプレートの使い方は [CLAUDE.md](CLAUDE.md) に集約しています。人間が書く場合も同じルールに従ってください。
+作業の入口と共通契約は [AGENTS.md](AGENTS.md)、執筆・命名・同期更新の詳細は [harness/writing-rules.md](harness/writing-rules.md) が正本です。人が書く場合も同じ規約を使います。準備と検証は [CONTRIBUTING.md](CONTRIBUTING.md) を参照してください。Claude Code 向けの入口と共通スキルは正本から生成します。
 
 執筆計画と着手順は [ROADMAP.md](ROADMAP.md) を参照してください。
 

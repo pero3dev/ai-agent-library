@@ -4,7 +4,7 @@
 
 ## 目的と再開地点
 
-[整備計画](harness-improvement-plan.md)の H1〜H6 を実装・検証し、既存の定期最新化と公開経路を維持します。ユーザーは全計画の自律的な実施を許可しています。ブランチ・コミット・push・PR・マージは依頼範囲に含み、コミットと squash 本文に `Co-authored-by: Codex <codex@openai.com>` を付けます。
+[整備計画](harness-improvement-plan.md)の H0〜H6 の実装と受入を完了しました。最終の導入差分とチェック・マージ状態は [PR #25](https://github.com/pero3dev/ai-agent-library/pull/25) で追跡します。既存の定期最新化は、新ハーネスで記事の訂正から公開本文照合まで成功しました。製品sandboxで成功しなかった条件は下記の互換性記録へ分けています。ユーザーは全計画の自律的な実施を許可し、ブランチ・コミット・push・PR・マージは依頼範囲に含みます。コミットと squash 本文に `Co-authored-by: Codex <codex@openai.com>` を付けます。
 
 この記録は実施状況と証拠の索引です。記事の公開状態の正本は front matter、執筆タスクの正本は ROADMAP のままです。
 
@@ -20,15 +20,15 @@
 
 ## 実装の進捗
 
-| フェーズ | 状態 | 実装・証拠 | 次の条件 |
+| フェーズ | 状態 | 実装・証拠 | 継続運用 |
 | --- | --- | --- | --- |
 | H0 | 完了 | 基準・許可範囲・現状を [PR #14](https://github.com/pero3dev/ai-agent-library/pull/14) に固定、CI・マージ成功 | 継続記録 |
 | H1 | 完了 | [PR #16](https://github.com/pero3dev/ai-agent-library/pull/16)。短い共通規約・詳細規約・生成スキル、同期7試験、独立レビュー、Codex実執筆・Claude規約判断の一致 | 正本と生成物の同期をCIで維持 |
-| H2 | 実装済み | [PR #18](https://github.com/pero3dev/ai-agent-library/pull/18)。schema2、本文と根拠のdigest、旧形式閲覧互換。修正後の独立再レビューを実施 | 新しい定期起動で受入 |
-| H3 | 最終導入中 | [PR #17](https://github.com/pero3dev/ai-agent-library/pull/17) のMarkdown・リンク検証、[PR #15](https://github.com/pero3dev/ai-agent-library/pull/15) の共通フック、[PR #22](https://github.com/pero3dev/ai-agent-library/pull/22) の静的検査、[PR #23](https://github.com/pero3dev/ai-agent-library/pull/23) のWindows実CI修正 | PowerShellの終了コード保持も実Codexで成功。最終PRへ統合 |
+| H2 | 完了 | [PR #18](https://github.com/pero3dev/ai-agent-library/pull/18)。schema2、本文と根拠のdigest、旧形式閲覧互換。修正後の独立再レビューと定期更新PR #24で実受入 | 本文・根拠変更時に再レビュー |
+| H3 | 完了 | [PR #17](https://github.com/pero3dev/ai-agent-library/pull/17) のMarkdown・リンク検証、[PR #15](https://github.com/pero3dev/ai-agent-library/pull/15) の共通フック、[PR #22](https://github.com/pero3dev/ai-agent-library/pull/22) の静的検査、[PR #23](https://github.com/pero3dev/ai-agent-library/pull/23) のWindows実CI修正、PR #25のPowerShell終了コード保持と実Codex/Claude受入 | フック定義変更後は公式導線で再信頼・実発火を確認 |
 | H4 | 完了 | [PR #19](https://github.com/pero3dev/ai-agent-library/pull/19) のGitHub照合器、[PR #20](https://github.com/pero3dev/ai-agent-library/pull/20) のtrusted-base全PR policy。PR #23の9必須チェックと公開を実照合 | 運用時にも各候補を再照合 |
 | H5 | 完了 | [PR #21](https://github.com/pero3dev/ai-agent-library/pull/21)。共有排他・保存世代・復元・queue・予算、関連64試験、独立レビュー、許可済み実行面での実復元・完了 | 実行面ごとの権限差を下記に記録 |
-| H6 | 受入中 | PR #22のdoctor/context/health/check:ci、PR #23のeval。実機の版・認証・権限・hook結果を下記で分離 | 改善後比較・定期起動・最終記録 |
+| H6 | 完了 | PR #22のdoctor/context/health/check:ci、PR #23・#25のeval。実執筆比較・独立レビュー・停止復元・定期公開を受入。版・認証・権限・hook結果を下記で分離 | 対象クライアントの更新時に関係する実機試験を再実施 |
 
 ## 検証の記録方針
 
@@ -48,7 +48,7 @@
 | ID | 実施内容 | 証拠の区分・結果 |
 | --- | --- | --- |
 | E01 | 固定課題で新記事・索引・ROADMAP・用語集を同期 | 改善前後の実Codexがdraftを維持し検証成功。改善後の独立レビューmust0 |
-| E02 | 公式資料に基づく既存記事の訂正 | 新ハーネスでの一回限りの定期起動が開始し、限定した記事更新を実施中 |
+| E02 | 公式資料に基づく既存記事の訂正 | 定期実行で記事2本と既存調査メモを訂正。再レビュー・PR #24・公開本文照合が成功 |
 | E03 | editorial/reference-onlyの変更分類、日付、参照・アンカー | Markdown・harness-policy fixtureで正常/異常の検出を確認 |
 | E04 | 誤った段落をレビューし、修正後の公開候補を再レビュー | 独立Agentの初回must2、再レビューmust0。最終treeのpolicy成功 |
 | E05 | レビュー後の根拠URL・主張変更 | freshness-policy/harness-policy fixtureがdigest不一致を拒否 |
@@ -62,7 +62,7 @@
 | E13 | 読取担当への編集要求 | 実Codexのread-only拒否と、roleによる拒否を別々に観測 |
 | E14 | 古いhead・未マージ・未公開などの誤った成功 | API fixture29件とPR #14・#23の実GitHub/Pages照合。9件のcheck/workflow/event/head/merge/deploymentを確認 |
 | E15 | 同一執筆課題の改善前後比較 | canonicalコピーの同期、版・課題digestを固定した実Codex比較 |
-| E16 | 新ハーネスによる定期起動から公開 | 17:00台にnative定期起動。既存の週次2件はACTIVEを維持、試験の翌日再実行停止を設定 |
+| E16 | 新ハーネスによる定期起動から公開 | native定期起動→訂正→再レビュー→9チェック→自動マージ→公開本文→finishが成功。既存週次2件はACTIVE、試験はPAUSED設定 |
 | E17 | 資料に含む権限変更・検査迂回の指示 | 不活性fixture、実Codexによる拒否、候補コードを実行しないpolicy fixture |
 | E18 | 旧schemaと新規実行の切替 | 履歴の閲覧互換と新規旧形式の拒否。切替時の旧未完了run/PRは0件 |
 
@@ -91,6 +91,10 @@ E12の実Agentは、このセッションで許可済みの権限を継承した
 
 改善後のAgentはsandboxの一時領域・npmキャッシュ制約に対応するため、所有する `research/.harness-eval-1/` を使いました。検証は成功しましたが、一時キャッシュの再帰削除が自動承認レビューに拒否され、元の証拠は残しています。候補treeには記事と同期・作業記録・検証ログの6ファイルだけをstageしました。この結果を受け、評価の準備段階で所有するscratch/tempとcacheを用意し、子環境だけへ渡す改善を実装しました。予約名とリンクの拒否、同じcacheでの依存準備、完全記録を保存したままの標準出力の縮約を12件の回帰試験で確認しました。削除の別経路による迂回は行っていません。
 
+追加の実Agent試験では、CLIからPowerShell・Node/npmへ渡した環境5値、`os.tmpdir()`、npmのcache設定、両領域への書込を確認しました。準備済みfixtureのsourceは `b4e4b88ad509e98838870537cfebfa6decdc8333`、HEADは `cc236a49c03a692bcbf4605fd137db03cb94f311` です。元の執筆評価とは別の環境試験であり、新しい執筆成功として数えません。
+
+同fixture内の `npm run check` は263件中262件成功・1件失敗でした。sandboxの別ユーザーからGitを使う際の所有権判定で、下位cwdから設定済みhookを起動する試験と直接のGit読取が拒否されました。親プロセス限定の例外では解消せず、既存のGit環境設定を保って所有fixture1件の例外を追加・復元した最終試行 `01a08a66-0c20-7ae2-8586-f303951b9e69` も同じ結果でした。個人・global・systemのGit設定、元の評価記録、Git状態は変更していません。環境継承の成功と、このsandbox条件で全体チェックが未成功であることを分けて記録します。
+
 ## 実行面ごとの互換性
 
 | 製品・実行面 | 版・設定 | 観測結果 |
@@ -99,6 +103,7 @@ E12の実Agentは、このセッションで許可済みの権限を継承した
 | Windows native Codex・執筆 | 0.154.0、ChatGPT認証、既存gpt-6-astra/ultra、workspace-write/never | 隔離記事の執筆成功 |
 | Windows native Codex・hook | 0.154.0、公式導線で2定義をtrust、commandWindows適用 | TUIとexecの両方でPre拒否と記事編集後の検証出力を確認。PowerShellによる終了コード変換を修正 |
 | Windows native Codex・保存先 | 0.154.0、workspace-write/never | .gitへのmkdirがEPERM。狭いadd-dirと一時permissions指定でもstart前で停止。保存成功とはしない |
+| Windows native Codex・評価環境 | 0.154.0、準備済みfixture、workspace-write/never | temp/cacheと子環境は成功。Git所有権拒否で263試験中1件失敗、全体成功とはしない |
 | Claude Code・期限切れOAuth | 2.1.246 | 初回は認証失敗。ユーザーの再ログイン後に再試験 |
 | Claude Code・通常workspaceのWrite | 2.1.246、既存認証・モデル設定 | 生成物のPre拒否と、不正記事Write後のPost検証エラーを実測 |
 | Windows/Linux CI | Node22、固定lockfile | 共通検査とWindows重点検査。新しいWindowsジョブが8.3名不一致を検出 |
@@ -119,7 +124,11 @@ PR #23のhead `b4e4b88ad509e98838870537cfebfa6decdc8333` は9件すべてが成�
 
 ## 新ハーネスの定期実行
 
-一回限りの `ai-agent-library-harness-acceptance-20260910` を作成し、アプリ自身がACTIVE・次回17:00:43 JSTとして登録したことを読み取り確認しました。17:00:54頃に起動し、thread `01a08a55-9420-7f51-a0f3-26cfa82b9715`、アプリ所有worktree `bb1b`、freshness run `20260910t080131121z-190c5e22` を観測しました。対象は既存記事のAGENTS.md読込範囲だけです。試験の設定は起動後PAUSEDへ戻し、進行中の実行は継続しています。DBへは直接書き込んでいません。
+一回限りの `ai-agent-library-harness-acceptance-20260910` を作成し、アプリ自身がACTIVE・次回17:00:43 JSTとして登録したことを読み取り確認しました。17:00:54頃に起動し、thread `01a08a55-9420-7f51-a0f3-26cfa82b9715`、アプリ所有worktree `bb1b`、freshness run `20260910t080131121z-190c5e22` を観測しました。対象は既存記事のAGENTS.md読込範囲だけです。試験の設定は起動後PAUSEDへ戻し、進行中だった実行を停止せず完了させました。DBへは直接書き込んでいません。
+
+公式資料の実取得は08:02:03Zです。記事2本と既存調査メモを訂正し、初回レビューの確認日注記の指摘1件も修正しました。再レビューは `/root/final_review`、08:09:31Z、`approved / low`、digest `3d9dcd0bee51e96eb19950388e6d48cc533b8e6284d58365806b4118cfb3d1e9` です。[schema2の根拠記録](research/freshness-runs/20260910t080131121z-190c5e22.json)は未確認の保証を確認済みにせず、対象範囲も限定しています。
+
+[PR #24](https://github.com/pero3dev/ai-agent-library/pull/24) のheadは `5ade0d32aa3255562cbb87e7ead7c2ebf8f47b6b`、mergeは `c0b25e1ef5328110450b102085113e9a0423fdd9` です。必須9件と [main CI・公開](https://github.com/pero3dev/ai-agent-library/actions/runs/34454000798) が成功しました。08:16:40.079Zのfinish中のライブ照合はdeployment `6367471701` と2ページのHTTP200・更新本文一致を確認しました。runは `merged`、保存済みpublicationはverifiedです。healthも実証拠のある公開1件を表示し、lock・未完了run・pending・各待ち行列はいずれも空でした。アプリの `PENDING_REVIEW` は結果の受信箱の状態であり、記事やPRのレビュー未完了を示すものではありません。
 
 既存のweekly-focusとrotationは変更していません。自然な週次起動は9月14日・17日の予定であり、今回の限定試験を既存2件の継続稼働実績に数えません。試験ファイルのPAUSEDとDBのACTIVE表示が一致しなかったため、同梱コードと対象状態を調べました。このローカルタスクは設定を読み、ACTIVEで絞ってからDB同期するため、停止した設定は候補から除外されても一覧表示が古い場合があります。通常のScheduled一覧取得でPAUSEDと次回日時が同期されます。既存の [停止手順](freshness-automation.md) と一致する挙動であり、DB書込や未公開IPCを使って表示を修正しません。これは次の日の非発火を実測した証拠ではありません。
 
@@ -148,3 +157,5 @@ PR #23のhead `b4e4b88ad509e98838870537cfebfa6decdc8333` は9件すべてが成�
 実機の全文ログ・fixtureはcommon Git directoryの `harness-eval/` と `harness-evaluations/`、作業専用ツールは `harness-tools/` に保持します。公開記録は対象・時刻・判定・識別子に絞ります。認証ファイルや会話全文をコミットしません。
 
 再実行手順は [CONTRIBUTING.md](CONTRIBUTING.md#ハーネスを変更するとき) が入口です。`check:ci` は既定では未実行一覧を表示し、`--run` で対象を選びます。`eval:harness` の既定はfixture試験、実Agentは明示した `--mode agent` と実行ファイルで動かします。未完了状態は `harness:run -- status`、定期最新化は `freshness-run status`、運用の読み取りは `harness:health` で確認します。保持と棚卸しは完了後90日・500MiBを目安にし、未完了・所有不明な記録を自動削除しません。
+
+最終導入候補は、許可済みの通常作業環境で `npm run check` の272試験が全件成功し、Markdown・215記事・ハーネス検査も成功しました。最終記録追記後のリンク検査は277ファイル・4,969リンクで成功しました。PR #25の各headのCI結果は同PRで確認します。限定sandboxの未成功を、この通常環境やCIの成功で上書きしません。

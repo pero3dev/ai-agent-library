@@ -119,11 +119,13 @@ npm run eval:harness -- --mode agent --ref <比較対象のcommit> --binary /abs
 npm run eval:harness -- --mode collect --run /absolute/path/evaluation
 ```
 
-既定はオフラインの回帰試験です。`agent` は明示したネイティブ Codex と既存の ChatGPT 認証・モデル設定で、固定した新規 draft 執筆課題を実行します。独立した Git fixture を common Git directory に作成し、API キーへの切替、リモートの作成・更新、成果物の自動コミットは行いません。`prepare` は実 Agent を起動しません。実行ログはローカルに留め、`collect` が返す版・thread・使用量・所要時間・変更範囲と、別に行う内容レビューを評価記録へまとめます。終了コードやコマンド数だけで品質の合格を決めません。
+既定はオフラインの回帰試験です。`agent` は明示したネイティブ Codex と既存の ChatGPT 認証・モデル設定で、固定した新規 draft 執筆課題を実行します。独立した Git fixture を common Git directory に作成し、API キーへの切替、リモートの作成・更新、成果物の自動コミットは行いません。`prepare` は実 Agent を起動しません。実行ログはローカルに留め、`collect` が保存する `summary.json` の版・thread・使用量・所要時間・変更範囲と、別に行う内容レビューを評価記録へまとめます。終了コードやコマンド数だけで品質の合格を決めません。
 
 準備時にfixture直下の `.harness-eval-scratch/` を予約し、tempとnpmキャッシュを作ります。この領域だけをfixtureの `.git/info/exclude` へ追加し、既存の同名ファイルやリンクには上書きしません。`agent` の依存準備とAgent・子プロセスは同じ限定環境を使い、親の環境変数や個人設定を変更しません。`prepare` を使って手動起動する場合は、返された `execution_contract.environment` をその子プロセスだけに重ねます。
 
 `collect` は全パスと全コマンドをローカルの `summary.json` に保存します。標準出力は件数・先頭10パス・完全記録の位置を表示し、縮約の有無を明示します。`dependency_install` の成功は依存準備の結果であり、Agentの起動や記事品質の成功を意味しません。
+
+実Agent側にも、そのfixtureでGitを読める実効権限が必要です。Windowsのsandboxでは、ホスト側の準備が成功しても別ユーザーの所有権判定でGitが拒否される場合があります。その場合は失敗したコマンドと実行面を記録し、ホスト側の検証結果と分けます。一時領域やcacheの設定だけで、Git権限まで整ったと判断しません。確認済みの条件は [実施記録](harness-implementation-status.md#実行面ごとの互換性) を参照してください。
 
 比較時は同じ課題・モデル設定・開始条件を使い、単一試行から一般的な成功率を推定しません。発火していない hook、未取得の使用量、権限や認証で起動できなかった面は明示します。実クライアントの hook、読み取り専用担当、停止・再開、定期起動は、固定執筆課題とは別の受入シナリオです。
 

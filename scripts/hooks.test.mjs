@@ -7,7 +7,7 @@ import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { editedPaths } from '../.codex/hooks/edited-paths.mjs'
 import { generatedPath, lexicalPath, normalizeEditEvent, relativeInside } from './lib/hook-core.mjs'
-import { hookCommand } from './lib/hook-command.mjs'
+import { codexWindowsHookCommand, hookCommand } from './lib/hook-command.mjs'
 import { windowsShortPath } from './lib/windows-test-path.mjs'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
@@ -123,11 +123,46 @@ test('hook configuration stays in sync with shared bootstrap and exact tool matc
     const config = JSON.parse(readFileSync(path.join(root, configPath), 'utf8'))
     for (const [event, mode] of [['PreToolUse', 'guard'], ['PostToolUse', 'validate']]) {
       assert.equal(config.hooks[event][0].hooks[0].command, hookCommand(client, mode))
+      assert.equal(config.hooks[event][0].hooks[0].commandWindows, client === 'codex' ? codexWindowsHookCommand(mode) : undefined)
       const matcher = new RegExp(config.hooks[event][0].matcher)
       for (const name of ['Edit', 'Write', 'MultiEdit']) assert.ok(matcher.test(name))
       for (const name of ['Bash', 'Read', 'OtherWriteTool']) assert.ok(!matcher.test(name))
     }
   }
+})
+
+test('Codex Windows command preserves blocking exit codes through PowerShell from a spaced checkout', { skip: process.platform !== 'win32' }, t => {
+  const fixture = fixtureRoot(t)
+  const repo = path.join(fixture, 'repo with spaces')
+  copyHooks(repo)
+  git(repo, 'init', '--quiet')
+  mkdirSync(path.join(repo, 'docs/01-concepts'), { recursive: true })
+  writeFileSync(path.join(repo, 'docs/01-concepts/invalid.md'), '# 不正な記事\n')
+  const event = file => ({ cwd: repo, tool_name: 'Write', tool_input: { file_path: file } })
+  const run = (command, input, cwd = path.join(repo, 'website')) => spawnSync('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', command], {
+    cwd, encoding: 'utf8', input: JSON.stringify(input), windowsHide: true,
+  })
+  const generated = event('website/out/probe.html')
+  const previous = run(hookCommand('codex', 'guard'), generated)
+  assert.equal(previous.status, 1, previous.stderr)
+  assert.match(previous.stderr, /生成物/)
+  for (const [mode, input, expected, message] of [
+    ['guard', generated, 2, /生成物/],
+    ['guard', event('website/content-src/source.mdx'), 0, /^$/],
+    ['validate', event('docs/01-concepts/invalid.md'), 2, /検証エラー/],
+    ['validate', event('website/content-src/source.mdx'), 0, /^$/],
+    ['guard', { cwd: repo, tool_name: 'apply_patch', tool_input: {} }, 2, /編集対象を検査できません/],
+  ]) {
+    const result = run(codexWindowsHookCommand(mode), input)
+    assert.equal(result.status, expected, result.stderr)
+    assert.match(result.stderr, message)
+  }
+  const foreign = path.join(fixture, 'foreign checkout')
+  mkdirSync(foreign)
+  git(foreign, 'init', '--quiet')
+  const startupFailure = run(codexWindowsHookCommand('guard'), event('source.md'), foreign)
+  assert.equal(startupFailure.status, 2, startupFailure.stderr)
+  assert.match(startupFailure.stderr, /Hook startup failed/)
 })
 
 test('relative path boundaries cover POSIX, Windows drives, UNC paths, and prefix collisions', () => {

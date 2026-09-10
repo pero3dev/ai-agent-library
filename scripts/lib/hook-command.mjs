@@ -19,3 +19,12 @@ export function hookCommand(client, mode) {
     "await import(u.pathToFileURL(entry).href)})().catch(e=>{console.error('Hook startup failed: '+e.message);process.exitCode=2})"
   return `node -e "${command}"`
 }
+
+/**
+ * Codex の Windows hook runner は PowerShell を使うため、Node の exit 2 を保持する。
+ * -Command の末尾が native command のままだと PowerShell は非ゼロ終了を 1 に変換し、
+ * Codex が期待する blocking error (2) にならない。Unix と Claude の command は変更しない。
+ */
+export function codexWindowsHookCommand(mode) {
+  return `${hookCommand('codex', mode)}; exit $LASTEXITCODE`
+}

@@ -76,7 +76,7 @@ root全体278件、Windows重点110件、website単体26件、offline evalの9su
 
 独立レビューで見つかった大小混在Markdown拡張子の検査脱落と、旧Windows helper配置の検出漏れを修正しました。追加回帰を含む構造試験9件の再レビューは必須指摘0件です。親担当はコマンド接続と運用文書も確認しました。
 
-fresh checkoutでの再生成・ブラウザー試験が成功した後、main checkoutの生成物とPython cache計13箇所、933,277,555 bytesを削除しました。サイトの `.next/`・`out/`・`content/`・`generated/`・`public/_pagefind/`・`next-env.d.ts`、旧devログと対象cacheだけを扱っています。devログは削除前にSHA付きでcommon Gitへ保管しました。対象一覧、絶対パス境界、全階層のreparse point、容量・更新時刻の不変、稼働サーバーの終了を確認してから、同じPowerShell内で削除しました。
+fresh checkoutでの再生成・ブラウザー試験が成功した後、main checkoutの生成物とPython cache計13箇所、933,277,555 bytesを削除しました。サイトの `.next/`・`out/`・`content/`・`generated/`・`public/_pagefind/`・`test-results/`、旧devログと対象cacheだけを扱っています。`next-env.d.ts` と `playwright-report/` は事前確認で未存在でした。devログは削除前にSHA付きでcommon Gitへ保管しました。対象一覧、絶対パス境界、全階層のreparse point、容量・更新時刻の不変、稼働サーバーの終了を確認してから、同じPowerShell内で削除しました。
 
 記録は `structure-cleanup/generated-cleanup-preflight.json`、`generated-cleanup-rechecked.json`、`generated-cleanup-results.json` です。常用のroot/website依存、補助ツール、保持対象の評価証拠は残しています。サイト生成物はlockfileから依存を準備し、正本から `npm run sync` と公開条件の `npm run build:clean` で再生成できます。既存14worktreeと合わせた削除対象の論理サイズは2,692,902,889 bytesで、ディスク割当容量の実測や保管コピーを差し引いた純削減値ではありません。
 

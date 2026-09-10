@@ -1,16 +1,17 @@
 #!/usr/bin/env node
 /**
  * Markdown パーサによる相対リンク・見出しアンカーとセクション収録表の検査。
- * docs/examples、root 運用文書、harness/ と製品別指示を対象とする。
- * 調査メモ、プレースホルダーを含む templates、依存・生成物は対象外。
+ * docs/examples、root/project 運用文書、harness/ と製品別指示を対象とする。
+ * research は索引と --include で明示した Markdown を検査する。
+ * その他の調査メモ、プレースホルダーを含む templates、依存・生成物は対象外。
  */
-import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
+import { existsSync, lstatSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { collectDocs, existsCaseSensitive, REPO_ROOT, splitLocalDestination, toRepoRel } from './lib/md-utils.mjs'
 import { parseMarkdownLinks } from './lib/markdown-links.mjs'
 
-export function collectLinkTargets(repoRoot = REPO_ROOT) {
+export function collectLinkTargets(repoRoot = REPO_ROOT, { additionalFiles = [] } = {}) {
   const targets = new Map()
   const add = abs => targets.set(abs, { abs, repoRel: toRepoRel(abs, repoRoot) })
   const walk = dir => {
@@ -23,17 +24,31 @@ export function collectLinkTargets(repoRoot = REPO_ROOT) {
       } else if (entry.isFile() && entry.name.endsWith('.md')) add(abs)
     }
   }
-  for (const dir of ['docs', 'examples', 'harness', 'scripts', '.agents', '.codex', '.claude']) walk(path.join(repoRoot, dir))
+  for (const dir of ['docs', 'examples', 'project', 'harness', 'scripts', '.agents', '.codex', '.claude']) walk(path.join(repoRoot, dir))
   for (const entry of readdirSync(repoRoot, { withFileTypes: true })) {
     if (entry.isFile() && entry.name.endsWith('.md')) add(path.join(repoRoot, entry.name))
+  }
+  const researchIndex = path.join(repoRoot, 'research/README.md')
+  const selected = [...(existsSync(researchIndex) ? ['research/README.md'] : []), ...additionalFiles]
+  for (const file of selected) {
+    if (typeof file !== 'string' || !file.endsWith('.md') || file.includes('\\') || file.includes('\0') || path.posix.isAbsolute(file) || path.win32.isAbsolute(file) || file.split('/').some(part => !part || part === '.' || part === '..')) throw new Error(`追加対象はリポジトリ相対の Markdown ファイルで指定してください: ${file}`)
+    const abs = path.join(repoRoot, file)
+    if (!existsCaseSensitive(abs, repoRoot)) throw new Error(`追加対象がありません(大文字小文字を含む): ${file}`)
+    let current = repoRoot
+    for (const part of file.split('/')) {
+      current = path.join(current, part)
+      if (lstatSync(current).isSymbolicLink()) throw new Error(`追加対象の symlink は検査できません: ${file}`)
+    }
+    if (!lstatSync(abs).isFile()) throw new Error(`追加対象は Markdown ファイルで指定してください: ${file}`)
+    add(abs)
   }
   return [...targets.values()].sort((a, b) => a.repoRel.localeCompare(b.repoRel))
 }
 
-export function checkLinks(repoRoot = REPO_ROOT) {
+export function checkLinks(repoRoot = REPO_ROOT, options = {}) {
   const problems = []
   let checkedLinks = 0
-  const targets = collectLinkTargets(repoRoot)
+  const targets = collectLinkTargets(repoRoot, options)
   const parsed = new Map()
   const directoryCache = new Map() // 1 回の走査だけで共有し、編集後の再実行で古い一覧を使わない。
   const load = abs => {
@@ -96,11 +111,27 @@ export function checkLinks(repoRoot = REPO_ROOT) {
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const { problems, checkedLinks, checkedFiles } = checkLinks()
-  if (problems.length === 0) console.log(`OK: ${checkedFiles} files, ${checkedLinks} links`)
-  else {
-    for (const problem of problems) console.error(problem)
-    console.error(`NG: ${problems.length} problem(s)(検証 ${checkedFiles} ファイル・${checkedLinks} リンク)`)
+  try {
+    const args = process.argv.slice(2)
+    const additionalFiles = []
+    if (args.length === 1 && args[0] === '--help') console.log('node scripts/check-links.mjs [--include <repo-relative.md>]...\n既定の文書・project/・research/README.md に追加して、指定 Markdown のリンクを検査します。')
+    else {
+      for (let index = 0; index < args.length; index++) {
+        if (args[index] !== '--include') throw new Error(`未知の引数: ${args[index]}`)
+        const file = args[++index]
+        if (!file || file.startsWith('--')) throw new Error('--include の Markdown ファイルが必要です')
+        additionalFiles.push(file)
+      }
+      const { problems, checkedLinks, checkedFiles } = checkLinks(REPO_ROOT, { additionalFiles })
+      if (problems.length === 0) console.log(`OK: ${checkedFiles} files, ${checkedLinks} links`)
+      else {
+        for (const problem of problems) console.error(problem)
+        console.error(`NG: ${problems.length} problem(s)(検証 ${checkedFiles} ファイル・${checkedLinks} リンク)`)
+        process.exitCode = 1
+      }
+    }
+  } catch (error) {
+    console.error(`check-links: ${error.message}`)
     process.exitCode = 1
   }
 }

@@ -1,9 +1,10 @@
 import assert from 'node:assert/strict'
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { spawnSync } from 'node:child_process'
+import { mkdirSync, mkdtempSync, readFileSync, renameSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
-import { checkLinks } from './check-links.mjs'
+import { checkLinks, collectLinkTargets } from './check-links.mjs'
 import { collectDocs, forEachLine, parseFrontMatter, REPO_ROOT, splitLocalDestination, toLines } from './lib/md-utils.mjs'
 import { parseMarkdownLinks } from './lib/markdown-links.mjs'
 import { validateDoc } from './lib/validate-core.mjs'
@@ -138,6 +139,57 @@ test('section index validates actual destinations and accepts reference links in
   assert.match(checkLinks(dir).problems.join('\n'), /a\.md の正しいリンク/)
   write('docs/01-concepts/README.md', '# Index\n\n| File | Note |\n| --- | --- |\n| [a.md][a] | OK |\n| [b.md][] | OK |\n\n[a]: a.md\n[b.md]: b.md\n')
   assert.deepEqual(checkLinks(dir).problems, [])
+})
+
+test('moving a root operations document into project keeps its links and anchors under verification', t => {
+  const { dir, write } = fixture(t)
+  write('plan.md', '# Plan\n\n[guide](harness/guide.md#section)\n')
+  write('harness/guide.md', '# Section\n')
+  assert.deepEqual(checkLinks(dir), { problems: [], checkedLinks: 1, checkedFiles: 2 })
+  mkdirSync(path.join(dir, 'project/plans/engineering'), { recursive: true })
+  renameSync(path.join(dir, 'plan.md'), path.join(dir, 'project/plans/engineering/plan.md'))
+  assert.equal(checkLinks(dir).checkedFiles, 2)
+  assert.match(checkLinks(dir).problems.join('\n'), /project\/plans\/engineering\/plan.md.*リンク切れ/)
+  write('project/plans/engineering/plan.md', '# Plan\n\n[guide](../../../harness/guide.md#section)\n')
+  assert.deepEqual(checkLinks(dir), { problems: [], checkedLinks: 1, checkedFiles: 2 })
+  write('project/records/2026-09-10/record.md', '# Record\n\n[guide](../../../harness/guide.md#missing)\n')
+  assert.match(checkLinks(dir).problems.join('\n'), /project\/records\/2026-09-10\/record.md.*見出しアンカー/)
+})
+
+test('research index is checked by default and changed research files can be selected explicitly', t => {
+  const { dir, write } = fixture(t)
+  write('research/README.md', '# Research\n\n[note](topic/note.md#note)\n')
+  write('research/topic/note.md', '# Note\n\n[broken](missing.md)\n')
+  write('research/untouched.md', '# Untouched\n\n[historical](removed.md)\n')
+  assert.deepEqual(checkLinks(dir), { problems: [], checkedLinks: 1, checkedFiles: 1 })
+  const selected = { additionalFiles: ['research/README.md', 'research/topic/note.md', 'research/topic/note.md'] }
+  assert.equal(collectLinkTargets(dir, selected).length, 2, 'default and explicit paths are deduplicated')
+  assert.equal(checkLinks(dir, selected).problems.length, 1)
+  assert.match(checkLinks(dir, selected).problems[0], /research\/topic\/note.md.*リンク切れ/)
+  write('research/topic/note.md', '# Note\n\n[index](../README.md#research)\n')
+  assert.deepEqual(checkLinks(dir, selected), { problems: [], checkedLinks: 2, checkedFiles: 2 })
+  write('research/README.md', '# Research\n\n[missing](missing.md)\n')
+  assert.match(checkLinks(dir).problems.join('\n'), /research\/README.md.*リンク切れ/)
+})
+
+test('explicit link targets reject missing, escaping, wrong-case, directory and linked paths', t => {
+  const { dir, write } = fixture(t)
+  write('research/note.md', '# Note\n')
+  mkdirSync(path.join(dir, 'research/directory.md'))
+  for (const file of ['research/missing.md', 'research/Note.md', '../outside.md', '/absolute.md', 'C:/absolute.md', './research/note.md', 'research\\note.md', 'research/directory.md', 'research/note.json']) {
+    assert.throws(() => checkLinks(dir, { additionalFiles: [file] }), /追加対象/, file)
+  }
+  symlinkSync(path.join(dir, 'research'), path.join(dir, 'linked'), process.platform === 'win32' ? 'junction' : 'dir')
+  assert.throws(() => checkLinks(dir, { additionalFiles: ['linked/note.md'] }), /symlink/)
+})
+
+test('link CLI rejects unknown arguments and missing explicit inputs instead of reporting success', () => {
+  for (const args of [['--unknown'], ['--include'], ['--include', 'research/nonexistent-cli-fixture.md']]) {
+    const result = spawnSync(process.execPath, [path.join(REPO_ROOT, 'scripts/check-links.mjs'), ...args], { encoding: 'utf8', windowsHide: true })
+    assert.equal(result.status, 1, result.stderr)
+    assert.match(result.stderr, /check-links:/)
+    assert.doesNotMatch(result.stdout, /OK:/)
+  }
 })
 
 test('repeated checking does not retain stale directory entries after a correction', t => {

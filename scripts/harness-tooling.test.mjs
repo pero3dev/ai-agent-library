@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, renameSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
@@ -211,6 +211,17 @@ test('existing review roles must keep their read-only sandbox even with valid me
   const claude = '.claude/agents/doc-reviewer.md'
   write(claude, readFileSync(path.join(root, claude), 'utf8').replace('tools: Read, Grep, Glob', 'tools: Read, Write, Bash'))
   assert.match((await checkHarness(root, options)).problems.join('\n'), /tools が共通 contract と不一致/)
+})
+
+test('teaching inventory examines files in old and relocated tests areas, including hidden settings', async t => {
+  const { root, write, options } = configuredFixture(t)
+  const active = ['tests/harness/old/AGENTS.md', 'tests/unit/fixture/CLAUDE.md', 'tests/helpers/sample/SKILL.md', 'tests/fixtures/harness/new/.codex/config.toml']
+  for (const file of active) write(file, 'inert test input')
+  const unsafe = await checkHarness(root, options)
+  assert.equal(unsafe.verified, false)
+  assert.deepEqual(unsafe.problems.filter(problem => problem.startsWith('教材設定')).sort(), active.map(file => `教材設定を .example にしてください: ${file}`).sort())
+  for (const file of active) renameSync(path.join(root, file), path.join(root, file + '.example'))
+  assert.deepEqual((await checkHarness(root, options)).problems, [])
 })
 
 test('hook command mismatch and malformed settings are not a successful harness check', async t => {

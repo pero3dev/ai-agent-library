@@ -1,6 +1,7 @@
 # 来歴・検出・なりすまし対策 調査メモ(標準／検出限界／公的注意喚起の差分)
 
-- **調査日:** 2026-07-08
+- **初回調査日:** 2026-07-08
+- **差分更新日:** 2026-09-10(ISO 22144 の段階・Claude の透かしと Files API 来歴・IC3 の追加警告)。他の項目は個別確認日を参照
 - **用途:** TRUST-SECURITY 計画 AI-1 の裏付け。`docs/(TRUST-SECURITY)/content-provenance-and-detection.md`(来歴と検出)および `deepfake-and-impersonation-defense.md`(ディープフェイク・なりすまし防御)の執筆前調査
 - **分担(重複回避):** 各生成モデルベンダーの来歴/透かし **機能の対応状況**(OpenAI の C2PA、Google の SynthID、Adobe/Amazon の Content Credentials 等)は既存メモ [`research/multimodal/generation.md`](../multimodal/generation.md)(2026-07-08)が **正**。本メモはその **差分** に絞り、次を扱う: (A) 来歴の「標準」そのもの(C2PA / Content Credentials / 電子透かしの類型)、(B) AI 生成 **検出** の限界、(C) なりすまし・ディープフェイク詐欺への **公的注意喚起の所在**
 - **注意:** 標準仕様のバージョン・各社機能・公的ガイダンスは **変化が速い**。本メモは **2026-07-08 時点のスナップショット**。docs 反映前に一次情報を再確認すること
@@ -15,7 +16,7 @@
 | `二次情報` | 公式以外(まとめ記事・標準解説記事・報道など)を根拠にした情報 |
 | `未確認` | 直接確認できなかった。確認先 URL を残す |
 
-> **TODO(要確認):** 本メモの全項目は 2026-07-08 取得。一部の一次情報(NIST AI 100-4 PDF、NSA/CISA CSI PDF、FTC 消費者アラート)は WebFetch が 403 / バイナリ非展開のため、**所在(URL)は確認済みだが本文全文は未取得**。docs 反映前にブラウザで本文を直接確認する(最終確認: 2026-07)
+> **TODO(要確認):** 本メモの初回項目は 2026-07-08 取得。一部の一次情報(NIST AI 100-4 PDF、NSA/CISA CSI PDF、FTC 消費者アラート)は WebFetch が 403 / バイナリ非展開のため、**所在(URL)は確認済みだが本文全文は未取得**。docs 反映前にブラウザで本文を直接確認する(最終確認: 2026-07)
 
 ---
 
@@ -38,10 +39,10 @@
 
 ### A-3. 標準の現行版・所在・ISO 化
 
-- **事実:** 公式仕様索引で確認できる最新は **C2PA Specifications 2.4**(2.0/2.1/2.2/2.3/2.4 と 1.x が併存)。2.0 は 2024 年 1 月公開、2.1 は 2024-09-20 付。標準の所在は **spec.c2pa.org**。C2PA v2 は **国際標準として ISO/DIS 22144「Authenticity of information — Content Credentials」** にファストトラックされている(C2PA アーキテクチャの技術面を規定するモデル)
-- **出典:** [spec.c2pa.org(仕様索引)](https://spec.c2pa.org/specifications/specifications/2.4/index.html) / ISO 化: [ASIS&T 解説「ISO/DIS 22144」](https://www.asist.org/2025/03/19/iso-22144-authenticity-information-standards/)
-- **確認日:** 2026-07-08
-- **確度:** バージョン・所在=`公式確認済み` / ISO/DIS 22144=`二次情報`(複数の標準関連ソースで一致。最終化状況は [iso.org](https://www.iso.org/) で要確認)
+- **C2PA 仕様**: 初回に公式索引で確認した仕様は C2PA Specifications 2.4。業界仕様の公開と ISO 規格の成立は別段階
+- **ISO 公式表示(2026-09-10)**: **ISO/CD 22144、Under development、stage 30.99(CD approved for registration as DIS)**。完成した国際規格でも DIS 登録済みという表示でもない。段階履歴の 2024-10-28 と確認日を分ける
+- **訂正**: 初回メモの二次情報による「ISO/DIS 22144」表記を、ISO 公式の CD 表示へ訂正
+- **一次情報**: [C2PA 2.4 索引](https://spec.c2pa.org/specifications/specifications/2.4/index.html)(初回確認: 2026-07-08)、[ISO/CD 22144](https://www.iso.org/standard/90726.html)(確認: 2026-09-10、公式本文取得)
 
 ### A-4. 来歴が「剥がれる」条件(標準文書の記載)
 
@@ -63,6 +64,13 @@
 - **確度:** SynthID の存在・方式=`公式確認済み` / **透かしの堅牢性(改変耐性)=`ベンダー自己報告`**
 
 ---
+
+### A-6. Claude のテキスト透かしとファイルの C2PA(2026-09-01 公表)
+
+- **テキスト**: Claude Fable 5.1 / Mythos 5.1 の生成テキストは Anthropic のテキスト透かしを持つという公式記載
+- **対応する画像・動画・音声ファイル**: コード実行ツールで生成され、**Claude API の Files API で取得したとき** C2PA Content Credentials が付く
+- **設計判断**: 全テキスト・全生成物に C2PA が付くとは一般化しない。媒体・モデル/生成ツール・取得経路を記録し、変換・保存・配信後も来歴が保持されるか実物で検証する
+- **出典**: https://platform.claude.com/docs/en/release-notes/overview (確認日: 2026-09-10、公式本文取得)。本更新では実ファイルの生成・耐性試験は行っていない
 
 ## B. 検出の限界(AI 生成を「後から判定」することの限界)
 
@@ -171,7 +179,7 @@
 | 項目 | 変わりやすさ | 再確認先 |
 | --- | --- | --- |
 | C2PA 仕様の版(2.4→) | 中〜高 | [spec.c2pa.org](https://spec.c2pa.org/specifications/specifications/2.4/index.html) |
-| ISO/DIS 22144 の最終化(DIS→IS) | 中 | [iso.org](https://www.iso.org/) / [C2PA](https://c2pa.org/) |
+| ISO/CD 22144 の次段階(stage 30.99 → DIS 登録・以降の発行) | 中 | [ISO/CD 22144](https://www.iso.org/standard/90726.html) / [C2PA](https://c2pa.org/) |
 | SynthID の対象拡大・堅牢性の主張 | 中〜高 | [deepmind.google/science/synthid](https://deepmind.google/science/synthid/) |
 | Durable Content Credentials(透かし+指紋)の対応範囲 | 中 | [contentauthenticity.org](https://contentauthenticity.org/how-it-works) |
 | 検出ツールの提供状況・精度主張(**常にベンダー自己報告**扱い) | 高 | 各ベンダー公式(断定に使わない) |
@@ -186,6 +194,12 @@
 - **NIST AI 100-4 本文全文が未取得**(PDF が WebFetch でバイナリ非展開)。検出/透かしの限界の要点は公式出版ページ要旨・検索要約で確認したが、docs で引用する前に PDF 本文の該当箇所を直接確認する
 - **NSA/CISA/FBI 等の CSI「Content Credentials」PDF が 403**。所在(media.defense.gov の URL)は確認済み。本文は未取得 → ブラウザで確認
 - **FTC 消費者アラート本文が 403**。かけ直し・合言葉の助言は検索要約で確認。施行日など規則の細目は FTC 公式で要確認(検索要約に日付の揺れ: 政府・事業者規則の施行時期)
-- **ISO/DIS 22144** の最終ステータス(DIS のままか IS 発行済みか)は iso.org で要確認(現状 `二次情報`)
+- **ISO/CD 22144** は 2026-09-10 に公式の stage 30.99 を確認済み。DIS 登録・最終化・発行への進展は ISO 公式ページで追う
 - 日本の **金融庁・NISC** のディープフェイク/なりすまし個別注意喚起は本調査で一次ページを特定できず(`未確認`)。必要なら fsa.go.jp / nisc.go.jp を追確認
 - 透かし・検出器の **具体的な回避耐性の数値** は各社自己申告であり、記事では性能値を断定に用いない方針を維持する
+
+## 2026-07-20 IC3 警告の追加(確認: 2026-09-10)
+
+FBI / IC3 は、偽 IC3 苦情フォーム、FBI 幹部を装うディープフェイク、被害回復を名目とする詐欺を警告しました。既存の声・顔の本人確認リスクに加え、**通報先そのものの偽装**を脅威類型と訓練へ追加します。受信リンクから通報せず、既知の公式 URL や正規窓口へ直接到達し、捜査・返金名目でも通常の送金/情報提供の承認を省略しません。
+
+一次情報: [FBI Warns of Scammers Impersonating the IC3](https://www.ic3.gov/PSA/2026/PSA260720)(2026-07-20 公表、アクセス日: 2026-09-10)。2025-05-15 の警告と独立経路による本人確認の原則は引き続き有効です。

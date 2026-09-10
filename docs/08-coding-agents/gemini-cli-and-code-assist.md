@@ -3,7 +3,7 @@ title: "Gemini CLI と Gemini Code Assist"
 category: "coding-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-08-18"
+last_updated: "2026-09-10"
 tags: ["coding-agents", "mcp"]
 ---
 
@@ -25,7 +25,7 @@ Google のコーディングエージェント群 — Gemini CLI(OSS のター�
 
 ## 本文
 
-> **最終確認日:** 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
+> **最終確認日:** 個人向け終了・Antigravity の組織経路・Gemini API データ条件は 2026-09-10、その他は 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
 
 ### 概要
 
@@ -42,7 +42,7 @@ Google のコーディングエージェントは 1 つの製品ではなく、*
 
 **2026 年の最重要変化**: 2026-06-18 に個人向け提供が再編されました。**個人無料版(Gemini Code Assist for individuals)と、Google AI Pro / Ultra 経由の Gemini CLI・Code Assist IDE 拡張の利用は提供終了**し、個人向けの移行先として **Antigravity ファミリー(Antigravity CLI を含む)** が案内されています。「Gemini CLI は個人アカウントで無料枠が使える」という 2026 年前半までの情報は、すでに正しくありません(公式リポジトリの README には旧記載が 2026-08 時点も残っていますが、廃止告知ページが正です)。
 
-移行先の Antigravity は 2026-08 時点で **Antigravity 2.0 / Antigravity CLI / Antigravity IDE / SDK** で構成され、プランは **Individual(無料)/ Google AI Pro / Google AI Ultra / Organization(Google Cloud 経由)** です。Gemini 系に加えて Claude 系モデルにも対応します。
+移行先の Antigravity は 2026-09-10 の確認時点で **Antigravity 2.0 / Antigravity CLI / Antigravity IDE / SDK** で構成され、プランは **Individual(無料)/ Google AI Pro / Google AI Ultra / Organization(Google Cloud 経由)** です。Gemini 系に加えて Claude 系モデルにも対応します。
 
 ### 提供形態と実行環境
 
@@ -73,7 +73,7 @@ Gemini CLI の設定はユーザー(`~/.gemini/settings.json`)とワークスペ
 - **Gemini CLI の承認モード**: `default`(都度確認)/ `auto_edit`(編集のみ自動)/ `plan`(読み取り専用)。全自動(YOLO)は CLI フラグでのみ有効化でき、設定ファイルには書けません。フォルダ信頼機構が既定で有効です
 - **Gemini CLI のサンドボックス**(オプトイン)は選択肢が広いのが特徴です: macOS Seatbelt / Docker・Podman コンテナ / Windows ネイティブ / gVisor(最も強い隔離)/ LXC(実験的)。ネットワークをプロキシ経由に制限するプロファイルもあります
 - **Code Assist** の自動承認(yolo mode / Auto-approve)はオプトインで、公式ドキュメント自身が「自動承認する場所とタイミングには細心の注意を」と警告しています
-- **データ学習の既定**: Code Assist Standard / Enterprise 経由(Gemini CLI のライセンス利用を含む)は「プロンプトと応答をモデル学習に**使わない**」と公式明記(データ処理契約 CDPA(Cloud Data Processing Addendum)準拠、Enterprise は知財補償あり)。Jules も「プライベートリポジトリの内容で学習しない」と FAQ に明記。一方、**無料 API キー(Unpaid Services)で Gemini CLI を使う場合、Gemini API 追加利用規約(2026-03-23 発効)は提出コンテンツを製品改善に使用すると明記しています**(人手レビューがあり得るため、機密情報・個人情報を送らないよう公式が注意喚起しています)。**有料 API(Paid Services)は学習に使用しない**と明記されています
+- **データ学習の既定**: Code Assist Standard / Enterprise 経由(Gemini CLI のライセンス利用を含む)は「プロンプトと応答をモデル学習に**使わない**」と公式明記(データ処理契約 CDPA(Cloud Data Processing Addendum)準拠、Enterprise は知財補償あり)。Jules も「プライベートリポジトリの内容で学習しない」と FAQ に明記。一方、**無料 API キー(Unpaid Services)で Gemini CLI を使う場合、Gemini API 追加利用規約(2026-03-23 発効)は提出コンテンツを製品改善に使用すると明記しています**(人手レビューがあり得るため、機密情報・個人情報を送らないよう公式が注意喚起しています)。**Paid Services はプロンプト・応答を製品改善に使用しない**と明記されています。EEA・スイス・英国では無料サービスにも Paid Services のデータ条項が適用されます。また Gemini API は有効な Cloud Billing に紐づくプロジェクト経由なら Paid Services です。Google AI Studio は課金プロジェクトにアクセスできるアカウント、または Workspace enterprise アカウントにも Paid 条件が適用されます。請求額がゼロかどうかだけでは分類できず、安全性・法的目的の限定保持も学習利用と分けます
 - Code Assist の GitHub コードレビューは `.github/workflows` 内のファイルに対する提案を生成しません(CI 改ざんに関わる部分の防御的挙動)
 
 ### 外部連携(MCP・CI・API)
@@ -84,7 +84,7 @@ Gemini CLI の設定はユーザー(`~/.gemini/settings.json`)とワークスペ
 
 ### チーム導入と提供プラン
 
-- **組織導入の経路は Code Assist(Standard / Enterprise)に一本化**されています(2026-06-18 の個人向け終了以降)。シートライセンス課金で、ライセンス管理は Google Cloud 側で行います。agent mode / Gemini CLI の日次クォータはエディションにより異なります(具体値は公式のクォータページで確認してください)。なお 2026-08 時点では **Antigravity にも Organization プラン(Google Cloud 経由)** が登場しており、組織導入の経路が今後広がる可能性があります
+- **組織導入には Code Assist と Antigravity の経路があります**: Code Assist Standard / Enterprise は Google Cloud のシートライセンス管理を使い、agent mode / Gemini CLI のクォータはエディション別です。Antigravity の Organization は既に Google Cloud 経由で案内され、Antigravity 2.0 / CLI、Cloud Project 統合、Gemini Enterprise Agent Platform の従量課金を含みます。一部の Gemini Enterprise app 契約への同梱は対象顧客へ展開中です。どちらも契約・管理機能を個別に照合します
 - **Jules はチーム向け提供がありません**(2026-08 時点で個人 Google アカウントのみ。SSO・集中管理・監査ログの言及なし。Business / Enterprise 向けは interest form の受付のみ)。組織利用を前提にする場合はこの点が制約になります
 - 料金の具体額は本記事には記載しません。公式料金ページ(参考資料)で確認してください
 
@@ -124,10 +124,10 @@ Gemini CLI の設定はユーザー(`~/.gemini/settings.json`)とワークスペ
 - [google-gemini/gemini-cli(GitHub)](https://github.com/google-gemini/gemini-cli) — Gemini CLI のソースコードと README(アクセス日: 2026-08-18)
 - [Gemini CLI ドキュメント](https://geminicli.com/docs/) — 設定・サンドボックス・MCP の仕様(アクセス日: 2026-07-05)
 - [Gemini Code Assist overview](https://docs.cloud.google.com/gemini/docs/codeassist/overview) — エディションと機能(アクセス日: 2026-08-18)
-- [個人向け提供終了の告知](https://developers.google.com/gemini-code-assist/docs/deprecations/code-assist-individuals) — 2026-06-18 の再編内容(アクセス日: 2026-08-18)
+- [個人向け提供終了の告知](https://developers.google.com/gemini-code-assist/docs/deprecations/code-assist-individuals) — 2026-06-18 の個人向け IDE / CLI 終了(ページ更新 2026-09-02)(アクセス日: 2026-09-10)
 - [Gemini for Google Cloud のデータガバナンス](https://docs.cloud.google.com/gemini/docs/discover/data-governance) — 学習利用ポリシー(アクセス日: 2026-08-18)
-- [Gemini API 追加利用規約](https://ai.google.dev/gemini-api/terms) — Unpaid / Paid Services のデータ利用の違い(2026-03-23 発効版)(アクセス日: 2026-08-18)
-- [Antigravity 公式ページ](https://antigravity.google/) — 個人向け移行先のプラン構成(アクセス日: 2026-08-18)
+- [Gemini API 追加利用規約](https://ai.google.dev/gemini-api/terms) — Unpaid / Paid、地域・課金設定によるデータ条件の違い(2026-03-23 発効版)(アクセス日: 2026-09-10)
+- [Antigravity Pricing](https://antigravity.google/pricing) — 個人・Organization の導入経路(アクセス日: 2026-09-10)
 - [Jules 公式ドキュメント](https://jules.google/docs) — 実行環境・計画承認・利用制限(アクセス日: 2026-08-18)
 
 ## TODO・未確認事項
@@ -136,10 +136,10 @@ Gemini CLI の設定はユーザー(`~/.gemini/settings.json`)とワークスペ
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** Antigravity のプラン構成(Individual 無料 / Pro / Ultra / Organization)・対応モデル・Code Assist との役割分担の変化を公式ページ(antigravity.google)で確認する(製品内容は 2026-08-18 に確認済み。変化が速いため定点観測を継続。最終確認: 2026-08)
+> **TODO(要確認):** Antigravity のプラン・対応モデル・Code Assist との役割分担を公式 Pricing で確認する。2026-09-10 に Organization の提供を反映済み。一部 Gemini Enterprise app への同梱は対象顧客への展開中で、利用する契約への適用は採用時に確認する(最終確認: 2026-09)
 
 > **TODO(要確認):** Code Assist の GitHub コードレビュー consumer 版サンセットの完了日の一次情報と、enterprise 版(Preview)の GA 化を確認する(2026-08 時点で consumer 版は現行 docs から記載消滅・廃止カテゴリ化を確認済み、完了日の断定は未了。最終確認: 2026-08)
 
-> **TODO(要確認):** Gemini API 利用規約の学習利用ポリシー(Unpaid = 製品改善に使用 / Paid = 不使用。2026-03-23 発効版)の改定有無を確認する(最終確認: 2026-08)
+> **TODO(要確認):** Gemini API 追加利用規約のデータ条件の改定を公式規約で確認する。2026-03-23 発効版の Unpaid / Paid、EEA・スイス・英国の例外と Cloud Billing 条件を 2026-09-10 に反映済み(最終確認: 2026-09)
 
 > **TODO(要確認):** Jules のステータス(Public Beta)とチーム向け提供の有無の変化を確認する(2026-08 時点で Public Beta・個人アカウントのみ・利用制限値は変化なし。Business / Enterprise は interest form 受付のみ。最終確認: 2026-08)

@@ -3,7 +3,7 @@ title: "GitHub Copilot 実践ガイド"
 category: "coding-agents"
 level: "intermediate"
 status: "published"
-last_updated: "2026-08-18"
+last_updated: "2026-09-10"
 tags: ["coding-agents", "cost-management", "prompt-caching"]
 ---
 
@@ -25,7 +25,7 @@ GitHub Copilot の機能群(補完 / Chat / agent mode / cloud agent / code revi
 
 ## 本文
 
-> **最終確認日:** 2026-08-18(AI Credits の付与・割引・キャッシュ単価と preview 機能のステータスを再確認。その他の記述は 2026-07-06 時点)— 本記事の機能・消費の仕様は各日付時点の公式ドキュメントに基づきます。単価・付与量は特に変わりやすいため、必ず公式ページ(参考資料)で最新値を確認してください。
+> **最終確認日:** PR 承認は 2026-09-10、AI Credits・preview 機能の状態は 2026-08-18、その他は 2026-07-06 の公式情報に基づきます。単価・付与量は公式ページで採用時に確認してください。
 
 ### タスク別の機能の使い分け
 
@@ -38,7 +38,7 @@ GitHub Copilot の機能群(補完 / Chat / agent mode / cloud agent / code revi
 | 対象を絞った編集 | Chat の edit モード(対象ファイルと承認を人が握る) | 人が細かく制御 |
 | 反復作業・複数ステップ | agent モード(IDE 内で計画 → 実行 → 反復) | 節目で承認 |
 | Issue 単位の委任 | cloud agent(非同期で PR 化) | 事後レビュー |
-| レビュー | code review(IDE / PR) | 人のレビューの前段 |
+| レビュー | code review(IDE / PR) | 指摘を検証。PR 承認は管理者 opt-in で必要承認数への算入も可(public preview) |
 
 **cloud agent の「向く / 向かないタスク」は公式が明記しています**。向くのは well-defined でスコープが明確な Issue(バグ修正・テストカバレッジ改善・ドキュメント更新・技術的負債)。向かないのは ①リポジトリ横断の知識が要る広範なリファクタリング ②本番クリティカル・セキュリティ・個人情報・認証に関わる変更 ③要件が曖昧なタスク ④自分の学習が目的のタスク、の 4 類型です。この線引きは委任の判断基準としてそのまま使えます。
 
@@ -77,6 +77,9 @@ CLI では、複雑な複数ファイル変更に **plan モード**(「具体�
 - **Issue → cloud agent の運用**: 良いタスク定義の 3 要素は「問題の明確な記述・受け入れ基準・変更対象ファイルの方向付け」です(公式明記)。PR への修正依頼は 1 件ずつ送らず「Start a review」でまとめて送ると、エージェントがまとめて対応します。REST / GraphQL API から Issue 割当・タスク起動もでき(Business / Enterprise、user-to-server トークン限定)、custom agent・モデルの指定も可能です
 - **automations**: Agents タブからスケジュール(hourly / daily / weekly)またはイベント(Issue 作成・PR オープン / 同期)で cloud agent を定型起動できます。**消費は automation の作成者に課金**され、**write 権限のないユーザー起因のイベントは既定で無視**されます(プロンプトインジェクション対策と公式明記)。対象は private / internal リポジトリのみです
 - **code review の自動化**: ブランチ ruleset で「Copilot レビューの自動リクエスト」を設定します(組織レベルでパターン包含 / 除外可)。draft PR のレビュー(人のレビュー前の早期発見)、レビュー強度(effort level。Medium は消費増と公式明記)のオプションがあります
+
+2026-09-01 の public preview では、レビュー概要の approval assessment(承認可能性の評価)に加え、管理者が有効化すると Copilot 自身の PR 承認を required approvals に算入できます。承認機能は既定 off で、企業・組織・リポジトリの設定と対象パスで範囲を制御し、新しい commit が push されると承認は失効します。assessment だけでは必要承認数に算入されません。人の承認を必須にするかは組織の運用方針として別に定めます。
+
 - **Agentic Workflows**(preview): Markdown(frontmatter + 自然言語指示)で定義し GitHub Actions として実行する上位機能です。エンジンを選択でき(Copilot / Claude / Codex / Gemini)、**read-only 既定 + 宣言した safe-outputs 経由でのみ書き込み**という安全モデルと、実行あたりの Credits 上限(既定値あり)を備えます。CLI を素の Actions で回すより、このガードレール込みの機構が公式推奨です
 
 ## 実務での注意点
@@ -91,6 +94,7 @@ CLI では、複雑な複数ファイル変更に **plan モード**(「具体�
 
 ### チェックリスト
 
+- [ ] PR 承認を許すパスと、人の承認を残す変更を決め、Copilot の assessment と実際の承認を区別したか
 - [ ] タスク別の機能使い分け(edit / agent / cloud agent / review)をチームで共有したか
 - [ ] custom instructions の機能別対応差(GitHub.com Chat・code review のベースブランチ参照)を理解して配置したか
 - [ ] 無料側の機能(補完・Next edit suggestions)を最大活用しているか
@@ -106,6 +110,8 @@ CLI では、複雑な複数ファイル変更に **plan モード**(「具体�
 - [ルールファイルと設定の設計](coding-agent-rules-and-config.md) — custom instructions の内容設計
 
 ## 参考資料
+
+- [PR approval public preview](https://github.blog/changelog/2026-09-01-copilot-code-review-can-now-approve-pull-requests/) — assessment と承認、管理者設定・失効(アクセス日: 2026-09-10)
 
 - [Choosing the right AI tool(GitHub Docs)](https://docs.github.com/en/copilot/concepts/ai-tools) — タスク別の機能選択(アクセス日: 2026-07-06)
 - [Get the best results from cloud agent](https://docs.github.com/en/copilot/tutorials/cloud-agent/get-the-best-results) — 向く / 向かないタスクとタスク定義(アクセス日: 2026-07-06)

@@ -5,6 +5,23 @@
 - **注意:** 推論エンジン・ローカル実行系・ゲートウェイ OSS は開発が非常に活発で、機能差・対応モデル・ライセンス条件が動きやすい。本メモは **2026-08-18 時点のスナップショット**(初版 2026-07-08)であり、**提供形態・ライセンス・主要機能・対応の有無に限定**する。**ベンチマーク数値・性能比較(速い/遅い)は扱わない**。本文執筆時は「代表例 + 選定軸」に留め、定量比較を書かないこと
 - **根拠:** 公式リポジトリ / 公式ドキュメントのみ。ブログ・まとめ記事・SNS は根拠にしない(公式ブログは公式扱い)
 
+## 2026-09-10 鮮度更新
+
+Kong AI Gateway 2.0 は 2026-09-01 GA で、独立した runtime・control plane・Admin API・version を持ちます。従来の Kong Gateway 3.x に AI プラグインを追加する構成と分けて評価します。Kong core の Apache-2.0 を製品全体の許諾とみなせません。旧プラグインの廃止を意味する変更でもありません。AI Proxy 無印の Free / OSS 利用範囲は未確定のまま、契約・機能 tier を確認します。
+
+TensorRT-LLM の主ライセンスは Apache-2.0 ですが、`tensorrt_llm/_torch/visual_gen/models/ltx2/` のコードには LTX-2 Community License Agreement が適用されます。2026-09-10 に現行 LICENSE で確認しました。導入日は推測せず、配布物とディレクトリの個別通知を照合します。
+
+LM Studio App Terms は 2026-08-23 版です。有料機能・subscription・usage credit の条項があり、旧無償案内だけでは費用を判断できません。personal / internal business の許諾、再配布・SaaS 提供の制限、SDK 自体のライセンスは別に読みます。すべての無料機能が終了したという意味ではありません。
+
+一次資料(アクセス日: 2026-09-10):
+
+- https://konghq.com/blog/product-releases/kong-ai-gateway-2-0-ga
+- https://developer.konghq.com/ai-gateway/
+- https://github.com/NVIDIA/TensorRT-LLM/blob/main/LICENSE
+- https://lmstudio.ai/app-terms
+
+以下は以前の調査履歴です。現行の製品・仕様・許諾は上の訂正を優先します。
+
 ## 確度マーカーの説明
 
 | マーカー | 意味 |

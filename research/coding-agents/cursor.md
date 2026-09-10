@@ -6,6 +6,29 @@
 - **記録様式**: `項目 | 確認した事実 | 出典 URL | 確認日 | 確度(公式明記 / 公式から推測 / 第三者)`
 - **注記**: 旧 docs.cursor.com は cursor.com/docs へ 308 リダイレクト(確認日 2026-07-05)。出典はすべて新 URL で記載
 
+## 2026-09-10 鮮度更新の反映
+
+対象記事の本文・比較・TODO に次の確認結果を反映しました。一次資料の文書確認であり、実サービスでの設定・実行の受入試験は行っていません。以下の旧日付の記録は調査履歴です。現行判断には本節と対応する docs を使います。
+
+### T02: Cursor Privacy Modeの保持例外とBYOKの経路を反映
+
+2026-09-03 の Data Use に基づき、Privacy Mode での学習不使用と、安全性調査時の保持、非 ZDR モデルの表示 / 管理者 opt-in を区別しました。BYOK も Cursor backend 経由です。暗号化された一時ファイルキャッシュもあるため、Cloud Agents だけがコードを保存するという整理を訂正しました。個別モデルの保持期間・UI 設定の実地確認はしていません。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://cursor.com/data-use)
+
+### T07: Cursorのself-hosted machinesと共有poolを比較へ追加
+
+2026-09-02 の self-hosted machines と My Machines / team pool を実行環境表へ追加しました。自社ツール実行基盤を選ぶ機能であり、モデル通信をオンプレミスにする機能ではありません。接続・隔離の実地検証はしていません。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://cursor.com/changelog) / [一次資料 2](https://cursor.com/docs/cloud-agent/self-hosted/integrations)
+
+### T28: Cursor Originとsubscriptionsを任意の自動化例へ追加
+
+2026-08-27 の SCM 接続なしで始める Origin と、2026-08-19 の PR / Slack / schedule subscriptions を起動・自動化例へ追加しました。subscriptions は Cloud Agents 向けで、終了条件と CI / review の責任を決める設計判断に結びつけました。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://cursor.com/changelog)
+
+
 ## 2026-08-18 定点観測での更新
 
 | 確認した事実 | 出典 URL | 確認日 | 確度 |
@@ -172,7 +195,7 @@
 - 「YOLO モード」という旧称は現行公式 docs に存在しない。現行の正式な概念は **Run Modes(Auto-review / Allowlist / Run Everything)**(Cursor 3.6 以降)。歴史的経緯として触れる場合も断定を避ける
 - 「バックグラウンドエージェント(background agents)」も現行 docs では **Cloud Agents** に改称されている。旧称として言及する場合は注記する
 - Privacy Mode は「コードを送らない」機能ではない(推論のためコード文脈はモデルプロバイダーに送信される)。「学習利用しない + ZDR」の機能である点を正確に書く
-- インデックスの要点: 「埋め込み + 暗号化パスは保存 / コード平文は保存しない / Cloud Agents のみコード保存が必要」の 3 点セットで整理すると誤解が少ない
+- インデックスの要点: 埋め込み・メタデータ、一時ファイルキャッシュ、Cloud Agent チェックアウト、安全性審査時の保持を分ける(T02、2026-09-10 訂正)
 
 ## 変わりやすい項目(定点観測候補)
 

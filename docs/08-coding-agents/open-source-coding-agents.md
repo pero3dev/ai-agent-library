@@ -3,7 +3,7 @@ title: "オープンソースのコーディングエージェント"
 category: "coding-agents"
 level: "intermediate"
 status: "published"
-last_updated: "2026-08-18"
+last_updated: "2026-09-10"
 tags: ["coding-agents", "mcp"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["coding-agents", "mcp"]
 
 ## 本文
 
-> **最終確認日:** 2026-08-18 — 本記事の情報はこの日付時点の各公式サイト・公式リポジトリに基づきます。OSS はプロジェクト体制の変化が特に速いため、参照時は必ず現況を確認してください。
+> **最終確認日:** Cline Desktop と Continue の保守表記・リポジトリ状態は 2026-09-10、その他は 2026-08-18 — 本記事の情報はこの日付時点の各公式サイト・公式リポジトリに基づきます。OSS はプロジェクト体制の変化が特に速いため、参照時は必ず現況を確認してください。
 
 ### 概要
 
@@ -33,16 +33,18 @@ OSS 系コーディングエージェントに共通するアイデンティテ�
 
 引き換えに、**運用責任(モデル契約・コスト管理・セキュリティ設定・プロジェクト存続性の監視)を自分で負う**のが OSS 系の本質的なトレードオフです。
 
-### 主要ツールの一言サマリー(2026-08 時点)
+### 主要ツールの一言サマリー(2026-08、Cline・Continue は 2026-09 部分更新)
 
 | ツール | 形態 | ライセンス / 主体 | 特徴 |
 | --- | --- | --- | --- |
 | Aider | CLI | Apache-2.0 / コミュニティ | repo map と Git 自動コミットが特徴の草分け。エージェントが自律実行しない人間主導設計。**リリースは約 1 年(12 か月超)停止中**(最新 v0.86.0 = 2025-08-09。リポジトリは非アーカイブ) |
-| Cline | VS Code 拡張中核(+ JetBrains / CLI / SDK) | Apache-2.0 / Cline Bot Inc. | Plan / Act モード、diff ビュー、都度承認が基本。非常に活発 |
-| Continue | IDE 拡張 + CLI | Apache-2.0 / Continue Dev | **Cursor に買収され、リポジトリは read-only(final release)**。新規採用は事実上終了状態 |
+| Cline | VS Code 拡張中核(+ JetBrains / CLI / SDK / Desktop) | Apache-2.0 / Cline Bot Inc. | Plan / Act モード、diff ビュー、都度承認が基本。非常に活発 |
+| Continue | IDE 拡張 + CLI | Apache-2.0 / Continue Dev | **README は積極的な保守終了・read-only 方針と最終 2.0.0 を案内**。GitHub API の archived / disabled は false(2026-09-10)。新規採用は保守を引き受けられるかで判断 |
 | OpenHands(旧 OpenDevin) | セルフホスト可能なエージェント実行基盤 | MIT(オープンコア) / All Hands AI | Docker / VM のサンドボックス実行が第一級。LLM ベースのリスク評価承認。他社エージェントの実行基盤にもなる |
 | Goose | CLI + デスクトップ | Apache-2.0 / **Linux Foundation 傘下 AAIF に移管** | 拡張機構が MCP そのもの。コーディング専用でない汎用エージェント。**既定モードが Autonomous(全自動)** |
 | opencode | ターミナル TUI(+ デスクトップ / IDE) | MIT / Anomaly(旧 SST) | 75+ プロバイダー、既存サブスクリプション接続対応、`opencode.json` でコマンドパターン単位の権限制御。**既定はほぼ allow** |
+
+Cline は 2026-09-09 に `desktop-v0.0.24` を公開しています。Desktop も提供面として評価できますが、この release の存在だけでは製品全体の GA を確認できないため、採用する機能の preview・安定性を個別に確認します。Continue は README の保守方針と GitHub のアーカイブ属性が別の情報です。「非アーカイブだから活発に保守されている」とは判断しません。
 
 ### OSS 系を評価する 4 つの軸
 
@@ -86,7 +88,8 @@ OSS 系コーディングエージェントに共通するアイデンティテ�
 ## 参考資料
 
 - [Aider](https://aider.chat/) — 公式サイト・ドキュメント(アクセス日: 2026-08-18)
-- [Cline(GitHub)](https://github.com/cline/cline) — 公式リポジトリ(アクセス日: 2026-08-18)
+- [Cline releases](https://github.com/cline/cline/releases) — Desktop v0.0.24 の公開(アクセス日: 2026-09-10)
+- [Continue README](https://github.com/continuedev/continue) / [Repository API](https://api.github.com/repos/continuedev/continue) — 保守方針と archived / disabled 属性(アクセス日: 2026-09-10)
 - [Continue](https://continue.dev/) — 買収告知を含む公式サイト(アクセス日: 2026-08-18)
 - [OpenHands ドキュメント](https://docs.openhands.dev/) — 実行基盤・承認モデルの一次情報(アクセス日: 2026-08-18)
 - [Goose ドキュメント](https://goose-docs.ai/) — AAIF 移管後の公式ドキュメント(アクセス日: 2026-08-18)
@@ -100,4 +103,4 @@ OSS 系コーディングエージェントに共通するアイデンティテ�
 
 > **TODO(要確認):** 各プロジェクトの活動状況(最新リリース日・ガバナンス)を GitHub で確認する。本記事の存続性評価は 2026-08-18 時点のスナップショット(Cline 活発 / OpenHands v1.14.0 = 2026-08-17 / Goose = aaif-goose v1.46.0 / opencode = anomalyco v1.18.18)であり、この分野は数か月で状況が変わる(最終確認: 2026-08)
 
-> **TODO(要確認):** Continue の買収後のサポート方針(既存ユーザーへの影響)を公式アナウンスで確認する(2026-08-18 時点もリポジトリは read-only のまま、サポート方針の一次情報は取得できず。最終確認: 2026-08)
+> **TODO(要確認):** Continue の既存ユーザー向けサポートを公式 README・告知で確認する。2026-09-10 は保守終了・read-only 方針と非アーカイブ属性を確認。継続サポートの範囲は未確認(最終確認: 2026-09)

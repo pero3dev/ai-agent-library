@@ -3,7 +3,7 @@ title: "エージェントの認証・認可"
 category: "security"
 level: "advanced"
 status: "published"
-last_updated: "2026-08-18"
+last_updated: "2026-09-10"
 tags: ["agent-identity", "tool-permissions", "mcp"]
 ---
 
@@ -26,7 +26,7 @@ tags: ["agent-identity", "tool-permissions", "mcp"]
 
 ## 本文
 
-> **最終確認日:** 2026-08-18 — 本記事が触れる標準(IETF ドラフト・MCP 仕様)と各社機能の状況(GA / Preview)はこの日時点の公式一次情報に基づきます。調査記録は `research/professional/agent-identity.md` にあります。
+> **最終確認日:** 2026-09-10 — OAuth ドラフト、OpenAI Connectors、Google auth manager、Okta XAA の差分を確認しました。その他の標準・機能は各参考資料の従来の確認日を参照してください。調査記録は `research/professional/agent-identity.md` にあります。
 
 ### 概要: 「誰として動くのか」を 5 つの問いに分解する
 
@@ -122,17 +122,25 @@ flowchart LR
 - MCP サーバー = OAuth のリソースサーバーという整理、認可サーバーの分離、`resource` パラメータ必須、トークンパススルー禁止、事前登録なしクライアントの識別方式(CIMD)は、現行 2026-07-28 版でも維持されています。同版では動的クライアント登録(RFC 7591)が CIMD 優先の方針で正式に非推奨(Deprecated)となり(後方互換のため残置)、認可サーバー発行者の検証(RFC 9207 の `iss` 検証)が追加されました
 - 認可章はリビジョンごとに大きく変わってきた実績があるため、実装時は必ず **バージョン付きの仕様 URL** を参照し、更新を追う前提で設計します
 
-**主要ベンダーの提供状況**(名称・提供区分は 2026-08 時点。詳細と出典は調査メモ参照):
+**主要ベンダーの提供状況**(Google / Okta の差分は 2026-09-10 確認。他社は各出典日付を参照。詳細と出典は調査メモ参照):
 
 | 提供元 | 概要 | 状況 |
 | --- | --- | --- |
 | Microsoft(Entra Agent ID) | エージェント個別 ID(blueprint → agent identity)、条件付きアクセス・監査ログ、非対話の confidential client 設計 | GA(一部機能は Preview) |
 | AWS(Bedrock AgentCore Identity) | インバウンド / アウトバウンド認証の分離、OAuth トークン等の token vault | GA |
-| Google Cloud(Agent Identity) | エージェントに SPIFFE ID + 短寿命 X.509 を直接割り当て、証明書に束縛されたトークンを発行 | GA(Auth manager は Preview) |
+| Google Cloud(Agent Identity) | エージェントに SPIFFE ID + 短寿命 X.509 を直接割り当て、証明書に束縛されたトークンを発行 | GA。Auth manager と Agent Identity APIs も 2026-08-22 GA |
 | Okta / Auth0 | XAA(ID-JAG がベースとみられるクロスアプリ認可)、token vault、CIBA による非同期の人間承認 | 段階的提供中 |
 | Anthropic | API 認証のフェデレーション(SPIFFE・各社 IdP 対応)、エージェント用資格情報のエグレス時差し替え型 vault | 提供中 |
 
 ここから読み取るべき実務上の含意は 2 つです。(1) **「エージェント個別 ID + 委任表現 + vault」という設計形はベンダー横断で収斂しつつある**ので、この形で設計しておけば移植可能性が高い。(2) 個別の製品名・提供区分は 1 年以内に変わる可能性が高いので、設計文書では製品名でなく設計形(上の 5 つの問い)で書いておくのが安全です。
+
+### API 接続の OAuth と設定移行
+
+OpenAI Responses API の Connectors は、アプリが取得した OAuth access token を MCP ツールの `authorization` に渡します。OAuth クライアント登録とユーザーの認可はアプリ側で実装します。スコープによって利用可能なツールも変わるため、許可した業務に必要な範囲だけを付与します。これは ChatGPT 画面の接続設定とは別の API 契約です。refresh・失効・再同意・トークン保管とログのマスキングまで実装時に検証します。
+
+Google Cloud の Auth manager と Agent Identity APIs は 2026-08-22 GA、VPC Service Controls と組織制約は 8 月 14 日 GA と案内されています。新しい Agent Identity APIs と legacy IAM Connectors API の移行手順を確認し、単に名称を置き換えません。
+
+Okta の 2026.08.0 Preview 環境向けリリースノートでは、Managed connection タブによる XAA 設定の廃止と Resource Server タブへの再設定を案内しています。削除後は既存設定が動かなくなるため、対象組織では移行を確認します。日付は upcoming release とされており、全環境の GA や確定停止日とは扱いません。
 
 ## 実務での注意点
 
@@ -170,6 +178,14 @@ flowchart LR
 
 ## 参考資料
 
+- [認証仕様・提供状態: developers.openai.com](https://developers.openai.com/api/docs/guides/tools-connectors-mcp)(アクセス日: 2026-09-10)
+- [認証仕様・提供状態: docs.cloud.google.com](https://docs.cloud.google.com/iam/docs/release-notes)(アクセス日: 2026-09-10)
+- [認証仕様・提供状態: docs.cloud.google.com](https://docs.cloud.google.com/iam/docs/auth-manager-overview)(アクセス日: 2026-09-10)
+- [認証仕様・提供状態: datatracker.ietf.org](https://datatracker.ietf.org/doc/draft-ietf-oauth-v2-1/)(アクセス日: 2026-09-10)
+- [認証仕様・提供状態: datatracker.ietf.org](https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-chaining/)(アクセス日: 2026-09-10)
+- [認証仕様・提供状態: datatracker.ietf.org](https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-assertion-authz-grant/)(アクセス日: 2026-09-10)
+- [認証仕様・提供状態: help.okta.com](https://help.okta.com/oie/en-us/content/topics/releasenotes/preview.htm)(アクセス日: 2026-09-10)
+
 - [RFC 8693: OAuth 2.0 Token Exchange(IETF)](https://datatracker.ietf.org/doc/rfc8693/) — subject / actor の分離と `act` クレームによる委任表現(アクセス日: 2026-07-06)
 - [MCP Authorization(2026-07-28 リビジョン)](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization) — MCP サーバーの OAuth ベース認可仕様(アクセス日: 2026-08-18)
 - [Identity Assertion JWT Authorization Grant(IETF OAuth WG ドラフト)](https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-assertion-authz-grant/) — AI エージェントのツールアクセスをユースケースに含むクロスアプリ認可(アクセス日: 2026-08-18)
@@ -181,11 +197,11 @@ flowchart LR
 
 ## TODO・未確認事項
 
-> **TODO(要確認):** OpenAI の Connectors の OAuth 認可ガイドを developers.openai.com / platform.openai.com で確認する。API キー管理については developers.openai.com の Production best practices に「環境変数またはシークレット管理サービスで扱う」旨の公式明記を確認済みで、残るのは Connectors の認可のみ(最終確認: 2026-08)
+> **TODO(要確認):** 採用する Connectors の OAuth クライアント登録・スコープ・refresh・失効を、公式 Connectors ガイドと接続先 IdP の仕様で確認し、対象アカウントで実行検証する。authorization へアクセストークンを渡す API 契約は確認済み(最終確認: 2026-09)
 
 ### 変わりやすい項目(定点観測)
 
-- OAuth 2.1 の RFC 化(2026-08 時点でドラフト。IESG 提出予定 2026-12)
+- OAuth 2.1 の RFC 化(2026-09-02 版 draft-16。Internet-Draft であり RFC ではありません)
 - MCP 認可仕様の次期リビジョン(現行 2026-07-28。認可章はリビジョンごとに大きく変わる実績。CIMD・拡張仕様の扱い)
 - IETF のエージェント関連ドラフトの採択・失効(ID-JAG、identity-chaining の RFC 番号付与、WIMSE のエージェント系個人ドラフト)
-- 各社のエージェント ID 機能の提供区分(Google Cloud Auth manager の GA 化、Okta XAA / Auth0 の提供拡大)と製品名の再編
+- 各社のエージェント ID 機能の提供区分(Google Cloud の個別制御の拡大、Okta XAA の Managed connection 設定移行と提供拡大)と製品名の再編

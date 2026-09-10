@@ -7,7 +7,7 @@
 - **公式ページ存在(内容未読)**: 公式ドメインで URL の実在は確認したが、本文を取得できなかったもの(go.jp の 403、タイムアウト等)
 - **未確認**: 実在を確認できなかったもの(掲載時は理由を明記)
 
-調査主体による確認日: 2026-07-09
+初回確認日: 2026-07-09。EG-01〜EG-05・EG-12 の更新確認: 2026-09-10。未更新の項目は各確認日が基準です。
 
 ---
 
@@ -38,41 +38,24 @@
 
 ### 米国 — BIS(Bureau of Industry and Security)/ EAR
 
-- **確認先**: U.S. Department of Commerce, Bureau of Industry and Security (BIS)
-- **一次情報 URL**: https://www.bis.gov/
-- **扱う範囲(中立記述)**: 米国の Export Administration Regulations (EAR) を所管する当局の公式サイト。輸出許可、品目分類、Advanced Computing 関連の管理、Entity List、執行等の入口を提供。
-- **確認日**: 2026-07-09
-- **確度**: 公式確認済み
-- **備考**: WebFetch で本文取得。EAR・先端計算(advanced computing)関連管理を扱う旨を確認。
-
-- **確認先**: Federal Register(BIS 規則の官報公表先)
-- **一次情報 URL**: https://www.federalregister.gov/agencies/industry-and-security-bureau
-- **扱う範囲(中立記述)**: BIS が発する規則(final rule / interim final rule 等)が公表される連邦官報。先端半導体・AI モデルの重み等に関する個別規則の版と施行日は、ここで現物確認する。
-- **確認日**: 2026-07-09
-- **確度**: 公式ページ存在(内容未読)
-- **備考**: 個別規則(例: 2026-01-15 付の先端コンピューティング関連規則 https://www.federalregister.gov/documents/2026/01/15/2026-00789/revision-to-license-review-policy-for-advanced-computing-commodities )は版・内容が変化するため、記事では特定規則を断定せず「官報で現物確認」に誘導するのが安全。
+- **公式入口**: https://www.bis.gov/news-updates / https://www.federalregister.gov/agencies/industry-and-security-bureau
+- **2026-07-10 発表 (EG-01)**: UAE を D:3 / D:4 から除外し A:5 へ変更し、政府・承認済み企業への一定の先端計算品目の license-free eligibility を説明しています。国名だけで一律免許不要とは判断しません。発表対応の https://www.federalregister.gov/d/2026-14132 は本文取得できず、正確な法令発効日は未確認です。
+- **2026-05-31 ガイダンス (EG-02)**: D:5 / Macau に本社または最終親会社の本社を持つ entity に対する先端計算品目の既存許可要件は、第三国所在でも継続する場合があります。AI Diffusion の非執行方針から要件消滅を推論しません。対象 ECCN・用途・例外・取引条件を照合します。https://media.bis.gov/media/documents/bis-guidance-may-31-2026.pdf
+- **確認日 / 確度**: 2026-09-10 / BIS 発表と 1 頁の公式 PDF を確認。全クラウドサービスに自動適用するとの一般化はしません。
 
 ### EU — 欧州委員会(デュアルユース輸出管理)
 
-- **確認先**: European Commission, DG Trade(Trade and Economic Security)
-- **一次情報 URL**: https://policy.trade.ec.europa.eu/help-exporters-and-importers/exporting-dual-use-items_en
-- **扱う範囲(中立記述)**: EU のデュアルユース(軍民両用)品目の輸出管理の入口。Regulation (EU) 2021/821 に基づく認可類型、管理品目リスト(Annex I)、多国間輸出管理体制との関係を扱う。
-- **確認日**: 2026-07-09
-- **確度**: 公式確認済み
-- **備考**: WebFetch で本文取得。
-
----
+- **公式入口**: https://policy.trade.ec.europa.eu/help-exporters-and-importers/exporting-dual-use-items_en
+- **更新 (EG-03)**: 公式入口は Annex I の改正として委任規則 (EU) 2025/2003 を掲載。採択 2025-09-08、OJ 公布 2025-11-14、翌日 2025-11-15 発効です。https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202502003
+- **確認日 / 確度**: 2026-09-10 / 公式入口と 251 頁 PDF の冒頭・発効規定を確認。全品目の適用照合は未実施です。同ページの September 2024 Excel を現行法令の代替にしません。2026 年の後続更新が一切ないという網羅性の主張ではありません。
 
 ## 2. データ主権・越境移転(データ所在地要求・越境データ移転規制)
 
 ### EU — GDPR(第三国移転・十分性認定)
 
-- **確認先**: European Commission(Data protection / Adequacy decisions)
-- **一次情報 URL**: https://commission.europa.eu/law/law-topic/data-protection/international-dimension-data-protection/adequacy-decisions_en
-- **扱う範囲(中立記述)**: GDPR に基づく第三国への個人データ移転と、欧州委員会による十分性認定(adequacy decision)の制度・対象国を扱うページ。
-- **確認日**: 2026-07-09
-- **確度**: 公式確認済み
-- **備考**: WebFetch で本文取得。上位ページ https://commission.europa.eu/law/law-topic/data-protection_en もデータ保護全般の入口。
+- **公式入口**: https://commission.europa.eu/law/law-topic/data-protection/international-dimension-data-protection/adequacy-decisions_en
+- **監視例 (EG-12)**: Brazil は 2026-01-26 の十分性認定決定、Korea は 2026-07-23 の既存認定の first review です。新規決定と再審査を区別します。Brazil 法令: https://eur-lex.europa.eu/legal-content/en/TXT/?uri=CELEX:32026D0179
+- **確認日 / 確度**: 2026-09-10 / EC 一覧を確認。個々のデータ移転が無条件で許されることを意味しません。
 
 ### 日本 — 個人情報保護委員会(PPC)
 
@@ -92,23 +75,16 @@
 
 ### 中国 — CAC(国家互联网信息弁公室)/ PIPL
 
-- **確認先**: Cyberspace Administration of China(国家互联网信息弁公室、CAC)
-- **一次情報 URL**: http://www.cac.gov.cn/(トップドメイン)
-- **扱う範囲(中立記述)**: 個人情報保護法(PIPL)・データ安全法・サイバーセキュリティ法を所管する当局。PIPL 第38条に基づく越境移転の各経路(安全評価・認証・標準契約)に関する規定・通知の発出元。
-- **確認日**: 2026-07-09
-- **確度**: 未確認
-- **備考**: 英語版とされる http://www.cac.gov.cn/english/ は WebFetch で 404。トップドメインの本文も未取得(国外からのアクセス制限の可能性)。記事では「CAC が所管当局」という所在提示にとどめ、具体 URL は現物到達を確認できないため断定を避けるのが安全。個別規則の一次確認は困難な旨を注記推奨。
+- **公式入口**: https://www.cac.gov.cn/ / 越境データ専用索引 https://www.cac.gov.cn/wxzw/sjzl/sjcjaqpg/A09370801index_1.htm
+- **更新 (EG-05)**: 2026-09-10 にトップ・専用索引を取得。索引は 2025-06-27 の「数据出境安全评估申报指南（第三版）」、標準契約・認証資料を掲載します。2026-08-12 の個人情報保護政策法規 FAQ ページも取得しました。https://www.cac.gov.cn/2026-08/12/c_1788195297373459.htm
+- **確度 / 限界**: 公式入口・掲載文書・FAQ の到達確認。FAQ 全文の法的解釈や全規則の横断比較は未実施です。旧一律アクセス不能メモを解消し、個別条項への適用確認を残します。
 
 ### インド — MeitY / DPDP
 
-- **確認先**: Ministry of Electronics and Information Technology (MeitY), Government of India
-- **一次情報 URL**: https://www.meity.gov.in/data-protection-framework
-- **扱う範囲(中立記述)**: Digital Personal Data Protection Act, 2023(DPDP 法)および関連規則(DPDP Rules, 2025)を所管する省庁のデータ保護の入口。
-- **確認日**: 2026-07-09
-- **確度**: 公式ページ存在(内容未読)
-- **備考**: WebFetch は 403。URL は検索結果で実在確認。規則の施行は段階的とされ版が動くため、記事では施行状況を断定しない。
-
----
+- **最終官報 (EG-04)**: G.S.R. 846(E)、通知文書日 2025-11-13。https://www.meity.gov.in/static/uploads/2025/11/53450e6e5dc0bfa85ebd78686cadad39.pdf
+- **段階施行**: 英語本文 p24 Rule 1(2) は Rules 1・2・17〜21 を公布時、1(3) は Rule 4 を公布 1 年後、1(4) は Rules 3・5〜16・22・23 を公布 18 か月後としています。
+- **通知日の表記**: PIB の 2025-11-17 解説は通知日 2025-11-14 と説明します。https://www.pib.gov.in/PressNoteDetails.aspx?ModuleId=3&NoteId=156054&lang=1&reg=3
+- **確認日 / 確度**: 2026-09-10 / 最終原文を取得し施行規定を確認。full operationalisation という発表文を全条文即日施行と読みません。日単位の適用期限は公布日と通知日の扱いも含め専門確認が必要です。
 
 ## 3. 供給網の集中(特定国・特定社への依存に関する公的な注意喚起・報告書)
 
@@ -192,6 +168,6 @@
 
 - **規則の版・対象品目リスト・掲載団体は変化が速い**。特定の規則番号・しきい値(性能基準等)・掲載団体数・対象国を本文に断定で書かない。書く場合は「○年○月時点」の絶対表現+「現物確認」への誘導にとどめ、`TODO(要確認)` を残す。
 - **記事は「入口マップ+免責」方式**。各ソースが「何を扱うか」の所在提示に徹し、「〜は規制対象」「〜すべき」「適法/違法」といった解釈・判断は書かない。読者には自社の法務・専門家/所管当局への確認を促す免責を明記する。
-- **一次情報の到達性に差がある**。go.jp・treasury.gov 系は自動取得で 403/タイムアウトが出ることがあり、CAC は国外から到達を確認できなかった。記事で URL を載せる際は「本調査時点でリンク先の実在は確認済み(ただし版・内容は各自現物確認)」の趣旨を添える。特に中国 CAC は具体 URL の恒常的到達を保証できないため、「所管当局は CAC」という所在提示にとどめるのが安全。
+- **一次情報の到達性に差があります**。CAC のトップ・専用索引と MeitY 最終官報は 2026-09-10 に取得済みです。別の当局・URL に対する過去の取得失敗は、各項目の確認日と範囲で読みます。
 - **リンク切れ・改称に注意**。EU・BIS・OFAC はサイト改編で URL 変更が起こり得る。記事公開時に全リンクの生存を再確認し、`last_updated` とアクセス日を併記する。
 - **二次情報(法律事務所の解説等)は本文の根拠にしない**。今回の調査でも解釈は法律事務所ブログ等に多く出てくるが、記事は一次情報(当局・官報・法令 DB)の所在提示に限定する。

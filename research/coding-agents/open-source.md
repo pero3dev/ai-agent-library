@@ -5,6 +5,23 @@
 - **方針**: [CODING-AGENTS-PLAN.md](../../CODING-AGENTS-PLAN.md) §7 の情報源優先順位に従い、公式サイト・公式ドキュメント・公式リポジトリ(GitHub API メタデータ含む)のみを根拠とする。確度は「公式明記 / 公式から推測 / 第三者」の 3 区分。未確認事項は「未確認」と明記
 - **注意**: 俯瞰記事用のため 8 観点(①形態 ②ライセンス・開発主体 ③対応モデル ④リポジトリ理解・編集 ⑤コマンド実行・承認 ⑥MCP ⑦ルール・設定 ⑧活発さ)に絞る。§7 の 12 項目フル調査ではない
 
+## EXTRA-CODING-02: Continue の保守方針とアーカイブ属性を区別
+
+公式 README は no longer actively maintained / read-only / final 2.0.0 を記載。GitHub REST API は archived=false、disabled=false。README の方針とサービスの属性を区別して記載し、保守終了判断は維持。
+
+出典(アクセス日: 2026-09-10): [一次資料 1](https://github.com/continuedev/continue) / [一次資料 2](https://api.github.com/repos/continuedev/continue)
+
+## 2026-09-10 鮮度更新の反映
+
+対象記事の本文・比較・TODO に次の確認結果を反映しました。一次資料の文書確認であり、実サービスでの設定・実行の受入試験は行っていません。以下の旧日付の記録は調査履歴です。現行判断には本節と対応する docs を使います。
+
+### T23: Clineのdesktop提供面を任意の比較項目へ追加
+
+公式 releases の 2026-09-09 desktop-v0.0.24 を根拠に Cline Desktop を本体・比較へ追加しました。release があることと GA は別で、製品全体の GA は未確認です。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://github.com/cline/cline) / [一次資料 2](https://github.com/cline/cline/releases)
+
+
 ## 2026-08-18 定点観測での更新(⑧活発さの再確認)
 
 | ツール | 確認した事実 | 出典 URL | 確認日 | 確度 |

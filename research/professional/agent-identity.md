@@ -7,6 +7,28 @@
 
 ---
 
+## 2026-09-10 鮮度更新
+
+OpenAI Responses API の Connectors は、アプリが取得した OAuth access token を MCP ツールの `authorization` に渡します。OAuth クライアント登録とユーザーの認可はアプリ側で実装します。スコープによって利用可能なツールも変わるため、許可した業務に必要な範囲だけを付与します。これは ChatGPT 画面の接続設定とは別の API 契約です。refresh・失効・再同意・トークン保管とログのマスキングまで実装時に検証します。
+
+Google Cloud の Auth manager と Agent Identity APIs は 2026-08-22 GA、VPC Service Controls と組織制約は 8 月 14 日 GA と案内されています。新しい Agent Identity APIs と legacy IAM Connectors API の移行手順を確認し、単に名称を置き換えません。
+
+Okta の 2026.08.0 Preview 環境向けリリースノートでは、Managed connection タブによる XAA 設定の廃止と Resource Server タブへの再設定を案内しています。削除後は既存設定が動かなくなるため、対象組織では移行を確認します。日付は upcoming release とされており、全環境の GA や確定停止日とは扱いません。
+
+OAuth 2.1 は9/2版draft-16、依然Internet-Draftです。identity-chainingは-17でRFC Editor待ち、ID-JAGは-04。RFC発行と取り違えません。
+
+一次資料(アクセス日: 2026-09-10):
+
+- https://developers.openai.com/api/docs/guides/tools-connectors-mcp
+- https://docs.cloud.google.com/iam/docs/release-notes
+- https://docs.cloud.google.com/iam/docs/auth-manager-overview
+- https://datatracker.ietf.org/doc/draft-ietf-oauth-v2-1/
+- https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-chaining/
+- https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-assertion-authz-grant/
+- https://help.okta.com/oie/en-us/content/topics/releasenotes/preview.htm
+
+以下の旧観測は日付付きの履歴です。上の提供状態・訂正を優先します。
+
 ## 1. 委任・トークン関連の標準(IETF)
 
 ### 1.1 基盤となる標準

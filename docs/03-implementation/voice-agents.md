@@ -3,7 +3,7 @@ title: "音声エージェントの実装"
 category: "implementation"
 level: "advanced"
 status: "published"
-last_updated: "2026-08-18"
+last_updated: "2026-09-10"
 tags: ["voice-agents", "streaming", "multimodal"]
 ---
 
@@ -94,6 +94,14 @@ flowchart TB
 
 実装上の要点は、**speech-to-speech でも必ずトランスクリプト(文字起こし)を記録する**ことです。トランスクリプトがあれば、既存の評価資産(LLM-as-a-Judge・回帰テスト)と監査・デバッグの多くをテキストと同じ道具で回せます([可観測性とトレーシング](../05-operations/observability-and-tracing.md))。評価セットには、静かな環境のきれいな発話だけでなく、実環境の入力(騒音・言い直し・方言・電話品質)を含めます。
 
+### 音声認識と対話モデルの更新を別に追う
+
+2026-09-10 確認の OpenAI 退役表は、whisper-1 / gpt-4o-transcribe / gpt-4o-mini-transcribe / gpt-4o-transcribe-diarize の終了日を 2027-02-26、代替候補を gpt-live-transcribe / gpt-transcribe と案内しています(告知 2026-08-26)。2027-01-20 の旧 realtime 系の終了日とは別です。話者分離・時刻情報・ストリーミング・音声入力形式を個別に照合します。
+
+Google の 2026-08-26 リリースノートには Gemini 3.5 Transcribe と Transcribe Live の GA が掲載されています。専用の文字起こしモデルの GA を、Gemini Developer API の音声対話用 Live 全体の GA と読み替えません。
+
+AWS の旧 `amazon.nova-sonic-v1:0` は 2026-09-14 EOL と案内されています(ap-northeast-1 / eu-north-1 / us-east-1)。Nova 2 Sonic は別モデルです。期限の近い旧版を新規採用するのでなく、対象地域の後継で会話品質・割込み・ツール連携を評価します。
+
 ## 実務での注意点
 
 ### アンチパターン
@@ -129,6 +137,10 @@ flowchart TB
 
 ## 参考資料
 
+- [提供仕様・終了日程: developers.openai.com](https://developers.openai.com/api/docs/deprecations)(アクセス日: 2026-09-10)
+- [提供仕様・終了日程: ai.google.dev](https://ai.google.dev/gemini-api/docs/changelog)(アクセス日: 2026-09-10)
+- [提供仕様・終了日程: docs.aws.amazon.com](https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle-legacy.html)(アクセス日: 2026-09-10)
+
 - [Voice agents(OpenAI)](https://developers.openai.com/api/docs/guides/voice-agents) — speech-to-speech とパイプラインの 2 択整理と使い分けの公式ガイド(アクセス日: 2026-07-07)
 - [Gemini Live API(Google)](https://ai.google.dev/gemini-api/docs/live-api) — リアルタイム音声対話 API の例。2026-08 時点で Gemini Developer API 版は Preview、Vertex AI 版は 2025-12-13 に GA(Gemini 2.5 Flash Native Audio)(アクセス日: 2026-08-18)
 - [Amazon Nova speech-to-speech(AWS)](https://docs.aws.amazon.com/nova/latest/nova2-userguide/using-conversational-speech.html) — 双方向ストリームと非同期ツール実行の例(アクセス日: 2026-08-18)
@@ -136,4 +148,4 @@ flowchart TB
 
 ## TODO・未確認事項
 
-> **TODO(要確認):** 各社のリアルタイム音声 API の提供状況(GA / Preview)・モデル名・セッション上限・電話統合の対応先は変化が速い。選定時に各社公式ドキュメントで最新を確認する(一次情報の記録: `research/professional/voice-agents.md`)(最終確認: 2026-08)
+> **TODO(要確認):** 各社のリアルタイム音声 API の提供状況(GA / Preview)・モデル名・セッション上限・電話統合の対応先は変化が速い。選定時に各社公式ドキュメントで最新を確認する(一次情報の記録: `research/professional/voice-agents.md`)(最終確認: 2026-09)

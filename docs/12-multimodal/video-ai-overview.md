@@ -3,7 +3,7 @@ title: "動画生成・理解の概観"
 category: "multimodal"
 level: "basic"
 status: "published"
-last_updated: "2026-07-08"
+last_updated: "2026-09-10"
 tags: ["video-ai", "video-generation", "video-understanding"]
 ---
 
@@ -29,16 +29,18 @@ tags: ["video-ai", "video-generation", "video-understanding"]
 
 動画 AI は「理解」(動画を読む)と「生成」(動画を作る)で仕組みも成熟度も違います。両者を分けて、**2026 年時点の現在地を冷静に読む**のが本記事の目的です。動画は話題性が高くデモが派手なため、実務で成立するかは用途で見極めます。
 
-> **最終確認日: 2026-08-18。** 動画 AI の生成モデルの顔ぶれ・尺・解像度・音声対応・来歴機能・動画理解のトークン課金は変化が非常に速いため、本記事は現在地の読み方と類型に徹します。採用時は各社公式ページと利用規約で必ず再確認してください(後述の「変わりやすい項目」)。
+> **最終確認日: 2026-09-10。** 動画 AI の生成モデルの顔ぶれ・尺・解像度・音声対応・来歴機能・動画理解のトークン課金は変化が非常に速いため、本記事は現在地の読み方と類型に徹します。採用時は各社公式ページと利用規約で必ず再確認してください(後述の「変わりやすい項目」)。
 
 ### 動画理解: 入力方式とコスト構造
 
-動画を「読む」(要約・質問応答・検索)には、動画を VLM が扱える形にします。方式は 2 類型です。
+動画を「読む」(要約・質問応答・検索)には、動画を VLM が扱える形にします。固定間隔の読解に加え、必要な時刻を能動的に調べる方式もあります。
 
 - **フレームサンプリング型**: 動画から一定間隔でフレームを抜き、各フレームを画像として読ませます([画像理解の実務パターン](vision-understanding-patterns.md))。多くの汎用モデルで使える一般的な方式です
 - **ネイティブ動画入力型**: 動画ファイルを直接受け取り、内部でフレーム(+ 音声)をトークン化するモデルもあります
-- **コストは「尺 × FPS × フレームトークン + 音声」**: どちらの方式でも、コストは**尺(秒)× サンプリング FPS × 1 フレームあたりトークン + 音声トークン**で概算できます。長尺・高 FPS・高解像度ほどトークンが急増します([マルチモーダルモデルの仕組み](../10-llm-foundations/multimodal-models.md)のトークン経済)
+- **固定間隔のコストは「尺 × FPS × フレームトークン + 音声」**: フレームを一定間隔で処理する場合、コストは**尺(秒)× サンプリング FPS × 1 フレームあたりトークン + 音声トークン**で概算できます。長尺・高 FPS・高解像度ほどトークンが急増します([マルチモーダルモデルの仕組み](../10-llm-foundations/multimodal-models.md)のトークン経済)
 - **最小の FPS・解像度に落とす**: コスト最適化の基本は、用途に足る**最小の FPS と解像度**にすることです。ネイティブ動画入力の既定は低 FPS(2026-08 時点で、あるモデルの既定は毎秒 1 フレーム)で、急な動きを見落とす場合だけ上げます。「全部を高精細・高 FPS で読む」はコストが跳ねます
+
+能動的な動画読解(agentic video understanding)では、必要な transcript・frame・audio をモデルが要求します。Google は 2026-09-01 にこの方式を案内しました。全尺 × 固定 FPS の見積りだけでなく、追加取得と推論の合計を計測します。公式の最大トークン削減率は特定条件での報告で、一般保証ではありません。
 
 ### 動画理解の実務ユースケース
 
@@ -89,7 +91,20 @@ tags: ["video-ai", "video-generation", "video-understanding"]
 - **来歴・透かし**(C2PA / SynthID 系)の対象範囲・仕様
 - モデルの**顔ぶれと提供ステータス**(登場・改称・停止)
 
-調査メモ `research/multimodal/generation.md`(2026-08-18 時点)に、この定点観測の詳細と出典を記録しています。
+調査メモ `research/multimodal/generation.md`(2026-09-10 更新)に、この定点観測の詳細と出典を記録しています。
+
+### 提供終了を制作パイプラインの移行条件にする
+
+2026-09-10 確認の終了予定です。モデル名だけでなく ID と提供経路で照合します。
+
+| 対象 | 告知された終了日 | 移行で確認すること |
+| --- | --- | --- |
+| OpenAI Videos API、sora-2 / sora-2-pro と退役表のスナップショット | 2026-09-24(告知 2026-03-24) | 新規採用の候補から外し、生成・取得処理と制作ワークフローの代替を評価します。API 終了だけで Sora アプリの状態を推定しません |
+| Amazon Nova Reel v1:0 | 2026-09-30 | ap-northeast-1 / eu-west-1 / us-east-1 の対象 ID を確認します |
+| Amazon Nova Reel v1:1 | 2026-09-30 | 対象は us-east-1。Nova 2 など別世代と混同しません |
+| gemini-omni-flash-preview | 2026-09-30 | 2026-08-27 GA の gemini-omni-1.1-flash へ、生成・編集・料金・品質の互換性を評価します |
+
+終了予定の確認と、当日の API 停止を実呼出しで確認することは別です。ジョブの生成開始だけでなく、成果物取得まで完了できる時間を移行期限に含めます。
 
 ## 実務での注意点
 
@@ -103,8 +118,8 @@ tags: ["video-ai", "video-generation", "video-understanding"]
 
 ### チェックリスト
 
-- [ ] 動画理解のコストを「尺 × FPS × フレームトークン + 音声」で見積もった
-- [ ] 用途に足る最小の FPS・解像度に落としている
+- [ ] 固定間隔の動画理解は「尺 × FPS × フレームトークン + 音声」で見積もり、能動的な読解は追加取得量と推論を含め実測した
+- [ ] 固定間隔の方式では用途に足る最小の FPS・解像度にし、能動的な読解では取得範囲・回数を制限している
 - [ ] 動画理解を「要点・変化・該当箇所に絞る」構成にしている
 - [ ] 動画生成を素材・下書き段階と位置づけ、人の編集・レビューを前提にした
 - [ ] 生成の尺・一貫性・音声同期が自分の用途で成立するか実測した
@@ -123,10 +138,15 @@ tags: ["video-ai", "video-generation", "video-understanding"]
 
 ## 参考資料
 
+- [提供仕様・終了日程: developers.openai.com](https://developers.openai.com/api/docs/deprecations)(アクセス日: 2026-09-10)
+- [提供仕様・終了日程: docs.aws.amazon.com](https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle-legacy.html)(アクセス日: 2026-09-10)
+- [提供仕様・終了日程: ai.google.dev](https://ai.google.dev/gemini-api/docs/changelog)(アクセス日: 2026-09-10)
+- [提供仕様・終了日程: ai.google.dev](https://ai.google.dev/gemini-api/docs/deprecations)(アクセス日: 2026-09-10)
+
 - [Video understanding(Google Gemini API)](https://ai.google.dev/gemini-api/docs/video-understanding) — ネイティブ動画入力・既定 FPS・トークン構造の例(アクセス日: 2026-08-18)
-- [Video generation(OpenAI)](https://developers.openai.com/api/docs/guides/video-generation) — テキスト → 動画生成(尺・解像度・音声)の例(アクセス日: 2026-08-18)
+- [Video generation(OpenAI)](https://developers.openai.com/api/docs/guides/video-generation) — Videos API の旧実装例。2026-09-24 終了予定は上の退役表を優先(アクセス日: 2026-08-18)
 - [Veo(Google DeepMind)](https://deepmind.google/models/veo/) — 動画生成モデル(音声・SynthID 透かし)の例(アクセス日: 2026-08-18)
 
 ## TODO・未確認事項
 
-> **TODO(要確認):** 動画生成モデルの顔ぶれ・尺・解像度・音声同期・来歴機能・商用利用条件、および動画理解のトークン課金・既定 FPS は変化が非常に速い。本文は現在地の読み方と類型に徹しており、採用時に各社公式ページ・利用規約と調査メモ `research/multimodal/generation.md` の「変わりやすい項目」で最新を確認する。権利の可否は断定せず法務で確認する(最終確認: 2026-08)
+> **TODO(要確認):** 動画生成モデルの顔ぶれ・尺・解像度・音声同期・来歴機能・商用利用条件、および動画理解のトークン課金・既定 FPS は変化が非常に速い。本文は現在地の読み方と類型に徹しており、採用時に各社公式ページ・利用規約と調査メモ `research/multimodal/generation.md` の「変わりやすい項目」で最新を確認する。権利の可否は断定せず法務で確認する(最終確認: 2026-09)

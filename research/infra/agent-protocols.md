@@ -28,7 +28,7 @@
 
 5. **組織間の信頼(認証・認可)は「プロトコルに埋め込まず既存標準へ委ねる」設計。** A2A は**アイデンティティを HTTP/トランスポート層で確立**し、プロトコルペイロードにユーザー/クライアント ID を載せません(「A2A protocol payloads ... don't carry user or client identity information directly」)。`securitySchemes` は **OpenAPI 準拠**(API Key / HTTP Auth / OAuth2 / OpenID Connect / mTLS)で、認可は「エージェント実装・扱うデータ・企業ポリシー固有」。→ **エージェント固有の認可標準はまだ無い**(IETF の ID-JAG・identity-chaining・WIMSE 系の詳細は [agent-identity.md](../professional/agent-identity.md) 参照)。判断軸: 相互運用プロトコルは「認証の"広告と搬送"は決めるが、"誰に何を許すか"は自前」。
 
-6. **決済という「最も信頼が要る委譲」に専用の上位プロトコル(AP2)が現れた。** AP2(Agent Payments Protocol、Google 主導、2025-09-17 発表、60+ 組織)は **A2A / MCP の拡張**として位置づけられ、**署名付き mandate(意図・カート/チェックアウト・支払い)+ 検証可能クレデンシャル**で「**authorization(認可)・authenticity(真正性)・accountability(説明責任)**」を担保し、非可否(non-repudiation)の監査証跡を作ります。V0.1 → V0.2 と急速に改訂中で、標準化は **FIDO の作業部会**へ移りつつあります(2026-08-18 追記: 2026-04-28 に Google が AP2 の**所有権を FIDO Alliance へ正式寄贈**。v0.2 で「Human Not Present」自律決済を導入)。→「エージェントに金銭を委ねる」領域は最初から**証跡と同意の暗号的検証**を前提に設計され始めている、という論点に使えます。
+6. **決済という「最も信頼が要る委譲」に専用の上位プロトコル(AP2)が現れた。** AP2(Agent Payments Protocol、Google 主導、2025-09-17 発表、60+ 組織)は **A2A / MCP の拡張**として位置づけられ、**署名付き mandate(意図・カート/チェックアウト・支払い)+ 検証可能クレデンシャル**で「**authorization(認可)・authenticity(真正性)・accountability(説明責任)**」を担保し、非可否(non-repudiation)の監査証跡を作ります。V0.2 の Checkout / Payment Mandate を基準にし、標準化は **FIDO の作業部会**で追います(2026-08-18 追記: 2026-04-28 に Google が AP2 の**所有権を FIDO Alliance へ正式寄贈**。v0.2 で「Human Not Present」自律決済を導入)。→「エージェントに金銭を委ねる」領域は最初から**証跡と同意の暗号的検証**を前提に設計され始めている、という論点に使えます。
 
 7. **相手エージェントは新しい攻撃面。公式ガイダンスは「相手を信頼できない外部 HTTP アプリとして扱う」。** A2A の公式ガイダンスは、エージェントは **opaque**(内部を晒さない)、本番通信は **HTTPS/TLS 必須**、**Agent Card に静的シークレットを埋めない・機微な Agent Card は認証/認可で保護**(authenticated extended agent cards、mTLS/OAuth/ネットワーク制限)、認可は**最小権限・スキル単位**、と定めます。ただし「悪意ある応答」「過剰な情報開示」を包括的に扱う公式仕様はまだ薄く、レッドチーム的な指摘(プロンプトインジェクション等)は主に **arXiv プレプリント段階**です。→ 判断軸: 発見できた相手を無条件に信頼しない、開示する能力・データを最小化する。
 
@@ -174,3 +174,12 @@
 
 ### 相互参照(このライブラリ内)
 - [research/professional/agent-identity.md](../professional/agent-identity.md)(IETF/OAuth/MCP 認可仕様・ベンダー Agent ID の深掘り)
+
+## AP2 v0.2 の検証責務(2026-09-10 再確認、EM08)
+
+2026-04-28 の FIDO 寄贈と v0.2 公開は Google 本文で確認済みです。Checkout / Payment Mandate は Human Present / Human Not Present の双方で使い、前者は利用者の具体的な承認、後者は open Mandate の制約に基づく Agent の closed Mandate 生成を扱います。検証側は closed Mandate の署名・購入との紐付け・制約を決定的なコードで検査します。初期の Intent / Cart は v0.1 の履歴として区別します。
+
+- https://ap2-protocol.org/ap2/specification/ (確認日: 2026-09-10)
+- https://blog.google/products-and-platforms/platforms/google-pay/agent-payments-protocol-fido-alliance/ (確認日: 2026-09-10)
+
+仕様検証の確認であり、実決済や全地域の商用提供を試験したものではありません。

@@ -114,6 +114,12 @@ Agent API の原価はトークン従量で変動します。課金の計測単�
 
 どの単位で課金するにせよ、**内部のメータリングはテナント・API キー別に正確に取る**ことが先です([マルチテナント設計](multi-tenancy-and-isolation.md))。加えて、利用者側のコスト事故(暴走ループでの大量投入)を防ぐ上限(クォータ)と、超過時の応答(HTTP 429 と再試行までの待ち時間の提示)を契約に明記します。認証は API キーまたは OAuth を使い、「呼び出し元ユーザーの権限で動くのか、サービスとしての権限で動くのか」を最初に決めます([エージェントの認証・認可](../06-security/agent-identity-and-auth.md))。
 
+### 実行中の指示変更を API 契約に含める
+
+長時間実行では、利用者が条件を変えることを前提にします。自社 API で指示変更を受け付けるなら、どの run のどの版に対する更新か、受理した時点、完了済みの処理、取り消せない副作用を応答に含めます。単なる「キャンセル成功」と業務上の巻き戻し完了を同じ状態にしません。
+
+2026-09-10 確認の OpenAI Astra / Responses API には、WebSocket で追加指示を送る mid-turn steering と、結果を `call_id` で返す非同期ツールがあります。この提供 API を使う場合も、自社 run ID とプロバイダーの response / call ID を対応付け、遅れて届いた結果や重複通知を処理します。利用者の変更によって支払先・対象ファイル・実行引数が変わる場合は、認可と承認の対象を再評価します。
+
 ## 実務での注意点
 
 ### アンチパターン
@@ -146,6 +152,8 @@ Agent API の原価はトークン従量で変動します。課金の計測単�
 - [Human-in-the-Loop 設計](human-in-the-loop.md) — 承認待ち状態の設計元
 
 ## 参考資料
+
+- [Mid-turn steering](https://developers.openai.com/api/docs/guides/steering) — 本文の仕様例(アクセス日: 2026-09-10)
 
 - [IETF — RFC 9110 §15.3.3: 202 Accepted](https://www.rfc-editor.org/rfc/rfc9110.html#section-15.3.3) — 非同期受付の意味と状態照会先の提示(アクセス日: 2026-09-10)
 - [AWS Builders' Library — Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/) — クライアントの要求 ID、原子的な記録、保持期間、同じキーで異なる要求が来る場合の契約(アクセス日: 2026-09-10)

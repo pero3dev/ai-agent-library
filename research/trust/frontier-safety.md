@@ -1,6 +1,7 @@
 # フロンティアセーフティ(最前線 AI の安全枠組み)一次情報 調査メモ
 
-- **調査日**: 2026-07-08
+- **初回調査日**: 2026-07-08
+- **差分更新日**: 2026-09-10(RSP 3.4・August Risk Report・OpenAI の方針文書・AISI ガイド)。他の行の確認日は据え置き
 - **用途**: `docs/06-security/frontier-safety-overview.md`(フロンティアセーフティの概観)の裏付け。TRUST-SECURITY 計画 **AI-2** の材料。実務者が「モデル選定・調達時に、提供者の安全体制を評価軸にする」ために必要な範囲に絞る。危険能力そのものの手法(サイバー・生物等の攻撃方法)は一切扱わず、**枠組みの所在・共通構造・評価/公表の仕組み**のみを整理する
 - **根拠の方針**: 各ラボの公式ドキュメント/公式ブログ、政府機関の公式サイト(nist.gov / aisi.gov.uk / aisi.go.jp)、標準・公的機関のみを根拠にする。まとめ記事・SNS・法律事務所ブログは出典に挙げない(裏取りの補助にのみ使用)
 - **注意(スナップショット)**: 各社フレームワーク・各国機関は**改版・改組・改称のペースが速い**。本メモは **2026-07-08 時点のスナップショット**。特にラボのフレームワークはバージョン番号が四半期単位で動き、AISI 系機関は 2025 年に米英ともに改称した。記事側では「バージョン番号・URL は変わる前提で、常に各社の一次ページを確認する」と書く
@@ -9,7 +10,7 @@
   - `ベンダー自己報告` = 提供者自身が公表する安全主張(自己申告)。事実として「そう公表している」ことは確かだが、第三者検証を意味しない
   - `二次情報` = 検索スニペット等で公式ドメインの文書名・日付・URL を確認(直接取得は未実施、または公式ページが bot 遮断)
   - `未確認` = 今回確認できず(確認先 URL を残す)
-- **取得上の注意**: `openai.com` の Preparedness Framework 解説ページは WebFetch で **HTTP 403(bot 遮断)**、公式 PDF は**バイナリ(テキスト抽出不可)**のため、OpenAI の詳細は公式 URL の存在を確認したうえで検索スニペット(公式ドメイン引用)で裏取りした。`anthropic.com` / `deepmind.google` / `nist.gov` / `aisi.gov.uk` / `aisi.go.jp` は直接取得できた
+- **取得状況の更新**: OpenAI の Preparedness 更新記事・Frontier Governance Framework 公表記事・2026-08-18 方針記事を 2026-09-10 に直接取得したため、初回の 403 未確認メモを解消。全モデルの安全評価結果や長大な報告書の全ページは精査していない。
 
 ---
 
@@ -19,27 +20,29 @@
 
 ### A-1. Anthropic — Responsible Scaling Policy(RSP / 責任あるスケーリング方針)
 
-| 事実 | 出典 URL(公式) | 確認日 | 確度 |
-| --- | --- | --- | --- |
-| 現行版は **Version 3.3(発効 2026-05-26)**。初版(v1)は 2023-09 公開。v3.0(2026-02-24 公開)で全面改訂された経緯を公式ページ本文が記載 | https://www.anthropic.com/responsible-scaling-policy | 2026-07-08 | 公式確認済み |
-| 定めるもの: **能力閾値(Capability Thresholds)**(CBRN 兵器開発、AI R&D 自律加速など)、**評価(定期的な能力評価)**、能力に応じた**必要なセーフガード(セキュリティ・展開時の防護)**、**公表**(下記ロードマップと Risk Report) | https://www.anthropic.com/responsible-scaling-policy | 2026-07-08 | 公式確認済み(自己申告部分は ベンダー自己報告) |
-| **AI Safety Levels(ASL)**: ASL-2 / ASL-3 を段階として運用。ASL-3 が高能力モデル向けの強化要件 | https://www.anthropic.com/responsible-scaling-policy | 2026-07-08 | 公式確認済み |
-| v3.0 で新設された**Frontier Safety Roadmap**(Security / Alignment / Safeguards / Policy 領域の緩和策計画)と、全展開モデルのリスクを定量化する **Risk Report** を公表する枠組み | https://www.anthropic.com/responsible-scaling-policy/roadmap | 2026-07-08 | 公式確認済み |
-| 安全評価・システムカード等の公表ハブ(Transparency Hub) | https://www.anthropic.com/transparency | 2026-07-08 | 公式確認済み |
+| 項目 | 2026-09-10 に公式確認した内容 |
+| --- | --- |
+| 方針の版 | **v3.4、2026-07-08 発効**。公式ページの更新日は 8/14 |
+| v3.4 の変更 | 自動化 R&D の閾値を改訂。非墨消し版リスク報告の社内共有先を少なくとも 200 人とし、公開版に墨消し箇所の表示を要求。外部レビューは部分ごとに別担当者でもよいが、全ての部分が少なくとも 1 人の外部レビューを受ける扱い |
+| リスク報告の日付 | **August 2026 Risk Report は 8/14 公表、評価対象日(coverage date)は 7/15**。公表日までの全変更が評価済みとはしない |
+| 読み方 | 方針・Frontier Safety Roadmap・Risk Report・モデルのカードを照合し、採用モデルがどの対象期間と評価範囲に含まれるかを確認 |
+| 確認の限界 | 186 ページの Risk Report は表紙・対象日・構成を確認した範囲。全評価結果の精査や第三者再現は行っていない |
 
-補足: v3.0 で従来の「一時停止(pause)コミットメント」の表現が変わった点が 2026-02 に報道されたが、これは緩和策の引き下げではないと Anthropic は説明。**版差の詳細は変わりやすいため記事では版番号を断定せず「最新版を各社ページで確認」と書く**。
+一次情報: [RSP と更新履歴](https://www.anthropic.com/responsible-scaling-policy)、[August 2026 Risk Report](https://www.anthropic.com/aug-2026-risk-report)(アクセス日: 2026-09-10)。方針の版・公表日は公式確認済み、安全性の達成度はベンダー自己報告です。
 
-### A-2. OpenAI — Preparedness Framework(準備フレームワーク)
+### A-2. OpenAI — Preparedness / Frontier Governance
 
-| 事実 | 出典 URL(公式) | 確認日 | 確度 |
-| --- | --- | --- | --- |
-| 現行版は **Version 2(最終更新 2025-04-15)**。2023-12 の Beta 版を置換 | 解説: https://openai.com/index/updating-our-preparedness-framework/ / 本文 PDF: https://cdn.openai.com/pdf/18a02b5d-6b67-4cec-ab64-68cdfbddebcd/preparedness-framework-v2.pdf | 2026-07-08 | 二次情報(公式ページは 403、PDF はバイナリで直接抽出不可。URL 存在と版・日付は公式ドメイン引用で確認) |
-| **Tracked Categories(追跡対象の能力領域)**: サイバーセキュリティ、生物・化学、**AI 自己改善(self-improvement)** の 3 つ。加えて閾値未達の領域を扱う **Research Categories** を新設 | 同上 | 2026-07-08 | 二次情報 |
-| 能力閾値を 2 段階に整理: **High capability**(既存の重大被害経路を増幅しうる)と **Critical capability**(前例のない新たな重大被害経路を生みうる)。High 到達モデルは**展開前に**、Critical は**開発中も**リスクを「十分に最小化する」セーフガードが必要 | 同上 | 2026-07-08 | 二次情報 |
-| 「severe harm(重大被害)」の定義例: 数千人規模の死亡/重傷、または数千億ドル規模の経済損害 | 同上 | 2026-07-08 | 二次情報 |
-| 評価結果・セーフガードの公表は **Safeguards Report** と各モデルの **System Card** による(公表手段は C 章参照) | https://openai.com/index/updating-our-preparedness-framework/ | 2026-07-08 | 二次情報 |
+| 文書 | 日付・位置づけ | 確認範囲 |
+| --- | --- | --- |
+| Preparedness Framework の更新 | 2025-04-15。High / Critical の危険能力閾値と、開発・配備段階のセーフガードを定める基礎 | 更新記事を直接取得。初回の 403 未取得メモを解消 |
+| Frontier Governance Framework | **2026-05-28**。Preparedness の関連部分を California TFAIA / EU GPAI 実務規範等の規制上の要求へ接続 | 公表記事を直接取得。Preparedness と同一の文書・版とはしない |
+| Pacing model development in an era of cyber-critical capabilities | **2026-08-18**。訓練・研究・配備での監視・アラインメント・アクセスや隔離の強化、今後の Preparedness 改定方針 | 方針記事を直接取得。将来改定の予告を新しい Preparedness 版の発行済みと読まない |
 
-> **TODO(要確認):** OpenAI Preparedness Framework の**現行版番号**を openai.com の公式ページ(または PDF)で直接確認する。2026-07-08 時点では公式ページが bot 遮断(403)で直接取得できず、v2(2025-04-15)が最新かどうかを一次取得で裏取りできていない(最終確認: 2026-07)
+更新記事では生物・化学、サイバー、AI 自己改善を Tracked Categories とし、未成熟な領域を Research Categories として扱います。High は配備前、Critical は開発中も重大被害リスクを十分小さくする措置を求めます。方針の存在と、採用モデルで安全性が達成されたという評価結果は別に確認します。
+
+一次情報: [Preparedness 更新](https://openai.com/index/updating-our-preparedness-framework/)、[Frontier Governance](https://openai.com/index/openai-frontier-governance-framework/)、[8/18 の方針](https://openai.com/index/pacing-model-development-cyber-capabilities/)(アクセス日: 2026-09-10)。
+
+> **TODO(要確認):** OpenAI の 2026-08-18 方針記事で予告された Preparedness Framework 改定の公表・発効と、採用モデルのカード・リスク評価の対象範囲を公式ページで確認する(最終確認: 2026-09)
 
 ### A-3. Google DeepMind — Frontier Safety Framework(FSF / フロンティア安全枠組み)
 
@@ -75,7 +78,9 @@
 
 補足(記事向けの含意): 実務者は調達時に「提供者が**どの国の AISI 系機関と評価連携しているか**」「政府評価の対象になっているか」を補助的な信頼シグナルとして見られます。ただし各機関の**評価は網羅的な認証ではなく**、機関ごとに焦点(英=セキュリティ寄り、米=標準/国家安全保障寄り、日=評価手法・基準)が異なる点に注意。
 
-> **TODO(要確認):** 日本 AISI が公表する「AI セーフティ評価観点ガイド」「レッドチーミング手法ガイド」等の**現行版と版番号**を aisi.go.jp の公表物ページで直接確認する(記事でガイドラインを名指しする場合。最終確認: 2026-07)
+日本 AISI の「AI セーフティに関する評価観点ガイド」は **第 1.20 版(2026-07-07)** を確認済みです。Agent の観測と制御、自律的挙動、外部相互作用を追加しています。**AI ロボティクス版は 7/23 公表**です。一次情報: https://aisi.go.jp/output/output_information/260707/ / https://www.ipa.go.jp/pressrelease/2026/press20260723.html (確認日: 2026-09-10)。認証規格ではなく評価計画の参照資料として扱います。
+
+> **TODO(要確認):** 日本 AISI のレッドチーミング手法ガイドなど、本更新で精読していない公表物の現行版・追補を aisi.go.jp の公表物一覧で確認する(最終確認: 2026-07)
 
 ---
 
@@ -97,16 +102,16 @@
 | --- | --- | --- | --- |
 | **System Card / Model Card** は、モデルの能力・限界・安全評価結果を公表する主要手段。OpenAI・Anthropic は「System Card」、Google は「Model Card」の語を主に使う | Anthropic Transparency Hub: https://www.anthropic.com/transparency | 2026-07-08 | 公式確認済み(Anthropic)/ 用語傾向は 二次情報 |
 | Anthropic のシステムカードは、セーフガードのテスト、正直性・エージェント安全性、アラインメント評価、**RSP が求める危険能力評価**の結果を記載(例: Claude Opus 4.5 System Card / Claude Opus 4.6 System Card) | https://assets.anthropic.com/m/64823ba7485345a7/Claude-Opus-4-5-System-Card.pdf | 2026-07-08 | 公式確認済み(PDF の存在・記載範囲) |
-| 実務者が調達時に見るべきもの(まとめ): ① 提供者の**フレームワーク現行版**(A 章)→ ② 当該モデルの **System/Model Card**(危険能力評価・閾値判定・緩和策)→ ③ **Transparency/Safety ページ**での更新履歴 → ④ 補助的に **AISI 系機関の評価連携**(B 章)。**いずれも提供者の自己申告が中心のため、複数を突き合わせて評価軸にする** | 上記各 URL | 2026-07-08 | 公式確認済み(見るべき対象の所在)/ 記載内容は ベンダー自己報告 |
+| 実務者が調達時に見るべきもの(まとめ): ① 提供者の**フレームワーク現行版**(A 章)→ ② 当該モデルの **System/Model Card と Risk Report**(危険能力評価・閾値判定・緩和策、公表日と対象日の区別)→ ③ **Transparency/Safety ページ**での更新履歴 → ④ 補助的に **AISI 系機関の評価連携**(B 章)。**いずれも提供者の自己申告が中心のため、複数を突き合わせて評価軸にする** | 上記各 URL | 2026-07-08 | 公式確認済み(見るべき対象の所在)/ 記載内容は ベンダー自己報告 |
 
 ---
 
 ## 主要フレームワーク早見表
 
-| ラボ | フレームワーク名 | 現行版(2026-07-08) | 能力の呼称 | 公式 URL | 確度 |
+| ラボ | フレームワーク名 | 確認した版(各行の確認日を参照) | 能力の呼称 | 公式 URL | 確度 |
 | --- | --- | --- | --- | --- | --- |
-| Anthropic | Responsible Scaling Policy(RSP) | **v3.3(発効 2026-05-26)** | AI Safety Levels(ASL-2 / ASL-3)+ Capability Thresholds | https://www.anthropic.com/responsible-scaling-policy | 公式確認済み |
-| OpenAI | Preparedness Framework | **v2(2025-04-15)** ※版番号は未直接確認 | High / Critical capability(Tracked Categories) | https://openai.com/index/updating-our-preparedness-framework/ | 二次情報 |
+| Anthropic | Responsible Scaling Policy(RSP) | **v3.4(発効 2026-07-08、確認 9/10)** | AI Safety Levels(ASL-2 / ASL-3)+ Capability Thresholds | https://www.anthropic.com/responsible-scaling-policy | 公式確認済み |
+| OpenAI | Preparedness Framework | **2025-04-15 更新(確認 9/10)** | High / Critical capability(Tracked Categories) | https://openai.com/index/updating-our-preparedness-framework/ | 公式更新記事確認 |
 | Google DeepMind | Frontier Safety Framework(FSF) | **v3.0(2025-09-22)/ v3.1(2026-04 反映)** | Critical Capability Levels(CCL)+ Tracked Capability Levels(TCL) | https://deepmind.google/blog/strengthening-our-frontier-safety-framework/ | 公式確認済み |
 
 ---
@@ -131,12 +136,12 @@
 
 | 項目 | 現状(2026-07-08) | 確認先 |
 | --- | --- | --- |
-| Anthropic RSP の版 | v3.3(2026-05-26) | https://www.anthropic.com/responsible-scaling-policy |
-| OpenAI Preparedness Framework の版 | v2(2025-04-15)※直接未確認 | https://openai.com/index/updating-our-preparedness-framework/ |
+| Anthropic RSP の版 | v3.4(2026-07-08、確認 9/10) | https://www.anthropic.com/responsible-scaling-policy |
+| OpenAI Preparedness Framework の版 | 2025-04-15 更新記事を取得、8/18 に将来改定を予告(確認 9/10) | https://openai.com/index/updating-our-preparedness-framework/ |
 | Google FSF の版 | v3.0(2025-09-22)/ v3.1 | https://deepmind.google/blog/strengthening-our-frontier-safety-framework/ |
 | 米機関の名称・所在 | CAISI(2025-06 に US AISI から改称)@ NIST | https://www.nist.gov/caisi |
 | 英機関の名称・所在 | AI Security Institute(2025-02 に改称)@ DSIT | https://www.aisi.gov.uk/ |
-| 日本 AISI の公表ガイド版 | 評価観点/レッドチーミング等(版は未確認) | https://aisi.go.jp/ |
+| 日本 AISI の公表ガイド版 | 評価観点 1.20 / ロボティクス版を確認(9/10)。レッドチーミング等の追補は未確認 | https://aisi.go.jp/ |
 | 国際ネットワーク参加機関 | 12+ 機関(Seoul Summit 2024-05 合意) | 各機関公式サイト |
 | 対象ラボの追加 | Meta・Microsoft・xAI 等は未取得 | 各社公式サイト |
 
@@ -144,8 +149,8 @@
 
 ## 未確認・要フォロー事項の一覧
 
-- OpenAI Preparedness Framework の**現行版番号**(公式ページ 403・PDF バイナリで直接未確認。v2/2025-04-15 が最新かの一次裏取りが残)
+- OpenAI が 2026-08-18 に予告した Preparedness 改定の次回公表と、各モデルの評価対象範囲
 - 各国 AISI 系機関の**改称時期の一次ソース**(US=2025-06 / UK=2025-02 は二次情報。nist.gov / gov.uk のプレスで裏取り可能)
-- 日本 AISI の**公表ガイドラインの正式名称・現行版**(記事で名指しする場合)
+- 日本 AISI のレッドチーミング手法ガイド等、今回確認した 1.20 / ロボティクス以外の公表物の追補
 - Meta / Microsoft / xAI 等**他ラボのフレームワーク**の版・URL(記事で列挙する場合)
 - International Network of AI Safety Institutes の**恒久公式ポータル URL**(単独ポータルの有無)

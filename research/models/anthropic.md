@@ -2,7 +2,7 @@
 
 - **対象**: Anthropic の Claude モデルファミリー(2026-07 時点の現行世代)
 - **調査日**: 2026-07-06
-- **更新日**: 2026-08-18(四半期定点観測。文末の「観測ログ(2026-08-18 定点観測)」に差分を追記し、TODO 2 件を消化。本文の表は 2026-07-06 時点のまま)
+- **更新日**: 2026-09-10(以下の鮮度更新を優先。以前の表・観測ログは日付付きの履歴)
 - **用途**: 「主要 LLM の全体像(モデルカタログ)」「モデル選定ガイド」執筆の一次資料
 - **根拠の方針**: Anthropic 公式ドキュメント(platform.claude.com / claude.com)のみを根拠とします。第三者記事・ベンチマークまとめサイトは使用していません
 - **確度表記**: 「公式明記」= 公式ページに明文あり / 「公式から推測」= 公式記述からの合理的推測 / 「未確認」= 今回確認できず
@@ -13,6 +13,19 @@
 - 料金: https://platform.claude.com/docs/en/about-claude/pricing
 - 非推奨・退役: https://platform.claude.com/docs/en/about-claude/model-deprecations
 - Fable 5 / Mythos 5 紹介: https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable-5-and-claude-mythos-5
+
+## 2026-09-10 鮮度更新
+
+Fable 5.1 は 2026-09-01 公開、`claude-fable-5-1`。1M context / 128K output、常時 adaptive thinking。入力 / 出力は $10 / $50、キャッシュ読取 $0.25 / MTok(入力の2.5%)です。旧 Fable 5 の読取 $1 や一律10%を流用しません。30日保持があり、Anthropicの明示的許可がない限りZDR対象外です。Opus 5 / Sonnet 5 / Haiku 4.5との選定はタスク評価で行います。
+
+本文の旧表は7月の観測履歴です。Sonnet 5 の9月値上げ予定は8月に撤回済みで、旧表の予定価格は現行見積りに使いません。
+
+一次資料(すべてアクセス日: 2026-09-10):
+
+- https://platform.claude.com/docs/en/models/overview
+- https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1
+
+以下の以前の調査本文・観測ログは当時の履歴です。現行判断には上の訂正と各公式資料を優先します。
 
 ## 1. 現行モデルファミリーの構成とティア構造
 

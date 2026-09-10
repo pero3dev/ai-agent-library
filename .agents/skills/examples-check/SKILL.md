@@ -6,7 +6,7 @@ argument-hint: "[サンプル名(例: rag-basics)。省略時は全件]"
 
 # examples 動作確認
 
-## 実行方式の対応表(2026-07 時点)
+## 実行方式の対応表(2026-09-10 時点)
 
 各サンプルの README の記載が正本。乖離があれば README に従い、この表を更新する。
 
@@ -17,7 +17,7 @@ argument-hint: "[サンプル名(例: rag-basics)。省略時は全件]"
 | rag-basics | `python rag.py --mock "経費の申請締切はいつですか?"` | 引数つき |
 | multi-agent | `python multi_agent.py --mock` | 同上 |
 | mcp-server | `python mcp_server.py --mock` | mcp パッケージなしの自己テスト |
-| tool-use | `python -m py_compile main.py` | `--mock` 非対応(構文チェックのみ) |
+| tool-use | `python main.py --mock` | API キー不要。ツール呼び出し・結果の再入力まで確認 |
 
 ## 手順
 

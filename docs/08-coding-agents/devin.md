@@ -3,7 +3,7 @@ title: "Devin"
 category: "coding-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-08-18"
+last_updated: "2026-09-10"
 tags: ["coding-agents", "mcp"]
 ---
 
@@ -28,7 +28,7 @@ tags: ["coding-agents", "mcp"]
 
 ## 本文
 
-> **最終確認日:** 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
+> **最終確認日:** SWE-1.7、Enterprise MCP の接続・管理条件、データ利用条件は 2026-09-10、その他は 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
 
 ### 概要
 
@@ -70,14 +70,17 @@ Knowledge / Playbook は API で組織横断的に管理でき、チーム標準
 
 - **承認モデル**: クラウドセッションにはコマンド単位の事前承認がありません。人間の関与点は ①事前(Ask Devin での方針確認、明確な完了基準の付与)②実行中(Progress Tab の追跡、停止、IDE 引き継ぎ)③事後(PR レビュー)です。[権限とセキュリティ](coding-agent-security.md) の分類では「サンドボックス内自動 + 境界で確認」型の純粋形であり、**PR レビューとブランチ保護が実質の防御境界**になります(公式も main ブランチ保護の有効化を推奨)
 - **Enterprise の AI Guardrails**: Devin へのメッセージをリアルタイム解析し、プロンプトインジェクション・データ持ち出し・ポリシー違反を検知して log / warn / block / kill_session の 4 段階で対応する追加レイヤーがあります。違反は監査ログと API に記録されます
-- **データ学習の既定(選定上の重要事実)**: **有償のセルフサーブプランでも、既定ではデータが学習改善に使われ得ます**(Data Controls からオプトアウト可能。オプトアウト後はモデルプロバイダーとの ZDR が有効化)。**Enterprise のみ既定で学習不使用**(書面同意なしに学習しないと明記)です
+- **データ学習の既定(選定上の重要事実)**: **有償のセルフサーブプランでも、既定ではデータが学習改善に使われ得ます**(有料 tier は Data Controls からオプトアウト可能で、Teams は管理者のみ。オプトアウト後はモデルプロバイダーとの ZDR が有効化)。Cognition Platform Terms §3.3.3 の安全・不正検知・法的要請による保持・開示は別の例外です。**Enterprise のみ既定で学習不使用**(書面同意なしに学習しないと明記)です
 - コンプライアンスは SOC 2 Type II、政府向け提供(Cognition for Government)、Customer Managed Keys(Enterprise)などが公表されています。GitHub App の要求権限(contents / pull requests 等の read & write)も公開されています
 
 ### 外部連携(MCP・CI・API)
 
 - **MCP クライアント**: STDIO / SSE(非推奨化中)/ Streamable HTTP に対応。30 以上の事前設定済みサーバー(Linear / Notion / Sentry / Stripe 等)を持つ **MCP Marketplace** があり、カスタムサーバーの追加は**組織管理者のみ**というガバナンス設計です
+- 2026-08-21 の更新では Enterprise 管理者が MCP を企業単位で配布でき、同じサーバーの組織独自設定が企業設定を上書きします。**専用デプロイ(dedicated deployment)** では private tunnel 経由でプライベート MCP の OAuth 認可とツール呼び出しが可能で、信頼する private CA bundle も登録できます。全プラン共通の接続機能とは扱いません
 - **Devin 自身が MCP サーバー**(Devin MCP / DeepWiki MCP)としても公開されており、他のエージェントから Devin を呼ぶ構成が可能です
 - **API(v3)**: セッション作成・Knowledge / Playbook / Secret 管理・監査ログ・利用メトリクス(DAU / セッション数 / 消費量)・組織横断管理(Enterprise)を提供します
+
+SWE 系モデルでは **SWE-1.7 が 2026-07-08 に発表**され、2026-09-10 の公式 pricing にも掲載されています。SWE-1.6 の終了を意味する発表ではないため、モデル名・モード・提供プランを分けて確認します。
 
 ### チーム導入と提供プラン
 
@@ -120,9 +123,12 @@ Knowledge / Playbook は API で組織横断的に管理でき、チーム標準
 
 ## 参考資料
 
+- [SWE-1.7 発表](https://cognition.com/blog/swe-1-7) / [Devin pricing](https://devin.ai/pricing) — 世代の追加とプラン別提供(アクセス日: 2026-09-10)
+- [Recent updates](https://docs.devin.ai/release-notes/overview) — 2026-08-21 の Enterprise MCP・private tunnel・CA(アクセス日: 2026-09-10)
+
 - [Devin 公式ドキュメント](https://docs.devin.ai/) — 機能・環境・API の一次情報(アクセス日: 2026-08-18)
 - [When to use Devin](https://docs.devin.ai/essential-guidelines/when-to-use-devin.md) — 公式のタスク適性ガイド(アクセス日: 2026-07-05)
-- [Security(admin)](https://docs.devin.ai/admin/security.md) — 学習利用の既定・SOC 2(アクセス日: 2026-08-18)
+- [Security(admin)](https://docs.devin.ai/admin/security) / [Platform Terms](https://cognition.com/legal/platform-terms-of-service) — 学習利用・保持例外(アクセス日: 2026-09-10)
 - [AI Guardrails](https://docs.devin.ai/enterprise/features/ai-guardrails.md) — Enterprise の防御レイヤー(アクセス日: 2026-07-05)
 - [Devin Fusion(公式ブログ)](https://cognition.com/blog/devin-fusion) — ハイブリッド構成の発表とコスト削減効果(アクセス日: 2026-08-18)
 - [料金ページ](https://devin.ai/pricing) — プラン体系(アクセス日: 2026-07-05。2026-08-18 は 429 で機械取得できず、[Billing ドキュメント](https://docs.devin.ai/admin/billing/self-serve.md) でプラン・課金の変更なしを確認)
@@ -136,6 +142,6 @@ Knowledge / Playbook は API で組織横断的に管理でき、チーム標準
 
 > **TODO(要確認):** プラン構成と課金体系(クォータ + クレジット制、Enterprise の ACU)を公式料金ページ・billing ドキュメントで確認する(2026-08-18 は devin.ai 直下が 429 のため docs.devin.ai 側で変更なしを確認。最終確認: 2026-08)
 
-> **TODO(要確認):** モデルライン(SWE 1.6 の現行の位置づけ・Devin Fusion の提供プラン条件と preview 解除)を確認する(Fusion のコスト削減効果は 2026-08-07 更新の公式ブログで最大 60%。最終確認: 2026-08)
+> **TODO(要確認):** SWE-1.7 の提供範囲、SWE-1.6 の継続・終了、Devin Fusion の preview 後の条件を公式モデル発表・pricing で確認する。SWE-1.7 の発表・掲載は反映済みで、SWE-1.6 の終了は未確認。Fusion の最大 60% 削減は 2026-08 の条件付き公表値のまま(最終確認: 2026-09)
 
 > **TODO(要確認):** Windows VM サポート(限定提供)と Devin CLI の機能ギャップ(Knowledge / Playbooks / Secrets 未対応)の解消状況を確認する(2026-08 時点でいずれも継続。最終確認: 2026-08)

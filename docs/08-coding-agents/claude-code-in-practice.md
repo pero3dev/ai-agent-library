@@ -3,7 +3,7 @@ title: "Claude Code 実践ガイド"
 category: "coding-agents"
 level: "intermediate"
 status: "published"
-last_updated: "2026-08-18"
+last_updated: "2026-09-10"
 tags: ["coding-agents", "cost-management", "prompt-caching"]
 ---
 
@@ -25,7 +25,7 @@ Claude Code の拡張機能(スキル・サブエージェント・フック・w
 
 ## 本文
 
-> **最終確認日:** 2026-08-18(プロンプトキャッシュ・Agent teams 倍率・research preview / beta 機能のステータスを再確認。その他の記述は 2026-07-06 時点)— 本記事の機能・消費の仕様は各日付時点の公式ドキュメントに基づきます。細かな挙動はバージョンで変わるため、迷ったら出典(参考資料)を確認してください。なお、旧ベストプラクティス記事(anthropic.com のエンジニアリングブログ)は公式ドキュメント内の best-practices ページへ統合済みです。
+> **最終確認日:** キャッシュ TTL・effort 変更条件、CI 上限、self-hosted environments は 2026-09-10、Agent teams の倍率・Routines 等の状態は 2026-08-18、その他は 2026-07-06 の公式情報に基づきます。細かな挙動は採用バージョンと参考資料で確認してください。
 
 ### 機能の使いどころ
 
@@ -57,9 +57,13 @@ Claude Code の拡張機能(スキル・サブエージェント・フック・w
 6. **モデルと思考量の使い分け** — 大半のコーディングは中位モデルで足り、上位モデルは複雑な設計判断に温存します。サブエージェントには軽量モデルを割り当てます。**thinking トークンは出力として課金される**ため、単純作業では effort を下げ、単発の深掘りはプロンプト内の `ultrathink` で済ませます
 7. **Agent teams は高コスト** — 公式が「teammates が plan モードで動く場合、標準セッションの約 7 倍」(2026-08 時点)と条件付きで明記する構成です。使うなら小さなチーム・軽量モデルで
 
-**プロンプトキャッシュの「踏み抜きどころ」**も公式がリスト化しています。キャッシュ読み取りは通常入力の約 1 割の課金(2026-08 時点)なので、無効化する操作を知ることが実質的な節約です。なおキャッシュの TTL は認証経路で異なり、サブスクリプションでは 1 時間 TTL が自動適用されます(API キー経由は既定 5 分。サブスクリプションでも上限超過後の使用クレジット消費中は 5 分に降格し、`ENABLE_PROMPT_CACHING_1H=1` で 1 時間を維持できます)。日常で踏みやすいのは次の 3 つです:
+**プロンプトキャッシュの「踏み抜きどころ」**も公式がリスト化しています。読み取り単価はモデル別で、従来の「通常入力の約 1 割」を全モデルへ一般化せず、Fable 5.1 等を含む採用モデルの料金表で比較します。TTL の既定は、主会話がサブスクリプション内の利用で 1 時間、API キー・クラウドプロバイダー・使用クレジット消費中は 5 分です。サブエージェント等は原則 5 分で、一部のサービス側補助要求は例外です。
 
-- **セッション途中のモデル・effort 切替**(モデルごとに別キャッシュ。全履歴を非キャッシュで再読)→ モデルと effort は**セッション冒頭に決める**
+Claude Code v2.1.242 以降では、主会話は `promptCacheTtl` / `CLAUDE_CODE_PROMPT_CACHE_TTL`、その他は `subagentPromptCacheTtl` / `CLAUDE_CODE_SUBAGENT_PROMPT_CACHE_TTL` で `5m` または `1h` を選べます。優先順位は、`FORCE_PROMPT_CACHING_5M=1` → 対象の環境変数 → 対象の設定 → サブエージェントの experimental `cacheTtl`(v2.1.248 以降、usage credits 中の `1h` は無視)→ 旧 `ENABLE_PROMPT_CACHING_1H=1` → 既定です。旧変数は廃止されたわけではありません。1 時間 TTL の利用可否・書き込み費用は接続先ごとに確認します。
+
+日常で踏みやすいのは次の 3 つです:
+
+- **セッション途中のモデル切替**はモデル別キャッシュを再構築します。effort 変更も多くの構成で失効しますが、v2.1.260 以降の Fable 5.1 を API キーまたは Claude subscription で使う場合は維持できます。Bedrock・Google Cloud Agent Platform・Claude apps gateway、実験 beta 無効化、HIPAA 構成はこの例外の対象外です
 - **`opusplan` 設定での plan モード出入り**(そのたびにモデルが切り替わる)
 - **アップグレード直後に長いセッションを resume**(公式が「最も高価なリクエストになり得る」と明記)
 
@@ -69,9 +73,9 @@ Claude Code の拡張機能(スキル・サブエージェント・フック・w
 
 - **headless(`claude -p`)**: 全 CLI オプション併用可・stdin パイプ対応で、`--output-format json`(+ `--json-schema` で構造化出力)が CI の基本形です。CI では **`--bare`**(CLAUDE.md・スキル・MCP 等の自動発見をスキップし、必要なものだけ明示注入)が公式推奨で、「どのマシンでも同じ結果」を得られます
 - **ファンアウト**: タスクリストを生成し、`claude -p` をループで回す一括処理パターンです。公式手順は「**2〜3 ファイルで試してプロンプトを磨いてから全量実行**」— [自動化パターン](coding-agent-automation-patterns.md) の「対話で成功してから自動化」の実装形です
-- **GitHub Actions**: `@claude` メンション応答と、`prompt` 指定の自動実行(cron・PR イベント)の 2 モード。コスト制御は **`--max-turns`(既定 10)+ ワークフローのタイムアウト + concurrency 制限**の 3 点セットが公式推奨です。API キーは Secrets、Bedrock 等では OpenID Connect(OIDC)によるキーレス認証が推奨されます。リポジトリのスキルを `prompt: /skill-name` で起動でき、PR ごとのコードレビュー等を定型化できます
+- **GitHub Actions**: `@claude` メンション応答と、`prompt` 指定の自動実行(cron・PR イベント)の 2 モード。コスト制御は **反復上限の明示指定(例: `claude_args: "--max-turns 10"`)+ ワークフローのタイムアウト + concurrency 制限**の 3 点セットが公式推奨です。CLI の `--max-turns` は既定で無制限、Action の `claude_args` も既定は空です。10 は設定例で、未指定の終了条件にはできません。API キーは Secrets、Bedrock 等では OpenID Connect(OIDC)によるキーレス認証が推奨されます。リポジトリのスキルを `prompt: /skill-name` で起動でき、PR ごとのコードレビュー等を定型化できます
 - **GitLab CI/CD**: beta で、メンテナンスは GitLab 社です。実体は headless 実行のジョブで、`max_turns` と `timeout_minutes` で上限を設けます
-- **Routines**(research preview): 「プロンプト + リポジトリ + コネクタ」を Anthropic 管理クラウドで定期・API・GitHub イベント起動する仕組みです。**承認プロンプトなしの完全自律実行**のため、既定の防御(プッシュ先は `claude/` プレフィックスブランチのみ、ネットワークは許可リスト制)を理解して使います。日次実行数の上限があり、**実行一覧のグリーン表示は「インフラエラーなし」の意味でタスク成功ではない**、という公式の注意はスケジュール自動化一般の教訓です([自動化パターン](coding-agent-automation-patterns.md) の通知・検証設計)
+- **Routines**(research preview): 「プロンプト + リポジトリ + コネクタ」をクラウド環境で定期・API・GitHub イベント起動する仕組みです。Anthropic 管理環境に加え、Team / Enterprise は既定 off の self-hosted environments public beta を選べます(CLI v2.1.224 以降)。自社ホストで実行しても推論・キューは Anthropic 側にあり、外向き HTTPS が必要です。ZDR 組織・Security・Code Review は対象外です。**承認プロンプトなしの完全自律実行**のため、既定の防御(プッシュ先は `claude/` プレフィックスブランチのみ、ネットワークは許可リスト制)を理解して使います。日次実行数の上限があり、**実行一覧のグリーン表示は「インフラエラーなし」の意味でタスク成功ではない**、という公式の注意はスケジュール自動化一般の教訓です([自動化パターン](coding-agent-automation-patterns.md) の通知・検証設計)
 
 ### 品質を上げる公式プラクティス
 
@@ -89,14 +93,14 @@ Claude Code の拡張機能(スキル・サブエージェント・フック・w
 ### アンチパターン
 
 - **1 セッションに何でも詰め込む(kitchen sink)** — 消費が毎ターン膨らみ、性能も落ちます。→ タスク間で `/clear`、長期タスクは区切りで `/compact`、戻る可能性があれば `/rename` + `/resume` を使います
-- **セッション途中でモデル・effort を頻繁に切り替える** — キャッシュが無効化され、全履歴を非キャッシュ単価で再読します。→ セッション冒頭に決め、途中で変えたくなったらセッションを分けます
+- **キャッシュ条件を確認せずモデル・effort を頻繁に切り替える** — モデル切替と多くの構成の effort 変更では履歴を再読します。→ Fable 5.1 の維持条件を区別し、キャッシュ統計と品質を見て切替を判断します
 - **CLAUDE.md に手順書を書き続ける** — 毎セッション・毎ターンの固定費になります。→ 「消したら Claude はミスするか?」で選別し、手順はスキルへ移します
 - **Routines・Actions に検証なしのタスクを載せる** — 完全自律実行では「成功したように見える失敗」を誰も見ていません。→ 機械検証(テスト・チェックスクリプト)と結果の通知先を先に設計します
 
 ### チェックリスト
 
 - [ ] タスク間の `/clear`・区切りでの `/compact`・失敗時の `/rewind` を使い分けているか
-- [ ] モデル・effort をセッション冒頭に固定し、キャッシュ無効化の操作を把握しているか
+- [ ] 採用モデル・接続先・バージョンごとのキャッシュ維持条件と TTL を把握しているか
 - [ ] CLAUDE.md がスリムで(目安 200 行以下)、手順はスキルに移してあるか
 - [ ] サブエージェント・定型タスクに軽量モデルを割り当てたか
 - [ ] `/usage`・`/context`(組織は OpenTelemetry)で消費の内訳を確認できるか
@@ -113,9 +117,11 @@ Claude Code の拡張機能(スキル・サブエージェント・フック・w
 
 ## 参考資料
 
+- [CLI reference](https://code.claude.com/docs/en/cli-reference) / [Claude Code Action usage](https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md) — `--max-turns` と `claude_args` の既定値(アクセス日: 2026-09-10)
+- [Self-hosted environments](https://code.claude.com/docs/en/self-hosted-environments) / [Quickstart](https://code.claude.com/docs/en/self-hosted-environments-quickstart) — public beta の範囲と外部通信(アクセス日: 2026-09-10)
 - [Best practices(公式)](https://code.claude.com/docs/en/best-practices) — 検証・4 フェーズ・失敗パターン(旧エンジニアリングブログの統合先)(アクセス日: 2026-07-06)
 - [Manage costs effectively(公式)](https://code.claude.com/docs/en/costs) — トークン削減テクニック・計測(アクセス日: 2026-07-06)
-- [Prompt caching(公式)](https://code.claude.com/docs/en/prompt-caching) — キャッシュを無効化する操作の一覧(アクセス日: 2026-07-06)
+- [Prompt caching(公式)](https://code.claude.com/docs/en/prompt-caching) — キャッシュ失効の条件・主会話と補助要求の TTL(アクセス日: 2026-09-10)
 - [Skills](https://code.claude.com/docs/en/skills) / [Subagents](https://code.claude.com/docs/en/sub-agents) — 使いどきの公式基準(アクセス日: 2026-07-06)
 - [Headless mode](https://code.claude.com/docs/en/headless) — CI 組み込みの仕様(アクセス日: 2026-07-06)
 - [Routines](https://code.claude.com/docs/en/routines) — クラウド定期実行(research preview)(アクセス日: 2026-07-06)
@@ -129,4 +135,4 @@ Claude Code の拡張機能(スキル・サブエージェント・フック・w
 
 > **TODO(要確認):** research preview / beta 機能(Routines・GitLab CI/CD)のステータス変化を公式ドキュメントで確認する(2026-08-18 確認: Routines は research preview 継続・GitLab CI/CD は beta 継続。auto モードは research preview を終了し Pro / Max / Team の既定モードになったため監視対象から除外〔詳細は [Claude Code](claude-code.md)〕。最終確認: 2026-08)
 
-> **TODO(要確認):** キャッシュ読み取り単価の比率(約 10%)・TTL(5 分 / 1 時間)・Agent teams のコスト倍率・`--max-turns` 既定値などの数値を costs / prompt-caching ページで確認する(2026-08-18 確認: 読み取り約 10% と TTL の構造は変更なし・Agent teams 倍率は「plan モードで動く場合に約 7 倍」の条件付き表現へ変化し本文反映済み。`--max-turns` 既定 10 のみ再確認できず継続監視。最終確認: 2026-08)
+> **TODO(要確認):** 採用モデルのキャッシュ読み取り・書き込み単価、TTL の提供条件と effort 維持条件を公式 pricing / prompt-caching ページで確認する。2026-09-10 に TTL 設定と Fable 5.1 の例外を反映し、CLI reference で `--max-turns` は無制限と訂正済み。Agent teams の倍率は 2026-08 の確認範囲のまま(最終確認: 2026-09)

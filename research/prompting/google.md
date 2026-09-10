@@ -1,7 +1,7 @@
 # PE-R3 調査メモ — Google(Gemini)公式プロンプト推奨
 
 - **調査日**: 2026-07-08
-- **更新日**: 2026-08-18(四半期定点観測。文末の「観測ログ(2026-08-18 定点観測)」に 3.6 / 3.7 Flash 対応・thinking_budget 記述消失・developer guide の乖離を追記。本文の表は 2026-07-08 時点のまま)
+- **更新日**: 2026-09-10(以下の鮮度更新を優先。以前の表・観測ログは日付付きの履歴)
 - **調査目的**: プロンプトエンジニアリング系ドキュメントの執筆材料。「Google(Gemini)公式が推奨するプロンプト設計」を、公式一次情報のみで整理する。**本メモは非公開の執筆用整理**であり、そのまま公開ドキュメントにはしない
 - **根拠の方針**: `ai.google.dev`(Gemini API docs)および `cloud.google.com` / `docs.cloud.google.com`(Vertex / Gemini Enterprise Agent Platform)の公式ページを WebFetch / WebSearch で直接確認。二次情報(個人ブログ・まとめ)は確度を落として補助的にのみ扱う
 - **鮮度の注意**: 調査者(Claude)の知識カットオフより現在(2026-07-08)が新しい。モデル名・機能名は記憶で断定せず公式ページで確認した。確認できない世代・機能は「未確認」とした
@@ -13,6 +13,22 @@
 - **重要な留意**: WebFetch の本文抽出は小型モデルによる要約を経ているため、**API のフィールド名・引数名の正確な綴りは実装時に公式リファレンスで再確認すること**(要約が SDK 名と REST 名を正規化している可能性)。特に構造化出力・ツール関連のフィールド名にはこの注記が当てはまる。
 
 ---
+
+## 2026-09-10 鮮度更新
+
+3.8 Flash(2026-09-02 GA)のthinking_levelはlow/medium/high、既定medium、minimal非対応です。入力1,048,576 / 出力65,536トークン。旧3.7の価格条件を新モデルに適用しません。
+
+数値のthinking_budgetは公式Python SDKのThinkingConfigに残り、2.5 FlashのLive API公式にもthinkingBudgetの説明があります。8月の「Thinkingページから消失したので全既存依存を移行」という推論は訂正します。3系でthinking_levelを基本にする方針と、2.5 Liveの数値予算は両立します。SDKの型だけで全モデルの受理を保証せず、GenerateContent/Interactions/LiveとモデルIDの組合せは実装時に検証します。
+
+一次資料(すべてアクセス日: 2026-09-10):
+
+- https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash
+- https://ai.google.dev/gemini-api/docs/latest-model
+- https://ai.google.dev/gemini-api/docs/changelog
+- https://raw.githubusercontent.com/googleapis/python-genai/main/google/genai/types.py
+- https://ai.google.dev/gemini-api/docs/live-api/capabilities
+
+以下の以前の調査本文・観測ログは当時の履歴です。現行判断には上の訂正と各公式資料を優先します。
 
 ## 0. 前提: 現行モデル世代とプロンプト API 面(2026-07 時点)
 
@@ -208,6 +224,6 @@ docs は本観測の結果を反映済み(gemini-prompting / cross-model-prompti
 4. **gemini-3 developer guide に 3.6 / 3.7 Flash が未反映**: モデル一覧ページとの**乖離**を確認(developer guide の thinking_level・minimal 対応の記述は 3 Flash / 3.1 世代のまま)。ページ間で情報の鮮度が割れている点は引用時に注意
 5. **変更なしの確認**: few-shot 常時推奨・temperature 既定 1.0 維持(下げると looping / 劣化)・長文「資料先・質問末尾」・Interactions API GA(推奨)/ generateContent legacy はいずれも変更なし
 
-> **TODO(要確認):** `thinking_budget`(数値予算)の継続サポート可否を Thinking ページと API リファレンス(https://ai.google.dev/api)で確認する。2026-08-18 時点では公式ページから記述が消失しており確定できない(最終確認: 2026-08)
+> **TODO(要確認):** 採用するモデル/APIで数値予算と思考レベルの受理・排他条件を公式APIリファレンスと実呼出しで確認する。SDKの型と2.5 Liveの説明は確認済み(最終確認: 2026-09)
 
 > **TODO(要確認):** gemini-3 developer guide への 3.6 / 3.7 Flash 反映(thinking_level の対応レベル・minimal 対応の現行化)を次回定点観測で確認する(最終確認: 2026-08)

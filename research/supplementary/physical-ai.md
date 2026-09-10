@@ -1,6 +1,6 @@
-# フィジカル AI / VLA モデルの現在地(2026-07 時点) 調査メモ
+# フィジカル AI / VLA モデルの現在地 調査メモ
 
-- **調査日**: 2026-07-07
+- **調査日**: 2026-07-07。PH-01〜PH-06 の更新確認: 2026-09-10。その他の記録は各行の確認日が基準です
 - **調査目的**: `docs/01-concepts/physical-ai-overview.md`(フィジカル AI 概観)の執筆材料。記事は概観 1 本のため、本メモも**概観レベルの粒度**に絞る(実装詳細・ロボット制御アルゴリズムは対象外)。本メモは執筆用の一次情報整理であり、公開ドキュメントではない
 - **根拠の方針**: 各社公式一次情報(deepmind.google / pi.website / nvidianews.nvidia.com / developer.nvidia.com / figure.ai / 1x.tech(公式プレスリリース)/ bostondynamics.com / tri.global / agilityrobotics.com / khi.co.jp)を最優先。公式が取得できないもの(Tesla)は二次情報と明記
 - **確度凡例**:
@@ -11,7 +11,7 @@
 - **取得上の注意**:
   - **Tesla の公式 IR 資料(assets-ir.tesla.com の PDF)と SEC 提出書類(sec.gov)は WebFetch が 403** で取得できず、Optimus の状況は二次情報(報道された Musk 発言・決算説明)に依存している。執筆時に断定を避けること
   - ヒューマノイド・ロボティクスは**変化が非常に速い**(本調査でも 2026 年 1〜6 月の発表が多数)。すべての事実に確認日を付した。記事では「2026 年 7 月時点では」の絶対表現を徹底すること
-  - 性能数値はすべて**ベンダー自己報告**であり、業界共通ベンチマークによる横並び比較は 2026-07 時点で存在しない(LLM のリーダーボードに相当するものがない)。数値は「帯」でのみ記録した
+  - LIBERO など条件を固定した公開評価基盤は存在します。異なる身体・タスク・実行条件を横断する汎用能力の順位付けとは区別します(2026-09-10 訂正)。
 
 ---
 
@@ -21,10 +21,10 @@
 | --- | --- | --- | --- |
 | **VLA モデル**とは、インターネット規模の視覚・言語データで事前学習した基盤モデル(VLM)を、ロボットの実演データでさらに学習させ、**視覚入力と言語指示から直接ロボットの行動(モータコマンド)を出力**する単一モデルのこと。Google DeepMind の **RT-2**(2023-07-28 発表)がこのパラダイムを確立した。「ロボットの行動をもう一つの言語(テキストトークン)として表現し、インターネット規模の視覚言語データと一緒に学習する」方式で、Web 知識(「恐竜はおもちゃ」「健康的なスナックはりんご」等)がロボット制御に転移することを示した | https://deepmind.google/blog/rt-2-new-model-translates-vision-and-language-into-action/ / https://arxiv.org/abs/2307.15818 | 2026-07-07 | 公式確認済み(検索経由) |
 | 従来のロボティクスは知覚・推論・制御を**別モジュール**で構成していたのに対し、VLA は**単一の大規模モデルでエンドツーエンド**に扱う点が転換点。VLM の汎化・意味理解・推論がロボット制御に引き継がれる | 同上(RT-2 論文の主張) | 2026-07-07 | 公式確認済み(検索経由) |
-| 2025〜2026 年の VLA で支配的なのは**デュアルシステム構成**(「遅い思考」の VLM + 「速い制御」のアクションデコーダ)。Figure Helix(System 2 / System 1)、NVIDIA GR00T(VLM + diffusion transformer)、Google の Gemini Robotics(ER = 計画層 + VLA = 実行層)がいずれもこの構造を採る(§2 の各項参照) | 各社公式(§2 の出典) | 2026-07-07 | 公式確認済み |
+| 2025〜2026 年の VLA で見られるのは**計画と高速制御の階層分離**(「遅い思考」の VLM + 「速い制御」のアクションデコーダ)。Figure Helix 02(System 2 / System 1 / System 0)、NVIDIA GR00T(VLM + diffusion transformer)、Google の Gemini Robotics(ER = 計画層 + VLA = 実行層)がいずれもこの構造を採る(§2 の各項参照) | 各社公式(§2 の出典) | 2026-07-07 | 公式確認済み |
 | オープンな VLA の先行例として Stanford 等の **OpenVLA**(2024 年、7B、オープンソース)がある。オープンウェイト VLA のエコシステムは Hugging Face の **LeRobot** に集約されつつあり、2026-01 に NVIDIA が Isaac / GR00T 技術を LeRobot に統合すると発表 | https://nvidianews.nvidia.com/news/nvidia-releases-new-physical-ai-models-as-global-partners-unveil-next-generation-robots(LeRobot 統合)/ OpenVLA は https://openvla.github.io/ | 2026-07-07 | LeRobot 統合は公式確認済み / OpenVLA の詳細は未確認(今回は本文未取得) |
 
-**執筆上の含意**: 「VLA = VLM を行動出力に拡張したもの」「RT-2(2023)が起点」「2025〜2026 年は『遅い計画層 + 速い制御層』のデュアルシステムが共通パターン」という 3 点が、概観記事の骨格として各社公式資料で裏が取れる。
+**執筆上の含意**: 「VLA = VLM を行動出力に拡張したもの」「RT-2(2023)が起点」「計画と高速制御を分け、階層数は実装ごとに確認する」という 3 点が、概観記事の骨格として各社公式資料で裏が取れる。
 
 ---
 
@@ -38,7 +38,7 @@
 | Gemini Robotics 1.5 は「think before taking action」(行動前に思考過程を生成)と**具身間学習**(あるロボットで学んだ動作を別のロボットへ転移: 「transfer motions learned from one robot to another」)を公式に主張 | 同上 | 2026-07-07 | 公式確認済み(能力主張自体はベンダー自己報告) |
 | 提供形態: **ER 1.5 は Gemini API / Google AI Studio で開発者に公開**。**VLA(Gemini Robotics 1.5)は「currently available to select partners」**(一般公開されていない) | 同上 | 2026-07-07 | 公式確認済み |
 | **Gemini Robotics On-Device**(2025-06-24 発表): ロボット実機上でローカル実行できる最適化 VLA。クラウド接続なしで動作し、**50〜100 デモ程度の少数データで新タスクに適応**できると主張。ALOHA・Franka・Apollo(Apptronik のヒューマノイド)等で動作。SDK は trusted tester プログラム経由の限定提供 | https://deepmind.google/blog/gemini-robotics-on-device-brings-ai-to-local-robotic-devices/ | 2026-07-07 | 公式確認済み(適応データ量はベンダー自己報告) |
-| **Gemini Robotics-ER 1.6**(2026 年 6 月発表): 空間推論・マルチビュー理解を強化。Boston Dynamics との協業で「複雑なゲージ・サイトグラスの読み取り」機能を追加。「our safest robotics model to date」と主張。Gemini API / AI Studio で提供 | https://blog.google/innovation-and-ai/models-and-research/google-deepmind/gemini-robotics-er-1-6/ | 2026-07-07 | 公式確認済み |
+| **Gemini Robotics-ER 1.6**(モデルカード日付 2026-04-20。2026-09-10 訂正): 空間推論・マルチビュー理解を強化。Boston Dynamics との協業で「複雑なゲージ・サイトグラスの読み取り」機能を追加。「our safest robotics model to date」と主張。旧 API gemini-robotics-er-1.6-preview の公開日は 2026-04-14。廃止表の停止予定日は 2026-08-31、推奨移行先は gemini-robotics-er-2-preview。モデルカード日と API 日を区別 | https://ai.google.dev/gemini-api/docs/deprecations / https://deepmind.google/models/model-cards/ | 2026-09-10 | 公式確認済み |
 | モデルファミリーページ(2026-07 時点)のラインナップは **Gemini Robotics 1.5(VLA)/ Gemini Robotics-ER 1.6(推論)/ Gemini Robotics On-Device** の 3 系統。ER は「Google Search などのデジタルツールを自律的に呼び出せる」。パートナーとして Apptronik・Boston Dynamics・Universal Robots 等、60 以上の trusted testers に言及 | https://deepmind.google/models/gemini-robotics/ | 2026-07-07 | 公式確認済み |
 
 ### 2.2 Physical Intelligence(π シリーズ)
@@ -125,12 +125,12 @@ NVIDIA は自社でロボットを作らず、**モデル(GR00T / Cosmos)+ シ�
 
 - 商用製品: 四足の Spot と物流用 Stretch は商用販売中(確度: 二次情報。公式サイトで確認可能だが今回本文未取得)
 - 研究の主軸: **電動 Atlas × LBM**(§2.5)。TRI との正式協業で「汎用ヒューマノイド化」を推進(2025-08 のデモが最新の大きな節目。確認日 2026-07-07、公式確認済み)
-- 2026-06 には Google DeepMind の Gemini Robotics-ER 1.6 開発に協力(ゲージ読み取り機能)しており、**自社 LBM と外部基盤モデルの併用**という立ち位置(公式確認済み)
+- Gemini Robotics-ER 1.6(モデルカード日付 2026-04-20)の開発に協力(ゲージ読み取り機能)しており、**自社 LBM と外部基盤モデルの併用**という立ち位置(公式確認済み)
 
 ### 3.7 Physical Intelligence
 
-- 位置づけ: **ロボットを作らないモデル専業**。π0 のオープンソース化(openpi)でオープンエコシステムにも寄与しつつ、最新モデル(π\*0.6 / π0.7)は論文発表のみで提供形態は未公表(§2.2。確認日 2026-07-07)
-- 2026-02-24 に「The Physical Intelligence Layer」と題する発表があり、モデルの提供戦略に関わる可能性があるが、内容は今回未確認(出典: https://www.pi.website/ の記事一覧。確度: 未確認)
+- 位置づけ: **ロボットを作らないモデル専業**。π0 のオープンソース化(openpi)でオープンエコシステムにも寄与しつつ、π0.6 のパートナー実導入も公表されています。π0.7 の一般提供・公開重みは未確認(§2.2。導入事例確認日 2026-09-10)
+- 2026-02-24「The Physical Intelligence Layer」は本文を取得済みです。Weave の顧客ランドリーと Ultra の顧客倉庫で π0.6 を使い、人の確認・遠隔介入を含む運用を説明します。パートナー執筆の導入報告で、一般向け API や完全自律の SLA の証明ではありません。https://www.pi.website/blog/partner (2026-09-10、公式確認済み / 実績は自己報告)
 
 ### 3.8 Agility Robotics(商用先行の事例として)
 
@@ -173,7 +173,7 @@ NVIDIA は自社でロボットを作らず、**モデル(GR00T / Cosmos)+ シ�
 
 - **NVIDIA Cosmos**(2025-01 プラットフォーム発表 → 2026-05-31 Cosmos 3): 世界モデルを「合成データ生成 + ポリシー評価 + 行動予測のバックボーン」と位置づけ。「physical AI training and evaluation cycles from months to days」と主張(§3.1。ベンダー自己報告)
 - **Google DeepMind Genie 3**(2025-08-05): リアルタイム対話型世界モデル。DeepMind は AGI への stepping stone・エージェント訓練環境としての位置づけを語る(§3.2。公式確認済み(検索経由))
-- 執筆上の整理: 世界モデルは 2026-07 時点では「ロボットを直接動かすモデル」ではなく、**VLA の学習・評価を支えるインフラ(データ工場・シミュレータ)**として実用化が先行している
+- 執筆上の整理(2026-09-10): 世界モデルは合成データ・評価基盤に使われますが、DreamZero のように将来映像と連続行動を共同生成する WAM も研究されています。用途は排他的な分類ではありません。https://arxiv.org/abs/2602.15922
 
 ---
 
@@ -186,7 +186,7 @@ NVIDIA は自社でロボットを作らず、**モデル(GR00T / Cosmos)+ シ�
 | **Gemini Robotics-ER**(1.5/1.6)は「high-level brain」としてタスクを計画し、**Google Search 等のデジタルツールをネイティブに呼び出し**、各ステップを自然言語指示として VLA に渡す。これはソフトウェア Agent の「LLM がツールを呼び出すオーケストレータ」構造と同型で、ツールの一つが「ロボットの身体(VLA)」になっている | https://deepmind.google/blog/gemini-robotics-15-brings-ai-agents-into-the-physical-world/ / https://deepmind.google/models/gemini-robotics/ | 2026-07-07 | 公式確認済み |
 | DeepMind 自身がこの構成を「**agentic framework**」「bringing AI agents into the physical world」と表現しており、ソフトウェア Agent の語彙で説明している | 同上(ブログタイトル・本文) | 2026-07-07 | 公式確認済み |
 | NVIDIA GR00T N1.6 も「world models such as NVIDIA Cosmos Reason を使って高レベル指示を段階的行動計画に分解する」と説明され、**VLM = 計画層 / diffusion transformer = 実行層**の分離を明示 | https://nvidianews.nvidia.com/news/nvidia-releases-new-physical-ai-models-as-global-partners-unveil-next-generation-robots | 2026-07-07 | 公式確認済み |
-| Figure Helix の System 2(7B VLM)/ System 1(80M 制御ポリシー)も同じ分離。S2 が「潜在的な意味表現」を S1 に渡す | https://www.figure.ai/news/helix | 2026-07-07 | 公式確認済み |
+| 旧 Figure Helix は S2 / S1 の分離。2026-01-27 の Helix 02 は S0 を加えた三階層へ拡張し、S1 が 200 Hz、S0 が 1 kHz で全身制御します。https://www.figure.ai/news/helix-02 (2026-09-10 更新) | https://www.figure.ai/news/helix | 2026-07-07 | 公式確認済み |
 
 ### 5.2 「観測 → 思考 → 行動」ループとの構造的な共通性
 
@@ -199,7 +199,7 @@ NVIDIA は自社でロボットを作らず、**モデル(GR00T / Cosmos)+ シ�
   - **失敗の不可逆性・物理的安全**: DeepMind は semantic safety(「熱い飲み物を子どもに渡さない」等の常識的制約)と physical safety(下位安全コントローラとの合成)を明確に区別し、「Swiss cheese model」の多層防御・ASIMOV ベンチマーク・predictive red teaming を公表。ソフトウェア Agent の「sandbox で再試行できる」前提が成り立たないことへの対処が体系化されつつある | https://deepmind.google/models/gemini-robotics/responsibly-advancing-ai-and-robotics/(確認日 2026-07-07、公式確認済み)
   - **データ制約**: Web テキストに相当する大規模行動データが存在しないため、テレオペ実演・人間動画・合成データ(世界モデル)の組み合わせでデータを「製造」する必要がある(§4.2。公式確認済み)
 
-**執筆上の含意**: 概観記事の「ソフトウェア Agent との接続点」は、(1) オーケストレータ+ツールの同型性(ER → VLA)、(2) デュアルシステム(遅い思考/速い制御)、(3) 相違点 3 つ(リアルタイム・不可逆性・データ製造)で構成すると、すべて公式一次情報で裏が取れる。
+**執筆上の含意**: 概観記事の「ソフトウェア Agent との接続点」は、(1) オーケストレータ+ツールの同型性(ER → VLA)、(2) 階層分離(遅い思考/速い制御。二層とは限りません)、(3) 相違点 3 つ(リアルタイム・不可逆性・データ製造)で構成すると、すべて公式一次情報で裏が取れる。
 
 ---
 
@@ -208,7 +208,16 @@ NVIDIA は自社でロボットを作らず、**モデル(GR00T / Cosmos)+ シ�
 1. **モデルのバージョン番号は数か月で更新される**(本調査中だけでも Gemini Robotics-ER は 1.5 → 1.6、GR00T は N1 → N1.6、π は π0.5 → π\*0.6 → π0.7、Cosmos は → 3)。記事本文ではバージョン番号を列挙しすぎず、「2026 年 7 月時点では」と付した上で系統名(Gemini Robotics 系、GR00T 系、π 系)で書くのが安全。→ `TODO(要確認)` を付けて公開時に再確認。確認先: https://deepmind.google/models/gemini-robotics/ / https://developer.nvidia.com/isaac/gr00t / https://www.pi.website/
 2. **量産・出荷の数値はすべてベンダー自己報告**(Figure の「1 時間 1 台」、1X の「1 万台完売」、Tesla の「1,000 台稼働」)。第三者検証がないことを本文で明示し、数値は帯で書く
 3. **Tesla は一次資料が取得できていない**(IR PDF / SEC とも 403)。記事で触れる場合は伝聞形が必須。確認先: https://ir.tesla.com/press
-4. **提供形態の区別が変わりやすい**: 2026-07 時点で「一般開発者が API で触れる」のは Gemini Robotics-ER(推論層)のみ。VLA 本体はオープンウェイト(GR00T、π0(旧版)、OpenVLA)か限定パートナー(Gemini Robotics 1.5、Helix)に分かれる。この区分は記事の実用情報として価値が高いが、変化も速い
-5. **Physical Intelligence の「The Physical Intelligence Layer」(2026-02-24)は内容未確認**。同社の商用提供形態が変わっている可能性があるため、執筆時に https://www.pi.website/ で要確認
+4. **提供形態をモデル ID・世代別に確認**: 2026-09-10 の確認では ER 2 の AI Studio / Enterprise private preview、VLA の限定パートナー、GR00T N1.7 の公開物、π0.6 のパートナー導入を区別します。旧 ER API の停止予定も末尾に追記しました。
+5. **Physical Intelligence のパートナー導入**は 2026-09-10 に公式本文を確認済みです。一般向け API、独立した運用 SLA、介入率の比較可能な統計は未確認です。
 6. **π0.7・π\*0.6 のオープンソース化状況**は 2026-07-07 時点で公表なし(openpi は π0/π0.5 系まで)。GitHub の openpi リポジトリで要確認: https://github.com/Physical-Intelligence/openpi
-7. **性能の横並び比較は不可能**と書くこと。VLA には LLM のような共通ベンチマーク・リーダーボードが 2026-07 時点で確立しておらず(NVIDIA が Isaac Lab-Arena を評価基盤として発表した段階)、各社数値は条件の異なる自己報告
+7. **比較条件を一致させる**。LIBERO は 130 タスク・4 スイートを公開し、openpi は π0.5-LIBERO checkpoint を提供します。Isaac Lab-Arena も公開評価基盤です。身体・学習データ・シミュレータ・課題が違う数値を汎用能力の順位に使いません。https://github.com/Lifelong-Robot-Learning/LIBERO / https://github.com/Physical-Intelligence/openpi / https://developer.nvidia.com/isaac/lab-arena (2026-09-10 確認)
+
+## 2026-09-10 の公開物・提供範囲の更新
+
+- **Helix 02 (PH-01)**: 2026-01-27 発表。S2 / S1 / S0 の三階層による全身制御。旧 Helix の 35 自由度は旧世代に限定します。4 分の自律デモはベンダーの実証です。https://www.figure.ai/news/helix-02
+- **Gemini Robotics 2 (PH-03)**: 2026-07-30 発表。ER 2 は AI Studio で利用可能、Enterprise Agent Platform は private preview。Robotics 2 と On-Device 2 は early-access partner 向けです。旧 ER 1.6 のカード日付は 2026-04-20、API 公開は 2026-04-14 です。公式廃止表 https://ai.google.dev/gemini-api/docs/deprecations は er-1.6-preview の停止予定日 2026-08-31 と er-2-preview への移行を案内します。停止予定日は earliest possible とされ、実停止を API で検証したわけではありません。https://deepmind.google/blog/gemini-robotics-2-brings-whole-body-intelligence-to-robots/ / https://deepmind.google/models/model-cards/
+- **GR00T N1.7 (PH-04)**: 公式リポジトリは GA、重みと参照コードの Apache 2.0 公開、ONNX / TensorRT、評価手順を掲載しています。2026-07-07 の開発記事は実機方策の開発手順を説明します。N2 は 2026-03-16 の preview 発表で年末提供予定であり、GA としません。https://github.com/NVIDIA/Isaac-GR00T / https://developer.nvidia.com/blog/develop-humanoid-robot-policies-end-to-end-with-nvidia-isaac-gr00t/ / https://nvidianews.nvidia.com/news/nvidia-expands-open-model-families-to-power-the-next-wave-of-agentic-physical-and-healthcare-ai
+- **DreamZero (PH-05)**: 2026-02-17 の研究論文と研究実装です。事前学習 video diffusion を基に将来映像と連続行動を共同生成します。商用一般提供とは扱いません。https://arxiv.org/abs/2602.15922 / https://github.com/dreamzero0/dreamzero
+
+PH-02 の公開評価基盤、PH-06 の介入付き導入は本文該当箇所も訂正しました。上記資料は 2026-09-10 確認。ロボット実機試験・ベンダー主張の独立追試は行っていません。

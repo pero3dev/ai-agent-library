@@ -3,7 +3,7 @@ title: "OpenAI(GPT 系)特化プロンプティングガイド"
 category: "implementation"
 level: "intermediate"
 status: "published"
-last_updated: "2026-08-18"
+last_updated: "2026-09-10"
 tags: ["prompt-design", "model-selection"]
 ---
 
@@ -28,7 +28,7 @@ OpenAI の GPT ファミリーに対して、**公式ガイドが推奨する具
 
 ## 本文
 
-> **最終確認日:** 2026-08-18 — 本記事の機能名・仕様・モデル別推奨は、この日付時点の OpenAI 公式ドキュメント([参考資料](#参考資料))に基づきます(一部、確認できていない項目は本文と TODO に明記)。個別モデルの仕様は変わるため、断定は避け「〜時点」を明記しています。
+> **最終確認日:** 2026-09-10 — Astra の移行条件・非同期ツール・キャッシュ仕様を更新しました。従来の設計指針は各参考資料の確認日を参照し、未取得の現行原文は TODO に分けます。
 
 ### 概要: 汎用記事との分担
 
@@ -49,6 +49,20 @@ Claude・Gemini との横並び比較と移行は [モデル間の違いと移�
 - **推論は本体に統合された**: かつての推論特化「o シリーズ」は縮小し、GPT-5.x 本体の **reasoning effort** で思考量を制御する形が標準です(o 系は 2026-12-11 退役予定で、移行先は GPT-5.6 系。退役日程は [モデルカタログ](llm-landscape.md) を参照)
 - **モデルは「同僚」で例える**: 公式は推論内蔵モデルを「ゴールを渡せば任せられる上級同僚」、軽量モデルを「明示的な指示で最も動く新人同僚」と説明します。書き方の粒度を変える指針です
 - **一部の作法は不要になった**: 出力スキーマの強い言い回しや「ステップバイステップで考えて」は、Structured Outputs と推論内蔵化により不要・逆効果になりました(後述)
+
+### Astra へ移行する場合
+
+2026-09-10 確認の `gpt-6-astra` では次を確認します。GPT-5.6 の有効な設定まで一律に削除するのではなく、モデル別にリクエストを組み立てます。
+
+| 確認点 | Astra の条件 |
+| --- | --- |
+| 思考量 | low / medium / high / xhigh / max。none / minimal は非対応。旧設定が none / minimal なら low から評価します |
+| ツール呼出し | Responses API を使います。Chat Completions の提供と tool calling の対応は別です |
+| サンプリング | temperature / top_p / top_logprobs は非対応。Chat Completions の logprobs と Responses の出力 logprobs の include も外します |
+| EU データレジデンシー | Standard を使います。service_tier の fast / priority は非対応です |
+| 指示への追従 | 通常の判断は任せ、追加確認が必要な条件を具体的に書きます。承認で止まり過ぎる場合は、ユーザーの依頼と SKILL.md / AGENTS.md の曖昧な規則を点検します |
+
+委任の条件、必要な検証の範囲、完了基準も明示します。自律化の指示は、実行権限や必要な承認を省略する根拠にはしません。
 
 ### メッセージ構造と指示階層
 
@@ -99,6 +113,16 @@ GPT-5.x は推論を内蔵し、**reasoning effort** で思考とツール使用
 - **独立したステップは並列化する**: 独立した取得・参照は並列ツール呼び出しでレイテンシを削ります
 - **永続性と早期停止のバランスを明示する**: 「別のツール呼び出しで正確性が上がるなら早く止めない」と「成功基準を満たしたら止める」を両方指定します
 - **推奨は Responses API + Agents SDK**: エージェント/ツール連携はこの構成が公式の推奨です
+
+### 非同期ツールと実行中の指示変更
+
+Astra の非同期ツール使用(async tool calling)では、function / custom tool に `async: true` を指定し、アプリが処理を実行して元の `call_id` に結果を返します。モデルは待機中にも独立した作業を進められます。WebSocket 経由の実行中の指示変更(mid-turn steering)を使う場合は、処理中のツールと遅れて届く結果を管理し、変更後の目的に不要な結果を新しい判断へ混ぜません。実行の永続化や外部操作の取り消しを API が保証するという意味ではありません。設計例は [ストリーミングと Agent UX](streaming-and-agent-ux.md) を参照してください。
+
+### キャッシュを保った設定変更
+
+GPT-5.6 以降は `prompt_cache_options.ttl: "30m"` を使います。キャッシュ境界までの書込量を `usage.input_tokens_details.cache_write_tokens`、読取量を `cached_tokens` で分けて記録します。30 分は最短保持期間で、必ず 30 分後に削除されるという意味ではありません。
+
+Astra の standard・単一エージェントのリクエストでは、元の request-level `reasoning.effort` を変えず、`{"type":"configuration_update","reasoning":{"effort":"high"}}` を input の次の user メッセージより前に追記して、以後の effort を変えられます。pro mode・複数エージェントには非対応です。連続する configuration_update、自動 compaction / truncation、単独の `/responses/compact` との併用もできません。これは許可された設定更新の仕組みで、過去の system / developer 本文や動的な日付を書き換えてもキャッシュが残るという仕様ではありません。
 
 ### 世代交代で見直すこと
 
@@ -158,6 +182,10 @@ GPT-5.6 のような新世代は**ドロップイン置換ではなく、再チ�
 
 ## 参考資料
 
+- [GPT-6 Astra model guidance](https://developers.openai.com/api/docs/guides/latest-model) / [Astra model](https://developers.openai.com/api/docs/models/gpt-6-astra) — 移行・設定の条件(アクセス日: 2026-09-10)
+- [Async tool calling](https://developers.openai.com/api/docs/guides/async-tool-calling) / [Mid-turn steering](https://developers.openai.com/api/docs/guides/steering) — 非同期処理の契約(アクセス日: 2026-09-10)
+- [Prompt caching](https://developers.openai.com/api/docs/guides/prompt-caching) — 世代別の保持・課金・設定更新(アクセス日: 2026-09-10)
+
 - [Prompt engineering(OpenAI)](https://developers.openai.com/api/docs/guides/prompt-engineering) / [Prompt guidance(OpenAI)](https://developers.openai.com/api/docs/guides/prompt-guidance) — 構造化・階層・整形の指針(アクセス日: 2026-07-08。2026-08-18 時点の全文は再確認できず、指示階層の現行原文は TODO 参照)
 - [Reasoning best practices(OpenAI)](https://developers.openai.com/api/docs/guides/reasoning-best-practices) / [Reasoning models(OpenAI)](https://developers.openai.com/api/docs/guides/reasoning) — 推論モデルへの書き方・effort・`reasoning.mode`(アクセス日: Reasoning models は 2026-08-18、Reasoning best practices は 2026-07-08。overthinking 警告の現行原文は TODO 参照)
 - [Using the latest model(OpenAI)](https://developers.openai.com/api/docs/guides/latest-model) — 最新世代への移行考慮点(アクセス日: 2026-08-18)
@@ -172,9 +200,9 @@ GPT-5.6 のような新世代は**ドロップイン置換ではなく、再チ�
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** 四半期ごとに OpenAI 公式の「Prompt guidance」「Reasoning models」「Using the latest model」ページと GPT-5.x 系 cookbook で次を再確認する(更新起点: `research/prompting/openai.md`、最終確認: 2026-08):
+> **TODO(要確認):** 四半期ごとに OpenAI 公式の「Prompt guidance」「Reasoning models」「Using the latest model」ページと GPT-5.x 系 cookbook で次を再確認する(更新起点: `research/prompting/openai.md`、最終確認: 2026-09):
 >
-> - 現行フロンティア世代と既定 reasoning effort(現在: GPT-5.6 / 5.5 = medium、旧世代で異なる)
+> - 現行フロンティア世代と対応 effort(Astra は none / minimal 非対応、GPT-5.6 / 5.5 の既定は medium)
 > - reasoning effort の水準集合(none / minimal / low / medium / high / xhigh / max。GPT-5.6 世代は `minimal` 非対応)と `reasoning.mode`(standard / pro)の対応モデル
 > - developer / system メッセージの用語と指示階層(Model Spec の更新)
 > - Structured Outputs の対応モデルと未対応スキーマ機能

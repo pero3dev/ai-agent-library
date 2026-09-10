@@ -1,0 +1,340 @@
+{
+  "as_of": "2026-09-10",
+  "scope": "governance-and-trust",
+  "finding_count": 19,
+  "status": "applied",
+  "findings": [
+    {
+      "id": "GOV01",
+      "status": "applied",
+      "changed_files": [
+        "docs/09-business/industry-regulations-map.md",
+        "research/supplementary/regulations.md"
+      ],
+      "evidence": [
+        "https://www.fisc.or.jp/publication/book/007219.php",
+        "https://www.fisc.or.jp/topics/2026.php"
+      ],
+      "remaining_unknowns": [
+        "FISC 第 14 版の有償全文・条項差分"
+      ]
+    },
+    {
+      "id": "GOV02",
+      "status": "applied",
+      "changed_files": [
+        "docs/09-business/industry-regulations-map.md",
+        "research/supplementary/regulations.md"
+      ],
+      "evidence": [
+        "https://www.fdua.org/news/202608051",
+        "https://www.fdua.org/news/20260812"
+      ],
+      "remaining_unknowns": [
+        "FDUA 第 1.2 版の個別案件への適用"
+      ]
+    },
+    {
+      "id": "GOV03",
+      "status": "applied",
+      "changed_files": [
+        "docs/09-business/industry-regulations-map.md",
+        "docs/06-security/compliance-and-governance.md",
+        "research/professional/compliance.md",
+        "research/supplementary/regulations.md"
+      ],
+      "evidence": [
+        "https://www.ppc.go.jp/personalinfo/legal/r8kaiseihogohou/",
+        "https://www.ppc.go.jp/files/pdf/260909_kongonosusumekatanitsuite.pdf",
+        "https://www.ppc.go.jp/files/pdf/260717_houritsu.pdf",
+        "https://laws.e-gov.go.jp/document?lawid=415AC0000000057_20270117_508AC0000000056"
+      ],
+      "remaining_unknowns": [
+        "主な施行日を定める政令",
+        "規則・ガイドラインの最終化と正式パブコメの開始日"
+      ],
+      "implementation_notes": "9/9 PDF を HTTP 200 で取得・テキスト精読。9月中旬以降は基本的考え方の委員会議論・意見交換・ヒアリングの予定であり、正式パブコメ開始日ではない。監査 change の表現を精密化した。法番号・2027-01-17 は公式 e-Gov の将来施行版と照合。"
+    },
+    {
+      "id": "GOV04",
+      "status": "applied",
+      "changed_files": [
+        "docs/06-security/compliance-and-governance.md",
+        "research/professional/compliance.md"
+      ],
+      "evidence": [
+        "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=BPC&division=8.&title=&part=&chapter=25.&article="
+      ],
+      "remaining_unknowns": [
+        "各事業の covered provider / platform / manufacturer 該当性"
+      ]
+    },
+    {
+      "id": "GOV05",
+      "status": "applied",
+      "changed_files": [
+        "docs/06-security/compliance-and-governance.md",
+        "research/professional/compliance.md"
+      ],
+      "evidence": [
+        "https://www.ftc.gov/news-events/news/press-releases/2026/07/ftc-seeks-public-comment-policy-statement-addressing-ai-accuracy",
+        "https://www.ftc.gov/system/files/ftc_gov/pdf/ai-policy-statement_0.pdf",
+        "https://www.ftc.gov/legal-library/browse/policy-statements"
+      ],
+      "remaining_unknowns": [
+        "政策声明案の最終化",
+        "商務省 / NTIA の州法評価リスト"
+      ]
+    },
+    {
+      "id": "GOV06",
+      "status": "applied",
+      "changed_files": [
+        "docs/06-security/compliance-and-governance.md",
+        "research/professional/compliance.md"
+      ],
+      "evidence": [
+        "https://coag.gov/ai/",
+        "https://leg.colorado.gov/bills/sb26-189",
+        "https://leg.colorado.gov/bills/hb26-1263"
+      ],
+      "remaining_unknowns": [
+        "規則案の最終化",
+        "HB 26-1263 の署名日（公式資料間に差）",
+        "関連訴訟の最終判断"
+      ]
+    },
+    {
+      "id": "GOV07",
+      "status": "applied",
+      "changed_files": [
+        "docs/06-security/compliance-and-governance.md",
+        "research/professional/compliance.md"
+      ],
+      "evidence": [
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32026R1744"
+      ],
+      "remaining_unknowns": [
+        "個別システムの対象類型への法的該当性"
+      ]
+    },
+    {
+      "id": "GOV08",
+      "status": "applied",
+      "changed_files": [
+        "docs/06-security/ai-standards-and-certification.md",
+        "research/ecosystem/standards.md"
+      ],
+      "evidence": [
+        "https://www.cencenelec.eu/news-events/news/2026/en-in-the-spotlight/2026-07-30-ai-quality-management/",
+        "https://digital-strategy.ec.europa.eu/en/policies/ai-act-standardisation",
+        "https://jtc21.eu/significant-milestone-for-european-ai-standardization/"
+      ],
+      "remaining_unknowns": [
+        "EN 18286 の OJ 引用と対象条項",
+        "関連 prEN の Enquiry 期限後の承認・発行ステータス"
+      ],
+      "implementation_notes": "CEN の掲載表示は 7/31（URL 中の7/30と区別）。関連 prEN は JTC 21 の7/9公表と期限を日付付きで記録し、9/10もEnquiry継続中とは断定しない。"
+    },
+    {
+      "id": "GOV09",
+      "status": "applied",
+      "changed_files": [
+        "docs/06-security/ai-standards-and-certification.md",
+        "research/ecosystem/standards.md",
+        "docs/06-security/frontier-safety-overview.md",
+        "research/trust/frontier-safety.md",
+        "docs/01-concepts/physical-ai-overview.md"
+      ],
+      "evidence": [
+        "https://aisi.go.jp/output/output_information/260707/",
+        "https://aisi.go.jp/output/output_framework/guide_to_evaluation_perspective_on_ai_safety/",
+        "https://www.ipa.go.jp/pressrelease/2026/press20260723.html"
+      ],
+      "remaining_unknowns": [
+        "各ガイドに基づく個別システムの実評価"
+      ]
+    },
+    {
+      "id": "GOV10",
+      "status": "applied",
+      "changed_files": [
+        "docs/06-security/ai-standards-and-certification.md",
+        "research/ecosystem/standards.md"
+      ],
+      "evidence": [
+        "https://www.nist.gov/artificial-intelligence/ai-standards"
+      ],
+      "remaining_unknowns": [
+        "Zero Draft の次版・最終化"
+      ]
+    },
+    {
+      "id": "GOV11",
+      "status": "applied",
+      "changed_files": [
+        "docs/06-security/ai-standards-and-certification.md",
+        "research/ecosystem/standards.md"
+      ],
+      "evidence": [
+        "https://www.sgs.com/ja-jp/news/2025/04/sgs-issues-its-first-ever-iso-iec-42001-certification-in-japan",
+        "https://www.jipdec.or.jp/news/pressrelease/20260114.html",
+        "https://isms.jp/aims/lst/isr/index.html"
+      ],
+      "remaining_unknowns": [
+        "個別証明書の認定範囲"
+      ]
+    },
+    {
+      "id": "GOV12",
+      "status": "applied",
+      "changed_files": [
+        "research/ecosystem/standards.md"
+      ],
+      "evidence": [
+        "https://www.iso.org/standard/42005",
+        "https://www.iso.org/standard/42006"
+      ],
+      "remaining_unknowns": [
+        "ISO 有償本文の要求条項"
+      ]
+    },
+    {
+      "id": "GOV13",
+      "status": "applied",
+      "changed_files": [
+        "docs/09-business/industry-regulations-map.md",
+        "research/supplementary/regulations.md"
+      ],
+      "evidence": [
+        "https://www.fda.gov/medical-devices/digital-health-center-excellence/guidances-digital-health-content"
+      ],
+      "remaining_unknowns": [
+        "FDA TPLC の今後の最終化",
+        "個別機器の承認可否"
+      ]
+    },
+    {
+      "id": "TS-01",
+      "status": "applied",
+      "changed_files": [
+        "docs/09-business/ai-copyright-and-ip-map.md",
+        "research/trust/copyright.md"
+      ],
+      "evidence": [
+        "https://www.cas.go.jp/jp/seisakukaigi/titeki2/ai_principle_code/index.html",
+        "https://www.cas.go.jp/jp/seisakukaigi/titeki2/ai_kentoukai/kaisai/index.html",
+        "https://www.cas.go.jp/jp/seisakukaigi/titeki2/ai_kentoukai/kaisai/pdf/ai_principle_code.pdf"
+      ],
+      "remaining_unknowns": [
+        "正式コードの採択日・公開日",
+        "コード PDF の逐条解釈",
+        "10/26 以降の届出運用"
+      ],
+      "implementation_notes": "専用ページは Web取得失敗後 PowerShell Invoke-WebRequest で HTTP200・資料リンク・届出開始予定を確認。公式語は「届出」であり監査の「申出」を精密化。PDFの逐条は未精読。"
+    },
+    {
+      "id": "TS-02",
+      "status": "applied",
+      "changed_files": [
+        "docs/06-security/content-provenance-and-detection.md",
+        "research/trust/provenance.md"
+      ],
+      "evidence": [
+        "https://www.iso.org/standard/90726.html"
+      ],
+      "remaining_unknowns": [
+        "ISO/CD 22144 の次段階・発行"
+      ]
+    },
+    {
+      "id": "TS-03",
+      "status": "applied",
+      "changed_files": [
+        "docs/06-security/frontier-safety-overview.md",
+        "research/trust/frontier-safety.md"
+      ],
+      "evidence": [
+        "https://www.anthropic.com/responsible-scaling-policy",
+        "https://www.anthropic.com/aug-2026-risk-report"
+      ],
+      "remaining_unknowns": [
+        "186 ページの August Risk Report の全リスク評価結果"
+      ]
+    },
+    {
+      "id": "TS-04",
+      "status": "applied",
+      "changed_files": [
+        "docs/06-security/frontier-safety-overview.md",
+        "research/trust/frontier-safety.md"
+      ],
+      "evidence": [
+        "https://openai.com/index/updating-our-preparedness-framework/",
+        "https://openai.com/index/openai-frontier-governance-framework/",
+        "https://openai.com/index/pacing-model-development-cyber-capabilities/"
+      ],
+      "remaining_unknowns": [
+        "8/18 方針で予告された Preparedness 改定の発行",
+        "個別モデルの全安全評価結果"
+      ],
+      "implementation_notes": "OpenAIの公式更新記事を直接取得して、旧403取得失敗TODOを解消。将来のPreparedness改定を発行済みとは扱わない。"
+    },
+    {
+      "id": "TS-05",
+      "status": "applied",
+      "changed_files": [
+        "docs/06-security/deepfake-and-impersonation-defense.md",
+        "research/trust/provenance.md"
+      ],
+      "evidence": [
+        "https://www.ic3.gov/PSA/2026/PSA260720"
+      ],
+      "remaining_unknowns": [
+        "FBI / IC3 以外の全公的機関の追加警告"
+      ]
+    },
+    {
+      "id": "TS-07",
+      "status": "applied",
+      "changed_files": [
+        "docs/06-security/content-provenance-and-detection.md",
+        "research/trust/provenance.md"
+      ],
+      "evidence": [
+        "https://platform.claude.com/docs/en/release-notes/overview"
+      ],
+      "remaining_unknowns": [
+        "実ファイルでの来歴保持・耐性試験"
+      ]
+    }
+  ],
+  "cross_sync": [
+    {
+      "id": "T21",
+      "status": "applied",
+      "changed_files": [
+        "docs/06-security/compliance-and-governance.md",
+        "research/professional/compliance.md"
+      ],
+      "evidence": [
+        "https://ai.google.dev/gemini-api/terms"
+      ],
+      "implementation_notes": "EEA/スイス/英国の無償利用にもPaidデータ条項、APIのCloud BillingプロジェクトとAI Studioのアカウント条件、実請求額との区別を反映。"
+    }
+  ],
+  "validation": {
+    "targeted_validate_docs": "7 articles passed",
+    "targeted_markdownlint": "7 articles passed",
+    "relative_links": "node scripts/check-links.mjs: 225 files / 4008 links passed (shared workspace snapshot)",
+    "self_review": "本文・research のdiffと古い未確認記述を確認。学習記事のpublishedを維持し、material last_updatedを2026-09-10へ更新。"
+  },
+  "handoff": {
+    "root_owned_sync": [],
+    "new_learning_articles": 0,
+    "changed_learning_articles": 7,
+    "changed_research_files": 6,
+    "runtime_or_paid_source_tests": "実モデルAPI、C2PA実ファイル、有償規格全文、個別法務判断は対象外・未実施",
+    "root_sync_completed": "ROADMAP / maintenance watchlist and GOV09 physical-ai cross-reference synchronized on 2026-09-10"
+  }
+}

@@ -1,7 +1,7 @@
 # PE-R1 調査メモ — Anthropic(Claude)公式プロンプト推奨
 
 - **調査日**: 2026-07-08
-- **更新日**: 2026-08-18(四半期定点観測。文末の「観測ログ(2026-08-18 定点観測)」に思考ドキュメント再編・Opus 5・ミッドセッション拡大を追記。本文の表は 2026-07-08 時点のまま)
+- **更新日**: 2026-09-10(以下の鮮度更新を優先。以前の表・観測ログは日付付きの履歴)
 - **調査目的**: `docs/03-implementation/` 配下のプロンプトエンジニアリング系ドキュメント執筆材料。Anthropic(Claude)公式のプロンプトエンジニアリング推奨を、公式一次情報のみで整理する
 - **性質**: これは公開しない執筆用の整理メモです。断定調で書いてある事実も、最終的な docs 本文では確度と `TODO(要確認)` の要否を各自で再判断してください
 - **根拠の方針**: `platform.claude.com`(Claude 公式ドキュメント)を WebFetch で直接取得した内容のみを「公式確認済み」として採用します。既知の現行事実(Claude Code の claude-api スキル由来)は、可能な範囲で公式ページで裏取りし出典を付しています
@@ -18,6 +18,26 @@
 > 旧 URL(`prefill-claudes-response` など)は overview / best-practices にフォールバックされます(§失敗記録参照)。
 
 ---
+
+## 2026-09-10 鮮度更新
+
+2026-08-19にcomputer_toolset_20260801/browser_toolset_20260801、Files/SkillsがGA。旧betaのリクエスト/レスポンス互換経路は別です。computerはbatch actions/既定zoom/configs、browserは要素参照とupload opt-inを確認。まとめ実行でも副作用前の認可/承認は維持します。一次資料: https://platform.claude.com/docs/en/release-notes/overview (アクセス日: 2026-09-10)。
+
+Fable 5.1 の tool_choice any/tool は400。autoとstrict tool useはスキーマ保証で、強制呼出しとは別です。思考以前のsystem/tools/履歴変更は結び付きを無効にします。2026-08-31以降の新規アカウントは既定で強制検査し400、旧アカウントやdrop設定は条件が異なります。Fable 5.1の思考を旧モデルに送るとブロックが破棄されます。
+
+per-message effort は mid-conversation-output-config-2026-07-01 beta、Fable 5.1/Mythos 5.1/Opus 5のClaude APIとGoogle Cloud。turn-scoped system は clear_at:next_user_message と mid-conversation-system-clear-at-2026-08-21 beta。期限後も履歴にそのまま保持します。任意の過去本文変更ではありません。
+
+Fable 5.1のcache readは入力の2.5%。30日保持、明示許可なしZDR不可という選定条件もモデルメモへ同期済みです。
+
+一次資料(すべてアクセス日: 2026-09-10):
+
+- https://platform.claude.com/docs/en/models/overview
+- https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1
+- https://platform.claude.com/docs/en/release-notes/overview
+- https://developers.openai.com/api/docs/guides/prompt-caching
+- https://developers.openai.com/api/docs/guides/latest-model
+
+以下の以前の調査本文・観測ログは当時の履歴です。現行判断には上の訂正と各公式資料を優先します。
 
 ## 0. 現行モデルと参照ページ(前提の裏取り)
 

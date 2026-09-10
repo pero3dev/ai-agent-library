@@ -3,7 +3,7 @@ title: "エージェントベンチマークの全体像"
 category: "evaluation"
 level: "basic"
 status: "published"
-last_updated: "2026-08-18"
+last_updated: "2026-09-10"
 tags: ["benchmarks", "evaluation", "model-selection"]
 ---
 
@@ -27,7 +27,7 @@ tags: ["benchmarks", "evaluation", "model-selection"]
 
 ## 本文
 
-> **最終確認日:** 2026-08-18 — 本記事のベンチマークの顔ぶれ・状態はこの日付時点の各公式ページ・原論文に基づきます。具体的なスコア数値は転記せず、飽和状況などの傾向のみ記載します(出典と数値帯はリポジトリ内 `research/professional/benchmarks.md` の調査メモを参照)。
+> **最終確認日:** 2026-09-10(Terminal-Bench 4.0 / WebArena-Verified の差分。その他の行は従来の確認日を参照) — 本記事のベンチマークの顔ぶれ・状態はこの日付時点の各公式ページ・原論文に基づきます。具体的なスコア数値は転記せず、飽和状況などの傾向のみ記載します(出典と数値帯はリポジトリ内 `research/professional/benchmarks.md` の調査メモを参照)。
 
 ### 概要: ベンチマークの 3 つの正しい用途
 
@@ -48,18 +48,18 @@ flowchart TD
     U --> E["最終判断は自社評価セット"]
 ```
 
-### カテゴリ別の地図(2026-08 時点)
+### カテゴリ別の地図
 
-| カテゴリ | 代表 | 何を測るか | 2026-08 時点の状態 |
+| カテゴリ | 代表 | 何を測るか | 確認時点の状態 |
 | --- | --- | --- | --- |
-| コーディング | SWE-bench ファミリー、Terminal-Bench | 実 GitHub Issue の修正パッチ生成(テストで自動判定)、ターミナル環境での実作業全般 | 人手検証版(Verified)は飽和と信頼性低下が指摘され、より難しい派生(Pro など)と Terminal-Bench 系へ重心が移行中。その Terminal-Bench も 2.x の飽和が運営から言及され、より難しい 3.0(2026-07 公開)へ改訂 |
-| Web 操作 | WebArena / VisualWebArena、Mind2Web 系 | 複製・実サイト上のタスク遂行(実行結果で自動判定) | WebArena は人間ベースラインに肉薄しほぼ飽和。ライブ評価型・長時間探索型の後継へ移行中 |
+| コーディング | SWE-bench ファミリー、Terminal-Bench | 実 GitHub Issue の修正パッチ生成(テストで自動判定)、ターミナル環境での実作業全般 | 人手検証版(Verified)は飽和と信頼性低下が指摘され、より難しい派生(Pro など)と Terminal-Bench 系へ重心が移行中。その Terminal-Bench も 2.x の飽和が運営から言及され、3.0 を経て 2026-09-10 の公式サイトは 4.0 を掲載 |
+| Web 操作 | WebArena / VisualWebArena、Mind2Web 系 | 複製・実サイト上のタスク遂行(実行結果で自動判定) | 旧 WebArena の飽和報告と、評価器・タスクを修正する WebArena-Verified を分けます。全派生の飽和とは扱いません |
 | コンピュータ操作 | OSWorld、AndroidWorld | 実 OS・実アプリ上の GUI 操作(実行ベース検証) | 検証版は人間ベースライン超えが報告され、長時間ワークフロー版(OSWorld 2.0)へ移行。新版はまだ大幅な余地 |
 | 汎用アシスタント | GAIA、Humanity's Last Exam(HLE) | ツール活用を要する実世界質問、専門知識の限界試験 | GAIA は飽和し動的環境の後継(GAIA2)へ。HLE は余地が残るが正解自体への疑義も報告されている |
 | 対話 + ツール使用 | τ-bench ファミリー、BFCL | ユーザーとの対話の中でポリシーに従いツールを使う能力(会話終了時の状態で自動判定)、関数呼び出しの正確さ | τ 系はタスク修正を経た新版(τ³)へ移行。BFCL はエージェント能力(検索・メモリ)へ拡張し更新継続 |
 | 安全性 | AgentHarm など | 有害タスクの拒否と、攻撃後にエージェント能力が保持されるか | 発展途上。評価対象のエージェントの多くが低スコアという報告が続く |
 
-このほか、ML 実務(MLE-bench)・研究再現(PaperBench)・情報探索(BrowseComp)など特化型が多数あります。2025〜2026 年に共通するパターンは「**飽和 → より難しく・長時間・動的な後継版へ改訂**」です(SWE-bench → Pro、Terminal-Bench 2.x → 3.0、OSWorld → 2.0、Mind2Web → 2、GAIA → GAIA2、τ-bench → τ³)。ベンチマーク名は単体ではなく「ファミリー名 + 版」で読み、どの版のスコアかを必ず確認してください。
+このほか、ML 実務(MLE-bench)・研究再現(PaperBench)・情報探索(BrowseComp)など特化型が多数あります。2025〜2026 年に共通するパターンは「**飽和 → より難しく・長時間・動的な後継版へ改訂**」です(SWE-bench → Pro、Terminal-Bench 2.x → 3.0 → 4.0、OSWorld → 2.0、Mind2Web → 2、GAIA → GAIA2、τ-bench → τ³)。ベンチマーク名は単体ではなく「ファミリー名 + 版」で読み、どの版のスコアかを必ず確認してください。
 
 ### 読み方 1: スコアは「モデル × ハーネス」の値
 
@@ -96,6 +96,12 @@ flowchart TD
 
 コーディングエージェント(ツール製品)の選定という文脈でのベンチマークの読み方は、[コーディングエージェントの評価](../08-coding-agents/coding-agent-evaluation.md)が具体的に扱っています。
 
+### ベンチマークの難化と検証修正を分ける
+
+2026-09-10 の Terminal-Bench 公式サイトは 4.0 を現行版として掲載しています。モデル・エージェント・resolution rate・費用・トークンの列と 95% 信頼区間を確認しました。旧 FrontierBench URL も Terminal-Bench へ移ります。順位の数値は今回取得できていないため転記しません。タスク集合・ハーネス・試行回数・費用を版とともに記録します。
+
+WebArena-Verified は、課題・参照解・評価器を人手で点検し、応答と保存した network trace に対して決定的な評価を行う派生です。旧 WebArena の飽和という報告を、修正された評価器や Hard subset へ一般化しません。難化だけでなく、採点の妥当性を直す改訂も区別して追います。
+
 ## 実務での注意点
 
 ### アンチパターン
@@ -127,9 +133,12 @@ flowchart TD
 
 ## 参考資料
 
+- [一次資料: www.tbench.ai](https://www.tbench.ai/)(アクセス日: 2026-09-10)
+- [一次資料: github.com](https://github.com/ServiceNow/webarena-verified/blob/main/README.md)(アクセス日: 2026-09-10)
+
 - [SWE-bench 公式サイト](https://www.swebench.com/) — コーディング系の代表ファミリー(Lite / Verified / Multilingual / Multimodal)の正本(アクセス日: 2026-08-18)
 - [Terminal-Bench](https://www.tbench.ai/) — ターミナル作業ベンチマークと検証付きリーダーボード(アクセス日: 2026-08-18)
-- [Terminal-Bench 3.0(FrontierBench)](https://www.frontierbench.ai/) — Terminal-Bench 3.0 のアナウンスとリーダーボード(アクセス日: 2026-08-18)
+- [WebArena-Verified](https://github.com/ServiceNow/webarena-verified) — 修正課題と network trace による評価(アクセス日: 2026-09-10)
 - [OSWorld](https://osworld-v1.xlang.ai/) — コンピュータ操作の実行ベース評価(Verified・2.0 への経緯を含む)(アクセス日: 2026-08-18)
 - [GAIA: A Benchmark for General AI Assistants(arXiv)](https://arxiv.org/abs/2311.12983) — 汎用アシスタント評価の代表(アクセス日: 2026-07-07)
 - [Humanity's Last Exam](https://lastexam.ai/) — 専門知識の限界試験とホールドアウト設計(アクセス日: 2026-08-18)
@@ -143,4 +152,4 @@ flowchart TD
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** カテゴリ別の代表ベンチマークの顔ぶれ・飽和状況・リーダーボードの運用状態を、四半期ごとに各公式ページで再確認する(`research/professional/benchmarks.md` を更新起点にする)。直近の注目: Terminal-Bench 3.0(2026-07 公開)のスコア推移と 2.1 との並存状況、SWE-bench Pro トップ帯の推移、HAL の新モデル追加再開の有無、GAIA2 の一次数値の取得、OSWorld 2.0 のスコア推移。なお WebArena・AndroidWorld・BFCL・安全性系の行は 2026-07 確認のまま(次回の観測で一巡させる)(最終確認: 2026-08)
+> **TODO(要確認):** カテゴリ別の代表ベンチマークの顔ぶれ・飽和状況・リーダーボードの運用状態を、四半期ごとに各公式ページで再確認する(`research/professional/benchmarks.md` を更新起点にする)。直近の注目: Terminal-Bench 4.0 の版・ハーネス・費用・スコア推移、SWE-bench Pro トップ帯の推移、HAL の新モデル追加再開の有無、GAIA2 の一次数値の取得、OSWorld 2.0 のスコア推移。なお AndroidWorld・BFCL・安全性系の詳細は 2026-07 確認のまま(次回の観測で一巡させる)(最終確認: 2026-09)

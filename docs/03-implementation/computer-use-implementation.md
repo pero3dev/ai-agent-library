@@ -94,6 +94,12 @@ GUI 自動化の失敗の多くは「まだ描画されていない画面に対�
 - **公開ベンチマークは参考程度に**: Web 操作系の公開ベンチマークは能力の目安になりますが、順位は自タスクの成否と直結しません。自前シナリオでの測定を正とします
 - **UI 変更の検知**: 定期実行する自動化では、対象 UI の変更で静かに壊れます。成功率の低下を監視し、変更を早期に検知する運用を組みます
 
+### toolset 更新時の操作境界
+
+2026-08-19 に Claude API の computer use / browser use が GA となり、computer_toolset_20260801 / browser_toolset_20260801 が提供されています。computer 側は複数操作のまとめ実行、既定の zoom、configs による個別設定を持ち、browser 側はページ要素参照を利用します。旧 beta からはリクエスト形状と返却ツールの処理を移行します。旧 beta が即時廃止されたわけではありません。
+
+まとめ実行でも、権限と必要な承認は副作用の前に確認します。途中の画面遷移によって次の対象が変わる場合や、送信・削除を含む場合は操作列を分けて再観測します。ファイル upload は opt-in の設定と送信先を確認し、GA を理由に外部アップロードを自動許可しません。Files / Skills の GA と、従来 beta header 使用時の互換レスポンスも別に確認します。
+
 ## 実務での注意点
 
 ### アンチパターン
@@ -131,9 +137,12 @@ GUI 自動化の失敗の多くは「まだ描画されていない画面に対�
 
 ## 参考資料
 
+- [提供仕様・終了日程: platform.claude.com](https://platform.claude.com/docs/en/release-notes/overview)(アクセス日: 2026-09-10)
+- [提供仕様・終了日程: platform.claude.com](https://platform.claude.com/docs/en/agents-and-tools/tool-use/computer-use-tool)(アクセス日: 2026-09-10)
+
 - [OWASP: LLM Prompt Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html) — 高リスク操作の人間承認・最小権限・ツール結果を含む非信頼入力の扱い(アクセス日: 2026-09-10)
 - [Developing a computer use model(Anthropic)](https://www.anthropic.com/news/developing-computer-use) — コンピュータ操作型モデルの動作原理と制約(アクセス日: 2026-07-07)
 
 ## TODO・未確認事項
 
-> **TODO(要確認):** 主要ベンダーのコンピュータ操作・ブラウザ操作機能(computer use / ブラウザ操作ツール)の最新仕様・提供する操作プリミティブ・推奨サンドボックス構成を各社公式ドキュメントで確認する(最終確認: 2026-07)
+> **TODO(要確認):** 主要ベンダーのコンピュータ操作・ブラウザ操作機能(computer use / ブラウザ操作ツール)の最新仕様・提供する操作プリミティブ・推奨サンドボックス構成を各社公式ドキュメントで確認する(最終確認: 2026-09)

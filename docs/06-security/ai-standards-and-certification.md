@@ -3,7 +3,7 @@ title: "AI 規格・認証の実務(ISO/IEC 42001 ほか)"
 category: "security"
 level: "intermediate"
 status: "published"
-last_updated: "2026-07-10"
+last_updated: "2026-09-10"
 tags: ["compliance", "governance", "standards"]
 ---
 
@@ -29,7 +29,7 @@ AI マネジメントシステム規格(ISO/IEC 42001 ほか)への適合・認�
 
 ## 本文
 
-> **最終確認日:** 2026-07-10 — 本記事が挙げる規格の版・制度はこの日付時点のものです。各一次情報 URL・確認状況は、リポジトリ内 `research/ecosystem/standards.md` を参照してください。規格本文は有償のことが多く、本記事は所在と枠組みまでを示します。
+> **最終確認日:** 2026-09-10 — EN 18286、ISO/IEC 42005・42006、国内認定、AISI 評価ガイド、NIST 公開文書化ガイダンス案を再確認しました。他の規格の確認日は各参考資料・調査メモを参照してください。各一次情報 URL・確認状況は、リポジトリ内 `research/ecosystem/standards.md` を参照してください。規格本文は有償のことが多く、本記事は所在と枠組みまでを示します。
 
 ### 規格の地図: 「認証できるもの」と「指針」を分ける
 
@@ -54,6 +54,20 @@ flowchart TD
 
 **「規格 = 認証」ではありません。** 認証できるのは要求事項型の ISO/IEC 42001 であり、指針(23894・42005)や任意フレームワーク(NIST AI RMF)は「認証」する対象ではありません。この違いを最初に押さえます。
 
+### 発行済み規格と評価ガイド・草案を見分ける
+
+2026-09-10 時点では、次の資料を同じ「認証済み」の箱に入れないことが重要です。
+
+| 資料 | 状態・使い方 |
+| --- | --- |
+| ISO/IEC 42005:2025 / 42006:2025 | ISO 公式ではそれぞれ 2025-05 / 2025-07 発行。影響評価の指針と認証機関への要求という役割の違いを維持 |
+| EN 18286:2026 | 2026-07 発行。AI Act Article 17 の品質マネジメントシステムを支援する規格。**規格発行・欧州委員会の評価・EU 官報(OJ)への引用**は別段階で、発行の事実だけで適合推定効が生じると判断しない |
+| AISI「AI セーフティに関する評価観点ガイド」第 1.20 版 | 2026-07-07 公表。Agent 向けに「観測と制御」、自律的な挙動、外部環境との相互作用の評価項目を追加。認証規格ではなく、自社の評価計画を点検するガイド |
+| AISI「AI ロボティクスに関するセーフティ評価観点ガイド」 | 2026-07-23 公表。物理環境へ作用する AI の評価入口。[フィジカル AI](../01-concepts/physical-ai-overview.md)の設計・評価とも接続 |
+| NIST の公開 AI 文書化ガイダンス・テンプレート(Zero Draft) | 2026-07-29 公開の初期草案。正式名称は Guidance and Templates for Public-Facing AI Documentation: An AI Standards Zero Draft。次版への意見提出期限は **2026-09-16**。確定済みの認証規格として扱わない |
+
+EN 18286 の適用を検討する場合は、自社が満たす必要のある AI Act の要求と、OJ に引用された版・対象条項を対応付けます。JTC 21 の 2026-07-09 公表では、prEN 18228・18282・18229-1 は Enquiry 段階で、意見募集期限はそれぞれ 7/30・7/30・8/20 でした。これらの期限経過だけで関連規格全体が最終化したとも推測しません。有償本文の要求条項は入手して別途確認します。
+
 ### ISO/IEC 42001 とは(所在レベル)
 
 ISO/IEC 42001(2023 年発行、世界初とされる AI マネジメントシステム規格)は、**個々の AI アプリの技術詳細ではなく、組織が AI のリスクと機会を PDCA で統制する「仕組み」**を要求します。対象は AI を開発・提供・利用する組織全般です。
@@ -70,6 +84,8 @@ ISO/IEC 42001(2023 年発行、世界初とされる AI マネジメントシス
 - **意味(なぜ取るか)**: 認証は**取引要件への対応・信頼の外部化**です。「AI を統制する仕組みを組織が備え、独立した第三者が確認した」ことを、取引先・規制当局・利用者に示せます。RFP でマネジメント規格の認証を求められる場面が増えています([AI 調達・ベンダー選定の実務](../09-business/ai-procurement.md)は買う側の視点)
 - **限界(認証 ≠ 安全)**: 認証は**マネジメントシステムの適合**であって、**個々の AI 出力の正確性・無害性を保証しません**。「認証を取ったから安全・正しい」ではなく、「AI を統制する仕組みがあることを確認した」に過ぎません。安全そのものの評価は別系統(評価・レッドチーミング・[フロンティアセーフティ](frontier-safety-overview.md))です
 - **認定の出所で通用範囲が変わる**: 認証は「認定機関 → 認証機関 → 認証取得組織」の二層構造で成り立ちます。日本では ISMS-AC(認定機関)が認証機関を認定する国内制度が 2025〜2026 年に立ち上がりました。どの認定機関の認定を受けた認証かで通用範囲が変わりうる、という観点を持ちます(個別案件の判断は認証機関に確認)
+
+「国内初」の公表は、主体と行為を分けて読みます。SGS の 2025-04 公表は **SGS グループとして日本初の認証発行**、JIPDEC / ISMS-AC の 2026-01-14 公表は **国内の認証機関 2 社への初の認定**です。2026-07-07 更新の認証機関名簿には SGS ジャパンとテュフ ラインランド ジャパンが掲載されています。「認証」と「認定」の日付が異なることは矛盾ではなく、取得予定の認証がどの認定に基づくかを確認する材料です。
 
 ### 適合の進め方
 
@@ -130,16 +146,27 @@ ISO/IEC 42001(2023 年発行、世界初とされる AI マネジメントシス
 
 - [ISO/IEC 42001(ISO 公式)](https://www.iso.org/standard/42001) — AI マネジメントシステム規格のページ(アクセス日: 2026-07-10)
 - [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework) — 任意のリスクマネジメントフレームワーク(認証規格ではない)(アクセス日: 2026-07-10)
-- [Understanding standardisation in the AI Act(European Commission)](https://digital-strategy.ec.europa.eu/en/policies/ai-act-standardisation) — EU AI Act の整合規格(CEN-CENELEC JTC 21)の所在(アクセス日: 2026-07-10)
+- [Understanding standardisation in the AI Act(European Commission)](https://digital-strategy.ec.europa.eu/en/policies/ai-act-standardisation) — 規格発行・欧州委員会評価・OJ 引用の段階と適合推定(アクセス日: 2026-09-10)
 - [JIS Q 42001:2025 発行のお知らせ(ISMS-AC)](https://isms.jp/topics/news/20250820-1.html) — ISO/IEC 42001 の JIS 化(一致規格)(アクセス日: 2026-07-10)
 - [AIMS 適合性評価制度(ISMS-AC)](https://isms.jp/aims.html) — 国内の AI マネジメントシステム認定制度(認定機関 → 認証機関)(アクセス日: 2026-07-10)
 
 その他の規格(ISO/IEC 22989・23894・42005・42006)・認証機関の代表例・AISI/IPA の評価観点ガイドの所在は `research/ecosystem/standards.md` に整理しています。
 
+- [ISO/IEC 42005(ISO 公式)](https://www.iso.org/standard/42005) — 2025-05 発行・影響評価の指針(アクセス日: 2026-09-10)
+- [ISO/IEC 42006(ISO 公式)](https://www.iso.org/standard/42006) — 2025-07 発行・認証機関への要求(アクセス日: 2026-09-10)
+- [JTC 21 の標準化進捗(2026-07-09)](https://jtc21.eu/significant-milestone-for-european-ai-standardization/) — 関連草案の Enquiry と期限(アクセス日: 2026-09-10)
+- [EN 18286:2026 の発行(CEN-CENELEC)](https://www.cencenelec.eu/news-events/news/2026/en-in-the-spotlight/2026-07-30-ai-quality-management/) — AI Act Article 17 を支援する品質管理規格(アクセス日: 2026-09-10)
+- [AI セーフティ評価観点ガイド第 1.20 版(AISI)](https://aisi.go.jp/output/output_information/260707/) — Agent の観測と制御を含む改訂(アクセス日: 2026-09-10)
+- [AI ロボティクスの評価観点ガイド(IPA)](https://www.ipa.go.jp/pressrelease/2026/press20260723.html) — 物理環境への作用を含む評価(アクセス日: 2026-09-10)
+- [AI Standards(NIST)](https://www.nist.gov/artificial-intelligence/ai-standards) — 公開 AI 文書化 Zero Draft と意見募集期限(アクセス日: 2026-09-10)
+- [SGS グループとして日本初の認証発行](https://www.sgs.com/ja-jp/news/2025/04/sgs-issues-its-first-ever-iso-iec-42001-certification-in-japan) — 認証の公表(アクセス日: 2026-09-10)
+- [国内認証機関に対する初の AIMS 認定(JIPDEC)](https://www.jipdec.or.jp/news/pressrelease/20260114.html) — 2026-01-14 の認定公表(アクセス日: 2026-09-10)
+- [AIMS 認証機関一覧(ISMS-AC)](https://isms.jp/aims/lst/isr/index.html) — 2026-07-07 更新の名簿(アクセス日: 2026-09-10)
+
 ## TODO・未確認事項
 
-> **TODO(要確認):** ISO/IEC 42001 の改訂、関連規格(42005・42006 ほか)の追補、EU 整合規格(JTC 21)の個別番号・ステータス、日本の認定制度(ISMS-AC「AIMS 適合性評価制度」)の認証機関・取得組織の状況は動く。取得を検討する際は各公式(iso.org・nist.gov・digital-strategy.ec.europa.eu・isms.jp)で現行を確認する(所在は `research/ecosystem/standards.md`)(最終確認: 2026-07)
+> **TODO(要確認):** ISO/IEC 42001 の改訂、関連規格(42005・42006 ほか)の追補、EU 整合規格(JTC 21)の意見募集終了後の承認・発行ステータス、日本の認定制度(ISMS-AC「AIMS 適合性評価制度」)の認証機関・取得組織の状況は動く。取得を検討する際は各公式(iso.org・nist.gov・digital-strategy.ec.europa.eu・isms.jp)で現行を確認する(所在は `research/ecosystem/standards.md`)(最終確認: 2026-09)
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** ISO/IEC 42001 の版・SC 42 の新規格、NIST AI RMF の改訂、EU 整合規格の進捗、日本の JIS Q 42001 の版・ISMS-AC 認定制度の立ち上がり(初認証/初認定の時系列は公式で食い違いがあり、日付は断定しない)を四半期ごとに確認する(`research/ecosystem/standards.md` を更新起点にする)(最終確認: 2026-07)
+> **TODO(要確認):** ISO/IEC 42001 の版・SC 42 の新規格、NIST AI RMF の改訂、EU 整合規格の進捗、EN 18286 の OJ 引用と対象条項、NIST 文書化 Zero Draft の次版、AISI 評価ガイドの改訂、日本の JIS Q 42001 の版・ISMS-AC の認定範囲を四半期ごとに確認する(`research/ecosystem/standards.md` を更新起点にする)(最終確認: 2026-09)

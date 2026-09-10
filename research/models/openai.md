@@ -2,11 +2,34 @@
 
 - **対象**: OpenAI のモデルファミリー(2026-07 時点の現行世代)
 - **調査日**: 2026-07-06
-- **更新日**: 2026-09-10(レビュー S04 による部分確認。下記 9 月の記録を優先し、7 月・8 月の表は当時の履歴として保持)
+- **更新日**: 2026-09-10(以下の鮮度更新を優先。以前の表・観測ログは日付付きの履歴)
 - **用途**: 「主要 LLM の全体像(モデルカタログ)」「モデル選定ガイド」執筆の一次資料
 - **根拠の方針**: OpenAI 公式ドキュメント(developers.openai.com / openai.com)と Microsoft Learn(Azure 公式)のみを根拠とします。第三者記事・ベンチマークまとめサイトは使用していません
 - **確度表記**: 「公式明記」= 公式ページに明文あり / 「公式から推測」= 公式記述からの合理的推測 / 「未確認」= 今回確認できず
 - **重要な注意**: 旧 `platform.openai.com/docs/*` は `developers.openai.com/api/docs/*` へ 301 リダイレクトされます(2026-07-06 確認)。定点観測 URL は新ドメイン側を正とします
+
+## 2026-09-10 鮮度更新
+
+音声系は8/26告知のwhisper-1/gpt-4o-transcribe/gpt-4o-mini-transcribe/gpt-4o-transcribe-diarize終了(2027-02-26)を確認。代替候補はgpt-live-transcribe/gpt-transcribeです。音声メモへ同期済み。一次資料: https://developers.openai.com/api/docs/deprecations (アクセス日: 2026-09-10)。
+
+Astra は none/minimal と sampling parameters を受け付けず、tool calling は Responses API を使います。EU data residency で fast/priority は非対応。GPT-5.6 の設定とモデル別に管理します。
+
+GPT-5.6以降のキャッシュは `prompt_cache_options.ttl: "30m"`、`cache_write_tokens` と `cached_tokens` の別計上、書込1.25倍/読取0.1倍です。通常入力分は input_tokens から両区分を引いて計算します。旧世代のキャッシュ書込無料という見積りは流用しません。Astra は272K入力超で全リクエストの入力/キャッシュ2倍・出力1.5倍です。
+
+Astra standard・単一エージェントでは `configuration_update` でeffortを更新し、元のrequest-level effortを保持します。連続するupdate、automatic compaction/truncation、単独 `/responses/compact` との併用は不可です。変更項目の正確な名前は configuration_update であり、監査の要約中の config_update は略記です。任意のsystem本文編集でキャッシュが維持されるとは解釈しません。
+
+非同期ツールは async:true とcall_id、実行中steeringはWebSocket。永続化・キャンセル・外部操作の結果照会はアプリの責務です。
+
+一次資料(すべてアクセス日: 2026-09-10):
+
+- https://developers.openai.com/api/docs/guides/latest-model
+- https://developers.openai.com/api/docs/models/gpt-6-astra
+- https://developers.openai.com/api/docs/guides/async-tool-calling
+- https://developers.openai.com/api/docs/guides/steering
+- https://developers.openai.com/api/docs/guides/prompt-caching
+- https://platform.claude.com/docs/en/release-notes/overview
+
+以下の以前の調査本文・観測ログは当時の履歴です。現行判断には上の訂正と各公式資料を優先します。
 
 ## 2026-09-10 レビュー修正時の部分確認
 

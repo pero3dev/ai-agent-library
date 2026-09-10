@@ -5,6 +5,41 @@
 - **調査方法**: [CODING-AGENTS-PLAN.md](../../CODING-AGENTS-PLAN.md) §7 のチェックリスト 12 項目。公式ドキュメント(docs.github.com)・GitHub 公式ブログ / Changelog・公式料金ページのみを根拠とし、第三者記事は根拠にしていない
 - **確度の凡例**: 公式明記 / 公式から推測 / 第三者(本メモでは「第三者」を根拠とした事実は記載しない)
 
+## EXTRA-CODING-01: Copilot の enterprise managed permissions GA
+
+2026-09-09 に Business / Enterprise の app、CLI、Agent Host を使う VS Code で GA。shell / file / domain を制御し、利用者・workspace・自動承認・既承認による制限緩和を禁止。JetBrains sandbox preview とは別。
+
+出典(アクセス日: 2026-09-10): [一次資料 1](https://github.blog/changelog/2026-09-09-enterprise-managed-permissions-for-github-copilot-agent-operations/)
+
+## 2026-09-10 鮮度更新の反映
+
+対象記事の本文・比較・TODO に次の確認結果を反映しました。一次資料の文書確認であり、実サービスでの設定・実行の受入試験は行っていません。以下の旧日付の記録は調査履歴です。現行判断には本節と対応する docs を使います。
+
+### T08: Copilot appとCLIのcontent exclusion GAをIDEと分けて記載
+
+2026-09-02 に Business / Enterprise の Copilot app と CLI で content exclusion が GA になりました。IDE Edit / Agent は未対応、cloud agent は適用未確認のままです。app と cloud agent を同一視する整理を避け、本文・TODO を同期しました。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://github.blog/changelog/2026-09-02-content-exclusions-generally-available-in-copilot-app-and-cli/) / [一次資料 2](https://docs.github.com/en/copilot/concepts/context/content-exclusion)
+
+### T09: Copilot code reviewのPR承認public previewを追加
+
+2026-09-01 の PR approval は public preview です。assessment だけでは required approvals に算入されず、管理者が既定 off の承認機能を有効にすると実際の承認を算入できます。対象パスを制御でき、新 commit で失効します。人の承認を必須とする運用方針は別に定めるよう本体・実践へ反映しました。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://github.blog/changelog/2026-09-01-copilot-code-review-can-now-approve-pull-requests/)
+
+### T10: Copilot選択モデルの2026年10月2日廃止予定を追加
+
+2026-09-03 告知の Copilot モデル廃止予定は 2026-10-02 です。Gemini 3.5 / 3.6 Flash → 3.8 Flash、Kimi K2.7 Code → Kimi K3、Claude Opus 4.7 → Opus 5 を本文・監視 TODO へ追加しました。プロバイダー API 全体の退役ではありません。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://github.blog/changelog/2026-09-03-upcoming-deprecation-of-selected-github-copilot-models/)
+
+### T22: Copilot for JetBrainsの企業管理sandbox previewを追加
+
+2026-09-08 の JetBrains enterprise-managed sandbox は public preview です。管理者ポリシーの強制を追加し、他 IDE の GA と一般化していません。組織内の実地適用は未検証です。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://github.blog/changelog/2026-09-08-enterprise-managed-sandbox-in-copilot-for-jetbrains/)
+
+
 ## 2026-08-18 定点観測での更新
 
 | 確認した事実 | 出典 URL | 確認日 | 確度 |

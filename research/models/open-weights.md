@@ -2,10 +2,34 @@
 
 - **対象**: オープンウェイト LLM の主要ファミリー(Meta Llama / Alibaba Qwen / DeepSeek / Mistral / OpenAI gpt-oss)+ 一言で触れるその他の勢力(2026-07 時点)
 - **調査日**: 2026-07-06
-- **更新日**: 2026-08-18(四半期定点観測。文末の「観測ログ(2026-08-18 定点観測)」に Qwen3.8 の重み公開ほかを追記。本文の表・各節は 2026-07-06 時点のまま)
+- **更新日**: 2026-09-10(以下の鮮度更新を優先。以前の表・観測ログは日付付きの履歴)
 - **用途**: 「主要 LLM の全体像」のうちオープンウェイト系俯瞰の 1 節の一次資料。深掘りではなく「選択肢の地図」を提供する
 - **根拠の方針**: 各ファミリーの公式サイト・公式 GitHub・公式 Hugging Face org・公式モデルカードのみを根拠とします。ベンチマークまとめサイト・第三者記事は根拠にしていません
 - **確度表記**: 「公式明記」= 公式ページ・公式モデルカードに明文あり / 「公式から推測」= 公式情報からの合理的推測(または一次ページに直接アクセスできず間接確認)/ 「未確認」= 今回確認できず
+
+## 2026-09-10 鮮度更新
+
+Qwen3.8-2.4T-A95B-FP8の正本は独自Qwen3.8-Max Licenseです。本人/関連会社がMaaSまたはAI Work Assistant事業を営み、合算収益が連続12か月で5,000万米ドル超なら商用利用前に別許諾。対象製品が月間利用者1億超または月商2,000万米ドル超ならモデル名表示。第三者へモデル/出力/能力を提供しない内部利用は別許諾要件の例外です。Qwen全系列や全条項への一般化は不可です。
+
+Mistral Medium 3.5-128Bは重み公開済み、128B dense/256K context、Modified MITです。会社または雇用主の前月全世界連結月商が2,000万米ドル超の場合、この許諾の権利を行使できません。別商用契約または公式ホストの条件を検討します。旧記録の「Medium 3.5はAPI専用」は訂正します。Large 3等のApache条件と区別します。
+
+Kimi K3も公式重みと独自LICENSEを確認しました。MaaS事業を行う本人/関連会社の合算収益が連続12か月で2,000万米ドル超なら別契約。製品の月間利用者1億超または月商2,000万米ドル超ならUI表示。内部利用・公式製品・認定推論パートナー経由は該当要件の例外です。QwenのAI Work Assistant/5,000万ドル条件と混同しません。
+
+DeepSeek V4 Proは8月13日GA、Pro/Flashのlow/high/max、Responses APIネイティブ対応、モデルID据置。8月16日16:00 UTCからpeak/off-peak料金(off-peakは50%低い)です。Gemma 4はApache-2.0であり、旧Gemma Termsとは分かれます。旧記録の一律「独自Gemma規約」を訂正します。
+
+一次資料(すべてアクセス日: 2026-09-10):
+
+- https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B-FP8/blob/main/LICENSE
+- https://huggingface.co/mistralai/Mistral-Medium-3.5-128B
+- https://huggingface.co/mistralai/Mistral-Medium-3.5-128B/blob/main/LICENSE
+- https://docs.mistral.ai/resources/changelogs
+- https://huggingface.co/moonshotai/Kimi-K3
+- https://huggingface.co/moonshotai/Kimi-K3/blob/main/LICENSE
+- https://api-docs.deepseek.com/news/news260813/
+- https://ai.google.dev/gemma/terms
+- https://ai.google.dev/gemma/apache_2
+
+以下の以前の調査本文・観測ログは当時の履歴です。現行判断には上の訂正と各公式資料を優先します。
 
 ## 俯瞰サマリー(執筆用の地図)
 
@@ -247,14 +271,14 @@ docs は本観測の結果を反映済み(llm-landscape、`last_updated: 2026-08
 
 > **TODO(要確認):** Qwen3.8 系のライセンス(Apache-2.0 継続か)とコンテキスト長を HF モデルカード・公式リポジトリで確認する(最終確認: 2026-08)
 
-> **TODO(要確認):** Moonshot Kimi K3 の重み公開有無を https://huggingface.co/moonshotai で一次確認する(2026-08-18 時点では二次情報のみ)。あわせて未調査の Mistral / gpt-oss の新世代有無も次回確認する(最終確認: 2026-08)
+> **TODO(要確認):** 未調査のgpt-oss後続モデルとQwen3.8各配布物のコンテキスト長を公式モデル一覧・カードで確認する。Kimi K3重みと対象ライセンスは上の9月訂正で確認済み(最終確認: 2026-09)
 
 ## 未確認事項(執筆時の TODO 候補)
 
 - Mistral 3 各モデルの正確なコンテキスト長(docs のモデル別ページで確認する)
 - Qwen3.7 の重み公開有無の公式言明(qwen.ai ブログが JS 描画のため一次確認できず。「API のみ」は HF org に不在という観測からの推測)
 - Llama 4 の Bedrock / Vertex / Azure での提供形態の一次確認(各クラウドの公式モデルカタログで確認する)
-- Gemma 利用規約の商用条件の詳細(ai.google.dev の利用規約ページ)
+- 旧Gemma世代の独自条件の詳細。Gemma 4のApache-2.0は9月に確認済み
 - Moonshot Kimi K2 系・Z.ai GLM-5 系の正確なライセンス(各モデルカードで確認する)
 - Codestral の現行提供区分(オープン / Premier)
 - gpt-oss のマネージド提供先(Azure / Bedrock 等での提供の公式言及。openai.com が bot 403 のため未確認)

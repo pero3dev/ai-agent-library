@@ -2,7 +2,7 @@
 
 - **対象**: Google の Gemini モデルファミリー(2026-07 時点の現行世代)
 - **調査日**: 2026-07-06
-- **更新日**: 2026-08-18(四半期定点観測。文末の「観測ログ(2026-08-18 定点観測)」に 3.6 / 3.7 Flash 登場・2.5 系終了告知の撤回・取得揺れを追記。本文の表は 2026-07-06 時点のまま)
+- **更新日**: 2026-09-10(以下の鮮度更新を優先。以前の表・観測ログは日付付きの履歴)
 - **用途**: 「主要 LLM の全体像(モデルカタログ)」「モデル選定ガイド」執筆の一次資料
 - **根拠の方針**: Google 公式ドキュメント(ai.google.dev / cloud.google.com / docs.cloud.google.com)のみを根拠とします。第三者記事・ベンチマークまとめサイトは使用していません
 - **確度表記**: 「公式明記」= 公式ページに明文あり / 「公式から推測」= 公式記述からの合理的推測 / 「未確認」= 今回確認できず
@@ -16,6 +16,20 @@
 - レート制限・ティア: https://ai.google.dev/gemini-api/docs/rate-limits
 - Vertex AI モデル一覧: https://docs.cloud.google.com/vertex-ai/generative-ai/docs/models
 - Vertex AI 料金: https://cloud.google.com/vertex-ai/generative-ai/pricing
+
+## 2026-09-10 鮮度更新
+
+Gemini 3.8 Flash は 2026-09-02 GA。`gemini-3.8-flash` は入力1,048,576 / 出力65,536トークン、text/image/video/audio/PDF入力とtext出力です。thinking は low/medium/high、既定medium、minimal非対応。3.7 Flashの導入価格(2026-12-31まで)は別モデルの条件です。
+
+3.8 Flashの仕様確定を、未取得の旧モデル全仕様やLive API対応の確認に拡張しません。3.8 Flash自体のモデル表はLive API非対応です。
+
+一次資料(すべてアクセス日: 2026-09-10):
+
+- https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash
+- https://ai.google.dev/gemini-api/docs/latest-model
+- https://ai.google.dev/gemini-api/docs/changelog
+
+以下の以前の調査本文・観測ログは当時の履歴です。現行判断には上の訂正と各公式資料を優先します。
 
 ## 1. 現行モデルファミリーの構成
 

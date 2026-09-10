@@ -1,3 +1,18 @@
+## 2026-09-10 鮮度更新
+
+Gemma 4 は Apache-2.0、旧世代は対象を限定した Gemma Terms です。公式 Terms の冒頭が Gemma 4 の別ライセンスへ案内しています。2026-04-01 は Terms の版の日付で、Gemma 4 の適用開始日とは推測しません。重みの許諾と OSAID の要件を満たすかどうかも別の判断です。Qwen3.8・Kimi K3・Mistral Medium 3.5 の独自条件は [モデルカタログ](../../docs/03-implementation/llm-landscape.md) の配布物別の表を参照してください。
+
+Microsoft Agent Framework 1.0 は 2026-04-03 に .NET / Python の production-ready 版として発表され、安定 API と長期サポート方針を示しています。AutoGen の maintenance 方針と後継フレームワークの提供段階を別に記録します。既存コードを単に改名せず、状態・ツール・監査・再開の契約を代表タスクで比較し、採用機能の安定性を確認します。
+
+一次資料(アクセス日: 2026-09-10):
+
+- https://ai.google.dev/gemma/terms
+- https://ai.google.dev/gemma/apache_2
+- https://devblogs.microsoft.com/agent-framework/microsoft-agent-framework-version-1-0/
+- https://github.com/microsoft/autogen
+
+以下は以前の調査履歴です。現行の製品・仕様・許諾は上の訂正を優先します。
+
 ## 調査メモ: AI 業界レイヤー + OSS エコシステムの現在地(EC-R1)
 
 本メモは「AI 業界レイヤーマップ」「オープンソース AI エコシステム」2 本(いずれも鮮度管理型)の裏取り用です。方針は次の 3 点を厳守しています。

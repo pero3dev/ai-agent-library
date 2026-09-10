@@ -11,6 +11,7 @@ docs/03-implementation/tool-definition-design.md の内容を
 実行方法は同じディレクトリの README.md を参照してください。
 """
 
+import argparse
 import json
 import re
 import sys
@@ -157,14 +158,52 @@ def run_agent(task: str, *, client=None) -> str:
     raise RuntimeError(f"最大ステップ数({MAX_STEPS})に達しました。途中経過: {len(history)} メッセージ")
 
 
+DEFAULT_QUESTION = "社員 E12345 の 2026 年 5 月と 6 月の経費精算の状況を教えてください。"
+
+
+def run_mock() -> str:
+    """固定した質問を HTTP モックで通す。外部通信と API キーは不要。"""
+    import httpx2
+
+    def handler(request):
+        body = json.loads(request.content)
+        if len(body["messages"]) == 1:
+            reason = "tool_use"
+            content = [
+                {"type": "tool_use", "id": f"month-{month}", "name": "search_expenses",
+                 "input": {"employee_id": "E12345", "month": month}}
+                for month in ("2026-05", "2026-06")
+            ]
+        else:
+            # 固定の最終回答で検索の実行を隠さず、実際のツール結果から集計する。
+            totals = []
+            for result in body["messages"][-1]["content"]:
+                if result["is_error"]:
+                    raise RuntimeError(result["content"])
+                records = json.loads(result["content"])["records"]
+                totals.append(f'{result["tool_use_id"][6:]}: {sum(r["amount"] for r in records)} 円')
+            reason = "end_turn"
+            content = [{"type": "text", "text": "、".join(totals) + "(モック応答)"}]
+        return httpx2.Response(200, json={
+            "id": "msg-mock", "type": "message", "role": "assistant", "model": MODEL,
+            "content": content, "stop_reason": reason, "stop_sequence": None,
+            "usage": {"input_tokens": 0, "output_tokens": 0},
+        })
+
+    with anthropic.Anthropic(
+        api_key="mock-key-not-a-secret", max_retries=0,
+        http_client=httpx2.Client(transport=httpx2.MockTransport(handler)),
+    ) as client:
+        return run_agent(DEFAULT_QUESTION, client=client)
+
+
 if __name__ == "__main__":
-    question = (
-        sys.argv[1]
-        if len(sys.argv) > 1
-        else "社員 E12345 の 2026 年 5 月と 6 月の経費精算の状況を教えてください。"
-    )
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("question", nargs="?", default=DEFAULT_QUESTION)
+    parser.add_argument("--mock", action="store_true", help="固定の質問と HTTP モックで実行(API キー不要)")
+    args = parser.parse_args()
     try:
-        print(run_agent(question))
+        print(run_mock() if args.mock else run_agent(args.question))
     except AgentStopped as error:
         print(str(error), file=sys.stderr)
         if error.partial_text:

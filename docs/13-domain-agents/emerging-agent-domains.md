@@ -42,7 +42,11 @@ tags: ["emerging", "agent-economy", "generative-agents", "science"]
 
 [Boiko ほかの 2023 年の研究](https://arxiv.org/abs/2304.05332)は、文献や文書の検索、コード実行、実験装置への接続を組み合わせ、化学実験の設計・計画・実行を扱った研究プロトタイプを報告しています。これは、複数のツールを使う科学研究支援の具体例です。
 
-この報告から、科学の全分野で人の介入なく新発見できるとは推論できません。採用を検討する際は、少なくとも次を原論文・付属資料と自社の検証で確かめます。
+2026 年の更新では、**査読出版と自律の範囲を別々に読みます**。Robin の論文は 2026-05-19 に Nature で公開されました。仮説生成・解析は Agent が担い、人が実験を行って結果を返す半自律の構成です。ripasudil / KL001 の試験管内(in vitro)検証を、臨床効果や完全無人化の証明とは扱いません。AI co-scientist も Nature で 2026-05-19 公開、7 月の刊行版に収録されています。研究者をループ内に置いた検証であり、出版社の書誌確認だけで個別の性能数値を独立検証したことにはなりません。
+
+**訂正文も評価の一部です**。A-Lab の 2026-01-19 の Author Correction は、「新規性」を予測プラットフォームにとっての新規性と明確化し、科学的な新発見と区別しました。初報の 41 件から学習データ混入の 1 件を除外し、残る 40 件のうち 36 件を再確認、4 件は X 線回折(XRD)による同定が不確定として成功数から除いています。「41 の新発見」も「全件失敗・撤回」も訂正の内容を表しません。
+
+これらの報告から、科学の全分野で人の介入なく新発見できるとは推論できません。採用を検討する際は、少なくとも次を原論文・付属資料と自社の検証で確かめます。
 
 - 対象の実験・装置・試薬と、利用できるツールがどこまで限定されているか
 - 人が環境を準備し、計画や安全性を審査し、結果を判断する段階はどこか
@@ -61,11 +65,15 @@ tags: ["emerging", "agent-economy", "generative-agents", "science"]
 - **社会シミュレーションで使う場合**: 初期条件やモデルの変更で結果がどう変わるかを調べ、現実の観測との一致を確かめます
 - **合成ユーザーで使う場合**: テストケースの探索には使えても、人を対象にした調査でしか得られない結果を置き換えたとみなしません。[ユーザーシミュレータの設計](../04-evaluation/user-simulator-design.md)の妥当性の確認につなげます
 
-本記事の資料からは、ゲーム全体での出荷状況や社会シミュレーションの普及率までは判断しません。
+具体例として、1,052 人を扱う研究の 2026-06-28 の v3 は「LLM Agents Grounded in Self-Reports Enable General-Purpose Simulation of Individuals」です。General Social Survey に対する本人の 2 週間後の再回答一致度を基準にした比率は、面接のみ 83%、質問のみ 82%、併用 86%、人口統計のみ 74% でした。初期版の 85% と版を混ぜず、一般的な人間行動の予測正答率とも表現しません。
+
+ゲームでは、PUBG Ally は 2026-06-17〜30 の 2 週間の public beta が公式に確認できます。即応する行動木(behavior tree)と、ローカルの小型言語モデル(SLM)による認知・対話を組み合わせた構成です。表情アニメーションだけの例でも、2025 年に恒常提供を開始した例でもありません。期間限定ベータと、2026-09-10 の継続提供・普及率は区別します。
 
 ### エージェント経済: 決済仕様と実取引を区別する
 
 [Agent Payments Protocol (AP2) の仕様](https://ap2-protocol.org/ap2/specification/)は、利用者の意図・承認を決済時に検証するための委任情報と、関係者の役割を扱います。確認した仕様では、委任情報の検証を決定的なコードで行うことを求めています。LLM が「許可されている」と述べるだけで決済を認める設計にはしません。
+
+2026-04-28 に FIDO Alliance への寄贈と v0.2 が発表されました。現行の委任情報は購入内容を拘束する Checkout Mandate と、支払いを認可する Payment Mandate です。Human Present では利用者が具体的な購入・支払いを承認し、Human Not Present では事前承認した open Mandate の制約内で Agent が closed Mandate を作ります。検証側はどちらでも具体的な購入・支払いと署名・制約を照合します。初期版の Intent / Cart Mandate を現行のデータ構造として実装しません。
 
 仕様が公開されたことは、取引の取り決めが文書化された証拠です。それだけでは、対応する商店・決済事業者が自社の地域で利用できることや、十分な取引量・安全な継続運用を証明しません。
 
@@ -73,6 +81,10 @@ tags: ["emerging", "agent-economy", "generative-agents", "science"]
 - **利用条件**: 対応する商店・決済手段・地域、限度額、取消・返金・異議申立ての手順を提供者の一次情報で確認します
 - **運用実績**: 実取引の件数や事故率を論じる場合は、測定期間・分母・計数方法・発表主体を確認します。仕様やデモを数値の代わりに使いません
 - **人の委任範囲**: 購入対象、宛先、金額、期限を拘束し、承認対象の変更や重複決済を防ぐ検査を実行境界に置きます
+
+実取引の証拠にも範囲があります。Worldline / ING / Mastercard の 2026-06-02 の発表は、オランダの実カード会員・加盟店で production の決済を完了した **pilot** で、最終的な人の明示承認を含みます。Visa Connect の 2026-04-08 発表も特定パートナーの pilot です。実際の決済があることと、全地域 GA・継続的な大量利用を分けます。
+
+販売側の導線も変わります。OpenAI の 2026-03-24 の発表は、ChatGPT での商品発見に重点を移し、加盟店独自の checkout 体験と ACP feeds を支援する方針を示しました。2025 年の米国 Etsy 単品 Instant Checkout だけを現行の全体像にせず、かといって ChatGPT 内の購入がすべて廃止されたとも読みません。
 
 通信やツール接続の標準は[ツール接続標準](../03-implementation/mcp-and-tool-protocols.md)を参照してください。通信できることと、売買の権限・契約・決済が成立することは別々の確認対象です。
 
@@ -110,6 +122,15 @@ tags: ["emerging", "agent-economy", "generative-agents", "science"]
 - [Park ほか, Generative Agents (2023)](https://arxiv.org/abs/2304.03442) — 記憶・内省・計画を持つ仮想環境内のエージェントの研究(アクセス日: 2026-09-10)
 - [AP2, Agent Payments Protocol specification](https://ap2-protocol.org/ap2/specification/) — 委任・検証責務を定める決済プロトコル仕様。市場規模や普及率の根拠にはしません(アクセス日: 2026-09-10)
 
+- [Robin, Nature](https://www.nature.com/articles/s41586-026-10652-y) — Nature 655, 497–505。人が実験する半自律の研究(アクセス日: 2026-09-10)
+- [AI co-scientist, Nature](https://www.nature.com/articles/s41586-026-10644-y) — Nature 655, 487–496。出版書誌の確認と全結果の検証は別(アクセス日: 2026-09-10)
+- [A-Lab Author Correction](https://www.nature.com/articles/s41586-025-09992-y) / [著者機関の全文](https://repositories.cdlib.org/uc/item/4kb4s6pg) — 新規性・同定結果の訂正(アクセス日: 2026-09-10)
+- [1,052 人のシミュレーション研究 v3](https://arxiv.org/abs/2411.10109v3) — 版と本人再回答比率の評価(アクセス日: 2026-09-10)
+- [PUBG Ally ベータ告知](https://www.nvidia.com/en-us/geforce/news/pubg-ally-ai-teammate-beta-available-now/) / [技術構成](https://developer.nvidia.com/blog/how-krafton-built-pubg-ally-a-co-playable-character-powered-by-nvidia-ace/) — 期間限定提供と行動木・SLM(アクセス日: 2026-09-10)
+- [AP2 の FIDO 寄贈](https://blog.google/products-and-platforms/platforms/google-pay/agent-payments-protocol-fido-alliance/) — 2026-04-28 の v0.2 公開(アクセス日: 2026-09-10)
+- [Worldline / ING / Mastercard の実決済 pilot](https://www.mastercard.com/news/europe/en/newsroom/press-releases/en/2026/worldline-ing-and-mastercard-complete-a-live-end-to-end-european-agentic-payment-in-production/) / [Visa Connect 発表](https://investor.visa.com/news/news-details/2026/Visa-Opens-the-Door-to-AI-Driven-Shopping-for-Businesses-Worldwide/) — 取引実績と提供範囲の区別(アクセス日: 2026-09-10)
+- [OpenAI — Powering Product Discovery in ChatGPT](https://openai.com/index/powering-product-discovery-in-chatgpt/) — 商品発見・加盟店 checkout・ACP feeds の方針(アクセス日: 2026-09-10)
+
 ## TODO・未確認事項
 
-なし。個別製品の普及率・取引量・全領域の成熟度比較は、本記事の確認範囲に含めていません。
+> **TODO(要確認):** Robin / AI co-scientist の独立追試、1,052 人研究 v3 の査読誌掲載、PUBG Ally のベータ後の恒常提供、Agent 決済 pilot の GA・継続取引量を原論文の後続資料と各社公式発表で確認する。書誌・仕様・限定実証を確認したことから、その後の運用実績は推定しない(最終確認: 2026-09)

@@ -3,7 +3,7 @@ title: "ストリーミングと Agent の UX 実装パターン"
 category: "implementation"
 level: "intermediate"
 status: "published"
-last_updated: "2026-07-05"
+last_updated: "2026-09-10"
 tags: ["streaming", "human-in-the-loop"]
 ---
 
@@ -61,6 +61,20 @@ Agent の応答時間は、単発の LLM 呼び出しと桁が違います(数�
 
 数分を超えるタスクを同期チャットで待たせるのは設計ミスです。「受け付けました。終わったら通知します」に切り替え、承認待ち([Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md))も通知で運びます。
 
+### 実装例: 非同期ツールと実行中の軌道修正
+
+2026-09-10 確認の OpenAI Responses API では、Astra の function / custom tool に `async: true` を付けると、アプリがツールを実行している間もモデルが独立した作業を続けられます。結果は元の `call_id` と結び付けます。WebSocket の実行中の指示変更(mid-turn steering)では、完了済みの作業を引き継ぐ継続処理へ追加指示を渡せます。
+
+画面の「停止」「条件変更」は次の状態管理につなぎます。
+
+| 起きたこと | アプリ側の処理 | 表示すること |
+| --- | --- | --- |
+| ツールが実行中 | 呼出し ID と実行状態を保存し、同じ操作を重複起動しない | 確認中の対象と進捗 |
+| 条件が変わった | 対象・引数・承認の有効性を再評価する | 変更を受け付けた条件と残る作業 |
+| 停止後に結果が届いた | 元の実行に記録し、新しい実行への採用可否を判定する | 停止済みでも完了した外部操作があればその事実 |
+
+推論の停止は、送信済みメールや外部 API の更新を巻き戻しません。キャンセル不能な操作は状態を照会し、必要なら補償処理へ進みます。非同期ツール API の採用だけでジョブの永続化・再起動後の復旧が得られるわけではありません。
+
 ## 実務での注意点
 
 ### アンチパターン
@@ -88,6 +102,9 @@ Agent の応答時間は、単発の LLM 呼び出しと桁が違います(数�
 - [チャットを超える UI](../14-ux-and-product/beyond-chat-ui.md) — テキストボックス以外の入出力形態(バックグラウンド実行ほか)
 
 ## 参考資料
+
+- [Async tool calling](https://developers.openai.com/api/docs/guides/async-tool-calling) — 本文の仕様例(アクセス日: 2026-09-10)
+- [Mid-turn steering](https://developers.openai.com/api/docs/guides/steering) — 本文の仕様例(アクセス日: 2026-09-10)
 
 - [Streaming Messages(Anthropic docs)](https://platform.claude.com/docs/en/build-with-claude/streaming) — SSE イベントの仕様と実装例(アクセス日: 2026-07-05)
 

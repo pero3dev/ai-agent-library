@@ -3,7 +3,7 @@ title: "コスト管理"
 category: "operations"
 level: "intermediate"
 status: "published"
-last_updated: "2026-07-05"
+last_updated: "2026-09-10"
 tags: ["cost-management", "prompt-caching"]
 ---
 
@@ -56,7 +56,7 @@ Agent のコストがなぜ事前に読みにくいのかを構造から理解�
 
 プロンプトキャッシュ(prompt caching)は Agent ループと特に相性が良い仕組みです。ループでは「先頭(システムプロンプト・ツール定義・これまでの履歴)は変わらず、末尾に新しいステップが足されていく」ため、各ステップの入力の大部分がキャッシュにヒットします。
 
-> **TODO(要確認):** モデル単価・キャッシュの割引率と書き込みコスト・バッチ割引は変化が速い。試算時に各ベンダーの公式料金表で確認する(最終確認: 2026-07)
+> **TODO(要確認):** モデル単価・キャッシュの割引率と書き込みコスト・バッチ割引は変化が速い。試算時に各ベンダーの公式料金表で確認する(最終確認: 2026-09)
 
 ### 設計判断: 上限は 3 層で設計する
 
@@ -69,6 +69,14 @@ Agent のコストがなぜ事前に読みにくいのかを構造から理解�
 | システム全体 | 日次・月次予算のサーキットブレーカ([インシデント対応](incident-response.md)) | 請求額の事故 |
 
 上限に達したときの挙動も設計します。黙って切り捨てるのではなく、「ここまでの結果と、なぜ中断したかを報告して停止する」が原則です([エラー処理・リトライ・フォールバック設計](../02-architecture/error-handling-and-retries.md))。
+
+### キャッシュの書込と読取を別に計測する
+
+2026-09-10 確認の例では、GPT-5.6 以降は `prompt_cache_options.ttl: "30m"` とキャッシュ境界を扱い、`usage.input_tokens_details` の `cached_tokens` と `cache_write_tokens` を分けて記録します。書込は通常入力とは別の単価区分で、書込分へ通常入力単価を二重加算しません。再利用されない可変末尾まで毎回キャッシュすると、書込費用が増えるため境界の設計も評価します。
+
+読取割引も一律ではありません。Claude Fable 5.1 は入力単価の 2.5% で、他モデルの 10% という比率を流用できません。保持時間はデータ削除期限と同義ではなく、組織の保持契約と併せて確認します。
+
+設定の更新によって前方一致を保てる機構もあります。Astra の standard・単一エージェントでは `configuration_update` を追記し、Claude の対応モデル・経路では per-message effort の beta を使います。元の system 本文や過去の履歴を自由に書き換えてもキャッシュが残る、という意味ではありません。対応条件は [OpenAI](../03-implementation/openai-prompting.md) / [Claude](../03-implementation/claude-prompting.md) の特化ガイドで確認します。
 
 ## 実務での注意点
 
@@ -104,8 +112,11 @@ Agent のコストがなぜ事前に読みにくいのかを構造から理解�
 
 ## 参考資料
 
+- [Prompt caching](https://developers.openai.com/api/docs/guides/prompt-caching) — 本文の仕様例(アクセス日: 2026-09-10)
+- [Claude Fable 5.1](https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1) — 本文の仕様例(アクセス日: 2026-09-10)
+
 - [Prompt caching(Anthropic docs)](https://platform.claude.com/docs/en/build-with-claude/prompt-caching) — 前方一致キャッシュの仕組みと料金構造の例(アクセス日: 2026-07-05)
 
 ## TODO・未確認事項
 
-> **TODO(要確認):** モデル単価・キャッシュ割引率・バッチ割引は変化が速いため本文に数値を書いていない。試算時に各ベンダーの公式料金表で確認する(最終確認: 2026-07)
+> **TODO(要確認):** モデル単価・キャッシュ割引率・バッチ割引は変化が速い。本文の確認日時点の例を将来の試算に固定せず、各ベンダーの公式料金表と対象モデル・経路で再確認する(最終確認: 2026-09)

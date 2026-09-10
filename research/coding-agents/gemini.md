@@ -5,6 +5,29 @@
 - **調査方法**: [CODING-AGENTS-PLAN.md](../../CODING-AGENTS-PLAN.md) §7 のチェックリスト 12 項目。公式ドキュメント・公式ブログ・公式リポジトリのみを根拠とし、第三者記事は根拠にしていません
 - **記録様式**: `項目 | 確認した事実 | 出典 URL | 確認日 | 確度(公式明記 / 公式から推測 / 第三者)`
 
+## 2026-09-10 鮮度更新の反映
+
+対象記事の本文・比較・TODO に次の確認結果を反映しました。一次資料の文書確認であり、実サービスでの設定・実行の受入試験は行っていません。以下の旧日付の記録は調査履歴です。現行判断には本節と対応する docs を使います。
+
+### T19: Antigravityの組織向け導入経路を反映
+
+Antigravity Organization は現行 pricing に Google Cloud 経由の Antigravity 2.0 / CLI、Cloud Project 統合、Agent Platform 従量課金として掲載されています。Code Assist が組織導入唯一の経路という説明を訂正しました。一部 Gemini Enterprise app 契約への同梱は対象顧客へ展開中です。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://antigravity.google/pricing)
+
+### T20: Gemini個人向け提供終了とAPIデータ利用条件を比較表へ同期
+
+2026-09-02 更新の廃止案内で個人向け Code Assist IDE / CLI の 2026-06-18 終了を再確認しました。Standard / Enterprise は継続です。Gemini API の Unpaid は改善利用、Paid はその目的に不使用という確認済み条件を比較表へ同期しました。地域・課金設定は T21 の区分を使います。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://developers.google.com/gemini-code-assist/docs/deprecations/code-assist-individuals) / [一次資料 2](https://ai.google.dev/gemini-api/terms)
+
+### T21: Gemini APIのPaidデータ条件に該当する地域・課金設定を補足
+
+2026-03-23 発効規約は EEA・スイス・英国の無料利用にも Paid のデータ条項を適用します。Gemini API は有効な Cloud Billing に紐づく project 経由が Paid、AI Studio は課金 project へのアクセスまたは Workspace enterprise account の条件もあります。支払額がゼロだけで Unpaid としないよう本文・横断表を更新しました。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://ai.google.dev/gemini-api/terms)
+
+
 ## 2026-08-18 定点観測での更新
 
 | 確認した事実 | 出典 URL | 確認日 | 確度 |

@@ -1,0 +1,552 @@
+{
+  "as_of": "2026-09-10",
+  "scope": "PH-01〜PH-06 / EG-01〜EG-12 / RPA01〜RPA06 / EM01〜EM08",
+  "status": "applied",
+  "finding_count": 32,
+  "article_count": 6,
+  "findings": [
+    {
+      "id": "PH-01",
+      "status": "applied",
+      "files": [
+        "docs/01-concepts/physical-ai-overview.md",
+        "research/supplementary/physical-ai.md"
+      ],
+      "summary": "Helixを旧35自由度・2層の例だけで説明しない",
+      "sources": [
+        "https://www.figure.ai/news/helix-02"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "実機試験・第三者追試・最新モデル全提供形態は未検証。"
+    },
+    {
+      "id": "PH-02",
+      "status": "applied",
+      "files": [
+        "docs/01-concepts/physical-ai-overview.md",
+        "research/supplementary/physical-ai.md"
+      ],
+      "summary": "VLA共通ベンチマークが存在しないという断定を限定",
+      "sources": [
+        "https://github.com/Lifelong-Robot-Learning/LIBERO",
+        "https://raw.githubusercontent.com/Physical-Intelligence/openpi/main/README.md",
+        "https://developer.nvidia.com/isaac/lab-arena"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "実機試験・第三者追試・最新モデル全提供形態は未検証。"
+    },
+    {
+      "id": "PH-03",
+      "status": "applied",
+      "files": [
+        "docs/01-concepts/physical-ai-overview.md",
+        "research/supplementary/physical-ai.md"
+      ],
+      "summary": "Gemini Robotics 2系の提供段階とER1.6の日付を更新",
+      "sources": [
+        "https://deepmind.google/blog/gemini-robotics-2-brings-whole-body-intelligence-to-robots/",
+        "https://deepmind.google/models/model-cards/",
+        "https://deepmind.google/blog/gemini-robotics-er-1-6/",
+        "https://ai.google.dev/gemini-api/docs/deprecations"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "実機試験・第三者追試・最新モデル全提供形態は未検証。",
+      "implementation_note": "Gemini deprecations も追加確認。ER 1.6 API 公開 2026-04-14、カード 2026-04-20、停止予定日 2026-08-31 を区別し er-2-preview を推奨移行先として記録。実停止の API 試験ではない。"
+    },
+    {
+      "id": "PH-04",
+      "status": "applied",
+      "files": [
+        "docs/01-concepts/physical-ai-overview.md",
+        "research/supplementary/physical-ai.md"
+      ],
+      "summary": "GR00T N1.7の公開物とN2の予定を分離",
+      "sources": [
+        "https://github.com/NVIDIA/Isaac-GR00T",
+        "https://developer.nvidia.com/blog/develop-humanoid-robot-policies-end-to-end-with-nvidia-isaac-gr00t/",
+        "https://nvidianews.nvidia.com/news/nvidia-expands-open-model-families-to-power-the-next-wave-of-agentic-physical-and-healthcare-ai"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "実機試験・第三者追試・最新モデル全提供形態は未検証。"
+    },
+    {
+      "id": "PH-05",
+      "status": "applied",
+      "files": [
+        "docs/01-concepts/world-models-overview.md",
+        "docs/01-concepts/physical-ai-overview.md",
+        "research/supplementary/physical-ai.md"
+      ],
+      "summary": "世界モデルと行動方策を結合するWAMを整理へ追加",
+      "sources": [
+        "https://arxiv.org/abs/2602.15922",
+        "https://research.nvidia.com/labs/gear/publications/",
+        "https://github.com/dreamzero0/dreamzero/blob/main/README.md"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "実機試験・第三者追試・最新モデル全提供形態は未検証。"
+    },
+    {
+      "id": "PH-06",
+      "status": "applied",
+      "files": [
+        "docs/01-concepts/physical-ai-overview.md",
+        "research/supplementary/physical-ai.md"
+      ],
+      "summary": "PIの実顧客導入事例を介入付き運用として補足",
+      "sources": [
+        "https://www.pi.website/blog/partner"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "実機試験・第三者追試・最新モデル全提供形態は未検証。"
+    },
+    {
+      "id": "EG-01",
+      "status": "applied",
+      "files": [
+        "docs/09-business/ai-geopolitics-map.md",
+        "research/strategy/geopolitics.md"
+      ],
+      "summary": "BISのUAE向け条件付き優遇を輸出規制監視へ追加",
+      "sources": [
+        "https://www.bis.gov/news-updates",
+        "https://www.federalregister.gov/d/2026-14132"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "個別案件への法令適用、全条項・環境数値の独立検証、実コンソール操作は対象外。"
+    },
+    {
+      "id": "EG-02",
+      "status": "applied",
+      "files": [
+        "docs/09-business/ai-geopolitics-map.md",
+        "research/strategy/geopolitics.md"
+      ],
+      "summary": "最終親会社の本社所在地を輸出相談用の事実リストへ追加",
+      "sources": [
+        "https://media.bis.gov/media/documents/bis-guidance-may-31-2026.pdf"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "個別案件への法令適用、全条項・環境数値の独立検証、実コンソール操作は対象外。"
+    },
+    {
+      "id": "EG-03",
+      "status": "applied",
+      "files": [
+        "docs/09-business/ai-geopolitics-map.md",
+        "research/strategy/geopolitics.md"
+      ],
+      "summary": "EU dual-useのAnnex I更新を法令番号と日付で管理",
+      "sources": [
+        "https://policy.trade.ec.europa.eu/help-exporters-and-importers/exporting-dual-use-items_en",
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202502003"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "個別案件への法令適用、全条項・環境数値の独立検証、実コンソール操作は対象外。"
+    },
+    {
+      "id": "EG-04",
+      "status": "applied",
+      "files": [
+        "docs/09-business/ai-geopolitics-map.md",
+        "research/strategy/geopolitics.md"
+      ],
+      "summary": "DPDP Rules最終原文の取得不能を解消し段階施行を整理",
+      "sources": [
+        "https://www.meity.gov.in/static/uploads/2025/11/53450e6e5dc0bfa85ebd78686cadad39.pdf",
+        "https://www.pib.gov.in/PressNoteDetails.aspx?ModuleId=3&NoteId=156054&lang=1&reg=3",
+        "https://www.meity.gov.in/static/uploads/2026/04/46face7d48c8f6a97030f713ad5fdab4.pdf"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "個別案件への法令適用、全条項・環境数値の独立検証、実コンソール操作は対象外。"
+    },
+    {
+      "id": "EG-05",
+      "status": "applied",
+      "files": [
+        "docs/09-business/ai-geopolitics-map.md",
+        "research/strategy/geopolitics.md"
+      ],
+      "summary": "CACの取得不能メモを越境データ専用索引へ更新",
+      "sources": [
+        "https://www.cac.gov.cn/",
+        "https://www.cac.gov.cn/wxzw/sjzl/sjcjaqpg/A09370801index_1.htm",
+        "https://www.cac.gov.cn/2026-08/12/c_1788195297373459.htm"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "個別案件への法令適用、全条項・環境数値の独立検証、実コンソール操作は対象外。"
+    },
+    {
+      "id": "EG-06",
+      "status": "applied",
+      "files": [
+        "docs/05-operations/green-ai.md",
+        "research/strategy/green-ai.md"
+      ],
+      "summary": "AWS CCFTの後継をSustainability consoleへ具体化",
+      "sources": [
+        "https://aws.amazon.com/about-aws/whats-new/2026/03/aws-launches-sustainability-console/",
+        "https://aws.amazon.com/sustainability/tools/console/",
+        "https://docs.aws.amazon.com/sustainability/latest/userguide/getting-started.html",
+        "https://docs.aws.amazon.com/ccft/latest/releasenotes/what-is-ccftrn.html"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "個別案件への法令適用、全条項・環境数値の独立検証、実コンソール操作は対象外。"
+    },
+    {
+      "id": "EG-07",
+      "status": "applied",
+      "files": [
+        "docs/05-operations/green-ai.md",
+        "research/strategy/green-ai.md"
+      ],
+      "summary": "SCI for AIを策定中からGSF批准済み仕様へ更新",
+      "sources": [
+        "https://greensoftware.foundation/",
+        "https://greensoftware.foundation/standards/sci-ai/"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "個別案件への法令適用、全条項・環境数値の独立検証、実コンソール操作は対象外。"
+    },
+    {
+      "id": "EG-08",
+      "status": "applied",
+      "files": [
+        "docs/05-operations/green-ai.md",
+        "research/strategy/green-ai.md"
+      ],
+      "summary": "CSRD簡素化を最終承認後の状態へ更新",
+      "sources": [
+        "https://www.consilium.europa.eu/en/press/press-releases/2026/02/24/council-signs-off-simplification-of-sustainability-reporting-and-due-diligence-requirements-to-boost-eu-competitiveness/"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "個別案件への法令適用、全条項・環境数値の独立検証、実コンソール操作は対象外。"
+    },
+    {
+      "id": "EG-09",
+      "status": "applied",
+      "files": [
+        "docs/05-operations/green-ai.md",
+        "research/strategy/green-ai.md"
+      ],
+      "summary": "EEDデータセンター報告FAQ1.8と格付けの実際の段階を追跡",
+      "sources": [
+        "https://energy.ec.europa.eu/topics/energy-efficiency/energy-efficiency-targets-directive-and-rules/energy-efficiency-directive/energy-performance-data-centres_en",
+        "https://energy.ec.europa.eu/document/download/2597a32b-c791-4d87-a9da-57b64a3c4d7d_en?filename=2026_07_03+FAQ+on+European+database+on+data+centres+1v7-AA(1).pdf"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "個別案件への法令適用、全条項・環境数値の独立検証、実コンソール操作は対象外。"
+    },
+    {
+      "id": "EG-10",
+      "status": "applied",
+      "files": [
+        "docs/05-operations/green-ai.md",
+        "research/strategy/green-ai.md"
+      ],
+      "summary": "クラウド環境報告を最新の実績年と公開版へ更新",
+      "sources": [
+        "https://sustainability.google/google-2026-environmental-report/",
+        "https://www.microsoft.com/en-us/corporate-responsibility/topics/sustainability/report/",
+        "https://www.microsoft.com/en-us/corporate-responsibility/reports-hub",
+        "https://sustainability.aboutamazon.com/reports"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "個別案件への法令適用、全条項・環境数値の独立検証、実コンソール操作は対象外。"
+    },
+    {
+      "id": "EG-11",
+      "status": "applied",
+      "files": [
+        "docs/05-operations/green-ai.md",
+        "research/strategy/green-ai.md"
+      ],
+      "summary": "IEAの2026年Energy and AI資料へ参照を追加",
+      "sources": [
+        "https://www.iea.org/reports/key-questions-on-energy-and-ai",
+        "https://www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "個別案件への法令適用、全条項・環境数値の独立検証、実コンソール操作は対象外。"
+    },
+    {
+      "id": "EG-12",
+      "status": "applied",
+      "files": [
+        "docs/09-business/ai-geopolitics-map.md",
+        "research/strategy/geopolitics.md"
+      ],
+      "summary": "EU十分性認定の直近決定と再審査を研究メモへ追加",
+      "sources": [
+        "https://commission.europa.eu/law/law-topic/data-protection/international-dimension-data-protection/adequacy-decisions_en",
+        "https://eur-lex.europa.eu/legal-content/en/TXT/?uri=CELEX:32026D0179"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "個別案件への法令適用、全条項・環境数値の独立検証、実コンソール操作は対象外。"
+    },
+    {
+      "id": "RPA01",
+      "status": "applied",
+      "files": [
+        "research/domain-agents/rpa.md",
+        "docs/13-domain-agents/rpa-and-agents.md"
+      ],
+      "summary": "WorkHQ の名称発表と Agentic Workflows の GA・サポート期限を区別",
+      "sources": [
+        "https://documentation.blueprism.com/workhq/en-us/announcements/announcements.htm"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "全地域 GA、preview の GA 完了、契約別上限・価格・全機能の閉域可否は未確認。",
+      "implementation_note": "再確認した公式告知は 2025.25 以前の同梱版を already unsupported と明記。監査の「対象外」を既にサポート対象外と具体化。"
+    },
+    {
+      "id": "RPA02",
+      "status": "applied",
+      "files": [
+        "research/domain-agents/rpa.md",
+        "docs/13-domain-agents/rpa-and-agents.md"
+      ],
+      "summary": "WinActor 7.7 と AI 支援の利用上限切替・外部通信条件を補足",
+      "sources": [
+        "https://www.ntt-at.co.jp/news/2025/detail/release250904.html",
+        "https://winactor.biz/product/winactor_v7.html",
+        "https://winactor.biz/use/manual.html"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "全地域 GA、preview の GA 完了、契約別上限・価格・全機能の閉域可否は未確認。"
+    },
+    {
+      "id": "RPA03",
+      "status": "applied",
+      "files": [
+        "research/domain-agents/rpa.md",
+        "docs/13-domain-agents/rpa-and-agents.md"
+      ],
+      "summary": "UiPath Maestro の自己ホスト提供と TaaS の配置条件を補足",
+      "sources": [
+        "https://docs.uipath.com/maestro/automation-suite/2.2510/release-notes/2-2510-2",
+        "https://docs.uipath.com/maestro/automation-suite/2.2510/release-notes/2-2510-3",
+        "https://docs.uipath.com/automation-suite/automation-suite/2.2510/installation-guide-eks-aks/kubernetes-cluster-and-nodes"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "全地域 GA、preview の GA 完了、契約別上限・価格・全機能の閉域可否は未確認。"
+    },
+    {
+      "id": "RPA04",
+      "status": "applied",
+      "files": [
+        "research/domain-agents/rpa.md",
+        "docs/13-domain-agents/rpa-and-agents.md"
+      ],
+      "summary": "Copilot Studio computer use の GA 条件と古い RPA 比較を同期",
+      "sources": [
+        "https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/agent-tools",
+        "https://learn.microsoft.com/en-us/microsoft-copilot-studio/computer-use",
+        "https://techcommunity.microsoft.com/blog/copilot-studio-blog/computer-using-agents-in-microsoft-copilot-studio-are-now-generally-available/4519427/replies/4527780"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "全地域 GA、preview の GA 完了、契約別上限・価格・全機能の閉域可否は未確認。"
+    },
+    {
+      "id": "RPA05",
+      "status": "applied",
+      "files": [
+        "research/domain-agents/rpa.md",
+        "docs/13-domain-agents/rpa-and-agents.md"
+      ],
+      "summary": "Copilot Studio の harness と agent flows / workflows を区別",
+      "sources": [
+        "https://learn.microsoft.com/en-us/microsoft-copilot-studio/harnesses-overview",
+        "https://learn.microsoft.com/en-us/microsoft-copilot-studio/flows-overview"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "全地域 GA、preview の GA 完了、契約別上限・価格・全機能の閉域可否は未確認。"
+    },
+    {
+      "id": "RPA06",
+      "status": "applied",
+      "files": [
+        "research/domain-agents/rpa.md",
+        "docs/13-domain-agents/rpa-and-agents.md"
+      ],
+      "summary": "Automation Anywhere の Mozart と機能ごとの提供状態を補足",
+      "sources": [
+        "https://www.automationanywhere.com/products/agentic-process-automation-system",
+        "https://www.automationanywhere.com/company/press-room/automation-anywhere-unveils-2026-platform-enhancements-run-ai-driven-processes",
+        "https://www.automationanywhere.com/company/press-room?year=2026"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "全地域 GA、preview の GA 完了、契約別上限・価格・全機能の閉域可否は未確認。"
+    },
+    {
+      "id": "EM01",
+      "status": "applied",
+      "files": [
+        "research/domain-agents/emerging.md",
+        "docs/13-domain-agents/emerging-agent-domains.md"
+      ],
+      "summary": "Robin の査読出版と人が実験する検証範囲を更新",
+      "sources": [
+        "https://www.nature.com/articles/s41586-026-10652-y",
+        "https://www.natureasia.com/en/info/press-releases/detail/9330"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "独立追試、全論文の性能値、恒常提供・全地域 GA・継続取引量は未確認。"
+    },
+    {
+      "id": "EM02",
+      "status": "applied",
+      "files": [
+        "research/domain-agents/emerging.md",
+        "docs/13-domain-agents/emerging-agent-domains.md"
+      ],
+      "summary": "AI co-scientist の出版書誌と確認できた証拠の範囲を補足",
+      "sources": [
+        "https://www.nature.com/articles/s41586-026-10644-y",
+        "https://doi.org/10.1038/s41586-026-10644-y",
+        "https://www.natureasia.com/en/info/press-releases/detail/9330"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "独立追試、全論文の性能値、恒常提供・全地域 GA・継続取引量は未確認。"
+    },
+    {
+      "id": "EM03",
+      "status": "applied",
+      "files": [
+        "research/domain-agents/emerging.md",
+        "docs/13-domain-agents/emerging-agent-domains.md"
+      ],
+      "summary": "A-Lab の訂正文に基づき新規性と成功数を修正",
+      "sources": [
+        "https://www.nature.com/articles/s41586-025-09992-y",
+        "https://escholarship.org/content/qt4kb4s6pg/qt4kb4s6pg_noSplash_e2c3d812b2171874cfeca482fc6c214c.pdf",
+        "https://repositories.cdlib.org/uc/item/4kb4s6pg"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "独立追試、全論文の性能値、恒常提供・全地域 GA・継続取引量は未確認。"
+    },
+    {
+      "id": "EM04",
+      "status": "applied",
+      "files": [
+        "research/domain-agents/emerging.md",
+        "docs/13-domain-agents/emerging-agent-domains.md"
+      ],
+      "summary": "1,000 人シミュレーション研究の論文リンク・版・評価指標を修正",
+      "sources": [
+        "https://arxiv.org/abs/2411.10109",
+        "https://arxiv.org/abs/2411.10109v3"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "独立追試、全論文の性能値、恒常提供・全地域 GA・継続取引量は未確認。"
+    },
+    {
+      "id": "EM05",
+      "status": "applied",
+      "files": [
+        "research/domain-agents/emerging.md",
+        "docs/13-domain-agents/emerging-agent-domains.md"
+      ],
+      "summary": "PUBG Ally の出荷表現を期間限定ベータと実装構成へ修正",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/news/pubg-ally-ai-teammate-beta-available-now/",
+        "https://developer.nvidia.com/blog/how-krafton-built-pubg-ally-a-co-playable-character-powered-by-nvidia-ace/",
+        "https://www.nvidia.com/en-us/geforce/news/nvidia-ace-autonomous-ai-companions-pubg-naraka-bladepoint/"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "独立追試、全論文の性能値、恒常提供・全地域 GA・継続取引量は未確認。"
+    },
+    {
+      "id": "EM06",
+      "status": "applied",
+      "files": [
+        "research/domain-agents/emerging.md",
+        "docs/13-domain-agents/emerging-agent-domains.md"
+      ],
+      "summary": "ChatGPT commerce の現行方針を商品発見と加盟店 checkout に更新",
+      "sources": [
+        "https://openai.com/index/powering-product-discovery-in-chatgpt/",
+        "https://openai.com/index/buy-it-in-chatgpt/"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "独立追試、全論文の性能値、恒常提供・全地域 GA・継続取引量は未確認。"
+    },
+    {
+      "id": "EM07",
+      "status": "applied",
+      "files": [
+        "research/domain-agents/emerging.md",
+        "docs/13-domain-agents/emerging-agent-domains.md"
+      ],
+      "summary": "Agent 決済の実取引 pilot と一般提供を区別して補足",
+      "sources": [
+        "https://www.mastercard.com/news/europe/en/newsroom/press-releases/en/2026/worldline-ing-and-mastercard-complete-a-live-end-to-end-european-agentic-payment-in-production/",
+        "https://investor.visa.com/news/news-details/2026/Visa-Opens-the-Door-to-AI-Driven-Shopping-for-Businesses-Worldwide/",
+        "https://usa.visa.com/about-visa/newsroom/press-releases.releaseid.22496.html",
+        "https://www.mastercard.com/us/en/news-and-trends/press/2026/june/mastercard-launches-agent-pay-for-machines.html"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "独立追試、全論文の性能値、恒常提供・全地域 GA・継続取引量は未確認。"
+    },
+    {
+      "id": "EM08",
+      "status": "applied",
+      "files": [
+        "research/domain-agents/emerging.md",
+        "docs/13-domain-agents/emerging-agent-domains.md",
+        "research/infra/agent-protocols.md"
+      ],
+      "summary": "AP2 v0.2 の FIDO 寄贈と Mandate の現行構成を更新",
+      "sources": [
+        "https://ap2-protocol.org/ap2/specification/",
+        "https://blog.google/products-and-platforms/platforms/google-pay/agent-payments-protocol-fido-alliance/"
+      ],
+      "verified_at": "2026-09-10",
+      "evidence": "同日監査の一次情報を使用し、記事の主要根拠を再取得。事実・提供段階・日付と本文の設計判断を同期。",
+      "remaining_uncertainty": "独立追試、全論文の性能値、恒常提供・全地域 GA・継続取引量は未確認。"
+    }
+  ],
+  "validation": {
+    "validate_docs": "passed: 215 files",
+    "targeted_markdownlint": "passed: 6 articles",
+    "relative_links": "passed: 225 files, 4009 links",
+    "self_review": "stale body/research summary, claim boundaries, references and dates checked; PUE の施設効率と IT 計算効率、料金と排出量の非同一性も整合化",
+    "not_performed": [
+      "ロボット・RPA 実機試験",
+      "実決済",
+      "ベンダーの環境数値・研究成果の独立追試",
+      "各法令の個別案件への適用判定"
+    ]
+  }
+}

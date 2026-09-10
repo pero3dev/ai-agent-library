@@ -1,0 +1,408 @@
+{
+  "as_of": "2026-09-10",
+  "scope": "models-apis-media-auth-and-oss",
+  "finding_count": 29,
+  "status": "applied",
+  "findings": [
+    {
+      "id": "M01",
+      "status": "applied",
+      "changed_files": [
+        "docs/03-implementation/llm-landscape.md",
+        "docs/03-implementation/claude-prompting.md",
+        "research/models/anthropic.md",
+        "research/prompting/anthropic.md"
+      ],
+      "evidence": [
+        "https://platform.claude.com/docs/en/models/overview",
+        "https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1"
+      ],
+      "implementation_notes": "Fable 5.1、2.5% のキャッシュ読取、常時 adaptive thinking、30 日保持と ZDR の限定条件を本文・調査メモに同期。"
+    },
+    {
+      "id": "M02",
+      "status": "applied",
+      "changed_files": [
+        "docs/03-implementation/llm-landscape.md",
+        "docs/03-implementation/gemini-prompting.md",
+        "docs/03-implementation/cross-model-prompting.md",
+        "research/models/google.md",
+        "research/prompting/google.md"
+      ],
+      "evidence": [
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash",
+        "https://ai.google.dev/gemini-api/docs/latest-model",
+        "https://ai.google.dev/gemini-api/docs/changelog"
+      ],
+      "implementation_notes": "Gemini 3.8 Flash の GA、上限、思考レベルと既定値を反映。3.7 導入価格とは分離。"
+    },
+    {
+      "id": "M03",
+      "status": "applied",
+      "changed_files": [
+        "docs/03-implementation/openai-prompting.md",
+        "docs/03-implementation/cross-model-prompting.md",
+        "research/prompting/openai.md"
+      ],
+      "evidence": [
+        "https://developers.openai.com/api/docs/guides/latest-model",
+        "https://developers.openai.com/api/docs/models/gpt-6-astra"
+      ],
+      "implementation_notes": "Astra の Responses / sampling / reasoning / EU residency 制約をモデル別に追記。"
+    },
+    {
+      "id": "M04",
+      "status": "applied",
+      "changed_files": [
+        "docs/03-implementation/streaming-and-agent-ux.md",
+        "docs/02-architecture/async-and-durable-agents.md",
+        "docs/02-architecture/agent-api-design.md",
+        "docs/03-implementation/openai-prompting.md"
+      ],
+      "evidence": [
+        "https://developers.openai.com/api/docs/guides/async-tool-calling",
+        "https://developers.openai.com/api/docs/guides/steering"
+      ],
+      "implementation_notes": "非同期ツールの call_id、WebSocket の実行中変更、遅延結果・キャンセル・承認の再評価を設計例に追加。"
+    },
+    {
+      "id": "M05",
+      "status": "applied",
+      "changed_files": [
+        "docs/03-implementation/claude-prompting.md",
+        "docs/03-implementation/cross-model-prompting.md",
+        "docs/02-architecture/context-compaction-and-isolation.md",
+        "research/prompting/anthropic.md"
+      ],
+      "evidence": [
+        "https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1",
+        "https://platform.claude.com/docs/en/release-notes/overview"
+      ],
+      "implementation_notes": "Fable 5.1 の tool_choice と履歴非互換、作成日によるアカウント差、beta の effort / system 制御を追加。"
+    },
+    {
+      "id": "M06",
+      "status": "applied",
+      "changed_files": [
+        "docs/05-operations/cost-management.md",
+        "docs/03-implementation/openai-prompting.md",
+        "research/models/openai.md",
+        "research/prompting/anthropic.md"
+      ],
+      "evidence": [
+        "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "https://developers.openai.com/api/docs/guides/latest-model",
+        "https://platform.claude.com/docs/en/release-notes/overview"
+      ],
+      "implementation_notes": "監査時の config_update を公式の configuration_update に訂正。対象モデル、single-agent / standard、compaction 制約、TTL の意味と書込・読取課金を明記。"
+    },
+    {
+      "id": "M07",
+      "status": "applied",
+      "changed_files": [
+        "docs/03-implementation/llm-landscape.md",
+        "research/models/open-weights.md"
+      ],
+      "evidence": [
+        "https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B-FP8/blob/main/LICENSE"
+      ],
+      "implementation_notes": "指定 Qwen3.8 配布物の独自ライセンス、MaaS / AI Work Assistant の収益条件、表示義務、内部利用例外を分離。"
+    },
+    {
+      "id": "A01",
+      "status": "applied",
+      "changed_files": [
+        "research/multimodal/generation.md",
+        "docs/12-multimodal/video-ai-overview.md",
+        "ROADMAP.md"
+      ],
+      "evidence": [
+        "https://developers.openai.com/api/docs/deprecations",
+        "https://developers.openai.com/api/reference/typescript/resources/videos/methods/create"
+      ],
+      "implementation_notes": "Videos API と対象 Sora 2 モデルの 9/24 終了を API の移行課題として明記。アプリの終了とは推定しない。"
+    },
+    {
+      "id": "A02",
+      "status": "applied",
+      "changed_files": [
+        "research/multimodal/generation.md",
+        "research/professional/voice-agents.md",
+        "research/multimodal/realtime-tts.md",
+        "docs/12-multimodal/image-generation-integration.md",
+        "docs/12-multimodal/video-ai-overview.md",
+        "ROADMAP.md"
+      ],
+      "evidence": [
+        "https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle-legacy.html"
+      ],
+      "implementation_notes": "Nova Canvas / Reel / Sonic / Premier のモデル ID・地域・EOL を反映。9/7 の AWS ページ分割に合わせ model-lifecycle-legacy.html を参照。"
+    },
+    {
+      "id": "A03",
+      "status": "applied",
+      "changed_files": [
+        "research/professional/voice-agents.md",
+        "docs/03-implementation/voice-agents.md",
+        "research/models/openai.md",
+        "research/multimodal/realtime-tts.md"
+      ],
+      "evidence": [
+        "https://developers.openai.com/api/docs/deprecations",
+        "https://ai.google.dev/gemini-api/docs/changelog"
+      ],
+      "implementation_notes": "旧文字起こしモデルの 2027/2/26 終了・後継を同期。Google Transcribe / Live の GA 日は公式 changelog に従い監査の 8/19 から 8/26 に訂正。"
+    },
+    {
+      "id": "A04",
+      "status": "applied",
+      "changed_files": [
+        "docs/12-multimodal/video-ai-overview.md",
+        "research/multimodal/generation.md",
+        "docs/12-multimodal/realtime-multimodal-agents.md"
+      ],
+      "evidence": [
+        "https://ai.google.dev/gemini-api/docs/changelog"
+      ],
+      "implementation_notes": "能動的な動画読解と対象モデル、Gemini Omni 1.1 Flash GA、旧 preview の 9/30 停止を追加。削減率は最大値の公表として限定。"
+    },
+    {
+      "id": "A05",
+      "status": "applied",
+      "changed_files": [
+        "docs/03-implementation/computer-use-implementation.md",
+        "docs/01-concepts/computer-use-and-multimodal-agents.md",
+        "research/prompting/anthropic.md"
+      ],
+      "evidence": [
+        "https://platform.claude.com/docs/en/agents-and-tools/tool-use/computer-use-tool",
+        "https://platform.claude.com/docs/en/build-with-claude/skills-guide",
+        "https://platform.claude.com/docs/en/release-notes/overview"
+      ],
+      "implementation_notes": "computer/browser toolset 20260801 の GA、操作の一括化、参照、upload opt-in、Files / Skills の GA と beta 互換性を追記。"
+    },
+    {
+      "id": "B01",
+      "status": "applied",
+      "changed_files": [
+        "docs/04-evaluation/agent-benchmarks-landscape.md",
+        "research/professional/benchmarks.md",
+        "ROADMAP.md"
+      ],
+      "evidence": [
+        "https://www.tbench.ai/",
+        "https://github.com/ServiceNow/webarena-verified/blob/main/README.md"
+      ],
+      "implementation_notes": "Terminal-Bench 4.0 と WebArena-Verified を追加。版・harness・費用・評価条件を確認単位とし未取得のランキングは記載しない。"
+    },
+    {
+      "id": "M08",
+      "status": "applied",
+      "changed_files": [
+        "docs/03-implementation/gemini-prompting.md",
+        "research/prompting/google.md"
+      ],
+      "evidence": [
+        "https://raw.githubusercontent.com/googleapis/python-genai/main/google/genai/types.py",
+        "https://ai.google.dev/gemini-api/docs/live-api/capabilities"
+      ],
+      "implementation_notes": "thinking_budget の SDK 型と 2.5 Live の対応を確認。3 系 thinking_level と分け、型の存在を全モデルの受理保証にしない。"
+    },
+    {
+      "id": "AU01",
+      "status": "applied",
+      "changed_files": [
+        "docs/06-security/agent-identity-and-auth.md",
+        "research/professional/agent-identity.md"
+      ],
+      "evidence": [
+        "https://developers.openai.com/api/docs/guides/tools-connectors-mcp"
+      ],
+      "implementation_notes": "Connectors OAuth の authorization、アプリ側登録と同意取得、scope の影響を確認し TODO を解消。"
+    },
+    {
+      "id": "AU02",
+      "status": "applied",
+      "changed_files": [
+        "docs/06-security/agent-identity-and-auth.md",
+        "research/professional/agent-identity.md"
+      ],
+      "evidence": [
+        "https://docs.cloud.google.com/iam/docs/release-notes",
+        "https://docs.cloud.google.com/iam/docs/auth-manager-overview"
+      ],
+      "implementation_notes": "Agent Identity APIs / auth manager の 8/22 GA と 8/14 の VPC SC / 組織制約 GA を同期。legacy API は別扱い。"
+    },
+    {
+      "id": "AU03",
+      "status": "applied",
+      "changed_files": [
+        "research/professional/agent-identity.md"
+      ],
+      "evidence": [
+        "https://datatracker.ietf.org/doc/draft-ietf-oauth-v2-1/",
+        "https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-chaining/",
+        "https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-assertion-authz-grant/"
+      ],
+      "implementation_notes": "OAuth 2.1 draft-16 に更新し RFC 未成立を維持。chaining / ID-JAG の状態も記録。"
+    },
+    {
+      "id": "M09",
+      "status": "applied",
+      "changed_files": [
+        "docs/03-implementation/llm-landscape.md",
+        "research/models/open-weights.md"
+      ],
+      "evidence": [
+        "https://huggingface.co/mistralai/Mistral-Medium-3.5-128B",
+        "https://huggingface.co/mistralai/Mistral-Medium-3.5-128B/blob/main/LICENSE",
+        "https://docs.mistral.ai/resources/changelogs"
+      ],
+      "implementation_notes": "Mistral Medium 3.5 の重み公開と Modified MIT の前月連結月商条件を訂正。"
+    },
+    {
+      "id": "M10",
+      "status": "applied",
+      "changed_files": [
+        "docs/03-implementation/llm-landscape.md",
+        "research/models/open-weights.md"
+      ],
+      "evidence": [
+        "https://huggingface.co/moonshotai/Kimi-K3",
+        "https://huggingface.co/moonshotai/Kimi-K3/blob/main/LICENSE"
+      ],
+      "implementation_notes": "Kimi K3 の公式重みと独自契約、MaaS 収益条件・表示義務・例外を Qwen と分離。"
+    },
+    {
+      "id": "M11",
+      "status": "applied",
+      "changed_files": [
+        "research/models/open-weights.md",
+        "docs/03-implementation/llm-landscape.md"
+      ],
+      "evidence": [
+        "https://api-docs.deepseek.com/news/news260813/"
+      ],
+      "implementation_notes": "DeepSeek V4 の GA、effort、Responses、peak / off-peak 条件を追加。"
+    },
+    {
+      "id": "AU04",
+      "status": "applied",
+      "changed_files": [
+        "research/professional/agent-identity.md",
+        "docs/06-security/agent-identity-and-auth.md"
+      ],
+      "evidence": [
+        "https://help.okta.com/oie/en-us/content/topics/releasenotes/preview.htm"
+      ],
+      "implementation_notes": "Okta Preview の XAA Managed connection から Resource Server への再設定予定を追加。日付と全環境 GA は未確定。"
+    },
+    {
+      "id": "A06",
+      "status": "applied",
+      "changed_files": [
+        "research/multimodal/realtime-tts.md",
+        "docs/12-multimodal/speech-synthesis-and-voice-design.md"
+      ],
+      "evidence": [
+        "https://elevenlabs.io/docs/eleven-api/guides/how-to/websockets/tts-vs-ttd-websockets",
+        "https://elevenlabs.io/docs/eleven-api/guides/how-to/websockets/realtime-tts"
+      ],
+      "implementation_notes": "Eleven v3 の TTD WebSocket と単一音声 TTS の別経路・入力構造を明記。"
+    },
+    {
+      "id": "FT01",
+      "status": "applied",
+      "changed_files": [
+        "research/professional/fine-tuning.md",
+        "docs/03-implementation/fine-tuning-and-distillation.md"
+      ],
+      "evidence": [
+        "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/tuning/supervised-tuning",
+        "https://docs.cloud.google.com/gemini-enterprise-agent-platform/release-notes"
+      ],
+      "implementation_notes": "Google 3.5 Flash / 3.1 Flash-Lite の SFT Public Preview、地域と SLA 境界を追記。"
+    },
+    {
+      "id": "FT02",
+      "status": "applied",
+      "changed_files": [
+        "research/professional/fine-tuning.md",
+        "docs/03-implementation/fine-tuning-and-distillation.md",
+        "ROADMAP.md"
+      ],
+      "evidence": [
+        "https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle-legacy.html",
+        "https://docs.aws.amazon.com/bedrock/latest/userguide/custom-model-fine-tuning.html"
+      ],
+      "implementation_notes": "Bedrock Claude 3 Haiku の Legacy / EOL と新規 FT / PT 制限を訂正。既存 custom deployment の扱いと実際の停止確認を分離。"
+    },
+    {
+      "id": "T16",
+      "status": "applied",
+      "changed_files": [
+        "docs/05-operations/llm-gateway.md",
+        "research/llmops/serving.md"
+      ],
+      "evidence": [
+        "https://konghq.com/blog/product-releases/kong-ai-gateway-2-0-ga",
+        "https://developer.konghq.com/ai-gateway/"
+      ],
+      "implementation_notes": "Kong AI Gateway 2.0 と従来の 3.x plugin を分離。製品全体を OSS とする表現を訂正。"
+    },
+    {
+      "id": "T17",
+      "status": "applied",
+      "changed_files": [
+        "research/llmops/serving.md"
+      ],
+      "evidence": [
+        "https://github.com/NVIDIA/TensorRT-LLM/blob/main/LICENSE"
+      ],
+      "implementation_notes": "TensorRT-LLM の LTX-2 ディレクトリのライセンス例外を明記。"
+    },
+    {
+      "id": "T18",
+      "status": "applied",
+      "changed_files": [
+        "research/llmops/serving.md"
+      ],
+      "evidence": [
+        "https://lmstudio.ai/app-terms"
+      ],
+      "implementation_notes": "LM Studio 8/23 App Terms の有料機能と内部利用・SaaS / 再配布制限を同期。"
+    },
+    {
+      "id": "T24",
+      "status": "applied",
+      "changed_files": [
+        "research/ecosystem/industry-oss.md",
+        "docs/03-implementation/llm-landscape.md",
+        "docs/03-implementation/open-source-ai-ecosystem.md"
+      ],
+      "evidence": [
+        "https://ai.google.dev/gemma/terms",
+        "https://ai.google.dev/gemma/apache_2"
+      ],
+      "implementation_notes": "Gemma 4 の Apache 2.0 と旧世代 Gemma Terms を分離。旧規約の日付を Gemma 4 の適用開始日にしない。"
+    },
+    {
+      "id": "T25",
+      "status": "applied",
+      "changed_files": [
+        "research/ecosystem/industry-oss.md",
+        "docs/03-implementation/framework-selection.md"
+      ],
+      "evidence": [
+        "https://github.com/microsoft/autogen",
+        "https://devblogs.microsoft.com/agent-framework/microsoft-agent-framework-version-1-0/",
+        "https://github.com/microsoft/agent-framework"
+      ],
+      "implementation_notes": "Microsoft Agent Framework 1.0 の提供段階・安定 API と AutoGen の maintenance を具体例として追記。"
+    }
+  ],
+  "verification_limits": [
+    "公式文書・規約・公開リポジトリによる仕様確認。実モデル API、IdP 登録・失効、地域別アカウント提供、EOL 当日の実停止は未検証。",
+    "調査メモの過去の観測表は日付付き履歴として保持し、冒頭の 2026-09-10 更新を現行判断の起点にした。"
+  ]
+}

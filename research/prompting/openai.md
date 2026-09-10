@@ -1,7 +1,7 @@
 # PE-R2 調査メモ — OpenAI(GPT 系)公式プロンプト推奨
 
 - **調査日**: 2026-07-08
-- **更新日**: 2026-08-18(四半期定点観測。文末の「観測ログ(2026-08-18 定点観測)」に GPT-5.6 世代の effort / `reasoning.mode` と確認不能事項を追記。本文の表は 2026-07-08 時点のまま)
+- **更新日**: 2026-09-10(以下の鮮度更新を優先。以前の表・観測ログは日付付きの履歴)
 - **性格**: 本メモは公開ドキュメントではなく、`docs/03-implementation/` のプロンプトエンジニアリング関連記事を執筆するための**非公開の一次情報整理**です。断定調で書いていますが、確度欄を必ず併読してください。
 - **調査目的**: OpenAI(GPT 系)公式のプロンプトエンジニアリング推奨を、公式一次情報(platform / developers.openai.com、cookbook)ベースで整理する。特に「推論モデル(reasoning)と非推論モデルの書き分け」「Responses API と指示階層」「Structured Outputs」「prefill 可否」を重点確認する。
 - **根拠の方針**: `developers.openai.com`(旧 `platform.openai.com/docs/*` からの 301/308 リダイレクト先。以下「公式 docs」)と `developers.openai.com/cookbook`(旧 `cookbook.openai.com`)のみを一次情報とする。個人ブログ・比較記事は補助的にのみ用い、確度を落とす。
@@ -27,6 +27,25 @@
 | GPT-5.2 prompting guide(cookbook) | https://developers.openai.com/cookbook/examples/gpt-5/gpt-5-2_prompting_guide |
 
 ---
+
+## 2026-09-10 鮮度更新
+
+Astraの移行はモデル名だけでは完了しません。none/minimalはlowから比較、temperature/top_p/top_logprobsを削除、tool callingはResponsesへ。Chat Completionsのlogprobs、Responsesの出力logprobsのincludeも非対応です。EU data residencyではStandardを使います。GPT-5.6で有効な設定は別に維持します。
+
+承認で止まり過ぎるときは、追加確認が必要な条件、通常の判断を任せる範囲、委任と検証の完了基準を具体化します。skills/AGENTSの曖昧な制約も点検します。
+
+async:trueとcall_idによる非同期ツール、WebSocket steeringを確認しました。キャッシュはprompt_cache_options.ttl:30mと書込課金を確認し、Astra standard単一エージェントではconfiguration_updateを追記してeffortを変更します。元のeffort、過去の本文は維持します。自動圧縮・自動切詰めとの非互換もあります。
+
+一次資料(すべてアクセス日: 2026-09-10):
+
+- https://developers.openai.com/api/docs/guides/latest-model
+- https://developers.openai.com/api/docs/models/gpt-6-astra
+- https://developers.openai.com/api/docs/guides/async-tool-calling
+- https://developers.openai.com/api/docs/guides/steering
+- https://developers.openai.com/api/docs/guides/prompt-caching
+- https://platform.claude.com/docs/en/release-notes/overview
+
+以下の以前の調査本文・観測ログは当時の履歴です。現行判断には上の訂正と各公式資料を優先します。
 
 ## 1. メッセージ構造(system / developer / user と指示階層)
 

@@ -1,3 +1,5 @@
 # 回帰テストはサンプルと同じ固定 SDK を使う。
 -r ../python/tool-use/requirements.txt
 -r ../python/mcp-server/requirements.txt
+# 通信モックに直接使う SDK と同じ HTTP クライアント。
+httpx2==2.12.0

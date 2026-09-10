@@ -8,6 +8,17 @@
 
 > **注**: 本メモは docs/ 規約(テンプレート・固定 H2)の対象外です(CODING-AGENTS-PLAN.md §13)。
 
+## 2026-09-10 鮮度更新の反映
+
+対象記事の本文・比較・TODO に次の確認結果を反映しました。一次資料の文書確認であり、実サービスでの設定・実行の受入試験は行っていません。以下の旧日付の記録は調査履歴です。現行判断には本節と対応する docs を使います。
+
+### T06: Claude Codeのself-hosted environments public betaを追加
+
+Team / Enterprise 向け self-hosted environments は public beta、既定 off、runner ホストに CLI v2.1.224 以降が必要です。runner は Linux / macOS、Windows は Linux container を使います。Web・アプリ・CLI・Routines の cloud session を自社 runner へ送れますが、推論・会話履歴・キューは Anthropic 側で、外向き HTTPS が必要です。ZDR 組織、Security、Code Review は対象外で、推論オンプレミス化とは区別しました。
+
+出典(アクセス日: 2026-09-10、公式明記): [一次資料 1](https://code.claude.com/docs/en/self-hosted-environments) / [Quickstart](https://code.claude.com/docs/en/self-hosted-environments-quickstart)
+
+
 ## 2026-08-18 定点観測での更新
 
 | 確認した事実 | 出典 URL | 確認日 | 確度 |

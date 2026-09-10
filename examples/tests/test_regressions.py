@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import contextlib
-import datetime
 import importlib.util
 import io
 import json
@@ -14,9 +13,8 @@ from unittest.mock import patch
 
 import anthropic
 import anyio
-import httpx
-from mcp import ClientSession, StdioServerParameters
-from mcp.client.stdio import stdio_client
+import httpx2
+from mcp import Client, StdioServerParameters
 
 ROOT = pathlib.Path(__file__).resolve().parents[1] / "python"
 
@@ -52,7 +50,7 @@ def mock_sdk(responses):
     def handler(request):
         requests.append(json.loads(request.content))
         reason, blocks = responses[len(requests) - 1]
-        return httpx.Response(200, json={
+        return httpx2.Response(200, json={
             "id": "msg-test", "type": "message", "role": "assistant", "model": "test-model",
             "content": blocks, "stop_reason": reason, "stop_sequence": None,
             "usage": {"input_tokens": 10, "output_tokens": 10},
@@ -60,7 +58,7 @@ def mock_sdk(responses):
 
     with anthropic.Anthropic(
         api_key="test-key-not-a-secret", max_retries=0,
-        http_client=httpx.Client(transport=httpx.MockTransport(handler)),
+        http_client=httpx2.Client(transport=httpx2.MockTransport(handler)),
     ) as client:
         yield client, requests
 
@@ -209,29 +207,42 @@ class OtherClientTests(unittest.TestCase):
 
 
 class McpTests(unittest.TestCase):
-    def test_real_stdio_marks_business_errors_and_keeps_valid_results(self):
+    def check_stdio(self, mode, expected_version):
         async def check():
             params = StdioServerParameters(
                 command=sys.executable, args=["-X", "utf8", "-B", str(ROOT / "mcp-server" / "mcp_server.py")],
                 env={"PYTHONIOENCODING": "utf-8", "PYTHONDONTWRITEBYTECODE": "1"},
             )
             with anyio.fail_after(30):
-                async with stdio_client(params) as (read, write):
-                    async with ClientSession(read, write, read_timeout_seconds=datetime.timedelta(seconds=10)) as session:
-                        await session.initialize()
-                        listed = await session.list_tools()
-                        self.assertEqual({tool.name for tool in listed.tools}, {"get_expense_policy", "submit_expense"})
-                        for amount, is_error, marker in ((-1, True, "0 以上"), (1.5, True, ""), (True, True, ""), ("3000", True, ""), (0, False, "受理"), (49999, False, "受理"), (50000, False, "承認が必要")):
-                            with self.subTest(amount=amount):
-                                result = await session.call_tool("submit_expense", arguments={"amount": amount, "memo": "test"})
-                                self.assertEqual(result.isError, is_error)
-                                self.assertIn(marker, "".join(block.text for block in result.content if block.type == "text"))
+                async with Client(params, mode=mode, read_timeout_seconds=10) as client:
+                    self.assertEqual(client.protocol_version, expected_version)
+                    self.assertEqual(client.server_info.name, "expense-tools")
+                    listed = await client.list_tools()
+                    self.assertEqual({tool.name for tool in listed.tools}, {"get_expense_policy", "submit_expense"})
+                    for tool in listed.tools:
+                        self.assertEqual(tool.input_schema["type"], "object")
+                    policy = await client.call_tool("get_expense_policy", {"topic": "締切"})
+                    self.assertFalse(policy.is_error)
+                    self.assertIn("毎月末日", "".join(block.text for block in policy.content if block.type == "text"))
+                    for amount, is_error, marker in ((-1, True, "0 以上"), (1.5, True, ""), (True, True, ""), ("3000", True, ""), (0, False, "受理"), (49999, False, "受理"), (50000, False, "承認が必要")):
+                        with self.subTest(amount=amount):
+                            result = await client.call_tool("submit_expense", arguments={"amount": amount, "memo": "test"})
+                            self.assertEqual(result.is_error, is_error)
+                            self.assertEqual(result.model_dump(by_alias=True)["isError"], is_error)
+                            self.assertIn(marker, "".join(block.text for block in result.content if block.type == "text"))
         anyio.run(check)
+
+    def test_modern_stdio_discovers_and_keeps_business_error_boundaries(self):
+        self.check_stdio("auto", "2026-07-28")
+
+    def test_legacy_stdio_initializes_and_keeps_business_error_boundaries(self):
+        self.check_stdio("legacy", "2025-11-25")
 
 
 class SmokeTests(unittest.TestCase):
     def test_all_default_mock_examples(self):
         examples = (
+            ("tool-use", "main.py", []),
             ("structured-output", "structured_output.py", []),
             ("evaluation-harness", "eval_harness.py", []),
             ("rag-basics", "rag.py", ["経費の申請締切はいつですか?"]),

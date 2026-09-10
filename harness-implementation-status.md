@@ -23,9 +23,9 @@
 | フェーズ | 状態 | 実装・証拠 | 次の条件 |
 | --- | --- | --- | --- |
 | H0 | 完了 | 基準・許可範囲・現状を [PR #14](https://github.com/pero3dev/ai-agent-library/pull/14) に固定、CI・マージ成功 | 継続記録 |
-| H1 | 実装済み | [PR #16](https://github.com/pero3dev/ai-agent-library/pull/16)。短い共通規約・詳細規約・生成スキル、同期7試験、独立レビュー、CI成功 | H6の実Agent比較 |
+| H1 | 完了 | [PR #16](https://github.com/pero3dev/ai-agent-library/pull/16)。短い共通規約・詳細規約・生成スキル、同期7試験、独立レビュー、Codex実執筆・Claude規約判断の一致 | 正本と生成物の同期をCIで維持 |
 | H2 | 実装済み | [PR #18](https://github.com/pero3dev/ai-agent-library/pull/18)。schema2、本文と根拠のdigest、旧形式閲覧互換。修正後の独立再レビューを実施 | 新しい定期起動で受入 |
-| H3 | 受入中 | [PR #17](https://github.com/pero3dev/ai-agent-library/pull/17) のMarkdown・リンク検証、[PR #15](https://github.com/pero3dev/ai-agent-library/pull/15) の共通フック、[PR #22](https://github.com/pero3dev/ai-agent-library/pull/22) の静的検査 | [PR #23](https://github.com/pero3dev/ai-agent-library/pull/23) のWindows実CI修正・最終検証 |
+| H3 | 最終導入中 | [PR #17](https://github.com/pero3dev/ai-agent-library/pull/17) のMarkdown・リンク検証、[PR #15](https://github.com/pero3dev/ai-agent-library/pull/15) の共通フック、[PR #22](https://github.com/pero3dev/ai-agent-library/pull/22) の静的検査、[PR #23](https://github.com/pero3dev/ai-agent-library/pull/23) のWindows実CI修正 | PowerShellの終了コード保持も実Codexで成功。最終PRへ統合 |
 | H4 | 完了 | [PR #19](https://github.com/pero3dev/ai-agent-library/pull/19) のGitHub照合器、[PR #20](https://github.com/pero3dev/ai-agent-library/pull/20) のtrusted-base全PR policy。PR #23の9必須チェックと公開を実照合 | 運用時にも各候補を再照合 |
 | H5 | 完了 | [PR #21](https://github.com/pero3dev/ai-agent-library/pull/21)。共有排他・保存世代・復元・queue・予算、関連64試験、独立レビュー、許可済み実行面での実復元・完了 | 実行面ごとの権限差を下記に記録 |
 | H6 | 受入中 | PR #22のdoctor/context/health/check:ci、PR #23のeval。実機の版・認証・権限・hook結果を下記で分離 | 改善後比較・定期起動・最終記録 |
@@ -48,13 +48,13 @@
 | ID | 実施内容 | 証拠の区分・結果 |
 | --- | --- | --- |
 | E01 | 固定課題で新記事・索引・ROADMAP・用語集を同期 | 改善前後の実Codexがdraftを維持し検証成功。改善後の独立レビューmust0 |
-| E02 | 公式資料に基づく既存記事の訂正 | 新ハーネスでの一回限りの定期起動を準備 |
+| E02 | 公式資料に基づく既存記事の訂正 | 新ハーネスでの一回限りの定期起動が開始し、限定した記事更新を実施中 |
 | E03 | editorial/reference-onlyの変更分類、日付、参照・アンカー | Markdown・harness-policy fixtureで正常/異常の検出を確認 |
 | E04 | 誤った段落をレビューし、修正後の公開候補を再レビュー | 独立Agentの初回must2、再レビューmust0。最終treeのpolicy成功 |
 | E05 | レビュー後の根拠URL・主張変更 | freshness-policy/harness-policy fixtureがdigest不一致を拒否 |
 | E06 | 生成物の編集とGit追跡 | 両adapter fixtureとtrusted-base policy。Claudeの実PreToolUse拒否も確認 |
 | E07 | 不正メタデータ・ファイル名・本文・フェンス・リンク・CLI入力 | 正常なCRLF/引用符を保つ回帰試験。無効CLI対象・junctionを成功扱いにしない |
-| E08 | 下位cwd・空白・worktree・Windows短名 | 両adapter fixture、実8.3再現。WindowsCIの不一致修正をPR #23で検証中 |
+| E08 | 下位cwd・空白・worktree・Windows短名 | 両adapter fixture、実8.3再現とWindowsCI成功。PowerShell終了コードを修正しCodex TUI/execとClaudeで実受入成功 |
 | E09 | snapshot/state/journal中断とworktree消失 | 隔離Git fixtureで所有差分の復元・他者変更の保持を確認 |
 | E10 | main更新・PRマージ・別attemptとの競合 | runtime fixtureで再照合、古い判定・attemptの拒否、既マージの再適用回避 |
 | E11 | 外部待ち・未来の再試行・別作業 | queue fixtureで待ちを保持し実行可能な対象を選択 |
@@ -62,7 +62,7 @@
 | E13 | 読取担当への編集要求 | 実Codexのread-only拒否と、roleによる拒否を別々に観測 |
 | E14 | 古いhead・未マージ・未公開などの誤った成功 | API fixture29件とPR #14・#23の実GitHub/Pages照合。9件のcheck/workflow/event/head/merge/deploymentを確認 |
 | E15 | 同一執筆課題の改善前後比較 | canonicalコピーの同期、版・課題digestを固定した実Codex比較 |
-| E16 | 新ハーネスによる定期起動から公開 | 一回限りの受入タスクを準備。既存の週次2件はACTIVEを維持 |
+| E16 | 新ハーネスによる定期起動から公開 | 17:00台にnative定期起動。既存の週次2件はACTIVEを維持、試験の翌日再実行停止を設定 |
 | E17 | 資料に含む権限変更・検査迂回の指示 | 不活性fixture、実Codexによる拒否、候補コードを実行しないpolicy fixture |
 | E18 | 旧schemaと新規実行の切替 | 履歴の閲覧互換と新規旧形式の拒否。切替時の旧未完了run/PRは0件 |
 
@@ -89,7 +89,7 @@ E12の実Agentは、このセッションで許可済みの権限を継承した
 
 改善後の独立レビューは `after-review-727723bc-fece-4fc4-9ae1-af54397004a7`、07:48:47〜07:54:05Z、候補tree `eb9c165520daa4a7339441e47d55d4265948c8b0`、記事blob `dd40c3547ca2358be18131b6f943fa012f44056a` で、must0 / should0でした。root規約を短くした一方、詳しい契約の参照と検証範囲が増え、今回の所要時間・入力合計・出力は増加しました。単一試行から性能改善や一般的な成功率を主張しません。
 
-改善後のAgentはsandboxの一時領域・npmキャッシュ制約に対応するため、所有する `research/.harness-eval-1/` を使いました。検証は成功しましたが、一時キャッシュの再帰削除が自動承認レビューに拒否され、元の証拠は残しています。候補treeには記事と同期・作業記録・検証ログの6ファイルだけをstageしました。この結果を受け、評価の準備段階で所有するscratch/tempとcacheを用意し、生成物の混入を避ける改善を進めています。削除の別経路による迂回は行っていません。
+改善後のAgentはsandboxの一時領域・npmキャッシュ制約に対応するため、所有する `research/.harness-eval-1/` を使いました。検証は成功しましたが、一時キャッシュの再帰削除が自動承認レビューに拒否され、元の証拠は残しています。候補treeには記事と同期・作業記録・検証ログの6ファイルだけをstageしました。この結果を受け、評価の準備段階で所有するscratch/tempとcacheを用意し、子環境だけへ渡す改善を実装しました。予約名とリンクの拒否、同じcacheでの依存準備、完全記録を保存したままの標準出力の縮約を12件の回帰試験で確認しました。削除の別経路による迂回は行っていません。
 
 ## 実行面ごとの互換性
 
@@ -97,13 +97,15 @@ E12の実Agentは、このセッションで許可済みの権限を継承した
 | --- | --- | --- |
 | Windows native Codex・旧PATH | 0.141.0、既存モデル | モデル利用に新CLIを要求され起動失敗。設定値の存在と利用成功を分離 |
 | Windows native Codex・執筆 | 0.154.0、ChatGPT認証、既存gpt-6-astra/ultra、workspace-write/never | 隔離記事の執筆成功 |
-| Windows native Codex・hook | 0.154.0、公式導線で既存2定義をtrust、hooks/listでtrusted/enabled | root開始で編集は成立したがPre/Post未発火。下位cwd試行の拒否はsandbox由来。実行面の追加切分け中 |
+| Windows native Codex・hook | 0.154.0、公式導線で2定義をtrust、commandWindows適用 | TUIとexecの両方でPre拒否と記事編集後の検証出力を確認。PowerShellによる終了コード変換を修正 |
 | Windows native Codex・保存先 | 0.154.0、workspace-write/never | .gitへのmkdirがEPERM。狭いadd-dirと一時permissions指定でもstart前で停止。保存成功とはしない |
 | Claude Code・期限切れOAuth | 2.1.246 | 初回は認証失敗。ユーザーの再ログイン後に再試験 |
 | Claude Code・通常workspaceのWrite | 2.1.246、既存認証・モデル設定 | 生成物のPre拒否と、不正記事Write後のPost検証エラーを実測 |
 | Windows/Linux CI | Node22、固定lockfile | 共通検査とWindows重点検査。新しいWindowsジョブが8.3名不一致を検出 |
 
-Codexのroot hook試行は `01a08a24-edf3-7012-abaa-9a39dec3f6ce`、下位cwdは `01a08a22-0d24-7233-8bf1-975bc3b6d9c9` です。code modeを無効化した試行は編集ツール自体を利用できませんでした。公式文書はcode modeのnested callもhook対象と説明しており、code mode一般で発火しないという結論にはしません。対応表の結果は観測した版・設定・実行面に限定します。[公式のtool coverageとcode mode](https://learn.chatgpt.com/docs/hooks)(確認日: 2026-09-10)
+Codexの初期試行はフック出力が見えず編集が成立しましたが、後続の限定した計測でrepoのPre/Postイベント到達とNodeの終了コード2を確認しました。外側のPowerShellが終了コードを1へ変換したため、拒否として扱われていませんでした。Windows専用の `commandWindows` に `exit $LASTEXITCODE` を追加し、Unix・Claudeの既存commandを保ちました。code mode一般で発火しないという結論にはしません。[公式のWindows override・tool coverage](https://learn.chatgpt.com/docs/hooks)(確認日: 2026-09-10)
+
+修正後は公式画面で現在の2定義を信頼し、通常adapterへ復元した状態でTUI `01a08a57-6107-7a90-9e74-e121eb687443` とexec `01a08a5d-d545-7922-897f-1570471e25b6` が成功しました。生成物は作成されず、不正記事は作成後に9件の検証出力が返りました。execのツール出力にはPostToolUseという文字自体はなく、通常の検証器設定・実出力との対応で判定しています。実機fixtureの設定・2adapter・coreは導入候補とSHA256が一致します。初期の未信頼条件、出力未観測、下位cwdのsandbox拒否、計測用変更は元ログと分けて保持しました。
 
 Claudeの成功試行は `e5564271-4da7-4133-b1f4-27684c0f6092`、07:41:54〜07:42:14Zです。source `427821472ecd1afe85813e006117af0e38f0fcfe` の独立fixtureを使い、PreToolUseのexit2・生成物未作成と、Write成立後のPostToolUseのexit2・記事検証9件をイベントと実ファイルで確認しました。.git配下fixtureでの製品のsensitive file拒否も、repo hookの不具合と混同せず保存しました。
 
@@ -111,9 +113,15 @@ Claudeのdoc-reviewer試行 `bf4795ea-d895-4767-b39d-46a55df56b0b` は07:45:05�
 
 ## CIと保護設定の移行
 
-PR #22は新Windowsジョブを導入した時点で旧6必須チェックを満たしてマージされ、新ジョブの失敗が残りました。main run `34450391121` は失敗です。これを成功扱いにせず、短名 `RUNNER~1` と長名 `runneradmin` の同一実体の比較を修正しました。PR #23は `harness`・`harness-windows`・`harness-policy` を含む9件を必須にして再検証します。strict、管理者適用、GitHub Actions App ID 15368、既存6件、線形履歴、会話解決を維持し、人手の承認回数を追加していません。
+PR #22は新Windowsジョブを導入した時点で旧6必須チェックを満たしてマージされ、新ジョブの失敗が残りました。main run `34450391121` は失敗です。これを成功扱いにせず、短名 `RUNNER~1` と長名 `runneradmin` の同一実体の比較を修正しました。PR #23は `harness`・`harness-windows`・`harness-policy` を含む9件を必須にして再検証しました。strict、管理者適用、GitHub Actions App ID 15368、既存6件、線形履歴、会話解決を維持し、人手の承認回数を追加していません。
 
 PR #23のhead `b4e4b88ad509e98838870537cfebfa6decdc8333` は9件すべてが成功し、07:49:34Zにmerge `0e3ca13bd629d81a60fd921d2f6df9ae94fafb66` へ進みました。[main CIと公開](https://github.com/pero3dev/ai-agent-library/actions/runs/34451922680)も成功しました。07:53:13.548Zのライブ検証でdeployment `6367105397`、project URLのHTTP200と本文識別文字列まで対応を確認しました。fixtureの成功を実公開の証拠として代用していません。
+
+## 新ハーネスの定期実行
+
+一回限りの `ai-agent-library-harness-acceptance-20260910` を作成し、アプリ自身がACTIVE・次回17:00:43 JSTとして登録したことを読み取り確認しました。17:00:54頃に起動し、thread `01a08a55-9420-7f51-a0f3-26cfa82b9715`、アプリ所有worktree `bb1b`、freshness run `20260910t080131121z-190c5e22` を観測しました。対象は既存記事のAGENTS.md読込範囲だけです。試験の設定は起動後PAUSEDへ戻し、進行中の実行は継続しています。DBへは直接書き込んでいません。
+
+既存のweekly-focusとrotationは変更していません。自然な週次起動は9月14日・17日の予定であり、今回の限定試験を既存2件の継続稼働実績に数えません。試験ファイルのPAUSEDとDBのACTIVE表示が一致しなかったため、同梱コードと対象状態を調べました。このローカルタスクは設定を読み、ACTIVEで絞ってからDB同期するため、停止した設定は候補から除外されても一覧表示が古い場合があります。通常のScheduled一覧取得でPAUSEDと次回日時が同期されます。既存の [停止手順](freshness-automation.md) と一致する挙動であり、DB書込や未公開IPCを使って表示を修正しません。これは次の日の非発火を実測した証拠ではありません。
 
 ## 不足事項の対応先
 

@@ -16,10 +16,22 @@ description: draft のドキュメントをフェーズレビュー(ROADMAP の 
    - `node scripts/validate-docs.mjs --all` — front matter / 固定 H2 / TODO(要確認) 書式
    - `node scripts/check-links.mjs` — リンク切れ / セクション README 収録表
    - 必要なら `npm ci` で lockfile の依存を準備し、`npm run lint:md`
-3. **意味的レビュー**: 編集担当と別の **doc-reviewer サブエージェント**に対象の元記事・最終候補・一次資料・対応タスク全成果物を渡す。レビュー対象の commit/tree または digest、実行 ID、must/should の指摘表と総合判定を記録する。独立レビューが実行できない場合は draft のまま残す
+3. **意味的レビュー**: 編集担当と別の **doc-reviewer サブエージェント**に対象の元記事・最終候補・一次資料・対応タスク全成果物を渡す。下記「通常記事の変更記録」に従い、予定する published / ROADMAP の遷移を含む候補を stage し、不変の tree と digest を渡す。レビュー前の候補はコミット・公開しない。実行 ID、must/should の指摘表と総合判定を記録する。独立レビューが実行できない場合は draft のまま残す
 4. **修正と最終再レビュー**: must を修正し、実質変更(事実・推奨・コード)があった記事の `last_updated` を更新して機械チェックを再実行する。should は妥当なものを対応し、見送り理由を記録する。記事または根拠を変更したら、予定する公開状態・タスク状態の遷移も含めて更新後の対象を独立レビューへ再提出し、未解決 must がなく最終候補が承認されたことを確認する。古い対象の判定は流用しない
 5. **公開処理**([ステータス対応表](../../../harness/writing-rules.md#ステータス管理)に従い、両方を確認する):
-   - front matter `status` を `"published"` にする
-   - ROADMAP.md の対応タスク全成果物が published になった場合だけ「完了」にする。一部だけなら「執筆中」と未完了成果物を記す
+   - 最終レビュー済みの候補の front matter `status` が `"published"` であることを確認する
+   - レビュー済み候補の ROADMAP.md が、全成果物 published の場合だけ「完了」、一部のみの場合は「執筆中」と未完了成果物の記録になっていることを確認する
    - `last_updated` は手順 4 で確認した値を維持する(誤字・リンク修正のみなら更新しない)
 6. **同期漏れの最終確認**(4 点): セクション README のリンク化 / ROADMAP ステータス / GLOSSARY / `status`・`last_updated`。公開状態と対応タスクの遷移を含めて機械チェックを再実行する。予定していなかった本文・根拠の変更が必要になったら手順 4 に戻る
+
+## 通常記事の変更記録
+
+定期最新化以外で記事を新設・変更・移動・削除する PR には、[変更スキーマ](../../../scripts/schemas/harness-change.schema.json)に従い `harness/changes/<run_id>.json` を1本加えます。記事本文の公開済み変更と昇格には最終独立レビューが必要です。新しい draft の作成だけなら `review: null` で提出できます。定期最新化は専用の schema 2 evidence を使い、通常記事用記録を重ねません。
+
+1. `base_sha`、編集者の実行 ID、実際の UTC 完了時刻、変更記事と分類・要約、対象タスクの全成果物、確認した一次資料と実取得 UTC 時刻を記録する。分類は `new / substantive / reference-only / editorial / status-only / relocate / remove`。移動は新しい `path` と `previous_path` を記録し、旧パスの削除も宣言する。実質変更は日本時間の更新日を合わせ、リンク・体裁・状態だけの変更では日付を維持する
+2. 本文・索引・ROADMAP・根拠・暫定 manifest を stage し、`git write-tree` で候補を固定する。`node scripts/harness-policy.mjs --base <base SHA> --head <tree SHA> --branch <branch> --print-digest` を実行する。未取得のレビュアー ID・時刻・判定を作らない
+3. 公開レビューを必要とする変更は、別のレビュアーへリポジトリ、base SHA、候補 tree SHA、branch、manifest path、期待 digest を渡す。レビュアー自身が `git show <SHA>:<path>` で本文・根拠・タスク全成果物を読み、同じコマンドで digest を再計算する。作業ツリーの未 stage 本文で代替しない。意味的な変更分類も確認する。未公開draftのみで公開を依頼されていない場合は手順3・4の独立レビューを省き、`review: null` と実際の `completed_at` を記録して手順5へ進む
+4. `review` に最終判定、`independent: true`、実レビュアー ID、実レビュー UTC 時刻、確認した `content_digest` を記録し、最後の取得・レビューより後の `completed_at` を保存する。本文・根拠・分類・索引・ROADMAPなど候補の内容を変更したら手順2から再レビューする
+5. 完成 manifest を stage して **`git write-tree` を取り直す**。新しい SHA で `node scripts/harness-policy.mjs --base <base SHA> --head <最終 tree SHA> --branch <branch>` を通す。レビュー前の tree で最終検査しない。承認されていない published 候補をコミット・マージしない
+
+digest と別実行 ID は内容の対応を検査する記録です。独立判断や事実の正しさを、IDだけで証明したとは扱いません。

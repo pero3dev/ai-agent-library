@@ -5,6 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { acquireLock, releaseLock, automaticMode, applyCompletion, parseArgs, loadState, main, storageDirectory, interruptedRuns } from './freshness-run.mjs';
+import { windowsShortPath } from './lib/windows-test-path.mjs';
 
 const blank = () => ({ schema_version: 1, systems: {}, pending: [], runs: {} });
 const now = new Date('2026-09-10T01:00:00Z');
@@ -229,9 +230,21 @@ test('linked worktrees share a single freshness lock and state directory', t => 
   const fixture = gitFixture(t);
   const worktree = path.join(fixture.directory, 'linked-worktree');
   fixture.git('worktree', 'add', '--detach', worktree, 'HEAD');
-  assert.equal(storageDirectory(worktree), fixture.dir);
+  const canonicalStorage = directory => path.join(fs.realpathSync.native(path.dirname(directory)), path.basename(directory));
+  assert.equal(canonicalStorage(storageDirectory(worktree)), canonicalStorage(fixture.dir));
   acquireLock(fixture.dir, 'run-primary', now);
   assert.throws(() => acquireLock(storageDirectory(worktree), 'run-linked', now), /owns the lock/);
+  releaseLock(fixture.dir, 'run-primary');
+});
+
+test('Windows 8.3 checkout names use the same physical freshness storage and lock', t => {
+  const fixture = gitFixture(t);
+  const short = windowsShortPath(fixture.root);
+  if (!short.path) { t.skip(short.reason); return; }
+  const aliasStorage = storageDirectory(short.path);
+  acquireLock(fixture.dir, 'run-primary', now);
+  assert.equal(fs.realpathSync.native(aliasStorage), fs.realpathSync.native(fixture.dir));
+  assert.throws(() => acquireLock(aliasStorage, 'run-short-name', now), /owns the lock/);
   releaseLock(fixture.dir, 'run-primary');
 });
 

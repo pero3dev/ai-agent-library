@@ -6,6 +6,10 @@
 ステータス凡例: `未着手` / `執筆中` / `レビュー待ち` / `完了`
 (ファイル単位のステータスとの対応関係は [執筆規約のステータス管理](harness/writing-rules.md#ステータス管理)を参照。ファイル単位の正本は各ドキュメントの front matter `status` です)
 
+## 作業に応じた入口
+
+初版と記事拡張のフェーズは完了しています。継続作業は [定期メンテナンス](#定期メンテナンスフェーズ完了後も継続)、定期タスクの手順は [freshness-automation.md](freshness-automation.md) から確認します。サイト・ハーネス・構造整理などの計画と実施記録は [project/README.md](project/README.md) にまとめています。既存フェーズのタスク ID・成果物・完了表は以下に保持します。
+
 ## 執筆の原則
 
 - 新規学習記事は **1 作業単位につき原則 1〜3 本**。既存記事の編集・索引等の同期ファイルは別に数え、大きな依頼は作業単位を順に継続します
@@ -122,7 +126,7 @@
 
 ### Phase A: AI コーディングエージェント章(08-coding-agents)— ✅ 完了(2026-07-06)
 
-設計書は [CODING-AGENTS-PLAN.md](CODING-AGENTS-PLAN.md)。ツール別ページの執筆前に、設計書 §11 の調査タスク(C-R1〜C-R10)で公式情報の裏取りを実施済み(記録: `research/coding-agents/`、調査日 2026-07-05)。
+設計書は [coding-agents.md](project/plans/content/coding-agents.md)。ツール別ページの執筆前に、設計書 §11 の調査タスク(C-R1〜C-R10)で公式情報の裏取りを実施済み(記録: `research/coding-agents/`、調査日 2026-07-05)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -138,7 +142,7 @@
 
 ### Phase B: コーディングエージェント章の拡張 — 実践・コスト最適化・自動化 — ✅ 完了(2026-07-06)
 
-設計は [CODING-AGENTS-PLAN.md](CODING-AGENTS-PLAN.md) §14。ツール別実践ページの執筆前に追加調査(C-R11〜C-R13)を実施済み(記録: `research/coding-agents/*-practice.md`、調査日 2026-07-06)。
+設計は [coding-agents.md](project/plans/content/coding-agents.md) §14。ツール別実践ページの執筆前に追加調査(C-R11〜C-R13)を実施済み(記録: `research/coding-agents/*-practice.md`、調査日 2026-07-06)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -160,7 +164,7 @@
 
 ### Phase D: プロフェッショナル化拡張 — 土台(09-business 新設・スキルマップ・ビジネス実務)— ✅ 完了(2026-07-06)
 
-設計は [EXPANSION-PLAN.md](EXPANSION-PLAN.md)(Phase D〜I・24 本の全体計画)。Phase D は原則が安定した方法論のみを扱うため執筆前調査は不要(調査タスク P-R1〜P-R6 は該当フェーズの着手時に実施)。
+設計は [expansion.md](project/plans/content/expansion.md)(Phase D〜I・24 本の全体計画)。Phase D は原則が安定した方法論のみを扱うため執筆前調査は不要(調査タスク P-R1〜P-R6 は該当フェーズの着手時に実施)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -171,7 +175,7 @@
 
 ### Phase E: プロフェッショナル化拡張 — P1 実装・保証(advanced 4 本)— ✅ 完了(2026-07-06)
 
-設計は [EXPANSION-PLAN.md](EXPANSION-PLAN.md)。E-3 の執筆前に調査タスク P-R1(エージェント認証の標準化動向)を実施(記録: `research/professional/agent-identity.md`、調査日 2026-07-06)。
+設計は [expansion.md](project/plans/content/expansion.md)。E-3 の執筆前に調査タスク P-R1(エージェント認証の標準化動向)を実施(記録: `research/professional/agent-identity.md`、調査日 2026-07-06)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -182,7 +186,7 @@
 
 ### Phase F: プロフェッショナル化拡張 — P2 前半(非同期・記憶・プロンプト資産・改善ループ)— ✅ 完了(2026-07-06)
 
-設計は [EXPANSION-PLAN.md](EXPANSION-PLAN.md)。F-1 の執筆前に調査タスク P-R2(耐久実行・ワークフローエンジンの動向)を実施(記録: `research/professional/durable-execution.md`、調査日 2026-07-06)。
+設計は [expansion.md](project/plans/content/expansion.md)。F-1 の執筆前に調査タスク P-R2(耐久実行・ワークフローエンジンの動向)を実施(記録: `research/professional/durable-execution.md`、調査日 2026-07-06)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -192,7 +196,7 @@
 
 ### Phase G: プロフェッショナル化拡張 — P2 後半(レッドチーミング・コンプライアンス・オンライン評価)— ✅ 完了(2026-07-07)
 
-設計は [EXPANSION-PLAN.md](EXPANSION-PLAN.md)。G-1 の執筆前に調査タスク P-R5(規制動向の一次情報)を実施(記録: `research/professional/compliance.md`、調査日 2026-07-07)。
+設計は [expansion.md](project/plans/content/expansion.md)。G-1 の執筆前に調査タスク P-R5(規制動向の一次情報)を実施(記録: `research/professional/compliance.md`、調査日 2026-07-07)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -202,7 +206,7 @@
 
 ### Phase H: プロフェッショナル化拡張 — P2 応用(操作型・音声・FT・ROI・事例)— ✅ 完了(2026-07-07)
 
-設計は [EXPANSION-PLAN.md](EXPANSION-PLAN.md)。執筆前に調査タスク P-R3(音声 API の動向)・P-R6(FT・蒸留の提供形態)を実施(記録: `research/professional/voice-agents.md`, `fine-tuning.md`、調査日 2026-07-07)。
+設計は [expansion.md](project/plans/content/expansion.md)。執筆前に調査タスク P-R3(音声 API の動向)・P-R6(FT・蒸留の提供形態)を実施(記録: `research/professional/voice-agents.md`, `fine-tuning.md`、調査日 2026-07-07)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -213,7 +217,7 @@
 
 ### Phase I: プロフェッショナル化拡張 — P3 発展(マルチテナント・API 設計・ベンチマーク・事例)— ✅ 完了(2026-07-07)
 
-設計は [EXPANSION-PLAN.md](EXPANSION-PLAN.md)。I-2 の執筆前に調査タスク P-R4(公開ベンチマークの一覧・リーダーボード・評価方法論)を実施(記録: `research/professional/benchmarks.md`、調査日 2026-07-07)。これで EXPANSION-PLAN の全 24 タスク(新規 23 本 + learning-roadmap 改訂)が完了。
+設計は [expansion.md](project/plans/content/expansion.md)。I-2 の執筆前に調査タスク P-R4(公開ベンチマークの一覧・リーダーボード・評価方法論)を実施(記録: `research/professional/benchmarks.md`、調査日 2026-07-07)。これで EXPANSION-PLAN の全 24 タスク(新規 23 本 + learning-roadmap 改訂)が完了。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -223,7 +227,7 @@
 
 ### Phase J: 別冊拡張 — LLM 基礎(10-llm-foundations 新設)— ✅ 完了(2026-07-07)
 
-設計は [SUPPLEMENTARY-PLAN.md](SUPPLEMENTARY-PLAN.md)(Phase J〜L・11 本の別冊計画)。LLM 基礎は原理が安定しているため執筆前調査は不要(調査タスク Q-R1〜Q-R3 は該当フェーズの着手時に実施)。
+設計は [supplementary.md](project/plans/content/supplementary.md)(Phase J〜L・11 本の別冊計画)。LLM 基礎は原理が安定しているため執筆前調査は不要(調査タスク Q-R1〜Q-R3 は該当フェーズの着手時に実施)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -235,7 +239,7 @@
 
 ### Phase K: 別冊拡張 — プロンプト技法・会話データ基盤 — ✅ 完了(2026-07-07)
 
-設計は [SUPPLEMENTARY-PLAN.md](SUPPLEMENTARY-PLAN.md)。調査タスク Q-R3(会話データの規制要件)は独立実施せず、P-R5 の調査メモ(`research/professional/compliance.md`)と `compliance-and-governance.md` を規制面の正本として参照(決定ログ参照)。
+設計は [supplementary.md](project/plans/content/supplementary.md)。調査タスク Q-R3(会話データの規制要件)は独立実施せず、P-R5 の調査メモ(`research/professional/compliance.md`)と `compliance-and-governance.md` を規制面の正本として参照(決定ログ参照)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -245,7 +249,7 @@
 
 ### Phase L: 別冊拡張 — フィジカル AI 概観・業界規制マップ(最終フェーズ)— ✅ 完了(2026-07-07)
 
-設計は [SUPPLEMENTARY-PLAN.md](SUPPLEMENTARY-PLAN.md)。執筆前に調査タスク Q-R1(フィジカル AI / VLA の現在地)・Q-R2(業界規制の一次情報所在)を実施(記録: `research/supplementary/physical-ai.md`, `regulations.md`、調査日 2026-07-07)。L-2(金融・医療の考慮点 2 本)は縮小決定により収録しない(決定ログ参照。ユーザー確認済み)。
+設計は [supplementary.md](project/plans/content/supplementary.md)。執筆前に調査タスク Q-R1(フィジカル AI / VLA の現在地)・Q-R2(業界規制の一次情報所在)を実施(記録: `research/supplementary/physical-ai.md`, `regulations.md`、調査日 2026-07-07)。L-2(金融・医療の考慮点 2 本)は縮小決定により収録しない(決定ログ参照。ユーザー確認済み)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -255,7 +259,7 @@
 
 ### Phase M: 詳解拡張 — プロンプトエンジニアリング(DEEP-DIVE 第 1 弾)— ✅ 完了(2026-07-07)
 
-設計は [DEEP-DIVE-PLAN.md](DEEP-DIVE-PLAN.md)(M〜O・7 本)。原理が安定した領域のため執筆前調査は不要(自動最適化のフレームワーク動向のみ TODO 前提)。
+設計は [deep-dive.md](project/plans/content/deep-dive.md)(M〜O・7 本)。原理が安定した領域のため執筆前調査は不要(自動最適化のフレームワーク動向のみ TODO 前提)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -264,7 +268,7 @@
 
 ### Phase N: 詳解拡張 — コンテキストエンジニアリング(DEEP-DIVE 第 2 弾)— ✅ 完了(2026-07-07)
 
-設計は [DEEP-DIVE-PLAN.md](DEEP-DIVE-PLAN.md)。原則が安定した領域のため執筆前調査は不要。
+設計は [deep-dive.md](project/plans/content/deep-dive.md)。原則が安定した領域のため執筆前調査は不要。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -273,7 +277,7 @@
 
 ### Phase O: 詳解拡張 — ハーネス・ループエンジニアリング(DEEP-DIVE 第 3 弾)— ✅ 完了(2026-07-08)
 
-設計は [DEEP-DIVE-PLAN.md](DEEP-DIVE-PLAN.md)。原理が安定した領域のため執筆前調査は不要(ハーネス依存の実証は `research/professional/benchmarks.md` を根拠に再利用)。これで DEEP-DIVE 計画の全 7 本(M〜O)が完了。
+設計は [deep-dive.md](project/plans/content/deep-dive.md)。原理が安定した領域のため執筆前調査は不要(ハーネス依存の実証は `research/professional/benchmarks.md` を根拠に再利用)。これで DEEP-DIVE 計画の全 7 本(M〜O)が完了。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -283,7 +287,7 @@
 
 ### Phase BA: モデル特化プロンプティング(MODEL-PROMPTING)— ✅ 完了(2026-07-08)
 
-設計は [MODEL-PROMPTING-PLAN.md](MODEL-PROMPTING-PLAN.md)。全 4 本が鮮度管理型・調査必須。執筆前に PE-R1〜R3(Anthropic / OpenAI / Google の公式プロンプト推奨)を実施(記録: `research/prompting/`、調査日 2026-07-08)。
+設計は [model-prompting.md](project/plans/content/model-prompting.md)。全 4 本が鮮度管理型・調査必須。執筆前に PE-R1〜R3(Anthropic / OpenAI / Google の公式プロンプト推奨)を実施(記録: `research/prompting/`、調査日 2026-07-08)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -294,7 +298,7 @@
 
 ### Phase AD: データ・知識基盤 — 埋め込み・ベクトル DB・前処理(DATA-KNOWLEDGE 第 1 弾)— ✅ 完了(2026-07-08)
 
-設計は [DATA-KNOWLEDGE-PLAN.md](DATA-KNOWLEDGE-PLAN.md)。原則が安定した領域のため執筆前調査は不要(製品名は本文に置かず、類型・選定軸で記述)。
+設計は [data-knowledge.md](project/plans/content/data-knowledge.md)。原則が安定した領域のため執筆前調査は不要(製品名は本文に置かず、類型・選定軸で記述)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -304,7 +308,7 @@
 
 ### Phase AE: データ・知識基盤 — GraphRAG・合成データ・データガバナンス(DATA-KNOWLEDGE 第 2 弾)— ✅ 完了(2026-07-08)
 
-設計は [DATA-KNOWLEDGE-PLAN.md](DATA-KNOWLEDGE-PLAN.md)。原則が安定した領域のため執筆前調査は不要(教師モデル出力の利用条件のみ TODO 前提)。これで DATA-KNOWLEDGE 計画の全 6 本(AD + AE)が完了。
+設計は [data-knowledge.md](project/plans/content/data-knowledge.md)。原則が安定した領域のため執筆前調査は不要(教師モデル出力の利用条件のみ TODO 前提)。これで DATA-KNOWLEDGE 計画の全 6 本(AD + AE)が完了。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -314,7 +318,7 @@
 
 ### Phase AK: 評価・品質の深掘り — 評価環境・シミュレータ・較正(EVAL-QUALITY 第 1 弾)— ✅ 完了(2026-07-08)
 
-設計は [EVAL-QUALITY-PLAN.md](EVAL-QUALITY-PLAN.md)。原則が安定した領域のため執筆前調査は不要(`research/professional/benchmarks.md` の τ-bench・評価環境の知見を再利用)。
+設計は [eval-quality.md](project/plans/content/eval-quality.md)。原則が安定した領域のため執筆前調査は不要(`research/professional/benchmarks.md` の τ-bench・評価環境の知見を再利用)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -324,7 +328,7 @@
 
 ### Phase AL: 評価・品質の深掘り — 公平性・日本語品質(EVAL-QUALITY 第 2 弾)— ✅ 完了(2026-07-08)
 
-設計は [EVAL-QUALITY-PLAN.md](EVAL-QUALITY-PLAN.md)。原則が安定した領域のため執筆前調査は不要(日本語ベンチマーク名は TODO 前提)。これで EVAL-QUALITY 計画の全 5 本(AK + AL)が完了。
+設計は [eval-quality.md](project/plans/content/eval-quality.md)。原則が安定した領域のため執筆前調査は不要(日本語ベンチマーク名は TODO 前提)。これで EVAL-QUALITY 計画の全 5 本(AK + AL)が完了。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -333,7 +337,7 @@
 
 ### Phase AX: AI 信頼性エンジニアリング — SLO・カオス・常駐(RELIABILITY)— ✅ 完了(2026-07-08)
 
-設計は [RELIABILITY-PLAN.md](RELIABILITY-PLAN.md)。SRE の方法論を AI 固有の面に適用するため執筆前調査は不要(EVAL-QUALITY の evaluation-environments を注入演習の実行環境として参照)。
+設計は [reliability.md](project/plans/content/reliability.md)。SRE の方法論を AI 固有の面に適用するため執筆前調査は不要(EVAL-QUALITY の evaluation-environments を注入演習の実行環境として参照)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -343,7 +347,7 @@
 
 ### Phase AQ: 基礎・理論の拡張 前半 — 推論モデル・SLM 戦略(FOUNDATIONS-EXTENSION 第 1 弾)— ✅ 完了(2026-07-08)
 
-設計は [FOUNDATIONS-EXTENSION-PLAN.md](FOUNDATIONS-EXTENSION-PLAN.md)。原則が安定した領域のため執筆前調査は不要(推論モデルの提供形態は TODO 前提・類型で記述)。散在していた「推論モデル」の言及を reasoning-models に正本化。
+設計は [foundations-extension.md](project/plans/content/foundations-extension.md)。原則が安定した領域のため執筆前調査は不要(推論モデルの提供形態は TODO 前提・類型で記述)。散在していた「推論モデル」の言及を reasoning-models に正本化。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -354,7 +358,7 @@
 
 ### Phase AR: 基礎・理論の拡張 後半 — 世界モデル・AI の歴史・マルチモーダル(FOUNDATIONS-EXTENSION 第 2 弾)— ✅ 完了(2026-07-08)
 
-設計は [FOUNDATIONS-EXTENSION-PLAN.md](FOUNDATIONS-EXTENSION-PLAN.md)。執筆前調査は不要(世界モデルは `research/supplementary/physical-ai.md` を再利用)。#5 マルチモーダルは LLM-INTERNALS(11 章)が未採用のため、計画の**縮小案**どおり数式なしの直感版 `multimodal-models.md` を 10 章に配置。**これで FOUNDATIONS-EXTENSION 計画(全 5 本)が完了。**
+設計は [foundations-extension.md](project/plans/content/foundations-extension.md)。執筆前調査は不要(世界モデルは `research/supplementary/physical-ai.md` を再利用)。#5 マルチモーダルは LLM-INTERNALS(11 章)が未採用のため、計画の**縮小案**どおり数式なしの直感版 `multimodal-models.md` を 10 章に配置。**これで FOUNDATIONS-EXTENSION 計画(全 5 本)が完了。**
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -364,7 +368,7 @@
 
 ### Phase V: SE 実践シリーズ 前半 — 工程別マップ・上流・テスト(SE-CODING-AGENTS 第 1 弾)— ✅ 完了(2026-07-08)
 
-設計は [SE-CODING-AGENTS-PLAN.md](SE-CODING-AGENTS-PLAN.md)。日本の企業システム開発の**工程**(V 字モデル)に軸を置き、08 章のツール基礎の上に「工程の層」を足す SE 実践シリーズの前半 3 本。調査不要。08 章 README の収録表に「SE 実践シリーズ」区切り行を追加(sync の収録表パースは `[x.md](` 行のみ拾うため区切り行は無視され安全と確認 = §9 TODO 解消)。残りは Phase X(レガシー・保守 + 制約・顧客合意、SE-R1 調査必須)。
+設計は [se-coding-agents.md](project/plans/content/se-coding-agents.md)。日本の企業システム開発の**工程**(V 字モデル)に軸を置き、08 章のツール基礎の上に「工程の層」を足す SE 実践シリーズの前半 3 本。調査不要。08 章 README の収録表に「SE 実践シリーズ」区切り行を追加(sync の収録表パースは `[x.md](` 行のみ拾うため区切り行は無視され安全と確認 = §9 TODO 解消)。残りは Phase X(レガシー・保守 + 制約・顧客合意、SE-R1 調査必須)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -374,7 +378,7 @@
 
 ### Phase X: SE 実践シリーズ 後半 — レガシー・保守・制約・顧客合意(SE-CODING-AGENTS 第 2 弾)— ✅ 完了(2026-07-08)
 
-設計は [SE-CODING-AGENTS-PLAN.md](SE-CODING-AGENTS-PLAN.md)。SE 実践シリーズの後半 4 本で、下流工程(レガシー理解・保守運用)と商流・環境(企業制約・顧客合意)を扱う。**これで SE-CODING-AGENTS 計画(全 7 本)が完了。**se-enterprise-constraints は鮮度管理型で、執筆前調査 SE-R1(`research/se/enterprise-offerings.md`、エンタープライズ提供形態の一次情報・2026-07-08)を反映。learning-roadmap に**読者タイプ H(企業システム開発)**を追加し website の READER_ROUTES も同期。
+設計は [se-coding-agents.md](project/plans/content/se-coding-agents.md)。SE 実践シリーズの後半 4 本で、下流工程(レガシー理解・保守運用)と商流・環境(企業制約・顧客合意)を扱う。**これで SE-CODING-AGENTS 計画(全 7 本)が完了。**se-enterprise-constraints は鮮度管理型で、執筆前調査 SE-R1(`research/se/enterprise-offerings.md`、エンタープライズ提供形態の一次情報・2026-07-08)を反映。learning-roadmap に**読者タイプ H(企業システム開発)**を追加し website の READER_ROUTES も同期。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -385,7 +389,7 @@
 
 ### Phase AF: モデル運用・インフラ 前半 — セルフホスト・GPU 基礎・ゲートウェイ(LLMOPS 第 1 弾)— ✅ 完了(2026-07-08)
 
-設計は [LLMOPS-PLAN.md](LLMOPS-PLAN.md)。モデルを「借りる・持つ・混ぜる」インフラ層の前半。執筆前調査 LO-R1(`research/llmops/serving.md`、推論エンジン・ローカル実行系・ゲートウェイ OSS の提供形態/ライセンス/機能・公式のみ・2026-07-08、ベンチマークは扱わない)を self-hosted-inference / llm-gateway に反映。05 章 README に「LLMOps」区切り行を追加。
+設計は [llmops.md](project/plans/content/llmops.md)。モデルを「借りる・持つ・混ぜる」インフラ層の前半。執筆前調査 LO-R1(`research/llmops/serving.md`、推論エンジン・ローカル実行系・ゲートウェイ OSS の提供形態/ライセンス/機能・公式のみ・2026-07-08、ベンチマークは扱わない)を self-hosted-inference / llm-gateway に反映。05 章 README に「LLMOps」区切り行を追加。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -396,7 +400,7 @@
 
 ### Phase AG: モデル運用・インフラ 後半 — ローカル・キャッシュ・バッチ・MLOps(LLMOPS 第 2 弾)— ✅ 完了(2026-07-08)
 
-設計は [LLMOPS-PLAN.md](LLMOPS-PLAN.md)。後半 4 本(ローカル/オンデバイス・セマンティックキャッシュ・バッチ処理・MLOps 統合)。local-and-on-device-llm は LO-R1 を再利用、他 3 本は調査不要。**これで LLMOPS 計画(全 7 本)が完了。**ROADMAP 定期メンテナンスに「サービング・ゲートウェイ OSS の定点観測」を追加。
+設計は [llmops.md](project/plans/content/llmops.md)。後半 4 本(ローカル/オンデバイス・セマンティックキャッシュ・バッチ処理・MLOps 統合)。local-and-on-device-llm は LO-R1 を再利用、他 3 本は調査不要。**これで LLMOPS 計画(全 7 本)が完了。**ROADMAP 定期メンテナンスに「サービング・ゲートウェイ OSS の定点観測」を追加。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -406,7 +410,7 @@
 
 ### Phase Y: モダリティ応用 前半 — ドキュメント AI・画像理解・マルチモーダル RAG(MULTIMODAL 第 1 弾)— ✅ 完了(2026-07-08)
 
-設計は [MULTIMODAL-PLAN.md](MULTIMODAL-PLAN.md)。**新セクション `12-multimodal`(モダリティ応用)を新設**し(Y-0 スケルトン)、理解系 3 本を追加。調査不要(Y 系は原則安定)。既存の voice-agents / computer-use-implementation(03)は正本のまま維持し、12 章から参照。website は sync の SECTION_TITLES に `multimodal` を追加、dependency-graph に 12 のノード + `implementation -.-> multimodal` の点線を追加、doc-template の category に `multimodal` を追加。learning-roadmap の 12 セクション化・依存マップの本格更新は Phase Z(Z-R)で実施。
+設計は [multimodal.md](project/plans/content/multimodal.md)。**新セクション `12-multimodal`(モダリティ応用)を新設**し(Y-0 スケルトン)、理解系 3 本を追加。調査不要(Y 系は原則安定)。既存の voice-agents / computer-use-implementation(03)は正本のまま維持し、12 章から参照。website は sync の SECTION_TITLES に `multimodal` を追加、dependency-graph に 12 のノード + `implementation -.-> multimodal` の点線を追加、doc-template の category に `multimodal` を追加。learning-roadmap の 12 セクション化・依存マップの本格更新は Phase Z(Z-R)で実施。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -419,7 +423,7 @@
 
 ### Phase Z: モダリティ応用 後半 — 画像生成・動画・音声合成・リアルタイム(MULTIMODAL 第 2 弾)— ✅ 完了(2026-07-08)
 
-設計は [MULTIMODAL-PLAN.md](MULTIMODAL-PLAN.md)。生成系・リアルタイム系 4 本(すべて鮮度管理型)。執筆前調査 MM-R2(`research/multimodal/generation.md`、画像・動画生成の提供形態/商用利用/来歴・公式のみ・優劣比較なし)を image-generation / video に、MM-R3(`research/multimodal/realtime-tts.md`、リアルタイム視覚ストリーミング + 単体 TTS の日本語/クローン・P-R3 音声メモの差分)を speech-synthesis / realtime に反映。**これで MULTIMODAL 計画(全 7 本)+ 新セクション 12 が完了。**learning-roadmap を 12 セクション化(Mermaid に `I3 -.-> MM12`・読みどころ追加)。
+設計は [multimodal.md](project/plans/content/multimodal.md)。生成系・リアルタイム系 4 本(すべて鮮度管理型)。執筆前調査 MM-R2(`research/multimodal/generation.md`、画像・動画生成の提供形態/商用利用/来歴・公式のみ・優劣比較なし)を image-generation / video に、MM-R3(`research/multimodal/realtime-tts.md`、リアルタイム視覚ストリーミング + 単体 TTS の日本語/クローン・P-R3 音声メモの差分)を speech-synthesis / realtime に反映。**これで MULTIMODAL 計画(全 7 本)+ 新セクション 12 が完了。**learning-roadmap を 12 セクション化(Mermaid に `I3 -.-> MM12`・読みどころ追加)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -431,7 +435,7 @@
 
 ### Phase AH: セキュリティ発展層 — サプライチェーン・新興攻撃・プライバシー技術(TRUST-SECURITY 第 1 弾)— ✅ 完了(2026-07-08)
 
-設計は [TRUST-SECURITY-PLAN.md](TRUST-SECURITY-PLAN.md)。06-security の発展層 3 本(既存 8 本「脅威 → 防御」の後ろに「発展層」として並べる)。調査不要(AH 系は原則安定・部分確認のみ)。**防御側に徹し、攻撃手順・ペイロードは書かない**方針(red-teaming で確立した方針を継承)。06 章 README に「発展層」区切り行を追加。
+設計は [trust-security.md](project/plans/content/trust-security.md)。06-security の発展層 3 本(既存 8 本「脅威 → 防御」の後ろに「発展層」として並べる)。調査不要(AH 系は原則安定・部分確認のみ)。**防御側に徹し、攻撃手順・ペイロードは書かない**方針(red-teaming で確立した方針を継承)。06 章 README に「発展層」区切り行を追加。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -443,7 +447,7 @@
 
 ### Phase AI: セキュリティ発展層 — 来歴と検出・ディープフェイク防御・フロンティアセーフティ(TRUST-SECURITY 第 2 弾)— ✅ 完了(2026-07-08)
 
-設計は [TRUST-SECURITY-PLAN.md](TRUST-SECURITY-PLAN.md)。06-security の発展層 3 本(来歴/検出・フロンティアは鮮度管理型)。執筆前調査 TS-R3(`research/trust/provenance.md`、来歴標準 C2PA・検出の限界・公的機関のなりすまし注意喚起。MM-R2 の来歴表の差分)を content-provenance / deepfake に、TS-R2(`research/trust/frontier-safety.md`、主要ラボの安全フレームワーク・各国 AISI・システムカード)を frontier-safety に反映。**防御側に徹し、ディープフェイクの作成手法・危険能力の手法は書かない**。検出ツールの性能主張は「ベンダー自己報告」として断定に使わない方針。
+設計は [trust-security.md](project/plans/content/trust-security.md)。06-security の発展層 3 本(来歴/検出・フロンティアは鮮度管理型)。執筆前調査 TS-R3(`research/trust/provenance.md`、来歴標準 C2PA・検出の限界・公的機関のなりすまし注意喚起。MM-R2 の来歴表の差分)を content-provenance / deepfake に、TS-R2(`research/trust/frontier-safety.md`、主要ラボの安全フレームワーク・各国 AISI・システムカード)を frontier-safety に反映。**防御側に徹し、ディープフェイクの作成手法・危険能力の手法は書かない**。検出ツールの性能主張は「ベンダー自己報告」として断定に使わない方針。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -457,7 +461,7 @@
 
 ### Phase AJ: 法務層 — 著作権・知財マップ + 責任と説明責任(TRUST-SECURITY 第 3 弾)— ✅ 完了(2026-07-08)
 
-設計は [TRUST-SECURITY-PLAN.md](TRUST-SECURITY-PLAN.md)。09-business の法務層 2 本。**免責方式に徹し、法的助言・内容解説・適法/違法の断定はしない**(industry-regulations-map と同型の「入口マップ」方式)。ai-copyright は執筆前調査 TS-R1(`research/trust/copyright.md`、文化庁「AI と著作権」・知財本部・特許庁・米著作権局・EU AI Act Art.53 の**所在案内のみ**)を反映。**これで TRUST-SECURITY 計画(全 8 本)が完了 = PRIORITY-MAP 第 3 波が完了。**定期メンテナンスの「来歴標準・フロンティアセーフティ」の定点観測に著作権を統合。
+設計は [trust-security.md](project/plans/content/trust-security.md)。09-business の法務層 2 本。**免責方式に徹し、法的助言・内容解説・適法/違法の断定はしない**(industry-regulations-map と同型の「入口マップ」方式)。ai-copyright は執筆前調査 TS-R1(`research/trust/copyright.md`、文化庁「AI と著作権」・知財本部・特許庁・米著作権局・EU AI Act Art.53 の**所在案内のみ**)を反映。**これで TRUST-SECURITY 計画(全 8 本)が完了 = PRIORITY-MAP 第 3 波が完了。**定期メンテナンスの「来歴標準・フロンティアセーフティ」の定点観測に著作権を統合。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -467,7 +471,7 @@
 
 ### Phase AA: ドメイン応用 第 1 陣 — ディープリサーチ・データ分析・RPA(DOMAIN-AGENTS 第 1 弾・新セクション 13)— ✅ 完了(2026-07-09)
 
-設計は [DOMAIN-AGENTS-PLAN.md](DOMAIN-AGENTS-PLAN.md)。新セクション `13-domain-agents`(ドメイン別エージェント設計。01〜06・10 章の「ドメイン非依存の作り方」に対する「横の設計ガイド」)を新設し、第 1 陣 3 本を執筆。deep-research / data-analysis は調査不要、rpa は執筆前調査 DA-R1(`research/domain-agents/rpa.md`、主要 RPA/自動化ベンダーの Agent 統合動向を公式一次情報で類型化)を反映。**rpa 本文はベンダー中立(類型と判断軸)に徹し、製品名は調査メモと鮮度管理型ページに閉じ込める**方針(generation・enterprise-constraints と同型)。**これで PRIORITY-MAP 第 4 波の先頭が着手。**残りは Phase AB(パーソナルアシスタント・検索体験・執筆翻訳・教育、調査不要)・Phase AC(先端応用 + 第 2 期 4 本、DA-R2 調査必須)。
+設計は [domain-agents.md](project/plans/content/domain-agents.md)。新セクション `13-domain-agents`(ドメイン別エージェント設計。01〜06・10 章の「ドメイン非依存の作り方」に対する「横の設計ガイド」)を新設し、第 1 陣 3 本を執筆。deep-research / data-analysis は調査不要、rpa は執筆前調査 DA-R1(`research/domain-agents/rpa.md`、主要 RPA/自動化ベンダーの Agent 統合動向を公式一次情報で類型化)を反映。**rpa 本文はベンダー中立(類型と判断軸)に徹し、製品名は調査メモと鮮度管理型ページに閉じ込める**方針(generation・enterprise-constraints と同型)。**これで PRIORITY-MAP 第 4 波の先頭が着手。**残りは Phase AB(パーソナルアシスタント・検索体験・執筆翻訳・教育、調査不要)・Phase AC(先端応用 + 第 2 期 4 本、DA-R2 調査必須)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -481,7 +485,7 @@
 
 ### Phase AB: ドメイン応用 第 2 陣 — アシスタント・検索・執筆翻訳・教育(DOMAIN-AGENTS 第 2 弾)— ✅ 完了(2026-07-09)
 
-設計は [DOMAIN-AGENTS-PLAN.md](DOMAIN-AGENTS-PLAN.md)。13-domain-agents に 4 本を追加(調査不要・原則安定)。personal-assistant = 権限最小化 × 自律度の段階 × 間接注入への防御(email-assistant インシデントを教材に)、search-experience = 回答型 UX(出典/確度/「見つからない」)× 知識源の品質が上限、writing-and-translation = 長文の分割統治 × スタイル/用語統制 × MTPE、education = 段階的ヒント × 学習者モデル × 安全(未成年・依存)× 規制の確認先。残りは Phase AC(先端応用 + 第 2 期 4 本、DA-R2 調査必須)。
+設計は [domain-agents.md](project/plans/content/domain-agents.md)。13-domain-agents に 4 本を追加(調査不要・原則安定)。personal-assistant = 権限最小化 × 自律度の段階 × 間接注入への防御(email-assistant インシデントを教材に)、search-experience = 回答型 UX(出典/確度/「見つからない」)× 知識源の品質が上限、writing-and-translation = 長文の分割統治 × スタイル/用語統制 × MTPE、education = 段階的ヒント × 学習者モデル × 安全(未成年・依存)× 規制の確認先。残りは Phase AC(先端応用 + 第 2 期 4 本、DA-R2 調査必須)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -493,7 +497,7 @@
 
 ### Phase AC: ドメイン応用 第 3 陣 — 先端応用 + 第 2 期(表計算・予測・人事・法務)(DOMAIN-AGENTS 完結)— ✅ 完了(2026-07-09)
 
-設計は [DOMAIN-AGENTS-PLAN.md](DOMAIN-AGENTS-PLAN.md)。13-domain-agents に 5 本を追加し、**DOMAIN-AGENTS 計画(全 12 本 + 新セクション 13)が完結**。emerging は執筆前調査 DA-R2(`research/domain-agents/emerging.md`、科学研究支援・シミュレーション/NPC・エージェント経済の**実証/構想を区別**して整理)を反映した鮮度管理型。spreadsheet(生きた計算モデルの破壊防止)・time-series(数値予測は専用手法・LLM は解釈層)は調査不要。hr・legal は**免責方式**(規制内容を解説せず確認先の提示に徹する)。AC-R で learning-roadmap を 13 セクション化(Mermaid `I3 -.-> DA13`・概要/読みどころ)、07 章 README に「ドメイン設計ガイドは 13 章」を追加、定期メンテナンスに「先端応用の定点観測」を追加。
+設計は [domain-agents.md](project/plans/content/domain-agents.md)。13-domain-agents に 5 本を追加し、**DOMAIN-AGENTS 計画(全 12 本 + 新セクション 13)が完結**。emerging は執筆前調査 DA-R2(`research/domain-agents/emerging.md`、科学研究支援・シミュレーション/NPC・エージェント経済の**実証/構想を区別**して整理)を反映した鮮度管理型。spreadsheet(生きた計算モデルの破壊防止)・time-series(数値予測は専用手法・LLM は解釈層)は調査不要。hr・legal は**免責方式**(規制内容を解説せず確認先の提示に徹する)。AC-R で learning-roadmap を 13 セクション化(Mermaid `I3 -.-> DA13`・概要/読みどころ)、07 章 README に「ドメイン設計ガイドは 13 章」を追加、定期メンテナンスに「先端応用の定点観測」を追加。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -507,7 +511,7 @@
 
 ### Phase AU: ケーススタディ拡充 — ヘルプデスク・データ分析・失敗事例(CASES-EXAMPLES 第 1 弾)— ✅ 完了(2026-07-09)
 
-設計は [CASES-EXAMPLES-PLAN.md](CASES-EXAMPLES-PLAN.md)。07-case-studies に構成事例 3 本を追加(調査不要・架空事例)。it-helpdesk = 実行系の段階導入(権限/承認/監査)、data-analysis = もっともらしい誤りとの戦い(13 章 data-analysis-agents の物語版)、failed-poc = **撤退した失敗事例**(デモの罠・撤退基準・サンクコスト)。これで 07 章は成功 4 : 失敗 2 の構成に。examples(AV)は別フェーズ。
+設計は [cases-examples.md](project/plans/content/cases-examples.md)。07-case-studies に構成事例 3 本を追加(調査不要・架空事例)。it-helpdesk = 実行系の段階導入(権限/承認/監査)、data-analysis = もっともらしい誤りとの戦い(13 章 data-analysis-agents の物語版)、failed-poc = **撤退した失敗事例**(デモの罠・撤退基準・サンクコスト)。これで 07 章は成功 4 : 失敗 2 の構成に。examples(AV)は別フェーズ。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -519,7 +523,7 @@
 
 ### Phase AV: サンプルコード拡充 — examples 5 件(CASES-EXAMPLES 第 2 弾)— ✅ 完了(2026-07-09)
 
-設計は [CASES-EXAMPLES-PLAN.md](CASES-EXAMPLES-PLAN.md)。examples/python に 5 件を追加(1 → 6 件)。全件が **`--mock` 実行(API キー不要・標準ライブラリのみ)** をサポートし、本セッションでモック実行を検証(全件 exit=0)。実 API 動作は各自の環境で確認する方針(各 README の動作確認欄・§8-1 の推奨)。LLM 呼び出しは `llm_client.py` に隔離。website の sync に 6 examples を取り込み、docs ↔ examples 双方向リンクを整備。
+設計は [cases-examples.md](project/plans/content/cases-examples.md)。examples/python に 5 件を追加(1 → 6 件)。全件が **`--mock` 実行(API キー不要・標準ライブラリのみ)** をサポートし、本セッションでモック実行を検証(全件 exit=0)。実 API 動作は各自の環境で確認する方針(各 README の動作確認欄・§8-1 の推奨)。LLM 呼び出しは `llm_client.py` に隔離。website の sync に 6 examples を取り込み、docs ↔ examples 双方向リンクを整備。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -531,7 +535,7 @@
 
 ### Phase AM: UX・プロダクト 前半 — UX パターン・会話設計・チャット以外の UI(UX-PRODUCT 第 1 弾)— ✅ 完了(2026-07-09)
 
-設計は [UX-PRODUCT-PLAN.md](UX-PRODUCT-PLAN.md)。新セクション `14-ux-and-product`(UX・プロダクトデザイン)を新設し、前半 3 本を執筆(調査ゼロ)。ai-ux-patterns(不確実性/誤り/待ち時間/信頼の較正)・conversation-design(ペルソナ/トーン/境界)・beyond-chat-ui(プロンプトレス/成果物 UI/バックグラウンド)。実装は streaming-and-agent-ux が正本のまま(本セクションは上位のパターン言語)。
+設計は [ux-product.md](project/plans/content/ux-product.md)。新セクション `14-ux-and-product`(UX・プロダクトデザイン)を新設し、前半 3 本を執筆(調査ゼロ)。ai-ux-patterns(不確実性/誤り/待ち時間/信頼の較正)・conversation-design(ペルソナ/トーン/境界)・beyond-chat-ui(プロンプトレス/成果物 UI/バックグラウンド)。実装は streaming-and-agent-ux が正本のまま(本セクションは上位のパターン言語)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -542,7 +546,7 @@
 
 ### Phase AN: UX・プロダクト 後半 — プロアクティブ・アクセシビリティ・価格設計(UX-PRODUCT 完結)— ✅ 完了(2026-07-09)
 
-設計は [UX-PRODUCT-PLAN.md](UX-PRODUCT-PLAN.md)。後半 3 本で **UX-PRODUCT(全 6 本 + 新セクション 14)が完結**。proactive-agent-ux(段階/閾値/通知疲れ)・accessibility-and-ai(AI UI の a11y + AI による支援)は 14 章、ai-pricing-and-packaging(価格モデルの類型・原価連動・特定価格に触れず)は 09-business。AN-R で learning-roadmap を 14 セクション化(Mermaid `A2 -.-> UX14`・概要/読みどころ)。
+設計は [ux-product.md](project/plans/content/ux-product.md)。後半 3 本で **UX-PRODUCT(全 6 本 + 新セクション 14)が完結**。proactive-agent-ux(段階/閾値/通知疲れ)・accessibility-and-ai(AI UI の a11y + AI による支援)は 14 章、ai-pricing-and-packaging(価格モデルの類型・原価連動・特定価格に触れず)は 09-business。AN-R で learning-roadmap を 14 セクション化(Mermaid `A2 -.-> UX14`・概要/読みどころ)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -554,7 +558,7 @@
 
 ### Phase AO: 組織・プロセス 前半 — 開発プロセス・チームトポロジー・資産共有(ORG-PROCESS 第 1 弾)— ✅ 完了(2026-07-09)
 
-設計は [ORG-PROCESS-PLAN.md](ORG-PROCESS-PLAN.md)。新セクションは作らず 09-business に追加(憲章を「案件と組織の推進」へ半歩拡張)。ai-native-development-process(重心移動・レビューが律速)・ai-team-topologies(CoE/分散/プラットフォーム型)・ai-asset-sharing(組織横断の資産流通・社内サプライチェーン)。調査ゼロ。
+設計は [org-process.md](project/plans/content/org-process.md)。新セクションは作らず 09-business に追加(憲章を「案件と組織の推進」へ半歩拡張)。ai-native-development-process(重心移動・レビューが律速)・ai-team-topologies(CoE/分散/プラットフォーム型)・ai-asset-sharing(組織横断の資産流通・社内サプライチェーン)。調査ゼロ。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -564,7 +568,7 @@
 
 ### Phase AP: 組織・プロセス 後半 — 利用ポリシー・スキルシフト(ORG-PROCESS 完結)— ✅ 完了(2026-07-09)
 
-設計は [ORG-PROCESS-PLAN.md](ORG-PROCESS-PLAN.md)。後半 2 本で **ORG-PROCESS(全 5 本、すべて 09-business)が完結**。ai-usage-policy(社内ルール作り・シャドー AI。規制側 = compliance-and-governance と分担)・skill-shift-and-change-management(スキルの重心移動・変化管理)。
+設計は [org-process.md](project/plans/content/org-process.md)。後半 2 本で **ORG-PROCESS(全 5 本、すべて 09-business)が完結**。ai-usage-policy(社内ルール作り・シャドー AI。規制側 = compliance-and-governance と分担)・skill-shift-and-change-management(スキルの重心移動・変化管理)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -575,7 +579,7 @@
 
 ### Phase AY: エージェント基盤技術詳解 — サンドボックス実装・連携プロトコル(AGENT-INFRA 完結)— ✅ 完了(2026-07-09)
 
-設計は [AGENT-INFRA-PLAN.md](AGENT-INFRA-PLAN.md)。03-implementation に 2 本を追加。code-execution-sandboxes(コンテナ/microVM/Wasm ほか隔離技術の選定・調査ゼロ)・agent-interop-protocols(IF-R1 反映・鮮度管理型)。定期メンテナンスに「エージェント間プロトコルの定点観測」を追加(認証標準の観測と統合)。
+設計は [agent-infra.md](project/plans/content/agent-infra.md)。03-implementation に 2 本を追加。code-execution-sandboxes(コンテナ/microVM/Wasm ほか隔離技術の選定・調査ゼロ)・agent-interop-protocols(IF-R1 反映・鮮度管理型)。定期メンテナンスに「エージェント間プロトコルの定点観測」を追加(認証標準の観測と統合)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -588,7 +592,7 @@
 
 ### Phase AZ: AI 戦略・調達・持続性(AI-STRATEGY 完結)— ✅ 完了(2026-07-09)
 
-設計は [AI-STRATEGY-PLAN.md](AI-STRATEGY-PLAN.md)。09-business に 3 本(自社モデル戦略・AI 調達・地政学マップ)、05-operations に 1 本(グリーン AI)を追加。ST-R1(輸出規制・データ主権の一次情報所在)・ST-R2(環境開示の所在)を反映。地政学マップは免責 + 鮮度管理型(内容解説をせず確認先の所在に徹する)、グリーン AI はコスト最適化との共通性を軸に置く。定期メンテナンスに「輸出規制・環境開示の定点観測」を追加。
+設計は [ai-strategy.md](project/plans/content/ai-strategy.md)。09-business に 3 本(自社モデル戦略・AI 調達・地政学マップ)、05-operations に 1 本(グリーン AI)を追加。ST-R1(輸出規制・データ主権の一次情報所在)・ST-R2(環境開示の所在)を反映。地政学マップは免責 + 鮮度管理型(内容解説をせず確認先の所在に徹する)、グリーン AI はコスト最適化との共通性を軸に置く。定期メンテナンスに「輸出規制・環境開示の定点観測」を追加。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -602,7 +606,7 @@
 
 ### Phase S: LLM 内部構造(学術編)— Transformer・注意変種・MoE(LLM-INTERNALS 第 1 弾)— ✅ 完了(2026-07-09)
 
-設計は [LLM-INTERNALS-PLAN.md](LLM-INTERNALS-PLAN.md)。新セクション `11-llm-internals`(LLM 内部構造・学術編)を新設し、3 本を追加。10-llm-foundations(実務直感・数式なし)の学術的下層に位置づけ、各記事は「結果の式 + 日本語読み下し」+ 原論文(arXiv)必須。**数式は Nextra の `latex: true`(KaTeX)を有効化 + sync パイプラインに remark-math を追加(素の LaTeX を保つ)して実現し、S-0 でビルド HTML の KaTeX レンダリングを検証済み**。書誌は arXiv 公式で確認(19 本)。
+設計は [llm-internals.md](project/plans/content/llm-internals.md)。新セクション `11-llm-internals`(LLM 内部構造・学術編)を新設し、3 本を追加。10-llm-foundations(実務直感・数式なし)の学術的下層に位置づけ、各記事は「結果の式 + 日本語読み下し」+ 原論文(arXiv)必須。**数式は Nextra の `latex: true`(KaTeX)を有効化 + sync パイプラインに remark-math を追加(素の LaTeX を保つ)して実現し、S-0 でビルド HTML の KaTeX レンダリングを検証済み**。書誌は arXiv 公式で確認(19 本)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -615,7 +619,7 @@
 
 ### Phase T: LLM 内部構造(学術編)— 事前学習・スケーリング則 + アラインメント理論(LLM-INTERNALS 第 2 弾)— ✅ 完了(2026-07-09)
 
-設計は [LLM-INTERNALS-PLAN.md](LLM-INTERNALS-PLAN.md)。11-llm-internals に 2 本を追加。10-llm-foundations の llm-training-pipeline(工程の直感)の理論的裏付け。書誌は arXiv 公式で 14 本確認(Kaplan/Chinchilla/Wei/Schaeffer・Christiano/InstructGPT/DPO/Gao/Lightman/Sharma 等)、想定タイトル・番号すべて一致。
+設計は [llm-internals.md](project/plans/content/llm-internals.md)。11-llm-internals に 2 本を追加。10-llm-foundations の llm-training-pipeline(工程の直感)の理論的裏付け。書誌は arXiv 公式で 14 本確認(Kaplan/Chinchilla/Wei/Schaeffer・Christiano/InstructGPT/DPO/Gao/Lightman/Sharma 等)、想定タイトル・番号すべて一致。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -626,7 +630,7 @@
 
 ### Phase U: LLM 内部構造(学術編)完結 — 推論機構・解釈可能性・文脈内学習(LLM-INTERNALS 第 3 弾)— ✅ 完了(2026-07-09)
 
-設計は [LLM-INTERNALS-PLAN.md](LLM-INTERNALS-PLAN.md)。11-llm-internals に 3 本を追加し **LLM-INTERNALS(全 8 本)完結**。IN-R1 調査(解釈可能性の現在地)= `research/internals/interpretability.md`。interpretability-basics は鮮度管理型(3 点セット)で、手法の有効性を自己報告として中立に紹介。書誌は arXiv 公式で 16 本確認。
+設計は [llm-internals.md](project/plans/content/llm-internals.md)。11-llm-internals に 3 本を追加し **LLM-INTERNALS(全 8 本)完結**。IN-R1 調査(解釈可能性の現在地)= `research/internals/interpretability.md`。interpretability-basics は鮮度管理型(3 点セット)で、手法の有効性を自己報告として中立に紹介。書誌は arXiv 公式で 16 本確認。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -639,7 +643,7 @@
 
 ### Phase AW: 人と AI の協働(認知・個人)新設 — HUMAN-AI 完結 — ✅ 完了(2026-07-09)
 
-設計は [HUMAN-AI-PLAN.md](HUMAN-AI-PLAN.md)。新セクション `15-human-ai`(人と AI の協働)を新設し、4 本を追加。仕組み(承認・レビュー)の手前にある「使う人間の側」の認知と技能(過信・検証・キャリア・研修)を扱う。書誌はオートメーションバイアス古典(Bainbridge 1983 / Parasuraman & Riley 1997 / Parasuraman & Manzey 2010 / Skitka 1999 等)を調査エージェントで確認。
+設計は [human-ai.md](project/plans/content/human-ai.md)。新セクション `15-human-ai`(人と AI の協働)を新設し、4 本を追加。仕組み(承認・レビュー)の手前にある「使う人間の側」の認知と技能(過信・検証・キャリア・研修)を扱う。書誌はオートメーションバイアス古典(Bainbridge 1983 / Parasuraman & Riley 1997 / Parasuraman & Manzey 2010 / Skitka 1999 等)を調査エージェントで確認。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -652,7 +656,7 @@
 
 ### Phase AS: 業界・エコシステム動向 前半 — 業界レイヤーマップ + OSS エコシステム(ECOSYSTEM 前半)— ✅ 完了(2026-07-10)
 
-設計は [ECOSYSTEM-PLAN.md](ECOSYSTEM-PLAN.md)。09 に ai-industry-map、03 に open-source-ai-ecosystem を追加(いずれも鮮度管理型)。EC-R1 調査 = `research/ecosystem/industry-oss.md`(業界レイヤーの代表例・OSS ハブ規約・モデルライセンス類型の現行版・OSAID。中立 = 代表例のみ・シェア/資本関係は扱わない)。
+設計は [ecosystem.md](project/plans/content/ecosystem.md)。09 に ai-industry-map、03 に open-source-ai-ecosystem を追加(いずれも鮮度管理型)。EC-R1 調査 = `research/ecosystem/industry-oss.md`(業界レイヤーの代表例・OSS ハブ規約・モデルライセンス類型の現行版・OSAID。中立 = 代表例のみ・シェア/資本関係は扱わない)。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -665,7 +669,7 @@
 
 ### Phase AT: 業界・エコシステム動向 後半 — 規格・認証 + 情報の追い方(ECOSYSTEM 完結・全拡張計画完結)— ✅ 完了(2026-07-10)
 
-設計は [ECOSYSTEM-PLAN.md](ECOSYSTEM-PLAN.md)。06 に ai-standards-and-certification、00 に research-literacy を追加。EC-R2 調査 = `research/ecosystem/standards.md`(ISO/IEC 42001・NIST AI RMF・EU 整合規格〔JTC 21〕・JIS Q 42001:2025・ISMS-AC 認定制度の公式一次情報。認証 ≠ 安全を軸に)。ai-standards は入口マップ + 免責、research-literacy は本ライブラリ自身の調査方法論(`research/` 一次情報メモ・「変わりやすい項目」運用)の一般化。
+設計は [ecosystem.md](project/plans/content/ecosystem.md)。06 に ai-standards-and-certification、00 に research-literacy を追加。EC-R2 調査 = `research/ecosystem/standards.md`(ISO/IEC 42001・NIST AI RMF・EU 整合規格〔JTC 21〕・JIS Q 42001:2025・ISMS-AC 認定制度の公式一次情報。認証 ≠ 安全を軸に)。ai-standards は入口マップ + 免責、research-literacy は本ライブラリ自身の調査方法論(`research/` 一次情報メモ・「変わりやすい項目」運用)の一般化。
 
 | タスク | 内容 | 成果物 | ステータス |
 | --- | --- | --- | --- |
@@ -679,7 +683,7 @@
 
 ## 未着手の拡張計画(なし — 全 20 拡張計画が完結)
 
-2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件)**、**UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14)**、**ORG-PROCESS が完結(Phase AO・AP・全 5 本・09-business)**、**AGENT-INFRA が完結(Phase AY・全 2 本・03-implementation)**、および **AI-STRATEGY が完結(Phase AZ・全 4 本・09-business 3 本 + 05-operations 1 本)**。**設計した全 20 拡張計画がすべて完結しました(残りの未着手拡張計画はありません)。** 経緯と各計画の内容は各 `*-PLAN.md` を、実施順の記録は [PRIORITY-MAP.md](PRIORITY-MAP.md) を参照してください。以後の作業は、下記「定期メンテナンス」の定点観測(四半期ごと)が中心になります。
+2026-07-08 時点で、DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)・**SE-CODING-AGENTS(Phase V・X・7 本)**・**LLMOPS(Phase AF・AG・7 本)**・**MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)**・**TRUST-SECURITY(Phase AH・AI・AJ・8 本)**が完了しました(**PRIORITY-MAP 第 2 波 + 第 3 波が完了**)。2026-07-09 に **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件)**、**UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14)**、**ORG-PROCESS が完結(Phase AO・AP・全 5 本・09-business)**、**AGENT-INFRA が完結(Phase AY・全 2 本・03-implementation)**、および **AI-STRATEGY が完結(Phase AZ・全 4 本・09-business 3 本 + 05-operations 1 本)**。**設計した全 20 拡張計画がすべて完結しました(残りの未着手拡張計画はありません)。** 経緯と各計画の内容は [計画索引](project/README.md#完了した記事拡張計画) を、実施順の記録は [priority-map.md](project/plans/content/priority-map.md) を参照してください。以後の作業は、下記「定期メンテナンス」の定点観測(四半期ごと)が中心になります。
 
 ## Claude への依頼テンプレート
 
@@ -691,7 +695,7 @@ CLAUDE.md の執筆ルールと templates/doc-template.md に従い、
 
 ## 定期メンテナンス(フェーズ完了後も継続)
 
-全系統の実施計画と進捗は [MAINTENANCE-2026Q3-PLAN.md](MAINTENANCE-2026Q3-PLAN.md) を参照してください。2026-09-10 に全 16 系統を一次資料で観測し、[鮮度監査](freshness-audit-2026-09-10.md)の 107 件を本文・調査メモ・依存設定へ反映しました。対応範囲、確認時に補正した日付・条件、検証結果は[更新記録](freshness-update-2026-09-10.md)で追跡します。全 199 記事のすべての主張や、実 API・実機動作を再検証したという意味ではありません。
+全系統の実施計画と進捗は [2026q3.md](project/plans/maintenance/2026q3.md) を参照してください。2026-09-10 に全 16 系統を一次資料で観測し、[鮮度監査](project/records/2026-09-10/freshness-audit.md)の 107 件を本文・調査メモ・依存設定へ反映しました。対応範囲、確認時に補正した日付・条件、検証結果は[更新記録](project/records/2026-09-10/freshness-update.md)で追跡します。全 199 記事のすべての主張や、実 API・実機動作を再検証したという意味ではありません。
 
 四半期の一巡に加え、定期実行では下表の目標周期で巡回します。以下の終了予定・制度適用日は四半期を待たずに確認します。`TODO(要確認)` は残す理由と確認先を追跡し、本文の更新日だけで最終確認月を進めません。
 

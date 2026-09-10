@@ -1,6 +1,6 @@
 # Devin(Cognition)調査メモ — 調査日: 2026-07-05
 
-[CODING-AGENTS-PLAN.md](../../CODING-AGENTS-PLAN.md) §7 の調査チェックリスト(12 項目)に基づく執筆前調査メモです(タスク C-R7)。すべて公式情報(docs.devin.ai / devin.ai / cognition.com)のみを根拠としています。第三者記事は使用していません。
+[coding-agents.md](../../project/plans/content/coding-agents.md) §7 の調査チェックリスト(12 項目)に基づく執筆前調査メモです(タスク C-R7)。すべて公式情報(docs.devin.ai / devin.ai / cognition.com)のみを根拠としています。第三者記事は使用していません。
 
 - 対象: **Devin**(提供元: Cognition。旧 Cognition AI / Cognition Labs)
 - 公式サイト: <https://devin.ai> / <https://cognition.com>(cognition.ai は cognition.com へ 301 リダイレクト)

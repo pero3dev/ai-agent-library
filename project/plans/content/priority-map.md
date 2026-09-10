@@ -1,0 +1,77 @@
+# 記事拡張計画の実施順の記録
+
+> **ステータス: 完了(2026-07-07 作成・2026-07-10 全対象完了)。** 拡張計画のうち DEEP-DIVE(Phase M〜O・7 本)・MODEL-PROMPTING(Phase BA・4 本)・DATA-KNOWLEDGE(Phase AD・AE・6 本)・EVAL-QUALITY(Phase AK・AL・5 本)・RELIABILITY(Phase AX・3 本)・FOUNDATIONS-EXTENSION(Phase AQ・AR・5 本)が完了し **第 2 波(基盤の深掘り)が完了**、さらに **第 3 波の SE-CODING-AGENTS(Phase V・X・7 本)・LLMOPS(Phase AF・AG・7 本)・MULTIMODAL(Phase Y・Z・新セクション 12 + 7 本)・TRUST-SECURITY(Phase AH・AI・AJ・8 本)も完了 = 第 3 波が完了**。さらに **第 4 波の DOMAIN-AGENTS が完結(Phase AA・AB・AC・全 12 本 + 新セクション 13、2026-07-09)**、**CASES-EXAMPLES が完結(Phase AU・AV・ケーススタディ 3 本 + examples 5 件、2026-07-09)**、**UX-PRODUCT が完結(Phase AM・AN・全 6 本 + 新セクション 14、2026-07-09)**、**ORG-PROCESS が完結(Phase AO・AP・全 5 本・09-business、2026-07-09)**、**AGENT-INFRA が完結(Phase AY・全 2 本・03-implementation、2026-07-09)**、および **AI-STRATEGY が完結(Phase AZ・全 4 本・09-business 3 本 + 05-operations 1 本、2026-07-09)= 第 4 波が完結**。さらに **第 5 波 LLM-INTERNALS 完結 = Phase S + T + U 完了(新セクション 11-llm-internals 全 8 本、数式 KaTeX 検証済み、learning-roadmap 15 セクション化 + 10 章逆リンク済み、2026-07-09)**、および **HUMAN-AI 完結 = Phase AW 完了(新セクション 15-human-ai + 4 本、learning-roadmap 16 セクション化、2026-07-09)**、さらに **ECOSYSTEM 完結 = Phase AS + AT 完了(ai-industry-map・open-source-ai-ecosystem・ai-standards-and-certification・research-literacy の 4 本、2026-07-10)**。**これで設計した全 20 拡張計画がすべて完結しました。** 以下は採択したウェーブと完了した実施順の記録です。新しい作業の指示として扱わず、以後の保守は [ROADMAP の定期メンテナンス](../../../ROADMAP.md#定期メンテナンスフェーズ完了後も継続)、新しい計画は [計画索引](../../README.md) を参照してください。
+
+## 1. 評価軸
+
+| 軸 | 意味 |
+| --- | --- |
+| 価値 | 読者需要・実務での即効性(◎ / ○ / △) |
+| 調査 | 執筆前調査の要否(ゼロ = すぐ書ける) |
+| 鮮度負担 | 鮮度管理型ページの数(**書いた瞬間から四半期メンテナンスの対象が増える** — 早く書くほど維持期間が長くなるため、需要とのバランスで判断) |
+| 依存 | 他計画への依存(いずれも弱依存 — 相互リンクは後追いで張れるため順序制約は緩い) |
+
+**前提**: 新セクション番号(11〜15)は計画の**採否**で確定し、実施順には依存しません(どの順で着手しても番号は変わらない。計画が不採用になった場合のみ繰り上げ)。
+
+## 2. 推奨ウェーブ
+
+採択時は上の波から順に実施し、波の中の順序を入れ替えられる計画としました。以下の表はその完了記録です。
+
+### 第 1 波: 中核テーマの詳解(調査ゼロ・最高需要)
+
+| フェーズ | 計画 | 本数 | 根拠 |
+| --- | --- | --- | --- |
+| ✅ M・N・O 完了(2026-07-08) | [DEEP-DIVE](deep-dive.md)(プロンプト/コンテキスト/ハーネス/ループ) | 7(完了) | 価値◎・調査ゼロ・全計画の分担参照先になる中核。三層の内側から |
+| ✅ BA 完了(2026-07-08) | [MODEL-PROMPTING](model-prompting.md)(モデル特化ガイド) | 4(完了) | 価値◎(具体需要)。PE-R1〜R3 の調査を `research/prompting/` に記録。鮮度負担 +4 は定点観測へ統合済み |
+
+### 第 2 波: 基盤の深掘り(調査ほぼゼロ・既存章の直下)
+
+| フェーズ | 計画 | 本数 | 根拠 |
+| --- | --- | --- | --- |
+| ✅ AD・AE 完了(2026-07-08) | [DATA-KNOWLEDGE](data-knowledge.md)(埋め込み・ベクトル DB ほか) | 6(完了) | 価値◎(RAG 下層)・調査ゼロ。AD=embeddings/vector-databases/data-preprocessing、AE=graph-rag/synthetic-data/data-governance |
+| ✅ AK・AL 完了(2026-07-08) | [EVAL-QUALITY](eval-quality.md)(評価環境・シミュレータほか) | 5(完了) | 価値○・調査ゼロ。AK=evaluation-environments/user-simulator-design/confidence-and-calibration、AL=fairness-and-bias-evaluation/japanese-quality-evaluation |
+| ✅ AX 完了(2026-07-08) | [RELIABILITY](reliability.md)(SLO・カオス・常駐) | 3(完了) | 価値○・調査ゼロ。AK の evaluation-environments を注入演習の実行環境に参照。ai-slo-design/chaos-engineering-for-ai/long-running-agents |
+| ✅ AQ 完了(2026-07-08) | [FOUNDATIONS-EXTENSION](foundations-extension.md) 前半(推論モデル・SLM) | 2(完了) | reasoning-models で散在言及を正本化(model-selection/capabilities/prompt-fundamentals/latency から逆リンク)。slm-strategy。**これで第 2 波が完了** |
+
+### 第 3 波: 実務応用(調査あり・需要高)
+
+| フェーズ | 計画 | 本数 | 根拠 |
+| --- | --- | --- | --- |
+| ✅ V・X 完了 | [SE-CODING-AGENTS](se-coding-agents.md) | 7(完了) | 価値◎(SE 層の需要)。**Phase V(工程マップ・上流・テスト)+ Phase X(レガシー・保守・企業制約〔SE-R1 反映〕・顧客合意)完了(2026-07-08)**。learning-roadmap に読者タイプ H を追加。**これで第 3 波の先頭が完了** |
+| ✅ AF・AG 完了 | [LLMOPS](llmops.md)(セルフホスト・ゲートウェイほか) | 7(完了) | 価値◎(閉域網需要)。**Phase AF(セルフホスト・GPU 基礎・ゲートウェイ)+ Phase AG(ローカル・キャッシュ・バッチ・MLOps)完了(2026-07-08)**。SE の制約記事(閉域網)と相互リンク。調査 LO-R1 = `research/llmops/serving.md` |
+| ✅ Y・Z 完了 | [MULTIMODAL](multimodal.md)(ドキュメント AI ほか) | 7(完了・新セクション 12) | **Phase Y(理解系)+ Phase Z(生成系: 画像/動画/音声/リアルタイム、MM-R2・MM-R3 反映)完了(2026-07-08)**。新セクション 12-multimodal を新設、learning-roadmap を 12 セクション化 |
+| ✅ AH・AI・AJ 完了 | [TRUST-SECURITY](trust-security.md) | 8(完了) | **Phase AH(サプライチェーン・新興攻撃・プライバシー技術)+ AI(来歴・ディープフェイク・フロンティアセーフティ)+ AJ(著作権/知財マップ・責任、免責方式)完了(2026-07-08)**。TS-R1/R2/R3 反映。**これで第 3 波が完了。** |
+
+### 第 4 波: 新章の応用群・組織・事例
+
+| フェーズ | 計画 | 本数 | 根拠 |
+| --- | --- | --- | --- |
+| ✅ AA・AB・AC 完了(2026-07-09。**DOMAIN-AGENTS 完結**) | [DOMAIN-AGENTS](domain-agents.md)(12 本・新 13 章) | 12(完了) | 価値○〜◎。**Phase AA(ディープリサーチ・データ分析・RPA〔DA-R1〕)・AB(アシスタント・検索・執筆翻訳・教育)・AC(先端応用〔DA-R2〕+ 表計算・予測・人事採用・法務)完了 = 新セクション 13 + 全 12 本**。DA-R1/R2 は `research/domain-agents/`。免責方式は hr・legal |
+| ✅ AU・AV 完了(2026-07-09) | [CASES-EXAMPLES](cases-examples.md)(事例 + examples) | 3 + 5(完了) | **Phase AU(IT ヘルプデスク・データ分析・撤退した失敗事例)+ AV(examples 5 件・全件 `--mock` 実行検証)完了**。examples は API キーなしで動作検証可、docs ↔ examples 双方向リンク整備済み |
+| ✅ AM・AN 完了(2026-07-09) | [UX-PRODUCT](ux-product.md)(新 14 章) | 6(完了) | **Phase AM(UX パターン・会話設計・チャット以外の UI)+ AN(プロアクティブ・a11y・価格設計)完了 = 新セクション 14 + 全 6 本**。価格設計のみ 09-business |
+| ✅ AO・AP 完了(2026-07-09) | [ORG-PROCESS](org-process.md) | 5(完了) | **Phase AO(開発プロセス再設計・チームトポロジー・資産共有)+ AP(利用ポリシー・スキルシフト)完了 = 09-business に 5 本(7→12)**。新セクションなし。09 憲章を「案件と組織の推進」へ拡張 |
+| ✅ AY 完了(2026-07-09) | [AGENT-INFRA](agent-infra.md)(サンドボックス・プロトコル) | 2(完了) | **code-execution-sandboxes(隔離技術の選定)+ agent-interop-protocols(IF-R1 反映・鮮度管理型)完了 = 03 に 2 本**。IF-R1 = `research/infra/agent-protocols.md`。定点観測は認証標準と統合 |
+| ✅ AZ 完了(2026-07-09。**AI-STRATEGY 完結・第 4 波完結**) | [AI-STRATEGY](ai-strategy.md)(自社モデル・調達ほか) | 4(完了) | **own-model-strategy・ai-procurement(調査ゼロ)+ ai-geopolitics-map〔ST-R1・免責+鮮度管理型〕・green-ai〔ST-R2〕完了 = 09 に 3 本(12→15)・05 に 1 本(18→19)**。ST-R1/R2 = `research/strategy/` |
+
+### 第 5 波: 大型・独立・維持負担の大きいもの
+
+| フェーズ | 計画 | 本数 | 根拠 |
+| --- | --- | --- | --- |
+| ✅ S・T・U 完了(2026-07-09。**LLM-INTERNALS 完結**) | [LLM-INTERNALS](llm-internals.md)(学術編・新 11 章) | 8(完了) | **全 8 本完結: S(Transformer・注意変種・MoE)+ T(事前学習/スケーリング則・アラインメント理論)+ U(推論機構・解釈可能性〔IN-R1・鮮度管理型〕・文脈内学習)。数式は Nextra `latex:true` + sync remark-math で有効化・検証済み。learning-roadmap 15 セクション化 + 10 章 5 本逆リンク済み** |
+| ✅ AR 完了(2026-07-08) | [FOUNDATIONS-EXTENSION](foundations-extension.md) 後半(世界モデル・歴史・MM 内部) | 3(完了) | #5(MM 内部)は LLM-INTERNALS 未採用のため計画の縮小案(数式なし・10 章)で対応。physical-ai メモ再利用。**これで FOUNDATIONS-EXTENSION 全 5 本が完了** |
+| ✅ AW 完了(2026-07-09。**HUMAN-AI 完結**) | [HUMAN-AI](human-ai.md)(新 15 章) | 4(完了) | **新セクション 15-human-ai + automation-bias-and-deskilling/verifying-ai-outputs/ai-career-strategy/ai-literacy-training-design の 4 本。オートメーションバイアス古典の書誌確認済み。career は断定的予測を回避** |
+| ✅ AS・AT 完了(2026-07-10。**ECOSYSTEM 完結・全拡張計画完結**) | [ECOSYSTEM](ecosystem.md) | 4(完了) | **Phase AS(ai-industry-map・open-source-ai-ecosystem)+ AT(ai-standards-and-certification〔ISO/IEC 42001・認証 ≠ 安全〕・research-literacy〔情報の追い方〕)完了。EC-R1/EC-R2 = `research/ecosystem/`。定点観測 2 系統(業界マップ・OSS / 規格・認証)を追加** |
+
+## 3. 順序に関する注意
+
+1. **弱依存の原則**: 計画間の参照(「採用時に相互リンク」)はすべて後追いの逆リンクで解決できるため、波を跨ぐ入れ替えも可能です。上の順序は「最も手戻り・再調査が少ない」推奨に過ぎません
+2. **調査メモの賞味期限**: 2026-07-07 実施の調査(benchmarks・compliance・agent-identity・音声/FT・physical-ai・regulations・coding-agents 実践)を参照する記事は、**メモが四半期以内(〜2026-10)のうちに書くと再調査が不要**です(EVAL・SE・TRUST 後半・FOUNDATIONS 後半・DOMAIN 第 2 期が該当)
+3. **鮮度負担の総量管理**: 全計画完了で鮮度管理型ページは 10 本超増えます。各 X-R での「定点観測の棚卸し」(ECOSYSTEM 計画に明記)を波 3 以降は毎回実施し、観測系統の統合を進めます
+4. **分担の先後**: DEEP-DIVE の prompt-engineering-patterns(汎用上級)と MODEL-PROMPTING(モデル別具体)は、どちらが先でも成立しますが、両方の冒頭分担表が相手を指すため、**片方を書いたら他方の着手時に分担表を確認**します
+5. **examples(AV)の特殊性**: コード実行環境の検証を伴うため、ドキュメント執筆と独立したセッションで実施することを推奨します
+
+## 4. 使い方
+
+- 着手: 上の波から「**Phase M を一括で**」のようにフェーズ記号で指定
+- 各フェーズ完了時: ROADMAP・本ファイル(該当行に ✅)・計画書ヘッダーを同一セッションで更新
+- 計画の縮小・変更: 各計画書の §未確定事項の決定を決定ログに記録し、本ファイルの本数を更新

@@ -2,7 +2,7 @@
 
 - **対象**: OpenAI Codex(CLI / IDE 拡張 / デスクトップアプリ / クラウド / GitHub コードレビュー / SDK の製品群)
 - **調査日**: 2026-07-05
-- **調査方法**: [CODING-AGENTS-PLAN.md](../../CODING-AGENTS-PLAN.md) §7 の 12 項目チェックリスト。公式情報(developers.openai.com / github.com/openai / openai.com / help.openai.com)のみを根拠とし、第三者記事は使用していません
+- **調査方法**: [coding-agents.md](../../project/plans/content/coding-agents.md) §7 の 12 項目チェックリスト。公式情報(developers.openai.com / github.com/openai / openai.com / help.openai.com)のみを根拠とし、第三者記事は使用していません
 - **確度の凡例**: 公式明記 / 公式から推測 / 第三者(本メモでは第三者根拠なし)
 
 ## 2026-09-10 鮮度更新の反映
@@ -182,7 +182,7 @@ GPT-5.4 / 5.4 mini は ChatGPT sign-in の Codex で 2026-08-31 提供終了で�
 
 ## 11. 料金・利用制限
 
-金額は本文に転記しない方針(CODING-AGENTS-PLAN.md §7-11)。参照先 URL と構造のみ記録します。
+金額は本文に転記しない方針(project/plans/content/coding-agents.md §7-11)。参照先 URL と構造のみ記録します。
 
 | 確認した事実 | 出典 URL | 確認日 | 確度 |
 | --- | --- | --- | --- |

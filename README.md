@@ -26,67 +26,25 @@
 
 ```text
 ai-agent-library/
-├── README.md                 # 本ファイル。プロジェクト概要と全体構成
-├── AGENTS.md                 # 作業の入口・共通契約の正本
-├── CLAUDE.md                 # AGENTS.md から生成する Claude Code 互換入口
-├── harness/                  # 詳細規約とハーネスの運用資料
-├── ROADMAP.md                # 執筆計画・トピック一覧・タスク分割
-├── CODING-AGENTS-PLAN.md     # AI コーディングエージェント章(docs/08)の追加計画
-├── EXPANSION-PLAN.md         # プロフェッショナル化拡張(docs/09 ほか 24 本)の追加計画
-├── SUPPLEMENTARY-PLAN.md     # 拡張計画で除外した領域の別冊計画(LLM 基礎ほか)
-├── DEEP-DIVE-PLAN.md         # プロンプト・コンテキスト・ハーネス・ループ詳解(7 本)の追加計画
-├── LLM-INTERNALS-PLAN.md     # LLM 内部構造・学術編(新セクション 11、8 本)の追加計画
-├── SE-CODING-AGENTS-PLAN.md  # システムエンジニア向けコーディングエージェント活用(08 章 SE シリーズ、7 本)の追加計画
-├── MULTIMODAL-PLAN.md        # モダリティ・生成 AI 応用(新セクション 12、7 本)の追加計画
-├── DOMAIN-AGENTS-PLAN.md     # エージェント応用・ドメイン特化(新セクション 13、12 本)の追加計画
-├── DATA-KNOWLEDGE-PLAN.md    # データ・知識基盤(既存 03・05 章へ 6 本)の追加計画
-├── LLMOPS-PLAN.md            # モデル運用・インフラ LLMOps(既存 05・03 章へ 7 本)の追加計画
-├── TRUST-SECURITY-PLAN.md    # セキュリティ・信頼・法務(既存 06・09 章へ 8 本)の追加計画
-├── EVAL-QUALITY-PLAN.md      # 評価・品質の深掘り(既存 04 章へ 5 本)の追加計画
-├── UX-PRODUCT-PLAN.md        # UX・プロダクトデザイン(新セクション 14 ほか 6 本)の追加計画
-├── ORG-PROCESS-PLAN.md       # 組織・プロセス・人材(既存 09 章へ 5 本)の追加計画
-├── FOUNDATIONS-EXTENSION-PLAN.md  # 基礎・理論の拡張(既存 01・03・10・11 章へ 5 本)の追加計画
-├── ECOSYSTEM-PLAN.md         # 業界・エコシステム動向(既存 4 章へ 4 本)の追加計画
-├── CASES-EXAMPLES-PLAN.md    # ケーススタディ 3 本 + examples 5 件の拡充計画
-├── HUMAN-AI-PLAN.md          # 人と AI の協働・認知(新セクション 15、4 本)の追加計画
-├── RELIABILITY-PLAN.md       # AI 信頼性エンジニアリング(既存 05 章へ 3 本)の追加計画
-├── AGENT-INFRA-PLAN.md       # エージェント基盤技術詳解(既存 03 章へ 2 本)の追加計画
-├── AI-STRATEGY-PLAN.md       # AI 戦略・調達・持続性(既存 09・05 章へ 4 本)の追加計画
-├── MODEL-PROMPTING-PLAN.md   # 主要モデル特化プロンプティング(既存 03 章へ 4 本・鮮度管理型)の追加計画
-├── PRIORITY-MAP.md           # 未着手 18 計画(107 本)の推奨実施順(ウェーブ制)
-├── WEBSITE-PLAN.md           # ドキュメントサイト(website/)の設計・進行状況
-├── GLOSSARY.md               # 用語集(各ドキュメントへの横断インデックス)
-├── templates/
-│   ├── doc-template.md       # 全ドキュメント共通の Markdown テンプレート
-│   ├── tool-doc-template.md  # コーディングエージェント「ツール別ページ」用テンプレート
-│   └── tool-comparison-template.md  # ツール比較表のテンプレート
-├── docs/
-│   ├── 00-overview/          # 全体像・学習ロードマップ・このライブラリの読み方
-│   ├── 01-concepts/          # 基礎概念(Agent とは何か、Agent ループ、ツール使用、メモリ 等)
-│   ├── 02-architecture/      # 設計・アーキテクチャパターン(Workflow vs Agent、マルチエージェント 等)
-│   ├── 03-implementation/    # 実装ガイド(プロンプト設計、ツール定義、構造化出力 等)
-│   ├── 04-evaluation/        # 評価・テスト(評価設計、LLM-as-a-Judge、回帰テスト 等)
-│   ├── 05-operations/        # 運用・監視(可観測性、コスト管理、バージョニング 等)
-│   ├── 06-security/          # セキュリティ(プロンプトインジェクション、権限設計 等)
-│   ├── 07-case-studies/      # ケーススタディ・アンチパターン詳解
-│   ├── 08-coding-agents/     # AI コーディングエージェント(選定・設定・セキュリティ・ツール別)
-│   ├── 09-business/          # ビジネス実務(ユースケース選定・PoC → 本番・ROI)
-│   ├── 10-llm-foundations/   # LLM 基礎(生成の仕組み・トークン・注意機構・学習・能力限界)
-│   ├── 11-llm-internals/     # LLM 内部構造・学術編(Transformer 数式・注意変種・MoE 内部。10 章の「なぜ」を数式で)
-│   ├── 12-multimodal/        # モダリティ・生成 AI 応用(文書・画像・動画・音声の理解と生成)
-│   ├── 13-domain-agents/     # ドメイン別エージェント設計(リサーチ・データ分析・RPA ほか応用ドメインの設計判断)
-│   ├── 14-ux-and-product/    # UX・プロダクトデザイン(体験設計・会話設計・チャット以外の UI・プロアクティブ性)
-│   └── 15-human-ai/          # 人と AI の協働(認知・個人。過信/検証習慣/キャリア/リテラシー研修設計)
-├── examples/
-│   ├── python/               # Python サンプルコード(6 サンプル収録・tool-use 以外は --mock 実行対応)
-│   └── typescript/           # TypeScript サンプルコード(将来追加)
-├── research/
-│   ├── coding-agents/        # 執筆前の公式情報調査メモ(docs 規約の対象外)
-│   ├── models/               # モデルガイド(docs/03)の調査メモ
-│   └── professional/         # プロフェッショナル化拡張(Phase D〜I)の調査メモ
-├── website/                  # ドキュメントサイト(Nextra。docs/ を正本として sync で取り込み)
-└── assets/
-    └── diagrams/             # 図版のエクスポート画像(図の正本は本文埋め込みの Mermaid)
+├── README.md / CONTRIBUTING.md / SECURITY.md / LICENSE
+├── AGENTS.md / CLAUDE.md      # 共通契約の正本と生成する互換入口
+├── ROADMAP.md / GLOSSARY.md  # 執筆・定点観測の台帳と用語集
+├── freshness-automation.md  # 定期最新化の現行運用入口
+├── docs/                    # 全 16 章の学習記事と章索引
+├── examples/                # 自己完結の Python サンプルと横断試験
+├── website/                 # 公開サイト。記事の正本を取り込んで生成
+├── project/
+│   ├── README.md            # 計画・実施記録の索引
+│   ├── plans/              # content / maintenance / engineering
+│   └── records/            # 日付別の監査・修正・導入・受入記録
+├── research/                # 出典・取得時点・主張・適用結果。README が入口
+├── harness/                 # 詳細規約、作業 profile、検証一覧
+├── automation/              # 定期タスク登録用プロンプト
+├── scripts/                 # 検証・保守 CLI、共通実装、schema
+├── tests/                   # 単体試験・試験 helper・不活性な固定課題
+├── templates/               # 記事・ツール別ページ・比較表のテンプレート
+├── assets/diagrams/         # 図のエクスポート。正本は記事中の Mermaid
+└── .agents/ / .claude/ / .codex/ / .github/  # 製品別入口・設定・CI
 ```
 
 ## 各ディレクトリの目的
@@ -111,8 +69,9 @@ ai-agent-library/
 | [docs/15-human-ai/](docs/15-human-ai/) | AI と協働する個人の認知と技能 | オートメーションバイアス・検証習慣・キャリア戦略・リテラシー研修設計。承認/レビューの仕組み(→ 02・08 章)、組織のスキル戦略(→ 09 章)、雇用予測は置かない |
 | [templates/](templates/) | 執筆の一貫性を担保する | ドキュメントテンプレート。本文コンテンツは置かない |
 | [examples/](examples/) | 動くサンプルコード | docs から参照される最小構成のコード。ドキュメント本文は置かない |
-| [research/](research/coding-agents/) | 執筆前の公式情報調査メモ | 出典 URL・確認日付きの調査記録。docs の執筆規約は適用しない |
-| [website/](website/) | ドキュメントサイトの実装 | Nextra ベースのサイト。docs/ が正本で、sync スクリプトが取り込む(設計は [WEBSITE-PLAN.md](WEBSITE-PLAN.md)) |
+| [research/](research/README.md) | 調査・観測・適用結果 | 出典 URL・確認日・主張の範囲と変更台帳。学習記事テンプレートは適用しない |
+| [project/](project/README.md) | プロジェクトの計画と実施履歴 | 採択計画・監査・修正・受入の記録。現行手順は入口文書へ接続する |
+| [website/](website/) | ドキュメントサイトの実装 | Nextra ベースのサイト。docs/ が正本で、sync スクリプトが取り込む(設計は [website.md](project/plans/engineering/website.md)) |
 | [assets/](assets/) | 図版のエクスポート画像置き場 | 画像出力が必要になった図のみ。図の正本は各ドキュメント本文の Mermaid コードブロック |
 
 ## ドキュメントの探し方
@@ -125,9 +84,10 @@ ai-agent-library/
 
 作業の入口と共通契約は [AGENTS.md](AGENTS.md)、執筆・命名・同期更新の詳細は [harness/writing-rules.md](harness/writing-rules.md) が正本です。人が書く場合も同じ規約を使います。準備と検証は [CONTRIBUTING.md](CONTRIBUTING.md) を参照してください。Claude Code 向けの入口と共通スキルは正本から生成します。
 
-執筆計画と着手順は [ROADMAP.md](ROADMAP.md) を参照してください。
+記事タスクと定点観測は [ROADMAP.md](ROADMAP.md)、プロジェクトの計画と実施履歴は [project/README.md](project/README.md) を参照してください。
 
 ## ステータス
 
-- 現在: **Phase 0〜8 + Phase A〜O・BA・AD・AE・AK・AL・AX・AQ・AR・V・X・AF・AG・Y・Z・AH・AI・AJ・AA・AB・AC・AU・AV・AM・AN・AO・AP・AY・AZ・S・T・U・AW・AS・AT(コーディングエージェント章・モデルガイド・プロフェッショナル化拡張・別冊拡張・詳解拡張第 1〜3 弾・モデル特化プロンプティング・データ知識基盤・評価品質・信頼性エンジニアリング・基礎拡張・SE 実践シリーズ・LLMOps・モダリティ応用・セキュリティ発展層・法務層・ドメイン応用・ケーススタディ拡充・サンプルコード拡充・UX プロダクト・組織プロセス・エージェント基盤・AI 戦略調達・LLM 内部構造〔学術編・全 8 本〕・人と AI の協働・業界エコシステム)完了(2026-07-10 時点)。**設計した全 20 拡張計画が完結しました。**。全 16 セクションで **199 本**を公開しています — [00-overview](docs/00-overview/README.md) 3 本、[01-concepts](docs/01-concepts/README.md) 11 本、[02-architecture](docs/02-architecture/README.md) 12 本、[03-implementation](docs/03-implementation/README.md) 32 本、[04-evaluation](docs/04-evaluation/README.md) 12 本、[05-operations](docs/05-operations/README.md) 19 本、[06-security](docs/06-security/README.md) 15 本、[07-case-studies](docs/07-case-studies/README.md) 8 本、[08-coding-agents](docs/08-coding-agents/README.md) 28 本、[09-business](docs/09-business/README.md) 16 本、[10-llm-foundations](docs/10-llm-foundations/README.md) 7 本、[11-llm-internals](docs/11-llm-internals/README.md) 8 本、[12-multimodal](docs/12-multimodal/README.md) 7 本、[13-domain-agents](docs/13-domain-agents/README.md) 12 本、[14-ux-and-product](docs/14-ux-and-product/README.md) 5 本、[15-human-ai](docs/15-human-ai/README.md) 4 本、および 6 件の [Python サンプル](examples/python/tool-use/README.md)(tool-use・structured-output・evaluation-harness・rag-basics・mcp-server・multi-agent。全 6 件が `--mock` で API キーなし実行可。実モデル API は別途 API キーが必要)。用語は [GLOSSARY.md](GLOSSARY.md)(164 エントリ)から横断的に辿れます
-- ドキュメントサイトは [pero3dev.github.io/ai-agent-library](https://pero3dev.github.io/ai-agent-library/) で公開済みです([WEBSITE-PLAN.md](WEBSITE-PLAN.md))。以後は [ROADMAP.md](ROADMAP.md) の「定期メンテナンス」(`TODO(要確認)` の棚卸し — 特に 08 章のツール情報・モデルガイド・エージェント認証の標準動向・規制動向・音声/FT 提供状況・ベンチマーク動向は変化が速いため四半期ごと必須、`examples/` の実行確認)を継続します
+- 初版と [記事拡張計画](project/README.md#完了した記事拡張計画) は完了しています。全 16 章に 199 記事を公開し、[GLOSSARY.md](GLOSSARY.md) から用語を横断して辿れます。タスクごとの成果物と完了日は [ROADMAP.md](ROADMAP.md) が正本です。
+- [Python サンプル](examples/README.md) は 6 件を収録し、すべて API キー不要の `--mock` に対応しています。実 API の確認条件は各サンプルの README を参照してください。
+- サイトは [GitHub Pages](https://pero3dev.github.io/ai-agent-library/) で公開済みです。以後の保守は [定期メンテナンス](ROADMAP.md#定期メンテナンスフェーズ完了後も継続) と [定期最新化の運用](freshness-automation.md) に従います。構造・運用の変更は [計画と実施記録](project/README.md#構造運用の計画) で追跡します。

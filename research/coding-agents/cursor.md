@@ -2,7 +2,7 @@
 
 - **対象**: Cursor(提供元: Anysphere)
 - **調査日**: 2026-07-05
-- **調査方法**: [CODING-AGENTS-PLAN.md](../../CODING-AGENTS-PLAN.md) §7 の 12 項目チェックリストに従い、公式ドキュメント(cursor.com/docs)・料金ページ・セキュリティ / データ取り扱いページのみを根拠として確認。第三者記事は根拠にしていません
+- **調査方法**: [coding-agents.md](../../project/plans/content/coding-agents.md) §7 の 12 項目チェックリストに従い、公式ドキュメント(cursor.com/docs)・料金ページ・セキュリティ / データ取り扱いページのみを根拠として確認。第三者記事は根拠にしていません
 - **記録様式**: `項目 | 確認した事実 | 出典 URL | 確認日 | 確度(公式明記 / 公式から推測 / 第三者)`
 - **注記**: 旧 docs.cursor.com は cursor.com/docs へ 308 リダイレクト(確認日 2026-07-05)。出典はすべて新 URL で記載
 

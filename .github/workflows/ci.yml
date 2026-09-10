@@ -1,4 +1,4 @@
-# CI(WEBSITE-PLAN §8 W5): markdownlint + docs 検証 + サイトビルド(+ 条件付き GitHub Pages デプロイ)
+# CI(project/plans/engineering/website.md §8 W5): markdownlint + docs 検証 + サイトビルド(+ 条件付き GitHub Pages デプロイ)
 #
 # デプロイは既定で無効。有効化するにはリポジトリの Actions 変数(Settings → Secrets and variables → Actions → Variables)に
 #   DEPLOY_PAGES = true

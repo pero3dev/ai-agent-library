@@ -1,7 +1,7 @@
 # website — ドキュメントサイト(Nextra)
 
 `docs/`(正本)を取り込んで公開する [Nextra](https://nextra.site/) ベースの静的サイトです。
-設計の詳細は [../WEBSITE-PLAN.md](../WEBSITE-PLAN.md) を参照してください。
+設計の詳細は [サイト構築計画](../project/plans/engineering/website.md) を参照してください。
 
 - 公開先: [pero3dev.github.io/ai-agent-library](https://pero3dev.github.io/ai-agent-library/)
 - 正本は `docs/`。このディレクトリのコンテンツは **生成物** で、直接編集しません

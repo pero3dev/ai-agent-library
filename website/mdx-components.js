@@ -8,7 +8,7 @@ import { TodoCallout } from './components/mdx/todo-callout'
 const docsComponents = getDocsMDXComponents()
 const DocsWrapper = docsComponents.wrapper
 
-// Markdown 要素 → React コンポーネントのマッピング(WEBSITE-PLAN.md §5 段階 2)。
+// Markdown 要素 → React コンポーネントのマッピング(project/plans/engineering/website.md §5 段階 2)。
 // remark-doc-decorations(lib/)が注入する TodoCallout / PracticeSection / GlossaryTerm はここで解決される。
 export const useMDXComponents = components => ({
   ...docsComponents,

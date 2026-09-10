@@ -1,6 +1,6 @@
 /**
  * doc-decorations.mjs — 記事の定型構造を UI コンポーネントへ自動変換する mdast 変換。
- * sync-content.mjs から呼ばれ、原本(docs/)には手を入れない(WEBSITE-PLAN.md §5 段階 2)。
+ * sync-content.mjs から呼ばれ、原本(docs/)には手を入れない(project/plans/engineering/website.md §5 段階 2)。
  *
  * 注: 当初は next.config の remarkPlugins として実装したが、Turbopack はローダーオプションの
  * 直列化を要求し関数プラグインを渡せないため、sync 時の変換(バンドラー非依存)に移した。

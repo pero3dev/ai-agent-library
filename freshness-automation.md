@@ -82,11 +82,13 @@ npm run check
 実際の開始は `prepare --mode weekly_focus` または `prepare --mode rotation` です。出力の `checkpoint` ファイルへ確認範囲・残件・PR URL を追記し、次のコマンドで保存します。
 
 ```powershell
-node scripts/freshness-run.mjs checkpoint --run '<checkpoint の絶対パス>'
-node scripts/freshness-run.mjs finish --run '<checkpoint の絶対パス>' --outcome observed
+node scripts/freshness-run.mjs checkpoint --run '<checkpoint の絶対パス>' --attempt-id '<開始時の attempt_id>'
+node scripts/freshness-run.mjs finish --run '<checkpoint の絶対パス>' --attempt-id '<開始時の attempt_id>' --outcome observed
 ```
 
-`finish` の outcome は `observed` / `merged` / `held` / `failed` です。merged には PR URL とマージ SHA が必要です。`completed_systems` は、その系統の宣言した確認範囲に残件がない場合だけ指定します。レビュー・CI・公開確認を次回へ引き継ぐ場合は `finish held` ではなく `suspend --run '<checkpoint の絶対パス>' --attempt-id '<開始時の attempt_id>'` を使います。差分・残件を保存し、未完了状態を維持して lock を解放します。
+`finish` の outcome は `observed` / `merged` / `held` / `failed` です。merged には `pr_url` とレビュー・CI対象の `head_sha` を記録し、変更した公開ページを `publication_urls` に指定します。各項目はURL文字列または `{url, includes}`(本文の必須文字列)です。CLIがGitHubから必須チェックのApp/workflow/event・merge SHA・main CI・Pages deployment・公開URLを再取得し、`github_verification` に保存します。予約や保存済みの成功フラグだけでは完了しません。
+
+`completed_systems` は、その系統の宣言した確認範囲に残件がない場合だけ指定します。レビュー・CI・公開確認を次回へ引き継ぐ場合は `finish held` ではなく `suspend --run '<checkpoint の絶対パス>' --attempt-id '<開始時の attempt_id>' --wait-until '<次回照合 UTC>' --wait-reason '<理由>'` を使います。差分・残件を保存し、未完了状態を維持して lock を解放します。利用制限では `--usage-limit`、要判断では `--needs-decision` を付けます。API認証への切替や追加購入は行いません。
 
 ## 保存場所と復旧
 
@@ -94,7 +96,7 @@ node scripts/freshness-run.mjs finish --run '<checkpoint の絶対パス>' --out
 
 `checkpoint` / `suspend` は `docs/` と `research/` の Markdown・JSON、および `ROADMAP.md`、`GLOSSARY.md`、`README.md` の変更を、一時的な Git index を使ってローカルの WIP コミットへ保存します。保存先は `refs/freshness/checkpoints/<run_id>` です。実際の index・ブランチ・作業ファイルは変更せず、この ref をリモートへ push しません。これら以外の未コミットファイルと、最後の checkpoint 後の編集は保存対象外です。
 
-復元時は checkpoint の `snapshot_commit` と `snapshot_head`、既存ブランチ・PR head を比較します。ブランチが snapshot の親のままであれば、きれいな worktree でそのブランチへ `git merge --ff-only <snapshot_commit>` を実行できます。ブランチがなければ snapshot から作成します。ブランチが既に先へ進んだ場合や他の worktree で使用中の場合は、履歴を確認して差分を統合します。最新 main が変わっていれば統合後に checkpoint・evidence の `base_sha` を更新し、根拠・digest・レビュー・CI を取り直します。
+復元時は checkpoint の `snapshot_commit` と `snapshot_head`、既存ブランチ・PR head を比較します。ブランチが snapshot の親のままであれば、きれいな worktree でそのブランチへ `git merge --ff-only --no-overwrite-ignore <snapshot_commit>` を実行できます。無視対象ファイルとの衝突も上書きせず止めます。ブランチがなければ snapshot から作成します。ブランチが既に先へ進んだ場合や他の worktree で使用中の場合は、履歴を確認して差分を統合します。最新 main が変わっていれば統合後に checkpoint・evidence の `base_sha` を更新し、根拠・digest・レビュー・CI を取り直します。
 
 | 情報 | 保存先 | 意味 |
 | --- | --- | --- |
@@ -105,7 +107,9 @@ node scripts/freshness-run.mjs finish --run '<checkpoint の絶対パス>' --out
 | 排他状態 | `freshness/lock/owner.json` | 同じ clone の複数 worktree による重複作業を防止 |
 | マージする変更の根拠 | `research/freshness-runs/<run_id>.json` | PR とともに残る証拠 |
 
-未完了 checkpoint があれば次の prepare が同じ run ID を復元します。lock は 6 時間有効で、期限切れの回収自体も排他します。lock 操作の途中でプロセスが失われて `lock-mutex` が残った場合は自動で破壊せず停止します。実行中のタスクがないことを確認し、該当する空ディレクトリだけを取り除いて再試行します。
+未完了 checkpoint のうち実行可能なものを次の prepare が同じ run ID で復元します。外部待ちの期限前と要判断の run は待ち行列に残し、別の期限到来した系統を選べます。週次・巡回では周期未到来と同日重複を抑え、明示した `manual --ids` は依頼による対象確認として区別します。lock は 6 時間有効で、通常作業の `harness-run` と共用し、期限切れの回収自体も排他します。lock 操作の途中でプロセスが失われて `lock-mutex` が残った場合は自動で破壊せず停止します。実行中のタスクがないことを確認し、該当する空ディレクトリだけを取り除いて再試行します。
+
+状態と checkpoint は保存世代と journal で対応付けます。`status` と `--dry-run` は復旧の必要性を表示するだけです。更新操作は排他を取得して未完了の保存世代を復旧し、途中まで保存された観測を失敗や成功で上書きしません。旧状態 schema 1 は互換読み込みを維持し、操作時に必要な世代・queue・予算だけを付加します。
 
 ローカル状態が失われた場合は保守的に再観測します。Git 上の過去の監査日は、それだけでは今日の確認済みを意味しません。ファイル・base が変わった場合は以前のレビューを引き継ぎません。
 

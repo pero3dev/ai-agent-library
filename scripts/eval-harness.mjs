@@ -5,6 +5,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { spawnSync, spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { parseFrontMatter, parseScalar, toLines } from './lib/md-utils.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const suites = Object.freeze([
@@ -47,18 +48,41 @@ export function summarizeEvents(text) {
   };
 }
 function evaluationHome() {
-  return path.join(path.resolve(root, git('rev-parse', '--git-common-dir')), 'harness-evaluations');
+  const common = fs.realpathSync(path.resolve(root, git('rev-parse', '--git-common-dir')));
+  const home = path.join(common, 'harness-evaluations');
+  assertUnlinked(home, common);
+  return home;
+}
+export function assertUnlinked(target, anchor) {
+  const relative = path.relative(anchor, target);
+  if (relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) throw new Error('Evaluation path escaped its owned directory');
+  for (let current = target; ; current = path.dirname(current)) {
+    try { if (fs.lstatSync(current).isSymbolicLink()) throw new Error('Linked evaluation paths are not accepted'); }
+    catch (error) { if (error.code !== 'ENOENT') throw error; }
+    if (current === anchor) break;
+  }
+}
+export function assertArchiveTree(listing) {
+  for (const row of listing.split('\0').filter(Boolean)) if (!/^100(?:644|755) blob [a-f0-9]{40}\t/.test(row)) throw new Error('Evaluation source must contain only regular files; symlinks and submodules are not extracted');
+}
+export function articleStatus(text) {
+  const front = parseFrontMatter(toLines(text));
+  if (!front || front.unclosed || front.errors.length) return null;
+  const fields = front.fields.filter(field => field.key === 'status');
+  return fields.length === 1 ? parseScalar(fields[0].value) : null;
 }
 function ownedRun(directory) {
   const home = evaluationHome();
   const target = path.resolve(directory);
   if (path.dirname(target) !== home || !fs.existsSync(path.join(target, 'evaluation.json'))) throw new Error('Run must be a direct, owned child of this repository evaluation directory');
-  for (let current = target; current !== path.dirname(home); current = path.dirname(current)) if (fs.lstatSync(current).isSymbolicLink()) throw new Error('Linked evaluation paths are not accepted');
+  assertUnlinked(target, home);
+  assertUnlinked(path.join(target, 'evaluation.json'), home);
   return target;
 }
 function prepare(options) {
   const ref = git('rev-parse', '--verify', `${options.ref}^{commit}`);
   if (!/^[a-f0-9]{40}$/.test(ref)) throw new Error('Expected a resolved commit');
+  assertArchiveTree(git('ls-tree', '-rz', '--full-tree', ref));
   const home = evaluationHome();
   fs.mkdirSync(home, { recursive: true });
   const directory = fs.mkdtempSync(path.join(home, `${options.scenario}-`));
@@ -70,7 +94,7 @@ function prepare(options) {
   run('git', ['init', '-b', 'main'], { cwd: checkout });
   run('git', ['config', 'user.name', 'Harness evaluation'], { cwd: checkout });
   run('git', ['config', 'user.email', 'codex@openai.com'], { cwd: checkout });
-  fs.appendFileSync(path.join(checkout, 'ROADMAP.md'), '\n## 隔離評価タスク\n\n| ID | 内容 | 成果物 | 状態 |\n| --- | --- | --- | --- |\n| HARNESS-EVAL-1 | Agentの停止条件と予算の設計 | `01-concepts/termination-budget.md` | 未着手 |\n');
+  fs.appendFileSync(path.join(checkout, 'ROADMAP.md'), '\n## 隔離評価タスク\n\n| タスク | 内容 | 成果物 | ステータス |\n| --- | --- | --- | --- |\n| HARNESS-EVAL-1 | Agentの停止条件と予算の設計 | `01-concepts/termination-budget.md` | 未着手 |\n');
   run('git', ['add', '.'], { cwd: checkout });
   run('git', ['commit', '-m', 'Prepare isolated harness evaluation', '-m', 'Co-authored-by: Codex <codex@openai.com>'], { cwd: checkout });
   const prompt = fs.readFileSync(path.join(root, 'tests/harness/authoring-prompt.txt.example'), 'utf8');
@@ -82,12 +106,16 @@ function prepare(options) {
 function collect(directory) {
   const owned = ownedRun(directory);
   const record = JSON.parse(fs.readFileSync(path.join(owned, 'evaluation.json'), 'utf8'));
+  if (record.schema_version !== 1 || record.scenario !== 'authoring' || record.checkout !== path.join(owned, 'checkout') || !/^[a-f0-9]{40}$/.test(record.fixture_sha)) throw new Error('Invalid evaluation ownership record');
+  for (const file of ['events.jsonl', 'summary.json', 'checkout', 'checkout/docs/01-concepts/termination-budget.md']) assertUnlinked(path.join(owned, file), owned);
   const events = path.join(owned, 'events.jsonl');
   const observed = fs.existsSync(events) ? summarizeEvents(fs.readFileSync(events, 'utf8')) : null;
   const changes = run('git', ['status', '--porcelain=v1', '--untracked-files=all'], { cwd: record.checkout }).stdout;
+  const head = run('git', ['rev-parse', 'HEAD'], { cwd: record.checkout }).stdout.trim();
+  const committedChanges = run('git', ['diff', '--no-ext-diff', '--no-textconv', '--name-only', record.fixture_sha, head], { cwd: record.checkout }).stdout.trim().split(/\r?\n/).filter(Boolean);
   const article = path.join(record.checkout, 'docs/01-concepts/termination-budget.md');
   const text = fs.existsSync(article) ? fs.readFileSync(article, 'utf8') : '';
-  const report = { ...record, observed, changes: changes.trim().split(/\r?\n/).filter(Boolean), draft_created: /^status:\s*["']?draft["']?\s*$/m.test(text), reviewed_quality: 'requires-independent-review', collected_at: new Date().toISOString() };
+  const report = { ...record, observed, current_head: head, unexpected_commit: head !== record.fixture_sha, committed_changes: committedChanges, changes: changes.trim().split(/\r?\n/).filter(Boolean), article_status: articleStatus(text), draft_created: articleStatus(text) === 'draft', reviewed_quality: 'requires-independent-review', collected_at: new Date().toISOString() };
   fs.writeFileSync(path.join(owned, 'summary.json'), `${JSON.stringify(report, null, 2)}\n`);
   return report;
 }

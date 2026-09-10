@@ -3,7 +3,7 @@ import { lstatSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, s
 import os from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
-import { materializeExportSegments } from '../lib/export-segments.mjs'
+import { materializeExportSegments } from '../../lib/export-segments.mjs'
 
 function fixture(t) {
   const root = mkdtempSync(path.join(os.tmpdir(), 'export-segments-'))

@@ -4,9 +4,9 @@ import os from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
-import { matchesPattern, parseRegistry, readRegistry, selectSystems } from './freshness-registry.mjs'
+import { matchesPattern, parseRegistry, readRegistry, selectSystems } from '../../scripts/freshness-registry.mjs'
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const now = '2026-09-10T07:23:00+09:00'
 const row = (id, docs = '`docs/01-concepts/*.md`', research = '`research/core/*.md`', cadence = 42) =>
   `| \`${id}\` | 系統 ${id} | ${docs} | ${research} | ${cadence} |`

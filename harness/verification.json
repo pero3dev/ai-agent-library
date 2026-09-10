@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "checks": [
-    { "id": "unit", "job": "docs", "command": "node --test scripts/*.test.mjs", "cwd": ".", "os": ["linux", "win32"], "evidence": "unit", "prerequisites": ["root npm ci"] },
+    { "id": "unit", "job": "docs", "command": "node --test tests/unit/*.test.mjs", "cwd": ".", "os": ["linux", "win32"], "evidence": "unit", "prerequisites": ["root npm ci"] },
     { "id": "markdown", "job": "lint", "command": "npm run lint:md", "cwd": ".", "os": ["linux", "win32"], "evidence": "static", "prerequisites": ["root npm ci"] },
     { "id": "articles", "job": "docs", "command": "node scripts/validate-docs.mjs --all", "cwd": ".", "os": ["linux", "win32"], "evidence": "static", "prerequisites": ["Node.js 22+"] },
     { "id": "links", "job": "docs", "command": "node scripts/check-links.mjs", "cwd": ".", "os": ["linux", "win32"], "evidence": "static", "prerequisites": ["root npm ci"] },

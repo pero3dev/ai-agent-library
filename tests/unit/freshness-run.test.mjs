@@ -4,8 +4,8 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { acquireLock, releaseLock, automaticMode, applyCompletion, parseArgs, loadState, main, storageDirectory, interruptedRuns } from './freshness-run.mjs';
-import { windowsShortPath } from './lib/windows-test-path.mjs';
+import { acquireLock, releaseLock, automaticMode, applyCompletion, parseArgs, loadState, main, storageDirectory, interruptedRuns } from '../../scripts/freshness-run.mjs';
+import { windowsShortPath } from '../helpers/windows-test-path.mjs';
 
 const blank = () => ({ schema_version: 1, systems: {}, pending: [], runs: {} });
 const now = new Date('2026-09-10T01:00:00Z');

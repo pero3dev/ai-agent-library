@@ -4,8 +4,8 @@ import remarkMdx from 'remark-mdx'
 import remarkParse from 'remark-parse'
 import remarkStringify from 'remark-stringify'
 import { unified } from 'unified'
-import { applyDecorations } from '../lib/doc-decorations.mjs'
-import { findUnsafeMdx } from '../lib/mdx-safety.mjs'
+import { applyDecorations } from '../../lib/doc-decorations.mjs'
+import { findUnsafeMdx } from '../../lib/mdx-safety.mjs'
 
 const parser = unified().use(remarkParse)
 const writer = unified().use(remarkStringify).use(remarkMdx)

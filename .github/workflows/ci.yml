@@ -89,7 +89,7 @@ jobs:
       - name: 相対リンク切れ / セクション README 収録表
         run: node scripts/check-links.mjs
       - name: ハーネスと文書検証の回帰検査
-        run: node --test scripts/*.test.mjs
+        run: node --test tests/unit/*.test.mjs
 
   harness:
     runs-on: ubuntu-latest

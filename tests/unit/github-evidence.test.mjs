@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { isWithinPages, parsePrUrl, validateGithubSnapshot } from './lib/github-evidence.mjs'
+import { isWithinPages, parsePrUrl, validateGithubSnapshot } from '../../scripts/lib/github-evidence.mjs'
 
 const head = 'a'.repeat(40), merge = 'b'.repeat(40), repo = 'owner/library'
 function fixture() {

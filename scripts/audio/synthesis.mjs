@@ -53,12 +53,12 @@ async function inspectSignal(file, config, characterCount, run) {
   if (!checks.passed) throw new Error(checks.issues.join('; '))
   return checks
 }
-async function synthesizeChunk(text, role, config, engine, cacheDir, { run, request }) {
+async function synthesizeChunk(text, role, config, engine, cacheDir, { run, request, force = false }) {
   const voice = config.voices[role]
   const signature = sha256(JSON.stringify({ text, speaker_id: voice.speaker_id, engine: engine.version, synthesis: config.synthesis }))
   const file = path.join(cacheDir, `${signature}.wav`), metadataFile = `${file}.json`
   const cached = await readGeneratedJson(metadataFile)
-  if (cached?.signature === signature) {
+  if (!force && cached?.signature === signature) {
     try {
       if (sha256(await readFile(file)) === cached.sha256 && cached.duration_seconds > 0) return { file, ...cached }
     } catch (error) { if (error.code !== 'ENOENT') throw error }
@@ -78,6 +78,66 @@ async function synthesizeChunk(text, role, config, engine, cacheDir, { run, requ
   await writeJson(metadataFile, metadata)
   return { file, ...metadata }
 }
+
+// Keep whole utterances together when a chapter needs more than one episode.
+// Measured durations are recalculated after repairs, since regenerated speech may differ.
+export function groupAudioChapters(chapters, maximumSeconds = 3600) {
+  if (!Number.isFinite(maximumSeconds) || maximumSeconds <= 0) throw new Error('Invalid episode duration limit')
+  const usedIds = new Set(chapters.map(chapter => chapter.id)), split = []
+  for (const chapter of chapters) {
+    const turns = []
+    for (const chunk of chapter.chunks) {
+      if (!Number.isFinite(chunk.duration_seconds) || chunk.duration_seconds <= 0) throw new Error(`Invalid speech duration: ${chapter.id}`)
+      const previous = turns.at(-1)
+      if (previous && previous.index === chunk.turn_index) previous.chunks.push(chunk)
+      else turns.push({ index: chunk.turn_index, chunks: [chunk] })
+    }
+    const segments = [[]]
+    for (const turn of turns) {
+      const duration = turn.chunks.reduce((sum, chunk) => sum + chunk.duration_seconds, 0)
+      if (duration > maximumSeconds) throw new Error(`A single utterance exceeds ${maximumSeconds} seconds and cannot be split at an utterance boundary: ${chapter.id}, turn ${turn.index + 1}`)
+      const segment = segments.at(-1)
+      if (segment.length && segment.reduce((sum, chunk) => sum + chunk.duration_seconds, 0) + duration > maximumSeconds) segments.push([...turn.chunks])
+      else segment.push(...turn.chunks)
+    }
+    if (!segments[0].length) throw new Error(`Chapter contains no speech: ${chapter.id}`)
+    for (const [index, chunks] of segments.entries()) {
+      let id = chapter.id
+      if (index) {
+        let suffix = index + 1
+        do { id = `${chapter.id}-continued-${suffix++}` } while (usedIds.has(id))
+        usedIds.add(id)
+      }
+      split.push({ id, title: segments.length > 1 ? `${chapter.title} (${index + 1}/${segments.length})` : chapter.title, chunks, duration: chunks.reduce((sum, chunk) => sum + chunk.duration_seconds, 0) })
+    }
+  }
+  const groups = [[]]
+  for (const chapter of split) {
+    const group = groups.at(-1)
+    if (group.length && group.reduce((sum, item) => sum + item.duration, 0) + chapter.duration > maximumSeconds) groups.push([chapter])
+    else group.push(chapter)
+  }
+  return groups
+}
+
+async function repairPartChunks(group, chapters, config, engine, cacheDir, { run, request }) {
+  // A bad MP3 alone does not justify replacing valid speech or completed episodes.
+  const unique = new Map(group.flatMap(chapter => chapter.chunks).map(chunk => [chunk.signature, chunk]))
+  for (const chunk of unique.values()) {
+    let valid = false
+    try {
+      if (sha256(await readFile(chunk.file)) === chunk.sha256) {
+        const signal = await inspectSignal(chunk.file, config, chunk.character_count, run)
+        valid = Math.abs(signal.duration_seconds - chunk.duration_seconds) <= 0.05
+      }
+    } catch { /* Regenerate only the source fragment that failed inspection. */ }
+    if (valid) continue
+    const replacement = await synthesizeChunk(chunk.text, chunk.role, config, engine, cacheDir, { run, request, force: true })
+    // Identical speech can occur more than once, including in later chapters.
+    for (const chapter of chapters) for (const reference of chapter.chunks) if (reference.signature === chunk.signature) Object.assign(reference, replacement)
+  }
+}
+
 export async function synthesizeScript(script, config, jobDir, engine, { run = execute, request = fetch, progress = () => {} } = {}) {
   const cacheDir = path.join(jobDir, 'chunks')
   await mkdir(cacheDir, { recursive: true })
@@ -90,35 +150,42 @@ export async function synthesizeScript(script, config, jobDir, engine, { run = e
         for (let attempt = 0; attempt <= config.max_repair_attempts; attempt++) {
           try { result = await synthesizeChunk(text, turn.role, config, engine, cacheDir, { run, request }); break } catch (error) { if (attempt === config.max_repair_attempts) throw error }
         }
-        chunks.push(result)
+        chunks.push({ ...result, text, role: turn.role, turn_index: turnIndex })
       }
       await progress({ phase: 'synthesizing', chapter: chapter.id, turn: turnIndex + 1 })
     }
     chapters.push({ id: chapter.id, title: chapter.title, chunks, duration: chunks.reduce((sum, chunk) => sum + chunk.duration_seconds, 0) })
   }
-  // Split on chapter boundaries using measured duration, never remove content to meet a target.
-  const groups = [[]]
-  for (const chapter of chapters) {
-    if (chapter.duration > 3600) throw new Error(`A chapter exceeds 60 minutes and needs editorial splitting: ${chapter.id}`)
-    const group = groups.at(-1)
-    if (group.length && group.reduce((sum, item) => sum + item.duration, 0) + chapter.duration > 3600) groups.push([chapter])
-    else group.push(chapter)
-  }
+  const groups = groupAudioChapters(chapters)
   const outputs = []
-  for (const [index, group] of groups.entries()) {
+  for (let index = 0; index < groups.length; index++) {
     const part = index + 1, output = path.join(jobDir, `part-${String(part).padStart(2, '0')}.mp3`)
     const concatFile = path.join(jobDir, `part-${part}.concat.txt`)
-    const chunks = group.flatMap(chapter => chapter.chunks)
-    const concat = chunks.map(chunk => `file '${chunk.file.replaceAll('\\', '/').replaceAll("'", "'\\''")}'`).join('\n')
-    await writeFile(concatFile, `${concat}\n`, 'utf8')
-    const encoded = await run(config.ffmpeg_path, ['-hide_banner', '-nostdin', '-y', '-f', 'concat', '-safe', '0', '-i', concatFile, '-vn', '-af', 'loudnorm=I=-18:TP=-1.5:LRA=7', '-ar', '44100', '-ac', '1', '-codec:a', 'libmp3lame', '-b:a', `${config.synthesis.bitrate_kbps}k`, '-map_metadata', '-1', output], { timeout: 30 * 60_000 })
-    if (encoded.code) throw new Error(`MP3 encode failed: ${encoded.stderr.slice(-500)}`)
-    const signal = await inspectSignal(output, config, chunks.reduce((sum, chunk) => sum + chunk.character_count, 0), run)
-    const expectedDuration = group.reduce((sum, chapter) => sum + chapter.duration, 0)
-    if (Math.abs(signal.duration_seconds - expectedDuration) > Math.max(1, expectedDuration * 0.01)) throw new Error('Encoded audio lost or repeated chunks')
-    let offset = 0
-    const markers = group.map(chapter => { const marker = { id: chapter.id, title: chapter.title, start_seconds: Number(offset.toFixed(3)) }; offset += chapter.duration; return marker })
-    outputs.push({ part, parts: groups.length, audio_file: output, audio_sha256: sha256(await readFile(output)), duration_seconds: signal.duration_seconds, chapters: markers, signal })
+    for (let attempt = 0; attempt <= config.max_repair_attempts; attempt++) {
+      try {
+        if (attempt) {
+          await progress({ phase: 'repairing-audio', part, repair_attempt: attempt })
+          await repairPartChunks(groups[index], chapters, config, engine, cacheDir, { run, request })
+          // Preserve successful earlier outputs. Repack only the remaining speech if
+          // regenerated durations move chapter markers or cross an episode boundary.
+          groups.splice(index, groups.length - index, ...groupAudioChapters(groups.slice(index).flat()))
+        }
+        const group = groups[index], chunks = group.flatMap(chapter => chapter.chunks)
+        const concat = chunks.map(chunk => `file '${chunk.file.replaceAll('\\', '/').replaceAll("'", "'\\''")}'`).join('\n')
+        await writeFile(concatFile, `${concat}\n`, 'utf8')
+        const encoded = await run(config.ffmpeg_path, ['-hide_banner', '-nostdin', '-y', '-f', 'concat', '-safe', '0', '-i', concatFile, '-vn', '-af', 'loudnorm=I=-18:TP=-1.5:LRA=7', '-ar', '44100', '-ac', '1', '-codec:a', 'libmp3lame', '-b:a', `${config.synthesis.bitrate_kbps}k`, '-map_metadata', '-1', output], { timeout: 30 * 60_000 })
+        if (encoded.code) throw new Error(`MP3 encode failed: ${encoded.stderr.slice(-500)}`)
+        const signal = await inspectSignal(output, config, chunks.reduce((sum, chunk) => sum + chunk.character_count, 0), run)
+        const expectedDuration = group.reduce((sum, chapter) => sum + chapter.duration, 0)
+        if (Math.abs(signal.duration_seconds - expectedDuration) > Math.max(1, expectedDuration * 0.01)) throw new Error('Encoded audio lost or repeated chunks')
+        let offset = 0
+        const markers = group.map(chapter => { const marker = { id: chapter.id, title: chapter.title, start_seconds: Number(offset.toFixed(3)) }; offset += chapter.duration; return marker })
+        outputs.push({ part, audio_file: output, audio_sha256: sha256(await readFile(output)), duration_seconds: signal.duration_seconds, chapters: markers, signal })
+        break
+      } catch (error) {
+        if (attempt === config.max_repair_attempts) throw new Error(`Audio repair limit reached for part ${part}: ${error.message}`, { cause: error })
+      }
+    }
   }
-  return outputs
+  return outputs.map(output => ({ ...output, parts: outputs.length }))
 }

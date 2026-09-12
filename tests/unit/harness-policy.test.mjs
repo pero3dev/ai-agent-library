@@ -430,5 +430,8 @@ test('privileged workflow uses only base checkout and base dependencies with no 
   assert.match(workflow, /ref: \$\{\{ github\.event\.pull_request\.base\.sha \}\}/)
   assert.match(workflow, /persist-credentials: false/)
   assert.match(workflow, /npm ci --ignore-scripts/)
+  assert.match(workflow, /types: \[[^\]]*edited[^\]]*\]/)
+  assert.match(workflow, /node scripts\/check-git-conventions\.mjs --event "\$GITHUB_EVENT_PATH"/)
+  assert.doesNotMatch(workflow, /\$\{\{[^}]*pull_request\.(?:title|body)[^}]*\}\}/)
   assert.doesNotMatch(workflow, /ref:.*head\.sha|npm run|node .*\/changes\/|secrets\.|write-all/)
 })

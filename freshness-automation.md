@@ -1,6 +1,6 @@
 # 記事の定期最新化: Codex と GitHub Actions
 
-最終更新: 2026-09-10
+最終更新: 2026-09-12
 
 記事の調査・編集・独立レビューは、ChatGPT でログインしたローカルの Codex が担当します。GitHub Actions は本文差分の検査、既存 CI、Pages 公開を担当します。API キーを追加せず、普段の Codex と同じ契約枠を使う構成です。[認証方式](https://learn.chatgpt.com/docs/auth)(アクセス日: 2026-09-10)
 
@@ -15,7 +15,7 @@
 
 ローカルのファイルを使う定期タスクは、実行時に PC の電源とアプリの起動が必要です。Git worktree を使うと普段の作業ディレクトリと分離できます。公式資料では CLI に Scheduled の管理画面はなく、アプリまたは Web から作成・管理する方式です。この構成のローカルプロジェクトはデスクトップアプリに登録します。[Scheduled tasks](https://learn.chatgpt.com/docs/automations)(アクセス日: 2026-09-10)
 
-運用手順の正本は [freshness-maintenance スキル](.agents/skills/freshness-maintenance/SKILL.md)です。プロンプトは作業の入口だけを保持するため、手順の改善で登録済みプロンプトを毎回書き換える必要はありません。
+運用手順の正本は [freshness-maintenance スキル](.agents/skills/freshness-maintenance/SKILL.md)、ブランチ・コミット・PR・squash の形式は [Git 操作規約](harness/git-rules.md)です。プロンプトは作業の入口だけを保持するため、手順の改善で登録済みプロンプトを毎回書き換える必要はありません。登録済みのプロンプトも実行時にスキルを読むため、2026-09-12 の Git 規約導入による再登録や個人の定期タスク設定変更は不要です。
 
 この端末ではアプリの通常の設定読込を使って登録し、アプリが保存した次回日時まで確認しました。再登録・状態確認・停止は PowerShell 7 の `scripts/register-freshness-tasks.ps1 -Mode Install|Status|Pause` で行えます。Install は既存の同名設定を上書きしません。アプリの版変更で読込形式が変わった場合は Scheduled 画面で管理してください。停止後の DB 表示は次の一覧読込まで古い場合がありますが、scheduler は設定ファイルの ACTIVE のものだけを実行対象にします。
 
@@ -40,8 +40,8 @@ flowchart LR
 
 - ローカルで認証済みの `gh` / Git を使って push・PR 作成・マージ予約を行います。個人の Codex 認証ファイルを GitHub へ送信しません。
 - `automation/freshness-<run_id>` ブランチの更新は `freshness-policy` チェックを通します。検証するコードと workflow は信頼する base 側のものを使い、候補 PR のコードを実行しません。
-- 必須チェックは `lint`、`actionlint`、`docs`、`examples`、`build`、`freshness-policy` です。main を保護し、自動更新で `--admin` を使いません。
-- `gh pr merge --auto --squash` で必須チェック後のマージを予約します。PR の head が変われば証拠・レビュー・CI を取り直します。
+- 必須チェックは `lint`、`actionlint`、`docs`、`examples`、`build`、`freshness-policy`、`harness`、`harness-windows`、`harness-policy` です。Git 形式の検査も既存の `harness-policy` に含めます。main を保護し、自動更新で `--admin` を使いません。
+- Git 操作規約のコマンドで取得した最終 PR 情報から squash 件名・本文を生成します。`gh pr merge <pr-url> --auto --squash --match-head-commit <head_sha> --subject <生成した件名> --body-file <commit-body>` でその内容を明示し、必須チェック後のマージを予約します。PR の head や最終内容が変われば証拠・レビュー・CI を取り直します。
 - main へのマージ後は既存の CI が Pages を公開します。予約、マージ、公開成功は別々に追跡します。
 
 PR 操作をローカルの認証で行うため、Actions の `GITHUB_TOKEN` による後続起動制限を避けられます。この構成では OpenAI API キー、GitHub App 秘密鍵、追加の PAT を Actions secrets に保存しません。[GitHub の起動制限](https://docs.github.com/en/actions/concepts/security/github_token)(アクセス日: 2026-09-10)
@@ -94,16 +94,20 @@ node scripts/freshness-run.mjs finish --run '<checkpoint の絶対パス>' --att
 
 観測状態・未完了 checkpoint・排他 lock は Git の common directory 配下の `freshness/` に保存します。通常の配置では `C:\dev\ai-agent-library\.git\freshness\` です。worktree 間で同じ状態を共有し、アプリの一時 worktree が削除されても記録が残ります。状態ファイルはコミットされず、秘密情報を記録しません。
 
-`checkpoint` / `suspend` は `docs/` と `research/` の Markdown・JSON、および `ROADMAP.md`、`GLOSSARY.md`、`README.md` の変更を、一時的な Git index を使ってローカルの WIP コミットへ保存します。保存先は `refs/freshness/checkpoints/<run_id>` です。実際の index・ブランチ・作業ファイルは変更せず、この ref をリモートへ push しません。これら以外の未コミットファイルと、最後の checkpoint 後の編集は保存対象外です。
+`checkpoint` / `suspend` は `docs/` と `research/` の Markdown・JSON、および `ROADMAP.md`、`GLOSSARY.md`、`README.md` の変更を、一時的な Git index を使ってローカルの保存用コミットへ記録します。保存先は `refs/freshness/checkpoints/<run_id>` です。実際の index・ブランチ・作業ファイルは変更せず、この ref をリモートへ push しません。これら以外の未コミットファイルと、最後の checkpoint 後の編集は保存対象外です。
+
+2026-09-12 以降に作る保存用コミットは Git 操作規約の共通 formatter を使います。自動保存は編集を行った Agent の本人確認ではないため、`Agent: automation` と `Generated-by: ai-agent-library` を記録します。Git author は内部処理用の `AI Agent Library automation <automation@ai-agent-library.invalid>` とし、通常のリポジトリの Git user 設定を変えず、Codex や Claude の共同編集を推定しません。これは保存の記録であり、記事・実装の検証成功は意味しません。実際に編集した Agent は提出用コミットと PR・squash に自身の表記を残します。
 
 復元時は checkpoint の `snapshot_commit` と `snapshot_head`、既存ブランチ・PR head を比較します。ブランチが snapshot の親のままであれば、きれいな worktree でそのブランチへ `git merge --ff-only --no-overwrite-ignore <snapshot_commit>` を実行できます。無視対象ファイルとの衝突も上書きせず止めます。ブランチがなければ snapshot から作成します。ブランチが既に先へ進んだ場合や他の worktree で使用中の場合は、履歴を確認して差分を統合します。最新 main が変わっていれば統合後に checkpoint・evidence の `base_sha` を更新し、根拠・digest・レビュー・CI を取り直します。
+
+導入前の `WIP` 形式の保存用コミットと checkpoint ref は、そのまま復旧用に保持します。復元後の提出範囲に未公開の旧形式コミットが含まれる場合だけ、元の ref を残したうえで [Git 操作規約](harness/git-rules.md)に従って提出用コミットへまとめ直し、全範囲を検査してから push します。既に公開した履歴の書き換えや force-push で規約に合わせません。内容の tree が同じでも SHA が変わったら checkpoint・PR head・CI の記録を更新し、レビュー対象との対応を再確認します。
 
 | 情報 | 保存先 | 意味 |
 | --- | --- | --- |
 | 系統と対象 | ROADMAP の registry 表 | 人とスクリプトが読む正本 |
 | 最終試行・最終確認・再試行日 | `freshness/state.json` | 本文の更新日と分離した巡回状態 |
 | 作業途中の確認範囲・残件 | `freshness/runs/<run_id>.json` | 利用制限・中断からの再開 |
-| 記事・調査資料の保存済み差分 | `refs/freshness/checkpoints/<run_id>` | 一時 worktree 消失時にも復元できる WIP コミット |
+| 記事・調査資料の保存済み差分 | `refs/freshness/checkpoints/<run_id>` | 一時 worktree 消失時にも復元できる保存用コミット |
 | 排他状態 | `freshness/lock/owner.json` | 同じ clone の複数 worktree による重複作業を防止 |
 | マージする変更の根拠 | `research/freshness-runs/<run_id>.json` | PR とともに残る証拠 |
 

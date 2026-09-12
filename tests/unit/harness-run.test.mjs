@@ -137,6 +137,16 @@ test('checkpoint snapshots only owned files and leaves the user index and other 
   assert.equal(f.git('status', '--porcelain=v1'), status);
   assert.deepEqual(fs.readFileSync(path.join(f.root, '.git/index')), index);
   assert.doesNotMatch(f.git('ls-tree', '-r', '--name-only', saved.snapshot_commit), /\.env/);
+  const message = f.git('log', '-1', '--format=%B', saved.snapshot_commit);
+  assert.match(message, /^chore\(harness\): 作業状態を保存する\n/);
+  assert.ok(message.includes(record.run_id));
+  assert.match(message, /保存のみ・未実施/);
+  assert.match(message, /^Agent: automation$/m);
+  assert.match(message, /^Generated-by: ai-agent-library$/m);
+  assert.doesNotMatch(message, /Co-authored-by:|Codex|Claude/);
+  assert.equal(f.git('log', '-1', '--format=%an <%ae>', saved.snapshot_commit), 'AI Agent Library automation <automation@ai-agent-library.invalid>');
+  assert.equal(f.git('config', 'user.name'), 'Harness Fixture');
+  assert.equal(f.git('config', 'user.email'), 'fixture@example.invalid');
   await release(f, record);
 });
 

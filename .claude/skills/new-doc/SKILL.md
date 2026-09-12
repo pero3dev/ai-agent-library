@@ -35,7 +35,7 @@ description: docs/ に新規ドキュメントをテンプレートから作成�
    - 新しい用語を導入した場合は [GLOSSARY.md](../../../GLOSSARY.md)(五十音順)に追加する
    - examples/ に対応サンプルがある場合は docs ↔ examples の双方向リンクを張る
 5. 検証: `node scripts/validate-docs.mjs <新規ファイル>` → `node scripts/check-links.mjs` を実行し、指摘があれば修正する
-6. PR を提出する場合は [通常記事の変更記録](../publish-review/SKILL.md#通常記事の変更記録)を作り、候補 tree に対する `harness-policy` を通す。draft 作成だけなら `review: null` とし、公開レビューの結果を作らない
+6. PR を提出する場合は [通常記事の変更記録](../publish-review/SKILL.md#通常記事の変更記録)を作り、候補 tree に対する `harness-policy` を通す。draft 作成だけなら `review: null` とし、公開レビューの結果を作らない。ブランチ・コミット・PR・squash は [Git 操作規約](../../../harness/git-rules.md)の形式と検証に従う
 
 ## 公開について
 

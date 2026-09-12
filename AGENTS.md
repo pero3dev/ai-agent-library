@@ -16,6 +16,7 @@
 | `examples/` のサンプル | [サンプル規約](harness/writing-rules.md#サンプルコードのルール)、各サンプルの README |
 | `website/` のサイト | [CONTRIBUTING.md](CONTRIBUTING.md#サイトwebsiteを変更するとき)、`website/package.json` の検証コマンド |
 | 指示・スキル・フック・`scripts/`・CI | この共通契約、[CONTRIBUTING.md](CONTRIBUTING.md#ハーネスを変更するとき)、変更する実行面の設定と試験 |
+| commit・branch・PR・mergeなどのGit操作 | [Git共通規約](harness/git-rules.md)、[形式契約](harness/git-conventions.json)。作成前・提出前に共通検査を使います |
 | 定期最新化 | [運用手順](freshness-automation.md)、[freshness-maintenance](.agents/skills/freshness-maintenance/SKILL.md) |
 
 ## 判断と継続

@@ -1,0 +1,10 @@
+chore(harness): {{summary}}
+
+理由: {{reason}}
+
+検証: {{validation}}
+
+影響: {{impact}}
+
+Agent: codex
+Co-authored-by: Codex <codex@openai.com>

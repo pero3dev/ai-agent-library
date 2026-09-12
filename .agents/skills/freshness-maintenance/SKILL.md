@@ -5,7 +5,7 @@ description: Codex の定期タスクから既存記事の鮮度を確認し、�
 
 # 記事の定期最新化
 
-このリポジトリの最新化を ChatGPT 契約内の Codex で実行します。対象の正本は [ROADMAP](../../../ROADMAP.md)、操作契約は [運用手順](../../../freshness-automation.md)です。最初に両方を読みます。API キーや個人認証ファイルを GitHub Actions に渡しません。
+このリポジトリの最新化を ChatGPT 契約内の Codex で実行します。最初に対象の正本 [ROADMAP](../../../ROADMAP.md)、[運用手順](../../../freshness-automation.md)、[Git 操作規約](../../../harness/git-rules.md)を読みます。ブランチ・コミット・PR・squash の形式と検証は Git 操作規約に従います。API キーや個人認証ファイルを GitHub Actions に渡しません。
 
 ## このタスクの許可範囲
 
@@ -47,12 +47,12 @@ description: Codex の定期タスクから既存記事の鮮度を確認し、�
 4. **別の doc-reviewer サブエージェント**へリポジトリ、base SHA、候補 tree SHA、branch、evidence path、変更パス、digest を渡し、[レビュー指示](references/review.md)に従う独立レビューを依頼します。レビュアーは `git show <SHA>:<path>` で不変の本文・manifest を読み、digest を自分で再計算して一致を確認します。作業ディレクトリの未 stage 本文で代替しません。サブエージェントを使えない回はレビュー待ちで保留し、自分の編集を独立レビュー済みと記録しません。
 5. 本文・根拠・変更分類を修正したら stage と digest 計算をやり直し、別実行で再レビューします。最大 2 往復で解決しなければ保留します。
 6. `review` に結果と別実行 ID、`risk`、時刻、確認した digest を記録します。完成時刻を調査・レビュー時刻より後にして evidence を保存し、全変更を stage します。**`git write-tree` をもう一度実行して最終候補の tree SHA を取得**し、その SHA を `--head` に渡して policy を再実行します。レビュー前の tree SHA を使い回しません。
-7. `git diff --cached --check` と stage 内容を確認してコミットします。push の直前に `node scripts/freshness-run.mjs assert-lock --run-id <run_id> --attempt-id <prepare で取得した attempt_id>`、main の SHA、既存 PR head を再確認します。
-8. `gh pr list --head <branch>` で重複を避け、現在の GitHub 認証で push・PR 作成または更新します。PR 本文は一時ファイルを使い `--body-file` で渡します。対象・変更・出典・レビュー・検証・残件を簡潔に記録します。
+7. `git diff --cached --check` と stage 内容を確認します。Git 操作規約のコミットテンプレートを一時ファイルに記入し、`node scripts/check-git-conventions.mjs --message-file <message-file> --agent codex` を通して `git commit -F <message-file>` でコミットします。checkpoint 復元で含まれた未公開の旧形式コミットは運用手順に従って整え、公開済み履歴は書き換えません。
+8. `gh pr list --head <branch>` で重複を避け、PR テンプレートに対象・変更・出典・レビュー・検証・残件を記録します。予定する title・body・branch を JSON ファイルに保存し、`node scripts/check-git-conventions.mjs --base <base_sha> --head <head_sha> --pr-file <pr-json>` で提出する全コミットと PR を確認します。push の直前に `node scripts/freshness-run.mjs assert-lock --run-id <run_id> --attempt-id <prepare で取得した attempt_id>`、main の SHA、既存 PR head を再確認します。現在の GitHub 認証で push・PR 作成または更新し、本文は `--body-file` で渡します。実際の PR 情報も Git 操作規約のコマンドで再取得・検証します。
 
 ## マージ・公開と終了
 
-`automation/freshness-*` の PR は、独立レビューで `approved`・`risk: low`、freshness-policy と既存 CI が成功した場合だけマージします。`gh pr checks` で実際の head の結果を確認し、`gh pr merge --auto --squash --body-file <commit-body>` で必須チェックを満たすマージを予約できます。`--admin` は使いません。
+`automation/freshness-*` の PR は、独立レビューで `approved`・`risk: low`、freshness-policy と既存 CI が成功した場合だけマージします。`gh pr checks` で実際の head の結果を確認し、最新の PR 情報を JSON へ再取得します。`node scripts/check-git-conventions.mjs --squash-file <pr-json> --body-file <commit-body>` で squash 本文と件名を生成し、出力された件名を明示して `gh pr merge <pr-url> --auto --squash --match-head-commit <head_sha> --subject <生成した件名> --body-file <commit-body>` を実行します。GitHub の自動生成本文に任せず、最終の共同編集者表記も保ちます。`--admin` は使いません。
 
 予約だけで完了にせず、PR のマージ SHA と main の CI・Pages deployment を追跡します。checkpoint に `pr_url`、レビュー・CI対象の40桁の `head_sha`、変更ページの `publication_urls` を保存します。本文を更新したページは `{url, includes}`(公開本文の必須文字列)で指定します。URL文字列だけの確認はHTTP到達性のみであり、本文の反映確認と区別します。`finish --outcome merged` はGitHubを再取得し、PR head・必須チェックのApp/workflow/event・merge SHA・deployment・指定した公開URLを照合します。保存済みの成功フラグだけでは完了しません。後続mainが公開済みなら元の公開成功と現在の配信を区別します。公開失敗時は復旧を優先します。
 

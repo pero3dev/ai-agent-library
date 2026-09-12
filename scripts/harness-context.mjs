@@ -29,7 +29,7 @@ export function buildContext(root = ROOT, { profile = 'harness', task } = {}) {
   return {
     schema_version: 1, commit: git(root, 'rev-parse', 'HEAD'), profile, contract: catalog.profiles[profile],
     roadmap: { source: 'ROADMAP.md', sha256: crypto.createHash('sha256').update(roadmap).digest('hex'), task: selectTask(roadmap, task, collectDocs(root)) },
-    instructions: rulesFor[profile].map(file => ({ path: file, text: readFileSync(path.join(root, file), 'utf8') })),
+    instructions: [...rulesFor[profile], 'harness/git-rules.md'].map(file => ({ path: file, text: readFileSync(path.join(root, file), 'utf8') })),
     verification: verificationManifest(root).checks.filter(row => ['unit', 'markdown', 'articles', 'links'].includes(row.id) || (profile === 'harness' && ['harness', 'windows'].includes(row.id)) || (profile === 'website' && row.job === 'build') || (profile === 'examples' && row.id === 'python')),
     authorization: '依頼・セッションの許可を作業契約へ記録してください。この出力は新しい外部操作を許可しません。'
   }

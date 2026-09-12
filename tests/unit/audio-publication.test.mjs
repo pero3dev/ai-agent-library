@@ -7,6 +7,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { AUDIO_REPOSITORY, assetCoordinates, mergeCatalog, probePublicAsset, publishAssets, queueCatalogMerge, reconcileCatalogCandidate, refreshCatalogPr, runPublication, selectPublicationBatches, validateReady, validateReadySupplemental, validateSource } from '../../scripts/audio/publication.mjs'
+import { requiredChecks, workflowFor } from '../../scripts/lib/github-policy.mjs'
 
 const sha = data => createHash('sha256').update(data).digest('hex')
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
@@ -159,6 +160,68 @@ test('auto-merge refuses changed PR head before any merge operation', t => {
   const pr = { number: 123, state: 'OPEN', headRefOid: 'a'.repeat(40) }
   assert.throws(() => queueCatalogMerge(pr, { root, stateDir, run: (binary, args) => { calls.push([binary, ...args]); return JSON.stringify({ state: 'OPEN', headRefOid: 'b'.repeat(40) }) } }), /identity changed/)
   assert.equal(calls.some(call => call.includes('merge')), false)
+})
+
+function mergeFixture(t, { target = 'lint', workflowOverrides = {} } = {}) {
+  const { root, stateDir } = fixture(t)
+  mkdirSync(path.join(stateDir, 'publication'))
+  const pr = { number: 123, state: 'OPEN', headRefOid: 'a'.repeat(40), title: 'chore(website): 検証済みの記事音声をカタログへ反映する', body: '## 変更内容\n\n検証済み音声を反映します。\n\n## 検証\n\n実音声の配信を確認しました。\n\n## 影響・残件\n\n音声カタログを更新します。\n\nAgent: claude\nCo-authored-by: Claude <noreply@anthropic.com>\n', headRefName: `chore/audio-catalog-${'b'.repeat(20)}`, baseRefName: 'main', isCrossRepository: false, files: [{ path: 'website/audio/catalog.json' }], mergeStateStatus: 'BLOCKED' }
+  const names = [...requiredChecks, 'Audio playback regression']
+  const checks = names.map((name, index) => ({ id: 100 + index, name, app: { id: 15368 }, head_sha: pr.headRefOid, status: 'completed', conclusion: 'success', details_url: `https://github.com/${AUDIO_REPOSITORY}/actions/runs/${1000 + index}/job/${100 + index}`, check_suite: { id: 2000 + index } }))
+  const workflows = new Map(names.map((name, index) => {
+    const expected = name === 'Audio playback regression' ? { path: '.github/workflows/ci.yml', event: 'pull_request' } : workflowFor(name)
+    return [String(1000 + index), { head_sha: pr.headRefOid, path: expected.path, event: expected.event, repository: { full_name: AUDIO_REPOSITORY }, head_branch: pr.headRefName, check_suite_id: 2000 + index, display_title: expected.runName ? `${expected.runName}${pr.number}` : pr.title, status: 'completed', conclusion: 'success', ...(name === target ? workflowOverrides : {}) }]
+  }))
+  const calls = []
+  const run = (binary, args) => {
+    calls.push([binary, ...args])
+    assert.equal(binary, 'gh')
+    if (args[0] === 'pr' && args[1] === 'view') return JSON.stringify(pr)
+    if (args[0] === 'api' && args[1].endsWith('/branches/main/protection')) return JSON.stringify({ required_status_checks: { strict: true, checks: requiredChecks.map(context => ({ context, app_id: 15368 })) }, enforce_admins: { enabled: true } })
+    if (args[0] === 'api' && args[1].endsWith('/check-runs?per_page=100')) return JSON.stringify({ total_count: checks.length, check_runs: checks })
+    if (args[0] === 'api' && args[1].includes('/actions/runs/')) return JSON.stringify(workflows.get(args[1].split('/').at(-1)))
+    if (args[0] === 'pr' && args[1] === 'merge') return ''
+    throw new Error(`Unexpected command: ${binary} ${args.join(' ')}`)
+  }
+  return { root, stateDir, pr, calls, run }
+}
+
+test('auto-merge waits when an individual check passes before its complete workflow', t => {
+  const data = mergeFixture(t, { workflowOverrides: { status: 'in_progress', conclusion: null } })
+  assert.deepEqual(queueCatalogMerge(data.pr, data), { status: 'WAITING_CHECKS', check: 'lint', workflow_run: '1000' })
+  assert.equal(data.calls.some(call => call.includes('merge')), false)
+})
+
+test('auto-merge holds a completed failed workflow even when its selected check passes', t => {
+  const data = mergeFixture(t, { workflowOverrides: { status: 'completed', conclusion: 'failure' } })
+  assert.deepEqual(queueCatalogMerge(data.pr, data), { status: 'HELD_CHECK_FAILED', check: 'lint', workflow_run: '1000', conclusion: 'failure' })
+  assert.equal(data.calls.some(call => call.includes('merge')), false)
+})
+
+test('waiting workflows still require matching head, workflow, repository, branch, suite and policy PR', t => {
+  const changes = [
+    { head_sha: 'c'.repeat(40) },
+    { path: '.github/workflows/other.yml' },
+    { event: 'push' },
+    { repository: { full_name: 'another/repository' } },
+    { head_branch: 'other-branch' },
+    { check_suite_id: 9999 },
+    { display_title: 'Harness policy PR #999' }
+  ]
+  for (const change of changes) {
+    const data = mergeFixture(t, { target: Object.hasOwn(change, 'display_title') ? 'harness-policy' : 'lint', workflowOverrides: { status: 'in_progress', conclusion: null, ...change } })
+    assert.throws(() => queueCatalogMerge(data.pr, data), /identity mismatch|suite does not match|belongs to another PR/)
+    assert.equal(data.calls.some(call => call.includes('merge')), false)
+  }
+})
+
+test('auto-merge requests an exact-head squash only after every workflow completes successfully', t => {
+  const data = mergeFixture(t)
+  assert.deepEqual(queueCatalogMerge(data.pr, data), { status: 'MERGE_REQUESTED', head: data.pr.headRefOid })
+  const merges = data.calls.filter(call => call.includes('merge'))
+  assert.equal(merges.length, 1)
+  assert.deepEqual(merges[0].slice(0, 10), ['gh', 'pr', 'merge', '123', '--repo', AUDIO_REPOSITORY, '--auto', '--squash', '--match-head-commit', data.pr.headRefOid])
+  assert.match(readFileSync(merges[0][merges[0].indexOf('--body-file') + 1], 'utf8'), /Agent: claude\nCo-authored-by: Claude <noreply@anthropic.com>/)
 })
 
 test('pending catalog PR prevents another batch from uploading or creating a PR', async t => {

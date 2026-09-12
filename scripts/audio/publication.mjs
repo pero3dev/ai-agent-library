@@ -482,9 +482,11 @@ export function queueCatalogMerge(pr, { root, stateDir, run = command } = {}) {
     const runId = /^https:\/\/github\.com\/pero3dev\/ai-agent-library\/actions\/runs\/(\d+)(?:\/job\/\d+)?$/.exec(check.details_url ?? '')?.[1]
     assert(runId, 'Unexpected check URL')
     const workflow = JSON.parse(gh('api', `repos/${AUDIO_REPOSITORY}/actions/runs/${runId}`))
-    assert(workflow.head_sha === fresh.headRefOid && workflow.path === expected.path && workflow.event === expected.event && workflow.repository?.full_name === AUDIO_REPOSITORY && workflow.head_branch === fresh.headRefName && workflow.conclusion === 'success', 'Check workflow identity mismatch')
+    assert(workflow.head_sha === fresh.headRefOid && workflow.path === expected.path && workflow.event === expected.event && workflow.repository?.full_name === AUDIO_REPOSITORY && workflow.head_branch === fresh.headRefName, 'Check workflow identity mismatch')
     assert(check.check_suite?.id === workflow.check_suite_id && Number.isInteger(workflow.check_suite_id), 'Check suite does not match its workflow run')
     if (expected.runName) assert(workflow.display_title === `${expected.runName}${fresh.number}`, 'Policy check belongs to another PR')
+    if (workflow.status !== 'completed') return { status: 'WAITING_CHECKS', check: policy.context, workflow_run: runId }
+    if (workflow.conclusion !== 'success') return { status: 'HELD_CHECK_FAILED', check: policy.context, workflow_run: runId, conclusion: workflow.conclusion }
   }
   const squash = formatSquashMessage(fresh)
   const finalMetadata = JSON.parse(gh('pr', 'view', String(pr.number), '--repo', AUDIO_REPOSITORY, '--json', 'title,body,headRefOid,state'))

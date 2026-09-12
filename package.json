@@ -22,7 +22,7 @@
     "check:docs": "npm run validate && npm run links",
     "harness:run": "node scripts/harness-run.mjs",
     "eval:harness": "node scripts/eval-harness.mjs",
-    "test:harness:windows": "node --test tests/unit/hooks.test.mjs tests/unit/freshness-run.test.mjs tests/unit/harness-run.test.mjs tests/unit/markdown-validation.test.mjs tests/unit/harness-tooling.test.mjs tests/unit/audio-production.test.mjs tests/unit/audio-publication.test.mjs tests/unit/audio-runtime.test.mjs"
+    "test:harness:windows": "node --test tests/unit/hooks.test.mjs tests/unit/freshness-run.test.mjs tests/unit/harness-run.test.mjs tests/unit/markdown-validation.test.mjs tests/unit/harness-tooling.test.mjs tests/unit/audio-production.test.mjs tests/unit/audio-publication.test.mjs tests/unit/audio-runtime.test.mjs tests/unit/audio-synthesis.test.mjs"
   },
   "devDependencies": {
     "github-slugger": "2.0.0",

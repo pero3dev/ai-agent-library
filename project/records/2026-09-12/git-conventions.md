@@ -42,3 +42,9 @@ AI AgentによるGit操作の形式を統一します。対象は共通規約、
 実Gitの隔離評価準備では内部commitの書式・機械処理名義・clean状態を確認しています。実Agentの起動・実クライアントhookの再試験は今回実施していません。専用Python環境へスキル検査用のPyYAML 6.0.3を追加し、グローバル環境は変更していません。最終検査は `git-conventions/check-final.log`、Windowsは `windows.log`、offlineは `offline-eval.log`、隔離評価準備はcommon Git直下の `git-conventions-eval-acceptance.json` に保存しています。
 
 導入PRはbaseに新検査がまだないため、ローカル検証と独立レビューで採択します。導入後に別の受入PRを作り、意図したPR title違反でtrusted-baseの必須checkが失敗し、同じheadのtitle修正で成功することを実GitHubで確認します。負例を残したままマージ予約は行いません。最終的にsquash後の実message、9必須check、main CIと公開を照合します。
+
+## GitHub受入
+
+[導入PR #31](https://github.com/pero3dev/ai-agent-library/pull/31) は9必須check成功後にマージしました。対象headは `74e73362b1fe0b9288b8046e14edb5013f15c782`、merge SHAは `c7fbc9479383ea97fd25212e987afb961fbd661d` です。strict・管理者への保護・9必須checkのApp IDは維持しています。
+
+受入branchは新しいmainから作った `test/git-conventions-ci` です。ここでは記録のみを変更し、draft PRのtitleだけを一時的に不正形式へ変更します。負例checkの終了と理由を保存してから同じheadのtitleを正規形式へ戻し、`edited` イベントでの成功を確認します。結果が揃うまでG4は実施中です。

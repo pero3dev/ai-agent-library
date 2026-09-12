@@ -41,6 +41,12 @@ npm ci
 - **MDX ガード**: 生成 MDX を再パースし、`TodoCallout` / `PracticeSection` / `GlossaryTerm`
   以外の JSX・`import`/`export`・`{式}`・生 HTML を検出したらビルドを失敗させる。
   許可コンポーネントでも属性式・spread は拒否し、挿入する文字列属性と値だけを許可する
+- **Mermaid の描画設定**: Nextra が生成する直接 import を、Turbopack / Webpack ともに
+  `components/mdx/mermaid.jsx` へ解決する。`lib/mermaid-render.mjs` が描画ごとに
+  `securityLevel: 'strict'` を指定し、Mermaid 既定の `secure` キーを維持する。
+  図からのクリック処理は利用せず、記事の通常の Markdown リンクを使う。
+  設定と import 経路を単体試験、実際の静的出力の図表示・テーマ変更・拡大をブラウザー試験で確認する。
+  依存更新時もこの経路を維持する([Mermaid の設定](https://mermaid.js.org/config/usage#securitylevel))
 - **draft ゲート**: `status: draft` は既定で除外。`INCLUDE_DRAFTS=1` で開発時のみ含める
 - **ルート網羅チェック**: `generated/routes.json` の期待ルートが `out/` に全て生成されたか postbuild で照合
 - **入口・本文移動チェック**: 全セクションへの本文リンクと、各 HTML の一意なスキップ先を照合

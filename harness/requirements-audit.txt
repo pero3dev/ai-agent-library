@@ -1,0 +1,2 @@
+# CI / check:ci dependency auditor. Separate from runnable sample requirements.
+pip-audit==2.10.1

@@ -1,4 +1,10 @@
 import nextra from 'nextra'
+import { fileURLToPath } from 'node:url'
+
+// Nextra's remark plugin imports this package directly, bypassing mdx-components.
+// Keep both bundlers on the project-owned renderer, including next dev.
+const mermaidImport = '@theguild/remark-mermaid/mermaid'
+const mermaidRenderer = './components/mdx/mermaid.jsx'
 
 // 注: 記事の自動装飾(TODO・アンチパターン・チェックリスト・用語リンク)は
 // scripts/sync-content.mjs + lib/doc-decorations.mjs で sync 時に行う。
@@ -21,6 +27,13 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
 
 export default withNextra({
   reactStrictMode: true,
+  turbopack: {
+    resolveAlias: { [mermaidImport]: mermaidRenderer }
+  },
+  webpack(config) {
+    config.resolve.alias[`${mermaidImport}$`] = fileURLToPath(new URL(mermaidRenderer, import.meta.url))
+    return config
+  },
   ...(basePath ? { basePath } : {}),
   ...(isExport ? { output: 'export', images: { unoptimized: true } } : {})
 })

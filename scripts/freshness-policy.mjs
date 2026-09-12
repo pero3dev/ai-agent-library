@@ -7,6 +7,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { matchesPattern, parseRegistry } from './freshness-registry.mjs'
 import { parseFrontMatter, parseScalar, toLines } from './lib/md-utils.mjs'
+import { referenceComparable } from './lib/reference-comparison.mjs'
 
 const schema = JSON.parse(readFileSync(new URL('./schemas/freshness-result.schema.json', import.meta.url), 'utf8'))
 const evidencePattern = /^research\/freshness-runs\/([a-z0-9][a-z0-9-]{3,79})\.json$/
@@ -106,12 +107,6 @@ function frontMatter(text) {
     return value
   }
   return { status: field('status'), lastUpdated: field('last_updated') }
-}
-
-function referenceComparable(text) {
-  return text.replace(/^## 参考資料\n[\s\S]*?(?=^## |$(?![\s\S]))/m, '## 参考資料\n')
-    .replace(/\]\([^\s)]+\)/g, '](URL)')
-    .replace(/\(最終確認: \d{4}-\d{2}\)/g, '(最終確認: DATE)')
 }
 
 function unchangedOutsideWatchlist(before, after) {

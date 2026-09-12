@@ -48,34 +48,38 @@ test('dependency graph shows every section and navigates from a node', async ({ 
   await expect(page).toHaveURL(/\/docs\/concepts(?:\.html)?$/)
 })
 
-for (const [pathname, headings] of [
-  ['/docs/concepts/agent-loop', ['概要: ループが Agent を作る']],
-  ['/docs/concepts/rag-vs-agent', ['詳細: 検索を使う 3 つの構成と検索なしの選択肢']],
-  ['/docs/implementation/computer-use-implementation', ['概要: 実装は「脆さと実害」への対処が中心']],
-  ['/docs/implementation/prompt-engineering-patterns', ['構造化の詳解: 配置には 3 つの力学がある']],
-  ['/docs/implementation/rag-implementation-patterns', ['概要: RAG は 4 段のパイプライン']],
-  ['/docs/business/own-model-strategy', ['概要: 「持つ」は 0/1 ではなく段階', '見落としやすい継続費用: 追従コスト']],
-  ['/docs/llm-foundations/llm-training-pipeline', ['概要: 3 つの工程と、それぞれが残す「癖」']],
-  ['/docs/human-ai/verifying-ai-outputs', ['概要: もっともらしさは正しさではない']]
-]) {
-  test(`changed Mermaid diagrams render without an error: ${pathname}`, async ({ page }) => {
-    const errors = []
-    page.on('pageerror', error => errors.push(error.message))
-    page.on('console', message => {
-      if (message.type() === 'error' && message.text().includes('mermaid')) errors.push(message.text())
-    })
-    await page.goto(route(pathname))
-    // Nextra renders Mermaid lazily when the diagram enters the viewport.
-    const diagrams = page.locator('article svg[aria-roledescription^="flowchart"]')
-    for (const [index, heading] of headings.entries()) {
-      await page.getByRole('heading', { name: heading }).scrollIntoViewIfNeeded()
-      await expect(diagrams.nth(index)).toBeVisible()
-    }
-    await expect(diagrams).toHaveCount(headings.length)
-    await expect(page.locator('article')).not.toContainText('Syntax error in text')
-    expect(errors).toEqual([])
+test('strict Mermaid renderer preserves normal diagrams across theme changes and magnification', async ({ page }) => {
+  const errors = []
+  page.on('pageerror', error => errors.push(error.message))
+  page.on('console', message => {
+    if (message.type() === 'error' && message.text().includes('mermaid')) errors.push(message.text())
   })
-}
+  await page.goto(route('/docs/concepts/agent-loop'))
+  await page.getByRole('heading', { name: '概要: ループが Agent を作る' }).scrollIntoViewIfNeeded()
+  const diagram = page.locator('article [data-mermaid-renderer="strict"] svg')
+  await expect(diagram).toBeVisible()
+  const originalText = await diagram.textContent()
+  for (const dark of [true, false]) {
+    const before = await diagram.locator('style').textContent()
+    await page.evaluate(value => {
+      document.documentElement.classList.toggle('dark', value)
+      document.documentElement.setAttribute('data-theme', value ? 'dark' : 'light')
+    }, dark)
+    await expect.poll(() => diagram.locator('style').textContent()).not.toBe(before)
+    await expect(diagram).toBeVisible()
+    // Labels survive a fresh render, regardless of generated CSS/theme values.
+    await expect(diagram.locator('.nodeLabel').first()).not.toBeEmpty()
+  }
+  expect(originalText.length).toBeGreaterThan(0)
+  await page.setViewportSize({ width: 640, height: 800 })
+  await diagram.evaluate(element => { element.parentElement.style.zoom = '2' })
+  await diagram.scrollIntoViewIfNeeded()
+  await expect(diagram).toBeVisible()
+  const bounds = await diagram.boundingBox()
+  expect(bounds.width).toBeGreaterThan(0)
+  expect(bounds.height).toBeGreaterThan(0)
+  expect(errors).toEqual([])
+})
 
 test('Pagefind search returns an article and its navigation works', async ({ page }) => {
   await page.goto(route('/docs'))

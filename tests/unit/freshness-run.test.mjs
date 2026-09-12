@@ -4,7 +4,8 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { acquireLock, releaseLock, automaticMode, applyCompletion, parseArgs, loadState, main, storageDirectory, interruptedRuns } from '../../scripts/freshness-run.mjs';
+import { acquireLock, releaseLock, automaticMode, applyCompletion, parseArgs, loadState, main, storageDirectory, interruptedRuns, verifyFreshnessCandidate } from '../../scripts/freshness-run.mjs';
+import { contentDigest } from '../../scripts/freshness-policy.mjs';
 import { windowsShortPath } from '../helpers/windows-test-path.mjs';
 
 const blank = () => ({ schema_version: 1, systems: {}, pending: [], runs: {} });
@@ -463,9 +464,184 @@ test('dry-run checkpoint does not update state, records, or snapshots', t => {
   const fixture = gitFixture(t);
   const prepared = fixture.run('prepare', '--mode', 'manual', '--ids', 'models-prompting');
   const before = fs.readFileSync(prepared.checkpoint, 'utf8');
+  const stateBefore = fs.readFileSync(path.join(fixture.dir, 'state.json'), 'utf8');
   const result = fixture.run('checkpoint', '--run', prepared.checkpoint, '--attempt-id', prepared.attempt_id, '--dry-run');
   assert.equal(result.dry_run, true);
   assert.equal(fs.readFileSync(prepared.checkpoint, 'utf8'), before);
-  assert.equal(fs.existsSync(path.join(fixture.dir, 'state.json')), false);
+  assert.equal(fs.readFileSync(path.join(fixture.dir, 'state.json'), 'utf8'), stateBefore);
   fixture.run('release', '--run-id', prepared.run_id, '--attempt-id', prepared.attempt_id);
+});
+
+function publicationFixture(t) {
+  const f = gitFixture(t), article = 'docs/01-concepts/models.md';
+  const body = (date, text) => `---\nstatus: published\nlast_updated: "${date}"\n---\n\n${text}\n`;
+  fs.writeFileSync(path.join(f.root, article), body('2020-01-01', 'Original fixture claim.'));
+  f.git('add', '.'); f.git('commit', '-m', 'Published baseline');
+  f.git('update-ref', 'refs/remotes/origin/main', 'HEAD');
+  const prepared = f.run('prepare', '--mode', 'manual', '--ids', 'models-prompting');
+  const completed = new Date(Date.parse(prepared.started_at) + 1000).toISOString();
+  const date = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(completed));
+  fs.writeFileSync(path.join(f.root, article), body(date, 'Updated fixture claim.'));
+  const manifest = {
+    schema_version: 2, run_id: prepared.run_id, base_sha: prepared.base_sha, writer_run_id: 'fixture-writer', started_at: prepared.started_at, completed_at: completed, systems: prepared.systems,
+    observations: [{ system_id: 'models-prompting', status: 'changed', summary: 'Fixture observation.', sources: [{ url: 'https://example.com/reference', accessed_at: prepared.started_at }], affected_docs: [article] }],
+    changes: [{ path: article, kind: 'substantive', observation_indices: [0], summary: 'Updated fixture claim.' }],
+    review: { verdict: 'approved', risk: 'low', independent: true, reviewer_run_id: 'fixture-reviewer', reviewed_at: completed, content_digest: '0'.repeat(64) },
+  };
+  const evidence = path.join(f.root, `research/freshness-runs/${prepared.run_id}.json`);
+  const checkpoint = { ...prepared, head_sha: null, completed_systems: prepared.systems, pr_url: 'https://github.com/pero3dev/ai-agent-library/pull/1' };
+  const input = path.join(f.directory, 'publication.json');
+  const commit = (refreshDigest = true) => {
+    writeJson(evidence, manifest); f.git('add', '.');
+    if (refreshDigest) manifest.review.content_digest = contentDigest({ cwd: f.root, base: prepared.base_sha, head: f.git('write-tree') });
+    writeJson(evidence, manifest); f.git('add', '.'); f.git('commit', '--allow-empty', '-m', 'Reviewed fixture candidate');
+    checkpoint.head_sha = f.git('rev-parse', 'HEAD'); writeJson(input, checkpoint);
+  };
+  commit();
+  const proof = (merge = checkpoint.head_sha) => ({ verified: true, head_sha: checkpoint.head_sha, head_tree_sha: f.git('rev-parse', `${checkpoint.head_sha}^{tree}`), merge_sha: merge, merge_tree_sha: f.git('rev-parse', `${merge}^{tree}`), publication: { verified: true } });
+  const finish = verifyGithubEvidence => main(['finish', '--root', f.root, '--run', input, '--attempt-id', checkpoint.attempt_id, '--outcome', 'merged'], { verifyGithubEvidence });
+  return { ...f, prepared, checkpoint, manifest, input, commit, proof, finish };
+}
+
+test('freshness completion binds its immutable run manifest and digest to the API head tree', async t => {
+  const f = publicationFixture(t);
+  const expected = verifyFreshnessCandidate(f.root, f.checkpoint);
+  assert.equal(expected.content_digest, f.manifest.review.content_digest);
+  const result = await f.finish(options => {
+    assert.equal(options.expectedHead, f.checkpoint.head_sha);
+    assert.equal(options.expectedTree, expected.tree_sha);
+    return f.proof();
+  });
+  assert.equal(result.saved, true);
+  const saved = JSON.parse(fs.readFileSync(f.prepared.checkpoint));
+  assert.deepEqual(saved.candidate_verification, expected);
+  assert.equal(saved.status, 'merged');
+});
+
+for (const [name, mutate, message] of [
+  ['run ID', f => { f.manifest.run_id = 'different-run'; }, /does not match/],
+  ['selected systems', f => { f.checkpoint.systems = ['coding-agents']; }, /prepared freshness/],
+  ['start time', f => { f.checkpoint.started_at = '2020-01-01T00:00:00Z'; }, /prepared freshness/],
+  ['base commit', f => { f.checkpoint.base_sha = f.checkpoint.head_sha; }, /does not match/],
+  ['reviewed digest', f => { f.manifest.observations[0].summary = 'Changed after review.'; }, /content_digest/],
+  ['unconfirmed completion', f => { f.manifest.observations.push({ system_id: 'models-prompting', status: 'unverifiable', summary: 'Still pending.', sources: [], affected_docs: [] }); }, /confirmed observations/],
+]) test(`freshness rejects a mismatched ${name} before requesting GitHub completion`, async t => {
+  const f = publicationFixture(t);
+  mutate(f);
+  f.commit(name !== 'reviewed digest');
+  let called = false;
+  await assert.rejects(async () => f.finish(() => { called = true; return f.proof(); }), message);
+  assert.equal(called, false);
+  assert.equal(loadState(f.dir).systems['models-prompting']?.last_verified_at, undefined);
+});
+
+test('freshness rejects a different API tree without saving publication or completing the system', async t => {
+  const f = publicationFixture(t);
+  await assert.rejects(f.finish(() => ({ ...f.proof(), head_tree_sha: '1'.repeat(40) })), /does not match/);
+  assert.equal(loadState(f.dir).runs[f.prepared.run_id], undefined);
+  assert.equal(JSON.parse(fs.readFileSync(f.prepared.checkpoint)).status, 'in_progress');
+});
+
+test('freshness resumes completion from a verified merge while retaining the original candidate manifest', async t => {
+  const f = publicationFixture(t), head = f.checkpoint.head_sha;
+  f.git('switch', '-c', 'fixture/merged-main', f.prepared.base_sha);
+  fs.writeFileSync(path.join(f.root, 'README.md'), 'Independent main update.\n');
+  f.git('add', '.'); f.git('commit', '-m', 'Independent main update');
+  f.git('merge', '--no-ff', '-m', 'Merge fixture candidate', head);
+  const merge = f.git('rev-parse', 'HEAD');
+  f.git('update-ref', 'refs/remotes/origin/main', merge);
+  const proof = f.proof(merge);
+  assert.notEqual(proof.head_tree_sha, proof.merge_tree_sha);
+  assert.equal((await f.finish(() => proof)).saved, true);
+  assert.equal(JSON.parse(fs.readFileSync(f.prepared.checkpoint)).candidate_verification.head_sha, head);
+});
+
+test('freshness prepare persists its contract and checkpoint in the same generation', t => {
+  const f = gitFixture(t), prepared = f.run('prepare', '--mode', 'manual', '--ids', 'models-prompting');
+  const state = loadState(f.dir), record = JSON.parse(fs.readFileSync(prepared.checkpoint));
+  assert.equal(state.generation, record.generation);
+  assert.deepEqual(state.run_contracts[prepared.run_id], { run_id: prepared.run_id, started_at: prepared.started_at, systems: prepared.systems, mode: prepared.mode });
+  assert.equal(fs.existsSync(path.join(f.dir, 'journal.json')), false);
+});
+
+for (const command of ['checkpoint', 'suspend', 'prepare']) test(`${command} cannot replace the prepared scope by editing the checkpoint itself`, t => {
+  const f = gitFixture(t), prepared = f.run('prepare', '--mode', 'manual', '--ids', 'models-prompting');
+  if (command === 'prepare') f.run('release', '--run-id', prepared.run_id, '--attempt-id', prepared.attempt_id);
+  const stateBefore = fs.readFileSync(path.join(f.dir, 'state.json'), 'utf8');
+  writeJson(prepared.checkpoint, { ...JSON.parse(fs.readFileSync(prepared.checkpoint)), systems: ['coding-agents'], mode: 'rotation', started_at: '2020-01-01T00:00:00Z' });
+  assert.throws(() => command === 'prepare' ? f.run('prepare', '--mode', 'manual', '--ids', 'coding-agents') : f.run(command, '--run', prepared.checkpoint), /prepared freshness/);
+  assert.equal(fs.readFileSync(path.join(f.dir, 'state.json'), 'utf8'), stateBefore);
+});
+
+test('matching edits to both a checkpoint and manifest cannot replace the separately prepared run contract', async t => {
+  const f = publicationFixture(t);
+  f.checkpoint.systems = f.manifest.systems = ['coding-agents'];
+  f.checkpoint.started_at = f.manifest.started_at = '2020-01-01T00:00:00Z';
+  f.commit();
+  writeJson(f.prepared.checkpoint, f.checkpoint);
+  let called = false;
+  await assert.rejects(async () => f.finish(() => { called = true; return f.proof(); }), /prepared freshness/);
+  assert.equal(called, false);
+  assert.deepEqual(loadState(f.dir).run_contracts[f.prepared.run_id].systems, ['models-prompting']);
+});
+
+test('a reconciled base can advance without changing the prepared run identity or selected systems', t => {
+  const f = gitFixture(t), prepared = f.run('prepare', '--mode', 'manual', '--ids', 'models-prompting');
+  const contract = loadState(f.dir).run_contracts[prepared.run_id];
+  fs.writeFileSync(path.join(f.root, 'README.md'), 'Main advanced.\n');
+  f.git('add', '.'); f.git('commit', '-m', 'Main advanced'); f.git('update-ref', 'refs/remotes/origin/main', 'HEAD');
+  const base = f.git('rev-parse', 'HEAD'), input = path.join(f.directory, 'reconciled.json');
+  writeJson(input, { ...JSON.parse(fs.readFileSync(prepared.checkpoint)), base_sha: base });
+  f.run('suspend', '--run', input);
+  const resumed = f.run('prepare', '--mode', 'manual', '--ids', 'models-prompting');
+  assert.equal(resumed.base_sha, base);
+  assert.deepEqual(loadState(f.dir).run_contracts[prepared.run_id], contract);
+});
+
+test('legacy unfinished runs remain readable but cannot silently acquire a new prepared contract', t => {
+  const f = gitFixture(t), prepared = f.run('prepare', '--mode', 'manual', '--ids', 'models-prompting');
+  f.run('release', '--run-id', prepared.run_id, '--attempt-id', prepared.attempt_id);
+  const stateFile = path.join(f.dir, 'state.json'), state = loadState(f.dir);
+  delete state.run_contracts; writeJson(stateFile, state);
+  const before = fs.readFileSync(stateFile, 'utf8');
+  assert.equal(f.run('status').interrupted[0].run_id, prepared.run_id);
+  assert.throws(() => f.run('prepare', '--mode', 'manual', '--ids', 'models-prompting'), /legacy run/);
+  assert.equal(fs.readFileSync(stateFile, 'utf8'), before);
+});
+
+function copyRuntimeWithoutDependencies(destination) {
+  fs.cpSync(new URL('../../scripts/', import.meta.url), path.join(destination, 'scripts'), { recursive: true });
+  fs.mkdirSync(path.join(destination, 'harness'), { recursive: true });
+  fs.copyFileSync(new URL('../../harness/git-conventions.json', import.meta.url), path.join(destination, 'harness/git-conventions.json'));
+  assert.equal(fs.existsSync(path.join(destination, 'node_modules')), false);
+  const policy = path.join(destination, 'scripts/freshness-policy.mjs');
+  assert.throws(() => execFileSync(process.execPath, [policy, '--help'], { cwd: destination, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }), /ERR_MODULE_NOT_FOUND/);
+  return path.join(destination, 'scripts/freshness-run.mjs');
+}
+
+test('a fresh checkout can inspect, prepare, save and resume through the real CLI before npm ci', t => {
+  const f = gitFixture(t), script = copyRuntimeWithoutDependencies(f.root);
+  f.git('add', 'scripts', 'harness'); f.git('commit', '-m', 'Bootstrap runtime fixture');
+  f.git('update-ref', 'refs/remotes/origin/main', 'HEAD');
+  const run = (...args) => JSON.parse(execFileSync(process.execPath, [script, ...args], { cwd: f.root, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] }));
+  assert.deepEqual(run('status').records, []);
+  const prepared = run('prepare', '--mode', 'manual', '--ids', 'models-prompting');
+  fs.writeFileSync(path.join(f.root, 'docs/01-concepts/models.md'), 'Unfinished bootstrap observation.\n');
+  assert.equal(run('checkpoint', '--run', prepared.checkpoint).saved, true);
+  assert.equal(run('suspend', '--run', prepared.checkpoint).saved, true);
+  const resumed = run('prepare', '--mode', 'rotation');
+  assert.equal(resumed.run_id, prepared.run_id);
+  assert.notEqual(resumed.attempt_id, prepared.attempt_id);
+  assert.equal(run('finish', '--run', resumed.checkpoint, '--outcome', 'held').saved, true);
+  assert.equal(run('status').records[0].status, 'held');
+  assert.equal(fs.existsSync(path.join(f.root, 'node_modules')), false);
+});
+
+test('merged completion still requires the adjacent trusted policy dependencies', t => {
+  const f = publicationFixture(t), implementation = path.join(f.directory, 'implementation');
+  const script = copyRuntimeWithoutDependencies(implementation);
+  // The candidate checkout has a normal reviewed manifest, but its files do not supply the policy code.
+  assert.throws(() => execFileSync(process.execPath, [script, 'finish', '--root', f.root, '--run', f.input, '--outcome', 'merged'], { cwd: implementation, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] }), /ERR_MODULE_NOT_FOUND/);
+  assert.equal(loadState(f.dir).runs[f.prepared.run_id], undefined);
+  assert.equal(JSON.parse(fs.readFileSync(f.prepared.checkpoint)).status, 'in_progress');
 });

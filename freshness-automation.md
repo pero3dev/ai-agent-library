@@ -88,6 +88,10 @@ node scripts/freshness-run.mjs finish --run '<checkpoint の絶対パス>' --att
 
 `finish` の outcome は `observed` / `merged` / `held` / `failed` です。merged には `pr_url` とレビュー・CI対象の `head_sha` を記録し、変更した公開ページを `publication_urls` に指定します。各項目はURL文字列または `{url, includes}`(本文の必須文字列)です。CLIがGitHubから必須チェックのApp/workflow/event・merge SHA・main CI・Pages deployment・公開URLを再取得し、`github_verification` に保存します。予約や保存済みの成功フラグだけでは完了しません。
 
+`head_sha` の Git commit と `research/freshness-runs/<run_id>.json` をローカルにも保持します。終了時には PR の tree と、今回の run ID・開始日時・base・対象系統・証拠 digest を照合します。マージ後は確認済み merge commit、またはその merge を含む取得済み `origin/main` と一致する clean checkout から終了できます。PR を差し替えて過去の成功を流用したり、未保存の別候補を残したまま完了したりしません。必須9チェックは repository・PR・head branch へも結合し、policy の固定 run-name に PR 番号がない旧実行は新しい完了証拠に使いません。
+
+開始時の run ID・開始日時・対象系統・mode は、編集用 checkpoint と別に state の `run_contracts` へ保存します。以後の操作はその契約と照合し、checkpoint と PR 証拠を一緒に書き換えても対象を差し替えられないようにします。base の変更は下記の再レビューを伴う main 統合手順で扱います。2026-09-12 の導入確認では旧未完了 run は0件でした。契約のない旧完了記録は閲覧できますが、旧未完了 run を検出した場合は自動再開を保留し、保存済み記録と復元元を確認してから新しい作業へ引き継ぎます。
+
 `completed_systems` は、その系統の宣言した確認範囲に残件がない場合だけ指定します。レビュー・CI・公開確認を次回へ引き継ぐ場合は `finish held` ではなく `suspend --run '<checkpoint の絶対パス>' --attempt-id '<開始時の attempt_id>' --wait-until '<次回照合 UTC>' --wait-reason '<理由>'` を使います。差分・残件を保存し、未完了状態を維持して lock を解放します。利用制限では `--usage-limit`、要判断では `--needs-decision` を付けます。API認証への切替や追加購入は行いません。
 
 ## 保存場所と復旧
@@ -113,7 +117,9 @@ node scripts/freshness-run.mjs finish --run '<checkpoint の絶対パス>' --att
 
 未完了 checkpoint のうち実行可能なものを次の prepare が同じ run ID で復元します。外部待ちの期限前と要判断の run は待ち行列に残し、別の期限到来した系統を選べます。週次・巡回では周期未到来と同日重複を抑え、明示した `manual --ids` は依頼による対象確認として区別します。lock は 6 時間有効で、通常作業の `harness-run` と共用し、期限切れの回収自体も排他します。lock 操作の途中でプロセスが失われて `lock-mutex` が残った場合は自動で破壊せず停止します。実行中のタスクがないことを確認し、該当する空ディレクトリだけを取り除いて再試行します。
 
-状態と checkpoint は保存世代と journal で対応付けます。`status` と `--dry-run` は復旧の必要性を表示するだけです。更新操作は排他を取得して未完了の保存世代を復旧し、途中まで保存された観測を失敗や成功で上書きしません。旧状態 schema 1 は互換読み込みを維持し、操作時に必要な世代・queue・予算だけを付加します。
+共有 lock の保存先・子孫に symlink/junction、不正なファイル型や owner がある場合も停止し、検査用に保持します。移設先へ追従して書き込んだり、自動で不正な状態を削除したりしません。この検査は書込み可能なローカル主体を OS レベルで隔離するものではありません。
+
+状態と checkpoint は保存世代と journal で対応付けます。`status` と `--dry-run` は復旧の必要性を表示するだけです。更新操作は排他を取得して未完了の保存世代を復旧し、途中まで保存された観測を失敗や成功で上書きしません。旧状態 schema 1 の読み取り互換は維持します。更新・再開の可否は上記の開始時契約の条件に従います。
 
 ローカル状態が失われた場合は保守的に再観測します。Git 上の過去の監査日は、それだけでは今日の確認済みを意味しません。ファイル・base が変わった場合は以前のレビューを引き継ぎません。
 

@@ -3,10 +3,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { readRegistry, selectSystems } from './freshness-registry.mjs';
 
-import { git, snapshotOwned, writeJson, assertRunId, readLock, acquireLock, releaseLock, releaseLockIfOwned, assertOwner, assertNoLinkedTargets, withLockMutex, saveGeneration, recoverGeneration, queuedRuns, budgetStatus } from './lib/harness-state.mjs';
+import { git, commitTree, assertPublicationCheckout, snapshotOwned, assertRunId, readLock, acquireLock, releaseLock, releaseLockIfOwned, assertOwner, withLockMutex, saveGeneration, recoverGeneration, queuedRuns, budgetStatus } from './lib/harness-state.mjs';
 export { acquireLock, releaseLock } from './lib/harness-state.mjs';
 const OUTCOMES = new Set(['observed', 'merged', 'held', 'failed']);
 export function storageDirectory(root) {
@@ -50,6 +51,28 @@ export function interruptedRuns(dir) {
 export function automaticMode(now = new Date()) {
   const day = new Date(now.getTime() + 9 * 60 * 60 * 1000).getUTCDay();
   return day === 1 ? 'weekly_focus' : 'rotation';
+}
+const preparedContract = record => ({ run_id: record.run_id, started_at: record.started_at, systems: record.systems, mode: record.mode });
+function assertPreparedContract(state, record) {
+  const contract = state.run_contracts?.[record.run_id];
+  if (!contract) throw new Error('Prepared freshness contract is missing; preserve and reconcile the legacy run before resuming');
+  if (Object.keys(preparedContract(record)).some(field => JSON.stringify(record[field]) !== JSON.stringify(contract[field]))) throw new Error('Cannot change the prepared freshness run, start time, selected systems or mode');
+}
+export function verifyFreshnessCandidate(root, checkpoint) {
+  assertRunId(checkpoint.run_id);
+  assertPreparedContract(loadState(storageDirectory(root)), checkpoint);
+  const tree = commitTree(root, checkpoint.head_sha);
+  const file = `research/freshness-runs/${checkpoint.run_id}.json`;
+  const evidence = JSON.parse(git(root, 'show', `${checkpoint.head_sha}:${file}`));
+  const sameSystems = Array.isArray(checkpoint.systems) && Array.isArray(evidence.systems) && JSON.stringify([...checkpoint.systems].sort()) === JSON.stringify([...evidence.systems].sort());
+  if (evidence.run_id !== checkpoint.run_id || evidence.base_sha !== checkpoint.base_sha || !sameSystems || !Number.isFinite(Date.parse(checkpoint.started_at)) || Date.parse(evidence.started_at) !== Date.parse(checkpoint.started_at)) throw new Error('PR evidence does not match this freshness run, selected systems, start time and base');
+  // Bootstrap commands run before npm ci. Load the trusted adjacent policy only for merged completion.
+  const policy = JSON.parse(execFileSync(process.execPath, [fileURLToPath(new URL('./freshness-policy.mjs', import.meta.url)), '--base', checkpoint.base_sha, '--head', checkpoint.head_sha, '--branch', `automation/freshness-${checkpoint.run_id}`], { cwd: root, encoding: 'utf8', windowsHide: true, timeout: 120000, maxBuffer: 8 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'] }));
+  for (const id of checkpoint.completed_systems ?? []) {
+    const observations = evidence.observations.filter(item => item.system_id === id);
+    if (!observations.length || observations.some(item => !['changed', 'unchanged'].includes(item.status))) throw new Error('Completed systems require confirmed observations in the published evidence');
+  }
+  return { head_sha: checkpoint.head_sha, tree_sha: tree, run_id: checkpoint.run_id, systems: evidence.systems, evidence_path: file, content_digest: policy.content_digest };
 }
 export function applyCompletion(state, checkpoint, outcome, now = new Date()) {
   if (!OUTCOMES.has(outcome)) throw new Error('Unknown outcome');
@@ -112,7 +135,7 @@ export function parseArgs(argv) {
   }
   return { command, options };
 }
-export function main(argv = process.argv.slice(2)) {
+export function main(argv = process.argv.slice(2), deps = {}) {
   const { command, options } = parseArgs([...argv]);
   const root = path.resolve(options.root ?? process.cwd());
   const dir = storageDirectory(root);
@@ -136,6 +159,7 @@ export function main(argv = process.argv.slice(2)) {
     const allInterrupted = interruptedRuns(dir);
     const queue = queuedRuns(allInterrupted, now);
     const interrupted = queue.ready[0];
+    if (interrupted) assertPreparedContract(state, interrupted);
     const mode = interrupted?.mode ?? (!options.mode || options.mode === 'auto' ? automaticMode(now) : options.mode);
     const selected = interrupted
       ? selectSystems(registry, state, { mode: 'manual', now, limit: 3, ids: interrupted.systems })
@@ -153,8 +177,14 @@ export function main(argv = process.argv.slice(2)) {
       checkpoint.next_eligible_at = null;
       checkpoint.budget = { deadline_at: new Date(now.getTime() + minutes * 60000).toISOString(), save_margin_seconds: 120 };
       try {
-        assertNoLinkedTargets(dir, [`runs/${runId}.json`]);
-        writeJson(path.join(dir, 'runs', `${runId}.json`), checkpoint);
+        withLockMutex(dir, () => {
+          const current = loadState(dir);
+          if ((current.generation ?? 0) !== (state.generation ?? 0) || current.runs[runId] || readRunRecords(dir, current).some(record => record.status === 'in_progress' && record.run_id !== runId && record.systems.some(id => checkpoint.systems.includes(id)))) throw new Error('Freshness scheduling changed during prepare; inspect status and retry');
+          if (interrupted) assertPreparedContract(current, checkpoint);
+          current.run_contracts ??= {};
+          current.run_contracts[runId] ??= preparedContract(checkpoint);
+          Object.assign(checkpoint, saveGeneration(dir, current, checkpoint, { beforeCommit: () => assertOwner(dir, runId, checkpoint.attempt_id) }));
+        });
       }
       catch (error) { releaseLockIfOwned(dir, runId, checkpoint.attempt_id); throw error; }
     }
@@ -168,6 +198,7 @@ export function main(argv = process.argv.slice(2)) {
     assertRunId(checkpoint.run_id);
     if (options['attempt-id'] && options['attempt-id'] !== checkpoint.attempt_id) throw new Error('Checkpoint belongs to another attempt');
     assertOwner(dir, checkpoint.run_id, options['attempt-id'] ?? checkpoint.attempt_id);
+    assertPreparedContract(loadState(dir), checkpoint);
     if (options['wait-until']) checkpoint.next_eligible_at = options['wait-until'];
     if (options['wait-reason']) checkpoint.wait_reason = options['wait-reason'];
     if (options.needsDecision) checkpoint.queue_state = 'needs_decision';
@@ -204,7 +235,11 @@ export function main(argv = process.argv.slice(2)) {
     };
     if (command === 'finish' && options.outcome === 'merged') {
       return import('./lib/github-evidence.mjs').then(({ verifyGithubEvidence }) => {
-        checkpoint.github_verification = verifyGithubEvidence({ root, prUrl: checkpoint.pr_url, expectedHead: checkpoint.head_sha ?? git(root, 'rev-parse', 'HEAD'), requirePublication: true, publicationUrls: checkpoint.publication_urls ?? [] });
+        const candidate = verifyFreshnessCandidate(root, checkpoint);
+        checkpoint.github_verification = (deps.verifyGithubEvidence ?? verifyGithubEvidence)({ root, prUrl: checkpoint.pr_url, expectedHead: candidate.head_sha, expectedTree: candidate.tree_sha, requirePublication: true, publicationUrls: checkpoint.publication_urls ?? [] });
+        if (checkpoint.github_verification?.head_sha !== candidate.head_sha || checkpoint.github_verification.head_tree_sha !== candidate.tree_sha || !checkpoint.github_verification.publication?.verified) throw new Error('GitHub publication does not match the freshness candidate');
+        assertPublicationCheckout(root, checkpoint.github_verification);
+        checkpoint.candidate_verification = candidate;
         checkpoint.merge_sha = checkpoint.github_verification.merge_sha;
         checkpoint.publication = checkpoint.github_verification.publication;
         return save();

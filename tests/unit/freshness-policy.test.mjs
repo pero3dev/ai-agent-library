@@ -12,7 +12,7 @@ const manifestPath = `research/freshness-runs/${runId}.json`
 const article = text => `---\ntitle: "Agent ループ"\ncategory: "concepts"\nlevel: "basic"\nstatus: "published"\nlast_updated: "2026-09-09"\ntags: ["agent-loop"]\n---\n\n# Agent ループ\n\n## 本文\n\n${text}\n\n## 参考資料\n\n- [公式](https://example.com/original)(アクセス日: 2026-09-09)\n\n## TODO・未確認事項\n\nなし\n`
 const roadmap = `# ROADMAP\n\n<!-- freshness-registry:start -->\n| ID | 系統 | 記事対象 | 調査起点 | 周期(日) |\n| --- | --- | --- | --- | --- |\n| concepts | 概念 | \`docs/01-concepts/*.md\` | \`research/concepts/guide.md\` | 42 |\n<!-- freshness-registry:end -->\n\n<!-- freshness-watchlist:start -->\n- 次の確認: 停止条件\n<!-- freshness-watchlist:end -->\n`
 
-function fixture(t) {
+function fixture(t, originalText = '元の主張です。') {
   const temp = path.resolve(os.tmpdir())
   const cwd = mkdtempSync(path.join(temp, 'ai-agent-freshness-policy-'))
   t.after(() => {
@@ -30,7 +30,7 @@ function fixture(t) {
   write('ROADMAP.md', roadmap)
   write('GLOSSARY.md', '# 用語集\n')
   write('research/concepts/guide.md', '# 調査メモ\n')
-  write(articlePath, article('元の主張です。'))
+  write(articlePath, article(originalText))
   write('docs/01-concepts/README.md', '# 概念\n')
   const base = tree()
   write(articlePath, article('一次資料で確認した主張です。').replace('last_updated: "2026-09-09"', 'last_updated: "2026-09-10"'))
@@ -181,6 +181,28 @@ test('reference-only updates preserve last_updated and cannot hide body changes'
   assert.equal(f.check().articles, 1)
   f.write(articlePath, article('本文を変更します。'))
   assert.throws(() => f.check(), /reference-only/)
+})
+
+for (const [label, before, after] of [
+  ['fenced code link-like string', '```python\nvalue = "[ref](before)"\n```', '```python\nvalue = "[ref](after)"\n```'],
+  ['inline code link-like string', '例: `[ref](before)`。', '例: `[ref](after)`。'],
+  ['reference heading inside a fence', '```markdown\n## 参考資料\nbefore\n```', '```markdown\n## 参考資料\nafter\n```'],
+  ['a code date annotation', '`(最終確認: 2026-08)`', '`(最終確認: 2026-09)`'],
+]) test(`reference-only cannot erase ${label}`, t => {
+  const f = fixture(t, before)
+  f.manifest.changes[0].kind = 'reference-only'
+  f.manifest.observations[0].status = 'unchanged'
+  f.write(articlePath, article(after))
+  assert.throws(() => f.check(), /reference-only/)
+})
+
+test('actual inline and reference-style Markdown link destinations can move without changing code', t => {
+  const before = '[inline](https://example.com/before) と [reference][source]。\n\n[source]: https://example.com/before\n\n`[code](unchanged)`'
+  const f = fixture(t, before)
+  f.manifest.changes[0].kind = 'reference-only'
+  f.manifest.observations[0].status = 'unchanged'
+  f.write(articlePath, article(before.replaceAll('https://example.com/before', 'https://example.com/after')))
+  assert.equal(f.check().articles, 1)
 })
 
 test('ROADMAP permits only the watchlist, with the base registry remaining authoritative', t => {

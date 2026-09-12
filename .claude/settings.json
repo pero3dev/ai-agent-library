@@ -7,11 +7,6 @@
       "Bash(npm run validate:*)",
       "Bash(npm run links:*)",
       "Bash(npm run todos:*)",
-      "Bash(git status:*)",
-      "Bash(git diff:*)",
-      "Bash(git log:*)",
-      "Bash(git show:*)",
-      "Bash(git branch:*)",
       "Bash(npm run lint:md:*)",
       "Bash(python -m py_compile:*)",
       "WebSearch"

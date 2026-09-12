@@ -5,7 +5,9 @@ import os from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
+import { load as loadYaml } from 'js-yaml'
 import { checkHarnessPolicy, classifyPath, requiredChecks, reviewDigest, roadmapTasks } from '../../scripts/harness-policy.mjs'
+import { requiredWorkflows } from '../../scripts/lib/github-policy.mjs'
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const a = 'docs/01-concepts/agent-loop.md'
@@ -434,4 +436,22 @@ test('privileged workflow uses only base checkout and base dependencies with no 
   assert.match(workflow, /node scripts\/check-git-conventions\.mjs --event "\$GITHUB_EVENT_PATH"/)
   assert.doesNotMatch(workflow, /\$\{\{[^}]*pull_request\.(?:title|body)[^}]*\}\}/)
   assert.doesNotMatch(workflow, /ref:.*head\.sha|npm run|node .*\/changes\/|secrets\.|write-all/)
+})
+
+test('both trusted policies bind PR events and prepare only base dependencies for shared AST checks', () => {
+  for (const name of ['harness-policy', 'freshness-policy']) {
+    const expected = requiredWorkflows[name]
+    const workflow = loadYaml(readFileSync(path.join(repo, expected.path), 'utf8'))
+    assert.equal(workflow['run-name'], `${expected.runName}${'${{ github.event.pull_request.number }}'}`)
+    assert.ok(workflow.on.pull_request_target)
+    assert.deepEqual(workflow.permissions, { contents: 'read' })
+    const steps = workflow.jobs[name].steps
+    const checkout = steps.findIndex(step => step.uses?.startsWith('actions/checkout@'))
+    const install = steps.findIndex(step => step.run === 'npm ci --ignore-scripts')
+    const policy = steps.findIndex(step => step.run?.includes(`node scripts/${name}.mjs`))
+    assert.ok(checkout >= 0 && install > checkout && policy > install)
+    assert.equal(steps[checkout].with.ref, '${{ github.event.pull_request.base.sha }}')
+    assert.equal(steps[checkout].with['persist-credentials'], false)
+    if (name === 'freshness-policy') assert.equal(steps[install].if, "steps.scope.outputs.enabled == 'true'")
+  }
 })

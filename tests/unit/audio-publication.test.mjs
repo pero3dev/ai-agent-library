@@ -1,8 +1,8 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
-import { execFileSync } from 'node:child_process'
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { execFileSync, spawnSync } from 'node:child_process'
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -200,9 +200,19 @@ test('Windows task XML and wrapper dry-run keep registration, publication and en
   assert.doesNotMatch(xml, /-Publish|-AutoMerge|ExecutionPolicy Bypass/)
   const output = execFileSync('powershell.exe', ['-NoProfile', '-File', path.join(repoRoot, 'scripts/Invoke-AudioLearning.ps1'), '-ProjectRoot', repoRoot, '-DryRun', '-Publish', '-AutoMerge'], { encoding: 'utf8', windowsHide: true })
   const plan = JSON.parse(output)
+  assert.equal(typeof plan.node, 'string')
+  assert.ok(existsSync(plan.node))
   assert.equal(plan.starts_engine, false)
   assert.ok(plan.production.includes('--plan'))
   assert.ok(!plan.publication.includes('--apply'))
   assert.ok(!plan.publication.includes('--auto-merge'))
   assert.equal(AUDIO_REPOSITORY, 'pero3dev/ai-agent-library')
+})
+
+test('PowerShell 7 task XML resolves one real shell even when PATH contains multiple pwsh applications', { skip: process.platform !== 'win32' || spawnSync('pwsh', ['-NoProfile', '-Command', 'exit 0'], { windowsHide: true }).error?.code === 'ENOENT' }, () => {
+  const xml = execFileSync('pwsh', ['-NoProfile', '-File', path.join(repoRoot, 'scripts/Register-AudioLearningTask.ps1'), '-Mode', 'Xml', '-ProjectRoot', repoRoot], { encoding: 'utf8', windowsHide: true })
+  const command = xml.match(/<Command>([^<]+)<\/Command>/)?.[1].replaceAll('&amp;', '&').replaceAll('&quot;', '"')
+  assert.ok(command)
+  assert.equal(path.basename(command).toLowerCase(), 'pwsh.exe')
+  assert.ok(existsSync(command), `Task shell must be a single executable path: ${command}`)
 })

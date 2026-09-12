@@ -32,7 +32,8 @@ if ($Mode -eq 'Resume') { Enable-ScheduledTask -TaskName $taskName | Out-Null; W
 $wrapper = Join-Path $projectPath 'scripts\Invoke-AudioLearning.ps1'
 if (-not (Test-Path -LiteralPath $wrapper -PathType Leaf)) { throw 'Audio task wrapper is missing.' }
 $shellPath = Join-Path $PSHOME 'powershell.exe'
-if (-not (Test-Path -LiteralPath $shellPath)) { $shellPath = (Get-Command pwsh -CommandType Application -ErrorAction Stop).Source }
+if (-not (Test-Path -LiteralPath $shellPath)) { $shellPath = Join-Path $PSHOME 'pwsh.exe' }
+if (-not (Test-Path -LiteralPath $shellPath -PathType Leaf)) { throw 'The current PowerShell executable could not be resolved.' }
 $arguments = '-NoLogo -NoProfile -NonInteractive -WindowStyle Hidden -File ' + (Quote-TaskArgument $wrapper) + ' -ProjectRoot ' + (Quote-TaskArgument $projectPath) + ' -Limit ' + $Limit
 if ($StateDir) { $arguments += ' -StateDir ' + (Quote-TaskArgument ([IO.Path]::GetFullPath($StateDir))) }
 if ($Config) { $arguments += ' -Config ' + (Quote-TaskArgument ([IO.Path]::GetFullPath($Config))) }

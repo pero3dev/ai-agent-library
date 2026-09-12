@@ -14,7 +14,7 @@ $ErrorActionPreference = 'Stop'
 if (-not $ProjectRoot) { $ProjectRoot = Split-Path -Parent $PSScriptRoot }
 if ($AutoMerge -and -not $Publish) { throw '-AutoMerge requires -Publish.' }
 $projectPath = (Resolve-Path -LiteralPath $ProjectRoot).Path
-$nodePath = (Get-Command node -CommandType Application -ErrorAction Stop).Source
+$nodePath = (Get-Command node -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source
 if (-not $StateDir) {
     $gitDirectory = & git -C $projectPath rev-parse --git-common-dir
     if ($LASTEXITCODE -ne 0) { throw 'Cannot locate the common Git directory.' }

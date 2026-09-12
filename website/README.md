@@ -24,15 +24,23 @@ npm ci
 | `npm run clean` | `.next` / `out` を削除 |
 | `npm test` | MDX 属性・静的 HTML の回帰検査 |
 | `npm run test:browser` | ビルド済み `out/` のキーボード操作・検索・Mermaid をブラウザーで検査 |
+| `npm run test:audio` | 専用 fixture ビルドで再生・再開・リスト・通信失敗をブラウザーで検査 |
 
 ## 生成物と正本の対応
 
 | パス | 位置づけ |
 | --- | --- |
 | `content/` | sync 生成の記事 MDX(git 管理外) |
-| `generated/` | `sections.json` / `glossary.json` / `tags.json` / `routes.json`(git 管理外) |
+| `generated/` | `sections.json` / `glossary.json` / `tags.json` / `routes.json` / `audio.json`(git 管理外) |
 | `out/` | 静的エクスポート(git 管理外) |
 | `content-src/` | 手書き上書きページ(**唯一の手編集対象**。同名は手書きが勝つ) |
+| `audio/catalog.json` | 公開済み音声と記事の版を結ぶカタログの正本。音声本体は GitHub Releases |
+
+## 音声学習
+
+`app/audio/` の一覧、記事の再生入口、layout 配下の共通プレイヤーで音声を再生します。カタログを同期すると、公開中の記事ハッシュとの不一致は旧版表示になり、削除・非公開の記事は一覧から除外されます。音声制作・無料ツールの準備・定期実行・実機受入は [音声の運用手順](../automation/audio/README.md)を参照してください。
+
+再生試験は `AUDIO_TEST_CATALOG=tests/browser/fixtures/audio-catalog.json` と `NEXT_PUBLIC_BASE_PATH=/__audio-test` の組み合わせでビルドします。どちらか一方だけを設定して公開ビルドへ試験音声を混ぜないでください。CI は公開出力を持たない別 job でこの試験を実行します。
 
 ## パイプラインの安全装置
 

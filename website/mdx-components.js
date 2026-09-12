@@ -4,6 +4,7 @@ import { DocMeta } from './components/mdx/doc-meta'
 import { GlossaryTerm } from './components/mdx/glossary-term'
 import { PracticeSection } from './components/mdx/practice-section'
 import { TodoCallout } from './components/mdx/todo-callout'
+import { ArticleAudio } from './components/audio/article-audio'
 
 const docsComponents = getDocsMDXComponents()
 const DocsWrapper = docsComponents.wrapper
@@ -27,6 +28,7 @@ export const useMDXComponents = components => ({
     return (
       <DocsWrapper {...props}>
         <DocMeta metadata={props.metadata} />
+        <ArticleAudio />
         {children}
       </DocsWrapper>
     )

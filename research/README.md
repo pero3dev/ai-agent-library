@@ -27,6 +27,7 @@
 
 | 記録 | 用途 |
 | --- | --- |
+| [音声学習機能の実現性](audio-learning-feasibility-2026-09-13.md) | 2026-09-13 の公式資料・現行サイトの初期確認。要件対話の根拠であり、音声生成や端末受入は未実施 |
 | [参考資料の対応索引](review-sources-index-2026-09-10.md) | 2026-09-10 のレビュー S02。記事別の根拠追加・限定条件の修正への入口 |
 | [TODO の分類と確認条件](review-maintenance-2026-09-10.md)、[棚卸し JSON](review-todo-inventory-2026-09-10.json) | 最新化前の 186 件・121 記事を分類した履歴。後続の完了状態とは区別 |
 | [鮮度監査 JSON](freshness-audit-data-2026-09-10.json) | 2026-09-10 の監査時に特定した 107 件。`identified_not_applied` は当時の状態 |

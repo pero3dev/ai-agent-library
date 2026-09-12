@@ -1,6 +1,10 @@
 {
   "private": true,
   "scripts": {
+    "audio:plan": "node scripts/audio-run.mjs --plan",
+    "audio:doctor": "node scripts/audio-run.mjs --doctor",
+    "audio:run": "node scripts/audio-run.mjs --run",
+    "audio:publish": "node scripts/audio-publish.mjs",
     "test": "node --test tests/unit/*.test.mjs",
     "lint:md": "markdownlint \"**/*.md\" -p .markdownlintignore",
     "validate": "node scripts/validate-docs.mjs --all",

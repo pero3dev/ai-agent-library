@@ -3,6 +3,8 @@ import { Footer, Layout, Navbar } from 'nextra-theme-docs'
 import { getPageMap } from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
 import './docs.css'
+import { AudioProvider } from '../components/audio/audio-provider'
+import '../components/audio/audio.css'
 
 // 公開 URL(OG タグの絶対 URL 解決に使用)。CI は vars.SITE_URL から NEXT_PUBLIC_SITE_URL を渡す
 // (公開先: https://pero3dev.github.io/ai-agent-library/)。ローカルは localhost:3000
@@ -28,6 +30,9 @@ export const metadata = {
 
 const navbar = (
   <Navbar logo={<b>AI Agent Library</b>}>
+    <Link className="nav-extra-link audio-nav-link" href="/audio">
+      音声で学ぶ
+    </Link>
     <Link className="nav-extra-link" href="/roadmap">
       依存マップ
     </Link>
@@ -45,6 +50,7 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="ja" dir="ltr" suppressHydrationWarning>
       <body>
+        <AudioProvider>
         <Layout
           navbar={navbar}
           pageMap={await getPageMap()}
@@ -58,6 +64,7 @@ export default async function RootLayout({ children }) {
         >
           {children}
         </Layout>
+        </AudioProvider>
       </body>
     </html>
   )

@@ -41,9 +41,12 @@ for (const { pathname, count } of articles) {
       const svg = diagram.locator('svg')
       await expect(svg).toBeVisible()
       await expect(svg).toHaveCount(1)
-      const bounds = await svg.boundingBox()
-      expect(bounds.width).toBeGreaterThan(0)
-      expect(bounds.height).toBeGreaterThan(0)
+      // Theme hydration can replace the SVG between visibility and measurement.
+      // Retry the layout assertion itself; a permanently absent/zero-size SVG still fails.
+      await expect.poll(async () => {
+        const bounds = await svg.boundingBox()
+        return Boolean(bounds && bounds.width > 0 && bounds.height > 0)
+      }).toBe(true)
       await expect(svg).not.toBeEmpty()
       // Existing articles use HTML-style line breaks. They must remain labels,
       // rather than showing the markup itself when rendered in strict mode.

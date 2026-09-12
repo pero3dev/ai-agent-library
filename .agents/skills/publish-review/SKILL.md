@@ -30,6 +30,6 @@ description: draft のドキュメントをフェーズレビュー(ROADMAP の 
 2. 本文・索引・ROADMAP・根拠・暫定 manifest を stage し、`git write-tree` で候補を固定する。`node scripts/harness-policy.mjs --base <base SHA> --head <tree SHA> --branch <branch> --print-digest` を実行する。未取得のレビュアー ID・時刻・判定を作らない
 3. 公開レビューを必要とする変更は、別のレビュアーへリポジトリ、base SHA、候補 tree SHA、branch、manifest path、期待 digest を渡す。レビュアー自身が `git show <SHA>:<path>` で本文・根拠・タスク全成果物を読み、同じコマンドで digest を再計算する。作業ツリーの未 stage 本文で代替しない。意味的な変更分類も確認する。未公開draftのみで公開を依頼されていない場合は手順3・4の独立レビューを省き、`review: null` と実際の `completed_at` を記録して手順5へ進む
 4. `review` に最終判定、`independent: true`、実レビュアー ID、実レビュー UTC 時刻、確認した `content_digest` を記録し、最後の取得・レビューより後の `completed_at` を保存する。本文・根拠・分類・索引・ROADMAPなど候補の内容を変更したら手順2から再レビューする
-5. 完成 manifest を stage して **`git write-tree` を取り直す**。新しい SHA で `node scripts/harness-policy.mjs --base <base SHA> --head <最終 tree SHA> --branch <branch>` を通す。レビュー前の tree で最終検査しない。承認されていない published 候補をコミット・マージしない
+5. 完成 manifest を stage して **`git write-tree` を取り直す**。新しい SHA で `node scripts/harness-policy.mjs --base <base SHA> --head <最終 tree SHA> --branch <branch>` を通す。レビュー前の tree で最終検査しない。承認されていない published 候補をコミット・マージしない。提出とマージが許可されている場合は、[Git 操作規約](../../../harness/git-rules.md)のブランチ・コミット・PR・squash 形式と検証を使う
 
 digest と別実行 ID は内容の対応を検査する記録です。独立判断や事実の正しさを、IDだけで証明したとは扱いません。

@@ -11,6 +11,10 @@
 - **[ROADMAP.md](ROADMAP.md)** — フェーズと担当タスク、定期メンテナンスの一覧
 - **[project/README.md](project/README.md)** — プロジェクトの計画・実施記録。新しい計画や完了報告はここから辿れる配置にします
 
+## Git操作
+
+Git操作の件名・本文・branch・共同編集者・PR・squashは [Git共通規約](harness/git-rules.md)に従います。commitは `type(scope): 日本語の要約` と理由・検証・影響、PRは共通テンプレートから作り、実際に編集したAgentの名義を記します。通常のGit authorや個人設定は変更しません。形式検査と実際の検証結果を揃えてから提出します。
+
 ## ドキュメントを追加・変更するとき
 
 1. `docs/<NN-section>/` にケバブケースの英語ファイル名で作成(本文は日本語)

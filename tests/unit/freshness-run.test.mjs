@@ -381,6 +381,12 @@ test('checkpoint snapshots article and research changes without changing index, 
   assert.equal(saved.snapshot_head, headBefore);
   assert.equal(fixture.git('rev-parse', `refs/freshness/checkpoints/${prepared.run_id}`), saved.snapshot_commit);
   assert.equal(fixture.git('rev-parse', `${saved.snapshot_commit}^`), headBefore);
+  const message = fixture.git('log', '-1', '--format=%B', saved.snapshot_commit);
+  assert.match(message, /^chore\(harness\): 作業状態を保存する\n/);
+  assert.ok(message.includes(`freshness の実行 ${prepared.run_id}`));
+  assert.match(message, /^Agent: automation$/m);
+  assert.match(message, /^Generated-by: ai-agent-library$/m);
+  assert.doesNotMatch(message, /Co-authored-by:|Codex|Claude/);
   assert.equal(fixture.git('show', `${saved.snapshot_commit}:docs/01-concepts/models.md`), '# Article edited after staging');
   assert.equal(fixture.git('show', `${saved.snapshot_commit}:research/core/new-observation.md`), '# New untracked research');
   assert.match(fixture.git('show', `${saved.snapshot_commit}:ROADMAP.md`), /Follow-up observation/);

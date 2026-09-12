@@ -6,6 +6,7 @@ import crypto from 'node:crypto';
 import { spawnSync, spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { parseFrontMatter, parseScalar, toLines } from './lib/md-utils.mjs';
+import { formatCommitMessage } from './lib/git-conventions.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const SCRATCH_DIRECTORY = '.harness-eval-scratch';
@@ -139,12 +140,17 @@ function prepare(options) {
   run('git', ['archive', '--format=tar', '-o', archive, ref], { cwd: root });
   run('tar', ['-xf', archive, '-C', checkout]);
   run('git', ['init', '-b', 'main'], { cwd: checkout });
-  run('git', ['config', 'user.name', 'Harness evaluation'], { cwd: checkout });
-  run('git', ['config', 'user.email', 'codex@openai.com'], { cwd: checkout });
+  run('git', ['config', 'user.name', 'AI Agent Library automation'], { cwd: checkout });
+  run('git', ['config', 'user.email', 'automation@ai-agent-library.invalid'], { cwd: checkout });
   const executionContract = prepareExecutionEnvironment(checkout, directory);
   fs.appendFileSync(path.join(checkout, 'ROADMAP.md'), '\n## 隔離評価タスク\n\n| タスク | 内容 | 成果物 | ステータス |\n| --- | --- | --- | --- |\n| HARNESS-EVAL-1 | Agentの停止条件と予算の設計 | `01-concepts/termination-budget.md` | 未着手 |\n');
   run('git', ['add', '.'], { cwd: checkout });
-  run('git', ['commit', '-m', 'Prepare isolated harness evaluation', '-m', 'Co-authored-by: Codex <codex@openai.com>'], { cwd: checkout });
+  run('git', ['commit', '-m', formatCommitMessage({
+    type: 'test', scope: 'harness', summary: '隔離評価環境を準備する',
+    reason: `元の ${ref} を保ったまま、所有する隔離 checkout に評価タスクを準備します。`,
+    validation: '準備のみ・未実施。依存の導入と Agent の実行は後続の別工程です。',
+    agent: 'automation', generatedBy: 'ai-agent-library',
+  })], { cwd: checkout });
   const prompt = fs.readFileSync(path.join(root, 'tests/fixtures/harness/authoring-prompt.txt.example'), 'utf8');
   fs.writeFileSync(path.join(directory, 'prompt.txt'), prompt);
   const record = { schema_version: 1, scenario: options.scenario, source_sha: ref, fixture_sha: run('git', ['rev-parse', 'HEAD'], { cwd: checkout }).stdout.trim(), prompt_sha256: crypto.createHash('sha256').update(prompt).digest('hex'), created_at: new Date().toISOString(), checkout, execution_contract: executionContract, dependency_install: { command: executionContract.dependency_install_command, result: 'not-run' }, instruction_bytes: fs.statSync(path.join(checkout, 'AGENTS.md')).size, status: 'prepared', evidence_class: 'fixture-preparation' };

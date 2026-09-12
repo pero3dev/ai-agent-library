@@ -41,3 +41,5 @@ jobs:
           git fetch --no-tags origin "refs/pull/$PR_NUMBER/head"
           [[ "$(git rev-parse FETCH_HEAD)" == "$HEAD_SHA" ]]
           node scripts/harness-policy.mjs --base "$BASE_SHA" --head "$HEAD_SHA" --branch "$HEAD_BRANCH"
+          # PR title/bodyはイベントJSONのデータとして読み、shellへ展開しない。
+          node scripts/check-git-conventions.mjs --event "$GITHUB_EVENT_PATH"

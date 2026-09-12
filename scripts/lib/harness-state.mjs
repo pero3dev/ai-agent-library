@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
+import { formatCommitMessage } from './git-conventions.mjs';
 
 const RUN_ID = /^[a-z0-9][a-z0-9-]{1,79}$/;
 export const git = (root, ...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] }).trim();
@@ -47,8 +48,13 @@ export function snapshotOwned(root, dir, runId, { candidates, accepts, refPrefix
     });
     const tree = snapshotGit('write-tree');
     const commit = tree === git(root, 'rev-parse', `${head}^{tree}`) ? head : snapshotGit(
-      '-c', 'user.name=Codex', '-c', 'user.email=codex@openai.com',
-      'commit-tree', tree, '-p', head, '-m', `WIP ${refPrefix} ${runId}\n\nCo-authored-by: Codex <codex@openai.com>`
+      '-c', 'user.name=AI Agent Library automation', '-c', 'user.email=automation@ai-agent-library.invalid',
+      'commit-tree', tree, '-p', head, '-m', formatCommitMessage({
+        type: 'chore', scope: 'harness', summary: '作業状態を保存する',
+        reason: `${refPrefix} の実行 ${runId} を中断後に復元できるよう、所有する差分を保存します。`,
+        validation: '保存のみ・未実施。記事や実装の検証結果を表すコミットではありません。',
+        agent: 'automation', generatedBy: 'ai-agent-library',
+      })
     );
     beforePublish();
     git(root, 'update-ref', `refs/${refPrefix}/checkpoints/${runId}`, commit);

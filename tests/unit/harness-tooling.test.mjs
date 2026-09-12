@@ -5,7 +5,7 @@ import path from 'node:path'
 import test from 'node:test'
 import { checkHarness, isActiveTeachingFile, parseConfiguration, validateSchemaReferences, verificationDrift } from '../../scripts/check-harness.mjs'
 import { checkCommand, describeChecks, runChecks } from '../../scripts/check-ci.mjs'
-import { selectTask } from '../../scripts/harness-context.mjs'
+import { buildContext, selectTask } from '../../scripts/harness-context.mjs'
 import { readObservations, selectedConfig } from '../../scripts/harness-doctor.mjs'
 import { measureStorage, summarizeHealth } from '../../scripts/harness-health.mjs'
 import { filesUnder, resolvePython, ROOT, versionSupported } from '../../scripts/lib/tooling-common.mjs'
@@ -124,6 +124,17 @@ test('context selects an actual ROADMAP task table and preserves planned artifac
   assert.throws(() => selectTask(markdown + '\n' + table, '2-1', [{ repoRel: 'docs/01-concepts/topic.md' }]))
   assert.throws(() => selectTask('```markdown\n' + table + '```', '2-1'))
   assert.throws(() => selectTask(markdown, 'missing'))
+})
+
+test('every task context carries the current Git contract text without granting external authorization', () => {
+  const rules = readFileSync(path.join(ROOT, 'harness/git-rules.md'), 'utf8')
+  for (const profile of ['new-doc', 'article-update', 'freshness', 'publish-review', 'examples', 'website', 'harness']) {
+    const context = buildContext(ROOT, { profile })
+    const entries = context.instructions.filter(entry => entry.path === 'harness/git-rules.md')
+    assert.equal(entries.length, 1, profile)
+    assert.equal(entries[0].text, rules, profile)
+    assert.match(context.authorization, /新しい外部操作を許可しません/)
+  }
 })
 
 test('health measures owned run and evaluation logs without counting checkouts or installing/deleting files', t => {

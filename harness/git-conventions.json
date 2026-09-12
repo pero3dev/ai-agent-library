@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "subject": {
+    "types": ["feat", "fix", "docs", "refactor", "perf", "test", "build", "ci", "chore", "revert"],
+    "scopes": ["docs", "research", "examples", "website", "harness", "automation", "ci", "repo"],
+    "max_codepoints": 72,
+    "japanese_required": true,
+    "breaking_marker": false
+  },
+  "commit_sections": ["理由", "検証", "影響"],
+  "pr_sections": ["変更内容", "検証", "影響・残件"],
+  "agents": {
+    "codex": "Codex <codex@openai.com>",
+    "claude": "Claude <noreply@anthropic.com>"
+  },
+  "agent_values": ["codex", "claude", "codex,claude", "none", "automation"],
+  "automation": {
+    "subjects": ["chore(harness): 作業状態を保存する", "test(harness): 隔離評価環境を準備する"],
+    "generated_by": "ai-agent-library"
+  },
+  "range_policy": "all-new-commits",
+  "base_branch": "main"
+}

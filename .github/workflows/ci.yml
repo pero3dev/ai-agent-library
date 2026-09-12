@@ -136,8 +136,13 @@ jobs:
           cache-dependency-path: |
             examples/tests/requirements.txt
             examples/python/*/requirements.txt
+            harness/requirements-audit.txt
       - name: Install regression test dependencies
         run: python -m pip install -r examples/tests/requirements.txt
+      - name: Install pinned Python dependency auditor
+        run: python -m pip install -r harness/requirements-audit.txt
+      - name: Audit Python sample dependencies
+        run: python -X utf8 -m pip_audit --strict -r examples/tests/requirements.txt --progress-spinner off
       - name: Python samples regression tests (no API key)
         run: python -X utf8 -B -m unittest discover -s examples/tests -v
 

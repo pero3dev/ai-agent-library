@@ -2,7 +2,7 @@
 
 2026-09-12 に採択。対象はレビュー時点の `f8dd5d2db4ba09d5f4d6fa619be704d764fe8d3b` です。
 依頼に基づき、対応可能な防御修正・設定変更・回帰検証を実施し、PR と CI を経由して反映します。
-ローカル修正・検証・独立レビューを完了しています。導入 PR と実 CI・公開の受入は後続の節で追跡します。
+ローカル修正・検証・独立レビューと導入 PR のマージを完了しました。実 CI・公開の受入は後続の節で追跡します。
 
 ## 範囲と所有
 
@@ -17,7 +17,7 @@ root は設定・Python 監査・記録と統合、別担当はサイト、runti
 | --- | --- | --- |
 | SEC-01 | 実際に使われる Mermaid 描画器を strict に固定し、通常表示を回帰検証 | 実装・ローカル検証・独立レビュー済み |
 | SEC-02 | ローカル候補・PR head・定期 run の証拠を結合し、開始時契約を state へ別保存 | 実装・ローカル検証・独立レビュー済み |
-| SEC-03 | CI 証拠を repository・PR・head branch へ結合 | 実装・単体検証・独立レビュー済み。導入後の実 CI 受入待ち |
+| SEC-03 | CI 証拠を repository・PR・head branch へ結合 | 実装・単体検証・独立レビュー済み。導入後の実 CI 受入は後述 |
 | SEC-04 | 非公開の脆弱性報告を有効化 | 実 API で `enabled: true` を確認 |
 | SEC-05 | 必須9チェックの契約を共通化 | 実装・単体検証・独立レビュー済み |
 | SEC-06 | 参考資料の変更判定を Markdown 構造に基づいて共通化 | 実装・単体検証・独立レビュー済み |
@@ -42,7 +42,7 @@ Dependabot の修正 PR 自動作成は Git 共通規約との接続が必要な
 前回ツール側で停止されたサイトの追加攻撃実験は再試行せず、防御設定と通常動作を検証します。
 ローカルの API fixture は実 GitHub の保護突破を示すものではありません。
 
-最終差分の独立レビュー、各検査の結果、導入 PR と後続の証拠結合の受入 PR は、確認後に追記します。
+最終差分の独立レビューと各検査の結果を以下に記録します。導入 PR と後続の証拠結合の受入は区別します。
 
 ローカルの最終検証は `npm ci`、`npm run check` 359試験、Windows 対象140試験、オフライン評価297試験が成功し、skip は0でした。
 runtime の3 suite は88試験、その後の起動補完を含む freshness suite は45試験、CI/policy の関連 suite と追加の workflow 契約試験も成功しています。
@@ -65,3 +65,29 @@ Python は監査ツールとサンプル依存を同じ専用 venv に入れ、1
 
 開始時契約の導入前に、実際の定期実行記録が未完了0件・完了2件・lock なしであることを読み取り確認しました。
 状態と各 run JSON のハッシュは読み取り照合の前後で一致しています。旧完了記録を変更せず、契約のない旧未完了は自動再開せず保持します。
+
+## GitHub への反映と導入後の受入
+
+[導入 PR #33](https://github.com/pero3dev/ai-agent-library/pull/33) は9必須チェック成功後、2026-09-12 にマージしました。
+対象 head は `269c9953724fcc07ac6f3df4538d7ea9af6985d3`、merge SHA は `203e468ff6c121d741d4b0e24ab2bc5c47ed7f96` です。
+両者の tree は `507f63da172aeea2e696905f2361e2dc952323b1` と一致し、実 merge メッセージも PR から生成した件名・本文・Codex 共同編集者と一致しました。
+別担当が実 API で各チェックの App・repository・PR・head branch・workflow・event・suite を照合しています。
+
+同じ merge SHA の [main CI](https://github.com/pero3dev/ai-agent-library/actions/runs/34695159726) と
+Pages deployment `6409913663` が成功しました。deploy job と deployment の実行 URL が一致することも別担当が照合しています。
+[公開記事](https://pero3dev.github.io/ai-agent-library/docs/concepts/agent-loop) は HTTP 200 で、記事の見出しと所有 renderer の印を確認しました。
+ページから参照される配布 JavaScript 内の strict 初期化も取得して確認し、対象 chunk の SHA-256
+`f64305c2374314f74b46beccb9c77f9c3dc9c1cde4ea4e0065c0281fdcb41c41` はローカル公開相当ビルドと一致しました。
+これは公開 HTTP・配布ファイルの照合であり、公開サイト上のブラウザー実行試験は別途行っていません。
+
+導入 PR の policy は旧 base で動くため、新しい固定 `run-name` をまだ持ちません。この PR の成功を、
+導入後の照合処理の成功として保存しません。後続の通常 PR は `test/security-evidence-acceptance` で記録のみを変更し、
+導入済みの trusted-base workflow が `Harness policy PR #<番号>` と `Freshness policy PR #<番号>` で実行されることを確認します。
+
+後続 PR のマージ後は `scripts/lib/github-evidence.mjs` の `verifyGithubEvidence` に、その PR の実 URL・
+レビュー済み head・tree と `requirePublication: true` を渡します。9必須チェック、merge tree、exact merge SHA の main CI、
+Pages deployment と公開記事の本文を実 API / HTTP で照合します。保存済みの成功フラグやローカル fixture で代用しません。
+
+この最終記録を含む受入 PR の最終状態は GitHub で確認し、配送結果を common Git directory の
+`security-remediation/acceptance-publication.json` に保存します。検査ログと元の監査記録も同じ作業領域に保持し、
+公開記録には攻撃入力・認証情報を含めません。

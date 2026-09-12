@@ -15,7 +15,7 @@ AI AgentによるGit操作の形式を統一します。対象は共通規約、
 | G1 調査と規約 | 親担当: AGENTS、CONTRIBUTING、harnessのGit規約・テンプレート、project記録 | 現行の書式と例外を整理し、正本から参照できる | 完了 |
 | G2 検査 | 実装担当: Git形式のJSON契約、共通formatter、CLI、専用試験 | 不正な件名・本文・名義・branch・PRを検出する | 完了 |
 | G3 実行面への接続 | 接続担当: snapshot・評価fixture・作業context・スキル | 中断再開とCodex/Claudeの入口が共通規約に従う | 完了 |
-| G4 CIと受入 | 親担当: check:harness、既存trusted-base CI、統合・独立レビュー | 9必須チェックと権限を維持し、導入後のPRで実CIを確認 | 実施中 |
+| G4 CIと受入 | 親担当: check:harness、既存trusted-base CI、統合・独立レビュー | 9必須チェックと権限を維持し、導入後のPRで実CIを確認 | 完了 |
 
 ## 判断
 
@@ -41,4 +41,21 @@ AI AgentによるGit操作の形式を統一します。対象は共通規約、
 
 実Gitの隔離評価準備では内部commitの書式・機械処理名義・clean状態を確認しています。実Agentの起動・実クライアントhookの再試験は今回実施していません。専用Python環境へスキル検査用のPyYAML 6.0.3を追加し、グローバル環境は変更していません。最終検査は `git-conventions/check-final.log`、Windowsは `windows.log`、offlineは `offline-eval.log`、隔離評価準備はcommon Git直下の `git-conventions-eval-acceptance.json` に保存しています。
 
-導入PRはbaseに新検査がまだないため、ローカル検証と独立レビューで採択します。導入後に別の受入PRを作り、意図したPR title違反でtrusted-baseの必須checkが失敗し、同じheadのtitle修正で成功することを実GitHubで確認します。負例を残したままマージ予約は行いません。最終的にsquash後の実message、9必須check、main CIと公開を照合します。
+導入PRはbaseに新検査がまだないため、ローカル検証と独立レビューで採択しました。導入後に別の受入PRを作り、意図したPR title違反でtrusted-baseの必須checkが失敗し、同じheadのtitle修正で成功することを実GitHubで確認しました。負例を残したままマージ予約は行っていません。
+
+## GitHub受入
+
+[導入PR #31](https://github.com/pero3dev/ai-agent-library/pull/31) は9必須check成功後にマージしました。対象headは `74e73362b1fe0b9288b8046e14edb5013f15c782`、merge SHAは `c7fbc9479383ea97fd25212e987afb961fbd661d` です。strict・管理者への保護・9必須checkのApp IDは維持しています。
+
+導入後の [main CI](https://github.com/pero3dev/ai-agent-library/actions/runs/34688241887) とPages deployment `6408581607` が成功しました。実mergeメッセージがPRから生成した件名・本文・Codex共同編集者と一致すること、公開URLのHTTP 200と本文を照合しました。証拠は `git-conventions/pr31-publication.json` です。
+
+[受入PR #32](https://github.com/pero3dev/ai-agent-library/pull/32) のbranchは新しいmainから作った `test/git-conventions-ci` です。記録のみを変更したhead `04b412dd1582f4ddfd38f76712cc862bc54787fa` のdraft PRで検証しました。
+
+| 入力 | 実行 | 結果 |
+| --- | --- | --- |
+| type/scopeのないtitle | [負例CI](https://github.com/pero3dev/ai-agent-library/actions/runs/34688288429) | 件名形式の1問題で `valid: false`、exit 1。1commitは検査済み |
+| 同じhead・本文・branchでtitleだけを正規化 | [修正CI](https://github.com/pero3dev/ai-agent-library/actions/runs/34688324114) | `edited` 後に `valid: true`、問題0、1commit検査、check成功 |
+
+両ログでbase `c7fbc94` のcheckoutと候補headの照合を確認しました。9必須checkの名前・App ID・strict・管理者保護は維持し、候補コード実行やPR書込権限は追加していません。受入対照は `git-conventions/ci-acceptance.json`、ログは `pr32-negative.log` と `pr32-positive.log` に保存しています。
+
+この最終記録を含むPR #32のレビュー・CI・マージ状態は上記PRで確認できます。配送の最終照合は、実mergeメッセージ・全必須check・main CI・公開内容を `git-conventions/pr32-publication.json` に保存する手順です。記録の自己申告だけでは完了と扱いません。

@@ -180,6 +180,35 @@ test('pending catalog PR prevents another batch from uploading or creating a PR'
   assert.equal(calls.some(call => call.includes('upload') || call.includes('create')), false)
 })
 
+test('merged catalog waits for deployment and resumes using the exported audio page URL', async t => {
+  const { root, stateDir } = fixture(t)
+  const pending = { number: 123, url: `https://github.com/${AUDIO_REPOSITORY}/pull/123`, state: 'MERGED', headRefOid: 'a'.repeat(40) }
+  mkdirSync(path.join(stateDir, 'publication'))
+  const pendingFile = path.join(stateDir, 'publication/pending-pr.json')
+  writeFileSync(pendingFile, JSON.stringify(pending))
+  const run = (binary, args) => {
+    if (binary === 'git' && args[0] === 'remote') return `https://github.com/${AUDIO_REPOSITORY}.git`
+    if (binary === 'git' && args[0] === 'fetch') return ''
+    if (binary === 'git' && args[0] === 'show') return readFileSync(path.join(root, 'website/audio/catalog.json'), 'utf8')
+    if (binary === 'gh' && args[0] === 'repo') return JSON.stringify({ nameWithOwner: AUDIO_REPOSITORY, visibility: 'PUBLIC', defaultBranchRef: { name: 'main' } })
+    if (binary === 'gh' && args[0] === 'pr' && args[1] === 'view') return JSON.stringify(pending)
+    throw new Error(`Unexpected command: ${binary} ${args.join(' ')}`)
+  }
+  const waiting = await runPublication({ root, stateDir, apply: true, run, manifestFiles: [], verifyPublication: () => { throw new Error('Deployment is still running') } })
+  assert.equal(waiting.waiting_deployment, 'Deployment is still running')
+  assert.equal(existsSync(pendingFile), true)
+  const evidence = { published: true }
+  const completed = await runPublication({ root, stateDir, apply: true, run, manifestFiles: [], verifyPublication: options => {
+    assert.deepEqual(options.publicationUrls, ['https://pero3dev.github.io/ai-agent-library/audio'])
+    assert.equal(options.expectedHead, pending.headRefOid)
+    assert.equal(options.requirePublication, true)
+    return evidence
+  } })
+  assert.deepEqual(completed.published_evidence, evidence)
+  assert.equal(existsSync(pendingFile), false)
+  assert.deepEqual(JSON.parse(readFileSync(path.join(stateDir, 'publication/published-pr-123.json'), 'utf8')).evidence, evidence)
+})
+
 function refreshFixture(t, { changedSource = false, changedSupplemental = false } = {}) {
   const data = fixture(t)
   const { root, stateDir, source, manifest, episode } = data

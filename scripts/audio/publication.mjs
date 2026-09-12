@@ -584,7 +584,7 @@ export async function runPublication({ root, stateDir, manifestFiles, apply = fa
     }
     assert(observed.state === 'MERGED', 'Pending catalog PR was closed; inspect before creating another batch')
     try {
-      result.published_evidence = verifyPublication({ root, prUrl: observed.url, expectedHead: observed.headRefOid, requirePublication: true, publicationUrls: ['https://pero3dev.github.io/ai-agent-library/audio/'] })
+      result.published_evidence = verifyPublication({ root, prUrl: observed.url, expectedHead: observed.headRefOid, requirePublication: true, publicationUrls: ['https://pero3dev.github.io/ai-agent-library/audio'] })
     } catch (error) {
       result.waiting_deployment = error.message
       atomicJson(path.join(stateDir, 'publication', 'last-result.json'), result)

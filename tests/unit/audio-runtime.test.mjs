@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
-import { mkdtempSync, realpathSync, rmSync } from 'node:fs'
+import { mkdtempSync, realpathSync, rmSync, statSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -24,11 +24,17 @@ test('Windows audio wrapper shares state across a real linked worktree with spac
     '-NoProfile', '-File', path.join(root, 'scripts/Invoke-AudioLearning.ps1'),
     '-ProjectRoot', project, '-DryRun', '-SyncMain', '-Publish', '-AutoMerge'
   ], { encoding: 'utf8', windowsHide: true })))
-  // Hosted Windows runners may expose TEMP through an 8.3 alias such as RUNNER~1.
-  const expected = path.join(realpathSync(path.join(source, '.git')), 'audio-learning')
+  // Windows 8.3 aliases can survive realpath(). Compare the actual directory identity too.
+  const expectedGit = statSync(path.join(source, '.git'), { bigint: true })
+  const sharedState = plans[0].production[plans[0].production.indexOf('--state-dir') + 1]
   for (const plan of plans) {
-    assert.equal(plan.production[plan.production.indexOf('--state-dir') + 1], expected)
-    assert.equal(plan.publication[plan.publication.indexOf('--state-dir') + 1], expected)
+    const statePath = plan.production[plan.production.indexOf('--state-dir') + 1]
+    assert.equal(statePath, sharedState)
+    assert.equal(plan.publication[plan.publication.indexOf('--state-dir') + 1], sharedState)
+    assert.equal(path.basename(statePath), 'audio-learning')
+    const actualGit = statSync(path.dirname(statePath), { bigint: true })
+    assert.equal(actualGit.dev, expectedGit.dev)
+    assert.equal(actualGit.ino, expectedGit.ino)
     assert.equal(plan.starts_engine, false)
     assert.equal(plan.sync_main, true)
     assert.ok(!plan.publication.includes('--apply'))

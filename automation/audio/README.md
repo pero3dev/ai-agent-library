@@ -1,6 +1,6 @@
 # 音声学習の制作・運用
 
-記事を日本語の二人の対話に変換し、独立した台本検査、VOICEVOX Nemo による合成、音声検査を経て公開します。[要件](../../project/plans/engineering/audio-learning.md)と[導入・検証記録](../../project/records/2026-09-13/audio-learning-implementation.md)を参照してください。
+記事を日本語の二人の対話に変換し、独立した台本検査、VOICEVOX Nemo による合成、音声検査を経て公開します。[要件](../../project/plans/engineering/audio-learning.md)、[運用開始と受入の記録](../../project/records/2026-09-13/audio-learning-launch.md)、[実装の経緯](../../project/records/2026-09-13/audio-learning-implementation.md)を参照してください。
 
 ## サイトで聴く
 

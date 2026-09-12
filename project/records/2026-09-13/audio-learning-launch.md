@@ -41,7 +41,8 @@ Windowsのタスク名は `AI Agent Library - Audio Learning` です。4時間�
 - 実装[PR #35](https://github.com/pero3dev/ai-agent-library/pull/35)はmainへ反映し、[CI 34714897460](https://github.com/pero3dev/ai-agent-library/actions/runs/34714897460)のPages deployが成功しました。
 - 公開検査URLの修正[PR #36](https://github.com/pero3dev/ai-agent-library/pull/36)は `f668c2328ec36949d44bd5177beae4d30b16781b` としてmainへ反映。[CI 34715702761](https://github.com/pero3dev/ai-agent-library/actions/runs/34715702761)もdeployまで成功しました。
 - 初回カタログ[PR #37](https://github.com/pero3dev/ai-agent-library/pull/37)は10チェックを通過し、`983a0e00def0fa4bb82da5be18c80ac9f0d25188` としてmainへ反映しました。[main CI 34715968053](https://github.com/pero3dev/ai-agent-library/actions/runs/34715968053)はdeployまで成功し、公開証拠と音声一覧の200応答を確認しました。
-- 音声修復・CI待機の最終差分は[PR #38](https://github.com/pero3dev/ai-agent-library/pull/38)にまとめています。ローカル `npm run check` は431件すべて成功、skipなし。合成43件には実FFmpegによる不良断片の修復を含み、公開28件と両差分の独立レビューも完了しました。最終headのCIはPRのチェック欄で追跡できます。
+- 音声修復・CI待機の[PR #38](https://github.com/pero3dev/ai-agent-library/pull/38)はmainへ反映し、[CI 34717240915](https://github.com/pero3dev/ai-agent-library/actions/runs/34717240915)のdeployまで成功しました。ローカル `npm run check` は431件すべて成功、skipなし。合成43件には実FFmpegによる不良断片の修復を含み、公開28件と両差分の独立レビューも完了しました。
+- 公開待ちPRの更新順序は[PR #39](https://github.com/pero3dev/ai-agent-library/pull/39)で修正します。公開処理32件、全体435件がskipなしで成功し、独立レビューは指摘なしでした。最終CIはPRで、マージ・配信確認はローカルの `launch-completion.json` で追跡できます。
 - 2本とも実公開URLの先頭・末尾のRange/206と、全ファイルのSHA-256一致を確認しました。
 - 本番の実Chromeで2本の連続再生、速度変更、15秒移動、記事遷移中の再生、章の頭出し、再読み込み後の位置・速度の復元を確認しました。iPhone実機や人間による聴き取り評価ではありません。
 - 専用checkoutでの実wrapper起動では、main同期・依存準備・完成音声2本の再利用・カタログPR作成が成功しました。
@@ -50,6 +51,7 @@ Windowsのタスク名は `AI Agent Library - Audio Learning` です。4時間�
 ローカルの証拠はGit共通ディレクトリの `audio-learning/` にあります。
 
 - `signal-recovery-check.log`: 最終修復コードの全体検査。
+- `refresh-events-check.log` と `events-check-evidence.json`: 公開待ちPRの更新順序の検査と最終headの実CI。
 - `publication/probes/`: 実配信URL、Range、ハッシュ、サイズ、確認日時。
 - `evidence/audio-live-browser.json` と `evidence/audio-live-mobile.png`: 本番の実音声を使ったChromeの再生操作と画面。
 - `jobs/`: 原文・台本・レビュー・実音声・パート別の信号検査。
@@ -59,6 +61,14 @@ Windowsのタスク名は `AI Agent Library - Audio Learning` です。4時間�
 - `publication/pending-pr.json` と `publication/published-pr-*.json`: 公開待ちと公開確認後の証拠。存在・内容は進行に応じて変わります。
 
 ## 継続する制作と未検証事項
+
+### 公開待ちPRの更新順序
+
+PR #38の提出では、同じheadへのpushと本文更新が近接し、policy workflowのキャンセルが残ってGitHubのマージを止めました。キャンセルされた2実行を正規に再実行すると解消し、PR #38は `3ec24df27d07581c28f6276227414129f3f23ea2` としてmainへ反映しました。保護設定は変更していません。
+
+同じ条件が自動カタログ更新にもあるため、既存の自律継続の許可で、`fix/audio-refresh-events` をこのmainから作成しました。所有範囲は公開処理・その回帰試験・本記録と運用手順です。本文を旧headで先に揃えてから新headをpushし、head・本文・自動マージ状態・保存済みjournalの整合を維持します。独立レビュー、再開・途中変更の回帰、最終CIと公開確認を終了条件とします。
+
+### 制作と実機受入
 
 保留中のskill-mapは、自動修正で解消しなかった原文との不整合を確認し、原因を直した後だけ明示的に再試行します。通常の定期運用は保留記事を飛ばして次の記事へ進みます。完成済みの有効な台本・音声は再制作せず、新規・更新記事を順次扱います。
 

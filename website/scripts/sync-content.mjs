@@ -25,6 +25,7 @@ import remarkStringify from 'remark-stringify'
 import { unified } from 'unified'
 import { applyDecorations } from '../lib/doc-decorations.mjs'
 import { findUnsafeMdx } from '../lib/mdx-safety.mjs'
+import { audioSourceDigest, buildAudioCatalog } from '../lib/audio-catalog.mjs'
 import { readmeArticleOrder, rewriteMarkdownRoutes } from '../lib/markdown-routes.mjs'
 import { forEachLine, parseFrontMatter, parseTagsArray, toLines, unquote } from '../../scripts/lib/md-utils.mjs'
 
@@ -305,6 +306,11 @@ async function main() {
     if (file.repoRel.startsWith('docs/') && file.slug !== 'index') {
       articleMeta.push({
         title: getTitle(text),
+        article_path: file.repoRel,
+        source_digest: audioSourceDigest(text),
+        section: file.section,
+        section_title: SECTION_TITLES[file.section] ?? file.section,
+        status: getFrontMatterField(text, 'status'),
         route: routeMap.get(file.repoRel),
         level: getFrontMatterField(text, 'level'),
         tags: getFrontMatterTags(text)
@@ -374,6 +380,15 @@ async function main() {
     .map(([tag, articles]) => ({ tag, count: articles.length, articles }))
     .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag))
   await writeFile(path.join(GEN_DIR, 'tags.json'), JSON.stringify(tagsJson, null, 2), 'utf8')
+
+  // Public audio metadata is versioned source; playback data is generated with current article hashes.
+  const audioFixture = process.env.AUDIO_TEST_CATALOG
+  if (audioFixture && (audioFixture !== 'tests/browser/fixtures/audio-catalog.json' || process.env.NEXT_PUBLIC_BASE_PATH !== '/__audio-test')) {
+    throw new Error('音声テスト用カタログは専用 fixture と /__audio-test ベースパスでのみ利用できます')
+  }
+  const audioSource = JSON.parse(await readFile(path.join(WEBSITE_ROOT, audioFixture || 'audio/catalog.json'), 'utf8'))
+  const audioArticles = articleMeta.filter(a => a.status === 'published').map(({ article_path, source_digest, title, route, section, section_title }) => ({ article_path, source_digest, title, route, section, section_title }))
+  await writeFile(path.join(GEN_DIR, 'audio.json'), JSON.stringify(buildAudioCatalog(audioSource, audioArticles, { testOnly: Boolean(audioFixture) }), null, 2), 'utf8')
 
   // 手書きページ(content-src/)を最後に重ねる(同名は手書きが勝つ)
   await cp(CONTENT_SRC, OUT_DIR, { recursive: true, force: true })

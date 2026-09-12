@@ -6,6 +6,7 @@
   "scripts": {
     "test": "node --test tests/unit/*.test.mjs",
     "test:browser": "playwright test",
+    "test:audio": "playwright test audio",
     "sync": "node scripts/sync-content.mjs",
     "predev": "npm run sync",
     "dev": "next dev",

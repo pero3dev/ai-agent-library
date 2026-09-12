@@ -14,7 +14,8 @@
     { "id": "website-unit", "job": "build", "command": "npm test", "cwd": "website", "os": ["linux", "win32"], "evidence": "unit", "prerequisites": ["website npm ci"] },
     { "id": "website-audit", "job": "build", "command": "npm audit --audit-level=high", "cwd": "website", "os": ["linux", "win32"], "evidence": "dependency-audit", "prerequisites": ["website npm ci", "network"] },
     { "id": "website-build", "job": "build", "command": "npm run build:clean", "cwd": "website", "os": ["linux", "win32"], "evidence": "build-and-static-html", "prerequisites": ["website npm ci", "STATIC_EXPORT=1", "Pages base path"] },
-    { "id": "browser", "job": "build", "command": "npm run test:browser", "cwd": "website", "os": ["linux", "win32"], "evidence": "browser", "prerequisites": ["website static build", "Playwright Chromium"] }
+    { "id": "browser", "job": "build", "command": "npm run test:browser", "cwd": "website", "os": ["linux", "win32"], "evidence": "browser", "prerequisites": ["website static build", "Playwright Chromium"] },
+    { "id": "audio-browser", "job": "audio-browser", "command": "npm run test:audio", "cwd": "website", "os": ["linux", "win32"], "evidence": "browser", "prerequisites": ["isolated audio fixture static build", "Playwright Chromium"] }
   ],
   "external_evidence": ["independent-review", "actual-agent", "github-pr-and-ci", "pages-publication"],
   "excluded_actions": ["deploy", "paid-api", "credential-copy"]

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "claude_command": "claude",
+  "claude_model": "sonnet",
+  "claude_timeout_seconds": 900,
+  "engine_url": "http://127.0.0.1:50121",
+  "ffmpeg_path": "ffmpeg",
+  "ffprobe_path": "ffprobe",
+  "voices": {
+    "listener": { "speaker_id": 10005, "name": "女声1", "license_url": "https://voicevox.hiroshiba.jp/nemo/term/" },
+    "explainer": { "speaker_id": 10001, "name": "男声1", "license_url": "https://voicevox.hiroshiba.jp/nemo/term/" }
+  },
+  "attribution": "VOICEVOX Nemo（女声1・男声1）",
+  "synthesis": { "speed_scale": 1, "max_chunk_chars": 180, "bitrate_kbps": 64 },
+  "max_repair_attempts": 2,
+  "max_articles_per_run": 1,
+  "inter_article_delay_seconds": 60,
+  "quota_retry_hours": 6
+}

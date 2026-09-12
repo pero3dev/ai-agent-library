@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-09-13T00:00:00Z",
+  "episodes": [
+    {
+      "id": "audio-test-agent-loop-v1",
+      "article_path": "docs/01-concepts/agent-loop.md",
+      "source_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "title": "再生試験: Agent ループ",
+      "part": 1,
+      "parts": 1,
+      "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-test/agent-loop.mp3",
+      "duration_seconds": 60,
+      "chapters": [
+        { "id": "intro", "title": "試験用の導入", "start_seconds": 0 },
+        { "id": "details", "title": "試験用の仕組み", "start_seconds": 20 }
+      ],
+      "published_at": "2026-09-13T00:00:00Z",
+      "audio_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "script_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "voices": [
+        { "id": "fixture-listener", "name": "試験用聞き手", "role": "listener" },
+        { "id": "fixture-explainer", "name": "試験用解説者", "role": "explainer" }
+      ],
+      "attribution": "ブラウザー試験専用の合成トーン"
+    },
+    {
+      "id": "audio-test-tool-use-v1",
+      "article_path": "docs/01-concepts/tool-use.md",
+      "source_digest": "f0b624d181a9464bcb3304978515aff60a40cd82cfad39dc726eb73c74e1aded",
+      "title": "再生試験: ツール使用",
+      "part": 1,
+      "parts": 1,
+      "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-test/tool-use.mp3",
+      "duration_seconds": 60,
+      "chapters": [
+        { "id": "intro", "title": "試験用の導入", "start_seconds": 0 },
+        { "id": "details", "title": "試験用の仕組み", "start_seconds": 20 }
+      ],
+      "published_at": "2026-09-13T00:00:00Z",
+      "audio_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "script_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "voices": [
+        { "id": "fixture-listener", "name": "試験用聞き手", "role": "listener" },
+        { "id": "fixture-explainer", "name": "試験用解説者", "role": "explainer" }
+      ],
+      "attribution": "ブラウザー試験専用の合成トーン"
+    }
+  ]
+}

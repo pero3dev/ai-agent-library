@@ -1,6 +1,7 @@
 # PR 自身が検査定義を書き換えられないよう、default branch の workflow を使用する。
 # PR の tree は Git のデータとしてのみ読む。checkout・npm install・候補コードの実行は禁止。
 name: Freshness policy
+run-name: 'Freshness policy PR #${{ github.event.pull_request.number }}'
 
 on:
   pull_request_target:
@@ -49,6 +50,9 @@ jobs:
         if: steps.scope.outputs.enabled == 'true'
         with:
           node-version: 22
+      - name: Install trusted base dependencies without lifecycle scripts
+        if: steps.scope.outputs.enabled == 'true'
+        run: npm ci --ignore-scripts
       - name: Verify evidence and allowed changes using trusted base
         if: steps.scope.outputs.enabled == 'true'
         env:

@@ -5,7 +5,29 @@ import { execFileSync } from 'node:child_process';
 import { formatCommitMessage } from './git-conventions.mjs';
 
 const RUN_ID = /^[a-z0-9][a-z0-9-]{1,79}$/;
+const SHA = /^[a-f0-9]{40}$/;
+const ATTEMPT_ID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
 export const git = (root, ...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+export function commitTree(root, commit) {
+  if (!SHA.test(commit ?? '') || git(root, 'cat-file', '-t', commit) !== 'commit') throw new Error('A locally available candidate commit SHA is required');
+  const tree = git(root, 'rev-parse', `${commit}^{tree}`);
+  if (!SHA.test(tree)) throw new Error('Invalid candidate tree');
+  return tree;
+}
+/** Finish from the reviewed branch, the verified merge, or a fetched main containing that merge. */
+export function assertPublicationCheckout(root, result) {
+  if (!result?.verified || !SHA.test(result.merge_sha ?? '') || !SHA.test(result.merge_tree_sha ?? '') || commitTree(root, result.head_sha) !== result.head_tree_sha) throw new Error('Publication evidence does not match the local candidate');
+  if (git(root, 'status', '--porcelain=v1', '--untracked-files=all')) throw new Error('Publication completion requires a clean worktree');
+  const current = git(root, 'rev-parse', 'HEAD');
+  if (current === result.head_sha) return;
+  if (commitTree(root, result.merge_sha) !== result.merge_tree_sha) throw new Error('Fetch the verified merge before completing from main');
+  if (current === result.merge_sha) return;
+  let main = null;
+  try { main = git(root, 'rev-parse', 'refs/remotes/origin/main'); } catch { /* A detached merge is accepted above. */ }
+  if (current !== main) throw new Error('Current checkout is neither the candidate nor verified main');
+  try { git(root, 'merge-base', '--is-ancestor', result.merge_sha, current); }
+  catch { throw new Error('Current main does not contain the verified merge'); }
+}
 export function isPreservablePath(file) {
   if (typeof file !== 'string' || !file || path.isAbsolute(file) || file.includes('\\') || file.includes(':') || file.split('/').some(part => !part || part === '.' || part === '..')) return false;
   const lower = file.toLowerCase();
@@ -73,11 +95,27 @@ export function writeJson(file, value) {
 export function assertRunId(id) {
   if (typeof id !== 'string' || !RUN_ID.test(id)) throw new Error('Invalid run ID');
 }
+function assertLockPaths(dir) {
+  dir = path.resolve(dir);
+  const anchor = path.parse(dir).root;
+  assertNoLinkedTargets(anchor, [path.relative(anchor, dir)]);
+  assertNoLinkedTargets(dir, ['lock', 'lock/owner.json', 'lock-mutex']);
+  for (const [file, directory] of [[dir, true], [path.join(dir, 'lock'), true], [path.join(dir, 'lock-mutex'), true], [path.join(dir, 'lock', 'owner.json'), false]]) {
+    let stat;
+    try { stat = fs.lstatSync(file); } catch (error) { if (error.code !== 'ENOENT') throw error; }
+    if (stat && !(directory ? stat.isDirectory() : stat.isFile())) throw new Error('Invalid lock path type; preserve it for inspection');
+  }
+}
 export function readLock(dir) {
+  assertLockPaths(dir);
   const file = path.join(dir, 'lock', 'owner.json');
-  return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : null;
+  if (!fs.existsSync(file)) return null;
+  const owner = JSON.parse(fs.readFileSync(file, 'utf8'));
+  if (!owner || !['run_id', 'attempt_id', 'started_at', 'expires_at'].every(key => typeof owner[key] === 'string') || !RUN_ID.test(owner.run_id) || !ATTEMPT_ID.test(owner.attempt_id) || !Number.isFinite(Date.parse(owner.started_at)) || !Number.isFinite(Date.parse(owner.expires_at))) throw new Error('Invalid lock owner; preserve it for inspection');
+  return owner;
 }
 export function withLockMutex(dir, action) {
+  assertLockPaths(dir);
   fs.mkdirSync(dir, { recursive: true });
   const mutex = path.join(dir, 'lock-mutex');
   try { fs.mkdirSync(mutex); }
@@ -86,7 +124,7 @@ export function withLockMutex(dir, action) {
     throw error;
   }
   try { return action(); }
-  finally { fs.rmdirSync(mutex); }
+  finally { assertLockPaths(dir); fs.rmdirSync(mutex); }
 }
 export function acquireLock(dir, runId, now = new Date()) {
   assertRunId(runId);
@@ -127,7 +165,7 @@ export function releaseLockIfOwned(dir, runId, attemptId) {
   });
 }
 export function assertOwner(dir, id, attemptId) {
-  if (typeof attemptId !== 'string' || !/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(attemptId)) throw new Error('A valid lock attempt_id is required');
+  if (typeof attemptId !== 'string' || !ATTEMPT_ID.test(attemptId)) throw new Error('A valid lock attempt_id is required');
   const owner = readLock(dir);
   if (!owner || owner.run_id !== id || (attemptId && owner.attempt_id !== attemptId) || Date.parse(owner.expires_at) <= Date.now()) throw new Error('Run does not own the current lock attempt; stop before GitHub writes.');
 }

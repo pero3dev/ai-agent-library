@@ -5,7 +5,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { git, snapshotOwned, isPreservablePath, assertRunId, readLock, acquireLock, releaseLock, releaseLockIfOwned, assertOwner, assertNoLinkedTargets, withLockMutex, saveGeneration, recoverGeneration, queuedRuns, budgetStatus } from './lib/harness-state.mjs';
+import { git, commitTree, assertPublicationCheckout, snapshotOwned, isPreservablePath, assertRunId, readLock, acquireLock, releaseLock, releaseLockIfOwned, assertOwner, assertNoLinkedTargets, withLockMutex, saveGeneration, recoverGeneration, queuedRuns, budgetStatus } from './lib/harness-state.mjs';
 
 const moduleRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const sha = /^[a-f0-9]{40}$/;
@@ -109,11 +109,21 @@ function localCheck(root, { timeoutMs = 15 * 60000 } = {}) {
   if (run.error || run.status !== 0) throw new Error(`npm run check failed: ${run.error?.message ?? (run.stderr || run.stdout).slice(-4000)}`);
   return { type: 'local', command: 'npm run check', passed: true, started_at: start.toISOString(), completed_at: new Date().toISOString(), node: process.version };
 }
+function verifiedCandidate(root, record) {
+  const local = record.verification?.local;
+  if (!local?.passed || !sha.test(local.tree_sha ?? '')) throw new Error('Final candidate needs a successful local verify');
+  const head = record.head_sha ?? local.commit_sha ?? git(root, 'rev-parse', 'HEAD');
+  if ((local.commit_sha && local.commit_sha !== head) || commitTree(root, head) !== local.tree_sha) throw new Error('PR head does not match the locally verified candidate; verify the final candidate again');
+  return { head, tree: local.tree_sha };
+}
 async function externalCheck(root, record, deps) {
+  const candidate = verifiedCandidate(root, record);
   const verify = deps.verifyGithubEvidence ?? (await import('./lib/github-evidence.mjs')).verifyGithubEvidence;
-  const result = verify({ root, prUrl: record.pr_url, expectedHead: record.head_sha ?? git(root, 'rev-parse', 'HEAD'), requirePublication: record.completion === 'published', publicationUrls: record.publication_urls ?? [] });
+  const result = verify({ root, prUrl: record.pr_url, expectedHead: candidate.head, expectedTree: candidate.tree, requirePublication: record.completion === 'published', publicationUrls: record.publication_urls ?? [] });
   if (!result?.verified || !sha.test(result.merge_sha ?? '')) throw new Error('GitHub verification did not establish a merge');
+  if (result.head_sha !== candidate.head || result.head_tree_sha !== candidate.tree) throw new Error('GitHub verification changed the candidate');
   if (record.completion === 'published' && !result.publication?.verified) throw new Error('Publication was not verified');
+  assertPublicationCheckout(root, result);
   return result;
 }
 
@@ -162,7 +172,15 @@ export async function main(argv = process.argv.slice(2), deps = {}) {
   if (options['dry-run'] && command !== 'resume') return { dry_run: true, command, run_id: record.run_id, completion: record.completion, owned_paths: record.owned_paths, external_verification_required: ['merged', 'published'].includes(record.completion) };
   if (input) {
     for (const field of ['profile', 'goal', 'authorization', 'owned_paths', 'completion', 'base_sha']) if (JSON.stringify(input[field]) !== JSON.stringify(record[field])) throw new Error(`Cannot change stored contract field: ${field}`);
+    const changedPublication = ['pr_url', 'head_sha'].some(field => Object.hasOwn(input, field) && input[field] !== record[field]);
     for (const field of ['notes', 'pending', 'pr_url', 'head_sha', 'publication_urls', 'review', 'queue_state', 'next_eligible_at', 'wait_reason']) if (Object.hasOwn(input, field)) record[field] = input[field];
+    if (changedPublication) {
+      if (record.verification) delete record.verification.github;
+      delete record.github_verification;
+      if (record.head_sha && record.verification?.local && (record.verification.local.commit_sha && record.verification.local.commit_sha !== record.head_sha || commitTree(root, record.head_sha) !== record.verification.local.tree_sha)) {
+        delete record.verification.local; delete record.review;
+      }
+    }
   }
   if (command === 'resume') {
     if (options.ready) { if (!options['wait-reason']) throw new Error('--ready requires --wait-reason describing the resolved wait'); record.queue_state = 'ready'; record.next_eligible_at = null; record.wait_reason = options['wait-reason']; }
@@ -222,12 +240,17 @@ export async function main(argv = process.argv.slice(2), deps = {}) {
   if (command === 'verify') {
     if (budget.must_save) throw new Error('Save a checkpoint before starting more verification: run budget reached');
     const tree = git(root, 'rev-parse', 'HEAD^{tree}');
+    const commit = git(root, 'rev-parse', 'HEAD');
     if (git(root, 'status', '--porcelain=v1', '--untracked-files=all')) throw new Error('Commit the reviewed candidate before verify so evidence binds to its exact tree');
     const timeoutMs = Math.max(1, Math.min(15 * 60000, Date.parse(record.budget.deadline_at) - now.getTime() - record.budget.save_margin_seconds * 1000));
     const evidence = options.external ? await externalCheck(root, record, deps) : (deps.runLocalCheck ?? localCheck)(root, { timeoutMs });
     if (!evidence?.verified && !evidence?.passed) throw new Error('Verification did not pass');
-    if (git(root, 'rev-parse', 'HEAD^{tree}') !== tree || git(root, 'status', '--porcelain=v1', '--untracked-files=all')) throw new Error('Candidate changed during verification');
-    record.verification = { ...record.verification, [options.external ? 'github' : 'local']: { ...evidence, tree_sha: tree } };
+    if (git(root, 'rev-parse', 'HEAD') !== commit || git(root, 'status', '--porcelain=v1', '--untracked-files=all')) throw new Error('Candidate changed during verification');
+    if (!options.external && record.verification?.local?.commit_sha !== commit) {
+      if (record.verification) delete record.verification.github;
+      delete record.github_verification;
+    }
+    record.verification = { ...record.verification, [options.external ? 'github' : 'local']: { ...evidence, commit_sha: options.external ? evidence.head_sha : commit, tree_sha: options.external ? evidence.head_tree_sha : tree } };
     record = save(dir, locks, record, now);
     return { verified: true, record };
   }
@@ -238,7 +261,7 @@ export async function main(argv = process.argv.slice(2), deps = {}) {
     if (['held', 'failed'].includes(outcome)) Object.assign(record, snapshot(root, dir, record, profile));
     if (outcome === 'observed' && (git(root, 'diff', '--name-only', record.base_sha, 'HEAD', '--', ...record.owned_paths) || git(root, 'status', '--porcelain=v1', '--untracked-files=all'))) throw new Error('Observed completion requires no candidate changes');
     if (!['held', 'failed', 'observed'].includes(outcome)) {
-      const tree = git(root, 'rev-parse', 'HEAD^{tree}');
+      const tree = ['merged', 'published'].includes(outcome) ? verifiedCandidate(root, record).tree : git(root, 'rev-parse', 'HEAD^{tree}');
       if (git(root, 'status', '--porcelain=v1', '--untracked-files=all') || record.verification?.local?.tree_sha !== tree || !record.verification.local.passed) throw new Error('Final candidate needs a successful local verify');
       if (profile.review_required && (record.review?.decision !== 'approved' || record.review?.tree_sha !== tree || !record.review.reviewer_run_id || record.review.reviewer_run_id === record.run_id)) throw new Error('Final candidate needs an independent approved review record');
       if (['merged', 'published'].includes(outcome)) record.github_verification = await externalCheck(root, record, deps);

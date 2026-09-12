@@ -287,7 +287,7 @@ test('final completion requires current local evidence and performs GitHub verif
   await assert.rejects(f.run('finish', '--run-id', record.run_id, '--attempt-id', record.attempt_id), /local verify/);
   await f.run('verify', '--run-id', record.run_id, '--attempt-id', record.attempt_id);
   let calls = 0;
-  f.deps.verifyGithubEvidence = () => { calls++; return { verified: true, merge_sha: '1'.repeat(40), publication: { verified: true } }; };
+  f.deps.verifyGithubEvidence = options => { calls++; return publication(f, options.expectedHead); };
   await f.run('verify', '--run-id', record.run_id, '--attempt-id', record.attempt_id, '--external');
   assert.equal(calls, 1);
   f.deps.verifyGithubEvidence = () => { calls++; throw new Error('current GitHub check failed'); };
@@ -303,4 +303,124 @@ test('unsupported stored schema is reported without automatic migration', async 
   assert.equal(status.compatibility.migration_required, true);
   assert.equal(status.compatibility.automatic_migration, false);
   assert.equal(fs.readFileSync(file, 'utf8'), legacy);
+});
+
+function publication(f, head = f.git('rev-parse', 'HEAD'), merge = head) {
+  return { verified: true, head_sha: head, head_tree_sha: f.git('rev-parse', `${head}^{tree}`), merge_sha: merge, merge_tree_sha: f.git('rev-parse', `${merge}^{tree}`), publication: { verified: true } };
+}
+
+test('completion rejects a stale PR candidate without overwriting the locally verified tree', async t => {
+  const f = fixture(t);
+  json(f.contract, { ...JSON.parse(fs.readFileSync(f.contract)), completion: 'published' });
+  const record = await active(f), old = f.git('rev-parse', 'HEAD');
+  fs.writeFileSync(path.join(f.root, 'scripts/example.mjs'), 'updated candidate\n');
+  f.git('add', '.'); f.git('commit', '-m', 'Updated candidate');
+  const verified = await f.run('verify', '--run-id', record.run_id, '--attempt-id', record.attempt_id);
+  assert.equal(verified.record.verification.local.commit_sha, f.git('rev-parse', 'HEAD'));
+  const input = path.join(f.directory, 'stale-pr.json');
+  json(input, { ...verified.record, pr_url: 'https://github.com/pero3dev/ai-agent-library/pull/1', head_sha: old });
+  let called = false;
+  f.deps.verifyGithubEvidence = () => { called = true; return publication(f, old); };
+  await assert.rejects(f.run('finish', '--run', input, '--attempt-id', record.attempt_id), /local verify|verified candidate/);
+  assert.equal(called, false);
+  assert.equal((await f.run('status')).records[0].status, 'in_progress');
+  await release(f, record);
+});
+
+test('publication must return the same API head tree requested by local verification', async t => {
+  const f = fixture(t);
+  json(f.contract, { ...JSON.parse(fs.readFileSync(f.contract)), completion: 'published' });
+  const record = await active(f);
+  await f.run('verify', '--run-id', record.run_id, '--attempt-id', record.attempt_id);
+  f.deps.verifyGithubEvidence = options => {
+    assert.equal(options.expectedTree, f.git('rev-parse', 'HEAD^{tree}'));
+    return { ...publication(f), head_tree_sha: '1'.repeat(40) };
+  };
+  await assert.rejects(f.run('finish', '--run-id', record.run_id, '--attempt-id', record.attempt_id), /changed the candidate/);
+  f.deps.verifyGithubEvidence = () => publication(f);
+  assert.equal((await f.run('finish', '--run-id', record.run_id, '--attempt-id', record.attempt_id)).outcome, 'published');
+});
+
+test('published completion preserves a newer unpublished checkout instead of finishing the old candidate', async t => {
+  const f = fixture(t);
+  json(f.contract, { ...JSON.parse(fs.readFileSync(f.contract)), completion: 'published' });
+  const record = await active(f), proof = publication(f);
+  await f.run('verify', '--run-id', record.run_id, '--attempt-id', record.attempt_id);
+  fs.writeFileSync(path.join(f.root, 'scripts/example.mjs'), 'later unpublished work\n');
+  f.git('add', '.'); f.git('commit', '-m', 'Unpublished later work');
+  f.deps.verifyGithubEvidence = () => proof;
+  await assert.rejects(f.run('finish', '--run-id', record.run_id, '--attempt-id', record.attempt_id), /neither the candidate/);
+  assert.equal(fs.readFileSync(path.join(f.root, 'scripts/example.mjs'), 'utf8'), 'later unpublished work\n');
+  assert.equal((await f.run('status')).records[0].status, 'in_progress');
+  await release(f, record);
+});
+
+for (const laterMain of [false, true]) test(`publication resumes after a merge with a different tree${laterMain ? ' and later main' : ''}`, async t => {
+  const f = fixture(t);
+  json(f.contract, { ...JSON.parse(fs.readFileSync(f.contract)), completion: 'published' });
+  const record = await active(f);
+  fs.writeFileSync(path.join(f.root, 'scripts/example.mjs'), 'reviewed candidate\n');
+  f.git('add', '.'); f.git('commit', '-m', 'Reviewed candidate');
+  const head = f.git('rev-parse', 'HEAD'), input = path.join(f.directory, 'publication.json');
+  json(input, { ...record, pr_url: 'https://github.com/pero3dev/ai-agent-library/pull/1', head_sha: head });
+  await f.run('verify', '--run', input, '--attempt-id', record.attempt_id);
+  await release(f, record);
+  f.git('switch', 'main');
+  fs.writeFileSync(path.join(f.root, 'other-main.txt'), 'independent main change\n');
+  f.git('add', '.'); f.git('commit', '-m', 'Main change');
+  f.git('merge', '--no-ff', '-m', 'Merge reviewed candidate', head);
+  const merge = f.git('rev-parse', 'HEAD'), proof = publication(f, head, merge);
+  assert.notEqual(proof.head_tree_sha, proof.merge_tree_sha);
+  if (laterMain) {
+    fs.writeFileSync(path.join(f.root, 'later-main.txt'), 'later main change\n');
+    f.git('add', '.'); f.git('commit', '-m', 'Later main');
+  }
+  f.git('update-ref', 'refs/remotes/origin/main', 'HEAD');
+  f.deps.readPullRequest = () => ({ state: 'MERGED', headRefOid: head, mergeCommit: { oid: merge } });
+  f.deps.verifyGithubEvidence = options => { assert.equal(options.expectedTree, proof.head_tree_sha); return proof; };
+  const resumed = await f.run('resume', '--run-id', record.run_id);
+  assert.equal(resumed.verification.local.commit_sha, head);
+  assert.equal((await f.run('finish', '--run-id', record.run_id, '--attempt-id', resumed.attempt_id)).outcome, 'published');
+});
+
+for (const entry of ['', 'lock', 'lock-mutex', 'lock/owner.json']) test(`lock operations reject a linked ${entry || 'storage root'} before external writes`, async t => {
+  const f = fixture(t), outside = path.join(f.directory, 'outside');
+  fs.mkdirSync(outside);
+  const target = path.join(f.locks, entry);
+  fs.mkdirSync(path.dirname(target), { recursive: true });
+  // A directory junction in the owner-file slot must also fail before a read or write.
+  fs.symlinkSync(outside, target, process.platform === 'win32' ? 'junction' : 'dir');
+  assert.throws(() => readLock(f.locks), /symlink/);
+  await assert.rejects(active(f), /symlink/);
+  assert.throws(() => releaseLock(f.locks, 'run-one'), /symlink/);
+  assert.deepEqual(fs.readdirSync(outside), []);
+});
+
+test('lock root ancestor links and malformed owners fail closed', t => {
+  const f = fixture(t), outside = path.join(f.directory, 'outside');
+  fs.mkdirSync(outside);
+  const alias = path.join(f.directory, 'alias');
+  fs.symlinkSync(outside, alias, process.platform === 'win32' ? 'junction' : 'dir');
+  assert.throws(() => acquireLock(path.join(alias, 'nested'), 'run-one'), /symlink/);
+  assert.deepEqual(fs.readdirSync(outside), []);
+  const owner = acquireLock(f.locks, 'run-one');
+  json(path.join(f.locks, 'lock', 'owner.json'), { ...owner, expires_at: 'not-a-date' });
+  assert.throws(() => readLock(f.locks), /Invalid lock owner/);
+  assert.throws(() => releaseLock(f.locks, 'run-one', owner.attempt_id), /Invalid lock owner/);
+  assert.equal(fs.existsSync(path.join(f.locks, 'lock', 'owner.json')), true);
+});
+
+test('dangling lock roots and a directory in the owner-file slot are rejected without replacing them', async t => {
+  const f = fixture(t), missing = path.join(f.directory, 'missing');
+  fs.symlinkSync(missing, f.locks, process.platform === 'win32' ? 'junction' : 'dir');
+  assert.throws(() => readLock(f.locks), /symlink/);
+  await assert.rejects(active(f), /symlink/);
+  assert.equal(fs.existsSync(missing), false);
+  fs.unlinkSync(f.locks);
+  const ownerDirectory = path.join(f.locks, 'lock', 'owner.json');
+  fs.mkdirSync(ownerDirectory, { recursive: true });
+  assert.throws(() => readLock(f.locks), /Invalid lock path type/);
+  assert.throws(() => acquireLock(f.locks, 'run-one'), /Invalid lock path type/);
+  assert.equal(fs.statSync(ownerDirectory).isDirectory(), true);
+  assert.equal(fs.existsSync(path.join(f.locks, 'lock-mutex')), false);
 });

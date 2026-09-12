@@ -1,5 +1,6 @@
 # 候補 tree は Git のデータとしてだけ読み、候補コード・設定・依存を実行しない。
 name: Harness policy
+run-name: 'Harness policy PR #${{ github.event.pull_request.number }}'
 
 on:
   pull_request_target:

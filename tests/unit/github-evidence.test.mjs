@@ -1,14 +1,17 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import { isWithinPages, parsePrUrl, validateGithubSnapshot } from '../../scripts/lib/github-evidence.mjs'
+import { requiredChecks, requiredWorkflows } from '../../scripts/lib/github-policy.mjs'
 
 const head = 'a'.repeat(40), merge = 'b'.repeat(40), repo = 'owner/library'
+const headTree = 'c'.repeat(40), mergeTree = 'd'.repeat(40), headBranch = 'fix/example'
 function fixture() {
-  const names = ['lint', 'actionlint', 'docs', 'examples', 'build', 'freshness-policy', 'harness', 'harness-windows', 'harness-policy']
+  const names = requiredChecks
   const checks = names.map((name, i) => ({ id: i + 1, name, app: { id: 15368 }, head_sha: head, check_suite: { id: i + 10 }, status: 'completed', conclusion: 'success', details_url: `https://github.com/${repo}/actions/runs/${i + 1}/job/${i + 1}` }))
-  const workflows = Object.fromEntries(checks.map(c => [c.id, { head_sha: head, check_suite_id: c.check_suite.id, event: c.name.endsWith('-policy') ? 'pull_request_target' : 'pull_request', path: `.github/workflows/${c.name.endsWith('-policy') ? c.name : 'ci'}.yml`, status: 'completed', conclusion: 'success' }]))
+  const workflows = Object.fromEntries(checks.map(c => [c.id, { head_sha: head, head_branch: headBranch, repository: { id: 10, full_name: repo }, head_repository: { id: 10, full_name: repo }, pull_requests: [], display_title: `${requiredWorkflows[c.name].runName ?? 'CI PR #'}1`, check_suite_id: c.check_suite.id, event: c.name.endsWith('-policy') ? 'pull_request_target' : 'pull_request', path: `.github/workflows/${c.name.endsWith('-policy') ? c.name : 'ci'}.yml`, status: 'completed', conclusion: 'success' }]))
   return {
-    pr: { html_url: `https://github.com/${repo}/pull/1`, base: { ref: 'main', repo: { full_name: repo } }, head: { sha: head }, merged: true, merge_commit_sha: merge },
+    pr: { number: 1, html_url: `https://github.com/${repo}/pull/1`, base: { ref: 'main', repo: { id: 10, full_name: repo } }, head: { sha: head, ref: headBranch, repo: { id: 10, full_name: repo } }, merged: true, merge_commit_sha: merge },
+    headCommit: { sha: head, tree: { sha: headTree } }, mergeCommit: { sha: merge, tree: { sha: mergeTree } },
     protection: { required_status_checks: { strict: true, checks: names.map(context => ({ context, app_id: 15368 })) }, enforce_admins: { enabled: true } }, checks, workflows,
     mainRuns: [{ id: 90, head_sha: merge, head_branch: 'main', event: 'push', path: '.github/workflows/ci.yml', status: 'completed', conclusion: 'success' }],
     mainJobs: { 90: [{ id: 91, name: 'deploy', status: 'completed', conclusion: 'success', html_url: `https://github.com/${repo}/actions/runs/90/job/91` }] },
@@ -21,9 +24,56 @@ const options = { repo, expectedHead: head, requirePublication: true }
 test('current PR, required workflows and exact merge deployment pass as separate states', () => {
   const result = validateGithubSnapshot(fixture(), options)
   assert.equal(result.merge_sha, merge)
+  assert.equal(result.head_tree_sha, headTree)
+  assert.equal(result.merge_tree_sha, mergeTree)
   assert.equal(result.publication.verified, true)
   assert.equal(result.verified, undefined, 'pure fixture validation is not a live API observation')
   assert.equal(validateGithubSnapshot(fixture(), { ...options, requirePublication: false }).publication.verified, false)
+})
+
+for (const name of requiredChecks) test(`removing required ${name} cannot weaken the accepted baseline`, () => {
+  const s = fixture()
+  s.protection.required_status_checks.checks = s.protection.required_status_checks.checks.filter(item => item.context !== name)
+  s.checks = s.checks.filter(item => item.name !== name)
+  assert.throws(() => validateGithubSnapshot(s, options), /必須チェック/)
+})
+
+test('GitHub commit trees bind the PR to the locally verified candidate, independently of merge changes', () => {
+  assert.equal(validateGithubSnapshot(fixture(), { ...options, expectedTree: headTree }).merge_tree_sha, mergeTree)
+  assert.throws(() => validateGithubSnapshot(fixture(), { ...options, expectedTree: mergeTree }), /検証済み候補/)
+  for (const key of ['headCommit', 'mergeCommit']) {
+    const s = fixture()
+    s[key].sha = 'e'.repeat(40)
+    assert.throws(() => validateGithubSnapshot(s, options), /commit \/ tree/)
+  }
+})
+
+for (const [name, mutate] of [
+  ['same SHA on an alias branch', s => { s.workflows[6].head_branch = 'chore/alias' }],
+  ['another head repository', s => { s.workflows[6].head_repository = { id: 20, full_name: 'other/library' } }],
+  ['same repository name with another ID', s => { s.workflows[6].repository.id = 20 }],
+  ['same repository ID with another full name', s => { s.workflows[6].repository.full_name = 'other/library' }],
+  ['another policy PR event', s => { s.workflows[6].display_title = 'Freshness policy PR #2' }],
+  ['old policy without event binding', s => { s.workflows[9].display_title = 'A former PR title' }],
+  ['another related PR', s => { s.workflows[6].pull_requests = [{ number: 2 }] }],
+  ['missing relation data', s => { delete s.workflows[6].pull_requests }],
+  ['PR URL with another number', s => { s.pr.html_url = `https://github.com/${repo}/pull/2` }],
+]) test(`${name} cannot supply target PR policy evidence`, () => {
+  const s = fixture(); mutate(s)
+  assert.throws(() => validateGithubSnapshot(s, options), /不一致|結合|関連|PR/)
+})
+
+test('empty post-merge PR arrays require the immutable policy run name; exact fork identity is supported', () => {
+  const s = fixture()
+  s.pr.head.repo = { id: 20, full_name: 'contributor/library' }
+  for (const run of Object.values(s.workflows)) run.head_repository = { ...s.pr.head.repo }
+  assert.equal(validateGithubSnapshot(s, options).head_sha, head)
+  for (const run of Object.values(s.workflows)) run.pull_requests = [{
+    number: 1, head: { sha: head, ref: headBranch, repo: { id: 20 } }, base: { ref: 'main', repo: { id: 10 } }
+  }]
+  assert.equal(validateGithubSnapshot(s, options).head_sha, head)
+  s.workflows[9].pull_requests[0].head.repo.id = 30
+  assert.throws(() => validateGithubSnapshot(s, options), /別の PR/)
 })
 for (const [name, mutate, pattern] of [
   ['another head', s => { s.pr.head.sha = 'c'.repeat(40) }, /head/],

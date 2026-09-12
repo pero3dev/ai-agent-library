@@ -15,12 +15,15 @@ import { validateDoc } from './lib/validate-core.mjs'
 import { parseMarkdownLinks } from './lib/markdown-links.mjs'
 import { parseFrontMatter, parseScalar, splitLocalDestination, toLines } from './lib/md-utils.mjs'
 import { GENERATED_DIRS, GENERATED_FILES } from './lib/hook-core.mjs'
+import { requiredChecks } from './lib/github-policy.mjs'
+import { referenceComparable } from './lib/reference-comparison.mjs'
+
+export { requiredChecks }
 
 const schema = JSON.parse(readFileSync(new URL('./schemas/harness-change.schema.json', import.meta.url), 'utf8'))
 const articlePattern = /^docs\/[0-9]{2}-[a-z0-9-]+\/[a-z0-9-]+\.md$/
 const articleCandidate = file => file.startsWith('docs/') && /\.md$/i.test(file) && path.posix.basename(file) !== 'README.md'
 const manifestPattern = /^harness\/changes\/([a-z0-9][a-z0-9-]{3,79})\.json$/
-export const requiredChecks = Object.freeze(['lint', 'actionlint', 'docs', 'examples', 'build', 'freshness-policy', 'harness', 'harness-windows', 'harness-policy'])
 const assert = (ok, message) => { if (!ok) throw new Error(message) }
 const git = (cwd, args) => execFileSync('git', ['--no-pager', ...args], { cwd, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'] })
 const sha = (value, label) => assert(typeof value === 'string' && /^[a-f0-9]{40}$/.test(value), `${label}: 40 桁の SHA が必要です`)
@@ -244,22 +247,6 @@ export function reviewDigest(options) {
   for (const key of ['run_id', 'base_sha', 'writer_run_id', 'changes', 'tasks', 'sources']) assert(Object.hasOwn(manifest, key), `digest: ${key} が必要です`)
   const payload = { records: changes.filter(change => !manifestPattern.test(change.path)), evidence_path: evidence.path, evidence: { schema_version, run_id, base_sha, writer_run_id, changes: declarations, tasks, sources } }
   return createHash('sha256').update(JSON.stringify(canonical(payload))).digest('hex')
-}
-
-function referenceComparable(text) {
-  // 実際の参考資料セクションだけを除く。コード中の同名見出しは除かない。
-  const headings = parseMarkdownLinks(text).headings.filter(heading => heading.level === 2)
-  const reference = headings.findIndex(heading => heading.text === '参考資料')
-  const lines = text.split('\n')
-  if (reference >= 0) lines.splice(headings[reference].line, (headings[reference + 1]?.line ?? lines.length + 1) - headings[reference].line - 1)
-  // AST の実リンク先だけを可変にする。コード・inline code にある ](URL) は本文として残す。
-  const tokenValue = token => ({
-    type: token.type, tag: token.tag, nesting: token.nesting, markup: token.markup, info: token.info,
-    content: token.children?.length ? undefined : token.content,
-    attrs: token.attrs?.map(([key, value]) => [key, ['href', 'src'].includes(key) ? 'URL' : value]) ?? null,
-    children: token.children?.map(tokenValue) ?? null,
-  })
-  return JSON.stringify(markdown.parse(lines.join('\n'), {}).map(tokenValue))
 }
 
 export function checkHarnessPolicy({ cwd = process.cwd(), base, head, branch, now = Date.now() }) {

@@ -21,11 +21,18 @@ export async function readGeneratedJson(file, fallback = null) {
     return fallback
   }
 }
-export async function writeJson(file, value) {
+export async function writeJson(file, value, { renameFile = rename, pause = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds)) } = {}) {
   await mkdir(path.dirname(file), { recursive: true })
   const temporary = `${file}.${process.pid}.tmp`
   await writeFile(temporary, `${JSON.stringify(value, null, 2)}\n`, 'utf8')
-  await rename(temporary, file)
+  // Windows readers/antivirus can briefly deny replacement of an open destination.
+  // Keep the atomic rename and the previous complete file; never delete it as a fallback.
+  for (let attempt = 0; attempt < 8; attempt++) {
+    try { await renameFile(temporary, file); return } catch (error) {
+      if (!['EPERM', 'EACCES', 'EBUSY'].includes(error.code) || attempt === 7) throw error
+      await pause(40 * 2 ** Math.min(attempt, 4))
+    }
+  }
 }
 export function assertSafeArticlePath(articlePath) {
   if (!/^docs\/\d{2}-[a-z0-9-]+\/[a-z0-9-]+\.md$/.test(articlePath)) throw new Error(`Invalid article path: ${articlePath}`)

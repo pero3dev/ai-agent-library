@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { mkdtemp, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises'
+import { mkdtemp, mkdir, readFile, readdir, rename, rm, writeFile } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 import { assertSafeArticlePath, discoverArticles, PrerequisiteError, productionDigest, QuotaError, readJson, readSupplementalSources, sha256, sourceDigest, sourceSections, splitSpeech, supplementalDigest, validateScript, validateSupplementalMaterial, writeJson } from '../../scripts/audio/core.mjs'
@@ -263,6 +263,27 @@ test('invalid queue state releases the producer lock before reporting the error'
   await assert.rejects(runProduction({ ...paths, config }, dependencies), SyntaxError)
   await assert.rejects(readFile(path.join(paths.stateDir, 'run.lock')), { code: 'ENOENT' })
   assert.equal(await readFile(path.join(paths.stateDir, 'queue.json'), 'utf8'), '{invalid')
+})
+test('atomic state writes retry temporary Windows sharing violations without deleting the previous state', async t => {
+  const { root } = await fixture(t)
+  const file = path.join(root, 'state.json')
+  await writeJson(file, { version: 'previous' })
+  let attempts = 0
+  const pauses = []
+  await writeJson(file, { version: 'next' }, {
+    renameFile: async (temporary, destination) => {
+      attempts++
+      assert.deepEqual(await readJson(destination), { version: 'previous' })
+      if (attempts < 3) throw Object.assign(new Error('sharing violation'), { code: 'EPERM' })
+      await rename(temporary, destination)
+    }, pause: async milliseconds => { pauses.push(milliseconds) },
+  })
+  assert.equal(attempts, 3); assert.deepEqual(pauses, [40, 80]); assert.deepEqual(await readJson(file), { version: 'next' })
+  attempts = 0
+  await assert.rejects(writeJson(file, { version: 'must not replace' }, {
+    renameFile: async () => { attempts++; throw Object.assign(new Error('permanent denial'), { code: 'EACCES' }) }, pause: async () => {},
+  }), { code: 'EACCES' })
+  assert.equal(attempts, 8); assert.deepEqual(await readJson(file), { version: 'next' })
 })
 test('supplemental context includes only related exact glossary excerpts and validates against a source reader', async t => {
   const { repoRoot } = await fixture(t)

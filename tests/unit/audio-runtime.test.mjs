@@ -24,7 +24,8 @@ test('Windows audio wrapper shares state across a real linked worktree with spac
     '-NoProfile', '-File', path.join(root, 'scripts/Invoke-AudioLearning.ps1'),
     '-ProjectRoot', project, '-DryRun', '-SyncMain', '-Publish', '-AutoMerge'
   ], { encoding: 'utf8', windowsHide: true })))
-  const expected = path.join(source, '.git', 'audio-learning')
+  // Hosted Windows runners may expose TEMP through an 8.3 alias such as RUNNER~1.
+  const expected = path.join(realpathSync(path.join(source, '.git')), 'audio-learning')
   for (const plan of plans) {
     assert.equal(plan.production[plan.production.indexOf('--state-dir') + 1], expected)
     assert.equal(plan.publication[plan.publication.indexOf('--state-dir') + 1], expected)

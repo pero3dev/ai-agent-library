@@ -5,7 +5,7 @@ import path from 'node:path'
 import { parseFrontMatter, toLines } from '../lib/md-utils.mjs'
 import { formatCommitMessage, formatSquashMessage, validatePr } from '../lib/git-conventions.mjs'
 import { requiredChecks, workflowFor } from '../lib/github-policy.mjs'
-import { discoverArticles, sourceSections, validateScript } from './core.mjs'
+import { discoverArticles, sourceSections, validateScript, validateSupplementalSnapshot } from './core.mjs'
 import { reviewProblems } from './pipeline.mjs'
 import { validateAudioCatalog } from '../../website/lib/audio-catalog.mjs'
 import { verifyGithubEvidence } from '../lib/github-evidence.mjs'
@@ -50,6 +50,27 @@ export function validateSource(articlePath, text, expectedDigest) {
   assert(sourceDigest(text) === expectedDigest, 'Source changed after production; regenerate before publication')
 }
 
+export function validateReadySupplemental(manifest, { root, stateDir, readDocument } = {}) {
+  const present = manifest.supplemental_file !== undefined || manifest.supplemental_digest !== undefined || manifest.review?.supplemental_digest !== undefined
+  if (!present) return
+  assert(shaPattern.test(manifest.supplemental_digest ?? '') && manifest.review?.supplemental_digest === manifest.supplemental_digest, 'Supplemental review digest mismatch')
+  const file = safeFile(manifest.supplemental_file, stateDir)
+  const scriptFile = manifest.script_file ?? path.join(path.dirname(manifest.episodes[0].audio_file), 'script.json')
+  assert(file === path.join(path.dirname(scriptFile), 'supplemental.json'), 'Supplemental file must belong to the reviewed script job')
+  const bundle = readPublicationJson(file)
+  assert(digest(JSON.stringify(bundle)) === manifest.supplemental_digest, 'Supplemental file digest mismatch')
+  assert(bundle?.schema_version === 1 && Array.isArray(bundle.entries) && bundle.entries.length > 0 && bundle.entries.length <= 14, 'Invalid supplemental material')
+  const documents = new Map()
+  for (const entry of bundle.entries) {
+    const name = entry?.document_path
+    if (name !== 'GLOSSARY.md' && !/^docs\/\d{2}-[a-z0-9-]+\/[a-z0-9-]+\.md$/.test(name ?? '')) continue
+    if (documents.has(name)) continue
+    try { documents.set(name, readDocument ? readDocument(name) : readFileSync(safeFile(path.join(root, name), root), 'utf8')) } catch { /* The shared validator reports unavailable material. */ }
+  }
+  const errors = validateSupplementalSnapshot(bundle, documents)
+  assert(!errors.length, `Supplemental material is no longer current: ${errors.join('; ')}`)
+}
+
 export function validateReady(manifest, { root, stateDir, sourceText } = {}) {
   assert(manifest?.schema_version === 1 && shaPattern.test(manifest.source_digest), 'Invalid ready manifest')
   const sourceFile = safeFile(path.join(root, manifest.article_path ?? ''), root)
@@ -66,6 +87,7 @@ export function validateReady(manifest, { root, stateDir, sourceText } = {}) {
   const sections = sourceSections(source)
   assert(digest(JSON.stringify(script)) === review.script_sha256, 'Reviewed script file digest mismatch')
   assert(!validateScript(script, sections).length && !reviewProblems(review, sections).length, 'Actual script/source coverage did not pass independent review')
+  validateReadySupplemental(manifest, { root, stateDir })
   assert(Array.isArray(manifest.signal_checks.parts) && manifest.signal_checks.parts.length === manifest.episodes.length, 'Signal evidence is missing for episode parts')
   const ids = new Set()
   const episodes = manifest.episodes.map((episode, index) => {
@@ -260,15 +282,190 @@ export function createCatalogPr(episodes, { root, stateDir, run = command } = {}
   return JSON.parse(gh('pr', 'view', branch, '--repo', AUDIO_REPOSITORY, '--json', 'number,url,state,headRefOid'))
 }
 
+const catalogGroups = catalog => {
+  const groups = new Map()
+  for (const episode of catalog.episodes) {
+    if (!groups.has(episode.article_path)) groups.set(episode.article_path, [])
+    groups.get(episode.article_path).push(episode)
+  }
+  for (const group of groups.values()) group.sort((a, b) => a.part - b.part)
+  return groups
+}
+
+/** Rebuild from current main, preserving its unrelated episodes and complete parts. */
+export function reconcileCatalogCandidate({ baseCatalog, headCatalog, mainCatalog, readSource, checkMaterial = () => null }) {
+  for (const catalog of [baseCatalog, headCatalog, mainCatalog]) {
+    const errors = validateAudioCatalog(catalog)
+    assert(!errors.length, errors.join('\n'))
+  }
+  const base = catalogGroups(baseCatalog), head = catalogGroups(headCatalog), main = catalogGroups(mainCatalog)
+  const episodes = [], regeneration = [], conflicts = []
+  for (const [articlePath, previous] of base) assert(head.has(articlePath), `Candidate unexpectedly deletes catalog audio: ${articlePath}`)
+  for (const [articlePath, candidate] of head) {
+    const baseline = JSON.stringify(base.get(articlePath) ?? [])
+    if (JSON.stringify(candidate) === baseline) continue
+    let source
+    try { source = readSource(articlePath) } catch {
+      regeneration.push({ article_path: articlePath, previous_source_digest: candidate[0].source_digest, source_digest: null, status: 'excluded', reason: 'Source is no longer available on main' })
+      continue
+    }
+    try { validateSource(articlePath, source, candidate[0].source_digest) } catch (error) {
+      const fields = parseFrontMatter(toLines(source))?.fields ?? []
+      const published = fields.find(field => field.key === 'status')?.value.replace(/^['"]|['"]$/g, '') === 'published'
+      regeneration.push({ article_path: articlePath, previous_source_digest: candidate[0].source_digest, source_digest: sourceDigest(source), status: published ? 'pending' : 'excluded', reason: error.message })
+      continue
+    }
+    const materialIssue = checkMaterial(candidate)
+    if (materialIssue) {
+      regeneration.push({ article_path: articlePath, previous_source_digest: candidate[0].source_digest, source_digest: sourceDigest(source), status: 'pending', reason: materialIssue })
+      continue
+    }
+    const current = JSON.stringify(main.get(articlePath) ?? [])
+    if (current !== baseline && current !== JSON.stringify(candidate)) {
+      conflicts.push({ article_path: articlePath, reason: 'main contains another audio version for the same article' })
+      continue
+    }
+    episodes.push(...candidate)
+  }
+  const catalog = mergeCatalog(mainCatalog, episodes)
+  const errors = validateAudioCatalog(catalog)
+  assert(!errors.length, errors.join('\n'))
+  return { catalog, episodes, regeneration, conflicts, changed: JSON.stringify(catalog.episodes) !== JSON.stringify(mainCatalog.episodes) }
+}
+
+function recordRegeneration(stateDir, articles) {
+  if (!articles.length) return
+  const file = path.join(stateDir, 'publication', 'regeneration-needed.json')
+  const previous = existsSync(file) ? readPublicationJson(file) : { articles: [] }
+  const byPath = new Map(previous.articles.map(article => [article.article_path, article]))
+  for (const article of articles) byPath.set(article.article_path, { ...article, requested_at: new Date().toISOString() })
+  atomicJson(file, { schema_version: 1, articles: [...byPath.values()] })
+}
+
+function refreshPrMetadata(fresh, episodes, mainSha) {
+  const footer = /^Agent: [\s\S]*$/m.exec(formatSquashMessage(fresh).body)?.[0]
+  assert(footer, 'Catalog PR attribution is missing')
+  const count = new Set(episodes.map(episode => episode.article_path)).size
+  const body = `## 変更内容\n\n最新 main の原文に一致する ${count} 記事の検査済み音声をカタログへ掲載します。同じ記事の旧音声を差し替え、ほかの記事の音声を保持します。\n\n## 検証\n\n原文 SHA-256 と音声候補の対応、カタログの完全性を main ${mainSha} で再確認しました。台本の独立レビュー・音声信号検査・公開音声の Range と全体 SHA-256 は元候補の検証記録を保持しています。同期後の新 head の CI は再実行待ちです。\n\n## 影響・残件\n\n差分は音声カタログのみです。公開済み音声ファイルは保持します。同期中に原文が変わった候補は再生成の対象です。iPhone 実機の品質確認は自動検査に含めません。\n\n${footer}`
+  const errors = validatePr({ ...fresh, body })
+  assert(!errors.length, errors.join('\n'))
+  return { title: fresh.title, body }
+}
+
+function finishCatalogRefresh(journal, { root, stateDir, run }) {
+  const gh = (...args) => run('gh', args, root)
+  assert(/^[a-f0-9]{40}$/.test(journal.new_head) && /^[a-f0-9]{40}$/.test(journal.previous_head), 'Invalid catalog refresh journal')
+  assert(/^chore\/audio-catalog-[a-f0-9]{20}$/.test(journal.branch) && Number.isInteger(journal.number) && journal.number > 0, 'Invalid refresh branch/PR')
+  assert(journal.worktree === path.join(stateDir, 'publication', 'worktrees', journal.branch.slice('chore/audio-catalog-'.length)) && realpathSync(journal.worktree) === path.resolve(journal.worktree), 'Refresh worktree is outside its owned directory')
+  assert(journal.body_file === path.join(stateDir, 'publication', `refresh-pr-${journal.number}-body.md`) && digest(readFileSync(journal.body_file)) === journal.body_sha256, 'Prepared PR metadata changed')
+  assert(run('git', ['branch', '--show-current'], journal.worktree) === journal.branch && run('git', ['rev-parse', `refs/heads/${journal.branch}`], journal.worktree) === journal.new_head, 'Prepared refresh branch changed')
+  assert(run('git', ['rev-parse', 'HEAD'], journal.worktree) === journal.new_head && !run('git', ['status', '--porcelain', '--untracked-files=all'], journal.worktree), 'Prepared refresh worktree changed')
+  run('git', ['merge-base', '--is-ancestor', journal.previous_head, journal.new_head], journal.worktree)
+  assert(run('git', ['diff', '--name-only', journal.main_sha, journal.new_head], journal.worktree) === catalogPath, 'Prepared refresh contains changes outside the catalog')
+  const observed = JSON.parse(gh('pr', 'view', String(journal.number), '--repo', AUDIO_REPOSITORY, '--json', 'number,url,state,headRefOid,headRefName,baseRefName,isCrossRepository,autoMergeRequest'))
+  assert(observed.state === 'OPEN' && observed.headRefName === journal.branch && observed.baseRefName === 'main' && observed.isCrossRepository === false && [journal.previous_head, journal.new_head].includes(observed.headRefOid), 'Catalog PR changed during refresh')
+  if (observed.autoMergeRequest) gh('pr', 'merge', String(journal.number), '--repo', AUDIO_REPOSITORY, '--disable-auto')
+  if (observed.headRefOid !== journal.new_head) run('git', ['push', 'origin', `${journal.new_head}:refs/heads/${journal.branch}`], journal.worktree)
+  const updated = JSON.parse(gh('pr', 'view', String(journal.number), '--repo', AUDIO_REPOSITORY, '--json', 'number,url,state,headRefOid'))
+  assert(updated.state === 'OPEN' && updated.headRefOid === journal.new_head, 'Refreshed PR head was not observed')
+  atomicJson(path.join(stateDir, 'publication', 'pending-pr.json'), updated)
+  gh('pr', 'edit', String(journal.number), '--repo', AUDIO_REPOSITORY, '--title', journal.title, '--body-file', journal.body_file)
+  const confirmed = JSON.parse(gh('pr', 'view', String(journal.number), '--repo', AUDIO_REPOSITORY, '--json', 'state,headRefOid,title,body'))
+  assert(confirmed.state === 'OPEN' && confirmed.headRefOid === journal.new_head && confirmed.title === journal.title && confirmed.body.replace(/\r\n/g, '\n') === readFileSync(journal.body_file, 'utf8').replace(/\r\n/g, '\n'), 'Refreshed PR metadata/head were not observed together')
+  atomicJson(path.join(stateDir, 'publication', `refresh-pr-${journal.number}.json`), { ...journal, status: 'pushed' })
+  return { status: 'BRANCH_UPDATED', pr: updated, head: journal.new_head, regeneration_needed: journal.regeneration, reason: 'Waiting for all required checks on the refreshed head' }
+}
+
+/** Refresh only an unchanged, automation-owned catalog PR. Never rewrite its history. */
+export function refreshCatalogPr(fresh, { root, stateDir, run = command } = {}) {
+  assert(fresh.isCrossRepository === false && fresh.baseRefName === 'main' && /^chore\/audio-catalog-[a-f0-9]{20}$/.test(fresh.headRefName), 'Catalog refresh requires the owned repository/branch')
+  assert(Number.isInteger(fresh.number) && fresh.number > 0 && /^[a-f0-9]{40}$/.test(fresh.headRefOid) && fresh.files?.length === 1 && fresh.files[0].path === catalogPath, 'Refresh is restricted to the known catalog-only PR head')
+  assert(!validatePr(fresh).length, 'Catalog PR metadata does not satisfy repository conventions')
+  ensureRemote(root, run)
+  run('git', ['fetch', 'origin', 'main'], root)
+  const journalFile = path.join(stateDir, 'publication', `refresh-pr-${fresh.number}.json`)
+  const priorJournal = existsSync(journalFile) ? readPublicationJson(journalFile) : null
+  if (priorJournal?.status === 'prepared' && [priorJournal.previous_head, priorJournal.new_head].includes(fresh.headRefOid)) return finishCatalogRefresh(priorJournal, { root, stateDir, run })
+  const hash = fresh.headRefName.slice('chore/audio-catalog-'.length)
+  const worktree = path.join(stateDir, 'publication', 'worktrees', hash)
+  if (!existsSync(worktree)) return { status: 'HELD_WORKTREE_MISSING', reason: 'Restore the owned catalog worktree before automatic refresh' }
+  assert(realpathSync(worktree) === path.resolve(worktree), 'Catalog worktree must not be a link')
+  assert(run('git', ['branch', '--show-current'], worktree) === fresh.headRefName && run('git', ['rev-parse', 'HEAD'], worktree) === fresh.headRefOid, 'Owned catalog branch head changed')
+  if (run('git', ['status', '--porcelain', '--untracked-files=all'], worktree)) return { status: 'HELD_WORKTREE_CHANGED', reason: 'Owned catalog worktree has unsaved changes; inspect them before refreshing' }
+  const mainSha = run('git', ['rev-parse', 'origin/main'], worktree)
+  const baseSha = run('git', ['merge-base', fresh.headRefOid, mainSha], worktree)
+  assert(run('git', ['diff', '--name-only', baseSha, fresh.headRefOid], worktree) === catalogPath, 'Candidate branch contains changes outside the catalog')
+  const readCatalog = sha => JSON.parse(run('git', ['show', `${sha}:${catalogPath}`], worktree))
+  const readMainSource = articlePath => run('git', ['show', `${mainSha}:${articlePath}`], worktree)
+  const readyManifests = findReadyManifests(stateDir).flatMap(file => {
+    try { safeFile(file, stateDir); return [readPublicationJson(file)] } catch { return [] }
+  })
+  const checkMaterial = episodes => {
+    const ids = episodes.map(episode => episode.id).sort().join('|')
+    const ready = readyManifests.find(manifest => manifest.article_path === episodes[0].article_path && manifest.review?.script_sha256 === episodes[0].script_sha256 && manifest.episodes?.map(episode => episode.id).sort().join('|') === ids)
+    if (!ready) return 'The reviewed local candidate was replaced or is missing; use the current production result'
+    try {
+      validateReady(ready, { root, stateDir, sourceText: readMainSource(ready.article_path) })
+      validateReadySupplemental(ready, { root, stateDir, readDocument: readMainSource })
+    } catch (error) { return error.message }
+    return null
+  }
+  const headCatalog = readCatalog(fresh.headRefOid)
+  const reconciliation = reconcileCatalogCandidate({ baseCatalog: readCatalog(baseSha), headCatalog, mainCatalog: readCatalog(mainSha), readSource: readMainSource, checkMaterial })
+  recordRegeneration(stateDir, reconciliation.regeneration)
+  if (reconciliation.conflicts.length) return { status: 'HELD_CATALOG_CONFLICT', conflicts: reconciliation.conflicts, regeneration_needed: reconciliation.regeneration }
+  if (baseSha === mainSha && reconciliation.changed && JSON.stringify(headCatalog.episodes) === JSON.stringify(reconciliation.catalog.episodes)) return { status: 'WAITING_CHECKS', head: fresh.headRefOid, reason: 'This PR already contains fetched main; GitHub merge-state metadata has not caught up yet' }
+  const gh = (...args) => run('gh', args, root)
+  const observed = JSON.parse(gh('pr', 'view', String(fresh.number), '--repo', AUDIO_REPOSITORY, '--json', 'headRefOid,state,autoMergeRequest'))
+  assert(observed.state === 'OPEN' && observed.headRefOid === fresh.headRefOid, 'Catalog PR changed before refresh')
+  if (observed.autoMergeRequest) gh('pr', 'merge', String(fresh.number), '--repo', AUDIO_REPOSITORY, '--disable-auto')
+  if (!reconciliation.changed) {
+    atomicJson(journalFile, { status: 'closing-obsolete', number: fresh.number, previous_head: fresh.headRefOid, regeneration: reconciliation.regeneration })
+    gh('pr', 'close', String(fresh.number), '--repo', AUDIO_REPOSITORY)
+    const closed = JSON.parse(gh('pr', 'view', String(fresh.number), '--repo', AUDIO_REPOSITORY, '--json', 'number,url,state,headRefOid'))
+    assert(closed.state === 'CLOSED' && closed.headRefOid === fresh.headRefOid, 'Obsolete PR closure was not observed')
+    atomicJson(journalFile, { status: 'closed-obsolete', number: fresh.number, previous_head: fresh.headRefOid, regeneration: reconciliation.regeneration })
+    const pendingFile = path.join(stateDir, 'publication', 'pending-pr.json')
+    if (existsSync(pendingFile)) unlinkSync(pendingFile)
+    return { status: 'REGENERATION_QUEUED', pr: closed, regeneration_needed: reconciliation.regeneration }
+  }
+  const metadata = refreshPrMetadata(fresh, reconciliation.episodes, mainSha)
+  mkdirSync(path.dirname(journalFile), { recursive: true })
+  const bodyFile = path.join(stateDir, 'publication', `refresh-pr-${fresh.number}-body.md`)
+  const messageFile = path.join(stateDir, 'publication', `refresh-pr-${fresh.number}-commit.txt`)
+  writeFileSync(bodyFile, metadata.body, 'utf8')
+  writeFileSync(messageFile, formatCommitMessage({ type: 'chore', scope: 'repo', summary: '音声カタログ候補へ最新 main を取り込む', reason: `main ${mainSha} に同期し、原文が一致する検査済み音声だけを候補として保持します。`, validation: '原文 SHA-256 と共有カタログ検査を再確認しました。新 head の CI は再実行待ちです。', impact: 'PR の最終差分は音声カタログのみです。原文が更新された候補は再生成へ戻します。', agent: 'claude' }), 'utf8')
+  atomicJson(journalFile, { status: 'merging', number: fresh.number, previous_head: fresh.headRefOid, main_sha: mainSha, worktree, branch: fresh.headRefName })
+  try { if (baseSha !== mainSha) run('git', ['merge', '--no-commit', '--no-ff', mainSha], worktree) } catch (error) {
+    const conflicts = run('git', ['diff', '--name-only', '--diff-filter=U'], worktree).split('\n').filter(Boolean)
+    if (!conflicts.length || conflicts.some(file => file !== catalogPath)) {
+      try { run('git', ['merge', '--abort'], worktree) } catch { /* Preserve unresolved evidence for inspection. */ }
+      return { status: 'HELD_CONFLICT', conflicts, reason: error.message }
+    }
+  }
+  atomicJson(path.join(worktree, catalogPath), reconciliation.catalog)
+  run('git', ['add', '--', catalogPath], worktree)
+  run('git', ['diff', '--cached', '--check'], worktree)
+  assert(run('git', ['diff', '--cached', '--name-only', mainSha], worktree) === catalogPath, 'Merge result changes more than the catalog relative to main')
+  run('git', ['commit', '-F', messageFile], worktree)
+  const newHead = run('git', ['rev-parse', 'HEAD'], worktree)
+  const journal = { status: 'prepared', number: fresh.number, previous_head: fresh.headRefOid, new_head: newHead, main_sha: mainSha, worktree, branch: fresh.headRefName, body_file: bodyFile, body_sha256: digest(readFileSync(bodyFile)), title: metadata.title, regeneration: reconciliation.regeneration }
+  atomicJson(journalFile, journal)
+  return finishCatalogRefresh(journal, { root, stateDir, run })
+}
+
 export function queueCatalogMerge(pr, { root, stateDir, run = command } = {}) {
   if (pr.state !== 'OPEN') return { status: pr.state }
   const gh = (...args) => run('gh', args, root)
-  const fresh = JSON.parse(gh('pr', 'view', String(pr.number), '--repo', AUDIO_REPOSITORY, '--json', 'number,title,body,headRefName,headRefOid,baseRefName,state,files,mergeStateStatus'))
+  const fresh = JSON.parse(gh('pr', 'view', String(pr.number), '--repo', AUDIO_REPOSITORY, '--json', 'number,title,body,headRefName,headRefOid,baseRefName,state,files,mergeStateStatus,isCrossRepository'))
   assert(fresh.state === 'OPEN' && fresh.headRefOid === pr.headRefOid && /^chore\/audio-catalog-[a-f0-9]{20}$/.test(fresh.headRefName), 'Catalog PR identity changed')
   assert(fresh.files?.length === 1 && fresh.files[0].path === catalogPath, 'Auto-merge scope is catalog-only')
   const problems = validatePr(fresh)
   assert(!problems.length, problems.join('\n'))
-  if (fresh.mergeStateStatus === 'BEHIND') return { status: 'HELD_BASE_CHANGED', reason: 'main advanced. Revalidate every catalog article against current main, then update the owned catalog PR and rerun CI. Automatic publication is held to preserve source/review binding.' }
+  const refreshFile = path.join(stateDir, 'publication', `refresh-pr-${fresh.number}.json`)
+  const refresh = existsSync(refreshFile) ? readPublicationJson(refreshFile) : null
+  if (refresh?.status === 'prepared' && [refresh.previous_head, refresh.new_head].includes(fresh.headRefOid)) return finishCatalogRefresh(refresh, { root, stateDir, run })
+  if (fresh.mergeStateStatus === 'BEHIND') return refreshCatalogPr(fresh, { root, stateDir, run })
   if (fresh.mergeStateStatus === 'DIRTY') return { status: 'HELD_CONFLICT', reason: 'The catalog PR conflicts with main. Resolve its catalog-only diff, revalidate source bindings and rerun CI.' }
   const protection = JSON.parse(gh('api', `repos/${AUDIO_REPOSITORY}/branches/main/protection`))
   assert(protection.required_status_checks?.strict === true && protection.enforce_admins?.enabled === true, 'Strict branch protection is required')
@@ -359,11 +556,29 @@ export async function runPublication({ root, stateDir, manifestFiles, apply = fa
     const pending = readPublicationJson(pendingFile)
     assert(Number.isInteger(pending.number) && pending.number > 0 && /^[a-f0-9]{40}$/.test(pending.headRefOid ?? ''), 'Invalid pending catalog PR state')
     const observed = JSON.parse(run('gh', ['pr', 'view', String(pending.number), '--repo', AUDIO_REPOSITORY, '--json', 'number,url,state,headRefOid'], root))
+    const refreshFile = path.join(stateDir, 'publication', `refresh-pr-${pending.number}.json`)
+    const refresh = existsSync(refreshFile) ? readPublicationJson(refreshFile) : null
+    if (refresh?.status === 'prepared' && [refresh.previous_head, refresh.new_head].includes(pending.headRefOid)) {
+      result.merge = finishCatalogRefresh(refresh, { root, stateDir, run })
+      result.pr = result.merge.pr
+      atomicJson(path.join(stateDir, 'publication', 'last-result.json'), result)
+      return result
+    }
     assert(observed.headRefOid === pending.headRefOid && observed.number === pending.number, 'Pending catalog PR head changed')
     result.pr = observed
     if (observed.state === 'OPEN') {
       result.waiting_existing_pr = true
-      if (autoMerge) result.merge = queueCatalogMerge(observed, { root, stateDir, run })
+      if (autoMerge) {
+        result.merge = queueCatalogMerge(observed, { root, stateDir, run })
+        if (result.merge.pr) result.pr = result.merge.pr
+        result.waiting_existing_pr = result.pr.state === 'OPEN'
+      }
+      atomicJson(path.join(stateDir, 'publication', 'last-result.json'), result)
+      return result
+    }
+    if (observed.state === 'CLOSED' && ['closing-obsolete', 'closed-obsolete'].includes(refresh?.status) && refresh.previous_head === observed.headRefOid) {
+      unlinkSync(pendingFile)
+      result.regeneration_needed = refresh.regeneration
       atomicJson(path.join(stateDir, 'publication', 'last-result.json'), result)
       return result
     }
@@ -385,7 +600,10 @@ export async function runPublication({ root, stateDir, manifestFiles, apply = fa
       safeFile(file, stateDir)
       const input = readPublicationJson(file)
       const manifest = validateReady(input, { root, stateDir })
-      if (apply) validateSource(manifest.article_path, run('git', ['show', `origin/main:${manifest.article_path}`], root), manifest.source_digest)
+      if (apply) {
+        validateSource(manifest.article_path, run('git', ['show', `origin/main:${manifest.article_path}`], root), manifest.source_digest)
+        validateReadySupplemental(manifest, { root, stateDir, readDocument: documentPath => run('git', ['show', `origin/main:${documentPath}`], root) })
+      }
       result.ready.push({ manifest: file, article_path: manifest.article_path, episodes: manifest.episodes.map(episode => assetCoordinates(manifest, episode)) })
       valid.push(manifest)
     } catch (error) { result.held.push({ manifest: file, reason: error.message }) }
@@ -402,7 +620,10 @@ export async function runPublication({ root, stateDir, manifestFiles, apply = fa
   if (result.publications.length) {
     result.pr = createCatalogPr(result.publications, { root, stateDir, run })
     if (['OPEN', 'MERGED'].includes(result.pr.state)) atomicJson(pendingFile, result.pr)
-    if (autoMerge) result.merge = queueCatalogMerge(result.pr, { root, stateDir, run })
+    if (autoMerge) {
+      result.merge = queueCatalogMerge(result.pr, { root, stateDir, run })
+      if (result.merge.pr) result.pr = result.merge.pr
+    }
   }
   atomicJson(path.join(stateDir, 'publication', 'last-result.json'), result)
   return result

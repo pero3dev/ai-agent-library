@@ -56,6 +56,87 @@ export function sourceSections(source) {
   return titles.map((title, index) => ({ id: `s${String(index + 1).padStart(3, '0')}`, title }))
 }
 export class QuotaError extends Error { constructor(message) { super(message); this.name = 'QuotaError' } }
+export function supplementalBlocks(source) {
+  const lines = toLines(source), starts = []
+  forEachLine(lines, (line, index, inFence) => {
+    if (inFence) return
+    const heading = line.match(/^(#{1,3})\s+(.+)$/)
+    if (heading) starts.push({ level: heading[1].length, heading: heading[2], line: index - 1 })
+  })
+  return starts.flatMap((item, index) => item.level === 3 ? [{ heading: item.heading, excerpt: lines.slice(item.line + 1, starts[index + 1]?.line ?? lines.length).join('\n').trim() }] : [])
+}
+function termInSource(term, source) {
+  if (term.length < 2) return false
+  const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  return /^[a-zA-Z0-9][a-zA-Z0-9 -]*$/.test(term)
+    ? new RegExp(`(?<![a-zA-Z0-9])${escaped}(?![a-zA-Z0-9])`, 'i').test(source)
+    : source.toLocaleLowerCase().includes(term.toLocaleLowerCase())
+}
+export async function readSupplementalSources(repoRoot, article) {
+  if (!repoRoot) return { schema_version: 1, entries: [] }
+  const entries = []
+  async function addDocument(documentPath, select) {
+    let source
+    try { source = await readFile(path.join(repoRoot, documentPath), 'utf8') } catch (error) { if (error.code === 'ENOENT') return; throw error }
+    if (documentPath.startsWith('docs/')) {
+      const fields = parseFrontMatter(toLines(source))?.fields ?? []
+      if (unquote(fields.find(field => field.key === 'status')?.value ?? '') !== 'published') return
+    }
+    const blocks = supplementalBlocks(source).filter(select)
+    if (documentPath === 'GLOSSARY.md') blocks.sort((a, b) => Number(/^(MCP\(|RAG\(|Human-in-the-Loop|LLM-as-a-Judge|PoC\()/.test(b.heading)) - Number(/^(MCP\(|RAG\(|Human-in-the-Loop|LLM-as-a-Judge|PoC\()/.test(a.heading)))
+    for (const block of blocks) {
+      if (!block.excerpt || block.excerpt.length > 1800 || entries.length >= 14 || entries.reduce((sum, item) => sum + item.excerpt.length, 0) + block.excerpt.length > 6500) continue
+      entries.push({ document_path: documentPath, heading: block.heading, excerpt: block.excerpt, excerpt_sha256: sha256(block.excerpt) })
+    }
+  }
+  // Supply existing definitions, not model-invented prerequisites or another full article.
+  if (/\b(?:LLM|Agent)\b/i.test(article.source)) {
+    await addDocument('docs/01-concepts/what-is-an-ai-agent.md', block => block.heading === '概要: このライブラリでの定義')
+    await addDocument('docs/01-concepts/agent-loop.md', block => block.heading === '概要: ループが Agent を作る')
+  }
+  await addDocument('GLOSSARY.md', block => {
+    const terms = block.heading.split(/[()（）/]/).map(value => value.trim()).filter(Boolean)
+    return terms.some(term => termInSource(term, article.source))
+  })
+  return { schema_version: 1, entries }
+}
+export function validateSupplementalSnapshot(bundle, documents) {
+  if (bundle?.schema_version !== 1 || !Array.isArray(bundle.entries) || !bundle.entries.length || bundle.entries.length > 14) return ['補助資料の形式が不正です']
+  const errors = [], seen = new Set()
+  if (bundle.entries.reduce((sum, entry) => sum + (entry?.excerpt?.length ?? 0), 0) > 6500) errors.push('補助資料が長すぎます')
+  for (const entry of bundle.entries) {
+    if (entry?.document_path !== 'GLOSSARY.md') {
+      try { assertSafeArticlePath(entry?.document_path) } catch { errors.push('補助資料のパスが不正です'); continue }
+    }
+    const identity = `${entry.document_path}#${entry.heading}`
+    if (seen.has(identity) || typeof entry.excerpt !== 'string' || !entry.excerpt || entry.excerpt.length > 1800 || sha256(entry.excerpt) !== entry.excerpt_sha256) { errors.push('補助資料の抜粋・ハッシュが不正です'); continue }
+    seen.add(identity)
+    try {
+      const source = documents instanceof Map ? documents.get(entry.document_path) : documents[entry.document_path]
+      if (typeof source !== 'string') throw new Error('Missing source')
+      if (entry.document_path.startsWith('docs/')) {
+        const status = parseFrontMatter(toLines(source))?.fields.find(field => field.key === 'status')?.value
+        if (unquote(status ?? '') !== 'published') { errors.push(`補助資料が非公開です: ${entry.document_path}`); continue }
+      }
+      const matches = supplementalBlocks(source).filter(block => block.heading === entry.heading)
+      if (matches.length !== 1 || matches[0].excerpt !== entry.excerpt) errors.push(`補助資料が変更されています: ${identity}`)
+    } catch { errors.push(`補助資料を確認できません: ${entry.document_path}`) }
+  }
+  return errors
+}
+export async function validateSupplementalMaterial(bundle, repoRoot, { readDocument = documentPath => readFile(path.join(repoRoot, documentPath), 'utf8') } = {}) {
+  const documents = new Map()
+  for (const entry of Array.isArray(bundle?.entries) ? bundle.entries : []) {
+    if (entry?.document_path !== 'GLOSSARY.md') {
+      try { assertSafeArticlePath(entry?.document_path) } catch { continue }
+    }
+    if (documents.has(entry.document_path)) continue
+    try { documents.set(entry.document_path, await readDocument(entry.document_path)) } catch { documents.set(entry.document_path, null) }
+  }
+  return validateSupplementalSnapshot(bundle, documents)
+}
+export const supplementalDigest = bundle => bundle?.entries?.length ? sha256(JSON.stringify(bundle)) : null
+export const productionDigest = (base, supplemental) => supplemental ? sha256(JSON.stringify({ base, supplemental_digest: supplemental })) : base
 export class PrerequisiteError extends Error { constructor(message) { super(message); this.name = 'PrerequisiteError' } }
 export function validateScript(script, sections) {
   const problems = []

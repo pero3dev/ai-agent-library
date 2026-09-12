@@ -6,7 +6,7 @@ import { existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { AUDIO_REPOSITORY, assetCoordinates, mergeCatalog, probePublicAsset, publishAssets, queueCatalogMerge, runPublication, selectPublicationBatches, validateReady, validateSource } from '../../scripts/audio/publication.mjs'
+import { AUDIO_REPOSITORY, assetCoordinates, mergeCatalog, probePublicAsset, publishAssets, queueCatalogMerge, reconcileCatalogCandidate, refreshCatalogPr, runPublication, selectPublicationBatches, validateReady, validateReadySupplemental, validateSource } from '../../scripts/audio/publication.mjs'
 
 const sha = data => createHash('sha256').update(data).digest('hex')
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
@@ -180,14 +180,202 @@ test('pending catalog PR prevents another batch from uploading or creating a PR'
   assert.equal(calls.some(call => call.includes('upload') || call.includes('create')), false)
 })
 
-test('catalog PR behind main is explicitly held before waiting for checks or merging', t => {
-  const { root, stateDir } = fixture(t)
-  const pr = { number: 123, state: 'OPEN', headRefOid: 'a'.repeat(40) }
-  const fresh = { ...pr, title: 'chore(website): 検証済みの記事音声をカタログへ反映する', body: '## 変更内容\n\n検証済み音声を反映します。\n\n## 検証\n\n実音声の配信を確認しました。\n\n## 影響・残件\n\n音声カタログを更新します。\n\nAgent: claude\nCo-authored-by: Claude <noreply@anthropic.com>\n', headRefName: `chore/audio-catalog-${'b'.repeat(20)}`, baseRefName: 'main', files: [{ path: 'website/audio/catalog.json' }], mergeStateStatus: 'BEHIND' }
+function refreshFixture(t, { changedSource = false, changedSupplemental = false } = {}) {
+  const data = fixture(t)
+  const { root, stateDir, source, manifest, episode } = data
+  if (changedSupplemental) {
+    const excerpt = 'ツールの呼び出しを接続する仕組みです。'
+    writeFileSync(path.join(root, 'GLOSSARY.md'), `# 用語集\n\n### MCP\n\n${excerpt}\n`)
+    const bundle = { schema_version: 1, entries: [{ document_path: 'GLOSSARY.md', heading: 'MCP', excerpt, excerpt_sha256: sha(excerpt) }] }
+    manifest.supplemental_file = path.join(stateDir, 'supplemental.json')
+    manifest.supplemental_digest = sha(JSON.stringify(bundle))
+    manifest.review.supplemental_digest = manifest.supplemental_digest
+    writeFileSync(manifest.supplemental_file, JSON.stringify(bundle))
+  }
+  const readyDirectory = path.join(stateDir, 'jobs', '01-concepts--agent-loop', manifest.source_digest)
+  mkdirSync(readyDirectory, { recursive: true })
+  writeFileSync(path.join(readyDirectory, 'ready.json'), JSON.stringify(manifest))
+  const git = (args, cwd = root) => {
+    const output = execFileSync('git', ['-c', 'user.name=Audio test', '-c', 'user.email=audio-test@example.invalid', ...args], { cwd, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] })
+    return args[0] === 'show' ? output : output.trim()
+  }
+  git(['init', '-b', 'main'])
+  git(['add', '--', 'docs', 'website'])
+  if (changedSupplemental) git(['add', '--', 'GLOSSARY.md'])
+  git(['commit', '-m', 'test fixture base'])
+  const baseSha = git(['rev-parse', 'HEAD'])
+  git(['update-ref', 'refs/remotes/origin/main', baseSha])
+  const branch = `chore/audio-catalog-${'b'.repeat(20)}`
+  const worktree = path.join(stateDir, 'publication', 'worktrees', 'b'.repeat(20))
+  mkdirSync(path.dirname(worktree), { recursive: true })
+  git(['worktree', 'add', '-b', branch, worktree, 'origin/main'])
+  const { audio_file: _file, ...publicEpisode } = episode
+  Object.assign(publicEpisode, { audio_url: assetCoordinates(manifest, episode).url, published_at: '2026-09-13T00:00:00Z' })
+  const candidateCatalog = { schema_version: 1, updated_at: '2026-09-13T00:00:00Z', episodes: [publicEpisode] }
+  writeFileSync(path.join(worktree, 'website/audio/catalog.json'), JSON.stringify(candidateCatalog))
+  git(['add', '--', 'website/audio/catalog.json'], worktree)
+  git(['commit', '-m', 'test fixture audio candidate'], worktree)
+  const oldHead = git(['rev-parse', 'HEAD'], worktree)
+  if (changedSupplemental) {
+    writeFileSync(path.join(root, 'GLOSSARY.md'), '# 用語集\n\n### MCP\n\n根拠資料が更新されました。\n')
+    git(['add', '--', 'GLOSSARY.md'])
+  } else if (changedSource) {
+    writeFileSync(path.join(root, manifest.article_path), source + '\n変更された内容です。\n')
+    git(['add', '--', manifest.article_path])
+  } else { writeFileSync(path.join(root, 'unrelated.txt'), 'ordinary main update\n'); git(['add', '--', 'unrelated.txt']) }
+  git(['commit', '-m', 'test fixture main advances'])
+  const mainSha = git(['rev-parse', 'HEAD'])
+  git(['update-ref', 'refs/remotes/origin/main', mainSha])
+  const fresh = { number: 123, url: `https://github.com/${AUDIO_REPOSITORY}/pull/123`, state: 'OPEN', headRefOid: oldHead, title: 'chore(website): 検証済みの記事音声をカタログへ反映する', body: '## 変更内容\n\n検証済み音声を反映します。\n\n## 検証\n\n実音声の配信を確認しました。\n\n## 影響・残件\n\n音声カタログを更新します。\n\nAgent: claude\nCo-authored-by: Claude <noreply@anthropic.com>\n', headRefName: branch, baseRefName: 'main', isCrossRepository: false, autoMergeRequest: { enabledAt: '2026-09-13' }, files: [{ path: 'website/audio/catalog.json' }], mergeStateStatus: 'BEHIND' }
+  writeFileSync(path.join(stateDir, 'publication/pending-pr.json'), JSON.stringify(fresh))
   const calls = []
-  const result = queueCatalogMerge(pr, { root, stateDir, run: (binary, args) => { calls.push([binary, ...args]); return JSON.stringify(fresh) } })
-  assert.equal(result.status, 'HELD_BASE_CHANGED')
-  assert.equal(calls.length, 1)
+  const run = (binary, args, cwd) => {
+    calls.push([binary, ...args])
+    if (binary === 'git') {
+      if (args[0] === 'remote') return `https://github.com/${AUDIO_REPOSITORY}.git`
+      if (args[0] === 'fetch') return ''
+      if (args[0] === 'push') {
+        const current = git(['rev-parse', 'HEAD'], cwd)
+        git(['merge-base', '--is-ancestor', fresh.headRefOid, current], cwd)
+        fresh.headRefOid = current; fresh.mergeStateStatus = 'BLOCKED'
+        return ''
+      }
+      return git(args, cwd)
+    }
+    assert.equal(binary, 'gh')
+    if (args[0] === 'repo') return JSON.stringify({ nameWithOwner: AUDIO_REPOSITORY, visibility: 'PUBLIC', defaultBranchRef: { name: 'main' } })
+    if (args[0] === 'pr' && args[1] === 'view') return JSON.stringify(fresh)
+    if (args[0] === 'pr' && args[1] === 'merge' && args.includes('--disable-auto')) { fresh.autoMergeRequest = null; return '' }
+    if (args[0] === 'pr' && args[1] === 'edit') { fresh.title = args[args.indexOf('--title') + 1]; fresh.body = readFileSync(args[args.indexOf('--body-file') + 1], 'utf8'); return '' }
+    if (args[0] === 'pr' && args[1] === 'close') { fresh.state = 'CLOSED'; return '' }
+    throw new Error(`Unexpected external fixture command: ${binary} ${args.join(' ')}`)
+  }
+  return { ...data, git, run, calls, worktree, oldHead, mainSha, fresh, candidateCatalog }
+}
+
+test('normal main advancement refreshes the same catalog PR with a merge commit and waits for new CI', t => {
+  const data = refreshFixture(t)
+  const { root, stateDir, run, git, calls, worktree, oldHead, mainSha, fresh } = data
+  const result = queueCatalogMerge({ ...fresh }, { root, stateDir, run })
+  assert.equal(result.status, 'BRANCH_UPDATED')
+  assert.notEqual(result.head, oldHead)
+  assert.equal(git(['rev-list', '--parents', '-n', '1', result.head], worktree).split(' ').length, 3)
+  assert.equal(git(['diff', '--name-only', mainSha, result.head], worktree), 'website/audio/catalog.json')
+  assert.match(git(['show', '--no-patch', '--format=%B', result.head], worktree), /Agent: claude\nCo-authored-by: Claude <noreply@anthropic.com>/)
+  assert.equal(JSON.parse(readFileSync(path.join(stateDir, 'publication/pending-pr.json'))).headRefOid, result.head)
+  assert.match(fresh.body, /新 head の CI は再実行待ち/)
+  assert.ok(calls.findIndex(call => call.includes('--disable-auto')) < calls.findIndex(call => call[1] === 'push'))
+  assert.equal(calls.some(call => call.includes('--force') || call.includes('--admin') || call.includes('--auto')), false)
+  const replay = queueCatalogMerge({ ...fresh, mergeStateStatus: 'BEHIND' }, { root, stateDir, run: (binary, args, cwd) => {
+    if (binary === 'gh' && args[0] === 'pr' && args[1] === 'view') return JSON.stringify({ ...fresh, mergeStateStatus: 'BEHIND' })
+    return run(binary, args, cwd)
+  } })
+  assert.equal(replay.status, 'WAITING_CHECKS')
+  assert.equal(git(['rev-parse', 'HEAD'], worktree), result.head)
+})
+
+test('changed article closes only its obsolete owned PR and records the new digest for production', t => {
+  const { root, stateDir, fresh, run, calls, manifest, git, mainSha } = refreshFixture(t, { changedSource: true })
+  const result = refreshCatalogPr({ ...fresh }, { root, stateDir, run })
+  assert.equal(result.status, 'REGENERATION_QUEUED')
+  assert.equal(result.pr.state, 'CLOSED')
+  assert.equal(calls.some(call => call[0] === 'git' && ['merge', 'push'].includes(call[1])), false)
+  assert.equal(existsSync(path.join(stateDir, 'publication/pending-pr.json')), false)
+  const marker = JSON.parse(readFileSync(path.join(stateDir, 'publication/regeneration-needed.json')))
+  assert.equal(marker.articles[0].article_path, manifest.article_path)
+  assert.equal(marker.articles[0].source_digest, sha(git(['show', `${mainSha}:${manifest.article_path}`])))
+  assert.equal(marker.articles[0].status, 'pending')
+})
+
+test('changed supplemental source requeues the same article digest instead of publishing outdated premises', t => {
+  const { root, stateDir, fresh, run, calls, manifest } = refreshFixture(t, { changedSupplemental: true })
+  const result = refreshCatalogPr({ ...fresh }, { root, stateDir, run })
+  assert.equal(result.status, 'REGENERATION_QUEUED')
+  assert.equal(result.regeneration_needed[0].source_digest, manifest.source_digest)
+  assert.match(result.regeneration_needed[0].reason, /Supplemental material/)
+  assert.equal(calls.some(call => call[0] === 'git' && call[1] === 'push'), false)
+})
+
+test('normal publication supplemental guard binds the stored review and checks only the cited current excerpts', t => {
+  const { root, stateDir, manifest } = fixture(t)
+  const excerpt = 'ツールの呼び出しを接続する仕組みです。'
+  const bundle = { schema_version: 1, entries: [{ document_path: 'GLOSSARY.md', heading: 'MCP', excerpt, excerpt_sha256: sha(excerpt) }] }
+  manifest.supplemental_file = path.join(stateDir, 'supplemental.json')
+  manifest.supplemental_digest = sha(JSON.stringify(bundle)); manifest.review.supplemental_digest = manifest.supplemental_digest
+  writeFileSync(manifest.supplemental_file, JSON.stringify(bundle))
+  const readDocument = () => `# 用語集\n\n### MCP\n\n${excerpt}\n\n### 別の用語\n\n無関係な節は更新されても構いません。\n`
+  assert.doesNotThrow(() => validateReadySupplemental(manifest, { root, stateDir, readDocument }))
+  assert.throws(() => validateReadySupplemental(manifest, { root, stateDir, readDocument: () => '# 用語集\n\n### MCP\n\n更新された説明。\n' }), /no longer current/)
+  manifest.review.supplemental_digest = 'b'.repeat(64)
+  assert.throws(() => validateReadySupplemental(manifest, { root, stateDir, readDocument }), /review digest mismatch/)
+})
+
+test('refresh excludes a stale article while retaining another current candidate and unrelated main audio', t => {
+  const { source, episode, manifest } = fixture(t)
+  const publicEpisode = { ...episode, audio_url: assetCoordinates(manifest, episode).url, published_at: '2026-09-13T00:00:00Z' }
+  const second = { ...publicEpisode, id: 'second', article_path: 'docs/01-concepts/second.md' }
+  const unrelated = { ...publicEpisode, id: 'unrelated', article_path: 'docs/02-patterns/other.md' }
+  const empty = { schema_version: 1, updated_at: null, episodes: [] }
+  const result = reconcileCatalogCandidate({ baseCatalog: empty, headCatalog: { ...empty, episodes: [publicEpisode, second] }, mainCatalog: { ...empty, episodes: [unrelated] }, readSource: articlePath => articlePath === episode.article_path ? source + 'changed' : source })
+  assert.deepEqual(result.catalog.episodes.map(item => item.id), ['second', 'unrelated'])
+  assert.equal(result.regeneration.length, 1)
+  assert.equal(result.conflicts.length, 0)
+})
+
+test('refresh preserves unknown local changes and holds another audio version already on main', t => {
+  const { root, stateDir, fresh, run, worktree, calls, candidateCatalog, source } = refreshFixture(t)
+  const unowned = path.join(worktree, 'unknown.txt')
+  writeFileSync(unowned, 'do not discard\n')
+  assert.equal(refreshCatalogPr({ ...fresh }, { root, stateDir, run }).status, 'HELD_WORKTREE_CHANGED')
+  assert.equal(readFileSync(unowned, 'utf8'), 'do not discard\n')
+  assert.equal(calls.some(call => call[0] === 'git' && ['merge', 'push'].includes(call[1])), false)
+  const empty = { schema_version: 1, updated_at: null, episodes: [] }
+  const result = reconcileCatalogCandidate({ baseCatalog: empty, headCatalog: candidateCatalog, mainCatalog: { ...empty, episodes: [{ ...candidateCatalog.episodes[0], id: 'other-public-version' }] }, readSource: () => source })
+  assert.equal(result.conflicts.length, 1)
+  assert.equal(result.catalog.episodes[0].id, 'other-public-version')
+})
+
+test('interruption after preparing a refresh retries the same commit without rewriting published history', t => {
+  const { root, stateDir, fresh, run, git, worktree } = refreshFixture(t)
+  let failed = false
+  const interrupted = (binary, args, cwd) => {
+    if (!failed && binary === 'git' && args[0] === 'push') { failed = true; throw new Error('Simulated network interruption') }
+    return run(binary, args, cwd)
+  }
+  assert.throws(() => refreshCatalogPr({ ...fresh }, { root, stateDir, run: interrupted }), /Simulated/)
+  const preparedHead = git(['rev-parse', 'HEAD'], worktree)
+  const retried = refreshCatalogPr({ ...fresh }, { root, stateDir, run })
+  assert.equal(retried.status, 'BRANCH_UPDATED')
+  assert.equal(retried.head, preparedHead)
+})
+
+test('prepared refresh refuses a worktree switched to another branch before any push or metadata edit', t => {
+  const { root, stateDir, fresh, run, git, worktree } = refreshFixture(t)
+  assert.throws(() => refreshCatalogPr({ ...fresh }, { root, stateDir, run: (binary, args, cwd) => {
+    if (binary === 'git' && args[0] === 'push') throw new Error('Simulated push interruption')
+    return run(binary, args, cwd)
+  } }), /Simulated/)
+  git(['switch', '-c', 'chore/another-task'], worktree)
+  const calls = []
+  assert.throws(() => refreshCatalogPr({ ...fresh }, { root, stateDir, run: (binary, args, cwd) => { calls.push([binary, ...args]); return run(binary, args, cwd) } }), /branch changed/)
+  assert.equal(calls.some(call => call[1] === 'push' || call[2] === 'edit'), false)
+})
+
+test('metadata update interruption resumes on the already pushed new head before considering merge checks', t => {
+  const { root, stateDir, fresh, run, git, worktree } = refreshFixture(t)
+  assert.throws(() => refreshCatalogPr({ ...fresh }, { root, stateDir, run: (binary, args, cwd) => {
+    if (binary === 'gh' && args[0] === 'pr' && args[1] === 'edit') throw new Error('Simulated metadata interruption')
+    return run(binary, args, cwd)
+  } }), /Simulated/)
+  const newHead = git(['rev-parse', 'HEAD'], worktree)
+  assert.equal(fresh.headRefOid, newHead)
+  const calls = []
+  const resumed = queueCatalogMerge({ ...fresh }, { root, stateDir, run: (binary, args, cwd) => { calls.push([binary, ...args]); return run(binary, args, cwd) } })
+  assert.equal(resumed.status, 'BRANCH_UPDATED')
+  assert.equal(resumed.head, newHead)
+  assert.match(fresh.body, /新 head の CI は再実行待ち/)
+  assert.equal(calls.some(call => call[1] === 'push' || call.includes('--auto')), false)
+  assert.equal(JSON.parse(readFileSync(path.join(stateDir, 'publication/refresh-pr-123.json'))).status, 'pushed')
 })
 
 test('Windows task XML and wrapper dry-run keep registration, publication and engine launch explicit', { skip: process.platform !== 'win32' }, () => {

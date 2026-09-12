@@ -42,6 +42,13 @@ test('audio library reports real coverage and has a keyboard skip target', async
   if (!catalog.episodes.length) {
     await expect(page.getByText('音声は現在準備中です。', { exact: false })).toBeVisible()
     await expect(page.getByRole('button', { name: '音声で聴く', exact: true })).toHaveCount(0)
+  } else {
+    const article = catalog.episodes[0].article_path
+    const matching = catalog.episodes.filter(episode => episode.article_path === article)
+    const published = new Date(Math.max(...matching.map(episode => Date.parse(episode.published_at))))
+    const card = page.locator('.audio-library-list > li').filter({ has: page.locator(`a[href="${route(catalog.episodes[0].route)}"]`) })
+    await expect(card).toContainText('音声公開日:')
+    await expect(card.locator('time')).toHaveAttribute('datetime', published.toISOString())
   }
   await page.keyboard.press('Tab')
   await expect(page.locator('a[href="#nextra-skip-nav"]')).toBeFocused()

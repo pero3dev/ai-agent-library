@@ -1,5 +1,7 @@
 export const AUDIO_STORAGE_KEY = 'ai-agent-library.audio.v1'
 export const PLAYBACK_RATES = [0.75, 1, 1.25, 1.5, 1.75, 2]
+const MAX_QUEUE_LENGTH = 1000
+const QUEUE_LIMIT_NOTICE = `再生リストは ${MAX_QUEUE_LENGTH} 本までです。不要な音声を外してから追加してください。`
 
 export function formatTime(value) {
   const seconds = Math.max(0, Math.floor(Number(value) || 0))
@@ -11,6 +13,16 @@ export function normalizeArticleRoute(pathname, basePath = '') {
   let path = String(pathname || '').split(/[?#]/)[0]
   if (basePath && (path === basePath || path.startsWith(`${basePath}/`))) path = path.slice(basePath.length)
   return path.replace(/\.html$/, '').replace(/\/$/, '') || '/'
+}
+
+export function latestAudioPublication(episodes) {
+  const timestamps = episodes.map(episode => Date.parse(episode.published_at)).filter(Number.isFinite)
+  if (!timestamps.length) return null
+  const date = new Date(Math.max(...timestamps))
+  return {
+    iso: date.toISOString(),
+    label: new Intl.DateTimeFormat('ja-JP', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(date)
+  }
 }
 
 export function audioProblemReportUrl(episode, position = 0) {
@@ -34,7 +46,8 @@ export function readSavedState(raw, episodes) {
     if (saved.schema_version !== 1) return initial
     const known = new Map(episodes.map(episode => [episode.id, episode]))
     const ids = Array.isArray(saved.queue) ? saved.queue.filter(id => typeof id === 'string') : []
-    const queue = [...new Set(ids)].filter(id => known.has(id)).slice(0, 1000)
+    const availableIds = [...new Set(ids)].filter(id => known.has(id))
+    const queue = availableIds.slice(0, MAX_QUEUE_LENGTH)
     const positions = {}
     for (const [id, value] of Object.entries(saved.positions || {})) {
       if (!known.has(id) || !Number.isFinite(value) || value < 0) continue
@@ -45,9 +58,10 @@ export function readSavedState(raw, episodes) {
       currentId: queue.includes(saved.currentId) ? saved.currentId : null,
       positions,
       rate: PLAYBACK_RATES.includes(saved.rate) ? saved.rate : 1,
-      notice: ids.some(id => !known.has(id))
-        ? '更新・公開終了した音声を再生リストから外しました。新しい版は記事から追加できます。'
-        : ''
+      notice: [
+        ids.some(id => !known.has(id)) ? '更新・公開終了した音声を再生リストから外しました。新しい版は記事から追加できます。' : '',
+        availableIds.length > MAX_QUEUE_LENGTH ? QUEUE_LIMIT_NOTICE : ''
+      ].filter(Boolean).join(' ')
     }
   } catch {
     return { ...initial, notice: '保存された再生情報を読み込めなかったため、初期状態で開きました。' }
@@ -97,8 +111,18 @@ export function createAudioController({ audio, episodes, storage, mediaSession, 
       }))
     } catch { emit({ storageAvailable: false }) }
   }
+  function currentPosition() {
+    // UI timeupdate events can lag the native clock, especially while another app is in front.
+    // A pending seek or selected-but-unloaded episode must keep its intended position instead.
+    if (loadedId === state.currentId && pendingSeek === null && audio.readyState > 0 && Number.isFinite(audio.currentTime)) {
+      return Math.max(0, Math.min(audio.currentTime, state.duration || Infinity))
+    }
+    return state.position
+  }
   function savePosition() {
-    if (state.currentId) positions[state.currentId] = state.position
+    const position = currentPosition()
+    if (position !== state.position) emit({ position })
+    if (state.currentId) positions[state.currentId] = position
     persist()
   }
   function updateSession() {
@@ -176,17 +200,20 @@ export function createAudioController({ audio, episodes, storage, mediaSession, 
     updateSession()
   }
   function enqueue(ids) {
-    const queue = [...new Set([...state.queue, ...ids.filter(id => known.has(id))])].slice(0, 1000)
-    emit({ queue })
+    const requested = [...new Set([...state.queue, ...ids.filter(id => known.has(id))])]
+    const queue = requested.slice(0, MAX_QUEUE_LENGTH)
+    emit({ queue, notice: requested.length > MAX_QUEUE_LENGTH ? QUEUE_LIMIT_NOTICE : state.notice === QUEUE_LIMIT_NOTICE ? '' : state.notice })
     persist()
   }
   function start(id, relatedIds = [id]) {
     enqueue(relatedIds)
     if (!state.queue.includes(id)) enqueue([id])
+    if (!state.queue.includes(id)) return false
     if (setCurrent(id)) play()
   }
   function next() {
     const index = state.queue.indexOf(state.currentId)
+    if (index < 0) return
     const id = state.queue[index + 1]
     if (id) { setCurrent(id); play() } else pause()
   }
@@ -254,11 +281,15 @@ export function createAudioController({ audio, episodes, storage, mediaSession, 
   })
   on('error', () => {
     if (!loadedId) return
+    savePosition()
     loadedId = null
     emit({ playing: false, loading: false, error: '音声を読み込めませんでした。通信を確認して再試行してください。' })
     updateSession()
   })
   on('ended', () => {
+    if (!state.currentId || loadedId !== state.currentId || pendingSeek !== null || !audio.ended) return
+    // The completed position is zero. Do not sample the old file's ending clock during next().
+    loadedId = null
     positions[state.currentId] = 0
     emit({ position: 0, playing: false })
     persist()
@@ -267,8 +298,8 @@ export function createAudioController({ audio, episodes, storage, mediaSession, 
   const handlers = {
     play, pause, nexttrack: next,
     previoustrack: () => seek(0),
-    seekbackward: details => seek(state.position - (details.seekOffset || 15)),
-    seekforward: details => seek(state.position + (details.seekOffset || 15)),
+    seekbackward: details => seek(currentPosition() - (details.seekOffset || 15)),
+    seekforward: details => seek(currentPosition() + (details.seekOffset || 15)),
     seekto: details => seek(details.seekTime),
     stop: pause
   }

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { mkdtemp, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
-import { assertSafeArticlePath, discoverArticles, PrerequisiteError, QuotaError, readJson, sha256, sourceDigest, sourceSections, splitSpeech, validateScript, writeJson } from '../../scripts/audio/core.mjs'
+import { assertSafeArticlePath, discoverArticles, PrerequisiteError, productionDigest, QuotaError, readJson, readSupplementalSources, sha256, sourceDigest, sourceSections, splitSpeech, supplementalDigest, validateScript, validateSupplementalMaterial, writeJson } from '../../scripts/audio/core.mjs'
 import { askClaude, assertSubscriptionEnvironment, checkSubscription, execute, scriptSchema, scriptPrompt } from '../../scripts/audio/claude.mjs'
 import { checkAccountConfirmation, loadConfig, prepareReviewedScript, reviewProblems, runProduction } from '../../scripts/audio/pipeline.mjs'
 import { checkEngine, engineBase, evaluateSignal, synthesizeScript } from '../../scripts/audio/synthesis.mjs'
@@ -67,6 +67,16 @@ test('replacement characters invalidate scripts and reviews instead of becoming 
   assert.match(validateScript(script, sections).join(' '), /文字化け/)
   const review = makeReview(); review.coverage[0].reason += '\uFFFD'
   assert.match(reviewProblems(review, sections).join(' '), /文字化け/)
+})
+test('resuming an invalid cached script sends the validation issue in the first repair prompt', async t => {
+  const { root } = await fixture(t)
+  const damaged = makeScript(); damaged.chapters[0].turns[0].text += '\uFFFD'
+  await writeJson(path.join(root, 'script.json'), damaged)
+  let firstPrompt
+  const result = await prepareReviewedScript(article, config, root, { generate: async (...args) => { if (!firstPrompt) firstPrompt = args[1]; return generated(...args) } })
+  assert.match(firstPrompt, /修正指摘:.*文字化け/)
+  assert.deepEqual(validateScript(result.script, sections), [])
+  assert.equal(result.review.passed, true)
 })
 test('speech splitting preserves all spoken characters and respects the configured maximum', () => {
   const text = '停止条件を確かめます。'.repeat(70)
@@ -253,4 +263,56 @@ test('invalid queue state releases the producer lock before reporting the error'
   await assert.rejects(runProduction({ ...paths, config }, dependencies), SyntaxError)
   await assert.rejects(readFile(path.join(paths.stateDir, 'run.lock')), { code: 'ENOENT' })
   assert.equal(await readFile(path.join(paths.stateDir, 'queue.json'), 'utf8'), '{invalid')
+})
+test('supplemental context includes only related exact glossary excerpts and validates against a source reader', async t => {
+  const { repoRoot } = await fixture(t)
+  const glossary = '# 用語集\n### MCP(Model Context Protocol)\n\nツールとデータを接続する標準です。\n### RAG(検索拡張生成)\n\n検索結果をモデルの入力に加えます。\n### 別の用語\n\n無関係な情報です。'
+  await writeFile(path.join(repoRoot, 'GLOSSARY.md'), glossary)
+  const bundle = await readSupplementalSources(repoRoot, { source: 'MCP と RAG を説明する。' })
+  assert.deepEqual(bundle.entries.map(entry => entry.heading), ['MCP(Model Context Protocol)', 'RAG(検索拡張生成)'])
+  assert.deepEqual(await validateSupplementalMaterial(bundle, repoRoot, { readDocument: async () => glossary }), [])
+  assert.deepEqual(await validateSupplementalMaterial(bundle, repoRoot, { readDocument: async () => glossary.replace('無関係な情報', '別の情報') }), [])
+  assert.match((await validateSupplementalMaterial(bundle, repoRoot, { readDocument: async () => glossary.replace('検索結果', '検索した資料') })).join(' '), /変更/)
+  const forged = structuredClone(bundle); forged.entries[0].document_path = '../outside.md'
+  assert.match((await validateSupplementalMaterial(forged, repoRoot)).join(' '), /パス/)
+})
+test('new script and review share grounded prerequisites; used excerpts bind READY and unrelated edits reuse it', async t => {
+  const paths = await fixture(t)
+  const glossaryPath = path.join(paths.repoRoot, 'GLOSSARY.md')
+  const glossary = '# 用語集\n### MAX_STEPS\n\n停止回数の上限を表す設定です。\n### 無関係な語\n\n別の内容です。'
+  await writeFile(glossaryPath, glossary)
+  const prompts = []
+  const first = await runProduction({ ...paths, config }, { ...dependencies, generate: async (...args) => { prompts.push(args[1]); return generated(...args) } })
+  assert.equal(first.held.length, 0); assert.equal(prompts.length, 2)
+  assert.ok(prompts.every(prompt => prompt.includes('停止回数の上限を表す設定です。')))
+  assert.match(prompts[1], /その理由だけで不合格にしません/)
+  const ready = await readJson(first.ready[0]), bundle = await readJson(ready.supplemental_file)
+  assert.equal(ready.supplemental_digest, supplementalDigest(bundle))
+  assert.equal(ready.review.supplemental_digest, ready.supplemental_digest)
+  const baseSignature = sha256(JSON.stringify({ voices: config.voices, synthesis: config.synthesis, attribution: config.attribution }))
+  assert.equal(ready.production_signature, productionDigest(baseSignature, ready.supplemental_digest))
+  await writeFile(glossaryPath, glossary.replace('別の内容', '変更した無関係な内容'))
+  const unchanged = await runProduction({ ...paths, config }, { ...dependencies, generate: async () => { throw new Error('unrelated glossary edits must not consume usage') } })
+  assert.equal(unchanged.skipped, 1)
+  await writeFile(glossaryPath, glossary.replace('停止回数の上限', '繰り返し回数の上限'))
+  let reviews = 0
+  const changed = await runProduction({ ...paths, config }, { ...dependencies, generate: async (...args) => { reviews++; return generated(...args) } })
+  assert.equal(changed.processed, 1); assert.equal(reviews, 1)
+  assert.notEqual((await readJson(first.ready[0])).supplemental_digest, ready.supplemental_digest)
+})
+test('introducing prerequisites does not force regeneration of legacy source-only approved audio', async t => {
+  const paths = await fixture(t)
+  await runProduction({ ...paths, config }, dependencies)
+  await writeFile(path.join(paths.repoRoot, 'GLOSSARY.md'), '# 用語集\n### MAX_STEPS\n\n停止回数の上限を表す設定です。')
+  const result = await runProduction({ ...paths, config }, { ...dependencies, generate: async () => { throw new Error('legacy approved audio must remain usable') } })
+  assert.equal(result.skipped, 1)
+})
+test('publisher regeneration requests prioritize only the exact current article revision', async t => {
+  const paths = await fixture(t)
+  const secondPath = 'docs/01-concepts/second.md'
+  await writeFile(path.join(paths.repoRoot, secondPath), source)
+  await writeJson(path.join(paths.stateDir, 'publication/regeneration-needed.json'), { schema_version: 1, articles: [{ article_path: secondPath, source_digest: article.source_digest }, { article_path: article.article_path, source_digest: 'f'.repeat(64) }] })
+  const result = await runProduction({ ...paths, config, limit: 1 }, dependencies)
+  assert.equal(result.processed, 1)
+  assert.equal((await readJson(result.ready[0])).article_path, secondPath)
 })

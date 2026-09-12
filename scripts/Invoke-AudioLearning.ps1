@@ -16,9 +16,9 @@ if ($AutoMerge -and -not $Publish) { throw '-AutoMerge requires -Publish.' }
 $projectPath = (Resolve-Path -LiteralPath $ProjectRoot).Path
 $nodePath = (Get-Command node -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source
 if (-not $StateDir) {
-    $gitDirectory = & git -C $projectPath rev-parse --git-common-dir
+    $gitDirectory = & git -C $projectPath rev-parse --path-format=absolute --git-common-dir
     if ($LASTEXITCODE -ne 0) { throw 'Cannot locate the common Git directory.' }
-    $StateDir = Join-Path ([IO.Path]::GetFullPath((Join-Path $projectPath $gitDirectory))) 'audio-learning'
+    $StateDir = Join-Path $gitDirectory.Trim() 'audio-learning'
 }
 $statePath = [IO.Path]::GetFullPath($StateDir)
 $productionArgs = @((Join-Path $projectPath 'scripts\audio-run.mjs'), $(if ($DryRun) { '--plan' } else { '--run' }), '--state-dir', $statePath, '--limit', [string]$Limit)
@@ -53,6 +53,17 @@ try {
         if ($LASTEXITCODE -ne 0) { throw 'Cannot fetch main for audio production.' }
         & git -C $projectPath merge --ff-only origin/main
         if ($LASTEXITCODE -ne 0) { throw 'The audio checkout diverged; inspect it without resetting.' }
+        $lockPath = Join-Path $projectPath 'package-lock.json'
+        $packagePath = Join-Path $projectPath 'package.json'
+        $dependencyStamp = ((Get-FileHash -LiteralPath $lockPath -Algorithm SHA256).Hash + (Get-FileHash -LiteralPath $packagePath -Algorithm SHA256).Hash)
+        $dependencyMarker = Join-Path $projectPath 'node_modules\.audio-learning-dependencies'
+        $installedStamp = if (Test-Path -LiteralPath $dependencyMarker) { (Get-Content -LiteralPath $dependencyMarker -Raw).Trim() } else { '' }
+        if ($installedStamp -ne $dependencyStamp) {
+            $npmPath = (Get-Command npm.cmd -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source
+            & $npmPath --prefix $projectPath ci
+            if ($LASTEXITCODE -ne 0) { throw 'Cannot prepare updated audio production dependencies.' }
+            [IO.File]::WriteAllText($dependencyMarker, $dependencyStamp, [Text.UTF8Encoding]::new($false))
+        }
     }
     $toolsFile = Join-Path $statePath 'tools.json'
     if (-not (Test-Path -LiteralPath $toolsFile)) { throw 'Local audio tools are not prepared. Run scripts/Install-AudioLearningTools.ps1 first.' }

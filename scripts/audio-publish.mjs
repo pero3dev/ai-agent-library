@@ -8,7 +8,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const args = process.argv.slice(2)
 if (args.includes('--help')) {
   console.log('node scripts/audio-publish.mjs [--apply] [--auto-merge] [--minimum-batch 3] [--state-dir ABSOLUTE] [--manifest ABSOLUTE]')
-  console.log('Default: validate local ready manifests only. --apply uploads immutable public assets and opens a catalog-only PR. --auto-merge waits for all protected checks.')
+  console.log('Default: validate local ready manifests only. --apply uploads immutable public assets and opens a catalog-only PR. --auto-merge refreshes an owned outdated branch without rewriting history, queues changed sources for regeneration, and waits for all protected checks on the new head.')
 } else {
   try {
     const commonGit = execFileSync('git', ['rev-parse', '--git-common-dir'], { cwd: root, encoding: 'utf8', windowsHide: true }).trim()

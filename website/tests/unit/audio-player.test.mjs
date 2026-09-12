@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import {
-  AUDIO_STORAGE_KEY, audioProblemReportUrl, createAudioController, formatTime, normalizeArticleRoute, readSavedState
+  AUDIO_STORAGE_KEY, audioProblemReportUrl, createAudioController, formatTime, latestAudioPublication, normalizeArticleRoute, readSavedState
 } from '../../lib/audio-player.mjs'
 
 const episodes = ['a', 'b', 'c'].map(id => ({
@@ -16,12 +16,13 @@ class FakeAudio extends EventTarget {
   loadCount = 0
   playCount = 0
   paused = true
+  ended = false
   src = ''
-  load() { this.loadCount++; this.readyState = 0; this.currentTime = 0 }
+  load() { this.loadCount++; this.readyState = 0; this.currentTime = 0; this.ended = false }
   play() { this.playCount++; this.paused = false; return Promise.resolve() }
   pause() { this.paused = true; this.dispatchEvent(new Event('pause')) }
   removeAttribute(name) { if (name === 'src') this.src = '' }
-  event(name) { if (name === 'loadedmetadata') this.readyState = 1; this.dispatchEvent(new Event(name)) }
+  event(name) { if (name === 'loadedmetadata') this.readyState = 1; if (name === 'ended') this.ended = true; this.dispatchEvent(new Event(name)) }
 }
 function setup(saved, extras = {}) {
   const audio = new FakeAudio()
@@ -43,6 +44,12 @@ test('problem report is an unsent issue URL with the exact public episode revisi
   assert.equal(url.searchParams.get('title'), '[音声] 題名 & 条件 の内容について')
   assert.match(url.searchParams.get('body'), /音声 ID: episode-1\n/)
   assert.match(url.searchParams.get('body'), /元記事の版: revision\n再生時刻: 1:15/)
+})
+test('audio publication label uses the most recent part in Japan time, not the article update date', () => {
+  assert.deepEqual(latestAudioPublication([
+    { published_at: '2026-09-12T23:00:00Z' }, { published_at: '2026-09-13T16:00:00Z' }
+  ]), { iso: '2026-09-13T16:00:00.000Z', label: '2026/09/14' })
+  assert.equal(latestAudioPublication([]), null)
 })
 test('invalid storage recovers and stale versions never receive another version position', () => {
   assert.match(readSavedState('{', episodes).notice, /初期状態/)
@@ -69,6 +76,30 @@ test('enqueue deduplicates and start does not replace the user ordered list', ()
   player.start('a', ['a', 'c'])
   assert.deepEqual(state().queue, ['b', 'a', 'c'])
   assert.equal(state().currentId, 'a')
+})
+test('a full queue refuses an unqueued selection instead of playing outside the saved order', () => {
+  const many = Array.from({ length: 1001 }, (_, i) => ({ ...episodes[0], id: `episode-${i}` }))
+  const { audio, player, state } = setup(null, { episodes: many })
+  player.enqueue(many.map(episode => episode.id))
+  player.start('episode-0')
+  audio.event('loadedmetadata')
+  const playCount = audio.playCount
+  assert.equal(player.start('episode-1000'), false)
+  assert.equal(state().currentId, 'episode-0')
+  assert.equal(state().queue.length, 1000)
+  assert.equal(audio.playCount, playCount)
+  assert.match(state().notice, /1000 本まで/)
+  player.remove('episode-999')
+  player.start('episode-1000')
+  assert.equal(state().queue.includes(state().currentId), true)
+  assert.equal(state().currentId, 'episode-1000')
+})
+test('restoring an oversized saved queue reports its cap and does not select an excluded item', () => {
+  const many = Array.from({ length: 1001 }, (_, i) => ({ ...episodes[0], id: `episode-${i}` }))
+  const value = readSavedState(JSON.stringify({ schema_version: 1, queue: many.map(episode => episode.id), currentId: 'episode-1000' }), many)
+  assert.equal(value.queue.length, 1000)
+  assert.equal(value.currentId, null)
+  assert.match(value.notice, /1000 本まで/)
 })
 test('move affects next playback and media element is reused', () => {
   const { audio, player, state } = setup()
@@ -144,6 +175,64 @@ test('pause persists exact progress and switching episodes resumes independently
   audio.event('loadedmetadata')
   assert.equal(audio.currentTime, 57)
 })
+test('pagehide save samples the media clock between timeupdate events', () => {
+  const { audio, player, state, items } = setup()
+  player.start('a')
+  audio.event('loadedmetadata')
+  audio.currentTime = 40
+  assert.equal(state().position, 0)
+  player.save()
+  assert.equal(state().position, 40)
+  assert.equal(JSON.parse(items.get(AUDIO_STORAGE_KEY)).positions.a, 40)
+})
+test('save protects pending seeks and selected-but-unloaded episodes from the previous media clock', () => {
+  const { audio, player, state, items } = setup()
+  player.start('a', ['a', 'b'])
+  audio.event('loadedmetadata')
+  audio.currentTime = 40
+  player.remove('a')
+  player.seek(75)
+  player.save()
+  assert.equal(state().currentId, 'b')
+  assert.equal(state().position, 75)
+  assert.equal(JSON.parse(items.get(AUDIO_STORAGE_KEY)).positions.b, 75)
+  player.play()
+  player.save()
+  assert.equal(JSON.parse(items.get(AUDIO_STORAGE_KEY)).positions.b, 75)
+})
+test('Media Session offsets sample current native time even before timeupdate', () => {
+  const actions = new Map()
+  const { audio, player, state } = setup(null, { mediaSession: { setActionHandler: (name, handler) => actions.set(name, handler) } })
+  player.start('a')
+  audio.event('loadedmetadata')
+  audio.currentTime = 40
+  actions.get('seekbackward')({})
+  assert.equal(audio.currentTime, 25)
+  assert.equal(state().position, 25)
+  audio.currentTime = 60
+  actions.get('seekforward')({ seekOffset: 10 })
+  assert.equal(audio.currentTime, 70)
+})
+test('an old ended event cannot restart the queue after the current episode was removed', () => {
+  const { audio, player, state } = setup()
+  player.start('a', ['a', 'b', 'c'])
+  audio.event('loadedmetadata')
+  player.remove('a')
+  audio.event('ended')
+  assert.equal(state().currentId, 'b')
+  assert.equal(audio.paused, true)
+  assert.equal(audio.playCount, 1)
+})
+test('an old ended callback cannot advance a replacement media file that has not ended', () => {
+  const { audio, player, state } = setup()
+  player.start('a', ['a', 'b', 'c'])
+  audio.event('loadedmetadata')
+  player.start('b')
+  audio.event('loadedmetadata')
+  audio.dispatchEvent(new Event('ended'))
+  assert.equal(state().currentId, 'b')
+  assert.equal(audio.playCount, 2)
+})
 test('removing current keeps remaining list paused and removing final unloads media', () => {
   const { audio, player, state } = setup()
   player.start('a', ['a', 'b'])
@@ -193,6 +282,19 @@ test('media errors reload the same episode and preserve progress', () => {
   audio.event('loadedmetadata')
   assert.equal(audio.currentTime, 90)
   assert.equal(audio.loadCount, 2)
+})
+test('media error preserves native progress that has not reached a timeupdate event', () => {
+  const { audio, player, state, items } = setup()
+  player.start('a')
+  audio.event('loadedmetadata')
+  player.seek(15)
+  audio.currentTime = 90
+  audio.event('error')
+  assert.equal(state().position, 90)
+  assert.equal(JSON.parse(items.get(AUDIO_STORAGE_KEY)).positions.a, 90)
+  player.play()
+  audio.event('loadedmetadata')
+  assert.equal(audio.currentTime, 90)
 })
 test('Media Session seek/next controls use same player, unsupported actions are tolerated', () => {
   const actions = new Map()

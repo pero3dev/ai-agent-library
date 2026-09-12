@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { useAudio } from './audio-provider'
 import { EpisodeActions } from './article-audio'
 import { QueueList } from './queue-list'
+import { latestAudioPublication } from '../../lib/audio-player.mjs'
 
 export function AudioLibrary() {
   const { catalog, state, controller, ready } = useAudio()
@@ -35,11 +36,13 @@ export function AudioLibrary() {
     <p className="audio-help" role="status">{articles.length} 記事</p>
     <ul className="audio-library-list">{articles.map(article => {
       const episodes = catalog.episodes.filter(item => item.article_path === article.article_path).sort((a, b) => a.part - b.part)
+      const publication = latestAudioPublication(episodes)
       return <li key={article.article_path}>
         <p className="audio-eyebrow">{article.section_title}</p>
         <h2><Link href={article.route}>{article.title}</Link></h2>
         {episodes.length ? <>
           <EpisodeActions episodes={episodes} />
+          {publication && <p className="audio-help">音声公開日: <time dateTime={publication.iso}>{publication.label}</time></p>}
           {episodes.some(item => item.stale) && <p className="audio-stale">記事より古い内容です。新しい音声を準備しています。</p>}
           <p className="audio-help">AI 合成音声 · {episodes[0].attribution}</p>
         </> : <span className="audio-pending">音声を準備中</span>}

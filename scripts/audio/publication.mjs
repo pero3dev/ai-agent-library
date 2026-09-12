@@ -362,16 +362,32 @@ function finishCatalogRefresh(journal, { root, stateDir, run }) {
   assert(run('git', ['rev-parse', 'HEAD'], journal.worktree) === journal.new_head && !run('git', ['status', '--porcelain', '--untracked-files=all'], journal.worktree), 'Prepared refresh worktree changed')
   run('git', ['merge-base', '--is-ancestor', journal.previous_head, journal.new_head], journal.worktree)
   assert(run('git', ['diff', '--name-only', journal.main_sha, journal.new_head], journal.worktree) === catalogPath, 'Prepared refresh contains changes outside the catalog')
-  const observed = JSON.parse(gh('pr', 'view', String(journal.number), '--repo', AUDIO_REPOSITORY, '--json', 'number,url,state,headRefOid,headRefName,baseRefName,isCrossRepository,autoMergeRequest'))
-  assert(observed.state === 'OPEN' && observed.headRefName === journal.branch && observed.baseRefName === 'main' && observed.isCrossRepository === false && [journal.previous_head, journal.new_head].includes(observed.headRefOid), 'Catalog PR changed during refresh')
+  const readPr = () => JSON.parse(gh('pr', 'view', String(journal.number), '--repo', AUDIO_REPOSITORY, '--json', 'number,url,state,headRefOid,headRefName,baseRefName,isCrossRepository,autoMergeRequest,title,body'))
+  const assertIdentity = pr => assert(pr.state === 'OPEN' && pr.headRefName === journal.branch && pr.baseRefName === 'main' && pr.isCrossRepository === false && [journal.previous_head, journal.new_head].includes(pr.headRefOid), 'Catalog PR changed during refresh')
+  const body = readFileSync(journal.body_file, 'utf8').replace(/\r\n/g, '\n')
+  const metadataMatches = pr => pr.title === journal.title && typeof pr.body === 'string' && pr.body.replace(/\r\n/g, '\n') === body
+  const observed = readPr()
+  assertIdentity(observed)
   if (observed.autoMergeRequest) gh('pr', 'merge', String(journal.number), '--repo', AUDIO_REPOSITORY, '--disable-auto')
-  if (observed.headRefOid !== journal.new_head) run('git', ['push', 'origin', `${journal.new_head}:refs/heads/${journal.branch}`], journal.worktree)
-  const updated = JSON.parse(gh('pr', 'view', String(journal.number), '--repo', AUDIO_REPOSITORY, '--json', 'number,url,state,headRefOid'))
-  assert(updated.state === 'OPEN' && updated.headRefOid === journal.new_head, 'Refreshed PR head was not observed')
+  const current = readPr()
+  assertIdentity(current)
+  assert(current.headRefOid === observed.headRefOid && !current.autoMergeRequest, 'Catalog PR head or auto-merge changed before metadata refresh')
+  if (current.headRefOid === journal.new_head && !metadataMatches(current)) return { status: 'HELD_REFRESH_METADATA', head: journal.new_head, reason: 'The refreshed head already exists but its PR metadata differs from the prepared journal. Inspect the remote PR and journal, restore reviewed metadata explicitly, then resume. Automatic edits on the new head are disabled to avoid duplicate policy events.' }
+  if (current.headRefOid === journal.previous_head) {
+    if (!metadataMatches(current)) {
+      if (current.title !== journal.previous_title || typeof current.body !== 'string' || digest(current.body.replace(/\r\n/g, '\n')) !== journal.previous_body_sha256) return { status: 'HELD_REFRESH_METADATA', head: current.headRefOid, reason: 'The old-head PR metadata changed or its original snapshot is missing. Inspect the remote PR and prepared journal before resuming; another editor\'s changes will not be overwritten.' }
+      gh('pr', 'edit', String(journal.number), '--repo', AUDIO_REPOSITORY, '--title', journal.title, '--body-file', journal.body_file)
+    }
+    const beforePush = readPr()
+    assertIdentity(beforePush)
+    assert(beforePush.headRefOid === journal.previous_head && !beforePush.autoMergeRequest && metadataMatches(beforePush), 'Catalog PR metadata/head or auto-merge changed before push')
+    run('git', ['push', 'origin', `${journal.new_head}:refs/heads/${journal.branch}`], journal.worktree)
+  }
+  const confirmed = readPr()
+  assertIdentity(confirmed)
+  assert(confirmed.headRefOid === journal.new_head && !confirmed.autoMergeRequest && metadataMatches(confirmed), 'Refreshed PR metadata/head were not observed together')
+  const updated = { number: confirmed.number, url: confirmed.url, state: confirmed.state, headRefOid: confirmed.headRefOid }
   atomicJson(path.join(stateDir, 'publication', 'pending-pr.json'), updated)
-  gh('pr', 'edit', String(journal.number), '--repo', AUDIO_REPOSITORY, '--title', journal.title, '--body-file', journal.body_file)
-  const confirmed = JSON.parse(gh('pr', 'view', String(journal.number), '--repo', AUDIO_REPOSITORY, '--json', 'state,headRefOid,title,body'))
-  assert(confirmed.state === 'OPEN' && confirmed.headRefOid === journal.new_head && confirmed.title === journal.title && confirmed.body.replace(/\r\n/g, '\n') === readFileSync(journal.body_file, 'utf8').replace(/\r\n/g, '\n'), 'Refreshed PR metadata/head were not observed together')
   atomicJson(path.join(stateDir, 'publication', `refresh-pr-${journal.number}.json`), { ...journal, status: 'pushed' })
   return { status: 'BRANCH_UPDATED', pr: updated, head: journal.new_head, regeneration_needed: journal.regeneration, reason: 'Waiting for all required checks on the refreshed head' }
 }
@@ -449,7 +465,7 @@ export function refreshCatalogPr(fresh, { root, stateDir, run = command } = {}) 
   assert(run('git', ['diff', '--cached', '--name-only', mainSha], worktree) === catalogPath, 'Merge result changes more than the catalog relative to main')
   run('git', ['commit', '-F', messageFile], worktree)
   const newHead = run('git', ['rev-parse', 'HEAD'], worktree)
-  const journal = { status: 'prepared', number: fresh.number, previous_head: fresh.headRefOid, new_head: newHead, main_sha: mainSha, worktree, branch: fresh.headRefName, body_file: bodyFile, body_sha256: digest(readFileSync(bodyFile)), title: metadata.title, regeneration: reconciliation.regeneration }
+  const journal = { status: 'prepared', number: fresh.number, previous_head: fresh.headRefOid, previous_title: fresh.title, previous_body_sha256: digest(fresh.body.replace(/\r\n/g, '\n')), new_head: newHead, main_sha: mainSha, worktree, branch: fresh.headRefName, body_file: bodyFile, body_sha256: digest(readFileSync(bodyFile)), title: metadata.title, regeneration: reconciliation.regeneration }
   atomicJson(journalFile, journal)
   return finishCatalogRefresh(journal, { root, stateDir, run })
 }

@@ -87,6 +87,8 @@ Node.js は 22 以降、Python は 3.11 以降が必要です。診断は版の�
 
 共通 Git ディレクトリの `harness-tools/python/` に専用 venv がある場合は優先します。`harness:doctor` と `check:ci` の `--python <実行ファイルの絶対パス>` でも明示できます。専用 venv を準備する場合は、Python 3.11 以降の `-m venv <共通Gitディレクトリ>/harness-tools/python` で作成し、その venv の Python で `-X utf8 -m pip install -r examples/tests/requirements.txt` を実行します。個人のグローバル環境は変更しません。
 
+Python の既知脆弱性は `check:ci -- --run python-audit` で検査します。選択する venv に `python -m pip install -r harness/requirements-audit.txt` で監査ツールを準備してください。検査はサンプルの requirements から解決した依存を照合し、脆弱性の検出だけでなく収集失敗でも失敗します。CI の examples job でも同じ検査を必須実行します。
+
 実 Agent の結果は `harness:doctor -- --observations <記録.json>` で渡せます。形式は `schema_version: 1` と `observations` 配列で、各項目は `kind` / `surface` / `binary`(任意) / `version`(任意) / `result`(`passed`・`failed`・`unknown`) / `observed_at`(ISO 日時) / `evidence`(根拠の位置)です。診断時に再実行した証拠にはせず、観測した製品・版・日時の結果として表示します。
 
 `harness:context` は profile、commit、必要な規約、指定した ROADMAP タスクの状態と成果物を返します。ROADMAP の全文を作業コンテキストへ複製しません。実際のタスク表を解析し、未作成の記事は作成予定・未検出として表示します。曖昧な記事名や重複タスクはエラーにします。終了条件と許可根拠は実際の依頼を作業契約へ記録します。
@@ -112,6 +114,8 @@ npm run harness:run -- resume --run-id <run-id> --apply
 開始・再開で返された `attempt_id` を保存処理へ渡します。外部待ちは理由と次回確認時刻を持ち、解消した証拠がある場合だけ `resume --ready --wait-reason <理由>` で進めます。復元は所有する隔離ブランチで行い、main の変更や他者の未保存差分を照合します。利用制限を指定した試験は、実際に契約枠を使い切った試験と区別します。
 
 完了前に候補をコミットし、`verify` を実行します。`finish` はその tree に結び付いた検証と、作業区分に必要な内容レビューを要求します。`new-doc` の draft PR で公開レビューの記録を省略できても、共通 runtime の内容レビュー契約は残ります。レビュー記録は `decision: approved`、`tree_sha`、作業 run と異なる `reviewer_run_id` を持ち、checkpoint の JSON で引き渡します。`merged` / `published` の完了には、`pr_url`、`head_sha`、必要な `publication_urls` を記録し、実 GitHub と公開先を再照合します。
+
+公開完了では、保存した候補 commit/tree と PR head の対応も検査します。候補を変えた場合は再度 `verify` し、PR/head の差し替えで外部検証を引き継ぎません。マージ後は、確認済み merge commit またはその merge を含む取得済み `origin/main` と一致する clean checkout からも完了できます。候補と merge の Git object を保持し、無関係な checkout や未保存差分を完了扱いにしません。GitHub の policy 実行は PR 番号を含む固定 run-name でも照合するため、この結合情報がない旧実行を新しい公開完了の証拠として再利用しません。
 
 保存先は common Git directory 配下です。クライアントの sandbox が `.git` を読み取り専用にする実行面では、明示した作業領域の権限を確認します。`start` が拒否された場合を、中断保存や再開の成功と表示しません。
 

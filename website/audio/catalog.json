@@ -1,5 +1,161 @@
 {
   "schema_version": 1,
-  "updated_at": null,
-  "episodes": []
+  "updated_at": "2026-09-12T19:59:25.845Z",
+  "episodes": [
+    {
+      "id": "00-overview--learning-roadmap-70c1702d98bf-80cbd75bddd0-5e46e5712e06-p01",
+      "article_path": "docs/00-overview/learning-roadmap.md",
+      "source_digest": "70c1702d98bf27171a59069e358f551340df02237f23d1163a81595d9438d750",
+      "title": "AI Agent 学習ロードマップ",
+      "part": 1,
+      "parts": 1,
+      "duration_seconds": 1575.925329,
+      "chapters": [
+        {
+          "id": "ch00-intro",
+          "title": "導入:この記事は「地図」であって「本編」ではない",
+          "start_seconds": 0
+        },
+        {
+          "id": "ch01-structure-overview",
+          "title": "16セクションはなぜこの並びなのか",
+          "start_seconds": 171.691
+        },
+        {
+          "id": "ch02-reader-routes",
+          "title": "自分はどのタイプ?A~Hの推奨ルート",
+          "start_seconds": 451.264
+        },
+        {
+          "id": "ch03-section-guide-part1",
+          "title": "セクションごとの読みどころ(前編:01~07)",
+          "start_seconds": 662.421
+        },
+        {
+          "id": "ch04-section-guide-part2",
+          "title": "セクションごとの読みどころ(後編:08~15)",
+          "start_seconds": 814.624
+        },
+        {
+          "id": "ch05-learning-guidance",
+          "title": "学習の進め方:3つの指針",
+          "start_seconds": 1061.589
+        },
+        {
+          "id": "ch06-pitfalls-checklist",
+          "title": "やりがちな失敗と、始める前のセルフチェック",
+          "start_seconds": 1180.565
+        },
+        {
+          "id": "ch07-todo",
+          "title": "この記事にまだ残っている宿題",
+          "start_seconds": 1360.789
+        },
+        {
+          "id": "ch08-summary",
+          "title": "まとめ:今日から何をすればいいか",
+          "start_seconds": 1465.973
+        }
+      ],
+      "audio_sha256": "5e46e5712e06af3e0d72848c992592d929b6861286e436f9bdcce0f17dd975aa",
+      "script_sha256": "80cbd75bddd0b4c34e2742e4d1272abdd3b1a5c90b34074ed56002d9a6a4c986",
+      "voices": [
+        {
+          "id": 10005,
+          "name": "女声1",
+          "role": "listener",
+          "license_url": "https://voicevox.hiroshiba.jp/nemo/term/"
+        },
+        {
+          "id": 10001,
+          "name": "男声1",
+          "role": "explainer",
+          "license_url": "https://voicevox.hiroshiba.jp/nemo/term/"
+        }
+      ],
+      "attribution": "VOICEVOX Nemo（女声1・男声1）",
+      "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-learning-roadmap-70c1702d98bf2717-80cbd75bddd0b4c3/00-overview--learning-roadmap-70c1702d98bf-80cbd75bddd0-5e46e5712e06-p01-5e46e5712e06af3e.mp3",
+      "published_at": "2026-09-12T19:59:23.639Z"
+    },
+    {
+      "id": "00-overview--research-literacy-fad6f5ae3b58-beeb534a8845-4bc9266fdaa2-p01",
+      "article_path": "docs/00-overview/research-literacy.md",
+      "source_digest": "fad6f5ae3b581157ceaae69a628b836c2cdbf421764a41a1e5259ff6ad7e34c4",
+      "title": "AI 情報の追い方(一次情報の目利き)",
+      "part": 1,
+      "parts": 1,
+      "duration_seconds": 1197.951995,
+      "chapters": [
+        {
+          "id": "ch00-intro",
+          "title": "導入:AIニュースの洪水にどう向き合うか",
+          "start_seconds": 0
+        },
+        {
+          "id": "ch01-overview",
+          "title": "全体像:「全部追う」をやめるという発想",
+          "start_seconds": 114.859
+        },
+        {
+          "id": "ch02-hierarchy",
+          "title": "情報源の階層:一次・準一次・二次を見分ける",
+          "start_seconds": 210.208
+        },
+        {
+          "id": "ch03-papers",
+          "title": "論文の実務的な読み方",
+          "start_seconds": 370.432
+        },
+        {
+          "id": "ch04-hype",
+          "title": "ハイプの見分け方",
+          "start_seconds": 526.773
+        },
+        {
+          "id": "ch05-tracking",
+          "title": "追いかける仕組みを作る",
+          "start_seconds": 663.125
+        },
+        {
+          "id": "ch06-not-tracking",
+          "title": "追わなくてよいものを決める",
+          "start_seconds": 775.189
+        },
+        {
+          "id": "ch07-scenarios",
+          "title": "この理解が効く場面",
+          "start_seconds": 895.285
+        },
+        {
+          "id": "ch08-practice",
+          "title": "実務での注意点・アンチパターン・チェックリスト",
+          "start_seconds": 975.051
+        },
+        {
+          "id": "ch09-summary",
+          "title": "まとめ:自分の仕組みを持つということ",
+          "start_seconds": 1116.832
+        }
+      ],
+      "audio_sha256": "4bc9266fdaa2cb171ba26563cd6cfdaa05f18c0d55fe6c456de9c1b3da80fc17",
+      "script_sha256": "beeb534a884589b135403834cec04077cddb12fe16d6657c45c60093442d67a4",
+      "voices": [
+        {
+          "id": 10005,
+          "name": "女声1",
+          "role": "listener",
+          "license_url": "https://voicevox.hiroshiba.jp/nemo/term/"
+        },
+        {
+          "id": 10001,
+          "name": "男声1",
+          "role": "explainer",
+          "license_url": "https://voicevox.hiroshiba.jp/nemo/term/"
+        }
+      ],
+      "attribution": "VOICEVOX Nemo（女声1・男声1）",
+      "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-research-literacy-fad6f5ae3b581157-beeb534a884589b1/00-overview--research-literacy-fad6f5ae3b58-beeb534a8845-4bc9266fdaa2-p01-4bc9266fdaa2cb17.mp3",
+      "published_at": "2026-09-12T19:55:19Z"
+    }
+  ]
 }

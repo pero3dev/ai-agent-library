@@ -37,10 +37,15 @@ $mutex = New-Object Threading.Mutex($false, ('Local\AI-Agent-Library-Audio-' + $
 $ownedMutex = $false
 $engineProcess = $null
 $savedEnvironment = @{}
+$savedConsoleOutputEncoding = [Console]::OutputEncoding
+$savedOutputEncoding = $OutputEncoding
 $exitStatus = 0
 try {
     try { $ownedMutex = $mutex.WaitOne(0) } catch [Threading.AbandonedMutexException] { $ownedMutex = $true }
     if (-not $ownedMutex) { Write-Output '{"status":"already-running"}'; exit 0 }
+    # Windows PowerShell 5 decodes native stdout using Console.OutputEncoding.
+    [Console]::OutputEncoding = [Text.UTF8Encoding]::new($false)
+    $OutputEncoding = [Text.UTF8Encoding]::new($false)
     [Diagnostics.Process]::GetCurrentProcess().PriorityClass = 'BelowNormal'
     if ($SyncMain) {
         $remote = & git -C $projectPath remote get-url origin
@@ -92,19 +97,21 @@ try {
     }
     $productionOutput = & $nodePath @productionArgs
     $productionExit = $LASTEXITCODE
-    $productionOutput | Set-Content -LiteralPath (Join-Path $logDirectory ($stamp + '-production.json')) -Encoding UTF8
+    [IO.File]::WriteAllText((Join-Path $logDirectory ($stamp + '-production.json')), (($productionOutput -join [Environment]::NewLine) + [Environment]::NewLine), [Text.UTF8Encoding]::new($false))
     $productionOutput | Write-Output
     if ($productionExit -notin @(0, 2)) { throw 'Audio production failed; inspect its local log.' }
     # A quota pause must not prevent already validated episodes from progressing.
     $publicationOutput = & $nodePath @publicationArgs
     $publicationExit = $LASTEXITCODE
-    $publicationOutput | Set-Content -LiteralPath (Join-Path $logDirectory ($stamp + '-publication.json')) -Encoding UTF8
+    [IO.File]::WriteAllText((Join-Path $logDirectory ($stamp + '-publication.json')), (($publicationOutput -join [Environment]::NewLine) + [Environment]::NewLine), [Text.UTF8Encoding]::new($false))
     $publicationOutput | Write-Output
     if ($publicationExit -notin @(0, 2)) { throw 'Audio publication failed; inspect its local log.' }
     if ($productionExit -eq 2 -or $publicationExit -eq 2) { $exitStatus = 2 }
 } finally {
     if ($engineProcess -and -not $engineProcess.HasExited) { Stop-Process -Id $engineProcess.Id -ErrorAction SilentlyContinue }
     foreach ($name in $savedEnvironment.Keys) { [Environment]::SetEnvironmentVariable($name, $savedEnvironment[$name], 'Process') }
+    [Console]::OutputEncoding = $savedConsoleOutputEncoding
+    $OutputEncoding = $savedOutputEncoding
     if ($ownedMutex) { $mutex.ReleaseMutex() }
     $mutex.Dispose()
 }

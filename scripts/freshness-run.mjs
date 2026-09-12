@@ -3,9 +3,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { readRegistry, selectSystems } from './freshness-registry.mjs';
-import { checkFreshnessPolicy } from './freshness-policy.mjs';
 
 import { git, commitTree, assertPublicationCheckout, snapshotOwned, assertRunId, readLock, acquireLock, releaseLock, releaseLockIfOwned, assertOwner, withLockMutex, saveGeneration, recoverGeneration, queuedRuns, budgetStatus } from './lib/harness-state.mjs';
 export { acquireLock, releaseLock } from './lib/harness-state.mjs';
@@ -66,7 +66,8 @@ export function verifyFreshnessCandidate(root, checkpoint) {
   const evidence = JSON.parse(git(root, 'show', `${checkpoint.head_sha}:${file}`));
   const sameSystems = Array.isArray(checkpoint.systems) && Array.isArray(evidence.systems) && JSON.stringify([...checkpoint.systems].sort()) === JSON.stringify([...evidence.systems].sort());
   if (evidence.run_id !== checkpoint.run_id || evidence.base_sha !== checkpoint.base_sha || !sameSystems || !Number.isFinite(Date.parse(checkpoint.started_at)) || Date.parse(evidence.started_at) !== Date.parse(checkpoint.started_at)) throw new Error('PR evidence does not match this freshness run, selected systems, start time and base');
-  const policy = checkFreshnessPolicy({ cwd: root, base: checkpoint.base_sha, head: checkpoint.head_sha, branch: `automation/freshness-${checkpoint.run_id}` });
+  // Bootstrap commands run before npm ci. Load the trusted adjacent policy only for merged completion.
+  const policy = JSON.parse(execFileSync(process.execPath, [fileURLToPath(new URL('./freshness-policy.mjs', import.meta.url)), '--base', checkpoint.base_sha, '--head', checkpoint.head_sha, '--branch', `automation/freshness-${checkpoint.run_id}`], { cwd: root, encoding: 'utf8', windowsHide: true, timeout: 120000, maxBuffer: 8 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'] }));
   for (const id of checkpoint.completed_systems ?? []) {
     const observations = evidence.observations.filter(item => item.system_id === id);
     if (!observations.length || observations.some(item => !['changed', 'unchanged'].includes(item.status))) throw new Error('Completed systems require confirmed observations in the published evidence');

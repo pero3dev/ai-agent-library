@@ -608,3 +608,40 @@ test('legacy unfinished runs remain readable but cannot silently acquire a new p
   assert.throws(() => f.run('prepare', '--mode', 'manual', '--ids', 'models-prompting'), /legacy run/);
   assert.equal(fs.readFileSync(stateFile, 'utf8'), before);
 });
+
+function copyRuntimeWithoutDependencies(destination) {
+  fs.cpSync(new URL('../../scripts/', import.meta.url), path.join(destination, 'scripts'), { recursive: true });
+  fs.mkdirSync(path.join(destination, 'harness'), { recursive: true });
+  fs.copyFileSync(new URL('../../harness/git-conventions.json', import.meta.url), path.join(destination, 'harness/git-conventions.json'));
+  assert.equal(fs.existsSync(path.join(destination, 'node_modules')), false);
+  const policy = path.join(destination, 'scripts/freshness-policy.mjs');
+  assert.throws(() => execFileSync(process.execPath, [policy, '--help'], { cwd: destination, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }), /ERR_MODULE_NOT_FOUND/);
+  return path.join(destination, 'scripts/freshness-run.mjs');
+}
+
+test('a fresh checkout can inspect, prepare, save and resume through the real CLI before npm ci', t => {
+  const f = gitFixture(t), script = copyRuntimeWithoutDependencies(f.root);
+  f.git('add', 'scripts', 'harness'); f.git('commit', '-m', 'Bootstrap runtime fixture');
+  f.git('update-ref', 'refs/remotes/origin/main', 'HEAD');
+  const run = (...args) => JSON.parse(execFileSync(process.execPath, [script, ...args], { cwd: f.root, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] }));
+  assert.deepEqual(run('status').records, []);
+  const prepared = run('prepare', '--mode', 'manual', '--ids', 'models-prompting');
+  fs.writeFileSync(path.join(f.root, 'docs/01-concepts/models.md'), 'Unfinished bootstrap observation.\n');
+  assert.equal(run('checkpoint', '--run', prepared.checkpoint).saved, true);
+  assert.equal(run('suspend', '--run', prepared.checkpoint).saved, true);
+  const resumed = run('prepare', '--mode', 'rotation');
+  assert.equal(resumed.run_id, prepared.run_id);
+  assert.notEqual(resumed.attempt_id, prepared.attempt_id);
+  assert.equal(run('finish', '--run', resumed.checkpoint, '--outcome', 'held').saved, true);
+  assert.equal(run('status').records[0].status, 'held');
+  assert.equal(fs.existsSync(path.join(f.root, 'node_modules')), false);
+});
+
+test('merged completion still requires the adjacent trusted policy dependencies', t => {
+  const f = publicationFixture(t), implementation = path.join(f.directory, 'implementation');
+  const script = copyRuntimeWithoutDependencies(implementation);
+  // The candidate checkout has a normal reviewed manifest, but its files do not supply the policy code.
+  assert.throws(() => execFileSync(process.execPath, [script, 'finish', '--root', f.root, '--run', f.input, '--outcome', 'merged'], { cwd: implementation, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] }), /ERR_MODULE_NOT_FOUND/);
+  assert.equal(loadState(f.dir).runs[f.prepared.run_id], undefined);
+  assert.equal(JSON.parse(fs.readFileSync(f.prepared.checkpoint)).status, 'in_progress');
+});

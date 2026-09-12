@@ -348,7 +348,13 @@ function refreshFixture(t, { changedSource = false, changedSupplemental = false 
 test('normal main advancement refreshes the same catalog PR with a merge commit and waits for new CI', t => {
   const data = refreshFixture(t)
   const { root, stateDir, run, git, calls, worktree, oldHead, mainSha, fresh } = data
-  const result = queueCatalogMerge({ ...fresh }, { root, stateDir, run })
+  const result = queueCatalogMerge({ ...fresh }, { root, stateDir, run: (binary, args, cwd) => {
+    if (binary === 'gh' && args[0] === 'pr' && args[1] === 'edit') {
+      assert.equal(fresh.headRefOid, oldHead)
+      assert.equal(fresh.autoMergeRequest, null)
+    }
+    return run(binary, args, cwd)
+  } })
   assert.equal(result.status, 'BRANCH_UPDATED')
   assert.notEqual(result.head, oldHead)
   assert.equal(git(['rev-list', '--parents', '-n', '1', result.head], worktree).split(' ').length, 3)
@@ -356,7 +362,10 @@ test('normal main advancement refreshes the same catalog PR with a merge commit 
   assert.match(git(['show', '--no-patch', '--format=%B', result.head], worktree), /Agent: claude\nCo-authored-by: Claude <noreply@anthropic.com>/)
   assert.equal(JSON.parse(readFileSync(path.join(stateDir, 'publication/pending-pr.json'))).headRefOid, result.head)
   assert.match(fresh.body, /新 head の CI は再実行待ち/)
-  assert.ok(calls.findIndex(call => call.includes('--disable-auto')) < calls.findIndex(call => call[1] === 'push'))
+  const editIndex = calls.findIndex(call => call[1] === 'pr' && call[2] === 'edit')
+  assert.ok(calls.findIndex(call => call.includes('--disable-auto')) < editIndex)
+  assert.ok(editIndex < calls.findIndex(call => call[1] === 'push'))
+  assert.equal(calls.filter(call => call[1] === 'pr' && call[2] === 'edit').length, 1)
   assert.equal(calls.some(call => call.includes('--force') || call.includes('--admin') || call.includes('--auto')), false)
   const replay = queueCatalogMerge({ ...fresh, mergeStateStatus: 'BEHIND' }, { root, stateDir, run: (binary, args, cwd) => {
     if (binary === 'gh' && args[0] === 'pr' && args[1] === 'view') return JSON.stringify({ ...fresh, mergeStateStatus: 'BEHIND' })
@@ -427,18 +436,21 @@ test('refresh preserves unknown local changes and holds another audio version al
   assert.equal(result.catalog.episodes[0].id, 'other-public-version')
 })
 
-test('interruption after preparing a refresh retries the same commit without rewriting published history', t => {
-  const { root, stateDir, fresh, run, git, worktree } = refreshFixture(t)
+test('interruption after old-head metadata update resumes the same commit without another edit', t => {
+  const { root, stateDir, fresh, run, git, worktree, calls, oldHead } = refreshFixture(t)
   let failed = false
   const interrupted = (binary, args, cwd) => {
     if (!failed && binary === 'git' && args[0] === 'push') { failed = true; throw new Error('Simulated network interruption') }
     return run(binary, args, cwd)
   }
   assert.throws(() => refreshCatalogPr({ ...fresh }, { root, stateDir, run: interrupted }), /Simulated/)
+  assert.equal(fresh.headRefOid, oldHead)
+  assert.match(fresh.body, /新 head の CI は再実行待ち/)
   const preparedHead = git(['rev-parse', 'HEAD'], worktree)
   const retried = refreshCatalogPr({ ...fresh }, { root, stateDir, run })
   assert.equal(retried.status, 'BRANCH_UPDATED')
   assert.equal(retried.head, preparedHead)
+  assert.equal(calls.filter(call => call[1] === 'pr' && call[2] === 'edit').length, 1)
 })
 
 test('prepared refresh refuses a worktree switched to another branch before any push or metadata edit', t => {
@@ -453,11 +465,30 @@ test('prepared refresh refuses a worktree switched to another branch before any 
   assert.equal(calls.some(call => call[1] === 'push' || call[2] === 'edit'), false)
 })
 
-test('metadata update interruption resumes on the already pushed new head before considering merge checks', t => {
-  const { root, stateDir, fresh, run, git, worktree } = refreshFixture(t)
+test('metadata update failure keeps the old head and retries metadata before push', t => {
+  const { root, stateDir, fresh, run, git, worktree, oldHead } = refreshFixture(t)
   assert.throws(() => refreshCatalogPr({ ...fresh }, { root, stateDir, run: (binary, args, cwd) => {
     if (binary === 'gh' && args[0] === 'pr' && args[1] === 'edit') throw new Error('Simulated metadata interruption')
     return run(binary, args, cwd)
+  } }), /Simulated/)
+  const newHead = git(['rev-parse', 'HEAD'], worktree)
+  assert.equal(fresh.headRefOid, oldHead)
+  const calls = []
+  const resumed = queueCatalogMerge({ ...fresh }, { root, stateDir, run: (binary, args, cwd) => { calls.push([binary, ...args]); return run(binary, args, cwd) } })
+  assert.equal(resumed.status, 'BRANCH_UPDATED')
+  assert.equal(resumed.head, newHead)
+  assert.match(fresh.body, /新 head の CI は再実行待ち/)
+  assert.ok(calls.findIndex(call => call[2] === 'edit') < calls.findIndex(call => call[1] === 'push'))
+  assert.equal(calls.some(call => call.includes('--auto')), false)
+  assert.equal(JSON.parse(readFileSync(path.join(stateDir, 'publication/refresh-pr-123.json'))).status, 'pushed')
+})
+
+test('lost push response resumes on the new head without another push or metadata event', t => {
+  const { root, stateDir, fresh, run, git, worktree } = refreshFixture(t)
+  assert.throws(() => refreshCatalogPr({ ...fresh }, { root, stateDir, run: (binary, args, cwd) => {
+    const result = run(binary, args, cwd)
+    if (binary === 'git' && args[0] === 'push') throw new Error('Simulated lost push response')
+    return result
   } }), /Simulated/)
   const newHead = git(['rev-parse', 'HEAD'], worktree)
   assert.equal(fresh.headRefOid, newHead)
@@ -465,9 +496,55 @@ test('metadata update interruption resumes on the already pushed new head before
   const resumed = queueCatalogMerge({ ...fresh }, { root, stateDir, run: (binary, args, cwd) => { calls.push([binary, ...args]); return run(binary, args, cwd) } })
   assert.equal(resumed.status, 'BRANCH_UPDATED')
   assert.equal(resumed.head, newHead)
-  assert.match(fresh.body, /新 head の CI は再実行待ち/)
-  assert.equal(calls.some(call => call[1] === 'push' || call.includes('--auto')), false)
+  assert.equal(calls.some(call => call[1] === 'push' || call[2] === 'edit' || call.includes('--auto')), false)
+  assert.equal(JSON.parse(readFileSync(path.join(stateDir, 'publication/pending-pr.json'))).headRefOid, newHead)
   assert.equal(JSON.parse(readFileSync(path.join(stateDir, 'publication/refresh-pr-123.json'))).status, 'pushed')
+})
+
+test('refresh refuses head, metadata or auto-merge changes after editing and before push', t => {
+  for (const change of [{ headRefOid: 'c'.repeat(40) }, { body: 'Another editor changed this PR.' }, { autoMergeRequest: { enabledAt: '2026-09-13' } }]) {
+    const { root, stateDir, fresh, run, calls } = refreshFixture(t)
+    assert.throws(() => refreshCatalogPr({ ...fresh }, { root, stateDir, run: (binary, args, cwd) => {
+      const result = run(binary, args, cwd)
+      if (binary === 'gh' && args[0] === 'pr' && args[1] === 'edit') Object.assign(fresh, change)
+      return result
+    } }), /changed during refresh|changed before push/)
+    assert.equal(calls.some(call => call[1] === 'push'), false)
+    assert.equal(JSON.parse(readFileSync(path.join(stateDir, 'publication/refresh-pr-123.json'))).status, 'prepared')
+  }
+})
+
+test('prepared refresh holds changed old-head metadata instead of overwriting another editor', t => {
+  const { root, stateDir, fresh, run } = refreshFixture(t)
+  assert.throws(() => refreshCatalogPr({ ...fresh }, { root, stateDir, run: (binary, args, cwd) => {
+    if (binary === 'gh' && args[0] === 'pr' && args[1] === 'edit') throw new Error('Simulated metadata interruption')
+    return run(binary, args, cwd)
+  } }), /Simulated/)
+  fresh.body = fresh.body.replace('音声カタログを更新します。', '別の編集者が内容を確認しています。')
+  const calls = []
+  const resumed = queueCatalogMerge({ ...fresh }, { root, stateDir, run: (binary, args, cwd) => { calls.push([binary, ...args]); return run(binary, args, cwd) } })
+  assert.equal(resumed.status, 'HELD_REFRESH_METADATA')
+  assert.match(resumed.reason, /old-head PR metadata changed/)
+  assert.equal(calls.some(call => call[1] === 'push' || call[2] === 'edit'), false)
+  assert.equal(JSON.parse(readFileSync(path.join(stateDir, 'publication/refresh-pr-123.json'))).status, 'prepared')
+})
+
+test('new-head metadata mismatch holds the journal without editing or pushing again', t => {
+  const { root, stateDir, fresh, run } = refreshFixture(t)
+  assert.throws(() => refreshCatalogPr({ ...fresh }, { root, stateDir, run: (binary, args, cwd) => {
+    const result = run(binary, args, cwd)
+    if (binary === 'git' && args[0] === 'push') throw new Error('Simulated lost push response')
+    return result
+  } }), /Simulated/)
+  fresh.body = fresh.body.replace('差分は音声カタログのみです。', '別の編集者が内容を確認しています。')
+  const journalFile = path.join(stateDir, 'publication/refresh-pr-123.json')
+  const beforeJournal = readFileSync(journalFile, 'utf8')
+  const calls = []
+  const resumed = queueCatalogMerge({ ...fresh }, { root, stateDir, run: (binary, args, cwd) => { calls.push([binary, ...args]); return run(binary, args, cwd) } })
+  assert.equal(resumed.status, 'HELD_REFRESH_METADATA')
+  assert.match(resumed.reason, /refreshed head already exists/)
+  assert.equal(calls.some(call => call[1] === 'push' || call[2] === 'edit' || call.includes('--auto')), false)
+  assert.equal(readFileSync(journalFile, 'utf8'), beforeJournal)
 })
 
 test('Windows task XML and wrapper dry-run keep registration, publication and engine launch explicit', { skip: process.platform !== 'win32' }, () => {

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-13T11:22:16.539Z",
+  "updated_at": "2026-09-13T11:26:37.948Z",
   "episodes": [
     {
       "id": "00-overview--learning-roadmap-70c1702d98bf-80cbd75bddd0-5e46e5712e06-p01",
@@ -545,7 +545,7 @@
       ],
       "attribution": "VOICEVOX Nemo（女声1・男声1）",
       "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-memory-and-state-b17d73317aeea3a7-d19b0b1cb91a9aa8/01-concepts--memory-and-state-b17d73317aee-d19b0b1cb91a-d83c237b01da-p01-d83c237b01da6bb3.mp3",
-      "published_at": "2026-09-13T11:22:02.695Z"
+      "published_at": "2026-09-13T11:21:58Z"
     },
     {
       "id": "01-concepts--physical-ai-overview-c35ef6ae1842-88b372e9e194-92ddaf0d718e-p01",
@@ -615,7 +615,7 @@
       ],
       "attribution": "VOICEVOX Nemo（女声1・男声1）",
       "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-physical-ai-overview-c35ef6ae18429a44-88b372e9e19476c9/01-concepts--physical-ai-overview-c35ef6ae1842-88b372e9e194-92ddaf0d718e-p01-92ddaf0d718ed0d1.mp3",
-      "published_at": "2026-09-13T11:22:09.274Z"
+      "published_at": "2026-09-13T11:22:05Z"
     },
     {
       "id": "01-concepts--planning-and-reasoning-bf99366e9f72-4bf01c1ff6dd-c9ea13fdf2bb-p01",
@@ -685,7 +685,7 @@
       ],
       "attribution": "VOICEVOX Nemo（女声1・男声1）",
       "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-planning-and-reasoning-bf99366e9f722e65-4bf01c1ff6dd8666/01-concepts--planning-and-reasoning-bf99366e9f72-4bf01c1ff6dd-c9ea13fdf2bb-p01-c9ea13fdf2bb66b2.mp3",
-      "published_at": "2026-09-13T11:22:14.919Z"
+      "published_at": "2026-09-13T11:22:12Z"
     }
   ]
 }

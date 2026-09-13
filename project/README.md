@@ -8,6 +8,7 @@
 
 | 計画 | 状態・適用時点 | 実施記録・現行の入口 |
 | --- | --- | --- |
+| iPhone 幅のモバイルメニュー表示修正 | 2026-09-13 ローカル修正・検証完了、公開未反映 | [実施記録](records/2026-09-13/mobile-menu-fix.md) |
 | [音声学習機能](plans/engineering/audio-learning.md) | 2026-09-13 公開・定期運用開始。初回2記事を公開し、残りを順次制作 | [運用開始記録](records/2026-09-13/audio-learning-launch.md)、[制作・運用手順](../automation/audio/README.md)、[実装記録](records/2026-09-13/audio-learning-implementation.md) |
 | セキュリティレビューへの対応 | 2026-09-12 SEC-01〜07 の修正反映済み。導入後の受入は実施記録を参照 | [実施記録](records/2026-09-12/security-remediation.md) |
 | Git操作の規約整備 | 2026-09-12 G1〜G4 の実装・受入完了 | [実施記録](records/2026-09-12/git-conventions.md)、[Git共通規約](../harness/git-rules.md) |

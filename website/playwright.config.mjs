@@ -2,6 +2,7 @@ import { defineConfig } from '@playwright/test'
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
 const origin = 'http://127.0.0.1:4183'
+const browserName = process.env.PLAYWRIGHT_BROWSER || 'chromium'
 
 export default defineConfig({
   testDir: './tests/browser',
@@ -10,8 +11,8 @@ export default defineConfig({
   reporter: 'list',
   use: {
     baseURL: origin,
-    browserName: 'chromium',
-    channel: process.env.PLAYWRIGHT_CHANNEL || undefined,
+    browserName,
+    channel: browserName === 'chromium' ? process.env.PLAYWRIGHT_CHANNEL || undefined : undefined,
     headless: true,
     trace: 'retain-on-failure'
   },

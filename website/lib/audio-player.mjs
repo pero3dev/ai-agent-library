@@ -73,6 +73,16 @@ export const initialPlayerSnapshot = {
   rate: 1, playing: false, loading: false, error: '', notice: '', storageAvailable: true
 }
 
+function mediaErrorMessage(error) {
+  switch (error?.code) {
+    case 1: return '音声の読み込みが中断されました。再試行してください。'
+    case 2: return '音声の通信が途中で止まりました。通信を確認して再試行してください。'
+    case 3: return '音声を正しく読み取れませんでした。再試行しても解決しない場合は、問題を報告してください。'
+    case 4: return '音声の形式または配信方法をこのブラウザーで読み込めませんでした。再試行しても解決しない場合は、問題を報告してください。'
+    default: return '音声を読み込めませんでした。再試行しても解決しない場合は、問題を報告してください。'
+  }
+}
+
 /** A single media element survives route changes. No network request or playback on restore. */
 export function createAudioController({ audio, episodes, storage, mediaSession, MediaMetadataClass }) {
   const known = new Map(episodes.map(episode => [episode.id, episode]))
@@ -98,6 +108,7 @@ export function createAudioController({ audio, episodes, storage, mediaSession, 
   let requestVersion = 0
   let destroyed = false
   let metadataId = null
+  let source = null
 
   function emit(patch = {}) {
     state = { ...state, ...patch }
@@ -153,6 +164,34 @@ export function createAudioController({ audio, episodes, storage, mediaSession, 
   function retryPendingSeek() {
     if (pendingSeek !== null && loadedId === state.currentId && audio.readyState > 0) seek(pendingSeek)
   }
+  function failPlayback(error = audio.error) {
+    if (destroyed || !loadedId) return
+    savePosition()
+    requestVersion += 1
+    loadedId = null
+    emit({ playing: false, loading: false, error: mediaErrorMessage(error) })
+    updateSession()
+  }
+  function clearSource() {
+    if (source) {
+      source.node.removeEventListener('error', source.onError)
+      source.node.remove()
+      source = null
+    }
+    // A media-level src attribute would take precedence over the typed source.
+    audio.removeAttribute('src')
+  }
+  function setSource(url) {
+    clearSource()
+    const node = audio.ownerDocument.createElement('source')
+    node.type = 'audio/mpeg'
+    node.src = url
+    const entry = { node, onError: () => { if (source === entry) failPlayback() } }
+    source = entry
+    // Source errors do not bubble to the media element. Retire this listener with its request.
+    node.addEventListener('error', entry.onError)
+    audio.appendChild(node)
+  }
   function setCurrent(id) {
     const episode = known.get(id)
     if (!episode) return false
@@ -173,23 +212,26 @@ export function createAudioController({ audio, episodes, storage, mediaSession, 
     if (loadedId !== state.currentId) {
       loadedId = state.currentId
       pendingSeek = state.position >= state.duration - 0.5 ? 0 : state.position
-      audio.src = state.current.audio_url
+      // Safari passes an explicit MIME type to AVFoundation, even after a redirect
+      // to an extensionless release asset served as application/octet-stream.
+      setSource(state.current.audio_url)
       audio.load()
     } else if (audio.ended || state.position >= state.duration - 0.5) {
       seek(0)
     }
     audio.playbackRate = state.rate
     emit({ error: '', loading: true })
+    const onPlayError = error => {
+      if (destroyed || version !== requestVersion || error?.name === 'AbortError') return
+      if (error?.name === 'NotAllowedError') {
+        emit({ playing: false, loading: false, error: '再生ボタンを押すと続きから聴けます。' })
+      } else failPlayback(audio.error || (error?.name === 'NotSupportedError' ? { code: 4 } : null))
+    }
     // Call directly in the click/ended handler to preserve the browser's playback permission.
     try {
       const promise = audio.play()
-      promise?.catch(error => {
-        if (destroyed || version !== requestVersion || error?.name === 'AbortError') return
-        emit({ playing: false, loading: false, error: error?.name === 'NotAllowedError'
-          ? '再生ボタンを押すと続きから聴けます。'
-          : '音声を再生できませんでした。通信を確認して、もう一度再生してください。' })
-      })
-    } catch { emit({ loading: false, error: '音声を再生できませんでした。もう一度再生してください。' }) }
+      promise?.catch(onPlayError)
+    } catch (error) { onPlayError(error) }
     updateSession()
   }
   function pause() {
@@ -228,7 +270,7 @@ export function createAudioController({ audio, episodes, storage, mediaSession, 
       else {
         loadedId = null
         pendingSeek = null
-        audio.removeAttribute('src')
+        clearSource()
         audio.load()
         emit({ currentId: null, current: null, position: 0, duration: 0, error: '' })
       }
@@ -279,13 +321,7 @@ export function createAudioController({ audio, episodes, storage, mediaSession, 
     if (loadedId && Number.isFinite(audio.duration) && audio.duration > 0) emit({ duration: audio.duration })
     retryPendingSeek()
   })
-  on('error', () => {
-    if (!loadedId) return
-    savePosition()
-    loadedId = null
-    emit({ playing: false, loading: false, error: '音声を読み込めませんでした。通信を確認して再試行してください。' })
-    updateSession()
-  })
+  on('error', () => failPlayback())
   on('ended', () => {
     if (!state.currentId || loadedId !== state.currentId || pendingSeek !== null || !audio.ended) return
     // The completed position is zero. Do not sample the old file's ending clock during next().
@@ -317,6 +353,9 @@ export function createAudioController({ audio, episodes, storage, mediaSession, 
       savePosition()
       for (const [name, callback] of events) audio.removeEventListener(name, callback)
       audio.pause()
+      loadedId = null
+      clearSource()
+      audio.load()
       for (const action of Object.keys(handlers)) {
         try { mediaSession?.setActionHandler(action, null) } catch { /* optional */ }
       }

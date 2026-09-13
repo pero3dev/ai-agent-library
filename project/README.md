@@ -8,6 +8,7 @@
 
 | 計画 | 状態・適用時点 | 実施記録・現行の入口 |
 | --- | --- | --- |
+| Safari の音声読み込み失敗 | 2026-09-13 形式指定・再試行処理を修正。Windows と macOS WebKit の試験を通過。公開状況は [PR #45](https://github.com/pero3dev/ai-agent-library/pull/45)を参照 | [実施記録](records/2026-09-13/safari-audio-fix.md) |
 | iPhone 幅のモバイルメニュー表示修正 | 2026-09-13 修正・ローカル検証完了。マージ状況は [PR #41](https://github.com/pero3dev/ai-agent-library/pull/41) を参照 | [実施記録](records/2026-09-13/mobile-menu-fix.md) |
 | [音声学習機能](plans/engineering/audio-learning.md) | 2026-09-13 公開・定期運用開始。初回2記事を公開し、残りを順次制作 | [運用開始記録](records/2026-09-13/audio-learning-launch.md)、[制作・運用手順](../automation/audio/README.md)、[実装記録](records/2026-09-13/audio-learning-implementation.md)、[台本の共同編集者](records/2026-09-13/audio-script-authorship.md) |
 | セキュリティレビューへの対応 | 2026-09-12 SEC-01〜07 の修正反映済み。導入後の受入は実施記録を参照 | [実施記録](records/2026-09-12/security-remediation.md) |

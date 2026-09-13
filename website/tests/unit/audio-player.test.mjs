@@ -8,6 +8,15 @@ const episodes = ['a', 'b', 'c'].map(id => ({
   id, title: `Article ${id}`, duration_seconds: 180, audio_url: `https://example.invalid/${id}.mp3`,
   chapters: [{ id: 'intro', title: 'Intro', start_seconds: 0 }]
 }))
+class FakeSource extends EventTarget {
+  type = ''
+  src = ''
+  parentNode = null
+  remove() {
+    if (this.parentNode) this.parentNode.children = this.parentNode.children.filter(node => node !== this)
+    this.parentNode = null
+  }
+}
 class FakeAudio extends EventTarget {
   currentTime = 0
   duration = 180
@@ -18,7 +27,11 @@ class FakeAudio extends EventTarget {
   paused = true
   ended = false
   src = ''
-  load() { this.loadCount++; this.readyState = 0; this.currentTime = 0; this.ended = false }
+  error = null
+  children = []
+  ownerDocument = { createElement(name) { assert.equal(name, 'source'); return new FakeSource() } }
+  appendChild(node) { this.children.push(node); node.parentNode = this; return node }
+  load() { this.loadCount++; this.readyState = 0; this.currentTime = 0; this.ended = false; this.error = null }
   play() { this.playCount++; this.paused = false; return Promise.resolve() }
   pause() { this.paused = true; this.dispatchEvent(new Event('pause')) }
   removeAttribute(name) { if (name === 'src') this.src = '' }
@@ -65,10 +78,29 @@ test('restore preserves position and rate without loading media or autoplay', ()
   assert.equal(state().position, 71)
   assert.equal(audio.loadCount, 0)
   assert.equal(audio.playCount, 0)
+  assert.deepEqual(audio.children, [])
   player.play()
   audio.event('loadedmetadata')
   assert.equal(audio.currentTime, 71)
   assert.equal(audio.playbackRate, 1.5)
+})
+
+test('first playback declares MP3 on a source and calls play within the initiating action', () => {
+  const { audio, player } = setup()
+  audio.src = 'https://example.invalid/obsolete.mp3'
+  let insideAction = false
+  audio.play = () => {
+    assert.equal(insideAction, true)
+    assert.equal(audio.loadCount, 1)
+    assert.equal(audio.src, '')
+    assert.equal(audio.children.length, 1)
+    assert.equal(audio.children[0].type, 'audio/mpeg')
+    assert.equal(audio.children[0].src, episodes[0].audio_url)
+    return Promise.resolve()
+  }
+  insideAction = true
+  player.start('a')
+  insideAction = false
 })
 test('enqueue deduplicates and start does not replace the user ordered list', () => {
   const { player, state } = setup()
@@ -111,7 +143,8 @@ test('move affects next playback and media element is reused', () => {
   audio.currentTime = 180
   audio.event('ended')
   assert.equal(state().currentId, 'c')
-  assert.equal(audio.src, episodes[2].audio_url)
+  assert.equal(audio.children.length, 1)
+  assert.equal(audio.children[0].src, episodes[2].audio_url)
   assert.equal(audio.playCount, 2)
 })
 test('finishing last episode stops and replay starts at zero', () => {
@@ -244,6 +277,7 @@ test('removing current keeps remaining list paused and removing final unloads me
   assert.equal(state().current, null)
   assert.deepEqual(state().queue, [])
   assert.equal(audio.src, '')
+  assert.deepEqual(audio.children, [])
 })
 test('storage exceptions are visible but do not prevent playback', () => {
   const { player, state } = setup(null, { storage: { getItem() { throw new Error('blocked') } } })
@@ -281,6 +315,107 @@ test('media errors reload the same episode and preserve progress', () => {
   player.play()
   audio.event('loadedmetadata')
   assert.equal(audio.currentTime, 90)
+  assert.equal(audio.loadCount, 2)
+})
+
+test('a non-bubbling source error keeps the selected position and retry replaces its source', () => {
+  const { audio, player, state } = setup({ schema_version: 1, queue: ['a'], currentId: 'a', positions: { a: 71 }, rate: 1.5 })
+  player.play()
+  const failedSource = audio.children[0]
+  failedSource.dispatchEvent(new Event('error'))
+  assert.equal(state().loading, false)
+  assert.equal(state().playing, false)
+  assert.equal(state().currentId, 'a')
+  assert.equal(state().position, 71)
+  assert.match(state().error, /読み込めません/)
+  assert.doesNotMatch(state().error, /通信/)
+  player.play()
+  assert.equal(audio.children.length, 1)
+  assert.notEqual(audio.children[0], failedSource)
+  assert.equal(failedSource.parentNode, null)
+  assert.equal(audio.children[0].type, 'audio/mpeg')
+  failedSource.dispatchEvent(new Event('error'))
+  assert.equal(state().error, '')
+  audio.event('loadedmetadata')
+  assert.equal(audio.currentTime, 71)
+  assert.equal(audio.playbackRate, 1.5)
+  assert.equal(audio.loadCount, 2)
+})
+
+test('replaced and unloaded sources cannot report failures against another selection', () => {
+  const { audio, player, state } = setup()
+  player.start('a', ['a', 'b'])
+  const oldSource = audio.children[0]
+  player.start('b')
+  const currentSource = audio.children[0]
+  assert.equal(audio.children.length, 1)
+  assert.equal(currentSource.src, episodes[1].audio_url)
+  oldSource.dispatchEvent(new Event('error'))
+  assert.equal(state().error, '')
+  player.remove('b')
+  currentSource.dispatchEvent(new Event('error'))
+  assert.equal(state().currentId, 'a')
+  assert.equal(state().error, '')
+  player.remove('a')
+  assert.deepEqual(audio.children, [])
+  currentSource.dispatchEvent(new Event('error'))
+  assert.equal(state().currentId, null)
+  assert.equal(state().error, '')
+})
+
+test('native media errors distinguish network, decoding and unsupported media', () => {
+  const { audio, player, state } = setup()
+  for (const [code, expected] of [[2, /通信/], [3, /正しく読み取れません/], [4, /形式または配信方法/]]) {
+    player.start('a')
+    audio.error = { code }
+    audio.event('error')
+    assert.match(state().error, expected)
+    assert.equal(state().loading, false)
+    if (code !== 2) assert.doesNotMatch(state().error, /通信を確認/)
+  }
+})
+
+test('a late play rejection cannot overwrite a native media failure', async () => {
+  const { audio, player, state } = setup()
+  let rejectPlay
+  audio.play = () => new Promise((_, reject) => { rejectPlay = reject })
+  player.start('a')
+  audio.error = { code: 3 }
+  audio.event('error')
+  const failure = state().error
+  audio.error = null
+  rejectPlay(Object.assign(new Error('late rejection'), { name: 'NotAllowedError' }))
+  await Promise.resolve()
+  assert.equal(state().error, failure)
+  assert.match(state().error, /正しく読み取れません/)
+})
+
+test('play rejection without a media error can reload on retry and labels unsupported sources', async () => {
+  const { audio, player, state } = setup()
+  audio.play = () => Promise.reject(Object.assign(new Error('format'), { name: 'NotSupportedError' }))
+  player.start('a')
+  await Promise.resolve()
+  assert.match(state().error, /形式または配信方法/)
+  const failedSource = audio.children[0]
+  audio.play = () => Promise.resolve()
+  player.play()
+  assert.notEqual(audio.children[0], failedSource)
+  assert.equal(audio.loadCount, 2)
+  assert.equal(state().error, '')
+})
+
+test('destroy removes source listeners and releases the media resource', () => {
+  const { audio, player, state } = setup()
+  player.start('a')
+  const source = audio.children[0]
+  player.destroy()
+  const snapshot = state()
+  source.dispatchEvent(new Event('error'))
+  audio.event('error')
+  assert.equal(state(), snapshot)
+  assert.equal(audio.paused, true)
+  assert.deepEqual(audio.children, [])
+  assert.equal(audio.src, '')
   assert.equal(audio.loadCount, 2)
 })
 test('media error preserves native progress that has not reached a timeupdate event', () => {

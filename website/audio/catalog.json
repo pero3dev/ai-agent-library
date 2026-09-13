@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-13T06:43:57.543Z",
+  "updated_at": "2026-09-13T07:46:43.190Z",
   "episodes": [
     {
       "id": "00-overview--learning-roadmap-70c1702d98bf-80cbd75bddd0-5e46e5712e06-p01",
@@ -231,6 +231,246 @@
       "attribution": "VOICEVOX Nemo（女声1・男声1）",
       "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-skill-map-3f928eb4ba8caf80-7213b633277c1bdb/00-overview--skill-map-3f928eb4ba8c-7213b633277c-cf5cf8c2b5d3-p01-cf5cf8c2b5d3cca7.mp3",
       "published_at": "2026-09-13T06:43:56.367Z"
+    },
+    {
+      "id": "01-concepts--agent-loop-3c6f324e5d0d-7ab8a0e6323a-47803c3cb76f-p01",
+      "article_path": "docs/01-concepts/agent-loop.md",
+      "source_digest": "3c6f324e5d0d4a60c48cf9be030279731c2e3ea2951f1e51c1c3a570eec7f101",
+      "title": "Agent ループ",
+      "part": 1,
+      "parts": 1,
+      "duration_seconds": 1625.888413,
+      "chapters": [
+        {
+          "id": "00-intro",
+          "title": "導入:今日のテーマとゴール",
+          "start_seconds": 0
+        },
+        {
+          "id": "01-loop-overview",
+          "title": "なぜ「ループ」がAgentを作るのか",
+          "start_seconds": 161.461
+        },
+        {
+          "id": "02-iteration-steps",
+          "title": "ループ1周の中身:5段階に分解する",
+          "start_seconds": 319.275
+        },
+        {
+          "id": "03-stop-conditions",
+          "title": "停止条件は「正常完了」だけでは足りない",
+          "start_seconds": 447.093
+        },
+        {
+          "id": "04-tool-errors",
+          "title": "ツールの失敗はどう扱うか:例外を投げずにループへ返す",
+          "start_seconds": 614.88
+        },
+        {
+          "id": "05-history-growth",
+          "title": "履歴は単調増加する:溜まり続ける会話の扱い",
+          "start_seconds": 727.435
+        },
+        {
+          "id": "06-diy-or-framework",
+          "title": "自前実装かフレームワークか",
+          "start_seconds": 846.539
+        },
+        {
+          "id": "07-minimal-loop-code",
+          "title": "最小のAgentループを声で読む",
+          "start_seconds": 941.248
+        },
+        {
+          "id": "08-antipatterns-checklist",
+          "title": "アンチパターンとチェックリスト",
+          "start_seconds": 1220.16
+        },
+        {
+          "id": "09-todo-wrapup",
+          "title": "未確認事項と全体のまとめ",
+          "start_seconds": 1411.029
+        }
+      ],
+      "audio_sha256": "47803c3cb76f5e737a3d2f11a8878886590d4159363f52c453bd44396214942e",
+      "script_sha256": "7ab8a0e6323a20e72cada9f6559d5e219786616a2f2e308da5f2af646b60c9fb",
+      "voices": [
+        {
+          "id": 10005,
+          "name": "女声1",
+          "role": "listener",
+          "license_url": "https://voicevox.hiroshiba.jp/nemo/term/"
+        },
+        {
+          "id": 10001,
+          "name": "男声1",
+          "role": "explainer",
+          "license_url": "https://voicevox.hiroshiba.jp/nemo/term/"
+        }
+      ],
+      "attribution": "VOICEVOX Nemo（女声1・男声1）",
+      "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-agent-loop-3c6f324e5d0d4a60-7ab8a0e6323a20e7/01-concepts--agent-loop-3c6f324e5d0d-7ab8a0e6323a-47803c3cb76f-p01-47803c3cb76f5e73.mp3",
+      "published_at": "2026-09-13T07:46:30.703Z"
+    },
+    {
+      "id": "01-concepts--ai-history-and-lineage-508240fb9ce2-1fa9339ce58d-eba5f2a0f215-p01",
+      "article_path": "docs/01-concepts/ai-history-and-lineage.md",
+      "source_digest": "508240fb9ce27f550b1ac25dd82c6f0196ae798f756f45b5666f114864d129e4",
+      "title": "AI の歴史と系譜(深層学習から Agent まで)",
+      "part": 1,
+      "parts": 1,
+      "duration_seconds": 1581.738662,
+      "chapters": [
+        {
+          "id": "intro-00",
+          "title": "導入：なぜ今この歴史を知る必要があるのか",
+          "start_seconds": 0
+        },
+        {
+          "id": "ch1-symbolism",
+          "title": "第1章：ルールを書く時代とデータから学ぶ時代の往復",
+          "start_seconds": 153.643
+        },
+        {
+          "id": "ch2-deep-learning",
+          "title": "第2章：深層学習の転換点 ─ 特徴量を人が作らなくなった",
+          "start_seconds": 271.456
+        },
+        {
+          "id": "ch3-transformer",
+          "title": "第3章：Transformerと事前学習パラダイム",
+          "start_seconds": 404.448
+        },
+        {
+          "id": "ch4-scaling",
+          "title": "第4章：スケーリングと基盤モデル化",
+          "start_seconds": 544.96
+        },
+        {
+          "id": "ch5-instruction-tuning",
+          "title": "第5章：指示追従・対話化 ─ 誰でも使える道具になった転換点",
+          "start_seconds": 666.56
+        },
+        {
+          "id": "ch6-agent",
+          "title": "第6章：ツール使用とエージェント化 ─ 道具から自律システムへ",
+          "start_seconds": 825.483
+        },
+        {
+          "id": "ch7-lessons",
+          "title": "第7章：歴史から学べる判断の教訓",
+          "start_seconds": 1168.448
+        },
+        {
+          "id": "ch8-antipatterns",
+          "title": "第8章：実務での注意点 ─ よくある失敗パターンとチェックリスト",
+          "start_seconds": 1312.427
+        },
+        {
+          "id": "outro-summary",
+          "title": "まとめ：一本の線でつながった歴史",
+          "start_seconds": 1452.651
+        }
+      ],
+      "audio_sha256": "eba5f2a0f215582c0ef514bee103e5ce8242eb1f366a5026f80716f8ea0f7664",
+      "script_sha256": "1fa9339ce58da1f40341dc8d06f03d9f9fd92dd00639568ca02c34ceddd3d5b4",
+      "voices": [
+        {
+          "id": 10005,
+          "name": "女声1",
+          "role": "listener",
+          "license_url": "https://voicevox.hiroshiba.jp/nemo/term/"
+        },
+        {
+          "id": 10001,
+          "name": "男声1",
+          "role": "explainer",
+          "license_url": "https://voicevox.hiroshiba.jp/nemo/term/"
+        }
+      ],
+      "attribution": "VOICEVOX Nemo（女声1・男声1）",
+      "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-ai-history-and-lineage-508240fb9ce27f55-1fa9339ce58da1f4/01-concepts--ai-history-and-lineage-508240fb9ce2-1fa9339ce58d-eba5f2a0f215-p01-eba5f2a0f215582c.mp3",
+      "published_at": "2026-09-13T07:46:36.286Z"
+    },
+    {
+      "id": "01-concepts--computer-use-and-multimodal-agents-72b2d739835c-dfdd62fa182b-a4c135d05beb-p01",
+      "article_path": "docs/01-concepts/computer-use-and-multimodal-agents.md",
+      "source_digest": "72b2d739835c08a18f163f19eee76f0c7ef48966fcac6b97f62395467916dae6",
+      "title": "コンピュータ操作型・マルチモーダル Agent",
+      "part": 1,
+      "parts": 1,
+      "duration_seconds": 1258.763515,
+      "chapters": [
+        {
+          "id": "ch00-introduction",
+          "title": "画面を操作するAgentを、いつ選ぶのか",
+          "start_seconds": 0
+        },
+        {
+          "id": "ch01-prerequisites",
+          "title": "判断するモデルと、実行するツールの関係",
+          "start_seconds": 121.216
+        },
+        {
+          "id": "ch02-observe-and-act",
+          "title": "画面観測ループで増えるコストと待ち時間",
+          "start_seconds": 263.488
+        },
+        {
+          "id": "ch03-api-comparison",
+          "title": "APIとの比較で見落とせない、業務上の正しさ",
+          "start_seconds": 376.117
+        },
+        {
+          "id": "ch04-three-risks",
+          "title": "画面から入る指示、実際の副作用、ログイン済み権限",
+          "start_seconds": 504.853
+        },
+        {
+          "id": "ch05-choice",
+          "title": "公式連携、ハイブリッド、GUIだけの順に判断する",
+          "start_seconds": 667.467
+        },
+        {
+          "id": "ch06-granularity",
+          "title": "操作をまとめるときにも、確認と承認を残す",
+          "start_seconds": 788.053
+        },
+        {
+          "id": "ch07-antipatterns",
+          "title": "動いたように見える自動化を、そのまま信用しない",
+          "start_seconds": 902.88
+        },
+        {
+          "id": "ch08-checklist",
+          "title": "実行前に確認する七つの項目",
+          "start_seconds": 1013.451
+        },
+        {
+          "id": "ch09-wrapup",
+          "title": "確認済みの記述と残る課題を分けて、採用を判断する",
+          "start_seconds": 1130.752
+        }
+      ],
+      "audio_sha256": "a4c135d05bebd170c847af66334761f8d54a2ac716b15d066f5f9dd335c45585",
+      "script_sha256": "dfdd62fa182b4e96f9861e1ba5e41d1f3c48314ef0cfb8a68a9d5e4626f19842",
+      "voices": [
+        {
+          "id": 10005,
+          "name": "女声1",
+          "role": "listener",
+          "license_url": "https://voicevox.hiroshiba.jp/nemo/term/"
+        },
+        {
+          "id": 10001,
+          "name": "男声1",
+          "role": "explainer",
+          "license_url": "https://voicevox.hiroshiba.jp/nemo/term/"
+        }
+      ],
+      "attribution": "VOICEVOX Nemo（女声1・男声1）",
+      "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-computer-use-and-multimodal-agents-72b2d739835c08a1-dfdd62fa182b4e96/01-concepts--computer-use-and-multimodal-agents-72b2d739835c-dfdd62fa182b-a4c135d05beb-p01-a4c135d05bebd170.mp3",
+      "published_at": "2026-09-13T07:46:41.951Z"
     }
   ]
 }

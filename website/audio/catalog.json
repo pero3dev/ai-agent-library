@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-12T19:59:25.845Z",
+  "updated_at": "2026-09-13T06:43:57.543Z",
   "episodes": [
     {
       "id": "00-overview--learning-roadmap-70c1702d98bf-80cbd75bddd0-5e46e5712e06-p01",
@@ -156,6 +156,81 @@
       "attribution": "VOICEVOX Nemo（女声1・男声1）",
       "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-research-literacy-fad6f5ae3b581157-beeb534a884589b1/00-overview--research-literacy-fad6f5ae3b58-beeb534a8845-4bc9266fdaa2-p01-4bc9266fdaa2cb17.mp3",
       "published_at": "2026-09-12T19:55:19Z"
+    },
+    {
+      "id": "00-overview--skill-map-3f928eb4ba8c-7213b633277c-cf5cf8c2b5d3-p01",
+      "article_path": "docs/00-overview/skill-map.md",
+      "source_digest": "3f928eb4ba8caf80da9ac34a848285d29b0cb3a641be12539fdd5da5a65bbefc",
+      "title": "AI Agent プロフェッショナルのスキルマップ",
+      "part": 1,
+      "parts": 1,
+      "duration_seconds": 1585.717347,
+      "chapters": [
+        {
+          "id": "ch00-intro",
+          "title": "イントロダクション:このスキルマップで何がわかるのか",
+          "start_seconds": 0
+        },
+        {
+          "id": "ch01-prereq",
+          "title": "前提知識:この記事が当然の前提としていること",
+          "start_seconds": 102.421
+        },
+        {
+          "id": "ch02-how-to-use",
+          "title": "スキルマップの使い方と8領域のつながり方",
+          "start_seconds": 345.664
+        },
+        {
+          "id": "ch03-eight-domains",
+          "title": "8つのスキル領域と、行動で測る到達レベル",
+          "start_seconds": 516.469
+        },
+        {
+          "id": "ch04-role-map",
+          "title": "役割像別の重点マップ:誰が何を◎にすべきか",
+          "start_seconds": 688.171
+        },
+        {
+          "id": "ch05-learning-paths",
+          "title": "ライブラリ内の学習パス対応:どこから読み始めるか",
+          "start_seconds": 863.104
+        },
+        {
+          "id": "ch06-practice",
+          "title": "実践で伸ばす方法:社内題材の選び方と練習課題",
+          "start_seconds": 1140.117
+        },
+        {
+          "id": "ch07-antipatterns",
+          "title": "実務での注意点:3つのアンチパターン",
+          "start_seconds": 1287.808
+        },
+        {
+          "id": "ch08-checklist-wrapup",
+          "title": "チェックリストと未確認事項、そして全体のまとめ",
+          "start_seconds": 1404.704
+        }
+      ],
+      "audio_sha256": "cf5cf8c2b5d3cca77d010d56f558adf5c677873b6418066f9d27242701117067",
+      "script_sha256": "7213b633277c1bdb073bc5dff5553dd41473e0b915d4d60de88e2db5922e4a4c",
+      "voices": [
+        {
+          "id": 10005,
+          "name": "女声1",
+          "role": "listener",
+          "license_url": "https://voicevox.hiroshiba.jp/nemo/term/"
+        },
+        {
+          "id": 10001,
+          "name": "男声1",
+          "role": "explainer",
+          "license_url": "https://voicevox.hiroshiba.jp/nemo/term/"
+        }
+      ],
+      "attribution": "VOICEVOX Nemo（女声1・男声1）",
+      "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-skill-map-3f928eb4ba8caf80-7213b633277c1bdb/00-overview--skill-map-3f928eb4ba8c-7213b633277c-cf5cf8c2b5d3-p01-cf5cf8c2b5d3cca7.mp3",
+      "published_at": "2026-09-13T06:43:56.367Z"
     }
   ]
 }

@@ -1,6 +1,6 @@
 # Safari の音声読み込み失敗の調査・修正
 
-記録日: 2026-09-13。状態: 修正・ローカル検証を実施し、公開確認へ進行中。
+記録日: 2026-09-13。状態: 修正・ローカル検証完了。[PR #45](https://github.com/pero3dev/ai-agent-library/pull/45)で最終 CI と公開反映を追跡する。
 
 ## 作業契約
 
@@ -37,4 +37,6 @@ Windows の Chromium 153 と Playwright WebKit 26.6 では、実公開 MP3、お
 - 最終の音声ブラウザー試験: Windows Chromium・WebKit でそれぞれ 8 件成功。MP3 の再生、302 後の別オリジン・拡張子なし・octet-stream 配信、チャプター移動、復元、連続再生、転送先の 503 からの再試行を確認した。
 - WebKit のネイティブ音声通信は Playwright の `page.route()` を通らないため、試験カタログの URL だけをブラウザーへ返す JavaScript 内で置き換え、2 つの実 HTTP サーバーへ接続する。公開カタログや生成物は書き換えず、media API もモックしない。従来の通信差し替えが効かないことによる試験失敗と、音声デコードの成否を分離した。
 - 最終差分の独立レビュー: プレイヤー・単体試験・CI・ブラウザー試験・合成 MP3 の来歴・運用文書を確認し承認。試験方式の変更後も再レビュー済み。
-- 公開ビルドの全体ブラウザー回帰・macOS CI・公開反映: 実行中。最終結果は公開確認時に記録する。
+- 公開ビルドの全体ブラウザー回帰: 初回は 92 件成功、fixture 専用の 5 件 skip、検索と Green AI の図表示が 5 秒の待機上限で失敗した。両試験を変更せず `--grep 'Pagefind search|operations/green-ai' --workers=1` で再実行し、2 件とも成功。検索 trace の Pagefind 通信 76 件はすべて 200 で、失敗時は Loading 表示だった。
+- macOS WebKit: 実装候補 `f9ae84cf40bfe9f45e8636a1c53352465fbf0241` の [CI 34748761764](https://github.com/pero3dev/ai-agent-library/actions/runs/34748761764)で `Safari audio playback regression` が成功。これは macOS の AVFoundation の試験であり、iPhone 実機の受入とは区別する。
+- 最終 PR head の CI、merge SHA、Pages deploy、公開サイトでの再生確認は [PR #45](https://github.com/pero3dev/ai-agent-library/pull/45)と、その merge から起動する main CI を参照する。ローカルの最終観測は Git 管理外の `.git/safari-audio-investigation/publication.json` と `live-results.json` に保存する。

@@ -38,6 +38,7 @@
 - 元 HEAD と取得済み `origin/main`: `3de7b1f521adf766c7d90cf2fa867c526cc44dc7`。依頼に対応する既存 PR はありませんでした。
 - 所有パス: `website/app/layout.jsx`、`website/app/docs.css`、`website/tests/browser/mobile-menu.spec.mjs`、本記録と `evidence/mobile-menu/`、`project/README.md`。
 - 作業ブランチ: `fix/mobile-menu-theme`。他の worktree とブランチを共有しません。
+- 提出先: [PR #41](https://github.com/pero3dev/ai-agent-library/pull/41)。マージ状態と PR の CI はこの PR、マージ後の CI・公開は [main の CI 実行](https://github.com/pero3dev/ai-agent-library/actions/workflows/ci.yml?query=branch%3Amain)と[公開サイト](https://pero3dev.github.io/ai-agent-library/)から追跡します。
 - 終了条件: 最終差分の独立レビュー、commit・PR・squash の共通形式検査、必須 CI 成功、実マージ SHA の検査、main の CI と公開サイトでの修正確認。
 
 ## 表示確認と再確認手順

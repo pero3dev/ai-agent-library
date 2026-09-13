@@ -8,6 +8,7 @@ import { askClaude, assertSubscriptionEnvironment, checkSubscription, execute, s
 import { checkAccountConfirmation, loadConfig, prepareReviewedScript, reviewProblems, runProduction } from '../../scripts/audio/pipeline.mjs'
 import { checkEngine, engineBase, evaluateSignal, synthesizeScript } from '../../scripts/audio/synthesis.mjs'
 import { parseArguments } from '../../scripts/audio-run.mjs'
+import { AuthorshipError, readScriptAuthorship, recordScriptAuthorship } from '../../scripts/audio/authorship.mjs'
 
 const configPath = path.resolve('automation/audio/config.json')
 const config = await loadConfig(configPath, {})
@@ -135,10 +136,87 @@ test('failed review repairs the complete script and cache binds both source and 
   assert.equal(calls, 4); assert.equal(first.review.source_digest, article.source_digest)
   await prepareReviewedScript(article, config, root, { generate: async () => { throw new Error('cache should avoid calls') } })
   const changed = makeScript(); changed.chapters[0].turns[0].text += '変更'
+  recordScriptAuthorship(root, { article_path: article.article_path, source_digest: article.source_digest, script_sha256: sha256(JSON.stringify(changed)), agents: ['claude'] })
   await writeJson(path.join(root, 'script.json'), changed)
   let reviewedAgain = false
   await prepareReviewedScript(article, config, root, { generate: async () => { reviewedAgain = true; return makeReview() } })
   assert.equal(reviewedAgain, true)
+})
+
+const authorshipBinding = script => ({ article_path: article.article_path, source_digest: article.source_digest, script_sha256: sha256(JSON.stringify(script)) })
+
+test('review-only and cached review preserve the independently recorded Codex writer', async t => {
+  const { root } = await fixture(t), script = makeScript(), binding = authorshipBinding(script)
+  recordScriptAuthorship(root, { ...binding, agents: ['codex'] })
+  await writeJson(path.join(root, 'script.json'), script)
+  const authorshipFile = path.join(root, 'authorship', `${binding.script_sha256}.json`), before = await readFile(authorshipFile, 'utf8')
+  let reviews = 0
+  await prepareReviewedScript(article, config, root, { generate: async (_config, _prompt, schema) => { assert.notEqual(schema, scriptSchema); reviews++; return makeReview() } })
+  assert.equal(reviews, 1)
+  await prepareReviewedScript(article, config, root, { generate: async () => { throw new Error('approved cache should not call Claude') } })
+  assert.deepEqual(readScriptAuthorship(root, binding).agents, ['codex'])
+  assert.equal(await readFile(authorshipFile, 'utf8'), before)
+})
+
+test('Claude adds its writer attribution only when a repair changes the canonical script', async t => {
+  for (const changesContent of [false, true]) {
+    const { root } = await fixture(t), script = makeScript(), binding = authorshipBinding(script)
+    recordScriptAuthorship(root, { ...binding, agents: ['codex'] })
+    await writeJson(path.join(root, 'script.json'), script)
+    const changed = structuredClone(script)
+    if (changesContent) changed.chapters[0].turns[1].text += '停止時に結果を確認します。'
+    let reviews = 0
+    await prepareReviewedScript(article, config, root, { generate: async (_config, _prompt, schema) => {
+      if (schema === scriptSchema) return changed
+      reviews++
+      return reviews === 1 ? { ...makeReview(), passed: false, issues: ['停止時の確認が必要'] } : makeReview()
+    } })
+    assert.equal(reviews, 2)
+    assert.deepEqual(readScriptAuthorship(root, authorshipBinding(changed)).agents, changesContent ? ['codex', 'claude'] : ['codex'])
+    assert.deepEqual(readScriptAuthorship(root, binding).agents, ['codex'])
+    assert.equal((await readdir(path.join(root, 'authorship'))).length, changesContent ? 2 : 1)
+  }
+})
+
+test('legacy and new attribution are durable before script replacement and survive an interrupted save', async t => {
+  const { root } = await fixture(t), script = makeScript(), before = authorshipBinding(script)
+  await writeJson(path.join(root, 'script.json'), script)
+  const changed = structuredClone(script); changed.chapters[0].turns[1].text += '終了状態を確認します。'
+  const next = authorshipBinding(changed)
+  let saves = 0
+  await assert.rejects(prepareReviewedScript(article, config, root, {
+    generate: async (_config, _prompt, schema) => schema === scriptSchema ? changed : { ...makeReview(), passed: false, issues: ['補足が必要'] },
+    saveScript: async () => {
+      saves++
+      assert.equal(readScriptAuthorship(root, before).legacy, false)
+      assert.deepEqual(readScriptAuthorship(root, next).agents, ['claude'])
+      assert.deepEqual(await readJson(path.join(root, 'script.json')), script)
+      throw new Error('Interrupted script replacement')
+    },
+  }), /Interrupted script replacement/)
+  assert.equal(saves, 1)
+  assert.deepEqual(await readJson(path.join(root, 'script.json')), script)
+  const resumed = await prepareReviewedScript(article, config, root, { generate: async (_config, _prompt, schema) => { assert.notEqual(schema, scriptSchema); return makeReview() } })
+  assert.equal(resumed.review.script_sha256, before.script_sha256)
+  assert.deepEqual(readScriptAuthorship(root, before).agents, ['claude'])
+})
+
+test('cached review refuses an unrecorded current script once author history exists', async t => {
+  const { root } = await fixture(t), script = makeScript(), binding = authorshipBinding(script)
+  const other = structuredClone(script); other.title += '別版'
+  recordScriptAuthorship(root, { ...authorshipBinding(other), agents: ['codex'] })
+  await writeJson(path.join(root, 'script.json'), script)
+  await writeJson(path.join(root, 'review.json'), { ...makeReview(), ...binding })
+  await assert.rejects(prepareReviewedScript(article, config, root, { generate: async () => { throw new Error('must not generate from unknown authorship') } }), error => error instanceof AuthorshipError && /current script record is missing/.test(error.message))
+})
+
+test('missing or malformed scripts with author history cannot be regenerated as legacy Claude', async t => {
+  for (const malformed of [false, true]) {
+    const { root } = await fixture(t)
+    recordScriptAuthorship(root, { ...authorshipBinding(makeScript()), agents: ['codex'] })
+    if (malformed) await writeFile(path.join(root, 'script.json'), '{broken generated file')
+    await assert.rejects(prepareReviewedScript(article, config, root, { generate: async () => { throw new Error('must not generate from unknown authorship') } }), error => error instanceof AuthorshipError && /current script is unavailable/.test(error.message))
+  }
 })
 test('exhausted repair attempts fail instead of accepting a favorable top-level flag', async t => {
   const { root } = await fixture(t)
@@ -200,6 +278,24 @@ test('producer completes, persists a READY manifest and skips already verified a
   const ready = await readJson(first.ready[0]); assert.equal(ready.review.passed, true); assert.equal(ready.episodes[0].source_digest, article.source_digest)
   const second = await runProduction(options, { ...dependencies, preflight: async () => { throw new Error('must not consume more quota') } })
   assert.equal(second.skipped, 1); assert.equal(second.processed, 0)
+})
+
+test('a READY with invalid author binding is held while another article continues', async t => {
+  const paths = await fixture(t)
+  const first = await runProduction({ ...paths, config }, dependencies)
+  const ready = await readJson(first.ready[0]), jobDir = path.dirname(first.ready[0])
+  await writeJson(path.join(jobDir, 'authorship', `${ready.review.script_sha256}.json`), { schema_version: 1, ...authorshipBinding(makeScript()), source_digest: 'f'.repeat(64), agents: ['claude'] })
+  const secondPath = 'docs/01-concepts/second.md'
+  await writeFile(path.join(paths.repoRoot, secondPath), source)
+  const result = await runProduction({ ...paths, config, limit: 1 }, { ...dependencies, generate: async (...args) => { assert.ok(!args[3].cwd.includes('01-concepts--example')); return generated(...args) } })
+  assert.equal(result.processed, 1); assert.equal(result.skipped, 0)
+  assert.equal(result.held.length, 1); assert.equal(result.held[0].article_path, article.article_path)
+  assert.match(result.held[0].error, /authorship.*binding mismatch/)
+  assert.equal(result.ready.length, 1); assert.equal((await readJson(result.ready[0])).article_path, secondPath)
+  const queue = await readJson(path.join(paths.stateDir, 'queue.json'))
+  assert.equal(queue.jobs[article.article_path].status, 'held')
+  assert.equal(queue.jobs[secondPath].status, 'ready')
+  assert.equal((await readJson(first.ready[0])).review.script_sha256, ready.review.script_sha256)
 })
 test('a source update during synthesis is held and cannot create a current READY manifest', async t => {
   const paths = await fixture(t)

@@ -3,6 +3,7 @@ import path from 'node:path'
 import { articleSlug, discoverArticles, PrerequisiteError, productionDigest, QuotaError, readGeneratedJson, readJson, readSupplementalSources, sha256, sourceDigest, sourceSections, supplementalDigest, validateScript, validateSupplementalMaterial, writeJson } from './core.mjs'
 import { askClaude, checkSubscription, execute, reviewPrompt, reviewSchema, scriptPrompt, scriptSchema } from './claude.mjs'
 import { checkEngine, synthesizeScript } from './synthesis.mjs'
+import { AuthorshipError, readScriptAuthorship, recordScriptAuthorship } from './authorship.mjs'
 
 export async function loadConfig(file, env = process.env, stateDir) {
   const config = await readJson(file)
@@ -66,10 +67,12 @@ export function reviewProblems(review, sections) {
   }
   return problems
 }
-export async function prepareReviewedScript(article, config, jobDir, { generate = askClaude, onProgress = () => {}, repoRoot } = {}) {
+export async function prepareReviewedScript(article, config, jobDir, { generate = askClaude, onProgress = () => {}, repoRoot, saveScript = writeJson } = {}) {
   const sections = sourceSections(article.source), scriptFile = path.join(jobDir, 'script.json'), reviewFile = path.join(jobDir, 'review.json')
   const supplementalFile = path.join(jobDir, 'supplemental.json')
   let script = await readGeneratedJson(scriptFile), review = await readGeneratedJson(reviewFile)
+  const authorBinding = scriptHash => ({ article_path: article.article_path, source_digest: article.source_digest, script_sha256: scriptHash })
+  let authorship = readScriptAuthorship(jobDir, authorBinding(script ? sha256(JSON.stringify(script)) : null))
   let issues = script ? validateScript(script, sections) : []
   let supplemental = review?.supplemental_digest ? await readGeneratedJson(supplementalFile) : null
   const supplementalValid = !review?.supplemental_digest || (supplementalDigest(supplemental) === review.supplemental_digest && !(await validateSupplementalMaterial(supplemental, repoRoot)).length)
@@ -81,8 +84,15 @@ export async function prepareReviewedScript(article, config, jobDir, { generate 
   for (let attempt = 0; attempt <= config.max_repair_attempts; attempt++) {
     if (!script || attempt > 0 || validateScript(script, sections).length) {
       await onProgress({ phase: 'writing', repair_attempt: attempt })
-      script = await generate(config, scriptPrompt(groundedArticle, sections, { previous: script, issues }), scriptSchema, { cwd: path.join(jobDir, 'claude-workspace') })
-      await writeJson(scriptFile, script)
+      const nextScript = await generate(config, scriptPrompt(groundedArticle, sections, { previous: script, issues }), scriptSchema, { cwd: path.join(jobDir, 'claude-workspace') })
+      const previousHash = script ? sha256(JSON.stringify(script)) : null, nextHash = sha256(JSON.stringify(nextScript))
+      // Materialize legacy attribution before introducing any newer hash record.
+      // An interruption before script.json changes must still resolve its old authors.
+      if (script) recordScriptAuthorship(jobDir, { ...authorBinding(previousHash), agents: authorship.agents })
+      const agents = previousHash === nextHash ? authorship.agents : [...new Set([...(authorship?.agents ?? []), 'claude'])]
+      const nextAuthorship = recordScriptAuthorship(jobDir, { ...authorBinding(nextHash), agents })
+      await saveScript(scriptFile, nextScript)
+      script = nextScript; authorship = nextAuthorship
     }
     issues = validateScript(script, sections)
     if (issues.length) continue
@@ -111,6 +121,7 @@ async function readyIsCurrent(file, article, productionSignature, repoRoot) {
   if (!script || validateScript(script, sections).length || reviewProblems(ready.review, sections).length) return false
   const scriptHash = sha256(JSON.stringify(script))
   if (scriptHash !== ready.review.script_sha256) return false
+  readScriptAuthorship(path.dirname(file), { article_path: article.article_path, source_digest: article.source_digest, script_sha256: scriptHash })
   for (const [index, episode] of ready.episodes.entries()) {
     const signal = ready.signal_checks.parts[index]
     if (episode.script_sha256 !== scriptHash || episode.source_digest !== article.source_digest || episode.part !== index + 1 || episode.parts !== ready.episodes.length) return false
@@ -137,7 +148,17 @@ export async function runProduction({ repoRoot, stateDir, config, section, limit
     for (const article of articles) {
       const jobDir = path.join(stateDir, 'jobs', articleSlug(article.article_path), article.source_digest)
       const readyFile = path.join(jobDir, 'ready.json'), previous = queue.jobs[article.article_path]
-      if (await readyIsCurrent(readyFile, article, productionSignature, repoRoot)) { summary.ready.push(readyFile); summary.skipped++; continue }
+      try {
+        if (await readyIsCurrent(readyFile, article, productionSignature, repoRoot)) { summary.ready.push(readyFile); summary.skipped++; continue }
+      } catch (error) {
+        if (!(error instanceof AuthorshipError)) throw error
+        const update = { source_digest: article.source_digest, job_dir: jobDir, status: 'held', phase: 'held', error: error.message, updated_at: new Date().toISOString() }
+        queue.jobs[article.article_path] = { ...previous, ...update }
+        await writeJson(queueFile, queue)
+        await progress({ article_path: article.article_path, ...update })
+        summary.held.push({ article_path: article.article_path, error: error.message })
+        continue
+      }
       if (previous?.source_digest === article.source_digest && previous.status === 'held' && !retryHeld) { summary.held.push({ article_path: article.article_path, error: previous.error }); continue }
       pending.push({ article, jobDir, readyFile })
     }
@@ -164,6 +185,7 @@ export async function runProduction({ repoRoot, stateDir, config, section, limit
         if (sourceDigest(currentSource) !== article.source_digest) throw new Error('Source changed during production; this version will not be published')
         const supplementalHash = supplementalDigest(supplemental)
         if (supplementalHash && (await validateSupplementalMaterial(supplemental, repoRoot)).length) throw new Error('Supplemental source changed during production; this version will not be published')
+        readScriptAuthorship(jobDir, { article_path: article.article_path, source_digest: article.source_digest, script_sha256: review.script_sha256 })
         const episodes = parts.map(part => ({ id: `${articleSlug(article.article_path)}-${article.source_digest.slice(0, 12)}-${review.script_sha256.slice(0, 12)}-${part.audio_sha256.slice(0, 12)}-p${String(part.part).padStart(2, '0')}`, article_path: article.article_path, source_digest: article.source_digest, title: `${article.title}${part.parts > 1 ? ` (${part.part}/${part.parts})` : ''}`, part: part.part, parts: part.parts, duration_seconds: part.duration_seconds, chapters: part.chapters, audio_sha256: part.audio_sha256, audio_file: part.audio_file, script_sha256: review.script_sha256, voices: engine.voices, attribution: config.attribution }))
         await writeJson(readyFile, { schema_version: 1, article_path: article.article_path, source_digest: article.source_digest, production_signature: productionDigest(productionSignature, supplementalHash), ...(supplementalHash ? { supplemental_file: path.join(jobDir, 'supplemental.json'), supplemental_digest: supplementalHash } : {}), script_file: path.join(jobDir, 'script.json'), created_at: new Date().toISOString(), review, signal_checks: { passed: true, method: 'ffprobe+ffmpeg-silencedetect', parts: parts.map(part => ({ ...part.signal, audio_sha256: part.audio_sha256 })), limitation: 'Text review and signal checks do not verify actual pronunciation or listening comprehension.' }, episodes })
         await onProgress({ status: 'ready', phase: 'ready', ready_file: readyFile })

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-13T07:46:43.190Z",
+  "updated_at": "2026-09-13T11:22:16.539Z",
   "episodes": [
     {
       "id": "00-overview--learning-roadmap-70c1702d98bf-80cbd75bddd0-5e46e5712e06-p01",
@@ -471,6 +471,221 @@
       "attribution": "VOICEVOX Nemo（女声1・男声1）",
       "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-computer-use-and-multimodal-agents-72b2d739835c08a1-dfdd62fa182b4e96/01-concepts--computer-use-and-multimodal-agents-72b2d739835c-dfdd62fa182b-a4c135d05beb-p01-a4c135d05bebd170.mp3",
       "published_at": "2026-09-13T07:46:41.951Z"
+    },
+    {
+      "id": "01-concepts--memory-and-state-b17d73317aee-d19b0b1cb91a-d83c237b01da-p01",
+      "article_path": "docs/01-concepts/memory-and-state.md",
+      "source_digest": "b17d73317aeea3a77278b74ad9ed43412c93ec2b3ee497a84a4099c7fabd7959",
+      "title": "メモリと状態管理",
+      "part": 1,
+      "parts": 1,
+      "duration_seconds": 1110.378662,
+      "chapters": [
+        {
+          "id": "introduction",
+          "title": "エージェントは何を覚えているのか",
+          "start_seconds": 0
+        },
+        {
+          "id": "three-memory-layers",
+          "title": "短期記憶・作業状態・長期記憶の三層",
+          "start_seconds": 102.837
+        },
+        {
+          "id": "context-limits",
+          "title": "履歴を全部入れると困る三つの理由",
+          "start_seconds": 221.504
+        },
+        {
+          "id": "compressing-history",
+          "title": "刈り込み・要約・外部化を使い分ける",
+          "start_seconds": 331.093
+        },
+        {
+          "id": "checkpoint-and-resume",
+          "title": "止まった仕事を再開できる状態にする",
+          "start_seconds": 458.432
+        },
+        {
+          "id": "long-term-memory",
+          "title": "長期記憶は検索と書き込み基準で考える",
+          "start_seconds": 592.043
+        },
+        {
+          "id": "placing-information",
+          "title": "情報の性質から置き場所を決める",
+          "start_seconds": 700.171
+        },
+        {
+          "id": "practical-checks",
+          "title": "失敗パターンと実装前の五つの確認",
+          "start_seconds": 833.472
+        },
+        {
+          "id": "summary-and-open-items",
+          "title": "全体のまとめと最新仕様の確認事項",
+          "start_seconds": 954.037
+        }
+      ],
+      "audio_sha256": "d83c237b01da6bb3b83cfb9d5be4ad6b3e4e432b32e8fcbd6f438d06a585e798",
+      "script_sha256": "d19b0b1cb91a9aa8195d926388b5b0521a58a7f84bb2056a8180de86dc415f72",
+      "voices": [
+        {
+          "id": 10005,
+          "name": "女声1",
+          "role": "listener",
+          "license_url": "https://voicevox.hiroshiba.jp/nemo/term/"
+        },
+        {
+          "id": 10001,
+          "name": "男声1",
+          "role": "explainer",
+          "license_url": "https://voicevox.hiroshiba.jp/nemo/term/"
+        }
+      ],
+      "attribution": "VOICEVOX Nemo（女声1・男声1）",
+      "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-memory-and-state-b17d73317aeea3a7-d19b0b1cb91a9aa8/01-concepts--memory-and-state-b17d73317aee-d19b0b1cb91a-d83c237b01da-p01-d83c237b01da6bb3.mp3",
+      "published_at": "2026-09-13T11:22:02.695Z"
+    },
+    {
+      "id": "01-concepts--physical-ai-overview-c35ef6ae1842-88b372e9e194-92ddaf0d718e-p01",
+      "article_path": "docs/01-concepts/physical-ai-overview.md",
+      "source_digest": "c35ef6ae18429a44343d838931a7e379bcda36b72f7e5d134b18579cc5a3c0e8",
+      "title": "フィジカル AI とロボティクスの概観",
+      "part": 1,
+      "parts": 1,
+      "duration_seconds": 1315.754671,
+      "chapters": [
+        {
+          "id": "introduction",
+          "title": "ソフトウェアの知識でロボットを読む",
+          "start_seconds": 0
+        },
+        {
+          "id": "shared-architecture",
+          "title": "計画する層と身体を動かす層",
+          "start_seconds": 138.731
+        },
+        {
+          "id": "physical-constraints",
+          "title": "リアルタイム、安全、データの三つの制約",
+          "start_seconds": 291.595
+        },
+        {
+          "id": "vla-and-model-families",
+          "title": "視覚と言語から行動を出す VLA",
+          "start_seconds": 461.056
+        },
+        {
+          "id": "migration-and-evaluation",
+          "title": "モデル ID、評価条件、世界モデルを区別する",
+          "start_seconds": 678.635
+        },
+        {
+          "id": "maturity-and-operations",
+          "title": "デモ、介入付き導入、汎用ロボットの距離",
+          "start_seconds": 871.435
+        },
+        {
+          "id": "practical-reading",
+          "title": "情報を評価するときの落とし穴と五つの確認",
+          "start_seconds": 1045.621
+        },
+        {
+          "id": "summary-and-open-questions",
+          "title": "まとめと、まだ確認が必要なこと",
+          "start_seconds": 1179.723
+        }
+      ],
+      "audio_sha256": "92ddaf0d718ed0d1aac12b7afad3f33a34095755a80f605aa0b37b8f00fff71a",
+      "script_sha256": "88b372e9e19476c99b76b34f23c7daa5f4fe9e6dac684701fd162574fd094cac",
+      "voices": [
+        {
+          "id": 10005,
+          "name": "女声1",
+          "role": "listener",
+          "license_url": "https://voicevox.hiroshiba.jp/nemo/term/"
+        },
+        {
+          "id": 10001,
+          "name": "男声1",
+          "role": "explainer",
+          "license_url": "https://voicevox.hiroshiba.jp/nemo/term/"
+        }
+      ],
+      "attribution": "VOICEVOX Nemo（女声1・男声1）",
+      "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-physical-ai-overview-c35ef6ae18429a44-88b372e9e19476c9/01-concepts--physical-ai-overview-c35ef6ae1842-88b372e9e194-92ddaf0d718e-p01-92ddaf0d718ed0d1.mp3",
+      "published_at": "2026-09-13T11:22:09.274Z"
+    },
+    {
+      "id": "01-concepts--planning-and-reasoning-bf99366e9f72-4bf01c1ff6dd-c9ea13fdf2bb-p01",
+      "article_path": "docs/01-concepts/planning-and-reasoning.md",
+      "source_digest": "bf99366e9f722e65647ab67ea5f34957a22ee86c842ce22838207c05b5e2c533",
+      "title": "プランニングと推論",
+      "part": 1,
+      "parts": 1,
+      "duration_seconds": 828.064014,
+      "chapters": [
+        {
+          "id": "introduction",
+          "title": "長いタスクで迷子になるのはなぜか",
+          "start_seconds": 0
+        },
+        {
+          "id": "planning-and-reasoning",
+          "title": "全体の構造と一回の判断を分ける",
+          "start_seconds": 97.621
+        },
+        {
+          "id": "three-patterns",
+          "title": "逐次判断・事前計画・リフレクション",
+          "start_seconds": 173.579
+        },
+        {
+          "id": "maintaining-the-plan",
+          "title": "計画を毎ターン使い、前提に合わせて見直す",
+          "start_seconds": 299.413
+        },
+        {
+          "id": "reasoning-features",
+          "title": "モデルの推論機能が担当する範囲",
+          "start_seconds": 420.203
+        },
+        {
+          "id": "where-the-plan-lives",
+          "title": "計画をどこに持たせるか",
+          "start_seconds": 510.005
+        },
+        {
+          "id": "bounded-reflection",
+          "title": "修正を続ける条件と終える条件",
+          "start_seconds": 618.688
+        },
+        {
+          "id": "checklist-and-summary",
+          "title": "五つの確認と設計のまとめ",
+          "start_seconds": 694.805
+        }
+      ],
+      "audio_sha256": "c9ea13fdf2bb66b244f43f7a32a3f33e9e942547457eeedff63dbc052007bbc2",
+      "script_sha256": "4bf01c1ff6dd8666b60a02931e1b03878eb7b3c0932dbce41d108753b61b08f9",
+      "voices": [
+        {
+          "id": 10005,
+          "name": "女声1",
+          "role": "listener",
+          "license_url": "https://voicevox.hiroshiba.jp/nemo/term/"
+        },
+        {
+          "id": 10001,
+          "name": "男声1",
+          "role": "explainer",
+          "license_url": "https://voicevox.hiroshiba.jp/nemo/term/"
+        }
+      ],
+      "attribution": "VOICEVOX Nemo（女声1・男声1）",
+      "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-planning-and-reasoning-bf99366e9f722e65-4bf01c1ff6dd8666/01-concepts--planning-and-reasoning-bf99366e9f72-4bf01c1ff6dd-c9ea13fdf2bb-p01-c9ea13fdf2bb66b2.mp3",
+      "published_at": "2026-09-13T11:22:14.919Z"
     }
   ]
 }

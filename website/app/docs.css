@@ -204,6 +204,8 @@
 }
 
 .glossary-term-popover {
+  /* visibility:hidden だけでは、画面外の説明枠がモバイルのページ幅を広げる。 */
+  display: none;
   position: absolute;
   bottom: calc(100% + 0.5rem);
   left: 50%;
@@ -218,9 +220,6 @@
   font-size: 0.8rem;
   line-height: 1.7;
   box-shadow: 0 8px 24px rgb(0 0 0 / 0.12);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.12s ease;
   z-index: 40;
   pointer-events: none;
 }
@@ -233,14 +232,7 @@
 
 .glossary-term:hover .glossary-term-popover,
 .glossary-term:focus-visible .glossary-term-popover {
-  opacity: 1;
-  visibility: visible;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .glossary-term-popover {
-    transition: none;
-  }
+  display: block;
 }
 
 /* ---------- カスタムページ共通(/glossary, /tags, /roadmap) ---------- */

@@ -1,0 +1,36 @@
+[
+  {
+    "theme": "light",
+    "variable": "",
+    "background": "rgba(0, 0, 0, 0)",
+    "width": 390,
+    "height": 664,
+    "menu": {
+      "x": 0,
+      "y": 0,
+      "width": 390,
+      "height": 664,
+      "top": 0,
+      "right": 390,
+      "bottom": 664,
+      "left": 0
+    }
+  },
+  {
+    "theme": "dark",
+    "variable": "",
+    "background": "rgba(0, 0, 0, 0)",
+    "width": 390,
+    "height": 664,
+    "menu": {
+      "x": 0,
+      "y": 0,
+      "width": 390,
+      "height": 664,
+      "top": 0,
+      "right": 390,
+      "bottom": 664,
+      "left": 0
+    }
+  }
+]

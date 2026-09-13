@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Footer, Layout, Navbar } from 'nextra-theme-docs'
+import { Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
 import './docs.css'
@@ -49,6 +50,8 @@ const footer = <Footer>AI Agent Library — 実務の設計判断のための学
 export default async function RootLayout({ children }) {
   return (
     <html lang="ja" dir="ltr" suppressHydrationWarning>
+      {/* メニュー背景などに使う Nextra のテーマ変数を初期化する。 */}
+      <Head />
       <body>
         <AudioProvider>
         <Layout

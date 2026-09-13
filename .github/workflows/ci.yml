@@ -226,9 +226,44 @@ jobs:
           AUDIO_TEST_CATALOG: tests/browser/fixtures/audio-catalog.json
           NEXT_PUBLIC_BASE_PATH: /__audio-test
 
+  audio-webkit:
+    name: Safari audio playback regression
+    # macOS exercises WebKit's AVFoundation backend; Windows/Linux use different media backends.
+    runs-on: macos-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+      - name: Install audio test dependencies
+        run: npm ci
+        working-directory: website
+      - name: Build audio test fixture
+        run: npm run build:clean
+        working-directory: website
+        env:
+          STATIC_EXPORT: '1'
+          AUDIO_TEST_CATALOG: tests/browser/fixtures/audio-catalog.json
+          NEXT_PUBLIC_BASE_PATH: /__audio-test
+      - name: Install WebKit
+        run: npx playwright install webkit
+        working-directory: website
+      - name: Safari audio playback checks
+        run: npm run test:audio
+        working-directory: website
+        env:
+          PLAYWRIGHT_BROWSER: webkit
+          AUDIO_TEST_CATALOG: tests/browser/fixtures/audio-catalog.json
+          NEXT_PUBLIC_BASE_PATH: /__audio-test
+
   deploy:
     if: github.ref == 'refs/heads/main' && vars.DEPLOY_PAGES == 'true'
-    needs: [lint, actionlint, build, docs, examples, harness, harness-windows, audio-browser]
+    needs: [lint, actionlint, build, docs, examples, harness, harness-windows, audio-browser, audio-webkit]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:

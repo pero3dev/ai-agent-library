@@ -42,6 +42,10 @@ npm ci
 
 再生試験は `AUDIO_TEST_CATALOG=tests/browser/fixtures/audio-catalog.json` と `NEXT_PUBLIC_BASE_PATH=/__audio-test` の組み合わせでビルドします。どちらか一方だけを設定して公開ビルドへ試験音声を混ぜないでください。CI は公開出力を持たない別 job でこの試験を実行します。
 
+プレイヤーは MP3 の形式を `<source type="audio/mpeg">` で明示します。GitHub Releases が拡張子のない URL へ転送し、`application/octet-stream` を返す場合にも、Safari の再生基盤へ形式を伝えるためです。source 要素で発生する読み込み失敗も捕捉し、再試行時は再生位置を保持して読み込み直します。
+
+音声試験には合成した MP3 と、転送後のバイナリ形式・部分読み込み応答を使います。`PLAYWRIGHT_BROWSER=webkit` を指定すると WebKit で同じ試験を実行できます。CI の `Safari audio playback regression` は macOS の AVFoundation で実行し、Windows/Linux の WebKit とは区別します。iPhone 実機の画面ロックやイヤホン操作の受入は引き続き別に行います。
+
 ## パイプラインの安全装置
 
 - **CRLF 正規化**: 読込時に LF へ正規化(`.gitattributes` でも作業ツリーを LF に統一)

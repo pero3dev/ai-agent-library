@@ -1,5 +1,6 @@
-import { test, expect } from '@playwright/test'
-import { readFileSync } from 'node:fs'
+import { test as base, expect } from '@playwright/test'
+import { readFileSync, readdirSync } from 'node:fs'
+import { createServer } from 'node:http'
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
 const route = pathname => `${basePath}${pathname}`
@@ -7,31 +8,87 @@ const catalog = JSON.parse(readFileSync(new URL('../../generated/audio.json', im
 const fixtureBuild = Boolean(catalog.test_only)
 const player = page => page.getByRole('complementary', { name: '音声プレイヤー' })
 const media = page => page.locator('audio[data-library-audio]')
+const releasePrefix = 'https://github.com/pero3dev/ai-agent-library/releases/download/audio-test/'
+const fixtureMp3 = readFileSync(new URL('./fixtures/tone-60s.mp3', import.meta.url))
+const fixtureBundles = new Map()
+if (fixtureBuild) {
+  const chunks = new URL('../../out/_next/static/chunks/', import.meta.url)
+  for (const filename of readdirSync(chunks).filter(name => name.endsWith('.js'))) {
+    const body = readFileSync(new URL(filename, chunks), 'utf8')
+    if (body.includes(releasePrefix)) fixtureBundles.set(filename, body)
+  }
+}
 
-// Test-only PCM: real browser decoding and media events, not generated learning content.
-function fixtureWav() {
-  const rate = 8000
-  const dataSize = rate * 60 * 2
-  const bytes = Buffer.alloc(44 + dataSize)
-  bytes.write('RIFF', 0); bytes.writeUInt32LE(36 + dataSize, 4); bytes.write('WAVE', 8)
-  bytes.write('fmt ', 12); bytes.writeUInt32LE(16, 16); bytes.writeUInt16LE(1, 20)
-  bytes.writeUInt16LE(1, 22); bytes.writeUInt32LE(rate, 24); bytes.writeUInt32LE(rate * 2, 28)
-  bytes.writeUInt16LE(2, 32); bytes.writeUInt16LE(16, 34); bytes.write('data', 36); bytes.writeUInt32LE(dataSize, 40)
-  for (let sample = 0; sample < dataSize / 2; sample++) bytes.writeInt16LE(Math.round(100 * Math.sin(sample * 2 * Math.PI * 220 / rate)), 44 + sample * 2)
-  return bytes
-}
-async function interceptAudio(page) {
-  const body = fixtureWav()
-  await page.route('https://github.com/pero3dev/ai-agent-library/releases/download/audio-test/*.mp3', async request => {
-    const range = request.request().headers().range?.match(/^bytes=(\d+)-(\d*)$/)
-    const start = range ? Number(range[1]) : 0
-    const end = range?.[2] ? Math.min(Number(range[2]), body.length - 1) : body.length - 1
-    await request.fulfill({ status: range ? 206 : 200, contentType: 'audio/wav', body: body.subarray(start, end + 1), headers: {
-      'accept-ranges': 'bytes', 'content-length': String(end - start + 1),
-      ...(range ? { 'content-range': `bytes ${start}-${end}/${body.length}` } : {})
-    } })
-  })
-}
+const test = base.extend({
+  fixtureAudio: async ({ page }, use) => {
+    const state = { releaseRequests: [], assetRequests: [], failAssetRequests: false, releasePrefix: '', rewrittenBundles: 0 }
+    // Native WebKit media requests can bypass Playwright routing. Both release
+    // redirects and asset responses therefore use actual loopback HTTP servers.
+    const server = createServer((request, response) => {
+      state.assetRequests.push({ url: request.url, range: request.headers.range })
+      const headers = {
+        'content-type': 'application/octet-stream',
+        'content-disposition': 'attachment; filename="tone-60s.mp3"',
+        'accept-ranges': 'bytes',
+        'cache-control': 'no-store'
+      }
+      if (state.failAssetRequests) {
+        response.writeHead(503, { ...headers, 'content-length': '0' })
+        return response.end()
+      }
+      const range = request.headers.range?.match(/^bytes=(\d*)-(\d*)$/)
+      const suffix = range && !range[1]
+      const start = range ? (suffix ? Math.max(fixtureMp3.length - Number(range[2]), 0) : Number(range[1])) : 0
+      const end = range && !suffix && range[2] ? Math.min(Number(range[2]), fixtureMp3.length - 1) : fixtureMp3.length - 1
+      if (request.headers.range && (!range || (!range[1] && !range[2]) || start > end || start >= fixtureMp3.length)) {
+        response.writeHead(416, { ...headers, 'content-range': `bytes */${fixtureMp3.length}`, 'content-length': '0' })
+        return response.end()
+      }
+      response.writeHead(range ? 206 : 200, {
+        ...headers,
+        'content-length': String(end - start + 1),
+        ...(range ? { 'content-range': `bytes ${start}-${end}/${fixtureMp3.length}` } : {})
+      })
+      response.end(request.method === 'HEAD' ? undefined : fixtureMp3.subarray(start, end + 1))
+    })
+    await new Promise((resolve, reject) => {
+      server.once('error', reject)
+      server.listen(0, '127.0.0.1', resolve)
+    })
+    const assetOrigin = `http://127.0.0.1:${server.address().port}`
+    const releases = createServer((request, response) => {
+      state.releaseRequests.push(request.url)
+      // Separate extensionless asset URLs preserve episode identity after redirect.
+      const assetId = request.url.endsWith('/agent-loop.mp3') ? 'asset-1' : 'asset-2'
+      response.writeHead(302, { location: `${assetOrigin}/${assetId}`, 'cache-control': 'no-store', 'content-length': '0' })
+      response.end()
+    })
+    await new Promise((resolve, reject) => {
+      releases.once('error', reject)
+      releases.listen(0, '127.0.0.1', resolve)
+    })
+    state.releasePrefix = `http://127.0.0.1:${releases.address().port}/releases/download/audio-test/`
+    try {
+      expect(fixtureBundles.size, 'The isolated build must contain fixture catalog URLs').toBeGreaterThan(0)
+      // Rewrite only fixture data in the exported JS, not HTMLMediaElement APIs.
+      // This gives native media backends reachable URLs without external traffic.
+      await page.route('**/_next/static/chunks/*.js', async request => {
+        const filename = new URL(request.request().url()).pathname.split('/').at(-1)
+        const body = fixtureBundles.get(filename)
+        if (!body) return request.continue()
+        state.rewrittenBundles += 1
+        await request.fulfill({ contentType: 'text/javascript', body: body.replaceAll(releasePrefix, state.releasePrefix) })
+      })
+      await use(state)
+      expect(state.rewrittenBundles, 'Playback must use the local fixture catalog URLs').toBeGreaterThan(0)
+    } finally {
+      server.closeAllConnections()
+      releases.closeAllConnections()
+      await new Promise((resolve, reject) => releases.close(error => error ? reject(error) : resolve()))
+      await new Promise((resolve, reject) => server.close(error => error ? reject(error) : resolve()))
+    }
+  }
+})
 
 test('audio library reports real coverage and has a keyboard skip target', async ({ page }) => {
   await page.goto(route('/audio'))
@@ -39,6 +96,7 @@ test('audio library reports real coverage and has a keyboard skip target', async
   await expect(page.locator('.audio-library-summary')).toContainText(`${new Set(catalog.episodes.map(item => item.article_path)).size}`)
   await expect(media(page)).toHaveCount(1)
   expect(await media(page).evaluate(audio => audio.paused && !audio.getAttribute('src'))).toBe(true)
+  await expect(media(page).locator('source[src]')).toHaveCount(0)
   if (!catalog.episodes.length) {
     await expect(page.getByText('音声は現在準備中です。', { exact: false })).toBeVisible()
     await expect(page.getByRole('button', { name: '音声で聴く', exact: true })).toHaveCount(0)
@@ -50,7 +108,10 @@ test('audio library reports real coverage and has a keyboard skip target', async
     await expect(card).toContainText('音声公開日:')
     await expect(card.locator('time')).toHaveAttribute('datetime', published.toISOString())
   }
+  // Enter keyboard modality, then focus explicitly because WebKit's default
+  // Tab policy may skip ordinary links. Enter must still activate the skip link.
   await page.keyboard.press('Tab')
+  await page.locator('a[href="#nextra-skip-nav"]').focus()
   await expect(page.locator('a[href="#nextra-skip-nav"]')).toBeFocused()
   await page.keyboard.press('Enter')
   await expect(page.locator('main#nextra-skip-nav')).toBeFocused()
@@ -83,14 +144,20 @@ test('mobile navigation keeps roadmap, glossary, and tags reachable', async ({ p
 
 test.describe('isolated fixture audio playback', () => {
   test.skip(!fixtureBuild, 'Run the isolated AUDIO_TEST_CATALOG build to test playback; the production catalog contains no demo media.')
-  test.beforeEach(async ({ page }) => { await interceptAudio(page) })
+  test.beforeEach(async ({ fixtureAudio }) => { expect(fixtureAudio.assetRequests).toHaveLength(0) })
 
-  test('starts from article, navigates without replacing audio, seeks chapters and resumes after reload', async ({ page }, testInfo) => {
+  test('starts redirected MP3 from article, navigates, seeks chapters and restores without requesting media', async ({ page, fixtureAudio }, testInfo) => {
     const errors = []
     page.on('pageerror', error => errors.push(error.message))
     await page.goto(route('/docs/concepts/agent-loop'))
     await page.getByRole('region', { name: 'この記事の音声' }).getByRole('button', { name: '音声で聴く', exact: true }).click()
     await expect.poll(() => media(page).evaluate(audio => !audio.paused && audio.readyState > 0)).toBe(true)
+    await expect(media(page).locator('source')).toHaveAttribute('type', 'audio/mpeg')
+    const episode = catalog.episodes.find(item => item.id === 'audio-test-agent-loop-v1')
+    await expect(media(page).locator('source')).toHaveAttribute('src', episode.audio_url.replace(releasePrefix, fixtureAudio.releasePrefix))
+    expect(fixtureAudio.releaseRequests.length).toBeGreaterThan(0)
+    expect(fixtureAudio.assetRequests.length).toBeGreaterThan(0)
+    expect(fixtureAudio.assetRequests.every(request => request.url === '/asset-1')).toBe(true)
     await media(page).evaluate(audio => { audio.dataset.identity = 'keep-me' })
     await player(page).getByRole('button', { name: '15秒進む' }).click()
     await expect.poll(() => media(page).evaluate(audio => audio.currentTime)).toBeGreaterThan(14)
@@ -110,10 +177,15 @@ test.describe('isolated fixture audio playback', () => {
     expect(await media(page).evaluate(audio => audio.paused)).toBe(false)
     await player(page).getByRole('button', { name: '一時停止', exact: true }).click()
     const position = await media(page).evaluate(audio => audio.currentTime)
+    fixtureAudio.releaseRequests.length = 0
+    fixtureAudio.assetRequests.length = 0
     await page.reload()
     await expect(player(page)).toBeVisible()
     await expect(player(page).getByLabel('再生速度')).toHaveValue('1.5')
     expect(await media(page).evaluate(audio => audio.paused && !audio.getAttribute('src'))).toBe(true)
+    await expect(media(page).locator('source[src]')).toHaveCount(0)
+    expect(fixtureAudio.releaseRequests).toEqual([])
+    expect(fixtureAudio.assetRequests).toEqual([])
     await player(page).getByRole('button', { name: '再生', exact: true }).click()
     await expect.poll(() => media(page).evaluate(audio => audio.currentTime)).toBeGreaterThanOrEqual(position - 1)
     expect(errors).toEqual([])
@@ -158,16 +230,17 @@ test.describe('isolated fixture audio playback', () => {
     await page.screenshot({ path: testInfo.outputPath('audio-mobile.png') })
   })
 
-  test('failed media requests are retryable without losing the selected episode', async ({ page }) => {
-    const pattern = 'https://github.com/pero3dev/ai-agent-library/releases/download/audio-test/*.mp3'
-    const failRequest = request => request.abort('failed')
-    await page.route(pattern, failRequest)
+  test('failed redirected media requests are retryable without losing the selected episode', async ({ page, fixtureAudio }) => {
+    fixtureAudio.failAssetRequests = true
     await page.goto(route('/docs/concepts/agent-loop'))
     await page.getByRole('region', { name: 'この記事の音声' }).getByRole('button', { name: '音声で聴く', exact: true }).click()
     await expect(player(page).getByRole('alert')).toBeVisible()
-    await page.unroute(pattern, failRequest)
+    expect(fixtureAudio.assetRequests.length).toBeGreaterThan(0)
+    const failedRequests = fixtureAudio.assetRequests.length
+    fixtureAudio.failAssetRequests = false
     await player(page).getByRole('button', { name: '再試行', exact: true }).click()
     await expect.poll(() => media(page).evaluate(audio => !audio.paused && audio.readyState > 0)).toBe(true)
+    expect(fixtureAudio.assetRequests.length).toBeGreaterThan(failedRequests)
     await expect(player(page).getByRole('alert')).toHaveCount(0)
     await expect(player(page).locator('.audio-player-title')).toContainText('Agent ループ')
   })

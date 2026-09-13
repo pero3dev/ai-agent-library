@@ -3,12 +3,13 @@ import { execFileSync } from 'node:child_process'
 import { closeSync, copyFileSync, existsSync, lstatSync, mkdirSync, openSync, readFileSync, readdirSync, realpathSync, renameSync, statSync, unlinkSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { parseFrontMatter, toLines } from '../lib/md-utils.mjs'
-import { formatCommitMessage, formatSquashMessage, validatePr } from '../lib/git-conventions.mjs'
+import { formatCommitMessage, formatSquashMessage, validateCommitMessage, validatePr } from '../lib/git-conventions.mjs'
 import { requiredChecks, workflowFor } from '../lib/github-policy.mjs'
 import { discoverArticles, sourceSections, validateScript, validateSupplementalSnapshot } from './core.mjs'
 import { reviewProblems } from './pipeline.mjs'
 import { validateAudioCatalog } from '../../website/lib/audio-catalog.mjs'
 import { verifyGithubEvidence } from '../lib/github-evidence.mjs'
+import { normalizeScriptAgents, readScriptAuthorship } from './authorship.mjs'
 
 export const AUDIO_REPOSITORY = 'pero3dev/ai-agent-library'
 const catalogPath = 'website/audio/catalog.json'
@@ -86,6 +87,7 @@ export function validateReady(manifest, { root, stateDir, sourceText } = {}) {
   const script = readPublicationJson(scriptFile)
   const sections = sourceSections(source)
   assert(digest(JSON.stringify(script)) === review.script_sha256, 'Reviewed script file digest mismatch')
+  const authorship = readScriptAuthorship(path.dirname(scriptFile), { article_path: manifest.article_path, source_digest: manifest.source_digest, script_sha256: review.script_sha256 })
   assert(!validateScript(script, sections).length && !reviewProblems(review, sections).length, 'Actual script/source coverage did not pass independent review')
   validateReadySupplemental(manifest, { root, stateDir })
   assert(Array.isArray(manifest.signal_checks.parts) && manifest.signal_checks.parts.length === manifest.episodes.length, 'Signal evidence is missing for episode parts')
@@ -116,7 +118,7 @@ export function validateReady(manifest, { root, stateDir, sourceText } = {}) {
     assert(signal?.passed === true && Array.isArray(signal.issues) && !signal.issues.length && signal.audio_sha256 === episode.audio_sha256 && Math.abs(signal.duration_seconds - episode.duration_seconds) < 0.01 && signal.character_count > 0 && Number.isFinite(signal.silence_seconds) && signal.silence_seconds >= 0 && signal.silence_seconds <= episode.duration_seconds * 0.4, 'Signal evidence does not match validated audio')
     return { ...episode, audio_file: audioFile }
   })
-  return { ...manifest, episodes }
+  return { ...manifest, episodes, script_authorship: { article_path: authorship.article_path, source_digest: authorship.source_digest, script_sha256: authorship.script_sha256, agents: authorship.agents, script_file: scriptFile } }
 }
 
 export function mergeCatalog(catalog, episodes, now = new Date().toISOString()) {
@@ -230,15 +232,46 @@ function ensureRemote(root, run) {
   assert(repo.nameWithOwner === AUDIO_REPOSITORY && repo.visibility === 'PUBLIC' && repo.defaultBranchRef?.name === 'main', 'Unexpected repository visibility/default branch')
 }
 
+function authorshipAgents(records) {
+  return normalizeScriptAgents([...new Set(records.flatMap(record => record.agents))])
+}
+
+function verifyAuthorshipSnapshot(records, stateDir) {
+  assert(Array.isArray(records) && records.length > 0 && new Set(records.map(record => record.article_path)).size === records.length, 'Invalid catalog authorship snapshot')
+  for (const record of records) {
+    const file = safeFile(record.script_file, stateDir)
+    assert(digest(JSON.stringify(readPublicationJson(file))) === record.script_sha256, 'Catalog authorship script changed since publication preparation')
+    const actual = readScriptAuthorship(path.dirname(file), record)
+    assert(JSON.stringify(actual.agents) === JSON.stringify(record.agents), 'Catalog authorship changed since publication preparation')
+  }
+  return authorshipAgents(records)
+}
+
+function messageFooter(message) { return /^Agent: [\s\S]*$/m.exec(message)?.[0].trimEnd() }
+function assertPrAuthorship(pr, agents) {
+  const squash = formatSquashMessage(pr)
+  const errors = validateCommitMessage(`${squash.subject}\n\n${squash.body}`, { agent: agents.join(',') })
+  assert(!errors.length, `Catalog PR authorship mismatch: ${errors.join('; ')}`)
+}
+
 /** Only the catalog is staged. The ordinary checkout is never reset or cleaned. */
-export function createCatalogPr(episodes, { root, stateDir, run = command } = {}) {
+export function createCatalogPr(episodes, { root, stateDir, run = command, authorship } = {}) {
+  authorship = authorship?.slice().sort((a, b) => a.article_path.localeCompare(b.article_path))
+  const agents = verifyAuthorshipSnapshot(authorship, stateDir)
+  assert(episodes.every(episode => authorship.some(record => record.article_path === episode.article_path && record.source_digest === episode.source_digest && record.script_sha256 === episode.script_sha256)) && authorship.every(record => episodes.some(episode => episode.article_path === record.article_path)), 'Catalog episodes/authorship binding mismatch')
   const hash = digest(JSON.stringify(episodes.map(episode => [episode.id, episode.audio_sha256]).sort())).slice(0, 20)
   const branch = `chore/audio-catalog-${hash}`
+  const authorshipFile = path.join(stateDir, 'publication', `${hash}-authorship.json`)
+  if (existsSync(authorshipFile)) {
+    const previous = readPublicationJson(safeFile(authorshipFile, stateDir))
+    assert(JSON.stringify(previous) === JSON.stringify(authorship), 'Prepared catalog authorship differs; inspect the existing publication before retrying')
+  } else atomicJson(authorshipFile, authorship)
   const gh = (...args) => run('gh', args, root)
-  const existing = JSON.parse(gh('pr', 'list', '--repo', AUDIO_REPOSITORY, '--head', branch, '--state', 'all', '--json', 'number,url,state,headRefOid,headRefName,baseRefName,isCrossRepository'))
+  const existing = JSON.parse(gh('pr', 'list', '--repo', AUDIO_REPOSITORY, '--head', branch, '--state', 'all', '--json', 'number,url,state,headRefOid,headRefName,baseRefName,isCrossRepository,title,body'))
   if (existing.length) {
     assert(existing.length === 1 && ['OPEN', 'MERGED'].includes(existing[0].state), 'Existing catalog PR was closed; inspect before retrying')
     assert(existing[0].headRefName === branch && existing[0].baseRefName === 'main' && existing[0].isCrossRepository === false, 'Existing catalog PR repository/branch mismatch')
+    assertPrAuthorship(existing[0], agents)
     return existing[0]
   }
   const worktree = path.join(stateDir, 'publication', 'worktrees', hash)
@@ -264,11 +297,11 @@ export function createCatalogPr(episodes, { root, stateDir, run = command } = {}
   const scope = run('git', ['diff', '--name-only', 'origin/main', '--'], worktree).split('\n').filter(Boolean)
   assert(scope.length === 1 && scope[0] === catalogPath, 'Publication branch has changes outside the catalog')
   const title = 'chore(website): 検証済みの記事音声をカタログへ反映する'
-  const reason = `${new Set(episodes.map(episode => episode.article_path)).size} 記事の検査済み音声を掲載し、同じ記事の旧版を差し替えます。Claude が生成した台本と独立レビューに基づく音声のメタデータを、決められた規則でカタログへ反映しています。`
+  const reason = `${new Set(episodes.map(episode => episode.article_path)).size} 記事の検査済み音声を掲載し、同じ記事の旧版を差し替えます。作者記録と独立レビューに結び付いた台本から作った音声のメタデータを、決められた規則でカタログへ反映しています。`
   const validation = '原文と独立台本レビューの SHA-256、音声信号検査、実配信の Range 応答と全音声 SHA-256 を確認済み。サイトの CI は PR で実行します。'
   const impact = '変更は音声カタログのみです。旧音声ファイルは保持します。iPhone 実機の再生品質は自動検査の対象外です。'
-  const message = formatCommitMessage({ type: 'chore', scope: 'website', summary: '検証済みの記事音声をカタログへ反映する', reason, validation, impact, agent: 'claude' })
-  const body = `## 変更内容\n\n${reason}\n\n## 検証\n\n${validation}\n\n## 影響・残件\n\n${impact}\n\nAgent: claude\nCo-authored-by: Claude <noreply@anthropic.com>\n`
+  const message = formatCommitMessage({ type: 'chore', scope: 'website', summary: '検証済みの記事音声をカタログへ反映する', reason, validation, impact, agent: agents.join(',') })
+  const body = `## 変更内容\n\n${reason}\n\n## 検証\n\n${validation}\n\n## 影響・残件\n\n${impact}\n\n${messageFooter(message)}\n`
   const errors = validatePr({ title, body, branch, baseRefName: 'main' })
   assert(errors.length === 0, errors.join('\n'))
   const messageFile = path.join(stateDir, 'publication', `${hash}-commit.txt`)
@@ -276,6 +309,7 @@ export function createCatalogPr(episodes, { root, stateDir, run = command } = {}
   writeFileSync(messageFile, message, 'utf8')
   writeFileSync(bodyFile, body, 'utf8')
   if (needsCommit) run('git', ['commit', '-F', messageFile], worktree)
+  else assert(!validateCommitMessage(run('git', ['show', '--no-patch', '--format=%B', 'HEAD', '--'], worktree), { agent: agents.join(',') }).length, 'Existing catalog commit authorship mismatch')
   ensureRemote(root, run)
   run('git', ['push', '--set-upstream', 'origin', branch], worktree)
   gh('pr', 'create', '--repo', AUDIO_REPOSITORY, '--base', 'main', '--head', branch, '--title', title, '--body-file', bodyFile)
@@ -342,8 +376,8 @@ function recordRegeneration(stateDir, articles) {
   atomicJson(file, { schema_version: 1, articles: [...byPath.values()] })
 }
 
-function refreshPrMetadata(fresh, episodes, mainSha) {
-  const footer = /^Agent: [\s\S]*$/m.exec(formatSquashMessage(fresh).body)?.[0]
+function refreshPrMetadata(fresh, episodes, mainSha, message) {
+  const footer = messageFooter(message)
   assert(footer, 'Catalog PR attribution is missing')
   const count = new Set(episodes.map(episode => episode.article_path)).size
   const body = `## 変更内容\n\n最新 main の原文に一致する ${count} 記事の検査済み音声をカタログへ掲載します。同じ記事の旧音声を差し替え、ほかの記事の音声を保持します。\n\n## 検証\n\n原文 SHA-256 と音声候補の対応、カタログの完全性を main ${mainSha} で再確認しました。台本の独立レビュー・音声信号検査・公開音声の Range と全体 SHA-256 は元候補の検証記録を保持しています。同期後の新 head の CI は再実行待ちです。\n\n## 影響・残件\n\n差分は音声カタログのみです。公開済み音声ファイルは保持します。同期中に原文が変わった候補は再生成の対象です。iPhone 実機の品質確認は自動検査に含めません。\n\n${footer}`
@@ -362,6 +396,10 @@ function finishCatalogRefresh(journal, { root, stateDir, run }) {
   assert(run('git', ['rev-parse', 'HEAD'], journal.worktree) === journal.new_head && !run('git', ['status', '--porcelain', '--untracked-files=all'], journal.worktree), 'Prepared refresh worktree changed')
   run('git', ['merge-base', '--is-ancestor', journal.previous_head, journal.new_head], journal.worktree)
   assert(run('git', ['diff', '--name-only', journal.main_sha, journal.new_head], journal.worktree) === catalogPath, 'Prepared refresh contains changes outside the catalog')
+  if (journal.authorship) {
+    const agents = verifyAuthorshipSnapshot(journal.authorship, stateDir)
+    assertPrAuthorship({ title: journal.title, body: readFileSync(journal.body_file, 'utf8') }, agents)
+  }
   const readPr = () => JSON.parse(gh('pr', 'view', String(journal.number), '--repo', AUDIO_REPOSITORY, '--json', 'number,url,state,headRefOid,headRefName,baseRefName,isCrossRepository,autoMergeRequest,title,body'))
   const assertIdentity = pr => assert(pr.state === 'OPEN' && pr.headRefName === journal.branch && pr.baseRefName === 'main' && pr.isCrossRepository === false && [journal.previous_head, journal.new_head].includes(pr.headRefOid), 'Catalog PR changed during refresh')
   const body = readFileSync(journal.body_file, 'utf8').replace(/\r\n/g, '\n')
@@ -416,13 +454,15 @@ export function refreshCatalogPr(fresh, { root, stateDir, run = command } = {}) 
   const readyManifests = findReadyManifests(stateDir).flatMap(file => {
     try { safeFile(file, stateDir); return [readPublicationJson(file)] } catch { return [] }
   })
+  const candidateAuthorship = new Map()
   const checkMaterial = episodes => {
     const ids = episodes.map(episode => episode.id).sort().join('|')
     const ready = readyManifests.find(manifest => manifest.article_path === episodes[0].article_path && manifest.review?.script_sha256 === episodes[0].script_sha256 && manifest.episodes?.map(episode => episode.id).sort().join('|') === ids)
     if (!ready) return 'The reviewed local candidate was replaced or is missing; use the current production result'
     try {
-      validateReady(ready, { root, stateDir, sourceText: readMainSource(ready.article_path) })
+      const validated = validateReady(ready, { root, stateDir, sourceText: readMainSource(ready.article_path) })
       validateReadySupplemental(ready, { root, stateDir, readDocument: readMainSource })
+      candidateAuthorship.set(ready.article_path, validated.script_authorship)
     } catch (error) { return error.message }
     return null
   }
@@ -445,12 +485,15 @@ export function refreshCatalogPr(fresh, { root, stateDir, run = command } = {}) 
     if (existsSync(pendingFile)) unlinkSync(pendingFile)
     return { status: 'REGENERATION_QUEUED', pr: closed, regeneration_needed: reconciliation.regeneration }
   }
-  const metadata = refreshPrMetadata(fresh, reconciliation.episodes, mainSha)
+  const authorship = [...new Set(reconciliation.episodes.map(episode => episode.article_path))].map(articlePath => candidateAuthorship.get(articlePath))
+  const agents = verifyAuthorshipSnapshot(authorship, stateDir)
+  const message = formatCommitMessage({ type: 'chore', scope: 'repo', summary: '音声カタログ候補へ最新 main を取り込む', reason: `main ${mainSha} に同期し、原文が一致する検査済み音声だけを候補として保持します。`, validation: '原文 SHA-256 と共有カタログ検査を再確認しました。新 head の CI は再実行待ちです。', impact: 'PR の最終差分は音声カタログのみです。原文が更新された候補は再生成へ戻します。', agent: agents.join(',') })
+  const metadata = refreshPrMetadata(fresh, reconciliation.episodes, mainSha, message)
   mkdirSync(path.dirname(journalFile), { recursive: true })
   const bodyFile = path.join(stateDir, 'publication', `refresh-pr-${fresh.number}-body.md`)
   const messageFile = path.join(stateDir, 'publication', `refresh-pr-${fresh.number}-commit.txt`)
   writeFileSync(bodyFile, metadata.body, 'utf8')
-  writeFileSync(messageFile, formatCommitMessage({ type: 'chore', scope: 'repo', summary: '音声カタログ候補へ最新 main を取り込む', reason: `main ${mainSha} に同期し、原文が一致する検査済み音声だけを候補として保持します。`, validation: '原文 SHA-256 と共有カタログ検査を再確認しました。新 head の CI は再実行待ちです。', impact: 'PR の最終差分は音声カタログのみです。原文が更新された候補は再生成へ戻します。', agent: 'claude' }), 'utf8')
+  writeFileSync(messageFile, message, 'utf8')
   atomicJson(journalFile, { status: 'merging', number: fresh.number, previous_head: fresh.headRefOid, main_sha: mainSha, worktree, branch: fresh.headRefName })
   try { if (baseSha !== mainSha) run('git', ['merge', '--no-commit', '--no-ff', mainSha], worktree) } catch (error) {
     const conflicts = run('git', ['diff', '--name-only', '--diff-filter=U'], worktree).split('\n').filter(Boolean)
@@ -465,7 +508,7 @@ export function refreshCatalogPr(fresh, { root, stateDir, run = command } = {}) 
   assert(run('git', ['diff', '--cached', '--name-only', mainSha], worktree) === catalogPath, 'Merge result changes more than the catalog relative to main')
   run('git', ['commit', '-F', messageFile], worktree)
   const newHead = run('git', ['rev-parse', 'HEAD'], worktree)
-  const journal = { status: 'prepared', number: fresh.number, previous_head: fresh.headRefOid, previous_title: fresh.title, previous_body_sha256: digest(fresh.body.replace(/\r\n/g, '\n')), new_head: newHead, main_sha: mainSha, worktree, branch: fresh.headRefName, body_file: bodyFile, body_sha256: digest(readFileSync(bodyFile)), title: metadata.title, regeneration: reconciliation.regeneration }
+  const journal = { status: 'prepared', number: fresh.number, previous_head: fresh.headRefOid, previous_title: fresh.title, previous_body_sha256: digest(fresh.body.replace(/\r\n/g, '\n')), new_head: newHead, main_sha: mainSha, worktree, branch: fresh.headRefName, body_file: bodyFile, body_sha256: digest(readFileSync(bodyFile)), title: metadata.title, regeneration: reconciliation.regeneration, authorship }
   atomicJson(journalFile, journal)
   return finishCatalogRefresh(journal, { root, stateDir, run })
 }
@@ -482,6 +525,9 @@ export function queueCatalogMerge(pr, { root, stateDir, run = command } = {}) {
   const refresh = existsSync(refreshFile) ? readPublicationJson(refreshFile) : null
   if (refresh?.status === 'prepared' && [refresh.previous_head, refresh.new_head].includes(fresh.headRefOid)) return finishCatalogRefresh(refresh, { root, stateDir, run })
   if (fresh.mergeStateStatus === 'BEHIND') return refreshCatalogPr(fresh, { root, stateDir, run })
+  const authorshipFile = path.join(stateDir, 'publication', `${fresh.headRefName.slice('chore/audio-catalog-'.length)}-authorship.json`)
+  const authorship = refresh?.status === 'pushed' && refresh.new_head === fresh.headRefOid ? refresh.authorship : existsSync(authorshipFile) ? readPublicationJson(safeFile(authorshipFile, stateDir)) : null
+  if (authorship) assertPrAuthorship(fresh, verifyAuthorshipSnapshot(authorship, stateDir))
   if (fresh.mergeStateStatus === 'DIRTY') return { status: 'HELD_CONFLICT', reason: 'The catalog PR conflicts with main. Resolve its catalog-only diff, revalidate source bindings and rerun CI.' }
   const protection = JSON.parse(gh('api', `repos/${AUDIO_REPOSITORY}/branches/main/protection`))
   assert(protection.required_status_checks?.strict === true && protection.enforce_admins?.enabled === true, 'Strict branch protection is required')
@@ -631,12 +677,17 @@ export async function runPublication({ root, stateDir, manifestFiles, apply = fa
   const batches = selectPublicationBatches(valid, { articles: await discoverArticles(root), catalog, queue: existsSync(queueFile) ? readPublicationJson(queueFile) : undefined, minimumBatch })
   result.waiting_batches = batches.waiting
   result.selected_articles = batches.selected.map(manifest => manifest.article_path)
+  const publishedAuthorship = []
   for (const manifest of apply ? batches.selected : []) {
-    try { result.publications.push(...await publishAssets(manifest, { root, stateDir, run, probe })) }
+    try {
+      const episodes = await publishAssets(manifest, { root, stateDir, run, probe })
+      result.publications.push(...episodes)
+      publishedAuthorship.push(manifest.script_authorship)
+    }
     catch (error) { result.held.push({ article_path: manifest.article_path, reason: error.message }) }
   }
   if (result.publications.length) {
-    result.pr = createCatalogPr(result.publications, { root, stateDir, run })
+    result.pr = createCatalogPr(result.publications, { root, stateDir, run, authorship: publishedAuthorship })
     if (['OPEN', 'MERGED'].includes(result.pr.state)) atomicJson(pendingFile, result.pr)
     if (autoMerge) {
       result.merge = queueCatalogMerge(result.pr, { root, stateDir, run })

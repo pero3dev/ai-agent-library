@@ -6,8 +6,10 @@ import { existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { AUDIO_REPOSITORY, assetCoordinates, mergeCatalog, probePublicAsset, publishAssets, queueCatalogMerge, reconcileCatalogCandidate, refreshCatalogPr, runPublication, selectPublicationBatches, validateReady, validateReadySupplemental, validateSource } from '../../scripts/audio/publication.mjs'
+import { AUDIO_REPOSITORY, assetCoordinates, createCatalogPr, mergeCatalog, probePublicAsset, publishAssets, queueCatalogMerge, reconcileCatalogCandidate, refreshCatalogPr, runPublication, selectPublicationBatches, validateReady, validateReadySupplemental, validateSource } from '../../scripts/audio/publication.mjs'
 import { requiredChecks, workflowFor } from '../../scripts/lib/github-policy.mjs'
+import { recordScriptAuthorship } from '../../scripts/audio/authorship.mjs'
+import { formatSquashMessage, validateCommitMessage } from '../../scripts/lib/git-conventions.mjs'
 
 const sha = data => createHash('sha256').update(data).digest('hex')
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
@@ -48,6 +50,92 @@ test('publication requires current published source, bound review and complete c
   failed.episodes[0].parts = 1
   failed.signal_checks.passed = false
   assert.throws(() => validateReady(failed, { root, stateDir }), /signal checks/)
+})
+
+test('READY attribution is derived from the actual script hash and fails closed on an incomplete history', t => {
+  const { root, stateDir, manifest } = fixture(t)
+  assert.deepEqual(validateReady(manifest, { root, stateDir }).script_authorship.agents, ['claude'])
+  const binding = { article_path: manifest.article_path, source_digest: manifest.source_digest, script_sha256: manifest.review.script_sha256 }
+  recordScriptAuthorship(stateDir, { ...binding, agents: ['codex'] })
+  manifest.script_authorship = { agents: ['claude'] }
+  const validated = validateReady(manifest, { root, stateDir })
+  assert.deepEqual(validated.script_authorship.agents, ['codex'])
+  assert.equal(Object.hasOwn(validated.episodes[0], 'script_authorship'), false)
+  rmSync(path.join(stateDir, 'authorship', `${binding.script_sha256}.json`))
+  assert.throws(() => validateReady(manifest, { root, stateDir }), /history is empty/)
+  recordScriptAuthorship(stateDir, { ...binding, script_sha256: 'b'.repeat(64), agents: ['claude'] })
+  assert.throws(() => validateReady(manifest, { root, stateDir }), /current script record is missing/)
+})
+
+function publicationFixture(t) {
+  const data = fixture(t)
+  const { root, stateDir, manifest, episode, source, audio } = data
+  recordScriptAuthorship(stateDir, { article_path: manifest.article_path, source_digest: manifest.source_digest, script_sha256: manifest.review.script_sha256, agents: ['codex'] })
+  const secondDir = path.join(stateDir, 'second')
+  mkdirSync(secondDir)
+  const second = structuredClone(manifest)
+  second.article_path = 'docs/01-concepts/second.md'
+  second.script_file = path.join(secondDir, 'script.json')
+  writeFileSync(second.script_file, readFileSync(path.join(stateDir, 'script.json')))
+  second.episodes = [{ ...episode, id: 'second-version-p01', article_path: second.article_path, audio_file: path.join(secondDir, 'part01.mp3') }]
+  writeFileSync(second.episodes[0].audio_file, audio)
+  writeFileSync(path.join(root, second.article_path), source)
+  const manifests = [manifest, second]
+  const manifestFiles = manifests.map((value, index) => { const file = path.join(stateDir, `ready-${index}.json`); writeFileSync(file, JSON.stringify(value)); return file })
+  const git = (args, cwd = root) => {
+    const value = execFileSync('git', ['-c', 'user.name=Audio test', '-c', 'user.email=audio-test@example.invalid', ...args], { cwd, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] })
+    return args[0] === 'show' ? value : value.trim()
+  }
+  git(['init', '-b', 'main']); git(['add', '--', 'docs', 'website']); git(['commit', '-m', 'test fixture base'])
+  git(['update-ref', 'refs/remotes/origin/main', git(['rev-parse', 'HEAD'])])
+  const calls = [], remote = { pr: null }
+  const run = (binary, args, cwd) => {
+    calls.push([binary, ...args])
+    if (binary === 'git') {
+      if (args[0] === 'remote') return `https://github.com/${AUDIO_REPOSITORY}.git`
+      if (['fetch', 'push'].includes(args[0])) return ''
+      return git(args, cwd)
+    }
+    assert.equal(binary, 'gh')
+    if (args[0] === 'repo') return JSON.stringify({ nameWithOwner: AUDIO_REPOSITORY, visibility: 'PUBLIC', defaultBranchRef: { name: 'main' } })
+    if (args[0] === 'api' && args[1].includes('/releases/tags/')) {
+      const current = manifests.find(value => args[1].endsWith(assetCoordinates(value, value.episodes[0]).tag))
+      const coordinates = assetCoordinates(current, current.episodes[0])
+      return JSON.stringify({ tag_name: coordinates.tag, draft: false, assets: [{ name: coordinates.name, size: audio.length, created_at: '2026-09-13T00:00:00Z' }] })
+    }
+    if (args[0] === 'pr' && args[1] === 'list') return JSON.stringify(remote.pr ? [remote.pr] : [])
+    if (args[0] === 'pr' && args[1] === 'create') {
+      const branch = args[args.indexOf('--head') + 1]
+      remote.pr = { number: 123, url: `https://github.com/${AUDIO_REPOSITORY}/pull/123`, state: 'OPEN', headRefName: branch, headRefOid: git(['rev-parse', branch]), baseRefName: 'main', isCrossRepository: false, title: args[args.indexOf('--title') + 1], body: readFileSync(args[args.indexOf('--body-file') + 1], 'utf8') }
+      return remote.pr.url
+    }
+    if (args[0] === 'pr' && args[1] === 'view') return JSON.stringify(remote.pr)
+    throw new Error(`Unexpected external fixture command: ${binary} ${args.join(' ')}`)
+  }
+  return { ...data, manifests, manifestFiles, git, run, calls, remote }
+}
+
+for (const failedSecond of [false, true]) test(`catalog authors come only from successfully verified articles (second fails: ${failedSecond})`, async t => {
+  const { root, stateDir, run, git, manifestFiles, remote, manifests, calls } = publicationFixture(t)
+  const result = await runPublication({ root, stateDir, apply: true, manifestFiles, run, minimumBatch: 1, probe: async url => {
+    if (failedSecond && url.includes('/audio-second-')) throw new Error('simulated Range failure')
+    return { range: true }
+  } })
+  assert.equal(result.publications.length, failedSecond ? 1 : 2)
+  assert.equal(result.held.length, failedSecond ? 1 : 0)
+  const agent = failedSecond ? 'codex' : 'codex,claude'
+  const message = git(['show', '--no-patch', '--format=%B', remote.pr.headRefOid])
+  assert.deepEqual(validateCommitMessage(message, { agent }), [])
+  const squash = formatSquashMessage(remote.pr)
+  assert.deepEqual(validateCommitMessage(`${squash.subject}\n\n${squash.body}`, { agent }), [])
+  if (failedSecond) assert.doesNotMatch(remote.pr.body, /Co-authored-by: Claude/)
+  const authorship = manifests.slice(0, failedSecond ? 1 : 2).map(manifest => validateReady(manifest, { root, stateDir }).script_authorship)
+  const beforeReplay = calls.length
+  assert.equal(createCatalogPr(result.publications, { root, stateDir, run, authorship }).number, 123)
+  assert.equal(calls.slice(beforeReplay).some(call => call[1] === 'push' || call[1] === 'commit' || call[2] === 'create'), false)
+  remote.pr.body = remote.pr.body.replace(`Agent: ${agent}`, 'Agent: claude').replace('Co-authored-by: Codex <codex@openai.com>\n', '')
+  if (failedSecond) remote.pr.body += 'Co-authored-by: Claude <noreply@anthropic.com>\n'
+  assert.throws(() => createCatalogPr(result.publications, { root, stateDir, run, authorship }), /authorship mismatch/)
 })
 
 test('publication rejects escaping inputs, altered bytes and missing voice credits', t => {
@@ -373,6 +461,45 @@ test('normal main advancement refreshes the same catalog PR with a merge commit 
   } })
   assert.equal(replay.status, 'WAITING_CHECKS')
   assert.equal(git(['rev-parse', 'HEAD'], worktree), result.head)
+})
+
+test('main refresh binds the retained script authors to its merge commit, PR and replay journal', t => {
+  const { root, stateDir, manifest, fresh, run, git, worktree } = refreshFixture(t)
+  recordScriptAuthorship(stateDir, { article_path: manifest.article_path, source_digest: manifest.source_digest, script_sha256: manifest.review.script_sha256, agents: ['codex'] })
+  const result = refreshCatalogPr({ ...fresh }, { root, stateDir, run })
+  assert.equal(result.status, 'BRANCH_UPDATED')
+  assert.deepEqual(validateCommitMessage(git(['show', '--no-patch', '--format=%B', result.head], worktree), { agent: 'codex' }), [])
+  const squash = formatSquashMessage(fresh)
+  assert.deepEqual(validateCommitMessage(`${squash.subject}\n\n${squash.body}`, { agent: 'codex' }), [])
+  const journal = JSON.parse(readFileSync(path.join(stateDir, 'publication/refresh-pr-123.json'), 'utf8'))
+  assert.deepEqual(journal.authorship[0].agents, ['codex'])
+  assert.equal(journal.authorship[0].script_sha256, manifest.review.script_sha256)
+  fresh.body = fresh.body.replace('Agent: codex', 'Agent: claude').replace('Codex <codex@openai.com>', 'Claude <noreply@anthropic.com>')
+  assert.throws(() => queueCatalogMerge({ ...fresh }, { root, stateDir, run }), /authorship mismatch/)
+})
+
+test('prepared refresh holds changed authorship before another metadata edit or push', t => {
+  const { root, stateDir, manifest, fresh, run, calls } = refreshFixture(t)
+  const binding = { article_path: manifest.article_path, source_digest: manifest.source_digest, script_sha256: manifest.review.script_sha256 }
+  recordScriptAuthorship(stateDir, { ...binding, agents: ['codex'] })
+  assert.throws(() => refreshCatalogPr({ ...fresh }, { root, stateDir, run: (binary, args, cwd) => {
+    if (binary === 'git' && args[0] === 'push') throw new Error('simulated interruption before push')
+    return run(binary, args, cwd)
+  } }), /simulated interruption/)
+  writeFileSync(path.join(stateDir, 'authorship', `${binding.script_sha256}.json`), JSON.stringify({ schema_version: 1, ...binding, agents: ['claude'] }))
+  const offset = calls.length
+  assert.throws(() => queueCatalogMerge({ ...fresh }, { root, stateDir, run }), /authorship changed/)
+  assert.equal(calls.slice(offset).some(call => call[1] === 'push' || (call[1] === 'pr' && ['edit', 'merge'].includes(call[2]))), false)
+  assert.equal(JSON.parse(readFileSync(path.join(stateDir, 'publication/refresh-pr-123.json'), 'utf8')).status, 'prepared')
+})
+
+test('main refresh excludes candidates whose current hash has no authorship record', t => {
+  const { root, stateDir, manifest, fresh, run, calls } = refreshFixture(t)
+  recordScriptAuthorship(stateDir, { article_path: manifest.article_path, source_digest: manifest.source_digest, script_sha256: 'c'.repeat(64), agents: ['codex'] })
+  const result = refreshCatalogPr({ ...fresh }, { root, stateDir, run })
+  assert.equal(result.status, 'REGENERATION_QUEUED')
+  assert.match(result.regeneration_needed[0].reason, /current script record is missing/)
+  assert.equal(calls.some(call => call[1] === 'push'), false)
 })
 
 test('changed article closes only its obsolete owned PR and records the new digest for production', t => {

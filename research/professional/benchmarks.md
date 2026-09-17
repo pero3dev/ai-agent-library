@@ -5,6 +5,21 @@
 - 調査方法: 4 系統(コーディング / Web・コンピュータ操作 / 汎用・ツール使用・安全性 / リーダーボード・方法論)の並行調査を統合。公式ページ・arXiv 原論文の WebFetch 直接確認を最優先
 - 確度凡例: **公式確認済み** = 公式ページ/arXiv を直接確認 / **ベンダー自己報告** / **二次情報** = 検索スニペット・ミラー・第三者トラッカー経由 / **未確認**
 
+## 2026-09-17 重点観測
+
+Terminal-Bench 4.0 の改訂・実行条件と WebArena-Verified の評価方式に限定して再確認しました。4.0 は時間・CPU・メモリの校正、19 課題の修正、8 課題の除外を含みます。除外の内訳は飽和・拒否・公開解答・未解決の品質またはプラットフォーム互換性が各 2 件です。全課題の agent timeout は 8 時間。環境・課題集合が変わる major version は trial の再実行が必要です。
+
+公式実行例は Harbor と `terminal-bench/terminal-bench@4.0.0` を使い、GPU 必須課題に対応する sandbox を要求します。ランキングの列と 95% 信頼区間の説明は確認できましたが、具体的な順位・費用の数値と費用集計範囲は取得できていません。実ベンチマークの実行は行っていません。
+
+WebArena-Verified の README は、人手点検と応答・保存 network trace による決定的な評価を引き続き説明しています。その他のベンチマークの状態は今回再確認していません。
+
+一次資料(実取得: 2026-09-17T02:00:38Z):
+
+- [4.0 改訂内容](https://www.tbench.ai/news/terminal-bench-4-0)
+- [実行手順](https://www.tbench.ai/run)
+- [公式トップ](https://www.tbench.ai/)
+- [WebArena-Verified README](https://github.com/ServiceNow/webarena-verified/blob/main/README.md)
+
 ## 2026-09-10 鮮度更新
 
 2026-09-10 の Terminal-Bench 公式サイトは 4.0 を現行版として掲載しています。モデル・エージェント・resolution rate・費用・トークンの列と 95% 信頼区間を確認しました。旧 FrontierBench URL も Terminal-Bench へ移ります。順位の数値は今回取得できていないため転記しません。タスク集合・ハーネス・試行回数・費用を版とともに記録します。

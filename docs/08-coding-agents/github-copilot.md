@@ -3,7 +3,7 @@ title: "GitHub Copilot"
 category: "coding-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-09-17"
 tags: ["coding-agents", "mcp"]
 ---
 
@@ -25,7 +25,7 @@ GitHub Copilot の多層的な機能群(補完 / Chat / エージェントモー
 
 ## 本文
 
-> **最終確認日:** content exclusion、PR 承認、モデル廃止予定、企業管理 sandbox は 2026-09-10、その他は 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
+> **最終確認日:** code review の再レビュー・PR 承認、MAI-Code-1-Flash の廃止、10 月のモデル廃止予定、JetBrains sandbox、Auto 選択・予算増額申請は 2026-09-17、content exclusion と企業管理 permissions は 2026-09-10、その他は 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
 
 ### 概要
 
@@ -62,6 +62,8 @@ GitHub Copilot は、コード補完から始まり、2026 年時点では GitHu
 - **ファイル編集**: IDE エージェントモードは編集単位の Keep / Undo と、VS Code のチェックポイント(スナップショットからの巻き戻し)を持ちます。cloud agent の変更は `copilot/` ブランチと PR に閉じるため、PR の却下がロールバック手段です
 - **コマンド実行**: IDE・CLI とも承認制が既定です。cloud agent は Actions 環境内でテスト・リンターを実行できますが、**Copilot が push したコードでワークフローは既定で自動起動せず**、人が「Approve and run workflows」を押すまで実行されません
 
+**code review の再レビューと解析**: 2026-09-11 の更新では、後続 commit で修正した Copilot 自身の指摘が再レビュー時に自動解決されます。解析には Copilot agent firewall 内で SDK のシェルツール(shell tools) を使い、ビルド・テスト・対象を絞ったスクリプト実行などで確認します。Lite effort でも複数の agent の知見を統合します。コメントの自動解決と PR 承認は別の動作として扱います。
+
 ### 設定ファイルとカスタマイズ
 
 - リポジトリ全体の指示は `.github/copilot-instructions.md`(Chat・cloud agent・code review に適用)、パス別指示は `.github/instructions/*.instructions.md`(`applyTo` グロブ)です
@@ -93,6 +95,10 @@ GitHub Copilot は、コード補完から始まり、2026 年時点では GitHu
 - 組織管理は Policies タブ(機能可用性・preview 機能・MCP・サードパーティエージェント)と Models タブで行い、**エンタープライズのポリシーは組織側で上書きできません**。監査ログ・利用メトリクスも GitHub 標準の仕組みに統合されています
 
 **モデル移行期限**: 2026-09-03 の告知では、Copilot 上の Gemini 3.5 / 3.6 Flash、Kimi K2.7 Code、Claude Opus 4.7 は **2026-10-02 に廃止予定**です。案内された移行先はそれぞれ Gemini 3.8 Flash、Kimi K3、Claude Opus 5 です。保存したモデル選択・組織 allowlist・自動化を期限前に点検します。これは Copilot の提供終了で、各社 API 自体の退役日ではありません。
+
+MAI-Code-1-Flash は 2026-09-10 に Copilot の全提供面で廃止され、推奨移行先は MAI-Code-1.1-Flash です。10 月の廃止予定と、既に廃止されたモデルを分けて管理します。
+
+2026-09-14 の告知では、Auto のモデル選択に efficiency / balance / intelligence の 3 段階の選択設定(tier)が追加され、VS Code・CLI・app へ展開中です。同じ候補モデル集合から選択方針を変え、実際に選ばれたモデルに応じて課金されます。2026-09-16 には Business / Enterprise の従量課金で予算増額申請が GA になりました。管理者が承認・調整・拒否する仕組みで、申請だけで予算が増えるわけではありません。
 
 ### 代表的なユースケースと向き不向き
 
@@ -128,6 +134,11 @@ GitHub Copilot は、コード補完から始まり、2026 年時点では GitHu
 - [チーム導入とレビュー体制](coding-agent-team-adoption.md) — シート管理・ポリシー展開の一般論
 
 ## 参考資料
+
+- [code review の再レビューと解析](https://github.blog/changelog/2026-09-11-auto-resolution-and-analysis-updates-in-copilot-code-review/)(アクセス日: 2026-09-17)
+- [MAI-Code-1-Flash の廃止](https://github.blog/changelog/2026-09-10-mai-code-1-flash-deprecated/)(アクセス日: 2026-09-17)
+- [Auto のコスト・品質設定](https://github.blog/changelog/2026-09-14-configure-cost-and-quality-in-copilot-auto-model-selection/)(アクセス日: 2026-09-17)
+- [予算増額申請の GA](https://github.blog/changelog/2026-09-16-copilot-budget-increase-requests-are-generally-available/)(アクセス日: 2026-09-17)
 
 - [Enterprise managed permissions](https://github.blog/changelog/2026-09-09-enterprise-managed-permissions-for-github-copilot-agent-operations/) — app・CLI・VS Code Agent Host の GA(アクセス日: 2026-09-10)
 

@@ -3,7 +3,7 @@ title: "OpenAI(GPT 系)特化プロンプティングガイド"
 category: "implementation"
 level: "intermediate"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-09-17"
 tags: ["prompt-design", "model-selection"]
 ---
 
@@ -28,7 +28,7 @@ OpenAI の GPT ファミリーに対して、**公式ガイドが推奨する具
 
 ## 本文
 
-> **最終確認日:** 2026-09-10 — Astra の移行条件・非同期ツール・キャッシュ仕様を更新しました。従来の設計指針は各参考資料の確認日を参照し、未取得の現行原文は TODO に分けます。
+> **最終確認日:** 2026-09-17 — Astra の移行制約・キャッシュと設定更新を再確認し、明示圧縮後の設定再追加を補足しました。非同期ツールは 2026-09-10、従来の設計指針は各参考資料の確認日を参照し、未取得の現行原文は TODO に分けます。
 
 ### 概要: 汎用記事との分担
 
@@ -124,6 +124,8 @@ GPT-5.6 以降は `prompt_cache_options.ttl: "30m"` を使います。キャッ�
 
 Astra の standard・単一エージェントのリクエストでは、元の request-level `reasoning.effort` を変えず、`{"type":"configuration_update","reasoning":{"effort":"high"}}` を input の次の user メッセージより前に追記して、以後の effort を変えられます。pro mode・複数エージェントには非対応です。連続する configuration_update、自動 compaction / truncation、単独の `/responses/compact` との併用もできません。これは許可された設定更新の仕組みで、過去の system / developer 本文や動的な日付を書き換えてもキャッシュが残るという仕様ではありません。
 
+明示的に履歴を圧縮する場合は、`/responses` のリクエストに `compaction_trigger` item を含められます。圧縮後は次の user メッセージより前に、希望する effort の `configuration_update` を再追加します。自動圧縮との非互換と、明示圧縮後の再設定を分けて実装します。
+
 ### 世代交代で見直すこと
 
 GPT-5.6 のような新世代は**ドロップイン置換ではなく、再チューニング前提**です(2026-08 時点)。
@@ -181,6 +183,8 @@ GPT-5.6 のような新世代は**ドロップイン置換ではなく、再チ�
 - [バージョニングとモデル更新追従](../05-operations/versioning-and-model-updates.md) — 世代交代への追従運用
 
 ## 参考資料
+
+- [Reasoning models: 設定更新と明示圧縮](https://developers.openai.com/api/docs/guides/reasoning) — `compaction_trigger` と圧縮後の `configuration_update` 再追加(アクセス日: 2026-09-17)
 
 - [GPT-6 Astra model guidance](https://developers.openai.com/api/docs/guides/latest-model) / [Astra model](https://developers.openai.com/api/docs/models/gpt-6-astra) — 移行・設定の条件(アクセス日: 2026-09-10)
 - [Async tool calling](https://developers.openai.com/api/docs/guides/async-tool-calling) / [Mid-turn steering](https://developers.openai.com/api/docs/guides/steering) — 非同期処理の契約(アクセス日: 2026-09-10)

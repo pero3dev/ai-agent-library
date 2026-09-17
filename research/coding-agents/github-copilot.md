@@ -5,6 +5,19 @@
 - **調査方法**: [coding-agents.md](../../project/plans/content/coding-agents.md) §7 のチェックリスト 12 項目。公式ドキュメント(docs.github.com)・GitHub 公式ブログ / Changelog・公式料金ページのみを根拠とし、第三者記事は根拠にしていない
 - **確度の凡例**: 公式明記 / 公式から推測 / 第三者(本メモでは「第三者」を根拠とした事実は記載しない)
 
+## 2026-09-17 重点観測
+
+再レビューで修正済みの自身の指摘を自動解決する機能、firewall 内の SDK shell tools による解析、Lite effort で複数 agent の知見を統合する更新を確認しました。MAI-Code-1-Flash は 2026-09-10 に全 Copilot 提供面で廃止、移行先は MAI-Code-1.1-Flash です。
+
+Auto の efficiency / balance / intelligence は 2026-09-14 告知で VS Code・CLI・app へ展開中。同じ候補集合から選択方針を変え、選択モデルに応じて課金されます。2026-09-16 には Business / Enterprise の従量課金の予算増額申請が GA。管理者が承認・調整・拒否します。
+
+一次資料:
+
+- [再レビュー・解析](https://github.blog/changelog/2026-09-11-auto-resolution-and-analysis-updates-in-copilot-code-review/)(実取得: 2026-09-17T02:00:52Z)
+- [MAI 廃止](https://github.blog/changelog/2026-09-10-mai-code-1-flash-deprecated/) / [Auto](https://github.blog/changelog/2026-09-14-configure-cost-and-quality-in-copilot-auto-model-selection/) / [予算申請](https://github.blog/changelog/2026-09-16-copilot-budget-increase-requests-are-generally-available/)(実取得: 2026-09-17T02:01:10Z)
+
+10 月 2 日の対象モデル廃止予定、PR 承認 preview の管理条件、JetBrains sandbox preview は前回と一致しました(各告知の実取得: 2026-09-17T02:00:52Z)。実サービスでの動作・設定は未検証です。
+
 ## EXTRA-CODING-01: Copilot の enterprise managed permissions GA
 
 2026-09-09 に Business / Enterprise の app、CLI、Agent Host を使う VS Code で GA。shell / file / domain を制御し、利用者・workspace・自動承認・既承認による制限緩和を禁止。JetBrains sandbox preview とは別。

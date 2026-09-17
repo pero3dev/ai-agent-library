@@ -3,7 +3,7 @@ title: "エージェントベンチマークの全体像"
 category: "evaluation"
 level: "basic"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-09-17"
 tags: ["benchmarks", "evaluation", "model-selection"]
 ---
 
@@ -27,7 +27,7 @@ tags: ["benchmarks", "evaluation", "model-selection"]
 
 ## 本文
 
-> **最終確認日:** 2026-09-10(Terminal-Bench 4.0 / WebArena-Verified の差分。その他の行は従来の確認日を参照) — 本記事のベンチマークの顔ぶれ・状態はこの日付時点の各公式ページ・原論文に基づきます。具体的なスコア数値は転記せず、飽和状況などの傾向のみ記載します(出典と数値帯はリポジトリ内 `research/professional/benchmarks.md` の調査メモを参照)。
+> **最終確認日:** 2026-09-17(Terminal-Bench 4.0 の改訂・実行条件と WebArena-Verified の評価方式。その他の行は従来の確認日を参照) — 具体的なランキング数値は今回取得できておらず転記しません。出典と過去の数値帯はリポジトリ内 `research/professional/benchmarks.md` の調査メモを参照してください。
 
 ### 概要: ベンチマークの 3 つの正しい用途
 
@@ -59,7 +59,7 @@ flowchart TD
 | 対話 + ツール使用 | τ-bench ファミリー、BFCL | ユーザーとの対話の中でポリシーに従いツールを使う能力(会話終了時の状態で自動判定)、関数呼び出しの正確さ | τ 系はタスク修正を経た新版(τ³)へ移行。BFCL はエージェント能力(検索・メモリ)へ拡張し更新継続 |
 | 安全性 | AgentHarm など | 有害タスクの拒否と、攻撃後にエージェント能力が保持されるか | 発展途上。評価対象のエージェントの多くが低スコアという報告が続く |
 
-このほか、ML 実務(MLE-bench)・研究再現(PaperBench)・情報探索(BrowseComp)など特化型が多数あります。2025〜2026 年に共通するパターンは「**飽和 → より難しく・長時間・動的な後継版へ改訂**」です(SWE-bench → Pro、Terminal-Bench 2.x → 3.0 → 4.0、OSWorld → 2.0、Mind2Web → 2、GAIA → GAIA2、τ-bench → τ³)。ベンチマーク名は単体ではなく「ファミリー名 + 版」で読み、どの版のスコアかを必ず確認してください。
+このほか、ML 実務(MLE-bench)・研究再現(PaperBench)・情報探索(BrowseComp)など特化型が多数あります。2025〜2026 年には「**飽和 → より難しく・長時間・動的な後継版へ改訂**」という流れがあります(SWE-bench → Pro、Terminal-Bench 2.x → 3.0、OSWorld → 2.0、Mind2Web → 2、GAIA → GAIA2、τ-bench → τ³)。一方、Terminal-Bench 3.0 → 4.0 は計算資源の校正や課題の修正も含み、難化だけでは説明できません。ベンチマーク名は単体ではなく「ファミリー名 + 版」で読み、どの版のスコアかを必ず確認してください。
 
 ### 読み方 1: スコアは「モデル × ハーネス」の値
 
@@ -98,7 +98,9 @@ flowchart TD
 
 ### ベンチマークの難化と検証修正を分ける
 
-2026-09-10 の Terminal-Bench 公式サイトは 4.0 を現行版として掲載しています。モデル・エージェント・resolution rate・費用・トークンの列と 95% 信頼区間を確認しました。旧 FrontierBench URL も Terminal-Bench へ移ります。順位の数値は今回取得できていないため転記しません。タスク集合・ハーネス・試行回数・費用を版とともに記録します。
+2026-09-17 の Terminal-Bench 公式サイトは 4.0 を掲載しています。4.0 は時間・CPU・メモリの条件を校正し、8 課題を除き、19 課題を修正した改訂です。除外理由は飽和、拒否、解答の公開、未解決の品質・プラットフォーム互換性問題が各 2 課題です。全課題のエージェントの実行時間上限(agent timeout)は 8 時間で、これは所要時間ではなく上限です。環境や課題集合を変える メジャー版(major version)間では再実行が必要で、旧版のスコアと直接比較しません。
+
+公式実行手順は Harbor と版を固定したデータセット を使い、GPU 必須課題に対応するサンドボックス(sandbox) を求めます。タスク集合・ハーネス・資源条件・試行回数を揃えて比較します。公式トップでは resolution rate・費用・トークンの列と 95% 信頼区間の説明を確認しましたが、順位・費用の数値と費用の集計範囲は今回取得できていません。列の存在だけでインフラ費用を含む総額と解釈しないようにします。
 
 WebArena-Verified は、課題・参照解・評価器を人手で点検し、応答と保存した network trace に対して決定的な評価を行う派生です。旧 WebArena の飽和という報告を、修正された評価器や Hard subset へ一般化しません。難化だけでなく、採点の妥当性を直す改訂も区別して追います。
 
@@ -133,8 +135,10 @@ WebArena-Verified は、課題・参照解・評価器を人手で点検し、�
 
 ## 参考資料
 
-- [一次資料: www.tbench.ai](https://www.tbench.ai/)(アクセス日: 2026-09-10)
-- [一次資料: github.com](https://github.com/ServiceNow/webarena-verified/blob/main/README.md)(アクセス日: 2026-09-10)
+- [Terminal-Bench 4.0 の改訂内容](https://www.tbench.ai/news/terminal-bench-4-0) / [公式実行手順](https://www.tbench.ai/run) — 資源条件・課題修正・版ごとの再実行(アクセス日: 2026-09-17)
+
+- [一次資料: www.tbench.ai](https://www.tbench.ai/)(アクセス日: 2026-09-17)
+- [一次資料: github.com](https://github.com/ServiceNow/webarena-verified/blob/main/README.md)(アクセス日: 2026-09-17)
 
 - [SWE-bench 公式サイト](https://www.swebench.com/) — コーディング系の代表ファミリー(Lite / Verified / Multilingual / Multimodal)の正本(アクセス日: 2026-08-18)
 - [Terminal-Bench](https://www.tbench.ai/) — ターミナル作業ベンチマークと検証付きリーダーボード(アクセス日: 2026-08-18)

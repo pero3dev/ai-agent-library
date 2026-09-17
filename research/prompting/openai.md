@@ -28,6 +28,12 @@
 
 ---
 
+## 2026-09-17 重点観測
+
+設定更新とキャッシュを再確認しました。`configuration_update` の standard・単一エージェント制約、自動圧縮・自動切詰め・単独 `/responses/compact` との非互換は維持されています。一方、`/responses` に `compaction_trigger` item を渡す明示圧縮は可能で、圧縮後は次の user メッセージより前に希望する effort の更新を再追加します。
+
+出典: [Reasoning models](https://developers.openai.com/api/docs/guides/reasoning)(実取得: 2026-09-17T02:01:36Z)。API 実行は行っていません。Astra の移行制約と TTL・課金区分は今回の対象範囲で変更なし、その他のプロンプト指針は未再確認です。
+
 ## 2026-09-10 鮮度更新
 
 Astraの移行はモデル名だけでは完了しません。none/minimalはlowから比較、temperature/top_p/top_logprobsを削除、tool callingはResponsesへ。Chat Completionsのlogprobs、Responsesの出力logprobsのincludeも非対応です。EU data residencyではStandardを使います。GPT-5.6で有効な設定は別に維持します。

@@ -3,7 +3,7 @@ title: "主要 LLM の全体像(モデルカタログ)"
 category: "implementation"
 level: "basic"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-09-17"
 tags: ["model-selection"]
 ---
 
@@ -28,6 +28,8 @@ tags: ["model-selection"]
 ## 本文
 
 > **最終確認日:** 2026-09-10 — 主要 3 社の新世代と、以下に明記した公開ウェイトのライセンス差分を確認しました。価格は原則として桁感を示し、キャッシュの例外だけ具体値を併記します。全モデルの全提供経路を実行確認したものではありません。採用時には公式料金・対象配布物の LICENSE を照合してください。
+
+> **部分再確認:** 2026-09-17 — OpenAI の Astra 制約・長文キャッシュ料金・API 終了予定のみを再確認し、GPT-5.4-Cyber の終了予定を追加しました。他社モデルの条件は上記の確認日のままです。
 
 ### 地図の読み方: 各社に共通する構造
 
@@ -69,6 +71,8 @@ tags: ["model-selection"]
 - **Codex との区別**: ChatGPT 認証の Codex では GPT-5.4 / 5.4 mini の退役日が 2026-08-31 と案内されています。この変更は API キー認証の Codex と OpenAI API の提供終了を意味しません([OpenAI Codex](../08-coding-agents/openai-codex.md))
 
 - **API の終了予定**: 2026-09-10 の公式退役表では、GPT-5 初代・o3/o3-pro の対象スナップショットは 2026-12-11、旧音声・realtime 系の対象モデルは 2027-01-20 の終了予定です。8 月 26 日には `whisper-1`・`gpt-4o-transcribe` 系の対象モデルについて 2027-02-26 の終了予定も追加されています。名称が似たモデルを一括扱いせず、利用中の ID と表の行を照合します。
+
+2026-09-17 の退役表でも上記の日付を再確認しました。2026-09-11 の追加告知では `gpt-5.4-cyber` は 2026-10-01 に終了予定で、後継は `gpt-5.6-cyber` です。GPT-5.4 ファミリー全体の終了とは扱いません。
 
 > **TODO(要確認):** 採用時に OpenAI のモデル別ページ・料金・退役日程で、対象 API モデル ID の提供状態、終了予定の変更、実行モード、長文・キャッシュの価格条件を確認する(最終確認: 2026-09)
 
@@ -160,6 +164,8 @@ MaaS や AI Work Assistant の定義、集計主体、期間も異なります�
 - [オープンソース AI エコシステム](open-source-ai-ecosystem.md) — オープンウェイトのライセンス類型・ハブ・派生モデルの信頼(本記事のオープンウェイト節の詳解)
 
 ## 参考資料
+
+- [OpenAI API の終了予定](https://developers.openai.com/api/docs/deprecations) — GPT-5.4-Cyber の対象 ID・予定日・後継を確認(アクセス日: 2026-09-17)
 
 - [Claude モデル一覧](https://platform.claude.com/docs/en/models/overview)(アクセス日: 2026-09-10)
 - [Fable 5.1 の変更点](https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1)(アクセス日: 2026-09-10)

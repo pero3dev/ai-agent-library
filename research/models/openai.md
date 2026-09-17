@@ -8,6 +8,19 @@
 - **確度表記**: 「公式明記」= 公式ページに明文あり / 「公式から推測」= 公式記述からの合理的推測 / 「未確認」= 今回確認できず
 - **重要な注意**: 旧 `platform.openai.com/docs/*` は `developers.openai.com/api/docs/*` へ 301 リダイレクトされます(2026-07-06 確認)。定点観測 URL は新ドメイン側を正とします
 
+## 2026-09-17 重点観測
+
+Astra の API 制約・長文料金、GPT-5.6 以降のキャッシュ TTL と書込・読取課金は前回記述と一致しました。設定更新は明示圧縮後の再追加をプロンプト調査メモへ補足しました。他社モデルや全料金表の再確認ではありません。
+
+退役表は、GPT-5 初代・o3 系の対象モデルの 2026-12-11、旧音声対象の 2027-01-20、文字起こし対象の 2027-02-26、prompts / Evals / Agent Builder の 2026-11-30 を引き続き掲載しています。2026-09-11 告知の `gpt-5.4-cyber` は 2026-10-01 終了予定、後継は `gpt-5.6-cyber` です。
+
+以下の旧調査表の推奨移行先は当時の履歴です。今回の退役表では GPT-5 / o3 は Sol、mini は Terra、nano は Luna、pro は Sol の pro mode が案内されています。旧メモで未確認だった `o4-mini` / `o4-mini-2025-04-16` は 2026-10-23 終了予定、移行先は Terra です。これらは API の対象 ID に関する予定で、実停止や移行先での互換性を実測したものではありません。
+
+一次資料:
+
+- [最新モデルガイド](https://developers.openai.com/api/docs/guides/latest-model) / [Astra](https://developers.openai.com/api/docs/models/gpt-6-astra) / [キャッシュ](https://developers.openai.com/api/docs/guides/prompt-caching)(実取得: 2026-09-17T02:00:32Z)
+- [退役表](https://developers.openai.com/api/docs/deprecations)(Cyber 告知の実取得: 2026-09-17T02:01:02Z、移行先と o4-mini 行の再取得: 2026-09-17T02:01:36Z)
+
 ## 2026-09-10 鮮度更新
 
 音声系は8/26告知のwhisper-1/gpt-4o-transcribe/gpt-4o-mini-transcribe/gpt-4o-transcribe-diarize終了(2027-02-26)を確認。代替候補はgpt-live-transcribe/gpt-transcribeです。音声メモへ同期済み。一次資料: https://developers.openai.com/api/docs/deprecations (アクセス日: 2026-09-10)。

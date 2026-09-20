@@ -1,0 +1,341 @@
+{
+  "schema_version": 2,
+  "run_id": "20260920t222658728z-922c2745",
+  "base_sha": "8f4e4d016a9736301981470604d868064715bdfe",
+  "writer_run_id": "20260920t222658728z-922c2745",
+  "started_at": "2026-09-20T22:26:58.728Z",
+  "systems": [
+    "compliance",
+    "emerging-domains",
+    "geopolitics-green-ai"
+  ],
+  "observations": [
+    {
+      "system_id": "compliance",
+      "status": "changed",
+      "summary": "PPCは9月16日の第369回で基本的な考え方①を議論・公表。予定のままだった記事とresearchを更新。正式公募や最終規則とは区別する。",
+      "affected_docs": [
+        "docs/06-security/compliance-and-governance.md"
+      ],
+      "sources": [
+        {
+          "url": "https://www.ppc.go.jp/personalinfo/legal/r8kaiseihogohou/",
+          "accessed_at": "2026-09-20T22:27:44Z"
+        },
+        {
+          "url": "https://www.ppc.go.jp/files/pdf/260916_kihonntekinakanngaekatanitsuite_1.pdf",
+          "accessed_at": "2026-09-20T22:27:52Z"
+        },
+        {
+          "url": "https://www.ppc.go.jp/files/pdf/260909_kongonosusumekatanitsuite.pdf",
+          "accessed_at": "2026-09-20T22:28:00Z"
+        }
+      ]
+    },
+    {
+      "system_id": "compliance",
+      "status": "unchanged",
+      "summary": "EU 2026/1744の発効日、Article 113の高リスク義務・新設禁止行為の期限、Article 111(4)の既存対象システムの猶予は一致。researchの旧小括は履歴と明示。米国・ベンダー規約・法的適用判断は対象外。",
+      "affected_docs": [
+        "docs/06-security/compliance-and-governance.md"
+      ],
+      "sources": [
+        {
+          "url": "https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX%3A32026R1744",
+          "accessed_at": "2026-09-20T22:27:52Z"
+        }
+      ]
+    },
+    {
+      "system_id": "compliance",
+      "status": "unverifiable",
+      "summary": "PPCの公布発表は成立・公布日と一致。法附則の相対期間は読めたがe-Gov本文は抽出不能。主な施行日の確定状況と一部罰則2027-01-17の絶対日付の直接再確認は未了。過去の日付記録は維持し当日確認済みとしない。",
+      "affected_docs": [
+        "docs/06-security/compliance-and-governance.md"
+      ],
+      "sources": [
+        {
+          "url": "https://www.ppc.go.jp/news/press/2026/260717/",
+          "accessed_at": "2026-09-20T22:28:36Z"
+        },
+        {
+          "url": "https://www.ppc.go.jp/files/pdf/260717_houritsu.pdf",
+          "accessed_at": "2026-09-20T22:28:00Z"
+        },
+        {
+          "url": "https://laws.e-gov.go.jp/document?lawid=415AC0000000057_20270117_508AC0000000056",
+          "accessed_at": "2026-09-20T22:28:09Z"
+        }
+      ]
+    },
+    {
+      "system_id": "emerging-domains",
+      "status": "changed",
+      "summary": "Co-Scientist原論文本文を取得し、薬剤再利用・肝線維症標的・抗菌薬耐性機構の3領域、専門家関与、初期検証との位置づけを具体化。性能数値再計算や独立追試ではない。",
+      "affected_docs": [
+        "docs/13-domain-agents/emerging-agent-domains.md"
+      ],
+      "sources": [
+        {
+          "url": "https://www.nature.com/articles/s41586-026-10644-y",
+          "accessed_at": "2026-09-20T22:28:06Z"
+        },
+        {
+          "url": "https://www.nature.com/articles/s41586-026-10644-y",
+          "accessed_at": "2026-09-20T22:28:46Z"
+        }
+      ]
+    },
+    {
+      "system_id": "emerging-domains",
+      "status": "unchanged",
+      "summary": "Robinの出版・半自律構成、AP2 v0.2の委任構造とFIDO寄贈、STORMの調査・アウトライン・記事生成の分離は一致。deep-research記事は無変更。A-Lab、PUBG、合成ユーザー、決済pilot、その他の設計主張は対象外。",
+      "affected_docs": [
+        "docs/13-domain-agents/emerging-agent-domains.md",
+        "docs/13-domain-agents/deep-research-agents.md"
+      ],
+      "sources": [
+        {
+          "url": "https://www.nature.com/articles/s41586-026-10652-y",
+          "accessed_at": "2026-09-20T22:27:48Z"
+        },
+        {
+          "url": "https://ap2-protocol.org/ap2/specification/",
+          "accessed_at": "2026-09-20T22:28:34Z"
+        },
+        {
+          "url": "https://github.com/google-agentic-commerce/AP2/releases",
+          "accessed_at": "2026-09-20T22:28:34Z"
+        },
+        {
+          "url": "https://fidoalliance.org/fido-alliance-to-develop-standards-for-trusted-ai-agent-interactions/",
+          "accessed_at": "2026-09-20T22:28:15Z"
+        },
+        {
+          "url": "https://arxiv.org/html/2402.14207v2",
+          "accessed_at": "2026-09-20T22:28:46Z"
+        }
+      ]
+    },
+    {
+      "system_id": "emerging-domains",
+      "status": "unverifiable",
+      "summary": "Robin / Co-Scientistの独立追試を示す一次報告には今回到達せず。原論文内の専門家検証を独立追試とは数えない。未存在とも断定しない。",
+      "affected_docs": [
+        "docs/13-domain-agents/emerging-agent-domains.md"
+      ],
+      "sources": [
+        {
+          "url": "https://www.nature.com/articles/s41586-026-10652-y",
+          "accessed_at": "2026-09-20T22:27:48Z"
+        },
+        {
+          "url": "https://www.nature.com/articles/s41586-026-10644-y",
+          "accessed_at": "2026-09-20T22:28:06Z"
+        }
+      ]
+    },
+    {
+      "system_id": "geopolitics-green-ai",
+      "status": "changed",
+      "summary": "EUは9月14日にAnnex Iの2026年更新を採択したと発表。通常2か月の審査と官報掲載を経る発効を区別し、既存2025/2003に後続発表を追記する。個別品目の適用判断はしない。",
+      "affected_docs": [
+        "docs/09-business/ai-geopolitics-map.md"
+      ],
+      "sources": [
+        {
+          "url": "https://policy.trade.ec.europa.eu/news/2026-update-eu-control-list-dual-use-items-2026-09-14_en",
+          "accessed_at": "2026-09-20T22:28:28Z"
+        }
+      ]
+    },
+    {
+      "system_id": "geopolitics-green-ai",
+      "status": "unverifiable",
+      "summary": "EU更新の登録原文C(2026)6323は抽出本文が空。原文・官報番号・発効の独立照合は未了。採択発表だけで発効済みとしない。",
+      "affected_docs": [
+        "docs/09-business/ai-geopolitics-map.md"
+      ],
+      "sources": [
+        {
+          "url": "https://ec.europa.eu/transparency/documents-register/detail?lang=en&ref=C(2026)6323",
+          "accessed_at": "2026-09-20T22:28:46Z"
+        }
+      ]
+    },
+    {
+      "system_id": "geopolitics-green-ai",
+      "status": "changed",
+      "summary": "公式CCFTリリースノートPDFの6月30日節でdeprecatedを確認。予告のみの観測を更新。AWS方法論のMarketplace対象境界と履歴再計算を追記。旧画面の実停止・個別アカウント移行は未検証。",
+      "affected_docs": [
+        "docs/05-operations/green-ai.md"
+      ],
+      "sources": [
+        {
+          "url": "https://docs.aws.amazon.com/pdfs/ccft/latest/releasenotes/ccft-releasenotes.pdf",
+          "accessed_at": "2026-09-20T22:29:05Z"
+        },
+        {
+          "url": "https://docs.aws.amazon.com/sustainability/latest/userguide/methodology.html",
+          "accessed_at": "2026-09-20T22:28:55Z"
+        }
+      ]
+    },
+    {
+      "system_id": "geopolitics-green-ai",
+      "status": "unchanged",
+      "summary": "AWS提供開始・無料・権限・月次排出/年次取水と、基本SCI ISO/IEC 21031:2024・GSF AI拡張の区別は一致。AI拡張のISO発行は主張しない。CSRD/EED・年次環境数値は今回対象外。",
+      "affected_docs": [
+        "docs/05-operations/green-ai.md"
+      ],
+      "sources": [
+        {
+          "url": "https://aws.amazon.com/about-aws/whats-new/2026/03/aws-launches-sustainability-console/",
+          "accessed_at": "2026-09-20T22:28:55Z"
+        },
+        {
+          "url": "https://docs.aws.amazon.com/sustainability/latest/userguide/getting-started.html",
+          "accessed_at": "2026-09-20T22:28:55Z"
+        },
+        {
+          "url": "https://docs.aws.amazon.com/sustainability/latest/APIReference/API_GetEstimatedWaterAllocation.html",
+          "accessed_at": "2026-09-20T22:28:55Z"
+        },
+        {
+          "url": "https://greensoftware.foundation/articles/sci-ai-specification-ratified-standard-for-measuring-ai-emissions-across-the/",
+          "accessed_at": "2026-09-20T22:28:28Z"
+        },
+        {
+          "url": "https://greensoftware.foundation/standards/sci-ai/",
+          "accessed_at": "2026-09-20T22:27:57Z"
+        },
+        {
+          "url": "https://www.iso.org/standard/86612.html",
+          "accessed_at": "2026-09-20T22:28:46Z"
+        }
+      ]
+    },
+    {
+      "system_id": "geopolitics-green-ai",
+      "status": "unchanged",
+      "summary": "BIS掲載済みUAE/最終親会社条件の説明、ECブラジル決定/韓国再審査、CAC索引/FAQ、DPDP Rule 1段階施行は一致。BIS官報発効日、各制裁リスト、DPDP日単位期限の全件確認は対象外。",
+      "affected_docs": [
+        "docs/09-business/ai-geopolitics-map.md"
+      ],
+      "sources": [
+        {
+          "url": "https://www.bis.gov/news-updates",
+          "accessed_at": "2026-09-20T22:28:08Z"
+        },
+        {
+          "url": "https://media.bis.gov/media/documents/bis-guidance-may-31-2026.pdf",
+          "accessed_at": "2026-09-20T22:28:28Z"
+        },
+        {
+          "url": "https://commission.europa.eu/law/law-topic/data-protection/international-dimension-data-protection/adequacy-decisions_en",
+          "accessed_at": "2026-09-20T22:28:08Z"
+        },
+        {
+          "url": "https://www.cac.gov.cn/wxzw/sjzl/sjcjaqpg/A09370801index_1.htm",
+          "accessed_at": "2026-09-20T22:28:19Z"
+        },
+        {
+          "url": "https://www.cac.gov.cn/2026-08/12/c_1788195297373459.htm",
+          "accessed_at": "2026-09-20T22:28:55Z"
+        },
+        {
+          "url": "https://www.meity.gov.in/static/uploads/2025/11/53450e6e5dc0bfa85ebd78686cadad39.pdf",
+          "accessed_at": "2026-09-20T22:28:19Z"
+        }
+      ]
+    }
+  ],
+  "changes": [
+    {
+      "path": "docs/06-security/compliance-and-governance.md",
+      "kind": "substantive",
+      "observation_indices": [
+        0,
+        1
+      ],
+      "summary": "PPC議論実績と部分確認範囲・出典を更新"
+    },
+    {
+      "path": "docs/13-domain-agents/emerging-agent-domains.md",
+      "kind": "substantive",
+      "observation_indices": [
+        3
+      ],
+      "summary": "Co-Scientistの原論文の検証範囲を具体化"
+    },
+    {
+      "path": "docs/05-operations/green-ai.md",
+      "kind": "substantive",
+      "observation_indices": [
+        8
+      ],
+      "summary": "CCFT非推奨化と算定境界・履歴再計算を反映"
+    },
+    {
+      "path": "docs/09-business/ai-geopolitics-map.md",
+      "kind": "substantive",
+      "observation_indices": [
+        6
+      ],
+      "summary": "EU採択発表と発効確認の区別を追記"
+    },
+    {
+      "path": "research/professional/compliance.md",
+      "kind": "supporting",
+      "observation_indices": [
+        0,
+        1
+      ],
+      "summary": "PPC進捗・EU期限・未取得範囲を同期"
+    },
+    {
+      "path": "research/domain-agents/emerging.md",
+      "kind": "supporting",
+      "observation_indices": [
+        3,
+        4
+      ],
+      "summary": "本文取得・確認範囲・独立追試未確認を記録"
+    },
+    {
+      "path": "research/strategy/green-ai.md",
+      "kind": "supporting",
+      "observation_indices": [
+        8
+      ],
+      "summary": "CCFT公式状態と算定境界の取得記録を同期"
+    },
+    {
+      "path": "research/strategy/geopolitics.md",
+      "kind": "supporting",
+      "observation_indices": [
+        6
+      ],
+      "summary": "EU採択と登録原文未取得を記録"
+    },
+    {
+      "path": "ROADMAP.md",
+      "kind": "supporting",
+      "observation_indices": [
+        0,
+        6,
+        8
+      ],
+      "summary": "後続PPC議論・EU官報・AWS移行の注目事項を具体化"
+    }
+  ],
+  "review": {
+    "verdict": "approved",
+    "risk": "low",
+    "independent": true,
+    "reviewer_run_id": "/root/review_final/round-2",
+    "reviewed_at": "2026-09-20T22:41:00Z",
+    "content_digest": "de0976e00f008d3e87a31444a4e24923c2ff8873e193639e3d77e3de30e1f0f5"
+  },
+  "completed_at": "2026-09-20T22:41:40.212Z"
+}

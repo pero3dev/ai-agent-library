@@ -48,6 +48,8 @@
 - **公式入口**: https://policy.trade.ec.europa.eu/help-exporters-and-importers/exporting-dual-use-items_en
 - **更新 (EG-03)**: 公式入口は Annex I の改正として委任規則 (EU) 2025/2003 を掲載。採択 2025-09-08、OJ 公布 2025-11-14、翌日 2025-11-15 発効です。https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202502003
 - **確認日 / 確度**: 2026-09-10 / 公式入口と 251 頁 PDF の冒頭・発効規定を確認。全品目の適用照合は未実施です。同ページの September 2024 Excel を現行法令の代替にしません。2026 年の後続更新が一切ないという網羅性の主張ではありません。
+- **2026 年更新(2026-09-21 追記)**: 欧州委員会は 2026-09-14 に Annex I 更新を採択したと発表しました。先端計算 IC・半導体製造検査装置等を含み、通常 2 か月の理事会・欧州議会審査と官報掲載を経た発効を説明しています。採択を発効済みとは扱いません。https://policy.trade.ec.europa.eu/news/2026-update-eu-control-list-dual-use-items-2026-09-14_en (取得: 2026-09-20T22:28:28Z)
+- **未確認**: 発表から参照される登録原文 C(2026)6323 は抽出本文が空で、原文・官報番号・発効の独立照合は未了です。https://ec.europa.eu/transparency/documents-register/detail?lang=en&ref=C(2026)6323 (取得: 2026-09-20T22:28:46Z)。登録原文または官報公開後に再取得します。
 
 ## 2. データ主権・越境移転(データ所在地要求・越境データ移転規制)
 

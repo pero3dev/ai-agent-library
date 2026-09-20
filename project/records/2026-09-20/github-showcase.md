@@ -39,7 +39,25 @@
 - 学習マップは Chromium 描画を目視確認。800px 相当の表示で文字の領域外はみ出し 0、章番号 00〜15 が各 1 回。
 - 公開サイトは Codex 内ブラウザーで検索結果・依存マップ・音声プレーヤーを確認。音声は 0:29 までの短い再生と一時停止を確認した範囲で、全編音質や iPhone 実機検証を意味しない。
 - 表紙・共有画像は 1280 × 640、987,029 bytes。プロンプトと更新方法は[画像の案内](../../../assets/readme/README.md)に保存。
-- 独立レビュー、PR、GitHub CI、マージ・公開の結果は確定後に追記する。
+- 最終の相対リンク検査は 291 files / 5,218 links で成功。
+
+## 独立レビューと提出
+
+- 対象 tree: `0756ebd95c9fbcb0946200266adc93bc7ab5015b`。commit: `aa62de8134f2860fd61db07d2b724651b345fcc8`。
+- 編集に参加していない `/root/repository_strengths` が 2026-09-20T14:19:24Z に独立レビューを完了。must 0、README・画像は承認可。
+- 子実行面の Git 所有権制限により、主担当が対象 tree を `git archive` で書き出し、レビュアーがその固定コピーの本文と全画像を直接確認した。archive SHA-256: `3BBEAAA0B9E066DEFC022600E28598757366CBA0310FF1165E00D9ECBDDC6C88`。
+- should 1: 依存マップの 2 列表示は文字が小さい。紹介の全体像をコンパクトに見せる配置を維持し、内容を読むための説明と実マップへの明示リンクで補う。詳細な学習マップは別に全幅で掲載している。
+- [PR #48](https://github.com/pero3dev/ai-agent-library/pull/48) に提出。初回 head の [CI](https://github.com/pero3dev/ai-agent-library/actions/runs/35515796693)、[Harness policy](https://github.com/pero3dev/ai-agent-library/actions/runs/35515796589)、[Freshness policy](https://github.com/pero3dev/ai-agent-library/actions/runs/35515796590) はすべて成功。必須 9 チェックと音声の追加 2 チェック、計 11 チェックが成功。
+- GitHub の README 実表示で画像がすべて読めること、PC 表示と幅 390px で本文の横はみ出しがないことを確認。幅 390px 時は page scrollWidth 375px。実機検証ではない。
+- この記録は提出時点の結果を保持する。最終 head の CI、merge SHA、main の CI / Pages 公開状況は PR の最新状態と [main の CI](https://github.com/pero3dev/ai-agent-library/actions/workflows/ci.yml?query=branch%3Amain)から追跡する。結果記録の更新で README・画像の内容は変更しない。
+
+## 残件と再開手順
+
+7 案のうち 1〜6 の成果物、案 7 の About / Website / Topics は完了。共有画像のアップロードだけは認証待ちであり、全件完了とは扱わない。
+
+1. PR #48 の最新状態を取得し、未マージなら最終 head の CI と metadata を確認して通常の squash merge を完了する。既にマージ済みなら再度の公開操作をしない。
+2. ユーザーが Codex 内ブラウザーで GitHub にログインした後、[リポジトリ設定](https://github.com/pero3dev/ai-agent-library/settings)の Social preview へ `assets/readme/social-preview.png` をアップロードする。
+3. 設定画面と公開ページの共有画像を確認し、共有画像登録が完了した結果を残す。認証情報は取得・保存しない。
 
 ## GitHub 設定
 

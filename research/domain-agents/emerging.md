@@ -82,6 +82,8 @@ Robin は「A multi-agent system for automating scientific discovery」として
 
 出版社書誌は 2026-05-19 公開、2026-07-01 Version of Record、2026-07-09 号、Nature 655 巻 487–496 頁を示します。DOI・出版社広報で scientist-in-the-loop と 3 件の生物医学的検証を確認しました。通常の本文取得は認証エラー、PMC は CAPTCHA のため、全論文の精査は未実施です。91% 等の性能結果と独立追試は未確認です。
 
+**2026-09-21 追記**: 上記は 9 月 10 日の取得状況です。今回 Nature 本文を取得し、薬剤再利用、肝線維症の標的探索、抗菌薬耐性の機構の 3 領域と、各検証への専門家関与を確認しました。著者は仮説検証を初期段階と位置づけています。本文確認は独立追試ではなく、性能数値の再計算も未実施です。取得: 2026-09-20T22:28:06Z、限界節の追加取得: 2026-09-20T22:28:46Z。出典: https://www.nature.com/articles/s41586-026-10644-y
+
 一次情報(確認日: 2026-09-10):
 
 - https://www.nature.com/articles/s41586-026-10644-y
@@ -210,3 +212,12 @@ Google の 2026-04-28 の本文で FIDO Alliance への寄贈と v0.2 公開を�
 - https://huggingface.co/papers/2509.10147
 - https://www.openaitoolshub.org/en/blog/ai-agent-crypto-tokens-guide (AI エージェントトークン / 二次情報)
 - https://coincub.com/blog/crypto-ai-agents/
+
+## 2026-09-21 の部分観測
+
+Robin の出版・半自律構成、Co-Scientist の専門家が関与する初期検証、AP2 の v0.2 と FIDO 寄贈、deep-research 記事の STORM 引用のみを照合しました。Co-Scientist 本文の取得範囲を EM02 と記事に反映しました。Robin / Co-Scientist の独立追試は今回の検索範囲で確認できず、原論文の検証と区別して残します。A-Lab・PUBG Ally・合成ユーザー・カード網 pilot・他の設計主張は対象外です。
+
+- Robin: https://www.nature.com/articles/s41586-026-10652-y (2026-09-20T22:27:48Z)、出版・自律範囲は一致。
+- AP2: https://ap2-protocol.org/ap2/specification/ と https://github.com/google-agentic-commerce/AP2/releases (2026-09-20T22:28:34Z)、v0.2・委任構造は一致。
+- FIDO: https://fidoalliance.org/fido-alliance-to-develop-standards-for-trusted-ai-agent-interactions/ (2026-09-20T22:28:15Z)、寄贈・標準化の取組は一致。完成した最終標準や普及の証拠とはしません。
+- STORM: https://arxiv.org/html/2402.14207v2 (2026-09-20T22:28:46Z)、調査・アウトライン・記事生成の構成は一致。deep-research-agents.md は無変更です。

@@ -33,7 +33,8 @@
 - **後継サービス**: AWS Sustainability console は 2026-03-31 GA。無料、専用コンソール、Scope 1 / 2 / 3、立地ベース/市場ベース、サービス/リージョン粒度、API / CSV を提供します。Billing 権限を要求せず専用のアクセス権限を使います。
 - **データ**: ガイドは月次排出量と年次取水量(water withdrawals)を説明します。AI 個別リクエストの直接測定ではなく、サービスへ配賦する境界を別途記録します。
 - **一次情報**: https://aws.amazon.com/about-aws/whats-new/2026/03/aws-launches-sustainability-console/ / https://aws.amazon.com/sustainability/tools/console/ / https://docs.aws.amazon.com/sustainability/latest/userguide/getting-started.html
-- **旧 CCFT**: release notes は 2026-06-30 の廃止予告を掲載していますが、2026-09-10 の取得時にも未来形が残ります。後継の提供と旧 UI の実停止を区別し、アカウント画面での停止検証は未実施です。https://docs.aws.amazon.com/ccft/latest/releasenotes/what-is-ccftrn.html
+- **旧 CCFT(2026-09-21 更新)**: 2026-09-10 の取得では未来形の予告が残っていましたが、今回取得した公式 PDF の 2026-06-30 節は非推奨化済み(deprecated)と明記しています。後継の提供・公式な状態更新と、旧 UI の実停止を区別し、アカウント画面での停止検証は未実施です。https://docs.aws.amazon.com/pdfs/ccft/latest/releasenotes/ccft-releasenotes.pdf (取得: 2026-09-20T22:29:05Z)
+- **算定境界(2026-09-21 追記)**: AWS 運用インフラ上のワークロードを対象とし、Marketplace 第三者ソフトの提供者側インフラにおける開発・保守は除外。AWS インフラ上でも Marketplace 課金サービスの対象範囲は拡張中です。方法論の更新で過去データを再計算するため、取得時点と版を揃えます。https://docs.aws.amazon.com/sustainability/latest/userguide/methodology.html (取得: 2026-09-20T22:28:55Z)
 - **確認日 / 確度**: 2026-09-10 / 公式本文確認。環境数値の独立検証は未実施。
 
 ### Meta(Sustainability Report)

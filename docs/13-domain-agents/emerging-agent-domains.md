@@ -3,7 +3,7 @@ title: "先端応用の概観(科学研究・シミュレーション・エー�
 category: "domain-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-09-21"
 tags: ["emerging", "agent-economy", "generative-agents", "science"]
 ---
 
@@ -42,7 +42,7 @@ tags: ["emerging", "agent-economy", "generative-agents", "science"]
 
 [Boiko ほかの 2023 年の研究](https://arxiv.org/abs/2304.05332)は、文献や文書の検索、コード実行、実験装置への接続を組み合わせ、化学実験の設計・計画・実行を扱った研究プロトタイプを報告しています。これは、複数のツールを使う科学研究支援の具体例です。
 
-2026 年の更新では、**査読出版と自律の範囲を別々に読みます**。Robin の論文は 2026-05-19 に Nature で公開されました。仮説生成・解析は Agent が担い、人が実験を行って結果を返す半自律の構成です。ripasudil / KL001 の試験管内(in vitro)検証を、臨床効果や完全無人化の証明とは扱いません。AI co-scientist も Nature で 2026-05-19 公開、7 月の刊行版に収録されています。研究者をループ内に置いた検証であり、出版社の書誌確認だけで個別の性能数値を独立検証したことにはなりません。
+2026 年の更新では、**査読出版と自律の範囲を別々に読みます**。Robin の論文は 2026-05-19 に Nature で公開されました。仮説生成・解析は Agent が担い、人が実験を行って結果を返す半自律の構成です。ripasudil / KL001 の試験管内(in vitro)検証を、臨床効果や完全無人化の証明とは扱いません。AI co-scientist も Nature で 2026-05-19 公開、7 月の刊行版に収録されています。2026-09-21 に確認した原論文本文は、薬剤再利用・肝線維症の標的探索・抗菌薬耐性に関わる機構の 3 領域を、専門家が関与する構成で検証しています。著者は検証を初期段階と位置づけており、論文本文の確認と、個別結果の独立追試は区別します。
 
 **訂正文も評価の一部です**。A-Lab の 2026-01-19 の Author Correction は、「新規性」を予測プラットフォームにとっての新規性と明確化し、科学的な新発見と区別しました。初報の 41 件から学習データ混入の 1 件を除外し、残る 40 件のうち 36 件を再確認、4 件は X 線回折(XRD)による同定が不確定として成功数から除いています。「41 の新発見」も「全件失敗・撤回」も訂正の内容を表しません。
 
@@ -123,7 +123,7 @@ tags: ["emerging", "agent-economy", "generative-agents", "science"]
 - [AP2, Agent Payments Protocol specification](https://ap2-protocol.org/ap2/specification/) — 委任・検証責務を定める決済プロトコル仕様。市場規模や普及率の根拠にはしません(アクセス日: 2026-09-10)
 
 - [Robin, Nature](https://www.nature.com/articles/s41586-026-10652-y) — Nature 655, 497–505。人が実験する半自律の研究(アクセス日: 2026-09-10)
-- [AI co-scientist, Nature](https://www.nature.com/articles/s41586-026-10644-y) — Nature 655, 487–496。出版書誌の確認と全結果の検証は別(アクセス日: 2026-09-10)
+- [AI co-scientist, Nature](https://www.nature.com/articles/s41586-026-10644-y) — Nature 655, 487–496。専門家が関与する 3 領域の初期検証。本文確認と独立追試は別(アクセス日: 2026-09-21)
 - [A-Lab Author Correction](https://www.nature.com/articles/s41586-025-09992-y) / [著者機関の全文](https://repositories.cdlib.org/uc/item/4kb4s6pg) — 新規性・同定結果の訂正(アクセス日: 2026-09-10)
 - [1,052 人のシミュレーション研究 v3](https://arxiv.org/abs/2411.10109v3) — 版と本人再回答比率の評価(アクセス日: 2026-09-10)
 - [PUBG Ally ベータ告知](https://www.nvidia.com/en-us/geforce/news/pubg-ally-ai-teammate-beta-available-now/) / [技術構成](https://developer.nvidia.com/blog/how-krafton-built-pubg-ally-a-co-playable-character-powered-by-nvidia-ace/) — 期間限定提供と行動木・SLM(アクセス日: 2026-09-10)

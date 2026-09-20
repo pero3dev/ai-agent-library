@@ -3,7 +3,7 @@ title: "AI の環境負荷とグリーン AI"
 category: "operations"
 level: "intermediate"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-09-21"
 tags: ["green-ai", "cost-management", "operations", "sustainability"]
 ---
 
@@ -83,7 +83,11 @@ AI の環境負荷を語るとき、まず境界を揃えないと議論がか�
 - **推計の限界**: いずれの推計も、前提(モデル規模・ハードウェア・立地の炭素強度・PUE の仮定)で **1 桁以上動きます**。数値を出すときは、出典・確認日・前提を必ず併記し、レンジで示します。単一の断定値は誤解を生みます
 - **プロバイダー開示の読み方**: 主要クラウド/AI プロバイダーは環境レポートを公表していますが、これは**自己申告**です。第三者保証(assurance)の有無・対象期間・算定境界を確認し、**社間の単純比較は避けます**(境界が揃っていないため)。API を使う側としては、各クラウドが提供する顧客単位のカーボン算定ツール(収録するスコープや粒度はツールごとに確認)が、自社の使用分を測る現実的な入口です。ただしツールの提供形態は変わりやすく、市場ベースと立地ベースで数値が変わる点に注意します
 
-2026-03-31 に GA となった **AWS Sustainability console** は、CCFT の後継として Scope 1 / 2 / 3、立地ベース・市場ベース、サービス・リージョン別の排出データを提供します。専用コンソールは無料で、Billing 権限ではなく対応するアクセス権限を設定し、API / CSV でも取得できます。ガイドは月次排出量と年次取水量を説明しています。AI の個別リクエストの実測値ではないため、自社サービスへの配賦方法を記録します。旧 CCFT 画面の実停止は、この資料確認では検証していません。
+2026-03-31 に GA となった **AWS Sustainability console** は、CCFT の後継として Scope 1 / 2 / 3、立地ベース・市場ベース、サービス・リージョン別の排出データを提供します。専用コンソールは無料で、Billing 権限ではなく対応するアクセス権限を設定し、API / CSV でも取得できます。ガイドは月次排出量と年次取水量を説明しています。AI の個別リクエストの実測値ではないため、自社サービスへの配賦方法を記録します。
+
+2026-09-21 に確認した CCFT の公式リリースノート PDF は、**2026-06-30 に非推奨化済み(deprecated)**と記載し、後継の AWS Sustainability を案内しています。3 月の予告だけでなく、6 月の状態更新を確認できました。ただし、旧 CCFT 画面の実停止や個別アカウントの移行は検証していません。
+
+後継の算定対象にも境界があります。AWS の方法論は AWS が運用するインフラ上のワークロードを対象とし、Marketplace の第三者ソフトの提供者側インフラでの開発・保守は含めません。AWS インフラ上でも Marketplace 課金サービスの対象範囲は拡張中です。方法論の更新で過去データが再計算されるため、比較時は取得時点と方法論の版も記録します。
 
 年次レポートも版を揃えます。2026-09-10 に確認できたのは Google の 2025 年実績を扱う 2026 Environmental Report、Microsoft の 2026 Environmental Sustainability Report、Amazon の 2025 Sustainability Report です。**公表年と実績年を別に記録**し、期間・組織境界・第三者保証が一致しない数値の社間比較はしません。
 
@@ -136,6 +140,9 @@ AI の環境負荷を語るとき、まず境界を揃えないと議論がか�
 
 ## 参考資料
 
+- [AWS — CCFT Release Notes(PDF)](https://docs.aws.amazon.com/pdfs/ccft/latest/releasenotes/ccft-releasenotes.pdf) — 2026-06-30 の非推奨化告知。実画面の停止確認とは別(アクセス日: 2026-09-21)
+- [AWS Sustainability — Methodology](https://docs.aws.amazon.com/sustainability/latest/userguide/methodology.html) — 算定境界・Marketplace の対象範囲・履歴の再計算(アクセス日: 2026-09-21)
+
 - [GHG Protocol — Standards](https://ghgprotocol.org/standards) — スコープ 1/2/3 の企業排出会計の事実上の基盤(WRI/WBCSD)(アクセス日: 2026-07-09)
 - [Green Software Foundation — Software Carbon Intensity (SCI)](https://greensoftware.foundation/standards/sci/) — 機能単位あたりの炭素強度をレートで算定する標準(ISO/IEC 21031)。基本 SCI の説明。AI 拡張の GSF 仕様とは区別します(アクセス日: 2026-07-09)
 - [IEA — Energy and AI](https://www.iea.org/reports/energy-and-ai) — AI とエネルギーに関する国際横断の一次分析(将来はシナリオ幅が大きい)(アクセス日: 2026-07-09)
@@ -155,6 +162,6 @@ AI の環境負荷を語るとき、まず境界を揃えないと議論がか�
 
 > **TODO(要確認):** 主要クラウド/AI プロバイダーの環境開示(PUE・WUE・CFE 比率・スコープ別排出)は年次で更新され変動する。2026-09-10 に確認した公開版から数値を引用する際は、各社の報告本文で実績期間・算定境界・保証対象を照合する(所在は `research/strategy/green-ai.md`)(最終確認: 2026-09)
 
-> **TODO(要確認):** AWS Sustainability console の自社アカウントでの権限・データ粒度と、旧 CCFT の実停止状況を公式ガイドと実画面で確認する。後継の GA は確認済みだが、画面操作による移行確認は未実施(最終確認: 2026-09)
+> **TODO(要確認):** AWS Sustainability console の自社アカウントでの権限・データ粒度と、旧 CCFT の実停止状況を公式ガイドと実画面で確認する。後継の GA と旧 CCFT の公式な非推奨化告知は確認済みだが、画面操作による移行確認は未実施(最終確認: 2026-09)
 
 > **TODO(要確認):** EU CSRD 簡素化の確定法令・各国の国内法化/適用日と、自社への適用を EU 公式資料・各国法令・法務部門で確認する。EED 格付けは EC ページで準備中のため、採択と施行を別に追跡する(最終確認: 2026-09)

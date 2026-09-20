@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title description">
+  <title id="title">AI Agent Library の学習領域マップ</title>
+  <desc id="description">16章を4つの目的に分類した案内図。概念と原理は00全体像と学習ルート、01基礎概念、10LLM基礎、11LLM内部構造。設計と実装は02設計とアーキテクチャ、03実装ガイド、08コーディングエージェント、12マルチモーダル応用。評価と運用は04評価とテスト、05運用と監視、06セキュリティ、07事例とアンチパターン。応用と協働は09ビジネス実務、13ドメイン別設計、14UXとプロダクト、15人とAIの協働。番号は章番号で、並びは必須の学習順序を示しません。読む順序と前提知識は学習ロードマップと依存マップで確認できます。</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#102f42"/>
+      <stop offset="1" stop-color="#0a1d30"/>
+    </linearGradient>
+    <style>
+      text { font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif; }
+      .heading { fill: #102f42; font-size: 28px; font-weight: 700; }
+      .item { fill: #203d4d; font-size: 24px; font-weight: 600; }
+      .number { fill: #126861; font-family: "Segoe UI", Arial, sans-serif; font-size: 19px; font-weight: 700; text-anchor: middle; }
+      .badge { fill: #e7f3ef; }
+      .icon { fill: none; stroke: #287c76; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="800" rx="24" fill="url(#background)"/>
+  <path d="M925 0h225a50 50 0 0 1 50 50v80" fill="none" stroke="#1c4655" stroke-width="2"/>
+  <path d="M980 0v68h220M1070 0v110h130" fill="none" stroke="#1c4655" stroke-width="2"/>
+  <circle cx="980" cy="68" r="5" fill="#66c7b5"/>
+  <circle cx="1070" cy="110" r="4" fill="#287c76"/>
+
+  <text x="48" y="47" fill="#8ddbc9" font-family="'Segoe UI', Arial, sans-serif" font-size="17" font-weight="700" letter-spacing="3">LEARNING LANDSCAPE</text>
+  <text x="46" y="100" fill="#ffffff" font-size="37" font-weight="700">16の章を、あなたの目的に合わせて。</text>
+  <text x="48" y="136" fill="#c2d6df" font-size="20">原理を知るところから、現場で使い続けるところまで。</text>
+
+  <g transform="translate(48 168)">
+    <rect width="540" height="252" rx="16" fill="#fbfcfa"/>
+    <rect width="7" height="252" rx="3.5" fill="#80cbb6"/>
+    <text class="heading" x="28" y="45">概念と原理を理解する</text>
+    <g class="icon" transform="translate(479 20)">
+      <path d="M1 4c7-3 14-2 20 2v27c-6-4-13-5-20-2zM21 6c6-4 13-5 20-2v27c-7-3-14-2-20 2z"/>
+      <path d="M7 11l8 2M7 18l8 2M27 13l8-2M27 20l8-2"/>
+    </g>
+    <path d="M28 63h484" stroke="#dce8e7"/>
+    <rect class="badge" x="28" y="79" width="43" height="30" rx="6"/>
+    <text class="number" x="49.5" y="101">00</text>
+    <text class="item" x="87" y="103">全体像と学習ルート</text>
+    <rect class="badge" x="28" y="119" width="43" height="30" rx="6"/>
+    <text class="number" x="49.5" y="141">01</text>
+    <text class="item" x="87" y="143">AI Agent の基礎概念</text>
+    <rect class="badge" x="28" y="159" width="43" height="30" rx="6"/>
+    <text class="number" x="49.5" y="181">10</text>
+    <text class="item" x="87" y="183">LLM の基礎</text>
+    <rect class="badge" x="28" y="199" width="43" height="30" rx="6"/>
+    <text class="number" x="49.5" y="221">11</text>
+    <text class="item" x="87" y="223">LLM の内部構造</text>
+  </g>
+
+  <g transform="translate(612 168)">
+    <rect width="540" height="252" rx="16" fill="#fbfcfa"/>
+    <rect width="7" height="252" rx="3.5" fill="#55b9b2"/>
+    <text class="heading" x="28" y="45">設計し、実装する</text>
+    <g class="icon" transform="translate(479 20)">
+      <rect x="1" y="2" width="40" height="31" rx="5"/>
+      <path d="M10 13l-5 5 5 5M32 13l5 5-5 5M24 10l-6 16"/>
+    </g>
+    <path d="M28 63h484" stroke="#dce8e7"/>
+    <rect class="badge" x="28" y="79" width="43" height="30" rx="6"/>
+    <text class="number" x="49.5" y="101">02</text>
+    <text class="item" x="87" y="103">設計とアーキテクチャ</text>
+    <rect class="badge" x="28" y="119" width="43" height="30" rx="6"/>
+    <text class="number" x="49.5" y="141">03</text>
+    <text class="item" x="87" y="143">実装ガイド</text>
+    <rect class="badge" x="28" y="159" width="43" height="30" rx="6"/>
+    <text class="number" x="49.5" y="181">08</text>
+    <text class="item" x="87" y="183">コーディングエージェント</text>
+    <rect class="badge" x="28" y="199" width="43" height="30" rx="6"/>
+    <text class="number" x="49.5" y="221">12</text>
+    <text class="item" x="87" y="223">マルチモーダル応用</text>
+  </g>
+
+  <g transform="translate(48 444)">
+    <rect width="540" height="252" rx="16" fill="#fbfcfa"/>
+    <rect width="7" height="252" rx="3.5" fill="#55b9b2"/>
+    <text class="heading" x="28" y="45">評価し、運用する</text>
+    <g class="icon" transform="translate(479 19)">
+      <path d="M21 1l17 7v12c0 9-8 16-17 20C12 36 4 29 4 20V8z"/>
+      <path d="M12 20l6 6 13-14"/>
+    </g>
+    <path d="M28 63h484" stroke="#dce8e7"/>
+    <rect class="badge" x="28" y="79" width="43" height="30" rx="6"/>
+    <text class="number" x="49.5" y="101">04</text>
+    <text class="item" x="87" y="103">評価とテスト</text>
+    <rect class="badge" x="28" y="119" width="43" height="30" rx="6"/>
+    <text class="number" x="49.5" y="141">05</text>
+    <text class="item" x="87" y="143">運用と監視</text>
+    <rect class="badge" x="28" y="159" width="43" height="30" rx="6"/>
+    <text class="number" x="49.5" y="181">06</text>
+    <text class="item" x="87" y="183">セキュリティ</text>
+    <rect class="badge" x="28" y="199" width="43" height="30" rx="6"/>
+    <text class="number" x="49.5" y="221">07</text>
+    <text class="item" x="87" y="223">事例とアンチパターン</text>
+  </g>
+
+  <g transform="translate(612 444)">
+    <rect width="540" height="252" rx="16" fill="#fbfcfa"/>
+    <rect width="7" height="252" rx="3.5" fill="#80cbb6"/>
+    <text class="heading" x="28" y="45">応用し、人と協働する</text>
+    <g class="icon" transform="translate(479 19)">
+      <circle cx="13" cy="9" r="6"/>
+      <circle cx="32" cy="13" r="5"/>
+      <path d="M1 36v-6c0-7 5-11 12-11s12 4 12 11v6M29 23c7-1 12 3 12 9v4"/>
+    </g>
+    <path d="M28 63h484" stroke="#dce8e7"/>
+    <rect class="badge" x="28" y="79" width="43" height="30" rx="6"/>
+    <text class="number" x="49.5" y="101">09</text>
+    <text class="item" x="87" y="103">ビジネス実務</text>
+    <rect class="badge" x="28" y="119" width="43" height="30" rx="6"/>
+    <text class="number" x="49.5" y="141">13</text>
+    <text class="item" x="87" y="143">ドメイン別エージェント設計</text>
+    <rect class="badge" x="28" y="159" width="43" height="30" rx="6"/>
+    <text class="number" x="49.5" y="181">14</text>
+    <text class="item" x="87" y="183">UX・プロダクト</text>
+    <rect class="badge" x="28" y="199" width="43" height="30" rx="6"/>
+    <text class="number" x="49.5" y="221">15</text>
+    <text class="item" x="87" y="223">人と AI の協働</text>
+  </g>
+
+  <circle cx="58" cy="740" r="10" fill="none" stroke="#8ddbc9" stroke-width="1.8"/>
+  <path d="M58 738v7" stroke="#8ddbc9" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="58" cy="734.5" r="1.2" fill="#8ddbc9"/>
+  <text x="80" y="747" fill="#d4e3e8" font-size="20">目的別の案内図です。読む順序・前提知識は、学習ロードマップと依存マップへ。</text>
+  <text x="48" y="781" fill="#93b5c2" font-size="16">番号は章番号です。必要な領域を行き来しながら学べます。</text>
+</svg>

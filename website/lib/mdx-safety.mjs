@@ -13,6 +13,8 @@ const parser = unified().use(remarkParse).use(remarkGfm).use(remarkMath)
 const attributes = {
   AttentionWalkthrough: {},
   AttentionStep: { step: value => ['0', '1', '2', '3', '4', '5'].includes(value) },
+  ReadingWalkthrough: { diagramId: value => ['agent-loop', 'workflow-comparison'].includes(value) },
+  ReadingStep: { step: value => ['0', '1', '2', '3', '4'].includes(value) },
   TodoCallout: {},
   PracticeSection: { kind: value => ['antipattern', 'checklist'].includes(value) },
   GlossaryTerm: {
@@ -54,6 +56,8 @@ export function findUnsafeMdx(mdx) {
           if (seen.has(attribute.name)) bad.add(`重複した JSX 属性 (${attribute.name})`)
           seen.add(attribute.name)
         }
+        const required = { ReadingWalkthrough: 'diagramId', ReadingStep: 'step' }[node.name]
+        if (required && !seen.has(required)) bad.add(`必須の JSX 属性がありません (${node.name}.${required})`)
         break
       }
     }

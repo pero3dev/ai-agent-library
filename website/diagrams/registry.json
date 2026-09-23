@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "diagrams": [
+    {
+      "id": "self-attention",
+      "article": "docs/11-llm-internals/transformer-architecture.md",
+      "route": "/docs/llm-internals/transformer-architecture",
+      "binding": "attention-section",
+      "stageCount": 6,
+      "headings": [
+        "自己注意の数式"
+      ],
+      "sourceDigest": "sha256:109894a1391b2a40e0cb0da4791f4bb1c21ae98cdebf3bdf33d67953e486cc6d",
+      "reviewedDigest": "sha256:109894a1391b2a40e0cb0da4791f4bb1c21ae98cdebf3bdf33d67953e486cc6d",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending",
+      "sourceHeadings": [
+        "自己注意の数式"
+      ]
+    },
+    {
+      "id": "agent-loop",
+      "article": "docs/01-concepts/agent-loop.md",
+      "route": "/docs/concepts/agent-loop",
+      "binding": "ordered-steps",
+      "stageCount": 5,
+      "headings": [
+        "詳細: 1 イテレーションの分解"
+      ],
+      "sourceDigest": "sha256:3c7f379050822077fe8cd4ccc8e7f2bbb0ddebffef30ffe28acb29c66c87e653",
+      "reviewedDigest": "sha256:3c7f379050822077fe8cd4ccc8e7f2bbb0ddebffef30ffe28acb29c66c87e653",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending",
+      "sourceHeadings": [
+        "詳細: 1 イテレーションの分解",
+        "詳細: 停止条件は「正常完了」以外に必ず用意する",
+        "詳細: ツールの失敗はループに返す",
+        "詳細: 履歴は単調増加する"
+      ]
+    },
+    {
+      "id": "workflow-comparison",
+      "article": "docs/02-architecture/workflow-vs-agent.md",
+      "route": "/docs/architecture/workflow-vs-agent",
+      "binding": "consecutive-sections",
+      "stageCount": 5,
+      "headings": [
+        "概要: 原則は「同じ品質なら、自律性の低い方」",
+        "詳細: トレードオフの全体像",
+        "詳細: 判断フロー",
+        "詳細: ハイブリッドという現実解",
+        "設計判断: 段階的な移行を前提にする"
+      ],
+      "sourceDigest": "sha256:203f83b6dc8fcd96d4fc29e76d3dc37dd8e6756ccac63ce81b0824c50582622d",
+      "reviewedDigest": "sha256:203f83b6dc8fcd96d4fc29e76d3dc37dd8e6756ccac63ce81b0824c50582622d",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending",
+      "sourceHeadings": [
+        "概要: 原則は「同じ品質なら、自律性の低い方」",
+        "詳細: トレードオフの全体像",
+        "詳細: 判断フロー",
+        "詳細: ハイブリッドという現実解",
+        "設計判断: 段階的な移行を前提にする"
+      ]
+    }
+  ]
+}

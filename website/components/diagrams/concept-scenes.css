@@ -1,0 +1,31 @@
+.cd-scene { isolation: isolate; }
+.cd-scene text { font-family: ui-sans-serif, system-ui, sans-serif; }
+.cd-label { fill: #e3f0f6; font-size: 16px; font-weight: 450; }
+.cd-small { fill: #a9bfcb; font-size: 13px; }
+.cd-card-title { fill: #e9f4f7; font-size: 16px; font-weight: 560; }
+.cd-lane-title { font-size: 23px; font-weight: 550; letter-spacing: -.5px; }
+.cd-overline { fill: #b6cbd7; font-size: 12px; font-weight: 600; letter-spacing: .5px; }
+.cd-number { font: 11px ui-monospace, monospace !important; }
+.cd-history-label { fill: #d2e4ec; font-size: 13px; }
+.cd-comparison-text { fill: #edf6fa; font-size: 18px; font-weight: 500; }
+.cd-card rect, .cd-wire path { transition: stroke-opacity .2s, fill .2s, opacity .2s; }
+.cd-controls { padding: .1rem 1rem .6rem; display: grid; gap: .35rem; }
+.cd-select { display: grid; grid-template-columns: 7.2rem minmax(0,1fr); align-items: center; gap: .5rem; color: #b5cbd7; font-size: .69rem; }
+.cd-select select { width: 100%; min-width: 0; border: 1px solid #395368; border-radius: 6px; background: #13283a; color: #e4f1f7; padding: .3rem .4rem; font: inherit; text-overflow: ellipsis; }
+.cd-select select:focus-visible { outline: 2px solid #a3f7e7; outline-offset: 2px; }
+.cd-select select:disabled { opacity: .5; }
+.cd-control-pair { display: grid; grid-template-columns: 1fr 1.4fr; gap: .5rem; }
+.cd-control-pair .cd-select { grid-template-columns: auto minmax(0,1fr); gap: .35rem; }
+/* Keep only controls related to the current view in sight; their state is retained. */
+.aw-diagram[data-stage="0"] .cd-workflow-controls,
+.aw-diagram[data-stage="4"] .cd-workflow-controls { display: none; }
+.aw-diagram[data-stage="1"] .cd-workflow-controls .cd-select:not(:nth-child(1)),
+.aw-diagram[data-stage="2"] .cd-workflow-controls .cd-select:not(:nth-child(2)),
+.aw-diagram[data-stage="3"] .cd-workflow-controls .cd-select:not(:nth-child(3)) { display: none; }
+@media (max-width: 560px) {
+  .cd-controls { padding-inline: .7rem; }
+  .cd-select { grid-template-columns: 6.2rem minmax(0,1fr); font-size: .64rem; }
+  .cd-control-pair { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { .cd-card rect, .cd-wire path { transition: none; } }
+@media print { .cd-controls { display: none !important; } }

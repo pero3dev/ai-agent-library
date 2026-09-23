@@ -13,6 +13,12 @@ async function openAttention(page, theme = 'light') {
   await expect(walkthrough(page)).toHaveAttribute('data-ready', 'true')
   await expect(page.locator('html')).toHaveClass(new RegExp(`\\b${theme}\\b`))
   await page.evaluate(() => document.fonts.ready)
+  // Mermaid renders lazily. Wait for the final flowchart nodes so its layout
+  // change does not move the reading target during scroll/playback assertions.
+  for (const chart of await page.locator('article [data-mermaid-renderer="strict"]').all()) {
+    await chart.scrollIntoViewIfNeeded()
+    await expect(chart.locator('svg .nodes').last()).toBeVisible()
+  }
   return inlineDiagram(page)
 }
 
@@ -107,11 +113,14 @@ test.describe('self-attention desktop reading', () => {
   })
 
   test('playback advances, pauses in place, steps back and replays from the beginning', async ({ page }) => {
+    // Install before the application starts so all animation timestamps share
+    // one clock origin, then pause only after real page setup has settled.
+    await page.clock.install({ time: new Date('2026-09-24T00:00:00Z') })
     const diagram = await openAttention(page)
     await selectStage(diagram, 0)
     // A rounded stage label can become 0 while its transition is still moving.
     await expect(diagram.getByRole('slider')).toHaveValue('0')
-    await page.clock.install()
+    await page.clock.pauseAt(await page.evaluate(() => new Date(Date.now() + 1000)))
     await diagram.getByRole('button', { name: '図解を再生', exact: true }).click()
     await expect(diagram).toHaveAttribute('data-mode', 'playing')
     await page.clock.fastForward(5000)
@@ -166,12 +175,13 @@ test.describe('self-attention desktop reading', () => {
     // playback does not itself scroll the article to bring the button onscreen.
     await page.setViewportSize({ width: 1440, height: 1400 })
     await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.clock.install({ time: new Date('2026-09-24T00:00:00Z') })
     const diagram = await openAttention(page)
     await scrollToReadingStep(page, 0)
     await expect(diagram).toHaveAttribute('data-stage', '0')
     await expect(diagram).toHaveAttribute('data-mode', 'reading')
     const readingScroll = await page.evaluate(() => scrollY)
-    await page.clock.install()
+    await page.clock.pauseAt(await page.evaluate(() => new Date(Date.now() + 1000)))
     await diagram.getByRole('button', { name: '図解を再生', exact: true }).click()
     await expect(diagram).toHaveAttribute('data-mode', 'playing')
     await page.clock.fastForward(23000)

@@ -28,6 +28,16 @@ for (const source of [
   '<AttentionStep step="01">probe</AttentionStep>',
   '<AttentionStep step="1" step="2">probe</AttentionStep>',
   '<AttentionStep step="1" style="color:red">probe</AttentionStep>',
+  '<ReadingWalkthrough diagramId="unknown">probe</ReadingWalkthrough>',
+  '<ReadingWalkthrough diagramId="../scene">probe</ReadingWalkthrough>',
+  '<ReadingWalkthrough diagramId={"agent-loop"}>probe</ReadingWalkthrough>',
+  '<ReadingWalkthrough diagramId="agent-loop" module="./scene">probe</ReadingWalkthrough>',
+  '<ReadingWalkthrough {...{diagramId: "agent-loop"}}>probe</ReadingWalkthrough>',
+  '<ReadingStep step="5">probe</ReadingStep>',
+  '<ReadingStep step="01">probe</ReadingStep>',
+  '<ReadingStep step={1}>probe</ReadingStep>',
+  '<ReadingStep step="1" step="2">probe</ReadingStep>',
+  '<ReadingStep step="1" style="color:red">probe</ReadingStep>',
   '<script>probe</script>',
   'export const probe = 1'
 ]) {
@@ -45,6 +55,17 @@ test('MDX expressions and fragments are rejected without evaluating them', () =>
 test('attention components accept only the declared literal stage values', () => {
   for (const step of ['0', '1', '2', '3', '4', '5']) {
     assert.deepEqual(findUnsafeMdx(`<AttentionWalkthrough><AttentionStep step="${step}">本文</AttentionStep></AttentionWalkthrough>`), [])
+  }
+})
+
+test('reading components require a known literal diagram ID and stage', () => {
+  for (const diagramId of ['agent-loop', 'workflow-comparison']) {
+    for (const step of ['0', '1', '2', '3', '4']) {
+      assert.deepEqual(findUnsafeMdx(`<ReadingWalkthrough diagramId="${diagramId}"><ReadingStep step="${step}">本文</ReadingStep></ReadingWalkthrough>`), [])
+    }
+  }
+  for (const source of ['<ReadingWalkthrough>本文</ReadingWalkthrough>', '<ReadingStep>本文</ReadingStep>']) {
+    assert.ok(findUnsafeMdx(source).length > 0)
   }
 })
 

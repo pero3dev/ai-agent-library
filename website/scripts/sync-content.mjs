@@ -318,10 +318,11 @@ async function main() {
     }
 
     let out = ensureFrontMatter(text, file.repoRel)
-    // 定型構造の自動装飾(TODO・アンチパターン・チェックリスト・用語リンク)→ MDX として出力
+    // 図解の本文版は元のリンク先を含むASTで検査する。装飾後も元のリンク
+    // ノードを保持するため、再帰的なルート書換を後段で適用できる。
     const tree = mdParser.parse(out)
-    errors.push(...rewriteMarkdownRoutes(tree, file.repoRel, routeMap))
     applyDecorations(tree, { route: routeMap.get(file.repoRel), glossary: glossaryForLinks })
+    errors.push(...rewriteMarkdownRoutes(tree, file.repoRel, routeMap))
     out = String(mdxWriter.stringify(tree))
     assertSafeMdx(out, file.repoRel) // C3: 許可外の JSX / ESM / {式} / 生 HTML を拒否
 

@@ -11,6 +11,13 @@ import { unified } from 'unified'
 import { wrapAttentionSection } from '../../lib/attention-decoration.mjs'
 import { applyDecorations } from '../../lib/doc-decorations.mjs'
 import { findUnsafeMdx } from '../../lib/mdx-safety.mjs'
+import { diagramRegistry } from '../../lib/diagram-registry.mjs'
+
+const reviewedRegistry = structuredClone(diagramRegistry)
+for (const entry of reviewedRegistry.diagrams) {
+  entry.reviewedDigest = entry.sourceDigest
+  entry.status = 'reviewed'
+}
 
 const route = '/docs/llm-internals/transformer-architecture'
 const source = readFileSync(new URL('../../../docs/11-llm-internals/transformer-architecture.md', import.meta.url), 'utf8')
@@ -31,7 +38,7 @@ function contentFacts(node, facts = []) {
 test('the existing article prose, links, headings, and formulas survive attention wrapping and MDX serialization', () => {
   const tree = parser.parse(source)
   const original = contentFacts(tree)
-  wrapAttentionSection(tree, route)
+  wrapAttentionSection(tree, route, reviewedRegistry)
   assert.deepEqual(contentFacts(tree), original)
 
   const index = tree.children.findIndex(node => node.name === 'AttentionWalkthrough')
@@ -54,7 +61,7 @@ test('attention decoration is a no-op outside the exact article route', () => {
   for (const otherRoute of ['/docs/concepts/agent-loop', `${route}-extra`, undefined]) {
     const tree = parser.parse(source)
     const original = structuredClone(tree)
-    wrapAttentionSection(tree, otherRoute)
+    wrapAttentionSection(tree, otherRoute, reviewedRegistry)
     assert.deepEqual(tree, original)
   }
 })
@@ -65,7 +72,7 @@ test('a changed source section stops sync before a misleading diagram can be pai
     source.replace('### 多頭注意', '追加の説明です。\n\n### 多頭注意'),
     source.replace('**因果マスク(causal mask)**', '**別の機構**')
   ]) {
-    assert.throws(() => wrapAttentionSection(parser.parse(changed), route), /動的図/)
+    assert.throws(() => wrapAttentionSection(parser.parse(changed), route, reviewedRegistry), /動的図/)
   }
 })
 
@@ -73,6 +80,7 @@ test('the shared decoration pipeline retains glossary links within the attention
   const tree = parser.parse(source)
   applyDecorations(tree, {
     route,
+    registry: reviewedRegistry,
     glossary: [{ name: '縮小付き内積注意', href: '/docs/llm-foundations/attention-and-context', summary: '自己注意の計算' }]
   })
   const walkthrough = tree.children.find(node => node.name === 'AttentionWalkthrough')

@@ -11,8 +11,10 @@ export function Mermaid({ chart }) {
   const [failed, setFailed] = useState(false)
 
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
+    const observer = new IntersectionObserver(entries => {
+      // A single delivery can include both an older offscreen entry and the
+      // subsequent intersection. Any intersection starts this one-time load.
+      if (entries.some(entry => entry.isIntersecting)) {
         setVisible(true)
         observer.disconnect()
       }

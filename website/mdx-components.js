@@ -5,7 +5,8 @@ import { GlossaryTerm } from './components/mdx/glossary-term'
 import { PracticeSection } from './components/mdx/practice-section'
 import { TodoCallout } from './components/mdx/todo-callout'
 import { ArticleAudio } from './components/audio/article-audio'
-import { AttentionStep, AttentionWalkthrough } from './components/attention/attention-walkthrough'
+import { AttentionStep, AttentionWalkthrough, ReadingStep } from './components/diagrams/diagram-entry'
+import { ReadingWalkthrough } from './components/diagrams/concept-walkthrough'
 
 const docsComponents = getDocsMDXComponents()
 const DocsWrapper = docsComponents.wrapper
@@ -16,6 +17,8 @@ export const useMDXComponents = components => ({
   ...docsComponents,
   AttentionStep,
   AttentionWalkthrough,
+  ReadingWalkthrough,
+  ReadingStep,
   TodoCallout,
   PracticeSection,
   GlossaryTerm,

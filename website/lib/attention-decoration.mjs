@@ -1,3 +1,5 @@
+import { assertDiagramSource, diagramRegistry, getDiagramEntry } from './diagram-registry.mjs'
+
 const ARTICLE_ROUTE = '/docs/llm-internals/transformer-architecture'
 const SECTION_TITLE = '自己注意の数式'
 
@@ -14,8 +16,11 @@ const step = (value, children) => element('AttentionStep', children, [
  * self-attention nodes for scroll tracking; never copy the section into JSX.
  * If its structure changes, fail sync rather than attach diagrams to wrong text.
  */
-export function wrapAttentionSection(tree, route) {
+export function wrapAttentionSection(tree, route, registry = diagramRegistry) {
   if (route !== ARTICLE_ROUTE) return
+  const entry = getDiagramEntry('self-attention', registry)
+  if (!entry.enabled) return
+  assertDiagramSource(tree, entry)
   const headings = tree.children.flatMap((node, index) =>
     node.type === 'heading' && node.depth === 3 && textContent(node) === SECTION_TITLE ? [index] : [])
   if (headings.length !== 1) {

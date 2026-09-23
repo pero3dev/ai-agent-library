@@ -25,6 +25,7 @@ npm ci
 | `npm test` | MDX 属性・静的 HTML の回帰検査 |
 | `npm run test:browser` | ビルド済み `out/` のキーボード操作・検索・Mermaid をブラウザーで検査 |
 | `npm run test:audio` | 専用 fixture ビルドで再生・再開・リスト・通信失敗をブラウザーで検査 |
+| `node scripts/diagram-coverage.mjs` | 現行記事数・図解登録・レビュー・記事全体の受入状況を別々に集計 |
 
 ## 生成物と正本の対応
 
@@ -35,14 +36,36 @@ npm ci
 | `out/` | 静的エクスポート(git 管理外) |
 | `content-src/` | 手書き上書きページ(**唯一の手編集対象**。同名は手書きが勝つ) |
 | `audio/catalog.json` | 公開済み音声と記事の版を結ぶカタログの正本。音声本体は GitHub Releases |
+| `diagrams/registry.json` | 図解ID・本文対応・意味依存元・レビュー済みダイジェスト・有効化状態の正本 |
 
 ## 本文に連動する動的図
 
-Transformer 記事の「自己注意の数式」は、`lib/attention-decoration.mjs` が元の本文・数式を
-`AttentionWalkthrough` / `AttentionStep` で囲み、`components/attention/attention-walkthrough.jsx`
-へ渡します。見出しとアンカーは維持し、`docs/` や `content-src/` に本文の複製を持ちません。
-記事の節構成が変わると sync が停止するため、本文と図の段階の対応も更新してください。
+自己注意・Agentループ・Workflow比較の3図は、`components/diagrams/reading-figure.jsx` の共通外枠で
+読書位置との同期、再生・停止、段階送り、スライダー、拡大を提供します。
+図の場面は自己注意、`agent-loop-walkthrough.jsx`、`workflow-walkthrough.jsx` に分け、対応する数値・意味モデルを単体試験で検証します。
+軽量な入口から各記事に必要なコードを読み込み、静的HTMLにも図を出力します。
+図の高さが画面内に収まる場合に追従させ、低い画面では通常の縦スクロールで操作できます。
+縮小モーション・画面外停止・印刷・JavaScript無効時にも、本文と静止状態から読める構成です。
+図解記事の目次はサーバーで生成した見出し情報を使い、初回表示から横幅を確保します。
+目次と読書ステップは図のコードから独立させ、図の通信に失敗しても元の本文・数式・表を保持します。
+
+`lib/diagram-decoration.mjs` と `lib/attention-decoration.mjs` が元の本文を包装します。
+見出し、アンカー、番号付きリスト、表、数式、Mermaidを維持し、本文の複製は作りません。
 数式の件数・順序は `tests/browser/math.spec.mjs` が正本と照合します。
+
+登録台帳の `headings` は図と並べる本文の節、`sourceHeadings` は図の意味が依存する節です。
+後者には図の横に置かない停止条件・履歴管理なども含めます。本文の正規化ASTと参照リンク定義から
+ダイジェストを計算し、`sourceDigest` と独立レビュー済みの `reviewedDigest` が一致しない場合は同期を停止します。
+改行差だけでは失効させず、文言・式・表・図の意味変更を検出します。
+
+本文更新時は、関連する図と段階対応を確認・修正し、新しいダイジェストの独立レビュー後に台帳を更新します。
+図の修正を待たず本文を公開する必要がある場合は、該当IDの `enabled` を `false` にして再ビルドします。
+包装を外して原文をそのまま出力し、他の記事の図解は維持します。台帳から任意のコードやモジュールは読み込まず、
+ID・対応する節・コンポーネントは実装側でも許可リストを検証します。
+
+全体の制作順・品質基準は [動的図解計画](../project/plans/engineering/dynamic-diagrams.md)、
+公開確認を含む進捗は [展開状況](../project/records/2026-09-24/dynamic-diagram-rollout.md)を参照してください。
+節への図解追加、記事全体の主要論点の受入、公開確認は別々に数えます。
 
 ## 音声学習
 
@@ -58,7 +81,7 @@ Transformer 記事の「自己注意の数式」は、`lib/attention-decoration.
 
 - **CRLF 正規化**: 読込時に LF へ正規化(`.gitattributes` でも作業ツリーを LF に統一)
 - **未解決リンク / 読込失敗**: `sync` が `exit 1`(不完全な公開物を防ぐ)
-- **MDX ガード**: 生成 MDX を再パースし、`TodoCallout` / `PracticeSection` / `GlossaryTerm` / `AttentionWalkthrough` / `AttentionStep`
+- **MDX ガード**: 生成 MDX を再パースし、`TodoCallout` / `PracticeSection` / `GlossaryTerm` / `AttentionWalkthrough` / `AttentionStep` / `ReadingWalkthrough` / `ReadingStep`
   以外の JSX・`import`/`export`・`{式}`・生 HTML を検出したらビルドを失敗させる。
   許可コンポーネントでも属性式・spread は拒否し、挿入する文字列属性と値だけを許可する
 - **Mermaid の描画設定**: Nextra が生成する直接 import を、Turbopack / Webpack ともに

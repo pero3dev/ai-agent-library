@@ -381,7 +381,9 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1280, height: 720
             expect(prose.x + prose.width).toBeLessThanOrEqual(bounds.x + 1)
           }
           const sync = diagram.getByRole('button', { name: '本文に連動する', exact: true })
-          await sync.scrollIntoViewIfNeeded()
+          // Nearest-edge scrolling can round a fractional pixel offscreen on
+          // Linux Chromium. Test full reachability from a centered position.
+          await sync.evaluate(element => element.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'instant' }))
           await expect(sync).toBeInViewport({ ratio: 1 })
           await diagram.getByRole('button', { name: '図を拡大', exact: true }).click()
           const dialog = page.getByRole('dialog', { name: `${figure.title}の拡大図`, exact: true })
@@ -392,7 +394,7 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1280, height: 720
           expect(bounds.x + bounds.width).toBeLessThanOrEqual(viewport.width + 1)
           expect(bounds.y + bounds.height).toBeLessThanOrEqual(viewport.height + 1)
           const slider = dialog.getByRole('slider', { name: '図解の再生位置' })
-          await slider.scrollIntoViewIfNeeded()
+          await slider.evaluate(element => element.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'instant' }))
           await expect(slider).toBeInViewport({ ratio: 1 })
           await dialog.getByRole('button', { name: '拡大図を閉じる', exact: true }).click()
           await expect(dialog).not.toBeVisible()

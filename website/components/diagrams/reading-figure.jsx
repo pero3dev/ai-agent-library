@@ -150,7 +150,11 @@ export function ReadingFigure({ diagramId, title, eyebrow, stages, renderScene, 
   }, [playing, reduced, count])
 
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
+    const observer = new IntersectionObserver(entries => {
+      // This observer has one target; queued transitions may arrive together.
+      // Playback follows its latest visibility, not an older entry in the batch.
+      const entry = entries.at(-1)
+      if (!entry) return
       visibleRef.current = entry.isIntersecting
       if (!entry.isIntersecting && !dialog.current?.open) { pause(); finishTransition() }
     })

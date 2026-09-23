@@ -1,6 +1,28 @@
 /* 記事ページの自動装飾スタイル(project/plans/engineering/website.md §5 段階 2)。
    next-themes が <html class="dark"> を付与する前提で .dark を上書きする */
 
+/* ---------- 数式 ---------- */
+
+/* 長い式だけをスクロールし、ページ全体の幅を広げない。
+   上下の余白で分数・添字を保ち、内側の幅を確保して式の左端も到達可能にする。 */
+article .katex-display {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: 1em;
+}
+
+article .katex-display > .katex {
+  display: block;
+  width: max-content;
+  min-width: 100%;
+}
+
+article .katex-display:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
 /* ---------- front matter バッジ ---------- */
 
 .doc-meta {

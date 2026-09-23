@@ -16,6 +16,13 @@ export const useMDXComponents = components => ({
   TodoCallout,
   PracticeSection,
   GlossaryTerm,
+  // KaTeX のブロック数式はキーボードでも横スクロールできるようにする。
+  span(props) {
+    if (props.className?.split(/\s+/).includes('katex-display')) {
+      return <span {...props} tabIndex={0} role="region" aria-label="数式" />
+    }
+    return <span {...props} />
+  },
   // GFM タスクリストのチェックボックスをクリック可能にする
   input(props) {
     if (props.type === 'checkbox') {

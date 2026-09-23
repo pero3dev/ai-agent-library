@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "run_id": "2026-09-23-llm-internals-ui",
+  "base_sha": "991abf209e8310f15023e9fc8da8b42e747c9b36",
+  "writer_run_id": "01a0ccec-e4db-7e20-80c1-d932a8e3d6fb:/root",
+  "completed_at": "2026-09-23T07:14:30.750Z",
+  "changes": [
+    {
+      "path": "docs/11-llm-internals/alignment-theory.md",
+      "kind": "editorial",
+      "summary": "本文・数式・メタデータを維持し、強調境界の表示崩れを修正する。"
+    },
+    {
+      "path": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "kind": "editorial",
+      "summary": "本文・数式・メタデータを維持し、強調境界の表示崩れを修正する。"
+    },
+    {
+      "path": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+      "kind": "editorial",
+      "summary": "本文・数式・メタデータを維持し、強調境界の表示崩れを修正する。"
+    },
+    {
+      "path": "docs/11-llm-internals/inference-internals.md",
+      "kind": "editorial",
+      "summary": "本文・数式・メタデータを維持し、強調境界の表示崩れを修正する。"
+    },
+    {
+      "path": "docs/11-llm-internals/interpretability-basics.md",
+      "kind": "editorial",
+      "summary": "本文・数式・メタデータを維持し、強調境界の表示崩れを修正する。"
+    },
+    {
+      "path": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "kind": "editorial",
+      "summary": "本文・数式・メタデータを維持し、強調境界の表示崩れを修正する。"
+    },
+    {
+      "path": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "kind": "editorial",
+      "summary": "本文・数式・メタデータを維持し、強調境界の表示崩れを修正する。"
+    },
+    {
+      "path": "docs/11-llm-internals/transformer-architecture.md",
+      "kind": "editorial",
+      "summary": "本文・数式・メタデータを維持し、強調境界の表示崩れを修正する。"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "S-1",
+      "artifacts": [
+        "docs/11-llm-internals/transformer-architecture.md"
+      ]
+    },
+    {
+      "id": "S-2",
+      "artifacts": [
+        "docs/11-llm-internals/attention-variants-and-long-context.md",
+        "docs/11-llm-internals/mixture-of-experts-internals.md"
+      ]
+    },
+    {
+      "id": "T-1",
+      "artifacts": [
+        "docs/11-llm-internals/alignment-theory.md",
+        "docs/11-llm-internals/pretraining-and-scaling-laws.md"
+      ]
+    },
+    {
+      "id": "U-1",
+      "artifacts": [
+        "docs/11-llm-internals/inference-internals.md"
+      ]
+    },
+    {
+      "id": "U-2",
+      "artifacts": [
+        "docs/11-llm-internals/in-context-learning-and-memorization.md",
+        "docs/11-llm-internals/interpretability-basics.md"
+      ]
+    }
+  ],
+  "sources": [],
+  "review": {
+    "verdict": "approved",
+    "independent": true,
+    "reviewer_run_id": "01a0ccec-e4db-7e20-80c1-d932a8e3d6fb:/root/review_doc_emphasis",
+    "reviewed_at": "2026-09-23T07:13:17Z",
+    "content_digest": "b549b4626d135899356018627b67d9ee80ada1517445353c58305d2d6393ec2a"
+  }
+}

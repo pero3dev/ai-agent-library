@@ -1,0 +1,43 @@
+# LLM 内部構造の数式表示修正
+
+## 作業契約
+
+- 目的: 11章全8記事の数式二重表示、長式による横はみ出し、強調記号の露出を解消する。
+- 依頼: UIレビュー後の「作業完了まで自律的に作業を進めてください」に基づく修正・検証・PR・通常のCIを経た公開反映と確認。
+- 所有範囲: `website/app/layout.jsx`、`website/app/docs.css`、`website/package.json`・lockfile、必要な数式表示コンポーネントと接続、`website/tests/browser/`の数式回帰試験、`docs/11-llm-internals/`の強調記法、`harness/changes/2026-09-23-llm-internals-ui.json`、本記録と`project/README.md`。
+- 基準: `origin/main` の `991abf209e8310f15023e9fc8da8b42e747c9b36` から `fix/llm-internals-math-ui` を作成。開始時の作業ツリーはclean。
+- 適用規約: `AGENTS.md`、`CONTRIBUTING.md`、`harness/writing-rules.md`、`harness/git-rules.md`。ROADMAPのPhase S〜Uは執筆完了済み。今回は既存記事の表示修正。
+- 検証: lockfileによる依存準備、ルート共通検査、サイト単体試験・静的ビルド、Chromium/WebKitで全8記事の数式・狭幅・明暗・スクロール操作、独立レビュー、GitHub CIと公開ブラウザー確認。
+- 終了条件: 3件の指摘が解消し、通常のPR経由で公開確認する。iPhone実機Safariの受入と学術内容の改訂は範囲外。
+
+## 修正結果
+
+- KaTeX 0.16.47を直接依存として明示し、CSSと同梱フォントを読み込む。MathMLは支援技術向けに残し、HTMLとの二重表示を解消した。
+- 長式は数式ブロック内だけで横スクロールする。内側の内容幅と上下1emの余白を確保し、左右端・添字・分数・アクセント記号を保持する。静的HTMLにフォーカス可能な数式領域を出力し、矢印キーでも移動できる。
+- 全8記事の30行・33箇所で強調境界を調整した。レビュー指摘の28行に加え、DPOとスケーリング則で後続文を誤って強調する2行も修正した。
+- `**`を除いた本文と247式(ブロック31・インライン216)は基準HEADと一致する。内容・数式の改訂ではないため、`last_updated`と公開状態を維持した。
+
+## ローカル検証
+
+| 確認 | 結果 |
+| --- | --- |
+| ルート・サイトの `npm ci` | lockfileで準備完了。サイト依存監査0件 |
+| `npm run check` | 454件成功、失敗0、FFmpeg実行環境が必要な1件はskip。記事・リンク・ハーネス検査も成功 |
+| サイト `npm test` | 68件成功 |
+| 公開相当の `npm run build:clean` | base path `/ai-agent-library`、223/223ルート、230 HTMLのskip target検査成功 |
+| 既存Chromiumブラウザー回帰 | 94件成功。本番データビルドでは音声fixture専用5件はskip |
+| 最終数式回帰 `math.spec.mjs` | Chromium 26件、WebKit 26件、すべて成功 |
+| WebKitモバイルメニュー回帰 | 7件成功 |
+| 独立レビュー | 記事差分・サイト実装とも `approved / low`、must 0件 |
+
+数式回帰は全8記事に加え、共通CSSが適用されるROI記事も確認する。375/390/430/768/1440pxと明暗を組み合わせ、式の種類・内容・順序、フォントの読込、MathMLの視覚的隠蔽、ページ横幅、各ブロック式の上下と左右端を検査する。DPO式では矢印キーによる左右端への到達とフォーカス表示も検査する。
+
+初回の追加監査では、Transformerの2式でアクセント記号のテキスト領域が上下0.5emの余白を超えたため、1emへ広げて全式の幾何検査を恒久試験に追加し、両ブラウザーで再検証した。
+
+ROI記事の回帰追加時に同記事の既存の強調記号露出も検出した。ROIの数式・フォント・横幅検査は維持し、本文の強調記法修正と非露出検査は依頼対象の11章に限定した。
+
+## 公開と確認の境界
+
+本記録は[PR #50](https://github.com/pero3dev/ai-agent-library/pull/50)提出時点の実装とローカル検証の記録。[記事変更台帳](../../../harness/changes/2026-09-23-llm-internals-ui.json)に体裁のみの変更分類と候補digestに対応する独立レビューを保存する。公開反映はPR、必須CI、マージ、main CI・Pages配信を照合し、公開サイトのChromium/WebKitでも数式回帰を実行する。最終の公開確認結果はタスクの完了報告に記録する。
+
+iPhone実機Safari、スクリーンリーダー実機、学術内容の再査読は未実施。ブラウザーの狭幅検査を実機受入の代替にはしない。

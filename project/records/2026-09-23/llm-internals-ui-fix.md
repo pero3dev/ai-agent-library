@@ -4,7 +4,7 @@
 
 - 目的: 11章全8記事の数式二重表示、長式による横はみ出し、強調記号の露出を解消する。
 - 依頼: UIレビュー後の「作業完了まで自律的に作業を進めてください」に基づく修正・検証・PR・通常のCIを経た公開反映と確認。
-- 所有範囲: `website/app/layout.jsx`、`website/app/docs.css`、`website/package.json`・lockfile、必要な数式表示コンポーネントと接続、`website/tests/browser/`の数式回帰試験、`docs/11-llm-internals/`の強調記法、本記録と`project/README.md`。
+- 所有範囲: `website/app/layout.jsx`、`website/app/docs.css`、`website/package.json`・lockfile、必要な数式表示コンポーネントと接続、`website/tests/browser/`の数式回帰試験、`docs/11-llm-internals/`の強調記法、`harness/changes/2026-09-23-llm-internals-ui.json`、本記録と`project/README.md`。
 - 基準: `origin/main` の `991abf209e8310f15023e9fc8da8b42e747c9b36` から `fix/llm-internals-math-ui` を作成。開始時の作業ツリーはclean。
 - 適用規約: `AGENTS.md`、`CONTRIBUTING.md`、`harness/writing-rules.md`、`harness/git-rules.md`。ROADMAPのPhase S〜Uは執筆完了済み。今回は既存記事の表示修正。
 - 検証: lockfileによる依存準備、ルート共通検査、サイト単体試験・静的ビルド、Chromium/WebKitで全8記事の数式・狭幅・明暗・スクロール操作、独立レビュー、GitHub CIと公開ブラウザー確認。
@@ -38,6 +38,6 @@ ROI記事の回帰追加時に同記事の既存の強調記号露出も検出�
 
 ## 公開と確認の境界
 
-本記録はPR提出時点の実装とローカル検証の記録。公開反映は本差分のPR、必須CI、マージ、main CI・Pages配信を照合し、公開サイトのChromium/WebKitでも数式回帰を実行する。最終のPR・公開確認結果はタスクの完了報告に記録する。
+本記録は[PR #50](https://github.com/pero3dev/ai-agent-library/pull/50)提出時点の実装とローカル検証の記録。[記事変更台帳](../../../harness/changes/2026-09-23-llm-internals-ui.json)に体裁のみの変更分類と候補digestに対応する独立レビューを保存する。公開反映はPR、必須CI、マージ、main CI・Pages配信を照合し、公開サイトのChromium/WebKitでも数式回帰を実行する。最終の公開確認結果はタスクの完了報告に記録する。
 
 iPhone実機Safari、スクリーンリーダー実機、学術内容の再査読は未実施。ブラウザーの狭幅検査を実機受入の代替にはしない。

@@ -44,7 +44,7 @@ const mdxWriter = unified()
 // 生成した MDX を「MDX として」再パースして安全性を検証するためのパーサ。
 // docs 本文はメンテナが書く前提だが、素の Markdown 中の生 HTML(<script> 等)や
 // 行頭 import/export は remark-mdx 直列化で「実行される MDX」へ昇格しうる(検証済み)。
-// そこで sync が注入する 3 コンポーネント以外の JSX / ESM / {式} / 生 HTML を拒否する。
+// そこで sync が注入する許可コンポーネント以外の JSX / ESM / {式} / 生 HTML を拒否する。
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const WEBSITE_ROOT = path.resolve(__dirname, '..')
 const REPO_ROOT = path.resolve(WEBSITE_ROOT, '..')

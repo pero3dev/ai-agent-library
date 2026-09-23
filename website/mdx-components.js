@@ -5,14 +5,17 @@ import { GlossaryTerm } from './components/mdx/glossary-term'
 import { PracticeSection } from './components/mdx/practice-section'
 import { TodoCallout } from './components/mdx/todo-callout'
 import { ArticleAudio } from './components/audio/article-audio'
+import { AttentionStep, AttentionWalkthrough } from './components/attention/attention-walkthrough'
 
 const docsComponents = getDocsMDXComponents()
 const DocsWrapper = docsComponents.wrapper
 
 // Markdown 要素 → React コンポーネントのマッピング(project/plans/engineering/website.md §5 段階 2)。
-// remark-doc-decorations(lib/)が注入する TodoCallout / PracticeSection / GlossaryTerm はここで解決される。
+// sync が注入する記事装飾・動的図のコンポーネントはここで解決される。
 export const useMDXComponents = components => ({
   ...docsComponents,
+  AttentionStep,
+  AttentionWalkthrough,
   TodoCallout,
   PracticeSection,
   GlossaryTerm,

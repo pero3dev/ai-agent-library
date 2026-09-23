@@ -11,6 +11,8 @@ const parser = unified().use(remarkParse).use(remarkGfm).use(remarkMath)
 // sync が装飾として挿入する props だけを許可する。コンポーネント名だけでは、
 // 属性式や {...spread} を経由したビルド時の JavaScript 実行を防げない。
 const attributes = {
+  AttentionWalkthrough: {},
+  AttentionStep: { step: value => ['0', '1', '2', '3', '4', '5'].includes(value) },
   TodoCallout: {},
   PracticeSection: { kind: value => ['antipattern', 'checklist'].includes(value) },
   GlossaryTerm: {

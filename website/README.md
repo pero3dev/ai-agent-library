@@ -36,6 +36,14 @@ npm ci
 | `content-src/` | 手書き上書きページ(**唯一の手編集対象**。同名は手書きが勝つ) |
 | `audio/catalog.json` | 公開済み音声と記事の版を結ぶカタログの正本。音声本体は GitHub Releases |
 
+## 本文に連動する動的図
+
+Transformer 記事の「自己注意の数式」は、`lib/attention-decoration.mjs` が元の本文・数式を
+`AttentionWalkthrough` / `AttentionStep` で囲み、`components/attention/attention-walkthrough.jsx`
+へ渡します。見出しとアンカーは維持し、`docs/` や `content-src/` に本文の複製を持ちません。
+記事の節構成が変わると sync が停止するため、本文と図の段階の対応も更新してください。
+数式の件数・順序は `tests/browser/math.spec.mjs` が正本と照合します。
+
 ## 音声学習
 
 `app/audio/` の一覧、記事の再生入口、layout 配下の共通プレイヤーで音声を再生します。カタログを同期すると、公開中の記事ハッシュとの不一致は旧版表示になり、削除・非公開の記事は一覧から除外されます。音声制作・無料ツールの準備・定期実行・実機受入は [音声の運用手順](../automation/audio/README.md)を参照してください。
@@ -50,7 +58,7 @@ npm ci
 
 - **CRLF 正規化**: 読込時に LF へ正規化(`.gitattributes` でも作業ツリーを LF に統一)
 - **未解決リンク / 読込失敗**: `sync` が `exit 1`(不完全な公開物を防ぐ)
-- **MDX ガード**: 生成 MDX を再パースし、`TodoCallout` / `PracticeSection` / `GlossaryTerm`
+- **MDX ガード**: 生成 MDX を再パースし、`TodoCallout` / `PracticeSection` / `GlossaryTerm` / `AttentionWalkthrough` / `AttentionStep`
   以外の JSX・`import`/`export`・`{式}`・生 HTML を検出したらビルドを失敗させる。
   許可コンポーネントでも属性式・spread は拒否し、挿入する文字列属性と値だけを許可する
 - **Mermaid の描画設定**: Nextra が生成する直接 import を、Turbopack / Webpack ともに

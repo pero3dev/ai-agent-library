@@ -8,6 +8,7 @@
 
 | 計画 | 状態・適用時点 | 実施記録・現行の入口 |
 | --- | --- | --- |
+| 自己注意の読書連動図解 | 2026-09-24 実装・ローカル検証・独立レビュー完了。本文と連動する図解と時間操作。公開手順と検証範囲を実施記録に記載 | [実施記録](records/2026-09-24/self-attention-reader.md) |
 | LLM 内部構造の数式表示修正 | 2026-09-23 数式・狭幅・強調表示を修正し、ローカル検証完了。公開状況はPRを参照 | [実施記録](records/2026-09-23/llm-internals-ui-fix.md)、[PR #50](https://github.com/pero3dev/ai-agent-library/pull/50) |
 | GitHub 紹介ページの改善 | 2026-09-20 README・画像の独立レビューと PR 検証済み。共有画像の登録は認証待ち | [実施記録](records/2026-09-20/github-showcase.md)、[PR #48](https://github.com/pero3dev/ai-agent-library/pull/48) |
 | Safari の音声読み込み失敗 | 2026-09-13 形式指定・再試行処理を修正。Windows と macOS WebKit の試験を通過。公開状況は [PR #45](https://github.com/pero3dev/ai-agent-library/pull/45)を参照 | [実施記録](records/2026-09-13/safari-audio-fix.md) |

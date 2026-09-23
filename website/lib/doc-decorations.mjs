@@ -10,7 +10,10 @@
  * 2. 「### アンチパターン」「### チェックリスト」直後のブロック群 → <PracticeSection kind="...">
  *    (見出し自体は外に残し、TOC とアンカーを維持する)
  * 3. GLOSSARY 登録語のページ内初出 → <GlossaryTerm href summary>(ホバーで要約)
+ * 4. Transformer の自己注意節 → <AttentionWalkthrough> / <AttentionStep>(本文・数式は保持)
  */
+
+import { wrapAttentionSection } from './attention-decoration.mjs'
 
 const jsxAttr = (name, value) => ({ type: 'mdxJsxAttribute', name, value })
 
@@ -134,6 +137,7 @@ function autolinkGlossary(node, seen, currentRoute, skip, glossary) {
  * @param options.glossary generated/glossary.json 相当の配列(名前の長い順にソート済みであること)
  */
 export function applyDecorations(tree, { route, glossary = [] }) {
+  wrapAttentionSection(tree, route)
   replaceTodos(tree)
   wrapPracticeSections(tree)
   if (glossary.length > 0 && route !== '/docs/glossary') {

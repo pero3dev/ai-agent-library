@@ -21,6 +21,13 @@ for (const source of [
   '<GlossaryTerm href="/\\external.example/probe">probe</GlossaryTerm>',
   '<GlossaryTerm href="/&#9;/external.example/probe">probe</GlossaryTerm>',
   '<PracticeSection kind="unsupported">probe</PracticeSection>',
+  '<AttentionWalkthrough onClick="callback">probe</AttentionWalkthrough>',
+  '<AttentionWalkthrough {...{step: "1"}}>probe</AttentionWalkthrough>',
+  '<AttentionStep step={1 + 1}>probe</AttentionStep>',
+  '<AttentionStep step="6">probe</AttentionStep>',
+  '<AttentionStep step="01">probe</AttentionStep>',
+  '<AttentionStep step="1" step="2">probe</AttentionStep>',
+  '<AttentionStep step="1" style="color:red">probe</AttentionStep>',
   '<script>probe</script>',
   'export const probe = 1'
 ]) {
@@ -32,6 +39,12 @@ for (const source of [
 test('MDX expressions and fragments are rejected without evaluating them', () => {
   for (const source of ['{1 + 1}', '<>{1 + 1}</>', '<GlossaryTerm href>probe</GlossaryTerm>']) {
     assert.ok(findUnsafeMdx(source).length > 0)
+  }
+})
+
+test('attention components accept only the declared literal stage values', () => {
+  for (const step of ['0', '1', '2', '3', '4', '5']) {
+    assert.deepEqual(findUnsafeMdx(`<AttentionWalkthrough><AttentionStep step="${step}">本文</AttentionStep></AttentionWalkthrough>`), [])
   }
 })
 

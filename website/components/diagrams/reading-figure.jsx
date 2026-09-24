@@ -204,7 +204,7 @@ export function ReadingFigure({ diagramId, title, eyebrow, stages, renderScene, 
         <div><div className="aw-scene-title">{stages[stage].title}</div>{stages[stage].formula && <div className="aw-formula">{stages[stage].formula}</div>}</div>
       </div>
       {renderScene({ phase, stage, id: sceneId, ready })}
-      {renderControls && <div className="rf-scene-controls">{renderControls({ ready })}</div>}
+      {renderControls && <div className="rf-scene-controls">{renderControls({ ready, phase, stage })}</div>}
       <div className="aw-detail" aria-live={playing || (expanded && !isExpanded) ? 'off' : 'polite'}>{stages[stage].detail}</div>
       <div className="aw-timeline">
         <div className="aw-stages" role="group" aria-label="図解の段階">

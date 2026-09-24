@@ -7,6 +7,9 @@ const cases = [
   { name: 'self-attention scene', marker: 'SELF-ATTENTION', path: 'llm-internals/transformer-architecture', prose: '自己注意は Transformer の心臓部です。' },
   { name: 'agent-loop scene', marker: 'AGENT LOOP / CONTROL FLOW', path: 'concepts/agent-loop', prose: 'ツール要求がないことだけでは正常完了と判定できません' },
   { name: 'workflow scene', marker: 'WORKFLOW / AGENT', path: 'architecture/workflow-vs-agent', prose: '予測可能な部分をコードに固定し' },
+  { name: 'transformer input-output scene', marker: 'TRANSFORMER / INPUT & OUTPUT', path: 'llm-internals/transformer-architecture', prose: '入力の各トークン(整数 ID)は', mathCount: 2 },
+  { name: 'transformer position scene', marker: 'TRANSFORMER / POSITION', path: 'llm-internals/transformer-architecture', prose: 'そこで位置情報を明示的に与えます', mathCount: 1 },
+  { name: 'transformer block scene', marker: 'TRANSFORMER / BLOCK & WEIGHTS', path: 'llm-internals/transformer-architecture', prose: '1 種類の「注目の仕方」しか表せません', mathCount: 7 },
   { name: 'shared reading frame', marker: 'ReadingFigure requires at least one stage', path: 'concepts/agent-loop', prose: 'ツール要求がないことだけでは正常完了と判定できません' }
 ]
 
@@ -30,7 +33,7 @@ for (const example of cases) {
     })
     const response = await page.goto(`${basePath}/docs/${example.path}`)
     expect(response.status()).toBe(200)
-    const fallback = page.locator('.reading-figure-fallback')
+    const fallback = page.locator('.reading-figure-fallback').filter({ hasText: example.prose })
     await expect(fallback).toBeVisible()
     await expect(fallback.getByRole('status')).toContainText('本文は引き続き読めます')
     await expect(fallback).toContainText(example.prose)
@@ -43,7 +46,7 @@ for (const example of cases) {
     } else if (example.path === 'architecture/workflow-vs-agent') {
       await expect(fallback.locator('table tbody tr')).toHaveCount(7)
     } else {
-      await expect(fallback.locator('.katex-display')).toHaveCount(2)
+      await expect(fallback.locator('.katex-display')).toHaveCount(example.mathCount ?? 2)
     }
   })
 }

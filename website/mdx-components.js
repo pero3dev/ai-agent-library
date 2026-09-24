@@ -7,6 +7,7 @@ import { TodoCallout } from './components/mdx/todo-callout'
 import { ArticleAudio } from './components/audio/article-audio'
 import { AttentionStep, AttentionWalkthrough, ReadingStep } from './components/diagrams/diagram-entry'
 import { ReadingWalkthrough } from './components/diagrams/concept-walkthrough'
+import { TransformerWalkthrough } from './components/diagrams/transformer-walkthrough'
 
 const docsComponents = getDocsMDXComponents()
 const DocsWrapper = docsComponents.wrapper
@@ -18,6 +19,7 @@ export const useMDXComponents = components => ({
   AttentionStep,
   AttentionWalkthrough,
   ReadingWalkthrough,
+  TransformerWalkthrough,
   ReadingStep,
   TodoCallout,
   PracticeSection,

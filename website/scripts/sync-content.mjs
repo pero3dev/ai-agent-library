@@ -12,6 +12,7 @@
  * - content/<セクション>/_meta.js  … サイドバーの並び順(セクション README の収録表の順)
  * - generated/sections.json    … セクション一覧(トップページ・セクショングリッド用)
  * - generated/glossary.json    … 用語集の構造化データ(概念カード・W4 用語ページ用)
+ * - generated/diagram-pages.json … 有効な読書図の原文順と記事目次の配置先
  */
 import { cp, mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
@@ -24,6 +25,8 @@ import remarkParse from 'remark-parse'
 import remarkStringify from 'remark-stringify'
 import { unified } from 'unified'
 import { applyDecorations } from '../lib/doc-decorations.mjs'
+import { assertDiagramPageMetadata } from '../lib/diagram-decoration.mjs'
+import { diagramRegistry } from '../lib/diagram-registry.mjs'
 import { findUnsafeMdx } from '../lib/mdx-safety.mjs'
 import { audioSourceDigest, buildAudioCatalog } from '../lib/audio-catalog.mjs'
 import { readmeArticleOrder, rewriteMarkdownRoutes } from '../lib/markdown-routes.mjs'
@@ -34,6 +37,7 @@ import { forEachLine, parseFrontMatter, parseTagsArray, toLines, unquote } from 
 // remark-math を両側に入れ、$...$ / $$...$$ を数式ノードとして扱う(本文の markdown エスケープ
 // {}・_・\ を数式内に適用させない = KaTeX へ素の LaTeX を渡す)。レンダリングは next.config の latex:true。
 const mdParser = unified().use(remarkParse).use(remarkGfm).use(remarkMath).use(remarkFrontmatter, ['yaml'])
+const mdxParser = mdParser().use(remarkMdx)
 const mdxWriter = unified()
   .use(remarkStringify, { bullet: '-', emphasis: '*', rule: '-' })
   .use(remarkGfm)
@@ -297,6 +301,8 @@ async function main() {
   const titles = new Map() // repoRel -> title
   const readmeTexts = new Map() // sectionSlug -> README 原文
   const articleMeta = [] // タグ別一覧用 { title, route, level, tags }
+  const diagramRoutes = new Set(diagramRegistry.diagrams.map(entry => entry.route))
+  const diagramPageExpectations = []
   let count = 0
   for (const file of activeFiles) {
     const text = texts.get(file.repoRel)
@@ -321,12 +327,14 @@ async function main() {
     // 図解の本文版は元のリンク先を含むASTで検査する。装飾後も元のリンク
     // ノードを保持するため、再帰的なルート書換を後段で適用できる。
     const tree = mdParser.parse(out)
-    applyDecorations(tree, { route: routeMap.get(file.repoRel), glossary: glossaryForLinks })
+    const route = routeMap.get(file.repoRel)
+    const diagramPage = applyDecorations(tree, { route, glossary: glossaryForLinks })
     errors.push(...rewriteMarkdownRoutes(tree, file.repoRel, routeMap))
     out = String(mdxWriter.stringify(tree))
     assertSafeMdx(out, file.repoRel) // C3: 許可外の JSX / ESM / {式} / 生 HTML を拒否
 
     const outPath = path.join(OUT_DIR, file.outRel.replace(/\.md$/, '.mdx'))
+    if (diagramRoutes.has(route)) diagramPageExpectations.push({ route, outPath, metadata: diagramPage })
     await mkdir(path.dirname(outPath), { recursive: true })
     await writeFile(outPath, out, 'utf8')
     count++
@@ -393,6 +401,17 @@ async function main() {
 
   // 手書きページ(content-src/)を最後に重ねる(同名は手書きが勝つ)
   await cp(CONTENT_SRC, OUT_DIR, { recursive: true, force: true })
+
+  // An override must not leave navigation pointing to a disabled/absent figure.
+  // Derive order from the source plans, then verify the actual final MDX before
+  // publishing this server-rendered placement map. Never use registry order.
+  const diagramPages = {}
+  for (const { route, outPath, metadata } of diagramPageExpectations) {
+    const finalTree = mdxParser.parse(await readFile(outPath, 'utf8'))
+    assertDiagramPageMetadata(finalTree, metadata)
+    if (metadata.firstDiagramId !== null) diagramPages[route] = metadata
+  }
+  await writeFile(path.join(GEN_DIR, 'diagram-pages.json'), JSON.stringify(diagramPages, null, 2), 'utf8')
 
   // generated/routes.json(C5: postbuild のルート網羅チェックが照合する期待ルート一覧)
   const routes = (await collectContentRoutes(OUT_DIR)).sort()

@@ -7,13 +7,15 @@ const BINDINGS = {
   'self-attention': {
     article: 'docs/11-llm-internals/transformer-architecture.md',
     route: '/docs/llm-internals/transformer-architecture',
-    binding: 'attention-section', stageCount: 6, sectionCount: 1,
+    binding: 'attention-section', stageCount: 6,
+    headings: ['自己注意の数式'],
     sourceHeadings: ['自己注意の数式']
   },
   'agent-loop': {
     article: 'docs/01-concepts/agent-loop.md',
     route: '/docs/concepts/agent-loop',
-    binding: 'ordered-steps', stageCount: 5, sectionCount: 1,
+    binding: 'ordered-steps', stageCount: 5,
+    headings: ['詳細: 1 イテレーションの分解'],
     sourceHeadings: [
       '詳細: 1 イテレーションの分解',
       '詳細: 停止条件は「正常完了」以外に必ず用意する',
@@ -24,11 +26,59 @@ const BINDINGS = {
   'workflow-comparison': {
     article: 'docs/02-architecture/workflow-vs-agent.md',
     route: '/docs/architecture/workflow-vs-agent',
-    binding: 'consecutive-sections', stageCount: 5, sectionCount: 5,
+    binding: 'consecutive-sections', stageCount: 5,
+    headings: [
+      '概要: 原則は「同じ品質なら、自律性の低い方」',
+      '詳細: トレードオフの全体像', '詳細: 判断フロー',
+      '詳細: ハイブリッドという現実解', '設計判断: 段階的な移行を前提にする'
+    ],
     sourceHeadings: [
       '概要: 原則は「同じ品質なら、自律性の低い方」',
       '詳細: トレードオフの全体像', '詳細: 判断フロー',
       '詳細: ハイブリッドという現実解', '設計判断: 段階的な移行を前提にする'
+    ]
+  },
+  'transformer-io': {
+    article: 'docs/11-llm-internals/transformer-architecture.md',
+    route: '/docs/llm-internals/transformer-architecture',
+    binding: 'grouped-blocks', stageCount: 4,
+    headings: ['概要: デコーダ専用 Transformer の全体像', '埋め込みと出力ヘッド'],
+    sourceHeadings: ['概要: デコーダ専用 Transformer の全体像', '埋め込みと出力ヘッド'],
+    blockGroups: [[{ stage: 0, count: 4 }], [{ stage: 1, count: 3 }, { stage: 2, count: 2 }, { stage: 3, count: 1 }]],
+    blockTypes: [
+      ['paragraph', 'code', 'paragraph', 'paragraph'],
+      ['paragraph', 'math', 'paragraph', 'paragraph', 'math', 'paragraph']
+    ]
+  },
+  'transformer-position': {
+    article: 'docs/11-llm-internals/transformer-architecture.md',
+    route: '/docs/llm-internals/transformer-architecture',
+    binding: 'grouped-blocks', stageCount: 4,
+    headings: ['位置符号化: 順序をどう入れるか'],
+    sourceHeadings: ['位置符号化: 順序をどう入れるか', '自己注意の数式'],
+    blockGroups: [[{ stage: 0, count: 2 }, { stage: 2, count: 1 }, { stage: 3, count: 2 }]],
+    blockTypes: [['paragraph', 'list', 'paragraph', 'math', 'paragraph']]
+  },
+  'transformer-block': {
+    article: 'docs/11-llm-internals/transformer-architecture.md',
+    route: '/docs/llm-internals/transformer-architecture',
+    binding: 'grouped-blocks', stageCount: 9,
+    headings: ['多頭注意', 'FFN と残差ストリーム', '正規化と学習安定性', 'パラメータの内訳'],
+    sourceHeadings: [
+      '概要: デコーダ専用 Transformer の全体像', '埋め込みと出力ヘッド', '自己注意の数式',
+      '多頭注意', 'FFN と残差ストリーム', '正規化と学習安定性', 'パラメータの内訳'
+    ],
+    blockGroups: [
+      [{ stage: 0, count: 3 }, { stage: 1, count: 3 }],
+      [{ stage: 2, count: 3 }, { stage: 3, count: 2 }, { stage: 4, count: 3 }],
+      [{ stage: 5, count: 3 }, { stage: 6, count: 1 }],
+      [{ stage: 7, count: 3 }, { stage: 8, count: 4 }]
+    ],
+    blockTypes: [
+      ['paragraph', 'math', 'paragraph', 'math', 'paragraph', 'paragraph'],
+      ['paragraph', 'math', 'paragraph', 'math', 'paragraph', 'paragraph', 'math', 'paragraph'],
+      ['paragraph', 'math', 'paragraph', 'paragraph'],
+      ['paragraph', 'list', 'paragraph', 'math', 'paragraph', 'paragraph', 'list']
     ]
   }
 }
@@ -37,31 +87,38 @@ const digestPattern = /^sha256:[a-f0-9]{64}$/
 const exactKeys = (object, keys) => object && typeof object === 'object' && !Array.isArray(object)
   && Object.keys(object).length === keys.length && keys.every(key => Object.hasOwn(object, key))
 
+function matchesBlockGroups(actual, expected) {
+  return Array.isArray(actual) && actual.length === expected.length
+    && actual.every((groups, section) => Array.isArray(groups) && groups.length === expected[section].length
+      && groups.every((group, index) => exactKeys(group, ['stage', 'count'])
+        && group.stage === expected[section][index].stage && group.count === expected[section][index].count))
+}
+
 export function validateDiagramRegistry(registry) {
   if (!exactKeys(registry, ['schemaVersion', 'diagrams']) || registry.schemaVersion !== 1 || !Array.isArray(registry.diagrams)) {
     throw new Error('動的図 registry: schemaVersion 1 と diagrams が必要です。')
   }
   const seen = new Set()
   for (const entry of registry.diagrams) {
-    const expected = BINDINGS[entry?.id]
-    if (!exactKeys(entry, ENTRY_KEYS) || !expected || seen.has(entry.id)
+    const expected = Object.hasOwn(BINDINGS, entry?.id) ? BINDINGS[entry.id] : null
+    const keys = expected?.binding === 'grouped-blocks' ? [...ENTRY_KEYS, 'blockGroups'] : ENTRY_KEYS
+    if (!exactKeys(entry, keys) || !expected || seen.has(entry.id)
       || ['article', 'route', 'binding', 'stageCount'].some(key => entry[key] !== expected[key])
-      || !Array.isArray(entry.headings) || entry.headings.length !== expected.sectionCount
-      || entry.headings.some(heading => typeof heading !== 'string' || !heading.trim())
-      || new Set(entry.headings).size !== entry.headings.length
+      || JSON.stringify(entry.headings) !== JSON.stringify(expected.headings)
       || JSON.stringify(entry.sourceHeadings) !== JSON.stringify(expected.sourceHeadings)
-      || JSON.stringify(entry.headings) !== JSON.stringify(expected.sourceHeadings.slice(0, expected.sectionCount))
+      || (expected.blockGroups && !matchesBlockGroups(entry.blockGroups, expected.blockGroups))
       || !digestPattern.test(entry.sourceDigest)
       || !(entry.reviewedDigest === null || digestPattern.test(entry.reviewedDigest))
       || typeof entry.enabled !== 'boolean'
-      || !['registered', 'implemented', 'reviewed'].includes(entry.status)
+      || !['draft', 'registered', 'implemented', 'reviewed'].includes(entry.status)
       || entry.articleCoverage !== 'pending'
+      || (entry.status === 'draft' && (entry.enabled || entry.reviewedDigest !== null))
       || (entry.status === 'reviewed' && entry.reviewedDigest !== entry.sourceDigest)) {
       throw new Error(`動的図 registry: 不正な登録または未許可の binding (${entry?.id ?? '?'})`)
     }
     seen.add(entry.id)
   }
-  if (seen.size !== Object.keys(BINDINGS).length) throw new Error('動的図 registry: P0 の3件を登録してください。')
+  if (seen.size !== Object.keys(BINDINGS).length) throw new Error('動的図 registry: コードで定義されたすべての ID を登録してください。')
   return registry
 }
 
@@ -135,5 +192,15 @@ export function assertDiagramSource(tree, entry) {
   if (entry.sourceDigest !== actual || entry.reviewedDigest !== actual || entry.status !== 'reviewed') {
     throw new Error(`${entry.route}: 動的図 ${entry.id} の本文版とレビュー版が一致しません。本文・図解の対応をレビューしてください。actual=${actual}`)
   }
-  return selectDiagramSections(tree, entry)
+  const sections = selectDiagramSections(tree, entry)
+  if (entry.binding === 'grouped-blocks') {
+    const expected = BINDINGS[entry.id]
+    for (const [index, section] of sections.entries()) {
+      if (JSON.stringify(section.body.map(node => node.type)) !== JSON.stringify(expected.blockTypes[index])
+        || entry.blockGroups[index].reduce((sum, group) => sum + group.count, 0) !== section.body.length) {
+        throw new Error(`${entry.route}: 動的図 ${entry.id} の本文ブロック構成が変わりました。`)
+      }
+    }
+  }
+  return sections
 }

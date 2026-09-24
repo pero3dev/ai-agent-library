@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "articles": [
+    {
+      "article": "docs/11-llm-internals/transformer-architecture.md",
+      "primaryDiagramIds": ["transformer-io", "transformer-position", "self-attention", "transformer-block"],
+      "sections": [
+        {
+          "heading": "概要: デコーダ専用 Transformer の全体像",
+          "topics": [
+            {"id": "decoder-flow", "label": "埋め込みからブロック反復・最終正規化を経て次トークン分布へ", "diagramId": "transformer-io", "stages": [0]},
+            {"id": "overview-and-notation", "label": "全体構造と記号の定義", "staticReason": "既存Mermaidと直後の記号定義を保持する。別の全体図や定義の説明を増やさない。"}
+          ]
+        },
+        {
+          "heading": "埋め込みと出力ヘッド",
+          "topics": [
+            {"id": "embedding-lookup", "label": "IDで埋め込み行列の行を取得する", "diagramId": "transformer-io", "stages": [1]},
+            {"id": "output-projection", "label": "最終ベクトルを語彙ロジットへ射影する", "diagramId": "transformer-io", "stages": [2]},
+            {"id": "weight-tying", "label": "入力と出力の重みを転置関係で共有する", "diagramId": "transformer-io", "stages": [3]},
+            {"id": "learning-and-softmax", "label": "学習される埋め込み・softmax・共有の効果", "staticReason": "既存の式と読み下しを保持する。学習過程やsoftmaxの導出、架空の性能比較を追加しない。"}
+          ]
+        },
+        {
+          "heading": "位置符号化: 順序をどう入れるか",
+          "topics": [
+            {"id": "absolute-position", "label": "絶対位置の作用箇所", "diagramId": "transformer-position", "stages": [0]},
+            {"id": "relative-position", "label": "相対位置の作用箇所", "diagramId": "transformer-position", "stages": [1]},
+            {"id": "rope-rotation", "label": "射影後Q/Kの2次元ペアの回転", "diagramId": "transformer-position", "stages": [2]},
+            {"id": "relative-offset", "label": "内容を固定した位置差と内積の対応", "diagramId": "transformer-position", "stages": [3]},
+            {"id": "extrapolation-limits", "label": "採用傾向と外挿の限界", "staticReason": "本文の留保と注意変種の記事へのリンクを保持する。対応長や品質曲線は創作しない。"}
+          ]
+        },
+        {
+          "heading": "自己注意の数式",
+          "topics": [
+            {"id": "qkv-projection", "label": "入力表現からQ/K/Vを作る", "diagramId": "self-attention", "stages": [0, 1]},
+            {"id": "scaled-scores", "label": "内積と平方根によるスケーリング", "diagramId": "self-attention", "stages": [2]},
+            {"id": "causal-mask", "label": "未来の位置を因果マスクで除く", "diagramId": "self-attention", "stages": [3]},
+            {"id": "row-softmax", "label": "行ごとの重みの合計を1にする", "diagramId": "self-attention", "stages": [4]},
+            {"id": "weighted-values", "label": "重みによるVの混合", "diagramId": "self-attention", "stages": [5]},
+            {"id": "quadratic-shape", "label": "n×nの注意スコアと系列長の二乗", "diagramId": "self-attention", "stages": [2]}
+          ]
+        },
+        {
+          "heading": "多頭注意",
+          "topics": [
+            {"id": "head-projections", "label": "全幅の入力から各ヘッドへ専用射影する", "diagramId": "transformer-block", "stages": [0]},
+            {"id": "concatenation-projection", "label": "ヘッド出力を連結して出力射影へ渡す", "diagramId": "transformer-block", "stages": [1]},
+            {"id": "head-roles-and-variants", "label": "ヘッドの役割とMQA/GQAへの接続", "staticReason": "既存の説明と別記事へのリンクを保持する。各ヘッドの意味を固定した規則として描かない。"}
+          ]
+        },
+        {
+          "heading": "FFN と残差ストリーム",
+          "topics": [
+            {"id": "positionwise-ffn", "label": "位置ごとに独立した基本FFN", "diagramId": "transformer-block", "stages": [2]},
+            {"id": "swiglu", "label": "SwiGLUの2枝・要素積・出力射影", "diagramId": "transformer-block", "stages": [3]},
+            {"id": "residual-addition", "label": "元の流れへ副層の結果を加算する", "diagramId": "transformer-block", "stages": [4]},
+            {"id": "gradient-path", "label": "勾配経路とゲート付きFFNの効果", "staticReason": "本文の学習上の説明を保持する。推論の動きで学習の効果や品質差を実証した扱いにしない。"}
+          ]
+        },
+        {
+          "heading": "正規化と学習安定性",
+          "topics": [
+            {"id": "rmsnorm", "label": "RMS・除算・成分ごとの再スケール", "diagramId": "transformer-block", "stages": [5]},
+            {"id": "pre-post", "label": "副層前と残差加算後の正規化配置", "diagramId": "transformer-block", "stages": [6]},
+            {"id": "norm-stability", "label": "LayerNormとの違い・安定性・軽さ", "staticReason": "既存の定性的な説明を保持する。LayerNormの詳細計算や架空の速度・品質比較は追加しない。"}
+          ]
+        },
+        {
+          "heading": "パラメータの内訳",
+          "topics": [
+            {"id": "layer-count", "label": "注意の4d²と基本FFNの8d²", "diagramId": "transformer-block", "stages": [7]},
+            {"id": "model-count", "label": "L層と埋め込み・出力ヘッドの計数", "diagramId": "transformer-block", "stages": [8]},
+            {"id": "estimate-limits", "label": "幅・深さ・語彙の含意と概算の限界", "staticReason": "本文の実務的含意、モデル固有の補正、厳密値の確認方法を保持する。概算を性能や実測値へ置き換えない。"}
+          ]
+        },
+        {
+          "heading": "この理解が効く場面",
+          "topics": [
+            {"id": "practical-uses", "label": "モデルカード・長文コスト・KV・解釈可能性への応用", "staticReason": "既出の機構を実務判断へつなぐ一覧とリンクを保持する。KVの式など別記事の内容を重複して追加しない。"}
+          ]
+        },
+        {
+          "heading": "アンチパターン",
+          "topics": [
+            {"id": "pitfalls", "label": "総数だけの判断・長文・位置方式・式の暗記・概算の誤用", "staticReason": "各図の適用条件と注意点を既存の箇条書きで確認できる。追加の動的図や本文は不要。"}
+          ]
+        },
+        {
+          "heading": "チェックリスト",
+          "topics": [
+            {"id": "understanding-check", "label": "全体経路・注意・多頭・残差・正規化・概算の理解確認", "staticReason": "既存の理解確認項目を保持する。回答や採点の機能を追加せず本文と図へ戻って確認する。"}
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+.tf-position-scene .tpos-operator { fill: #e3f0f6; font-size: 31px; font-weight: 350; }
+.tf-position-scene :is(.tpos-absolute, .tpos-relative, .tpos-rotation-nodes) { opacity: .24; transition: opacity .26s ease; }
+.tf-position-scene :is(.tpos-absolute, .tpos-relative, .tpos-rotation-nodes)[data-active="true"] { opacity: 1; }
+.tf-position-scene .tpos-detail { animation: tpos-reveal .26s ease-out; }
+.tf-position-scene .tpos-rotor { transform: rotate(var(--tpos-end)); transform-origin: 0 0; animation: tpos-turn .48s cubic-bezier(.22,.61,.36,1) both; }
+@keyframes tpos-reveal { from { opacity: .5; } to { opacity: 1; } }
+@keyframes tpos-turn { from { transform: rotate(var(--tpos-start)); } to { transform: rotate(var(--tpos-end)); } }
+@media (prefers-reduced-motion: reduce) {
+  .tf-position-scene :is(.tpos-absolute, .tpos-relative, .tpos-rotation-nodes) { transition: none; }
+  .tf-position-scene :is(.tpos-detail, .tpos-rotor) { animation: none; }
+}
+@media print { .tf-position-scene :is(.tpos-detail, .tpos-rotor) { animation: none; } }

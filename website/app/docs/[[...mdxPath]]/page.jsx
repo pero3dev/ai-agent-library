@@ -1,8 +1,8 @@
 import { generateStaticParamsFor, importPage } from 'nextra/pages'
 import { useMDXComponents as getMDXComponents } from '../../../mdx-components'
 import { ReadingArticleNavigationProvider } from '../../../components/diagrams/reading-article-navigation'
-// sync-content validates the registry before Next compiles this server page.
-import diagramRegistry from '../../../diagrams/registry.json'
+// Derived from validated, enabled wrappers in original article order by sync.
+import diagramPages from '../../../generated/diagram-pages.json'
 
 export const generateStaticParams = generateStaticParamsFor('mdxPath')
 
@@ -24,11 +24,11 @@ export default async function Page(props) {
   const params = await props.params
   const { default: MDXContent, toc, metadata, sourceCode } = await importPage(params.mdxPath)
   const route = `/docs/${(params.mdxPath ?? []).join('/')}`
-  const firstDiagram = diagramRegistry.diagrams.find(entry => entry.enabled && entry.route === route)
+  const firstDiagramId = diagramPages[route]?.firstDiagramId
   const content = <MDXContent {...props} params={params} />
   return (
     <Wrapper toc={toc} metadata={metadata} sourceCode={sourceCode}>
-      {firstDiagram ? <ReadingArticleNavigationProvider firstDiagramId={firstDiagram.id} items={toc
+      {firstDiagramId ? <ReadingArticleNavigationProvider firstDiagramId={firstDiagramId} items={toc
         .filter(item => item.depth === 2 || item.depth === 3)
         .map(item => ({ id: item.id, label: headingText(item.value), depth: item.depth }))}>
         {content}

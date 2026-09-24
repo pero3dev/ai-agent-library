@@ -8,13 +8,20 @@ import { unified } from 'unified'
 const parser = unified().use(remarkParse).use(remarkGfm).use(remarkMath)
   .use(remarkFrontmatter, ['yaml']).use(remarkMdx)
 
+const readingStages = {
+  'agent-loop': 5, 'workflow-comparison': 5,
+  'transformer-io': 4, 'transformer-position': 4, 'transformer-block': 9
+}
+const walkthroughs = new Set(['AttentionWalkthrough', 'ReadingWalkthrough', 'TransformerWalkthrough'])
+
 // sync が装飾として挿入する props だけを許可する。コンポーネント名だけでは、
 // 属性式や {...spread} を経由したビルド時の JavaScript 実行を防げない。
 const attributes = {
   AttentionWalkthrough: {},
   AttentionStep: { step: value => ['0', '1', '2', '3', '4', '5'].includes(value) },
   ReadingWalkthrough: { diagramId: value => ['agent-loop', 'workflow-comparison'].includes(value) },
-  ReadingStep: { step: value => ['0', '1', '2', '3', '4'].includes(value) },
+  TransformerWalkthrough: { diagramId: value => ['transformer-io', 'transformer-position', 'transformer-block'].includes(value) },
+  ReadingStep: { step: value => /^[0-8]$/.test(value) },
   TodoCallout: {},
   PracticeSection: { kind: value => ['antipattern', 'checklist'].includes(value) },
   GlossaryTerm: {
@@ -32,7 +39,8 @@ export function findUnsafeMdx(mdx) {
     return [`生成 MDX の再パースに失敗(${error.message})`]
   }
   const bad = new Set()
-  const walk = node => {
+  const walk = (node, parentFigure = null) => {
+    let figure = parentFigure
     switch (node.type) {
       case 'html': bad.add('生 HTML'); break
       case 'mdxjsEsm': bad.add('import/export (ESM)'); break
@@ -56,12 +64,24 @@ export function findUnsafeMdx(mdx) {
           if (seen.has(attribute.name)) bad.add(`重複した JSX 属性 (${attribute.name})`)
           seen.add(attribute.name)
         }
-        const required = { ReadingWalkthrough: 'diagramId', ReadingStep: 'step' }[node.name]
+        const required = { ReadingWalkthrough: 'diagramId', TransformerWalkthrough: 'diagramId', ReadingStep: 'step', AttentionStep: 'step' }[node.name]
         if (required && !seen.has(required)) bad.add(`必須の JSX 属性がありません (${node.name}.${required})`)
+        if (walkthroughs.has(node.name)) {
+          if (parentFigure) bad.add('図解コンポーネントの入れ子')
+          const id = node.attributes?.find(attribute => attribute.name === 'diagramId')?.value
+          figure = { name: node.name, stageCount: node.name === 'AttentionWalkthrough' ? 6 : readingStages[id] }
+        }
+        if (['ReadingStep', 'AttentionStep'].includes(node.name)) {
+          const value = node.attributes?.find(attribute => attribute.name === 'step')?.value
+          const expectedStep = parentFigure?.name === 'AttentionWalkthrough' ? 'AttentionStep' : 'ReadingStep'
+          if (!parentFigure || node.name !== expectedStep || !(Number(value) < parentFigure.stageCount)) {
+            bad.add(`図解と段階の対応が不正です (${node.name}.step)`)
+          }
+        }
         break
       }
     }
-    for (const child of node.children ?? []) walk(child)
+    for (const child of node.children ?? []) walk(child, figure)
   }
   walk(tree)
   return [...bad]

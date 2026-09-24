@@ -137,10 +137,11 @@ function autolinkGlossary(node, seen, currentRoute, skip, glossary) {
  * @param options.glossary generated/glossary.json 相当の配列(名前の長い順にソート済みであること)
  */
 export function applyDecorations(tree, { route, glossary = [], registry }) {
-  wrapRegisteredDiagrams(tree, route, registry)
+  const diagrams = wrapRegisteredDiagrams(tree, route, registry)
   replaceTodos(tree)
   wrapPracticeSections(tree)
   if (glossary.length > 0 && route !== '/docs/glossary') {
     autolinkGlossary(tree, new Set(), route, false, glossary)
   }
+  return diagrams
 }

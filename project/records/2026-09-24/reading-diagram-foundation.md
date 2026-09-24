@@ -1,6 +1,6 @@
 # P0 — 読書図解の共通基盤と基準作
 
-開始日: 2026-09-24。状態: **PRで検出した表示通知の修正・再検証中**。
+開始日: 2026-09-24。状態: **P0公開受入完了（2026-09-24 04:22 JST）**。途中の検証記録は履歴として保持し、最終結果を末尾に追記する。
 
 ## 作業と分担
 
@@ -156,3 +156,90 @@ Mermaidは一度でも交差した通知があれば読み込みを開始し、�
 BUILD_ID `b4D9OrIx54Q5rylkZZkI-`。サイト単体126件と再ビルド（223ルート）が成功した。制御した通知バッチの新規3件は、修正前ビルドで全件が対応する不具合によって失敗し、修正後は全件成功。元のMermaid検査を実ネイティブ通知・スクロールのまま20回繰り返し、20件成功（52.4秒）した。制御試験とネイティブ試験を別の証拠として扱う。
 
 製品2箇所と新規回帰試験の独立レビューは `approved / low risk`、必須修正なし。修正前の回帰証拠はTEMPの `p0-intersection-before-20260924`、修正後のログは `p0-io-batches-green.log` と `p0-mermaid-native-repeat.log` に保持する。全体回帰・再測定・実GitHub・公開確認は継続中。上段の旧BUILD_IDの測定結果を、この候補の測定済み結果として読み替えない。
+
+### P0最終候補のローカル受入結果
+
+対象はIO修正後の `build-io`。Next.js BUILD_IDは `b4D9OrIx54Q5rylkZZkI-`。以下の性能・資産・表示の数値は、このビルドから再採取した結果である。旧 `build-ssr` 等の測定値を流用していない。監査開始時と終了時でBUILD_IDと4ページのHTML SHA-256が一致した。
+
+| 静的HTML（`website/out/` からの相対パス） | SHA-256 |
+| --- | --- |
+| `docs/llm-internals/transformer-architecture.html` | `e8234e8923b4466fe7582f68c094714bd97354c45ba2444ddb44cd255854ab34` |
+| `docs/concepts/agent-loop.html` | `e880ba54d8c74950b4049fa7f504a989472cbf7ed2001240759aaa770d9fc574` |
+| `docs/architecture/workflow-vs-agent.html` | `e0ee40642b21cacdc612966f08265f1e41f44bc09e524fb7cd379423ce76d2b3` |
+| `docs/llm-internals/attention-variants-and-long-context.html`（図なし対照） | `ed53f243eb6220006419735e8e8f53ad7499fb478c722b7cd197bbeb13e8e170` |
+
+主担当による最終回帰と、別ポートでの追加監査を分けて記録する。
+
+| 検証 | 結果 |
+| --- | --- |
+| サイト単体・静的ビルド | 単体126件成功。静的ビルドと223公開ルートの確認成功 |
+| Windows同梱Chromiumの全ブラウザー回帰 | 166件中161成功・5 skip、3.4分。skipは専用音声fixture用で成功数に含めない |
+| IOの追加制御回帰 | 修正後3件成功。旧出力では同じ3件が失敗し、回帰を検出できることを確認 |
+| Mermaidのnative時計による再現確認 | 20/20成功、52.4秒 |
+| Edgeの追加表示監査 | 1440×900・1280×720の3図、6画面条件・全32段階で二列表示、ページ横あふれなし、操作部は図枠内、縮小モーション時の切替は即時 |
+| 無操作の冷起動CLS | 3図の記事と図なし対照記事の4ページすべて0。scrollYとスクロールイベント数もすべて0 |
+| 実時間再生・画面外停止 | 3図とも5.5秒でphaseが1.22〜1.23進み、画面外で停止。pageerrorなし |
+| JavaScript無効 | 3図とも本文・静止図・段階一覧・記事内目次を使用可能。native detailsが開き、動的操作は無効 |
+| 証拠と終了処理 | 最終PNG4枚を保存。監査サーバー4205を終了し、接続拒否を確認 |
+
+1280×720では図の固定表示を解除する。下部の再生操作は初期viewportより下にあるが、通常スクロールで到達する。
+
+段階ボタンの応答と、別区間で測った実時間再生を混同しない。応答は「段階ボタンクリックをhandler前に捕捉してから、最初のrange値変更まで」をrAFで観測した値である。明示的なpauseボタンの検証は主担当のブラウザー回帰側に含み、この追加監査の停止確認は画面外停止である。
+
+| 図 | 段階ボタン応答 | 再生中rAF間隔P95 / 最大 | 5.5秒のphase |
+| --- | --- | --- | --- |
+| 自己注意 | 17.2 ms | 7.0 / 14.0 ms | 0.01 → 1.23 |
+| Agentループ | 9.3 ms | 7.0 / 7.1 ms | 0.00 → 1.23 |
+| Workflow比較 | 12.2 ms | 7.0 / 7.1 ms | 0.00 → 1.22 |
+
+### 資産配信と容量の上限
+
+実際に取得したJS応答本文をNode.js `gzipSync` の既定設定で圧縮した。ローカルサーバーは非圧縮配信であり、実HTTP転送量ではない。関係のないコードも含むchunk全体による保守的な上限で、図解moduleの純増分やサイト全体のJS総量ではない。共通描画部は各scene側のchunkに含まれるため、軽量入口を含む共通chunkと分ける。
+
+| 配信単位 | chunk名 | 応答本文 | gzip相当 |
+| --- | --- | --- | --- |
+| 共通入口を含むchunk | `2c6k8q092mldr.js` | 59,509 B | 21,129 B |
+| 自己注意scene・共通描画部 | `43trsqkc-pkws.js` | 20,417 B | 7,656 B |
+| Agentループscene・共通描画部 | `417umj07mddtc.js` | 21,383 B | 7,904 B |
+| Workflow比較scene・共通描画部 | `3rjx8tso82ak2.js` | 24,014 B | 8,487 B |
+
+共通入口と当該scene側の合計上限は、自己注意28,785 B、Agentループ29,033 B、Workflow比較29,616 B。図なし対照記事への重いscene・共通描画部chunk配信は0で、各図の記事では当該図のchunkのみを取得した。
+
+### 追加監査の測定条件と既知の記録
+
+- Windows、Node.js `v24.16.0`、Playwright Chromiumの `msedge` channel、Edge `153.0.4234.48`、headless、deviceScaleFactor 1。静的HTTPのloopback通信、CPU・通信の制限なし。主担当の4183回帰と並行しており、専用機の厳密な性能比較ではない。
+- CLSはページごとに新規contextを作り、1440×900・light・縮小モーションありで `load` → `document.fonts.ready` → 実時間5秒を待つ。クリック・プログラムスクロールをせず、直近入力を除いたlayout-shiftについて、間隔1秒以内・全長5秒以内のsession windowの最大合計を採る。
+- 表示採取はlight・縮小モーションあり。フォントと既存Mermaidの `svg .nodes` を待ち、対象位置へ移動後2回のrAFを待つ。6画面・32段階を検査し、代表PNG4枚を保存した。明暗・1920幅の旧測定を、この最終追加監査に含めない。
+- 再生は1440×900・縮小モーションなし。native `performance.now` とrAFを使い、仮想時計を導入せず5,500 ms測定する。最初のrAF間隔を除いたP95・最大値と、phaseの進行・pageerror・画面外停止を確認した。rAF間隔はGPU描画完了時間ではない。
+- noJSは1440×900・`javaScriptEnabled: false`。目次・本文・静止段階・native detailsを確認した。Windows上のブラウザー検証であり、物理iPhone Safariは未検証。
+- 予期しないconsoleエラー0、捕捉したHTTP 4xx/5xx応答0、不存在preload JavaScript 0。既知のローカル `/favicon.ico` 404はconsole記録1件として別計上した。
+- `requestfailed` はHTTP応答と別に記録した。ページ遷移・context終了に伴うfetchの `net::ERR_ABORTED` 111件と、noJSの3contextでscript preloadの `csp` 3件を含む。これらを「全通信エラーなし」と言い換えない。
+
+証拠の保存先は `C:\Users\81906\AppData\Local\Temp\codex-reading-figure-audit-20260924-023701\build-io`。`audit-build-ssr.mjs` が再現用スクリプト（ファイル名は元のまま）、`audit-chromium.json` が測定全文、`summary.json` が集計、`summarize-audit.mjs` が集計処理、PNG4枚が画面証拠である。再測定時はスクリプトを別の一時ディレクトリへコピーし、既存証拠を上書きしない。
+
+```powershell
+$env:AUDIT_REPO = 'C:\dev\ai-agent-library'
+$env:NEXT_PUBLIC_BASE_PATH = '/ai-agent-library'
+$env:AUDIT_BROWSER = 'chromium'
+$env:PLAYWRIGHT_CHANNEL = 'msedge'
+node '<新しい一時ディレクトリ>\audit-build-ssr.mjs'
+```
+
+Windows WebKitの対象42件も成功（3.3分）。ローカル結果とGitHub・公開結果は次節で区別する。
+
+## P0のGitHub・公開受入
+
+[PR #52](https://github.com/pero3dev/ai-agent-library/pull/52)の全CIと独立レビューを確認し、2026-09-24 04:13 JSTにsquashマージした。マージSHAは `584a379ccd56f19cc4c31162288f30880be7bb67`。取得した実commitの件名・本文・Agent/Co-authored-byが事前に検証したpayloadと一致し、形式の再検査も成功した。
+
+[main CI run 35907828294](https://github.com/pero3dev/ai-agent-library/actions/runs/35907828294)と[Pages deploy job 107341735771](https://github.com/pero3dev/ai-agent-library/actions/runs/35907828294/job/107341735771)は成功。当該SHAに対するdeployment `6622403841` と公開先を実GitHub APIで取得した。
+
+公開サイトの検証は2026-09-24 04:21:45〜04:22:36 JSTにEdge `153.0.4234.48`で実施し、11件すべて成功した。対象は[自己注意](https://pero3dev.github.io/ai-agent-library/docs/llm-internals/transformer-architecture)、[Agentループ](https://pero3dev.github.io/ai-agent-library/docs/concepts/agent-loop)、[Workflow比較](https://pero3dev.github.io/ai-agent-library/docs/architecture/workflow-vs-agent)、図なしの注意変種記事。
+
+- 明暗テーマ・1440幅・1280×720で、表示と操作を確認。横あふれ0、低い画面では固定を解除し操作へ通常スクロールで到達できた。
+- 3図の実時間再生が進み、停止後に位置が変わらないことを確認。JavaScript無効の3記事でも本文・数式・リスト・表・SVGと静止表示を保持した。
+- 公開HTMLが参照するJS/CSS/preloadの実URL34件はすべてHTTP 200、非空、適切なMIMEだった。ブラウザーエラー・request failureは0。図なし記事の重いscene/frame配信は0。
+- 代表画像4枚を保存し、公開画面を目視確認した。初回の監査器はPlaywrightがnoscriptをテキスト照合から除外するため3件失敗した。DOMのtextContentと子pの可視性を検証するよう監査器を直し、全件を再実行した。製品コードは変更していない。
+
+証拠はローカルTEMPの `ai-agent-library-p0-public/deployment-evidence.json` と `public-2026-09-23T19-21-45-260Z/result.json`・PNG4枚。初回の検査器失敗も `public-2026-09-23T19-19-27-240Z` に保持する。SHAとの対応はGitHub API、公開内容と資産は公開URLのブラウザー・HTTPという別の証拠で確認した。
+
+P0のDD-00〜DD-05を受入完了とする。制作開始02:17から公開確認04:22まで約2時間5分の作業窓で、待機・並列作業を含み、人時や図1本の制作速度を意味しない。物理iPhone Safari・スクリーンリーダー実機・本人の学習評価は未実施。新基準での記事全体完了は0件のままで、制作済み3図を3記事完了とは数えない。次は[Transformer1記事の制作](transformer-reading-diagrams.md)へ進む。

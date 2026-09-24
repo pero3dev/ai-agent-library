@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "run_id": "2026-09-24-inference-reading-diagrams",
+  "base_sha": "1af3a76bf037a31fcbc8a8f677da7b135da3864d",
+  "writer_run_id": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root",
+  "completed_at": "2026-09-24T12:06:10Z",
+  "changes": [
+    {
+      "path": "docs/11-llm-internals/inference-internals.md",
+      "kind": "substantive",
+      "summary": "top-pの最小集合の条件を累積確率がpを超えるからp以上へ訂正し、原論文の式2と一致させる。last_updatedと該当資料のアクセス日を実確認日に同期する。"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "U-1",
+      "artifacts": [
+        "docs/11-llm-internals/inference-internals.md"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://arxiv.org/html/1904.09751",
+      "accessed_at": "2026-09-24T11:56:11Z",
+      "claim": "Holtzmanらの原論文3.1節の式2は、top-p語彙を確率和がp以上となる最小集合として定義する。式3は残した確率質量による再正規化を示す。今回は境界の不等号だけを本文で訂正する。",
+      "affected_docs": [
+        "docs/11-llm-internals/inference-internals.md"
+      ]
+    }
+  ],
+  "review": {
+    "verdict": "approved",
+    "independent": true,
+    "reviewer_run_id": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+    "reviewed_at": "2026-09-24T12:02:28Z",
+    "content_digest": "c8a114de0dbf36ea9847cb9e464a946674efca5e36b366be23bf813ea4ad2d1f"
+  }
+}

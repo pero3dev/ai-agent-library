@@ -80,4 +80,10 @@ page console error・HTTP >=400は0。生のrequestfailed 875件（navigation/pr
 
 CI・Pages・artifact・公開版を結び付ける取得処理も別担当が限定レビューし、approved / low、必須修正0（TEMP `inference-public-identity-review.md`、SHA-256 `3035b17e78106cef9e16ad7cdac8aaa2ab19625928a73b4e1c4deec6312a19a2`）。実merge情報と成功APIの生記録をrootが取得して根拠とし、保存JSONだけを外部状態の証明とは扱わない。機械58ケースの完了と公開画像の独立承認は別に確認する。
 
-受入記録の更新処理も独立レビューしapproved / low、必須修正0（TEMP `inference-release-record-review.md`、SHA-256 `08d0204f1a49c3349071e7f4ae0ef61a88c44b2f7148afc6d5232379d67e1a95`）。実行時に固定レビューJSON、実WebKit初回失敗2題名、両エンジン再検査の全7題名と成功、BUILD_ID・7 HTML・6入力digestを照合したうえで、6記事のreview/localを記録した。公開ゲートは全6記事ともnullのまま。過去のPR #56スナップショット5本は変更していない。
+受入記録の更新処理も独立レビューしapproved / low、必須修正0（TEMP `inference-release-record-review.md`、提出版の記録と6ゲートの照合を含む最終SHA-256 `77c9ffaf5788089b8f1e2940f40230e53349cb62ba16a778f3c889fa013e92be`）。実行時に固定レビューJSON、実WebKit初回失敗2題名、両エンジン再検査の全7題名と成功、BUILD_ID・7 HTML・6入力digestを照合したうえで、6記事のreview/localを記録した。公開ゲートは全6記事ともnullのまま。過去のPR #56スナップショット5本は変更していない。
+
+## 記事変更記録の補完
+
+[PR #57](https://github.com/pero3dev/ai-agent-library/pull/57)の初回候補 `a4f1a7b300506be4b905b37cb8f5af68c0a4035b` では、記事訂正用manifestが欠けていたためharness-policyが失敗した。図解の検査や独立レビューを、通常記事の変更記録の代わりにはできない。公開済み履歴を変更せず、[publish-reviewの通常記事変更手順](../../../.agents/skills/publish-review/SKILL.md)で不足を補完する。
+
+top-pの境界訂正をsubstantiveとして、[変更記録](../../../harness/changes/2026-09-24-inference-reading-diagrams.json)へ元main、実編集者ID、U-1の全成果物、実取得した原論文とUTC日時を記録する。候補treeと全差分digestを固定してdoc-reviewerへ渡し、実際の独立判定・時刻・digestを受けた最終manifestでpolicyを検査する。通常の追加commitで提出し、必須CIと公開確認を終えるまで公開完了とはしない。記事の公開状態と既存U-1完了状態は維持する。

@@ -1,6 +1,6 @@
 # 注意変種の記事全体の動的図解
 
-開始日: 2026-09-24。状態: 実装・独立レビュー・ローカル受入完了、PR・公開待ち。P1の2番目の制作単位（1記事）。
+開始日: 2026-09-24。状態: PR #54マージ・公開受入完了。P1の2番目の制作単位（1記事）。
 
 ## 作業契約
 
@@ -80,3 +80,17 @@ TransformerはPR #53から本文・scene/model/固有CSS・選択したregistry4
 WebKitの主要7 specは95/95成功（5.2分）。TEMP `p1-variants-browser-webkit.log` に記録した。物理iPhone Safari、実スクリーンリーダー、本人による学習効果の評価は未実施。
 
 [注意変種の受入](attention-variants-article-acceptance.json)と[Transformerの再受入](transformer-article-acceptance.json)に、この版の独立レビュー・ローカル成功を保存した。入力ダイジェストは注意変種 `sha256:7a5ff97d663c87e223227599e4e18d1497ceccdb7d5491cdafeb6dfe60cb4588`、Transformer `sha256:27ec63f55d3ffa5f758c124f02706cd86efcce28722b3d818710bfd0ed5c926a`。公開ゲートは未完のまま提出し、CI・Pages・実公開の確認後だけ保存する。公開済み記事の完成数は引き続き1/199。
+
+### PR・Pages・公開受入の完了
+
+[PR #54](https://github.com/pero3dev/ai-agent-library/pull/54)は2026-09-24 13:59:22 JSTにsquashマージされた。PR head `ce209d6201257ff1d54f785ebec1ac7b6b3f82f1`、公開SHA `a0dc1ff67b40d7e35af87b07f34dc643f95f57dc`。必須11チェックが成功し、実マージ本文・名義と検査済みsquash本文、マージ後のファイルと候補が一致した。PR CIもサイト単体195件、ブラウザー187成功・5 fixture skipだった。PRのdeployはmain専用条件でskip。
+
+[main CI](https://github.com/pero3dev/ai-agent-library/actions/runs/35957966340)と[Pagesジョブ](https://github.com/pero3dev/ai-agent-library/actions/runs/35957966340/job/107501392858)は同じSHAで成功。GitHub APIを再取得し、deployment `6630620836` の最新successと同じdeploy job/公開URLの対応を確認した。artifact `10791143128` を独立にダウンロードし、2記事だけをtarから読み取った。初回は取得スクリプトがtar名をarchive.tarと仮定して停止したが、実形式artifact.tarに対応し、同一run/attempt/artifactの再照合後に取得済みファイルから再開した。製品に変更はない。
+
+CIのBUILD_ID `pwtscI6SBWL5tUH0bvAAV`、注意変種HTML SHA-256 `8a6bc723554d3e668cef5d8ab9d9b440725bfa6a55ecd9c0fc14cf28f34f229f`、Transformer HTML `5b08fa026da606ce5d49f0692406699a8ec754fe9ea3f570b79c4f1fb422e157` が実配信と一致した。期待値を公開HTML自身から作る循環検査はしていない。
+
+[公開記事](https://pero3dev.github.io/ai-agent-library/docs/llm-internals/attention-variants-and-long-context)をWindows Edge `153.0.4234.48`で14:10:58〜14:13:01 JSTに確認し、15/15ケース成功。新3図の全15段階を5画面条件で検証し、選択・途中シーク・本文連動・拡大/focus・実時間再生と停止、noJS/印刷、旧Transformer4図のPC/狭幅、図なし対照の重い図解コード0を確認した。実配信資産47件はHTTP 200・期待MIME・非空。30画像を保存し、主担当がKV比較・線形積・位置補間・旧図狭幅の4画像を原寸確認した。幾何検査と全画像の目視を同一視しない。
+
+TEMP `ai-agent-library-variants-public/artifact-evidence.latest.json` と `ci-35957966340-attempt-1-20260924T050646608Z/` がGitHub/CI成果物の証拠、`public-chromium-2026-09-24T05-10-58-181Z/result.json` が公開実行結果。予期しないブラウザーエラーはなく、noJSのscript CSP拒否は別記録した。
+
+同じ入力版で2記事の公開ゲートを保存し、CLIで両方complete=trueを確認した。[注意変種PR #54スナップショット](attention-variants-article-acceptance-pr54.json)と[Transformer PR #54スナップショット](transformer-article-acceptance-pr54.json)は以後の共有変更で書き換えない。この版の全体対応は2/199記事。次はMoE2図を制作する。

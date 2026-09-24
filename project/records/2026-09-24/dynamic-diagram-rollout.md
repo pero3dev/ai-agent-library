@@ -1,6 +1,6 @@
 # 動的図解の展開状況
 
-開始日: 2026-09-24。状態: **P0公開受入完了、P1のTransformer公開受入完了・注意変種の公開待ち**。全199記事の完了記録ではない。
+開始日: 2026-09-24。状態: **P0・P1の2記事が公開受入完了、MoEを実装中**。全199記事の完了記録ではない。
 
 ## 作業契約
 
@@ -18,16 +18,16 @@
 | --- | --- | --- | --- |
 | 計画 | 全199記事 | 計画作成・独立レビュー済み、採択 | [全件棚卸し](../../plans/engineering/dynamic-diagram-inventory.md)、[計画作成記録](dynamic-diagram-plan.md) |
 | P0 | 共通基盤・自己注意・Agentループ・Workflow比較 | PR #52マージ・公開受入完了 | [P0実施記録](reading-diagram-foundation.md) |
-| P1 | LLM内部構造・基礎15記事 | Transformer公開受入完了、1/15記事。注意変種は独立レビュー・ローカル受入完了 | [Transformer](transformer-reading-diagrams.md)、[注意変種](attention-variants-reading-diagrams.md) |
+| P1 | LLM内部構造・基礎15記事 | Transformer・注意変種の2/15記事が公開受入完了。MoEを実装中 | [Transformer](transformer-reading-diagrams.md)、[注意変種](attention-variants-reading-diagrams.md)、[MoE](moe-reading-diagrams.md) |
 | P2 | 中核54記事 | 未着手（P0の2記事は内数） | P1受入後に着手 |
 | P3 | 実装・品質・運用78記事 | 未着手 | P2受入後に着手 |
 | P4 | 応用・判断52記事 | 未着手 | P3受入後に着手 |
 | P5 | 全体受入・更新運用 | 未着手 | P4受入後に着手 |
 
-図解を一部導入した記事、記事全体の主要論点の割当と受入を完了した記事、公開確認済みの記事を別に数える。公開済みは3記事の6図。記事全体の完成基準では1/199記事であり、図の本数を記事の完了数に読み替えない。
+図解を一部導入した記事、記事全体の主要論点の割当と受入を完了した記事、公開確認済みの記事を別に数える。公開済みは4記事の9図。記事全体の完成基準では2/199記事であり、図の本数を記事の完了数に読み替えない。
 
 ## 再開地点
 
-所有ブランチは `feat/attention-variants-reading-diagrams`。Transformerの[PR #53](https://github.com/pero3dev/ai-agent-library/pull/53)・main CI・Pages・公開11件の受入を終え、公開SHA `828aa492adbbc1382a68edb40f6c3c14eb3d12e0` の最新mainから開始した。他のworktreeや音声制作のブランチは変更しない。
+所有ブランチは `feat/moe-reading-diagrams`。注意変種の[PR #54](https://github.com/pero3dev/ai-agent-library/pull/54)・main CI・Pages・公開15件の受入を終え、公開SHA `a0dc1ff67b40d7e35af87b07f34dc643f95f57dc` の最新mainから開始した。他のworktreeや音声制作のブランチは変更しない。
 
-注意変種1記事の3図（KV共有・計算と保存・位置の対応範囲）の実装・独立レビュー・ローカル受入が完了した。[制作記録](attention-variants-reading-diagrams.md)に証拠を保存し、次はPR・CI・Pages・公開確認へ進む。共有コードの拡張に対するTransformerの再受入も完了し、2記事とも今回版の公開ゲートだけを未完としている。MoE2図は公開確認後の単位とする。
+MoE1記事の2図（ルーティングと負荷、重みと通信）を実装する。[制作記録](moe-reading-diagrams.md)に8/6段階・本文対応・独立した事前レビューと担当を固定した。旧2記事のPR #54公開受入はスナップショットに保存済み。今回の共有コード変更後は新しい入力版で2記事とも再受入し、公開ゲートを自動流用しない。

@@ -4,6 +4,38 @@ import { readFileSync } from 'node:fs'
 // IDs resolve to code-owned bindings, never to module paths supplied by Markdown
 // or the registry. Adding a diagram requires an explicit implementation change.
 const BINDINGS = {
+  'moe-routing-load': {
+    article: 'docs/11-llm-internals/mixture-of-experts-internals.md',
+    route: '/docs/llm-internals/mixture-of-experts-internals',
+    binding: 'grouped-blocks', stageCount: 8,
+    headings: ['概要: 総パラメータと計算量を切り離す', '疎な活性化とルーティング', '負荷分散: 崩壊をどう防ぐか'],
+    sourceHeadings: [
+      '概要: 総パラメータと計算量を切り離す', '疎な活性化とルーティング', '負荷分散: 崩壊をどう防ぐか',
+      '専門化の実態', '総 vs アクティブパラメータの数理'
+    ],
+    blockGroups: [
+      [{ stage: 0, count: 3 }],
+      [{ stage: 1, count: 2 }, { stage: 2, count: 1 }, { stage: 3, count: 2 }, { stage: 4, count: 1 }],
+      [{ stage: 5, count: 2 }, { stage: 7, count: 2 }]
+    ],
+    blockTypes: [
+      ['paragraph', 'code', 'paragraph'],
+      ['paragraph', 'math', 'paragraph', 'math', 'paragraph', 'paragraph'],
+      ['paragraph', 'list', 'math', 'paragraph']
+    ]
+  },
+  'moe-parameters-communication': {
+    article: 'docs/11-llm-internals/mixture-of-experts-internals.md',
+    route: '/docs/llm-internals/mixture-of-experts-internals',
+    binding: 'grouped-blocks', stageCount: 6,
+    headings: ['総 vs アクティブパラメータの数理', '提供・運用への含意'],
+    sourceHeadings: [
+      '概要: 総パラメータと計算量を切り離す', '疎な活性化とルーティング', '負荷分散: 崩壊をどう防ぐか',
+      '専門化の実態', '総 vs アクティブパラメータの数理', '提供・運用への含意'
+    ],
+    blockGroups: [[{ stage: 0, count: 2 }, { stage: 1, count: 2 }, { stage: 2, count: 1 }], [{ stage: 5, count: 1 }]],
+    blockTypes: [['paragraph', 'list', 'math', 'paragraph', 'list'], ['list']]
+  },
   'self-attention': {
     article: 'docs/11-llm-internals/transformer-architecture.md',
     route: '/docs/llm-internals/transformer-architecture',

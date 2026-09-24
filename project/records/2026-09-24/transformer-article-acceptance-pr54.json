@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "article": "docs/11-llm-internals/transformer-architecture.md",
+  "review": {
+    "inputDigest": "sha256:27ec63f55d3ffa5f758c124f02706cd86efcce28722b3d818710bfd0ed5c926a",
+    "status": "approved",
+    "independent": true,
+    "checkedAt": "2026-09-24T04:43:53.88Z",
+    "record": "project/records/2026-09-24/attention-variants-reading-diagrams.md"
+  },
+  "local": {
+    "inputDigest": "sha256:27ec63f55d3ffa5f758c124f02706cd86efcce28722b3d818710bfd0ed5c926a",
+    "status": "passed",
+    "checkedAt": "2026-09-24T04:51:24.9456606Z",
+    "record": "project/records/2026-09-24/attention-variants-reading-diagrams.md"
+  },
+  "public": {
+    "inputDigest": "sha256:27ec63f55d3ffa5f758c124f02706cd86efcce28722b3d818710bfd0ed5c926a",
+    "status": "passed",
+    "checkedAt": "2026-09-24T05:13:01.795Z",
+    "commit": "a0dc1ff67b40d7e35af87b07f34dc643f95f57dc",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/35957966340",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/35957966340/job/107501392858",
+    "browserRecord": "project/records/2026-09-24/attention-variants-reading-diagrams.md"
+  }
+}

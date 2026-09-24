@@ -182,6 +182,288 @@
           "topics": [{"id": "understanding-check", "label": "2つの圧力・共有・計算方式・位置・SSM・対応長の理解確認", "staticReason": "既存のチェック項目を保持する。回答や採点の機能を追加せず本文と図へ戻って確認する。"}]
         }
       ]
+    },
+    {
+      "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "primaryDiagramIds": [
+        "moe-routing-load",
+        "moe-parameters-communication"
+      ],
+      "sections": [
+        {
+          "heading": "概要: 総パラメータと計算量を切り離す",
+          "topics": [
+            {
+              "id": "dense-ffn",
+              "label": "稠密FFNと専門家FFNの位置づけ",
+              "diagramId": "moe-routing-load",
+              "stages": [
+                0
+              ]
+            },
+            {
+              "id": "sparse-experts",
+              "label": "各トークンが少数の専門家だけを通る",
+              "diagramId": "moe-routing-load",
+              "stages": [
+                0,
+                2
+              ]
+            },
+            {
+              "id": "capacity-compute-separation",
+              "label": "全重みの容量と一トークンの計算対象を分ける",
+              "diagramId": "moe-parameters-communication",
+              "stages": [
+                0,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "疎な活性化とルーティング",
+          "topics": [
+            {
+              "id": "router-softmax",
+              "label": "全専門家のスコアをsoftmaxでゲート重みにする",
+              "diagramId": "moe-routing-load",
+              "stages": [
+                1
+              ]
+            },
+            {
+              "id": "top-k",
+              "label": "ゲート上位k経路を選び元の重みを保つ",
+              "diagramId": "moe-routing-load",
+              "stages": [
+                2
+              ]
+            },
+            {
+              "id": "weighted-sum",
+              "label": "選択した専門家の出力を元のゲート重みで合算する",
+              "diagramId": "moe-routing-load",
+              "stages": [
+                3
+              ]
+            },
+            {
+              "id": "router-learning",
+              "label": "ルータがタスクを通じて学習される",
+              "staticReason": "原文の学習の説明を保持する。本文にない更新則や訓練デモは追加しない。"
+            },
+            {
+              "id": "choice-directions",
+              "label": "トークン選択とバッチでの専門家選択を比較する",
+              "diagramId": "moe-routing-load",
+              "stages": [
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "負荷分散: 崩壊をどう防ぐか",
+          "topics": [
+            {
+              "id": "routing-collapse",
+              "label": "バッチの割当てが一部の専門家へ集中する",
+              "diagramId": "moe-routing-load",
+              "stages": [
+                5
+              ]
+            },
+            {
+              "id": "auxiliary-objective",
+              "label": "主目的に負荷分散の補助損失を加える",
+              "diagramId": "moe-routing-load",
+              "stages": [
+                7
+              ]
+            },
+            {
+              "id": "capacity-drop",
+              "label": "容量を超えた経路を除き受理経路と一度の残差を保つ",
+              "diagramId": "moe-routing-load",
+              "stages": [
+                6
+              ]
+            },
+            {
+              "id": "router-techniques",
+              "label": "ノイズやルータ設計による集中への対策",
+              "staticReason": "原文は手法の紹介に留まるため、追加のノイズ生成やルータアルゴリズムを作らない。"
+            }
+          ]
+        },
+        {
+          "heading": "専門化の実態",
+          "topics": [
+            {
+              "id": "nonhuman-specialization",
+              "label": "語彙・構文の傾向と人間的ドメイン分業との違い",
+              "staticReason": "原文の留保を保持し、図でも専門家は番号で呼ぶ。架空のトークンと専門ドメインの対応表を作らない。"
+            },
+            {
+              "id": "fine-grained-experts",
+              "label": "細かい粒度の専門家による設計",
+              "staticReason": "原文の紹介を保持し、記載のない専門家分割の機構を足さない。"
+            },
+            {
+              "id": "shared-experts",
+              "label": "常に通る共有専門家を併用する設計",
+              "staticReason": "原文の紹介を保持する。計数式の共有部分と共有専門家を同一視せず、新しい内部構造図を加えない。"
+            }
+          ]
+        },
+        {
+          "heading": "総 vs アクティブパラメータの数理",
+          "topics": [
+            {
+              "id": "total-capacity",
+              "label": "共有部分と全N専門家を総パラメータとして数える",
+              "diagramId": "moe-parameters-communication",
+              "stages": [
+                0
+              ]
+            },
+            {
+              "id": "active-compute",
+              "label": "共有部分と選択k専門家をアクティブとして数える",
+              "diagramId": "moe-parameters-communication",
+              "stages": [
+                1
+              ]
+            },
+            {
+              "id": "shared-part-count",
+              "label": "総とアクティブの両式へ共有部分を含める",
+              "diagramId": "moe-parameters-communication",
+              "stages": [
+                0,
+                1
+              ]
+            },
+            {
+              "id": "resident-weights",
+              "label": "非選択専門家の重みもモデル内に保持される",
+              "diagramId": "moe-parameters-communication",
+              "stages": [
+                0,
+                1
+              ]
+            },
+            {
+              "id": "expert-parallel-communication",
+              "label": "選択した表現の送出と出力の返送をデバイス間で追う",
+              "diagramId": "moe-parameters-communication",
+              "stages": [
+                2,
+                3,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "提供・運用への含意",
+          "topics": [
+            {
+              "id": "vram-planning",
+              "label": "総重みを出発点にVRAMを見積もる",
+              "diagramId": "moe-parameters-communication",
+              "stages": [
+                5
+              ]
+            },
+            {
+              "id": "throughput-overhead",
+              "label": "アクティブ計算と通信・ルーティングの負担を分ける",
+              "diagramId": "moe-parameters-communication",
+              "stages": [
+                5
+              ]
+            },
+            {
+              "id": "batch-imbalance",
+              "label": "割当ての偏りと遊休する専門家を確認する",
+              "diagramId": "moe-parameters-communication",
+              "stages": [
+                5
+              ]
+            },
+            {
+              "id": "model-card-two-counts",
+              "label": "モデルカードの総とアクティブの両方を読む",
+              "diagramId": "moe-parameters-communication",
+              "stages": [
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "この理解が効く場面",
+          "topics": [
+            {
+              "id": "model-selection-use",
+              "label": "総とアクティブをモデル選定へ反映する",
+              "staticReason": "既出の関係を利用する場面と関連リンクを保持する。選定用の新しい順位表は加えない。"
+            },
+            {
+              "id": "vram-design-use",
+              "label": "セルフホストのVRAM設計へ使う",
+              "staticReason": "既存の説明とリンクを保持する。本文にないハードウェア容量の具体例を追加しない。"
+            },
+            {
+              "id": "explaining-cost-speed",
+              "label": "巨大な容量と少ない計算対象を分けて説明する",
+              "staticReason": "既出の機構を使う場面として保持し、価格や速度が必ず改善する保証にしない。"
+            }
+          ]
+        },
+        {
+          "heading": "アンチパターン",
+          "topics": [
+            {
+              "id": "active-memory-pitfall",
+              "label": "小さいアクティブ数と省メモリを混同しない",
+              "staticReason": "既存の注意を保持し、M2でも非選択の重みを消さない。新しい診断器は作らない。"
+            },
+            {
+              "id": "anthropomorphic-expert-pitfall",
+              "label": "専門家に人間的な固定ドメインを与えない",
+              "staticReason": "既存の注意を保持し、図の番号命名にも反映する。専門化を実測した対応表を捏造しない。"
+            },
+            {
+              "id": "ignored-load-pitfall",
+              "label": "負荷分散を無視しない",
+              "staticReason": "既存の注意を保持する。補助損失が一回で均等化を保証する図にしない。"
+            },
+            {
+              "id": "ignored-communication-pitfall",
+              "label": "分散提供の通信負担を見落とさない",
+              "staticReason": "既存の注意を保持し、M2でも通信を独立の確認対象にする。架空の転送時間は置かない。"
+            },
+            {
+              "id": "total-intelligence-pitfall",
+              "label": "総パラメータだけで能力や一トークンの計算を判断しない",
+              "staticReason": "既存の注意を保持する。容量を能力の採点値へ置き換えない。"
+            }
+          ]
+        },
+        {
+          "heading": "チェックリスト",
+          "topics": [
+            {
+              "id": "understanding-check",
+              "label": "構造・top-k・負荷・専門化・計数・通信の6項目を確認する",
+              "staticReason": "既存6項目のチェックリストを一つのlistとして保持する。採点・例題・回答機能は追加しない。"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

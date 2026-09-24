@@ -1,0 +1,8 @@
+.moe-parameters-scene [data-device-layout] > rect { fill: none; stroke: #718397; stroke-width: 1.2; stroke-dasharray: 5 5; }
+.moe-parameters-scene .mp-shared { fill: #182b3d; }
+.moe-parameters-scene .mp-emphasis { fill: #b2efdf; font-weight: 650; }
+.moe-parameters-scene .mp-caption { fill: #d6e9f0; font-size: 18px; }
+.moe-parameters-scene .cd-small { font-size: 16px; }
+.moe-parameters-scene .cd-wire path { transition: none; }
+@media (prefers-reduced-motion: reduce) { .moe-parameters-scene * { transition: none !important; animation: none !important; } }
+@media print { .moe-parameters-scene * { transition: none !important; animation: none !important; } }

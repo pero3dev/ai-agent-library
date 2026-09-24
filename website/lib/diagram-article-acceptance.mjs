@@ -13,7 +13,9 @@ export const TRANSFORMER_ARTICLE = 'docs/11-llm-internals/transformer-architectu
 export const ARTICLE_EVIDENCE_PATH = 'project/records/2026-09-24/transformer-article-acceptance.json'
 export const ATTENTION_VARIANTS_ARTICLE = 'docs/11-llm-internals/attention-variants-and-long-context.md'
 export const ATTENTION_VARIANTS_EVIDENCE_PATH = 'project/records/2026-09-24/attention-variants-article-acceptance.json'
-export const TRACKED_ARTICLES = Object.freeze([TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE])
+export const MOE_ARTICLE = 'docs/11-llm-internals/mixture-of-experts-internals.md'
+export const MOE_EVIDENCE_PATH = 'project/records/2026-09-24/moe-article-acceptance.json'
+export const TRACKED_ARTICLES = Object.freeze([TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE])
 const MANIFEST = 'website/diagrams/articles.json'
 const TRANSFORMER_TOPICS = {
   '概要: デコーダ専用 Transformer の全体像': ['decoder-flow', 'overview-and-notation'],
@@ -39,6 +41,18 @@ const VARIANTS_TOPICS = {
   '「長コンテキスト対応」表記を読む': ['length-origin', 'quality-range', 'practical-cost', 'task-evaluation'],
   'この理解が効く場面': ['practical-uses'],
   'アンチパターン': ['pitfalls'],
+  'チェックリスト': ['understanding-check']
+}
+
+const MOE_TOPICS = {
+  '概要: 総パラメータと計算量を切り離す': ['dense-ffn', 'sparse-experts', 'capacity-compute-separation'],
+  '疎な活性化とルーティング': ['router-softmax', 'top-k', 'weighted-sum', 'router-learning', 'choice-directions'],
+  '負荷分散: 崩壊をどう防ぐか': ['routing-collapse', 'auxiliary-objective', 'capacity-drop', 'router-techniques'],
+  '専門化の実態': ['nonhuman-specialization', 'fine-grained-experts', 'shared-experts'],
+  '総 vs アクティブパラメータの数理': ['total-capacity', 'active-compute', 'shared-part-count', 'resident-weights', 'expert-parallel-communication'],
+  '提供・運用への含意': ['vram-planning', 'throughput-overhead', 'batch-imbalance', 'model-card-two-counts'],
+  'この理解が効く場面': ['model-selection-use', 'vram-design-use', 'explaining-cost-speed'],
+  'アンチパターン': ['active-memory-pitfall', 'anthropomorphic-expert-pitfall', 'ignored-load-pitfall', 'ignored-communication-pitfall', 'total-intelligence-pitfall'],
   'チェックリスト': ['understanding-check']
 }
 
@@ -74,6 +88,11 @@ export const ATTENTION_VARIANTS_INPUT_FILES = Object.freeze([...SHARED_INPUT_FIL
   'components/diagrams/attention-compute-walkthrough.jsx', 'lib/attention-compute-model.mjs',
   'components/diagrams/attention-context-walkthrough.jsx', 'components/diagrams/attention-context.css', 'lib/attention-context-model.mjs'
 ].map(file => `website/${file}`)])
+export const MOE_INPUT_FILES = Object.freeze([...SHARED_INPUT_FILES, ...[
+  'components/diagrams/moe-walkthrough.jsx', 'components/diagrams/moe-scenes.css',
+  'components/diagrams/moe-routing-walkthrough.jsx', 'lib/moe-routing-model.mjs',
+  'components/diagrams/moe-parameters-walkthrough.jsx', 'components/diagrams/moe-parameters.css', 'lib/moe-parameters-model.mjs'
+].map(file => `website/${file}`)])
 const configs = {
   [TRANSFORMER_ARTICLE]: {
     primaryDiagramIds: ['transformer-io', 'transformer-position', 'self-attention', 'transformer-block'],
@@ -82,6 +101,10 @@ const configs = {
   [ATTENTION_VARIANTS_ARTICLE]: {
     primaryDiagramIds: ['attention-kv-sharing', 'attention-compute-memory', 'attention-context-range'],
     topics: VARIANTS_TOPICS, inputFiles: ATTENTION_VARIANTS_INPUT_FILES, evidencePath: ATTENTION_VARIANTS_EVIDENCE_PATH
+  },
+  [MOE_ARTICLE]: {
+    primaryDiagramIds: ['moe-routing-load', 'moe-parameters-communication'],
+    topics: MOE_TOPICS, inputFiles: MOE_INPUT_FILES, evidencePath: MOE_EVIDENCE_PATH
   }
 }
 for (const [article, config] of Object.entries(configs)) {
@@ -105,7 +128,7 @@ function validateAssignment(assignment, tree, selected, article, config) {
   if (!exact(assignment, ['article', 'primaryDiagramIds', 'sections']) || assignment.article !== article
     || !same(assignment.primaryDiagramIds, config.primaryDiagramIds) || !Array.isArray(assignment.sections)
     || !same(assignment.sections.map(section => section.heading), Object.keys(config.topics))
-    || !same(tree.children.filter(node => node.type === 'heading' && node.depth === 3).map(text), Object.keys(config.topics))) throw new Error('11 H3と必須図の対応が不正です。')
+    || !same(tree.children.filter(node => node.type === 'heading' && node.depth === 3).map(text), Object.keys(config.topics))) throw new Error('記事のH3と必須図の対応が不正です。')
   const used = new Set()
   for (const section of assignment.sections) {
     if (!exact(section, ['heading', 'topics']) || !Array.isArray(section.topics)

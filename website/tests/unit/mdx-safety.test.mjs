@@ -93,6 +93,29 @@ test('Transformer stages are bounded by their enclosing diagram, including ordin
   ]) assert.ok(findUnsafeMdx(source).length > 0, source)
 })
 
+test('MoE wrappers require fixed IDs, literal properties and diagram-specific stage bounds', () => {
+  for (const [id, count] of [['moe-routing-load', 8], ['moe-parameters-communication', 6]]) {
+    for (let stage = 0; stage < count; stage++) {
+      assert.deepEqual(findUnsafeMdx(`<MoEWalkthrough diagramId="${id}"><ReadingStep step="${stage}">本文</ReadingStep></MoEWalkthrough>`), [])
+    }
+    assert.ok(findUnsafeMdx(`<MoEWalkthrough diagramId="${id}"><ReadingStep step="${count}">本文</ReadingStep></MoEWalkthrough>`).length)
+  }
+  for (const source of [
+    '<MoEWalkthrough>本文</MoEWalkthrough>',
+    '<MoEWalkthrough diagramId="transformer-io">本文</MoEWalkthrough>',
+    '<MoEWalkthrough diagramId="../scene">本文</MoEWalkthrough>',
+    '<MoEWalkthrough diagramId={"moe-routing-load"}>本文</MoEWalkthrough>',
+    '<MoEWalkthrough diagramId="moe-routing-load" module="./scene">本文</MoEWalkthrough>',
+    '<MoEWalkthrough {...{diagramId: "moe-routing-load"}}>本文</MoEWalkthrough>',
+    '<MoEWalkthrough diagramId="moe-routing-load"><AttentionStep step="0">本文</AttentionStep></MoEWalkthrough>',
+    '<MoEWalkthrough diagramId="moe-routing-load"><ReadingStep step={1}>本文</ReadingStep></MoEWalkthrough>',
+    '<MoEWalkthrough diagramId="moe-routing-load"><ReadingStep step="07">本文</ReadingStep></MoEWalkthrough>',
+    '<MoEWalkthrough diagramId="moe-routing-load"><MoEWalkthrough diagramId="moe-parameters-communication">本文</MoEWalkthrough></MoEWalkthrough>',
+    '<TransformerWalkthrough diagramId="transformer-block"><MoEWalkthrough diagramId="moe-routing-load">本文</MoEWalkthrough></TransformerWalkthrough>',
+    '<AttentionVariantsWalkthrough diagramId="attention-kv-sharing"><MoEWalkthrough diagramId="moe-routing-load">本文</MoEWalkthrough></AttentionVariantsWalkthrough>'
+  ]) assert.ok(findUnsafeMdx(source).length, source)
+})
+
 test('actual decorations and literal escaped text remain accepted', () => {
   const tree = parser.parse('Agent を学びます。\n\n> **TODO(要確認):** 仕様を確認します\n\n### アンチパターン\n\n- 失敗例\n\n### チェックリスト\n\n- 確認事項')
   applyDecorations(tree, {

@@ -6,7 +6,8 @@ import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 import {
   ARTICLE_EVIDENCE_PATH, ARTICLE_INPUT_FILES, ATTENTION_VARIANTS_ARTICLE, ATTENTION_VARIANTS_EVIDENCE_PATH,
-  ATTENTION_VARIANTS_INPUT_FILES, getDiagramArticleAcceptance, getDiagramArticleConfig, TRACKED_ARTICLES, TRANSFORMER_ARTICLE
+  ATTENTION_VARIANTS_INPUT_FILES, getDiagramArticleAcceptance, getDiagramArticleConfig, TRACKED_ARTICLES, TRANSFORMER_ARTICLE,
+  MOE_ARTICLE, MOE_EVIDENCE_PATH, MOE_INPUT_FILES
 } from '../../lib/diagram-article-acceptance.mjs'
 import { getDiagramCoverage } from '../../lib/diagram-coverage.mjs'
 import { diagramRegistry } from '../../lib/diagram-registry.mjs'
@@ -41,12 +42,14 @@ function fixture(t) {
   }
   return { root, write, json, registry, report, evidence, manifest: () => JSON.parse(originals.get(manifestPath)) }
 }
-function twoArticlesFixture(t) {
+function trackedArticlesFixture(t) {
   const f = fixture(t)
-  f.write(ATTENTION_VARIANTS_ARTICLE, readFileSync(path.join(repo, ATTENTION_VARIANTS_ARTICLE), 'utf8'))
   // Explicit test-only scene inputs: production must have every real file. This
   // exercises evidence separation while another worker implements the scenes.
-  for (const file of ATTENTION_VARIANTS_INPUT_FILES.filter(file => !originals.has(file))) f.write(file, `// Fixture-only input for ${file}\n`)
+  for (const article of TRACKED_ARTICLES.filter(article => article !== TRANSFORMER_ARTICLE)) {
+    f.write(article, readFileSync(path.join(repo, article), 'utf8'))
+    for (const file of getDiagramArticleConfig(article).inputFiles.filter(file => !originals.has(file))) f.write(file, `// Fixture-only input for ${file}\n`)
+  }
   return f
 }
 
@@ -241,8 +244,8 @@ test('coverage computes complete article count from acceptance and keeps publica
   assert.equal(report().summary.completeArticles, 0)
 })
 
-test('two article configurations are code-owned and returned copies cannot alter the policy', () => {
-  assert.deepEqual(TRACKED_ARTICLES, [TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE])
+test('three article configurations are code-owned and returned copies cannot alter the policy', () => {
+  assert.deepEqual(TRACKED_ARTICLES, [TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE])
   const config = getDiagramArticleConfig(ATTENTION_VARIANTS_ARTICLE)
   assert.equal(Object.keys(config.topics).length, 11)
   assert.equal(config.evidencePath, ATTENTION_VARIANTS_EVIDENCE_PATH)
@@ -252,10 +255,20 @@ test('two article configurations are code-owned and returned copies cannot alter
   assert.equal(getDiagramArticleConfig(ATTENTION_VARIANTS_ARTICLE).inputFiles.includes('../../untrusted-file'), false)
   assert.equal(getDiagramArticleConfig('__proto__'), null)
   assert.equal(getDiagramArticleAcceptance({ article: '__proto__' }).tracked, false)
+  const moe = getDiagramArticleConfig(MOE_ARTICLE)
+  assert.equal(Object.keys(moe.topics).length, 9)
+  assert.equal(Object.values(moe.topics).flat().length, 33)
+  assert.equal(moe.evidencePath, MOE_EVIDENCE_PATH)
+  assert.deepEqual(moe.primaryDiagramIds, ['moe-routing-load', 'moe-parameters-communication'])
+  assert.deepEqual(moe.inputFiles, MOE_INPUT_FILES)
+  assert.ok(MOE_INPUT_FILES.includes('website/lib/moe-routing-model.mjs'))
+  assert.ok(MOE_INPUT_FILES.includes('website/components/diagrams/moe-parameters.css'))
+  assert.equal(ARTICLE_INPUT_FILES.some(file => file.includes('/moe-')), false)
+  assert.equal(ATTENTION_VARIANTS_INPUT_FILES.some(file => file.includes('/moe-')), false)
 })
 
-test('two articles require their own matching evidence and aggregate completion independently', t => {
-  const f = twoArticlesFixture(t)
+test('three articles require their own matching evidence and aggregate completion independently', t => {
+  const f = trackedArticlesFixture(t)
   for (const article of TRACKED_ARTICLES) {
     assert.equal(f.report(article).assignmentCurrent, true)
     assert.equal(f.report(article).diagramsCurrent, true)
@@ -270,43 +283,51 @@ test('two articles require their own matching evidence and aggregate completion 
   f.json(ATTENTION_VARIANTS_EVIDENCE_PATH, f.evidence(ATTENTION_VARIANTS_ARTICLE))
   assert.equal(f.report(ATTENTION_VARIANTS_ARTICLE).complete, true)
   assert.equal(getDiagramCoverage({ repoRoot: f.root, registry: f.registry }).summary.completeArticles, 2)
+  assert.equal(f.report(MOE_ARTICLE).complete, false)
+  f.json(MOE_EVIDENCE_PATH, f.evidence(ATTENTION_VARIANTS_ARTICLE))
+  assert.equal(f.report(MOE_ARTICLE).complete, false)
+  f.json(MOE_EVIDENCE_PATH, f.evidence(MOE_ARTICLE))
+  assert.equal(f.report(MOE_ARTICLE).complete, true)
+  assert.equal(getDiagramCoverage({ repoRoot: f.root, registry: f.registry }).summary.completeArticles, 3)
   f.write('website/lib/mdx-safety.mjs', originals.get('website/lib/mdx-safety.mjs') + '\n// Shared safety update\n')
   for (const article of TRACKED_ARTICLES) assert.equal(f.report(article).complete, false)
   assert.equal(getDiagramCoverage({ repoRoot: f.root, registry: f.registry }).summary.completeArticles, 0)
 })
 
-test('article-specific scene, assignment and registry changes leave the other article digest current', t => {
-  const f = twoArticlesFixture(t)
+test('article-specific scene, assignment and registry changes leave both other article digests current', t => {
+  const f = trackedArticlesFixture(t)
   const before = new Map(TRACKED_ARTICLES.map(article => [article, f.report(article).inputDigest]))
   for (const [article, scene, id] of [
     [TRANSFORMER_ARTICLE, 'website/components/diagrams/transformer-io-walkthrough.jsx', 'transformer-io'],
-    [ATTENTION_VARIANTS_ARTICLE, 'website/components/diagrams/attention-kv-walkthrough.jsx', 'attention-kv-sharing']
+    [ATTENTION_VARIANTS_ARTICLE, 'website/components/diagrams/attention-kv-walkthrough.jsx', 'attention-kv-sharing'],
+    [MOE_ARTICLE, 'website/components/diagrams/moe-routing-walkthrough.jsx', 'moe-routing-load']
   ]) {
-    const other = TRACKED_ARTICLES.find(value => value !== article)
+    const others = TRACKED_ARTICLES.filter(value => value !== article)
     const sceneSource = readFileSync(path.join(f.root, scene), 'utf8')
     f.write(scene, sceneSource + '\n// Changed scene\n')
     assert.notEqual(f.report(article).inputDigest, before.get(article))
-    assert.equal(f.report(other).inputDigest, before.get(other))
+    for (const other of others) assert.equal(f.report(other).inputDigest, before.get(other))
     f.write(scene, sceneSource)
     const manifest = f.manifest()
     manifest.articles.find(entry => entry.article === article).sections[0].topics[0].label += ' 更新'
     f.json(manifestPath, manifest)
     assert.notEqual(f.report(article).inputDigest, before.get(article))
-    assert.equal(f.report(other).inputDigest, before.get(other))
+    for (const other of others) assert.equal(f.report(other).inputDigest, before.get(other))
     f.json(manifestPath, f.manifest())
     const entry = f.registry.diagrams.find(entry => entry.id === id)
     entry.enabled = false
     assert.notEqual(f.report(article).inputDigest, before.get(article))
-    assert.equal(f.report(other).inputDigest, before.get(other))
+    for (const other of others) assert.equal(f.report(other).inputDigest, before.get(other))
     entry.enabled = true
   }
   f.write('website/content-src/llm-internals/attention-variants-and-long-context.mdx', '# Override\n')
   assert.notEqual(f.report(ATTENTION_VARIANTS_ARTICLE).inputDigest, before.get(ATTENTION_VARIANTS_ARTICLE))
   assert.equal(f.report().inputDigest, before.get(TRANSFORMER_ARTICLE))
+  assert.equal(f.report(MOE_ARTICLE).inputDigest, before.get(MOE_ARTICLE))
 })
 
 test('attention variants whole-article acceptance includes unwrapped SSM and all major topics', t => {
-  const f = twoArticlesFixture(t), before = f.report(ATTENTION_VARIANTS_ARTICLE)
+  const f = trackedArticlesFixture(t), before = f.report(ATTENTION_VARIANTS_ARTICLE)
   f.json(ATTENTION_VARIANTS_EVIDENCE_PATH, f.evidence(ATTENTION_VARIANTS_ARTICLE))
   const source = readFileSync(path.join(f.root, ATTENTION_VARIANTS_ARTICLE), 'utf8')
   f.write(ATTENTION_VARIANTS_ARTICLE, source.replace('状態に畳み込みながら処理し', '状態にまとめながら処理し'))
@@ -332,7 +353,7 @@ test('attention variants whole-article acceptance includes unwrapped SSM and all
 })
 
 test('missing attention variant implementation fails closed without disturbing Transformer inputs or old evidence snapshots', t => {
-  const f = twoArticlesFixture(t), transformerDigest = f.report().inputDigest
+  const f = trackedArticlesFixture(t), transformerDigest = f.report().inputDigest
   f.json(ARTICLE_EVIDENCE_PATH, f.evidence())
   f.json('project/records/2026-09-24/transformer-article-acceptance-pr53.json', f.evidence())
   rmSync(path.join(f.root, 'website/components/diagrams/attention-kv-walkthrough.jsx'))
@@ -344,4 +365,83 @@ test('missing attention variant implementation fails closed without disturbing T
   f.write('website/lib/diagram-decoration.mjs', originals.get('website/lib/diagram-decoration.mjs') + '\n// Shared update\n')
   assert.equal(f.report().reviewRecorded, false)
   assert.equal(f.report().complete, false)
+})
+
+test('MoE assigns all nine headings and 33 topics; static-only changes also invalidate recorded gates', t => {
+  const f = trackedArticlesFixture(t), before = f.report(MOE_ARTICLE)
+  const assignment = f.manifest().articles.find(entry => entry.article === MOE_ARTICLE)
+  assert.equal(assignment.sections.length, 9)
+  const topics = assignment.sections.flatMap(section => section.topics)
+  assert.equal(topics.length, 33)
+  assert.equal(new Set(topics.map(topic => topic.id)).size, 33)
+  assert.equal(topics.filter(topic => topic.diagramId).length, 19)
+  assert.equal(topics.filter(topic => topic.staticReason).length, 14)
+  assert.equal(before.assignmentCurrent, true)
+  f.json(MOE_EVIDENCE_PATH, f.evidence(MOE_ARTICLE))
+  const source = readFileSync(path.join(f.root, MOE_ARTICLE), 'utf8')
+  assert.ok(source.includes('### この理解が効く場面'))
+  f.write(MOE_ARTICLE, source.replace('### この理解が効く場面', '### この理解が効く場面\n\n利用上の説明を更新。'))
+  const changed = f.report(MOE_ARTICLE)
+  assert.notEqual(changed.inputDigest, before.inputDigest)
+  assert.equal(changed.diagramsCurrent, true)
+  assert.equal(changed.complete, false)
+  f.write(MOE_ARTICLE, source)
+  for (const mutate of [
+    entry => entry.sections.pop(),
+    entry => entry.sections[3].topics.pop(),
+    entry => entry.sections[3].topics[0].staticReason = '',
+    entry => entry.sections[1].topics[0].stages = [8],
+    entry => entry.sections[4].topics[0].stages = [6],
+    entry => entry.sections[4].topics[0].diagramId = 'transformer-io',
+    entry => entry.sections[0].topics.push(entry.sections[0].topics[0])
+  ]) {
+    const manifest = f.manifest()
+    mutate(manifest.articles.find(entry => entry.article === MOE_ARTICLE))
+    f.json(manifestPath, manifest)
+    f.json(MOE_EVIDENCE_PATH, f.evidence(MOE_ARTICLE))
+    assert.equal(f.report(MOE_ARTICLE).assignmentCurrent, false)
+    assert.equal(f.report(MOE_ARTICLE).complete, false)
+    assert.equal(f.report().assignmentCurrent, true)
+    assert.equal(f.report(ATTENTION_VARIANTS_ARTICLE).assignmentCurrent, true)
+  }
+})
+
+test('every MoE-specific runtime input is required and isolated from the two earlier articles', t => {
+  const f = trackedArticlesFixture(t), before = new Map(TRACKED_ARTICLES.map(article => [article, f.report(article).inputDigest]))
+  f.json(MOE_EVIDENCE_PATH, f.evidence(MOE_ARTICLE))
+  const specific = MOE_INPUT_FILES.filter(file => !ARTICLE_INPUT_FILES.includes(file) && !ATTENTION_VARIANTS_INPUT_FILES.includes(file))
+  assert.equal(specific.length, 7)
+  for (const file of specific) {
+    const source = readFileSync(path.join(f.root, file), 'utf8')
+    f.write(file, source + '\n// Changed MoE runtime input\n')
+    assert.notEqual(f.report(MOE_ARTICLE).inputDigest, before.get(MOE_ARTICLE), file)
+    assert.equal(f.report(MOE_ARTICLE).complete, false, file)
+    for (const other of [TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE]) assert.equal(f.report(other).inputDigest, before.get(other), file)
+    f.write(file, source)
+  }
+  rmSync(path.join(f.root, 'website/components/diagrams/moe-parameters.css'))
+  assert.equal(f.report(MOE_ARTICLE).inputDigest, null)
+  assert.equal(f.report(MOE_ARTICLE).complete, false)
+  for (const other of [TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE]) assert.equal(f.report(other).inputDigest, before.get(other))
+})
+
+test('both PR54 historical article snapshots remain records and cannot approve changed shared inputs', t => {
+  const f = trackedArticlesFixture(t)
+  const snapshots = new Map()
+  for (const article of [TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE]) {
+    const config = getDiagramArticleConfig(article), evidence = f.evidence(article)
+    f.json(config.evidencePath, evidence)
+    const snapshot = config.evidencePath.replace('.json', '-pr54.json')
+    f.json(snapshot, evidence)
+    snapshots.set(snapshot, readFileSync(path.join(f.root, snapshot), 'utf8'))
+    assert.equal(f.report(article).complete, true)
+  }
+  f.write('website/lib/diagram-decoration.mjs', originals.get('website/lib/diagram-decoration.mjs') + '\n// New shared MoE integration\n')
+  for (const article of [TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE]) {
+    assert.equal(f.report(article).reviewRecorded, false)
+    assert.equal(f.report(article).localRecorded, false)
+    assert.equal(f.report(article).publicRecorded, false)
+    assert.equal(f.report(article).complete, false)
+  }
+  for (const [snapshot, content] of snapshots) assert.equal(readFileSync(path.join(f.root, snapshot), 'utf8'), content)
 })

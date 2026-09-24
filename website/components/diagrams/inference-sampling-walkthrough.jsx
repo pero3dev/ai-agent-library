@@ -85,8 +85,9 @@ function ReproducibilityScene({ frame }) {
       const y = 68 + index * 148
       return <g key={index} data-comparison-side={index} data-comparison-selected={side.selectedLabel} data-comparison-draw={side.effectiveDraw ?? 'none'}>
         <rect x="24" y={y} width="592" height="132" rx="10" className="is-panel" />
-        <text x="42" y={y + 43} className="is-small">{drawing ? `u ${number(side.draw)}` : '参照確率'}</text>
+        <text x="42" y={y + 43} className="is-small" data-comparison-bar-label>{drawing ? `u ${number(side.draw)}` : '棒: T=1の確率'}</text>
         <text x="42" y={y + 88}>選択 {side.selectedLabel}</text>
+        <text x="42" y={y + 117} className="is-small" data-comparison-value-label>{drawing ? '値: 確率' : '値: ロジット'}</text>
         {side.rows.map(row => {
           const x = 222 + row.tokenId * 106
           return <g key={row.tokenId} data-compare-token={row.tokenId} data-compare-logit={row.logit} data-compare-probability={row.probability} data-compare-rank={row.rank}>

@@ -1,0 +1,321 @@
+{
+  "schemaVersion": 1,
+  "status": "passed",
+  "checkedAtUTC": "2026-09-24T13:09:35.479Z",
+  "scope": "Artifact migration and in-memory candidate reconstruction only; not implementation or public acceptance.",
+  "sourcePlanVersion": 3,
+  "sourcePlanApproval": "approved/low, must0/should0; plan-only",
+  "p1Complete": false,
+  "implementationAcceptance": false,
+  "publicAcceptance": false,
+  "rawByteCopies": [
+    {
+      "sourceName": "p1-remaining-plan.json",
+      "destination": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "sha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "rawBytesPreserved": true
+    },
+    {
+      "sourceName": "validation.json",
+      "destination": "project/records/2026-09-24/p1-remaining-storyboards-check.json",
+      "sha256": "6b88c31dd59871a75c424c80451a20447766494ab1f01d97bf79113505c7aad6",
+      "rawBytesPreserved": true
+    },
+    {
+      "sourceName": "source-inventory.json",
+      "destination": "project/records/2026-09-24/p1-remaining-storyboards-support/source-inventory.json",
+      "sha256": "b5fe2b23b7a291e77d56fe6bca6d9de8879b3383ad7ee57231dccca8addf97e2",
+      "rawBytesPreserved": true
+    },
+    {
+      "sourceName": "multimodal-consistency-v3.json",
+      "destination": "project/records/2026-09-24/p1-remaining-storyboards-support/multimodal-consistency-v3.json",
+      "sha256": "5df5e2da2ca5257609327693c4da196718caa9bfa697236c6f5a116614bdff75",
+      "rawBytesPreserved": true
+    },
+    {
+      "sourceName": "multimodal-models.candidate.md",
+      "destination": "project/records/2026-09-24/p1-remaining-storyboards-support/multimodal-models.candidate.txt",
+      "sha256": "27956431766343cd1c4b910ce9d7b703e655365856c3e10484de315684688ced",
+      "rawBytesPreserved": true
+    },
+    {
+      "sourceName": "p1-remaining-plan.md",
+      "destination": "project/records/2026-09-24/p1-remaining-storyboards-support/p1-remaining-plan.original.txt",
+      "sha256": "b4104bd652010965b4c265e2422213e58f1a79906b86bcff303045299ccfdd40",
+      "rawBytesPreserved": true
+    },
+    {
+      "sourceName": "ai-agent-library-p1-remaining-plan-review-v3.md",
+      "destination": "project/records/2026-09-24/p1-remaining-storyboards-support/p1-remaining-storyboards-review.original.txt",
+      "sha256": "0c327c9cc463977584bb82fd6e5da1d1fb0fd0234d1700fea810bed14240b89d",
+      "rawBytesPreserved": true
+    }
+  ],
+  "formattedMarkdown": {
+    "file": "project/records/2026-09-24/p1-remaining-storyboards.md",
+    "sourceSha256": "b4104bd652010965b4c265e2422213e58f1a79906b86bcff303045299ccfdd40",
+    "sha256": "b663581aa76b9da2cb78c7121f54108f5e01cb248d3a059996656922aeab8108",
+    "changes": {
+      "diagramEmphasisLinesToH4": 15,
+      "relativeArticleLinksCorrected": 1,
+      "migrationNoteAdded": true
+    },
+    "reverseFormattingAndRemoveNoteMatchesOriginalBytes": true
+  },
+  "reconstruction": {
+    "allExactReplacementsAvailableFromJson": true,
+    "exactReplacements": 16,
+    "articles": [
+      {
+        "file": "docs/11-llm-internals/alignment-theory.md",
+        "sourceSha256": "6bb4501e5fcd44323a0890d20286cc6e597ab042997df47d2cf9fa2ddabd480b",
+        "sourceMatchesReviewedVersion": true,
+        "correctionCount": 3,
+        "corrections": [
+          {
+            "id": "A1",
+            "matchCount": 1
+          },
+          {
+            "id": "A2",
+            "matchCount": 1
+          },
+          {
+            "id": "A3",
+            "matchCount": 1
+          }
+        ],
+        "candidateSha256": "7883fc8764b0a2d7c5df6fa61a4c752696e99ddd579fd44d913db825d865965e",
+        "candidateMatchesReviewedVersion": true,
+        "savedCandidateMatches": null,
+        "appliedToRepository": false
+      },
+      {
+        "file": "docs/10-llm-foundations/reasoning-models.md",
+        "sourceSha256": "71246ca014e171936139af9083df301f16dcb7dade8f7aeb3a0b14516a19ef44",
+        "sourceMatchesReviewedVersion": true,
+        "correctionCount": 0,
+        "corrections": [],
+        "candidateSha256": "71246ca014e171936139af9083df301f16dcb7dade8f7aeb3a0b14516a19ef44",
+        "candidateMatchesReviewedVersion": true,
+        "savedCandidateMatches": null,
+        "appliedToRepository": false
+      },
+      {
+        "file": "docs/10-llm-foundations/attention-and-context.md",
+        "sourceSha256": "433d75095383235eeace9c4b34048bad43a3f4b0ba6e65c2e7e7d25eebdb1c55",
+        "sourceMatchesReviewedVersion": true,
+        "correctionCount": 0,
+        "corrections": [],
+        "candidateSha256": "433d75095383235eeace9c4b34048bad43a3f4b0ba6e65c2e7e7d25eebdb1c55",
+        "candidateMatchesReviewedVersion": true,
+        "savedCandidateMatches": null,
+        "appliedToRepository": false
+      },
+      {
+        "file": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+        "sourceSha256": "c150ab8ee4a72dc6786a5abb52e0266f97d78f1b6584ce1c695e01f94106f5c4",
+        "sourceMatchesReviewedVersion": true,
+        "correctionCount": 0,
+        "corrections": [],
+        "candidateSha256": "c150ab8ee4a72dc6786a5abb52e0266f97d78f1b6584ce1c695e01f94106f5c4",
+        "candidateMatchesReviewedVersion": true,
+        "savedCandidateMatches": null,
+        "appliedToRepository": false
+      },
+      {
+        "file": "docs/11-llm-internals/interpretability-basics.md",
+        "sourceSha256": "d7a2febb87771c6afbf440be223527c2c9a465f1e1c72f000432540ec2cda68e",
+        "sourceMatchesReviewedVersion": true,
+        "correctionCount": 0,
+        "corrections": [],
+        "candidateSha256": "d7a2febb87771c6afbf440be223527c2c9a465f1e1c72f000432540ec2cda68e",
+        "candidateMatchesReviewedVersion": true,
+        "savedCandidateMatches": null,
+        "appliedToRepository": false
+      },
+      {
+        "file": "docs/10-llm-foundations/capabilities-and-limits.md",
+        "sourceSha256": "cc83e31509fc1b5a8e43793be4c06fc2682c90e76f83e7ebf784fafbd23beb4a",
+        "sourceMatchesReviewedVersion": true,
+        "correctionCount": 0,
+        "corrections": [],
+        "candidateSha256": "cc83e31509fc1b5a8e43793be4c06fc2682c90e76f83e7ebf784fafbd23beb4a",
+        "candidateMatchesReviewedVersion": true,
+        "savedCandidateMatches": null,
+        "appliedToRepository": false
+      },
+      {
+        "file": "docs/10-llm-foundations/multimodal-models.md",
+        "sourceSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+        "sourceMatchesReviewedVersion": true,
+        "correctionCount": 13,
+        "corrections": [
+          {
+            "id": "M1",
+            "matchCount": 1
+          },
+          {
+            "id": "M2",
+            "matchCount": 1
+          },
+          {
+            "id": "M3",
+            "matchCount": 1
+          },
+          {
+            "id": "M4",
+            "matchCount": 1
+          },
+          {
+            "id": "M4-sync-97",
+            "matchCount": 1
+          },
+          {
+            "id": "M4-sync-98",
+            "matchCount": 1
+          },
+          {
+            "id": "M5",
+            "matchCount": 1
+          },
+          {
+            "id": "M5-sync-100",
+            "matchCount": 1
+          },
+          {
+            "id": "M4-sync-55",
+            "matchCount": 1
+          },
+          {
+            "id": "M4-sync-56",
+            "matchCount": 1
+          },
+          {
+            "id": "M4-sync-79",
+            "matchCount": 1
+          },
+          {
+            "id": "M4-sync-105",
+            "matchCount": 1
+          },
+          {
+            "id": "M5-sync-108",
+            "matchCount": 1
+          }
+        ],
+        "candidateSha256": "27956431766343cd1c4b910ce9d7b703e655365856c3e10484de315684688ced",
+        "candidateMatchesReviewedVersion": true,
+        "savedCandidateMatches": true,
+        "appliedToRepository": false
+      }
+    ],
+    "repositoryDocsWritten": false
+  },
+  "authorStructuralCheck": {
+    "record": "project/records/2026-09-24/p1-remaining-storyboards-check.json",
+    "passed": 2526,
+    "newExecution": false
+  },
+  "independentReview": {
+    "record": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+    "passed": 2154,
+    "newExecution": false
+  },
+  "toolsNotMigrated": true,
+  "repositoryChecks": {
+    "checkedAtUTC": "2026-09-24T13:06:46.841Z",
+    "markdownlint": {
+      "status": "passed",
+      "exitCode": 0,
+      "command": "node node_modules/markdownlint-cli/markdownlint.js project/records/2026-09-24/p1-remaining-storyboards.md project/records/2026-09-24/p1-remaining-storyboards-review.md -p .markdownlintignore",
+      "files": 2
+    },
+    "checkLinks": {
+      "status": "passed",
+      "exitCode": 0,
+      "command": "node scripts/check-links.mjs",
+      "checkedFiles": 315,
+      "checkedLinks": 5575,
+      "scope": "Repository-wide check including both migrated Markdown records; other agents may change the current count."
+    },
+    "fullCheckAndProductTests": "not-run: migration-only scope; final integration owner runs repository checks"
+  },
+  "formattedReviewMarkdown": {
+    "file": "project/records/2026-09-24/p1-remaining-storyboards-review.md",
+    "sourceFile": "project/records/2026-09-24/p1-remaining-storyboards-support/p1-remaining-storyboards-review.original.txt",
+    "sourceSha256": "0c327c9cc463977584bb82fd6e5da1d1fb0fd0234d1700fea810bed14240b89d",
+    "sha256": "2fb93bf61b555a218bc17897d7a5176ab14cdb27a14b5f4c24ff54a2b3178a1e",
+    "change": "format-only: add one missing trailing newline (MD047); all original bytes retained",
+    "bodyBytesPreserved": true
+  },
+  "finalArtifactVerificationAtUTC": "2026-09-24T13:09:35.479Z",
+  "initialRawCopyHistory": [
+    {
+      "sourceName": "ai-agent-library-p1-remaining-plan-review-v3.json",
+      "destination": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+      "sha256": "68c4a76ebcbf96b8b8f4a1947a5fdda944b6b222dad16d35a534dd37aa95f954",
+      "rawBytesPreserved": true,
+      "observedAtUTC": "2026-09-24T13:06:46.841Z",
+      "currentRepresentation": "LF-normalized; see normalizedReviewJson",
+      "historicalOnly": true
+    }
+  ],
+  "normalizedReviewJson": {
+    "file": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+    "originalRawSourceName": "ai-agent-library-p1-remaining-plan-review-v3.json (original TEMP artifact retained)",
+    "originalRawSHA": "68c4a76ebcbf96b8b8f4a1947a5fdda944b6b222dad16d35a534dd37aa95f954",
+    "normalizedSHA": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+    "normalization": "CRLF to LF only",
+    "replacedCRLF": 354,
+    "originalBytes": 19715,
+    "normalizedBytes": 19361,
+    "normalizationMatchesOriginal": true,
+    "remainingCR": 0,
+    "jsonDeepEqual": true,
+    "schemaVersionBefore": 1,
+    "schemaVersionAfter": 1,
+    "allSchemaAndContentPreserved": true,
+    "originalRawArtifactRequiredForResume": false,
+    "independentReviewContentChanged": false,
+    "checkedAtUTC": "2026-09-24T13:09:35.478Z",
+    "gitCheckoutHashVerification": {
+      "attributes": [
+        "project/records/2026-09-24/p1-remaining-storyboards-review.json: text: auto",
+        "project/records/2026-09-24/p1-remaining-storyboards-review.json: eol: lf",
+        "project/records/2026-09-24/p1-remaining-storyboards-review.json: filter: unspecified"
+      ],
+      "commands": [
+        "git -c safe.directory=C:/dev/ai-agent-library hash-object --path=project/records/2026-09-24/p1-remaining-storyboards-review.json project/records/2026-09-24/p1-remaining-storyboards-review.json",
+        "git -c safe.directory=C:/dev/ai-agent-library hash-object --no-filters project/records/2026-09-24/p1-remaining-storyboards-review.json",
+        "git -c safe.directory=C:/dev/ai-agent-library hash-object --path=project/records/2026-09-24/p1-remaining-storyboards-review.json <original TEMP artifact>"
+      ],
+      "filteredGitObjectId": "77c84c37d16055e5d3928202a0bae2b337a6f364",
+      "unfilteredGitObjectId": "77c84c37d16055e5d3928202a0bae2b337a6f364",
+      "originalFilteredGitObjectId": "77c84c37d16055e5d3928202a0bae2b337a6f364",
+      "allObjectIdsEqual": true,
+      "checkoutEol": "lf",
+      "checkoutHashPreservationConditionsVerified": true,
+      "actualCheckoutPerformed": false,
+      "gitObjectWritten": false,
+      "persistentGitConfigWritten": false
+    }
+  },
+  "postNormalizationRepositoryChecks": {
+    "checkedAtUTC": "2026-09-24T13:10:08.908Z",
+    "markdownlint": {
+      "status": "passed",
+      "exitCode": 0,
+      "files": 2
+    },
+    "checkLinks": {
+      "status": "passed",
+      "exitCode": 0,
+      "checkedFiles": 315,
+      "checkedLinks": 5579
+    },
+    "scope": "Same commands as repositoryChecks; rerun after review JSON LF normalization and migration-note update.",
+    "ownedFilesHaveNoCR": true
+  }
+}

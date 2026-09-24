@@ -1,0 +1,16 @@
+.training-runtime-scene text { fill: #e6edf6; font-family: inherit; font-size: 22px; }
+.training-runtime-scene .tr-heading { font-size: 25px; font-weight: 680; }
+.training-runtime-scene .tr-label { font-size: 22px; font-weight: 620; }
+.training-runtime-scene .tr-note { fill: #bdcedd; font-size: 20px; }
+.training-runtime-scene .tr-association { fill: none; stroke: #baa7f3; stroke-width: 2; stroke-dasharray: 5 6; opacity: .85; }
+.training-runtime-scene [data-boundary-node] .tr-note { font-size: 18px; }
+.training-runtime-controls { display: flex; flex-wrap: wrap; gap: .5rem; padding: 0 1.25rem .5rem; }
+.training-runtime-controls > div { flex: 1; min-width: 0; }
+.training-runtime-controls .cd-select { display: flex; align-items: center; gap: .5rem; color: #d6e4ed; font-size: .8rem; }
+.training-runtime-controls .cd-select > span { flex-shrink: 0; }
+.training-runtime-controls select { min-width: 0; width: 100%; border: 1px solid #648292; border-radius: .3rem; background: #152c3c; color: #edf6fa; padding: .4rem; font: inherit; }
+.training-runtime-controls select:focus-visible { outline: 2px solid #74e3cf; outline-offset: 3px; }
+.training-runtime-controls select:disabled { opacity: .6; }
+@media (max-width: 560px) { .training-runtime-controls { padding-inline: .75rem; } .training-runtime-controls > div { flex-basis: 100%; } }
+@media (prefers-reduced-motion: reduce) { .training-runtime-scene * { transition: none !important; animation: none !important; } }
+@media print { .training-runtime-controls { display: none; } .training-runtime-scene * { transition: none !important; animation: none !important; } }

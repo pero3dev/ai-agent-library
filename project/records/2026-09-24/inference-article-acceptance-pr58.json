@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "article": "docs/11-llm-internals/inference-internals.md",
+  "review": {
+    "inputDigest": "sha256:8247db515cffe45880d01f770f798798a923b9dca53f6cbfab25d2182bff2b6e",
+    "status": "approved",
+    "checkedAt": "2026-09-24T13:00:02.694Z",
+    "independent": true,
+    "record": "project/records/2026-09-24/inference-score-label-fix.md"
+  },
+  "local": {
+    "inputDigest": "sha256:8247db515cffe45880d01f770f798798a923b9dca53f6cbfab25d2182bff2b6e",
+    "status": "passed",
+    "checkedAt": "2026-09-24T13:01:37.2395439Z",
+    "record": "project/records/2026-09-24/inference-score-label-fix.md"
+  },
+  "public": {
+    "inputDigest": "sha256:8247db515cffe45880d01f770f798798a923b9dca53f6cbfab25d2182bff2b6e",
+    "status": "passed",
+    "checkedAt": "2026-09-24T13:46:54.818Z",
+    "commit": "67b1309fcea8267749be6e52881f3d6a4049ae2b",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138/job/107651395952",
+    "browserRecord": "project/records/2026-09-24/inference-score-label-fix.md"
+  }
+}

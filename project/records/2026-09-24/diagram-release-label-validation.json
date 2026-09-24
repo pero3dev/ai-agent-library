@@ -1,0 +1,187 @@
+{
+  "evidenceClass": "offline-portable-label-successor",
+  "status": "pending-independent-final-review-with-C1",
+  "createdAt": "2026-09-24T13:58:17.206Z",
+  "snapshot": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-label-portable-snapshot",
+  "predecessorSnapshot": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-layout-approved-snapshot",
+  "manifestSHA256": "c68b2b87452f374be0da9d8a6a488655db1989e3425e3074895a4aa8d16c05ff",
+  "predecessorManifestSHA256": "bbbb935cd4a81212fc5c703624625659e2d708e6ffa0e378dcafaf10b35a6da8",
+  "changedFiles": [
+    {
+      "file": "scripts/diagram-release/check-preparation.mjs",
+      "sha256": "76dca6d301fe8a9a756dfc5c04a9a77bc97dfc01fbef359e021d719627749943",
+      "previousSHA256": "ce13ff36c88bbfc6c8fc989503ab4dc8a0cabdecdfb05b1f2cacf77c72f8d68e"
+    },
+    {
+      "file": "scripts/diagram-release/inference-checks.mjs",
+      "sha256": "ea20b87f890832d5c82f9c7f3674f8bda4c04d4f0819faa16d5818bf0022b3d5",
+      "previousSHA256": "d0f83f658e4f4ff286a7262f2a06a16faeee59f10adebfd88e56d7dbef820133"
+    },
+    {
+      "file": "scripts/diagram-release/README.md",
+      "sha256": "74cb929637c79bd37fa4274840dd13d217cff24e630dd9ea8069f9bb9fcdfc95",
+      "previousSHA256": "7bddb5a57dc2b8fcf148cf6e4b869e8bd70d9b4d2addc0b409ff9ae0a56dfc4c"
+    },
+    {
+      "file": "scripts/diagram-release/source-mapping.json",
+      "sha256": "c68b2b87452f374be0da9d8a6a488655db1989e3425e3074895a4aa8d16c05ff",
+      "previousSHA256": "bbbb935cd4a81212fc5c703624625659e2d708e6ffa0e378dcafaf10b35a6da8"
+    }
+  ],
+  "allFiles": [
+    {
+      "file": "scripts/diagram-release/check-preparation.mjs",
+      "sha256": "76dca6d301fe8a9a756dfc5c04a9a77bc97dfc01fbef359e021d719627749943",
+      "previousSHA256": "ce13ff36c88bbfc6c8fc989503ab4dc8a0cabdecdfb05b1f2cacf77c72f8d68e"
+    },
+    {
+      "file": "scripts/diagram-release/collect-deployment.ps1",
+      "sha256": "7608deb8e2c496c71419b93cfb55400dad8d723671de1bc5b0a21ef9ced0151c",
+      "previousSHA256": "7608deb8e2c496c71419b93cfb55400dad8d723671de1bc5b0a21ef9ced0151c"
+    },
+    {
+      "file": "scripts/diagram-release/extract-ci-html.mjs",
+      "sha256": "b1fb649f6d5c3f816651e8ad5929d0112ea8c7d6c10180aa2d1145199c169221",
+      "previousSHA256": "b1fb649f6d5c3f816651e8ad5929d0112ea8c7d6c10180aa2d1145199c169221"
+    },
+    {
+      "file": "scripts/diagram-release/foundations-checks.mjs",
+      "sha256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398",
+      "previousSHA256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398"
+    },
+    {
+      "file": "scripts/diagram-release/inference-checks.mjs",
+      "sha256": "ea20b87f890832d5c82f9c7f3674f8bda4c04d4f0819faa16d5818bf0022b3d5",
+      "previousSHA256": "d0f83f658e4f4ff286a7262f2a06a16faeee59f10adebfd88e56d7dbef820133"
+    },
+    {
+      "file": "scripts/diagram-release/known-site-observations.mjs",
+      "sha256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659",
+      "previousSHA256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659"
+    },
+    {
+      "file": "scripts/diagram-release/portable-paths.mjs",
+      "sha256": "eb3bab3ad3e9bfcffbd2071d23c321ae71abb4a5a7fa78dee1706ef9fd1abd4a",
+      "previousSHA256": "eb3bab3ad3e9bfcffbd2071d23c321ae71abb4a5a7fa78dee1706ef9fd1abd4a"
+    },
+    {
+      "file": "scripts/diagram-release/README.md",
+      "sha256": "74cb929637c79bd37fa4274840dd13d217cff24e630dd9ea8069f9bb9fcdfc95",
+      "previousSHA256": "7bddb5a57dc2b8fcf148cf6e4b869e8bd70d9b4d2addc0b409ff9ae0a56dfc4c"
+    },
+    {
+      "file": "scripts/diagram-release/source-mapping.json",
+      "sha256": "c68b2b87452f374be0da9d8a6a488655db1989e3425e3074895a4aa8d16c05ff",
+      "previousSHA256": "bbbb935cd4a81212fc5c703624625659e2d708e6ffa0e378dcafaf10b35a6da8"
+    },
+    {
+      "file": "scripts/diagram-release/verify-public.mjs",
+      "sha256": "a36251df86d9d6cd24ad326b0d3faa556570d7013c70174a5d8f9aca62490ba0",
+      "previousSHA256": "a36251df86d9d6cd24ad326b0d3faa556570d7013c70174a5d8f9aca62490ba0"
+    },
+    {
+      "file": "tests/unit/diagram-release-portable.test.mjs",
+      "sha256": "c88845ca1e1778fde0e3b5dd9591add784be6bc6dbd543701a8fe21c4f4bf578",
+      "previousSHA256": "c88845ca1e1778fde0e3b5dd9591add784be6bc6dbd543701a8fe21c4f4bf578"
+    }
+  ],
+  "sourceProvenance": {
+    "originalRawSHA256": "90808bc9fb9dcf9c1e0f06e3b1ddc4e243bd0a0460f1d8d30c8997bb7415f80e",
+    "originalNormalizedSHA256": "d0f83f658e4f4ff286a7262f2a06a16faeee59f10adebfd88e56d7dbef820133",
+    "approvedLabelRawSHA256": "25533c15df80ed989d920dd87a918f6ba6425489ca3da9f74fd3012b7771c280",
+    "approvedLabelNormalizedSHA256": "ea20b87f890832d5c82f9c7f3674f8bda4c04d4f0819faa16d5818bf0022b3d5",
+    "sourceEdits": [
+      {
+        "before": "      await p.getByLabel('比較する揺らぎ',{exact:true}).selectOption(kind)\n      const sides=await p.locator('[data-comparison-side]').evaluateAll(ns=>ns.map(n=>({selected:n.dataset.comparisonSelected,p:[...n.querySelectorAll('[data-compare-probability]')].map(r=>+r.dataset.compareProbability),z:[...n.querySelectorAll('[data-compare-logit]')].map(r=>+r.dataset.compareLogit)})))",
+        "after": "      await p.getByLabel('比較する揺らぎ',{exact:true}).selectOption(kind)\n      await expect(p.locator('[data-comparison-value-label]')).toHaveText(Array(2).fill(kind==='draw'?'値: 確率':'値: ロジット'))\n      if(kind==='logit')await expect(p.locator('[data-comparison-bar-label]')).toHaveText(Array(2).fill('棒: T=1の確率'))\n      const sides=await p.locator('[data-comparison-side]').evaluateAll(ns=>ns.map(n=>({selected:n.dataset.comparisonSelected,p:[...n.querySelectorAll('[data-compare-probability]')].map(r=>+r.dataset.compareProbability),z:[...n.querySelectorAll('[data-compare-logit]')].map(r=>+r.dataset.compareLogit)})))",
+        "reason": "PR58: validate probability/logit value labels and the T=1 probability bar label during logit comparison; no case or fixture changes."
+      }
+    ],
+    "sourceStatementAdditions": 2,
+    "originalSourceUnchanged": true,
+    "approvedLabelSourceUnchanged": true
+  },
+  "validation": {
+    "syntaxFiles": 2,
+    "offlineTests": {
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0,
+      "platform": "win32",
+      "node": "v24.16.0",
+      "durationMs": 11087.0385
+    },
+    "preparation": "passed",
+    "totalCases": 58,
+    "inferenceStages": 23,
+    "samplingOracleSettings": 54,
+    "probes": {
+      "evidenceClass": "offline-stubs-and-preparation-mutations",
+      "browserExecuted": false,
+      "networkExecuted": false,
+      "labelAssertions": [
+        {
+          "scenario": "draw-valid",
+          "expected": "passed",
+          "actual": "as-expected",
+          "assertionCalls": 1
+        },
+        {
+          "scenario": "logit-valid",
+          "expected": "passed",
+          "actual": "as-expected",
+          "assertionCalls": 2
+        },
+        {
+          "scenario": "draw-wrong-value",
+          "expected": "rejected",
+          "actual": "as-expected",
+          "assertionCalls": 1
+        },
+        {
+          "scenario": "logit-wrong-value",
+          "expected": "rejected",
+          "actual": "as-expected",
+          "assertionCalls": 1
+        },
+        {
+          "scenario": "logit-wrong-bar",
+          "expected": "rejected",
+          "actual": "as-expected",
+          "assertionCalls": 2
+        }
+      ],
+      "mutationChecks": [
+        {
+          "kind": "missing-label",
+          "exitCode": 1,
+          "expectedFailure": "A declared file replacement must occur exactly once",
+          "updatedCandidateHashes": true,
+          "historicalHashRetained": true
+        },
+        {
+          "kind": "duplicate-label",
+          "exitCode": 1,
+          "expectedFailure": "A declared file replacement must occur exactly once",
+          "updatedCandidateHashes": true,
+          "historicalHashRetained": true
+        },
+        {
+          "kind": "changed-fixture",
+          "exitCode": 1,
+          "expectedFailure": "Reviewed file changed beyond the declared source edits",
+          "updatedCandidateHashes": true,
+          "historicalHashRetained": true
+        }
+      ]
+    }
+  },
+  "boundaries": {
+    "networkExecuted": false,
+    "publicAuditExecuted": false,
+    "browserExecuted": false,
+    "gitOperationsExecuted": false,
+    "linuxExecution": false,
+    "independentReview": "pending; parent authorized combined review of later C1 successor"
+  }
+}

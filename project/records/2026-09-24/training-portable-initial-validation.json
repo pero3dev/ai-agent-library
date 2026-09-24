@@ -1,0 +1,200 @@
+{
+  "evidenceClass": "offline-C1-release-kit-candidate",
+  "status": "pending-independent-code-and-image-review",
+  "createdAt": "2026-09-24T14:14:53.431Z",
+  "manifestSHA256": "9fb0fb0d951d7ba52728b080b86948efc5bcfd6acf3288d5d044c13f6612c6a3",
+  "snapshot": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-C1-portable-whitespace-candidate",
+  "predecessorManifestSHA256": "c68b2b87452f374be0da9d8a6a488655db1989e3425e3074895a4aa8d16c05ff",
+  "files": [
+    {
+      "file": "scripts/diagram-release/check-preparation.mjs",
+      "sha256": "5ef156f74d95c4513a535347f35f4c472c2b1c86caab8cdce03740552a4d3928",
+      "bytes": 11735
+    },
+    {
+      "file": "scripts/diagram-release/collect-deployment.ps1",
+      "sha256": "96536628ace358e7c3499d51ab25a3c5c8375bdb609f1c9951bdd1794f262a1d",
+      "bytes": 12411
+    },
+    {
+      "file": "scripts/diagram-release/extract-ci-html.mjs",
+      "sha256": "bf9d7e3233c8e6daa4a71b176c967c42fbd1203c3dadb641d470b33a9eda2048",
+      "bytes": 4243
+    },
+    {
+      "file": "scripts/diagram-release/foundations-checks.mjs",
+      "sha256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398",
+      "bytes": 26410
+    },
+    {
+      "file": "scripts/diagram-release/inference-checks.mjs",
+      "sha256": "82017c0480f51542aa37351c9ca355fa7b5694288cb0fa7bcda9430ba1d23294",
+      "bytes": 31875
+    },
+    {
+      "file": "scripts/diagram-release/known-site-observations.mjs",
+      "sha256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659",
+      "bytes": 130
+    },
+    {
+      "file": "scripts/diagram-release/portable-paths.mjs",
+      "sha256": "eb3bab3ad3e9bfcffbd2071d23c321ae71abb4a5a7fa78dee1706ef9fd1abd4a",
+      "bytes": 7151
+    },
+    {
+      "file": "scripts/diagram-release/README.md",
+      "sha256": "e1a762120e41c47f1609f542ce7b06b47e9ef85b430fae09cac1a06824872acd",
+      "bytes": 16243
+    },
+    {
+      "file": "scripts/diagram-release/source-mapping.json",
+      "sha256": "9fb0fb0d951d7ba52728b080b86948efc5bcfd6acf3288d5d044c13f6612c6a3",
+      "bytes": 33854
+    },
+    {
+      "file": "scripts/diagram-release/training-checks.mjs",
+      "sha256": "503f18028b0986be09e901ae00448a98a713dce342a07fd731bacb6476ed9d50",
+      "bytes": 26695
+    },
+    {
+      "file": "scripts/diagram-release/verify-public.mjs",
+      "sha256": "20c8991ea06491726f248e8d1892807fb16691014b651ae59c2fbacf605e8c33",
+      "bytes": 59959
+    },
+    {
+      "file": "tests/unit/diagram-release-portable.test.mjs",
+      "sha256": "61aaf9353dc687a7c2f9560d16651adf9baf3fed8f0b78bcf1c518c5ce1b2238",
+      "bytes": 14587
+    }
+  ],
+  "scope": {
+    "retainedCases": 58,
+    "addedCases": 13,
+    "totalCases": 71,
+    "articleRoutes": 7,
+    "trainingStages": 10,
+    "trainingReadStops": 9,
+    "trainingScreenConditions": 6,
+    "selectorValues": 11
+  },
+  "validation": {
+    "nodeSyntaxFiles": 5,
+    "powerShellParser": "passed",
+    "offlineUnit": {
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "platform": "win32",
+      "node": "v24.16.0",
+      "durationMs": 14075.7104
+    },
+    "preparation": "passed: actual registration names, original B protected hashes, complete label-predecessor hashes, exact 7-route sets",
+    "artifactNegatives": [
+      "missing seventh article",
+      "duplicate seventh member",
+      "different BUILD_ID"
+    ],
+    "runtimeNegatives": [
+      "permission owned by model",
+      "candidate bypasses permission",
+      "reversed verification route",
+      "missing result verification"
+    ],
+    "normalizationMutationProbes": {
+      "evidenceClass": "offline-preparation-mutations",
+      "browserExecuted": false,
+      "networkExecuted": false,
+      "observations": [
+        {
+          "kind": "extra-final-lf",
+          "exitCode": 1,
+          "expectedFailure": "The reviewed successor statements remain unexpectedly",
+          "candidateHashUpdated": true
+        },
+        {
+          "kind": "missing-final-lf",
+          "exitCode": 1,
+          "expectedFailure": "A declared reviewed-successor replacement must occur exactly once",
+          "candidateHashUpdated": true
+        }
+      ]
+    },
+    "collectorRouteProbes": {
+      "evidenceClass": "offline-actual-collector-route-block",
+      "githubAPIExecuted": false,
+      "networkExecuted": false,
+      "scenarios": [
+        {
+          "scenario": "valid",
+          "rejected": false
+        },
+        {
+          "scenario": "missing",
+          "rejected": true
+        },
+        {
+          "scenario": "duplicate",
+          "rejected": true
+        },
+        {
+          "scenario": "unexpected",
+          "rejected": true
+        }
+      ]
+    }
+  },
+  "boundaries": {
+    "browserExecuted": true,
+    "localRehearsalExecuted": true,
+    "publicAuditExecuted": false,
+    "networkExecuted": "localhost only; external requests blocked",
+    "gitOperationsExecuted": false,
+    "linuxExecution": false,
+    "independentReview": "pending",
+    "githubAPIExecuted": false
+  },
+  "updatedAt": "2026-09-24T14:25:57.062Z",
+  "whitespaceRevision": {
+    "previousManifestSHA256": "ab739274b10433c0d019a27fd062b9f21270fb530365a7bee7cd358237c118b7",
+    "file": "inference-checks.mjs",
+    "bytesRemoved": 1,
+    "semanticChange": false,
+    "historicalRawAndNormalizedHashesRetained": true,
+    "bothApprovedPR58AndOriginalBRestorationPassed": true
+  },
+  "localRehearsals": [
+    {
+      "engine": "chromium",
+      "candidateManifestSHA256": "ab739274b10433c0d019a27fd062b9f21270fb530365a7bee7cd358237c118b7",
+      "status": "passed",
+      "passed": 13,
+      "artifactPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-local-chromium-2026-09-24T14-17-44-967Z",
+      "resultSHA256": "a89a8cf692dd39c614b8c5837a161a133bd159bce84ec1957fc5659fddcccd13",
+      "screenshots": 68,
+      "overlapCandidates": 24,
+      "blockedExternalRequests": 0,
+      "buildId": "FCghSEE6NdR0foJwlZB7g",
+      "independentImageReview": "pending",
+      "relationshipToCurrent": "Only the declared final-LF normalization and its hash-verification/documentation changed; C1 module and helpers are byte-identical"
+    },
+    {
+      "engine": "webkit",
+      "candidateManifestSHA256": "9fb0fb0d951d7ba52728b080b86948efc5bcfd6acf3288d5d044c13f6612c6a3",
+      "status": "passed",
+      "passed": 13,
+      "artifactPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-local-webkit-2026-09-24T14-21-32-061Z",
+      "resultSHA256": "1b9c180db850459a3e2c2618bd1f54f391d47747b599b4942b58a059c39fc0c5",
+      "screenshots": 68,
+      "overlapCandidates": 0,
+      "blockedExternalRequests": 0,
+      "buildId": "FCghSEE6NdR0foJwlZB7g",
+      "independentImageReview": "pending",
+      "relationshipToCurrent": "Exact current candidate"
+    }
+  ],
+  "localImageReviewCandidates": {
+    "file": "training-portable-geometry-review-candidates.json",
+    "observations": 8,
+    "overlapCandidates": 24
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "risk": "low",
+  "independent": true,
+  "reviewer": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/portable_handoff_kit",
+  "reviewedAt": "2026-09-24T14:31:18.911Z",
+  "scope": "Limited independent re-review of four added statements in the second training browser case; all other fourteen files retain the previous approved hashes.",
+  "previousReview": {
+    "json": "training-integration-review-addendum.json",
+    "jsonSHA256": "4b6dc2fe65901d729dafd182f99fde963a8e1c494c181c6a8d55358b0e952024",
+    "markdown": "training-integration-review-addendum.md",
+    "markdownSHA256": "db7a1357557711f7fe08b316badf464119069304b42d29cbb47a5bbe729e9c01",
+    "status": "approved",
+    "risk": "low"
+  },
+  "files": [
+    {
+      "file": "website/lib/diagram-registry.mjs",
+      "sha256": "f2a7bcdfe246b9afb08e96e165147b5c5134e03dcb9e9f4bcf3024e10a2ea156",
+      "previousSHA256": "f2a7bcdfe246b9afb08e96e165147b5c5134e03dcb9e9f4bcf3024e10a2ea156",
+      "unchanged": true
+    },
+    {
+      "file": "website/diagrams/registry.json",
+      "sha256": "6d78915fa9c05d90f755fb180146c6fb4c11820eed3efccef4250108edf0eb63",
+      "previousSHA256": "6d78915fa9c05d90f755fb180146c6fb4c11820eed3efccef4250108edf0eb63",
+      "unchanged": true
+    },
+    {
+      "file": "website/lib/diagram-decoration.mjs",
+      "sha256": "4c7cf927bfe88e18a388b44a53a10e5d6e806bb4b9bfb72aa89c9fcb9abea74b",
+      "previousSHA256": "4c7cf927bfe88e18a388b44a53a10e5d6e806bb4b9bfb72aa89c9fcb9abea74b",
+      "unchanged": true
+    },
+    {
+      "file": "website/lib/mdx-safety.mjs",
+      "sha256": "f56989551449ff75814b23399038004218152d926f604ade864d349494ea7242",
+      "previousSHA256": "f56989551449ff75814b23399038004218152d926f604ade864d349494ea7242",
+      "unchanged": true
+    },
+    {
+      "file": "website/mdx-components.js",
+      "sha256": "2aa913b9231ae175e0b2d674fadec7ada08ebdeb3eb3f0c44b2a712c7fa10aa2",
+      "previousSHA256": "2aa913b9231ae175e0b2d674fadec7ada08ebdeb3eb3f0c44b2a712c7fa10aa2",
+      "unchanged": true
+    },
+    {
+      "file": "website/components/diagrams/training-walkthrough.jsx",
+      "sha256": "7bdf27874f15d38a30270811eeeae9170a3822e41485b9542c68151ded1695e8",
+      "previousSHA256": "7bdf27874f15d38a30270811eeeae9170a3822e41485b9542c68151ded1695e8",
+      "unchanged": true
+    },
+    {
+      "file": "website/lib/diagram-article-acceptance.mjs",
+      "sha256": "03910e17e5fe049e2162610ffe734cfb28e53b2850cd2a573118a136e267bb7b",
+      "previousSHA256": "03910e17e5fe049e2162610ffe734cfb28e53b2850cd2a573118a136e267bb7b",
+      "unchanged": true
+    },
+    {
+      "file": "website/diagrams/articles.json",
+      "sha256": "b469315b71af6d4f5c616382a925532cbaa0f6943560251516454744108dc6d8",
+      "previousSHA256": "b469315b71af6d4f5c616382a925532cbaa0f6943560251516454744108dc6d8",
+      "unchanged": true
+    },
+    {
+      "file": "project/records/2026-09-24/training-article-acceptance.json",
+      "sha256": "b0c4ff28252d4acbad89f0861b66ebdba73645bd7909674b1ec62f81b94e85f7",
+      "previousSHA256": "b0c4ff28252d4acbad89f0861b66ebdba73645bd7909674b1ec62f81b94e85f7",
+      "unchanged": true
+    },
+    {
+      "file": "website/tests/unit/training-decoration.test.mjs",
+      "sha256": "efc176253d15169a0a07ff4dc3e2e5a95d91fb41bafd5541617dbeea3c752530",
+      "previousSHA256": "efc176253d15169a0a07ff4dc3e2e5a95d91fb41bafd5541617dbeea3c752530",
+      "unchanged": true
+    },
+    {
+      "file": "website/tests/unit/mdx-safety.test.mjs",
+      "sha256": "e4c0e2be36ee37b754ec6d7225d7728f927cc7e8b88787d8dfce798a8aa4c610",
+      "previousSHA256": "e4c0e2be36ee37b754ec6d7225d7728f927cc7e8b88787d8dfce798a8aa4c610",
+      "unchanged": true
+    },
+    {
+      "file": "website/tests/unit/diagram-article-acceptance.test.mjs",
+      "sha256": "fc43cafb3bbc7b9979dd26b9eb77de7d41d8681c66feb01537cf6c876edcb11b",
+      "previousSHA256": "fc43cafb3bbc7b9979dd26b9eb77de7d41d8681c66feb01537cf6c876edcb11b",
+      "unchanged": true
+    },
+    {
+      "file": "website/README.md",
+      "sha256": "d024c42c355d7e88b4731dafe47b2b5c01ffc28c62953623ce8b946605a05a0f",
+      "previousSHA256": "d024c42c355d7e88b4731dafe47b2b5c01ffc28c62953623ce8b946605a05a0f",
+      "unchanged": true
+    },
+    {
+      "file": "website/tests/browser/training.spec.mjs",
+      "sha256": "7a5e7bad5bccc26600a1f3e144fb0adc4b1a435dfb48a3b419e542cae9b9e56e",
+      "previousSHA256": "a13950bc089dd443eb67864201077ddd4f520c7a0fadaee83a11543e30da2da9",
+      "unchanged": false
+    },
+    {
+      "file": "website/tests/browser/diagram-loading.spec.mjs",
+      "sha256": "8d338c7218e07bec8abc3b999be0e2f26ba30dcb728b6c63adfee9d296b31270",
+      "previousSHA256": "8d338c7218e07bec8abc3b999be0e2f26ba30dcb728b6c63adfee9d296b31270",
+      "unchanged": true
+    }
+  ],
+  "exactChange": {
+    "file": "website/tests/browser/training.spec.mjs",
+    "startLine": 125,
+    "endLine": 128,
+    "addedStatements": 4,
+    "deletedStatements": 0,
+    "currentSHA256": "7a5e7bad5bccc26600a1f3e144fb0adc4b1a435dfb48a3b419e542cae9b9e56e",
+    "restoredAfterRemovingExactBlockSHA256": "a13950bc089dd443eb67864201077ddd4f520c7a0fadaee83a11543e30da2da9",
+    "previousApprovedSHA256": "a13950bc089dd443eb67864201077ddd4f520c7a0fadaee83a11543e30da2da9"
+  },
+  "findings": {
+    "must": [],
+    "should": []
+  },
+  "assessment": [
+    "The existing second case starts with a fresh page and changes stages but does not change trait selection before the new block. Stage 2 is explicitly selected, then hallucination is asserted before looking at refusal information.",
+    "The caveat locator is scoped to the runtime inline panel, avoiding another figure or a hidden expanded copy. Visibility and exact fixed text are asserted separately, so DOM presence alone is insufficient.",
+    "The expectation is a literal requirement supplied in the review task and supported by the original article explanation of refusal. No new import or expected value derived from the product model, scene output or runtime implementation was added.",
+    "The later selector loop and every previous assertion remain byte-identical after removing only the four new statements."
+  ],
+  "checks": [
+    {
+      "kind": "independent-raw-hash-comparison",
+      "unchangedFiles": 14,
+      "changedFiles": 1,
+      "exactFourStatementReversal": true
+    },
+    {
+      "kind": "node-syntax",
+      "command": "node --check tests/browser/training.spec.mjs",
+      "cwd": "website",
+      "exitCode": 0
+    },
+    {
+      "kind": "playwright-discovery",
+      "command": "node node_modules/@playwright/test/cli.js test tests/browser/training.spec.mjs --list",
+      "cwd": "website",
+      "cases": 20,
+      "exitCode": 0,
+      "browserExecuted": false
+    },
+    {
+      "kind": "offline-exact-statement-probes",
+      "file": "training-integration-caveat-assertion-probes.json",
+      "sha256": "3349c3fddd3e244d2a54bb2ee0d8d89dd717eba0d74fba3c20ba01d8beb367f6",
+      "positive": 1,
+      "negative": 3,
+      "scenarios": [
+        "default-visible-correct",
+        "wrong-focus",
+        "hidden-caveat",
+        "wrong-caveat-text"
+      ],
+      "result": "all behaved as expected; stubs, not browser execution"
+    }
+  ],
+  "limitations": [
+    "Only the four added browser assertions and preservation of the fourteen other approved files are accepted here.",
+    "No product scene/meaning/image review, actual browser execution, new build acceptance or public deployment was performed in this limited review. Product two-file review and kit review remain separate owners.",
+    "No repository writes or Git operations were performed. Outputs are TEMP reports only."
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "github-actions-pages-artifact",
+  "checkedAt": "2026-09-24T13:25:48.2327605Z",
+  "repository": "pero3dev/ai-agent-library",
+  "baseURL": "https://pero3dev.github.io/ai-agent-library",
+  "mergeSha": "67b1309fcea8267749be6e52881f3d6a4049ae2b",
+  "runId": 36004074138,
+  "runAttempt": 1,
+  "workflowPath": ".github/workflows/ci.yml",
+  "ciUrl": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138",
+  "buildJobUrl": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138/job/107647622008",
+  "deployJobUrl": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138/job/107651395952",
+  "deploymentId": 6638779591,
+  "deploymentStatusId": 18784465250,
+  "deploymentState": "success",
+  "artifactId": 10809149180,
+  "artifactName": "github-pages",
+  "artifactApiDigest": "sha256:23d9b1bf5e2341801ecda5b793be3daaf18d27e680ecfcc5b038eb1513b07063",
+  "archiveTarSHA256": "c8ddb01ad9f1dc990a56cf768a56a2a45af322fcd58b0480ece9c636bf0a2209",
+  "expectedBuildId": "iRnRpU4WRuIJMMLwqJ3Cb",
+  "documents": [
+    {
+      "route": "/docs/llm-internals/inference-internals",
+      "archiveMember": "./docs/llm-internals/inference-internals.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\inference-internals.html",
+      "bytes": 717982,
+      "htmlSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+      "buildId": "iRnRpU4WRuIJMMLwqJ3Cb"
+    },
+    {
+      "route": "/docs/llm-foundations/how-llms-generate-text",
+      "archiveMember": "./docs/llm-foundations/how-llms-generate-text.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\how-llms-generate-text.html",
+      "bytes": 596336,
+      "htmlSHA256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e",
+      "buildId": "iRnRpU4WRuIJMMLwqJ3Cb"
+    },
+    {
+      "route": "/docs/llm-foundations/tokenization",
+      "archiveMember": "./docs/llm-foundations/tokenization.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\tokenization.html",
+      "bytes": 582756,
+      "htmlSHA256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f",
+      "buildId": "iRnRpU4WRuIJMMLwqJ3Cb"
+    },
+    {
+      "route": "/docs/llm-internals/mixture-of-experts-internals",
+      "archiveMember": "./docs/llm-internals/mixture-of-experts-internals.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\mixture-of-experts-internals.html",
+      "bytes": 712162,
+      "htmlSHA256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+      "buildId": "iRnRpU4WRuIJMMLwqJ3Cb"
+    },
+    {
+      "route": "/docs/llm-internals/attention-variants-and-long-context",
+      "archiveMember": "./docs/llm-internals/attention-variants-and-long-context.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\attention-variants-and-long-context.html",
+      "bytes": 770704,
+      "htmlSHA256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+      "buildId": "iRnRpU4WRuIJMMLwqJ3Cb"
+    },
+    {
+      "route": "/docs/llm-internals/transformer-architecture",
+      "archiveMember": "./docs/llm-internals/transformer-architecture.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\transformer-architecture.html",
+      "bytes": 1077377,
+      "htmlSHA256": "959bde1c820141625fa22fa04251718719b9438caf316a1fea22f3fe6f617db3",
+      "buildId": "iRnRpU4WRuIJMMLwqJ3Cb"
+    }
+  ],
+  "digestNote": "artifactApiDigest describes the GitHub artifact container. archiveTarSHA256 is independently computed for downloaded archive.tar; the two digests are not equated.",
+  "expectedValueSource": "Six selected HTML files (inference, generation, tokenization, MoE, attention variants, Transformer) from the successful exact-run github-pages artifact. No expected value is read from public HTTP or a local build."
+}

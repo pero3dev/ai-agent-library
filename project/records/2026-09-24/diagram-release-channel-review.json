@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "independent-offline-channel-fix-review",
+  "reviewer": "/root/portable_handoff_kit/portable_review",
+  "reviewedAt": "2026-09-24T13:20:32.636Z",
+  "status": "approved",
+  "risk": "low",
+  "candidateManifestSHA256": "e9cf22cf7edd16443a6cd4d38c6aec9fac92bd09f4ad442f04270ef352ddac03",
+  "predecessorManifestSHA256": "d5ff1524136e8279af9e946ba4e4ae5faf71eb2cfa401b574a7258fd1ebaeb7c",
+  "findings": [],
+  "changedFiles": [
+    "README.md",
+    "check-preparation.mjs",
+    "portable-validation.test.mjs",
+    "source-mapping.json",
+    "verify-public.mjs"
+  ],
+  "fileHashes": [
+    {
+      "file": "check-preparation.mjs",
+      "predecessorSHA256": "424fbdc751f761523cb326bd97ae079117d1d8068b619d9e846841c3d920f5b6",
+      "candidateSHA256": "44b51cad17bf6cb49371ca3c5f70e99b5d2f199a9ee235e0689fac0a059aa9a8",
+      "changed": true
+    },
+    {
+      "file": "collect-deployment.ps1",
+      "predecessorSHA256": "7608deb8e2c496c71419b93cfb55400dad8d723671de1bc5b0a21ef9ced0151c",
+      "candidateSHA256": "7608deb8e2c496c71419b93cfb55400dad8d723671de1bc5b0a21ef9ced0151c",
+      "changed": false
+    },
+    {
+      "file": "extract-ci-html.mjs",
+      "predecessorSHA256": "b1fb649f6d5c3f816651e8ad5929d0112ea8c7d6c10180aa2d1145199c169221",
+      "candidateSHA256": "b1fb649f6d5c3f816651e8ad5929d0112ea8c7d6c10180aa2d1145199c169221",
+      "changed": false
+    },
+    {
+      "file": "foundations-checks.mjs",
+      "predecessorSHA256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398",
+      "candidateSHA256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398",
+      "changed": false
+    },
+    {
+      "file": "inference-checks.mjs",
+      "predecessorSHA256": "d0f83f658e4f4ff286a7262f2a06a16faeee59f10adebfd88e56d7dbef820133",
+      "candidateSHA256": "d0f83f658e4f4ff286a7262f2a06a16faeee59f10adebfd88e56d7dbef820133",
+      "changed": false
+    },
+    {
+      "file": "known-site-observations.mjs",
+      "predecessorSHA256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659",
+      "candidateSHA256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659",
+      "changed": false
+    },
+    {
+      "file": "portable-paths.mjs",
+      "predecessorSHA256": "eb3bab3ad3e9bfcffbd2071d23c321ae71abb4a5a7fa78dee1706ef9fd1abd4a",
+      "candidateSHA256": "eb3bab3ad3e9bfcffbd2071d23c321ae71abb4a5a7fa78dee1706ef9fd1abd4a",
+      "changed": false
+    },
+    {
+      "file": "portable-validation.test.mjs",
+      "predecessorSHA256": "f5c4184e5e4018bdac7255a8d7aeb7191c611a0b670dc3d44bbb0473affa45f1",
+      "candidateSHA256": "3bf260aec359f637ae5eeb932fed95cd4485f4c68f418b0d88840bc59918b09b",
+      "changed": true
+    },
+    {
+      "file": "README.md",
+      "predecessorSHA256": "b23b4080ff95efb022d4c708393178655bcf5eb3110ad3b5d610a1c7e6bfd4f4",
+      "candidateSHA256": "daa1622fc3ec40e1dcdccb23f2fc9d733b9ee1743b7d089fa9226dd12f3147e9",
+      "changed": true
+    },
+    {
+      "file": "source-mapping.json",
+      "predecessorSHA256": "d5ff1524136e8279af9e946ba4e4ae5faf71eb2cfa401b574a7258fd1ebaeb7c",
+      "candidateSHA256": "e9cf22cf7edd16443a6cd4d38c6aec9fac92bd09f4ad442f04270ef352ddac03",
+      "changed": true
+    },
+    {
+      "file": "verify-public.mjs",
+      "predecessorSHA256": "f3dfb970498e80b2f619d55a30e9c1cddca657ed75e9fa0eb99877528d641a25",
+      "candidateSHA256": "a36251df86d9d6cd24ad326b0d3faa556570d7013c70174a5d8f9aca62490ba0",
+      "changed": true
+    }
+  ],
+  "protectedSegments": [
+    {
+      "file": "verify-public.mjs",
+      "start": "assert.equal(artifactEvidence.schemaVersion",
+      "originalNormalizedSHA256": "1c55d08ac5f99af659cbd65abd1e9966c810ba2ff1caeba7be8c91b089287cbd",
+      "candidateSHA256": "1c55d08ac5f99af659cbd65abd1e9966c810ba2ff1caeba7be8c91b089287cbd",
+      "declaredEdits": 0
+    },
+    {
+      "file": "verify-public.mjs",
+      "start": "function observe(page)",
+      "originalNormalizedSHA256": "3866ce9c96e972b28f1d823f63e2ab43f19294bf318c831cf920dab097b67d17",
+      "candidateSHA256": "bcacd0aac5cff7dfb542dc3b30ae1843cfbb05e1d8a657fad95d0e85b996f29c",
+      "declaredEdits": 2
+    },
+    {
+      "file": "collect-deployment.ps1",
+      "start": "function Read-GitHubJson",
+      "originalNormalizedSHA256": "d969d6fe53cf37a81f2b59f8caf920c561465f89790eb18ecba406202e6f770e",
+      "candidateSHA256": "d969d6fe53cf37a81f2b59f8caf920c561465f89790eb18ecba406202e6f770e",
+      "declaredEdits": 0
+    },
+    {
+      "file": "collect-deployment.ps1",
+      "start": "# Re-read identities",
+      "originalNormalizedSHA256": "23aacc3899af647a168a2d2969e8a79c64758d6c53b12543cd93b30c273aeb74",
+      "candidateSHA256": "23aacc3899af647a168a2d2969e8a79c64758d6c53b12543cd93b30c273aeb74",
+      "declaredEdits": 0
+    },
+    {
+      "file": "extract-ci-html.mjs",
+      "start": "const routes = [",
+      "originalNormalizedSHA256": "575a0447237a6ac0649fdcb159e504fdd41863fcb9080d5238b925b06bccb942",
+      "candidateSHA256": "575a0447237a6ac0649fdcb159e504fdd41863fcb9080d5238b925b06bccb942",
+      "declaredEdits": 0
+    }
+  ],
+  "sourceEdits": [
+    {
+      "before": "  browser = await playwright[engine].launch({ headless: true, ...(engine === 'chromium' ? { channel: args.channel || 'msedge' } : {}) })",
+      "after": "  browser = await playwright[engine].launch({ headless: true, ...(engine === 'chromium' && args.channel ? { channel: args.channel } : {}) })",
+      "reason": "Omit the channel option for bundled Chromium; select Edge only for explicit msedge."
+    },
+    {
+      "before": "  report.browser = { engine, channel: engine === 'chromium' ? args.channel || 'msedge' : null, version: browser.version() }",
+      "after": "  report.browser = { engine, channel: engine === 'chromium' ? args.channel || null : null, version: browser.version() }",
+      "reason": "Record null for bundled Chromium and WebKit; record msedge only when explicitly selected."
+    }
+  ],
+  "allOtherRunnerBytesMatchLFPredecessor": true,
+  "originalRawSourceAndLFPredecessorUnchanged": true,
+  "allCandidateFilesLF": true,
+  "assertionTamperDetection": {
+    "executedInMemory": true,
+    "actualPreparationSegmentVerifierUsed": true,
+    "candidateHashRefreshed": true,
+    "undeclaredAssertionChangeRejected": true
+  },
+  "offlineTests": {
+    "independentlyExecuted": true,
+    "passed": 18,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "durationMs": 15591.9436
+  },
+  "preparation": {
+    "independentlyExecuted": true,
+    "totalCases": 58,
+    "samplingSettings": 54,
+    "inferenceStages": 23,
+    "outputDirectory": "C:\\Users\\81906\\AppData\\Local\\Temp\\channel-fix-independent-checks"
+  },
+  "launchBoundary": {
+    "actualRunnerStatementsExecutedWithStub": true,
+    "allowed": [
+      "omitted browser/channel -> bundled Chromium",
+      "chromium without channel -> bundled Chromium",
+      "chromium plus msedge -> Edge",
+      "webkit without channel -> WebKit"
+    ],
+    "rejectedBeforeLaunch": [
+      "webkit plus msedge",
+      "chromium plus chrome",
+      "firefox"
+    ]
+  },
+  "browserExecuted": false,
+  "networkExecuted": false,
+  "githubExecuted": false,
+  "repositoryEdited": false,
+  "gitEdited": false,
+  "limitations": [
+    "Approval is scoped to this declared channel successor; no live browser/public/physical-device or second-PC acceptance."
+  ],
+  "writes": "Requested review files and isolated temporary offline test/preparation output only."
+}

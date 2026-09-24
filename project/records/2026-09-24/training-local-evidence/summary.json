@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "local-build-and-browser",
+  "savedAt": "2026-09-24T14:45:48.456Z",
+  "buildID": "GpM7J_g8lnbvEy6H7i7nO",
+  "files": [
+    {
+      "file": "chromium-all.json.gz",
+      "sourceFilename": "training-caveat-full-chromium.json",
+      "rawSHA256": "bf6cd424f946d5ebadfee882f7a362bcf7d4fdd61954bd34f2f8552a46a09f76",
+      "rawBytes": 377219,
+      "storedSHA256": "3ddc8905e4716e3d94ed3deddad2edea181b36e70de2911c942ce5d438baef6a",
+      "storedBytes": 20193
+    },
+    {
+      "file": "build-identity.json",
+      "sourceFilename": "training-caveat-local-build-identity.json",
+      "rawSHA256": "c513a8908125dc91e1e6ac844ccf27fbc77826ec0d9966058c2adc2a5f31cb1a",
+      "rawBytes": 8905,
+      "storedSHA256": "c513a8908125dc91e1e6ac844ccf27fbc77826ec0d9966058c2adc2a5f31cb1a",
+      "storedBytes": 8905
+    },
+    {
+      "file": "scene-audit.json.gz",
+      "sourceFilename": "training-scene-audit-browser-v2.json",
+      "rawSHA256": "14064f1fb9afa67712888497ac5f917b236c50a460921557c53777414b5f0180",
+      "rawBytes": 138424,
+      "storedSHA256": "e669820735d216c9bc16d8478bca1254e6cc8e7edf1f733a600f50e1739f92aa",
+      "storedBytes": 11240
+    },
+    {
+      "file": "root-check-initial.log.gz",
+      "sourceFilename": "training-root-check.log",
+      "rawSHA256": "ded3ccc80fa325e3fcaf8d6b4bfd941a5b04099e3d9c7bd7cc2afb265d4e0af6",
+      "rawBytes": 45316,
+      "storedSHA256": "2d3384255542e6037b910c58f5fb4c20f074f3c2e524de5414e12288d34b22f0",
+      "storedBytes": 15461
+    },
+    {
+      "file": "root-static-recheck.log.gz",
+      "sourceFilename": "training-root-static-recheck.log",
+      "rawSHA256": "19348f7f89544f790457713f48f5ff7a96ce2b34ebf6576795724a14bff06491",
+      "rawBytes": 46496,
+      "storedSHA256": "c8d121c894e33291b87628d675ce81e483b225bb771e173d42b24a1ddea648bd",
+      "storedBytes": 15131
+    },
+    {
+      "file": "website-unit.log.gz",
+      "sourceFilename": "training-website-unit.log",
+      "rawSHA256": "8d88abb257ad6907f709bbac8e3cd7d6f56de95385ea2cd086fc78eda0c22c76",
+      "rawBytes": 31177,
+      "storedSHA256": "cf554aee2979d3ee99b7e03173a3de62e0728239b5c15475d9de88f24eec4304",
+      "storedBytes": 11348
+    },
+    {
+      "file": "static-build.log.gz",
+      "sourceFilename": "training-caveat-export-build.log",
+      "rawSHA256": "bb4ee8b06ddce3c2fcc3233bacb3e92877f32d8f0e10678a7921d0a7a7407dcc",
+      "rawBytes": 35307,
+      "storedSHA256": "74c76c3fd5e66faa4432e9e7daf0029b6a94604e3415f3cb307473de7e45dcb2",
+      "storedBytes": 4329
+    },
+    {
+      "file": "webkit-target.json.gz",
+      "sourceFilename": "training-caveat-target-webkit.json",
+      "rawSHA256": "6d036318f8e018cee9b1fdbd388fe2e577d2b6b15f71fccf493051b4e031a972",
+      "rawBytes": 28455,
+      "storedSHA256": "51d9144fca686fbb1b0d4f54bb6a07685989402e2a9aa808ffea87dc32e6fab2",
+      "storedBytes": 2641
+    },
+    {
+      "file": "runtime-evaluation-1280x720.png",
+      "storedSHA256": "c2cfbe94014ed895f6e19df5065ffe8d1d708f20ed2ccc4292fc6184a2fac6a0",
+      "storedBytes": 104933,
+      "evidenceClass": "representative-local-image"
+    },
+    {
+      "file": "runtime-evaluation-960x540-svg.png",
+      "storedSHA256": "7ca02273d86afce6934c376faaed7885a63b11a3ba0ba0aa684f3773874825db",
+      "storedBytes": 131088,
+      "evidenceClass": "representative-local-image"
+    }
+  ],
+  "chromium": {
+    "startTime": "2026-09-24T14:31:53.246Z",
+    "duration": 753413.068,
+    "expected": 278,
+    "skipped": 5,
+    "unexpected": 0,
+    "flaky": 0,
+    "total": 283,
+    "skippedCases": [
+      {
+        "title": "starts redirected MP3 from article, navigates, seeks chapters and restores without requesting media",
+        "status": "skipped",
+        "expectedStatus": "skipped"
+      },
+      {
+        "title": "queue can be reordered before playing, auto advances, and removes the current item without autoplay",
+        "status": "skipped",
+        "expectedStatus": "skipped"
+      },
+      {
+        "title": "mobile player fits the viewport and storage failures leave playback available",
+        "status": "skipped",
+        "expectedStatus": "skipped"
+      },
+      {
+        "title": "failed redirected media requests are retryable without losing the selected episode",
+        "status": "skipped",
+        "expectedStatus": "skipped"
+      },
+      {
+        "title": "unavailable old version does not transfer its position into replacement audio",
+        "status": "skipped",
+        "expectedStatus": "skipped"
+      }
+    ]
+  },
+  "publicVerification": false,
+  "physicalDeviceVerification": false,
+  "visualReviewRecord": "../training-scene-audit-final-review.json",
+  "limitations": "Historical source paths are not prerequisites for a new PC. Browser PNGs remain in the originating evidence directory; the independent review records the exact subset viewed. Reproduce with the versioned browser tests and release kit.",
+  "webkit": {
+    "startTime": "2026-09-24T14:44:57.613Z",
+    "duration": 150669.919,
+    "expected": 22,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "updatedAt": "2026-09-24T14:48:29.581Z"
+}

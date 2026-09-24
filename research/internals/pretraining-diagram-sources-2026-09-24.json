@@ -1,0 +1,306 @@
+{
+  "schemaVersion": 1,
+  "recordType": "read-only-primary-source-evidence",
+  "runId": "2026-09-24-pretraining-source-evidence",
+  "author": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/pretraining_source_evidence",
+  "createdAt": "2026-09-24T13:49:09.746Z",
+  "scope": {
+    "purpose": "C2既承認の最小6訂正について実取得した一次資料と置換対応を記録する。正式manifestと最終候補レビューはrootがC2実装時に行う。",
+    "ownedOutputs": [
+      "TEMP/pretraining-source-evidence.md",
+      "TEMP/pretraining-source-evidence.json"
+    ],
+    "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+    "task": "ROADMAP T-1（既存published記事の通常改訂）",
+    "authority": "rootの読み取り専用調査指示。外部操作は公開arXivページの取得だけ。製品・記事・Gitの変更は禁止。",
+    "stopCondition": "6訂正の根拠・書誌・現行before一致と未確認範囲を記録して終了。"
+  },
+  "contractsRead": [
+    "AGENTS.md",
+    "harness/writing-rules.md",
+    ".agents/skills/publish-review/SKILL.md",
+    "scripts/schemas/harness-change.schema.json",
+    "ROADMAP.md:T-1"
+  ],
+  "inputs": {
+    "article": {
+      "path": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "sha256": "55c2af5771a48c676eea173ab912429c8c7ba94c3ccd49f27858e6f5c4050deb"
+    },
+    "plan": {
+      "path": "project/records/2026-09-24/training-storyboards.json",
+      "sha256": "3439e7f163e2b033c278636c59738ef7ee9325cf5a9dec2369284374d44d504a"
+    }
+  },
+  "acquisitionWindows": [
+    {
+      "startedAt": "2026-09-24T13:45:46Z",
+      "finishedAt": "2026-09-24T13:45:48Z",
+      "action": "本文2件とabstract/metadata2件をopen"
+    },
+    {
+      "startedAt": "2026-09-24T13:46:02Z",
+      "finishedAt": "2026-09-24T13:46:04Z",
+      "action": "計算量定義・Appendix F・投稿履歴をfind/open"
+    },
+    {
+      "startedAt": "2026-09-24T13:46:21Z",
+      "finishedAt": "2026-09-24T13:46:23Z",
+      "action": "該当節リンク・書誌先頭・Appendix F終盤をclick/open"
+    }
+  ],
+  "timestampPolicy": "accessedAtは最初の取得完了直後にclockで観測したUTC秒。各呼出しの開始・終了で囲い、計画内の過去時刻は流用しない。webのCrawled表記を自分の取得時刻として使わない。",
+  "sources": [
+    {
+      "id": "chinchilla-body",
+      "url": "https://arxiv.org/html/2203.15556",
+      "title": "Training Compute-Optimal Large Language Models",
+      "version": "arXiv:2203.15556v1",
+      "authors": "Jordan Hoffmann et al.",
+      "submittedAt": "2022-03-29T13:38:03Z",
+      "accessedAt": "2026-09-24T13:45:48Z",
+      "lastSectionReadAt": "2026-09-24T13:46:23Z",
+      "acquisition": "web.run open / find / clickでarXiv HTML本文を実取得して該当節を読む。本文バイト列の保存・ハッシュ採取は未実施。",
+      "bibliographicVerified": true
+    },
+    {
+      "id": "kaplan-body",
+      "url": "https://arxiv.org/html/2001.08361",
+      "title": "Scaling Laws for Neural Language Models",
+      "version": "arXiv:2001.08361v1",
+      "authors": "Jared Kaplan et al.",
+      "submittedAt": "2020-01-23T03:59:20Z",
+      "accessedAt": "2026-09-24T13:45:48Z",
+      "lastSectionReadAt": "2026-09-24T13:46:23Z",
+      "acquisition": "web.run open / find / clickでarXiv HTML本文を実取得して該当節を読む。本文バイト列の保存・ハッシュ採取は未実施。",
+      "bibliographicVerified": true
+    },
+    {
+      "id": "chinchilla-metadata",
+      "url": "https://arxiv.org/abs/2203.15556",
+      "accessedAt": "2026-09-24T13:45:48Z",
+      "lastSectionReadAt": "2026-09-24T13:46:23Z",
+      "confirms": "題名・Jordan Hoffmannを先頭とする著者・2022年・v1・初回投稿日時。記事と不一致なし。"
+    },
+    {
+      "id": "kaplan-metadata",
+      "url": "https://arxiv.org/abs/2001.08361",
+      "accessedAt": "2026-09-24T13:45:48Z",
+      "lastSectionReadAt": "2026-09-24T13:46:23Z",
+      "confirms": "題名・Jared Kaplanを先頭とする著者・2020年・v1・初回投稿日時。記事と不一致なし。"
+    }
+  ],
+  "claims": [
+    {
+      "id": "C-ALLOCATION",
+      "sourceId": "chinchilla-body",
+      "section": "§1 Eq.(1), §3, §3.2",
+      "lines": "96–100, 123–125, 135–140",
+      "summary": "固定FLOPs予算の制約下で、損失を小さくするパラメータ数と学習トークン数の配分を探す。"
+    },
+    {
+      "id": "C-LOSS",
+      "sourceId": "chinchilla-body",
+      "section": "§3.3 Eq.(2)",
+      "lines": "142–147",
+      "summary": "二変数の経験式は E + A/N^α + B/D^β。下限に対応する項と、規模・データに依存する項を分ける。記事の一変数式そのものの引用ではない。"
+    },
+    {
+      "id": "C-GROWTH",
+      "sourceId": "chinchilla-body",
+      "section": "§3.3 Eq.(4), §3.4 Table 2",
+      "lines": "154–171",
+      "summary": "計算予算が増えるときの最適なN・Dの成長率は近い。NとDの数値や単位が等しいという意味ではない。"
+    },
+    {
+      "id": "C-FLOPS",
+      "sourceId": "chinchilla-body",
+      "section": "Appendix F, Table A4",
+      "lines": "483–545",
+      "summary": "計算量の単位はFLOPs。埋め込みを含む演算数と6ND概算を比較し、逆伝播を順伝播の約2倍としている。"
+    },
+    {
+      "id": "K-FLOPS",
+      "sourceId": "kaplan-body",
+      "section": "§1.3, §2.1 Table 1 / Eq.(2.2)直後",
+      "lines": "173–197, 208–230",
+      "summary": "埋め込みを除く学習演算数を、トークン当たり約6Nとして概算する。文脈依存項などを省く条件がある。FLOPsを料金・時間・電力そのものとは定義していない。"
+    }
+  ],
+  "corrections": [
+    {
+      "id": "C2-1",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "location": "スケーリング則の系譜 / 式の読み下し",
+      "before": "$N$ を 10 倍しても損失は一定の割合でしか下がらない(収穫逓減)",
+      "after": "$N$ を 10 倍すると、下限からの差 $L-L_\\infty$ が一定の割合で小さくなる(収穫逓減)",
+      "reason": "式の倍率は残差項に掛かり、下限を含むL全体の比ではない。",
+      "source": "https://arxiv.org/html/2203.15556",
+      "section": "§3.3 Eq.(2); 元記事の式からの代数的帰結",
+      "beforeOccurrences": 1,
+      "claimIds": [
+        "C-LOSS"
+      ],
+      "supportType": "article-equation-algebra-plus-primary-context",
+      "reasoning": "記事の既存式のR(N)=L(N)−L∞=(Nc/N)^αNに対し、R(10N)=10^(−αN)R(N)。倍率はRに掛かる。Chinchillaの二変数式でDを固定する場合、Nに関する下限はE+B/D^βとなるので、L∞を無条件に論文のEと同一視しない。",
+      "verdict": "supported"
+    },
+    {
+      "id": "C2-2",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "location": "スケーリング則の系譜 / Chinchilla箇条書き",
+      "before": "固定の計算予算 $C$ の下で損失を最小化するには、**$N$ と $D$ をほぼ同じ割合で一緒に増やすべき**、という修正。",
+      "after": "固定の計算予算 $C$ の下で損失を最小化する $N$ と $D$ の配分を調べ、**計算予算を増やすときには $N$ と $D$ をほぼ同じ割合で一緒に増やすべき**、とした修正。",
+      "reason": "固定C内の配分探索と、C増加に伴う最適構成の成長を分ける。",
+      "source": "https://arxiv.org/html/2203.15556",
+      "section": "§3、§3.4 Table2",
+      "beforeOccurrences": 1,
+      "claimIds": [
+        "C-ALLOCATION",
+        "C-GROWTH"
+      ],
+      "supportType": "primary-explicit",
+      "reasoning": "固定予算内の配分と、予算増加時の成長を分ける既承認差替えを採用できる。",
+      "verdict": "supported"
+    },
+    {
+      "id": "C2-3",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "location": "スケーリング則の系譜 / Mermaidラベル",
+      "before": "計算最適(N と D を均等に)",
+      "after": "計算最適(N と D の配分)",
+      "reason": "同率成長を固定Cの均等配分やN=Dと誤読させない。ノード/矢印/位置/コードブロック数は維持。",
+      "source": "https://arxiv.org/html/2203.15556",
+      "section": "§3、§3.4",
+      "beforeOccurrences": 1,
+      "claimIds": [
+        "C-ALLOCATION",
+        "C-GROWTH"
+      ],
+      "supportType": "consistency-label",
+      "reasoning": "本文と同じ配分という意味に統一するラベル訂正。Mermaidのノード・矢印・構造は変えない。",
+      "verdict": "supported"
+    },
+    {
+      "id": "C2-4",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "location": "学習の計算量の目安 / 読み下し",
+      "before": "計算量(= コスト・時間・電力)が比例して増える",
+      "after": "計算量(FLOPs)が比例して増える",
+      "reason": "FLOPsと価格・経過時間・電力は同じ量ではない。後続の既存実コスト依存文で補う。",
+      "source": "https://arxiv.org/html/2001.08361",
+      "section": "§2.1; https://arxiv.org/html/2203.15556 Appendix F",
+      "beforeOccurrences": 1,
+      "claimIds": [
+        "K-FLOPS",
+        "C-FLOPS"
+      ],
+      "supportType": "primary-units-plus-dimensional-distinction",
+      "reasoning": "演算回数・通貨・経過時間・電力は別の物理量。既存の後続文が実コストのハードウェア・並列化効率依存を説明するため、追加段落なしで訂正できる。",
+      "verdict": "supported"
+    },
+    {
+      "id": "C2-5",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "location": "学習の計算量の目安 / 計算最適の文",
+      "before": "計算最適の含意「$N$ と $D$ を均等に」は、この $C$ を固定したうえで損失を最小化する配分の話です。",
+      "after": "固定した $C$ の下では、損失を最小化する $N$ と $D$ の配分を選びます。$N$ と $D$ をほぼ同じ割合で増やすという含意は、計算予算を増やす場合の話です。",
+      "reason": "固定CはN×D一定。同率で両方増やせばCも増える。",
+      "source": "https://arxiv.org/html/2203.15556",
+      "section": "§3.3–§3.4",
+      "beforeOccurrences": 1,
+      "claimIds": [
+        "C-ALLOCATION",
+        "C-GROWTH",
+        "C-FLOPS"
+      ],
+      "supportType": "primary-explicit-plus-algebra",
+      "reasoning": "6ND概算の下でC固定ならNDは一定。同じ倍率kで両方を増やすとCはk²倍となる。これは概算式の帰結で、普遍的な実測コスト則ではない。",
+      "verdict": "supported"
+    },
+    {
+      "id": "C2-6",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "location": "参考資料 / Chinchilla説明",
+      "before": "計算最適(Chinchilla)。$N$ と $D$ を均等に",
+      "after": "計算最適(Chinchilla)。計算予算に応じた $N$ と $D$ の配分",
+      "reason": "本文最小訂正と関連ラベルの整合。",
+      "source": "https://arxiv.org/html/2203.15556",
+      "section": "§3–§3.4",
+      "beforeOccurrences": 1,
+      "claimIds": [
+        "C-ALLOCATION",
+        "C-GROWTH"
+      ],
+      "supportType": "consistency-reference-label",
+      "reasoning": "著者名・年・資料名は保持し、既承認本文と説明ラベルの意味をそろえる。",
+      "verdict": "supported"
+    }
+  ],
+  "findings": {
+    "correctionVerdict": "all-six-supported-with-stated-scope",
+    "requiredCorrectionChanges": [],
+    "authorYearTitleMismatches": [],
+    "implementationCautions": [
+      "訂正1の倍率は記事式からの代数的帰結として記録し、論文が同じ一変数式をそのまま述べたとしない。",
+      "N・Dの同率成長をN=Dまたは固定C内の両増加へ戻さない。",
+      "6NDは密なTransformerの概算。KaplanのNはnon-embedding、Chinchillaはembeddingを含めており、全構造の厳密費用式としない。",
+      "今回確認した参考資料2件だけのアクセス日を2026-09-24へ同期できる。他の3資料は今回未再取得。last_updatedは実際に記事訂正した日のJST日付を使う。"
+    ]
+  },
+  "manifestSourceCandidates": [
+    {
+      "url": "https://arxiv.org/html/2203.15556",
+      "accessed_at": "2026-09-24T13:45:48Z",
+      "claim": "§1式1、§3、§3.3式2・4、§3.4表2、Appendix Fを確認。訂正C2-1/2/3/5/6の配分・成長・残差解釈とC2-4のFLOPs単位を支える。C2-1の一変数倍率は記事式の代数的帰結。詳細はpretraining-source-evidence.jsonのclaimIds対応。",
+      "affected_docs": [
+        "docs/11-llm-internals/pretraining-and-scaling-laws.md"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/html/2001.08361",
+      "accessed_at": "2026-09-24T13:45:48Z",
+      "claim": "§1.3・§2.1の学習計算量の定義を確認。訂正C2-4の6NDをFLOPs概算とする単位訂正を支える。",
+      "affected_docs": [
+        "docs/11-llm-internals/pretraining-and-scaling-laws.md"
+      ]
+    }
+  ],
+  "verification": {
+    "beforeMatches": [
+      {
+        "id": "C2-1",
+        "count": 1
+      },
+      {
+        "id": "C2-2",
+        "count": 1
+      },
+      {
+        "id": "C2-3",
+        "count": 1
+      },
+      {
+        "id": "C2-4",
+        "count": 1
+      },
+      {
+        "id": "C2-5",
+        "count": 1
+      },
+      {
+        "id": "C2-6",
+        "count": 1
+      }
+    ],
+    "repositoryArticleUnchanged": true,
+    "outputsOnlyInTemp": true,
+    "quotedSourceWords": 0,
+    "checkedBibliography": 2,
+    "checkedCorrections": 6,
+    "productTestsRun": false,
+    "finalCandidateReviewRun": false,
+    "actualLearningOrBenchmarkRun": false,
+    "notes": "before/afterはユーザーのリポジトリと承認済み計画に由来する。論文の長文転記はなく、一次資料の要約と独立の代数説明を区別する。web行番号は当該取得の位置補助であり恒久的引用識別子ではない。"
+  }
+}

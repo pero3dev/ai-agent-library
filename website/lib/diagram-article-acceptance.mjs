@@ -21,7 +21,9 @@ export const TOKENIZATION_ARTICLE = 'docs/10-llm-foundations/tokenization.md'
 export const TOKENIZATION_EVIDENCE_PATH = 'project/records/2026-09-24/tokenization-article-acceptance.json'
 export const INFERENCE_ARTICLE = 'docs/11-llm-internals/inference-internals.md'
 export const INFERENCE_EVIDENCE_PATH = 'project/records/2026-09-24/inference-article-acceptance.json'
-export const TRACKED_ARTICLES = Object.freeze([TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE, INFERENCE_ARTICLE])
+export const TRAINING_ARTICLE = 'docs/10-llm-foundations/llm-training-pipeline.md'
+export const TRAINING_EVIDENCE_PATH = 'project/records/2026-09-24/training-article-acceptance.json'
+export const TRACKED_ARTICLES = Object.freeze([TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE, INFERENCE_ARTICLE, TRAINING_ARTICLE])
 const MANIFEST = 'website/diagrams/articles.json'
 const TRANSFORMER_TOPICS = {
   '概要: デコーダ専用 Transformer の全体像': ['decoder-flow', 'overview-and-notation'],
@@ -152,6 +154,31 @@ const INFERENCE_TOPICS = { '概要: プリフィルとデコードの 2 相':
      'temperature-zero-reproducibility-pitfall' ],
   'チェックリスト': [ 'understanding-check' ] }
 
+const TRAINING_TOPICS = { '概要: 3 つの工程と、それぞれが残す「癖」': [ 'training-representative-order', 'training-different-data', 'training-association-not-cause' ],
+  '事前学習: 次トークン予測で知識を得る':
+   [ 'training-next-token-patterns',
+     'training-knowledge-range',
+     'training-frequency-accuracy',
+     'training-base-instruction' ],
+  '指示チューニング(SFT): 指示に従う形式を学ぶ':
+   [ 'training-sft-demonstrations',
+     'training-sft-facts',
+     'training-closed-book-limits',
+     'training-retrieval-requirements',
+     'training-separate-evaluation' ],
+  '選好調整: 「良い応答」の基準を最適化する': [ 'training-preference-data', 'training-preference-methods', 'training-preference-targets' ],
+  'この工程から生まれる性質: 幻覚・迎合・拒否':
+   [ 'training-multiple-objectives',
+     'training-hallucination-checks',
+     'training-sycophancy-conditions',
+     'training-refusal-limits',
+     'training-prompt-tendency',
+     'training-external-boundary' ],
+  'この理解が効く場面': [ 'training-static-5-1', 'training-static-5-2', 'training-static-5-3', 'training-static-5-4' ],
+  'アンチパターン': [ 'training-static-6-1', 'training-static-6-2', 'training-static-6-3', 'training-static-6-4' ],
+  'チェックリスト':
+   [ 'training-static-7-1', 'training-static-7-2', 'training-static-7-3', 'training-static-7-4', 'training-static-7-5' ] }
+
 // Explicit, code-owned paths. Shared rendering/generation changes conservatively
 // invalidate acceptance. Evidence, project records, generated output and commit
 // IDs are excluded; recording a later deployment cannot change its input digest.
@@ -214,7 +241,20 @@ export const INFERENCE_INPUT_FILES = Object.freeze([...SHARED_INPUT_FILES, ...[ 
   'website/components/diagrams/inference-quantization-walkthrough.jsx',
   'website/lib/inference-quantization-model.mjs',
   'website/lib/generation-model.mjs' ]])
+export const TRAINING_INPUT_FILES = Object.freeze([...SHARED_INPUT_FILES, ...[
+  'website/components/diagrams/training-walkthrough.jsx',
+  'website/components/diagrams/training-stages-walkthrough.jsx',
+  'website/components/diagrams/training-stages.css',
+  'website/lib/training-stages-model.mjs',
+  'website/components/diagrams/training-runtime-boundary-walkthrough.jsx',
+  'website/components/diagrams/training-runtime-boundary.css',
+  'website/lib/training-runtime-boundary-model.mjs'
+]])
 const configs = {
+  [TRAINING_ARTICLE]: {
+    primaryDiagramIds: ['training-stages', 'training-runtime-boundary'], topics: TRAINING_TOPICS,
+    inputFiles: TRAINING_INPUT_FILES, evidencePath: TRAINING_EVIDENCE_PATH, requireReadingStage: true
+  },
   [INFERENCE_ARTICLE]: {
     primaryDiagramIds: [ 'inference-sampling', 'inference-cache-batching', 'inference-speculative', 'inference-quantization' ], topics: INFERENCE_TOPICS,
     inputFiles: INFERENCE_INPUT_FILES, evidencePath: INFERENCE_EVIDENCE_PATH
@@ -241,6 +281,7 @@ const configs = {
   }
 }
 const overrideDirectories = {
+  [TRAINING_ARTICLE]: 'llm-foundations',
   [INFERENCE_ARTICLE]: 'llm-internals',
   [TRANSFORMER_ARTICLE]: 'llm-internals', [ATTENTION_VARIANTS_ARTICLE]: 'llm-internals', [MOE_ARTICLE]: 'llm-internals',
   [GENERATION_ARTICLE]: 'llm-foundations', [TOKENIZATION_ARTICLE]: 'llm-foundations'
@@ -279,6 +320,10 @@ function validateAssignment(assignment, tree, selected, article, config) {
         const entry = selected.find(entry => entry.id === topic.diagramId)
         if (!exact(topic, ['id', 'label', 'diagramId', 'stages']) || !entry || !Array.isArray(topic.stages) || !topic.stages.length
           || new Set(topic.stages).size !== topic.stages.length || topic.stages.some(stage => !Number.isInteger(stage) || stage < 0 || stage >= entry.stageCount)) throw new Error('論点の図・段階の対応が不正です。')
+        if (config.requireReadingStage) {
+          const readingStages = entry.binding === 'grouped-blocks' ? entry.blockGroups.flat().map(group => group.stage) : []
+          if (!topic.stages.some(stage => readingStages.includes(stage))) throw new Error('主要論点には本文連動で到達する段階が必要です。')
+        }
         used.add(entry.id)
       }
     }

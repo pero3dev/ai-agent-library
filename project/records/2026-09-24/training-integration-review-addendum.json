@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "risk": "low",
+  "independent": true,
+  "reviewer": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/pretraining_source_evidence",
+  "reviewedAt": "2026-09-24T14:13:30.053Z",
+  "baseCommit": "67b1309fcea8267749be6e52881f3d6a4049ae2b",
+  "scope": "C1 common integration 13 files plus browser specification 2 files; code and source preservation, not final scene/browser/public acceptance.",
+  "files": [
+    {
+      "file": "website/lib/diagram-registry.mjs",
+      "sha256": "f2a7bcdfe246b9afb08e96e165147b5c5134e03dcb9e9f4bcf3024e10a2ea156"
+    },
+    {
+      "file": "website/diagrams/registry.json",
+      "sha256": "6d78915fa9c05d90f755fb180146c6fb4c11820eed3efccef4250108edf0eb63"
+    },
+    {
+      "file": "website/lib/diagram-decoration.mjs",
+      "sha256": "4c7cf927bfe88e18a388b44a53a10e5d6e806bb4b9bfb72aa89c9fcb9abea74b"
+    },
+    {
+      "file": "website/lib/mdx-safety.mjs",
+      "sha256": "f56989551449ff75814b23399038004218152d926f604ade864d349494ea7242"
+    },
+    {
+      "file": "website/mdx-components.js",
+      "sha256": "2aa913b9231ae175e0b2d674fadec7ada08ebdeb3eb3f0c44b2a712c7fa10aa2"
+    },
+    {
+      "file": "website/components/diagrams/training-walkthrough.jsx",
+      "sha256": "7bdf27874f15d38a30270811eeeae9170a3822e41485b9542c68151ded1695e8"
+    },
+    {
+      "file": "website/lib/diagram-article-acceptance.mjs",
+      "sha256": "03910e17e5fe049e2162610ffe734cfb28e53b2850cd2a573118a136e267bb7b"
+    },
+    {
+      "file": "website/diagrams/articles.json",
+      "sha256": "b469315b71af6d4f5c616382a925532cbaa0f6943560251516454744108dc6d8"
+    },
+    {
+      "file": "project/records/2026-09-24/training-article-acceptance.json",
+      "sha256": "b0c4ff28252d4acbad89f0861b66ebdba73645bd7909674b1ec62f81b94e85f7"
+    },
+    {
+      "file": "website/tests/unit/training-decoration.test.mjs",
+      "sha256": "efc176253d15169a0a07ff4dc3e2e5a95d91fb41bafd5541617dbeea3c752530"
+    },
+    {
+      "file": "website/tests/unit/mdx-safety.test.mjs",
+      "sha256": "e4c0e2be36ee37b754ec6d7225d7728f927cc7e8b88787d8dfce798a8aa4c610"
+    },
+    {
+      "file": "website/tests/unit/diagram-article-acceptance.test.mjs",
+      "sha256": "fc43cafb3bbc7b9979dd26b9eb77de7d41d8681c66feb01537cf6c876edcb11b"
+    },
+    {
+      "file": "website/README.md",
+      "sha256": "d024c42c355d7e88b4731dafe47b2b5c01ffc28c62953623ce8b946605a05a0f"
+    },
+    {
+      "file": "website/tests/browser/training.spec.mjs",
+      "sha256": "a13950bc089dd443eb67864201077ddd4f520c7a0fadaee83a11543e30da2da9"
+    },
+    {
+      "file": "website/tests/browser/diagram-loading.spec.mjs",
+      "sha256": "8d338c7218e07bec8abc3b999be0e2f26ba30dcb728b6c63adfee9d296b31270"
+    }
+  ],
+  "previousReview": {
+    "markdown": "training-integration-review.md",
+    "markdownSha256": "48573f96be1762ce88318a31d5ece865ba6b39a89729e56287dfc37ec13d2c93",
+    "json": "training-integration-review.json",
+    "jsonSha256": "1ef2298d6e51737d1e4846b2412f4a7dab9a7629638e2567f09617ff437c8482",
+    "status": "changes_requested"
+  },
+  "findings": {
+    "must": [],
+    "should": []
+  },
+  "resolved": [
+    {
+      "id": "C1-READ-01",
+      "status": "resolved",
+      "change": "C1 configのrequireReadingStage=trueだけに対し登録blockGroupsからREAD集合を導出し、各dynamic topicのstagesとの交差を必須にした。旧6記事の割当と判定方針は変更していない。",
+      "codeHash": "03910e17e5fe049e2162610ffe734cfb28e53b2850cd2a573118a136e267bb7b",
+      "testHash": "fc43cafb3bbc7b9979dd26b9eb77de7d41d8681c66feb01537cf6c876edcb11b",
+      "negative": "runtime [1]のみはassignmentCurrent=false / complete=false。",
+      "positive": "runtime [1,2]と[0]はassignmentCurrent=true、正しいfixtureゲート下でcomplete=true。既定34論点21dynamicも維持。"
+    }
+  ],
+  "checks": [
+    {
+      "kind": "independent-unit-after-fix",
+      "command": "node --test tests/unit/diagram-article-acceptance.test.mjs",
+      "cwd": "website",
+      "passed": 32,
+      "failed": 0,
+      "skipped": 0,
+      "exitCode": 0,
+      "durationMs": 146723.7163,
+      "log": "training-integration-review-read-fix-unit.log",
+      "logSha256": "ca182a9af51ed0c890792d68f07a717dabb45db917ec39f40111bfc206c04878"
+    },
+    {
+      "kind": "independent-negative-reproduction-after-fix",
+      "file": "training-integration-read-fix-repro.json",
+      "sha256": "ba63b99e03252a60a37983e076f468f70970f7ce8ab2e97a9dc26cdde38c2af6",
+      "result": "The identical manual-only stage 1 assignment that passed initially is now rejected."
+    },
+    {
+      "kind": "hash-comparison",
+      "result": "Only acceptance module and acceptance unit changed among original 13 targets. Other eleven files plus two browser specification files retain initial hashes."
+    },
+    {
+      "kind": "browser-test-discovery",
+      "command": "node node_modules/@playwright/test/cli.js test tests/browser/training.spec.mjs --list",
+      "cwd": "website",
+      "cases": 20,
+      "exitCode": 0,
+      "browserExecuted": false
+    }
+  ],
+  "unitAccounting": {
+    "initialCandidate": {
+      "passed": 116,
+      "includes": "85 AST/MDX plus 31 acceptance cases"
+    },
+    "fixedCandidate": {
+      "acceptancePassed": 32,
+      "unchangedAstMdxPreviouslyPassed": 85,
+      "distinctCasesCovered": 117
+    },
+    "note": "117 is the union of 85 unchanged AST/MDX cases and 32 acceptance cases re-executed after the fix, not one post-fix run of all 117. Do not sum repeated executions as 148 distinct cases."
+  },
+  "limitations": [
+    "This is independent code and source-integration review only; it does not approve completed scene semantics, visual quality, browser behavior or public deployment.",
+    "Browser specification/loading additions were read and training20 test discovery succeeded; no browser run was performed by this reviewer.",
+    "No build, Git mutation, product edit or generated-file edit performed.",
+    "Root must finish full validation, independent scene/visual review, final candidate input digests, old-six regression and all-seven release acceptance."
+  ]
+}

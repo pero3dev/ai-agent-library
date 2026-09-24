@@ -1,6 +1,6 @@
 # 動的図解の展開状況
 
-開始日: 2026-09-24。状態: **P0・P1の5記事が公開受入完了、推論内部は検証済み・公開準備中**。全199記事の完了記録ではない。
+開始日: 2026-09-24。状態: **P0・P1の6記事が公開受入完了、C1学習パイプラインを制作中**。全199記事の完了記録ではない。
 
 ## 作業契約
 
@@ -11,6 +11,7 @@
 - 規約: [AGENTS.md](../../../AGENTS.md)、[CONTRIBUTING.md](../../../CONTRIBUTING.md)、[Git規約](../../../harness/git-rules.md)、[計画索引](../../README.md)。ROADMAPの既存執筆タスクを再開扱いにはしない。
 - 検証: 本文と図の対応、数値・意味モデル、MDX安全性、静的ビルド、操作・明暗・狭幅・低いPC画面・縮小モーション・印刷・JS無効時、独立レビュー、実GitHubと公開ページの確認。
 - 終了条件: 初期対象と現行対象の差分を記録し、対象記事の全対応を計画の完成条件で確認する。各段階の公開確認を次段階の開始条件とする。
+- 今回の停止境界（後から指定）: ユーザーの「P1の完了まで」「別PCで、コンテキストを完全には引き継げない」という指定に従い、P1全15記事の公開受入で停止する。P2以降の自動着手はしない。[別PCへの引き継ぎ](dynamic-diagram-handoff.md)と貼り付け用プロンプトをリポジトリに残す。
 
 ## 進捗
 
@@ -18,14 +19,14 @@
 | --- | --- | --- | --- |
 | 計画 | 全199記事 | 計画作成・独立レビュー済み、採択 | [全件棚卸し](../../plans/engineering/dynamic-diagram-inventory.md)、[計画作成記録](dynamic-diagram-plan.md) |
 | P0 | 共通基盤・自己注意・Agentループ・Workflow比較 | PR #52マージ・公開受入完了 | [P0実施記録](reading-diagram-foundation.md) |
-| P1 | LLM内部構造・基礎15記事 | Transformer・注意変種・MoE・文章生成・トークン化の5/15記事が公開受入完了。推論内部は検証済み・公開準備中 | [Transformer](transformer-reading-diagrams.md)、[注意変種](attention-variants-reading-diagrams.md)、[MoE](moe-reading-diagrams.md)、[文章生成・トークン化](generation-tokenization-reading-diagrams.md)、[推論内部](inference-reading-diagrams.md) |
-| P2 | 中核54記事 | 未着手（P0の2記事は内数） | P1受入後に着手 |
+| P1 | LLM内部構造・基礎15記事 | Transformer・注意変種・MoE・文章生成・トークン化・推論内部の6/15記事が公開受入完了。C1学習パイプラインを制作中 | [Transformer](transformer-reading-diagrams.md)、[注意変種](attention-variants-reading-diagrams.md)、[MoE](moe-reading-diagrams.md)、[文章生成・トークン化](generation-tokenization-reading-diagrams.md)、[推論内部](inference-reading-diagrams.md) |
+| P2 | 中核54記事 | 未着手（P0の2記事は内数） | 今回は着手しない。P1後、別セッションの依頼で再開 |
 | P3 | 実装・品質・運用78記事 | 未着手 | P2受入後に着手 |
 | P4 | 応用・判断52記事 | 未着手 | P3受入後に着手 |
 | P5 | 全体受入・更新運用 | 未着手 | P4受入後に着手 |
 
-図解を一部導入した記事、記事全体の主要論点の割当と受入を完了した記事、公開確認済みの記事を別に数える。公開済みは7記事の13図。記事全体の完成基準では5/199記事であり、図の本数を記事の完了数に読み替えない。
+図解を一部導入した記事、記事全体の主要論点の割当と受入を完了した記事、公開確認済みの記事を別に数える。公開受入済みは8記事の17図。記事全体の完成基準では6/199記事であり、図の本数を記事の完了数に読み替えない。
 
 ## 再開地点
 
-所有ブランチは `feat/inference-reading-diagrams`。文章生成・トークン化の[PR #56](https://github.com/pero3dev/ai-agent-library/pull/56)と公開43ケースを受け入れ、最新main `1af3a76bf037a31fcbc8a8f677da7b135da3864d` から推論内部の1記事4図を開始した。[制作記録](inference-reading-diagrams.md)に構成・担当・検証を記す。旧5記事の公開証拠をPR #56スナップショットに保存し、共有変更後は新しい入力版で再受入する。他のworktreeや音声制作は変更しない。
+推論内部の[PR #57](https://github.com/pero3dev/ai-agent-library/pull/57)はマージ・公開機械58件成功後、独立画像レビューで表示ラベル修正1件が必要となった。[修正記録](inference-score-label-fix.md)に従い、`fix/inference-score-labels` の[PR #58](https://github.com/pero3dev/ai-agent-library/pull/58)を提出し、全必須チェック後に `67b1309fcea8267749be6e52881f3d6a4049ae2b` としてマージした。同じmain CIとPages、公開58/58、独立公開レビューapproved / low・must 0を確認し、6記事を公開受入した。6本のPR #58固定スナップショットと以前のPR #56記録を保持する。現在は `feat/training-reading-diagrams` で[C1学習パイプライン](training-reading-diagrams.md)を制作中。共有変更後は新しい入力版で再受入する。他のworktreeや音声制作は変更しない。

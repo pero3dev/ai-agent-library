@@ -12,6 +12,7 @@ import { AttentionVariantsWalkthrough } from './components/diagrams/attention-va
 import { MoEWalkthrough } from './components/diagrams/moe-walkthrough'
 import { FoundationsWalkthrough } from './components/diagrams/foundations-walkthrough'
 import { InferenceWalkthrough } from './components/diagrams/inference-walkthrough'
+import { TrainingWalkthrough } from './components/diagrams/training-walkthrough'
 
 const docsComponents = getDocsMDXComponents()
 const DocsWrapper = docsComponents.wrapper
@@ -28,6 +29,7 @@ export const useMDXComponents = components => ({
   MoEWalkthrough,
   FoundationsWalkthrough,
   InferenceWalkthrough,
+  TrainingWalkthrough,
   ReadingStep,
   TodoCallout,
   PracticeSection,

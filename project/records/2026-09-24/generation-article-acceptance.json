@@ -2,17 +2,25 @@
   "schemaVersion": 1,
   "article": "docs/10-llm-foundations/how-llms-generate-text.md",
   "review": {
-    "inputDigest": "sha256:0c047818730d2171305ced3766cddad5969d9a7007d06d1b53bbbb3c7a6071da",
+    "inputDigest": "sha256:4c6eb9e998a5e328c556b50fc90a5cc6dbf6aede93301983077a523cda6c08ee",
     "status": "approved",
-    "checkedAt": "2026-09-24T11:17:45.760Z",
+    "checkedAt": "2026-09-24T14:42:52.836Z",
     "independent": true,
-    "record": "project/records/2026-09-24/inference-reading-diagrams.md"
+    "record": "project/records/2026-09-24/training-reading-diagrams.md"
   },
   "local": {
+    "inputDigest": "sha256:4c6eb9e998a5e328c556b50fc90a5cc6dbf6aede93301983077a523cda6c08ee",
+    "status": "passed",
+    "checkedAt": "2026-09-24T14:48:29.587Z",
+    "record": "project/records/2026-09-24/training-reading-diagrams.md"
+  },
+  "public": {
     "inputDigest": "sha256:0c047818730d2171305ced3766cddad5969d9a7007d06d1b53bbbb3c7a6071da",
     "status": "passed",
-    "checkedAt": "2026-09-24T11:49:02.878Z",
-    "record": "project/records/2026-09-24/inference-reading-diagrams.md"
-  },
-  "public": null
+    "checkedAt": "2026-09-24T13:46:54.818Z",
+    "commit": "67b1309fcea8267749be6e52881f3d6a4049ae2b",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138/job/107651395952",
+    "browserRecord": "project/records/2026-09-24/inference-score-label-fix.md"
+  }
 }

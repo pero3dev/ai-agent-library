@@ -27,6 +27,8 @@
 
 | 記録 | 用途 |
 | --- | --- |
+| [事前学習の図解に伴う訂正根拠](internals/pretraining-diagram-sources-2026-09-24.md)、[詳細JSON](internals/pretraining-diagram-sources-2026-09-24.json) | 2026-09-24に一次資料を実取得し、C2の計画上の6訂正を照合。記事適用と最終候補の承認は別途実施 |
+| [アラインメント・マルチモーダルの図解に伴う訂正根拠](internals/p1-remaining-diagram-sources-2026-09-24.md)、[詳細JSON](internals/p1-remaining-diagram-sources-2026-09-24.json) | 2026-09-24に一次資料を実取得し、D1・F2の8論点16置換を照合。記事適用と最終候補の承認は別途実施 |
 | [音声学習機能の実現性](audio-learning-feasibility-2026-09-13.md) | 2026-09-13 の公式資料・初期判断と、実生成・Releases配信・Chrome再生の後続確認。iPhone実機受入は未実施 |
 | [参考資料の対応索引](review-sources-index-2026-09-10.md) | 2026-09-10 のレビュー S02。記事別の根拠追加・限定条件の修正への入口 |
 | [TODO の分類と確認条件](review-maintenance-2026-09-10.md)、[棚卸し JSON](review-todo-inventory-2026-09-10.json) | 最新化前の 186 件・121 記事を分類した履歴。後続の完了状態とは区別 |

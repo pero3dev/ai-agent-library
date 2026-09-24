@@ -1,0 +1,27 @@
+{
+  "purpose": "Approved C1-C2 plan transfer, not product or public acceptance",
+  "files": [
+    {
+      "path": "project/records/2026-09-24/training-storyboards.md",
+      "transferredSHA256": "cb30227d7441d4c17cabc258805a8bb0dca89ca40127e3a1ed49348a0b0d8f7d",
+      "originalSHA256": "bedda21e67a5463b3c28aa0fc46d5dc8d8526bbd889ddb6a21c4239a9d9fd6b2",
+      "originalName": "training-next-unit-plan.md",
+      "changes": "Relative JSON link, Markdown formatting and transfer provenance paragraphs only"
+    },
+    {
+      "path": "project/records/2026-09-24/training-storyboards.json",
+      "transferredSHA256": "3439e7f163e2b033c278636c59738ef7ee9325cf5a9dec2369284374d44d504a",
+      "originalSHA256": "3439e7f163e2b033c278636c59738ef7ee9325cf5a9dec2369284374d44d504a",
+      "originalName": "training-next-unit-plan.json",
+      "changes": "Byte-identical"
+    },
+    {
+      "path": "project/records/2026-09-24/training-storyboards-review.md",
+      "transferredSHA256": "987ff768a56f9ee7bad31da115f5a3511c2ff0662426b8c6567d466bc9fa8d7f",
+      "originalSHA256": "a6e683505cac5c3cbeda6d533924f915d7008ae9bc24c07aa424ef724185273a",
+      "originalName": "training-storyboards-review.md",
+      "changes": "CRLF to LF only"
+    }
+  ],
+  "schemaVersion": 1
+}

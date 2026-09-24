@@ -1,0 +1,355 @@
+{
+  "schema_version": 1,
+  "result": "approved",
+  "risk": "low",
+  "scope": "plan-only",
+  "independent": true,
+  "must_count": 0,
+  "should_count": 0,
+  "reviewed_at": "2026-09-24T12:56:48Z",
+  "recorded_at": "2026-09-24T12:58:46.3732474Z",
+  "reviewer_run_id": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+  "target_hashes": {
+    "p1-remaining-plan.md": "b4104bd652010965b4c265e2422213e58f1a79906b86bcff303045299ccfdd40",
+    "p1-remaining-plan.json": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+    "source-inventory.json": "b5fe2b23b7a291e77d56fe6bca6d9de8879b3383ad7ee57231dccca8addf97e2",
+    "validation.json": "6b88c31dd59871a75c424c80451a20447766494ab1f01d97bf79113505c7aad6",
+    "multimodal-models.candidate.md": "27956431766343cd1c4b910ce9d7b703e655365856c3e10484de315684688ced",
+    "multimodal-consistency-v3.json": "5df5e2da2ca5257609327693c4da196718caa9bfa697236c6f5a116614bdff75"
+  },
+  "source_articles": [
+    {
+      "file": "docs/11-llm-internals/alignment-theory.md",
+      "source_sha256": "6bb4501e5fcd44323a0890d20286cc6e597ab042997df47d2cf9fa2ddabd480b",
+      "sections": 9,
+      "diagrams": [
+        {
+          "id": "alignment-preference",
+          "stage_count": 7,
+          "reading_stages": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "manual_only": [],
+          "body_blocks": 14,
+          "source_digest": "sha256:04a0a9af19f3f7114021b2a87136ee20710d5604ed4e4c015f9be1e2cd3374d4"
+        },
+        {
+          "id": "alignment-reward-risk",
+          "stage_count": 3,
+          "reading_stages": [
+            0,
+            1,
+            2
+          ],
+          "manual_only": [],
+          "body_blocks": 3,
+          "source_digest": "sha256:5f7145226502e3f91665a2bd9fbe4c9b58d41d4dcafb3f761cdfec2df6b7ac91"
+        },
+        {
+          "id": "alignment-feedback",
+          "stage_count": 5,
+          "reading_stages": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "manual_only": [],
+          "body_blocks": 6,
+          "source_digest": "sha256:73195e7707918a36b2116072f56283a057e9a75ae974a191c9bdb3935065113f"
+        }
+      ],
+      "atomic_units": 42,
+      "dynamic": 27,
+      "static": 15
+    },
+    {
+      "file": "docs/10-llm-foundations/reasoning-models.md",
+      "source_sha256": "71246ca014e171936139af9083df301f16dcb7dade8f7aeb3a0b14516a19ef44",
+      "sections": 9,
+      "diagrams": [
+        {
+          "id": "reasoning-sequence",
+          "stage_count": 4,
+          "reading_stages": [
+            0,
+            2,
+            3
+          ],
+          "manual_only": [
+            1
+          ],
+          "body_blocks": 3,
+          "source_digest": "sha256:497581aab0df110ad41c3fbc116fc1837073be16d937aaaa44e99d4cab8ad107"
+        },
+        {
+          "id": "reasoning-evaluation",
+          "stage_count": 5,
+          "reading_stages": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "manual_only": [],
+          "body_blocks": 11,
+          "source_digest": "sha256:4b26e91dcb1f6d5d7e09a43f86a1b622cd2c9a5a3b53e8846e234d39ec615930"
+        }
+      ],
+      "atomic_units": 43,
+      "dynamic": 26,
+      "static": 17
+    },
+    {
+      "file": "docs/10-llm-foundations/attention-and-context.md",
+      "source_sha256": "433d75095383235eeace9c4b34048bad43a3f4b0ba6e65c2e7e7d25eebdb1c55",
+      "sections": 8,
+      "diagrams": [
+        {
+          "id": "context-causal-cost",
+          "stage_count": 5,
+          "reading_stages": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "manual_only": [],
+          "body_blocks": 7,
+          "source_digest": "sha256:3d148c85ba70c31149692bbbb25b7ce25ec0d9a9457b43f85b646287e4ff625e"
+        },
+        {
+          "id": "context-cache-quality",
+          "stage_count": 6,
+          "reading_stages": [
+            0,
+            2,
+            3,
+            4,
+            5
+          ],
+          "manual_only": [
+            1
+          ],
+          "body_blocks": 5,
+          "source_digest": "sha256:cbdf6f68c773444b57ccffc29430974e2705c11460558a8b39b4ea0fabc6c7ed"
+        }
+      ],
+      "atomic_units": 30,
+      "dynamic": 18,
+      "static": 12
+    },
+    {
+      "file": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+      "source_sha256": "c150ab8ee4a72dc6786a5abb52e0266f97d78f1b6584ce1c695e01f94106f5c4",
+      "sections": 8,
+      "diagrams": [
+        {
+          "id": "icl-hypotheses",
+          "stage_count": 5,
+          "reading_stages": [
+            0,
+            1,
+            3,
+            4
+          ],
+          "manual_only": [
+            2
+          ],
+          "body_blocks": 7,
+          "source_digest": "sha256:6194981065168116f345a0845c1cced61a940a9775c702d158e53177cf04b7e5"
+        },
+        {
+          "id": "icl-demonstrations",
+          "stage_count": 3,
+          "reading_stages": [
+            0,
+            1,
+            2
+          ],
+          "manual_only": [],
+          "body_blocks": 3,
+          "source_digest": "sha256:b1fa9562e83d2c634dec83ba57fdacf802184cf3df3d44a1c8df2514dac5b750"
+        },
+        {
+          "id": "icl-memory-evaluation",
+          "stage_count": 5,
+          "reading_stages": [
+            0,
+            2,
+            3,
+            4
+          ],
+          "manual_only": [
+            1
+          ],
+          "body_blocks": 5,
+          "source_digest": "sha256:c514cb25832cbf38561bfbd14380fffb0005d3a0f55170de88cf77e835b284b4"
+        }
+      ],
+      "atomic_units": 37,
+      "dynamic": 22,
+      "static": 15
+    },
+    {
+      "file": "docs/11-llm-internals/interpretability-basics.md",
+      "source_sha256": "d7a2febb87771c6afbf440be223527c2c9a465f1e1c72f000432540ec2cda68e",
+      "sections": 10,
+      "diagrams": [
+        {
+          "id": "interpretability-evidence",
+          "stage_count": 5,
+          "reading_stages": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "manual_only": [],
+          "body_blocks": 11,
+          "source_digest": "sha256:3a1971be6655134de6a600c9d03afe0ff8cef25ed9662dff1bd065990150d0d7"
+        },
+        {
+          "id": "interpretability-sae",
+          "stage_count": 4,
+          "reading_stages": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "manual_only": [],
+          "body_blocks": 5,
+          "source_digest": "sha256:782e82380a0061d618371bbb4709a2ed263a52af2b031a0754a8591e3ccead15"
+        }
+      ],
+      "atomic_units": 41,
+      "dynamic": 20,
+      "static": 21
+    },
+    {
+      "file": "docs/10-llm-foundations/capabilities-and-limits.md",
+      "source_sha256": "cc83e31509fc1b5a8e43793be4c06fc2682c90e76f83e7ebf784fafbd23beb4a",
+      "sections": 8,
+      "diagrams": [
+        {
+          "id": "capabilities-assessment",
+          "stage_count": 5,
+          "reading_stages": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "manual_only": [],
+          "body_blocks": 11,
+          "source_digest": "sha256:78f355317c83010206e383ae35f6c39e98319a924d9cfe7560f4b1b52659c9c3"
+        }
+      ],
+      "atomic_units": 35,
+      "dynamic": 23,
+      "static": 12
+    },
+    {
+      "file": "docs/10-llm-foundations/multimodal-models.md",
+      "source_sha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+      "sections": 9,
+      "diagrams": [
+        {
+          "id": "multimodal-representation",
+          "stage_count": 5,
+          "reading_stages": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "manual_only": [],
+          "body_blocks": 7,
+          "source_digest": "sha256:3324ade1e55f96e5d8e661b93a7f3d0e9ca1b44ca21fac462cc78030e5917a2d"
+        },
+        {
+          "id": "multimodal-input-tradeoffs",
+          "stage_count": 4,
+          "reading_stages": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "manual_only": [],
+          "body_blocks": 7,
+          "source_digest": "sha256:1aeec688b92f8892b56e7df0db626df803cabaf660b68c6a3d1f38898047107f"
+        }
+      ],
+      "atomic_units": 42,
+      "dynamic": 27,
+      "static": 15
+    }
+  ],
+  "independent_validation": {
+    "errors": [],
+    "assertions": 2154,
+    "author_validation_used_as_independent_evidence": false,
+    "output": "ai-agent-library-p1-remaining-plan-review-v3.structure.json",
+    "script": "ai-agent-library-p1-remaining-plan-review-v3.check.mjs",
+    "summary": {
+      "articles": 7,
+      "diagrams": 15,
+      "stages": 71,
+      "atomicSourceUnits": 270,
+      "dynamicSourceUnits": 163,
+      "staticSourceUnits": 107,
+      "correctionGroups": 8,
+      "exactReplacements": 16
+    }
+  },
+  "findings": [],
+  "resolved_findings": [
+    {
+      "id": "V2-MUST-1",
+      "source_lines": [
+        55,
+        56,
+        79,
+        105,
+        108
+      ],
+      "status": "resolved",
+      "verified_candidate_ids": [
+        "M4-sync-55",
+        "M4-sync-56",
+        "M4-sync-79",
+        "M4-sync-105",
+        "M5-sync-108"
+      ]
+    }
+  ],
+  "source_verification": {
+    "lightman_deepseek_vit_independent_verified_at": "2026-09-24T12:29:32Z",
+    "flamingo_textvqa_independent_verified_at": "2026-09-24T12:47:43Z",
+    "new_fetch_in_v3": false
+  },
+  "approvals": {
+    "body_application": false,
+    "plan": true,
+    "physical_device": false,
+    "implementation": false,
+    "browser": false,
+    "publication": false,
+    "images": false
+  },
+  "report_markdown": "# P1 残り7記事・計画 v3 の独立再レビュー\n\n総合判定: **approved / low（must 0 件、should 0 件）**。この判定は計画の採択可否に限定します。本文訂正の実適用、図の実装、画像・操作・公開受入を承認したものではありません。\n\n- reviewed_at: 2026-09-24T12:56:48Z\n- reviewer_run_id: 01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review\n- 対象 Markdown SHA256: b4104bd652010965b4c265e2422213e58f1a79906b86bcff303045299ccfdd40\n- 対象 JSON SHA256: 1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319\n- 終了境界: P1 全15記事の当該版の公開受入完了後に停止し、別PC向け引継ぎを残す。P2 は対象外。\n\n## 指摘表\n\n対象: p1-remaining-plan.md / p1-remaining-plan.json / multimodal-models.candidate.md / multimodal-consistency-v3.json\n\n| 重要度 | 行 | 指摘 | 修正案 |\n| --- | --- | --- | --- |\n| — | 全体 | 問題なし（must 0、should 0） | なし |\n\nファイルごとの総合判定は、4ファイルとも計画として採択可です。学習記事の publish 可という判定ではありません。\n\n## v2 must の解消\n\nv2 の V2-MUST-1 は解消しました。計画 MD L206–210/L260–264 と JSON の完全一致置換候補、multimodal-models.candidate.md の L55/L56/L79/L105/L108 に、指定した5行の同期が反映されています。\n\n- L55/L56: 内部の画像表現と課金トークン数を同一視せず、解像度・サイズと消費量の関係をモデル・前処理に条件付けています。\n- L79: 動画フレーム数から費用・待ち時間の一律増加を導かず、モデル・処理方法と利用フレーム数を確認する条件になっています。\n- L105: 料金見積もりを採用モデルの仕様へ同期しています。\n- L108: テキスト化の可否だけで画像を省かず、必要な情報の保持と精度・費用比較を確認します。L81 の M5 と L100 のアンチパターンとの矛盾がなくなりました。\n\n候補127行の全文を読んで、本文・アンチパターン・チェックリスト・関連リンク・TODO を再照合しました。L38/L45/L46 の構成例への限定、L72/L97/L98 の M4、L81/L100 の M5 とも整合します。新しい節・例題の追加はありません。今回の計画範囲で新たな意味的矛盾や同期漏れは見つかりませんでした。\n\nmultimodal-consistency-v3.json は作者の判断資料として読みました。作者の全文確認済みという記載を独立証拠にはせず、現行原文から全13置換を独自に適用して候補全文と比較しました。**バイト内容相当の文字列比較および SHA256 が一致**しています。\n\n## 独自検算\n\n作者の build/augment/validation スクリプトを呼び出さず、前回の独自検算を v3 用の別ファイルへ複製し、候補全文の再構成・ハッシュ・訂正 ID 一覧・追加5置換の未適用状態と残存旧文の不在を追加確認しました。\n\n**2,154 項目通過、errors 0**。\n\n- 7記事の現行本文 SHA と見出し・AST 本文ブロックを独立抽出し、計画の sections/headings/blockTypes/blockGroups と照合しました。\n- 15図・71段階、270原文単位（動的163/静的107）が一致し、各原文単位の段階または静的保持理由が揃っています。\n- sourceHeadings の意味依存、順序、包装の連続性・非重複、sourceDigest と仮訂正後 digest を再計算しました。\n- 各記事の図の有効化組合せすべてで、独自に AST を包装してから復元し、元 AST の完全一致を確認しました。\n- 8訂正論点・16置換（アラインメント3、マルチモーダル13）の完全一致数と、仮訂正後記事 SHA、270単位の topicAfterCorrectionsCandidate/candidateTopicChanged/correctionIds が一致しました。\n- 4つの手動補助段階から直後の READ 停止への持越しと、capabilities の selector 未操作時の4要素表示契約を確認しました。\n\n作者 validation.json の 2,526 項目は独立検証の根拠にしていません。同ファイルは対象識別用のハッシュだけを記録しています。静的構造検査は、将来の実装・画面表示・アクセシビリティの動作試験を代替しません。\n\n## 内容品質と実現可能性\n\n| 対象記事 | 判定と確認点 |\n| --- | --- |\n| alignment-theory.md | 問題なし。選好、報酬、方策、KL、DPO の相殺条件、過剰最適化、評価粒度と報酬源を区別する計画です。A1–A3 の候補は一次資料と整合します。 |\n| reasoning-models.md | 問題なし。推論中の記号と後続予測の条件付け、推論時の固定重み、学習との区別が READ 停止で見えます。思考の再現や架空の費用を表示しません。 |\n| attention-and-context.md | 問題なし。因果注意の例示範囲、prefill/decode、計算と料金、KV と別リクエストのキャッシュ、利用可能性と品質を区別しています。 |\n| in-context-learning-and-memorization.md | 問題なし。固定重みと内部状態、複数の仮説、記憶と汎化、grokking の時間軸と二重降下の規模軸を区別しています。 |\n| interpretability-basics.md | 問題なし。プローブの読出しと因果利用、観察と介入、SAE の近似・残差・限界を保持する計画です。 |\n| capabilities-and-limits.md | 問題なし。流暢さ/正確さ、傾向/保証、独立検証が既定表示に含まれます。架空スコアや自動採否はありません。 |\n| multimodal-models.md | 問題なし。構成例、内部表現、課金、情報保持、入力理解/生成を区別し、今回の本文同期候補と図の境界条件が整合しました。 |\n\n15図71段階の state/motion と全4 READ 持越しを改めて読みました。重要な注意が手動操作でしか到達できない状態に閉じ込められないよう、直後の READ 停止での必須表示が定義されています（計画 MD L65/L95/L107/L126）。capabilities の初期表示（L158）も操作なしで評価軸と検証条件を見せる契約です。これらは実現可能な計画ですが、実表示を検証した結果ではありません。\n\n本文非増量は、元の段落・リスト項目内の最小訂正と図ラベルに限定する意味で守られています。文字数の完全不変を主張していません。AST 包装は原文を保持し、採択した訂正候補以外の原文書換え・節追加を許可しない契約として明確です。\n\n## 一次資料の照合と証拠の限界\n\n同一レビュー系列で独立取得した同じ版を今回の照合にも用いました。新規取得時刻へ書き換えていません。Lightman/DeepSeek-R1/ViT の独立確認は 2026-09-24T12:29:32Z、Flamingo/TextVQA の直近の独立再確認は 2026-09-24T12:47:43Z です。\n\n- [Let's Verify Step by Step](https://arxiv.org/html/2305.20050v1): §2.1/2.4/2.5/2.6。評価粒度と評価源を分ける A1–A3、ならびに修正済み節番号と整合します。\n- [DeepSeek-R1](https://arxiv.org/html/2501.12948v1): §2.2.2。R1-Zero のルールによる報酬は特定の構成であり、結果報酬一般の定義へ拡張しません。\n- [Flamingo](https://arxiv.org/html/2204.14198v1): §3.1.1/Fig.4 の固定個数への再サンプリング、§3.1.2/Fig.5 の cross-attention 接続が、M1–M4 と関連同期の限定を支持します。内部表現数の反例を、特定サービスの料金や速度の測定結果として扱っていません。\n- [ViT](https://arxiv.org/abs/2010.11929): Abstract のパッチ系列は構成例の根拠であり、あらゆる画像モデルや料金方式へ一般化しません。\n- [Towards VQA Models That Can Read](https://arxiv.org/abs/1904.08920): Abstract の画像・質問・認識文字を組み合わせる課題は、M5 と関連同期の情報保持条件に整合します。OCR と画像入力の一般的な費用優劣は立証していません。\n\n## 対象固定と後続ゲート\n\n補助成果物の SHA256:\n\n| 対象 | SHA256 |\n| --- | --- |\n| source-inventory.json | b5fe2b23b7a291e77d56fe6bca6d9de8879b3383ad7ee57231dccca8addf97e2 |\n| validation.json | 6b88c31dd59871a75c424c80451a20447766494ab1f01d97bf79113505c7aad6 |\n| multimodal-models.candidate.md | 27956431766343cd1c4b910ce9d7b703e655365856c3e10484de315684688ced |\n| multimodal-consistency-v3.json | 5df5e2da2ca5257609327693c4da196718caa9bfa697236c6f5a116614bdff75 |\n\n実際の記事訂正では、その時点の原文 SHA・根拠・日付・関連記述を同期した最終内容について、通常記事変更の独立レビューと必要な policy 検査を取り直します。TEMP の候補に残る現行 last_updated や参考資料の日付は現行原文の再構成用であり、公開用の最終日付を承認した意味ではありません。\n\n各制作単位の実装、意味モデル、全状態画像、ブラウザー操作、GitHub/CI、公開同版確認は後続ゲートです。P1 全15記事の当該版の公開受入完了まで進めて停止し、P2 に進まない終了条件は明確です。\n\nrepo、Git、記事は編集していません。TEMP の独立レビュー出力のみを作成し、v1/v2 の判定記録は保持しました。"
+}

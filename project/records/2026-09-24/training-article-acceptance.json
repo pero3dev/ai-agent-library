@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+  "review": {
+    "inputDigest": "sha256:ac6d8aabd80a18e7cf8d54343531ba1e43e346f18ec9bde25017b350e955750e",
+    "status": "approved",
+    "checkedAt": "2026-09-24T14:42:52.836Z",
+    "independent": true,
+    "record": "project/records/2026-09-24/training-reading-diagrams.md"
+  },
+  "local": {
+    "inputDigest": "sha256:ac6d8aabd80a18e7cf8d54343531ba1e43e346f18ec9bde25017b350e955750e",
+    "status": "passed",
+    "checkedAt": "2026-09-24T14:48:29.587Z",
+    "record": "project/records/2026-09-24/training-reading-diagrams.md"
+  },
+  "public": null
+}

@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "independent-offline-LF-portability-review",
+  "reviewer": "/root/portable_handoff_kit/portable_review",
+  "reviewedAt": "2026-09-24T12:45:28.436Z",
+  "status": "approved",
+  "risk": "low",
+  "manifestSHA256": "d5ff1524136e8279af9e946ba4e4ae5faf71eb2cfa401b574a7258fd1ebaeb7c",
+  "previousApprovalSHA256": "6c28da90f2f7ee3a15f045f147a82163073b530052bf8140179984958647b765",
+  "previousApprovalAutomaticallyReused": false,
+  "scope": "LF-only revision; raw and normalized provenance; three source modules; five protected sections; Git normalization reproducibility",
+  "findings": [],
+  "sourceFiles": [
+    {
+      "file": "collect-deployment.ps1",
+      "sourceRawSHA256": "bdb4a7812875a9a8b83daee5e9f759d75ee802e63c3866545aeb45807191c113",
+      "normalizedSourceSHA256": "bdb4a7812875a9a8b83daee5e9f759d75ee802e63c3866545aeb45807191c113",
+      "portableSHA256": "7608deb8e2c496c71419b93cfb55400dad8d723671de1bc5b0a21ef9ced0151c"
+    },
+    {
+      "file": "extract-ci-html.mjs",
+      "sourceRawSHA256": "3e509d1434615996582df8bfd6a461bfe4cd393d2398870a66c6dbabcb26f556",
+      "normalizedSourceSHA256": "3e509d1434615996582df8bfd6a461bfe4cd393d2398870a66c6dbabcb26f556",
+      "portableSHA256": "b1fb649f6d5c3f816651e8ad5929d0112ea8c7d6c10180aa2d1145199c169221"
+    },
+    {
+      "file": "verify-public.mjs",
+      "sourceRawSHA256": "feda2fe31c1f983ab534714e4b3aaadebbd17155951d9f7a5089284ca1f03edd",
+      "normalizedSourceSHA256": "feda2fe31c1f983ab534714e4b3aaadebbd17155951d9f7a5089284ca1f03edd",
+      "portableSHA256": "f3dfb970498e80b2f619d55a30e9c1cddca657ed75e9fa0eb99877528d641a25"
+    },
+    {
+      "file": "inference-checks.mjs",
+      "sourceRawSHA256": "90808bc9fb9dcf9c1e0f06e3b1ddc4e243bd0a0460f1d8d30c8997bb7415f80e",
+      "normalizedSourceSHA256": "d0f83f658e4f4ff286a7262f2a06a16faeee59f10adebfd88e56d7dbef820133",
+      "portableSHA256": "d0f83f658e4f4ff286a7262f2a06a16faeee59f10adebfd88e56d7dbef820133"
+    },
+    {
+      "file": "foundations-checks.mjs",
+      "sourceRawSHA256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398",
+      "normalizedSourceSHA256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398",
+      "portableSHA256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398"
+    },
+    {
+      "file": "known-site-observations.mjs",
+      "sourceRawSHA256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659",
+      "normalizedSourceSHA256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659",
+      "portableSHA256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659"
+    },
+    {
+      "file": "check-preparation.mjs",
+      "sourceRawSHA256": "c03b60e16cd467f468f4dc22327f852580e3546e3d3b2214c3c901127cb3a866",
+      "normalizedSourceSHA256": "6fb2603518e240077157e2786d442a377caa1ae976f723851ca5fe843966c3c4",
+      "portableSHA256": "424fbdc751f761523cb326bd97ae079117d1d8068b619d9e846841c3d920f5b6"
+    },
+    {
+      "file": "README.md",
+      "sourceRawSHA256": "611f5e684274ff2d4fc0d65e72cdfae22aa4475ac9dc2a951d8dbecb67d2d3e1",
+      "normalizedSourceSHA256": "5faed88979e5c63faf15a59d5781135180b1cb6f8d5da502e35c11bd13894e9e",
+      "portableSHA256": "b23b4080ff95efb022d4c708393178655bcf5eb3110ad3b5d610a1c7e6bfd4f4"
+    }
+  ],
+  "protectedSegments": [
+    {
+      "file": "verify-public.mjs",
+      "start": "assert.equal(artifactEvidence.schemaVersion",
+      "sha256": "1c55d08ac5f99af659cbd65abd1e9966c810ba2ff1caeba7be8c91b089287cbd",
+      "normalizedSourceEqual": true
+    },
+    {
+      "file": "verify-public.mjs",
+      "start": "function observe(page)",
+      "sha256": "3866ce9c96e972b28f1d823f63e2ab43f19294bf318c831cf920dab097b67d17",
+      "normalizedSourceEqual": true
+    },
+    {
+      "file": "collect-deployment.ps1",
+      "start": "function Read-GitHubJson",
+      "sha256": "d969d6fe53cf37a81f2b59f8caf920c561465f89790eb18ecba406202e6f770e",
+      "normalizedSourceEqual": true
+    },
+    {
+      "file": "collect-deployment.ps1",
+      "start": "# Re-read identities",
+      "sha256": "23aacc3899af647a168a2d2969e8a79c64758d6c53b12543cd93b30c273aeb74",
+      "normalizedSourceEqual": true
+    },
+    {
+      "file": "extract-ci-html.mjs",
+      "start": "const routes = [",
+      "sha256": "575a0447237a6ac0649fdcb159e504fdd41863fcb9080d5238b925b06bccb942",
+      "normalizedSourceEqual": true
+    }
+  ],
+  "gitFiles": [
+    {
+      "file": "check-preparation.mjs",
+      "sha256": "424fbdc751f761523cb326bd97ae079117d1d8068b619d9e846841c3d920f5b6",
+      "gitBlob": "917b7c6143fe760fb37d11b970530813b6ffd8ca",
+      "cleanUnchanged": true,
+      "eol": "lf"
+    },
+    {
+      "file": "collect-deployment.ps1",
+      "sha256": "7608deb8e2c496c71419b93cfb55400dad8d723671de1bc5b0a21ef9ced0151c",
+      "gitBlob": "4130baf8c328713934d23bf6cc8fec4ce730d0eb",
+      "cleanUnchanged": true,
+      "eol": "lf"
+    },
+    {
+      "file": "extract-ci-html.mjs",
+      "sha256": "b1fb649f6d5c3f816651e8ad5929d0112ea8c7d6c10180aa2d1145199c169221",
+      "gitBlob": "3a3c2f300eba5b1ff798532718f1ec893b884c93",
+      "cleanUnchanged": true,
+      "eol": "lf"
+    },
+    {
+      "file": "foundations-checks.mjs",
+      "sha256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398",
+      "gitBlob": "2944ac1615e6f282ea980cb30aecf144fd981705",
+      "cleanUnchanged": true,
+      "eol": "lf"
+    },
+    {
+      "file": "inference-checks.mjs",
+      "sha256": "d0f83f658e4f4ff286a7262f2a06a16faeee59f10adebfd88e56d7dbef820133",
+      "gitBlob": "67ad82f84692e941736822d2c2792ad023c41fb6",
+      "cleanUnchanged": true,
+      "eol": "lf"
+    },
+    {
+      "file": "known-site-observations.mjs",
+      "sha256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659",
+      "gitBlob": "a191fbf3eabd271844a1cbc6a0bfc240c2f739e0",
+      "cleanUnchanged": true,
+      "eol": "lf"
+    },
+    {
+      "file": "portable-paths.mjs",
+      "sha256": "eb3bab3ad3e9bfcffbd2071d23c321ae71abb4a5a7fa78dee1706ef9fd1abd4a",
+      "gitBlob": "3694b90dbef415f0c9fc189b2b0b46e206b3c2d6",
+      "cleanUnchanged": true,
+      "eol": "lf"
+    },
+    {
+      "file": "portable-validation.test.mjs",
+      "sha256": "f5c4184e5e4018bdac7255a8d7aeb7191c611a0b670dc3d44bbb0473affa45f1",
+      "gitBlob": "d5378087bbc28995c5e305bd59d75b18be2c02d3",
+      "cleanUnchanged": true,
+      "eol": "lf"
+    },
+    {
+      "file": "README.md",
+      "sha256": "b23b4080ff95efb022d4c708393178655bcf5eb3110ad3b5d610a1c7e6bfd4f4",
+      "gitBlob": "d73a1e7625b7834ef08a4b815b2871895f3e8f8d",
+      "cleanUnchanged": true,
+      "eol": "lf"
+    },
+    {
+      "file": "source-mapping.json",
+      "sha256": "d5ff1524136e8279af9e946ba4e4ae5faf71eb2cfa401b574a7258fd1ebaeb7c",
+      "gitBlob": "12897143574ece27d5a4acfbc93d7976ea049530",
+      "cleanUnchanged": true,
+      "eol": "lf"
+    },
+    {
+      "file": "verify-public.mjs",
+      "sha256": "f3dfb970498e80b2f619d55a30e9c1cddca657ed75e9fa0eb99877528d641a25",
+      "gitBlob": "5801bffd8eaa32e68b87413f20b1780ca0fef520",
+      "cleanUnchanged": true,
+      "eol": "lf"
+    }
+  ],
+  "offlineTests": {
+    "independentlyExecuted": true,
+    "total": 17,
+    "passed": 17,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "durationMs": 10331.3127
+  },
+  "preservedChecks": {
+    "total": 58,
+    "prior": 43,
+    "inference": 14,
+    "mandatoryFavicon": 1,
+    "artifactArticles": 6,
+    "inferenceStages": 23,
+    "browserExecuted": false
+  },
+  "gitVerification": {
+    "repositoryEdited": false,
+    "indexEdited": false,
+    "objectsWritten": false,
+    "configPersisted": false,
+    "cleanHashesEqual": true,
+    "method": "Read-only git check-attr text eol and git hash-object without -w, with per-command safe.directory. LF-only bytes and applicable eol=lf make checkout normalization idempotent; no actual checkout performed."
+  },
+  "networkExecuted": false,
+  "publicBrowserExecuted": false,
+  "githubExecuted": false,
+  "limitations": [
+    "Separate from original source approval, second-PC acceptance and public/physical-device acceptance."
+  ],
+  "writes": "Requested review Markdown/JSON in validation plus isolated OS-temp fixtures from offline tests."
+}

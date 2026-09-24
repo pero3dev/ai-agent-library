@@ -10,7 +10,8 @@ import {
   MOE_ARTICLE, MOE_EVIDENCE_PATH, MOE_INPUT_FILES,
   GENERATION_ARTICLE, GENERATION_EVIDENCE_PATH, GENERATION_INPUT_FILES,
   TOKENIZATION_ARTICLE, TOKENIZATION_EVIDENCE_PATH, TOKENIZATION_INPUT_FILES,
-  INFERENCE_ARTICLE, INFERENCE_EVIDENCE_PATH, INFERENCE_INPUT_FILES
+  INFERENCE_ARTICLE, INFERENCE_EVIDENCE_PATH, INFERENCE_INPUT_FILES,
+  TRAINING_ARTICLE, TRAINING_EVIDENCE_PATH, TRAINING_INPUT_FILES
 } from '../../lib/diagram-article-acceptance.mjs'
 import { getDiagramCoverage } from '../../lib/diagram-coverage.mjs'
 import { diagramRegistry } from '../../lib/diagram-registry.mjs'
@@ -247,8 +248,8 @@ test('coverage computes complete article count from acceptance and keeps publica
   assert.equal(report().summary.completeArticles, 0)
 })
 
-test('six article configurations are code-owned and returned copies cannot alter the policy', () => {
-  assert.deepEqual(TRACKED_ARTICLES, [TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE, INFERENCE_ARTICLE])
+test('seven article configurations are code-owned and returned copies cannot alter the policy', () => {
+  assert.deepEqual(TRACKED_ARTICLES, [TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE, INFERENCE_ARTICLE, TRAINING_ARTICLE])
   const config = getDiagramArticleConfig(ATTENTION_VARIANTS_ARTICLE)
   assert.equal(Object.keys(config.topics).length, 11)
   assert.equal(config.evidencePath, ATTENTION_VARIANTS_EVIDENCE_PATH)
@@ -270,7 +271,7 @@ test('six article configurations are code-owned and returned copies cannot alter
   assert.equal(ATTENTION_VARIANTS_INPUT_FILES.some(file => file.includes('/moe-')), false)
 })
 
-test('six articles require their own matching evidence and aggregate completion independently', t => {
+test('seven articles require their own matching evidence and aggregate completion independently', t => {
   const f = trackedArticlesFixture(t)
   for (const article of TRACKED_ARTICLES) {
     assert.equal(f.report(article).assignmentCurrent, true)
@@ -294,7 +295,7 @@ test('six articles require their own matching evidence and aggregate completion 
   assert.equal(getDiagramCoverage({ repoRoot: f.root, registry: f.registry }).summary.completeArticles, 3)
   for (const [article, evidencePath, count] of [
     [GENERATION_ARTICLE, GENERATION_EVIDENCE_PATH, 4], [TOKENIZATION_ARTICLE, TOKENIZATION_EVIDENCE_PATH, 5],
-    [INFERENCE_ARTICLE, INFERENCE_EVIDENCE_PATH, 6]
+    [INFERENCE_ARTICLE, INFERENCE_EVIDENCE_PATH, 6], [TRAINING_ARTICLE, TRAINING_EVIDENCE_PATH, 7]
   ]) {
     assert.equal(f.report(article).complete, false)
     f.json(evidencePath, f.evidence(MOE_ARTICLE))
@@ -317,7 +318,8 @@ test('article-specific scene, assignment and registry changes leave every other 
     [MOE_ARTICLE, 'website/components/diagrams/moe-routing-walkthrough.jsx', 'moe-routing-load'],
     [GENERATION_ARTICLE, 'website/components/diagrams/generation-walkthrough.jsx', 'generation-token-loop'],
     [TOKENIZATION_ARTICLE, 'website/components/diagrams/tokenization-walkthrough.jsx', 'tokenization-counting'],
-    [INFERENCE_ARTICLE, 'website/components/diagrams/inference-sampling-walkthrough.jsx', 'inference-sampling']
+    [INFERENCE_ARTICLE, 'website/components/diagrams/inference-sampling-walkthrough.jsx', 'inference-sampling'],
+    [TRAINING_ARTICLE, 'website/components/diagrams/training-stages-walkthrough.jsx', 'training-stages']
   ]) {
     const others = TRACKED_ARTICLES.filter(value => value !== article)
     const sceneSource = readFileSync(path.join(f.root, scene), 'utf8')
@@ -726,7 +728,7 @@ test('inference whole-source and optional overrides invalidate evidence beyond t
 
 test('five historical PR56 snapshots cannot approve changed shared code or be reused as inference evidence', t => {
   const f = trackedArticlesFixture(t), snapshots = new Map()
-  const earlier = TRACKED_ARTICLES.filter(article => article !== INFERENCE_ARTICLE)
+  const earlier = [TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE]
   assert.equal(earlier.length, 5)
   for (const article of earlier) {
     const config = getDiagramArticleConfig(article), evidence = f.evidence(article)
@@ -739,6 +741,156 @@ test('five historical PR56 snapshots cannot approve changed shared code or be re
     assert.equal(f.report(INFERENCE_ARTICLE).complete, false)
   }
   f.write('website/lib/diagram-decoration.mjs', originals.get('website/lib/diagram-decoration.mjs') + '\n// New inference integration\n')
+  for (const article of earlier) {
+    const result = f.report(article)
+    assert.equal(result.reviewRecorded, false)
+    assert.equal(result.localRecorded, false)
+    assert.equal(result.publicRecorded, false)
+    assert.equal(result.complete, false)
+  }
+  for (const [snapshot, content] of snapshots) assert.equal(readFileSync(path.join(f.root, snapshot), 'utf8'), content)
+})
+
+test('training assigns all eight H3 and 34 topics while all three article gates remain independently required', t => {
+  const f = trackedArticlesFixture(t), config = getDiagramArticleConfig(TRAINING_ARTICLE)
+  const ids = ['training-stages', 'training-runtime-boundary']
+  assert.deepEqual(config.primaryDiagramIds, ids)
+  assert.equal(Object.keys(config.topics).length, 8)
+  assert.equal(Object.values(config.topics).flat().length, 34)
+  assert.equal(config.evidencePath, TRAINING_EVIDENCE_PATH)
+  assert.deepEqual(config.inputFiles, TRAINING_INPUT_FILES)
+  assert.equal(TRAINING_INPUT_FILES.length, 47)
+  assert.equal(new Set(TRAINING_INPUT_FILES).size, 47)
+  const assignment = f.manifest().articles.find(entry => entry.article === TRAINING_ARTICLE)
+  const topics = assignment.sections.flatMap(section => section.topics)
+  assert.equal(topics.length, 34)
+  assert.equal(topics.filter(topic => topic.diagramId).length, 21)
+  assert.equal(topics.filter(topic => topic.staticReason).length, 13)
+  for (const topic of topics.filter(topic => topic.diagramId)) {
+    const diagram = f.registry.diagrams.find(entry => entry.id === topic.diagramId)
+    const readingStages = diagram.blockGroups.flat().map(group => group.stage)
+    assert.ok(topic.stages.some(stage => readingStages.includes(stage)), topic.id)
+  }
+  assert.equal(f.report(TRAINING_ARTICLE).assignmentCurrent, true)
+  f.json(TRAINING_EVIDENCE_PATH, { schemaVersion: 1, article: TRAINING_ARTICLE, review: null, local: null, public: null })
+  for (const kind of ['review', 'local', 'public']) {
+    const evidence = f.evidence(TRAINING_ARTICLE)
+    evidence[kind] = null
+    f.json(TRAINING_EVIDENCE_PATH, evidence)
+    assert.equal(f.report(TRAINING_ARTICLE)[`${kind}Recorded`], false)
+    assert.equal(f.report(TRAINING_ARTICLE).complete, false)
+  }
+  for (const mutate of [
+    a => a.sections.pop(), a => a.sections.reverse(), a => a.sections[0].topics.pop(),
+    a => a.sections[0].topics.push(a.sections[0].topics[0]), a => a.primaryDiagramIds.pop(),
+    a => a.sections[0].topics[0].stages = [6], a => a.sections[0].topics[0].diagramId = 'generation-token-loop',
+    a => a.sections.at(-1).topics[0].staticReason = '',
+    a => a.sections.at(-1).topics[0].relatedRead = [{ diagramId: 'training-stages', stage: 2 }]
+  ]) {
+    const manifest = f.manifest()
+    mutate(manifest.articles.find(entry => entry.article === TRAINING_ARTICLE))
+    f.json(manifestPath, manifest)
+    f.json(TRAINING_EVIDENCE_PATH, f.evidence(TRAINING_ARTICLE))
+    assert.equal(f.report(TRAINING_ARTICLE).assignmentCurrent, false, String(mutate))
+    assert.equal(f.report(TRAINING_ARTICLE).complete, false)
+  }
+  f.json(manifestPath, f.manifest())
+  for (const id of ids) {
+    const entry = f.registry.diagrams.find(entry => entry.id === id), saved = structuredClone(entry)
+    for (const changes of [
+      { enabled: false, status: 'draft', reviewedDigest: null },
+      { status: 'implemented', reviewedDigest: null },
+      { sourceDigest: 'sha256:' + '0'.repeat(64), reviewedDigest: 'sha256:' + '0'.repeat(64) }
+    ]) {
+      Object.assign(entry, saved, changes)
+      f.json(TRAINING_EVIDENCE_PATH, f.evidence(TRAINING_ARTICLE))
+      assert.equal(f.report(TRAINING_ARTICLE).diagramsCurrent, false, id)
+      assert.equal(f.report(TRAINING_ARTICLE).complete, false, id)
+    }
+    Object.assign(entry, saved)
+  }
+})
+
+test('training topics cannot rely only on a manual-only stage', t => {
+  const f = trackedArticlesFixture(t)
+  assert.equal(getDiagramArticleConfig(TRAINING_ARTICLE).requireReadingStage, true)
+  for (const [stages, accepted] of [[[1], false], [[1, 2], true], [[0], true]]) {
+    const manifest = f.manifest()
+    const topic = manifest.articles.find(entry => entry.article === TRAINING_ARTICLE).sections
+      .flatMap(section => section.topics).find(topic => topic.id === 'training-association-not-cause')
+    topic.diagramId = 'training-runtime-boundary'
+    topic.stages = stages
+    f.json(manifestPath, manifest)
+    f.json(TRAINING_EVIDENCE_PATH, f.evidence(TRAINING_ARTICLE))
+    const report = f.report(TRAINING_ARTICLE)
+    assert.equal(report.assignmentCurrent, accepted, JSON.stringify(stages))
+    assert.equal(report.complete, accepted, JSON.stringify(stages))
+    if (!accepted) assert.ok(report.reasons.some(reason => reason.includes('本文連動')))
+  }
+})
+
+test('all seven training runtime inputs fail closed and stay isolated from the six previous articles', t => {
+  const f = trackedArticlesFixture(t), before = new Map(TRACKED_ARTICLES.map(article => [article, f.report(article).inputDigest]))
+  const specific = TRAINING_INPUT_FILES.filter(file => !ARTICLE_INPUT_FILES.includes(file))
+  assert.equal(specific.length, 7)
+  assert.ok(specific.includes('website/components/diagrams/training-walkthrough.jsx'))
+  for (const id of ['training-stages', 'training-runtime-boundary']) {
+    for (const file of [`website/components/diagrams/${id}-walkthrough.jsx`, `website/components/diagrams/${id}.css`, `website/lib/${id}-model.mjs`]) {
+      assert.ok(specific.includes(file), file)
+    }
+  }
+  for (const article of TRACKED_ARTICLES) f.json(getDiagramArticleConfig(article).evidencePath, f.evidence(article))
+  for (const file of specific) {
+    const source = readFileSync(path.join(f.root, file), 'utf8')
+    f.write(file, source + '\n// Changed training input\n')
+    for (const article of TRACKED_ARTICLES) {
+      assert.equal(f.report(article).inputDigest !== before.get(article), article === TRAINING_ARTICLE, file + ': ' + article)
+      assert.equal(f.report(article).complete, article !== TRAINING_ARTICLE, file + ': ' + article)
+    }
+    rmSync(path.join(f.root, file))
+    assert.equal(f.report(TRAINING_ARTICLE).inputDigest, null, file)
+    assert.equal(f.report(TRAINING_ARTICLE).complete, false, file)
+    f.write(file, source)
+  }
+})
+
+test('training optional overrides and unwrapped checklist invalidate whole-article evidence', t => {
+  const f = trackedArticlesFixture(t), before = new Map(TRACKED_ARTICLES.map(article => [article, f.report(article).inputDigest]))
+  const optional = ['md', 'mdx'].map(extension => `website/content-src/llm-foundations/llm-training-pipeline.${extension}`)
+  assert.deepEqual(getDiagramArticleConfig(TRAINING_ARTICLE).optionalInputs, optional)
+  for (const file of optional) {
+    f.json(TRAINING_EVIDENCE_PATH, f.evidence(TRAINING_ARTICLE))
+    f.write(file, '# Content override\n')
+    assert.notEqual(f.report(TRAINING_ARTICLE).inputDigest, before.get(TRAINING_ARTICLE))
+    assert.equal(f.report(TRAINING_ARTICLE).complete, false)
+    for (const article of TRACKED_ARTICLES.filter(value => value !== TRAINING_ARTICLE)) assert.equal(f.report(article).inputDigest, before.get(article))
+    f.json(TRAINING_EVIDENCE_PATH, f.evidence(TRAINING_ARTICLE))
+    rmSync(path.join(f.root, file))
+    assert.equal(f.report(TRAINING_ARTICLE).inputDigest, before.get(TRAINING_ARTICLE))
+    assert.equal(f.report(TRAINING_ARTICLE).complete, false)
+  }
+  f.json(TRAINING_EVIDENCE_PATH, f.evidence(TRAINING_ARTICLE))
+  const source = readFileSync(path.join(f.root, TRAINING_ARTICLE), 'utf8')
+  f.write(TRAINING_ARTICLE, source.replace('### チェックリスト', '### チェックリスト\n\n確認事項を更新。'))
+  assert.notEqual(f.report(TRAINING_ARTICLE).inputDigest, before.get(TRAINING_ARTICLE))
+  assert.equal(f.report(TRAINING_ARTICLE).diagramsCurrent, true)
+  assert.equal(f.report(TRAINING_ARTICLE).complete, false)
+})
+
+test('the six PR58 historical article snapshots cannot approve a later shared training integration', t => {
+  const f = trackedArticlesFixture(t), snapshots = new Map()
+  const earlier = [TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE, INFERENCE_ARTICLE]
+  for (const article of earlier) {
+    const config = getDiagramArticleConfig(article), evidence = f.evidence(article)
+    f.json(config.evidencePath, evidence)
+    const snapshot = config.evidencePath.replace('.json', '-pr58.json')
+    f.json(snapshot, evidence)
+    snapshots.set(snapshot, readFileSync(path.join(f.root, snapshot), 'utf8'))
+    assert.equal(f.report(article).complete, true)
+    f.json(TRAINING_EVIDENCE_PATH, evidence)
+    assert.equal(f.report(TRAINING_ARTICLE).complete, false)
+  }
+  f.write('website/lib/diagram-decoration.mjs', originals.get('website/lib/diagram-decoration.mjs') + '\n// New training integration\n')
   for (const article of earlier) {
     const result = f.report(article)
     assert.equal(result.reviewRecorded, false)

@@ -1,0 +1,106 @@
+{
+  "scope": "docs/10-llm-foundations/multimodal-models.md",
+  "readEntireArticle": true,
+  "sourceLineCount": 127,
+  "checkedAtUTC": "2026-09-24T12:52:45.104Z",
+  "sourceSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+  "candidateSha256": "27956431766343cd1c4b910ce9d7b703e655365856c3e10484de315684688ced",
+  "correctionIds": [
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M4-sync-97",
+    "M4-sync-98",
+    "M5",
+    "M5-sync-100",
+    "M4-sync-55",
+    "M4-sync-56",
+    "M4-sync-79",
+    "M4-sync-105",
+    "M5-sync-108"
+  ],
+  "groups": [
+    {
+      "lines": [
+        1,
+        26
+      ],
+      "disposition": "keep",
+      "reason": "frontmatter/目的/前提リンク。換算式や入力方式の一律優劣は規定していない。"
+    },
+    {
+      "lines": [
+        29,
+        38
+      ],
+      "disposition": "M1",
+      "reason": "画像表現をテキスト系列へ接続する構成例と明示する。索引表の既存リンクは保持。"
+    },
+    {
+      "lines": [
+        40,
+        48
+      ],
+      "disposition": "M2,M3",
+      "reason": "数値表現への変換と構成ごとの接続を分離し、この例の形式へ限定する。"
+    },
+    {
+      "lines": [
+        50,
+        64
+      ],
+      "disposition": "M4-sync-55,M4-sync-56; rest keep",
+      "reason": "解像度/サイズ→トークン数とパッチ=課金トークンを削除。54行のパッチ表現と60〜64行の単一系列はM1で限定した構成例に残す。"
+    },
+    {
+      "lines": [
+        66,
+        73
+      ],
+      "disposition": "M4; rest keep",
+      "reason": "72行の固定等式を比較条件へ修正。残る細部の読み取り・補完の論点は図の入力粒度/検証条件と対応。"
+    },
+    {
+      "lines": [
+        75,
+        81
+      ],
+      "disposition": "M4-sync-79,M5; rest keep",
+      "reason": "消費量/費用/待ち時間はモデルと処理方法に依存。80行は必要粒度/関心領域の検討であり費用や品質の自動保証ではない。"
+    },
+    {
+      "lines": [
+        83,
+        91
+      ],
+      "disposition": "keep",
+      "reason": "理解/生成の能力区分と製品別対応/換算のTODOを保持し、今回の入力費用条件と矛盾しない。"
+    },
+    {
+      "lines": [
+        93,
+        101
+      ],
+      "disposition": "M4-sync-97,M4-sync-98,M5-sync-100; rest keep",
+      "reason": "見積もりを採用仕様へ、OCR優位を情報保全/精度費用比較へ変更。99行の重要な読み取りの突き合わせと101行の能力区分は保持。"
+    },
+    {
+      "lines": [
+        103,
+        109
+      ],
+      "disposition": "M4-sync-105,M5-sync-108; rest keep",
+      "reason": "チェックリストをモデル別見積りと情報保全/比較へ同期。106行の必要解像度の検討、107行の重要箇所検証、109行の能力区分は維持。"
+    },
+    {
+      "lines": [
+        111,
+        127
+      ],
+      "disposition": "keep",
+      "reason": "関連リンク、参考論文、製品ごとの実装/換算/課金確認のTODO。固定比例やOCRの一律代替を課す記述はない。"
+    }
+  ],
+  "limits": "作者の計画段階の全文照合。一次資料は作者2026-09-24T12:35:25Zの確認を再利用し、今回は新規取得と扱わない。本文への適用・最終実装/視覚/公開受入・独立再レビューは未実施。"
+}

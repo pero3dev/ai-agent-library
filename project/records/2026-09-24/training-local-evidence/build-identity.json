@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "local-static-export",
+  "checkedAt": "2026-09-24T14:31:43.818Z",
+  "buildID": "GpM7J_g8lnbvEy6H7i7nO",
+  "buildEnvironment": {
+    "STATIC_EXPORT": "1",
+    "NEXT_PUBLIC_BASE_PATH": "/ai-agent-library",
+    "NEXT_PUBLIC_SITE_URL": "https://pero3dev.github.io/ai-agent-library"
+  },
+  "sourceHashesAtVerification": {
+    "website/components/diagrams/diagram-entry.jsx": "6670748464e68d35f8150dfeab490678bacdf653c6526f27a30e93553000c0ea",
+    "website/components/diagrams/diagram-boundary.jsx": "5d7468c61107323df661809ff369d91e1cb27a0201b7c1f0b1c7ca83f29b0ac6",
+    "website/components/diagrams/reading-figure.jsx": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12",
+    "website/components/diagrams/reading-figure.css": "435a3f6cf8cfff84f5dee7421f2a6d894ae6e2ca9ae686f93e6f03d5f3e5f6b8",
+    "website/components/diagrams/reading-step.jsx": "9c1ab070cd475f04c51664b6e8c2a86561217c6641bfdb40b9977df5078ec38f",
+    "website/components/diagrams/reading-article-navigation.jsx": "78e0b91a6e7718b1f94b19827d92a2a14c6ab3fdc9a1419f34dfadaeac2c2792",
+    "website/lib/reading-clock.mjs": "f39eadf5eb39ebbb0f33877e6bceb9966211fc7acdaad13118428a4c2019081b",
+    "website/components/diagrams/concept-scene-primitives.jsx": "5aac3bf8a418a57cd269b89fdab0252eb71d671dfbe6ac6dbe064a052e790a2b",
+    "website/components/diagrams/concept-scenes.css": "8f5a7a2e846eab99414cd32d3834af43c8ec7102587e6e004a20d2db8d5921e9",
+    "website/components/mdx/mermaid.jsx": "88603ccf8699b8b2f32527fdd34ba6785293de0909c21ee751aead60bc5f6737",
+    "website/lib/mermaid-render.mjs": "1d389d2effb1d7199111de1396623ff9d2e8869c6e21da6795707d900f7f8b91",
+    "website/components/mdx/checklist-box.jsx": "e0c05911e80948654d50179036744674b839205ad5273f42a97431e4c082d08b",
+    "website/components/mdx/doc-meta.jsx": "8e11df16a4320c64a6dbce768d1423fa9bb98a75b0bb175f983b1a8f0e755e5d",
+    "website/components/mdx/glossary-term.jsx": "0aaa3070b4fe0a2d071d77a9376ac289dfe29dfa7fec62a11bb85c99dcc44dca",
+    "website/components/mdx/practice-section.jsx": "40107651aaa51f14fb67b7bf18c943004f1d7fbe29063ae81d134e9afd0d9779",
+    "website/components/mdx/todo-callout.jsx": "214c0da8d73c1057889a46e93d2fdcb7936f39e8dcdadfd16ee071741da52cc8",
+    "website/components/audio/article-audio.jsx": "f93dbf3442bf969273731f617bfc4c1015f285d248a45655d18598581d6d11c9",
+    "website/components/audio/audio-provider.jsx": "b0c47d60cbb5fe20df88d2b49e1229107dc06f579ddef71f9a4749cbce18b982",
+    "website/components/audio/audio-player.jsx": "1d126ffe718b7c1772b11869d43c2440e965875ec6144b193ff58bdbaed0b416",
+    "website/components/audio/queue-list.jsx": "2fe8a36e1802c26eca6b4cd2565aad4f28ee8343d0f63b383877112cb7aa344a",
+    "website/components/audio/audio.css": "a9a3f35e6311cc70b8e5ac47a089450cd49e20a4056484e61fae485ba3a6f4f4",
+    "website/lib/audio-player.mjs": "dcfc1e7cac780161e3f3f83dfeae0ddf4216f6e02bbaf2d474d872f9e38bd84f",
+    "website/lib/audio-catalog.mjs": "998fe07d917fa596c20cf9670c2132216596310b7f8df1ab1a645cfeb67c21b9",
+    "website/lib/diagram-registry.mjs": "f2a7bcdfe246b9afb08e96e165147b5c5134e03dcb9e9f4bcf3024e10a2ea156",
+    "website/lib/diagram-decoration.mjs": "4c7cf927bfe88e18a388b44a53a10e5d6e806bb4b9bfb72aa89c9fcb9abea74b",
+    "website/lib/attention-decoration.mjs": "e7ac20e253e9d26b7d99bb21a243bb3bde03d1f37142d1255f5c62bd0c2512e8",
+    "website/lib/doc-decorations.mjs": "abcba21db7e379e21f81602b97151e09f4c31d2a9f9beb01b48e86fee1de6fc2",
+    "website/lib/mdx-safety.mjs": "f56989551449ff75814b23399038004218152d926f604ade864d349494ea7242",
+    "website/lib/markdown-routes.mjs": "92d84d0ba39be1f23baf66049c74b07eb52903bdaa47c7362dbe07aa52a224dc",
+    "website/scripts/sync-content.mjs": "cafbc1ca9334f396f68260771ac3e9dd5df25e1dc89909c9c2916be89051e321",
+    "website/lib/diagram-article-acceptance.mjs": "03910e17e5fe049e2162610ffe734cfb28e53b2850cd2a573118a136e267bb7b",
+    "website/mdx-components.js": "2aa913b9231ae175e0b2d674fadec7ada08ebdeb3eb3f0c44b2a712c7fa10aa2",
+    "website/app/docs/[[...mdxPath]]/page.jsx": "c7ab066f69f88e2954deb07adadef4d1994a413600472c0e6d894569549d00ee",
+    "website/app/layout.jsx": "54a0d5ba9f707608515a7eda9601ce535261fbddf0db5efb24a0afeb7a1ba667",
+    "website/public/favicon.svg": "f9fc05866f8a15027f02e4e76c1a7bf58ece9aa89f573638d06ab5ed5ef37de1",
+    "website/app/docs.css": "9535a68fc320ac0315a11f3ad525c4d02004f0aa584ffca3788dd93c188c26ae",
+    "website/next.config.mjs": "dbe506573d0b8ef25c24d41879f577b16a0ae34d3164477e3138262523e37654",
+    "website/package.json": "cb262ec87f5e4ed3972c7094844e924f2add4be4cc338145700b1b80c467ca3d",
+    "website/package-lock.json": "f9c837dea78a160837d1fb7b6f9aba80249c505e94a45f4be465e1e96e598d31",
+    "scripts/lib/md-utils.mjs": "7b9a2b4d1cdefbbb2222be19401fe1f6e60173b471a95711f2604e1dfa732b15",
+    "website/components/diagrams/training-walkthrough.jsx": "7bdf27874f15d38a30270811eeeae9170a3822e41485b9542c68151ded1695e8",
+    "website/components/diagrams/training-stages-walkthrough.jsx": "1e59e2821f9e6622704934a1796294019164e621584c816444589e2bfd2c52aa",
+    "website/components/diagrams/training-stages.css": "a9188e12f0141444ffbe8334de052f5ae3447ad923ac71b803b3e885c1897f03",
+    "website/lib/training-stages-model.mjs": "86bb6fd18d34adb01f8511b9f139a3218d875a7d0febe9d90e382358abdd648b",
+    "website/components/diagrams/training-runtime-boundary-walkthrough.jsx": "48a8760c0710cb36ea6f661d7f4e575c4c8f347403cfe18af5238e0d88d38a53",
+    "website/components/diagrams/training-runtime-boundary.css": "71061427c9108c0612ca896910435a6a926f2b02cbc1f5dbd2c1d2a53dc9defb",
+    "website/lib/training-runtime-boundary-model.mjs": "290be52f3e5c413cfa0a50c5592c582fa19bbebf24cf4e9ff2b3e25c940ce097"
+  },
+  "articles": [
+    {
+      "article": "docs/11-llm-internals/transformer-architecture.md",
+      "inputDigest": "sha256:3eba48d869437052c03b48e4bea48f19fed4d83d4ab418cf5488b55814d5884d",
+      "route": "/docs/llm-internals/transformer-architecture",
+      "htmlSHA256": "f1ae0826b5ba82d6d506878fc80fbce592d3dc51b463b3748aec550b21a0c5e3",
+      "bytes": 1078462,
+      "gates": {
+        "review": false,
+        "local": false,
+        "public": false
+      }
+    },
+    {
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "inputDigest": "sha256:7acb3af2a93307c3af64c58777a195d29d7c3511c56612266ee120f93a8d0b62",
+      "route": "/docs/llm-internals/attention-variants-and-long-context",
+      "htmlSHA256": "b3195d8d12eb6eda9a02c21d4212bbf4e0119f0c6d2a37e106c1a2e48903cd0f",
+      "bytes": 771527,
+      "gates": {
+        "review": false,
+        "local": false,
+        "public": false
+      }
+    },
+    {
+      "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "inputDigest": "sha256:6bc93f5dafc4444c5eda62b222a1a00b13bead8986a0e58603c1069d8d1ff965",
+      "route": "/docs/llm-internals/mixture-of-experts-internals",
+      "htmlSHA256": "f8fa1b927f13516aa3ac4ae3776cc598fa96a978d4be6aa265d636c3c1774270",
+      "bytes": 712942,
+      "gates": {
+        "review": false,
+        "local": false,
+        "public": false
+      }
+    },
+    {
+      "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "inputDigest": "sha256:4c6eb9e998a5e328c556b50fc90a5cc6dbf6aede93301983077a523cda6c08ee",
+      "route": "/docs/llm-foundations/how-llms-generate-text",
+      "htmlSHA256": "784ec42c1ea5823de035af5ed9b9967053b270ce33fcd0cb99a79da1e7b80854",
+      "bytes": 597030,
+      "gates": {
+        "review": false,
+        "local": false,
+        "public": false
+      }
+    },
+    {
+      "article": "docs/10-llm-foundations/tokenization.md",
+      "inputDigest": "sha256:92f6402af833f916f1ddfd349fdbe87c5c0916de794b13669d5f1c22ff3672ff",
+      "route": "/docs/llm-foundations/tokenization",
+      "htmlSHA256": "13aebb00aac768536f9d2a1debe7ea96319a97e32b39be579acbdab4f24d6655",
+      "bytes": 583450,
+      "gates": {
+        "review": false,
+        "local": false,
+        "public": false
+      }
+    },
+    {
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "inputDigest": "sha256:26d9cd2be56aa9a93a255ffc4f020530065966d4f411768559ac18a553b01d76",
+      "route": "/docs/llm-internals/inference-internals",
+      "htmlSHA256": "087bc0df2bc710f85c99432718167450b65b4a55aca5a6d689247cbeaa1dc487",
+      "bytes": 718762,
+      "gates": {
+        "review": false,
+        "local": false,
+        "public": false
+      }
+    },
+    {
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "inputDigest": "sha256:ac6d8aabd80a18e7cf8d54343531ba1e43e346f18ec9bde25017b350e955750e",
+      "route": "/docs/llm-foundations/llm-training-pipeline",
+      "htmlSHA256": "9ac43a743c114f2b4fc0f4490878e5a33b65db12890b92e93c8f1126c5705aaf",
+      "bytes": 611908,
+      "gates": {
+        "review": false,
+        "local": false,
+        "public": false
+      }
+    }
+  ]
+}

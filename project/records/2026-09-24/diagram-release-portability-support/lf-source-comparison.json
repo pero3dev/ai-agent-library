@@ -1,0 +1,30 @@
+{
+  "evidenceClass": "offline-source-comparison",
+  "transformation": "CRLF-to-LF only",
+  "frozenSourceUnchanged": true,
+  "sourceModules": [
+    {
+      "file": "inference-checks.mjs",
+      "sourceRawSHA256": "90808bc9fb9dcf9c1e0f06e3b1ddc4e243bd0a0460f1d8d30c8997bb7415f80e",
+      "normalizedSourceSHA256": "d0f83f658e4f4ff286a7262f2a06a16faeee59f10adebfd88e56d7dbef820133",
+      "portableSHA256": "d0f83f658e4f4ff286a7262f2a06a16faeee59f10adebfd88e56d7dbef820133",
+      "matchesNormalizedSource": true
+    },
+    {
+      "file": "foundations-checks.mjs",
+      "sourceRawSHA256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398",
+      "normalizedSourceSHA256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398",
+      "portableSHA256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398",
+      "matchesNormalizedSource": true
+    },
+    {
+      "file": "known-site-observations.mjs",
+      "sourceRawSHA256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659",
+      "normalizedSourceSHA256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659",
+      "portableSHA256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659",
+      "matchesNormalizedSource": true
+    }
+  ],
+  "protectedSegments": 5,
+  "manifestSHA256": "d5ff1524136e8279af9e946ba4e4ae5faf71eb2cfa401b574a7258fd1ebaeb7c"
+}

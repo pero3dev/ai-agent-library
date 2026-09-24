@@ -1,0 +1,71 @@
+{
+  "evidenceClass": "offline-channel-fix-preparation",
+  "browserExecuted": false,
+  "publicExecuted": false,
+  "networkExecuted": false,
+  "gitOperations": false,
+  "predecessorManifestSHA256": "d5ff1524136e8279af9e946ba4e4ae5faf71eb2cfa401b574a7258fd1ebaeb7c",
+  "candidateManifestSHA256": "e9cf22cf7edd16443a6cd4d38c6aec9fac92bd09f4ad442f04270ef352ddac03",
+  "immutablePredecessorUnchanged": true,
+  "runnerDifference": [
+    {
+      "before": "  browser = await playwright[engine].launch({ headless: true, ...(engine === 'chromium' ? { channel: args.channel || 'msedge' } : {}) })",
+      "after": "  browser = await playwright[engine].launch({ headless: true, ...(engine === 'chromium' && args.channel ? { channel: args.channel } : {}) })",
+      "reason": "Omit the channel option for bundled Chromium; select Edge only for explicit msedge."
+    },
+    {
+      "before": "  report.browser = { engine, channel: engine === 'chromium' ? args.channel || 'msedge' : null, version: browser.version() }",
+      "after": "  report.browser = { engine, channel: engine === 'chromium' ? args.channel || null : null, version: browser.version() }",
+      "reason": "Record null for bundled Chromium and WebKit; record msedge only when explicitly selected."
+    }
+  ],
+  "allOtherRunnerBytesEqualPredecessor": true,
+  "protectedOriginalNormalizedSHA256": "3866ce9c96e972b28f1d823f63e2ab43f19294bf318c831cf920dab097b67d17",
+  "protectedCandidateSHA256": "bcacd0aac5cff7dfb542dc3b30ae1843cfbb05e1d8a657fad95d0e85b996f29c",
+  "cases": 58,
+  "independentReview": "pending",
+  "changedFiles": [
+    {
+      "file": "scripts/diagram-release/verify-public.mjs",
+      "sha256": "a36251df86d9d6cd24ad326b0d3faa556570d7013c70174a5d8f9aca62490ba0"
+    },
+    {
+      "file": "scripts/diagram-release/portable-validation.test.mjs",
+      "sha256": "3bf260aec359f637ae5eeb932fed95cd4485f4c68f418b0d88840bc59918b09b"
+    },
+    {
+      "file": "scripts/diagram-release/check-preparation.mjs",
+      "sha256": "44b51cad17bf6cb49371ca3c5f70e99b5d2f199a9ee235e0689fac0a059aa9a8"
+    },
+    {
+      "file": "scripts/diagram-release/README.md",
+      "sha256": "daa1622fc3ec40e1dcdccb23f2fc9d733b9ee1743b7d089fa9226dd12f3147e9"
+    },
+    {
+      "file": "scripts/diagram-release/source-mapping.json",
+      "sha256": "e9cf22cf7edd16443a6cd4d38c6aec9fac92bd09f4ad442f04270ef352ddac03"
+    }
+  ],
+  "offlineTests": {
+    "passed": 18,
+    "failed": 0,
+    "skipped": 0
+  },
+  "changedNodeSyntaxChecks": 3,
+  "preparationPassed": true,
+  "lfPredecessorAllFilesUnchanged": true,
+  "originalPublicSourceAllFilesUnchanged": true,
+  "launchBoundaryScenarios": {
+    "allowed": [
+      "browser omitted: bundled Chromium",
+      "explicit chromium: bundled Chromium",
+      "chromium+msedge: Edge",
+      "webkit without channel"
+    ],
+    "rejectedBeforeLaunch": [
+      "webkit+msedge",
+      "chromium+chrome",
+      "firefox"
+    ]
+  }
+}

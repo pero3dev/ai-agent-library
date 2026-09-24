@@ -1,0 +1,367 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "independent-portable-kit-code-and-offline-review",
+  "reviewedAt": "2026-09-24T14:32:55.656Z",
+  "reviewer": "/root/inference_public_review",
+  "scope": "scripts/diagram-release/*, tests/unit/diagram-release-portable.test.mjs, harness/verification.json. Kit-only review; reviewer authored the initial C1 scenes and does not independently approve that product.",
+  "manifestSHA256": "9fb0fb0d951d7ba52728b080b86948efc5bcfd6acf3288d5d044c13f6612c6a3",
+  "status": "changes_requested",
+  "risk": "medium",
+  "must": [
+    {
+      "id": "KIT-CAPTURE-1",
+      "priority": 2,
+      "file": "scripts/diagram-release/training-checks.mjs",
+      "line": 186,
+      "relatedFile": "scripts/diagram-release/verify-public.mjs",
+      "relatedLine": 277,
+      "title": "Capture the full SVG for every stage and recorded overlap observation",
+      "trigger": "At 960x540 DSF2, clicking the stage control leaves the upper SVG region above the viewport, but screenshot() records only fullPage:false.",
+      "observedImage": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-local-chromium-2026-09-24T14-17-44-967Z\\training-stages-stage-2-960x540-light-dsf2.png",
+      "impact": "The S2 three-card region and its three recorded BBox pairs are absent from the actual PNG. The required independent visual inspection cannot decide the candidates for this viewport; a passed geometry check or another viewport cannot replace it.",
+      "requestedChange": "Preserve the viewport images and add a linked screenshot of the complete scene/target region at the same viewport, theme, scale and semantic state for all training stage captures and overlap observations. Record matching source edits and candidate manifest hashes. Rehearse the corrected capture and verify the 960x540 image actually contains the three cards; do not introduce arbitrary overlap tolerances."
+    }
+  ],
+  "should": [],
+  "executed": {
+    "unit": {
+      "command": "node --test tests/unit/diagram-release-portable.test.mjs",
+      "exitCode": 0,
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 27716.9705,
+      "platform": "Windows",
+      "networkExecuted": false
+    },
+    "preparation": {
+      "command": "node scripts/diagram-release/check-preparation.mjs --output=<TEMP>/training-portable-review-evidence",
+      "exitCode": 0,
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-review-evidence\\preparation-2026-09-24T14-26-54-867Z\\preparation.json",
+      "sha256": "5d818df776029a79276da12fdf42563bd22445cf892aa7ed7c75eb7dd81f570e",
+      "priorCases": 58,
+      "addedCases": 13,
+      "totalCases": 71,
+      "routes": 7,
+      "restorationPassed": true
+    },
+    "independentSourceProof": {
+      "reviewedAt": "2026-09-24T14:31:02.617Z",
+      "files": [
+        {
+          "file": "scripts/diagram-release/check-preparation.mjs",
+          "sha256": "5ef156f74d95c4513a535347f35f4c472c2b1c86caab8cdce03740552a4d3928",
+          "bytes": 11735,
+          "snapshotMatched": true
+        },
+        {
+          "file": "scripts/diagram-release/collect-deployment.ps1",
+          "sha256": "96536628ace358e7c3499d51ab25a3c5c8375bdb609f1c9951bdd1794f262a1d",
+          "bytes": 12411,
+          "snapshotMatched": true
+        },
+        {
+          "file": "scripts/diagram-release/extract-ci-html.mjs",
+          "sha256": "bf9d7e3233c8e6daa4a71b176c967c42fbd1203c3dadb641d470b33a9eda2048",
+          "bytes": 4243,
+          "snapshotMatched": true
+        },
+        {
+          "file": "scripts/diagram-release/foundations-checks.mjs",
+          "sha256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398",
+          "bytes": 26410,
+          "snapshotMatched": true
+        },
+        {
+          "file": "scripts/diagram-release/inference-checks.mjs",
+          "sha256": "82017c0480f51542aa37351c9ca355fa7b5694288cb0fa7bcda9430ba1d23294",
+          "bytes": 31875,
+          "snapshotMatched": true
+        },
+        {
+          "file": "scripts/diagram-release/known-site-observations.mjs",
+          "sha256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659",
+          "bytes": 130,
+          "snapshotMatched": true
+        },
+        {
+          "file": "scripts/diagram-release/portable-paths.mjs",
+          "sha256": "eb3bab3ad3e9bfcffbd2071d23c321ae71abb4a5a7fa78dee1706ef9fd1abd4a",
+          "bytes": 7151,
+          "snapshotMatched": true
+        },
+        {
+          "file": "scripts/diagram-release/README.md",
+          "sha256": "e1a762120e41c47f1609f542ce7b06b47e9ef85b430fae09cac1a06824872acd",
+          "bytes": 16243,
+          "snapshotMatched": true
+        },
+        {
+          "file": "scripts/diagram-release/source-mapping.json",
+          "sha256": "9fb0fb0d951d7ba52728b080b86948efc5bcfd6acf3288d5d044c13f6612c6a3",
+          "bytes": 33854,
+          "snapshotMatched": true
+        },
+        {
+          "file": "scripts/diagram-release/training-checks.mjs",
+          "sha256": "503f18028b0986be09e901ae00448a98a713dce342a07fd731bacb6476ed9d50",
+          "bytes": 26695,
+          "snapshotMatched": true
+        },
+        {
+          "file": "scripts/diagram-release/verify-public.mjs",
+          "sha256": "20c8991ea06491726f248e8d1892807fb16691014b651ae59c2fbacf605e8c33",
+          "bytes": 59959,
+          "snapshotMatched": true
+        },
+        {
+          "file": "tests/unit/diagram-release-portable.test.mjs",
+          "sha256": "61aaf9353dc687a7c2f9560d16651adf9baf3fed8f0b78bcf1c518c5ce1b2238",
+          "bytes": 14587
+        },
+        {
+          "file": "harness/verification.json",
+          "sha256": "a6256ddb4dc02a4009ebc2f312b2648261a7deeb1568fcf8750675044ef09961",
+          "bytes": 3633
+        }
+      ],
+      "originalSources": [
+        {
+          "file": "collect-deployment.ps1",
+          "rawSHA256": "bdb4a7812875a9a8b83daee5e9f759d75ee802e63c3866545aeb45807191c113",
+          "normalizedSHA256": "bdb4a7812875a9a8b83daee5e9f759d75ee802e63c3866545aeb45807191c113",
+          "matched": true
+        },
+        {
+          "file": "extract-ci-html.mjs",
+          "rawSHA256": "3e509d1434615996582df8bfd6a461bfe4cd393d2398870a66c6dbabcb26f556",
+          "normalizedSHA256": "3e509d1434615996582df8bfd6a461bfe4cd393d2398870a66c6dbabcb26f556",
+          "matched": true
+        },
+        {
+          "file": "verify-public.mjs",
+          "rawSHA256": "feda2fe31c1f983ab534714e4b3aaadebbd17155951d9f7a5089284ca1f03edd",
+          "normalizedSHA256": "feda2fe31c1f983ab534714e4b3aaadebbd17155951d9f7a5089284ca1f03edd",
+          "matched": true
+        },
+        {
+          "file": "inference-checks.mjs",
+          "rawSHA256": "90808bc9fb9dcf9c1e0f06e3b1ddc4e243bd0a0460f1d8d30c8997bb7415f80e",
+          "normalizedSHA256": "d0f83f658e4f4ff286a7262f2a06a16faeee59f10adebfd88e56d7dbef820133",
+          "matched": true
+        },
+        {
+          "file": "foundations-checks.mjs",
+          "rawSHA256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398",
+          "normalizedSHA256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398",
+          "matched": true
+        },
+        {
+          "file": "known-site-observations.mjs",
+          "rawSHA256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659",
+          "normalizedSHA256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659",
+          "matched": true
+        },
+        {
+          "file": "check-preparation.mjs",
+          "rawSHA256": "c03b60e16cd467f468f4dc22327f852580e3546e3d3b2214c3c901127cb3a866",
+          "normalizedSHA256": "6fb2603518e240077157e2786d442a377caa1ae976f723851ca5fe843966c3c4",
+          "matched": true
+        },
+        {
+          "file": "README.md",
+          "rawSHA256": "611f5e684274ff2d4fc0d65e72cdfae22aa4475ac9dc2a951d8dbecb67d2d3e1",
+          "normalizedSHA256": "5faed88979e5c63faf15a59d5781135180b1cb6f8d5da502e35c11bd13894e9e",
+          "matched": true
+        }
+      ],
+      "predecessorFiles": [
+        {
+          "file": "verify-public.mjs",
+          "previousSHA256": "a36251df86d9d6cd24ad326b0d3faa556570d7013c70174a5d8f9aca62490ba0",
+          "edits": 8,
+          "byteRestored": true
+        },
+        {
+          "file": "extract-ci-html.mjs",
+          "previousSHA256": "b1fb649f6d5c3f816651e8ad5929d0112ea8c7d6c10180aa2d1145199c169221",
+          "edits": 4,
+          "byteRestored": true
+        },
+        {
+          "file": "collect-deployment.ps1",
+          "previousSHA256": "7608deb8e2c496c71419b93cfb55400dad8d723671de1bc5b0a21ef9ced0151c",
+          "edits": 2,
+          "byteRestored": true
+        }
+      ],
+      "regressionBaseline": {
+        "record": "project/records/2026-09-24/inference-label-public-evidence/browser-result.json.gz",
+        "sha256": "d6f4346386cb0cac64bd01918732a711345591c835af50c939bf164a13b88f42",
+        "caseCount": 58,
+        "allNamesMatched": true
+      },
+      "rehearsals": [
+        {
+          "directory": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-local-chromium-2026-09-24T14-17-44-967Z",
+          "resultSHA256": "a89a8cf692dd39c614b8c5837a161a133bd159bce84ec1957fc5659fddcccd13",
+          "adapterSHA256": "3c08d6667bac1755757a61e45da20da6b08260aa1ee93430bf8c132c2dec863c",
+          "evidenceClass": "local-static-export-browser-rehearsal",
+          "manifestSHA256": "ab739274b10433c0d019a27fd062b9f21270fb530365a7bee7cd358237c118b7",
+          "buildId": "FCghSEE6NdR0foJwlZB7g",
+          "passed": 13,
+          "images": 68,
+          "overlapCandidates": 24,
+          "overlapObservations": [
+            {
+              "label": "training-stages stage 2",
+              "count": 3
+            },
+            {
+              "label": "training-stages stage 2",
+              "count": 3
+            },
+            {
+              "label": "training-stages stage 2",
+              "count": 3
+            },
+            {
+              "label": "training-stages stage 2",
+              "count": 3
+            },
+            {
+              "label": "training-stages stage 2",
+              "count": 3
+            },
+            {
+              "label": "training-stages stage 2",
+              "count": 3
+            },
+            {
+              "label": "knowledge-focus all values",
+              "count": 3
+            },
+            {
+              "label": "training-stages expanded",
+              "count": 3
+            }
+          ],
+          "blockedExternalRequests": 0,
+          "publicAuditExecuted": false
+        },
+        {
+          "directory": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-local-webkit-2026-09-24T14-21-32-061Z",
+          "resultSHA256": "1b9c180db850459a3e2c2618bd1f54f391d47747b599b4942b58a059c39fc0c5",
+          "adapterSHA256": "6b402301fb682f6975e62500b4d17f3d9c834707e0da196f88cbfe9570ad89e6",
+          "evidenceClass": "local-static-export-browser-rehearsal",
+          "manifestSHA256": "9fb0fb0d951d7ba52728b080b86948efc5bcfd6acf3288d5d044c13f6612c6a3",
+          "buildId": "FCghSEE6NdR0foJwlZB7g",
+          "passed": 13,
+          "images": 68,
+          "overlapCandidates": 0,
+          "overlapObservations": [],
+          "blockedExternalRequests": 0,
+          "publicAuditExecuted": false
+        }
+      ],
+      "approvedPR58": {
+        "rawSHA256": "25533c15df80ed989d920dd87a918f6ba6425489ca3da9f74fd3012b7771c280",
+        "normalizedSHA256": "ea20b87f890832d5c82f9c7f3674f8bda4c04d4f0819faa16d5818bf0022b3d5",
+        "matched": true
+      }
+    },
+    "sourceProofFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-review-proof.json"
+  },
+  "findings": {
+    "identity": "Collector verifies fixed repository/main/push workflow, merge SHA, successful exact run attempt build/deploy jobs, linked github-pages deployment latest success, artifact identity and build time window, then re-reads identities after download. Public runner compares all seven HTML byte hashes and BUILD_ID against that artifact evidence.",
+    "expectationBoundary": "Production expectations come from the CI artifact and independent literal fixtures, not public response bytes or local out. The explicit local adapter uses local out only as local rehearsal evidence and cannot be passed as production artifact evidence.",
+    "preservation": "Actual retained TEMP originals match all eight recorded raw and normalized source hashes. PR58 inference source matches its separate raw/normalized hashes. Full entrypoint reverse edits restore the actual label-predecessor bytes. The archived approved PR58 result restores the recorded 58 names in order.",
+    "pathAndNetworkBoundary": "Strict CLI, explicit output outside repository/kit, symlink/junction and Windows short-name checks, locked local Playwright chain and fixed HTTP/GitHub targets inspected. Offline commands executed here made no external requests. Local browser adapters restrict requests to 127.0.0.1:4209 and their recorded blockedExternalRequests arrays are empty. Production public browser is not represented as an OS/network sandbox.",
+    "harness": "Verification prerequisites correctly add tar and PowerShell 7+ to root unit execution. Root unit glob includes the test; Windows-only short-path branch is described separately; Linux execution is not claimed.",
+    "images": {
+      "inspected": 8,
+      "recordedCandidatePairs": 24,
+      "visiblySeparatedPairs": 21,
+      "unassessablePairs": 3,
+      "productApproval": false
+    }
+  },
+  "images": [
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-local-chromium-2026-09-24T14-17-44-967Z\\training-stages-stage-2-1440x1000-light-dsf1.png",
+      "sha256": "25decfc4f44247de4bb13c5fb8db5ffbcb14b8f6c916213d64b120a686aec3d8",
+      "inspection": "Original PNG displayed with view_image; no image transformation",
+      "finding": "All three recorded adjacent-line BBox candidates have visibly separated glyphs; no text collision observed in the captured area.",
+      "candidatePairs": 3,
+      "visuallyResolved": true
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-local-chromium-2026-09-24T14-17-44-967Z\\training-stages-stage-2-1440x1000-dark-dsf1.png",
+      "sha256": "18ff5028fbfa6e14d47fc9cd32cb881601d68aff7db806daf71869c3cc7a889e",
+      "inspection": "Original PNG displayed with view_image; no image transformation",
+      "finding": "All three recorded adjacent-line BBox candidates have visibly separated glyphs; no text collision observed in the captured area.",
+      "candidatePairs": 3,
+      "visuallyResolved": true
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-local-chromium-2026-09-24T14-17-44-967Z\\training-stages-stage-2-1280x720-light-dsf1.png",
+      "sha256": "0d31c1049ce1f9b75915b99a74a1d7adf21cabf0ec77e793eea76537a4d9ccfd",
+      "inspection": "Original PNG displayed with view_image; no image transformation",
+      "finding": "All three recorded adjacent-line BBox candidates have visibly separated glyphs; no text collision observed in the captured area.",
+      "candidatePairs": 3,
+      "visuallyResolved": true
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-local-chromium-2026-09-24T14-17-44-967Z\\training-stages-stage-2-390x844-light-dsf1.png",
+      "sha256": "9ade1e89315b27814305c59ba8f1445c4c1fd63f6b871244999d926788c5d796",
+      "inspection": "Original PNG displayed with view_image; no image transformation",
+      "finding": "All three recorded adjacent-line BBox candidates have visibly separated glyphs; no text collision observed in the captured area.",
+      "candidatePairs": 3,
+      "visuallyResolved": true
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-local-chromium-2026-09-24T14-17-44-967Z\\training-stages-stage-2-390x844-dark-dsf1.png",
+      "sha256": "d157f6c9dc1410c9ce995e676e5aa87e95d0e88dd55dfebc0f0f261f0390c9a6",
+      "inspection": "Original PNG displayed with view_image; no image transformation",
+      "finding": "All three recorded adjacent-line BBox candidates have visibly separated glyphs; no text collision observed in the captured area.",
+      "candidatePairs": 3,
+      "visuallyResolved": true
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-local-chromium-2026-09-24T14-17-44-967Z\\training-stages-stage-2-960x540-light-dsf2.png",
+      "sha256": "115e35edab32d305647ed0da12cd565da269791e27fddc985f41cbf5569f0ba0",
+      "inspection": "Original PNG displayed with view_image; no image transformation",
+      "finding": "Upper three knowledge cards are outside the captured viewport; all three recorded BBox candidates cannot be assessed in this PNG.",
+      "candidatePairs": 3,
+      "visuallyResolved": false
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-local-chromium-2026-09-24T14-17-44-967Z\\training-knowledge-focus-selected.png",
+      "sha256": "b27b51d78002b0f704c23dd8e677fa633c5ecf39248f6ff5cd9a900949afc750",
+      "inspection": "Original PNG displayed with view_image; no image transformation",
+      "finding": "All three recorded adjacent-line BBox candidates have visibly separated glyphs; no text collision observed in the captured area.",
+      "candidatePairs": 3,
+      "visuallyResolved": true
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-local-chromium-2026-09-24T14-17-44-967Z\\training-stages-expanded.png",
+      "sha256": "1a90ead05e4b7452bc576314eadce2d1a81a609091a71bb2ec23909c23b68b81",
+      "inspection": "Original PNG displayed with view_image; no image transformation",
+      "finding": "All three recorded adjacent-line BBox candidates have visibly separated glyphs; no text collision observed in the captured area.",
+      "candidatePairs": 3,
+      "visuallyResolved": true
+    }
+  ],
+  "notExecuted": [
+    "No new browser run by this reviewer; two producer local runs were read and hashed.",
+    "No live GitHub API, download, public HTTP/browser or 71-case public execution.",
+    "No Linux/other-PC execution or physical iPhone Safari.",
+    "No independent C1 scene/model product approval; no acceptance of the parent upcoming revised product build."
+  ],
+  "historicalBoundaries": {
+    "chromiumManifest": "ab739274b10433c0d019a27fd062b9f21270fb530365a7bee7cd358237c118b7",
+    "webkitManifest": "9fb0fb0d951d7ba52728b080b86948efc5bcfd6acf3288d5d044c13f6612c6a3",
+    "localBuildId": "FCghSEE6NdR0foJwlZB7g",
+    "note": "Both local runs remain historical evidence of this old product build. Parent is adding a refusal multi-factor caveat and rebuilding; these images are not evidence of that upcoming build."
+  }
+}

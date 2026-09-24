@@ -1,0 +1,107 @@
+{
+  "evidenceClass": "offline-preparation-only",
+  "networkExecuted": false,
+  "publicAuditExecuted": false,
+  "buildExecuted": false,
+  "independentReviewStatus": "pending",
+  "priorCases": {
+    "foundations": 18,
+    "older": 25,
+    "total": 43,
+    "bytePreserved": true
+  },
+  "newCases": 15,
+  "totalCases": 58,
+  "inferenceStages": 23,
+  "samplingOracleSettings": 54,
+  "inferenceCaseNames": [
+    "inference: all 23 stages 1440x1000 light",
+    "inference: all 23 stages 1440x1000 dark",
+    "inference: all 23 stages 1280x720 light",
+    "inference: all 23 stages 390x844 light",
+    "inference: all 23 stages 390x844 dark",
+    "inference: every selector, independent numerical fixtures, all midpoint boundaries and reverse seeks",
+    "inference: keyboard transport, modal selector state and focus return",
+    "inference: independent figure states, every reading step, manual override and resumption",
+    "inference-sampling: native elapsed play, frozen pause, replay and completion",
+    "inference-cache-batching: native elapsed play, frozen pause, replay and completion",
+    "inference-speculative: native elapsed play, frozen pause, replay and completion",
+    "inference-quantization: native elapsed play, frozen pause, replay and completion",
+    "inference noJS: original prose, 9 headings, 2 equations and all 23 static descriptions",
+    "inference print: four coherent scenes and original article with controls hidden"
+  ],
+  "foundationsCaseNames": [
+    "generation-token-loop: all stages 1440x1000 light",
+    "generation-token-loop: all stages 1440x1000 dark",
+    "generation-token-loop: all stages 1280x720 light",
+    "generation-token-loop: all stages 390x844 light",
+    "generation-token-loop: all stages 390x844 dark",
+    "generation-token-loop: transport, keyboard, reading sync and expansion focus",
+    "generation-token-loop: actual elapsed playback, frozen scene and restart",
+    "generation-token-loop: noJS retains original article and all static stage descriptions",
+    "generation-token-loop: print freezes the midpoint into a coherent static scene",
+    "tokenization-counting: all stages 1440x1000 light",
+    "tokenization-counting: all stages 1440x1000 dark",
+    "tokenization-counting: all stages 1280x720 light",
+    "tokenization-counting: all stages 390x844 light",
+    "tokenization-counting: all stages 390x844 dark",
+    "tokenization-counting: transport, keyboard, reading sync and expansion focus",
+    "tokenization-counting: actual elapsed playback, frozen scene and restart",
+    "tokenization-counting: noJS retains original article and all static stage descriptions",
+    "tokenization-counting: print freezes the midpoint into a coherent static scene"
+  ],
+  "mandatoryFavicon": "/ai-agent-library/favicon.svg",
+  "favicon404Exception": false,
+  "files": [
+    {
+      "file": "collect-deployment.ps1",
+      "bytes": 11798,
+      "sha256": "7608deb8e2c496c71419b93cfb55400dad8d723671de1bc5b0a21ef9ced0151c"
+    },
+    {
+      "file": "extract-ci-html.mjs",
+      "bytes": 4180,
+      "sha256": "b1fb649f6d5c3f816651e8ad5929d0112ea8c7d6c10180aa2d1145199c169221"
+    },
+    {
+      "file": "verify-public.mjs",
+      "bytes": 59706,
+      "sha256": "f3dfb970498e80b2f619d55a30e9c1cddca657ed75e9fa0eb99877528d641a25"
+    },
+    {
+      "file": "inference-checks.mjs",
+      "bytes": 31612,
+      "sha256": "d0f83f658e4f4ff286a7262f2a06a16faeee59f10adebfd88e56d7dbef820133"
+    },
+    {
+      "file": "foundations-checks.mjs",
+      "bytes": 26410,
+      "sha256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398"
+    },
+    {
+      "file": "known-site-observations.mjs",
+      "bytes": 130,
+      "sha256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659"
+    },
+    {
+      "file": "check-preparation.mjs",
+      "bytes": 4736,
+      "sha256": "424fbdc751f761523cb326bd97ae079117d1d8068b619d9e846841c3d920f5b6"
+    },
+    {
+      "file": "README.md",
+      "bytes": 11707,
+      "sha256": "b23b4080ff95efb022d4c708393178655bcf5eb3110ad3b5d610a1c7e6bfd4f4"
+    },
+    {
+      "file": "portable-paths.mjs",
+      "bytes": 7151,
+      "sha256": "eb3bab3ad3e9bfcffbd2071d23c321ae71abb4a5a7fa78dee1706ef9fd1abd4a"
+    },
+    {
+      "file": "portable-validation.test.mjs",
+      "bytes": 10367,
+      "sha256": "f5c4184e5e4018bdac7255a8d7aeb7191c611a0b670dc3d44bbb0473affa45f1"
+    }
+  ]
+}

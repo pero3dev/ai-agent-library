@@ -1,0 +1,34 @@
+{
+  "purpose": "LF predecessor offline evidence, not current public acceptance",
+  "schemaVersion": 1,
+  "files": [
+    {
+      "normalizedSHA256": "20d064c0a3370db99e3e456105c676805b49d34b1199ac6d2002d40a78b68cd3",
+      "repositoryPath": "project/records/2026-09-24/diagram-release-portability-review.json",
+      "originalName": "lf-independent-review.json",
+      "normalization": "CRLF to LF only",
+      "originalRawSHA256": "20d064c0a3370db99e3e456105c676805b49d34b1199ac6d2002d40a78b68cd3"
+    },
+    {
+      "normalizedSHA256": "26218f66211ca67ed7cb1c412d3891623d68375edefa35b5e480e806b9b26395",
+      "repositoryPath": "project/records/2026-09-24/diagram-release-portability-support/lf-source-comparison.json",
+      "originalName": "lf-source-comparison.json",
+      "normalization": "CRLF to LF only",
+      "originalRawSHA256": "26218f66211ca67ed7cb1c412d3891623d68375edefa35b5e480e806b9b26395"
+    },
+    {
+      "normalizedSHA256": "4ba7d3b500843ebe9e12524bcff497035ef7e64b38166aa7c5b27c868019cc28",
+      "repositoryPath": "project/records/2026-09-24/diagram-release-portability-support/lf-preparation-console.json",
+      "originalName": "lf-preparation-console.json",
+      "normalization": "CRLF to LF only",
+      "originalRawSHA256": "4ba7d3b500843ebe9e12524bcff497035ef7e64b38166aa7c5b27c868019cc28"
+    },
+    {
+      "normalizedSHA256": "bb25d3cf3d506300d8f8e1ce875f6c890acfffead253188a9d6334abc8e71756",
+      "repositoryPath": "project/records/2026-09-24/diagram-release-portability-support/lf-offline-tests.log",
+      "originalName": "lf-offline-tests.log",
+      "normalization": "CRLF to LF only",
+      "originalRawSHA256": "abc004b2b6bfbea871d97c687a1edbcf8a5aa599f29f927d0edfa637b10771b1"
+    }
+  ]
+}

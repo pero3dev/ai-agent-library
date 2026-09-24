@@ -1,0 +1,74 @@
+{
+  "evidenceClass": "offline-test-layout-validation",
+  "independentReview": "pending",
+  "browserExecuted": false,
+  "publicExecuted": false,
+  "networkExecuted": false,
+  "gitOperations": false,
+  "predecessorManifestSHA256": "e9cf22cf7edd16443a6cd4d38c6aec9fac92bd09f4ad442f04270ef352ddac03",
+  "candidateManifestSHA256": "bbbb935cd4a81212fc5c703624625659e2d708e6ffa0e378dcafaf10b35a6da8",
+  "channelSnapshotDirectory": "ai-agent-library-channel-approved-kit",
+  "channelSnapshotVerified": true,
+  "removedPath": "scripts/diagram-release/portable-validation.test.mjs",
+  "movedTest": "tests/unit/diagram-release-portable.test.mjs",
+  "testOnlyChange": "Import path ./portable-paths.mjs becomes ../../scripts/diagram-release/portable-paths.mjs; all 18 test bodies preserved.",
+  "publicCases": 58,
+  "unchangedRuntimeFiles": [
+    "verify-public.mjs",
+    "collect-deployment.ps1",
+    "extract-ci-html.mjs",
+    "inference-checks.mjs",
+    "foundations-checks.mjs",
+    "known-site-observations.mjs",
+    "portable-paths.mjs"
+  ],
+  "changedFiles": [
+    {
+      "file": "tests/unit/diagram-release-portable.test.mjs",
+      "sha256": "c88845ca1e1778fde0e3b5dd9591add784be6bc6dbd543701a8fe21c4f4bf578"
+    },
+    {
+      "file": "scripts/diagram-release/check-preparation.mjs",
+      "sha256": "ce13ff36c88bbfc6c8fc989503ab4dc8a0cabdecdfb05b1f2cacf77c72f8d68e"
+    },
+    {
+      "file": "scripts/diagram-release/README.md",
+      "sha256": "7bddb5a57dc2b8fcf148cf6e4b869e8bd70d9b4d2addc0b409ff9ae0a56dfc4c"
+    },
+    {
+      "file": "scripts/diagram-release/source-mapping.json",
+      "sha256": "bbbb935cd4a81212fc5c703624625659e2d708e6ffa0e378dcafaf10b35a6da8"
+    }
+  ],
+  "prerequisites": {
+    "node": "CI workflow explicitly installs Node.js 22; local Node is checked separately.",
+    "ubuntu": "Root verified the actual main CI 36004074138 docs setup image ubuntu-24.04 version 20260907.300.1 and fetched official Included Software: PowerShell 7.6.5, tar 1.35+dfsg-3ubuntu0.4. This is prerequisite evidence, not execution of the moved tests on Linux.",
+    "ubuntuSource": "https://github.com/actions/runner-images/blob/ubuntu24/20260907.300/images/ubuntu/Ubuntu2404-Readme.md",
+    "windows": "Local 18-case execution required; harness-windows uses an explicit list and is not automatically extended.",
+    "verificationContract": "harness/verification.json unit prerequisites currently list only root npm ci; now tar and PowerShell 7 are also needed for the included test. Reported for root-owned documentation/contract follow-up; not edited in this task."
+  },
+  "localOfflineTests": {
+    "passed": 18,
+    "failed": 0,
+    "skipped": 0,
+    "platform": "win32",
+    "node": "v24.16.0"
+  },
+  "changedNodeSyntaxChecks": 2,
+  "preparationPassed": true,
+  "manifestPathGuardChecks": {
+    "validFixedPath": 1,
+    "rejectedEscapeUnknownAndOtherPaths": 4,
+    "rejectedJunction": 1
+  },
+  "scopedStructureCheck": {
+    "verified": true,
+    "evidence": "static-explicit-inventory",
+    "inventory": "all contract-required paths plus owned candidate paths",
+    "trackedFilesReadFromGit": false,
+    "fullStagedStructureCheck": "not-run; root must perform after staging"
+  },
+  "rootNpmTestAutomaticallyIncludesMovedFile": true,
+  "windowsCINotAutomaticallyExtended": true,
+  "linuxNewTestExecution": "pending next C1 CI docs job"
+}

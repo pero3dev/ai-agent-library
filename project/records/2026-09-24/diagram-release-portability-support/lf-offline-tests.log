@@ -1,0 +1,25 @@
+✔ every package file already uses LF and checkout normalization is idempotent (18.3774ms)
+✔ strict CLI rejects unknown, duplicate, empty and misused flags (1.1553ms)
+✔ explicit repo and paths with spaces work; wrong cwd fails (3.9305ms)
+✔ output cannot be repo, repo child, kit child or filesystem root (8.3218ms)
+✔ canonical prospective paths protect Windows short-name ancestors before mkdir (1210.1884ms)
+✔ prefix siblings and parent traversal are outside output (0.4391ms)
+✔ child names cannot escape or overwrite an earlier run (5.3904ms)
+✔ existing evidence must be a regular descendant file (5.4314ms)
+✔ junction escape is rejected before creating nested output (2.9629ms)
+✔ Playwright lock mismatch fails before require (2.6128ms)
+✔ Playwright runtime chain rejects parent fallback and both dependency version mismatches (109.2475ms)
+✔ runner rejects unconfirmed release and zero SHA before browser/network (652.2323ms)
+✔ extractor rejects outside archive before invoking tar (233.5384ms)
+✔ runner rejects wrong evidence identity before Playwright loading (237.5929ms)
+✔ help needs no repository, dependency or network (853.3625ms)
+✔ PowerShell collector help and malformed options fail before external calls (4880.0174ms)
+✔ synthetic tar extraction keeps six identities and rejects mixed builds (3462.6614ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11835.0231

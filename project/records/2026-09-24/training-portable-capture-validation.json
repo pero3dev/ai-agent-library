@@ -1,0 +1,288 @@
+{
+  "createdAt": "2026-09-24T14:57:10.405Z",
+  "status": "candidate-complete-pending-independent-review",
+  "evidenceClass": "offline-and-localhost-validation-only",
+  "candidateManifestSHA256": "4359f9abf06785671e980686f89e596eb8c0d8cd1842fc3480712941a3b40507",
+  "predecessorManifestSHA256": "9fb0fb0d951d7ba52728b080b86948efc5bcfd6acf3288d5d044c13f6612c6a3",
+  "snapshot": "ai-agent-library-C1-portable-capture-clip-candidate",
+  "scope": "KIT-CAPTURE-1: retain original viewport screenshots and add complete-scene glyph evidence; normalize the one remaining leading LF in inference only; maintain all existing checks and historical proofs.",
+  "changedFiles": [
+    {
+      "file": "scripts\\diagram-release\\check-preparation.mjs",
+      "beforeSHA256": "5ef156f74d95c4513a535347f35f4c472c2b1c86caab8cdce03740552a4d3928",
+      "afterSHA256": "18ff64ea6662395d8a47b87c67f2f8df3388f4c97252f2d47521c50e349dad98"
+    },
+    {
+      "file": "scripts\\diagram-release\\inference-checks.mjs",
+      "beforeSHA256": "82017c0480f51542aa37351c9ca355fa7b5694288cb0fa7bcda9430ba1d23294",
+      "afterSHA256": "9f52ca50576dcadc6010b60e30561b768a16b5da0ea8765952e2fc2c5c69e201"
+    },
+    {
+      "file": "scripts\\diagram-release\\README.md",
+      "beforeSHA256": "e1a762120e41c47f1609f542ce7b06b47e9ef85b430fae09cac1a06824872acd",
+      "afterSHA256": "30800235e82a4c6c661e93e80e2afa0530a15750629219d7fedf34850adf2924"
+    },
+    {
+      "file": "scripts\\diagram-release\\source-mapping.json",
+      "beforeSHA256": "9fb0fb0d951d7ba52728b080b86948efc5bcfd6acf3288d5d044c13f6612c6a3",
+      "afterSHA256": "4359f9abf06785671e980686f89e596eb8c0d8cd1842fc3480712941a3b40507"
+    },
+    {
+      "file": "scripts\\diagram-release\\training-checks.mjs",
+      "beforeSHA256": "503f18028b0986be09e901ae00448a98a713dce342a07fd731bacb6476ed9d50",
+      "afterSHA256": "83bd24b85bb4179f643d4a8ba1727a87c305ed6f8b7859e410ace76c70f5e79e"
+    },
+    {
+      "file": "scripts\\diagram-release\\verify-public.mjs",
+      "beforeSHA256": "20c8991ea06491726f248e8d1892807fb16691014b651ae59c2fbacf605e8c33",
+      "afterSHA256": "87a8ada23f194d9cf4cdcfceda71aacc711626d02f0c0ff7f84e95193cf2d90c"
+    }
+  ],
+  "allCandidateFiles": [
+    {
+      "file": "scripts\\diagram-release\\check-preparation.mjs",
+      "bytes": 12032,
+      "sha256": "18ff64ea6662395d8a47b87c67f2f8df3388f4c97252f2d47521c50e349dad98",
+      "lfOnly": true,
+      "leadingBlankLines": 0,
+      "finalLFs": 1,
+      "trailingWhitespaceLines": 0
+    },
+    {
+      "file": "scripts\\diagram-release\\collect-deployment.ps1",
+      "bytes": 12411,
+      "sha256": "96536628ace358e7c3499d51ab25a3c5c8375bdb609f1c9951bdd1794f262a1d",
+      "lfOnly": true,
+      "leadingBlankLines": 0,
+      "finalLFs": 1,
+      "trailingWhitespaceLines": 0
+    },
+    {
+      "file": "scripts\\diagram-release\\extract-ci-html.mjs",
+      "bytes": 4243,
+      "sha256": "bf9d7e3233c8e6daa4a71b176c967c42fbd1203c3dadb641d470b33a9eda2048",
+      "lfOnly": true,
+      "leadingBlankLines": 0,
+      "finalLFs": 1,
+      "trailingWhitespaceLines": 0
+    },
+    {
+      "file": "scripts\\diagram-release\\foundations-checks.mjs",
+      "bytes": 26410,
+      "sha256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398",
+      "lfOnly": true,
+      "leadingBlankLines": 0,
+      "finalLFs": 1,
+      "trailingWhitespaceLines": 0
+    },
+    {
+      "file": "scripts\\diagram-release\\inference-checks.mjs",
+      "bytes": 31874,
+      "sha256": "9f52ca50576dcadc6010b60e30561b768a16b5da0ea8765952e2fc2c5c69e201",
+      "lfOnly": true,
+      "leadingBlankLines": 0,
+      "finalLFs": 1,
+      "trailingWhitespaceLines": 0
+    },
+    {
+      "file": "scripts\\diagram-release\\known-site-observations.mjs",
+      "bytes": 130,
+      "sha256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659",
+      "lfOnly": true,
+      "leadingBlankLines": 0,
+      "finalLFs": 1,
+      "trailingWhitespaceLines": 0
+    },
+    {
+      "file": "scripts\\diagram-release\\portable-paths.mjs",
+      "bytes": 7151,
+      "sha256": "eb3bab3ad3e9bfcffbd2071d23c321ae71abb4a5a7fa78dee1706ef9fd1abd4a",
+      "lfOnly": true,
+      "leadingBlankLines": 0,
+      "finalLFs": 1,
+      "trailingWhitespaceLines": 0
+    },
+    {
+      "file": "scripts\\diagram-release\\README.md",
+      "bytes": 17058,
+      "sha256": "30800235e82a4c6c661e93e80e2afa0530a15750629219d7fedf34850adf2924",
+      "lfOnly": true,
+      "leadingBlankLines": 0,
+      "finalLFs": 1,
+      "trailingWhitespaceLines": 0
+    },
+    {
+      "file": "scripts\\diagram-release\\source-mapping.json",
+      "bytes": 52048,
+      "sha256": "4359f9abf06785671e980686f89e596eb8c0d8cd1842fc3480712941a3b40507",
+      "lfOnly": true,
+      "leadingBlankLines": 0,
+      "finalLFs": 1,
+      "trailingWhitespaceLines": 0
+    },
+    {
+      "file": "scripts\\diagram-release\\training-checks.mjs",
+      "bytes": 27264,
+      "sha256": "83bd24b85bb4179f643d4a8ba1727a87c305ed6f8b7859e410ace76c70f5e79e",
+      "lfOnly": true,
+      "leadingBlankLines": 0,
+      "finalLFs": 1,
+      "trailingWhitespaceLines": 0
+    },
+    {
+      "file": "scripts\\diagram-release\\verify-public.mjs",
+      "bytes": 62399,
+      "sha256": "87a8ada23f194d9cf4cdcfceda71aacc711626d02f0c0ff7f84e95193cf2d90c",
+      "lfOnly": true,
+      "leadingBlankLines": 0,
+      "finalLFs": 1,
+      "trailingWhitespaceLines": 0
+    },
+    {
+      "file": "tests/unit/diagram-release-portable.test.mjs",
+      "bytes": 14587,
+      "sha256": "61aaf9353dc687a7c2f9560d16651adf9baf3fed8f0b78bcf1c518c5ce1b2238",
+      "lfOnly": true,
+      "leadingBlankLines": 0,
+      "finalLFs": 1,
+      "trailingWhitespaceLines": 0
+    }
+  ],
+  "validation": {
+    "nodeSyntax": "passed",
+    "unit": {
+      "command": "node --test tests/unit/diagram-release-portable.test.mjs",
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 17882.0439,
+      "log": "training-portable-capture-clip-unit.log"
+    },
+    "helperProbes": {
+      "passed": 7,
+      "file": "training-portable-capture-clip-probes.json",
+      "covers": [
+        "unchanged viewport branch",
+        "fractional rectangle at DSF2 with exact integer clip pixels",
+        "reject truncated PNG",
+        "reject invisible region",
+        "reject header occlusion",
+        "reject outside viewport",
+        "restore scroll when screenshot throws"
+      ]
+    },
+    "preparation": {
+      "passed": true,
+      "file": "training-portable-capture-clip-preparation/preparation-2026-09-24T14-52-17-487Z/preparation.json",
+      "sha256": "cfc1c7536de12575f755de5ed990b9ab678fe96ffe9b6a3a4284344ae0fd6015",
+      "priorCases": 58,
+      "newCases": 13,
+      "totalCases": 71,
+      "articleRoutes": 7,
+      "trainingStages": 10,
+      "readStops": 9,
+      "profiles": 6,
+      "protectedAndFullPredecessorReversalsPassed": true
+    },
+    "browserRehearsal": {
+      "candidateManifestSHA256": "4359f9abf06785671e980686f89e596eb8c0d8cd1842fc3480712941a3b40507",
+      "buildId": "GpM7J_g8lnbvEy6H7i7nO",
+      "engines": [
+        {
+          "engine": "chromium",
+          "browser": {
+            "engine": "chromium",
+            "channel": null,
+            "version": "153.0.8010.12"
+          },
+          "outputDirectory": "training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z",
+          "resultSHA256": "307e6645cdc1e7df7392b48bf87009a6cfdb18c921a46324b53992817c5389f0",
+          "adapterSHA256": "9c7fc130519a3a942cdd25829221705beb62b978e14e64292e73b028ba0ca88b",
+          "passed": 13,
+          "failed": 0,
+          "screenshots": 138,
+          "viewportScreenshots": 68,
+          "supplementalSceneScreenshots": 70,
+          "overlapPairs": 24,
+          "overlapObservations": 8,
+          "blockedExternalRequests": 0,
+          "indexFile": "training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z/images-and-geometry-index.json",
+          "startedAt": "2026-09-24T14:52:31.592Z",
+          "finishedAt": "2026-09-24T14:53:52.573Z"
+        },
+        {
+          "engine": "webkit",
+          "browser": {
+            "engine": "webkit",
+            "channel": null,
+            "version": "26.6"
+          },
+          "outputDirectory": "training-portable-capture-clip-local-webkit-2026-09-24T14-52-32-571Z",
+          "resultSHA256": "f95096f1210cd22d999bd4374e0c6c061ae9df7b3b91c12462918b3589dde7ea",
+          "adapterSHA256": "9c7fc130519a3a942cdd25829221705beb62b978e14e64292e73b028ba0ca88b",
+          "passed": 13,
+          "failed": 0,
+          "screenshots": 138,
+          "viewportScreenshots": 68,
+          "supplementalSceneScreenshots": 70,
+          "overlapPairs": 0,
+          "overlapObservations": 0,
+          "blockedExternalRequests": 0,
+          "indexFile": "training-portable-capture-clip-local-webkit-2026-09-24T14-52-32-571Z/images-and-geometry-index.json",
+          "startedAt": "2026-09-24T14:52:32.574Z",
+          "finishedAt": "2026-09-24T14:55:05.343Z"
+        }
+      ],
+      "scope": "Only C1 module 13 cases on final local static export; previous 58 public cases were not run here",
+      "externalRequestAllowlist": "http://127.0.0.1:4209",
+      "screenshotsNeedIndependentReview": true
+    },
+    "whitespace": {
+      "files": 12,
+      "lfOnly": true,
+      "leadingEmptyLines": 0,
+      "exactFinalLF": 1,
+      "trailingWhitespace": 0,
+      "sourceRawFilesUnmodified": true
+    },
+    "originalProofs": {
+      "inferenceSourceRawSHA256": "90808bc9fb9dcf9c1e0f06e3b1ddc4e243bd0a0460f1d8d30c8997bb7415f80e",
+      "inferenceNormalizedSourceSHA256": "d0f83f658e4f4ff286a7262f2a06a16faeee59f10adebfd88e56d7dbef820133",
+      "pr58RawSHA256": "25533c15df80ed989d920dd87a918f6ba6425489ca3da9f74fd3012b7771c280",
+      "mechanicalReversal": "Restore explicitly declared leading/final LF changes, then reverse the two label assertions to recover historical B normalized source; PR58 normalized proof retained separately."
+    }
+  },
+  "failedAttemptsRetained": [
+    {
+      "manifestSHA256": "74d18b3d21e4e02c0b31234f8fd0bd5eb11a3019072b3df27d8aa955d10c90b6",
+      "snapshot": "ai-agent-library-C1-portable-capture-first-candidate",
+      "localResult": "training-portable-capture-local-chromium-2026-09-24T14-38-58-756Z/result.json",
+      "status": "failed",
+      "passed": 12,
+      "failed": 1,
+      "reason": "Locator capture alone retained header occlusion and failed the low-height runtime PNG dimension assertion. Raw result/images are retained; this attempt is not acceptance."
+    },
+    {
+      "manifestSHA256": "5ab36c6523a0ebcd09dae59039eaab57c0981c4b3fda015bd3e6c5a92b40eb18",
+      "snapshot": "ai-agent-library-C1-portable-capture-scroll-candidate",
+      "localResult": "training-portable-capture-scroll-local-chromium-2026-09-24T14-48-21-707Z/result.json",
+      "status": "failed-and-interrupted-before-completion",
+      "reason": "Real scrolling resolved the header. Locator screenshot re-scrolling caused a PNG dimension mismatch; requestAnimationFrame waiting stalled with JavaScript disabled. The successor uses a direct integer viewport clip and no animation callback dependency. Raw evidence is retained."
+    }
+  ],
+  "boundaries": {
+    "gitExecuted": false,
+    "publicExecuted": false,
+    "githubExecuted": false,
+    "productFilesChanged": false,
+    "oldRootCommonCheck": "Root common npm check started on predecessor 9fb0; not reused as final kit evidence.",
+    "physicalIPhoneSafariExecuted": false,
+    "server": "Owned 127.0.0.1:4209 node PID16380 stopped; other servers untouched."
+  },
+  "independentReview": {
+    "owner": "inference_public_review",
+    "status": "pending",
+    "request": "Limited code and new complete-scene images; original 9fb changes_requested report preserved by reviewer."
+  },
+  "diff": "training-portable-capture-validation.diff"
+}

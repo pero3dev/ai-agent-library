@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "verdict": "approved",
+  "decision": "approved",
+  "risk": "low",
+  "independent": true,
+  "reviewer": "/root/training_integration_map",
+  "reviewedAt": "2026-09-24T13:46:00.104Z",
+  "scope": "Test relocation and minimal preparation/manifest/README changes only; not a new public acceptance",
+  "must": [],
+  "should": [],
+  "candidateManifestSHA256": "bbbb935cd4a81212fc5c703624625659e2d708e6ffa0e378dcafaf10b35a6da8",
+  "predecessorManifestSHA256": "e9cf22cf7edd16443a6cd4d38c6aec9fac92bd09f4ad442f04270ef352ddac03",
+  "candidateFiles": [
+    {
+      "file": "scripts/diagram-release/README.md",
+      "sha256": "7bddb5a57dc2b8fcf148cf6e4b869e8bd70d9b4d2addc0b409ff9ae0a56dfc4c"
+    },
+    {
+      "file": "scripts/diagram-release/check-preparation.mjs",
+      "sha256": "ce13ff36c88bbfc6c8fc989503ab4dc8a0cabdecdfb05b1f2cacf77c72f8d68e"
+    },
+    {
+      "file": "scripts/diagram-release/collect-deployment.ps1",
+      "sha256": "7608deb8e2c496c71419b93cfb55400dad8d723671de1bc5b0a21ef9ced0151c"
+    },
+    {
+      "file": "scripts/diagram-release/extract-ci-html.mjs",
+      "sha256": "b1fb649f6d5c3f816651e8ad5929d0112ea8c7d6c10180aa2d1145199c169221"
+    },
+    {
+      "file": "scripts/diagram-release/foundations-checks.mjs",
+      "sha256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398"
+    },
+    {
+      "file": "scripts/diagram-release/inference-checks.mjs",
+      "sha256": "d0f83f658e4f4ff286a7262f2a06a16faeee59f10adebfd88e56d7dbef820133"
+    },
+    {
+      "file": "scripts/diagram-release/known-site-observations.mjs",
+      "sha256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659"
+    },
+    {
+      "file": "scripts/diagram-release/portable-paths.mjs",
+      "sha256": "eb3bab3ad3e9bfcffbd2071d23c321ae71abb4a5a7fa78dee1706ef9fd1abd4a"
+    },
+    {
+      "file": "scripts/diagram-release/source-mapping.json",
+      "sha256": "bbbb935cd4a81212fc5c703624625659e2d708e6ffa0e378dcafaf10b35a6da8"
+    },
+    {
+      "file": "scripts/diagram-release/verify-public.mjs",
+      "sha256": "a36251df86d9d6cd24ad326b0d3faa556570d7013c70174a5d8f9aca62490ba0"
+    },
+    {
+      "file": "tests/unit/diagram-release-portable.test.mjs",
+      "sha256": "c88845ca1e1778fde0e3b5dd9591add784be6bc6dbd543701a8fe21c4f4bf578"
+    }
+  ],
+  "checks": {
+    "predecessorAllListedHashes": true,
+    "runtimeSevenFilesByteIdentical": true,
+    "testOnlyHelperImportChanged": true,
+    "testBodiesPreserved": 18,
+    "localUnit": {
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0,
+      "platform": "win32",
+      "node": "v24.16.0",
+      "durationMs": 10337.384
+    },
+    "preparation": {
+      "passed": true,
+      "publicCaseDefinitionsPreserved": 58,
+      "protectedSectionsVerified": 5,
+      "samplingOracleSettings": 54
+    },
+    "manifestResolution": {
+      "allowed": 2,
+      "rejectedInvalidPaths": 9,
+      "junctionRejected": true
+    },
+    "arbitraryRepoPathWithSpaces": true,
+    "modifiedRepositoryTestHashRejected": true,
+    "structure": {
+      "verified": true,
+      "inventoryFiles": 28,
+      "scope": "required files plus 10 candidate kit files and moved unit; explicit inventory; no Git"
+    },
+    "rootNpmTestGlobIncludesTest": true
+  },
+  "outsideCandidateUpdatesObserved": {
+    "unitPrerequisites": "harness/verification.json now states tar and PowerShell 7+; read-only confirmation, authored by root",
+    "portabilityRecord": "historical paths preserved and current tests/unit plus root npm test/CI docs inclusion documented by root"
+  },
+  "artifacts": [
+    {
+      "file": "portable-test-layout-review-unit.tap",
+      "sha256": "eb4925ea383bce7e488dfee394e11255b180eb0a0c434def452db0c36b07c0ae"
+    },
+    {
+      "file": "portable-test-layout-review-preparation.json",
+      "sha256": "0d728b58aa71a1c8fe6849dc78c7c858b235574bbd16aba9afb7c3246e6830ee"
+    },
+    {
+      "file": "portable-test-layout-review-guards.json",
+      "sha256": "0706c42fc3d7adccdfcd6ebc43b12fc3f85ba593b35f7be59385959c9a9c710d"
+    }
+  ],
+  "limits": [
+    "No Git operation, network, browser or public-site check performed.",
+    "No Linux execution or physical other-PC execution; Windows local execution only.",
+    "Structure check used explicit required-plus-candidate inventory, not staged Git inventory.",
+    "Root full npm test and full candidate CI remain for integration.",
+    "Public 58 assertions and CI identity were verified preserved; the public cases were not executed."
+  ]
+}

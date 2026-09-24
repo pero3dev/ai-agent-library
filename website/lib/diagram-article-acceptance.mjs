@@ -11,9 +11,11 @@ import { assertDiagramSource, diagramRegistry, validateDiagramRegistry } from '.
 
 export const TRANSFORMER_ARTICLE = 'docs/11-llm-internals/transformer-architecture.md'
 export const ARTICLE_EVIDENCE_PATH = 'project/records/2026-09-24/transformer-article-acceptance.json'
+export const ATTENTION_VARIANTS_ARTICLE = 'docs/11-llm-internals/attention-variants-and-long-context.md'
+export const ATTENTION_VARIANTS_EVIDENCE_PATH = 'project/records/2026-09-24/attention-variants-article-acceptance.json'
+export const TRACKED_ARTICLES = Object.freeze([TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE])
 const MANIFEST = 'website/diagrams/articles.json'
-const PRIMARY = ['transformer-io', 'transformer-position', 'self-attention', 'transformer-block']
-const TOPICS = {
+const TRANSFORMER_TOPICS = {
   '概要: デコーダ専用 Transformer の全体像': ['decoder-flow', 'overview-and-notation'],
   '埋め込みと出力ヘッド': ['embedding-lookup', 'output-projection', 'weight-tying', 'learning-and-softmax'],
   '位置符号化: 順序をどう入れるか': ['absolute-position', 'relative-position', 'rope-rotation', 'relative-offset', 'extrapolation-limits'],
@@ -26,19 +28,27 @@ const TOPICS = {
   'アンチパターン': ['pitfalls'],
   'チェックリスト': ['understanding-check']
 }
+const VARIANTS_TOPICS = {
+  '概要: 2 つの圧力': ['length-pressure', 'kv-factors', 'three-directions'],
+  'KV キャッシュを減らす: MQA と GQA': ['mha-heads', 'gqa-sharing', 'mqa-sharing', 'sharing-tradeoff', 'latent-attention'],
+  '注意を疎にする: 局所・スライディング窓・スパース': ['local-reach', 'sparse-links', 'attention-sinks', 'sparse-limits'],
+  '線形注意という別路線': ['feature-map', 'associative-order', 'linear-tradeoff'],
+  'FlashAttention: 厳密なまま速く': ['exact-tiling', 'online-softmax', 'memory-io'],
+  '位置の対応範囲を伸ばす: 外挿と補間': ['trained-range', 'extrapolation', 'interpolation', 'frequency-adjustment', 'effective-quality'],
+  'Transformer を離れる: 状態空間モデル': ['fixed-state', 'random-access-limit', 'hybrid-attention'],
+  '「長コンテキスト対応」表記を読む': ['length-origin', 'quality-range', 'practical-cost', 'task-evaluation'],
+  'この理解が効く場面': ['practical-uses'],
+  'アンチパターン': ['pitfalls'],
+  'チェックリスト': ['understanding-check']
+}
 
 // Explicit, code-owned paths. Shared rendering/generation changes conservatively
 // invalidate acceptance. Evidence, project records, generated output and commit
 // IDs are excluded; recording a later deployment cannot change its input digest.
-export const ARTICLE_INPUT_FILES = Object.freeze([
-  'components/attention/attention-walkthrough.jsx', 'components/attention/attention.css', 'lib/attention-model.mjs',
+const SHARED_INPUT_FILES = [
   'components/diagrams/diagram-entry.jsx', 'components/diagrams/diagram-boundary.jsx',
   'components/diagrams/reading-figure.jsx', 'components/diagrams/reading-figure.css',
   'components/diagrams/reading-step.jsx', 'components/diagrams/reading-article-navigation.jsx', 'lib/reading-clock.mjs',
-  'components/diagrams/transformer-walkthrough.jsx', 'components/diagrams/transformer-scenes.css',
-  'components/diagrams/transformer-io-walkthrough.jsx', 'components/diagrams/transformer-io.css', 'lib/transformer-io-model.mjs',
-  'components/diagrams/transformer-position-walkthrough.jsx', 'components/diagrams/transformer-position.css', 'lib/transformer-position-model.mjs',
-  'components/diagrams/transformer-block-walkthrough.jsx', 'lib/transformer-block-model.mjs',
   'components/diagrams/concept-scene-primitives.jsx', 'components/diagrams/concept-scenes.css',
   'components/mdx/mermaid.jsx', 'lib/mermaid-render.mjs',
   'components/mdx/checklist-box.jsx', 'components/mdx/doc-meta.jsx', 'components/mdx/glossary-term.jsx',
@@ -49,8 +59,36 @@ export const ARTICLE_INPUT_FILES = Object.freeze([
   'lib/doc-decorations.mjs', 'lib/mdx-safety.mjs', 'lib/markdown-routes.mjs', 'scripts/sync-content.mjs',
   'lib/diagram-article-acceptance.mjs', 'mdx-components.js', 'app/docs/[[...mdxPath]]/page.jsx',
   'app/layout.jsx', 'app/docs.css', 'next.config.mjs', 'package.json', 'package-lock.json'
-].map(file => `website/${file}`).concat('scripts/lib/md-utils.mjs'))
-const OPTIONAL_INPUTS = ['md', 'mdx'].map(extension => `website/content-src/llm-internals/transformer-architecture.${extension}`)
+].map(file => `website/${file}`).concat('scripts/lib/md-utils.mjs')
+// Article-specific scenes never enter the other article's input digest.
+export const ARTICLE_INPUT_FILES = Object.freeze([...SHARED_INPUT_FILES, ...[
+  'components/attention/attention-walkthrough.jsx', 'components/attention/attention.css', 'lib/attention-model.mjs',
+  'components/diagrams/transformer-walkthrough.jsx', 'components/diagrams/transformer-scenes.css',
+  'components/diagrams/transformer-io-walkthrough.jsx', 'components/diagrams/transformer-io.css', 'lib/transformer-io-model.mjs',
+  'components/diagrams/transformer-position-walkthrough.jsx', 'components/diagrams/transformer-position.css', 'lib/transformer-position-model.mjs',
+  'components/diagrams/transformer-block-walkthrough.jsx', 'lib/transformer-block-model.mjs'
+].map(file => `website/${file}`)])
+export const ATTENTION_VARIANTS_INPUT_FILES = Object.freeze([...SHARED_INPUT_FILES, ...[
+  'components/diagrams/attention-variants-walkthrough.jsx', 'components/diagrams/attention-variants.css',
+  'components/diagrams/attention-kv-walkthrough.jsx', 'components/diagrams/attention-kv.css', 'lib/attention-kv-model.mjs',
+  'components/diagrams/attention-compute-walkthrough.jsx', 'lib/attention-compute-model.mjs',
+  'components/diagrams/attention-context-walkthrough.jsx', 'components/diagrams/attention-context.css', 'lib/attention-context-model.mjs'
+].map(file => `website/${file}`)])
+const configs = {
+  [TRANSFORMER_ARTICLE]: {
+    primaryDiagramIds: ['transformer-io', 'transformer-position', 'self-attention', 'transformer-block'],
+    topics: TRANSFORMER_TOPICS, inputFiles: ARTICLE_INPUT_FILES, evidencePath: ARTICLE_EVIDENCE_PATH
+  },
+  [ATTENTION_VARIANTS_ARTICLE]: {
+    primaryDiagramIds: ['attention-kv-sharing', 'attention-compute-memory', 'attention-context-range'],
+    topics: VARIANTS_TOPICS, inputFiles: ATTENTION_VARIANTS_INPUT_FILES, evidencePath: ATTENTION_VARIANTS_EVIDENCE_PATH
+  }
+}
+for (const [article, config] of Object.entries(configs)) {
+  config.optionalInputs = ['md', 'mdx'].map(extension => `website/content-src/llm-internals/${path.basename(article, '.md')}.${extension}`)
+}
+/** Fixed code-owned paths only; callers cannot mutate the acceptance policy. */
+export const getDiagramArticleConfig = article => Object.hasOwn(configs, article) ? structuredClone(configs[article]) : null
 const parser = unified().use(remarkParse).use(remarkGfm).use(remarkMath).use(remarkFrontmatter, ['yaml'])
 const defaultRoot = fileURLToPath(new URL('../../', import.meta.url))
 const exact = (object, keys) => object && typeof object === 'object' && !Array.isArray(object)
@@ -63,15 +101,15 @@ const normalize = value => typeof value === 'string' ? value.replace(/\r\n?/g, '
 const hash = value => `sha256:${createHash('sha256').update(value).digest('hex')}`
 const read = (root, file) => readFileSync(path.join(root, file), 'utf8')
 
-function validateAssignment(assignment, tree, selected) {
-  if (!exact(assignment, ['article', 'primaryDiagramIds', 'sections']) || assignment.article !== TRANSFORMER_ARTICLE
-    || !same(assignment.primaryDiagramIds, PRIMARY) || !Array.isArray(assignment.sections)
-    || !same(assignment.sections.map(section => section.heading), Object.keys(TOPICS))
-    || !same(tree.children.filter(node => node.type === 'heading' && node.depth === 3).map(text), Object.keys(TOPICS))) throw new Error('11 H3と必須図の対応が不正です。')
+function validateAssignment(assignment, tree, selected, article, config) {
+  if (!exact(assignment, ['article', 'primaryDiagramIds', 'sections']) || assignment.article !== article
+    || !same(assignment.primaryDiagramIds, config.primaryDiagramIds) || !Array.isArray(assignment.sections)
+    || !same(assignment.sections.map(section => section.heading), Object.keys(config.topics))
+    || !same(tree.children.filter(node => node.type === 'heading' && node.depth === 3).map(text), Object.keys(config.topics))) throw new Error('11 H3と必須図の対応が不正です。')
   const used = new Set()
   for (const section of assignment.sections) {
     if (!exact(section, ['heading', 'topics']) || !Array.isArray(section.topics)
-      || !same(section.topics.map(topic => topic.id), TOPICS[section.heading])) throw new Error('主要論点の割当が不足・重複しています。')
+      || !same(section.topics.map(topic => topic.id), config.topics[section.heading])) throw new Error('主要論点の割当が不足・重複しています。')
     for (const topic of section.topics) {
       if (!nonempty(topic.label)) throw new Error('論点の説明が必要です。')
       if (Object.hasOwn(topic, 'staticReason')) {
@@ -84,7 +122,7 @@ function validateAssignment(assignment, tree, selected) {
       }
     }
   }
-  if (PRIMARY.some(id => !used.has(id))) throw new Error('必須の主図が本文の論点に対応していません。')
+  if (config.primaryDiagramIds.some(id => !used.has(id))) throw new Error('必須の主図が本文の論点に対応していません。')
 }
 
 function recordExists(root, value) {
@@ -113,7 +151,8 @@ function acceptedGate(gate, kind, inputDigest, root) {
 
 /** Offline consistency only: records do not authenticate reviewers or live CI. */
 export function getDiagramArticleAcceptance({ repoRoot = defaultRoot, article = TRANSFORMER_ARTICLE, registry = diagramRegistry } = {}) {
-  const result = { tracked: article === TRANSFORMER_ARTICLE, inputDigest: null, assignmentCurrent: false, diagramsCurrent: false,
+  const config = getDiagramArticleConfig(article)
+  const result = { tracked: Boolean(config), inputDigest: null, assignmentCurrent: false, diagramsCurrent: false,
     reviewRecorded: false, localRecorded: false, publicRecorded: false, complete: false, reasons: [], verification: 'recorded-evidence-only' }
   if (!result.tracked) return result
   try {
@@ -121,19 +160,19 @@ export function getDiagramArticleAcceptance({ repoRoot = defaultRoot, article = 
     const tree = parser.parse(read(repoRoot, article)), manifest = JSON.parse(read(repoRoot, MANIFEST))
     const matches = Array.isArray(manifest.articles) ? manifest.articles.filter(entry => entry?.article === article) : []
     if (!exact(manifest, ['schemaVersion', 'articles']) || manifest.schemaVersion !== 1 || matches?.length !== 1) throw new Error('記事割当manifestが不正です。')
-    const assignment = matches[0], selected = PRIMARY.map(id => registry.diagrams.find(entry => entry.id === id))
-    const files = Object.fromEntries(ARTICLE_INPUT_FILES.map(file => [file, hash(normalize(read(repoRoot, file)))]))
-    for (const file of OPTIONAL_INPUTS) {
+    const assignment = matches[0], selected = config.primaryDiagramIds.map(id => registry.diagrams.find(entry => entry.id === id))
+    const files = Object.fromEntries(config.inputFiles.map(file => [file, hash(normalize(read(repoRoot, file)))]))
+    for (const file of config.optionalInputs) {
       try { files[file] = hash(normalize(read(repoRoot, file))) } catch (error) { if (error.code !== 'ENOENT') throw error; files[file] = null }
     }
     result.inputDigest = hash(JSON.stringify(normalize({ article: tree, assignment, registry: selected, files })))
-    try { validateAssignment(assignment, tree, selected); result.assignmentCurrent = true } catch (error) { result.reasons.push(error.message) }
+    try { validateAssignment(assignment, tree, selected, article, config); result.assignmentCurrent = true } catch (error) { result.reasons.push(error.message) }
     result.diagramsCurrent = selected.every(entry => {
       try { if (!entry.enabled) return false; assertDiagramSource(tree, entry); return true } catch { return false }
     })
     if (!result.diagramsCurrent) result.reasons.push('必須図の有効状態・本文版・レビュー版が揃っていません。')
     let evidence = null
-    try { evidence = JSON.parse(read(repoRoot, ARTICLE_EVIDENCE_PATH)) } catch (error) { if (error.code !== 'ENOENT') result.reasons.push('受入記録を読み取れません。') }
+    try { evidence = JSON.parse(read(repoRoot, config.evidencePath)) } catch (error) { if (error.code !== 'ENOENT') result.reasons.push('受入記録を読み取れません。') }
     if (!exact(evidence, ['schemaVersion', 'article', 'review', 'local', 'public']) || evidence.schemaVersion !== 1 || evidence.article !== article) evidence = null
     for (const kind of ['review', 'local', 'public']) {
       result[`${kind}Recorded`] = Boolean(evidence && acceptedGate(evidence[kind], kind, result.inputDigest, repoRoot))

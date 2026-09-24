@@ -59,6 +59,33 @@ const BINDINGS = {
     blockGroups: [[{ stage: 0, count: 2 }, { stage: 2, count: 1 }, { stage: 3, count: 2 }]],
     blockTypes: [['paragraph', 'list', 'paragraph', 'math', 'paragraph']]
   },
+  'attention-kv-sharing': {
+    article: 'docs/11-llm-internals/attention-variants-and-long-context.md',
+    route: '/docs/llm-internals/attention-variants-and-long-context',
+    binding: 'grouped-blocks', stageCount: 5,
+    headings: ['概要: 2 つの圧力', 'KV キャッシュを減らす: MQA と GQA'],
+    sourceHeadings: ['概要: 2 つの圧力', 'KV キャッシュを減らす: MQA と GQA'],
+    blockGroups: [[{ stage: 0, count: 2 }, { stage: 1, count: 3 }], [{ stage: 4, count: 4 }]],
+    blockTypes: [['paragraph', 'list', 'paragraph', 'math', 'paragraph'], ['paragraph', 'paragraph', 'math', 'paragraph']]
+  },
+  'attention-compute-memory': {
+    article: 'docs/11-llm-internals/attention-variants-and-long-context.md',
+    route: '/docs/llm-internals/attention-variants-and-long-context',
+    binding: 'grouped-blocks', stageCount: 6,
+    headings: ['注意を疎にする: 局所・スライディング窓・スパース', '線形注意という別路線', 'FlashAttention: 厳密なまま速く'],
+    sourceHeadings: ['概要: 2 つの圧力', '注意を疎にする: 局所・スライディング窓・スパース', '線形注意という別路線', 'FlashAttention: 厳密なまま速く'],
+    blockGroups: [[{ stage: 0, count: 3 }], [{ stage: 1, count: 1 }, { stage: 2, count: 2 }], [{ stage: 3, count: 1 }, { stage: 4, count: 1 }, { stage: 5, count: 1 }]],
+    blockTypes: [['paragraph', 'list', 'paragraph'], ['paragraph', 'math', 'paragraph'], ['paragraph', 'list', 'paragraph']]
+  },
+  'attention-context-range': {
+    article: 'docs/11-llm-internals/attention-variants-and-long-context.md',
+    route: '/docs/llm-internals/attention-variants-and-long-context',
+    binding: 'grouped-blocks', stageCount: 4,
+    headings: ['位置の対応範囲を伸ばす: 外挿と補間'],
+    sourceHeadings: ['概要: 2 つの圧力', '位置の対応範囲を伸ばす: 外挿と補間', '「長コンテキスト対応」表記を読む'],
+    blockGroups: [[{ stage: 0, count: 1 }, { stage: 2, count: 2 }]],
+    blockTypes: [['paragraph', 'list', 'paragraph']]
+  },
   'transformer-block': {
     article: 'docs/11-llm-internals/transformer-architecture.md',
     route: '/docs/llm-internals/transformer-architecture',

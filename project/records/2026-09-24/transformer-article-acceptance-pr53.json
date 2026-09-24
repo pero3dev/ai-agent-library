@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "article": "docs/11-llm-internals/transformer-architecture.md",
+  "review": {
+    "inputDigest": "sha256:c75057890c4c3561f329585ca3298c337cf6f69df11501d756c963f678a4d17e",
+    "status": "approved",
+    "independent": true,
+    "checkedAt": "2026-09-24T03:51:34.886Z",
+    "record": "project/records/2026-09-24/transformer-reading-diagrams.md"
+  },
+  "local": {
+    "inputDigest": "sha256:c75057890c4c3561f329585ca3298c337cf6f69df11501d756c963f678a4d17e",
+    "status": "passed",
+    "checkedAt": "2026-09-24T03:51:34.886Z",
+    "record": "project/records/2026-09-24/transformer-reading-diagrams.md"
+  },
+  "public": {
+    "inputDigest": "sha256:c75057890c4c3561f329585ca3298c337cf6f69df11501d756c963f678a4d17e",
+    "status": "passed",
+    "checkedAt": "2026-09-24T04:09:53.172Z",
+    "commit": "828aa492adbbc1382a68edb40f6c3c14eb3d12e0",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/35953852626",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/35953852626/job/107488751204",
+    "browserRecord": "project/records/2026-09-24/transformer-reading-diagrams.md"
+  }
+}

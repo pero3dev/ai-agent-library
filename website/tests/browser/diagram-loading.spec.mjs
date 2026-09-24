@@ -10,6 +10,9 @@ const cases = [
   { name: 'transformer input-output scene', marker: 'TRANSFORMER / INPUT & OUTPUT', path: 'llm-internals/transformer-architecture', prose: '入力の各トークン(整数 ID)は', mathCount: 2 },
   { name: 'transformer position scene', marker: 'TRANSFORMER / POSITION', path: 'llm-internals/transformer-architecture', prose: 'そこで位置情報を明示的に与えます', mathCount: 1 },
   { name: 'transformer block scene', marker: 'TRANSFORMER / BLOCK & WEIGHTS', path: 'llm-internals/transformer-architecture', prose: '1 種類の「注目の仕方」しか表せません', mathCount: 7 },
+  { name: 'attention KV sharing scene', marker: 'ATTENTION / KV SHARING', path: 'llm-internals/attention-variants-and-long-context', prose: '標準的な多頭自己注意には', mathCount: 2 },
+  { name: 'attention compute scene', marker: 'ATTENTION VARIANTS / COMPUTE & MEMORY', path: 'llm-internals/attention-variants-and-long-context', prose: '全対全をやめて一部の対だけ見る', mathCount: 1 },
+  { name: 'attention context scene', marker: 'ATTENTION / CONTEXT RANGE', path: 'llm-internals/attention-variants-and-long-context', prose: '学習時の最大長を超える入力に', mathCount: 0 },
   { name: 'shared reading frame', marker: 'ReadingFigure requires at least one stage', path: 'concepts/agent-loop', prose: 'ツール要求がないことだけでは正常完了と判定できません' }
 ]
 

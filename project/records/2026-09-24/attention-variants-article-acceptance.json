@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "article": "docs/11-llm-internals/transformer-architecture.md",
+  "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
   "review": {
-    "inputDigest": "sha256:27ec63f55d3ffa5f758c124f02706cd86efcce28722b3d818710bfd0ed5c926a",
+    "inputDigest": "sha256:7a5ff97d663c87e223227599e4e18d1497ceccdb7d5491cdafeb6dfe60cb4588",
     "status": "approved",
     "independent": true,
     "checkedAt": "2026-09-24T04:43:53.88Z",
     "record": "project/records/2026-09-24/attention-variants-reading-diagrams.md"
   },
   "local": {
-    "inputDigest": "sha256:27ec63f55d3ffa5f758c124f02706cd86efcce28722b3d818710bfd0ed5c926a",
+    "inputDigest": "sha256:7a5ff97d663c87e223227599e4e18d1497ceccdb7d5491cdafeb6dfe60cb4588",
     "status": "passed",
-    "checkedAt": "2026-09-24T04:51:24.9456606Z",
+    "checkedAt": "2026-09-24T04:51:25.0007702Z",
     "record": "project/records/2026-09-24/attention-variants-reading-diagrams.md"
   },
   "public": null

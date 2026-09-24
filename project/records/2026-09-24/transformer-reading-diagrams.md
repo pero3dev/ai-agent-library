@@ -1,6 +1,6 @@
 # Transformer記事全体の動的図解
 
-開始日: 2026-09-24。状態: 実装・ローカル受入・独立レビュー完了、公開手続き中。P1の最初の制作単位（1記事）。
+開始日: 2026-09-24。状態: **PR #53マージ・公開受入完了**。P1の最初の制作単位（1記事）。
 
 ## 作業契約
 
@@ -76,3 +76,15 @@ P0公開受入済み。ルートとwebsiteの `npm ci` は成功し、脆弱性�
 独立担当 `p0_final_review` が、最終BUILD_ID `7UN43XOwSLG3ORNm8HGPq` の4図・15 PNG、本文全11 H3・33論点、本文AST保存の検査を確認し、approved / lowと判定した。必須修正なし。T1の共有/非共有、T2の位置差、T3のhead h・RMSNorm・Post-Norm・計数が式と一致した。原寸再確認で懸念が解消した凡例に製品変更は加えていない。この判定は内容と画像の独立レビューであり、ブラウザー全体・性能・公開の合否は別記録とする。
 
 同じ静的候補でChromium全178件のうち173成功・音声fixture専用5 skip（4.4分）。新図だけでなく既存の数式・Mermaid・検索・音声shell・図解の回帰を含む。ログはTEMPの `p1-transformer-chromium-final.log`。WebKitの主要6 specは81/81成功（5.0分）。ログはTEMPの p1-transformer-webkit-final.log。物理iPhone、実スクリーンリーダー、本人による学習評価は未実施。
+
+### PR・Pages・公開受入の完了
+
+[PR #53](https://github.com/pero3dev/ai-agent-library/pull/53) は2026-09-24 13:01:11 JSTにsquashマージされた。PR headは `04589a8e3bdfb95a18536fc396f4e9cf5f847e5c`、公開SHAは `828aa492adbbc1382a68edb40f6c3c14eb3d12e0`。検査済みのtitle/body/trailerと実際のマージメッセージが一致し、マージ後のファイルもPR候補と一致した。通常の11チェックは成功、PRのdeployはmain専用条件によりskipだった。
+
+[main CI](https://github.com/pero3dev/ai-agent-library/actions/runs/35953852626) と [Pagesジョブ](https://github.com/pero3dev/ai-agent-library/actions/runs/35953852626/job/107488751204) が同じSHAで成功。GitHub APIからgithub-pages deployment `6629937978` の最新statusがsuccessであることを再取得した。TEMPの `ai-agent-library-p1-public/deployment-evidence.json`・`merged-commit.json`・`pr-ci.log` に証拠を保存している。実PR CIもサイト単体166件、ブラウザー173成功・5 fixture skipだった。
+
+[公開記事](https://pero3dev.github.io/ai-agent-library/docs/llm-internals/transformer-architecture) をWindows Edge `153.0.4234.48`で確認し、11/11ケースが成功した（13:08:51〜13:09:53 JST）。4図の1440×1000明暗・1280×720・390×844、追加3図の実時間再生/停止、4図の読書復帰と手動操作の独立性、noJSの4静止図・11 H3・12式・目次1つ、図なし対照の重い図解コード0を確認した。実配信JS/CSS/preload 35件はHTTP 200・期待MIME・非空、予期しないブラウザーエラーなし。4画像を保存し、公開入出力図を原寸で再確認した。
+
+初回は10成功・1失敗だった。noJSの本文・式・全静止図は既に成功していたが、JavaScript無効時のscript preload CSP拒否1件を通信障害として扱っていた。検査スクリプトだけを修正し、noJSかつscriptかつcspに限って想定内として別計上し、同じ公開版で全11件を再実行した。通常JS/CSSの失敗判定を緩めていない。初回証拠 `public-2026-09-24T04-06-44-637Z`、成功証拠 `public-2026-09-24T04-08-51-320Z` を両方TEMPに保持する。
+
+入力ダイジェスト `sha256:c75057890c4c3561f329585ca3298c337cf6f69df11501d756c963f678a4d17e` に対する3ゲートを保存し、CLIで記事complete=trueを確認した。[PR #53の受入スナップショット](transformer-article-acceptance-pr53.json)は今後の共有コード変更で書き換えない。当該公開版の全体対応は1/199記事。次の注意変種単位で共有コードを変更する際は、新版としてTransformerを再検証する。物理端末・実スクリーンリーダー・本人の学習評価は未実施。

@@ -1,6 +1,6 @@
 # 動的図解の展開状況
 
-開始日: 2026-09-24。状態: **P0公開受入完了、P1のTransformer記事を公開手続き中**。全199記事の完了記録ではない。
+開始日: 2026-09-24。状態: **P0公開受入完了、P1のTransformer公開受入完了・注意変種の公開待ち**。全199記事の完了記録ではない。
 
 ## 作業契約
 
@@ -18,18 +18,16 @@
 | --- | --- | --- | --- |
 | 計画 | 全199記事 | 計画作成・独立レビュー済み、採択 | [全件棚卸し](../../plans/engineering/dynamic-diagram-inventory.md)、[計画作成記録](dynamic-diagram-plan.md) |
 | P0 | 共通基盤・自己注意・Agentループ・Workflow比較 | PR #52マージ・公開受入完了 | [P0実施記録](reading-diagram-foundation.md) |
-| P1 | LLM内部構造・基礎15記事 | Transformer1記事のローカル受入完了、公開手続き中。0/15記事完了 | [制作記録](transformer-reading-diagrams.md) |
+| P1 | LLM内部構造・基礎15記事 | Transformer公開受入完了、1/15記事。注意変種は独立レビュー・ローカル受入完了 | [Transformer](transformer-reading-diagrams.md)、[注意変種](attention-variants-reading-diagrams.md) |
 | P2 | 中核54記事 | 未着手（P0の2記事は内数） | P1受入後に着手 |
 | P3 | 実装・品質・運用78記事 | 未着手 | P2受入後に着手 |
 | P4 | 応用・判断52記事 | 未着手 | P3受入後に着手 |
 | P5 | 全体受入・更新運用 | 未着手 | P4受入後に着手 |
 
-図解を一部導入した記事、記事全体の主要論点の割当と受入を完了した記事、公開確認済みの記事を別に数える。公開済みは3記事の3図。記事全体の完成基準では0/199記事であり、図の本数を記事の完了数に読み替えない。
+図解を一部導入した記事、記事全体の主要論点の割当と受入を完了した記事、公開確認済みの記事を別に数える。公開済みは3記事の6図。記事全体の完成基準では1/199記事であり、図の本数を記事の完了数に読み替えない。
 
 ## 再開地点
 
-所有ブランチは `feat/transformer-reading-diagrams`。P0の公開SHA `584a379ccd56f19cc4c31162288f30880be7bb67` を最新mainとして取得し、P1の最初の制作単位を開始した。他のworktreeや音声制作のブランチは変更しない。
+所有ブランチは `feat/attention-variants-reading-diagrams`。Transformerの[PR #53](https://github.com/pero3dev/ai-agent-library/pull/53)・main CI・Pages・公開11件の受入を終え、公開SHA `828aa492adbbc1382a68edb40f6c3c14eb3d12e0` の最新mainから開始した。他のworktreeや音声制作のブランチは変更しない。
 
-P0の3図を共通外枠へ統合し、CIで判明したIntersectionObserverの通知取りこぼしを修正した。[PR #52](https://github.com/pero3dev/ai-agent-library/pull/52)のマージ、main CI、Pages、公開11件の受入まで完了。最終候補はChromium161成功・音声専用5 skip、WebKit42成功、サイト単体126成功。詳細・証拠の境界はP0記録を参照する。
-
-[P1の最初の3記事の絵コンテ](llm-diagram-storyboards.md)を起点に、Transformer1記事（追加3図と既存自己注意）の実装・独立レビュー・ローカル受入を完了。次はPR・CI・Pagesと公開ページの受入を行う。注意変種3図・MoE2図は後続。全31見出しの論点対応を用い、制作単位ごとの公開受入後に進む。
+注意変種1記事の3図（KV共有・計算と保存・位置の対応範囲）の実装・独立レビュー・ローカル受入が完了した。[制作記録](attention-variants-reading-diagrams.md)に証拠を保存し、次はPR・CI・Pages・公開確認へ進む。共有コードの拡張に対するTransformerの再受入も完了し、2記事とも今回版の公開ゲートだけを未完としている。MoE2図は公開確認後の単位とする。

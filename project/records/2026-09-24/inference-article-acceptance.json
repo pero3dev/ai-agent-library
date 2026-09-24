@@ -2,17 +2,17 @@
   "schemaVersion": 1,
   "article": "docs/11-llm-internals/inference-internals.md",
   "review": {
-    "inputDigest": "sha256:2a883e38101d744658a6280f7b237880556db36abcb37cb65eea498ca1e548b0",
+    "inputDigest": "sha256:8247db515cffe45880d01f770f798798a923b9dca53f6cbfab25d2182bff2b6e",
     "status": "approved",
-    "checkedAt": "2026-09-24T11:17:45.760Z",
+    "checkedAt": "2026-09-24T13:00:02.694Z",
     "independent": true,
-    "record": "project/records/2026-09-24/inference-reading-diagrams.md"
+    "record": "project/records/2026-09-24/inference-score-label-fix.md"
   },
   "local": {
-    "inputDigest": "sha256:2a883e38101d744658a6280f7b237880556db36abcb37cb65eea498ca1e548b0",
+    "inputDigest": "sha256:8247db515cffe45880d01f770f798798a923b9dca53f6cbfab25d2182bff2b6e",
     "status": "passed",
-    "checkedAt": "2026-09-24T11:49:02.878Z",
-    "record": "project/records/2026-09-24/inference-reading-diagrams.md"
+    "checkedAt": "2026-09-24T13:01:37.2395439Z",
+    "record": "project/records/2026-09-24/inference-score-label-fix.md"
   },
   "public": null
 }

@@ -118,6 +118,8 @@ test.describe('inference article interactions', () => {
     await seek(target, 6)
     for (const kind of ['draw', 'logit']) {
       await target.getByLabel('比較する揺らぎ', { exact: true }).selectOption(kind)
+      await expect(target.locator('[data-comparison-value-label]')).toHaveText(Array(2).fill(kind === 'draw' ? '値: 確率' : '値: ロジット'))
+      if (kind === 'logit') await expect(target.locator('[data-comparison-bar-label]')).toHaveText(Array(2).fill('棒: T=1の確率'))
       const sides = await target.locator('[data-comparison-side]').evaluateAll(nodes => nodes.map(node => ({ selected: node.dataset.comparisonSelected, probabilities: [...node.querySelectorAll('[data-compare-probability]')].map(row => Number(row.dataset.compareProbability)) })))
       expect(sides[0].selected).not.toBe(sides[1].selected)
       if (kind === 'draw') expect(sides[0].probabilities).toEqual(sides[1].probabilities)

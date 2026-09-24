@@ -87,3 +87,9 @@ CI・Pages・artifact・公開版を結び付ける取得処理も別担当が�
 [PR #57](https://github.com/pero3dev/ai-agent-library/pull/57)の初回候補 `a4f1a7b300506be4b905b37cb8f5af68c0a4035b` では、記事訂正用manifestが欠けていたためharness-policyが失敗した。図解の検査や独立レビューを、通常記事の変更記録の代わりにはできない。公開済み履歴を変更せず、[publish-reviewの通常記事変更手順](../../../.agents/skills/publish-review/SKILL.md)で不足を補完する。
 
 top-pの境界訂正をsubstantiveとして、[変更記録](../../../harness/changes/2026-09-24-inference-reading-diagrams.json)へ元main、実編集者ID、U-1の全成果物、実取得した原論文とUTC日時を記録する。候補treeと全差分digestを固定してdoc-reviewerへ渡し、実際の独立判定・時刻・digestを受けた最終manifestでpolicyを検査する。通常の追加commitで提出し、必須CIと公開確認を終えるまで公開完了とはしない。記事の公開状態と既存U-1完了状態は維持する。
+
+## PR #57の公開と表示ラベルの再修正
+
+記事変更記録の補完後、PR #57は `140481edc3968d853f5b8c2b56d4ec5c9c29b027` としてマージされた。main CI `35998331013`、Pages job `107631808949` は成功し、BUILD_ID `5JreEwMcIwsNeVNWXJI0I` とCI artifactの6記事HTMLを公開配信へ照合した。公開ブラウザーは58/58成功、155 PNGを保存した。
+
+独立した公開画像レビューでは、サンプリングの最後の比較において棒の確率と下段のロジットを区別しにくい必須修正1件が見つかった。このため推論内部の記事全体の公開受入は保留し、[表示ラベルの修正記録](inference-score-label-fix.md)へ継続する。ローカルの旧承認と公開58件の機械成功を、修正版の公開承認へ流用しない。

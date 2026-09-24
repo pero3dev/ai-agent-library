@@ -1,0 +1,23 @@
+.iq-scene text { fill: #e7f0f5; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 24px; }
+.iq-scene .iq-heading { font-size: 25px; font-weight: 650; }
+.iq-scene .iq-label { font-size: 25px; font-weight: 650; }
+.iq-scene .iq-note { font-size: 22px; fill: #bfd0dd; }
+.iq-scene .iq-bit-label { font: 22px ui-monospace, monospace; }
+.iq-region { fill: #142538; stroke: #71899c; stroke-width: 1.2; }
+.iq-region-selected { fill: #173b43; stroke: #7ce6d4; stroke-width: 1.8; }
+.iq-selection-trace { fill: none; stroke: #b2f3e8; stroke-width: 1; stroke-dasharray: 12 44; opacity: .7; }
+.iq-value { fill: #71899a; }
+.iq-value-selected { fill: #66c9b8; }
+.iq-value-high { fill: #b5a0ed; stroke: #e0d4ff; stroke-width: 2.5; }
+.iq-outlier-mark { fill: #f1c27e; }
+.iq-bit { fill: #66c9b8; stroke: #a9f2e6; stroke-width: .8; }
+.iq-bit-high { fill: #b5a0ed; stroke: #e0d4ff; stroke-width: .8; }
+.iq-bit-empty { fill: #172637; stroke: #566d7f; stroke-dasharray: 2 3; }
+.iq-controls { display: flex; flex-wrap: wrap; gap: .5rem .75rem; padding: 0 1.1rem .65rem; }
+.iq-controls .cd-select { flex: 1 1 40%; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .5rem; align-items: center; color: #d6e5ed; font-size: .9rem; }
+.iq-controls .cd-select > span { white-space: nowrap; }
+.iq-controls select { width: 100%; min-width: 0; padding: .35rem; border: 1px solid #6b8596; border-radius: 6px; background: #142b3b; color: #edf6fa; font: inherit; }
+.iq-controls select:focus-visible { outline: 2px solid #8cf0df; outline-offset: 3px; }
+@container (max-width: 560px) { .iq-controls .cd-select { flex-basis: 100%; } }
+@media (prefers-reduced-motion: reduce) { .iq-scene * { transition: none !important; animation: none !important; } }
+@media print { .iq-controls { display: none; } .iq-scene * { transition: none !important; animation: none !important; } }

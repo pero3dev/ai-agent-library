@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "article": "docs/11-llm-internals/transformer-architecture.md",
+  "review": {
+    "inputDigest": "sha256:fad22bc5f86abc1eaa49f0ace32b0a97ad7431607f65f17bd5ade2d52039e700",
+    "status": "approved",
+    "checkedAt": "2026-09-24T07:08:55.098Z",
+    "independent": true,
+    "record": "project/records/2026-09-24/generation-tokenization-reading-diagrams.md#最終内容と表示の独立レビュー"
+  },
+  "local": {
+    "inputDigest": "sha256:fad22bc5f86abc1eaa49f0ace32b0a97ad7431607f65f17bd5ade2d52039e700",
+    "status": "passed",
+    "checkedAt": "2026-09-24T07:08:55.098Z",
+    "record": "project/records/2026-09-24/generation-tokenization-reading-diagrams.md#最終ローカル受入"
+  },
+  "public": {
+    "inputDigest": "sha256:fad22bc5f86abc1eaa49f0ace32b0a97ad7431607f65f17bd5ade2d52039e700",
+    "status": "passed",
+    "checkedAt": "2026-09-24T07:43:13.996Z",
+    "commit": "1af3a76bf037a31fcbc8a8f677da7b135da3864d",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/35969128318",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/35969128318/job/107535952253",
+    "browserRecord": "project/records/2026-09-24/generation-tokenization-reading-diagrams.md"
+  }
+}

@@ -2,17 +2,17 @@
   "schemaVersion": 1,
   "article": "docs/10-llm-foundations/tokenization.md",
   "review": {
-    "inputDigest": "sha256:af514164765e50f414fc694363a4fa2d730f2dd58514bda43fbba690b18b6f9d",
+    "inputDigest": "sha256:8d3ad3e68612e0cb2a59d2ef82b90aded6b1b9d90fccd8d30c59beb78e25200d",
     "status": "approved",
-    "checkedAt": "2026-09-24T07:08:55.098Z",
+    "checkedAt": "2026-09-24T11:17:45.760Z",
     "independent": true,
-    "record": "project/records/2026-09-24/generation-tokenization-reading-diagrams.md#最終内容と表示の独立レビュー"
+    "record": "project/records/2026-09-24/inference-reading-diagrams.md"
   },
   "local": {
-    "inputDigest": "sha256:af514164765e50f414fc694363a4fa2d730f2dd58514bda43fbba690b18b6f9d",
+    "inputDigest": "sha256:8d3ad3e68612e0cb2a59d2ef82b90aded6b1b9d90fccd8d30c59beb78e25200d",
     "status": "passed",
-    "checkedAt": "2026-09-24T07:08:55.098Z",
-    "record": "project/records/2026-09-24/generation-tokenization-reading-diagrams.md#最終ローカル受入"
+    "checkedAt": "2026-09-24T11:49:02.878Z",
+    "record": "project/records/2026-09-24/inference-reading-diagrams.md"
   },
   "public": null
 }

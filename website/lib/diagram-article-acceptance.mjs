@@ -19,7 +19,9 @@ export const GENERATION_ARTICLE = 'docs/10-llm-foundations/how-llms-generate-tex
 export const GENERATION_EVIDENCE_PATH = 'project/records/2026-09-24/generation-article-acceptance.json'
 export const TOKENIZATION_ARTICLE = 'docs/10-llm-foundations/tokenization.md'
 export const TOKENIZATION_EVIDENCE_PATH = 'project/records/2026-09-24/tokenization-article-acceptance.json'
-export const TRACKED_ARTICLES = Object.freeze([TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE])
+export const INFERENCE_ARTICLE = 'docs/11-llm-internals/inference-internals.md'
+export const INFERENCE_EVIDENCE_PATH = 'project/records/2026-09-24/inference-article-acceptance.json'
+export const TRACKED_ARTICLES = Object.freeze([TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE, INFERENCE_ARTICLE])
 const MANIFEST = 'website/diagrams/articles.json'
 const TRANSFORMER_TOPICS = {
   '概要: デコーダ専用 Transformer の全体像': ['decoder-flow', 'overview-and-notation'],
@@ -100,6 +102,56 @@ const TOKENIZATION_TOPICS = {
   'チェックリスト': [ 'understanding-check' ]
 }
 
+const INFERENCE_TOPICS = { '概要: プリフィルとデコードの 2 相':
+   [ 'two-inference-phases',
+     'cache-build-reuse',
+     'ttft-intertoken-distinction',
+     'compute-bandwidth-asymmetry',
+     'price-asymmetry-mechanism' ],
+  'ロジット → 確率 → 選択の数理':
+   [ 'logits-not-probabilities',
+     'temperature-softmax',
+     'greedy-limit',
+     'top-k-count',
+     'top-p-mass',
+     'retained-renormalization',
+     'one-token-selection',
+     'repetition-logit-adjustment',
+     'system-reproducibility-limits',
+     'fixed-environment-evaluation' ],
+  'プリフィルとデコードの計算量・メモリ': [ 'stored-kv', 'kv-byte-factors', 'weights-and-kv-reads', 'prefill-decode-utilization' ],
+  'バッチングと連続バッチング':
+   [ 'shared-weight-read',
+     'naive-completion-wait',
+     'continuous-slot-replacement',
+     'throughput-latency-tradeoff',
+     'kv-capacity-fragmentation' ],
+  '投機的デコーディング':
+   [ 'draft-candidates',
+     'parallel-target-check',
+     'greedy-prefix-agreement',
+     'matched-processed-distributions',
+     'stochastic-acceptance',
+     'positive-residual-correction',
+     'discard-after-rejection',
+     'all-accepted-bonus',
+     'distribution-versus-speed-guarantees' ],
+  '量子化':
+   [ 'quantization-targets',
+     'representation-bits',
+     'post-training-quantization',
+     'outliers-mixed-precision',
+     'memory-bandwidth-quality-tradeoff',
+     'task-specific-quality-check' ],
+  'この理解が効く場面': [ 'api-price-latency-use', 'self-hosted-design-use', 'long-context-capacity-use', 'sampling-configuration-use' ],
+  'アンチパターン':
+   [ 'equal-input-output-cost-pitfall',
+     'batch-latency-pitfall',
+     'unconditional-speculation-pitfall',
+     'free-quantization-pitfall',
+     'temperature-zero-reproducibility-pitfall' ],
+  'チェックリスト': [ 'understanding-check' ] }
+
 // Explicit, code-owned paths. Shared rendering/generation changes conservatively
 // invalidate acceptance. Evidence, project records, generated output and commit
 // IDs are excluded; recording a later deployment cannot change its input digest.
@@ -116,7 +168,7 @@ const SHARED_INPUT_FILES = [
   'lib/diagram-registry.mjs', 'lib/diagram-decoration.mjs', 'lib/attention-decoration.mjs',
   'lib/doc-decorations.mjs', 'lib/mdx-safety.mjs', 'lib/markdown-routes.mjs', 'scripts/sync-content.mjs',
   'lib/diagram-article-acceptance.mjs', 'mdx-components.js', 'app/docs/[[...mdxPath]]/page.jsx',
-  'app/layout.jsx', 'app/docs.css', 'next.config.mjs', 'package.json', 'package-lock.json'
+  'app/layout.jsx', 'public/favicon.svg', 'app/docs.css', 'next.config.mjs', 'package.json', 'package-lock.json'
 ].map(file => `website/${file}`).concat('scripts/lib/md-utils.mjs')
 // Article-specific scenes never enter the other article's input digest.
 export const ARTICLE_INPUT_FILES = Object.freeze([...SHARED_INPUT_FILES, ...[
@@ -148,7 +200,25 @@ export const GENERATION_INPUT_FILES = Object.freeze([...FOUNDATIONS_INPUT_FILES,
 export const TOKENIZATION_INPUT_FILES = Object.freeze([...FOUNDATIONS_INPUT_FILES,
   'website/components/diagrams/tokenization-walkthrough.jsx', 'website/lib/tokenization-model.mjs'
 ])
+export const INFERENCE_INPUT_FILES = Object.freeze([...SHARED_INPUT_FILES, ...[ 'website/components/diagrams/inference-walkthrough.jsx',
+  'website/components/diagrams/inference-sampling.css',
+  'website/components/diagrams/inference-cache-batching.css',
+  'website/components/diagrams/inference-speculative.css',
+  'website/components/diagrams/inference-quantization.css',
+  'website/components/diagrams/inference-sampling-walkthrough.jsx',
+  'website/lib/inference-sampling-model.mjs',
+  'website/components/diagrams/inference-cache-batching-walkthrough.jsx',
+  'website/lib/inference-cache-batching-model.mjs',
+  'website/components/diagrams/inference-speculative-walkthrough.jsx',
+  'website/lib/inference-speculative-model.mjs',
+  'website/components/diagrams/inference-quantization-walkthrough.jsx',
+  'website/lib/inference-quantization-model.mjs',
+  'website/lib/generation-model.mjs' ]])
 const configs = {
+  [INFERENCE_ARTICLE]: {
+    primaryDiagramIds: [ 'inference-sampling', 'inference-cache-batching', 'inference-speculative', 'inference-quantization' ], topics: INFERENCE_TOPICS,
+    inputFiles: INFERENCE_INPUT_FILES, evidencePath: INFERENCE_EVIDENCE_PATH
+  },
   [GENERATION_ARTICLE]: {
     primaryDiagramIds: ['generation-token-loop'], topics: GENERATION_TOPICS,
     inputFiles: GENERATION_INPUT_FILES, evidencePath: GENERATION_EVIDENCE_PATH
@@ -171,6 +241,7 @@ const configs = {
   }
 }
 const overrideDirectories = {
+  [INFERENCE_ARTICLE]: 'llm-internals',
   [TRANSFORMER_ARTICLE]: 'llm-internals', [ATTENTION_VARIANTS_ARTICLE]: 'llm-internals', [MOE_ARTICLE]: 'llm-internals',
   [GENERATION_ARTICLE]: 'llm-foundations', [TOKENIZATION_ARTICLE]: 'llm-foundations'
 }

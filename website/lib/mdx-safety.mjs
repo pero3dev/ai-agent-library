@@ -9,17 +9,19 @@ const parser = unified().use(remarkParse).use(remarkGfm).use(remarkMath)
   .use(remarkFrontmatter, ['yaml']).use(remarkMdx)
 
 const readingStages = {
+  'inference-sampling': 7, 'inference-cache-batching': 6, 'inference-speculative': 6, 'inference-quantization': 4,
   'generation-token-loop': 8, 'tokenization-counting': 7,
   'moe-routing-load': 8, 'moe-parameters-communication': 6,
   'agent-loop': 5, 'workflow-comparison': 5,
   'transformer-io': 4, 'transformer-position': 4, 'transformer-block': 9,
   'attention-kv-sharing': 5, 'attention-compute-memory': 6, 'attention-context-range': 4
 }
-const walkthroughs = new Set(['AttentionWalkthrough', 'ReadingWalkthrough', 'TransformerWalkthrough', 'AttentionVariantsWalkthrough', 'MoEWalkthrough', 'FoundationsWalkthrough'])
+const walkthroughs = new Set(['AttentionWalkthrough', 'ReadingWalkthrough', 'TransformerWalkthrough', 'AttentionVariantsWalkthrough', 'MoEWalkthrough', 'FoundationsWalkthrough', 'InferenceWalkthrough'])
 
 // sync が装飾として挿入する props だけを許可する。コンポーネント名だけでは、
 // 属性式や {...spread} を経由したビルド時の JavaScript 実行を防げない。
 const attributes = {
+  InferenceWalkthrough: { diagramId: value => ['inference-sampling', 'inference-cache-batching', 'inference-speculative', 'inference-quantization'].includes(value) },
   AttentionWalkthrough: {},
   AttentionStep: { step: value => ['0', '1', '2', '3', '4', '5'].includes(value) },
   ReadingWalkthrough: { diagramId: value => ['agent-loop', 'workflow-comparison'].includes(value) },
@@ -70,7 +72,7 @@ export function findUnsafeMdx(mdx) {
           if (seen.has(attribute.name)) bad.add(`重複した JSX 属性 (${attribute.name})`)
           seen.add(attribute.name)
         }
-        const required = { ReadingWalkthrough: 'diagramId', TransformerWalkthrough: 'diagramId', AttentionVariantsWalkthrough: 'diagramId', MoEWalkthrough: 'diagramId', FoundationsWalkthrough: 'diagramId', ReadingStep: 'step', AttentionStep: 'step' }[node.name]
+        const required = { ReadingWalkthrough: 'diagramId', TransformerWalkthrough: 'diagramId', AttentionVariantsWalkthrough: 'diagramId', MoEWalkthrough: 'diagramId', FoundationsWalkthrough: 'diagramId', InferenceWalkthrough: 'diagramId', ReadingStep: 'step', AttentionStep: 'step' }[node.name]
         if (required && !seen.has(required)) bad.add(`必須の JSX 属性がありません (${node.name}.${required})`)
         if (walkthroughs.has(node.name)) {
           if (parentFigure) bad.add('図解コンポーネントの入れ子')

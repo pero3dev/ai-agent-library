@@ -142,6 +142,34 @@ test('foundations wrappers allow only literal fixed IDs and their own stage rang
   ]) assert.ok(findUnsafeMdx(source).length, source)
 })
 
+test('inference wrappers constrain all four IDs, parent stage bounds and inert literal props', () => {
+  for (const [id, count] of [['inference-sampling', 7], ['inference-cache-batching', 6], ['inference-speculative', 6], ['inference-quantization', 4]]) {
+    for (let stage = 0; stage < count; stage++) {
+      assert.deepEqual(findUnsafeMdx(`<InferenceWalkthrough diagramId="${id}">\n\n<ReadingStep step="${stage}">\n\n- 本文\n\n</ReadingStep>\n\n</InferenceWalkthrough>`), [])
+    }
+    assert.ok(findUnsafeMdx(`<InferenceWalkthrough diagramId="${id}"><ReadingStep step="${count}">本文</ReadingStep></InferenceWalkthrough>`).length)
+    assert.ok(findUnsafeMdx(`<FoundationsWalkthrough diagramId="${id}">本文</FoundationsWalkthrough>`).length)
+  }
+  for (const source of [
+    '<InferenceWalkthrough>本文</InferenceWalkthrough>',
+    '<InferenceWalkthrough diagramId="generation-token-loop">本文</InferenceWalkthrough>',
+    '<InferenceWalkthrough diagramId="../scene">本文</InferenceWalkthrough>',
+    '<InferenceWalkthrough diagramId={"inference-sampling"}>本文</InferenceWalkthrough>',
+    '<InferenceWalkthrough diagramId="inference-sampling" module="./scene">本文</InferenceWalkthrough>',
+    '<InferenceWalkthrough diagramId="inference-sampling" diagramId="inference-quantization">本文</InferenceWalkthrough>',
+    '<InferenceWalkthrough {...{diagramId: "inference-sampling"}}>本文</InferenceWalkthrough>',
+    '<InferenceWalkthrough diagramId="inference-sampling"><AttentionStep step="0">本文</AttentionStep></InferenceWalkthrough>',
+    '<InferenceWalkthrough diagramId="inference-sampling"><ReadingStep step={1}>本文</ReadingStep></InferenceWalkthrough>',
+    '<InferenceWalkthrough diagramId="inference-sampling"><ReadingStep step="06">本文</ReadingStep></InferenceWalkthrough>',
+    '<InferenceWalkthrough diagramId="inference-sampling"><ReadingStep>本文</ReadingStep></InferenceWalkthrough>',
+    '<InferenceWalkthrough diagramId="inference-sampling"><InferenceWalkthrough diagramId="inference-quantization">本文</InferenceWalkthrough></InferenceWalkthrough>',
+    '<TransformerWalkthrough diagramId="transformer-block"><InferenceWalkthrough diagramId="inference-sampling">本文</InferenceWalkthrough></TransformerWalkthrough>',
+    '<InferenceWalkthrough diagramId="inference-sampling"><FoundationsWalkthrough diagramId="generation-token-loop">本文</FoundationsWalkthrough></InferenceWalkthrough>',
+    'import { InferenceWalkthrough } from "untrusted"',
+    '<ReadingStep step="6">本文</ReadingStep>'
+  ]) assert.ok(findUnsafeMdx(source).length, source)
+})
+
 test('actual decorations and literal escaped text remain accepted', () => {
   const tree = parser.parse('Agent を学びます。\n\n> **TODO(要確認):** 仕様を確認します\n\n### アンチパターン\n\n- 失敗例\n\n### チェックリスト\n\n- 確認事項')
   applyDecorations(tree, {

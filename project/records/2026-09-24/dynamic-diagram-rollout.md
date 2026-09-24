@@ -1,6 +1,6 @@
 # 動的図解の展開状況
 
-開始日: 2026-09-24。状態: **P0・P1の3記事が公開受入完了、文章生成・トークン化を実装中**。全199記事の完了記録ではない。
+開始日: 2026-09-24。状態: **P0・P1の5記事が公開受入完了、推論内部は検証済み・公開準備中**。全199記事の完了記録ではない。
 
 ## 作業契約
 
@@ -18,16 +18,14 @@
 | --- | --- | --- | --- |
 | 計画 | 全199記事 | 計画作成・独立レビュー済み、採択 | [全件棚卸し](../../plans/engineering/dynamic-diagram-inventory.md)、[計画作成記録](dynamic-diagram-plan.md) |
 | P0 | 共通基盤・自己注意・Agentループ・Workflow比較 | PR #52マージ・公開受入完了 | [P0実施記録](reading-diagram-foundation.md) |
-| P1 | LLM内部構造・基礎15記事 | Transformer・注意変種・MoEの3/15記事が公開受入完了。文章生成・トークン化を実装中 | [Transformer](transformer-reading-diagrams.md)、[注意変種](attention-variants-reading-diagrams.md)、[MoE](moe-reading-diagrams.md)、[文章生成・トークン化](generation-tokenization-reading-diagrams.md) |
+| P1 | LLM内部構造・基礎15記事 | Transformer・注意変種・MoE・文章生成・トークン化の5/15記事が公開受入完了。推論内部は検証済み・公開準備中 | [Transformer](transformer-reading-diagrams.md)、[注意変種](attention-variants-reading-diagrams.md)、[MoE](moe-reading-diagrams.md)、[文章生成・トークン化](generation-tokenization-reading-diagrams.md)、[推論内部](inference-reading-diagrams.md) |
 | P2 | 中核54記事 | 未着手（P0の2記事は内数） | P1受入後に着手 |
 | P3 | 実装・品質・運用78記事 | 未着手 | P2受入後に着手 |
 | P4 | 応用・判断52記事 | 未着手 | P3受入後に着手 |
 | P5 | 全体受入・更新運用 | 未着手 | P4受入後に着手 |
 
-図解を一部導入した記事、記事全体の主要論点の割当と受入を完了した記事、公開確認済みの記事を別に数える。公開済みは5記事の11図。記事全体の完成基準では3/199記事であり、図の本数を記事の完了数に読み替えない。
+図解を一部導入した記事、記事全体の主要論点の割当と受入を完了した記事、公開確認済みの記事を別に数える。公開済みは7記事の13図。記事全体の完成基準では5/199記事であり、図の本数を記事の完了数に読み替えない。
 
 ## 再開地点
 
-所有ブランチは `feat/generation-tokenization-reading-diagrams`。MoEの[PR #55](https://github.com/pero3dev/ai-agent-library/pull/55)・main CI・Pages・公開25ケースの受入を終え、公開SHA `11ab1664fc9864b3f68c4d0eef278f629d9861b1` の最新mainから開始した。他のworktreeや音声制作のブランチは変更しない。
-
-文章生成・トークン化の2記事2図を実装する。[制作記録](generation-tokenization-reading-diagrams.md)に8/7段階・本文対応・独立した事前レビューと担当を固定した。旧3記事のPR #55公開受入はスナップショットに保存済み。今回の共有コード変更後は新しい入力版で3記事とも再受入し、公開ゲートを自動流用しない。その次の単位は推論内部の1記事4図を予定する。
+所有ブランチは `feat/inference-reading-diagrams`。文章生成・トークン化の[PR #56](https://github.com/pero3dev/ai-agent-library/pull/56)と公開43ケースを受け入れ、最新main `1af3a76bf037a31fcbc8a8f677da7b135da3864d` から推論内部の1記事4図を開始した。[制作記録](inference-reading-diagrams.md)に構成・担当・検証を記す。旧5記事の公開証拠をPR #56スナップショットに保存し、共有変更後は新しい入力版で再受入する。他のworktreeや音声制作は変更しない。

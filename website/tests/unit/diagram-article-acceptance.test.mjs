@@ -9,7 +9,8 @@ import {
   ATTENTION_VARIANTS_INPUT_FILES, getDiagramArticleAcceptance, getDiagramArticleConfig, TRACKED_ARTICLES, TRANSFORMER_ARTICLE,
   MOE_ARTICLE, MOE_EVIDENCE_PATH, MOE_INPUT_FILES,
   GENERATION_ARTICLE, GENERATION_EVIDENCE_PATH, GENERATION_INPUT_FILES,
-  TOKENIZATION_ARTICLE, TOKENIZATION_EVIDENCE_PATH, TOKENIZATION_INPUT_FILES
+  TOKENIZATION_ARTICLE, TOKENIZATION_EVIDENCE_PATH, TOKENIZATION_INPUT_FILES,
+  INFERENCE_ARTICLE, INFERENCE_EVIDENCE_PATH, INFERENCE_INPUT_FILES
 } from '../../lib/diagram-article-acceptance.mjs'
 import { getDiagramCoverage } from '../../lib/diagram-coverage.mjs'
 import { diagramRegistry } from '../../lib/diagram-registry.mjs'
@@ -246,8 +247,8 @@ test('coverage computes complete article count from acceptance and keeps publica
   assert.equal(report().summary.completeArticles, 0)
 })
 
-test('five article configurations are code-owned and returned copies cannot alter the policy', () => {
-  assert.deepEqual(TRACKED_ARTICLES, [TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE])
+test('six article configurations are code-owned and returned copies cannot alter the policy', () => {
+  assert.deepEqual(TRACKED_ARTICLES, [TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE, INFERENCE_ARTICLE])
   const config = getDiagramArticleConfig(ATTENTION_VARIANTS_ARTICLE)
   assert.equal(Object.keys(config.topics).length, 11)
   assert.equal(config.evidencePath, ATTENTION_VARIANTS_EVIDENCE_PATH)
@@ -269,7 +270,7 @@ test('five article configurations are code-owned and returned copies cannot alte
   assert.equal(ATTENTION_VARIANTS_INPUT_FILES.some(file => file.includes('/moe-')), false)
 })
 
-test('five articles require their own matching evidence and aggregate completion independently', t => {
+test('six articles require their own matching evidence and aggregate completion independently', t => {
   const f = trackedArticlesFixture(t)
   for (const article of TRACKED_ARTICLES) {
     assert.equal(f.report(article).assignmentCurrent, true)
@@ -292,7 +293,8 @@ test('five articles require their own matching evidence and aggregate completion
   assert.equal(f.report(MOE_ARTICLE).complete, true)
   assert.equal(getDiagramCoverage({ repoRoot: f.root, registry: f.registry }).summary.completeArticles, 3)
   for (const [article, evidencePath, count] of [
-    [GENERATION_ARTICLE, GENERATION_EVIDENCE_PATH, 4], [TOKENIZATION_ARTICLE, TOKENIZATION_EVIDENCE_PATH, 5]
+    [GENERATION_ARTICLE, GENERATION_EVIDENCE_PATH, 4], [TOKENIZATION_ARTICLE, TOKENIZATION_EVIDENCE_PATH, 5],
+    [INFERENCE_ARTICLE, INFERENCE_EVIDENCE_PATH, 6]
   ]) {
     assert.equal(f.report(article).complete, false)
     f.json(evidencePath, f.evidence(MOE_ARTICLE))
@@ -314,7 +316,8 @@ test('article-specific scene, assignment and registry changes leave every other 
     [ATTENTION_VARIANTS_ARTICLE, 'website/components/diagrams/attention-kv-walkthrough.jsx', 'attention-kv-sharing'],
     [MOE_ARTICLE, 'website/components/diagrams/moe-routing-walkthrough.jsx', 'moe-routing-load'],
     [GENERATION_ARTICLE, 'website/components/diagrams/generation-walkthrough.jsx', 'generation-token-loop'],
-    [TOKENIZATION_ARTICLE, 'website/components/diagrams/tokenization-walkthrough.jsx', 'tokenization-counting']
+    [TOKENIZATION_ARTICLE, 'website/components/diagrams/tokenization-walkthrough.jsx', 'tokenization-counting'],
+    [INFERENCE_ARTICLE, 'website/components/diagrams/inference-sampling-walkthrough.jsx', 'inference-sampling']
   ]) {
     const others = TRACKED_ARTICLES.filter(value => value !== article)
     const sceneSource = readFileSync(path.join(f.root, scene), 'utf8')
@@ -611,6 +614,137 @@ test('PR55 snapshots for the three earlier articles never approve a later shared
     assert.equal(f.report(article).localRecorded, false)
     assert.equal(f.report(article).publicRecorded, false)
     assert.equal(f.report(article).complete, false)
+  }
+  for (const [snapshot, content] of snapshots) assert.equal(readFileSync(path.join(f.root, snapshot), 'utf8'), content)
+})
+
+test('inference assigns all 9 H3 and 49 topics, with a reading-reachable stage for every dynamic conclusion', t => {
+  const f = trackedArticlesFixture(t), config = getDiagramArticleConfig(INFERENCE_ARTICLE)
+  const ids = ['inference-sampling', 'inference-cache-batching', 'inference-speculative', 'inference-quantization']
+  assert.deepEqual(config.primaryDiagramIds, ids)
+  assert.equal(Object.keys(config.topics).length, 9)
+  assert.equal(Object.values(config.topics).flat().length, 49)
+  assert.equal(config.evidencePath, INFERENCE_EVIDENCE_PATH)
+  assert.deepEqual(config.inputFiles, INFERENCE_INPUT_FILES)
+  assert.equal(new Set(INFERENCE_INPUT_FILES).size, 54)
+  const assignment = f.manifest().articles.find(entry => entry.article === INFERENCE_ARTICLE)
+  const topics = assignment.sections.flatMap(section => section.topics)
+  assert.equal(topics.length, 49)
+  assert.equal(topics.filter(topic => topic.diagramId).length, 36)
+  assert.equal(topics.filter(topic => topic.staticReason).length, 13)
+  for (const topic of topics.filter(topic => topic.diagramId)) {
+    const diagram = f.registry.diagrams.find(entry => entry.id === topic.diagramId)
+    const readingStages = diagram.blockGroups.flat().map(group => group.stage)
+    assert.ok(topic.stages.some(stage => readingStages.includes(stage)), topic.id)
+  }
+  assert.equal(f.report(INFERENCE_ARTICLE).assignmentCurrent, true)
+  f.json(INFERENCE_EVIDENCE_PATH, { schemaVersion: 1, article: INFERENCE_ARTICLE, review: null, local: null, public: null })
+  assert.equal(f.report(INFERENCE_ARTICLE).complete, false)
+  for (const mutate of [
+    a => a.sections.pop(), a => a.sections.reverse(), a => a.sections[0].topics.pop(),
+    a => a.sections[0].topics.push(a.sections[0].topics[0]), a => a.primaryDiagramIds.pop(),
+    a => a.sections[0].topics[0].stages = [6], a => a.sections[0].topics[0].diagramId = 'generation-token-loop',
+    a => a.sections.at(-1).topics[0].staticReason = ''
+  ]) {
+    const manifest = f.manifest()
+    mutate(manifest.articles.find(entry => entry.article === INFERENCE_ARTICLE))
+    f.json(manifestPath, manifest)
+    f.json(INFERENCE_EVIDENCE_PATH, f.evidence(INFERENCE_ARTICLE))
+    assert.equal(f.report(INFERENCE_ARTICLE).assignmentCurrent, false, String(mutate))
+    assert.equal(f.report(INFERENCE_ARTICLE).complete, false)
+  }
+  f.json(manifestPath, f.manifest())
+  for (const id of ids) {
+    const entry = f.registry.diagrams.find(entry => entry.id === id), saved = structuredClone(entry)
+    for (const changes of [
+      { enabled: false, status: 'draft', reviewedDigest: null },
+      { status: 'implemented', reviewedDigest: null },
+      { sourceDigest: 'sha256:' + '0'.repeat(64), reviewedDigest: 'sha256:' + '0'.repeat(64) }
+    ]) {
+      Object.assign(entry, saved, changes)
+      f.json(INFERENCE_EVIDENCE_PATH, f.evidence(INFERENCE_ARTICLE))
+      assert.equal(f.report(INFERENCE_ARTICLE).diagramsCurrent, false, id)
+      assert.equal(f.report(INFERENCE_ARTICLE).complete, false, id)
+    }
+    Object.assign(entry, saved)
+  }
+})
+
+test('all inference runtime files fail closed when missing; generation-model is shared with generation only', t => {
+  const f = trackedArticlesFixture(t), before = new Map(TRACKED_ARTICLES.map(article => [article, f.report(article).inputDigest]))
+  const specific = INFERENCE_INPUT_FILES.filter(file => !ARTICLE_INPUT_FILES.includes(file))
+  assert.equal(specific.length, 14)
+  for (const article of TRACKED_ARTICLES) f.json(getDiagramArticleConfig(article).evidencePath, f.evidence(article))
+  for (const file of specific) {
+    const source = readFileSync(path.join(f.root, file), 'utf8')
+    f.write(file, source + '\n// Changed inference input\n')
+    for (const article of TRACKED_ARTICLES) {
+      const consumes = getDiagramArticleConfig(article).inputFiles.includes(file)
+      assert.equal(f.report(article).inputDigest !== before.get(article), consumes, file + ': ' + article)
+      assert.equal(f.report(article).complete, !consumes, file + ': ' + article)
+    }
+    rmSync(path.join(f.root, file))
+    assert.equal(f.report(INFERENCE_ARTICLE).inputDigest, null, file)
+    assert.equal(f.report(INFERENCE_ARTICLE).complete, false, file)
+    f.write(file, source)
+  }
+  assert.ok(GENERATION_INPUT_FILES.includes('website/lib/generation-model.mjs'))
+  assert.equal(TOKENIZATION_INPUT_FILES.includes('website/lib/generation-model.mjs'), false)
+  for (const file of ['website/public/favicon.svg', 'website/app/layout.jsx']) {
+    for (const article of TRACKED_ARTICLES) assert.ok(getDiagramArticleConfig(article).inputFiles.includes(file))
+    const source = readFileSync(path.join(f.root, file), 'utf8')
+    f.write(file, source + '\n<!-- Changed shared icon input -->\n')
+    for (const article of TRACKED_ARTICLES) {
+      assert.notEqual(f.report(article).inputDigest, before.get(article))
+      assert.equal(f.report(article).complete, false)
+    }
+    f.write(file, source)
+  }
+})
+
+test('inference whole-source and optional overrides invalidate evidence beyond the wrapped sections', t => {
+  const f = trackedArticlesFixture(t), before = f.report(INFERENCE_ARTICLE).inputDigest
+  const optional = ['md', 'mdx'].map(extension => `website/content-src/llm-internals/inference-internals.${extension}`)
+  assert.deepEqual(getDiagramArticleConfig(INFERENCE_ARTICLE).optionalInputs, optional)
+  for (const file of optional) {
+    f.json(INFERENCE_EVIDENCE_PATH, f.evidence(INFERENCE_ARTICLE))
+    f.write(file, '# Content override\n')
+    assert.notEqual(f.report(INFERENCE_ARTICLE).inputDigest, before)
+    assert.equal(f.report(INFERENCE_ARTICLE).complete, false)
+    f.json(INFERENCE_EVIDENCE_PATH, f.evidence(INFERENCE_ARTICLE))
+    rmSync(path.join(f.root, file))
+    assert.equal(f.report(INFERENCE_ARTICLE).inputDigest, before)
+    assert.equal(f.report(INFERENCE_ARTICLE).complete, false)
+  }
+  f.json(INFERENCE_EVIDENCE_PATH, f.evidence(INFERENCE_ARTICLE))
+  const source = readFileSync(path.join(f.root, INFERENCE_ARTICLE), 'utf8')
+  f.write(INFERENCE_ARTICLE, source.replace('### この理解が効く場面', '### この理解が効く場面\n\n用途の説明を更新。'))
+  assert.notEqual(f.report(INFERENCE_ARTICLE).inputDigest, before)
+  assert.equal(f.report(INFERENCE_ARTICLE).diagramsCurrent, true)
+  assert.equal(f.report(INFERENCE_ARTICLE).complete, false)
+})
+
+test('five historical PR56 snapshots cannot approve changed shared code or be reused as inference evidence', t => {
+  const f = trackedArticlesFixture(t), snapshots = new Map()
+  const earlier = TRACKED_ARTICLES.filter(article => article !== INFERENCE_ARTICLE)
+  assert.equal(earlier.length, 5)
+  for (const article of earlier) {
+    const config = getDiagramArticleConfig(article), evidence = f.evidence(article)
+    f.json(config.evidencePath, evidence)
+    const snapshot = config.evidencePath.replace('.json', '-pr56.json')
+    f.json(snapshot, evidence)
+    snapshots.set(snapshot, readFileSync(path.join(f.root, snapshot), 'utf8'))
+    assert.equal(f.report(article).complete, true)
+    f.json(INFERENCE_EVIDENCE_PATH, evidence)
+    assert.equal(f.report(INFERENCE_ARTICLE).complete, false)
+  }
+  f.write('website/lib/diagram-decoration.mjs', originals.get('website/lib/diagram-decoration.mjs') + '\n// New inference integration\n')
+  for (const article of earlier) {
+    const result = f.report(article)
+    assert.equal(result.reviewRecorded, false)
+    assert.equal(result.localRecorded, false)
+    assert.equal(result.publicRecorded, false)
+    assert.equal(result.complete, false)
   }
   for (const [snapshot, content] of snapshots) assert.equal(readFileSync(path.join(f.root, snapshot), 'utf8'), content)
 })

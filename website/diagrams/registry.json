@@ -570,6 +570,168 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "inference-sampling",
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "route": "/docs/llm-internals/inference-internals",
+      "binding": "grouped-blocks",
+      "stageCount": 7,
+      "headings": [
+        "ロジット → 確率 → 選択の数理"
+      ],
+      "sourceHeadings": [
+        "概要: プリフィルとデコードの 2 相",
+        "ロジット → 確率 → 選択の数理"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 3
+          },
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 6,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:0eb50d60b1fbc3c21d6f862e40a9f4416da5e3480eb5f9b250a392253994cba5",
+      "reviewedDigest": "sha256:0eb50d60b1fbc3c21d6f862e40a9f4416da5e3480eb5f9b250a392253994cba5",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "inference-cache-batching",
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "route": "/docs/llm-internals/inference-internals",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "プリフィルとデコードの計算量・メモリ",
+        "バッチングと連続バッチング"
+      ],
+      "sourceHeadings": [
+        "概要: プリフィルとデコードの 2 相",
+        "プリフィルとデコードの計算量・メモリ",
+        "バッチングと連続バッチング"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 1,
+            "count": 3
+          },
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:83e9f62e3152222bfab4785ce5363013c111239105cbec1d3a3309c72c30a9a3",
+      "reviewedDigest": "sha256:83e9f62e3152222bfab4785ce5363013c111239105cbec1d3a3309c72c30a9a3",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "inference-speculative",
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "route": "/docs/llm-internals/inference-internals",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "投機的デコーディング"
+      ],
+      "sourceHeadings": [
+        "概要: プリフィルとデコードの 2 相",
+        "ロジット → 確率 → 選択の数理",
+        "プリフィルとデコードの計算量・メモリ",
+        "投機的デコーディング"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:f7a1e0187a4e0ed1ea811920c4411039916f5863073358b862e992006a140abf",
+      "reviewedDigest": "sha256:f7a1e0187a4e0ed1ea811920c4411039916f5863073358b862e992006a140abf",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "inference-quantization",
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "route": "/docs/llm-internals/inference-internals",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "量子化"
+      ],
+      "sourceHeadings": [
+        "プリフィルとデコードの計算量・メモリ",
+        "量子化"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:b7a8b6ec57806f6638c27596f640df5b8cf25d6013498574c812c4a7102bfcb6",
+      "reviewedDigest": "sha256:b7a8b6ec57806f6638c27596f640df5b8cf25d6013498574c812c4a7102bfcb6",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

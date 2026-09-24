@@ -14,6 +14,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
+  icons: { icon: { url: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/favicon.svg`, type: 'image/svg+xml' } },
   title: {
     default: 'AI Agent Library',
     template: '%s — AI Agent Library'

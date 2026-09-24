@@ -2,17 +2,17 @@
   "schemaVersion": 1,
   "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
   "review": {
-    "inputDigest": "sha256:10c223985854d4568abd9c28dbac7192c7549411bec85ce4c866e3ee221b95c6",
+    "inputDigest": "sha256:3b78d99443054948cb66265fc5a2c37404431af3ed68ce3d210df0f6f8fa667a",
     "status": "approved",
-    "checkedAt": "2026-09-24T07:08:55.098Z",
+    "checkedAt": "2026-09-24T11:17:45.760Z",
     "independent": true,
-    "record": "project/records/2026-09-24/generation-tokenization-reading-diagrams.md#最終内容と表示の独立レビュー"
+    "record": "project/records/2026-09-24/inference-reading-diagrams.md"
   },
   "local": {
-    "inputDigest": "sha256:10c223985854d4568abd9c28dbac7192c7549411bec85ce4c866e3ee221b95c6",
+    "inputDigest": "sha256:3b78d99443054948cb66265fc5a2c37404431af3ed68ce3d210df0f6f8fa667a",
     "status": "passed",
-    "checkedAt": "2026-09-24T07:08:55.098Z",
-    "record": "project/records/2026-09-24/generation-tokenization-reading-diagrams.md#最終ローカル受入"
+    "checkedAt": "2026-09-24T11:49:02.878Z",
+    "record": "project/records/2026-09-24/inference-reading-diagrams.md"
   },
   "public": null
 }

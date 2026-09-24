@@ -3,7 +3,7 @@ title: "推論の内部機構(サンプリング・KV キャッシュ・量子�
 category: "llm-internals"
 level: "advanced"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-09-24"
 tags: ["inference", "quantization", "llm-internals"]
 ---
 
@@ -61,7 +61,7 @@ $$
 選択肢の絞り込みは 2 系統です。
 
 - **top-k**: 確率上位 $k$ 個だけを残し、その中で正規化してサンプリングする
-- **top-p(核サンプリング / nucleus sampling)**: 確率の高い順に足していき、**累積確率が $p$ を超える最小の集合**だけを残す。候補数を文脈に応じて動的に変える(自信のある場面では少なく、曖昧な場面では多く)
+- **top-p(核サンプリング / nucleus sampling)**: 確率の高い順に足していき、**累積確率が $p$ 以上になる最小の集合**だけを残す。候補数を文脈に応じて動的に変える(自信のある場面では少なく、曖昧な場面では多く)
 
 読み下すと: 「top-k は個数で、top-p は確率質量で裾を切る」。さらに**繰り返しペナルティ**(既出トークンのロジットを下げる)などで退化(同じ語の反復)を抑えます。温度 0 として提供される貪欲法は、固定されたロジットと同点処理のもとで選択時の乱数を除きます。ただし、モデル更新・浮動小数点演算・バッチ構成などによる変化まで消すものではなく、**実システムの出力完全一致を保証しません**。再現性が必要ならモデル版・推論環境・入力を固定し、回帰評価では業務上の成功条件も確認します([LLM はどのようにテキストを生成するか](../10-llm-foundations/how-llms-generate-text.md))。
 
@@ -151,7 +151,7 @@ $$
 
 ## 参考資料
 
-- [The Curious Case of Neural Text Degeneration](https://arxiv.org/abs/1904.09751) — 核サンプリング(top-p)の原論文(Holtzman et al., 2019、アクセス日: 2026-07-09)
+- [The Curious Case of Neural Text Degeneration](https://arxiv.org/abs/1904.09751) — 核サンプリング(top-p)の原論文(Holtzman et al., 2019、アクセス日: 2026-09-24)
 - [Fast Inference from Transformers via Speculative Decoding](https://proceedings.mlr.press/v202/leviathan23a/leviathan23a.pdf) — 受理・補正の Algorithm 1 と分布保存の Appendix A.1(Leviathan et al., 2023、アクセス日: 2026-09-10)
 - [Efficient Memory Management for Large Language Model Serving with PagedAttention](https://arxiv.org/abs/2309.06180) — KV キャッシュのメモリ管理(vLLM)(Kwon et al., 2023、アクセス日: 2026-07-09)
 - [LLM.int8(): 8-bit Matrix Multiplication for Transformers at Scale](https://arxiv.org/abs/2208.07339) — 外れ値を考慮した 8-bit 量子化(Dettmers et al., 2022、アクセス日: 2026-07-09)

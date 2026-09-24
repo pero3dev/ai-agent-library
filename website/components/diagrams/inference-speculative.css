@@ -1,0 +1,18 @@
+.sp-scene { background: #0b1b2d; color: #ecf2f8; }
+.sp-scene text { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 22px; fill: #ecf2f8; }
+.sp-scene .sp-heading { font-size: 24px; font-weight: 650; }
+.sp-scene .sp-symbol { font-size: 28px; font-weight: 600; }
+.sp-scene .sp-muted { fill: #b8cbd9; }
+.sp-scene .sp-emphasis { fill: #f4cd91; font-weight: 650; }
+.sp-scene .sp-math { font-variant-numeric: tabular-nums; }
+.sp-scene .sp-panel { fill: #142a3b; stroke: #49657a; stroke-width: 1; }
+.sp-scene .sp-token { fill: #193244; }
+.sp-controls { display: flex; flex-wrap: wrap; gap: .6rem; padding: .5rem 1.25rem; }
+.sp-controls .cd-select { display: flex; flex: 1; gap: .5rem; align-items: center; color: #e0edf5; font-size: 1rem; }
+.sp-controls .cd-select > span { flex-shrink: 0; }
+.sp-controls select { min-width: 0; width: 100%; border: 1px solid #4c6e82; border-radius: .3rem; background: #142c3f; color: #edf6fa; padding: .35rem; font: inherit; }
+.sp-controls select:focus-visible { outline: 2px solid #74e3cf; outline-offset: 3px; }
+.sp-controls select:disabled { opacity: .6; }
+@media (max-width: 560px) { .sp-controls { padding-inline: .75rem; } .sp-controls .cd-select { flex-basis: 100%; } }
+@media (prefers-reduced-motion: reduce) { .sp-scene * { animation: none !important; transition: none !important; } }
+@media print { .sp-controls { display: none; } .sp-scene { print-color-adjust: exact; -webkit-print-color-adjust: exact; } }

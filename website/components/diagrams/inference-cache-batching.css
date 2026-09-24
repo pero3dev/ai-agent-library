@@ -1,0 +1,13 @@
+.inference-cache-scene text { fill: #e6edf6; font-family: inherit; font-size: 19px; }
+.inference-cache-scene .ic-small { fill: #b8cad9; font-size: 16px; }
+.inference-cache-scene .ic-heading { font-size: 22px; font-weight: 680; }
+.inference-cache-scene .ic-number { font-size: 29px; font-weight: 650; }
+.inference-cache-controls { display: flex; flex-wrap: wrap; gap: .5rem; padding: 0 1.25rem .5rem; }
+.inference-cache-controls .cd-select { flex: 1; display: flex; align-items: center; gap: .5rem; color: #d6e4ed; font-size: .75rem; }
+.inference-cache-controls .cd-select > span { flex-shrink: 0; }
+.inference-cache-controls select { min-width: 0; width: 100%; border: 1px solid #355267; border-radius: .3rem; background: #152c3c; color: #edf6fa; padding: .3rem; font: inherit; }
+.inference-cache-controls select:focus-visible { outline: 2px solid #74e3cf; outline-offset: 3px; }
+.inference-cache-controls select:disabled { opacity: .6; }
+@media (max-width: 560px) { .inference-cache-controls { padding-inline: .75rem; } .inference-cache-controls .cd-select { flex-basis: 100%; } }
+@media (prefers-reduced-motion: reduce) { .inference-cache-scene * { transition: none !important; animation: none !important; } }
+@media print { .inference-cache-controls { display: none; } .inference-cache-scene * { transition: none !important; animation: none !important; } }

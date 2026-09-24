@@ -948,6 +948,106 @@
           ]
         }
       ]
+    },
+    {
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "primaryDiagramIds": ["inference-sampling","inference-cache-batching","inference-speculative","inference-quantization"],
+      "sections": [
+        {
+          "heading": "概要: プリフィルとデコードの 2 相",
+          "topics": [
+            {"id":"two-inference-phases","label":"入力一括のプリフィルと1トークンずつのデコード","diagramId":"inference-cache-batching","stages":[0,2]},
+            {"id":"cache-build-reuse","label":"プリフィルで構築した要求別KVをデコードで再利用する","diagramId":"inference-cache-batching","stages":[0,1]},
+            {"id":"ttft-intertoken-distinction","label":"最初のトークンまでと以降のトークン間隔の違い","diagramId":"inference-cache-batching","stages":[2]},
+            {"id":"compute-bandwidth-asymmetry","label":"計算量と重み・KV読み出しの相対的な重さ","diagramId":"inference-cache-batching","stages":[2]},
+            {"id":"price-asymmetry-mechanism","label":"入力と出力の単価差を支える処理の非対称","diagramId":"inference-cache-batching","stages":[2]}
+          ]
+        },
+        {
+          "heading": "ロジット → 確率 → 選択の数理",
+          "topics": [
+            {"id":"logits-not-probabilities","label":"語彙上のロジットから確率・選択へ進む","diagramId":"inference-sampling","stages":[0]},
+            {"id":"temperature-softmax","label":"正の温度で割ったロジットをsoftmaxで正規化する","diagramId":"inference-sampling","stages":[1]},
+            {"id":"greedy-limit","label":"貪欲は最大スコア選択として扱いT=0を式へ代入しない","diagramId":"inference-sampling","stages":[1,6]},
+            {"id":"top-k-count","label":"上位k候補を個数で残す","diagramId":"inference-sampling","stages":[2,3]},
+            {"id":"top-p-mass","label":"累積がp以上になる最小の候補集合を残す","diagramId":"inference-sampling","stages":[3]},
+            {"id":"retained-renormalization","label":"残した候補の質量で再正規化する","diagramId":"inference-sampling","stages":[3,4]},
+            {"id":"one-token-selection","label":"最終分布から1トークンを選ぶ","diagramId":"inference-sampling","stages":[0,3,5]},
+            {"id":"repetition-logit-adjustment","label":"既出トークンのロジットを調整して反復を抑える","staticReason":"本文は具体式や方式を定めていない。最終段落をそのまま保持し、架空のペナルティ強度・効果を追加しない。"},
+            {"id":"system-reproducibility-limits","label":"温度0でもモデル版・浮動小数点・バッチ差は残る","diagramId":"inference-sampling","stages":[6]},
+            {"id":"fixed-environment-evaluation","label":"環境・入力を固定し業務上の成功条件も回帰評価する","staticReason":"図は選択とスコア変化を分け、実運用の環境固定・評価方法は元段落と関連リンクに保持する。"}
+          ]
+        },
+        {
+          "heading": "プリフィルとデコードの計算量・メモリ",
+          "topics": [
+            {"id":"stored-kv","label":"過去トークンのK/Vを保持し再利用する","diagramId":"inference-cache-batching","stages":[0,1]},
+            {"id":"kv-byte-factors","label":"2×n×L×h_kv×d_h×bの各因子と概算サイズ","diagramId":"inference-cache-batching","stages":[1]},
+            {"id":"weights-and-kv-reads","label":"デコードのモデル重みと要求別KVの読み出し","diagramId":"inference-cache-batching","stages":[1,2]},
+            {"id":"prefill-decode-utilization","label":"一括の行列積と逐次生成の演算・読出しの非対称","diagramId":"inference-cache-batching","stages":[2]}
+          ]
+        },
+        {
+          "heading": "バッチングと連続バッチング",
+          "topics": [
+            {"id":"shared-weight-read","label":"複数要求で重み読み出しと演算枠を使う","diagramId":"inference-cache-batching","stages":[3]},
+            {"id":"naive-completion-wait","label":"要求の終了差で空き枠が残る通常バッチ","diagramId":"inference-cache-batching","stages":[4]},
+            {"id":"continuous-slot-replacement","label":"完了した要求を抜いて次の要求を空き枠へ入れる","diagramId":"inference-cache-batching","stages":[4]},
+            {"id":"throughput-latency-tradeoff","label":"スループットと個別レイテンシを区別する","diagramId":"inference-cache-batching","stages":[5]},
+            {"id":"kv-capacity-fragmentation","label":"要求別KV容量・管理が同時処理数を制約する","diagramId":"inference-cache-batching","stages":[5]}
+          ]
+        },
+        {
+          "heading": "投機的デコーディング",
+          "topics": [
+            {"id":"draft-candidates","label":"小さいモデルの下書き候補を確定列と分ける","diagramId":"inference-speculative","stages":[0]},
+            {"id":"parallel-target-check","label":"本命によるk候補の1回のフォワード検証","diagramId":"inference-speculative","stages":[1,2]},
+            {"id":"greedy-prefix-agreement","label":"先頭一致分を採用し最初の不一致を本命選択に置換する","diagramId":"inference-speculative","stages":[2]},
+            {"id":"matched-processed-distributions","label":"同じ語彙・接頭辞・選択処理を反映したp/q","diagramId":"inference-speculative","stages":[4,5]},
+            {"id":"stochastic-acceptance","label":"min(1,p(x)/q(x))による受理","diagramId":"inference-speculative","stages":[3,4]},
+            {"id":"positive-residual-correction","label":"max(0,p-q)を正規化した補正から選び直す","diagramId":"inference-speculative","stages":[4]},
+            {"id":"discard-after-rejection","label":"最初の棄却より後の下書きを破棄する","diagramId":"inference-speculative","stages":[4,5]},
+            {"id":"all-accepted-bonus","label":"全候補受理時は本命からさらに1トークン生成する","diagramId":"inference-speculative","stages":[4,5]},
+            {"id":"distribution-versus-speed-guarantees","label":"正しい手順の分布保存と受理率・計算費用に依存する速度を分ける","diagramId":"inference-speculative","stages":[5]}
+          ]
+        },
+        {
+          "heading": "量子化",
+          "topics": [
+            {"id":"quantization-targets","label":"重み・活性・KVキャッシュの3対象","diagramId":"inference-quantization","stages":[0,2]},
+            {"id":"representation-bits","label":"16/8/4bitという表現精度の違い","diagramId":"inference-quantization","stages":[0,1,2]},
+            {"id":"post-training-quantization","label":"学習済みモデルに適用するPTQとGPTQ/AWQ","staticReason":"本文は方式名と概要まで。元listを残し、GPTQ/AWQの手順や丸め式を図で創作しない。"},
+            {"id":"outliers-mixed-precision","label":"外れ値・重要部分を高精度に残す考え方","diagramId":"inference-quantization","stages":[2]},
+            {"id":"memory-bandwidth-quality-tradeoff","label":"メモリ・帯域削減と品質劣化の可能性を区別する","diagramId":"inference-quantization","stages":[3]},
+            {"id":"task-specific-quality-check","label":"量子化後の品質を対象タスクで検証する","diagramId":"inference-quantization","stages":[3]}
+          ]
+        },
+        {
+          "heading": "この理解が効く場面",
+          "topics": [
+            {"id":"api-price-latency-use","label":"API単価・TTFTと以降の速度差の読み解き","staticReason":"I2の機構を実務へ結ぶ元listとリンクを保つ。価格や秒数の計算器は追加しない。"},
+            {"id":"self-hosted-design-use","label":"連続バッチ・量子化・投機的デコードをセルフホスト設計へ使う","staticReason":"I2/I3/I4の適用先を元listに保ち、採用判定・実性能を生成しない。"},
+            {"id":"long-context-capacity-use","label":"長文のKV容量と同時実行数の見積りに使う","staticReason":"I2の式の用途を元listに保つ。総GPUメモリへ誤換算しない。"},
+            {"id":"sampling-configuration-use","label":"多様性調整と環境を含む再現性の条件を分ける","staticReason":"I1に対応する判断の一覧であり、同じ図を再包装しない。"}
+          ]
+        },
+        {
+          "heading": "アンチパターン",
+          "topics": [
+            {"id":"equal-input-output-cost-pitfall","label":"入力と出力のコストを同じに見積もる","staticReason":"I2の非対称に対応する失敗として元listを保持する。"},
+            {"id":"batch-latency-pitfall","label":"バッチングで個別レイテンシも良くなると期待する","staticReason":"I2 S5の注意を元listで再確認する。"},
+            {"id":"unconditional-speculation-pitfall","label":"任意の投機的実装が分布を保つと扱う","staticReason":"I3 S5の受理・補正と保証条件を元listで再確認する。"},
+            {"id":"free-quantization-pitfall","label":"量子化を無料の高速化とみなす","staticReason":"I4 S3のタスク評価条件を元listで再確認する。"},
+            {"id":"temperature-zero-reproducibility-pitfall","label":"温度0だけで完全一致を保証する","staticReason":"I1 S6の選択とシステム差を元listで再確認する。"}
+          ]
+        },
+        {
+          "heading": "チェックリスト",
+          "topics": [
+            {"id":"understanding-check","label":"2相・選択・KV・連続バッチ・投機的受理と保証・再現性・量子化・単価/TTFTの8項目","staticReason":"原文8チェック項目をそのまま保持する。図の閲覧やチェック状態で実理解・実性能を自動合格にしない。"}
+          ]
+        }
+      ]
     }
   ]
 }

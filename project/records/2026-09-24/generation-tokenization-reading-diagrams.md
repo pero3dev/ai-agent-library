@@ -87,3 +87,17 @@ WebKitの主要9 specは133/133成功、skip 0（7.4分）。自己注意・注�
 5記事の現在の入力版について、内容/統合/画像の独立判定とローカル検証を受入記録へ反映する。旧3記事のPR #55の公開証拠は固定スナップショットに残し、今回のpublicはnullとする。CLIは保存済み証拠の整合検査であり、実GitHubや公開確認ではない。
 
 提出前にリモートPUBLIC、main=`11ab1664fc9864b3f68c4d0eef278f629d9861b1`、既存open PRなしを再確認した。Markdown・リンク・差分の検査を再実施する。PR・必須CI・main CI・Pages・公開5記事の43ケースはまだ未実施であり、以下に実結果を追記する。
+
+## GitHubと公開受入の完了
+
+上記は提出前の状態。2026-09-24 16:43 JSTに公開受入を完了した。[PR #56](https://github.com/pero3dev/ai-agent-library/pull/56)の候補 `62edee9fc1cf2a69bbfca9d2385e9eca6a769dbe` は必須11チェックを通過し、16:20:56 JSTに `1af3a76bf037a31fcbc8a8f677da7b135da3864d` へsquashされた。候補とmergeのtree一致、最終タイトル・本文・名義の形式を確認した。[main CI](https://github.com/pero3dev/ai-agent-library/actions/runs/35969128318)と[Pages](https://github.com/pero3dev/ai-agent-library/actions/runs/35969128318/job/107535952253)は成功。deployment IDは `6632493197`、status IDは `18769970907`。
+
+成功した同一CIのartifact `10795486480` から独立取得したBUILD_ID `o1a4xgpP5Y4b-28L7h62D` と5記事HTMLのSHA-256が公開配信に一致した。artifact APIのdigestは `sha256:0b193c71732b754180b2c065e2eb6457fabb1a1e6d00b822f6dc9582550aa8f0`、取得したarchive.tarのSHA-256は `39f0a44749e4b646cf1df4182e2433b397483dd663d5f64f581808b8c0bf91da`。両者は対象が違うため同一視しない。
+
+公開Edge 153.0.4234.48の43/43ケースが成功（16:40:05〜16:43:13 JST）。新2図の15段階・全条件・往復中点・読書同期・実時間の再生停止・キーボード・拡大・noJS・印刷と、既存3記事・対照記事を確認した。56 assetのHTTP 200・非空本文・MIMEを検査し、105 PNGを保存した。代表の文章生成第1段階画像を目視し、ローカル独立監査111画像と組み合わせて公開差分を確認した。全105画像を目視したとは扱わない。
+
+最初の公開検査は42成功・1失敗で、生結果を保存した。原因はブラウザーが自動照会するサイトルート `https://pero3dev.github.io/favicon.ico` の404。PR #55にも同じ観測があり、今回の5記事と旧artifactにicon/manifest指定がないことを独立確認した。再検査では「未指定」「その完全一致URL」「その完全一致404文言」の組だけを既知観測へ分類し、raw consoleErrorsも残した。再検査にもこの観測1件がある。図解・本文・JS・CSS・fontの失敗条件は変更していない。分類の否定例を含む10条件も通過した。TEMP `foundations-favicon-audit-review.md` はapproved、SHA-256 `67854c8f91950cbf38cf22e37bcdba8b16027cd3e63b97865bcfca9f8e11fe1e`。
+
+公開証拠はTEMP `ai-agent-library-foundations-public/artifact-evidence.latest.json` と `public-chromium-2026-09-24T07-40-05-975Z/result.json`。失敗した初回は同じ親の `public-chromium-2026-09-24T07-31-59-016Z/result.json`。追加のローカル12条件（新2図×1920/768/960 CSS px×明暗）も全段階で成功し、3代表画像を目視した。960 CSS px・DSF2は200%相当のviewport模擬で、ブラウザー本体のズーム操作ではない。専用サーバーの停止も確認した。
+
+5記事の現在のinputDigestに公開ゲートを結び、`*-article-acceptance-pr56.json` に固定した。全5件の保存証拠整合はcomplete=true。全体は5/199記事、P1は5/15記事が記事全体の公開受入を完了し、部分導入を含む公開図解は7記事13図となった。次の推論内部の共有コード変更後は再受入を必要とする。

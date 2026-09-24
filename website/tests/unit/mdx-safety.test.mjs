@@ -170,6 +170,35 @@ test('inference wrappers constrain all four IDs, parent stage bounds and inert l
   ]) assert.ok(findUnsafeMdx(source).length, source)
 })
 
+test('training wrappers permit only their fixed IDs, literal props and parent-specific stages', () => {
+  for (const [id, count] of [['training-stages', 6], ['training-runtime-boundary', 4]]) {
+    for (let stage = 0; stage < count; stage++) {
+      assert.deepEqual(findUnsafeMdx(`<TrainingWalkthrough diagramId="${id}">\n\n<ReadingStep step="${stage}">\n\n- 本文\n\n</ReadingStep>\n\n</TrainingWalkthrough>`), [])
+    }
+    assert.ok(findUnsafeMdx(`<TrainingWalkthrough diagramId="${id}"><ReadingStep step="${count}">本文</ReadingStep></TrainingWalkthrough>`).length)
+    assert.ok(findUnsafeMdx(`<FoundationsWalkthrough diagramId="${id}">本文</FoundationsWalkthrough>`).length)
+    assert.ok(findUnsafeMdx(`<InferenceWalkthrough diagramId="${id}">本文</InferenceWalkthrough>`).length)
+  }
+  for (const source of [
+    '<TrainingWalkthrough>本文</TrainingWalkthrough>',
+    '<TrainingWalkthrough diagramId="generation-token-loop">本文</TrainingWalkthrough>',
+    '<TrainingWalkthrough diagramId="../scene">本文</TrainingWalkthrough>',
+    '<TrainingWalkthrough diagramId={"training-stages"}>本文</TrainingWalkthrough>',
+    '<TrainingWalkthrough diagramId="training-stages" module="./scene">本文</TrainingWalkthrough>',
+    '<TrainingWalkthrough diagramId="training-stages" diagramId="training-runtime-boundary">本文</TrainingWalkthrough>',
+    '<TrainingWalkthrough {...{diagramId: "training-stages"}}>本文</TrainingWalkthrough>',
+    '<TrainingWalkthrough diagramId="training-stages"><AttentionStep step="0">本文</AttentionStep></TrainingWalkthrough>',
+    '<TrainingWalkthrough diagramId="training-stages"><ReadingStep step={1}>本文</ReadingStep></TrainingWalkthrough>',
+    '<TrainingWalkthrough diagramId="training-stages"><ReadingStep step="05">本文</ReadingStep></TrainingWalkthrough>',
+    '<TrainingWalkthrough diagramId="training-stages"><ReadingStep>本文</ReadingStep></TrainingWalkthrough>',
+    '<TrainingWalkthrough diagramId="training-stages"><TrainingWalkthrough diagramId="training-runtime-boundary">本文</TrainingWalkthrough></TrainingWalkthrough>',
+    '<TransformerWalkthrough diagramId="transformer-block"><TrainingWalkthrough diagramId="training-stages">本文</TrainingWalkthrough></TransformerWalkthrough>',
+    '<TrainingWalkthrough diagramId="training-stages"><InferenceWalkthrough diagramId="inference-sampling">本文</InferenceWalkthrough></TrainingWalkthrough>',
+    'import { TrainingWalkthrough } from "untrusted"',
+    '<ReadingStep step="3">本文</ReadingStep>'
+  ]) assert.ok(findUnsafeMdx(source).length, source)
+})
+
 test('actual decorations and literal escaped text remain accepted', () => {
   const tree = parser.parse('Agent を学びます。\n\n> **TODO(要確認):** 仕様を確認します\n\n### アンチパターン\n\n- 失敗例\n\n### チェックリスト\n\n- 確認事項')
   applyDecorations(tree, {

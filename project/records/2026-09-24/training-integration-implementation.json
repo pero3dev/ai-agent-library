@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 1,
+  "status": "implementation-ready-for-independent-review-and-build",
+  "completedAt": "2026-09-24T14:02:43.964Z",
+  "author": "/root/training_integration_map",
+  "baseCommit": "67b1309fcea8267749be6e52881f3d6a4049ae2b",
+  "branch": "feat/training-reading-diagrams",
+  "authorization": "Parent confirmed B PR58 publicly accepted and authorized C1 common integration. No Git mutation/publication/build authority used.",
+  "purpose": "Integrate the approved training pipeline two figures into source-preserving MDX, fixed registries and article acceptance.",
+  "ownership": [
+    "website/lib/diagram-registry.mjs",
+    "website/diagrams/registry.json",
+    "website/lib/diagram-decoration.mjs",
+    "website/lib/mdx-safety.mjs",
+    "website/mdx-components.js",
+    "website/components/diagrams/training-walkthrough.jsx",
+    "website/lib/diagram-article-acceptance.mjs",
+    "website/diagrams/articles.json",
+    "project/records/2026-09-24/training-article-acceptance.json",
+    "website/tests/unit/training-decoration.test.mjs",
+    "website/tests/unit/mdx-safety.test.mjs",
+    "website/tests/unit/diagram-article-acceptance.test.mjs",
+    "website/README.md"
+  ],
+  "otherWorkers": "Scene/model/CSS/model units: inference_public_review; browser/build/release/records: root; public kit: portable_handoff_kit. Their files were not modified.",
+  "article": {
+    "file": "docs/10-llm-foundations/llm-training-pipeline.md",
+    "modified": false,
+    "sha256": "993147125244a6bfc7b3e64ca5d9f4f2142dd944b7a1fa7d43d33a79b7242e62"
+  },
+  "counts": {
+    "diagrams": 2,
+    "sceneStages": 10,
+    "readStages": 9,
+    "totalH3": 8,
+    "totalBody": 13,
+    "wrappedH3": 5,
+    "wrappedBody": 10,
+    "mermaid": 1,
+    "math": 0,
+    "topics": 34,
+    "dynamicTopics": 21,
+    "staticTopics": 13,
+    "fixedInputs": 47,
+    "registryTotal": 19,
+    "trackedArticles": 7
+  },
+  "registryBinding": {
+    "sourceDigestVerifiedFromActualAST": true,
+    "stages": "sha256:c8089bf5049399415931e94c31103863808cc45d0e27912d376c5d63cfa78f91",
+    "runtime": "sha256:7a4b3b9fb4f091dd38c9215033f6b6c224011bb916885fbe552bcf64ef1bdd85",
+    "articleGatesAllNull": true,
+    "independentSceneApproval": false,
+    "note": "Reviewed binding state follows the fixed approved source/storyboard mapping for candidate sync. It does not approve completed scenes, visuals, local build or publication. Root must obtain final independent review before article gates."
+  },
+  "historicalEvidence": {
+    "oldSixGateFilesModifiedByThisWorker": false,
+    "pr56TestSet": "fixed original five articles; no growing TRACKED_ARTICLES filter",
+    "pr58TestSet": "fixed original six articles",
+    "snapshots": [
+      {
+        "file": "project/records/2026-09-24/transformer-article-acceptance-pr58.json",
+        "sha256": "a2aa080dc09ccca456b4e58fca10db95ebadfd0b70d216f191f3b7e5ea574def"
+      },
+      {
+        "file": "project/records/2026-09-24/attention-variants-article-acceptance-pr58.json",
+        "sha256": "61c59a122be26a9a7d6dcc84ad76ee1e24f45b51acea283dd111ebfc56380bd0"
+      },
+      {
+        "file": "project/records/2026-09-24/moe-article-acceptance-pr58.json",
+        "sha256": "bd211cf935619597300f47034fb0669cbdc64b38c49c2b80e7501179b3ec147b"
+      },
+      {
+        "file": "project/records/2026-09-24/generation-article-acceptance-pr58.json",
+        "sha256": "c8e54ec09bad3f8959663dc18940e0d946d129313303d2596ae9d6fd476670db"
+      },
+      {
+        "file": "project/records/2026-09-24/tokenization-article-acceptance-pr58.json",
+        "sha256": "f1a732a710e0108d21961eea38273c5c5faf704ec58125fad7a5b30530be2ca6"
+      },
+      {
+        "file": "project/records/2026-09-24/inference-article-acceptance-pr58.json",
+        "sha256": "287e38fe425850917cb00afcb76aa7aa82f3b65c98efb800817f9320a97c04c5"
+      }
+    ]
+  },
+  "checks": [
+    {
+      "kind": "unit",
+      "command": "node --test tests/unit/training-decoration.test.mjs tests/unit/mdx-safety.test.mjs tests/unit/diagram-decoration.test.mjs tests/unit/multi-diagram-decoration.test.mjs tests/unit/attention-variants-decoration.test.mjs tests/unit/moe-decoration.test.mjs tests/unit/foundations-decoration.test.mjs tests/unit/inference-decoration.test.mjs",
+      "cwd": "website",
+      "passed": 85,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4361.034,
+      "toolOutputChunk": "fcd5a5"
+    },
+    {
+      "kind": "unit",
+      "command": "node --test tests/unit/diagram-article-acceptance.test.mjs",
+      "cwd": "website",
+      "passed": 31,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 80512.2157,
+      "output": "training-integration-acceptance-unit.log",
+      "outputSha256": "bf5413ac02c0f1c4bd23192c27c0a3fdfcf54dc212ef7d5b5fc534783478b38d"
+    },
+    {
+      "kind": "unit",
+      "command": "node --test --test-name-pattern='seven article configurations' tests/unit/diagram-article-acceptance.test.mjs",
+      "cwd": "website",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "note": "After changing only the stale test title from six to seven; overlaps the 31 cases, not an additional distinct case."
+    },
+    {
+      "kind": "static",
+      "command": "node node_modules/markdownlint-cli/markdownlint.js website/README.md",
+      "cwd": ".",
+      "passed": true
+    },
+    {
+      "kind": "static",
+      "command": "git diff --check -- <10 tracked owned files>",
+      "cwd": ".",
+      "passed": true,
+      "note": "Read-only diff check; new files captured by hashes and unit/lint, full staged check belongs to root."
+    },
+    {
+      "kind": "read-only-source",
+      "passed": true,
+      "description": "Article SHA, current assignment and code-owned topic map equal approved integration map. 19 diagrams, 7 tracked articles, 47 C1 inputs. Old six recorded gates invalidate on changed shared code; C1 three gates remain null."
+    }
+  ],
+  "distinctUnitCases": 116,
+  "files": [
+    {
+      "file": "website/lib/diagram-registry.mjs",
+      "sha256": "f2a7bcdfe246b9afb08e96e165147b5c5134e03dcb9e9f4bcf3024e10a2ea156"
+    },
+    {
+      "file": "website/diagrams/registry.json",
+      "sha256": "6d78915fa9c05d90f755fb180146c6fb4c11820eed3efccef4250108edf0eb63"
+    },
+    {
+      "file": "website/lib/diagram-decoration.mjs",
+      "sha256": "4c7cf927bfe88e18a388b44a53a10e5d6e806bb4b9bfb72aa89c9fcb9abea74b"
+    },
+    {
+      "file": "website/lib/mdx-safety.mjs",
+      "sha256": "f56989551449ff75814b23399038004218152d926f604ade864d349494ea7242"
+    },
+    {
+      "file": "website/mdx-components.js",
+      "sha256": "2aa913b9231ae175e0b2d674fadec7ada08ebdeb3eb3f0c44b2a712c7fa10aa2"
+    },
+    {
+      "file": "website/components/diagrams/training-walkthrough.jsx",
+      "sha256": "7bdf27874f15d38a30270811eeeae9170a3822e41485b9542c68151ded1695e8"
+    },
+    {
+      "file": "website/lib/diagram-article-acceptance.mjs",
+      "sha256": "5911c0a877b0d5e4ac18f08f5a420553596e7aeed14a7697d1ba39f6b857ecd7"
+    },
+    {
+      "file": "website/diagrams/articles.json",
+      "sha256": "b469315b71af6d4f5c616382a925532cbaa0f6943560251516454744108dc6d8"
+    },
+    {
+      "file": "project/records/2026-09-24/training-article-acceptance.json",
+      "sha256": "b0c4ff28252d4acbad89f0861b66ebdba73645bd7909674b1ec62f81b94e85f7"
+    },
+    {
+      "file": "website/tests/unit/training-decoration.test.mjs",
+      "sha256": "efc176253d15169a0a07ff4dc3e2e5a95d91fb41bafd5541617dbeea3c752530"
+    },
+    {
+      "file": "website/tests/unit/mdx-safety.test.mjs",
+      "sha256": "e4c0e2be36ee37b754ec6d7225d7728f927cc7e8b88787d8dfce798a8aa4c610"
+    },
+    {
+      "file": "website/tests/unit/diagram-article-acceptance.test.mjs",
+      "sha256": "feef70ed0c1fb87b79d5d9bb67ce5da9da4317d4f13b7a4d1eaad8be424264e6"
+    },
+    {
+      "file": "website/README.md",
+      "sha256": "d024c42c355d7e88b4731dafe47b2b5c01ffc28c62953623ce8b946605a05a0f"
+    }
+  ],
+  "observedInputState": {
+    "file": "training-integration-current-inputs.json",
+    "sha256": "b35134377e7e2f60282f63cceec2b9dc65165b6ab910d6e23c4b6afcec3c79f0",
+    "observedAt": "2026-09-24T14:00:17.882Z",
+    "note": "C1 inputDigest was null because the separately-owned runtime scene was not yet present at that observation. Unit fixtures verify acceptance policy, not live scene completion."
+  },
+  "notPerformed": [
+    "npm ci (dependencies already prepared by root)",
+    "root npm run check",
+    "full website npm test",
+    "sync/build or generated-file editing",
+    "browser and visual review",
+    "independent review of these implementation changes",
+    "Git mutations, PR, CI, merge, deployment or public verification"
+  ],
+  "remaining": [
+    "Root integrates scene/model/CSS files and runs complete candidate validation/build/browser.",
+    "Independent final implementation and actual-image review for C1 plus affected old six articles.",
+    "Record new input-version gates only after actual review/local/public success; preserve PR58 fixed snapshots."
+  ]
+}

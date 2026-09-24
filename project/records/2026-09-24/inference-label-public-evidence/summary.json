@@ -1,0 +1,279 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "derived-summary-of-public-browser-record",
+  "originalByteEvidence": {
+    "file": "browser-result.json.gz",
+    "encoding": "gzip",
+    "rawSHA256": "d6f4346386cb0cac64bd01918732a711345591c835af50c939bf164a13b88f42",
+    "rawBytes": 2393890,
+    "compressedSHA256": "2320a6541b5666d6823b16946a61366d40a2bea2b8f39da94cf5ca5fb3064470",
+    "compressedBytes": 120886,
+    "unchangedAfterDecompression": true
+  },
+  "artifactIdentity": {
+    "file": "artifact-evidence.json",
+    "sourceRawSHA256": "c7f4c5990d1d8098576c51442bb6d84446023beb11b953570e57efd9a46fe0ce",
+    "normalizedSHA256": "f02d170641883b2133ee5f08c29ace217f0ecb4aad8d3e71c5f3d3ab187a7799",
+    "normalization": "CRLF to LF only"
+  },
+  "expectedDeploymentSha": "67b1309fcea8267749be6e52881f3d6a4049ae2b",
+  "expectedBuildId": "iRnRpU4WRuIJMMLwqJ3Cb",
+  "startedAt": "2026-09-24T13:26:38.551Z",
+  "finishedAt": "2026-09-24T13:32:04.283Z",
+  "browser": {
+    "engine": "chromium",
+    "channel": "msedge",
+    "version": "153.0.4234.48"
+  },
+  "status": "passed",
+  "cases": [
+    {
+      "name": "generation-token-loop: all stages 1440x1000 light",
+      "status": "passed"
+    },
+    {
+      "name": "generation-token-loop: all stages 1440x1000 dark",
+      "status": "passed"
+    },
+    {
+      "name": "generation-token-loop: all stages 1280x720 light",
+      "status": "passed"
+    },
+    {
+      "name": "generation-token-loop: all stages 390x844 light",
+      "status": "passed"
+    },
+    {
+      "name": "generation-token-loop: all stages 390x844 dark",
+      "status": "passed"
+    },
+    {
+      "name": "generation-token-loop: transport, keyboard, reading sync and expansion focus",
+      "status": "passed"
+    },
+    {
+      "name": "generation-token-loop: actual elapsed playback, frozen scene and restart",
+      "status": "passed"
+    },
+    {
+      "name": "generation-token-loop: noJS retains original article and all static stage descriptions",
+      "status": "passed"
+    },
+    {
+      "name": "generation-token-loop: print freezes the midpoint into a coherent static scene",
+      "status": "passed"
+    },
+    {
+      "name": "tokenization-counting: all stages 1440x1000 light",
+      "status": "passed"
+    },
+    {
+      "name": "tokenization-counting: all stages 1440x1000 dark",
+      "status": "passed"
+    },
+    {
+      "name": "tokenization-counting: all stages 1280x720 light",
+      "status": "passed"
+    },
+    {
+      "name": "tokenization-counting: all stages 390x844 light",
+      "status": "passed"
+    },
+    {
+      "name": "tokenization-counting: all stages 390x844 dark",
+      "status": "passed"
+    },
+    {
+      "name": "tokenization-counting: transport, keyboard, reading sync and expansion focus",
+      "status": "passed"
+    },
+    {
+      "name": "tokenization-counting: actual elapsed playback, frozen scene and restart",
+      "status": "passed"
+    },
+    {
+      "name": "tokenization-counting: noJS retains original article and all static stage descriptions",
+      "status": "passed"
+    },
+    {
+      "name": "tokenization-counting: print freezes the midpoint into a coherent static scene",
+      "status": "passed"
+    },
+    {
+      "name": "inference: all 23 stages 1440x1000 light",
+      "status": "passed"
+    },
+    {
+      "name": "inference: all 23 stages 1440x1000 dark",
+      "status": "passed"
+    },
+    {
+      "name": "inference: all 23 stages 1280x720 light",
+      "status": "passed"
+    },
+    {
+      "name": "inference: all 23 stages 390x844 light",
+      "status": "passed"
+    },
+    {
+      "name": "inference: all 23 stages 390x844 dark",
+      "status": "passed"
+    },
+    {
+      "name": "inference: every selector, independent numerical fixtures, all midpoint boundaries and reverse seeks",
+      "status": "passed"
+    },
+    {
+      "name": "inference: keyboard transport, modal selector state and focus return",
+      "status": "passed"
+    },
+    {
+      "name": "inference: independent figure states, every reading step, manual override and resumption",
+      "status": "passed"
+    },
+    {
+      "name": "inference-sampling: native elapsed play, frozen pause, replay and completion",
+      "status": "passed"
+    },
+    {
+      "name": "inference-cache-batching: native elapsed play, frozen pause, replay and completion",
+      "status": "passed"
+    },
+    {
+      "name": "inference-speculative: native elapsed play, frozen pause, replay and completion",
+      "status": "passed"
+    },
+    {
+      "name": "inference-quantization: native elapsed play, frozen pause, replay and completion",
+      "status": "passed"
+    },
+    {
+      "name": "inference noJS: original prose, 9 headings, 2 equations and all 23 static descriptions",
+      "status": "passed"
+    },
+    {
+      "name": "inference print: four coherent scenes and original article with controls hidden",
+      "status": "passed"
+    },
+    {
+      "name": "mandatory basePath SVG favicon: declaration, HTTP 200 and image/svg+xml",
+      "status": "passed"
+    },
+    {
+      "name": "MoE all 14 stages: 1440x1000 light",
+      "status": "passed"
+    },
+    {
+      "name": "MoE all 14 stages: 1440x1000 dark",
+      "status": "passed"
+    },
+    {
+      "name": "MoE all 14 stages: 1280x720 light",
+      "status": "passed"
+    },
+    {
+      "name": "MoE all 14 stages: 390x844 light",
+      "status": "passed"
+    },
+    {
+      "name": "MoE all 14 stages: 390x844 dark",
+      "status": "passed"
+    },
+    {
+      "name": "MoE: transport, keyboard, expansion, selectors and focus return",
+      "status": "passed"
+    },
+    {
+      "name": "MoE: isolated manual states and every registered reading step",
+      "status": "passed"
+    },
+    {
+      "name": "moe-routing-load: actual elapsed play, frozen scene and replay",
+      "status": "passed"
+    },
+    {
+      "name": "moe-parameters-communication: actual elapsed play, frozen scene and replay",
+      "status": "passed"
+    },
+    {
+      "name": "MoE noJS and print: original prose, 9 H3, 4 equations, Mermaid and 14 stage descriptions",
+      "status": "passed"
+    },
+    {
+      "name": "variants all 15 stages: 1440x1000 light",
+      "status": "passed"
+    },
+    {
+      "name": "variants all 15 stages: 1440x1000 dark",
+      "status": "passed"
+    },
+    {
+      "name": "variants all 15 stages: 1280x720 light",
+      "status": "passed"
+    },
+    {
+      "name": "variants all 15 stages: 390x844 light",
+      "status": "passed"
+    },
+    {
+      "name": "variants all 15 stages: 390x844 dark",
+      "status": "passed"
+    },
+    {
+      "name": "variants: transport, keyboard, expansion and focus return",
+      "status": "passed"
+    },
+    {
+      "name": "variants: isolated manual states and every registered reading step",
+      "status": "passed"
+    },
+    {
+      "name": "attention-kv-sharing: actual elapsed play and frozen pause",
+      "status": "passed"
+    },
+    {
+      "name": "attention-compute-memory: actual elapsed play and frozen pause",
+      "status": "passed"
+    },
+    {
+      "name": "attention-context-range: actual elapsed play and frozen pause",
+      "status": "passed"
+    },
+    {
+      "name": "variants noJS and print: original prose, 11 H3, 3 display equations and 15 stage descriptions",
+      "status": "passed"
+    },
+    {
+      "name": "Transformer regression: four figures 1440 light",
+      "status": "passed"
+    },
+    {
+      "name": "Transformer regression: four figures 390 dark",
+      "status": "passed"
+    },
+    {
+      "name": "alignment-theory control: zero heavy figure or shared-frame chunks",
+      "status": "passed"
+    },
+    {
+      "name": "public assets: HTTP 200, nonempty bodies and matching MIME types",
+      "status": "passed"
+    }
+  ],
+  "assetCount": 64,
+  "screenshotCount": 157,
+  "independentVisualReview": {
+    "status": "approved",
+    "checkedAt": "2026-09-24T13:46:54.818Z",
+    "record": "../inference-label-public-review.md",
+    "requiredFixes": 0,
+    "reviewedImages": 83,
+    "independentCases": 10,
+    "sourceReviewSHA256": "a0d609dd9b5e663212f4f820b10af34173652e12fa9152ce60a3b6eb7b92563e"
+  },
+  "limits": [
+    "Compressed raw record preserves historical absolute paths; these are not new-PC execution inputs.",
+    "Original PNG paths are historical; selected images and independent review are indexed separately.",
+    "Browser emulation is not physical iPhone Safari, screen-reader, print-device or learning-effect acceptance."
+  ]
+}

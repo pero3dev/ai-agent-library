@@ -21,6 +21,8 @@ const cases = [
   { name: 'inference cache batching scene', marker: 'INFERENCE / CACHE & BATCHING', path: 'llm-internals/inference-internals', prose: '過去の全トークンの', mathCount: 1 },
   { name: 'inference speculative scene', marker: 'INFERENCE / SPECULATIVE DECODING', path: 'llm-internals/inference-internals', prose: '下書きモデル', mathCount: 0 },
   { name: 'inference quantization scene', marker: 'INFERENCE / QUANTIZATION', path: 'llm-internals/inference-internals', prose: '量子化', mathCount: 0 },
+  { name: 'training stages scene', marker: 'TRAINING / STAGES', path: 'llm-foundations/llm-training-pipeline', prose: 'すべての LLM がこの順序・回数で学習するわけではなく', mathCount: 0 },
+  { name: 'training runtime boundary scene', marker: 'TRAINING / RUNTIME BOUNDARY', path: 'llm-foundations/llm-training-pipeline', prose: '実務で悩まされる LLM の癖の多くは', mathCount: 0 },
   { name: 'shared reading frame', marker: 'ReadingFigure requires at least one stage', path: 'concepts/agent-loop', prose: 'ツール要求がないことだけでは正常完了と判定できません' }
 ]
 

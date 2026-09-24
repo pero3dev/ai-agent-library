@@ -1,6 +1,6 @@
 # 推論図解の確率とロジットの表示修正
 
-状態: 修正・ローカル検証・独立画像レビュー完了。公開受入は未完了。
+状態: PR #58をマージし、CI・Pages・公開機械検査と独立画像レビューまで受入完了。
 
 ## 作業契約
 
@@ -31,3 +31,17 @@
 独立した修正版レビューは2026-09-24T13:00:02.694Zにapproved / low、必須修正0。1440明暗、1280×720、390明暗でdraw/logitの10状態を実操作し、20 PNGを全件目視した。棒と数値の意味を明確に区別でき、実字形の重なりなし。レビュー原文のSHA-256は `3ed3effe060cd06840c8cbf1f019871960261a0453e36f2a29ae74b196e91ef4`、同JSONは `7126051b2d27846de13df14c7459a9c8042c7613cff34ba29689cdedbc4940d1`。専用ローカルサーバーの停止も確認した。
 
 公開検査は元の6ソースを別の証拠フォルダーへコピーし、既存sampling caseへラベル2条件だけを追加した。推論checker SHA-256は `25533c15df80ed989d920dd87a918f6ba6425489ca3da9f74fd3012b7771c280`。残り5ソースのバイト一致と旧43ケース・数値fixtureの保持を同じ独立レビューで確認済み。これは検査コードの承認であり、新しい公開58ケースの成功ではない。
+
+## 修正版の公開受入
+
+[PR #58](https://github.com/pero3dev/ai-agent-library/pull/58)のhead `007dae479991098e589483ceb7b3ab0ad7646e6a` に対する必須11チェックは成功し、2026-09-24T13:12:23Zに `67b1309fcea8267749be6e52881f3d6a4049ae2b` としてマージした。PR側のdeployはmain限定条件によるskipで、公開成功とは数えない。merge treeは `9133becd45f7e5f1bdac08fc6e8768cdb138bab9`、squash本文の形式と予約内容への一致を確認した。
+
+同じmergeの[main CI](https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138)と[Pages](https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138/job/107651395952)が成功。attempt 1、artifact `10809149180`、deployment `6638779591`、status `18784465250`。取得前後の実APIを照合し、CI artifactの6記事HTMLと公開応答のhashが全て一致した。BUILD_IDは `iRnRpU4WRuIJMMLwqJ3Cb`。期待値に公開HTMLやローカルbuildを使っていない。
+
+公開Chromium（Edge）の検査は2026-09-24T13:26:38.551Zから13:32:04.283Zに58/58成功、失敗0、64 assets・157 PNG。原本を変更せず圧縮した[生結果](inference-label-public-evidence/browser-result.json.gz)、[相対索引と要約](inference-label-public-evidence/summary.json)、[CI識別情報とHTML hash](inference-label-public-evidence/artifact-evidence.json)を保存した。展開後の原本SHA-256は `d6f4346386cb0cac64bd01918732a711345591c835af50c939bf164a13b88f42`。生結果の独立レビューpending欄は当時の状態のまま保持する。
+
+[独立公開レビュー](inference-label-public-review.md)と[詳細JSON](inference-label-public-review.json)は2026-09-24T13:46:54.818Zにapproved / low、must 0。修正ラベル10状態を別途実操作し20 PNGを確認、rootの推論52枚と旧5記事11枚も確認した。計83枚の画像確認であり、157枚の全件確認や58ケースの独立再実行という意味ではない。文字領域の交差候補は実画像で字形が分離していることを確認し、一般的な許容閾値は追加していない。
+
+レビュー原本MDのSHA-256は `bd4de0e73d11ceefb9c6330fb7ed4af6fcef894c766e37d9a83ed71d6da0e904`、JSONは `a0d609dd9b5e663212f4f820b10af34173652e12fa9152ce60a3b6eb7b92563e`。リポジトリへの移管では改行をLFに正規化した。旧絶対パスは履歴であり、新PCの実行条件ではない。公開WebKit・物理iPhone/Safari・実スクリーンリーダー・物理印刷は今回の公開レビューの対象外。
+
+今回の6記事すべてに現在の入力版の公開ゲートを記録し、`*-article-acceptance-pr58.json` の固定スナップショット6本を保存した。読み取り専用の受入検査でも6/6 complete。P1は6/15、全記事では6/199の受入完了であり、P0の部分対応2記事を加算しない。次はC1学習パイプラインへ進む。

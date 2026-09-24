@@ -2,17 +2,25 @@
   "schemaVersion": 1,
   "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
   "review": {
-    "inputDigest": "sha256:3b78d99443054948cb66265fc5a2c37404431af3ed68ce3d210df0f6f8fa667a",
+    "inputDigest": "sha256:7acb3af2a93307c3af64c58777a195d29d7c3511c56612266ee120f93a8d0b62",
     "status": "approved",
-    "checkedAt": "2026-09-24T11:17:45.760Z",
+    "checkedAt": "2026-09-24T14:42:52.836Z",
     "independent": true,
-    "record": "project/records/2026-09-24/inference-reading-diagrams.md"
+    "record": "project/records/2026-09-24/training-reading-diagrams.md"
   },
   "local": {
+    "inputDigest": "sha256:7acb3af2a93307c3af64c58777a195d29d7c3511c56612266ee120f93a8d0b62",
+    "status": "passed",
+    "checkedAt": "2026-09-24T14:48:29.587Z",
+    "record": "project/records/2026-09-24/training-reading-diagrams.md"
+  },
+  "public": {
     "inputDigest": "sha256:3b78d99443054948cb66265fc5a2c37404431af3ed68ce3d210df0f6f8fa667a",
     "status": "passed",
-    "checkedAt": "2026-09-24T11:49:02.878Z",
-    "record": "project/records/2026-09-24/inference-reading-diagrams.md"
-  },
-  "public": null
+    "checkedAt": "2026-09-24T13:46:54.818Z",
+    "commit": "67b1309fcea8267749be6e52881f3d6a4049ae2b",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138/job/107651395952",
+    "browserRecord": "project/records/2026-09-24/inference-score-label-fix.md"
+  }
 }

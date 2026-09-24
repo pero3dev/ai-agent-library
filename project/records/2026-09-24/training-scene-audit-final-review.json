@@ -1,0 +1,726 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "risk": "low",
+  "must": [],
+  "should": [],
+  "checkedAt": "2026-09-24T14:42:52.836Z",
+  "reviewer": "/root/training_integration_map",
+  "scope": "Independent review of 8 other-author C1 models/scenes/CSS/units, plus local old-6 behavioral regression. Reviewer-authored common integration is excluded from independent approval.",
+  "resolved": [
+    {
+      "id": "C1-REFUSAL-FACTORS",
+      "initialStatus": "changes_requested",
+      "resolution": "S2 refusal row and detail now identify SFT/preference/runtime influences; visible for every trait focus and all viewport sizes without a smaller font."
+    }
+  ],
+  "buildID": "GpM7J_g8lnbvEy6H7i7nO",
+  "identities": [
+    {
+      "article": "docs/11-llm-internals/transformer-architecture.md",
+      "inputDigest": "sha256:3eba48d869437052c03b48e4bea48f19fed4d83d4ab418cf5488b55814d5884d",
+      "htmlSHA256": "f1ae0826b5ba82d6d506878fc80fbce592d3dc51b463b3748aec550b21a0c5e3"
+    },
+    {
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "inputDigest": "sha256:7acb3af2a93307c3af64c58777a195d29d7c3511c56612266ee120f93a8d0b62",
+      "htmlSHA256": "b3195d8d12eb6eda9a02c21d4212bbf4e0119f0c6d2a37e106c1a2e48903cd0f"
+    },
+    {
+      "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "inputDigest": "sha256:6bc93f5dafc4444c5eda62b222a1a00b13bead8986a0e58603c1069d8d1ff965",
+      "htmlSHA256": "f8fa1b927f13516aa3ac4ae3776cc598fa96a978d4be6aa265d636c3c1774270"
+    },
+    {
+      "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "inputDigest": "sha256:4c6eb9e998a5e328c556b50fc90a5cc6dbf6aede93301983077a523cda6c08ee",
+      "htmlSHA256": "784ec42c1ea5823de035af5ed9b9967053b270ce33fcd0cb99a79da1e7b80854"
+    },
+    {
+      "article": "docs/10-llm-foundations/tokenization.md",
+      "inputDigest": "sha256:92f6402af833f916f1ddfd349fdbe87c5c0916de794b13669d5f1c22ff3672ff",
+      "htmlSHA256": "13aebb00aac768536f9d2a1debe7ea96319a97e32b39be579acbdab4f24d6655"
+    },
+    {
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "inputDigest": "sha256:26d9cd2be56aa9a93a255ffc4f020530065966d4f411768559ac18a553b01d76",
+      "htmlSHA256": "087bc0df2bc710f85c99432718167450b65b4a55aca5a6d689247cbeaa1dc487"
+    },
+    {
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "inputDigest": "sha256:ac6d8aabd80a18e7cf8d54343531ba1e43e346f18ec9bde25017b350e955750e",
+      "htmlSHA256": "9ac43a743c114f2b4fc0f4490878e5a33b65db12890b92e93c8f1126c5705aaf"
+    }
+  ],
+  "fileHashes": {
+    "website/lib/training-stages-model.mjs": "86bb6fd18d34adb01f8511b9f139a3218d875a7d0febe9d90e382358abdd648b",
+    "website/lib/training-runtime-boundary-model.mjs": "290be52f3e5c413cfa0a50c5592c582fa19bbebf24cf4e9ff2b3e25c940ce097",
+    "website/components/diagrams/training-stages-walkthrough.jsx": "1e59e2821f9e6622704934a1796294019164e621584c816444589e2bfd2c52aa",
+    "website/components/diagrams/training-runtime-boundary-walkthrough.jsx": "48a8760c0710cb36ea6f661d7f4e575c4c8f347403cfe18af5238e0d88d38a53",
+    "website/components/diagrams/training-stages.css": "a9188e12f0141444ffbe8334de052f5ae3447ad923ac71b803b3e885c1897f03",
+    "website/components/diagrams/training-runtime-boundary.css": "71061427c9108c0612ca896910435a6a926f2b02cbc1f5dbd2c1d2a53dc9defb",
+    "website/tests/unit/training-stages-model.test.mjs": "2c6004084fd20ecc110f0c6de5d59a5f05f4918d8b95ec49cf89d37e5579c868",
+    "website/tests/unit/training-runtime-boundary-model.test.mjs": "c991b5ec08400a96cb82f3f58cb1c89da6f6434a8222daf3ad4c7b788788ca03"
+  },
+  "sourceArticleSHA256": "993147125244a6bfc7b3e64ca5d9f4f2142dd944b7a1fa7d43d33a79b7242e62",
+  "evidence": {
+    "browserRecord": "training-scene-audit-browser-v2.json",
+    "browserSHA256": "14064f1fb9afa67712888497ac5f917b236c50a460921557c53777414b5f0180",
+    "startedAt": "2026-09-24T14:32:38.889Z",
+    "finishedAt": "2026-09-24T14:35:49.799Z",
+    "finalIdentityVerifiedAt": "2026-09-24T14:42:52.836Z",
+    "units": {
+      "command": "node --test website/tests/unit/training-stages-model.test.mjs website/tests/unit/training-runtime-boundary-model.test.mjs",
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 319.0531
+    },
+    "independentModelPhaseSamples": 802,
+    "integerViewportCaptures": 80,
+    "boundaryStates": 16,
+    "selectorChoices": 11,
+    "readingStops": 9,
+    "oldArticles": 6,
+    "oldFigures": 15,
+    "oldIntegerStages": 90,
+    "noJsArticles": 7,
+    "printArticles": 7,
+    "lazyFailureCases": 2,
+    "lazyIsolationArticles": 7,
+    "noFigureControl": true,
+    "dynamicTopics": [
+      {
+        "id": "training-representative-order",
+        "diagramId": "training-stages",
+        "stages": [
+          0
+        ],
+        "reviewed": true
+      },
+      {
+        "id": "training-different-data",
+        "diagramId": "training-stages",
+        "stages": [
+          0
+        ],
+        "reviewed": true
+      },
+      {
+        "id": "training-association-not-cause",
+        "diagramId": "training-runtime-boundary",
+        "stages": [
+          0
+        ],
+        "reviewed": true
+      },
+      {
+        "id": "training-next-token-patterns",
+        "diagramId": "training-stages",
+        "stages": [
+          1
+        ],
+        "reviewed": true
+      },
+      {
+        "id": "training-knowledge-range",
+        "diagramId": "training-stages",
+        "stages": [
+          2
+        ],
+        "reviewed": true
+      },
+      {
+        "id": "training-frequency-accuracy",
+        "diagramId": "training-stages",
+        "stages": [
+          2
+        ],
+        "reviewed": true
+      },
+      {
+        "id": "training-base-instruction",
+        "diagramId": "training-stages",
+        "stages": [
+          2
+        ],
+        "reviewed": true
+      },
+      {
+        "id": "training-sft-demonstrations",
+        "diagramId": "training-stages",
+        "stages": [
+          3
+        ],
+        "reviewed": true
+      },
+      {
+        "id": "training-sft-facts",
+        "diagramId": "training-stages",
+        "stages": [
+          3
+        ],
+        "reviewed": true
+      },
+      {
+        "id": "training-closed-book-limits",
+        "diagramId": "training-stages",
+        "stages": [
+          4
+        ],
+        "reviewed": true
+      },
+      {
+        "id": "training-retrieval-requirements",
+        "diagramId": "training-stages",
+        "stages": [
+          4
+        ],
+        "reviewed": true
+      },
+      {
+        "id": "training-separate-evaluation",
+        "diagramId": "training-stages",
+        "stages": [
+          4
+        ],
+        "reviewed": true
+      },
+      {
+        "id": "training-preference-data",
+        "diagramId": "training-stages",
+        "stages": [
+          5
+        ],
+        "reviewed": true
+      },
+      {
+        "id": "training-preference-methods",
+        "diagramId": "training-stages",
+        "stages": [
+          5
+        ],
+        "reviewed": true
+      },
+      {
+        "id": "training-preference-targets",
+        "diagramId": "training-stages",
+        "stages": [
+          5
+        ],
+        "reviewed": true
+      },
+      {
+        "id": "training-multiple-objectives",
+        "diagramId": "training-runtime-boundary",
+        "stages": [
+          0,
+          2
+        ],
+        "reviewed": true
+      },
+      {
+        "id": "training-hallucination-checks",
+        "diagramId": "training-runtime-boundary",
+        "stages": [
+          2
+        ],
+        "reviewed": true
+      },
+      {
+        "id": "training-sycophancy-conditions",
+        "diagramId": "training-runtime-boundary",
+        "stages": [
+          2
+        ],
+        "reviewed": true
+      },
+      {
+        "id": "training-refusal-limits",
+        "diagramId": "training-runtime-boundary",
+        "stages": [
+          2
+        ],
+        "reviewed": true
+      },
+      {
+        "id": "training-prompt-tendency",
+        "diagramId": "training-runtime-boundary",
+        "stages": [
+          3
+        ],
+        "reviewed": true
+      },
+      {
+        "id": "training-external-boundary",
+        "diagramId": "training-runtime-boundary",
+        "stages": [
+          3
+        ],
+        "reviewed": true
+      }
+    ],
+    "staticTopics": 13,
+    "sourceH3": 8,
+    "sourceMermaid": 1
+  },
+  "performance": [
+    {
+      "id": "training-stages",
+      "responseMs": 18.100000023841858,
+      "raf": {
+        "elapsed": 5501.599999952316,
+        "samples": 768,
+        "p95": 7.100000000000364,
+        "max": 27.799999999999272,
+        "phases": 123
+      },
+      "clock": "native real-time",
+      "concurrentRootBrowserWork": true
+    },
+    {
+      "id": "training-runtime-boundary",
+      "responseMs": 42.799999952316284,
+      "raf": {
+        "elapsed": 5502.4,
+        "samples": 786,
+        "p95": 7.100000000000364,
+        "max": 20.799999999999272,
+        "phases": 123
+      },
+      "clock": "native real-time",
+      "concurrentRootBrowserWork": true
+    }
+  ],
+  "assetAndLayout": [
+    {
+      "article": "docs/11-llm-internals/transformer-architecture.md",
+      "scenes": [
+        "self-attention",
+        "transformer-position",
+        "transformer-io",
+        "transformer-block"
+      ],
+      "sceneGzip": 35549,
+      "sharedGzip": 21681,
+      "allNoninputCLS": 0,
+      "figureAttributedCLS": 0
+    },
+    {
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "scenes": [
+        "attention-context-range",
+        "attention-kv-sharing",
+        "attention-compute-memory"
+      ],
+      "sceneGzip": 25272,
+      "sharedGzip": 21681,
+      "allNoninputCLS": 0.041541234567901236,
+      "figureAttributedCLS": 0
+    },
+    {
+      "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "scenes": [
+        "moe-parameters-communication",
+        "moe-routing-load"
+      ],
+      "sceneGzip": 20723,
+      "sharedGzip": 21681,
+      "allNoninputCLS": 0,
+      "figureAttributedCLS": 0
+    },
+    {
+      "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "scenes": [
+        "generation-token-loop"
+      ],
+      "sceneGzip": 11896,
+      "sharedGzip": 21681,
+      "allNoninputCLS": 0,
+      "figureAttributedCLS": 0
+    },
+    {
+      "article": "docs/10-llm-foundations/tokenization.md",
+      "scenes": [
+        "tokenization-counting"
+      ],
+      "sceneGzip": 9229,
+      "sharedGzip": 21681,
+      "allNoninputCLS": 0,
+      "figureAttributedCLS": 0
+    },
+    {
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "scenes": [
+        "inference-sampling",
+        "inference-quantization",
+        "inference-cache-batching",
+        "inference-speculative"
+      ],
+      "sceneGzip": 40797,
+      "sharedGzip": 21681,
+      "allNoninputCLS": 0,
+      "figureAttributedCLS": 0
+    },
+    {
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "scenes": [
+        "training-runtime-boundary",
+        "training-stages"
+      ],
+      "sceneGzip": 18209,
+      "sharedGzip": 21681,
+      "allNoninputCLS": 0,
+      "figureAttributedCLS": 0
+    },
+    {
+      "article": "control-without-diagrams",
+      "scenes": [],
+      "sceneGzip": 0,
+      "sharedGzip": 21681,
+      "allNoninputCLS": 0,
+      "figureAttributedCLS": 0
+    }
+  ],
+  "visual": {
+    "initialVersionPersonallyViewed": 110,
+    "finalSceneCapturesProduced": 156,
+    "finalPersonallyViewed": 81,
+    "unviewedNoJsFullPageCapture": 1,
+    "method": "20 final contact sheets contain 76 unique screenshots, with 5 further unique screenshots inspected directly; direct duplicate checks are not counted again. Full-panel crops and navigation-free SVG crops are distinguished.",
+    "viewed": [
+      {
+        "file": "1440-light--training-stages--0.png",
+        "sha256": "a33f58fc0f315bc89a465b4b597e4073bb4624b19a331a1c705a9c1efb5b8361"
+      },
+      {
+        "file": "1440-light--training-stages--1.png",
+        "sha256": "38c5c510914bd05bbb2523dbdb26cf1303d2555d4cbf05275a1933b0eb7cb141"
+      },
+      {
+        "file": "1440-light--training-stages--2.png",
+        "sha256": "bbba36793399a3d1d1f47c740d9d1de424ac1a9fc3b22eb2494edc0bb81fbcaa"
+      },
+      {
+        "file": "1440-light--training-stages--3.png",
+        "sha256": "ea216734af1d4c0169e33db24d39f1db7ec1db299dd7b3f7c4a050f0c38a06fe"
+      },
+      {
+        "file": "1440-light--training-stages--4.png",
+        "sha256": "f9a5eda17a4c60584a73791b677445ea42199f9eebb1474c7c524c61f489a0cb"
+      },
+      {
+        "file": "1440-light--training-stages--5.png",
+        "sha256": "84c0b99f7fbfb7c536e4d1bcf379a2cca545aeb163ef70e97b95cb169fa71ddd"
+      },
+      {
+        "file": "1440-light--training-runtime-boundary--0.png",
+        "sha256": "bcd7a0ae7ebaefbcdcd91d9e3b86bc318dbfb8fbb909093e0a2e8b1f9e6afc20"
+      },
+      {
+        "file": "1440-light--training-runtime-boundary--1.png",
+        "sha256": "77e5a9f20ef466c5e4219b2acf87a0d8b7321448ac16717912ad6eb245406c51"
+      },
+      {
+        "file": "1440-light--training-runtime-boundary--2.png",
+        "sha256": "3a27b8cce4cdec2ab12554575422e4c95010a009edd7efc29d4067b27487cb3d"
+      },
+      {
+        "file": "1440-light--training-runtime-boundary--3.png",
+        "sha256": "e1ece7dd901f9b6766d28b7983d32cf2fe22b5ef578d9c9a2859ddfecd6c4111"
+      },
+      {
+        "file": "390-light--training-stages--0--svg.png",
+        "sha256": "0ba66d6407869870b90d532655afbb5086054d765a9b21a5fee4a7d1165cc773"
+      },
+      {
+        "file": "390-light--training-stages--1--svg.png",
+        "sha256": "92cf0526c8dcd0b339c2f22f7166bbb00d6d745de477059a3825e6b66dc80e93"
+      },
+      {
+        "file": "390-light--training-stages--2--svg.png",
+        "sha256": "4ecf90974389ab49e5cd0d7183866a843aec1b04500043073016f24d1119e366"
+      },
+      {
+        "file": "390-light--training-stages--3--svg.png",
+        "sha256": "3de225e00a7ccf9870e386e4c061c588e4e5aad35fc6cd90378d059c8e470b18"
+      },
+      {
+        "file": "390-light--training-stages--4--svg.png",
+        "sha256": "51303184db46eb9066e2d304b06c2a8aea74c640b5894f660558d44e470c051e"
+      },
+      {
+        "file": "390-light--training-stages--5--svg.png",
+        "sha256": "847ab96fb257f1b0345103316c67ee5218b984e929dcacf793141b32158cf14b"
+      },
+      {
+        "file": "390-light--training-runtime-boundary--0--svg.png",
+        "sha256": "561fdcdd7ce6b853173531cde77b95232ae8f93bd3e5aef3c2feacebb73ee568"
+      },
+      {
+        "file": "390-light--training-runtime-boundary--1--svg.png",
+        "sha256": "fbedc9e86db35d2e0dae77d0593a1d3d7225cc4ac77f742dcb90498667c59ced"
+      },
+      {
+        "file": "390-light--training-runtime-boundary--2--svg.png",
+        "sha256": "b61039871f062b46effa2a6f154bc00afbafbfe99d9a6c4b155359e8a019a47e"
+      },
+      {
+        "file": "390-light--training-runtime-boundary--3--svg.png",
+        "sha256": "7ddbb4e9d6379f4b3ee43bf76487b51ab5516b973fa2aa7cd6690b6d42efd9e5"
+      },
+      {
+        "file": "960x540-dsf2--training-stages--0--svg.png",
+        "sha256": "2089382e6bdedf2a07c09f84ecb7fc8017486cdb6a64d0fc721b16aff2006574"
+      },
+      {
+        "file": "960x540-dsf2--training-stages--1--svg.png",
+        "sha256": "21606616bd0857c5db6a04350c6ab73a597c7708a313b8545e3e963b929d7fee"
+      },
+      {
+        "file": "960x540-dsf2--training-stages--2--svg.png",
+        "sha256": "98a61c20f3bce585e6e7aba0b1d29f63e3007db8623d43e227e5ae19ea5f7295"
+      },
+      {
+        "file": "960x540-dsf2--training-stages--3--svg.png",
+        "sha256": "2a50ffebbd703e5a63d4367188f43bb68e7cffe1b01643176dde59912ad91880"
+      },
+      {
+        "file": "960x540-dsf2--training-stages--4--svg.png",
+        "sha256": "2325702070a7af78b937ac5716ee045cc8501e4285cfad1cd511ab7288d261d2"
+      },
+      {
+        "file": "960x540-dsf2--training-stages--5--svg.png",
+        "sha256": "94c892ea270a3f8101deb0725b41664b3e68517d22336e8b7e15bbe5d51f8ea0"
+      },
+      {
+        "file": "960x540-dsf2--training-runtime-boundary--0--svg.png",
+        "sha256": "a922010e754917cfe182c92d25f2a2e176d91414accd6e056db5dc21b5c50e65"
+      },
+      {
+        "file": "960x540-dsf2--training-runtime-boundary--1--svg.png",
+        "sha256": "a78f86793815a201da721bd74fb444e9756104db65f07b9540a05bc9d385736e"
+      },
+      {
+        "file": "960x540-dsf2--training-runtime-boundary--2--svg.png",
+        "sha256": "7ca02273d86afce6934c376faaed7885a63b11a3ba0ba0aa684f3773874825db"
+      },
+      {
+        "file": "960x540-dsf2--training-runtime-boundary--3--svg.png",
+        "sha256": "d730ba6d69bf2a55aa57e7479054245bdfc8c32d7d9a2bbb772e1d14cef014bd"
+      },
+      {
+        "file": "boundary--training-stages--0.49.png",
+        "sha256": "0357a5014d528709a85a55e14049cf7e261665bb7f8bbe577ea475c4b228ad71"
+      },
+      {
+        "file": "boundary--training-stages--0.51.png",
+        "sha256": "6a20997d0e8476a9b661ea131cba3cd79f9bf3281723cf3b451c05a183974058"
+      },
+      {
+        "file": "boundary--training-stages--1.49.png",
+        "sha256": "ead44bf84087ce71cd3056169a076055ca3222bfbef72221726bb9dfb6923244"
+      },
+      {
+        "file": "boundary--training-stages--1.51.png",
+        "sha256": "24776877f6f68b4f065c0a27c5385a5bcad6fedf524392719fb031456ce92945"
+      },
+      {
+        "file": "boundary--training-stages--2.49.png",
+        "sha256": "c41c6222aa2f2163f7c689342a0c3b178ecc609b657d7795e07c891285c47632"
+      },
+      {
+        "file": "boundary--training-stages--2.51.png",
+        "sha256": "a7f66fe3f78904817fa276f2adfe4d61a9cd1ea1a5c821caaa290e1ebeb86190"
+      },
+      {
+        "file": "boundary--training-stages--3.49.png",
+        "sha256": "011e4b4abfbc2937a7f030cabb6a16e4578ebd2022d5726bb21b5fd4d7a00389"
+      },
+      {
+        "file": "boundary--training-stages--3.51.png",
+        "sha256": "de7a5c30911cc174e7b3169ce4cdf58fcfb96f74912fb0dcdabdd887c1d98062"
+      },
+      {
+        "file": "boundary--training-stages--4.49.png",
+        "sha256": "c90da67823d8e51f4713f455968c2e961b1ba6f8b5316da6bea5e7b502cb08da"
+      },
+      {
+        "file": "boundary--training-stages--4.51.png",
+        "sha256": "45e62e91f2b91c595da8c117e23486ba39ad58cd6851a28708348de2a6040e50"
+      },
+      {
+        "file": "boundary--training-runtime-boundary--0.49.png",
+        "sha256": "a9590a6f45a46d946961dba18d762d7792c9bd41ee9e6f99cd22b793b623e922"
+      },
+      {
+        "file": "boundary--training-runtime-boundary--0.51.png",
+        "sha256": "f5161faba6ca1341b7ac8cfb6296fa762f50284ed85276ca24bc870b9317bfac"
+      },
+      {
+        "file": "boundary--training-runtime-boundary--1.49.png",
+        "sha256": "bcd48c0b6252793aad808e22ccc6e7568ba067dcd95b81be1031a83efcc43720"
+      },
+      {
+        "file": "boundary--training-runtime-boundary--1.51.png",
+        "sha256": "087bb25d8ba0ab93daac36f6b2b33ade5c910d8ea2d720aba133fa8c524c0eab"
+      },
+      {
+        "file": "boundary--training-runtime-boundary--2.49.png",
+        "sha256": "fe7b5f2a49bd9e1f9765b535a3df436e3b52ec2f5b465650fb41e423410884f4"
+      },
+      {
+        "file": "boundary--training-runtime-boundary--2.51.png",
+        "sha256": "41dd72fb6e9553d2dbf390c4483eb6f43baa21a6fd982f783699edbdf7d23401"
+      },
+      {
+        "file": "old--transformer-io.png",
+        "sha256": "472a9baaad7753d1b20a49a07d304bfcd881f1c6e7a7b2c0cfed4805e5e55839"
+      },
+      {
+        "file": "old--transformer-position.png",
+        "sha256": "c9416f386a39fbbbeaca0890d3f05c84d0affcd156f68ba635a7efbdef6bdba4"
+      },
+      {
+        "file": "old--self-attention.png",
+        "sha256": "993d04d87b8dae91fb221ec5469320082d1b9a42c6362ad8015a060d2f0ef43e"
+      },
+      {
+        "file": "old--transformer-block.png",
+        "sha256": "8608750351bf90fd35da67d4827520acbc6de8091035a0b8a38926a7f82e701d"
+      },
+      {
+        "file": "old--attention-kv-sharing.png",
+        "sha256": "555bd4a0a442003dc2ddd95b5dac06927b560260750e3780e36b08c1f9207c88"
+      },
+      {
+        "file": "old--attention-compute-memory.png",
+        "sha256": "7859bbb9c87898f05a2f427734201863f2616fb7b7fb99c634e860e2161bc40c"
+      },
+      {
+        "file": "old--attention-context-range.png",
+        "sha256": "f4e7b848cd6216ce1f8e02a4ea0c2e9b58b2fc1799de1d5e1d4d49d7b2a1f687"
+      },
+      {
+        "file": "old--moe-routing-load.png",
+        "sha256": "a22790c723a2fef890b2c9a0bfada8a9556a1d7447964522cd857ee2952762f1"
+      },
+      {
+        "file": "old--moe-parameters-communication.png",
+        "sha256": "056ca882058f578f3925e1fe2dfb8eb09ec537280230e23fdbc5a221dbcad964"
+      },
+      {
+        "file": "old--generation-token-loop.png",
+        "sha256": "9f7967b22ad12eea945644108cdd8b078eb2deaef6d211b0b2bd8ad33fd2f592"
+      },
+      {
+        "file": "old--tokenization-counting.png",
+        "sha256": "3e2b8e78a0a3995e641f9789c9feda55836b50d31d7b265df636687a6742e9a1"
+      },
+      {
+        "file": "old--inference-sampling.png",
+        "sha256": "c74004df13e09ab5ca3a10a3dbac9160fa223f59c04280d4afe954e4ef8122de"
+      },
+      {
+        "file": "old--inference-cache-batching.png",
+        "sha256": "594c5119830d25e064f6a7e76fd8ee5b9efc44dea64bc5d5b47ec688f0e64742"
+      },
+      {
+        "file": "old--inference-speculative.png",
+        "sha256": "15a570c9757dd6a573ab670f2d412f319a8600c0aec022cea70e6a6162331794"
+      },
+      {
+        "file": "old--inference-quantization.png",
+        "sha256": "63c93c37ccee31bd47fc0e975ed55b42dec09ce125ee5c6e1472872abe0b07be"
+      },
+      {
+        "file": "choice--knowledge-focus--coverage.png",
+        "sha256": "0f082e3e2002e037b58e35c87328d96333b3d7188ccd09dcdc47e4714b7d2b38"
+      },
+      {
+        "file": "choice--knowledge-focus--accuracy.png",
+        "sha256": "4193e67b5dc088e711f7378bd3f84a268494a7c6c87cd4f458bd71b3f325a301"
+      },
+      {
+        "file": "choice--knowledge-focus--instruction.png",
+        "sha256": "184eb7a63de1ddfbace7574393d20bf46a1c0886a2152594df424d88af3513d2"
+      },
+      {
+        "file": "choice--evaluation-focus--behavior.png",
+        "sha256": "27daccb4f164be3932a07d68db81f24dec2ca21ca70a18f3c360640022f3da0c"
+      },
+      {
+        "file": "choice--evaluation-focus--facts.png",
+        "sha256": "063fdfc4a0b8a5cd5b708859c2255a4025ccf2d6da974cddfcdfcad3f388fa45"
+      },
+      {
+        "file": "choice--trait-focus--hallucination.png",
+        "sha256": "3a27b8cce4cdec2ab12554575422e4c95010a009edd7efc29d4067b27487cb3d"
+      },
+      {
+        "file": "choice--trait-focus--sycophancy.png",
+        "sha256": "b1fa2ef11365f28bf31326fd0ae914f940152d10c117cf50149eaa3e69c16331"
+      },
+      {
+        "file": "choice--trait-focus--refusal.png",
+        "sha256": "f8667525e023137e74e69366c091b07d97b903d877c06a683dc42fd2f42eddef"
+      },
+      {
+        "file": "choice--boundary-focus--permission.png",
+        "sha256": "e1ece7dd901f9b6766d28b7983d32cf2fe22b5ef578d9c9a2859ddfecd6c4111"
+      },
+      {
+        "file": "choice--boundary-focus--instruction.png",
+        "sha256": "553fd44743663b7b0ba64ec020845022dfc74976474ca052d5063e34f5086e8f"
+      },
+      {
+        "file": "choice--boundary-focus--verification.png",
+        "sha256": "00803972fd2bb894e4691c8f31e05fbe4c2b0ca81ae81704640bd388980cb378"
+      },
+      {
+        "file": "modal--training-stages.png",
+        "sha256": "fc6e369515a3b1f413e673f97e40f0dab497bff1218650fbeac9b80e9cfca6dc"
+      },
+      {
+        "file": "modal--training-runtime-boundary.png",
+        "sha256": "2ff5874d6a7a8fb5978d1f5e4a780a6dc7773c2a2ce60c96d6db874fe9a0d447"
+      },
+      {
+        "file": "print--training-stages.png",
+        "sha256": "d73cbed02ab0ab466f3b656851c2a1a2e4a962505c0749d7b1c2f366d612ea2a"
+      },
+      {
+        "file": "print--training-runtime-boundary.png",
+        "sha256": "3f1b7128be187559d71288184583bf40287abe6036db6eb8895f050fa4e93360"
+      },
+      {
+        "file": "1440-dark--training-runtime-boundary--2.png",
+        "sha256": "6176d6c54a36a478a56b1deec412de12d71ef43b8b98740a1ee01fee545f7adf"
+      },
+      {
+        "file": "1920-light--training-runtime-boundary--2.png",
+        "sha256": "6fa4a29618eca451dbd896c7fc19cff11ba4aaa8f525f043934b32170ae4b43f"
+      },
+      {
+        "file": "1280x720-light--training-runtime-boundary--2.png",
+        "sha256": "c2cfbe94014ed895f6e19df5065ffe8d1d708f20ed2ccc4292fc6184a2fac6a0"
+      },
+      {
+        "file": "768-light--training-runtime-boundary--2.png",
+        "sha256": "668c77cc57188f3fc73ca8fd1ca38193bd9957c00d26bd565590c7db51511af4"
+      },
+      {
+        "file": "390-dark--training-runtime-boundary--2--svg.png",
+        "sha256": "b61039871f062b46effa2a6f154bc00afbafbfe99d9a6c4b155359e8a019a47e"
+      }
+    ]
+  },
+  "limits": [
+    "Windows local Google Chrome only; root WebKit/CI/public evidence is separate.",
+    "No physical iPhone/Safari, real service effects, real training or GPU paint measurement.",
+    "Real rAF/response measurements ran alongside root tests; thresholds were not relaxed and observations are not an isolated benchmark.",
+    "gzip sizes are local Node gzip of emitted requested chunks, not exact incremental module costs or compressed HTTP transfer measurements.",
+    "Tall-panel screenshot navigation overlap reflects scroll/capture state, not proof of whole-panel simultaneous fit. Mobile minimum text is about 10 CSS px; target use is PC and expansion remains available.",
+    "Shared integration authored by reviewer is not approved by this review."
+  ]
+}

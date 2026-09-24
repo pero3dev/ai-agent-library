@@ -1,0 +1,263 @@
+{
+  "status": "changes_requested",
+  "reviewer": "/root/training_integration_map",
+  "checkedAt": "2026-09-24T14:26:49.565Z",
+  "must": [
+    {
+      "id": "C1-REFUSAL-FACTORS",
+      "topic": "training-refusal-limits",
+      "stage": 2,
+      "description": "Assigned READ stage lacks SFT, preference adjustment and runtime influences in scene/detail"
+    }
+  ],
+  "should": [],
+  "independentScope": "Other-author 8 scene files only; reviewer-authored common integration excluded",
+  "buildID": "FCghSEE6NdR0foJwlZB7g",
+  "identities": [
+    {
+      "checkedAt": "2026-09-24T14:16:18.393Z",
+      "buildID": "FCghSEE6NdR0foJwlZB7g",
+      "articles": [
+        {
+          "article": "docs/11-llm-internals/transformer-architecture.md",
+          "inputDigest": "sha256:3eba48d869437052c03b48e4bea48f19fed4d83d4ab418cf5488b55814d5884d",
+          "htmlSHA256": "d6b399c74ef886c88bd9dc3ef6fdeb7ef191b69d6e1f1275bc45e7cb967185bd"
+        },
+        {
+          "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+          "inputDigest": "sha256:7acb3af2a93307c3af64c58777a195d29d7c3511c56612266ee120f93a8d0b62",
+          "htmlSHA256": "703f45b148abed3e4f73d36035746354df8ead3b250ff3d88a68ee99988c42dd"
+        },
+        {
+          "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+          "inputDigest": "sha256:6bc93f5dafc4444c5eda62b222a1a00b13bead8986a0e58603c1069d8d1ff965",
+          "htmlSHA256": "84a2b97cf650f49f19dbfc8105072bf8e4395e92ae9e8d9a976d56fb29a2957f"
+        },
+        {
+          "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+          "inputDigest": "sha256:4c6eb9e998a5e328c556b50fc90a5cc6dbf6aede93301983077a523cda6c08ee",
+          "htmlSHA256": "b59cb1bc6d878e12c318cd1a7a25fc2da11e8de0182f7230c2656d0b7a56cff0"
+        },
+        {
+          "article": "docs/10-llm-foundations/tokenization.md",
+          "inputDigest": "sha256:92f6402af833f916f1ddfd349fdbe87c5c0916de794b13669d5f1c22ff3672ff",
+          "htmlSHA256": "bd382b88c469b994dcfd0a9178f56a75ffb373a2ef4c72682874f29a3f9aa5a9"
+        },
+        {
+          "article": "docs/11-llm-internals/inference-internals.md",
+          "inputDigest": "sha256:26d9cd2be56aa9a93a255ffc4f020530065966d4f411768559ac18a553b01d76",
+          "htmlSHA256": "24ae11632b00a3194178fcc069ef5e019df6916d55c84433367e18fc13ea2d0f"
+        },
+        {
+          "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+          "inputDigest": "sha256:3d6323521b415bbd79a21f61b4612f4c3f3efffec461f508d17f6c604b284415",
+          "htmlSHA256": "96f48e2a5319bbd2c9410df8e03d5b53ec388bdc06c3cffb8f8c72197cefecb1"
+        }
+      ]
+    },
+    {
+      "checkedAt": "2026-09-24T14:17:47.517Z",
+      "buildID": "FCghSEE6NdR0foJwlZB7g",
+      "articles": [
+        {
+          "article": "docs/11-llm-internals/transformer-architecture.md",
+          "inputDigest": "sha256:3eba48d869437052c03b48e4bea48f19fed4d83d4ab418cf5488b55814d5884d",
+          "htmlSHA256": "d6b399c74ef886c88bd9dc3ef6fdeb7ef191b69d6e1f1275bc45e7cb967185bd"
+        },
+        {
+          "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+          "inputDigest": "sha256:7acb3af2a93307c3af64c58777a195d29d7c3511c56612266ee120f93a8d0b62",
+          "htmlSHA256": "703f45b148abed3e4f73d36035746354df8ead3b250ff3d88a68ee99988c42dd"
+        },
+        {
+          "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+          "inputDigest": "sha256:6bc93f5dafc4444c5eda62b222a1a00b13bead8986a0e58603c1069d8d1ff965",
+          "htmlSHA256": "84a2b97cf650f49f19dbfc8105072bf8e4395e92ae9e8d9a976d56fb29a2957f"
+        },
+        {
+          "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+          "inputDigest": "sha256:4c6eb9e998a5e328c556b50fc90a5cc6dbf6aede93301983077a523cda6c08ee",
+          "htmlSHA256": "b59cb1bc6d878e12c318cd1a7a25fc2da11e8de0182f7230c2656d0b7a56cff0"
+        },
+        {
+          "article": "docs/10-llm-foundations/tokenization.md",
+          "inputDigest": "sha256:92f6402af833f916f1ddfd349fdbe87c5c0916de794b13669d5f1c22ff3672ff",
+          "htmlSHA256": "bd382b88c469b994dcfd0a9178f56a75ffb373a2ef4c72682874f29a3f9aa5a9"
+        },
+        {
+          "article": "docs/11-llm-internals/inference-internals.md",
+          "inputDigest": "sha256:26d9cd2be56aa9a93a255ffc4f020530065966d4f411768559ac18a553b01d76",
+          "htmlSHA256": "24ae11632b00a3194178fcc069ef5e019df6916d55c84433367e18fc13ea2d0f"
+        },
+        {
+          "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+          "inputDigest": "sha256:3d6323521b415bbd79a21f61b4612f4c3f3efffec461f508d17f6c604b284415",
+          "htmlSHA256": "96f48e2a5319bbd2c9410df8e03d5b53ec388bdc06c3cffb8f8c72197cefecb1"
+        }
+      ]
+    }
+  ],
+  "fileHashes": [
+    {
+      "Algorithm": "SHA256",
+      "Hash": "86BB6FD18D34ADB01F8511B9F139A3218D875A7D0FEBE9D90E382358ABDD648B",
+      "Path": "C:\\dev\\ai-agent-library\\website\\lib\\training-stages-model.mjs"
+    },
+    {
+      "Algorithm": "SHA256",
+      "Hash": "9BF9D4A15E5DA3FCBBF28F1DDEB56267C7133C361166A187F6CD06F759C435CC",
+      "Path": "C:\\dev\\ai-agent-library\\website\\lib\\training-runtime-boundary-model.mjs"
+    },
+    {
+      "Algorithm": "SHA256",
+      "Hash": "1E59E2821F9E6622704934A1796294019164E621584C816444589E2BFD2C52AA",
+      "Path": "C:\\dev\\ai-agent-library\\website\\components\\diagrams\\training-stages-walkthrough.jsx"
+    },
+    {
+      "Algorithm": "SHA256",
+      "Hash": "A849AFFA2C14A4AC55AB6B77CFA350E38FEECC35B3DD9071EF4D8F1EE9C0F1E7",
+      "Path": "C:\\dev\\ai-agent-library\\website\\components\\diagrams\\training-runtime-boundary-walkthrough.jsx"
+    },
+    {
+      "Algorithm": "SHA256",
+      "Hash": "A9188E12F0141444FFBE8334DE052F5AE3447AD923AC71B803B3E885C1897F03",
+      "Path": "C:\\dev\\ai-agent-library\\website\\components\\diagrams\\training-stages.css"
+    },
+    {
+      "Algorithm": "SHA256",
+      "Hash": "71061427C9108C0612CA896910435A6A926F2B02CBC1F5DBD2C1D2A53DC9DEFB",
+      "Path": "C:\\dev\\ai-agent-library\\website\\components\\diagrams\\training-runtime-boundary.css"
+    },
+    {
+      "Algorithm": "SHA256",
+      "Hash": "2C6004084FD20ECC110F0C6DE5D59A5F05F4918D8B95EC49CF89D37E5579C868",
+      "Path": "C:\\dev\\ai-agent-library\\website\\tests\\unit\\training-stages-model.test.mjs"
+    },
+    {
+      "Algorithm": "SHA256",
+      "Hash": "C991B5EC08400A96CB82F3F58CB1C89DA6F6434A8222DAF3AD4C7B788788CA03",
+      "Path": "C:\\dev\\ai-agent-library\\website\\tests\\unit\\training-runtime-boundary-model.test.mjs"
+    }
+  ],
+  "modelSamples": 802,
+  "unitPassed": 16,
+  "viewedImages": 110,
+  "images": [
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1440-light--training-stages--0.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1440-light--training-stages--1.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1440-light--training-stages--2.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1440-light--training-stages--3.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1440-light--training-stages--4.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1440-light--training-stages--5.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1440-light--training-runtime-boundary--0.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1440-light--training-runtime-boundary--1.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1440-light--training-runtime-boundary--2.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1440-light--training-runtime-boundary--3.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1440-dark--training-stages--0.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1440-dark--training-stages--1.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1440-dark--training-stages--2.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1440-dark--training-stages--3.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1440-dark--training-stages--4.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1440-dark--training-stages--5.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1440-dark--training-runtime-boundary--0.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1440-dark--training-runtime-boundary--1.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1440-dark--training-runtime-boundary--2.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1440-dark--training-runtime-boundary--3.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1920-light--training-stages--0.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1920-light--training-stages--1.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1920-light--training-stages--2.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1920-light--training-stages--3.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1920-light--training-stages--4.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1920-light--training-stages--5.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1920-light--training-runtime-boundary--0.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1920-light--training-runtime-boundary--1.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1920-light--training-runtime-boundary--2.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1920-light--training-runtime-boundary--3.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1280x720-light--training-stages--0.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1280x720-light--training-stages--1.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1280x720-light--training-stages--2.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1280x720-light--training-stages--3.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1280x720-light--training-stages--4.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1280x720-light--training-stages--5.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1280x720-light--training-runtime-boundary--0.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1280x720-light--training-runtime-boundary--1.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1280x720-light--training-runtime-boundary--2.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\1280x720-light--training-runtime-boundary--3.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\768-light--training-stages--0.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\768-light--training-stages--1.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\768-light--training-stages--2.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\768-light--training-stages--3.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\768-light--training-stages--4.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\768-light--training-stages--5.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\768-light--training-runtime-boundary--0.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\768-light--training-runtime-boundary--1.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\768-light--training-runtime-boundary--2.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\768-light--training-runtime-boundary--3.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\390-light--training-stages--0.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\390-light--training-stages--1.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\390-light--training-stages--2.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\390-light--training-stages--3.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\390-light--training-stages--4.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\390-light--training-stages--5.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\390-light--training-runtime-boundary--0.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\390-light--training-runtime-boundary--1.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\390-light--training-runtime-boundary--2.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\390-light--training-runtime-boundary--3.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\390-dark--training-stages--0.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\390-dark--training-stages--1.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\390-dark--training-stages--2.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\390-dark--training-stages--3.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\390-dark--training-stages--4.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\390-dark--training-stages--5.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\390-dark--training-runtime-boundary--0.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\390-dark--training-runtime-boundary--1.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\390-dark--training-runtime-boundary--2.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\390-dark--training-runtime-boundary--3.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\960x540-dsf2--training-stages--0.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\960x540-dsf2--training-stages--1.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\960x540-dsf2--training-stages--2.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\960x540-dsf2--training-stages--3.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\960x540-dsf2--training-stages--4.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\960x540-dsf2--training-stages--5.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\960x540-dsf2--training-runtime-boundary--0.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\960x540-dsf2--training-runtime-boundary--1.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\960x540-dsf2--training-runtime-boundary--2.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\960x540-dsf2--training-runtime-boundary--3.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\choice--knowledge-focus--coverage.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\choice--knowledge-focus--accuracy.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\choice--knowledge-focus--instruction.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\choice--evaluation-focus--behavior.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\choice--evaluation-focus--facts.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\choice--trait-focus--hallucination.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\choice--trait-focus--sycophancy.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\choice--trait-focus--refusal.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\choice--boundary-focus--permission.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\choice--boundary-focus--instruction.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\choice--boundary-focus--verification.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\modal--training-stages.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\modal--training-runtime-boundary.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\print--training-stages.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\print--training-runtime-boundary.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\old--transformer-io.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\old--transformer-position.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\old--self-attention.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\old--transformer-block.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\old--attention-kv-sharing.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\old--attention-compute-memory.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\old--attention-context-range.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\old--moe-routing-load.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\old--moe-parameters-communication.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\old--generation-token-loop.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\old--tokenization-counting.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\old--inference-sampling.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\old--inference-cache-batching.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\old--inference-speculative.png",
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\training-scene-audit-images\\old--inference-quantization.png"
+  ],
+  "notClaimed": [
+    "physical Safari",
+    "public deployment",
+    "shared integration independent approval"
+  ],
+  "record": "training-scene-audit-initial-review.md"
+}

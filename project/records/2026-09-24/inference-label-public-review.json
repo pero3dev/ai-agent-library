@@ -1,0 +1,3923 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/inference_public_review",
+  "reviewStartedAt": "2026-09-24T13:28:08Z",
+  "reviewFinishedAt": "2026-09-24T13:46:54.818Z",
+  "reviewType": "independent PR58 corrected LIVE PUBLIC semantic and visual acceptance",
+  "decision": "approved",
+  "risk": "low",
+  "requiredFixes": 0,
+  "resolvedFinding": {
+    "id": "INFERENCE-PUBLIC-01",
+    "previousDecision": "changes_requested",
+    "resolution": "PR58の実公開PNGで、logit比較の棒に「棒: T=1の確率」、数値行に「値: ロジット」を確認した。draw比較はuを保持し「値: 確率」を表示する。負の数値を確率と誤読する元の問題は解消した。"
+  },
+  "findings": [],
+  "observations": [
+    "独立公開ブラウザーで stage 6 draw/logit を1440x1000明暗、1280x720明、390x844明暗の10状態・20枚で確認。ラベル、数値、候補A-D、選択A/B、結論を読み分けられる。棒はT=1のsoftmax確率、表示値はlogit六桁またはdraw確率二桁として一致する。",
+    "rootの新公開58runから推論図解52枚を実表示した。23全段階、各図のPC明暗・低高さ・390幅明暗、semantic-final、expanded-selector、記録された全交差候補、noJS/printサンプルを含む。",
+    "サンプリングはlogitから確率、top-k/top-p、残す質量での再正規化、固定uによる選択、drawとスコア差の区別を保つ。KV図は要求ごとのKVと共通重みを分け、論理反復を同じ実時間と扱わない。投機的デコードは候補/確定、貪欲と確率的受理、棄却後の補正、保証条件を分ける。量子化図は対象/bit幅/混合精度/実タスク評価を区別し、実圧縮率や品質の合否を算出しない。短い段階名とREAD結論に矛盾を認めない。",
+    "文字BBoxの正の交差は全件保存し、公開PNGの実字形で判断した。I1 stage6の選択A/Bと値ラベルは1440で約0.609px、1280で約0.924pxのBBox交差があるが、実際の文字は分離している。I3 stage1の確率行とprefix行4組も1280で約0.924pxのBBox交差があるが、検証ラベル、p行、prefix行の字形は接触しない。これは当該画像の判定であり一般閾値の容認ではない。",
+    "旧5記事は今回runの11枚をサンプル確認した。generation、tokenization、MoE、attention variants、Transformerの文字・線・数式と図の意味に今回の修正による表示回帰を認めない。",
+    "低高さや本文スクロール位置により一部PNGでは図の上端/下端がviewport外にある。全パネルが一画面に収まるという主張はしない。SVG内部の文字欠け、意味を混同する字形接触、横方向の欠落は確認した画像で認めない。"
+  ],
+  "limits": [
+    "公開58件はrootが実行した今回の原本を独立査読した。独立レビュワーが58件を再実行したとは主張しない。独立に実行した公開補助検証は10状態である。",
+    "157枚全体のうちroot原本の63枚と、独立補助20枚を実表示した。旧記事の全画像・全段階を視覚レビューしたとは主張しない。",
+    "Playwright Chromiumによる公開URLでの確認。実機iPhone/Safari、公開WebKit、実LLM品質・速度・GPU性能はこのレビューの対象外。",
+    "元PR57の公開changes_requested、修正版のローカルapproved、最初のsandbox network deniedの0ケース失敗は保持。新しい公開判定で旧記録を書き換えない。"
+  ],
+  "scopeContract": {
+    "purpose": "元PR57で必須修正とした比較ラベルの実公開修正版を独立に受入確認する",
+    "ownership": "TEMP/inference-label-public-final-review* と新規専用公開browser script/画像のみ",
+    "changes": "review evidence only; no product/Git/old evidence edits",
+    "authorization": "parent task explicitly authorizes read-only live public browser and GitHub API verification",
+    "exit": "今回公開58原本の完了/CI identity/6HTML一致と実公開画像確認を満たし新判定保存"
+  },
+  "identity": {
+    "mergeSHA": "67b1309fcea8267749be6e52881f3d6a4049ae2b",
+    "buildID": "iRnRpU4WRuIJMMLwqJ3Cb",
+    "artifact": {
+      "schemaVersion": 1,
+      "evidenceClass": "github-actions-pages-artifact",
+      "checkedAt": "2026-09-24T13:25:48.2327605Z",
+      "repository": "pero3dev/ai-agent-library",
+      "baseURL": "https://pero3dev.github.io/ai-agent-library",
+      "mergeSha": "67b1309fcea8267749be6e52881f3d6a4049ae2b",
+      "runId": 36004074138,
+      "runAttempt": 1,
+      "workflowPath": ".github/workflows/ci.yml",
+      "ciUrl": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138",
+      "buildJobUrl": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138/job/107647622008",
+      "deployJobUrl": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138/job/107651395952",
+      "deploymentId": 6638779591,
+      "deploymentStatusId": 18784465250,
+      "deploymentState": "success",
+      "artifactId": 10809149180,
+      "artifactName": "github-pages",
+      "artifactApiDigest": "sha256:23d9b1bf5e2341801ecda5b793be3daaf18d27e680ecfcc5b038eb1513b07063",
+      "archiveTarSHA256": "c8ddb01ad9f1dc990a56cf768a56a2a45af322fcd58b0480ece9c636bf0a2209",
+      "expectedBuildId": "iRnRpU4WRuIJMMLwqJ3Cb",
+      "documents": [
+        {
+          "route": "/docs/llm-internals/inference-internals",
+          "archiveMember": "./docs/llm-internals/inference-internals.html",
+          "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\inference-internals.html",
+          "bytes": 717982,
+          "htmlSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+          "buildId": "iRnRpU4WRuIJMMLwqJ3Cb"
+        },
+        {
+          "route": "/docs/llm-foundations/how-llms-generate-text",
+          "archiveMember": "./docs/llm-foundations/how-llms-generate-text.html",
+          "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\how-llms-generate-text.html",
+          "bytes": 596336,
+          "htmlSHA256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e",
+          "buildId": "iRnRpU4WRuIJMMLwqJ3Cb"
+        },
+        {
+          "route": "/docs/llm-foundations/tokenization",
+          "archiveMember": "./docs/llm-foundations/tokenization.html",
+          "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\tokenization.html",
+          "bytes": 582756,
+          "htmlSHA256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f",
+          "buildId": "iRnRpU4WRuIJMMLwqJ3Cb"
+        },
+        {
+          "route": "/docs/llm-internals/mixture-of-experts-internals",
+          "archiveMember": "./docs/llm-internals/mixture-of-experts-internals.html",
+          "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\mixture-of-experts-internals.html",
+          "bytes": 712162,
+          "htmlSHA256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+          "buildId": "iRnRpU4WRuIJMMLwqJ3Cb"
+        },
+        {
+          "route": "/docs/llm-internals/attention-variants-and-long-context",
+          "archiveMember": "./docs/llm-internals/attention-variants-and-long-context.html",
+          "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\attention-variants-and-long-context.html",
+          "bytes": 770704,
+          "htmlSHA256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+          "buildId": "iRnRpU4WRuIJMMLwqJ3Cb"
+        },
+        {
+          "route": "/docs/llm-internals/transformer-architecture",
+          "archiveMember": "./docs/llm-internals/transformer-architecture.html",
+          "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\transformer-architecture.html",
+          "bytes": 1077377,
+          "htmlSHA256": "959bde1c820141625fa22fa04251718719b9438caf316a1fea22f3fe6f617db3",
+          "buildId": "iRnRpU4WRuIJMMLwqJ3Cb"
+        }
+      ],
+      "digestNote": "artifactApiDigest describes the GitHub artifact container. archiveTarSHA256 is independently computed for downloaded archive.tar; the two digests are not equated.",
+      "expectedValueSource": "Six selected HTML files (inference, generation, tokenization, MoE, attention variants, Transformer) from the successful exact-run github-pages artifact. No expected value is read from public HTTP or a local build."
+    },
+    "independentGitHubAPI": [
+      {
+        "conclusion": "success",
+        "event": "push",
+        "head_branch": "main",
+        "head_sha": "67b1309fcea8267749be6e52881f3d6a4049ae2b",
+        "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138",
+        "id": 36004074138,
+        "run_attempt": 1,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "head_sha": "67b1309fcea8267749be6e52881f3d6a4049ae2b",
+        "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138/job/107651395952",
+        "id": 107651395952,
+        "run_id": 36004074138,
+        "status": "completed"
+      },
+      {
+        "environment": "github-pages",
+        "environment_url": "https://pero3dev.github.io/ai-agent-library/",
+        "id": 18784465250,
+        "log_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138/job/107651395952",
+        "state": "success"
+      },
+      {
+        "digest": "sha256:23d9b1bf5e2341801ecda5b793be3daaf18d27e680ecfcc5b038eb1513b07063",
+        "expired": false,
+        "id": 10809149180,
+        "name": "github-pages",
+        "workflow_run": {
+          "head_branch": "main",
+          "head_repository_id": 1289308129,
+          "head_sha": "67b1309fcea8267749be6e52881f3d6a4049ae2b",
+          "id": 36004074138,
+          "repository_id": 1289308129
+        }
+      }
+    ],
+    "documentChecks": [
+      {
+        "route": "/docs/llm-internals/inference-internals",
+        "archiveMember": "./docs/llm-internals/inference-internals.html",
+        "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\inference-internals.html",
+        "bytes": 717982,
+        "htmlSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+        "buildId": "iRnRpU4WRuIJMMLwqJ3Cb",
+        "rehashMatched": true,
+        "observations": [
+          {
+            "case": "inference: all 23 stages 1440x1000 light",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "inference: all 23 stages 1440x1000 dark",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "inference: all 23 stages 1280x720 light",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "inference: all 23 stages 390x844 light",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "inference: all 23 stages 390x844 dark",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "inference: every selector, independent numerical fixtures, all midpoint boundaries and reverse seeks",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "inference: keyboard transport, modal selector state and focus return",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "inference: independent figure states, every reading step, manual override and resumption",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "inference-sampling: native elapsed play, frozen pause, replay and completion",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "inference-cache-batching: native elapsed play, frozen pause, replay and completion",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "inference-speculative: native elapsed play, frozen pause, replay and completion",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "inference-quantization: native elapsed play, frozen pause, replay and completion",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "inference noJS: original prose, 9 headings, 2 equations and all 23 static descriptions",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "inference print: four coherent scenes and original article with controls hidden",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "mandatory basePath SVG favicon: declaration, HTTP 200 and image/svg+xml",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+            "artifactHTMLMatched": true
+          }
+        ]
+      },
+      {
+        "route": "/docs/llm-foundations/how-llms-generate-text",
+        "archiveMember": "./docs/llm-foundations/how-llms-generate-text.html",
+        "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\how-llms-generate-text.html",
+        "bytes": 596336,
+        "htmlSHA256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e",
+        "buildId": "iRnRpU4WRuIJMMLwqJ3Cb",
+        "rehashMatched": true,
+        "observations": [
+          {
+            "case": "generation-token-loop: all stages 1440x1000 light",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/how-llms-generate-text",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "generation-token-loop: all stages 1440x1000 dark",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/how-llms-generate-text",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "generation-token-loop: all stages 1280x720 light",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/how-llms-generate-text",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "generation-token-loop: all stages 390x844 light",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/how-llms-generate-text",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "generation-token-loop: all stages 390x844 dark",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/how-llms-generate-text",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "generation-token-loop: transport, keyboard, reading sync and expansion focus",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/how-llms-generate-text",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "generation-token-loop: actual elapsed playback, frozen scene and restart",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/how-llms-generate-text",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "generation-token-loop: noJS retains original article and all static stage descriptions",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/how-llms-generate-text",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "generation-token-loop: print freezes the midpoint into a coherent static scene",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/how-llms-generate-text",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e",
+            "artifactHTMLMatched": true
+          }
+        ]
+      },
+      {
+        "route": "/docs/llm-foundations/tokenization",
+        "archiveMember": "./docs/llm-foundations/tokenization.html",
+        "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\tokenization.html",
+        "bytes": 582756,
+        "htmlSHA256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f",
+        "buildId": "iRnRpU4WRuIJMMLwqJ3Cb",
+        "rehashMatched": true,
+        "observations": [
+          {
+            "case": "tokenization-counting: all stages 1440x1000 light",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/tokenization",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "tokenization-counting: all stages 1440x1000 dark",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/tokenization",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "tokenization-counting: all stages 1280x720 light",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/tokenization",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "tokenization-counting: all stages 390x844 light",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/tokenization",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "tokenization-counting: all stages 390x844 dark",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/tokenization",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "tokenization-counting: transport, keyboard, reading sync and expansion focus",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/tokenization",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "tokenization-counting: actual elapsed playback, frozen scene and restart",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/tokenization",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "tokenization-counting: noJS retains original article and all static stage descriptions",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/tokenization",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "tokenization-counting: print freezes the midpoint into a coherent static scene",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/tokenization",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f",
+            "artifactHTMLMatched": true
+          }
+        ]
+      },
+      {
+        "route": "/docs/llm-internals/mixture-of-experts-internals",
+        "archiveMember": "./docs/llm-internals/mixture-of-experts-internals.html",
+        "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\mixture-of-experts-internals.html",
+        "bytes": 712162,
+        "htmlSHA256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+        "buildId": "iRnRpU4WRuIJMMLwqJ3Cb",
+        "rehashMatched": true,
+        "observations": [
+          {
+            "case": "MoE all 14 stages: 1440x1000 light",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/mixture-of-experts-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "MoE all 14 stages: 1440x1000 dark",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/mixture-of-experts-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "MoE all 14 stages: 1280x720 light",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/mixture-of-experts-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "MoE all 14 stages: 390x844 light",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/mixture-of-experts-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "MoE all 14 stages: 390x844 dark",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/mixture-of-experts-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "MoE: transport, keyboard, expansion, selectors and focus return",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/mixture-of-experts-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "MoE: isolated manual states and every registered reading step",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/mixture-of-experts-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "moe-routing-load: actual elapsed play, frozen scene and replay",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/mixture-of-experts-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "moe-parameters-communication: actual elapsed play, frozen scene and replay",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/mixture-of-experts-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "MoE noJS and print: original prose, 9 H3, 4 equations, Mermaid and 14 stage descriptions",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/mixture-of-experts-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69",
+            "artifactHTMLMatched": true
+          }
+        ]
+      },
+      {
+        "route": "/docs/llm-internals/attention-variants-and-long-context",
+        "archiveMember": "./docs/llm-internals/attention-variants-and-long-context.html",
+        "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\attention-variants-and-long-context.html",
+        "bytes": 770704,
+        "htmlSHA256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+        "buildId": "iRnRpU4WRuIJMMLwqJ3Cb",
+        "rehashMatched": true,
+        "observations": [
+          {
+            "case": "variants all 15 stages: 1440x1000 light",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/attention-variants-and-long-context",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "variants all 15 stages: 1440x1000 dark",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/attention-variants-and-long-context",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "variants all 15 stages: 1280x720 light",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/attention-variants-and-long-context",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "variants all 15 stages: 390x844 light",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/attention-variants-and-long-context",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "variants all 15 stages: 390x844 dark",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/attention-variants-and-long-context",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "variants: transport, keyboard, expansion and focus return",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/attention-variants-and-long-context",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "variants: isolated manual states and every registered reading step",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/attention-variants-and-long-context",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "attention-kv-sharing: actual elapsed play and frozen pause",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/attention-variants-and-long-context",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "attention-compute-memory: actual elapsed play and frozen pause",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/attention-variants-and-long-context",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "attention-context-range: actual elapsed play and frozen pause",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/attention-variants-and-long-context",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "variants noJS and print: original prose, 11 H3, 3 display equations and 15 stage descriptions",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/attention-variants-and-long-context",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476",
+            "artifactHTMLMatched": true
+          }
+        ]
+      },
+      {
+        "route": "/docs/llm-internals/transformer-architecture",
+        "archiveMember": "./docs/llm-internals/transformer-architecture.html",
+        "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\transformer-architecture.html",
+        "bytes": 1077377,
+        "htmlSHA256": "959bde1c820141625fa22fa04251718719b9438caf316a1fea22f3fe6f617db3",
+        "buildId": "iRnRpU4WRuIJMMLwqJ3Cb",
+        "rehashMatched": true,
+        "observations": [
+          {
+            "case": "Transformer regression: four figures 1440 light",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/transformer-architecture",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "959bde1c820141625fa22fa04251718719b9438caf316a1fea22f3fe6f617db3",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "959bde1c820141625fa22fa04251718719b9438caf316a1fea22f3fe6f617db3",
+            "artifactHTMLMatched": true
+          },
+          {
+            "case": "Transformer regression: four figures 390 dark",
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/transformer-architecture",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "959bde1c820141625fa22fa04251718719b9438caf316a1fea22f3fe6f617db3",
+            "observedBuildIds": [
+              "iRnRpU4WRuIJMMLwqJ3Cb"
+            ],
+            "expectedArtifactSHA256": "959bde1c820141625fa22fa04251718719b9438caf316a1fea22f3fe6f617db3",
+            "artifactHTMLMatched": true
+          }
+        ]
+      }
+    ]
+  },
+  "machine": {
+    "executionOwner": "root",
+    "evidence": {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\result.json",
+      "sha256": "d6f4346386cb0cac64bd01918732a711345591c835af50c939bf164a13b88f42",
+      "bytes": 2393890
+    },
+    "startedAt": "2026-09-24T13:26:38.551Z",
+    "finishedAt": "2026-09-24T13:32:04.283Z",
+    "status": "passed",
+    "caseCount": 58,
+    "passed": 58,
+    "failed": 0,
+    "cases": [
+      {
+        "name": "generation-token-loop: all stages 1440x1000 light",
+        "status": "passed"
+      },
+      {
+        "name": "generation-token-loop: all stages 1440x1000 dark",
+        "status": "passed"
+      },
+      {
+        "name": "generation-token-loop: all stages 1280x720 light",
+        "status": "passed"
+      },
+      {
+        "name": "generation-token-loop: all stages 390x844 light",
+        "status": "passed"
+      },
+      {
+        "name": "generation-token-loop: all stages 390x844 dark",
+        "status": "passed"
+      },
+      {
+        "name": "generation-token-loop: transport, keyboard, reading sync and expansion focus",
+        "status": "passed"
+      },
+      {
+        "name": "generation-token-loop: actual elapsed playback, frozen scene and restart",
+        "status": "passed"
+      },
+      {
+        "name": "generation-token-loop: noJS retains original article and all static stage descriptions",
+        "status": "passed"
+      },
+      {
+        "name": "generation-token-loop: print freezes the midpoint into a coherent static scene",
+        "status": "passed"
+      },
+      {
+        "name": "tokenization-counting: all stages 1440x1000 light",
+        "status": "passed"
+      },
+      {
+        "name": "tokenization-counting: all stages 1440x1000 dark",
+        "status": "passed"
+      },
+      {
+        "name": "tokenization-counting: all stages 1280x720 light",
+        "status": "passed"
+      },
+      {
+        "name": "tokenization-counting: all stages 390x844 light",
+        "status": "passed"
+      },
+      {
+        "name": "tokenization-counting: all stages 390x844 dark",
+        "status": "passed"
+      },
+      {
+        "name": "tokenization-counting: transport, keyboard, reading sync and expansion focus",
+        "status": "passed"
+      },
+      {
+        "name": "tokenization-counting: actual elapsed playback, frozen scene and restart",
+        "status": "passed"
+      },
+      {
+        "name": "tokenization-counting: noJS retains original article and all static stage descriptions",
+        "status": "passed"
+      },
+      {
+        "name": "tokenization-counting: print freezes the midpoint into a coherent static scene",
+        "status": "passed"
+      },
+      {
+        "name": "inference: all 23 stages 1440x1000 light",
+        "status": "passed"
+      },
+      {
+        "name": "inference: all 23 stages 1440x1000 dark",
+        "status": "passed"
+      },
+      {
+        "name": "inference: all 23 stages 1280x720 light",
+        "status": "passed"
+      },
+      {
+        "name": "inference: all 23 stages 390x844 light",
+        "status": "passed"
+      },
+      {
+        "name": "inference: all 23 stages 390x844 dark",
+        "status": "passed"
+      },
+      {
+        "name": "inference: every selector, independent numerical fixtures, all midpoint boundaries and reverse seeks",
+        "status": "passed"
+      },
+      {
+        "name": "inference: keyboard transport, modal selector state and focus return",
+        "status": "passed"
+      },
+      {
+        "name": "inference: independent figure states, every reading step, manual override and resumption",
+        "status": "passed"
+      },
+      {
+        "name": "inference-sampling: native elapsed play, frozen pause, replay and completion",
+        "status": "passed"
+      },
+      {
+        "name": "inference-cache-batching: native elapsed play, frozen pause, replay and completion",
+        "status": "passed"
+      },
+      {
+        "name": "inference-speculative: native elapsed play, frozen pause, replay and completion",
+        "status": "passed"
+      },
+      {
+        "name": "inference-quantization: native elapsed play, frozen pause, replay and completion",
+        "status": "passed"
+      },
+      {
+        "name": "inference noJS: original prose, 9 headings, 2 equations and all 23 static descriptions",
+        "status": "passed"
+      },
+      {
+        "name": "inference print: four coherent scenes and original article with controls hidden",
+        "status": "passed"
+      },
+      {
+        "name": "mandatory basePath SVG favicon: declaration, HTTP 200 and image/svg+xml",
+        "status": "passed"
+      },
+      {
+        "name": "MoE all 14 stages: 1440x1000 light",
+        "status": "passed"
+      },
+      {
+        "name": "MoE all 14 stages: 1440x1000 dark",
+        "status": "passed"
+      },
+      {
+        "name": "MoE all 14 stages: 1280x720 light",
+        "status": "passed"
+      },
+      {
+        "name": "MoE all 14 stages: 390x844 light",
+        "status": "passed"
+      },
+      {
+        "name": "MoE all 14 stages: 390x844 dark",
+        "status": "passed"
+      },
+      {
+        "name": "MoE: transport, keyboard, expansion, selectors and focus return",
+        "status": "passed"
+      },
+      {
+        "name": "MoE: isolated manual states and every registered reading step",
+        "status": "passed"
+      },
+      {
+        "name": "moe-routing-load: actual elapsed play, frozen scene and replay",
+        "status": "passed"
+      },
+      {
+        "name": "moe-parameters-communication: actual elapsed play, frozen scene and replay",
+        "status": "passed"
+      },
+      {
+        "name": "MoE noJS and print: original prose, 9 H3, 4 equations, Mermaid and 14 stage descriptions",
+        "status": "passed"
+      },
+      {
+        "name": "variants all 15 stages: 1440x1000 light",
+        "status": "passed"
+      },
+      {
+        "name": "variants all 15 stages: 1440x1000 dark",
+        "status": "passed"
+      },
+      {
+        "name": "variants all 15 stages: 1280x720 light",
+        "status": "passed"
+      },
+      {
+        "name": "variants all 15 stages: 390x844 light",
+        "status": "passed"
+      },
+      {
+        "name": "variants all 15 stages: 390x844 dark",
+        "status": "passed"
+      },
+      {
+        "name": "variants: transport, keyboard, expansion and focus return",
+        "status": "passed"
+      },
+      {
+        "name": "variants: isolated manual states and every registered reading step",
+        "status": "passed"
+      },
+      {
+        "name": "attention-kv-sharing: actual elapsed play and frozen pause",
+        "status": "passed"
+      },
+      {
+        "name": "attention-compute-memory: actual elapsed play and frozen pause",
+        "status": "passed"
+      },
+      {
+        "name": "attention-context-range: actual elapsed play and frozen pause",
+        "status": "passed"
+      },
+      {
+        "name": "variants noJS and print: original prose, 11 H3, 3 display equations and 15 stage descriptions",
+        "status": "passed"
+      },
+      {
+        "name": "Transformer regression: four figures 1440 light",
+        "status": "passed"
+      },
+      {
+        "name": "Transformer regression: four figures 390 dark",
+        "status": "passed"
+      },
+      {
+        "name": "alignment-theory control: zero heavy figure or shared-frame chunks",
+        "status": "passed"
+      },
+      {
+        "name": "public assets: HTTP 200, nonempty bodies and matching MIME types",
+        "status": "passed"
+      }
+    ],
+    "assetCount": 64,
+    "allAssetsStatus200NonemptyMIMEMatched": true,
+    "screenshotCount": 157,
+    "networkContexts": 57,
+    "consoleErrors": 0,
+    "pageErrors": 0,
+    "unexpectedRequestFailures": 0,
+    "recordedNoJSBlockedScripts": 5,
+    "badResources": 0,
+    "networkEvidence": [
+      {
+        "case": "generation-token-loop: all stages 1440x1000 light",
+        "resources": 42,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "generation-token-loop: all stages 1440x1000 dark",
+        "resources": 42,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "generation-token-loop: all stages 1280x720 light",
+        "resources": 42,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "generation-token-loop: all stages 390x844 light",
+        "resources": 42,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "generation-token-loop: all stages 390x844 dark",
+        "resources": 42,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "generation-token-loop: transport, keyboard, reading sync and expansion focus",
+        "resources": 42,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "generation-token-loop: actual elapsed playback, frozen scene and restart",
+        "resources": 42,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "generation-token-loop: noJS retains original article and all static stage descriptions",
+        "resources": 15,
+        "failures": [
+          {
+            "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ncy9ms5-bo40.js",
+            "type": "script",
+            "error": "csp"
+          }
+        ],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [
+          {
+            "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ncy9ms5-bo40.js",
+            "type": "script",
+            "error": "csp"
+          }
+        ],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "generation-token-loop: print freezes the midpoint into a coherent static scene",
+        "resources": 42,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "tokenization-counting: all stages 1440x1000 light",
+        "resources": 29,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "tokenization-counting: all stages 1440x1000 dark",
+        "resources": 29,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "tokenization-counting: all stages 1280x720 light",
+        "resources": 29,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "tokenization-counting: all stages 390x844 light",
+        "resources": 29,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "tokenization-counting: all stages 390x844 dark",
+        "resources": 29,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "tokenization-counting: transport, keyboard, reading sync and expansion focus",
+        "resources": 29,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "tokenization-counting: actual elapsed playback, frozen scene and restart",
+        "resources": 29,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "tokenization-counting: noJS retains original article and all static stage descriptions",
+        "resources": 15,
+        "failures": [
+          {
+            "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ncy9ms5-bo40.js",
+            "type": "script",
+            "error": "csp"
+          }
+        ],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [
+          {
+            "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ncy9ms5-bo40.js",
+            "type": "script",
+            "error": "csp"
+          }
+        ],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "tokenization-counting: print freezes the midpoint into a coherent static scene",
+        "resources": 29,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "inference: all 23 stages 1440x1000 light",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "inference: all 23 stages 1440x1000 dark",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "inference: all 23 stages 1280x720 light",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "inference: all 23 stages 390x844 light",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "inference: all 23 stages 390x844 dark",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "inference: every selector, independent numerical fixtures, all midpoint boundaries and reverse seeks",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "inference: keyboard transport, modal selector state and focus return",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "inference: independent figure states, every reading step, manual override and resumption",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "inference-sampling: native elapsed play, frozen pause, replay and completion",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "inference-cache-batching: native elapsed play, frozen pause, replay and completion",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "inference-speculative: native elapsed play, frozen pause, replay and completion",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "inference-quantization: native elapsed play, frozen pause, replay and completion",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "inference noJS: original prose, 9 headings, 2 equations and all 23 static descriptions",
+        "resources": 19,
+        "failures": [
+          {
+            "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ncy9ms5-bo40.js",
+            "type": "script",
+            "error": "csp"
+          }
+        ],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [
+          {
+            "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ncy9ms5-bo40.js",
+            "type": "script",
+            "error": "csp"
+          }
+        ],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "inference print: four coherent scenes and original article with controls hidden",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "mandatory basePath SVG favicon: declaration, HTTP 200 and image/svg+xml",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "MoE all 14 stages: 1440x1000 light",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "MoE all 14 stages: 1440x1000 dark",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "MoE all 14 stages: 1280x720 light",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "MoE all 14 stages: 390x844 light",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "MoE all 14 stages: 390x844 dark",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "MoE: transport, keyboard, expansion, selectors and focus return",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "MoE: isolated manual states and every registered reading step",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "moe-routing-load: actual elapsed play, frozen scene and replay",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "moe-parameters-communication: actual elapsed play, frozen scene and replay",
+        "resources": 49,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "MoE noJS and print: original prose, 9 H3, 4 equations, Mermaid and 14 stage descriptions",
+        "resources": 21,
+        "failures": [
+          {
+            "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ncy9ms5-bo40.js",
+            "type": "script",
+            "error": "csp"
+          }
+        ],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [
+          {
+            "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ncy9ms5-bo40.js",
+            "type": "script",
+            "error": "csp"
+          }
+        ],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "variants all 15 stages: 1440x1000 light",
+        "resources": 34,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "variants all 15 stages: 1440x1000 dark",
+        "resources": 34,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "variants all 15 stages: 1280x720 light",
+        "resources": 34,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "variants all 15 stages: 390x844 light",
+        "resources": 34,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "variants all 15 stages: 390x844 dark",
+        "resources": 34,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "variants: transport, keyboard, expansion and focus return",
+        "resources": 34,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "variants: isolated manual states and every registered reading step",
+        "resources": 34,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "attention-kv-sharing: actual elapsed play and frozen pause",
+        "resources": 34,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "attention-compute-memory: actual elapsed play and frozen pause",
+        "resources": 34,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "attention-context-range: actual elapsed play and frozen pause",
+        "resources": 34,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "variants noJS and print: original prose, 11 H3, 3 display equations and 15 stage descriptions",
+        "resources": 18,
+        "failures": [
+          {
+            "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ncy9ms5-bo40.js",
+            "type": "script",
+            "error": "csp"
+          }
+        ],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [
+          {
+            "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ncy9ms5-bo40.js",
+            "type": "script",
+            "error": "csp"
+          }
+        ],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "Transformer regression: four figures 1440 light",
+        "resources": 51,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "Transformer regression: four figures 390 dark",
+        "resources": 51,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      },
+      {
+        "case": "alignment-theory control: zero heavy figure or shared-frame chunks",
+        "resources": 47,
+        "failures": [],
+        "consoleErrors": [],
+        "pageErrors": [],
+        "expectedBlockedScripts": [],
+        "expectedNoJSCspConsole": [],
+        "badResources": []
+      }
+    ],
+    "rawIndependentVisualReviewFieldPreserved": {
+      "status": "pending-independent-public-image-review",
+      "note": "Machine case success does not approve readability. Review actual public screenshots, including every recorded text BBox overlap candidate. Local image acceptance does not replace this public check."
+    }
+  },
+  "independentSupplement": {
+    "executionOwner": "/root/inference_public_review",
+    "evidence": {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\result.json",
+      "sha256": "08426482b9a48bd9acb0a9588601aa2998e452deaef72e88954586aa4d3e9dd9",
+      "bytes": 101724
+    },
+    "script": {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-browser.mjs",
+      "sha256": "bfe8a715efb85c7dc4d2e8f62c0c59d4a793e400c5b41f3c6b826f463f90b0f9",
+      "bytes": 8072
+    },
+    "origin": "https://pero3dev.github.io",
+    "browser": "153.0.4234.48",
+    "startedAt": "2026-09-24T13:30:13.096Z",
+    "finishedAt": "2026-09-24T13:30:25.904Z",
+    "status": "passed",
+    "caseCount": 10,
+    "passed": 10,
+    "failed": 0,
+    "sourceBefore": [
+      {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\artifact-evidence.latest.json",
+        "sha256": "c7f4c5990d1d8098576c51442bb6d84446023beb11b953570e57efd9a46fe0ce"
+      },
+      {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\inference-internals.html",
+        "sha256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50"
+      },
+      {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\how-llms-generate-text.html",
+        "sha256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e"
+      },
+      {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\tokenization.html",
+        "sha256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f"
+      },
+      {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\mixture-of-experts-internals.html",
+        "sha256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69"
+      },
+      {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\attention-variants-and-long-context.html",
+        "sha256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476"
+      },
+      {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\transformer-architecture.html",
+        "sha256": "959bde1c820141625fa22fa04251718719b9438caf316a1fea22f3fe6f617db3"
+      }
+    ],
+    "sourceAfter": [
+      {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\artifact-evidence.latest.json",
+        "sha256": "c7f4c5990d1d8098576c51442bb6d84446023beb11b953570e57efd9a46fe0ce"
+      },
+      {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\inference-internals.html",
+        "sha256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50"
+      },
+      {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\how-llms-generate-text.html",
+        "sha256": "25bf4c789917eb908a404d85c84cc05d0e1a7950b49643003a4eed470b1ece3e"
+      },
+      {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\tokenization.html",
+        "sha256": "d0257bea1c2e3dee2b3184ae228632eb91bf4f59db51ca548113890060c5855f"
+      },
+      {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\mixture-of-experts-internals.html",
+        "sha256": "c245ac287bbbd8b3d7f899ac3d55dea4c62a96ceeec8daa50ca6f4659ef19c69"
+      },
+      {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\attention-variants-and-long-context.html",
+        "sha256": "7edae089c36f3066b9ce9504e64195a7b84e66a91f2e3e5e13c7d1c05b14d476"
+      },
+      {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\ci-36004074138-attempt-1-20260924T132419655Z\\html\\transformer-architecture.html",
+        "sha256": "959bde1c820141625fa22fa04251718719b9438caf316a1fea22f3fe6f617db3"
+      }
+    ],
+    "cases": [
+      {
+        "name": "1440x1000-light-draw",
+        "status": "passed",
+        "htmlSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+        "observedBuildIds": [
+          "iRnRpU4WRuIJMMLwqJ3Cb"
+        ],
+        "sides": [
+          {
+            "selected": "A",
+            "rows": [
+              {
+                "logit": -0.916290731874155,
+                "probability": 0.4,
+                "height": 42,
+                "value": "0.40"
+              },
+              {
+                "logit": -1.2039728043259361,
+                "probability": 0.29999999999999993,
+                "height": 31.499999999999993,
+                "value": "0.30"
+              },
+              {
+                "logit": -1.6094379124341003,
+                "probability": 0.2,
+                "height": 21,
+                "value": "0.20"
+              },
+              {
+                "logit": -2.3025850929940455,
+                "probability": 0.10000000000000002,
+                "height": 10.500000000000002,
+                "value": "0.10"
+              }
+            ]
+          },
+          {
+            "selected": "B",
+            "rows": [
+              {
+                "logit": -0.916290731874155,
+                "probability": 0.4,
+                "height": 42,
+                "value": "0.40"
+              },
+              {
+                "logit": -1.2039728043259361,
+                "probability": 0.29999999999999993,
+                "height": 31.499999999999993,
+                "value": "0.30"
+              },
+              {
+                "logit": -1.6094379124341003,
+                "probability": 0.2,
+                "height": 21,
+                "value": "0.20"
+              },
+              {
+                "logit": -2.3025850929940455,
+                "probability": 0.10000000000000002,
+                "height": 10.500000000000002,
+                "value": "0.10"
+              }
+            ]
+          }
+        ],
+        "overlaps": [
+          {
+            "texts": [
+              "選択 A",
+              "値: 確率"
+            ],
+            "width": 70.04936218261719,
+            "height": 0.6221466064453125
+          },
+          {
+            "texts": [
+              "選択 B",
+              "値: 確率"
+            ],
+            "width": 68.32565307617188,
+            "height": 0.62213134765625
+          }
+        ],
+        "outside": [],
+        "overflow": 0,
+        "minRenderedFont": 21.53793604651163
+      },
+      {
+        "name": "1440x1000-light-logit",
+        "status": "passed",
+        "htmlSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+        "observedBuildIds": [
+          "iRnRpU4WRuIJMMLwqJ3Cb"
+        ],
+        "sides": [
+          {
+            "selected": "A",
+            "rows": [
+              {
+                "logit": 1.000001,
+                "probability": 0.39948654454732396,
+                "height": 41.94608717746902,
+                "value": "1.000001"
+              },
+              {
+                "logit": 1,
+                "probability": 0.3994861450609792,
+                "height": 41.94604523140281,
+                "value": "1.000000"
+              },
+              {
+                "logit": 0,
+                "probability": 0.14696273980076677,
+                "height": 15.43108767908051,
+                "value": "0.000000"
+              },
+              {
+                "logit": -1,
+                "probability": 0.05406457059093015,
+                "height": 5.676779912047666,
+                "value": "-1.000000"
+              }
+            ]
+          },
+          {
+            "selected": "B",
+            "rows": [
+              {
+                "logit": 0.999999,
+                "probability": 0.3994860647533299,
+                "height": 41.94603679909964,
+                "value": "0.999999"
+              },
+              {
+                "logit": 1,
+                "probability": 0.39948646423959433,
+                "height": 41.94607874515741,
+                "value": "1.000000"
+              },
+              {
+                "logit": 0,
+                "probability": 0.14696285722001734,
+                "height": 15.43110000810182,
+                "value": "0.000000"
+              },
+              {
+                "logit": -1,
+                "probability": 0.05406461378705845,
+                "height": 5.676784447641137,
+                "value": "-1.000000"
+              }
+            ]
+          }
+        ],
+        "overlaps": [
+          {
+            "texts": [
+              "選択 A",
+              "値: ロジット"
+            ],
+            "width": 70.04936218261719,
+            "height": 0.6221466064453125
+          },
+          {
+            "texts": [
+              "選択 B",
+              "値: ロジット"
+            ],
+            "width": 68.32565307617188,
+            "height": 0.62213134765625
+          }
+        ],
+        "outside": [],
+        "overflow": 0,
+        "minRenderedFont": 21.53793604651163
+      },
+      {
+        "name": "1440x1000-dark-draw",
+        "status": "passed",
+        "htmlSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+        "observedBuildIds": [
+          "iRnRpU4WRuIJMMLwqJ3Cb"
+        ],
+        "sides": [
+          {
+            "selected": "A",
+            "rows": [
+              {
+                "logit": -0.916290731874155,
+                "probability": 0.4,
+                "height": 42,
+                "value": "0.40"
+              },
+              {
+                "logit": -1.2039728043259361,
+                "probability": 0.29999999999999993,
+                "height": 31.499999999999993,
+                "value": "0.30"
+              },
+              {
+                "logit": -1.6094379124341003,
+                "probability": 0.2,
+                "height": 21,
+                "value": "0.20"
+              },
+              {
+                "logit": -2.3025850929940455,
+                "probability": 0.10000000000000002,
+                "height": 10.500000000000002,
+                "value": "0.10"
+              }
+            ]
+          },
+          {
+            "selected": "B",
+            "rows": [
+              {
+                "logit": -0.916290731874155,
+                "probability": 0.4,
+                "height": 42,
+                "value": "0.40"
+              },
+              {
+                "logit": -1.2039728043259361,
+                "probability": 0.29999999999999993,
+                "height": 31.499999999999993,
+                "value": "0.30"
+              },
+              {
+                "logit": -1.6094379124341003,
+                "probability": 0.2,
+                "height": 21,
+                "value": "0.20"
+              },
+              {
+                "logit": -2.3025850929940455,
+                "probability": 0.10000000000000002,
+                "height": 10.500000000000002,
+                "value": "0.10"
+              }
+            ]
+          }
+        ],
+        "overlaps": [
+          {
+            "texts": [
+              "選択 A",
+              "値: 確率"
+            ],
+            "width": 70.04936218261719,
+            "height": 0.6221466064453125
+          },
+          {
+            "texts": [
+              "選択 B",
+              "値: 確率"
+            ],
+            "width": 68.32565307617188,
+            "height": 0.62213134765625
+          }
+        ],
+        "outside": [],
+        "overflow": 0,
+        "minRenderedFont": 21.53793604651163
+      },
+      {
+        "name": "1440x1000-dark-logit",
+        "status": "passed",
+        "htmlSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+        "observedBuildIds": [
+          "iRnRpU4WRuIJMMLwqJ3Cb"
+        ],
+        "sides": [
+          {
+            "selected": "A",
+            "rows": [
+              {
+                "logit": 1.000001,
+                "probability": 0.39948654454732396,
+                "height": 41.94608717746902,
+                "value": "1.000001"
+              },
+              {
+                "logit": 1,
+                "probability": 0.3994861450609792,
+                "height": 41.94604523140281,
+                "value": "1.000000"
+              },
+              {
+                "logit": 0,
+                "probability": 0.14696273980076677,
+                "height": 15.43108767908051,
+                "value": "0.000000"
+              },
+              {
+                "logit": -1,
+                "probability": 0.05406457059093015,
+                "height": 5.676779912047666,
+                "value": "-1.000000"
+              }
+            ]
+          },
+          {
+            "selected": "B",
+            "rows": [
+              {
+                "logit": 0.999999,
+                "probability": 0.3994860647533299,
+                "height": 41.94603679909964,
+                "value": "0.999999"
+              },
+              {
+                "logit": 1,
+                "probability": 0.39948646423959433,
+                "height": 41.94607874515741,
+                "value": "1.000000"
+              },
+              {
+                "logit": 0,
+                "probability": 0.14696285722001734,
+                "height": 15.43110000810182,
+                "value": "0.000000"
+              },
+              {
+                "logit": -1,
+                "probability": 0.05406461378705845,
+                "height": 5.676784447641137,
+                "value": "-1.000000"
+              }
+            ]
+          }
+        ],
+        "overlaps": [
+          {
+            "texts": [
+              "選択 A",
+              "値: ロジット"
+            ],
+            "width": 70.04936218261719,
+            "height": 0.6221466064453125
+          },
+          {
+            "texts": [
+              "選択 B",
+              "値: ロジット"
+            ],
+            "width": 68.32565307617188,
+            "height": 0.62213134765625
+          }
+        ],
+        "outside": [],
+        "overflow": 0,
+        "minRenderedFont": 21.53793604651163
+      },
+      {
+        "name": "1280x720-light-draw",
+        "status": "passed",
+        "htmlSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+        "observedBuildIds": [
+          "iRnRpU4WRuIJMMLwqJ3Cb"
+        ],
+        "sides": [
+          {
+            "selected": "A",
+            "rows": [
+              {
+                "logit": -0.916290731874155,
+                "probability": 0.4,
+                "height": 42,
+                "value": "0.40"
+              },
+              {
+                "logit": -1.2039728043259361,
+                "probability": 0.29999999999999993,
+                "height": 31.499999999999993,
+                "value": "0.30"
+              },
+              {
+                "logit": -1.6094379124341003,
+                "probability": 0.2,
+                "height": 21,
+                "value": "0.20"
+              },
+              {
+                "logit": -2.3025850929940455,
+                "probability": 0.10000000000000002,
+                "height": 10.500000000000002,
+                "value": "0.10"
+              }
+            ]
+          },
+          {
+            "selected": "B",
+            "rows": [
+              {
+                "logit": -0.916290731874155,
+                "probability": 0.4,
+                "height": 42,
+                "value": "0.40"
+              },
+              {
+                "logit": -1.2039728043259361,
+                "probability": 0.29999999999999993,
+                "height": 31.499999999999993,
+                "value": "0.30"
+              },
+              {
+                "logit": -1.6094379124341003,
+                "probability": 0.2,
+                "height": 21,
+                "value": "0.20"
+              },
+              {
+                "logit": -2.3025850929940455,
+                "probability": 0.10000000000000002,
+                "height": 10.500000000000002,
+                "value": "0.10"
+              }
+            ]
+          }
+        ],
+        "overlaps": [
+          {
+            "texts": [
+              "選択 A",
+              "値: 確率"
+            ],
+            "width": 70.22059631347656,
+            "height": 1.1133575439453125
+          },
+          {
+            "texts": [
+              "選択 B",
+              "値: 確率"
+            ],
+            "width": 68.31969451904297,
+            "height": 1.113372802734375
+          }
+        ],
+        "outside": [],
+        "overflow": 0,
+        "minRenderedFont": 18.26431686046512
+      },
+      {
+        "name": "1280x720-light-logit",
+        "status": "passed",
+        "htmlSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+        "observedBuildIds": [
+          "iRnRpU4WRuIJMMLwqJ3Cb"
+        ],
+        "sides": [
+          {
+            "selected": "A",
+            "rows": [
+              {
+                "logit": 1.000001,
+                "probability": 0.39948654454732396,
+                "height": 41.94608717746902,
+                "value": "1.000001"
+              },
+              {
+                "logit": 1,
+                "probability": 0.3994861450609792,
+                "height": 41.94604523140281,
+                "value": "1.000000"
+              },
+              {
+                "logit": 0,
+                "probability": 0.14696273980076677,
+                "height": 15.43108767908051,
+                "value": "0.000000"
+              },
+              {
+                "logit": -1,
+                "probability": 0.05406457059093015,
+                "height": 5.676779912047666,
+                "value": "-1.000000"
+              }
+            ]
+          },
+          {
+            "selected": "B",
+            "rows": [
+              {
+                "logit": 0.999999,
+                "probability": 0.3994860647533299,
+                "height": 41.94603679909964,
+                "value": "0.999999"
+              },
+              {
+                "logit": 1,
+                "probability": 0.39948646423959433,
+                "height": 41.94607874515741,
+                "value": "1.000000"
+              },
+              {
+                "logit": 0,
+                "probability": 0.14696285722001734,
+                "height": 15.43110000810182,
+                "value": "0.000000"
+              },
+              {
+                "logit": -1,
+                "probability": 0.05406461378705845,
+                "height": 5.676784447641137,
+                "value": "-1.000000"
+              }
+            ]
+          }
+        ],
+        "overlaps": [
+          {
+            "texts": [
+              "選択 A",
+              "値: ロジット"
+            ],
+            "width": 70.22059631347656,
+            "height": 1.1133575439453125
+          },
+          {
+            "texts": [
+              "選択 B",
+              "値: ロジット"
+            ],
+            "width": 68.31969451904297,
+            "height": 1.113372802734375
+          }
+        ],
+        "outside": [],
+        "overflow": 0,
+        "minRenderedFont": 18.26431686046512
+      },
+      {
+        "name": "390x844-light-draw",
+        "status": "passed",
+        "htmlSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+        "observedBuildIds": [
+          "iRnRpU4WRuIJMMLwqJ3Cb"
+        ],
+        "sides": [
+          {
+            "selected": "A",
+            "rows": [
+              {
+                "logit": -0.916290731874155,
+                "probability": 0.4,
+                "height": 42,
+                "value": "0.40"
+              },
+              {
+                "logit": -1.2039728043259361,
+                "probability": 0.29999999999999993,
+                "height": 31.499999999999993,
+                "value": "0.30"
+              },
+              {
+                "logit": -1.6094379124341003,
+                "probability": 0.2,
+                "height": 21,
+                "value": "0.20"
+              },
+              {
+                "logit": -2.3025850929940455,
+                "probability": 0.10000000000000002,
+                "height": 10.500000000000002,
+                "value": "0.10"
+              }
+            ]
+          },
+          {
+            "selected": "B",
+            "rows": [
+              {
+                "logit": -0.916290731874155,
+                "probability": 0.4,
+                "height": 42,
+                "value": "0.40"
+              },
+              {
+                "logit": -1.2039728043259361,
+                "probability": 0.29999999999999993,
+                "height": 31.499999999999993,
+                "value": "0.30"
+              },
+              {
+                "logit": -1.6094379124341003,
+                "probability": 0.2,
+                "height": 21,
+                "value": "0.20"
+              },
+              {
+                "logit": -2.3025850929940455,
+                "probability": 0.10000000000000002,
+                "height": 10.500000000000002,
+                "value": "0.10"
+              }
+            ]
+          }
+        ],
+        "overlaps": [],
+        "outside": [],
+        "overflow": 0,
+        "minRenderedFont": 12.2375
+      },
+      {
+        "name": "390x844-light-logit",
+        "status": "passed",
+        "htmlSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+        "observedBuildIds": [
+          "iRnRpU4WRuIJMMLwqJ3Cb"
+        ],
+        "sides": [
+          {
+            "selected": "A",
+            "rows": [
+              {
+                "logit": 1.000001,
+                "probability": 0.39948654454732396,
+                "height": 41.94608717746902,
+                "value": "1.000001"
+              },
+              {
+                "logit": 1,
+                "probability": 0.3994861450609792,
+                "height": 41.94604523140281,
+                "value": "1.000000"
+              },
+              {
+                "logit": 0,
+                "probability": 0.14696273980076677,
+                "height": 15.43108767908051,
+                "value": "0.000000"
+              },
+              {
+                "logit": -1,
+                "probability": 0.05406457059093015,
+                "height": 5.676779912047666,
+                "value": "-1.000000"
+              }
+            ]
+          },
+          {
+            "selected": "B",
+            "rows": [
+              {
+                "logit": 0.999999,
+                "probability": 0.3994860647533299,
+                "height": 41.94603679909964,
+                "value": "0.999999"
+              },
+              {
+                "logit": 1,
+                "probability": 0.39948646423959433,
+                "height": 41.94607874515741,
+                "value": "1.000000"
+              },
+              {
+                "logit": 0,
+                "probability": 0.14696285722001734,
+                "height": 15.43110000810182,
+                "value": "0.000000"
+              },
+              {
+                "logit": -1,
+                "probability": 0.05406461378705845,
+                "height": 5.676784447641137,
+                "value": "-1.000000"
+              }
+            ]
+          }
+        ],
+        "overlaps": [],
+        "outside": [],
+        "overflow": 0,
+        "minRenderedFont": 12.2375
+      },
+      {
+        "name": "390x844-dark-draw",
+        "status": "passed",
+        "htmlSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+        "observedBuildIds": [
+          "iRnRpU4WRuIJMMLwqJ3Cb"
+        ],
+        "sides": [
+          {
+            "selected": "A",
+            "rows": [
+              {
+                "logit": -0.916290731874155,
+                "probability": 0.4,
+                "height": 42,
+                "value": "0.40"
+              },
+              {
+                "logit": -1.2039728043259361,
+                "probability": 0.29999999999999993,
+                "height": 31.499999999999993,
+                "value": "0.30"
+              },
+              {
+                "logit": -1.6094379124341003,
+                "probability": 0.2,
+                "height": 21,
+                "value": "0.20"
+              },
+              {
+                "logit": -2.3025850929940455,
+                "probability": 0.10000000000000002,
+                "height": 10.500000000000002,
+                "value": "0.10"
+              }
+            ]
+          },
+          {
+            "selected": "B",
+            "rows": [
+              {
+                "logit": -0.916290731874155,
+                "probability": 0.4,
+                "height": 42,
+                "value": "0.40"
+              },
+              {
+                "logit": -1.2039728043259361,
+                "probability": 0.29999999999999993,
+                "height": 31.499999999999993,
+                "value": "0.30"
+              },
+              {
+                "logit": -1.6094379124341003,
+                "probability": 0.2,
+                "height": 21,
+                "value": "0.20"
+              },
+              {
+                "logit": -2.3025850929940455,
+                "probability": 0.10000000000000002,
+                "height": 10.500000000000002,
+                "value": "0.10"
+              }
+            ]
+          }
+        ],
+        "overlaps": [],
+        "outside": [],
+        "overflow": 0,
+        "minRenderedFont": 12.2375
+      },
+      {
+        "name": "390x844-dark-logit",
+        "status": "passed",
+        "htmlSHA256": "5ada95bacda1e19bbf3860b20cb0e815d799e311dbe86e2364a696c14b151e50",
+        "observedBuildIds": [
+          "iRnRpU4WRuIJMMLwqJ3Cb"
+        ],
+        "sides": [
+          {
+            "selected": "A",
+            "rows": [
+              {
+                "logit": 1.000001,
+                "probability": 0.39948654454732396,
+                "height": 41.94608717746902,
+                "value": "1.000001"
+              },
+              {
+                "logit": 1,
+                "probability": 0.3994861450609792,
+                "height": 41.94604523140281,
+                "value": "1.000000"
+              },
+              {
+                "logit": 0,
+                "probability": 0.14696273980076677,
+                "height": 15.43108767908051,
+                "value": "0.000000"
+              },
+              {
+                "logit": -1,
+                "probability": 0.05406457059093015,
+                "height": 5.676779912047666,
+                "value": "-1.000000"
+              }
+            ]
+          },
+          {
+            "selected": "B",
+            "rows": [
+              {
+                "logit": 0.999999,
+                "probability": 0.3994860647533299,
+                "height": 41.94603679909964,
+                "value": "0.999999"
+              },
+              {
+                "logit": 1,
+                "probability": 0.39948646423959433,
+                "height": 41.94607874515741,
+                "value": "1.000000"
+              },
+              {
+                "logit": 0,
+                "probability": 0.14696285722001734,
+                "height": 15.43110000810182,
+                "value": "0.000000"
+              },
+              {
+                "logit": -1,
+                "probability": 0.05406461378705845,
+                "height": 5.676784447641137,
+                "value": "-1.000000"
+              }
+            ]
+          }
+        ],
+        "overlaps": [],
+        "outside": [],
+        "overflow": 0,
+        "minRenderedFont": 12.2375
+      }
+    ],
+    "network": [
+      {
+        "case": "1440x1000-light-logit",
+        "pageErrors": [],
+        "consoleErrors": [],
+        "failed": [],
+        "httpErrors": []
+      },
+      {
+        "case": "1440x1000-dark-logit",
+        "pageErrors": [],
+        "consoleErrors": [],
+        "failed": [],
+        "httpErrors": []
+      },
+      {
+        "case": "1280x720-light-logit",
+        "pageErrors": [],
+        "consoleErrors": [],
+        "failed": [],
+        "httpErrors": []
+      },
+      {
+        "case": "390x844-light-logit",
+        "pageErrors": [],
+        "consoleErrors": [],
+        "failed": [],
+        "httpErrors": []
+      },
+      {
+        "case": "390x844-dark-logit",
+        "pageErrors": [],
+        "consoleErrors": [],
+        "failed": [],
+        "httpErrors": []
+      }
+    ],
+    "firstSandboxAttempt": {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-29-12-882Z\\result.json",
+      "sha256": "a88ebb92070f03bf41fb43bdee43c4b950a84f2286dc9f9cee7226e7aa3c9b65",
+      "bytes": 7253,
+      "status": "failed",
+      "caseCount": 0,
+      "note": "ERR_NETWORK_ACCESS_DENIED before any case. Same script then reran with approved network access; this zero-case failure is preserved."
+    }
+  },
+  "coverage": {
+    "mainInferenceImages": 52,
+    "mainEarlierFiveArticleSamples": 11,
+    "independentComparisonImages": 20,
+    "totalImagesActuallyDisplayed": 83,
+    "allRootInferencePNGsDisplayed": true,
+    "all157RootImagesDisplayed": false
+  },
+  "bboxReview": [
+    {
+      "case": "inference: all 23 stages 1440x1000 light",
+      "label": "inference-sampling stage 6 1440x1000 light",
+      "pairs": [
+        {
+          "texts": [
+            "選択 A",
+            "値: 確率"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "選択 A",
+              "x": 41.999999999999886,
+              "y": 130.46366882324222,
+              "right": 112.04936218261707,
+              "bottom": 162.12872314453128
+            },
+            {
+              "text": "値: 確率",
+              "x": 41.999999999999886,
+              "y": 161.50657653808597,
+              "right": 118.76861572265614,
+              "bottom": 190.1072750091553
+            }
+          ],
+          "intersectionSVG": {
+            "x": 41.999999999999886,
+            "y": 161.50657653808597,
+            "width": 70.04936218261719,
+            "height": 0.6221466064453125
+          },
+          "intersectionRenderedPx": {
+            "width": 68.57812194491532,
+            "height": 0.6090797191442334
+          }
+        },
+        {
+          "texts": [
+            "選択 B",
+            "値: 確率"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "選択 B",
+              "x": 41.999999999999886,
+              "y": 278.4636535644531,
+              "right": 110.32565307617176,
+              "bottom": 310.12872314453125
+            },
+            {
+              "text": "値: 確率",
+              "x": 41.999999999999886,
+              "y": 309.506591796875,
+              "right": 118.76861572265614,
+              "bottom": 338.10729026794434
+            }
+          ],
+          "intersectionSVG": {
+            "x": 41.999999999999886,
+            "y": 309.506591796875,
+            "width": 68.32565307617188,
+            "height": 0.62213134765625
+          },
+          "intersectionRenderedPx": {
+            "width": 66.89061574048776,
+            "height": 0.6090647808341032
+          }
+        }
+      ],
+      "visualDecision": "accepted-for-this-image; actual glyphs separate",
+      "universalThresholdApproved": false
+    },
+    {
+      "case": "inference: all 23 stages 1440x1000 dark",
+      "label": "inference-sampling stage 6 1440x1000 dark",
+      "pairs": [
+        {
+          "texts": [
+            "選択 A",
+            "値: 確率"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "選択 A",
+              "x": 41.999999999999886,
+              "y": 130.46366882324222,
+              "right": 112.04936218261707,
+              "bottom": 162.12872314453128
+            },
+            {
+              "text": "値: 確率",
+              "x": 41.999999999999886,
+              "y": 161.50657653808597,
+              "right": 118.76861572265614,
+              "bottom": 190.1072750091553
+            }
+          ],
+          "intersectionSVG": {
+            "x": 41.999999999999886,
+            "y": 161.50657653808597,
+            "width": 70.04936218261719,
+            "height": 0.6221466064453125
+          },
+          "intersectionRenderedPx": {
+            "width": 68.57812194491532,
+            "height": 0.6090797191442334
+          }
+        },
+        {
+          "texts": [
+            "選択 B",
+            "値: 確率"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "選択 B",
+              "x": 41.999999999999886,
+              "y": 278.4636535644531,
+              "right": 110.32565307617176,
+              "bottom": 310.12872314453125
+            },
+            {
+              "text": "値: 確率",
+              "x": 41.999999999999886,
+              "y": 309.506591796875,
+              "right": 118.76861572265614,
+              "bottom": 338.10729026794434
+            }
+          ],
+          "intersectionSVG": {
+            "x": 41.999999999999886,
+            "y": 309.506591796875,
+            "width": 68.32565307617188,
+            "height": 0.62213134765625
+          },
+          "intersectionRenderedPx": {
+            "width": 66.89061574048776,
+            "height": 0.6090647808341032
+          }
+        }
+      ],
+      "visualDecision": "accepted-for-this-image; actual glyphs separate",
+      "universalThresholdApproved": false
+    },
+    {
+      "case": "inference: all 23 stages 1280x720 light",
+      "label": "inference-sampling stage 6 1280x720 light",
+      "pairs": [
+        {
+          "texts": [
+            "選択 A",
+            "値: 確率"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "選択 A",
+              "x": 42,
+              "y": 130.70477294921875,
+              "right": 112.22059631347656,
+              "bottom": 162.02267456054688
+            },
+            {
+              "text": "値: 確率",
+              "x": 42,
+              "y": 160.90931701660156,
+              "right": 118.78907775878906,
+              "bottom": 191.02268028259277
+            }
+          ],
+          "intersectionSVG": {
+            "x": 42,
+            "y": 160.90931701660156,
+            "width": 70.22059631347656,
+            "height": 1.1133575439453125
+          },
+          "intersectionRenderedPx": {
+            "width": 58.29687369091562,
+            "height": 0.9243052255275757
+          }
+        },
+        {
+          "texts": [
+            "選択 B",
+            "値: 確率"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "選択 B",
+              "x": 42,
+              "y": 278.70477294921875,
+              "right": 110.31969451904297,
+              "bottom": 310.0226745605469
+            },
+            {
+              "text": "値: 確率",
+              "x": 42,
+              "y": 308.9093017578125,
+              "right": 118.78907775878906,
+              "bottom": 339.0226650238037
+            }
+          ],
+          "intersectionSVG": {
+            "x": 42,
+            "y": 308.9093017578125,
+            "width": 68.31969451904297,
+            "height": 1.113372802734375
+          },
+          "intersectionRenderedPx": {
+            "width": 56.718752204817406,
+            "height": 0.9243178933165836
+          }
+        }
+      ],
+      "visualDecision": "accepted-for-this-image; actual glyphs separate",
+      "universalThresholdApproved": false
+    },
+    {
+      "case": "inference: all 23 stages 1280x720 light",
+      "label": "inference-speculative stage 1 1280x720 light",
+      "pairs": [
+        {
+          "texts": [
+            "p(A)=0.1",
+            "AB"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "p(A)=0.1",
+              "x": 60.020084381103516,
+              "y": 274.9093017578125,
+              "right": 143.97992324829102,
+              "bottom": 305.0226745605469
+            },
+            {
+              "text": "AB",
+              "x": 87.39501953125,
+              "y": 303.9093017578125,
+              "right": 115.40044784545898,
+              "bottom": 334.0226650238037
+            }
+          ],
+          "intersectionSVG": {
+            "x": 87.39501953125,
+            "y": 303.9093017578125,
+            "width": 28.005428314208984,
+            "height": 1.113372802734375
+          },
+          "intersectionRenderedPx": {
+            "width": 23.25000075198875,
+            "height": 0.9243178933165268
+          }
+        },
+        {
+          "texts": [
+            "p(B)=0.1",
+            "ABA"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "p(B)=0.1",
+              "x": 224.81056213378906,
+              "y": 274.9093017578125,
+              "right": 307.1894226074219,
+              "bottom": 305.0226745605469
+            },
+            {
+              "text": "ABA",
+              "x": 244.29954528808594,
+              "y": 303.9093017578125,
+              "right": 286.75389099121094,
+              "bottom": 334.0226650238037
+            }
+          ],
+          "intersectionSVG": {
+            "x": 244.29954528808594,
+            "y": 303.9093017578125,
+            "width": 42.454345703125,
+            "height": 1.113372802734375
+          },
+          "intersectionRenderedPx": {
+            "width": 35.245437364799955,
+            "height": 0.9243178933165268
+          }
+        },
+        {
+          "texts": [
+            "p(C)=0.2",
+            "ABAB"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "p(C)=0.2",
+              "x": 388.3023986816406,
+              "y": 274.9093017578125,
+              "right": 471.6976013183594,
+              "bottom": 305.0226745605469
+            },
+            {
+              "text": "ABAB",
+              "x": 401.99456787109375,
+              "y": 303.9093017578125,
+              "right": 456.80088806152344,
+              "bottom": 334.0226650238037
+            }
+          ],
+          "intersectionSVG": {
+            "x": 401.99456787109375,
+            "y": 303.9093017578125,
+            "width": 54.80632019042969,
+            "height": 1.113372802734375
+          },
+          "intersectionRenderedPx": {
+            "width": 45.499999905186996,
+            "height": 0.9243178933165268
+          }
+        },
+        {
+          "texts": [
+            "p",
+            "ABABC"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "p",
+              "x": 566.525634765625,
+              "y": 274.9093017578125,
+              "right": 579.4743804931641,
+              "bottom": 305.0226650238037
+            },
+            {
+              "text": "ABABC",
+              "x": 538.1908569335938,
+              "y": 303.9093017578125,
+              "right": 606.6046524047852,
+              "bottom": 334.0226650238037
+            }
+          ],
+          "intersectionSVG": {
+            "x": 566.525634765625,
+            "y": 303.9093017578125,
+            "width": 12.948745727539062,
+            "height": 1.113363265991211
+          },
+          "intersectionRenderedPx": {
+            "width": 10.749999768789394,
+            "height": 0.9243099759484039
+          }
+        }
+      ],
+      "visualDecision": "accepted-for-this-image; actual glyphs separate",
+      "universalThresholdApproved": false
+    },
+    {
+      "case": "inference: every selector, independent numerical fixtures, all midpoint boundaries and reverse seeks",
+      "label": "inference-sampling semantic final",
+      "pairs": [
+        {
+          "texts": [
+            "選択 A",
+            "値: ロジット"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "選択 A",
+              "x": 41.999999999999886,
+              "y": 130.46366882324222,
+              "right": 112.04936218261707,
+              "bottom": 162.12872314453128
+            },
+            {
+              "text": "値: ロジット",
+              "x": 41.999999999999886,
+              "y": 161.50657653808597,
+              "right": 138.49203491210926,
+              "bottom": 190.1072750091553
+            }
+          ],
+          "intersectionSVG": {
+            "x": 41.999999999999886,
+            "y": 161.50657653808597,
+            "width": 70.04936218261719,
+            "height": 0.6221466064453125
+          },
+          "intersectionRenderedPx": {
+            "width": 68.57812194491532,
+            "height": 0.6090797191442334
+          }
+        },
+        {
+          "texts": [
+            "選択 B",
+            "値: ロジット"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "選択 B",
+              "x": 41.999999999999886,
+              "y": 278.4636535644531,
+              "right": 110.32565307617176,
+              "bottom": 310.12872314453125
+            },
+            {
+              "text": "値: ロジット",
+              "x": 41.999999999999886,
+              "y": 309.506591796875,
+              "right": 138.49203491210926,
+              "bottom": 338.10729026794434
+            }
+          ],
+          "intersectionSVG": {
+            "x": 41.999999999999886,
+            "y": 309.506591796875,
+            "width": 68.32565307617188,
+            "height": 0.62213134765625
+          },
+          "intersectionRenderedPx": {
+            "width": 66.89061574048776,
+            "height": 0.6090647808341032
+          }
+        }
+      ],
+      "visualDecision": "accepted-for-this-image; actual glyphs separate",
+      "universalThresholdApproved": false
+    }
+  ],
+  "sourceFiles": [
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\verify-public.mjs",
+      "sha256": "feda2fe31c1f983ab534714e4b3aaadebbd17155951d9f7a5089284ca1f03edd",
+      "bytes": 59261
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\inference-checks.mjs",
+      "sha256": "25533c15df80ed989d920dd87a918f6ba6425489ca3da9f74fd3012b7771c280",
+      "bytes": 31877
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\foundations-checks.mjs",
+      "sha256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398",
+      "bytes": 26410
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\known-site-observations.mjs",
+      "sha256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659",
+      "bytes": 130
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\collect-deployment.ps1",
+      "sha256": "bdb4a7812875a9a8b83daee5e9f759d75ee802e63c3866545aeb45807191c113",
+      "bytes": 10056
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\extract-ci-html.mjs",
+      "sha256": "3e509d1434615996582df8bfd6a461bfe4cd393d2398870a66c6dbabcb26f556",
+      "bytes": 4265
+    }
+  ],
+  "preservedPreviousReviews": [
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-public-final-review.md",
+      "sha256": "6cb0ebf8d2cba469a87cf173fc4c76d485f4ace26dd0ba500bed9d9f338fc556",
+      "bytes": 13623,
+      "unchangedFromPreviousReview": true
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-public-final-review.json",
+      "sha256": "131532f22b5028d6e7d3a2ca18ab4236affc49dc72df7a4e55082611991f33d7",
+      "bytes": 51353,
+      "unchangedFromPreviousReview": true
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-fix-review.md",
+      "sha256": "3ed3effe060cd06840c8cbf1f019871960261a0453e36f2a29ae74b196e91ef4",
+      "bytes": 5250,
+      "unchangedFromPreviousReview": true
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-fix-review.json",
+      "sha256": "7126051b2d27846de13df14c7459a9c8042c7613cff34ba29689cdedbc4940d1",
+      "bytes": 22296,
+      "unchangedFromPreviousReview": true
+    }
+  ],
+  "evidenceFiles": [
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\result.json",
+      "sha256": "d6f4346386cb0cac64bd01918732a711345591c835af50c939bf164a13b88f42",
+      "bytes": 2393890
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\result.json",
+      "sha256": "08426482b9a48bd9acb0a9588601aa2998e452deaef72e88954586aa4d3e9dd9",
+      "bytes": 101724
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\artifact-evidence.latest.json",
+      "sha256": "c7f4c5990d1d8098576c51442bb6d84446023beb11b953570e57efd9a46fe0ce",
+      "bytes": 4526
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-browser.mjs",
+      "sha256": "bfe8a715efb85c7dc4d2e8f62c0c59d4a793e400c5b41f3c6b826f463f90b0f9",
+      "bytes": 8072
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-29-12-882Z\\result.json",
+      "sha256": "a88ebb92070f03bf41fb43bdee43c4b950a84f2286dc9f9cee7226e7aa3c9b65",
+      "bytes": 7253
+    }
+  ],
+  "images": [
+    {
+      "name": "inference-sampling-stage-0",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-sampling-stage-0.png",
+      "sha256": "8bc0c57f85dec53f019c30c0e31885e8569d4d87227d049b779f36f3c2b6288e",
+      "bytes": 255618,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-sampling-stage-1",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-sampling-stage-1.png",
+      "sha256": "3724c33af34948cea8e36f2a0f95439ac2a39910bc95efae9432c5078a752987",
+      "bytes": 257024,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-sampling-stage-2",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-sampling-stage-2.png",
+      "sha256": "af316e890023fe6f959ca257a4177c70ad5cfa844a9548edde3bf1c8b3d3347c",
+      "bytes": 260859,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-sampling-stage-3",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-sampling-stage-3.png",
+      "sha256": "f47b8d1ac8ad81a35b1ba44969ea6afeecaad67dbac6c9739c2e10c5f495d7ca",
+      "bytes": 271213,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-sampling-stage-4",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-sampling-stage-4.png",
+      "sha256": "2583a97d552600091594fee65e18af9bafc90325be1e2b363bdc161fe238e8eb",
+      "bytes": 266490,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-sampling-stage-5",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-sampling-stage-5.png",
+      "sha256": "4198af71ed0dda0ef4f7a01dce8052b27a9979fd46f4098beceadbce84fa173b",
+      "bytes": 267437,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-sampling-stage-6",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-sampling-stage-6.png",
+      "sha256": "3b868b41b17baeeaa87f00fdfa85dfd6ed88bd24bbd39f5f7b6b989101a8f9d7",
+      "bytes": 265060,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-sampling-semantic-final",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-sampling-semantic-final.png",
+      "sha256": "5c95cc9f97cc221298e69293a02027ab4d0628091c898005b866c0e84849348c",
+      "bytes": 267803,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-cache-batching-stage-0",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-cache-batching-stage-0.png",
+      "sha256": "92376f647cefd5ffd615f7ddbf42342dd81bcf7044950a68d47b43321664b986",
+      "bytes": 273706,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-cache-batching-stage-1",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-cache-batching-stage-1.png",
+      "sha256": "debb00d7248f8e6eb90f6f78b8a87a73d686110f5c69486f8c78272218deebd6",
+      "bytes": 265059,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-cache-batching-stage-2",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-cache-batching-stage-2.png",
+      "sha256": "4fba28c6204203980cf7b447fc12d47a670b78e736b2bcd70171f9546ff67a5a",
+      "bytes": 293002,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-cache-batching-stage-3",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-cache-batching-stage-3.png",
+      "sha256": "4a2af13a2c309ec244ac4329a81dc8c6c45bdb8880a798cdef2ec270e7f34dd9",
+      "bytes": 265566,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-cache-batching-stage-4",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-cache-batching-stage-4.png",
+      "sha256": "26e48b6386e97b7d202fbb653b500327d8f1ebbc8a0b43ad689b61989e62d3d6",
+      "bytes": 275134,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-cache-batching-stage-5",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-cache-batching-stage-5.png",
+      "sha256": "b0368a51a54bf1ba4c48a379837e9aeee383131a97bde985ebe289bab9434961",
+      "bytes": 279947,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-cache-batching-semantic-final",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-cache-batching-semantic-final.png",
+      "sha256": "419381c51c205d47650e1d18ccb915139fcb83ecd246848e8d0a34eda551bf6b",
+      "bytes": 273501,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-cache-batching-expanded-selector",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-cache-batching-expanded-selector.png",
+      "sha256": "68439bcb681018c805c6853a6bb0df21469d858b0ecfc4449b40a088b43cba52",
+      "bytes": 184281,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-speculative-stage-0",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-speculative-stage-0.png",
+      "sha256": "c04a2963c70635f81a9fdc9a6c3863667279a15b47cd191eb3ee58d59b175ce0",
+      "bytes": 254986,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-speculative-stage-1",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-speculative-stage-1.png",
+      "sha256": "6992fd283163338397ba084614a9e8a29a9d49ad3510cb200f620ddedced7b0c",
+      "bytes": 258955,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-speculative-stage-2",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-speculative-stage-2.png",
+      "sha256": "e58f9fa864f214125273e05a5014710bf1ea3f8e7334a75426f4e49e790fd4b4",
+      "bytes": 273499,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-speculative-stage-3",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-speculative-stage-3.png",
+      "sha256": "5b0b2992b490ac9a207707855bae6f691a60ce1ec43afc4f53e51445763f95c0",
+      "bytes": 274873,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-speculative-stage-4",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-speculative-stage-4.png",
+      "sha256": "df65f26d6d4f473e4bae00d80c52bdd65765a3b902b87bb4b2262f3fd385273d",
+      "bytes": 277159,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-speculative-stage-5",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-speculative-stage-5.png",
+      "sha256": "abec3439b2136983c173643694b6f0204c38f8becd4c96cc9297e620bdc35f3b",
+      "bytes": 284706,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-speculative-semantic-final",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-speculative-semantic-final.png",
+      "sha256": "e0bfe0d27a1d11712d88f0f42fb1f0994ee1d591a9f91cbc392d9d5e8fb74887",
+      "bytes": 299991,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-speculative-expanded-selector",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-speculative-expanded-selector.png",
+      "sha256": "96766b2a921bf7607513b91ed8cc38e0f7026bc2554d0dea28aacdc2095f183c",
+      "bytes": 199083,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-quantization-stage-0",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-quantization-stage-0.png",
+      "sha256": "a2e3aa53f4373016196760e54b8c588a419330e22a891102710648aef0875efe",
+      "bytes": 267627,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-quantization-stage-1",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-quantization-stage-1.png",
+      "sha256": "c7cf8f611607a61194f4327518ad874854e9b1bea8b8aa667538f1fbef5c5745",
+      "bytes": 284142,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-quantization-stage-2",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-quantization-stage-2.png",
+      "sha256": "519a9bf1b871d09bf56db0245c969bb420840f8a27736ca30071a5bd756f144a",
+      "bytes": 287998,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-quantization-stage-3",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-quantization-stage-3.png",
+      "sha256": "8314232575bf15c4f138ef83ebff03c03852d8e124dbe9f50e83a8d72bd83477",
+      "bytes": 272719,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-quantization-semantic-final",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-quantization-semantic-final.png",
+      "sha256": "91d294ed204a8d283de6f773e2944eafbccdd72c23a42f76a8aabbdc41474693",
+      "bytes": 259779,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-quantization-expanded-selector",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-quantization-expanded-selector.png",
+      "sha256": "9927e6548fd366cf32c943e41feb8732c50e4601c1f0947a4994c9ae2321a6b6",
+      "bytes": 219587,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-sampling-expanded-selector",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-sampling-expanded-selector.png",
+      "sha256": "d7f709926e1ba10529ef3bdfaa6ed39001a3a22f8a5ac933bed30c464d64e8b0",
+      "bytes": 172696,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-sampling-stage-6-1440x1000-dark-review-candidate",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-sampling-stage-6-1440x1000-dark-review-candidate.png",
+      "sha256": "d3836f9caac5c668ff17bb03c606d029fab14f3d38c10468150bc31dedd2a342",
+      "bytes": 258388,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-speculative-stage-1-1280x720-light-review-candidate",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-speculative-stage-1-1280x720-light-review-candidate.png",
+      "sha256": "7c44a4e8b68fe9996334d5996153136705bf4c4d98bee47271bad4772bb35d84",
+      "bytes": 212333,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-sampling-stage-6-1280x720-light-review-candidate",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-sampling-stage-6-1280x720-light-review-candidate.png",
+      "sha256": "2654d31419c98def16e2482b59cb7133870bb35aadc7113d41c7f080da0fe41d",
+      "bytes": 203500,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-sampling-1280x720-light",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-sampling-1280x720-light.png",
+      "sha256": "2654d31419c98def16e2482b59cb7133870bb35aadc7113d41c7f080da0fe41d",
+      "bytes": 203500,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-cache-batching-1280x720-light",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-cache-batching-1280x720-light.png",
+      "sha256": "385fead43cbe2a56983bccc330127bb8ba568a501a264f6c3f467ff4dbede23c",
+      "bytes": 222490,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-speculative-1280x720-light",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-speculative-1280x720-light.png",
+      "sha256": "1d8f8fb4737f36897c01e994f8c4e72656fca02e8ea77d8a84c7848e58145b3e",
+      "bytes": 225907,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-quantization-1280x720-light",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-quantization-1280x720-light.png",
+      "sha256": "fb8f9e2251d8ef5bd0423a6d35c3050320a6fbf38c5e2669dae5a9f629e0d4df",
+      "bytes": 222062,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-sampling-1440x1000-dark",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-sampling-1440x1000-dark.png",
+      "sha256": "d3836f9caac5c668ff17bb03c606d029fab14f3d38c10468150bc31dedd2a342",
+      "bytes": 258388,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-cache-batching-1440x1000-dark",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-cache-batching-1440x1000-dark.png",
+      "sha256": "564246ca7d4d98ff34f78289a9472de5ac77fe21bc5fed129ec1cd782901d35f",
+      "bytes": 273017,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-speculative-1440x1000-dark",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-speculative-1440x1000-dark.png",
+      "sha256": "81fa9af31ac66b67ecacdbb59929d554cc732998dfeff844d24bd75d2972bbb8",
+      "bytes": 274694,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-quantization-1440x1000-dark",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-quantization-1440x1000-dark.png",
+      "sha256": "01fa23e7967fa49e5de494397952861a21b9c8abebbe08de489cb6874dc2eac6",
+      "bytes": 264612,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-no-javascript",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-no-javascript.png",
+      "sha256": "b389eb8fad9b375fafe1ba0903008ceab68edd656279c1061116aef4e3996d7e",
+      "bytes": 277289,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-print",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-print.png",
+      "sha256": "72cc04d2862f58d3ff2cb43d49209f5ab1dad8f2cbcb8f74eb36cb51207bbc5f",
+      "bytes": 161618,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-sampling-390x844-light",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-sampling-390x844-light.png",
+      "sha256": "3a8a5ae4f91adb67a77b550892c4d2adba963c8c76d0b0348b518ff487ff451a",
+      "bytes": 85805,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-cache-batching-390x844-light",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-cache-batching-390x844-light.png",
+      "sha256": "15dd60df1835616096ba7edaad231ec1e6cfb879baace5404904f1455f32ddbd",
+      "bytes": 78400,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-speculative-390x844-light",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-speculative-390x844-light.png",
+      "sha256": "5b53d07a0040c16b27392074cca49b16185832b907d84b874e1a64599c39c824",
+      "bytes": 93918,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-quantization-390x844-light",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-quantization-390x844-light.png",
+      "sha256": "6b9c6a4052f4f0dd4c76784d34fe05c2245e8830325a4355c0898bbaf8560643",
+      "bytes": 87291,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-sampling-390x844-dark",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-sampling-390x844-dark.png",
+      "sha256": "6c38a1363071861394c565d66b5d0c7ca45d03c4d5ba0e6b7f7d7dda3117183c",
+      "bytes": 81064,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-cache-batching-390x844-dark",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-cache-batching-390x844-dark.png",
+      "sha256": "3bb622be1b614edb234f24b0d27cb5784681edea0af1e997f5d5edb1c8b918d4",
+      "bytes": 76623,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-speculative-390x844-dark",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-speculative-390x844-dark.png",
+      "sha256": "bb97973a337109acca3dda8785ad7340686e7e07d73a116fa0f2ecade8495549",
+      "bytes": 91328,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "inference-quantization-390x844-dark",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\inference-quantization-390x844-dark.png",
+      "sha256": "fc8722fd253e6a5b1e652d78e9522031c04c20921907cda5f88f6e2c5dfca3cc",
+      "bytes": 83532,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "generation-token-loop-comparison-logit",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\generation-token-loop-comparison-logit.png",
+      "sha256": "842b35df8f5baf3179f629684b77d2528fc514abe703e19a392b09daeff618db",
+      "bytes": 286812,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "generation-token-loop-1280x720-light",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\generation-token-loop-1280x720-light.png",
+      "sha256": "df4d82d1b3671731355ad01fec9c84f05eae76b94f415e121a0ac151c16dbb1f",
+      "bytes": 223037,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "moe-routing-load-1440x1000-dark",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\moe-routing-load-1440x1000-dark.png",
+      "sha256": "d33680d5aa1d2a1f3b4a1ab0b7e5e6dfde0a758eb38ebd45bbac4a10dc1d331f",
+      "bytes": 251934,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "moe-parameters-communication-1440x1000-dark",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\moe-parameters-communication-1440x1000-dark.png",
+      "sha256": "8870fbbf05205c6c8e53e26b1f801e0f9c98fd7d7b8f5795bc8cc2ecf9fad467",
+      "bytes": 285249,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "moe-parameters-communication-1280x720-light",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\moe-parameters-communication-1280x720-light.png",
+      "sha256": "3dd5006c319960dbb5cc84d2aa8cca33a7b170eba0b1af18b209746a83b3d331",
+      "bytes": 178709,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "attention-kv-sharing-4-1440-light",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\attention-kv-sharing-4-1440-light.png",
+      "sha256": "ff5125ad4cba482b9284f01b806302b285747fa7f9f124c9ff68ec7eafc05ca4",
+      "bytes": 287641,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "attention-compute-memory-1440x1000-dark",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\attention-compute-memory-1440x1000-dark.png",
+      "sha256": "a5d962b0445a9cc62675234362372c663da91057c1d78c851212ea4165283dbb",
+      "bytes": 279019,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "transformer-regression-1440-light",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\transformer-regression-1440-light.png",
+      "sha256": "338acd2545ab396efb2f7dd7ecd612cda80498beeefaf492e2d455fb7900fc99",
+      "bytes": 276078,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "tokenization-counting-390x844-dark",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\tokenization-counting-390x844-dark.png",
+      "sha256": "66383acc24c3c9fd3c8dd1442e5ce3597bfb966a55994cf3e33fda4f5617332c",
+      "bytes": 73599,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "attention-context-range-390x844-dark",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\attention-context-range-390x844-dark.png",
+      "sha256": "ffaa8b4b6b7a843a0cf7f4cc64bffd80bb6c5e8990b3cc36dda4d20be7d09795",
+      "bytes": 106027,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "transformer-regression-390-dark",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-inference-label-public\\public-chromium-2026-09-24T13-26-38-550Z\\transformer-regression-390-dark.png",
+      "sha256": "f1f0b3c7fed76ffd6f44933a38e9e0494a6e406d2c80b2f6b40d30307df521ba",
+      "bytes": 76761,
+      "displayedInReviewer": true,
+      "source": "root-public-58"
+    },
+    {
+      "name": "1440x1000-light-draw-viewport",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\1440x1000-light-draw-viewport.png",
+      "sha256": "c2ba7a60b04ac8d1eaba2431108fbf041b37021582e6a0544894954b81c88a7e",
+      "bytes": 263298,
+      "displayedInReviewer": true,
+      "source": "independent-public-10"
+    },
+    {
+      "name": "1440x1000-light-logit-viewport",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\1440x1000-light-logit-viewport.png",
+      "sha256": "4059733f6a0c526950746d47ef6ee3781a0f560e515fc329ce8578d9d0e1b6be",
+      "bytes": 269646,
+      "displayedInReviewer": true,
+      "source": "independent-public-10"
+    },
+    {
+      "name": "1440x1000-dark-draw-viewport",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\1440x1000-dark-draw-viewport.png",
+      "sha256": "1af3c03923e9ed9d7937167698059b27af9b9add02d3210d94dd97ec23dfb7b4",
+      "bytes": 255779,
+      "displayedInReviewer": true,
+      "source": "independent-public-10"
+    },
+    {
+      "name": "1440x1000-dark-logit-viewport",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\1440x1000-dark-logit-viewport.png",
+      "sha256": "775529b723cdd9eabede87d26eb30c6ac7e27090aca841627ca05568e94c28b6",
+      "bytes": 262330,
+      "displayedInReviewer": true,
+      "source": "independent-public-10"
+    },
+    {
+      "name": "1280x720-light-draw-viewport",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\1280x720-light-draw-viewport.png",
+      "sha256": "87e41955436f821c0d18147f7883f39d0c174eef534904243fedbbf460403d52",
+      "bytes": 185723,
+      "displayedInReviewer": true,
+      "source": "independent-public-10"
+    },
+    {
+      "name": "1280x720-light-logit-viewport",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\1280x720-light-logit-viewport.png",
+      "sha256": "4276695afc89e8da5e91046db82fbfd58c0e19b7ad202849acdb097573acae00",
+      "bytes": 190746,
+      "displayedInReviewer": true,
+      "source": "independent-public-10"
+    },
+    {
+      "name": "390x844-light-draw-viewport",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\390x844-light-draw-viewport.png",
+      "sha256": "1bd5f37da44103b431295e28d6751e5827aee13b880e4e091b33ff7b4edcc143",
+      "bytes": 79019,
+      "displayedInReviewer": true,
+      "source": "independent-public-10"
+    },
+    {
+      "name": "390x844-light-logit-viewport",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\390x844-light-logit-viewport.png",
+      "sha256": "12ea29d467f9b5506db118546f76262061caae206de50afd6323dd69c376561f",
+      "bytes": 81828,
+      "displayedInReviewer": true,
+      "source": "independent-public-10"
+    },
+    {
+      "name": "390x844-dark-draw-viewport",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\390x844-dark-draw-viewport.png",
+      "sha256": "cfef73b4a6c4277ca8eeda5b6fe1a2d6d520c4c68b4fdea94c08028a95ce31c0",
+      "bytes": 77176,
+      "displayedInReviewer": true,
+      "source": "independent-public-10"
+    },
+    {
+      "name": "390x844-dark-logit-viewport",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\390x844-dark-logit-viewport.png",
+      "sha256": "3fa56f0d69e311e40932910d656c80612105cbe00a48e44f0227a3b85615b009",
+      "bytes": 80020,
+      "displayedInReviewer": true,
+      "source": "independent-public-10"
+    },
+    {
+      "name": "1440x1000-light-draw-scene",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\1440x1000-light-draw-scene.png",
+      "sha256": "ac9249472856297f70b4ffce844c365f24e1c455489c903a6b590a091ab2ffdc",
+      "bytes": 32634,
+      "displayedInReviewer": true,
+      "source": "independent-public-10"
+    },
+    {
+      "name": "1440x1000-light-logit-scene",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\1440x1000-light-logit-scene.png",
+      "sha256": "faf4e018d54185dc496bb4b1c9771ff2afaf88df6d95a89862bf1ab5d1f21a31",
+      "bytes": 38408,
+      "displayedInReviewer": true,
+      "source": "independent-public-10"
+    },
+    {
+      "name": "1440x1000-dark-draw-scene",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\1440x1000-dark-draw-scene.png",
+      "sha256": "ac9249472856297f70b4ffce844c365f24e1c455489c903a6b590a091ab2ffdc",
+      "bytes": 32634,
+      "displayedInReviewer": true,
+      "source": "independent-public-10"
+    },
+    {
+      "name": "1440x1000-dark-logit-scene",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\1440x1000-dark-logit-scene.png",
+      "sha256": "faf4e018d54185dc496bb4b1c9771ff2afaf88df6d95a89862bf1ab5d1f21a31",
+      "bytes": 38408,
+      "displayedInReviewer": true,
+      "source": "independent-public-10"
+    },
+    {
+      "name": "1280x720-light-draw-scene",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\1280x720-light-draw-scene.png",
+      "sha256": "6bc852eefbb46c81341a50ce95b0d028076c7a1c3f7e3f40ccf8f65bc351a685",
+      "bytes": 27213,
+      "displayedInReviewer": true,
+      "source": "independent-public-10"
+    },
+    {
+      "name": "1280x720-light-logit-scene",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\1280x720-light-logit-scene.png",
+      "sha256": "1f99ae9f98945f735aa7e546c155ac9d07874428dc95192c53c9515f871662b3",
+      "bytes": 31593,
+      "displayedInReviewer": true,
+      "source": "independent-public-10"
+    },
+    {
+      "name": "390x844-light-draw-scene",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\390x844-light-draw-scene.png",
+      "sha256": "edf667059cb0d4bc164c272ac5c32d821634052404908b861fc3d4d2ede0818a",
+      "bytes": 15713,
+      "displayedInReviewer": true,
+      "source": "independent-public-10"
+    },
+    {
+      "name": "390x844-light-logit-scene",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\390x844-light-logit-scene.png",
+      "sha256": "ace581d263124094e0f2a6851b55636c58764b44a23a976615ee56fee7dc1971",
+      "bytes": 18107,
+      "displayedInReviewer": true,
+      "source": "independent-public-10"
+    },
+    {
+      "name": "390x844-dark-draw-scene",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\390x844-dark-draw-scene.png",
+      "sha256": "edf667059cb0d4bc164c272ac5c32d821634052404908b861fc3d4d2ede0818a",
+      "bytes": 15713,
+      "displayedInReviewer": true,
+      "source": "independent-public-10"
+    },
+    {
+      "name": "390x844-dark-logit-scene",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-label-public-review-2026-09-24T13-30-13-095Z\\390x844-dark-logit-scene.png",
+      "sha256": "ace581d263124094e0f2a6851b55636c58764b44a23a976615ee56fee7dc1971",
+      "bytes": 18107,
+      "displayedInReviewer": true,
+      "source": "independent-public-10"
+    }
+  ]
+}

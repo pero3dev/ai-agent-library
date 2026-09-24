@@ -4,6 +4,37 @@ import { readFileSync } from 'node:fs'
 // IDs resolve to code-owned bindings, never to module paths supplied by Markdown
 // or the registry. Adding a diagram requires an explicit implementation change.
 const BINDINGS = {
+  'training-stages': {
+    article: 'docs/10-llm-foundations/llm-training-pipeline.md',
+    route: '/docs/llm-foundations/llm-training-pipeline',
+    binding: 'grouped-blocks', stageCount: 6,
+    headings: [
+      '概要: 3 つの工程と、それぞれが残す「癖」', '事前学習: 次トークン予測で知識を得る',
+      '指示チューニング(SFT): 指示に従う形式を学ぶ', '選好調整: 「良い応答」の基準を最適化する'
+    ],
+    sourceHeadings: [
+      '概要: 3 つの工程と、それぞれが残す「癖」', '事前学習: 次トークン予測で知識を得る',
+      '指示チューニング(SFT): 指示に従う形式を学ぶ', '選好調整: 「良い応答」の基準を最適化する'
+    ],
+    blockGroups: [
+      [{ stage: 0, count: 2 }], [{ stage: 1, count: 1 }, { stage: 2, count: 1 }],
+      [{ stage: 3, count: 1 }, { stage: 4, count: 1 }], [{ stage: 5, count: 1 }]
+    ],
+    blockTypes: [['paragraph', 'code'], ['paragraph', 'list'], ['paragraph', 'paragraph'], ['paragraph']]
+  },
+  'training-runtime-boundary': {
+    article: 'docs/10-llm-foundations/llm-training-pipeline.md',
+    route: '/docs/llm-foundations/llm-training-pipeline',
+    binding: 'grouped-blocks', stageCount: 4,
+    headings: ['この工程から生まれる性質: 幻覚・迎合・拒否'],
+    sourceHeadings: [
+      '概要: 3 つの工程と、それぞれが残す「癖」', '事前学習: 次トークン予測で知識を得る',
+      '指示チューニング(SFT): 指示に従う形式を学ぶ', '選好調整: 「良い応答」の基準を最適化する',
+      'この工程から生まれる性質: 幻覚・迎合・拒否', 'この理解が効く場面'
+    ],
+    blockGroups: [[{ stage: 0, count: 1 }, { stage: 2, count: 1 }, { stage: 3, count: 1 }]],
+    blockTypes: [['paragraph', 'list', 'paragraph']]
+  },
   'inference-sampling': { article: 'docs/11-llm-internals/inference-internals.md',
     route: '/docs/llm-internals/inference-internals',
     binding: 'grouped-blocks',

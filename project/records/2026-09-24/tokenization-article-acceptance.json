@@ -2,17 +2,25 @@
   "schemaVersion": 1,
   "article": "docs/10-llm-foundations/tokenization.md",
   "review": {
-    "inputDigest": "sha256:8d3ad3e68612e0cb2a59d2ef82b90aded6b1b9d90fccd8d30c59beb78e25200d",
+    "inputDigest": "sha256:92f6402af833f916f1ddfd349fdbe87c5c0916de794b13669d5f1c22ff3672ff",
     "status": "approved",
-    "checkedAt": "2026-09-24T11:17:45.760Z",
+    "checkedAt": "2026-09-24T14:42:52.836Z",
     "independent": true,
-    "record": "project/records/2026-09-24/inference-reading-diagrams.md"
+    "record": "project/records/2026-09-24/training-reading-diagrams.md"
   },
   "local": {
+    "inputDigest": "sha256:92f6402af833f916f1ddfd349fdbe87c5c0916de794b13669d5f1c22ff3672ff",
+    "status": "passed",
+    "checkedAt": "2026-09-24T14:48:29.587Z",
+    "record": "project/records/2026-09-24/training-reading-diagrams.md"
+  },
+  "public": {
     "inputDigest": "sha256:8d3ad3e68612e0cb2a59d2ef82b90aded6b1b9d90fccd8d30c59beb78e25200d",
     "status": "passed",
-    "checkedAt": "2026-09-24T11:49:02.878Z",
-    "record": "project/records/2026-09-24/inference-reading-diagrams.md"
-  },
-  "public": null
+    "checkedAt": "2026-09-24T13:46:54.818Z",
+    "commit": "67b1309fcea8267749be6e52881f3d6a4049ae2b",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138/job/107651395952",
+    "browserRecord": "project/records/2026-09-24/inference-score-label-fix.md"
+  }
 }

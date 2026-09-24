@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "result": "approved",
+  "risk": "low",
+  "scope": "handoff-draft-document-only",
+  "must_count": 0,
+  "should_count": 2,
+  "reviewed_at": "2026-09-24T13:17:50Z",
+  "recorded_at": "2026-09-24T13:19:21.7716889Z",
+  "reviewer_run_id": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+  "supporting_reviewer": "/root/inference_doc_review/handoff_link_check",
+  "target_hashes": [
+    {
+      "file": "project/records/2026-09-24/training-storyboards.md",
+      "sha256": "7f44b12212537605daca2597ebbe243b97a1206edceb5e6379505b0d466ae2ff"
+    },
+    {
+      "file": "project/records/2026-09-24/training-storyboards.json",
+      "sha256": "3439e7f163e2b033c278636c59738ef7ee9325cf5a9dec2369284374d44d504a"
+    },
+    {
+      "file": "project/records/2026-09-24/training-storyboards-review.md",
+      "sha256": "987ff768a56f9ee7bad31da115f5a3511c2ff0662426b8c6567d466bc9fa8d7f"
+    },
+    {
+      "file": "project/records/2026-09-24/training-storyboards-check.json",
+      "sha256": "5df1a38e091fb9e49a562d47c80fbb0d294e29ecd6e447e9febddd8198a06cc6"
+    },
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards.md",
+      "sha256": "b663581aa76b9da2cb78c7121f54108f5e01cb248d3a059996656922aeab8108"
+    },
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "sha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319"
+    },
+    {
+      "file": "project/records/2026-09-24/diagram-release-portability-review.json",
+      "sha256": "20d064c0a3370db99e3e456105c676805b49d34b1199ac6d2002d40a78b68cd3"
+    },
+    {
+      "file": "project/records/2026-09-24/diagram-release-portability-review.md",
+      "sha256": "ac6367581792815750ada9246f993aedfc0784b118802a63619f89cecdac5b51"
+    },
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards-check.json",
+      "sha256": "6b88c31dd59871a75c424c80451a20447766494ab1f01d97bf79113505c7aad6"
+    },
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards-support/multimodal-models.candidate.txt",
+      "sha256": "27956431766343cd1c4b910ce9d7b703e655365856c3e10484de315684688ced"
+    },
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards-support/multimodal-consistency-v3.json",
+      "sha256": "5df5e2da2ca5257609327693c4da196718caa9bfa697236c6f5a116614bdff75"
+    },
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards-review.md",
+      "sha256": "2fb93bf61b555a218bc17897d7a5176ab14cdb27a14b5f4c24ff54a2b3178a1e"
+    },
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+      "sha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4"
+    },
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards-support/p1-remaining-storyboards-review.original.txt",
+      "sha256": "0c327c9cc463977584bb82fd6e5da1d1fb0fd0234d1700fea810bed14240b89d"
+    },
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards-support/p1-remaining-plan.original.txt",
+      "sha256": "b4104bd652010965b4c265e2422213e58f1a79906b86bcff303045299ccfdd40"
+    },
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards-support/source-inventory.json",
+      "sha256": "b5fe2b23b7a291e77d56fe6bca6d9de8879b3383ad7ee57231dccca8addf97e2"
+    },
+    {
+      "file": "project/records/2026-09-24/dynamic-diagram-handoff.md",
+      "sha256": "088dd0f8a40b1aec1aa61885a38d83f1ed90ff25d3bbb99334cfa64627a7cfd9"
+    },
+    {
+      "file": "project/records/2026-09-24/dynamic-diagram-next-session-prompt.md",
+      "sha256": "74e4670c2762cca543e71e1a568b041703ad4db284d5dd1bdd77a1eb2833b048"
+    },
+    {
+      "file": "project/records/2026-09-24/diagram-release-portability.md",
+      "sha256": "c2f6c194ab75acb1d45e7db05119f99f9b47d7836a420f0d0f815aea8c5cb3b6"
+    },
+    {
+      "file": "project/records/2026-09-24/diagram-release-portability-validation.md",
+      "sha256": "068b33b8fa801acabe227ffc4328ead5126ad7350a4db1807ebb3f180e24df4c"
+    },
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards-support/transfer-check.json",
+      "sha256": "0793f47ade6b954c455240aa7662dd37c374d12466f39fb4b9f9053ccb83d3ca"
+    },
+    {
+      "file": "project/records/2026-09-24/diagram-release-portability-support/transfer.json",
+      "sha256": "509e53164b46e46383fede7c986c4137df3582e9ce4808d9f699dc8478d128ea"
+    },
+    {
+      "file": "project/records/2026-09-24/diagram-release-portability-support/lf-source-comparison.json",
+      "sha256": "26218f66211ca67ed7cb1c412d3891623d68375edefa35b5e480e806b9b26395"
+    },
+    {
+      "file": "project/records/2026-09-24/diagram-release-portability-support/lf-preparation-console.json",
+      "sha256": "4ba7d3b500843ebe9e12524bcff497035ef7e64b38166aa7c5b27c868019cc28"
+    },
+    {
+      "file": "project/records/2026-09-24/diagram-release-portability-support/lf-offline-tests.log",
+      "sha256": "bb25d3cf3d506300d8f8e1ce875f6c890acfffead253188a9d6334abc8e71756"
+    }
+  ],
+  "checks": {
+    "local_markdown_references": 44,
+    "local_markdown_references_reachable": 44,
+    "author_validation_rerun": false,
+    "secret_signature_matches": 0,
+    "code_approval": false,
+    "secret_signature_files": 20,
+    "final_p1_handoff_acceptance": false,
+    "plan_semantics_rereviewed": false,
+    "github_public_state_rechecked": false
+  },
+  "findings": [
+    {
+      "related_file": "project/records/2026-09-24/diagram-release-portability-validation.md",
+      "id": "HD-SHOULD-1",
+      "issue": "Named review JSON and detailed evidence are not migrated or indexed.",
+      "file": "project/records/2026-09-24/diagram-release-portability-review.md",
+      "severity": "should",
+      "line": 13,
+      "related_line": 23
+    },
+    {
+      "related_file": "project/records/2026-09-24/dynamic-diagram-handoff.md",
+      "id": "HD-SHOULD-2",
+      "related_line": 26,
+      "file": "project/records/2026-09-24/training-storyboards.md",
+      "severity": "should",
+      "issue": "Training plan Markdown source/destination hash mapping is not explicit; approved JSON identity is intact.",
+      "lines": [
+        3,
+        5
+      ]
+    }
+  ],
+  "report_markdown": "# 動的図解・引継ぎ準備文書の限定レビュー\n\n判定: **approved / low（準備文書として可、must 0・should 2）**。P1 最終引継ぎの完了判定ではありません。\n\n- reviewed_at: 2026-09-24T13:17:50Z\n- reviewer_run_id: 01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review\n- 補助読取担当: /root/inference_doc_review/handoff_link_check\n- 対象: dynamic-diagram-handoff.md、dynamic-diagram-next-session-prompt.md、移管された training-storyboards*、p1-remaining-storyboards*、diagram-release-portability*。\n- scripts/diagram-release/README.md は準備条件と再開経路の確認だけに参照しました。変更中のコード・channel 修正の承認は対象外です。\n- 作者の検算は再実行せず、既存独立計画レビューの意味内容も再審査していません。\n\n## 指摘\n\n| 重要度 | ファイル・行 | 指摘 | 修正案 |\n| --- | --- | --- | --- |\n| should | diagram-release-portability-review.md L13、diagram-release-portability-validation.md L23 | 「詳細hashは同名JSONに保存」、lf-source-comparison.json / lf-preparation-console.json / lf-offline-tests.log という参照先が移管先から辿れません。承認対象manifestと判定はMDに残っているため、再開を妨げる must にはしませんが、別PCで詳細証拠を探す際に迷います。 | 必要な元レビューJSON・詳細証拠を移管し、移管記録から相対リンクを張るか、歴史記録として保存した範囲と未移管の証拠を別の注記で明示してください。歴史レビュー本文や生証拠を現在版へ書き換える必要はありません。 |\n| should | training-storyboards.md L3–5、dynamic-diagram-handoff.md L26 | レビューMDの生hash/LFhashは明確ですが、計画MD自身は相対リンク・体裁・移管注記を変更した後のhash対応がなく、固定レビュー対象の training-next-unit-plan.md と移管後MDの関係を同じ形式で追跡できません。承認対象JSONのhashは一致し、計画を実装承認とする誤表示もないため blocker ではありません。 | 旧名/新名と元計画MD hash・移管後MD hash、format-only の変更範囲を小さな移管表へまとめてください。必要なら元計画MDを本文非掲載の原本として保存します。承認済JSONが実行計画の同一性を確認する主経路であることも示すと明瞭です。 |\n\nmust: 問題なし（0 件）。\n\n## ファイルごとの総合判定\n\n| 対象 | 判定 |\n| --- | --- |\n| dynamic-diagram-handoff.md | 準備文書として可。作成中・5記事の歴史受入・6記事の公開ゲート未確定を区別しています。 |\n| dynamic-diagram-next-session-prompt.md | 準備文書として可。P1 15/15 の証拠確認を先に置き、ユーザーが次回貼り付けて依頼するプロンプトです。今のタスクがP2を自動開始する指示にはなっていません。 |\n| training-storyboards* | 移管文書として可。計画承認と実装/公開を区別し、B→C1→C2 の順序と次の操作へ辿れます。上記 should を推奨します。 |\n| p1-remaining-storyboards* | 移管文書として可。原本保存、旧名/新名、JSON生バイトとレビューJSONのLF化、判定の適用範囲が明示されています。 |\n| diagram-release-portability* | 歴史版の移管記録として可。別PC・ブラウザー・公開の未確認を明示しています。変更中の後継版は別判定が必要で、上記 should と最終更新欄を残します。 |\n\n## 確認できた点\n\n- 会話なしで、入口→採択計画/棚卸し→展開状況→登録/論点台帳/受入検査→計画レビュー・補助JSON→公開キットREADMEへ辿れます。ローカル Markdown 参照44件は到達可能でした。\n- 現行手順に旧PCのドライブ名やTEMPを必須とする依存は見つかりませんでした。JSON・原本 .txt に残る旧パスは過去の観測来歴と説明され、保存証拠の書換えを要求していません。\n- 計画JSON内の置換候補や原本 .txt にある記事内相対リンクは、原文の再構成用です。移管後文書のリンク切れには数えていません。\n- training-storyboards.json の実SHA256は承認対象 `3439e7f163e2b033c278636c59738ef7ee9325cf5a9dec2369284374d44d504a` と一致しました。レビューMDは記載されたLF版 `987ff768a56f9ee7bad31da115f5a3511c2ff0662426b8c6567d466bc9fa8d7f` と一致します。\n- p1-remaining-storyboards.json は承認対象 `1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319` と一致しました。レビューJSONは生バイト版ではなく、移管記録に記されたLF版 `fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4` と一致しました。レビューMDも末尾改行を補った移管版hashと一致します。\n- 上記の計画/レビュー主要7ファイルにCRバイトはありませんでした。旧生hashを現行LFファイルhashとして提示する混同は見つかりませんでした。全作者検算の再実行や実checkoutによる試験は行っていません。\n- 対象20ファイルの典型的な秘密鍵・トークン署名検索では検出なしでした。新PCでGitHub認証し、認証ファイルを移管しない指示もあります。包括的な秘密情報監査ではありません。\n- 準備検査と実公開、計画と本文適用、機械検査と画像/操作レビュー、WebKitエミュレーションと実機の境界が明確です。\n- 今回はP1の15記事で停止し、別セッションで続きを依頼するというユーザー境界と整合しています。\n\n## 最終停止時に埋める欄（既知の pending。今回の must ではない）\n\n1. dynamic-diagram-handoff.md L24/L67: PR58 の main CI・Pages・公開画像確認、その後の C1/C2/D1–F2 を含む最終15/15の当該入力版受入。歴史5/15を現行15/15と読み替えないこと。\n2. 最終 PR・merge SHA・tree・作業ブランチ・未保存差分と、15記事それぞれの inputDigest、review/local/public の記録と日時。\n3. 成功CIの run/attempt/job/artifact/deployment、BUILD_ID、CI由来HTML hashと公開配信の一致、公開画像・操作の独立レビュー。取得証拠と画像へ旧TEMP不要の相対索引を付けること。\n4. 公開キットの後継channel修正版の現行manifest、限定独立判定、ブラウザー起動条件と実施範囲。`d5ff1524...` はLF移管版の歴史承認です。親から伝達された後継 `e9cf22cf...` は今回コードレビューしておらず、承認に流用しません。\n5. キットの6記事58ケースから、残りの制作単位と最終15記事を検証できる版への更新記録。alignment-theory を図なし対照として使う条件の変更も、同記事の実装前に処理すること。\n6. 最終版の貼付用プロンプト、次回開始する制作単位/範囲と残件。実機・実スクリーンリーダー・学習効果など未実施の限界は残すこと。\n\nPR58 のマージ・CI進行は依頼時の親の状況報告と文書の表記を照合した範囲であり、今回GitHubや公開サイトを再取得して確認したものではありません。現在の作成中表示は妥当です。\n\n今回の書込みは TEMP/dynamic-diagram-handoff-draft-review.md と同 .json のみです。リポジトリ、Git、製品、移管元の証拠は編集していません。"
+}

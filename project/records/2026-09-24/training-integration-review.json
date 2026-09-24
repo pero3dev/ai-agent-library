@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "status": "changes_requested",
+  "risk": "medium",
+  "independent": true,
+  "reviewer": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/pretraining_source_evidence",
+  "reviewedAt": "2026-09-24T14:09:00.982Z",
+  "baseCommit": "67b1309fcea8267749be6e52881f3d6a4049ae2b",
+  "scope": "C1 common integration 13 files plus browser specification 2 files; code and source preservation, not final scene/browser/public acceptance.",
+  "files": [
+    {
+      "file": "website/lib/diagram-registry.mjs",
+      "sha256": "f2a7bcdfe246b9afb08e96e165147b5c5134e03dcb9e9f4bcf3024e10a2ea156",
+      "matchesImplementation": true
+    },
+    {
+      "file": "website/diagrams/registry.json",
+      "sha256": "6d78915fa9c05d90f755fb180146c6fb4c11820eed3efccef4250108edf0eb63",
+      "matchesImplementation": true
+    },
+    {
+      "file": "website/lib/diagram-decoration.mjs",
+      "sha256": "4c7cf927bfe88e18a388b44a53a10e5d6e806bb4b9bfb72aa89c9fcb9abea74b",
+      "matchesImplementation": true
+    },
+    {
+      "file": "website/lib/mdx-safety.mjs",
+      "sha256": "f56989551449ff75814b23399038004218152d926f604ade864d349494ea7242",
+      "matchesImplementation": true
+    },
+    {
+      "file": "website/mdx-components.js",
+      "sha256": "2aa913b9231ae175e0b2d674fadec7ada08ebdeb3eb3f0c44b2a712c7fa10aa2",
+      "matchesImplementation": true
+    },
+    {
+      "file": "website/components/diagrams/training-walkthrough.jsx",
+      "sha256": "7bdf27874f15d38a30270811eeeae9170a3822e41485b9542c68151ded1695e8",
+      "matchesImplementation": true
+    },
+    {
+      "file": "website/lib/diagram-article-acceptance.mjs",
+      "sha256": "5911c0a877b0d5e4ac18f08f5a420553596e7aeed14a7697d1ba39f6b857ecd7",
+      "matchesImplementation": true
+    },
+    {
+      "file": "website/diagrams/articles.json",
+      "sha256": "b469315b71af6d4f5c616382a925532cbaa0f6943560251516454744108dc6d8",
+      "matchesImplementation": true
+    },
+    {
+      "file": "project/records/2026-09-24/training-article-acceptance.json",
+      "sha256": "b0c4ff28252d4acbad89f0861b66ebdba73645bd7909674b1ec62f81b94e85f7",
+      "matchesImplementation": true
+    },
+    {
+      "file": "website/tests/unit/training-decoration.test.mjs",
+      "sha256": "efc176253d15169a0a07ff4dc3e2e5a95d91fb41bafd5541617dbeea3c752530",
+      "matchesImplementation": true
+    },
+    {
+      "file": "website/tests/unit/mdx-safety.test.mjs",
+      "sha256": "e4c0e2be36ee37b754ec6d7225d7728f927cc7e8b88787d8dfce798a8aa4c610",
+      "matchesImplementation": true
+    },
+    {
+      "file": "website/tests/unit/diagram-article-acceptance.test.mjs",
+      "sha256": "feef70ed0c1fb87b79d5d9bb67ce5da9da4317d4f13b7a4d1eaad8be424264e6",
+      "matchesImplementation": true
+    },
+    {
+      "file": "website/README.md",
+      "sha256": "d024c42c355d7e88b4731dafe47b2b5c01ffc28c62953623ce8b946605a05a0f",
+      "matchesImplementation": true
+    },
+    {
+      "file": "website/tests/browser/training.spec.mjs",
+      "sha256": "a13950bc089dd443eb67864201077ddd4f520c7a0fadaee83a11543e30da2da9"
+    },
+    {
+      "file": "website/tests/browser/diagram-loading.spec.mjs",
+      "sha256": "8d338c7218e07bec8abc3b999be0e2f26ba30dcb728b6c63adfee9d296b31270"
+    }
+  ],
+  "findings": {
+    "must": [
+      {
+        "id": "C1-READ-01",
+        "priority": 2,
+        "file": "website/lib/diagram-article-acceptance.mjs",
+        "function": "validateAssignment",
+        "message": "C1の動的論点が本文READ停止面へ最低1回到達する条件を検査していない。runtime [0]を手動専用[1]へ変更してもassignmentCurrent=trueとなった。",
+        "expectation": "C1の明示READ契約に対し、登録blockGroups由来のREAD集合とtopic.stagesの交差を要求する。手動のみ[1]拒否・[1,2]受入の負例と正例を追加する。",
+        "reproduction": "training-integration-read-repro.json"
+      }
+    ],
+    "should": []
+  },
+  "checks": [
+    {
+      "kind": "independent-unit",
+      "command": "node --test tests/unit/training-decoration.test.mjs tests/unit/mdx-safety.test.mjs tests/unit/diagram-decoration.test.mjs tests/unit/multi-diagram-decoration.test.mjs tests/unit/attention-variants-decoration.test.mjs tests/unit/moe-decoration.test.mjs tests/unit/foundations-decoration.test.mjs tests/unit/inference-decoration.test.mjs tests/unit/diagram-article-acceptance.test.mjs",
+      "cwd": "website",
+      "passed": 116,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 163615.3383,
+      "exitCode": 0,
+      "log": "training-integration-review-unit.log",
+      "logSha256": "86f42f9626db7dfbab7465b712eb18db42b746ce3b695e40a594d6d98cc37d56"
+    },
+    {
+      "kind": "read-only-audit",
+      "file": "training-integration-review-audit.json",
+      "sha256": "5bf12d40cfd37575a84de8918c726185c4dbe72b9739ad6f24761eee40d270f5",
+      "assertions": "Approved binding/digests, exact 34-topic assignment and fixed topic IDs, 47 inputs, optional inputs, unchanged article SHA, six PR58 snapshot hashes, all seven current gates invalid."
+    },
+    {
+      "kind": "isolated-negative-reproduction",
+      "file": "training-integration-read-repro.json",
+      "sha256": "418f1f02bd05c1abdb70bcf40f893c4d3aa26254256a814a688bc43285ad2f84",
+      "result": "Unexpected assignmentCurrent=true when C1 runtime topic uses manual-only stage 1."
+    },
+    {
+      "kind": "browser-specification-code-review",
+      "cases": 20,
+      "addedLoadingCases": 2,
+      "result": "No additional findings. Fixed independent structural expectations; no product-model import; original loading cases retained. Not executed."
+    }
+  ],
+  "confirmed": [
+    "2 diagrams / 10 stages / 9 READ groups; original 5 headings + 10 body nodes wrapped by reference, 8 headings / 13 body / 1 Mermaid / 0 math retained.",
+    "Four enabled combinations retain original AST and article order. MDX fixed IDs/literal props/parent stage limits/nesting rejection are tested.",
+    "34 topics =21 dynamic+13 static equal approved map. Existing defaults all intersect READ, but validator did not enforce the condition.",
+    "Lazy dispatcher uses two fixed imports, original prose fallback and article navigation. Actual payload isolation belongs to later browser acceptance.",
+    "Current C1 review/local/public null. Previous six gates stale on changed shared inputs; PR56 five and PR58 six fixture sets fixed, real PR58 snapshot hashes unchanged."
+  ],
+  "limitations": [
+    "No product changes, Git changes, build, generated-file editing or browser execution.",
+    "Scenes/models/CSS, visual quality, screen reader, device/print acceptance and public identity are outside this review.",
+    "116 unit cases describe the initial target hashes, not the later READ enforcement fix. Root is addressing C1-READ-01; a separate addendum must review the final hashes."
+  ]
+}

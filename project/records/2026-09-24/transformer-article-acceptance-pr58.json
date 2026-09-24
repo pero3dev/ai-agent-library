@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "article": "docs/11-llm-internals/transformer-architecture.md",
+  "review": {
+    "inputDigest": "sha256:9721eb8772eef1d8b58e4453529c9bc395799395178e6d122a418d6c39915e80",
+    "status": "approved",
+    "checkedAt": "2026-09-24T11:17:45.760Z",
+    "independent": true,
+    "record": "project/records/2026-09-24/inference-reading-diagrams.md"
+  },
+  "local": {
+    "inputDigest": "sha256:9721eb8772eef1d8b58e4453529c9bc395799395178e6d122a418d6c39915e80",
+    "status": "passed",
+    "checkedAt": "2026-09-24T11:49:02.878Z",
+    "record": "project/records/2026-09-24/inference-reading-diagrams.md"
+  },
+  "public": {
+    "inputDigest": "sha256:9721eb8772eef1d8b58e4453529c9bc395799395178e6d122a418d6c39915e80",
+    "status": "passed",
+    "checkedAt": "2026-09-24T13:46:54.818Z",
+    "commit": "67b1309fcea8267749be6e52881f3d6a4049ae2b",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138/job/107651395952",
+    "browserRecord": "project/records/2026-09-24/inference-score-label-fix.md"
+  }
+}

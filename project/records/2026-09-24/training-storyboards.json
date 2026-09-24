@@ -1,0 +1,2847 @@
+{
+  "schemaVersion": 1,
+  "status": "candidate-for-independent-review",
+  "date": "2026-09-24",
+  "ownership": "TEMPの計画md/jsonのみ。repo/製品/Git/build/publicを変更しない。",
+  "adoptionBoundary": "Bの公開受入後に初めて製品実装開始。計画レビュー合格は製品/公開受入ではない。",
+  "candidate": "学習2図をC1として制作・公開受入し、その後に事前学習5図C2を制作・公開受入する1案。",
+  "delivery": [
+    {
+      "unit": "C1",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "diagramIds": [
+        "training-stages",
+        "training-runtime-boundary"
+      ],
+      "stageCount": 10,
+      "requires": "B公開受入と本計画の独立レビュー"
+    },
+    {
+      "unit": "C2",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "diagramIds": [
+        "pretraining-loss-perplexity",
+        "pretraining-scaling",
+        "pretraining-data",
+        "pretraining-metrics",
+        "pretraining-compute"
+      ],
+      "stageCount": 23,
+      "requires": "C1公開受入。計画上の6か所最小訂正と最終sourceDigest再取得"
+    }
+  ],
+  "articles": [
+    {
+      "file": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "route": "/docs/llm-foundations/llm-training-pipeline",
+      "sha256": "993147125244a6bfc7b3e64ca5d9f4f2142dd944b7a1fa7d43d33a79b7242e62",
+      "h3Count": 8,
+      "bodyBlockCount": 13,
+      "displayMathCount": 0,
+      "mermaidCount": 1,
+      "sections": [
+        {
+          "heading": "概要: 3 つの工程と、それぞれが残す「癖」",
+          "start": 9,
+          "end": 12,
+          "line": 27,
+          "bodyCount": 2,
+          "bodyTypes": [
+            "paragraph",
+            "code"
+          ],
+          "lists": []
+        },
+        {
+          "heading": "事前学習: 次トークン予測で知識を得る",
+          "start": 12,
+          "end": 15,
+          "line": 40,
+          "bodyCount": 2,
+          "bodyTypes": [
+            "paragraph",
+            "list"
+          ],
+          "lists": [
+            [
+              "知識には収録範囲がある: 学習データの期限(knowledge cutoff)は、その後の事実まで学習済みであることを保証しません。追加学習や検索で与える情報とは区別し、最新情報は検索・RAG で根拠を渡します(RAG と Agent の関係・使い分け)",
+              "出現頻度だけで正確性は決まらない: 学習に含まれない社内情報を再現するとは期待できず、頻出する情報にも矛盾や誤りがあります。必要な事実はモデルの記憶だけに頼らず、検証済みの情報源と照合します",
+              "指示追従は十分に調整されていない: ベースモデルでも例示や文脈に応じて課題を解ける場合はありますが、利用者の指示へ安定して応答するよう追加調整したモデルとは区別します"
+            ]
+          ]
+        },
+        {
+          "heading": "指示チューニング(SFT): 指示に従う形式を学ぶ",
+          "start": 15,
+          "end": 18,
+          "line": 48,
+          "bodyCount": 2,
+          "bodyTypes": [
+            "paragraph",
+            "paragraph"
+          ],
+          "lists": []
+        },
+        {
+          "heading": "選好調整: 「良い応答」の基準を最適化する",
+          "start": 18,
+          "end": 20,
+          "line": 54,
+          "bodyCount": 1,
+          "bodyTypes": [
+            "paragraph"
+          ],
+          "lists": []
+        },
+        {
+          "heading": "この工程から生まれる性質: 幻覚・迎合・拒否",
+          "start": 20,
+          "end": 24,
+          "line": 58,
+          "bodyCount": 3,
+          "bodyTypes": [
+            "paragraph",
+            "list",
+            "paragraph"
+          ],
+          "lists": [
+            [
+              "幻覚(hallucination): 事前学習の次トークン予測は事実の検証器ではありません。一方、後段の学習では有用さ・正確さ・拒否など異なる目的も最適化するため、「目的関数が全工程で同一」とは考えません。調整後も誤答は残るため、根拠の外部供給・出典の照合・結果検証を組み込みます",
+              "迎合(sycophancy): Sharma らの研究 は、対象モデルの迎合と、人間の選好判断がそれに寄与しうることを報告しています。すべての人・データ・調整法へ一律に一般化せず、レビューでは誤った前提へ同調しないかを実際に評価します(LLM-as-a-Judge)",
+              "過剰・過小な拒否: 拒否挙動は SFT・選好調整・実行時の制御などに左右されます。正当な依頼を止める場合も、不適切な操作を止められない場合もあるため、モデルの拒否を権限境界の代わりにはしません(プロンプトインジェクション・ガードレール)"
+            ]
+          ]
+        },
+        {
+          "heading": "この理解が効く場面",
+          "start": 24,
+          "end": 26,
+          "line": 68,
+          "bodyCount": 1,
+          "bodyTypes": [
+            "list"
+          ],
+          "lists": [
+            [
+              "幻覚対策の設計: 「注意書きを増やす」から「根拠を渡す・検証を挟む」へ発想を切り替えられます(RAG 実装パターンの出典必須の設計)",
+              "ガードレールの位置づけ: モデルへの指示とコードによる強制を混同しなくなります(ガードレール)",
+              "FT の判断: 形式・振る舞いの改善、事実の再現性、更新・権限管理の要件を分け、検索と FT を比較できます(ファインチューニングと蒸留)",
+              "judge・レビューの設計: 迎合バイアスを前提に、中立な聞き方・基準の明文化を組み込めます(LLM-as-a-Judge)"
+            ]
+          ]
+        },
+        {
+          "heading": "アンチパターン",
+          "start": 27,
+          "end": 29,
+          "line": 77,
+          "bodyCount": 1,
+          "bodyTypes": [
+            "list"
+          ],
+          "lists": [
+            [
+              "幻覚を「もっと強く禁止する」プロンプトで解決しようとする → 目的関数由来の性質は指示では消えない → 根拠の外部供給(RAG)・出典要求・検証ステップで構造的に抑える",
+              "社内知識をモデルの記憶に期待する → 学習データにない・まれな知識は再現されない → 検索で都度渡す設計にする",
+              "「はい/いいえ」で聞く誘導的なレビュー依頼をする → 迎合により同意へ偏る → 中立な形式・明文化した基準・複数観点で聞く",
+              "システムプロンプトの禁止事項をセキュリティ境界として扱う → 指示は学習された傾向であり上書きされうる → 権限・ガードレールなどコード側の強制と併用する"
+            ]
+          ]
+        },
+        {
+          "heading": "チェックリスト",
+          "start": 29,
+          "end": 31,
+          "line": 84,
+          "bodyCount": 1,
+          "bodyTypes": [
+            "list"
+          ],
+          "lists": [
+            [
+              "最新性・正確性が必要な情報を、モデルの記憶ではなく検索・ツールで渡している",
+              "幻覚対策が指示(お願い)だけでなく、構造(根拠供給・出典・検証)を含んでいる",
+              "LLM に判定・レビューをさせる箇所で、迎合バイアスへの対策(中立な聞き方・基準明文化)がある",
+              "プロンプトの禁止事項に、コード側の強制(権限・ガードレール)が対応している",
+              "FT を検討する際、「形式の安定化」か「知識の注入」かを区別している"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "file": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+      "sha256": "55c2af5771a48c676eea173ab912429c8c7ba94c3ccd49f27858e6f5c4050deb",
+      "h3Count": 9,
+      "bodyBlockCount": 25,
+      "displayMathCount": 4,
+      "mermaidCount": 1,
+      "sections": [
+        {
+          "heading": "概要: 事前学習は「次トークン予測」の一点",
+          "start": 10,
+          "end": 12,
+          "line": 31,
+          "bodyCount": 1,
+          "bodyTypes": [
+            "paragraph"
+          ],
+          "lists": []
+        },
+        {
+          "heading": "次トークン予測の目的関数",
+          "start": 12,
+          "end": 19,
+          "line": 35,
+          "bodyCount": 6,
+          "bodyTypes": [
+            "paragraph",
+            "math",
+            "paragraph",
+            "paragraph",
+            "math",
+            "paragraph"
+          ],
+          "lists": []
+        },
+        {
+          "heading": "スケーリング則の系譜",
+          "start": 19,
+          "end": 26,
+          "line": 53,
+          "bodyCount": 6,
+          "bodyTypes": [
+            "paragraph",
+            "math",
+            "paragraph",
+            "list",
+            "code",
+            "paragraph"
+          ],
+          "lists": [
+            [
+              "パラメータ偏重の初期則(Kaplan ら, 2020): 「損失は主にモデルサイズで決まり、データより N を優先して大きくすべき」と読まれ、巨大モデル競争を後押ししました",
+              "計算最適(Chinchilla, 2022): 固定の計算予算 C の下で損失を最小化するには、N と D をほぼ同じ割合で一緒に増やすべき、という修正。当時の巨大モデルは「パラメータが大きすぎ、データが足りない」状態だったと示しました。実務的な目安として「パラメータ数に見合うだけの学習トークンが要る」という理解が定着します",
+              "推論時計算へのスケーリング(以降): 学習側だけでなく、推論時に『考える時間』(推論トークン)を増やすと性能が上がるという軸が加わります(推論モデル)。スケーリングは「学習の計算」から「学習 + 推論の計算」へ広がりました"
+            ]
+          ]
+        },
+        {
+          "heading": "データ側: 量・品質・混合・繰り返し",
+          "start": 26,
+          "end": 30,
+          "line": 75,
+          "bodyCount": 3,
+          "bodyTypes": [
+            "paragraph",
+            "list",
+            "paragraph"
+          ],
+          "lists": [
+            [
+              "品質とフィルタリング: 低品質・重複データはトークン数を水増しするだけで損失を下げにくい。重複除去・品質フィルタが効きます",
+              "混合(データミックス): Web・書籍・コード・多言語などの配合比が能力の形を決めます(コードを混ぜると推論が上がる等の観察)。配合は設計判断です",
+              "繰り返し(エポック)の限界: 良質データが枯渇する「データ制約」下では同じデータを繰り返しますが、繰り返しの価値は逓減し、やがて過学習に転じます。データを増やせない領域でのスケーリングには別の則が要ります",
+              "汚染: 評価データが学習に混入すると、ベンチマークが不当に高く出ます(エージェントベンチマークの全体像)"
+            ]
+          ]
+        },
+        {
+          "heading": "創発的能力の論争",
+          "start": 30,
+          "end": 34,
+          "line": 86,
+          "bodyCount": 3,
+          "bodyTypes": [
+            "paragraph",
+            "list",
+            "paragraph"
+          ],
+          "lists": [
+            [
+              "「完全一致で正解/不正解」のような不連続な指標を使うと、なだらかな改善が閾値で急変したように見える",
+              "連続的な指標(部分点・対数確率)で測ると、同じ能力が滑らかに立ち上がることが多い"
+            ]
+          ]
+        },
+        {
+          "heading": "学習の計算量の目安",
+          "start": 34,
+          "end": 38,
+          "line": 95,
+          "bodyCount": 3,
+          "bodyTypes": [
+            "paragraph",
+            "math",
+            "paragraph"
+          ],
+          "lists": []
+        },
+        {
+          "heading": "この理解が効く場面",
+          "start": 38,
+          "end": 40,
+          "line": 105,
+          "bodyCount": 1,
+          "bodyTypes": [
+            "list"
+          ],
+          "lists": [
+            [
+              "能力の見積り: 「規模を上げれば滑らかに良くなるが収穫逓減する」「N と D はバランスが要る」という形が、次世代モデルへの期待値を現実的にする",
+              "自社モデル投資の判断: データ優位(良質な D)がなければ規模を上げても効かない、という律速(自社モデルを持つかの判断)",
+              "ベンチマークの読み方: 創発の「突然さ」や汚染の影響を割り引いて読む(エージェントベンチマークの全体像)",
+              "学習コストの桁感: C \\approx 6ND で計算量・コスト・環境負荷の当たりを付ける(AI の環境負荷とグリーン AI)"
+            ]
+          ]
+        },
+        {
+          "heading": "アンチパターン",
+          "start": 41,
+          "end": 43,
+          "line": 114,
+          "bodyCount": 1,
+          "bodyTypes": [
+            "list"
+          ],
+          "lists": [
+            [
+              "パープレキシティを異なるトークナイザ・データ間で比較する → PPL はトークナイザ・評価データに依存し、比較の意味がない → 同一条件でのみ比較し、能力は下流タスクで評価する",
+              "スケーリング則の係数を普遍定数として引用する → べき指数・定数はデータ・構成依存の経験則 → 「滑らかに下がるが逓減」「N と D をバランス」という形と含意を使う",
+              "パラメータだけ増やせば賢くなると考える → 見合うデータ(D)がないと計算最適から外れ、投資が無駄になる → データ量・品質・混合を規模と一緒に設計する(自前学習時)",
+              "創発を単一の閾値指標で断じる → 不連続な指標が能力の急出現を過大に見せることがある → 連続指標も併用し、能力の有無を慎重に評価する",
+              "学習コストを 6ND の理論値そのままで見積もる → 並列化効率・ハードウェアで実コストは大きくぶれる → 桁の当たりとして使い、実測・提供価格で補正する"
+            ]
+          ]
+        },
+        {
+          "heading": "チェックリスト",
+          "start": 43,
+          "end": 45,
+          "line": 122,
+          "bodyCount": 1,
+          "bodyTypes": [
+            "list"
+          ],
+          "lists": [
+            [
+              "事前学習の目的関数(次トークン予測 = 交差エントロピー)を説明できる",
+              "パープレキシティの意味と、トークナイザ依存で比較不能なことを理解している",
+              "スケーリング則の系譜(パラメータ偏重 → 計算最適 → 推論時計算)を追える",
+              "計算最適の含意(N と D をバランスさせる)を説明できる",
+              "データの品質・混合・繰り返しの限界が規模と同じく効くと理解している",
+              "創発的能力の論争(指標の取り方による見かけ説)を踏まえて能力を評価する",
+              "C \\approx 6ND で学習計算量の桁を当てられる(実コストは補正が要る)"
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "training-stages",
+      "key": "TrainingStages",
+      "route": "/docs/llm-foundations/llm-training-pipeline",
+      "component": "TrainingStages",
+      "stageCount": 6,
+      "candidateFiles": {
+        "model": "website/lib/training-stages-model.mjs",
+        "scene": "website/components/diagrams/training-stages-walkthrough.jsx",
+        "css": "website/components/diagrams/training-stages.css",
+        "test": "website/tests/unit/training-stages-model.test.mjs"
+      },
+      "binding": "grouped-blocks",
+      "sectionIndexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "headings": [
+        "概要: 3 つの工程と、それぞれが残す「癖」",
+        "事前学習: 次トークン予測で知識を得る",
+        "指示チューニング(SFT): 指示に従う形式を学ぶ",
+        "選好調整: 「良い応答」の基準を最適化する"
+      ],
+      "sourceHeadings": [
+        "概要: 3 つの工程と、それぞれが残す「癖」",
+        "事前学習: 次トークン予測で知識を得る",
+        "指示チューニング(SFT): 指示に従う形式を学ぶ",
+        "選好調整: 「良い応答」の基準を最適化する"
+      ],
+      "originalRange": {
+        "start": 9,
+        "end": 20
+      },
+      "expectedBodyBlockCounts": [
+        2,
+        2,
+        2,
+        1
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "readStages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "manualOnlyStages": [],
+      "stages": [
+        {
+          "index": 0,
+          "label": "工程",
+          "visible": [
+            "事前学習→SFT→選好調整の代表経路。各工程の入力（テキスト/模範例/候補の比較）と同じ位置のモデル重み。",
+            "『代表構成・順序や反復は一律ではない』。他手法を新しく解説しない。"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "予測",
+          "visible": [
+            "条件prefix→次の正解トークン→学習で重みを更新。重み更新先とデータ入力を分ける。",
+            "次トークン予測から言語・知識のパターンを学ぶ。"
+          ]
+        },
+        {
+          "index": 2,
+          "label": "知識",
+          "visible": [
+            "3カードを同時表示: 収録範囲/頻度≠正確さ/ベースの課題能力≠安定した指示追従。",
+            "追加学習は重みへ、検索の情報は実行時文脈へ。未収録の社内情報や最新性を自動保証しない。"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "模範例",
+          "visible": [
+            "指示＋模範応答→SFT→形式・振る舞いを調整。『新しい事実も学びうる』を静止表示。",
+            "効率・誤答への影響はデータと手法に依存。"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "使い分け",
+          "visible": [
+            "学習で重みを更新 / 検索で文脈へ情報、の2経路を同時表示。",
+            "形式・振る舞いと事実再現性は別に評価。最新性/出典/削除/権限の要件を確認。",
+            "『新知識の学習と幻覚の報告は対象QAでの結果』。全FTの不可能性にしない。"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "選好",
+          "visible": [
+            "人間/AIの候補比較→選好データ→モデル更新。RLHF・DPOは手法名の違いを保持。",
+            "有用さ/無害さ/トーン/拒否を調整。出力の安全・正確さを保証するゲージを置かない。"
+          ]
+        }
+      ],
+      "controls": [
+        {
+          "id": "knowledge-focus",
+          "label": "確認する性質",
+          "stages": [
+            2
+          ],
+          "options": [
+            "coverage",
+            "accuracy",
+            "instruction"
+          ],
+          "default": "coverage",
+          "behavior": "強調のみ。比較対象・前提・結論は消さず、段階の意味は変えない"
+        },
+        {
+          "id": "evaluation-focus",
+          "label": "評価の観点",
+          "stages": [
+            4
+          ],
+          "options": [
+            "behavior",
+            "facts"
+          ],
+          "default": "behavior",
+          "behavior": "強調のみ。比較対象・前提・結論は消さず、段階の意味は変えない"
+        }
+      ],
+      "invariants": [
+        "重みの箱のIDと座標を固定し、学習の更新と検索の入力経路を混同しない。",
+        "架空の学習済み行列、改善率、正確性スコア、普遍的順序を作らない。",
+        "S2/S4は強調を変えても全カードと比較経路が見える。"
+      ],
+      "oracle": {
+        "kind": "structural",
+        "modelId": "training-model",
+        "trainingTargets": [
+          "weights"
+        ],
+        "retrievalTargets": [
+          "runtime-context"
+        ],
+        "dataKinds": [
+          "text",
+          "demonstration",
+          "preference"
+        ],
+        "numericPerformance": null
+      },
+      "observedSourceDigestBeforeCorrections": "sha256:c8089bf5049399415931e94c31103863808cc45d0e27912d376c5d63cfa78f91",
+      "digestStatus": "現行正本に基づく候補。実装前に再取得",
+      "expectedSourceDigestAfterProposedCorrections": "sha256:c8089bf5049399415931e94c31103863808cc45d0e27912d376c5d63cfa78f91",
+      "postCorrectionDigestNote": "6差替えだけをメモリ内適用した予測。正本変更ではなく、実装時に実ファイルから再取得する。"
+    },
+    {
+      "id": "training-runtime-boundary",
+      "key": "TrainingRuntimeBoundary",
+      "route": "/docs/llm-foundations/llm-training-pipeline",
+      "component": "TrainingRuntimeBoundary",
+      "stageCount": 4,
+      "candidateFiles": {
+        "model": "website/lib/training-runtime-boundary-model.mjs",
+        "scene": "website/components/diagrams/training-runtime-boundary-walkthrough.jsx",
+        "css": "website/components/diagrams/training-runtime-boundary.css",
+        "test": "website/tests/unit/training-runtime-boundary-model.test.mjs"
+      },
+      "binding": "grouped-blocks",
+      "sectionIndexes": [
+        4
+      ],
+      "headings": [
+        "この工程から生まれる性質: 幻覚・迎合・拒否"
+      ],
+      "sourceHeadings": [
+        "概要: 3 つの工程と、それぞれが残す「癖」",
+        "事前学習: 次トークン予測で知識を得る",
+        "指示チューニング(SFT): 指示に従う形式を学ぶ",
+        "選好調整: 「良い応答」の基準を最適化する",
+        "この工程から生まれる性質: 幻覚・迎合・拒否",
+        "この理解が効く場面"
+      ],
+      "originalRange": {
+        "start": 20,
+        "end": 24
+      },
+      "expectedBodyBlockCounts": [
+        3
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "readStages": [
+        0,
+        2,
+        3
+      ],
+      "manualOnlyStages": [
+        1
+      ],
+      "stages": [
+        {
+          "index": 0,
+          "label": "関係",
+          "visible": [
+            "事前学習/SFT/選好調整と、幻覚/迎合/拒否の評価観点を点線で結ぶ。",
+            "『関連を示す。単独の原因ではない』。後段には異なる学習目的もある。"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "根拠",
+          "visible": [
+            "手動補助: 根拠を渡す→出典を照合→結果を検証。因果効果や削減率は表示しない。"
+          ]
+        },
+        {
+          "index": 2,
+          "label": "評価",
+          "visible": [
+            "3行を同時表示: 幻覚=根拠/出典/結果、迎合=中立な問い/明文化した基準、拒否=過剰と過小/外側の権限確認。",
+            "『研究の対象条件を越えて一律に断定しない』。幻覚対策の3要素は手動S1だけに隠さない。"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "実行境界",
+          "visible": [
+            "プロンプト→学習された傾向→操作候補、の先にコード側の権限確認と結果検証を配置。",
+            "『指示は実行を強制する仕組みではない』『モデルの拒否≠権限境界』を静止表示。"
+          ]
+        }
+      ],
+      "controls": [
+        {
+          "id": "trait-focus",
+          "label": "確認する性質",
+          "stages": [
+            2
+          ],
+          "options": [
+            "hallucination",
+            "sycophancy",
+            "refusal"
+          ],
+          "default": "hallucination",
+          "behavior": "強調のみ。比較対象・前提・結論は消さず、段階の意味は変えない"
+        },
+        {
+          "id": "boundary-focus",
+          "label": "確認する場所",
+          "stages": [
+            3
+          ],
+          "options": [
+            "instruction",
+            "permission",
+            "verification"
+          ],
+          "default": "permission",
+          "behavior": "強調のみ。比較対象・前提・結論は消さず、段階の意味は変えない"
+        }
+      ],
+      "invariants": [
+        "点線の関連を単一工程の決定的因果に置き換えない。",
+        "権限確認はモデル外。モデル出力から副作用へ無確認の直通線を描かない。",
+        "実サービスの実行許可/拒否を判定するデモや効果採点を作らない。"
+      ],
+      "oracle": {
+        "kind": "structural",
+        "traits": [
+          "hallucination",
+          "sycophancy",
+          "refusal"
+        ],
+        "permissionNode": "outside-model",
+        "outputRoute": [
+          "model-candidate",
+          "permission-check",
+          "operation",
+          "result-verification"
+        ],
+        "judgment": null
+      },
+      "observedSourceDigestBeforeCorrections": "sha256:7a4b3b9fb4f091dd38c9215033f6b6c224011bb916885fbe552bcf64ef1bdd85",
+      "digestStatus": "現行正本に基づく候補。実装前に再取得",
+      "expectedSourceDigestAfterProposedCorrections": "sha256:7a4b3b9fb4f091dd38c9215033f6b6c224011bb916885fbe552bcf64ef1bdd85",
+      "postCorrectionDigestNote": "6差替えだけをメモリ内適用した予測。正本変更ではなく、実装時に実ファイルから再取得する。"
+    },
+    {
+      "id": "pretraining-loss-perplexity",
+      "key": "PretrainingLoss",
+      "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+      "component": "PretrainingLoss",
+      "stageCount": 5,
+      "candidateFiles": {
+        "model": "website/lib/pretraining-loss-perplexity-model.mjs",
+        "scene": "website/components/diagrams/pretraining-loss-perplexity-walkthrough.jsx",
+        "css": "website/components/diagrams/pretraining-loss-perplexity.css",
+        "test": "website/tests/unit/pretraining-loss-perplexity-model.test.mjs"
+      },
+      "binding": "grouped-blocks",
+      "sectionIndexes": [
+        0,
+        1
+      ],
+      "headings": [
+        "概要: 事前学習は「次トークン予測」の一点",
+        "次トークン予測の目的関数"
+      ],
+      "sourceHeadings": [
+        "概要: 事前学習は「次トークン予測」の一点",
+        "次トークン予測の目的関数"
+      ],
+      "originalRange": {
+        "start": 10,
+        "end": 19
+      },
+      "expectedBodyBlockCounts": [
+        1,
+        6
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "readStages": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "manualOnlyStages": [],
+      "stages": [
+        {
+          "index": 0,
+          "label": "予測",
+          "visible": [
+            "固定列A B Cと各位置の条件prefixを表示。学習では重み更新、通常の推論では重み固定。",
+            "NTPの予測誤差を下げる課題であり、下流能力の総合得点ではない。"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "正解確率",
+          "visible": [
+            "位置1/2/3の正解A/B/Cに割り当てた条件付き確率を表示。同じprefix/トークナイザ/評価列を固定。"
+          ]
+        },
+        {
+          "index": 2,
+          "label": "損失",
+          "visible": [
+            "各位置の−ln pを平均しLを得る。『自然対数・位置ごとの平均』。",
+            "モデル重みを更新する学習矢印は概念表示。例A/Bを学習途中の実測変化と呼ばない。"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "PPL",
+          "visible": [
+            "Lとexp(L)=PPLを同じ画面で表示。損失を指数へ移すので、確率の算術平均の逆数にはしない。"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "比較条件",
+          "visible": [
+            "同一条件なら説明例A/Bを比較できる。トークナイザまたは評価データが異なれば比較不可の境界を表示。",
+            "『PPLは下流能力の判定ではない』。条件違いで別の架空PPLを生成しない。"
+          ]
+        }
+      ],
+      "controls": [
+        {
+          "id": "probability-example",
+          "label": "説明用の確率",
+          "stages": [
+            1,
+            2,
+            3
+          ],
+          "options": [
+            "A",
+            "B"
+          ],
+          "default": "A",
+          "behavior": "固定表を切替。列/位置/prefixを保持。S4は常にA/B両方を表示し、この操作を引き継がない。"
+        },
+        {
+          "id": "comparison-condition",
+          "label": "比較する条件",
+          "stages": [
+            4
+          ],
+          "options": [
+            "same",
+            "different-tokenizer",
+            "different-data"
+          ],
+          "default": "same",
+          "behavior": "同一条件のみ比較を許す。異条件はcomparisonAllowed=false; PPLは元の説明例の値と明記したまま勝敗/順位を出さない。"
+        }
+      ],
+      "invariants": [
+        "位置IDとprefixはA/B切替・中点・逆シークで不変。各確率行の和は1。",
+        "L=−平均ln正解確率、PPL=exp(L)。p=0は∞、p=1は0/1。empty/sparse/nonfinite/範囲外を拒否。",
+        "比較可否は条件一致によるもので、能力/品質の判定器にしない。"
+      ],
+      "oracle": {
+        "kind": "exact-explanatory",
+        "tokenizerId": "toy-tokenizer",
+        "evaluationId": "toy-eval-abc",
+        "vocabulary": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "occurrences": [
+          {
+            "id": "eval-0",
+            "token": "A",
+            "prefix": []
+          },
+          {
+            "id": "eval-1",
+            "token": "B",
+            "prefix": [
+              "A"
+            ]
+          },
+          {
+            "id": "eval-2",
+            "token": "C",
+            "prefix": [
+              "A",
+              "B"
+            ]
+          }
+        ],
+        "examples": {
+          "A": {
+            "rows": [
+              [
+                0.5,
+                0.25,
+                0.125,
+                0.125
+              ],
+              [
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ],
+              [
+                0.375,
+                0.25,
+                0.125,
+                0.25
+              ]
+            ],
+            "correct": [
+              0.5,
+              0.25,
+              0.125
+            ],
+            "negativeLogs": [
+              "ln(2)",
+              "ln(4)",
+              "ln(8)"
+            ],
+            "loss": "ln(4)",
+            "lossDecimal": 1.3862943611198906,
+            "ppl": 4
+          },
+          "B": {
+            "rows": [
+              [
+                0.5,
+                0.25,
+                0.125,
+                0.125
+              ],
+              [
+                0.25,
+                0.5,
+                0.125,
+                0.125
+              ],
+              [
+                0.125,
+                0.125,
+                0.5,
+                0.25
+              ]
+            ],
+            "correct": [
+              0.5,
+              0.5,
+              0.5
+            ],
+            "negativeLogs": [
+              "ln(2)",
+              "ln(2)",
+              "ln(2)"
+            ],
+            "loss": "ln(2)",
+            "lossDecimal": 0.6931471805599453,
+            "ppl": 2
+          }
+        },
+        "notPPL": {
+          "reciprocalArithmeticMeanA": "24/7"
+        },
+        "edgeCases": {
+          "probabilityOne": {
+            "loss": 0,
+            "ppl": 1
+          },
+          "probabilityZero": {
+            "loss": "Infinity",
+            "ppl": "Infinity"
+          }
+        },
+        "empiricalMeasurement": false
+      },
+      "observedSourceDigestBeforeCorrections": "sha256:01a7a0849784fe4909dbdccf5f6c3c63e083b1569dcb124f0f0c2a4d3ec79ee3",
+      "digestStatus": "要最小訂正後に再取得",
+      "expectedSourceDigestAfterProposedCorrections": "sha256:01a7a0849784fe4909dbdccf5f6c3c63e083b1569dcb124f0f0c2a4d3ec79ee3",
+      "postCorrectionDigestNote": "6差替えだけをメモリ内適用した予測。正本変更ではなく、実装時に実ファイルから再取得する。"
+    },
+    {
+      "id": "pretraining-scaling",
+      "key": "PretrainingScaling",
+      "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+      "component": "PretrainingScaling",
+      "stageCount": 6,
+      "candidateFiles": {
+        "model": "website/lib/pretraining-scaling-model.mjs",
+        "scene": "website/components/diagrams/pretraining-scaling-walkthrough.jsx",
+        "css": "website/components/diagrams/pretraining-scaling.css",
+        "test": "website/tests/unit/pretraining-scaling-model.test.mjs"
+      },
+      "binding": "grouped-blocks",
+      "sectionIndexes": [
+        2
+      ],
+      "headings": [
+        "スケーリング則の系譜"
+      ],
+      "sourceHeadings": [
+        "スケーリング則の系譜",
+        "学習の計算量の目安"
+      ],
+      "originalRange": {
+        "start": 19,
+        "end": 26
+      },
+      "expectedBodyBlockCounts": [
+        6
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "readStages": [
+        0,
+        1,
+        3,
+        4,
+        5
+      ],
+      "manualOnlyStages": [
+        2
+      ],
+      "stages": [
+        {
+          "index": 0,
+          "label": "軸",
+          "visible": [
+            "N=パラメータ数、D=学習トークン数、C_train=学習計算量を別の軸に置く。経験則であり能力採点ではない。"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "残差",
+          "visible": [
+            "L=L∞+R、R=(Nc/N)^α。Nをr倍→残差比r^(−α)。L全体の比と区別。",
+            "L∞/α/Ncは未設定の記号。測定曲線・数値目盛・未知係数を仮造しない。"
+          ]
+        },
+        {
+          "index": 2,
+          "label": "固定予算",
+          "visible": [
+            "手動補助: 同じCでN/D配分の3組を比較。N比×D比=1、最適組のラベルなし。"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "系譜",
+          "visible": [
+            "Kaplan→Chinchilla→推論時計算の3位置を同時表示。",
+            "同じCでは配分を選ぶ / Cを増やすならN・Dを近い率で拡大、の両枠を同時に表示。",
+            "基準比(1,1,1)→(2,2,4)または(4,4,16)。式からの説明例であり最適値の実測ではない。"
+          ]
+        },
+        {
+          "index": 4,
+          "label": "推論時",
+          "visible": [
+            "学習時計算C_trainと推論時計算C_inferを別レーンに表示。推論の重みは固定。",
+            "『推論時も計算を使う』『増やせば必ず改善、ではない』。最新手法/指数は追加しない。"
+          ]
+        },
+        {
+          "index": 5,
+          "label": "条件依存",
+          "visible": [
+            "データ/アーキテクチャ/トークナイザの3条件と係数依存を全て表示。",
+            "経験係数も最適N/Dも未知。『普遍定数ではない』。"
+          ]
+        }
+      ],
+      "controls": [
+        {
+          "id": "fixed-allocation",
+          "label": "同じ予算の配分",
+          "stages": [
+            2
+          ],
+          "options": [
+            "data-heavy",
+            "reference",
+            "parameter-heavy"
+          ],
+          "default": "reference",
+          "behavior": "固定Cの3組のみ。S3は3組の要点を独立に表示し選択を持ち越さない。"
+        },
+        {
+          "id": "growth-scale",
+          "label": "予算を増やす説明例",
+          "stages": [
+            3
+          ],
+          "options": [
+            1,
+            2,
+            4
+          ],
+          "default": 2,
+          "behavior": "NとDの基準比を同率r、C比をr²へ。固定C枠は変えない。"
+        },
+        {
+          "id": "coefficient-condition",
+          "label": "係数に関わる条件",
+          "stages": [
+            5
+          ],
+          "options": [
+            "data",
+            "architecture",
+            "tokenizer"
+          ],
+          "default": "data",
+          "behavior": "強調のみ。比較対象・前提・結論は消さず、段階の意味は変えない"
+        }
+      ],
+      "invariants": [
+        "固定Cの配分とC増加の拡大を独立状態にする。N=DやN/D=1の推奨値にしない。",
+        "α・Nc・L∞・損失曲線の数値を生成しない。最適判定はnull。",
+        "S3は全系譜と2種類の予算条件が一画面で読める。"
+      ],
+      "oracle": {
+        "kind": "symbolic-and-algebraic",
+        "fittedCoefficients": null,
+        "lossPrediction": null,
+        "residualIdentity": "R(rN)/R(N) = r^(-alpha)",
+        "totalLossRatio": "(Linf + R*r^(-alpha))/(Linf + R)",
+        "fixedCompute": [
+          {
+            "n": 0.5,
+            "d": 2,
+            "c": 1
+          },
+          {
+            "n": 1,
+            "d": 1,
+            "c": 1
+          },
+          {
+            "n": 2,
+            "d": 0.5,
+            "c": 1
+          }
+        ],
+        "growingBudget": [
+          {
+            "n": 1,
+            "d": 1,
+            "c": 1
+          },
+          {
+            "n": 2,
+            "d": 2,
+            "c": 4
+          },
+          {
+            "n": 4,
+            "d": 4,
+            "c": 16
+          }
+        ],
+        "optimum": null
+      },
+      "observedSourceDigestBeforeCorrections": "sha256:bf4d31f682a397f5ac9ba8d0063d1a25d260e97ad58590db6d06cee6f10e5c52",
+      "digestStatus": "要最小訂正後に再取得",
+      "expectedSourceDigestAfterProposedCorrections": "sha256:8108b06e4e158b692813efbd4b0791f8575cba50cd193fd39b41e19fc0711434",
+      "postCorrectionDigestNote": "6差替えだけをメモリ内適用した予測。正本変更ではなく、実装時に実ファイルから再取得する。"
+    },
+    {
+      "id": "pretraining-data",
+      "key": "PretrainingData",
+      "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+      "component": "PretrainingData",
+      "stageCount": 4,
+      "candidateFiles": {
+        "model": "website/lib/pretraining-data-model.mjs",
+        "scene": "website/components/diagrams/pretraining-data-walkthrough.jsx",
+        "css": "website/components/diagrams/pretraining-data.css",
+        "test": "website/tests/unit/pretraining-data-model.test.mjs"
+      },
+      "binding": "grouped-blocks",
+      "sectionIndexes": [
+        3
+      ],
+      "headings": [
+        "データ側: 量・品質・混合・繰り返し"
+      ],
+      "sourceHeadings": [
+        "スケーリング則の系譜",
+        "データ側: 量・品質・混合・繰り返し"
+      ],
+      "originalRange": {
+        "start": 26,
+        "end": 30
+      },
+      "expectedBodyBlockCounts": [
+        3
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "readStages": [
+        0,
+        2,
+        3
+      ],
+      "manualOnlyStages": [
+        1
+      ],
+      "stages": [
+        {
+          "index": 0,
+          "label": "量と中身",
+          "visible": [
+            "Dは学習で処理したトークン数。資料の中身や独立な情報量を同じ数とみなさない。"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "再利用",
+          "visible": [
+            "手動補助: A/B/C/D各2説明用トークン、読み順A B C D A B。6回読み/4資料/12処理トークン/元資料内8トークン位置。",
+            "同じ資料の再使用でも出現IDは別。語彙の種類数と混同しない。"
+          ]
+        },
+        {
+          "index": 2,
+          "label": "設計観点",
+          "visible": [
+            "4カードを同時表示: 品質・重複、Web/書籍/コード/多言語の配合、繰り返し、評価データ混入。",
+            "再利用は処理量を増やすが追加価値は一定ではない。過学習の可能性/評価との分離を静止表示。"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "データ制約",
+          "visible": [
+            "規模に見合う良質なデータの有無が制約。Nだけ増やしても足りない。",
+            "データ投資の可否や能力改善量を図が判定しない。"
+          ]
+        }
+      ],
+      "controls": [
+        {
+          "id": "data-focus",
+          "label": "確認するデータ観点",
+          "stages": [
+            2
+          ],
+          "options": [
+            "quality",
+            "mixture",
+            "reuse",
+            "contamination"
+          ],
+          "default": "quality",
+          "behavior": "強調のみ。比較対象・前提・結論は消さず、段階の意味は変えない"
+        }
+      ],
+      "invariants": [
+        "資料ID・資料内トークン位置・処理出現IDを区別。再利用で処理数は増すが資料は増殖しない。",
+        "混合比の最適値・品質点・繰り返し損失曲線・具体的過学習開始回数を作らない。",
+        "S2に4観点と繰り返しの意味を残し、手動S1だけに要点を隠さない。"
+      ],
+      "oracle": {
+        "kind": "exact-count-plus-structural",
+        "documents": [
+          {
+            "id": "A",
+            "positions": [
+              "A0",
+              "A1"
+            ]
+          },
+          {
+            "id": "B",
+            "positions": [
+              "B0",
+              "B1"
+            ]
+          },
+          {
+            "id": "C",
+            "positions": [
+              "C0",
+              "C1"
+            ]
+          },
+          {
+            "id": "D",
+            "positions": [
+              "D0",
+              "D1"
+            ]
+          }
+        ],
+        "exposures": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "A",
+          "B"
+        ],
+        "readCount": 6,
+        "sourceDocumentCount": 4,
+        "processedTokenOccurrences": 12,
+        "sourceTokenPositions": 8,
+        "uniqueVocabularyCount": null,
+        "qualityScores": null,
+        "learningEffect": null
+      },
+      "observedSourceDigestBeforeCorrections": "sha256:00d8301c20fe4dbb8e655fc3b272efd49f6cc558ebfdeb48a650910b0e384408",
+      "digestStatus": "要最小訂正後に再取得",
+      "expectedSourceDigestAfterProposedCorrections": "sha256:55e7b4d77be0de091a56b39df80a36f240456c7cb044fa1beee12b32ef5dc5b6",
+      "postCorrectionDigestNote": "6差替えだけをメモリ内適用した予測。正本変更ではなく、実装時に実ファイルから再取得する。"
+    },
+    {
+      "id": "pretraining-metrics",
+      "key": "PretrainingMetrics",
+      "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+      "component": "PretrainingMetrics",
+      "stageCount": 4,
+      "candidateFiles": {
+        "model": "website/lib/pretraining-metrics-model.mjs",
+        "scene": "website/components/diagrams/pretraining-metrics-walkthrough.jsx",
+        "css": "website/components/diagrams/pretraining-metrics.css",
+        "test": "website/tests/unit/pretraining-metrics-model.test.mjs"
+      },
+      "binding": "grouped-blocks",
+      "sectionIndexes": [
+        4
+      ],
+      "headings": [
+        "創発的能力の論争"
+      ],
+      "sourceHeadings": [
+        "創発的能力の論争"
+      ],
+      "originalRange": {
+        "start": 30,
+        "end": 34
+      },
+      "expectedBodyBlockCounts": [
+        3
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "readStages": [
+        0,
+        2,
+        3
+      ],
+      "manualOnlyStages": [
+        1
+      ],
+      "stages": [
+        {
+          "index": 0,
+          "label": "論争",
+          "visible": [
+            "創発の報告と指標依存の反論を並べる。『論争は決着していない』。"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "同じ出力",
+          "visible": [
+            "手動補助: 条件A〜Fに同じ6個の説明用スコアを固定。実モデル/規模の測定値ではない。"
+          ]
+        },
+        {
+          "index": 2,
+          "label": "測り方",
+          "visible": [
+            "同じ入力を連続値と閾値以上=1/未満=0の2段に並べる。全6IDと横位置は固定。",
+            "『測り方だけで見え方が変わる説明例』『完全一致やBrierの実装ではない』。両グラフを常に表示。"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "併用",
+          "visible": [
+            "連続指標と閾値指標を併用し、能力の有無を一つの値で断じない。",
+            "全ての創発が偽物と証明する図にしない。"
+          ]
+        }
+      ],
+      "controls": [
+        {
+          "id": "score-threshold",
+          "label": "二値化の閾値",
+          "stages": [
+            2
+          ],
+          "options": [
+            50,
+            60,
+            70
+          ],
+          "displayScale": 100,
+          "default": 60,
+          "behavior": "6入力を固定したまま>=閾値で二値化。S0/S1/S3は選択に依存しない。"
+        }
+      ],
+      "invariants": [
+        "同じ出力を測るので、操作で元スコア/ID/横位置を変えない。",
+        "境界は>=。整数スコアで比較し表示のみ100で割る。",
+        "実際のNや性能測定であるかのような軸/凡例を付けない。結論判定はnull。"
+      ],
+      "oracle": {
+        "kind": "exact-explanatory",
+        "ids": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F"
+        ],
+        "scoresNumerator": [
+          30,
+          40,
+          50,
+          60,
+          70,
+          80
+        ],
+        "denominator": 100,
+        "thresholds": {
+          "50": [
+            0,
+            0,
+            1,
+            1,
+            1,
+            1
+          ],
+          "60": [
+            0,
+            0,
+            0,
+            1,
+            1,
+            1
+          ],
+          "70": [
+            0,
+            0,
+            0,
+            0,
+            1,
+            1
+          ]
+        },
+        "empiricalMeasurement": false,
+        "emergenceJudgment": null
+      },
+      "observedSourceDigestBeforeCorrections": "sha256:4ab6047fb2622bc062565cbe9942f258278634c2ef2e785d78f5d7d7ffe66116",
+      "digestStatus": "要最小訂正後に再取得",
+      "expectedSourceDigestAfterProposedCorrections": "sha256:4ab6047fb2622bc062565cbe9942f258278634c2ef2e785d78f5d7d7ffe66116",
+      "postCorrectionDigestNote": "6差替えだけをメモリ内適用した予測。正本変更ではなく、実装時に実ファイルから再取得する。"
+    },
+    {
+      "id": "pretraining-compute",
+      "key": "PretrainingCompute",
+      "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+      "component": "PretrainingCompute",
+      "stageCount": 4,
+      "candidateFiles": {
+        "model": "website/lib/pretraining-compute-model.mjs",
+        "scene": "website/components/diagrams/pretraining-compute-walkthrough.jsx",
+        "css": "website/components/diagrams/pretraining-compute.css",
+        "test": "website/tests/unit/pretraining-compute-model.test.mjs"
+      },
+      "binding": "grouped-blocks",
+      "sectionIndexes": [
+        5
+      ],
+      "headings": [
+        "学習の計算量の目安"
+      ],
+      "sourceHeadings": [
+        "スケーリング則の系譜",
+        "学習の計算量の目安"
+      ],
+      "originalRange": {
+        "start": 34,
+        "end": 38
+      },
+      "expectedBodyBlockCounts": [
+        3
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "readStages": [
+        0,
+        1,
+        3
+      ],
+      "manualOnlyStages": [
+        2
+      ],
+      "stages": [
+        {
+          "index": 0,
+          "label": "概算",
+          "visible": [
+            "C≈6NDは学習FLOPsの概算。N/D/係数6を区別。正確な課金・時間・電力の式ではない。"
+          ]
+        },
+        {
+          "index": 1,
+          "label": "積",
+          "visible": [
+            "基準C0=6N0D0に対し、N比×D比=C比。N×2/D一定でC×2、両方×2ならC×4。"
+          ]
+        },
+        {
+          "index": 2,
+          "label": "配分",
+          "visible": [
+            "手動補助: 固定Cの配分3組。Nを増やしたらDを減らす。損失最適は判定しない。"
+          ]
+        },
+        {
+          "index": 3,
+          "label": "実コスト",
+          "visible": [
+            "固定Cの配分と予算増加の両枠を静止表示。前者はC1、両方2倍の後者はC4。",
+            "ハードウェア/並列化効率は実時間・費用・消費エネルギーに関わり、6NDだけでは決まらない。",
+            "『FLOPs概算→実測・提供条件で確認』。実測値は未入力・未知。"
+          ]
+        }
+      ],
+      "controls": [
+        {
+          "id": "parameter-factor",
+          "label": "Nの基準比",
+          "stages": [
+            1
+          ],
+          "options": [
+            1,
+            2
+          ],
+          "default": 1,
+          "behavior": "この段階だけN比を変更。D比との積を表示。"
+        },
+        {
+          "id": "data-factor",
+          "label": "Dの基準比",
+          "stages": [
+            1
+          ],
+          "options": [
+            1,
+            2
+          ],
+          "default": 1,
+          "behavior": "この段階だけD比を変更。N比との積を表示。"
+        },
+        {
+          "id": "compute-allocation",
+          "label": "同じ予算の配分",
+          "stages": [
+            2
+          ],
+          "options": [
+            "data-heavy",
+            "reference",
+            "parameter-heavy"
+          ],
+          "default": "reference",
+          "behavior": "固定Cのみ。S3の要点は固定表示でこの選択と無関係。"
+        },
+        {
+          "id": "real-cost-factor",
+          "label": "実測が必要な項目",
+          "stages": [
+            3
+          ],
+          "options": [
+            "duration",
+            "price",
+            "energy"
+          ],
+          "default": "duration",
+          "behavior": "強調のみ。比較対象・前提・結論は消さず、段階の意味は変えない"
+        }
+      ],
+      "invariants": [
+        "CはFLOPs、価格・時間・電力/エネルギーとは単位が異なる。",
+        "N/D比は正の有限数。固定Cでは積一定、予算増加では積が増す。",
+        "未知の実時間/価格/エネルギーを0や推定値で埋めない。"
+      ],
+      "oracle": {
+        "kind": "exact-algebraic",
+        "baseline": "C0 = 6*N0*D0",
+        "factorCases": [
+          {
+            "n": 1,
+            "d": 1,
+            "c": 1
+          },
+          {
+            "n": 2,
+            "d": 1,
+            "c": 2
+          },
+          {
+            "n": 1,
+            "d": 2,
+            "c": 2
+          },
+          {
+            "n": 2,
+            "d": 2,
+            "c": 4
+          }
+        ],
+        "fixedCompute": [
+          {
+            "n": 0.5,
+            "d": 2,
+            "c": 1
+          },
+          {
+            "n": 1,
+            "d": 1,
+            "c": 1
+          },
+          {
+            "n": 2,
+            "d": 0.5,
+            "c": 1
+          }
+        ],
+        "actualCost": {
+          "duration": null,
+          "price": null,
+          "energy": null
+        },
+        "optimum": null
+      },
+      "observedSourceDigestBeforeCorrections": "sha256:bf4d31f682a397f5ac9ba8d0063d1a25d260e97ad58590db6d06cee6f10e5c52",
+      "digestStatus": "要最小訂正後に再取得",
+      "expectedSourceDigestAfterProposedCorrections": "sha256:8108b06e4e158b692813efbd4b0791f8575cba50cd193fd39b41e19fc0711434",
+      "postCorrectionDigestNote": "6差替えだけをメモリ内適用した予測。正本変更ではなく、実装時に実ファイルから再取得する。"
+    }
+  ],
+  "topics": [
+    {
+      "id": "training-representative-order",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "概要: 3 つの工程と、それぞれが残す「癖」",
+      "meaning": "代表3工程・順序/反復は一律ではない",
+      "coverage": "dynamic",
+      "diagramId": "training-stages",
+      "readStages": [
+        0
+      ]
+    },
+    {
+      "id": "training-different-data",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "概要: 3 つの工程と、それぞれが残す「癖」",
+      "meaning": "テキスト/模範例/選好比較という入力の違い",
+      "coverage": "dynamic",
+      "diagramId": "training-stages",
+      "readStages": [
+        0
+      ]
+    },
+    {
+      "id": "training-association-not-cause",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "概要: 3 つの工程と、それぞれが残す「癖」",
+      "meaning": "点線は関連であり工程単独の原因ではない",
+      "coverage": "dynamic",
+      "diagramId": "training-runtime-boundary",
+      "readStages": [
+        0
+      ]
+    },
+    {
+      "id": "training-next-token-patterns",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "事前学習: 次トークン予測で知識を得る",
+      "meaning": "次トークン予測で言語・知識のパターンを学ぶ",
+      "coverage": "dynamic",
+      "diagramId": "training-stages",
+      "readStages": [
+        1
+      ]
+    },
+    {
+      "id": "training-knowledge-range",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "事前学習: 次トークン予測で知識を得る",
+      "meaning": "収録範囲・期限、追加学習と検索の違い",
+      "coverage": "dynamic",
+      "diagramId": "training-stages",
+      "readStages": [
+        2
+      ]
+    },
+    {
+      "id": "training-frequency-accuracy",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "事前学習: 次トークン予測で知識を得る",
+      "meaning": "頻度と正確性の非同一、未収録社内情報、情報源で照合",
+      "coverage": "dynamic",
+      "diagramId": "training-stages",
+      "readStages": [
+        2
+      ]
+    },
+    {
+      "id": "training-base-instruction",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "事前学習: 次トークン予測で知識を得る",
+      "meaning": "ベースの課題能力と安定した指示追従の区別",
+      "coverage": "dynamic",
+      "diagramId": "training-stages",
+      "readStages": [
+        2
+      ]
+    },
+    {
+      "id": "training-sft-demonstrations",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "指示チューニング(SFT): 指示に従う形式を学ぶ",
+      "meaning": "入出力の模範例で形式と振る舞いを調整",
+      "coverage": "dynamic",
+      "diagramId": "training-stages",
+      "readStages": [
+        3
+      ]
+    },
+    {
+      "id": "training-sft-facts",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "指示チューニング(SFT): 指示に従う形式を学ぶ",
+      "meaning": "新事実も学べるが効率・誤答への影響は条件依存",
+      "coverage": "dynamic",
+      "diagramId": "training-stages",
+      "readStages": [
+        3
+      ]
+    },
+    {
+      "id": "training-closed-book-limits",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "指示チューニング(SFT): 指示に従う形式を学ぶ",
+      "meaning": "新知識/幻覚の報告は対象closed-book QA。全FT不可能へ一般化しない",
+      "coverage": "dynamic",
+      "diagramId": "training-stages",
+      "readStages": [
+        4
+      ]
+    },
+    {
+      "id": "training-retrieval-requirements",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "指示チューニング(SFT): 指示に従う形式を学ぶ",
+      "meaning": "最新性・出典・削除・権限管理を検索/FT判断に含める",
+      "coverage": "dynamic",
+      "diagramId": "training-stages",
+      "readStages": [
+        4
+      ]
+    },
+    {
+      "id": "training-separate-evaluation",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "指示チューニング(SFT): 指示に従う形式を学ぶ",
+      "meaning": "形式/振る舞いと事実再現性を別に評価",
+      "coverage": "dynamic",
+      "diagramId": "training-stages",
+      "readStages": [
+        4
+      ]
+    },
+    {
+      "id": "training-preference-data",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "選好調整: 「良い応答」の基準を最適化する",
+      "meaning": "人間/AIによる候補の比較から好みを集める",
+      "coverage": "dynamic",
+      "diagramId": "training-stages",
+      "readStages": [
+        5
+      ]
+    },
+    {
+      "id": "training-preference-methods",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "選好調整: 「良い応答」の基準を最適化する",
+      "meaning": "RLHFとDPOの手法名・経路を同一手法にしない",
+      "coverage": "dynamic",
+      "diagramId": "training-stages",
+      "readStages": [
+        5
+      ]
+    },
+    {
+      "id": "training-preference-targets",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "選好調整: 「良い応答」の基準を最適化する",
+      "meaning": "有用さ/無害さ/トーン/拒否を調整する",
+      "coverage": "dynamic",
+      "diagramId": "training-stages",
+      "readStages": [
+        5
+      ]
+    },
+    {
+      "id": "training-multiple-objectives",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "この工程から生まれる性質: 幻覚・迎合・拒否",
+      "meaning": "癖は工程と関連し、全工程の目的関数が同じではない",
+      "coverage": "dynamic",
+      "diagramId": "training-runtime-boundary",
+      "readStages": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "training-hallucination-checks",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "この工程から生まれる性質: 幻覚・迎合・拒否",
+      "meaning": "NTPは事実検証器ではなく調整後も誤答。根拠/出典/結果の確認",
+      "coverage": "dynamic",
+      "diagramId": "training-runtime-boundary",
+      "readStages": [
+        2
+      ]
+    },
+    {
+      "id": "training-sycophancy-conditions",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "この工程から生まれる性質: 幻覚・迎合・拒否",
+      "meaning": "対象研究の範囲、誤前提への同調を中立な問い/基準で評価",
+      "coverage": "dynamic",
+      "diagramId": "training-runtime-boundary",
+      "readStages": [
+        2
+      ]
+    },
+    {
+      "id": "training-refusal-limits",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "この工程から生まれる性質: 幻覚・迎合・拒否",
+      "meaning": "過剰・過小拒否、SFT/選好/実行時の複数要因",
+      "coverage": "dynamic",
+      "diagramId": "training-runtime-boundary",
+      "readStages": [
+        2
+      ]
+    },
+    {
+      "id": "training-prompt-tendency",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "この工程から生まれる性質: 幻覚・迎合・拒否",
+      "meaning": "プロンプトは学習された傾向に働き、命令インタープリタではない",
+      "coverage": "dynamic",
+      "diagramId": "training-runtime-boundary",
+      "readStages": [
+        3
+      ]
+    },
+    {
+      "id": "training-external-boundary",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "この工程から生まれる性質: 幻覚・迎合・拒否",
+      "meaning": "モデル拒否や禁止文を実行権限の境界にせずコードで検査",
+      "coverage": "dynamic",
+      "diagramId": "training-runtime-boundary",
+      "readStages": [
+        3
+      ]
+    },
+    {
+      "id": "pretraining-pretraining-purpose",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "概要: 事前学習は「次トークン予測」の一点",
+      "meaning": "NTPという課題から知識・能力を学ぶ",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-loss-perplexity",
+      "readStages": [
+        0
+      ]
+    },
+    {
+      "id": "pretraining-loss-not-ability",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "概要: 事前学習は「次トークン予測」の一点",
+      "meaning": "損失を測る記事であり下流能力と同じ量ではない",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-loss-perplexity",
+      "readStages": [
+        0,
+        4
+      ]
+    },
+    {
+      "id": "pretraining-conditional-prefix",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "次トークン予測の目的関数",
+      "meaning": "各位置で直前までを条件に正解確率を与える",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-loss-perplexity",
+      "readStages": [
+        1
+      ]
+    },
+    {
+      "id": "pretraining-average-negative-log",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "次トークン予測の目的関数",
+      "meaning": "交差エントロピー=位置ごとの平均負対数尤度",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-loss-perplexity",
+      "readStages": [
+        2
+      ]
+    },
+    {
+      "id": "pretraining-training-update",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "次トークン予測の目的関数",
+      "meaning": "損失を下げる学習はパラメータ更新、推論は固定",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-loss-perplexity",
+      "readStages": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "pretraining-exp-loss",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "次トークン予測の目的関数",
+      "meaning": "PPL=exp平均損失、有効な選択肢数の直感",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-loss-perplexity",
+      "readStages": [
+        3
+      ]
+    },
+    {
+      "id": "pretraining-same-tokenizer-data",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "次トークン予測の目的関数",
+      "meaning": "PPLの比較はトークナイザと評価データが同じ条件",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-loss-perplexity",
+      "readStages": [
+        4
+      ]
+    },
+    {
+      "id": "pretraining-scaling-axes",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "スケーリング則の系譜",
+      "meaning": "N/D/Cと経験的べき乗則",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-scaling",
+      "readStages": [
+        0
+      ]
+    },
+    {
+      "id": "pretraining-residual-not-total",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "スケーリング則の系譜",
+      "meaning": "L∞と残差Rを分け、倍率が掛かるのはR",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-scaling",
+      "readStages": [
+        1
+      ]
+    },
+    {
+      "id": "pretraining-kaplan-history",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "スケーリング則の系譜",
+      "meaning": "初期のパラメータ重視という系譜",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-scaling",
+      "readStages": [
+        3
+      ]
+    },
+    {
+      "id": "pretraining-fixed-compute-allocation",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "スケーリング則の系譜",
+      "meaning": "固定C内でN/Dの配分を選ぶ",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-scaling",
+      "readStages": [
+        3
+      ]
+    },
+    {
+      "id": "pretraining-budget-growth",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "スケーリング則の系譜",
+      "meaning": "予算増加に対しN/Dを近い率で増やすというChinchillaの含意",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-scaling",
+      "readStages": [
+        3
+      ]
+    },
+    {
+      "id": "pretraining-not-equal-units",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "スケーリング則の系譜",
+      "meaning": "同率成長はN=Dや固定C内の両増加ではない",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-scaling",
+      "readStages": [
+        3
+      ]
+    },
+    {
+      "id": "pretraining-inference-compute",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "スケーリング則の系譜",
+      "meaning": "推論時にも計算を割く別軸がある",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-scaling",
+      "readStages": [
+        3,
+        4
+      ]
+    },
+    {
+      "id": "pretraining-empirical-coefficients",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "スケーリング則の系譜",
+      "meaning": "データ/構造/トークナイザ依存で係数は普遍定数ではない",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-scaling",
+      "readStages": [
+        5
+      ]
+    },
+    {
+      "id": "pretraining-quantity-content",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "データ側: 量・品質・混合・繰り返し",
+      "meaning": "Dの量だけでなく中身が効く",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-data",
+      "readStages": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "pretraining-quality-dedup",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "データ側: 量・品質・混合・繰り返し",
+      "meaning": "品質・重複除去・フィルタリングの確認",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-data",
+      "readStages": [
+        2
+      ]
+    },
+    {
+      "id": "pretraining-mixture",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "データ側: 量・品質・混合・繰り返し",
+      "meaning": "Web/書籍/コード/多言語の配合は設計判断",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-data",
+      "readStages": [
+        2
+      ]
+    },
+    {
+      "id": "pretraining-reuse-returns",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "データ側: 量・品質・混合・繰り返し",
+      "meaning": "再利用で処理量は増すが追加価値は一定でなく過学習もありうる",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-data",
+      "readStages": [
+        2
+      ]
+    },
+    {
+      "id": "pretraining-contamination",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "データ側: 量・品質・混合・繰り返し",
+      "meaning": "評価用データの学習混入で評価が歪む",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-data",
+      "readStages": [
+        2
+      ]
+    },
+    {
+      "id": "pretraining-data-bottleneck",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "データ側: 量・品質・混合・繰り返し",
+      "meaning": "パラメータ規模に見合う良質データの有無",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-data",
+      "readStages": [
+        3
+      ]
+    },
+    {
+      "id": "pretraining-emergence-debate",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "創発的能力の論争",
+      "meaning": "創発の報告と測定方法に由来する反論、未決着",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-metrics",
+      "readStages": [
+        0,
+        3
+      ]
+    },
+    {
+      "id": "pretraining-discontinuous-metric",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "創発的能力の論争",
+      "meaning": "同じ出力でも閾値で急変して見える",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-metrics",
+      "readStages": [
+        2
+      ]
+    },
+    {
+      "id": "pretraining-continuous-metric",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "創発的能力の論争",
+      "meaning": "同じ出力の連続指標も確認する",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-metrics",
+      "readStages": [
+        2
+      ]
+    },
+    {
+      "id": "pretraining-not-single-verdict",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "創発的能力の論争",
+      "meaning": "単一閾値で能力を断じず併用して評価",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-metrics",
+      "readStages": [
+        3
+      ]
+    },
+    {
+      "id": "pretraining-compute-units",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "学習の計算量の目安",
+      "meaning": "CのFLOPs、N/D/係数6と概算の意味",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-compute",
+      "readStages": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "pretraining-compute-product",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "学習の計算量の目安",
+      "meaning": "NかDの片方を増やす比例、両方増加時は積",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-compute",
+      "readStages": [
+        1
+      ]
+    },
+    {
+      "id": "pretraining-allocation-vs-growth",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "学習の計算量の目安",
+      "meaning": "固定Cの配分と予算増加時の両拡大を区別",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-compute",
+      "readStages": [
+        3
+      ]
+    },
+    {
+      "id": "pretraining-actual-cost-limits",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "学習の計算量の目安",
+      "meaning": "ハードウェア/並列化効率による実時間・費用・エネルギー、桁の当たり",
+      "coverage": "dynamic",
+      "diagramId": "pretraining-compute",
+      "readStages": [
+        3
+      ]
+    },
+    {
+      "id": "training-static-5-1",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "この理解が効く場面",
+      "meaning": "幻覚対策の設計: 「注意書きを増やす」から「根拠を渡す・検証を挟む」へ発想を切り替えられます(RAG 実装パターンの出典必須の設計)",
+      "coverage": "static",
+      "staticReason": "実案件への適用判断と関連記事への導線を原文リストで残す。図は機構を示すが案件適否を自動判定しない。",
+      "relatedRead": [
+        {
+          "diagramId": "training-runtime-boundary",
+          "stage": 2
+        }
+      ]
+    },
+    {
+      "id": "training-static-5-2",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "この理解が効く場面",
+      "meaning": "ガードレールの位置づけ: モデルへの指示とコードによる強制を混同しなくなります(ガードレール)",
+      "coverage": "static",
+      "staticReason": "実案件への適用判断と関連記事への導線を原文リストで残す。図は機構を示すが案件適否を自動判定しない。",
+      "relatedRead": [
+        {
+          "diagramId": "training-runtime-boundary",
+          "stage": 3
+        }
+      ]
+    },
+    {
+      "id": "training-static-5-3",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "この理解が効く場面",
+      "meaning": "FT の判断: 形式・振る舞いの改善、事実の再現性、更新・権限管理の要件を分け、検索と FT を比較できます(ファインチューニングと蒸留)",
+      "coverage": "static",
+      "staticReason": "実案件への適用判断と関連記事への導線を原文リストで残す。図は機構を示すが案件適否を自動判定しない。",
+      "relatedRead": [
+        {
+          "diagramId": "training-stages",
+          "stage": 4
+        }
+      ]
+    },
+    {
+      "id": "training-static-5-4",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "この理解が効く場面",
+      "meaning": "judge・レビューの設計: 迎合バイアスを前提に、中立な聞き方・基準の明文化を組み込めます(LLM-as-a-Judge)",
+      "coverage": "static",
+      "staticReason": "実案件への適用判断と関連記事への導線を原文リストで残す。図は機構を示すが案件適否を自動判定しない。",
+      "relatedRead": [
+        {
+          "diagramId": "training-runtime-boundary",
+          "stage": 2
+        }
+      ]
+    },
+    {
+      "id": "training-static-6-1",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "アンチパターン",
+      "meaning": "幻覚を「もっと強く禁止する」プロンプトで解決しようとする → 目的関数由来の性質は指示では消えない → 根拠の外部供給(RAG)・出典要求・検証ステップで構造的に抑える",
+      "coverage": "static",
+      "staticReason": "設計上のアンチパターンをそのまま比較して読める箇条書き。対応機構は既存READ停止面で確認でき、別の架空判定を追加しない。",
+      "relatedRead": [
+        {
+          "diagramId": "training-runtime-boundary",
+          "stage": 2
+        }
+      ]
+    },
+    {
+      "id": "training-static-6-2",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "アンチパターン",
+      "meaning": "社内知識をモデルの記憶に期待する → 学習データにない・まれな知識は再現されない → 検索で都度渡す設計にする",
+      "coverage": "static",
+      "staticReason": "設計上のアンチパターンをそのまま比較して読める箇条書き。対応機構は既存READ停止面で確認でき、別の架空判定を追加しない。",
+      "relatedRead": [
+        {
+          "diagramId": "training-stages",
+          "stage": 2
+        }
+      ]
+    },
+    {
+      "id": "training-static-6-3",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "アンチパターン",
+      "meaning": "「はい/いいえ」で聞く誘導的なレビュー依頼をする → 迎合により同意へ偏る → 中立な形式・明文化した基準・複数観点で聞く",
+      "coverage": "static",
+      "staticReason": "設計上のアンチパターンをそのまま比較して読める箇条書き。対応機構は既存READ停止面で確認でき、別の架空判定を追加しない。",
+      "relatedRead": [
+        {
+          "diagramId": "training-runtime-boundary",
+          "stage": 2
+        }
+      ]
+    },
+    {
+      "id": "training-static-6-4",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "アンチパターン",
+      "meaning": "システムプロンプトの禁止事項をセキュリティ境界として扱う → 指示は学習された傾向であり上書きされうる → 権限・ガードレールなどコード側の強制と併用する",
+      "coverage": "static",
+      "staticReason": "設計上のアンチパターンをそのまま比較して読める箇条書き。対応機構は既存READ停止面で確認でき、別の架空判定を追加しない。",
+      "relatedRead": [
+        {
+          "diagramId": "training-runtime-boundary",
+          "stage": 3
+        }
+      ]
+    },
+    {
+      "id": "training-static-7-1",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "チェックリスト",
+      "meaning": "最新性・正確性が必要な情報を、モデルの記憶ではなく検索・ツールで渡している",
+      "coverage": "static",
+      "staticReason": "利用者自身が実装・評価状況を確認するチェック項目。動的な合否や自動チェック済み状態を作らない。",
+      "relatedRead": [
+        {
+          "diagramId": "training-stages",
+          "stage": 2
+        }
+      ]
+    },
+    {
+      "id": "training-static-7-2",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "チェックリスト",
+      "meaning": "幻覚対策が指示(お願い)だけでなく、構造(根拠供給・出典・検証)を含んでいる",
+      "coverage": "static",
+      "staticReason": "利用者自身が実装・評価状況を確認するチェック項目。動的な合否や自動チェック済み状態を作らない。",
+      "relatedRead": [
+        {
+          "diagramId": "training-runtime-boundary",
+          "stage": 2
+        }
+      ]
+    },
+    {
+      "id": "training-static-7-3",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "チェックリスト",
+      "meaning": "LLM に判定・レビューをさせる箇所で、迎合バイアスへの対策(中立な聞き方・基準明文化)がある",
+      "coverage": "static",
+      "staticReason": "利用者自身が実装・評価状況を確認するチェック項目。動的な合否や自動チェック済み状態を作らない。",
+      "relatedRead": [
+        {
+          "diagramId": "training-runtime-boundary",
+          "stage": 2
+        }
+      ]
+    },
+    {
+      "id": "training-static-7-4",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "チェックリスト",
+      "meaning": "プロンプトの禁止事項に、コード側の強制(権限・ガードレール)が対応している",
+      "coverage": "static",
+      "staticReason": "利用者自身が実装・評価状況を確認するチェック項目。動的な合否や自動チェック済み状態を作らない。",
+      "relatedRead": [
+        {
+          "diagramId": "training-runtime-boundary",
+          "stage": 3
+        }
+      ]
+    },
+    {
+      "id": "training-static-7-5",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "heading": "チェックリスト",
+      "meaning": "FT を検討する際、「形式の安定化」か「知識の注入」かを区別している",
+      "coverage": "static",
+      "staticReason": "利用者自身が実装・評価状況を確認するチェック項目。動的な合否や自動チェック済み状態を作らない。",
+      "relatedRead": [
+        {
+          "diagramId": "training-stages",
+          "stage": 4
+        }
+      ]
+    },
+    {
+      "id": "pretraining-static-6-1",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "この理解が効く場面",
+      "meaning": "能力の見積り: 「規模を上げれば滑らかに良くなるが収穫逓減する」「N と D はバランスが要る」という形が、次世代モデルへの期待値を現実的にする",
+      "coverage": "static",
+      "staticReason": "規模・投資・ベンチマーク・費用の実務判断には個別条件が必要。図の固定入力から投資判断を生成せず原文で残す。",
+      "relatedRead": [
+        {
+          "diagramId": "pretraining-scaling",
+          "stage": 3
+        }
+      ]
+    },
+    {
+      "id": "pretraining-static-6-2",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "この理解が効く場面",
+      "meaning": "自社モデル投資の判断: データ優位(良質な D)がなければ規模を上げても効かない、という律速(自社モデルを持つかの判断)",
+      "coverage": "static",
+      "staticReason": "規模・投資・ベンチマーク・費用の実務判断には個別条件が必要。図の固定入力から投資判断を生成せず原文で残す。",
+      "relatedRead": [
+        {
+          "diagramId": "pretraining-data",
+          "stage": 3
+        }
+      ]
+    },
+    {
+      "id": "pretraining-static-6-3",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "この理解が効く場面",
+      "meaning": "ベンチマークの読み方: 創発の「突然さ」や汚染の影響を割り引いて読む(エージェントベンチマークの全体像)",
+      "coverage": "static",
+      "staticReason": "規模・投資・ベンチマーク・費用の実務判断には個別条件が必要。図の固定入力から投資判断を生成せず原文で残す。",
+      "relatedRead": [
+        {
+          "diagramId": "pretraining-metrics",
+          "stage": 3
+        }
+      ]
+    },
+    {
+      "id": "pretraining-static-6-4",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "この理解が効く場面",
+      "meaning": "学習コストの桁感: C \\approx 6ND で計算量・コスト・環境負荷の当たりを付ける(AI の環境負荷とグリーン AI)",
+      "coverage": "static",
+      "staticReason": "規模・投資・ベンチマーク・費用の実務判断には個別条件が必要。図の固定入力から投資判断を生成せず原文で残す。",
+      "relatedRead": [
+        {
+          "diagramId": "pretraining-compute",
+          "stage": 3
+        }
+      ]
+    },
+    {
+      "id": "pretraining-static-7-1",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "アンチパターン",
+      "meaning": "パープレキシティを異なるトークナイザ・データ間で比較する → PPL はトークナイザ・評価データに依存し、比較の意味がない → 同一条件でのみ比較し、能力は下流タスクで評価する",
+      "coverage": "static",
+      "staticReason": "既に図で示す機構の実務上の誤用を列挙したリスト。読者が原文と対応READ面を照合する。",
+      "relatedRead": [
+        {
+          "diagramId": "pretraining-loss-perplexity",
+          "stage": 4
+        }
+      ]
+    },
+    {
+      "id": "pretraining-static-7-2",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "アンチパターン",
+      "meaning": "スケーリング則の係数を普遍定数として引用する → べき指数・定数はデータ・構成依存の経験則 → 「滑らかに下がるが逓減」「N と D をバランス」という形と含意を使う",
+      "coverage": "static",
+      "staticReason": "既に図で示す機構の実務上の誤用を列挙したリスト。読者が原文と対応READ面を照合する。",
+      "relatedRead": [
+        {
+          "diagramId": "pretraining-scaling",
+          "stage": 5
+        }
+      ]
+    },
+    {
+      "id": "pretraining-static-7-3",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "アンチパターン",
+      "meaning": "パラメータだけ増やせば賢くなると考える → 見合うデータ(D)がないと計算最適から外れ、投資が無駄になる → データ量・品質・混合を規模と一緒に設計する(自前学習時)",
+      "coverage": "static",
+      "staticReason": "既に図で示す機構の実務上の誤用を列挙したリスト。読者が原文と対応READ面を照合する。",
+      "relatedRead": [
+        {
+          "diagramId": "pretraining-data",
+          "stage": 3
+        }
+      ]
+    },
+    {
+      "id": "pretraining-static-7-4",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "アンチパターン",
+      "meaning": "創発を単一の閾値指標で断じる → 不連続な指標が能力の急出現を過大に見せることがある → 連続指標も併用し、能力の有無を慎重に評価する",
+      "coverage": "static",
+      "staticReason": "既に図で示す機構の実務上の誤用を列挙したリスト。読者が原文と対応READ面を照合する。",
+      "relatedRead": [
+        {
+          "diagramId": "pretraining-metrics",
+          "stage": 3
+        }
+      ]
+    },
+    {
+      "id": "pretraining-static-7-5",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "アンチパターン",
+      "meaning": "学習コストを 6ND の理論値そのままで見積もる → 並列化効率・ハードウェアで実コストは大きくぶれる → 桁の当たりとして使い、実測・提供価格で補正する",
+      "coverage": "static",
+      "staticReason": "既に図で示す機構の実務上の誤用を列挙したリスト。読者が原文と対応READ面を照合する。",
+      "relatedRead": [
+        {
+          "diagramId": "pretraining-compute",
+          "stage": 3
+        }
+      ]
+    },
+    {
+      "id": "pretraining-static-8-1",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "チェックリスト",
+      "meaning": "事前学習の目的関数(次トークン予測 = 交差エントロピー)を説明できる",
+      "coverage": "static",
+      "staticReason": "知識・見積りの確認リスト。図を操作しただけで理解や実コスト確認が完了したと判定しない。",
+      "relatedRead": [
+        {
+          "diagramId": "pretraining-loss-perplexity",
+          "stage": 2
+        }
+      ]
+    },
+    {
+      "id": "pretraining-static-8-2",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "チェックリスト",
+      "meaning": "パープレキシティの意味と、トークナイザ依存で比較不能なことを理解している",
+      "coverage": "static",
+      "staticReason": "知識・見積りの確認リスト。図を操作しただけで理解や実コスト確認が完了したと判定しない。",
+      "relatedRead": [
+        {
+          "diagramId": "pretraining-loss-perplexity",
+          "stage": 4
+        }
+      ]
+    },
+    {
+      "id": "pretraining-static-8-3",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "チェックリスト",
+      "meaning": "スケーリング則の系譜(パラメータ偏重 → 計算最適 → 推論時計算)を追える",
+      "coverage": "static",
+      "staticReason": "知識・見積りの確認リスト。図を操作しただけで理解や実コスト確認が完了したと判定しない。",
+      "relatedRead": [
+        {
+          "diagramId": "pretraining-scaling",
+          "stage": 3
+        }
+      ]
+    },
+    {
+      "id": "pretraining-static-8-4",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "チェックリスト",
+      "meaning": "計算最適の含意(N と D をバランスさせる)を説明できる",
+      "coverage": "static",
+      "staticReason": "知識・見積りの確認リスト。図を操作しただけで理解や実コスト確認が完了したと判定しない。",
+      "relatedRead": [
+        {
+          "diagramId": "pretraining-scaling",
+          "stage": 3
+        }
+      ]
+    },
+    {
+      "id": "pretraining-static-8-5",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "チェックリスト",
+      "meaning": "データの品質・混合・繰り返しの限界が規模と同じく効くと理解している",
+      "coverage": "static",
+      "staticReason": "知識・見積りの確認リスト。図を操作しただけで理解や実コスト確認が完了したと判定しない。",
+      "relatedRead": [
+        {
+          "diagramId": "pretraining-data",
+          "stage": 2
+        }
+      ]
+    },
+    {
+      "id": "pretraining-static-8-6",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "チェックリスト",
+      "meaning": "創発的能力の論争(指標の取り方による見かけ説)を踏まえて能力を評価する",
+      "coverage": "static",
+      "staticReason": "知識・見積りの確認リスト。図を操作しただけで理解や実コスト確認が完了したと判定しない。",
+      "relatedRead": [
+        {
+          "diagramId": "pretraining-metrics",
+          "stage": 3
+        }
+      ]
+    },
+    {
+      "id": "pretraining-static-8-7",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "heading": "チェックリスト",
+      "meaning": "C \\approx 6ND で学習計算量の桁を当てられる(実コストは補正が要る)",
+      "coverage": "static",
+      "staticReason": "知識・見積りの確認リスト。図を操作しただけで理解や実コスト確認が完了したと判定しない。",
+      "relatedRead": [
+        {
+          "diagramId": "pretraining-compute",
+          "stage": 3
+        }
+      ]
+    }
+  ],
+  "corrections": [
+    {
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "location": "スケーリング則の系譜 / 式の読み下し",
+      "before": "$N$ を 10 倍しても損失は一定の割合でしか下がらない(収穫逓減)",
+      "after": "$N$ を 10 倍すると、下限からの差 $L-L_\\infty$ が一定の割合で小さくなる(収穫逓減)",
+      "reason": "式の倍率は残差項に掛かり、下限を含むL全体の比ではない。",
+      "source": "https://arxiv.org/html/2203.15556",
+      "section": "§3.3 Eq.(2); 元記事の式からの代数的帰結"
+    },
+    {
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "location": "スケーリング則の系譜 / Chinchilla箇条書き",
+      "before": "固定の計算予算 $C$ の下で損失を最小化するには、**$N$ と $D$ をほぼ同じ割合で一緒に増やすべき**、という修正。",
+      "after": "固定の計算予算 $C$ の下で損失を最小化する $N$ と $D$ の配分を調べ、**計算予算を増やすときには $N$ と $D$ をほぼ同じ割合で一緒に増やすべき**、とした修正。",
+      "reason": "固定C内の配分探索と、C増加に伴う最適構成の成長を分ける。",
+      "source": "https://arxiv.org/html/2203.15556",
+      "section": "§3、§3.4 Table2"
+    },
+    {
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "location": "スケーリング則の系譜 / Mermaidラベル",
+      "before": "計算最適(N と D を均等に)",
+      "after": "計算最適(N と D の配分)",
+      "reason": "同率成長を固定Cの均等配分やN=Dと誤読させない。ノード/矢印/位置/コードブロック数は維持。",
+      "source": "https://arxiv.org/html/2203.15556",
+      "section": "§3、§3.4"
+    },
+    {
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "location": "学習の計算量の目安 / 読み下し",
+      "before": "計算量(= コスト・時間・電力)が比例して増える",
+      "after": "計算量(FLOPs)が比例して増える",
+      "reason": "FLOPsと価格・経過時間・電力は同じ量ではない。後続の既存実コスト依存文で補う。",
+      "source": "https://arxiv.org/html/2001.08361",
+      "section": "§2.1; https://arxiv.org/html/2203.15556 Appendix F"
+    },
+    {
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "location": "学習の計算量の目安 / 計算最適の文",
+      "before": "計算最適の含意「$N$ と $D$ を均等に」は、この $C$ を固定したうえで損失を最小化する配分の話です。",
+      "after": "固定した $C$ の下では、損失を最小化する $N$ と $D$ の配分を選びます。$N$ と $D$ をほぼ同じ割合で増やすという含意は、計算予算を増やす場合の話です。",
+      "reason": "固定CはN×D一定。同率で両方増やせばCも増える。",
+      "source": "https://arxiv.org/html/2203.15556",
+      "section": "§3.3–§3.4"
+    },
+    {
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "location": "参考資料 / Chinchilla説明",
+      "before": "計算最適(Chinchilla)。$N$ と $D$ を均等に",
+      "after": "計算最適(Chinchilla)。計算予算に応じた $N$ と $D$ の配分",
+      "reason": "本文最小訂正と関連ラベルの整合。",
+      "source": "https://arxiv.org/html/2203.15556",
+      "section": "§3–§3.4"
+    }
+  ],
+  "sources": [
+    {
+      "id": "instructgpt",
+      "url": "https://arxiv.org/html/2203.02155",
+      "sections": "§3.1",
+      "boundary": "模範例SFT、比較による報酬学習、PPOという代表工程と反復。全モデル共通順序とは扱わない。",
+      "diagramIds": [
+        "training-stages",
+        "training-runtime-boundary"
+      ],
+      "verification": "一次本文の該当節を確認",
+      "checkedAt": "2026-09-24"
+    },
+    {
+      "id": "dpo",
+      "url": "https://arxiv.org/html/2305.18290",
+      "sections": "§3–§4",
+      "boundary": "選好ペアからの直接最適化。RLHFと同一の実装手順にしない。",
+      "diagramIds": [
+        "training-stages"
+      ],
+      "verification": "一次本文の該当節を確認",
+      "checkedAt": "2026-09-24"
+    },
+    {
+      "id": "new-knowledge",
+      "url": "https://arxiv.org/html/2405.05904",
+      "sections": "§1、§4、§11 Limitations",
+      "boundary": "対象closed-book QAでの新知識学習と幻覚の報告。新事実を全く学べないとはしない。",
+      "diagramIds": [
+        "training-stages"
+      ],
+      "verification": "一次本文の該当節を確認",
+      "checkedAt": "2026-09-24"
+    },
+    {
+      "id": "sycophancy",
+      "url": "https://arxiv.org/html/2310.13548",
+      "sections": "§4.1–§4.3",
+      "boundary": "対象モデル/選好判断での迎合との関係。全人間・全手法の普遍的因果にしない。",
+      "diagramIds": [
+        "training-runtime-boundary"
+      ],
+      "verification": "一次本文の該当節を確認",
+      "checkedAt": "2026-09-24"
+    },
+    {
+      "id": "kaplan",
+      "url": "https://arxiv.org/html/2001.08361",
+      "sections": "§1.3、§2、§2.1",
+      "boundary": "トークン平均のcross entropy/nats、言語モデル目的とFLOPs概算。係数の普遍化をしない。",
+      "diagramIds": [
+        "pretraining-loss-perplexity",
+        "pretraining-scaling",
+        "pretraining-compute"
+      ],
+      "verification": "一次本文の該当節を確認",
+      "checkedAt": "2026-09-24"
+    },
+    {
+      "id": "chinchilla",
+      "url": "https://arxiv.org/html/2203.15556",
+      "sections": "§3、§3.3 Eq.(2)/(4)、§3.4 Table2、Appendix F",
+      "boundary": "固定C内の配分と、増えるCに対するN/Dの近い成長率を分離。論文の実測係数を図の普遍値に採用しない。",
+      "diagramIds": [
+        "pretraining-scaling",
+        "pretraining-compute"
+      ],
+      "verification": "一次本文の該当節を確認",
+      "checkedAt": "2026-09-24"
+    },
+    {
+      "id": "data-constrained",
+      "url": "https://arxiv.org/html/2305.16264",
+      "sections": "§5–§6、Appendix H",
+      "boundary": "再利用の価値は一定でなく、訓練損失だけでは判断できない。固定の過学習開始回数を置かない。",
+      "diagramIds": [
+        "pretraining-data"
+      ],
+      "verification": "一次本文の該当節を確認",
+      "checkedAt": "2026-09-24"
+    },
+    {
+      "id": "emergence",
+      "url": "https://arxiv.org/html/2206.07682",
+      "sections": "§2",
+      "boundary": "規模による能力の出現という報告の定義を確認。図は実験曲線の再現ではない。",
+      "diagramIds": [
+        "pretraining-metrics"
+      ],
+      "verification": "一次本文の該当節を確認",
+      "checkedAt": "2026-09-24"
+    },
+    {
+      "id": "mirage",
+      "url": "https://arxiv.org/html/2304.15004",
+      "sections": "§2–§4、§6",
+      "boundary": "同じ出力でも非線形/不連続な測定が形を変える。図の閾値例は説明用で、論争全体の決着ではない。",
+      "diagramIds": [
+        "pretraining-metrics"
+      ],
+      "verification": "一次本文の該当節を確認",
+      "checkedAt": "2026-09-24"
+    }
+  ],
+  "commonContract": {
+    "binding": "grouped-blocks",
+    "sourcePolicy": "原ASTの参照をReadingStepで包装。数式・Mermaid・リンク・箇条書き・H3を再記述しない。正本訂正はcorrectionsだけ別レビューし、sourceDigestを再生成。",
+    "phase": "stageForPhaseの共通丸め。phaseはWire等の動きにのみ使用し、表示内容/制御の有効性はstageで決定。中点前/一致/後と逆シークを検査。",
+    "identity": "図・資料・トークン・スコア点の安定ID。selectorの影響は指定stageに限定。シークの履歴で結果が変わらない。",
+    "layout": "640×430前後を起点に短ラベルで配置。PC1280/1440の読書ペインで拡大せず読めることを画像で独立判定。SVG上のfont値だけを合格基準としない。実寸・主要/補助の字サイズを記録。狭幅は内部図の可読幅と図内スクロールを保ちページ横溢れなし。",
+    "accessibility": "title/desc、HTMLの段階説明、明暗、reduce/noJS/print、keyboard/modal/focus/readsync、実時間再生は既存frameworkを使用。操作なしのREAD停止面に全主要論点を置く。",
+    "heavyChunks": "記事dispatcher単位のlazy load。C1/2や既存6記事・対照alignment-theoryに他記事sceneを配信しない。純粋共有モデル依存は固定入力へ明示。",
+    "sharedModel": "pretraining-scalingがpretraining-compute-model.mjsの純粋な比率計算を参照可能。経験損失モデルへ拡張しない。",
+    "acceptance": "registry/sourceHeadings/digest、article topic ledger/optionalInputs、MDX固定IDと許可props、全関連ゲート失効を製品段階で反映。TEMP JSONはregistryとして投入しない。"
+  },
+  "validation": {
+    "performed": [
+      "現行正本SHA256一致（2記事）",
+      "remark原AST抽出: 17 H3 / 38 body blocks / 4 display math / 2 Mermaid",
+      "既存selectDiagramSections/diagramSourceDigestで7図範囲・意味依存を読取確認",
+      "7図33段階・28 READ停止・32包装body・範囲非重複を検査",
+      "79論点: dynamic50すべてREAD到達 / static29すべて理由・関連READあり",
+      "6か所の最小訂正beforeが現行本文で各1件に一致",
+      "固定例の確率正規化/NLL/PPL、N×D比、再利用計数、閾値等号を独立計算",
+      "routeを現行/docs形式へ照合。runtimeの後方実務節を意味依存へ追加しdigest再計算",
+      "6差替えをメモリ内だけで適用し、トップレベル型/depth/lang・list項目数・display math原文の不変と訂正後予測digestを確認"
+    ],
+    "pending": [
+      "独立内容・数値・AST割当レビュー",
+      "B公開受入後の製品実装",
+      "意味あるモデルunit、元AST同一性/全段階/topic/MDX安全性unit",
+      "PC1280/1440・390・低画面・明暗の実寸画像/操作・WebKit・noJS/印刷",
+      "共通check・site unit/build/browserと既存記事全回帰",
+      "別作者の最終内容/実画像レビュー",
+      "PR/CI/Pages同一版と独立CI artifact BUILD_ID/HTML hashの公開確認"
+    ],
+    "notPerformed": [
+      "製品変更",
+      "実学習",
+      "性能計測",
+      "ビルド",
+      "Git操作",
+      "公開検証"
+    ]
+  }
+}

@@ -1,0 +1,1154 @@
+{
+  "schemaVersion": 1,
+  "recordType": "read-only-primary-source-evidence",
+  "runId": "2026-09-24-p1-remaining-source-evidence",
+  "author": "/root/pretraining_source_evidence",
+  "createdAt": "2026-09-24T14:23:50.635Z",
+  "scope": {
+    "purpose": "D1/F2の承認済計画にある8論点16置換の一次根拠と実本文一致を記録。正式manifestと最終候補の独立レビューはrootが実装時に行う。",
+    "ownedOutputs": [
+      "TEMP/p1-remaining-source-evidence.md",
+      "TEMP/p1-remaining-source-evidence.json"
+    ],
+    "articles": [
+      "docs/11-llm-internals/alignment-theory.md",
+      "docs/10-llm-foundations/multimodal-models.md"
+    ],
+    "tasks": [
+      "ROADMAP T-1: alignment-theory既存published記事の通常改訂",
+      "ROADMAP AR-2: multimodal-models既存published記事の通常改訂"
+    ],
+    "authority": "rootの明示した読み取り専用調査指示。外部操作は公開一次論文の取得のみ。",
+    "prohibitedWrites": [
+      "article",
+      "product",
+      "Git"
+    ],
+    "stopCondition": "16置換対応・書誌・アクセス時刻・未確認範囲を保存して終了"
+  },
+  "contractsRead": [
+    "AGENTS.md",
+    "harness/writing-rules.md",
+    ".agents/skills/publish-review/SKILL.md",
+    "scripts/schemas/harness-change.schema.json",
+    "ROADMAP.md:T-1/AR-2"
+  ],
+  "inputs": {
+    "plan": {
+      "path": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "sha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319"
+    },
+    "articles": [
+      {
+        "path": "docs/11-llm-internals/alignment-theory.md",
+        "sha256": "6bb4501e5fcd44323a0890d20286cc6e597ab042997df47d2cf9fa2ddabd480b"
+      },
+      {
+        "path": "docs/10-llm-foundations/multimodal-models.md",
+        "sha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033"
+      }
+    ]
+  },
+  "timestampPolicy": "accessedAtはweb取得呼出し完了直後のclock UTC秒。HTMLのCrawled日時を採用しない。planProvenance内の以前の確認日時は履歴として保存し、新規取得日時に流用しない。未指定版URLは取得本文に表示された版を記録。",
+  "acquisitionWindows": [
+    {
+      "startedAt": "2026-09-24T14:14:48Z",
+      "finishedAt": "2026-09-24T14:14:51Z",
+      "action": "指定5論文のHTML本文をopen"
+    },
+    {
+      "startedAt": "2026-09-24T14:15:04Z",
+      "finishedAt": "2026-09-24T14:15:06Z",
+      "action": "該当節と版をfind"
+    },
+    {
+      "startedAt": "2026-09-24T14:15:43Z",
+      "finishedAt": "2026-09-24T14:15:46Z",
+      "action": "本文該当節と5件のabstract/metadataをopen"
+    },
+    {
+      "startedAt": "2026-09-24T14:15:56Z",
+      "finishedAt": "2026-09-24T14:15:59Z",
+      "action": "著者・投稿履歴・ViT/TextVQA該当節をfind/open"
+    },
+    {
+      "startedAt": "2026-09-24T14:16:23Z",
+      "finishedAt": "2026-09-24T14:16:26Z",
+      "action": "ViT/TextVQA本文該当節と補助LLaVA本文をopen"
+    },
+    {
+      "startedAt": "2026-09-24T14:19:45Z",
+      "finishedAt": "2026-09-24T14:19:47Z",
+      "action": "補助LLaVA §§4.1–4.2/版とmetadataをfind/open"
+    },
+    {
+      "startedAt": "2026-09-24T14:19:56Z",
+      "finishedAt": "2026-09-24T14:20:00Z",
+      "action": "補助LLaVA著者と投稿履歴をfind"
+    }
+  ],
+  "sources": [
+    {
+      "id": "lightman",
+      "url": "https://arxiv.org/html/2305.20050v1",
+      "metadataUrl": "https://arxiv.org/abs/2305.20050v1",
+      "title": "Let's Verify Step by Step",
+      "authors": "Hunter Lightman et al.",
+      "version": "arXiv:2305.20050v1",
+      "submittedAt": "2023-05-31T17:24:00Z",
+      "accessedAt": "2026-09-24T14:14:51Z",
+      "metadataAccessedAt": "2026-09-24T14:15:46Z",
+      "bodyInspected": true,
+      "claims": [
+        {
+          "id": "L-OUTCOME",
+          "section": "§2 Methods; §2.5 Outcome-supervised Reward Models (ORMs)",
+          "locator": "HTML lines 90–94, 121–123",
+          "summary": "結果への監督からORMを学習する。MATHでは最終答えの照合をラベルに用いるため、結果評価という粒度と報酬の生成方法は別の区分。"
+        },
+        {
+          "id": "L-PROCESS",
+          "section": "§2.4 Data Collection; §2.6 Process-supervised Reward Models (PRMs)",
+          "locator": "HTML lines 106–115, 124–128",
+          "summary": "人手で各推論ステップを評価し、そのラベルでPRMを学習する。"
+        },
+        {
+          "id": "L-SCOPE",
+          "section": "§2.1 Scope; §6.2 Generalizing Beyond Math",
+          "locator": "HTML lines 95–98, 180–184",
+          "summary": "生成方策をRLで学習する実験ではなく、報酬モデルとbest-of-Nの評価。数学外への一般化は未確定。"
+        }
+      ],
+      "boundaries": [
+        "結果/過程は評価粒度を区別する。結果評価だから学習報酬モデルを使わない、報酬ハッキングを防げるとはいえない。",
+        "PRMが数学外でも一律に優れる、全てのプロセス報酬がRLVRの下位方式、という主張はしない。"
+      ],
+      "affectedDocs": [
+        "docs/11-llm-internals/alignment-theory.md"
+      ],
+      "manifestClaim": "§2.1、§2.4–2.6: ORM/PRMの評価粒度と人手ステップラベルを確認。A1–A3の結果評価と機械検証の混同を除く。"
+    },
+    {
+      "id": "deepseek-r1",
+      "url": "https://arxiv.org/html/2501.12948v1",
+      "metadataUrl": "https://arxiv.org/abs/2501.12948v1",
+      "title": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning",
+      "authors": "DeepSeek-AI et al.",
+      "version": "arXiv:2501.12948v1",
+      "submittedAt": "2025-01-22T15:19:35Z",
+      "accessedAt": "2026-09-24T14:14:51Z",
+      "metadataAccessedAt": "2026-09-24T14:15:46Z",
+      "bodyInspected": true,
+      "claims": [
+        {
+          "id": "D-RULES",
+          "section": "§2.2.2 Reward Modeling",
+          "locator": "HTML lines 161–170",
+          "summary": "R1-Zeroは正答・テストと形式に基づくルール報酬を採用し、neuralなORM/PRMは使わない。"
+        },
+        {
+          "id": "D-LIMITS",
+          "section": "§4.2 Unsuccessful Attempts / Process Reward Model (PRM)",
+          "locator": "HTML lines 345–351",
+          "summary": "同研究のPRM試行の難点を述べるが、手法一般が不可能であるとの結論ではない。"
+        }
+      ],
+      "boundaries": [
+        "v1のR1-Zeroという特定実装の確認。全推論モデルや全LLMの学習方法へ一般化しない。",
+        "metadataには2026-01-04のv2も存在したが、その本文は未読。v1を最新報告とは表記しない。"
+      ],
+      "affectedDocs": [
+        "docs/11-llm-internals/alignment-theory.md"
+      ],
+      "manifestClaim": "v1 §2.2.2と§4.2: ルールで検証するR1-Zeroの報酬構成とPRMの限定的試行を確認。A2の枠組みの一つという限定を支える。"
+    },
+    {
+      "id": "flamingo",
+      "url": "https://arxiv.org/html/2204.14198v1",
+      "metadataUrl": "https://arxiv.org/abs/2204.14198v1",
+      "title": "Flamingo: a Visual Language Model for Few-Shot Learning",
+      "authors": "Jean-Baptiste Alayrac et al.",
+      "version": "arXiv:2204.14198v1",
+      "submittedAt": "2022-04-29T16:29:01Z",
+      "accessedAt": "2026-09-24T14:14:51Z",
+      "metadataAccessedAt": "2026-09-24T14:15:46Z",
+      "bodyInspected": true,
+      "claims": [
+        {
+          "id": "F-CONNECTION",
+          "section": "§3.1.2 Conditioning a frozen language model on visual representations; Figures 3 and 5",
+          "locator": "HTML lines 260–266, 285–287",
+          "summary": "視覚表現をcross-attentionで言語モデルへ接続する構成があり、全モデルを一つの連結方式で説明できない。"
+        },
+        {
+          "id": "F-RESAMPLER",
+          "section": "§3.1.1 Visual processing and the Perceiver Resampler; Figure 4",
+          "locator": "HTML lines 271–284",
+          "summary": "入力解像度やフレーム数で変わる特徴列を固定64個の視覚出力へ変換するため、解像度と出力視覚トークン数は恒等関係ではない。"
+        }
+      ],
+      "boundaries": [
+        "固定64出力は前段の画像処理費用やサービス課金が一定であることを示さない。価格・速度の優劣は検証していない。",
+        "FlamingoをViTパッチ方式や単一の画像/テキスト連結方式として描かない。音声の特定構成は確認していない。",
+        "v2は2022-11-15の版があるが本文未読。今回の対象は指定v1。"
+      ],
+      "affectedDocs": [
+        "docs/10-llm-foundations/multimodal-models.md"
+      ],
+      "manifestClaim": "v1 §3.1.1–3.1.2/Figures 3–5: cross-attention接続と固定個数の視覚出力を確認。M1–M4およびM4同期群の一律の構成・課金関係という断定を除く。"
+    },
+    {
+      "id": "vit",
+      "url": "https://arxiv.org/html/2010.11929",
+      "metadataUrl": "https://arxiv.org/abs/2010.11929",
+      "title": "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale",
+      "authors": "Alexey Dosovitskiy et al.",
+      "version": "arXiv:2010.11929v2",
+      "submittedAt": "2020-10-22T17:55:59Z",
+      "versionSubmittedAt": "2021-06-03T13:08:56Z",
+      "accessedAt": "2026-09-24T14:14:51Z",
+      "metadataAccessedAt": "2026-09-24T14:15:46Z",
+      "bodyInspected": true,
+      "claims": [
+        {
+          "id": "V-PATCH",
+          "section": "Abstract; §3 Figure 1; §3.1 Vision Transformer (ViT); §3.2 Fine-tuning and Higher Resolution",
+          "locator": "HTML lines 59–62, 87–110",
+          "summary": "画像を固定サイズのパッチへ分割し、線形射影した埋込列で処理する画像認識の構成例。固定パッチ寸法では高解像度ほど列が長くなる。"
+        }
+      ],
+      "boundaries": [
+        "画像認識用Transformerの論文であり、これだけでは画像/テキストを同一の言語モデル系列に接続する実証にはならない。",
+        "ViTのパッチ数の関係を各製品の課金トークンや料金へ一般化しない。本文はv2だが既存文献の2020年表記は初版年として正しい。"
+      ],
+      "affectedDocs": [
+        "docs/10-llm-foundations/multimodal-models.md"
+      ],
+      "manifestClaim": "Abstractと§3.1–3.2: 画像パッチを射影して埋込列にするViTの構成例を確認。M3の例示とパッチ表現の根拠。課金やVLM連結方式の根拠にはしない。"
+    },
+    {
+      "id": "textvqa",
+      "url": "https://arxiv.org/html/1904.08920",
+      "metadataUrl": "https://arxiv.org/abs/1904.08920",
+      "title": "Towards VQA Models That Can Read",
+      "authors": "Amanpreet Singh et al.",
+      "version": "arXiv:1904.08920v2",
+      "submittedAt": "2019-04-18T17:55:37Z",
+      "versionSubmittedAt": "2019-05-13T23:28:48Z",
+      "accessedAt": "2026-09-24T14:14:51Z",
+      "metadataAccessedAt": "2026-09-24T14:15:46Z",
+      "bodyInspected": true,
+      "claims": [
+        {
+          "id": "T-CONTEXT",
+          "section": "Abstract; §1 Introduction; §3 Model / §3.1 VQA Module / §3.2 Text Reading Module / §3.3 Answer Module",
+          "locator": "HTML lines 46–71, 110–140",
+          "summary": "読み取った文字に加えて画像と質問の文脈を利用するVQA研究。OCR文字列があるだけで必要な位置・外観情報まで保たれるとはいえない。"
+        }
+      ],
+      "boundaries": [
+        "特定APIの料金比較や、テキスト・画像の一般的な費用の優劣は検証していない。",
+        "画像が常に必要、OCRが常に不適切、という結論ではない。既存構造化データで必要情報が保たれる場合も否定しない。"
+      ],
+      "affectedDocs": [
+        "docs/10-llm-foundations/multimodal-models.md"
+      ],
+      "manifestClaim": "Abstract、§1、§3.1–3.3: 文字と画像/質問の文脈を組み合わせるLoRRAを確認。M5と同期2件を必要情報の保存・比較条件へ直す根拠。費用比較結果は主張しない。"
+    },
+    {
+      "id": "llava-auxiliary",
+      "url": "https://arxiv.org/html/2304.08485",
+      "metadataUrl": "https://arxiv.org/abs/2304.08485",
+      "title": "Visual Instruction Tuning",
+      "authors": "Haotian Liu, Chunyuan Li, Qingyang Wu, Yong Jae Lee",
+      "version": "arXiv:2304.08485v2",
+      "submittedAt": "2023-04-17T17:59:25Z",
+      "versionSubmittedAt": "2023-12-11T17:46:14Z",
+      "accessedAt": "2026-09-24T14:16:26Z",
+      "exactSectionAccessedAt": "2026-09-24T14:19:47Z",
+      "metadataAccessedAt": "2026-09-24T14:19:47Z",
+      "metadataDetailAccessedAt": "2026-09-24T14:20:00Z",
+      "bodyInspected": true,
+      "additionalSourceNotInPlan": true,
+      "claims": [
+        {
+          "id": "LV-EXAMPLE",
+          "section": "§4.1 Architecture; §4.2 Training; Equations 1–3 and Table 2",
+          "locator": "HTML lines 111–131",
+          "summary": "画像特徴を言語の埋込空間へ線形射影し、画像と指示を系列へ組み込む具体的構成例。"
+        }
+      ],
+      "boundaries": [
+        "M1/M3に既にある例の実在性を補強する追加根拠だけ。本文の16置換、図解方式、追加解説の範囲を変えない。",
+        "Flamingoにはこの接続方式を帰属させず、ViTだけで画像/テキスト系列を証明したとも扱わない。LLaVAの方式を全モデルへ一般化しない。"
+      ],
+      "affectedDocs": [
+        "docs/10-llm-foundations/multimodal-models.md"
+      ],
+      "manifestClaim": "追加補助資料v2 §4.1–4.2: 画像特徴を言語埋込へ射影し画像/指示系列を構成する実例。M1/M3の既存の構成例を支え、全方式への一般化はしない。"
+    }
+  ],
+  "sourceSummaryPolicy": {
+    "verbatimSourceQuotationWords": 0,
+    "method": "短い独自要約と節・式番号を記録し、置換との対応はclaimIdsで参照。論文全文や長い引用は保存しない。before/afterはリポジトリの既存本文と承認済候補からの転記。",
+    "locatorCaveat": "HTML行番号は取得時のtool表示位置。再現時は版と節名・式番号を優先。"
+  },
+  "corrections": [
+    {
+      "id": "A1",
+      "group": "A1",
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "heading": "検証可能報酬(RLVR)とプロセス報酬",
+      "before": "**結果報酬**: 最終答えが正しいか(テストが通るか)だけを報酬にする。報酬モデルの誤差・ハッキングを避けられる一方、途中の誤った推論を咎められない",
+      "after": "**結果報酬**: 最終答えが正しいか(テストが通るか)を評価する。機械的に検証する構成も、結果を評価する報酬モデルを学習する構成もあり、途中の誤った推論は直接評価しない",
+      "observedBeforeMatchCount": 1,
+      "observedBeforeLine": 93,
+      "observedArticleSha256": "6bb4501e5fcd44323a0890d20286cc6e597ab042997df47d2cf9fa2ddabd480b",
+      "status": "supported-with-recorded-boundaries-not-applied",
+      "claimIds": [
+        "L-OUTCOME",
+        "L-SCOPE"
+      ],
+      "sourceIds": [
+        "lightman"
+      ],
+      "accessedAtBySource": {
+        "lightman": "2026-09-24T14:14:51Z"
+      },
+      "planProvenance": {
+        "id": "A1",
+        "article": "docs/11-llm-internals/alignment-theory.md",
+        "heading": "検証可能報酬(RLVR)とプロセス報酬",
+        "reason": "結果/過程は評価粒度、機械検証/学習報酬は出所の区分。結果報酬一般を学習報酬不使用・ハッキング回避と同一視しない。",
+        "sources": [
+          "https://arxiv.org/html/2305.20050v1"
+        ],
+        "sections": "§2 Methods; §2.1 Scope; §2.4 Data Collection; §2.5 Outcome-supervised Reward Models (ORMs); §2.6 Process-supervised Reward Models (PRMs)",
+        "requiredBefore": "alignment-feedback",
+        "status": "candidate-not-applied",
+        "checkedAt": "2026-09-24",
+        "matchCount": 1,
+        "verifiedAtUTC": "2026-09-24T12:35:25Z",
+        "verifiedBy": "plan-author live web recheck"
+      }
+    },
+    {
+      "id": "A2",
+      "group": "A2",
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "heading": "検証可能報酬(RLVR)とプロセス報酬",
+      "before": "RLVR は、**推論モデル(考える時間を使う LLM)の学習**を支える枠組みで、[推論モデル](../10-llm-foundations/reasoning-models.md)が検証可能な問題で強い理由の 1 つです。検証器が用意できるタスクに限られる点が本質的な制約です。",
+      "after": "RLVR は、**推論モデル(考える時間を使う LLM)の学習**を支える枠組みの一つです([推論モデル](../10-llm-foundations/reasoning-models.md))。報酬を検証できる範囲が制約となります。結果/プロセス報酬は評価する粒度の区分で、プロセス報酬には人手のステップ評価から学習する構成もあります。",
+      "observedBeforeMatchCount": 1,
+      "observedBeforeLine": 96,
+      "observedArticleSha256": "6bb4501e5fcd44323a0890d20286cc6e597ab042997df47d2cf9fa2ddabd480b",
+      "status": "supported-with-recorded-boundaries-not-applied",
+      "claimIds": [
+        "L-PROCESS",
+        "L-SCOPE",
+        "D-RULES",
+        "D-LIMITS"
+      ],
+      "sourceIds": [
+        "lightman",
+        "deepseek-r1"
+      ],
+      "accessedAtBySource": {
+        "lightman": "2026-09-24T14:14:51Z",
+        "deepseek-r1": "2026-09-24T14:14:51Z"
+      },
+      "planProvenance": {
+        "id": "A2",
+        "article": "docs/11-llm-internals/alignment-theory.md",
+        "heading": "検証可能報酬(RLVR)とプロセス報酬",
+        "reason": "Lightmanらは人手ステップラベルでPRMを学習。RLVRの下位方式としてのみ過程評価を描かない。",
+        "sources": [
+          "https://arxiv.org/html/2305.20050v1",
+          "https://arxiv.org/html/2501.12948v1"
+        ],
+        "sections": "Lightman §2 Methods, §2.1 Scope, §2.4–2.6 (Data Collection / ORM / PRM); DeepSeek §2.2.2 Reward Modeling, §4.2 PRM",
+        "requiredBefore": "alignment-feedback",
+        "status": "candidate-not-applied",
+        "checkedAt": "2026-09-24",
+        "matchCount": 1,
+        "sourceReverification": [
+          {
+            "url": "https://arxiv.org/html/2305.20050v1",
+            "verifiedAtUTC": "2026-09-24T12:35:25Z",
+            "verifiedBy": "plan-author live web recheck"
+          }
+        ]
+      }
+    },
+    {
+      "id": "A3",
+      "group": "A3",
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "heading": "チェックリスト",
+      "before": "RLVR・プロセス報酬が検証可能タスクに限られると理解している",
+      "after": "RLVR の検証器と、プロセス報酬の各ステップへの評価を区別できる",
+      "observedBeforeMatchCount": 1,
+      "observedBeforeLine": 130,
+      "observedArticleSha256": "6bb4501e5fcd44323a0890d20286cc6e597ab042997df47d2cf9fa2ddabd480b",
+      "status": "supported-with-recorded-boundaries-not-applied",
+      "claimIds": [
+        "L-OUTCOME",
+        "L-PROCESS"
+      ],
+      "sourceIds": [
+        "lightman"
+      ],
+      "accessedAtBySource": {
+        "lightman": "2026-09-24T14:14:51Z"
+      },
+      "planProvenance": {
+        "id": "A3",
+        "article": "docs/11-llm-internals/alignment-theory.md",
+        "heading": "チェックリスト",
+        "reason": "本文の区分訂正と理解確認項目を同期する。",
+        "sources": [
+          "https://arxiv.org/html/2305.20050v1"
+        ],
+        "sections": "§2 Methods; §2.1 Scope; §2.4 Data Collection; §2.5 Outcome-supervised Reward Models (ORMs); §2.6 Process-supervised Reward Models (PRMs)",
+        "requiredBefore": "alignment-feedback",
+        "status": "candidate-not-applied",
+        "checkedAt": "2026-09-24",
+        "matchCount": 1,
+        "verifiedAtUTC": "2026-09-24T12:35:25Z",
+        "verifiedBy": "plan-author live web recheck"
+      }
+    },
+    {
+      "id": "M1",
+      "group": "M1",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "heading": "概要: 分担と「同じ土俵に載せる」",
+      "before": "本記事はその内部の直感を扱い、それを使ってエージェントを作る側は",
+      "after": "本記事は、画像表現をテキスト系列に接続する構成を例に内部の直感を扱い、それを使ってエージェントを作る側は",
+      "observedBeforeMatchCount": 1,
+      "observedBeforeLine": 38,
+      "observedArticleSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+      "status": "supported-with-recorded-boundaries-not-applied",
+      "claimIds": [
+        "F-CONNECTION",
+        "LV-EXAMPLE"
+      ],
+      "sourceIds": [
+        "flamingo",
+        "llava-auxiliary"
+      ],
+      "accessedAtBySource": {
+        "flamingo": "2026-09-24T14:14:51Z",
+        "llava-auxiliary": "2026-09-24T14:16:26Z"
+      },
+      "planProvenance": {
+        "id": "M1",
+        "article": "docs/10-llm-foundations/multimodal-models.md",
+        "heading": "概要: 分担と「同じ土俵に載せる」",
+        "reason": "Flamingoにはcross-attentionによる接続があり、全モデルで単一系列への連結が必須とはできない。新方式の解説を増やさず既存の例の適用範囲を限定。",
+        "sources": [
+          "https://arxiv.org/html/2204.14198v1"
+        ],
+        "sections": "§3.1.2 Conditioning a frozen language model on visual representations; Figures 3 and 5",
+        "requiredBefore": "multimodal-representation",
+        "status": "candidate-not-applied",
+        "checkedAt": "2026-09-24",
+        "matchCount": 1,
+        "verifiedAtUTC": "2026-09-24T12:35:25Z",
+        "verifiedBy": "plan-author live web recheck"
+      }
+    },
+    {
+      "id": "M2",
+      "group": "M2",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "heading": "直感①: すべてを「表現ベクトルの列」に変換する",
+      "before": "画像や音声は、専用の変換器(エンコーダ)を通して、**同じ形の表現ベクトルの列**に変換します",
+      "after": "画像や音声は、専用の変換器などで数値表現に変換し、言語モデルへ接続します。具体的な形式・接続方法は構成により異なります",
+      "observedBeforeMatchCount": 1,
+      "observedBeforeLine": 45,
+      "observedArticleSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+      "status": "supported-with-recorded-boundaries-not-applied",
+      "claimIds": [
+        "F-CONNECTION"
+      ],
+      "sourceIds": [
+        "flamingo"
+      ],
+      "accessedAtBySource": {
+        "flamingo": "2026-09-24T14:14:51Z"
+      },
+      "planProvenance": {
+        "id": "M2",
+        "article": "docs/10-llm-foundations/multimodal-models.md",
+        "heading": "直感①: すべてを「表現ベクトルの列」に変換する",
+        "reason": "数値表現への変換と、そのままテキストと同形式で接続できるという断定を分離する。画像構成の反例が普遍的な原文を限定する根拠。音声の具体方式は追加しない。",
+        "sources": [
+          "https://arxiv.org/html/2204.14198v1"
+        ],
+        "sections": "§3.1.1 Visual processing and the Perceiver Resampler; §3.1.2 Conditioning a frozen language model on visual representations; Figures 3–5",
+        "requiredBefore": "multimodal-representation",
+        "status": "candidate-not-applied",
+        "checkedAt": "2026-09-24",
+        "matchCount": 1,
+        "verifiedAtUTC": "2026-09-24T12:35:25Z",
+        "verifiedBy": "plan-author live web recheck"
+      }
+    },
+    {
+      "id": "M3",
+      "group": "M3",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "heading": "直感①: すべてを「表現ベクトルの列」に変換する",
+      "before": "こうして、入力の種類が違っても、モデルの内部では**同じ形式のベクトル列**になります。あとはテキストと同じように処理できます",
+      "after": "本記事の例では、異なる入力を**同じ形式のベクトル列**に揃え、テキストとともに処理します",
+      "observedBeforeMatchCount": 1,
+      "observedBeforeLine": 46,
+      "observedArticleSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+      "status": "supported-with-recorded-boundaries-not-applied",
+      "claimIds": [
+        "F-CONNECTION",
+        "V-PATCH",
+        "LV-EXAMPLE"
+      ],
+      "sourceIds": [
+        "flamingo",
+        "vit",
+        "llava-auxiliary"
+      ],
+      "accessedAtBySource": {
+        "flamingo": "2026-09-24T14:14:51Z",
+        "vit": "2026-09-24T14:14:51Z",
+        "llava-auxiliary": "2026-09-24T14:16:26Z"
+      },
+      "planProvenance": {
+        "id": "M3",
+        "article": "docs/10-llm-foundations/multimodal-models.md",
+        "heading": "直感①: すべてを「表現ベクトルの列」に変換する",
+        "reason": "一つの構成例に限定するM1と同期する。",
+        "sources": [
+          "https://arxiv.org/html/2204.14198v1",
+          "https://arxiv.org/abs/2010.11929"
+        ],
+        "sections": "Flamingo §3.1.1/3.1.2, Figures 3–5; ViT abstract (patch sequence)",
+        "requiredBefore": "multimodal-representation",
+        "status": "candidate-not-applied",
+        "checkedAt": "2026-09-24",
+        "matchCount": 1,
+        "sourceReverification": [
+          {
+            "url": "https://arxiv.org/html/2204.14198v1",
+            "verifiedAtUTC": "2026-09-24T12:35:25Z",
+            "verifiedBy": "plan-author live web recheck"
+          }
+        ]
+      }
+    },
+    {
+      "id": "M4",
+      "group": "M4",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "heading": "なぜ効くのか、どこで崖が来るのか",
+      "before": "**解像度がトレードオフ**: 細部を読ませたいなら解像度(=トークン数=コスト)を上げる必要があり、精度とコストが直結します。低解像度で渡して「読めない」のは、多くの場合モデルの知能ではなく入力の粒度の問題です",
+      "after": "**解像度がトレードオフ**: 細部の読み取りには入力の粒度が影響します。解像度とトークン数・料金の関係はモデルや前処理に依存するため、必要な粒度での精度と費用を比較します",
+      "observedBeforeMatchCount": 1,
+      "observedBeforeLine": 72,
+      "observedArticleSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+      "status": "supported-with-recorded-boundaries-not-applied",
+      "claimIds": [
+        "F-RESAMPLER"
+      ],
+      "sourceIds": [
+        "flamingo"
+      ],
+      "accessedAtBySource": {
+        "flamingo": "2026-09-24T14:14:51Z"
+      },
+      "planProvenance": {
+        "id": "M4",
+        "correctionGroup": "M4",
+        "sourceLine": 72,
+        "heading": "なぜ効くのか、どこで崖が来るのか",
+        "reason": "解像度と視覚トークン数は恒等関係ではない。固定個数へ再サンプリングする一次資料の反例に合わせ、精度・費用は測定する条件として残す。",
+        "sources": [
+          "https://arxiv.org/html/2204.14198v1"
+        ],
+        "sections": "§3.1.1 Visual processing and the Perceiver Resampler; Figure 4",
+        "evidenceBoundary": "Flamingoの構成は入力解像度/フレーム数と出力視覚トークン数の固定比例を否定する反例。特定サービスの料金や費用の優劣は確認していない。",
+        "requiredBefore": "multimodal-input-tradeoffs",
+        "article": "docs/10-llm-foundations/multimodal-models.md",
+        "status": "candidate-not-applied",
+        "checkedAt": "2026-09-24",
+        "verifiedAtUTC": "2026-09-24T12:35:25Z",
+        "verifiedBy": "plan-author live web recheck",
+        "matchCount": 1
+      }
+    },
+    {
+      "id": "M4-sync-97",
+      "group": "M4",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "heading": "アンチパターン",
+      "before": "画像=多数のパッチ=多数のトークンとして見積もる",
+      "after": "画像のトークン換算・料金は採用モデルの仕様で見積もる",
+      "observedBeforeMatchCount": 1,
+      "observedBeforeLine": 97,
+      "observedArticleSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+      "status": "supported-with-recorded-boundaries-not-applied",
+      "claimIds": [
+        "F-RESAMPLER"
+      ],
+      "sourceIds": [
+        "flamingo"
+      ],
+      "accessedAtBySource": {
+        "flamingo": "2026-09-24T14:14:51Z"
+      },
+      "planProvenance": {
+        "id": "M4-sync-97",
+        "correctionGroup": "M4",
+        "sourceLine": 97,
+        "heading": "アンチパターン",
+        "reason": "M4と同期し、画像パッチ由来表現と課金トークンの固定対応を除く。",
+        "sources": [
+          "https://arxiv.org/html/2204.14198v1"
+        ],
+        "sections": "§3.1.1 Visual processing and the Perceiver Resampler; Figure 4",
+        "evidenceBoundary": "課金は論文の検証範囲外。採用モデルの仕様を確認する条件へ置換する。",
+        "requiredBefore": "multimodal-input-tradeoffs",
+        "article": "docs/10-llm-foundations/multimodal-models.md",
+        "status": "candidate-not-applied",
+        "checkedAt": "2026-09-24",
+        "verifiedAtUTC": "2026-09-24T12:35:25Z",
+        "verifiedBy": "plan-author live web recheck",
+        "matchCount": 1
+      }
+    },
+    {
+      "id": "M4-sync-98",
+      "group": "M4",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "heading": "アンチパターン",
+      "before": "読み取りに要る解像度(=コスト)を確保するか、関心領域を切り出す",
+      "after": "読み取りに要る解像度を確保するか、関心領域を切り出す",
+      "observedBeforeMatchCount": 1,
+      "observedBeforeLine": 98,
+      "observedArticleSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+      "status": "supported-with-recorded-boundaries-not-applied",
+      "claimIds": [
+        "F-RESAMPLER"
+      ],
+      "sourceIds": [
+        "flamingo"
+      ],
+      "accessedAtBySource": {
+        "flamingo": "2026-09-24T14:14:51Z"
+      },
+      "planProvenance": {
+        "id": "M4-sync-98",
+        "correctionGroup": "M4",
+        "sourceLine": 98,
+        "heading": "アンチパターン",
+        "reason": "M4と同期し、解像度と費用の等号だけを除く。",
+        "sources": [
+          "https://arxiv.org/html/2204.14198v1"
+        ],
+        "sections": "§3.1.1 Visual processing and the Perceiver Resampler; Figure 4",
+        "evidenceBoundary": "解像度/トークン数の恒等関係に対する反例。料金自体の検証ではない。",
+        "requiredBefore": "multimodal-input-tradeoffs",
+        "article": "docs/10-llm-foundations/multimodal-models.md",
+        "status": "candidate-not-applied",
+        "checkedAt": "2026-09-24",
+        "verifiedAtUTC": "2026-09-24T12:35:25Z",
+        "verifiedBy": "plan-author live web recheck",
+        "matchCount": 1
+      }
+    },
+    {
+      "id": "M5",
+      "group": "M5",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "heading": "トークン経済とコスト・レイテンシ設計",
+      "before": "**テキストで足りるなら渡さない**: OCR 済みテキストや構造化データがあるなら、画像より安く確実です。マルチモーダルは「テキスト化できない情報」にこそ使います",
+      "after": "**テキストで足りるか確かめる**: OCR 済みテキストや構造化データで必要な情報が保たれる場合は、画像入力と精度・費用を比較します。位置や外観が必要なら画像も使い、重要な読み取りは検証します",
+      "observedBeforeMatchCount": 1,
+      "observedBeforeLine": 81,
+      "observedArticleSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+      "status": "supported-with-recorded-boundaries-not-applied",
+      "claimIds": [
+        "T-CONTEXT"
+      ],
+      "sourceIds": [
+        "textvqa"
+      ],
+      "accessedAtBySource": {
+        "textvqa": "2026-09-24T14:14:51Z"
+      },
+      "planProvenance": {
+        "id": "M5",
+        "correctionGroup": "M5",
+        "sourceLine": 81,
+        "heading": "トークン経済とコスト・レイテンシ設計",
+        "reason": "OCR文字列の存在だけで画像の文脈や必要な視覚情報が保たれるとは限らない。入力方式の優劣の断定を比較条件へ置換する。",
+        "sources": [
+          "https://arxiv.org/abs/1904.08920"
+        ],
+        "sections": "Abstract (TextVQA and LoRRA)",
+        "evidenceBoundary": "読んだ文字に加えて画像・質問の文脈を用いる研究。OCRの一律代替を否定する根拠であり、入力方式の費用の優劣は同論文で検証していない。",
+        "requiredBefore": "multimodal-input-tradeoffs",
+        "article": "docs/10-llm-foundations/multimodal-models.md",
+        "status": "candidate-not-applied",
+        "checkedAt": "2026-09-24",
+        "verifiedAtUTC": "2026-09-24T12:35:25Z",
+        "verifiedBy": "plan-author live web recheck",
+        "matchCount": 1
+      }
+    },
+    {
+      "id": "M5-sync-100",
+      "group": "M5",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "heading": "アンチパターン",
+      "before": "**テキストで足りるのに画像を渡す** → 高コスト・低確実性を招く → テキスト化できるものはテキストで渡し、画像は最後の手段にする",
+      "after": "**テキスト化できるだけで入力方式を決める** → 位置や外観の情報、認識誤りを見落とす → 必要な情報が保たれるか確認し、精度・費用を比較する",
+      "observedBeforeMatchCount": 1,
+      "observedBeforeLine": 100,
+      "observedArticleSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+      "status": "supported-with-recorded-boundaries-not-applied",
+      "claimIds": [
+        "T-CONTEXT"
+      ],
+      "sourceIds": [
+        "textvqa"
+      ],
+      "accessedAtBySource": {
+        "textvqa": "2026-09-24T14:14:51Z"
+      },
+      "planProvenance": {
+        "id": "M5-sync-100",
+        "correctionGroup": "M5",
+        "sourceLine": 100,
+        "heading": "アンチパターン",
+        "reason": "M5と同期し、OCR/テキストを一律に安く確実とするアンチパターンを条件付きの評価に変える。",
+        "sources": [
+          "https://arxiv.org/abs/1904.08920"
+        ],
+        "sections": "Abstract (TextVQA and LoRRA)",
+        "evidenceBoundary": "視覚情報と文字情報を組み合わせる必要があるタスクの反例。一般的な費用比較は未実施。",
+        "requiredBefore": "multimodal-input-tradeoffs",
+        "article": "docs/10-llm-foundations/multimodal-models.md",
+        "status": "candidate-not-applied",
+        "checkedAt": "2026-09-24",
+        "verifiedAtUTC": "2026-09-24T12:35:25Z",
+        "verifiedBy": "plan-author live web recheck",
+        "matchCount": 1
+      }
+    },
+    {
+      "id": "M4-sync-55",
+      "group": "M4",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "heading": "直感②: 画像は「パッチ」に分けてトークン相当にする",
+      "before": "だから、画像は**トークンを消費します**([トークナイザとトークン経済](tokenization.md))。1 枚の画像が何十〜何百トークン分にもなり、**解像度が高い・大きい画像ほど多くのトークン**を食います",
+      "after": "画像入力も、採用モデルの換算方法に応じて**トークンや料金を消費します**([トークナイザとトークン経済](tokenization.md))。解像度・サイズと消費量の関係は、モデルや前処理によって異なります",
+      "observedBeforeMatchCount": 1,
+      "observedBeforeLine": 55,
+      "observedArticleSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+      "status": "supported-with-recorded-boundaries-not-applied",
+      "claimIds": [
+        "F-RESAMPLER"
+      ],
+      "sourceIds": [
+        "flamingo"
+      ],
+      "accessedAtBySource": {
+        "flamingo": "2026-09-24T14:14:51Z"
+      },
+      "planProvenance": {
+        "id": "M4-sync-55",
+        "correctionGroup": "M4",
+        "sourceLine": 55,
+        "heading": "直感②: 画像は「パッチ」に分けてトークン相当にする",
+        "reason": "M4のモデル/前処理依存と同期し、解像度・サイズから課金トークン数の一律増加を断定しない。",
+        "article": "docs/10-llm-foundations/multimodal-models.md",
+        "sources": [
+          "https://arxiv.org/html/2204.14198v1"
+        ],
+        "sections": "§3.1.1 Visual processing and the Perceiver Resampler; Figure 4",
+        "evidenceBoundary": "固定個数の視覚表現へ変換する構成上の反例。特定サービスの料金・費用・速度の一般的な優劣は検証していない。",
+        "requiredBefore": "multimodal-input-tradeoffs",
+        "status": "candidate-not-applied",
+        "checkedAt": "2026-09-24",
+        "verifiedAtUTC": "2026-09-24T12:35:25Z",
+        "verifiedBy": "plan-author previous live web recheck reused; no new web retrieval in v3",
+        "addedAtUTC": "2026-09-24T12:52:45.102Z",
+        "matchCount": 1
+      }
+    },
+    {
+      "id": "M4-sync-56",
+      "group": "M4",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "heading": "直感②: 画像は「パッチ」に分けてトークン相当にする",
+      "before": "これが「画像を入れたら急にコンテキストとコストが増えた」の正体です。画像は「1 個の入力」ではなく「多数のパッチ=多数のトークン」として扱われます",
+      "after": "画像は「1 個の入力」でも内部では多数の表現に変換されるため、コンテキストと費用への影響を採用モデルの仕様で確認します",
+      "observedBeforeMatchCount": 1,
+      "observedBeforeLine": 56,
+      "observedArticleSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+      "status": "supported-with-recorded-boundaries-not-applied",
+      "claimIds": [
+        "F-RESAMPLER"
+      ],
+      "sourceIds": [
+        "flamingo"
+      ],
+      "accessedAtBySource": {
+        "flamingo": "2026-09-24T14:14:51Z"
+      },
+      "planProvenance": {
+        "id": "M4-sync-56",
+        "correctionGroup": "M4",
+        "sourceLine": 56,
+        "heading": "直感②: 画像は「パッチ」に分けてトークン相当にする",
+        "reason": "M4と同期し、内部の多数の表現と課金トークン数を同一視しない。",
+        "article": "docs/10-llm-foundations/multimodal-models.md",
+        "sources": [
+          "https://arxiv.org/html/2204.14198v1"
+        ],
+        "sections": "§3.1.1 Visual processing and the Perceiver Resampler; Figure 4",
+        "evidenceBoundary": "固定個数の視覚表現へ変換する構成上の反例。特定サービスの料金・費用・速度の一般的な優劣は検証していない。",
+        "requiredBefore": "multimodal-input-tradeoffs",
+        "status": "candidate-not-applied",
+        "checkedAt": "2026-09-24",
+        "verifiedAtUTC": "2026-09-24T12:35:25Z",
+        "verifiedBy": "plan-author previous live web recheck reused; no new web retrieval in v3",
+        "addedAtUTC": "2026-09-24T12:52:45.103Z",
+        "matchCount": 1
+      }
+    },
+    {
+      "id": "M4-sync-79",
+      "group": "M4",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "heading": "トークン経済とコスト・レイテンシ設計",
+      "before": "画像・音声・動画はトークンを大量に消費します。とくに動画は多数のフレーム=多数の画像で、コストとレイテンシが跳ねます",
+      "after": "画像・音声・動画は、モデルや処理方法に応じてトークン・費用・レイテンシに影響します。動画は利用するフレーム数も確認します",
+      "observedBeforeMatchCount": 1,
+      "observedBeforeLine": 79,
+      "observedArticleSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+      "status": "supported-with-recorded-boundaries-not-applied",
+      "claimIds": [
+        "F-RESAMPLER"
+      ],
+      "sourceIds": [
+        "flamingo"
+      ],
+      "accessedAtBySource": {
+        "flamingo": "2026-09-24T14:14:51Z"
+      },
+      "planProvenance": {
+        "id": "M4-sync-79",
+        "correctionGroup": "M4",
+        "sourceLine": 79,
+        "heading": "トークン経済とコスト・レイテンシ設計",
+        "reason": "M4と同期し、全入力が一律に大量のトークンや費用・待ち時間を生むという断定を避ける。",
+        "article": "docs/10-llm-foundations/multimodal-models.md",
+        "sources": [
+          "https://arxiv.org/html/2204.14198v1"
+        ],
+        "sections": "§3.1.1 Visual processing and the Perceiver Resampler; Figure 4",
+        "evidenceBoundary": "固定個数の視覚表現へ変換する構成上の反例。特定サービスの料金・費用・速度の一般的な優劣は検証していない。",
+        "requiredBefore": "multimodal-input-tradeoffs",
+        "status": "candidate-not-applied",
+        "checkedAt": "2026-09-24",
+        "verifiedAtUTC": "2026-09-24T12:35:25Z",
+        "verifiedBy": "plan-author previous live web recheck reused; no new web retrieval in v3",
+        "addedAtUTC": "2026-09-24T12:52:45.103Z",
+        "matchCount": 1
+      }
+    },
+    {
+      "id": "M4-sync-105",
+      "group": "M4",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "heading": "チェックリスト",
+      "before": "画像・音声がトークンを消費し、解像度・枚数でコストが増えることを見積もりに入れた",
+      "after": "画像・音声のトークン換算・料金を採用モデルの仕様で確認し、見積もりに入れた",
+      "observedBeforeMatchCount": 1,
+      "observedBeforeLine": 105,
+      "observedArticleSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+      "status": "supported-with-recorded-boundaries-not-applied",
+      "claimIds": [
+        "F-RESAMPLER"
+      ],
+      "sourceIds": [
+        "flamingo"
+      ],
+      "accessedAtBySource": {
+        "flamingo": "2026-09-24T14:14:51Z"
+      },
+      "planProvenance": {
+        "id": "M4-sync-105",
+        "correctionGroup": "M4",
+        "sourceLine": 105,
+        "heading": "チェックリスト",
+        "reason": "本文M4と注意点を、見積もり確認項目でも同じモデル依存の条件にそろえる。",
+        "article": "docs/10-llm-foundations/multimodal-models.md",
+        "sources": [
+          "https://arxiv.org/html/2204.14198v1"
+        ],
+        "sections": "§3.1.1 Visual processing and the Perceiver Resampler; Figure 4",
+        "evidenceBoundary": "固定個数の視覚表現へ変換する構成上の反例。特定サービスの料金・費用・速度の一般的な優劣は検証していない。",
+        "requiredBefore": "multimodal-input-tradeoffs",
+        "status": "candidate-not-applied",
+        "checkedAt": "2026-09-24",
+        "verifiedAtUTC": "2026-09-24T12:35:25Z",
+        "verifiedBy": "plan-author previous live web recheck reused; no new web retrieval in v3",
+        "addedAtUTC": "2026-09-24T12:52:45.103Z",
+        "matchCount": 1
+      }
+    },
+    {
+      "id": "M5-sync-108",
+      "group": "M5",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "heading": "チェックリスト",
+      "before": "テキスト化できる情報は画像でなくテキストで渡している",
+      "after": "必要な情報が保たれることを確かめ、入力方式を精度・費用で比較している",
+      "observedBeforeMatchCount": 1,
+      "observedBeforeLine": 108,
+      "observedArticleSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+      "status": "supported-with-recorded-boundaries-not-applied",
+      "claimIds": [
+        "T-CONTEXT"
+      ],
+      "sourceIds": [
+        "textvqa"
+      ],
+      "accessedAtBySource": {
+        "textvqa": "2026-09-24T14:14:51Z"
+      },
+      "planProvenance": {
+        "id": "M5-sync-108",
+        "correctionGroup": "M5",
+        "sourceLine": 108,
+        "heading": "チェックリスト",
+        "reason": "M5およびM5-sync-100と同期し、テキスト化できるという理由だけで画像を省く判断をしない。",
+        "article": "docs/10-llm-foundations/multimodal-models.md",
+        "sources": [
+          "https://arxiv.org/abs/1904.08920"
+        ],
+        "sections": "Abstract (TextVQA and LoRRA)",
+        "evidenceBoundary": "OCR文字列だけで画像/質問の文脈を一律に代替できるとは一般化しないための根拠。費用の優劣は検証していない。",
+        "requiredBefore": "multimodal-input-tradeoffs",
+        "status": "candidate-not-applied",
+        "checkedAt": "2026-09-24",
+        "verifiedAtUTC": "2026-09-24T12:35:25Z",
+        "verifiedBy": "plan-author previous live web recheck reused; no new web retrieval in v3",
+        "addedAtUTC": "2026-09-24T12:52:45.103Z",
+        "matchCount": 1
+      }
+    }
+  ],
+  "inMemoryApplication": [
+    {
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "count": 3,
+      "sequentialReplacementMatches": [
+        {
+          "id": "A1",
+          "count": 1
+        },
+        {
+          "id": "A2",
+          "count": 1
+        },
+        {
+          "id": "A3",
+          "count": 1
+        }
+      ],
+      "performedInMemoryOnly": true,
+      "candidateWritten": false
+    },
+    {
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "count": 13,
+      "sequentialReplacementMatches": [
+        {
+          "id": "M1",
+          "count": 1
+        },
+        {
+          "id": "M2",
+          "count": 1
+        },
+        {
+          "id": "M3",
+          "count": 1
+        },
+        {
+          "id": "M4",
+          "count": 1
+        },
+        {
+          "id": "M4-sync-97",
+          "count": 1
+        },
+        {
+          "id": "M4-sync-98",
+          "count": 1
+        },
+        {
+          "id": "M5",
+          "count": 1
+        },
+        {
+          "id": "M5-sync-100",
+          "count": 1
+        },
+        {
+          "id": "M4-sync-55",
+          "count": 1
+        },
+        {
+          "id": "M4-sync-56",
+          "count": 1
+        },
+        {
+          "id": "M4-sync-79",
+          "count": 1
+        },
+        {
+          "id": "M4-sync-105",
+          "count": 1
+        },
+        {
+          "id": "M5-sync-108",
+          "count": 1
+        }
+      ],
+      "performedInMemoryOnly": true,
+      "candidateWritten": false
+    }
+  ],
+  "manifestSourceCandidates": [
+    {
+      "url": "https://arxiv.org/html/2305.20050v1",
+      "accessed_at": "2026-09-24T14:14:51Z",
+      "claim": "§2.1、§2.4–2.6: ORM/PRMの評価粒度と人手ステップラベルを確認。A1–A3の結果評価と機械検証の混同を除く。",
+      "affected_docs": [
+        "docs/11-llm-internals/alignment-theory.md"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/html/2501.12948v1",
+      "accessed_at": "2026-09-24T14:14:51Z",
+      "claim": "v1 §2.2.2と§4.2: ルールで検証するR1-Zeroの報酬構成とPRMの限定的試行を確認。A2の枠組みの一つという限定を支える。",
+      "affected_docs": [
+        "docs/11-llm-internals/alignment-theory.md"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/html/2204.14198v1",
+      "accessed_at": "2026-09-24T14:14:51Z",
+      "claim": "v1 §3.1.1–3.1.2/Figures 3–5: cross-attention接続と固定個数の視覚出力を確認。M1–M4およびM4同期群の一律の構成・課金関係という断定を除く。",
+      "affected_docs": [
+        "docs/10-llm-foundations/multimodal-models.md"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/html/2010.11929",
+      "accessed_at": "2026-09-24T14:14:51Z",
+      "claim": "Abstractと§3.1–3.2: 画像パッチを射影して埋込列にするViTの構成例を確認。M3の例示とパッチ表現の根拠。課金やVLM連結方式の根拠にはしない。",
+      "affected_docs": [
+        "docs/10-llm-foundations/multimodal-models.md"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/html/1904.08920",
+      "accessed_at": "2026-09-24T14:14:51Z",
+      "claim": "Abstract、§1、§3.1–3.3: 文字と画像/質問の文脈を組み合わせるLoRRAを確認。M5と同期2件を必要情報の保存・比較条件へ直す根拠。費用比較結果は主張しない。",
+      "affected_docs": [
+        "docs/10-llm-foundations/multimodal-models.md"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/html/2304.08485",
+      "accessed_at": "2026-09-24T14:16:26Z",
+      "claim": "追加補助資料v2 §4.1–4.2: 画像特徴を言語埋込へ射影し画像/指示系列を構成する実例。M1/M3の既存の構成例を支え、全方式への一般化はしない。",
+      "affected_docs": [
+        "docs/10-llm-foundations/multimodal-models.md"
+      ]
+    }
+  ],
+  "bibliographicNotes": [
+    {
+      "id": "lightman-title",
+      "severity": "metadata-only",
+      "detail": "計画evidenceのLet us Verify Step by Stepは正式題名ではない。書誌候補は実取得したLet's Verify Step by Stepを使用。既存記事の正式題名には不一致なし。"
+    },
+    {
+      "id": "versions",
+      "severity": "information",
+      "detail": "Lightman/DeepSeek/Flamingoは指定v1。ViT/TextVQAは未指定URLが返したv2。追加LLaVAもv2。初版年と取得本文の版の日付を区別する。"
+    }
+  ],
+  "referenceSynchronization": {
+    "status": "recommendations-only-not-edited",
+    "existingConfirmedReferences": [
+      {
+        "article": "docs/11-llm-internals/alignment-theory.md",
+        "sourceId": "lightman"
+      },
+      {
+        "article": "docs/10-llm-foundations/multimodal-models.md",
+        "sourceId": "vit"
+      }
+    ],
+    "additionalReferenceCandidates": [
+      {
+        "article": "docs/11-llm-internals/alignment-theory.md",
+        "sourceId": "deepseek-r1"
+      },
+      {
+        "article": "docs/10-llm-foundations/multimodal-models.md",
+        "sourceId": "flamingo"
+      },
+      {
+        "article": "docs/10-llm-foundations/multimodal-models.md",
+        "sourceId": "textvqa"
+      },
+      {
+        "article": "docs/10-llm-foundations/multimodal-models.md",
+        "sourceId": "llava-auxiliary",
+        "optionalAuxiliarySource": true
+      }
+    ],
+    "rules": [
+      "実装で使う一次資料だけ参照元に同期し、実取得日の確認日を付ける。",
+      "今回再確認していない既存資料の確認日は更新しない。",
+      "last_updatedは後続の記事改訂実施日のJSTで付け、今回の調査日を自動転記しない。",
+      "補助LLaVAは本文の例を成立させる追加根拠候補。新しい本文段落や方式比較は追加しない。"
+    ]
+  },
+  "limits": [
+    "この記録は実装候補本文の承認・published昇格・公開受入ではない。",
+    "製品料金・実コスト・性能の比較、音声エンコーダの特定実装、全LLMの学習方式を検証していない。",
+    "DPOや他の図のための計画evidenceは今回再検証していない。対象は8論点16置換のみ。",
+    "Web本文の取得と節確認であり、論文実験の再現は未実施。ブラウザー・build・unit・Git操作は本タスクで未実施。"
+  ],
+  "summary": {
+    "verdict": "all-16-supported-with-recorded-boundaries",
+    "correctionTopicCount": 8,
+    "correctionCount": 16,
+    "beforeMatchAllExactlyOne": true,
+    "primarySourcesRequested": 5,
+    "auxiliaryPrimarySources": 1,
+    "articlesUnchanged": true,
+    "planUnchanged": true,
+    "articleOrProductFilesWritten": 0,
+    "gitMutations": 0,
+    "needsNewReplacementText": false
+  }
+}

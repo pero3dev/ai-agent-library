@@ -1048,6 +1048,289 @@
           ]
         }
       ]
+    },
+    {
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "primaryDiagramIds": [
+        "training-stages",
+        "training-runtime-boundary"
+      ],
+      "sections": [
+        {
+          "heading": "概要: 3 つの工程と、それぞれが残す「癖」",
+          "topics": [
+            {
+              "id": "training-representative-order",
+              "label": "代表3工程・順序/反復は一律ではない",
+              "diagramId": "training-stages",
+              "stages": [
+                0
+              ]
+            },
+            {
+              "id": "training-different-data",
+              "label": "テキスト/模範例/選好比較という入力の違い",
+              "diagramId": "training-stages",
+              "stages": [
+                0
+              ]
+            },
+            {
+              "id": "training-association-not-cause",
+              "label": "点線は関連であり工程単独の原因ではない",
+              "diagramId": "training-runtime-boundary",
+              "stages": [
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "事前学習: 次トークン予測で知識を得る",
+          "topics": [
+            {
+              "id": "training-next-token-patterns",
+              "label": "次トークン予測で言語・知識のパターンを学ぶ",
+              "diagramId": "training-stages",
+              "stages": [
+                1
+              ]
+            },
+            {
+              "id": "training-knowledge-range",
+              "label": "収録範囲・期限、追加学習と検索の違い",
+              "diagramId": "training-stages",
+              "stages": [
+                2
+              ]
+            },
+            {
+              "id": "training-frequency-accuracy",
+              "label": "頻度と正確性の非同一、未収録社内情報、情報源で照合",
+              "diagramId": "training-stages",
+              "stages": [
+                2
+              ]
+            },
+            {
+              "id": "training-base-instruction",
+              "label": "ベースの課題能力と安定した指示追従の区別",
+              "diagramId": "training-stages",
+              "stages": [
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "指示チューニング(SFT): 指示に従う形式を学ぶ",
+          "topics": [
+            {
+              "id": "training-sft-demonstrations",
+              "label": "入出力の模範例で形式と振る舞いを調整",
+              "diagramId": "training-stages",
+              "stages": [
+                3
+              ]
+            },
+            {
+              "id": "training-sft-facts",
+              "label": "新事実も学べるが効率・誤答への影響は条件依存",
+              "diagramId": "training-stages",
+              "stages": [
+                3
+              ]
+            },
+            {
+              "id": "training-closed-book-limits",
+              "label": "新知識/幻覚の報告は対象closed-book QA。全FT不可能へ一般化しない",
+              "diagramId": "training-stages",
+              "stages": [
+                4
+              ]
+            },
+            {
+              "id": "training-retrieval-requirements",
+              "label": "最新性・出典・削除・権限管理を検索/FT判断に含める",
+              "diagramId": "training-stages",
+              "stages": [
+                4
+              ]
+            },
+            {
+              "id": "training-separate-evaluation",
+              "label": "形式/振る舞いと事実再現性を別に評価",
+              "diagramId": "training-stages",
+              "stages": [
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "選好調整: 「良い応答」の基準を最適化する",
+          "topics": [
+            {
+              "id": "training-preference-data",
+              "label": "人間/AIによる候補の比較から好みを集める",
+              "diagramId": "training-stages",
+              "stages": [
+                5
+              ]
+            },
+            {
+              "id": "training-preference-methods",
+              "label": "RLHFとDPOの手法名・経路を同一手法にしない",
+              "diagramId": "training-stages",
+              "stages": [
+                5
+              ]
+            },
+            {
+              "id": "training-preference-targets",
+              "label": "有用さ/無害さ/トーン/拒否を調整する",
+              "diagramId": "training-stages",
+              "stages": [
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "この工程から生まれる性質: 幻覚・迎合・拒否",
+          "topics": [
+            {
+              "id": "training-multiple-objectives",
+              "label": "癖は工程と関連し、全工程の目的関数が同じではない",
+              "diagramId": "training-runtime-boundary",
+              "stages": [
+                0,
+                2
+              ]
+            },
+            {
+              "id": "training-hallucination-checks",
+              "label": "NTPは事実検証器ではなく調整後も誤答。根拠/出典/結果の確認",
+              "diagramId": "training-runtime-boundary",
+              "stages": [
+                2
+              ]
+            },
+            {
+              "id": "training-sycophancy-conditions",
+              "label": "対象研究の範囲、誤前提への同調を中立な問い/基準で評価",
+              "diagramId": "training-runtime-boundary",
+              "stages": [
+                2
+              ]
+            },
+            {
+              "id": "training-refusal-limits",
+              "label": "過剰・過小拒否、SFT/選好/実行時の複数要因",
+              "diagramId": "training-runtime-boundary",
+              "stages": [
+                2
+              ]
+            },
+            {
+              "id": "training-prompt-tendency",
+              "label": "プロンプトは学習された傾向に働き、命令インタープリタではない",
+              "diagramId": "training-runtime-boundary",
+              "stages": [
+                3
+              ]
+            },
+            {
+              "id": "training-external-boundary",
+              "label": "モデル拒否や禁止文を実行権限の境界にせずコードで検査",
+              "diagramId": "training-runtime-boundary",
+              "stages": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "この理解が効く場面",
+          "topics": [
+            {
+              "id": "training-static-5-1",
+              "label": "幻覚対策の設計: 「注意書きを増やす」から「根拠を渡す・検証を挟む」へ発想を切り替えられます(RAG 実装パターンの出典必須の設計)",
+              "staticReason": "実案件への適用判断と関連記事への導線を原文リストで残す。図は機構を示すが案件適否を自動判定しない。"
+            },
+            {
+              "id": "training-static-5-2",
+              "label": "ガードレールの位置づけ: モデルへの指示とコードによる強制を混同しなくなります(ガードレール)",
+              "staticReason": "実案件への適用判断と関連記事への導線を原文リストで残す。図は機構を示すが案件適否を自動判定しない。"
+            },
+            {
+              "id": "training-static-5-3",
+              "label": "FT の判断: 形式・振る舞いの改善、事実の再現性、更新・権限管理の要件を分け、検索と FT を比較できます(ファインチューニングと蒸留)",
+              "staticReason": "実案件への適用判断と関連記事への導線を原文リストで残す。図は機構を示すが案件適否を自動判定しない。"
+            },
+            {
+              "id": "training-static-5-4",
+              "label": "judge・レビューの設計: 迎合バイアスを前提に、中立な聞き方・基準の明文化を組み込めます(LLM-as-a-Judge)",
+              "staticReason": "実案件への適用判断と関連記事への導線を原文リストで残す。図は機構を示すが案件適否を自動判定しない。"
+            }
+          ]
+        },
+        {
+          "heading": "アンチパターン",
+          "topics": [
+            {
+              "id": "training-static-6-1",
+              "label": "幻覚を「もっと強く禁止する」プロンプトで解決しようとする → 目的関数由来の性質は指示では消えない → 根拠の外部供給(RAG)・出典要求・検証ステップで構造的に抑える",
+              "staticReason": "設計上のアンチパターンをそのまま比較して読める箇条書き。対応機構は既存READ停止面で確認でき、別の架空判定を追加しない。"
+            },
+            {
+              "id": "training-static-6-2",
+              "label": "社内知識をモデルの記憶に期待する → 学習データにない・まれな知識は再現されない → 検索で都度渡す設計にする",
+              "staticReason": "設計上のアンチパターンをそのまま比較して読める箇条書き。対応機構は既存READ停止面で確認でき、別の架空判定を追加しない。"
+            },
+            {
+              "id": "training-static-6-3",
+              "label": "「はい/いいえ」で聞く誘導的なレビュー依頼をする → 迎合により同意へ偏る → 中立な形式・明文化した基準・複数観点で聞く",
+              "staticReason": "設計上のアンチパターンをそのまま比較して読める箇条書き。対応機構は既存READ停止面で確認でき、別の架空判定を追加しない。"
+            },
+            {
+              "id": "training-static-6-4",
+              "label": "システムプロンプトの禁止事項をセキュリティ境界として扱う → 指示は学習された傾向であり上書きされうる → 権限・ガードレールなどコード側の強制と併用する",
+              "staticReason": "設計上のアンチパターンをそのまま比較して読める箇条書き。対応機構は既存READ停止面で確認でき、別の架空判定を追加しない。"
+            }
+          ]
+        },
+        {
+          "heading": "チェックリスト",
+          "topics": [
+            {
+              "id": "training-static-7-1",
+              "label": "最新性・正確性が必要な情報を、モデルの記憶ではなく検索・ツールで渡している",
+              "staticReason": "利用者自身が実装・評価状況を確認するチェック項目。動的な合否や自動チェック済み状態を作らない。"
+            },
+            {
+              "id": "training-static-7-2",
+              "label": "幻覚対策が指示(お願い)だけでなく、構造(根拠供給・出典・検証)を含んでいる",
+              "staticReason": "利用者自身が実装・評価状況を確認するチェック項目。動的な合否や自動チェック済み状態を作らない。"
+            },
+            {
+              "id": "training-static-7-3",
+              "label": "LLM に判定・レビューをさせる箇所で、迎合バイアスへの対策(中立な聞き方・基準明文化)がある",
+              "staticReason": "利用者自身が実装・評価状況を確認するチェック項目。動的な合否や自動チェック済み状態を作らない。"
+            },
+            {
+              "id": "training-static-7-4",
+              "label": "プロンプトの禁止事項に、コード側の強制(権限・ガードレール)が対応している",
+              "staticReason": "利用者自身が実装・評価状況を確認するチェック項目。動的な合否や自動チェック済み状態を作らない。"
+            },
+            {
+              "id": "training-static-7-5",
+              "label": "FT を検討する際、「形式の安定化」か「知識の注入」かを区別している",
+              "staticReason": "利用者自身が実装・評価状況を確認するチェック項目。動的な合否や自動チェック済み状態を作らない。"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,108 @@
+{
+  "status": "passed",
+  "checkedAt": "2026-09-24T12:53:38.060Z",
+  "checks": 2526,
+  "scope": "計画だけの機械検査。最終実装・意味レビュー・ブラウザー・公開受入ではない。",
+  "items": [
+    "元本文SHA/対象見出し",
+    "H3連続性/非重複",
+    "全body型/数/段階",
+    "全sourceDigest",
+    "原ASTの完全復元",
+    "検査単位割当/静的理由",
+    "訂正候補完全一致/トップレベル構造保持",
+    "候補適用後の原文単位/coverage/digest",
+    "補助全4段階のREAD持越しの指定/selector未操作条件",
+    "Lightman/Flamingoの節番号/根拠確認UTCの保持",
+    "multimodal全127行の関連条件一括照合",
+    "5追加同期行のcoverage/changed/correctionIds/候補artifact一致",
+    "旧固定断定の残留なし/行数保持"
+  ],
+  "articles": [
+    {
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "sourceSha256": "6bb4501e5fcd44323a0890d20286cc6e597ab042997df47d2cf9fa2ddabd480b",
+      "postCorrectionSha256Candidate": "7883fc8764b0a2d7c5df6fa61a4c752696e99ddd579fd44d913db825d865965e",
+      "originalAstRestored": true,
+      "diagrams": 3,
+      "sourceUnits": 42,
+      "corrections": [
+        "A1",
+        "A2",
+        "A3"
+      ]
+    },
+    {
+      "article": "docs/10-llm-foundations/reasoning-models.md",
+      "sourceSha256": "71246ca014e171936139af9083df301f16dcb7dade8f7aeb3a0b14516a19ef44",
+      "postCorrectionSha256Candidate": "71246ca014e171936139af9083df301f16dcb7dade8f7aeb3a0b14516a19ef44",
+      "originalAstRestored": true,
+      "diagrams": 2,
+      "sourceUnits": 43,
+      "corrections": []
+    },
+    {
+      "article": "docs/10-llm-foundations/attention-and-context.md",
+      "sourceSha256": "433d75095383235eeace9c4b34048bad43a3f4b0ba6e65c2e7e7d25eebdb1c55",
+      "postCorrectionSha256Candidate": "433d75095383235eeace9c4b34048bad43a3f4b0ba6e65c2e7e7d25eebdb1c55",
+      "originalAstRestored": true,
+      "diagrams": 2,
+      "sourceUnits": 30,
+      "corrections": []
+    },
+    {
+      "article": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+      "sourceSha256": "c150ab8ee4a72dc6786a5abb52e0266f97d78f1b6584ce1c695e01f94106f5c4",
+      "postCorrectionSha256Candidate": "c150ab8ee4a72dc6786a5abb52e0266f97d78f1b6584ce1c695e01f94106f5c4",
+      "originalAstRestored": true,
+      "diagrams": 3,
+      "sourceUnits": 37,
+      "corrections": []
+    },
+    {
+      "article": "docs/11-llm-internals/interpretability-basics.md",
+      "sourceSha256": "d7a2febb87771c6afbf440be223527c2c9a465f1e1c72f000432540ec2cda68e",
+      "postCorrectionSha256Candidate": "d7a2febb87771c6afbf440be223527c2c9a465f1e1c72f000432540ec2cda68e",
+      "originalAstRestored": true,
+      "diagrams": 2,
+      "sourceUnits": 41,
+      "corrections": []
+    },
+    {
+      "article": "docs/10-llm-foundations/capabilities-and-limits.md",
+      "sourceSha256": "cc83e31509fc1b5a8e43793be4c06fc2682c90e76f83e7ebf784fafbd23beb4a",
+      "postCorrectionSha256Candidate": "cc83e31509fc1b5a8e43793be4c06fc2682c90e76f83e7ebf784fafbd23beb4a",
+      "originalAstRestored": true,
+      "diagrams": 1,
+      "sourceUnits": 35,
+      "corrections": []
+    },
+    {
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "sourceSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+      "postCorrectionSha256Candidate": "27956431766343cd1c4b910ce9d7b703e655365856c3e10484de315684688ced",
+      "originalAstRestored": true,
+      "diagrams": 2,
+      "sourceUnits": 42,
+      "corrections": [
+        "M1",
+        "M2",
+        "M3",
+        "M4",
+        "M4-sync-97",
+        "M4-sync-98",
+        "M5",
+        "M5-sync-100",
+        "M4-sync-55",
+        "M4-sync-56",
+        "M4-sync-79",
+        "M4-sync-105",
+        "M5-sync-108"
+      ]
+    }
+  ],
+  "independentReview": "rereview-pending",
+  "productTests": "not-performed",
+  "publicVerification": "not-performed",
+  "planSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319"
+}

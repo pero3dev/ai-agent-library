@@ -1,0 +1,23 @@
+{
+  "checkedAt": "2026-09-24T11:28:37.743Z",
+  "plan": {
+    "json": "3439e7f163e2b033c278636c59738ef7ee9325cf5a9dec2369284374d44d504a",
+    "md": "bedda21e67a5463b3c28aa0fc46d5dc8d8526bbd889ddb6a21c4239a9d9fd6b2"
+  },
+  "assertions": 167,
+  "findings": [],
+  "counts": {
+    "articles": 2,
+    "h3": 17,
+    "body": 38,
+    "diagrams": 7,
+    "stages": 33,
+    "readStages": 28,
+    "wrappedH3": 11,
+    "wrappedBody": 32,
+    "topics": 79,
+    "dynamic": 50,
+    "static": 29,
+    "corrections": 6
+  }
+}

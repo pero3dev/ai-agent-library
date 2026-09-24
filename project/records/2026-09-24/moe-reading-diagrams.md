@@ -1,6 +1,6 @@
 # MoE記事全体の動的図解
 
-開始日: 2026-09-24。状態: ローカル受入・独立レビュー完了、公開準備中。P1の3番目の制作単位（1記事）。
+開始日: 2026-09-24。状態: PR #55・main CI・Pages・公開受入完了。P1の3番目の制作単位（1記事）。
 
 ## 作業契約
 
@@ -91,3 +91,21 @@ TEMPの `ai-agent-library-moe-root-check.log`、`ai-agent-library-moe-website-un
 WebKitの主要8 specは108/108成功、skip 0（7.5分）。自己注意・注意変種・Transformer・MoE・共通図解・chunk障害・IntersectionObserverの同一通知バッチ・数式を対象にした。TEMP `ai-agent-library-moe-webkit.log` に記録した。Chromium終了を回収してから同じ4183 portで実行し、検査サーバーは終了した。
 
 2026-09-24T06:04:29Zに、上記3入力版のreview/localゲートを記録する。publicは未確認のためnullとし、offline CLIでも3記事ともcomplete=falseであることを確認する。PR/CI/Pages/公開確認はこの後に行う。
+
+## PR・Pages・公開受入の完了
+
+[PR #55](https://github.com/pero3dev/ai-agent-library/pull/55)は2026-09-24 15:16:12 JSTにsquashマージされた。候補headは `01c8b16a0b52a66598ef1df6fceb889c7983da68`、公開SHAは `11ab1664fc9864b3f68c4d0eef278f629d9861b1`。必須11チェックが成功し、実マージの本文・名義・ファイルが検証済み候補と一致した。PR CIは `35963050756`。PRのdeployはmain専用条件でskipした。
+
+[main CI](https://github.com/pero3dev/ai-agent-library/actions/runs/35963689699)と[Pagesジョブ](https://github.com/pero3dev/ai-agent-library/actions/runs/35963689699/job/107519104802)は同じSHAで成功した。GitHub APIを再取得し、deployment `6631585774` の最新successと同じdeploy job・公開URLの対応を確認した。artifact `10793283604` を独立に取得し、MoE・注意変種・Transformerの3 HTMLだけをtarから読み取った。BUILD_IDは `RFzDFlMmNV-ILc3wYCE_k`、tar SHA-256は `939c0b1a5994a379275cacee0ea1d1aabbe50119ed6d9c468c1317806fc4d121`。
+
+| 公開HTML | CI artifactと一致したSHA-256 |
+| --- | --- |
+| MoE | `1f10017f31dd38bb3dd6d5a5bef802adc1f59180c9acb6b2ffc10723e1e6284c` |
+| 注意変種 | `43797a4e6ad3b28ef2e16b37b8bc5ceee7f551258767a09f0be34cbb6956eb93` |
+| Transformer | `361bb6016f33ef4beebf353447759236286e270b4adeefd68f10a5ab667e2e66` |
+
+2026-09-24T06:25:58.782Zから06:28:21まで、公開HTTPと実ブラウザーの25ケースがすべて成功。52アセットのHTTP 200・MIME・非空body、3 HTMLのBUILD_IDと生バイトhash一致を確認した。MoEの14段階・全選択肢・途中境界・本文同期・手動状態の分離・キーボード・拡大とfocus復帰・実時間再生/停止/終端再開・noJS/印刷を検査した。旧注意変種の15段階・主要操作とTransformer4図、図なし記事へheavy chunkを送らないことも再確認した。
+
+65 PNGを保存し、rootは容量B、重みの暗色、低いPC画面、狭幅の4代表画像を開いて確認した。全65枚を目視したという意味ではない。低い画面と狭幅では図全体が常に1画面へ収まるとはせず、通常スクロールで本文・操作へ到達する。物理iPhone Safari・実スクリーンリーダー・学習効果の本人評価は未実施。
+
+詳細証拠はTEMP `ai-agent-library-moe-public/artifact-evidence.latest.json` と `public-chromium-2026-09-24T06-25-58-782Z/result.json` に保存した。3記事の公開受入を当該入力版で記録し、次の共有変更に備えて `*-article-acceptance-pr55.json` へ固定した。公開図解は5記事11図、記事全体の完成基準では3/199記事。次は生成基礎とトークン化の2記事を制作する。

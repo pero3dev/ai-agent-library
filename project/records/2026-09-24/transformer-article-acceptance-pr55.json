@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "article": "docs/11-llm-internals/transformer-architecture.md",
+  "review": {
+    "inputDigest": "sha256:3f7426207efb97229837fbd68e10c2f1b3246bfe77ef76c1053e1eed4e48d863",
+    "status": "approved",
+    "checkedAt": "2026-09-24T05:57:20.530Z",
+    "independent": true,
+    "record": "project/records/2026-09-24/moe-reading-diagrams.md#独立した最終監査"
+  },
+  "local": {
+    "inputDigest": "sha256:3f7426207efb97229837fbd68e10c2f1b3246bfe77ef76c1053e1eed4e48d863",
+    "status": "passed",
+    "checkedAt": "2026-09-24T06:04:29Z",
+    "record": "project/records/2026-09-24/moe-reading-diagrams.md#統合とローカル検証"
+  },
+  "public": {
+    "inputDigest": "sha256:3f7426207efb97229837fbd68e10c2f1b3246bfe77ef76c1053e1eed4e48d863",
+    "status": "passed",
+    "checkedAt": "2026-09-24T06:28:21.182Z",
+    "commit": "11ab1664fc9864b3f68c4d0eef278f629d9861b1",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/35963689699",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/35963689699/job/107519104802",
+    "browserRecord": "project/records/2026-09-24/moe-reading-diagrams.md"
+  }
+}

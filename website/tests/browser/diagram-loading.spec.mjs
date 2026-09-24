@@ -15,6 +15,8 @@ const cases = [
   { name: 'attention context scene', marker: 'ATTENTION / CONTEXT RANGE', path: 'llm-internals/attention-variants-and-long-context', prose: '学習時の最大長を超える入力に', mathCount: 0 },
   { name: 'MoE routing scene', marker: 'MOE / ROUTING & LOAD', path: 'llm-internals/mixture-of-experts-internals', prose: 'ルータはスコアを出します', mathCount: 3 },
   { name: 'MoE parameters scene', marker: 'MoE / PARAMETERS & COMMUNICATION', path: 'llm-internals/mixture-of-experts-internals', prose: '2 つのパラメータ数で捉えます', mathCount: 1 },
+  { name: 'generation scene', marker: 'GENERATION / TOKEN LOOP', path: 'llm-foundations/how-llms-generate-text', prose: 'これを自己回帰生成', mathCount: 0 },
+  { name: 'tokenization scene', marker: 'TOKENIZATION / COUNTING', path: 'llm-foundations/tokenization', prose: '課金の単位・コンテキストウィンドウの単位・生成速度の単位', mathCount: 0 },
   { name: 'shared reading frame', marker: 'ReadingFigure requires at least one stage', path: 'concepts/agent-loop', prose: 'ツール要求がないことだけでは正常完了と判定できません' }
 ]
 

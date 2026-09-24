@@ -1,0 +1,13 @@
+.generation-scene { color: #e6edf6; }
+.generation-scene text { fill: #e6edf6; font-family: inherit; font-size: 18px; }
+.generation-scene .gen-small { fill: #b1c4d2; font-size: 16px; }
+.generation-scene .gen-heading { font-size: 21px; font-weight: 680; }
+.generation-controls { display: flex; flex-wrap: wrap; gap: .5rem; padding: 0 1.25rem .5rem; }
+.generation-controls .cd-select { flex: 1; display: flex; align-items: center; gap: .5rem; color: #d6e4ed; font-size: .75rem; }
+.generation-controls .cd-select > span { flex-shrink: 0; }
+.generation-controls select { min-width: 0; width: 100%; border: 1px solid #355267; border-radius: .3rem; background: #152c3c; color: #edf6fa; padding: .3rem; font: inherit; }
+.generation-controls select:focus-visible { outline: 2px solid #74e3cf; outline-offset: 3px; }
+.generation-controls select:disabled { opacity: .6; }
+@media (max-width: 560px) { .generation-controls { padding-inline: .75rem; } .generation-controls .cd-select { flex-basis: 100%; } }
+@media (prefers-reduced-motion: reduce) { .generation-scene * { transition: none !important; animation: none !important; } }
+@media print { .generation-controls { display: none; } .generation-scene * { transition: none !important; animation: none !important; } }

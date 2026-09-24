@@ -15,7 +15,11 @@ export const ATTENTION_VARIANTS_ARTICLE = 'docs/11-llm-internals/attention-varia
 export const ATTENTION_VARIANTS_EVIDENCE_PATH = 'project/records/2026-09-24/attention-variants-article-acceptance.json'
 export const MOE_ARTICLE = 'docs/11-llm-internals/mixture-of-experts-internals.md'
 export const MOE_EVIDENCE_PATH = 'project/records/2026-09-24/moe-article-acceptance.json'
-export const TRACKED_ARTICLES = Object.freeze([TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE])
+export const GENERATION_ARTICLE = 'docs/10-llm-foundations/how-llms-generate-text.md'
+export const GENERATION_EVIDENCE_PATH = 'project/records/2026-09-24/generation-article-acceptance.json'
+export const TOKENIZATION_ARTICLE = 'docs/10-llm-foundations/tokenization.md'
+export const TOKENIZATION_EVIDENCE_PATH = 'project/records/2026-09-24/tokenization-article-acceptance.json'
+export const TRACKED_ARTICLES = Object.freeze([TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE])
 const MANIFEST = 'website/diagrams/articles.json'
 const TRANSFORMER_TOPICS = {
   '概要: デコーダ専用 Transformer の全体像': ['decoder-flow', 'overview-and-notation'],
@@ -56,6 +60,46 @@ const MOE_TOPICS = {
   'チェックリスト': ['understanding-check']
 }
 
+const GENERATION_TOPICS = {
+  '概要: たった 1 つのループ': [ 'autoregressive-cycle', 'stop-boundary', 'text-code-reasoning-unit' ],
+  '次トークン予測という実体': [ 'prefix-conditioned-function', 'generated-output-conditioning', 'append-only-correction', 'caller-context-rebuild' ],
+  'サンプリングと温度': [ 'greedy-selection', 'temperature-distribution', 'nucleus-prefix', 'task-parameter-intent', 'provider-parameter-constraints' ],
+  '「同じ入力で違う出力」になる理由': [ 'sampling-randomness', 'implementation-variation', 'repeated-evaluation' ],
+  '停止とストリーミング': [
+    'natural-eos',
+    'stop-sequence',
+    'output-limit',
+    'finish-output-validation',
+    'provider-stop-reasons',
+    'streaming-order',
+    'output-length-cost'
+  ],
+  'この理解が効く場面': [ 'structured-output-use', 'evaluation-use', 'latency-cost-use', 'parameter-intent-use' ],
+  'アンチパターン': [
+    'deterministic-free-text-pitfall',
+    'single-demo-pitfall',
+    'unchecked-finish-pitfall',
+    'high-temperature-classification-pitfall'
+  ],
+  'チェックリスト': [ 'understanding-check' ]
+}
+
+const TOKENIZATION_TOPICS = {
+  '概要: トークンは LLM 世界の通貨': [ 'token-units', 'text-id-conversion', 'tokenizer-dependencies' ],
+  'トークンとは何か: サブワード分割の直感': [ 'subword-boundaries', 'nonword-content', 'rare-content-fragmentation', 'tokenization-method-scope' ],
+  '言語と内容による効率差': [ 'language-content-dependence', 'language-workload-cost', 'context-budget', 'prompt-language-tradeoff' ],
+  'モデル間の非互換: 移行時の再見積り': [ 'model-vocabulary-change', 'migration-count-rate', 'same-capacity-different-content', 'generation-recount' ],
+  '見積りと計測の実務': [ 'official-estimation', 'usage-tracing', 'history-resend', 'history-budget-options' ],
+  'この理解が効く場面': [ 'cost-estimation-use', 'context-selection-use', 'migration-use' ],
+  'アンチパターン': [
+    'constant-character-ratio-pitfall',
+    'migration-without-recount-pitfall',
+    'missing-usage-pitfall',
+    'cross-language-estimate-pitfall'
+  ],
+  'チェックリスト': [ 'understanding-check' ]
+}
+
 // Explicit, code-owned paths. Shared rendering/generation changes conservatively
 // invalidate acceptance. Evidence, project records, generated output and commit
 // IDs are excluded; recording a later deployment cannot change its input digest.
@@ -93,7 +137,26 @@ export const MOE_INPUT_FILES = Object.freeze([...SHARED_INPUT_FILES, ...[
   'components/diagrams/moe-routing-walkthrough.jsx', 'lib/moe-routing-model.mjs',
   'components/diagrams/moe-parameters-walkthrough.jsx', 'components/diagrams/moe-parameters.css', 'lib/moe-parameters-model.mjs'
 ].map(file => `website/${file}`)])
+// The shared dispatcher statically imports both stylesheets, so both articles
+// must invalidate on either CSS change. Scene/model code stays article-specific.
+const FOUNDATIONS_INPUT_FILES = [...SHARED_INPUT_FILES, ...[
+  'components/diagrams/foundations-walkthrough.jsx', 'components/diagrams/generation.css', 'components/diagrams/tokenization.css'
+].map(file => `website/${file}`)]
+export const GENERATION_INPUT_FILES = Object.freeze([...FOUNDATIONS_INPUT_FILES,
+  'website/components/diagrams/generation-walkthrough.jsx', 'website/lib/generation-model.mjs'
+])
+export const TOKENIZATION_INPUT_FILES = Object.freeze([...FOUNDATIONS_INPUT_FILES,
+  'website/components/diagrams/tokenization-walkthrough.jsx', 'website/lib/tokenization-model.mjs'
+])
 const configs = {
+  [GENERATION_ARTICLE]: {
+    primaryDiagramIds: ['generation-token-loop'], topics: GENERATION_TOPICS,
+    inputFiles: GENERATION_INPUT_FILES, evidencePath: GENERATION_EVIDENCE_PATH
+  },
+  [TOKENIZATION_ARTICLE]: {
+    primaryDiagramIds: ['tokenization-counting'], topics: TOKENIZATION_TOPICS,
+    inputFiles: TOKENIZATION_INPUT_FILES, evidencePath: TOKENIZATION_EVIDENCE_PATH
+  },
   [TRANSFORMER_ARTICLE]: {
     primaryDiagramIds: ['transformer-io', 'transformer-position', 'self-attention', 'transformer-block'],
     topics: TRANSFORMER_TOPICS, inputFiles: ARTICLE_INPUT_FILES, evidencePath: ARTICLE_EVIDENCE_PATH
@@ -107,8 +170,12 @@ const configs = {
     topics: MOE_TOPICS, inputFiles: MOE_INPUT_FILES, evidencePath: MOE_EVIDENCE_PATH
   }
 }
+const overrideDirectories = {
+  [TRANSFORMER_ARTICLE]: 'llm-internals', [ATTENTION_VARIANTS_ARTICLE]: 'llm-internals', [MOE_ARTICLE]: 'llm-internals',
+  [GENERATION_ARTICLE]: 'llm-foundations', [TOKENIZATION_ARTICLE]: 'llm-foundations'
+}
 for (const [article, config] of Object.entries(configs)) {
-  config.optionalInputs = ['md', 'mdx'].map(extension => `website/content-src/llm-internals/${path.basename(article, '.md')}.${extension}`)
+  config.optionalInputs = ['md', 'mdx'].map(extension => `website/content-src/${overrideDirectories[article]}/${path.basename(article, '.md')}.${extension}`)
 }
 /** Fixed code-owned paths only; callers cannot mutate the acceptance policy. */
 export const getDiagramArticleConfig = article => Object.hasOwn(configs, article) ? structuredClone(configs[article]) : null

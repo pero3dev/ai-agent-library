@@ -1,6 +1,6 @@
 # 動的図解の展開状況
 
-開始日: 2026-09-24。状態: **P0・P1の2記事が公開受入完了、MoEを実装中**。全199記事の完了記録ではない。
+開始日: 2026-09-24。状態: **P0・P1の3記事が公開受入完了、文章生成・トークン化を実装中**。全199記事の完了記録ではない。
 
 ## 作業契約
 
@@ -18,16 +18,16 @@
 | --- | --- | --- | --- |
 | 計画 | 全199記事 | 計画作成・独立レビュー済み、採択 | [全件棚卸し](../../plans/engineering/dynamic-diagram-inventory.md)、[計画作成記録](dynamic-diagram-plan.md) |
 | P0 | 共通基盤・自己注意・Agentループ・Workflow比較 | PR #52マージ・公開受入完了 | [P0実施記録](reading-diagram-foundation.md) |
-| P1 | LLM内部構造・基礎15記事 | Transformer・注意変種の2/15記事が公開受入完了。MoEを実装中 | [Transformer](transformer-reading-diagrams.md)、[注意変種](attention-variants-reading-diagrams.md)、[MoE](moe-reading-diagrams.md) |
+| P1 | LLM内部構造・基礎15記事 | Transformer・注意変種・MoEの3/15記事が公開受入完了。文章生成・トークン化を実装中 | [Transformer](transformer-reading-diagrams.md)、[注意変種](attention-variants-reading-diagrams.md)、[MoE](moe-reading-diagrams.md)、[文章生成・トークン化](generation-tokenization-reading-diagrams.md) |
 | P2 | 中核54記事 | 未着手（P0の2記事は内数） | P1受入後に着手 |
 | P3 | 実装・品質・運用78記事 | 未着手 | P2受入後に着手 |
 | P4 | 応用・判断52記事 | 未着手 | P3受入後に着手 |
 | P5 | 全体受入・更新運用 | 未着手 | P4受入後に着手 |
 
-図解を一部導入した記事、記事全体の主要論点の割当と受入を完了した記事、公開確認済みの記事を別に数える。公開済みは4記事の9図。記事全体の完成基準では2/199記事であり、図の本数を記事の完了数に読み替えない。
+図解を一部導入した記事、記事全体の主要論点の割当と受入を完了した記事、公開確認済みの記事を別に数える。公開済みは5記事の11図。記事全体の完成基準では3/199記事であり、図の本数を記事の完了数に読み替えない。
 
 ## 再開地点
 
-所有ブランチは `feat/moe-reading-diagrams`。注意変種の[PR #54](https://github.com/pero3dev/ai-agent-library/pull/54)・main CI・Pages・公開15件の受入を終え、公開SHA `a0dc1ff67b40d7e35af87b07f34dc643f95f57dc` の最新mainから開始した。他のworktreeや音声制作のブランチは変更しない。
+所有ブランチは `feat/generation-tokenization-reading-diagrams`。MoEの[PR #55](https://github.com/pero3dev/ai-agent-library/pull/55)・main CI・Pages・公開25ケースの受入を終え、公開SHA `11ab1664fc9864b3f68c4d0eef278f629d9861b1` の最新mainから開始した。他のworktreeや音声制作のブランチは変更しない。
 
-MoE1記事の2図（ルーティングと負荷、重みと通信）を実装する。[制作記録](moe-reading-diagrams.md)に8/6段階・本文対応・独立した事前レビューと担当を固定した。旧2記事のPR #54公開受入はスナップショットに保存済み。今回の共有コード変更後は新しい入力版で2記事とも再受入し、公開ゲートを自動流用しない。
+文章生成・トークン化の2記事2図を実装する。[制作記録](generation-tokenization-reading-diagrams.md)に8/7段階・本文対応・独立した事前レビューと担当を固定した。旧3記事のPR #55公開受入はスナップショットに保存済み。今回の共有コード変更後は新しい入力版で3記事とも再受入し、公開ゲートを自動流用しない。その次の単位は推論内部の1記事4図を予定する。

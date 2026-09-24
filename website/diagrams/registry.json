@@ -446,6 +446,130 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "generation-token-loop",
+      "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "route": "/docs/llm-foundations/how-llms-generate-text",
+      "binding": "grouped-blocks",
+      "stageCount": 8,
+      "headings": [
+        "概要: たった 1 つのループ",
+        "次トークン予測という実体",
+        "サンプリングと温度",
+        "「同じ入力で違う出力」になる理由",
+        "停止とストリーミング"
+      ],
+      "sourceHeadings": [
+        "概要: たった 1 つのループ",
+        "次トークン予測という実体",
+        "サンプリングと温度",
+        "「同じ入力で違う出力」になる理由",
+        "停止とストリーミング"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 6,
+            "count": 3
+          },
+          {
+            "stage": 7,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:8ad1f506c165d17047969a5e7ac84427a6db6c145f1688bb427a6b6d473fa922",
+      "reviewedDigest": "sha256:8ad1f506c165d17047969a5e7ac84427a6db6c145f1688bb427a6b6d473fa922",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "tokenization-counting",
+      "article": "docs/10-llm-foundations/tokenization.md",
+      "route": "/docs/llm-foundations/tokenization",
+      "binding": "grouped-blocks",
+      "stageCount": 7,
+      "headings": [
+        "概要: トークンは LLM 世界の通貨",
+        "トークンとは何か: サブワード分割の直感",
+        "言語と内容による効率差",
+        "モデル間の非互換: 移行時の再見積り",
+        "見積りと計測の実務"
+      ],
+      "sourceHeadings": [
+        "概要: トークンは LLM 世界の通貨",
+        "トークンとは何か: サブワード分割の直感",
+        "言語と内容による効率差",
+        "モデル間の非互換: 移行時の再見積り",
+        "見積りと計測の実務"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:0afe54bc6d956e9ebb9ddea723aad2b342a3b5529532e169333b670dd60f82fe",
+      "reviewedDigest": "sha256:0afe54bc6d956e9ebb9ddea723aad2b342a3b5529532e169333b670dd60f82fe",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

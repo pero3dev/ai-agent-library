@@ -464,6 +464,490 @@
           ]
         }
       ]
+    },
+    {
+      "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "primaryDiagramIds": [
+        "generation-token-loop"
+      ],
+      "sections": [
+        {
+          "heading": "概要: たった 1 つのループ",
+          "topics": [
+            {
+              "id": "autoregressive-cycle",
+              "label": "入力列から分布・選択・末尾追加へ進む自己回帰の一巡",
+              "diagramId": "generation-token-loop",
+              "stages": [
+                0,
+                1,
+                2
+              ]
+            },
+            {
+              "id": "stop-boundary",
+              "label": "停止条件まで一巡を繰り返す",
+              "diagramId": "generation-token-loop",
+              "stages": [
+                0,
+                6
+              ]
+            },
+            {
+              "id": "text-code-reasoning-unit",
+              "label": "推論らしい文章・コードなども次トークン生成の連続",
+              "staticReason": "本文の説明対象の列挙であり、用途別の別機構を作らず既存段落を保持する。"
+            }
+          ]
+        },
+        {
+          "heading": "次トークン予測という実体",
+          "topics": [
+            {
+              "id": "prefix-conditioned-function",
+              "label": "これまでのトークン列を条件に語彙分布を返す",
+              "diagramId": "generation-token-loop",
+              "stages": [
+                3
+              ]
+            },
+            {
+              "id": "generated-output-conditioning",
+              "label": "確定済み出力が次の入力になる",
+              "diagramId": "generation-token-loop",
+              "stages": [
+                3
+              ]
+            },
+            {
+              "id": "append-only-correction",
+              "label": "訂正も後続出力として追加され、確定列自体は巻き戻らない",
+              "diagramId": "generation-token-loop",
+              "stages": [
+                3
+              ]
+            },
+            {
+              "id": "caller-context-rebuild",
+              "label": "呼び出し側による文脈の作り直しとモデル内の取り消しを区別",
+              "staticReason": "呼び出し側の設計上の留保であり、本文外の編集APIや再生成UIを追加せず元listに残す。"
+            }
+          ]
+        },
+        {
+          "heading": "サンプリングと温度",
+          "topics": [
+            {
+              "id": "greedy-selection",
+              "label": "最大確率の候補を選ぶ貪欲法",
+              "diagramId": "generation-token-loop",
+              "stages": [
+                4
+              ]
+            },
+            {
+              "id": "temperature-distribution",
+              "label": "温度で分布の集中度が変わる",
+              "diagramId": "generation-token-loop",
+              "stages": [
+                4
+              ]
+            },
+            {
+              "id": "nucleus-prefix",
+              "label": "累積確率が閾値に達する候補集合へ絞るtop-p",
+              "diagramId": "generation-token-loop",
+              "stages": [
+                4
+              ]
+            },
+            {
+              "id": "task-parameter-intent",
+              "label": "タスクの性質に応じて設定意図を持つ",
+              "staticReason": "推奨用途を表と段落で説明済みであり、温度から品質や適性を自動採点しない。"
+            },
+            {
+              "id": "provider-parameter-constraints",
+              "label": "モデルによって指定が制限・無視される場合の仕様確認",
+              "staticReason": "採用先の仕様確認が必要な事項であり、図に普遍的な対応表や現行製品値を追加しない。"
+            }
+          ]
+        },
+        {
+          "heading": "「同じ入力で違う出力」になる理由",
+          "topics": [
+            {
+              "id": "sampling-randomness",
+              "label": "同じ分布からでも選択値により結果が分かれる",
+              "diagramId": "generation-token-loop",
+              "stages": [
+                5
+              ]
+            },
+            {
+              "id": "implementation-variation",
+              "label": "計算結果の微小差は抽選とは別の入口",
+              "diagramId": "generation-token-loop",
+              "stages": [
+                5
+              ]
+            },
+            {
+              "id": "repeated-evaluation",
+              "label": "複数ケース・複数回と用途別の成功基準で評価する",
+              "staticReason": "評価設計は元段落とリンクで扱い、図の説明用fixtureを品質評価データとしない。"
+            }
+          ]
+        },
+        {
+          "heading": "停止とストリーミング",
+          "topics": [
+            {
+              "id": "natural-eos",
+              "label": "応答末尾を表すトークンによる自然停止",
+              "diagramId": "generation-token-loop",
+              "stages": [
+                6
+              ]
+            },
+            {
+              "id": "stop-sequence",
+              "label": "指定文字列による打ち切り",
+              "diagramId": "generation-token-loop",
+              "stages": [
+                6
+              ]
+            },
+            {
+              "id": "output-limit",
+              "label": "最大出力トークン数での強制終了",
+              "diagramId": "generation-token-loop",
+              "stages": [
+                6
+              ]
+            },
+            {
+              "id": "finish-output-validation",
+              "label": "停止理由と出力の完全性を別途確認する",
+              "diagramId": "generation-token-loop",
+              "stages": [
+                6
+              ]
+            },
+            {
+              "id": "provider-stop-reasons",
+              "label": "ツール要求・拒否・継続可能など採用APIへの対応付け",
+              "staticReason": "本文がAPI差を留保しているため、固有コードやAgentの新しい遷移を追加しない。"
+            },
+            {
+              "id": "streaming-order",
+              "label": "確定した順序を保って配信する",
+              "diagramId": "generation-token-loop",
+              "stages": [
+                7
+              ]
+            },
+            {
+              "id": "output-length-cost",
+              "label": "出力長が反復回数・レイテンシ・コストへ影響する",
+              "diagramId": "generation-token-loop",
+              "stages": [
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "この理解が効く場面",
+          "topics": [
+            {
+              "id": "structured-output-use",
+              "label": "形式保証と内容の正しさを分ける",
+              "staticReason": "既存の業務例とリンクを保持する。本文にない文法制約器を図へ実装しない。"
+            },
+            {
+              "id": "evaluation-use",
+              "label": "非決定性を前提に評価設計をする",
+              "staticReason": "S5で機構を扱っており、実務への適用は元listで確認できる。"
+            },
+            {
+              "id": "latency-cost-use",
+              "label": "出力長を予算要件に結び付ける",
+              "staticReason": "S7からの設計判断であり、実価格・実速度の計算器を追加しない。"
+            },
+            {
+              "id": "parameter-intent-use",
+              "label": "パラメータ選択を目的から説明する",
+              "staticReason": "S4の再適用を述べる一覧であり、原文の設定方針を保持する。"
+            }
+          ]
+        },
+        {
+          "heading": "アンチパターン",
+          "topics": [
+            {
+              "id": "deterministic-free-text-pitfall",
+              "label": "温度0で自由文まで完全一致すると期待する",
+              "staticReason": "S5に対応する失敗例をそのまま残し、同じ比較図を再掲しない。"
+            },
+            {
+              "id": "single-demo-pitfall",
+              "label": "一度のデモ成功を品質の根拠とする",
+              "staticReason": "複数回評価の必要性を元listで確認する事項であり、採点演出を作らない。"
+            },
+            {
+              "id": "unchecked-finish-pitfall",
+              "label": "停止理由を確認せず不完全な出力を処理する",
+              "staticReason": "S6で原因を扱い、本文の対策とリンクを保持する。"
+            },
+            {
+              "id": "high-temperature-classification-pitfall",
+              "label": "分類等へ多様性を優先する設定を無目的に使う",
+              "staticReason": "S4の利用判断であり、架空の分類精度を図へ追加しない。"
+            }
+          ]
+        },
+        {
+          "heading": "チェックリスト",
+          "topics": [
+            {
+              "id": "understanding-check",
+              "label": "停止理由・設定意図・複数回評価・出力予算の4項目",
+              "staticReason": "既存4チェック項目を保持し、回答判定や学習採点を追加しない。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "article": "docs/10-llm-foundations/tokenization.md",
+      "primaryDiagramIds": [
+        "tokenization-counting"
+      ],
+      "sections": [
+        {
+          "heading": "概要: トークンは LLM 世界の通貨",
+          "topics": [
+            {
+              "id": "token-units",
+              "label": "課金・コンテキスト・生成の共通単位",
+              "diagramId": "tokenization-counting",
+              "stages": [
+                0
+              ]
+            },
+            {
+              "id": "text-id-conversion",
+              "label": "テキストとトークンID列の相互変換",
+              "diagramId": "tokenization-counting",
+              "stages": [
+                1
+              ]
+            },
+            {
+              "id": "tokenizer-dependencies",
+              "label": "分割は言語・内容とモデル世代に依存する",
+              "diagramId": "tokenization-counting",
+              "stages": [
+                3,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "トークンとは何か: サブワード分割の直感",
+          "topics": [
+            {
+              "id": "subword-boundaries",
+              "label": "文字・語・語片の境界を区別する",
+              "diagramId": "tokenization-counting",
+              "stages": [
+                2
+              ]
+            },
+            {
+              "id": "nonword-content",
+              "label": "空白・改行・記号等も入力単位に含まれる",
+              "diagramId": "tokenization-counting",
+              "stages": [
+                3
+              ]
+            },
+            {
+              "id": "rare-content-fragmentation",
+              "label": "珍しい文字列やID・ログ・JSONの分割に注意する",
+              "staticReason": "実モデルの分割を示さない説明用語彙から一般倍率を作れないため、元の定性的説明を保持する。"
+            },
+            {
+              "id": "tokenization-method-scope",
+              "label": "サブワードの代表例と文字・バイト単位等の方式がある",
+              "staticReason": "BPEとSentencePieceを同一アルゴリズムの手順図にせず、方式の紹介は元段落に残す。"
+            }
+          ]
+        },
+        {
+          "heading": "言語と内容による効率差",
+          "topics": [
+            {
+              "id": "language-content-dependence",
+              "label": "学習データ・語彙・前処理・言語や内容により数が変わる",
+              "diagramId": "tokenization-counting",
+              "stages": [
+                3
+              ]
+            },
+            {
+              "id": "language-workload-cost",
+              "label": "言語別の代表業務入力を計測して費用を見積もる",
+              "diagramId": "tokenization-counting",
+              "stages": [
+                3
+              ]
+            },
+            {
+              "id": "context-budget",
+              "label": "同じトークン上限でも入る内容量は異なる",
+              "diagramId": "tokenization-counting",
+              "stages": [
+                3
+              ]
+            },
+            {
+              "id": "prompt-language-tradeoff",
+              "label": "言語選択は効率・回答品質・保守性を併せて考える",
+              "staticReason": "設計判断の留保を元listで扱い、英語化の優位や架空の品質値を付けない。"
+            }
+          ]
+        },
+        {
+          "heading": "モデル間の非互換: 移行時の再見積り",
+          "topics": [
+            {
+              "id": "model-vocabulary-change",
+              "label": "同じ文字列でもモデルの語彙により分割個数が変わる",
+              "diagramId": "tokenization-counting",
+              "stages": [
+                4
+              ]
+            },
+            {
+              "id": "migration-count-rate",
+              "label": "移行比較は単価だけでなく自社入力の実トークン数を数え直す",
+              "diagramId": "tokenization-counting",
+              "stages": [
+                4
+              ]
+            },
+            {
+              "id": "same-capacity-different-content",
+              "label": "同じコンテキスト数値でも収容できる内容は同一とは限らない",
+              "diagramId": "tokenization-counting",
+              "stages": [
+                4
+              ]
+            },
+            {
+              "id": "generation-recount",
+              "label": "同一ベンダーの世代交代でも公式手段で再計測する",
+              "diagramId": "tokenization-counting",
+              "stages": [
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "見積りと計測の実務",
+          "topics": [
+            {
+              "id": "official-estimation",
+              "label": "公式のカウント手段で実データを事前見積りする",
+              "diagramId": "tokenization-counting",
+              "stages": [
+                5
+              ]
+            },
+            {
+              "id": "usage-tracing",
+              "label": "実行時usageを記録して入出力・履歴・キャッシュの実態を確かめる",
+              "diagramId": "tokenization-counting",
+              "stages": [
+                5
+              ]
+            },
+            {
+              "id": "history-resend",
+              "label": "以前の履歴を再送すると今回の入力に含まれる",
+              "diagramId": "tokenization-counting",
+              "stages": [
+                5,
+                6
+              ]
+            },
+            {
+              "id": "history-budget-options",
+              "label": "長期会話では圧縮・キャッシュ・外部記憶を検討する",
+              "staticReason": "対策の内部機構はリンク先の責任とし、本文にないキャッシュ課金率や圧縮演算を追加しない。"
+            }
+          ]
+        },
+        {
+          "heading": "この理解が効く場面",
+          "topics": [
+            {
+              "id": "cost-estimation-use",
+              "label": "言語・実データに基づく費用見積り",
+              "staticReason": "元listとROI等へのリンクを保持する。実価格計算は行わない。"
+            },
+            {
+              "id": "context-selection-use",
+              "label": "トークン数に基づいてコンテキストを取捨選択する",
+              "staticReason": "既出の単位と予算を業務判断へつなぐ項目であり、追加の選別器は不要。"
+            },
+            {
+              "id": "migration-use",
+              "label": "モデル移行時の見積りや予算を見直す",
+              "staticReason": "S4で仕組みを扱い、実務への適用は元listに残す。"
+            }
+          ]
+        },
+        {
+          "heading": "アンチパターン",
+          "topics": [
+            {
+              "id": "constant-character-ratio-pitfall",
+              "label": "文字数と定数から費用を決める",
+              "staticReason": "S2/S3に対応する失敗例を保持し、汎用換算率は作らない。"
+            },
+            {
+              "id": "migration-without-recount-pitfall",
+              "label": "モデル移行時に数え直さない",
+              "staticReason": "S4の意味を元listで再確認する。"
+            },
+            {
+              "id": "missing-usage-pitfall",
+              "label": "usageを記録せず費用増を追えなくする",
+              "staticReason": "S5に対応する運用上の注意であり、実監視データを捏造しない。"
+            },
+            {
+              "id": "cross-language-estimate-pitfall",
+              "label": "英語入力の見積りを日本語へ流用する",
+              "staticReason": "S3に対応する注意を保持し、言語の倍率表を追加しない。"
+            }
+          ]
+        },
+        {
+          "heading": "チェックリスト",
+          "topics": [
+            {
+              "id": "understanding-check",
+              "label": "公式計測・主要言語・usage・移行再計測・ID等の加工の5項目",
+              "staticReason": "元の5チェック項目を保持し、実データ評価の代わりとなる自動採点は行わない。"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

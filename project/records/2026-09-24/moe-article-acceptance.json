@@ -2,17 +2,17 @@
   "schemaVersion": 1,
   "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
   "review": {
-    "inputDigest": "sha256:ea350c7677733404f545061ef021da72795c8303a8d34738c59ed8c180c31408",
+    "inputDigest": "sha256:e768711fdb2c54e7b557c9fd18911c495cdd9859fcc750c3c750545d1813504f",
     "status": "approved",
-    "checkedAt": "2026-09-24T05:57:20.530Z",
+    "checkedAt": "2026-09-24T07:08:55.098Z",
     "independent": true,
-    "record": "project/records/2026-09-24/moe-reading-diagrams.md#独立した最終監査"
+    "record": "project/records/2026-09-24/generation-tokenization-reading-diagrams.md#最終内容と表示の独立レビュー"
   },
   "local": {
-    "inputDigest": "sha256:ea350c7677733404f545061ef021da72795c8303a8d34738c59ed8c180c31408",
+    "inputDigest": "sha256:e768711fdb2c54e7b557c9fd18911c495cdd9859fcc750c3c750545d1813504f",
     "status": "passed",
-    "checkedAt": "2026-09-24T06:04:29Z",
-    "record": "project/records/2026-09-24/moe-reading-diagrams.md#統合とローカル検証"
+    "checkedAt": "2026-09-24T07:08:55.098Z",
+    "record": "project/records/2026-09-24/generation-tokenization-reading-diagrams.md#最終ローカル受入"
   },
   "public": null
 }

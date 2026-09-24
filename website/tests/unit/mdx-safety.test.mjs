@@ -116,6 +116,32 @@ test('MoE wrappers require fixed IDs, literal properties and diagram-specific st
   ]) assert.ok(findUnsafeMdx(source).length, source)
 })
 
+test('foundations wrappers allow only literal fixed IDs and their own stage ranges', () => {
+  for (const [id, count] of [['generation-token-loop', 8], ['tokenization-counting', 7]]) {
+    for (let stage = 0; stage < count; stage++) {
+      assert.deepEqual(findUnsafeMdx(`<FoundationsWalkthrough diagramId="${id}"><ReadingStep step="${stage}">本文</ReadingStep></FoundationsWalkthrough>`), [])
+    }
+    assert.ok(findUnsafeMdx(`<FoundationsWalkthrough diagramId="${id}"><ReadingStep step="${count}">本文</ReadingStep></FoundationsWalkthrough>`).length)
+  }
+  for (const source of [
+    '<FoundationsWalkthrough>本文</FoundationsWalkthrough>',
+    '<FoundationsWalkthrough diagramId="moe-routing-load">本文</FoundationsWalkthrough>',
+    '<FoundationsWalkthrough diagramId="../scene">本文</FoundationsWalkthrough>',
+    '<FoundationsWalkthrough diagramId={"generation-token-loop"}>本文</FoundationsWalkthrough>',
+    '<FoundationsWalkthrough diagramId="generation-token-loop" module="./scene">本文</FoundationsWalkthrough>',
+    '<FoundationsWalkthrough diagramId="generation-token-loop" diagramId="tokenization-counting">本文</FoundationsWalkthrough>',
+    '<FoundationsWalkthrough {...{diagramId: "generation-token-loop"}}>本文</FoundationsWalkthrough>',
+    '<FoundationsWalkthrough diagramId="generation-token-loop"><AttentionStep step="0">本文</AttentionStep></FoundationsWalkthrough>',
+    '<FoundationsWalkthrough diagramId="generation-token-loop"><ReadingStep step={1}>本文</ReadingStep></FoundationsWalkthrough>',
+    '<FoundationsWalkthrough diagramId="generation-token-loop"><ReadingStep step="07">本文</ReadingStep></FoundationsWalkthrough>',
+    '<FoundationsWalkthrough diagramId="generation-token-loop"><ReadingStep>本文</ReadingStep></FoundationsWalkthrough>',
+    '<FoundationsWalkthrough diagramId="generation-token-loop"><FoundationsWalkthrough diagramId="tokenization-counting">本文</FoundationsWalkthrough></FoundationsWalkthrough>',
+    '<TransformerWalkthrough diagramId="transformer-block"><FoundationsWalkthrough diagramId="generation-token-loop">本文</FoundationsWalkthrough></TransformerWalkthrough>',
+    '<MoEWalkthrough diagramId="generation-token-loop">本文</MoEWalkthrough>',
+    '<ReadingStep step="6">本文</ReadingStep>'
+  ]) assert.ok(findUnsafeMdx(source).length, source)
+})
+
 test('actual decorations and literal escaped text remain accepted', () => {
   const tree = parser.parse('Agent を学びます。\n\n> **TODO(要確認):** 仕様を確認します\n\n### アンチパターン\n\n- 失敗例\n\n### チェックリスト\n\n- 確認事項')
   applyDecorations(tree, {

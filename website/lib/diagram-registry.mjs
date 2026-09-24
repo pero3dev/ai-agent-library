@@ -4,6 +4,50 @@ import { readFileSync } from 'node:fs'
 // IDs resolve to code-owned bindings, never to module paths supplied by Markdown
 // or the registry. Adding a diagram requires an explicit implementation change.
 const BINDINGS = {
+  'generation-token-loop': {
+    article: 'docs/10-llm-foundations/how-llms-generate-text.md',
+    route: '/docs/llm-foundations/how-llms-generate-text',
+    binding: 'grouped-blocks',
+    stageCount: 8,
+    headings: [ '概要: たった 1 つのループ', '次トークン予測という実体', 'サンプリングと温度', '「同じ入力で違う出力」になる理由', '停止とストリーミング' ],
+    sourceHeadings: [ '概要: たった 1 つのループ', '次トークン予測という実体', 'サンプリングと温度', '「同じ入力で違う出力」になる理由', '停止とストリーミング' ],
+    blockGroups: [
+      [ { stage: 0, count: 3 } ],
+      [ { stage: 3, count: 2 } ],
+      [ { stage: 4, count: 3 } ],
+      [ { stage: 5, count: 3 } ],
+      [ { stage: 6, count: 3 }, { stage: 7, count: 1 } ]
+    ],
+    blockTypes: [
+      [ 'paragraph', 'code', 'paragraph' ],
+      [ 'paragraph', 'list' ],
+      [ 'paragraph', 'table', 'paragraph' ],
+      [ 'paragraph', 'list', 'paragraph' ],
+      [ 'paragraph', 'list', 'paragraph', 'paragraph' ]
+    ]
+  },
+  'tokenization-counting': {
+    article: 'docs/10-llm-foundations/tokenization.md',
+    route: '/docs/llm-foundations/tokenization',
+    binding: 'grouped-blocks',
+    stageCount: 7,
+    headings: [ '概要: トークンは LLM 世界の通貨', 'トークンとは何か: サブワード分割の直感', '言語と内容による効率差', 'モデル間の非互換: 移行時の再見積り', '見積りと計測の実務' ],
+    sourceHeadings: [ '概要: トークンは LLM 世界の通貨', 'トークンとは何か: サブワード分割の直感', '言語と内容による効率差', 'モデル間の非互換: 移行時の再見積り', '見積りと計測の実務' ],
+    blockGroups: [
+      [ { stage: 0, count: 1 }, { stage: 1, count: 1 } ],
+      [ { stage: 2, count: 3 } ],
+      [ { stage: 3, count: 2 } ],
+      [ { stage: 4, count: 2 } ],
+      [ { stage: 5, count: 1 } ]
+    ],
+    blockTypes: [
+      [ 'paragraph', 'paragraph' ],
+      [ 'paragraph', 'list', 'paragraph' ],
+      [ 'paragraph', 'list' ],
+      [ 'paragraph', 'list' ],
+      [ 'list' ]
+    ]
+  },
   'moe-routing-load': {
     article: 'docs/11-llm-internals/mixture-of-experts-internals.md',
     route: '/docs/llm-internals/mixture-of-experts-internals',

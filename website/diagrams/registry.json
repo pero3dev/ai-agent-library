@@ -340,6 +340,112 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "moe-routing-load",
+      "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "route": "/docs/llm-internals/mixture-of-experts-internals",
+      "binding": "grouped-blocks",
+      "stageCount": 8,
+      "headings": [
+        "概要: 総パラメータと計算量を切り離す",
+        "疎な活性化とルーティング",
+        "負荷分散: 崩壊をどう防ぐか"
+      ],
+      "sourceHeadings": [
+        "概要: 総パラメータと計算量を切り離す",
+        "疎な活性化とルーティング",
+        "負荷分散: 崩壊をどう防ぐか",
+        "専門化の実態",
+        "総 vs アクティブパラメータの数理"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 2
+          },
+          {
+            "stage": 7,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:974d2d3e160cbb35a78d38ec6357ee86863c8853b79c9d197994ccc6eb700e88",
+      "reviewedDigest": "sha256:974d2d3e160cbb35a78d38ec6357ee86863c8853b79c9d197994ccc6eb700e88",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "moe-parameters-communication",
+      "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "route": "/docs/llm-internals/mixture-of-experts-internals",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "総 vs アクティブパラメータの数理",
+        "提供・運用への含意"
+      ],
+      "sourceHeadings": [
+        "概要: 総パラメータと計算量を切り離す",
+        "疎な活性化とルーティング",
+        "負荷分散: 崩壊をどう防ぐか",
+        "専門化の実態",
+        "総 vs アクティブパラメータの数理",
+        "提供・運用への含意"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:43dbae9a44d4517ef3cf5c61a0b373526da192d8235fc8767d38cf38b7d4cb32",
+      "reviewedDigest": "sha256:43dbae9a44d4517ef3cf5c61a0b373526da192d8235fc8767d38cf38b7d4cb32",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

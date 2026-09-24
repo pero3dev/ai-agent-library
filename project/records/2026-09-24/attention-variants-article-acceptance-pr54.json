@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+  "review": {
+    "inputDigest": "sha256:7a5ff97d663c87e223227599e4e18d1497ceccdb7d5491cdafeb6dfe60cb4588",
+    "status": "approved",
+    "independent": true,
+    "checkedAt": "2026-09-24T04:43:53.88Z",
+    "record": "project/records/2026-09-24/attention-variants-reading-diagrams.md"
+  },
+  "local": {
+    "inputDigest": "sha256:7a5ff97d663c87e223227599e4e18d1497ceccdb7d5491cdafeb6dfe60cb4588",
+    "status": "passed",
+    "checkedAt": "2026-09-24T04:51:25.0007702Z",
+    "record": "project/records/2026-09-24/attention-variants-reading-diagrams.md"
+  },
+  "public": {
+    "inputDigest": "sha256:7a5ff97d663c87e223227599e4e18d1497ceccdb7d5491cdafeb6dfe60cb4588",
+    "status": "passed",
+    "checkedAt": "2026-09-24T05:13:01.795Z",
+    "commit": "a0dc1ff67b40d7e35af87b07f34dc643f95f57dc",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/35957966340",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/35957966340/job/107501392858",
+    "browserRecord": "project/records/2026-09-24/attention-variants-reading-diagrams.md"
+  }
+}

@@ -2,17 +2,17 @@
   "schemaVersion": 1,
   "article": "docs/11-llm-internals/transformer-architecture.md",
   "review": {
-    "inputDigest": "sha256:27ec63f55d3ffa5f758c124f02706cd86efcce28722b3d818710bfd0ed5c926a",
+    "inputDigest": "sha256:3f7426207efb97229837fbd68e10c2f1b3246bfe77ef76c1053e1eed4e48d863",
     "status": "approved",
+    "checkedAt": "2026-09-24T05:57:20.530Z",
     "independent": true,
-    "checkedAt": "2026-09-24T04:43:53.88Z",
-    "record": "project/records/2026-09-24/attention-variants-reading-diagrams.md"
+    "record": "project/records/2026-09-24/moe-reading-diagrams.md#独立した最終監査"
   },
   "local": {
-    "inputDigest": "sha256:27ec63f55d3ffa5f758c124f02706cd86efcce28722b3d818710bfd0ed5c926a",
+    "inputDigest": "sha256:3f7426207efb97229837fbd68e10c2f1b3246bfe77ef76c1053e1eed4e48d863",
     "status": "passed",
-    "checkedAt": "2026-09-24T04:51:24.9456606Z",
-    "record": "project/records/2026-09-24/attention-variants-reading-diagrams.md"
+    "checkedAt": "2026-09-24T06:04:29Z",
+    "record": "project/records/2026-09-24/moe-reading-diagrams.md#統合とローカル検証"
   },
   "public": null
 }

@@ -106,3 +106,23 @@ test('actual decorations and literal escaped text remain accepted', () => {
   assert.deepEqual(findUnsafeMdx(mdx), [])
   assert.deepEqual(findUnsafeMdx(roundTrip('本文の { 式ではない文字列 } と a < b。\n\n```jsx\n<script>{1+1}</script>\n```')), [])
 })
+
+test('attention variant wrappers enforce fixed IDs, literal attributes and their own stage bounds', () => {
+  for (const [id, count] of [['attention-kv-sharing', 5], ['attention-compute-memory', 6], ['attention-context-range', 4]]) {
+    for (let stage = 0; stage < count; stage++) {
+      assert.deepEqual(findUnsafeMdx(`<AttentionVariantsWalkthrough diagramId="${id}"><ReadingStep step="${stage}">本文</ReadingStep></AttentionVariantsWalkthrough>`), [])
+    }
+    assert.ok(findUnsafeMdx(`<AttentionVariantsWalkthrough diagramId="${id}"><ReadingStep step="${count}">本文</ReadingStep></AttentionVariantsWalkthrough>`).length)
+  }
+  for (const source of [
+    '<AttentionVariantsWalkthrough>本文</AttentionVariantsWalkthrough>',
+    '<AttentionVariantsWalkthrough diagramId="transformer-io">本文</AttentionVariantsWalkthrough>',
+    '<AttentionVariantsWalkthrough diagramId="../scene">本文</AttentionVariantsWalkthrough>',
+    '<AttentionVariantsWalkthrough diagramId={"attention-kv-sharing"}>本文</AttentionVariantsWalkthrough>',
+    '<AttentionVariantsWalkthrough diagramId="attention-kv-sharing" module="./scene">本文</AttentionVariantsWalkthrough>',
+    '<AttentionVariantsWalkthrough {...{diagramId: "attention-kv-sharing"}}>本文</AttentionVariantsWalkthrough>',
+    '<AttentionVariantsWalkthrough diagramId="attention-kv-sharing"><AttentionStep step="0">本文</AttentionStep></AttentionVariantsWalkthrough>',
+    '<AttentionVariantsWalkthrough diagramId="attention-kv-sharing"><ReadingStep step={1}>本文</ReadingStep></AttentionVariantsWalkthrough>',
+    '<AttentionVariantsWalkthrough diagramId="attention-kv-sharing"><TransformerWalkthrough diagramId="transformer-io">本文</TransformerWalkthrough></AttentionVariantsWalkthrough>'
+  ]) assert.ok(findUnsafeMdx(source).length, source)
+})

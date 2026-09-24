@@ -10,9 +10,10 @@ const parser = unified().use(remarkParse).use(remarkGfm).use(remarkMath)
 
 const readingStages = {
   'agent-loop': 5, 'workflow-comparison': 5,
-  'transformer-io': 4, 'transformer-position': 4, 'transformer-block': 9
+  'transformer-io': 4, 'transformer-position': 4, 'transformer-block': 9,
+  'attention-kv-sharing': 5, 'attention-compute-memory': 6, 'attention-context-range': 4
 }
-const walkthroughs = new Set(['AttentionWalkthrough', 'ReadingWalkthrough', 'TransformerWalkthrough'])
+const walkthroughs = new Set(['AttentionWalkthrough', 'ReadingWalkthrough', 'TransformerWalkthrough', 'AttentionVariantsWalkthrough'])
 
 // sync が装飾として挿入する props だけを許可する。コンポーネント名だけでは、
 // 属性式や {...spread} を経由したビルド時の JavaScript 実行を防げない。
@@ -21,6 +22,7 @@ const attributes = {
   AttentionStep: { step: value => ['0', '1', '2', '3', '4', '5'].includes(value) },
   ReadingWalkthrough: { diagramId: value => ['agent-loop', 'workflow-comparison'].includes(value) },
   TransformerWalkthrough: { diagramId: value => ['transformer-io', 'transformer-position', 'transformer-block'].includes(value) },
+  AttentionVariantsWalkthrough: { diagramId: value => ['attention-kv-sharing', 'attention-compute-memory', 'attention-context-range'].includes(value) },
   ReadingStep: { step: value => /^[0-8]$/.test(value) },
   TodoCallout: {},
   PracticeSection: { kind: value => ['antipattern', 'checklist'].includes(value) },
@@ -64,7 +66,7 @@ export function findUnsafeMdx(mdx) {
           if (seen.has(attribute.name)) bad.add(`重複した JSX 属性 (${attribute.name})`)
           seen.add(attribute.name)
         }
-        const required = { ReadingWalkthrough: 'diagramId', TransformerWalkthrough: 'diagramId', ReadingStep: 'step', AttentionStep: 'step' }[node.name]
+        const required = { ReadingWalkthrough: 'diagramId', TransformerWalkthrough: 'diagramId', AttentionVariantsWalkthrough: 'diagramId', ReadingStep: 'step', AttentionStep: 'step' }[node.name]
         if (required && !seen.has(required)) bad.add(`必須の JSX 属性がありません (${node.name}.${required})`)
         if (walkthroughs.has(node.name)) {
           if (parentFigure) bad.add('図解コンポーネントの入れ子')

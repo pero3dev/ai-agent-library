@@ -204,7 +204,7 @@ test('coverage counts the current docs collection and distinguishes section work
   const registry = reviewed()
   const report = getDiagramCoverage({ registry })
   assert.equal(report.summary.publishedArticles, report.articles.filter(article => article.status === 'published').length)
-  assert.equal(report.summary.registeredArticles, 3)
+  assert.equal(report.summary.registeredArticles, new Set(registry.diagrams.map(entry => entry.article)).size)
   assert.equal(report.summary.reviewedBindings, registry.diagrams.filter(entry => entry.enabled).length)
   assert.equal(report.summary.completeArticles, report.articles.filter(article => article.status === 'published' && article.complete).length)
   assert.ok(report.summary.unregisteredArticles > 0)

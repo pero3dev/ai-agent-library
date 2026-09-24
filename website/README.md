@@ -40,9 +40,9 @@ npm ci
 
 ## 本文に連動する動的図
 
-自己注意・Agentループ・Workflow比較とTransformerの追加3図は、`components/diagrams/reading-figure.jsx` の共通外枠で
+自己注意・Agentループ・Workflow比較、Transformerと注意変種の記事の図解は、`components/diagrams/reading-figure.jsx` の共通外枠で
 読書位置との同期、再生・停止、段階送り、スライダー、拡大を提供します。
-図の場面は自己注意、`agent-loop-walkthrough.jsx`、`workflow-walkthrough.jsx` に分け、対応する数値・意味モデルを単体試験で検証します。
+図の場面は記事・論点ごとのsceneに分け、対応する数値・意味モデルを単体試験で検証します。
 軽量な入口から各記事に必要なコードを読み込み、静的HTMLにも図を出力します。
 図の高さが画面内に収まる場合に追従させ、低い画面では通常の縦スクロールで操作できます。
 縮小モーション・画面外停止・印刷・JavaScript無効時にも、本文と静止状態から読める構成です。
@@ -63,6 +63,7 @@ npm ci
 
 `grouped-blocks` の `blockGroups` は、原文の各節のブロックをどの段階へ割り当てるかの固定契約です。
 リストや数式を途中で分割せず、一度だけ包装します。読書位置に対応しない比較用段階は手動・再生で到達します。
+最後の本文ブロックを読み終えると図の最終段階へ移ります。見出し・数値・図の意味上の段階は共通時計の中点で切り替えます。
 同じ原文ASTで全図の本文版・構造を検証してから変形するため、後続図で失敗しても途中の包装を残しません。
 意味依存の重複は許し、実際の包装範囲の重複・図の入れ子は拒否します。
 
@@ -77,8 +78,9 @@ ID・対応する節・コンポーネントは実装側でも許可リストを
 
 記事全体の論点は `diagrams/articles.json` に割り当て、`lib/diagram-article-acceptance.mjs` が
 本文・割当・必要な図・固定した表示コードの版と、独立レビュー・ローカル検証・公開確認の記録を照合します。
-最初の対象はTransformer記事です。リポジトリ直下で `node website/scripts/diagram-acceptance.mjs` を実行すると、
-現在のダイジェスト、記録の一致、未完の工程を読み取れます。コマンドは承認を書き込まず、外部サービスへ接続しません。
+対象はTransformerと注意変種の記事です。リポジトリ直下で `node website/scripts/diagram-acceptance.mjs` を実行すると、
+対象記事ごとのダイジェスト、記録の一致、未完の工程を読み取れます。`--article docs/11-llm-internals/attention-variants-and-long-context.md` で1記事へ絞れます。
+コマンドは承認を書き込まず、外部サービスへ接続しません。記事固有のscene・割当・登録状態は他の記事の受入版へ含めません。
 記録は過去の確認結果であり、公開サイトの現況は制作単位の終了時にGitHub・公開URLから別途取得します。
 共有表示コードの変更は保守的に失効させます。GLOSSARYや音声カタログ等の共有データ、生成物、実施記録、commitは
 入力ダイジェストに含めません。具体的な固定依存は上記module、受入結果は制作記録を参照してください。
@@ -97,7 +99,7 @@ ID・対応する節・コンポーネントは実装側でも許可リストを
 
 - **CRLF 正規化**: 読込時に LF へ正規化(`.gitattributes` でも作業ツリーを LF に統一)
 - **未解決リンク / 読込失敗**: `sync` が `exit 1`(不完全な公開物を防ぐ)
-- **MDX ガード**: 生成 MDX を再パースし、`TodoCallout` / `PracticeSection` / `GlossaryTerm` / `AttentionWalkthrough` / `AttentionStep` / `ReadingWalkthrough` / `TransformerWalkthrough` / `ReadingStep`
+- **MDX ガード**: 生成 MDX を再パースし、`TodoCallout` / `PracticeSection` / `GlossaryTerm` / `AttentionWalkthrough` / `AttentionStep` / `ReadingWalkthrough` / `TransformerWalkthrough` / `AttentionVariantsWalkthrough` / `ReadingStep`
   以外の JSX・`import`/`export`・`{式}`・生 HTML を検出したらビルドを失敗させる。
   許可コンポーネントでも属性式・spread は拒否し、挿入する文字列属性と値だけを許可する。段階番号は親の図IDに対応する上限で検査する
 - **Mermaid の描画設定**: Nextra が生成する直接 import を、Turbopack / Webpack ともに

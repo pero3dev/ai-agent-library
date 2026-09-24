@@ -215,6 +215,131 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "attention-kv-sharing",
+      "stageCount": 5,
+      "headings": [
+        "概要: 2 つの圧力",
+        "KV キャッシュを減らす: MQA と GQA"
+      ],
+      "sourceHeadings": [
+        "概要: 2 つの圧力",
+        "KV キャッシュを減らす: MQA と GQA"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 4
+          }
+        ]
+      ],
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "route": "/docs/llm-internals/attention-variants-and-long-context",
+      "binding": "grouped-blocks",
+      "sourceDigest": "sha256:f210c7e3bb8cb691be9f731ccb85156d79d0e3e63e6a1979e30d5fde7b1229c8",
+      "reviewedDigest": "sha256:f210c7e3bb8cb691be9f731ccb85156d79d0e3e63e6a1979e30d5fde7b1229c8",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "attention-compute-memory",
+      "stageCount": 6,
+      "headings": [
+        "注意を疎にする: 局所・スライディング窓・スパース",
+        "線形注意という別路線",
+        "FlashAttention: 厳密なまま速く"
+      ],
+      "sourceHeadings": [
+        "概要: 2 つの圧力",
+        "注意を疎にする: 局所・スライディング窓・スパース",
+        "線形注意という別路線",
+        "FlashAttention: 厳密なまま速く"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "route": "/docs/llm-internals/attention-variants-and-long-context",
+      "binding": "grouped-blocks",
+      "sourceDigest": "sha256:a57aa6eeb3259a032b8fd46ce8571c9eb0942d37ec918846fd476f23aa386d4c",
+      "reviewedDigest": "sha256:a57aa6eeb3259a032b8fd46ce8571c9eb0942d37ec918846fd476f23aa386d4c",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "attention-context-range",
+      "stageCount": 4,
+      "headings": [
+        "位置の対応範囲を伸ばす: 外挿と補間"
+      ],
+      "sourceHeadings": [
+        "概要: 2 つの圧力",
+        "位置の対応範囲を伸ばす: 外挿と補間",
+        "「長コンテキスト対応」表記を読む"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ]
+      ],
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "route": "/docs/llm-internals/attention-variants-and-long-context",
+      "binding": "grouped-blocks",
+      "sourceDigest": "sha256:5d6e66ecfaada6f4c523d7ccd326456ea63b1ce4861f40b34048f76ffbe7393f",
+      "reviewedDigest": "sha256:5d6e66ecfaada6f4c523d7ccd326456ea63b1ce4861f40b34048f76ffbe7393f",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

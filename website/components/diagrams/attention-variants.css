@@ -1,0 +1,17 @@
+.av-scene { color: #e6edf6; }
+.av-scene text { fill: #e6edf6; font-family: inherit; font-size: 18px; }
+.av-scene .cd-small, .av-scene .av-dimension { fill: #a8bfcc; font-size: 16px; }
+.av-scene .cd-label { font-size: 18px; }
+.av-scene .av-heading { font-size: 22px; font-weight: 680; }
+.av-scene .av-faint { opacity: .35; }
+.av-scene .av-accent { fill: #74e3cf; }
+.av-controls { display: flex; flex-wrap: wrap; gap: .6rem; padding: 0 1.25rem .5rem; }
+.av-controls .cd-select { flex: 1; display: flex; align-items: center; gap: .65rem; color: #d6e4ed; font-size: .75rem; }
+.av-controls .cd-select > span { flex-shrink: 0; }
+.av-controls select { min-width: 0; width: 100%; border: 1px solid #355267; border-radius: .3rem; background: #152c3c; color: #edf6fa; padding: .3rem; font: inherit; }
+.av-controls select:focus-visible { outline: 2px solid #74e3cf; outline-offset: 3px; }
+.av-controls select:disabled { opacity: .6; }
+.av-scene [data-current='true'] { stroke: #e9fff9; stroke-width: 2; }
+@media (max-width: 560px) { .av-controls { padding-inline: .75rem; } .av-controls .cd-select { flex-basis: 100%; } }
+@media (prefers-reduced-motion: reduce) { .av-scene * { transition: none !important; animation: none !important; } }
+@media print { .av-controls { display: none; } .av-scene * { transition: none !important; animation: none !important; } }

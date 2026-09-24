@@ -4,7 +4,12 @@ import { assertDiagramSource, diagramRegistry, validateDiagramRegistry } from '.
 const element = (name, children, attributes = []) => ({ type: 'mdxJsxFlowElement', name, attributes, children })
 const attribute = (name, value) => ({ type: 'mdxJsxAttribute', name, value: String(value) })
 const step = (index, children) => element('ReadingStep', children, [attribute('step', index)])
-const figure = (entry, children) => element(entry.binding === 'grouped-blocks' ? 'TransformerWalkthrough' : 'ReadingWalkthrough', children, [attribute('diagramId', entry.id)])
+const components = {
+  'agent-loop': 'ReadingWalkthrough', 'workflow-comparison': 'ReadingWalkthrough',
+  'transformer-io': 'TransformerWalkthrough', 'transformer-position': 'TransformerWalkthrough', 'transformer-block': 'TransformerWalkthrough',
+  'attention-kv-sharing': 'AttentionVariantsWalkthrough', 'attention-compute-memory': 'AttentionVariantsWalkthrough', 'attention-context-range': 'AttentionVariantsWalkthrough'
+}
+const figure = (entry, children) => element(components[entry.id], children, [attribute('diagramId', entry.id)])
 
 /** Validate every source binding against the same original, unmodified AST. */
 export function planRegisteredDiagrams(tree, route, registry = diagramRegistry) {
@@ -67,7 +72,7 @@ export function assertDiagramPageMetadata(tree, expected) {
   const diagramIds = []
   const walk = node => {
     if (node.name === 'AttentionWalkthrough') diagramIds.push('self-attention')
-    if (['ReadingWalkthrough', 'TransformerWalkthrough'].includes(node.name)) {
+    if (['ReadingWalkthrough', 'TransformerWalkthrough', 'AttentionVariantsWalkthrough'].includes(node.name)) {
       diagramIds.push(node.attributes?.find(attribute => attribute.name === 'diagramId')?.value)
     }
     for (const child of node.children ?? []) walk(child)

@@ -94,6 +94,94 @@
           ]
         }
       ]
+    },
+    {
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "primaryDiagramIds": ["attention-kv-sharing", "attention-compute-memory", "attention-context-range"],
+      "sections": [
+        {
+          "heading": "概要: 2 つの圧力",
+          "topics": [
+            {"id": "length-pressure", "label": "n×nの注意スコアと系列長に比例するKV保存量", "diagramId": "attention-kv-sharing", "stages": [0]},
+            {"id": "kv-factors", "label": "KV bytesの各因子と保存領域の対応", "diagramId": "attention-kv-sharing", "stages": [1]},
+            {"id": "three-directions", "label": "注意の二乗・KV保存・位置範囲の3方向", "staticReason": "本文の整理を保持し、各方向をA1・A2・A3で扱う。方式の順位表や実測性能比較を追加しない。"}
+          ]
+        },
+        {
+          "heading": "KV キャッシュを減らす: MQA と GQA",
+          "topics": [
+            {"id": "mha-heads", "label": "MHAではQヘッドごとにK/Vを持つ", "diagramId": "attention-kv-sharing", "stages": [2, 4]},
+            {"id": "gqa-sharing", "label": "Qを保ちグループごとにK/Vを共有する", "diagramId": "attention-kv-sharing", "stages": [3, 4]},
+            {"id": "mqa-sharing", "label": "全Qヘッドが1組のK/Vを共有する", "diagramId": "attention-kv-sharing", "stages": [4]},
+            {"id": "sharing-tradeoff", "label": "共有量と品質のトレードオフ・採用状況", "staticReason": "本文の留保を保持する。固定した説明用構造を実行中の無損失変換や品質・速度の保証として描かない。"},
+            {"id": "latent-attention", "label": "MLAの名称とKV削減という狙い", "staticReason": "本文は名称と狙いの紹介に留まる。内部機構や新しい圧縮式を追加しない。"}
+          ]
+        },
+        {
+          "heading": "注意を疎にする: 局所・スライディング窓・スパース",
+          "topics": [
+            {"id": "local-reach", "label": "局所窓の直接接続と複数層での間接的な到達", "diagramId": "attention-compute-memory", "stages": [0]},
+            {"id": "sparse-links", "label": "局所窓に固定の遠距離接続を加える", "diagramId": "attention-compute-memory", "stages": [0]},
+            {"id": "attention-sinks", "label": "窓から外れても先頭付近を保持する", "diagramId": "attention-compute-memory", "stages": [0]},
+            {"id": "sparse-limits", "label": "任意の遠距離依存を失いうる制約", "staticReason": "本文のタスク依存性を保持する。接続の模式図を品質曲線や重要語の自動判定へ変えない。"}
+          ]
+        },
+        {
+          "heading": "線形注意という別路線",
+          "topics": [
+            {"id": "feature-map", "label": "softmaxを特徴写像で近似・置換する前提", "diagramId": "attention-compute-memory", "stages": [1]},
+            {"id": "associative-order", "label": "本文の積の結合順序とn×nを作らない作業領域", "diagramId": "attention-compute-memory", "stages": [2]},
+            {"id": "linear-tradeoff", "label": "softmaxの表現力とのトレードオフ", "staticReason": "本文の留保を保持する。図は本文の積だけを扱い、未記載の正規化・因果更新式や精度値を追加しない。"}
+          ]
+        },
+        {
+          "heading": "FlashAttention: 厳密なまま速く",
+          "topics": [
+            {"id": "exact-tiling", "label": "同じ注意計算をタイルへ分ける", "diagramId": "attention-compute-memory", "stages": [3]},
+            {"id": "online-softmax", "label": "同じ行の状態を次タイルへ引き継ぐ作用箇所", "diagramId": "attention-compute-memory", "stages": [4]},
+            {"id": "memory-io", "label": "読込と出力書戻しを保ち巨大な中間行列の書出しを避ける", "diagramId": "attention-compute-memory", "stages": [5]}
+          ]
+        },
+        {
+          "heading": "位置の対応範囲を伸ばす: 外挿と補間",
+          "topics": [
+            {"id": "trained-range", "label": "入力位置と学習済み位置範囲の対応", "diagramId": "attention-context-range", "stages": [0]},
+            {"id": "extrapolation", "label": "学習範囲外へそのまま位置を延ばす", "diagramId": "attention-context-range", "stages": [1]},
+            {"id": "interpolation", "label": "入力トークンを保った位置の再割当て", "diagramId": "attention-context-range", "stages": [2]},
+            {"id": "frequency-adjustment", "label": "YaRNなどの周波数調整という別の方式", "staticReason": "本文に具体的な調整式がないため紹介を保持する。新しい周波数実験や追加学習の動きを作らない。"},
+            {"id": "effective-quality", "label": "対応範囲と中盤を含む実効品質は別に確認する", "diagramId": "attention-context-range", "stages": [3]}
+          ]
+        },
+        {
+          "heading": "Transformer を離れる: 状態空間モデル",
+          "topics": [
+            {"id": "fixed-state", "label": "固定サイズ状態・KV不要・系列長に対する処理の性質", "staticReason": "1段落の原理説明を包装外に保持する。本文にない状態更新式や保持内容を追加しない。"},
+            {"id": "random-access-limit", "label": "任意の過去を参照する際の弱み", "staticReason": "本文の留保を保持する。固定状態が過去の全情報を完全に保存するような表現は作らない。"},
+            {"id": "hybrid-attention", "label": "注意層と混ぜるハイブリッド構成", "staticReason": "本文の紹介範囲に留め、未記載の層構成や性能比較を追加しない。"}
+          ]
+        },
+        {
+          "heading": "「長コンテキスト対応」表記を読む",
+          "topics": [
+            {"id": "length-origin", "label": "学習長か外挿・補間で伸ばした長さかを確認する", "diagramId": "attention-context-range", "stages": [3]},
+            {"id": "quality-range", "label": "対応長全体での実効品質を確認する", "diagramId": "attention-context-range", "stages": [3]},
+            {"id": "practical-cost", "label": "コスト・レイテンシ・KV保存量を別に確認する", "diagramId": "attention-context-range", "stages": [3]},
+            {"id": "task-evaluation", "label": "自社タスクでの評価と関連リンク", "staticReason": "本文を包装外に保持する。A3終端の意味上の依存元として版を検査するが、この節との直接スクロール同期や評価結果の自動判定は行わない。"}
+          ]
+        },
+        {
+          "heading": "この理解が効く場面",
+          "topics": [{"id": "practical-uses", "label": "モデル選定・推論コスト・長文設計での利用", "staticReason": "既出の機構を使う場面と関連リンクを保持する。機構を重複した図や実測費用へ置き換えない。"}]
+        },
+        {
+          "heading": "アンチパターン",
+          "topics": [{"id": "pitfalls", "label": "対応長・KV・近似と厳密計算・採用例の誤用", "staticReason": "既存の適用条件と注意点を保持する。方式の優劣や架空の品質を断定する追加図は不要。"}]
+        },
+        {
+          "heading": "チェックリスト",
+          "topics": [{"id": "understanding-check", "label": "2つの圧力・共有・計算方式・位置・SSM・対応長の理解確認", "staticReason": "既存のチェック項目を保持する。回答や採点の機能を追加せず本文と図へ戻って確認する。"}]
+        }
+      ]
     }
   ]
 }

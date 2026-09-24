@@ -1,0 +1,13 @@
+.tf-io-scene .tio-axis { fill: #a9bfcb; font-size: 16px; }
+.tf-io-scene .tio-weight rect,
+.tf-io-scene .tio-vector rect,
+.tf-io-scene .tio-sharing { transition: fill .26s ease, fill-opacity .26s ease, stroke-opacity .26s ease, opacity .26s ease; }
+.tf-io-scene .tio-stack rect { fill: #102333; stroke: #baa7f3; stroke-opacity: .4; }
+.tf-io-scene .tio-stack[data-active="true"] rect { fill: #1d2c43; stroke-opacity: .85; }
+.tf-io-scene .tio-norm rect { fill: #142438; stroke: #baa7f3; stroke-opacity: .35; }
+.tf-io-scene .tio-norm[data-active="true"] rect { fill: #24304a; stroke-opacity: .85; }
+.tf-io-scene :is(.tio-output, .tio-softmax) { opacity: .6; transition: opacity .26s ease; }
+.tf-io-scene :is(.tio-output, .tio-softmax)[data-active="true"] { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .tf-io-scene :is(.tio-weight rect, .tio-vector rect, .tio-sharing, .tio-output, .tio-softmax) { transition: none; }
+}

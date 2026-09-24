@@ -201,13 +201,14 @@ test('decoration before route rewriting preserves working links inside reading s
 })
 
 test('coverage counts the current docs collection and distinguishes section work from article completion', () => {
-  const report = getDiagramCoverage({ registry: reviewed() })
+  const registry = reviewed()
+  const report = getDiagramCoverage({ registry })
   assert.equal(report.summary.publishedArticles, report.articles.filter(article => article.status === 'published').length)
   assert.equal(report.summary.registeredArticles, 3)
-  assert.equal(report.summary.reviewedBindings, 3)
-  assert.equal(report.summary.completeArticles, 0)
+  assert.equal(report.summary.reviewedBindings, registry.diagrams.filter(entry => entry.enabled).length)
+  assert.equal(report.summary.completeArticles, report.articles.filter(article => article.status === 'published' && article.complete).length)
   assert.ok(report.summary.unregisteredArticles > 0)
-  assert.ok(report.articles.every(article => !article.complete))
+  assert.ok(report.articles.filter(article => !article.acceptance.tracked).every(article => !article.complete))
   assert.equal(new Set(report.articles.map(article => article.article)).size, report.articles.length)
   assert.equal(report.summary.publication, 'not-verified-by-this-report')
 })

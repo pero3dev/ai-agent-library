@@ -7,6 +7,7 @@ import remarkParse from 'remark-parse'
 import { unified } from 'unified'
 import { collectDocs, parseFrontMatter, toLines, unquote } from '../../scripts/lib/md-utils.mjs'
 import { diagramRegistry, diagramSourceDigest, validateDiagramRegistry } from './diagram-registry.mjs'
+import { getDiagramArticleAcceptance } from './diagram-article-acceptance.mjs'
 
 const parser = unified().use(remarkParse).use(remarkGfm).use(remarkMath).use(remarkFrontmatter, ['yaml'])
 
@@ -27,7 +28,8 @@ export function getDiagramCoverage({ repoRoot = fileURLToPath(new URL('../../', 
         articleCoverage: entry.articleCoverage, sourceError
       }
     })
-    return { article: file.repoRel, title: fields.title, status: fields.status, diagrams, complete: false }
+    const acceptance = getDiagramArticleAcceptance({ repoRoot, article: file.repoRel, registry })
+    return { article: file.repoRel, title: fields.title, status: fields.status, diagrams, complete: acceptance.complete, acceptance }
   })
   const published = articles.filter(article => article.status === 'published')
   const registered = published.filter(article => article.diagrams.length > 0)
@@ -40,7 +42,7 @@ export function getDiagramCoverage({ repoRoot = fileURLToPath(new URL('../../', 
       registeredArticles: registered.length, unregisteredArticles: published.length - registered.length,
       enabledDiagrams: entries.filter(entry => entry.enabled).length,
       reviewedBindings: entries.filter(entry => entry.enabled && entry.reviewCurrent && entry.sourceCurrent).length,
-      completeArticles: 0,
+      completeArticles: published.filter(article => article.complete).length,
       publication: 'not-verified-by-this-report'
     },
     articles

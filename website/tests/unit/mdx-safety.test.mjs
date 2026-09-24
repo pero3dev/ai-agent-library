@@ -69,6 +69,30 @@ test('reading components require a known literal diagram ID and stage', () => {
   }
 })
 
+test('Transformer stages are bounded by their enclosing diagram, including ordinary nested blocks', () => {
+  for (const [diagramId, count] of [['transformer-io', 4], ['transformer-position', 4], ['transformer-block', 9]]) {
+    for (let stage = 0; stage < count; stage++) {
+      assert.deepEqual(findUnsafeMdx(`<TransformerWalkthrough diagramId="${diagramId}">\n\n<ReadingStep step="${stage}">\n\n- 本文\n\n</ReadingStep>\n\n</TransformerWalkthrough>`), [])
+    }
+    assert.ok(findUnsafeMdx(`<TransformerWalkthrough diagramId="${diagramId}"><ReadingStep step="${count}">本文</ReadingStep></TransformerWalkthrough>`).length > 0)
+  }
+  for (const source of [
+    '<TransformerWalkthrough>本文</TransformerWalkthrough>',
+    '<TransformerWalkthrough diagramId="agent-loop">本文</TransformerWalkthrough>',
+    '<TransformerWalkthrough diagramId="../scene">本文</TransformerWalkthrough>',
+    '<TransformerWalkthrough diagramId={"transformer-io"}>本文</TransformerWalkthrough>',
+    '<TransformerWalkthrough diagramId="transformer-io" module="./scene">本文</TransformerWalkthrough>',
+    '<TransformerWalkthrough {...{diagramId: "transformer-io"}}>本文</TransformerWalkthrough>',
+    '<ReadingStep step="0">本文</ReadingStep>',
+    '<ReadingWalkthrough diagramId="agent-loop"><ReadingStep step="5">本文</ReadingStep></ReadingWalkthrough>',
+    '<AttentionWalkthrough><ReadingStep step="0">本文</ReadingStep></AttentionWalkthrough>',
+    '<TransformerWalkthrough diagramId="transformer-block"><AttentionStep step="0">本文</AttentionStep></TransformerWalkthrough>',
+    '<TransformerWalkthrough diagramId="transformer-block"><ReadingStep step="08">本文</ReadingStep></TransformerWalkthrough>',
+    '<TransformerWalkthrough diagramId="transformer-block"><ReadingStep step={8}>本文</ReadingStep></TransformerWalkthrough>',
+    '<TransformerWalkthrough diagramId="transformer-block"><ReadingWalkthrough diagramId="agent-loop">本文</ReadingWalkthrough></TransformerWalkthrough>'
+  ]) assert.ok(findUnsafeMdx(source).length > 0, source)
+})
+
 test('actual decorations and literal escaped text remain accepted', () => {
   const tree = parser.parse('Agent を学びます。\n\n> **TODO(要確認):** 仕様を確認します\n\n### アンチパターン\n\n- 失敗例\n\n### チェックリスト\n\n- 確認事項')
   applyDecorations(tree, {

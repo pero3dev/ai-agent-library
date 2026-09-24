@@ -40,7 +40,7 @@ npm ci
 
 ## 本文に連動する動的図
 
-自己注意・Agentループ・Workflow比較の3図は、`components/diagrams/reading-figure.jsx` の共通外枠で
+自己注意・Agentループ・Workflow比較とTransformerの追加3図は、`components/diagrams/reading-figure.jsx` の共通外枠で
 読書位置との同期、再生・停止、段階送り、スライダー、拡大を提供します。
 図の場面は自己注意、`agent-loop-walkthrough.jsx`、`workflow-walkthrough.jsx` に分け、対応する数値・意味モデルを単体試験で検証します。
 軽量な入口から各記事に必要なコードを読み込み、静的HTMLにも図を出力します。
@@ -48,6 +48,9 @@ npm ci
 縮小モーション・画面外停止・印刷・JavaScript無効時にも、本文と静止状態から読める構成です。
 図解記事の目次はサーバーで生成した見出し情報を使い、初回表示から横幅を確保します。
 目次と読書ステップは図のコードから独立させ、図の通信に失敗しても元の本文・数式・表を保持します。
+
+1記事の複数図は、それぞれ独立した操作状態を持ちます。`generated/diagram-pages.json` は
+実際の包装順と最初の図をsync時に生成し、記事内目次を1つだけ配置します。登録配列の順序には依存しません。
 
 `lib/diagram-decoration.mjs` と `lib/attention-decoration.mjs` が元の本文を包装します。
 見出し、アンカー、番号付きリスト、表、数式、Mermaidを維持し、本文の複製は作りません。
@@ -58,6 +61,11 @@ npm ci
 ダイジェストを計算し、`sourceDigest` と独立レビュー済みの `reviewedDigest` が一致しない場合は同期を停止します。
 改行差だけでは失効させず、文言・式・表・図の意味変更を検出します。
 
+`grouped-blocks` の `blockGroups` は、原文の各節のブロックをどの段階へ割り当てるかの固定契約です。
+リストや数式を途中で分割せず、一度だけ包装します。読書位置に対応しない比較用段階は手動・再生で到達します。
+同じ原文ASTで全図の本文版・構造を検証してから変形するため、後続図で失敗しても途中の包装を残しません。
+意味依存の重複は許し、実際の包装範囲の重複・図の入れ子は拒否します。
+
 本文更新時は、関連する図と段階対応を確認・修正し、新しいダイジェストの独立レビュー後に台帳を更新します。
 図の修正を待たず本文を公開する必要がある場合は、該当IDの `enabled` を `false` にして再ビルドします。
 包装を外して原文をそのまま出力し、他の記事の図解は維持します。台帳から任意のコードやモジュールは読み込まず、
@@ -66,6 +74,14 @@ ID・対応する節・コンポーネントは実装側でも許可リストを
 全体の制作順・品質基準は [動的図解計画](../project/plans/engineering/dynamic-diagrams.md)、
 公開確認を含む進捗は [展開状況](../project/records/2026-09-24/dynamic-diagram-rollout.md)を参照してください。
 節への図解追加、記事全体の主要論点の受入、公開確認は別々に数えます。
+
+記事全体の論点は `diagrams/articles.json` に割り当て、`lib/diagram-article-acceptance.mjs` が
+本文・割当・必要な図・固定した表示コードの版と、独立レビュー・ローカル検証・公開確認の記録を照合します。
+最初の対象はTransformer記事です。リポジトリ直下で `node website/scripts/diagram-acceptance.mjs` を実行すると、
+現在のダイジェスト、記録の一致、未完の工程を読み取れます。コマンドは承認を書き込まず、外部サービスへ接続しません。
+記録は過去の確認結果であり、公開サイトの現況は制作単位の終了時にGitHub・公開URLから別途取得します。
+共有表示コードの変更は保守的に失効させます。GLOSSARYや音声カタログ等の共有データ、生成物、実施記録、commitは
+入力ダイジェストに含めません。具体的な固定依存は上記module、受入結果は制作記録を参照してください。
 
 ## 音声学習
 
@@ -81,9 +97,9 @@ ID・対応する節・コンポーネントは実装側でも許可リストを
 
 - **CRLF 正規化**: 読込時に LF へ正規化(`.gitattributes` でも作業ツリーを LF に統一)
 - **未解決リンク / 読込失敗**: `sync` が `exit 1`(不完全な公開物を防ぐ)
-- **MDX ガード**: 生成 MDX を再パースし、`TodoCallout` / `PracticeSection` / `GlossaryTerm` / `AttentionWalkthrough` / `AttentionStep` / `ReadingWalkthrough` / `ReadingStep`
+- **MDX ガード**: 生成 MDX を再パースし、`TodoCallout` / `PracticeSection` / `GlossaryTerm` / `AttentionWalkthrough` / `AttentionStep` / `ReadingWalkthrough` / `TransformerWalkthrough` / `ReadingStep`
   以外の JSX・`import`/`export`・`{式}`・生 HTML を検出したらビルドを失敗させる。
-  許可コンポーネントでも属性式・spread は拒否し、挿入する文字列属性と値だけを許可する
+  許可コンポーネントでも属性式・spread は拒否し、挿入する文字列属性と値だけを許可する。段階番号は親の図IDに対応する上限で検査する
 - **Mermaid の描画設定**: Nextra が生成する直接 import を、Turbopack / Webpack ともに
   `components/mdx/mermaid.jsx` へ解決する。`lib/mermaid-render.mjs` が描画ごとに
   `securityLevel: 'strict'` を指定し、Mermaid 既定の `secure` キーを維持する。

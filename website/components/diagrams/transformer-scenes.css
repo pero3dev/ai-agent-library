@@ -1,0 +1,20 @@
+.tf-scene { isolation: isolate; }
+.tf-scene text { font-family: ui-sans-serif, system-ui, sans-serif; }
+.tf-scene :is(.cd-label, .cd-card-title, .tf-label) { fill: #e3f0f6; font-size: 18px; font-weight: 500; }
+.tf-scene :is(.cd-small, .tf-dim) { fill: #a9bfcb; font-size: 16px; }
+.tf-scene :is(.cd-lane-title, .tf-heading) { fill: #e3f0f6; font-size: 22px; font-weight: 550; }
+.tf-scene .tf-mono { font-family: ui-monospace, 'Cambria Math', monospace; }
+.tf-scene .tf-line { fill: none; stroke: #4c6b80; stroke-width: 1.5; }
+.tf-scene .tf-panel { fill: #101f31; stroke: #2c455a; }
+.tf-scene .tf-object { transition: opacity .25s, fill .25s, stroke .25s; }
+.tf-controls { padding: .1rem 1rem .6rem; display: grid; gap: .35rem; }
+.tf-controls .cd-select { display: grid; grid-template-columns: 7.2rem minmax(0, 1fr); align-items: center; gap: .5rem; color: #b5cbd7; font-size: .72rem; }
+.tf-controls select { width: 100%; min-width: 0; border: 1px solid #395368; border-radius: 6px; background: #13283a; color: #e4f1f7; padding: .3rem .4rem; font: inherit; }
+.tf-block .aw-formula { min-height: 2.8em; }
+.tf-block .aw-stages button { flex-basis: 2.3rem; }
+@media (max-width: 560px) {
+  .tf-controls { padding-inline: .7rem; }
+  .tf-controls .cd-select { grid-template-columns: 6.2rem minmax(0, 1fr); font-size: .66rem; }
+}
+@media (prefers-reduced-motion: reduce) { .tf-scene .tf-object { transition: none; } }
+@media print { .tf-controls { display: none !important; } }

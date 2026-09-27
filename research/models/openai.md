@@ -8,6 +8,23 @@
 - **確度表記**: 「公式明記」= 公式ページに明文あり / 「公式から推測」= 公式記述からの合理的推測 / 「未確認」= 今回確認できず
 - **重要な注意**: 旧 `platform.openai.com/docs/*` は `developers.openai.com/api/docs/*` へ 301 リダイレクトされます(2026-07-06 確認)。定点観測 URL は新ドメイン側を正とします
 
+## 2026-09-28 重点観測
+
+対象はモデルカタログの OpenAI 部分です。公式ガイドは GPT-6 Astra / Sol / Luna を掲載しています。GPT-5.6 系の提供終了を示すものではありません。Sol / Luna はコンテキスト 1,050,000、最大出力 128,000、effort は none / low / medium(既定) / high / xhigh / max です。
+
+Standard の入力 / キャッシュ読取 / 書込 / 出力単価(1M トークン当たり、米ドル)は Sol が 2 / 0.20 / 2.50 / 10、Luna が 0.10 / 0.01 / 0.125 / 0.50。Astra の通常入力 10 と Luna の 0.10 の差は 100 倍です。Astra / Sol / Luna は 272K 入力超で全リクエストの入力・キャッシュ 2 倍、出力 1.5 倍です。実請求の検証は行っていません。
+
+退役表は `gpt-5.4-cyber` の 2026-10-01 と後継 `gpt-5.6-cyber`、`o4-mini` / `o4-mini-2025-04-16` の 2026-10-23 を維持しています。o3 / o3-pro の対象 ID の 2026-12-11 と分け、o 系全体の同日終了とはしません。
+
+一次資料と実取得時刻(UTC):
+
+- [現行モデルガイド](https://developers.openai.com/api/docs/guides/latest-model): 2026-09-27T22:26:26Z
+- [Sol](https://developers.openai.com/api/docs/models/gpt-6-sol) / [Luna](https://developers.openai.com/api/docs/models/gpt-6-luna): 2026-09-27T22:26:40Z、長文料金の再取得 2026-09-27T22:38:45Z
+- [Astra](https://developers.openai.com/api/docs/models/gpt-6-astra): 2026-09-27T22:26:49Z
+- [退役表](https://developers.openai.com/api/docs/deprecations): 2026-09-27T22:26:40Z、o 系の再取得 2026-09-27T22:26:49Z
+
+他社モデル、全料金表、実 API は今回の確認範囲外です。以下の記録は当時の履歴です。
+
 ## 2026-09-17 重点観測
 
 Astra の API 制約・長文料金、GPT-5.6 以降のキャッシュ TTL と書込・読取課金は前回記述と一致しました。設定更新は明示圧縮後の再追加をプロンプト調査メモへ補足しました。他社モデルや全料金表の再確認ではありません。

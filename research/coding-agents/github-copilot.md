@@ -5,6 +5,20 @@
 - **調査方法**: [coding-agents.md](../../project/plans/content/coding-agents.md) §7 のチェックリスト 12 項目。公式ドキュメント(docs.github.com)・GitHub 公式ブログ / Changelog・公式料金ページのみを根拠とし、第三者記事は根拠にしていない
 - **確度の凡例**: 公式明記 / 公式から推測 / 第三者(本メモでは「第三者」を根拠とした事実は記載しない)
 
+## 2026-09-28 重点観測
+
+2026-09-18 告知は Copilot 上の追加廃止日を 2026-10-19 としています。Gemini 3.7 Flash → 3.8 Flash、GPT-5.5 / 5.4 → 5.6 Sol、GPT-5.4 mini / 5 mini → 5.6 Luna、Grok 4.5 → 4.6 です。提供元 API の最新モデル・退役日とは区別します。10 月 2 日の既存予定も変更なしで、両日とも実停止は未確認です。
+
+Business / Enterprise の機能の既定ポリシーは設定可能ですが適用開始は 2026-10-22 です。既定 enabled、個別設定のない対象 GA 機能に適用し、明示設定を保持、preview の opt-in は継続します。GHE.com のデータ所在地・FedRAMP 制限とローカルセッションのクラウド保存などは例外です。既に適用中のモデルの既定ポリシーとは別です。組織への設定変更やセキュリティ推奨の変更は行っていません。
+
+一次資料と実取得時刻(UTC):
+
+- [10 月 19 日の追加廃止](https://github.blog/changelog/2026-09-18-upcoming-deprecation-of-selected-github-copilot-models-in-mid-october/) / [10 月 2 日の廃止](https://github.blog/changelog/2026-09-03-upcoming-deprecation-of-selected-github-copilot-models/): 2026-09-27T22:26:17Z
+- [機能の既定ポリシー告知](https://github.blog/changelog/2026-09-24-default-enablement-of-copilot-features-for-copilot-business-and-enterprise/): 2026-09-27T22:26:24Z
+- [既定の可用性・例外](https://docs.github.com/en/copilot/concepts/enterprise/default-availability): 2026-09-27T22:26:52Z
+
+PR 承認と JetBrains sandbox の preview 告知は前回の条件と一致しました(それぞれ [PR 承認](https://github.blog/changelog/2026-09-01-copilot-code-review-can-now-approve-pull-requests/)・[JetBrains](https://github.blog/changelog/2026-09-08-enterprise-managed-sandbox-in-copilot-for-jetbrains/)、実取得 2026-09-27T22:26:17Z)。2026-09-23 の [app ローカル sandbox](https://github.blog/changelog/2026-09-23-local-sandboxing-in-the-github-copilot-app/)(実取得 2026-09-27T22:26:52Z)は local repository / working tree の public preview、既定 off、新規 session に適用、cloud / remote 対象外で、CLI の設定とも別です。記事の一般的な sandbox preview 記述と矛盾しないため、今回の本文追記は移行日程と機能ポリシーに絞ります。実サービスの設定・動作は未検証です。
+
 ## 2026-09-17 重点観測
 
 再レビューで修正済みの自身の指摘を自動解決する機能、firewall 内の SDK shell tools による解析、Lite effort で複数 agent の知見を統合する更新を確認しました。MAI-Code-1-Flash は 2026-09-10 に全 Copilot 提供面で廃止、移行先は MAI-Code-1.1-Flash です。

@@ -28,6 +28,24 @@
 
 ---
 
+## 2026-09-28 重点観測
+
+GPT-6 Sol / Luna は effort に none を含み、既定は medium です。Chat Completions の function calling は none の場合だけ対応するため、推論を有効にしたツール処理は Responses API を使います。EU データレジデンシーでは Standard 限定です。Astra の none / minimal 非対応・ツール処理の Responses 要件・サンプリング制約は一致しました。
+
+`configuration_update` の対応範囲は GPT-6 ファミリーです。standard・単一エージェント、元の request-level effort の保持、連続 update 禁止、自動 compaction / truncation と単独 compact の非互換、明示 compaction_trigger 後の再追加という条件は維持されています。
+
+GPT-5.6 以降のキャッシュ TTL は既定かつ唯一の対応値が 30m。最終書込または再利用から最短 30 分で、より長い保持もあります。書込は入力単価の 1.25 倍、読取は 0.1 倍、通常入力は input_tokens から両区分を引きます。`v1/prompts` の 2026-11-30 終了予定も一致しました。o 系一律の 12 月終了という本文は、o4-mini の 10 月 23 日と o3 系の 12 月 11 日へ対象 ID 別に訂正しました。
+
+一次資料と実取得時刻(UTC):
+
+- [Sol](https://developers.openai.com/api/docs/models/gpt-6-sol) / [Luna](https://developers.openai.com/api/docs/models/gpt-6-luna): 2026-09-27T22:26:40Z
+- [現行モデルガイド](https://developers.openai.com/api/docs/guides/latest-model): 2026-09-27T22:26:26Z
+- [Reasoning models](https://developers.openai.com/api/docs/guides/reasoning): 2026-09-27T22:26:49Z
+- [Prompt caching](https://developers.openai.com/api/docs/guides/prompt-caching): TTL 2026-09-27T22:26:26Z、課金 2026-09-27T22:26:40Z
+- [Deprecations](https://developers.openai.com/api/docs/deprecations): 2026-09-27T22:26:49Z
+
+文書確認のみで実 API は未実行です。overthinking・指示階層の現行原文など既存 TODO は今回の範囲外で、確認済みへ変更しません。
+
 ## 2026-09-17 重点観測
 
 設定更新とキャッシュを再確認しました。`configuration_update` の standard・単一エージェント制約、自動圧縮・自動切詰め・単独 `/responses/compact` との非互換は維持されています。一方、`/responses` に `compaction_trigger` item を渡す明示圧縮は可能で、圧縮後は次の user メッセージより前に希望する effort の更新を再追加します。

@@ -1,0 +1,360 @@
+{
+  "schema_version": 2,
+  "run_id": "20260927t222509029z-952c90ea",
+  "base_sha": "517dc8b5166bd7b0c85baef3800d7fe57bac7b31",
+  "writer_run_id": "20260927t222509029z-952c90ea",
+  "started_at": "2026-09-27T22:25:09.029Z",
+  "systems": [
+    "models-prompting",
+    "coding-agents",
+    "benchmarks"
+  ],
+  "observations": [
+    {
+      "system_id": "models-prompting",
+      "status": "changed",
+      "summary": "公式ガイドはGPT-6 Astra/Sol/Lunaを掲載。Sol/Lunaは1,050,000 context・128,000 output、none/low/medium既定/high/xhigh/max。Standard単価はSol入力2/読取0.20/書込2.50/出力10、Luna 0.10/0.01/0.125/0.50 USD per 1M。Astra通常入力10との幅は100倍。5.6提供終了は意味しない。Sol/LunaのChat Completions function callingはnoneのみ、EU Standard限定。 Sol/Lunaも272K超で全リクエストの入力/cache2倍・出力1.5倍。",
+      "affected_docs": [
+        "docs/03-implementation/llm-landscape.md",
+        "docs/03-implementation/openai-prompting.md"
+      ],
+      "sources": [
+        {
+          "url": "https://developers.openai.com/api/docs/guides/latest-model",
+          "accessed_at": "2026-09-27T22:26:26Z"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/models/gpt-6-sol",
+          "accessed_at": "2026-09-27T22:26:40Z"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/models/gpt-6-luna",
+          "accessed_at": "2026-09-27T22:26:40Z"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/models/gpt-6-astra",
+          "accessed_at": "2026-09-27T22:26:49Z"
+        },
+        {
+          "accessed_at": "2026-09-27T22:38:45Z",
+          "url": "https://developers.openai.com/api/docs/models/gpt-6-sol"
+        },
+        {
+          "accessed_at": "2026-09-27T22:38:45Z",
+          "url": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+        }
+      ]
+    },
+    {
+      "system_id": "models-prompting",
+      "status": "changed",
+      "summary": "configuration_updateはGPT-6ファミリーに対応。standard・単一agent、元request-level effort維持、隣接update禁止、自動compaction/truncationと単独compact非互換、明示compaction_trigger後の再追加条件は維持。",
+      "affected_docs": [
+        "docs/03-implementation/openai-prompting.md"
+      ],
+      "sources": [
+        {
+          "url": "https://developers.openai.com/api/docs/guides/reasoning",
+          "accessed_at": "2026-09-27T22:26:49Z"
+        }
+      ]
+    },
+    {
+      "system_id": "models-prompting",
+      "status": "changed",
+      "summary": "o系一律2026-12-11という本文を訂正。o4-mini/o4-mini-2025-04-16は2026-10-23、o3/o3-pro対象は2026-12-11。gpt-5.4-cyberの2026-10-01と後継gpt-5.6-cyber、v1/prompts 2026-11-30は維持。予定であり実停止未確認。",
+      "affected_docs": [
+        "docs/03-implementation/llm-landscape.md",
+        "docs/03-implementation/openai-prompting.md"
+      ],
+      "sources": [
+        {
+          "url": "https://developers.openai.com/api/docs/deprecations",
+          "accessed_at": "2026-09-27T22:26:40Z"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/deprecations",
+          "accessed_at": "2026-09-27T22:26:49Z"
+        }
+      ]
+    },
+    {
+      "system_id": "models-prompting",
+      "status": "unchanged",
+      "summary": "Astraのnone/minimal・sampling非対応、tool calling Responses要件、EU Standard限定と272K超の入力/cache2倍・出力1.5倍は一致。GPT-5.6以降のTTL30mは最短、書込1.25倍・読取0.1倍と別計上は一致。実APIや請求未検証、既存overthinking/指示階層TODOは対象外。",
+      "affected_docs": [
+        "docs/03-implementation/llm-landscape.md",
+        "docs/03-implementation/openai-prompting.md"
+      ],
+      "sources": [
+        {
+          "url": "https://developers.openai.com/api/docs/models/gpt-6-astra",
+          "accessed_at": "2026-09-27T22:26:49Z"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/guides/latest-model",
+          "accessed_at": "2026-09-27T22:26:26Z"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/guides/prompt-caching",
+          "accessed_at": "2026-09-27T22:26:26Z"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/guides/prompt-caching",
+          "accessed_at": "2026-09-27T22:26:40Z"
+        }
+      ]
+    },
+    {
+      "system_id": "coding-agents",
+      "status": "changed",
+      "summary": "2026-09-18告知でCopilotの2026-10-19追加廃止予定: Gemini3.7Flash→3.8Flash、GPT5.5/5.4→5.6Sol、GPT5.4mini/5mini→5.6Luna、Grok4.5→4.6。提供元APIとは別。",
+      "affected_docs": [
+        "docs/08-coding-agents/github-copilot.md"
+      ],
+      "sources": [
+        {
+          "url": "https://github.blog/changelog/2026-09-18-upcoming-deprecation-of-selected-github-copilot-models-in-mid-october/",
+          "accessed_at": "2026-09-27T22:26:17Z"
+        }
+      ]
+    },
+    {
+      "system_id": "coding-agents",
+      "status": "changed",
+      "summary": "Business/Enterpriseの機能既定policyは設定可能で適用2026-10-22。既定enabled、未設定対象GAのみ、明示設定維持、preview opt-in継続。GHE.comのデータ所在地/FedRAMP制限とCLI/VSCode local session Cloud保存など例外。既にactiveのmodel policyとは別。設定変更・セキュリティ推奨変更は行わない。",
+      "affected_docs": [
+        "docs/08-coding-agents/github-copilot.md"
+      ],
+      "sources": [
+        {
+          "url": "https://github.blog/changelog/2026-09-24-default-enablement-of-copilot-features-for-copilot-business-and-enterprise/",
+          "accessed_at": "2026-09-27T22:26:24Z"
+        },
+        {
+          "url": "https://docs.github.com/en/copilot/concepts/enterprise/default-availability",
+          "accessed_at": "2026-09-27T22:26:52Z"
+        }
+      ]
+    },
+    {
+      "system_id": "coding-agents",
+      "status": "unchanged",
+      "summary": "10/2 Copilot廃止予定・PR承認preview管理条件・JetBrains sandbox previewは一致。app local sandboxの9/23告知はlocal repository/working tree・既定off・新session・cloud/remote対象外・CLI設定別。既存の一般的preview記述と矛盾せず、調査メモに提供面を記録。実機は未検証。",
+      "affected_docs": [
+        "docs/08-coding-agents/github-copilot.md"
+      ],
+      "sources": [
+        {
+          "url": "https://github.blog/changelog/2026-09-03-upcoming-deprecation-of-selected-github-copilot-models/",
+          "accessed_at": "2026-09-27T22:26:17Z"
+        },
+        {
+          "url": "https://github.blog/changelog/2026-09-01-copilot-code-review-can-now-approve-pull-requests/",
+          "accessed_at": "2026-09-27T22:26:17Z"
+        },
+        {
+          "url": "https://github.blog/changelog/2026-09-08-enterprise-managed-sandbox-in-copilot-for-jetbrains/",
+          "accessed_at": "2026-09-27T22:26:17Z"
+        },
+        {
+          "url": "https://github.blog/changelog/2026-09-23-local-sandboxing-in-the-github-copilot-app/",
+          "accessed_at": "2026-09-27T22:26:52Z"
+        }
+      ]
+    },
+    {
+      "system_id": "coding-agents",
+      "status": "unchanged",
+      "summary": "Continue READMEは積極保守終了/read-only方針/最終2.0.0、GitHub API archived=false/disabled=falseで既存記述と一致。本文と更新日は変更しない。",
+      "affected_docs": [
+        "docs/08-coding-agents/open-source-coding-agents.md"
+      ],
+      "sources": [
+        {
+          "url": "https://github.com/continuedev/continue",
+          "accessed_at": "2026-09-27T22:26:24Z"
+        },
+        {
+          "url": "https://api.github.com/repos/continuedev/continue",
+          "accessed_at": "2026-09-27T22:26:24Z"
+        }
+      ]
+    },
+    {
+      "system_id": "coding-agents",
+      "status": "unverifiable",
+      "summary": "Continueの既存ユーザーsupport期間・対象・責任主体は公式本文で確認できず。FAQは見出しのみ。pending coding-continue-support-20260917を維持。",
+      "affected_docs": [
+        "docs/08-coding-agents/open-source-coding-agents.md"
+      ],
+      "sources": [
+        {
+          "url": "https://continue.dev/",
+          "accessed_at": "2026-09-27T22:26:24Z"
+        },
+        {
+          "url": "https://github.com/continuedev/continue",
+          "accessed_at": "2026-09-27T22:26:24Z"
+        }
+      ]
+    },
+    {
+      "system_id": "benchmarks",
+      "status": "unchanged",
+      "summary": "Terminal-Bench4.0の8課題除外/19修正/8時間上限・major版間再実行は一致。Harborの公式例はterminal-bench/terminal-bench@4.0.0、Modal、-k 5、GPU対応sandbox。実ベンチは未実行。",
+      "affected_docs": [
+        "docs/04-evaluation/agent-benchmarks-landscape.md"
+      ],
+      "sources": [
+        {
+          "url": "https://www.tbench.ai/news/terminal-bench-4-0",
+          "accessed_at": "2026-09-27T22:26:18Z"
+        },
+        {
+          "url": "https://www.tbench.ai/run",
+          "accessed_at": "2026-09-27T22:26:18Z"
+        }
+      ]
+    },
+    {
+      "system_id": "benchmarks",
+      "status": "changed",
+      "summary": "公式ブラウザー表示で数値取得成功。Astra/Codex max58.2±2.8%/$3.3k、xhigh57.9±2.7%/$2.4k、high57.9±3.0%/$2.3k。Fable5.1/ClaudeCode max57.9±3.8%/$6.2k、Opus5 xhigh53.9±3.2%/$6.1k。±は95%CI、金額は丸め表示。HubのGrok4.7は$3.68k(partial:324/330)、トップ$3.7k。effort・欠測条件の照合を追記。Web本文抽出空枠をCUA公式表示で補完。",
+      "affected_docs": [
+        "docs/04-evaluation/agent-benchmarks-landscape.md"
+      ],
+      "sources": [
+        {
+          "url": "https://www.tbench.ai/",
+          "accessed_at": "2026-09-27T22:26:44Z"
+        },
+        {
+          "url": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/latest?leaderboard=4-0-0&tab=leaderboard",
+          "accessed_at": "2026-09-27T22:27:30Z"
+        }
+      ]
+    },
+    {
+      "system_id": "benchmarks",
+      "status": "unverifiable",
+      "summary": "数値取得済みだが費用包含範囲(API/インフラ)・算定単価・欠測時集計条件は確認不能。benchmarks-tb4-numerical-cost-20260917をこの範囲に狭め維持。変更の根拠には使用しない。",
+      "affected_docs": [
+        "docs/04-evaluation/agent-benchmarks-landscape.md"
+      ],
+      "sources": [
+        {
+          "url": "https://www.tbench.ai/",
+          "accessed_at": "2026-09-27T22:26:44Z"
+        },
+        {
+          "url": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/latest?leaderboard=4-0-0&tab=leaderboard",
+          "accessed_at": "2026-09-27T22:27:30Z"
+        }
+      ]
+    }
+  ],
+  "changes": [
+    {
+      "path": "docs/03-implementation/llm-landscape.md",
+      "kind": "substantive",
+      "observation_indices": [
+        0,
+        2,
+        3
+      ],
+      "summary": "GPT-6構成・仕様・費用幅・ID別退役予定・早見表を同期"
+    },
+    {
+      "path": "docs/03-implementation/openai-prompting.md",
+      "kind": "substantive",
+      "observation_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "summary": "GPT-6内のAPI設定差・configuration_update対応範囲・o系日程を訂正"
+    },
+    {
+      "path": "docs/08-coding-agents/github-copilot.md",
+      "kind": "substantive",
+      "observation_indices": [
+        4,
+        5,
+        6
+      ],
+      "summary": "10/19追加廃止と10/22機能既定policyを予定・例外付きで追記"
+    },
+    {
+      "path": "docs/04-evaluation/agent-benchmarks-landscape.md",
+      "kind": "substantive",
+      "observation_indices": [
+        9,
+        10
+      ],
+      "summary": "数値未取得の記述を訂正しeffort・費用欠測条件の比較を追加"
+    },
+    {
+      "path": "research/models/openai.md",
+      "kind": "supporting",
+      "observation_indices": [
+        0,
+        2,
+        3
+      ],
+      "summary": "モデル確認範囲と実取得時刻を記録"
+    },
+    {
+      "path": "research/prompting/openai.md",
+      "kind": "supporting",
+      "observation_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "summary": "設定・課金・退役の根拠を同期"
+    },
+    {
+      "path": "research/coding-agents/github-copilot.md",
+      "kind": "supporting",
+      "observation_indices": [
+        4,
+        5,
+        6
+      ],
+      "summary": "移行期限・policy・previewの根拠を記録"
+    },
+    {
+      "path": "research/professional/benchmarks.md",
+      "kind": "supporting",
+      "observation_indices": [
+        9,
+        10
+      ],
+      "summary": "公式ブラウザー表示の数値・effort・partial表記と確認範囲を記録"
+    },
+    {
+      "path": "ROADMAP.md",
+      "kind": "supporting",
+      "observation_indices": [
+        0,
+        1,
+        4,
+        5,
+        10
+      ],
+      "summary": "対象3系統の次回注目事項を同期"
+    }
+  ],
+  "review": {
+    "risk": "low",
+    "reviewed_at": "2026-09-27T22:42:48Z",
+    "content_digest": "cb588f43ed350fc8d7d3ffadf4fa41ddd2a20cb0e7314e0699907e7194252744",
+    "reviewer_run_id": "01a0e506-c040-7111-bd11-d85e84ff45ba",
+    "verdict": "approved",
+    "independent": true
+  },
+  "completed_at": "2026-09-27T22:43:49.086Z"
+}

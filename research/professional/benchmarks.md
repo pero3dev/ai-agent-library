@@ -5,6 +5,30 @@
 - 調査方法: 4 系統(コーディング / Web・コンピュータ操作 / 汎用・ツール使用・安全性 / リーダーボード・方法論)の並行調査を統合。公式ページ・arXiv 原論文の WebFetch 直接確認を最優先
 - 確度凡例: **公式確認済み** = 公式ページ/arXiv を直接確認 / **ベンダー自己報告** / **二次情報** = 検索スニペット・ミラー・第三者トラッカー経由 / **未確認**
 
+## 2026-09-28 重点観測
+
+Terminal-Bench 4.0 に限定して確認しました。8 課題除外・19 課題修正・8 時間上限、メジャー版間の再実行、Harbor と版固定データセット・GPU 対応 sandbox の条件は一致しました。実行例は `terminal-bench/terminal-bench@4.0.0`、Modal、`-k 5` です。
+
+Web 本文抽出では表の空枠しか取得できませんでしたが、公式トップと Harbor Hub をブラウザーで表示し、次の数値を取得しました。± は 95% 信頼区間、金額は表示の丸め値です。自分たちで再実行した結果ではありません。
+
+| モデル | Agent | Effort | 解決率 | Cost 表示 |
+| --- | --- | --- | --- | --- |
+| GPT-6 Astra | Codex | max | 58.2% ± 2.8% | $3.3k |
+| GPT-6 Astra | Codex | xhigh | 57.9% ± 2.7% | $2.4k |
+| GPT-6 Astra | Codex | high | 57.9% ± 3.0% | $2.3k |
+| Fable 5.1 | Claude Code | max | 57.9% ± 3.8% | $6.2k |
+| Opus 5 | Claude Code | xhigh | 53.9% ± 3.2% | $6.1k |
+
+Harbor Hub の Grok 4.7 行は `$3.68k (partial: 324/330)`、トップは丸めた `$3.7k` です。effort 別の行と費用の欠測表記を確認し、トップの順位や丸め値だけで比較しません。費用の包含範囲(API・インフラの扱い)、算定単価、欠測時の集計条件は取得した資料で確定できず、既存 pending をこの範囲に絞って維持します。
+
+一次資料と実取得時刻(UTC):
+
+- [4.0 改訂内容](https://www.tbench.ai/news/terminal-bench-4-0) / [実行手順](https://www.tbench.ai/run): 2026-09-27T22:26:18Z
+- [公式トップ](https://www.tbench.ai/): ブラウザー表示 2026-09-27T22:26:44Z
+- [Harbor Hub の 4.0 リーダーボード](https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/latest?leaderboard=4-0-0&tab=leaderboard): ブラウザー表示 2026-09-27T22:27:30Z
+
+他ベンチマーク・全ランキングの網羅確認は対象外です。以下は過去の観測履歴です。
+
 ## 2026-09-17 重点観測
 
 Terminal-Bench 4.0 の改訂・実行条件と WebArena-Verified の評価方式に限定して再確認しました。4.0 は時間・CPU・メモリの校正、19 課題の修正、8 課題の除外を含みます。除外の内訳は飽和・拒否・公開解答・未解決の品質またはプラットフォーム互換性が各 2 件です。全課題の agent timeout は 8 時間。環境・課題集合が変わる major version は trial の再実行が必要です。

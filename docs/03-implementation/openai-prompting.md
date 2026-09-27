@@ -3,7 +3,7 @@ title: "OpenAI(GPT 系)特化プロンプティングガイド"
 category: "implementation"
 level: "intermediate"
 status: "published"
-last_updated: "2026-09-17"
+last_updated: "2026-09-28"
 tags: ["prompt-design", "model-selection"]
 ---
 
@@ -28,7 +28,7 @@ OpenAI の GPT ファミリーに対して、**公式ガイドが推奨する具
 
 ## 本文
 
-> **最終確認日:** 2026-09-17 — Astra の移行制約・キャッシュと設定更新を再確認し、明示圧縮後の設定再追加を補足しました。非同期ツールは 2026-09-10、従来の設計指針は各参考資料の確認日を参照し、未取得の現行原文は TODO に分けます。
+> **最終確認日:** 2026-09-28 — GPT-6 内の設定差・キャッシュ・設定更新と対象 ID 別の退役予定を確認しました。非同期ツールは 2026-09-10、従来の設計指針は各参考資料の確認日を参照し、未取得の現行原文は TODO に分けます。
 
 ### 概要: 汎用記事との分担
 
@@ -44,15 +44,15 @@ Claude・Gemini との横並び比較と移行は [モデル間の違いと移�
 
 ### モデルファミリーの前提(プロンプトに効く差分だけ)
 
-顔ぶれ・価格・選び方は [モデルカタログ](llm-landscape.md) が正本です。プロンプト設計に効く差分だけを押さえます(2026-08 時点)。
+顔ぶれ・価格・選び方は [モデルカタログ](llm-landscape.md) が正本です。プロンプト設計に効く差分だけを押さえます(従来の設計指針は 2026-08、退役日程は 2026-09-28 確認)。
 
-- **推論は本体に統合された**: かつての推論特化「o シリーズ」は縮小し、GPT-5.x 本体の **reasoning effort** で思考量を制御する形が標準です(o 系は 2026-12-11 退役予定で、移行先は GPT-5.6 系。退役日程は [モデルカタログ](llm-landscape.md) を参照)
+- **推論は本体に統合された**: かつての推論特化「o シリーズ」は縮小し、GPT 本体の **reasoning effort** で思考量を制御する形が標準です。2026-09-28 確認の API 退役表では o4-mini の対象 ID は 2026-10-23、o3 / o3-pro の対象 ID は 2026-12-11 終了予定です。モデル別の日程と移行先は [モデルカタログ](llm-landscape.md) と公式退役表で照合します
 - **モデルは「同僚」で例える**: 公式は推論内蔵モデルを「ゴールを渡せば任せられる上級同僚」、軽量モデルを「明示的な指示で最も動く新人同僚」と説明します。書き方の粒度を変える指針です
 - **一部の作法は不要になった**: 出力スキーマの強い言い回しや「ステップバイステップで考えて」は、Structured Outputs と推論内蔵化により不要・逆効果になりました(後述)
 
 ### Astra へ移行する場合
 
-2026-09-10 確認の `gpt-6-astra` では次を確認します。GPT-5.6 の有効な設定まで一律に削除するのではなく、モデル別にリクエストを組み立てます。
+2026-09-28 確認の `gpt-6-astra` では次を確認します。他モデルの有効な設定まで一律に削除するのではなく、モデル別にリクエストを組み立てます。
 
 | 確認点 | Astra の条件 |
 | --- | --- |
@@ -63,6 +63,8 @@ Claude・Gemini との横並び比較と移行は [モデル間の違いと移�
 | 指示への追従 | 通常の判断は任せ、追加確認が必要な条件を具体的に書きます。承認で止まり過ぎる場合は、ユーザーの依頼と SKILL.md / AGENTS.md の曖昧な規則を点検します |
 
 委任の条件、必要な検証の範囲、完了基準も明示します。自律化の指示は、実行権限や必要な承認を省略する根拠にはしません。
+
+同じ GPT-6 でも Sol / Luna は `none / low / medium / high / xhigh / max` に対応し、既定は `medium` です。Chat Completions の関数呼出し(function calling)は `none` の場合に限られるため、推論を有効にしたツール処理には Responses API を使います。EU データレジデンシーでは Sol / Luna も Standard 限定です。Astra の `none` 非対応と区別して実装します。
 
 ### メッセージ構造と指示階層
 
@@ -122,7 +124,7 @@ Astra の非同期ツール使用(async tool calling)では、function / custom 
 
 GPT-5.6 以降は `prompt_cache_options.ttl: "30m"` を使います。キャッシュ境界までの書込量を `usage.input_tokens_details.cache_write_tokens`、読取量を `cached_tokens` で分けて記録します。30 分は最短保持期間で、必ず 30 分後に削除されるという意味ではありません。
 
-Astra の standard・単一エージェントのリクエストでは、元の request-level `reasoning.effort` を変えず、`{"type":"configuration_update","reasoning":{"effort":"high"}}` を input の次の user メッセージより前に追記して、以後の effort を変えられます。pro mode・複数エージェントには非対応です。連続する configuration_update、自動 compaction / truncation、単独の `/responses/compact` との併用もできません。これは許可された設定更新の仕組みで、過去の system / developer 本文や動的な日付を書き換えてもキャッシュが残るという仕様ではありません。
+GPT-6 ファミリーの standard・単一エージェントのリクエストでは、元の request-level `reasoning.effort` を変えず、`{"type":"configuration_update","reasoning":{"effort":"high"}}` を input の次の user メッセージより前に追記して、以後の effort を変えられます。pro mode・複数エージェントには非対応です。連続する configuration_update、自動 compaction / truncation、単独の `/responses/compact` との併用もできません。これは許可された設定更新の仕組みで、過去の system / developer 本文や動的な日付を書き換えてもキャッシュが残るという仕様ではありません。
 
 明示的に履歴を圧縮する場合は、`/responses` のリクエストに `compaction_trigger` item を含められます。圧縮後は次の user メッセージより前に、希望する effort の `configuration_update` を再追加します。自動圧縮との非互換と、明示圧縮後の再設定を分けて実装します。
 
@@ -183,6 +185,9 @@ GPT-5.6 のような新世代は**ドロップイン置換ではなく、再チ�
 - [バージョニングとモデル更新追従](../05-operations/versioning-and-model-updates.md) — 世代交代への追従運用
 
 ## 参考資料
+
+- [GPT-6 Sol](https://developers.openai.com/api/docs/models/gpt-6-sol) / [Luna](https://developers.openai.com/api/docs/models/gpt-6-luna) / [最新モデルガイド](https://developers.openai.com/api/docs/guides/latest-model) — 世代内の effort・API 制約の違い(アクセス日: 2026-09-28)
+- [Reasoning models](https://developers.openai.com/api/docs/guides/reasoning) / [Prompt caching](https://developers.openai.com/api/docs/guides/prompt-caching) / [Deprecations](https://developers.openai.com/api/docs/deprecations) — GPT-6 の設定更新・保持条件・対象 ID 別の終了予定(アクセス日: 2026-09-28)
 
 - [Reasoning models: 設定更新と明示圧縮](https://developers.openai.com/api/docs/guides/reasoning) — `compaction_trigger` と圧縮後の `configuration_update` 再追加(アクセス日: 2026-09-17)
 

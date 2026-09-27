@@ -3,7 +3,7 @@ title: "エージェントベンチマークの全体像"
 category: "evaluation"
 level: "basic"
 status: "published"
-last_updated: "2026-09-17"
+last_updated: "2026-09-28"
 tags: ["benchmarks", "evaluation", "model-selection"]
 ---
 
@@ -27,7 +27,7 @@ tags: ["benchmarks", "evaluation", "model-selection"]
 
 ## 本文
 
-> **最終確認日:** 2026-09-17(Terminal-Bench 4.0 の改訂・実行条件と WebArena-Verified の評価方式。その他の行は従来の確認日を参照) — 具体的なランキング数値は今回取得できておらず転記しません。出典と過去の数値帯はリポジトリ内 `research/professional/benchmarks.md` の調査メモを参照してください。
+> **最終確認日:** Terminal-Bench 4.0 の改訂・実行条件・表示数値は 2026-09-28、WebArena-Verified の評価方式は 2026-09-17。その他の行は従来の確認日を参照してください。公式画面から取得した数値と条件はリポジトリ内 `research/professional/benchmarks.md` に記録し、本記事では比較時の注意点を扱います。
 
 ### 概要: ベンチマークの 3 つの正しい用途
 
@@ -100,7 +100,9 @@ flowchart TD
 
 2026-09-17 の Terminal-Bench 公式サイトは 4.0 を掲載しています。4.0 は時間・CPU・メモリの条件を校正し、8 課題を除き、19 課題を修正した改訂です。除外理由は飽和、拒否、解答の公開、未解決の品質・プラットフォーム互換性問題が各 2 課題です。全課題のエージェントの実行時間上限(agent timeout)は 8 時間で、これは所要時間ではなく上限です。環境や課題集合を変える メジャー版(major version)間では再実行が必要で、旧版のスコアと直接比較しません。
 
-公式実行手順は Harbor と版を固定したデータセット を使い、GPU 必須課題に対応するサンドボックス(sandbox) を求めます。タスク集合・ハーネス・資源条件・試行回数を揃えて比較します。公式トップでは resolution rate・費用・トークンの列と 95% 信頼区間の説明を確認しましたが、順位・費用の数値と費用の集計範囲は今回取得できていません。列の存在だけでインフラ費用を含む総額と解釈しないようにします。
+公式実行手順は Harbor と版を固定したデータセットを使い、GPU 必須課題に対応するサンドボックス(sandbox)を求めます。タスク集合・ハーネス・資源条件・試行回数を揃えて比較します。2026-09-28 は公式画面で解決率(resolution rate)・費用・95% 信頼区間の数値を取得できました。Harbor Hub には同じモデル・エージェントでも推論努力(effort)別の行があり、費用と信頼区間が異なります。推論努力も比較条件に含め、表示順位だけでモデルの優劣を決めません。
+
+費用欄には欠測を含む行があります。例えば同日の Harbor Hub の Grok 4.7 行は `partial: 324/330` と表示され、トップページの丸めた金額だけではこの条件が見えません。詳細の対象件数と欠測表記まで確認します。費用に含まれる項目・算定単価は今回も確定できていないため、インフラ費用を含む総額とは解釈しません。実ベンチマークを再実行した結果ではなく、公式表示の観測です。
 
 WebArena-Verified は、課題・参照解・評価器を人手で点検し、応答と保存した network trace に対して決定的な評価を行う派生です。旧 WebArena の飽和という報告を、修正された評価器や Hard subset へ一般化しません。難化だけでなく、採点の妥当性を直す改訂も区別して追います。
 
@@ -134,6 +136,8 @@ WebArena-Verified は、課題・参照解・評価器を人手で点検し、�
 - [AI 情報の追い方(一次情報の目利き)](../00-overview/research-literacy.md) — ベンチマークの読み方を情報源全般の目利きに一般化(自己報告・ハイプの割り引き)
 
 ## 参考資料
+
+- [Terminal-Bench 公式表示](https://www.tbench.ai/) / [Harbor Hub の 4.0 リーダーボード](https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/latest?leaderboard=4-0-0&tab=leaderboard) — effort 別の結果・費用の欠測表示(アクセス日: 2026-09-28)
 
 - [Terminal-Bench 4.0 の改訂内容](https://www.tbench.ai/news/terminal-bench-4-0) / [公式実行手順](https://www.tbench.ai/run) — 資源条件・課題修正・版ごとの再実行(アクセス日: 2026-09-17)
 

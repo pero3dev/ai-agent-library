@@ -3,7 +3,7 @@ title: "GitHub Copilot"
 category: "coding-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-09-17"
+last_updated: "2026-09-28"
 tags: ["coding-agents", "mcp"]
 ---
 
@@ -26,6 +26,8 @@ GitHub Copilot の多層的な機能群(補完 / Chat / エージェントモー
 ## 本文
 
 > **最終確認日:** code review の再レビュー・PR 承認、MAI-Code-1-Flash の廃止、10 月のモデル廃止予定、JetBrains sandbox、Auto 選択・予算増額申請は 2026-09-17、content exclusion と企業管理 permissions は 2026-09-10、その他は 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
+
+> **部分再確認:** 2026-09-28 — 10 月のモデル廃止予定、機能の既定ポリシー、PR 承認・JetBrains sandbox の preview 条件を確認しました。その他の条件は上記の日付を参照してください。
 
 ### 概要
 
@@ -96,6 +98,17 @@ GitHub Copilot は、コード補完から始まり、2026 年時点では GitHu
 
 **モデル移行期限**: 2026-09-03 の告知では、Copilot 上の Gemini 3.5 / 3.6 Flash、Kimi K2.7 Code、Claude Opus 4.7 は **2026-10-02 に廃止予定**です。案内された移行先はそれぞれ Gemini 3.8 Flash、Kimi K3、Claude Opus 5 です。保存したモデル選択・組織 allowlist・自動化を期限前に点検します。これは Copilot の提供終了で、各社 API 自体の退役日ではありません。
 
+2026-09-18 の追加告知では、次のモデルが **2026-10-19 に廃止予定**です。移行先も Copilot 上で案内されたもので、提供元 API の最新モデルと同じとは限りません。
+
+| 廃止予定モデル | 案内された移行先 |
+| --- | --- |
+| Gemini 3.7 Flash | Gemini 3.8 Flash |
+| GPT-5.5 / GPT-5.4 | GPT-5.6 Sol |
+| GPT-5.4 mini / GPT-5 mini | GPT-5.6 Luna |
+| Grok 4.5 | Grok 4.6 |
+
+**機能の既定ポリシー**: 2026-09-24 の告知では、Business / Enterprise 向けの機能の既定ポリシーは設定可能で、適用開始は **2026-10-22** です。既定値は enabled で、個別設定のない対象 GA 機能に適用されます。明示した個別設定は保持され、preview は引き続き管理者の有効化が必要です。GHE.com のデータ所在地・FedRAMP に伴う制限や、CLI / VS Code のローカルセッションのクラウド保存などの例外があります。既に適用中のモデルの既定ポリシーと分けて確認します。
+
 MAI-Code-1-Flash は 2026-09-10 に Copilot の全提供面で廃止され、推奨移行先は MAI-Code-1.1-Flash です。10 月の廃止予定と、既に廃止されたモデルを分けて管理します。
 
 2026-09-14 の告知では、Auto のモデル選択に efficiency / balance / intelligence の 3 段階の選択設定(tier)が追加され、VS Code・CLI・app へ展開中です。同じ候補モデル集合から選択方針を変え、実際に選ばれたモデルに応じて課金されます。2026-09-16 には Business / Enterprise の従量課金で予算増額申請が GA になりました。管理者が承認・調整・拒否する仕組みで、申請だけで予算が増えるわけではありません。
@@ -134,6 +147,9 @@ MAI-Code-1-Flash は 2026-09-10 に Copilot の全提供面で廃止され、推
 - [チーム導入とレビュー体制](coding-agent-team-adoption.md) — シート管理・ポリシー展開の一般論
 
 ## 参考資料
+
+- [2026-10-19 のモデル廃止予定](https://github.blog/changelog/2026-09-18-upcoming-deprecation-of-selected-github-copilot-models-in-mid-october/)(アクセス日: 2026-09-28)
+- [機能の既定ポリシーの告知](https://github.blog/changelog/2026-09-24-default-enablement-of-copilot-features-for-copilot-business-and-enterprise/) / [既定の可用性と例外](https://docs.github.com/en/copilot/concepts/enterprise/default-availability)(アクセス日: 2026-09-28)
 
 - [code review の再レビューと解析](https://github.blog/changelog/2026-09-11-auto-resolution-and-analysis-updates-in-copilot-code-review/)(アクセス日: 2026-09-17)
 - [MAI-Code-1-Flash の廃止](https://github.blog/changelog/2026-09-10-mai-code-1-flash-deprecated/)(アクセス日: 2026-09-17)

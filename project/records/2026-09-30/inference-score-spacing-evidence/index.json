@@ -1,0 +1,1573 @@
+{
+  "schemaVersion": 1,
+  "kind": "inference-score-spacing-evidence-archive",
+  "phase": "completed-local-evidence-public-pending",
+  "archivedAt": "2026-09-29T18:34:11.165Z",
+  "archivist": "/root/pretraining_numeric",
+  "archiveOnly": true,
+  "approval": {
+    "codeReview": "approved",
+    "risk": "low",
+    "must": 0,
+    "should": 0,
+    "localAcceptance": false,
+    "visualAcceptance": true,
+    "publicAcceptance": false,
+    "visualAcceptanceScope": "Local independent source and actual-image acceptance for inference-sampling S6 PUBLIC-V1 spacing fix only; not a new full-article or public release acceptance",
+    "localAcceptanceNote": "Whole task gate remains root-owned; focused independent local review is recorded above."
+  },
+  "reviewScope": {
+    "base": "ca3c09eebd1b549564f874f3304d23ae25328194",
+    "branch": "fix/inference-score-spacing",
+    "head": "ca3c09eebd1b549564f874f3304d23ae25328194",
+    "targets": [
+      "website/components/diagrams/inference-sampling.css",
+      "website/tests/browser/inference.spec.mjs"
+    ],
+    "ownedOutputs": [
+      "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-code-review.md",
+      "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-code-review.json"
+    ],
+    "repoEdited": false,
+    "gitMutated": false,
+    "browserExecuted": false,
+    "buildExecuted": false,
+    "networkExecuted": false,
+    "kitEdited": false
+  },
+  "reviewedSourceTargetsAtArchive": [
+    {
+      "path": "website/components/diagrams/inference-sampling.css",
+      "sha256": "3ecb21f0ac5557b161d107b4669d356796bce43ca5bdb536793bd1d0fc88b4c9",
+      "bytes": 1725,
+      "reviewTargetMatched": true
+    },
+    {
+      "path": "website/tests/browser/inference.spec.mjs",
+      "sha256": "b73f4657b5aa6ab8f203c2cf3217779c8c0e79ac567d794d320b41761bfabf0a",
+      "bytes": 25654,
+      "reviewTargetMatched": true
+    }
+  ],
+  "identityObservation": {
+    "reviewBeforeComparisonsMatchBaseline": true,
+    "recordedSnapshotMatchesBefore": false,
+    "recordedSnapshotMatchesAfter": true,
+    "snapshotVerification": "recorded-evidence-only"
+  },
+  "files": [
+    {
+      "kind": "readable-code-review",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-code-review.md",
+      "originalSHA256": "509153e3fc1b0455b06c2fdb0b9235531f0f5247a31d95c6a71f9071b5e8e19a",
+      "originalBytes": 3148,
+      "encoding": "UTF-8 LF one final newline; original fields and paths unchanged",
+      "path": "project/records/2026-09-30/inference-score-spacing-code-review.md",
+      "sha256": "509153e3fc1b0455b06c2fdb0b9235531f0f5247a31d95c6a71f9071b5e8e19a",
+      "bytes": 3148
+    },
+    {
+      "kind": "readable-code-review",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-code-review.json",
+      "originalSHA256": "7a2fce38cefe45014931873f740a17e71b856a8e733279890454c02fb41e625b",
+      "originalBytes": 9810,
+      "encoding": "UTF-8 LF one final newline; original fields and paths unchanged",
+      "path": "project/records/2026-09-30/inference-score-spacing-code-review.json",
+      "sha256": "7a2fce38cefe45014931873f740a17e71b856a8e733279890454c02fb41e625b",
+      "bytes": 9810
+    },
+    {
+      "kind": "original-code-review",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-code-review.md",
+      "originalSHA256": "509153e3fc1b0455b06c2fdb0b9235531f0f5247a31d95c6a71f9071b5e8e19a",
+      "originalBytes": 3148,
+      "encoding": "gzip of original bytes",
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-code-review.md.gz",
+      "sha256": "1c49f702497848291f9cd4ca5d28f7ce8dd81318d3463bd82688a5afac1271bd",
+      "bytes": 2064
+    },
+    {
+      "kind": "original-code-review",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-code-review.json",
+      "originalSHA256": "7a2fce38cefe45014931873f740a17e71b856a8e733279890454c02fb41e625b",
+      "originalBytes": 9810,
+      "encoding": "gzip of original bytes",
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-code-review.json.gz",
+      "sha256": "8ada6692e1eb4d0aa8e5daccaee08b2c69905d74fda5e273b5bf728948f140a6",
+      "bytes": 3086
+    },
+    {
+      "kind": "referenced-PR61-identity-input",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-main-local-identity.json",
+      "originalSHA256": "66dc50e6bba661e230322acec4fd6d0aef150603d3c0737f59d8a76617a2ff90",
+      "originalBytes": 4452,
+      "encoding": "gzip of original bytes",
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/pretraining-pr61-main-local-identity.json.gz",
+      "sha256": "d8882a9be17d6969eff01adce8d6a619f9ade9107b92e7e4ac0bd7c6216d3006",
+      "bytes": 897
+    },
+    {
+      "kind": "recorded-acceptance-snapshot",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-acceptance-before.json",
+      "originalSHA256": "fa0ad961d25da9196b8ce70a794ef6b0ff6a4a8ecc03034b6c2b042e4174c685",
+      "originalBytes": 5291,
+      "encoding": "gzip of original bytes",
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-acceptance-before.json.gz",
+      "sha256": "20d2d969e7afe9eb0150c5e6d9c84199fae7df576a3529fb1f4ce38151d457f8",
+      "bytes": 961
+    },
+    {
+      "kind": "archive-scope-notes",
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/README.md",
+      "sha256": "cafd1a1ee4e7aa303b355af594aecd1f61eabd149a7430c16320d6d0461a2db1",
+      "bytes": 2695
+    },
+    {
+      "kind": "completed-root-execution-log",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-root-check.log",
+      "originalSHA256": "9e35bc5f51fbc3f7586973bf27f4f6b45b074f30152a03422853576ec0be18fc",
+      "originalBytes": 46273,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-root-check.log.gz",
+      "sha256": "69e1d4a39cf470cad6e72c35a27340af310e73904a909929b66c44944e21fbd6",
+      "bytes": 15682,
+      "encoding": "gzip of original bytes",
+      "completionConfirmedBy": "root message: all six processes final; Edge process 34169 closed",
+      "evidenceClass": "local-root-check-partial-failure",
+      "status": "failed-at-links",
+      "reportedExitCode": 1,
+      "exitCodeSource": "root execution result; log contents independently read for summary consistency",
+      "summary": {
+        "tests": 480,
+        "passed": 479,
+        "failed": 0,
+        "skipped": 1,
+        "lintPassed": true,
+        "validatedFiles": 215,
+        "missingArchiveLinks": 3
+      },
+      "limitation": "Original npm run check did not finish successfully. Link targets were still being archived; do not relabel this run as passed."
+    },
+    {
+      "kind": "completed-root-execution-log",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-record-check.log",
+      "originalSHA256": "bb3ba75a101a4a718ec3e2f0da70cc0a3f70c6b19c0311ffd48d59512c1e26f2",
+      "originalBytes": 46497,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-record-check.log.gz",
+      "sha256": "a0c5bed50310c6146f4375f0f4ce4639848983257553ea4bd88945ed53d6d6ee",
+      "bytes": 15101,
+      "encoding": "gzip of original bytes",
+      "completionConfirmedBy": "root message: all six processes final; Edge process 34169 closed",
+      "evidenceClass": "local-root-remaining-static-checks",
+      "status": "passed",
+      "reportedExitCode": 0,
+      "exitCodeSource": "root execution result; log contents independently read for summary consistency",
+      "summary": {
+        "lintPassed": true,
+        "validatedFiles": 215,
+        "linkFiles": 353,
+        "links": 5725,
+        "todosPassed": true,
+        "harnessPassed": true
+      },
+      "limitation": "Reruns remaining lint/validate/links/todos/harness only; not a second unit execution."
+    },
+    {
+      "kind": "completed-root-execution-log",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-site-unit.log",
+      "originalSHA256": "64941d95a24e638851040e01c1068882365921a3decf2ca9abd7c358682ebde3",
+      "originalBytes": 36047,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-site-unit.log.gz",
+      "sha256": "3e7ea0d60847c3d1362c960ccbf59fd2cc5d15fbbb3da815cd2bc7a125b39365",
+      "bytes": 12659,
+      "encoding": "gzip of original bytes",
+      "completionConfirmedBy": "root message: all six processes final; Edge process 34169 closed",
+      "evidenceClass": "local-website-unit",
+      "status": "passed",
+      "reportedExitCode": 0,
+      "exitCodeSource": "root execution result; log contents independently read for summary consistency",
+      "summary": {
+        "tests": 360,
+        "passed": 360,
+        "failed": 0,
+        "skipped": 0
+      },
+      "limitation": null
+    },
+    {
+      "kind": "completed-root-execution-log",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-build.log",
+      "originalSHA256": "a5206155e22138cd5bdc3f1737314f9d303022f881677a49c32871f330068a08",
+      "originalBytes": 35304,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-build.log.gz",
+      "sha256": "9ae675554aa80e9a28313b489943ec5fc28107ce1debd5d83daecf49fdeb7491",
+      "bytes": 4343,
+      "encoding": "gzip of original bytes",
+      "completionConfirmedBy": "root message: all six processes final; Edge process 34169 closed",
+      "evidenceClass": "local-static-website-build",
+      "status": "passed",
+      "reportedExitCode": 0,
+      "exitCodeSource": "root execution result; log contents independently read for summary consistency",
+      "summary": {
+        "buildId": "5LJEBsyF5N8plxvpugTbv",
+        "indexedPages": 223
+      },
+      "limitation": "Local export only, not CI or public deployment."
+    },
+    {
+      "kind": "completed-root-execution-log",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-edge-browser.log",
+      "originalSHA256": "8319f34ed0b4be16b7e36bb332680ce9103593b6c177d621d97c7f3edf1ebf61",
+      "originalBytes": 5261,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-edge-browser.log.gz",
+      "sha256": "7367ca573ae34fff1efa7910306c2998618998508eae41cda50172575d8115fc",
+      "bytes": 1154,
+      "encoding": "gzip of original bytes",
+      "completionConfirmedBy": "root message: all six processes final; Edge process 34169 closed",
+      "evidenceClass": "local-browser-regression",
+      "status": "passed",
+      "reportedExitCode": 0,
+      "exitCodeSource": "root execution result; log contents independently read for summary consistency",
+      "summary": {
+        "engine": "chromium",
+        "channel": "msedge",
+        "tests": 30,
+        "passed": 30,
+        "duration": "2.5m",
+        "scope": "inference.spec.mjs all tests"
+      },
+      "limitation": "Local browser automation, separate from independent images and public acceptance."
+    },
+    {
+      "kind": "completed-root-execution-log",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-webkit-browser.log",
+      "originalSHA256": "8d7b79a3d39e3014d46d89ef1e1c1acf4b0d04d879b31f9c72b5359e1f9efe48",
+      "originalBytes": 704,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-webkit-browser.log.gz",
+      "sha256": "9c8398e4b48f8c8984de0bcf9383563ab713161a349f5287a583f797a023f1c7",
+      "bytes": 377,
+      "encoding": "gzip of original bytes",
+      "completionConfirmedBy": "root message: all six processes final; Edge process 34169 closed",
+      "evidenceClass": "local-targeted-browser-regression",
+      "status": "passed",
+      "reportedExitCode": 0,
+      "exitCodeSource": "root execution result; log contents independently read for summary consistency",
+      "summary": {
+        "engine": "webkit",
+        "tests": 1,
+        "passed": 1,
+        "duration": "14.3s",
+        "scope": "inference.spec.mjs -g sampling filters"
+      },
+      "limitation": "Targeted 1-case WebKit regression, not a full 30-case WebKit suite or physical Safari."
+    },
+    {
+      "kind": "readable-final-focused-local-review",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review.md",
+      "originalSHA256": "29d6246c55bb41d2296d403a4646c58869879d8ad2ea4632eda5f5765a90ac21",
+      "originalBytes": 4713,
+      "encoding": "UTF-8 LF one final newline; fields/raw paths unchanged",
+      "path": "project/records/2026-09-30/inference-score-spacing-review.md",
+      "sha256": "29d6246c55bb41d2296d403a4646c58869879d8ad2ea4632eda5f5765a90ac21",
+      "bytes": 4713
+    },
+    {
+      "kind": "readable-final-focused-local-review",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review.json",
+      "originalSHA256": "6dd30aad8e5a53f8efe0d7e76d6164f501c41c073ca6c398c9be74a4741fbdfa",
+      "originalBytes": 27412,
+      "encoding": "UTF-8 LF one final newline; fields/raw paths unchanged",
+      "path": "project/records/2026-09-30/inference-score-spacing-review.json",
+      "sha256": "6dd30aad8e5a53f8efe0d7e76d6164f501c41c073ca6c398c9be74a4741fbdfa",
+      "bytes": 27412
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-chromium\\result.json",
+      "originalSHA256": "7457615a4f6398214f232994513cc79b6cca84f510b6664a14e802258c190ac0",
+      "originalBytes": 76553,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": 0,
+      "runRole": "initialEdge",
+      "rawStatus": "failed",
+      "candidateAcceptance": false,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-chromium-result.json.gz",
+      "sha256": "a3abf214e4d9dd29dbd183d6dffe89a2266861c0098b105661df08c04e8bc0bf",
+      "bytes": 5352
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-chromium-v2\\result.json",
+      "originalSHA256": "8818d0daf3d2d77d69037e91ab043c765933dd6def54674ea13eeb6e8c0750f5",
+      "originalBytes": 109611,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": 1,
+      "runRole": "candidateEdge",
+      "rawStatus": "passed",
+      "candidateAcceptance": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-chromium-v2-result.json.gz",
+      "sha256": "1ebc00a77950d43813fa55a14394290f5efd7087885fe93f0525e1972ade5a37",
+      "bytes": 6703
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-webkit\\result.json",
+      "originalSHA256": "c83944487b6d85b4a3cbeba7bf6cbde2f2f8653ddd45adf6418c342b00593281",
+      "originalBytes": 58209,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": 2,
+      "runRole": "candidateWebKit",
+      "rawStatus": "passed",
+      "candidateAcceptance": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-webkit-result.json.gz",
+      "sha256": "4ab82637bfda5f5a32fec63eae8480eaf93c9558a5d6af6f42382a1644557c4c",
+      "bytes": 3487
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-chromium-network-diagnostic\\result.json",
+      "originalSHA256": "d849daf91f4356cb2f42daf80dbfca75c887207113e9b0f2e373438f51a9c13c",
+      "originalBytes": 122449,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": 3,
+      "runRole": "timingDiagnostic",
+      "rawStatus": "passed",
+      "candidateAcceptance": false,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-chromium-network-diagnostic-result.json.gz",
+      "sha256": "f8fafe87feab2f53342f34b2d8f3d448806dfe038ebaa0e8152b39055d0e65ff",
+      "bytes": 7409
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-run.mjs",
+      "originalSHA256": "573d23ce51097727cfd640d34f8281d46d38cd568f298991c1dcf7ad93fb4d36",
+      "originalBytes": 8282,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": 4,
+      "runRole": null,
+      "rawStatus": null,
+      "candidateAcceptance": null,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-run.mjs.gz",
+      "sha256": "f087c77899872d9836d0af3ad12a69f06a3156b4b883531ebbb47a2d2e14e559",
+      "bytes": 3418
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-run-v2.mjs",
+      "originalSHA256": "6af18d590f19e0b16dc518979991a8f2e5d560a03f529c53ba4570ef0e13739f",
+      "originalBytes": 8478,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": 5,
+      "runRole": null,
+      "rawStatus": null,
+      "candidateAcceptance": null,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-run-v2.mjs.gz",
+      "sha256": "cd71e622fdadef1e2505bca7e0db3675cc3b3c272b449ebe6aaf2b4347c2797f",
+      "bytes": 3506
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-run-v2-provenance.json",
+      "originalSHA256": "1c977e6b360e607d387aa7a71e6a4610b4295d109648935cebbbed25b36dfe4f",
+      "originalBytes": 552,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": 6,
+      "runRole": null,
+      "rawStatus": null,
+      "candidateAcceptance": null,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-run-v2-provenance.json.gz",
+      "sha256": "4f0cb87f54f9e1cbabcf3fb17a14e6565a795dab5e1bd187e32e322265dc5305",
+      "bytes": 400
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-network-diagnostic.mjs",
+      "originalSHA256": "064b67497a8dd754f5c915e1e90700158f9a98981edd952c9f33508e4edef8c3",
+      "originalBytes": 9108,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": 7,
+      "runRole": null,
+      "rawStatus": null,
+      "candidateAcceptance": null,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-network-diagnostic.mjs.gz",
+      "sha256": "1e9769d67e0f63cceec23d10fa59ba24982ee8a492003302a2ecad44d2397325",
+      "bytes": 3666
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-network-diagnostic-provenance.json",
+      "originalSHA256": "5244b8dc8365ea861c9656967d7c1ece2d27f93de342974d12442de77ef5d4e4",
+      "originalBytes": 1913,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": 8,
+      "runRole": null,
+      "rawStatus": null,
+      "candidateAcceptance": null,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-network-diagnostic-provenance.json.gz",
+      "sha256": "335697c00c6d8df0d2439d42ed1fcef8763b0e59e4bdd28a83b14bfc7729acd7",
+      "bytes": 763
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-network-audit.json",
+      "originalSHA256": "a2cf9d0e4ef4f6e97c7f2f508dc92570217acc4f09cf005ae3080e532f66b967",
+      "originalBytes": 190577,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": 9,
+      "runRole": null,
+      "rawStatus": null,
+      "candidateAcceptance": null,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-network-audit.json.gz",
+      "sha256": "234c7b40f2ff627849fbf634373fb45004438ba2a66683960aa85d963a25eac1",
+      "bytes": 5311
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-proof.mjs",
+      "originalSHA256": "4639ae6545258369950228881ca909c7aef1cbfe5129c73fff98c3f6a6ba78c8",
+      "originalBytes": 3329,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": 10,
+      "runRole": null,
+      "rawStatus": null,
+      "candidateAcceptance": null,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-proof.mjs.gz",
+      "sha256": "9fb544134036f7e9d04db06350b4f0003ea117deb01dd631818a565175c41cbc",
+      "bytes": 1440
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-proof.json",
+      "originalSHA256": "f358edb6f17cae99d87685ba1a2e16271e8037814947b4aa01478352224e54a2",
+      "originalBytes": 1935,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": 11,
+      "runRole": null,
+      "rawStatus": null,
+      "candidateAcceptance": null,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-proof.json.gz",
+      "sha256": "06833e42abe24bc614e8d5711eed30417b1661c13057d28a82ee00e7760672c8",
+      "bytes": 944
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-baseline.mjs",
+      "originalSHA256": "1d5eb2d2f596c10cd1535510bd020431980964a9526aa59fe1c8414fdd91f4f6",
+      "originalBytes": 1405,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": 12,
+      "runRole": null,
+      "rawStatus": null,
+      "candidateAcceptance": null,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-baseline.mjs.gz",
+      "sha256": "7a96507e631b5525242a8254108de482e531cdc16c0e8c895d6658960da3678c",
+      "bytes": 775
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-baseline-provenance.json",
+      "originalSHA256": "3c14196368deebe6b2b258060f3a00e75387756d2a497ce9f16277dde97e1e73",
+      "originalBytes": 689,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": 13,
+      "runRole": null,
+      "rawStatus": null,
+      "candidateAcceptance": null,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-baseline-provenance.json.gz",
+      "sha256": "3310152297d9ffdd75b85e1571cdea60b08a70ba6a6ba8ec46e9a9db65ab1cc4",
+      "bytes": 475
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-pr61.css",
+      "originalSHA256": "c5ca9367c57f623eeb7cb2a62ff011db921a207f86a063a6209b3b4b33bcbae7",
+      "originalBytes": 1653,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": 14,
+      "runRole": null,
+      "rawStatus": null,
+      "candidateAcceptance": null,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-pr61.css.gz",
+      "sha256": "23f156cf920c531046737f35554e2ecbbc77b417dc013e1ead89440c28c2199c",
+      "bytes": 677
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-pr61-inputs.json",
+      "originalSHA256": "008df38be6a4512b8b9cd372b4e3c1e48b31ecb57864cedfe64f754aa2df44b3",
+      "originalBytes": 1450,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": 15,
+      "runRole": null,
+      "rawStatus": null,
+      "candidateAcceptance": null,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-pr61-inputs.json.gz",
+      "sha256": "379aedeae25f16158445a0604321826525d6169143dd0169918f422ab9b62b86",
+      "bytes": 587
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-before.css",
+      "originalSHA256": "3ecb21f0ac5557b161d107b4669d356796bce43ca5bdb536793bd1d0fc88b4c9",
+      "originalBytes": 1725,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": 16,
+      "runRole": null,
+      "rawStatus": null,
+      "candidateAcceptance": null,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-before.css.gz",
+      "sha256": "bd5a5d3fd2d9a58f242e5bf5c807422cf953eb3a8c84c2b9df92bfef1fb5a4ca",
+      "bytes": 712
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-before-inputs.json",
+      "originalSHA256": "79c21ed71fd6d6d111cb5b816f72056383cae386e393f382c1dcfe43c79158bd",
+      "originalBytes": 5427,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": 17,
+      "runRole": null,
+      "rawStatus": null,
+      "candidateAcceptance": null,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-before-inputs.json.gz",
+      "sha256": "09d02e4dcdcab4fcb1517ff6a64a49e196a5d9ea10696f42c2332494879324b9",
+      "bytes": 964
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-plan.json",
+      "originalSHA256": "1fdc06cdffd061609dd7ec4e4cdc8e25ceb5859098110bd56658d2195ce009ad",
+      "originalBytes": 1718,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": 18,
+      "runRole": null,
+      "rawStatus": null,
+      "candidateAcceptance": null,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-plan.json.gz",
+      "sha256": "8db4c54b524c5df97855c8d7cf0af1c9c6c713a6dc5109bcf97fe7ac6d391168",
+      "bytes": 960
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-serve.mjs",
+      "originalSHA256": "6f236edcf86aca8a117abec3a6b4dac2ee67fb17774fd185851bb50dacb226e4",
+      "originalBytes": 1835,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": 19,
+      "runRole": null,
+      "rawStatus": null,
+      "candidateAcceptance": null,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-serve.mjs.gz",
+      "sha256": "8233bbc726693a655dbb79d659b59cc97a0bef9a56a9f787a34dc58061c1ab57",
+      "bytes": 958
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-viewed-images.json",
+      "originalSHA256": "bf0ed383f3603b9f0ca5ca888149794fed32875a2ed018444f5307e5a235f773",
+      "originalBytes": 29770,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": 20,
+      "runRole": null,
+      "rawStatus": null,
+      "candidateAcceptance": null,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-viewed-images.json.gz",
+      "sha256": "54f18125145c3dcea68a56139b9363058864c6b58582dc6ca3dbefc198263e40",
+      "bytes": 2284
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review.md",
+      "originalSHA256": "29d6246c55bb41d2296d403a4646c58869879d8ad2ea4632eda5f5765a90ac21",
+      "originalBytes": 4713,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": null,
+      "runRole": null,
+      "rawStatus": null,
+      "candidateAcceptance": null,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review.md.gz",
+      "sha256": "ea1fb64c02eae52a03335d66427970bf16e1d6cf25a6a7d6b149e94ffb64a6e8",
+      "bytes": 2711
+    },
+    {
+      "kind": "finalized-independent-local-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review.json",
+      "originalSHA256": "6dd30aad8e5a53f8efe0d7e76d6164f501c41c073ca6c398c9be74a4741fbdfa",
+      "originalBytes": 27412,
+      "encoding": "gzip of original bytes",
+      "declaredEvidenceIndex": null,
+      "runRole": null,
+      "rawStatus": null,
+      "candidateAcceptance": null,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review.json.gz",
+      "sha256": "550d5f8971add8c6720ae7c9346801318765540624525737cf3642baaea5ad1f",
+      "bytes": 5450
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-panel-draw-scene.png",
+      "originalSHA256": "fc1c3f6356c1b79309cd2f3793eef62d591a212289e568cc24e97371fcb682ea",
+      "originalBytes": 30270,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/001-webkit-1440x1000-light-dsf1-panel-draw-scene.png",
+      "sha256": "fc1c3f6356c1b79309cd2f3793eef62d591a212289e568cc24e97371fcb682ea",
+      "bytes": 30270
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-panel-logit-scene.png",
+      "originalSHA256": "6b973b9066aa7e1c89fe86a178f63bf4c64366c50c96cb99d74713d2bce2e5da",
+      "originalBytes": 33530,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/002-webkit-1440x1000-light-dsf1-panel-logit-scene.png",
+      "sha256": "6b973b9066aa7e1c89fe86a178f63bf4c64366c50c96cb99d74713d2bce2e5da",
+      "bytes": 33530
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-modal-draw-scene.png",
+      "originalSHA256": "5ab608f00209d66a3bc9cabb00b3e20fdb0e1d3e138315eb5ca32f1a4c559559",
+      "originalBytes": 40589,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/003-webkit-1440x1000-light-dsf1-modal-draw-scene.png",
+      "sha256": "5ab608f00209d66a3bc9cabb00b3e20fdb0e1d3e138315eb5ca32f1a4c559559",
+      "bytes": 40589
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-modal-logit-scene.png",
+      "originalSHA256": "d0291bd03b5728fc78153e2efd47848577b71cc220addfe52c72b9104b14d8c2",
+      "originalBytes": 46569,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/004-webkit-1440x1000-light-dsf1-modal-logit-scene.png",
+      "sha256": "d0291bd03b5728fc78153e2efd47848577b71cc220addfe52c72b9104b14d8c2",
+      "bytes": 46569
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-dark-dsf1-panel-draw-scene.png",
+      "originalSHA256": "fc1c3f6356c1b79309cd2f3793eef62d591a212289e568cc24e97371fcb682ea",
+      "originalBytes": 30270,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/005-webkit-1440x1000-dark-dsf1-panel-draw-scene.png",
+      "sha256": "fc1c3f6356c1b79309cd2f3793eef62d591a212289e568cc24e97371fcb682ea",
+      "bytes": 30270
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-dark-dsf1-panel-logit-scene.png",
+      "originalSHA256": "6b973b9066aa7e1c89fe86a178f63bf4c64366c50c96cb99d74713d2bce2e5da",
+      "originalBytes": 33530,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/006-webkit-1440x1000-dark-dsf1-panel-logit-scene.png",
+      "sha256": "6b973b9066aa7e1c89fe86a178f63bf4c64366c50c96cb99d74713d2bce2e5da",
+      "bytes": 33530
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1280x720-light-dsf1-panel-draw-scene.png",
+      "originalSHA256": "95b4f71acd793b851ec30be8935ffdd3391fbe0762899bb9962dfbd04e64bf87",
+      "originalBytes": 24156,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/007-webkit-1280x720-light-dsf1-panel-draw-scene.png",
+      "sha256": "95b4f71acd793b851ec30be8935ffdd3391fbe0762899bb9962dfbd04e64bf87",
+      "bytes": 24156
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1280x720-light-dsf1-panel-logit-scene.png",
+      "originalSHA256": "f3e98bc67285ca1713764e4214cc28dd8b46d67f377f2e21f7dcb9ad866f9754",
+      "originalBytes": 27144,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/008-webkit-1280x720-light-dsf1-panel-logit-scene.png",
+      "sha256": "f3e98bc67285ca1713764e4214cc28dd8b46d67f377f2e21f7dcb9ad866f9754",
+      "bytes": 27144
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-light-dsf1-panel-draw-scene.png",
+      "originalSHA256": "eae29ec23c54fec0e029ccced0f4b9d4496dbe9ff04c5843bbb8babe3ae6791b",
+      "originalBytes": 14844,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/009-webkit-390x844-light-dsf1-panel-draw-scene.png",
+      "sha256": "eae29ec23c54fec0e029ccced0f4b9d4496dbe9ff04c5843bbb8babe3ae6791b",
+      "bytes": 14844
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-light-dsf1-panel-logit-scene.png",
+      "originalSHA256": "fc5152b287c9a56f1e9ea16892d47c3252fcc698b380b59452eb24170a04fe18",
+      "originalBytes": 16805,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/010-webkit-390x844-light-dsf1-panel-logit-scene.png",
+      "sha256": "fc5152b287c9a56f1e9ea16892d47c3252fcc698b380b59452eb24170a04fe18",
+      "bytes": 16805
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-panel-draw-scene.png",
+      "originalSHA256": "eae29ec23c54fec0e029ccced0f4b9d4496dbe9ff04c5843bbb8babe3ae6791b",
+      "originalBytes": 14844,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/011-webkit-390x844-dark-dsf1-panel-draw-scene.png",
+      "sha256": "eae29ec23c54fec0e029ccced0f4b9d4496dbe9ff04c5843bbb8babe3ae6791b",
+      "bytes": 14844
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-panel-logit-scene.png",
+      "originalSHA256": "fc5152b287c9a56f1e9ea16892d47c3252fcc698b380b59452eb24170a04fe18",
+      "originalBytes": 16805,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/012-webkit-390x844-dark-dsf1-panel-logit-scene.png",
+      "sha256": "fc5152b287c9a56f1e9ea16892d47c3252fcc698b380b59452eb24170a04fe18",
+      "bytes": 16805
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-modal-draw-scene.png",
+      "originalSHA256": "98305720f5fcd117d6957a8399cfc8f3982af5a2268d612c70729bd0d520be84",
+      "originalBytes": 14603,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/013-webkit-390x844-dark-dsf1-modal-draw-scene.png",
+      "sha256": "98305720f5fcd117d6957a8399cfc8f3982af5a2268d612c70729bd0d520be84",
+      "bytes": 14603
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-modal-logit-scene.png",
+      "originalSHA256": "6250fbafb81358a042e5921d04de1811c8fda8aaa37c5ca5e6fc37ff65638ea5",
+      "originalBytes": 16390,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/014-webkit-390x844-dark-dsf1-modal-logit-scene.png",
+      "sha256": "6250fbafb81358a042e5921d04de1811c8fda8aaa37c5ca5e6fc37ff65638ea5",
+      "bytes": 16390
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/960x540-light-dsf2-panel-draw-scene.png",
+      "originalSHA256": "769c16e9cbd713cb4bd891e6ebdc644b1d553c4db7e6b1ffc19bff3d12f0ab6f",
+      "originalBytes": 63731,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/015-webkit-960x540-light-dsf2-panel-draw-scene.png",
+      "sha256": "769c16e9cbd713cb4bd891e6ebdc644b1d553c4db7e6b1ffc19bff3d12f0ab6f",
+      "bytes": 63731
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/960x540-light-dsf2-panel-logit-scene.png",
+      "originalSHA256": "6ad9e76543cb20bf2f41283e63ac1c3796733d014d9797fba2bdfe89356c0afb",
+      "originalBytes": 71891,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/016-webkit-960x540-light-dsf2-panel-logit-scene.png",
+      "sha256": "6ad9e76543cb20bf2f41283e63ac1c3796733d014d9797fba2bdfe89356c0afb",
+      "bytes": 71891
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-light-dsf1-panel-draw-scene.png",
+      "originalSHA256": "ac9249472856297f70b4ffce844c365f24e1c455489c903a6b590a091ab2ffdc",
+      "originalBytes": 32634,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/017-chromium-msedge-1440x1000-light-dsf1-panel-draw-scene.png",
+      "sha256": "ac9249472856297f70b4ffce844c365f24e1c455489c903a6b590a091ab2ffdc",
+      "bytes": 32634
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-light-dsf1-panel-logit-scene.png",
+      "originalSHA256": "c427e5ec59f7897c88726f4ac62573497d65769047b00ef7f4610319db269e8c",
+      "originalBytes": 38392,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/018-chromium-msedge-1440x1000-light-dsf1-panel-logit-scene.png",
+      "sha256": "c427e5ec59f7897c88726f4ac62573497d65769047b00ef7f4610319db269e8c",
+      "bytes": 38392
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-light-dsf1-modal-draw-scene.png",
+      "originalSHA256": "3dc6d4833bead2bc9964f8c343d2206937a012dbd7bf489e83bce6615005209e",
+      "originalBytes": 54218,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/019-chromium-msedge-1440x1000-light-dsf1-modal-draw-scene.png",
+      "sha256": "3dc6d4833bead2bc9964f8c343d2206937a012dbd7bf489e83bce6615005209e",
+      "bytes": 54218
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-light-dsf1-modal-logit-scene.png",
+      "originalSHA256": "4cba1d4732003dbb23d7e17bb7dbae2850120c6b74332c8e3eb78c4c17b249ad",
+      "originalBytes": 59524,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/020-chromium-msedge-1440x1000-light-dsf1-modal-logit-scene.png",
+      "sha256": "4cba1d4732003dbb23d7e17bb7dbae2850120c6b74332c8e3eb78c4c17b249ad",
+      "bytes": 59524
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-dark-dsf1-panel-draw-scene.png",
+      "originalSHA256": "ac9249472856297f70b4ffce844c365f24e1c455489c903a6b590a091ab2ffdc",
+      "originalBytes": 32634,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/021-chromium-msedge-1440x1000-dark-dsf1-panel-draw-scene.png",
+      "sha256": "ac9249472856297f70b4ffce844c365f24e1c455489c903a6b590a091ab2ffdc",
+      "bytes": 32634
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-dark-dsf1-panel-logit-scene.png",
+      "originalSHA256": "c427e5ec59f7897c88726f4ac62573497d65769047b00ef7f4610319db269e8c",
+      "originalBytes": 38392,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/022-chromium-msedge-1440x1000-dark-dsf1-panel-logit-scene.png",
+      "sha256": "c427e5ec59f7897c88726f4ac62573497d65769047b00ef7f4610319db269e8c",
+      "bytes": 38392
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1280x720-light-dsf1-panel-draw-scene.png",
+      "originalSHA256": "6bc852eefbb46c81341a50ce95b0d028076c7a1c3f7e3f40ccf8f65bc351a685",
+      "originalBytes": 27213,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/023-chromium-msedge-1280x720-light-dsf1-panel-draw-scene.png",
+      "sha256": "6bc852eefbb46c81341a50ce95b0d028076c7a1c3f7e3f40ccf8f65bc351a685",
+      "bytes": 27213
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1280x720-light-dsf1-panel-logit-scene.png",
+      "originalSHA256": "fe12a02f41420fea9e84a81eb23ef319b95cbffe577d377b2d305c35ad3cca4a",
+      "originalBytes": 31564,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/024-chromium-msedge-1280x720-light-dsf1-panel-logit-scene.png",
+      "sha256": "fe12a02f41420fea9e84a81eb23ef319b95cbffe577d377b2d305c35ad3cca4a",
+      "bytes": 31564
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-light-dsf1-panel-draw-scene.png",
+      "originalSHA256": "edf667059cb0d4bc164c272ac5c32d821634052404908b861fc3d4d2ede0818a",
+      "originalBytes": 15713,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/025-chromium-msedge-390x844-light-dsf1-panel-draw-scene.png",
+      "sha256": "edf667059cb0d4bc164c272ac5c32d821634052404908b861fc3d4d2ede0818a",
+      "bytes": 15713
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-light-dsf1-panel-logit-scene.png",
+      "originalSHA256": "edaa3bd65a9115c0c658a511a8c2d8d6da84788a5ce6ec5b4fd3b23152f498d8",
+      "originalBytes": 18081,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/026-chromium-msedge-390x844-light-dsf1-panel-logit-scene.png",
+      "sha256": "edaa3bd65a9115c0c658a511a8c2d8d6da84788a5ce6ec5b4fd3b23152f498d8",
+      "bytes": 18081
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-dark-dsf1-panel-draw-scene.png",
+      "originalSHA256": "edf667059cb0d4bc164c272ac5c32d821634052404908b861fc3d4d2ede0818a",
+      "originalBytes": 15713,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/027-chromium-msedge-390x844-dark-dsf1-panel-draw-scene.png",
+      "sha256": "edf667059cb0d4bc164c272ac5c32d821634052404908b861fc3d4d2ede0818a",
+      "bytes": 15713
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-dark-dsf1-panel-logit-scene.png",
+      "originalSHA256": "edaa3bd65a9115c0c658a511a8c2d8d6da84788a5ce6ec5b4fd3b23152f498d8",
+      "originalBytes": 18081,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/028-chromium-msedge-390x844-dark-dsf1-panel-logit-scene.png",
+      "sha256": "edaa3bd65a9115c0c658a511a8c2d8d6da84788a5ce6ec5b4fd3b23152f498d8",
+      "bytes": 18081
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-dark-dsf1-modal-draw-scene.png",
+      "originalSHA256": "05fce33fbf3a45302353b7dbfbb91bc72aaec511e09669a2639e9629c52e287a",
+      "originalBytes": 16004,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/029-chromium-msedge-390x844-dark-dsf1-modal-draw-scene.png",
+      "sha256": "05fce33fbf3a45302353b7dbfbb91bc72aaec511e09669a2639e9629c52e287a",
+      "bytes": 16004
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-dark-dsf1-modal-logit-scene.png",
+      "originalSHA256": "f81cb32bb140d7d49122ccf74960f1980ed64a8d8bc60576a469d3857c7297a0",
+      "originalBytes": 18626,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/030-chromium-msedge-390x844-dark-dsf1-modal-logit-scene.png",
+      "sha256": "f81cb32bb140d7d49122ccf74960f1980ed64a8d8bc60576a469d3857c7297a0",
+      "bytes": 18626
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/960x540-light-dsf2-panel-draw-scene.png",
+      "originalSHA256": "5328e79fb372671e7ebe07b83a3d12edbd563c028324d1c7997ed381125e19e1",
+      "originalBytes": 84060,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/031-chromium-msedge-960x540-light-dsf2-panel-draw-scene.png",
+      "sha256": "5328e79fb372671e7ebe07b83a3d12edbd563c028324d1c7997ed381125e19e1",
+      "bytes": 84060
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/960x540-light-dsf2-panel-logit-scene.png",
+      "originalSHA256": "bb8f05b3724deebf63264caeb1e7f9cddc1024b9daf975a9109aa34b80b1452e",
+      "originalBytes": 91493,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/032-chromium-msedge-960x540-light-dsf2-panel-logit-scene.png",
+      "sha256": "bb8f05b3724deebf63264caeb1e7f9cddc1024b9daf975a9109aa34b80b1452e",
+      "bytes": 91493
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-panel-logit.png",
+      "originalSHA256": "3634fa9ea1049ff7ac3a7254b44e4d93d2bf1cd21aa24a678972b56ad7423165",
+      "originalBytes": 216969,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/033-webkit-1440x1000-light-dsf1-panel-logit.png",
+      "sha256": "3634fa9ea1049ff7ac3a7254b44e4d93d2bf1cd21aa24a678972b56ad7423165",
+      "bytes": 216969
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-modal-logit.png",
+      "originalSHA256": "7f42b589331858a5703628247ac66f41c67b2a81fa5b4fded03b9f46e3af96fc",
+      "originalBytes": 68957,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/034-webkit-390x844-dark-dsf1-modal-logit.png",
+      "sha256": "7f42b589331858a5703628247ac66f41c67b2a81fa5b4fded03b9f46e3af96fc",
+      "bytes": 68957
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1280x720-light-dsf1-panel-logit.png",
+      "originalSHA256": "0f78b669120d7e5ac14655f2188a06e1c89ad71a98a60a2babeb8d82c662fec6",
+      "originalBytes": 187422,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/035-chromium-msedge-1280x720-light-dsf1-panel-logit.png",
+      "sha256": "0f78b669120d7e5ac14655f2188a06e1c89ad71a98a60a2babeb8d82c662fec6",
+      "bytes": 187422
+    },
+    {
+      "kind": "actually-viewed-local-PNG",
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/960x540-light-dsf2-panel-logit.png",
+      "originalSHA256": "e71e4fbd97689b763bb76b93ef7122dcf0ffd5f72c2d00293615f2a3aefaa599",
+      "originalBytes": 283677,
+      "encoding": "original PNG bytes",
+      "actuallyViewed": true,
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/036-chromium-msedge-960x540-light-dsf2-panel-logit.png",
+      "sha256": "e71e4fbd97689b763bb76b93ef7122dcf0ffd5f72c2d00293615f2a3aefaa599",
+      "bytes": 283677
+    },
+    {
+      "kind": "portable-viewed-image-mapping",
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed-images.json",
+      "sha256": "c67b56b686313534372712c800ecc680dc1bc520b622868089f7e6cbb9c0ce7a",
+      "bytes": 51802
+    }
+  ],
+  "pathConvention": "path is repository-relative. Original source paths and raw JSON fields remain unchanged.",
+  "pending": [
+    "Root-owned final article/gate decision and public deployment acceptance"
+  ],
+  "unfinalizedLogsRead": false,
+  "verification": "project/records/2026-09-30/inference-score-spacing-evidence/archive-verification.json",
+  "updatedAt": "2026-09-29T18:46:22.571Z",
+  "rootExecutions": [
+    {
+      "name": "root-check",
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-root-check.log.gz",
+      "evidenceClass": "local-root-check-partial-failure",
+      "status": "failed-at-links",
+      "reportedExitCode": 1,
+      "summary": {
+        "tests": 480,
+        "passed": 479,
+        "failed": 0,
+        "skipped": 1,
+        "lintPassed": true,
+        "validatedFiles": 215,
+        "missingArchiveLinks": 3
+      },
+      "limitation": "Original npm run check did not finish successfully. Link targets were still being archived; do not relabel this run as passed."
+    },
+    {
+      "name": "record-check",
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-record-check.log.gz",
+      "evidenceClass": "local-root-remaining-static-checks",
+      "status": "passed",
+      "reportedExitCode": 0,
+      "summary": {
+        "lintPassed": true,
+        "validatedFiles": 215,
+        "linkFiles": 353,
+        "links": 5725,
+        "todosPassed": true,
+        "harnessPassed": true
+      },
+      "limitation": "Reruns remaining lint/validate/links/todos/harness only; not a second unit execution."
+    },
+    {
+      "name": "site-unit",
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-site-unit.log.gz",
+      "evidenceClass": "local-website-unit",
+      "status": "passed",
+      "reportedExitCode": 0,
+      "summary": {
+        "tests": 360,
+        "passed": 360,
+        "failed": 0,
+        "skipped": 0
+      },
+      "limitation": null
+    },
+    {
+      "name": "build",
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-build.log.gz",
+      "evidenceClass": "local-static-website-build",
+      "status": "passed",
+      "reportedExitCode": 0,
+      "summary": {
+        "buildId": "5LJEBsyF5N8plxvpugTbv",
+        "indexedPages": 223
+      },
+      "limitation": "Local export only, not CI or public deployment."
+    },
+    {
+      "name": "edge-browser",
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-edge-browser.log.gz",
+      "evidenceClass": "local-browser-regression",
+      "status": "passed",
+      "reportedExitCode": 0,
+      "summary": {
+        "engine": "chromium",
+        "channel": "msedge",
+        "tests": 30,
+        "passed": 30,
+        "duration": "2.5m",
+        "scope": "inference.spec.mjs all tests"
+      },
+      "limitation": "Local browser automation, separate from independent images and public acceptance."
+    },
+    {
+      "name": "webkit-browser",
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-webkit-browser.log.gz",
+      "evidenceClass": "local-targeted-browser-regression",
+      "status": "passed",
+      "reportedExitCode": 0,
+      "summary": {
+        "engine": "webkit",
+        "tests": 1,
+        "passed": 1,
+        "duration": "14.3s",
+        "scope": "inference.spec.mjs -g sampling filters"
+      },
+      "limitation": "Targeted 1-case WebKit regression, not a full 30-case WebKit suite or physical Safari."
+    }
+  ],
+  "activeVisualFilesRead": false,
+  "focusedLocalReview": {
+    "decision": "approved",
+    "risk": "low",
+    "must": 0,
+    "should": 0,
+    "scope": "Local independent source and actual-image acceptance for inference-sampling S6 PUBLIC-V1 spacing fix only; not a new full-article or public release acceptance",
+    "review": "project/records/2026-09-30/inference-score-spacing-review.md",
+    "reviewJSON": "project/records/2026-09-30/inference-score-spacing-review.json",
+    "buildId": "5LJEBsyF5N8plxvpugTbv",
+    "inputDigest": "sha256:e7b10bba12334b71d3eb0b5b469344d2d7e0451c42f52814693d955dd165ab82",
+    "candidateObservations": 32,
+    "candidateGeneratedPNG": 64,
+    "actuallyViewedPNG": 36,
+    "totalGeneratedIncludingFailedAndDiagnostic": 128,
+    "initialEdgeFailurePreserved": true,
+    "raceBaselineProvenancePreserved": true,
+    "fullFetchAuditPreserved": true
+  },
+  "images": {
+    "mapping": "project/records/2026-09-30/inference-score-spacing-evidence/viewed-images.json",
+    "sha256": "c67b56b686313534372712c800ecc680dc1bc520b622868089f7e6cbb9c0ce7a",
+    "bytes": 51802,
+    "count": 36
+  },
+  "finalizedVisualEvidenceRead": true,
+  "originalToStored": [
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-code-review.md",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-code-review.md",
+      "originalSHA256": "509153e3fc1b0455b06c2fdb0b9235531f0f5247a31d95c6a71f9071b5e8e19a",
+      "storedSHA256": "509153e3fc1b0455b06c2fdb0b9235531f0f5247a31d95c6a71f9071b5e8e19a"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-code-review.json",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-code-review.json",
+      "originalSHA256": "7a2fce38cefe45014931873f740a17e71b856a8e733279890454c02fb41e625b",
+      "storedSHA256": "7a2fce38cefe45014931873f740a17e71b856a8e733279890454c02fb41e625b"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-code-review.md",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-code-review.md.gz",
+      "originalSHA256": "509153e3fc1b0455b06c2fdb0b9235531f0f5247a31d95c6a71f9071b5e8e19a",
+      "storedSHA256": "1c49f702497848291f9cd4ca5d28f7ce8dd81318d3463bd82688a5afac1271bd"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-code-review.json",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-code-review.json.gz",
+      "originalSHA256": "7a2fce38cefe45014931873f740a17e71b856a8e733279890454c02fb41e625b",
+      "storedSHA256": "8ada6692e1eb4d0aa8e5daccaee08b2c69905d74fda5e273b5bf728948f140a6"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-main-local-identity.json",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/pretraining-pr61-main-local-identity.json.gz",
+      "originalSHA256": "66dc50e6bba661e230322acec4fd6d0aef150603d3c0737f59d8a76617a2ff90",
+      "storedSHA256": "d8882a9be17d6969eff01adce8d6a619f9ade9107b92e7e4ac0bd7c6216d3006"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-acceptance-before.json",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-acceptance-before.json.gz",
+      "originalSHA256": "fa0ad961d25da9196b8ce70a794ef6b0ff6a4a8ecc03034b6c2b042e4174c685",
+      "storedSHA256": "20d2d969e7afe9eb0150c5e6d9c84199fae7df576a3529fb1f4ce38151d457f8"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-root-check.log",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-root-check.log.gz",
+      "originalSHA256": "9e35bc5f51fbc3f7586973bf27f4f6b45b074f30152a03422853576ec0be18fc",
+      "storedSHA256": "69e1d4a39cf470cad6e72c35a27340af310e73904a909929b66c44944e21fbd6"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-record-check.log",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-record-check.log.gz",
+      "originalSHA256": "bb3ba75a101a4a718ec3e2f0da70cc0a3f70c6b19c0311ffd48d59512c1e26f2",
+      "storedSHA256": "a0c5bed50310c6146f4375f0f4ce4639848983257553ea4bd88945ed53d6d6ee"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-site-unit.log",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-site-unit.log.gz",
+      "originalSHA256": "64941d95a24e638851040e01c1068882365921a3decf2ca9abd7c358682ebde3",
+      "storedSHA256": "3e7ea0d60847c3d1362c960ccbf59fd2cc5d15fbbb3da815cd2bc7a125b39365"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-build.log",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-build.log.gz",
+      "originalSHA256": "a5206155e22138cd5bdc3f1737314f9d303022f881677a49c32871f330068a08",
+      "storedSHA256": "9ae675554aa80e9a28313b489943ec5fc28107ce1debd5d83daecf49fdeb7491"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-edge-browser.log",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-edge-browser.log.gz",
+      "originalSHA256": "8319f34ed0b4be16b7e36bb332680ce9103593b6c177d621d97c7f3edf1ebf61",
+      "storedSHA256": "7367ca573ae34fff1efa7910306c2998618998508eae41cda50172575d8115fc"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-webkit-browser.log",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-webkit-browser.log.gz",
+      "originalSHA256": "8d7b79a3d39e3014d46d89ef1e1c1acf4b0d04d879b31f9c72b5359e1f9efe48",
+      "storedSHA256": "9c8398e4b48f8c8984de0bcf9383563ab713161a349f5287a583f797a023f1c7"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review.md",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-review.md",
+      "originalSHA256": "29d6246c55bb41d2296d403a4646c58869879d8ad2ea4632eda5f5765a90ac21",
+      "storedSHA256": "29d6246c55bb41d2296d403a4646c58869879d8ad2ea4632eda5f5765a90ac21"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review.json",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-review.json",
+      "originalSHA256": "6dd30aad8e5a53f8efe0d7e76d6164f501c41c073ca6c398c9be74a4741fbdfa",
+      "storedSHA256": "6dd30aad8e5a53f8efe0d7e76d6164f501c41c073ca6c398c9be74a4741fbdfa"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-chromium\\result.json",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-chromium-result.json.gz",
+      "originalSHA256": "7457615a4f6398214f232994513cc79b6cca84f510b6664a14e802258c190ac0",
+      "storedSHA256": "a3abf214e4d9dd29dbd183d6dffe89a2266861c0098b105661df08c04e8bc0bf"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-chromium-v2\\result.json",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-chromium-v2-result.json.gz",
+      "originalSHA256": "8818d0daf3d2d77d69037e91ab043c765933dd6def54674ea13eeb6e8c0750f5",
+      "storedSHA256": "1ebc00a77950d43813fa55a14394290f5efd7087885fe93f0525e1972ade5a37"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-webkit\\result.json",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-webkit-result.json.gz",
+      "originalSHA256": "c83944487b6d85b4a3cbeba7bf6cbde2f2f8653ddd45adf6418c342b00593281",
+      "storedSHA256": "4ab82637bfda5f5a32fec63eae8480eaf93c9558a5d6af6f42382a1644557c4c"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-chromium-network-diagnostic\\result.json",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-chromium-network-diagnostic-result.json.gz",
+      "originalSHA256": "d849daf91f4356cb2f42daf80dbfca75c887207113e9b0f2e373438f51a9c13c",
+      "storedSHA256": "f8fafe87feab2f53342f34b2d8f3d448806dfe038ebaa0e8152b39055d0e65ff"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-run.mjs",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-run.mjs.gz",
+      "originalSHA256": "573d23ce51097727cfd640d34f8281d46d38cd568f298991c1dcf7ad93fb4d36",
+      "storedSHA256": "f087c77899872d9836d0af3ad12a69f06a3156b4b883531ebbb47a2d2e14e559"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-run-v2.mjs",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-run-v2.mjs.gz",
+      "originalSHA256": "6af18d590f19e0b16dc518979991a8f2e5d560a03f529c53ba4570ef0e13739f",
+      "storedSHA256": "cd71e622fdadef1e2505bca7e0db3675cc3b3c272b449ebe6aaf2b4347c2797f"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-run-v2-provenance.json",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-run-v2-provenance.json.gz",
+      "originalSHA256": "1c977e6b360e607d387aa7a71e6a4610b4295d109648935cebbbed25b36dfe4f",
+      "storedSHA256": "4f0cb87f54f9e1cbabcf3fb17a14e6565a795dab5e1bd187e32e322265dc5305"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-network-diagnostic.mjs",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-network-diagnostic.mjs.gz",
+      "originalSHA256": "064b67497a8dd754f5c915e1e90700158f9a98981edd952c9f33508e4edef8c3",
+      "storedSHA256": "1e9769d67e0f63cceec23d10fa59ba24982ee8a492003302a2ecad44d2397325"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-network-diagnostic-provenance.json",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-network-diagnostic-provenance.json.gz",
+      "originalSHA256": "5244b8dc8365ea861c9656967d7c1ece2d27f93de342974d12442de77ef5d4e4",
+      "storedSHA256": "335697c00c6d8df0d2439d42ed1fcef8763b0e59e4bdd28a83b14bfc7729acd7"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-network-audit.json",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-network-audit.json.gz",
+      "originalSHA256": "a2cf9d0e4ef4f6e97c7f2f508dc92570217acc4f09cf005ae3080e532f66b967",
+      "storedSHA256": "234c7b40f2ff627849fbf634373fb45004438ba2a66683960aa85d963a25eac1"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-proof.mjs",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-proof.mjs.gz",
+      "originalSHA256": "4639ae6545258369950228881ca909c7aef1cbfe5129c73fff98c3f6a6ba78c8",
+      "storedSHA256": "9fb544134036f7e9d04db06350b4f0003ea117deb01dd631818a565175c41cbc"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-proof.json",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-proof.json.gz",
+      "originalSHA256": "f358edb6f17cae99d87685ba1a2e16271e8037814947b4aa01478352224e54a2",
+      "storedSHA256": "06833e42abe24bc614e8d5711eed30417b1661c13057d28a82ee00e7760672c8"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-baseline.mjs",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-baseline.mjs.gz",
+      "originalSHA256": "1d5eb2d2f596c10cd1535510bd020431980964a9526aa59fe1c8414fdd91f4f6",
+      "storedSHA256": "7a96507e631b5525242a8254108de482e531cdc16c0e8c895d6658960da3678c"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-baseline-provenance.json",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-baseline-provenance.json.gz",
+      "originalSHA256": "3c14196368deebe6b2b258060f3a00e75387756d2a497ce9f16277dde97e1e73",
+      "storedSHA256": "3310152297d9ffdd75b85e1571cdea60b08a70ba6a6ba8ec46e9a9db65ab1cc4"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-pr61.css",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-pr61.css.gz",
+      "originalSHA256": "c5ca9367c57f623eeb7cb2a62ff011db921a207f86a063a6209b3b4b33bcbae7",
+      "storedSHA256": "23f156cf920c531046737f35554e2ecbbc77b417dc013e1ead89440c28c2199c"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-pr61-inputs.json",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-pr61-inputs.json.gz",
+      "originalSHA256": "008df38be6a4512b8b9cd372b4e3c1e48b31ecb57864cedfe64f754aa2df44b3",
+      "storedSHA256": "379aedeae25f16158445a0604321826525d6169143dd0169918f422ab9b62b86"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-before.css",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-before.css.gz",
+      "originalSHA256": "3ecb21f0ac5557b161d107b4669d356796bce43ca5bdb536793bd1d0fc88b4c9",
+      "storedSHA256": "bd5a5d3fd2d9a58f242e5bf5c807422cf953eb3a8c84c2b9df92bfef1fb5a4ca"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-before-inputs.json",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-before-inputs.json.gz",
+      "originalSHA256": "79c21ed71fd6d6d111cb5b816f72056383cae386e393f382c1dcfe43c79158bd",
+      "storedSHA256": "09d02e4dcdcab4fcb1517ff6a64a49e196a5d9ea10696f42c2332494879324b9"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-plan.json",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-plan.json.gz",
+      "originalSHA256": "1fdc06cdffd061609dd7ec4e4cdc8e25ceb5859098110bd56658d2195ce009ad",
+      "storedSHA256": "8db4c54b524c5df97855c8d7cf0af1c9c6c713a6dc5109bcf97fe7ac6d391168"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-serve.mjs",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-serve.mjs.gz",
+      "originalSHA256": "6f236edcf86aca8a117abec3a6b4dac2ee67fb17774fd185851bb50dacb226e4",
+      "storedSHA256": "8233bbc726693a655dbb79d659b59cc97a0bef9a56a9f787a34dc58061c1ab57"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-viewed-images.json",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-viewed-images.json.gz",
+      "originalSHA256": "bf0ed383f3603b9f0ca5ca888149794fed32875a2ed018444f5307e5a235f773",
+      "storedSHA256": "54f18125145c3dcea68a56139b9363058864c6b58582dc6ca3dbefc198263e40"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review.md",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review.md.gz",
+      "originalSHA256": "29d6246c55bb41d2296d403a4646c58869879d8ad2ea4632eda5f5765a90ac21",
+      "storedSHA256": "ea1fb64c02eae52a03335d66427970bf16e1d6cf25a6a7d6b149e94ffb64a6e8"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review.json",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review.json.gz",
+      "originalSHA256": "6dd30aad8e5a53f8efe0d7e76d6164f501c41c073ca6c398c9be74a4741fbdfa",
+      "storedSHA256": "550d5f8971add8c6720ae7c9346801318765540624525737cf3642baaea5ad1f"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/001-webkit-1440x1000-light-dsf1-panel-draw-scene.png",
+      "originalSHA256": "fc1c3f6356c1b79309cd2f3793eef62d591a212289e568cc24e97371fcb682ea",
+      "storedSHA256": "fc1c3f6356c1b79309cd2f3793eef62d591a212289e568cc24e97371fcb682ea"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/002-webkit-1440x1000-light-dsf1-panel-logit-scene.png",
+      "originalSHA256": "6b973b9066aa7e1c89fe86a178f63bf4c64366c50c96cb99d74713d2bce2e5da",
+      "storedSHA256": "6b973b9066aa7e1c89fe86a178f63bf4c64366c50c96cb99d74713d2bce2e5da"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-modal-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/003-webkit-1440x1000-light-dsf1-modal-draw-scene.png",
+      "originalSHA256": "5ab608f00209d66a3bc9cabb00b3e20fdb0e1d3e138315eb5ca32f1a4c559559",
+      "storedSHA256": "5ab608f00209d66a3bc9cabb00b3e20fdb0e1d3e138315eb5ca32f1a4c559559"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-modal-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/004-webkit-1440x1000-light-dsf1-modal-logit-scene.png",
+      "originalSHA256": "d0291bd03b5728fc78153e2efd47848577b71cc220addfe52c72b9104b14d8c2",
+      "storedSHA256": "d0291bd03b5728fc78153e2efd47848577b71cc220addfe52c72b9104b14d8c2"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-dark-dsf1-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/005-webkit-1440x1000-dark-dsf1-panel-draw-scene.png",
+      "originalSHA256": "fc1c3f6356c1b79309cd2f3793eef62d591a212289e568cc24e97371fcb682ea",
+      "storedSHA256": "fc1c3f6356c1b79309cd2f3793eef62d591a212289e568cc24e97371fcb682ea"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-dark-dsf1-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/006-webkit-1440x1000-dark-dsf1-panel-logit-scene.png",
+      "originalSHA256": "6b973b9066aa7e1c89fe86a178f63bf4c64366c50c96cb99d74713d2bce2e5da",
+      "storedSHA256": "6b973b9066aa7e1c89fe86a178f63bf4c64366c50c96cb99d74713d2bce2e5da"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1280x720-light-dsf1-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/007-webkit-1280x720-light-dsf1-panel-draw-scene.png",
+      "originalSHA256": "95b4f71acd793b851ec30be8935ffdd3391fbe0762899bb9962dfbd04e64bf87",
+      "storedSHA256": "95b4f71acd793b851ec30be8935ffdd3391fbe0762899bb9962dfbd04e64bf87"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1280x720-light-dsf1-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/008-webkit-1280x720-light-dsf1-panel-logit-scene.png",
+      "originalSHA256": "f3e98bc67285ca1713764e4214cc28dd8b46d67f377f2e21f7dcb9ad866f9754",
+      "storedSHA256": "f3e98bc67285ca1713764e4214cc28dd8b46d67f377f2e21f7dcb9ad866f9754"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-light-dsf1-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/009-webkit-390x844-light-dsf1-panel-draw-scene.png",
+      "originalSHA256": "eae29ec23c54fec0e029ccced0f4b9d4496dbe9ff04c5843bbb8babe3ae6791b",
+      "storedSHA256": "eae29ec23c54fec0e029ccced0f4b9d4496dbe9ff04c5843bbb8babe3ae6791b"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-light-dsf1-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/010-webkit-390x844-light-dsf1-panel-logit-scene.png",
+      "originalSHA256": "fc5152b287c9a56f1e9ea16892d47c3252fcc698b380b59452eb24170a04fe18",
+      "storedSHA256": "fc5152b287c9a56f1e9ea16892d47c3252fcc698b380b59452eb24170a04fe18"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/011-webkit-390x844-dark-dsf1-panel-draw-scene.png",
+      "originalSHA256": "eae29ec23c54fec0e029ccced0f4b9d4496dbe9ff04c5843bbb8babe3ae6791b",
+      "storedSHA256": "eae29ec23c54fec0e029ccced0f4b9d4496dbe9ff04c5843bbb8babe3ae6791b"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/012-webkit-390x844-dark-dsf1-panel-logit-scene.png",
+      "originalSHA256": "fc5152b287c9a56f1e9ea16892d47c3252fcc698b380b59452eb24170a04fe18",
+      "storedSHA256": "fc5152b287c9a56f1e9ea16892d47c3252fcc698b380b59452eb24170a04fe18"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-modal-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/013-webkit-390x844-dark-dsf1-modal-draw-scene.png",
+      "originalSHA256": "98305720f5fcd117d6957a8399cfc8f3982af5a2268d612c70729bd0d520be84",
+      "storedSHA256": "98305720f5fcd117d6957a8399cfc8f3982af5a2268d612c70729bd0d520be84"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-modal-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/014-webkit-390x844-dark-dsf1-modal-logit-scene.png",
+      "originalSHA256": "6250fbafb81358a042e5921d04de1811c8fda8aaa37c5ca5e6fc37ff65638ea5",
+      "storedSHA256": "6250fbafb81358a042e5921d04de1811c8fda8aaa37c5ca5e6fc37ff65638ea5"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/960x540-light-dsf2-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/015-webkit-960x540-light-dsf2-panel-draw-scene.png",
+      "originalSHA256": "769c16e9cbd713cb4bd891e6ebdc644b1d553c4db7e6b1ffc19bff3d12f0ab6f",
+      "storedSHA256": "769c16e9cbd713cb4bd891e6ebdc644b1d553c4db7e6b1ffc19bff3d12f0ab6f"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/960x540-light-dsf2-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/016-webkit-960x540-light-dsf2-panel-logit-scene.png",
+      "originalSHA256": "6ad9e76543cb20bf2f41283e63ac1c3796733d014d9797fba2bdfe89356c0afb",
+      "storedSHA256": "6ad9e76543cb20bf2f41283e63ac1c3796733d014d9797fba2bdfe89356c0afb"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-light-dsf1-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/017-chromium-msedge-1440x1000-light-dsf1-panel-draw-scene.png",
+      "originalSHA256": "ac9249472856297f70b4ffce844c365f24e1c455489c903a6b590a091ab2ffdc",
+      "storedSHA256": "ac9249472856297f70b4ffce844c365f24e1c455489c903a6b590a091ab2ffdc"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-light-dsf1-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/018-chromium-msedge-1440x1000-light-dsf1-panel-logit-scene.png",
+      "originalSHA256": "c427e5ec59f7897c88726f4ac62573497d65769047b00ef7f4610319db269e8c",
+      "storedSHA256": "c427e5ec59f7897c88726f4ac62573497d65769047b00ef7f4610319db269e8c"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-light-dsf1-modal-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/019-chromium-msedge-1440x1000-light-dsf1-modal-draw-scene.png",
+      "originalSHA256": "3dc6d4833bead2bc9964f8c343d2206937a012dbd7bf489e83bce6615005209e",
+      "storedSHA256": "3dc6d4833bead2bc9964f8c343d2206937a012dbd7bf489e83bce6615005209e"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-light-dsf1-modal-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/020-chromium-msedge-1440x1000-light-dsf1-modal-logit-scene.png",
+      "originalSHA256": "4cba1d4732003dbb23d7e17bb7dbae2850120c6b74332c8e3eb78c4c17b249ad",
+      "storedSHA256": "4cba1d4732003dbb23d7e17bb7dbae2850120c6b74332c8e3eb78c4c17b249ad"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-dark-dsf1-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/021-chromium-msedge-1440x1000-dark-dsf1-panel-draw-scene.png",
+      "originalSHA256": "ac9249472856297f70b4ffce844c365f24e1c455489c903a6b590a091ab2ffdc",
+      "storedSHA256": "ac9249472856297f70b4ffce844c365f24e1c455489c903a6b590a091ab2ffdc"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-dark-dsf1-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/022-chromium-msedge-1440x1000-dark-dsf1-panel-logit-scene.png",
+      "originalSHA256": "c427e5ec59f7897c88726f4ac62573497d65769047b00ef7f4610319db269e8c",
+      "storedSHA256": "c427e5ec59f7897c88726f4ac62573497d65769047b00ef7f4610319db269e8c"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1280x720-light-dsf1-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/023-chromium-msedge-1280x720-light-dsf1-panel-draw-scene.png",
+      "originalSHA256": "6bc852eefbb46c81341a50ce95b0d028076c7a1c3f7e3f40ccf8f65bc351a685",
+      "storedSHA256": "6bc852eefbb46c81341a50ce95b0d028076c7a1c3f7e3f40ccf8f65bc351a685"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1280x720-light-dsf1-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/024-chromium-msedge-1280x720-light-dsf1-panel-logit-scene.png",
+      "originalSHA256": "fe12a02f41420fea9e84a81eb23ef319b95cbffe577d377b2d305c35ad3cca4a",
+      "storedSHA256": "fe12a02f41420fea9e84a81eb23ef319b95cbffe577d377b2d305c35ad3cca4a"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-light-dsf1-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/025-chromium-msedge-390x844-light-dsf1-panel-draw-scene.png",
+      "originalSHA256": "edf667059cb0d4bc164c272ac5c32d821634052404908b861fc3d4d2ede0818a",
+      "storedSHA256": "edf667059cb0d4bc164c272ac5c32d821634052404908b861fc3d4d2ede0818a"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-light-dsf1-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/026-chromium-msedge-390x844-light-dsf1-panel-logit-scene.png",
+      "originalSHA256": "edaa3bd65a9115c0c658a511a8c2d8d6da84788a5ce6ec5b4fd3b23152f498d8",
+      "storedSHA256": "edaa3bd65a9115c0c658a511a8c2d8d6da84788a5ce6ec5b4fd3b23152f498d8"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-dark-dsf1-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/027-chromium-msedge-390x844-dark-dsf1-panel-draw-scene.png",
+      "originalSHA256": "edf667059cb0d4bc164c272ac5c32d821634052404908b861fc3d4d2ede0818a",
+      "storedSHA256": "edf667059cb0d4bc164c272ac5c32d821634052404908b861fc3d4d2ede0818a"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-dark-dsf1-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/028-chromium-msedge-390x844-dark-dsf1-panel-logit-scene.png",
+      "originalSHA256": "edaa3bd65a9115c0c658a511a8c2d8d6da84788a5ce6ec5b4fd3b23152f498d8",
+      "storedSHA256": "edaa3bd65a9115c0c658a511a8c2d8d6da84788a5ce6ec5b4fd3b23152f498d8"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-dark-dsf1-modal-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/029-chromium-msedge-390x844-dark-dsf1-modal-draw-scene.png",
+      "originalSHA256": "05fce33fbf3a45302353b7dbfbb91bc72aaec511e09669a2639e9629c52e287a",
+      "storedSHA256": "05fce33fbf3a45302353b7dbfbb91bc72aaec511e09669a2639e9629c52e287a"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-dark-dsf1-modal-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/030-chromium-msedge-390x844-dark-dsf1-modal-logit-scene.png",
+      "originalSHA256": "f81cb32bb140d7d49122ccf74960f1980ed64a8d8bc60576a469d3857c7297a0",
+      "storedSHA256": "f81cb32bb140d7d49122ccf74960f1980ed64a8d8bc60576a469d3857c7297a0"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/960x540-light-dsf2-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/031-chromium-msedge-960x540-light-dsf2-panel-draw-scene.png",
+      "originalSHA256": "5328e79fb372671e7ebe07b83a3d12edbd563c028324d1c7997ed381125e19e1",
+      "storedSHA256": "5328e79fb372671e7ebe07b83a3d12edbd563c028324d1c7997ed381125e19e1"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/960x540-light-dsf2-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/032-chromium-msedge-960x540-light-dsf2-panel-logit-scene.png",
+      "originalSHA256": "bb8f05b3724deebf63264caeb1e7f9cddc1024b9daf975a9109aa34b80b1452e",
+      "storedSHA256": "bb8f05b3724deebf63264caeb1e7f9cddc1024b9daf975a9109aa34b80b1452e"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-panel-logit.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/033-webkit-1440x1000-light-dsf1-panel-logit.png",
+      "originalSHA256": "3634fa9ea1049ff7ac3a7254b44e4d93d2bf1cd21aa24a678972b56ad7423165",
+      "storedSHA256": "3634fa9ea1049ff7ac3a7254b44e4d93d2bf1cd21aa24a678972b56ad7423165"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-modal-logit.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/034-webkit-390x844-dark-dsf1-modal-logit.png",
+      "originalSHA256": "7f42b589331858a5703628247ac66f41c67b2a81fa5b4fded03b9f46e3af96fc",
+      "storedSHA256": "7f42b589331858a5703628247ac66f41c67b2a81fa5b4fded03b9f46e3af96fc"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1280x720-light-dsf1-panel-logit.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/035-chromium-msedge-1280x720-light-dsf1-panel-logit.png",
+      "originalSHA256": "0f78b669120d7e5ac14655f2188a06e1c89ad71a98a60a2babeb8d82c662fec6",
+      "storedSHA256": "0f78b669120d7e5ac14655f2188a06e1c89ad71a98a60a2babeb8d82c662fec6"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/960x540-light-dsf2-panel-logit.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/036-chromium-msedge-960x540-light-dsf2-panel-logit.png",
+      "originalSHA256": "e71e4fbd97689b763bb76b93ef7122dcf0ffd5f72c2d00293615f2a3aefaa599",
+      "storedSHA256": "e71e4fbd97689b763bb76b93ef7122dcf0ffd5f72c2d00293615f2a3aefaa599"
+    }
+  ]
+}

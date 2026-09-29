@@ -1,0 +1,707 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/pretraining_visual_review",
+  "independentOfProductAuthor": true,
+  "completedAt": "2026-09-29T18:43:36.531Z",
+  "decision": "approved",
+  "risk": "low",
+  "must": [],
+  "should": [],
+  "scope": "Local independent source and actual-image acceptance for inference-sampling S6 PUBLIC-V1 spacing fix only; not a new full-article or public release acceptance",
+  "origin": {
+    "finding": "PUBLIC-V1",
+    "merge": "ca3c09eebd1b549564f874f3304d23ae25328194",
+    "publicBuild": "UWZD5odlVHV_TyUNH3jZ0",
+    "oldReviewSHA256": "be4b2b1a010231b928ce2dc733f72fdb973b0d7950e27149a2ad6ffd07969635",
+    "status": "Original public changes_requested preserved; not resolved on public site by this review"
+  },
+  "candidate": {
+    "buildId": "5LJEBsyF5N8plxvpugTbv",
+    "inputDigest": "sha256:e7b10bba12334b71d3eb0b5b469344d2d7e0451c42f52814693d955dd165ab82",
+    "cssSHA256": "3ecb21f0ac5557b161d107b4669d356796bce43ca5bdb536793bd1d0fc88b4c9",
+    "before": {
+      "buildId": "5LJEBsyF5N8plxvpugTbv",
+      "articles": [
+        {
+          "article": "docs/11-llm-internals/transformer-architecture.md",
+          "inputDigest": "sha256:e608a9954aee28546173f8c8250e34b43a6fc61293f46c54ba9f075fb7f02376",
+          "route": "/docs/llm-internals/transformer-architecture",
+          "htmlSHA256": "c6f10a7481de32e9cf134559d35ce4bde759ef643ca8a0f0e51f811efe8e0658"
+        },
+        {
+          "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+          "inputDigest": "sha256:939497afc225dbe36976b72b17ce63705b744869047e069f013eb7c89be8913f",
+          "route": "/docs/llm-internals/attention-variants-and-long-context",
+          "htmlSHA256": "78c4f321e4037ae7a3ddace41a701b39441e82dbf67dacec0da685808c312b64"
+        },
+        {
+          "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+          "inputDigest": "sha256:67f6886639932264e008b124f0ac41daa88da4a99158a55211eed6006bb8e753",
+          "route": "/docs/llm-internals/mixture-of-experts-internals",
+          "htmlSHA256": "896d5c23d2bd42c06312ac874fbeb86b44ae6be4f0b35e3188c6991e89d11619"
+        },
+        {
+          "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+          "inputDigest": "sha256:bcd96bd8e9f0e60fe6308ff79870f9a45ded0a4f8f1010b7fe9518d79577459d",
+          "route": "/docs/llm-foundations/how-llms-generate-text",
+          "htmlSHA256": "a6b7d170c13e28f98a373d35953457203af06e3e2aafffc699f30d5edbeb16a8"
+        },
+        {
+          "article": "docs/10-llm-foundations/tokenization.md",
+          "inputDigest": "sha256:9aa1f291fb1ab9ea006ab9a42ebc1065b2410fa39b0377e720952f07d5e47c69",
+          "route": "/docs/llm-foundations/tokenization",
+          "htmlSHA256": "b91f40bb98d6e5110667be2d11ecd9864990e8b6b9670a40b67494c221dfce2d"
+        },
+        {
+          "article": "docs/11-llm-internals/inference-internals.md",
+          "inputDigest": "sha256:e7b10bba12334b71d3eb0b5b469344d2d7e0451c42f52814693d955dd165ab82",
+          "route": "/docs/llm-internals/inference-internals",
+          "htmlSHA256": "c81f649e68fc96eceed1a5766b60fe7714fb951e1105f591a7902c5ed9ec1199"
+        },
+        {
+          "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+          "inputDigest": "sha256:33237ab6f74f953e7ceab16d01631b765eb21bf28df6e3ff7cc8eb7f4f261ec5",
+          "route": "/docs/llm-foundations/llm-training-pipeline",
+          "htmlSHA256": "544db80765dd50ce984479428294b4eb7c599251adfd99ca52e0f2bd326d8d17"
+        },
+        {
+          "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+          "inputDigest": "sha256:0fa344cb9b3ec838864fb9c0f7b6e4f2532751e8535a43e057cd53f41f7a18b6",
+          "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+          "htmlSHA256": "8431d16516d3aa7763aba4a3b181d5e5878b92dc1a5121a534773b55602e7295"
+        }
+      ],
+      "cssSHA256": "3ecb21f0ac5557b161d107b4669d356796bce43ca5bdb536793bd1d0fc88b4c9"
+    },
+    "after": {
+      "buildId": "5LJEBsyF5N8plxvpugTbv",
+      "articles": [
+        {
+          "article": "docs/11-llm-internals/transformer-architecture.md",
+          "inputDigest": "sha256:e608a9954aee28546173f8c8250e34b43a6fc61293f46c54ba9f075fb7f02376",
+          "route": "/docs/llm-internals/transformer-architecture",
+          "htmlSHA256": "c6f10a7481de32e9cf134559d35ce4bde759ef643ca8a0f0e51f811efe8e0658"
+        },
+        {
+          "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+          "inputDigest": "sha256:939497afc225dbe36976b72b17ce63705b744869047e069f013eb7c89be8913f",
+          "route": "/docs/llm-internals/attention-variants-and-long-context",
+          "htmlSHA256": "78c4f321e4037ae7a3ddace41a701b39441e82dbf67dacec0da685808c312b64"
+        },
+        {
+          "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+          "inputDigest": "sha256:67f6886639932264e008b124f0ac41daa88da4a99158a55211eed6006bb8e753",
+          "route": "/docs/llm-internals/mixture-of-experts-internals",
+          "htmlSHA256": "896d5c23d2bd42c06312ac874fbeb86b44ae6be4f0b35e3188c6991e89d11619"
+        },
+        {
+          "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+          "inputDigest": "sha256:bcd96bd8e9f0e60fe6308ff79870f9a45ded0a4f8f1010b7fe9518d79577459d",
+          "route": "/docs/llm-foundations/how-llms-generate-text",
+          "htmlSHA256": "a6b7d170c13e28f98a373d35953457203af06e3e2aafffc699f30d5edbeb16a8"
+        },
+        {
+          "article": "docs/10-llm-foundations/tokenization.md",
+          "inputDigest": "sha256:9aa1f291fb1ab9ea006ab9a42ebc1065b2410fa39b0377e720952f07d5e47c69",
+          "route": "/docs/llm-foundations/tokenization",
+          "htmlSHA256": "b91f40bb98d6e5110667be2d11ecd9864990e8b6b9670a40b67494c221dfce2d"
+        },
+        {
+          "article": "docs/11-llm-internals/inference-internals.md",
+          "inputDigest": "sha256:e7b10bba12334b71d3eb0b5b469344d2d7e0451c42f52814693d955dd165ab82",
+          "route": "/docs/llm-internals/inference-internals",
+          "htmlSHA256": "c81f649e68fc96eceed1a5766b60fe7714fb951e1105f591a7902c5ed9ec1199"
+        },
+        {
+          "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+          "inputDigest": "sha256:33237ab6f74f953e7ceab16d01631b765eb21bf28df6e3ff7cc8eb7f4f261ec5",
+          "route": "/docs/llm-foundations/llm-training-pipeline",
+          "htmlSHA256": "544db80765dd50ce984479428294b4eb7c599251adfd99ca52e0f2bd326d8d17"
+        },
+        {
+          "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+          "inputDigest": "sha256:0fa344cb9b3ec838864fb9c0f7b6e4f2532751e8535a43e057cd53f41f7a18b6",
+          "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+          "htmlSHA256": "8431d16516d3aa7763aba4a3b181d5e5878b92dc1a5121a534773b55602e7295"
+        }
+      ],
+      "cssSHA256": "3ecb21f0ac5557b161d107b4669d356796bce43ca5bdb536793bd1d0fc88b4c9"
+    },
+    "finalLiveIdentityConfirmed": true
+  },
+  "sourceReview": {
+    "checkedAt": "2026-09-29T18:41:17.606Z",
+    "file": "website/components/diagrams/inference-sampling.css",
+    "rawBeforeSHA256": "c5ca9367c57f623eeb7cb2a62ff011db921a207f86a063a6209b3b4b33bcbae7",
+    "rawAfterSHA256": "3ecb21f0ac5557b161d107b4669d356796bce43ca5bdb536793bd1d0fc88b4c9",
+    "exactInsertedRule": ".is-scene [data-comparison-kind=\"logit\"] .is-score { font-size: 18px; }",
+    "allOtherNormalizedCSSBytesEqual": true,
+    "currentDigest": "sha256:e7b10bba12334b71d3eb0b5b469344d2d7e0451c42f52814693d955dd165ab82",
+    "reconstructedBeforeDigest": "sha256:44c59ad4bbb41ed623e89e0446c0a617f050ba0d416e87a3462eab2381e88b09",
+    "inputCount": 56,
+    "otherSevenUnchanged": [
+      {
+        "article": "docs/11-llm-internals/transformer-architecture.md",
+        "inputDigest": "sha256:e608a9954aee28546173f8c8250e34b43a6fc61293f46c54ba9f075fb7f02376"
+      },
+      {
+        "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+        "inputDigest": "sha256:939497afc225dbe36976b72b17ce63705b744869047e069f013eb7c89be8913f"
+      },
+      {
+        "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+        "inputDigest": "sha256:67f6886639932264e008b124f0ac41daa88da4a99158a55211eed6006bb8e753"
+      },
+      {
+        "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+        "inputDigest": "sha256:bcd96bd8e9f0e60fe6308ff79870f9a45ded0a4f8f1010b7fe9518d79577459d"
+      },
+      {
+        "article": "docs/10-llm-foundations/tokenization.md",
+        "inputDigest": "sha256:9aa1f291fb1ab9ea006ab9a42ebc1065b2410fa39b0377e720952f07d5e47c69"
+      },
+      {
+        "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+        "inputDigest": "sha256:33237ab6f74f953e7ceab16d01631b765eb21bf28df6e3ff7cc8eb7f4f261ec5"
+      },
+      {
+        "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+        "inputDigest": "sha256:0fa344cb9b3ec838864fb9c0f7b6e4f2532751e8535a43e057cd53f41f7a18b6"
+      }
+    ]
+  },
+  "baselineCorrection": {
+    "checkedAt": "2026-09-29T18:31:46.003Z",
+    "ref": "ca3c09eebd1b549564f874f3304d23ae25328194",
+    "file": "website/components/diagrams/inference-sampling.css",
+    "gitBlobSHA256": "c5ca9367c57f623eeb7cb2a62ff011db921a207f86a063a6209b3b4b33bcbae7",
+    "sourceReviewSHA256": "be4b2b1a010231b928ce2dc733f72fdb973b0d7950e27149a2ad6ffd07969635",
+    "raceCorrection": "Initial before.css/before-inputs copy happened after root inserted candidate rule; retained unchanged and excluded from old baseline. Prior published Git blob and already-frozen PR61 input digests are the correct old baseline.",
+    "initialCopiedCSS_SHA256": "3ecb21f0ac5557b161d107b4669d356796bce43ca5bdb536793bd1d0fc88b4c9"
+  },
+  "runs": [
+    {
+      "role": "initialEdge",
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-chromium\\result.json",
+      "status": "failed",
+      "browser": {
+        "engine": "chromium",
+        "channel": "msedge",
+        "version": "154.0.4258.37"
+      },
+      "observations": 16,
+      "generatedPNG": 32,
+      "errors": 0,
+      "rawNetworkErrors": 66,
+      "requestFailures": 66,
+      "candidateAcceptance": false
+    },
+    {
+      "role": "candidateEdge",
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-chromium-v2\\result.json",
+      "status": "passed",
+      "browser": {
+        "engine": "chromium",
+        "channel": "msedge",
+        "version": "154.0.4258.37"
+      },
+      "observations": 16,
+      "generatedPNG": 32,
+      "errors": 0,
+      "rawNetworkErrors": 0,
+      "requestFailures": 66,
+      "candidateAcceptance": true
+    },
+    {
+      "role": "candidateWebKit",
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-webkit\\result.json",
+      "status": "passed",
+      "browser": {
+        "engine": "webkit",
+        "channel": null,
+        "version": "26.6"
+      },
+      "observations": 16,
+      "generatedPNG": 32,
+      "errors": 0,
+      "rawNetworkErrors": 0,
+      "requestFailures": 0,
+      "candidateAcceptance": true
+    },
+    {
+      "role": "timingDiagnostic",
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-chromium-network-diagnostic\\result.json",
+      "status": "passed",
+      "browser": {
+        "engine": "chromium",
+        "channel": "msedge",
+        "version": "154.0.4258.37"
+      },
+      "observations": 16,
+      "generatedPNG": 32,
+      "errors": 0,
+      "rawNetworkErrors": 0,
+      "requestFailures": 67,
+      "candidateAcceptance": false
+    }
+  ],
+  "candidateObservations": 32,
+  "candidateGeneratedPNG": 64,
+  "totalGeneratedPNGIncludingFailedAndDiagnostic": 128,
+  "actuallyViewedPNG": 36,
+  "actuallyViewedScene": 32,
+  "actuallyViewedViewport": 4,
+  "viewedLedger": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-viewed-images.json",
+  "measurements": [
+    {
+      "engine": "chromium",
+      "profile": "1440x1000-light-dsf1",
+      "mode": "panel",
+      "choice": "draw",
+      "computedFontPx": 22,
+      "renderedFontPx": 21.538623046875,
+      "minGapSVG": 61.05601501464844,
+      "minGapCSSPx": 59.775567824766036
+    },
+    {
+      "engine": "chromium",
+      "profile": "1440x1000-light-dsf1",
+      "mode": "panel",
+      "choice": "logit",
+      "computedFontPx": 18,
+      "renderedFontPx": 17.622509765625,
+      "minGapSVG": 27.858848571777344,
+      "minGapCSSPx": 27.274601723067466
+    },
+    {
+      "engine": "chromium",
+      "profile": "1440x1000-light-dsf1",
+      "mode": "modal",
+      "choice": "draw",
+      "computedFontPx": 22,
+      "renderedFontPx": 28.11875,
+      "minGapSVG": 62.00241470336914,
+      "minGapCSSPx": 79.24683629274368
+    },
+    {
+      "engine": "chromium",
+      "profile": "1440x1000-light-dsf1",
+      "mode": "modal",
+      "choice": "logit",
+      "computedFontPx": 18,
+      "renderedFontPx": 23.00625,
+      "minGapSVG": 29.520721435546875,
+      "minGapCSSPx": 37.73117208480836
+    },
+    {
+      "engine": "chromium",
+      "profile": "1440x1000-dark-dsf1",
+      "mode": "panel",
+      "choice": "draw",
+      "computedFontPx": 22,
+      "renderedFontPx": 21.538623046875,
+      "minGapSVG": 61.05601501464844,
+      "minGapCSSPx": 59.775567824766036
+    },
+    {
+      "engine": "chromium",
+      "profile": "1440x1000-dark-dsf1",
+      "mode": "panel",
+      "choice": "logit",
+      "computedFontPx": 18,
+      "renderedFontPx": 17.622509765625,
+      "minGapSVG": 27.858848571777344,
+      "minGapCSSPx": 27.274601723067466
+    },
+    {
+      "engine": "chromium",
+      "profile": "1280x720-light-dsf1",
+      "mode": "panel",
+      "choice": "draw",
+      "computedFontPx": 22,
+      "renderedFontPx": 18.26494140625,
+      "minGapSVG": 62.636741638183594,
+      "minGapCSSPx": 52.00256435908377
+    },
+    {
+      "engine": "chromium",
+      "profile": "1280x720-light-dsf1",
+      "mode": "panel",
+      "choice": "logit",
+      "computedFontPx": 18,
+      "renderedFontPx": 14.94404296875,
+      "minGapSVG": 24.0916748046875,
+      "minGapCSSPx": 20.001501303911212
+    },
+    {
+      "engine": "chromium",
+      "profile": "390x844-light-dsf1",
+      "mode": "panel",
+      "choice": "draw",
+      "computedFontPx": 22,
+      "renderedFontPx": 12.2375,
+      "minGapSVG": 62.85393142700195,
+      "minGapCSSPx": 34.96249935626984
+    },
+    {
+      "engine": "chromium",
+      "profile": "390x844-light-dsf1",
+      "mode": "panel",
+      "choice": "logit",
+      "computedFontPx": 18,
+      "renderedFontPx": 10.0125,
+      "minGapSVG": 29.595504760742188,
+      "minGapCSSPx": 16.46249952316284
+    },
+    {
+      "engine": "chromium",
+      "profile": "390x844-dark-dsf1",
+      "mode": "panel",
+      "choice": "draw",
+      "computedFontPx": 22,
+      "renderedFontPx": 12.2375,
+      "minGapSVG": 62.85393142700195,
+      "minGapCSSPx": 34.96249935626984
+    },
+    {
+      "engine": "chromium",
+      "profile": "390x844-dark-dsf1",
+      "mode": "panel",
+      "choice": "logit",
+      "computedFontPx": 18,
+      "renderedFontPx": 10.0125,
+      "minGapSVG": 29.595504760742188,
+      "minGapCSSPx": 16.46249952316284
+    },
+    {
+      "engine": "chromium",
+      "profile": "390x844-dark-dsf1",
+      "mode": "modal",
+      "choice": "draw",
+      "computedFontPx": 22,
+      "renderedFontPx": 12.03125,
+      "minGapSVG": 62.114253997802734,
+      "minGapCSSPx": 33.96873265504837
+    },
+    {
+      "engine": "chromium",
+      "profile": "390x844-dark-dsf1",
+      "mode": "modal",
+      "choice": "logit",
+      "computedFontPx": 18,
+      "renderedFontPx": 9.84375,
+      "minGapSVG": 28.28569793701172,
+      "minGapCSSPx": 15.468741059303284
+    },
+    {
+      "engine": "chromium",
+      "profile": "960x540-light-dsf2",
+      "mode": "panel",
+      "choice": "draw",
+      "computedFontPx": 22,
+      "renderedFontPx": 20.83125,
+      "minGapSVG": 59.53133773803711,
+      "minGapCSSPx": 56.36873542070389
+    },
+    {
+      "engine": "chromium",
+      "profile": "960x540-light-dsf2",
+      "mode": "panel",
+      "choice": "logit",
+      "computedFontPx": 18,
+      "renderedFontPx": 17.04375,
+      "minGapSVG": 25.20795440673828,
+      "minGapCSSPx": 23.86878182888031
+    },
+    {
+      "engine": "webkit",
+      "profile": "1440x1000-light-dsf1",
+      "mode": "panel",
+      "choice": "draw",
+      "computedFontPx": 22,
+      "renderedFontPx": 21.538623046875,
+      "minGapSVG": 53.1875,
+      "minGapCSSPx": 52.072068786621095
+    },
+    {
+      "engine": "webkit",
+      "profile": "1440x1000-light-dsf1",
+      "mode": "panel",
+      "choice": "logit",
+      "computedFontPx": 18,
+      "renderedFontPx": 17.622509765625,
+      "minGapSVG": 14.171875,
+      "minGapCSSPx": 13.874666976928712
+    },
+    {
+      "engine": "webkit",
+      "profile": "1440x1000-light-dsf1",
+      "mode": "modal",
+      "choice": "draw",
+      "computedFontPx": 22,
+      "renderedFontPx": 28.11875,
+      "minGapSVG": 53.1875,
+      "minGapCSSPx": 67.9802734375
+    },
+    {
+      "engine": "webkit",
+      "profile": "1440x1000-light-dsf1",
+      "mode": "modal",
+      "choice": "logit",
+      "computedFontPx": 18,
+      "renderedFontPx": 23.00625,
+      "minGapSVG": 14.171875,
+      "minGapCSSPx": 18.113427734375
+    },
+    {
+      "engine": "webkit",
+      "profile": "1440x1000-dark-dsf1",
+      "mode": "panel",
+      "choice": "draw",
+      "computedFontPx": 22,
+      "renderedFontPx": 21.538623046875,
+      "minGapSVG": 53.1875,
+      "minGapCSSPx": 52.072068786621095
+    },
+    {
+      "engine": "webkit",
+      "profile": "1440x1000-dark-dsf1",
+      "mode": "panel",
+      "choice": "logit",
+      "computedFontPx": 18,
+      "renderedFontPx": 17.622509765625,
+      "minGapSVG": 14.171875,
+      "minGapCSSPx": 13.874666976928712
+    },
+    {
+      "engine": "webkit",
+      "profile": "1280x720-light-dsf1",
+      "mode": "panel",
+      "choice": "draw",
+      "computedFontPx": 22,
+      "renderedFontPx": 18.264404296875,
+      "minGapSVG": 53.1875,
+      "minGapCSSPx": 44.156272888183594
+    },
+    {
+      "engine": "webkit",
+      "profile": "1280x720-light-dsf1",
+      "mode": "panel",
+      "choice": "logit",
+      "computedFontPx": 18,
+      "renderedFontPx": 14.943603515625,
+      "minGapSVG": 14.171875,
+      "minGapCSSPx": 11.765493392944336
+    },
+    {
+      "engine": "webkit",
+      "profile": "390x844-light-dsf1",
+      "mode": "panel",
+      "choice": "draw",
+      "computedFontPx": 22,
+      "renderedFontPx": 12.2375,
+      "minGapSVG": 53.1875,
+      "minGapCSSPx": 29.585546875000002
+    },
+    {
+      "engine": "webkit",
+      "profile": "390x844-light-dsf1",
+      "mode": "panel",
+      "choice": "logit",
+      "computedFontPx": 18,
+      "renderedFontPx": 10.0125,
+      "minGapSVG": 14.171875,
+      "minGapCSSPx": 7.883105468749998
+    },
+    {
+      "engine": "webkit",
+      "profile": "390x844-dark-dsf1",
+      "mode": "panel",
+      "choice": "draw",
+      "computedFontPx": 22,
+      "renderedFontPx": 12.2375,
+      "minGapSVG": 53.1875,
+      "minGapCSSPx": 29.585546875000002
+    },
+    {
+      "engine": "webkit",
+      "profile": "390x844-dark-dsf1",
+      "mode": "panel",
+      "choice": "logit",
+      "computedFontPx": 18,
+      "renderedFontPx": 10.0125,
+      "minGapSVG": 14.171875,
+      "minGapCSSPx": 7.883105468749998
+    },
+    {
+      "engine": "webkit",
+      "profile": "390x844-dark-dsf1",
+      "mode": "modal",
+      "choice": "draw",
+      "computedFontPx": 22,
+      "renderedFontPx": 12.03125,
+      "minGapSVG": 53.1875,
+      "minGapCSSPx": 29.0869140625
+    },
+    {
+      "engine": "webkit",
+      "profile": "390x844-dark-dsf1",
+      "mode": "modal",
+      "choice": "logit",
+      "computedFontPx": 18,
+      "renderedFontPx": 9.84375,
+      "minGapSVG": 14.171875,
+      "minGapCSSPx": 7.750244140625
+    },
+    {
+      "engine": "webkit",
+      "profile": "960x540-light-dsf2",
+      "mode": "panel",
+      "choice": "draw",
+      "computedFontPx": 22,
+      "renderedFontPx": 20.83125,
+      "minGapSVG": 53.1875,
+      "minGapCSSPx": 50.3619140625
+    },
+    {
+      "engine": "webkit",
+      "profile": "960x540-light-dsf2",
+      "mode": "panel",
+      "choice": "logit",
+      "computedFontPx": 18,
+      "renderedFontPx": 17.04375,
+      "minGapSVG": 14.171875,
+      "minGapCSSPx": 13.418994140625
+    }
+  ],
+  "networkAudit": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-network-audit.json",
+  "findings": [
+    {
+      "id": "PUBLIC-V1-local",
+      "status": "resolved in local candidate only",
+      "evidence": "All 16 Edge plus 16 WebKit conditions inspected; original C/D negative-value collision absent; exact six-decimal strings retained. Draw font remains 22 SVG units, logit font18."
+    }
+  ],
+  "limitations": [
+    "Mobile narrow width retains approximately 9.84-10.01 CSS-pixel logit text; primary acceptance target is PC reading. This does not claim broad mobile typography redesign.",
+    "Short desktop viewport captures show controls and only a partial scene; full-scene screenshots were taken after scroll, with no product style changes, and separately inspected.",
+    "Other7 inputs proved unchanged; their diagrams were not re-viewed in this focused candidate run. Their prior PR61 public independent findings remain in the frozen review.",
+    "Physical phones/Safari, real screen reader, new performance/CLS measurement and public site acceptance not performed here.",
+    "Initial Edge failed raw result is preserved, not relabeled passed. Timing diagnostic is separate and cannot supply missing original timestamps."
+  ],
+  "publicReusePlan": [
+    "Reuse only the focused matrix/assertions/capture logic, not the local evidence or BUILD identity.",
+    "Use public URL after CI/Pages success; require expected merge/CI BUILD and eight public HTML hashes equal collected CI artifact.",
+    "Fetch and hash the actual public CSS/JS/font assets before and after; do not use local out files as proof of public distribution.",
+    "Run unchanged public kit91 cases in each engine, then new focused public captures; preserve original PR61 changes_requested and all local evidence.",
+    "Verify unchanged non-inference input digests for any explicit carry-forward; report what is freshly viewed vs carried."
+  ],
+  "ownership": "Only TEMP/inference-score-spacing-review* created; no repository/product/kit/Git edits by this reviewer",
+  "evidence": [
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-chromium\\result.json",
+      "sha256": "7457615a4f6398214f232994513cc79b6cca84f510b6664a14e802258c190ac0",
+      "bytes": 76553
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-chromium-v2\\result.json",
+      "sha256": "8818d0daf3d2d77d69037e91ab043c765933dd6def54674ea13eeb6e8c0750f5",
+      "bytes": 109611
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-webkit\\result.json",
+      "sha256": "c83944487b6d85b4a3cbeba7bf6cbde2f2f8653ddd45adf6418c342b00593281",
+      "bytes": 58209
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-chromium-network-diagnostic\\result.json",
+      "sha256": "d849daf91f4356cb2f42daf80dbfca75c887207113e9b0f2e373438f51a9c13c",
+      "bytes": 122449
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-run.mjs",
+      "sha256": "573d23ce51097727cfd640d34f8281d46d38cd568f298991c1dcf7ad93fb4d36",
+      "bytes": 8282
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-run-v2.mjs",
+      "sha256": "6af18d590f19e0b16dc518979991a8f2e5d560a03f529c53ba4570ef0e13739f",
+      "bytes": 8478
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-run-v2-provenance.json",
+      "sha256": "1c977e6b360e607d387aa7a71e6a4610b4295d109648935cebbbed25b36dfe4f",
+      "bytes": 552
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-network-diagnostic.mjs",
+      "sha256": "064b67497a8dd754f5c915e1e90700158f9a98981edd952c9f33508e4edef8c3",
+      "bytes": 9108
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-network-diagnostic-provenance.json",
+      "sha256": "5244b8dc8365ea861c9656967d7c1ece2d27f93de342974d12442de77ef5d4e4",
+      "bytes": 1913
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-network-audit.json",
+      "sha256": "a2cf9d0e4ef4f6e97c7f2f508dc92570217acc4f09cf005ae3080e532f66b967",
+      "bytes": 190577
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-proof.mjs",
+      "sha256": "4639ae6545258369950228881ca909c7aef1cbfe5129c73fff98c3f6a6ba78c8",
+      "bytes": 3329
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-proof.json",
+      "sha256": "f358edb6f17cae99d87685ba1a2e16271e8037814947b4aa01478352224e54a2",
+      "bytes": 1935
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-baseline.mjs",
+      "sha256": "1d5eb2d2f596c10cd1535510bd020431980964a9526aa59fe1c8414fdd91f4f6",
+      "bytes": 1405
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-baseline-provenance.json",
+      "sha256": "3c14196368deebe6b2b258060f3a00e75387756d2a497ce9f16277dde97e1e73",
+      "bytes": 689
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-pr61.css",
+      "sha256": "c5ca9367c57f623eeb7cb2a62ff011db921a207f86a063a6209b3b4b33bcbae7",
+      "bytes": 1653
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-pr61-inputs.json",
+      "sha256": "008df38be6a4512b8b9cd372b4e3c1e48b31ecb57864cedfe64f754aa2df44b3",
+      "bytes": 1450
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-before.css",
+      "sha256": "3ecb21f0ac5557b161d107b4669d356796bce43ca5bdb536793bd1d0fc88b4c9",
+      "bytes": 1725
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-before-inputs.json",
+      "sha256": "79c21ed71fd6d6d111cb5b816f72056383cae386e393f382c1dcfe43c79158bd",
+      "bytes": 5427
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-plan.json",
+      "sha256": "1fdc06cdffd061609dd7ec4e4cdc8e25ceb5859098110bd56658d2195ce009ad",
+      "bytes": 1718
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-serve.mjs",
+      "sha256": "6f236edcf86aca8a117abec3a6b4dac2ee67fb17774fd185851bb50dacb226e4",
+      "bytes": 1835
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-viewed-images.json",
+      "sha256": "bf0ed383f3603b9f0ca5ca888149794fed32875a2ed018444f5307e5a235f773",
+      "bytes": 29770
+    }
+  ]
+}

@@ -3,6 +3,7 @@
 .is-scene .is-small { font-size: 22px; fill: #bfd0dd; }
 .is-scene .is-number { font: 22px ui-monospace, monospace; }
 .is-scene .is-score { font: 22px ui-monospace, monospace; }
+.is-scene [data-comparison-kind="logit"] .is-score { font-size: 18px; }
 .is-scene .is-token { font-size: 28px; font-weight: 650; }
 .is-scene .is-rule-active { font-size: 22px; fill: #8eeddc; font-weight: 650; }
 .is-panel { fill: #14273a; stroke: #728b9e; stroke-width: 1.3; }

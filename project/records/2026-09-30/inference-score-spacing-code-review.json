@@ -1,0 +1,225 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-code-review",
+  "verdict": "approved",
+  "risk": "low",
+  "must": 0,
+  "should": 0,
+  "findings": [],
+  "reviewer_run_id": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_change_evidence",
+  "reviewed_at": "2026-09-29T18:30:43.152Z",
+  "scope": {
+    "base": "ca3c09eebd1b549564f874f3304d23ae25328194",
+    "branch": "fix/inference-score-spacing",
+    "head": "ca3c09eebd1b549564f874f3304d23ae25328194",
+    "targets": [
+      "website/components/diagrams/inference-sampling.css",
+      "website/tests/browser/inference.spec.mjs"
+    ],
+    "ownedOutputs": [
+      "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-code-review.md",
+      "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-code-review.json"
+    ],
+    "repoEdited": false,
+    "gitMutated": false,
+    "browserExecuted": false,
+    "buildExecuted": false,
+    "networkExecuted": false,
+    "kitEdited": false
+  },
+  "targets": [
+    {
+      "path": "website/components/diagrams/inference-sampling.css",
+      "baseSHA256": "c5ca9367c57f623eeb7cb2a62ff011db921a207f86a063a6209b3b4b33bcbae7",
+      "workingSHA256": "3ecb21f0ac5557b161d107b4669d356796bce43ca5bdb536793bd1d0fc88b4c9",
+      "baseBytes": 1653,
+      "workingBytes": 1725,
+      "baseGitBlob": "6d07918788715c4a23a22a032fe75b6f898aa84e"
+    },
+    {
+      "path": "website/tests/browser/inference.spec.mjs",
+      "baseSHA256": "da88e0523a7d4b3c6ad46730df59627375e12971a25eff6a9312d9ac172a7a99",
+      "workingSHA256": "b73f4657b5aa6ab8f203c2cf3217779c8c0e79ac567d794d320b41761bfabf0a",
+      "baseBytes": 24874,
+      "workingBytes": 25654,
+      "baseGitBlob": "452b76018bc70d986d5e4aaf3520de094a1e0c55"
+    }
+  ],
+  "unchangedFiles": [
+    {
+      "path": "website/components/diagrams/inference-sampling-walkthrough.jsx",
+      "baseSHA256": "0ebb00a2356c29cd28cc5565fdbc2e656e5e84f50cb100e7723286e14cda439c",
+      "workingSHA256": "0ebb00a2356c29cd28cc5565fdbc2e656e5e84f50cb100e7723286e14cda439c",
+      "normalizedContentEqual": true
+    },
+    {
+      "path": "website/lib/inference-sampling-model.mjs",
+      "baseSHA256": "58f8601ae64c020160a52d419a141558a595763c12821bedc4121e19ab602241",
+      "workingSHA256": "58f8601ae64c020160a52d419a141558a595763c12821bedc4121e19ab602241",
+      "normalizedContentEqual": true
+    },
+    {
+      "path": "website/lib/generation-model.mjs",
+      "baseSHA256": "b9fbbba0e0a70f77b343b8d4894350b896f2536baac2fdcc44bc53e8826f17c1",
+      "workingSHA256": "b9fbbba0e0a70f77b343b8d4894350b896f2536baac2fdcc44bc53e8826f17c1",
+      "normalizedContentEqual": true
+    }
+  ],
+  "checks": [
+    {
+      "id": "targeted-css-rule",
+      "result": "passed",
+      "evidence": "Deleting the single new rule reconstructs base CSS exactly after CRLF normalization. It changes only .is-score descendants of the existing stage6 logit comparison group; base22px monospace and all draw scores, headings, other numeric classes/stages remain unchanged."
+    },
+    {
+      "id": "test-delta-exact-reversal",
+      "result": "passed",
+      "evidence": "Replacing only the expanded logit branch with its original one-line bar-label assertion reconstructs base test exactly. All previous numeric, selection, label and interaction expectations remain."
+    },
+    {
+      "id": "meaningful-geometry-regression",
+      "result": "approved-by-code-review",
+      "evidence": "The test selects the real logit comparison and asserts two complete rows of four exact 6-decimal strings, preventing empty/missing rows from vacuous success. For each row, all3 neighboring actual SVG getBBox gaps must be >0. Existing JSX puts all score text in non-transformed nested groups at x=222+tokenId*106, so local SVG x coordinates are comparable. It checks the visible layout outcome rather than the chosen18px rule. document.fonts.ready and bar-label rendering are awaited before the read."
+    },
+    {
+      "id": "model-values-and-formatting-preserved",
+      "result": "passed",
+      "evidence": "Scene JSX and both model dependencies equal base. row.logit.toFixed(6) remains. left[1.000001,1,0,-1], right[.999999,1,0,-1] and greedy A/B change remain; no rounding/fixture change hides the distinction."
+    },
+    {
+      "id": "kit-unchanged",
+      "result": "passed",
+      "evidence": "git diff against base returns no path under scripts/diagram-release or tests/unit/diagram-release-portable.test.mjs."
+    },
+    {
+      "id": "acceptance-impact",
+      "result": "passed",
+      "evidence": "Read-only acceptance calculation against provided PR61 identity shows exactly inference input changed. Other7 digests equal; assignment/diagram source bindings stay current. CSS belongs only to inference fixed inputs; test belongs to no runtime input set."
+    }
+  ],
+  "acceptanceIdentity": {
+    "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-main-local-identity.json",
+    "sha256": "66dc50e6bba661e230322acec4fd6d0aef150603d3c0737f59d8a76617a2ff90",
+    "checkedAt": "2026-09-29T17:50:52.498Z",
+    "merge": "ca3c09eebd1b549564f874f3304d23ae25328194"
+  },
+  "acceptanceComparisons": [
+    {
+      "article": "docs/11-llm-internals/transformer-architecture.md",
+      "before": "sha256:e608a9954aee28546173f8c8250e34b43a6fc61293f46c54ba9f075fb7f02376",
+      "after": "sha256:e608a9954aee28546173f8c8250e34b43a6fc61293f46c54ba9f075fb7f02376",
+      "changed": false,
+      "assignmentCurrent": true,
+      "diagramsCurrent": true,
+      "reviewRecorded": true,
+      "localRecorded": true,
+      "publicRecorded": false,
+      "cssInInputs": false,
+      "testInInputs": false
+    },
+    {
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "before": "sha256:939497afc225dbe36976b72b17ce63705b744869047e069f013eb7c89be8913f",
+      "after": "sha256:939497afc225dbe36976b72b17ce63705b744869047e069f013eb7c89be8913f",
+      "changed": false,
+      "assignmentCurrent": true,
+      "diagramsCurrent": true,
+      "reviewRecorded": true,
+      "localRecorded": true,
+      "publicRecorded": false,
+      "cssInInputs": false,
+      "testInInputs": false
+    },
+    {
+      "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "before": "sha256:67f6886639932264e008b124f0ac41daa88da4a99158a55211eed6006bb8e753",
+      "after": "sha256:67f6886639932264e008b124f0ac41daa88da4a99158a55211eed6006bb8e753",
+      "changed": false,
+      "assignmentCurrent": true,
+      "diagramsCurrent": true,
+      "reviewRecorded": true,
+      "localRecorded": true,
+      "publicRecorded": false,
+      "cssInInputs": false,
+      "testInInputs": false
+    },
+    {
+      "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "before": "sha256:bcd96bd8e9f0e60fe6308ff79870f9a45ded0a4f8f1010b7fe9518d79577459d",
+      "after": "sha256:bcd96bd8e9f0e60fe6308ff79870f9a45ded0a4f8f1010b7fe9518d79577459d",
+      "changed": false,
+      "assignmentCurrent": true,
+      "diagramsCurrent": true,
+      "reviewRecorded": true,
+      "localRecorded": true,
+      "publicRecorded": false,
+      "cssInInputs": false,
+      "testInInputs": false
+    },
+    {
+      "article": "docs/10-llm-foundations/tokenization.md",
+      "before": "sha256:9aa1f291fb1ab9ea006ab9a42ebc1065b2410fa39b0377e720952f07d5e47c69",
+      "after": "sha256:9aa1f291fb1ab9ea006ab9a42ebc1065b2410fa39b0377e720952f07d5e47c69",
+      "changed": false,
+      "assignmentCurrent": true,
+      "diagramsCurrent": true,
+      "reviewRecorded": true,
+      "localRecorded": true,
+      "publicRecorded": false,
+      "cssInInputs": false,
+      "testInInputs": false
+    },
+    {
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "before": "sha256:44c59ad4bbb41ed623e89e0446c0a617f050ba0d416e87a3462eab2381e88b09",
+      "after": "sha256:e7b10bba12334b71d3eb0b5b469344d2d7e0451c42f52814693d955dd165ab82",
+      "changed": true,
+      "assignmentCurrent": true,
+      "diagramsCurrent": true,
+      "reviewRecorded": false,
+      "localRecorded": false,
+      "publicRecorded": false,
+      "cssInInputs": true,
+      "testInInputs": false
+    },
+    {
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "before": "sha256:33237ab6f74f953e7ceab16d01631b765eb21bf28df6e3ff7cc8eb7f4f261ec5",
+      "after": "sha256:33237ab6f74f953e7ceab16d01631b765eb21bf28df6e3ff7cc8eb7f4f261ec5",
+      "changed": false,
+      "assignmentCurrent": true,
+      "diagramsCurrent": true,
+      "reviewRecorded": true,
+      "localRecorded": true,
+      "publicRecorded": false,
+      "cssInInputs": false,
+      "testInInputs": false
+    },
+    {
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "before": "sha256:0fa344cb9b3ec838864fb9c0f7b6e4f2532751e8535a43e057cd53f41f7a18b6",
+      "after": "sha256:0fa344cb9b3ec838864fb9c0f7b6e4f2532751e8535a43e057cd53f41f7a18b6",
+      "changed": false,
+      "assignmentCurrent": true,
+      "diagramsCurrent": true,
+      "reviewRecorded": true,
+      "localRecorded": true,
+      "publicRecorded": false,
+      "cssInInputs": false,
+      "testInInputs": false
+    }
+  ],
+  "boundary": {
+    "approval": "Two-file code delta only",
+    "realBBoxObservedByReviewer": false,
+    "browserRegressionPassClaimed": false,
+    "actualSizeVisualApproval": false,
+    "publicAcceptance": false,
+    "remaining": "Run updated targeted regression on both browsers and inspect actual sizes/options including full6digits; new inference input requires its own review/local/public acceptance. Parent owns execution and publication."
+  },
+  "authorEvidenceNotSubstituted": true,
+  "report": {
+    "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-code-review.md",
+    "sha256": "509153e3fc1b0455b06c2fdb0b9235531f0f5247a31d95c6a71f9071b5e8e19a"
+  }
+}

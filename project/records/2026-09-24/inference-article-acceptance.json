@@ -2,17 +2,17 @@
   "schemaVersion": 1,
   "article": "docs/11-llm-internals/inference-internals.md",
   "review": {
-    "inputDigest": "sha256:44c59ad4bbb41ed623e89e0446c0a617f050ba0d416e87a3462eab2381e88b09",
+    "inputDigest": "sha256:e7b10bba12334b71d3eb0b5b469344d2d7e0451c42f52814693d955dd165ab82",
     "status": "approved",
-    "checkedAt": "2026-09-29T17:00:43.085Z",
+    "checkedAt": "2026-09-29T18:43:36.531Z",
     "independent": true,
-    "record": "project/records/2026-09-25/pretraining-scene-review.md"
+    "record": "project/records/2026-09-30/inference-score-spacing-review.md"
   },
   "local": {
-    "inputDigest": "sha256:44c59ad4bbb41ed623e89e0446c0a617f050ba0d416e87a3462eab2381e88b09",
+    "inputDigest": "sha256:e7b10bba12334b71d3eb0b5b469344d2d7e0451c42f52814693d955dd165ab82",
     "status": "passed",
-    "checkedAt": "2026-09-29T17:08:17.450Z",
-    "record": "project/records/2026-09-25/pretraining-reading-diagrams.md"
+    "checkedAt": "2026-09-29T18:45:26.5493341Z",
+    "record": "project/records/2026-09-30/inference-score-spacing-fix.md"
   },
   "public": {
     "inputDigest": "sha256:26d9cd2be56aa9a93a255ffc4f020530065966d4f411768559ac18a553b01d76",

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "kind": "archive-byte-verification-not-acceptance",
+  "verifiedAt": "2026-09-29T18:30:10.835Z",
+  "index": {
+    "path": "project/records/2026-09-25/pretraining-public-evidence/index.json",
+    "sha256": "59e90d12724bc2240b37301faccd15fd1e6398c8f62b0d1a26a1a21ebb474eed",
+    "bytes": 77355
+  },
+  "initial31Verified": true,
+  "gzipRoundtrips": 39,
+  "viewedPNGHashesAndBytes": 90,
+  "viewedMetadataEntriesExact": 90,
+  "originalPendingFieldsPreserved": true,
+  "publicDecisionPreserved": "changes_requested",
+  "mustPreserved": 1,
+  "shouldPreserved": 0,
+  "topArticleReviewPreserved": "approved/low should1; prior article-only review",
+  "reportRawPathsPreserved": true,
+  "publicAccepted": false
+}

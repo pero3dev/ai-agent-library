@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+  "review": {
+    "inputDigest": "sha256:0fa344cb9b3ec838864fb9c0f7b6e4f2532751e8535a43e057cd53f41f7a18b6",
+    "status": "approved",
+    "checkedAt": "2026-09-29T17:00:43.085Z",
+    "independent": true,
+    "record": "project/records/2026-09-25/pretraining-scene-review.md"
+  },
+  "local": {
+    "inputDigest": "sha256:0fa344cb9b3ec838864fb9c0f7b6e4f2532751e8535a43e057cd53f41f7a18b6",
+    "status": "passed",
+    "checkedAt": "2026-09-29T17:08:17.450Z",
+    "record": "project/records/2026-09-25/pretraining-reading-diagrams.md"
+  },
+  "public": null
+}

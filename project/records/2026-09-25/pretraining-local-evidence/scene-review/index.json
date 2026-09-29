@@ -1,0 +1,612 @@
+{
+  "schemaVersion": 1,
+  "kind": "raw-evidence-archive-index",
+  "archivedAt": "2026-09-29T17:10:02.644Z",
+  "archivedBy": "/root/pretraining_numeric",
+  "authority": "Parent explicitly assigned this evidence archive only; original independent verdict is unchanged.",
+  "review": {
+    "reviewer": "/root/pretraining_visual_review",
+    "decision": "approved",
+    "risk": "low",
+    "reviewedAt": "2026-09-29T17:00:43.085Z",
+    "buildId": "RuEOJ2GbDzXcNrG4UDMh4",
+    "originalReports": [
+      {
+        "original": {
+          "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-audit-review.md",
+          "originalSHA256": "6090d35270f39c283d19f9b991d4c5237d807166c52531370f468577193e1bdb",
+          "originalBytes": 6248,
+          "stored": {
+            "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/review-original.md.gz",
+            "sha256": "dbecdade10c4c5b42efc60fa5fc4b9eafbcb275f048ffba323e579e29e28c312",
+            "bytes": 3657
+          },
+          "encoding": "gzip",
+          "roundTripExact": true,
+          "rawContentAndPathsUnchanged": true
+        },
+        "stored": {
+          "path": "project/records/2026-09-25/pretraining-scene-review.md",
+          "sha256": "6090d35270f39c283d19f9b991d4c5237d807166c52531370f468577193e1bdb",
+          "bytes": 6248
+        },
+        "normalization": "Only CRLF/CR to LF and exactly one terminal newline"
+      },
+      {
+        "original": {
+          "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-audit-review.json",
+          "originalSHA256": "9ee6aede5114da018adff6bc42ce306b31f601ab4b986e8b00b5c21a66247e38",
+          "originalBytes": 82809,
+          "stored": {
+            "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/review-original.json.gz",
+            "sha256": "e5f5ff39e8de85d162007f41f54073fb6c280a4a574f1cdfffb12accc57dc439",
+            "bytes": 14861
+          },
+          "encoding": "gzip",
+          "roundTripExact": true,
+          "rawContentAndPathsUnchanged": true
+        },
+        "stored": {
+          "path": "project/records/2026-09-25/pretraining-scene-review.json",
+          "sha256": "9ee6aede5114da018adff6bc42ce306b31f601ab4b986e8b00b5c21a66247e38",
+          "bytes": 82809
+        },
+        "normalization": "Only CRLF/CR to LF and exactly one terminal newline"
+      }
+    ]
+  },
+  "evidenceCount": 31,
+  "rawGzipCount": 33,
+  "evidence": [
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-audit-contract.json",
+      "originalSHA256": "c38fac0bf2e74651be6573f187c371647e140eb8534572bc2e9ab73af58259cc",
+      "originalBytes": 950,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/01-pretraining-scene-audit-contract.json.gz",
+        "sha256": "970a4a928099ecd2c472533857a431f54e9f22ed89e7468d169f8cd483a490f0",
+        "bytes": 530
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 0,
+      "declaredSHA256": "c38fac0bf2e74651be6573f187c371647e140eb8534572bc2e9ab73af58259cc",
+      "declaredBytes": 950,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-audit-code-notes.json",
+      "originalSHA256": "126af7652993658cf67af77449d7e196a5769e9dd9a9c488ee897a0e9e3ac123",
+      "originalBytes": 1804,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/02-pretraining-scene-audit-code-notes.json.gz",
+        "sha256": "7f20321cbe7e4ed629439e6b0872b132b91b935423ab6f737756baa9220daf9e",
+        "bytes": 1027
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 1,
+      "declaredSHA256": "126af7652993658cf67af77449d7e196a5769e9dd9a9c488ee897a0e9e3ac123",
+      "declaredBytes": 1804,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-independent-unit.log",
+      "originalSHA256": "7ab02419f8a409e0f5d128a9a65db4b48a5275cceaa5e346955325b0d5852535",
+      "originalBytes": 3982,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/03-pretraining-scene-independent-unit.log.gz",
+        "sha256": "c88d8ae24c1dac4034da5908f8df8db33d13d3e14a03899e5081ee1ce3ec3518",
+        "bytes": 1716
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 2,
+      "declaredSHA256": "7ab02419f8a409e0f5d128a9a65db4b48a5275cceaa5e346955325b0d5852535",
+      "declaredBytes": 3982,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-review-aggregated.json",
+      "originalSHA256": "0501377efe675d98d3f3ce84bcf6a9458853315de0dc3ae1aa507e3a187f0326",
+      "originalBytes": 21056,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/04-pretraining-scene-review-aggregated.json.gz",
+        "sha256": "ff957aae760388eeeac9b6cad376c6ea3ed9e34f41c6d0a2a15676c5d166c77b",
+        "bytes": 1945
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 3,
+      "declaredSHA256": "0501377efe675d98d3f3ce84bcf6a9458853315de0dc3ae1aa507e3a187f0326",
+      "declaredBytes": 21056,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-viewed-initial.json",
+      "originalSHA256": "ccef4c74eba2b34532f31e70161d3a3a9006e314e8f2792df4ee33aa1d256dd0",
+      "originalBytes": 22931,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/05-pretraining-scene-viewed-initial.json.gz",
+        "sha256": "38c0a2e44ef98643d3ea754733d341a5b60755388b81e62314adce889d60d73d",
+        "bytes": 2613
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 4,
+      "declaredSHA256": "ccef4c74eba2b34532f31e70161d3a3a9006e314e8f2792df4ee33aa1d256dd0",
+      "declaredBytes": 22931,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-viewed-final.json",
+      "originalSHA256": "12a3abed46001cadce98aaf9ea5eda521772fdc9f12c0354eb9e79b06e1fd32f",
+      "originalBytes": 84338,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/06-pretraining-scene-viewed-final.json.gz",
+        "sha256": "3afb8cee7269b83dd9ddf0aeeffb1db55a692959751539343eff3792415964a1",
+        "bytes": 4865
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 5,
+      "declaredSHA256": "12a3abed46001cadce98aaf9ea5eda521772fdc9f12c0354eb9e79b06e1fd32f",
+      "declaredBytes": 84338,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-viewed-old.json",
+      "originalSHA256": "e43043b04de8a555304bb436ab918944d4e70b571fa262566e7065c0729222f0",
+      "originalBytes": 9254,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/07-pretraining-scene-viewed-old.json.gz",
+        "sha256": "d16ca416802da2449b761745e91816ba03577bb7f17e5fa8574b67752bb2aee2",
+        "bytes": 1271
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 6,
+      "declaredSHA256": "e43043b04de8a555304bb436ab918944d4e70b571fa262566e7065c0729222f0",
+      "declaredBytes": 9254,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-wire-change-proof.json",
+      "originalSHA256": "81b129d56314aa0646953887a910dad8340c3a7fc50cfa956d862b8fb16be1b8",
+      "originalBytes": 531,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/08-pretraining-wire-change-proof.json.gz",
+        "sha256": "b9d973d031d3700e2bca47d2490ec916ad376871bdb62ee7345c209c40a62c73",
+        "bytes": 385
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 7,
+      "declaredSHA256": "81b129d56314aa0646953887a910dad8340c3a7fc50cfa956d862b8fb16be1b8",
+      "declaredBytes": 531,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-independent-helper-diff-proof.json",
+      "originalSHA256": "5f2c493def5fcaf0b9cb5f1022754f81914a92360139a4704513b19bd4a22dad",
+      "originalBytes": 858,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/09-pretraining-independent-helper-diff-proof.json.gz",
+        "sha256": "d91cb8e9f876bf29bd23881387968a52ef8f4833391bb3dc8fa32eab2cfe3078",
+        "bytes": 551
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 8,
+      "declaredSHA256": "5f2c493def5fcaf0b9cb5f1022754f81914a92360139a4704513b19bd4a22dad",
+      "declaredBytes": 858,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-loss-limited-transform.json",
+      "originalSHA256": "cc700ff16187a344ea1a8c10f74795612db9a7a84677d4288ccb9192ea27f514",
+      "originalBytes": 1074,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/10-pretraining-loss-limited-transform.json.gz",
+        "sha256": "01588cd8e4d96904fa0b1aa390fcf4dc165250ea57f50e0980d92ed97367e9c1",
+        "bytes": 607
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 9,
+      "declaredSHA256": "cc700ff16187a344ea1a8c10f74795612db9a7a84677d4288ccb9192ea27f514",
+      "declaredBytes": 1074,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-supplemental-helper-sync.json",
+      "originalSHA256": "0a09d5c8b7a8cddc85e55991a3c1c595646fc9301f2c640c14b7c0dcb9e41799",
+      "originalBytes": 2197,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/11-pretraining-supplemental-helper-sync.json.gz",
+        "sha256": "9afe33a43df40d39e66c1a673013a2c0a796e73f2f2c95eb71c253ab7b27f22c",
+        "bytes": 1146
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 10,
+      "declaredSHA256": "0a09d5c8b7a8cddc85e55991a3c1c595646fc9301f2c640c14b7c0dcb9e41799",
+      "declaredBytes": 2197,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-build-second-identity.json",
+      "originalSHA256": "657a78b14ef4ad51f5074fd10c41f60bbc4869f4679332133bc02ada6fc5814f",
+      "originalBytes": 2957,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/12-pretraining-build-second-identity.json.gz",
+        "sha256": "8d6ce3a231035d26ebd4a13a8ece82010f27fc9b217b3afa1aa91ad195f5e6cc",
+        "bytes": 1114
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 11,
+      "declaredSHA256": "657a78b14ef4ad51f5074fd10c41f60bbc4869f4679332133bc02ada6fc5814f",
+      "declaredBytes": 2957,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-diagnostic\\result.json",
+      "originalSHA256": "9fed78e2ea194469fe72744d3e44cc48493a3c4df349ea1489cb523e985d7805",
+      "originalBytes": 19408,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/13-diagnostic-result.json.gz",
+        "sha256": "c5b61541fcb9f44ac6f11283f60e70bcd138cbebffc97fd630ac0567e78c7ea1",
+        "bytes": 1843
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 12,
+      "declaredSHA256": "9fed78e2ea194469fe72744d3e44cc48493a3c4df349ea1489cb523e985d7805",
+      "declaredBytes": 19408,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-supplemental\\result.json",
+      "originalSHA256": "9ed709544f1dbf47c65d11998a2c19da71f3f67be5a638efe6fc07bfc1aee276",
+      "originalBytes": 19751,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/14-old-supplemental-result.json.gz",
+        "sha256": "881ee13eafecde1caab614c33f5258857296b8a06e3937519fb6bb7436241adf",
+        "bytes": 2184
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 13,
+      "declaredSHA256": "9ed709544f1dbf47c65d11998a2c19da71f3f67be5a638efe6fc07bfc1aee276",
+      "declaredBytes": 19751,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-performance\\result.json",
+      "originalSHA256": "53b185cfaf39f8774a27708ecabeb986930dec940bd862c9bfa9159b7277c988",
+      "originalBytes": 18768,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/15-performance-result.json.gz",
+        "sha256": "41df999592ffefe4f17845a1744135a2ad38c3f4663d689da9d92518b07415cc",
+        "bytes": 4014
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 14,
+      "declaredSHA256": "53b185cfaf39f8774a27708ecabeb986930dec940bd862c9bfa9159b7277c988",
+      "declaredBytes": 18768,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-local-adapter.mjs",
+      "originalSHA256": "07bbb3144cec38115c56e7d86d0670a72518ce5249c1f8b3d5283c6a958df4ef",
+      "originalBytes": 26076,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/16-pretraining-local-adapter.mjs.gz",
+        "sha256": "8870d8034965811c70a5dfd8a384bb0361a7297c9c84dfe4ffd4d2f37b72753d",
+        "bytes": 9204
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 15,
+      "declaredSHA256": "07bbb3144cec38115c56e7d86d0670a72518ce5249c1f8b3d5283c6a958df4ef",
+      "declaredBytes": 26076,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-local-serve.mjs",
+      "originalSHA256": "6f236edcf86aca8a117abec3a6b4dac2ee67fb17774fd185851bb50dacb226e4",
+      "originalBytes": 1835,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/17-pretraining-local-serve.mjs.gz",
+        "sha256": "8233bbc726693a655dbb79d659b59cc97a0bef9a56a9f787a34dc58061c1ab57",
+        "bytes": 958
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 16,
+      "declaredSHA256": "6f236edcf86aca8a117abec3a6b4dac2ee67fb17774fd185851bb50dacb226e4",
+      "declaredBytes": 1835,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-loss-limited-checks.mjs",
+      "originalSHA256": "ecd1e5c196792149d9f8e957f3fb5d9327de5a2bcf8f5b90e3eb378763c4947b",
+      "originalBytes": 48309,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/18-pretraining-loss-limited-checks.mjs.gz",
+        "sha256": "75bb93d6e1aca6fade79778defa4984e21382a71c731fdefc95e9773110435b8",
+        "bytes": 12080
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 17,
+      "declaredSHA256": "ecd1e5c196792149d9f8e957f3fb5d9327de5a2bcf8f5b90e3eb378763c4947b",
+      "declaredBytes": 48309,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-loss-limited-adapter.mjs",
+      "originalSHA256": "c3d861513f723ff7cf3c88e253d6e46a85ed9848d6d708aee042b929fd50088d",
+      "originalBytes": 26351,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/19-pretraining-loss-limited-adapter.mjs.gz",
+        "sha256": "e46de6c4eab8a0e92b614e6d790379cdb902aaf398fe306e07fb374c6f252e1f",
+        "bytes": 9355
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 18,
+      "declaredSHA256": "c3d861513f723ff7cf3c88e253d6e46a85ed9848d6d708aee042b929fd50088d",
+      "declaredBytes": 26351,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-old-regression.mjs",
+      "originalSHA256": "ce96e4e4a0c2b7caf441749f24e6cd62cc6563e26c3e69e876f7e240f7a0a4a2",
+      "originalBytes": 7524,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/20-pretraining-scene-old-regression.mjs.gz",
+        "sha256": "999152c58990dfac9411dfe1ce2d64e234c3cc78a697e9cba38174843f772de1",
+        "bytes": 3286
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 19,
+      "declaredSHA256": "ce96e4e4a0c2b7caf441749f24e6cd62cc6563e26c3e69e876f7e240f7a0a4a2",
+      "declaredBytes": 7524,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-performance.mjs",
+      "originalSHA256": "3cb84187dab4344768e3802de6e515e28f77ac0435f367d172d51255b2cfc382",
+      "originalBytes": 10864,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/21-pretraining-scene-performance.mjs.gz",
+        "sha256": "2596f998025b04b39f24e20886185c3136f2596f2c32f9ecafa19aba5e19772a",
+        "bytes": 4523
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 20,
+      "declaredSHA256": "3cb84187dab4344768e3802de6e515e28f77ac0435f367d172d51255b2cfc382",
+      "declaredBytes": 10864,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-review-aggregate.mjs",
+      "originalSHA256": "a70db57e7da046c03c8f8acd94f11f4f8656d487b3a34a9e7d3f572a3c18746f",
+      "originalBytes": 4074,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/22-pretraining-scene-review-aggregate.mjs.gz",
+        "sha256": "cc312c1d8dffbd4a5de6f81942e4a9a9a77ef405dab9b1f640ab176875d7f236",
+        "bytes": 1667
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 21,
+      "declaredSHA256": "a70db57e7da046c03c8f8acd94f11f4f8656d487b3a34a9e7d3f572a3c18746f",
+      "declaredBytes": 4074,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-finalize-review.mjs",
+      "originalSHA256": "c558914560ac20502731de1f7f5c062f454bcd996dfcd983a1da4c742c06b40c",
+      "originalBytes": 17738,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/23-pretraining-scene-finalize-review.mjs.gz",
+        "sha256": "e7f543f94ea42d7841784412a33b10d168190551356585c5c1e8939ffcd33cfb",
+        "bytes": 8047
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 22,
+      "declaredSHA256": "c558914560ac20502731de1f7f5c062f454bcd996dfcd983a1da4c742c06b40c",
+      "declaredBytes": 17738,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-audit\\local-c2-chromium-2026-09-29T16-21-51-776Z\\result.json",
+      "originalSHA256": "718ccb99ba4be973c8c3e5ec8b489f86e86ea3b1b77ba69659d07822172af8f1",
+      "originalBytes": 747691,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/24-initial-edge-result.json.gz",
+        "sha256": "c40ac31b276ea026f3542c9b7aec6b2df80bb5e3a1f8149c2c311b96d2273520",
+        "bytes": 68320
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 23,
+      "declaredSHA256": "718ccb99ba4be973c8c3e5ec8b489f86e86ea3b1b77ba69659d07822172af8f1",
+      "declaredBytes": 747691,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-audit\\local-c2-webkit-2026-09-29T16-21-58-473Z\\result.json",
+      "originalSHA256": "32befe10907a1f097e653fa28a80af22e9eef06031fcf280364c83d910b5f1cb",
+      "originalBytes": 1619055,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/25-initial-webkit-result.json.gz",
+        "sha256": "e6d6d0deeb88fd22452cf275271a1dba8e5102a9111e265b0a5aefd96b778466",
+        "bytes": 126928
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 24,
+      "declaredSHA256": "32befe10907a1f097e653fa28a80af22e9eef06031fcf280364c83d910b5f1cb",
+      "declaredBytes": 1619055,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-audit\\local-c2-chromium-2026-09-29T16-40-17-123Z\\result.json",
+      "originalSHA256": "4cdd3f1edce6e86224b451248a6476c00a85f5ae6734869b2f44bc2521de81ed",
+      "originalBytes": 1642711,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/26-final-edge-result.json.gz",
+        "sha256": "ebc3aa7af54c6366ba3d1f18472bd6a018d95daed93c0ecfc207a1acf8d8b60a",
+        "bytes": 131313
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 25,
+      "declaredSHA256": "4cdd3f1edce6e86224b451248a6476c00a85f5ae6734869b2f44bc2521de81ed",
+      "declaredBytes": 1642711,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-audit\\local-c2-loss-limited-webkit-2026-09-29T16-40-15-343Z\\result.json",
+      "originalSHA256": "9ec0f3cafa7a5d89fdc33abce9ba86fd01e77a9853966ef6f442d2a87e8d6a34",
+      "originalBytes": 438485,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/27-final-webkit-loss-limited-result.json.gz",
+        "sha256": "ae86692ed3de384ab51fadbcf37a2c7107508f869882eeaf6ad9031144934f77",
+        "bytes": 46036
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 26,
+      "declaredSHA256": "9ec0f3cafa7a5d89fdc33abce9ba86fd01e77a9853966ef6f442d2a87e8d6a34",
+      "declaredBytes": 438485,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-entire-input-delta-proof.mjs",
+      "originalSHA256": "dd8dfaaf2f6d91acf2e3aaf80c473ddf08e0f948b40d6bf9344aa2feebf918e3",
+      "originalBytes": 3243,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/28-pretraining-entire-input-delta-proof.mjs.gz",
+        "sha256": "bb73fe8c2a430c74d7064d95ddcf5f7208a242f36e6769dcf1c926a333f3e414",
+        "bytes": 1356
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 27,
+      "declaredSHA256": "dd8dfaaf2f6d91acf2e3aaf80c473ddf08e0f948b40d6bf9344aa2feebf918e3",
+      "declaredBytes": 3243,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-entire-input-delta-proof.json",
+      "originalSHA256": "031338068c37971796a74cdec3118ba40a90c4e96560473ff11f84af8a16218e",
+      "originalBytes": 2140,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/29-pretraining-entire-input-delta-proof.json.gz",
+        "sha256": "f2a00f5ffe6046cbebbc1cfd5a626d6d5561c878a524a91adc213c4c69d448b4",
+        "bytes": 1033
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 28,
+      "declaredSHA256": "031338068c37971796a74cdec3118ba40a90c4e96560473ff11f84af8a16218e",
+      "declaredBytes": 2140,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-build-inputs-sep30-before.json",
+      "originalSHA256": "a28e477f5dc25ce6caf9db8a0005c7d02f2ec6dfeddd5213b0f298487eaa18dd",
+      "originalBytes": 6502,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/30-pretraining-build-inputs-sep30-before.json.gz",
+        "sha256": "302f388f2324abafb7288247a0ee9dd76e0f62acc0f917e9e85e0e48b6a83998",
+        "bytes": 958
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 29,
+      "declaredSHA256": "a28e477f5dc25ce6caf9db8a0005c7d02f2ec6dfeddd5213b0f298487eaa18dd",
+      "declaredBytes": 6502,
+      "declaredHashAndBytesVerified": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-build-second-inputs-before.json",
+      "originalSHA256": "162ff5746aa97f468ac4600fb4489647ba2503212d152a08dc94e638a6fee9f3",
+      "originalBytes": 6502,
+      "stored": {
+        "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/31-pretraining-build-second-inputs-before.json.gz",
+        "sha256": "3e4229d2a67cc5b802011391502bffc0e0a084f43f60e8aa2956f586fa9bb6bc",
+        "bytes": 958
+      },
+      "encoding": "gzip",
+      "roundTripExact": true,
+      "rawContentAndPathsUnchanged": true,
+      "reviewEvidenceIndex": 30,
+      "declaredSHA256": "162ff5746aa97f468ac4600fb4489647ba2503212d152a08dc94e638a6fee9f3",
+      "declaredBytes": 6502,
+      "declaredHashAndBytesVerified": true
+    }
+  ],
+  "actualImageMapping": {
+    "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/viewed-images.json",
+    "sha256": "8924ffd9b5a7afc61768cba01f5fee5220b9a80918f6076551f11bbeb7dc3ef8",
+    "bytes": 219196
+  },
+  "readme": {
+    "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/README.md",
+    "sha256": "cc0d1d5d04ebfbe5894ca4759764f03bec35616422394b7d4d7617872682f2ca",
+    "bytes": 1720
+  },
+  "counts": {
+    "initial": 42,
+    "finalC2": 58,
+    "old": 17,
+    "totalActuallyViewed": 117
+  },
+  "limitations": [
+    "Archive transfer only; no new approval",
+    "31 declared evidence files and2 original review files are rawgzip with paths unchanged",
+    "117 actuallyViewed PNG only: initial42/finalC2 58/old17",
+    "1020 is generatedPNG count, not image-review count",
+    "Not all117 images are final C2 evidence"
+  ]
+}

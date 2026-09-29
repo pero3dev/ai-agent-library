@@ -1,0 +1,782 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-09-29T16:38:35.222Z",
+  "diagnostician": "/root/pretraining_numeric",
+  "scope": "Independent diagnosis only; saved trace plus localhost4209 instrumented reproductions; no repository edits",
+  "conclusion": "Stage0 pre-click stability poll deadlocks on a subpixel viewport boundary. The stage0 button remains 0.40625 CSS px below innerHeight, while scrollIntoViewIfNeeded repeatedly makes no movement. Current strict inView is false at the initial sample; no rAF loop or click is reached. Observed failure does not require READ-stage/layout changes.",
+  "trace": {
+    "archive": "website/test-results/pretraining-pretraining-ar-98875-view-of-the-same-six-inputs/trace.zip",
+    "archiveSHA256": "8d1f0869381c06a45ed0d0b0131c862cd575207f7747a0a3cad3fd6f350008da",
+    "errorContext": "website/test-results/pretraining-pretraining-ar-98875-view-of-the-same-six-inputs/error-context.md",
+    "errorContextSHA256": "c6c372367be3dc2527c8b4dadd9a8f97464e0942402f5c80a0bbe9c66cf55f64",
+    "browser": "Chromium/msedge Playwright1.63.0",
+    "viewport": [
+      1440,
+      1000
+    ],
+    "theme": "light",
+    "reducedMotion": "reduce",
+    "initialURL": "http://127.0.0.1:4183/ai-agent-library/docs/llm-internals/pretraining-and-scaling-laws",
+    "target": "pretraining-metrics",
+    "previousStage": 2,
+    "requestedStage": 0,
+    "lastClickCallId": "call@10702",
+    "lastClickStage": 2,
+    "lastThreshold": 70,
+    "thresholdSemanticAssertionsCompleted": true,
+    "scrollCallId": "pw:api@85",
+    "scrollStarted": 445701.434,
+    "scrollEnded": 445739.476,
+    "pollCallId": "expect@86",
+    "pollStarted": 445739.888,
+    "pollEnded": 450751.003,
+    "pollDurationMs": 5011.115000000049,
+    "postScrollEvaluateCalls": 33,
+    "postScrollClicks": 0,
+    "screencastUpdatesAfterScroll": 0,
+    "coordinateLimitation": "Trace stores no values returned inside the predicate. Exact coordinates below are from a separate reproduction, not falsely claimed as original trace measurements."
+  },
+  "reproduction": {
+    "endpoint": "http://127.0.0.1:4209",
+    "assets": "Current unchanged website/out served by TEMP copy of serve-export.mjs with only absolute out URL and port4209 substitution",
+    "serverStopped": true,
+    "run1": {
+      "setup": "Same opening/readiness/font/mermaid and threshold50/60/70 semantic steps; original inView and3rAF predicate retained with observational sample capture",
+      "originalGate": "failed",
+      "beforeScroll": {
+        "stage": "2",
+        "mode": "manual",
+        "scrollY": 4788,
+        "x": 782.015625,
+        "y": 962.21875,
+        "width": 145.453125,
+        "height": 38.1875,
+        "bottom": 1000.40625,
+        "viewport": [
+          1440,
+          1000
+        ],
+        "inView": false,
+        "panel": {
+          "x": 763.421875,
+          "y": 332.703125,
+          "width": 628.578125,
+          "height": 797.234375,
+          "top": 332.703125,
+          "right": 1392,
+          "bottom": 1129.9375,
+          "left": 763.421875
+        },
+        "sticky": {
+          "x": 763.421875,
+          "y": 332.703125,
+          "width": 628.578125,
+          "height": 797.234375,
+          "top": 332.703125,
+          "right": 1392,
+          "bottom": 1129.9375,
+          "left": 763.421875
+        },
+        "stickyPosition": "sticky",
+        "stickyTop": "81.6px"
+      },
+      "afterScroll": {
+        "stage": "2",
+        "mode": "manual",
+        "scrollY": 4788,
+        "x": 782.015625,
+        "y": 962.21875,
+        "width": 145.453125,
+        "height": 38.1875,
+        "bottom": 1000.40625,
+        "viewport": [
+          1440,
+          1000
+        ],
+        "inView": false,
+        "panel": {
+          "x": 763.421875,
+          "y": 332.703125,
+          "width": 628.578125,
+          "height": 797.234375,
+          "top": 332.703125,
+          "right": 1392,
+          "bottom": 1129.9375,
+          "left": 763.421875
+        },
+        "sticky": {
+          "x": 763.421875,
+          "y": 332.703125,
+          "width": 628.578125,
+          "height": 797.234375,
+          "top": 332.703125,
+          "right": 1392,
+          "bottom": 1129.9375,
+          "left": 763.421875
+        },
+        "stickyPosition": "sticky",
+        "stickyTop": "81.6px"
+      },
+      "afterGate": {
+        "stage": "2",
+        "mode": "manual",
+        "scrollY": 4788,
+        "x": 782.015625,
+        "y": 962.21875,
+        "width": 145.453125,
+        "height": 38.1875,
+        "bottom": 1000.40625,
+        "viewport": [
+          1440,
+          1000
+        ],
+        "inView": false,
+        "panel": {
+          "x": 763.421875,
+          "y": 332.703125,
+          "width": 628.578125,
+          "height": 797.234375,
+          "top": 332.703125,
+          "right": 1392,
+          "bottom": 1129.9375,
+          "left": 763.421875
+        },
+        "sticky": {
+          "x": 763.421875,
+          "y": 332.703125,
+          "width": 628.578125,
+          "height": 797.234375,
+          "top": 332.703125,
+          "right": 1392,
+          "bottom": 1129.9375,
+          "left": 763.421875
+        },
+        "stickyPosition": "sticky",
+        "stickyTop": "81.6px"
+      },
+      "pollSamples": 45,
+      "distinctSampleStates": 1,
+      "initialOutsideEverySample": true,
+      "threeRAFReached": false,
+      "ordinaryScrollRepeats": [
+        {
+          "attempt": 0,
+          "ok": false,
+          "reason": "initial-outside",
+          "captured": [
+            {
+              "stage": "2",
+              "scrollY": 4788,
+              "x": 782.015625,
+              "y": 962.21875,
+              "width": 145.453125,
+              "height": 38.1875,
+              "inView": false
+            }
+          ],
+          "geometry": {
+            "stage": "2",
+            "mode": "manual",
+            "scrollY": 4788,
+            "x": 782.015625,
+            "y": 962.21875,
+            "width": 145.453125,
+            "height": 38.1875,
+            "bottom": 1000.40625,
+            "viewport": [
+              1440,
+              1000
+            ],
+            "inView": false,
+            "panel": {
+              "x": 763.421875,
+              "y": 332.703125,
+              "width": 628.578125,
+              "height": 797.234375,
+              "top": 332.703125,
+              "right": 1392,
+              "bottom": 1129.9375,
+              "left": 763.421875
+            },
+            "sticky": {
+              "x": 763.421875,
+              "y": 332.703125,
+              "width": 628.578125,
+              "height": 797.234375,
+              "top": 332.703125,
+              "right": 1392,
+              "bottom": 1129.9375,
+              "left": 763.421875
+            },
+            "stickyPosition": "sticky",
+            "stickyTop": "81.6px"
+          }
+        },
+        {
+          "attempt": 1,
+          "ok": false,
+          "reason": "initial-outside",
+          "captured": [
+            {
+              "stage": "2",
+              "scrollY": 4788,
+              "x": 782.015625,
+              "y": 962.21875,
+              "width": 145.453125,
+              "height": 38.1875,
+              "inView": false
+            }
+          ],
+          "geometry": {
+            "stage": "2",
+            "mode": "manual",
+            "scrollY": 4788,
+            "x": 782.015625,
+            "y": 962.21875,
+            "width": 145.453125,
+            "height": 38.1875,
+            "bottom": 1000.40625,
+            "viewport": [
+              1440,
+              1000
+            ],
+            "inView": false,
+            "panel": {
+              "x": 763.421875,
+              "y": 332.703125,
+              "width": 628.578125,
+              "height": 797.234375,
+              "top": 332.703125,
+              "right": 1392,
+              "bottom": 1129.9375,
+              "left": 763.421875
+            },
+            "sticky": {
+              "x": 763.421875,
+              "y": 332.703125,
+              "width": 628.578125,
+              "height": 797.234375,
+              "top": 332.703125,
+              "right": 1392,
+              "bottom": 1129.9375,
+              "left": 763.421875
+            },
+            "stickyPosition": "sticky",
+            "stickyTop": "81.6px"
+          }
+        },
+        {
+          "attempt": 2,
+          "ok": false,
+          "reason": "initial-outside",
+          "captured": [
+            {
+              "stage": "2",
+              "scrollY": 4788,
+              "x": 782.015625,
+              "y": 962.21875,
+              "width": 145.453125,
+              "height": 38.1875,
+              "inView": false
+            }
+          ],
+          "geometry": {
+            "stage": "2",
+            "mode": "manual",
+            "scrollY": 4788,
+            "x": 782.015625,
+            "y": 962.21875,
+            "width": 145.453125,
+            "height": 38.1875,
+            "bottom": 1000.40625,
+            "viewport": [
+              1440,
+              1000
+            ],
+            "inView": false,
+            "panel": {
+              "x": 763.421875,
+              "y": 332.703125,
+              "width": 628.578125,
+              "height": 797.234375,
+              "top": 332.703125,
+              "right": 1392,
+              "bottom": 1129.9375,
+              "left": 763.421875
+            },
+            "sticky": {
+              "x": 763.421875,
+              "y": 332.703125,
+              "width": 628.578125,
+              "height": 797.234375,
+              "top": 332.703125,
+              "right": 1392,
+              "bottom": 1129.9375,
+              "left": 763.421875
+            },
+            "stickyPosition": "sticky",
+            "stickyTop": "81.6px"
+          }
+        }
+      ],
+      "normalClick": "not-attempted"
+    },
+    "run2": {
+      "setup": "Same natural sequence with center candidate after original gate",
+      "originalGate": "passed",
+      "initialScrollY": 5196,
+      "meaning": "Natural positioning is timing-sensitive; this run already lay within viewport. It does not prove recovery from the failing coordinate.",
+      "center": {
+        "geometry": {
+          "stage": "2",
+          "mode": "manual",
+          "scrollY": 5269,
+          "x": 782.015625,
+          "y": 481.21875,
+          "width": 145.453125,
+          "height": 38.1875,
+          "bottom": 519.40625,
+          "viewport": [
+            1440,
+            1000
+          ],
+          "inView": true,
+          "panel": {
+            "x": 763.421875,
+            "y": -148.296875,
+            "width": 628.578125,
+            "height": 797.234375,
+            "top": -148.296875,
+            "right": 1392,
+            "bottom": 648.9375,
+            "left": 763.421875
+          },
+          "sticky": {
+            "x": 763.421875,
+            "y": -148.296875,
+            "width": 628.578125,
+            "height": 797.234375,
+            "top": -148.296875,
+            "right": 1392,
+            "bottom": 648.9375,
+            "left": 763.421875
+          },
+          "stickyPosition": "sticky",
+          "stickyTop": "81.6px"
+        },
+        "predicate": {
+          "ok": true,
+          "reason": "stable3",
+          "captured": [
+            {
+              "stage": "2",
+              "scrollY": 5269,
+              "x": 782.015625,
+              "y": 481.21875,
+              "width": 145.453125,
+              "height": 38.1875,
+              "inView": true
+            },
+            {
+              "stage": "2",
+              "scrollY": 5269,
+              "x": 782.015625,
+              "y": 481.21875,
+              "width": 145.453125,
+              "height": 38.1875,
+              "inView": true
+            },
+            {
+              "stage": "2",
+              "scrollY": 5269,
+              "x": 782.015625,
+              "y": 481.21875,
+              "width": 145.453125,
+              "height": 38.1875,
+              "inView": true
+            },
+            {
+              "stage": "2",
+              "scrollY": 5269,
+              "x": 782.015625,
+              "y": 481.21875,
+              "width": 145.453125,
+              "height": 38.1875,
+              "inView": true
+            }
+          ]
+        }
+      },
+      "normalClick": "passed"
+    },
+    "run3": {
+      "setup": {
+        "kind": "ordinary-browser-scroll",
+        "observedFailingScrollY": 4788,
+        "reason": "Recreate coordinate state observed in the first unmodified-sequence failure; not a new product state mutation"
+      },
+      "originalGate": "failed",
+      "beforeScroll": {
+        "stage": "2",
+        "mode": "manual",
+        "scrollY": 4788,
+        "x": 782.015625,
+        "y": 962.21875,
+        "width": 145.453125,
+        "height": 38.1875,
+        "bottom": 1000.40625,
+        "viewport": [
+          1440,
+          1000
+        ],
+        "inView": false,
+        "panel": {
+          "x": 763.421875,
+          "y": 332.703125,
+          "width": 628.578125,
+          "height": 797.234375,
+          "top": 332.703125,
+          "right": 1392,
+          "bottom": 1129.9375,
+          "left": 763.421875
+        },
+        "sticky": {
+          "x": 763.421875,
+          "y": 332.703125,
+          "width": 628.578125,
+          "height": 797.234375,
+          "top": 332.703125,
+          "right": 1392,
+          "bottom": 1129.9375,
+          "left": 763.421875
+        },
+        "stickyPosition": "sticky",
+        "stickyTop": "81.6px"
+      },
+      "pollSamples": 45,
+      "ordinaryScrollRepeats": [
+        {
+          "attempt": 0,
+          "ok": false,
+          "reason": "initial-outside",
+          "captured": [
+            {
+              "stage": "2",
+              "scrollY": 4788,
+              "x": 782.015625,
+              "y": 962.21875,
+              "width": 145.453125,
+              "height": 38.1875,
+              "inView": false
+            }
+          ],
+          "geometry": {
+            "stage": "2",
+            "mode": "manual",
+            "scrollY": 4788,
+            "x": 782.015625,
+            "y": 962.21875,
+            "width": 145.453125,
+            "height": 38.1875,
+            "bottom": 1000.40625,
+            "viewport": [
+              1440,
+              1000
+            ],
+            "inView": false,
+            "panel": {
+              "x": 763.421875,
+              "y": 332.703125,
+              "width": 628.578125,
+              "height": 797.234375,
+              "top": 332.703125,
+              "right": 1392,
+              "bottom": 1129.9375,
+              "left": 763.421875
+            },
+            "sticky": {
+              "x": 763.421875,
+              "y": 332.703125,
+              "width": 628.578125,
+              "height": 797.234375,
+              "top": 332.703125,
+              "right": 1392,
+              "bottom": 1129.9375,
+              "left": 763.421875
+            },
+            "stickyPosition": "sticky",
+            "stickyTop": "81.6px"
+          }
+        },
+        {
+          "attempt": 1,
+          "ok": false,
+          "reason": "initial-outside",
+          "captured": [
+            {
+              "stage": "2",
+              "scrollY": 4788,
+              "x": 782.015625,
+              "y": 962.21875,
+              "width": 145.453125,
+              "height": 38.1875,
+              "inView": false
+            }
+          ],
+          "geometry": {
+            "stage": "2",
+            "mode": "manual",
+            "scrollY": 4788,
+            "x": 782.015625,
+            "y": 962.21875,
+            "width": 145.453125,
+            "height": 38.1875,
+            "bottom": 1000.40625,
+            "viewport": [
+              1440,
+              1000
+            ],
+            "inView": false,
+            "panel": {
+              "x": 763.421875,
+              "y": 332.703125,
+              "width": 628.578125,
+              "height": 797.234375,
+              "top": 332.703125,
+              "right": 1392,
+              "bottom": 1129.9375,
+              "left": 763.421875
+            },
+            "sticky": {
+              "x": 763.421875,
+              "y": 332.703125,
+              "width": 628.578125,
+              "height": 797.234375,
+              "top": 332.703125,
+              "right": 1392,
+              "bottom": 1129.9375,
+              "left": 763.421875
+            },
+            "stickyPosition": "sticky",
+            "stickyTop": "81.6px"
+          }
+        },
+        {
+          "attempt": 2,
+          "ok": false,
+          "reason": "initial-outside",
+          "captured": [
+            {
+              "stage": "2",
+              "scrollY": 4788,
+              "x": 782.015625,
+              "y": 962.21875,
+              "width": 145.453125,
+              "height": 38.1875,
+              "inView": false
+            }
+          ],
+          "geometry": {
+            "stage": "2",
+            "mode": "manual",
+            "scrollY": 4788,
+            "x": 782.015625,
+            "y": 962.21875,
+            "width": 145.453125,
+            "height": 38.1875,
+            "bottom": 1000.40625,
+            "viewport": [
+              1440,
+              1000
+            ],
+            "inView": false,
+            "panel": {
+              "x": 763.421875,
+              "y": 332.703125,
+              "width": 628.578125,
+              "height": 797.234375,
+              "top": 332.703125,
+              "right": 1392,
+              "bottom": 1129.9375,
+              "left": 763.421875
+            },
+            "sticky": {
+              "x": 763.421875,
+              "y": 332.703125,
+              "width": 628.578125,
+              "height": 797.234375,
+              "top": 332.703125,
+              "right": 1392,
+              "bottom": 1129.9375,
+              "left": 763.421875
+            },
+            "stickyPosition": "sticky",
+            "stickyTop": "81.6px"
+          }
+        },
+        {
+          "attempt": "centered-browser-scroll",
+          "ok": true
+        }
+      ],
+      "centered": {
+        "geometry": {
+          "stage": "2",
+          "mode": "manual",
+          "scrollY": 5269,
+          "x": 782.015625,
+          "y": 481.21875,
+          "width": 145.453125,
+          "height": 38.1875,
+          "bottom": 519.40625,
+          "viewport": [
+            1440,
+            1000
+          ],
+          "inView": true,
+          "panel": {
+            "x": 763.421875,
+            "y": -148.296875,
+            "width": 628.578125,
+            "height": 797.234375,
+            "top": -148.296875,
+            "right": 1392,
+            "bottom": 648.9375,
+            "left": 763.421875
+          },
+          "sticky": {
+            "x": 763.421875,
+            "y": -148.296875,
+            "width": 628.578125,
+            "height": 797.234375,
+            "top": -148.296875,
+            "right": 1392,
+            "bottom": 648.9375,
+            "left": 763.421875
+          },
+          "stickyPosition": "sticky",
+          "stickyTop": "81.6px"
+        },
+        "predicate": {
+          "ok": true,
+          "reason": "stable3",
+          "captured": [
+            {
+              "stage": "2",
+              "scrollY": 5269,
+              "x": 782.015625,
+              "y": 481.21875,
+              "width": 145.453125,
+              "height": 38.1875,
+              "inView": true
+            },
+            {
+              "stage": "2",
+              "scrollY": 5269,
+              "x": 782.015625,
+              "y": 481.21875,
+              "width": 145.453125,
+              "height": 38.1875,
+              "inView": true
+            },
+            {
+              "stage": "2",
+              "scrollY": 5269,
+              "x": 782.015625,
+              "y": 481.21875,
+              "width": 145.453125,
+              "height": 38.1875,
+              "inView": true
+            },
+            {
+              "stage": "2",
+              "scrollY": 5269,
+              "x": 782.015625,
+              "y": 481.21875,
+              "width": 145.453125,
+              "height": 38.1875,
+              "inView": true
+            }
+          ]
+        }
+      },
+      "normalClickAndManualStageSliderAssertions": "passed",
+      "subsequentThreshold60AssertionsStages": [
+        1,
+        3
+      ]
+    }
+  },
+  "recommendedCandidate": {
+    "operation": "node.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'instant' })",
+    "location": "Before each stage0 stability predicate evaluation; repeat normal scrolling on poll retries if layout shifts",
+    "reason": "Move control into viewport interior instead of relying on an edge-aligned no-op. Does not weaken full inView, stable stage/scroll/rect for3rAF, normal pointer click, or manual/stage/slider assertions.",
+    "requiredConditionsUnchanged": [
+      "No tolerance added to viewport geometry",
+      "Same exact inView predicate",
+      "Same3rAF state and rect equality",
+      "Normal locator.click; no force/direct DOM click",
+      "Original manual/data-stage/slider checks",
+      "Original threshold semantic fixtures and defaults"
+    ],
+    "validation": "Observed failing scroll replay recovered: scrollY5269, y481.21875, bottom519.40625, stable3 true; normal stage0 click/assert and subsequent stages1/3/defaultthreshold60 assertions passed",
+    "notSufficient": "Repeating only scrollIntoViewIfNeeded was tested three times and remained false."
+  },
+  "limitations": [
+    "Single1440x1000 Edge environment; not full Chromium/WebKit/multiviewport acceptance",
+    "No production/helper/spec/portable edits or source inventory updates",
+    "No public runtime/network release acceptance",
+    "Browser internal reason for scrollIntoViewIfNeeded no-op is not proven; observed no-op and subpixel mismatch are directly measured",
+    "Root must independently review eventual code delta and rerun impacted browser/public contracts"
+  ],
+  "evidence": [
+    {
+      "path": "TEMP/c2-metrics-diagnosis-test.trace",
+      "sha256": "319ab261a344ab8dc74a1081a2a683fc41908a52525e17d85602909d1c31c567"
+    },
+    {
+      "path": "TEMP/c2-metrics-diagnosis-1-trace.trace",
+      "sha256": "ff1f49a5067539cddd19196fdcb9e88cdd4e4cc30dbef405b2259d1a03583486"
+    },
+    {
+      "path": "TEMP/c2-metrics-failure-last.jpeg",
+      "sha256": "b122bf722078f4bc7f0aba5730e5f14689aa281bfbd4188d59b29358b4dc769e"
+    },
+    {
+      "path": "TEMP/c2-metrics-4209-reproduction.mjs",
+      "sha256": "8db325e8f94a110133dde5181a1219111aeed755f67023b69e1263b6e9a8abe2"
+    },
+    {
+      "path": "TEMP/c2-metrics-4209-reproduction.json",
+      "sha256": "e04ef7485a9a9d91a0e2cb6dc1f8512cc9bd74f6a7aa97d0614bd94029ac2960"
+    },
+    {
+      "path": "TEMP/c2-metrics-4209-after-original.png",
+      "sha256": "5152976826724c73c2d56c3d6ac7bb64c877e012809bf8a3a20571ffedd4bd2e"
+    },
+    {
+      "path": "TEMP/c2-metrics-4209-centered-reproduction.mjs",
+      "sha256": "a2c60fa119806e11fe53f1e44e201b7993ac2c8963add20fde911f17eb186716"
+    },
+    {
+      "path": "TEMP/c2-metrics-4209-centered-reproduction.json",
+      "sha256": "e0c1dccbb5f82245f1f9978151ba589b6a5282f57c973b41830b40cae3dc0c34"
+    },
+    {
+      "path": "TEMP/c2-metrics-4209-observed-scroll-replay.mjs",
+      "sha256": "6af71f2a70feb0d1e335a8b810e1727b5a4e7428f572af6a3682d9449292db05"
+    },
+    {
+      "path": "TEMP/c2-metrics-4209-observed-scroll-replay.json",
+      "sha256": "5deb0b202bc17cf99225c5c9775894ef73ecfeb5e28cf91355d5d32e1fbe3d7d"
+    },
+    {
+      "path": "TEMP/c2-metrics-4209-observed-scroll-before.png",
+      "sha256": "5152976826724c73c2d56c3d6ac7bb64c877e012809bf8a3a20571ffedd4bd2e"
+    },
+    {
+      "path": "TEMP/c2-metrics-4209-observed-scroll-after.png",
+      "sha256": "cc2e660fa444eaa7cb882bcc578a1e735c0527d0043a71e2066a58c899858525"
+    }
+  ]
+}

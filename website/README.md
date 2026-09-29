@@ -104,7 +104,7 @@ ID・対応する節・コンポーネントは実装側でも許可リストを
 
 - **CRLF 正規化**: 読込時に LF へ正規化(`.gitattributes` でも作業ツリーを LF に統一)
 - **未解決リンク / 読込失敗**: `sync` が `exit 1`(不完全な公開物を防ぐ)
-- **MDX ガード**: 生成 MDX を再パースし、`TodoCallout` / `PracticeSection` / `GlossaryTerm` / `AttentionWalkthrough` / `AttentionStep` / `ReadingWalkthrough` / `TransformerWalkthrough` / `AttentionVariantsWalkthrough` / `MoEWalkthrough` / `FoundationsWalkthrough` / `InferenceWalkthrough` / `TrainingWalkthrough` / `ReadingStep`
+- **MDX ガード**: 生成 MDX を再パースし、`TodoCallout` / `PracticeSection` / `GlossaryTerm` / `AttentionWalkthrough` / `AttentionStep` / `ReadingWalkthrough` / `TransformerWalkthrough` / `AttentionVariantsWalkthrough` / `MoEWalkthrough` / `FoundationsWalkthrough` / `InferenceWalkthrough` / `TrainingWalkthrough` / `PretrainingWalkthrough` / `ReadingStep`
   以外の JSX・`import`/`export`・`{式}`・生 HTML を検出したらビルドを失敗させる。
   許可コンポーネントでも属性式・spread は拒否し、挿入する文字列属性と値だけを許可する。段階番号は親の図IDに対応する上限で検査する
 - **Mermaid の描画設定**: Nextra が生成する直接 import を、Turbopack / Webpack ともに

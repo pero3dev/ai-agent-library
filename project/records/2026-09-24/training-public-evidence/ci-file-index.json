@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "saved-ci-and-github-proof-not-public-acceptance",
+  "mergeSha": "517dc8b5166bd7b0c85baef3800d7fe57bac7b31",
+  "buildId": "EliX86DAnCpMQHOKIyCQx",
+  "files": [
+    {
+      "file": "artifact-evidence.json",
+      "originalBytes": 5129,
+      "bytes": 5048,
+      "originalSHA256": "0ad3b83203b88a5c85c71799729dd2f5d2ea6ba887d8bab10abe7a6969cf1eb7",
+      "storedSHA256": "4f6dcbf1893ae978771b1d8fa3fbd9fe4135c9b61a148daa9f24e465364b3195",
+      "normalization": "CRLF to LF for repository checkout"
+    },
+    {
+      "file": "deployment-before.json.gz",
+      "originalBytes": 31615,
+      "bytes": 5304,
+      "originalSHA256": "4fd6d33a09e36d5e533ff6d006dae21fca1ef16bcf5afc3dbcc8b709e061b03f",
+      "storedSHA256": "afd6ca9c6a64723339a0e9e57de849e7d4ab6003fcc497ce295b92f694eef772"
+    },
+    {
+      "file": "deployment-after.json.gz",
+      "originalBytes": 20050,
+      "bytes": 3729,
+      "originalSHA256": "bbee4b53e9fe622118eb3587ffdad087186e4181720b1995fb6b6881eed58620",
+      "storedSHA256": "d9e310bf5df30160d9fedf3aa24226813f94072479ccf8a1f79f1ced16f07b32"
+    },
+    {
+      "file": "inference-internals.html.gz",
+      "originalBytes": 718590,
+      "bytes": 81267,
+      "originalSHA256": "19e9dbcedadaadf3e3d6ed22a66af49ce3af1423f719cc82f7e8925f0c7eba4e",
+      "storedSHA256": "207570cc72ae15edf8ea16218c839e18df38e2ea2321b3a8e79a7eb6927396d3"
+    },
+    {
+      "file": "how-llms-generate-text.html.gz",
+      "originalBytes": 596944,
+      "bytes": 64139,
+      "originalSHA256": "7c52c141f61acdbc6ec799b9b94d188038104b1f8ff1fec4063ed35fe454e421",
+      "storedSHA256": "3965042377cbf1b0de311520f5b145eb25d3051021ef38c7424be9d3055f3810"
+    },
+    {
+      "file": "tokenization.html.gz",
+      "originalBytes": 583364,
+      "bytes": 61055,
+      "originalSHA256": "6e95d58f9efdd94d57a255eb5da2d9365e295fae2f3eac843afa54971a02d61e",
+      "storedSHA256": "8e11431603b680399e8f57b62334aa6c72f3fbef726a3e92f78cdea14b436275"
+    },
+    {
+      "file": "mixture-of-experts-internals.html.gz",
+      "originalBytes": 712770,
+      "bytes": 77456,
+      "originalSHA256": "06d18b2e1e73df8a08d35f91e418245b020d8326419662bb9fc80db6b94a5174",
+      "storedSHA256": "e0015656763eaac391d1e60228eded6e3cbeb9baf13c733de6236b76decb2c4b"
+    },
+    {
+      "file": "attention-variants-and-long-context.html.gz",
+      "originalBytes": 771312,
+      "bytes": 85361,
+      "originalSHA256": "1a5f5f609fdeb51fd8e7025aecd5b3fc2195757e64e8c6767b8c2075fd6db2b9",
+      "storedSHA256": "c849bd12979286da4ef7a33b7f5da3ef9abb346968855d2ceb61a33d4704dadf"
+    },
+    {
+      "file": "transformer-architecture.html.gz",
+      "originalBytes": 1077989,
+      "bytes": 114794,
+      "originalSHA256": "66df211e702e20e4006318faa2107ebf0e82eb283bbc9ae055eaf268971f24ec",
+      "storedSHA256": "5e3bb52c200b3ce4c7010230fb6164661ef4db0364156d659c28bf0daf0b331d"
+    },
+    {
+      "file": "llm-training-pipeline.html.gz",
+      "originalBytes": 611779,
+      "bytes": 66273,
+      "originalSHA256": "8e541c3ad8371923044012902c39ecd6abccc148c088a93ac27aeef4131ce73d",
+      "storedSHA256": "cd4ae3fc8ed42744acea797d295b30e14f2d59f52e7a4c3c7e6c4459100f120e"
+    },
+    {
+      "file": "pr-candidate.json",
+      "originalBytes": 2490,
+      "bytes": 2489,
+      "originalSHA256": "b95f056025b7f064227777740fef10a6b9b400092fa61d9820703c749d002223",
+      "storedSHA256": "9e41ebaf5b0c2fbe5f3b9791ba5c5c82fcb4130c2906147fe49e5d4936911ce7",
+      "normalization": "CRLF to LF for repository checkout"
+    },
+    {
+      "file": "merge.json",
+      "originalBytes": 236,
+      "bytes": 235,
+      "originalSHA256": "e5ce704f1f670b3accb4b9ecd004d3e979d9cdb55017dcfa9e7866abf27308f1",
+      "storedSHA256": "bbbaafaf09060cd85581fb7b141cfbd2bb25dbac85a2c27bec551cce77a9a505",
+      "normalization": "CRLF to LF for repository checkout"
+    },
+    {
+      "file": "main-ci.json",
+      "originalBytes": 18333,
+      "bytes": 18332,
+      "originalSHA256": "4b81320f83c423e0aa7bcde429a866eaa04a9f834221a58af67395357594ff1f",
+      "storedSHA256": "8e3be9417096dfd6e40631a42585c442fd48756d8abe2acb9e93472f177a59ec",
+      "normalization": "CRLF to LF for repository checkout"
+    },
+    {
+      "file": "artifact-evidence.json.gz",
+      "originalBytes": 5129,
+      "bytes": 1479,
+      "originalSHA256": "0ad3b83203b88a5c85c71799729dd2f5d2ea6ba887d8bab10abe7a6969cf1eb7",
+      "storedSHA256": "a8678c5f728c14cb32870ccabec877515fcb807df32bae4230be70e34c6ec7e4",
+      "normalization": "none; raw bytes compressed"
+    }
+  ],
+  "portability": "Historical absolute paths in raw files are preserved; this relative index and selected HTML copies are self-contained."
+}

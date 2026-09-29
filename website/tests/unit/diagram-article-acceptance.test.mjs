@@ -11,7 +11,8 @@ import {
   GENERATION_ARTICLE, GENERATION_EVIDENCE_PATH, GENERATION_INPUT_FILES,
   TOKENIZATION_ARTICLE, TOKENIZATION_EVIDENCE_PATH, TOKENIZATION_INPUT_FILES,
   INFERENCE_ARTICLE, INFERENCE_EVIDENCE_PATH, INFERENCE_INPUT_FILES,
-  TRAINING_ARTICLE, TRAINING_EVIDENCE_PATH, TRAINING_INPUT_FILES
+  TRAINING_ARTICLE, TRAINING_EVIDENCE_PATH, TRAINING_INPUT_FILES,
+  PRETRAINING_ARTICLE, PRETRAINING_EVIDENCE_PATH, PRETRAINING_INPUT_FILES
 } from '../../lib/diagram-article-acceptance.mjs'
 import { getDiagramCoverage } from '../../lib/diagram-coverage.mjs'
 import { diagramRegistry } from '../../lib/diagram-registry.mjs'
@@ -248,8 +249,8 @@ test('coverage computes complete article count from acceptance and keeps publica
   assert.equal(report().summary.completeArticles, 0)
 })
 
-test('seven article configurations are code-owned and returned copies cannot alter the policy', () => {
-  assert.deepEqual(TRACKED_ARTICLES, [TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE, INFERENCE_ARTICLE, TRAINING_ARTICLE])
+test('eight article configurations are code-owned and returned copies cannot alter the policy', () => {
+  assert.deepEqual(TRACKED_ARTICLES, [TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE, INFERENCE_ARTICLE, TRAINING_ARTICLE, PRETRAINING_ARTICLE])
   const config = getDiagramArticleConfig(ATTENTION_VARIANTS_ARTICLE)
   assert.equal(Object.keys(config.topics).length, 11)
   assert.equal(config.evidencePath, ATTENTION_VARIANTS_EVIDENCE_PATH)
@@ -271,7 +272,7 @@ test('seven article configurations are code-owned and returned copies cannot alt
   assert.equal(ATTENTION_VARIANTS_INPUT_FILES.some(file => file.includes('/moe-')), false)
 })
 
-test('seven articles require their own matching evidence and aggregate completion independently', t => {
+test('eight articles require their own matching evidence and aggregate completion independently', t => {
   const f = trackedArticlesFixture(t)
   for (const article of TRACKED_ARTICLES) {
     assert.equal(f.report(article).assignmentCurrent, true)
@@ -295,7 +296,7 @@ test('seven articles require their own matching evidence and aggregate completio
   assert.equal(getDiagramCoverage({ repoRoot: f.root, registry: f.registry }).summary.completeArticles, 3)
   for (const [article, evidencePath, count] of [
     [GENERATION_ARTICLE, GENERATION_EVIDENCE_PATH, 4], [TOKENIZATION_ARTICLE, TOKENIZATION_EVIDENCE_PATH, 5],
-    [INFERENCE_ARTICLE, INFERENCE_EVIDENCE_PATH, 6], [TRAINING_ARTICLE, TRAINING_EVIDENCE_PATH, 7]
+    [INFERENCE_ARTICLE, INFERENCE_EVIDENCE_PATH, 6], [TRAINING_ARTICLE, TRAINING_EVIDENCE_PATH, 7], [PRETRAINING_ARTICLE, PRETRAINING_EVIDENCE_PATH, 8]
   ]) {
     assert.equal(f.report(article).complete, false)
     f.json(evidencePath, f.evidence(MOE_ARTICLE))
@@ -319,7 +320,8 @@ test('article-specific scene, assignment and registry changes leave every other 
     [GENERATION_ARTICLE, 'website/components/diagrams/generation-walkthrough.jsx', 'generation-token-loop'],
     [TOKENIZATION_ARTICLE, 'website/components/diagrams/tokenization-walkthrough.jsx', 'tokenization-counting'],
     [INFERENCE_ARTICLE, 'website/components/diagrams/inference-sampling-walkthrough.jsx', 'inference-sampling'],
-    [TRAINING_ARTICLE, 'website/components/diagrams/training-stages-walkthrough.jsx', 'training-stages']
+    [TRAINING_ARTICLE, 'website/components/diagrams/training-stages-walkthrough.jsx', 'training-stages'],
+    [PRETRAINING_ARTICLE, 'website/components/diagrams/pretraining-loss-perplexity-walkthrough.jsx', 'pretraining-loss-perplexity']
   ]) {
     const others = TRACKED_ARTICLES.filter(value => value !== article)
     const sceneSource = readFileSync(path.join(f.root, scene), 'utf8')
@@ -899,4 +901,130 @@ test('the six PR58 historical article snapshots cannot approve a later shared tr
     assert.equal(result.complete, false)
   }
   for (const [snapshot, content] of snapshots) assert.equal(readFileSync(path.join(f.root, snapshot), 'utf8'), content)
+})
+
+test('pretraining assigns all nine H3 and 45 topics while all three article gates remain independently required', t => {
+  const f = trackedArticlesFixture(t), config = getDiagramArticleConfig(PRETRAINING_ARTICLE)
+  const ids = ["pretraining-loss-perplexity","pretraining-scaling","pretraining-data","pretraining-metrics","pretraining-compute"]
+  assert.deepEqual(config.primaryDiagramIds, ids)
+  assert.equal(Object.keys(config.topics).length, 9)
+  assert.equal(Object.values(config.topics).flat().length, 45)
+  assert.equal(config.evidencePath, PRETRAINING_EVIDENCE_PATH)
+  assert.deepEqual(config.inputFiles, PRETRAINING_INPUT_FILES)
+  assert.equal(PRETRAINING_INPUT_FILES.length, 56)
+  assert.equal(new Set(PRETRAINING_INPUT_FILES).size, 56)
+  const assignment = f.manifest().articles.find(entry => entry.article === PRETRAINING_ARTICLE)
+  const topics = assignment.sections.flatMap(section => section.topics)
+  assert.equal(topics.length, 45)
+  assert.equal(topics.filter(topic => topic.diagramId).length, 29)
+  assert.equal(topics.filter(topic => topic.staticReason).length, 16)
+  for (const topic of topics.filter(topic => topic.diagramId)) {
+    const diagram = f.registry.diagrams.find(entry => entry.id === topic.diagramId)
+    const readingStages = diagram.blockGroups.flat().map(group => group.stage)
+    assert.ok(topic.stages.some(stage => readingStages.includes(stage)), topic.id)
+  }
+  assert.equal(f.report(PRETRAINING_ARTICLE).assignmentCurrent, true)
+  f.json(PRETRAINING_EVIDENCE_PATH, { schemaVersion: 1, article: PRETRAINING_ARTICLE, review: null, local: null, public: null })
+  for (const kind of ['review', 'local', 'public']) {
+    const evidence = f.evidence(PRETRAINING_ARTICLE)
+    evidence[kind] = null
+    f.json(PRETRAINING_EVIDENCE_PATH, evidence)
+    assert.equal(f.report(PRETRAINING_ARTICLE)[`${kind}Recorded`], false)
+    assert.equal(f.report(PRETRAINING_ARTICLE).complete, false)
+  }
+  for (const mutate of [
+    a => a.sections.pop(), a => a.sections.reverse(), a => a.sections[0].topics.pop(),
+    a => a.sections[0].topics.push(a.sections[0].topics[0]), a => a.primaryDiagramIds.pop(),
+    a => a.sections[0].topics[0].stages = [6], a => a.sections[0].topics[0].diagramId = 'generation-token-loop',
+    a => a.sections.at(-1).topics[0].staticReason = '',
+    a => a.sections.at(-1).topics[0].relatedRead = [{ diagramId: 'pretraining-stages', stage: 2 }]
+  ]) {
+    const manifest = f.manifest()
+    mutate(manifest.articles.find(entry => entry.article === PRETRAINING_ARTICLE))
+    f.json(manifestPath, manifest)
+    f.json(PRETRAINING_EVIDENCE_PATH, f.evidence(PRETRAINING_ARTICLE))
+    assert.equal(f.report(PRETRAINING_ARTICLE).assignmentCurrent, false, String(mutate))
+    assert.equal(f.report(PRETRAINING_ARTICLE).complete, false)
+  }
+  f.json(manifestPath, f.manifest())
+  for (const id of ids) {
+    const entry = f.registry.diagrams.find(entry => entry.id === id), saved = structuredClone(entry)
+    for (const changes of [
+      { enabled: false, status: 'draft', reviewedDigest: null },
+      { status: 'implemented', reviewedDigest: null },
+      { sourceDigest: 'sha256:' + '0'.repeat(64), reviewedDigest: 'sha256:' + '0'.repeat(64) }
+    ]) {
+      Object.assign(entry, saved, changes)
+      f.json(PRETRAINING_EVIDENCE_PATH, f.evidence(PRETRAINING_ARTICLE))
+      assert.equal(f.report(PRETRAINING_ARTICLE).diagramsCurrent, false, id)
+      assert.equal(f.report(PRETRAINING_ARTICLE).complete, false, id)
+    }
+    Object.assign(entry, saved)
+  }
+})
+
+test('pretraining topics cannot rely only on a manual-only stage', t => {
+  const f = trackedArticlesFixture(t)
+  assert.equal(getDiagramArticleConfig(PRETRAINING_ARTICLE).requireReadingStage, true)
+  for (const [stages, accepted] of [[[2], false], [[2, 3], true], [[0], true]]) {
+    const manifest = f.manifest()
+    const topic = manifest.articles.find(entry => entry.article === PRETRAINING_ARTICLE).sections
+      .flatMap(section => section.topics).find(topic => topic.id === 'pretraining-pretraining-purpose')
+    topic.diagramId = 'pretraining-compute'
+    topic.stages = stages
+    f.json(manifestPath, manifest)
+    f.json(PRETRAINING_EVIDENCE_PATH, f.evidence(PRETRAINING_ARTICLE))
+    const report = f.report(PRETRAINING_ARTICLE)
+    assert.equal(report.assignmentCurrent, accepted, JSON.stringify(stages))
+    assert.equal(report.complete, accepted, JSON.stringify(stages))
+    if (!accepted) assert.ok(report.reasons.some(reason => reason.includes('本文連動')))
+  }
+})
+
+test('all sixteen pretraining runtime inputs fail closed and stay isolated from the seven previous articles', t => {
+  const f = trackedArticlesFixture(t), before = new Map(TRACKED_ARTICLES.map(article => [article, f.report(article).inputDigest]))
+  const specific = PRETRAINING_INPUT_FILES.filter(file => !ARTICLE_INPUT_FILES.includes(file))
+  assert.equal(specific.length, 16)
+  assert.ok(specific.includes('website/components/diagrams/pretraining-walkthrough.jsx'))
+  for (const id of ["pretraining-loss-perplexity","pretraining-scaling","pretraining-data","pretraining-metrics","pretraining-compute"]) {
+    for (const file of [`website/components/diagrams/${id}-walkthrough.jsx`, `website/components/diagrams/${id}.css`, `website/lib/${id}-model.mjs`]) {
+      assert.ok(specific.includes(file), file)
+    }
+  }
+  for (const article of TRACKED_ARTICLES) f.json(getDiagramArticleConfig(article).evidencePath, f.evidence(article))
+  for (const file of specific) {
+    const source = readFileSync(path.join(f.root, file), 'utf8')
+    f.write(file, source + '\n// Changed pretraining input\n')
+    for (const article of TRACKED_ARTICLES) {
+      assert.equal(f.report(article).inputDigest !== before.get(article), article === PRETRAINING_ARTICLE, file + ': ' + article)
+      assert.equal(f.report(article).complete, article !== PRETRAINING_ARTICLE, file + ': ' + article)
+    }
+    rmSync(path.join(f.root, file))
+    assert.equal(f.report(PRETRAINING_ARTICLE).inputDigest, null, file)
+    assert.equal(f.report(PRETRAINING_ARTICLE).complete, false, file)
+    f.write(file, source)
+  }
+})
+
+test('pretraining optional overrides and unwrapped checklist invalidate whole-article evidence', t => {
+  const f = trackedArticlesFixture(t), before = new Map(TRACKED_ARTICLES.map(article => [article, f.report(article).inputDigest]))
+  const optional = ['md', 'mdx'].map(extension => `website/content-src/llm-internals/pretraining-and-scaling-laws.${extension}`)
+  assert.deepEqual(getDiagramArticleConfig(PRETRAINING_ARTICLE).optionalInputs, optional)
+  for (const file of optional) {
+    f.json(PRETRAINING_EVIDENCE_PATH, f.evidence(PRETRAINING_ARTICLE))
+    f.write(file, '# Content override\n')
+    assert.notEqual(f.report(PRETRAINING_ARTICLE).inputDigest, before.get(PRETRAINING_ARTICLE))
+    assert.equal(f.report(PRETRAINING_ARTICLE).complete, false)
+    for (const article of TRACKED_ARTICLES.filter(value => value !== PRETRAINING_ARTICLE)) assert.equal(f.report(article).inputDigest, before.get(article))
+    f.json(PRETRAINING_EVIDENCE_PATH, f.evidence(PRETRAINING_ARTICLE))
+    rmSync(path.join(f.root, file))
+    assert.equal(f.report(PRETRAINING_ARTICLE).inputDigest, before.get(PRETRAINING_ARTICLE))
+    assert.equal(f.report(PRETRAINING_ARTICLE).complete, false)
+  }
+  f.json(PRETRAINING_EVIDENCE_PATH, f.evidence(PRETRAINING_ARTICLE))
+  const source = readFileSync(path.join(f.root, PRETRAINING_ARTICLE), 'utf8')
+  f.write(PRETRAINING_ARTICLE, source.replace('### チェックリスト', '### チェックリスト\n\n確認事項を更新。'))
+  assert.notEqual(f.report(PRETRAINING_ARTICLE).inputDigest, before.get(PRETRAINING_ARTICLE))
+  assert.equal(f.report(PRETRAINING_ARTICLE).diagramsCurrent, true)
+  assert.equal(f.report(PRETRAINING_ARTICLE).complete, false)
 })

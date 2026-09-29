@@ -1,0 +1,2083 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-local-code-and-actual-image-review",
+  "reviewer": "/root/pretraining_visual_review",
+  "reviewedAt": "2026-09-29T17:00:43.085Z",
+  "decision": "approved",
+  "risk": "low",
+  "must": [],
+  "should": [],
+  "independence": {
+    "productAuthor": false,
+    "numericAuthor": "/root/pretraining_numeric",
+    "conceptAuthor": "/root/training_public_acceptance",
+    "kitAuthor": false,
+    "integrationAuthor": false,
+    "edits": "TEMP helper scripts, captures and review outputs only; no repository or Git mutation"
+  },
+  "scope": {
+    "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+    "newFigures": 5,
+    "newIntegerStages": 23,
+    "READstops": 19,
+    "dynamicTopics": 29,
+    "staticTopics": 16,
+    "oldArticles": 7,
+    "oldFigures": 17,
+    "oldIntegerStageVisits": 100,
+    "localOnly": true,
+    "formalFrozenTreeArticleReview": false,
+    "publicAcceptance": false
+  },
+  "buildId": "RuEOJ2GbDzXcNrG4UDMh4",
+  "identities": [
+    {
+      "article": "docs/11-llm-internals/transformer-architecture.md",
+      "inputDigest": "sha256:e608a9954aee28546173f8c8250e34b43a6fc61293f46c54ba9f075fb7f02376",
+      "route": "/docs/llm-internals/transformer-architecture",
+      "htmlSHA256": "5f39a38d6808662f29dd7a7f1155a529e030a53d822baf6a27bf54016b2c1fda",
+      "bytes": 1078462
+    },
+    {
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "inputDigest": "sha256:939497afc225dbe36976b72b17ce63705b744869047e069f013eb7c89be8913f",
+      "route": "/docs/llm-internals/attention-variants-and-long-context",
+      "htmlSHA256": "41d017a4f1e0cd858834b884cd9bcb9b82b34cc9917c93f2465a3023fb01dcce",
+      "bytes": 771527
+    },
+    {
+      "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "inputDigest": "sha256:67f6886639932264e008b124f0ac41daa88da4a99158a55211eed6006bb8e753",
+      "route": "/docs/llm-internals/mixture-of-experts-internals",
+      "htmlSHA256": "451b2563d78a058a3a3cc6ab296231782a950ffbf141639892a845f262512335",
+      "bytes": 712942
+    },
+    {
+      "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "inputDigest": "sha256:bcd96bd8e9f0e60fe6308ff79870f9a45ded0a4f8f1010b7fe9518d79577459d",
+      "route": "/docs/llm-foundations/how-llms-generate-text",
+      "htmlSHA256": "0bc6dfec1c00c25d1b60e5dbfe0deeb795e31595536c46715c2e462a88ba6db3",
+      "bytes": 597030
+    },
+    {
+      "article": "docs/10-llm-foundations/tokenization.md",
+      "inputDigest": "sha256:9aa1f291fb1ab9ea006ab9a42ebc1065b2410fa39b0377e720952f07d5e47c69",
+      "route": "/docs/llm-foundations/tokenization",
+      "htmlSHA256": "5b41cf025212ae3a6897275fa0171e404986f31f2f4ac4f8228bbb828dc95662",
+      "bytes": 583450
+    },
+    {
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "inputDigest": "sha256:44c59ad4bbb41ed623e89e0446c0a617f050ba0d416e87a3462eab2381e88b09",
+      "route": "/docs/llm-internals/inference-internals",
+      "htmlSHA256": "6043303c1ab6a1ef9eabfca5c032e72aa83592996f97b7b4dde2e1568cbf3883",
+      "bytes": 718762
+    },
+    {
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "inputDigest": "sha256:33237ab6f74f953e7ceab16d01631b765eb21bf28df6e3ff7cc8eb7f4f261ec5",
+      "route": "/docs/llm-foundations/llm-training-pipeline",
+      "htmlSHA256": "c03dd80a9c64afdded373a04dcccbab74ad9d98b29e72bffc11af46de33c5486",
+      "bytes": 611908
+    },
+    {
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "inputDigest": "sha256:0fa344cb9b3ec838864fb9c0f7b6e4f2532751e8535a43e057cd53f41f7a18b6",
+      "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+      "htmlSHA256": "4d991b862a75f764e22bfcc4785ffd5b95edb1737716b0715d2e1b7dc1c624cc",
+      "bytes": 766374
+    }
+  ],
+  "identityRecheckedAt": "2026-09-29T17:00:43.086Z",
+  "codeReview": {
+    "semanticChecks": [
+      "Loss uses mean negative natural log; exp(loss), p0 Infinity and p1 zero, no arithmetic-probability inversion",
+      "S4 compares original A/B labels with tokenizer/data caveats and no ranking",
+      "Residual and total loss ratios differ; no fabricated coefficients, curves or optimum",
+      "Fixed N/D product separated from growing budget r squared; N=D not asserted",
+      "Four documents and eight positions retain stable identities over twelve processing occurrences",
+      "All four data considerations visible together; selection changes emphasis only",
+      "Continuous and threshold charts keep identical A-F inputs and x positions; integer >= includes equality",
+      "Emergence remains unsettled and toy metric is not actual model scale or implemented EM/Brier",
+      "Compute rectangle area and dimensions use N/D ratios; actual duration/price/energy stay unknown",
+      "Control effects limited to intended stages and READ conclusions preserve defaults"
+    ],
+    "independentUnit": {
+      "passed": 38,
+      "failed": 0,
+      "skipped": 0
+    },
+    "sourceTruth": "Approved storyboard, primary-source research notes and docs article; no new external research claims in this review"
+  },
+  "findingHistory": [
+    {
+      "id": "C2-V1",
+      "severity": "must",
+      "status": "resolved",
+      "issue": "Kaplan historical emphasis absent from initial S3 scene/detail",
+      "resolution": "Author inserted 初期の N 重視 and synchronized detail; final S3 actual image verified"
+    },
+    {
+      "id": "C2-V2",
+      "severity": "must",
+      "status": "resolved",
+      "issue": "Initial Edge loss S2 wire/text conservative safety guard rejected seven cases",
+      "resolution": "Author shortened only one SVG path endpoint y231 to y220; final Edge all20 and WebKit loss limited7 pass",
+      "proof": {
+        "checkedAt": "2026-09-29T16:37:45.495Z",
+        "file": "website/components/diagrams/pretraining-loss-perplexity-walkthrough.jsx",
+        "beforeSHA256": "bf4725e03853a1bfc93d3a9998e84684eed97c1f72ff74f1aacd5885ccfa106a",
+        "afterSHA256": "93c3dfe0d6a85f0939abea09e3a219dee6c01cf5c6102cfd7bada06826a3ffc8",
+        "exactReplacement": {
+          "from": "204v27",
+          "to": "204v16",
+          "count": 1
+        },
+        "allOtherBytesIdentical": true,
+        "meaning": "Path endpoint shortened from y231 to y220; displayed values, text, model and state unchanged"
+      }
+    }
+  ],
+  "testRuns": {
+    "initialEdge": {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-audit\\local-c2-chromium-2026-09-29T16-21-51-776Z\\result.json",
+      "sha256": "718ccb99ba4be973c8c3e5ec8b489f86e86ea3b1b77ba69659d07822172af8f1",
+      "buildId": "iLekWQhd6OAV88q9PsICA",
+      "browser": {
+        "engine": "chromium",
+        "channel": "msedge",
+        "version": "154.0.4258.37"
+      },
+      "startedAt": "2026-09-29T16:21:51.780Z",
+      "finishedAt": "2026-09-29T16:25:24.989Z",
+      "status": "failed",
+      "cases": 20,
+      "passed": 13,
+      "failed": [
+        {
+          "name": "pretraining: all 23 stages 1440x1000 light DSF1",
+          "error": "AssertionError [ERR_ASSERTION]: pretraining wire crosses text\n+ actual - expected\n\n+ [\n+   'ln 2',\n+   'ln 2',\n+   'ln 4',\n+   'ln 4',\n+   'ln 8',\n+   'ln 8'\n+ ]\n- []\n\n    at visibleGeometry (file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:668:12)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:688:94\n    at async usePage (file:///C:/Users/81906/AppData/Local/Temp/pretraining-local-adapter.mjs:121:9)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:682:5\n    at async check (file:///C:/Users/81906/AppData/Local/Temp/pretraining-local-adapter.mjs:111:9)\n    at async runPretrainingChecks (file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:681:80)\n    at async file:///C:/Users/81906/AppData/Local/Temp/pretraining-local-adapter.mjs:304:2"
+        },
+        {
+          "name": "pretraining: all 23 stages 1440x1000 dark DSF1",
+          "error": "AssertionError [ERR_ASSERTION]: pretraining wire crosses text\n+ actual - expected\n\n+ [\n+   'ln 2',\n+   'ln 2',\n+   'ln 4',\n+   'ln 4',\n+   'ln 8',\n+   'ln 8'\n+ ]\n- []\n\n    at visibleGeometry (file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:668:12)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:688:94\n    at async usePage (file:///C:/Users/81906/AppData/Local/Temp/pretraining-local-adapter.mjs:121:9)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:682:5\n    at async check (file:///C:/Users/81906/AppData/Local/Temp/pretraining-local-adapter.mjs:111:9)\n    at async runPretrainingChecks (file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:681:80)\n    at async file:///C:/Users/81906/AppData/Local/Temp/pretraining-local-adapter.mjs:304:2"
+        },
+        {
+          "name": "pretraining: all 23 stages 1280x720 light DSF1",
+          "error": "AssertionError [ERR_ASSERTION]: pretraining wire crosses text\n+ actual - expected\n\n+ [\n+   'ln 2',\n+   'ln 2',\n+   'ln 4',\n+   'ln 4',\n+   'ln 8',\n+   'ln 8'\n+ ]\n- []\n\n    at visibleGeometry (file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:668:12)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:688:94\n    at async usePage (file:///C:/Users/81906/AppData/Local/Temp/pretraining-local-adapter.mjs:121:9)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:682:5\n    at async check (file:///C:/Users/81906/AppData/Local/Temp/pretraining-local-adapter.mjs:111:9)\n    at async runPretrainingChecks (file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:681:80)\n    at async file:///C:/Users/81906/AppData/Local/Temp/pretraining-local-adapter.mjs:304:2"
+        },
+        {
+          "name": "pretraining: all 23 stages 390x844 light DSF1",
+          "error": "AssertionError [ERR_ASSERTION]: pretraining wire crosses text\n+ actual - expected\n\n+ [\n+   'ln 2',\n+   'ln 2',\n+   'ln 4',\n+   'ln 4',\n+   'ln 8',\n+   'ln 8'\n+ ]\n- []\n\n    at visibleGeometry (file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:668:12)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:688:94\n    at async usePage (file:///C:/Users/81906/AppData/Local/Temp/pretraining-local-adapter.mjs:121:9)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:682:5\n    at async check (file:///C:/Users/81906/AppData/Local/Temp/pretraining-local-adapter.mjs:111:9)\n    at async runPretrainingChecks (file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:681:80)\n    at async file:///C:/Users/81906/AppData/Local/Temp/pretraining-local-adapter.mjs:304:2"
+        },
+        {
+          "name": "pretraining: all 23 stages 390x844 dark DSF1",
+          "error": "AssertionError [ERR_ASSERTION]: pretraining wire crosses text\n+ actual - expected\n\n+ [\n+   'ln 2',\n+   'ln 2',\n+   'ln 4',\n+   'ln 4',\n+   'ln 8',\n+   'ln 8'\n+ ]\n- []\n\n    at visibleGeometry (file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:668:12)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:688:94\n    at async usePage (file:///C:/Users/81906/AppData/Local/Temp/pretraining-local-adapter.mjs:121:9)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:682:5\n    at async check (file:///C:/Users/81906/AppData/Local/Temp/pretraining-local-adapter.mjs:111:9)\n    at async runPretrainingChecks (file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:681:80)\n    at async file:///C:/Users/81906/AppData/Local/Temp/pretraining-local-adapter.mjs:304:2"
+        },
+        {
+          "name": "pretraining: all 23 stages 960x540 light DSF2",
+          "error": "AssertionError [ERR_ASSERTION]: pretraining wire crosses text\n+ actual - expected\n\n+ [\n+   'ln 2',\n+   'ln 2',\n+   'ln 4',\n+   'ln 4',\n+   'ln 8',\n+   'ln 8'\n+ ]\n- []\n\n    at visibleGeometry (file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:668:12)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:688:94\n    at async usePage (file:///C:/Users/81906/AppData/Local/Temp/pretraining-local-adapter.mjs:121:9)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:682:5\n    at async check (file:///C:/Users/81906/AppData/Local/Temp/pretraining-local-adapter.mjs:111:9)\n    at async runPretrainingChecks (file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:681:80)\n    at async file:///C:/Users/81906/AppData/Local/Temp/pretraining-local-adapter.mjs:304:2"
+        },
+        {
+          "name": "pretraining-loss-perplexity: independent semantic fixtures, every selector and midpoint reverse seeks",
+          "error": "AssertionError [ERR_ASSERTION]: pretraining wire crosses text\n+ actual - expected\n\n+ [\n+   'ln 2',\n+   'ln 2',\n+   'ln 4',\n+   'ln 4',\n+   'ln 8',\n+   'ln 8'\n+ ]\n- []\n\n    at visibleGeometry (file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:668:12)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:714:11\n    at async usePage (file:///C:/Users/81906/AppData/Local/Temp/pretraining-local-adapter.mjs:121:9)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:696:5\n    at async check (file:///C:/Users/81906/AppData/Local/Temp/pretraining-local-adapter.mjs:111:9)\n    at async runPretrainingChecks (file:///C:/dev/ai-agent-library/scripts/diagram-release/pretraining-checks.mjs:695:37)\n    at async file:///C:/Users/81906/AppData/Local/Temp/pretraining-local-adapter.mjs:304:2"
+        }
+      ],
+      "assets": 52,
+      "png": 110,
+      "localIdentityUnchanged": true,
+      "inputs": 8,
+      "documents": 8,
+      "observations": 49,
+      "overlapCandidates": 0,
+      "wireText": 0,
+      "profiles": [
+        {
+          "name": "pretraining: all 23 stages 1440x1000 light DSF1",
+          "stages": 2,
+          "minRenderedFontPx": 19.579941860465116,
+          "maxOverflow": 0,
+          "outside": 0
+        },
+        {
+          "name": "pretraining: all 23 stages 1440x1000 dark DSF1",
+          "stages": 2,
+          "minRenderedFontPx": 19.579941860465116,
+          "maxOverflow": 0,
+          "outside": 0
+        },
+        {
+          "name": "pretraining: all 23 stages 1280x720 light DSF1",
+          "stages": 2,
+          "minRenderedFontPx": 16.603924418604652,
+          "maxOverflow": 0,
+          "outside": 0
+        },
+        {
+          "name": "pretraining: all 23 stages 390x844 light DSF1",
+          "stages": 2,
+          "minRenderedFontPx": 11.125,
+          "maxOverflow": 0,
+          "outside": 0
+        },
+        {
+          "name": "pretraining: all 23 stages 390x844 dark DSF1",
+          "stages": 2,
+          "minRenderedFontPx": 11.125,
+          "maxOverflow": 0,
+          "outside": 0
+        },
+        {
+          "name": "pretraining: all 23 stages 960x540 light DSF2",
+          "stages": 2,
+          "minRenderedFontPx": 18.9375,
+          "maxOverflow": 0,
+          "outside": 0
+        }
+      ],
+      "midpointVisits": 108,
+      "selectorVisits": 28,
+      "uniqueControls": 10,
+      "uniqueOptions": 28,
+      "readingStops": 19,
+      "playback": [
+        {
+          "name": "pretraining-loss-perplexity: native elapsed play, frozen pause, replay and completion",
+          "playback": {
+            "clock": "native browser time; no fake clock",
+            "elapsedMs": 9223,
+            "progress": 1.16,
+            "paused": "1.18",
+            "frozen": true,
+            "replay": true,
+            "completion": true
+          }
+        },
+        {
+          "name": "pretraining-scaling: native elapsed play, frozen pause, replay and completion",
+          "playback": {
+            "clock": "native browser time; no fake clock",
+            "elapsedMs": 9120,
+            "progress": 1.16,
+            "paused": "1.18",
+            "frozen": true,
+            "replay": true,
+            "completion": true
+          }
+        },
+        {
+          "name": "pretraining-data: native elapsed play, frozen pause, replay and completion",
+          "playback": {
+            "clock": "native browser time; no fake clock",
+            "elapsedMs": 9006,
+            "progress": 1.16,
+            "paused": "1.18",
+            "frozen": true,
+            "replay": true,
+            "completion": true
+          }
+        },
+        {
+          "name": "pretraining-metrics: native elapsed play, frozen pause, replay and completion",
+          "playback": {
+            "clock": "native browser time; no fake clock",
+            "elapsedMs": 9184,
+            "progress": 1.17,
+            "paused": "1.19",
+            "frozen": true,
+            "replay": true,
+            "completion": true
+          }
+        },
+        {
+          "name": "pretraining-compute: native elapsed play, frozen pause, replay and completion",
+          "playback": {
+            "clock": "native browser time; no fake clock",
+            "elapsedMs": 9125,
+            "progress": 1.17,
+            "paused": "1.18",
+            "frozen": true,
+            "replay": true,
+            "completion": true
+          }
+        }
+      ]
+    },
+    "initialWebKit": {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-audit\\local-c2-webkit-2026-09-29T16-21-58-473Z\\result.json",
+      "sha256": "32befe10907a1f097e653fa28a80af22e9eef06031fcf280364c83d910b5f1cb",
+      "buildId": "iLekWQhd6OAV88q9PsICA",
+      "browser": {
+        "engine": "webkit",
+        "channel": null,
+        "version": "26.6"
+      },
+      "startedAt": "2026-09-29T16:21:58.476Z",
+      "finishedAt": "2026-09-29T16:34:40.314Z",
+      "status": "passed",
+      "cases": 20,
+      "passed": 20,
+      "failed": [],
+      "assets": 52,
+      "png": 376,
+      "localIdentityUnchanged": true,
+      "inputs": 8,
+      "documents": 8,
+      "observations": 182,
+      "overlapCandidates": 0,
+      "wireText": 0,
+      "profiles": [
+        {
+          "name": "pretraining: all 23 stages 1440x1000 light DSF1",
+          "stages": 23,
+          "minRenderedFontPx": 17.621947674418603,
+          "maxOverflow": 0,
+          "outside": 0
+        },
+        {
+          "name": "pretraining: all 23 stages 1440x1000 dark DSF1",
+          "stages": 23,
+          "minRenderedFontPx": 17.621947674418603,
+          "maxOverflow": 0,
+          "outside": 0
+        },
+        {
+          "name": "pretraining: all 23 stages 1280x720 light DSF1",
+          "stages": 23,
+          "minRenderedFontPx": 14.943531976744186,
+          "maxOverflow": 0,
+          "outside": 0
+        },
+        {
+          "name": "pretraining: all 23 stages 390x844 light DSF1",
+          "stages": 23,
+          "minRenderedFontPx": 10.012500000000001,
+          "maxOverflow": 0,
+          "outside": 0
+        },
+        {
+          "name": "pretraining: all 23 stages 390x844 dark DSF1",
+          "stages": 23,
+          "minRenderedFontPx": 10.012500000000001,
+          "maxOverflow": 0,
+          "outside": 0
+        },
+        {
+          "name": "pretraining: all 23 stages 960x540 light DSF2",
+          "stages": 23,
+          "minRenderedFontPx": 17.04375,
+          "maxOverflow": 0,
+          "outside": 0
+        }
+      ],
+      "midpointVisits": 108,
+      "selectorVisits": 35,
+      "uniqueControls": 11,
+      "uniqueOptions": 31,
+      "readingStops": 19,
+      "playback": [
+        {
+          "name": "pretraining-loss-perplexity: native elapsed play, frozen pause, replay and completion",
+          "playback": {
+            "clock": "native browser time; no fake clock",
+            "elapsedMs": 9854,
+            "progress": 1.15,
+            "paused": "1.21",
+            "frozen": true,
+            "replay": true,
+            "completion": true
+          }
+        },
+        {
+          "name": "pretraining-scaling: native elapsed play, frozen pause, replay and completion",
+          "playback": {
+            "clock": "native browser time; no fake clock",
+            "elapsedMs": 9521,
+            "progress": 1.15,
+            "paused": "1.21",
+            "frozen": true,
+            "replay": true,
+            "completion": true
+          }
+        },
+        {
+          "name": "pretraining-data: native elapsed play, frozen pause, replay and completion",
+          "playback": {
+            "clock": "native browser time; no fake clock",
+            "elapsedMs": 10354,
+            "progress": 1.14,
+            "paused": "1.29",
+            "frozen": true,
+            "replay": true,
+            "completion": true
+          }
+        },
+        {
+          "name": "pretraining-metrics: native elapsed play, frozen pause, replay and completion",
+          "playback": {
+            "clock": "native browser time; no fake clock",
+            "elapsedMs": 10073,
+            "progress": 1.14,
+            "paused": "1.26",
+            "frozen": true,
+            "replay": true,
+            "completion": true
+          }
+        },
+        {
+          "name": "pretraining-compute: native elapsed play, frozen pause, replay and completion",
+          "playback": {
+            "clock": "native browser time; no fake clock",
+            "elapsedMs": 9843,
+            "progress": 1.15,
+            "paused": "1.28",
+            "frozen": true,
+            "replay": true,
+            "completion": true
+          }
+        }
+      ]
+    },
+    "finalEdge": {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-audit\\local-c2-chromium-2026-09-29T16-40-17-123Z\\result.json",
+      "sha256": "4cdd3f1edce6e86224b451248a6476c00a85f5ae6734869b2f44bc2521de81ed",
+      "buildId": "RuEOJ2GbDzXcNrG4UDMh4",
+      "browser": {
+        "engine": "chromium",
+        "channel": "msedge",
+        "version": "154.0.4258.37"
+      },
+      "startedAt": "2026-09-29T16:40:17.125Z",
+      "finishedAt": "2026-09-29T16:44:39.553Z",
+      "status": "passed",
+      "cases": 20,
+      "passed": 20,
+      "failed": [],
+      "assets": 52,
+      "png": 376,
+      "localIdentityUnchanged": true,
+      "inputs": 8,
+      "documents": 8,
+      "observations": 182,
+      "overlapCandidates": 13,
+      "wireText": 0,
+      "profiles": [
+        {
+          "name": "pretraining: all 23 stages 1440x1000 light DSF1",
+          "stages": 23,
+          "minRenderedFontPx": 17.621947674418603,
+          "maxOverflow": 0,
+          "outside": 0
+        },
+        {
+          "name": "pretraining: all 23 stages 1440x1000 dark DSF1",
+          "stages": 23,
+          "minRenderedFontPx": 17.621947674418603,
+          "maxOverflow": 0,
+          "outside": 0
+        },
+        {
+          "name": "pretraining: all 23 stages 1280x720 light DSF1",
+          "stages": 23,
+          "minRenderedFontPx": 14.943531976744186,
+          "maxOverflow": 0,
+          "outside": 0
+        },
+        {
+          "name": "pretraining: all 23 stages 390x844 light DSF1",
+          "stages": 23,
+          "minRenderedFontPx": 10.012500000000001,
+          "maxOverflow": 0,
+          "outside": 0
+        },
+        {
+          "name": "pretraining: all 23 stages 390x844 dark DSF1",
+          "stages": 23,
+          "minRenderedFontPx": 10.012500000000001,
+          "maxOverflow": 0,
+          "outside": 0
+        },
+        {
+          "name": "pretraining: all 23 stages 960x540 light DSF2",
+          "stages": 23,
+          "minRenderedFontPx": 17.04375,
+          "maxOverflow": 0,
+          "outside": 0
+        }
+      ],
+      "midpointVisits": 108,
+      "selectorVisits": 35,
+      "uniqueControls": 11,
+      "uniqueOptions": 31,
+      "readingStops": 19,
+      "playback": [
+        {
+          "name": "pretraining-loss-perplexity: native elapsed play, frozen pause, replay and completion",
+          "playback": {
+            "clock": "native browser time; no fake clock",
+            "elapsedMs": 8627,
+            "progress": 1.16,
+            "paused": "1.17",
+            "frozen": true,
+            "replay": true,
+            "completion": true
+          }
+        },
+        {
+          "name": "pretraining-scaling: native elapsed play, frozen pause, replay and completion",
+          "playback": {
+            "clock": "native browser time; no fake clock",
+            "elapsedMs": 9116,
+            "progress": 1.16,
+            "paused": "1.17",
+            "frozen": true,
+            "replay": true,
+            "completion": true
+          }
+        },
+        {
+          "name": "pretraining-data: native elapsed play, frozen pause, replay and completion",
+          "playback": {
+            "clock": "native browser time; no fake clock",
+            "elapsedMs": 8913,
+            "progress": 1.16,
+            "paused": "1.18",
+            "frozen": true,
+            "replay": true,
+            "completion": true
+          }
+        },
+        {
+          "name": "pretraining-metrics: native elapsed play, frozen pause, replay and completion",
+          "playback": {
+            "clock": "native browser time; no fake clock",
+            "elapsedMs": 8819,
+            "progress": 1.16,
+            "paused": "1.18",
+            "frozen": true,
+            "replay": true,
+            "completion": true
+          }
+        },
+        {
+          "name": "pretraining-compute: native elapsed play, frozen pause, replay and completion",
+          "playback": {
+            "clock": "native browser time; no fake clock",
+            "elapsedMs": 8921,
+            "progress": 1.16,
+            "paused": "1.17",
+            "frozen": true,
+            "replay": true,
+            "completion": true
+          }
+        }
+      ]
+    },
+    "finalWebKitLossLimited": {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-audit\\local-c2-loss-limited-webkit-2026-09-29T16-40-15-343Z\\result.json",
+      "sha256": "9ec0f3cafa7a5d89fdc33abce9ba86fd01e77a9853966ef6f442d2a87e8d6a34",
+      "buildId": "RuEOJ2GbDzXcNrG4UDMh4",
+      "browser": {
+        "engine": "webkit",
+        "channel": null,
+        "version": "26.6"
+      },
+      "startedAt": "2026-09-29T16:40:15.347Z",
+      "finishedAt": "2026-09-29T16:42:48.483Z",
+      "status": "passed",
+      "cases": 7,
+      "passed": 7,
+      "failed": [],
+      "assets": 52,
+      "png": 78,
+      "localIdentityUnchanged": true,
+      "inputs": 8,
+      "documents": 8,
+      "observations": 39,
+      "overlapCandidates": 0,
+      "wireText": 0,
+      "profiles": [
+        {
+          "name": "pretraining loss: all 5 stages 1440x1000 light DSF1",
+          "stages": 5,
+          "minRenderedFontPx": 19.579941860465116,
+          "maxOverflow": 0,
+          "outside": 0
+        },
+        {
+          "name": "pretraining loss: all 5 stages 1440x1000 dark DSF1",
+          "stages": 5,
+          "minRenderedFontPx": 19.579941860465116,
+          "maxOverflow": 0,
+          "outside": 0
+        },
+        {
+          "name": "pretraining loss: all 5 stages 1280x720 light DSF1",
+          "stages": 5,
+          "minRenderedFontPx": 16.603924418604652,
+          "maxOverflow": 0,
+          "outside": 0
+        },
+        {
+          "name": "pretraining loss: all 5 stages 390x844 light DSF1",
+          "stages": 5,
+          "minRenderedFontPx": 11.125,
+          "maxOverflow": 0,
+          "outside": 0
+        },
+        {
+          "name": "pretraining loss: all 5 stages 390x844 dark DSF1",
+          "stages": 5,
+          "minRenderedFontPx": 11.125,
+          "maxOverflow": 0,
+          "outside": 0
+        },
+        {
+          "name": "pretraining loss: all 5 stages 960x540 light DSF2",
+          "stages": 5,
+          "minRenderedFontPx": 18.9375,
+          "maxOverflow": 0,
+          "outside": 0
+        }
+      ],
+      "midpointVisits": 24,
+      "selectorVisits": 9,
+      "uniqueControls": 2,
+      "uniqueOptions": 5,
+      "readingStops": 0,
+      "playback": []
+    }
+  },
+  "helperProvenance": {
+    "exactChange": {
+      "checkedAt": "2026-09-29T16:39:52.715Z",
+      "oldRunnerSHA256": "ace21719997bb15cbcbe06ba870825a44ca7fa77b7748fcd2d803764b7fe06fd",
+      "currentRunnerSHA256": "71aae210985ff432dee0a986a4bea167fea4dc01768c6081c8c7dc49bbb46085",
+      "oldAdapterSHA256": "5fac7af4126faa1e6a3a694aa0df323100d961e359a7c343194b18b50d5fa7b7",
+      "currentAdapterSHA256": "07bbb3144cec38115c56e7d86d0670a72518ce5249c1f8b3d5283c6a958df4ef",
+      "exactRunnerReplacement": {
+        "from": "await button.scrollIntoViewIfNeeded()",
+        "to": "await button.evaluate(node => node.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'instant' }))",
+        "count": 1
+      },
+      "adapterAdditionalReplacement": "Corresponding publicRunnerSHA256 provenance literal only",
+      "allAssertionsPreserved": true,
+      "reverseReconstructedFiles": "Match the independently recorded pre-run hashes exactly"
+    },
+    "limitedWebKit": {
+      "createdAt": "2026-09-29T16:39:11.779Z",
+      "originalChecksSHA256": "4fc7051874e6dfdfa2b92052e7ebf237808237a7a2680c85a4008f187fc5de69",
+      "limitedChecksSHA256": "ecd1e5c196792149d9f8e957f3fb5d9327de5a2bcf8f5b90e3eb378763c4947b",
+      "originalAdapterSHA256": "07bbb3144cec38115c56e7d86d0670a72518ce5249c1f8b3d5283c6a958df4ef",
+      "limitedAdapterSHA256": "c3d861513f723ff7cf3c88e253d6e46a85ed9848d6d708aee042b929fd50088d",
+      "changes": [
+        {
+          "from": "for (const figure of pretraining)",
+          "to": "for (const figure of pretraining.filter(item => item.id === 'pretraining-loss-perplexity'))",
+          "replacements": 10
+        },
+        "Rename six profile cases from 23 stages to loss-only 5 stages",
+        "Filter check callbacks to six profile cases plus loss semantic/selector/midpoints",
+        "Change expected count 20 to 7 and source scope; no assertion deleted or altered"
+      ],
+      "checksFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-loss-limited-checks.mjs",
+      "adapterFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-loss-limited-adapter.mjs"
+    },
+    "meaning": "All assertions preserved. Final WebKit rerun limited to loss; initial complete20 and one-line product proof support unaffected figures, not a claimed final full20 rerun",
+    "entireInputDelta": {
+      "checkedAt": "2026-09-29T17:00:03.825Z",
+      "meaning": "Current complete C2 normalized input bundle exactly reproduces original pre-run digest by replacing only the loss JSX hash with independently saved pre-fix bytes; all other bundled article/registry/assignment/source inputs are thus unchanged. Other seven article input digests are identical.",
+      "inputFiles": 58,
+      "replacedFile": "website/components/diagrams/pretraining-loss-perplexity-walkthrough.jsx",
+      "currentFileSHA256": "sha256:93c3dfe0d6a85f0939abea09e3a219dee6c01cf5c6102cfd7bada06826a3ffc8",
+      "initialFileSHA256": "sha256:bf4725e03853a1bfc93d3a9998e84684eed97c1f72ff74f1aacd5885ccfa106a",
+      "currentDigest": "sha256:0fa344cb9b3ec838864fb9c0f7b6e4f2532751e8535a43e057cd53f41f7a18b6",
+      "reconstructedInitialDigest": "sha256:12aeeb00e63194f72300f3ac521953dab308581b837a0b36cafc653720f4e670",
+      "otherSevenUnchanged": [
+        {
+          "article": "docs/11-llm-internals/transformer-architecture.md",
+          "inputDigest": "sha256:e608a9954aee28546173f8c8250e34b43a6fc61293f46c54ba9f075fb7f02376"
+        },
+        {
+          "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+          "inputDigest": "sha256:939497afc225dbe36976b72b17ce63705b744869047e069f013eb7c89be8913f"
+        },
+        {
+          "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+          "inputDigest": "sha256:67f6886639932264e008b124f0ac41daa88da4a99158a55211eed6006bb8e753"
+        },
+        {
+          "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+          "inputDigest": "sha256:bcd96bd8e9f0e60fe6308ff79870f9a45ded0a4f8f1010b7fe9518d79577459d"
+        },
+        {
+          "article": "docs/10-llm-foundations/tokenization.md",
+          "inputDigest": "sha256:9aa1f291fb1ab9ea006ab9a42ebc1065b2410fa39b0377e720952f07d5e47c69"
+        },
+        {
+          "article": "docs/11-llm-internals/inference-internals.md",
+          "inputDigest": "sha256:44c59ad4bbb41ed623e89e0446c0a617f050ba0d416e87a3462eab2381e88b09"
+        },
+        {
+          "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+          "inputDigest": "sha256:33237ab6f74f953e7ceab16d01631b765eb21bf28df6e3ff7cc8eb7f4f261ec5"
+        }
+      ]
+    }
+  },
+  "actualImageReview": {
+    "counts": {
+      "initial": 42,
+      "finalC2": 58,
+      "old": 17,
+      "total": 117
+    },
+    "generatedPNG": {
+      "initialEdge": 110,
+      "initialWebKit": 376,
+      "diagnostic": 46,
+      "finalEdge": 376,
+      "finalWebKitLossLimited": 78,
+      "old": 34,
+      "total": 1020
+    },
+    "ledgerFiles": [
+      "pretraining-scene-viewed-initial.json",
+      "pretraining-scene-viewed-final.json",
+      "pretraining-scene-viewed-old.json"
+    ],
+    "captureMeaning": "Viewport screenshot preserves actual reading context. Supplemental full-scene capture scrolls unchanged SVG fully into same viewport, records clip/DSF and restores scroll. It is not a full-panel screenshot or evidence that the whole panel fits without scrolling.",
+    "bboxCandidateCount": 13,
+    "bboxReviews": [
+      {
+        "case": "pretraining: all 23 stages 1440x1000 light DSF1",
+        "label": "pretraining-data stage 0",
+        "candidates": [
+          {
+            "textBoxesSVG": [
+              {
+                "text": "処理出現 12",
+                "x": 112.46343994140614,
+                "y": 320.5065612792969,
+                "right": 227.53656005859364,
+                "bottom": 349.1072597503662
+              },
+              {
+                "text": "この例の D",
+                "x": 127.42613983154286,
+                "y": 348.54949951171875,
+                "right": 212.8426818847655,
+                "bottom": 375.10729026794434
+              }
+            ],
+            "intersectionSVG": {
+              "x": 127.42613983154286,
+              "y": 348.54949951171875,
+              "width": 85.41654205322266,
+              "height": 0.5577602386474609
+            }
+          },
+          {
+            "textBoxesSVG": [
+              {
+                "text": "中身・独立情報量",
+                "x": 388.52557373046864,
+                "y": 320.5065612792969,
+                "right": 553.9448699951171,
+                "bottom": 349.1072597503662
+              },
+              {
+                "text": "Dからは決まらない",
+                "x": 398.8438720703124,
+                "y": 348.54949951171875,
+                "right": 543.178726196289,
+                "bottom": 375.10729026794434
+              }
+            ],
+            "intersectionSVG": {
+              "x": 398.8438720703124,
+              "y": 348.54949951171875,
+              "width": 144.33485412597656,
+              "height": 0.5577602386474609
+            }
+          }
+        ],
+        "completeScene": "pretraining-data-stage-0-1440x1000-light-dsf1-scene.png",
+        "review": "Actual glyphs viewed in every matching profile; disjoint visible ink, no clipping or meaning loss"
+      },
+      {
+        "case": "pretraining: all 23 stages 1440x1000 dark DSF1",
+        "label": "pretraining-data stage 0",
+        "candidates": [
+          {
+            "textBoxesSVG": [
+              {
+                "text": "処理出現 12",
+                "x": 112.46343994140614,
+                "y": 320.5065612792969,
+                "right": 227.53656005859364,
+                "bottom": 349.1072597503662
+              },
+              {
+                "text": "この例の D",
+                "x": 127.42613983154286,
+                "y": 348.54949951171875,
+                "right": 212.8426818847655,
+                "bottom": 375.10729026794434
+              }
+            ],
+            "intersectionSVG": {
+              "x": 127.42613983154286,
+              "y": 348.54949951171875,
+              "width": 85.41654205322266,
+              "height": 0.5577602386474609
+            }
+          },
+          {
+            "textBoxesSVG": [
+              {
+                "text": "中身・独立情報量",
+                "x": 388.52557373046864,
+                "y": 320.5065612792969,
+                "right": 553.9448699951171,
+                "bottom": 349.1072597503662
+              },
+              {
+                "text": "Dからは決まらない",
+                "x": 398.8438720703124,
+                "y": 348.54949951171875,
+                "right": 543.178726196289,
+                "bottom": 375.10729026794434
+              }
+            ],
+            "intersectionSVG": {
+              "x": 398.8438720703124,
+              "y": 348.54949951171875,
+              "width": 144.33485412597656,
+              "height": 0.5577602386474609
+            }
+          }
+        ],
+        "completeScene": "pretraining-data-stage-0-1440x1000-dark-dsf1-scene.png",
+        "review": "Actual glyphs viewed in every matching profile; disjoint visible ink, no clipping or meaning loss"
+      },
+      {
+        "case": "pretraining: all 23 stages 1280x720 light DSF1",
+        "label": "pretraining-data stage 0",
+        "candidates": [
+          {
+            "textBoxesSVG": [
+              {
+                "text": "処理出現 12",
+                "x": 112.45525360107422,
+                "y": 319.9093017578125,
+                "right": 227.54476165771484,
+                "bottom": 350.0226650238037
+              },
+              {
+                "text": "この例の D",
+                "x": 127.41783142089844,
+                "y": 348.3183898925781,
+                "right": 213.00775146484375,
+                "bottom": 374.8181495666504
+              }
+            ],
+            "intersectionSVG": {
+              "x": 127.41783142089844,
+              "y": 348.3183898925781,
+              "width": 85.58992004394531,
+              "height": 1.704275131225586
+            }
+          },
+          {
+            "textBoxesSVG": [
+              {
+                "text": "中身・独立情報量",
+                "x": 388.5176086425781,
+                "y": 319.9093017578125,
+                "right": 553.4823760986328,
+                "bottom": 350.0226650238037
+              },
+              {
+                "text": "Dからは決まらない",
+                "x": 398.822021484375,
+                "y": 348.3183898925781,
+                "right": 543.7118530273438,
+                "bottom": 374.8181495666504
+              }
+            ],
+            "intersectionSVG": {
+              "x": 398.822021484375,
+              "y": 348.3183898925781,
+              "width": 144.88983154296875,
+              "height": 1.704275131225586
+            }
+          }
+        ],
+        "completeScene": "pretraining-data-stage-0-1280x720-light-dsf1-scene.png",
+        "review": "Actual glyphs viewed in every matching profile; disjoint visible ink, no clipping or meaning loss"
+      },
+      {
+        "case": "pretraining: all 23 stages 1280x720 light DSF1",
+        "label": "pretraining-metrics stage 3",
+        "candidates": [
+          {
+            "textBoxesSVG": [
+              {
+                "text": "連続指標と閾値指標を併用",
+                "x": 193.45799255371094,
+                "y": 341.9093017578125,
+                "right": 446.5419921875,
+                "bottom": 372.0226650238037
+              },
+              {
+                "text": "能力を一つの値で断じない。論争は未決着",
+                "x": 149.47366333007812,
+                "y": 371.3183898925781,
+                "right": 491.00750732421875,
+                "bottom": 397.8181495666504
+              }
+            ],
+            "intersectionSVG": {
+              "x": 193.45799255371094,
+              "y": 371.3183898925781,
+              "width": 253.08399963378906,
+              "height": 0.7042751312255859
+            }
+          }
+        ],
+        "completeScene": "pretraining-metrics-stage-3-1280x720-light-dsf1-scene.png",
+        "review": "Actual glyphs viewed in every matching profile; disjoint visible ink, no clipping or meaning loss"
+      },
+      {
+        "case": "pretraining: all 23 stages 390x844 light DSF1",
+        "label": "pretraining-data stage 0",
+        "candidates": [
+          {
+            "textBoxesSVG": [
+              {
+                "text": "処理出現 12",
+                "x": 112.47188568115234,
+                "y": 320.62921142578125,
+                "right": 227.89244079589844,
+                "bottom": 349.3932571411133
+              },
+              {
+                "text": "この例の D",
+                "x": 127.42974853515625,
+                "y": 348.42694091796875,
+                "right": 212.93207550048828,
+                "bottom": 375.3932342529297
+              }
+            ],
+            "intersectionSVG": {
+              "x": 127.42974853515625,
+              "y": 348.42694091796875,
+              "width": 85.50232696533203,
+              "height": 0.9663162231445312
+            }
+          },
+          {
+            "textBoxesSVG": [
+              {
+                "text": "中身・独立情報量",
+                "x": 388.5421447753906,
+                "y": 320.62921142578125,
+                "right": 553.4578857421875,
+                "bottom": 349.3932571411133
+              },
+              {
+                "text": "Dからは決まらない",
+                "x": 398.8370666503906,
+                "y": 348.42694091796875,
+                "right": 543.1629180908203,
+                "bottom": 375.3932342529297
+              }
+            ],
+            "intersectionSVG": {
+              "x": 398.8370666503906,
+              "y": 348.42694091796875,
+              "width": 144.3258514404297,
+              "height": 0.9663162231445312
+            }
+          }
+        ],
+        "completeScene": "pretraining-data-stage-0-390x844-light-dsf1-scene.png",
+        "review": "Actual glyphs viewed in every matching profile; disjoint visible ink, no clipping or meaning loss"
+      },
+      {
+        "case": "pretraining: all 23 stages 390x844 dark DSF1",
+        "label": "pretraining-data stage 0",
+        "candidates": [
+          {
+            "textBoxesSVG": [
+              {
+                "text": "処理出現 12",
+                "x": 112.47188568115234,
+                "y": 320.62921142578125,
+                "right": 227.89244079589844,
+                "bottom": 349.3932571411133
+              },
+              {
+                "text": "この例の D",
+                "x": 127.42974853515625,
+                "y": 348.42694091796875,
+                "right": 212.93207550048828,
+                "bottom": 375.3932342529297
+              }
+            ],
+            "intersectionSVG": {
+              "x": 127.42974853515625,
+              "y": 348.42694091796875,
+              "width": 85.50232696533203,
+              "height": 0.9663162231445312
+            }
+          },
+          {
+            "textBoxesSVG": [
+              {
+                "text": "中身・独立情報量",
+                "x": 388.5421447753906,
+                "y": 320.62921142578125,
+                "right": 553.4578857421875,
+                "bottom": 349.3932571411133
+              },
+              {
+                "text": "Dからは決まらない",
+                "x": 398.8370666503906,
+                "y": 348.42694091796875,
+                "right": 543.1629180908203,
+                "bottom": 375.3932342529297
+              }
+            ],
+            "intersectionSVG": {
+              "x": 398.8370666503906,
+              "y": 348.42694091796875,
+              "width": 144.3258514404297,
+              "height": 0.9663162231445312
+            }
+          }
+        ],
+        "completeScene": "pretraining-data-stage-0-390x844-dark-dsf1-scene.png",
+        "review": "Actual glyphs viewed in every matching profile; disjoint visible ink, no clipping or meaning loss"
+      },
+      {
+        "case": "pretraining: all 23 stages 960x540 light DSF2",
+        "label": "pretraining-data stage 0",
+        "candidates": [
+          {
+            "textBoxesSVG": [
+              {
+                "text": "処理出現 12",
+                "x": 112.44224548339842,
+                "y": 320.7656860351562,
+                "right": 227.55775451660153,
+                "bottom": 349.28053665161127
+              },
+              {
+                "text": "この例の D",
+                "x": 127.42574310302733,
+                "y": 348.8778991699218,
+                "right": 212.57425689697263,
+                "bottom": 375.28054046630854
+              }
+            ],
+            "intersectionSVG": {
+              "x": 127.42574310302733,
+              "y": 348.8778991699218,
+              "width": 85.1485137939453,
+              "height": 0.4026374816894531
+            }
+          },
+          {
+            "textBoxesSVG": [
+              {
+                "text": "中身・独立情報量",
+                "x": 388.4999694824218,
+                "y": 320.7656860351562,
+                "right": 553.6694946289061,
+                "bottom": 349.28053665161127
+              },
+              {
+                "text": "Dからは決まらない",
+                "x": 398.83825683593744,
+                "y": 348.8778991699218,
+                "right": 543.1616821289061,
+                "bottom": 375.28054046630854
+              }
+            ],
+            "intersectionSVG": {
+              "x": 398.83825683593744,
+              "y": 348.8778991699218,
+              "width": 144.3234252929687,
+              "height": 0.4026374816894531
+            }
+          }
+        ],
+        "completeScene": "pretraining-data-stage-0-960x540-light-dsf2-scene.png",
+        "review": "Actual glyphs viewed in every matching profile; disjoint visible ink, no clipping or meaning loss"
+      }
+    ],
+    "assessment": [
+      "Final Edge every23 stage at1440 light directly inspected; loss wire margin is visibly separate",
+      "1280 PC representative5 and all overlapping-box profiles inspected; no actual glyph overlap or scene clipping",
+      "WebKit initial representative five diagrams at960 DSF2, 390 light/dark; final loss all6profiles inspected",
+      "Loss A/B, data/tokenizer comparison, scaling expanded budget, metrics50/70 equality and axis ticks, compute products and data contamination focus inspected",
+      "Static no-JavaScript and print-media captures retain semantic content; modal viewport confirmed",
+      "Old7/17 representative S2 images show no observed layout regression; all100 old integer stages function"
+    ],
+    "renderedMinimumFontPx": [
+      {
+        "profile": "pretraining: all 23 stages 1440x1000 light DSF1",
+        "min": 17.621947674418603
+      },
+      {
+        "profile": "pretraining: all 23 stages 1440x1000 dark DSF1",
+        "min": 17.621947674418603
+      },
+      {
+        "profile": "pretraining: all 23 stages 1280x720 light DSF1",
+        "min": 14.943531976744186
+      },
+      {
+        "profile": "pretraining: all 23 stages 390x844 light DSF1",
+        "min": 10.012500000000001
+      },
+      {
+        "profile": "pretraining: all 23 stages 390x844 dark DSF1",
+        "min": 10.012500000000001
+      },
+      {
+        "profile": "pretraining: all 23 stages 960x540 light DSF2",
+        "min": 17.04375
+      }
+    ],
+    "smallScreenLimit": "390px mathematical/detail labels approach10 CSSpx; review establishes no clipping and semantic redundancy in HTML, not physical-phone comfort. User primary target is PC."
+  },
+  "oldRegression": {
+    "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-supplemental\\result.json",
+    "articles": [
+      {
+        "article": "docs/11-llm-internals/transformer-architecture.md",
+        "figures": [
+          {
+            "id": "transformer-io",
+            "allIntegerStages": 4,
+            "manualMode": true,
+            "representativeStage": 2
+          },
+          {
+            "id": "transformer-position",
+            "allIntegerStages": 4,
+            "manualMode": true,
+            "representativeStage": 2
+          },
+          {
+            "id": "self-attention",
+            "allIntegerStages": 6,
+            "manualMode": true,
+            "representativeStage": 2
+          },
+          {
+            "id": "transformer-block",
+            "allIntegerStages": 9,
+            "manualMode": true,
+            "representativeStage": 2
+          }
+        ],
+        "pageErrors": []
+      },
+      {
+        "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+        "figures": [
+          {
+            "id": "attention-kv-sharing",
+            "allIntegerStages": 5,
+            "manualMode": true,
+            "representativeStage": 2
+          },
+          {
+            "id": "attention-compute-memory",
+            "allIntegerStages": 6,
+            "manualMode": true,
+            "representativeStage": 2
+          },
+          {
+            "id": "attention-context-range",
+            "allIntegerStages": 4,
+            "manualMode": true,
+            "representativeStage": 2
+          }
+        ],
+        "pageErrors": []
+      },
+      {
+        "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+        "figures": [
+          {
+            "id": "moe-routing-load",
+            "allIntegerStages": 8,
+            "manualMode": true,
+            "representativeStage": 2
+          },
+          {
+            "id": "moe-parameters-communication",
+            "allIntegerStages": 6,
+            "manualMode": true,
+            "representativeStage": 2
+          }
+        ],
+        "pageErrors": []
+      },
+      {
+        "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+        "figures": [
+          {
+            "id": "generation-token-loop",
+            "allIntegerStages": 8,
+            "manualMode": true,
+            "representativeStage": 2
+          }
+        ],
+        "pageErrors": []
+      },
+      {
+        "article": "docs/10-llm-foundations/tokenization.md",
+        "figures": [
+          {
+            "id": "tokenization-counting",
+            "allIntegerStages": 7,
+            "manualMode": true,
+            "representativeStage": 2
+          }
+        ],
+        "pageErrors": []
+      },
+      {
+        "article": "docs/11-llm-internals/inference-internals.md",
+        "figures": [
+          {
+            "id": "inference-sampling",
+            "allIntegerStages": 7,
+            "manualMode": true,
+            "representativeStage": 2
+          },
+          {
+            "id": "inference-cache-batching",
+            "allIntegerStages": 6,
+            "manualMode": true,
+            "representativeStage": 2
+          },
+          {
+            "id": "inference-speculative",
+            "allIntegerStages": 6,
+            "manualMode": true,
+            "representativeStage": 2
+          },
+          {
+            "id": "inference-quantization",
+            "allIntegerStages": 4,
+            "manualMode": true,
+            "representativeStage": 2
+          }
+        ],
+        "pageErrors": []
+      },
+      {
+        "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+        "figures": [
+          {
+            "id": "training-stages",
+            "allIntegerStages": 6,
+            "manualMode": true,
+            "representativeStage": 2
+          },
+          {
+            "id": "training-runtime-boundary",
+            "allIntegerStages": 4,
+            "manualMode": true,
+            "representativeStage": 2
+          }
+        ],
+        "pageErrors": []
+      }
+    ],
+    "identityUnchanged": true,
+    "scopeLimit": "Representative layout at1440x1000 light Edge and all integer controls; not full old-suite multi-engine rerun"
+  },
+  "performance": {
+    "environment": {
+      "os": "Windows_NT",
+      "release": "10.0.26200",
+      "arch": "x64",
+      "cpu": "11th Gen Intel(R) Core(TM) i7-11700 @ 2.50GHz",
+      "logicalCPUs": 16,
+      "totalRAMBytes": 17009278976,
+      "node": "v24.16.0",
+      "browser": {
+        "engine": "chromium",
+        "channel": "msedge",
+        "version": "154.0.4258.37"
+      },
+      "headless": true,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "deviceScaleFactor": 1,
+      "colorScheme": "light default",
+      "reducedMotion": "no-preference default; explicitly native for playback",
+      "network": "Loopback static server4208, no CPU/network throttling",
+      "concurrency": "Root browser suite and old-regression browser finished before performance launch; ordinary host load not isolated"
+    },
+    "thresholdSource": "project/records/2026-09-24/reading-diagram-foundation.md:136",
+    "budgets": {
+      "sharedGzip": 102400,
+      "articleGzip": 76800,
+      "figureCLS": 0.05,
+      "responseMs": 200,
+      "rAFp95Ms": 32
+    },
+    "measurements": {
+      "kind": "independent-local-supplemental",
+      "startedAt": "2026-09-29T16:53:29.250Z",
+      "oldArticles": [],
+      "lazy": [
+        {
+          "article": "docs/11-llm-internals/transformer-architecture.md",
+          "scenes": [
+            "SELF-ATTENTION",
+            "TRANSFORMER / POSITION",
+            "TRANSFORMER / INPUT & OUTPUT",
+            "TRANSFORMER / BLOCK & WEIGHTS"
+          ],
+          "sceneGzip": 35549,
+          "sharedGzip": 21808,
+          "allNoninputCLS": 0,
+          "figureAttributedCLS": 0,
+          "shifts": [],
+          "observation": "Cold context; no input or scrolling; five seconds after load"
+        },
+        {
+          "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+          "scenes": [
+            "ATTENTION / CONTEXT RANGE",
+            "ATTENTION / KV SHARING",
+            "ATTENTION VARIANTS / COMPUTE & MEMORY"
+          ],
+          "sceneGzip": 25272,
+          "sharedGzip": 21808,
+          "allNoninputCLS": 0,
+          "figureAttributedCLS": 0,
+          "shifts": [],
+          "observation": "Cold context; no input or scrolling; five seconds after load"
+        },
+        {
+          "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+          "scenes": [
+            "MoE / PARAMETERS & COMMUNICATION",
+            "MOE / ROUTING & LOAD"
+          ],
+          "sceneGzip": 20723,
+          "sharedGzip": 21808,
+          "allNoninputCLS": 0,
+          "figureAttributedCLS": 0,
+          "shifts": [],
+          "observation": "Cold context; no input or scrolling; five seconds after load"
+        },
+        {
+          "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+          "scenes": [
+            "GENERATION / TOKEN LOOP"
+          ],
+          "sceneGzip": 11896,
+          "sharedGzip": 21808,
+          "allNoninputCLS": 0,
+          "figureAttributedCLS": 0,
+          "shifts": [],
+          "observation": "Cold context; no input or scrolling; five seconds after load"
+        },
+        {
+          "article": "docs/10-llm-foundations/tokenization.md",
+          "scenes": [
+            "TOKENIZATION / COUNTING"
+          ],
+          "sceneGzip": 9229,
+          "sharedGzip": 21808,
+          "allNoninputCLS": 0,
+          "figureAttributedCLS": 0,
+          "shifts": [],
+          "observation": "Cold context; no input or scrolling; five seconds after load"
+        },
+        {
+          "article": "docs/11-llm-internals/inference-internals.md",
+          "scenes": [
+            "INFERENCE / SAMPLING",
+            "INFERENCE / QUANTIZATION",
+            "INFERENCE / CACHE & BATCHING",
+            "INFERENCE / SPECULATIVE DECODING"
+          ],
+          "sceneGzip": 40797,
+          "sharedGzip": 21808,
+          "allNoninputCLS": 0,
+          "figureAttributedCLS": 0,
+          "shifts": [],
+          "observation": "Cold context; no input or scrolling; five seconds after load"
+        },
+        {
+          "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+          "scenes": [
+            "TRAINING / RUNTIME BOUNDARY",
+            "TRAINING / STAGES"
+          ],
+          "sceneGzip": 18209,
+          "sharedGzip": 21808,
+          "allNoninputCLS": 0,
+          "figureAttributedCLS": 0,
+          "shifts": [],
+          "observation": "Cold context; no input or scrolling; five seconds after load"
+        },
+        {
+          "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+          "scenes": [
+            "PRETRAINING / LOSS & PERPLEXITY",
+            "PRETRAINING / COMPUTE BUDGET",
+            "PRETRAINING / DATA",
+            "PRETRAINING / SCALING LAWS",
+            "PRETRAINING / METRICS"
+          ],
+          "sceneGzip": 44778,
+          "sharedGzip": 21808,
+          "allNoninputCLS": 0,
+          "figureAttributedCLS": 0,
+          "shifts": [],
+          "observation": "Cold context; no input or scrolling; five seconds after load"
+        },
+        {
+          "article": "negative-control",
+          "scenes": [],
+          "sceneGzip": 0,
+          "sharedGzip": 21808,
+          "allNoninputCLS": 0,
+          "figureAttributedCLS": 0,
+          "shifts": [],
+          "observation": "Cold context; no input or scrolling; five seconds after load"
+        }
+      ],
+      "performance": [
+        {
+          "id": "pretraining-loss-perplexity",
+          "responseMs": 11.800000190734863,
+          "raf": {
+            "elapsed": 5502.000000095368,
+            "samples": 789,
+            "p95": 7.099999999999454,
+            "max": 20.799999999999272,
+            "distinctPhases": 124
+          },
+          "clock": "native; handler-to-first-range-observation and rAF intervals, not GPU frame timings"
+        },
+        {
+          "id": "pretraining-scaling",
+          "responseMs": 15.900000095367432,
+          "raf": {
+            "elapsed": 5505.300000190735,
+            "samples": 792,
+            "p95": 7.100000000000364,
+            "max": 7.400000000001455,
+            "distinctPhases": 124
+          },
+          "clock": "native; handler-to-first-range-observation and rAF intervals, not GPU frame timings"
+        },
+        {
+          "id": "pretraining-data",
+          "responseMs": 12.699999809265137,
+          "raf": {
+            "elapsed": 5504.400000047684,
+            "samples": 791,
+            "p95": 7.19999999999709,
+            "max": 13.900000000001455,
+            "distinctPhases": 123
+          },
+          "clock": "native; handler-to-first-range-observation and rAF intervals, not GPU frame timings"
+        },
+        {
+          "id": "pretraining-metrics",
+          "responseMs": 10.5,
+          "raf": {
+            "elapsed": 5505.90000014305,
+            "samples": 792,
+            "p95": 7.100000000002183,
+            "max": 7.30000000000291,
+            "distinctPhases": 123
+          },
+          "clock": "native; handler-to-first-range-observation and rAF intervals, not GPU frame timings"
+        },
+        {
+          "id": "pretraining-compute",
+          "responseMs": 11.399999856948853,
+          "raf": {
+            "elapsed": 5503.300000143048,
+            "samples": 792,
+            "p95": 7.100000000005821,
+            "max": 7.400000000001455,
+            "distinctPhases": 123
+          },
+          "clock": "native; handler-to-first-range-observation and rAF intervals, not GPU frame timings"
+        }
+      ],
+      "screenshots": [],
+      "errors": [],
+      "before": {
+        "buildId": "RuEOJ2GbDzXcNrG4UDMh4",
+        "articles": [
+          {
+            "article": "docs/11-llm-internals/transformer-architecture.md",
+            "inputDigest": "sha256:e608a9954aee28546173f8c8250e34b43a6fc61293f46c54ba9f075fb7f02376",
+            "route": "/docs/llm-internals/transformer-architecture",
+            "htmlSHA256": "5f39a38d6808662f29dd7a7f1155a529e030a53d822baf6a27bf54016b2c1fda"
+          },
+          {
+            "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+            "inputDigest": "sha256:939497afc225dbe36976b72b17ce63705b744869047e069f013eb7c89be8913f",
+            "route": "/docs/llm-internals/attention-variants-and-long-context",
+            "htmlSHA256": "41d017a4f1e0cd858834b884cd9bcb9b82b34cc9917c93f2465a3023fb01dcce"
+          },
+          {
+            "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+            "inputDigest": "sha256:67f6886639932264e008b124f0ac41daa88da4a99158a55211eed6006bb8e753",
+            "route": "/docs/llm-internals/mixture-of-experts-internals",
+            "htmlSHA256": "451b2563d78a058a3a3cc6ab296231782a950ffbf141639892a845f262512335"
+          },
+          {
+            "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+            "inputDigest": "sha256:bcd96bd8e9f0e60fe6308ff79870f9a45ded0a4f8f1010b7fe9518d79577459d",
+            "route": "/docs/llm-foundations/how-llms-generate-text",
+            "htmlSHA256": "0bc6dfec1c00c25d1b60e5dbfe0deeb795e31595536c46715c2e462a88ba6db3"
+          },
+          {
+            "article": "docs/10-llm-foundations/tokenization.md",
+            "inputDigest": "sha256:9aa1f291fb1ab9ea006ab9a42ebc1065b2410fa39b0377e720952f07d5e47c69",
+            "route": "/docs/llm-foundations/tokenization",
+            "htmlSHA256": "5b41cf025212ae3a6897275fa0171e404986f31f2f4ac4f8228bbb828dc95662"
+          },
+          {
+            "article": "docs/11-llm-internals/inference-internals.md",
+            "inputDigest": "sha256:44c59ad4bbb41ed623e89e0446c0a617f050ba0d416e87a3462eab2381e88b09",
+            "route": "/docs/llm-internals/inference-internals",
+            "htmlSHA256": "6043303c1ab6a1ef9eabfca5c032e72aa83592996f97b7b4dde2e1568cbf3883"
+          },
+          {
+            "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+            "inputDigest": "sha256:33237ab6f74f953e7ceab16d01631b765eb21bf28df6e3ff7cc8eb7f4f261ec5",
+            "route": "/docs/llm-foundations/llm-training-pipeline",
+            "htmlSHA256": "c03dd80a9c64afdded373a04dcccbab74ad9d98b29e72bffc11af46de33c5486"
+          },
+          {
+            "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+            "inputDigest": "sha256:0fa344cb9b3ec838864fb9c0f7b6e4f2532751e8535a43e057cd53f41f7a18b6",
+            "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+            "htmlSHA256": "4d991b862a75f764e22bfcc4785ffd5b95edb1737716b0715d2e1b7dc1c624cc"
+          }
+        ]
+      },
+      "browser": {
+        "engine": "chromium",
+        "channel": "msedge",
+        "version": "154.0.4258.37"
+      },
+      "emittedChunks": [
+        {
+          "file": "07_m5zos1sun5.js",
+          "bytes": 35764,
+          "gzip": 12873,
+          "sha256": "a2aec42326f278320faf4b3cdac9857b518e46d3aa9317d1a5954c5f91111fec",
+          "markers": [
+            "INFERENCE / SAMPLING"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "0wyvq90qk8bm2.js",
+          "bytes": 20255,
+          "gzip": 7728,
+          "sha256": "d1f5d376391ea5ab58dd2f295d65e7a251e8aa96cd1df484d7fae468de05c32b",
+          "markers": [
+            "INFERENCE / QUANTIZATION"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "0zfx9bffw3dy0.js",
+          "bytes": 25331,
+          "gzip": 8662,
+          "sha256": "94a73bce6378f7fd283bedb41d4a26153253acec28d4c97a027d9524f6af599a",
+          "markers": [
+            "PRETRAINING / LOSS & PERPLEXITY"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "11hzdar3sb-g2.js",
+          "bytes": 24282,
+          "gzip": 8554,
+          "sha256": "1a5e85ea397fd2c9fcc001949a08b52d22d2caa2de54a5aff630a2ca71eb3c29",
+          "markers": [
+            "PRETRAINING / COMPUTE BUDGET"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "1dy41abd-z7gx.js",
+          "bytes": 20295,
+          "gzip": 7613,
+          "sha256": "d0cc39a13651c5fa5e28737bcfa972bc3f7473fb103623821bf2e1b331f272de",
+          "markers": [
+            "ATTENTION / CONTEXT RANGE"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "1ega0w430n_83.js",
+          "bytes": 20542,
+          "gzip": 7712,
+          "sha256": "63cc36cf21eb429a358bf4dcd2ab6c1376e275fe9c91e88f166c3fb3e659395a",
+          "markers": [
+            "SELF-ATTENTION"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "1j1fl89dkhsfl.js",
+          "bytes": 26432,
+          "gzip": 9652,
+          "sha256": "9b09cf1fd6f80950846c6778a72bb98252bbde655b16c64e9f0194b8e234fd87",
+          "markers": [
+            "INFERENCE / CACHE & BATCHING"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "1t5bslxuhh2yh.js",
+          "bytes": 26030,
+          "gzip": 9010,
+          "sha256": "47e2dd34d772d9040af6b456e0b049ce9e3bcbf572ad3b696a1dc5ed5ac03a99",
+          "markers": [
+            "PRETRAINING / DATA"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "1y-1ida6ccbs-.js",
+          "bytes": 21508,
+          "gzip": 7971,
+          "sha256": "afb9365aeb3282080c1995c5c8e09550c85b4bf02dd3d000569a72723708563b",
+          "markers": [],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "28gyjbu0q0i5t.js",
+          "bytes": 26651,
+          "gzip": 9200,
+          "sha256": "062fc9e383129be2c8be11b59b52cecc387d8cbd68368491bac3ee10b7e3868e",
+          "markers": [
+            "TRANSFORMER / POSITION"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "2cj8womurzjyc.js",
+          "bytes": 21597,
+          "gzip": 8044,
+          "sha256": "ac699a3a8c56f8410cd39aa96c6c6935ba1ee9c3eb894a1082c08dc0a8be5195",
+          "markers": [
+            "ATTENTION / KV SHARING"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "2hiizqra7pie2.js",
+          "bytes": 30088,
+          "gzip": 10544,
+          "sha256": "e1752acbcc8e5052c654f3ed40db1a48a7d66f952e75d95d8e66a2e97a16be5f",
+          "markers": [
+            "INFERENCE / SPECULATIVE DECODING"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "2k4e84bsye125.js",
+          "bytes": 64276,
+          "gzip": 21808,
+          "sha256": "7350f1f4bb17a7cd45a1fac839b041c9949c7b00cfa27963852dd26711c03094",
+          "markers": [],
+          "sharedEntry": true,
+          "sharedReading": false
+        },
+        {
+          "file": "2nnyel37__nse.js",
+          "bytes": 25634,
+          "gzip": 8793,
+          "sha256": "67ac9fcd94e50248007a5c94dcba058dfa4184414cefd078648d7f9e59d9607c",
+          "markers": [
+            "TRAINING / RUNTIME BOUNDARY"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "2wjblyags4sr1.js",
+          "bytes": 31159,
+          "gzip": 10535,
+          "sha256": "e5d5e3b27caa438a9638057e467de36f053dc7a3d0ceb0c1c0afa22a794c59cd",
+          "markers": [
+            "PRETRAINING / SCALING LAWS"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "33n8zee-smw5d.js",
+          "bytes": 25984,
+          "gzip": 9229,
+          "sha256": "d903ac3ebca2adb2ba9dd92b2bdfbe0329da559d6998cb799af7cacb4fa30577",
+          "markers": [
+            "TOKENIZATION / COUNTING"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "37sems1iaa28t.js",
+          "bytes": 27792,
+          "gzip": 9416,
+          "sha256": "a6948e69abe2791801d818ca0d947f8d58d6dd6a4632c59de64ef07771368f30",
+          "markers": [
+            "TRAINING / STAGES"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "38zc7u2bpi463.js",
+          "bytes": 29931,
+          "gzip": 11025,
+          "sha256": "5f0ebd7face7cbf43c4fccf4951abe16b398c4687136cbdf9bad28e3aab8a00e",
+          "markers": [
+            "MoE / PARAMETERS & COMMUNICATION"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "3dnskycz78l0i.js",
+          "bytes": 24139,
+          "gzip": 8528,
+          "sha256": "914494ebd8a207c2bfc7cfa48198723fab59e2099b225196bdeffade9d92a60e",
+          "markers": [],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "3l9w92_e8ec19.js",
+          "bytes": 23019,
+          "gzip": 8017,
+          "sha256": "473fd09f5402c774a102dbf3facaa84b7b4b8b32f1c609bb048f7660b234ed8b",
+          "markers": [
+            "PRETRAINING / METRICS"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "3m_p5hqba_kws.js",
+          "bytes": 26323,
+          "gzip": 9698,
+          "sha256": "a53337b685dc4f2a9e5c7f83bfc96f4f001e6749fb40ce0e391fa47b2b2a2a98",
+          "markers": [
+            "MOE / ROUTING & LOAD"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "3xko1970xr4gp.js",
+          "bytes": 22925,
+          "gzip": 8288,
+          "sha256": "41abf924a298b05905a85e0342645d7b535c883f5d6316f3fee90a527d560cdc",
+          "markers": [
+            "TRANSFORMER / INPUT & OUTPUT"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "3_-phszmxr2k-.js",
+          "bytes": 28539,
+          "gzip": 10349,
+          "sha256": "0aed29fabf8d8f033f65ca8758544b23c7c6c0cea63e3f2f9a9b668504108f42",
+          "markers": [
+            "TRANSFORMER / BLOCK & WEIGHTS"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "404decp940y0h.js",
+          "bytes": 25806,
+          "gzip": 9615,
+          "sha256": "c07819375b37d2b9f2b27fabf6730fcff88859ce20d4954550abd2d80b5f80a5",
+          "markers": [
+            "ATTENTION VARIANTS / COMPUTE & MEMORY"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        },
+        {
+          "file": "43slac0k-f-u6.js",
+          "bytes": 32886,
+          "gzip": 11896,
+          "sha256": "d3587a287bd580778b2c8cd1ff825b597d61115a9cb7c2574a3c81246440bb2c",
+          "markers": [
+            "GENERATION / TOKEN LOOP"
+          ],
+          "sharedEntry": false,
+          "sharedReading": true
+        }
+      ],
+      "after": {
+        "buildId": "RuEOJ2GbDzXcNrG4UDMh4",
+        "articles": [
+          {
+            "article": "docs/11-llm-internals/transformer-architecture.md",
+            "inputDigest": "sha256:e608a9954aee28546173f8c8250e34b43a6fc61293f46c54ba9f075fb7f02376",
+            "route": "/docs/llm-internals/transformer-architecture",
+            "htmlSHA256": "5f39a38d6808662f29dd7a7f1155a529e030a53d822baf6a27bf54016b2c1fda"
+          },
+          {
+            "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+            "inputDigest": "sha256:939497afc225dbe36976b72b17ce63705b744869047e069f013eb7c89be8913f",
+            "route": "/docs/llm-internals/attention-variants-and-long-context",
+            "htmlSHA256": "41d017a4f1e0cd858834b884cd9bcb9b82b34cc9917c93f2465a3023fb01dcce"
+          },
+          {
+            "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+            "inputDigest": "sha256:67f6886639932264e008b124f0ac41daa88da4a99158a55211eed6006bb8e753",
+            "route": "/docs/llm-internals/mixture-of-experts-internals",
+            "htmlSHA256": "451b2563d78a058a3a3cc6ab296231782a950ffbf141639892a845f262512335"
+          },
+          {
+            "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+            "inputDigest": "sha256:bcd96bd8e9f0e60fe6308ff79870f9a45ded0a4f8f1010b7fe9518d79577459d",
+            "route": "/docs/llm-foundations/how-llms-generate-text",
+            "htmlSHA256": "0bc6dfec1c00c25d1b60e5dbfe0deeb795e31595536c46715c2e462a88ba6db3"
+          },
+          {
+            "article": "docs/10-llm-foundations/tokenization.md",
+            "inputDigest": "sha256:9aa1f291fb1ab9ea006ab9a42ebc1065b2410fa39b0377e720952f07d5e47c69",
+            "route": "/docs/llm-foundations/tokenization",
+            "htmlSHA256": "5b41cf025212ae3a6897275fa0171e404986f31f2f4ac4f8228bbb828dc95662"
+          },
+          {
+            "article": "docs/11-llm-internals/inference-internals.md",
+            "inputDigest": "sha256:44c59ad4bbb41ed623e89e0446c0a617f050ba0d416e87a3462eab2381e88b09",
+            "route": "/docs/llm-internals/inference-internals",
+            "htmlSHA256": "6043303c1ab6a1ef9eabfca5c032e72aa83592996f97b7b4dde2e1568cbf3883"
+          },
+          {
+            "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+            "inputDigest": "sha256:33237ab6f74f953e7ceab16d01631b765eb21bf28df6e3ff7cc8eb7f4f261ec5",
+            "route": "/docs/llm-foundations/llm-training-pipeline",
+            "htmlSHA256": "c03dd80a9c64afdded373a04dcccbab74ad9d98b29e72bffc11af46de33c5486"
+          },
+          {
+            "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+            "inputDigest": "sha256:0fa344cb9b3ec838864fb9c0f7b6e4f2532751e8535a43e057cd53f41f7a18b6",
+            "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+            "htmlSHA256": "4d991b862a75f764e22bfcc4785ffd5b95edb1737716b0715d2e1b7dc1c624cc"
+          }
+        ]
+      },
+      "identityUnchanged": true,
+      "finishedAt": "2026-09-29T16:55:09.436Z"
+    },
+    "interpretation": "Chunk whole-byte gzip is a conservative upper bound (shared ReadingFigure may be included in scene chunks). Cold contexts: no input/scroll, 5 seconds after fonts/networkidle. Sum of all noninput shifts is an upper bound on session-window CLS and was zero. Click capture to first changed range observation and native rAF callbacks are DOM/scheduling measures, not GPU painted-frame times. One local pass, not population percentile or device guarantee."
+  },
+  "limitations": [
+    "This is local independent code/image approval, not formal frozen-tree article approval or public CI acceptance",
+    "Final WebKit rerun covers7 loss cases; original WebKit20 plus exact one-line product change proof retained",
+    "No real screenreader, physical iPhone/Safari, physical printing, real model training, GPU paint tracing or network-throttled mobile measurement",
+    "All generated PNG are retained; only117 enumerated actually viewed images are claimed inspected",
+    "Raw runner independentVisualReview pending fields were not overwritten; this independent report records reviewer decision",
+    "Old7 scope is representative regression, not a complete replacement for root/public acceptance suites"
+  ],
+  "evidence": [
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-audit-contract.json",
+      "sha256": "c38fac0bf2e74651be6573f187c371647e140eb8534572bc2e9ab73af58259cc",
+      "bytes": 950
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-audit-code-notes.json",
+      "sha256": "126af7652993658cf67af77449d7e196a5769e9dd9a9c488ee897a0e9e3ac123",
+      "bytes": 1804
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-independent-unit.log",
+      "sha256": "7ab02419f8a409e0f5d128a9a65db4b48a5275cceaa5e346955325b0d5852535",
+      "bytes": 3982
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-review-aggregated.json",
+      "sha256": "0501377efe675d98d3f3ce84bcf6a9458853315de0dc3ae1aa507e3a187f0326",
+      "bytes": 21056
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-viewed-initial.json",
+      "sha256": "ccef4c74eba2b34532f31e70161d3a3a9006e314e8f2792df4ee33aa1d256dd0",
+      "bytes": 22931
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-viewed-final.json",
+      "sha256": "12a3abed46001cadce98aaf9ea5eda521772fdc9f12c0354eb9e79b06e1fd32f",
+      "bytes": 84338
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-viewed-old.json",
+      "sha256": "e43043b04de8a555304bb436ab918944d4e70b571fa262566e7065c0729222f0",
+      "bytes": 9254
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-wire-change-proof.json",
+      "sha256": "81b129d56314aa0646953887a910dad8340c3a7fc50cfa956d862b8fb16be1b8",
+      "bytes": 531
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-independent-helper-diff-proof.json",
+      "sha256": "5f2c493def5fcaf0b9cb5f1022754f81914a92360139a4704513b19bd4a22dad",
+      "bytes": 858
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-loss-limited-transform.json",
+      "sha256": "cc700ff16187a344ea1a8c10f74795612db9a7a84677d4288ccb9192ea27f514",
+      "bytes": 1074
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-supplemental-helper-sync.json",
+      "sha256": "0a09d5c8b7a8cddc85e55991a3c1c595646fc9301f2c640c14b7c0dcb9e41799",
+      "bytes": 2197
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-build-second-identity.json",
+      "sha256": "657a78b14ef4ad51f5074fd10c41f60bbc4869f4679332133bc02ada6fc5814f",
+      "bytes": 2957
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-diagnostic\\result.json",
+      "sha256": "9fed78e2ea194469fe72744d3e44cc48493a3c4df349ea1489cb523e985d7805",
+      "bytes": 19408
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-supplemental\\result.json",
+      "sha256": "9ed709544f1dbf47c65d11998a2c19da71f3f67be5a638efe6fc07bfc1aee276",
+      "bytes": 19751
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-performance\\result.json",
+      "sha256": "53b185cfaf39f8774a27708ecabeb986930dec940bd862c9bfa9159b7277c988",
+      "bytes": 18768
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-local-adapter.mjs",
+      "sha256": "07bbb3144cec38115c56e7d86d0670a72518ce5249c1f8b3d5283c6a958df4ef",
+      "bytes": 26076
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-local-serve.mjs",
+      "sha256": "6f236edcf86aca8a117abec3a6b4dac2ee67fb17774fd185851bb50dacb226e4",
+      "bytes": 1835
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-loss-limited-checks.mjs",
+      "sha256": "ecd1e5c196792149d9f8e957f3fb5d9327de5a2bcf8f5b90e3eb378763c4947b",
+      "bytes": 48309
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-loss-limited-adapter.mjs",
+      "sha256": "c3d861513f723ff7cf3c88e253d6e46a85ed9848d6d708aee042b929fd50088d",
+      "bytes": 26351
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-old-regression.mjs",
+      "sha256": "ce96e4e4a0c2b7caf441749f24e6cd62cc6563e26c3e69e876f7e240f7a0a4a2",
+      "bytes": 7524
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-performance.mjs",
+      "sha256": "3cb84187dab4344768e3802de6e515e28f77ac0435f367d172d51255b2cfc382",
+      "bytes": 10864
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-review-aggregate.mjs",
+      "sha256": "a70db57e7da046c03c8f8acd94f11f4f8656d487b3a34a9e7d3f572a3c18746f",
+      "bytes": 4074
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-finalize-review.mjs",
+      "sha256": "c558914560ac20502731de1f7f5c062f454bcd996dfcd983a1da4c742c06b40c",
+      "bytes": 17738
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-audit\\local-c2-chromium-2026-09-29T16-21-51-776Z\\result.json",
+      "sha256": "718ccb99ba4be973c8c3e5ec8b489f86e86ea3b1b77ba69659d07822172af8f1",
+      "bytes": 747691
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-audit\\local-c2-webkit-2026-09-29T16-21-58-473Z\\result.json",
+      "sha256": "32befe10907a1f097e653fa28a80af22e9eef06031fcf280364c83d910b5f1cb",
+      "bytes": 1619055
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-audit\\local-c2-chromium-2026-09-29T16-40-17-123Z\\result.json",
+      "sha256": "4cdd3f1edce6e86224b451248a6476c00a85f5ae6734869b2f44bc2521de81ed",
+      "bytes": 1642711
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-scene-audit\\local-c2-loss-limited-webkit-2026-09-29T16-40-15-343Z\\result.json",
+      "sha256": "9ec0f3cafa7a5d89fdc33abce9ba86fd01e77a9853966ef6f442d2a87e8d6a34",
+      "bytes": 438485
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-entire-input-delta-proof.mjs",
+      "sha256": "dd8dfaaf2f6d91acf2e3aaf80c473ddf08e0f948b40d6bf9344aa2feebf918e3",
+      "bytes": 3243
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-entire-input-delta-proof.json",
+      "sha256": "031338068c37971796a74cdec3118ba40a90c4e96560473ff11f84af8a16218e",
+      "bytes": 2140
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-build-inputs-sep30-before.json",
+      "sha256": "a28e477f5dc25ce6caf9db8a0005c7d02f2ec6dfeddd5213b0f298487eaa18dd",
+      "bytes": 6502
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-build-second-inputs-before.json",
+      "sha256": "162ff5746aa97f468ac4600fb4489647ba2503212d152a08dc94e638a6fee9f3",
+      "bytes": 6502
+    }
+  ]
+}

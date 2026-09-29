@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "copiedAt": "2026-09-29T16:44:42.309Z",
+  "files": [
+    {
+      "file": "pretraining-metrics-first-click-second-trace.zip",
+      "originalSHA256": "348f65c47af5ddc35f66d60a12c5c268b9d36cf0097bd1de5d192fc3857ab3e2",
+      "storedSHA256": "348f65c47af5ddc35f66d60a12c5c268b9d36cf0097bd1de5d192fc3857ab3e2"
+    },
+    {
+      "file": "pretraining-metrics-first-click-second-error-context.md.gz",
+      "originalSHA256": "8caea56a3d28bdb04d348f9e087835b9e7fe91056cbdf55ba622654a8a3a7705",
+      "storedSHA256": "0368506340e2ee8ad1500f2cfb202ddd22f5b3219e3f9f2a4c5f97b15cc419b8"
+    }
+  ]
+}

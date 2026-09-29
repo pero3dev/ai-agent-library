@@ -1,0 +1,459 @@
+{
+  "schemaVersion": 1,
+  "recordType": "C1-public-acceptance-relative-evidence-index",
+  "recordedAt": "2026-09-24T16:10:47.018Z",
+  "approval": {
+    "status": "approved",
+    "risk": "low",
+    "must": [],
+    "should": [],
+    "checkedAt": "2026-09-24T15:59:03.585Z",
+    "review": "../training-public-review.json",
+    "reviewReadable": "../training-public-review.md"
+  },
+  "identity": {
+    "mergeSha": "517dc8b5166bd7b0c85baef3800d7fe57bac7b31",
+    "buildId": "EliX86DAnCpMQHOKIyCQx",
+    "mainCI": "https://github.com/pero3dev/ai-agent-library/actions/runs/36019573674",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36019573674/job/107704025706",
+    "artifactId": 10816009077,
+    "lastSevenHTTPCheck": "training-public-identity-after.json",
+    "lastCheckedAt": "2026-09-24T15:55:33.828Z"
+  },
+  "originalRuns": [
+    {
+      "file": "chromium-result.json.gz",
+      "uncompressedSHA256": "cefbbb3d8911068df930aa7c2a71e0316caa9b3df743c4473ffae91f857ae1f9",
+      "status": "passed",
+      "passed": 71,
+      "failed": 0
+    },
+    {
+      "file": "webkit-initial-result.json.gz",
+      "uncompressedSHA256": "89b57e7baf51b68763bfdd9b6dd65664a8ae75ef5188b268e93a80a6f0ad746b",
+      "status": "failed",
+      "passed": 66,
+      "failed": 5
+    }
+  ],
+  "limitedRetests": [
+    {
+      "file": "stage-race-stabilizedThree.json.gz",
+      "status": "passed",
+      "cases": 3,
+      "uncompressedSHA256": "ad3b4eb3165bf334cefc65cb7182444e68ba1b07ef88bccc44d949b97e7ab43c"
+    },
+    {
+      "file": "stage-race-stabilizedPlayback.json.gz",
+      "status": "passed",
+      "cases": 2,
+      "uncompressedSHA256": "ea3faebac3504fb708721ddf94ce20885892e2f84878b6cdfabf729c76b1034b"
+    }
+  ],
+  "rawStatusPolicy": "Original browser raw results and their pending-independent-review fields are unchanged. Separate independent approval plus bounded five-case retest does not convert original WebKit into a successful 71-case run.",
+  "directlyViewed": {
+    "total": 144,
+    "edge": 83,
+    "webkit": 53,
+    "transformerSupplemental": 8,
+    "C1": 106,
+    "C1Generated": 276,
+    "exactLedger": "../training-public-review.json"
+  },
+  "existingRelativeIndexes": [
+    "ci-file-index.json",
+    "chromium-index.json",
+    "webkit-initial-index.json",
+    "stage-race-file-index.json"
+  ],
+  "existingFilesUnchanged": [
+    {
+      "file": "artifact-evidence.json",
+      "sha256": "4f6dcbf1893ae978771b1d8fa3fbd9fe4135c9b61a148daa9f24e465364b3195"
+    },
+    {
+      "file": "artifact-evidence.json.gz",
+      "sha256": "a8678c5f728c14cb32870ccabec877515fcb807df32bae4230be70e34c6ec7e4"
+    },
+    {
+      "file": "attention-variants-and-long-context.html.gz",
+      "sha256": "c849bd12979286da4ef7a33b7f5da3ef9abb346968855d2ceb61a33d4704dadf"
+    },
+    {
+      "file": "chromium-index.json",
+      "sha256": "24b5ba25efd33672b92d7fc0ba3737665ecef82d0f12ae61ccb6e5829e4ffb18"
+    },
+    {
+      "file": "chromium-result.json.gz",
+      "sha256": "99fcd2f5a7ff5879be51a17604df615e4f403bce2555c9a0e1e26d95a37056ad"
+    },
+    {
+      "file": "ci-file-index.json",
+      "sha256": "7a56fa70864a8592f3b0307df1dca9670d0a406abde223b17214d6148a28299d"
+    },
+    {
+      "file": "deployment-after.json.gz",
+      "sha256": "d9e310bf5df30160d9fedf3aa24226813f94072479ccf8a1f79f1ced16f07b32"
+    },
+    {
+      "file": "deployment-before.json.gz",
+      "sha256": "afd6ca9c6a64723339a0e9e57de849e7d4ab6003fcc497ce295b92f694eef772"
+    },
+    {
+      "file": "how-llms-generate-text.html.gz",
+      "sha256": "3965042377cbf1b0de311520f5b145eb25d3051021ef38c7424be9d3055f3810"
+    },
+    {
+      "file": "inference-internals.html.gz",
+      "sha256": "207570cc72ae15edf8ea16218c839e18df38e2ea2321b3a8e79a7eb6927396d3"
+    },
+    {
+      "file": "llm-training-pipeline.html.gz",
+      "sha256": "cd4ae3fc8ed42744acea797d295b30e14f2d59f52e7a4c3c7e6c4459100f120e"
+    },
+    {
+      "file": "main-ci.json",
+      "sha256": "8e3be9417096dfd6e40631a42585c442fd48756d8abe2acb9e93472f177a59ec"
+    },
+    {
+      "file": "merge.json",
+      "sha256": "bbbaafaf09060cd85581fb7b141cfbd2bb25dbac85a2c27bec551cce77a9a505"
+    },
+    {
+      "file": "mixture-of-experts-internals.html.gz",
+      "sha256": "e0015656763eaac391d1e60228eded6e3cbeb9baf13c733de6236b76decb2c4b"
+    },
+    {
+      "file": "pr-candidate.json",
+      "sha256": "9e41ebaf5b0c2fbe5f3b9791ba5c5c82fcb4130c2906147fe49e5d4936911ce7"
+    },
+    {
+      "file": "pr59-stage-candidate-proof.json.gz",
+      "sha256": "99a604c2f54b32f02c541e2d89fa38593853a10dff3bc0ed4c56acae102bc8e7"
+    },
+    {
+      "file": "pr59-stage-diagnostic-transform.json.gz",
+      "sha256": "60704c4b83b60fd3bfccdae39c5d195ddfd677a12130d64b0c2073e41c405c57"
+    },
+    {
+      "file": "pr59-stage-diagnostic.mjs.gz",
+      "sha256": "1cbac793d04c2f66789c7363df770da685e16db193cac1a37e4b48332514466a"
+    },
+    {
+      "file": "pr59-stage-helper-candidate.diff.gz",
+      "sha256": "330893aa8151e7df1a20480c820d461b1f8aed92b52d989524cb4494c3feccdb"
+    },
+    {
+      "file": "pr59-stage-helper-candidate.mjs.gz",
+      "sha256": "2de35c75ffd82d6326f25e59dac6856dad41ad9dda99945ff3d08c7327844345"
+    },
+    {
+      "file": "pr59-stage-helper-original.mjs.gz",
+      "sha256": "50dde72e9199058406a85e4e5debd351158ce66ddd1cbc80a65ffe1ac53f24bc"
+    },
+    {
+      "file": "pr59-stage-playback-diagnostic.mjs.gz",
+      "sha256": "56fbda1849886d90c4e6e54d3a68e84310d245670821c20935fe2a3c84198a8d"
+    },
+    {
+      "file": "pr59-verify-public-stage-candidate.mjs.gz",
+      "sha256": "63335e163fc436a89ac57808af03ac9dabfcc814090abc6f8a449ff7410d9f6e"
+    },
+    {
+      "file": "stage-race-diagnostic.json",
+      "sha256": "0f0ec7634526037d83c948526015f52b7bb849956d3263564404ea8e447c2b62"
+    },
+    {
+      "file": "stage-race-diagnostic.md",
+      "sha256": "811d9843eec58d2288db3c552a98d793eeb500789f86631d13c128420b88c232"
+    },
+    {
+      "file": "stage-race-environmentBlocked.json.gz",
+      "sha256": "3c252d6e9a5c9ffd8d030dd60033bfd4f4e27196df3d348790dc3c1886d91f3e"
+    },
+    {
+      "file": "stage-race-file-index.json",
+      "sha256": "fa908ae7ee6ef91fa54c702082d86cc8f5b7c88874d316584a3e878142cefea9"
+    },
+    {
+      "file": "stage-race-original.json.gz",
+      "sha256": "359b47d4a05b091bf0fccbdb8dc70d5beef99e8209e6986eb72f501501fcbe06"
+    },
+    {
+      "file": "stage-race-stabilizedPlayback.json.gz",
+      "sha256": "8814fb5a09a96be53f9847505921788d44bf62226ec0ebe36ba137133a18594b"
+    },
+    {
+      "file": "stage-race-stabilizedThree.json.gz",
+      "sha256": "7d8c12a8a2510b70484323239dc3df546078a7ea060c918c6f5a4a3e2dcb6ded"
+    },
+    {
+      "file": "tokenization.html.gz",
+      "sha256": "8e11431603b680399e8f57b62334aa6c72f3fbef726a3e92f78cdea14b436275"
+    },
+    {
+      "file": "training-independent-diagnostic-proof.json",
+      "sha256": "231ffe8a3f0e27bfe8c2c35d08a6fe1cdac477dc32e262b642b14339214c6cee"
+    },
+    {
+      "file": "training-public-identity-after.json",
+      "sha256": "d25303ea2bcf18169cdbba123f8d1a74c744b63e3bdd4925a1a00048b7f14cb5"
+    },
+    {
+      "file": "training-runtime-boundary-stage-2-1280x720-light-dsf1-scene.png",
+      "sha256": "8af58e8595fe25725317c4a56a9a747b1b8f5e0e6cecd2b9a0e70328eb985de2"
+    },
+    {
+      "file": "training-runtime-boundary-stage-2-960x540-light-dsf2-scene.png",
+      "sha256": "242a8933dc9ce834b7e795cb449eae4cd185737ab38613867a70bb99c3da2777"
+    },
+    {
+      "file": "transformer-architecture.html.gz",
+      "sha256": "5e3bb52c200b3ce4c7010230fb6164661ef4db0364156d659c28bf0daf0b331d"
+    },
+    {
+      "file": "webkit-initial-index.json",
+      "sha256": "bd29abd103bff7e6d9491e18132b630c0a99bc81bd914f81eed5da05f68791de"
+    },
+    {
+      "file": "webkit-initial-result.json.gz",
+      "sha256": "393a3c4fda1dd3ff5ae3fdad3ce27e47a32507d417687a44ce3d1696c4c7926f"
+    }
+  ],
+  "preservedReviewAndProof": [
+    {
+      "file": "../training-public-review.md",
+      "originalBytes": 10508,
+      "storedBytes": 10508,
+      "originalSHA256": "33b4d217f12357bbdf477464d555340a05298248f32580008cc8ab0d5fcd1c2c",
+      "storedSHA256": "33b4d217f12357bbdf477464d555340a05298248f32580008cc8ab0d5fcd1c2c",
+      "normalization": "CRLF to LF only; bytes already identical in this transfer"
+    },
+    {
+      "file": "../training-public-review.json",
+      "originalBytes": 253618,
+      "storedBytes": 253618,
+      "originalSHA256": "fd9a3c14e00cc7858d49425c4120729d9c9d7a0a870f5004594164b4a8ca298a",
+      "storedSHA256": "fd9a3c14e00cc7858d49425c4120729d9c9d7a0a870f5004594164b4a8ca298a",
+      "normalization": "CRLF to LF only; bytes already identical in this transfer"
+    },
+    {
+      "file": "training-public-identity-after.json",
+      "originalBytes": 3975,
+      "storedBytes": 3975,
+      "originalSHA256": "d25303ea2bcf18169cdbba123f8d1a74c744b63e3bdd4925a1a00048b7f14cb5",
+      "storedSHA256": "d25303ea2bcf18169cdbba123f8d1a74c744b63e3bdd4925a1a00048b7f14cb5",
+      "normalization": "CRLF to LF only; bytes already identical in this transfer"
+    },
+    {
+      "file": "training-independent-diagnostic-proof.json",
+      "originalBytes": 1352,
+      "storedBytes": 1352,
+      "originalSHA256": "231ffe8a3f0e27bfe8c2c35d08a6fe1cdac477dc32e262b642b14339214c6cee",
+      "storedSHA256": "231ffe8a3f0e27bfe8c2c35d08a6fe1cdac477dc32e262b642b14339214c6cee",
+      "normalization": "CRLF to LF only; bytes already identical in this transfer"
+    }
+  ],
+  "addedFiles": [
+    {
+      "file": "transformer-supplemental-result.json.gz",
+      "originalFileName": "result.json",
+      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\result.json",
+      "originalBytes": 15920,
+      "storedBytes": 3391,
+      "originalSHA256": "1f58d7040463665785a26ad9e6d08ef9e6d66468844b4d91f52fa064d0fbd415",
+      "storedSHA256": "27fbf9208fddb80bcc67a8eb334298701818933d7bd0517b724f5e1e7d67eead",
+      "normalization": "none; raw bytes compressed"
+    },
+    {
+      "file": "training-public-supplemental.mjs.gz",
+      "originalFileName": "training-public-supplemental.mjs",
+      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-public-supplemental.mjs",
+      "originalBytes": 5689,
+      "storedBytes": 2422,
+      "originalSHA256": "b21084cc253f2455246863aad3918b4196236d3f9fb1b2f7cb526da75ebafe72",
+      "storedSHA256": "299f5357cec969d5d9291dea3cdca09fde549adac407296b16f3eceb399c7645",
+      "normalization": "none; raw bytes compressed"
+    },
+    {
+      "file": "public-review-transformer-io-stage-2-1440x1000-light.png",
+      "originalFileName": "public-review-transformer-io-stage-2-1440x1000-light.png",
+      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-transformer-io-stage-2-1440x1000-light.png",
+      "originalBytes": 245781,
+      "storedBytes": 245781,
+      "originalSHA256": "21c76b35639431cd52abea6b6dfbd3f5c0ac7b4f3c70184e15c59a19e61e0f6b",
+      "storedSHA256": "21c76b35639431cd52abea6b6dfbd3f5c0ac7b4f3c70184e15c59a19e61e0f6b",
+      "normalization": "none; exact bytes copied"
+    },
+    {
+      "file": "public-review-transformer-io-stage-2-1440x1000-light-scene.png",
+      "originalFileName": "public-review-transformer-io-stage-2-1440x1000-light-scene.png",
+      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-transformer-io-stage-2-1440x1000-light-scene.png",
+      "originalBytes": 53155,
+      "storedBytes": 53155,
+      "originalSHA256": "acc2bd78878b9bd5f7e63618ee59e88fd5c9e3775060153e538f62f8758129a0",
+      "storedSHA256": "acc2bd78878b9bd5f7e63618ee59e88fd5c9e3775060153e538f62f8758129a0",
+      "normalization": "none; exact bytes copied"
+    },
+    {
+      "file": "public-review-transformer-position-stage-2-1440x1000-light.png",
+      "originalFileName": "public-review-transformer-position-stage-2-1440x1000-light.png",
+      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-transformer-position-stage-2-1440x1000-light.png",
+      "originalBytes": 258694,
+      "storedBytes": 258694,
+      "originalSHA256": "9798489dbc6268d765b2a045215af20379395378d6c320c8a773d337a58ea334",
+      "storedSHA256": "9798489dbc6268d765b2a045215af20379395378d6c320c8a773d337a58ea334",
+      "normalization": "none; exact bytes copied"
+    },
+    {
+      "file": "public-review-transformer-position-stage-2-1440x1000-light-scene.png",
+      "originalFileName": "public-review-transformer-position-stage-2-1440x1000-light-scene.png",
+      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-transformer-position-stage-2-1440x1000-light-scene.png",
+      "originalBytes": 51452,
+      "storedBytes": 51452,
+      "originalSHA256": "d6fde0596f45a6fda8e0eef4a579f1c3186822ce034d56fe5fe1f249e0399e1c",
+      "storedSHA256": "d6fde0596f45a6fda8e0eef4a579f1c3186822ce034d56fe5fe1f249e0399e1c",
+      "normalization": "none; exact bytes copied"
+    },
+    {
+      "file": "public-review-self-attention-stage-2-1440x1000-light.png",
+      "originalFileName": "public-review-self-attention-stage-2-1440x1000-light.png",
+      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-self-attention-stage-2-1440x1000-light.png",
+      "originalBytes": 228385,
+      "storedBytes": 228385,
+      "originalSHA256": "53c995794dbefd911c154d1bfe3a1d9fd225cb2a775b1f92750616a53b2a40b6",
+      "storedSHA256": "53c995794dbefd911c154d1bfe3a1d9fd225cb2a775b1f92750616a53b2a40b6",
+      "normalization": "none; exact bytes copied"
+    },
+    {
+      "file": "public-review-self-attention-stage-2-1440x1000-light-scene.png",
+      "originalFileName": "public-review-self-attention-stage-2-1440x1000-light-scene.png",
+      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-self-attention-stage-2-1440x1000-light-scene.png",
+      "originalBytes": 25178,
+      "storedBytes": 25178,
+      "originalSHA256": "2806db070fcd532b3b84da181b98d0aa2a842ccd9c150b7c30d5fc06626ce78e",
+      "storedSHA256": "2806db070fcd532b3b84da181b98d0aa2a842ccd9c150b7c30d5fc06626ce78e",
+      "normalization": "none; exact bytes copied"
+    },
+    {
+      "file": "public-review-transformer-block-stage-2-1440x1000-light.png",
+      "originalFileName": "public-review-transformer-block-stage-2-1440x1000-light.png",
+      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-transformer-block-stage-2-1440x1000-light.png",
+      "originalBytes": 267154,
+      "storedBytes": 267154,
+      "originalSHA256": "2e6b0ae999e43452f88c99b8a88fdcf5170855cede37ac716097c9030a13ed42",
+      "storedSHA256": "2e6b0ae999e43452f88c99b8a88fdcf5170855cede37ac716097c9030a13ed42",
+      "normalization": "none; exact bytes copied"
+    },
+    {
+      "file": "public-review-transformer-block-stage-2-1440x1000-light-scene.png",
+      "originalFileName": "public-review-transformer-block-stage-2-1440x1000-light-scene.png",
+      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-transformer-block-stage-2-1440x1000-light-scene.png",
+      "originalBytes": 39691,
+      "storedBytes": 39691,
+      "originalSHA256": "2a2e6f38c989797dea98df8da86a4a5d02d84fb40881e507a70222931314e801",
+      "storedSHA256": "2a2e6f38c989797dea98df8da86a4a5d02d84fb40881e507a70222931314e801",
+      "normalization": "none; exact bytes copied"
+    },
+    {
+      "file": "training-independent-diagnostic-proof.cjs.gz",
+      "originalFileName": "training-independent-diagnostic-proof.cjs",
+      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-independent-diagnostic-proof.cjs",
+      "originalBytes": 3089,
+      "storedBytes": 1156,
+      "originalSHA256": "bcddbbae88b3d9f49b69d30018c86ee6e6110dd353a71acab86689d174d6c396",
+      "storedSHA256": "2285066c2695487a5dda76e044ace31861fa35be31349dd494b02619f06c8db4",
+      "normalization": "none; raw bytes compressed"
+    },
+    {
+      "file": "training-public-identity-after.cjs.gz",
+      "originalFileName": "training-public-identity-after.cjs",
+      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-public-identity-after.cjs",
+      "originalBytes": 2040,
+      "storedBytes": 977,
+      "originalSHA256": "77a66d3575212ad3056fdcd57e100e5c603ba77f124da1e376f3e716c0d99dc3",
+      "storedSHA256": "7dc94de94b3986dcde3a9b25da513e50fe86f38d2954040d23750cdfacc97ba6",
+      "normalization": "none; raw bytes compressed"
+    },
+    {
+      "file": "training-public-independent-evidence-check.cjs.gz",
+      "originalFileName": "training-public-independent-evidence-check.cjs",
+      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-public-independent-evidence-check.cjs",
+      "originalBytes": 21830,
+      "storedBytes": 7872,
+      "originalSHA256": "4200aa2899e4b776be8586b3c25270d6d3527e97011532d282326ccaf8b97a6c",
+      "storedSHA256": "99f8dcb01f75be9177683fd0fed002c47f0b77cb7df32b4fa75dd3b88da20d4c",
+      "normalization": "none; raw bytes compressed"
+    }
+  ],
+  "supplemental": {
+    "raw": "transformer-supplemental-result.json.gz",
+    "script": "training-public-supplemental.mjs.gz",
+    "figures": [
+      "transformer-io",
+      "transformer-position",
+      "self-attention",
+      "transformer-block"
+    ],
+    "stage": 2,
+    "images": 8,
+    "beforeAfterSevenHTMLMatched": true,
+    "engine": "chromium",
+    "channel": "msedge",
+    "viewport": {
+      "width": 1440,
+      "height": 1000,
+      "deviceScaleFactor": 1
+    }
+  },
+  "portability": "All paths in this index resolve from this directory. Historical absolute paths in raw JSON and archived scripts are preserved as evidence, not runtime prerequisites. Use the repository scripts/diagram-release kit to reproduce a new public run; archived diagnostic/supplemental scripts are not supported portable entry points.",
+  "scope": "C1 public evidence and PR59 current seven-article snapshot; no product, build or Git operation.",
+  "acceptanceSnapshotCheck": {
+    "file": "article-acceptance-pr59.json",
+    "sha256": "ca1c8aeaa7ba8fcbaa9b3200465a5be598fc817ed3381aabd1d9563d2efb8b24",
+    "checkedAt": "2026-09-24T16:12:34.933Z",
+    "completeArticles": 7,
+    "snapshotFiles": [
+      "../transformer-article-acceptance-pr59.json",
+      "../attention-variants-article-acceptance-pr59.json",
+      "../moe-article-acceptance-pr59.json",
+      "../generation-article-acceptance-pr59.json",
+      "../tokenization-article-acceptance-pr59.json",
+      "../inference-article-acceptance-pr59.json",
+      "../training-article-acceptance-pr59.json"
+    ],
+    "note": "Root released to modify common C2 code after this exact-time seven-complete check. Later current-input invalidation does not change fixed PR59 snapshots."
+  },
+  "bookkeepingValidation": {
+    "checkedAt": "2026-09-24T16:16:01.118Z",
+    "preexistingFilesRetained": 38,
+    "allStoredAndUncompressedSHA256Matched": true,
+    "markdownLint": {
+      "files": 5,
+      "exitCode": 0
+    },
+    "links": {
+      "files": 338,
+      "links": 5673,
+      "exitCode": 0
+    },
+    "documentFiles": [
+      {
+        "file": "../training-reading-diagrams.md",
+        "sha256": "b50feae03b7644f4e75bfba3ee4d74fd1be15f1d5b0d28bb8b4cf092bffbb04f"
+      },
+      {
+        "file": "../dynamic-diagram-rollout.md",
+        "sha256": "fa2a4c98a9fad96f30b83a0a1abc5e6d693ddf275ace80d5b5c912e95465b6e7"
+      },
+      {
+        "file": "../dynamic-diagram-handoff.md",
+        "sha256": "912766e9d32134438f19503f2f9d7572b5b3ac3477bf59cbe8c7eb56269341d9"
+      }
+    ],
+    "projectIndex": {
+      "file": "../../../README.md",
+      "sha256": "6b65de220e367a7661a8f2837c2cb274441fff1ed7abac088cbc102978c180aa"
+    }
+  }
+}

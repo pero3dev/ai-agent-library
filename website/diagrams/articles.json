@@ -1331,6 +1331,381 @@
           ]
         }
       ]
+    },
+    {
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "primaryDiagramIds": [
+        "pretraining-loss-perplexity",
+        "pretraining-scaling",
+        "pretraining-data",
+        "pretraining-metrics",
+        "pretraining-compute"
+      ],
+      "sections": [
+        {
+          "heading": "概要: 事前学習は「次トークン予測」の一点",
+          "topics": [
+            {
+              "id": "pretraining-pretraining-purpose",
+              "label": "NTPという課題から知識・能力を学ぶ",
+              "diagramId": "pretraining-loss-perplexity",
+              "stages": [
+                0
+              ]
+            },
+            {
+              "id": "pretraining-loss-not-ability",
+              "label": "損失を測る記事であり下流能力と同じ量ではない",
+              "diagramId": "pretraining-loss-perplexity",
+              "stages": [
+                0,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "次トークン予測の目的関数",
+          "topics": [
+            {
+              "id": "pretraining-conditional-prefix",
+              "label": "各位置で直前までを条件に正解確率を与える",
+              "diagramId": "pretraining-loss-perplexity",
+              "stages": [
+                1
+              ]
+            },
+            {
+              "id": "pretraining-average-negative-log",
+              "label": "交差エントロピー=位置ごとの平均負対数尤度",
+              "diagramId": "pretraining-loss-perplexity",
+              "stages": [
+                2
+              ]
+            },
+            {
+              "id": "pretraining-training-update",
+              "label": "損失を下げる学習はパラメータ更新、推論は固定",
+              "diagramId": "pretraining-loss-perplexity",
+              "stages": [
+                0,
+                2
+              ]
+            },
+            {
+              "id": "pretraining-exp-loss",
+              "label": "PPL=exp平均損失、有効な選択肢数の直感",
+              "diagramId": "pretraining-loss-perplexity",
+              "stages": [
+                3
+              ]
+            },
+            {
+              "id": "pretraining-same-tokenizer-data",
+              "label": "PPLの比較はトークナイザと評価データが同じ条件",
+              "diagramId": "pretraining-loss-perplexity",
+              "stages": [
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "スケーリング則の系譜",
+          "topics": [
+            {
+              "id": "pretraining-scaling-axes",
+              "label": "N/D/Cと経験的べき乗則",
+              "diagramId": "pretraining-scaling",
+              "stages": [
+                0
+              ]
+            },
+            {
+              "id": "pretraining-residual-not-total",
+              "label": "L∞と残差Rを分け、倍率が掛かるのはR",
+              "diagramId": "pretraining-scaling",
+              "stages": [
+                1
+              ]
+            },
+            {
+              "id": "pretraining-kaplan-history",
+              "label": "初期のパラメータ重視という系譜",
+              "diagramId": "pretraining-scaling",
+              "stages": [
+                3
+              ]
+            },
+            {
+              "id": "pretraining-fixed-compute-allocation",
+              "label": "固定C内でN/Dの配分を選ぶ",
+              "diagramId": "pretraining-scaling",
+              "stages": [
+                3
+              ]
+            },
+            {
+              "id": "pretraining-budget-growth",
+              "label": "予算増加に対しN/Dを近い率で増やすというChinchillaの含意",
+              "diagramId": "pretraining-scaling",
+              "stages": [
+                3
+              ]
+            },
+            {
+              "id": "pretraining-not-equal-units",
+              "label": "同率成長はN=Dや固定C内の両増加ではない",
+              "diagramId": "pretraining-scaling",
+              "stages": [
+                3
+              ]
+            },
+            {
+              "id": "pretraining-inference-compute",
+              "label": "推論時にも計算を割く別軸がある",
+              "diagramId": "pretraining-scaling",
+              "stages": [
+                3,
+                4
+              ]
+            },
+            {
+              "id": "pretraining-empirical-coefficients",
+              "label": "データ/構造/トークナイザ依存で係数は普遍定数ではない",
+              "diagramId": "pretraining-scaling",
+              "stages": [
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "データ側: 量・品質・混合・繰り返し",
+          "topics": [
+            {
+              "id": "pretraining-quantity-content",
+              "label": "Dの量だけでなく中身が効く",
+              "diagramId": "pretraining-data",
+              "stages": [
+                0,
+                2
+              ]
+            },
+            {
+              "id": "pretraining-quality-dedup",
+              "label": "品質・重複除去・フィルタリングの確認",
+              "diagramId": "pretraining-data",
+              "stages": [
+                2
+              ]
+            },
+            {
+              "id": "pretraining-mixture",
+              "label": "Web/書籍/コード/多言語の配合は設計判断",
+              "diagramId": "pretraining-data",
+              "stages": [
+                2
+              ]
+            },
+            {
+              "id": "pretraining-reuse-returns",
+              "label": "再利用で処理量は増すが追加価値は一定でなく過学習もありうる",
+              "diagramId": "pretraining-data",
+              "stages": [
+                2
+              ]
+            },
+            {
+              "id": "pretraining-contamination",
+              "label": "評価用データの学習混入で評価が歪む",
+              "diagramId": "pretraining-data",
+              "stages": [
+                2
+              ]
+            },
+            {
+              "id": "pretraining-data-bottleneck",
+              "label": "パラメータ規模に見合う良質データの有無",
+              "diagramId": "pretraining-data",
+              "stages": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "創発的能力の論争",
+          "topics": [
+            {
+              "id": "pretraining-emergence-debate",
+              "label": "創発の報告と測定方法に由来する反論、未決着",
+              "diagramId": "pretraining-metrics",
+              "stages": [
+                0,
+                3
+              ]
+            },
+            {
+              "id": "pretraining-discontinuous-metric",
+              "label": "同じ出力でも閾値で急変して見える",
+              "diagramId": "pretraining-metrics",
+              "stages": [
+                2
+              ]
+            },
+            {
+              "id": "pretraining-continuous-metric",
+              "label": "同じ出力の連続指標も確認する",
+              "diagramId": "pretraining-metrics",
+              "stages": [
+                2
+              ]
+            },
+            {
+              "id": "pretraining-not-single-verdict",
+              "label": "単一閾値で能力を断じず併用して評価",
+              "diagramId": "pretraining-metrics",
+              "stages": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "学習の計算量の目安",
+          "topics": [
+            {
+              "id": "pretraining-compute-units",
+              "label": "CのFLOPs、N/D/係数6と概算の意味",
+              "diagramId": "pretraining-compute",
+              "stages": [
+                0,
+                1
+              ]
+            },
+            {
+              "id": "pretraining-compute-product",
+              "label": "NかDの片方を増やす比例、両方増加時は積",
+              "diagramId": "pretraining-compute",
+              "stages": [
+                1
+              ]
+            },
+            {
+              "id": "pretraining-allocation-vs-growth",
+              "label": "固定Cの配分と予算増加時の両拡大を区別",
+              "diagramId": "pretraining-compute",
+              "stages": [
+                3
+              ]
+            },
+            {
+              "id": "pretraining-actual-cost-limits",
+              "label": "ハードウェア/並列化効率による実時間・費用・エネルギー、桁の当たり",
+              "diagramId": "pretraining-compute",
+              "stages": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "この理解が効く場面",
+          "topics": [
+            {
+              "id": "pretraining-static-6-1",
+              "label": "能力の見積り: 「規模を上げれば滑らかに良くなるが収穫逓減する」「N と D はバランスが要る」という形が、次世代モデルへの期待値を現実的にする",
+              "staticReason": "規模・投資・ベンチマーク・費用の実務判断には個別条件が必要。図の固定入力から投資判断を生成せず原文で残す。"
+            },
+            {
+              "id": "pretraining-static-6-2",
+              "label": "自社モデル投資の判断: データ優位(良質な D)がなければ規模を上げても効かない、という律速(自社モデルを持つかの判断)",
+              "staticReason": "規模・投資・ベンチマーク・費用の実務判断には個別条件が必要。図の固定入力から投資判断を生成せず原文で残す。"
+            },
+            {
+              "id": "pretraining-static-6-3",
+              "label": "ベンチマークの読み方: 創発の「突然さ」や汚染の影響を割り引いて読む(エージェントベンチマークの全体像)",
+              "staticReason": "規模・投資・ベンチマーク・費用の実務判断には個別条件が必要。図の固定入力から投資判断を生成せず原文で残す。"
+            },
+            {
+              "id": "pretraining-static-6-4",
+              "label": "学習コストの桁感: C \\approx 6ND で計算量・コスト・環境負荷の当たりを付ける(AI の環境負荷とグリーン AI)",
+              "staticReason": "規模・投資・ベンチマーク・費用の実務判断には個別条件が必要。図の固定入力から投資判断を生成せず原文で残す。"
+            }
+          ]
+        },
+        {
+          "heading": "アンチパターン",
+          "topics": [
+            {
+              "id": "pretraining-static-7-1",
+              "label": "パープレキシティを異なるトークナイザ・データ間で比較する → PPL はトークナイザ・評価データに依存し、比較の意味がない → 同一条件でのみ比較し、能力は下流タスクで評価する",
+              "staticReason": "既に図で示す機構の実務上の誤用を列挙したリスト。読者が原文と対応READ面を照合する。"
+            },
+            {
+              "id": "pretraining-static-7-2",
+              "label": "スケーリング則の係数を普遍定数として引用する → べき指数・定数はデータ・構成依存の経験則 → 「滑らかに下がるが逓減」「N と D をバランス」という形と含意を使う",
+              "staticReason": "既に図で示す機構の実務上の誤用を列挙したリスト。読者が原文と対応READ面を照合する。"
+            },
+            {
+              "id": "pretraining-static-7-3",
+              "label": "パラメータだけ増やせば賢くなると考える → 見合うデータ(D)がないと計算最適から外れ、投資が無駄になる → データ量・品質・混合を規模と一緒に設計する(自前学習時)",
+              "staticReason": "既に図で示す機構の実務上の誤用を列挙したリスト。読者が原文と対応READ面を照合する。"
+            },
+            {
+              "id": "pretraining-static-7-4",
+              "label": "創発を単一の閾値指標で断じる → 不連続な指標が能力の急出現を過大に見せることがある → 連続指標も併用し、能力の有無を慎重に評価する",
+              "staticReason": "既に図で示す機構の実務上の誤用を列挙したリスト。読者が原文と対応READ面を照合する。"
+            },
+            {
+              "id": "pretraining-static-7-5",
+              "label": "学習コストを 6ND の理論値そのままで見積もる → 並列化効率・ハードウェアで実コストは大きくぶれる → 桁の当たりとして使い、実測・提供価格で補正する",
+              "staticReason": "既に図で示す機構の実務上の誤用を列挙したリスト。読者が原文と対応READ面を照合する。"
+            }
+          ]
+        },
+        {
+          "heading": "チェックリスト",
+          "topics": [
+            {
+              "id": "pretraining-static-8-1",
+              "label": "事前学習の目的関数(次トークン予測 = 交差エントロピー)を説明できる",
+              "staticReason": "知識・見積りの確認リスト。図を操作しただけで理解や実コスト確認が完了したと判定しない。"
+            },
+            {
+              "id": "pretraining-static-8-2",
+              "label": "パープレキシティの意味と、トークナイザ依存で比較不能なことを理解している",
+              "staticReason": "知識・見積りの確認リスト。図を操作しただけで理解や実コスト確認が完了したと判定しない。"
+            },
+            {
+              "id": "pretraining-static-8-3",
+              "label": "スケーリング則の系譜(パラメータ偏重 → 計算最適 → 推論時計算)を追える",
+              "staticReason": "知識・見積りの確認リスト。図を操作しただけで理解や実コスト確認が完了したと判定しない。"
+            },
+            {
+              "id": "pretraining-static-8-4",
+              "label": "計算最適の含意(N と D をバランスさせる)を説明できる",
+              "staticReason": "知識・見積りの確認リスト。図を操作しただけで理解や実コスト確認が完了したと判定しない。"
+            },
+            {
+              "id": "pretraining-static-8-5",
+              "label": "データの品質・混合・繰り返しの限界が規模と同じく効くと理解している",
+              "staticReason": "知識・見積りの確認リスト。図を操作しただけで理解や実コスト確認が完了したと判定しない。"
+            },
+            {
+              "id": "pretraining-static-8-6",
+              "label": "創発的能力の論争(指標の取り方による見かけ説)を踏まえて能力を評価する",
+              "staticReason": "知識・見積りの確認リスト。図を操作しただけで理解や実コスト確認が完了したと判定しない。"
+            },
+            {
+              "id": "pretraining-static-8-7",
+              "label": "C \\approx 6ND で学習計算量の桁を当てられる(実コストは補正が要る)",
+              "staticReason": "知識・見積りの確認リスト。図を操作しただけで理解や実コスト確認が完了したと判定しない。"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

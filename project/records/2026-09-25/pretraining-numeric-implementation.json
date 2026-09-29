@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "status": "implementation-and-model-unit-complete",
+  "author": "/root/pretraining_numeric",
+  "checkedAt": "2026-09-24T16:25:18.4247424Z",
+  "scope": "C2 numeric three figures, twelve owned files",
+  "authorization": "Root delegated numeric scene/model/CSS/unit implementation under approved training-storyboards plan; no build, Git, common changes or publication",
+  "inputPlan": "project/records/2026-09-24/training-storyboards.json",
+  "files": [
+    {
+      "sha256": "58fc71d10207b04fd095a151e29250f7289a34802eca794e334c4d050b67ba33",
+      "path": "website/lib/pretraining-loss-perplexity-model.mjs"
+    },
+    {
+      "sha256": "bf4725e03853a1bfc93d3a9998e84684eed97c1f72ff74f1aacd5885ccfa106a",
+      "path": "website/components/diagrams/pretraining-loss-perplexity-walkthrough.jsx"
+    },
+    {
+      "sha256": "e0cd83604277c573461fa9d2ead0dee5d161b11c7f73cd18a0c2504f49c0d579",
+      "path": "website/components/diagrams/pretraining-loss-perplexity.css"
+    },
+    {
+      "sha256": "ac1756d34470e2f89ebde30f12004b0bdc38ac4290aa767ed1d705ab5a6aeed0",
+      "path": "website/tests/unit/pretraining-loss-perplexity-model.test.mjs"
+    },
+    {
+      "sha256": "5c117d04da9bb4486c72b05d1b0fc2578194ce4cd4c2bef6cf3517c242481e10",
+      "path": "website/lib/pretraining-scaling-model.mjs"
+    },
+    {
+      "sha256": "b86b282780e95315427e36ef30ae873dd3f16c6789a3021f82caf5005a11c373",
+      "path": "website/components/diagrams/pretraining-scaling-walkthrough.jsx"
+    },
+    {
+      "sha256": "c51b3ff02ab10bd70c1907d89e1e5213ce8ea4037fad541e8bbc00dff212c2ab",
+      "path": "website/components/diagrams/pretraining-scaling.css"
+    },
+    {
+      "sha256": "c73ec6447777cc1801c1b4804d866cfbf1284298712844fc961884e72e0f617c",
+      "path": "website/tests/unit/pretraining-scaling-model.test.mjs"
+    },
+    {
+      "sha256": "e5c8f268f0af011f5e2c77b3a51962c6ede36153a83d0a9a6bbdc5ea2baea85f",
+      "path": "website/lib/pretraining-compute-model.mjs"
+    },
+    {
+      "sha256": "bf8084b0371cee74a5becb0ef628e8c19236c515e1afa03b0536a3fc2beaaaeb",
+      "path": "website/components/diagrams/pretraining-compute-walkthrough.jsx"
+    },
+    {
+      "sha256": "05469fc71c3751389ca189086983991e1f9a98700a057e759cc953d147ebfe8e",
+      "path": "website/components/diagrams/pretraining-compute.css"
+    },
+    {
+      "sha256": "8c42bbdd1affaef40082480e922b00552b6c4973df7452ff6373eb197e03e1a6",
+      "path": "website/tests/unit/pretraining-compute-model.test.mjs"
+    }
+  ],
+  "test": {
+    "failed": 0,
+    "passed": 25,
+    "skipped": 0,
+    "command": "node --test website/tests/unit/pretraining-loss-perplexity-model.test.mjs website/tests/unit/pretraining-scaling-model.test.mjs website/tests/unit/pretraining-compute-model.test.mjs",
+    "exitCode": 0
+  },
+  "semanticBoundaries": [
+    "A and B use the same evaluation occurrences and conditional probability distributions, not measured learning trajectories",
+    "Natural-log position mean; p=0 returns infinity, p=1 returns zero loss and unit PPL; invalid and sparse arrays rejected",
+    "Residual and total loss ratios remain separate symbolic expressions; fitted coefficients and optimum unknown",
+    "Fixed-budget N/D ratios versus growing-budget squared compute shown together on default READ summary",
+    "FLOPs distinct from duration, money and energy; unknown actual cost remains null",
+    "Each selector affects only its designated stage; all midpoint/reverse seeks preserve meaning"
+  ],
+  "unperformed": [
+    "Build",
+    "Browser rendering or screenshot inspection",
+    "Independent review of these twelve files",
+    "CI",
+    "Public deployment",
+    "Physical device"
+  ],
+  "knownConcerns": [
+    "Visual legibility, dense scaling S3/compute S3 and fraction layout still require independent browser/image review"
+  ],
+  "next": "Root common integration code read-only independent review, excluding these owned twelve files"
+}

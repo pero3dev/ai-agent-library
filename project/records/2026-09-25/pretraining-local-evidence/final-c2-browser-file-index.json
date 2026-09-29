@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "copiedAt": "2026-09-29T16:53:53.976Z",
+  "result": {
+    "startTime": "2026-09-29T16:47:59.563Z",
+    "duration": 237951.264,
+    "expected": 36,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "files": [
+    {
+      "file": "pretraining-browser-edge-third.json.gz",
+      "originalSHA256": "900e9af2ebc724b5a07fa470231e78897870ff32bb0c76426d378599c9b14b40",
+      "storedSHA256": "33eaf3d156f4508e5af33b8796cfd326244aeb33593c75f26736a0e392e3843b",
+      "encoding": "gzip"
+    }
+  ]
+}

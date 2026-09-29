@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "run_id": "2026-09-25-pretraining-reading-diagrams",
+  "base_sha": "a9f4364f0a8adcbdaa873a16d012ab7c2a0516a0",
+  "writer_run_id": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root",
+  "completed_at": "2026-09-29T17:27:15.931Z",
+  "changes": [
+    {
+      "path": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "kind": "substantive",
+      "summary": "損失下限からの差、固定計算予算での配分と予算拡大時のN・D同率成長、FLOPsと実コストの区別を6置換で訂正する。式・段落・見出しを増やさず、実作業日と取得済み2資料のアクセス日を同期する。"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "T-1",
+      "artifacts": [
+        "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+        "docs/11-llm-internals/alignment-theory.md"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://arxiv.org/html/2203.15556",
+      "accessed_at": "2026-09-24T13:45:48Z",
+      "claim": "§1式1、§3、§3.3式2・4、§3.4表2、Appendix Fを確認。訂正C2-1/2/3/5/6の配分・成長・残差解釈とC2-4のFLOPs単位を支える。C2-1の一変数倍率は記事式の代数的帰結。詳細はresearch/internals/pretraining-diagram-sources-2026-09-24.jsonのclaimIds対応。",
+      "affected_docs": [
+        "docs/11-llm-internals/pretraining-and-scaling-laws.md"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/html/2001.08361",
+      "accessed_at": "2026-09-24T13:45:48Z",
+      "claim": "§1.3・§2.1の学習計算量の定義を確認。訂正C2-4の6NDをFLOPs概算とする単位訂正を支える。",
+      "affected_docs": [
+        "docs/11-llm-internals/pretraining-and-scaling-laws.md"
+      ]
+    }
+  ],
+  "review": {
+    "verdict": "approved",
+    "independent": true,
+    "reviewer_run_id": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+    "reviewed_at": "2026-09-29T17:23:32Z",
+    "content_digest": "93264d16536c88c69226b8bdc182b8aa36245648800923ad3b18f4a92554d641"
+  }
+}

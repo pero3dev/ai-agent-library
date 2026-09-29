@@ -1,0 +1,329 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-09-29T16:49:49.837Z",
+  "diagnostician": "/root/pretraining_numeric",
+  "scope": "Second metrics first-stage2 click failure diagnosis and exact local-helper all-stage extension review. No product or public kit change by reviewer.",
+  "conclusion": "Initial stage2 click bypassed the stage0-only stabilization. Normal Playwright click scrolls before hitting the target; READ reacts and changes scene/panel height, moving the target after the click point is computed. The same click retries repeatedly caused new scroll/READ transitions and were intercepted by aw-detail/aw-timeline. Explicit center scroll and unchanged strict3rAF wait before stage2 normal click recovered.",
+  "firstFailureSeparate": "Earlier stage0 manual subpixel/inView issue remains a distinct preserved record; this failure occurs before stage0 helper is reached.",
+  "originalTrace": {
+    "file": "TEMP/c2-metrics-second-failure-trace.zip",
+    "sha256": "348f65c47af5ddc35f66d60a12c5c268b9d36cf0097bd1de5d192fc3857ab3e2",
+    "viewport": [
+      1440,
+      1000
+    ],
+    "theme": "light",
+    "reducedMotion": "reduce",
+    "browser": "Chromium/msedge Playwright1.63.0",
+    "clickCallId": "call@2061",
+    "clickStarted": 100449.768,
+    "requestedStage": 2,
+    "totalClickCalls": 1,
+    "thresholdSemanticAssertionsReached": false,
+    "stage0WaitReached": false,
+    "intercepts": 81,
+    "detailIntercepts": 41,
+    "timelineIntercepts": 40,
+    "stabilityBeforeAutomaticScrollPasses": 81,
+    "automaticScrollCompleted": 81,
+    "actualTraceInputSamples": [
+      {
+        "type": "input",
+        "callId": "call@2061",
+        "point": {
+          "x": 1152.03,
+          "y": 531.53
+        },
+        "box": {
+          "x": 1079.3125,
+          "y": 512.4375,
+          "width": 145.453125,
+          "height": 38.1875
+        }
+      },
+      {
+        "type": "input",
+        "callId": "call@2061",
+        "point": {
+          "x": 1152.03,
+          "y": 981.1
+        },
+        "box": {
+          "x": 1079.3125,
+          "y": 962.21875,
+          "width": 145.453125,
+          "height": 37.78125
+        }
+      },
+      {
+        "type": "input",
+        "callId": "call@2061",
+        "point": {
+          "x": 1152.03,
+          "y": 531.53
+        },
+        "box": {
+          "x": 1079.3125,
+          "y": 512.4375,
+          "width": 145.453125,
+          "height": 38.1875
+        }
+      },
+      {
+        "type": "input",
+        "callId": "call@2061",
+        "point": {
+          "x": 1152.03,
+          "y": 83.31
+        },
+        "box": {
+          "x": 1079.3125,
+          "y": 64.21875,
+          "width": 145.453125,
+          "height": 38.1875
+        }
+      },
+      {
+        "type": "input",
+        "callId": "call@2061",
+        "point": {
+          "x": 1152.03,
+          "y": 531.53
+        },
+        "box": {
+          "x": 1079.3125,
+          "y": 512.4375,
+          "width": 145.453125,
+          "height": 38.1875
+        }
+      }
+    ],
+    "originalTestTimeoutMs": 45000
+  },
+  "reproduction": {
+    "endpoint": "http://127.0.0.1:4209",
+    "sameProductAssets": true,
+    "productStateNotOverridden": true,
+    "firstFourWithoutTracing": [
+      {
+        "attempt": 0,
+        "initialClick": "passed"
+      },
+      {
+        "attempt": 1,
+        "initialClick": "passed"
+      },
+      {
+        "attempt": 2,
+        "initialClick": "passed"
+      },
+      {
+        "attempt": 3,
+        "initialClick": "passed"
+      }
+    ],
+    "tracedAttempt": {
+      "initialClick": "failed",
+      "diagnosticClickTimeoutMs": 6000,
+      "whyTimeoutDifferent": "Bounded diagnostic ends after6s once repeated interception is evidenced; original retained trace records the full45s failure. No product test timeout was changed.",
+      "frameChanges": 31,
+      "readStates": [
+        {
+          "stage": "0",
+          "mode": "reading",
+          "scrollY": 3044,
+          "buttonY": 2664.4375,
+          "panelHeight": 755.453125
+        },
+        {
+          "stage": "0",
+          "mode": "reading",
+          "scrollY": 5196,
+          "buttonY": 512.4375,
+          "panelHeight": 755.453125
+        },
+        {
+          "stage": "2",
+          "mode": "reading",
+          "scrollY": 5196,
+          "buttonY": 554.21875,
+          "panelHeight": 797.234375
+        },
+        {
+          "stage": "2",
+          "mode": "reading",
+          "scrollY": 4788,
+          "buttonY": 962.21875,
+          "panelHeight": 797.234375
+        },
+        {
+          "stage": "0",
+          "mode": "reading",
+          "scrollY": 4788,
+          "buttonY": 920.4375,
+          "panelHeight": 755.453125
+        },
+        {
+          "stage": "2",
+          "mode": "reading",
+          "scrollY": 5686,
+          "buttonY": 64.21875,
+          "panelHeight": 797.234375
+        },
+        {
+          "stage": "3",
+          "mode": "reading",
+          "scrollY": 5686,
+          "buttonY": 22.4375,
+          "panelHeight": 755.453125
+        },
+        {
+          "stage": "3",
+          "mode": "reading",
+          "scrollY": 5196,
+          "buttonY": 512.4375,
+          "panelHeight": 755.453125
+        }
+      ],
+      "observedPanelHeightDifference": 41.78125,
+      "centerRecovery": "passed",
+      "strictStabilitySamples": [
+        {
+          "ok": true,
+          "frames": [
+            {
+              "stage": "3",
+              "scrollY": 5237,
+              "x": 1079.3125,
+              "y": 471.4375,
+              "width": 145.453125,
+              "height": 38.1875,
+              "inView": true
+            },
+            {
+              "stage": "3",
+              "scrollY": 5237,
+              "x": 1079.3125,
+              "y": 471.4375,
+              "width": 145.453125,
+              "height": 38.1875,
+              "inView": true
+            },
+            {
+              "stage": "3",
+              "scrollY": 5237,
+              "x": 1079.3125,
+              "y": 471.4375,
+              "width": 145.453125,
+              "height": 38.1875,
+              "inView": true
+            },
+            {
+              "stage": "3",
+              "scrollY": 5237,
+              "x": 1079.3125,
+              "y": 471.4375,
+              "width": 145.453125,
+              "height": 38.1875,
+              "inView": true
+            }
+          ]
+        }
+      ],
+      "normalClickAndThreeAssertionsPassed": true
+    },
+    "observer": "requestAnimationFrame sampler records only changed stage/mode/scroll/rect/hit coordinates; no DOM/CSS/input/model mutation. Trace-on/off changes timing and is explicitly reported.",
+    "serverStopped": true
+  },
+  "review": {
+    "verdict": "approved",
+    "risk": "low",
+    "must": [],
+    "should": [],
+    "independentOfChangeAuthor": true,
+    "scope": "Only website/tests/browser/pretraining.spec.mjs all-stage pre-click stabilization successor",
+    "delta": {
+      "checkedAt": "2026-09-29T16:48:23.634Z",
+      "file": "website/tests/browser/pretraining.spec.mjs",
+      "currentSHA256": "be1354ae42a5aa2a8a67bff57fd390c1293813c1f993209a02f49fde9e3409f1",
+      "restoredPreviousSHA256": "8b809690808dc2e1ef2b3c3a1cdec7fadf79f4890bd63bf3cbaa4f4e52f5da65",
+      "expectedPrevious": "8b809690808dc2e1ef2b3c3a1cdec7fadf79f4890bd63bf3cbaa4f4e52f5da65",
+      "stageGuardRemovedOnly": true,
+      "helperBodyAndClickAssertionsExact": true,
+      "publicKitHash": "caa2a618c84e6277b9fd6d60698765787a4667f4b73253fe26f86f6ec147544b"
+    },
+    "verification": "Reinsert only if(stage===0) guard boundaries and2-space indentation; full file reconstructs exact prior reviewed8b809690... hash. No other source bytes differ.",
+    "conditionsRetained": [
+      "Same standard center scroll",
+      "Same strict full-viewport inView",
+      "Same exact stage/scroll/rect equality over3rAF",
+      "Same poll intervals and timeout",
+      "Normal locator.click",
+      "Same manual/data-stage/slider assertions",
+      "Same original semantic fixtures and Kaplan assertion"
+    ],
+    "publicKit15FilesAllUnchanged": true,
+    "publicManifestSHA256": "caa2a618c84e6277b9fd6d60698765787a4667f4b73253fe26f86f6ec147544b",
+    "scopeExclusions": [
+      "No approval of product models/scenes/arrow change",
+      "No full browser suite or public acceptance",
+      "No change to running portable/public helper; it remains stage0-only as separately reviewed"
+    ]
+  },
+  "remaining": [
+    "Root reruns the full C2 pretraining browser file on the final local helper",
+    "Preserve original45s failure, shortened diagnostic failure and candidate recovery as separate evidence",
+    "Final article/product/image/local/public gates remain separately owned by root"
+  ],
+  "evidence": [
+    {
+      "path": "TEMP/c2-metrics-second-failure-trace.zip",
+      "sha256": "348f65c47af5ddc35f66d60a12c5c268b9d36cf0097bd1de5d192fc3857ab3e2"
+    },
+    {
+      "path": "TEMP/c2-metrics-second-failure-error-context.md",
+      "sha256": "8caea56a3d28bdb04d348f9e087835b9e7fe91056cbdf55ba622654a8a3a7705"
+    },
+    {
+      "path": "TEMP/c2-metrics-second-1-trace.trace",
+      "sha256": "13dcac746e2130e253025d71a1758532620cc5569511bd8e0e78660e431b8ab2"
+    },
+    {
+      "path": "TEMP/c2-metrics-second-test.trace",
+      "sha256": "002c0315ca259e2f7f62c9c42f64713df5fd0073e6aa44e4680b98bc6e3c9fe5"
+    },
+    {
+      "path": "TEMP/c2-metrics-second-reproduction.mjs",
+      "sha256": "70e2db6ae1a697cce8f506281c30ebe40e81d01acaa94634faf242fd7f9bf283"
+    },
+    {
+      "path": "TEMP/c2-metrics-second-reproduction.json",
+      "sha256": "b2d552ac95699223c9ea1b091cd341e50afe793a440abaaf88b9d49810221c41"
+    },
+    {
+      "path": "TEMP/c2-metrics-second-traced-reproduction.mjs",
+      "sha256": "791854f7cc99151d5c9de0a1a866d0620d1e8bb8ee8a3f627852b9e7b15f5464"
+    },
+    {
+      "path": "TEMP/c2-metrics-second-traced-reproduction.json",
+      "sha256": "44ccb4dba3d31f9d7d585020c946346671fe2a493673d3a3f08e0009b9484556"
+    },
+    {
+      "path": "TEMP/c2-metrics-second-traced-0.zip",
+      "sha256": "93c6193c9f74e7399bde971bf02695d9059501b7aa68539a27189b07ff37ce05"
+    },
+    {
+      "path": "TEMP/c2-metrics-second-traced-original-0.png",
+      "sha256": "7758bd54dd10f60901b42206e566161b08de6e3720d11c0ffd730dcd8d56a227"
+    },
+    {
+      "path": "TEMP/c2-metrics-second-traced-center-0.png",
+      "sha256": "b6d9da9b4dba1c76f3246595dccd095c32b25fd84db8a32eddaee331d55aa1b1"
+    },
+    {
+      "path": "TEMP/pretraining-all-stage-independent-delta-20260930.json",
+      "sha256": "a3b56be3a1b30b61e909df559aeaf9c62d956babd9f5173e91c8d7034dbb3fe9"
+    }
+  ],
+  "changesMade": "TEMP artifacts only. No repository edits, Git changes, build, or public requests."
+}

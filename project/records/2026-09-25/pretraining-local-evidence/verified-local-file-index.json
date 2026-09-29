@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "copiedAt": "2026-09-29T16:22:13.004Z",
+  "files": [
+    {
+      "file": "pretraining-portable-independent-unit.txt.gz",
+      "originalSHA256": "ecb4c17d93e5ccf1c66b37cd36a226642f34fb4f9689c82b31c20f5d99a5620e",
+      "storedSHA256": "b52c223b376788187397c5acc8ec95cd8a802d3c2415bac105129c02caff54f0",
+      "encoding": "gzip"
+    },
+    {
+      "file": "pretraining-portable-independent-prep.json.gz",
+      "originalSHA256": "c04203d61f0fb0124376105beb9f5b5340564372ef23550cfd46d15e0e534088",
+      "storedSHA256": "bbdceac77ce8e5284ec3115f5f0b4124f725cf9c5b45a667d545e52963588741",
+      "encoding": "gzip"
+    },
+    {
+      "file": "pretraining-portable-independent-provenance.json.gz",
+      "originalSHA256": "b60d2185a3a248229d153c20c25e3b15849678ef55a3a9f886a25b37d65b79b4",
+      "storedSHA256": "ea454dd78a4f3824169fac24d1c309c59ae49d2340556380d5708d845a640616",
+      "encoding": "gzip"
+    },
+    {
+      "file": "pretraining-root-install-sep30.log.gz",
+      "originalSHA256": "158b11345343c3dd4a7a7a4a106943b4a17f874d4937e42518535361e63caf90",
+      "storedSHA256": "f2a21dda5abc3aab89006849e97d7b2cfa40f64b416fa6def6f5502207cb4135",
+      "encoding": "gzip"
+    },
+    {
+      "file": "pretraining-root-check-sep30.log.gz",
+      "originalSHA256": "4104f3d027d1f58cdc41f0708ac0a7da4bccd66d8e40ffbf3efb7fd1eadf4762",
+      "storedSHA256": "fe4087af822620303d2dd532c0ae705d8c2ecd35b6212b81c8deddd416395c9a",
+      "encoding": "gzip"
+    },
+    {
+      "file": "pretraining-site-install-sep30.log.gz",
+      "originalSHA256": "0a7e55a43d983fcbc3bb031446f56ac64d4561965d041cdc6d1c251031309890",
+      "storedSHA256": "ee102b50050d5b118b0c51f330928000a208711581f8405cb652a3cedcffdb57",
+      "encoding": "gzip"
+    },
+    {
+      "file": "pretraining-build-sep30.log.gz",
+      "originalSHA256": "d67a87ce4f02b56f8389b31a5305fa295c4f248daf055f2f6bbe86a2e7ac8db0",
+      "storedSHA256": "0a3d3066323c719e47f3a9edb8e3e87c6cb8451d5462399bfbaee7602dd673a9",
+      "encoding": "gzip"
+    },
+    {
+      "file": "pretraining-build-final-identity.json.gz",
+      "originalSHA256": "f71c178c6bde45bc63c08c794ba4d3c54e20cb72537e379f62a0bd368e095631",
+      "storedSHA256": "3d49effd68334fc9036ea97e5330f25b9acdbab8f281b02151a0c105f1045bc4",
+      "encoding": "gzip"
+    },
+    {
+      "file": "pretraining-portable-preparation-sep30.json.gz",
+      "originalSHA256": "b234804216819f933194b61aadd366570489d8adbeb4c7d02bde341211bca76f",
+      "storedSHA256": "81d0257b9d22cd2af82bf4d51b6aa62acf6fcd1d0838d7b5824abc04278cba3a",
+      "encoding": "gzip"
+    }
+  ]
+}

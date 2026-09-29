@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "copiedAt": "2026-09-29T16:46:40.968Z",
+  "files": [
+    {
+      "file": "pretraining-browser-edge-second.json.gz",
+      "originalSHA256": "4bc35aeae02defbbedb7b8209db42c0ad305ada5ed65aa78b164e43528314b8e",
+      "storedSHA256": "b2a8a7c084cf4ea47a1d696ed4bb140482fea484609652177de89d96fad00d05",
+      "encoding": "gzip"
+    },
+    {
+      "file": "pretraining-build-second.log.gz",
+      "originalSHA256": "16391ed7f2a0d5d09d7f467b2c734dd588e137426a09b8ad419dbfbf6c570f3c",
+      "storedSHA256": "87941a4dc55ed587e97447292db2342cd026f40b90cd03d6ff3cb4b0c0638b6e",
+      "encoding": "gzip"
+    },
+    {
+      "file": "pretraining-build-second-identity.json.gz",
+      "originalSHA256": "657a78b14ef4ad51f5074fd10c41f60bbc4869f4679332133bc02ada6fc5814f",
+      "storedSHA256": "896332071c9a73154d046836f6164c61d55f1e23faa5b566aed5296b98fd0cfb",
+      "encoding": "gzip"
+    },
+    {
+      "file": "pretraining-portable-second-unit.log.gz",
+      "originalSHA256": "c5b2802e615649495fff540a322ba35a45a26c1badb494c0f5c68f8075204c3e",
+      "storedSHA256": "23389bc7f9599cb5392ef44a5668248d8ea2804a35c5064f4f586f709437bfd2",
+      "encoding": "gzip"
+    },
+    {
+      "file": "pretraining-second-preparation.json.gz",
+      "originalSHA256": "6a0b7c19cbf491b415752b983c3d5c3dbeb48a6432ccc91f958a9eaa4582a342",
+      "storedSHA256": "8d1ee724776788b9dd357ab353bc66404fd5e67925ad327adda96d2d37de1ffc",
+      "encoding": "gzip"
+    }
+  ]
+}

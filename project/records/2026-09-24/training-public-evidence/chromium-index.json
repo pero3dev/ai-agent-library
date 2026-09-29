@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "live-public-browser-and-http",
+  "status": "passed",
+  "browser": {
+    "engine": "chromium",
+    "channel": "msedge",
+    "version": "153.0.4234.48"
+  },
+  "startedAt": "2026-09-24T15:32:55.633Z",
+  "finishedAt": "2026-09-24T15:39:39.028Z",
+  "passed": 71,
+  "failed": 0,
+  "assets": 67,
+  "screenshots": 295,
+  "rawFile": "chromium-result.json.gz",
+  "uncompressedSHA256": "cefbbb3d8911068df930aa7c2a71e0316caa9b3df743c4473ffae91f857ae1f9",
+  "independentVisualReview": "pending, separate final review required",
+  "images": [
+    {
+      "file": "training-runtime-boundary-stage-2-1280x720-light-dsf1-scene.png",
+      "sha256": "8af58e8595fe25725317c4a56a9a747b1b8f5e0e6cecd2b9a0e70328eb985de2",
+      "purpose": "representative publicly captured scene; source run has additional viewports and stages"
+    },
+    {
+      "file": "training-runtime-boundary-stage-2-960x540-light-dsf2-scene.png",
+      "sha256": "242a8933dc9ce834b7e795cb449eae4cd185737ab38613867a70bb99c3da2777",
+      "purpose": "representative publicly captured scene; source run has additional viewports and stages"
+    }
+  ]
+}

@@ -2,11 +2,11 @@
 
 2026-09-24作成。既存の推論内部向け公開検証キットを、別のWindows PCで再開できる形にし、`scripts/diagram-release/` に配置しています。元キットは変更していません。公開先は `pero3dev/ai-agent-library` と `https://pero3dev.github.io/ai-agent-library` に固定され、接続先を任意指定する機能はありません。
 
-現在は、PR58向けのsampling比較ラベル2条件を移植した中間版から、C1の学習パイプライン1記事を追加した候補です。旧58ケースを保持し、新13ケースで2図・10段階・9 READ停止を検査します。全7記事・71ケースの候補全体について、独立レビューと実行受入は保留です。別PC・GitHub API・artifact取得・公開ブラウザー検証の実施状況は、リポジトリの最新の実施記録を正本にします。このキットの準備成功を公開完了として扱いません。
+C1（学習パイプライン）は[公開レビュー](../../project/records/2026-09-24/training-public-review.md)で受入済みです。現在のキットはC2（事前学習）の5図・23段階・19 READ停止を追加した候補で、旧71ケースを順序どおり保持し、新20ケースを加えた8記事・91ケースを検査します。C2候補の独立レビュー、ローカル実行、公開受入はそれぞれ別の証拠です。最新状態はリポジトリの実施記録を正本とし、このキットの準備成功を公開完了として扱いません。
 
 ## 作業契約と再開入口
 
-- 目的: 既存58ケース、固定fixture、CI/Pagesの同一性条件を維持し、C1の13ケースを追加する。個人のドライブ・ユーザー名・以前の一時フォルダーを必要としない実行入口を用意する。
+- 目的: 既存71ケース、固定fixture、CI/Pagesの同一性条件を維持し、C2の20ケースを追加する。個人のドライブ・ユーザー名・以前の一時フォルダーを必要としない実行入口を用意する。
 - 所有: `scripts/diagram-release/` と対応する `tests/unit/diagram-release-portable.test.mjs`。元キット、製品、Git、公開状態を変更しない。
 - 許可: 引き継ぎ準備とオフライン検証まで。公開実行は現在の担当者が実際のmerge SHAと成功main CI/Pagesを確認した後に行う。
 - 終了条件: 構文・help・オフライン検査、source→portableの差分対応とhash、再開手順を提出する。各後継変更の独立レビューは、その候補に対する判定が出るまで保留として記録する。
@@ -26,7 +26,7 @@ Windows、PowerShell 7以上、Node.js 22以上（CIは22）、npm、GitHub CLI 
 
 `--output`（collectorは `-OutputDirectory`）は必須です。リポジトリとキットの外側に、今回の証拠専用ディレクトリを用意してください。ファイルシステムのルート、リポジトリやキット内、symlink/junction経由の出力は拒否します。生成物はその配下に作成します。過去runの同名ディレクトリは再利用しません。出力先を他プロセスが同時に変更しないようにしてください。この検査はOSの隔離機構ではありません。
 
-collectorの再開先、runnerのevidence、extractorのarchiveも明示した出力先の内側が必要です。extractorはtarの全展開をせず、固定7記事に対応する通常HTMLだけをstdout経由で読み、固定名で保存します。重複member、リンクmember、不一致BUILD_IDは元の条件のまま失敗します。
+collectorの再開先、runnerのevidence、extractorのarchiveも明示した出力先の内側が必要です。extractorはtarの全展開をせず、固定8記事に対応する通常HTMLだけをstdout経由で読み、固定名で保存します。重複member、リンクmember、不一致BUILD_IDは元の条件のまま失敗します。
 
 ## 別PCでの実行例
 
@@ -74,7 +74,7 @@ channel省略時はPlaywrightに同梱された標準Chromiumを使います。E
 
 出力先全体を同じ相対構造でコピーします。`ci-.../` は前後のGitHub応答、download、HTML抽出結果、artifact-evidence.json、portable-references.jsonを持ちます。`public-.../` はresult.jsonとPNG、`preparation-.../` はオフライン準備結果です。端末ログを保存する場合も出力先内の明示したファイルに保存し、終了コードを記録します。
 
-新規result.jsonは元の絶対パスに加え、`portableReferences` に出力先基準のevidence・result・画像の相対参照を持ちます。collectorの `portable-references.json` はHTMLの対応表です。C1は既存のviewport PNGに加えてSVG全体の `-scene.png` を保存します。geometry観測の `screenshots.completeScene` から対応を辿れ、画像一覧にはCSS bbox・deviceScaleFactor・PNG寸法・撮影前後のスクロール位置を記録します。補助画像は実スクロールで固定ナビの下へSVGを収めて撮影し、元のスクロールへ戻します。スタイルやviewport寸法は変更しません。元viewport PNGを実画面の証拠として維持し、`-scene.png` はglyph確認用の補助証拠として区別します。低い画面のviewport画像で切れた上部/下部も、全体画像で独立確認します。以前の生証拠JSONを書き換えて新PCのパスへ置き換えないでください。旧絶対パスとコピー先の相対パスの対応表を別ファイルに追加します。機械71/71に加え、公開PNGの独立レビューを記録するまで可読性承認はpendingです。WebKitやviewportの結果は物理iPhone Safariの受入ではありません。
+新規result.jsonは元の絶対パスに加え、`portableReferences` に出力先基準のevidence・result・画像の相対参照を持ちます。collectorの `portable-references.json` はHTMLの対応表です。C1は既存のviewport PNGに加えてSVG全体の `-scene.png` を保存します。geometry観測の `screenshots.completeScene` から対応を辿れ、画像一覧にはCSS bbox・deviceScaleFactor・PNG寸法・撮影前後のスクロール位置を記録します。補助画像は実スクロールで固定ナビの下へSVGを収めて撮影し、元のスクロールへ戻します。スタイルやviewport寸法は変更しません。元viewport PNGを実画面の証拠として維持し、`-scene.png` はglyph確認用の補助証拠として区別します。低い画面のviewport画像で切れた上部/下部も、全体画像で独立確認します。以前の生証拠JSONを書き換えて新PCのパスへ置き換えないでください。旧絶対パスとコピー先の相対パスの対応表を別ファイルに追加します。機械91/91に加え、公開PNGの独立レビューを記録するまで可読性承認はpendingです。WebKitやviewportの結果は物理iPhone Safariの受入ではありません。
 
 ## 元キットからの対応
 
@@ -106,3 +106,15 @@ C1候補の71ケースは7記事用です。旧58ケースと6記事を保持し
 特に `alignment-theory` は現在、図を持たない対照記事としてBUILD_IDとheavy chunkゼロを検査しています。同記事へ図を入れる前に、適切な無図対照の選定、固定許可対象、BUILD_ID検査、分離期待値を更新し、新しい図の記事はartifact HTML照合の対象へ追加してください。heavy chunkゼロのassertionを無条件に外して済ませないでください。
 
 各制作単位の公開ゲートと記事別受入を更新し、P1の15記事の主要論点・数式・表示・公開確認が完了した時点で停止します。次段階への継続はこのキットから開始しません。
+
+## C2の追加と来歴
+
+`pretraining-checks.mjs` は承認済み絵コンテから独立に固定した確率表、対数損失、比率、元資料と処理出現、閾値のfixtureを使います。製品modelを期待値としてimportしません。23段階×6画面条件のviewportと全scene、11操作項目、18境界の108往復訪問、19 READ停止と4手動専用段階、拡大・focus・実時間再生・noJS・printを含む20ケースです。既存のinference/foundations/training各moduleと負例対照は変更していません。
+
+C1公開で確認したstage-0ボタンの移動には、既存ローカル試験と同じ3フレームの安定待機を、通常のtrusted clickの直前へ追加しました。強制clickやassertの省略はありません。元WebKit実行は66成功・5失敗のまま保存され、別の限定再検査3件＋2件と独立レビューが承認根拠です。今回のC2実行結果へ読み替えません。
+
+C2の2026-09-30ローカル検査では、Edgeのボタン下端が画面高1000pxに対して1000.40625pxとなり、`scrollIntoViewIfNeeded()` が移動しない状態を再現しました。stage 0の事前スクロールだけを標準の `scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'instant' })` へ変更します。完全な画面内配置、3フレームの安定、通常clickと元の4assertを維持し、許容幅やタイムアウトを緩めません。旧C1の判定と今回の変更を区別して来歴へ記録します。
+
+`c2-predecessor-proof.json` は旧manifestのhash、旧71名、3入口の明示的なbefore/after差分と旧filehashだけを持つフラットな履歴です。準備検査は現在のinventoryとsidecar hashを検証し、C2差分を逆順に戻してC1全文と比較した後、既存のB/PR58/C1/capture来歴検査を行います。旧履歴のcandidateSHAは復元C1に対する値で、現filehashはinventoryで区別します。sidecarは自分自身や現在manifestをhashに含めず、旧manifest本文も埋め込みません。
+
+公開入口は常に全91件を実行し、旧ケースをskipするオプションはありません。localhost予行を依頼された場合は別adapterの記録を使い、CI artifactと公開HTMLの同一性確認を実施したとは記録しません。alignment-theoryへ図解を追加する次工程では、未実装の別記事へ無図対照を明示的に移す必要があります。P1完了で停止し、P2へ自動継続しません。

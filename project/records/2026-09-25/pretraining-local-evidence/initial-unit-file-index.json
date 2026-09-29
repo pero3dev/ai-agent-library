@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "copiedAt": "2026-09-24T16:31:17.290Z",
+  "files": [
+    {
+      "file": "../pretraining-numeric-implementation.md",
+      "originalSHA256": "88b577865afb71cc7549f75785cdc33f89bda2000e750adeb0f833802bd7c063",
+      "storedSHA256": "88b577865afb71cc7549f75785cdc33f89bda2000e750adeb0f833802bd7c063",
+      "normalization": "LF and exactly one final newline"
+    },
+    {
+      "file": "../pretraining-numeric-implementation.json",
+      "originalSHA256": "7714a62d79f751c04f3612c541025350d79140b82f8ea00502e6a621df04b4bf",
+      "storedSHA256": "7714a62d79f751c04f3612c541025350d79140b82f8ea00502e6a621df04b4bf",
+      "normalization": "LF and exactly one final newline"
+    },
+    {
+      "file": "pretraining-integration-unit.log.gz",
+      "originalSHA256": "634e34c0c27c24a4526dc8b2a1893ac9c3971daaf840cdeec5d0370de081a715",
+      "storedSHA256": "b32a72c0ac0328b5a32bbc5816b1074ad4737ed07dfdad0ecfc794446f12b63c",
+      "normalization": "lossless gzip"
+    },
+    {
+      "file": "pretraining-decoration-unit-final.log.gz",
+      "originalSHA256": "52665b3dd920e9b9ea308ca06d3d1c499d54aa58abc6065e4b1ffccec0bc8740",
+      "storedSHA256": "74eef2d81f23862d5806e123e58beed02b794a40ee15b74ba4a5e0d957d7aa4c",
+      "normalization": "lossless gzip"
+    }
+  ]
+}

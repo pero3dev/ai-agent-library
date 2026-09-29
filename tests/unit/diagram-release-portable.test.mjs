@@ -6,6 +6,8 @@ import { tmpdir } from 'node:os'
 import { join, parse } from 'node:path'
 import { kitRoot, parseArgs, assertInside, repoRoot, canonicalProspective, outputRoot, insideExisting, newChild, lockedPlaywright } from '../../scripts/diagram-release/portable-paths.mjs'
 import { assertRuntimeBoundary } from '../../scripts/diagram-release/training-checks.mjs'
+import { assertLossObservation, assertRatioObservation, assertDataObservation, assertMetricsObservation, assertUnknownCosts, pretraining, runPretrainingChecks } from '../../scripts/diagram-release/pretraining-checks.mjs'
+import { restoreC1ReleaseBodies } from '../../scripts/diagram-release/predecessor-proof.mjs'
 // Offline fixtures are isolated in OS temp, retained for failure diagnosis.
 const fixture = await mkdtemp(join(tmpdir(), 'diagram-portability-test-'))
 const repo = join(fixture, 'repository with spaces')
@@ -138,8 +140,8 @@ test('PowerShell collector help and malformed options fail before external calls
   assert.notEqual(invoke(['-Help', '-UnknownOption']).status, 0)
   bad(invoke([]), /Explicit release confirmation/)
 })
-test('synthetic tar extraction keeps seven identities and rejects missing, duplicate or mixed-build articles', async () => {
-  const members = ['llm-internals/inference-internals', 'llm-foundations/how-llms-generate-text', 'llm-foundations/tokenization', 'llm-internals/mixture-of-experts-internals', 'llm-internals/attention-variants-and-long-context', 'llm-internals/transformer-architecture', 'llm-foundations/llm-training-pipeline']
+test('synthetic tar extraction keeps eight identities and rejects missing, duplicate or mixed-build articles', async () => {
+  const members = ['llm-internals/inference-internals', 'llm-foundations/how-llms-generate-text', 'llm-foundations/tokenization', 'llm-internals/mixture-of-experts-internals', 'llm-internals/attention-variants-and-long-context', 'llm-internals/transformer-architecture', 'llm-foundations/llm-training-pipeline', 'llm-internals/pretraining-and-scaling-laws']
   const input = join(fixture, 'synthetic-pages')
   for (const member of members) {
     const file = join(input, 'docs', member + '.html')
@@ -156,10 +158,10 @@ test('synthetic tar extraction keeps seven identities and rejects missing, dupli
   const successful = run('extract-ci-html.mjs', args)
   assert.equal(successful.status, 0, successful.stderr)
   const report = JSON.parse(successful.stdout)
-  assert.equal(report.documents.length, 7); assert.equal(report.expectedBuildId, 'synthetic-build')
+  assert.equal(report.documents.length, 8); assert.equal(report.expectedBuildId, 'synthetic-build')
   assert.deepEqual(report.documents.map(item => item.route), members.map(member => '/docs/' + member))
-  assert.equal(report.portableReferences.documents.length, 7)
-  makeArchive(members.slice(0, 6).map(member => 'docs/' + member + '.html'))
+  assert.equal(report.portableReferences.documents.length, 8)
+  makeArchive(members.slice(0, 7).map(member => 'docs/' + member + '.html'))
   bad(run('extract-ci-html.mjs', args), /Expected one unambiguous HTML member/)
   makeArchive()
   const duplicate = spawnSync('tar', ['-rf', archive, '-C', input, 'docs/' + members.at(-1) + '.html'], { encoding: 'utf8', windowsHide: true })
@@ -184,4 +186,61 @@ test('training runtime fixture rejects model-owned permission, bypasses and reor
   assert.throws(() => assertRuntimeBoundary(nodes, [['model-candidate', 'operation', 'candidate-only'], ...edges.slice(1)]), /permission checking/)
   assert.throws(() => assertRuntimeBoundary(nodes, edges.toReversed()), /permission checking/)
   assert.throws(() => assertRuntimeBoundary(nodes.filter(node => node.id !== 'result-verification'), edges), /outside the model/)
+})
+test('C2 loss validator rejects arithmetic PPL, altered prefixes, probability and loss', () => {
+  const value = { rows: [
+    { id: 'eval-0', token: 'A', prefix: [], probabilities: [.5, .25, .125, .125], probability: .5, loss: Math.log(2) },
+    { id: 'eval-1', token: 'B', prefix: ['A'], probabilities: [.25, .25, .25, .25], probability: .25, loss: Math.log(4) },
+    { id: 'eval-2', token: 'C', prefix: ['A', 'B'], probabilities: [.375, .25, .125, .25], probability: .125, loss: Math.log(8) }
+  ], loss: Math.log(4), ppl: 4 }
+  assert.doesNotThrow(() => assertLossObservation(value, 'A'))
+  for (const mutate of [v => { v.ppl = 24 / 7 }, v => { v.rows[1].prefix = [] }, v => { v.rows[2].probability = .5 }, v => { v.loss = Math.log(2) }, v => { v.rows[0].probabilities[1] = .5 }]) {
+    const bad = structuredClone(value); mutate(bad); assert.throws(() => assertLossObservation(bad, 'A'))
+  }
+})
+test('C2 compute validator rejects sums, false fixed budgets and numeric unknown costs', () => {
+  for (const [n, d, c] of [[1, 1, 1], [1, 2, 2], [2, 1, 2], [2, 2, 4], [.5, 2, 1], [2, .5, 1]]) assert.doesNotThrow(() => assertRatioObservation({ n, d, c }, { n, d, c }))
+  assert.throws(() => assertRatioObservation({ n: 1, d: 1, c: 2 }, { n: 1, d: 1, c: 1 }))
+  assert.throws(() => assertRatioObservation({ n: 2, d: 2, c: 1 }, { n: 2, d: 2, c: 1 }), /product/)
+  assert.throws(() => assertRatioObservation({ n: NaN, d: 1, c: NaN }, { n: NaN, d: 1, c: NaN }))
+  assert.doesNotThrow(() => assertUnknownCosts({ duration: null, price: null, energy: null }))
+  assert.throws(() => assertUnknownCosts({ duration: 0, price: null, energy: null }), /never zero/)
+})
+test('C2 data validator rejects repeated occurrence IDs, wrong source counts and invented scores', () => {
+  const value = {
+    documents: ['A', 'B', 'C', 'D'].map(id => ({ id, positions: [id + '0', id + '1'] })),
+    reads: ['A', 'B', 'C', 'D', 'A', 'B'].map((document, at) => ({ id: `read-${at}`, document, positions: [0, 1].map(position => ({ id: `read-${at}-${document}${position}`, source: `${document}${position}` })) })),
+    counts: { reads: 6, documents: 4, occurrences: 12, positions: 8 }, vocabulary: null, quality: null, effect: null
+  }
+  assert.doesNotThrow(() => assertDataObservation(value))
+  for (const mutate of [v => { v.reads[4].id = v.reads[0].id }, v => { v.reads[4].positions[0].id = v.reads[0].positions[0].id }, v => { v.counts.positions = 12 }, v => { v.vocabulary = 8 }, v => { v.quality = 100 }, v => { v.reads[4].document = 'C' }]) {
+    const bad = structuredClone(value); mutate(bad); assert.throws(() => assertDataObservation(bad))
+  }
+})
+test('C2 metric validator rejects strict greater-than, changed outputs and empirical judgments', () => {
+  const base = { ids: ['A', 'B', 'C', 'D', 'E', 'F'], scores: [30, 40, 50, 60, 70, 80], denominator: 100, empirical: false, judgment: null }
+  for (const [threshold, passes] of [[50, [0, 0, 1, 1, 1, 1]], [60, [0, 0, 0, 1, 1, 1]], [70, [0, 0, 0, 0, 1, 1]]]) assert.doesNotThrow(() => assertMetricsObservation({ ...base, passes }, threshold))
+  const value = { ...base, passes: [0, 0, 0, 1, 1, 1] }
+  for (const mutate of [v => { v.passes[3] = 0 }, v => { v.scores[0] = 50 }, v => { v.ids.reverse() }, v => { v.empirical = true }, v => { v.judgment = 'emergence' }]) {
+    const bad = structuredClone(value); mutate(bad); assert.throws(() => assertMetricsObservation(bad, 60))
+  }
+})
+test('C2 registers exactly 20 unique cases without executing callbacks', async () => {
+  const names = []; await runPretrainingChecks({ check: async name => names.push(name) })
+  assert.equal(names.length, 20); assert.equal(new Set(names).size, 20)
+  assert.equal(pretraining.reduce((sum, item) => sum + item.labels.length, 0), 23)
+  assert.equal(pretraining.reduce((sum, item) => sum + item.steps.length, 0), 19)
+})
+test('C2 predecessor proof rejects undeclared assertions, missing or duplicate edits and reordered old cases', async () => {
+  const proof = JSON.parse(await readFile(join(kitRoot, 'c2-predecessor-proof.json'), 'utf8'))
+  const files = ['extract-ci-html.mjs', 'collect-deployment.ps1', 'verify-public.mjs', 'inference-checks.mjs', 'foundations-checks.mjs', 'training-checks.mjs', 'known-site-observations.mjs', 'portable-paths.mjs']
+  const current = Object.fromEntries(await Promise.all(files.map(async file => [file, await readFile(join(kitRoot, file), 'utf8')])))
+  assert.doesNotThrow(() => restoreC1ReleaseBodies(current, proof))
+  assert.throws(() => restoreC1ReleaseBodies({ ...current, 'verify-public.mjs': current['verify-public.mjs'].replace("assert.deepEqual(unwanted, [], 'scene code from another article was delivered')", "assert.ok(true)") }, proof), /beyond declared/)
+  const edit = proof.predecessorFiles[0].sourceEdits[0]
+  for (const body of [current['extract-ci-html.mjs'].replace(edit.after, ''), current['extract-ci-html.mjs'] + edit.after]) assert.throws(() => restoreC1ReleaseBodies({ ...current, 'extract-ci-html.mjs': body }, proof), /exactly once/)
+  for (const mutate of [p => { p.predecessorFiles[0].previousSHA256 = '0'.repeat(64) }, p => { p.predecessorFiles[0].file = '../extract-ci-html.mjs' }, p => { p.priorCaseNames.reverse() }, p => { p.priorCaseNames.pop() }, p => { p.priorCaseNames[0] += ' renamed' }]) {
+    const bad = structuredClone(proof); mutate(bad); assert.throws(() => restoreC1ReleaseBodies(current, bad))
+  }
+  assert.throws(() => restoreC1ReleaseBodies({ ...current, 'training-checks.mjs': current['training-checks.mjs'] + '// undeclared\n' }, proof), /unchanged regression/)
 })

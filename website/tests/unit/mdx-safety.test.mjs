@@ -232,3 +232,32 @@ test('attention variant wrappers enforce fixed IDs, literal attributes and their
     '<AttentionVariantsWalkthrough diagramId="attention-kv-sharing"><TransformerWalkthrough diagramId="transformer-io">本文</TransformerWalkthrough></AttentionVariantsWalkthrough>'
   ]) assert.ok(findUnsafeMdx(source).length, source)
 })
+
+test('pretraining wrappers permit only their fixed IDs, literal props and parent-specific stages', () => {
+  for (const [id, count] of [["pretraining-loss-perplexity",5],["pretraining-scaling",6],["pretraining-data",4],["pretraining-metrics",4],["pretraining-compute",4]]) {
+    for (let stage = 0; stage < count; stage++) {
+      assert.deepEqual(findUnsafeMdx(`<PretrainingWalkthrough diagramId="${id}">\n\n<ReadingStep step="${stage}">\n\n- 本文\n\n</ReadingStep>\n\n</PretrainingWalkthrough>`), [])
+    }
+    assert.ok(findUnsafeMdx(`<PretrainingWalkthrough diagramId="${id}"><ReadingStep step="${count}">本文</ReadingStep></PretrainingWalkthrough>`).length)
+    assert.ok(findUnsafeMdx(`<FoundationsWalkthrough diagramId="${id}">本文</FoundationsWalkthrough>`).length)
+    assert.ok(findUnsafeMdx(`<InferenceWalkthrough diagramId="${id}">本文</InferenceWalkthrough>`).length)
+  }
+  for (const source of [
+    '<PretrainingWalkthrough>本文</PretrainingWalkthrough>',
+    '<PretrainingWalkthrough diagramId="generation-token-loop">本文</PretrainingWalkthrough>',
+    '<PretrainingWalkthrough diagramId="../scene">本文</PretrainingWalkthrough>',
+    '<PretrainingWalkthrough diagramId={"pretraining-loss-perplexity"}>本文</PretrainingWalkthrough>',
+    '<PretrainingWalkthrough diagramId="pretraining-loss-perplexity" module="./scene">本文</PretrainingWalkthrough>',
+    '<PretrainingWalkthrough diagramId="pretraining-loss-perplexity" diagramId="pretraining-metrics">本文</PretrainingWalkthrough>',
+    '<PretrainingWalkthrough {...{diagramId: "pretraining-loss-perplexity"}}>本文</PretrainingWalkthrough>',
+    '<PretrainingWalkthrough diagramId="pretraining-loss-perplexity"><AttentionStep step="0">本文</AttentionStep></PretrainingWalkthrough>',
+    '<PretrainingWalkthrough diagramId="pretraining-loss-perplexity"><ReadingStep step={1}>本文</ReadingStep></PretrainingWalkthrough>',
+    '<PretrainingWalkthrough diagramId="pretraining-loss-perplexity"><ReadingStep step="05">本文</ReadingStep></PretrainingWalkthrough>',
+    '<PretrainingWalkthrough diagramId="pretraining-loss-perplexity"><ReadingStep>本文</ReadingStep></PretrainingWalkthrough>',
+    '<PretrainingWalkthrough diagramId="pretraining-loss-perplexity"><PretrainingWalkthrough diagramId="pretraining-metrics">本文</PretrainingWalkthrough></PretrainingWalkthrough>',
+    '<TransformerWalkthrough diagramId="transformer-block"><PretrainingWalkthrough diagramId="pretraining-loss-perplexity">本文</PretrainingWalkthrough></TransformerWalkthrough>',
+    '<PretrainingWalkthrough diagramId="pretraining-loss-perplexity"><InferenceWalkthrough diagramId="inference-sampling">本文</InferenceWalkthrough></PretrainingWalkthrough>',
+    'import { PretrainingWalkthrough } from "untrusted"',
+    '<ReadingStep step="3">本文</ReadingStep>'
+  ]) assert.ok(findUnsafeMdx(source).length, source)
+})

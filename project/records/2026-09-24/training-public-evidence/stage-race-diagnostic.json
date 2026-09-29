@@ -1,0 +1,567 @@
+{
+  "schemaVersion": 1,
+  "recordType": "limited-public-WebKit-stage-operation-race-diagnostic",
+  "createdAt": "2026-09-24T15:48:38.726Z",
+  "status": "candidate-verified-for-five-original-failures-independent-review-pending",
+  "scope": {
+    "repositoryWrites": false,
+    "productChanges": false,
+    "gitWrites": false,
+    "publicReadOnly": true,
+    "full71Rerun": false,
+    "visualAcceptance": false,
+    "physicalSafariAcceptance": false
+  },
+  "originalPublicRunObservation": {
+    "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\public-webkit-2026-09-24T15-32-58-517Z\\result.json",
+    "observedAt": "2026-09-24T15:48:38.739Z",
+    "observedBytesSHA256": "89b57e7baf51b68763bfdd9b6dd65664a8ae75ef5188b268e93a80a6f0ad746b",
+    "statusAtObservation": "failed",
+    "finishedAt": "2026-09-24T15:45:43.081Z",
+    "casesObserved": 71,
+    "failures": [
+      {
+        "name": "inference: all 23 stages 1440x1000 dark",
+        "error": "Error: expect(locator).toHaveAttribute(expected) failed\n\nLocator:  locator('.reading-figure[data-diagram-id=\"inference-sampling\"]').locator('.aw-sticky > .aw-diagram').getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: 'ロジット', exact: true })\nExpected: \"true\"\nReceived: \"false\"\nTimeout:  15000ms\n\nCall log:\n  - Expect \"toHaveAttribute\" locator('.reading-figure[data-diagram-id=\"inference-sampling\"]').locator('.aw-sticky > .aw-diagram').getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: 'ロジット', exact: true }) with timeout 15000ms\n  - waiting for locator('.reading-figure[data-diagram-id=\"inference-sampling\"]').locator('.aw-sticky > .aw-diagram').getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: 'ロジット', exact: true })\n    33 × locator resolved to <button type=\"button\" aria-pressed=\"false\">…</button>\n       - unexpected value \"false\"\n\n    at captureRawStack (C:\\dev\\ai-agent-library\\website\\node_modules\\playwright-core\\lib\\coreBundle.js:8588:17)\n    at callMatcherAsStep (C:\\dev\\ai-agent-library\\website\\node_modules\\playwright\\lib\\matchers\\expect.js:13310:57)\n    at Object.toHaveAttribute (C:\\dev\\ai-agent-library\\website\\node_modules\\playwright\\lib\\matchers\\expect.js:13302:23)\n    at stage (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\verify-public.mjs:231:46)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/inference-checks.mjs:220:11\n    at async usePage (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\verify-public.mjs:153:9)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/inference-checks.mjs:215:5\n    at async check (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\verify-public.mjs:143:9)\n    at async runInferenceChecks (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\inference-checks.mjs:214:45)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/verify-public.mjs:479:3"
+      },
+      {
+        "name": "inference: all 23 stages 1280x720 light",
+        "error": "Error: expect(locator).toHaveAttribute(expected) failed\n\nLocator:  locator('.reading-figure[data-diagram-id=\"inference-sampling\"]').locator('.aw-sticky > .aw-diagram').getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: 'ロジット', exact: true })\nExpected: \"true\"\nReceived: \"false\"\nTimeout:  15000ms\n\nCall log:\n  - Expect \"toHaveAttribute\" locator('.reading-figure[data-diagram-id=\"inference-sampling\"]').locator('.aw-sticky > .aw-diagram').getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: 'ロジット', exact: true }) with timeout 15000ms\n  - waiting for locator('.reading-figure[data-diagram-id=\"inference-sampling\"]').locator('.aw-sticky > .aw-diagram').getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: 'ロジット', exact: true })\n    33 × locator resolved to <button type=\"button\" aria-pressed=\"false\">…</button>\n       - unexpected value \"false\"\n\n    at captureRawStack (C:\\dev\\ai-agent-library\\website\\node_modules\\playwright-core\\lib\\coreBundle.js:8588:17)\n    at callMatcherAsStep (C:\\dev\\ai-agent-library\\website\\node_modules\\playwright\\lib\\matchers\\expect.js:13310:57)\n    at Object.toHaveAttribute (C:\\dev\\ai-agent-library\\website\\node_modules\\playwright\\lib\\matchers\\expect.js:13302:23)\n    at stage (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\verify-public.mjs:231:46)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/inference-checks.mjs:220:11\n    at async usePage (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\verify-public.mjs:153:9)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/inference-checks.mjs:215:5\n    at async check (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\verify-public.mjs:143:9)\n    at async runInferenceChecks (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\inference-checks.mjs:214:45)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/verify-public.mjs:479:3"
+      },
+      {
+        "name": "inference: independent figure states, every reading step, manual override and resumption",
+        "error": "Error: expect(locator).toHaveAttribute(expected) failed\n\nLocator:  locator('.reading-figure[data-diagram-id=\"inference-cache-batching\"]').locator('.aw-sticky > .aw-diagram').getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: '再利用', exact: true })\nExpected: \"true\"\nReceived: \"false\"\nTimeout:  15000ms\n\nCall log:\n  - Expect \"toHaveAttribute\" locator('.reading-figure[data-diagram-id=\"inference-cache-batching\"]').locator('.aw-sticky > .aw-diagram').getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: '再利用', exact: true }) with timeout 15000ms\n  - waiting for locator('.reading-figure[data-diagram-id=\"inference-cache-batching\"]').locator('.aw-sticky > .aw-diagram').getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: '再利用', exact: true })\n    33 × locator resolved to <button type=\"button\" aria-pressed=\"false\">…</button>\n       - unexpected value \"false\"\n\n    at captureRawStack (C:\\dev\\ai-agent-library\\website\\node_modules\\playwright-core\\lib\\coreBundle.js:8588:17)\n    at callMatcherAsStep (C:\\dev\\ai-agent-library\\website\\node_modules\\playwright\\lib\\matchers\\expect.js:13310:57)\n    at Object.toHaveAttribute (C:\\dev\\ai-agent-library\\website\\node_modules\\playwright\\lib\\matchers\\expect.js:13302:23)\n    at stage (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\verify-public.mjs:231:46)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/inference-checks.mjs:261:32\n    at async usePage (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\verify-public.mjs:153:9)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/inference-checks.mjs:259:5\n    at async check (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\verify-public.mjs:143:9)\n    at async runInferenceChecks (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\inference-checks.mjs:258:3)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/verify-public.mjs:479:3"
+      },
+      {
+        "name": "inference-sampling: native elapsed play, frozen pause, replay and completion",
+        "error": "Error: expect(locator).toHaveAttribute(expected) failed\n\nLocator:  locator('.reading-figure[data-diagram-id=\"inference-sampling\"]').locator('.aw-sticky > .aw-diagram').getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: 'ロジット', exact: true })\nExpected: \"true\"\nReceived: \"false\"\nTimeout:  15000ms\n\nCall log:\n  - Expect \"toHaveAttribute\" locator('.reading-figure[data-diagram-id=\"inference-sampling\"]').locator('.aw-sticky > .aw-diagram').getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: 'ロジット', exact: true }) with timeout 15000ms\n  - waiting for locator('.reading-figure[data-diagram-id=\"inference-sampling\"]').locator('.aw-sticky > .aw-diagram').getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: 'ロジット', exact: true })\n    33 × locator resolved to <button type=\"button\" aria-pressed=\"false\">…</button>\n       - unexpected value \"false\"\n\n    at captureRawStack (C:\\dev\\ai-agent-library\\website\\node_modules\\playwright-core\\lib\\coreBundle.js:8588:17)\n    at callMatcherAsStep (C:\\dev\\ai-agent-library\\website\\node_modules\\playwright\\lib\\matchers\\expect.js:13310:57)\n    at Object.toHaveAttribute (C:\\dev\\ai-agent-library\\website\\node_modules\\playwright\\lib\\matchers\\expect.js:13302:23)\n    at stage (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\verify-public.mjs:231:46)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/inference-checks.mjs:280:96\n    at async usePage (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\verify-public.mjs:153:9)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/inference-checks.mjs:279:5\n    at async check (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\verify-public.mjs:143:9)\n    at async runInferenceChecks (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\inference-checks.mjs:278:28)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/verify-public.mjs:479:3"
+      },
+      {
+        "name": "inference-cache-batching: native elapsed play, frozen pause, replay and completion",
+        "error": "Error: expect(locator).toHaveAttribute(expected) failed\n\nLocator:  locator('.reading-figure[data-diagram-id=\"inference-cache-batching\"]').locator('.aw-sticky > .aw-diagram').getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: '再利用', exact: true })\nExpected: \"true\"\nReceived: \"false\"\nTimeout:  15000ms\n\nCall log:\n  - Expect \"toHaveAttribute\" locator('.reading-figure[data-diagram-id=\"inference-cache-batching\"]').locator('.aw-sticky > .aw-diagram').getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: '再利用', exact: true }) with timeout 15000ms\n  - waiting for locator('.reading-figure[data-diagram-id=\"inference-cache-batching\"]').locator('.aw-sticky > .aw-diagram').getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: '再利用', exact: true })\n    33 × locator resolved to <button type=\"button\" aria-pressed=\"false\">…</button>\n       - unexpected value \"false\"\n\n    at captureRawStack (C:\\dev\\ai-agent-library\\website\\node_modules\\playwright-core\\lib\\coreBundle.js:8588:17)\n    at callMatcherAsStep (C:\\dev\\ai-agent-library\\website\\node_modules\\playwright\\lib\\matchers\\expect.js:13310:57)\n    at Object.toHaveAttribute (C:\\dev\\ai-agent-library\\website\\node_modules\\playwright\\lib\\matchers\\expect.js:13302:23)\n    at stage (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\verify-public.mjs:231:46)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/inference-checks.mjs:280:96\n    at async usePage (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\verify-public.mjs:153:9)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/inference-checks.mjs:279:5\n    at async check (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\verify-public.mjs:143:9)\n    at async runInferenceChecks (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\inference-checks.mjs:278:28)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/verify-public.mjs:479:3"
+      }
+    ],
+    "note": "This is a read-only observation of the parent-owned original file; this agent did not overwrite or replace it. Its final hash may differ if the original run was still running."
+  },
+  "identity": {
+    "artifact": {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\artifact-evidence.latest.json",
+      "sha256": "0ad3b83203b88a5c85c71799729dd2f5d2ea6ba887d8bab10abe7a6969cf1eb7"
+    },
+    "repository": "pero3dev/ai-agent-library",
+    "mergeSha": "517dc8b5166bd7b0c85baef3800d7fe57bac7b31",
+    "buildId": "EliX86DAnCpMQHOKIyCQx",
+    "runId": 36019573674,
+    "artifactId": 10816009077,
+    "exactSevenPrerequisiteRoutesPreserved": true,
+    "documents": [
+      {
+        "route": "/docs/llm-internals/inference-internals",
+        "htmlSHA256": "19e9dbcedadaadf3e3d6ed22a66af49ce3af1423f719cc82f7e8925f0c7eba4e",
+        "buildId": "EliX86DAnCpMQHOKIyCQx"
+      },
+      {
+        "route": "/docs/llm-foundations/how-llms-generate-text",
+        "htmlSHA256": "7c52c141f61acdbc6ec799b9b94d188038104b1f8ff1fec4063ed35fe454e421",
+        "buildId": "EliX86DAnCpMQHOKIyCQx"
+      },
+      {
+        "route": "/docs/llm-foundations/tokenization",
+        "htmlSHA256": "6e95d58f9efdd94d57a255eb5da2d9365e295fae2f3eac843afa54971a02d61e",
+        "buildId": "EliX86DAnCpMQHOKIyCQx"
+      },
+      {
+        "route": "/docs/llm-internals/mixture-of-experts-internals",
+        "htmlSHA256": "06d18b2e1e73df8a08d35f91e418245b020d8326419662bb9fc80db6b94a5174",
+        "buildId": "EliX86DAnCpMQHOKIyCQx"
+      },
+      {
+        "route": "/docs/llm-internals/attention-variants-and-long-context",
+        "htmlSHA256": "1a5f5f609fdeb51fd8e7025aecd5b3fc2195757e64e8c6767b8c2075fd6db2b9",
+        "buildId": "EliX86DAnCpMQHOKIyCQx"
+      },
+      {
+        "route": "/docs/llm-internals/transformer-architecture",
+        "htmlSHA256": "66df211e702e20e4006318faa2107ebf0e82eb283bbc9ae055eaf268971f24ec",
+        "buildId": "EliX86DAnCpMQHOKIyCQx"
+      },
+      {
+        "route": "/docs/llm-foundations/llm-training-pipeline",
+        "htmlSHA256": "8e541c3ad8371923044012902c39ecd6abccc148c088a93ac27aeef4131ce73d",
+        "buildId": "EliX86DAnCpMQHOKIyCQx"
+      }
+    ],
+    "liveFetchedDuringLimitedCases": [
+      "/docs/llm-internals/inference-internals"
+    ],
+    "liveInferenceHash": "19e9dbcedadaadf3e3d6ed22a66af49ce3af1423f719cc82f7e8925f0c7eba4e",
+    "allLimitedCaseHTMLMatched": true,
+    "note": "The unchanged seven-document artifact prerequisite is checked. These limited cases live-fetch only inference; they are not a fresh seven-route public audit."
+  },
+  "runs": {
+    "environmentBlocked": {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\diagnostic-original-webkit-2026-09-24T15-40-20-387Z\\result.json",
+      "sha256": "f622fe712f3bcc52beafd5ed68f5f2f0db23b033bc216c47c09c47ad9c96021f",
+      "status": "failed",
+      "browser": {
+        "engine": "webkit",
+        "channel": null,
+        "version": "26.6"
+      },
+      "finishedAt": "2026-09-24T15:40:25.254Z",
+      "expectedCaseCount": 3,
+      "passed": 0,
+      "failed": 3,
+      "cases": [
+        {
+          "name": "inference: all 23 stages 1440x1000 dark",
+          "status": "failed",
+          "stageOperations": 0,
+          "error": "page.goto: Could not connect to server\nCall log:\n\u001b[2m  - navigating to \"https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals\", waiting until \"networkidle\"\u001b[22m\n\n    at open (C:\\Users\\81906\\AppData\\Local\\Temp\\pr59-stage-diagnostic.mjs:182:31)\n    at async openInference (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\inference-checks.mjs:53:55)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/inference-checks.mjs:216:7\n    at async usePage (C:\\Users\\81906\\AppData\\Local\\Temp\\pr59-stage-diagnostic.mjs:170:9)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/inference-checks.mjs:215:5\n    at async check (C:\\Users\\81906\\AppData\\Local\\Temp\\pr59-stage-diagnostic.mjs:148:9)\n    at async runInferenceChecks (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\inference-checks.mjs:214:45)\n    at async file:///C:/Users/81906/AppData/Local/Temp/pr59-stage-diagnostic.mjs:528:3"
+        },
+        {
+          "name": "inference: all 23 stages 1280x720 light",
+          "status": "failed",
+          "stageOperations": 0,
+          "error": "page.goto: Could not connect to server\nCall log:\n\u001b[2m  - navigating to \"https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals\", waiting until \"networkidle\"\u001b[22m\n\n    at open (C:\\Users\\81906\\AppData\\Local\\Temp\\pr59-stage-diagnostic.mjs:182:31)\n    at async openInference (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\inference-checks.mjs:53:55)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/inference-checks.mjs:216:7\n    at async usePage (C:\\Users\\81906\\AppData\\Local\\Temp\\pr59-stage-diagnostic.mjs:170:9)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/inference-checks.mjs:215:5\n    at async check (C:\\Users\\81906\\AppData\\Local\\Temp\\pr59-stage-diagnostic.mjs:148:9)\n    at async runInferenceChecks (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\inference-checks.mjs:214:45)\n    at async file:///C:/Users/81906/AppData/Local/Temp/pr59-stage-diagnostic.mjs:528:3"
+        },
+        {
+          "name": "inference: independent figure states, every reading step, manual override and resumption",
+          "status": "failed",
+          "stageOperations": 0,
+          "error": "page.goto: Could not connect to server\nCall log:\n\u001b[2m  - navigating to \"https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals\", waiting until \"networkidle\"\u001b[22m\n\n    at open (C:\\Users\\81906\\AppData\\Local\\Temp\\pr59-stage-diagnostic.mjs:182:31)\n    at async openInference (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\inference-checks.mjs:53:55)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/inference-checks.mjs:260:7\n    at async usePage (C:\\Users\\81906\\AppData\\Local\\Temp\\pr59-stage-diagnostic.mjs:170:9)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/inference-checks.mjs:259:5\n    at async check (C:\\Users\\81906\\AppData\\Local\\Temp\\pr59-stage-diagnostic.mjs:148:9)\n    at async runInferenceChecks (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\inference-checks.mjs:258:3)\n    at async file:///C:/Users/81906/AppData/Local/Temp/pr59-stage-diagnostic.mjs:528:3"
+        }
+      ],
+      "role": "Environment connection failure before page load; not a product or candidate result"
+    },
+    "original": {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\diagnostic-original-webkit-2026-09-24T15-40-56-606Z\\result.json",
+      "sha256": "f3c9b2deebdc403c9cfb668130fb0a29f3196527fb05aff93041fe1b7387dc36",
+      "status": "failed",
+      "browser": {
+        "engine": "webkit",
+        "channel": null,
+        "version": "26.6"
+      },
+      "finishedAt": "2026-09-24T15:41:45.605Z",
+      "expectedCaseCount": 3,
+      "passed": 2,
+      "failed": 1,
+      "cases": [
+        {
+          "name": "inference: all 23 stages 1440x1000 dark",
+          "status": "passed",
+          "stageOperations": 23,
+          "publicDocument": {
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "19e9dbcedadaadf3e3d6ed22a66af49ce3af1423f719cc82f7e8925f0c7eba4e",
+            "observedBuildIds": [
+              "EliX86DAnCpMQHOKIyCQx"
+            ],
+            "expectedArtifactSHA256": "19e9dbcedadaadf3e3d6ed22a66af49ce3af1423f719cc82f7e8925f0c7eba4e",
+            "artifactHTMLMatched": true
+          }
+        },
+        {
+          "name": "inference: all 23 stages 1280x720 light",
+          "status": "failed",
+          "stageOperations": 1,
+          "publicDocument": {
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "19e9dbcedadaadf3e3d6ed22a66af49ce3af1423f719cc82f7e8925f0c7eba4e",
+            "observedBuildIds": [
+              "EliX86DAnCpMQHOKIyCQx"
+            ],
+            "expectedArtifactSHA256": "19e9dbcedadaadf3e3d6ed22a66af49ce3af1423f719cc82f7e8925f0c7eba4e",
+            "artifactHTMLMatched": true
+          },
+          "error": "Error: expect(locator).toHaveAttribute(expected) failed\n\nLocator:  locator('.reading-figure[data-diagram-id=\"inference-sampling\"]').locator('.aw-sticky > .aw-diagram').getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: 'ロジット', exact: true })\nExpected: \"true\"\nReceived: \"false\"\nTimeout:  15000ms\n\nCall log:\n  - Expect \"toHaveAttribute\" locator('.reading-figure[data-diagram-id=\"inference-sampling\"]').locator('.aw-sticky > .aw-diagram').getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: 'ロジット', exact: true }) with timeout 15000ms\n  - waiting for locator('.reading-figure[data-diagram-id=\"inference-sampling\"]').locator('.aw-sticky > .aw-diagram').getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: 'ロジット', exact: true })\n    33 × locator resolved to <button type=\"button\" aria-pressed=\"false\">…</button>\n       - unexpected value \"false\"\n\n    at captureRawStack (C:\\dev\\ai-agent-library\\website\\node_modules\\playwright-core\\lib\\coreBundle.js:8588:17)\n    at callMatcherAsStep (C:\\dev\\ai-agent-library\\website\\node_modules\\playwright\\lib\\matchers\\expect.js:13310:57)\n    at Object.toHaveAttribute (C:\\dev\\ai-agent-library\\website\\node_modules\\playwright\\lib\\matchers\\expect.js:13302:23)\n    at originalStage (C:\\Users\\81906\\AppData\\Local\\Temp\\pr59-stage-diagnostic.mjs:248:46)\n    at async stage (C:\\Users\\81906\\AppData\\Local\\Temp\\pr59-stage-diagnostic.mjs:278:5)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/inference-checks.mjs:220:11\n    at async usePage (C:\\Users\\81906\\AppData\\Local\\Temp\\pr59-stage-diagnostic.mjs:170:9)\n    at async file:///C:/dev/ai-agent-library/scripts/diagram-release/inference-checks.mjs:215:5\n    at async check (C:\\Users\\81906\\AppData\\Local\\Temp\\pr59-stage-diagnostic.mjs:148:9)\n    at async runInferenceChecks (C:\\dev\\ai-agent-library\\scripts\\diagram-release\\inference-checks.mjs:214:45)\n    at async file:///C:/Users/81906/AppData/Local/Temp/pr59-stage-diagnostic.mjs:528:3"
+        },
+        {
+          "name": "inference: independent figure states, every reading step, manual override and resumption",
+          "status": "passed",
+          "stageOperations": 12,
+          "publicDocument": {
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "19e9dbcedadaadf3e3d6ed22a66af49ce3af1423f719cc82f7e8925f0c7eba4e",
+            "observedBuildIds": [
+              "EliX86DAnCpMQHOKIyCQx"
+            ],
+            "expectedArtifactSHA256": "19e9dbcedadaadf3e3d6ed22a66af49ce3af1423f719cc82f7e8925f0c7eba4e",
+            "artifactHTMLMatched": true
+          }
+        }
+      ],
+      "role": "Unmodified stage operation, instrumented limited reproduction"
+    },
+    "stabilizedThree": {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\diagnostic-stabilized-webkit-2026-09-24T15-42-24-121Z\\result.json",
+      "sha256": "ad3b4eb3165bf334cefc65cb7182444e68ba1b07ef88bccc44d949b97e7ab43c",
+      "status": "passed",
+      "browser": {
+        "engine": "webkit",
+        "channel": null,
+        "version": "26.6"
+      },
+      "finishedAt": "2026-09-24T15:43:15.072Z",
+      "expectedCaseCount": 3,
+      "passed": 3,
+      "failed": 0,
+      "cases": [
+        {
+          "name": "inference: all 23 stages 1440x1000 dark",
+          "status": "passed",
+          "stageOperations": 23,
+          "publicDocument": {
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "19e9dbcedadaadf3e3d6ed22a66af49ce3af1423f719cc82f7e8925f0c7eba4e",
+            "observedBuildIds": [
+              "EliX86DAnCpMQHOKIyCQx"
+            ],
+            "expectedArtifactSHA256": "19e9dbcedadaadf3e3d6ed22a66af49ce3af1423f719cc82f7e8925f0c7eba4e",
+            "artifactHTMLMatched": true
+          }
+        },
+        {
+          "name": "inference: all 23 stages 1280x720 light",
+          "status": "passed",
+          "stageOperations": 23,
+          "publicDocument": {
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "19e9dbcedadaadf3e3d6ed22a66af49ce3af1423f719cc82f7e8925f0c7eba4e",
+            "observedBuildIds": [
+              "EliX86DAnCpMQHOKIyCQx"
+            ],
+            "expectedArtifactSHA256": "19e9dbcedadaadf3e3d6ed22a66af49ce3af1423f719cc82f7e8925f0c7eba4e",
+            "artifactHTMLMatched": true
+          }
+        },
+        {
+          "name": "inference: independent figure states, every reading step, manual override and resumption",
+          "status": "passed",
+          "stageOperations": 12,
+          "publicDocument": {
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "19e9dbcedadaadf3e3d6ed22a66af49ce3af1423f719cc82f7e8925f0c7eba4e",
+            "observedBuildIds": [
+              "EliX86DAnCpMQHOKIyCQx"
+            ],
+            "expectedArtifactSHA256": "19e9dbcedadaadf3e3d6ed22a66af49ce3af1423f719cc82f7e8925f0c7eba4e",
+            "artifactHTMLMatched": true
+          }
+        }
+      ],
+      "role": "Same pre-click stable condition, original assertions, limited candidate verification"
+    },
+    "stabilizedPlayback": {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\diagnostic-stabilized-webkit-2026-09-24T15-45-35-346Z\\result.json",
+      "sha256": "ea3faebac3504fb708721ddf94ce20885892e2f84878b6cdfabf729c76b1034b",
+      "status": "passed",
+      "browser": {
+        "engine": "webkit",
+        "channel": null,
+        "version": "26.6"
+      },
+      "finishedAt": "2026-09-24T15:46:09.121Z",
+      "expectedCaseCount": 2,
+      "passed": 2,
+      "failed": 0,
+      "cases": [
+        {
+          "name": "inference-sampling: native elapsed play, frozen pause, replay and completion",
+          "status": "passed",
+          "stageOperations": 2,
+          "publicDocument": {
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "19e9dbcedadaadf3e3d6ed22a66af49ce3af1423f719cc82f7e8925f0c7eba4e",
+            "observedBuildIds": [
+              "EliX86DAnCpMQHOKIyCQx"
+            ],
+            "expectedArtifactSHA256": "19e9dbcedadaadf3e3d6ed22a66af49ce3af1423f719cc82f7e8925f0c7eba4e",
+            "artifactHTMLMatched": true
+          }
+        },
+        {
+          "name": "inference-cache-batching: native elapsed play, frozen pause, replay and completion",
+          "status": "passed",
+          "stageOperations": 2,
+          "publicDocument": {
+            "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "19e9dbcedadaadf3e3d6ed22a66af49ce3af1423f719cc82f7e8925f0c7eba4e",
+            "observedBuildIds": [
+              "EliX86DAnCpMQHOKIyCQx"
+            ],
+            "expectedArtifactSHA256": "19e9dbcedadaadf3e3d6ed22a66af49ce3af1423f719cc82f7e8925f0c7eba4e",
+            "artifactHTMLMatched": true
+          }
+        }
+      ],
+      "role": "Same pre-click stable condition, original assertions, limited candidate verification"
+    }
+  },
+  "reproduction": {
+    "case": "inference: all 23 stages 1280x720 light",
+    "operation": {
+      "figure": "inference-sampling",
+      "target": 0,
+      "label": "ロジット",
+      "before": {
+        "stage": "0",
+        "mode": "reading",
+        "scrollY": 728,
+        "x": 717.25,
+        "y": 1367.6875,
+        "width": 68.140625,
+        "height": 38.15625,
+        "pressed": "true"
+      },
+      "events": [
+        {
+          "type": "pointerdown",
+          "at": 4167,
+          "x": 751,
+          "y": 359,
+          "scrollY": 1755,
+          "figure": "inference-sampling",
+          "stage": "0",
+          "mode": "reading",
+          "button": "ロジット",
+          "rect": {
+            "x": 717.25,
+            "y": 340.6875,
+            "width": 68.140625,
+            "height": 38.15625
+          },
+          "trusted": true
+        },
+        {
+          "type": "mousedown",
+          "at": 4167,
+          "x": 751,
+          "y": 359,
+          "scrollY": 1755,
+          "figure": "inference-sampling",
+          "stage": "0",
+          "mode": "reading",
+          "button": "ロジット",
+          "rect": {
+            "x": 717.25,
+            "y": 340.6875,
+            "width": 68.140625,
+            "height": 38.15625
+          },
+          "trusted": true
+        },
+        {
+          "type": "pointerup",
+          "at": 4391,
+          "x": 751,
+          "y": 359,
+          "scrollY": 1755,
+          "figure": "inference-sampling",
+          "stage": "1",
+          "mode": "reading",
+          "rect": null,
+          "trusted": true
+        },
+        {
+          "type": "mouseup",
+          "at": 4391,
+          "x": 751,
+          "y": 359,
+          "scrollY": 1755,
+          "figure": "inference-sampling",
+          "stage": "1",
+          "mode": "reading",
+          "rect": null,
+          "trusted": true
+        },
+        {
+          "type": "click",
+          "at": 4391,
+          "x": 751,
+          "y": 359,
+          "scrollY": 1755,
+          "figure": "inference-sampling",
+          "stage": "1",
+          "mode": "reading",
+          "rect": null,
+          "trusted": true
+        }
+      ],
+      "status": "failed",
+      "error": "expect(locator).toHaveAttribute(expected) failed\n\nLocator:  locator('.reading-figure[data-diagram-id=\"inference-sampling\"]').locator('.aw-sticky > .aw-diagram').getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: 'ロジット', exact: true })\nExpected: \"true\"\nReceived: \"false\"\nTimeout:  15000ms\n\nCall log:\n  - Expect \"toHaveAttribute\" locator('.reading-figure[data-diagram-id=\"inference-sampling\"]').locator('.aw-sticky > .aw-diagram').getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: 'ロジット', exact: true }) with timeout 15000ms\n  - waiting for locator('.reading-figure[data-diagram-id=\"inference-sampling\"]').locator('.aw-sticky > .aw-diagram').getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: 'ロジット', exact: true })\n    33 × locator resolved to <button type=\"button\" aria-pressed=\"false\">…</button>\n       - unexpected value \"false\"\n",
+      "after": {
+        "stage": "1",
+        "mode": "reading",
+        "scrollY": 1755,
+        "x": 717.25,
+        "y": 394.265625,
+        "width": 68.140625,
+        "height": 38.15625,
+        "pressed": "false"
+      }
+    },
+    "pointerIntervalMs": 224,
+    "verticalMovementPx": 53.578125,
+    "conclusion": "Real pointerdown reached the intended stage-zero button. Before pointerup/click, READ changed the stage and shifted the button below the unchanged pointer coordinates. No stage button was associated with pointerup/click; mode remained reading. This supports an operation/layout race, not evidence that READ overwrote an already completed manual selection.",
+    "limits": [
+      "Exact non-button release DOM target was not recorded.",
+      "One of the five original failures was instrumentally reproduced; the other four share the same stage-zero helper symptom but their own causal events were not captured.",
+      "Intermittent failure frequency is not estimated by these bounded runs."
+    ]
+  },
+  "codeComparison": {
+    "originalHelper": "scripts/diagram-release/verify-public.mjs:229-235",
+    "existingStableHelper": "website/tests/browser/inference.spec.mjs:318-347",
+    "manualModeGuard": "website/components/diagrams/reading-figure.jsx:62-85,102-128",
+    "dynamicControlsBeforeStageButtons": "website/components/diagrams/reading-figure.jsx:207-211",
+    "samplingControls": "website/components/diagrams/inference-sampling-walkthrough.jsx:121-135",
+    "cacheControls": "website/components/diagrams/inference-cache-batching-walkthrough.jsx:110-114",
+    "independentCodeAndEventRead": "portable_review independently read the product mode guards and 1280 failure event record; agreed operation/layout race is strongly supported; did not approve the candidate or public images."
+  },
+  "candidate": {
+    "status": "not adopted; independent review pending",
+    "source": "scripts/diagram-release/verify-public.mjs",
+    "originalSHA256": "87a8ada23f194d9cf4cdcfceda71aacc711626d02f0c0ff7f84e95193cf2d90c",
+    "candidateSHA256": "123d3d7e3ed4243f15b5933bcf0b71aeb55f2c22e94a18ac31045ee380f1f999",
+    "originalHelperSHA256": "7be062c526a764dd3895fa6bc631df2723f2401d9ba13601691183787f343d83",
+    "candidateHelperSHA256": "6c6b1d1c501a31d3837ba0a538e9fa2a7cdbdee20c1826b9890fad89da2cbcb1",
+    "waitSource": "website/tests/browser/inference.spec.mjs seekForFit",
+    "waitSourceSHA256": "da88e0523a7d4b3c6ad46730df59627375e12971a25eff6a9312d9ac172a7a99",
+    "oldHelperRestorationExact": true,
+    "onlyCandidateEdit": true,
+    "stageZeroWaitOnly": true,
+    "assertionsUnchanged": true,
+    "firstThreeAdapterSHA256": "dbd25f4914cf0437e23400aeadd2c694a163e308521038c31f320fecd94aad98",
+    "additionalTwoAdapterSHA256": "0a690d4af4fb985076106f1b625bc3912900b6ab538cc742d54b443dd2c459ec",
+    "additionalTwoExecuteCandidateHelperBody": true,
+    "repositoryWrites": false,
+    "firstThreeWaitTokenSequenceMatchesCandidate": true,
+    "normalization": "Comments, whitespace and semicolon separators removed only for comparison of the exact pre-click stability block; full original assertion body is unchanged.",
+    "files": [
+      {
+        "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\pr59-stage-helper-original.mjs",
+        "sha256": "7be062c526a764dd3895fa6bc631df2723f2401d9ba13601691183787f343d83"
+      },
+      {
+        "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\pr59-stage-helper-candidate.mjs",
+        "sha256": "6c6b1d1c501a31d3837ba0a538e9fa2a7cdbdee20c1826b9890fad89da2cbcb1"
+      },
+      {
+        "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\pr59-verify-public-stage-candidate.mjs",
+        "sha256": "123d3d7e3ed4243f15b5933bcf0b71aeb55f2c22e94a18ac31045ee380f1f999"
+      },
+      {
+        "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\pr59-stage-helper-candidate.diff",
+        "sha256": "f6eee2b352a8bb33a2096fa9a9ddca62c7db40bb5bad021853a1237feeb04767"
+      },
+      {
+        "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\pr59-stage-candidate-proof.json",
+        "sha256": "59163fadeaf547164e2187f3efe9c6f0bc732692ced185dfb0293407591e2cfe"
+      },
+      {
+        "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\pr59-stage-diagnostic.mjs",
+        "sha256": "dbd25f4914cf0437e23400aeadd2c694a163e308521038c31f320fecd94aad98"
+      },
+      {
+        "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\pr59-stage-playback-diagnostic.mjs",
+        "sha256": "0a690d4af4fb985076106f1b625bc3912900b6ab538cc742d54b443dd2c459ec"
+      },
+      {
+        "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\pr59-stage-diagnostic-transform.json",
+        "sha256": "2e5ae32dca9a53a4c49125e10c7dcf2ca3367a67fad52c424cb30ab520ac0596"
+      }
+    ],
+    "change": "Exactly 24 added lines before index-zero click: scroll button into view; require same stage, scrollY, rectangle and in-viewport state for three animation frames. Original locator click and all four assertions stay unchanged.",
+    "assertionsKept": [
+      "aria-pressed true",
+      "panel data-stage equals requested index",
+      "data-mode manual",
+      "slider value equals requested index",
+      "all original case-local semantics, independent states, READ synchronization, native-time playback/pause/replay/completion and network/identity assertions"
+    ],
+    "notUsed": [
+      "force click",
+      "DOM click",
+      "retry failed case as acceptance",
+      "fixed unconditional delay",
+      "changing public product or expected values"
+    ],
+    "coverage": [
+      {
+        "name": "inference: all 23 stages 1440x1000 dark",
+        "status": "passed"
+      },
+      {
+        "name": "inference: all 23 stages 1280x720 light",
+        "status": "passed"
+      },
+      {
+        "name": "inference: independent figure states, every reading step, manual override and resumption",
+        "status": "passed"
+      },
+      {
+        "name": "inference-sampling: native elapsed play, frozen pause, replay and completion",
+        "status": "passed"
+      },
+      {
+        "name": "inference-cache-batching: native elapsed play, frozen pause, replay and completion",
+        "status": "passed"
+      }
+    ]
+  },
+  "recommendation": [
+    "Review the minimal helper-only diff and event evidence independently.",
+    "Keep the original failed 71-case run as failed evidence; never replace it with these five diagnostic successes.",
+    "If authorized for adoption, register the precise helper insertion in provenance and update manifest hashes with reversible proof; do not refresh old protected hashes silently.",
+    "Run the kit offline syntax/preparation/unit gates after the authorized manifest update, then repeat the required full public verification and image acceptance under owner control.",
+    "The stage-zero condition covers the five observed failing entries. Do not claim it covers an untested first interaction at a nonzero stage; only broaden on evidence."
+  ],
+  "inputs": [
+    {
+      "path": "scripts/diagram-release/verify-public.mjs",
+      "sha256": "87a8ada23f194d9cf4cdcfceda71aacc711626d02f0c0ff7f84e95193cf2d90c"
+    },
+    {
+      "path": "scripts/diagram-release/source-mapping.json",
+      "sha256": "4359f9abf06785671e980686f89e596eb8c0d8cd1842fc3480712941a3b40507"
+    },
+    {
+      "path": "scripts/diagram-release/inference-checks.mjs",
+      "sha256": "9f52ca50576dcadc6010b60e30561b768a16b5da0ea8765952e2fc2c5c69e201"
+    },
+    {
+      "path": "website/tests/browser/inference.spec.mjs",
+      "sha256": "da88e0523a7d4b3c6ad46730df59627375e12971a25eff6a9312d9ac172a7a99"
+    },
+    {
+      "path": "website/components/diagrams/reading-figure.jsx",
+      "sha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12"
+    },
+    {
+      "path": "website/components/diagrams/inference-sampling-walkthrough.jsx",
+      "sha256": "0ebb00a2356c29cd28cc5565fdbc2e656e5e84f50cb100e7723286e14cda439c"
+    },
+    {
+      "path": "website/components/diagrams/inference-cache-batching-walkthrough.jsx",
+      "sha256": "08d3b27bed7deadab2a9d6458c0e0cb23f14c5d6921cff31bb723945c6e1e008"
+    }
+  ]
+}

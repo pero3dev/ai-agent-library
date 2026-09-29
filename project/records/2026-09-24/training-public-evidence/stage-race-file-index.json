@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "limited-public-operation-race-diagnostic",
+  "files": [
+    {
+      "file": "stage-race-diagnostic.md",
+      "originalSHA256": "811d9843eec58d2288db3c552a98d793eeb500789f86631d13c128420b88c232",
+      "storedSHA256": "811d9843eec58d2288db3c552a98d793eeb500789f86631d13c128420b88c232",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "file": "stage-race-diagnostic.json",
+      "originalSHA256": "0f0ec7634526037d83c948526015f52b7bb849956d3263564404ea8e447c2b62",
+      "storedSHA256": "0f0ec7634526037d83c948526015f52b7bb849956d3263564404ea8e447c2b62",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "file": "stage-race-environmentBlocked.json.gz",
+      "originalSHA256": "f622fe712f3bcc52beafd5ed68f5f2f0db23b033bc216c47c09c47ad9c96021f",
+      "storedSHA256": "3c252d6e9a5c9ffd8d030dd60033bfd4f4e27196df3d348790dc3c1886d91f3e",
+      "normalization": "raw bytes compressed"
+    },
+    {
+      "file": "stage-race-original.json.gz",
+      "originalSHA256": "f3c9b2deebdc403c9cfb668130fb0a29f3196527fb05aff93041fe1b7387dc36",
+      "storedSHA256": "359b47d4a05b091bf0fccbdb8dc70d5beef99e8209e6986eb72f501501fcbe06",
+      "normalization": "raw bytes compressed"
+    },
+    {
+      "file": "stage-race-stabilizedThree.json.gz",
+      "originalSHA256": "ad3b4eb3165bf334cefc65cb7182444e68ba1b07ef88bccc44d949b97e7ab43c",
+      "storedSHA256": "7d8c12a8a2510b70484323239dc3df546078a7ea060c918c6f5a4a3e2dcb6ded",
+      "normalization": "raw bytes compressed"
+    },
+    {
+      "file": "stage-race-stabilizedPlayback.json.gz",
+      "originalSHA256": "ea3faebac3504fb708721ddf94ce20885892e2f84878b6cdfabf729c76b1034b",
+      "storedSHA256": "8814fb5a09a96be53f9847505921788d44bf62226ec0ebe36ba137133a18594b",
+      "normalization": "raw bytes compressed"
+    },
+    {
+      "file": "pr59-stage-helper-original.mjs.gz",
+      "originalSHA256": "7be062c526a764dd3895fa6bc631df2723f2401d9ba13601691183787f343d83",
+      "storedSHA256": "50dde72e9199058406a85e4e5debd351158ce66ddd1cbc80a65ffe1ac53f24bc",
+      "normalization": "raw bytes compressed"
+    },
+    {
+      "file": "pr59-stage-helper-candidate.mjs.gz",
+      "originalSHA256": "6c6b1d1c501a31d3837ba0a538e9fa2a7cdbdee20c1826b9890fad89da2cbcb1",
+      "storedSHA256": "2de35c75ffd82d6326f25e59dac6856dad41ad9dda99945ff3d08c7327844345",
+      "normalization": "raw bytes compressed"
+    },
+    {
+      "file": "pr59-verify-public-stage-candidate.mjs.gz",
+      "originalSHA256": "123d3d7e3ed4243f15b5933bcf0b71aeb55f2c22e94a18ac31045ee380f1f999",
+      "storedSHA256": "63335e163fc436a89ac57808af03ac9dabfcc814090abc6f8a449ff7410d9f6e",
+      "normalization": "raw bytes compressed"
+    },
+    {
+      "file": "pr59-stage-helper-candidate.diff.gz",
+      "originalSHA256": "f6eee2b352a8bb33a2096fa9a9ddca62c7db40bb5bad021853a1237feeb04767",
+      "storedSHA256": "330893aa8151e7df1a20480c820d461b1f8aed92b52d989524cb4494c3feccdb",
+      "normalization": "raw bytes compressed"
+    },
+    {
+      "file": "pr59-stage-candidate-proof.json.gz",
+      "originalSHA256": "59163fadeaf547164e2187f3efe9c6f0bc732692ced185dfb0293407591e2cfe",
+      "storedSHA256": "99a604c2f54b32f02c541e2d89fa38593853a10dff3bc0ed4c56acae102bc8e7",
+      "normalization": "raw bytes compressed"
+    },
+    {
+      "file": "pr59-stage-diagnostic.mjs.gz",
+      "originalSHA256": "dbd25f4914cf0437e23400aeadd2c694a163e308521038c31f320fecd94aad98",
+      "storedSHA256": "1cbac793d04c2f66789c7363df770da685e16db193cac1a37e4b48332514466a",
+      "normalization": "raw bytes compressed"
+    },
+    {
+      "file": "pr59-stage-playback-diagnostic.mjs.gz",
+      "originalSHA256": "0a690d4af4fb985076106f1b625bc3912900b6ab538cc742d54b443dd2c459ec",
+      "storedSHA256": "56fbda1849886d90c4e6e54d3a68e84310d245670821c20935fe2a3c84198a8d",
+      "normalization": "raw bytes compressed"
+    },
+    {
+      "file": "pr59-stage-diagnostic-transform.json.gz",
+      "originalSHA256": "2e5ae32dca9a53a4c49125e10c7dcf2ca3367a67fad52c424cb30ab520ac0596",
+      "storedSHA256": "60704c4b83b60fd3bfccdae39c5d195ddfd677a12130d64b0c2073e41c405c57",
+      "normalization": "raw bytes compressed"
+    }
+  ],
+  "note": "Candidate and adapter sources are preserved as compressed historical evidence, not a new runtime entrypoint. Relative files replace old TEMP dependencies for evidence review."
+}

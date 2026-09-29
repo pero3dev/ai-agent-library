@@ -1,6 +1,6 @@
 # 事前学習とスケーリング則の読書連動図解
 
-状態: C2の実装・ローカル検証・独立コード/実画像レビュー完了。正式記事レビュー、PRと公開受入はこれから行う。P1の公開受入は7/15記事で、この記事の完成はまだ数えない。
+状態: C2の実装・ローカル検証・正式記事レビューを完了し、PR #61で公開済み。独立公開画像レビューで既存推論図にmust 1が見つかり、公開受入を保留する。P1の公開受入は7/15記事で、この記事の完成はまだ数えない。
 
 ## 作業契約
 
@@ -48,6 +48,18 @@
 性能測定はWindows Edge、1440×1000、loopback、CPU/通信制限なしで実施。C2固有chunkのgzipは44778bytes、共通entryは21808bytes、8記事と対照記事のCLSは0。操作からrangeの初回更新は10.5–15.9ms、native再生のrAF P95は7.1–7.2ms。採択基準内だが、GPU描画時間や実端末の保証ではない。実スクリーンリーダー・物理iPhone/Safari・物理印刷は未実施。
 
 ## 検証記録
+
+### PR #61の公開と受入保留
+
+[正式記事レビュー](pretraining-article-final-review.md)はapproved / low、must 0・should 1。候補tree `dcd56bbac7886ece933199a2a4bd2d7cbb0bc5a7`、content digest `93264d16536c88c69226b8bdc182b8aa36245648800923ad3b18f4a92554d641`を独立照合した。should C2-DOC-S1は既存チェックリストの設計根拠の具体化であり、今回の図解中心・本文最小訂正という範囲を保つため見送った。T-1の未変更alignment記事のA1–A3訂正は後続D1で扱い、C2で訂正済みとはしない。
+
+[PR #61](https://github.com/pero3dev/ai-agent-library/pull/61)は全11チェック成功後、2026-09-29T17:42:26Zに `ca3c09eebd1b549564f874f3304d23ae25328194` として通常squash mergeした。最終tree `99227db3d7e14944304a4b98cd65a76855673877`は実merge treeと一致する。[main CI](https://github.com/pero3dev/ai-agent-library/actions/runs/36606841286)と[Pages](https://github.com/pero3dev/ai-agent-library/actions/runs/36606841286/job/109543224688)は成功。site unit360/360、全体browser318/323（失敗0・既定skip5）、Linux root unit471/480（失敗0・条件付きskip9）を確認した。
+
+公開BUILD_IDは `UWZD5odlVHV_TyUNH3jZ0`。同CIのgithub-pages artifact `11052530186`、deployment `6741718694`と8記事HTMLを照合した。公開Edge/WebKitは両91/91、各72資産が成功し、1339枚を生成した。[独立公開レビュー](pretraining-public-evidence/pretraining-public-review.md)は90枚（Edge67・WebKit22・公開補助1）を実視認し、changes_requested / medium、must 1・should 0と判定した。実視認枚数を生成枚数へ読み替えない。
+
+PUBLIC-V1は旧推論図S6の6桁ロジット表示がWebKitで重なる問題で、C2の5図に追加mustはない。[修正記録](../2026-09-30/inference-score-spacing-fix.md)で解消と再公開受入を進める。元の機械成功と画像の不合格を[公開証拠の相対索引](pretraining-public-evidence/index.json)に併存させ、元結果内のpendingや旧判定を上書きしない。
+
+### 公開前の検証方針
 
 正式記事レビューは全記録と受入ゲートをstageした不変treeを対象とする。変更manifestの最終判定後に通常PRへ提出し、全CI・実merge・main CI/Pages artifact・公開全91件をEdge/WebKitで確認してから、公開画像を独立レビューする。公開後の識別情報は後続記録へ保存する。
 

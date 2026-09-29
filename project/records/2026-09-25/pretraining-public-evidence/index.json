@@ -1,0 +1,1345 @@
+{
+  "schemaVersion": 1,
+  "kind": "original-PR61-public-evidence-portable-archive",
+  "archivedAt": "2026-09-29T18:30:09.412Z",
+  "archivist": "/root/pretraining_numeric",
+  "archiveOnly": true,
+  "publicAccepted": false,
+  "publicReview": {
+    "decision": "changes_requested",
+    "risk": "medium",
+    "must": 1,
+    "should": 0,
+    "openFindingIds": [
+      "PUBLIC-V1"
+    ],
+    "readable": "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-review.md",
+    "json": "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-review.json"
+  },
+  "release": {
+    "mergeSha": "ca3c09eebd1b549564f874f3304d23ae25328194",
+    "buildId": "UWZD5odlVHV_TyUNH3jZ0",
+    "runId": 36606841286
+  },
+  "originalPendingPreserved": true,
+  "rawReportsUnmodified": true,
+  "counts": {
+    "initialArchiveEntries": 31,
+    "rawGzip": 39,
+    "actuallyViewedPNG": 90,
+    "viewedGroups": {
+      "edge": 67,
+      "webkit": 22,
+      "diagnostic": 1
+    },
+    "generatedRunnerPNG": 1339,
+    "generatedDiagnosticPNG": 2,
+    "archivedUnviewedDiagnosticPNG": 1
+  },
+  "pathConvention": "All stored path fields are relative to repository root. originalPath and raw report internals retain source-PC paths.",
+  "files": [
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\artifact-evidence.json",
+      "originalSHA256": "f63611c7eb9a013c8475b857102573106071720fd1e424f602d3d5e3fa47421e",
+      "originalBytes": 5626,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/ci-artifact-evidence.json.gz",
+      "sha256": "fcc5cd95901fc41971f3c9dc38149e5de6c0629c7f22b057bc08ddd4f03606e7",
+      "bytes": 1559,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\deployment-before.json",
+      "originalSHA256": "86eedbef415052d984504cc3faf32204365389032dce58c4954a52fca6fa52db",
+      "originalBytes": 31549,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/ci-deployment-before.json.gz",
+      "sha256": "477e7e2791fa1d8e871071b7cd0cf37620f9612e13a8ce2cf301ea7beb43554b",
+      "bytes": 5304,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\deployment-after.json",
+      "originalSHA256": "3b6b73e809dbecf6409ba6f7f5fdd007d92e5f060f20645f7f2d9c8cd6652de4",
+      "originalBytes": 19984,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/ci-deployment-after.json.gz",
+      "sha256": "6976f9be5a3ab4eb7a7797968325c2f951df858b29d6f217526f12e496348f2d",
+      "bytes": 3734,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\portable-references.json",
+      "originalSHA256": "1ef3908beb4c2c361a5a322a0d8b3cee994507cba9072d3253a07514c9738a87",
+      "originalBytes": 1775,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/ci-portable-references.json.gz",
+      "sha256": "51e868432d1e7cd215c30efa0bb761f0e5da0fe7e7ead59590132643579b2bb5",
+      "bytes": 388,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\artifact-evidence.json",
+      "originalSHA256": "f63611c7eb9a013c8475b857102573106071720fd1e424f602d3d5e3fa47421e",
+      "originalBytes": 5626,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/artifact-evidence.json",
+      "sha256": "18907c1683ba217c354ac448af63b60e80f7ca24a56906f3fc39c98d2fd90e13",
+      "bytes": 5537,
+      "encoding": "UTF-8, LF, one final LF",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\html-2026-09-29T17-58-05-984Z\\inference-internals.html",
+      "originalSHA256": "4d2d794053de9ebfd8d07fe7f6764b7ed1c0ef56a9f706351d59438bf2150013",
+      "originalBytes": 718590,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/inference-internals.html.gz",
+      "sha256": "6536264624efa21ae1847834923fb6177f7cd5999995f6018aa0b4fdb7f2737c",
+      "bytes": 81268,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\html-2026-09-29T17-58-05-984Z\\how-llms-generate-text.html",
+      "originalSHA256": "39be30dd04b81bbcdd55eb112ca5c031d306eaae9c3fd1f847640094923bb968",
+      "originalBytes": 596944,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/how-llms-generate-text.html.gz",
+      "sha256": "638ffc304f49f4a4af1c017debd24bbbf02d62b9711d3f65049d54bc5c6fb834",
+      "bytes": 64144,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\html-2026-09-29T17-58-05-984Z\\tokenization.html",
+      "originalSHA256": "7a3905fb54021b9d50d8952308c203a431bee32a84cfde5d8e7e6a49c693394d",
+      "originalBytes": 583364,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/tokenization.html.gz",
+      "sha256": "4aec5e3e094f21db3ed6c90be169c5644a493e689f0ab7a96039bb81a4b00ff4",
+      "bytes": 61058,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\html-2026-09-29T17-58-05-984Z\\mixture-of-experts-internals.html",
+      "originalSHA256": "cb8c5ea10aafdf423f7fccbb6e9e6c5ef33c9d54370a22ee9333e32001df9dd9",
+      "originalBytes": 712770,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/mixture-of-experts-internals.html.gz",
+      "sha256": "78d3d22e8089f06ad474a9496b72977fa6b1031383624eb6367575c3d7937577",
+      "bytes": 77463,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\html-2026-09-29T17-58-05-984Z\\attention-variants-and-long-context.html",
+      "originalSHA256": "f9caaedeb76f1c8669d3058bda682b96e63dd51b75c6c79c40d7d8bb24b2d2c6",
+      "originalBytes": 771312,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/attention-variants-and-long-context.html.gz",
+      "sha256": "ed75d370cae2559e6adafcb5545e58853be143c245c3d25eafe6491cb75eec2d",
+      "bytes": 85369,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\html-2026-09-29T17-58-05-984Z\\transformer-architecture.html",
+      "originalSHA256": "309f3e4ffd8060b75c708630ac0e3ef1ffbaf33b32325c5e23312b700f8b356b",
+      "originalBytes": 1077989,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/transformer-architecture.html.gz",
+      "sha256": "d95cb63193d2538be97c71ea8bbc2b64730c88c6b5cbc704e838419560c291d2",
+      "bytes": 114795,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\html-2026-09-29T17-58-05-984Z\\llm-training-pipeline.html",
+      "originalSHA256": "a7e5a5726cbff05f2224773d63d9c1f7ea530c4909a33489e773be83d5293716",
+      "originalBytes": 611779,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/llm-training-pipeline.html.gz",
+      "sha256": "0c1d80a842b02b2ba76f663da89b92cab225f6e9e8ad30d9902b21ef93318957",
+      "bytes": 66277,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\html-2026-09-29T17-58-05-984Z\\pretraining-and-scaling-laws.html",
+      "originalSHA256": "761a59706bb3a507fe1f1d5f6c2d6263f714236955a665335252229a6b0c731b",
+      "originalBytes": 766159,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-and-scaling-laws.html.gz",
+      "sha256": "10708938384a587ebf271595845b69a10134f163bf0ec8c360d04ec90e2f442a",
+      "bytes": 85266,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-candidate.json",
+      "originalSHA256": "0aea50b418c585d3588f02b142031ce42433dc329f97e877bb3e892298d51c4b",
+      "originalBytes": 5676,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-candidate.json.gz",
+      "sha256": "7c077e2de9077a09345b8a282451b28f60a95f26f44440a3c03754b23395b1d0",
+      "bytes": 2072,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-final.json",
+      "originalSHA256": "11493e230b6553a7f637db316845a58da34fbbcdd5f5543e5ec4de1e4a3eff2b",
+      "originalBytes": 6042,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-final.json.gz",
+      "sha256": "bb7e9d5e4a13199ceb5cfdd9743b1de85bdaa689b9f6be63e957a657692033ef",
+      "bytes": 2124,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-merge.json",
+      "originalSHA256": "d7ca2d351edcd9a9cc61ed6a9b8b04377b7a137f06d4ac6f0cc96807fd791872",
+      "originalBytes": 248,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-merge.json.gz",
+      "sha256": "771440a8a202d5dcc514fb21aa67ded1839e3b421639b2bd8aea61d2cdec6f1f",
+      "bytes": 221,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-main-ci.json",
+      "originalSHA256": "224e6d65bc0b29c200c31475815ed4c415c52e75cb8a40cfdb7dbf4dde09e48e",
+      "originalBytes": 18471,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-main-ci.json.gz",
+      "sha256": "1600ccf07f70a638f59d73113f8834ee3dcd05749e4b1f85bacc99f91db3da93",
+      "bytes": 1920,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-merge-message.txt",
+      "originalSHA256": "db7ef9c1c153078ce2f485732d8a82a77b099a54c166d8c89ce73b447a8a1d7f",
+      "originalBytes": 2174,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-merge-message.txt.gz",
+      "sha256": "5f8ee7552cffa128dfc46836cb76928a186e4e460a421f62eee3724d5ddf9838",
+      "bytes": 1406,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-main-build.log",
+      "originalSHA256": "63a2b15265bebc70569576aa00484c30863ec56e611ea306eba141befb02c3c8",
+      "originalBytes": 698935,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-main-build.log.gz",
+      "sha256": "2af3ad0a4c804458cf006fd6408614510822bbfa2a7aeb9358ca4e5bc2fd2e54",
+      "bytes": 83405,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-checks-watch.log",
+      "originalSHA256": "f177093dd4485b75b4d0947624dd120c824db19999140054f742ba07cf12f3fa",
+      "originalBytes": 32630,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-checks-watch.log.gz",
+      "sha256": "7baa9163e1e3dc347e3eb46978f73d55eef1bece091aa50c5b574868915ace8d",
+      "bytes": 608,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-main-watch.log",
+      "originalSHA256": "274b474bd7b6416fd435d2c9360d46fe38fe534d9d926ebde0d69a0c48e5430b",
+      "originalBytes": 136249,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-main-watch.log.gz",
+      "sha256": "dc1dce9fb9ce4e988df67527c4fb60eaf40825b740ca041608bccd2f6c5246fa",
+      "bytes": 2499,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-main-local-identity.json",
+      "originalSHA256": "66dc50e6bba661e230322acec4fd6d0aef150603d3c0737f59d8a76617a2ff90",
+      "originalBytes": 4452,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-main-local-identity.json.gz",
+      "sha256": "eca14d7593e0f4507260f675fbea18c1f841aebdf48f5088ce00101486b8d321",
+      "bytes": 897,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-postrelease-archive-plan.json",
+      "originalSHA256": "fced5281d99958b39a30ccfb168c9f230d94e54f0e72ec85e84bb05081c283f6",
+      "originalBytes": 2025,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-postrelease-archive-plan.json.gz",
+      "sha256": "4c60d7c5b2c031808d259366bbab797245605d40c7b744a18b2de8f002e1ce06",
+      "bytes": 959,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-article-final-review.md",
+      "originalSHA256": "febcc2b7cd2ac7c8871ff140f5928df08ce0637fc5d640ffb5513600394d7aa0",
+      "originalBytes": 9423,
+      "path": "project/records/2026-09-25/pretraining-article-final-review.md",
+      "sha256": "febcc2b7cd2ac7c8871ff140f5928df08ce0637fc5d640ffb5513600394d7aa0",
+      "bytes": 9423,
+      "encoding": "UTF-8, LF, one final LF",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-article-final-review.md",
+      "originalSHA256": "febcc2b7cd2ac7c8871ff140f5928df08ce0637fc5d640ffb5513600394d7aa0",
+      "originalBytes": 9423,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-article-final-review.md.gz",
+      "sha256": "35a651f458795b3943272c2d5bd8a5a7773ec1a25c4cf361f1055bcf1f7098eb",
+      "bytes": 5050,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-article-final-review.json",
+      "originalSHA256": "6278027fd3fa6c4386d19b23a724abb35b707b1fc7cae53a12655bc7074b9e62",
+      "originalBytes": 4408,
+      "path": "project/records/2026-09-25/pretraining-article-final-review.json",
+      "sha256": "6278027fd3fa6c4386d19b23a724abb35b707b1fc7cae53a12655bc7074b9e62",
+      "bytes": 4408,
+      "encoding": "UTF-8, LF, one final LF",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-article-final-review.json",
+      "originalSHA256": "6278027fd3fa6c4386d19b23a724abb35b707b1fc7cae53a12655bc7074b9e62",
+      "originalBytes": 4408,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-article-final-review.json.gz",
+      "sha256": "83ca9ce97a6fde69bd9df7182ccc91a33bfa0a4c80c67eb7d2ede03ba35dd4b4",
+      "bytes": 2249,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-chromium-2026-09-29T17-58-38-436Z\\result.json",
+      "originalSHA256": "c57b4b6d5cc1bc42226ee8487f823363e99b802eefcdba30e0fc70394c790714",
+      "originalBytes": 4777443,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/chromium-result.json.gz",
+      "sha256": "f3aeb07c09e05aa2c49120c581376ad4cedb7bafd40dc46aa78710ff88a337f0",
+      "bytes": 316508,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public-edge.log",
+      "originalSHA256": "485ad7650de08c44735de82c93c9d348726e5d72cf81484fb14169fd54d55fa4",
+      "originalBytes": 6807,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/chromium-log.txt.gz",
+      "sha256": "15d40e43328910fb6a1308ce6f23d516b6c34c64fde4e77b13c00743b0b74d23",
+      "bytes": 1391,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-webkit-2026-09-29T17-58-37-867Z\\result.json",
+      "originalSHA256": "5b248f2133478c4d2b9ec51627eed1c17ec1abb12c573386c2a9cffdb5874d3d",
+      "originalBytes": 4695029,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/webkit-result.json.gz",
+      "sha256": "381e89783a78152458df5f4f43fa544e25c7ee34a7a7372c617166797c05a077",
+      "bytes": 299677,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public-webkit.log",
+      "originalSHA256": "51f8280e5c6122bc65c88010a9a6f5b89c5790da41dce61da84dee90481ca794",
+      "originalBytes": 6805,
+      "path": "project/records/2026-09-25/pretraining-public-evidence/webkit-log.txt.gz",
+      "sha256": "20b69fc7544fc975bc1faccc01e86b60000c5c4075fd8bbfeed970ab07b1fe90",
+      "bytes": 1391,
+      "encoding": "gzip of original bytes",
+      "kind": "transferred-initial-archive-entry",
+      "originalArchiveIndex": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json"
+    },
+    {
+      "kind": "original-initial-archive-index",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-archive\\public-raw-file-index.json",
+      "originalSHA256": "5e1fa3d3223b18c7c50d4a3f7af00cbde1eef400c9c63d500fcb30ad19dff289",
+      "originalBytes": 16682,
+      "encoding": "original bytes; pending fields unchanged",
+      "path": "project/records/2026-09-25/pretraining-public-evidence/public-raw-file-index.json",
+      "sha256": "5e1fa3d3223b18c7c50d4a3f7af00cbde1eef400c9c63d500fcb30ad19dff289",
+      "bytes": 16682
+    },
+    {
+      "kind": "supplemental-original-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-review-contract.json",
+      "originalSHA256": "20d1fc380d79066e20fef1ec1c230f09cfd7f9b64ca84a1b8a4ea5602e9484cd",
+      "originalBytes": 2402,
+      "encoding": "gzip of original bytes",
+      "declaredReviewSHA256": "20d1fc380d79066e20fef1ec1c230f09cfd7f9b64ca84a1b8a4ea5602e9484cd",
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-review-contract.json.gz",
+      "sha256": "1c11bbbe8d7ad1dc944a5ee5c7e18e4a004843cc10cfec48f11733d83692132d",
+      "bytes": 1211
+    },
+    {
+      "kind": "supplemental-original-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-review-summarize.mjs",
+      "originalSHA256": "dc609a1a7f73339173d064f497a448b3b2816db276f9693db6dcac0d2a73f60d",
+      "originalBytes": 3553,
+      "encoding": "gzip of original bytes",
+      "declaredReviewSHA256": "dc609a1a7f73339173d064f497a448b3b2816db276f9693db6dcac0d2a73f60d",
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-review-summarize.mjs.gz",
+      "sha256": "b93ee1ffa66ddf8a1be16515971fee621f49b2b9367d21c57caa13322535d17b",
+      "bytes": 1516
+    },
+    {
+      "kind": "supplemental-original-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-summary-chromium.json",
+      "originalSHA256": "18e447d25380b4e7bef877bf2eaef58c8f6c6bdcb3c081bbca1d669536cea12f",
+      "originalBytes": 239006,
+      "encoding": "gzip of original bytes",
+      "declaredReviewSHA256": "18e447d25380b4e7bef877bf2eaef58c8f6c6bdcb3c081bbca1d669536cea12f",
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-summary-chromium.json.gz",
+      "sha256": "595be3966df3aeeeedfee667bc58e6fa6fabe9a5cb61d7eb823602d4c3675e9f",
+      "bytes": 11455
+    },
+    {
+      "kind": "supplemental-original-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-summary-webkit.json",
+      "originalSHA256": "99edf24e864a1ae92b25fb7ef10b4888751a77534b2635e655a6e2451e1a2b0c",
+      "originalBytes": 205676,
+      "encoding": "gzip of original bytes",
+      "declaredReviewSHA256": "99edf24e864a1ae92b25fb7ef10b4888751a77534b2635e655a6e2451e1a2b0c",
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-summary-webkit.json.gz",
+      "sha256": "e9daa8cca16f55e9c30d27f5b2bdd178e14dd0c4c7baddf7c9403e5a4e160e67",
+      "bytes": 8686
+    },
+    {
+      "kind": "supplemental-original-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-inference-diagnostic.mjs",
+      "originalSHA256": "8bc0dcef940cfdce3247cf4d38d26b9107cdcdfd8f89e59f724937687ec5f773",
+      "originalBytes": 3997,
+      "encoding": "gzip of original bytes",
+      "declaredReviewSHA256": "8bc0dcef940cfdce3247cf4d38d26b9107cdcdfd8f89e59f724937687ec5f773",
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-inference-diagnostic.mjs.gz",
+      "sha256": "cae6dd761f69f6905e99e42b45aad12fe22e527495c6fb557e9cd93bab04665a",
+      "bytes": 1943
+    },
+    {
+      "kind": "supplemental-original-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-inference-diagnostic\\result.json",
+      "originalSHA256": "60b0f7e1b68f703c585d1bd6396fdbf06bf83e09b5d26ad98da0a1b8746e0f7e",
+      "originalBytes": 12431,
+      "encoding": "gzip of original bytes",
+      "declaredReviewSHA256": "60b0f7e1b68f703c585d1bd6396fdbf06bf83e09b5d26ad98da0a1b8746e0f7e",
+      "path": "project/records/2026-09-25/pretraining-public-evidence/diagnostic-result.json.gz",
+      "sha256": "3ddecdff1c0488946befacca94f32520d77bde3a126e874150b3429514390b6d",
+      "bytes": 3118
+    },
+    {
+      "kind": "supplemental-original-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-viewed-images.json",
+      "originalSHA256": "15ca91de8dcc38de3867ef3385f161dd9cc5ec13766b31ca7faef2577ed50bd6",
+      "originalBytes": 136582,
+      "encoding": "gzip of original bytes",
+      "declaredReviewSHA256": "15ca91de8dcc38de3867ef3385f161dd9cc5ec13766b31ca7faef2577ed50bd6",
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-viewed-images.json.gz",
+      "sha256": "e385b3afff5f8eb272694fdf0228433407c69d279b8e2ddbeb99d5cbcbe8dc9d",
+      "bytes": 7715
+    },
+    {
+      "kind": "supplemental-original-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-review.md",
+      "originalSHA256": "f8ff160a51738d2e955c8cb0eb50a7cea7cb166d76bb7175bb0676fedd57d53e",
+      "originalBytes": 3934,
+      "encoding": "gzip of original bytes",
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-review.md.gz",
+      "sha256": "e27f6047f22ca798b99c0ccc14a21b8365a953ca62ba8b53f0e7ec52f7531420",
+      "bytes": 2397
+    },
+    {
+      "kind": "public-review-readable-copy",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-review.md",
+      "originalSHA256": "f8ff160a51738d2e955c8cb0eb50a7cea7cb166d76bb7175bb0676fedd57d53e",
+      "originalBytes": 3934,
+      "encoding": "UTF-8 LF one final newline; fields and raw paths preserved",
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-review.md",
+      "sha256": "f8ff160a51738d2e955c8cb0eb50a7cea7cb166d76bb7175bb0676fedd57d53e",
+      "bytes": 3934
+    },
+    {
+      "kind": "supplemental-original-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-review.json",
+      "originalSHA256": "be4b2b1a010231b928ce2dc733f72fdb973b0d7950e27149a2ad6ffd07969635",
+      "originalBytes": 91121,
+      "encoding": "gzip of original bytes",
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-review.json.gz",
+      "sha256": "c51bd95719e8c34598fbc392e6f841ba4094c67ff80535fafbe98d3d27645d4e",
+      "bytes": 14070
+    },
+    {
+      "kind": "public-review-readable-copy",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-review.json",
+      "originalSHA256": "be4b2b1a010231b928ce2dc733f72fdb973b0d7950e27149a2ad6ffd07969635",
+      "originalBytes": 91121,
+      "encoding": "UTF-8 LF one final newline; fields and raw paths preserved",
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-review.json",
+      "sha256": "be4b2b1a010231b928ce2dc733f72fdb973b0d7950e27149a2ad6ffd07969635",
+      "bytes": 91121
+    },
+    {
+      "kind": "supplemental-original-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-main-docs.log",
+      "originalSHA256": "2f32e2f44e04baf8ae765690b226a27b33ae6cdc26d7b167810c615d8a89da5a",
+      "originalBytes": 361330,
+      "encoding": "gzip of original bytes",
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-main-docs.log.gz",
+      "sha256": "7480e6d1705aab1011da5ba5fe1a2e7423fa2e4f43cc062a4796558b14a24483",
+      "bytes": 42232
+    },
+    {
+      "kind": "supplemental-original-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-inference-diagnostic\\viewport.png",
+      "originalSHA256": "db78031dbd7f88d554a2e8edc73c7e705204ce6ff8cc9df27830a739bec2e7ac",
+      "originalBytes": 223684,
+      "encoding": "gzip of original bytes",
+      "actuallyViewed": false,
+      "purpose": "generated diagnostic viewport; not part of 90 viewed images",
+      "path": "project/records/2026-09-25/pretraining-public-evidence/diagnostic-viewport.png.gz",
+      "sha256": "5ebc760bb49fc8bd8088e821e9ce718a49b6fb7da85a8bc2a8d86e349727d177",
+      "bytes": 218271
+    },
+    {
+      "kind": "portable-image-mapping",
+      "path": "project/records/2026-09-25/pretraining-public-evidence/viewed-images.json",
+      "sha256": "2987175fd16eb6b7c77a5507c530dff1be21b6be0a7c3c66c28aad285d5a5456",
+      "bytes": 204846
+    },
+    {
+      "kind": "archive-scope-and-portability-notes",
+      "path": "project/records/2026-09-25/pretraining-public-evidence/README.md",
+      "sha256": "d2a97a75e2ec551a1a45f32e4c7a990eb3ebb24ccc7a38819e311aee4a684ace",
+      "bytes": 1784
+    }
+  ],
+  "images": {
+    "mapping": "project/records/2026-09-25/pretraining-public-evidence/viewed-images.json",
+    "sha256": "2987175fd16eb6b7c77a5507c530dff1be21b6be0a7c3c66c28aad285d5a5456",
+    "bytes": 204846,
+    "count": 90
+  },
+  "originalToStored": [
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929t175644863z\\artifact-evidence.json",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/ci-artifact-evidence.json.gz",
+        "project/records/2026-09-25/pretraining-public-evidence/artifact-evidence.json"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929t175644863z\\deployment-before.json",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/ci-deployment-before.json.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929t175644863z\\deployment-after.json",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/ci-deployment-after.json.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929t175644863z\\portable-references.json",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/ci-portable-references.json.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929t175644863z\\html-2026-09-29t17-58-05-984z\\inference-internals.html",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/inference-internals.html.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929t175644863z\\html-2026-09-29t17-58-05-984z\\how-llms-generate-text.html",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/how-llms-generate-text.html.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929t175644863z\\html-2026-09-29t17-58-05-984z\\tokenization.html",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/tokenization.html.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929t175644863z\\html-2026-09-29t17-58-05-984z\\mixture-of-experts-internals.html",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/mixture-of-experts-internals.html.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929t175644863z\\html-2026-09-29t17-58-05-984z\\attention-variants-and-long-context.html",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/attention-variants-and-long-context.html.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929t175644863z\\html-2026-09-29t17-58-05-984z\\transformer-architecture.html",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/transformer-architecture.html.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929t175644863z\\html-2026-09-29t17-58-05-984z\\llm-training-pipeline.html",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/llm-training-pipeline.html.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929t175644863z\\html-2026-09-29t17-58-05-984z\\pretraining-and-scaling-laws.html",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-and-scaling-laws.html.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-candidate.json",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-candidate.json.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-final.json",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-final.json.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-merge.json",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-merge.json.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-main-ci.json",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-main-ci.json.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-merge-message.txt",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-merge-message.txt.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-main-build.log",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-main-build.log.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-checks-watch.log",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-checks-watch.log.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-main-watch.log",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-main-watch.log.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-main-local-identity.json",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-main-local-identity.json.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-postrelease-archive-plan.json",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-postrelease-archive-plan.json.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-article-final-review.md",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-article-final-review.md",
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-article-final-review.md.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-article-final-review.json",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-article-final-review.json",
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-article-final-review.json.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\result.json",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/chromium-result.json.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public-edge.log",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/chromium-log.txt.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\result.json",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/webkit-result.json.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public-webkit.log",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/webkit-log.txt.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-archive\\public-raw-file-index.json",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/public-raw-file-index.json"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-public-review-contract.json",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-review-contract.json.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-public-review-summarize.mjs",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-review-summarize.mjs.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-public-summary-chromium.json",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-summary-chromium.json.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-public-summary-webkit.json",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-summary-webkit.json.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-public-inference-diagnostic.mjs",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-inference-diagnostic.mjs.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-public-inference-diagnostic\\result.json",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/diagnostic-result.json.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-public-viewed-images.json",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-viewed-images.json.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-public-review.md",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-review.md.gz",
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-review.md"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-public-review.json",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-review.json.gz",
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-review.json"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-main-docs.log",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-main-docs.log.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-public-inference-diagnostic\\viewport.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/diagnostic-viewport.png.gz"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-loss-perplexity-stage-0-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/001-edge-pretraining-loss-perplexity-stage-0-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-loss-perplexity-stage-1-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/002-edge-pretraining-loss-perplexity-stage-1-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-loss-perplexity-stage-2-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/003-edge-pretraining-loss-perplexity-stage-2-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-loss-perplexity-stage-3-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/004-edge-pretraining-loss-perplexity-stage-3-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-loss-perplexity-stage-4-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/005-edge-pretraining-loss-perplexity-stage-4-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-scaling-stage-0-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/006-edge-pretraining-scaling-stage-0-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-scaling-stage-1-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/007-edge-pretraining-scaling-stage-1-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-scaling-stage-2-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/008-edge-pretraining-scaling-stage-2-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-scaling-stage-3-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/009-edge-pretraining-scaling-stage-3-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-scaling-stage-4-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/010-edge-pretraining-scaling-stage-4-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-scaling-stage-5-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/011-edge-pretraining-scaling-stage-5-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-data-stage-0-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/012-edge-pretraining-data-stage-0-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-data-stage-1-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/013-edge-pretraining-data-stage-1-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-data-stage-2-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/014-edge-pretraining-data-stage-2-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-data-stage-3-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/015-edge-pretraining-data-stage-3-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-metrics-stage-0-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/016-edge-pretraining-metrics-stage-0-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-metrics-stage-1-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/017-edge-pretraining-metrics-stage-1-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-metrics-stage-2-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/018-edge-pretraining-metrics-stage-2-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-metrics-stage-3-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/019-edge-pretraining-metrics-stage-3-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-compute-stage-0-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/020-edge-pretraining-compute-stage-0-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-compute-stage-1-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/021-edge-pretraining-compute-stage-1-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-compute-stage-2-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/022-edge-pretraining-compute-stage-2-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-compute-stage-3-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/023-edge-pretraining-compute-stage-3-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-data-stage-0-1440x1000-dark-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/024-edge-pretraining-data-stage-0-1440x1000-dark-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-data-stage-0-1280x720-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/025-edge-pretraining-data-stage-0-1280x720-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-data-stage-0-390x844-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/026-edge-pretraining-data-stage-0-390x844-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-data-stage-0-390x844-dark-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/027-edge-pretraining-data-stage-0-390x844-dark-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-data-stage-0-960x540-light-dsf2-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/028-edge-pretraining-data-stage-0-960x540-light-dsf2-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-metrics-stage-3-1280x720-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/029-edge-pretraining-metrics-stage-3-1280x720-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-loss-perplexity-probability-example-b-stage-2-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/030-edge-pretraining-loss-perplexity-probability-example-B-stage-2-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-loss-perplexity-probability-example-b-stage-3-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/031-edge-pretraining-loss-perplexity-probability-example-B-stage-3-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-loss-perplexity-comparison-condition-different-tokenizer-stage-4-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/032-edge-pretraining-loss-perplexity-comparison-condition-different-tokenizer-stage-4-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-loss-perplexity-comparison-condition-different-data-stage-4-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/033-edge-pretraining-loss-perplexity-comparison-condition-different-data-stage-4-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-metrics-score-threshold-50-stage-2-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/034-edge-pretraining-metrics-score-threshold-50-stage-2-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-metrics-score-threshold-70-stage-2-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/035-edge-pretraining-metrics-score-threshold-70-stage-2-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-scaling-growth-scale-4-stage-3-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/036-edge-pretraining-scaling-growth-scale-4-stage-3-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-data-data-focus-contamination-stage-2-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/037-edge-pretraining-data-data-focus-contamination-stage-2-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-compute-product-1-2-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/038-edge-pretraining-compute-product-1-2-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-compute-product-2-2-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/039-edge-pretraining-compute-product-2-2-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\inference-sampling-stage-6.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/040-edge-inference-sampling-stage-6.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\inference-sampling-stage-6-1440x1000-dark-review-candidate.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/041-edge-inference-sampling-stage-6-1440x1000-dark-review-candidate.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\inference-sampling-stage-6-1280x720-light-review-candidate.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/042-edge-inference-sampling-stage-6-1280x720-light-review-candidate.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\inference-speculative-stage-1-1280x720-light-review-candidate.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/043-edge-inference-speculative-stage-1-1280x720-light-review-candidate.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\inference-sampling-semantic-final.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/044-edge-inference-sampling-semantic-final.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\training-stages-stage-2-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/045-edge-training-stages-stage-2-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\training-stages-stage-2-1440x1000-dark-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/046-edge-training-stages-stage-2-1440x1000-dark-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\training-stages-stage-2-1280x720-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/047-edge-training-stages-stage-2-1280x720-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\training-stages-stage-2-390x844-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/048-edge-training-stages-stage-2-390x844-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\training-stages-stage-2-390x844-dark-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/049-edge-training-stages-stage-2-390x844-dark-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\training-stages-stage-2-960x540-light-dsf2-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/050-edge-training-stages-stage-2-960x540-light-dsf2-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\training-knowledge-focus-selected-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/051-edge-training-knowledge-focus-selected-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\training-stages-expanded-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/052-edge-training-stages-expanded-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\training-runtime-boundary-stage-2-1440x1000-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/053-edge-training-runtime-boundary-stage-2-1440x1000-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-loss-perplexity-stage-2-1280x720-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/054-edge-pretraining-loss-perplexity-stage-2-1280x720-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-scaling-stage-3-1280x720-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/055-edge-pretraining-scaling-stage-3-1280x720-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-compute-stage-3-1280x720-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/056-edge-pretraining-compute-stage-3-1280x720-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-no-javascript-pretraining-loss-perplexity-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/057-edge-pretraining-no-javascript-pretraining-loss-perplexity-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-print-pretraining-metrics-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/058-edge-pretraining-print-pretraining-metrics-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-no-javascript.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/059-edge-pretraining-no-javascript.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-print.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/060-edge-pretraining-print.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-scaling-stage-3-1440x1000-light-dsf1.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/061-edge-pretraining-scaling-stage-3-1440x1000-light-dsf1.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\pretraining-metrics-expanded.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/062-edge-pretraining-metrics-expanded.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\generation-token-loop-2.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/063-edge-generation-token-loop-2.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\tokenization-counting-2.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/064-edge-tokenization-counting-2.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\moe-routing-load-2-1440-light.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/065-edge-moe-routing-load-2-1440-light.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\attention-compute-memory-2-1440-light.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/066-edge-attention-compute-memory-2-1440-light.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-chromium-2026-09-29t17-58-38-436z\\transformer-regression-1440-light.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/067-edge-transformer-regression-1440-light.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\pretraining-loss-perplexity-stage-2-1280x720-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/068-webkit-pretraining-loss-perplexity-stage-2-1280x720-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\pretraining-scaling-stage-3-1280x720-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/069-webkit-pretraining-scaling-stage-3-1280x720-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\pretraining-data-stage-2-1280x720-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/070-webkit-pretraining-data-stage-2-1280x720-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\pretraining-metrics-stage-3-1280x720-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/071-webkit-pretraining-metrics-stage-3-1280x720-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\pretraining-compute-stage-3-1280x720-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/072-webkit-pretraining-compute-stage-3-1280x720-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\pretraining-loss-perplexity-stage-4-390x844-dark-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/073-webkit-pretraining-loss-perplexity-stage-4-390x844-dark-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\pretraining-scaling-stage-3-390x844-dark-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/074-webkit-pretraining-scaling-stage-3-390x844-dark-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\pretraining-data-stage-2-390x844-dark-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/075-webkit-pretraining-data-stage-2-390x844-dark-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\pretraining-metrics-stage-3-390x844-dark-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/076-webkit-pretraining-metrics-stage-3-390x844-dark-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\pretraining-compute-stage-3-390x844-dark-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/077-webkit-pretraining-compute-stage-3-390x844-dark-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\pretraining-loss-perplexity-stage-2-960x540-light-dsf2-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/078-webkit-pretraining-loss-perplexity-stage-2-960x540-light-dsf2-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\pretraining-scaling-stage-3-960x540-light-dsf2-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/079-webkit-pretraining-scaling-stage-3-960x540-light-dsf2-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\pretraining-data-stage-2-960x540-light-dsf2-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/080-webkit-pretraining-data-stage-2-960x540-light-dsf2-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\pretraining-metrics-stage-3-960x540-light-dsf2-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/081-webkit-pretraining-metrics-stage-3-960x540-light-dsf2-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\pretraining-compute-stage-3-960x540-light-dsf2-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/082-webkit-pretraining-compute-stage-3-960x540-light-dsf2-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\inference-sampling-semantic-final.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/083-webkit-inference-sampling-semantic-final.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\pretraining-compute-stage-3-960x540-light-dsf2.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/084-webkit-pretraining-compute-stage-3-960x540-light-dsf2.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-public-inference-diagnostic\\scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/085-diagnostic-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\pretraining-loss-perplexity-stage-4-390x844-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/086-webkit-pretraining-loss-perplexity-stage-4-390x844-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\pretraining-scaling-stage-3-390x844-light-dsf1-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/087-webkit-pretraining-scaling-stage-3-390x844-light-dsf1-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\pretraining-no-javascript-pretraining-data-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/088-webkit-pretraining-no-javascript-pretraining-data-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\pretraining-print-pretraining-loss-perplexity-scene.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/089-webkit-pretraining-print-pretraining-loss-perplexity-scene.png"
+      ]
+    },
+    {
+      "canonicalOriginal": "c:\\users\\81906\\appdata\\local\\temp\\pretraining-pr61-public\\public-webkit-2026-09-29t17-58-37-867z\\pretraining-metrics-stage-3-390x844-dark-dsf1.png",
+      "storedPaths": [
+        "project/records/2026-09-25/pretraining-public-evidence/viewed/090-webkit-pretraining-metrics-stage-3-390x844-dark-dsf1.png"
+      ]
+    }
+  ],
+  "verification": "project/records/2026-09-25/pretraining-public-evidence/archive-verification.json",
+  "excludedClaims": [
+    "public acceptance",
+    "correction acceptance",
+    "all generated PNG viewed",
+    "physical Safari/iPhone testing",
+    "new article approval"
+  ]
+}

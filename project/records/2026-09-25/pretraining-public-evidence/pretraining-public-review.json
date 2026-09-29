@@ -1,0 +1,2600 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-public-image-review",
+  "reviewer": "/root/pretraining_visual_review",
+  "reviewedAt": "2026-09-29T18:21:43.952Z",
+  "decision": "changes_requested",
+  "risk": "medium",
+  "must": [
+    {
+      "id": "PUBLIC-V1",
+      "severity": "must",
+      "priority": 2,
+      "status": "open",
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "figure": "inference-sampling",
+      "stage": 6,
+      "choice": "comparison-kind=logit / 比較する揺らぎ: スコアだけを変更",
+      "engine": "WebKit26.6",
+      "profile": "1440x1000 light DSF1",
+      "issue": "C列 0.000000 の末尾0とD列 -1.000000 の負号が2行とも横に重なり、4つの数値が連結して見える。六桁の微小差を読む図なので表示意味を損なう。",
+      "geometry": "C/D text boxes intersect6.234375 SVG units (6.103435 rendered CSS pixels), full text height; visible ink collision independently reproduced",
+      "target": "website/components/diagrams/inference-sampling-walkthrough.jsx:96; website/components/diagrams/inference-sampling.css:5",
+      "evidence": [
+        {
+          "file": "C:/Users/81906/AppData/Local/Temp/pretraining-pr61-public/public-webkit-2026-09-29T17-58-37-867Z/inference-sampling-semantic-final.png",
+          "sha256": "b3cdefc5cfc15d2f8c9ae25492df523262a8dbe710d624d477ae319842f399e4"
+        },
+        {
+          "file": "C:/Users/81906/AppData/Local/Temp/pretraining-public-inference-diagnostic/scene.png",
+          "sha256": "e2b52a70e56785aedcddb3787730dc694675891bb2389d713af10eacfc02726a"
+        }
+      ],
+      "suggestedResolution": "Retain six decimal places and fixed value identity. Adjust logit-only text width/spacing so both positive and negative labels have visible gaps; keep draw probability mode unchanged. Revalidate all affected profiles and both engines on corrected deployment."
+    }
+  ],
+  "should": [],
+  "scope": {
+    "articles": 8,
+    "newC2Figures": 5,
+    "newC2Stages": 23,
+    "oldArticlesRepresentative": 7,
+    "productOrKitEdits": false,
+    "publicEvidenceOnly": true,
+    "localPNGsIncluded": false
+  },
+  "release": {
+    "mergeSha": "ca3c09eebd1b549564f874f3304d23ae25328194",
+    "buildId": "UWZD5odlVHV_TyUNH3jZ0",
+    "runId": 36606841286,
+    "buildJobUrl": "https://github.com/pero3dev/ai-agent-library/actions/runs/36606841286/job/109537925933",
+    "deployJobUrl": "https://github.com/pero3dev/ai-agent-library/actions/runs/36606841286/job/109543224688",
+    "artifactId": 11052530186,
+    "deploymentState": "success",
+    "documents": [
+      {
+        "route": "/docs/llm-internals/inference-internals",
+        "archiveMember": "./docs/llm-internals/inference-internals.html",
+        "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\html-2026-09-29T17-58-05-984Z\\inference-internals.html",
+        "bytes": 718590,
+        "htmlSHA256": "4d2d794053de9ebfd8d07fe7f6764b7ed1c0ef56a9f706351d59438bf2150013",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      },
+      {
+        "route": "/docs/llm-foundations/how-llms-generate-text",
+        "archiveMember": "./docs/llm-foundations/how-llms-generate-text.html",
+        "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\html-2026-09-29T17-58-05-984Z\\how-llms-generate-text.html",
+        "bytes": 596944,
+        "htmlSHA256": "39be30dd04b81bbcdd55eb112ca5c031d306eaae9c3fd1f847640094923bb968",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      },
+      {
+        "route": "/docs/llm-foundations/tokenization",
+        "archiveMember": "./docs/llm-foundations/tokenization.html",
+        "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\html-2026-09-29T17-58-05-984Z\\tokenization.html",
+        "bytes": 583364,
+        "htmlSHA256": "7a3905fb54021b9d50d8952308c203a431bee32a84cfde5d8e7e6a49c693394d",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      },
+      {
+        "route": "/docs/llm-internals/mixture-of-experts-internals",
+        "archiveMember": "./docs/llm-internals/mixture-of-experts-internals.html",
+        "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\html-2026-09-29T17-58-05-984Z\\mixture-of-experts-internals.html",
+        "bytes": 712770,
+        "htmlSHA256": "cb8c5ea10aafdf423f7fccbb6e9e6c5ef33c9d54370a22ee9333e32001df9dd9",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      },
+      {
+        "route": "/docs/llm-internals/attention-variants-and-long-context",
+        "archiveMember": "./docs/llm-internals/attention-variants-and-long-context.html",
+        "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\html-2026-09-29T17-58-05-984Z\\attention-variants-and-long-context.html",
+        "bytes": 771312,
+        "htmlSHA256": "f9caaedeb76f1c8669d3058bda682b96e63dd51b75c6c79c40d7d8bb24b2d2c6",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      },
+      {
+        "route": "/docs/llm-internals/transformer-architecture",
+        "archiveMember": "./docs/llm-internals/transformer-architecture.html",
+        "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\html-2026-09-29T17-58-05-984Z\\transformer-architecture.html",
+        "bytes": 1077989,
+        "htmlSHA256": "309f3e4ffd8060b75c708630ac0e3ef1ffbaf33b32325c5e23312b700f8b356b",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      },
+      {
+        "route": "/docs/llm-foundations/llm-training-pipeline",
+        "archiveMember": "./docs/llm-foundations/llm-training-pipeline.html",
+        "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\html-2026-09-29T17-58-05-984Z\\llm-training-pipeline.html",
+        "bytes": 611779,
+        "htmlSHA256": "a7e5a5726cbff05f2224773d63d9c1f7ea530c4909a33489e773be83d5293716",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      },
+      {
+        "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+        "archiveMember": "./docs/llm-internals/pretraining-and-scaling-laws.html",
+        "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\html-2026-09-29T17-58-05-984Z\\pretraining-and-scaling-laws.html",
+        "bytes": 766159,
+        "htmlSHA256": "761a59706bb3a507fe1f1d5f6c2d6263f714236955a665335252229a6b0c731b",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      }
+    ]
+  },
+  "inputDigestsAtReview": [
+    {
+      "article": "docs/11-llm-internals/transformer-architecture.md",
+      "inputDigest": "sha256:e608a9954aee28546173f8c8250e34b43a6fc61293f46c54ba9f075fb7f02376"
+    },
+    {
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "inputDigest": "sha256:939497afc225dbe36976b72b17ce63705b744869047e069f013eb7c89be8913f"
+    },
+    {
+      "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "inputDigest": "sha256:67f6886639932264e008b124f0ac41daa88da4a99158a55211eed6006bb8e753"
+    },
+    {
+      "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "inputDigest": "sha256:bcd96bd8e9f0e60fe6308ff79870f9a45ded0a4f8f1010b7fe9518d79577459d"
+    },
+    {
+      "article": "docs/10-llm-foundations/tokenization.md",
+      "inputDigest": "sha256:9aa1f291fb1ab9ea006ab9a42ebc1065b2410fa39b0377e720952f07d5e47c69"
+    },
+    {
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "inputDigest": "sha256:44c59ad4bbb41ed623e89e0446c0a617f050ba0d416e87a3462eab2381e88b09"
+    },
+    {
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "inputDigest": "sha256:33237ab6f74f953e7ceab16d01631b765eb21bf28df6e3ff7cc8eb7f4f261ec5"
+    },
+    {
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "inputDigest": "sha256:0fa344cb9b3ec838864fb9c0f7b6e4f2532751e8535a43e057cd53f41f7a18b6"
+    }
+  ],
+  "machineResults": [
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp/pretraining-pr61-public/public-chromium-2026-09-29T17-58-38-436Z/result.json",
+      "sha256": "c57b4b6d5cc1bc42226ee8487f823363e99b802eefcdba30e0fc70394c790714",
+      "browser": {
+        "engine": "chromium",
+        "channel": "msedge",
+        "version": "154.0.4258.37"
+      },
+      "status": "passed",
+      "passed": 91,
+      "failed": 0,
+      "assets": 72,
+      "png": 671,
+      "publicDocumentsVerified": 89,
+      "c2": {
+        "cases": 20,
+        "profiles": [
+          {
+            "name": "pretraining: all 23 stages 1440x1000 light DSF1",
+            "stages": 23,
+            "minRenderedFontPx": 17.621947674418603,
+            "overflow": 0
+          },
+          {
+            "name": "pretraining: all 23 stages 1440x1000 dark DSF1",
+            "stages": 23,
+            "minRenderedFontPx": 17.621947674418603,
+            "overflow": 0
+          },
+          {
+            "name": "pretraining: all 23 stages 1280x720 light DSF1",
+            "stages": 23,
+            "minRenderedFontPx": 14.943531976744186,
+            "overflow": 0
+          },
+          {
+            "name": "pretraining: all 23 stages 390x844 light DSF1",
+            "stages": 23,
+            "minRenderedFontPx": 10.012500000000001,
+            "overflow": 0
+          },
+          {
+            "name": "pretraining: all 23 stages 390x844 dark DSF1",
+            "stages": 23,
+            "minRenderedFontPx": 10.012500000000001,
+            "overflow": 0
+          },
+          {
+            "name": "pretraining: all 23 stages 960x540 light DSF2",
+            "stages": 23,
+            "minRenderedFontPx": 17.04375,
+            "overflow": 0
+          }
+        ],
+        "midpointVisits": 108,
+        "selectorVisits": 35,
+        "uniqueControls": 11,
+        "uniqueOptions": 31,
+        "reading": {
+          "pretraining-loss-perplexity": {
+            "forward": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "reverse": [
+              4,
+              3,
+              2,
+              1,
+              0
+            ]
+          },
+          "pretraining-scaling": {
+            "forward": [
+              0,
+              1,
+              3,
+              4,
+              5
+            ],
+            "reverse": [
+              5,
+              4,
+              3,
+              1,
+              0
+            ]
+          },
+          "pretraining-data": {
+            "forward": [
+              0,
+              2,
+              3
+            ],
+            "reverse": [
+              3,
+              2,
+              0
+            ]
+          },
+          "pretraining-metrics": {
+            "forward": [
+              0,
+              2,
+              3
+            ],
+            "reverse": [
+              3,
+              2,
+              0
+            ]
+          },
+          "pretraining-compute": {
+            "forward": [
+              0,
+              1,
+              3
+            ],
+            "reverse": [
+              3,
+              1,
+              0
+            ]
+          }
+        },
+        "nativePlayback": [
+          {
+            "name": "pretraining-loss-perplexity: native elapsed play, frozen pause, replay and completion",
+            "playback": {
+              "clock": "native browser time; no fake clock",
+              "elapsedMs": 8210,
+              "progress": 1.16,
+              "paused": "1.16",
+              "frozen": true,
+              "replay": true,
+              "completion": true
+            }
+          },
+          {
+            "name": "pretraining-scaling: native elapsed play, frozen pause, replay and completion",
+            "playback": {
+              "clock": "native browser time; no fake clock",
+              "elapsedMs": 8151,
+              "progress": 1.16,
+              "paused": "1.16",
+              "frozen": true,
+              "replay": true,
+              "completion": true
+            }
+          },
+          {
+            "name": "pretraining-data: native elapsed play, frozen pause, replay and completion",
+            "playback": {
+              "clock": "native browser time; no fake clock",
+              "elapsedMs": 8179,
+              "progress": 1.16,
+              "paused": "1.16",
+              "frozen": true,
+              "replay": true,
+              "completion": true
+            }
+          },
+          {
+            "name": "pretraining-metrics: native elapsed play, frozen pause, replay and completion",
+            "playback": {
+              "clock": "native browser time; no fake clock",
+              "elapsedMs": 8051,
+              "progress": 1.16,
+              "paused": "1.16",
+              "frozen": true,
+              "replay": true,
+              "completion": true
+            }
+          },
+          {
+            "name": "pretraining-compute: native elapsed play, frozen pause, replay and completion",
+            "playback": {
+              "clock": "native browser time; no fake clock",
+              "elapsedMs": 8181,
+              "progress": 1.16,
+              "paused": "1.16",
+              "frozen": true,
+              "replay": true,
+              "completion": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp/pretraining-pr61-public/public-webkit-2026-09-29T17-58-37-867Z/result.json",
+      "sha256": "5b248f2133478c4d2b9ec51627eed1c17ec1abb12c573386c2a9cffdb5874d3d",
+      "browser": {
+        "engine": "webkit",
+        "channel": null,
+        "version": "26.6"
+      },
+      "status": "passed",
+      "passed": 91,
+      "failed": 0,
+      "assets": 72,
+      "png": 668,
+      "publicDocumentsVerified": 89,
+      "c2": {
+        "cases": 20,
+        "profiles": [
+          {
+            "name": "pretraining: all 23 stages 1440x1000 light DSF1",
+            "stages": 23,
+            "minRenderedFontPx": 17.621947674418603,
+            "overflow": 0
+          },
+          {
+            "name": "pretraining: all 23 stages 1440x1000 dark DSF1",
+            "stages": 23,
+            "minRenderedFontPx": 17.621947674418603,
+            "overflow": 0
+          },
+          {
+            "name": "pretraining: all 23 stages 1280x720 light DSF1",
+            "stages": 23,
+            "minRenderedFontPx": 14.943531976744186,
+            "overflow": 0
+          },
+          {
+            "name": "pretraining: all 23 stages 390x844 light DSF1",
+            "stages": 23,
+            "minRenderedFontPx": 10.012500000000001,
+            "overflow": 0
+          },
+          {
+            "name": "pretraining: all 23 stages 390x844 dark DSF1",
+            "stages": 23,
+            "minRenderedFontPx": 10.012500000000001,
+            "overflow": 0
+          },
+          {
+            "name": "pretraining: all 23 stages 960x540 light DSF2",
+            "stages": 23,
+            "minRenderedFontPx": 17.04375,
+            "overflow": 0
+          }
+        ],
+        "midpointVisits": 108,
+        "selectorVisits": 35,
+        "uniqueControls": 11,
+        "uniqueOptions": 31,
+        "reading": {
+          "pretraining-loss-perplexity": {
+            "forward": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "reverse": [
+              4,
+              3,
+              2,
+              1,
+              0
+            ]
+          },
+          "pretraining-scaling": {
+            "forward": [
+              0,
+              1,
+              3,
+              4,
+              5
+            ],
+            "reverse": [
+              5,
+              4,
+              3,
+              1,
+              0
+            ]
+          },
+          "pretraining-data": {
+            "forward": [
+              0,
+              2,
+              3
+            ],
+            "reverse": [
+              3,
+              2,
+              0
+            ]
+          },
+          "pretraining-metrics": {
+            "forward": [
+              0,
+              2,
+              3
+            ],
+            "reverse": [
+              3,
+              2,
+              0
+            ]
+          },
+          "pretraining-compute": {
+            "forward": [
+              0,
+              1,
+              3
+            ],
+            "reverse": [
+              3,
+              1,
+              0
+            ]
+          }
+        },
+        "nativePlayback": [
+          {
+            "name": "pretraining-loss-perplexity: native elapsed play, frozen pause, replay and completion",
+            "playback": {
+              "clock": "native browser time; no fake clock",
+              "elapsedMs": 9119,
+              "progress": 1.15,
+              "paused": "1.2",
+              "frozen": true,
+              "replay": true,
+              "completion": true
+            }
+          },
+          {
+            "name": "pretraining-scaling: native elapsed play, frozen pause, replay and completion",
+            "playback": {
+              "clock": "native browser time; no fake clock",
+              "elapsedMs": 9055,
+              "progress": 1.15,
+              "paused": "1.2",
+              "frozen": true,
+              "replay": true,
+              "completion": true
+            }
+          },
+          {
+            "name": "pretraining-data: native elapsed play, frozen pause, replay and completion",
+            "playback": {
+              "clock": "native browser time; no fake clock",
+              "elapsedMs": 9016,
+              "progress": 1.15,
+              "paused": "1.2",
+              "frozen": true,
+              "replay": true,
+              "completion": true
+            }
+          },
+          {
+            "name": "pretraining-metrics: native elapsed play, frozen pause, replay and completion",
+            "playback": {
+              "clock": "native browser time; no fake clock",
+              "elapsedMs": 9035,
+              "progress": 1.15,
+              "paused": "1.2",
+              "frozen": true,
+              "replay": true,
+              "completion": true
+            }
+          },
+          {
+            "name": "pretraining-compute: native elapsed play, frozen pause, replay and completion",
+            "playback": {
+              "clock": "native browser time; no fake clock",
+              "elapsedMs": 9052,
+              "progress": 1.15,
+              "paused": "1.2",
+              "frozen": true,
+              "replay": true,
+              "completion": true
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "counts": {
+    "edge": 67,
+    "webkitRunner": 22,
+    "publicDiagnostic": 1,
+    "total": 90,
+    "generatedRunnerPNG": 1339,
+    "diagnosticGeneratedPNG": 2
+  },
+  "bboxReviews": [
+    {
+      "engine": "chromium",
+      "case": "inference: all 23 stages 1440x1000 light",
+      "kind": "inference",
+      "label": "inference-sampling stage 6 1440x1000 light",
+      "candidates": [
+        {
+          "texts": [
+            "選択 A",
+            "値: 確率"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "選択 A",
+              "x": 41.999999999999886,
+              "y": 130.46366882324222,
+              "right": 112.04936218261707,
+              "bottom": 162.12872314453128
+            },
+            {
+              "text": "値: 確率",
+              "x": 41.999999999999886,
+              "y": 161.50657653808597,
+              "right": 118.76861572265614,
+              "bottom": 190.1072750091553
+            }
+          ],
+          "intersectionSVG": {
+            "x": 41.999999999999886,
+            "y": 161.50657653808597,
+            "width": 70.04936218261719,
+            "height": 0.6221466064453125
+          },
+          "intersectionRenderedPx": {
+            "width": 68.57812194491532,
+            "height": 0.6090797191442334
+          }
+        },
+        {
+          "texts": [
+            "選択 B",
+            "値: 確率"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "選択 B",
+              "x": 41.999999999999886,
+              "y": 278.4636535644531,
+              "right": 110.32565307617176,
+              "bottom": 310.12872314453125
+            },
+            {
+              "text": "値: 確率",
+              "x": 41.999999999999886,
+              "y": 309.506591796875,
+              "right": 118.76861572265614,
+              "bottom": 338.10729026794434
+            }
+          ],
+          "intersectionSVG": {
+            "x": 41.999999999999886,
+            "y": 309.506591796875,
+            "width": 68.32565307617188,
+            "height": 0.62213134765625
+          },
+          "intersectionRenderedPx": {
+            "width": 66.89061574048776,
+            "height": 0.6090647808341032
+          }
+        }
+      ],
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-chromium-2026-09-29T17-58-38-436Z\\inference-sampling-stage-6.png",
+      "sha256": "3b868b41b17baeeaa87f00fdfa85dfd6ed88bd24bbd39f5f7b6b989101a8f9d7",
+      "decision": "No additional actual glyph collision or meaning loss in inspected image"
+    },
+    {
+      "engine": "chromium",
+      "case": "inference: all 23 stages 1440x1000 dark",
+      "kind": "inference",
+      "label": "inference-sampling stage 6 1440x1000 dark",
+      "candidates": [
+        {
+          "texts": [
+            "選択 A",
+            "値: 確率"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "選択 A",
+              "x": 41.999999999999886,
+              "y": 130.46366882324222,
+              "right": 112.04936218261707,
+              "bottom": 162.12872314453128
+            },
+            {
+              "text": "値: 確率",
+              "x": 41.999999999999886,
+              "y": 161.50657653808597,
+              "right": 118.76861572265614,
+              "bottom": 190.1072750091553
+            }
+          ],
+          "intersectionSVG": {
+            "x": 41.999999999999886,
+            "y": 161.50657653808597,
+            "width": 70.04936218261719,
+            "height": 0.6221466064453125
+          },
+          "intersectionRenderedPx": {
+            "width": 68.57812194491532,
+            "height": 0.6090797191442334
+          }
+        },
+        {
+          "texts": [
+            "選択 B",
+            "値: 確率"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "選択 B",
+              "x": 41.999999999999886,
+              "y": 278.4636535644531,
+              "right": 110.32565307617176,
+              "bottom": 310.12872314453125
+            },
+            {
+              "text": "値: 確率",
+              "x": 41.999999999999886,
+              "y": 309.506591796875,
+              "right": 118.76861572265614,
+              "bottom": 338.10729026794434
+            }
+          ],
+          "intersectionSVG": {
+            "x": 41.999999999999886,
+            "y": 309.506591796875,
+            "width": 68.32565307617188,
+            "height": 0.62213134765625
+          },
+          "intersectionRenderedPx": {
+            "width": 66.89061574048776,
+            "height": 0.6090647808341032
+          }
+        }
+      ],
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-chromium-2026-09-29T17-58-38-436Z\\inference-sampling-stage-6-1440x1000-dark-review-candidate.png",
+      "sha256": "d3836f9caac5c668ff17bb03c606d029fab14f3d38c10468150bc31dedd2a342",
+      "decision": "No additional actual glyph collision or meaning loss in inspected image"
+    },
+    {
+      "engine": "chromium",
+      "case": "inference: all 23 stages 1280x720 light",
+      "kind": "inference",
+      "label": "inference-sampling stage 6 1280x720 light",
+      "candidates": [
+        {
+          "texts": [
+            "選択 A",
+            "値: 確率"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "選択 A",
+              "x": 42,
+              "y": 130.70477294921875,
+              "right": 112.22059631347656,
+              "bottom": 162.02267456054688
+            },
+            {
+              "text": "値: 確率",
+              "x": 42,
+              "y": 160.90931701660156,
+              "right": 118.78907775878906,
+              "bottom": 191.02268028259277
+            }
+          ],
+          "intersectionSVG": {
+            "x": 42,
+            "y": 160.90931701660156,
+            "width": 70.22059631347656,
+            "height": 1.1133575439453125
+          },
+          "intersectionRenderedPx": {
+            "width": 58.29687369091562,
+            "height": 0.9243052255275757
+          }
+        },
+        {
+          "texts": [
+            "選択 B",
+            "値: 確率"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "選択 B",
+              "x": 42,
+              "y": 278.70477294921875,
+              "right": 110.31969451904297,
+              "bottom": 310.0226745605469
+            },
+            {
+              "text": "値: 確率",
+              "x": 42,
+              "y": 308.9093017578125,
+              "right": 118.78907775878906,
+              "bottom": 339.0226650238037
+            }
+          ],
+          "intersectionSVG": {
+            "x": 42,
+            "y": 308.9093017578125,
+            "width": 68.31969451904297,
+            "height": 1.113372802734375
+          },
+          "intersectionRenderedPx": {
+            "width": 56.718752204817406,
+            "height": 0.9243178933165836
+          }
+        }
+      ],
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-chromium-2026-09-29T17-58-38-436Z\\inference-sampling-stage-6-1280x720-light-review-candidate.png",
+      "sha256": "2654d31419c98def16e2482b59cb7133870bb35aadc7113d41c7f080da0fe41d",
+      "decision": "No additional actual glyph collision or meaning loss in inspected image"
+    },
+    {
+      "engine": "chromium",
+      "case": "inference: all 23 stages 1280x720 light",
+      "kind": "inference",
+      "label": "inference-speculative stage 1 1280x720 light",
+      "candidates": [
+        {
+          "texts": [
+            "p(A)=0.1",
+            "AB"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "p(A)=0.1",
+              "x": 60.020084381103516,
+              "y": 274.9093017578125,
+              "right": 143.97992324829102,
+              "bottom": 305.0226745605469
+            },
+            {
+              "text": "AB",
+              "x": 87.39501953125,
+              "y": 303.9093017578125,
+              "right": 115.40044784545898,
+              "bottom": 334.0226650238037
+            }
+          ],
+          "intersectionSVG": {
+            "x": 87.39501953125,
+            "y": 303.9093017578125,
+            "width": 28.005428314208984,
+            "height": 1.113372802734375
+          },
+          "intersectionRenderedPx": {
+            "width": 23.25000075198875,
+            "height": 0.9243178933165268
+          }
+        },
+        {
+          "texts": [
+            "p(B)=0.1",
+            "ABA"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "p(B)=0.1",
+              "x": 224.81056213378906,
+              "y": 274.9093017578125,
+              "right": 307.1894226074219,
+              "bottom": 305.0226745605469
+            },
+            {
+              "text": "ABA",
+              "x": 244.29954528808594,
+              "y": 303.9093017578125,
+              "right": 286.75389099121094,
+              "bottom": 334.0226650238037
+            }
+          ],
+          "intersectionSVG": {
+            "x": 244.29954528808594,
+            "y": 303.9093017578125,
+            "width": 42.454345703125,
+            "height": 1.113372802734375
+          },
+          "intersectionRenderedPx": {
+            "width": 35.245437364799955,
+            "height": 0.9243178933165268
+          }
+        },
+        {
+          "texts": [
+            "p(C)=0.2",
+            "ABAB"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "p(C)=0.2",
+              "x": 388.3023986816406,
+              "y": 274.9093017578125,
+              "right": 471.6976013183594,
+              "bottom": 305.0226745605469
+            },
+            {
+              "text": "ABAB",
+              "x": 401.99456787109375,
+              "y": 303.9093017578125,
+              "right": 456.80088806152344,
+              "bottom": 334.0226650238037
+            }
+          ],
+          "intersectionSVG": {
+            "x": 401.99456787109375,
+            "y": 303.9093017578125,
+            "width": 54.80632019042969,
+            "height": 1.113372802734375
+          },
+          "intersectionRenderedPx": {
+            "width": 45.499999905186996,
+            "height": 0.9243178933165268
+          }
+        },
+        {
+          "texts": [
+            "p",
+            "ABABC"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "p",
+              "x": 566.525634765625,
+              "y": 274.9093017578125,
+              "right": 579.4743804931641,
+              "bottom": 305.0226650238037
+            },
+            {
+              "text": "ABABC",
+              "x": 538.1908569335938,
+              "y": 303.9093017578125,
+              "right": 606.6046524047852,
+              "bottom": 334.0226650238037
+            }
+          ],
+          "intersectionSVG": {
+            "x": 566.525634765625,
+            "y": 303.9093017578125,
+            "width": 12.948745727539062,
+            "height": 1.113363265991211
+          },
+          "intersectionRenderedPx": {
+            "width": 10.749999768789394,
+            "height": 0.9243099759484039
+          }
+        }
+      ],
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-chromium-2026-09-29T17-58-38-436Z\\inference-speculative-stage-1-1280x720-light-review-candidate.png",
+      "sha256": "7c44a4e8b68fe9996334d5996153136705bf4c4d98bee47271bad4772bb35d84",
+      "decision": "No additional actual glyph collision or meaning loss in inspected image"
+    },
+    {
+      "engine": "chromium",
+      "case": "inference: every selector, independent numerical fixtures, all midpoint boundaries and reverse seeks",
+      "kind": "inference",
+      "label": "inference-sampling semantic final",
+      "candidates": [
+        {
+          "texts": [
+            "選択 A",
+            "値: ロジット"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "選択 A",
+              "x": 41.999999999999886,
+              "y": 130.46366882324222,
+              "right": 112.04936218261707,
+              "bottom": 162.12872314453128
+            },
+            {
+              "text": "値: ロジット",
+              "x": 41.999999999999886,
+              "y": 161.50657653808597,
+              "right": 138.49203491210926,
+              "bottom": 190.1072750091553
+            }
+          ],
+          "intersectionSVG": {
+            "x": 41.999999999999886,
+            "y": 161.50657653808597,
+            "width": 70.04936218261719,
+            "height": 0.6221466064453125
+          },
+          "intersectionRenderedPx": {
+            "width": 68.57812194491532,
+            "height": 0.6090797191442334
+          }
+        },
+        {
+          "texts": [
+            "選択 B",
+            "値: ロジット"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "選択 B",
+              "x": 41.999999999999886,
+              "y": 278.4636535644531,
+              "right": 110.32565307617176,
+              "bottom": 310.12872314453125
+            },
+            {
+              "text": "値: ロジット",
+              "x": 41.999999999999886,
+              "y": 309.506591796875,
+              "right": 138.49203491210926,
+              "bottom": 338.10729026794434
+            }
+          ],
+          "intersectionSVG": {
+            "x": 41.999999999999886,
+            "y": 309.506591796875,
+            "width": 68.32565307617188,
+            "height": 0.62213134765625
+          },
+          "intersectionRenderedPx": {
+            "width": 66.89061574048776,
+            "height": 0.6090647808341032
+          }
+        }
+      ],
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-chromium-2026-09-29T17-58-38-436Z\\inference-sampling-semantic-final.png",
+      "sha256": "5c95cc9f97cc221298e69293a02027ab4d0628091c898005b866c0e84849348c",
+      "decision": "No additional actual glyph collision or meaning loss in inspected image"
+    },
+    {
+      "engine": "chromium",
+      "case": "training: all 10 stages 1440x1000 light DSF1",
+      "kind": "training",
+      "label": "training-stages stage 2",
+      "candidates": [
+        {
+          "textBoxesSVG": [
+            {
+              "text": "期限・未収録情報",
+              "x": 41.75361251831043,
+              "y": 89.57093048095706,
+              "right": 184.65488815307606,
+              "bottom": 115.10726737976077
+            },
+            {
+              "text": "自動保証なし",
+              "x": 60.243515014648324,
+              "y": 114.57093811035159,
+              "right": 165.76231384277332,
+              "bottom": 140.1072750091553
+            }
+          ],
+          "intersectionSVG": {
+            "x": 60.243515014648324,
+            "y": 114.57093811035159,
+            "width": 105.518798828125,
+            "height": 0.5363292694091797
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "矛盾・誤りもある",
+              "x": 258.01055908203114,
+              "y": 89.57093048095706,
+              "right": 381.9894790649413,
+              "bottom": 115.10726737976077
+            },
+            {
+              "text": "情報源と照合",
+              "x": 265.71136474609364,
+              "y": 114.57093811035159,
+              "right": 374.6964111328124,
+              "bottom": 140.1072750091553
+            }
+          ],
+          "intersectionSVG": {
+            "x": 265.71136474609364,
+            "y": 114.57093811035159,
+            "width": 108.98504638671875,
+            "height": 0.5363292694091797
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "≠ 安定した",
+              "x": 481.8006896972655,
+              "y": 89.57093048095706,
+              "right": 572.1993255615233,
+              "bottom": 115.10726737976077
+            },
+            {
+              "text": "指示追従",
+              "x": 488.99871826171864,
+              "y": 114.57093811035159,
+              "right": 565.4034271240233,
+              "bottom": 140.1072750091553
+            }
+          ],
+          "intersectionSVG": {
+            "x": 488.99871826171864,
+            "y": 114.57093811035159,
+            "width": 76.40470886230469,
+            "height": 0.5363292694091797
+          }
+        }
+      ],
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-chromium-2026-09-29T17-58-38-436Z\\training-stages-stage-2-1440x1000-light-dsf1-scene.png",
+      "sha256": "461493c84f91d1964ca5afc533460a8e600281db13969e4b0a14706a33c9c41a",
+      "decision": "No additional actual glyph collision or meaning loss in inspected image"
+    },
+    {
+      "engine": "chromium",
+      "case": "training: all 10 stages 1440x1000 dark DSF1",
+      "kind": "training",
+      "label": "training-stages stage 2",
+      "candidates": [
+        {
+          "textBoxesSVG": [
+            {
+              "text": "期限・未収録情報",
+              "x": 41.75361251831043,
+              "y": 89.57093048095706,
+              "right": 184.65488815307606,
+              "bottom": 115.10726737976077
+            },
+            {
+              "text": "自動保証なし",
+              "x": 60.243515014648324,
+              "y": 114.57093811035159,
+              "right": 165.76231384277332,
+              "bottom": 140.1072750091553
+            }
+          ],
+          "intersectionSVG": {
+            "x": 60.243515014648324,
+            "y": 114.57093811035159,
+            "width": 105.518798828125,
+            "height": 0.5363292694091797
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "矛盾・誤りもある",
+              "x": 258.01055908203114,
+              "y": 89.57093048095706,
+              "right": 381.9894790649413,
+              "bottom": 115.10726737976077
+            },
+            {
+              "text": "情報源と照合",
+              "x": 265.71136474609364,
+              "y": 114.57093811035159,
+              "right": 374.6964111328124,
+              "bottom": 140.1072750091553
+            }
+          ],
+          "intersectionSVG": {
+            "x": 265.71136474609364,
+            "y": 114.57093811035159,
+            "width": 108.98504638671875,
+            "height": 0.5363292694091797
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "≠ 安定した",
+              "x": 481.8006896972655,
+              "y": 89.57093048095706,
+              "right": 572.1993255615233,
+              "bottom": 115.10726737976077
+            },
+            {
+              "text": "指示追従",
+              "x": 488.99871826171864,
+              "y": 114.57093811035159,
+              "right": 565.4034271240233,
+              "bottom": 140.1072750091553
+            }
+          ],
+          "intersectionSVG": {
+            "x": 488.99871826171864,
+            "y": 114.57093811035159,
+            "width": 76.40470886230469,
+            "height": 0.5363292694091797
+          }
+        }
+      ],
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-chromium-2026-09-29T17-58-38-436Z\\training-stages-stage-2-1440x1000-dark-dsf1-scene.png",
+      "sha256": "461493c84f91d1964ca5afc533460a8e600281db13969e4b0a14706a33c9c41a",
+      "decision": "No additional actual glyph collision or meaning loss in inspected image"
+    },
+    {
+      "engine": "chromium",
+      "case": "training: all 10 stages 1280x720 light DSF1",
+      "kind": "training",
+      "label": "training-stages stage 2",
+      "candidates": [
+        {
+          "textBoxesSVG": [
+            {
+              "text": "期限・未収録情報",
+              "x": 41.763084411621094,
+              "y": 89.52291107177734,
+              "right": 184.5063705444336,
+              "bottom": 114.81813621520996
+            },
+            {
+              "text": "自動保証なし",
+              "x": 60.25457000732422,
+              "y": 114.52291107177734,
+              "right": 165.74544525146484,
+              "bottom": 139.81813621520996
+            }
+          ],
+          "intersectionSVG": {
+            "x": 60.25457000732422,
+            "y": 114.52291107177734,
+            "width": 105.49087524414062,
+            "height": 0.2952251434326172
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "矛盾・誤りもある",
+              "x": 258.0229187011719,
+              "y": 89.52291107177734,
+              "right": 381.97705078125,
+              "bottom": 114.81813621520996
+            },
+            {
+              "text": "情報源と照合",
+              "x": 265.72064208984375,
+              "y": 114.52291107177734,
+              "right": 374.5539855957031,
+              "bottom": 139.81813621520996
+            }
+          ],
+          "intersectionSVG": {
+            "x": 265.72064208984375,
+            "y": 114.52291107177734,
+            "width": 108.83334350585938,
+            "height": 0.2952251434326172
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "≠ 安定した",
+              "x": 481.81109619140625,
+              "y": 89.52291107177734,
+              "right": 572.1888275146484,
+              "bottom": 114.81813621520996
+            },
+            {
+              "text": "指示追従",
+              "x": 489.0007019042969,
+              "y": 114.52291107177734,
+              "right": 565.2597427368164,
+              "bottom": 139.81813621520996
+            }
+          ],
+          "intersectionSVG": {
+            "x": 489.0007019042969,
+            "y": 114.52291107177734,
+            "width": 76.25904083251953,
+            "height": 0.2952251434326172
+          }
+        }
+      ],
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-chromium-2026-09-29T17-58-38-436Z\\training-stages-stage-2-1280x720-light-dsf1-scene.png",
+      "sha256": "168e006f0737014742834e1ccdb689b35959773c411284d92dd3c5edba99774a",
+      "decision": "No additional actual glyph collision or meaning loss in inspected image"
+    },
+    {
+      "engine": "chromium",
+      "case": "training: all 10 stages 390x844 light DSF1",
+      "kind": "training",
+      "label": "training-stages stage 2",
+      "candidates": [
+        {
+          "textBoxesSVG": [
+            {
+              "text": "期限・未収録情報",
+              "x": 41.806175231933594,
+              "y": 90.22471618652347,
+              "right": 184.97917938232422,
+              "bottom": 115.39326286315921
+            },
+            {
+              "text": "自動保証なし",
+              "x": 60.27527618408203,
+              "y": 115.224723815918,
+              "right": 166.8255157470703,
+              "bottom": 140.39326477050784
+            }
+          ],
+          "intersectionSVG": {
+            "x": 60.27527618408203,
+            "y": 115.224723815918,
+            "width": 106.55023956298828,
+            "height": 0.16853904724121094
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "矛盾・誤りもある",
+              "x": 258.0477600097656,
+              "y": 90.22471618652347,
+              "right": 381.95225524902344,
+              "bottom": 115.39326286315921
+            },
+            {
+              "text": "情報源と照合",
+              "x": 265.744384765625,
+              "y": 115.224723815918,
+              "right": 376.8252487182617,
+              "bottom": 140.39326477050784
+            }
+          ],
+          "intersectionSVG": {
+            "x": 265.744384765625,
+            "y": 115.224723815918,
+            "width": 111.08086395263672,
+            "height": 0.16853904724121094
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "≠ 安定した",
+              "x": 481.8314514160156,
+              "y": 90.22471618652347,
+              "right": 573.4199066162109,
+              "bottom": 115.39326286315921
+            },
+            {
+              "text": "指示追従",
+              "x": 489.0224609375,
+              "y": 115.224723815918,
+              "right": 565.7505416870117,
+              "bottom": 140.39326477050784
+            }
+          ],
+          "intersectionSVG": {
+            "x": 489.0224609375,
+            "y": 115.224723815918,
+            "width": 76.72808074951172,
+            "height": 0.16853904724121094
+          }
+        }
+      ],
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-chromium-2026-09-29T17-58-38-436Z\\training-stages-stage-2-390x844-light-dsf1-scene.png",
+      "sha256": "4ecf90974389ab49e5cd0d7183866a843aec1b04500043073016f24d1119e366",
+      "decision": "No additional actual glyph collision or meaning loss in inspected image"
+    },
+    {
+      "engine": "chromium",
+      "case": "training: all 10 stages 390x844 dark DSF1",
+      "kind": "training",
+      "label": "training-stages stage 2",
+      "candidates": [
+        {
+          "textBoxesSVG": [
+            {
+              "text": "期限・未収録情報",
+              "x": 41.806175231933594,
+              "y": 90.22471618652347,
+              "right": 184.97917938232422,
+              "bottom": 115.39326286315921
+            },
+            {
+              "text": "自動保証なし",
+              "x": 60.27527618408203,
+              "y": 115.224723815918,
+              "right": 166.8255157470703,
+              "bottom": 140.39326477050784
+            }
+          ],
+          "intersectionSVG": {
+            "x": 60.27527618408203,
+            "y": 115.224723815918,
+            "width": 106.55023956298828,
+            "height": 0.16853904724121094
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "矛盾・誤りもある",
+              "x": 258.0477600097656,
+              "y": 90.22471618652347,
+              "right": 381.95225524902344,
+              "bottom": 115.39326286315921
+            },
+            {
+              "text": "情報源と照合",
+              "x": 265.744384765625,
+              "y": 115.224723815918,
+              "right": 376.8252487182617,
+              "bottom": 140.39326477050784
+            }
+          ],
+          "intersectionSVG": {
+            "x": 265.744384765625,
+            "y": 115.224723815918,
+            "width": 111.08086395263672,
+            "height": 0.16853904724121094
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "≠ 安定した",
+              "x": 481.8314514160156,
+              "y": 90.22471618652347,
+              "right": 573.4199066162109,
+              "bottom": 115.39326286315921
+            },
+            {
+              "text": "指示追従",
+              "x": 489.0224609375,
+              "y": 115.224723815918,
+              "right": 565.7505416870117,
+              "bottom": 140.39326477050784
+            }
+          ],
+          "intersectionSVG": {
+            "x": 489.0224609375,
+            "y": 115.224723815918,
+            "width": 76.72808074951172,
+            "height": 0.16853904724121094
+          }
+        }
+      ],
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-chromium-2026-09-29T17-58-38-436Z\\training-stages-stage-2-390x844-dark-dsf1-scene.png",
+      "sha256": "4ecf90974389ab49e5cd0d7183866a843aec1b04500043073016f24d1119e366",
+      "decision": "No additional actual glyph collision or meaning loss in inspected image"
+    },
+    {
+      "engine": "chromium",
+      "case": "training: all 10 stages 960x540 light DSF2",
+      "kind": "training",
+      "label": "training-stages stage 2",
+      "candidates": [
+        {
+          "textBoxesSVG": [
+            {
+              "text": "期限・未収録情報",
+              "x": 41.74587249755859,
+              "y": 89.93399047851561,
+              "right": 184.25412750244138,
+              "bottom": 115.28052520751952
+            },
+            {
+              "text": "自動保証なし",
+              "x": 60.24422073364257,
+              "y": 114.93399047851561,
+              "right": 166.21496963500974,
+              "bottom": 140.2805252075195
+            }
+          ],
+          "intersectionSVG": {
+            "x": 60.24422073364257,
+            "y": 114.93399047851561,
+            "width": 105.97074890136716,
+            "height": 0.34653472900390625
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "矛盾・誤りもある",
+              "x": 258.00329589843744,
+              "y": 89.93399047851561,
+              "right": 381.9966964721679,
+              "bottom": 115.28052520751952
+            },
+            {
+              "text": "情報源と照合",
+              "x": 265.7095642089843,
+              "y": 114.93399047851561,
+              "right": 374.2983474731445,
+              "bottom": 140.2805252075195
+            }
+          ],
+          "intersectionSVG": {
+            "x": 265.7095642089843,
+            "y": 114.93399047851561,
+            "width": 108.58878326416016,
+            "height": 0.34653472900390625
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "≠ 安定した",
+              "x": 481.8019714355468,
+              "y": 89.93399047851561,
+              "right": 572.198013305664,
+              "bottom": 115.28052520751952
+            },
+            {
+              "text": "指示追従",
+              "x": 488.9966735839843,
+              "y": 114.93399047851561,
+              "right": 565.0045623779296,
+              "bottom": 140.2805252075195
+            }
+          ],
+          "intersectionSVG": {
+            "x": 488.9966735839843,
+            "y": 114.93399047851561,
+            "width": 76.00788879394526,
+            "height": 0.34653472900390625
+          }
+        }
+      ],
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-chromium-2026-09-29T17-58-38-436Z\\training-stages-stage-2-960x540-light-dsf2-scene.png",
+      "sha256": "6ad40edd11dfd2f01b91ed78f51e3b248cee6b9ca6c35507b319e00a7f18a3c4",
+      "decision": "No additional actual glyph collision or meaning loss in inspected image"
+    },
+    {
+      "engine": "chromium",
+      "case": "training: all selectors, fixed semantic fixtures, midpoint boundaries and reverse seeks",
+      "kind": "training",
+      "label": "knowledge-focus all values",
+      "candidates": [
+        {
+          "textBoxesSVG": [
+            {
+              "text": "期限・未収録情報",
+              "x": 41.75361251831043,
+              "y": 89.57093048095703,
+              "right": 184.65488815307606,
+              "bottom": 115.10726737976074
+            },
+            {
+              "text": "自動保証なし",
+              "x": 60.243515014648324,
+              "y": 114.57093811035156,
+              "right": 165.76231384277332,
+              "bottom": 140.10727500915527
+            }
+          ],
+          "intersectionSVG": {
+            "x": 60.243515014648324,
+            "y": 114.57093811035156,
+            "width": 105.518798828125,
+            "height": 0.5363292694091797
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "矛盾・誤りもある",
+              "x": 258.01055908203114,
+              "y": 89.57093048095703,
+              "right": 381.9894790649413,
+              "bottom": 115.10726737976074
+            },
+            {
+              "text": "情報源と照合",
+              "x": 265.71136474609364,
+              "y": 114.57093811035156,
+              "right": 374.6964111328124,
+              "bottom": 140.10727500915527
+            }
+          ],
+          "intersectionSVG": {
+            "x": 265.71136474609364,
+            "y": 114.57093811035156,
+            "width": 108.98504638671875,
+            "height": 0.5363292694091797
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "≠ 安定した",
+              "x": 481.8006896972655,
+              "y": 89.57093048095703,
+              "right": 572.1993255615233,
+              "bottom": 115.10726737976074
+            },
+            {
+              "text": "指示追従",
+              "x": 488.99871826171864,
+              "y": 114.57093811035156,
+              "right": 565.4034271240233,
+              "bottom": 140.10727500915527
+            }
+          ],
+          "intersectionSVG": {
+            "x": 488.99871826171864,
+            "y": 114.57093811035156,
+            "width": 76.40470886230469,
+            "height": 0.5363292694091797
+          }
+        }
+      ],
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-chromium-2026-09-29T17-58-38-436Z\\training-knowledge-focus-selected-scene.png",
+      "sha256": "00d801112397e5d22962caf54061589766abb8b0234c1dcd4c91e8726331312d",
+      "decision": "No additional actual glyph collision or meaning loss in inspected image"
+    },
+    {
+      "engine": "chromium",
+      "case": "training: keyboard transport, modal selector state and focus return",
+      "kind": "training",
+      "label": "training-stages expanded",
+      "candidates": [
+        {
+          "textBoxesSVG": [
+            {
+              "text": "期限・未収録情報",
+              "x": 41.75917434692383,
+              "y": 89.65769958496094,
+              "right": 184.2408332824707,
+              "bottom": 114.69437408447266
+            },
+            {
+              "text": "自動保証なし",
+              "x": 60.249393463134766,
+              "y": 114.65769958496094,
+              "right": 165.77813339233398,
+              "bottom": 139.69437408447266
+            }
+          ],
+          "intersectionSVG": {
+            "x": 60.249393463134766,
+            "y": 114.65769958496094,
+            "width": 105.52873992919922,
+            "height": 0.03667449951171875
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "矛盾・誤りもある",
+              "x": 258.0195617675781,
+              "y": 89.65769958496094,
+              "right": 381.9804382324219,
+              "bottom": 114.69437408447266
+            },
+            {
+              "text": "情報源と照合",
+              "x": 265.71514892578125,
+              "y": 114.65769958496094,
+              "right": 374.28482818603516,
+              "bottom": 139.69437408447266
+            }
+          ],
+          "intersectionSVG": {
+            "x": 265.71514892578125,
+            "y": 114.65769958496094,
+            "width": 108.5696792602539,
+            "height": 0.03667449951171875
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "≠ 安定した",
+              "x": 481.8105163574219,
+              "y": 89.65769958496094,
+              "right": 572.1894912719727,
+              "bottom": 114.69437408447266
+            },
+            {
+              "text": "指示追従",
+              "x": 489.0049133300781,
+              "y": 114.65769958496094,
+              "right": 564.9951324462891,
+              "bottom": 139.69437408447266
+            }
+          ],
+          "intersectionSVG": {
+            "x": 489.0049133300781,
+            "y": 114.65769958496094,
+            "width": 75.99021911621094,
+            "height": 0.03667449951171875
+          }
+        }
+      ],
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-chromium-2026-09-29T17-58-38-436Z\\training-stages-expanded-scene.png",
+      "sha256": "5e733ec52cd7559cb6767ef908aec704ba849ce1b81777a2a7bc21f395fa11c3",
+      "decision": "No additional actual glyph collision or meaning loss in inspected image"
+    },
+    {
+      "engine": "chromium",
+      "case": "pretraining: all 23 stages 1440x1000 light DSF1",
+      "kind": "pretraining",
+      "label": "pretraining-data stage 0",
+      "candidates": [
+        {
+          "textBoxesSVG": [
+            {
+              "text": "処理出現 12",
+              "x": 112.46343994140614,
+              "y": 320.5065612792969,
+              "right": 227.53656005859364,
+              "bottom": 349.1072597503662
+            },
+            {
+              "text": "この例の D",
+              "x": 127.42613983154286,
+              "y": 348.54949951171875,
+              "right": 212.8426818847655,
+              "bottom": 375.10729026794434
+            }
+          ],
+          "intersectionSVG": {
+            "x": 127.42613983154286,
+            "y": 348.54949951171875,
+            "width": 85.41654205322266,
+            "height": 0.5577602386474609
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "中身・独立情報量",
+              "x": 388.52557373046864,
+              "y": 320.5065612792969,
+              "right": 553.9448699951171,
+              "bottom": 349.1072597503662
+            },
+            {
+              "text": "Dからは決まらない",
+              "x": 398.8438720703124,
+              "y": 348.54949951171875,
+              "right": 543.178726196289,
+              "bottom": 375.10729026794434
+            }
+          ],
+          "intersectionSVG": {
+            "x": 398.8438720703124,
+            "y": 348.54949951171875,
+            "width": 144.33485412597656,
+            "height": 0.5577602386474609
+          }
+        }
+      ],
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-chromium-2026-09-29T17-58-38-436Z\\pretraining-data-stage-0-1440x1000-light-dsf1-scene.png",
+      "sha256": "bdd370ad3d720329952df86d735733a46a6537887832971433ac5eff5f36341f",
+      "decision": "No additional actual glyph collision or meaning loss in inspected image"
+    },
+    {
+      "engine": "chromium",
+      "case": "pretraining: all 23 stages 1440x1000 dark DSF1",
+      "kind": "pretraining",
+      "label": "pretraining-data stage 0",
+      "candidates": [
+        {
+          "textBoxesSVG": [
+            {
+              "text": "処理出現 12",
+              "x": 112.46343994140614,
+              "y": 320.5065612792969,
+              "right": 227.53656005859364,
+              "bottom": 349.1072597503662
+            },
+            {
+              "text": "この例の D",
+              "x": 127.42613983154286,
+              "y": 348.54949951171875,
+              "right": 212.8426818847655,
+              "bottom": 375.10729026794434
+            }
+          ],
+          "intersectionSVG": {
+            "x": 127.42613983154286,
+            "y": 348.54949951171875,
+            "width": 85.41654205322266,
+            "height": 0.5577602386474609
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "中身・独立情報量",
+              "x": 388.52557373046864,
+              "y": 320.5065612792969,
+              "right": 553.9448699951171,
+              "bottom": 349.1072597503662
+            },
+            {
+              "text": "Dからは決まらない",
+              "x": 398.8438720703124,
+              "y": 348.54949951171875,
+              "right": 543.178726196289,
+              "bottom": 375.10729026794434
+            }
+          ],
+          "intersectionSVG": {
+            "x": 398.8438720703124,
+            "y": 348.54949951171875,
+            "width": 144.33485412597656,
+            "height": 0.5577602386474609
+          }
+        }
+      ],
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-chromium-2026-09-29T17-58-38-436Z\\pretraining-data-stage-0-1440x1000-dark-dsf1-scene.png",
+      "sha256": "bdd370ad3d720329952df86d735733a46a6537887832971433ac5eff5f36341f",
+      "decision": "No additional actual glyph collision or meaning loss in inspected image"
+    },
+    {
+      "engine": "chromium",
+      "case": "pretraining: all 23 stages 1280x720 light DSF1",
+      "kind": "pretraining",
+      "label": "pretraining-data stage 0",
+      "candidates": [
+        {
+          "textBoxesSVG": [
+            {
+              "text": "処理出現 12",
+              "x": 112.45525360107422,
+              "y": 319.9093017578125,
+              "right": 227.54476165771484,
+              "bottom": 350.0226650238037
+            },
+            {
+              "text": "この例の D",
+              "x": 127.41783142089844,
+              "y": 348.3183898925781,
+              "right": 213.00775146484375,
+              "bottom": 374.8181495666504
+            }
+          ],
+          "intersectionSVG": {
+            "x": 127.41783142089844,
+            "y": 348.3183898925781,
+            "width": 85.58992004394531,
+            "height": 1.704275131225586
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "中身・独立情報量",
+              "x": 388.5176086425781,
+              "y": 319.9093017578125,
+              "right": 553.4823760986328,
+              "bottom": 350.0226650238037
+            },
+            {
+              "text": "Dからは決まらない",
+              "x": 398.822021484375,
+              "y": 348.3183898925781,
+              "right": 543.7118530273438,
+              "bottom": 374.8181495666504
+            }
+          ],
+          "intersectionSVG": {
+            "x": 398.822021484375,
+            "y": 348.3183898925781,
+            "width": 144.88983154296875,
+            "height": 1.704275131225586
+          }
+        }
+      ],
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-chromium-2026-09-29T17-58-38-436Z\\pretraining-data-stage-0-1280x720-light-dsf1-scene.png",
+      "sha256": "265b3576a311ebff9813a9e20fa14a4f220a3263f966db0f43d2805ba185552a",
+      "decision": "No additional actual glyph collision or meaning loss in inspected image"
+    },
+    {
+      "engine": "chromium",
+      "case": "pretraining: all 23 stages 1280x720 light DSF1",
+      "kind": "pretraining",
+      "label": "pretraining-metrics stage 3",
+      "candidates": [
+        {
+          "textBoxesSVG": [
+            {
+              "text": "連続指標と閾値指標を併用",
+              "x": 193.45799255371094,
+              "y": 341.9093017578125,
+              "right": 446.5419921875,
+              "bottom": 372.0226650238037
+            },
+            {
+              "text": "能力を一つの値で断じない。論争は未決着",
+              "x": 149.47366333007812,
+              "y": 371.3183898925781,
+              "right": 491.00750732421875,
+              "bottom": 397.8181495666504
+            }
+          ],
+          "intersectionSVG": {
+            "x": 193.45799255371094,
+            "y": 371.3183898925781,
+            "width": 253.08399963378906,
+            "height": 0.7042751312255859
+          }
+        }
+      ],
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-chromium-2026-09-29T17-58-38-436Z\\pretraining-metrics-stage-3-1280x720-light-dsf1-scene.png",
+      "sha256": "d91038efe08d6eed734f8bb2ca86e52970c94b104b148a13bc18ce5892446dfe",
+      "decision": "No additional actual glyph collision or meaning loss in inspected image"
+    },
+    {
+      "engine": "chromium",
+      "case": "pretraining: all 23 stages 390x844 light DSF1",
+      "kind": "pretraining",
+      "label": "pretraining-data stage 0",
+      "candidates": [
+        {
+          "textBoxesSVG": [
+            {
+              "text": "処理出現 12",
+              "x": 112.47188568115234,
+              "y": 320.62921142578125,
+              "right": 227.89244079589844,
+              "bottom": 349.3932571411133
+            },
+            {
+              "text": "この例の D",
+              "x": 127.42974853515625,
+              "y": 348.42694091796875,
+              "right": 212.93207550048828,
+              "bottom": 375.3932342529297
+            }
+          ],
+          "intersectionSVG": {
+            "x": 127.42974853515625,
+            "y": 348.42694091796875,
+            "width": 85.50232696533203,
+            "height": 0.9663162231445312
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "中身・独立情報量",
+              "x": 388.5421447753906,
+              "y": 320.62921142578125,
+              "right": 553.4578857421875,
+              "bottom": 349.3932571411133
+            },
+            {
+              "text": "Dからは決まらない",
+              "x": 398.8370666503906,
+              "y": 348.42694091796875,
+              "right": 543.1629180908203,
+              "bottom": 375.3932342529297
+            }
+          ],
+          "intersectionSVG": {
+            "x": 398.8370666503906,
+            "y": 348.42694091796875,
+            "width": 144.3258514404297,
+            "height": 0.9663162231445312
+          }
+        }
+      ],
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-chromium-2026-09-29T17-58-38-436Z\\pretraining-data-stage-0-390x844-light-dsf1-scene.png",
+      "sha256": "c00eab96521f5f0fc67def77a1bdc4b17c387deb43a842be95d7c83b25a4cd5c",
+      "decision": "No additional actual glyph collision or meaning loss in inspected image"
+    },
+    {
+      "engine": "chromium",
+      "case": "pretraining: all 23 stages 390x844 dark DSF1",
+      "kind": "pretraining",
+      "label": "pretraining-data stage 0",
+      "candidates": [
+        {
+          "textBoxesSVG": [
+            {
+              "text": "処理出現 12",
+              "x": 112.47188568115234,
+              "y": 320.62921142578125,
+              "right": 227.89244079589844,
+              "bottom": 349.3932571411133
+            },
+            {
+              "text": "この例の D",
+              "x": 127.42974853515625,
+              "y": 348.42694091796875,
+              "right": 212.93207550048828,
+              "bottom": 375.3932342529297
+            }
+          ],
+          "intersectionSVG": {
+            "x": 127.42974853515625,
+            "y": 348.42694091796875,
+            "width": 85.50232696533203,
+            "height": 0.9663162231445312
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "中身・独立情報量",
+              "x": 388.5421447753906,
+              "y": 320.62921142578125,
+              "right": 553.4578857421875,
+              "bottom": 349.3932571411133
+            },
+            {
+              "text": "Dからは決まらない",
+              "x": 398.8370666503906,
+              "y": 348.42694091796875,
+              "right": 543.1629180908203,
+              "bottom": 375.3932342529297
+            }
+          ],
+          "intersectionSVG": {
+            "x": 398.8370666503906,
+            "y": 348.42694091796875,
+            "width": 144.3258514404297,
+            "height": 0.9663162231445312
+          }
+        }
+      ],
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-chromium-2026-09-29T17-58-38-436Z\\pretraining-data-stage-0-390x844-dark-dsf1-scene.png",
+      "sha256": "c00eab96521f5f0fc67def77a1bdc4b17c387deb43a842be95d7c83b25a4cd5c",
+      "decision": "No additional actual glyph collision or meaning loss in inspected image"
+    },
+    {
+      "engine": "chromium",
+      "case": "pretraining: all 23 stages 960x540 light DSF2",
+      "kind": "pretraining",
+      "label": "pretraining-data stage 0",
+      "candidates": [
+        {
+          "textBoxesSVG": [
+            {
+              "text": "処理出現 12",
+              "x": 112.44224548339842,
+              "y": 320.7656860351562,
+              "right": 227.55775451660153,
+              "bottom": 349.28053665161127
+            },
+            {
+              "text": "この例の D",
+              "x": 127.42574310302733,
+              "y": 348.8778991699218,
+              "right": 212.57425689697263,
+              "bottom": 375.28054046630854
+            }
+          ],
+          "intersectionSVG": {
+            "x": 127.42574310302733,
+            "y": 348.8778991699218,
+            "width": 85.1485137939453,
+            "height": 0.4026374816894531
+          }
+        },
+        {
+          "textBoxesSVG": [
+            {
+              "text": "中身・独立情報量",
+              "x": 388.4999694824218,
+              "y": 320.7656860351562,
+              "right": 553.6694946289061,
+              "bottom": 349.28053665161127
+            },
+            {
+              "text": "Dからは決まらない",
+              "x": 398.83825683593744,
+              "y": 348.8778991699218,
+              "right": 543.1616821289061,
+              "bottom": 375.28054046630854
+            }
+          ],
+          "intersectionSVG": {
+            "x": 398.83825683593744,
+            "y": 348.8778991699218,
+            "width": 144.3234252929687,
+            "height": 0.4026374816894531
+          }
+        }
+      ],
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-chromium-2026-09-29T17-58-38-436Z\\pretraining-data-stage-0-960x540-light-dsf2-scene.png",
+      "sha256": "75b46ca6282d22a0c92fab169ac99ded7b9198baa36b7fb943d1dde810224482",
+      "decision": "No additional actual glyph collision or meaning loss in inspected image"
+    },
+    {
+      "engine": "webkit",
+      "case": "inference: every selector, independent numerical fixtures, all midpoint boundaries and reverse seeks",
+      "kind": "inference",
+      "label": "inference-sampling semantic final",
+      "candidates": [
+        {
+          "texts": [
+            "0.000000",
+            "-1.000000"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "0.000000",
+              "x": 381.1874999999999,
+              "y": 166.60937500000003,
+              "right": 486.8124999999999,
+              "bottom": 191.14062500000003
+            },
+            {
+              "text": "-1.000000",
+              "x": 480.5781249999999,
+              "y": 166.60937500000003,
+              "right": 599.4218749999999,
+              "bottom": 191.14062500000003
+            }
+          ],
+          "intersectionSVG": {
+            "x": 480.5781249999999,
+            "y": 166.60937500000003,
+            "width": 6.234375,
+            "height": 24.53125
+          },
+          "intersectionRenderedPx": {
+            "width": 6.103435001816933,
+            "height": 24.01602243822674
+          }
+        },
+        {
+          "texts": [
+            "0.000000",
+            "-1.000000"
+          ],
+          "textBoxesSVG": [
+            {
+              "text": "0.000000",
+              "x": 381.1874999999999,
+              "y": 314.609375,
+              "right": 486.8124999999999,
+              "bottom": 339.140625
+            },
+            {
+              "text": "-1.000000",
+              "x": 480.5781249999999,
+              "y": 314.609375,
+              "right": 599.4218749999999,
+              "bottom": 339.140625
+            }
+          ],
+          "intersectionSVG": {
+            "x": 480.5781249999999,
+            "y": 314.609375,
+            "width": 6.234375,
+            "height": 24.53125
+          },
+          "intersectionRenderedPx": {
+            "width": 6.103435001816933,
+            "height": 24.0160224382268
+          }
+        }
+      ],
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\public-webkit-2026-09-29T17-58-37-867Z\\inference-sampling-semantic-final.png",
+      "sha256": "b3cdefc5cfc15d2f8c9ae25492df523262a8dbe710d624d477ae319842f399e4",
+      "decision": "must: actual C/D logit glyph overlap in two rows"
+    }
+  ],
+  "networkClassification": [
+    {
+      "engine": "chromium",
+      "cases": [
+        {
+          "name": "generation-token-loop: noJS retains original article and all static stage descriptions",
+          "expectedBlockedScripts": [
+            {
+              "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ncy9ms5-bo40.js",
+              "type": "script",
+              "error": "csp"
+            }
+          ],
+          "unexpectedFailures": []
+        },
+        {
+          "name": "tokenization-counting: noJS retains original article and all static stage descriptions",
+          "expectedBlockedScripts": [
+            {
+              "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ncy9ms5-bo40.js",
+              "type": "script",
+              "error": "csp"
+            }
+          ],
+          "unexpectedFailures": []
+        },
+        {
+          "name": "inference noJS: original prose, 9 headings, 2 equations and all 23 static descriptions",
+          "expectedBlockedScripts": [
+            {
+              "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ncy9ms5-bo40.js",
+              "type": "script",
+              "error": "csp"
+            }
+          ],
+          "unexpectedFailures": []
+        },
+        {
+          "name": "training noJS: original prose, eight headings, Mermaid and all ten static descriptions",
+          "expectedBlockedScripts": [
+            {
+              "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ncy9ms5-bo40.js",
+              "type": "script",
+              "error": "csp"
+            }
+          ],
+          "unexpectedFailures": []
+        },
+        {
+          "name": "pretraining noJS: original prose, nine headings, four equations, Mermaid and 23 static descriptions",
+          "expectedBlockedScripts": [
+            {
+              "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ncy9ms5-bo40.js",
+              "type": "script",
+              "error": "csp"
+            }
+          ],
+          "unexpectedFailures": []
+        },
+        {
+          "name": "MoE noJS and print: original prose, 9 H3, 4 equations, Mermaid and 14 stage descriptions",
+          "expectedBlockedScripts": [
+            {
+              "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ncy9ms5-bo40.js",
+              "type": "script",
+              "error": "csp"
+            }
+          ],
+          "unexpectedFailures": []
+        },
+        {
+          "name": "variants noJS and print: original prose, 11 H3, 3 display equations and 15 stage descriptions",
+          "expectedBlockedScripts": [
+            {
+              "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ncy9ms5-bo40.js",
+              "type": "script",
+              "error": "csp"
+            }
+          ],
+          "unexpectedFailures": []
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "cases": []
+    }
+  ],
+  "pngDifference": {
+    "edgeOnly": [
+      "inference-sampling-stage-6-1440x1000-dark-review-candidate",
+      "inference-sampling-stage-6-1280x720-light-review-candidate",
+      "inference-speculative-stage-1-1280x720-light-review-candidate"
+    ],
+    "webkitOnly": []
+  },
+  "visualConclusions": {
+    "c2": "No must/should found in reviewed C2 public images: all23 stages on Edge1440 light; all C2 bbox candidates; loss A/B and comparison caveats, scaling growth4, data contamination, thresholds50/70, compute1x2/2x2; representative5 scenes on1280 both engines, WebKit960DSF2 and390dark,390light representatives, modal, noJS and print.",
+    "oldSeven": "Representative Edge images from all7 old articles checked, plus every recorded old inference/training bbox candidate in both engines. WebKit logit candidate is actual collision; all others are glyph-disjoint. This is limited representative image review, not every old generated image.",
+    "readingContext": "Viewport captures and unchanged full-scene captures are separate. Short viewport can show only part of the scrollable panel; supplemental scene screenshots do not imply full-panel fit.",
+    "mobile": "390px detail text can approach10CSSpx. No clipping observed; physical phone reading comfort is not accepted by this emulation.",
+    "pngCountExplanation": "Different counts reflect engine-specific inference candidate screenshots; no selected-image absence. See pngDifference."
+  },
+  "diagnostic": {
+    "startedAt": "2026-09-29T18:18:00.730Z",
+    "purpose": "Independently reproduce old inference-sampling WebKit logit label collision on deployed public artifact; no product changes",
+    "screenshots": [
+      {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-inference-diagnostic\\viewport.png",
+        "capture": "viewport"
+      },
+      {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-inference-diagnostic\\scene.png",
+        "capture": "supplemental-full-scene",
+        "clip": {
+          "x": 764,
+          "y": 90,
+          "width": 627,
+          "height": 422
+        },
+        "stylesModified": false
+      }
+    ],
+    "errors": [],
+    "before": [
+      {
+        "route": "/docs/llm-internals/inference-internals",
+        "sha256": "4d2d794053de9ebfd8d07fe7f6764b7ed1c0ef56a9f706351d59438bf2150013",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      },
+      {
+        "route": "/docs/llm-foundations/how-llms-generate-text",
+        "sha256": "39be30dd04b81bbcdd55eb112ca5c031d306eaae9c3fd1f847640094923bb968",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      },
+      {
+        "route": "/docs/llm-foundations/tokenization",
+        "sha256": "7a3905fb54021b9d50d8952308c203a431bee32a84cfde5d8e7e6a49c693394d",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      },
+      {
+        "route": "/docs/llm-internals/mixture-of-experts-internals",
+        "sha256": "cb8c5ea10aafdf423f7fccbb6e9e6c5ef33c9d54370a22ee9333e32001df9dd9",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      },
+      {
+        "route": "/docs/llm-internals/attention-variants-and-long-context",
+        "sha256": "f9caaedeb76f1c8669d3058bda682b96e63dd51b75c6c79c40d7d8bb24b2d2c6",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      },
+      {
+        "route": "/docs/llm-internals/transformer-architecture",
+        "sha256": "309f3e4ffd8060b75c708630ac0e3ef1ffbaf33b32325c5e23312b700f8b356b",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      },
+      {
+        "route": "/docs/llm-foundations/llm-training-pipeline",
+        "sha256": "a7e5a5726cbff05f2224773d63d9c1f7ea530c4909a33489e773be83d5293716",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      },
+      {
+        "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+        "sha256": "761a59706bb3a507fe1f1d5f6c2d6263f714236955a665335252229a6b0c731b",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      }
+    ],
+    "browser": "26.6",
+    "labels": [
+      {
+        "text": "1.000001",
+        "box": {
+          "x": 169.1875,
+          "y": 166.609375,
+          "width": 105.625,
+          "height": 24.53125
+        }
+      },
+      {
+        "text": "1.000000",
+        "box": {
+          "x": 275.1875,
+          "y": 166.609375,
+          "width": 105.625,
+          "height": 24.53125
+        }
+      },
+      {
+        "text": "0.000000",
+        "box": {
+          "x": 381.1875,
+          "y": 166.609375,
+          "width": 105.625,
+          "height": 24.53125
+        }
+      },
+      {
+        "text": "-1.000000",
+        "box": {
+          "x": 480.578125,
+          "y": 166.609375,
+          "width": 118.84375,
+          "height": 24.53125
+        }
+      },
+      {
+        "text": "0.999999",
+        "box": {
+          "x": 169.1875,
+          "y": 314.609375,
+          "width": 105.625,
+          "height": 24.53125
+        }
+      },
+      {
+        "text": "1.000000",
+        "box": {
+          "x": 275.1875,
+          "y": 314.609375,
+          "width": 105.625,
+          "height": 24.53125
+        }
+      },
+      {
+        "text": "0.000000",
+        "box": {
+          "x": 381.1875,
+          "y": 314.609375,
+          "width": 105.625,
+          "height": 24.53125
+        }
+      },
+      {
+        "text": "-1.000000",
+        "box": {
+          "x": 480.578125,
+          "y": 314.609375,
+          "width": 118.84375,
+          "height": 24.53125
+        }
+      }
+    ],
+    "assets": [
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3lazc3y0p4vqp.css",
+        "sha256": "bf8f179988c6a8fdf17c4fb0083a7f42aab9699389008f4970ddc810ff7d3658"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2t632w7uv96k7.css",
+        "sha256": "882d0ae56fe41a6016dcf2fd3428b8c6d0f18439690c1073a850c72b0e0b560a"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/10mrr4blpe2ij.css",
+        "sha256": "fa774d1f05ea38bd2ec5b5bf0ecc0d09ed9ad822efdcdc5bdf0a52648682ca4a"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/23tvr0rqp6449.css",
+        "sha256": "328460ce72be721c6ae5239b5b431855ea804944b7e6cd2ee80f58815119fb1f"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1kvg7hfyr3tlr.css",
+        "sha256": "c6e307a9a097c2c313650423fcc3c62d86a85a40ee823d7cd98173767e50809c"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0lwgfbz191wqp.css",
+        "sha256": "c62829b4c7e3509afc633f48f4ac0d4a9f977b77496de709eba6345153904a67"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/41yb7p4rhwvi4.css",
+        "sha256": "0221302473642189b96a90de2d61efc7819f9cd58d8d259db100ffda301f6f90"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3np5x1_3pe1-5.css",
+        "sha256": "5feecd1502d9200dec0f177dd4c829fff03fa6d987fac3b11f77096f06fc758c"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0pr599bskfeue.css",
+        "sha256": "5f79549d4f32acde650c0a334f85b2305caa0ff869655e50448032c79e873ac0"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2kou2qpzaoam8.css",
+        "sha256": "61d760fdb5c11ad988863a9717847be2ddea770a0af53e8eb9553853fad9a26c"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ytkfxbgq77w9.css",
+        "sha256": "b1544d8a8c263fce21ebce80e5eb8deb2b3ce228ef483833440eb8baa614b091"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/31p82_uch1ukh.css",
+        "sha256": "aeebc57d11e2dad5a47b5a27cdf2bc0f8ef5cbcb2aee748c1e25f1733d383aa5"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0hqjmyjvje78-.css",
+        "sha256": "bd0eb2f0c36d338c3b3398ed3ce388147d9b18c81868020a54cffbbd73b9becd"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/10gwbnu1udbob.css",
+        "sha256": "8e873322efea9c6c88062113c04ac9ec44e880efb7ba1dcedc2960ddd6a49682"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/turbopack-06mvnkn583c8i.js",
+        "sha256": "a3776610e1600e481572c892eac6ed063beca652e69f167afb070c3bb9dfb77e"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3zyprsps_8558.js",
+        "sha256": "6730d8b719f8443347ba439cf4a8dde0bec86ee8b2d83651348cbbf35f9695a0"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1or1m-os7xkyt.js",
+        "sha256": "6acf36b7b149828fe5d4fbaa77ca059ce3b15dd62827232ac4eac14ba33e48b6"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1ix59xuhq-q14.css",
+        "sha256": "b0cb7bd6fec5951c9c8f5808821438206604b1629a912c96009ac427f38e7d69"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ncy9ms5-bo40.js",
+        "sha256": "14a37e9b994c601b98950b9449fac85ee08f798f72ee02487a15dbdb4243443f"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3x_t1ii4qfzng.js",
+        "sha256": "e12cdbb31169eb4d133a6139bc0a67961c1167f1816cea7af4b9de8a27c8586c"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/20_tytp3ueyem.js",
+        "sha256": "e8cbd70a01064c7000a2c514beb972f630c46e7bc05366df02511973bde60a3a"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2k4e84bsye125.js",
+        "sha256": "7350f1f4bb17a7cd45a1fac839b041c9949c7b00cfa27963852dd26711c03094"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/310e1-iysui84.js",
+        "sha256": "b414cf5780839625c5f545fa2099d14cc59cf36780a2368237f958ace4ac267e"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2lhbx6qvi4t6q.js",
+        "sha256": "3e60afc0a39065bcfc4839e318b2ae813a12ca463d2d139284cc8cd663730f09"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/18d9lyf7mc2_n.js",
+        "sha256": "5f57df6a98f81719141e35ea17d547c968e8b1121014bc1e10535dfe1e05628f"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1eof59u96yc3s.js",
+        "sha256": "6adfbcfcbdb60179b43d7549c86ec189402d845c77cee2a4fbb780fe713b0f82"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1kswvh8ung-33.js",
+        "sha256": "d44baf06b9b64e3497dfa0b75fdb135edec844a40943df7c3ea8622bb2ad9918"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/31b1cvevt3ew5.js",
+        "sha256": "068c380d02c258b4d69423396a967b8ce53e2fa77390a92483c16b8ccf481b6d"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Size1-Regular.03lhvx36ekcou.woff2",
+        "sha256": "6b47c40166b6dbe21a5dfca7718413f2147fd2399be1ba605d8ad39cedf25dfe"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Main-Regular.1ryvsdzh2w1_e.woff2",
+        "sha256": "c2342cd8b869e01752a9321dc17213fc40d4d04c79688c1d43f2cf316abd7866"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Main-Bold.3-rowy8o6_4ky.woff2",
+        "sha256": "0f60d1b897938ec918c8ce073092411baf9438f6739465693ff18b0f9d20b021"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Math-Italic.32405s1aq8vas.woff2",
+        "sha256": "7af58c5ec8f132a2ddde9027c6d7814decce4d3b822a11192a42a20e2e973264"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/07_m5zos1sun5.js",
+        "sha256": "a2aec42326f278320faf4b3cdac9857b518e46d3aa9317d1a5954c5f91111fec"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1j1fl89dkhsfl.js",
+        "sha256": "9b09cf1fd6f80950846c6778a72bb98252bbde655b16c64e9f0194b8e234fd87"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2hiizqra7pie2.js",
+        "sha256": "e1752acbcc8e5052c654f3ed40db1a48a7d66f952e75d95d8e66a2e97a16be5f"
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0wyvq90qk8bm2.js",
+        "sha256": "d1f5d376391ea5ab58dd2f295d65e7a251e8aa96cd1df484d7fae468de05c32b"
+      }
+    ],
+    "after": [
+      {
+        "route": "/docs/llm-internals/inference-internals",
+        "sha256": "4d2d794053de9ebfd8d07fe7f6764b7ed1c0ef56a9f706351d59438bf2150013",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      },
+      {
+        "route": "/docs/llm-foundations/how-llms-generate-text",
+        "sha256": "39be30dd04b81bbcdd55eb112ca5c031d306eaae9c3fd1f847640094923bb968",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      },
+      {
+        "route": "/docs/llm-foundations/tokenization",
+        "sha256": "7a3905fb54021b9d50d8952308c203a431bee32a84cfde5d8e7e6a49c693394d",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      },
+      {
+        "route": "/docs/llm-internals/mixture-of-experts-internals",
+        "sha256": "cb8c5ea10aafdf423f7fccbb6e9e6c5ef33c9d54370a22ee9333e32001df9dd9",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      },
+      {
+        "route": "/docs/llm-internals/attention-variants-and-long-context",
+        "sha256": "f9caaedeb76f1c8669d3058bda682b96e63dd51b75c6c79c40d7d8bb24b2d2c6",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      },
+      {
+        "route": "/docs/llm-internals/transformer-architecture",
+        "sha256": "309f3e4ffd8060b75c708630ac0e3ef1ffbaf33b32325c5e23312b700f8b356b",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      },
+      {
+        "route": "/docs/llm-foundations/llm-training-pipeline",
+        "sha256": "a7e5a5726cbff05f2224773d63d9c1f7ea530c4909a33489e773be83d5293716",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      },
+      {
+        "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+        "sha256": "761a59706bb3a507fe1f1d5f6c2d6263f714236955a665335252229a6b0c731b",
+        "buildId": "UWZD5odlVHV_TyUNH3jZ0"
+      }
+    ],
+    "identityUnchanged": true,
+    "finishedAt": "2026-09-29T18:18:04.651Z",
+    "explanation": "Public-only supplemental reproduction, eight HTML and BUILD hashes before/after equal;36 loaded assets match completed public WebKit hashes. The scene PNG was actually inspected; diagnostic viewport PNG generated but not counted as viewed."
+  },
+  "limitations": [
+    "Overall public acceptance is withheld while PUBLIC-V1 is open; C2 alone has no additional visual finding",
+    "Not all1339 generated runner PNGs were viewed; exactly90 public images in ledger were directly inspected",
+    "No physical iPhone/Safari, real screenreader, physical printing or GPU performance review",
+    "No Git/product/kit mutation; raw independentVisualReview pending fields remain unchanged",
+    "No local or initial-build images reused as public acceptance"
+  ],
+  "evidence": [
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-pr61-public\\ci-36606841286-attempt-1-20260929T175644863Z\\artifact-evidence.json",
+      "sha256": "f63611c7eb9a013c8475b857102573106071720fd1e424f602d3d5e3fa47421e"
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp/pretraining-pr61-public/public-chromium-2026-09-29T17-58-38-436Z/result.json",
+      "sha256": "c57b4b6d5cc1bc42226ee8487f823363e99b802eefcdba30e0fc70394c790714"
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp/pretraining-pr61-public/public-webkit-2026-09-29T17-58-37-867Z/result.json",
+      "sha256": "5b248f2133478c4d2b9ec51627eed1c17ec1abb12c573386c2a9cffdb5874d3d"
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-review-contract.json",
+      "sha256": "20d1fc380d79066e20fef1ec1c230f09cfd7f9b64ca84a1b8a4ea5602e9484cd"
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-review-summarize.mjs",
+      "sha256": "dc609a1a7f73339173d064f497a448b3b2816db276f9693db6dcac0d2a73f60d"
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-summary-chromium.json",
+      "sha256": "18e447d25380b4e7bef877bf2eaef58c8f6c6bdcb3c081bbca1d669536cea12f"
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-summary-webkit.json",
+      "sha256": "99edf24e864a1ae92b25fb7ef10b4888751a77534b2635e655a6e2451e1a2b0c"
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-inference-diagnostic.mjs",
+      "sha256": "8bc0dcef940cfdce3247cf4d38d26b9107cdcdfd8f89e59f724937687ec5f773"
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-inference-diagnostic\\result.json",
+      "sha256": "60b0f7e1b68f703c585d1bd6396fdbf06bf83e09b5d26ad98da0a1b8746e0f7e"
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-viewed-images.json",
+      "sha256": "15ca91de8dcc38de3867ef3385f161dd9cc5ec13766b31ca7faef2577ed50bd6"
+    }
+  ]
+}

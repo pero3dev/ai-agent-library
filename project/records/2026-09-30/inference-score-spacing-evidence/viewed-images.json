@@ -1,0 +1,1067 @@
+{
+  "schemaVersion": 1,
+  "kind": "portable-actually-viewed-focused-local-image-mapping",
+  "sourceLedger": {
+    "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-review-viewed-images.json",
+    "sha256": "bf0ed383f3603b9f0ca5ca888149794fed32875a2ed018444f5307e5a235f773",
+    "bytes": 29770,
+    "rawArchive": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-viewed-images.json.gz"
+  },
+  "localOnly": true,
+  "buildId": "5LJEBsyF5N8plxvpugTbv",
+  "inputDigest": "sha256:e7b10bba12334b71d3eb0b5b469344d2d7e0451c42f52814693d955dd165ab82",
+  "counts": {
+    "actuallyViewed": 36,
+    "scene": 32,
+    "viewport": 4,
+    "candidateGeneratedPNG": 64,
+    "totalGeneratedIncludingFailedAndDiagnostic": 128
+  },
+  "pathConvention": "storedPath is repository-relative; ledgerEntry metadata and original paths unchanged",
+  "viewed": [
+    {
+      "ledgerIndex": 0,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-panel-draw-scene.png",
+        "engine": "webkit",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-panel-draw-scene.png",
+        "sha256": "fc1c3f6356c1b79309cd2f3793eef62d591a212289e568cc24e97371fcb682ea",
+        "profile": "1440x1000-light-dsf1",
+        "mode": "panel",
+        "choice": "draw",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 627,
+        "pngHeight": 422,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/001-webkit-1440x1000-light-dsf1-panel-draw-scene.png",
+      "sha256": "fc1c3f6356c1b79309cd2f3793eef62d591a212289e568cc24e97371fcb682ea",
+      "bytes": 30270,
+      "pixels": {
+        "width": 627,
+        "height": 422
+      }
+    },
+    {
+      "ledgerIndex": 1,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-panel-logit-scene.png",
+        "engine": "webkit",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-panel-logit-scene.png",
+        "sha256": "6b973b9066aa7e1c89fe86a178f63bf4c64366c50c96cb99d74713d2bce2e5da",
+        "profile": "1440x1000-light-dsf1",
+        "mode": "panel",
+        "choice": "logit",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 627,
+        "pngHeight": 422,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/002-webkit-1440x1000-light-dsf1-panel-logit-scene.png",
+      "sha256": "6b973b9066aa7e1c89fe86a178f63bf4c64366c50c96cb99d74713d2bce2e5da",
+      "bytes": 33530,
+      "pixels": {
+        "width": 627,
+        "height": 422
+      }
+    },
+    {
+      "ledgerIndex": 2,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-modal-draw-scene.png",
+        "engine": "webkit",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-modal-draw-scene.png",
+        "sha256": "5ab608f00209d66a3bc9cabb00b3e20fdb0e1d3e138315eb5ca32f1a4c559559",
+        "profile": "1440x1000-light-dsf1",
+        "mode": "modal",
+        "choice": "draw",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 818,
+        "pngHeight": 551,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-modal-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/003-webkit-1440x1000-light-dsf1-modal-draw-scene.png",
+      "sha256": "5ab608f00209d66a3bc9cabb00b3e20fdb0e1d3e138315eb5ca32f1a4c559559",
+      "bytes": 40589,
+      "pixels": {
+        "width": 818,
+        "height": 551
+      }
+    },
+    {
+      "ledgerIndex": 3,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-modal-logit-scene.png",
+        "engine": "webkit",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-modal-logit-scene.png",
+        "sha256": "d0291bd03b5728fc78153e2efd47848577b71cc220addfe52c72b9104b14d8c2",
+        "profile": "1440x1000-light-dsf1",
+        "mode": "modal",
+        "choice": "logit",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 818,
+        "pngHeight": 551,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-modal-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/004-webkit-1440x1000-light-dsf1-modal-logit-scene.png",
+      "sha256": "d0291bd03b5728fc78153e2efd47848577b71cc220addfe52c72b9104b14d8c2",
+      "bytes": 46569,
+      "pixels": {
+        "width": 818,
+        "height": 551
+      }
+    },
+    {
+      "ledgerIndex": 4,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-dark-dsf1-panel-draw-scene.png",
+        "engine": "webkit",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-dark-dsf1-panel-draw-scene.png",
+        "sha256": "fc1c3f6356c1b79309cd2f3793eef62d591a212289e568cc24e97371fcb682ea",
+        "profile": "1440x1000-dark-dsf1",
+        "mode": "panel",
+        "choice": "draw",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 627,
+        "pngHeight": 422,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-dark-dsf1-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/005-webkit-1440x1000-dark-dsf1-panel-draw-scene.png",
+      "sha256": "fc1c3f6356c1b79309cd2f3793eef62d591a212289e568cc24e97371fcb682ea",
+      "bytes": 30270,
+      "pixels": {
+        "width": 627,
+        "height": 422
+      }
+    },
+    {
+      "ledgerIndex": 5,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-dark-dsf1-panel-logit-scene.png",
+        "engine": "webkit",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-dark-dsf1-panel-logit-scene.png",
+        "sha256": "6b973b9066aa7e1c89fe86a178f63bf4c64366c50c96cb99d74713d2bce2e5da",
+        "profile": "1440x1000-dark-dsf1",
+        "mode": "panel",
+        "choice": "logit",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 627,
+        "pngHeight": 422,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-dark-dsf1-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/006-webkit-1440x1000-dark-dsf1-panel-logit-scene.png",
+      "sha256": "6b973b9066aa7e1c89fe86a178f63bf4c64366c50c96cb99d74713d2bce2e5da",
+      "bytes": 33530,
+      "pixels": {
+        "width": 627,
+        "height": 422
+      }
+    },
+    {
+      "ledgerIndex": 6,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1280x720-light-dsf1-panel-draw-scene.png",
+        "engine": "webkit",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1280x720-light-dsf1-panel-draw-scene.png",
+        "sha256": "95b4f71acd793b851ec30be8935ffdd3391fbe0762899bb9962dfbd04e64bf87",
+        "profile": "1280x720-light-dsf1",
+        "mode": "panel",
+        "choice": "draw",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 532,
+        "pngHeight": 358,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1280x720-light-dsf1-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/007-webkit-1280x720-light-dsf1-panel-draw-scene.png",
+      "sha256": "95b4f71acd793b851ec30be8935ffdd3391fbe0762899bb9962dfbd04e64bf87",
+      "bytes": 24156,
+      "pixels": {
+        "width": 532,
+        "height": 358
+      }
+    },
+    {
+      "ledgerIndex": 7,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1280x720-light-dsf1-panel-logit-scene.png",
+        "engine": "webkit",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1280x720-light-dsf1-panel-logit-scene.png",
+        "sha256": "f3e98bc67285ca1713764e4214cc28dd8b46d67f377f2e21f7dcb9ad866f9754",
+        "profile": "1280x720-light-dsf1",
+        "mode": "panel",
+        "choice": "logit",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 532,
+        "pngHeight": 358,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1280x720-light-dsf1-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/008-webkit-1280x720-light-dsf1-panel-logit-scene.png",
+      "sha256": "f3e98bc67285ca1713764e4214cc28dd8b46d67f377f2e21f7dcb9ad866f9754",
+      "bytes": 27144,
+      "pixels": {
+        "width": 532,
+        "height": 358
+      }
+    },
+    {
+      "ledgerIndex": 8,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-light-dsf1-panel-draw-scene.png",
+        "engine": "webkit",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-light-dsf1-panel-draw-scene.png",
+        "sha256": "eae29ec23c54fec0e029ccced0f4b9d4496dbe9ff04c5843bbb8babe3ae6791b",
+        "profile": "390x844-light-dsf1",
+        "mode": "panel",
+        "choice": "draw",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 356,
+        "pngHeight": 240,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-light-dsf1-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/009-webkit-390x844-light-dsf1-panel-draw-scene.png",
+      "sha256": "eae29ec23c54fec0e029ccced0f4b9d4496dbe9ff04c5843bbb8babe3ae6791b",
+      "bytes": 14844,
+      "pixels": {
+        "width": 356,
+        "height": 240
+      }
+    },
+    {
+      "ledgerIndex": 9,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-light-dsf1-panel-logit-scene.png",
+        "engine": "webkit",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-light-dsf1-panel-logit-scene.png",
+        "sha256": "fc5152b287c9a56f1e9ea16892d47c3252fcc698b380b59452eb24170a04fe18",
+        "profile": "390x844-light-dsf1",
+        "mode": "panel",
+        "choice": "logit",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 356,
+        "pngHeight": 240,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-light-dsf1-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/010-webkit-390x844-light-dsf1-panel-logit-scene.png",
+      "sha256": "fc5152b287c9a56f1e9ea16892d47c3252fcc698b380b59452eb24170a04fe18",
+      "bytes": 16805,
+      "pixels": {
+        "width": 356,
+        "height": 240
+      }
+    },
+    {
+      "ledgerIndex": 10,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-panel-draw-scene.png",
+        "engine": "webkit",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-panel-draw-scene.png",
+        "sha256": "eae29ec23c54fec0e029ccced0f4b9d4496dbe9ff04c5843bbb8babe3ae6791b",
+        "profile": "390x844-dark-dsf1",
+        "mode": "panel",
+        "choice": "draw",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 356,
+        "pngHeight": 240,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/011-webkit-390x844-dark-dsf1-panel-draw-scene.png",
+      "sha256": "eae29ec23c54fec0e029ccced0f4b9d4496dbe9ff04c5843bbb8babe3ae6791b",
+      "bytes": 14844,
+      "pixels": {
+        "width": 356,
+        "height": 240
+      }
+    },
+    {
+      "ledgerIndex": 11,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-panel-logit-scene.png",
+        "engine": "webkit",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-panel-logit-scene.png",
+        "sha256": "fc5152b287c9a56f1e9ea16892d47c3252fcc698b380b59452eb24170a04fe18",
+        "profile": "390x844-dark-dsf1",
+        "mode": "panel",
+        "choice": "logit",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 356,
+        "pngHeight": 240,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/012-webkit-390x844-dark-dsf1-panel-logit-scene.png",
+      "sha256": "fc5152b287c9a56f1e9ea16892d47c3252fcc698b380b59452eb24170a04fe18",
+      "bytes": 16805,
+      "pixels": {
+        "width": 356,
+        "height": 240
+      }
+    },
+    {
+      "ledgerIndex": 12,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-modal-draw-scene.png",
+        "engine": "webkit",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-modal-draw-scene.png",
+        "sha256": "98305720f5fcd117d6957a8399cfc8f3982af5a2268d612c70729bd0d520be84",
+        "profile": "390x844-dark-dsf1",
+        "mode": "modal",
+        "choice": "draw",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 350,
+        "pngHeight": 236,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-modal-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/013-webkit-390x844-dark-dsf1-modal-draw-scene.png",
+      "sha256": "98305720f5fcd117d6957a8399cfc8f3982af5a2268d612c70729bd0d520be84",
+      "bytes": 14603,
+      "pixels": {
+        "width": 350,
+        "height": 236
+      }
+    },
+    {
+      "ledgerIndex": 13,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-modal-logit-scene.png",
+        "engine": "webkit",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-modal-logit-scene.png",
+        "sha256": "6250fbafb81358a042e5921d04de1811c8fda8aaa37c5ca5e6fc37ff65638ea5",
+        "profile": "390x844-dark-dsf1",
+        "mode": "modal",
+        "choice": "logit",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 350,
+        "pngHeight": 236,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-modal-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/014-webkit-390x844-dark-dsf1-modal-logit-scene.png",
+      "sha256": "6250fbafb81358a042e5921d04de1811c8fda8aaa37c5ca5e6fc37ff65638ea5",
+      "bytes": 16390,
+      "pixels": {
+        "width": 350,
+        "height": 236
+      }
+    },
+    {
+      "ledgerIndex": 14,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/960x540-light-dsf2-panel-draw-scene.png",
+        "engine": "webkit",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/960x540-light-dsf2-panel-draw-scene.png",
+        "sha256": "769c16e9cbd713cb4bd891e6ebdc644b1d553c4db7e6b1ffc19bff3d12f0ab6f",
+        "profile": "960x540-light-dsf2",
+        "mode": "panel",
+        "choice": "draw",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 2,
+        "pngWidth": 1212,
+        "pngHeight": 816,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/960x540-light-dsf2-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/015-webkit-960x540-light-dsf2-panel-draw-scene.png",
+      "sha256": "769c16e9cbd713cb4bd891e6ebdc644b1d553c4db7e6b1ffc19bff3d12f0ab6f",
+      "bytes": 63731,
+      "pixels": {
+        "width": 1212,
+        "height": 816
+      }
+    },
+    {
+      "ledgerIndex": 15,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/960x540-light-dsf2-panel-logit-scene.png",
+        "engine": "webkit",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/960x540-light-dsf2-panel-logit-scene.png",
+        "sha256": "6ad9e76543cb20bf2f41283e63ac1c3796733d014d9797fba2bdfe89356c0afb",
+        "profile": "960x540-light-dsf2",
+        "mode": "panel",
+        "choice": "logit",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 2,
+        "pngWidth": 1212,
+        "pngHeight": 816,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/960x540-light-dsf2-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/016-webkit-960x540-light-dsf2-panel-logit-scene.png",
+      "sha256": "6ad9e76543cb20bf2f41283e63ac1c3796733d014d9797fba2bdfe89356c0afb",
+      "bytes": 71891,
+      "pixels": {
+        "width": 1212,
+        "height": 816
+      }
+    },
+    {
+      "ledgerIndex": 16,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-light-dsf1-panel-draw-scene.png",
+        "engine": "chromium-msedge",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-light-dsf1-panel-draw-scene.png",
+        "sha256": "ac9249472856297f70b4ffce844c365f24e1c455489c903a6b590a091ab2ffdc",
+        "profile": "1440x1000-light-dsf1",
+        "mode": "panel",
+        "choice": "draw",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 627,
+        "pngHeight": 422,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-light-dsf1-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/017-chromium-msedge-1440x1000-light-dsf1-panel-draw-scene.png",
+      "sha256": "ac9249472856297f70b4ffce844c365f24e1c455489c903a6b590a091ab2ffdc",
+      "bytes": 32634,
+      "pixels": {
+        "width": 627,
+        "height": 422
+      }
+    },
+    {
+      "ledgerIndex": 17,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-light-dsf1-panel-logit-scene.png",
+        "engine": "chromium-msedge",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-light-dsf1-panel-logit-scene.png",
+        "sha256": "c427e5ec59f7897c88726f4ac62573497d65769047b00ef7f4610319db269e8c",
+        "profile": "1440x1000-light-dsf1",
+        "mode": "panel",
+        "choice": "logit",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 627,
+        "pngHeight": 422,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-light-dsf1-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/018-chromium-msedge-1440x1000-light-dsf1-panel-logit-scene.png",
+      "sha256": "c427e5ec59f7897c88726f4ac62573497d65769047b00ef7f4610319db269e8c",
+      "bytes": 38392,
+      "pixels": {
+        "width": 627,
+        "height": 422
+      }
+    },
+    {
+      "ledgerIndex": 18,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-light-dsf1-modal-draw-scene.png",
+        "engine": "chromium-msedge",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-light-dsf1-modal-draw-scene.png",
+        "sha256": "3dc6d4833bead2bc9964f8c343d2206937a012dbd7bf489e83bce6615005209e",
+        "profile": "1440x1000-light-dsf1",
+        "mode": "modal",
+        "choice": "draw",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 818,
+        "pngHeight": 551,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-light-dsf1-modal-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/019-chromium-msedge-1440x1000-light-dsf1-modal-draw-scene.png",
+      "sha256": "3dc6d4833bead2bc9964f8c343d2206937a012dbd7bf489e83bce6615005209e",
+      "bytes": 54218,
+      "pixels": {
+        "width": 818,
+        "height": 551
+      }
+    },
+    {
+      "ledgerIndex": 19,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-light-dsf1-modal-logit-scene.png",
+        "engine": "chromium-msedge",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-light-dsf1-modal-logit-scene.png",
+        "sha256": "4cba1d4732003dbb23d7e17bb7dbae2850120c6b74332c8e3eb78c4c17b249ad",
+        "profile": "1440x1000-light-dsf1",
+        "mode": "modal",
+        "choice": "logit",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 818,
+        "pngHeight": 551,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-light-dsf1-modal-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/020-chromium-msedge-1440x1000-light-dsf1-modal-logit-scene.png",
+      "sha256": "4cba1d4732003dbb23d7e17bb7dbae2850120c6b74332c8e3eb78c4c17b249ad",
+      "bytes": 59524,
+      "pixels": {
+        "width": 818,
+        "height": 551
+      }
+    },
+    {
+      "ledgerIndex": 20,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-dark-dsf1-panel-draw-scene.png",
+        "engine": "chromium-msedge",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-dark-dsf1-panel-draw-scene.png",
+        "sha256": "ac9249472856297f70b4ffce844c365f24e1c455489c903a6b590a091ab2ffdc",
+        "profile": "1440x1000-dark-dsf1",
+        "mode": "panel",
+        "choice": "draw",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 627,
+        "pngHeight": 422,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-dark-dsf1-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/021-chromium-msedge-1440x1000-dark-dsf1-panel-draw-scene.png",
+      "sha256": "ac9249472856297f70b4ffce844c365f24e1c455489c903a6b590a091ab2ffdc",
+      "bytes": 32634,
+      "pixels": {
+        "width": 627,
+        "height": 422
+      }
+    },
+    {
+      "ledgerIndex": 21,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-dark-dsf1-panel-logit-scene.png",
+        "engine": "chromium-msedge",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-dark-dsf1-panel-logit-scene.png",
+        "sha256": "c427e5ec59f7897c88726f4ac62573497d65769047b00ef7f4610319db269e8c",
+        "profile": "1440x1000-dark-dsf1",
+        "mode": "panel",
+        "choice": "logit",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 627,
+        "pngHeight": 422,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1440x1000-dark-dsf1-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/022-chromium-msedge-1440x1000-dark-dsf1-panel-logit-scene.png",
+      "sha256": "c427e5ec59f7897c88726f4ac62573497d65769047b00ef7f4610319db269e8c",
+      "bytes": 38392,
+      "pixels": {
+        "width": 627,
+        "height": 422
+      }
+    },
+    {
+      "ledgerIndex": 22,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1280x720-light-dsf1-panel-draw-scene.png",
+        "engine": "chromium-msedge",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1280x720-light-dsf1-panel-draw-scene.png",
+        "sha256": "6bc852eefbb46c81341a50ce95b0d028076c7a1c3f7e3f40ccf8f65bc351a685",
+        "profile": "1280x720-light-dsf1",
+        "mode": "panel",
+        "choice": "draw",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 532,
+        "pngHeight": 358,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1280x720-light-dsf1-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/023-chromium-msedge-1280x720-light-dsf1-panel-draw-scene.png",
+      "sha256": "6bc852eefbb46c81341a50ce95b0d028076c7a1c3f7e3f40ccf8f65bc351a685",
+      "bytes": 27213,
+      "pixels": {
+        "width": 532,
+        "height": 358
+      }
+    },
+    {
+      "ledgerIndex": 23,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1280x720-light-dsf1-panel-logit-scene.png",
+        "engine": "chromium-msedge",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1280x720-light-dsf1-panel-logit-scene.png",
+        "sha256": "fe12a02f41420fea9e84a81eb23ef319b95cbffe577d377b2d305c35ad3cca4a",
+        "profile": "1280x720-light-dsf1",
+        "mode": "panel",
+        "choice": "logit",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 532,
+        "pngHeight": 358,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1280x720-light-dsf1-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/024-chromium-msedge-1280x720-light-dsf1-panel-logit-scene.png",
+      "sha256": "fe12a02f41420fea9e84a81eb23ef319b95cbffe577d377b2d305c35ad3cca4a",
+      "bytes": 31564,
+      "pixels": {
+        "width": 532,
+        "height": 358
+      }
+    },
+    {
+      "ledgerIndex": 24,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-light-dsf1-panel-draw-scene.png",
+        "engine": "chromium-msedge",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-light-dsf1-panel-draw-scene.png",
+        "sha256": "edf667059cb0d4bc164c272ac5c32d821634052404908b861fc3d4d2ede0818a",
+        "profile": "390x844-light-dsf1",
+        "mode": "panel",
+        "choice": "draw",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 356,
+        "pngHeight": 240,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-light-dsf1-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/025-chromium-msedge-390x844-light-dsf1-panel-draw-scene.png",
+      "sha256": "edf667059cb0d4bc164c272ac5c32d821634052404908b861fc3d4d2ede0818a",
+      "bytes": 15713,
+      "pixels": {
+        "width": 356,
+        "height": 240
+      }
+    },
+    {
+      "ledgerIndex": 25,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-light-dsf1-panel-logit-scene.png",
+        "engine": "chromium-msedge",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-light-dsf1-panel-logit-scene.png",
+        "sha256": "edaa3bd65a9115c0c658a511a8c2d8d6da84788a5ce6ec5b4fd3b23152f498d8",
+        "profile": "390x844-light-dsf1",
+        "mode": "panel",
+        "choice": "logit",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 356,
+        "pngHeight": 240,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-light-dsf1-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/026-chromium-msedge-390x844-light-dsf1-panel-logit-scene.png",
+      "sha256": "edaa3bd65a9115c0c658a511a8c2d8d6da84788a5ce6ec5b4fd3b23152f498d8",
+      "bytes": 18081,
+      "pixels": {
+        "width": 356,
+        "height": 240
+      }
+    },
+    {
+      "ledgerIndex": 26,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-dark-dsf1-panel-draw-scene.png",
+        "engine": "chromium-msedge",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-dark-dsf1-panel-draw-scene.png",
+        "sha256": "edf667059cb0d4bc164c272ac5c32d821634052404908b861fc3d4d2ede0818a",
+        "profile": "390x844-dark-dsf1",
+        "mode": "panel",
+        "choice": "draw",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 356,
+        "pngHeight": 240,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-dark-dsf1-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/027-chromium-msedge-390x844-dark-dsf1-panel-draw-scene.png",
+      "sha256": "edf667059cb0d4bc164c272ac5c32d821634052404908b861fc3d4d2ede0818a",
+      "bytes": 15713,
+      "pixels": {
+        "width": 356,
+        "height": 240
+      }
+    },
+    {
+      "ledgerIndex": 27,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-dark-dsf1-panel-logit-scene.png",
+        "engine": "chromium-msedge",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-dark-dsf1-panel-logit-scene.png",
+        "sha256": "edaa3bd65a9115c0c658a511a8c2d8d6da84788a5ce6ec5b4fd3b23152f498d8",
+        "profile": "390x844-dark-dsf1",
+        "mode": "panel",
+        "choice": "logit",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 356,
+        "pngHeight": 240,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-dark-dsf1-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/028-chromium-msedge-390x844-dark-dsf1-panel-logit-scene.png",
+      "sha256": "edaa3bd65a9115c0c658a511a8c2d8d6da84788a5ce6ec5b4fd3b23152f498d8",
+      "bytes": 18081,
+      "pixels": {
+        "width": 356,
+        "height": 240
+      }
+    },
+    {
+      "ledgerIndex": 28,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-dark-dsf1-modal-draw-scene.png",
+        "engine": "chromium-msedge",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-dark-dsf1-modal-draw-scene.png",
+        "sha256": "05fce33fbf3a45302353b7dbfbb91bc72aaec511e09669a2639e9629c52e287a",
+        "profile": "390x844-dark-dsf1",
+        "mode": "modal",
+        "choice": "draw",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 350,
+        "pngHeight": 236,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-dark-dsf1-modal-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/029-chromium-msedge-390x844-dark-dsf1-modal-draw-scene.png",
+      "sha256": "05fce33fbf3a45302353b7dbfbb91bc72aaec511e09669a2639e9629c52e287a",
+      "bytes": 16004,
+      "pixels": {
+        "width": 350,
+        "height": 236
+      }
+    },
+    {
+      "ledgerIndex": 29,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-dark-dsf1-modal-logit-scene.png",
+        "engine": "chromium-msedge",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-dark-dsf1-modal-logit-scene.png",
+        "sha256": "f81cb32bb140d7d49122ccf74960f1980ed64a8d8bc60576a469d3857c7297a0",
+        "profile": "390x844-dark-dsf1",
+        "mode": "modal",
+        "choice": "logit",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 1,
+        "pngWidth": 350,
+        "pngHeight": 236,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/390x844-dark-dsf1-modal-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/030-chromium-msedge-390x844-dark-dsf1-modal-logit-scene.png",
+      "sha256": "f81cb32bb140d7d49122ccf74960f1980ed64a8d8bc60576a469d3857c7297a0",
+      "bytes": 18626,
+      "pixels": {
+        "width": 350,
+        "height": 236
+      }
+    },
+    {
+      "ledgerIndex": 30,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/960x540-light-dsf2-panel-draw-scene.png",
+        "engine": "chromium-msedge",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/960x540-light-dsf2-panel-draw-scene.png",
+        "sha256": "5328e79fb372671e7ebe07b83a3d12edbd563c028324d1c7997ed381125e19e1",
+        "profile": "960x540-light-dsf2",
+        "mode": "panel",
+        "choice": "draw",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 2,
+        "pngWidth": 1212,
+        "pngHeight": 816,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/960x540-light-dsf2-panel-draw-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/031-chromium-msedge-960x540-light-dsf2-panel-draw-scene.png",
+      "sha256": "5328e79fb372671e7ebe07b83a3d12edbd563c028324d1c7997ed381125e19e1",
+      "bytes": 84060,
+      "pixels": {
+        "width": 1212,
+        "height": 816
+      }
+    },
+    {
+      "ledgerIndex": 31,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/960x540-light-dsf2-panel-logit-scene.png",
+        "engine": "chromium-msedge",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/960x540-light-dsf2-panel-logit-scene.png",
+        "sha256": "bb8f05b3724deebf63264caeb1e7f9cddc1024b9daf975a9109aa34b80b1452e",
+        "profile": "960x540-light-dsf2",
+        "mode": "panel",
+        "choice": "logit",
+        "capture": "supplemental-full-scene",
+        "deviceScaleFactor": 2,
+        "pngWidth": 1212,
+        "pngHeight": 816,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/960x540-light-dsf2-panel-logit-scene.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/032-chromium-msedge-960x540-light-dsf2-panel-logit-scene.png",
+      "sha256": "bb8f05b3724deebf63264caeb1e7f9cddc1024b9daf975a9109aa34b80b1452e",
+      "bytes": 91493,
+      "pixels": {
+        "width": 1212,
+        "height": 816
+      }
+    },
+    {
+      "ledgerIndex": 32,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-panel-logit.png",
+        "engine": "webkit",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-panel-logit.png",
+        "sha256": "3634fa9ea1049ff7ac3a7254b44e4d93d2bf1cd21aa24a678972b56ad7423165",
+        "profile": "1440x1000-light-dsf1",
+        "mode": "panel",
+        "choice": "logit",
+        "capture": "viewport",
+        "deviceScaleFactor": 1,
+        "pngWidth": 1440,
+        "pngHeight": 1000,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/1440x1000-light-dsf1-panel-logit.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/033-webkit-1440x1000-light-dsf1-panel-logit.png",
+      "sha256": "3634fa9ea1049ff7ac3a7254b44e4d93d2bf1cd21aa24a678972b56ad7423165",
+      "bytes": 216969,
+      "pixels": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "ledgerIndex": 33,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-modal-logit.png",
+        "engine": "webkit",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-modal-logit.png",
+        "sha256": "7f42b589331858a5703628247ac66f41c67b2a81fa5b4fded03b9f46e3af96fc",
+        "profile": "390x844-dark-dsf1",
+        "mode": "modal",
+        "choice": "logit",
+        "capture": "viewport",
+        "deviceScaleFactor": 1,
+        "pngWidth": 390,
+        "pngHeight": 844,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": null
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-webkit/390x844-dark-dsf1-modal-logit.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/034-webkit-390x844-dark-dsf1-modal-logit.png",
+      "sha256": "7f42b589331858a5703628247ac66f41c67b2a81fa5b4fded03b9f46e3af96fc",
+      "bytes": 68957,
+      "pixels": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "ledgerIndex": 34,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1280x720-light-dsf1-panel-logit.png",
+        "engine": "chromium-msedge",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1280x720-light-dsf1-panel-logit.png",
+        "sha256": "0f78b669120d7e5ac14655f2188a06e1c89ad71a98a60a2babeb8d82c662fec6",
+        "profile": "1280x720-light-dsf1",
+        "mode": "panel",
+        "choice": "logit",
+        "capture": "viewport",
+        "deviceScaleFactor": 1,
+        "pngWidth": 1280,
+        "pngHeight": 720,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": "Viewport is at controls; upper scene is offscreen. Separate unchanged full-scene clip was actually inspected."
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/1280x720-light-dsf1-panel-logit.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/035-chromium-msedge-1280x720-light-dsf1-panel-logit.png",
+      "sha256": "0f78b669120d7e5ac14655f2188a06e1c89ad71a98a60a2babeb8d82c662fec6",
+      "bytes": 187422,
+      "pixels": {
+        "width": 1280,
+        "height": 720
+      }
+    },
+    {
+      "ledgerIndex": 35,
+      "ledgerEntry": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/960x540-light-dsf2-panel-logit.png",
+        "engine": "chromium-msedge",
+        "actuallyViewed": true,
+        "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/960x540-light-dsf2-panel-logit.png",
+        "sha256": "e71e4fbd97689b763bb76b93ef7122dcf0ffd5f72c2d00293615f2a3aefaa599",
+        "profile": "960x540-light-dsf2",
+        "mode": "panel",
+        "choice": "logit",
+        "capture": "viewport",
+        "deviceScaleFactor": 2,
+        "pngWidth": 1920,
+        "pngHeight": 1080,
+        "stylesModified": false,
+        "method": "Independent view_image actual inspection",
+        "verdict": "No numeric glyph collision; six-decimal values and minus signs distinguishable",
+        "viewportLimitation": "Viewport is at controls; upper scene is offscreen. Separate unchanged full-scene clip was actually inspected."
+      },
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review-chromium-v2/960x540-light-dsf2-panel-logit.png",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-evidence/viewed/036-chromium-msedge-960x540-light-dsf2-panel-logit.png",
+      "sha256": "e71e4fbd97689b763bb76b93ef7122dcf0ffd5f72c2d00293615f2a3aefaa599",
+      "bytes": 283677,
+      "pixels": {
+        "width": 1920,
+        "height": 1080
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "phase": "completed-local-evidence-public-pending",
+  "checkedAt": "2026-09-29T18:46:22.618Z",
+  "index": {
+    "path": "project/records/2026-09-30/inference-score-spacing-evidence/index.json",
+    "sha256": "a9be285e17332cd6c28f0e80a64b86c70f57284dda9e52b737f2a2830fde0a10"
+  },
+  "rawGzipRoundtrips": 33,
+  "finalReviewDeclaredEvidenceVerified": 21,
+  "actuallyViewedPNGHashesAndBytes": 36,
+  "exactLedgerEntries": 36,
+  "captureCounts": {
+    "scene": 32,
+    "viewport": 4
+  },
+  "candidateObservations": 32,
+  "candidateGeneratedPNG": 64,
+  "totalGeneratedIncludingFailedAndDiagnostic": 128,
+  "topReviewDecisionPreserved": "approved/low must0 should0; focused local only",
+  "failedInitialEdgePreserved": true,
+  "raceBaselinePreserved": true,
+  "fetchAuditPreserved": true,
+  "existingSourceEntriesPreserved": true,
+  "rootOriginalFailurePreserved": true,
+  "publicAccepted": false,
+  "activeVisualFilesRead": false
+}

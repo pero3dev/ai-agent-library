@@ -1,0 +1,288 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-09-24T16:33:37.257Z",
+  "author": "/root/training_public_acceptance",
+  "status": "implementation-and-owned-unit-complete",
+  "independentAcceptance": false,
+  "scope": "C2 concept scenes pretraining-data and pretraining-metrics; exactly eight owned product/test files",
+  "authorization": "Parent assigned these eight files, approved C2 storyboard, unit validation and TEMP implementation record. No build, Git or public operation performed by this worker.",
+  "inputs": [
+    {
+      "file": "project/records/2026-09-24/training-storyboards.json",
+      "sha256": "3439e7f163e2b033c278636c59738ef7ee9325cf5a9dec2369284374d44d504a"
+    },
+    {
+      "file": "project/records/2026-09-24/training-storyboards.md",
+      "sha256": "cb30227d7441d4c17cabc258805a8bb0dca89ca40127e3a1ed49348a0b0d8f7d"
+    },
+    {
+      "file": "website/lib/reading-clock.mjs",
+      "sha256": "f39eadf5eb39ebbb0f33877e6bceb9966211fc7acdaad13118428a4c2019081b"
+    },
+    {
+      "file": "website/components/diagrams/concept-scene-primitives.jsx",
+      "sha256": "5aac3bf8a418a57cd269b89fdab0252eb71d671dfbe6ac6dbe064a052e790a2b"
+    },
+    {
+      "file": "website/components/diagrams/reading-figure.jsx",
+      "sha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12"
+    }
+  ],
+  "files": [
+    {
+      "file": "website/lib/pretraining-data-model.mjs",
+      "bytes": 4181,
+      "sha256": "5338703ea3cd88e8c2df1df41e4d077be40a01042dc62ba2a69ede28c97673fa"
+    },
+    {
+      "file": "website/components/diagrams/pretraining-data-walkthrough.jsx",
+      "bytes": 11140,
+      "sha256": "d2724eb12d8426bc52f812c1a6e7d4171171295bc4ac3d4acfde71b1793527bf"
+    },
+    {
+      "file": "website/components/diagrams/pretraining-data.css",
+      "bytes": 1422,
+      "sha256": "99a72eb0fa72e29d7c302d51dec8f357fedda7cd0ad1862a2498e22a7158ef6d"
+    },
+    {
+      "file": "website/tests/unit/pretraining-data-model.test.mjs",
+      "bytes": 5037,
+      "sha256": "23465e6b87a3c5ec52b7cfff882694050d6dd4e1aa9afdc3fbb174250f23d0f9"
+    },
+    {
+      "file": "website/lib/pretraining-metrics-model.mjs",
+      "bytes": 3293,
+      "sha256": "a5986c1f309ba58d976786ba4f14c0f20fcce6c9e387f12d52967cd33b182ad0"
+    },
+    {
+      "file": "website/components/diagrams/pretraining-metrics-walkthrough.jsx",
+      "bytes": 8778,
+      "sha256": "2cc7142adf8d6728af65c5111495c6e431b4ea7f98d51564376f893729211d62"
+    },
+    {
+      "file": "website/components/diagrams/pretraining-metrics.css",
+      "bytes": 1699,
+      "sha256": "132da226d439b465509d09f46129a8a07904e0184bde99897884e105a53a57fa"
+    },
+    {
+      "file": "website/tests/unit/pretraining-metrics-model.test.mjs",
+      "bytes": 4632,
+      "sha256": "8cdceea11535719f600cca40696331252f908747c39c9e983cabb6ac27c01502"
+    }
+  ],
+  "modelContracts": {
+    "data": {
+      "stages": 4,
+      "readingStages": [
+        0,
+        2,
+        3
+      ],
+      "manualAuxiliaryStage": 1,
+      "sourceDocuments": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "positionsPerDocument": 2,
+      "readOrder": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "A",
+        "B"
+      ],
+      "readCount": 6,
+      "processedTokenOccurrences": 12,
+      "sourceTokenPositions": 8,
+      "sourceIdentityPreserved": true,
+      "occurrenceIdentitiesUnique": true,
+      "uniqueVocabularyCount": null,
+      "independentInformation": null,
+      "qualityScores": null,
+      "learningEffect": null,
+      "investmentDecision": null,
+      "focus": {
+        "stage": 2,
+        "label": "確認するデータ観点",
+        "values": [
+          "quality",
+          "mixture",
+          "reuse",
+          "contamination"
+        ],
+        "effect": "emphasis only; all four cards and cautions remain present"
+      }
+    },
+    "metrics": {
+      "stages": 4,
+      "readingStages": [
+        0,
+        2,
+        3
+      ],
+      "manualAuxiliaryStage": 1,
+      "conditionIds": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ],
+      "numerators": [
+        30,
+        40,
+        50,
+        60,
+        70,
+        80
+      ],
+      "denominator": 100,
+      "pointX": [
+        148,
+        228,
+        308,
+        388,
+        468,
+        548
+      ],
+      "thresholds": [
+        50,
+        60,
+        70
+      ],
+      "operator": ">=",
+      "expectedBinary": {
+        "50": [
+          0,
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        "60": [
+          0,
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        "70": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ]
+      },
+      "thresholdSelector": {
+        "stage": 2,
+        "label": "二値化の閾値",
+        "inactiveStageThreshold": 60
+      },
+      "simultaneousViews": [
+        "continuous",
+        "binary"
+      ],
+      "empiricalMeasurement": false,
+      "exactMatchImplementation": false,
+      "brierImplementation": false,
+      "emergenceJudgment": null,
+      "abilityJudgment": null
+    }
+  },
+  "domContracts": {
+    "markers": [
+      "PRETRAINING / DATA",
+      "PRETRAINING / METRICS"
+    ],
+    "dataSvg": [
+      "data-pretraining-data-stage",
+      "data-data-focus",
+      "data-read-count",
+      "data-source-document-count",
+      "data-processed-token-occurrences",
+      "data-source-token-positions",
+      "data-unique-vocabulary-count=unknown",
+      "data-independent-information=unknown",
+      "data-quality-score=unknown",
+      "data-learning-effect=unknown",
+      "data-investment-decision=none"
+    ],
+    "dataSource": [
+      "data-data-document",
+      "data-source-position",
+      "data-document-id"
+    ],
+    "dataOccurrence": [
+      "data-data-read",
+      "data-processing-occurrence",
+      "data-source-position-ref",
+      "data-read-index",
+      "data-document-id"
+    ],
+    "dataAspect": [
+      "data-data-aspect",
+      "data-emphasized"
+    ],
+    "metricsSvg": [
+      "data-pretraining-metrics-stage",
+      "data-score-threshold",
+      "data-score-denominator=100",
+      "data-comparison-operator=>=",
+      "data-empirical-measurement=false",
+      "data-emergence-judgment=none",
+      "data-ability-judgment=none"
+    ],
+    "metricsPoints": [
+      "data-metric-view",
+      "data-metric-point",
+      "data-score-numerator",
+      "data-point-index",
+      "data-point-x",
+      "data-binary-value",
+      "data-metric-value",
+      "data-threshold-label",
+      "data-threshold-guide"
+    ]
+  },
+  "fixesFromIndependentCodeRead": [
+    "Reuse icon absolute V1 changed to relative v-9 so it stays inside the card.",
+    "Continuous axis endpoint label baselines are 84 and 164, matching y=80 and y=160 grid lines; label x positions separated.",
+    "Data S0 processing card widened to 276 SVG units for its Japanese label."
+  ],
+  "validation": {
+    "command": "node --test website/tests/unit/pretraining-data-model.test.mjs website/tests/unit/pretraining-metrics-model.test.mjs",
+    "exitCode": 0,
+    "tests": 13,
+    "passed": 13,
+    "failed": 0,
+    "skipped": 0,
+    "evidenceClass": "owned model unit tests only",
+    "coverage": [
+      "exact independent count/identity contract",
+      "all selector values and stage isolation",
+      "integer threshold equality and expected binaries",
+      "fixed inputs and x coordinates",
+      "midpoint/reverse seek invariants",
+      "invalid inputs and finite clamp",
+      "mutation isolation",
+      "unmeasured/unknown and non-judgment semantics"
+    ]
+  },
+  "notPerformed": [
+    "site build",
+    "browser execution",
+    "pixel or screenshot review",
+    "public deployment or HTTP check",
+    "physical device test",
+    "Git operation"
+  ],
+  "next": "Root integrates and runs build/local browser checks; an independent reviewer must judge actual images and final source."
+}

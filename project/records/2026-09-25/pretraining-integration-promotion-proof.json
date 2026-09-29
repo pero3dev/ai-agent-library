@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "promoted": [
+    "pretraining-loss-perplexity",
+    "pretraining-scaling",
+    "pretraining-data",
+    "pretraining-metrics",
+    "pretraining-compute"
+  ],
+  "changedFieldsOnly": [
+    "reviewedDigest",
+    "enabled",
+    "status"
+  ],
+  "oldEntriesUnchanged": 19,
+  "actualSourceDigestsMatched": 5,
+  "articleGatesStillNull": true,
+  "registrySHA256": "ed9ef883835222eed36e9857453535eec08210ba7addc408618b612dbbc655d4",
+  "checkedAt": "2026-09-24T16:30:47.959Z"
+}

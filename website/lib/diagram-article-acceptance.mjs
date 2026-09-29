@@ -23,7 +23,9 @@ export const INFERENCE_ARTICLE = 'docs/11-llm-internals/inference-internals.md'
 export const INFERENCE_EVIDENCE_PATH = 'project/records/2026-09-24/inference-article-acceptance.json'
 export const TRAINING_ARTICLE = 'docs/10-llm-foundations/llm-training-pipeline.md'
 export const TRAINING_EVIDENCE_PATH = 'project/records/2026-09-24/training-article-acceptance.json'
-export const TRACKED_ARTICLES = Object.freeze([TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE, INFERENCE_ARTICLE, TRAINING_ARTICLE])
+export const PRETRAINING_ARTICLE = 'docs/11-llm-internals/pretraining-and-scaling-laws.md'
+export const PRETRAINING_EVIDENCE_PATH = 'project/records/2026-09-25/pretraining-article-acceptance.json'
+export const TRACKED_ARTICLES = Object.freeze([TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE, INFERENCE_ARTICLE, TRAINING_ARTICLE, PRETRAINING_ARTICLE])
 const MANIFEST = 'website/diagrams/articles.json'
 const TRANSFORMER_TOPICS = {
   '概要: デコーダ専用 Transformer の全体像': ['decoder-flow', 'overview-and-notation'],
@@ -154,6 +156,69 @@ const INFERENCE_TOPICS = { '概要: プリフィルとデコードの 2 相':
      'temperature-zero-reproducibility-pitfall' ],
   'チェックリスト': [ 'understanding-check' ] }
 
+const PRETRAINING_TOPICS = {
+  '概要: 事前学習は「次トークン予測」の一点': [ 'pretraining-pretraining-purpose', 'pretraining-loss-not-ability' ],
+  '次トークン予測の目的関数': [
+    'pretraining-conditional-prefix',
+    'pretraining-average-negative-log',
+    'pretraining-training-update',
+    'pretraining-exp-loss',
+    'pretraining-same-tokenizer-data'
+  ],
+  'スケーリング則の系譜': [
+    'pretraining-scaling-axes',
+    'pretraining-residual-not-total',
+    'pretraining-kaplan-history',
+    'pretraining-fixed-compute-allocation',
+    'pretraining-budget-growth',
+    'pretraining-not-equal-units',
+    'pretraining-inference-compute',
+    'pretraining-empirical-coefficients'
+  ],
+  'データ側: 量・品質・混合・繰り返し': [
+    'pretraining-quantity-content',
+    'pretraining-quality-dedup',
+    'pretraining-mixture',
+    'pretraining-reuse-returns',
+    'pretraining-contamination',
+    'pretraining-data-bottleneck'
+  ],
+  '創発的能力の論争': [
+    'pretraining-emergence-debate',
+    'pretraining-discontinuous-metric',
+    'pretraining-continuous-metric',
+    'pretraining-not-single-verdict'
+  ],
+  '学習の計算量の目安': [
+    'pretraining-compute-units',
+    'pretraining-compute-product',
+    'pretraining-allocation-vs-growth',
+    'pretraining-actual-cost-limits'
+  ],
+  'この理解が効く場面': [
+    'pretraining-static-6-1',
+    'pretraining-static-6-2',
+    'pretraining-static-6-3',
+    'pretraining-static-6-4'
+  ],
+  'アンチパターン': [
+    'pretraining-static-7-1',
+    'pretraining-static-7-2',
+    'pretraining-static-7-3',
+    'pretraining-static-7-4',
+    'pretraining-static-7-5'
+  ],
+  'チェックリスト': [
+    'pretraining-static-8-1',
+    'pretraining-static-8-2',
+    'pretraining-static-8-3',
+    'pretraining-static-8-4',
+    'pretraining-static-8-5',
+    'pretraining-static-8-6',
+    'pretraining-static-8-7'
+  ]
+}
+
 const TRAINING_TOPICS = { '概要: 3 つの工程と、それぞれが残す「癖」': [ 'training-representative-order', 'training-different-data', 'training-association-not-cause' ],
   '事前学習: 次トークン予測で知識を得る':
    [ 'training-next-token-patterns',
@@ -250,7 +315,35 @@ export const TRAINING_INPUT_FILES = Object.freeze([...SHARED_INPUT_FILES, ...[
   'website/components/diagrams/training-runtime-boundary.css',
   'website/lib/training-runtime-boundary-model.mjs'
 ]])
+export const PRETRAINING_INPUT_FILES = Object.freeze([...SHARED_INPUT_FILES, ...[
+  'website/components/diagrams/pretraining-walkthrough.jsx',
+  'website/components/diagrams/pretraining-loss-perplexity-walkthrough.jsx',
+  'website/components/diagrams/pretraining-loss-perplexity.css',
+  'website/lib/pretraining-loss-perplexity-model.mjs',
+  'website/components/diagrams/pretraining-scaling-walkthrough.jsx',
+  'website/components/diagrams/pretraining-scaling.css',
+  'website/lib/pretraining-scaling-model.mjs',
+  'website/components/diagrams/pretraining-data-walkthrough.jsx',
+  'website/components/diagrams/pretraining-data.css',
+  'website/lib/pretraining-data-model.mjs',
+  'website/components/diagrams/pretraining-metrics-walkthrough.jsx',
+  'website/components/diagrams/pretraining-metrics.css',
+  'website/lib/pretraining-metrics-model.mjs',
+  'website/components/diagrams/pretraining-compute-walkthrough.jsx',
+  'website/components/diagrams/pretraining-compute.css',
+  'website/lib/pretraining-compute-model.mjs'
+]])
 const configs = {
+  [PRETRAINING_ARTICLE]: {
+    primaryDiagramIds: [
+  'pretraining-loss-perplexity',
+  'pretraining-scaling',
+  'pretraining-data',
+  'pretraining-metrics',
+  'pretraining-compute'
+], topics: PRETRAINING_TOPICS,
+    inputFiles: PRETRAINING_INPUT_FILES, evidencePath: PRETRAINING_EVIDENCE_PATH, requireReadingStage: true
+  },
   [TRAINING_ARTICLE]: {
     primaryDiagramIds: ['training-stages', 'training-runtime-boundary'], topics: TRAINING_TOPICS,
     inputFiles: TRAINING_INPUT_FILES, evidencePath: TRAINING_EVIDENCE_PATH, requireReadingStage: true
@@ -281,6 +374,7 @@ const configs = {
   }
 }
 const overrideDirectories = {
+  [PRETRAINING_ARTICLE]: 'llm-internals',
   [TRAINING_ARTICLE]: 'llm-foundations',
   [INFERENCE_ARTICLE]: 'llm-internals',
   [TRANSFORMER_ARTICLE]: 'llm-internals', [ATTENTION_VARIANTS_ARTICLE]: 'llm-internals', [MOE_ARTICLE]: 'llm-internals',

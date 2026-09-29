@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "verdict": "approved",
+  "risk": "low",
+  "must": [],
+  "should": [],
+  "reviewer": "/root/pretraining_numeric",
+  "independentOfKitAuthor": true,
+  "checkedAt": "2026-09-24T16:37:15.7851048Z",
+  "scope": "scripts/diagram-release/** and tests/unit/diagram-release-portable.test.mjs, code and offline acceptance only",
+  "excluded": [
+    "Reviewer-authored numeric three figures",
+    "All product model/scene approval",
+    "Rendered-image review",
+    "Actual GitHub API/CI artifact download/public execution",
+    "TEMP localhost adapter runtime"
+  ],
+  "manifestSHA256": "16281221cfbde2091b6814c0d6e3c43622fba0263f50cf4d0b94257faa1820b9",
+  "files": [
+    {
+      "file": "scripts/diagram-release/c2-predecessor-proof.json",
+      "bytes": 15436,
+      "sha256": "2323775f24e418cb1186888a62eee41ed29dda97828830473cfe19f83ef922fb"
+    },
+    {
+      "file": "scripts/diagram-release/check-preparation.mjs",
+      "bytes": 13954,
+      "sha256": "e1d33b2c191c137db41f7cedcdf1ec4cd8083f282fdc5ec9bb816ab3c7465eff"
+    },
+    {
+      "file": "scripts/diagram-release/collect-deployment.ps1",
+      "bytes": 12478,
+      "sha256": "e4c3538cba3ea525f4725afd5c7d56256e8dbf5575337d48885b8811e9880eda"
+    },
+    {
+      "file": "scripts/diagram-release/extract-ci-html.mjs",
+      "bytes": 4310,
+      "sha256": "bd1618d4a91f9d1fe37db5e3ce68fadf871595f5eda27d2892048ec89479454f"
+    },
+    {
+      "file": "scripts/diagram-release/foundations-checks.mjs",
+      "bytes": 26410,
+      "sha256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398"
+    },
+    {
+      "file": "scripts/diagram-release/inference-checks.mjs",
+      "bytes": 31874,
+      "sha256": "9f52ca50576dcadc6010b60e30561b768a16b5da0ea8765952e2fc2c5c69e201"
+    },
+    {
+      "file": "scripts/diagram-release/known-site-observations.mjs",
+      "bytes": 130,
+      "sha256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659"
+    },
+    {
+      "file": "scripts/diagram-release/portable-paths.mjs",
+      "bytes": 7151,
+      "sha256": "eb3bab3ad3e9bfcffbd2071d23c321ae71abb4a5a7fa78dee1706ef9fd1abd4a"
+    },
+    {
+      "file": "scripts/diagram-release/predecessor-proof.mjs",
+      "bytes": 2537,
+      "sha256": "e5ddfa8a35d527918654b683b59deb964380fd446d6da2564d3656bf665c2f39"
+    },
+    {
+      "file": "scripts/diagram-release/pretraining-checks.mjs",
+      "bytes": 47725,
+      "sha256": "4fc7051874e6dfdfa2b92052e7ebf237808237a7a2680c85a4008f187fc5de69"
+    },
+    {
+      "file": "scripts/diagram-release/README.md",
+      "bytes": 19049,
+      "sha256": "65b0f7cd47fbdca78b360ba9397d5b6d20d6091ba9c4c2f8865bfb9405be6cc9"
+    },
+    {
+      "file": "scripts/diagram-release/source-mapping.json",
+      "bytes": 55051,
+      "sha256": "16281221cfbde2091b6814c0d6e3c43622fba0263f50cf4d0b94257faa1820b9"
+    },
+    {
+      "file": "scripts/diagram-release/training-checks.mjs",
+      "bytes": 27264,
+      "sha256": "83bd24b85bb4179f643d4a8ba1727a87c305ed6f8b7859e410ace76c70f5e79e"
+    },
+    {
+      "file": "scripts/diagram-release/verify-public.mjs",
+      "bytes": 63670,
+      "sha256": "ace21719997bb15cbcbe06ba870825a44ca7fa77b7748fcd2d803764b7fe06fd"
+    },
+    {
+      "file": "tests/unit/diagram-release-portable.test.mjs",
+      "bytes": 20510,
+      "sha256": "0bad8b27c8de4ff2b6faf23fcd4844e567b3a762e5bca5bec31475a94887fa25"
+    }
+  ],
+  "tests": {
+    "exitCode": 0,
+    "command": "node --test tests/unit/diagram-release-portable.test.mjs",
+    "skipped": 0,
+    "rawLogSHA256": "ecb4c17d93e5ccf1c66b37cd36a226642f34fb4f9689c82b31c20f5d99a5620e",
+    "durationMs": 35266.7482,
+    "failed": 0,
+    "rawLog": "TEMP/pretraining-portable-independent-unit.txt",
+    "passed": 25
+  },
+  "preparation": {
+    "readStops": 19,
+    "routes": [
+      "/docs/llm-internals/inference-internals",
+      "/docs/llm-foundations/how-llms-generate-text",
+      "/docs/llm-foundations/tokenization",
+      "/docs/llm-internals/mixture-of-experts-internals",
+      "/docs/llm-internals/attention-variants-and-long-context",
+      "/docs/llm-internals/transformer-architecture",
+      "/docs/llm-foundations/llm-training-pipeline",
+      "/docs/llm-internals/pretraining-and-scaling-laws"
+    ],
+    "totalCases": 91,
+    "networkExecuted": false,
+    "exitCode": 0,
+    "addedCases": 20,
+    "sha256": "c04203d61f0fb0124376105beb9f5b5340564372ef23550cfd46d15e0e534088",
+    "buildExecuted": false,
+    "inventoryFiles": 14,
+    "rawJSON": "TEMP/pretraining-portable-independent-prep.json",
+    "stages": 23,
+    "oldCases": 71,
+    "profiles": 6,
+    "command": "node scripts/diagram-release/check-preparation.mjs --repo=C:/dev/ai-agent-library --output=<TEMP>/pretraining-portable-independent-prep"
+  },
+  "provenance": {
+    "checkedAt": "2026-09-24T16:35:18.076Z",
+    "status": "passed",
+    "actualGitBase": "517dc8b5166bd7b0c85baef3800d7fe57bac7b31",
+    "fullRestoredFiles": [
+      "extract-ci-html.mjs",
+      "collect-deployment.ps1",
+      "verify-public.mjs",
+      "inference-checks.mjs",
+      "foundations-checks.mjs",
+      "training-checks.mjs",
+      "known-site-observations.mjs",
+      "portable-paths.mjs"
+    ],
+    "approvedStageHelperExact": true,
+    "stageHelperSHA256": "46454ef65efc2cc17871d5f28b54c6574d1b89c1c489d1895784dc1b4778df46",
+    "oldCaseNamesHash": "82b7e9d9f2964b0e2a8771792683357603ec450a37de522b4c8b9ab8f5ca1092",
+    "oracleAndControlsMatchApprovedPlan": true,
+    "noSidecarSelfOrManifestHash": true,
+    "network": false
+  },
+  "evidence": [
+    "Current source inventory hashes match the manifest, including flat C2 sidecar and fixed repository test location",
+    "C2 restoration yields actual Git base 517dc8b full text in all eight checked release modules",
+    "The C1 approved stage helper matches current helper after trimming outer boundary whitespace; the 24-line pre-click wait and four original assertions remain",
+    "Old ordered 71-case names match fixed SHA256 82b7e9d9f2964b0e2a8771792683357603ec450a37de522b4c8b9ab8f5ca1092",
+    "Every C2 oracle, control, label and READ list exactly matches the approved storyboard, with no product-model expected-value import",
+    "Eight fixed routes agree across collector, extractor and runner; expected HTML comes from exact-run Pages artifact, public byte hashes/BUILD_ID are matched",
+    "Complete scene capture preserves viewport screenshots, uses unchanged CSS and integer clip, verifies PNG dimensions at DSF, and restores scroll",
+    "Default READ summaries and all controls receive semantic/geometry checks; pending independent image-review flags remain",
+    "Native elapsed playback uses actual timeout and unchanged browser clock; no-JS capture avoids animation callbacks",
+    "CLI rejects unknown flags and missing release authorization; output/evidence/archive paths reject repo/root/symlink redirection; no public skip-old flag"
+  ],
+  "remaining": [
+    "Execute final local browser adapter after root build",
+    "Independently inspect all required final images and geometry candidates",
+    "Run CI/Pages collector and full public91 on actual released identity",
+    "Do not reinterpret offline approval as public or physical-device acceptance"
+  ],
+  "changesMade": "TEMP reports only; no repository modifications"
+}

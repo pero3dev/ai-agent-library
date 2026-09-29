@@ -4,6 +4,72 @@ import { readFileSync } from 'node:fs'
 // IDs resolve to code-owned bindings, never to module paths supplied by Markdown
 // or the registry. Adding a diagram requires an explicit implementation change.
 const BINDINGS = {
+  'pretraining-loss-perplexity': {
+  article: 'docs/11-llm-internals/pretraining-and-scaling-laws.md',
+  route: '/docs/llm-internals/pretraining-and-scaling-laws',
+  binding: 'grouped-blocks',
+  stageCount: 5,
+  headings: [ '概要: 事前学習は「次トークン予測」の一点', '次トークン予測の目的関数' ],
+  sourceHeadings: [ '概要: 事前学習は「次トークン予測」の一点', '次トークン予測の目的関数' ],
+  blockGroups: [
+    [ { stage: 0, count: 1 } ],
+    [
+      { stage: 1, count: 1 },
+      { stage: 2, count: 2 },
+      { stage: 3, count: 2 },
+      { stage: 4, count: 1 }
+    ]
+  ],
+  blockTypes: [ [ 'paragraph' ], [ 'paragraph', 'math', 'paragraph', 'paragraph', 'math', 'paragraph' ] ]
+},
+  'pretraining-scaling': {
+  article: 'docs/11-llm-internals/pretraining-and-scaling-laws.md',
+  route: '/docs/llm-internals/pretraining-and-scaling-laws',
+  binding: 'grouped-blocks',
+  stageCount: 6,
+  headings: [ 'スケーリング則の系譜' ],
+  sourceHeadings: [ 'スケーリング則の系譜', '学習の計算量の目安' ],
+  blockGroups: [
+    [
+      { stage: 0, count: 1 },
+      { stage: 1, count: 2 },
+      { stage: 3, count: 1 },
+      { stage: 4, count: 1 },
+      { stage: 5, count: 1 }
+    ]
+  ],
+  blockTypes: [ [ 'paragraph', 'math', 'paragraph', 'list', 'code', 'paragraph' ] ]
+},
+  'pretraining-data': {
+  article: 'docs/11-llm-internals/pretraining-and-scaling-laws.md',
+  route: '/docs/llm-internals/pretraining-and-scaling-laws',
+  binding: 'grouped-blocks',
+  stageCount: 4,
+  headings: [ 'データ側: 量・品質・混合・繰り返し' ],
+  sourceHeadings: [ 'スケーリング則の系譜', 'データ側: 量・品質・混合・繰り返し' ],
+  blockGroups: [ [ { stage: 0, count: 1 }, { stage: 2, count: 1 }, { stage: 3, count: 1 } ] ],
+  blockTypes: [ [ 'paragraph', 'list', 'paragraph' ] ]
+},
+  'pretraining-metrics': {
+  article: 'docs/11-llm-internals/pretraining-and-scaling-laws.md',
+  route: '/docs/llm-internals/pretraining-and-scaling-laws',
+  binding: 'grouped-blocks',
+  stageCount: 4,
+  headings: [ '創発的能力の論争' ],
+  sourceHeadings: [ '創発的能力の論争' ],
+  blockGroups: [ [ { stage: 0, count: 1 }, { stage: 2, count: 1 }, { stage: 3, count: 1 } ] ],
+  blockTypes: [ [ 'paragraph', 'list', 'paragraph' ] ]
+},
+  'pretraining-compute': {
+  article: 'docs/11-llm-internals/pretraining-and-scaling-laws.md',
+  route: '/docs/llm-internals/pretraining-and-scaling-laws',
+  binding: 'grouped-blocks',
+  stageCount: 4,
+  headings: [ '学習の計算量の目安' ],
+  sourceHeadings: [ 'スケーリング則の系譜', '学習の計算量の目安' ],
+  blockGroups: [ [ { stage: 0, count: 1 }, { stage: 1, count: 1 }, { stage: 3, count: 1 } ] ],
+  blockTypes: [ [ 'paragraph', 'math', 'paragraph' ] ]
+},
   'training-stages': {
     article: 'docs/10-llm-foundations/llm-training-pipeline.md',
     route: '/docs/llm-foundations/llm-training-pipeline',

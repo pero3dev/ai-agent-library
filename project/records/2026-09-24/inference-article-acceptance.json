@@ -2,25 +2,25 @@
   "schemaVersion": 1,
   "article": "docs/11-llm-internals/inference-internals.md",
   "review": {
-    "inputDigest": "sha256:26d9cd2be56aa9a93a255ffc4f020530065966d4f411768559ac18a553b01d76",
+    "inputDigest": "sha256:44c59ad4bbb41ed623e89e0446c0a617f050ba0d416e87a3462eab2381e88b09",
     "status": "approved",
-    "checkedAt": "2026-09-24T14:42:52.836Z",
+    "checkedAt": "2026-09-29T17:00:43.085Z",
     "independent": true,
-    "record": "project/records/2026-09-24/training-reading-diagrams.md"
+    "record": "project/records/2026-09-25/pretraining-scene-review.md"
   },
   "local": {
-    "inputDigest": "sha256:26d9cd2be56aa9a93a255ffc4f020530065966d4f411768559ac18a553b01d76",
+    "inputDigest": "sha256:44c59ad4bbb41ed623e89e0446c0a617f050ba0d416e87a3462eab2381e88b09",
     "status": "passed",
-    "checkedAt": "2026-09-24T14:48:29.587Z",
-    "record": "project/records/2026-09-24/training-reading-diagrams.md"
+    "checkedAt": "2026-09-29T17:08:17.450Z",
+    "record": "project/records/2026-09-25/pretraining-reading-diagrams.md"
   },
   "public": {
-    "inputDigest": "sha256:8247db515cffe45880d01f770f798798a923b9dca53f6cbfab25d2182bff2b6e",
+    "inputDigest": "sha256:26d9cd2be56aa9a93a255ffc4f020530065966d4f411768559ac18a553b01d76",
     "status": "passed",
-    "checkedAt": "2026-09-24T13:46:54.818Z",
-    "commit": "67b1309fcea8267749be6e52881f3d6a4049ae2b",
-    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138",
-    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138/job/107651395952",
-    "browserRecord": "project/records/2026-09-24/inference-score-label-fix.md"
+    "checkedAt": "2026-09-24T15:59:03.585Z",
+    "commit": "517dc8b5166bd7b0c85baef3800d7fe57bac7b31",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36019573674",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36019573674/job/107704025706",
+    "browserRecord": "project/records/2026-09-24/training-public-review.md"
   }
 }

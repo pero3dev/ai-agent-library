@@ -829,6 +829,199 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "pretraining-loss-perplexity",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 事前学習は「次トークン予測」の一点",
+        "次トークン予測の目的関数"
+      ],
+      "sourceHeadings": [
+        "概要: 事前学習は「次トークン予測」の一点",
+        "次トークン予測の目的関数"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:01a7a0849784fe4909dbdccf5f6c3c63e083b1569dcb124f0f0c2a4d3ec79ee3",
+      "reviewedDigest": "sha256:01a7a0849784fe4909dbdccf5f6c3c63e083b1569dcb124f0f0c2a4d3ec79ee3",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "pretraining-scaling",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "スケーリング則の系譜"
+      ],
+      "sourceHeadings": [
+        "スケーリング則の系譜",
+        "学習の計算量の目安"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:8108b06e4e158b692813efbd4b0791f8575cba50cd193fd39b41e19fc0711434",
+      "reviewedDigest": "sha256:8108b06e4e158b692813efbd4b0791f8575cba50cd193fd39b41e19fc0711434",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "pretraining-data",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "データ側: 量・品質・混合・繰り返し"
+      ],
+      "sourceHeadings": [
+        "スケーリング則の系譜",
+        "データ側: 量・品質・混合・繰り返し"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:55e7b4d77be0de091a56b39df80a36f240456c7cb044fa1beee12b32ef5dc5b6",
+      "reviewedDigest": "sha256:55e7b4d77be0de091a56b39df80a36f240456c7cb044fa1beee12b32ef5dc5b6",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "pretraining-metrics",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "創発的能力の論争"
+      ],
+      "sourceHeadings": [
+        "創発的能力の論争"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:4ab6047fb2622bc062565cbe9942f258278634c2ef2e785d78f5d7d7ffe66116",
+      "reviewedDigest": "sha256:4ab6047fb2622bc062565cbe9942f258278634c2ef2e785d78f5d7d7ffe66116",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "pretraining-compute",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "学習の計算量の目安"
+      ],
+      "sourceHeadings": [
+        "スケーリング則の系譜",
+        "学習の計算量の目安"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:8108b06e4e158b692813efbd4b0791f8575cba50cd193fd39b41e19fc0711434",
+      "reviewedDigest": "sha256:8108b06e4e158b692813efbd4b0791f8575cba50cd193fd39b41e19fc0711434",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

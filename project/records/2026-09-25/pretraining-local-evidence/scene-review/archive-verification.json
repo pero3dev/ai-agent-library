@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "status": "passed",
+  "checkedAt": "2026-09-29T17:10:30.806Z",
+  "archiver": "/root/pretraining_numeric",
+  "scope": "Archive integrity only, not new review approval",
+  "archiveIndex": {
+    "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/index.json",
+    "sha256": "3bf35fd35073f790212f3bea47a149a62e192801d1ac276a7dddfbf036a88dbd",
+    "bytes": 28389
+  },
+  "sourceReviewHashesVerified": true,
+  "declaredEvidenceHashAndBytesVerified": 31,
+  "gzipRoundTripsExact": 33,
+  "pngBytesAndSHA256Exact": 117,
+  "imageCounts": {
+    "initial": 42,
+    "finalC2": 58,
+    "old": 17,
+    "totalActuallyViewed": 117
+  },
+  "uniqueOriginalImagePaths": 117,
+  "uniqueStoredImagePaths": 117,
+  "normalizedReviewReportsLFAndOneFinalNewline": true,
+  "rawReportsUnchanged": true,
+  "ledgerMetadataPreserved": true,
+  "storedHashChecksPassed": true,
+  "highestRelativePathLength": 167,
+  "filesBeforeThisVerification": 153,
+  "normalizedTopReports": [
+    {
+      "path": "project/records/2026-09-25/pretraining-scene-review.md",
+      "sha256": "6090d35270f39c283d19f9b991d4c5237d807166c52531370f468577193e1bdb",
+      "bytes": 6248
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-scene-review.json",
+      "sha256": "9ee6aede5114da018adff6bc42ce306b31f601ab4b986e8b00b5c21a66247e38",
+      "bytes": 82809
+    }
+  ],
+  "mapping": {
+    "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/viewed-images.json",
+    "sha256": "8924ffd9b5a7afc61768cba01f5fee5220b9a80918f6076551f11bbeb7dc3ef8",
+    "bytes": 219196
+  }
+}

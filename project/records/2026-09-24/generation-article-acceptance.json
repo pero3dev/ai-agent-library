@@ -2,25 +2,25 @@
   "schemaVersion": 1,
   "article": "docs/10-llm-foundations/how-llms-generate-text.md",
   "review": {
-    "inputDigest": "sha256:4c6eb9e998a5e328c556b50fc90a5cc6dbf6aede93301983077a523cda6c08ee",
+    "inputDigest": "sha256:bcd96bd8e9f0e60fe6308ff79870f9a45ded0a4f8f1010b7fe9518d79577459d",
     "status": "approved",
-    "checkedAt": "2026-09-24T14:42:52.836Z",
+    "checkedAt": "2026-09-29T17:00:43.085Z",
     "independent": true,
-    "record": "project/records/2026-09-24/training-reading-diagrams.md"
+    "record": "project/records/2026-09-25/pretraining-scene-review.md"
   },
   "local": {
-    "inputDigest": "sha256:4c6eb9e998a5e328c556b50fc90a5cc6dbf6aede93301983077a523cda6c08ee",
+    "inputDigest": "sha256:bcd96bd8e9f0e60fe6308ff79870f9a45ded0a4f8f1010b7fe9518d79577459d",
     "status": "passed",
-    "checkedAt": "2026-09-24T14:48:29.587Z",
-    "record": "project/records/2026-09-24/training-reading-diagrams.md"
+    "checkedAt": "2026-09-29T17:08:17.450Z",
+    "record": "project/records/2026-09-25/pretraining-reading-diagrams.md"
   },
   "public": {
-    "inputDigest": "sha256:0c047818730d2171305ced3766cddad5969d9a7007d06d1b53bbbb3c7a6071da",
+    "inputDigest": "sha256:4c6eb9e998a5e328c556b50fc90a5cc6dbf6aede93301983077a523cda6c08ee",
     "status": "passed",
-    "checkedAt": "2026-09-24T13:46:54.818Z",
-    "commit": "67b1309fcea8267749be6e52881f3d6a4049ae2b",
-    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138",
-    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138/job/107651395952",
-    "browserRecord": "project/records/2026-09-24/inference-score-label-fix.md"
+    "checkedAt": "2026-09-24T15:59:03.585Z",
+    "commit": "517dc8b5166bd7b0c85baef3800d7fe57bac7b31",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36019573674",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36019573674/job/107704025706",
+    "browserRecord": "project/records/2026-09-24/training-public-review.md"
   }
 }

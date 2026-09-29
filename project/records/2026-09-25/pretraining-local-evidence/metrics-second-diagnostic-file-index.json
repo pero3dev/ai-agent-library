@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "copiedAt": "2026-09-29T16:51:06.868Z",
+  "files": [
+    {
+      "file": "../pretraining-metrics-stage2-diagnosis-review-20260930.md",
+      "originalSHA256": "de7bd9bd02b7367dd4e3b041b0b036853d3b4c7c20a5f5cf7594b2634d0f4270",
+      "storedSHA256": "de7bd9bd02b7367dd4e3b041b0b036853d3b4c7c20a5f5cf7594b2634d0f4270",
+      "normalization": "LF and exactly one final newline"
+    },
+    {
+      "file": "../pretraining-metrics-stage2-diagnosis-review-20260930.json",
+      "originalSHA256": "957ceedaec0d6ccdb4657240ce2422c003ae8ff1aeb27f4ae64fb68becc8e1d7",
+      "storedSHA256": "957ceedaec0d6ccdb4657240ce2422c003ae8ff1aeb27f4ae64fb68becc8e1d7",
+      "normalization": "LF and exactly one final newline"
+    },
+    {
+      "file": "pretraining-metrics-first-click-second-trace.zip",
+      "originalSHA256": "348f65c47af5ddc35f66d60a12c5c268b9d36cf0097bd1de5d192fc3857ab3e2",
+      "storedSHA256": "348f65c47af5ddc35f66d60a12c5c268b9d36cf0097bd1de5d192fc3857ab3e2",
+      "source": "TEMP/c2-metrics-second-failure-trace.zip",
+      "reused": true
+    },
+    {
+      "file": "c2-metrics-second-failure-error-context.md.gz",
+      "originalSHA256": "8caea56a3d28bdb04d348f9e087835b9e7fe91056cbdf55ba622654a8a3a7705",
+      "storedSHA256": "0368506340e2ee8ad1500f2cfb202ddd22f5b3219e3f9f2a4c5f97b15cc419b8",
+      "encoding": "gzip"
+    },
+    {
+      "file": "c2-metrics-second-1-trace.trace.gz",
+      "originalSHA256": "13dcac746e2130e253025d71a1758532620cc5569511bd8e0e78660e431b8ab2",
+      "storedSHA256": "a7108fd36f18c548c54146624b220c3f7a0103e210fb6f24dd737e101d83f5bf",
+      "encoding": "gzip"
+    },
+    {
+      "file": "c2-metrics-second-test.trace.gz",
+      "originalSHA256": "002c0315ca259e2f7f62c9c42f64713df5fd0073e6aa44e4680b98bc6e3c9fe5",
+      "storedSHA256": "dada791fe5515416bc5d3a1f024da4e2b129f6a0094af2b0fb6ea845457db27a",
+      "encoding": "gzip"
+    },
+    {
+      "file": "c2-metrics-second-reproduction.mjs.gz",
+      "originalSHA256": "70e2db6ae1a697cce8f506281c30ebe40e81d01acaa94634faf242fd7f9bf283",
+      "storedSHA256": "8581f26c8bf7d2ffdec808fa82d75d59d23b2e42b9e516e8c4af4b685d2b04b4",
+      "encoding": "gzip"
+    },
+    {
+      "file": "c2-metrics-second-reproduction.json.gz",
+      "originalSHA256": "b2d552ac95699223c9ea1b091cd341e50afe793a440abaaf88b9d49810221c41",
+      "storedSHA256": "10bc36292d0ff7d15434ae5f10a48c3fcf0220ad479746b6ca4c2cdff895596b",
+      "encoding": "gzip"
+    },
+    {
+      "file": "c2-metrics-second-traced-reproduction.mjs.gz",
+      "originalSHA256": "791854f7cc99151d5c9de0a1a866d0620d1e8bb8ee8a3f627852b9e7b15f5464",
+      "storedSHA256": "b8716c4c6c6d5ec6ccf5b0a2cb1f4f4c302a9e66e9b38fb9a37190ebf57f4e1e",
+      "encoding": "gzip"
+    },
+    {
+      "file": "c2-metrics-second-traced-reproduction.json.gz",
+      "originalSHA256": "44ccb4dba3d31f9d7d585020c946346671fe2a493673d3a3f08e0009b9484556",
+      "storedSHA256": "cb046378d41d6d4cdb1ad17e90ca13ce84bb1a03cf82fcc59ea47920426308c4",
+      "encoding": "gzip"
+    },
+    {
+      "file": "c2-metrics-second-traced-0.zip.gz",
+      "originalSHA256": "93c6193c9f74e7399bde971bf02695d9059501b7aa68539a27189b07ff37ce05",
+      "storedSHA256": "47c1074523d7cef5066b539740da7a3f08efb2120f0bd923d2e480f84daa4e0a",
+      "encoding": "gzip"
+    },
+    {
+      "file": "c2-metrics-second-traced-original-0.png.gz",
+      "originalSHA256": "7758bd54dd10f60901b42206e566161b08de6e3720d11c0ffd730dcd8d56a227",
+      "storedSHA256": "39867957e37e0e066f126dcfed9cf51ad1fe38533bfe46942996c9c4662b1dc5",
+      "encoding": "gzip"
+    },
+    {
+      "file": "c2-metrics-second-traced-center-0.png.gz",
+      "originalSHA256": "b6d9da9b4dba1c76f3246595dccd095c32b25fd84db8a32eddaee331d55aa1b1",
+      "storedSHA256": "9605cebc6d3ec419965deb40dc369b75f9716244ef2dd31cc8cadcfd0da72b21",
+      "encoding": "gzip"
+    },
+    {
+      "file": "pretraining-all-stage-independent-delta-20260930.json.gz",
+      "originalSHA256": "a3b56be3a1b30b61e909df559aeaf9c62d956babd9f5173e91c8d7034dbb3fe9",
+      "storedSHA256": "e05124d5e78620dcf1e314d01b4bcc758da8eb84043c0262b08d4bd5841fd4aa",
+      "encoding": "gzip"
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/training_public_acceptance",
+  "evidenceClass": "independent-public-HTTP-after-original-runs-and-limited-retests",
+  "startedAt": "2026-09-24T15:55:32.393Z",
+  "mergeSha": "517dc8b5166bd7b0c85baef3800d7fe57bac7b31",
+  "buildId": "EliX86DAnCpMQHOKIyCQx",
+  "artifactEvidenceSHA256": "0ad3b83203b88a5c85c71799729dd2f5d2ea6ba887d8bab10abe7a6969cf1eb7",
+  "documents": [
+    {
+      "route": "/docs/llm-internals/inference-internals",
+      "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 718590,
+      "sha256": "19e9dbcedadaadf3e3d6ed22a66af49ce3af1423f719cc82f7e8925f0c7eba4e",
+      "buildIds": [
+        "EliX86DAnCpMQHOKIyCQx"
+      ],
+      "artifactHTMLMatched": true,
+      "checkedAt": "2026-09-24T15:55:32.552Z"
+    },
+    {
+      "route": "/docs/llm-foundations/how-llms-generate-text",
+      "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/how-llms-generate-text",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 596944,
+      "sha256": "7c52c141f61acdbc6ec799b9b94d188038104b1f8ff1fec4063ed35fe454e421",
+      "buildIds": [
+        "EliX86DAnCpMQHOKIyCQx"
+      ],
+      "artifactHTMLMatched": true,
+      "checkedAt": "2026-09-24T15:55:32.752Z"
+    },
+    {
+      "route": "/docs/llm-foundations/tokenization",
+      "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/tokenization",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 583364,
+      "sha256": "6e95d58f9efdd94d57a255eb5da2d9365e295fae2f3eac843afa54971a02d61e",
+      "buildIds": [
+        "EliX86DAnCpMQHOKIyCQx"
+      ],
+      "artifactHTMLMatched": true,
+      "checkedAt": "2026-09-24T15:55:32.958Z"
+    },
+    {
+      "route": "/docs/llm-internals/mixture-of-experts-internals",
+      "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/mixture-of-experts-internals",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 712770,
+      "sha256": "06d18b2e1e73df8a08d35f91e418245b020d8326419662bb9fc80db6b94a5174",
+      "buildIds": [
+        "EliX86DAnCpMQHOKIyCQx"
+      ],
+      "artifactHTMLMatched": true,
+      "checkedAt": "2026-09-24T15:55:33.210Z"
+    },
+    {
+      "route": "/docs/llm-internals/attention-variants-and-long-context",
+      "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/attention-variants-and-long-context",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 771312,
+      "sha256": "1a5f5f609fdeb51fd8e7025aecd5b3fc2195757e64e8c6767b8c2075fd6db2b9",
+      "buildIds": [
+        "EliX86DAnCpMQHOKIyCQx"
+      ],
+      "artifactHTMLMatched": true,
+      "checkedAt": "2026-09-24T15:55:33.399Z"
+    },
+    {
+      "route": "/docs/llm-internals/transformer-architecture",
+      "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/transformer-architecture",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 1077989,
+      "sha256": "66df211e702e20e4006318faa2107ebf0e82eb283bbc9ae055eaf268971f24ec",
+      "buildIds": [
+        "EliX86DAnCpMQHOKIyCQx"
+      ],
+      "artifactHTMLMatched": true,
+      "checkedAt": "2026-09-24T15:55:33.653Z"
+    },
+    {
+      "route": "/docs/llm-foundations/llm-training-pipeline",
+      "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/llm-training-pipeline",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 611779,
+      "sha256": "8e541c3ad8371923044012902c39ecd6abccc148c088a93ac27aeef4131ce73d",
+      "buildIds": [
+        "EliX86DAnCpMQHOKIyCQx"
+      ],
+      "artifactHTMLMatched": true,
+      "checkedAt": "2026-09-24T15:55:33.828Z"
+    }
+  ],
+  "status": "passed",
+  "finishedAt": "2026-09-24T15:55:33.828Z"
+}

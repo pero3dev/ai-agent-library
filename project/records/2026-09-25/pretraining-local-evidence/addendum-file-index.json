@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "copiedAt": "2026-09-29T16:23:57.063Z",
+  "files": [
+    {
+      "file": "../pretraining-resume-addendum-20260930.md",
+      "originalSHA256": "83ebeb02268cb1862250a93d0c1881a1fe10b7d5aa4076da3c4c440ee08fbb67",
+      "storedSHA256": "83ebeb02268cb1862250a93d0c1881a1fe10b7d5aa4076da3c4c440ee08fbb67",
+      "normalization": "LF and exactly one final newline"
+    },
+    {
+      "file": "../pretraining-resume-addendum-20260930.json",
+      "originalSHA256": "6959f9926f2132e3c31dc64914b2505c8e92d1be71ade2421edc94aab80d2f5c",
+      "storedSHA256": "6959f9926f2132e3c31dc64914b2505c8e92d1be71ade2421edc94aab80d2f5c",
+      "normalization": "LF and exactly one final newline"
+    }
+  ]
+}

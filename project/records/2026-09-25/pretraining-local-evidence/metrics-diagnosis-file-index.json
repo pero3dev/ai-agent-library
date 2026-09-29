@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "copiedAt": "2026-09-29T16:40:15.974Z",
+  "files": [
+    {
+      "file": "../pretraining-metrics-stage0-diagnosis-20260930.md",
+      "originalSHA256": "43777a5c049fe2c056efea7ab29feacbf7fce4fec479dad7460a91ff11f66841",
+      "storedSHA256": "43777a5c049fe2c056efea7ab29feacbf7fce4fec479dad7460a91ff11f66841",
+      "normalization": "LF and exactly one final newline"
+    },
+    {
+      "file": "../pretraining-metrics-stage0-diagnosis-20260930.json",
+      "originalSHA256": "422da3f459d119ce8c78829358722e9a8ea04ed349409a492fd760d05127dc68",
+      "storedSHA256": "422da3f459d119ce8c78829358722e9a8ea04ed349409a492fd760d05127dc68",
+      "normalization": "LF and exactly one final newline"
+    }
+  ]
+}

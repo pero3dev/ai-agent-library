@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "recorded-evidence-only-acceptance-check",
+  "checkedAt": "2026-09-24T16:12:34.933Z",
+  "publicReviewCheckedAt": "2026-09-24T15:59:03.585Z",
+  "commit": "517dc8b5166bd7b0c85baef3800d7fe57bac7b31",
+  "command": "node website/scripts/diagram-acceptance.mjs",
+  "exitCode": 0,
+  "completeArticles": 7,
+  "trackedArticles": 7,
+  "allComplete": true,
+  "note": "Current inputDigest check after PR59 public approval; not a fresh GitHub/browser test. Future common-source changes may invalidate current records. PR59 snapshots retain exact approved input.",
+  "commandCorrection": "First invocation passed unsupported --json and exited usage 1 after snapshots were saved. Default JSON output command was then used successfully; records and assertions were unchanged.",
+  "snapshots": [
+    {
+      "current": "transformer-article-acceptance.json",
+      "snapshot": "transformer-article-acceptance-pr59.json",
+      "inputDigest": "sha256:3eba48d869437052c03b48e4bea48f19fed4d83d4ab418cf5488b55814d5884d",
+      "sha256": "5782b4aa49ba5bab001949d83f76c9c6d6b050d191230c9fa1eb442447c774da",
+      "bytesEqualToCurrent": true
+    },
+    {
+      "current": "attention-variants-article-acceptance.json",
+      "snapshot": "attention-variants-article-acceptance-pr59.json",
+      "inputDigest": "sha256:7acb3af2a93307c3af64c58777a195d29d7c3511c56612266ee120f93a8d0b62",
+      "sha256": "00916b633e2acc04160fcd07cd742d753da2ce16968695a0e70b26efe3ecb09b",
+      "bytesEqualToCurrent": true
+    },
+    {
+      "current": "moe-article-acceptance.json",
+      "snapshot": "moe-article-acceptance-pr59.json",
+      "inputDigest": "sha256:6bc93f5dafc4444c5eda62b222a1a00b13bead8986a0e58603c1069d8d1ff965",
+      "sha256": "0b52542c6adb432c2fd79e19dc623ea0d18e208cd2bf0b3d9f151238e7c18f33",
+      "bytesEqualToCurrent": true
+    },
+    {
+      "current": "generation-article-acceptance.json",
+      "snapshot": "generation-article-acceptance-pr59.json",
+      "inputDigest": "sha256:4c6eb9e998a5e328c556b50fc90a5cc6dbf6aede93301983077a523cda6c08ee",
+      "sha256": "1cd677577bd37a4b2c2cc853cba49cdc64cb692865c2865eeff477217b21d190",
+      "bytesEqualToCurrent": true
+    },
+    {
+      "current": "tokenization-article-acceptance.json",
+      "snapshot": "tokenization-article-acceptance-pr59.json",
+      "inputDigest": "sha256:92f6402af833f916f1ddfd349fdbe87c5c0916de794b13669d5f1c22ff3672ff",
+      "sha256": "5c81e323362f8a79cefe8e2c5bddedfd859cf2171d1226381087ba25b4786450",
+      "bytesEqualToCurrent": true
+    },
+    {
+      "current": "inference-article-acceptance.json",
+      "snapshot": "inference-article-acceptance-pr59.json",
+      "inputDigest": "sha256:26d9cd2be56aa9a93a255ffc4f020530065966d4f411768559ac18a553b01d76",
+      "sha256": "06fdbede06cc3d7c0c6845d7d458ff1cf2061b1d254b3c8c536130f6dabd90db",
+      "bytesEqualToCurrent": true
+    },
+    {
+      "current": "training-article-acceptance.json",
+      "snapshot": "training-article-acceptance-pr59.json",
+      "inputDigest": "sha256:ac6d8aabd80a18e7cf8d54343531ba1e43e346f18ec9bde25017b350e955750e",
+      "sha256": "1c99c58d5bbf14fb80f357410caf99cc68dca318b9a59c28c2d61c265a937dd9",
+      "bytesEqualToCurrent": true
+    }
+  ],
+  "cli": {
+    "schemaVersion": 1,
+    "verification": "recorded-evidence-only",
+    "articles": [
+      {
+        "article": "docs/11-llm-internals/transformer-architecture.md",
+        "evidencePath": "project/records/2026-09-24/transformer-article-acceptance.json",
+        "tracked": true,
+        "inputDigest": "sha256:3eba48d869437052c03b48e4bea48f19fed4d83d4ab418cf5488b55814d5884d",
+        "assignmentCurrent": true,
+        "diagramsCurrent": true,
+        "reviewRecorded": true,
+        "localRecorded": true,
+        "publicRecorded": true,
+        "complete": true,
+        "reasons": [],
+        "verification": "recorded-evidence-only"
+      },
+      {
+        "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+        "evidencePath": "project/records/2026-09-24/attention-variants-article-acceptance.json",
+        "tracked": true,
+        "inputDigest": "sha256:7acb3af2a93307c3af64c58777a195d29d7c3511c56612266ee120f93a8d0b62",
+        "assignmentCurrent": true,
+        "diagramsCurrent": true,
+        "reviewRecorded": true,
+        "localRecorded": true,
+        "publicRecorded": true,
+        "complete": true,
+        "reasons": [],
+        "verification": "recorded-evidence-only"
+      },
+      {
+        "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+        "evidencePath": "project/records/2026-09-24/moe-article-acceptance.json",
+        "tracked": true,
+        "inputDigest": "sha256:6bc93f5dafc4444c5eda62b222a1a00b13bead8986a0e58603c1069d8d1ff965",
+        "assignmentCurrent": true,
+        "diagramsCurrent": true,
+        "reviewRecorded": true,
+        "localRecorded": true,
+        "publicRecorded": true,
+        "complete": true,
+        "reasons": [],
+        "verification": "recorded-evidence-only"
+      },
+      {
+        "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+        "evidencePath": "project/records/2026-09-24/generation-article-acceptance.json",
+        "tracked": true,
+        "inputDigest": "sha256:4c6eb9e998a5e328c556b50fc90a5cc6dbf6aede93301983077a523cda6c08ee",
+        "assignmentCurrent": true,
+        "diagramsCurrent": true,
+        "reviewRecorded": true,
+        "localRecorded": true,
+        "publicRecorded": true,
+        "complete": true,
+        "reasons": [],
+        "verification": "recorded-evidence-only"
+      },
+      {
+        "article": "docs/10-llm-foundations/tokenization.md",
+        "evidencePath": "project/records/2026-09-24/tokenization-article-acceptance.json",
+        "tracked": true,
+        "inputDigest": "sha256:92f6402af833f916f1ddfd349fdbe87c5c0916de794b13669d5f1c22ff3672ff",
+        "assignmentCurrent": true,
+        "diagramsCurrent": true,
+        "reviewRecorded": true,
+        "localRecorded": true,
+        "publicRecorded": true,
+        "complete": true,
+        "reasons": [],
+        "verification": "recorded-evidence-only"
+      },
+      {
+        "article": "docs/11-llm-internals/inference-internals.md",
+        "evidencePath": "project/records/2026-09-24/inference-article-acceptance.json",
+        "tracked": true,
+        "inputDigest": "sha256:26d9cd2be56aa9a93a255ffc4f020530065966d4f411768559ac18a553b01d76",
+        "assignmentCurrent": true,
+        "diagramsCurrent": true,
+        "reviewRecorded": true,
+        "localRecorded": true,
+        "publicRecorded": true,
+        "complete": true,
+        "reasons": [],
+        "verification": "recorded-evidence-only"
+      },
+      {
+        "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+        "evidencePath": "project/records/2026-09-24/training-article-acceptance.json",
+        "tracked": true,
+        "inputDigest": "sha256:ac6d8aabd80a18e7cf8d54343531ba1e43e346f18ec9bde25017b350e955750e",
+        "assignmentCurrent": true,
+        "diagramsCurrent": true,
+        "reviewRecorded": true,
+        "localRecorded": true,
+        "publicRecorded": true,
+        "complete": true,
+        "reasons": [],
+        "verification": "recorded-evidence-only"
+      }
+    ]
+  }
+}

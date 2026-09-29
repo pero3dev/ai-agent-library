@@ -5,6 +5,11 @@ const element = (name, children, attributes = []) => ({ type: 'mdxJsxFlowElement
 const attribute = (name, value) => ({ type: 'mdxJsxAttribute', name, value: String(value) })
 const step = (index, children) => element('ReadingStep', children, [attribute('step', index)])
 const components = {
+  'pretraining-loss-perplexity': 'PretrainingWalkthrough',
+  'pretraining-scaling': 'PretrainingWalkthrough',
+  'pretraining-data': 'PretrainingWalkthrough',
+  'pretraining-metrics': 'PretrainingWalkthrough',
+  'pretraining-compute': 'PretrainingWalkthrough',
   'training-stages': 'TrainingWalkthrough', 'training-runtime-boundary': 'TrainingWalkthrough',
   'inference-sampling': 'InferenceWalkthrough', 'inference-cache-batching': 'InferenceWalkthrough',
   'inference-speculative': 'InferenceWalkthrough', 'inference-quantization': 'InferenceWalkthrough',
@@ -77,7 +82,7 @@ export function assertDiagramPageMetadata(tree, expected) {
   const diagramIds = []
   const walk = node => {
     if (node.name === 'AttentionWalkthrough') diagramIds.push('self-attention')
-    if (['ReadingWalkthrough', 'TransformerWalkthrough', 'AttentionVariantsWalkthrough', 'MoEWalkthrough', 'FoundationsWalkthrough', 'InferenceWalkthrough', 'TrainingWalkthrough'].includes(node.name)) {
+    if (['ReadingWalkthrough', 'TransformerWalkthrough', 'AttentionVariantsWalkthrough', 'MoEWalkthrough', 'FoundationsWalkthrough', 'InferenceWalkthrough', 'TrainingWalkthrough', 'PretrainingWalkthrough'].includes(node.name)) {
       diagramIds.push(node.attributes?.find(attribute => attribute.name === 'diagramId')?.value)
     }
     for (const child of node.children ?? []) walk(child)

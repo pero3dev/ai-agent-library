@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "copiedAt": "2026-09-29T16:42:10.564Z",
+  "files": [
+    {
+      "file": "c2-metrics-diagnosis-test.trace.gz",
+      "originalSHA256": "319ab261a344ab8dc74a1081a2a683fc41908a52525e17d85602909d1c31c567",
+      "storedSHA256": "eb994fd68829e2e259f53f9ec2e1165441a0be02f574a549148fe989d2203c38",
+      "encoding": "gzip"
+    },
+    {
+      "file": "c2-metrics-diagnosis-1-trace.trace.gz",
+      "originalSHA256": "ff1f49a5067539cddd19196fdcb9e88cdd4e4cc30dbef405b2259d1a03583486",
+      "storedSHA256": "279c3dbeaedc56247eafb66a43da6f40028514aa2bc0bb6678198d8105c3f08f",
+      "encoding": "gzip"
+    },
+    {
+      "file": "c2-metrics-failure-last.jpeg.gz",
+      "originalSHA256": "b122bf722078f4bc7f0aba5730e5f14689aa281bfbd4188d59b29358b4dc769e",
+      "storedSHA256": "890a8462220cc63a38149e887ecebe2baf7b876f39cad3376e1fd5ce93499f98",
+      "encoding": "gzip"
+    },
+    {
+      "file": "c2-metrics-4209-reproduction.mjs.gz",
+      "originalSHA256": "8db325e8f94a110133dde5181a1219111aeed755f67023b69e1263b6e9a8abe2",
+      "storedSHA256": "a83c670f9e7f51903f46e670b20457735090387c869f3bcdf41c862763cc1a49",
+      "encoding": "gzip"
+    },
+    {
+      "file": "c2-metrics-4209-reproduction.json.gz",
+      "originalSHA256": "e04ef7485a9a9d91a0e2cb6dc1f8512cc9bd74f6a7aa97d0614bd94029ac2960",
+      "storedSHA256": "5fdd6479102901eeea692061b983983c2cb4a67b7e7503c4edef2d6429d93e47",
+      "encoding": "gzip"
+    },
+    {
+      "file": "c2-metrics-4209-after-original.png.gz",
+      "originalSHA256": "5152976826724c73c2d56c3d6ac7bb64c877e012809bf8a3a20571ffedd4bd2e",
+      "storedSHA256": "39e305bbfa58ad9014f72a1ba0057a01110115fe50224c91ab8222b7fd264eeb",
+      "encoding": "gzip"
+    },
+    {
+      "file": "c2-metrics-4209-centered-reproduction.mjs.gz",
+      "originalSHA256": "a2c60fa119806e11fe53f1e44e201b7993ac2c8963add20fde911f17eb186716",
+      "storedSHA256": "6e56c33ee11c9e2b6efdcc58720912542632600b441b4a646b810492d197856d",
+      "encoding": "gzip"
+    },
+    {
+      "file": "c2-metrics-4209-centered-reproduction.json.gz",
+      "originalSHA256": "e0c1dccbb5f82245f1f9978151ba589b6a5282f57c973b41830b40cae3dc0c34",
+      "storedSHA256": "7f183984c270abba19e0b8934e3f556f4d3c379418b72f269db367f761d13ed0",
+      "encoding": "gzip"
+    },
+    {
+      "file": "c2-metrics-4209-observed-scroll-replay.mjs.gz",
+      "originalSHA256": "6af71f2a70feb0d1e335a8b810e1727b5a4e7428f572af6a3682d9449292db05",
+      "storedSHA256": "acdc04456554cd2e706bf6a8918cdab8a4b6bdd60edec83f07f4a3ed0a5f7192",
+      "encoding": "gzip"
+    },
+    {
+      "file": "c2-metrics-4209-observed-scroll-replay.json.gz",
+      "originalSHA256": "5deb0b202bc17cf99225c5c9775894ef73ecfeb5e28cf91355d5d32e1fbe3d7d",
+      "storedSHA256": "4699225a4d4b80b1a9da8f0e96ab6102cd1d3ad12b53b789d4b08d6a8438bbb4",
+      "encoding": "gzip"
+    },
+    {
+      "file": "c2-metrics-4209-observed-scroll-before.png.gz",
+      "originalSHA256": "5152976826724c73c2d56c3d6ac7bb64c877e012809bf8a3a20571ffedd4bd2e",
+      "storedSHA256": "39e305bbfa58ad9014f72a1ba0057a01110115fe50224c91ab8222b7fd264eeb",
+      "encoding": "gzip"
+    },
+    {
+      "file": "c2-metrics-4209-observed-scroll-after.png.gz",
+      "originalSHA256": "cc2e660fa444eaa7cb882bcc578a1e735c0527d0043a71e2066a58c899858525",
+      "storedSHA256": "cec1d1e79daa37cf77e0fcb35f2cb03d3e375e67ae8f457ae4405bc50908109b",
+      "encoding": "gzip"
+    }
+  ]
+}

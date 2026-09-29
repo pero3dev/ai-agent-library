@@ -3,7 +3,7 @@ title: "事前学習とスケーリング則"
 category: "llm-internals"
 level: "advanced"
 status: "published"
-last_updated: "2026-07-09"
+last_updated: "2026-09-30"
 tags: ["pretraining", "scaling-laws", "llm-internals"]
 ---
 
@@ -58,15 +58,15 @@ $$
 L(N) \approx L_\infty + \left(\frac{N_c}{N}\right)^{\alpha_N}
 $$
 
-読み下し: 「損失は、ある下限 $L_\infty$ に、モデルサイズ $N$ を大きくするほど小さくなる項を足したもの。$N$ を 10 倍しても損失は一定の割合でしか下がらない(収穫逓減)」。データ量 $D$・計算量 $C$ についても同様のべき乗則が成り立ちます。系譜として 3 段階を押さえます。
+読み下し: 「損失は、ある下限 $L_\infty$ に、モデルサイズ $N$ を大きくするほど小さくなる項を足したもの。$N$ を 10 倍すると、下限からの差 $L-L_\infty$ が一定の割合で小さくなる(収穫逓減)」。データ量 $D$・計算量 $C$ についても同様のべき乗則が成り立ちます。系譜として 3 段階を押さえます。
 
 - **パラメータ偏重の初期則(Kaplan ら, 2020)**: 「損失は主にモデルサイズで決まり、データより $N$ を優先して大きくすべき」と読まれ、巨大モデル競争を後押ししました
-- **計算最適(Chinchilla, 2022)**: 固定の計算予算 $C$ の下で損失を最小化するには、**$N$ と $D$ をほぼ同じ割合で一緒に増やすべき**、という修正。当時の巨大モデルは「パラメータが大きすぎ、データが足りない」状態だったと示しました。実務的な目安として「パラメータ数に見合うだけの学習トークンが要る」という理解が定着します
+- **計算最適(Chinchilla, 2022)**: 固定の計算予算 $C$ の下で損失を最小化する $N$ と $D$ の配分を調べ、**計算予算を増やすときには $N$ と $D$ をほぼ同じ割合で一緒に増やすべき**、とした修正。当時の巨大モデルは「パラメータが大きすぎ、データが足りない」状態だったと示しました。実務的な目安として「パラメータ数に見合うだけの学習トークンが要る」という理解が定着します
 - **推論時計算へのスケーリング(以降)**: 学習側だけでなく、**推論時に『考える時間』(推論トークン)を増やすと性能が上がる**という軸が加わります([推論モデル](../10-llm-foundations/reasoning-models.md))。スケーリングは「学習の計算」から「学習 + 推論の計算」へ広がりました
 
 ```mermaid
 flowchart LR
-    A["Kaplan 2020<br/>パラメータ偏重"] --> B["Chinchilla 2022<br/>計算最適(N と D を均等に)"]
+    A["Kaplan 2020<br/>パラメータ偏重"] --> B["Chinchilla 2022<br/>計算最適(N と D の配分)"]
     B --> C["推論時計算<br/>『考える時間』もスケール"]
 ```
 
@@ -100,7 +100,7 @@ $$
 C \approx 6\, N\, D
 $$
 
-読み下し: 「学習の総計算量は、おおよそパラメータ数 × 学習トークン数 × 6(順伝播 + 逆伝播の係数)」。この式から、$N$ か $D$ を増やすと計算量(= コスト・時間・電力)が比例して増えることがわかります。計算最適の含意「$N$ と $D$ を均等に」は、この $C$ を固定したうえで損失を最小化する配分の話です。**実際の学習コストは並列化効率・ハードウェアで大きく変わる**ため、この式は桁の当たりを付けるためのものです([GPU・AI ハードウェアの基礎](../05-operations/gpu-and-hardware-basics.md)・[AI の環境負荷とグリーン AI](../05-operations/green-ai.md))。
+読み下し: 「学習の総計算量は、おおよそパラメータ数 × 学習トークン数 × 6(順伝播 + 逆伝播の係数)」。この式から、$N$ か $D$ を増やすと計算量(FLOPs)が比例して増えることがわかります。固定した $C$ の下では、損失を最小化する $N$ と $D$ の配分を選びます。$N$ と $D$ をほぼ同じ割合で増やすという含意は、計算予算を増やす場合の話です。**実際の学習コストは並列化効率・ハードウェアで大きく変わる**ため、この式は桁の当たりを付けるためのものです([GPU・AI ハードウェアの基礎](../05-operations/gpu-and-hardware-basics.md)・[AI の環境負荷とグリーン AI](../05-operations/green-ai.md))。
 
 ### この理解が効く場面
 
@@ -142,8 +142,8 @@ $$
 
 ## 参考資料
 
-- [Scaling Laws for Neural Language Models](https://arxiv.org/abs/2001.08361) — べき乗則スケーリングの原論文(Kaplan et al., 2020、アクセス日: 2026-07-09)
-- [Training Compute-Optimal Large Language Models](https://arxiv.org/abs/2203.15556) — 計算最適(Chinchilla)。$N$ と $D$ を均等に(Hoffmann et al., 2022、アクセス日: 2026-07-09)
+- [Scaling Laws for Neural Language Models](https://arxiv.org/abs/2001.08361) — べき乗則スケーリングの原論文(Kaplan et al., 2020、アクセス日: 2026-09-24)
+- [Training Compute-Optimal Large Language Models](https://arxiv.org/abs/2203.15556) — 計算最適(Chinchilla)。計算予算に応じた $N$ と $D$ の配分(Hoffmann et al., 2022、アクセス日: 2026-09-24)
 - [Emergent Abilities of Large Language Models](https://arxiv.org/abs/2206.07682) — 創発的能力の報告(Wei et al., 2022、アクセス日: 2026-07-09)
 - [Are Emergent Abilities of Large Language Models a Mirage?](https://arxiv.org/abs/2304.15004) — 指標の取り方による見かけ説(Schaeffer et al., 2023、アクセス日: 2026-07-09)
 - [Scaling Data-Constrained Language Models](https://arxiv.org/abs/2305.16264) — データ制約下の繰り返しの限界(Muennighoff et al., 2023、アクセス日: 2026-07-09)

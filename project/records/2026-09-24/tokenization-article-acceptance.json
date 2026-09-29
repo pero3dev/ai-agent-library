@@ -2,25 +2,25 @@
   "schemaVersion": 1,
   "article": "docs/10-llm-foundations/tokenization.md",
   "review": {
-    "inputDigest": "sha256:92f6402af833f916f1ddfd349fdbe87c5c0916de794b13669d5f1c22ff3672ff",
+    "inputDigest": "sha256:9aa1f291fb1ab9ea006ab9a42ebc1065b2410fa39b0377e720952f07d5e47c69",
     "status": "approved",
-    "checkedAt": "2026-09-24T14:42:52.836Z",
+    "checkedAt": "2026-09-29T17:00:43.085Z",
     "independent": true,
-    "record": "project/records/2026-09-24/training-reading-diagrams.md"
+    "record": "project/records/2026-09-25/pretraining-scene-review.md"
   },
   "local": {
-    "inputDigest": "sha256:92f6402af833f916f1ddfd349fdbe87c5c0916de794b13669d5f1c22ff3672ff",
+    "inputDigest": "sha256:9aa1f291fb1ab9ea006ab9a42ebc1065b2410fa39b0377e720952f07d5e47c69",
     "status": "passed",
-    "checkedAt": "2026-09-24T14:48:29.587Z",
-    "record": "project/records/2026-09-24/training-reading-diagrams.md"
+    "checkedAt": "2026-09-29T17:08:17.450Z",
+    "record": "project/records/2026-09-25/pretraining-reading-diagrams.md"
   },
   "public": {
-    "inputDigest": "sha256:8d3ad3e68612e0cb2a59d2ef82b90aded6b1b9d90fccd8d30c59beb78e25200d",
+    "inputDigest": "sha256:92f6402af833f916f1ddfd349fdbe87c5c0916de794b13669d5f1c22ff3672ff",
     "status": "passed",
-    "checkedAt": "2026-09-24T13:46:54.818Z",
-    "commit": "67b1309fcea8267749be6e52881f3d6a4049ae2b",
-    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138",
-    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36004074138/job/107651395952",
-    "browserRecord": "project/records/2026-09-24/inference-score-label-fix.md"
+    "checkedAt": "2026-09-24T15:59:03.585Z",
+    "commit": "517dc8b5166bd7b0c85baef3800d7fe57bac7b31",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36019573674",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36019573674/job/107704025706",
+    "browserRecord": "project/records/2026-09-24/training-public-review.md"
   }
 }

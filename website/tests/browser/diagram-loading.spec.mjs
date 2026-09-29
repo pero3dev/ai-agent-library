@@ -23,6 +23,11 @@ const cases = [
   { name: 'inference quantization scene', marker: 'INFERENCE / QUANTIZATION', path: 'llm-internals/inference-internals', prose: '量子化', mathCount: 0 },
   { name: 'training stages scene', marker: 'TRAINING / STAGES', path: 'llm-foundations/llm-training-pipeline', prose: 'すべての LLM がこの順序・回数で学習するわけではなく', mathCount: 0 },
   { name: 'training runtime boundary scene', marker: 'TRAINING / RUNTIME BOUNDARY', path: 'llm-foundations/llm-training-pipeline', prose: '実務で悩まされる LLM の癖の多くは', mathCount: 0 },
+  { name: 'pretraining loss scene', marker: 'PRETRAINING / LOSS & PERPLEXITY', path: 'llm-internals/pretraining-and-scaling-laws', prose: '異なるトークナイザ・異なる評価データ間で PPL を直接比較してはいけません', mathCount: 2 },
+  { name: 'pretraining scaling scene', marker: 'PRETRAINING / SCALING', path: 'llm-internals/pretraining-and-scaling-laws', prose: '計算予算を増やすときには', mathCount: 1 },
+  { name: 'pretraining data scene', marker: 'PRETRAINING / DATA', path: 'llm-internals/pretraining-and-scaling-laws', prose: '見合うだけの良質なデータがあるか', mathCount: 0 },
+  { name: 'pretraining metrics scene', marker: 'PRETRAINING / METRICS', path: 'llm-internals/pretraining-and-scaling-laws', prose: '能力の有無を単一の閾値指標で断じない', mathCount: 0 },
+  { name: 'pretraining compute scene', marker: 'PRETRAINING / COMPUTE', path: 'llm-internals/pretraining-and-scaling-laws', prose: '計算量(FLOPs)が比例して増える', mathCount: 1 },
   { name: 'shared reading frame', marker: 'ReadingFigure requires at least one stage', path: 'concepts/agent-loop', prose: 'ツール要求がないことだけでは正常完了と判定できません' }
 ]
 

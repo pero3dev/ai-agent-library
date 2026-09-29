@@ -1,0 +1,24 @@
+{
+  "checkedAt": "2026-09-24T15:54:33.373Z",
+  "reviewer": "/root/training_public_acceptance",
+  "status": "passed",
+  "candidateReversalRestoresOriginal": true,
+  "onlyChangeStageZero24LineWait": true,
+  "waitExactLocalSeekForFit": true,
+  "originalAssertionsByteEquivalent": true,
+  "adapter3OriginalHelper": true,
+  "adapter3WaitTokenEquivalent": true,
+  "adapter2ExactCandidateHelper": true,
+  "caseAssertionsImportSameInferenceModule": true,
+  "repositoryWrites": false,
+  "hashes": {
+    "pr59-stage-race-diagnostic.json": "0f0ec7634526037d83c948526015f52b7bb849956d3263564404ea8e447c2b62",
+    "pr59-stage-race-diagnostic.md": "811d9843eec58d2288db3c552a98d793eeb500789f86631d13c128420b88c232",
+    "pr59-stage-candidate-proof.json": "59163fadeaf547164e2187f3efe9c6f0bc732692ced185dfb0293407591e2cfe",
+    "pr59-stage-helper-original.mjs": "7be062c526a764dd3895fa6bc631df2723f2401d9ba13601691183787f343d83",
+    "pr59-stage-helper-candidate.mjs": "6c6b1d1c501a31d3837ba0a538e9fa2a7cdbdee20c1826b9890fad89da2cbcb1",
+    "pr59-verify-public-stage-candidate.mjs": "123d3d7e3ed4243f15b5933bcf0b71aeb55f2c22e94a18ac31045ee380f1f999",
+    "pr59-stage-diagnostic.mjs": "dbd25f4914cf0437e23400aeadd2c694a163e308521038c31f320fecd94aad98",
+    "pr59-stage-playback-diagnostic.mjs": "0a690d4af4fb985076106f1b625bc3912900b6ab538cc742d54b443dd2c459ec"
+  }
+}

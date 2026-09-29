@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "copiedAt": "2026-09-24T16:33:38.825Z",
+  "files": [
+    {
+      "file": "../pretraining-integration-review.md",
+      "originalSHA256": "37a4e82c69daa2cd9390d06fe36ade1590461a83ff3e99d344efb6305d0c444f",
+      "storedSHA256": "37a4e82c69daa2cd9390d06fe36ade1590461a83ff3e99d344efb6305d0c444f",
+      "normalization": "LF and exactly one final newline"
+    },
+    {
+      "file": "../pretraining-integration-review.json",
+      "originalSHA256": "f33cb7f7c24ba9f51575351eb6703555851e3adb7a4b8c1f5a7f54987fde2966",
+      "storedSHA256": "f33cb7f7c24ba9f51575351eb6703555851e3adb7a4b8c1f5a7f54987fde2966",
+      "normalization": "LF and exactly one final newline"
+    },
+    {
+      "file": "../pretraining-integration-promotion-proof.json",
+      "originalSHA256": "5c1b38bd8966f0e82017b24c62dd1532ef01eeb0648672a07425f2ce9d63cade",
+      "storedSHA256": "5c1b38bd8966f0e82017b24c62dd1532ef01eeb0648672a07425f2ce9d63cade",
+      "normalization": "LF and exactly one final newline"
+    },
+    {
+      "file": "../pretraining-portable-implementation.md",
+      "originalSHA256": "72d92a23568429de37f50e86882dbc818218967b6eedd02e8a325f128348d894",
+      "storedSHA256": "72d92a23568429de37f50e86882dbc818218967b6eedd02e8a325f128348d894",
+      "normalization": "LF and exactly one final newline"
+    },
+    {
+      "file": "../pretraining-portable-implementation.json",
+      "originalSHA256": "ae41d4c0d27b1a3e8cab1170e4b8b12507f2c46b6ee5686ff85b9b8bb08a44fd",
+      "storedSHA256": "ae41d4c0d27b1a3e8cab1170e4b8b12507f2c46b6ee5686ff85b9b8bb08a44fd",
+      "normalization": "LF and exactly one final newline"
+    }
+  ]
+}

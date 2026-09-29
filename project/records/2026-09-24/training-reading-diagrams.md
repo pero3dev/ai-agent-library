@@ -1,6 +1,6 @@
 # 学習パイプラインの読書連動図解
 
-状態: C1の実装・ローカル受入・独立レビュー完了。PR・CI・公開受入へ進む。
+状態: **C1公開受入完了**。PR #59、main CI・Pages、公開Edge 71/71、WebKit初回66/71と元assertを保つ限定5/5、独立公開画像レビューapproved / lowを確認した。P1は7/15記事、次はC2事前学習。
 
 ## 作業契約
 
@@ -30,7 +30,7 @@
 
 並行担当は図固有8ファイルを `/root/inference_public_review`、共通統合と受入unitを `/root/training_integration_map`、公開検査キットを `/root/portable_handoff_kit`、ブラウザー検査・公開手順・本記録をrootとする。各作者は自分の成果物を独立承認しない。
 
-以下の節に実行結果と独立判定を記録する。公開受入は未完了で、公開識別情報を確認後に追記する。計画の承認を製品の受入として数えない。
+以下に実装・ローカル検査・独立判定と、PR #59の公開受入を記録する。計画の承認と製品の受入を区別し、最終公開判定は末尾の記録を参照する。
 
 ## 実装と初期検査
 
@@ -38,7 +38,7 @@
 
 独立した統合レビューで、手動専用のruntime S1だけへ論点を移しても割当検査が通る不足を再現した。C1の明示的なREAD契約を適用するため、記事設定に `requireReadingStage` を追加し、登録されたblockGroupsのREAD段階と論点の段階に交差があることを要求した。手動専用 `[1]` は拒否し、READを含む `[1,2]` と `[0]` は通る負例・正例1件が成功した。これは到達性の機械条件であり、表示内容の意味は独立画像レビューで確認する。旧6記事の過去の割当をこの修正で書き換えていない。
 
-初回の静的exportは成功したが、実装中のモデル経路修正と重なったため表示受入へ使わず、ログとBUILD_ID `1gE9wObSoN4GH8zUWiypU` を保存した。最終コードを固定して再buildしている。公開用設定は実GitHubの `SITE_URL=https://pero3dev.github.io/ai-agent-library` と `SITE_BASE_PATH=/ai-agent-library` を読み取り、`STATIC_EXPORT=1` と合わせた。
+初回の静的exportは成功したが、実装中のモデル経路修正と重なったため表示受入へ使わず、ログとBUILD_ID `1gE9wObSoN4GH8zUWiypU` を保存した。最終コードを固定して再buildした。公開用設定は実GitHubの `SITE_URL=https://pero3dev.github.io/ai-agent-library` と `SITE_BASE_PATH=/ai-agent-library` を読み取り、`STATIC_EXPORT=1` と合わせた。
 
 修正後の[独立統合レビュー](training-integration-review-addendum.md)と[詳細JSON](training-integration-review-addendum.json)はapproved / low、must 0・should 0。[初回の要修正判定](training-integration-review.md)と[再現を含むJSON](training-integration-review.json)も保持する。独立担当は初回116/116に加えて修正後の受入32/32を実行し、旧85件と合わせた現行117件の確認を記録した。15ファイルにはroot作成のブラウザー検査20件と読み込み失敗検査2件の差分も含むが、この段階では実ブラウザー成功を意味しない。
 
@@ -50,7 +50,7 @@ rootのサイト全unitは313/313成功、fail・skip 0、163.8秒。最終静�
 
 修正前の画像指摘は[初回シーンレビュー](training-scene-audit-initial-review.md)と[詳細JSON](training-scene-audit-initial-review.json)に保持した。browserへの4行追加は、別担当が[限定レビュー](training-integration-caveat-review.md)と[詳細JSON](training-integration-caveat-review.json)でapproved / low・must 0とした。元の共通15ファイル中14ファイルの生バイトhash一致と、4行を除いたbrowserの旧承認hash一致を確認している。
 
-留保を補った再exportはBUILD_ID `GpM7J_g8lnbvEy6H7i7nO`、223 routes・230 HTML・16章で成功した。旧6記事のinputDigestは前buildと一致し、C1は `sha256:ac6d8aabd80a18e7cf8d54343531ba1e43e346f18ec9bde25017b350e955750e` へ更新された。最終build後の7記事HTMLと入力hashを固定し、全Chromium回帰と独立画像再レビューを実施している。
+留保を補った再exportはBUILD_ID `GpM7J_g8lnbvEy6H7i7nO`、223 routes・230 HTML・16章で成功した。旧6記事のinputDigestは前buildと一致し、C1は `sha256:ac6d8aabd80a18e7cf8d54343531ba1e43e346f18ec9bde25017b350e955750e` へ更新された。最終build後の7記事HTMLと入力hashを固定し、全Chromium回帰と独立画像再レビューを実施した。
 
 `npm run check` のunitは474件中473成功・fail 0・skip 1（735.1秒）。skipは既存の実FFmpeg試験で、`AUDIO_FFMPEG` / `AUDIO_FFPROBE` またはPATHに実行環境がないため。続くMarkdown lintで、移管したシーン実装記録のリスト前空行不足1件を検出した。空行を補い、成功済みunitの反復はせず、残るlint・記事規約・相対リンク・TODO棚卸し・harnessの各共通検査を再実行して完了した。構造検査はこの時点でstage済みのキットを含む712 tracked filesを対象とし、残るサイト・記録のstage後に取り直す。
 
@@ -61,3 +61,29 @@ rootのサイト全unitは313/313成功、fail・skip 0、163.8秒。最終静�
 最終対象WebKitは22/22成功、fail・skip・flaky 0、150.7秒。2026-09-24T14:48:29.587Zに7記事の現在inputDigestを最終build・独立レビューの両方と照合し、review/localの受入を記録した。publicは新入力版の未受入として残し、PR #58の固定記録を保持した。この更新は実施済みの結果の記帳であり、初回統合レビューに含まれていた空の受入JSONを製品コードとして再承認したという意味ではない。
 
 受入記録の更新後に記事受入unitを再実行し、32/32成功・fail/skip 0（65.8秒）。既存のPR #58固定snapshotが後続の共通変更を承認しないことも確認した。提出前の実GitHub照合ではPUBLICの同じリポジトリ、mainが開始HEADと一致し、既存open PRなしを確認した。
+
+## PR #59の公開確認
+
+[PR #59](https://github.com/pero3dev/ai-agent-library/pull/59)のhead `79e709a5587de07925ec5d41aba1855b2a5c5abc` に対する11チェックは成功した。CI・freshness-policy・harness-policyの3 workflowについて、実runのrepository・path・event・head・successを照合した。PR側deployはmain限定のskip。2026-09-24T15:21:22Zに `517dc8b5166bd7b0c85baef3800d7fe57bac7b31` として通常squash mergeし、候補とmergeのtreeがともに `6786d62dd474fd1cc440f61ab789060772541468` で一致した。
+
+同mergeの[main CI](https://github.com/pero3dev/ai-agent-library/actions/runs/36019573674)と[Pages](https://github.com/pero3dev/ai-agent-library/actions/runs/36019573674/job/107704025706)は成功。attempt 1、build job `107700727287`、artifact `10816009077`、deployment `6641574999`、status `18790811264`。取得前後の実API同一性を確認し、同CI artifactの7記事HTMLからBUILD_ID `EliX86DAnCpMQHOKIyCQx` と期待hashを得た。[識別情報](training-public-evidence/artifact-evidence.json)と[生証拠の相対索引](training-public-evidence/ci-file-index.json)に、API応答・選択HTMLのgzip・PR/merge/CI情報を保存した。
+
+公開Chromium（Edge）は2026-09-24T15:32:55.633Zから15:39:39.028Zに71/71成功、67 assets・295 PNG。[生結果](training-public-evidence/chromium-result.json.gz)の展開後SHA-256は `cefbbb3d8911068df930aa7c2a71e0316caa9b3df743c4473ffae91f857ae1f9`。原本の独立画像レビューpending欄を維持し、[記帳時の索引](training-public-evidence/chromium-index.json)に結果と代表画像のhashを保存した。
+
+公開WebKit初回は2026-09-24T15:45:43.081Zに66成功・5失敗で完了した。C1の13ケースは全成功で、失敗は既存inferenceの初段選択を含む5ケース。[初回生結果](training-public-evidence/webkit-initial-result.json.gz)の展開後SHA-256は `89b57e7baf51b68763bfdd9b6dd65664a8ae75ef5188b268e93a80a6f0ad746b`。失敗名・内容は[初回索引](training-public-evidence/webkit-initial-index.json)に保存し、後の成功で初回結果を書き換えない。
+
+限定診断では1280×720のsampling初段で、pointerdownからpointerupまでに読書同期でボタンが53.58px移動し、clickがボタンへ届かない現象を再現した。既存ローカル試験の初段前の実スクロールと3フレームの安定待ちをTEMP候補に移し、元assertを保った3ケースと追加の実時間再生2ケースは成功した。製品コードは変更していない。[診断報告](training-public-evidence/stage-race-diagnostic.md)、[詳細JSON](training-public-evidence/stage-race-diagnostic.json)、[候補差分・生結果・実行コードの相対索引](training-public-evidence/stage-race-file-index.json)を保存した。作者以外の差分・イベント・実初段選択・実時間再生の確認も完了し、次節の独立公開レビューと併せて判定した。原WebKitの失敗は保持し、修正版全71件の再実行とは扱わない。
+
+## 独立公開受入とPR #59の固定記録
+
+[最終公開レビュー](training-public-review.md)と[画像台帳・詳細JSON](training-public-review.json)は **2026-09-24T15:59:03.585Z、approved / low、must 0・should 0**。C1は両engineとも13/13成功。生成276枚のC1画像のうち106枚を実見し、既存図の代表とTransformer4図の独立補助8枚を合わせて144枚を直接確認した。runtime S2の拒否要因の留保は、既定の幻覚強調でも6画面条件・両engineで表示される。機械BBoxの全候補は実際の字形を確認し、可視衝突はない。
+
+両原runと限定再検証が終わった後、2026-09-24T15:55:33.828Zに[7記事の公開HTMLを再照合](training-public-evidence/training-public-identity-after.json)し、同main CI artifactのHTML hashとBUILD_IDがすべて一致した。[独立差分検算](training-public-evidence/training-independent-diagnostic-proof.json)は、候補の24行を逆除去すると原runnerへ戻ること、既存local待機との一致、元assertの保持を確認している。
+
+[相対証拠索引](training-public-evidence/public-acceptance-index.json)は、既存38証拠ファイルを変更せず、最終レビュー・公開同一性・独立proof・Transformer補助raw gzipと8 PNG・元実行スクリプトの原hash/保存hashと変換を対応付ける。旧絶対パスを含むrawやスクリプトは歴史的証拠としてそのまま保管し、別PCの実行入口にはリポジトリの公開検証キットを使う。原rawのpending欄を最終承認で上書きしない。
+
+記帳の所有は本記録・公開証拠・展開/引き継ぎ/索引と現行7受入・PR別snapshot。目的は実施済み公開承認の固定で、製品・build・Git・新しい公開操作は含まない。他者変更を保持し、受入CLIと相対証拠のhash、Markdown・リンクを確認する。
+
+2026-09-24T16:12:34.933Zに現行7記事のpublicをactual merge `517dc8b5166bd7b0c85baef3800d7fe57bac7b31`、CI `36019573674`、Pages `107704025706`へ記帳した。[受入CLIの固定結果](training-public-evidence/article-acceptance-pr59.json)では7件すべてcomplete=trueを確認し、同じbytesの[Transformer](transformer-article-acceptance-pr59.json)、[注意変種](attention-variants-article-acceptance-pr59.json)、[MoE](moe-article-acceptance-pr59.json)、[文章生成](generation-article-acceptance-pr59.json)、[トークン化](tokenization-article-acceptance-pr59.json)、[推論内部](inference-article-acceptance-pr59.json)、[学習パイプライン](training-article-acceptance-pr59.json)のPR #59 snapshotを保存した。CLI初回の未対応--json指定はusage終了し、引数なしの正規コマンドで再確認した。共有コードを後で変更した現行版へ、これらの固定記録の承認を流用しない。
+
+P1の公開受入は7/15記事（全体7/199）。P0の部分対応2記事を含め、図解公開は9記事19図。次は `feat/pretraining-reading-diagrams` の[C2事前学習](../2026-09-25/pretraining-reading-diagrams.md)。P1全15記事の公開受入で停止し、P2には着手しない。

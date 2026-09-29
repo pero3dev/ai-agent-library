@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "verdict": "approved",
+  "risk": "low",
+  "must": [],
+  "should": [],
+  "reviewer": "/root/pretraining_numeric",
+  "independent": true,
+  "checkedAt": "2026-09-24T16:32:08.6701441Z",
+  "scope": "Root-authored C2 article correction and common integration only; no approval of reviewer-authored numeric twelve files",
+  "files": [
+    {
+      "path": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "sha256": "45689c96df66501b9ca1472862905ceba69eeb68430ec53710e0f0154ceb059c"
+    },
+    {
+      "path": "website/lib/diagram-registry.mjs",
+      "sha256": "85e75284f46ce42f7c89384a32bce6d227d2273855adfc81238d2f78966518d9"
+    },
+    {
+      "path": "website/lib/diagram-decoration.mjs",
+      "sha256": "bd3ed962f793fbc28862d29765b6c1392fe08107cfec4d2cc141c0184cdeba6f"
+    },
+    {
+      "path": "website/lib/mdx-safety.mjs",
+      "sha256": "c54986f395a2e68dc5695b047ed9a846df5948969d6a2eb0c74a80cd53a78404"
+    },
+    {
+      "path": "website/lib/diagram-article-acceptance.mjs",
+      "sha256": "f3c53656f6202b5182af0e966875a3d50d58d1fd414c7d348c68f298cf1154af"
+    },
+    {
+      "path": "website/diagrams/registry.json",
+      "sha256": "ed9ef883835222eed36e9857453535eec08210ba7addc408618b612dbbc655d4"
+    },
+    {
+      "path": "website/diagrams/articles.json",
+      "sha256": "70417e40eb0930512212bc34a6ee83a704b730a052f2399642220feecf11fa45"
+    },
+    {
+      "path": "website/mdx-components.js",
+      "sha256": "deaa8c3343433ee9580540d16d0abc76f063c094e7eaf275b00b1ec3a66aa726"
+    },
+    {
+      "path": "website/components/diagrams/pretraining-walkthrough.jsx",
+      "sha256": "110b28350502a8e61430fdf080e435807228a5c9509b0537cee7668c1c6b7292"
+    },
+    {
+      "path": "website/tests/unit/pretraining-decoration.test.mjs",
+      "sha256": "22b240007a3f66ce9a12e3118a44d027d7f4e3393ccbac3f3adebd395abd5acc"
+    },
+    {
+      "path": "website/tests/unit/mdx-safety.test.mjs",
+      "sha256": "cc43e9bb60c29ad3cec0e19eb35d372884ba45c32d18b8c8947ac97fec66aace"
+    },
+    {
+      "path": "website/tests/unit/diagram-article-acceptance.test.mjs",
+      "sha256": "8fe6c75e0e42f8dff7847ff6cbc4d45efb42c9da364b6d34fd83c458863e39ef"
+    },
+    {
+      "path": "website/tests/browser/pretraining.spec.mjs",
+      "sha256": "815e1dfe0286a464990d497203d3c1db49609fa6efbca4f876a8fee12784dc66"
+    },
+    {
+      "path": "website/tests/browser/diagram-loading.spec.mjs",
+      "sha256": "4c2e8b94adb7437fa145390091e7146d36ffc0b1941c946108f71bc8074681c4"
+    },
+    {
+      "path": "website/README.md",
+      "sha256": "a81d49237188b417f2862777041085dafa0f84217cfcfeb254f944b36dd8d777"
+    }
+  ],
+  "basis": [
+    "AGENTS.md",
+    "CONTRIBUTING.md",
+    "project/records/2026-09-24/training-storyboards.md",
+    "project/records/2026-09-24/training-storyboards.json",
+    "project/records/2026-09-24/training-storyboards-review.md",
+    "research/internals/pretraining-diagram-sources-2026-09-24.md",
+    "research/internals/pretraining-diagram-sources-2026-09-24.json"
+  ],
+  "articleDiff": {
+    "lastUpdated": "2026-09-25",
+    "unchangedOtherSourceAccessDates": 3,
+    "addedExamplesOrParagraphs": 0,
+    "updatedSourceAccessDates": 2,
+    "authorizedReplacements": 6,
+    "exactAgainstBase": "517dc8b5166bd7b0c85baef3800d7fe57bac7b31"
+  },
+  "binding": {
+    "originalBodyBlocks": 25,
+    "stages": 23,
+    "trackedArticles": 8,
+    "figures": 5,
+    "wrappedBodyBlocks": 22,
+    "topics": 45,
+    "requiredSpecificRuntimeFiles": 16,
+    "mermaidBlocks": 1,
+    "mathBlocks": 4,
+    "dynamicTopics": 29,
+    "staticTopics": 16,
+    "readingStages": 19,
+    "originalHeadings": 9,
+    "wrappedHeadings": 6
+  },
+  "tests": {
+    "passed": 79,
+    "skipped": 0,
+    "rawLog": "TEMP/pretraining-integration-independent-tests.txt",
+    "command": "node --test website/tests/unit/pretraining-decoration.test.mjs website/tests/unit/mdx-safety.test.mjs website/tests/unit/diagram-article-acceptance.test.mjs",
+    "rawLogSHA256": "c618a396d83b9bdc3114bce5b1f98208ea92707b4a78910f7adac6c206906ee0",
+    "failed": 0,
+    "durationMs": 149050.9992,
+    "exitCode": 0
+  },
+  "promotion": {
+    "status": "passed",
+    "promoted": [
+      "pretraining-loss-perplexity",
+      "pretraining-scaling",
+      "pretraining-data",
+      "pretraining-metrics",
+      "pretraining-compute"
+    ],
+    "changedFieldsOnly": [
+      "reviewedDigest",
+      "enabled",
+      "status"
+    ],
+    "oldEntriesUnchanged": 19,
+    "actualSourceDigestsMatched": 5,
+    "articleGatesStillNull": true,
+    "registrySHA256": "ed9ef883835222eed36e9857453535eec08210ba7addc408618b612dbbc655d4",
+    "checkedAt": "2026-09-24T16:30:47.959Z"
+  },
+  "reviewObservations": [
+    "Existing article AST nodes are wrapped without reconstruction, including all four formulas and original Mermaid; 32 enabled subsets restore original AST",
+    "Fixed IDs and literal attributes preserve MDX whitelist and parent-specific stage limits; arbitrary import, property expressions and nested figures rejected",
+    "Semantic dependencies include scaling and compute without overlapping wrapped sections; current source digests reproduced from corrected article",
+    "Every dynamic topic includes a READ stage; manual-only acceptance negative cases remain fail-closed",
+    "All sixteen runtime input files are mandatory and optional content overrides invalidate whole-article evidence",
+    "React lazy dispatcher maps fixed IDs to named exports; original prose is the DiagramBoundary fallback",
+    "Browser code adds fixed independent fixtures, all stage fits, midpoint/reverse, READ/manual, keyboard/modal, no-JS/print and failed-chunk fallback checks"
+  ],
+  "limitations": [
+    "No new external primary-source fetch: reviewed repository source-evidence and approved replacement plan",
+    "Own numeric three scenes/models/CSS/unit excluded from this independent verdict",
+    "Other worker concept scenes excluded from this scoped integration review",
+    "Browser test source reviewed but not executed by this reviewer",
+    "Local browser playback tests use Playwright clock; not evidence of native elapsed playback",
+    "No build, rendered images, public deployment, physical device or screen-reader acceptance",
+    "Ordinary article formal frozen-tree review still separate and required"
+  ],
+  "ownership": "Read-only repository review, only TEMP outputs; no repository edits during review"
+}

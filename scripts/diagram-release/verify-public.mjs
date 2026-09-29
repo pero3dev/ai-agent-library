@@ -7,6 +7,7 @@ import { createHash } from 'node:crypto'
 import { foundations, runFoundationsChecks } from './foundations-checks.mjs'
 import { inference, inferencePath, runInferenceChecks } from './inference-checks.mjs'
 import { training, trainingPath, runTrainingChecks } from './training-checks.mjs'
+import { pretraining, pretrainingPath, runPretrainingChecks } from './pretraining-checks.mjs'
 
 // PUBLIC-ONLY audit. Do not run before the release owner confirms Pages success.
 // This script does not read website/out, start a server, invoke Git or deploy.
@@ -28,7 +29,7 @@ const moePath = '/docs/llm-internals/mixture-of-experts-internals'
 const variantsPath = '/docs/llm-internals/attention-variants-and-long-context'
 const transformerPath = '/docs/llm-internals/transformer-architecture'
 const controlPath = '/docs/llm-internals/alignment-theory'
-const artifactRoutes = [trainingPath, inferencePath, ...foundations.map(item => item.route), moePath, variantsPath, transformerPath]
+const artifactRoutes = [pretrainingPath, trainingPath, inferencePath, ...foundations.map(item => item.route), moePath, variantsPath, transformerPath]
 const artifactEvidence = JSON.parse(await readFile(evidenceFile, 'utf8'))
 assert.equal(artifactEvidence.schemaVersion, 1)
 assert.equal(artifactEvidence.evidenceClass, 'github-actions-pages-artifact')
@@ -39,7 +40,7 @@ assert.equal(artifactEvidence.expectedBuildId, args['expected-build-id'])
 assert.equal(artifactEvidence.deploymentState, 'success')
 assert.ok(Number.isSafeInteger(artifactEvidence.runId) && artifactEvidence.runId > 0)
 assert.ok(Number.isSafeInteger(artifactEvidence.artifactId) && artifactEvidence.artifactId > 0)
-assert.deepEqual(artifactEvidence.documents.map(item => item.route).sort(), [...artifactRoutes].sort(), 'Exactly seven independently collected artifact HTML documents are required')
+assert.deepEqual(artifactEvidence.documents.map(item => item.route).sort(), [...artifactRoutes].sort(), 'Exactly eight independently collected artifact HTML documents are required')
 for (const route of artifactRoutes) {
   const documents = artifactEvidence.documents.filter(item => item.route === route)
   assert.equal(documents.length, 1, `Missing/duplicate CI artifact HTML identity for ${route}`)
@@ -61,19 +62,19 @@ const moe = [
   { id: 'moe-routing-load', labels: ['全体', 'ゲート', 'top-k', '合算', '選ぶ向き', '集中', '容量', '学習'], steps: [0, 1, 2, 3, 4, 5, 7], marker: 'MOE / ROUTING & LOAD' },
   { id: 'moe-parameters-communication', labels: ['保持', '使用', '配置', '送出', '返送', '確認'], steps: [0, 1, 2, 5], marker: 'MoE / PARAMETERS & COMMUNICATION' }
 ]
-const sceneMarkers = [...training, ...inference, ...foundations, ...variants, ...transformers, ...moe].map(item => item.marker).concat(['AGENT LOOP / CONTROL FLOW', 'WORKFLOW / AGENT'])
+const sceneMarkers = [...pretraining, ...training, ...inference, ...foundations, ...variants, ...transformers, ...moe].map(item => item.marker).concat(['AGENT LOOP / CONTROL FLOW', 'WORKFLOW / AGENT'])
 const markers = sceneMarkers.concat(['ReadingFigure requires at least one stage'])
 const playwright = await lockedPlaywright(repo)
 const expect = playwright.expect.configure({ timeout: 15_000 })
 const output = await newChild(outputDirectory, `public-${engine}-${new Date().toISOString().replaceAll(':', '-').replaceAll('.', '-')}`)
 const report = {
   evidenceClass: 'live-public-browser-and-http', baseURL: base, expectedDeploymentSha: args['deployed-sha'], expectedBuildId: args['expected-build-id'],
-  identityNote: 'collect-deployment.ps1 binds the successful main run, SHA, exact deploy job/status and github-pages artifact. This audit compares public HTML/Flight build IDs and all seven article HTML byte hashes to that independently downloaded CI artifact.',
+  identityNote: 'collect-deployment.ps1 binds the successful main run, SHA, exact deploy job/status and github-pages artifact. This audit compares public HTML/Flight build IDs and all eight article HTML byte hashes to that independently downloaded CI artifact.',
   artifactEvidenceFile: args['artifact-evidence'], artifactEvidence,
-  scope: 'All previous 58 cases and fixed fixtures retained, including PR58 label checks. C1 adds 13 cases for two training diagrams, all 10 stages, nine READ stops, every selector, midpoint boundaries, six screen conditions, keyboard/modal, native-time playback, noJS and print. Seven independently collected CI HTML identities. Unrelated scene markers remain forbidden and alignment-theory remains the no-diagram control.',
+  scope: 'All previous 71 cases and fixed fixtures retained in order. C2 adds 20 cases for five pretraining diagrams, all 23 stages, 19 READ stops, all selectors, midpoint boundaries, six screen conditions, keyboard/modal, native-time playback, noJS and print. Eight independently collected CI HTML identities. Unrelated scene markers remain forbidden and alignment-theory remains the no-diagram control.',
   limitation: 'Browser viewport emulation is not physical iPhone Safari. Screenshots need human/agent visual inspection; passing geometry is not semantic visual acceptance.',
   independentVisualReview: { status: 'pending-independent-public-image-review', note: 'Machine case success does not approve readability. Review actual public screenshots, including every recorded text BBox overlap candidate. Local image acceptance does not replace this public check.' },
-  expectedCaseCount: 71,
+  expectedCaseCount: 91,
   startedAt: new Date().toISOString(), browser: null, cases: [], assets: [], screenshots: []
 }
 const save = () => writeFile(join(output, 'result.json'), JSON.stringify({
@@ -228,6 +229,30 @@ function sceneDelivery(result, expected) {
 
 async function stage(panel, figure, index) {
   const button = panel.getByRole('group', { name: '図解の段階', exact: true }).getByRole('button', { name: figure.labels[index], exact: true })
+  if (index === 0) {
+    // Scrolling to another figure can update its reading stage and move its controls.
+    await button.evaluate(node => node.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'instant' }))
+    await expect.poll(() => button.evaluate(async node => {
+      const sample = () => {
+        const rect = node.getBoundingClientRect()
+        return {
+          stage: node.closest('.aw-diagram').dataset.stage,
+          scrollY,
+          x: rect.x, y: rect.y, width: rect.width, height: rect.height,
+          inView: node.isConnected && rect.width > 0 && rect.height > 0 &&
+            rect.top >= 0 && rect.bottom <= innerHeight && rect.left >= 0 && rect.right <= innerWidth
+        }
+      }
+      const initial = sample()
+      if (!initial.inView) return false
+      const key = JSON.stringify(initial)
+      for (let frame = 0; frame < 3; frame++) {
+        await new Promise(resolve => requestAnimationFrame(resolve))
+        if (JSON.stringify(sample()) !== key) return false
+      }
+      return true
+    }), { intervals: [50, 100, 100] }).toBe(true)
+  }
   await button.click(); await expect(button).toHaveAttribute('aria-pressed', 'true')
   await expect(panel).toHaveAttribute('data-stage', String(index))
   await expect(panel).toHaveAttribute('data-mode', 'manual')
@@ -478,6 +503,7 @@ try {
   await runFoundationsChecks({ check, usePage, open, structure, sceneDelivery, stage, phase, geometry, screenshot, rootOf, panelOf, expect })
   await runInferenceChecks({ check, usePage, open, structure, sceneDelivery, stage, phase, geometry, screenshot, rootOf, panelOf, expect })
   await runTrainingChecks({ check, usePage, open, structure, sceneDelivery, stage, phase, geometry, screenshot, rootOf, panelOf, expect })
+  await runPretrainingChecks({ check, usePage, open, structure, sceneDelivery, stage, phase, geometry, screenshot, rootOf, panelOf, expect })
   await check('mandatory basePath SVG favicon: declaration, HTTP 200 and image/svg+xml', async result => {
     await usePage(result, {}, async page => {
       await open(page, inferencePath, inference, result)

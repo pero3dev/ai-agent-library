@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "copiedAt": "2026-09-29T16:46:04.984Z",
+  "files": [
+    {
+      "file": "../pretraining-center-scroll-review-20260930.md",
+      "originalSHA256": "1163e53487e356c43d1a9b82ffa2185e1166d7e5de3767b72e302f6c6c343479",
+      "storedSHA256": "1163e53487e356c43d1a9b82ffa2185e1166d7e5de3767b72e302f6c6c343479",
+      "normalization": "LF and exactly one final newline"
+    },
+    {
+      "file": "../pretraining-center-scroll-review-20260930.json",
+      "originalSHA256": "a9a1fea026eec9b0169c71c44a2e21b680c31743874cd8e551a0c20492c268e9",
+      "storedSHA256": "a9a1fea026eec9b0169c71c44a2e21b680c31743874cd8e551a0c20492c268e9",
+      "normalization": "LF and exactly one final newline"
+    },
+    {
+      "file": "../pretraining-center-scroll-independent-proof-20260930.json",
+      "originalSHA256": "ad9260b3f7d135c5b5407ba2d6a9ae64df20d722a11ab5066679bc0a67aba836",
+      "storedSHA256": "ad9260b3f7d135c5b5407ba2d6a9ae64df20d722a11ab5066679bc0a67aba836",
+      "normalization": "LF and exactly one final newline"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "copiedAt": "2026-09-29T16:34:05.557Z",
+  "result": {
+    "passed": 317,
+    "failed": 1,
+    "skipped": 5,
+    "durationMs": 754167.647
+  },
+  "files": [
+    {
+      "file": "pretraining-browser-edge-sep30.json.gz",
+      "originalSHA256": "0c119ae6a07555260b29e7a47fcf45635e870ad1f1d51a16d8771bbb5477853e",
+      "storedSHA256": "f703ba43fc6c4cc6c7d618716fbfaba57ee80d59437422460f01dfd4c37e27d8",
+      "encoding": "gzip"
+    },
+    {
+      "file": "pretraining-browser-edge-sep30.stderr.log.gz",
+      "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "storedSHA256": "9e72928e7a01615b4cf090daa617b4ca9d68531748f887f323f695eb4ca3ef63",
+      "encoding": "gzip"
+    },
+    {
+      "file": "pretraining-metrics-seek-initial-trace.zip",
+      "originalSHA256": "8d1f0869381c06a45ed0d0b0131c862cd575207f7747a0a3cad3fd6f350008da",
+      "storedSHA256": "8d1f0869381c06a45ed0d0b0131c862cd575207f7747a0a3cad3fd6f350008da",
+      "encoding": "zip"
+    }
+  ]
+}

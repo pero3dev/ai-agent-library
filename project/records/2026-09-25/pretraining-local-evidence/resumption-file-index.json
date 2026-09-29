@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "copiedAt": "2026-09-29T16:18:42.622Z",
+  "files": [
+    {
+      "file": "../pretraining-portable-review.md",
+      "originalSHA256": "f957bf526a273fa46959bd0b1bf6ef914c51cf42128c29e9c955e5c74a95dd85",
+      "storedSHA256": "f957bf526a273fa46959bd0b1bf6ef914c51cf42128c29e9c955e5c74a95dd85",
+      "normalization": "LF and exactly one final newline"
+    },
+    {
+      "file": "../pretraining-portable-review.json",
+      "originalSHA256": "db301aa54aedc16df11fc5ec27684879b2ff1774a3f49b2946163527d4636bff",
+      "storedSHA256": "db301aa54aedc16df11fc5ec27684879b2ff1774a3f49b2946163527d4636bff",
+      "normalization": "LF and exactly one final newline"
+    },
+    {
+      "file": "pretraining-root-check.log.gz",
+      "originalSHA256": "743a8d003a2e1b6b7f4f24febde3758ac35f1eb3241290b66d67eba6f99b9897",
+      "storedSHA256": "ce4c8bc56a63ced69d1fd459a8d4c29f68ae99b057b58f758e872b0dd20891f2",
+      "encoding": "gzip",
+      "evidenceClass": "initial local execution; before final Kaplan/date build"
+    },
+    {
+      "file": "pretraining-site-unit.log.gz",
+      "originalSHA256": "e88c90f1bfc62c225dbf1cec9e7e5dc5104ef137ece99a3bf49f7d243521bcea",
+      "storedSHA256": "8de600f1347d94c513b795ba7dc73497526064a3f8dc4c183612129f1729ba6f",
+      "encoding": "gzip",
+      "evidenceClass": "initial local execution; before final Kaplan/date build"
+    },
+    {
+      "file": "pretraining-build.log.gz",
+      "originalSHA256": "75406877bdc8df41bc96b77953b089390e8060cdfb5572bb0b44e4222df3032e",
+      "storedSHA256": "df94eaea783775e070c9345307ef8a2986e29b497cbc965d3885389e1b3c74ed",
+      "encoding": "gzip",
+      "evidenceClass": "initial local execution; before final Kaplan/date build"
+    },
+    {
+      "file": "pretraining-build-inputs-before.json.gz",
+      "originalSHA256": "a620e8bab8d34fb76373a941d02b04e12a3c919024f7418705aadf78ba69cbe1",
+      "storedSHA256": "0753e90027bcbcba8cb9ab16cd2c83c7614cf8e3e830289afb58ec159e2af579",
+      "encoding": "gzip",
+      "evidenceClass": "initial local execution; before final Kaplan/date build"
+    },
+    {
+      "file": "pretraining-initial-build-id.txt.gz",
+      "originalSHA256": "7032a428f1949c30234224e2601b3a892602a9b51b63ab07fc1f15fb0c870ef0",
+      "storedSHA256": "1529e3468b029dc9639ce610f13257acc60f66491dfb56d13c2ec905d6d10056",
+      "encoding": "gzip",
+      "evidenceClass": "initial local execution; before final Kaplan/date build"
+    }
+  ]
+}

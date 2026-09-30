@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "github-actions-pages-artifact",
+  "checkedAt": "2026-09-29T19:15:48.7850405Z",
+  "repository": "pero3dev/ai-agent-library",
+  "baseURL": "https://pero3dev.github.io/ai-agent-library",
+  "mergeSha": "5940334a6fd3aab8178cfeb8746a58c8b937d390",
+  "runId": 36615994124,
+  "runAttempt": 1,
+  "workflowPath": ".github/workflows/ci.yml",
+  "ciUrl": "https://github.com/pero3dev/ai-agent-library/actions/runs/36615994124",
+  "buildJobUrl": "https://github.com/pero3dev/ai-agent-library/actions/runs/36615994124/job/109569009080",
+  "deployJobUrl": "https://github.com/pero3dev/ai-agent-library/actions/runs/36615994124/job/109574494236",
+  "deploymentId": 6743245420,
+  "deploymentStatusId": 19020008350,
+  "deploymentState": "success",
+  "artifactId": 11055318318,
+  "artifactName": "github-pages",
+  "artifactApiDigest": "sha256:a06183e4736626a181be6390e98e95247e049873a50bdc156cee17a40a5707c9",
+  "archiveTarSHA256": "c91193c534497c7a07b3da1fcf041f76ddd2b135e41319be44adcd408fe8149a",
+  "expectedBuildId": "FnChqMe5DEINmNrKQkZeM",
+  "documents": [
+    {
+      "route": "/docs/llm-internals/inference-internals",
+      "archiveMember": "./docs/llm-internals/inference-internals.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\inference-internals.html",
+      "bytes": 718590,
+      "htmlSHA256": "97dff913ab697c641e4e607b9e5151c6b9aa63170e4acf94fe135a83171e2781",
+      "buildId": "FnChqMe5DEINmNrKQkZeM"
+    },
+    {
+      "route": "/docs/llm-foundations/how-llms-generate-text",
+      "archiveMember": "./docs/llm-foundations/how-llms-generate-text.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\how-llms-generate-text.html",
+      "bytes": 596944,
+      "htmlSHA256": "20a2694b99504c92366f5a3bf08b39ce71324247ed065ef4a3e61d8feafba31f",
+      "buildId": "FnChqMe5DEINmNrKQkZeM"
+    },
+    {
+      "route": "/docs/llm-foundations/tokenization",
+      "archiveMember": "./docs/llm-foundations/tokenization.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\tokenization.html",
+      "bytes": 583364,
+      "htmlSHA256": "65a57527d97e6f1919000bbace3510b35725455d787c1560b89c4af2ee000414",
+      "buildId": "FnChqMe5DEINmNrKQkZeM"
+    },
+    {
+      "route": "/docs/llm-internals/mixture-of-experts-internals",
+      "archiveMember": "./docs/llm-internals/mixture-of-experts-internals.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\mixture-of-experts-internals.html",
+      "bytes": 712770,
+      "htmlSHA256": "d65091ff38823996f3ea2fffd9217b97e51b33cbf4a28bb8c17d10d1307ecf35",
+      "buildId": "FnChqMe5DEINmNrKQkZeM"
+    },
+    {
+      "route": "/docs/llm-internals/attention-variants-and-long-context",
+      "archiveMember": "./docs/llm-internals/attention-variants-and-long-context.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\attention-variants-and-long-context.html",
+      "bytes": 771312,
+      "htmlSHA256": "0431091bbfa736c76c556c921f917c15f132ea00f8137b7178a742c5d59b1f44",
+      "buildId": "FnChqMe5DEINmNrKQkZeM"
+    },
+    {
+      "route": "/docs/llm-internals/transformer-architecture",
+      "archiveMember": "./docs/llm-internals/transformer-architecture.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\transformer-architecture.html",
+      "bytes": 1077989,
+      "htmlSHA256": "7e68023cf5a0e53cc3eaf33e668b9282a9a5f0609c04a62d1cd228be97ac63d3",
+      "buildId": "FnChqMe5DEINmNrKQkZeM"
+    },
+    {
+      "route": "/docs/llm-foundations/llm-training-pipeline",
+      "archiveMember": "./docs/llm-foundations/llm-training-pipeline.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\llm-training-pipeline.html",
+      "bytes": 611779,
+      "htmlSHA256": "8c2346984503136cb5157d16d9a73897e2d9d88645126486e1a07b0f8398bb7c",
+      "buildId": "FnChqMe5DEINmNrKQkZeM"
+    },
+    {
+      "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+      "archiveMember": "./docs/llm-internals/pretraining-and-scaling-laws.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\pretraining-and-scaling-laws.html",
+      "bytes": 766159,
+      "htmlSHA256": "36c003fcae0106d4187524f30407613d658cf0232a49b206816d920347d7f1e7",
+      "buildId": "FnChqMe5DEINmNrKQkZeM"
+    }
+  ],
+  "digestNote": "artifactApiDigest describes the GitHub artifact container. archiveTarSHA256 is independently computed for downloaded archive.tar; the two digests are not equated.",
+  "expectedValueSource": "Eight selected HTML files (inference, generation, tokenization, MoE, attention variants, Transformer, training, pretraining) from the successful exact-run github-pages artifact. No expected value is read from public HTTP or a local build."
+}

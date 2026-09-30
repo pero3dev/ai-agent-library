@@ -1,0 +1,1144 @@
+{
+  "schemaVersion": 1,
+  "kind": "F1 interface proposal; not accepted or implemented",
+  "writer": "/root",
+  "createdAt": "2026-09-29T18:56:41.320Z",
+  "repoEdited": false,
+  "sourceModified": false,
+  "requiresPublicAcceptanceOf": [
+    "E3"
+  ],
+  "inputs": [
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "sha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319"
+    },
+    {
+      "file": "docs/10-llm-foundations/capabilities-and-limits.md",
+      "sha256": "cc83e31509fc1b5a8e43793be4c06fc2682c90e76f83e7ebf784fafbd23beb4a"
+    },
+    {
+      "file": "website/lib/diagram-registry.mjs",
+      "sha256": "85e75284f46ce42f7c89384a32bce6d227d2273855adfc81238d2f78966518d9"
+    },
+    {
+      "file": "website/lib/reading-clock.mjs",
+      "sha256": "f39eadf5eb39ebbb0f33877e6bceb9966211fc7acdaad13118428a4c2019081b"
+    }
+  ],
+  "counts": {
+    "rootNodes": 38,
+    "contentH3": 8,
+    "contentBodyBlocks": 14,
+    "wrappedH3": 5,
+    "wrappedBody": 11,
+    "displayMath": 0,
+    "mermaid": 0,
+    "dynamicTopics": 23,
+    "staticTopics": 12,
+    "stages": 5,
+    "readStops": 5
+  },
+  "adopted": {
+    "unit": "F1",
+    "file": "docs/10-llm-foundations/capabilities-and-limits.md",
+    "route": "/docs/llm-foundations/capabilities-and-limits",
+    "requiresPublicAcceptanceOf": [
+      "D2",
+      "E3"
+    ],
+    "learningOrderReason": "生成・学習・文脈・記憶の説明を、能力見積りと検証の実務判断へ統合する。D2/E3は学習順の提案でソフトウェア依存でない。",
+    "sourceSha256": "cc83e31509fc1b5a8e43793be4c06fc2682c90e76f83e7ebf784fafbd23beb4a",
+    "sections": [
+      {
+        "heading": "概要: 流暢さと正確さは別の能力",
+        "parent": "本文",
+        "line": 29,
+        "start": 9,
+        "end": 11,
+        "bodyTypes": [
+          "paragraph"
+        ]
+      },
+      {
+        "heading": "得意と不得意の構造",
+        "parent": "本文",
+        "line": 33,
+        "start": 11,
+        "end": 15,
+        "bodyTypes": [
+          "paragraph",
+          "table",
+          "paragraph"
+        ]
+      },
+      {
+        "heading": "ツールによる補完: Agent 設計の理論的根拠",
+        "parent": "本文",
+        "line": 48,
+        "start": 15,
+        "end": 19,
+        "bodyTypes": [
+          "paragraph",
+          "list",
+          "paragraph"
+        ]
+      },
+      {
+        "heading": "世代差とスケーリングの読み方",
+        "parent": "本文",
+        "line": 58,
+        "start": 19,
+        "end": 22,
+        "bodyTypes": [
+          "paragraph",
+          "list"
+        ]
+      },
+      {
+        "heading": "能力見積りの実務",
+        "parent": "本文",
+        "line": 66,
+        "start": 22,
+        "end": 25,
+        "bodyTypes": [
+          "paragraph",
+          "list"
+        ]
+      },
+      {
+        "heading": "この理解が効く場面",
+        "parent": "本文",
+        "line": 75,
+        "start": 25,
+        "end": 27,
+        "bodyTypes": [
+          "list"
+        ]
+      },
+      {
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "line": 83,
+        "start": 28,
+        "end": 30,
+        "bodyTypes": [
+          "list"
+        ]
+      },
+      {
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "line": 90,
+        "start": 30,
+        "end": 32,
+        "bodyTypes": [
+          "list"
+        ]
+      }
+    ],
+    "diagrams": [
+      {
+        "id": "capabilities-assessment",
+        "title": "出力の印象から検証条件へ",
+        "heads": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "sources": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "groups": [
+          [
+            [
+              0,
+              1
+            ]
+          ],
+          [
+            [
+              1,
+              3
+            ]
+          ],
+          [
+            [
+              2,
+              3
+            ]
+          ],
+          [
+            [
+              3,
+              2
+            ]
+          ],
+          [
+            [
+              4,
+              2
+            ]
+          ]
+        ],
+        "objects": [
+          "同じタスクカード",
+          "流暢さと正確さの別評価枠",
+          "モデル",
+          "ツール",
+          "検証",
+          "日付/モデル/条件",
+          "採用範囲"
+        ],
+        "stages": [
+          {
+            "label": "二つの軸",
+            "state": "流暢さと要求を満たす正確さを独立の枠にする。数値スコアは置かない。",
+            "motion": "出力から二方向へ評価線を分ける。"
+          },
+          {
+            "label": "タスクの条件",
+            "state": "既存表の6行を切替える。selector未操作の初期表示でも、同じタスクの流暢さ/正確さを別評価欄で示し、「傾向は保証ではない」「独立検証が必要」の図ラベルとタスク→検証の関係を可視にする。表は評価の出発点。",
+            "motion": "同じカード位置で表のラベルと独立検証欄を切替え。",
+            "requiredDefaultVisible": [
+              "流暢さ/正確さの別評価欄",
+              "傾向は保証ではない",
+              "独立検証が必要",
+              "タスクから検証への関係"
+            ]
+          },
+          {
+            "label": "ツールと検証",
+            "state": "計算/知識/操作を既存の道具へ分岐。選択・引数・解釈にも誤りが残る。",
+            "motion": "実行経路を専用道具に移し、戻り側の検証点を残す。"
+          },
+          {
+            "label": "条件付きの記録",
+            "state": "日付・モデル・試し方と、公開ベンチマーク/実ケースの別枠。思考量は品質費用の評価項目。",
+            "motion": "同じ評価記録に条件ラベルを結び、新世代の再評価へ戻る線。"
+          },
+          {
+            "label": "見積りの手順",
+            "state": "厳密さ→検証可能性→代表実ケース→失敗コスト/回復の四つを同画面で順に強調。10〜20は原文の試行例で統計保証にしない。",
+            "motion": "既存4ステップの強調が移るだけで自動採否を表示しない。"
+          }
+        ],
+        "checks": [
+          "表を能力保証のランキングにしない",
+          "ツールで誤り消滅としない",
+          "10〜20件を合格基準にしない",
+          "架空の品質点・自動採否なし"
+        ],
+        "article": "docs/10-llm-foundations/capabilities-and-limits.md",
+        "route": "/docs/llm-foundations/capabilities-and-limits",
+        "binding": "grouped-blocks",
+        "stageCount": 5,
+        "headings": [
+          "概要: 流暢さと正確さは別の能力",
+          "得意と不得意の構造",
+          "ツールによる補完: Agent 設計の理論的根拠",
+          "世代差とスケーリングの読み方",
+          "能力見積りの実務"
+        ],
+        "sourceHeadings": [
+          "概要: 流暢さと正確さは別の能力",
+          "得意と不得意の構造",
+          "ツールによる補完: Agent 設計の理論的根拠",
+          "世代差とスケーリングの読み方",
+          "能力見積りの実務"
+        ],
+        "blockGroups": [
+          [
+            {
+              "stage": 0,
+              "count": 1
+            }
+          ],
+          [
+            {
+              "stage": 1,
+              "count": 3
+            }
+          ],
+          [
+            {
+              "stage": 2,
+              "count": 3
+            }
+          ],
+          [
+            {
+              "stage": 3,
+              "count": 2
+            }
+          ],
+          [
+            {
+              "stage": 4,
+              "count": 2
+            }
+          ]
+        ],
+        "blockTypes": [
+          [
+            "paragraph"
+          ],
+          [
+            "paragraph",
+            "table",
+            "paragraph"
+          ],
+          [
+            "paragraph",
+            "list",
+            "paragraph"
+          ],
+          [
+            "paragraph",
+            "list"
+          ],
+          [
+            "paragraph",
+            "list"
+          ]
+        ],
+        "sourceDigest": "sha256:78f355317c83010206e383ae35f6c39e98319a924d9cfe7560f4b1b52659c9c3",
+        "status": "planned-not-reviewed",
+        "reviewedDigest": null,
+        "enabled": false,
+        "contentKind": "conceptual",
+        "staticFallback": "同じ意味モデルの主要段階の静止表示と短い図ラベル。追加の本文・例題・ナレーションを作らない。",
+        "layout": "既存ReadingFigureの操作・同期・拡大・JS無効/印刷経路を再利用。固有model/scene/CSSは記事chunkで遅延読込。",
+        "stateContract": "frame(phase, options)は副作用なし。同じ位相/選択で同じ図、逆シーク・中点でもID/関係を保持。停止/非表示に常時loopを残さない。",
+        "readingStages": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "manualOnlyStages": [],
+        "minimumCountReason": "全主要節が同じタスク→実行→検証→採用範囲の判断枠を使うため1図で足りる。",
+        "postCorrectionSourceDigestCandidate": "sha256:78f355317c83010206e383ae35f6c39e98319a924d9cfe7560f4b1b52659c9c3",
+        "defaultSelectionAcceptance": "本文連動で段階1へ到達し、selector未操作の既定行だけで上記requiredDefaultVisibleが読めること。選択肢名だけを出して検証軸を隠さない。"
+      }
+    ],
+    "topics": [
+      {
+        "id": "f1-s0-b0",
+        "heading": "概要: 流暢さと正確さは別の能力",
+        "parent": "本文",
+        "sourceLine": 29,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "「こんなに流暢なら、これもできるだろう」という印象だけでは、LLM の能力を見積もれません。「自然に読める出力」と「要求を満たす正しい出力」は別に評価します。流暢さも正確さも、モデル・言語・入力・タスクに依存します。ツール・検証・設計で補う箇所を、実際の失敗から決めます。",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 0,
+        "stageScope": [
+          0
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "「こんなに流暢なら、これもできるだろう」という印象だけでは、LLM の能力を見積もれません。「自然に読める出力」と「要求を満たす正しい出力」は別に評価します。流暢さも正確さも、モデル・言語・入力・タスクに依存します。ツール・検証・設計で補う箇所を、実際の失敗から決めます。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s1-b0",
+        "heading": "得意と不得意の構造",
+        "parent": "本文",
+        "sourceLine": 33,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "以下は評価計画を作るための整理です。学習データの内訳が非公開のモデルでは、得手不得手の原因をデータ量だけで断定できません。「苦手」は不可能という意味でもなく、採用モデルと入力条件で再検証します。",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "以下は評価計画を作るための整理です。学習データの内訳が非公開のモデルでは、得手不得手の原因をデータ量だけで断定できません。「苦手」は不可能という意味でもなく、採用モデルと入力条件で再検証します。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s1-b1.row0",
+        "heading": "得意と不得意の構造",
+        "parent": "本文",
+        "sourceLine": 33,
+        "sourceBlock": 1,
+        "kind": "tableRow",
+        "topic": "得意 | 要約・翻訳・言い換え・分類・トーン調整 | 「テキスト → テキスト」の変換パターンが学習データに大量にある",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "得意 | 要約・翻訳・言い換え・分類・トーン調整 | 「テキスト → テキスト」の変換パターンが学習データに大量にある",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s1-b1.row1",
+        "heading": "得意と不得意の構造",
+        "parent": "本文",
+        "sourceLine": 33,
+        "sourceBlock": 1,
+        "kind": "tableRow",
+        "topic": "得意 | コードの生成・説明・修正 | 学習データが豊富で、構文パターンが強く、実行・テストで検証もできる",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "得意 | コードの生成・説明・修正 | 学習データが豊富で、構文パターンが強く、実行・テストで検証もできる",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s1-b1.row2",
+        "heading": "得意と不得意の構造",
+        "parent": "本文",
+        "sourceLine": 33,
+        "sourceBlock": 1,
+        "kind": "tableRow",
+        "topic": "苦手 | 桁の大きい計算・厳密な集計 | 計算はパターン補完ではなくアルゴリズムの実行が必要。トークン列の操作でそれを模倣している",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "苦手 | 桁の大きい計算・厳密な集計 | 計算はパターン補完ではなくアルゴリズムの実行が必要。トークン列の操作でそれを模倣している",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s1-b1.row3",
+        "heading": "得意と不得意の構造",
+        "parent": "本文",
+        "sourceLine": 33,
+        "sourceBlock": 1,
+        "kind": "tableRow",
+        "topic": "苦手 | 文字数指定・特定文字の数え上げ | モデルはトークン単位で処理しており、文字を直接「見て」いない(トークナイザとトークン経済)",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "苦手 | 文字数指定・特定文字の数え上げ | モデルはトークン単位で処理しており、文字を直接「見て」いない(トークナイザとトークン経済)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s1-b1.row4",
+        "heading": "得意と不得意の構造",
+        "parent": "本文",
+        "sourceLine": 33,
+        "sourceBlock": 1,
+        "kind": "tableRow",
+        "topic": "苦手 | 最新情報・ニッチな事実 | 学習データの期限と頻度に依存する(LLM の学習パイプライン)。穴はもっともらしく補完される(幻覚)",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "苦手 | 最新情報・ニッチな事実 | 学習データの期限と頻度に依存する(LLM の学習パイプライン)。穴はもっともらしく補完される(幻覚)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s1-b1.row5",
+        "heading": "得意と不得意の構造",
+        "parent": "本文",
+        "sourceLine": 33,
+        "sourceBlock": 1,
+        "kind": "tableRow",
+        "topic": "要検証 | 長い厳密な手順の遂行 | 文脈中に途中結果を書けても、検証が正しいとは保証されない。コード実行・既知値照合を加える",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "要検証 | 長い厳密な手順の遂行 | 文脈中に途中結果を書けても、検証が正しいとは保証されない。コード実行・既知値照合を加える",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s1-b2",
+        "heading": "得意と不得意の構造",
+        "parent": "本文",
+        "sourceLine": 33,
+        "sourceBlock": 2,
+        "kind": "paragraph",
+        "topic": "この表からの設計指針は、厳密さが必要な箇所に、生成とは独立した検証手段を用意することです。要約や翻訳にも意味の正確性が必要なので、「得意」の欄だけを理由に検証を省きません。",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "この表からの設計指針は、厳密さが必要な箇所に、生成とは独立した検証手段を用意することです。要約や翻訳にも意味の正確性が必要なので、「得意」の欄だけを理由に検証を省きません。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s2-b0",
+        "heading": "ツールによる補完: Agent 設計の理論的根拠",
+        "parent": "本文",
+        "sourceLine": 48,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "苦手の多くは、外部の道具で正確に解ける種類の問題です。",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "苦手の多くは、外部の道具で正確に解ける種類の問題です。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s2-b1.li0",
+        "heading": "ツールによる補完: Agent 設計の理論的根拠",
+        "parent": "本文",
+        "sourceLine": 48,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "計算・集計 → コード実行・電卓ツール",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "計算・集計 → コード実行・電卓ツール",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s2-b1.li1",
+        "heading": "ツールによる補完: Agent 設計の理論的根拠",
+        "parent": "本文",
+        "sourceLine": 48,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "最新情報・ニッチな知識 → 検索・RAG(RAG と Agent の関係・使い分け)",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "最新情報・ニッチな知識 → 検索・RAG(RAG と Agent の関係・使い分け)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s2-b1.li2",
+        "heading": "ツールによる補完: Agent 設計の理論的根拠",
+        "parent": "本文",
+        "sourceLine": 48,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "正確な操作・状態変更 → API 呼び出し(判断はモデル、実行は決定的なコード)",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "正確な操作・状態変更 → API 呼び出し(判断はモデル、実行は決定的なコード)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s2-b2",
+        "heading": "ツールによる補完: Agent 設計の理論的根拠",
+        "parent": "本文",
+        "sourceLine": 48,
+        "sourceBlock": 2,
+        "kind": "paragraph",
+        "topic": "ツールを使うと、計算や照会を専用の処理へ移せます。ただし、ツール・引数・解釈の誤りは残るため、道具を持たせるだけで解決とはしません。例えば Toolformer は、計算機・検索などのツールを使う学習で対象評価の改善を報告していますが、任意の Agent の正確性を保証する結果ではありません。",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "ツールを使うと、計算や照会を専用の処理へ移せます。ただし、ツール・引数・解釈の誤りは残るため、道具を持たせるだけで解決とはしません。例えば Toolformer は、計算機・検索などのツールを使う学習で対象評価の改善を報告していますが、任意の Agent の正確性を保証する結果ではありません。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s3-b0",
+        "heading": "世代差とスケーリングの読み方",
+        "parent": "本文",
+        "sourceLine": 58,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "モデルの能力は世代とともに動きます。見積りを陳腐化させないための読み方を 3 つ挙げます。",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "モデルの能力は世代とともに動きます。見積りを陳腐化させないための読み方を 3 つ挙げます。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s3-b1.li0",
+        "heading": "世代差とスケーリングの読み方",
+        "parent": "本文",
+        "sourceLine": 58,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "「できなかった」には日付を付ける: 能力の評価は世代で覆ります。「LLM には無理」ではなく「このモデルでは、この試し方では無理だった(いつ時点)」と記録し、新世代で再評価します(バージョニング・デプロイ・モデル更新追従)",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "「できなかった」には日付を付ける: 能力の評価は世代で覆ります。「LLM には無理」ではなく「このモデルでは、この試し方では無理だった(いつ時点)」と記録し、新世代で再評価します(バージョニング・デプロイ・モデル更新追従)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s3-b1.li1",
+        "heading": "世代差とスケーリングの読み方",
+        "parent": "本文",
+        "sourceLine": 58,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "推論に時間を使うモデルの登場: 応答前に長く考える(推論トークンを使う)ことで複雑な問題の正答率を上げるアプローチが、2026 年時点では広く使われています。難しい問題への正確さと、レイテンシ・コストのトレードオフとして扱います(モデル選定ガイド)",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "推論に時間を使うモデルの登場: 応答前に長く考える(推論トークンを使う)ことで複雑な問題の正答率を上げるアプローチが、2026 年時点では広く使われています。難しい問題への正確さと、レイテンシ・コストのトレードオフとして扱います(モデル選定ガイド)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s3-b1.li2",
+        "heading": "世代差とスケーリングの読み方",
+        "parent": "本文",
+        "sourceLine": 58,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "ベンチマークと実能力の乖離: 公開ベンチマークのスコアは、ハーネス依存・汚染・飽和により実力を過大にも過小にも見せます。世代差の把握は参考にしつつ、自社タスクでの実測を正とします(エージェントベンチマークの全体像)",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "ベンチマークと実能力の乖離: 公開ベンチマークのスコアは、ハーネス依存・汚染・飽和により実力を過大にも過小にも見せます。世代差の把握は参考にしつつ、自社タスクでの実測を正とします(エージェントベンチマークの全体像)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s4-b0",
+        "heading": "能力見積りの実務",
+        "parent": "本文",
+        "sourceLine": 66,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "「できそうでできない」を企画段階で見抜くための、簡潔な手順です。",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 4,
+        "stageScope": [
+          4
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "「できそうでできない」を企画段階で見抜くための、簡潔な手順です。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s4-b1.li0",
+        "heading": "能力見積りの実務",
+        "parent": "本文",
+        "sourceLine": 66,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "厳密さの要求を見積もる: 出力のどこに「1 文字・1 桁レベルの正しさ」が必要かを特定します。その部分は素の生成に任せず、ツール・検証・構造化で固めます",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 4,
+        "stageScope": [
+          4
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "厳密さの要求を見積もる: 出力のどこに「1 文字・1 桁レベルの正しさ」が必要かを特定します。その部分は素の生成に任せず、ツール・検証・構造化で固めます",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s4-b1.li1",
+        "heading": "能力見積りの実務",
+        "parent": "本文",
+        "sourceLine": 66,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "検証可能性で選ぶ: 結果の良し悪しを機械的・人間的に検証できるタスクから任せます(検証できないタスクは、失敗に気付けないタスクです)。ユースケース発見と要件定義の「向き不向き」判断と同じ軸です",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 4,
+        "stageScope": [
+          4
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "検証可能性で選ぶ: 結果の良し悪しを機械的・人間的に検証できるタスクから任せます(検証できないタスクは、失敗に気付けないタスクです)。ユースケース発見と要件定義の「向き不向き」判断と同じ軸です",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s4-b1.li2",
+        "heading": "能力見積りの実務",
+        "parent": "本文",
+        "sourceLine": 66,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "少数の実ケースで実測する: 能力の議論を抽象論で続けず、代表的な実データ 10〜20 件で試します。デモ用のきれいな入力ではなく、実務の「面倒なケース」を含めることが重要です(Agent 評価の基礎)",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 4,
+        "stageScope": [
+          4
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "少数の実ケースで実測する: 能力の議論を抽象論で続けず、代表的な実データ 10〜20 件で試します。デモ用のきれいな入力ではなく、実務の「面倒なケース」を含めることが重要です(Agent 評価の基礎)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s4-b1.li3",
+        "heading": "能力見積りの実務",
+        "parent": "本文",
+        "sourceLine": 66,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "失敗コストで最終判断する: 同じ正答率でも、失敗の損害が違えば判断は変わります。失敗時の検知・回復手段まで含めて「任せられるか」を決めます(モデル選定ガイド、Human-in-the-Loop 設計)",
+        "coverage": "dynamic",
+        "diagramId": "capabilities-assessment",
+        "readingStage": 4,
+        "stageScope": [
+          4
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "失敗コストで最終判断する: 同じ正答率でも、失敗の損害が違えば判断は変わります。失敗時の検知・回復手段まで含めて「任せられるか」を決めます(モデル選定ガイド、Human-in-the-Loop 設計)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s5-b0.li0",
+        "heading": "この理解が効く場面",
+        "parent": "本文",
+        "sourceLine": 75,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "企画・要件定義: 「AI で何ができるか」の議論を、流暢さの印象ではなく構造(厳密さ・検証可能性・ツール補完)で進められます",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の応用先リストであり、前の機構図を実務判断へ結び付ける参照として原文を保持する。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "企画・要件定義: 「AI で何ができるか」の議論を、流暢さの印象ではなく構造(厳密さ・検証可能性・ツール補完)で進められます",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s5-b0.li1",
+        "heading": "この理解が効く場面",
+        "parent": "本文",
+        "sourceLine": 75,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "ツール設計: 「モデルにさせること」と「ツールにさせること」の分担を原理から引けます(ツール定義の設計)",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の応用先リストであり、前の機構図を実務判断へ結び付ける参照として原文を保持する。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "ツール設計: 「モデルにさせること」と「ツールにさせること」の分担を原理から引けます(ツール定義の設計)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s5-b0.li2",
+        "heading": "この理解が効く場面",
+        "parent": "本文",
+        "sourceLine": 75,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "モデル更新への追従: 能力評価に日付を付け、世代交代のたびに安価に再判定できます",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の応用先リストであり、前の機構図を実務判断へ結び付ける参照として原文を保持する。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "モデル更新への追従: 能力評価に日付を付け、世代交代のたびに安価に再判定できます",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s6-b0.li0",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 83,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "流暢さから能力を外挿する(「こんなに自然に話せるなら計算もできるはず」) → 流暢さと厳密さは別の能力で、乖離が大きい → 厳密さが必要な箇所を特定し、ツール・検証で固める",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "流暢さから能力を外挿する(「こんなに自然に話せるなら計算もできるはず」) → 流暢さと厳密さは別の能力で、乖離が大きい → 厳密さが必要な箇所を特定し、ツール・検証で固める",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s6-b0.li1",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 83,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "苦手なタスクをプロンプトの工夫だけで克服しようとする → 構造由来の弱点(計算・文字数・最新情報)は指示では消えない → ツールによる補完へ設計を切り替える",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "苦手なタスクをプロンプトの工夫だけで克服しようとする → 構造由来の弱点(計算・文字数・最新情報)は指示では消えない → ツールによる補完へ設計を切り替える",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s6-b0.li2",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 83,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "一度の失敗で「LLM には無理」と結論を固定する → 能力は世代で覆り、試し方(ツール・プロンプト)でも変わる → 日付と条件付きで記録し、定期的に再評価する",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "一度の失敗で「LLM には無理」と結論を固定する → 能力は世代で覆り、試し方(ツール・プロンプト)でも変わる → 日付と条件付きで記録し、定期的に再評価する",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s6-b0.li3",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 83,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "ベンチマーク上位モデルなら自社タスクもできると考える → タスク分布・ハーネスが違えば序列は入れ替わる → 自社の実ケースで実測する",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "ベンチマーク上位モデルなら自社タスクもできると考える → タスク分布・ハーネスが違えば序列は入れ替わる → 自社の実ケースで実測する",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s7-b0.li0",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 90,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "タスクのうち「厳密さが必須の部分」を特定し、ツール・検証・構造化で固めた",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "タスクのうち「厳密さが必須の部分」を特定し、ツール・検証・構造化で固めた",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s7-b0.li1",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 90,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "結果を検証する手段(テスト・人のレビュー・突き合わせ)がある",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "結果を検証する手段(テスト・人のレビュー・突き合わせ)がある",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s7-b0.li2",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 90,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "実務の代表ケース(面倒なケースを含む)で実測してから判断した",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "実務の代表ケース(面倒なケースを含む)で実測してから判断した",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s7-b0.li3",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 90,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "「できなかった」記録に日付・モデル・試し方が付いている",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "「できなかった」記録に日付・モデル・試し方が付いている",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f1-s7-b0.li4",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 90,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "失敗時の検知・回復まで含めて任せる範囲を決めた",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "失敗時の検知・回復まで含めて任せる範囲を決めた",
+        "candidateTopicChanged": false
+      }
+    ],
+    "ownership": {
+      "articleSpecific": [
+        "website/lib/capabilities-assessment-model.mjs",
+        "website/components/diagrams/capabilities-assessment-walkthrough.jsx",
+        "website/components/diagrams/capabilities-assessment.css",
+        "website/tests/unit/capabilities-assessment-model.test.mjs"
+      ],
+      "shared": "統合担当1名がregistry/BINDINGS/dispatcher/MDX許可/記事台帳/受入コード/回帰試験を所有。記事担当は共有部を独断で変更しない。"
+    },
+    "acceptance": {
+      "contentReview": null,
+      "local": null,
+      "public": null
+    },
+    "postCorrectionSha256Candidate": "cc83e31509fc1b5a8e43793be4c06fc2682c90e76f83e7ebf784fafbd23beb4a"
+  },
+  "proposed": {
+    "id": "capabilities-assessment",
+    "component": "CapabilitiesAssessment",
+    "scene": "CapabilitiesAssessmentScene",
+    "frame": "capabilitiesAssessmentFrame",
+    "stages": "CAPABILITIES_ASSESSMENT_STAGES",
+    "marker": "CAPABILITIES / ASSESSMENT",
+    "stageAttribute": "data-capabilities-assessment-stage",
+    "dispatcher": {
+      "file": "website/components/diagrams/capabilities-walkthrough.jsx",
+      "export": "CapabilitiesWalkthrough"
+    },
+    "controls": [
+      {
+        "key": "taskKind",
+        "label": "表のタスク",
+        "values": [
+          "text",
+          "code",
+          "arithmetic",
+          "characters",
+          "knowledge",
+          "procedure"
+        ],
+        "labels": [
+          "要約・翻訳など",
+          "コード生成・説明・修正",
+          "大きな計算・厳密な集計",
+          "文字数指定・数え上げ",
+          "最新情報・ニッチな事実",
+          "長い厳密な手順"
+        ],
+        "default": "text",
+        "effectiveStages": [
+          1
+        ]
+      },
+      {
+        "key": "assessmentFocus",
+        "label": "見積りの観点",
+        "values": [
+          "precision",
+          "verification",
+          "cases",
+          "failure-cost"
+        ],
+        "labels": [
+          "厳密さ",
+          "検証可能性",
+          "実ケース",
+          "失敗と回復"
+        ],
+        "default": "precision",
+        "effectiveStages": [
+          4
+        ]
+      }
+    ],
+    "sourceTableRows": [
+      {
+        "id": "text",
+        "shortLabel": "要約・翻訳など",
+        "trend": "得意",
+        "row": 1
+      },
+      {
+        "id": "code",
+        "shortLabel": "コード生成・説明・修正",
+        "trend": "得意",
+        "row": 2
+      },
+      {
+        "id": "arithmetic",
+        "shortLabel": "大きな計算・厳密な集計",
+        "trend": "苦手",
+        "row": 3
+      },
+      {
+        "id": "characters",
+        "shortLabel": "文字数指定・数え上げ",
+        "trend": "苦手",
+        "row": 4
+      },
+      {
+        "id": "knowledge",
+        "shortLabel": "最新情報・ニッチな事実",
+        "trend": "苦手",
+        "row": 5
+      },
+      {
+        "id": "procedure",
+        "shortLabel": "長い厳密な手順",
+        "trend": "要検証",
+        "row": 6
+      }
+    ],
+    "settingsContract": "Validate object/options strictly; values may remain in React state but frame effective settings are null outside their allowed stages; only emphasis changes for assessmentFocus and all four steps remain visible. No API call, computed recommendation or external model.",
+    "phaseContract": "clampPhase and stageForPhase; deterministic pure frame, stable object IDs across reverse/midpoints, fresh nested arrays; no timers, network, randomness or measured numeric fixtures.",
+    "identities": [
+      "task-current",
+      "output-current",
+      "fluency-review",
+      "accuracy-review",
+      "verification-independent",
+      "tool-calculation",
+      "tool-knowledge",
+      "tool-operation",
+      "record-conditions",
+      "benchmark-context",
+      "real-case-context",
+      "assessment-precision",
+      "assessment-verification",
+      "assessment-cases",
+      "assessment-failure-cost"
+    ],
+    "nullFields": [
+      "fluencyScore",
+      "accuracyScore",
+      "qualityGain",
+      "latency",
+      "cost",
+      "successRate",
+      "acceptanceDecision",
+      "sampleSufficiency",
+      "modelRanking",
+      "toolCorrectness"
+    ],
+    "stagesContract": [
+      "S0: One schematic output splits into separate fluency and requirement-accuracy evaluation paths. No grade, score, correct-answer mark or prose response example. Dependency on model/language/input/task is visible.",
+      "S1: Default text task already has two distinct unmeasured evaluation fields, task→independent verification connection, trend-not-guarantee and independent-verification-required labels. Six choices correspond exactly to the six source table rows; trend label is explicitly source-table tendency, not current model result. Preserve source caveats: cause cannot be attributed solely to unavailable training data, weak does not mean impossible, and text fluency/strength does not remove meaning-accuracy validation. Do not add new verification examples per row.",
+      "S2: All three source mappings stay visible by default: calculation/aggregation→code or calculator; current/niche knowledge→search/RAG; exact operation/state change→API. Distinguish model judgment and deterministic execution. Selection, arguments and result interpretation retain check points; tools do not make the whole Agent correct. No fabricated successful tool result or accuracy gain.",
+      "S3: Date/model/method fields are unrecorded placeholders, not fake evaluations. Benchmark and representative real-case contexts are separate, with harness/contamination/saturation cautions from source. Reasoning effort is a quality/latency/cost evaluation axis with no performance curve or best setting. A return path indicates re-evaluation when model/conditions change.",
+      "S4: All four source steps appear together: precision, ability to verify, representative difficult real cases, failure cost plus detection/recovery. Optional focus changes only highlighting. 10–20 remains source trial guidance, not a sufficient sample/pass threshold or required test count. Show no automatic deploy/adopt verdict."
+    ],
+    "markers": [
+      "data-evaluation-status=\"unmeasured\"",
+      "data-task-kind",
+      "data-trend-source=\"article-table\"",
+      "data-trend-guarantee=\"false\"",
+      "data-independent-verification=\"required\"",
+      "data-tool-mapping",
+      "data-assessment-focus",
+      "data-decision=\"unmade\""
+    ],
+    "ownership": "Article-specific four files from adopted ownership; root owns shared registry, AST/MDX, dispatcher, article manifest, acceptance inputs, structural/browser tests, public kit and records. Article prose/last_updated remains unchanged.",
+    "verification": [
+      "Unit: all5 phases and .49/.50/.51 reversals,6 task choices,4 focuses, setting influence restricted to S1/S4, every unknown remains null, stable object identity, invalid options rejected, fresh arrays cannot mutate later frames.",
+      "AST: both enabled/disabled restore original AST; wrap original5H3/11body blocks incltable once; keep original8H3/14body blocks, no display math or Mermaid. Compare exact text/table/link/list order.",
+      "Browser: all5READ stops and all5stages, default S1 mandatory conclusions before touching selector, six source-table choices and all unknown results, S2 all3branches plus3checks, S3 context fields, S4 all4steps under each focus; isolated state, reverse/keyboard/modal/playback, six screen profiles, print/noJS/chunk failure and original text.",
+      "Independent actual-image/semantic review and F1 current commit/CI/Pages/artifact/public acceptance required after E3 acceptance. This proposal is only preparation."
+    ]
+  },
+  "review": null
+}

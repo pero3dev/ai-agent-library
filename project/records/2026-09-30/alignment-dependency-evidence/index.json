@@ -1,0 +1,1355 @@
+{
+  "schemaVersion": 1,
+  "kind": "D1-PR63-dependency-patch-evidence",
+  "archivedAt": "2026-09-30T09:41:39.726Z",
+  "archiveOnly": true,
+  "scope": {
+    "package": "brace-expansion",
+    "from": "5.0.9",
+    "to": "5.0.12",
+    "files": [
+      "package-lock.json",
+      "website/package-lock.json"
+    ],
+    "changedFields": [
+      "version",
+      "resolved",
+      "integrity"
+    ],
+    "noPackageJsonChange": true,
+    "noProductArticleKitGitChangesByPatchWorker": true
+  },
+  "workerReport": {
+    "markdown": "raw/patch-report.md.gz",
+    "json": "raw/patch-report.json.gz",
+    "originalJSONSHA256": "34c3cb4e9457c07c3d27e302c276ff259abdac2bc0c68e7f9034c4de813d11a0",
+    "evidenceReferences": 31
+  },
+  "verifiedCommands": [
+    {
+      "environment": "root",
+      "commands": [
+        {
+          "command": "npm update brace-expansion --package-lock-only --ignore-scripts --no-audit --no-fund",
+          "exitCode": 0
+        },
+        {
+          "command": "npm ci --no-audit --no-fund",
+          "exitCode": 0
+        },
+        {
+          "command": "npm audit --audit-level=high --json",
+          "exitCode": 0
+        },
+        {
+          "command": "npm ls brace-expansion --all --json",
+          "exitCode": 0
+        }
+      ],
+      "afterAuditCounts": {
+        "info": 0,
+        "low": 0,
+        "moderate": 3,
+        "high": 0,
+        "critical": 0,
+        "total": 3
+      },
+      "remaining": [
+        {
+          "name": "js-yaml",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/js-yaml"
+          ]
+        },
+        {
+          "name": "markdown-it",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/markdown-it"
+          ]
+        },
+        {
+          "name": "markdownlint-cli",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/markdownlint-cli"
+          ]
+        }
+      ]
+    },
+    {
+      "environment": "website",
+      "commands": [
+        {
+          "command": "npm update brace-expansion --package-lock-only --ignore-scripts --no-audit --no-fund",
+          "exitCode": 0
+        },
+        {
+          "command": "npm ci --no-audit --no-fund",
+          "exitCode": 0
+        },
+        {
+          "command": "npm audit --audit-level=high --json",
+          "exitCode": 0
+        },
+        {
+          "command": "npm ls brace-expansion --all --json",
+          "exitCode": 0
+        }
+      ],
+      "afterAuditCounts": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "remaining": []
+    }
+  ],
+  "rootCheck": {
+    "path": "raw/root-check.log.gz",
+    "tests": 485,
+    "passed": 484,
+    "failed": 0,
+    "skipped": 1,
+    "completedConfirmedByOwner": true
+  },
+  "build": {
+    "path": "raw/build.log.gz",
+    "completedConfirmedByOwner": true,
+    "passed": true,
+    "routes": 223,
+    "html": 230,
+    "buildId": "1kDzaUHLTh2VduCcoTkhj"
+  },
+  "exports": [
+    {
+      "tag": "before-brace-patch",
+      "buildId": "XJR9sUrJP0VbXQCKQiQ8F",
+      "identityPath": "raw/before-brace-patch-identity.json.gz",
+      "identitySHA256": "efa2a039e6d68b3179714dfc97cfd3645bbd48ab52fd36f080d1253b735c0ae7",
+      "manifestFiles": 419,
+      "html": [
+        {
+          "article": "docs/11-llm-internals/transformer-architecture.md",
+          "route": "docs/llm-internals/transformer-architecture.html",
+          "path": "raw/before-brace-patch-transformer-architecture.html.gz",
+          "originalSHA256": "7e7970c9f4f51dcc43f73617aa0eb17221260b4639887283539673f4d1f75e32"
+        },
+        {
+          "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+          "route": "docs/llm-internals/attention-variants-and-long-context.html",
+          "path": "raw/before-brace-patch-attention-variants-and-long-context.html.gz",
+          "originalSHA256": "fef155346ce0e45d9f937f4b653d35157dc806495fc709a03267f107ddd75022"
+        },
+        {
+          "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+          "route": "docs/llm-internals/mixture-of-experts-internals.html",
+          "path": "raw/before-brace-patch-mixture-of-experts-internals.html.gz",
+          "originalSHA256": "d31ea40b127484610dfede130e10693bfa360c86e5e31f88bb9b6fee03417160"
+        },
+        {
+          "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+          "route": "docs/llm-foundations/how-llms-generate-text.html",
+          "path": "raw/before-brace-patch-how-llms-generate-text.html.gz",
+          "originalSHA256": "1c63b16a93c62a7bd2f37af128ad0173a567c94c1459aa77aa9b15d52ad5a769"
+        },
+        {
+          "article": "docs/10-llm-foundations/tokenization.md",
+          "route": "docs/llm-foundations/tokenization.html",
+          "path": "raw/before-brace-patch-tokenization.html.gz",
+          "originalSHA256": "d6629e430c2a2f0a3164ccc66f5fec3a66020e2d31024abc9554369d48c9960e"
+        },
+        {
+          "article": "docs/11-llm-internals/inference-internals.md",
+          "route": "docs/llm-internals/inference-internals.html",
+          "path": "raw/before-brace-patch-inference-internals.html.gz",
+          "originalSHA256": "da934f26d25a448c1703c057bafa588cb3407e01406d69d9daac1c50c8f20c38"
+        },
+        {
+          "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+          "route": "docs/llm-foundations/llm-training-pipeline.html",
+          "path": "raw/before-brace-patch-llm-training-pipeline.html.gz",
+          "originalSHA256": "6e1c2cb87a09c75d04bce63847a4479f8717c8174d6ea2f53ed4983162111a25"
+        },
+        {
+          "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+          "route": "docs/llm-internals/pretraining-and-scaling-laws.html",
+          "path": "raw/before-brace-patch-pretraining-and-scaling-laws.html.gz",
+          "originalSHA256": "c0368783b0a0d843297360c66d5b202a40d96a676b927e30ab4a3f66912b02c2"
+        },
+        {
+          "article": "docs/11-llm-internals/alignment-theory.md",
+          "route": "docs/llm-internals/alignment-theory.html",
+          "path": "raw/before-brace-patch-alignment-theory.html.gz",
+          "originalSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16"
+        }
+      ]
+    },
+    {
+      "tag": "after-brace-patch",
+      "buildId": "1kDzaUHLTh2VduCcoTkhj",
+      "identityPath": "raw/after-brace-patch-identity.json.gz",
+      "identitySHA256": "a70d9e8f0a8926c3fae8a44b6405778bb898782dbf791ce983b129556bf6f26c",
+      "manifestFiles": 419,
+      "html": [
+        {
+          "article": "docs/11-llm-internals/transformer-architecture.md",
+          "route": "docs/llm-internals/transformer-architecture.html",
+          "path": "raw/after-brace-patch-transformer-architecture.html.gz",
+          "originalSHA256": "24d971eb42068253e162bead0155ce23c460f2f798cf28a408b222dfce25db0d"
+        },
+        {
+          "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+          "route": "docs/llm-internals/attention-variants-and-long-context.html",
+          "path": "raw/after-brace-patch-attention-variants-and-long-context.html.gz",
+          "originalSHA256": "c56e620c8dd97cb67d9e620078dc48f6b6380c8899ca9454d4c70f25e5c9f8a8"
+        },
+        {
+          "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+          "route": "docs/llm-internals/mixture-of-experts-internals.html",
+          "path": "raw/after-brace-patch-mixture-of-experts-internals.html.gz",
+          "originalSHA256": "565ce0609f5789349e9904e62b50ad15dc10fe53239af64d03d2600168b905a3"
+        },
+        {
+          "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+          "route": "docs/llm-foundations/how-llms-generate-text.html",
+          "path": "raw/after-brace-patch-how-llms-generate-text.html.gz",
+          "originalSHA256": "e7535eac1dcb8b063b38721476cee3b084613935c55f389c10d0a73a163eb00c"
+        },
+        {
+          "article": "docs/10-llm-foundations/tokenization.md",
+          "route": "docs/llm-foundations/tokenization.html",
+          "path": "raw/after-brace-patch-tokenization.html.gz",
+          "originalSHA256": "576e33631be1fd3adc75aaf05df415f393fb89cc4158fde4cf028fe11e6578bd"
+        },
+        {
+          "article": "docs/11-llm-internals/inference-internals.md",
+          "route": "docs/llm-internals/inference-internals.html",
+          "path": "raw/after-brace-patch-inference-internals.html.gz",
+          "originalSHA256": "bf8ead5c8fdd638134484402a97e0801ce090fdaf7c81619dfbfa1807f0e0043"
+        },
+        {
+          "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+          "route": "docs/llm-foundations/llm-training-pipeline.html",
+          "path": "raw/after-brace-patch-llm-training-pipeline.html.gz",
+          "originalSHA256": "c789fb677777feeead3dd31d598c16ac77ba7bb44ebb65fa1e55d0e8af71de4f"
+        },
+        {
+          "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+          "route": "docs/llm-internals/pretraining-and-scaling-laws.html",
+          "path": "raw/after-brace-patch-pretraining-and-scaling-laws.html.gz",
+          "originalSHA256": "708dfde026e770c0fce08329cda0faa0d8b151b1cc719469beae9cc876ae4b75"
+        },
+        {
+          "article": "docs/11-llm-internals/alignment-theory.md",
+          "route": "docs/llm-internals/alignment-theory.html",
+          "path": "raw/after-brace-patch-alignment-theory.html.gz",
+          "originalSHA256": "6a6f8b3a96d9e1e7e254bb55c67a51b967adefb59f8b7f34f061502dd5c93ddb"
+        }
+      ]
+    }
+  ],
+  "independentPrerequisites": {
+    "path": "raw/independent-prerequisites.json.gz",
+    "status": "pending-rebuild-output-comparison",
+    "finalAcceptance": false
+  },
+  "localAccepted": true,
+  "publicAccepted": false,
+  "pending": [
+    "Updated frozen-tree/article review and PR CI/deployment/public acceptance by root"
+  ],
+  "files": [
+    {
+      "kind": "worker-report",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-brace-expansion-patch-report.md",
+      "originalSHA256": "ca864b762db0bd417b2e96234dfb517254491d7a10803f5462d1c8421c25a54c",
+      "originalBytes": 3194,
+      "path": "raw/patch-report.md.gz",
+      "storedSHA256": "7d8c2fc97d91e13a78d604b317a4fe9f173d7afdc035859394a0de82d813da09",
+      "storedBytes": 1892,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-report",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-brace-expansion-patch-report.json",
+      "originalSHA256": "34c3cb4e9457c07c3d27e302c276ff259abdac2bc0c68e7f9034c4de813d11a0",
+      "originalBytes": 15987,
+      "path": "raw/patch-report.json.gz",
+      "storedSHA256": "395d49a4b0b2504b92ed500cda0ddc70302e337ed25c268a313e1aefee26e439",
+      "storedBytes": 3407,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-audit-before.json",
+      "originalSHA256": "34ff0d80fb1da8823371feacbef5faf6b64a8f34e5face86537e456c7f156250",
+      "originalBytes": 539,
+      "path": "raw/d1-pr63-root-audit-before.json.gz",
+      "storedSHA256": "7d3d14662a2bd0ae723d69a800461a32608e1d05b7aba84a1e91dac68c5b518b",
+      "storedBytes": 318,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-audit-before.json",
+      "originalSHA256": "34ff0d80fb1da8823371feacbef5faf6b64a8f34e5face86537e456c7f156250",
+      "originalBytes": 539,
+      "path": "raw/d1-pr63-root-audit-before.json.gz",
+      "storedSHA256": "7d3d14662a2bd0ae723d69a800461a32608e1d05b7aba84a1e91dac68c5b518b",
+      "storedBytes": 318,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-brace-tree-before.json",
+      "originalSHA256": "1bf51b8aee20ac02fe664388fa4b6d335d6e78b1f621b34fcb79760d673a5f90",
+      "originalBytes": 730,
+      "path": "raw/d1-pr63-root-brace-tree-before.json.gz",
+      "storedSHA256": "4958be4667c690dadbe70cefe0d845de32b80825e37a7ee5cd09db3aa41ee68b",
+      "storedBytes": 260,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-brace-tree-before.json",
+      "originalSHA256": "fc65aee574040b3c3e2595d379a1e98abfa2d0ec975399279f54348737ea731b",
+      "originalBytes": 1315,
+      "path": "raw/d1-pr63-website-brace-tree-before.json.gz",
+      "storedSHA256": "923ce018343d2eeaa850a74a3f1720ad4ad7961ee974dcbed9446bf446bb75a6",
+      "storedBytes": 338,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-audit-before-network.json",
+      "originalSHA256": "4b82382b5210ec0114149f2c1cfe2b132ed09f05e182db44506b878ad94d7711",
+      "originalBytes": 4906,
+      "path": "raw/d1-pr63-root-audit-before-network.json.gz",
+      "storedSHA256": "386cbcce8afa01d0c5833a2b8d856a347a11ece8f7a6a49f010b0672986a1824",
+      "storedBytes": 1071,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-audit-before-network.json",
+      "originalSHA256": "ace0fbdc9adf72902856595da88ade23ce24297cc6195ad0fc1f8a495db1c362",
+      "originalBytes": 2524,
+      "path": "raw/d1-pr63-website-audit-before-network.json.gz",
+      "storedSHA256": "adcc688e1d0a1a45819ac2d481bf361fe1d9c00e81d221ccaef72ad9f2920a77",
+      "storedBytes": 705,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-audit-before-network.stderr.log",
+      "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalBytes": 0,
+      "path": "raw/d1-pr63-root-audit-before-network.stderr.log.gz",
+      "storedSHA256": "46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e",
+      "storedBytes": 20,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-audit-before-network.stderr.log",
+      "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalBytes": 0,
+      "path": "raw/d1-pr63-root-audit-before-network.stderr.log.gz",
+      "storedSHA256": "46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e",
+      "storedBytes": 20,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-lock-before.json",
+      "originalSHA256": "b6303e20ec9b0b4eed216449beebd9b6c7e1d2fa8755f569c6e800463a62c404",
+      "originalBytes": 42884,
+      "path": "raw/d1-pr63-root-lock-before.json.gz",
+      "storedSHA256": "64c22b18cf1fbfda2d1e52df433b644e14a71f31218a32e039ff4ef077606aa5",
+      "storedBytes": 8779,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-lock-before.json",
+      "originalSHA256": "f9c837dea78a160837d1fb7b6f9aba80249c505e94a45f4be465e1e96e598d31",
+      "originalBytes": 249536,
+      "path": "raw/d1-pr63-website-lock-before.json.gz",
+      "storedSHA256": "5d22f12f981bb49055287e32b0b38f6296c39b5458e915c8c0ab74c4dfb03baf",
+      "storedBytes": 54492,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-public-main-package-lock.json",
+      "originalSHA256": "b6303e20ec9b0b4eed216449beebd9b6c7e1d2fa8755f569c6e800463a62c404",
+      "originalBytes": 42884,
+      "path": "raw/d1-pr63-root-lock-before.json.gz",
+      "storedSHA256": "64c22b18cf1fbfda2d1e52df433b644e14a71f31218a32e039ff4ef077606aa5",
+      "storedBytes": 8779,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-public-main-website-package-lock.json",
+      "originalSHA256": "f9c837dea78a160837d1fb7b6f9aba80249c505e94a45f4be465e1e96e598d31",
+      "originalBytes": 249536,
+      "path": "raw/d1-pr63-website-lock-before.json.gz",
+      "storedSHA256": "5d22f12f981bb49055287e32b0b38f6296c39b5458e915c8c0ab74c4dfb03baf",
+      "storedBytes": 54492,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-brace-npm-metadata.json",
+      "originalSHA256": "6a15bb6d618b84524e713628c0ef7250ac4e5797a6f7f6293e9272648aac8685",
+      "originalBytes": 291,
+      "path": "raw/d1-pr63-brace-npm-metadata.json.gz",
+      "storedSHA256": "e5dee9c0db7eae38ad7da9247f4eccfa4149b095cc6417a1cb7984aa52d68e02",
+      "storedBytes": 249,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-brace-npm-metadata.stderr.log",
+      "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalBytes": 0,
+      "path": "raw/d1-pr63-root-audit-before-network.stderr.log.gz",
+      "storedSHA256": "46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e",
+      "storedBytes": 20,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-brace-update.log",
+      "originalSHA256": "069f1f2d79da5f8aa288f53c51c9d02d484667287397c9320270fbf354390321",
+      "originalBytes": 23,
+      "path": "raw/d1-pr63-root-brace-update.log.gz",
+      "storedSHA256": "85f836e91261bf607335d2659b5a0343ad298e77870058caba3c1c6ff6b39a73",
+      "storedBytes": 43,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-brace-update.stderr.log",
+      "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalBytes": 0,
+      "path": "raw/d1-pr63-root-audit-before-network.stderr.log.gz",
+      "storedSHA256": "46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e",
+      "storedBytes": 20,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-brace-update.log",
+      "originalSHA256": "c4357ff8bb4d7bb0a81cf5fe1afb6bece9477ef5fcfe1a7f5e21682e1cb97905",
+      "originalBytes": 23,
+      "path": "raw/d1-pr63-website-brace-update.log.gz",
+      "storedSHA256": "1bccb2521faa4a69c27e5d7bd2cad60c6da6ae2f3173608d40be9a9133c8379d",
+      "storedBytes": 43,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-brace-update.stderr.log",
+      "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalBytes": 0,
+      "path": "raw/d1-pr63-root-audit-before-network.stderr.log.gz",
+      "storedSHA256": "46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e",
+      "storedBytes": 20,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-npm-ci.log",
+      "originalSHA256": "d48f4dcbbb2defac99f2875ff0705a276afc9ee6fa3ab2a7a8c37268769496dc",
+      "originalBytes": 27,
+      "path": "raw/d1-pr63-root-npm-ci.log.gz",
+      "storedSHA256": "3d45a22ecc0438aab160e499de63298f9f84996dd28b76214bafc6ef9aa9ab1a",
+      "storedBytes": 47,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-npm-ci.stderr.log",
+      "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalBytes": 0,
+      "path": "raw/d1-pr63-root-audit-before-network.stderr.log.gz",
+      "storedSHA256": "46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e",
+      "storedBytes": 20,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-npm-ci.log",
+      "originalSHA256": "11509bc64b9710ed47a3de9622cfe4f1a6327c095eba563fd4960a87e1c6c1eb",
+      "originalBytes": 29,
+      "path": "raw/d1-pr63-website-npm-ci.log.gz",
+      "storedSHA256": "6b67450044b8671d8a8db8bae4c868297e88c54ce2580b09646fe137d35972d2",
+      "storedBytes": 49,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-npm-ci.stderr.log",
+      "originalSHA256": "b680b68ccee3f93cf4dcad02ad7cf483f279dd70f34fead785ba76da55dd129f",
+      "originalBytes": 110,
+      "path": "raw/d1-pr63-website-npm-ci.stderr.log.gz",
+      "storedSHA256": "0336173e06c3ff9e10971e0f4301180f7a2c6934c237eaa9f3353fcbbdd96917",
+      "storedBytes": 113,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-audit-after.json",
+      "originalSHA256": "c8764ddf029343e9009328ac9ecae561d4a8fb64d05c21614040f0882046bd88",
+      "originalBytes": 2770,
+      "path": "raw/d1-pr63-root-audit-after.json.gz",
+      "storedSHA256": "6f2e66b6d4d24d8fb5a360ea39f96679dff847b5e087ec8c68cbfea01d9c5f53",
+      "storedBytes": 783,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-audit-after.stderr.log",
+      "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalBytes": 0,
+      "path": "raw/d1-pr63-root-audit-before-network.stderr.log.gz",
+      "storedSHA256": "46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e",
+      "storedBytes": 20,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-audit-after.json",
+      "originalSHA256": "07163582eb2576da0f2224d5df7c4dc4f0bf3d14e4e350aeddc1c00ca2589183",
+      "originalBytes": 385,
+      "path": "raw/d1-pr63-website-audit-after.json.gz",
+      "storedSHA256": "29e6edc92cbaf0a196956f676048e9614dc356b64b1ba834d762a7bbc48b6a60",
+      "storedBytes": 194,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-audit-after.stderr.log",
+      "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalBytes": 0,
+      "path": "raw/d1-pr63-root-audit-before-network.stderr.log.gz",
+      "storedSHA256": "46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e",
+      "storedBytes": 20,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-brace-tree-after.json",
+      "originalSHA256": "ffb01cc69a340bd8cce8dd0d87f3219c02948b927f6a33ed2a2e8775800c7396",
+      "originalBytes": 732,
+      "path": "raw/d1-pr63-root-brace-tree-after.json.gz",
+      "storedSHA256": "aab2740649ede9e69333b917794bf48d78e755bfefc0fb5ddbd16ed258a8e9b6",
+      "storedBytes": 260,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-brace-tree-after.stderr.log",
+      "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalBytes": 0,
+      "path": "raw/d1-pr63-root-audit-before-network.stderr.log.gz",
+      "storedSHA256": "46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e",
+      "storedBytes": 20,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-brace-tree-after.json",
+      "originalSHA256": "6702de9a93554efd89110bc4d79b8c9678dd7f2746dafaa240bce7a2875777a0",
+      "originalBytes": 1317,
+      "path": "raw/d1-pr63-website-brace-tree-after.json.gz",
+      "storedSHA256": "42956179ed8f323117418edaadb749f6d31a5b1325a768b20757383f8824f3f5",
+      "storedBytes": 338,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-brace-tree-after.stderr.log",
+      "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalBytes": 0,
+      "path": "raw/d1-pr63-root-audit-before-network.stderr.log.gz",
+      "storedSHA256": "46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e",
+      "storedBytes": 20,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "worker-evidence",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-brace-patch-work-record.json",
+      "originalSHA256": "7bab63f73f33eb83cca66198853938d0edb0500cf424fb68fa167cf7d34399b1",
+      "originalBytes": 3813,
+      "path": "raw/d1-pr63-brace-patch-work-record.json.gz",
+      "storedSHA256": "e69d568341f097b871ed3187404b8400baebe1d67e29b3bc9264bf84e6453eb3",
+      "storedBytes": 1073,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "completed-local-check",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\root-check.log",
+      "originalSHA256": "77f905cb2067264504c079678b8c5bd074a6fe2661d2d1d22d61daad0b994917",
+      "originalBytes": 92553,
+      "path": "raw/root-check.log.gz",
+      "storedSHA256": "096c5b850f3a38ccc6de1931c03e48683cb48ffd3606f77c57ae166f391d4f18",
+      "storedBytes": 31065,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "export-identity",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\identity.json",
+      "originalSHA256": "efa2a039e6d68b3179714dfc97cfd3645bbd48ab52fd36f080d1253b735c0ae7",
+      "originalBytes": 76899,
+      "path": "raw/before-brace-patch-identity.json.gz",
+      "storedSHA256": "62485dce44828a91e343782789a4435593e981c0f5fba3cb18b6bd232b28668b",
+      "storedBytes": 24176,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "article-html",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\transformer-architecture.html",
+      "originalSHA256": "7e7970c9f4f51dcc43f73617aa0eb17221260b4639887283539673f4d1f75e32",
+      "originalBytes": 1078462,
+      "path": "raw/before-brace-patch-transformer-architecture.html.gz",
+      "storedSHA256": "777175fa4c1bff99d9b8d0b04ec1c2e604cb96f041277b66d8fb5e67d9907832",
+      "storedBytes": 112993,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "article-html",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\attention-variants-and-long-context.html",
+      "originalSHA256": "fef155346ce0e45d9f937f4b653d35157dc806495fc709a03267f107ddd75022",
+      "originalBytes": 771527,
+      "path": "raw/before-brace-patch-attention-variants-and-long-context.html.gz",
+      "storedSHA256": "4b360623a68a495aa7c181d72175bb995efc55f9e610dcd8a89c0aa3bca4dfa8",
+      "storedBytes": 84691,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "article-html",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\mixture-of-experts-internals.html",
+      "originalSHA256": "d31ea40b127484610dfede130e10693bfa360c86e5e31f88bb9b6fee03417160",
+      "originalBytes": 712942,
+      "path": "raw/before-brace-patch-mixture-of-experts-internals.html.gz",
+      "storedSHA256": "561b1508c5f1a1252e5a27897594cf715b2f550c2007ecda39387adef7ba2753",
+      "storedBytes": 76888,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "article-html",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\how-llms-generate-text.html",
+      "originalSHA256": "1c63b16a93c62a7bd2f37af128ad0173a567c94c1459aa77aa9b15d52ad5a769",
+      "originalBytes": 597030,
+      "path": "raw/before-brace-patch-how-llms-generate-text.html.gz",
+      "storedSHA256": "f53545f3a14cfc0d13269b6f2beb1cca1bf15082d3ceccf09dd9dd7348cea7e2",
+      "storedBytes": 63922,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "article-html",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\tokenization.html",
+      "originalSHA256": "d6629e430c2a2f0a3164ccc66f5fec3a66020e2d31024abc9554369d48c9960e",
+      "originalBytes": 583450,
+      "path": "raw/before-brace-patch-tokenization.html.gz",
+      "storedSHA256": "4a97940682bb7dab7b1d74ec3b2abc51ddf4d7368e234e8eb22222a4d782b006",
+      "storedBytes": 60834,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "article-html",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\inference-internals.html",
+      "originalSHA256": "da934f26d25a448c1703c057bafa588cb3407e01406d69d9daac1c50c8f20c38",
+      "originalBytes": 718762,
+      "path": "raw/before-brace-patch-inference-internals.html.gz",
+      "storedSHA256": "8b9c51e6f6162348af61c28bf9ff3baec8bee1cbedd0ea36fcca50ca1bbdfd07",
+      "storedBytes": 80799,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "article-html",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\llm-training-pipeline.html",
+      "originalSHA256": "6e1c2cb87a09c75d04bce63847a4479f8717c8174d6ea2f53ed4983162111a25",
+      "originalBytes": 611908,
+      "path": "raw/before-brace-patch-llm-training-pipeline.html.gz",
+      "storedSHA256": "70b56366f65508ece6f6cc3536578b2e9b6f06bdda014062bb4aebb90f88592a",
+      "storedBytes": 66117,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "article-html",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\pretraining-and-scaling-laws.html",
+      "originalSHA256": "c0368783b0a0d843297360c66d5b202a40d96a676b927e30ab4a3f66912b02c2",
+      "originalBytes": 766374,
+      "path": "raw/before-brace-patch-pretraining-and-scaling-laws.html.gz",
+      "storedSHA256": "a0c3998d87cc486226d2e43935ccfefdf9ef0e62c1047edf1f9fc7f5bec4dd42",
+      "storedBytes": 84629,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "article-html",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\alignment-theory.html",
+      "originalSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+      "originalBytes": 768377,
+      "path": "raw/before-brace-patch-alignment-theory.html.gz",
+      "storedSHA256": "8df82ed5c84ada964d594a7f283feb706b86d447bdad3a19e77bef51c86f6834",
+      "storedBytes": 80937,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "export-identity",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\identity.json",
+      "originalSHA256": "a70d9e8f0a8926c3fae8a44b6405778bb898782dbf791ce983b129556bf6f26c",
+      "originalBytes": 76898,
+      "path": "raw/after-brace-patch-identity.json.gz",
+      "storedSHA256": "f0f2f3ae639494a3c35026e5efe38b971e4c27ba974ea194961dab1317250d64",
+      "storedBytes": 24190,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "article-html",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\transformer-architecture.html",
+      "originalSHA256": "24d971eb42068253e162bead0155ce23c460f2f798cf28a408b222dfce25db0d",
+      "originalBytes": 1078462,
+      "path": "raw/after-brace-patch-transformer-architecture.html.gz",
+      "storedSHA256": "1e97480500bd50355fa6a1318da6cef9d7628c8236b3111dd1d15628ae5a13cd",
+      "storedBytes": 112991,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "article-html",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\attention-variants-and-long-context.html",
+      "originalSHA256": "c56e620c8dd97cb67d9e620078dc48f6b6380c8899ca9454d4c70f25e5c9f8a8",
+      "originalBytes": 771527,
+      "path": "raw/after-brace-patch-attention-variants-and-long-context.html.gz",
+      "storedSHA256": "054f1d01dfbc712d3966423cd2e298184625affa43e30e349c02c2f235e5ff38",
+      "storedBytes": 84688,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "article-html",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\mixture-of-experts-internals.html",
+      "originalSHA256": "565ce0609f5789349e9904e62b50ad15dc10fe53239af64d03d2600168b905a3",
+      "originalBytes": 712942,
+      "path": "raw/after-brace-patch-mixture-of-experts-internals.html.gz",
+      "storedSHA256": "f48e20aa88e3e548152e96795076faadf0516cdc012ef5850035d47178ff1d2a",
+      "storedBytes": 76882,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "article-html",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\how-llms-generate-text.html",
+      "originalSHA256": "e7535eac1dcb8b063b38721476cee3b084613935c55f389c10d0a73a163eb00c",
+      "originalBytes": 597030,
+      "path": "raw/after-brace-patch-how-llms-generate-text.html.gz",
+      "storedSHA256": "1701197e923304e761be9d9a65a583a01b5d3eac068e5a6bdd4eeff88c58cd7b",
+      "storedBytes": 63918,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "article-html",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\tokenization.html",
+      "originalSHA256": "576e33631be1fd3adc75aaf05df415f393fb89cc4158fde4cf028fe11e6578bd",
+      "originalBytes": 583450,
+      "path": "raw/after-brace-patch-tokenization.html.gz",
+      "storedSHA256": "74aa3baceef1cdf67cbfcbce0228e6587b12e4028fb3c8ae4f04d2afba62198a",
+      "storedBytes": 60830,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "article-html",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\inference-internals.html",
+      "originalSHA256": "bf8ead5c8fdd638134484402a97e0801ce090fdaf7c81619dfbfa1807f0e0043",
+      "originalBytes": 718762,
+      "path": "raw/after-brace-patch-inference-internals.html.gz",
+      "storedSHA256": "1281bf78f8f241c4d3b5ea7e7c551b7cc7546e62c88b7ce39c0bd59c0a827bc2",
+      "storedBytes": 80795,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "article-html",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\llm-training-pipeline.html",
+      "originalSHA256": "c789fb677777feeead3dd31d598c16ac77ba7bb44ebb65fa1e55d0e8af71de4f",
+      "originalBytes": 611908,
+      "path": "raw/after-brace-patch-llm-training-pipeline.html.gz",
+      "storedSHA256": "d9225947970dbe237a6bda528a512dbe6bb95dbef12472c756ef5d75eb4a5c17",
+      "storedBytes": 66113,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "article-html",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\pretraining-and-scaling-laws.html",
+      "originalSHA256": "708dfde026e770c0fce08329cda0faa0d8b151b1cc719469beae9cc876ae4b75",
+      "originalBytes": 766374,
+      "path": "raw/after-brace-patch-pretraining-and-scaling-laws.html.gz",
+      "storedSHA256": "b765bd7b6a9352e7651a1dc5f974e65741dff33d0fa81544d69e827a4a692705",
+      "storedBytes": 84626,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "article-html",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\alignment-theory.html",
+      "originalSHA256": "6a6f8b3a96d9e1e7e254bb55c67a51b967adefb59f8b7f34f061502dd5c93ddb",
+      "originalBytes": 768377,
+      "path": "raw/after-brace-patch-alignment-theory.html.gz",
+      "storedSHA256": "f5a5d3fd8aec7c12ebb3f260547fa8ba68951fe45955f179d61029414c17e7ca",
+      "storedBytes": 80934,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "completed-local-build",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\build.log",
+      "originalSHA256": "9e1df5de99338b7bec0c361d1c63ccb6dba86522bc692ba34abd4ed871252f57",
+      "originalBytes": 35303,
+      "path": "raw/build.log.gz",
+      "storedSHA256": "1580a6163b8242503b89d2cf9e8294dad439be9b08a472aefc5f9e1c9926333c",
+      "storedBytes": 4287,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "pending-independent-review",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch-independent-prerequisites.json",
+      "originalSHA256": "3f6daaca1435b54ab33ffb658c62b85ca48027abc499feb26536f401d144ba72",
+      "originalBytes": 3589,
+      "path": "raw/independent-prerequisites.json.gz",
+      "storedSHA256": "af3466cb720a4a88a744afe7e8fbbe56cb40609a84bff1b5d931b000ad76294c",
+      "storedBytes": 1236,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "historical-SPA-helper-not-reexecuted",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-initial.mjs",
+      "originalSHA256": "df2de07e800e191ba2889f25a8d3626ef085a153efad6f57f6871acccb3486ff",
+      "originalBytes": 7164,
+      "path": "raw/navigation-initial.mjs.gz",
+      "storedSHA256": "b026788b004f60f9bf1a2c466c9a8f4e5e8c5a7a4a40df3298900745787fcfdd",
+      "storedBytes": 2890,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "historical-SPA-helper-not-reexecuted",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-disclosure-first.mjs",
+      "originalSHA256": "9f07bb8ad620e2fe45a5dff200e17aa0a6cf754a6d7bc2b3f0522588bf338875",
+      "originalBytes": 7849,
+      "path": "raw/navigation-disclosure-first.mjs.gz",
+      "storedSHA256": "37b4b359fb9d61e9052418e86e5498b1d27309a9fb1504bd6a1c1865b4b8d2fb",
+      "storedBytes": 3050,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "historical-SPA-helper-not-reexecuted",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-visible-disclosure.mjs",
+      "originalSHA256": "c3aa62567bf5184616aa1d19cafdfcf573c1a4bc6dc45970b8676708d6c062ad",
+      "originalBytes": 7870,
+      "path": "raw/navigation-visible-disclosure.mjs.gz",
+      "storedSHA256": "5e3491f9bee9041242c78601ca3f865c9605950ec487ccadaaac1d04bd366037",
+      "storedBytes": 3065,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "completed-SPA-attempt-log",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke.log",
+      "originalSHA256": "7bb3d13f60f275e81883e5d9961e22d07456b088756624c1ef33f3d2e73c0ea5",
+      "originalBytes": 15982,
+      "path": "raw/navigation-smoke.log.gz",
+      "storedSHA256": "39796ad947671ec832e01945fb52438af03a9ce14a833636a3b86cec7a8d2d5a",
+      "storedBytes": 1900,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "completed-SPA-attempt-log",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke-final.log",
+      "originalSHA256": "c6168a5f1ce05c3b251b748ed3740c2a55f418688ff1cbf7dd617207e1bf3332",
+      "originalBytes": 32302,
+      "path": "raw/navigation-smoke-final.log.gz",
+      "storedSHA256": "a39d87e83fb98c454288c48b3b80c131c478c99e35e1307abdfc5d96fe37093e",
+      "storedBytes": 1584,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "completed-SPA-attempt-log",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke-visible-disclosure.log",
+      "originalSHA256": "e0ae98029cf213ed53e03a914de749ce91db7cb7533102420d43991c389b4198",
+      "originalBytes": 1612,
+      "path": "raw/navigation-smoke-visible-disclosure.log.gz",
+      "storedSHA256": "0848343feb2466ff8de9a34551594ca0eee07ef926b82c181db46afd5a7c5c13",
+      "storedBytes": 458,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "unaltered-SPA-attempt-result",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke\\chromium.json",
+      "originalSHA256": "85574e8913f5b8e9a751138cc39673812ca8b6104d259ff47133d612553ee08e",
+      "originalBytes": 49129,
+      "path": "raw/navigation-smoke-chromium.json.gz",
+      "storedSHA256": "5d6c5f099a49dfc28e550f48322c683918163cd0e6c49da5cd0965cfaddc16ab",
+      "storedBytes": 5714,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "unaltered-SPA-attempt-result",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke\\webkit.json",
+      "originalSHA256": "cb0bf379f52a62540a072636a1888287effe6b4f3bfcac4ffc3ed869c4b1d4e4",
+      "originalBytes": 33424,
+      "path": "raw/navigation-smoke-webkit.json.gz",
+      "storedSHA256": "c0934244b414b0e4f49d6c6322d8299e259b2c209e58f932c3308a4fdc435625",
+      "storedBytes": 4591,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "unaltered-SPA-attempt-result",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke-final\\chromium.json",
+      "originalSHA256": "7b41a2fcbd2d7041118e4d2122281c84703cad38bae55da6d3f6869add59eaa0",
+      "originalBytes": 49862,
+      "path": "raw/navigation-smoke-final-chromium.json.gz",
+      "storedSHA256": "b00cc664508ea9cea61bb51f98d7b388be62be01b2d235150d57e950639735dd",
+      "storedBytes": 5712,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "unaltered-SPA-attempt-result",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke-final\\webkit.json",
+      "originalSHA256": "30f0ab93e1c84206b1989180817eb8a5b04b4dc71a1c8c9c78d3a56bef1d5584",
+      "originalBytes": 45580,
+      "path": "raw/navigation-smoke-final-webkit.json.gz",
+      "storedSHA256": "1a6647a66d99df0ffcdf652b923b92f3db8b0dc041284eece771dd86ea68ae77",
+      "storedBytes": 5337,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "unaltered-SPA-attempt-result",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke-visible-disclosure\\chromium.json",
+      "originalSHA256": "22f6db61a411a0976a5b5a221b2eae998e5a18afc00236117ba75c8441b5ab72",
+      "originalBytes": 73934,
+      "path": "raw/navigation-smoke-visible-disclosure-chromium.json.gz",
+      "storedSHA256": "3cf8198a997f3016cb6ad0b78e681f66722048ccf3616ff5858339611fbd3e3c",
+      "storedBytes": 7496,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "unaltered-SPA-attempt-result",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke-visible-disclosure\\webkit.json",
+      "originalSHA256": "e138e0cce6395cbbc7492d75f17d8d3f5da48c5f4d50a8046e1fdbaab8fea2be",
+      "originalBytes": 61890,
+      "path": "raw/navigation-smoke-visible-disclosure-webkit.json.gz",
+      "storedSHA256": "99bedcde193d9d165c51455da6dd0514f99e055ed079235cdc0edcfed38c94af",
+      "storedBytes": 6808,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "static-scope-proof-SPA-supplement-pending",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch-independent-output-proof.json",
+      "originalSHA256": "64bd4503dbb2b95f5c021f5809236dd3e840cfb33f738abc446ebba2ac6cea83",
+      "originalBytes": 542269,
+      "path": "raw/independent-output-proof.json.gz",
+      "storedSHA256": "da41abda4483526aca825e2e8ac0644449251a2574c0a002c198da8923eca3c4",
+      "storedBytes": 108198,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "final-independent-dependency-patch-review",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch-independent-review.md",
+      "originalSHA256": "08f8d02ddbcf509715c545452aef2cf5ea382f17c19971776cf6a6c8e6057e94",
+      "originalBytes": 2553,
+      "path": "raw/final-independent-review.md.gz",
+      "storedSHA256": "0b1714ee3178e7ebfc3fad020cb699a8d37a75a7018aa4aad3a72cd37ef4c921",
+      "storedBytes": 1329,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "final-independent-dependency-patch-review",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch-independent-review.json",
+      "originalSHA256": "a0dbbd9df2dc24cdc071667986610543e6b8edde052f75ad0ea85cbc97865639",
+      "originalBytes": 42101,
+      "path": "raw/final-independent-review.json.gz",
+      "storedSHA256": "9d7a883b5cde7aafb21cb40181a1acdd3e45f67076559d9c693fb64cdea2dabd",
+      "storedBytes": 7533,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "kind": "final-independent-dependency-patch-review",
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch-independent-navigation-review.json",
+      "originalSHA256": "7cc342b6e67952d6263f18a098592f20d45e98a22d9cc0900641c57748760211",
+      "originalBytes": 46621,
+      "path": "raw/independent-navigation-review.json.gz",
+      "storedSHA256": "cff27d4784857daf0d9b95503dfcc226d48c4ff38f262247e33fcb12f92b53ac",
+      "storedBytes": 5824,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    }
+  ],
+  "verification": {
+    "sourceReferences": 72,
+    "uniqueStoredOriginals": 60,
+    "allExpectedWorker31HashesMatched": true,
+    "beforeAndAfterNineHTMLMatchTheirIdentity": true,
+    "allGzipRoundtripsAndByteHashesMatch": true,
+    "finalReviewVerbatimBytesMatch": true,
+    "finalReviewReferencesHashMatched": 19,
+    "nineFinalReviewHTMLHashesMatchArchivedAfterExport": true
+  },
+  "notes": [
+    "Original failed audit attempts, empty stderr and pending prerequisite status remain unchanged.",
+    "Duplicate original bytes share one gzip but every original source path is indexed.",
+    "Root audit still has moderate3; high0/critical0. Website audit has no findings.",
+    "Build completion does not itself approve new input digests or carry previous browser/visual acceptance."
+  ],
+  "relatedEvidence": [
+    "../alignment-ci-evidence/README.md",
+    "../alignment-local-evidence/README.md"
+  ],
+  "SPASupplement": {
+    "attempts": [
+      {
+        "attempt": "navigation-smoke",
+        "engines": [
+          {
+            "engine": "chromium",
+            "status": "failed",
+            "resultPath": "raw/navigation-smoke-chromium.json.gz",
+            "originalSHA256": "85574e8913f5b8e9a751138cc39673812ca8b6104d259ff47133d612553ee08e",
+            "completedArticleCases": 3,
+            "caseStatuses": [
+              "passed",
+              "passed",
+              "passed"
+            ],
+            "allCompletedCasesManualNextAndReadingReturn": true,
+            "rawRequestFailures": 19,
+            "consoleErrors": 0,
+            "pageErrors": 0
+          },
+          {
+            "engine": "webkit",
+            "status": "failed",
+            "resultPath": "raw/navigation-smoke-webkit.json.gz",
+            "originalSHA256": "cb0bf379f52a62540a072636a1888287effe6b4f3bfcac4ffc3ed869c4b1d4e4",
+            "completedArticleCases": 1,
+            "caseStatuses": [
+              "passed"
+            ],
+            "allCompletedCasesManualNextAndReadingReturn": true,
+            "rawRequestFailures": 0,
+            "consoleErrors": 0,
+            "pageErrors": 0
+          }
+        ]
+      },
+      {
+        "attempt": "navigation-smoke-final",
+        "engines": [
+          {
+            "engine": "chromium",
+            "status": "failed",
+            "resultPath": "raw/navigation-smoke-final-chromium.json.gz",
+            "originalSHA256": "7b41a2fcbd2d7041118e4d2122281c84703cad38bae55da6d3f6869add59eaa0",
+            "completedArticleCases": 3,
+            "caseStatuses": [
+              "passed",
+              "passed",
+              "passed"
+            ],
+            "allCompletedCasesManualNextAndReadingReturn": true,
+            "rawRequestFailures": 18,
+            "consoleErrors": 0,
+            "pageErrors": 0
+          },
+          {
+            "engine": "webkit",
+            "status": "failed",
+            "resultPath": "raw/navigation-smoke-final-webkit.json.gz",
+            "originalSHA256": "30f0ab93e1c84206b1989180817eb8a5b04b4dc71a1c8c9c78d3a56bef1d5584",
+            "completedArticleCases": 3,
+            "caseStatuses": [
+              "passed",
+              "passed",
+              "passed"
+            ],
+            "allCompletedCasesManualNextAndReadingReturn": true,
+            "rawRequestFailures": 0,
+            "consoleErrors": 0,
+            "pageErrors": 0
+          }
+        ]
+      },
+      {
+        "attempt": "navigation-smoke-visible-disclosure",
+        "engines": [
+          {
+            "engine": "chromium",
+            "status": "failed",
+            "resultPath": "raw/navigation-smoke-visible-disclosure-chromium.json.gz",
+            "originalSHA256": "22f6db61a411a0976a5b5a221b2eae998e5a18afc00236117ba75c8441b5ab72",
+            "completedArticleCases": 9,
+            "caseStatuses": [
+              "passed",
+              "passed",
+              "passed",
+              "passed",
+              "passed",
+              "passed",
+              "passed",
+              "passed",
+              "passed"
+            ],
+            "allCompletedCasesManualNextAndReadingReturn": true,
+            "rawRequestFailures": 39,
+            "consoleErrors": 0,
+            "pageErrors": 0
+          },
+          {
+            "engine": "webkit",
+            "status": "passed",
+            "resultPath": "raw/navigation-smoke-visible-disclosure-webkit.json.gz",
+            "originalSHA256": "e138e0cce6395cbbc7492d75f17d8d3f5da48c5f4d50a8046e1fdbaab8fea2be",
+            "completedArticleCases": 9,
+            "caseStatuses": [
+              "passed",
+              "passed",
+              "passed",
+              "passed",
+              "passed",
+              "passed",
+              "passed",
+              "passed",
+              "passed"
+            ],
+            "allCompletedCasesManualNextAndReadingReturn": true,
+            "rawRequestFailures": 0,
+            "consoleErrors": 0,
+            "pageErrors": 0
+          }
+        ]
+      }
+    ],
+    "classification": "Historical original results retained. First two attempts remain failed. Third WebKit passed; third Edge raw remains failed. Final independent review resolves all39 observed aborted fetches to existing HTML hashes and independently checks the three unreached assertions, approving bounded local carry without new images or performance measurements.",
+    "newTestOrScreenshotRunByArchivist": false
+  },
+  "outputProof": {
+    "path": "raw/independent-output-proof.json.gz",
+    "originalSHA256": "64bd4503dbb2b95f5c021f5809236dd3e840cfb33f738abc446ebba2ac6cea83",
+    "status": "static-scope-passed-spa-supplement-pending",
+    "comparedSubset": 419,
+    "currentTotal": 2551,
+    "omittedFromBeforeSnapshot": 2132,
+    "scope": "Snapshot subset only. All 230 HTML normalize exactly by BUILD_ID literal; all captured non-HTML content is unchanged. Omitted .txt, .ttf and other static/search files are not claimed byte-equal to prior output. SPA smoke supplements required browser payloads."
+  },
+  "lastUpdatedAt": "2026-09-30T09:56:56.975Z",
+  "finalReview": {
+    "path": "final-review.json",
+    "sha256": "a0dbbd9df2dc24cdc071667986610543e6b8edde052f75ad0ea85cbc97865639",
+    "bytes": 42101,
+    "verbatimCopy": true,
+    "reviewedAt": "2026-09-30T09:55:15.572Z",
+    "status": "approved",
+    "risk": "low",
+    "must": 0,
+    "should": 0,
+    "scope": "Carry original nine-article local visual/browser/performance evidence to the dependency-only nine new input digests. All recorded HTML/runtime assets match within explicit BUILD_ID normalization; real-link SPA smoke supplements missing page-data snapshots. Formal frozen-tree and public acceptance are separate.",
+    "carryDecision": {
+      "review": "approved",
+      "local": "passed-with-bounded-carry-and-SPA-supplement",
+      "priorActualViewed": 168,
+      "newActualViewed": 0,
+      "newFullBrowserRuns": 0,
+      "newPerformanceRuns": 0,
+      "supplementalCompletedRouteChecks": 18,
+      "additionalExecutionRequired": false
+    }
+  },
+  "finalReviewReferences": [
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-independent-final-review.json",
+      "originalSHA256": "c5907866fdcab0d3f37d3a3c1abd4711ab96aa46810244a833abc2d521ed4180",
+      "path": "../alignment-local-evidence/raw/independent-final-review.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch-independent-prerequisites.json",
+      "originalSHA256": "3f6daaca1435b54ab33ffb658c62b85ca48027abc499feb26536f401d144ba72",
+      "path": "raw/independent-prerequisites.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch-independent-output-proof.json",
+      "originalSHA256": "64bd4503dbb2b95f5c021f5809236dd3e840cfb33f738abc446ebba2ac6cea83",
+      "path": "raw/independent-output-proof.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch-independent-navigation-review.json",
+      "originalSHA256": "7cc342b6e67952d6263f18a098592f20d45e98a22d9cc0900641c57748760211",
+      "path": "raw/independent-navigation-review.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/d1-pr63-brace-expansion-patch-report.json",
+      "originalSHA256": "34c3cb4e9457c07c3d27e302c276ff259abdac2bc0c68e7f9034c4de813d11a0",
+      "path": "raw/patch-report.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalPath": "C:/dev/ai-agent-library/scripts/diagram-release/source-mapping.json",
+      "originalSHA256": "40cca5a2f969f4c0385fac358cf4988decb6f72076c5b91e1b52fe22153adee9",
+      "path": "../alignment-local-evidence/raw/kit-manifest-after-history-label-fix.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-visible-disclosure/chromium.json",
+      "originalSHA256": "22f6db61a411a0976a5b5a221b2eae998e5a18afc00236117ba75c8441b5ab72",
+      "path": "raw/navigation-smoke-visible-disclosure-chromium.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-visible-disclosure/webkit.json",
+      "originalSHA256": "e138e0cce6395cbbc7492d75f17d8d3f5da48c5f4d50a8046e1fdbaab8fea2be",
+      "path": "raw/navigation-smoke-visible-disclosure-webkit.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke/chromium.json",
+      "originalSHA256": "85574e8913f5b8e9a751138cc39673812ca8b6104d259ff47133d612553ee08e",
+      "path": "raw/navigation-smoke-chromium.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke/webkit.json",
+      "originalSHA256": "cb0bf379f52a62540a072636a1888287effe6b4f3bfcac4ffc3ed869c4b1d4e4",
+      "path": "raw/navigation-smoke-webkit.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-final/chromium.json",
+      "originalSHA256": "7b41a2fcbd2d7041118e4d2122281c84703cad38bae55da6d3f6869add59eaa0",
+      "path": "raw/navigation-smoke-final-chromium.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-final/webkit.json",
+      "originalSHA256": "30f0ab93e1c84206b1989180817eb8a5b04b4dc71a1c8c9c78d3a56bef1d5584",
+      "path": "raw/navigation-smoke-final-webkit.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/d1-pr63-root-audit-after.json",
+      "originalSHA256": "c8764ddf029343e9009328ac9ecae561d4a8fb64d05c21614040f0882046bd88",
+      "path": "raw/d1-pr63-root-audit-after.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/d1-pr63-website-audit-after.json",
+      "originalSHA256": "07163582eb2576da0f2224d5df7c4dc4f0bf3d14e4e350aeddc1c00ca2589183",
+      "path": "raw/d1-pr63-website-audit-after.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/root-check.log",
+      "originalSHA256": "77f905cb2067264504c079678b8c5bd074a6fe2661d2d1d22d61daad0b994917",
+      "path": "raw/root-check.log.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/build.log",
+      "originalSHA256": "9e1df5de99338b7bec0c361d1c63ccb6dba86522bc692ba34abd4ed871252f57",
+      "path": "raw/build.log.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-visible-disclosure/chromium.json",
+      "originalSHA256": "22f6db61a411a0976a5b5a221b2eae998e5a18afc00236117ba75c8441b5ab72",
+      "path": "raw/navigation-smoke-visible-disclosure-chromium.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-visible-disclosure/webkit.json",
+      "originalSHA256": "e138e0cce6395cbbc7492d75f17d8d3f5da48c5f4d50a8046e1fdbaab8fea2be",
+      "path": "raw/navigation-smoke-visible-disclosure-webkit.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-visible-disclosure.mjs",
+      "originalSHA256": "c3aa62567bf5184616aa1d19cafdfcf573c1a4bc6dc45970b8676708d6c062ad",
+      "path": "raw/navigation-visible-disclosure.mjs.gz",
+      "encoding": "gzip"
+    }
+  ]
+}

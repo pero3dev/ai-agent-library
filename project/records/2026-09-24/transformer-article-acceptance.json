@@ -2,25 +2,25 @@
   "schemaVersion": 1,
   "article": "docs/11-llm-internals/transformer-architecture.md",
   "review": {
-    "inputDigest": "sha256:e608a9954aee28546173f8c8250e34b43a6fc61293f46c54ba9f075fb7f02376",
+    "inputDigest": "sha256:e07026fd593a0d925daaae5b6f0c7749ea6bc845d13c603dc05c6b4c2c706776",
     "status": "approved",
-    "checkedAt": "2026-09-29T17:00:43.085Z",
+    "checkedAt": "2026-09-30T09:55:15.572Z",
     "independent": true,
-    "record": "project/records/2026-09-25/pretraining-scene-review.md"
+    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
   },
   "local": {
-    "inputDigest": "sha256:e608a9954aee28546173f8c8250e34b43a6fc61293f46c54ba9f075fb7f02376",
+    "inputDigest": "sha256:e07026fd593a0d925daaae5b6f0c7749ea6bc845d13c603dc05c6b4c2c706776",
     "status": "passed",
-    "checkedAt": "2026-09-29T17:08:17.450Z",
-    "record": "project/records/2026-09-25/pretraining-reading-diagrams.md"
+    "checkedAt": "2026-09-30T09:55:15.572Z",
+    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
   },
   "public": {
-    "inputDigest": "sha256:3eba48d869437052c03b48e4bea48f19fed4d83d4ab418cf5488b55814d5884d",
+    "inputDigest": "sha256:e608a9954aee28546173f8c8250e34b43a6fc61293f46c54ba9f075fb7f02376",
     "status": "passed",
-    "checkedAt": "2026-09-24T15:59:03.585Z",
-    "commit": "517dc8b5166bd7b0c85baef3800d7fe57bac7b31",
-    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36019573674",
-    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36019573674/job/107704025706",
-    "browserRecord": "project/records/2026-09-24/training-public-review.md"
+    "checkedAt": "2026-09-29T19:43:48.515Z",
+    "commit": "5940334a6fd3aab8178cfeb8746a58c8b937d390",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36615994124",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36615994124/job/109574494236",
+    "browserRecord": "project/records/2026-09-30/inference-score-spacing-public-pr62-review.md"
   }
 }

@@ -3,7 +3,7 @@ title: "アラインメントの理論(RLHF から DPO・RLVR まで)"
 category: "llm-internals"
 level: "advanced"
 status: "published"
-last_updated: "2026-07-09"
+last_updated: "2026-09-30"
 tags: ["alignment", "rlhf", "llm-internals"]
 ---
 
@@ -90,10 +90,10 @@ $$
 
 数学・コードのように**正解を機械的に検証できる**タスクでは、学習した報酬モデルの代わりに**検証器(テスト・ルール)そのものを報酬**に使えます。これが **RLVR**(検証可能報酬による強化学習)です。
 
-- **結果報酬**: 最終答えが正しいか(テストが通るか)だけを報酬にする。報酬モデルの誤差・ハッキングを避けられる一方、途中の誤った推論を咎められない
+- **結果報酬**: 最終答えが正しいか(テストが通るか)を評価する。機械的に検証する構成も、結果を評価する報酬モデルを学習する構成もあり、途中の誤った推論は直接評価しない
 - **プロセス報酬**: 推論の各ステップの正しさを評価して報酬にする。中間の誤りを直接罰せるが、ステップの正誤ラベルを用意するコストがかかる
 
-RLVR は、**推論モデル(考える時間を使う LLM)の学習**を支える枠組みで、[推論モデル](../10-llm-foundations/reasoning-models.md)が検証可能な問題で強い理由の 1 つです。検証器が用意できるタスクに限られる点が本質的な制約です。
+RLVR は、**推論モデル(考える時間を使う LLM)の学習**を支える枠組みの一つです([推論モデル](../10-llm-foundations/reasoning-models.md))。報酬を検証できる範囲が制約となります。結果/プロセス報酬は評価する粒度の区分で、プロセス報酬には人手のステップ評価から学習する構成もあります。
 
 ### 迎合とアラインメント税
 
@@ -127,7 +127,7 @@ RLVR は、**推論モデル(考える時間を使う LLM)の学習**を支え�
 - [ ] Bradley-Terry モデル(報酬差のシグモイド)で選好が表されることを理解している
 - [ ] DPO が「報酬モデルは方策に暗黙に含まれる」ことで 1 段化する発想を説明できる
 - [ ] 報酬の過剰最適化(Goodhart)と、KL 正則化 $\beta$ の役割を理解している
-- [ ] RLVR・プロセス報酬が検証可能タスクに限られると理解している
+- [ ] RLVR の検証器と、プロセス報酬の各ステップへの評価を区別できる
 - [ ] 迎合とアラインメント税を選好調整の副作用として説明できる
 
 ## 関連トピック
@@ -145,9 +145,9 @@ RLVR は、**推論モデル(考える時間を使う LLM)の学習**を支え�
 - [Deep Reinforcement Learning from Human Preferences](https://arxiv.org/abs/1706.03741) — 人間の選好から報酬を学ぶ枠組みの原典(Christiano et al., 2017、アクセス日: 2026-07-09)
 - [Learning to summarize from human feedback](https://arxiv.org/abs/2009.01325) — 要約での RLHF(Stiennon et al., 2020、アクセス日: 2026-07-09)
 - [Training language models to follow instructions with human feedback](https://arxiv.org/abs/2203.02155) — InstructGPT。SFT + RLHF の定式化(Ouyang et al., 2022、アクセス日: 2026-07-09)
-- [Direct Preference Optimization: Your Language Model is Secretly a Reward Model](https://arxiv.org/abs/2305.18290) — DPO の原論文(Rafailov et al., 2023、アクセス日: 2026-07-09)
+- [Direct Preference Optimization: Your Language Model is Secretly a Reward Model](https://arxiv.org/abs/2305.18290) — DPO の原論文(Rafailov et al., 2023、アクセス日: 2026-09-30)
 - [Scaling Laws for Reward Model Overoptimization](https://arxiv.org/abs/2210.10760) — 報酬の過剰最適化(Gao et al., 2022、アクセス日: 2026-07-09)
-- [Let's Verify Step by Step](https://arxiv.org/abs/2305.20050) — プロセス報酬(Lightman et al., 2023、アクセス日: 2026-07-09)
+- [Let's Verify Step by Step](https://arxiv.org/abs/2305.20050) — プロセス報酬(Lightman et al., 2023、アクセス日: 2026-09-30)
 - [Towards Understanding Sycophancy in Language Models](https://arxiv.org/abs/2310.13548) — 迎合の分析(Sharma et al., 2023、アクセス日: 2026-07-09)
 - [Constitutional AI: Harmlessness from AI Feedback](https://arxiv.org/abs/2212.08073) — AI フィードバックによる無害化(Bai et al., 2022、アクセス日: 2026-07-09)
 

@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-plan-interface-review",
+  "unit": "D2",
+  "verdict": "approved",
+  "risk": "low",
+  "must": 0,
+  "should": 0,
+  "findings": [],
+  "reviewer_run_id": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+  "reviewed_at": "2026-09-29T18:51:37Z",
+  "recorded_at": "2026-09-29T18:53:49.8374203Z",
+  "targets": [
+    {
+      "sha256": "cad4d2c26839426d4d4ca42027def563c9c33299666ff7b493c505426b1e2732",
+      "path": "reasoning-d2-interface-proposal-20260930.md"
+    },
+    {
+      "sha256": "e9fed4e5450549dd04704fbff3d9ae4148dabdfe52c607d5f0b486e1467ced99",
+      "path": "reasoning-d2-interface-proposal-20260930.json"
+    }
+  ],
+  "sourceCommit": "ca3c09eebd1b549564f874f3304d23ae25328194",
+  "observedHead": "8382b757c8a2fa3719448e1b180271b1cdd56f99",
+  "adoptedPlanSHA256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+  "articleSHA256": "71246ca014e171936139af9083df301f16dcb7dade8f7aeb3a0b14516a19ef44",
+  "canonicalWholeASTSHA256": "eb85b1513c5f56e896902a387d505e0ee967ff6d5cbbbd93566846f61202cecc",
+  "independentChecks": {
+    "restorationIsPlanSimulationNotProductTest": true,
+    "staticBody": 4,
+    "readStages": 8,
+    "adoptedArticleDeepEqual": true,
+    "code": 0,
+    "options": 5,
+    "rootNodes": 43,
+    "sourceInputHashPairs": 17,
+    "allDynamicTopicsAssignedToRead": true,
+    "customControls": 2,
+    "staticTopics": 17,
+    "authorSelfCheckUsedAsEvidence": false,
+    "displayMath": 0,
+    "manualOnlyStages": 1,
+    "unmeasuredCells": 12,
+    "trialPlaceholders": 4,
+    "mermaid": 0,
+    "wrappedH3": 6,
+    "restorationCombinations": 4,
+    "tables": 2,
+    "h3": 9,
+    "inlineMath": 0,
+    "wrappedBody": 14,
+    "staticH3": 3,
+    "sectionHashes": 9,
+    "lists": 11,
+    "body": 18,
+    "dynamicTopics": 26,
+    "totalStages": 9,
+    "blockquote": 1
+  },
+  "diagrams": [
+    {
+      "manual": [
+        1
+      ],
+      "sourceDigest": "sha256:497581aab0df110ad41c3fbc116fc1837073be16d937aaaa44e99d4cab8ad107",
+      "id": "reasoning-sequence",
+      "rootEndExclusive": 16,
+      "rootStart": 12,
+      "stages": 4,
+      "reads": [
+        0,
+        2,
+        3
+      ]
+    },
+    {
+      "manual": [],
+      "sourceDigest": "sha256:4b26e91dcb1f6d5d7e09a43f86a1b622cd2c9a5a3b53e8846e234d39ec615930",
+      "id": "reasoning-evaluation",
+      "rootEndExclusive": 32,
+      "rootStart": 16,
+      "stages": 5,
+      "reads": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    }
+  ],
+  "semanticResults": {
+    "readCarryover": "pass at proposal contract level",
+    "unknownMeasurements": "pass",
+    "asymmetricTaskCandidatesVsSameInputComparison": "pass",
+    "hiddenThoughtNonReproduction": "pass",
+    "originalASTAndFormulaInventory": "pass",
+    "newScopeAdded": false,
+    "inactiveSettings": "pass",
+    "noInventedPerformanceOrBilling": "pass",
+    "noIndividualResponseCausalityClaim": "pass",
+    "outsideModelExecutionBoundary": "pass"
+  },
+  "sources": [
+    {
+      "url": "https://arxiv.org/html/2501.12948v1",
+      "scope": "learning adjustment versus inference"
+    },
+    {
+      "url": "https://arxiv.org/html/2412.21187v1",
+      "scope": "Abstract and sections1–2.2; limited benefit within studied models/tasks"
+    }
+  ],
+  "boundary": {
+    "P2Allowed": false,
+    "startsD1OrD2Production": false,
+    "articleEdited": false,
+    "gitMutated": false,
+    "implementationApproval": false,
+    "formalArticleApproval": false,
+    "planApproval": true,
+    "kitEdited": false,
+    "publicApproval": false,
+    "requiresD1PublicAcceptanceAndRootStart": true,
+    "browserApproval": false,
+    "stopAfterP1All15": true,
+    "currentProviderAPISpecificationApproval": false,
+    "visualApproval": false,
+    "repoEdited": false
+  },
+  "report": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-interface-review-20260930.md",
+  "reportSHA256": "6df6f65ec29fdae4a09fb9497a61a0dddbb983a14c7ee4798a570da5c5890844"
+}

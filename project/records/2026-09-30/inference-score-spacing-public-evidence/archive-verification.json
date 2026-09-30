@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "kind": "archive-byte-verification-not-new-acceptance",
+  "verifiedAt": "2026-09-29T19:51:15.278Z",
+  "index": {
+    "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/index.json",
+    "sha256": "f6f5d72511f4f7a4a149e51f9b299b29e772f8adcc3cc7328757608f51151698",
+    "bytes": 112492
+  },
+  "gzipRoundtrips": 63,
+  "exactCiHTMLHashesBytesBuildId": 8,
+  "viewedPNGHashesAndBytes": 47,
+  "viewedPNGDimensions": 47,
+  "viewedMetadataEntriesExact": 47,
+  "reviewEvidenceArrayEntriesExact": 29,
+  "rawReportsUnmodified": true,
+  "originalPendingFieldsPreserved": true,
+  "rawReviewStates": [
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/chromium-result.json.gz",
+      "rawVisualStatus": "pending-independent-public-image-review",
+      "completionStatus": "passed"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/webkit-result.json.gz",
+      "rawVisualStatus": "pending-independent-public-image-review",
+      "completionStatus": "passed"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/focused-chromium-result.json.gz",
+      "rawVisualStatus": "pending-actual-images",
+      "completionStatus": "passed"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/focused-webkit-result.json.gz",
+      "rawVisualStatus": "pending-actual-images",
+      "completionStatus": "passed"
+    }
+  ],
+  "reviewBinding": {
+    "decision": "approved",
+    "risk": "low",
+    "must": 0,
+    "should": 0,
+    "reviewedAt": "2026-09-29T19:43:48.515Z",
+    "reviewer": "/root/pretraining_visual_review",
+    "rawJsonSHA256": "9f85d2427529fd7327a3e1cba8e24e845579f595837a2b9ee92bac86c20f05e3",
+    "rawMdSHA256": "d6185b901144fab092f6c39090b68cab5c27f804792ed6ea94a115bdfe8c441e",
+    "rawLedgerSHA256": "76d7a81a49e8c24b8414c5999fa4e25a13a911cae88b0de62d2a7d97481bb99e"
+  },
+  "frozenInputDigestMatches": 8,
+  "currentWorkingTreeInputsRecomputed": false,
+  "helperBeforeAfterSoleDeclaredReplacementVerified": true,
+  "priorPR61FailedAndLocalHistoryUnmodified": true,
+  "counts": {
+    "rawGzip": 63,
+    "exactCiHTML": 8,
+    "archivedPNG": 47,
+    "archivedFinalPublicResults": 2,
+    "generatedRunnerImages": 1339,
+    "actuallyViewedCurrentPNG": 47,
+    "fullGeneratedPNG": 1339,
+    "focusedGeneratedPNG": 64,
+    "totalCurrentGeneratedPNG": 1403,
+    "focusedViewedPNG": 36,
+    "currentFullRunRepresentativeViewedPNG": 11,
+    "actualFullScene": 38,
+    "actualViewport": 9,
+    "actualByEngine": {
+      "chromium": 29,
+      "webkit": 18
+    },
+    "prior90NotCountedAgain": true,
+    "localImagesIncluded": false,
+    "archivedFocusedPublicResults": 2,
+    "reviewEvidenceArrayEntries": 29
+  },
+  "publicAccepted": true,
+  "acceptanceMeaning": "Existing independent approval bound to fixed PR62 evidence; archivist did not re-run or re-review images.",
+  "pending": []
+}

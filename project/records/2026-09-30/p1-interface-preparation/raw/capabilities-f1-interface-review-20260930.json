@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-plan-interface-review",
+  "unit": "F1",
+  "verdict": "approved",
+  "risk": "low",
+  "must": 0,
+  "should": 0,
+  "findings": [],
+  "reviewer_run_id": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+  "reviewed_at": "2026-09-29T19:04:52Z",
+  "recorded_at": "2026-09-29T19:06:29.692Z",
+  "reference_commit": "5940334a6fd3aab8178cfeb8746a58c8b937d390",
+  "targets": [
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\capabilities-f1-interface-proposal-20260930.md",
+      "sha256": "3094823e84dc82174149ad5d71e70f040fbacf41bde64333da0177ebc309b1f4"
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\capabilities-f1-interface-proposal-20260930.json",
+      "sha256": "20fbd3d8d4df2a613c4005f2471cdc11f041749d9f01eaa250e3d41212c9f692"
+    }
+  ],
+  "scope": {
+    "planOnly": true,
+    "sourceRead": true,
+    "adoptedObjectExact": true,
+    "articleModified": false,
+    "repoModified": false,
+    "gitModified": false,
+    "implementationApproved": false,
+    "browserApproved": false,
+    "publicApproved": false,
+    "requiresE3PublicAcceptanceBeforeImplementation": true,
+    "p1StopAfter15PublicAccepted": true
+  },
+  "independentChecks": {
+    "parser": "unified + remark-parse + remark-frontmatter + remark-gfm + remark-math",
+    "inputHashesMatched": 4,
+    "articleSha256": "cc83e31509fc1b5a8e43793be4c06fc2682c90e76f83e7ebf784fafbd23beb4a",
+    "planSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+    "astSha256": "8053b377359e74456e5f6c8dbd6d027daae94f4bfa868f699ff58ec160c49a0c",
+    "sourceDigest": "sha256:78f355317c83010206e383ae35f6c39e98319a924d9cfe7560f4b1b52659c9c3",
+    "rootNodes": 38,
+    "contentH3": 8,
+    "contentBodyBlocks": 14,
+    "wrappedH3": 5,
+    "wrappedBody": 11,
+    "rangeStartInclusive": 9,
+    "rangeEndExclusive": 25,
+    "math": 0,
+    "mermaid": 0,
+    "atomicSourceUnits": 35,
+    "dynamicTopics": 23,
+    "staticTopics": 12,
+    "diagrams": 1,
+    "stages": 5,
+    "readingStages": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "manualOnlyStages": [],
+    "sourceTopicTextExact": true,
+    "headingsAndBlockGroupsExact": true,
+    "hypotheticalWrapperRoundTrips": 2,
+    "productionWrapperTestExecuted": false,
+    "sourceTableRows": 6,
+    "assessmentStepsAlwaysVisible": 4,
+    "controls": 2,
+    "controlChoices": [
+      6,
+      4
+    ]
+  },
+  "primaryEvidence": [
+    {
+      "url": "https://arxiv.org/abs/2302.04761v1",
+      "scope": "abstract; tool selection, arguments, integration of outputs",
+      "checked_after_fetch_utc": "2026-09-29T19:04:52Z",
+      "fullPaperReview": false
+    }
+  ],
+  "boundaries": [
+    "No article or product implementation approval",
+    "No actual image/browser/CI/Pages/public acceptance",
+    "No additional source facts, examples, empirical results or automated adoption decision",
+    "Source changes require fresh verification",
+    "Stop after P1 15 article public acceptance; do not start P2"
+  ],
+  "markdown": {
+    "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\capabilities-f1-interface-review-20260930.md",
+    "sha256": "c388f7956eac1a7266136f47f4539f5bc81ec7c82f3a52eadbc187f1c93878c9"
+  }
+}

@@ -1,0 +1,2414 @@
+{
+  "schemaVersion": 1,
+  "kind": "generated-image-provenance-not-viewed-or-accepted",
+  "recordedAt": "2026-09-29T20:20:20.768Z",
+  "generated": 96,
+  "storedPNGs": 96,
+  "independentActualViewList": {
+    "path": "raw/independent-initial-viewed.json.gz",
+    "sha256": "d89706c62c301049e94360666179f508c67a455f897baced54413d5a2949bf2e",
+    "status": "actual-viewed-initial-only-final-review-pending"
+  },
+  "images": [
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1440x1000-light-alignment-preference-S0-scene.png",
+        "sha256": "8e062e9e78c37f63458af61e6f8a0760dee5f63fe03591f6df3d4213f11471a4",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "8e062e9e78c37f63458af61e6f8a0760dee5f63fe03591f6df3d4213f11471a4",
+      "originalBytes": 52548,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/chromium/1440x1000-light-alignment-preference-S0-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1440x1000-light-alignment-preference-S1-scene.png",
+        "sha256": "19715935d4b5d9cb327223d55a512e099dfab75ee1ed2bea027f2467d14c5d57",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "19715935d4b5d9cb327223d55a512e099dfab75ee1ed2bea027f2467d14c5d57",
+      "originalBytes": 44130,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/chromium/1440x1000-light-alignment-preference-S1-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1440x1000-light-alignment-preference-S2-scene.png",
+        "sha256": "16dabe697d80e776f2beae09575c808f34d2e5260a27db688a6226be0eef5ad8",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "16dabe697d80e776f2beae09575c808f34d2e5260a27db688a6226be0eef5ad8",
+      "originalBytes": 44060,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/chromium/1440x1000-light-alignment-preference-S2-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1440x1000-light-alignment-preference-S3-scene.png",
+        "sha256": "bb0e4d966fd780ed60a600989c90a0e8daf9f1fa5aa81f45a06c9abf2c465af2",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "bb0e4d966fd780ed60a600989c90a0e8daf9f1fa5aa81f45a06c9abf2c465af2",
+      "originalBytes": 56023,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/chromium/1440x1000-light-alignment-preference-S3-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1440x1000-light-alignment-preference-S4-scene.png",
+        "sha256": "0eb9f68d97df53fac3e58236cd531eddb156dbe47c6c9e41d3013d3be035a944",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "0eb9f68d97df53fac3e58236cd531eddb156dbe47c6c9e41d3013d3be035a944",
+      "originalBytes": 56441,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/chromium/1440x1000-light-alignment-preference-S4-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1440x1000-light-alignment-preference-S5-scene.png",
+        "sha256": "43444fac83a25798aa6931803644efbb3b14988a53555e8916a40b373abcbcfe",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "43444fac83a25798aa6931803644efbb3b14988a53555e8916a40b373abcbcfe",
+      "originalBytes": 61241,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/chromium/1440x1000-light-alignment-preference-S5-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1440x1000-light-alignment-preference-S6-scene.png",
+        "sha256": "bdb790161536d582ff1a1c629b11b25851e185ef4db81407ddf0a417a10a35ab",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "bdb790161536d582ff1a1c629b11b25851e185ef4db81407ddf0a417a10a35ab",
+      "originalBytes": 73085,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/chromium/1440x1000-light-alignment-preference-S6-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1440x1000-light-alignment-preference-S6-beta0.5-scene.png",
+        "sha256": "492053426acce4822fe5ac4cc92383cd0b6e60072b22e06f472a738bd370ea36",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "492053426acce4822fe5ac4cc92383cd0b6e60072b22e06f472a738bd370ea36",
+      "originalBytes": 73294,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/chromium/1440x1000-light-alignment-preference-S6-beta0.5-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1440x1000-light-alignment-preference-S6-beta2-scene.png",
+        "sha256": "2104081d55585c4585e0c06a2ba4b185cfa0891de7b1dc84562bd216857eaa33",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "2104081d55585c4585e0c06a2ba4b185cfa0891de7b1dc84562bd216857eaa33",
+      "originalBytes": 72904,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/chromium/1440x1000-light-alignment-preference-S6-beta2-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1440x1000-light-alignment-reward-risk-S0-scene.png",
+        "sha256": "1e62489a528f630e4030a6d6467d9abd497f058114a79d540f29c341bbb28002",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 85,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "1e62489a528f630e4030a6d6467d9abd497f058114a79d540f29c341bbb28002",
+      "originalBytes": 43583,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/chromium/1440x1000-light-alignment-reward-risk-S0-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1440x1000-light-alignment-reward-risk-S1-scene.png",
+        "sha256": "f65ab13e88890b987c227d122a54310d748d21407e6a986bd9fb70c051ee9bb9",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 85,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "f65ab13e88890b987c227d122a54310d748d21407e6a986bd9fb70c051ee9bb9",
+      "originalBytes": 47521,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/chromium/1440x1000-light-alignment-reward-risk-S1-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1440x1000-light-alignment-reward-risk-S2-scene.png",
+        "sha256": "981ac25a360ee76e13a498e4408cac4aa42b6f6cc8f6142a5c9ae769d37a6c30",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 85,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "981ac25a360ee76e13a498e4408cac4aa42b6f6cc8f6142a5c9ae769d37a6c30",
+      "originalBytes": 50943,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/chromium/1440x1000-light-alignment-reward-risk-S2-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1440x1000-light-alignment-feedback-S0-scene.png",
+        "sha256": "bd389be60557ff1ed06b6981c1a39eea88878eaf6ca384b6ca2fbf25ccba86c9",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "bd389be60557ff1ed06b6981c1a39eea88878eaf6ca384b6ca2fbf25ccba86c9",
+      "originalBytes": 44001,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/chromium/1440x1000-light-alignment-feedback-S0-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1440x1000-light-alignment-feedback-S1-scene.png",
+        "sha256": "0dd70cf3d59cced57c4588b585739508391f563aab58321369db9eb11c03944d",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "0dd70cf3d59cced57c4588b585739508391f563aab58321369db9eb11c03944d",
+      "originalBytes": 37416,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/chromium/1440x1000-light-alignment-feedback-S1-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1440x1000-light-alignment-feedback-S2-scene.png",
+        "sha256": "9b659606361c1e8619558f5c28c03493eb10f07cec7f113ff280221f6d79534b",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "9b659606361c1e8619558f5c28c03493eb10f07cec7f113ff280221f6d79534b",
+      "originalBytes": 54514,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/chromium/1440x1000-light-alignment-feedback-S2-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1440x1000-light-alignment-feedback-S3-scene.png",
+        "sha256": "d4e0971f1b5878f86b909e355055ee813a47ab996ca2eb54525138e1d5854924",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 174,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "d4e0971f1b5878f86b909e355055ee813a47ab996ca2eb54525138e1d5854924",
+      "originalBytes": 54631,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/chromium/1440x1000-light-alignment-feedback-S3-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1440x1000-light-alignment-feedback-S4-scene.png",
+        "sha256": "5c44e5cccc4abddbb6686d6e9bd619aa579d93650c0e5e682fbdc1b493fcfdab",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 85,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "5c44e5cccc4abddbb6686d6e9bd619aa579d93650c0e5e682fbdc1b493fcfdab",
+      "originalBytes": 35456,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/chromium/1440x1000-light-alignment-feedback-S4-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1440x1000-light-alignment-feedback-S4-ai-scene.png",
+        "sha256": "fa6f08ff0106bed96f7135d7c84b5a0da572fd48a7087fe370daba3c7d095082",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 85,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "fa6f08ff0106bed96f7135d7c84b5a0da572fd48a7087fe370daba3c7d095082",
+      "originalBytes": 35335,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/chromium/1440x1000-light-alignment-feedback-S4-ai-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1280x720-dark-alignment-preference-S0-scene.png",
+        "sha256": "a330a6828a3c3903824b26aa6f3d07494111ff963089a80cc5d7a21600817bb8",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 85,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "a330a6828a3c3903824b26aa6f3d07494111ff963089a80cc5d7a21600817bb8",
+      "originalBytes": 45573,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/chromium/1280x720-dark-alignment-preference-S0-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1280x720-dark-alignment-preference-S1-scene.png",
+        "sha256": "9f4089d989ff92f5032dea01c2b3208e3899c470ac2685e91991de9106398d59",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 85,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "9f4089d989ff92f5032dea01c2b3208e3899c470ac2685e91991de9106398d59",
+      "originalBytes": 38686,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/chromium/1280x720-dark-alignment-preference-S1-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1280x720-dark-alignment-preference-S2-scene.png",
+        "sha256": "72f5365f12ef3c47c75526ec1c4ccad16c9fd4955c750fc7a411ccc618e6dea7",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 85,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "72f5365f12ef3c47c75526ec1c4ccad16c9fd4955c750fc7a411ccc618e6dea7",
+      "originalBytes": 39898,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/chromium/1280x720-dark-alignment-preference-S2-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1280x720-dark-alignment-preference-S3-scene.png",
+        "sha256": "032be457f46324fdc2ca9885badb32c2c9862b0584c0754605bfd9c1a722c925",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 85,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "032be457f46324fdc2ca9885badb32c2c9862b0584c0754605bfd9c1a722c925",
+      "originalBytes": 47992,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/chromium/1280x720-dark-alignment-preference-S3-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1280x720-dark-alignment-preference-S4-scene.png",
+        "sha256": "7300e04ca66a22c802861217be3bedd455fecce030ba9cc190a438317f0b7697",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 85,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "7300e04ca66a22c802861217be3bedd455fecce030ba9cc190a438317f0b7697",
+      "originalBytes": 48411,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/chromium/1280x720-dark-alignment-preference-S4-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1280x720-dark-alignment-preference-S5-scene.png",
+        "sha256": "7c828a5fc10f3e00aed1d8ee47188537ef3188601bb62f2e272dc83ca7ee9e70",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 85,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "7c828a5fc10f3e00aed1d8ee47188537ef3188601bb62f2e272dc83ca7ee9e70",
+      "originalBytes": 52896,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/chromium/1280x720-dark-alignment-preference-S5-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1280x720-dark-alignment-preference-S6-scene.png",
+        "sha256": "fd997048e5309f668362ecab5718185b4601d743f2e25978db2fa0dc7517df92",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 85,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "fd997048e5309f668362ecab5718185b4601d743f2e25978db2fa0dc7517df92",
+      "originalBytes": 61820,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/chromium/1280x720-dark-alignment-preference-S6-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1280x720-dark-alignment-reward-risk-S0-scene.png",
+        "sha256": "c12d661dd6d838dc1f656c443fbf31aa786bf82538db75114fd384b8d9bffdd9",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "c12d661dd6d838dc1f656c443fbf31aa786bf82538db75114fd384b8d9bffdd9",
+      "originalBytes": 37651,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/chromium/1280x720-dark-alignment-reward-risk-S0-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1280x720-dark-alignment-reward-risk-S1-scene.png",
+        "sha256": "bd17bf94d9f8827a90403f6bafe3959cff3d41f93fd37b2297480b942d0f7cc2",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "bd17bf94d9f8827a90403f6bafe3959cff3d41f93fd37b2297480b942d0f7cc2",
+      "originalBytes": 41035,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/chromium/1280x720-dark-alignment-reward-risk-S1-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1280x720-dark-alignment-reward-risk-S2-scene.png",
+        "sha256": "faacfd8511b9b26c11e08edf787d3e7ed662d3553b263c18f1c90a3d23ad43d4",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "faacfd8511b9b26c11e08edf787d3e7ed662d3553b263c18f1c90a3d23ad43d4",
+      "originalBytes": 43159,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/chromium/1280x720-dark-alignment-reward-risk-S2-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1280x720-dark-alignment-feedback-S0-scene.png",
+        "sha256": "1c808b5190e814478f412eb140b4faf2f753843e2d00cb08070360b030c23674",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "1c808b5190e814478f412eb140b4faf2f753843e2d00cb08070360b030c23674",
+      "originalBytes": 38967,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/chromium/1280x720-dark-alignment-feedback-S0-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1280x720-dark-alignment-feedback-S1-scene.png",
+        "sha256": "70092f88426093e6576aaf0e37048a8338e7d1bdc00ec36b99907ef20edf17a0",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "70092f88426093e6576aaf0e37048a8338e7d1bdc00ec36b99907ef20edf17a0",
+      "originalBytes": 33237,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/chromium/1280x720-dark-alignment-feedback-S1-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1280x720-dark-alignment-feedback-S2-scene.png",
+        "sha256": "ba9ce0752af8b36f8a7899575daeb4bf7b2209dcb71e70b6fafb37953790cb50",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "ba9ce0752af8b36f8a7899575daeb4bf7b2209dcb71e70b6fafb37953790cb50",
+      "originalBytes": 44900,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/chromium/1280x720-dark-alignment-feedback-S2-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1280x720-dark-alignment-feedback-S3-scene.png",
+        "sha256": "6479a8ccf6fd6bfe007f4f04540098e80227ab47ee8d5f9a8b8273f7c08a76fb",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "6479a8ccf6fd6bfe007f4f04540098e80227ab47ee8d5f9a8b8273f7c08a76fb",
+      "originalBytes": 45196,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/chromium/1280x720-dark-alignment-feedback-S3-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\1280x720-dark-alignment-feedback-S4-scene.png",
+        "sha256": "da6275b04e7392524dc046ddb4a55e78aa40ed7ece7b71c7a4063a449b141c46",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "da6275b04e7392524dc046ddb4a55e78aa40ed7ece7b71c7a4063a449b141c46",
+      "originalBytes": 31706,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/chromium/1280x720-dark-alignment-feedback-S4-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\390x844-light-alignment-preference-S0-scene.png",
+        "sha256": "2b1c29f00bc422bc7c75ab0184cbd31427bfc80a370685cacd037fa1c78a23a2",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "2b1c29f00bc422bc7c75ab0184cbd31427bfc80a370685cacd037fa1c78a23a2",
+      "originalBytes": 26304,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/chromium/390x844-light-alignment-preference-S0-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\390x844-light-alignment-preference-S1-scene.png",
+        "sha256": "8d90cf06a57c5c7208a7f9b105da1a3c6fd98de43d7aba7d5c0c5c389860236e",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "8d90cf06a57c5c7208a7f9b105da1a3c6fd98de43d7aba7d5c0c5c389860236e",
+      "originalBytes": 22112,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/chromium/390x844-light-alignment-preference-S1-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\390x844-light-alignment-preference-S2-scene.png",
+        "sha256": "ed83870dc8408fc567dc67c4d61a05a459633d2b017e490bf1c039a4fc8494b4",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "ed83870dc8408fc567dc67c4d61a05a459633d2b017e490bf1c039a4fc8494b4",
+      "originalBytes": 22678,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/chromium/390x844-light-alignment-preference-S2-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\390x844-light-alignment-preference-S3-scene.png",
+        "sha256": "cd1a04a1f0dd460545bcc88227ce611f0015aca3d1817c656b63182a1e8959e8",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "cd1a04a1f0dd460545bcc88227ce611f0015aca3d1817c656b63182a1e8959e8",
+      "originalBytes": 27841,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/chromium/390x844-light-alignment-preference-S3-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\390x844-light-alignment-preference-S4-scene.png",
+        "sha256": "efa1475ad7d9fb0f270b89a3eb82ceb8059e4712bffdbe0d6595db465ab0ea91",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "efa1475ad7d9fb0f270b89a3eb82ceb8059e4712bffdbe0d6595db465ab0ea91",
+      "originalBytes": 28137,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/chromium/390x844-light-alignment-preference-S4-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\390x844-light-alignment-preference-S5-scene.png",
+        "sha256": "e53a445da8a3d4af4a66881c92f52f2a21e358ad9f8bba4575ec6e8743999af7",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "e53a445da8a3d4af4a66881c92f52f2a21e358ad9f8bba4575ec6e8743999af7",
+      "originalBytes": 31256,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/chromium/390x844-light-alignment-preference-S5-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\390x844-light-alignment-preference-S6-scene.png",
+        "sha256": "a59dd50f2df9601ca96ac6945d3e9f2a1e70901caba48029ae622bee9bfd9631",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "a59dd50f2df9601ca96ac6945d3e9f2a1e70901caba48029ae622bee9bfd9631",
+      "originalBytes": 37454,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/chromium/390x844-light-alignment-preference-S6-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\390x844-light-alignment-reward-risk-S0-scene.png",
+        "sha256": "9b9583a76931f9f5d50332f405c0daedced485fb7b43961d66845502b0a6ff25",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "9b9583a76931f9f5d50332f405c0daedced485fb7b43961d66845502b0a6ff25",
+      "originalBytes": 22270,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/chromium/390x844-light-alignment-reward-risk-S0-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\390x844-light-alignment-reward-risk-S1-scene.png",
+        "sha256": "ff0287182bc915bafd1911c3942cae945fba1c88e234ce8c073cfcb64a70f5bc",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "ff0287182bc915bafd1911c3942cae945fba1c88e234ce8c073cfcb64a70f5bc",
+      "originalBytes": 23843,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/chromium/390x844-light-alignment-reward-risk-S1-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\390x844-light-alignment-reward-risk-S2-scene.png",
+        "sha256": "5b0b681cbf9c7f5b878a97cfc7a975ef70c2b9947bc7b883b8bc7f90ecd2d8d3",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "5b0b681cbf9c7f5b878a97cfc7a975ef70c2b9947bc7b883b8bc7f90ecd2d8d3",
+      "originalBytes": 25777,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/chromium/390x844-light-alignment-reward-risk-S2-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\390x844-light-alignment-feedback-S0-scene.png",
+        "sha256": "60405bb8b0846ffdb35a6d478d52effeff1d4295025e26dec378b6f7a30a50d1",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "60405bb8b0846ffdb35a6d478d52effeff1d4295025e26dec378b6f7a30a50d1",
+      "originalBytes": 22609,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/chromium/390x844-light-alignment-feedback-S0-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\390x844-light-alignment-feedback-S1-scene.png",
+        "sha256": "fcec8c7360775f5398c5f26cffdc42c6f001ddf46bb7ecf92a5a054ddb16188e",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "fcec8c7360775f5398c5f26cffdc42c6f001ddf46bb7ecf92a5a054ddb16188e",
+      "originalBytes": 19676,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/chromium/390x844-light-alignment-feedback-S1-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\390x844-light-alignment-feedback-S2-scene.png",
+        "sha256": "6ad996f38fcb170afd3811afe3af4246d9078e28e36215879c00f577a3e23bcd",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "6ad996f38fcb170afd3811afe3af4246d9078e28e36215879c00f577a3e23bcd",
+      "originalBytes": 26554,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/chromium/390x844-light-alignment-feedback-S2-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\390x844-light-alignment-feedback-S3-scene.png",
+        "sha256": "dba6f622074cda541e9d8e26b2c06df8cc7b2c26f90d64ad006181f3bea80987",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "dba6f622074cda541e9d8e26b2c06df8cc7b2c26f90d64ad006181f3bea80987",
+      "originalBytes": 26891,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/chromium/390x844-light-alignment-feedback-S3-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-chromium-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\chromium-2026-09-29T20-08-02.195Z\\390x844-light-alignment-feedback-S4-scene.png",
+        "sha256": "82fe221889c306cd44fee899151796032447be1eb60a1127f2c790f61132a124",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "82fe221889c306cd44fee899151796032447be1eb60a1127f2c790f61132a124",
+      "originalBytes": 18705,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/chromium/390x844-light-alignment-feedback-S4-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1440x1000-light-alignment-preference-S0-scene.png",
+        "sha256": "9edec1b76772e8bcf02578a465d123e612662622ae36922c213911741a90a62c",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "9edec1b76772e8bcf02578a465d123e612662622ae36922c213911741a90a62c",
+      "originalBytes": 50172,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/webkit/1440x1000-light-alignment-preference-S0-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1440x1000-light-alignment-preference-S1-scene.png",
+        "sha256": "f8f6c0470eb7ec3218a1fb11b4f19568e8986f608eb00904a1d6fbc5bb78cb03",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "f8f6c0470eb7ec3218a1fb11b4f19568e8986f608eb00904a1d6fbc5bb78cb03",
+      "originalBytes": 43314,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/webkit/1440x1000-light-alignment-preference-S1-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1440x1000-light-alignment-preference-S2-scene.png",
+        "sha256": "dadf2c70811ac4ae5e71c7bc03bee284dffe2d152553bc13b0ca5370f74f27d8",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "dadf2c70811ac4ae5e71c7bc03bee284dffe2d152553bc13b0ca5370f74f27d8",
+      "originalBytes": 39050,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/webkit/1440x1000-light-alignment-preference-S2-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1440x1000-light-alignment-preference-S3-scene.png",
+        "sha256": "dbe226f42c160b5c09edc266e2f9da8969f96f24825ccaae44c6ea879742617e",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "dbe226f42c160b5c09edc266e2f9da8969f96f24825ccaae44c6ea879742617e",
+      "originalBytes": 49041,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/webkit/1440x1000-light-alignment-preference-S3-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1440x1000-light-alignment-preference-S4-scene.png",
+        "sha256": "11a1aae494b1eaf7f1b0e1829f75b3d349b6cc11c1ad0a99ab9d6d9970230fb7",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "11a1aae494b1eaf7f1b0e1829f75b3d349b6cc11c1ad0a99ab9d6d9970230fb7",
+      "originalBytes": 49830,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/webkit/1440x1000-light-alignment-preference-S4-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1440x1000-light-alignment-preference-S5-scene.png",
+        "sha256": "20132c19e3b0aef2874763f9be3827ff429c465d161a84270171a063a95f6dc6",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "20132c19e3b0aef2874763f9be3827ff429c465d161a84270171a063a95f6dc6",
+      "originalBytes": 51568,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/webkit/1440x1000-light-alignment-preference-S5-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1440x1000-light-alignment-preference-S6-scene.png",
+        "sha256": "8e2cb05f4a82b7be66ffe87eca731e408c824b638a3b8688a7e39284267a8787",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "8e2cb05f4a82b7be66ffe87eca731e408c824b638a3b8688a7e39284267a8787",
+      "originalBytes": 58141,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/webkit/1440x1000-light-alignment-preference-S6-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1440x1000-light-alignment-preference-S6-beta0.5-scene.png",
+        "sha256": "2f20bfd83ffd8332a1f70ff8b34fd9e73a3a8f1a135fdf7406d3d679c3b56b24",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "2f20bfd83ffd8332a1f70ff8b34fd9e73a3a8f1a135fdf7406d3d679c3b56b24",
+      "originalBytes": 58304,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/webkit/1440x1000-light-alignment-preference-S6-beta0.5-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1440x1000-light-alignment-preference-S6-beta2-scene.png",
+        "sha256": "40daf072973e8ca1332b89f55566d5d68e21354d6278a7e1c96a3cf6326bb725",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "40daf072973e8ca1332b89f55566d5d68e21354d6278a7e1c96a3cf6326bb725",
+      "originalBytes": 57957,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/webkit/1440x1000-light-alignment-preference-S6-beta2-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1440x1000-light-alignment-reward-risk-S0-scene.png",
+        "sha256": "823fefd5491646dd0b7617f6a7eaedf1c90503ef5e535a2d00018a4cc325dea3",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 86,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "823fefd5491646dd0b7617f6a7eaedf1c90503ef5e535a2d00018a4cc325dea3",
+      "originalBytes": 40979,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/webkit/1440x1000-light-alignment-reward-risk-S0-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1440x1000-light-alignment-reward-risk-S1-scene.png",
+        "sha256": "d600007b93ba4b15f6e4aa623ef3458bf7e0c213d51b51fb8dadb4cd10704a0f",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 86,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "d600007b93ba4b15f6e4aa623ef3458bf7e0c213d51b51fb8dadb4cd10704a0f",
+      "originalBytes": 49495,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/webkit/1440x1000-light-alignment-reward-risk-S1-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1440x1000-light-alignment-reward-risk-S2-scene.png",
+        "sha256": "bccef30d5f5cff6b29537f7c0a9427d0bec904a69bc5832afe78530643d86a12",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 86,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "bccef30d5f5cff6b29537f7c0a9427d0bec904a69bc5832afe78530643d86a12",
+      "originalBytes": 51284,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/webkit/1440x1000-light-alignment-reward-risk-S2-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1440x1000-light-alignment-feedback-S0-scene.png",
+        "sha256": "06276e504d9ebf707b65239be886f2bd4ecc24f2e6757a495defd9babcc9a6b5",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "06276e504d9ebf707b65239be886f2bd4ecc24f2e6757a495defd9babcc9a6b5",
+      "originalBytes": 46337,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/webkit/1440x1000-light-alignment-feedback-S0-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1440x1000-light-alignment-feedback-S1-scene.png",
+        "sha256": "4a320c39f82444d2451158292b58e2acee140a95b14fb13dd8192d7f791003e4",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "4a320c39f82444d2451158292b58e2acee140a95b14fb13dd8192d7f791003e4",
+      "originalBytes": 40552,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/webkit/1440x1000-light-alignment-feedback-S1-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1440x1000-light-alignment-feedback-S2-scene.png",
+        "sha256": "048e6cef13793b56f9e0b584a9c640069b77509671ab7a5289cd7e8ecde7c666",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "048e6cef13793b56f9e0b584a9c640069b77509671ab7a5289cd7e8ecde7c666",
+      "originalBytes": 53685,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/webkit/1440x1000-light-alignment-feedback-S2-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1440x1000-light-alignment-feedback-S3-scene.png",
+        "sha256": "02a0bcefd7e991f534eb46b556aca675d637bba80e8b5dcc68a0bf92b82959a0",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "02a0bcefd7e991f534eb46b556aca675d637bba80e8b5dcc68a0bf92b82959a0",
+      "originalBytes": 50243,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/webkit/1440x1000-light-alignment-feedback-S3-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1440x1000-light-alignment-feedback-S4-scene.png",
+        "sha256": "56bb32a6bdd26bf234f4ee4376eab90b44802fb05421883e87ee03f09f8993df",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 86,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "56bb32a6bdd26bf234f4ee4376eab90b44802fb05421883e87ee03f09f8993df",
+      "originalBytes": 38218,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/webkit/1440x1000-light-alignment-feedback-S4-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1440x1000-light-alignment-feedback-S4-ai-scene.png",
+        "sha256": "5fa250c7c5d35885835a86cbefaa4673d68da2d0e1c91679f00f56588dc50c65",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 764,
+          "y": 86,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "5fa250c7c5d35885835a86cbefaa4673d68da2d0e1c91679f00f56588dc50c65",
+      "originalBytes": 38153,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": "viewed/webkit/1440x1000-light-alignment-feedback-S4-ai-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1280x720-dark-alignment-preference-S0-scene.png",
+        "sha256": "c05efb691028fdac054a4472208bf5c57bc819e353b6743ba92d4eaf1495282b",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "c05efb691028fdac054a4472208bf5c57bc819e353b6743ba92d4eaf1495282b",
+      "originalBytes": 41205,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/webkit/1280x720-dark-alignment-preference-S0-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1280x720-dark-alignment-preference-S1-scene.png",
+        "sha256": "db1b0d7bfb54a791a23ea15662307c54235f973bac6c9f596a57762f965dbc81",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "db1b0d7bfb54a791a23ea15662307c54235f973bac6c9f596a57762f965dbc81",
+      "originalBytes": 36758,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/webkit/1280x720-dark-alignment-preference-S1-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1280x720-dark-alignment-preference-S2-scene.png",
+        "sha256": "f0dd463b3d116cdb76095dc5f42b9642111addd19d241389ec47180e66497f64",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "f0dd463b3d116cdb76095dc5f42b9642111addd19d241389ec47180e66497f64",
+      "originalBytes": 33043,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/webkit/1280x720-dark-alignment-preference-S2-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1280x720-dark-alignment-preference-S3-scene.png",
+        "sha256": "988908c0253d57ef89f7248be38ce5b28b6a9a99a489d57d6520a26634f55170",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "988908c0253d57ef89f7248be38ce5b28b6a9a99a489d57d6520a26634f55170",
+      "originalBytes": 41286,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/webkit/1280x720-dark-alignment-preference-S3-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1280x720-dark-alignment-preference-S4-scene.png",
+        "sha256": "21898d64ea2caa7024e8021821888e9f8ecf5f1ef3184d2589cdc4e8b17a1a13",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "21898d64ea2caa7024e8021821888e9f8ecf5f1ef3184d2589cdc4e8b17a1a13",
+      "originalBytes": 41863,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/webkit/1280x720-dark-alignment-preference-S4-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1280x720-dark-alignment-preference-S5-scene.png",
+        "sha256": "b7e35ecb6b353e1aca6b2b46e3b3ef54a73ec445743eaf00ea4db45c19ce9c61",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "b7e35ecb6b353e1aca6b2b46e3b3ef54a73ec445743eaf00ea4db45c19ce9c61",
+      "originalBytes": 41881,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/webkit/1280x720-dark-alignment-preference-S5-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1280x720-dark-alignment-preference-S6-scene.png",
+        "sha256": "f7c5efea53ef1b490387c8b84f5d7e7e4e30f82fceaaf1ab3887540b986de071",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "f7c5efea53ef1b490387c8b84f5d7e7e4e30f82fceaaf1ab3887540b986de071",
+      "originalBytes": 46825,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/webkit/1280x720-dark-alignment-preference-S6-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1280x720-dark-alignment-reward-risk-S0-scene.png",
+        "sha256": "15454e993cc41326f9dac6196a790604d4c97824d735ce0c0e234a024e327fad",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "15454e993cc41326f9dac6196a790604d4c97824d735ce0c0e234a024e327fad",
+      "originalBytes": 34066,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/webkit/1280x720-dark-alignment-reward-risk-S0-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1280x720-dark-alignment-reward-risk-S1-scene.png",
+        "sha256": "10a3ba5216c88943b821111906ec80d4b8df1bee4c9b91ffd3580c7e696daba3",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "10a3ba5216c88943b821111906ec80d4b8df1bee4c9b91ffd3580c7e696daba3",
+      "originalBytes": 41190,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/webkit/1280x720-dark-alignment-reward-risk-S1-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1280x720-dark-alignment-reward-risk-S2-scene.png",
+        "sha256": "b1ec6600266b4bce4f0ca903b18ca6807d3265b4fb9831fb876d6b611fb4471d",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "b1ec6600266b4bce4f0ca903b18ca6807d3265b4fb9831fb876d6b611fb4471d",
+      "originalBytes": 42155,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/webkit/1280x720-dark-alignment-reward-risk-S2-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1280x720-dark-alignment-feedback-S0-scene.png",
+        "sha256": "a2ca8daafc5c509dcf56470ac9cfb7d34daf77b16652b693a7fdd5dc61c2535b",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "a2ca8daafc5c509dcf56470ac9cfb7d34daf77b16652b693a7fdd5dc61c2535b",
+      "originalBytes": 37457,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/webkit/1280x720-dark-alignment-feedback-S0-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1280x720-dark-alignment-feedback-S1-scene.png",
+        "sha256": "5e24401ebddcdc2298ca51762d38e0c157065aa25f30c1b4932c1dfbef4c5001",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "5e24401ebddcdc2298ca51762d38e0c157065aa25f30c1b4932c1dfbef4c5001",
+      "originalBytes": 32856,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/webkit/1280x720-dark-alignment-feedback-S1-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1280x720-dark-alignment-feedback-S2-scene.png",
+        "sha256": "d20c3c5d8d224c5bb44f90ee04eff1676d56b439c9cd25c69995d04e6ceef7d5",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "d20c3c5d8d224c5bb44f90ee04eff1676d56b439c9cd25c69995d04e6ceef7d5",
+      "originalBytes": 42729,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/webkit/1280x720-dark-alignment-feedback-S2-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1280x720-dark-alignment-feedback-S3-scene.png",
+        "sha256": "80bdba0d25a19000a7aaaf73478dfe5c5d5e60b62cb514bd988704319bd4998f",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "80bdba0d25a19000a7aaaf73478dfe5c5d5e60b62cb514bd988704319bd4998f",
+      "originalBytes": 41337,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/webkit/1280x720-dark-alignment-feedback-S3-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\1280x720-dark-alignment-feedback-S4-scene.png",
+        "sha256": "8bec0e297efd66c475302137e84c6437631b8bf8aa35334836ce76883ca0bd37",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 699,
+          "y": 86,
+          "width": 532,
+          "height": 358
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "8bec0e297efd66c475302137e84c6437631b8bf8aa35334836ce76883ca0bd37",
+      "originalBytes": 32252,
+      "pngDimensions": {
+        "width": 532,
+        "height": 358
+      },
+      "storedPath": "viewed/webkit/1280x720-dark-alignment-feedback-S4-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\390x844-light-alignment-preference-S0-scene.png",
+        "sha256": "3ef90de6c351ebaff87251b53ec2569e8d6fa27ca04cff426523efd0020fa8d2",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "3ef90de6c351ebaff87251b53ec2569e8d6fa27ca04cff426523efd0020fa8d2",
+      "originalBytes": 26319,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/webkit/390x844-light-alignment-preference-S0-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\390x844-light-alignment-preference-S1-scene.png",
+        "sha256": "69b75090e13db49d27a041750442943fe8c1316f2b55d7060a4a2cef05e15a9a",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "69b75090e13db49d27a041750442943fe8c1316f2b55d7060a4a2cef05e15a9a",
+      "originalBytes": 22618,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/webkit/390x844-light-alignment-preference-S1-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\390x844-light-alignment-preference-S2-scene.png",
+        "sha256": "b1ddc0718a9cd5e00822d3c44c0972f1f9372c4792716a5ebd176e6e8727362d",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "b1ddc0718a9cd5e00822d3c44c0972f1f9372c4792716a5ebd176e6e8727362d",
+      "originalBytes": 20148,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/webkit/390x844-light-alignment-preference-S2-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\390x844-light-alignment-preference-S3-scene.png",
+        "sha256": "0f9c8a6a6304a16dba4e375befe50129771cc760030b95e4f6ee9aa7fdae9c6d",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "0f9c8a6a6304a16dba4e375befe50129771cc760030b95e4f6ee9aa7fdae9c6d",
+      "originalBytes": 25903,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/webkit/390x844-light-alignment-preference-S3-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\390x844-light-alignment-preference-S4-scene.png",
+        "sha256": "70cc3522ed8a84a29683de4b02315f0c6d6f16321f15848e5e8de139816eaab4",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "70cc3522ed8a84a29683de4b02315f0c6d6f16321f15848e5e8de139816eaab4",
+      "originalBytes": 26399,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/webkit/390x844-light-alignment-preference-S4-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\390x844-light-alignment-preference-S5-scene.png",
+        "sha256": "7dbade8b0ff8fa81012b5ec659fc82fbabc7c41d0f77447cbd89ff41aea61c4c",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "7dbade8b0ff8fa81012b5ec659fc82fbabc7c41d0f77447cbd89ff41aea61c4c",
+      "originalBytes": 26742,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/webkit/390x844-light-alignment-preference-S5-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\390x844-light-alignment-preference-S6-scene.png",
+        "sha256": "ec003e5c28281c7488bebc04338d8b7efcdf3e50554ecf60621f1ce53252c57b",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "ec003e5c28281c7488bebc04338d8b7efcdf3e50554ecf60621f1ce53252c57b",
+      "originalBytes": 29862,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/webkit/390x844-light-alignment-preference-S6-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\390x844-light-alignment-reward-risk-S0-scene.png",
+        "sha256": "5b192aec3de8c08fdf45f44d8ac61a6a3320b263de242722d35b96f575b6e7cc",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "5b192aec3de8c08fdf45f44d8ac61a6a3320b263de242722d35b96f575b6e7cc",
+      "originalBytes": 21940,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/webkit/390x844-light-alignment-reward-risk-S0-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\390x844-light-alignment-reward-risk-S1-scene.png",
+        "sha256": "34dcbbe3d3ecc836a7eaf9140f059f69cdb89486031f014d7f53164dbca9f32f",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "34dcbbe3d3ecc836a7eaf9140f059f69cdb89486031f014d7f53164dbca9f32f",
+      "originalBytes": 25908,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/webkit/390x844-light-alignment-reward-risk-S1-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\390x844-light-alignment-reward-risk-S2-scene.png",
+        "sha256": "7ac1a77c5d35d0a964f99f6a22063459b6137f82c9cc5ecfa6f1b43443352c9f",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "7ac1a77c5d35d0a964f99f6a22063459b6137f82c9cc5ecfa6f1b43443352c9f",
+      "originalBytes": 27149,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/webkit/390x844-light-alignment-reward-risk-S2-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\390x844-light-alignment-feedback-S0-scene.png",
+        "sha256": "8563f8e53b004a963277d715a96ac84dfd42c5976891469eca2bf69845bbdfe2",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "8563f8e53b004a963277d715a96ac84dfd42c5976891469eca2bf69845bbdfe2",
+      "originalBytes": 24201,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/webkit/390x844-light-alignment-feedback-S0-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\390x844-light-alignment-feedback-S1-scene.png",
+        "sha256": "b7786f39d6a170465fb45a61f411eaddd23f91830deb47c3554c39390656999a",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "b7786f39d6a170465fb45a61f411eaddd23f91830deb47c3554c39390656999a",
+      "originalBytes": 21611,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/webkit/390x844-light-alignment-feedback-S1-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\390x844-light-alignment-feedback-S2-scene.png",
+        "sha256": "ea9560ed80a3af1ed1fbede0d59e84b60c0643d0348e648be450756677c67bc6",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "ea9560ed80a3af1ed1fbede0d59e84b60c0643d0348e648be450756677c67bc6",
+      "originalBytes": 27524,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/webkit/390x844-light-alignment-feedback-S2-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\390x844-light-alignment-feedback-S3-scene.png",
+        "sha256": "df875603c4d71f9b56183495e63bffea096e9d4f2fe9e53601ec5c2a7d84de80",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "df875603c4d71f9b56183495e63bffea096e9d4f2fe9e53601ec5c2a7d84de80",
+      "originalBytes": 26868,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/webkit/390x844-light-alignment-feedback-S3-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    },
+    {
+      "sourceResultPath": "raw/capture-webkit-initial-result.json.gz",
+      "original": {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-local-visual\\webkit-2026-09-29T20-08-15.141Z\\390x844-light-alignment-feedback-S4-scene.png",
+        "sha256": "6564e795261e306e05bead58957f72eb06cb8078b4185f589d4434780c4bdfc3",
+        "capture": "full-scene",
+        "stylesModified": false,
+        "clip": {
+          "x": 17,
+          "y": 86,
+          "width": 356,
+          "height": 240
+        },
+        "deviceScaleFactor": 1
+      },
+      "originalSha256": "6564e795261e306e05bead58957f72eb06cb8078b4185f589d4434780c4bdfc3",
+      "originalBytes": 21043,
+      "pngDimensions": {
+        "width": 356,
+        "height": 240
+      },
+      "storedPath": "viewed/webkit/390x844-light-alignment-feedback-S4-scene.png",
+      "selectionStatus": "selected-by-independent-initial-actual-viewed-ledger-final-review-pending",
+      "actualViewedByArchivist": false
+    }
+  ]
+}

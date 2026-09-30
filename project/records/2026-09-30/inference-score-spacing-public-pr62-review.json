@@ -1,0 +1,2335 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-public-composed-acceptance",
+  "reviewer": "/root/pretraining_visual_review",
+  "reviewedAt": "2026-09-29T19:43:48.515Z",
+  "decision": "approved",
+  "risk": "low",
+  "must": [],
+  "should": [],
+  "release": {
+    "mergeSha": "5940334a6fd3aab8178cfeb8746a58c8b937d390",
+    "runId": 36615994124,
+    "buildJob": 109569009080,
+    "deployJob": 109574494236,
+    "buildId": "FnChqMe5DEINmNrKQkZeM",
+    "baseURL": "https://pero3dev.github.io/ai-agent-library",
+    "artifactEvidenceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-pr62-public/ci-36615994124-attempt-1-20260929T191411585Z/artifact-evidence.json",
+    "artifactEvidenceSHA256": "bc8461b55ca89cc453562a1f47982bd3e235b5f53a9b8c6b92baddb64d5a3fa6",
+    "archiveTarSHA256": "c91193c534497c7a07b3da1fcf041f76ddd2b135e41319be44adcd408fe8149a",
+    "archiveNote": "Exact downloaded CI archive was read and hashed; no local out used as public expected value."
+  },
+  "resolvedFindings": [
+    {
+      "id": "PUBLIC-V1",
+      "status": "resolved-on-published-fix",
+      "oldReviewFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-review.json",
+      "oldReviewSHA256": "be4b2b1a010231b928ce2dc733f72fdb973b0d7950e27149a2ad6ffd07969635",
+      "oldBuild": "UWZD5odlVHV_TyUNH3jZ0",
+      "oldFinding": "WebKit C 0.000000 and D -1.000000 intersected in both rows",
+      "newBuild": "FnChqMe5DEINmNrKQkZeM",
+      "proof": "New public32 conditions, all32 scenes actually inspected, exact six digits/minus signs retained, logit18/draw22. Full WebKit candidates2 to0; new focused SVG gap positive in every profile.",
+      "images": [
+        {
+          "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-public-pr62-fixed/webkit-2026-09-29T19-36-54.572Z/1440x1000-light-dsf1-panel-logit-scene.png",
+          "sha256": "6b973b9066aa7e1c89fe86a178f63bf4c64366c50c96cb99d74713d2bce2e5da",
+          "mode": "panel",
+          "capture": "full-scene"
+        },
+        {
+          "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-public-pr62-fixed/webkit-2026-09-29T19-36-54.572Z/1440x1000-light-dsf1-modal-logit-scene.png",
+          "sha256": "d0291bd03b5728fc78153e2efd47848577b71cc220addfe52c72b9104b14d8c2",
+          "mode": "modal",
+          "capture": "full-scene"
+        },
+        {
+          "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-public-pr62-fixed/webkit-2026-09-29T19-36-54.572Z/1440x1000-light-dsf1-panel-logit.png",
+          "sha256": "3634fa9ea1049ff7ac3a7254b44e4d93d2bf1cd21aa24a678972b56ad7423165",
+          "mode": "panel",
+          "capture": "viewport"
+        }
+      ]
+    }
+  ],
+  "inputDigestsAtReview": [
+    {
+      "article": "docs/11-llm-internals/transformer-architecture.md",
+      "inputDigest": "sha256:e608a9954aee28546173f8c8250e34b43a6fc61293f46c54ba9f075fb7f02376",
+      "fileCount": 55,
+      "unchangedFromPR61": true
+    },
+    {
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "inputDigest": "sha256:939497afc225dbe36976b72b17ce63705b744869047e069f013eb7c89be8913f",
+      "fileCount": 52,
+      "unchangedFromPR61": true
+    },
+    {
+      "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "inputDigest": "sha256:67f6886639932264e008b124f0ac41daa88da4a99158a55211eed6006bb8e753",
+      "fileCount": 49,
+      "unchangedFromPR61": true
+    },
+    {
+      "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "inputDigest": "sha256:bcd96bd8e9f0e60fe6308ff79870f9a45ded0a4f8f1010b7fe9518d79577459d",
+      "fileCount": 47,
+      "unchangedFromPR61": true
+    },
+    {
+      "article": "docs/10-llm-foundations/tokenization.md",
+      "inputDigest": "sha256:9aa1f291fb1ab9ea006ab9a42ebc1065b2410fa39b0377e720952f07d5e47c69",
+      "fileCount": 47,
+      "unchangedFromPR61": true
+    },
+    {
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "inputDigest": "sha256:e7b10bba12334b71d3eb0b5b469344d2d7e0451c42f52814693d955dd165ab82",
+      "fileCount": 56,
+      "unchangedFromPR61": false
+    },
+    {
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "inputDigest": "sha256:33237ab6f74f953e7ceab16d01631b765eb21bf28df6e3ff7cc8eb7f4f261ec5",
+      "fileCount": 49,
+      "unchangedFromPR61": true
+    },
+    {
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "inputDigest": "sha256:0fa344cb9b3ec838864fb9c0f7b6e4f2532751e8535a43e057cd53f41f7a18b6",
+      "fileCount": 58,
+      "unchangedFromPR61": true
+    }
+  ],
+  "publicIdentityBefore": {
+    "buildId": "FnChqMe5DEINmNrKQkZeM",
+    "resources": [
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+        "kind": "document",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "sha256": "97dff913ab697c641e4e607b9e5151c6b9aa63170e4acf94fe135a83171e2781",
+        "bytes": 718590
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/how-llms-generate-text",
+        "kind": "document",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "sha256": "20a2694b99504c92366f5a3bf08b39ce71324247ed065ef4a3e61d8feafba31f",
+        "bytes": 596944
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/tokenization",
+        "kind": "document",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "sha256": "65a57527d97e6f1919000bbace3510b35725455d787c1560b89c4af2ee000414",
+        "bytes": 583364
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/mixture-of-experts-internals",
+        "kind": "document",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "sha256": "d65091ff38823996f3ea2fffd9217b97e51b33cbf4a28bb8c17d10d1307ecf35",
+        "bytes": 712770
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/attention-variants-and-long-context",
+        "kind": "document",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "sha256": "0431091bbfa736c76c556c921f917c15f132ea00f8137b7178a742c5d59b1f44",
+        "bytes": 771312
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/transformer-architecture",
+        "kind": "document",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "sha256": "7e68023cf5a0e53cc3eaf33e668b9282a9a5f0609c04a62d1cd228be97ac63d3",
+        "bytes": 1077989
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/llm-training-pipeline",
+        "kind": "document",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "sha256": "8c2346984503136cb5157d16d9a73897e2d9d88645126486e1a07b0f8398bb7c",
+        "bytes": 611779
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/pretraining-and-scaling-laws",
+        "kind": "document",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "sha256": "36c003fcae0106d4187524f30407613d658cf0232a49b206816d920347d7f1e7",
+        "bytes": 766159
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/05g514wudwl98.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "67ad48cdac54e20a689f5121ed87ae5fbba27dbd1570120b4ba627019770c0c9",
+        "bytes": 52580
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/07_m5zos1sun5.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "a2aec42326f278320faf4b3cdac9857b518e46d3aa9317d1a5954c5f91111fec",
+        "bytes": 35764
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0cz1d0mv5g_q7.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "0973c1d64c88adc8e3c950410cb58b288f72118d5965b78049438deb8f2f9683",
+        "bytes": 112594
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0fw3tqpw2-5ml.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "6fc53b11cd877f57414e5307f705647a69e4b62175960647737bc6d1768f6bd7",
+        "bytes": 60029
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0g0t_2-hrtdm5.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "9800b7cc16219354039d1dc3c5c25bd5af6f88b4482d6c4c47732b60a2851adc",
+        "bytes": 33249
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0gl8q-si2pse3.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "568cb17998d5c88eb298fa3f451b1fb3c730e7407617d1040f66608d3d39f42a",
+        "bytes": 82258
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0hqjmyjvje78-.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "bd0eb2f0c36d338c3b3398ed3ce388147d9b18c81868020a54cffbbd73b9becd",
+        "bytes": 10098
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0lwgfbz191wqp.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "c62829b4c7e3509afc633f48f4ac0d4a9f977b77496de709eba6345153904a67",
+        "bytes": 1107
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ncy9ms5-bo40.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "14a37e9b994c601b98950b9449fac85ee08f798f72ee02487a15dbdb4243443f",
+        "bytes": 5610
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0pr599bskfeue.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "5f79549d4f32acde650c0a334f85b2305caa0ff869655e50448032c79e873ac0",
+        "bytes": 1208
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0wyvq90qk8bm2.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "d1f5d376391ea5ab58dd2f295d65e7a251e8aa96cd1df484d7fae468de05c32b",
+        "bytes": 20255
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ytkfxbgq77w9.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "b1544d8a8c263fce21ebce80e5eb8deb2b3ce228ef483833440eb8baa614b091",
+        "bytes": 1590
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0zfx9bffw3dy0.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "94a73bce6378f7fd283bedb41d4a26153253acec28d4c97a027d9524f6af599a",
+        "bytes": 25331
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/10gwbnu1udbob.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "8e873322efea9c6c88062113c04ac9ec44e880efb7ba1dcedc2960ddd6a49682",
+        "bytes": 7045
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/10mrr4blpe2ij.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "fa774d1f05ea38bd2ec5b5bf0ecc0d09ed9ad822efdcdc5bdf0a52648682ca4a",
+        "bytes": 1024
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/11hzdar3sb-g2.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "1a5e85ea397fd2c9fcc001949a08b52d22d2caa2de54a5aff630a2ca71eb3c29",
+        "bytes": 24282
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/15-8zajo5315i.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "570c78305d7aac6244c2bc5943d3ea38a7e3d381a12d55cf4c4b5aa61f1f5e84",
+        "bytes": 8628
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/18d9lyf7mc2_n.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "5f57df6a98f81719141e35ea17d547c968e8b1121014bc1e10535dfe1e05628f",
+        "bytes": 137857
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1cgi_qecvno-_.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "bee4b38f58d72966bbc947fc390ddd2729cb61d6e7675cde74350bca8730075b",
+        "bytes": 32400
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1dy41abd-z7gx.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "d0cc39a13651c5fa5e28737bcfa972bc3f7473fb103623821bf2e1b331f272de",
+        "bytes": 20295
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1ega0w430n_83.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "63cc36cf21eb429a358bf4dcd2ab6c1376e275fe9c91e88f166c3fb3e659395a",
+        "bytes": 20542
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1eof59u96yc3s.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "6adfbcfcbdb60179b43d7549c86ec189402d845c77cee2a4fbb780fe713b0f82",
+        "bytes": 145857
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1ix59xuhq-q14.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "b0cb7bd6fec5951c9c8f5808821438206604b1629a912c96009ac427f38e7d69",
+        "bytes": 15413
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1j1fl89dkhsfl.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "9b09cf1fd6f80950846c6778a72bb98252bbde655b16c64e9f0194b8e234fd87",
+        "bytes": 26432
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1kswvh8ung-33.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "d44baf06b9b64e3497dfa0b75fdb135edec844a40943df7c3ea8622bb2ad9918",
+        "bytes": 81786
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1kvg7hfyr3tlr.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "c6e307a9a097c2c313650423fcc3c62d86a85a40ee823d7cd98173767e50809c",
+        "bytes": 589
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1or1m-os7xkyt.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "6acf36b7b149828fe5d4fbaa77ca059ce3b15dd62827232ac4eac14ba33e48b6",
+        "bytes": 161695
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1t5bslxuhh2yh.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "47e2dd34d772d9040af6b456e0b049ce9e3bcbf572ad3b696a1dc5ed5ac03a99",
+        "bytes": 26030
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1xls3dey9uevq.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "8243219d7c322a674f671ca77b054a21b2f22148e7b44b7d71b224cf95102441",
+        "bytes": 3908
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/20_tytp3ueyem.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "e8cbd70a01064c7000a2c514beb972f630c46e7bc05366df02511973bde60a3a",
+        "bytes": 229046
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/23tvr0rqp6449.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "328460ce72be721c6ae5239b5b431855ea804944b7e6cd2ee80f58815119fb1f",
+        "bytes": 115
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/28gyjbu0q0i5t.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "062fc9e383129be2c8be11b59b52cecc387d8cbd68368491bac3ee10b7e3868e",
+        "bytes": 26651
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2cj8womurzjyc.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "ac699a3a8c56f8410cd39aa96c6c6935ba1ee9c3eb894a1082c08dc0a8be5195",
+        "bytes": 21597
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2hiizqra7pie2.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "e1752acbcc8e5052c654f3ed40db1a48a7d66f952e75d95d8e66a2e97a16be5f",
+        "bytes": 30088
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2i1dtr3ffy_gs.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "9bc4f524799a6db341a92b0575eae6a3a53cad67ca01dfa1eb539d06d06715c4",
+        "bytes": 23542
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2k4e84bsye125.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "7350f1f4bb17a7cd45a1fac839b041c9949c7b00cfa27963852dd26711c03094",
+        "bytes": 64276
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2k4v-cxk7oscl.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "927166b60d7c24aaadbd7ee0921619e3388cc7188eed0ed6038064146d33975c",
+        "bytes": 28725
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2kou2qpzaoam8.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "61d760fdb5c11ad988863a9717847be2ddea770a0af53e8eb9553853fad9a26c",
+        "bytes": 1273
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2lhbx6qvi4t6q.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "3e60afc0a39065bcfc4839e318b2ae813a12ca463d2d139284cc8cd663730f09",
+        "bytes": 97600
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2mbd-izknd8rf.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "5868a4e9c1fc3bb739d3daf6097577b6b267d723e01a66f40faffb41902a4ce2",
+        "bytes": 1473
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2nnyel37__nse.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "67ac9fcd94e50248007a5c94dcba058dfa4184414cefd078648d7f9e59d9607c",
+        "bytes": 25634
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2o1kwy3pgak32.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "930ea1a0b95d1441b4180d3818c847dbc671a33d1d4027dacccef0fbb9280f48",
+        "bytes": 107164
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2t632w7uv96k7.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "882d0ae56fe41a6016dcf2fd3428b8c6d0f18439690c1073a850c72b0e0b560a",
+        "bytes": 14349
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2wdjbfkmub97y.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "6e3a09f90eda38c8ce213a9b2d3dd6f52fc886927d697fdd637c1097f0c9efe7",
+        "bytes": 42993
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2wjblyags4sr1.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "e5d5e3b27caa438a9638057e467de36f053dc7a3d0ceb0c1c0afa22a794c59cd",
+        "bytes": 31159
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/310e1-iysui84.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "b414cf5780839625c5f545fa2099d14cc59cf36780a2368237f958ace4ac267e",
+        "bytes": 26120
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/31b1cvevt3ew5.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "068c380d02c258b4d69423396a967b8ce53e2fa77390a92483c16b8ccf481b6d",
+        "bytes": 51310
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/31p82_uch1ukh.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "aeebc57d11e2dad5a47b5a27cdf2bc0f8ef5cbcb2aee748c1e25f1733d383aa5",
+        "bytes": 116917
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/33n8zee-smw5d.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "d903ac3ebca2adb2ba9dd92b2bdfbe0329da559d6998cb799af7cacb4fa30577",
+        "bytes": 25984
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/37jz55gemp-iq.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "94cfd8ccc235dc8491bae059486636fe3e122cce85f7d44bbd02c0c94fab9088",
+        "bytes": 238165
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/37sems1iaa28t.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "a6948e69abe2791801d818ca0d947f8d58d6dd6a4632c59de64ef07771368f30",
+        "bytes": 27792
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/38zc7u2bpi463.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "5f0ebd7face7cbf43c4fccf4951abe16b398c4687136cbdf9bad28e3aab8a00e",
+        "bytes": 29931
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3_-phszmxr2k-.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "0aed29fabf8d8f033f65ca8758544b23c7c6c0cea63e3f2f9a9b668504108f42",
+        "bytes": 28539
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3c9yv3yqfyne2.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "ffb577420fff981bda79cb2c8d756defd57df6f5df5ceac91a667727dc5a62d7",
+        "bytes": 28928
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3l9w92_e8ec19.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "473fd09f5402c774a102dbf3facaa84b7b4b8b32f1c609bb048f7660b234ed8b",
+        "bytes": 23019
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3lazc3y0p4vqp.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "bf8f179988c6a8fdf17c4fb0083a7f42aab9699389008f4970ddc810ff7d3658",
+        "bytes": 244
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3m_p5hqba_kws.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "a53337b685dc4f2a9e5c7f83bfc96f4f001e6749fb40ce0e391fa47b2b2a2a98",
+        "bytes": 26323
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3x_t1ii4qfzng.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "e12cdbb31169eb4d133a6139bc0a67961c1167f1816cea7af4b9de8a27c8586c",
+        "bytes": 14450
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3xko1970xr4gp.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "41abf924a298b05905a85e0342645d7b535c883f5d6316f3fee90a527d560cdc",
+        "bytes": 22925
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3zyprsps_8558.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "6730d8b719f8443347ba439cf4a8dde0bec86ee8b2d83651348cbbf35f9695a0",
+        "bytes": 32931
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/404decp940y0h.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "c07819375b37d2b9f2b27fabf6730fcff88859ce20d4954550abd2d80b5f80a5",
+        "bytes": 25806
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/41yb7p4rhwvi4.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "0221302473642189b96a90de2d61efc7819f9cd58d8d259db100ffda301f6f90",
+        "bytes": 1731
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/43slac0k-f-u6.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "d3587a287bd580778b2c8cd1ff825b597d61115a9cb7c2574a3c81246440bb2c",
+        "bytes": 32886
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/turbopack-06mvnkn583c8i.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "a3776610e1600e481572c892eac6ed063beca652e69f167afb070c3bb9dfb77e",
+        "bytes": 10964
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_AMS-Regular.25ieegmnh38ts.woff2",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "font/woff2",
+        "sha256": "0cdd387c9590a1a9f9794560022dbb59654a7d86f187aa0c81495ad42d3a7308",
+        "bytes": 28076
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Caligraphic-Regular.2eph4dlhid_m9.woff2",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "font/woff2",
+        "sha256": "5d53e70ad607c2352162dec9e0923fb54ecdafaccbf604cd8dcf7d00facb989b",
+        "bytes": 6908
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Main-Bold.3-rowy8o6_4ky.woff2",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "font/woff2",
+        "sha256": "0f60d1b897938ec918c8ce073092411baf9438f6739465693ff18b0f9d20b021",
+        "bytes": 25324
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Main-Regular.1ryvsdzh2w1_e.woff2",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "font/woff2",
+        "sha256": "c2342cd8b869e01752a9321dc17213fc40d4d04c79688c1d43f2cf316abd7866",
+        "bytes": 26272
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Math-Italic.32405s1aq8vas.woff2",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "font/woff2",
+        "sha256": "7af58c5ec8f132a2ddde9027c6d7814decce4d3b822a11192a42a20e2e973264",
+        "bytes": 16440
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Size1-Regular.03lhvx36ekcou.woff2",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "font/woff2",
+        "sha256": "6b47c40166b6dbe21a5dfca7718413f2147fd2399be1ba605d8ad39cedf25dfe",
+        "bytes": 5468
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Size2-Regular.14s5gg-puz6h-.woff2",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "font/woff2",
+        "sha256": "d04c54219f9eaec6d4d4fd42dfb28785975a4794d6b2fc71e566b9cd6db842dd",
+        "bytes": 5208
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Size3-Regular.1n1rgzz84z8r9.woff2",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "font/woff2",
+        "sha256": "73d591271b1604960cb10bb90fee021670af7297017e0e98480b332d11f51995",
+        "bytes": 3624
+      }
+    ]
+  },
+  "publicIdentityAfter": {
+    "buildId": "FnChqMe5DEINmNrKQkZeM",
+    "resources": [
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/inference-internals",
+        "kind": "document",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "sha256": "97dff913ab697c641e4e607b9e5151c6b9aa63170e4acf94fe135a83171e2781",
+        "bytes": 718590
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/how-llms-generate-text",
+        "kind": "document",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "sha256": "20a2694b99504c92366f5a3bf08b39ce71324247ed065ef4a3e61d8feafba31f",
+        "bytes": 596944
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/tokenization",
+        "kind": "document",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "sha256": "65a57527d97e6f1919000bbace3510b35725455d787c1560b89c4af2ee000414",
+        "bytes": 583364
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/mixture-of-experts-internals",
+        "kind": "document",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "sha256": "d65091ff38823996f3ea2fffd9217b97e51b33cbf4a28bb8c17d10d1307ecf35",
+        "bytes": 712770
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/attention-variants-and-long-context",
+        "kind": "document",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "sha256": "0431091bbfa736c76c556c921f917c15f132ea00f8137b7178a742c5d59b1f44",
+        "bytes": 771312
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/transformer-architecture",
+        "kind": "document",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "sha256": "7e68023cf5a0e53cc3eaf33e668b9282a9a5f0609c04a62d1cd228be97ac63d3",
+        "bytes": 1077989
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-foundations/llm-training-pipeline",
+        "kind": "document",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "sha256": "8c2346984503136cb5157d16d9a73897e2d9d88645126486e1a07b0f8398bb7c",
+        "bytes": 611779
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/docs/llm-internals/pretraining-and-scaling-laws",
+        "kind": "document",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "sha256": "36c003fcae0106d4187524f30407613d658cf0232a49b206816d920347d7f1e7",
+        "bytes": 766159
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/05g514wudwl98.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "67ad48cdac54e20a689f5121ed87ae5fbba27dbd1570120b4ba627019770c0c9",
+        "bytes": 52580
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/07_m5zos1sun5.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "a2aec42326f278320faf4b3cdac9857b518e46d3aa9317d1a5954c5f91111fec",
+        "bytes": 35764
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0cz1d0mv5g_q7.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "0973c1d64c88adc8e3c950410cb58b288f72118d5965b78049438deb8f2f9683",
+        "bytes": 112594
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0fw3tqpw2-5ml.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "6fc53b11cd877f57414e5307f705647a69e4b62175960647737bc6d1768f6bd7",
+        "bytes": 60029
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0g0t_2-hrtdm5.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "9800b7cc16219354039d1dc3c5c25bd5af6f88b4482d6c4c47732b60a2851adc",
+        "bytes": 33249
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0gl8q-si2pse3.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "568cb17998d5c88eb298fa3f451b1fb3c730e7407617d1040f66608d3d39f42a",
+        "bytes": 82258
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0hqjmyjvje78-.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "bd0eb2f0c36d338c3b3398ed3ce388147d9b18c81868020a54cffbbd73b9becd",
+        "bytes": 10098
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0lwgfbz191wqp.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "c62829b4c7e3509afc633f48f4ac0d4a9f977b77496de709eba6345153904a67",
+        "bytes": 1107
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ncy9ms5-bo40.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "14a37e9b994c601b98950b9449fac85ee08f798f72ee02487a15dbdb4243443f",
+        "bytes": 5610
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0pr599bskfeue.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "5f79549d4f32acde650c0a334f85b2305caa0ff869655e50448032c79e873ac0",
+        "bytes": 1208
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0wyvq90qk8bm2.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "d1f5d376391ea5ab58dd2f295d65e7a251e8aa96cd1df484d7fae468de05c32b",
+        "bytes": 20255
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ytkfxbgq77w9.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "b1544d8a8c263fce21ebce80e5eb8deb2b3ce228ef483833440eb8baa614b091",
+        "bytes": 1590
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0zfx9bffw3dy0.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "94a73bce6378f7fd283bedb41d4a26153253acec28d4c97a027d9524f6af599a",
+        "bytes": 25331
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/10gwbnu1udbob.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "8e873322efea9c6c88062113c04ac9ec44e880efb7ba1dcedc2960ddd6a49682",
+        "bytes": 7045
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/10mrr4blpe2ij.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "fa774d1f05ea38bd2ec5b5bf0ecc0d09ed9ad822efdcdc5bdf0a52648682ca4a",
+        "bytes": 1024
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/11hzdar3sb-g2.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "1a5e85ea397fd2c9fcc001949a08b52d22d2caa2de54a5aff630a2ca71eb3c29",
+        "bytes": 24282
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/15-8zajo5315i.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "570c78305d7aac6244c2bc5943d3ea38a7e3d381a12d55cf4c4b5aa61f1f5e84",
+        "bytes": 8628
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/18d9lyf7mc2_n.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "5f57df6a98f81719141e35ea17d547c968e8b1121014bc1e10535dfe1e05628f",
+        "bytes": 137857
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1cgi_qecvno-_.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "bee4b38f58d72966bbc947fc390ddd2729cb61d6e7675cde74350bca8730075b",
+        "bytes": 32400
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1dy41abd-z7gx.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "d0cc39a13651c5fa5e28737bcfa972bc3f7473fb103623821bf2e1b331f272de",
+        "bytes": 20295
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1ega0w430n_83.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "63cc36cf21eb429a358bf4dcd2ab6c1376e275fe9c91e88f166c3fb3e659395a",
+        "bytes": 20542
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1eof59u96yc3s.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "6adfbcfcbdb60179b43d7549c86ec189402d845c77cee2a4fbb780fe713b0f82",
+        "bytes": 145857
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1ix59xuhq-q14.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "b0cb7bd6fec5951c9c8f5808821438206604b1629a912c96009ac427f38e7d69",
+        "bytes": 15413
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1j1fl89dkhsfl.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "9b09cf1fd6f80950846c6778a72bb98252bbde655b16c64e9f0194b8e234fd87",
+        "bytes": 26432
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1kswvh8ung-33.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "d44baf06b9b64e3497dfa0b75fdb135edec844a40943df7c3ea8622bb2ad9918",
+        "bytes": 81786
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1kvg7hfyr3tlr.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "c6e307a9a097c2c313650423fcc3c62d86a85a40ee823d7cd98173767e50809c",
+        "bytes": 589
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1or1m-os7xkyt.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "6acf36b7b149828fe5d4fbaa77ca059ce3b15dd62827232ac4eac14ba33e48b6",
+        "bytes": 161695
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1t5bslxuhh2yh.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "47e2dd34d772d9040af6b456e0b049ce9e3bcbf572ad3b696a1dc5ed5ac03a99",
+        "bytes": 26030
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1xls3dey9uevq.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "8243219d7c322a674f671ca77b054a21b2f22148e7b44b7d71b224cf95102441",
+        "bytes": 3908
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/20_tytp3ueyem.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "e8cbd70a01064c7000a2c514beb972f630c46e7bc05366df02511973bde60a3a",
+        "bytes": 229046
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/23tvr0rqp6449.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "328460ce72be721c6ae5239b5b431855ea804944b7e6cd2ee80f58815119fb1f",
+        "bytes": 115
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/28gyjbu0q0i5t.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "062fc9e383129be2c8be11b59b52cecc387d8cbd68368491bac3ee10b7e3868e",
+        "bytes": 26651
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2cj8womurzjyc.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "ac699a3a8c56f8410cd39aa96c6c6935ba1ee9c3eb894a1082c08dc0a8be5195",
+        "bytes": 21597
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2hiizqra7pie2.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "e1752acbcc8e5052c654f3ed40db1a48a7d66f952e75d95d8e66a2e97a16be5f",
+        "bytes": 30088
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2i1dtr3ffy_gs.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "9bc4f524799a6db341a92b0575eae6a3a53cad67ca01dfa1eb539d06d06715c4",
+        "bytes": 23542
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2k4e84bsye125.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "7350f1f4bb17a7cd45a1fac839b041c9949c7b00cfa27963852dd26711c03094",
+        "bytes": 64276
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2k4v-cxk7oscl.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "927166b60d7c24aaadbd7ee0921619e3388cc7188eed0ed6038064146d33975c",
+        "bytes": 28725
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2kou2qpzaoam8.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "61d760fdb5c11ad988863a9717847be2ddea770a0af53e8eb9553853fad9a26c",
+        "bytes": 1273
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2lhbx6qvi4t6q.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "3e60afc0a39065bcfc4839e318b2ae813a12ca463d2d139284cc8cd663730f09",
+        "bytes": 97600
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2mbd-izknd8rf.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "5868a4e9c1fc3bb739d3daf6097577b6b267d723e01a66f40faffb41902a4ce2",
+        "bytes": 1473
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2nnyel37__nse.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "67ac9fcd94e50248007a5c94dcba058dfa4184414cefd078648d7f9e59d9607c",
+        "bytes": 25634
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2o1kwy3pgak32.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "930ea1a0b95d1441b4180d3818c847dbc671a33d1d4027dacccef0fbb9280f48",
+        "bytes": 107164
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2t632w7uv96k7.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "882d0ae56fe41a6016dcf2fd3428b8c6d0f18439690c1073a850c72b0e0b560a",
+        "bytes": 14349
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2wdjbfkmub97y.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "6e3a09f90eda38c8ce213a9b2d3dd6f52fc886927d697fdd637c1097f0c9efe7",
+        "bytes": 42993
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2wjblyags4sr1.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "e5d5e3b27caa438a9638057e467de36f053dc7a3d0ceb0c1c0afa22a794c59cd",
+        "bytes": 31159
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/310e1-iysui84.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "b414cf5780839625c5f545fa2099d14cc59cf36780a2368237f958ace4ac267e",
+        "bytes": 26120
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/31b1cvevt3ew5.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "068c380d02c258b4d69423396a967b8ce53e2fa77390a92483c16b8ccf481b6d",
+        "bytes": 51310
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/31p82_uch1ukh.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "aeebc57d11e2dad5a47b5a27cdf2bc0f8ef5cbcb2aee748c1e25f1733d383aa5",
+        "bytes": 116917
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/33n8zee-smw5d.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "d903ac3ebca2adb2ba9dd92b2bdfbe0329da559d6998cb799af7cacb4fa30577",
+        "bytes": 25984
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/37jz55gemp-iq.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "94cfd8ccc235dc8491bae059486636fe3e122cce85f7d44bbd02c0c94fab9088",
+        "bytes": 238165
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/37sems1iaa28t.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "a6948e69abe2791801d818ca0d947f8d58d6dd6a4632c59de64ef07771368f30",
+        "bytes": 27792
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/38zc7u2bpi463.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "5f0ebd7face7cbf43c4fccf4951abe16b398c4687136cbdf9bad28e3aab8a00e",
+        "bytes": 29931
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3_-phszmxr2k-.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "0aed29fabf8d8f033f65ca8758544b23c7c6c0cea63e3f2f9a9b668504108f42",
+        "bytes": 28539
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3c9yv3yqfyne2.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "ffb577420fff981bda79cb2c8d756defd57df6f5df5ceac91a667727dc5a62d7",
+        "bytes": 28928
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3l9w92_e8ec19.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "473fd09f5402c774a102dbf3facaa84b7b4b8b32f1c609bb048f7660b234ed8b",
+        "bytes": 23019
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3lazc3y0p4vqp.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "bf8f179988c6a8fdf17c4fb0083a7f42aab9699389008f4970ddc810ff7d3658",
+        "bytes": 244
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3m_p5hqba_kws.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "a53337b685dc4f2a9e5c7f83bfc96f4f001e6749fb40ce0e391fa47b2b2a2a98",
+        "bytes": 26323
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3x_t1ii4qfzng.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "e12cdbb31169eb4d133a6139bc0a67961c1167f1816cea7af4b9de8a27c8586c",
+        "bytes": 14450
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3xko1970xr4gp.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "41abf924a298b05905a85e0342645d7b535c883f5d6316f3fee90a527d560cdc",
+        "bytes": 22925
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3zyprsps_8558.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "6730d8b719f8443347ba439cf4a8dde0bec86ee8b2d83651348cbbf35f9695a0",
+        "bytes": 32931
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/404decp940y0h.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "c07819375b37d2b9f2b27fabf6730fcff88859ce20d4954550abd2d80b5f80a5",
+        "bytes": 25806
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/41yb7p4rhwvi4.css",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "sha256": "0221302473642189b96a90de2d61efc7819f9cd58d8d259db100ffda301f6f90",
+        "bytes": 1731
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/43slac0k-f-u6.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "d3587a287bd580778b2c8cd1ff825b597d61115a9cb7c2574a3c81246440bb2c",
+        "bytes": 32886
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/turbopack-06mvnkn583c8i.js",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "sha256": "a3776610e1600e481572c892eac6ed063beca652e69f167afb070c3bb9dfb77e",
+        "bytes": 10964
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_AMS-Regular.25ieegmnh38ts.woff2",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "font/woff2",
+        "sha256": "0cdd387c9590a1a9f9794560022dbb59654a7d86f187aa0c81495ad42d3a7308",
+        "bytes": 28076
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Caligraphic-Regular.2eph4dlhid_m9.woff2",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "font/woff2",
+        "sha256": "5d53e70ad607c2352162dec9e0923fb54ecdafaccbf604cd8dcf7d00facb989b",
+        "bytes": 6908
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Main-Bold.3-rowy8o6_4ky.woff2",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "font/woff2",
+        "sha256": "0f60d1b897938ec918c8ce073092411baf9438f6739465693ff18b0f9d20b021",
+        "bytes": 25324
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Main-Regular.1ryvsdzh2w1_e.woff2",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "font/woff2",
+        "sha256": "c2342cd8b869e01752a9321dc17213fc40d4d04c79688c1d43f2cf316abd7866",
+        "bytes": 26272
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Math-Italic.32405s1aq8vas.woff2",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "font/woff2",
+        "sha256": "7af58c5ec8f132a2ddde9027c6d7814decce4d3b822a11192a42a20e2e973264",
+        "bytes": 16440
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Size1-Regular.03lhvx36ekcou.woff2",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "font/woff2",
+        "sha256": "6b47c40166b6dbe21a5dfca7718413f2147fd2399be1ba605d8ad39cedf25dfe",
+        "bytes": 5468
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Size2-Regular.14s5gg-puz6h-.woff2",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "font/woff2",
+        "sha256": "d04c54219f9eaec6d4d4fd42dfb28785975a4794d6b2fc71e566b9cd6db842dd",
+        "bytes": 5208
+      },
+      {
+        "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Size3-Regular.1n1rgzz84z8r9.woff2",
+        "kind": "asset",
+        "status": 200,
+        "contentType": "font/woff2",
+        "sha256": "73d591271b1604960cb10bb90fee021670af7297017e0e98480b332d11f51995",
+        "bytes": 3624
+      }
+    ]
+  },
+  "fullPublicRuns": [
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp/inference-score-spacing-pr62-public/public-chromium-2026-09-29T19-17-34-114Z/result.json",
+      "sha256": "9ebf0c42e41f4b238f9bf5341b9dd6b863f5702d4225d6d1234bccb88c263dc2",
+      "browser": {
+        "engine": "chromium",
+        "channel": "msedge",
+        "version": "154.0.4258.37"
+      },
+      "status": "passed",
+      "cases": 91,
+      "assets": 72,
+      "generatedPNG": 671,
+      "networkFailures": 7,
+      "expectedNoJSScriptCSP": 7,
+      "consoleErrors": 0,
+      "pageErrors": 0
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp/inference-score-spacing-pr62-public/public-webkit-2026-09-29T19-17-36-399Z/result.json",
+      "sha256": "f79701b5e3de5a2df0012f2d9ce8da35e848cce52b4f7debf0ef0bb4a747d0f6",
+      "browser": {
+        "engine": "webkit",
+        "channel": null,
+        "version": "26.6"
+      },
+      "status": "passed",
+      "cases": 91,
+      "assets": 72,
+      "generatedPNG": 668,
+      "networkFailures": 0,
+      "expectedNoJSScriptCSP": 0,
+      "consoleErrors": 0,
+      "pageErrors": 0
+    }
+  ],
+  "focusedPublicRuns": [
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-fixed\\chromium-2026-09-29T19-36-41.640Z\\result.json",
+      "browser": {
+        "engine": "chromium",
+        "channel": "msedge",
+        "version": "154.0.4258.37"
+      },
+      "status": "passed",
+      "observations": 16,
+      "generatedPNG": 32,
+      "htmlBeforeAfter": 8,
+      "assetsBeforeAfter": 72,
+      "observedResourceResponses": 235,
+      "observedDistinctResources": 50,
+      "requestFailures": 66,
+      "classifiedPageFetchAborts": 66,
+      "classifiedRSCAborts": 0,
+      "contextClosingTrue": 0,
+      "phaseCounts": {
+        "navigation": 61,
+        "modal-observation": 5
+      },
+      "criticalNetworkErrors": 0,
+      "identityUnchanged": true
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-fixed\\webkit-2026-09-29T19-36-54.572Z\\result.json",
+      "browser": {
+        "engine": "webkit",
+        "channel": null,
+        "version": "26.6"
+      },
+      "status": "passed",
+      "observations": 16,
+      "generatedPNG": 32,
+      "htmlBeforeAfter": 8,
+      "assetsBeforeAfter": 72,
+      "observedResourceResponses": 222,
+      "observedDistinctResources": 37,
+      "requestFailures": 0,
+      "classifiedPageFetchAborts": 0,
+      "classifiedRSCAborts": 0,
+      "contextClosingTrue": 0,
+      "phaseCounts": {},
+      "criticalNetworkErrors": 0,
+      "identityUnchanged": true
+    }
+  ],
+  "measurements": [
+    {
+      "engine": "chromium",
+      "profile": "1440x1000-light-dsf1",
+      "mode": "panel",
+      "kind": "draw",
+      "fontSVG": 22,
+      "renderedFontCSS": 21.538623046875,
+      "minGapSVG": 61.05601501464844,
+      "minGapCSS": 59.775567824766036,
+      "exactValues": [
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10",
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10"
+      ]
+    },
+    {
+      "engine": "chromium",
+      "profile": "1440x1000-light-dsf1",
+      "mode": "panel",
+      "kind": "logit",
+      "fontSVG": 18,
+      "renderedFontCSS": 17.622509765625,
+      "minGapSVG": 27.858848571777344,
+      "minGapCSS": 27.274601723067462,
+      "exactValues": [
+        "1.000001",
+        "1.000000",
+        "0.000000",
+        "-1.000000",
+        "0.999999",
+        "1.000000",
+        "0.000000",
+        "-1.000000"
+      ]
+    },
+    {
+      "engine": "chromium",
+      "profile": "1440x1000-light-dsf1",
+      "mode": "modal",
+      "kind": "draw",
+      "fontSVG": 22,
+      "renderedFontCSS": 28.11875,
+      "minGapSVG": 62.00241470336914,
+      "minGapCSS": 79.24683629274368,
+      "exactValues": [
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10",
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10"
+      ]
+    },
+    {
+      "engine": "chromium",
+      "profile": "1440x1000-light-dsf1",
+      "mode": "modal",
+      "kind": "logit",
+      "fontSVG": 18,
+      "renderedFontCSS": 23.00625,
+      "minGapSVG": 29.520721435546875,
+      "minGapCSS": 37.73117208480835,
+      "exactValues": [
+        "1.000001",
+        "1.000000",
+        "0.000000",
+        "-1.000000",
+        "0.999999",
+        "1.000000",
+        "0.000000",
+        "-1.000000"
+      ]
+    },
+    {
+      "engine": "chromium",
+      "profile": "1440x1000-dark-dsf1",
+      "mode": "panel",
+      "kind": "draw",
+      "fontSVG": 22,
+      "renderedFontCSS": 21.538623046875,
+      "minGapSVG": 61.05601501464844,
+      "minGapCSS": 59.775567824766036,
+      "exactValues": [
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10",
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10"
+      ]
+    },
+    {
+      "engine": "chromium",
+      "profile": "1440x1000-dark-dsf1",
+      "mode": "panel",
+      "kind": "logit",
+      "fontSVG": 18,
+      "renderedFontCSS": 17.622509765625,
+      "minGapSVG": 27.858848571777344,
+      "minGapCSS": 27.274601723067462,
+      "exactValues": [
+        "1.000001",
+        "1.000000",
+        "0.000000",
+        "-1.000000",
+        "0.999999",
+        "1.000000",
+        "0.000000",
+        "-1.000000"
+      ]
+    },
+    {
+      "engine": "chromium",
+      "profile": "1280x720-light-dsf1",
+      "mode": "panel",
+      "kind": "draw",
+      "fontSVG": 22,
+      "renderedFontCSS": 18.26494140625,
+      "minGapSVG": 62.636741638183594,
+      "minGapCSS": 52.00256435908377,
+      "exactValues": [
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10",
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10"
+      ]
+    },
+    {
+      "engine": "chromium",
+      "profile": "1280x720-light-dsf1",
+      "mode": "panel",
+      "kind": "logit",
+      "fontSVG": 18,
+      "renderedFontCSS": 14.94404296875,
+      "minGapSVG": 24.0916748046875,
+      "minGapCSS": 20.001501303911212,
+      "exactValues": [
+        "1.000001",
+        "1.000000",
+        "0.000000",
+        "-1.000000",
+        "0.999999",
+        "1.000000",
+        "0.000000",
+        "-1.000000"
+      ]
+    },
+    {
+      "engine": "chromium",
+      "profile": "390x844-light-dsf1",
+      "mode": "panel",
+      "kind": "draw",
+      "fontSVG": 22,
+      "renderedFontCSS": 12.2375,
+      "minGapSVG": 62.85393142700195,
+      "minGapCSS": 34.96249935626984,
+      "exactValues": [
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10",
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10"
+      ]
+    },
+    {
+      "engine": "chromium",
+      "profile": "390x844-light-dsf1",
+      "mode": "panel",
+      "kind": "logit",
+      "fontSVG": 18,
+      "renderedFontCSS": 10.0125,
+      "minGapSVG": 29.595504760742188,
+      "minGapCSS": 16.46249952316284,
+      "exactValues": [
+        "1.000001",
+        "1.000000",
+        "0.000000",
+        "-1.000000",
+        "0.999999",
+        "1.000000",
+        "0.000000",
+        "-1.000000"
+      ]
+    },
+    {
+      "engine": "chromium",
+      "profile": "390x844-dark-dsf1",
+      "mode": "panel",
+      "kind": "draw",
+      "fontSVG": 22,
+      "renderedFontCSS": 12.2375,
+      "minGapSVG": 62.85393142700195,
+      "minGapCSS": 34.96249935626984,
+      "exactValues": [
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10",
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10"
+      ]
+    },
+    {
+      "engine": "chromium",
+      "profile": "390x844-dark-dsf1",
+      "mode": "panel",
+      "kind": "logit",
+      "fontSVG": 18,
+      "renderedFontCSS": 10.0125,
+      "minGapSVG": 29.595504760742188,
+      "minGapCSS": 16.46249952316284,
+      "exactValues": [
+        "1.000001",
+        "1.000000",
+        "0.000000",
+        "-1.000000",
+        "0.999999",
+        "1.000000",
+        "0.000000",
+        "-1.000000"
+      ]
+    },
+    {
+      "engine": "chromium",
+      "profile": "390x844-dark-dsf1",
+      "mode": "modal",
+      "kind": "draw",
+      "fontSVG": 22,
+      "renderedFontCSS": 12.03125,
+      "minGapSVG": 62.114253997802734,
+      "minGapCSS": 33.96873265504837,
+      "exactValues": [
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10",
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10"
+      ]
+    },
+    {
+      "engine": "chromium",
+      "profile": "390x844-dark-dsf1",
+      "mode": "modal",
+      "kind": "logit",
+      "fontSVG": 18,
+      "renderedFontCSS": 9.84375,
+      "minGapSVG": 28.28569793701172,
+      "minGapCSS": 15.468741059303284,
+      "exactValues": [
+        "1.000001",
+        "1.000000",
+        "0.000000",
+        "-1.000000",
+        "0.999999",
+        "1.000000",
+        "0.000000",
+        "-1.000000"
+      ]
+    },
+    {
+      "engine": "chromium",
+      "profile": "960x540-light-dsf2",
+      "mode": "panel",
+      "kind": "draw",
+      "fontSVG": 22,
+      "renderedFontCSS": 20.83125,
+      "minGapSVG": 59.53133773803711,
+      "minGapCSS": 56.36873542070389,
+      "exactValues": [
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10",
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10"
+      ]
+    },
+    {
+      "engine": "chromium",
+      "profile": "960x540-light-dsf2",
+      "mode": "panel",
+      "kind": "logit",
+      "fontSVG": 18,
+      "renderedFontCSS": 17.04375,
+      "minGapSVG": 25.20795440673828,
+      "minGapCSS": 23.86878182888031,
+      "exactValues": [
+        "1.000001",
+        "1.000000",
+        "0.000000",
+        "-1.000000",
+        "0.999999",
+        "1.000000",
+        "0.000000",
+        "-1.000000"
+      ]
+    },
+    {
+      "engine": "webkit",
+      "profile": "1440x1000-light-dsf1",
+      "mode": "panel",
+      "kind": "draw",
+      "fontSVG": 22,
+      "renderedFontCSS": 21.538623046875,
+      "minGapSVG": 53.1875,
+      "minGapCSS": 52.072068786621095,
+      "exactValues": [
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10",
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10"
+      ]
+    },
+    {
+      "engine": "webkit",
+      "profile": "1440x1000-light-dsf1",
+      "mode": "panel",
+      "kind": "logit",
+      "fontSVG": 18,
+      "renderedFontCSS": 17.622509765625,
+      "minGapSVG": 14.171875,
+      "minGapCSS": 13.874666976928712,
+      "exactValues": [
+        "1.000001",
+        "1.000000",
+        "0.000000",
+        "-1.000000",
+        "0.999999",
+        "1.000000",
+        "0.000000",
+        "-1.000000"
+      ]
+    },
+    {
+      "engine": "webkit",
+      "profile": "1440x1000-light-dsf1",
+      "mode": "modal",
+      "kind": "draw",
+      "fontSVG": 22,
+      "renderedFontCSS": 28.11875,
+      "minGapSVG": 53.1875,
+      "minGapCSS": 67.98027343749999,
+      "exactValues": [
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10",
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10"
+      ]
+    },
+    {
+      "engine": "webkit",
+      "profile": "1440x1000-light-dsf1",
+      "mode": "modal",
+      "kind": "logit",
+      "fontSVG": 18,
+      "renderedFontCSS": 23.00625,
+      "minGapSVG": 14.171875,
+      "minGapCSS": 18.113427734375,
+      "exactValues": [
+        "1.000001",
+        "1.000000",
+        "0.000000",
+        "-1.000000",
+        "0.999999",
+        "1.000000",
+        "0.000000",
+        "-1.000000"
+      ]
+    },
+    {
+      "engine": "webkit",
+      "profile": "1440x1000-dark-dsf1",
+      "mode": "panel",
+      "kind": "draw",
+      "fontSVG": 22,
+      "renderedFontCSS": 21.538623046875,
+      "minGapSVG": 53.1875,
+      "minGapCSS": 52.072068786621095,
+      "exactValues": [
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10",
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10"
+      ]
+    },
+    {
+      "engine": "webkit",
+      "profile": "1440x1000-dark-dsf1",
+      "mode": "panel",
+      "kind": "logit",
+      "fontSVG": 18,
+      "renderedFontCSS": 17.622509765625,
+      "minGapSVG": 14.171875,
+      "minGapCSS": 13.874666976928712,
+      "exactValues": [
+        "1.000001",
+        "1.000000",
+        "0.000000",
+        "-1.000000",
+        "0.999999",
+        "1.000000",
+        "0.000000",
+        "-1.000000"
+      ]
+    },
+    {
+      "engine": "webkit",
+      "profile": "1280x720-light-dsf1",
+      "mode": "panel",
+      "kind": "draw",
+      "fontSVG": 22,
+      "renderedFontCSS": 18.264404296875,
+      "minGapSVG": 53.1875,
+      "minGapCSS": 44.156272888183594,
+      "exactValues": [
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10",
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10"
+      ]
+    },
+    {
+      "engine": "webkit",
+      "profile": "1280x720-light-dsf1",
+      "mode": "panel",
+      "kind": "logit",
+      "fontSVG": 18,
+      "renderedFontCSS": 14.943603515625,
+      "minGapSVG": 14.171875,
+      "minGapCSS": 11.765493392944336,
+      "exactValues": [
+        "1.000001",
+        "1.000000",
+        "0.000000",
+        "-1.000000",
+        "0.999999",
+        "1.000000",
+        "0.000000",
+        "-1.000000"
+      ]
+    },
+    {
+      "engine": "webkit",
+      "profile": "390x844-light-dsf1",
+      "mode": "panel",
+      "kind": "draw",
+      "fontSVG": 22,
+      "renderedFontCSS": 12.2375,
+      "minGapSVG": 53.1875,
+      "minGapCSS": 29.585546875000002,
+      "exactValues": [
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10",
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10"
+      ]
+    },
+    {
+      "engine": "webkit",
+      "profile": "390x844-light-dsf1",
+      "mode": "panel",
+      "kind": "logit",
+      "fontSVG": 18,
+      "renderedFontCSS": 10.0125,
+      "minGapSVG": 14.171875,
+      "minGapCSS": 7.883105468749999,
+      "exactValues": [
+        "1.000001",
+        "1.000000",
+        "0.000000",
+        "-1.000000",
+        "0.999999",
+        "1.000000",
+        "0.000000",
+        "-1.000000"
+      ]
+    },
+    {
+      "engine": "webkit",
+      "profile": "390x844-dark-dsf1",
+      "mode": "panel",
+      "kind": "draw",
+      "fontSVG": 22,
+      "renderedFontCSS": 12.2375,
+      "minGapSVG": 53.1875,
+      "minGapCSS": 29.585546875000002,
+      "exactValues": [
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10",
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10"
+      ]
+    },
+    {
+      "engine": "webkit",
+      "profile": "390x844-dark-dsf1",
+      "mode": "panel",
+      "kind": "logit",
+      "fontSVG": 18,
+      "renderedFontCSS": 10.0125,
+      "minGapSVG": 14.171875,
+      "minGapCSS": 7.883105468749999,
+      "exactValues": [
+        "1.000001",
+        "1.000000",
+        "0.000000",
+        "-1.000000",
+        "0.999999",
+        "1.000000",
+        "0.000000",
+        "-1.000000"
+      ]
+    },
+    {
+      "engine": "webkit",
+      "profile": "390x844-dark-dsf1",
+      "mode": "modal",
+      "kind": "draw",
+      "fontSVG": 22,
+      "renderedFontCSS": 12.03125,
+      "minGapSVG": 53.1875,
+      "minGapCSS": 29.0869140625,
+      "exactValues": [
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10",
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10"
+      ]
+    },
+    {
+      "engine": "webkit",
+      "profile": "390x844-dark-dsf1",
+      "mode": "modal",
+      "kind": "logit",
+      "fontSVG": 18,
+      "renderedFontCSS": 9.84375,
+      "minGapSVG": 14.171875,
+      "minGapCSS": 7.750244140625,
+      "exactValues": [
+        "1.000001",
+        "1.000000",
+        "0.000000",
+        "-1.000000",
+        "0.999999",
+        "1.000000",
+        "0.000000",
+        "-1.000000"
+      ]
+    },
+    {
+      "engine": "webkit",
+      "profile": "960x540-light-dsf2",
+      "mode": "panel",
+      "kind": "draw",
+      "fontSVG": 22,
+      "renderedFontCSS": 20.83125,
+      "minGapSVG": 53.1875,
+      "minGapCSS": 50.3619140625,
+      "exactValues": [
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10",
+        "0.40",
+        "0.30",
+        "0.20",
+        "0.10"
+      ]
+    },
+    {
+      "engine": "webkit",
+      "profile": "960x540-light-dsf2",
+      "mode": "panel",
+      "kind": "logit",
+      "fontSVG": 18,
+      "renderedFontCSS": 17.04375,
+      "minGapSVG": 14.171875,
+      "minGapCSS": 13.418994140625,
+      "exactValues": [
+        "1.000001",
+        "1.000000",
+        "0.000000",
+        "-1.000000",
+        "0.999999",
+        "1.000000",
+        "0.000000",
+        "-1.000000"
+      ]
+    }
+  ],
+  "counts": {
+    "fullGeneratedPNG": 1339,
+    "focusedGeneratedPNG": 64,
+    "totalCurrentGeneratedPNG": 1403,
+    "actuallyViewedCurrentPNG": 47,
+    "focusedViewedPNG": 36,
+    "currentFullRunRepresentativeViewedPNG": 11,
+    "actualFullScene": 38,
+    "actualViewport": 9,
+    "actualByEngine": {
+      "chromium": 29,
+      "webkit": 18
+    },
+    "prior90NotCountedAgain": true,
+    "localImagesIncluded": false
+  },
+  "viewedLedger": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-viewed-images.json",
+  "composedAcceptance": {
+    "articleCount": 8,
+    "freshCurrentScope": "Focused inference S6 draw/logit comparison: all32 scenes+4representative viewports. Completed current Edgefull91: C2five scene representatives and one representative from each of six other unchanged articles.",
+    "carryForwardScope": "PR61 original independent90public-image review: C2all23stage/options/conditions/READ/noJS/print/low desktop/narrow and old7article representatives; original51bbox candidates actually reviewed.",
+    "carryConditions": [
+      "Seven non-inference inputs at actual merge equal original PR61 input digests",
+      "Current exact CI BUILD/8HTML/assets and182full browser cases passed",
+      "Current representative11 public images have no new finding",
+      "Edge49 current bbox candidates in20records match original candidates at0.001SVG unit rounding; no new/changed candidate",
+      "WebKit original2 actual collision candidates disappear; current0, and new focused pictures independently prove visible gaps"
+    ],
+    "inferenceUnaffectedScope": "Original inference non-S6 coverage plus exact one-rule product delta in frozen local source proof and current full91 run; no claim all inference stages were re-viewed.",
+    "bboxComparisons": [
+      {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-bbox-chromium.json",
+        "engine": "chromium",
+        "originalCandidates": 49,
+        "currentCandidates": 49,
+        "records": 20,
+        "unchangedRecords": 20,
+        "newOrChanged": 0
+      },
+      {
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-bbox-webkit.json",
+        "engine": "webkit",
+        "originalCandidates": 2,
+        "currentCandidates": 0,
+        "records": 0,
+        "unchangedRecords": 0,
+        "newOrChanged": 0
+      }
+    ]
+  },
+  "harnessCorrection": {
+    "initialAttempt": "Both engines stopped before browser launch because TEMP gitRead rejected consecutive dots in [[...mdxPath]]; this is separate from product/full91 tests",
+    "preserved": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-support-v1-preserved.mjs",
+    "provenance": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-runtime-fix-provenance.json",
+    "offlineChecks": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pathcheck.json",
+    "offlinePassed": 11,
+    "scope": "Only parent-path segment guard changed. Frozen capture/observe functions remained identical. New timestamps/output directories used for successful runs."
+  },
+  "limitations": [
+    "47 current public images actually viewed, not all1403; original90 are explicitly carried and not counted again. Root author supplementary views not counted.",
+    "Narrow390 logit text remains around9.84–10.01CSSpx; this is PC-first scoped spacing acceptance, not a mobile typography redesign.",
+    "Short viewport screenshots are partial; corresponding unmodified full-scene captures were separately viewed.",
+    "No physical iPhone/Safari, real screenreader, physical print or new performance/CLS measurements.",
+    "Raw full/focused pending visual fields remain unchanged; this separate independent report supplies the visual verdict.",
+    "Original PR61 changes_requested and frozen local review remain untouched."
+  ],
+  "ownership": "Only TEMP/inference-score-spacing-public-* edited; no repository/product/kit/Git writes",
+  "evidence": [
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-fixed\\chromium-2026-09-29T19-36-41.640Z\\result.json",
+      "sha256": "20efc3caa48587ee22a6a530147e895def300f928286557af6da4623240f6b25",
+      "bytes": 350995
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-fixed\\webkit-2026-09-29T19-36-54.572Z\\result.json",
+      "sha256": "e522ec09b4fca8abdd6a315798a58fc2179ce6da07678f2ea5ba0a9938902b17",
+      "bytes": 280769
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp/inference-score-spacing-pr62-public/public-chromium-2026-09-29T19-17-34-114Z/result.json",
+      "sha256": "9ebf0c42e41f4b238f9bf5341b9dd6b863f5702d4225d6d1234bccb88c263dc2",
+      "bytes": 4785615
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp/inference-score-spacing-pr62-public/public-webkit-2026-09-29T19-17-36-399Z/result.json",
+      "sha256": "f79701b5e3de5a2df0012f2d9ce8da35e848cce52b4f7debf0ef0bb4a747d0f6",
+      "bytes": 4701142
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-bbox-chromium.json",
+      "sha256": "ec9fed9bf7ab7f2f4c0008b3feb26f3c858c11a1cacb70207c57f320c96f9361",
+      "bytes": 53590
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-bbox-webkit.json",
+      "sha256": "88c81cb2b7a2c8cc593ef34200ce79cc7939102cf19d1f0cb5c22a2f882f9964",
+      "bytes": 636
+    },
+    {
+      "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-pr62-public/ci-36615994124-attempt-1-20260929T191411585Z/artifact-evidence.json",
+      "sha256": "bc8461b55ca89cc453562a1f47982bd3e235b5f53a9b8c6b92baddb64d5a3fa6",
+      "bytes": 5722
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-config.json",
+      "sha256": "1fa18af8e5891c85dcf6606055d6d5ed1480219792237a0c1cc1f3c20b5d830d",
+      "bytes": 1087
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-review.json",
+      "sha256": "be4b2b1a010231b928ce2dc733f72fdb973b0d7950e27149a2ad6ffd07969635",
+      "bytes": 91121
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-viewed-images.json",
+      "sha256": "15ca91de8dcc38de3867ef3385f161dd9cc5ec13766b31ca7faef2577ed50bd6",
+      "bytes": 136582
+    },
+    {
+      "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review.json",
+      "sha256": "6dd30aad8e5a53f8efe0d7e76d6164f501c41c073ca6c398c9be74a4741fbdfa",
+      "bytes": 27412
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-viewed-images.json",
+      "sha256": "76d7a81a49e8c24b8414c5999fa4e25a13a911cae88b0de62d2a7d97481bb99e",
+      "bytes": 55570
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-review-plan.json",
+      "sha256": "11040ff96a099acce7a2e3644d32542f62e254ae05c21ab8270d8ff4f0ace8ba",
+      "bytes": 1806
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-support.mjs",
+      "sha256": "49fe3a5ed769549a5e0800169610c29f87dc629b06ab7a23bd6110da47f07728",
+      "bytes": 11854
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-support-v1-preserved.mjs",
+      "sha256": "05871591f3a0e745efc55a86822dd7b4040ef2c39194fc14f2fa2713a3e94822",
+      "bytes": 11839
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-run.mjs",
+      "sha256": "27decd44e31969b91bfe7f90ddaadcce505f4b736ee6c0ad6fbb2eff584310e8",
+      "bytes": 6787
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-generate.mjs",
+      "sha256": "962bc27862b50f6b3cec97e00c4e3a25b0e1851ed27c13467c576cd03f1e556d",
+      "bytes": 4950
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-run-provenance.json",
+      "sha256": "1332c02410ed44d9346c3f7338619c6efc60e1cd9d17937bf78a9af5e2b70fe4",
+      "bytes": 890
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-preparation.json",
+      "sha256": "5884a42f8513ca543a83d72e07997b079130a55a1c1c3cd7348a2e5c3f800862",
+      "bytes": 1906
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-runtime-fix-provenance.json",
+      "sha256": "430f018f28eb6859405d2be26a009553cfc9dde4202acf58ae5a69bda7d98561",
+      "bytes": 841
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pathcheck.mjs",
+      "sha256": "5f041b24f93001f14242edff96d8a6d5088a9ecd35aefb640f6c6a61aaeaa90a",
+      "bytes": 1419
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pathcheck.json",
+      "sha256": "499917ebc1d0427178b1e623c5d2964423beb77204548536c27d83993d411fba",
+      "bytes": 1206
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-chromium.log",
+      "sha256": "99674c4a428cd3a730783c4602973963e16a53f62062be4f50bc5a8c66d317b9",
+      "bytes": 686
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-webkit.log",
+      "sha256": "99674c4a428cd3a730783c4602973963e16a53f62062be4f50bc5a8c66d317b9",
+      "bytes": 686
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-chromium-v2.log",
+      "sha256": "a6a547449188c0072e946ee099566293914997225fe22e587b9c259045f5d747",
+      "bytes": 2475
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-webkit-v2.log",
+      "sha256": "7f6c7bec92aa1c30ce64a41788c00268d996dd942ba8d94eff8c34c545454cba",
+      "bytes": 2473
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-bbox-compare.mjs",
+      "sha256": "4b760e1e1daf51136e4983923903b84290c56648e926095c314500797749fbe7",
+      "bytes": 2393
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-README.md",
+      "sha256": "dbd0526d8322477bfadec49bea3af9300b6c8fc13a4964bed49779d60e5d6d28",
+      "bytes": 3191
+    },
+    {
+      "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-finalize.mjs",
+      "sha256": "aa95a3ae358f892f9940ba80475222b81dc2916e113c311cdb1d9505395c3b92",
+      "bytes": 16912
+    }
+  ]
+}

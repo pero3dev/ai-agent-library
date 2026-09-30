@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "article": "docs/11-llm-internals/alignment-theory.md",
+  "review": {
+    "inputDigest": "sha256:49c3c707ed6741a80d4de4927a4d55cdd8523999c694ee022fe1bcc6bf8f54f2",
+    "status": "approved",
+    "checkedAt": "2026-09-30T09:55:15.572Z",
+    "independent": true,
+    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
+  },
+  "local": {
+    "inputDigest": "sha256:49c3c707ed6741a80d4de4927a4d55cdd8523999c694ee022fe1bcc6bf8f54f2",
+    "status": "passed",
+    "checkedAt": "2026-09-30T09:55:15.572Z",
+    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
+  },
+  "public": null
+}

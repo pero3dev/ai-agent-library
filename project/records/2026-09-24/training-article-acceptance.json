@@ -2,25 +2,25 @@
   "schemaVersion": 1,
   "article": "docs/10-llm-foundations/llm-training-pipeline.md",
   "review": {
-    "inputDigest": "sha256:33237ab6f74f953e7ceab16d01631b765eb21bf28df6e3ff7cc8eb7f4f261ec5",
+    "inputDigest": "sha256:85a0c5f646fd52e72c1c77a41fd5e9b4bc32f14e60a8c3fe224da222fef50237",
     "status": "approved",
-    "checkedAt": "2026-09-29T17:00:43.085Z",
+    "checkedAt": "2026-09-30T09:55:15.572Z",
     "independent": true,
-    "record": "project/records/2026-09-25/pretraining-scene-review.md"
+    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
   },
   "local": {
-    "inputDigest": "sha256:33237ab6f74f953e7ceab16d01631b765eb21bf28df6e3ff7cc8eb7f4f261ec5",
+    "inputDigest": "sha256:85a0c5f646fd52e72c1c77a41fd5e9b4bc32f14e60a8c3fe224da222fef50237",
     "status": "passed",
-    "checkedAt": "2026-09-29T17:08:17.450Z",
-    "record": "project/records/2026-09-25/pretraining-reading-diagrams.md"
+    "checkedAt": "2026-09-30T09:55:15.572Z",
+    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
   },
   "public": {
-    "inputDigest": "sha256:ac6d8aabd80a18e7cf8d54343531ba1e43e346f18ec9bde25017b350e955750e",
+    "inputDigest": "sha256:33237ab6f74f953e7ceab16d01631b765eb21bf28df6e3ff7cc8eb7f4f261ec5",
     "status": "passed",
-    "checkedAt": "2026-09-24T15:59:03.585Z",
-    "commit": "517dc8b5166bd7b0c85baef3800d7fe57bac7b31",
-    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36019573674",
-    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36019573674/job/107704025706",
-    "browserRecord": "project/records/2026-09-24/training-public-review.md"
+    "checkedAt": "2026-09-29T19:43:48.515Z",
+    "commit": "5940334a6fd3aab8178cfeb8746a58c8b937d390",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36615994124",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36615994124/job/109574494236",
+    "browserRecord": "project/records/2026-09-30/inference-score-spacing-public-pr62-review.md"
   }
 }

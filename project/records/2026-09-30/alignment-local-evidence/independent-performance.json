@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-local-performance-observation-not-final-acceptance",
+  "resultPath": "raw/independent-performance-result.json.gz",
+  "resultSHA256": "0ec012303a8be26eb1f364ea00c3bd2eb4bc013b94f38f95c067c84bb7c0d08d",
+  "helperPath": "raw/independent-performance-helper.mjs.gz",
+  "helperSHA256": "747dca36172f4a08e93664e4aaeb358d802ee5e64780c7a3ebec6cc70ce3ea24",
+  "networkClassificationPath": "raw/independent-performance-network-classification.json.gz",
+  "networkClassificationSHA256": "3f3c947239f0f124073d310a495ccb7d54b0b2df0d3971f305d755e3e8cd7599",
+  "environment": {
+    "os": "win32",
+    "release": "10.0.26200",
+    "arch": "x64",
+    "node": "v24.16.0",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "deviceScaleFactor": 1,
+    "cpuNetworkThrottling": "none",
+    "transport": "loopback uncompressed static export",
+    "browser": "154.0.4258.37"
+  },
+  "startedAt": "2026-09-29T20:27:02.424Z",
+  "finishedAt": "2026-09-29T20:27:36.384Z",
+  "identityUnchanged": true,
+  "inputIdentityMatchesInitialCapture": true,
+  "cold": [
+    {
+      "label": "D1",
+      "route": "/docs/llm-internals/alignment-theory",
+      "figures": 3,
+      "allCLS": {
+        "maximumSessionWindow": 0,
+        "sum": 0
+      },
+      "figureCLS": {
+        "maximumSessionWindow": 0,
+        "sum": 0
+      },
+      "sceneGzip": 26805,
+      "sharedGzip": 21892,
+      "method": "Fresh context. load and fonts ready, then 5 s without input or scrolling. CLS session gap <=1 s, window <=5 s. gzipSync default on whole emitted chunks; conservative module-size bound, not actual transfer size."
+    },
+    {
+      "label": "negative-control",
+      "route": "/docs/llm-internals/interpretability-basics",
+      "figures": 0,
+      "allCLS": {
+        "maximumSessionWindow": 0,
+        "sum": 0
+      },
+      "figureCLS": {
+        "maximumSessionWindow": 0,
+        "sum": 0
+      },
+      "sceneGzip": 0,
+      "sharedGzip": 21892,
+      "method": "Fresh context. load and fonts ready, then 5 s without input or scrolling. CLS session gap <=1 s, window <=5 s. gzipSync default on whole emitted chunks; conservative module-size bound, not actual transfer size."
+    }
+  ],
+  "performance": [
+    {
+      "id": "alignment-preference",
+      "responseMs": 13.5,
+      "raf": {
+        "elapsed": 5501.2,
+        "samples": 790,
+        "p95": 7.199999999999818,
+        "max": 13.900000000000091,
+        "distinctPhases": 123
+      },
+      "pausedPhaseStableForMs": 500,
+      "method": "Native play, click-handler to first range observation; rAF callback intervals are not GPU frame times. Paused phase stability is not a global idle-loop proof."
+    },
+    {
+      "id": "alignment-reward-risk",
+      "responseMs": 12.799999952316284,
+      "raf": {
+        "elapsed": 5502.4,
+        "samples": 792,
+        "p95": 7.100000000000364,
+        "max": 7.399999999999636,
+        "distinctPhases": 123
+      },
+      "pausedPhaseStableForMs": 500,
+      "method": "Native play, click-handler to first range observation; rAF callback intervals are not GPU frame times. Paused phase stability is not a global idle-loop proof."
+    },
+    {
+      "id": "alignment-feedback",
+      "responseMs": 13.099999904632568,
+      "raf": {
+        "elapsed": 5501.100000143051,
+        "samples": 792,
+        "p95": 7.100000000002183,
+        "max": 7.30000000000291,
+        "distinctPhases": 123
+      },
+      "pausedPhaseStableForMs": 500,
+      "method": "Native play, click-handler to first range observation; rAF callback intervals are not GPU frame times. Paused phase stability is not a global idle-loop proof."
+    }
+  ],
+  "rawNetworkErrors": 30,
+  "criticalErrors": 0,
+  "nonCriticalAbortedFetchesPreserved": 30,
+  "abortClassificationLimit": "No assertion about exact abort timing or cause; performance evidence only. Full kit network conditions remain unchanged.",
+  "negativeControlNote": "Performance helper uses interpretability-basics as its own no-diagram comparison; public kit negative control remains embeddings.",
+  "aggregateIndependentReview": "pending",
+  "localAccepted": false,
+  "publicAccepted": false
+}

@@ -2,12 +2,12 @@
 
 2026-09-24作成。既存の推論内部向け公開検証キットを、別のWindows PCで再開できる形にし、`scripts/diagram-release/` に配置しています。元キットは変更していません。公開先は `pero3dev/ai-agent-library` と `https://pero3dev.github.io/ai-agent-library` に固定され、接続先を任意指定する機能はありません。
 
-C1（学習パイプライン）は[公開レビュー](../../project/records/2026-09-24/training-public-review.md)で受入済みです。現在のキットはC2（事前学習）の5図・23段階・19 READ停止を追加した候補で、旧71ケースを順序どおり保持し、新20ケースを加えた8記事・91ケースを検査します。C2候補の独立レビュー、ローカル実行、公開受入はそれぞれ別の証拠です。最新状態はリポジトリの実施記録を正本とし、このキットの準備成功を公開完了として扱いません。
+C2（事前学習）を含む8記事は[PR62公開レビュー](../../project/records/2026-09-30/inference-score-spacing-public-pr62-review.md)で受入済みです。現在のキットはD1（アラインメント理論）の3図・15段階・15 READ停止を追加した候補で、9記事・107ケースを検査します。旧90ケースは不変で、無図対照1件だけをalignmentからP1対象外のembeddingsへ明示移行します。D1候補の独立レビュー、ローカル実行、公開受入は別の証拠です。最新状態はリポジトリの実施記録を正本とし、準備成功を公開完了として扱いません。
 
 ## 作業契約と再開入口
 
-- 目的: 既存71ケース、固定fixture、CI/Pagesの同一性条件を維持し、C2の20ケースを追加する。個人のドライブ・ユーザー名・以前の一時フォルダーを必要としない実行入口を用意する。
-- 所有: `scripts/diagram-release/` と対応する `tests/unit/diagram-release-portable.test.mjs`。元キット、製品、Git、公開状態を変更しない。
+- 目的: 旧91ケースの継承を対照の明示移行を含めて証明し、固定fixtureとCI/Pagesの同一性条件を維持してD1の16ケースを追加する。個人のドライブ・ユーザー名・以前の一時フォルダーを必要としない実行入口を用意する。
+- 所有: `scripts/diagram-release/`、対応する `tests/unit/diagram-release-portable.test.mjs`、`website/tests/browser/alignment.spec.mjs`。元キット、製品、Git、公開状態を変更しない。
 - 許可: 引き継ぎ準備とオフライン検証まで。公開実行は現在の担当者が実際のmerge SHAと成功main CI/Pagesを確認した後に行う。
 - 終了条件: 構文・help・オフライン検査、source→portableの差分対応とhash、再開手順を提出する。各後継変更の独立レビューは、その候補に対する判定が出るまで保留として記録する。
 - 継続の境界: 最新ユーザー依頼は「P1の15記事を完了して停止」。P2以降へ自動継続しない。次の担当はGPT-6 Astra Ultraを想定するが、製品の利用可能性や設定をこのキットは変更しない。
@@ -26,7 +26,7 @@ Windows、PowerShell 7以上、Node.js 22以上（CIは22）、npm、GitHub CLI 
 
 `--output`（collectorは `-OutputDirectory`）は必須です。リポジトリとキットの外側に、今回の証拠専用ディレクトリを用意してください。ファイルシステムのルート、リポジトリやキット内、symlink/junction経由の出力は拒否します。生成物はその配下に作成します。過去runの同名ディレクトリは再利用しません。出力先を他プロセスが同時に変更しないようにしてください。この検査はOSの隔離機構ではありません。
 
-collectorの再開先、runnerのevidence、extractorのarchiveも明示した出力先の内側が必要です。extractorはtarの全展開をせず、固定8記事に対応する通常HTMLだけをstdout経由で読み、固定名で保存します。重複member、リンクmember、不一致BUILD_IDは元の条件のまま失敗します。
+collectorの再開先、runnerのevidence、extractorのarchiveも明示した出力先の内側が必要です。extractorはtarの全展開をせず、固定9記事に対応する通常HTMLだけをstdout経由で読み、固定名で保存します。重複member、リンクmember、不一致BUILD_IDは元の条件のまま失敗します。
 
 ## 別PCでの実行例
 
@@ -74,7 +74,7 @@ channel省略時はPlaywrightに同梱された標準Chromiumを使います。E
 
 出力先全体を同じ相対構造でコピーします。`ci-.../` は前後のGitHub応答、download、HTML抽出結果、artifact-evidence.json、portable-references.jsonを持ちます。`public-.../` はresult.jsonとPNG、`preparation-.../` はオフライン準備結果です。端末ログを保存する場合も出力先内の明示したファイルに保存し、終了コードを記録します。
 
-新規result.jsonは元の絶対パスに加え、`portableReferences` に出力先基準のevidence・result・画像の相対参照を持ちます。collectorの `portable-references.json` はHTMLの対応表です。C1は既存のviewport PNGに加えてSVG全体の `-scene.png` を保存します。geometry観測の `screenshots.completeScene` から対応を辿れ、画像一覧にはCSS bbox・deviceScaleFactor・PNG寸法・撮影前後のスクロール位置を記録します。補助画像は実スクロールで固定ナビの下へSVGを収めて撮影し、元のスクロールへ戻します。スタイルやviewport寸法は変更しません。元viewport PNGを実画面の証拠として維持し、`-scene.png` はglyph確認用の補助証拠として区別します。低い画面のviewport画像で切れた上部/下部も、全体画像で独立確認します。以前の生証拠JSONを書き換えて新PCのパスへ置き換えないでください。旧絶対パスとコピー先の相対パスの対応表を別ファイルに追加します。機械91/91に加え、公開PNGの独立レビューを記録するまで可読性承認はpendingです。WebKitやviewportの結果は物理iPhone Safariの受入ではありません。
+新規result.jsonは元の絶対パスに加え、`portableReferences` に出力先基準のevidence・result・画像の相対参照を持ちます。collectorの `portable-references.json` はHTMLの対応表です。C1は既存のviewport PNGに加えてSVG全体の `-scene.png` を保存します。geometry観測の `screenshots.completeScene` から対応を辿れ、画像一覧にはCSS bbox・deviceScaleFactor・PNG寸法・撮影前後のスクロール位置を記録します。補助画像は実スクロールで固定ナビの下へSVGを収めて撮影し、元のスクロールへ戻します。スタイルやviewport寸法は変更しません。元viewport PNGを実画面の証拠として維持し、`-scene.png` はglyph確認用の補助証拠として区別します。低い画面のviewport画像で切れた上部/下部も、全体画像で独立確認します。以前の生証拠JSONを書き換えて新PCのパスへ置き換えないでください。旧絶対パスとコピー先の相対パスの対応表を別ファイルに追加します。機械107/107に加え、公開PNGの独立レビューを記録するまで可読性承認はpendingです。WebKitやviewportの結果は物理iPhone Safariの受入ではありません。
 
 ## 元キットからの対応
 
@@ -103,7 +103,7 @@ C1の変更元はラベル中間版manifest `c68b2b87452f374be0da9d8a6a488655db1
 
 C1候補の71ケースは7記事用です。旧58ケースと6記事を保持した上での拡張であり、15記事すべてを網羅したとは数えません。次の制作単位では記事・図・段階・独立fixture・source map・静止表示・noJS/print・実時間操作・画面条件・配信分離を追加し、collectorとextractorの対象HTML、runnerの同一性集合とケース数、準備manifestを同じ変更で更新します。元ケースを残し、新しい版で独立レビューを受けます。
 
-特に `alignment-theory` は現在、図を持たない対照記事としてBUILD_IDとheavy chunkゼロを検査しています。同記事へ図を入れる前に、適切な無図対照の選定、固定許可対象、BUILD_ID検査、分離期待値を更新し、新しい図の記事はartifact HTML照合の対象へ追加してください。heavy chunkゼロのassertionを無条件に外して済ませないでください。
+C1時点では `alignment-theory` を図のない対照記事として使っていました。現行D1では同記事をartifact HTML照合の対象へ加え、無図対照を `embeddings` へ移しています。BUILD_IDとheavy chunkゼロの検査を保持した移行の詳細は、末尾の「D1の追加・対照移行・ローカル入口」節を参照してください。
 
 各制作単位の公開ゲートと記事別受入を更新し、P1の15記事の主要論点・数式・表示・公開確認が完了した時点で停止します。次段階への継続はこのキットから開始しません。
 
@@ -117,4 +117,25 @@ C2の2026-09-30ローカル検査では、Edgeのボタン下端が画面高1000
 
 `c2-predecessor-proof.json` は旧manifestのhash、旧71名、3入口の明示的なbefore/after差分と旧filehashだけを持つフラットな履歴です。準備検査は現在のinventoryとsidecar hashを検証し、C2差分を逆順に戻してC1全文と比較した後、既存のB/PR58/C1/capture来歴検査を行います。旧履歴のcandidateSHAは復元C1に対する値で、現filehashはinventoryで区別します。sidecarは自分自身や現在manifestをhashに含めず、旧manifest本文も埋め込みません。
 
-公開入口は常に全91件を実行し、旧ケースをskipするオプションはありません。localhost予行を依頼された場合は別adapterの記録を使い、CI artifactと公開HTMLの同一性確認を実施したとは記録しません。alignment-theoryへ図解を追加する次工程では、未実装の別記事へ無図対照を明示的に移す必要があります。P1完了で停止し、P2へ自動継続しません。
+C2時点の公開入口は全91件でした。以下のD1更新で全107件へ拡張し、対照を明示移行します。過去のC2実行をD1実行済みとは扱いません。
+
+## D1の追加・対照移行・ローカル入口
+
+採択済み[kit計画と独立レビュー](../../project/records/2026-09-30/p1-interface-preparation/README.md)に基づき、alignment-preference / reward-risk / feedbackの3図を追加します。6画面条件・全15段階、各図の意味とselector・中点往復、keyboard/modal、全15 READ、3図のnative clock、noJS、printで新16ケースです。旧90ケース本文は保持し、alignment無図対照だけをembeddingsへ移します。名称・route・H1を同時変更し、HTTP200 / MIME / BUILD_ID / reading-figure0 / toc0 / shared-frameを含むheavy chunk0 / network判定を保持します。alignmentは独立CI HTML hashを必須とする第9記事になり、embeddingsはBUILD_IDのみの対照でartifact集合には入りません。
+
+DPOの期待値は製品model・DOM・local buildから生成せず、固定分数と閉形式で別実装にしています。β=0.5/1/2の選好確率2/3・4/5・16/17、1ペア損失ln(3/2)・ln(5/4)・ln(17/16)を未丸め1e-12と可視約3桁に分けて検査します。参照分布・同じx・二つのZ項、1ペア損失と期待値を区別し、全応答KLを未知のまま保ちます。定性的な代理評価・副作用・安全性に数値の保証を加えません。390px明暗では元DPO式の領域名・focus-visible・左右端・分数と添字の高さ・ページoverflowも検査します。
+
+`d1-predecessor-proof.json` は旧C2 manifestのhash、旧91名、旧filehash、固定3入口のbefore/afterと対照移行だけを持つflat sidecarです。current inventory → D1逆適用でC2全文 → 既存C2逆適用でC1全文 → 旧保護区間の順に確認します。旧C2 proofと6つの検査/helper moduleはbyte不変、旧predecessor helperは完全prefixとして保護します。旧91名は1件の逆renameで復元し、旧71/58名まで順序を検査します。自己hash・現在manifestのhash・旧manifest本文をproofへ入れず、hash循環を作りません。
+
+ローカルCI入口は `website/tests/browser/alignment.spec.mjs`、adapterは `local-alignment-adapter.mjs` です。同じ16callbackをlocalhost専用APIへ接続します。外部host、HTTPS、任意pathを拒否し、公開entryへ偽SHA・artifactを渡しません。rootで依存準備とstatic exportを生成した後、websiteディレクトリで次を実行できます。
+
+```powershell
+$env:NEXT_PUBLIC_BASE_PATH = '/ai-agent-library'
+npx --no-install playwright test tests/browser/alignment.spec.mjs
+$env:PLAYWRIGHT_BROWSER = 'webkit'
+npx --no-install playwright test tests/browser/alignment.spec.mjs
+```
+
+Chromiumの既定は同じlockfileのbundled browserです。Edgeは `PLAYWRIGHT_CHANNEL=msedge` を明示します。試験ごとの `alignment-result.json` はlocal static-export証拠とし、viewport/全scene PNGと文字bbox・wire候補を残します。画像を生成しただけでは独立可読性承認ではなく、物理iPhone/Safari・screen reader・物理印刷・性能計測の証拠でもありません。
+
+公開入口は常に全107件でskip機能を持ちません。実main CI/Pages成功後に固定9HTMLを取得し、公開107ケースと独立画像レビューを行います。D1の独立実装・画像・公開受入は判定が出るまでpendingです。P1全15記事の公開受入で停止し、P2へ自動継続しません。

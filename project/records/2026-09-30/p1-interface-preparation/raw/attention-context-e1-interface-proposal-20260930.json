@@ -1,0 +1,2748 @@
+{
+  "schemaVersion": 1,
+  "status": "proposal-for-independent-review",
+  "unit": "E1",
+  "createdAt": "2026-09-29T19:01:59.919Z",
+  "authorRun": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_change_evidence",
+  "scope": {
+    "purpose": "採択済みE1の2図11段階を後の担当が実装できる具体的なインターフェースへ落とす準備だけ。",
+    "allowedWrites": [
+      "attention-context-e1-interface-proposal-20260930.md",
+      "attention-context-e1-interface-proposal-20260930.json"
+    ],
+    "productModified": false,
+    "articleModified": false,
+    "kitModified": false,
+    "gitMutation": false,
+    "networkPerformed": false,
+    "implementationStarted": false,
+    "independentReview": null,
+    "localAcceptance": null,
+    "publicAcceptance": null,
+    "prerequisites": [
+      "D2公開受入",
+      "本案の独立レビューと親担当の開始指示",
+      "開始時mainのsource hashesと共通規約の再照合"
+    ],
+    "stopBoundary": "P1採択済み15/199記事の公開受入で停止。P0部分対応2記事はP1達成数へ加算しない。P2は開始しない。",
+    "externalOperations": "外部操作なし。本案を公開/PR/有料利用の追加許可として扱わない。"
+  },
+  "source": {
+    "article": "docs/10-llm-foundations/attention-and-context.md",
+    "route": "/docs/llm-foundations/attention-and-context",
+    "observedHead": "5940334a6fd3aab8178cfeb8746a58c8b937d390",
+    "workingTreeNotice": "入力観測時のHEAD。親担当が別変更を実施中で、clean treeや公開版一致は主張しない。",
+    "adoptedArticleSha256": "433d75095383235eeace9c4b34048bad43a3f4b0ba6e65c2e7e7d25eebdb1c55",
+    "currentArticleSha256": "433d75095383235eeace9c4b34048bad43a3f4b0ba6e65c2e7e7d25eebdb1c55",
+    "candidateArticleSha256": "433d75095383235eeace9c4b34048bad43a3f4b0ba6e65c2e7e7d25eebdb1c55",
+    "correctionsPlanned": false,
+    "sourceDigests": [
+      {
+        "id": "context-causal-cost",
+        "adopted": "sha256:3d148c85ba70c31149692bbbb25b7ce25ec0d9a9457b43f85b646287e4ff625e",
+        "current": "sha256:3d148c85ba70c31149692bbbb25b7ce25ec0d9a9457b43f85b646287e4ff625e"
+      },
+      {
+        "id": "context-cache-quality",
+        "adopted": "sha256:cbdf6f68c773444b57ccffc29430974e2705c11460558a8b39b4ea0fabc6c7ed",
+        "current": "sha256:cbdf6f68c773444b57ccffc29430974e2705c11460558a8b39b4ea0fabc6c7ed"
+      }
+    ],
+    "inputs": [
+      {
+        "file": "docs/10-llm-foundations/attention-and-context.md",
+        "rawSha256": "433d75095383235eeace9c4b34048bad43a3f4b0ba6e65c2e7e7d25eebdb1c55",
+        "lfSha256": "433d75095383235eeace9c4b34048bad43a3f4b0ba6e65c2e7e7d25eebdb1c55"
+      },
+      {
+        "file": "project/records/2026-09-24/p1-remaining-storyboards.json",
+        "rawSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+        "lfSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319"
+      },
+      {
+        "file": "project/records/2026-09-24/p1-remaining-storyboards.md",
+        "rawSha256": "b663581aa76b9da2cb78c7121f54108f5e01cb248d3a059996656922aeab8108",
+        "lfSha256": "b663581aa76b9da2cb78c7121f54108f5e01cb248d3a059996656922aeab8108"
+      },
+      {
+        "file": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+        "rawSha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+        "lfSha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4"
+      },
+      {
+        "file": "website/lib/diagram-registry.mjs",
+        "rawSha256": "85e75284f46ce42f7c89384a32bce6d227d2273855adfc81238d2f78966518d9",
+        "lfSha256": "85e75284f46ce42f7c89384a32bce6d227d2273855adfc81238d2f78966518d9"
+      },
+      {
+        "file": "website/lib/reading-clock.mjs",
+        "rawSha256": "f39eadf5eb39ebbb0f33877e6bceb9966211fc7acdaad13118428a4c2019081b",
+        "lfSha256": "f39eadf5eb39ebbb0f33877e6bceb9966211fc7acdaad13118428a4c2019081b"
+      },
+      {
+        "file": "website/lib/training-runtime-boundary-model.mjs",
+        "rawSha256": "290be52f3e5c413cfa0a50c5592c582fa19bbebf24cf4e9ff2b3e25c940ce097",
+        "lfSha256": "290be52f3e5c413cfa0a50c5592c582fa19bbebf24cf4e9ff2b3e25c940ce097"
+      },
+      {
+        "file": "website/components/diagrams/training-runtime-boundary-walkthrough.jsx",
+        "rawSha256": "48a8760c0710cb36ea6f661d7f4e575c4c8f347403cfe18af5238e0d88d38a53",
+        "lfSha256": "48a8760c0710cb36ea6f661d7f4e575c4c8f347403cfe18af5238e0d88d38a53"
+      },
+      {
+        "file": "website/lib/attention-context-model.mjs",
+        "rawSha256": "f987af9ab7a96a6b1e743dea235a99b27dc26886932b3a833117344cc04b3a96",
+        "lfSha256": "f987af9ab7a96a6b1e743dea235a99b27dc26886932b3a833117344cc04b3a96"
+      },
+      {
+        "file": "website/components/diagrams/attention-context-walkthrough.jsx",
+        "rawSha256": "484627843ce98f4192e946c042f26d4864b5f26ad90b845e5d0426ac9acea482",
+        "lfSha256": "484627843ce98f4192e946c042f26d4864b5f26ad90b845e5d0426ac9acea482"
+      },
+      {
+        "file": "website/lib/inference-cache-batching-model.mjs",
+        "rawSha256": "396da72d1400f48b633860044470f32e43647e748088f146d4db18ad642d2514",
+        "lfSha256": "396da72d1400f48b633860044470f32e43647e748088f146d4db18ad642d2514"
+      },
+      {
+        "file": "website/components/diagrams/concept-scene-primitives.jsx",
+        "rawSha256": "5aac3bf8a418a57cd269b89fdab0252eb71d671dfbe6ac6dbe064a052e790a2b",
+        "lfSha256": "5aac3bf8a418a57cd269b89fdab0252eb71d671dfbe6ac6dbe064a052e790a2b"
+      },
+      {
+        "file": "website/components/diagrams/reading-figure.jsx",
+        "rawSha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12",
+        "lfSha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12"
+      },
+      {
+        "file": "website/components/diagrams/training-walkthrough.jsx",
+        "rawSha256": "7bdf27874f15d38a30270811eeeae9170a3822e41485b9542c68151ded1695e8",
+        "lfSha256": "7bdf27874f15d38a30270811eeeae9170a3822e41485b9542c68151ded1695e8"
+      },
+      {
+        "file": "website/lib/diagram-decoration.mjs",
+        "rawSha256": "bd3ed962f793fbc28862d29765b6c1392fe08107cfec4d2cc141c0184cdeba6f",
+        "lfSha256": "bd3ed962f793fbc28862d29765b6c1392fe08107cfec4d2cc141c0184cdeba6f"
+      },
+      {
+        "file": "website/lib/mdx-safety.mjs",
+        "rawSha256": "c54986f395a2e68dc5695b047ed9a846df5948969d6a2eb0c74a80cd53a78404",
+        "lfSha256": "c54986f395a2e68dc5695b047ed9a846df5948969d6a2eb0c74a80cd53a78404"
+      },
+      {
+        "file": "website/mdx-components.js",
+        "rawSha256": "deaa8c3343433ee9580540d16d0abc76f063c094e7eaf275b00b1ec3a66aa726",
+        "lfSha256": "deaa8c3343433ee9580540d16d0abc76f063c094e7eaf275b00b1ec3a66aa726"
+      },
+      {
+        "file": "website/lib/diagram-article-acceptance.mjs",
+        "rawSha256": "f3c53656f6202b5182af0e966875a3d50d58d1fd414c7d348c68f298cf1154af",
+        "lfSha256": "f3c53656f6202b5182af0e966875a3d50d58d1fd414c7d348c68f298cf1154af"
+      },
+      {
+        "file": "website/diagrams/registry.json",
+        "rawSha256": "ed9ef883835222eed36e9857453535eec08210ba7addc408618b612dbbc655d4",
+        "lfSha256": "ed9ef883835222eed36e9857453535eec08210ba7addc408618b612dbbc655d4"
+      },
+      {
+        "file": "website/diagrams/articles.json",
+        "rawSha256": "70417e40eb0930512212bc34a6ee83a704b730a052f2399642220feecf11fa45",
+        "lfSha256": "70417e40eb0930512212bc34a6ee83a704b730a052f2399642220feecf11fa45"
+      }
+    ],
+    "articleReferences": [
+      {
+        "url": "https://arxiv.org/abs/1706.03762",
+        "articleAccessDate": "2026-09-10"
+      },
+      {
+        "url": "https://arxiv.org/abs/2309.06180",
+        "articleAccessDate": "2026-09-10"
+      },
+      {
+        "url": "https://arxiv.org/abs/2307.03172",
+        "articleAccessDate": "2026-09-10"
+      }
+    ],
+    "referenceLimit": "元記事の参照先/参照日を収録。今回の新規Web検証ではなく、最新API仕様・料金・性能は追加しない。"
+  },
+  "adopted": {
+    "path": "project/records/2026-09-24/p1-remaining-storyboards.json",
+    "article": {
+      "unit": "E1",
+      "file": "docs/10-llm-foundations/attention-and-context.md",
+      "route": "/docs/llm-foundations/attention-and-context",
+      "requiresPublicAcceptanceOf": [
+        "D2"
+      ],
+      "learningOrderReason": "生成・トークン・推論内部の既存図を基に、数式なしの因果注意・キャッシュ・実効品質の違いをまとめる。D2からの順番は制作単位の連続性である。",
+      "sourceSha256": "433d75095383235eeace9c4b34048bad43a3f4b0ba6e65c2e7e7d25eebdb1c55",
+      "sections": [
+        {
+          "heading": "概要: 「全部が全部を見る」仕組みとその請求書",
+          "parent": "本文",
+          "line": 28,
+          "start": 9,
+          "end": 11,
+          "bodyTypes": [
+            "paragraph"
+          ]
+        },
+        {
+          "heading": "注意機構の直感",
+          "parent": "本文",
+          "line": 32,
+          "start": 11,
+          "end": 15,
+          "bodyTypes": [
+            "paragraph",
+            "paragraph",
+            "list"
+          ]
+        },
+        {
+          "heading": "コンテキスト長のコスト構造",
+          "parent": "本文",
+          "line": 41,
+          "start": 15,
+          "end": 19,
+          "bodyTypes": [
+            "paragraph",
+            "table",
+            "paragraph"
+          ]
+        },
+        {
+          "heading": "KV キャッシュとプロンプトキャッシュ",
+          "parent": "本文",
+          "line": 52,
+          "start": 19,
+          "end": 22,
+          "bodyTypes": [
+            "paragraph",
+            "list"
+          ]
+        },
+        {
+          "heading": "長文での品質劣化",
+          "parent": "本文",
+          "line": 60,
+          "start": 22,
+          "end": 26,
+          "bodyTypes": [
+            "paragraph",
+            "list",
+            "paragraph"
+          ]
+        },
+        {
+          "heading": "この理解が効く場面",
+          "parent": "本文",
+          "line": 70,
+          "start": 26,
+          "end": 28,
+          "bodyTypes": [
+            "list"
+          ]
+        },
+        {
+          "heading": "アンチパターン",
+          "parent": "実務での注意点",
+          "line": 78,
+          "start": 29,
+          "end": 31,
+          "bodyTypes": [
+            "list"
+          ]
+        },
+        {
+          "heading": "チェックリスト",
+          "parent": "実務での注意点",
+          "line": 85,
+          "start": 31,
+          "end": 33,
+          "bodyTypes": [
+            "list"
+          ]
+        }
+      ],
+      "diagrams": [
+        {
+          "id": "context-causal-cost",
+          "title": "参照範囲と入力・生成の負担",
+          "heads": [
+            0,
+            1,
+            2
+          ],
+          "sources": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "groups": [
+            [
+              [
+                0,
+                1
+              ]
+            ],
+            [
+              [
+                1,
+                1
+              ],
+              [
+                2,
+                2
+              ]
+            ],
+            [
+              [
+                3,
+                2
+              ],
+              [
+                4,
+                1
+              ]
+            ]
+          ],
+          "objects": [
+            "同じトークン列",
+            "現在の位置",
+            "未来マスク",
+            "注意の参照線",
+            "prefill/decodeの2レーン",
+            "TTFT/生成速度ラベル"
+          ],
+          "stages": [
+            {
+              "label": "因果的な範囲",
+              "state": "下三角の参照範囲で、自分以前だけを参照。密な因果注意の例と明記。",
+              "motion": "現在位置を移し未来マスクを追随。"
+            },
+            {
+              "label": "関連を混ぜる",
+              "state": "既存の「それ」ラベルと参照可能な位置を結び、重み付き混合の出力を示す。新しい例文は作らない。",
+              "motion": "同じ参照線から表現枠へ情報が集まる。"
+            },
+            {
+              "label": "機会と保証",
+              "state": "参照できる範囲と正しく使用できることを分ける。入力一括のペア増加を模式面積で示す。",
+              "motion": "トークン列が伸び参照面積が増えるが品質の印は付かない。"
+            },
+            {
+              "label": "二つの処理",
+              "state": "prefillは全入力、decodeは現在位置から過去へ参照。TTFTと生成速度を別ラベルにする。",
+              "motion": "全入力の処理帯から1トークンの追記へ移る。"
+            },
+            {
+              "label": "計算とメモリ",
+              "state": "同じ列にKVの保持帯を併置。料金/時間/品質を参照ペア数から計算しない。",
+              "motion": "KV帯が入力列とともに伸び、時間と料金は条件依存ラベルを保持。"
+            }
+          ],
+          "checks": [
+            "未来参照禁止",
+            "prefillの二乗とdecode/実時間を区別",
+            "因果マスクを全方式に普遍化しない",
+            "重みを認知や説明の保証にしない"
+          ],
+          "article": "docs/10-llm-foundations/attention-and-context.md",
+          "route": "/docs/llm-foundations/attention-and-context",
+          "binding": "grouped-blocks",
+          "stageCount": 5,
+          "headings": [
+            "概要: 「全部が全部を見る」仕組みとその請求書",
+            "注意機構の直感",
+            "コンテキスト長のコスト構造"
+          ],
+          "sourceHeadings": [
+            "概要: 「全部が全部を見る」仕組みとその請求書",
+            "注意機構の直感",
+            "コンテキスト長のコスト構造",
+            "KV キャッシュとプロンプトキャッシュ"
+          ],
+          "blockGroups": [
+            [
+              {
+                "stage": 0,
+                "count": 1
+              }
+            ],
+            [
+              {
+                "stage": 1,
+                "count": 1
+              },
+              {
+                "stage": 2,
+                "count": 2
+              }
+            ],
+            [
+              {
+                "stage": 3,
+                "count": 2
+              },
+              {
+                "stage": 4,
+                "count": 1
+              }
+            ]
+          ],
+          "blockTypes": [
+            [
+              "paragraph"
+            ],
+            [
+              "paragraph",
+              "paragraph",
+              "list"
+            ],
+            [
+              "paragraph",
+              "table",
+              "paragraph"
+            ]
+          ],
+          "sourceDigest": "sha256:3d148c85ba70c31149692bbbb25b7ce25ec0d9a9457b43f85b646287e4ff625e",
+          "status": "planned-not-reviewed",
+          "reviewedDigest": null,
+          "enabled": false,
+          "contentKind": "conceptual",
+          "staticFallback": "同じ意味モデルの主要段階の静止表示と短い図ラベル。追加の本文・例題・ナレーションを作らない。",
+          "layout": "既存ReadingFigureの操作・同期・拡大・JS無効/印刷経路を再利用。固有model/scene/CSSは記事chunkで遅延読込。",
+          "stateContract": "frame(phase, options)は副作用なし。同じ位相/選択で同じ図、逆シーク・中点でもID/関係を保持。停止/非表示に常時loopを残さない。",
+          "readingStages": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "manualOnlyStages": [],
+          "minimumCountReason": "同じ対象と意味を保てる連続H3を一図にまとめる。異なる意味の図を操作回数のためだけに増やさない。",
+          "postCorrectionSourceDigestCandidate": "sha256:3d148c85ba70c31149692bbbb25b7ce25ec0d9a9457b43f85b646287e4ff625e"
+        },
+        {
+          "id": "context-cache-quality",
+          "title": "接頭辞の再利用と長文の評価",
+          "heads": [
+            3,
+            4
+          ],
+          "sources": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "groups": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                1
+              ]
+            ],
+            [
+              [
+                3,
+                1
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                5,
+                1
+              ]
+            ]
+          ],
+          "objects": [
+            "同じ入力列",
+            "接頭辞境界",
+            "保存済みKV",
+            "変更位置",
+            "重要情報位置",
+            "検索/統合の別評価枠"
+          ],
+          "stages": [
+            {
+              "label": "KV再利用",
+              "state": "同じ生成内の既計算K/Vを保持して追記する。別リクエストのキャッシュとは境界を分ける。",
+              "motion": "保存帯から過去部分へ戻る線と末尾の追記。"
+            },
+            {
+              "label": "共通接頭辞",
+              "state": "固定部を先頭、可変部を末尾。二入力を揃え共通部分だけを強調。",
+              "motion": "一致境界が先頭から延びる。"
+            },
+            {
+              "label": "変更位置",
+              "state": "先頭変更と後方追記を同配置で比較。変更後は再利用不可とし前方は保持。Agent履歴の追記も同じ位置。",
+              "motion": "変更位置より後の帯だけを無効表示。",
+              "requiredVisible": [
+                "先頭が揃った2入力の共通接頭辞帯を残す",
+                "固定部は先頭・可変部は後方のラベルと一致境界を残す",
+                "変更位置より前の再利用可能部と以降の無効部を同時に見せる"
+              ]
+            },
+            {
+              "label": "入ると使える",
+              "state": "同じ重要情報を先頭/中間/末尾へ移す比較。性能数値や普遍的U曲線は作らない。",
+              "motion": "重要情報IDが移動し、同じ評価枠へ接続。"
+            },
+            {
+              "label": "妨害と統合",
+              "state": "必要文書/追加の妨害文書の条件、検索/複数箇所統合の評価を別に示す。",
+              "motion": "既存の重要情報を保持して周囲の資料帯を加減。"
+            },
+            {
+              "label": "選んで渡す",
+              "state": "必要情報選択とキャッシュの再利用を別の判断軸として一画面に残す。",
+              "motion": "不要資料の帯を畳む一方、接頭辞境界は別表示。"
+            }
+          ],
+          "checks": [
+            "キャッシュの一致条件/料金を提供契約として発明しない",
+            "prefix後の依存と未来の無関係を区別",
+            "位置効果や妨害を実測済み曲線にしない",
+            "検索成功を統合成功に読み替えない",
+            "READ停止持越し: 先頭が揃った2入力の共通接頭辞帯を残す、固定部は先頭・可変部は後方のラベルと一致境界を残す、変更位置より前の再利用可能部と以降の無効部を同時に見せる"
+          ],
+          "article": "docs/10-llm-foundations/attention-and-context.md",
+          "route": "/docs/llm-foundations/attention-and-context",
+          "binding": "grouped-blocks",
+          "stageCount": 6,
+          "headings": [
+            "KV キャッシュとプロンプトキャッシュ",
+            "長文での品質劣化"
+          ],
+          "sourceHeadings": [
+            "概要: 「全部が全部を見る」仕組みとその請求書",
+            "注意機構の直感",
+            "コンテキスト長のコスト構造",
+            "KV キャッシュとプロンプトキャッシュ",
+            "長文での品質劣化"
+          ],
+          "blockGroups": [
+            [
+              {
+                "stage": 0,
+                "count": 1
+              },
+              {
+                "stage": 2,
+                "count": 1
+              }
+            ],
+            [
+              {
+                "stage": 3,
+                "count": 1
+              },
+              {
+                "stage": 4,
+                "count": 1
+              },
+              {
+                "stage": 5,
+                "count": 1
+              }
+            ]
+          ],
+          "blockTypes": [
+            [
+              "paragraph",
+              "list"
+            ],
+            [
+              "paragraph",
+              "list",
+              "paragraph"
+            ]
+          ],
+          "sourceDigest": "sha256:cbdf6f68c773444b57ccffc29430974e2705c11460558a8b39b4ea0fabc6c7ed",
+          "status": "planned-not-reviewed",
+          "reviewedDigest": null,
+          "enabled": false,
+          "contentKind": "conceptual",
+          "staticFallback": "同じ意味モデルの主要段階の静止表示と短い図ラベル。追加の本文・例題・ナレーションを作らない。",
+          "layout": "既存ReadingFigureの操作・同期・拡大・JS無効/印刷経路を再利用。固有model/scene/CSSは記事chunkで遅延読込。",
+          "stateContract": "frame(phase, options)は副作用なし。同じ位相/選択で同じ図、逆シーク・中点でもID/関係を保持。停止/非表示に常時loopを残さない。",
+          "readingStages": [
+            0,
+            2,
+            3,
+            4,
+            5
+          ],
+          "manualOnlyStages": [
+            1
+          ],
+          "minimumCountReason": "同じ対象と意味を保てる連続H3を一図にまとめる。異なる意味の図を操作回数のためだけに増やさない。",
+          "postCorrectionSourceDigestCandidate": "sha256:cbdf6f68c773444b57ccffc29430974e2705c11460558a8b39b4ea0fabc6c7ed",
+          "readCarryover": [
+            {
+              "fromManualStage": 1,
+              "toReadingStage": 2,
+              "requiredVisible": [
+                "先頭が揃った2入力の共通接頭辞帯を残す",
+                "固定部は先頭・可変部は後方のラベルと一致境界を残す",
+                "変更位置より前の再利用可能部と以降の無効部を同時に見せる"
+              ],
+              "acceptance": "selectorと前後/再生操作を一度も使わず、本文連動で対象READ停止へ到達した静止表示とアクセシビリティ内容を確認する。見出しだけ/非表示DOMだけでは合格にしない。"
+            }
+          ]
+        }
+      ],
+      "topics": [
+        {
+          "id": "e1-s0-b0",
+          "heading": "概要: 「全部が全部を見る」仕組みとその請求書",
+          "parent": "本文",
+          "sourceLine": 28,
+          "sourceBlock": 0,
+          "kind": "paragraph",
+          "topic": "本記事は、自己回帰 Transformer の**密な因果的注意(causal attention)**を基本例にします。各トークンは自分以前の参照可能なトークンとの関連度を計算し、情報を重み付けして表現を作ります。未来のトークンは参照しません。文脈が長いほど参照対象と計算・メモリの負担は増えますが、入力上限・料金・品質は、学習や提供側の実装にも依存します。局所注意など参照を限定する構成は 注意機構の変種 で扱います。",
+          "coverage": "dynamic",
+          "diagramId": "context-causal-cost",
+          "readingStage": 0,
+          "stageScope": [
+            0
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "本記事は、自己回帰 Transformer の**密な因果的注意(causal attention)**を基本例にします。各トークンは自分以前の参照可能なトークンとの関連度を計算し、情報を重み付けして表現を作ります。未来のトークンは参照しません。文脈が長いほど参照対象と計算・メモリの負担は増えますが、入力上限・料金・品質は、学習や提供側の実装にも依存します。局所注意など参照を限定する構成は 注意機構の変種 で扱います。",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s1-b0",
+          "heading": "注意機構の直感",
+          "parent": "本文",
+          "sourceLine": 32,
+          "sourceBlock": 0,
+          "kind": "paragraph",
+          "topic": "文中の「それ」が何を指すかを理解するには、離れた位置の名詞を参照する必要があります。注意機構は、参照可能な位置との関連を重み付けし、その重みに応じて情報を混ぜ合わせます。層を重ねることで文脈に応じた表現を更新します。各層が必ず語・句・文という固定の順序に対応するわけではありません。",
+          "coverage": "dynamic",
+          "diagramId": "context-causal-cost",
+          "readingStage": 1,
+          "stageScope": [
+            1
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "文中の「それ」が何を指すかを理解するには、離れた位置の名詞を参照する必要があります。注意機構は、参照可能な位置との関連を重み付けし、その重みに応じて情報を混ぜ合わせます。層を重ねることで文脈に応じた表現を更新します。各層が必ず語・句・文という固定の順序に対応するわけではありません。",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s1-b1",
+          "heading": "注意機構の直感",
+          "parent": "本文",
+          "sourceLine": 32,
+          "sourceBlock": 1,
+          "kind": "paragraph",
+          "topic": "実務者が持ち帰るべき直感は 2 つです。",
+          "coverage": "dynamic",
+          "diagramId": "context-causal-cost",
+          "readingStage": 2,
+          "stageScope": [
+            2
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "実務者が持ち帰るべき直感は 2 つです。",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s1-b2.li0",
+          "heading": "注意機構の直感",
+          "parent": "本文",
+          "sourceLine": 32,
+          "sourceBlock": 2,
+          "kind": "listItem",
+          "topic": "参照は「機会」であって「保証」ではない: すべてのトークンを見られることと、その情報を正しく使うことは別です。重み付けは学習された傾向であり、長い文脈では重要な情報への重みが薄まりえます",
+          "coverage": "dynamic",
+          "diagramId": "context-causal-cost",
+          "readingStage": 2,
+          "stageScope": [
+            2
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "参照は「機会」であって「保証」ではない: すべてのトークンを見られることと、その情報を正しく使うことは別です。重み付けは学習された傾向であり、長い文脈では重要な情報への重みが薄まりえます",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s1-b2.li1",
+          "heading": "注意機構の直感",
+          "parent": "本文",
+          "sourceLine": 32,
+          "sourceBlock": 2,
+          "kind": "listItem",
+          "topic": "密な注意の計算量は文脈長に対して急速に増える: 入力を一括処理する注意演算では、素朴にはトークン数の 2 乗に比例するペア計算が発生します。これはモデル全体の実測時間が必ず 2 乗になるという意味ではなく、キャッシュを使う 1 トークンずつの生成とも区別します",
+          "coverage": "dynamic",
+          "diagramId": "context-causal-cost",
+          "readingStage": 2,
+          "stageScope": [
+            2
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "密な注意の計算量は文脈長に対して急速に増える: 入力を一括処理する注意演算では、素朴にはトークン数の 2 乗に比例するペア計算が発生します。これはモデル全体の実測時間が必ず 2 乗になるという意味ではなく、キャッシュを使う 1 トークンずつの生成とも区別します",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s2-b0",
+          "heading": "コンテキスト長のコスト構造",
+          "parent": "本文",
+          "sourceLine": 41,
+          "sourceBlock": 0,
+          "kind": "paragraph",
+          "topic": "自己回帰生成(LLM はどうやってテキストを生成するか)と組み合わせると、レイテンシの構造が見えてきます。",
+          "coverage": "dynamic",
+          "diagramId": "context-causal-cost",
+          "readingStage": 3,
+          "stageScope": [
+            3
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "自己回帰生成(LLM はどうやってテキストを生成するか)と組み合わせると、レイテンシの構造が見えてきます。",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s2-b1.row0",
+          "heading": "コンテキスト長のコスト構造",
+          "parent": "本文",
+          "sourceLine": 41,
+          "sourceBlock": 1,
+          "kind": "tableRow",
+          "topic": "プリフィル(prefill) | 入力全体を一括処理し、各トークンの中間表現を計算する | 最初のトークンが出るまでの時間(TTFT)。入力長に依存",
+          "coverage": "dynamic",
+          "diagramId": "context-causal-cost",
+          "readingStage": 3,
+          "stageScope": [
+            3
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "プリフィル(prefill) | 入力全体を一括処理し、各トークンの中間表現を計算する | 最初のトークンが出るまでの時間(TTFT)。入力長に依存",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s2-b1.row1",
+          "heading": "コンテキスト長のコスト構造",
+          "parent": "本文",
+          "sourceLine": 41,
+          "sourceBlock": 1,
+          "kind": "tableRow",
+          "topic": "デコード(decode) | 1 トークンずつ生成する。各ステップで過去全トークンの中間表現を参照 | トークン毎秒。文脈が長いほど 1 トークンが重い",
+          "coverage": "dynamic",
+          "diagramId": "context-causal-cost",
+          "readingStage": 3,
+          "stageScope": [
+            3
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "デコード(decode) | 1 トークンずつ生成する。各ステップで過去全トークンの中間表現を参照 | トークン毎秒。文脈が長いほど 1 トークンが重い",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s2-b2",
+          "heading": "コンテキスト長のコスト構造",
+          "parent": "本文",
+          "sourceLine": 41,
+          "sourceBlock": 2,
+          "kind": "paragraph",
+          "topic": "「入力を短くすると応答開始が速くなる」「長い会話ほど生成がもたつく」という体感は、この 2 段階の構造そのものです(レイテンシ最適化)。また、長コンテキストは計算だけでなくメモリ(後述の KV キャッシュ)も比例して消費するため、プロバイダーが長文入力に割増価格を設定する背景にもなっています。",
+          "coverage": "dynamic",
+          "diagramId": "context-causal-cost",
+          "readingStage": 4,
+          "stageScope": [
+            4
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "「入力を短くすると応答開始が速くなる」「長い会話ほど生成がもたつく」という体感は、この 2 段階の構造そのものです(レイテンシ最適化)。また、長コンテキストは計算だけでなくメモリ(後述の KV キャッシュ)も比例して消費するため、プロバイダーが長文入力に割増価格を設定する背景にもなっています。",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s3-b0",
+          "heading": "KV キャッシュとプロンプトキャッシュ",
+          "parent": "本文",
+          "sourceLine": 52,
+          "sourceBlock": 0,
+          "kind": "paragraph",
+          "topic": "デコードの各ステップで過去トークンの中間表現を毎回計算し直す処理を減らすため、一度計算した Key と Value を保存して再利用します。これが KV キャッシュです。リクエスト間で共通の接頭辞を再利用するプロンプトキャッシュにも使われます。保存期間・一致条件・料金上の扱いは提供サービスの仕様です。",
+          "coverage": "dynamic",
+          "diagramId": "context-cache-quality",
+          "readingStage": 0,
+          "stageScope": [
+            0
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "デコードの各ステップで過去トークンの中間表現を毎回計算し直す処理を減らすため、一度計算した Key と Value を保存して再利用します。これが KV キャッシュです。リクエスト間で共通の接頭辞を再利用するプロンプトキャッシュにも使われます。保存期間・一致条件・料金上の扱いは提供サービスの仕様です。",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s3-b1.li0",
+          "heading": "KV キャッシュとプロンプトキャッシュ",
+          "parent": "本文",
+          "sourceLine": 52,
+          "sourceBlock": 1,
+          "kind": "listItem",
+          "topic": "なぜ「前方一致」なのか: あるトークンの中間表現は、それより前の全トークンに依存して計算されます。つまり先頭からの並びが 1 トークンでも変われば、それ以降の中間表現はすべて無効です。プロンプトキャッシュが「前方一致した部分だけ」再利用できるのは、この依存構造の直接の帰結です",
+          "coverage": "dynamic",
+          "diagramId": "context-cache-quality",
+          "readingStage": 2,
+          "stageScope": [
+            2
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "なぜ「前方一致」なのか: あるトークンの中間表現は、それより前の全トークンに依存して計算されます。つまり先頭からの並びが 1 トークンでも変われば、それ以降の中間表現はすべて無効です。プロンプトキャッシュが「前方一致した部分だけ」再利用できるのは、この依存構造の直接の帰結です",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s3-b1.li1",
+          "heading": "KV キャッシュとプロンプトキャッシュ",
+          "parent": "本文",
+          "sourceLine": 52,
+          "sourceBlock": 1,
+          "kind": "listItem",
+          "topic": "設計原則の由来: 「固定部分(システムプロンプト・ツール定義)を先頭に、可変部分(ユーザー入力・検索結果)を後ろに」というキャッシュ設計の定石(コスト管理)は、前方一致を最大化するための配置です。タイムスタンプや乱数を先頭部分に埋め込むと、毎回キャッシュを壊します",
+          "coverage": "dynamic",
+          "diagramId": "context-cache-quality",
+          "readingStage": 2,
+          "stageScope": [
+            2
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "設計原則の由来: 「固定部分(システムプロンプト・ツール定義)を先頭に、可変部分(ユーザー入力・検索結果)を後ろに」というキャッシュ設計の定石(コスト管理)は、前方一致を最大化するための配置です。タイムスタンプや乱数を先頭部分に埋め込むと、毎回キャッシュを壊します",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s3-b1.li2",
+          "heading": "KV キャッシュとプロンプトキャッシュ",
+          "parent": "本文",
+          "sourceLine": 52,
+          "sourceBlock": 1,
+          "kind": "listItem",
+          "topic": "エージェントとの相性: Agent ループでは「システムプロンプト + ツール定義 + 積み上がる履歴」という前方安定・後方追記の構造が自然に成立するため、キャッシュが特に効きます(コーディングエージェントのコスト最適化はこの応用です)",
+          "coverage": "dynamic",
+          "diagramId": "context-cache-quality",
+          "readingStage": 2,
+          "stageScope": [
+            2
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "エージェントとの相性: Agent ループでは「システムプロンプト + ツール定義 + 積み上がる履歴」という前方安定・後方追記の構造が自然に成立するため、キャッシュが特に効きます(コーディングエージェントのコスト最適化はこの応用です)",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s4-b0",
+          "heading": "長文での品質劣化",
+          "parent": "本文",
+          "sourceLine": 60,
+          "sourceBlock": 0,
+          "kind": "paragraph",
+          "topic": "コンテキストに「入る」ことと「使われる」ことは別です。以下は評価すべき失敗の観点です。Lost in the Middle は、対象モデルと質問応答・検索タスクで位置による性能差を報告しています。すべてのモデルで同じ程度の劣化が起こるという保証ではありません。",
+          "coverage": "dynamic",
+          "diagramId": "context-cache-quality",
+          "readingStage": 3,
+          "stageScope": [
+            3
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "コンテキストに「入る」ことと「使われる」ことは別です。以下は評価すべき失敗の観点です。Lost in the Middle は、対象モデルと質問応答・検索タスクで位置による性能差を報告しています。すべてのモデルで同じ程度の劣化が起こるという保証ではありません。",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s4-b1.li0",
+          "heading": "長文での品質劣化",
+          "parent": "本文",
+          "sourceLine": 60,
+          "sourceBlock": 1,
+          "kind": "listItem",
+          "topic": "位置による想起の偏り: 文脈の先頭と末尾に比べ、中間に置かれた情報の想起が弱くなる傾向(いわゆる lost in the middle)が知られています。重要な指示・情報を大量の資料の真ん中に埋めない、という配置原則の根拠です",
+          "coverage": "dynamic",
+          "diagramId": "context-cache-quality",
+          "readingStage": 4,
+          "stageScope": [
+            4
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "位置による想起の偏り: 文脈の先頭と末尾に比べ、中間に置かれた情報の想起が弱くなる傾向(いわゆる lost in the middle)が知られています。重要な指示・情報を大量の資料の真ん中に埋めない、という配置原則の根拠です",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s4-b1.li1",
+          "heading": "長文での品質劣化",
+          "parent": "本文",
+          "sourceLine": 60,
+          "sourceBlock": 1,
+          "kind": "listItem",
+          "topic": "無関係な情報や類似情報の影響: 必要な文書だけの場合と、妨害文書を加えた場合を比較します。品質差を注意の重みの希釈だけで説明せず、採用モデルの実際の回答で確かめます",
+          "coverage": "dynamic",
+          "diagramId": "context-cache-quality",
+          "readingStage": 4,
+          "stageScope": [
+            4
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "無関係な情報や類似情報の影響: 必要な文書だけの場合と、妨害文書を加えた場合を比較します。品質差を注意の重みの希釈だけで説明せず、採用モデルの実際の回答で確かめます",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s4-b1.li2",
+          "heading": "長文での品質劣化",
+          "parent": "本文",
+          "sourceLine": 60,
+          "sourceBlock": 1,
+          "kind": "listItem",
+          "topic": "「入る」と「解ける」のギャップ: 一節を探す評価と、複数箇所を統合する評価を分けます。単純な検索の好成績だけでは、統合推論にも対応できるとは判断できません",
+          "coverage": "dynamic",
+          "diagramId": "context-cache-quality",
+          "readingStage": 4,
+          "stageScope": [
+            4
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "「入る」と「解ける」のギャップ: 一節を探す評価と、複数箇所を統合する評価を分けます。単純な検索の好成績だけでは、統合推論にも対応できるとは判断できません",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s4-b2",
+          "heading": "長文での品質劣化",
+          "parent": "本文",
+          "sourceLine": 60,
+          "sourceBlock": 2,
+          "kind": "paragraph",
+          "topic": "これらが、コンテキストエンジニアリングの中心原則 — 入れられるだけ入れるのではなく、必要な情報を選んで渡す — の理論的な裏付けです。長期記憶を「全部コンテキストに置く」のではなく「検索して都度取り出す」設計(長期記憶の実装)も同じ根拠に立っています。",
+          "coverage": "dynamic",
+          "diagramId": "context-cache-quality",
+          "readingStage": 5,
+          "stageScope": [
+            5
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "これらが、コンテキストエンジニアリングの中心原則 — 入れられるだけ入れるのではなく、必要な情報を選んで渡す — の理論的な裏付けです。長期記憶を「全部コンテキストに置く」のではなく「検索して都度取り出す」設計(長期記憶の実装)も同じ根拠に立っています。",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s5-b0.li0",
+          "heading": "この理解が効く場面",
+          "parent": "本文",
+          "sourceLine": 70,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "コンテキスト予算の判断: 「この資料を丸ごと入れるか、要約・検索に変えるか」を、コスト(プリフィル・キャッシュ)と品質(希釈・中間の弱さ)の両面から判断できます",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "既存の応用先リストであり、前の機構図を実務判断へ結び付ける参照として原文を保持する。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "コンテキスト予算の判断: 「この資料を丸ごと入れるか、要約・検索に変えるか」を、コスト(プリフィル・キャッシュ)と品質(希釈・中間の弱さ)の両面から判断できます",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s5-b0.li1",
+          "heading": "この理解が効く場面",
+          "parent": "本文",
+          "sourceLine": 70,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "キャッシュ設計: プロンプト構造を前方一致最大化の観点でレビューできます(固定部を先頭に・可変要素を混ぜない)",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "既存の応用先リストであり、前の機構図を実務判断へ結び付ける参照として原文を保持する。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "キャッシュ設計: プロンプト構造を前方一致最大化の観点でレビューできます(固定部を先頭に・可変要素を混ぜない)",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s5-b0.li2",
+          "heading": "この理解が効く場面",
+          "parent": "本文",
+          "sourceLine": 70,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "レイテンシの切り分け: 「応答開始が遅い(プリフィル・入力側)」と「生成が遅い(デコード・出力側)」を区別して対策できます(レイテンシ最適化)",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "既存の応用先リストであり、前の機構図を実務判断へ結び付ける参照として原文を保持する。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "レイテンシの切り分け: 「応答開始が遅い(プリフィル・入力側)」と「生成が遅い(デコード・出力側)」を区別して対策できます(レイテンシ最適化)",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s6-b0.li0",
+          "heading": "アンチパターン",
+          "parent": "実務での注意点",
+          "sourceLine": 78,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "「コンテキストに入れたのだから読んでいるはず」と考える → 中間位置の希釈・干渉で重要情報が使われないことがある → 重要情報は先頭か末尾に置き、量を厳選する",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "「コンテキストに入れたのだから読んでいるはず」と考える → 中間位置の希釈・干渉で重要情報が使われないことがある → 重要情報は先頭か末尾に置き、量を厳選する",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s6-b0.li1",
+          "heading": "アンチパターン",
+          "parent": "実務での注意点",
+          "sourceLine": 78,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "タイムスタンプ・セッション ID などの可変値をプロンプト先頭部に埋め込む → 前方一致が毎回壊れ、キャッシュが一切効かなくなる → 可変値は可変部分(後方)へ移す",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "タイムスタンプ・セッション ID などの可変値をプロンプト先頭部に埋め込む → 前方一致が毎回壊れ、キャッシュが一切効かなくなる → 可変値は可変部分(後方)へ移す",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s6-b0.li2",
+          "heading": "アンチパターン",
+          "parent": "実務での注意点",
+          "sourceLine": 78,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "長文ベンチマークの好成績を「長文処理は解決済み」と読む → 単純検索と統合推論では劣化の仕方が違う → 自社タスクの長さ・構造で実測する",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "長文ベンチマークの好成績を「長文処理は解決済み」と読む → 単純検索と統合推論では劣化の仕方が違う → 自社タスクの長さ・構造で実測する",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s6-b0.li3",
+          "heading": "アンチパターン",
+          "parent": "実務での注意点",
+          "sourceLine": 78,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "レイテンシ対策を出力側だけで行う → 応答開始の遅さは入力長(プリフィル)由来のことが多い → TTFT と生成速度を分けて計測・対策する",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "レイテンシ対策を出力側だけで行う → 応答開始の遅さは入力長(プリフィル)由来のことが多い → TTFT と生成速度を分けて計測・対策する",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s7-b0.li0",
+          "heading": "チェックリスト",
+          "parent": "実務での注意点",
+          "sourceLine": 85,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "プロンプトが「固定部分が先頭・可変部分が後方」の構造になっている",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "プロンプトが「固定部分が先頭・可変部分が後方」の構造になっている",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s7-b0.li1",
+          "heading": "チェックリスト",
+          "parent": "実務での注意点",
+          "sourceLine": 85,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "キャッシュの効き(ヒット率・課金上の割引)を計測している",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "キャッシュの効き(ヒット率・課金上の割引)を計測している",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s7-b0.li2",
+          "heading": "チェックリスト",
+          "parent": "実務での注意点",
+          "sourceLine": 85,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "重要な指示・情報を長い資料の中間に埋めていない",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "重要な指示・情報を長い資料の中間に埋めていない",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s7-b0.li3",
+          "heading": "チェックリスト",
+          "parent": "実務での注意点",
+          "sourceLine": 85,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "コンテキストに入れる情報の取捨選択基準がある(「全部入れる」をやめた)",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "コンテキストに入れる情報の取捨選択基準がある(「全部入れる」をやめた)",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "e1-s7-b0.li4",
+          "heading": "チェックリスト",
+          "parent": "実務での注意点",
+          "sourceLine": 85,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "TTFT(入力側)とトークン毎秒(出力側)を分けて監視している",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "TTFT(入力側)とトークン毎秒(出力側)を分けて監視している",
+          "candidateTopicChanged": false
+        }
+      ],
+      "ownership": {
+        "articleSpecific": [
+          "website/lib/context-causal-cost-model.mjs",
+          "website/components/diagrams/context-causal-cost-walkthrough.jsx",
+          "website/components/diagrams/context-causal-cost.css",
+          "website/tests/unit/context-causal-cost-model.test.mjs",
+          "website/lib/context-cache-quality-model.mjs",
+          "website/components/diagrams/context-cache-quality-walkthrough.jsx",
+          "website/components/diagrams/context-cache-quality.css",
+          "website/tests/unit/context-cache-quality-model.test.mjs"
+        ],
+        "shared": "統合担当1名がregistry/BINDINGS/dispatcher/MDX許可/記事台帳/受入コード/回帰試験を所有。記事担当は共有部を独断で変更しない。"
+      },
+      "acceptance": {
+        "contentReview": null,
+        "local": null,
+        "public": null
+      },
+      "postCorrectionSha256Candidate": "433d75095383235eeace9c4b34048bad43a3f4b0ba6e65c2e7e7d25eebdb1c55"
+    },
+    "interpretation": "採択E1 objectを無改変で保存。元planned/candidateフラグは歴史的な計画状態であり、本案/製品の承認を意味しない。"
+  },
+  "inventory": {
+    "rootNodes": 39,
+    "nodeCounts": {
+      "root": 1,
+      "yaml": 1,
+      "heading": 17,
+      "text": 123,
+      "paragraph": 45,
+      "link": 23,
+      "list": 10,
+      "listItem": 35,
+      "strong": 18,
+      "table": 1,
+      "tableRow": 3,
+      "tableCell": 9
+    },
+    "canonicalWholeAstSha256": "ea4d5da00220847b1c69d5deaee1a6fac11cc20dfbfb19b3d1d67d6523370ce8",
+    "canonicalRule": "positionのみ除外、object keys sort、文字列CRLF/CRをLFへ。他のAST field/valueは保持。",
+    "h3Count": 8,
+    "h3BodyBlocks": 15,
+    "wrappedH3Count": 5,
+    "wrappedBodyBlocks": 12,
+    "staticH3Count": 3,
+    "staticBodyBlocks": 3,
+    "topics": {
+      "total": 30,
+      "dynamic": 18,
+      "static": 12
+    },
+    "formulaInventory": [],
+    "mermaidInventory": [],
+    "displayMathCount": 0,
+    "inlineMathCount": 0,
+    "codeFenceCount": 0,
+    "sections": [
+      {
+        "heading": "概要: 「全部が全部を見る」仕組みとその請求書",
+        "parent": "本文",
+        "line": 28,
+        "start": 9,
+        "end": 11,
+        "bodyTypes": [
+          "paragraph"
+        ],
+        "canonicalAstSha256": "aea1820a500cb57073ec4620af036e2225d59cd7a723b305ce5dab908f634b59"
+      },
+      {
+        "heading": "注意機構の直感",
+        "parent": "本文",
+        "line": 32,
+        "start": 11,
+        "end": 15,
+        "bodyTypes": [
+          "paragraph",
+          "paragraph",
+          "list"
+        ],
+        "canonicalAstSha256": "b9c9986f3becf42fc7cbf20ff8b691f28af14fef36e228ab9859c33350039742"
+      },
+      {
+        "heading": "コンテキスト長のコスト構造",
+        "parent": "本文",
+        "line": 41,
+        "start": 15,
+        "end": 19,
+        "bodyTypes": [
+          "paragraph",
+          "table",
+          "paragraph"
+        ],
+        "canonicalAstSha256": "42b9c78d6c70f8c5a59525f4bc4582d49484a5f7f6ea0123202ba2be52c2be3e"
+      },
+      {
+        "heading": "KV キャッシュとプロンプトキャッシュ",
+        "parent": "本文",
+        "line": 52,
+        "start": 19,
+        "end": 22,
+        "bodyTypes": [
+          "paragraph",
+          "list"
+        ],
+        "canonicalAstSha256": "b62714520d9d9a6dfff3c952e01d134f81186e943bbc84af07d5f647138e9fe7"
+      },
+      {
+        "heading": "長文での品質劣化",
+        "parent": "本文",
+        "line": 60,
+        "start": 22,
+        "end": 26,
+        "bodyTypes": [
+          "paragraph",
+          "list",
+          "paragraph"
+        ],
+        "canonicalAstSha256": "7a3f39f82030fe934fdcc24a75529fe596999dabb9e70e2879ad4c6c94b95e55"
+      },
+      {
+        "heading": "この理解が効く場面",
+        "parent": "本文",
+        "line": 70,
+        "start": 26,
+        "end": 28,
+        "bodyTypes": [
+          "list"
+        ],
+        "canonicalAstSha256": "dae34be982c15971882f7d72290d97fff05566a0b46ac6fa79d73e9513a31544"
+      },
+      {
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "line": 78,
+        "start": 29,
+        "end": 31,
+        "bodyTypes": [
+          "list"
+        ],
+        "canonicalAstSha256": "a97a11d9b0990e0a42957c1c8dc4b7072ac3d9d51ee8f5a8975f6d0d230fa0b9"
+      },
+      {
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "line": 85,
+        "start": 31,
+        "end": 33,
+        "bodyTypes": [
+          "list"
+        ],
+        "canonicalAstSha256": "39276682d4d601685e248cfe289f3f8a2d4e5288c7b313099488c3fa1af80cf6"
+      }
+    ]
+  },
+  "reading": {
+    "figureCount": 2,
+    "stageCount": 11,
+    "readStopCount": 10,
+    "manualOnlyCount": 1,
+    "bindings": [
+      {
+        "id": "context-causal-cost",
+        "stageCount": 5,
+        "readingStages": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "manualOnlyStages": [],
+        "sourceDigestActual": "sha256:3d148c85ba70c31149692bbbb25b7ce25ec0d9a9457b43f85b646287e4ff625e",
+        "wrappedRange": [
+          9,
+          19
+        ],
+        "sections": [
+          {
+            "heading": "概要: 「全部が全部を見る」仕組みとその請求書",
+            "sourceRootHeadingIndex": 9,
+            "groups": [
+              {
+                "stage": 0,
+                "count": 1,
+                "bodyOffset": 0,
+                "sourceRootIndices": [
+                  10
+                ],
+                "bodyTypes": [
+                  "paragraph"
+                ],
+                "includeHeading": true
+              }
+            ]
+          },
+          {
+            "heading": "注意機構の直感",
+            "sourceRootHeadingIndex": 11,
+            "groups": [
+              {
+                "stage": 1,
+                "count": 1,
+                "bodyOffset": 0,
+                "sourceRootIndices": [
+                  12
+                ],
+                "bodyTypes": [
+                  "paragraph"
+                ],
+                "includeHeading": true
+              },
+              {
+                "stage": 2,
+                "count": 2,
+                "bodyOffset": 1,
+                "sourceRootIndices": [
+                  13,
+                  14
+                ],
+                "bodyTypes": [
+                  "paragraph",
+                  "list"
+                ],
+                "includeHeading": false
+              }
+            ]
+          },
+          {
+            "heading": "コンテキスト長のコスト構造",
+            "sourceRootHeadingIndex": 15,
+            "groups": [
+              {
+                "stage": 3,
+                "count": 2,
+                "bodyOffset": 0,
+                "sourceRootIndices": [
+                  16,
+                  17
+                ],
+                "bodyTypes": [
+                  "paragraph",
+                  "table"
+                ],
+                "includeHeading": true
+              },
+              {
+                "stage": 4,
+                "count": 1,
+                "bodyOffset": 2,
+                "sourceRootIndices": [
+                  18
+                ],
+                "bodyTypes": [
+                  "paragraph"
+                ],
+                "includeHeading": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "context-cache-quality",
+        "stageCount": 6,
+        "readingStages": [
+          0,
+          2,
+          3,
+          4,
+          5
+        ],
+        "manualOnlyStages": [
+          1
+        ],
+        "sourceDigestActual": "sha256:cbdf6f68c773444b57ccffc29430974e2705c11460558a8b39b4ea0fabc6c7ed",
+        "wrappedRange": [
+          19,
+          26
+        ],
+        "sections": [
+          {
+            "heading": "KV キャッシュとプロンプトキャッシュ",
+            "sourceRootHeadingIndex": 19,
+            "groups": [
+              {
+                "stage": 0,
+                "count": 1,
+                "bodyOffset": 0,
+                "sourceRootIndices": [
+                  20
+                ],
+                "bodyTypes": [
+                  "paragraph"
+                ],
+                "includeHeading": true
+              },
+              {
+                "stage": 2,
+                "count": 1,
+                "bodyOffset": 1,
+                "sourceRootIndices": [
+                  21
+                ],
+                "bodyTypes": [
+                  "list"
+                ],
+                "includeHeading": false
+              }
+            ]
+          },
+          {
+            "heading": "長文での品質劣化",
+            "sourceRootHeadingIndex": 22,
+            "groups": [
+              {
+                "stage": 3,
+                "count": 1,
+                "bodyOffset": 0,
+                "sourceRootIndices": [
+                  23
+                ],
+                "bodyTypes": [
+                  "paragraph"
+                ],
+                "includeHeading": true
+              },
+              {
+                "stage": 4,
+                "count": 1,
+                "bodyOffset": 1,
+                "sourceRootIndices": [
+                  24
+                ],
+                "bodyTypes": [
+                  "list"
+                ],
+                "includeHeading": false
+              },
+              {
+                "stage": 5,
+                "count": 1,
+                "bodyOffset": 2,
+                "sourceRootIndices": [
+                  25
+                ],
+                "bodyTypes": [
+                  "paragraph"
+                ],
+                "includeHeading": false
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "staticSections": [
+      "この理解が効く場面",
+      "アンチパターン",
+      "チェックリスト"
+    ],
+    "preserveRule": "元本文を移動/複製せず、例文を追加しない。原H3+body連続ASTだけを包装しtable/listは分割しない。H3は最初のstepへ1回同梱。",
+    "carryover": "cache-quality補助1→READ2で共通接頭辞・固定/可変配置・変更前の保持と以降の再計算を必ず残す。"
+  },
+  "ownership": {
+    "articleSpecific": [
+      "website/lib/context-causal-cost-model.mjs",
+      "website/components/diagrams/context-causal-cost-walkthrough.jsx",
+      "website/components/diagrams/context-causal-cost.css",
+      "website/tests/unit/context-causal-cost-model.test.mjs",
+      "website/lib/context-cache-quality-model.mjs",
+      "website/components/diagrams/context-cache-quality-walkthrough.jsx",
+      "website/components/diagrams/context-cache-quality.css",
+      "website/tests/unit/context-cache-quality-model.test.mjs"
+    ],
+    "sharedOwner": "root integration only",
+    "proposedSharedTouches": [
+      "website/components/diagrams/context-walkthrough.jsx",
+      "website/lib/diagram-registry.mjs",
+      "website/diagrams/registry.json",
+      "website/lib/diagram-decoration.mjs",
+      "website/lib/mdx-safety.mjs",
+      "website/mdx-components.js",
+      "website/diagrams/articles.json",
+      "website/lib/diagram-article-acceptance.mjs",
+      "website/tests/unit/context-decoration.test.mjs",
+      "website/tests/unit/mdx-safety.test.mjs",
+      "website/tests/unit/diagram-article-acceptance.test.mjs",
+      "website/tests/browser/context.spec.mjs"
+    ],
+    "releaseKit": "scripts/diagram-release変更・fixture/flat predecessor proof・公開evidenceは別の計画/レビュー。今回は触れない。",
+    "generated": "website/content, generated, out, .next, public/_pagefind, next-env.d.tsは直接編集しない。"
+  },
+  "interfaces": {
+    "common": {
+      "reused": [
+        "ReadingFigure",
+        "SceneBase",
+        "Select",
+        "Wire",
+        "Lines",
+        "tones",
+        "DiagramBoundary",
+        "ReadingArticleContents"
+      ],
+      "clock": "website/lib/reading-clock.mjsのclampPhase/stageForPhase",
+      "frameContract": [
+        "phase/settingsから決定的なframe。副作用・前段階state依存なし。",
+        "定数freeze、返り値arrays/objects分離、入力非破壊。",
+        "settingsはplain object(Object.prototypeまたはnull prototype)。null/array/Date/function/primitiveとunknown keyはTypeError。未知enum/数値選択はRangeError。",
+        "対象外設定は保存してもeffective値をnullとし、非対象段階のframe意味を変えない。",
+        "未知の科学値/性能値/provider値はnull。可視表示は未測定/条件依存。セル数/座標は実測データではない。",
+        "共有時計/UXを再利用し、独自RAF/interval/random/Date/network/APIは追加しない。"
+      ],
+      "phase": {
+        "finiteOnly": true,
+        "invalid": "TypeError",
+        "outOfRange": "clamp",
+        "midpoint": "共通stageForPhaseの丸め境界"
+      },
+      "scientificBoundary": "数式を増やさない概念図。内部参照の可能性・模式重み・保存領域と、実能力/性能/料金/サービス契約を別の量として扱う。",
+      "stageAssertionScope": "stageAssertionsのrequired/labelsは既定設定でのREAD到達状態。操作後は各literal oracleの該当状態を使い、存在しない保持/未来/無効化領域を作らない。ゼロ件の場合も境界と状態説明は読める。"
+    },
+    "causal": {
+      "id": "context-causal-cost",
+      "exports": [
+        "CONTEXT_CAUSAL_STAGES",
+        "CONTEXT_QUERY_POSITIONS",
+        "CONTEXT_LENGTHS",
+        "contextCausalCostFrame"
+      ],
+      "signature": "contextCausalCostFrame(phase, { queryIndex = 3, length = 6 } = {})",
+      "sceneExport": "ContextCausalCost",
+      "sceneProps": [
+        "children"
+      ],
+      "cssPrefix": "ccc-",
+      "sceneClass": "context-causal-cost-scene",
+      "walkthroughClass": "context-causal-cost-walkthrough",
+      "controls": [
+        {
+          "key": "queryIndex",
+          "label": "現在の位置",
+          "values": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "default": 3,
+          "activeStages": [
+            0
+          ],
+          "hook": "context-query-position",
+          "effect": "現在行と未来mask/参照線だけ。順序は保持。",
+          "type": "integer"
+        },
+        {
+          "key": "length",
+          "label": "説明用の入力長",
+          "values": [
+            4,
+            6
+          ],
+          "default": 6,
+          "activeStages": [
+            2,
+            4
+          ],
+          "hook": "context-input-length",
+          "effect": "説明セル数・参照面積/S4のK/V帯だけ。品質/速度/価格は計算しない。",
+          "type": "integer"
+        }
+      ],
+      "stageLabels": [
+        "因果的な範囲",
+        "関連を混ぜる",
+        "機会と保証",
+        "二つの処理",
+        "計算とメモリ"
+      ],
+      "footnote": "密な因果注意を示す模式図です。参照範囲やセル数は、理解の正しさ・実時間・料金の測定値ではありません。",
+      "fixtures": {
+        "illustrationScope": "同一モデル・同一計算条件の密な因果注意。セル数は説明用で製品の上限ではない。",
+        "tokens": [
+          {
+            "id": "t0",
+            "position": 0,
+            "label": "·"
+          },
+          {
+            "id": "t1",
+            "position": 1,
+            "label": "名詞",
+            "role": "原文の参照候補という役割名"
+          },
+          {
+            "id": "t2",
+            "position": 2,
+            "label": "·"
+          },
+          {
+            "id": "t3",
+            "position": 3,
+            "label": "それ",
+            "role": "原文の語"
+          },
+          {
+            "id": "t4",
+            "position": 4,
+            "label": "·"
+          },
+          {
+            "id": "t5",
+            "position": 5,
+            "label": "·"
+          }
+        ],
+        "maskOracle": {
+          "4": [
+            "1000",
+            "1100",
+            "1110",
+            "1111"
+          ],
+          "6": [
+            "100000",
+            "110000",
+            "111000",
+            "111100",
+            "111110",
+            "111111"
+          ]
+        },
+        "allowedPairCount": {
+          "4": 10,
+          "6": 21
+        },
+        "pairMeaning": "許される参照ペアの模式セル数。FLOPs・最適化後演算数・実時間・金額・品質へ換算しない。数式/速度倍率を画面に足さない。",
+        "queryOracle": [
+          {
+            "query": 0,
+            "allowed": [
+              0
+            ],
+            "masked": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "query": 1,
+            "allowed": [
+              0,
+              1
+            ],
+            "masked": [
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "query": 2,
+            "allowed": [
+              0,
+              1,
+              2
+            ],
+            "masked": [
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "query": 3,
+            "allowed": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "masked": [
+              4,
+              5
+            ]
+          },
+          {
+            "query": 4,
+            "allowed": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "masked": [
+              5
+            ]
+          },
+          {
+            "query": 5,
+            "allowed": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "masked": []
+          }
+        ],
+        "mix": {
+          "queryId": "t3",
+          "sourceIds": [
+            "t0",
+            "t1",
+            "t2",
+            "t3"
+          ],
+          "weightRoles": [
+            "light",
+            "strong",
+            "medium",
+            "medium"
+          ],
+          "numericWeights": null,
+          "outputId": "contextual-representation",
+          "outputVector": null,
+          "correctReferent": null,
+          "caption": "太さは模式的な重み。実モデルの値や正答の説明ではない。"
+        },
+        "processing": {
+          "prefill": {
+            "inputPositions": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "processedPositions": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "cachePositions": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "sampledPosition": 6,
+            "sampledInCache": false,
+            "metric": "ttft"
+          },
+          "decode": {
+            "processedPositions": [
+              6
+            ],
+            "pastCachePositions": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "newlyComputedKvPosition": 6,
+            "cachePositions": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "allowedKeyPositions": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "sampledPosition": 7,
+            "sampledInCache": false,
+            "metric": "tokens-per-second"
+          },
+          "sequence": "prefill末尾で候補を選ぶ → 次回入力として処理 → その位置のKVを保持 → 次候補を選ぶ。選んだだけの候補はまだKVにない。",
+          "timeClaim": "prefill/TTFTとdecode/生成速度の代表的な対応。TTFT全要因/時間/価格を計算しない。"
+        },
+        "kv": {
+          "storedFields": [
+            "K",
+            "V"
+          ],
+          "storedQ": false,
+          "learnedWeightsAreSeparate": true,
+          "bytes": null,
+          "kvHeads": null,
+          "layers": null,
+          "dtype": null,
+          "meaning": "同じ構成で保存位置が増えるとKVも増える。帯の長さはバイト数ではない。"
+        },
+        "metrics": [
+          {
+            "id": "ttft",
+            "label": "応答開始まで",
+            "value": null,
+            "unit": null
+          },
+          {
+            "id": "tokens-per-second",
+            "label": "生成速度",
+            "value": null,
+            "unit": null
+          },
+          {
+            "id": "memory",
+            "label": "KVの保持",
+            "value": null,
+            "unit": null
+          },
+          {
+            "id": "price",
+            "label": "料金",
+            "value": null,
+            "unit": null
+          },
+          {
+            "id": "quality",
+            "label": "実効品質",
+            "value": null,
+            "unit": null
+          }
+        ],
+        "nonClaims": {
+          "attentionReachIsCorrectUse": false,
+          "attentionWeightExplainsAnswer": false,
+          "fixedLayerLinguisticHierarchy": false,
+          "allAttentionIsDenseCausal": false,
+          "pairCountPredictsRuntime": false,
+          "pairCountPredictsPrice": false,
+          "qualityJudgment": null,
+          "providerLimit": null
+        }
+      },
+      "stageAssertions": [
+        {
+          "stage": 0,
+          "read": true,
+          "label": "因果的な範囲",
+          "required": [
+            "same-token-sequence",
+            "current-query",
+            "future-mask",
+            "allowed-past-and-self"
+          ],
+          "controls": [
+            "queryIndex"
+          ],
+          "labels": [
+            "密な因果注意の例",
+            "自分以前を参照",
+            "未来は参照しない"
+          ],
+          "contract": "既定6位置/query3。query変更時に現在行と未来maskを更新し、未来へ活動中の参照線を残さない。"
+        },
+        {
+          "stage": 1,
+          "read": true,
+          "label": "関連を混ぜる",
+          "required": [
+            "t3",
+            "t1",
+            "weighted-reference-lines",
+            "contextual-representation"
+          ],
+          "controls": [],
+          "labels": [
+            "それ",
+            "参照候補(名詞)",
+            "重み付けして表現を更新",
+            "語・句・文という固定の層順ではない"
+          ],
+          "contract": "既存「それ」と名詞役割だけ。t3の参照可能なt0..t3から混合枠へ線。太さは模式で数値weight/vector/正答判定はnull。"
+        },
+        {
+          "stage": 2,
+          "read": true,
+          "label": "機会と保証",
+          "required": [
+            "causal-pair-area",
+            "access-opportunity",
+            "actual-use-unknown"
+          ],
+          "controls": [
+            "length"
+          ],
+          "labels": [
+            "参照できる ≠ 正しく使える",
+            "入力一括の注意ペアは急増",
+            "実測時間や品質の倍率ではない"
+          ],
+          "contract": "4/6位置の下三角範囲を比較。面積が増えても品質の合格印/性能曲線を足さない。入力一括の素朴な注意と実時間を区別。"
+        },
+        {
+          "stage": 3,
+          "read": true,
+          "label": "二つの処理",
+          "required": [
+            "prefill-lane",
+            "decode-lane",
+            "ttft",
+            "tokens-per-second",
+            "candidate-not-yet-cached"
+          ],
+          "controls": [],
+          "labels": [
+            "入力全体を一括処理",
+            "1位置を入力して続ける",
+            "応答開始まで(TTFT)",
+            "生成速度"
+          ],
+          "contract": "両レーンを同時に残す。prefillは0..5、次回decodeは位置6だけ。候補6は次回処理前にはKVなし、処理後KV0..6/次候補7はKVなし。時間値は未測定。"
+        },
+        {
+          "stage": 4,
+          "read": true,
+          "label": "計算とメモリ",
+          "required": [
+            "token-sequence",
+            "K-band",
+            "V-band",
+            "conditional-metrics"
+          ],
+          "controls": [
+            "length"
+          ],
+          "labels": [
+            "保存するK/V",
+            "同じ構成では長さに応じて増える",
+            "料金・時間・品質は実装や条件に依存"
+          ],
+          "contract": "入力4/6位置とK/V帯のIDを対応させる。Qを保存せず学習重みは別枠。bytes/料金/品質をセル数から計算しない。"
+        }
+      ],
+      "frameFields": {
+        "common": [
+          "phase",
+          "stage",
+          "label",
+          "title",
+          "detail"
+        ],
+        "effectiveQueryIndex": "S0のみqueryIndex、他null",
+        "effectiveLength": "S2/4のみlength、他null",
+        "tokens": "固定6slotの全部またはS2/4のprefix4slot。IDと順序を保持。",
+        "maskRows": "選択長の下三角表。S0は選択query、S1は固定query3。",
+        "referenceLines": "許可sourceのみ。S1は模式weightRoleから表現枠への混合。",
+        "processing": "S3でprefill/decodeの両fixtureと候補非保存を表示。",
+        "kv": "S4で各位置のK/V。Qなし、bytes null。",
+        "metrics": "ttft/速度/memory/price/qualityのvalue/unit null",
+        "claims": "fixtures.nonClaims"
+      },
+      "attributes": {
+        "root": [
+          "data-context-causal-stage",
+          "data-attention-scope=\"dense-causal-example\"",
+          "data-query-index=<integer|none>",
+          "data-context-length=<integer>",
+          "data-quality-judgment=\"none\""
+        ],
+        "tokens": [
+          "data-context-token-id",
+          "data-context-position"
+        ],
+        "matrix": [
+          "data-query-position",
+          "data-key-position",
+          "data-attention-allowed=<true|false>",
+          "data-future-masked=<true|false>"
+        ],
+        "mix": [
+          "data-mix-source",
+          "data-weight-role=<light|medium|strong>",
+          "data-weight-origin=\"illustrative\"",
+          "data-mix-target=\"contextual-representation\""
+        ],
+        "processing": [
+          "data-processing-lane=<prefill|decode>",
+          "data-processed-positions",
+          "data-cached-positions",
+          "data-sampled-position",
+          "data-sampled-in-cache=\"false\""
+        ],
+        "kv": [
+          "data-kv-field=<K|V>",
+          "data-kv-position"
+        ],
+        "metrics": [
+          "data-context-metric=<id>",
+          "data-measured=\"false\""
+        ],
+        "caveats": [
+          "data-caveat=\"reach-not-correct-use\"",
+          "data-caveat=\"pairs-not-wall-clock\"",
+          "data-caveat=\"not-all-attention\""
+        ]
+      }
+    },
+    "cacheQuality": {
+      "id": "context-cache-quality",
+      "exports": [
+        "CONTEXT_CACHE_QUALITY_STAGES",
+        "CONTEXT_PREFIX_EDITS",
+        "CONTEXT_INFO_POSITIONS",
+        "CONTEXT_DOCUMENT_SETS",
+        "contextCacheQualityFrame"
+      ],
+      "signature": "contextCacheQualityFrame(phase, { editMode = \"suffix-change\", importantPosition = \"middle\", documentSet = \"with-distractors\" } = {})",
+      "sceneExport": "ContextCacheQuality",
+      "sceneProps": [
+        "children"
+      ],
+      "cssPrefix": "ccq-",
+      "sceneClass": "context-cache-quality-scene",
+      "walkthroughClass": "context-cache-quality-walkthrough",
+      "controls": [
+        {
+          "key": "editMode",
+          "label": "入力の変え方",
+          "values": [
+            "front-change",
+            "suffix-change",
+            "append"
+          ],
+          "default": "suffix-change",
+          "activeStages": [
+            2
+          ],
+          "hook": "context-prefix-edit",
+          "effect": "共通prefixと再計算/新規位置だけ。service hit/割引は未測定。"
+        },
+        {
+          "key": "importantPosition",
+          "label": "重要情報の位置",
+          "values": [
+            "beginning",
+            "middle",
+            "end"
+          ],
+          "default": "middle",
+          "activeStages": [
+            3,
+            4
+          ],
+          "hook": "context-important-position",
+          "effect": "同じ情報IDの位置だけ。具体例文/回答/性能値を作らない。"
+        },
+        {
+          "key": "documentSet",
+          "label": "評価に渡す資料",
+          "values": [
+            "needed-only",
+            "with-distractors"
+          ],
+          "default": "with-distractors",
+          "activeStages": [
+            4
+          ],
+          "hook": "context-document-set",
+          "effect": "必要資料を固定し、追加資料だけ加減。原因/性能差は推定しない。"
+        }
+      ],
+      "stageLabels": [
+        "KV再利用",
+        "共通接頭辞",
+        "変更位置",
+        "入ると使える",
+        "妨害と統合",
+        "選んで渡す"
+      ],
+      "footnote": "接頭辞の構造的な再利用と、長文で確かめる観点の模式図です。実際のキャッシュヒット・料金・回答品質を測定する図ではありません。",
+      "prefixFixtures": {
+        "assumptions": [
+          "同じモデル・位置・計算条件",
+          "密な因果注意の依存構造だけ",
+          "サービスの保持期間/最小長/認証境界/一致条件/課金はモデル化しない"
+        ],
+        "baseTokens": [
+          "p0",
+          "p1",
+          "p2",
+          "p3",
+          "p4",
+          "p5"
+        ],
+        "fixedPositions": [
+          0,
+          1
+        ],
+        "variablePositions": [
+          2,
+          3,
+          4,
+          5
+        ],
+        "fixedLabels": [
+          "システムプロンプト",
+          "ツール定義"
+        ],
+        "variableLabel": "履歴・ユーザー入力・検索結果",
+        "modes": [
+          {
+            "id": "front-change",
+            "label": "先頭を変更",
+            "candidateTokens": [
+              "p0-changed",
+              "p1",
+              "p2",
+              "p3",
+              "p4",
+              "p5"
+            ],
+            "firstDifference": 0,
+            "commonPrefixLength": 0,
+            "structurallyReusablePositions": [],
+            "invalidatedPositions": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "newUncomputedPositions": []
+          },
+          {
+            "id": "suffix-change",
+            "label": "後方を変更",
+            "candidateTokens": [
+              "p0",
+              "p1",
+              "p2",
+              "p3",
+              "p4-changed",
+              "p5"
+            ],
+            "firstDifference": 4,
+            "commonPrefixLength": 4,
+            "structurallyReusablePositions": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "invalidatedPositions": [
+              4,
+              5
+            ],
+            "newUncomputedPositions": []
+          },
+          {
+            "id": "append",
+            "label": "後方へ追記",
+            "candidateTokens": [
+              "p0",
+              "p1",
+              "p2",
+              "p3",
+              "p4",
+              "p5",
+              "p6"
+            ],
+            "firstDifference": null,
+            "appendPosition": 6,
+            "commonPrefixLength": 6,
+            "structurallyReusablePositions": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "invalidatedPositions": [],
+            "newUncomputedPositions": [
+              6
+            ]
+          }
+        ],
+        "stateVocabulary": [
+          "structurally-reusable",
+          "needs-recompute",
+          "new-uncomputed"
+        ],
+        "service": {
+          "cacheHit": null,
+          "hitRate": null,
+          "ttl": null,
+          "price": null,
+          "discount": null,
+          "minimumPrefixLength": null,
+          "provider": null
+        },
+        "manualStage1": "base/suffix-changeの2入力で先頭4位置の共通帯と境界。S2既定も同じ配置/固定可変ラベルを残す。",
+        "readStage2": "未操作のsuffix-changeで前4位置の保持候補/後2位置の再計算を同時表示。front-change/appendでも先頭揃えと固定/可変区分は同じ。"
+      },
+      "qualityFixtures": {
+        "importantInformation": {
+          "id": "important-info",
+          "text": null,
+          "role": "同じ重要情報",
+          "positions": {
+            "beginning": 0,
+            "middle": 3,
+            "end": 5
+          },
+          "slotCount": 6
+        },
+        "positionCases": [
+          {
+            "id": "beginning",
+            "label": "先頭",
+            "importantPosition": 0
+          },
+          {
+            "id": "middle",
+            "label": "中間",
+            "importantPosition": 3
+          },
+          {
+            "id": "end",
+            "label": "末尾",
+            "importantPosition": 5
+          }
+        ],
+        "neededDocuments": [
+          {
+            "id": "needed-a",
+            "contains": [
+              "important-info"
+            ],
+            "label": "必要文書 A",
+            "text": null
+          },
+          {
+            "id": "needed-b",
+            "contains": [
+              "supporting-info"
+            ],
+            "label": "必要文書 B",
+            "text": null
+          }
+        ],
+        "distractorDocuments": [
+          {
+            "id": "distractor-a",
+            "label": "追加の無関係な文書",
+            "text": null
+          },
+          {
+            "id": "distractor-b",
+            "label": "追加の類似文書",
+            "text": null
+          }
+        ],
+        "documentSets": [
+          {
+            "id": "needed-only",
+            "documentIds": [
+              "needed-a",
+              "needed-b"
+            ]
+          },
+          {
+            "id": "with-distractors",
+            "documentIds": [
+              "needed-a",
+              "needed-b",
+              "distractor-a",
+              "distractor-b"
+            ]
+          }
+        ],
+        "evaluations": [
+          {
+            "id": "retrieval",
+            "label": "一節を探す",
+            "result": null,
+            "score": null,
+            "status": "unmeasured"
+          },
+          {
+            "id": "integration",
+            "label": "複数箇所を統合",
+            "result": null,
+            "score": null,
+            "status": "unmeasured"
+          }
+        ],
+        "selection": {
+          "retained": [
+            "needed-a",
+            "needed-b"
+          ],
+          "collapsed": [
+            "distractor-a",
+            "distractor-b"
+          ],
+          "qualityGain": null,
+          "methodLabel": "必要な情報を選んで渡す"
+        },
+        "axes": [
+          {
+            "id": "information-selection",
+            "label": "何を渡すか",
+            "decision": null
+          },
+          {
+            "id": "prefix-reuse",
+            "label": "何を再利用できるか",
+            "decision": null
+          }
+        ],
+        "nonClaims": {
+          "positionUniversalUCurve": false,
+          "allMiddleInformationIsLost": false,
+          "distractorsAlwaysReduceQuality": false,
+          "attentionDilutionIsSoleCause": false,
+          "successfulRetrievalImpliesIntegration": false,
+          "moreContextGuaranteesCorrectAnswer": false,
+          "selectionGuaranteesImprovement": false,
+          "betterCacheImpliesBetterQuality": false,
+          "cacheHitMeasured": false,
+          "realModelExecution": false
+        }
+      },
+      "stageAssertions": [
+        {
+          "stage": 0,
+          "read": true,
+          "label": "KV再利用",
+          "required": [
+            "same-generation",
+            "past-K-band",
+            "past-V-band",
+            "new-input-position",
+            "cross-request-boundary"
+          ],
+          "controls": [],
+          "labels": [
+            "同じ生成内のK/V再利用",
+            "別リクエストの共通接頭辞は別の境界",
+            "保存期間・一致条件・料金は提供仕様"
+          ],
+          "contract": "過去6位置のK/Vを再利用し、候補を次回入力処理してから位置6KVを追記。別要求で自動的にhitするとは言わない。"
+        },
+        {
+          "stage": 1,
+          "read": false,
+          "label": "共通接頭辞",
+          "required": [
+            "two-aligned-inputs",
+            "fixed-prefix",
+            "variable-suffix",
+            "common-prefix-boundary"
+          ],
+          "controls": [],
+          "labels": [
+            "固定部分は先頭",
+            "可変部分は後方",
+            "構造上の再利用候補"
+          ],
+          "contract": "補助段階。先頭4位置を一致帯、後2位置を比較対象にする。実service hitとは表示しない。"
+        },
+        {
+          "stage": 2,
+          "read": true,
+          "label": "変更位置",
+          "required": [
+            "two-aligned-inputs",
+            "fixed-prefix",
+            "variable-suffix",
+            "common-prefix-boundary",
+            "retained-prefix",
+            "recompute-suffix",
+            "append-location"
+          ],
+          "controls": [
+            "editMode"
+          ],
+          "labels": [
+            "固定部分は先頭",
+            "可変部分は後方",
+            "変更より前は保持候補",
+            "変更位置以降は再計算",
+            "追記は既存の過去を変えない"
+          ],
+          "contract": "未操作の既定suffix-changeで4保持/2再計算を同時表示。先頭変更は保持0、追記は保持6/新規未計算1/無効化0。Agent履歴の追記も同じ末尾。"
+        },
+        {
+          "stage": 3,
+          "read": true,
+          "label": "入ると使える",
+          "required": [
+            "important-info",
+            "position-comparison",
+            "evaluation-frame"
+          ],
+          "controls": [
+            "importantPosition"
+          ],
+          "labels": [
+            "入ることと使えることは別",
+            "先頭・中間・末尾を比較",
+            "対象モデルとタスクで評価"
+          ],
+          "contract": "同じ情報IDを位置0/3/5へ移す。値null、普遍的U曲線・中間必敗の色付け・品質順位なし。"
+        },
+        {
+          "stage": 4,
+          "read": true,
+          "label": "妨害と統合",
+          "required": [
+            "important-info",
+            "position-comparison-summary",
+            "needed-a",
+            "needed-b",
+            "optional-distractors",
+            "retrieval",
+            "integration"
+          ],
+          "controls": [
+            "importantPosition",
+            "documentSet"
+          ],
+          "labels": [
+            "必要文書のみ / 妨害文書を追加",
+            "位置も比較条件として確認",
+            "一節を探す / 複数箇所を統合",
+            "品質差を重みの希釈だけで説明しない"
+          ],
+          "contract": "位置と必要2文書を保持して追加資料だけ加減。未操作READ4でも3位置比較の小さな要約図を残す。検索/統合は別の未測定枠で、成功を転用しない。"
+        },
+        {
+          "stage": 5,
+          "read": true,
+          "label": "選んで渡す",
+          "required": [
+            "retained-needed-documents",
+            "collapsed-unneeded-documents",
+            "information-selection-axis",
+            "prefix-reuse-axis"
+          ],
+          "controls": [],
+          "labels": [
+            "必要な情報を選んで渡す",
+            "何を渡すか / 何を再利用できるか",
+            "品質と再利用を別々に確かめる"
+          ],
+          "contract": "不要資料を畳む模式図と独立したprefix境界図を同時表示。選択で入力が変われば一致範囲も変わり得る。cache不変/品質改善を保証しない。"
+        }
+      ],
+      "frameFields": {
+        "common": [
+          "phase",
+          "stage",
+          "label",
+          "title",
+          "detail"
+        ],
+        "effectiveEditMode": "S2のみeditMode、他null",
+        "effectiveImportantPosition": "S3/4のみimportantPosition、他null",
+        "effectiveDocumentSet": "S4のみdocumentSet、他null",
+        "generationKv": "S0の同一生成内K/V/新入力位置と別要求境界",
+        "prefix": "S1/S2/S5別軸に2入力/境界/固定可変role。S2以外は固定suffix-change fixture",
+        "prefixStatus": "structure only; service値はnull",
+        "importantInformation": "同じIDを位置0/3/5へ、text/回答/性能null",
+        "documents": "必要2文書保持。妨害2文書はS4のみ切替。S5は固定の選択模式図。",
+        "evaluation": "retrieval/integrationそれぞれresult/score null",
+        "axes": "S5で情報選択/prefix再利用を別の未測定判断として同時表示"
+      },
+      "attributes": {
+        "root": [
+          "data-context-cache-stage",
+          "data-prefix-edit=<enum|none>",
+          "data-important-position=<enum|none>",
+          "data-document-set=<enum|none>",
+          "data-provider-cache-hit=\"unknown\""
+        ],
+        "generation": [
+          "data-cache-boundary=<same-generation|cross-request>",
+          "data-kv-field=<K|V>",
+          "data-kv-position"
+        ],
+        "prefix": [
+          "data-prefix-input=<base|candidate>",
+          "data-prefix-position",
+          "data-prefix-role=<fixed|variable>",
+          "data-prefix-state=<structurally-reusable|needs-recompute|new-uncomputed>",
+          "data-common-prefix-length",
+          "data-change-position=<integer|none>"
+        ],
+        "quality": [
+          "data-important-info=\"important-info\"",
+          "data-info-position",
+          "data-position-case=<beginning|middle|end>",
+          "data-document-id",
+          "data-document-role=<needed|distractor>"
+        ],
+        "evaluation": [
+          "data-evaluation-kind=<retrieval|integration>",
+          "data-evaluation-status=\"unmeasured\""
+        ],
+        "axes": [
+          "data-decision-axis=<information-selection|prefix-reuse>"
+        ],
+        "caveats": [
+          "data-caveat=\"structure-not-service-hit\"",
+          "data-caveat=\"position-not-universal\"",
+          "data-caveat=\"retrieval-not-integration\"",
+          "data-caveat=\"not-only-dilution\""
+        ]
+      }
+    },
+    "dispatcher": {
+      "file": "website/components/diagrams/context-walkthrough.jsx",
+      "export": "ContextWalkthrough",
+      "props": [
+        "diagramId",
+        "children"
+      ],
+      "literalLazyImports": [
+        {
+          "id": "context-causal-cost",
+          "module": "./context-causal-cost-walkthrough",
+          "export": "ContextCausalCost"
+        },
+        {
+          "id": "context-cache-quality",
+          "module": "./context-cache-quality-walkthrough",
+          "export": "ContextCacheQuality"
+        }
+      ],
+      "cssImports": [
+        "./context-causal-cost.css",
+        "./context-cache-quality.css"
+      ],
+      "fallback": "未知ID/図chunk失敗時は元childrenを保持。任意module文字列を許可しない。",
+      "allowlist": "literalな2IDと対応ReadingStepのみ。式/任意props/spread/import/他walkthroughのネストを拒否。生成READはcausal0..4、cache0/2/3/4/5。",
+      "nameIsolation": "既存attention-context-model.mjs / contextFrame / CONTEXT_STAGESとは別module・別exports。既存記事を置き換えない。"
+    },
+    "layout": {
+      "viewBox": "SceneBase 0 0 640 430",
+      "causal": "同じtoken列を上部に保持し、mask面・混合枠・prefill/decode2レーン・K/V帯へつなぐ。",
+      "cache": "先頭を揃えたbase/candidateを維持。prefix境界→再計算範囲→重要位置/資料/別評価枠へ展開。",
+      "motion": "同じIDを保つ位置/opacity/pathの補間のみ。直接到達/逆seekも同じ完成構図。色だけでなくラベル/線種を使用。",
+      "typography": "短い図ラベルを使い、本文/新例文を極小文字で詰め込まない。実bboxで文字/線/mask境界を確認。",
+      "accessibility": "title/desc、可視label、aria-labelを一致させる。必要物は実可視とアクセシビリティの両方で確認。"
+    }
+  },
+  "selfCheck": {
+    "kind": "author-preparation-only",
+    "adoptedObjectUnchanged": true,
+    "articleShaMatches": true,
+    "sourceDigestsMatch": true,
+    "sectionOffsetsAndTypesMatch": true,
+    "formulaMermaidZero": true,
+    "productFilesCurrentlyExisting": [],
+    "independentReviewPerformed": false,
+    "implementationPerformed": false,
+    "runtimePerformed": false,
+    "publicPerformed": false,
+    "all18DynamicTopicsMatchBodyStages": true,
+    "read10Body12Stage11": true,
+    "literalMaskAndPrefixInternallyConsistent": true,
+    "inputsUnchangedAfterPreparation": true,
+    "note": "作成者の整合確認。独立レビュー・製品実装/テスト・公開受入の代替ではない。"
+  },
+  "nonClaims": [
+    "密な因果注意の例であり、局所/双方向等すべての注意構成を表していない。",
+    "参照可能性/重みを、認知・正しい利用・因果説明・回答正解の証拠にしない。",
+    "元「それ」と役割名以外に新しい具体例文を足さない。模式セルは製品tokenizer出力やcontext上限ではない。",
+    "入力一括の注意ペア規模とキャッシュdecode/最適化後演算数/モデル全体の実時間/料金を同一視しない。",
+    "候補は選ばれた時点でKVにない。次回入力処理後に保存。KVはQや学習済み重みと別。",
+    "構造的再利用候補だけを示し、提供側のTTL/最小長/一致条件/価格/割引/hit率/アクセス境界は発明しない。",
+    "未来への追記は既存の過去を変えない。新規未計算位置と再計算が必要な既存位置を区別。",
+    "位置効果は対象モデル/タスクに依存。普遍的U字曲線、中間必敗、妨害文書の必ずの悪影響を描かない。",
+    "品質差を重みの希釈だけで説明せず、検索成功を統合成功へ読み替えない。",
+    "情報選択とprefix再利用は別の判断軸。品質/費用改善はこの図だけで保証しない。",
+    "実モデル/API/Agent、実service cache計測、CI/公開確認は実施していない。"
+  ],
+  "independentChecks": [
+    {
+      "id": "source-preservation",
+      "kind": "source+decoration",
+      "assertions": [
+        "39 root nodes / H3 8 / body15の全AST復元一致。数式0・Mermaid0・code0を保持。リンク23/表1/リスト10/強調18を削除しない。",
+        "5H3/body12を2図へ順序どおり包装、READ10/manual1。H3を最初のstepへ1回、table/listを分割しない。",
+        "18動的topicのbody→stageをliteral確認し静的12論点を保持。digest/heading/blockTypes/countのずれを拒否。"
+      ]
+    },
+    {
+      "id": "independent-oracle",
+      "kind": "reviewed-literal-fixture",
+      "assertions": [
+        "検証者が原文/採択計画からmask、prefix、候補のKV時点、必要可視物を独立に確認したliteralを使う。製品frameを期待値生成に使わない。",
+        "6行/4行のmask文字列とqueryごとのallowed/maskedを検算。10/21セルはFLOPs/実時間/価格として表示しない。",
+        "prefix3ケースの境界/保持/再計算/新規をliteral arraysで照合。本番の比較関数をoracle側で呼ばない。"
+      ]
+    },
+    {
+      "id": "causal-boundary-and-mix",
+      "kind": "model+browser",
+      "assertions": [
+        "query0..5全6値で自己以前だけ参照。未来mask先が混合sourceに含まれない。query3はallowed0..3、masked4..5。",
+        "S1は「それ」/名詞役割/重み付き混合が可視。太さは模式で実attention値/正答根拠にせず、固定言語階層を描かない。",
+        "S2のlengthは参照面積だけを変える。品質/価格/時間nullと密な因果注意の限定ラベルを保持。"
+      ]
+    },
+    {
+      "id": "prefill-decode-kv",
+      "kind": "model+browser",
+      "assertions": [
+        "S3で両レーンとTTFT/生成速度を同時表示。prefill処理0..5→KV0..5/候補6非保存。decode処理6→KV0..6/候補7非保存。候補を先取りしてKVへ入れない。",
+        "S4のK/V位置IDが4/6入力に対応。Q保存/学習重み更新なし、bytes/単価/時間なし。",
+        "cache S0は同一生成のKVと別リクエストのcache境界を可視labelで分け、service hitはnull。"
+      ]
+    },
+    {
+      "id": "prefix-read-carryover",
+      "kind": "untouched-READ+runtime",
+      "assertions": [
+        "manual1/selector/前後/再生を使わずREAD2へ。先頭が揃う2入力、固定/可変ラベル、prefix4位置と境界、再計算2位置が同時に実表示される。",
+        "既定suffix-changeは保持0..3/再計算4..5。front-changeは保持なし/再計算0..5。appendは保持0..5/新規6/無効化なし。ゼロ件の領域を架空に作らない。",
+        "後方変更が以前の位置へ影響しない。構造的候補を実service hitと断定せず、提供仕様の未確認を保持。"
+      ]
+    },
+    {
+      "id": "quality-is-separate",
+      "kind": "model+browser",
+      "assertions": [
+        "S3全3位置で同じ重要情報ID/textを保持。表示性能/順位/普遍的U曲線なし。",
+        "S4の両資料条件でneeded-a/bと情報を保持。追加a/bだけ変わり、retrieval/integrationのresult/scoreは別々にnull。未操作READ4でも3位置比較の要約と2評価枠が見える。",
+        "S5は情報選択/prefix再利用を別軸で同時表示。cache改善→品質改善を推論しない。情報選択でprefixも変わり得ることを表示。"
+      ]
+    },
+    {
+      "id": "settings-and-clock",
+      "kind": "pure-model",
+      "assertions": [
+        "共通clampPhase/stageForPhase。有限数以外TypeError、有限範囲外clamp。直接到達/逆seek/中点で履歴に依存しない同じ意味。",
+        "plain settings objectのみ。未知key/不正objectはTypeError、未知enum/不正数値選択はRangeError。Select側でNumber変換し、modelで文字列を暗黙変換しない。",
+        "全5controlの有効stageを検査。非対象effective値null、対象外設定を変えてもframe意味は不変。定数freeze、返り値deep mutation隔離、入力非破壊。",
+        "phaseは提示時計で実秒/速度/学習実行ではない。Date/random/network/新たなRAF/intervalなし。"
+      ]
+    },
+    {
+      "id": "visual-fallback-regression",
+      "kind": "browser+visual+SSR",
+      "assertions": [
+        "全11段階のPC通常/拡大/狭幅、light/dark、reduced-motion、keyboardを既存受入枠で確認。実bbox/screenshotで文字/線/mask/境界を確認。隠れたDOM/ARIAだけでは合格にしない。",
+        "未操作READ10を前後両方向で確認。STOP/手動/戻る/拡大/非表示停止を保持し、2図で読書位置を奪わない。",
+        "JS無効/chunk失敗/printでも原文と主要段階静止図が読める。元table/list/linkを保ち、ページ全体overflowなし。",
+        "既存attention-context図は別記事の実装。新module/ID/CSSが干渉しない。旧対象/無図対照/旧primary assertionsを保存し、E1公開kitは別レビュー。"
+      ]
+    }
+  ],
+  "followUp": {
+    "implementation": "D2公開受入、本案の独立レビュー、親担当の開始指示後。開始時本文SHA/sourceDigest/共有実装を再照合し変化があれば案を更新・再レビュー。",
+    "validation": "実装時にroot check、website unit/sync/build、browser/視覚/独立内容レビュー、記事coverage、release kit、CI/Pages、公開配信hash/runtimeを別証拠として記録。今回は未実施。",
+    "portable": "採択後にrepo相対pathを正本としてprojectへ移す。TEMPをimport/実行依存や唯一の引継ぎ正本にしない。",
+    "predecessor": "旧case名/順/本文/primary assertionsを保護。E1追加のliteral fixtureとflat predecessor proofを別の独立レビューにかける。"
+  }
+}

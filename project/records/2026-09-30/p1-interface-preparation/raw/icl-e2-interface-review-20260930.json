@@ -1,0 +1,269 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-plan-interface-review",
+  "unit": "E2",
+  "verdict": "approved",
+  "risk": "low",
+  "must": 0,
+  "should": 0,
+  "findings": [],
+  "checkedAt": "2026-09-29T19:22:23Z",
+  "reviewed_at": "2026-09-29T19:22:23Z",
+  "recorded_at": "2026-09-29T19:24:37.372Z",
+  "reviewer_run_id": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+  "reference_commit": "5940334a6fd3aab8178cfeb8746a58c8b937d390",
+  "targets": [
+    {
+      "file": "C:/dev/ai-agent-library/TEMP/icl-e2-interface-proposal-20260930.md",
+      "sha256": "4a90d0af2a03be54ffb63fbedb7d66f0dd1f994290d100583c9abb6cddef2196"
+    },
+    {
+      "file": "C:/dev/ai-agent-library/TEMP/icl-e2-interface-proposal-20260930.json",
+      "sha256": "46b275e0da9d9033d07fecb775f74b4136b76f7d0308268c4e7dfd4729c4c828"
+    }
+  ],
+  "article": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+  "sourceInputs": [
+    {
+      "path": "project/records/2026-09-24/p1-remaining-storyboards.md",
+      "bytes": 38588,
+      "sha256": "b663581aa76b9da2cb78c7121f54108f5e01cb248d3a059996656922aeab8108"
+    },
+    {
+      "path": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "bytes": 427025,
+      "sha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319"
+    },
+    {
+      "path": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+      "bytes": 19361,
+      "sha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4"
+    },
+    {
+      "path": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+      "bytes": 13226,
+      "sha256": "c150ab8ee4a72dc6786a5abb52e0266f97d78f1b6584ce1c695e01f94106f5c4"
+    },
+    {
+      "path": "website/lib/reading-clock.mjs",
+      "bytes": 1707,
+      "sha256": "f39eadf5eb39ebbb0f33877e6bceb9966211fc7acdaad13118428a4c2019081b"
+    },
+    {
+      "path": "website/components/diagrams/reading-figure.jsx",
+      "bytes": 12435,
+      "sha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12"
+    },
+    {
+      "path": "website/components/diagrams/concept-scene-primitives.jsx",
+      "bytes": 2803,
+      "sha256": "5aac3bf8a418a57cd269b89fdab0252eb71d671dfbe6ac6dbe064a052e790a2b"
+    },
+    {
+      "path": "website/lib/pretraining-data-model.mjs",
+      "bytes": 4181,
+      "sha256": "5338703ea3cd88e8c2df1df41e4d077be40a01042dc62ba2a69ede28c97673fa"
+    },
+    {
+      "path": "website/components/diagrams/pretraining-data-walkthrough.jsx",
+      "bytes": 11140,
+      "sha256": "d2724eb12d8426bc52f812c1a6e7d4171171295bc4ac3d4acfde71b1793527bf"
+    },
+    {
+      "path": "website/tests/unit/pretraining-data-model.test.mjs",
+      "bytes": 5037,
+      "sha256": "23465e6b87a3c5ec52b7cfff882694050d6dd4e1aa9afdc3fbb174250f23d0f9"
+    },
+    {
+      "path": "website/components/diagrams/pretraining-walkthrough.jsx",
+      "bytes": 1413,
+      "sha256": "110b28350502a8e61430fdf080e435807228a5c9509b0537cee7668c1c6b7292"
+    },
+    {
+      "path": "website/lib/diagram-registry.mjs",
+      "bytes": 24546,
+      "sha256": "85e75284f46ce42f7c89384a32bce6d227d2273855adfc81238d2f78966518d9"
+    },
+    {
+      "path": "website/lib/diagram-decoration.mjs",
+      "bytes": 6067,
+      "sha256": "bd3ed962f793fbc28862d29765b6c1392fe08107cfec4d2cc141c0184cdeba6f"
+    }
+  ],
+  "scope": {
+    "planOnly": true,
+    "articleModified": false,
+    "productModified": false,
+    "kitModified": false,
+    "gitModified": false,
+    "existingEvidenceModified": false,
+    "implementationApproved": false,
+    "imagesApproved": false,
+    "publicApproved": false,
+    "requiresE1AndC2PublicAcceptance": true,
+    "p1StopAfter15PublicAccepted": true
+  },
+  "independentChecks": {
+    "adoptedExact": true,
+    "inputHashAndBytesCount": 13,
+    "articleSha256": "c150ab8ee4a72dc6786a5abb52e0266f97d78f1b6584ce1c695e01f94106f5c4",
+    "astSha256": "02db1d0966c20a40c22a6334ea810b5d7d96bcd463a77630d5f9323f36bbd7d4",
+    "displayMathSha256": "fa069ab3dd1e685ff5b374e4dd93d631b31b084eef95e54833d4bfe7ddf4fb0d",
+    "rootNodes": 43,
+    "nodeCounts": {
+      "root": 1,
+      "yaml": 1,
+      "heading": 17,
+      "text": 165,
+      "paragraph": 60,
+      "strong": 31,
+      "list": 12,
+      "listItem": 48,
+      "link": 30,
+      "inlineMath": 2,
+      "math": 1,
+      "inlineCode": 3,
+      "blockquote": 1
+    },
+    "h3": 8,
+    "body": 18,
+    "wrappedH3": 5,
+    "wrappedBody": 15,
+    "topics": {
+      "total": 37,
+      "dynamic": 22,
+      "static": 15
+    },
+    "allTopicsExact": true,
+    "allDynamicReadMapped": true,
+    "allBindingsExact": true,
+    "diagrams": [
+      {
+        "id": "icl-hypotheses",
+        "digest": "sha256:6194981065168116f345a0845c1cced61a940a9775c702d158e53177cf04b7e5",
+        "read": [
+          0,
+          1,
+          3,
+          4
+        ],
+        "manual": [
+          2
+        ]
+      },
+      {
+        "id": "icl-demonstrations",
+        "digest": "sha256:b1fa9562e83d2c634dec83ba57fdacf802184cf3df3d44a1c8df2514dac5b750",
+        "read": [
+          0,
+          1,
+          2
+        ],
+        "manual": []
+      },
+      {
+        "id": "icl-memory-evaluation",
+        "digest": "sha256:c514cb25832cbf38561bfbd14380fffb0005d3a0f55170de88cf77e835b284b4",
+        "read": [
+          0,
+          2,
+          3,
+          4
+        ],
+        "manual": [
+          1
+        ]
+      }
+    ],
+    "ranges": [
+      {
+        "id": "icl-hypotheses",
+        "start": 10,
+        "end": 19
+      },
+      {
+        "id": "icl-demonstrations",
+        "start": 19,
+        "end": 23
+      },
+      {
+        "id": "icl-memory-evaluation",
+        "start": 23,
+        "end": 30
+      }
+    ],
+    "hypotheticalGroupedStepRoundTrips": 8,
+    "productionAstTestExecuted": false,
+    "bayesOriginalTermsPreserved": true,
+    "weightAndLatentTaskDistinct": true,
+    "internalRepresentationNotOptimizer": true,
+    "inductionDistinctOccurrences": 5,
+    "orderSetAndTailCountVerified": true,
+    "structuralExampleCounts": [
+      3,
+      3,
+      2
+    ],
+    "grokkingAxis": "training-progress",
+    "doubleDescentAxis": "model-scale",
+    "contaminationIntersection": [
+      "shared-eval-item"
+    ],
+    "read3AndRead2CarryoverContract": true,
+    "customControls": 1,
+    "customOptions": 2,
+    "plannedMidpointVisits": 60,
+    "plannedMidpointVisitsExecutedAgainstProduct": false
+  },
+  "primarySupplement": {
+    "scope": "reviewer abstract checks only; no freshness claim or source-date mutation",
+    "sources": [
+      {
+        "url": "https://arxiv.org/abs/2111.02080",
+        "versionShown": "v6",
+        "scope": "abstract; shared latent concept and limited HMM setting",
+        "checkedAfterFetchUtc": "2026-09-29T19:22:03Z"
+      },
+      {
+        "url": "https://arxiv.org/abs/2211.15661",
+        "versionShown": "v3",
+        "scope": "abstract; linear regression, activation-encoded predictors without parameter updates",
+        "checkedAfterFetchUtc": "2026-09-29T19:22:03Z"
+      },
+      {
+        "url": "https://arxiv.org/abs/2201.02177",
+        "versionShown": "v1",
+        "scope": "abstract; delayed generalization on small algorithmic datasets",
+        "checkedAfterFetchUtc": "2026-09-29T19:22:03Z"
+      },
+      {
+        "url": "https://arxiv.org/abs/1912.02292",
+        "versionShown": "v1",
+        "scope": "abstract; conditional nonmonotonic generalization versus scale/training",
+        "checkedAfterFetchUtc": "2026-09-29T19:22:03Z"
+      },
+      {
+        "url": "https://arxiv.org/abs/2209.11895",
+        "versionShown": "v1",
+        "scope": "abstract; A B ... A -> B induction candidate and causal/correlational scope",
+        "checkedAfterFetchUtc": "2026-09-29T19:22:23Z"
+      },
+      {
+        "url": "https://arxiv.org/abs/2202.12837",
+        "versionShown": "v2",
+        "scope": "abstract; label-space/input-distribution/format and classification/multiple-choice study scope",
+        "checkedAfterFetchUtc": "2026-09-29T19:22:23Z"
+      },
+      {
+        "url": "https://arxiv.org/abs/2202.07646",
+        "versionShown": "v3",
+        "scope": "abstract; verbatim training-data memorization and family generalization limitations",
+        "checkedAfterFetchUtc": "2026-09-29T19:22:23Z"
+      }
+    ]
+  },
+  "markdown": {
+    "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\icl-e2-interface-review-20260930.md",
+    "sha256": "5aaa85bc3a655d72c3a91c0be6d1fab3a3a21d44e422ff8585b8b42af65ebf36"
+  }
+}

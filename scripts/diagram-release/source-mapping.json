@@ -1,44 +1,28 @@
 {
   "schemaVersion": 8,
-  "status": "C2-candidate-pending-independent-review",
+  "status": "D1-candidate-pending-independent-review",
   "sourceKit": "ai-agent-library-inference-public",
   "networkExecuted": false,
   "publicAuditExecuted": false,
-  "scope": {
-    "cases": 91,
-    "priorCases": 71,
-    "inferenceCases": 14,
-    "mandatoryFaviconCases": 1,
-    "inferenceStages": 23,
-    "artifactArticles": 8,
-    "controlArticle": "alignment-theory",
-    "trainingCases": 13,
-    "trainingStages": 10,
-    "trainingReadStops": 9,
-    "trainingScreenConditions": 6,
-    "pretrainingCases": 20,
-    "pretrainingStages": 23,
-    "pretrainingReadStops": 19,
-    "pretrainingScreenConditions": 6
-  },
+  "scope": "D1 candidate: nine fixed CI artifact routes and all107 cases; old90 unchanged, one explicit no-diagram control migration, sixteen added alignment checks. Offline preparation/local export are not public acceptance.",
   "sourceFiles": [
     {
       "file": "collect-deployment.ps1",
-      "portableSHA256": "e4c3538cba3ea525f4725afd5c7d56256e8dbf5575337d48885b8811e9880eda",
+      "portableSHA256": "6fdd080b56c215f43c352c5cd06827a890cdaa51bf8908304d70e01594326c19",
       "change": "PowerShell 7 help and release gate; explicit output/repo; shared offline path validation; preserved GitHub identity body; relative references. C1: exact seven-article scope and new module registration, recorded as reversible predecessor edits; old CI identity and case bodies retained.",
       "sourceRawSHA256": "bdb4a7812875a9a8b83daee5e9f759d75ee802e63c3866545aeb45807191c113",
       "normalizedSourceSHA256": "bdb4a7812875a9a8b83daee5e9f759d75ee802e63c3866545aeb45807191c113"
     },
     {
       "file": "extract-ci-html.mjs",
-      "portableSHA256": "bd1618d4a91f9d1fe37db5e3ce68fadf871595f5eda27d2892048ec89479454f",
+      "portableSHA256": "bab471e15e441d46b6dd6c52efb30996b76981c8cb4ec15c0224404d241cc309",
       "change": "Explicit output/repo and help; contained archive; exclusive extraction directory; relative references; unchanged regular HTML selection and build checks. C1: exact seven-article scope and new module registration, recorded as reversible predecessor edits; old CI identity and case bodies retained.",
       "sourceRawSHA256": "3e509d1434615996582df8bfd6a461bfe4cd393d2398870a66c6dbabcb26f556",
       "normalizedSourceSHA256": "3e509d1434615996582df8bfd6a461bfe4cd393d2398870a66c6dbabcb26f556"
     },
     {
       "file": "verify-public.mjs",
-      "portableSHA256": "71aae210985ff432dee0a986a4bea167fea4dc01768c6081c8c7dc49bbb46085",
+      "portableSHA256": "309c2a106b7f25650e2640e9eee6cc525c50f80d310fea3835c646a959ccb806",
       "change": "Strict CLI; explicit output/repo; website lockfile Playwright; contained evidence; relative output references; unchanged identities, fixtures and all test bodies. Subsequent channel fix: two declared startup/report source edits relative to the LF predecessor; original protected-body hash verified after reversing only those edits. C1: exact seven-article scope and new module registration, recorded as reversible predecessor edits; old CI identity and case bodies retained. Optional full-element screenshot path added while viewport behavior remains unchanged.",
       "sourceRawSHA256": "feda2fe31c1f983ab534714e4b3aaadebbd17155951d9f7a5089284ca1f03edd",
       "normalizedSourceSHA256": "feda2fe31c1f983ab534714e4b3aaadebbd17155951d9f7a5089284ca1f03edd"
@@ -101,14 +85,14 @@
     },
     {
       "file": "check-preparation.mjs",
-      "portableSHA256": "e1d33b2c191c137db41f7cedcdf1ec4cd8083f282fdc5ec9bb816ab3c7465eff",
+      "portableSHA256": "02ec3e179cea91c68611517844e28bb43104efcec8d5621d4ecff79ce87c3256",
       "change": "Old TEMP dependencies replaced by frozen source segment hashes; portable manifest verification, 32 module cases enumerated, fixture invariants preserved; explicit output. LF-only package gate; raw source provenance and normalized source preservation hashes separated. Verify candidate section hash and reverse exact single-occurrence declared source edits before checking original normalized source hash. Repository-layout successor: fixed allowlisted repository test path resolved with regular-file and symlink/junction checks; kit entries restricted to plain filenames. Label successor: verify approved normalized incoming module and reverse exact declared file edits to compare historical normalized B module. C1: enumerate actual runner registration without invoking case callbacks; check fixed seven-route sets, all previous 58 case names, 13 new names and complete predecessor reversals. Capture predecessor reversals and leading/final LF shape are checked.",
       "sourceRawSHA256": "c03b60e16cd467f468f4dc22327f852580e3546e3d3b2214c3c901127cb3a866",
       "normalizedSourceSHA256": "6fb2603518e240077157e2786d442a377caa1ae976f723851ca5fe843966c3c4"
     },
     {
       "file": "README.md",
-      "portableSHA256": "db5d8580d8930465d9a832f5c55a49d4be5e3cdb83757468e462de2ba9f62832",
+      "portableSHA256": "b6c2829aaaf39281dfc32e9111d8a2294108f18037df59a572c88419e55a8c00",
       "change": "Standalone Windows handoff, pending status, source map, P1 stop boundary and 15-article expansion requirements. LF contract and raw-versus-normalized preservation documented. Explain bundled Chromium default, explicit Edge and LF predecessor versus channel-fix provenance. Repository-layout successor: test command uses tests/unit; root/Ubuntu CI inclusion and prerequisite boundaries documented. Distinguish historical initial proposal and approved predecessors from the pending label successor; document both provenance hashes and source-edit reversal. C1: seven-article/71-case pending candidate and current coverage, preserving historical provenance. Document complete scene evidence and explicit leading/final LF normalization.",
       "sourceRawSHA256": "611f5e684274ff2d4fc0d65e72cdfae22aa4475ac9dc2a951d8dbecb67d2d3e1",
       "normalizedSourceSHA256": "5faed88979e5c63faf15a59d5781135180b1cb6f8d5da502e35c11bd13894e9e"
@@ -226,7 +210,7 @@
     },
     {
       "file": "tests/unit/diagram-release-portable.test.mjs",
-      "portableSHA256": "0bad8b27c8de4ff2b6faf23fcd4844e567b3a762e5bca5bec31475a94887fa25",
+      "portableSHA256": "ffc69e4b9d32209c349b9262b72609ba0be9045a12dccb82265370891ed5937c",
       "location": "repository",
       "previousKitPath": "portable-validation.test.mjs"
     },
@@ -242,13 +226,34 @@
     },
     {
       "file": "predecessor-proof.mjs",
-      "portableSHA256": "e5ddfa8a35d527918654b683b59deb964380fd446d6da2564d3656bf665c2f39",
+      "portableSHA256": "bad076d8cee2beb374de194d0cabae8e7183b3c87b7bc6531022f1626e95e443",
       "change": "Fixed, pure inverse application of C2 entrypoint edits; rejects undeclared changes before historical proof checks."
     },
     {
       "file": "c2-predecessor-proof.json",
       "portableSHA256": "a464b808ad76f33ec36df3a3e305b3847aeb056c32b58a5cfb62aa5e4ef77cea",
       "change": "Flat C2-to-C1 reversible changes, prior exact case names and file hashes; no recursive manifest body."
+    },
+    {
+      "file": "alignment-checks.mjs",
+      "portableSHA256": "c2dec4a5e62f2f557de44fbfff9a4d9b4a10aa94d449356268ebf9a267c74717",
+      "change": "D1 alignment fixed independent checks, local-only adapter or flat predecessor proof; pending independent implementation review."
+    },
+    {
+      "file": "local-alignment-adapter.mjs",
+      "portableSHA256": "c5170691e034afa1378b0a1d425b08ca9df75f04eca256fb4782d06baabf65a1",
+      "change": "D1 alignment fixed independent checks, local-only adapter or flat predecessor proof; pending independent implementation review."
+    },
+    {
+      "file": "d1-predecessor-proof.json",
+      "portableSHA256": "a2d25ae6426d42fa9961cef797918861253758cc6a0a245968981f24b12f6276",
+      "change": "D1 alignment fixed independent checks, local-only adapter or flat predecessor proof; pending independent implementation review."
+    },
+    {
+      "file": "website/tests/browser/alignment.spec.mjs",
+      "portableSHA256": "69332439b02df0ae8ca0016f2f7f7062010acfbf719bf1e64c161438190a6b0a",
+      "location": "repository",
+      "change": "Local CI adapter executes the same sixteen callbacks without public-release evidence."
     }
   ],
   "lineEndingPolicy": "All portable files use LF. Source raw hashes are retained; normalized source hashes apply CRLF-to-LF only, with no other text transformation.",
@@ -606,6 +611,39 @@
       "pretraining print: coherent scenes and original article with controls hidden"
     ],
     "artifactRoute": "/docs/llm-internals/pretraining-and-scaling-laws",
+    "reviewStatus": "pending-independent-review"
+  },
+  "d1Revision": {
+    "proofFile": "d1-predecessor-proof.json",
+    "restoration": "Validate current inventory, then restore D1 to C2 including the sole no-diagram control migration; apply unchanged C2-to-C1 and historical proofs afterward.",
+    "addedCaseNames": [
+      "alignment: all 15 stages 1440x1000 light DSF1",
+      "alignment: all 15 stages 1440x1000 dark DSF1",
+      "alignment: all 15 stages 1280x720 light DSF1",
+      "alignment: all 15 stages 390x844 light DSF1",
+      "alignment: all 15 stages 390x844 dark DSF1",
+      "alignment: all 15 stages 960x540 light DSF2",
+      "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "alignment-reward-risk: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "alignment-feedback: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "alignment: keyboard transport, modal selectors, isolated state and focus return",
+      "alignment: all 15 READ stops, no manual-only stages and independent figure states",
+      "alignment-preference: native elapsed play, frozen pause, replay and completion",
+      "alignment-reward-risk: native elapsed play, frozen pause, replay and completion",
+      "alignment-feedback: native elapsed play, frozen pause, replay and completion",
+      "alignment noJS: original prose, nine headings, four equations, Mermaid and 15 static descriptions",
+      "alignment print: coherent scenes and original article with controls hidden"
+    ],
+    "artifactRoute": "/docs/llm-internals/alignment-theory",
+    "controlMigration": {
+      "oldName": "alignment-theory control: zero heavy figure or shared-frame chunks",
+      "newName": "embeddings control: zero heavy figure or shared-frame chunks",
+      "oldRoute": "/docs/llm-internals/alignment-theory",
+      "newRoute": "/docs/implementation/embeddings",
+      "priorIndex": 89
+    },
+    "localAdapter": "local-alignment-adapter.mjs",
+    "localBrowserSpec": "website/tests/browser/alignment.spec.mjs",
     "reviewStatus": "pending-independent-review"
   }
 }

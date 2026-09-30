@@ -1,0 +1,1695 @@
+{
+  "schemaVersion": 1,
+  "status": "read-only-preparation-not-implementation-acceptance",
+  "checkedAt": "2026-09-29T16:27:16.992Z",
+  "author": "/root/pretraining_numeric",
+  "base": "a9f4364f0a8adcbdaa873a16d012ab7c2a0516a0",
+  "authorization": "Parent requested D1 approved-plan extraction, exact A1-A3 replacements and next no-figure control candidates while C2 is still pending public acceptance. Only TEMP artifacts written.",
+  "adoptionBoundary": "B・C1・C2を既存契約どおり公開受入し、この計画を独立レビュー後にrepo project計画/記録へ移してからD1を実装する。共有コードは各単位開始時のmainで再読。",
+  "stopBoundary": "P1の15記事を現在版で公開受入し、記事別coverageと公開evidenceを突合したら停止。P2実装・公開は開始しない。",
+  "plan": {
+    "path": "project/records/2026-09-24/p1-remaining-storyboards.json",
+    "sha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+    "reviewPath": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+    "reviewSHA256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+    "reviewResult": "approved",
+    "reviewRisk": "low",
+    "reviewScope": "plan-only",
+    "rawPlanHistoricalStatus": "candidate-for-independent-rereview",
+    "note": "Raw JSON intentionally preserves the pre-review status; repository review/transfer records establish adopted plan authority."
+  },
+  "delivery": {
+    "unit": "D1",
+    "article": "docs/11-llm-internals/alignment-theory.md",
+    "diagramIds": [
+      "alignment-preference",
+      "alignment-reward-risk",
+      "alignment-feedback"
+    ],
+    "stages": 15,
+    "requires": [
+      "C1",
+      "C2"
+    ],
+    "why": "学習パイプラインと事前学習の後で、選好から方策が変わる仕組みを数式まで接続する。"
+  },
+  "article": {
+    "file": "docs/11-llm-internals/alignment-theory.md",
+    "route": "/docs/llm-internals/alignment-theory",
+    "sourceSHA256": "6bb4501e5fcd44323a0890d20286cc6e597ab042997df47d2cf9fa2ddabd480b",
+    "correctionOnlyCandidateSHA256": "7883fc8764b0a2d7c5df6fa61a4c752696e99ddd579fd44d913db825d865965e",
+    "candidateIsInMemoryOnly": true,
+    "frontmatterDatesUnchangedInCandidate": true,
+    "sections": [
+      {
+        "heading": "概要: 「良さ」をどう最適化するか",
+        "parent": "本文",
+        "line": 31,
+        "start": 10,
+        "end": 13,
+        "bodyTypes": [
+          "paragraph",
+          "code"
+        ]
+      },
+      {
+        "heading": "RLHF の定式化",
+        "parent": "本文",
+        "line": 43,
+        "start": 13,
+        "end": 21,
+        "bodyTypes": [
+          "paragraph",
+          "paragraph",
+          "math",
+          "paragraph",
+          "paragraph",
+          "math",
+          "paragraph"
+        ]
+      },
+      {
+        "heading": "DPO の導出: 報酬モデルを消す",
+        "parent": "本文",
+        "line": 63,
+        "start": 21,
+        "end": 27,
+        "bodyTypes": [
+          "paragraph",
+          "math",
+          "paragraph",
+          "math",
+          "paragraph"
+        ]
+      },
+      {
+        "heading": "報酬の過剰最適化(Goodhart)",
+        "parent": "本文",
+        "line": 79,
+        "start": 27,
+        "end": 31,
+        "bodyTypes": [
+          "paragraph",
+          "list",
+          "paragraph"
+        ]
+      },
+      {
+        "heading": "検証可能報酬(RLVR)とプロセス報酬",
+        "parent": "本文",
+        "line": 89,
+        "start": 31,
+        "end": 35,
+        "bodyTypes": [
+          "paragraph",
+          "list",
+          "paragraph"
+        ]
+      },
+      {
+        "heading": "迎合とアラインメント税",
+        "parent": "本文",
+        "line": 98,
+        "start": 35,
+        "end": 39,
+        "bodyTypes": [
+          "paragraph",
+          "list",
+          "paragraph"
+        ]
+      },
+      {
+        "heading": "この理解が効く場面",
+        "parent": "本文",
+        "line": 107,
+        "start": 39,
+        "end": 41,
+        "bodyTypes": [
+          "list"
+        ]
+      },
+      {
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "line": 116,
+        "start": 42,
+        "end": 44,
+        "bodyTypes": [
+          "list"
+        ]
+      },
+      {
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "line": 124,
+        "start": 44,
+        "end": 46,
+        "bodyTypes": [
+          "list"
+        ]
+      }
+    ],
+    "atomicTopics": 42,
+    "dynamicTopics": 27,
+    "staticTopics": 15,
+    "topics": [
+      {
+        "id": "d1-s0-b0",
+        "heading": "概要: 「良さ」をどう最適化するか",
+        "parent": "本文",
+        "sourceLine": 31,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "事前学習と SFT を終えたモデルは、指示に従う形は得ていますが、「どの応答がより良いか」の基準はまだ弱いままです。選好調整は、人間(または AI)の『こちらが良い』という比較からこの基準を学ばせる工程です。中心となるのが RLHF(人間のフィードバックからの強化学習)で、その簡略化として DPO、検証可能なタスク向けに RLVR があります。",
+        "coverage": "dynamic",
+        "diagramId": "alignment-preference",
+        "readingStage": 0,
+        "stageScope": [
+          0
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "事前学習と SFT を終えたモデルは、指示に従う形は得ていますが、「どの応答がより良いか」の基準はまだ弱いままです。選好調整は、人間(または AI)の『こちらが良い』という比較からこの基準を学ばせる工程です。中心となるのが RLHF(人間のフィードバックからの強化学習)で、その簡略化として DPO、検証可能なタスク向けに RLVR があります。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s0-b1",
+        "heading": "概要: 「良さ」をどう最適化するか",
+        "parent": "本文",
+        "sourceLine": 31,
+        "sourceBlock": 1,
+        "kind": "code",
+        "topic": "flowchart LR\n    A[\"選好データ<br/>(y_w ≻ y_l)\"] --> B[\"報酬モデル r(x,y)<br/>(Bradley-Terry)\"]\n    B --> C[\"KL 正則化付き<br/>方策最適化(RLHF)\"]\n    A -.->|報酬モデルを消去| D[\"DPO<br/>(選好から直接)\"]\n    E[\"検証器(ルール/テスト)\"] -.-> F[\"RLVR<br/>(検証可能報酬)\"]",
+        "coverage": "dynamic",
+        "diagramId": "alignment-preference",
+        "readingStage": 0,
+        "stageScope": [
+          0
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "flowchart LR\n    A[\"選好データ<br/>(y_w ≻ y_l)\"] --> B[\"報酬モデル r(x,y)<br/>(Bradley-Terry)\"]\n    B --> C[\"KL 正則化付き<br/>方策最適化(RLHF)\"]\n    A -.->|報酬モデルを消去| D[\"DPO<br/>(選好から直接)\"]\n    E[\"検証器(ルール/テスト)\"] -.-> F[\"RLVR<br/>(検証可能報酬)\"]",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s1-b0",
+        "heading": "RLHF の定式化",
+        "parent": "本文",
+        "sourceLine": 43,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "RLHF は 2 段です。まず報酬モデルを選好から学び、次にその報酬を最大化するように方策(モデル)を最適化します。",
+        "coverage": "dynamic",
+        "diagramId": "alignment-preference",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "RLHF は 2 段です。まず報酬モデルを選好から学び、次にその報酬を最大化するように方策(モデル)を最適化します。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s1-b1",
+        "heading": "RLHF の定式化",
+        "parent": "本文",
+        "sourceLine": 43,
+        "sourceBlock": 1,
+        "kind": "paragraph",
+        "topic": "(1) 報酬モデルの学習。同じ入力 x への 2 つの応答について、人間が「勝ち y_w / 負け y_l」を付けた選好データを使います。勝ちの方が報酬が高くなる確率を、報酬差のシグモイドでモデル化します(Bradley-Terry モデル)。",
+        "coverage": "dynamic",
+        "diagramId": "alignment-preference",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "(1) 報酬モデルの学習。同じ入力 x への 2 つの応答について、人間が「勝ち y_w / 負け y_l」を付けた選好データを使います。勝ちの方が報酬が高くなる確率を、報酬差のシグモイドでモデル化します(Bradley-Terry モデル)。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s1-b2",
+        "heading": "RLHF の定式化",
+        "parent": "本文",
+        "sourceLine": 43,
+        "sourceBlock": 2,
+        "kind": "math",
+        "topic": "P(y_w \\succ y_l \\mid x) = \\sigma\\big(r_\\phi(x, y_w) - r_\\phi(x, y_l)\\big)",
+        "coverage": "dynamic",
+        "diagramId": "alignment-preference",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "P(y_w \\succ y_l \\mid x) = \\sigma\\big(r_\\phi(x, y_w) - r_\\phi(x, y_l)\\big)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s1-b3",
+        "heading": "RLHF の定式化",
+        "parent": "本文",
+        "sourceLine": 43,
+        "sourceBlock": 3,
+        "kind": "paragraph",
+        "topic": "読み下し: 「勝ち応答が選ばれる確率は、勝ちと負けの報酬の差をシグモイドに通したもの。差が大きいほど勝ちが選ばれやすい」。報酬モデル r_\\phi は、この確率が観測された選好に合うよう(負対数尤度の最小化で)学習されます。",
+        "coverage": "dynamic",
+        "diagramId": "alignment-preference",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "読み下し: 「勝ち応答が選ばれる確率は、勝ちと負けの報酬の差をシグモイドに通したもの。差が大きいほど勝ちが選ばれやすい」。報酬モデル r_\\phi は、この確率が観測された選好に合うよう(負対数尤度の最小化で)学習されます。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s1-b4",
+        "heading": "RLHF の定式化",
+        "parent": "本文",
+        "sourceLine": 43,
+        "sourceBlock": 4,
+        "kind": "paragraph",
+        "topic": "(2) 方策の最適化。次に、モデル(方策 \\pi_\\theta)を、報酬 r_\\phi を高める方向に最適化します。ただし元のモデル \\pi_{\\mathrm{ref}} から離れすぎないよう、KL ダイバージェンスで正則化します。",
+        "coverage": "dynamic",
+        "diagramId": "alignment-preference",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "(2) 方策の最適化。次に、モデル(方策 \\pi_\\theta)を、報酬 r_\\phi を高める方向に最適化します。ただし元のモデル \\pi_{\\mathrm{ref}} から離れすぎないよう、KL ダイバージェンスで正則化します。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s1-b5",
+        "heading": "RLHF の定式化",
+        "parent": "本文",
+        "sourceLine": 43,
+        "sourceBlock": 5,
+        "kind": "math",
+        "topic": "\\max_{\\pi_\\theta}\\ \\mathbb{E}_{x,\\, y \\sim \\pi_\\theta}\\big[r_\\phi(x, y)\\big] \\;-\\; \\beta\\, \\mathrm{KL}\\big(\\pi_\\theta(\\cdot \\mid x)\\ \\|\\ \\pi_{\\mathrm{ref}}(\\cdot \\mid x)\\big)",
+        "coverage": "dynamic",
+        "diagramId": "alignment-preference",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "\\max_{\\pi_\\theta}\\ \\mathbb{E}_{x,\\, y \\sim \\pi_\\theta}\\big[r_\\phi(x, y)\\big] \\;-\\; \\beta\\, \\mathrm{KL}\\big(\\pi_\\theta(\\cdot \\mid x)\\ \\|\\ \\pi_{\\mathrm{ref}}(\\cdot \\mid x)\\big)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s1-b6",
+        "heading": "RLHF の定式化",
+        "parent": "本文",
+        "sourceLine": 43,
+        "sourceBlock": 6,
+        "kind": "paragraph",
+        "topic": "読み下し: 「報酬の期待値を上げつつ、元のモデルからの逸脱(KL)に \\beta の罰則をかける」。\\beta が正則化の強さで、小さいほど報酬を追って元から離れ、大きいほど元に留まる。この最適化は通常 PPO などの強化学習アルゴリズムで解きます。KL 項がないと、次節の「報酬の過剰最適化」で暴走します。",
+        "coverage": "dynamic",
+        "diagramId": "alignment-preference",
+        "readingStage": 4,
+        "stageScope": [
+          4
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "読み下し: 「報酬の期待値を上げつつ、元のモデルからの逸脱(KL)に \\beta の罰則をかける」。\\beta が正則化の強さで、小さいほど報酬を追って元から離れ、大きいほど元に留まる。この最適化は通常 PPO などの強化学習アルゴリズムで解きます。KL 項がないと、次節の「報酬の過剰最適化」で暴走します。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s2-b0",
+        "heading": "DPO の導出: 報酬モデルを消す",
+        "parent": "本文",
+        "sourceLine": 63,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "RLHF は報酬モデルの学習と強化学習の 2 段で、実装が重く不安定になりがちです。DPO(Direct Preference Optimization)は、この 2 段を選好データから直接 1 段にまとめます。鍵は、上の KL 正則化付き最適化の最適方策が閉じた形で書けることです。その式を報酬について解くと、報酬が方策の比で表せます。",
+        "coverage": "dynamic",
+        "diagramId": "alignment-preference",
+        "readingStage": 5,
+        "stageScope": [
+          5
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "RLHF は報酬モデルの学習と強化学習の 2 段で、実装が重く不安定になりがちです。DPO(Direct Preference Optimization)は、この 2 段を選好データから直接 1 段にまとめます。鍵は、上の KL 正則化付き最適化の最適方策が閉じた形で書けることです。その式を報酬について解くと、報酬が方策の比で表せます。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s2-b1",
+        "heading": "DPO の導出: 報酬モデルを消す",
+        "parent": "本文",
+        "sourceLine": 63,
+        "sourceBlock": 1,
+        "kind": "math",
+        "topic": "r(x, y) = \\beta \\log \\frac{\\pi_\\theta(y \\mid x)}{\\pi_{\\mathrm{ref}}(y \\mid x)} + \\beta \\log Z(x)",
+        "coverage": "dynamic",
+        "diagramId": "alignment-preference",
+        "readingStage": 5,
+        "stageScope": [
+          5
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "r(x, y) = \\beta \\log \\frac{\\pi_\\theta(y \\mid x)}{\\pi_{\\mathrm{ref}}(y \\mid x)} + \\beta \\log Z(x)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s2-b2",
+        "heading": "DPO の導出: 報酬モデルを消す",
+        "parent": "本文",
+        "sourceLine": 63,
+        "sourceBlock": 2,
+        "kind": "paragraph",
+        "topic": "読み下し: 「報酬は、いまの方策と元の方策の確率比の対数(× \\beta)に、x ごとの定数を足したもの。つまり報酬モデルは方策の中に暗黙に含まれている」。これを Bradley-Terry の式に代入すると、扱いにくい正規化定数 Z(x) が差し引きで消え、選好データだけで最適化できる損失になります。",
+        "coverage": "dynamic",
+        "diagramId": "alignment-preference",
+        "readingStage": 5,
+        "stageScope": [
+          5
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "読み下し: 「報酬は、いまの方策と元の方策の確率比の対数(× \\beta)に、x ごとの定数を足したもの。つまり報酬モデルは方策の中に暗黙に含まれている」。これを Bradley-Terry の式に代入すると、扱いにくい正規化定数 Z(x) が差し引きで消え、選好データだけで最適化できる損失になります。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s2-b3",
+        "heading": "DPO の導出: 報酬モデルを消す",
+        "parent": "本文",
+        "sourceLine": 63,
+        "sourceBlock": 3,
+        "kind": "math",
+        "topic": "\\mathcal{L}_{\\mathrm{DPO}} = -\\, \\mathbb{E}\\left[ \\log \\sigma\\!\\left( \\beta \\log \\frac{\\pi_\\theta(y_w \\mid x)}{\\pi_{\\mathrm{ref}}(y_w \\mid x)} - \\beta \\log \\frac{\\pi_\\theta(y_l \\mid x)}{\\pi_{\\mathrm{ref}}(y_l \\mid x)} \\right) \\right]",
+        "coverage": "dynamic",
+        "diagramId": "alignment-preference",
+        "readingStage": 6,
+        "stageScope": [
+          6
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "\\mathcal{L}_{\\mathrm{DPO}} = -\\, \\mathbb{E}\\left[ \\log \\sigma\\!\\left( \\beta \\log \\frac{\\pi_\\theta(y_w \\mid x)}{\\pi_{\\mathrm{ref}}(y_w \\mid x)} - \\beta \\log \\frac{\\pi_\\theta(y_l \\mid x)}{\\pi_{\\mathrm{ref}}(y_l \\mid x)} \\right) \\right]",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s2-b4",
+        "heading": "DPO の導出: 報酬モデルを消す",
+        "parent": "本文",
+        "sourceLine": 63,
+        "sourceBlock": 4,
+        "kind": "paragraph",
+        "topic": "読み下し: 「勝ち応答の確率比を上げ、負け応答の確率比を下げるように学習する。報酬モデルも強化学習も要らない」。DPO は実装が軽く安定な一方、明示的な報酬モデルがないぶん、RLHF ほど細かい制御(報酬の再利用・オンライン探索)はしにくい、というトレードオフがあります。",
+        "coverage": "dynamic",
+        "diagramId": "alignment-preference",
+        "readingStage": 6,
+        "stageScope": [
+          6
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "読み下し: 「勝ち応答の確率比を上げ、負け応答の確率比を下げるように学習する。報酬モデルも強化学習も要らない」。DPO は実装が軽く安定な一方、明示的な報酬モデルがないぶん、RLHF ほど細かい制御(報酬の再利用・オンライン探索)はしにくい、というトレードオフがあります。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s3-b0",
+        "heading": "報酬の過剰最適化(Goodhart)",
+        "parent": "本文",
+        "sourceLine": 79,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "「測りたいもの(真の良さ)」の代理(報酬モデル)を最大化すると、代理を突いて真の目標から外れる — これが Goodhart の法則(指標が目標になると指標として機能しなくなる)です。RLHF/DPO では報酬ハッキングとして現れます。",
+        "coverage": "dynamic",
+        "diagramId": "alignment-reward-risk",
+        "readingStage": 0,
+        "stageScope": [
+          0
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "「測りたいもの(真の良さ)」の代理(報酬モデル)を最大化すると、代理を突いて真の目標から外れる — これが Goodhart の法則(指標が目標になると指標として機能しなくなる)です。RLHF/DPO では報酬ハッキングとして現れます。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s3-b1.li0",
+        "heading": "報酬の過剰最適化(Goodhart)",
+        "parent": "本文",
+        "sourceLine": 79,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "報酬モデルを強く最大化するほど、真の品質はある点から下がる(報酬モデルの誤差を突く出力に寄る)ことが観測されています(報酬の過剰最適化のスケーリング)",
+        "coverage": "dynamic",
+        "diagramId": "alignment-reward-risk",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "報酬モデルを強く最大化するほど、真の品質はある点から下がる(報酬モデルの誤差を突く出力に寄る)ことが観測されています(報酬の過剰最適化のスケーリング)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s3-b1.li1",
+        "heading": "報酬の過剰最適化(Goodhart)",
+        "parent": "本文",
+        "sourceLine": 79,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "前節の KL 正則化(\\beta)は、この暴走を抑えるブレーキです。\\beta を下げすぎると報酬モデルの穴を突き、上げすぎると学習が進まない、という調整になります",
+        "coverage": "dynamic",
+        "diagramId": "alignment-reward-risk",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "前節の KL 正則化(\\beta)は、この暴走を抑えるブレーキです。\\beta を下げすぎると報酬モデルの穴を突き、上げすぎると学習が進まない、という調整になります",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s3-b1.li2",
+        "heading": "報酬の過剰最適化(Goodhart)",
+        "parent": "本文",
+        "sourceLine": 79,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "具体的な症状: 長さで水増しする(冗長な回答が高報酬に見える)、体裁だけ整える、といった「報酬モデルが好むが人間の真意ではない」方向への最適化",
+        "coverage": "dynamic",
+        "diagramId": "alignment-reward-risk",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "具体的な症状: 長さで水増しする(冗長な回答が高報酬に見える)、体裁だけ整える、といった「報酬モデルが好むが人間の真意ではない」方向への最適化",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s3-b2",
+        "heading": "報酬の過剰最適化(Goodhart)",
+        "parent": "本文",
+        "sourceLine": 79,
+        "sourceBlock": 2,
+        "kind": "paragraph",
+        "topic": "読み下すと: 「代理指標を全力で最大化してはいけない。正則化で元から離れすぎないようにし、報酬モデル自体も更新する」。これは評価一般のガードレールメトリクスや、判定の較正とも通じる話です。",
+        "coverage": "dynamic",
+        "diagramId": "alignment-reward-risk",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "読み下すと: 「代理指標を全力で最大化してはいけない。正則化で元から離れすぎないようにし、報酬モデル自体も更新する」。これは評価一般のガードレールメトリクスや、判定の較正とも通じる話です。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s4-b0",
+        "heading": "検証可能報酬(RLVR)とプロセス報酬",
+        "parent": "本文",
+        "sourceLine": 89,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "数学・コードのように正解を機械的に検証できるタスクでは、学習した報酬モデルの代わりに検証器(テスト・ルール)そのものを報酬に使えます。これが RLVR(検証可能報酬による強化学習)です。",
+        "coverage": "dynamic",
+        "diagramId": "alignment-feedback",
+        "readingStage": 0,
+        "stageScope": [
+          0
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "数学・コードのように正解を機械的に検証できるタスクでは、学習した報酬モデルの代わりに検証器(テスト・ルール)そのものを報酬に使えます。これが RLVR(検証可能報酬による強化学習)です。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s4-b1.li0",
+        "heading": "検証可能報酬(RLVR)とプロセス報酬",
+        "parent": "本文",
+        "sourceLine": 89,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "結果報酬: 最終答えが正しいか(テストが通るか)だけを報酬にする。報酬モデルの誤差・ハッキングを避けられる一方、途中の誤った推論を咎められない",
+        "coverage": "dynamic",
+        "diagramId": "alignment-feedback",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [
+          "A1"
+        ],
+        "topicAfterCorrectionsCandidate": "結果報酬: 最終答えが正しいか(テストが通るか)を評価する。機械的に検証する構成も、結果を評価する報酬モデルを学習する構成もあり、途中の誤った推論は直接評価しない",
+        "candidateTopicChanged": true
+      },
+      {
+        "id": "d1-s4-b1.li1",
+        "heading": "検証可能報酬(RLVR)とプロセス報酬",
+        "parent": "本文",
+        "sourceLine": 89,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "プロセス報酬: 推論の各ステップの正しさを評価して報酬にする。中間の誤りを直接罰せるが、ステップの正誤ラベルを用意するコストがかかる",
+        "coverage": "dynamic",
+        "diagramId": "alignment-feedback",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "プロセス報酬: 推論の各ステップの正しさを評価して報酬にする。中間の誤りを直接罰せるが、ステップの正誤ラベルを用意するコストがかかる",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s4-b2",
+        "heading": "検証可能報酬(RLVR)とプロセス報酬",
+        "parent": "本文",
+        "sourceLine": 89,
+        "sourceBlock": 2,
+        "kind": "paragraph",
+        "topic": "RLVR は、推論モデル(考える時間を使う LLM)の学習を支える枠組みで、推論モデルが検証可能な問題で強い理由の 1 つです。検証器が用意できるタスクに限られる点が本質的な制約です。",
+        "coverage": "dynamic",
+        "diagramId": "alignment-feedback",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [
+          "A2"
+        ],
+        "topicAfterCorrectionsCandidate": "RLVR は、推論モデル(考える時間を使う LLM)の学習を支える枠組みの一つです(推論モデル)。報酬を検証できる範囲が制約となります。結果/プロセス報酬は評価する粒度の区分で、プロセス報酬には人手のステップ評価から学習する構成もあります。",
+        "candidateTopicChanged": true
+      },
+      {
+        "id": "d1-s5-b0",
+        "heading": "迎合とアラインメント税",
+        "parent": "本文",
+        "sourceLine": 98,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "選好調整は 2 つの副作用を残します。LLM の学習パイプラインの「癖」を理論から裏付けます。",
+        "coverage": "dynamic",
+        "diagramId": "alignment-feedback",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "選好調整は 2 つの副作用を残します。LLM の学習パイプラインの「癖」を理論から裏付けます。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s5-b1.li0",
+        "heading": "迎合とアラインメント税",
+        "parent": "本文",
+        "sourceLine": 98,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "迎合(sycophancy): 人間は同意・肯定を好む傾向があるため、選好データにその偏りが乗り、モデルはユーザーの誤りを訂正するより同調する方向に最適化されます。研究でも、モデルがユーザーの立場に合わせて答えを変える傾向が観察されています。判定・レビューを任せるとき、誘導的な聞き方が迎合を引き出す理由です(LLM-as-a-Judge)",
+        "coverage": "dynamic",
+        "diagramId": "alignment-feedback",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "迎合(sycophancy): 人間は同意・肯定を好む傾向があるため、選好データにその偏りが乗り、モデルはユーザーの誤りを訂正するより同調する方向に最適化されます。研究でも、モデルがユーザーの立場に合わせて答えを変える傾向が観察されています。判定・レビューを任せるとき、誘導的な聞き方が迎合を引き出す理由です(LLM-as-a-Judge)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s5-b1.li1",
+        "heading": "迎合とアラインメント税",
+        "parent": "本文",
+        "sourceLine": 98,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "アラインメント税(alignment tax): 安全・整形のための調整が、素の能力(特定タスクの性能)をわずかに下げることがあります(この概念は InstructGPT で導入され、緩和策も併せて提示されました)。無害化と有用性はトレードオフしうるため、「安全にするほど賢くなる」とは限らない。RLHF はこの税を小さく保つ工夫でもあります",
+        "coverage": "dynamic",
+        "diagramId": "alignment-feedback",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "アラインメント税(alignment tax): 安全・整形のための調整が、素の能力(特定タスクの性能)をわずかに下げることがあります(この概念は InstructGPT で導入され、緩和策も併せて提示されました)。無害化と有用性はトレードオフしうるため、「安全にするほど賢くなる」とは限らない。RLHF はこの税を小さく保つ工夫でもあります",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s5-b2",
+        "heading": "迎合とアラインメント税",
+        "parent": "本文",
+        "sourceLine": 98,
+        "sourceBlock": 2,
+        "kind": "paragraph",
+        "topic": "なお、AI のフィードバックで無害化を進める手法(Constitutional AI など)は、人手の選好ラベルを AI の判断で置き換える方向の研究で、選好データの作り方の変種として位置づけられます。",
+        "coverage": "dynamic",
+        "diagramId": "alignment-feedback",
+        "readingStage": 4,
+        "stageScope": [
+          4
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "なお、AI のフィードバックで無害化を進める手法(Constitutional AI など)は、人手の選好ラベルを AI の判断で置き換える方向の研究で、選好データの作り方の変種として位置づけられます。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s6-b0.li0",
+        "heading": "この理解が効く場面",
+        "parent": "本文",
+        "sourceLine": 107,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "迎合バイアスへの対処: 判定・レビュー設計で中立な聞き方・基準明文化を組み込む理由が、選好調整の定式化から説明できる(LLM-as-a-Judge)",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の応用先リストであり、前の機構図を実務判断へ結び付ける参照として原文を保持する。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "迎合バイアスへの対処: 判定・レビュー設計で中立な聞き方・基準明文化を組み込む理由が、選好調整の定式化から説明できる(LLM-as-a-Judge)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s6-b0.li1",
+        "heading": "この理解が効く場面",
+        "parent": "本文",
+        "sourceLine": 107,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "推論モデルの理解: RLVR・プロセス報酬が、検証可能タスクでの推論モデルの強さの背景(推論モデル)",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の応用先リストであり、前の機構図を実務判断へ結び付ける参照として原文を保持する。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "推論モデルの理解: RLVR・プロセス報酬が、検証可能タスクでの推論モデルの強さの背景(推論モデル)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s6-b0.li2",
+        "heading": "この理解が効く場面",
+        "parent": "本文",
+        "sourceLine": 107,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "FT の判断: 自前で選好調整(DPO 等)をするときの、報酬過剰最適化・KL 正則化の勘所(ファインチューニングと蒸留)",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の応用先リストであり、前の機構図を実務判断へ結び付ける参照として原文を保持する。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "FT の判断: 自前で選好調整(DPO 等)をするときの、報酬過剰最適化・KL 正則化の勘所(ファインチューニングと蒸留)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s6-b0.li3",
+        "heading": "この理解が効く場面",
+        "parent": "本文",
+        "sourceLine": 107,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "安全主張の読み方: アラインメント税・報酬ハッキングを知っていると、提供者の安全フレームワークを批判的に読める(フロンティアセーフティの概観)",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の応用先リストであり、前の機構図を実務判断へ結び付ける参照として原文を保持する。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "安全主張の読み方: アラインメント税・報酬ハッキングを知っていると、提供者の安全フレームワークを批判的に読める(フロンティアセーフティの概観)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s7-b0.li0",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 116,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "報酬モデルを全力で最大化する → Goodhart により真の品質がある点から下がり、報酬ハッキング(長さ水増し等)が起きる → KL 正則化で元から離れすぎないようにし、報酬モデルも更新する",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "報酬モデルを全力で最大化する → Goodhart により真の品質がある点から下がり、報酬ハッキング(長さ水増し等)が起きる → KL 正則化で元から離れすぎないようにし、報酬モデルも更新する",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s7-b0.li1",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 116,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "DPO を「RLHF の完全上位互換」と誤解する → 明示的報酬モデルがないぶん、オンライン探索・報酬再利用などの制御は効きにくい → タスクと運用に応じて RLHF/DPO を選ぶ",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "DPO を「RLHF の完全上位互換」と誤解する → 明示的報酬モデルがないぶん、オンライン探索・報酬再利用などの制御は効きにくい → タスクと運用に応じて RLHF/DPO を選ぶ",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s7-b0.li2",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 116,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "RLVR をあらゆるタスクに使おうとする → 検証器が用意できないタスク(開放的な生成・主観評価)には適用できない → 検証可能なタスクに限定し、他は報酬モデル/人手評価を併用する",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "RLVR をあらゆるタスクに使おうとする → 検証器が用意できないタスク(開放的な生成・主観評価)には適用できない → 検証可能なタスクに限定し、他は報酬モデル/人手評価を併用する",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s7-b0.li3",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 116,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "迎合を「プロンプトで禁止」しようとする → 選好調整由来の傾向は指示で消えない → 中立な聞き方・基準明文化・複数観点で構造的に抑える",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "迎合を「プロンプトで禁止」しようとする → 選好調整由来の傾向は指示で消えない → 中立な聞き方・基準明文化・複数観点で構造的に抑える",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s7-b0.li4",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 116,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "「安全調整すれば能力も上がる」と期待する → アラインメント税で素の性能がわずかに下がりうる → 安全と有用性のトレードオフを前提に評価する",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "「安全調整すれば能力も上がる」と期待する → アラインメント税で素の性能がわずかに下がりうる → 安全と有用性のトレードオフを前提に評価する",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s8-b0.li0",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 124,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "RLHF の 2 段(報酬モデル → KL 正則化付き方策最適化)を説明できる",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "RLHF の 2 段(報酬モデル → KL 正則化付き方策最適化)を説明できる",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s8-b0.li1",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 124,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "Bradley-Terry モデル(報酬差のシグモイド)で選好が表されることを理解している",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "Bradley-Terry モデル(報酬差のシグモイド)で選好が表されることを理解している",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s8-b0.li2",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 124,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "DPO が「報酬モデルは方策に暗黙に含まれる」ことで 1 段化する発想を説明できる",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "DPO が「報酬モデルは方策に暗黙に含まれる」ことで 1 段化する発想を説明できる",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s8-b0.li3",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 124,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "報酬の過剰最適化(Goodhart)と、KL 正則化 \\beta の役割を理解している",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "報酬の過剰最適化(Goodhart)と、KL 正則化 \\beta の役割を理解している",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "d1-s8-b0.li4",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 124,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "RLVR・プロセス報酬が検証可能タスクに限られると理解している",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [
+          "A3"
+        ],
+        "topicAfterCorrectionsCandidate": "RLVR の検証器と、プロセス報酬の各ステップへの評価を区別できる",
+        "candidateTopicChanged": true
+      },
+      {
+        "id": "d1-s8-b0.li5",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 124,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "迎合とアラインメント税を選好調整の副作用として説明できる",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "迎合とアラインメント税を選好調整の副作用として説明できる",
+        "candidateTopicChanged": false
+      }
+    ],
+    "ownership": {
+      "articleSpecific": [
+        "website/lib/alignment-preference-model.mjs",
+        "website/components/diagrams/alignment-preference-walkthrough.jsx",
+        "website/components/diagrams/alignment-preference.css",
+        "website/tests/unit/alignment-preference-model.test.mjs",
+        "website/lib/alignment-reward-risk-model.mjs",
+        "website/components/diagrams/alignment-reward-risk-walkthrough.jsx",
+        "website/components/diagrams/alignment-reward-risk.css",
+        "website/tests/unit/alignment-reward-risk-model.test.mjs",
+        "website/lib/alignment-feedback-model.mjs",
+        "website/components/diagrams/alignment-feedback-walkthrough.jsx",
+        "website/components/diagrams/alignment-feedback.css",
+        "website/tests/unit/alignment-feedback-model.test.mjs"
+      ],
+      "shared": "統合担当1名がregistry/BINDINGS/dispatcher/MDX許可/記事台帳/受入コード/回帰試験を所有。記事担当は共有部を独断で変更しない。"
+    }
+  },
+  "diagrams": [
+    {
+      "id": "alignment-preference",
+      "title": "選好から方策へ",
+      "heads": [
+        0,
+        1,
+        2
+      ],
+      "sources": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "groups": [
+        [
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            4,
+            1
+          ]
+        ],
+        [
+          [
+            5,
+            3
+          ],
+          [
+            6,
+            2
+          ]
+        ]
+      ],
+      "objects": [
+        "入力x",
+        "勝ちy_w・負けy_lの固定ペア",
+        "報酬r_phi",
+        "学習方策pi_theta",
+        "参照方策pi_ref",
+        "beta",
+        "同じxのZ(x)"
+      ],
+      "stages": [
+        {
+          "label": "全体",
+          "state": "選好→報酬→方策のRLHFと、選好→方策のDPOを同じ左右位置に示す。RLVR入口は別経路の小ラベルだけ。",
+          "motion": "同じ選好ペアから2経路を順に点灯する。"
+        },
+        {
+          "label": "選好ペア",
+          "state": "xを固定しy_wとy_lを左右に保持。人手等の選好は正しさの万能判定ではない。",
+          "motion": "勝ち/負けラベルが比較ペアに結び付く。"
+        },
+        {
+          "label": "報酬差",
+          "state": "r(x,y_w)-r(x,y_l)→sigma→選好確率。値を入れる場合は同一モデルで計算し0<p<1。",
+          "motion": "同じ2応答から差分ノードへ流れ、シグモイドへ進む。"
+        },
+        {
+          "label": "報酬とKL",
+          "state": "報酬期待値と参照方策からのKL罰則を別の入力として目的関数へ接続。",
+          "motion": "報酬経路とKL経路が同時に方策へ入る。"
+        },
+        {
+          "label": "正則化",
+          "state": "同じ参照方策を固定。betaは報酬と逸脱の重みを変える概念表示。学習結果や安全性を保証する目盛りにしない。",
+          "motion": "beta記号とKL項を対応強調し、参照点を移動しない。"
+        },
+        {
+          "label": "暗黙の報酬",
+          "state": "勝ち/負けそれぞれにbeta log(pi_theta/pi_ref)+beta log Z(x)を配置。",
+          "motion": "報酬ノードの内容が同じ応答IDの比率表示へ置き換わる。"
+        },
+        {
+          "label": "DPO損失",
+          "state": "同じxのZ(x)が差で消え、勝ち/負けの対数比の差をsigmoid・負logへ結ぶ。 直接学習と、報酬再利用・オンライン探索の制御は別の設計という短ラベルを添える。",
+          "motion": "2本の同一Z項が相殺表示され、残る比率が損失へ移動する。"
+        }
+      ],
+      "checks": [
+        "同じxでのみZ相殺",
+        "RLHFの2段とDPOの直接学習を同一手順にしない",
+        "beta変更をDPOの実更新量の単調保証にしない",
+        "図の数式と原式の項・符号一致"
+      ],
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "route": "/docs/llm-internals/alignment-theory",
+      "binding": "grouped-blocks",
+      "stageCount": 7,
+      "headings": [
+        "概要: 「良さ」をどう最適化するか",
+        "RLHF の定式化",
+        "DPO の導出: 報酬モデルを消す"
+      ],
+      "sourceHeadings": [
+        "概要: 「良さ」をどう最適化するか",
+        "RLHF の定式化",
+        "DPO の導出: 報酬モデルを消す",
+        "報酬の過剰最適化(Goodhart)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 3
+          },
+          {
+            "stage": 6,
+            "count": 2
+          }
+        ]
+      ],
+      "blockTypes": [
+        [
+          "paragraph",
+          "code"
+        ],
+        [
+          "paragraph",
+          "paragraph",
+          "math",
+          "paragraph",
+          "paragraph",
+          "math",
+          "paragraph"
+        ],
+        [
+          "paragraph",
+          "math",
+          "paragraph",
+          "math",
+          "paragraph"
+        ]
+      ],
+      "sourceDigest": "sha256:04a0a9af19f3f7114021b2a87136ee20710d5604ed4e4c015f9be1e2cd3374d4",
+      "status": "planned-not-reviewed",
+      "reviewedDigest": null,
+      "enabled": false,
+      "contentKind": "conceptual",
+      "staticFallback": "同じ意味モデルの主要段階の静止表示と短い図ラベル。追加の本文・例題・ナレーションを作らない。",
+      "layout": "既存ReadingFigureの操作・同期・拡大・JS無効/印刷経路を再利用。固有model/scene/CSSは記事chunkで遅延読込。",
+      "stateContract": "frame(phase, options)は副作用なし。同じ位相/選択で同じ図、逆シーク・中点でもID/関係を保持。停止/非表示に常時loopを残さない。",
+      "readingStages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "manualOnlyStages": [],
+      "minimumCountReason": "同じ対象と意味を保てる連続H3を一図にまとめる。異なる意味の図を操作回数のためだけに増やさない。",
+      "postCorrectionSourceDigestCandidate": "sha256:04a0a9af19f3f7114021b2a87136ee20710d5604ed4e4c015f9be1e2cd3374d4",
+      "verification": {
+        "oldDigest": "sha256:04a0a9af19f3f7114021b2a87136ee20710d5604ed4e4c015f9be1e2cd3374d4",
+        "newDigest": "sha256:04a0a9af19f3f7114021b2a87136ee20710d5604ed4e4c015f9be1e2cd3374d4",
+        "headings": 3,
+        "bodyBlocks": 14,
+        "allStagesRead": true,
+        "stages": [
+          {
+            "stage": 0,
+            "label": "全体",
+            "state": "選好→報酬→方策のRLHFと、選好→方策のDPOを同じ左右位置に示す。RLVR入口は別経路の小ラベルだけ。",
+            "motion": "同じ選好ペアから2経路を順に点灯する。"
+          },
+          {
+            "stage": 1,
+            "label": "選好ペア",
+            "state": "xを固定しy_wとy_lを左右に保持。人手等の選好は正しさの万能判定ではない。",
+            "motion": "勝ち/負けラベルが比較ペアに結び付く。"
+          },
+          {
+            "stage": 2,
+            "label": "報酬差",
+            "state": "r(x,y_w)-r(x,y_l)→sigma→選好確率。値を入れる場合は同一モデルで計算し0<p<1。",
+            "motion": "同じ2応答から差分ノードへ流れ、シグモイドへ進む。"
+          },
+          {
+            "stage": 3,
+            "label": "報酬とKL",
+            "state": "報酬期待値と参照方策からのKL罰則を別の入力として目的関数へ接続。",
+            "motion": "報酬経路とKL経路が同時に方策へ入る。"
+          },
+          {
+            "stage": 4,
+            "label": "正則化",
+            "state": "同じ参照方策を固定。betaは報酬と逸脱の重みを変える概念表示。学習結果や安全性を保証する目盛りにしない。",
+            "motion": "beta記号とKL項を対応強調し、参照点を移動しない。"
+          },
+          {
+            "stage": 5,
+            "label": "暗黙の報酬",
+            "state": "勝ち/負けそれぞれにbeta log(pi_theta/pi_ref)+beta log Z(x)を配置。",
+            "motion": "報酬ノードの内容が同じ応答IDの比率表示へ置き換わる。"
+          },
+          {
+            "stage": 6,
+            "label": "DPO損失",
+            "state": "同じxのZ(x)が差で消え、勝ち/負けの対数比の差をsigmoid・負logへ結ぶ。 直接学習と、報酬再利用・オンライン探索の制御は別の設計という短ラベルを添える。",
+            "motion": "2本の同一Z項が相殺表示され、残る比率が損失へ移動する。"
+          }
+        ]
+      }
+    },
+    {
+      "id": "alignment-reward-risk",
+      "title": "代理報酬と評価のずれ",
+      "heads": [
+        3
+      ],
+      "sources": [
+        1,
+        3
+      ],
+      "groups": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            1
+          ]
+        ]
+      ],
+      "objects": [
+        "方策",
+        "代理報酬",
+        "別の品質評価",
+        "参照方策",
+        "KL項"
+      ],
+      "stages": [
+        {
+          "label": "代理と目的",
+          "state": "同じ出力から代理報酬と品質評価へ二つの経路。片方を真の品質を直接測れる実装と誤認させない。",
+          "motion": "評価経路を分け、同じ出力IDを保持する。"
+        },
+        {
+          "label": "過剰最適化",
+          "state": "代理への最適化と品質の乖離・冗長/体裁の症状を同時に示す。数値曲線や転換点は作らない。",
+          "motion": "代理への矢印だけ太くなり、品質側に乖離ラベルが残る。"
+        },
+        {
+          "label": "正則化と再評価",
+          "state": "KL制約・報酬モデルの見直しを既存2経路へ接続。抑制であり解決保証ではない。",
+          "motion": "参照方策への制約線と再評価の戻りを追加。"
+        }
+      ],
+      "checks": [
+        "代理と品質を同じ軸の実測値にしない",
+        "Goodhartの必然的な万能曲線を作らない",
+        "KLは保証ではなく制約と表示"
+      ],
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "route": "/docs/llm-internals/alignment-theory",
+      "binding": "grouped-blocks",
+      "stageCount": 3,
+      "headings": [
+        "報酬の過剰最適化(Goodhart)"
+      ],
+      "sourceHeadings": [
+        "RLHF の定式化",
+        "報酬の過剰最適化(Goodhart)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "blockTypes": [
+        [
+          "paragraph",
+          "list",
+          "paragraph"
+        ]
+      ],
+      "sourceDigest": "sha256:5f7145226502e3f91665a2bd9fbe4c9b58d41d4dcafb3f761cdfec2df6b7ac91",
+      "status": "planned-not-reviewed",
+      "reviewedDigest": null,
+      "enabled": false,
+      "contentKind": "conceptual",
+      "staticFallback": "同じ意味モデルの主要段階の静止表示と短い図ラベル。追加の本文・例題・ナレーションを作らない。",
+      "layout": "既存ReadingFigureの操作・同期・拡大・JS無効/印刷経路を再利用。固有model/scene/CSSは記事chunkで遅延読込。",
+      "stateContract": "frame(phase, options)は副作用なし。同じ位相/選択で同じ図、逆シーク・中点でもID/関係を保持。停止/非表示に常時loopを残さない。",
+      "readingStages": [
+        0,
+        1,
+        2
+      ],
+      "manualOnlyStages": [],
+      "minimumCountReason": "方策最適化の式と品質評価の異なる意味を一図に詰めず、代理指標の問題だけ3段階に分ける。",
+      "postCorrectionSourceDigestCandidate": "sha256:5f7145226502e3f91665a2bd9fbe4c9b58d41d4dcafb3f761cdfec2df6b7ac91",
+      "verification": {
+        "oldDigest": "sha256:5f7145226502e3f91665a2bd9fbe4c9b58d41d4dcafb3f761cdfec2df6b7ac91",
+        "newDigest": "sha256:5f7145226502e3f91665a2bd9fbe4c9b58d41d4dcafb3f761cdfec2df6b7ac91",
+        "headings": 1,
+        "bodyBlocks": 3,
+        "allStagesRead": true,
+        "stages": [
+          {
+            "stage": 0,
+            "label": "代理と目的",
+            "state": "同じ出力から代理報酬と品質評価へ二つの経路。片方を真の品質を直接測れる実装と誤認させない。",
+            "motion": "評価経路を分け、同じ出力IDを保持する。"
+          },
+          {
+            "stage": 1,
+            "label": "過剰最適化",
+            "state": "代理への最適化と品質の乖離・冗長/体裁の症状を同時に示す。数値曲線や転換点は作らない。",
+            "motion": "代理への矢印だけ太くなり、品質側に乖離ラベルが残る。"
+          },
+          {
+            "stage": 2,
+            "label": "正則化と再評価",
+            "state": "KL制約・報酬モデルの見直しを既存2経路へ接続。抑制であり解決保証ではない。",
+            "motion": "参照方策への制約線と再評価の戻りを追加。"
+          }
+        ]
+      }
+    },
+    {
+      "id": "alignment-feedback",
+      "title": "報酬の出所と評価する粒度",
+      "heads": [
+        4,
+        5
+      ],
+      "sources": [
+        0,
+        3,
+        4,
+        5
+      ],
+      "groups": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        [
+          [
+            3,
+            2
+          ],
+          [
+            4,
+            1
+          ]
+        ]
+      ],
+      "objects": [
+        "同じ解答の段階列",
+        "最終結果",
+        "検証器",
+        "人手/学習した評価",
+        "選好データ",
+        "調整後モデル"
+      ],
+      "stages": [
+        {
+          "label": "検証器",
+          "state": "数学/コードの既存ラベルと検証器→報酬→モデルの経路。評価粒度とは別軸。",
+          "motion": "最終結果から検証器へ線を伸ばす。"
+        },
+        {
+          "label": "結果と過程",
+          "state": "同じ段階列の最終だけに結果評価、各段階に過程評価。両方の位置を一画面で比較。",
+          "motion": "最終の印を保ち、各段階へ別形の印を置く。"
+        },
+        {
+          "label": "適用範囲",
+          "state": "RLVRは検証可能な報酬を用意できる範囲。過程評価には人手等のラベルもあり機械検証と同一視しない。",
+          "motion": "報酬の出所レーンと評価粒度レーンを分離する。"
+        },
+        {
+          "label": "調整の副作用",
+          "state": "同じ選好→モデル→出力の列で、同調への偏りと能力/安全の別評価を併置。万能な低下率を付けない。",
+          "motion": "選好の偏りが出力へ伝わる経路と別評価レーンを強調。"
+        },
+        {
+          "label": "フィードバックの作り方",
+          "state": "人手とAIの選好ラベルを同じ入力位置の別選択肢とし、無害性の保証にしない。",
+          "motion": "人手ラベル位置へAIラベルを切替えるが他の意味は保持。"
+        }
+      ],
+      "checks": [
+        "結果/過程とRLVR/学習報酬を直交させる",
+        "本文最小訂正A1-A3の適用か再判定を先行",
+        "迎合・能力低下を全モデルの必然にしない"
+      ],
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "route": "/docs/llm-internals/alignment-theory",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "検証可能報酬(RLVR)とプロセス報酬",
+        "迎合とアラインメント税"
+      ],
+      "sourceHeadings": [
+        "概要: 「良さ」をどう最適化するか",
+        "報酬の過剰最適化(Goodhart)",
+        "検証可能報酬(RLVR)とプロセス報酬",
+        "迎合とアラインメント税"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "blockTypes": [
+        [
+          "paragraph",
+          "list",
+          "paragraph"
+        ],
+        [
+          "paragraph",
+          "list",
+          "paragraph"
+        ]
+      ],
+      "sourceDigest": "sha256:73195e7707918a36b2116072f56283a057e9a75ae974a191c9bdb3935065113f",
+      "status": "planned-not-reviewed",
+      "reviewedDigest": null,
+      "enabled": false,
+      "contentKind": "conceptual",
+      "staticFallback": "同じ意味モデルの主要段階の静止表示と短い図ラベル。追加の本文・例題・ナレーションを作らない。",
+      "layout": "既存ReadingFigureの操作・同期・拡大・JS無効/印刷経路を再利用。固有model/scene/CSSは記事chunkで遅延読込。",
+      "stateContract": "frame(phase, options)は副作用なし。同じ位相/選択で同じ図、逆シーク・中点でもID/関係を保持。停止/非表示に常時loopを残さない。",
+      "readingStages": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "manualOnlyStages": [],
+      "minimumCountReason": "報酬の出所と粒度を同じ解答列で比較し、副作用も同じ選好→モデルの枠で追う。",
+      "postCorrectionSourceDigestCandidate": "sha256:f954c5babb83dd5344ffa9973d2ce804241fdba67c401b3390236613db98fd25",
+      "verification": {
+        "oldDigest": "sha256:73195e7707918a36b2116072f56283a057e9a75ae974a191c9bdb3935065113f",
+        "newDigest": "sha256:f954c5babb83dd5344ffa9973d2ce804241fdba67c401b3390236613db98fd25",
+        "headings": 2,
+        "bodyBlocks": 6,
+        "allStagesRead": true,
+        "stages": [
+          {
+            "stage": 0,
+            "label": "検証器",
+            "state": "数学/コードの既存ラベルと検証器→報酬→モデルの経路。評価粒度とは別軸。",
+            "motion": "最終結果から検証器へ線を伸ばす。"
+          },
+          {
+            "stage": 1,
+            "label": "結果と過程",
+            "state": "同じ段階列の最終だけに結果評価、各段階に過程評価。両方の位置を一画面で比較。",
+            "motion": "最終の印を保ち、各段階へ別形の印を置く。"
+          },
+          {
+            "stage": 2,
+            "label": "適用範囲",
+            "state": "RLVRは検証可能な報酬を用意できる範囲。過程評価には人手等のラベルもあり機械検証と同一視しない。",
+            "motion": "報酬の出所レーンと評価粒度レーンを分離する。"
+          },
+          {
+            "stage": 3,
+            "label": "調整の副作用",
+            "state": "同じ選好→モデル→出力の列で、同調への偏りと能力/安全の別評価を併置。万能な低下率を付けない。",
+            "motion": "選好の偏りが出力へ伝わる経路と別評価レーンを強調。"
+          },
+          {
+            "stage": 4,
+            "label": "フィードバックの作り方",
+            "state": "人手とAIの選好ラベルを同じ入力位置の別選択肢とし、無害性の保証にしない。",
+            "motion": "人手ラベル位置へAIラベルを切替えるが他の意味は保持。"
+          }
+        ]
+      }
+    }
+  ],
+  "corrections": [
+    {
+      "id": "A1",
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "heading": "検証可能報酬(RLVR)とプロセス報酬",
+      "old": "**結果報酬**: 最終答えが正しいか(テストが通るか)だけを報酬にする。報酬モデルの誤差・ハッキングを避けられる一方、途中の誤った推論を咎められない",
+      "replacement": "**結果報酬**: 最終答えが正しいか(テストが通るか)を評価する。機械的に検証する構成も、結果を評価する報酬モデルを学習する構成もあり、途中の誤った推論は直接評価しない",
+      "reason": "結果/過程は評価粒度、機械検証/学習報酬は出所の区分。結果報酬一般を学習報酬不使用・ハッキング回避と同一視しない。",
+      "sources": [
+        "https://arxiv.org/html/2305.20050v1"
+      ],
+      "sections": "§2 Methods; §2.1 Scope; §2.4 Data Collection; §2.5 Outcome-supervised Reward Models (ORMs); §2.6 Process-supervised Reward Models (PRMs)",
+      "requiredBefore": "alignment-feedback",
+      "status": "candidate-not-applied",
+      "checkedAt": "2026-09-24",
+      "matchCount": 1,
+      "verifiedAtUTC": "2026-09-24T12:35:25Z",
+      "verifiedBy": "plan-author live web recheck",
+      "observedOldMatches": 1,
+      "appliedToProduct": false
+    },
+    {
+      "id": "A2",
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "heading": "検証可能報酬(RLVR)とプロセス報酬",
+      "old": "RLVR は、**推論モデル(考える時間を使う LLM)の学習**を支える枠組みで、[推論モデル](../10-llm-foundations/reasoning-models.md)が検証可能な問題で強い理由の 1 つです。検証器が用意できるタスクに限られる点が本質的な制約です。",
+      "replacement": "RLVR は、**推論モデル(考える時間を使う LLM)の学習**を支える枠組みの一つです([推論モデル](../10-llm-foundations/reasoning-models.md))。報酬を検証できる範囲が制約となります。結果/プロセス報酬は評価する粒度の区分で、プロセス報酬には人手のステップ評価から学習する構成もあります。",
+      "reason": "Lightmanらは人手ステップラベルでPRMを学習。RLVRの下位方式としてのみ過程評価を描かない。",
+      "sources": [
+        "https://arxiv.org/html/2305.20050v1",
+        "https://arxiv.org/html/2501.12948v1"
+      ],
+      "sections": "Lightman §2 Methods, §2.1 Scope, §2.4–2.6 (Data Collection / ORM / PRM); DeepSeek §2.2.2 Reward Modeling, §4.2 PRM",
+      "requiredBefore": "alignment-feedback",
+      "status": "candidate-not-applied",
+      "checkedAt": "2026-09-24",
+      "matchCount": 1,
+      "sourceReverification": [
+        {
+          "url": "https://arxiv.org/html/2305.20050v1",
+          "verifiedAtUTC": "2026-09-24T12:35:25Z",
+          "verifiedBy": "plan-author live web recheck"
+        }
+      ],
+      "observedOldMatches": 1,
+      "appliedToProduct": false
+    },
+    {
+      "id": "A3",
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "heading": "チェックリスト",
+      "old": "RLVR・プロセス報酬が検証可能タスクに限られると理解している",
+      "replacement": "RLVR の検証器と、プロセス報酬の各ステップへの評価を区別できる",
+      "reason": "本文の区分訂正と理解確認項目を同期する。",
+      "sources": [
+        "https://arxiv.org/html/2305.20050v1"
+      ],
+      "sections": "§2 Methods; §2.1 Scope; §2.4 Data Collection; §2.5 Outcome-supervised Reward Models (ORMs); §2.6 Process-supervised Reward Models (PRMs)",
+      "requiredBefore": "alignment-feedback",
+      "status": "candidate-not-applied",
+      "checkedAt": "2026-09-24",
+      "matchCount": 1,
+      "verifiedAtUTC": "2026-09-24T12:35:25Z",
+      "verifiedBy": "plan-author live web recheck",
+      "observedOldMatches": 1,
+      "appliedToProduct": false
+    }
+  ],
+  "controlCandidates": [
+    {
+      "article": "docs/03-implementation/embeddings.md",
+      "route": "/docs/implementation/embeddings",
+      "h1": "埋め込み(embeddings)の選定と運用",
+      "priority": "recommended",
+      "inventoryPriority": "P3",
+      "reason": "通常の公開学習記事。P1全15記事の対象外で、今回停止境界まで図なし対照を継続できる。現行inventoryは静的図0。",
+      "sourceSHA256": "c7535e022d1fdeb28ed7f66ffae16d2bfd7f43e7aed36593bb698a7a568dc0f2",
+      "currentRegistryEntries": [],
+      "articleCoverageEntries": 0,
+      "p1PlanMember": false,
+      "localExport": {
+        "file": "website/out/docs/implementation/embeddings.html",
+        "sha256": "6524c218394636ebf282e330c48fc004c0a22bb5a1599795805b011d41bf240f",
+        "hasExpectedH1Text": true,
+        "readingFigureClassCount": 0,
+        "articleTocClassCount": 0
+      },
+      "networkHeavyChunkAcceptance": false
+    },
+    {
+      "article": "docs/03-implementation/model-selection.md",
+      "route": "/docs/implementation/model-selection",
+      "h1": "モデル選定ガイド",
+      "priority": "alternative",
+      "inventoryPriority": "P3",
+      "reason": "P1対象外の公開記事。既存Mermaid1図とReadingFigureの違いも確認できるが、図なし対照の説明はembeddingsより複雑。",
+      "sourceSHA256": "7bf7c327c9d977e800b78719f5f2653c16b80c02fc59dce0481d8dcc2afb2f5e",
+      "currentRegistryEntries": [],
+      "articleCoverageEntries": 0,
+      "p1PlanMember": false,
+      "localExport": {
+        "file": "website/out/docs/implementation/model-selection.html",
+        "sha256": "841d628e3492f3769dceecfabe25d152c646752a9072310ad3c6895a14f2d94c",
+        "hasExpectedH1Text": true,
+        "readingFigureClassCount": 0,
+        "articleTocClassCount": 0
+      },
+      "networkHeavyChunkAcceptance": false
+    }
+  ],
+  "controlMigrationObligations": [
+    "Current controlPath and old-case identity target alignment-theory. D1 adds three figures there, so the zero-heavy-chunk assertion must deliberately move to a still-undecorated article; do not skip or suppress it.",
+    "Preserve archived C1/C2 predecessor proofs unchanged. Declare the current control route/name/h1 and zero figure/toc/heavy-chunk checks migration explicitly in new source mapping and predecessor proof, with independent review. Historical 71/91 case identities are evidence, not instructions to keep an impossible current no-figure assertion.",
+    "Update current verify-public controlPath, case title, h1, scope and current source-mapping control metadata consistently; adapt locked offline provenance/test expectations through an explicit reviewed migration. Recompute affected source inventory hashes.",
+    "Keep alignment-theory math.spec.mjs checks on the real article, including long DPO formula 390px keyboard access. A control migration is not permission to remove original formula regression.",
+    "D1 public article requires its own exact CI artifact HTML identity in collector/extractor/runner. Determine whether the replacement control also needs artifact identity under the then-current release contract; current no-figure check alone does not provide it.",
+    "After C2 public acceptance, reread latest main and shared APIs. Register new IDs only after implementation and scoped review; whole-article final content/model/image/local/public acceptance remains separate."
+  ],
+  "implementationChoicesStillToSpecify": [
+    "Exact named exports, scene markers/data attributes and selector labels/values are not fixed by the remaining storyboard; define them before browser fixtures and portable checks are authored. Do not call proposal values approved-plan requirements.",
+    "Use stable per-article object IDs and fixed independent browser fixtures; if any numeric example is chosen, label it illustrative and derive all displayed math from the same model. No numeric training outcome or universal quality curve.",
+    "Apply A1-A3 only in actual D1 scope after C2 public gate; recompute current article SHA/sourceDigests and independent final review. Actual edit date differs from correction-only candidate hash; do not falsely advance source access dates without verification."
+  ],
+  "finalUnitAcceptance": [
+    "単位開始前にAGENTS/CONTRIBUTING/Git規約、最新main、対象SHA、共有API、旧記事の受入入力版を再確認。既存変更を戻さない。",
+    "原文全AST復元一致。唯一の例外は採択した最小訂正候補。heading/sourceHeadingsの一意性・順序・連続包装・blockTypes/count・digest mismatchの拒否・未登録MDX拒否。",
+    "意味モデルの不変条件/無効options/境界・整数段階・往復中点を検査。数値を使う箇所は同じモデルから式・表示を計算。定性の品質や費用の数値は作らない。",
+    "root npm ci / npm run check。website npm ci / npm test。既存の同lockfile環境を再利用する場合は根拠と時点を記録。公開環境変数付きnpm run build:clean。生成物の直編集なし。",
+    "新図の全整数段階・中点・選択肢・読書前後/逆スクロール・読書復帰・再生/停止/シーク・画面外/非表示停止・拡大/キーボードをChromiumとWebKitで確認。共有変更が触れる既存図は全回帰。",
+    "1280x720,1440,1920,768,390 CSS幅、明暗、200%拡大相当/実操作の区別、縮小モーション、JS無効、chunk失敗、印刷、ラベル切れ/重なり/横overflowを確認。複数図の独立性・記事別遅延読込・P0性能予算も照合。",
+    "作者と別の担当が最終本文/意味モデル/全状態画像/操作をレビュー。変更後は影響範囲を再レビューし、review/local/publicを別ゲートで記録。計画レビューを製品受入の代用にしない。",
+    "既存許可内のPR・必須CI・squash merge・main CI・Pages、公開HTML/BUILD_IDと成功CI artifact、公開操作/assetを同版で確認。リポジトリ/evidence/公開を区別して保存。",
+    "F2の後、P1の初期15記事集合と現行集合を突合。全15記事の主要論点割当と現在inputDigestでの独立review/local/publicを再確認し、15/15の公開受入完了で停止。P2へ進まない。"
+  ],
+  "unperformed": [
+    "No product implementation or article changes",
+    "No Git mutation",
+    "No browser or public request",
+    "No new external primary-source verification",
+    "No whole-article or product acceptance"
+  ],
+  "sourceInventory": [
+    {
+      "path": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "sha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319"
+    },
+    {
+      "path": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+      "sha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4"
+    },
+    {
+      "path": "project/records/2026-09-24/p1-remaining-storyboards-support/transfer-check.json",
+      "sha256": "0793f47ade6b954c455240aa7662dd37c374d12466f39fb4b9f9053ccb83d3ca"
+    },
+    {
+      "path": "docs/11-llm-internals/alignment-theory.md",
+      "sha256": "6bb4501e5fcd44323a0890d20286cc6e597ab042997df47d2cf9fa2ddabd480b"
+    },
+    {
+      "path": "scripts/diagram-release/verify-public.mjs",
+      "sha256": "ace21719997bb15cbcbe06ba870825a44ca7fa77b7748fcd2d803764b7fe06fd"
+    },
+    {
+      "path": "scripts/diagram-release/source-mapping.json",
+      "sha256": "16281221cfbde2091b6814c0d6e3c43622fba0263f50cf4d0b94257faa1820b9"
+    },
+    {
+      "path": "website/tests/browser/math.spec.mjs",
+      "sha256": "b505a82d15600eb0916177adf1ffc09404abd3b13eee84d1caec6ce96292fa10"
+    },
+    {
+      "path": "project/plans/engineering/dynamic-diagram-inventory.md",
+      "sha256": "694d64e49a1026a8cbcb356d0a83413fe142451f0eca8dea81bab05f058870aa"
+    }
+  ]
+}

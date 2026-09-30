@@ -1,0 +1,1625 @@
+{
+  "schemaVersion": 1,
+  "status": "proposal-only-not-implemented-not-independently-reviewed",
+  "date": "2026-09-30",
+  "author": "/root/pretraining_numeric",
+  "scope": {
+    "ownedOutputs": [
+      "alignment-d1-interface-proposal-20260930.md",
+      "alignment-d1-interface-proposal-20260930.json"
+    ],
+    "productEdited": false,
+    "articleEdited": false,
+    "gitMutated": false,
+    "kitEdited": false,
+    "implementationRequires": "C2 public acceptance and root task assignment",
+    "stopBoundary": "P1 all 15 articles accepted publicly; no P2"
+  },
+  "sourceInventory": [
+    {
+      "path": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "sha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "bytes": 427025
+    },
+    {
+      "path": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+      "sha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+      "bytes": 19361
+    },
+    {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-d1-readonly-preparation-20260930.md",
+      "sha256": "a9aa319d77cd55684b7fc80375a7febcba98d8e73c67bcb397c53f2431c1a1bd",
+      "bytes": 5947
+    },
+    {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-d1-readonly-preparation-20260930.json",
+      "sha256": "2437089201f5a41040113814de9a44109c8a1d3405f8cb5597e4d52038c081e8",
+      "bytes": 81105
+    },
+    {
+      "path": "docs/11-llm-internals/alignment-theory.md",
+      "sha256": "6bb4501e5fcd44323a0890d20286cc6e597ab042997df47d2cf9fa2ddabd480b",
+      "bytes": 15489
+    }
+  ],
+  "adoptionBoundary": "adopted fields preserve approved storyboard bytes semantically; proposed exports/hooks/controls/numeric fixture are new author proposals, not covered by prior plan-only approval. Raw historical statuses in adopted records are preserved.",
+  "article": {
+    "unit": "D1",
+    "path": "docs/11-llm-internals/alignment-theory.md",
+    "route": "/docs/llm-internals/alignment-theory",
+    "sourceSha256": "6bb4501e5fcd44323a0890d20286cc6e597ab042997df47d2cf9fa2ddabd480b",
+    "postCorrectionSha256Candidate": "7883fc8764b0a2d7c5df6fa61a4c752696e99ddd579fd44d913db825d865965e",
+    "correctionPlan": "A1-A3 exact replacements remain in readonly-preparation; not applied here",
+    "originalMathBlocks": 4,
+    "preserveOriginalMermaid": true,
+    "headingCount": 9,
+    "wrappedHeadings": 6,
+    "wrappedBodyBlocks": 23,
+    "atomicTopics": {
+      "total": 42,
+      "dynamic": 27,
+      "static": 15
+    },
+    "readStages": 15,
+    "manualOnlyStages": 0
+  },
+  "common": {
+    "state": "Use existing finite reading-clock phase semantics; clamp finite out-of-range phase; reject null/string/NaN/Infinity. Use same established stage/transition midpoint rule rather than inventing a second clock.",
+    "validation": "Options must be a non-null non-array plain object; unknown keys/types/enum values rejected. Type mismatch -> TypeError, numeric/enum domain -> RangeError. Pure fresh deterministic nested frame; stable IDs across reverse/midpoint seek; caller mutation cannot alter later results.",
+    "controls": "Two unique custom controls with five distinct options. Shared playback, steps, read-resume, keyboard, modal, reduced-motion, no-JS and print reuse ReadingFigure. No new persistent animation loop.",
+    "hooks": "Attributes describe actual visible scene nodes, not hidden evidence-only DOM. Values arrays enumerate allowed values, not a CSS OR syntax. Scope all queries to the figure; boolean marker values serialize as strings true/false.",
+    "markerPlacement": "Marker is a visible eyebrow constant in each lazy scene only; do not duplicate it in eager shared modules/registry. Stage data attr on scene root.",
+    "numbers": "Illustrative fixed fixture, no empirical curve, fitted optimum, universal safety claim or real training trajectory. Use raw values for calculation; visible rounding never feeds computation.",
+    "reading": "All 15 stage meanings must appear on unoperated READ stops; controls only vary the illustrated algebra or provenance. Keep all adopted state/motion/checks and block bindings unchanged.",
+    "tests": [
+      "all integer stages and .49/.5/.51 transitions in forward/reverse order",
+      "defaults and every proposed enum value",
+      "invalid phase/options/domain and deterministic no mutation",
+      "beta changes only active stages; label source changes only S4",
+      "same-x cancellation and mismatched-x rejection",
+      "literal fraction/log oracle and symbolic unknown values",
+      "all original math and Mermaid AST plus A1-A3 correction-only candidate",
+      "visible semantic nodes and complete-scene images at all required widths/themes; no hidden oracle-only DOM"
+    ]
+  },
+  "dispatcher": {
+    "path": "website/components/diagrams/alignment-walkthrough.jsx",
+    "namedExport": "AlignmentWalkthrough",
+    "signature": "AlignmentWalkthrough({ diagramId, children })",
+    "fixedLazyMap": [
+      {
+        "id": "alignment-preference",
+        "namedExport": "AlignmentPreference",
+        "path": "website/components/diagrams/alignment-preference-walkthrough.jsx"
+      },
+      {
+        "id": "alignment-reward-risk",
+        "namedExport": "AlignmentRewardRisk",
+        "path": "website/components/diagrams/alignment-reward-risk-walkthrough.jsx"
+      },
+      {
+        "id": "alignment-feedback",
+        "namedExport": "AlignmentFeedback",
+        "path": "website/components/diagrams/alignment-feedback-walkthrough.jsx"
+      }
+    ],
+    "contract": "Root owns shared integration. Reuse ReadingArticleContents and DiagramBoundary with original children fallback. Fixed lazy map only; no dynamic arbitrary path.",
+    "ownedBy": "root integration author"
+  },
+  "diagrams": [
+    {
+      "id": "alignment-preference",
+      "adopted": {
+        "id": "alignment-preference",
+        "title": "選好から方策へ",
+        "heads": [
+          0,
+          1,
+          2
+        ],
+        "sources": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "groups": [
+          [
+            [
+              0,
+              2
+            ]
+          ],
+          [
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              3,
+              2
+            ],
+            [
+              4,
+              1
+            ]
+          ],
+          [
+            [
+              5,
+              3
+            ],
+            [
+              6,
+              2
+            ]
+          ]
+        ],
+        "objects": [
+          "入力x",
+          "勝ちy_w・負けy_lの固定ペア",
+          "報酬r_phi",
+          "学習方策pi_theta",
+          "参照方策pi_ref",
+          "beta",
+          "同じxのZ(x)"
+        ],
+        "stages": [
+          {
+            "label": "全体",
+            "state": "選好→報酬→方策のRLHFと、選好→方策のDPOを同じ左右位置に示す。RLVR入口は別経路の小ラベルだけ。",
+            "motion": "同じ選好ペアから2経路を順に点灯する。"
+          },
+          {
+            "label": "選好ペア",
+            "state": "xを固定しy_wとy_lを左右に保持。人手等の選好は正しさの万能判定ではない。",
+            "motion": "勝ち/負けラベルが比較ペアに結び付く。"
+          },
+          {
+            "label": "報酬差",
+            "state": "r(x,y_w)-r(x,y_l)→sigma→選好確率。値を入れる場合は同一モデルで計算し0<p<1。",
+            "motion": "同じ2応答から差分ノードへ流れ、シグモイドへ進む。"
+          },
+          {
+            "label": "報酬とKL",
+            "state": "報酬期待値と参照方策からのKL罰則を別の入力として目的関数へ接続。",
+            "motion": "報酬経路とKL経路が同時に方策へ入る。"
+          },
+          {
+            "label": "正則化",
+            "state": "同じ参照方策を固定。betaは報酬と逸脱の重みを変える概念表示。学習結果や安全性を保証する目盛りにしない。",
+            "motion": "beta記号とKL項を対応強調し、参照点を移動しない。"
+          },
+          {
+            "label": "暗黙の報酬",
+            "state": "勝ち/負けそれぞれにbeta log(pi_theta/pi_ref)+beta log Z(x)を配置。",
+            "motion": "報酬ノードの内容が同じ応答IDの比率表示へ置き換わる。"
+          },
+          {
+            "label": "DPO損失",
+            "state": "同じxのZ(x)が差で消え、勝ち/負けの対数比の差をsigmoid・負logへ結ぶ。 直接学習と、報酬再利用・オンライン探索の制御は別の設計という短ラベルを添える。",
+            "motion": "2本の同一Z項が相殺表示され、残る比率が損失へ移動する。"
+          }
+        ],
+        "checks": [
+          "同じxでのみZ相殺",
+          "RLHFの2段とDPOの直接学習を同一手順にしない",
+          "beta変更をDPOの実更新量の単調保証にしない",
+          "図の数式と原式の項・符号一致"
+        ],
+        "article": "docs/11-llm-internals/alignment-theory.md",
+        "route": "/docs/llm-internals/alignment-theory",
+        "binding": "grouped-blocks",
+        "stageCount": 7,
+        "headings": [
+          "概要: 「良さ」をどう最適化するか",
+          "RLHF の定式化",
+          "DPO の導出: 報酬モデルを消す"
+        ],
+        "sourceHeadings": [
+          "概要: 「良さ」をどう最適化するか",
+          "RLHF の定式化",
+          "DPO の導出: 報酬モデルを消す",
+          "報酬の過剰最適化(Goodhart)"
+        ],
+        "blockGroups": [
+          [
+            {
+              "stage": 0,
+              "count": 2
+            }
+          ],
+          [
+            {
+              "stage": 1,
+              "count": 2
+            },
+            {
+              "stage": 2,
+              "count": 2
+            },
+            {
+              "stage": 3,
+              "count": 2
+            },
+            {
+              "stage": 4,
+              "count": 1
+            }
+          ],
+          [
+            {
+              "stage": 5,
+              "count": 3
+            },
+            {
+              "stage": 6,
+              "count": 2
+            }
+          ]
+        ],
+        "blockTypes": [
+          [
+            "paragraph",
+            "code"
+          ],
+          [
+            "paragraph",
+            "paragraph",
+            "math",
+            "paragraph",
+            "paragraph",
+            "math",
+            "paragraph"
+          ],
+          [
+            "paragraph",
+            "math",
+            "paragraph",
+            "math",
+            "paragraph"
+          ]
+        ],
+        "sourceDigest": "sha256:04a0a9af19f3f7114021b2a87136ee20710d5604ed4e4c015f9be1e2cd3374d4",
+        "status": "planned-not-reviewed",
+        "reviewedDigest": null,
+        "enabled": false,
+        "contentKind": "conceptual",
+        "staticFallback": "同じ意味モデルの主要段階の静止表示と短い図ラベル。追加の本文・例題・ナレーションを作らない。",
+        "layout": "既存ReadingFigureの操作・同期・拡大・JS無効/印刷経路を再利用。固有model/scene/CSSは記事chunkで遅延読込。",
+        "stateContract": "frame(phase, options)は副作用なし。同じ位相/選択で同じ図、逆シーク・中点でもID/関係を保持。停止/非表示に常時loopを残さない。",
+        "readingStages": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "manualOnlyStages": [],
+        "minimumCountReason": "同じ対象と意味を保てる連続H3を一図にまとめる。異なる意味の図を操作回数のためだけに増やさない。",
+        "postCorrectionSourceDigestCandidate": "sha256:04a0a9af19f3f7114021b2a87136ee20710d5604ed4e4c015f9be1e2cd3374d4"
+      },
+      "proposed": {
+        "sceneExport": "AlignmentPreference",
+        "frameExport": "alignmentPreferenceFrame",
+        "stageExport": "ALIGNMENT_PREFERENCE_STAGES",
+        "additionalModelExports": [
+          "ALIGNMENT_PREFERENCE_FIXTURE",
+          "PREFERENCE_BETA_VALUES",
+          "bradleyTerryTerms",
+          "dpoPairTerms"
+        ],
+        "marker": "ALIGNMENT / PREFERENCE",
+        "stageAttribute": "data-alignment-preference-stage",
+        "controls": [
+          {
+            "id": "beta",
+            "label": "式中の β（説明用）",
+            "activeStages": [
+              4,
+              5,
+              6
+            ],
+            "defaultValue": 1,
+            "domValueType": "string",
+            "modelValueType": "number",
+            "options": [
+              {
+                "value": "0.5",
+                "label": "0.5",
+                "modelValue": 0.5
+              },
+              {
+                "value": "1",
+                "label": "1",
+                "modelValue": 1
+              },
+              {
+                "value": "2",
+                "label": "2",
+                "modelValue": 2
+              }
+            ],
+            "conversion": "Number(selectValue) after enum validation",
+            "inactiveEffectiveValue": 1,
+            "scope": "固定分布での式の重みだけ。学習を実行せず、方策確率や参照方策を動かさない。",
+            "visibleCaveats": [
+              "固定した分布で式を比較",
+              "更新量・品質の予測ではない"
+            ]
+          }
+        ],
+        "model": {
+          "signature": "alignmentPreferenceFrame(phase, { beta = 1 } = {})",
+          "input": {
+            "phase": "finite number",
+            "beta": [
+              0.5,
+              1,
+              2
+            ]
+          },
+          "output": {
+            "stage": "0..6",
+            "stageLabel": "adopted label",
+            "phase": "clamped finite number",
+            "progress": "shared reading-clock transition progress",
+            "effectiveBeta": "selected beta only for S4-S6, otherwise 1",
+            "fixtureId": "alignment-fixed-pair-v1",
+            "inputId": "x-0",
+            "responseIds": [
+              "y-w",
+              "y-l"
+            ],
+            "referencePolicyId": "pi-ref",
+            "normalizerValue": null,
+            "expectedReward": null,
+            "klDivergence": null,
+            "rlhfObjective": null,
+            "empiricalMeasurement": false,
+            "trainingTrajectory": false,
+            "guaranteedUpdateMonotonicity": false,
+            "guaranteedQualityImprovement": false,
+            "optimizerResult": null
+          },
+          "helpers": [
+            {
+              "name": "bradleyTerryTerms",
+              "signature": "bradleyTerryTerms(winnerScore, loserScore)",
+              "validation": "Finite numeric scores and finite difference. Invalid type -> TypeError; nonfinite/domain -> RangeError.",
+              "formula": "margin = winnerScore - loserScore; probability = stableSigmoid(margin)",
+              "returns": [
+                "margin",
+                "probability"
+              ],
+              "boundary": "Fixed visible scores yield strict 0 < p < 1. Arbitrary finite floating-point extremes can round sigmoid to 0/1; do not pretend universal strictness."
+            },
+            {
+              "name": "dpoPairTerms",
+              "signature": "dpoPairTerms({ beta, winner, loser })",
+              "rowInput": "{ inputId, policyProbability, referenceProbability }",
+              "validation": "beta finite > 0; nonempty equal inputId; every p/q finite in (0,1]; winner+loser mass <= 1 under each distribution; one shared policy/reference context; reject zero probability, bad mass, mismatched x; no silent clamp.",
+              "formula": "m = beta * ((log(pw)-log(qw)) - (log(pl)-log(ql))); P = stableSigmoid(m); pairLoss = softplus(-m)",
+              "returns": [
+                "inputId",
+                "sameInput:true",
+                "normalizerCancels:true",
+                "normalizerValue:null",
+                "rows: ratio/logRatio/weightedLogRatio",
+                "margin",
+                "preferenceProbability",
+                "pairLoss"
+              ],
+              "boundary": "Use log differences for finite log probabilities, validate finite derived margin. Ratios are representable for the fixed UI fixture; ratio overflow in a general helper must not corrupt log-based arithmetic."
+            }
+          ],
+          "fixedFixture": {
+            "id": "alignment-fixed-pair-v1",
+            "description": "同じ入力に条件付けた応答全体の説明用確率。実モデルの測定値ではない。",
+            "inputId": "x-0",
+            "policyId": "pi-theta",
+            "referencePolicyId": "pi-ref",
+            "rows": [
+              {
+                "responseId": "y-w",
+                "preference": "winner",
+                "policyProbability": 0.5,
+                "referenceProbability": 0.25,
+                "ratio": 2,
+                "logRatio": 0.6931471805599453
+              },
+              {
+                "responseId": "y-l",
+                "preference": "loser",
+                "policyProbability": 0.125,
+                "referenceProbability": 0.25,
+                "ratio": 0.5,
+                "logRatio": -0.6931471805599453
+              }
+            ],
+            "otherResponseMass": {
+              "policy": 0.375,
+              "reference": 0.5,
+              "individualProbabilities": null,
+              "klComputable": false
+            },
+            "normalizer": {
+              "termId": "z-x-0",
+              "inputId": "x-0",
+              "value": null,
+              "formula": "beta * log Z(x-0)",
+              "sameTermForBothRows": true
+            },
+            "explicitRewardIllustration": {
+              "winner": 1.0986122886681096,
+              "winnerExact": "ln(3)",
+              "loser": 0,
+              "margin": 1.0986122886681096,
+              "marginExact": "ln(3)",
+              "probability": 0.75,
+              "probabilityExact": "3/4",
+              "relationToImplicitReward": "別の固定例。後段の方策比から作る暗黙報酬と数値が同一とは置かない。"
+            }
+          }
+        },
+        "oracle": {
+          "source": "literal fractions and closed forms below; browser expected values must not import product model",
+          "rows": [
+            {
+              "beta": 0.5,
+              "marginExact": "ln(2)",
+              "margin": 0.6931471805599453,
+              "preferenceProbabilityExact": "2/3",
+              "preferenceProbability": 0.6666666666666666,
+              "pairLossExact": "ln(3/2)",
+              "pairLoss": 0.4054651081081644
+            },
+            {
+              "beta": 1,
+              "marginExact": "ln(4)",
+              "margin": 1.3862943611198906,
+              "preferenceProbabilityExact": "4/5",
+              "preferenceProbability": 0.8,
+              "pairLossExact": "ln(5/4)",
+              "pairLoss": 0.22314355131420976
+            },
+            {
+              "beta": 2,
+              "marginExact": "ln(16)",
+              "margin": 2.772588722239781,
+              "preferenceProbabilityExact": "16/17",
+              "preferenceProbability": 0.9411764705882353,
+              "pairLossExact": "ln(17/16)",
+              "pairLoss": 0.06062462181643484
+            }
+          ],
+          "rawTolerance": 1e-12,
+          "visibleDigits": 3,
+          "visibleTolerance": 0.0005,
+          "displayRule": "Approximate numeric labels use ≈ and 3 decimals; keep exact ratio/formula labels nearby. Tests compare unrounded data values and rounded visible values separately.",
+          "wholeLoss": "Displayed numerical loss is one pair ell = -ln sigma(m). Full L_DPO is an expectation / empirical average over preference pairs.",
+          "klRule": "Pair probabilities and unknown other-response mass cannot determine the original full-response KL. Never compute a 3-cell aggregate KL and label it the original objective."
+        },
+        "layout": [
+          "Keep winner and loser in fixed two-row positions across S1-S6; retain same x and response IDs.",
+          "At S0 show RLHF reward-model then policy optimization, DPO direct policy route, and the small RLVR entry.",
+          "S3 keeps reward and KL inputs separate with a minus sign; S4 emphasizes beta on KL and fixed reference.",
+          "S5 gives each response its own ratio + common normalizer. At S6 show both identical Z terms cancelled visibly before margin -> sigmoid -> negative log.",
+          "S6 visible note: 直接学習 / 報酬再利用・オンライン探索は別の設計。Do not squeeze full article formulas into unreadable text."
+        ],
+        "hooks": [
+          {
+            "stages": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "attribute": "data-alignment-preference-stage",
+            "values": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6"
+            ],
+            "extra": {
+              "data-empirical-measurement": "false",
+              "data-training-trajectory": "false",
+              "data-update-guarantee": "false"
+            },
+            "visible": ""
+          },
+          {
+            "stages": [
+              0
+            ],
+            "attribute": "data-preference-route",
+            "values": [
+              "rlhf",
+              "dpo"
+            ],
+            "extra": {},
+            "visible": "RLHF: 選好→報酬モデル→方策 / DPO: 選好→方策へ直接"
+          },
+          {
+            "stages": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "attribute": "data-response-id",
+            "values": [
+              "y-w",
+              "y-l"
+            ],
+            "extra": {
+              "data-input-id": "x-0"
+            },
+            "visible": "x 固定・勝ち/負け"
+          },
+          {
+            "stages": [
+              2
+            ],
+            "attribute": "data-explicit-reward-id",
+            "values": [
+              "y-w",
+              "y-l"
+            ],
+            "extra": {
+              "data-reward-score": "unrounded number"
+            },
+            "visible": "r_phi(w)=ln3 / r_phi(l)=0"
+          },
+          {
+            "stages": [
+              2
+            ],
+            "attribute": "data-bradley-terry-margin",
+            "values": [
+              "true"
+            ],
+            "extra": {
+              "data-value": "unrounded number"
+            },
+            "visible": "報酬差"
+          },
+          {
+            "stages": [
+              2
+            ],
+            "attribute": "data-bradley-terry-probability",
+            "values": [
+              "true"
+            ],
+            "extra": {
+              "data-value": "unrounded number"
+            },
+            "visible": "選好確率"
+          },
+          {
+            "stages": [
+              3,
+              4
+            ],
+            "attribute": "data-objective-term",
+            "values": [
+              "reward",
+              "kl"
+            ],
+            "extra": {},
+            "visible": "報酬期待値と参照方策からの KL"
+          },
+          {
+            "stages": [
+              3,
+              4
+            ],
+            "attribute": "data-objective-operator",
+            "values": [
+              "minus"
+            ],
+            "extra": {},
+            "visible": "−"
+          },
+          {
+            "stages": [
+              3,
+              4,
+              5,
+              6
+            ],
+            "attribute": "data-reference-policy",
+            "values": [
+              "pi-ref"
+            ],
+            "extra": {
+              "data-fixed": "true"
+            },
+            "visible": "固定した参照方策"
+          },
+          {
+            "stages": [
+              4,
+              5,
+              6
+            ],
+            "attribute": "data-preference-beta",
+            "values": [
+              "true"
+            ],
+            "extra": {
+              "data-value": "effective beta"
+            },
+            "visible": "β"
+          },
+          {
+            "stages": [
+              5,
+              6
+            ],
+            "attribute": "data-probability-row",
+            "values": [
+              "y-w",
+              "y-l"
+            ],
+            "extra": {
+              "data-input-id": "x-0",
+              "data-policy-probability": "unrounded number",
+              "data-reference-probability": "unrounded number",
+              "data-ratio": "unrounded number",
+              "data-log-ratio": "unrounded number",
+              "data-weighted-log-ratio": "unrounded number"
+            },
+            "visible": "πθ(y|x) / πref(y|x) とその log"
+          },
+          {
+            "stages": [
+              5,
+              6
+            ],
+            "attribute": "data-normalizer-term-id",
+            "values": [
+              "z-x-0"
+            ],
+            "extra": {
+              "data-input-id": "x-0",
+              "data-cancelled": "false at S5; true at S6",
+              "count": 2
+            },
+            "visible": "同じ x の β log Z(x) を両行に表示し S6 で打ち消す"
+          },
+          {
+            "stages": [
+              6
+            ],
+            "attribute": "data-dpo-pair-margin",
+            "values": [
+              "true"
+            ],
+            "extra": {
+              "data-value": "unrounded number"
+            },
+            "visible": "対数比の差 × β"
+          },
+          {
+            "stages": [
+              6
+            ],
+            "attribute": "data-dpo-pair-probability",
+            "values": [
+              "true"
+            ],
+            "extra": {
+              "data-value": "unrounded number"
+            },
+            "visible": "σ(m)"
+          },
+          {
+            "stages": [
+              6
+            ],
+            "attribute": "data-dpo-pair-loss",
+            "values": [
+              "true"
+            ],
+            "extra": {
+              "data-value": "unrounded number"
+            },
+            "visible": "この選好ペアの損失 ℓ"
+          },
+          {
+            "stages": [
+              6
+            ],
+            "attribute": "data-dpo-aggregation",
+            "values": [
+              "expectation"
+            ],
+            "extra": {},
+            "visible": "L_DPO はペア全体の期待値 / 平均"
+          }
+        ],
+        "sceneSignature": "AlignmentPreference({ children })",
+        "paths": {
+          "model": "website/lib/alignment-preference-model.mjs",
+          "scene": "website/components/diagrams/alignment-preference-walkthrough.jsx",
+          "css": "website/components/diagrams/alignment-preference.css",
+          "unit": "website/tests/unit/alignment-preference-model.test.mjs"
+        }
+      }
+    },
+    {
+      "id": "alignment-reward-risk",
+      "adopted": {
+        "id": "alignment-reward-risk",
+        "title": "代理報酬と評価のずれ",
+        "heads": [
+          3
+        ],
+        "sources": [
+          1,
+          3
+        ],
+        "groups": [
+          [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ]
+        ],
+        "objects": [
+          "方策",
+          "代理報酬",
+          "別の品質評価",
+          "参照方策",
+          "KL項"
+        ],
+        "stages": [
+          {
+            "label": "代理と目的",
+            "state": "同じ出力から代理報酬と品質評価へ二つの経路。片方を真の品質を直接測れる実装と誤認させない。",
+            "motion": "評価経路を分け、同じ出力IDを保持する。"
+          },
+          {
+            "label": "過剰最適化",
+            "state": "代理への最適化と品質の乖離・冗長/体裁の症状を同時に示す。数値曲線や転換点は作らない。",
+            "motion": "代理への矢印だけ太くなり、品質側に乖離ラベルが残る。"
+          },
+          {
+            "label": "正則化と再評価",
+            "state": "KL制約・報酬モデルの見直しを既存2経路へ接続。抑制であり解決保証ではない。",
+            "motion": "参照方策への制約線と再評価の戻りを追加。"
+          }
+        ],
+        "checks": [
+          "代理と品質を同じ軸の実測値にしない",
+          "Goodhartの必然的な万能曲線を作らない",
+          "KLは保証ではなく制約と表示"
+        ],
+        "article": "docs/11-llm-internals/alignment-theory.md",
+        "route": "/docs/llm-internals/alignment-theory",
+        "binding": "grouped-blocks",
+        "stageCount": 3,
+        "headings": [
+          "報酬の過剰最適化(Goodhart)"
+        ],
+        "sourceHeadings": [
+          "RLHF の定式化",
+          "報酬の過剰最適化(Goodhart)"
+        ],
+        "blockGroups": [
+          [
+            {
+              "stage": 0,
+              "count": 1
+            },
+            {
+              "stage": 1,
+              "count": 1
+            },
+            {
+              "stage": 2,
+              "count": 1
+            }
+          ]
+        ],
+        "blockTypes": [
+          [
+            "paragraph",
+            "list",
+            "paragraph"
+          ]
+        ],
+        "sourceDigest": "sha256:5f7145226502e3f91665a2bd9fbe4c9b58d41d4dcafb3f761cdfec2df6b7ac91",
+        "status": "planned-not-reviewed",
+        "reviewedDigest": null,
+        "enabled": false,
+        "contentKind": "conceptual",
+        "staticFallback": "同じ意味モデルの主要段階の静止表示と短い図ラベル。追加の本文・例題・ナレーションを作らない。",
+        "layout": "既存ReadingFigureの操作・同期・拡大・JS無効/印刷経路を再利用。固有model/scene/CSSは記事chunkで遅延読込。",
+        "stateContract": "frame(phase, options)は副作用なし。同じ位相/選択で同じ図、逆シーク・中点でもID/関係を保持。停止/非表示に常時loopを残さない。",
+        "readingStages": [
+          0,
+          1,
+          2
+        ],
+        "manualOnlyStages": [],
+        "minimumCountReason": "方策最適化の式と品質評価の異なる意味を一図に詰めず、代理指標の問題だけ3段階に分ける。",
+        "postCorrectionSourceDigestCandidate": "sha256:5f7145226502e3f91665a2bd9fbe4c9b58d41d4dcafb3f761cdfec2df6b7ac91"
+      },
+      "proposed": {
+        "sceneExport": "AlignmentRewardRisk",
+        "frameExport": "alignmentRewardRiskFrame",
+        "stageExport": "ALIGNMENT_REWARD_RISK_STAGES",
+        "additionalModelExports": [],
+        "marker": "ALIGNMENT / REWARD RISK",
+        "stageAttribute": "data-alignment-reward-risk-stage",
+        "controls": [],
+        "model": {
+          "signature": "alignmentRewardRiskFrame(phase, options = {})",
+          "input": {
+            "phase": "finite number",
+            "options": "empty plain object only"
+          },
+          "output": {
+            "stage": "0..2",
+            "stageLabel": "adopted label",
+            "phase": "clamped finite number",
+            "progress": "shared reading-clock transition progress",
+            "outputId": "answer-0",
+            "policyId": "pi-theta",
+            "referencePolicyId": "pi-ref",
+            "lanes": [
+              {
+                "id": "proxy",
+                "kind": "learned-reward-model",
+                "label": "代理報酬",
+                "value": null
+              },
+              {
+                "id": "quality",
+                "kind": "separate-assessment",
+                "label": "別の品質評価（真の良さそのものではない）",
+                "value": null,
+                "groundTruthAccess": false
+              }
+            ],
+            "proxyEmphasis": "true at S1",
+            "symptoms": [
+              "verbosity",
+              "appearance"
+            ],
+            "constraint": "KL at S2",
+            "reassessment": "return arrow at S2",
+            "curve": null,
+            "turningPoint": null,
+            "optimum": null,
+            "empiricalMeasurement": false,
+            "safetyGuarantee": false
+          }
+        },
+        "oracle": {
+          "kind": "structural only; no numeric fixture",
+          "outputId": "answer-0",
+          "laneIds": [
+            "proxy",
+            "quality"
+          ],
+          "symptomIds": [
+            "verbosity",
+            "appearance"
+          ],
+          "prohibitedValues": [
+            "measured quality score",
+            "true-quality oracle",
+            "universal Goodhart curve",
+            "turning point",
+            "optimal regularization"
+          ],
+          "invariants": [
+            "same output feeds both lanes",
+            "proxy and quality are separate evaluations",
+            "S1 includes both verbosity and appearance",
+            "S2 includes both KL constraint and reassessment return",
+            "suppression is not a guarantee"
+          ]
+        },
+        "layout": [
+          "Two evaluation lanes from one output; one never substitutes for the other.",
+          "Use qualitative emphasis on proxy arrow, with quality-divergence label. No numeric axes, fabricated trajectory, or optimal point."
+        ],
+        "hooks": [
+          {
+            "stages": [
+              0,
+              1,
+              2
+            ],
+            "attribute": "data-alignment-reward-risk-stage",
+            "values": [
+              "0",
+              "1",
+              "2"
+            ],
+            "extra": {
+              "data-empirical-measurement": "false",
+              "data-quality-guarantee": "false"
+            },
+            "visible": ""
+          },
+          {
+            "stages": [
+              0,
+              1,
+              2
+            ],
+            "attribute": "data-risk-output-id",
+            "values": [
+              "answer-0"
+            ],
+            "extra": {},
+            "visible": "同じ出力"
+          },
+          {
+            "stages": [
+              0,
+              1,
+              2
+            ],
+            "attribute": "data-evaluation-lane",
+            "values": [
+              "proxy",
+              "quality"
+            ],
+            "extra": {
+              "data-value": "unknown"
+            },
+            "visible": "代理報酬 / 別の品質評価（真の良さそのものではない）"
+          },
+          {
+            "stages": [
+              1
+            ],
+            "attribute": "data-risk-emphasis",
+            "values": [
+              "proxy"
+            ],
+            "extra": {},
+            "visible": "代理への最適化"
+          },
+          {
+            "stages": [
+              1
+            ],
+            "attribute": "data-risk-symptom",
+            "values": [
+              "verbosity",
+              "appearance"
+            ],
+            "extra": {},
+            "visible": "冗長 / 体裁"
+          },
+          {
+            "stages": [
+              1
+            ],
+            "attribute": "data-quality-divergence",
+            "values": [
+              "true"
+            ],
+            "extra": {},
+            "visible": "代理と品質がずれうる"
+          },
+          {
+            "stages": [
+              2
+            ],
+            "attribute": "data-risk-constraint",
+            "values": [
+              "kl"
+            ],
+            "extra": {},
+            "visible": "参照方策からの KL"
+          },
+          {
+            "stages": [
+              2
+            ],
+            "attribute": "data-risk-reassessment",
+            "values": [
+              "true"
+            ],
+            "extra": {},
+            "visible": "報酬モデルを再評価"
+          },
+          {
+            "stages": [
+              2
+            ],
+            "attribute": "data-risk-guarantee",
+            "values": [
+              "false"
+            ],
+            "extra": {},
+            "visible": "抑制であり保証ではない"
+          }
+        ],
+        "sceneSignature": "AlignmentRewardRisk({ children })",
+        "paths": {
+          "model": "website/lib/alignment-reward-risk-model.mjs",
+          "scene": "website/components/diagrams/alignment-reward-risk-walkthrough.jsx",
+          "css": "website/components/diagrams/alignment-reward-risk.css",
+          "unit": "website/tests/unit/alignment-reward-risk-model.test.mjs"
+        }
+      }
+    },
+    {
+      "id": "alignment-feedback",
+      "adopted": {
+        "id": "alignment-feedback",
+        "title": "報酬の出所と評価する粒度",
+        "heads": [
+          4,
+          5
+        ],
+        "sources": [
+          0,
+          3,
+          4,
+          5
+        ],
+        "groups": [
+          [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ],
+          [
+            [
+              3,
+              2
+            ],
+            [
+              4,
+              1
+            ]
+          ]
+        ],
+        "objects": [
+          "同じ解答の段階列",
+          "最終結果",
+          "検証器",
+          "人手/学習した評価",
+          "選好データ",
+          "調整後モデル"
+        ],
+        "stages": [
+          {
+            "label": "検証器",
+            "state": "数学/コードの既存ラベルと検証器→報酬→モデルの経路。評価粒度とは別軸。",
+            "motion": "最終結果から検証器へ線を伸ばす。"
+          },
+          {
+            "label": "結果と過程",
+            "state": "同じ段階列の最終だけに結果評価、各段階に過程評価。両方の位置を一画面で比較。",
+            "motion": "最終の印を保ち、各段階へ別形の印を置く。"
+          },
+          {
+            "label": "適用範囲",
+            "state": "RLVRは検証可能な報酬を用意できる範囲。過程評価には人手等のラベルもあり機械検証と同一視しない。",
+            "motion": "報酬の出所レーンと評価粒度レーンを分離する。"
+          },
+          {
+            "label": "調整の副作用",
+            "state": "同じ選好→モデル→出力の列で、同調への偏りと能力/安全の別評価を併置。万能な低下率を付けない。",
+            "motion": "選好の偏りが出力へ伝わる経路と別評価レーンを強調。"
+          },
+          {
+            "label": "フィードバックの作り方",
+            "state": "人手とAIの選好ラベルを同じ入力位置の別選択肢とし、無害性の保証にしない。",
+            "motion": "人手ラベル位置へAIラベルを切替えるが他の意味は保持。"
+          }
+        ],
+        "checks": [
+          "結果/過程とRLVR/学習報酬を直交させる",
+          "本文最小訂正A1-A3の適用か再判定を先行",
+          "迎合・能力低下を全モデルの必然にしない"
+        ],
+        "article": "docs/11-llm-internals/alignment-theory.md",
+        "route": "/docs/llm-internals/alignment-theory",
+        "binding": "grouped-blocks",
+        "stageCount": 5,
+        "headings": [
+          "検証可能報酬(RLVR)とプロセス報酬",
+          "迎合とアラインメント税"
+        ],
+        "sourceHeadings": [
+          "概要: 「良さ」をどう最適化するか",
+          "報酬の過剰最適化(Goodhart)",
+          "検証可能報酬(RLVR)とプロセス報酬",
+          "迎合とアラインメント税"
+        ],
+        "blockGroups": [
+          [
+            {
+              "stage": 0,
+              "count": 1
+            },
+            {
+              "stage": 1,
+              "count": 1
+            },
+            {
+              "stage": 2,
+              "count": 1
+            }
+          ],
+          [
+            {
+              "stage": 3,
+              "count": 2
+            },
+            {
+              "stage": 4,
+              "count": 1
+            }
+          ]
+        ],
+        "blockTypes": [
+          [
+            "paragraph",
+            "list",
+            "paragraph"
+          ],
+          [
+            "paragraph",
+            "list",
+            "paragraph"
+          ]
+        ],
+        "sourceDigest": "sha256:73195e7707918a36b2116072f56283a057e9a75ae974a191c9bdb3935065113f",
+        "status": "planned-not-reviewed",
+        "reviewedDigest": null,
+        "enabled": false,
+        "contentKind": "conceptual",
+        "staticFallback": "同じ意味モデルの主要段階の静止表示と短い図ラベル。追加の本文・例題・ナレーションを作らない。",
+        "layout": "既存ReadingFigureの操作・同期・拡大・JS無効/印刷経路を再利用。固有model/scene/CSSは記事chunkで遅延読込。",
+        "stateContract": "frame(phase, options)は副作用なし。同じ位相/選択で同じ図、逆シーク・中点でもID/関係を保持。停止/非表示に常時loopを残さない。",
+        "readingStages": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "manualOnlyStages": [],
+        "minimumCountReason": "報酬の出所と粒度を同じ解答列で比較し、副作用も同じ選好→モデルの枠で追う。",
+        "postCorrectionSourceDigestCandidate": "sha256:f954c5babb83dd5344ffa9973d2ce804241fdba67c401b3390236613db98fd25"
+      },
+      "proposed": {
+        "sceneExport": "AlignmentFeedback",
+        "frameExport": "alignmentFeedbackFrame",
+        "stageExport": "ALIGNMENT_FEEDBACK_STAGES",
+        "additionalModelExports": [
+          "FEEDBACK_LABEL_SOURCE_IDS"
+        ],
+        "marker": "ALIGNMENT / FEEDBACK",
+        "stageAttribute": "data-alignment-feedback-stage",
+        "controls": [
+          {
+            "id": "labelSource",
+            "label": "選好ラベルの作り手",
+            "activeStages": [
+              4
+            ],
+            "defaultValue": "human",
+            "options": [
+              {
+                "value": "human",
+                "label": "人手"
+              },
+              {
+                "value": "ai",
+                "label": "AI"
+              }
+            ],
+            "inactiveEffectiveValue": "human",
+            "scope": "入力位置の作成者を強調するだけ。粒度・タスク・品質・安全を変えない。両選択肢のラベルは初期表示にも残す。"
+          }
+        ],
+        "model": {
+          "signature": "alignmentFeedbackFrame(phase, { labelSource = 'human' } = {})",
+          "input": {
+            "phase": "finite number",
+            "labelSource": [
+              "human",
+              "ai"
+            ]
+          },
+          "output": {
+            "stage": "0..4",
+            "stageLabel": "adopted label",
+            "phase": "clamped finite number",
+            "progress": "shared reading-clock transition progress",
+            "answerId": "answer-0",
+            "steps": [
+              "step-1",
+              "step-2",
+              "step-3"
+            ],
+            "finalId": "final",
+            "stepText": null,
+            "marks": [
+              {
+                "granularity": "outcome",
+                "target": "final"
+              },
+              {
+                "granularity": "process",
+                "target": "step-1"
+              },
+              {
+                "granularity": "process",
+                "target": "step-2"
+              },
+              {
+                "granularity": "process",
+                "target": "step-3"
+              }
+            ],
+            "markMeaning": "evaluation location only, not correctness",
+            "rewardSources": [
+              "verifier",
+              "learned-reward-model"
+            ],
+            "granularities": [
+              "outcome",
+              "process"
+            ],
+            "axisRelation": "orthogonal-classification-not-subtype",
+            "scope": "RLVR requires available verifiable reward",
+            "processRequiresMechanicalVerification": false,
+            "outcomeExcludesLearnedModel": false,
+            "sideEffects": [
+              "sycophancy",
+              "alignment-tax"
+            ],
+            "effectiveLabelSource": "selected source at S4, otherwise human",
+            "scores": null,
+            "observedAccuracy": null,
+            "capabilityDelta": null,
+            "harmlessnessGuarantee": false,
+            "sideEffectUniversality": false,
+            "empiricalMeasurement": false
+          }
+        },
+        "oracle": {
+          "kind": "structural fixture only",
+          "answerId": "answer-0",
+          "intermediateStepIds": [
+            "step-1",
+            "step-2",
+            "step-3"
+          ],
+          "finalId": "final",
+          "outcomeMarkTargets": [
+            "final"
+          ],
+          "processMarkTargets": [
+            "step-1",
+            "step-2",
+            "step-3"
+          ],
+          "markCounts": {
+            "outcome": 1,
+            "process": 3
+          },
+          "rewardSourceIds": [
+            "verifier",
+            "learned-reward-model"
+          ],
+          "granularityIds": [
+            "outcome",
+            "process"
+          ],
+          "labelSourceIds": [
+            "human",
+            "ai"
+          ],
+          "sideEffectIds": [
+            "sycophancy",
+            "alignment-tax"
+          ],
+          "axisRelation": "orthogonal-classification-not-subtype",
+          "universality": false
+        },
+        "layout": [
+          "Use a schematic step chain without invented model thinking or worked example prose. Evaluation marks are neutral shapes, not success checkmarks.",
+          "S1 shows final-result and intermediate-step locations together on the same chain.",
+          "S2 separates source and granularity into two labeled lanes. Human step labels -> learned reward model is visible. Do not render a universal four-cell availability matrix.",
+          "S3 shows sycophancy bias and separate capability/safety assessment without fabricated rates.",
+          "S4 shows human and AI alternatives at the same upstream preference-data position, with selected emphasis."
+        ],
+        "hooks": [
+          {
+            "stages": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "attribute": "data-alignment-feedback-stage",
+            "values": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4"
+            ],
+            "extra": {
+              "data-harmlessness-guarantee": "false",
+              "data-side-effect-guarantee": "false",
+              "data-empirical-measurement": "false"
+            },
+            "visible": ""
+          },
+          {
+            "stages": [
+              0,
+              1,
+              2
+            ],
+            "attribute": "data-answer-id",
+            "values": [
+              "answer-0"
+            ],
+            "extra": {},
+            "visible": "同じ解答"
+          },
+          {
+            "stages": [
+              1,
+              2
+            ],
+            "attribute": "data-step-id",
+            "values": [
+              "step-1",
+              "step-2",
+              "step-3",
+              "final"
+            ],
+            "extra": {},
+            "visible": "段階 1 / 2 / 3 / 最終結果"
+          },
+          {
+            "stages": [
+              0,
+              2
+            ],
+            "attribute": "data-reward-source",
+            "values": [
+              "verifier"
+            ],
+            "extra": {},
+            "visible": "検証器"
+          },
+          {
+            "stages": [
+              0,
+              2
+            ],
+            "attribute": "data-rlvr-scope",
+            "values": [
+              "verifiable-reward"
+            ],
+            "extra": {},
+            "visible": "報酬を検証できる範囲"
+          },
+          {
+            "stages": [
+              1
+            ],
+            "attribute": "data-evaluation-mark",
+            "values": [
+              "true"
+            ],
+            "extra": {
+              "data-granularity": [
+                "outcome",
+                "process"
+              ],
+              "data-target-step": [
+                "final",
+                "step-1",
+                "step-2",
+                "step-3"
+              ]
+            },
+            "visible": "結果は最終、過程は各段階の評価位置"
+          },
+          {
+            "stages": [
+              2
+            ],
+            "attribute": "data-feedback-axis",
+            "values": [
+              "source",
+              "granularity"
+            ],
+            "extra": {},
+            "visible": "報酬の出所 / 評価する粒度"
+          },
+          {
+            "stages": [
+              2
+            ],
+            "attribute": "data-reward-source",
+            "values": [
+              "learned-reward-model"
+            ],
+            "extra": {},
+            "visible": "人手等の評価から学習した報酬モデル"
+          },
+          {
+            "stages": [
+              2
+            ],
+            "attribute": "data-feedback-granularity",
+            "values": [
+              "outcome",
+              "process"
+            ],
+            "extra": {},
+            "visible": "結果 / 過程"
+          },
+          {
+            "stages": [
+              2
+            ],
+            "attribute": "data-axis-relation",
+            "values": [
+              "orthogonal"
+            ],
+            "extra": {},
+            "visible": "出所と粒度は別の軸"
+          },
+          {
+            "stages": [
+              2
+            ],
+            "attribute": "data-process-source-caveat",
+            "values": [
+              "true"
+            ],
+            "extra": {},
+            "visible": "過程評価には人手等のラベルもある"
+          },
+          {
+            "stages": [
+              3
+            ],
+            "attribute": "data-alignment-side-effect",
+            "values": [
+              "sycophancy",
+              "alignment-tax"
+            ],
+            "extra": {
+              "data-side-effect-universality": "false"
+            },
+            "visible": "迎合 / アラインメント税・全モデルの必然ではない"
+          },
+          {
+            "stages": [
+              4
+            ],
+            "attribute": "data-label-source",
+            "values": [
+              "human",
+              "ai"
+            ],
+            "extra": {
+              "data-emphasized": "selected source only"
+            },
+            "visible": "人手 / AI"
+          },
+          {
+            "stages": [
+              4
+            ],
+            "attribute": "data-label-source-target",
+            "values": [
+              "preference-data"
+            ],
+            "extra": {},
+            "visible": "選好データ"
+          },
+          {
+            "stages": [
+              4
+            ],
+            "attribute": "data-label-source-guarantee",
+            "values": [
+              "false"
+            ],
+            "extra": {},
+            "visible": "無害性の保証ではない"
+          }
+        ],
+        "sceneSignature": "AlignmentFeedback({ children })",
+        "paths": {
+          "model": "website/lib/alignment-feedback-model.mjs",
+          "scene": "website/components/diagrams/alignment-feedback-walkthrough.jsx",
+          "css": "website/components/diagrams/alignment-feedback.css",
+          "unit": "website/tests/unit/alignment-feedback-model.test.mjs"
+        }
+      }
+    }
+  ],
+  "controlMigration": {
+    "currentNoFigureControl": "/docs/llm-internals/alignment-theory",
+    "proposedNoFigureControl": "/docs/implementation/embeddings",
+    "evidence": "Readonly preparation checked registry/export, not runtime network. Recheck at implementation.",
+    "requirements": "Explicit route/case/H1/scope/mapping migration retaining predecessor history; do not skip old acceptance. Preserve alignment-theory 390px DPO math regression. No existing kit edits here."
+  },
+  "reviewSeparation": {
+    "authorVerification": true,
+    "independentReview": false,
+    "wholeArticleApproval": false,
+    "implementationApproval": false,
+    "publicationApproval": false,
+    "rule": "If this author later implements models or scenes, own unit checks remain author evidence; another reviewer must evaluate implementation and images. New interfaces need their own scoped review."
+  },
+  "nextSteps": [
+    "Wait for C2 public acceptance; re-read latest main/shared APIs.",
+    "Confirm proposal with integration and independent fixture authors before implementation.",
+    "Apply A1-A3, date/source synchronization under assigned ownership, then recompute final article/digests.",
+    "Implement assigned files and complete independent model/article/scene and local/public acceptance."
+  ],
+  "authorValidation": {
+    "sourceHashes": "matched",
+    "adoptedFields": "deep equality for all 3 full diagram records",
+    "readStages": 15,
+    "manualOnlyStages": 0,
+    "uniqueCustomControls": 2,
+    "uniqueOptions": 5,
+    "arithmeticRowsChecked": 3,
+    "explicitRewardProbabilityChecked": true,
+    "productImportsUsedForOracle": false,
+    "executionScope": "inline author arithmetic and data consistency checks only; no unit/browser/build/public acceptance"
+  }
+}

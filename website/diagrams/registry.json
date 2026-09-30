@@ -1022,6 +1022,148 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "alignment-preference",
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "route": "/docs/llm-internals/alignment-theory",
+      "binding": "grouped-blocks",
+      "stageCount": 7,
+      "headings": [
+        "概要: 「良さ」をどう最適化するか",
+        "RLHF の定式化",
+        "DPO の導出: 報酬モデルを消す"
+      ],
+      "sourceHeadings": [
+        "概要: 「良さ」をどう最適化するか",
+        "RLHF の定式化",
+        "DPO の導出: 報酬モデルを消す",
+        "報酬の過剰最適化(Goodhart)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 3
+          },
+          {
+            "stage": 6,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:04a0a9af19f3f7114021b2a87136ee20710d5604ed4e4c015f9be1e2cd3374d4",
+      "reviewedDigest": "sha256:04a0a9af19f3f7114021b2a87136ee20710d5604ed4e4c015f9be1e2cd3374d4",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "alignment-reward-risk",
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "route": "/docs/llm-internals/alignment-theory",
+      "binding": "grouped-blocks",
+      "stageCount": 3,
+      "headings": [
+        "報酬の過剰最適化(Goodhart)"
+      ],
+      "sourceHeadings": [
+        "RLHF の定式化",
+        "報酬の過剰最適化(Goodhart)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:5f7145226502e3f91665a2bd9fbe4c9b58d41d4dcafb3f761cdfec2df6b7ac91",
+      "reviewedDigest": "sha256:5f7145226502e3f91665a2bd9fbe4c9b58d41d4dcafb3f761cdfec2df6b7ac91",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "alignment-feedback",
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "route": "/docs/llm-internals/alignment-theory",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "検証可能報酬(RLVR)とプロセス報酬",
+        "迎合とアラインメント税"
+      ],
+      "sourceHeadings": [
+        "概要: 「良さ」をどう最適化するか",
+        "報酬の過剰最適化(Goodhart)",
+        "検証可能報酬(RLVR)とプロセス報酬",
+        "迎合とアラインメント税"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:f954c5babb83dd5344ffa9973d2ce804241fdba67c401b3390236613db98fd25",
+      "reviewedDigest": "sha256:f954c5babb83dd5344ffa9973d2ce804241fdba67c401b3390236613db98fd25",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

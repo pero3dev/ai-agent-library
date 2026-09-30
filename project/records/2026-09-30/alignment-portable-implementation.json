@@ -1,0 +1,217 @@
+{
+  "schemaVersion": 1,
+  "kind": "D1-portable-kit-implementation-author-record",
+  "status": "implemented-independent-kit-and-final-local-review-approved-public-pending",
+  "recordedAt": "2026-09-29T20:20:20.768Z",
+  "author": "/root/inference_change_evidence",
+  "baseCommit": "5940334a6fd3aab8178cfeb8746a58c8b937d390",
+  "ownedProductionSurface": "scripts/diagram-release and fixed diagram-release unit/local browser spec only; no product model/article/Git/public operations by this author",
+  "contract": {
+    "routes": 9,
+    "cases": 107,
+    "addedCases": 16,
+    "figures": 3,
+    "stages": 15,
+    "readStops": 15,
+    "manualOnly": 0,
+    "screenProfiles": 6,
+    "controlMigration": {
+      "from": "/docs/llm-internals/alignment-theory",
+      "to": "/docs/implementation/embeddings",
+      "unchangedOtherCases": 90,
+      "reverseNameBaselines": [
+        91,
+        71,
+        58
+      ]
+    }
+  },
+  "kitVersion": {
+    "manifestSHA256": "0212a71e7a910dc2c49c2740af50d154eb646e39004a88b31d40b86edd23eb37",
+    "checksSHA256": "c2dec4a5e62f2f557de44fbfff9a4d9b4a10aa94d449356268ebf9a267c74717",
+    "firstEdgeChecksSHA256": "01b0b5f8c522a7dfb67cd9d83554885685f03f06a164af30bf015c2889d15300",
+    "firstEdgeManifestSHA256": "6b4f4c0004ec1bcf9cd1e80f40550a855f4816a960d8516e2e0eb739441a6bd2",
+    "independentReview": "pending",
+    "retainedStatusPolicy": "Raw status/pending fields are original; any later review is a separate addendum"
+  },
+  "verification": {
+    "syntaxFiles": 14,
+    "unitTests": 30,
+    "unitPassed": 30,
+    "unitFailed": 0,
+    "inventoryFiles": 18,
+    "preparationTotalCases": 107,
+    "preparationRoutes": 9,
+    "readmeMarkdownLint": true,
+    "independentAcceptance": true,
+    "localBrowserByAuthor": false,
+    "publicAudit": false,
+    "finalLocalBrowserEvidenceArchived": true,
+    "finalWebkitPassed": 42,
+    "finalEdgeGridPassed": 3,
+    "independentAcceptanceScope": "Kit code plus separately reviewed D1 local code/meaning/visual/browser/performance; frozen-tree article and public acceptance excluded"
+  },
+  "evidenceArchive": "alignment-local-evidence/index.json",
+  "sourceOfTruth": [
+    "../../../scripts/diagram-release/README.md",
+    "p1-interface-preparation/README.md",
+    "alignment-reading-diagrams.md"
+  ],
+  "notes": [
+    "DPO values use literal fractions and closed forms, not product-model output.",
+    "First Edge aria source was reconstructed by an exact inverse and matched a manifest hash observed before the grid edit.",
+    "Final selectedStateGrid adds beta3x7 and labelSource2x5; initial first-Edge results must not claim those additional visits.",
+    "Raw initial failures and helper404 diagnostics remain immutable; later successful evidence must be separately bound.",
+    "P1 all15/199 accepted then stop; P0 partial2 not counted as whole P1; no P2.",
+    "Archive result paths are relative to this record; embedded historical raw absolute paths remain unchanged provenance."
+  ],
+  "pending": [
+    "Formal independent frozen-tree article review by root workflow",
+    "Current D1 CI/Pages, nine artifact HTML and full107 public browser/actual-image acceptance"
+  ],
+  "currentKitReference": {
+    "readme": {
+      "path": "alignment-local-evidence/raw/kit-readme-after-history-label-fix.md.gz",
+      "sha256": "b6c2829aaaf39281dfc32e9111d8a2294108f18037df59a572c88419e55a8c00"
+    },
+    "manifest": {
+      "path": "alignment-local-evidence/raw/kit-manifest-after-history-label-fix.json.gz",
+      "sha256": "40cca5a2f969f4c0385fac358cf4988decb6f72076c5b91e1b52fe22153adee9"
+    },
+    "checksSHA256": "c2dec4a5e62f2f557de44fbfff9a4d9b4a10aa94d449356268ebf9a267c74717",
+    "independentReview": {
+      "path": "alignment-local-evidence/kit-independent-review.json",
+      "sha256": "bcd5311a5a89ef766999b3590ffcf58954de4526a9fb6c5ca564f1efe20a5cc8",
+      "reviewedAt": "2026-09-29T20:24:05.615Z",
+      "decision": "approved",
+      "risk": "low",
+      "must": 0,
+      "should": 0,
+      "scope": "kit implementation only",
+      "manifestSHA256": "40cca5a2f969f4c0385fac358cf4988decb6f72076c5b91e1b52fe22153adee9"
+    },
+    "sourceChangeAfterAuthorRecord": "README historical C1 label plus its inventory hash; manifest status C2-candidate changed to D1-candidate. No browser/check code change."
+  },
+  "initialVisualEvidence": {
+    "generated": 96,
+    "actuallyViewedByIndependentReviewer": 96,
+    "storedPNGs": 96,
+    "finalLocalAcceptance": false,
+    "rawConsole404Preserved": [
+      3,
+      3
+    ],
+    "diagnosticConsole404": [
+      1,
+      0
+    ]
+  },
+  "rootCheck": {
+    "rawPath": "alignment-local-evidence/raw/alignment-root-check.log.gz",
+    "completedConfirmedByOwner": true,
+    "tests": 485,
+    "passed": 484,
+    "failed": 0,
+    "skipped": 1,
+    "docs": 215,
+    "linkFiles": 377,
+    "links": 5809,
+    "kind": "local-mechanical-only"
+  },
+  "independentKitCodeReview": {
+    "path": "alignment-local-evidence/kit-independent-review.json",
+    "sha256": "bcd5311a5a89ef766999b3590ffcf58954de4526a9fb6c5ca564f1efe20a5cc8",
+    "reviewedAt": "2026-09-29T20:24:05.615Z",
+    "decision": "approved",
+    "risk": "low",
+    "must": 0,
+    "should": 0,
+    "scope": "kit implementation only",
+    "manifestSHA256": "40cca5a2f969f4c0385fac358cf4988decb6f72076c5b91e1b52fe22153adee9"
+  },
+  "firstEdgeAriaBrowser": {
+    "path": "alignment-local-evidence/edge-first-aria-results.json",
+    "sha256": "eed534de96ed0c793aed07e5924d06486141488cd958f906a91f59e9b9e22cb0",
+    "total": 338,
+    "passed": 333,
+    "failed": 0,
+    "skipped": 5,
+    "d1Passed": 16,
+    "version": "first-aria-before-selectedStateGrid",
+    "finalGridSupplement": "completed-separate-finalEdgeGridSupplement-binding",
+    "generatedImagesPath": "alignment-local-evidence/edge-first-aria-generated-images.json",
+    "generatedImagesSHA256": "0d5e72d18c44a68153736a78093ef438c3be6850fed984d9c90f22f2b0d3131f"
+  },
+  "independentPerformance": {
+    "path": "alignment-local-evidence/independent-performance.json",
+    "sha256": "076a4c90d5722ffe375a863c32a22eac36974ca1a0a3572acf13c1ed9b70abde",
+    "kind": "independent-local-performance-observation-not-final-acceptance",
+    "rawNetworkErrors": 30,
+    "criticalErrors": 0,
+    "finalReview": "pending"
+  },
+  "lastUpdatedAt": "2026-09-30T09:21:08.346Z",
+  "localAccepted": true,
+  "publicAccepted": false,
+  "finalWebkitBrowser": {
+    "path": "alignment-local-evidence/webkit-final-results.json",
+    "sha256": "70c1582194cddb81ff0fdb45ae8caa392dd14d3c7a7cb3c9817200f9a5c35990",
+    "total": 42,
+    "passed": 42,
+    "failed": 0,
+    "skipped": 0,
+    "d1Passed": 16,
+    "version": "final-selectedStateGrid",
+    "generatedImagesPath": "alignment-local-evidence/webkit-final-generated-images.json",
+    "generatedImagesSHA256": "a96115f46642d22f71450737e0e14d22ae3d3897ab4ccad940677d6b1c55f028"
+  },
+  "finalEdgeGridSupplement": {
+    "path": "alignment-local-evidence/edge-grid-final-results.json",
+    "sha256": "b7fae227eb00ae8ab6f6f5f9e896cf8237cb1277cc77713b517bac5b6338b954",
+    "total": 3,
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "d1Passed": 3,
+    "version": "final-selectedStateGrid",
+    "generatedImagesPath": "alignment-local-evidence/edge-grid-final-generated-images.json",
+    "generatedImagesSHA256": "371afe1dd99e8bbd7ebafcf04154b090aeccb3b175a46ca92e8d00c658e88fd4"
+  },
+  "finalIndependentReview": {
+    "path": "alignment-local-evidence/final-independent-review.json",
+    "sha256": "4df5623ee75b29f3a0ed42c8981c74e7bbd411e16b4fc22e70e0b4705acea829",
+    "reviewedAt": "2026-09-30T09:15:22.545Z",
+    "decision": "approved",
+    "risk": "low",
+    "must": 0,
+    "should": 0,
+    "scope": "D1 code/formulas/meaning/integration, actual images and completed local browser/performance acceptance. Old eight articles carried through independently verified limited source equality, prior independent public review and current full Edge regression. Formal frozen-tree article review and current public acceptance are separate."
+  },
+  "finalViewedImages": {
+    "path": "alignment-local-evidence/final-viewed-images.json",
+    "sha256": "038aac290bc85b99857ce8ba30b768d8bd23eeee7690defb74bf9bb59d68fd25",
+    "images": 168,
+    "initialReused": 96,
+    "additionalStored": 72,
+    "engineCounts": {
+      "chromium": 84,
+      "webkit": 84
+    }
+  },
+  "finalVisualEvidence": {
+    "actualViewed": 168,
+    "storedPNGs": 168,
+    "initialReused": 96,
+    "additionalStored": 72,
+    "engines": {
+      "chromium": 84,
+      "webkit": 84
+    },
+    "captureKinds": {
+      "fullScene": 140,
+      "viewport": 28
+    },
+    "reviewer": "/root/pretraining_visual_review",
+    "reviewedAt": "2026-09-30T09:15:22.545Z"
+  }
+}

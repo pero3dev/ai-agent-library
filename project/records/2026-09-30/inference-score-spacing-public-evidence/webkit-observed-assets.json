@@ -1,0 +1,591 @@
+{
+  "schemaVersion": 1,
+  "kind": "public-observed-assets-from-final-result",
+  "engine": "webkit",
+  "channel": null,
+  "sourceResult": "project/records/2026-09-30/inference-score-spacing-public-evidence/webkit-result.json.gz",
+  "sourceResultOriginalSHA256": "f79701b5e3de5a2df0012f2d9ce8da35e848cce52b4f7debf0ef0bb4a747d0f6",
+  "sourceResultOriginalBytes": 4701142,
+  "startedAt": "2026-09-29T19:17:36.401Z",
+  "finishedAt": "2026-09-29T19:34:51.443Z",
+  "recordedStatus": "passed",
+  "observations": [
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/05g514wudwl98.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 52580,
+      "sha256": "67ad48cdac54e20a689f5121ed87ae5fbba27dbd1570120b4ba627019770c0c9",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/07_m5zos1sun5.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 35764,
+      "sha256": "a2aec42326f278320faf4b3cdac9857b518e46d3aa9317d1a5954c5f91111fec",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0cz1d0mv5g_q7.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 112594,
+      "sha256": "0973c1d64c88adc8e3c950410cb58b288f72118d5965b78049438deb8f2f9683",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0fw3tqpw2-5ml.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 60029,
+      "sha256": "6fc53b11cd877f57414e5307f705647a69e4b62175960647737bc6d1768f6bd7",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0g0t_2-hrtdm5.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 33249,
+      "sha256": "9800b7cc16219354039d1dc3c5c25bd5af6f88b4482d6c4c47732b60a2851adc",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0gl8q-si2pse3.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 82258,
+      "sha256": "568cb17998d5c88eb298fa3f451b1fb3c730e7407617d1040f66608d3d39f42a",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0hqjmyjvje78-.css",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "bytes": 10098,
+      "sha256": "bd0eb2f0c36d338c3b3398ed3ce388147d9b18c81868020a54cffbbd73b9becd",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0lwgfbz191wqp.css",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "bytes": 1107,
+      "sha256": "c62829b4c7e3509afc633f48f4ac0d4a9f977b77496de709eba6345153904a67",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ncy9ms5-bo40.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 5610,
+      "sha256": "14a37e9b994c601b98950b9449fac85ee08f798f72ee02487a15dbdb4243443f",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0pr599bskfeue.css",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "bytes": 1208,
+      "sha256": "5f79549d4f32acde650c0a334f85b2305caa0ff869655e50448032c79e873ac0",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0wyvq90qk8bm2.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 20255,
+      "sha256": "d1f5d376391ea5ab58dd2f295d65e7a251e8aa96cd1df484d7fae468de05c32b",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0ytkfxbgq77w9.css",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "bytes": 1590,
+      "sha256": "b1544d8a8c263fce21ebce80e5eb8deb2b3ce228ef483833440eb8baa614b091",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/0zfx9bffw3dy0.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 25331,
+      "sha256": "94a73bce6378f7fd283bedb41d4a26153253acec28d4c97a027d9524f6af599a",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/10gwbnu1udbob.css",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "bytes": 7045,
+      "sha256": "8e873322efea9c6c88062113c04ac9ec44e880efb7ba1dcedc2960ddd6a49682",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/10mrr4blpe2ij.css",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "bytes": 1024,
+      "sha256": "fa774d1f05ea38bd2ec5b5bf0ecc0d09ed9ad822efdcdc5bdf0a52648682ca4a",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/11hzdar3sb-g2.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 24282,
+      "sha256": "1a5e85ea397fd2c9fcc001949a08b52d22d2caa2de54a5aff630a2ca71eb3c29",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/15-8zajo5315i.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 8628,
+      "sha256": "570c78305d7aac6244c2bc5943d3ea38a7e3d381a12d55cf4c4b5aa61f1f5e84",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/18d9lyf7mc2_n.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 137857,
+      "sha256": "5f57df6a98f81719141e35ea17d547c968e8b1121014bc1e10535dfe1e05628f",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1cgi_qecvno-_.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 32400,
+      "sha256": "bee4b38f58d72966bbc947fc390ddd2729cb61d6e7675cde74350bca8730075b",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1dy41abd-z7gx.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 20295,
+      "sha256": "d0cc39a13651c5fa5e28737bcfa972bc3f7473fb103623821bf2e1b331f272de",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1ega0w430n_83.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 20542,
+      "sha256": "63cc36cf21eb429a358bf4dcd2ab6c1376e275fe9c91e88f166c3fb3e659395a",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1eof59u96yc3s.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 145857,
+      "sha256": "6adfbcfcbdb60179b43d7549c86ec189402d845c77cee2a4fbb780fe713b0f82",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1ix59xuhq-q14.css",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "bytes": 15413,
+      "sha256": "b0cb7bd6fec5951c9c8f5808821438206604b1629a912c96009ac427f38e7d69",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1j1fl89dkhsfl.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 26432,
+      "sha256": "9b09cf1fd6f80950846c6778a72bb98252bbde655b16c64e9f0194b8e234fd87",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1kswvh8ung-33.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 81786,
+      "sha256": "d44baf06b9b64e3497dfa0b75fdb135edec844a40943df7c3ea8622bb2ad9918",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1kvg7hfyr3tlr.css",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "bytes": 589,
+      "sha256": "c6e307a9a097c2c313650423fcc3c62d86a85a40ee823d7cd98173767e50809c",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1or1m-os7xkyt.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 161695,
+      "sha256": "6acf36b7b149828fe5d4fbaa77ca059ce3b15dd62827232ac4eac14ba33e48b6",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1t5bslxuhh2yh.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 26030,
+      "sha256": "47e2dd34d772d9040af6b456e0b049ce9e3bcbf572ad3b696a1dc5ed5ac03a99",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/1xls3dey9uevq.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 3908,
+      "sha256": "8243219d7c322a674f671ca77b054a21b2f22148e7b44b7d71b224cf95102441",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/20_tytp3ueyem.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 229046,
+      "sha256": "e8cbd70a01064c7000a2c514beb972f630c46e7bc05366df02511973bde60a3a",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/23tvr0rqp6449.css",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "bytes": 115,
+      "sha256": "328460ce72be721c6ae5239b5b431855ea804944b7e6cd2ee80f58815119fb1f",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/28gyjbu0q0i5t.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 26651,
+      "sha256": "062fc9e383129be2c8be11b59b52cecc387d8cbd68368491bac3ee10b7e3868e",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2cj8womurzjyc.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 21597,
+      "sha256": "ac699a3a8c56f8410cd39aa96c6c6935ba1ee9c3eb894a1082c08dc0a8be5195",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2hiizqra7pie2.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 30088,
+      "sha256": "e1752acbcc8e5052c654f3ed40db1a48a7d66f952e75d95d8e66a2e97a16be5f",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2i1dtr3ffy_gs.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 23542,
+      "sha256": "9bc4f524799a6db341a92b0575eae6a3a53cad67ca01dfa1eb539d06d06715c4",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2k4e84bsye125.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 64276,
+      "sha256": "7350f1f4bb17a7cd45a1fac839b041c9949c7b00cfa27963852dd26711c03094",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2k4v-cxk7oscl.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 28725,
+      "sha256": "927166b60d7c24aaadbd7ee0921619e3388cc7188eed0ed6038064146d33975c",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2kou2qpzaoam8.css",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "bytes": 1273,
+      "sha256": "61d760fdb5c11ad988863a9717847be2ddea770a0af53e8eb9553853fad9a26c",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2lhbx6qvi4t6q.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 97600,
+      "sha256": "3e60afc0a39065bcfc4839e318b2ae813a12ca463d2d139284cc8cd663730f09",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2mbd-izknd8rf.css",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "bytes": 1473,
+      "sha256": "5868a4e9c1fc3bb739d3daf6097577b6b267d723e01a66f40faffb41902a4ce2",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2nnyel37__nse.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 25634,
+      "sha256": "67ac9fcd94e50248007a5c94dcba058dfa4184414cefd078648d7f9e59d9607c",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2o1kwy3pgak32.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 107164,
+      "sha256": "930ea1a0b95d1441b4180d3818c847dbc671a33d1d4027dacccef0fbb9280f48",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2t632w7uv96k7.css",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "bytes": 14349,
+      "sha256": "882d0ae56fe41a6016dcf2fd3428b8c6d0f18439690c1073a850c72b0e0b560a",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2wdjbfkmub97y.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 42993,
+      "sha256": "6e3a09f90eda38c8ce213a9b2d3dd6f52fc886927d697fdd637c1097f0c9efe7",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/2wjblyags4sr1.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 31159,
+      "sha256": "e5d5e3b27caa438a9638057e467de36f053dc7a3d0ceb0c1c0afa22a794c59cd",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/310e1-iysui84.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 26120,
+      "sha256": "b414cf5780839625c5f545fa2099d14cc59cf36780a2368237f958ace4ac267e",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/31b1cvevt3ew5.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 51310,
+      "sha256": "068c380d02c258b4d69423396a967b8ce53e2fa77390a92483c16b8ccf481b6d",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/31p82_uch1ukh.css",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "bytes": 116917,
+      "sha256": "aeebc57d11e2dad5a47b5a27cdf2bc0f8ef5cbcb2aee748c1e25f1733d383aa5",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/33n8zee-smw5d.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 25984,
+      "sha256": "d903ac3ebca2adb2ba9dd92b2bdfbe0329da559d6998cb799af7cacb4fa30577",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/37jz55gemp-iq.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 238165,
+      "sha256": "94cfd8ccc235dc8491bae059486636fe3e122cce85f7d44bbd02c0c94fab9088",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/37sems1iaa28t.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 27792,
+      "sha256": "a6948e69abe2791801d818ca0d947f8d58d6dd6a4632c59de64ef07771368f30",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/38zc7u2bpi463.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 29931,
+      "sha256": "5f0ebd7face7cbf43c4fccf4951abe16b398c4687136cbdf9bad28e3aab8a00e",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3_-phszmxr2k-.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 28539,
+      "sha256": "0aed29fabf8d8f033f65ca8758544b23c7c6c0cea63e3f2f9a9b668504108f42",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3c9yv3yqfyne2.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 28928,
+      "sha256": "ffb577420fff981bda79cb2c8d756defd57df6f5df5ceac91a667727dc5a62d7",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3l9w92_e8ec19.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 23019,
+      "sha256": "473fd09f5402c774a102dbf3facaa84b7b4b8b32f1c609bb048f7660b234ed8b",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3lazc3y0p4vqp.css",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "bytes": 244,
+      "sha256": "bf8f179988c6a8fdf17c4fb0083a7f42aab9699389008f4970ddc810ff7d3658",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3m_p5hqba_kws.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 26323,
+      "sha256": "a53337b685dc4f2a9e5c7f83bfc96f4f001e6749fb40ce0e391fa47b2b2a2a98",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3x_t1ii4qfzng.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 14450,
+      "sha256": "e12cdbb31169eb4d133a6139bc0a67961c1167f1816cea7af4b9de8a27c8586c",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3xko1970xr4gp.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 22925,
+      "sha256": "41abf924a298b05905a85e0342645d7b535c883f5d6316f3fee90a527d560cdc",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/3zyprsps_8558.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 32931,
+      "sha256": "6730d8b719f8443347ba439cf4a8dde0bec86ee8b2d83651348cbbf35f9695a0",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/404decp940y0h.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 25806,
+      "sha256": "c07819375b37d2b9f2b27fabf6730fcff88859ce20d4954550abd2d80b5f80a5",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/41yb7p4rhwvi4.css",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "bytes": 1731,
+      "sha256": "0221302473642189b96a90de2d61efc7819f9cd58d8d259db100ffda301f6f90",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/43slac0k-f-u6.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 32886,
+      "sha256": "d3587a287bd580778b2c8cd1ff825b597d61115a9cb7c2574a3c81246440bb2c",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/chunks/turbopack-06mvnkn583c8i.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 10964,
+      "sha256": "a3776610e1600e481572c892eac6ed063beca652e69f167afb070c3bb9dfb77e",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_AMS-Regular.25ieegmnh38ts.woff2",
+      "status": 200,
+      "contentType": "font/woff2",
+      "bytes": 28076,
+      "sha256": "0cdd387c9590a1a9f9794560022dbb59654a7d86f187aa0c81495ad42d3a7308",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Caligraphic-Regular.2eph4dlhid_m9.woff2",
+      "status": 200,
+      "contentType": "font/woff2",
+      "bytes": 6908,
+      "sha256": "5d53e70ad607c2352162dec9e0923fb54ecdafaccbf604cd8dcf7d00facb989b",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Main-Bold.3-rowy8o6_4ky.woff2",
+      "status": 200,
+      "contentType": "font/woff2",
+      "bytes": 25324,
+      "sha256": "0f60d1b897938ec918c8ce073092411baf9438f6739465693ff18b0f9d20b021",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Main-Regular.1ryvsdzh2w1_e.woff2",
+      "status": 200,
+      "contentType": "font/woff2",
+      "bytes": 26272,
+      "sha256": "c2342cd8b869e01752a9321dc17213fc40d4d04c79688c1d43f2cf316abd7866",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Math-Italic.32405s1aq8vas.woff2",
+      "status": 200,
+      "contentType": "font/woff2",
+      "bytes": 16440,
+      "sha256": "7af58c5ec8f132a2ddde9027c6d7814decce4d3b822a11192a42a20e2e973264",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Size1-Regular.03lhvx36ekcou.woff2",
+      "status": 200,
+      "contentType": "font/woff2",
+      "bytes": 5468,
+      "sha256": "6b47c40166b6dbe21a5dfca7718413f2147fd2399be1ba605d8ad39cedf25dfe",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Size2-Regular.14s5gg-puz6h-.woff2",
+      "status": 200,
+      "contentType": "font/woff2",
+      "bytes": 5208,
+      "sha256": "d04c54219f9eaec6d4d4fd42dfb28785975a4794d6b2fc71e566b9cd6db842dd",
+      "mimeOK": true
+    },
+    {
+      "url": "https://pero3dev.github.io/ai-agent-library/_next/static/media/KaTeX_Size3-Regular.1n1rgzz84z8r9.woff2",
+      "status": 200,
+      "contentType": "font/woff2",
+      "bytes": 3624,
+      "sha256": "73d591271b1604960cb10bb90fee021670af7297017e0e98480b332d11f51995",
+      "mimeOK": true
+    }
+  ],
+  "note": "元result.assetsの72エントリを値/順序ごと無改変で抽出。asset本体は保存していない。サーバー状態の再取得ではない。"
+}

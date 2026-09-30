@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-interface-proposal-review",
+  "verdict": "approved",
+  "risk": "low",
+  "must": 0,
+  "should": 0,
+  "findings": [],
+  "reviewer_run_id": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+  "reviewed_at": "2026-09-29T17:51:55Z",
+  "recorded_at": "2026-09-29T17:53:50.0681624Z",
+  "targets": [
+    {
+      "path": "alignment-d1-interface-proposal-20260930.md",
+      "sha256": "3498b1b6a2b1797410e0490026da0fb1272458b8e519f7bac252f52a3c8d1b6c"
+    },
+    {
+      "path": "alignment-d1-interface-proposal-20260930.json",
+      "sha256": "019400d5862560f50f361474971a62a5f7f51a5b2926b95a2a29b9bddfc3f632"
+    }
+  ],
+  "repositoryCommit": "ca3c09eebd1b549564f874f3304d23ae25328194",
+  "adoptedPlanSHA256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+  "articleSHA256": "6bb4501e5fcd44323a0890d20286cc6e597ab042997df47d2cf9fa2ddabd480b",
+  "independentChecks": {
+    "authorValidationUsedAsIndependentEvidence": false,
+    "productModelImported": false,
+    "stages": [
+      7,
+      3,
+      5
+    ],
+    "customControls": 2,
+    "sourceInventoryHashesAndSizes": 5,
+    "adoptedDiagramFullDeepEqual": 3,
+    "wrappedHeadings": 6,
+    "tolerance": 1E-12,
+    "options": 5,
+    "bodyBlocks": 23,
+    "mermaidBlocks": 1,
+    "numericRows": 3,
+    "bradleyTerryProbability": 0.75,
+    "mathBlocks": 4,
+    "manualOnlyStages": 0,
+    "readStages": 15
+  },
+  "numericOracle": [
+    {
+      "beta": 0.5,
+      "probability": 0.6666666666666666,
+      "margin": 0.6931471805599453,
+      "pairLoss": 0.4054651081081644
+    },
+    {
+      "beta": 1,
+      "probability": 0.8,
+      "margin": 1.3862943611198906,
+      "pairLoss": 0.22314355131420976
+    },
+    {
+      "beta": 2,
+      "probability": 0.9411764705882353,
+      "margin": 2.772588722239781,
+      "pairLoss": 0.06062462181643484
+    }
+  ],
+  "semanticResults": {
+    "allReadMeaningsVisibleWithoutCustomInput": "proposal contract preserved",
+    "sameXNormalizerCancellation": "pass",
+    "rewardSourceVsGranularity": "pass",
+    "pairLossVsDatasetExpectation": "pass",
+    "proxyVsSeparateQuality": "pass",
+    "betaNoMonotonicUpdateGuarantee": "pass",
+    "newScopeAdded": false,
+    "unknownFullResponseKL": "pass"
+  },
+  "sources": [
+    {
+      "sections": "3–4; equations1,3,5–7 and gradient",
+      "url": "https://arxiv.org/html/2305.18290",
+      "version": "v3"
+    },
+    {
+      "sections": "2.4–2.6",
+      "url": "https://arxiv.org/html/2305.20050v1",
+      "version": "v1"
+    }
+  ],
+  "boundary": {
+    "kitEdited": false,
+    "implementationApproval": false,
+    "browserApproval": false,
+    "articleCorrectionApproval": false,
+    "visualApproval": false,
+    "articleEdited": false,
+    "P2Allowed": false,
+    "repoEdited": false,
+    "publicApproval": false,
+    "gitMutated": false,
+    "stopAfterP1All15PublicAcceptance": true,
+    "interfaceProposalApproval": true,
+    "requiresC2PublicAcceptanceBeforeD1Implementation": true
+  },
+  "report": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-d1-interface-review-20260930.md",
+  "reportSHA256": "63f5569a81de455a7bdcbde7a15177d86f98ef670e4123fff096f763b4e11bf6"
+}

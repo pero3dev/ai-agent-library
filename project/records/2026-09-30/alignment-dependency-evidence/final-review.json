@@ -1,0 +1,332 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-dependency-patch-local-carry-review",
+  "reviewer": "/root/pretraining_visual_review",
+  "checkedAt": "2026-09-30T09:55:15.572Z",
+  "status": "approved",
+  "risk": "low",
+  "must": [],
+  "should": [],
+  "previousReview": {
+    "file": "C:/Users/81906/AppData/Local/Temp/alignment-independent-final-review.json",
+    "sha256": "c5907866fdcab0d3f37d3a3c1abd4711ab96aa46810244a833abc2d521ed4180"
+  },
+  "prerequisites": {
+    "file": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch-independent-prerequisites.json",
+    "sha256": "3f6daaca1435b54ab33ffb658c62b85ca48027abc499feb26536f401d144ba72"
+  },
+  "outputProof": {
+    "file": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch-independent-output-proof.json",
+    "sha256": "64bd4503dbb2b95f5c021f5809236dd3e840cfb33f738abc446ebba2ac6cea83"
+  },
+  "navigationSupplement": {
+    "file": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch-independent-navigation-review.json",
+    "sha256": "7cc342b6e67952d6263f18a098592f20d45e98a22d9cc0900641c57748760211"
+  },
+  "dependencyReport": {
+    "file": "C:/Users/81906/AppData/Local/Temp/d1-pr63-brace-expansion-patch-report.json",
+    "sha256": "34c3cb4e9457c07c3d27e302c276ff259abdac2bc0c68e7f9034c4de813d11a0"
+  },
+  "oldBuildId": "XJR9sUrJP0VbXQCKQiQ8F",
+  "newBuildId": "1kDzaUHLTh2VduCcoTkhj",
+  "inputs": [
+    {
+      "article": "docs/11-llm-internals/transformer-architecture.md",
+      "previousInputDigest": "sha256:b625ce37d9aaf96c988322e24479c7b3d68b7b12fc61a95747810cf8451850ff",
+      "inputDigest": "sha256:e07026fd593a0d925daaae5b6f0c7749ea6bc845d13c603dc05c6b4c2c706776",
+      "HTMLSHA256": "24d971eb42068253e162bead0155ce23c460f2f798cf28a408b222dfce25db0d"
+    },
+    {
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "previousInputDigest": "sha256:0998367b434d17d843fbdcd6d56efac5652b946a927c2eb7417ae232730a48e1",
+      "inputDigest": "sha256:8809841796614289128e5884b1c2903a314ea98e423e7a41e900c91de32da3c1",
+      "HTMLSHA256": "c56e620c8dd97cb67d9e620078dc48f6b6380c8899ca9454d4c70f25e5c9f8a8"
+    },
+    {
+      "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "previousInputDigest": "sha256:aa360c495d4010553f4e2acc620664ca848c5fac2ce9ad9dc21920e143eb7047",
+      "inputDigest": "sha256:49e51accac9ee58c51adc8d61c4f08b380ecb925fe2b8b33a5675c273991f56a",
+      "HTMLSHA256": "565ce0609f5789349e9904e62b50ad15dc10fe53239af64d03d2600168b905a3"
+    },
+    {
+      "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "previousInputDigest": "sha256:f46d62d4dadf3ca78439fdbdfbfc70b224c245597690c42d07e3a385160edce3",
+      "inputDigest": "sha256:38449145717747f7115b5ea83ffd3cd097669897e4fbc60b4096d94685b09364",
+      "HTMLSHA256": "e7535eac1dcb8b063b38721476cee3b084613935c55f389c10d0a73a163eb00c"
+    },
+    {
+      "article": "docs/10-llm-foundations/tokenization.md",
+      "previousInputDigest": "sha256:f7485f5af6c51d9777213055f1565da6c632667ee7247cce09efce96dfc1840c",
+      "inputDigest": "sha256:df2301c51d5de40f286f6186f37e0daeb2e0c46738a359cd7ba13e7e0bad694f",
+      "HTMLSHA256": "576e33631be1fd3adc75aaf05df415f393fb89cc4158fde4cf028fe11e6578bd"
+    },
+    {
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "previousInputDigest": "sha256:037e697c7a4ec699b486b7f891d6880c82281d003207833d639703912d9a24cb",
+      "inputDigest": "sha256:43cd8cbd73c9430a3c84548455de79b138721a8d368e5ee62b98121bd5c4aea6",
+      "HTMLSHA256": "bf8ead5c8fdd638134484402a97e0801ce090fdaf7c81619dfbfa1807f0e0043"
+    },
+    {
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "previousInputDigest": "sha256:23ff06677c89c80dce28217e2bb832caabdb020ed6a762c0f43d0beff1080e79",
+      "inputDigest": "sha256:85a0c5f646fd52e72c1c77a41fd5e9b4bc32f14e60a8c3fe224da222fef50237",
+      "HTMLSHA256": "c789fb677777feeead3dd31d598c16ac77ba7bb44ebb65fa1e55d0e8af71de4f"
+    },
+    {
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "previousInputDigest": "sha256:eed3b9e3c53c8b20b63428a4fda99afe8fea406aa0f034c7ef2921a1f250c8ea",
+      "inputDigest": "sha256:498e320639470aba47e30970eab4d22b953eacf36719d94e774c373f41efe9a3",
+      "HTMLSHA256": "708dfde026e770c0fce08329cda0faa0d8b151b1cc719469beae9cc876ae4b75"
+    },
+    {
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "previousInputDigest": "sha256:0c544c4f549673475d56409d1b2112f02317b7e0f19cc7f6d2b97d02ed4b3450",
+      "inputDigest": "sha256:49c3c707ed6741a80d4de4927a4d55cdd8523999c694ee022fe1bcc6bf8f54f2",
+      "HTMLSHA256": "6a6f8b3a96d9e1e7e254bb55c67a51b967adefb59f8b7f34f061502dd5c93ddb"
+    }
+  ],
+  "manifest": {
+    "file": "C:/dev/ai-agent-library/scripts/diagram-release/source-mapping.json",
+    "sha256": "40cca5a2f969f4c0385fac358cf4988decb6f72076c5b91e1b52fe22153adee9"
+  },
+  "scope": "Carry original nine-article local visual/browser/performance evidence to the dependency-only nine new input digests. All recorded HTML/runtime assets match within explicit BUILD_ID normalization; real-link SPA smoke supplements missing page-data snapshots. Formal frozen-tree and public acceptance are separate.",
+  "source": {
+    "uniqueFiles": 124,
+    "changedOnly": [
+      "website/package-lock.json"
+    ],
+    "locks": "Root and website brace-expansion 5.0.9 to 5.0.12: only version/resolved/integrity; no product/article/kit change."
+  },
+  "staticScope": {
+    "currentFiles": 2551,
+    "snapshotCompared": 419,
+    "notComparedToOldSnapshot": 2132,
+    "HTMLOnlyBuildIdLiteralDifference": 230,
+    "samePathNonHTMLByteIdentical": 186,
+    "manifestSameBytesNewBuildDirectory": 3,
+    "nineHTMLCopiesVerified": true,
+    "limits": "2132 excluded outputs include .txt, .ttf and search files. They are not claimed byte-identical to old output. All 230 HTML compare by replacing only exact BUILD_ID literals and checking old raw SHA, so no old full-HTML copy was necessary outside the nine preserved article copies."
+  },
+  "navigation": {
+    "engines": [
+      {
+        "engine": "chromium",
+        "raw": {
+          "file": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-visible-disclosure/chromium.json",
+          "sha256": "22f6db61a411a0976a5b5a221b2eae998e5a18afc00236117ba75c8441b5ab72"
+        },
+        "rawStatus": "failed",
+        "independentSupplementStatus": "passed",
+        "cases": 9,
+        "documentResponses": 1,
+        "RSCResponses": 83,
+        "failedFetches": 39,
+        "uniqueFonts": 8,
+        "ttfRequested": false,
+        "iconResponses": 10,
+        "beforeAfterIdentityEqual": true,
+        "unreachedAssertionsIndependentlyVerified": [
+          "RSC .txt requests observed (also checked per all nine routes)",
+          "At least one actual requested font",
+          "Every captured font/icon hash equals current export"
+        ]
+      },
+      {
+        "engine": "webkit",
+        "raw": {
+          "file": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-visible-disclosure/webkit.json",
+          "sha256": "e138e0cce6395cbbc7492d75f17d8d3f5da48c5f4d50a8046e1fdbaab8fea2be"
+        },
+        "rawStatus": "passed",
+        "independentSupplementStatus": "passed",
+        "cases": 9,
+        "documentResponses": 1,
+        "RSCResponses": 83,
+        "failedFetches": 0,
+        "uniqueFonts": 8,
+        "ttfRequested": false,
+        "iconResponses": 0,
+        "beforeAfterIdentityEqual": true,
+        "unreachedAssertionsIndependentlyVerified": []
+      }
+    ],
+    "failedAttemptsPreserved": [
+      {
+        "file": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke/chromium.json",
+        "sha256": "85574e8913f5b8e9a751138cc39673812ca8b6104d259ff47133d612553ee08e",
+        "status": "failed",
+        "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('a[href=\"/ai-agent-library/docs/llm-foundations/how-llms-generate-text\"]').nth(1)\u001b[22m\n\u001b[2m    - locator resolved to <a href=\"/ai-agent-library/docs/llm-foundations/how-llms-generate-text\" class=\"x:focus-visible:nextra-focus x:flex x:rounded x:px-2 x:py-1.5 x:text-sm x:transition-colors x:[word-break:break-word] x:cursor-pointer x:contrast-more:border x:text-gray-600 x:hover:bg-gray-100 x:hover:text-gray-900 x:dark:text-neutral-400 x:dark:hover:bg-primary-100/5 x:dark:hover:text-gray-50 x:contrast-more:text-gray-900 x:contrast-more:dark:text-gray-50 x:contrast-more:border-transparent x:contrast-more:hover:borde…>LLM はどうやってテキストを生成するか</a>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <ul class=\"x:grid x:gap-1 x:relative x:before:absolute x:before:inset-y-1 x:before:w-px x:before:bg-gray-200 x:before:content-[\"\"] x:dark:before:bg-neutral-800 x:ps-3 x:before:start-0 x:pt-1 x:ms-3\">…</ul> intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <button type=\"button\" data-headlessui-state=\"\" data-href=\"/docs/llm-foundations\" class=\"x:transition x:cursor-pointer x:items-center x:justify-between x:gap-2 x:text-start x:w-full x:flex x:rounded x:px-2 x:py-1.5 x:text-sm x:transition-colors x:[word-break:break-word] x:cursor-pointer x:contrast-more:border x:text-gray-600 x:hover:bg-gray-100 x:hover:text-gray-900 x:dark:text-neutral-400 x:dark:hover:bg-primary-100/5 x:dark:hover:text-gray-50 x:contrast-more:text-gray-900 x:contrast-more:dark:text-gr…>…</button> intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <ul class=\"x:grid x:gap-1 x:relative x:before:absolute x:before:inset-y-1 x:before:w-px x:before:bg-gray-200 x:before:content-[\"\"] x:dark:before:bg-neutral-800 x:ps-3 x:before:start-0 x:pt-1 x:ms-3\">…</ul> intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <button type=\"button\" data-headlessui-state=\"\" data-href=\"/docs/llm-internals\" class=\"x:transition x:cursor-pointer x:items-center x:justify-between x:gap-2 x:text-start x:w-full x:flex x:rounded x:px-2 x:py-1.5 x:text-sm x:transition-colors x:[word-break:break-word] x:cursor-pointer x:contrast-more:border x:text-gray-600 x:hover:bg-gray-100 x:hover:text-gray-900 x:dark:text-neutral-400 x:dark:hover:bg-primary-100/5 x:dark:hover:text-gray-50 x:contrast-more:text-gray-900 x:contrast-more:dark:text-gray…>…</button> from <li class=\"open\">…</li> subtree intercepts pointer events\u001b[22m\n\u001b[2m  14 × retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <button type=\"button\" data-headlessui-state=\"\" data-href=\"/docs/llm-foundations\" class=\"x:transition x:cursor-pointer x:items-center x:justify-between x:gap-2 x:text-start x:w-full x:flex x:rounded x:px-2 x:py-1.5 x:text-sm x:transition-colors x:[word-break:break-word] x:cursor-pointer x:contrast-more:border x:text-gray-600 x:hover:bg-gray-100 x:hover:text-gray-900 x:dark:text-neutral-400 x:dark:hover:bg-primary-100/5 x:dark:hover:text-gray-50 x:contrast-more:text-gray-900 x:contrast-more:dark:text-gr…>…</button> intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <ul class=\"x:grid x:gap-1 x:relative x:before:absolute x:before:inset-y-1 x:before:w-px x:before:bg-gray-200 x:before:content-[\"\"] x:dark:before:bg-neutral-800 x:ps-3 x:before:start-0 x:pt-1 x:ms-3\">…</ul> intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <button type=\"button\" data-headlessui-state=\"\" data-href=\"/docs/llm-internals\" class=\"x:transition x:cursor-pointer x:items-center x:justify-between x:gap-2 x:text-start x:w-full x:flex x:rounded x:px-2 x:py-1.5 x:text-sm x:transition-colors x:[word-break:break-word] x:cursor-pointer x:contrast-more:border x:text-gray-600 x:hover:bg-gray-100 x:hover:text-gray-900 x:dark:text-neutral-400 x:dark:hover:bg-primary-100/5 x:dark:hover:text-gray-50 x:contrast-more:text-gray-900 x:contrast-more:dark:text-gray…>…</button> from <li class=\"open\">…</li> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <button type=\"button\" data-headlessui-state=\"\" data-href=\"/docs/llm-internals\" class=\"x:transition x:cursor-pointer x:items-center x:justify-between x:gap-2 x:text-start x:w-full x:flex x:rounded x:px-2 x:py-1.5 x:text-sm x:transition-colors x:[word-break:break-word] x:cursor-pointer x:contrast-more:border x:text-gray-600 x:hover:bg-gray-100 x:hover:text-gray-900 x:dark:text-neutral-400 x:dark:hover:bg-primary-100/5 x:dark:hover:text-gray-50 x:contrast-more:text-gray-900 x:contrast-more:dark:text-gray…>…</button> from <li class=\"open\">…</li> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\n    at clickRoute (C:\\dev\\ai-agent-library\\TEMP\\alignment-patch-navigation.mjs:42:20)\n    at async file:///C:/dev/ai-agent-library/TEMP/alignment-patch-navigation.mjs:52:13"
+      },
+      {
+        "file": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke/webkit.json",
+        "sha256": "cb0bf379f52a62540a072636a1888287effe6b4f3bfcac4ffc3ed869c4b1d4e4",
+        "status": "failed",
+        "error": "Error: expect(locator).toHaveAttribute(expected) failed\n\nLocator:  locator('.reading-figure[data-diagram-id=\"attention-kv-sharing\"]')\nExpected: \"1\"\nReceived: \"2\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveAttribute\" locator('.reading-figure[data-diagram-id=\"attention-kv-sharing\"]') with timeout 5000ms\n  - waiting for locator('.reading-figure[data-diagram-id=\"attention-kv-sharing\"]')\n    13 × locator resolved to <section data-ready=\"true\" data-current-stage=\"2\" aria-label=\"長さとKV共有を動きで読む\" data-diagram-id=\"attention-kv-sharing\" class=\"reading-figure attention-variants-walkthrough\">…</section>\n       - unexpected value \"2\"\n\n    at captureRawStack (C:\\dev\\ai-agent-library\\website\\node_modules\\playwright-core\\lib\\coreBundle.js:8588:17)\n    at callMatcherAsStep (C:\\dev\\ai-agent-library\\website\\node_modules\\playwright\\lib\\matchers\\expect.js:13310:57)\n    at Object.toHaveAttribute (C:\\dev\\ai-agent-library\\website\\node_modules\\playwright\\lib\\matchers\\expect.js:13302:23)\n    at C:\\dev\\ai-agent-library\\TEMP\\alignment-patch-navigation.mjs:66:27"
+      },
+      {
+        "file": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-final/chromium.json",
+        "sha256": "7b41a2fcbd2d7041118e4d2122281c84703cad38bae55da6d3f6869add59eaa0",
+        "status": "failed",
+        "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('a[href=\"/ai-agent-library/docs/llm-foundations/how-llms-generate-text\"]').nth(1)\u001b[22m\n\u001b[2m    - locator resolved to <a href=\"/ai-agent-library/docs/llm-foundations/how-llms-generate-text\" class=\"x:focus-visible:nextra-focus x:flex x:rounded x:px-2 x:py-1.5 x:text-sm x:transition-colors x:[word-break:break-word] x:cursor-pointer x:contrast-more:border x:text-gray-600 x:hover:bg-gray-100 x:hover:text-gray-900 x:dark:text-neutral-400 x:dark:hover:bg-primary-100/5 x:dark:hover:text-gray-50 x:contrast-more:text-gray-900 x:contrast-more:dark:text-gray-50 x:contrast-more:border-transparent x:contrast-more:hover:borde…>LLM はどうやってテキストを生成するか</a>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <ul class=\"x:grid x:gap-1 x:relative x:before:absolute x:before:inset-y-1 x:before:w-px x:before:bg-gray-200 x:before:content-[\"\"] x:dark:before:bg-neutral-800 x:ps-3 x:before:start-0 x:pt-1 x:ms-3\">…</ul> intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <button type=\"button\" data-headlessui-state=\"\" data-href=\"/docs/llm-foundations\" class=\"x:transition x:cursor-pointer x:items-center x:justify-between x:gap-2 x:text-start x:w-full x:flex x:rounded x:px-2 x:py-1.5 x:text-sm x:transition-colors x:[word-break:break-word] x:cursor-pointer x:contrast-more:border x:text-gray-600 x:hover:bg-gray-100 x:hover:text-gray-900 x:dark:text-neutral-400 x:dark:hover:bg-primary-100/5 x:dark:hover:text-gray-50 x:contrast-more:text-gray-900 x:contrast-more:dark:text-gr…>…</button> intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <ul class=\"x:grid x:gap-1 x:relative x:before:absolute x:before:inset-y-1 x:before:w-px x:before:bg-gray-200 x:before:content-[\"\"] x:dark:before:bg-neutral-800 x:ps-3 x:before:start-0 x:pt-1 x:ms-3\">…</ul> intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <button type=\"button\" data-headlessui-state=\"\" data-href=\"/docs/llm-internals\" class=\"x:transition x:cursor-pointer x:items-center x:justify-between x:gap-2 x:text-start x:w-full x:flex x:rounded x:px-2 x:py-1.5 x:text-sm x:transition-colors x:[word-break:break-word] x:cursor-pointer x:contrast-more:border x:text-gray-600 x:hover:bg-gray-100 x:hover:text-gray-900 x:dark:text-neutral-400 x:dark:hover:bg-primary-100/5 x:dark:hover:text-gray-50 x:contrast-more:text-gray-900 x:contrast-more:dark:text-gray…>…</button> from <li class=\"open\">…</li> subtree intercepts pointer events\u001b[22m\n\u001b[2m  14 × retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <button type=\"button\" data-headlessui-state=\"\" data-href=\"/docs/llm-foundations\" class=\"x:transition x:cursor-pointer x:items-center x:justify-between x:gap-2 x:text-start x:w-full x:flex x:rounded x:px-2 x:py-1.5 x:text-sm x:transition-colors x:[word-break:break-word] x:cursor-pointer x:contrast-more:border x:text-gray-600 x:hover:bg-gray-100 x:hover:text-gray-900 x:dark:text-neutral-400 x:dark:hover:bg-primary-100/5 x:dark:hover:text-gray-50 x:contrast-more:text-gray-900 x:contrast-more:dark:text-gr…>…</button> intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <ul class=\"x:grid x:gap-1 x:relative x:before:absolute x:before:inset-y-1 x:before:w-px x:before:bg-gray-200 x:before:content-[\"\"] x:dark:before:bg-neutral-800 x:ps-3 x:before:start-0 x:pt-1 x:ms-3\">…</ul> intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <button type=\"button\" data-headlessui-state=\"\" data-href=\"/docs/llm-internals\" class=\"x:transition x:cursor-pointer x:items-center x:justify-between x:gap-2 x:text-start x:w-full x:flex x:rounded x:px-2 x:py-1.5 x:text-sm x:transition-colors x:[word-break:break-word] x:cursor-pointer x:contrast-more:border x:text-gray-600 x:hover:bg-gray-100 x:hover:text-gray-900 x:dark:text-neutral-400 x:dark:hover:bg-primary-100/5 x:dark:hover:text-gray-50 x:contrast-more:text-gray-900 x:contrast-more:dark:text-gray…>…</button> from <li class=\"open\">…</li> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <button type=\"button\" data-headlessui-state=\"\" data-href=\"/docs/llm-internals\" class=\"x:transition x:cursor-pointer x:items-center x:justify-between x:gap-2 x:text-start x:w-full x:flex x:rounded x:px-2 x:py-1.5 x:text-sm x:transition-colors x:[word-break:break-word] x:cursor-pointer x:contrast-more:border x:text-gray-600 x:hover:bg-gray-100 x:hover:text-gray-900 x:dark:text-neutral-400 x:dark:hover:bg-primary-100/5 x:dark:hover:text-gray-50 x:contrast-more:text-gray-900 x:contrast-more:dark:text-gray…>…</button> from <li class=\"open\">…</li> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <button type=\"button\" data-headlessui-state=\"\" data-href=\"/docs/llm-foundations\" class=\"x:transition x:cursor-pointer x:items-center x:justify-between x:gap-2 x:text-start x:w-full x:flex x:rounded x:px-2 x:py-1.5 x:text-sm x:transition-colors x:[word-break:break-word] x:cursor-pointer x:contrast-more:border x:text-gray-600 x:hover:bg-gray-100 x:hover:text-gray-900 x:dark:text-neutral-400 x:dark:hover:bg-primary-100/5 x:dark:hover:text-gray-50 x:contrast-more:text-gray-900 x:contrast-more:dark:text-gr…>…</button> intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\n    at clickRoute (C:\\dev\\ai-agent-library\\TEMP\\alignment-patch-navigation.mjs:48:20)\n    at async file:///C:/dev/ai-agent-library/TEMP/alignment-patch-navigation.mjs:58:13"
+      },
+      {
+        "file": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-final/webkit.json",
+        "sha256": "30f0ab93e1c84206b1989180817eb8a5b04b4dc71a1c8c9c78d3a56bef1d5584",
+        "status": "failed",
+        "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('a[href=\"/ai-agent-library/docs/llm-foundations/how-llms-generate-text\"]').nth(1)\u001b[22m\n\u001b[2m    - locator resolved to <a href=\"/ai-agent-library/docs/llm-foundations/how-llms-generate-text\" class=\"x:focus-visible:nextra-focus x:flex x:rounded x:px-2 x:py-1.5 x:text-sm x:transition-colors x:[word-break:break-word] x:cursor-pointer x:contrast-more:border x:text-gray-600 x:hover:bg-gray-100 x:hover:text-gray-900 x:dark:text-neutral-400 x:dark:hover:bg-primary-100/5 x:dark:hover:text-gray-50 x:contrast-more:text-gray-900 x:contrast-more:dark:text-gray-50 x:contrast-more:border-transparent x:contrast-more:hover:borde…>LLM はどうやってテキストを生成するか</a>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <ul class=\"x:grid x:gap-1 x:relative x:before:absolute x:before:inset-y-1 x:before:w-px x:before:bg-gray-200 x:before:content-[\"\"] x:dark:before:bg-neutral-800 x:ps-3 x:before:start-0 x:pt-1 x:ms-3\">…</ul> intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <button type=\"button\" data-headlessui-state=\"\" data-href=\"/docs/llm-foundations\" class=\"x:transition x:cursor-pointer x:items-center x:justify-between x:gap-2 x:text-start x:w-full x:flex x:rounded x:px-2 x:py-1.5 x:text-sm x:transition-colors x:[word-break:break-word] x:cursor-pointer x:contrast-more:border x:text-gray-600 x:hover:bg-gray-100 x:hover:text-gray-900 x:dark:text-neutral-400 x:dark:hover:bg-primary-100/5 x:dark:hover:text-gray-50 x:contrast-more:text-gray-900 x:contrast-more:dark:text-gr…>…</button> intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <ul class=\"x:grid x:gap-1 x:relative x:before:absolute x:before:inset-y-1 x:before:w-px x:before:bg-gray-200 x:before:content-[\"\"] x:dark:before:bg-neutral-800 x:ps-3 x:before:start-0 x:pt-1 x:ms-3\">…</ul> intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <button type=\"button\" data-headlessui-state=\"\" data-href=\"/docs/llm-internals\" class=\"x:transition x:cursor-pointer x:items-center x:justify-between x:gap-2 x:text-start x:w-full x:flex x:rounded x:px-2 x:py-1.5 x:text-sm x:transition-colors x:[word-break:break-word] x:cursor-pointer x:contrast-more:border x:text-gray-600 x:hover:bg-gray-100 x:hover:text-gray-900 x:dark:text-neutral-400 x:dark:hover:bg-primary-100/5 x:dark:hover:text-gray-50 x:contrast-more:text-gray-900 x:contrast-more:dark:text-gray…>…</button> from <li class=\"open\">…</li> subtree intercepts pointer events\u001b[22m\n\u001b[2m  11 × retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <button type=\"button\" data-headlessui-state=\"\" data-href=\"/docs/llm-foundations\" class=\"x:transition x:cursor-pointer x:items-center x:justify-between x:gap-2 x:text-start x:w-full x:flex x:rounded x:px-2 x:py-1.5 x:text-sm x:transition-colors x:[word-break:break-word] x:cursor-pointer x:contrast-more:border x:text-gray-600 x:hover:bg-gray-100 x:hover:text-gray-900 x:dark:text-neutral-400 x:dark:hover:bg-primary-100/5 x:dark:hover:text-gray-50 x:contrast-more:text-gray-900 x:contrast-more:dark:text-gr…>…</button> intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <ul class=\"x:grid x:gap-1 x:relative x:before:absolute x:before:inset-y-1 x:before:w-px x:before:bg-gray-200 x:before:content-[\"\"] x:dark:before:bg-neutral-800 x:ps-3 x:before:start-0 x:pt-1 x:ms-3\">…</ul> intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <button type=\"button\" data-headlessui-state=\"\" data-href=\"/docs/llm-internals\" class=\"x:transition x:cursor-pointer x:items-center x:justify-between x:gap-2 x:text-start x:w-full x:flex x:rounded x:px-2 x:py-1.5 x:text-sm x:transition-colors x:[word-break:break-word] x:cursor-pointer x:contrast-more:border x:text-gray-600 x:hover:bg-gray-100 x:hover:text-gray-900 x:dark:text-neutral-400 x:dark:hover:bg-primary-100/5 x:dark:hover:text-gray-50 x:contrast-more:text-gray-900 x:contrast-more:dark:text-gray…>…</button> from <li class=\"open\">…</li> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <button type=\"button\" data-headlessui-state=\"\" data-href=\"/docs/llm-internals\" class=\"x:transition x:cursor-pointer x:items-center x:justify-between x:gap-2 x:text-start x:w-full x:flex x:rounded x:px-2 x:py-1.5 x:text-sm x:transition-colors x:[word-break:break-word] x:cursor-pointer x:contrast-more:border x:text-gray-600 x:hover:bg-gray-100 x:hover:text-gray-900 x:dark:text-neutral-400 x:dark:hover:bg-primary-100/5 x:dark:hover:text-gray-50 x:contrast-more:text-gray-900 x:contrast-more:dark:text-gray…>…</button> from <li class=\"open\">…</li> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <button type=\"button\" data-headlessui-state=\"\" data-href=\"/docs/llm-foundations\" class=\"x:transition x:cursor-pointer x:items-center x:justify-between x:gap-2 x:text-start x:w-full x:flex x:rounded x:px-2 x:py-1.5 x:text-sm x:transition-colors x:[word-break:break-word] x:cursor-pointer x:contrast-more:border x:text-gray-600 x:hover:bg-gray-100 x:hover:text-gray-900 x:dark:text-neutral-400 x:dark:hover:bg-primary-100/5 x:dark:hover:text-gray-50 x:contrast-more:text-gray-900 x:contrast-more:dark:text-gr…>…</button> intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <ul class=\"x:grid x:gap-1 x:relative x:before:absolute x:before:inset-y-1 x:before:w-px x:before:bg-gray-200 x:before:content-[\"\"] x:dark:before:bg-neutral-800 x:ps-3 x:before:start-0 x:pt-1 x:ms-3\">…</ul> intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\n    at clickRoute (C:\\dev\\ai-agent-library\\TEMP\\alignment-patch-navigation.mjs:48:20)\n    at async file:///C:/dev/ai-agent-library/TEMP/alignment-patch-navigation.mjs:58:13"
+      }
+    ],
+    "criticalResponseErrors": 0,
+    "consoleErrors": 0,
+    "pageErrors": 0,
+    "classification": "Edge 39 fetch aborts remain in raw; all map to existing HTML. Its raw failed status is retained. WebKit has no failed request. The independently verified supplemental outcome is separate from runner status. No abort timing or prefetch causation is established."
+  },
+  "checks": {
+    "audit": [
+      {
+        "environment": "root",
+        "file": "C:/Users/81906/AppData/Local/Temp/d1-pr63-root-audit-after.json",
+        "sha256": "c8764ddf029343e9009328ac9ecae561d4a8fb64d05c21614040f0882046bd88",
+        "counts": {
+          "info": 0,
+          "low": 0,
+          "moderate": 3,
+          "high": 0,
+          "critical": 0,
+          "total": 3
+        }
+      },
+      {
+        "environment": "website",
+        "file": "C:/Users/81906/AppData/Local/Temp/d1-pr63-website-audit-after.json",
+        "sha256": "07163582eb2576da0f2224d5df7c4dc4f0bf3d14e4e350aeddc1c00ca2589183",
+        "counts": {
+          "info": 0,
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        }
+      }
+    ],
+    "rootCheck": {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/root-check.log",
+      "sha256": "77f905cb2067264504c079678b8c5bd074a6fe2661d2d1d22d61daad0b994917",
+      "passed": 484,
+      "skipped": 1,
+      "failed": 0,
+      "docs": 215,
+      "files": 380,
+      "links": 5848
+    },
+    "build": {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/build.log",
+      "sha256": "9e1df5de99338b7bec0c361d1c63ccb6dba86522bc692ba34abd4ed871252f57",
+      "routes": 223,
+      "HTML": 230
+    },
+    "npmCiAuditOwner": "Author executed npm ci/audit/npm ls; independently read report and verified all linked raw hashes, not independently rerun."
+  },
+  "carryDecision": {
+    "review": "approved",
+    "local": "passed-with-bounded-carry-and-SPA-supplement",
+    "priorActualViewed": 168,
+    "newActualViewed": 0,
+    "newFullBrowserRuns": 0,
+    "newPerformanceRuns": 0,
+    "supplementalCompletedRouteChecks": 18,
+    "additionalExecutionRequired": false
+  },
+  "articleGates": [
+    {
+      "article": "docs/11-llm-internals/transformer-architecture.md",
+      "previousInputDigest": "sha256:b625ce37d9aaf96c988322e24479c7b3d68b7b12fc61a95747810cf8451850ff",
+      "inputDigest": "sha256:e07026fd593a0d925daaae5b6f0c7749ea6bc845d13c603dc05c6b4c2c706776",
+      "HTMLSHA256": "24d971eb42068253e162bead0155ce23c460f2f798cf28a408b222dfce25db0d",
+      "review": "approved",
+      "local": "passed",
+      "public": "pending-current-candidate"
+    },
+    {
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "previousInputDigest": "sha256:0998367b434d17d843fbdcd6d56efac5652b946a927c2eb7417ae232730a48e1",
+      "inputDigest": "sha256:8809841796614289128e5884b1c2903a314ea98e423e7a41e900c91de32da3c1",
+      "HTMLSHA256": "c56e620c8dd97cb67d9e620078dc48f6b6380c8899ca9454d4c70f25e5c9f8a8",
+      "review": "approved",
+      "local": "passed",
+      "public": "pending-current-candidate"
+    },
+    {
+      "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "previousInputDigest": "sha256:aa360c495d4010553f4e2acc620664ca848c5fac2ce9ad9dc21920e143eb7047",
+      "inputDigest": "sha256:49e51accac9ee58c51adc8d61c4f08b380ecb925fe2b8b33a5675c273991f56a",
+      "HTMLSHA256": "565ce0609f5789349e9904e62b50ad15dc10fe53239af64d03d2600168b905a3",
+      "review": "approved",
+      "local": "passed",
+      "public": "pending-current-candidate"
+    },
+    {
+      "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "previousInputDigest": "sha256:f46d62d4dadf3ca78439fdbdfbfc70b224c245597690c42d07e3a385160edce3",
+      "inputDigest": "sha256:38449145717747f7115b5ea83ffd3cd097669897e4fbc60b4096d94685b09364",
+      "HTMLSHA256": "e7535eac1dcb8b063b38721476cee3b084613935c55f389c10d0a73a163eb00c",
+      "review": "approved",
+      "local": "passed",
+      "public": "pending-current-candidate"
+    },
+    {
+      "article": "docs/10-llm-foundations/tokenization.md",
+      "previousInputDigest": "sha256:f7485f5af6c51d9777213055f1565da6c632667ee7247cce09efce96dfc1840c",
+      "inputDigest": "sha256:df2301c51d5de40f286f6186f37e0daeb2e0c46738a359cd7ba13e7e0bad694f",
+      "HTMLSHA256": "576e33631be1fd3adc75aaf05df415f393fb89cc4158fde4cf028fe11e6578bd",
+      "review": "approved",
+      "local": "passed",
+      "public": "pending-current-candidate"
+    },
+    {
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "previousInputDigest": "sha256:037e697c7a4ec699b486b7f891d6880c82281d003207833d639703912d9a24cb",
+      "inputDigest": "sha256:43cd8cbd73c9430a3c84548455de79b138721a8d368e5ee62b98121bd5c4aea6",
+      "HTMLSHA256": "bf8ead5c8fdd638134484402a97e0801ce090fdaf7c81619dfbfa1807f0e0043",
+      "review": "approved",
+      "local": "passed",
+      "public": "pending-current-candidate"
+    },
+    {
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "previousInputDigest": "sha256:23ff06677c89c80dce28217e2bb832caabdb020ed6a762c0f43d0beff1080e79",
+      "inputDigest": "sha256:85a0c5f646fd52e72c1c77a41fd5e9b4bc32f14e60a8c3fe224da222fef50237",
+      "HTMLSHA256": "c789fb677777feeead3dd31d598c16ac77ba7bb44ebb65fa1e55d0e8af71de4f",
+      "review": "approved",
+      "local": "passed",
+      "public": "pending-current-candidate"
+    },
+    {
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "previousInputDigest": "sha256:eed3b9e3c53c8b20b63428a4fda99afe8fea406aa0f034c7ef2921a1f250c8ea",
+      "inputDigest": "sha256:498e320639470aba47e30970eab4d22b953eacf36719d94e774c373f41efe9a3",
+      "HTMLSHA256": "708dfde026e770c0fce08329cda0faa0d8b151b1cc719469beae9cc876ae4b75",
+      "review": "approved",
+      "local": "passed",
+      "public": "pending-current-candidate"
+    },
+    {
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "previousInputDigest": "sha256:0c544c4f549673475d56409d1b2112f02317b7e0f19cc7f6d2b97d02ed4b3450",
+      "inputDigest": "sha256:49c3c707ed6741a80d4de4927a4d55cdd8523999c694ee022fe1bcc6bf8f54f2",
+      "HTMLSHA256": "6a6f8b3a96d9e1e7e254bb55c67a51b967adefb59f8b7f34f061502dd5c93ddb",
+      "review": "approved",
+      "local": "passed",
+      "public": "pending-current-candidate"
+    }
+  ],
+  "limitations": [
+    "Old actual images and performance measurements remain attached to the old BUILD; this supplement proves bounded applicability, not new measurement.",
+    "No claim of old/new .txt or .ttf byte identity. Current SPA navigation and requested WOFF2 were exercised; TTF fallback was not requested. Edge requested and hash-verified favicon; WebKit did not request it in this flow.",
+    "Search index files were not compared to old build or functionally retested; patch scope and root/build checks constrain this local diagram review.",
+    "Initial helper failures and final Edge classifier failure remain unchanged in raw evidence.",
+    "Root audit retains 3 moderate findings; high/critical zero is not zero vulnerabilities.",
+    "Current formal frozen-tree review, CI/Pages/public deployment, real devices/Safari and real screenreader acceptance remain separate."
+  ]
+}

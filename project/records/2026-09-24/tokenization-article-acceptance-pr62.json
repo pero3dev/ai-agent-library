@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "article": "docs/10-llm-foundations/tokenization.md",
+  "review": {
+    "inputDigest": "sha256:9aa1f291fb1ab9ea006ab9a42ebc1065b2410fa39b0377e720952f07d5e47c69",
+    "status": "approved",
+    "checkedAt": "2026-09-29T17:00:43.085Z",
+    "independent": true,
+    "record": "project/records/2026-09-25/pretraining-scene-review.md"
+  },
+  "local": {
+    "inputDigest": "sha256:9aa1f291fb1ab9ea006ab9a42ebc1065b2410fa39b0377e720952f07d5e47c69",
+    "status": "passed",
+    "checkedAt": "2026-09-29T17:08:17.450Z",
+    "record": "project/records/2026-09-25/pretraining-reading-diagrams.md"
+  },
+  "public": {
+    "inputDigest": "sha256:9aa1f291fb1ab9ea006ab9a42ebc1065b2410fa39b0377e720952f07d5e47c69",
+    "status": "passed",
+    "checkedAt": "2026-09-29T19:43:48.515Z",
+    "commit": "5940334a6fd3aab8178cfeb8746a58c8b937d390",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36615994124",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36615994124/job/109574494236",
+    "browserRecord": "project/records/2026-09-30/inference-score-spacing-public-pr62-review.md"
+  }
+}

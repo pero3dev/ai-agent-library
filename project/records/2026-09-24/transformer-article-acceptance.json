@@ -2,17 +2,17 @@
   "schemaVersion": 1,
   "article": "docs/11-llm-internals/transformer-architecture.md",
   "review": {
-    "inputDigest": "sha256:b625ce37d9aaf96c988322e24479c7b3d68b7b12fc61a95747810cf8451850ff",
+    "inputDigest": "sha256:e07026fd593a0d925daaae5b6f0c7749ea6bc845d13c603dc05c6b4c2c706776",
     "status": "approved",
-    "checkedAt": "2026-09-30T09:15:22.545Z",
+    "checkedAt": "2026-09-30T09:55:15.572Z",
     "independent": true,
-    "record": "project/records/2026-09-30/alignment-local-evidence/final-independent-review.json"
+    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
   },
   "local": {
-    "inputDigest": "sha256:b625ce37d9aaf96c988322e24479c7b3d68b7b12fc61a95747810cf8451850ff",
+    "inputDigest": "sha256:e07026fd593a0d925daaae5b6f0c7749ea6bc845d13c603dc05c6b4c2c706776",
     "status": "passed",
-    "checkedAt": "2026-09-30T09:15:22.545Z",
-    "record": "project/records/2026-09-30/alignment-local-evidence/final-independent-review.json"
+    "checkedAt": "2026-09-30T09:55:15.572Z",
+    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
   },
   "public": {
     "inputDigest": "sha256:e608a9954aee28546173f8c8250e34b43a6fc61293f46c54ba9f075fb7f02376",

@@ -2,17 +2,17 @@
   "schemaVersion": 1,
   "article": "docs/10-llm-foundations/tokenization.md",
   "review": {
-    "inputDigest": "sha256:f7485f5af6c51d9777213055f1565da6c632667ee7247cce09efce96dfc1840c",
+    "inputDigest": "sha256:df2301c51d5de40f286f6186f37e0daeb2e0c46738a359cd7ba13e7e0bad694f",
     "status": "approved",
-    "checkedAt": "2026-09-30T09:15:22.545Z",
+    "checkedAt": "2026-09-30T09:55:15.572Z",
     "independent": true,
-    "record": "project/records/2026-09-30/alignment-local-evidence/final-independent-review.json"
+    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
   },
   "local": {
-    "inputDigest": "sha256:f7485f5af6c51d9777213055f1565da6c632667ee7247cce09efce96dfc1840c",
+    "inputDigest": "sha256:df2301c51d5de40f286f6186f37e0daeb2e0c46738a359cd7ba13e7e0bad694f",
     "status": "passed",
-    "checkedAt": "2026-09-30T09:15:22.545Z",
-    "record": "project/records/2026-09-30/alignment-local-evidence/final-independent-review.json"
+    "checkedAt": "2026-09-30T09:55:15.572Z",
+    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
   },
   "public": {
     "inputDigest": "sha256:9aa1f291fb1ab9ea006ab9a42ebc1065b2410fa39b0377e720952f07d5e47c69",

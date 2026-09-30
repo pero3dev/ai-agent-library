@@ -1,6 +1,6 @@
 # アラインメント理論の読書連動図解（D1）
 
-状態: D1の3図・15段階を実装し、ローカル検証と独立総合レビューを完了。正式記事レビュー・公開受入を進める。P1の公開完了は8/15記事。
+状態: D1の3図・15段階を実装し、PR #63を作成。CIの依存監査で見つかった問題を互換パッチで解消し、補足の独立ローカルレビューを完了した。最終固定候補の記事再レビューとCI・公開確認へ進む。P1の公開完了は8/15記事。
 
 ## 作業契約
 
@@ -54,3 +54,15 @@ C2と既存7記事は[PR #62の公開受入](inference-score-spacing-fix.md)を�
 中断後の2026-09-30にGitHubを再照合し、`origin/main`は基点の`5940334a6fd3aab8178cfeb8746a58c8b937d390`のまま、対象branchのPRは未作成だった。製品ソースの追加変更は行っていない。生ログ・helper・初回404・kit版の違い・実視認の対象は[ローカル証拠](alignment-local-evidence/README.md)と[別PC向け実装記録](alignment-portable-implementation.md)へ保存する。
 
 2026-09-30T09:15:22.545Zに[独立総合レビュー](alignment-local-evidence/final-independent-review.json)がapproved / low・must 0・should 0となった。実視認は168枚（Edge84・WebKit84、全scene140・viewport28）。生成した画像総数と区別して全対象を保存する。9記事の現行入力・HTML・build一致を確認し、review/localゲートを同版へ更新した。旧8記事は本文と固有入力の不変、共有5ファイルの追加差分、PR #62独立公開承認、今回のEdge全体回帰を組み合わせた限定継承であり、新たな全WebKit・全画像レビューとは扱わない。公開ゲートは更新せず、実際のCI/Pagesと公開両engine・独立公開レビューを待つ。
+
+## PRと依存パッチ
+
+固定tree `0e13b57f4ec4d3b956b6d7a28d60f90ebe1c6eaa`、digest `40cc21197f9e144cb13356da00120c664309afbf022124b6f559ecddfbeaac03` に対し、T-1の両記事の正式独立レビューは2026-09-30T09:25:15Zにapproved / low・must 0・should 2となった。shouldは既存チェックリストを設計記録の確認へ結び付ける後続案で、今回の本文非増量方針に従って見送る。レビューと初回CIログは[CI証拠](alignment-ci-evidence/README.md)に保存した。manifestのレビュー欄を反映した最終tree `9176283f6adafa943d16fda6dce28534b433de9c` でharness policyを通過し、head `e00d6ee700d27816a94e151c4d0d2bfdc0b9a1a4` の[PR #63](https://github.com/pero3dev/ai-agent-library/pull/63)を作成した。
+
+[初回CI](https://github.com/pero3dev/ai-agent-library/actions/runs/36696416442)は、lintとbuildの依存監査で`brace-expansion`のhigh脆弱性を検出して失敗した。サイト単体392件は成功したが、監査後の静的buildには進んでいない。rootとwebsiteのlockfile内の同パッケージを互換パッチへ更新し、検証し直す。ローカルの外部監査は最初に自動承認レビューで拒否されたが、両lockfileが公開mainと完全一致する実取得証拠を追加した後に承認され、実行できた。元の失敗ログ・旧ローカル承認を上書きせず、新しい入力版の判定を別に残す。
+
+更新は両lockfileの`brace-expansion` 5.0.9→5.0.12のversion・resolved・integrityだけで、package.json・他依存・記事・図解・公開kitは不変。両環境の`npm ci`、high監査、`npm ls`は成功した。rootの対象外moderate 3件は不変、websiteは検出0件。root `npm run check`も再度成功（485件中484成功・実音声変換1 skip、本文215、リンク380ファイル5848件）。公開条件のclean buildは223 routes・230 HTMLで成功し、BUILD_IDは`1kDzaUHLTh2VduCcoTkhj`となった。[依存更新の証拠](alignment-dependency-evidence/README.md)へ初回監査・公開mainとの照合・パッチ・再検証を保存する。
+
+2026-09-30T09:55:15.572Zの[独立補足レビュー](alignment-dependency-evidence/final-review.json)はapproved / low・must 0・should 0。比較対象419ファイルでは、230 HTMLがBUILD_IDの文字列を除いて一致し、186資産は同じパス・バイト、3 manifestはBUILD_IDを含むディレクトリ名だけが変わった。出力全2551ファイルの残り2132ファイルを旧版と比較したとは扱わない。実際のリンクによるSPA遷移をEdge/WebKitそれぞれ9記事で確認し、図解の停止・次段階・読書連動への復帰、各engineの83 RSC応答と8 WOFF2も照合した。
+
+WebKitの最終補助検査は成功。Edgeは既存ページへのfetch中断を拒否したfailed原本を保持する。独立レビューが39件の中断先すべての実在HTMLとhashを確認し、失敗後に未実行だった3検査を生データから補完して承認した。中断の原因やタイミングは断定しない。critical resourceの失敗、console/page errorはない。旧168画像・性能値は出力同一性と今回の動作確認による限定継承で、新しい実視認・性能再実行は0件。9記事のreview/localゲートを新入力へ更新し、publicゲートは実公開の検証まで更新しない。

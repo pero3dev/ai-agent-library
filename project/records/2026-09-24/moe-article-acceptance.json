@@ -2,17 +2,17 @@
   "schemaVersion": 1,
   "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
   "review": {
-    "inputDigest": "sha256:aa360c495d4010553f4e2acc620664ca848c5fac2ce9ad9dc21920e143eb7047",
+    "inputDigest": "sha256:49e51accac9ee58c51adc8d61c4f08b380ecb925fe2b8b33a5675c273991f56a",
     "status": "approved",
-    "checkedAt": "2026-09-30T09:15:22.545Z",
+    "checkedAt": "2026-09-30T09:55:15.572Z",
     "independent": true,
-    "record": "project/records/2026-09-30/alignment-local-evidence/final-independent-review.json"
+    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
   },
   "local": {
-    "inputDigest": "sha256:aa360c495d4010553f4e2acc620664ca848c5fac2ce9ad9dc21920e143eb7047",
+    "inputDigest": "sha256:49e51accac9ee58c51adc8d61c4f08b380ecb925fe2b8b33a5675c273991f56a",
     "status": "passed",
-    "checkedAt": "2026-09-30T09:15:22.545Z",
-    "record": "project/records/2026-09-30/alignment-local-evidence/final-independent-review.json"
+    "checkedAt": "2026-09-30T09:55:15.572Z",
+    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
   },
   "public": {
     "inputDigest": "sha256:67f6886639932264e008b124f0ac41daa88da4a99158a55211eed6006bb8e753",

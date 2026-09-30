@@ -2,17 +2,17 @@
   "schemaVersion": 1,
   "article": "docs/10-llm-foundations/llm-training-pipeline.md",
   "review": {
-    "inputDigest": "sha256:23ff06677c89c80dce28217e2bb832caabdb020ed6a762c0f43d0beff1080e79",
+    "inputDigest": "sha256:85a0c5f646fd52e72c1c77a41fd5e9b4bc32f14e60a8c3fe224da222fef50237",
     "status": "approved",
-    "checkedAt": "2026-09-30T09:15:22.545Z",
+    "checkedAt": "2026-09-30T09:55:15.572Z",
     "independent": true,
-    "record": "project/records/2026-09-30/alignment-local-evidence/final-independent-review.json"
+    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
   },
   "local": {
-    "inputDigest": "sha256:23ff06677c89c80dce28217e2bb832caabdb020ed6a762c0f43d0beff1080e79",
+    "inputDigest": "sha256:85a0c5f646fd52e72c1c77a41fd5e9b4bc32f14e60a8c3fe224da222fef50237",
     "status": "passed",
-    "checkedAt": "2026-09-30T09:15:22.545Z",
-    "record": "project/records/2026-09-30/alignment-local-evidence/final-independent-review.json"
+    "checkedAt": "2026-09-30T09:55:15.572Z",
+    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
   },
   "public": {
     "inputDigest": "sha256:33237ab6f74f953e7ceab16d01631b765eb21bf28df6e3ff7cc8eb7f4f261ec5",

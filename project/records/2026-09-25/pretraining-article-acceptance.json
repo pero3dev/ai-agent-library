@@ -2,17 +2,17 @@
   "schemaVersion": 1,
   "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
   "review": {
-    "inputDigest": "sha256:eed3b9e3c53c8b20b63428a4fda99afe8fea406aa0f034c7ef2921a1f250c8ea",
+    "inputDigest": "sha256:498e320639470aba47e30970eab4d22b953eacf36719d94e774c373f41efe9a3",
     "status": "approved",
-    "checkedAt": "2026-09-30T09:15:22.545Z",
+    "checkedAt": "2026-09-30T09:55:15.572Z",
     "independent": true,
-    "record": "project/records/2026-09-30/alignment-local-evidence/final-independent-review.json"
+    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
   },
   "local": {
-    "inputDigest": "sha256:eed3b9e3c53c8b20b63428a4fda99afe8fea406aa0f034c7ef2921a1f250c8ea",
+    "inputDigest": "sha256:498e320639470aba47e30970eab4d22b953eacf36719d94e774c373f41efe9a3",
     "status": "passed",
-    "checkedAt": "2026-09-30T09:15:22.545Z",
-    "record": "project/records/2026-09-30/alignment-local-evidence/final-independent-review.json"
+    "checkedAt": "2026-09-30T09:55:15.572Z",
+    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
   },
   "public": {
     "inputDigest": "sha256:0fa344cb9b3ec838864fb9c0f7b6e4f2532751e8535a43e057cd53f41f7a18b6",

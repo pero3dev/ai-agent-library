@@ -2,17 +2,17 @@
   "schemaVersion": 1,
   "article": "docs/11-llm-internals/inference-internals.md",
   "review": {
-    "inputDigest": "sha256:037e697c7a4ec699b486b7f891d6880c82281d003207833d639703912d9a24cb",
+    "inputDigest": "sha256:43cd8cbd73c9430a3c84548455de79b138721a8d368e5ee62b98121bd5c4aea6",
     "status": "approved",
-    "checkedAt": "2026-09-30T09:15:22.545Z",
+    "checkedAt": "2026-09-30T09:55:15.572Z",
     "independent": true,
-    "record": "project/records/2026-09-30/alignment-local-evidence/final-independent-review.json"
+    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
   },
   "local": {
-    "inputDigest": "sha256:037e697c7a4ec699b486b7f891d6880c82281d003207833d639703912d9a24cb",
+    "inputDigest": "sha256:43cd8cbd73c9430a3c84548455de79b138721a8d368e5ee62b98121bd5c4aea6",
     "status": "passed",
-    "checkedAt": "2026-09-30T09:15:22.545Z",
-    "record": "project/records/2026-09-30/alignment-local-evidence/final-independent-review.json"
+    "checkedAt": "2026-09-30T09:55:15.572Z",
+    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
   },
   "public": {
     "inputDigest": "sha256:e7b10bba12334b71d3eb0b5b469344d2d7e0451c42f52814693d955dd165ab82",

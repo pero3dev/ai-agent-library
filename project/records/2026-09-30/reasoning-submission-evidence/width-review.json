@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-local-widths-supplement-review",
+  "reviewer_run_id": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+  "independent": true,
+  "reviewed_at": "2026-09-30T12:48:48.371Z",
+  "verdict": "approved",
+  "risk": "low",
+  "must": [],
+  "should": [],
+  "scope": "Supplement only: 1920x1080 and 768x1024 light DSF1 in Edge and WebKit, unchanged profile callbacks and final D2 artifact. Four completed browser cases reviewed and selected actual images viewed.",
+  "result": {
+    "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-extra-widths\\2026-09-30T12-41-11.881Z\\result.json",
+    "sha256": "75a129887cf7487038b75d5d65e2a6a51e7a605167911ba3beee26c4778d95db"
+  },
+  "cases": [
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-extra-widths\\2026-09-30T12-41-11.881Z\\edge-1920\\reasoning-result.json",
+      "sha256": "f5bc0b37c1d02e1dd34c17101aa93fcf353d35bceddeb1008d24e56dc2a79627",
+      "engine": "edge",
+      "name": "reasoning: all 9 stages 1920x1080 light DSF1",
+      "status": "passed",
+      "imagesGenerated": 18,
+      "browserVersion": "154.0.4258.37"
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-extra-widths\\2026-09-30T12-41-11.881Z\\edge-768\\reasoning-result.json",
+      "sha256": "3002a4a743aa7a46a62c7d1bc5341d5f703451eb70b3bcd718bfaef64170f8e7",
+      "engine": "edge",
+      "name": "reasoning: all 9 stages 768x1024 light DSF1",
+      "status": "passed",
+      "imagesGenerated": 18,
+      "browserVersion": "154.0.4258.37"
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-extra-widths\\2026-09-30T12-41-11.881Z\\webkit-1920\\reasoning-result.json",
+      "sha256": "4d89576f225d416cf740a01f67a470602ebc8e696ffea0ceaf81768149de0257",
+      "engine": "webkit",
+      "name": "reasoning: all 9 stages 1920x1080 light DSF1",
+      "status": "passed",
+      "imagesGenerated": 18,
+      "browserVersion": "26.6"
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-extra-widths\\2026-09-30T12-41-11.881Z\\webkit-768\\reasoning-result.json",
+      "sha256": "e3051713e6593ebf56a0bd9865a204a8d4b33fb5037eef4c3f54b8a7309c29b7",
+      "engine": "webkit",
+      "name": "reasoning: all 9 stages 768x1024 light DSF1",
+      "status": "passed",
+      "imagesGenerated": 18,
+      "browserVersion": "26.6"
+    }
+  ],
+  "helper": {
+    "path": "C:\\dev\\ai-agent-library\\TEMP\\reasoning-extra-widths.mjs",
+    "sha256": "87629360cfddaa6a12be11173f7667ffaff812a2372a463d4f66d8fd0d0a2f67",
+    "codeReviewedAt": "2026-09-30T12:40:57.666Z",
+    "independentRegistrationCheck": {
+      "baselineCases": 14,
+      "processOnlyCases": 16,
+      "selectedPerEngine": 2,
+      "oldRegistrationsUnchanged": true,
+      "profileCallbackSHA256": "128154e36cb6349fe7d4160415006b6aacb7d2744eb28319a75ae0dfbd9f466c",
+      "callbackExecutedByReviewer": 0
+    }
+  },
+  "source": {
+    "path": "C:\\dev\\ai-agent-library\\scripts\\diagram-release\\reasoning-checks.mjs",
+    "sha256": "2e064f100dcff5fd1b6968c425a9ac55acacfcc8897ef6309a3be84acb225b98"
+  },
+  "adapter": {
+    "path": "C:\\dev\\ai-agent-library\\scripts\\diagram-release\\local-reasoning-adapter.mjs",
+    "sha256": "8c1992f5d1d7d80111c82a9fe8083291fe5d3464d68acd65121a7a1d96332b5e"
+  },
+  "buildId": "ay8Xdd-uRIpIwdWdgy70j",
+  "htmlSHA256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+  "inputs": [
+    {
+      "article": "docs/11-llm-internals/transformer-architecture.md",
+      "inputDigest": "sha256:3b53235296261639ec059e2951219305e168bb70fd65296bd89a8a0ab480986d"
+    },
+    {
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "inputDigest": "sha256:cac8069445fadb21af8f77fa0a46d9ba75378fdcc1207e4b0c05e62562071164"
+    },
+    {
+      "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "inputDigest": "sha256:570f41059ca3d4f09e9e5c3f309326710fd32e932f1aad850bd7516c9dc97be5"
+    },
+    {
+      "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "inputDigest": "sha256:7989470e2bb26e883bba4e67aa37e8271f54346a40e76ca15350745c7232ae47"
+    },
+    {
+      "article": "docs/10-llm-foundations/tokenization.md",
+      "inputDigest": "sha256:aa3f88fe68ae184855ebb162c5043afd93f4cf1332c9360bbeeaf50e16c157df"
+    },
+    {
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "inputDigest": "sha256:26017742695429975e20f64f18354d59612a97bc563fec10668325be849d0e6a"
+    },
+    {
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "inputDigest": "sha256:103aa08bd2f29a4b880fef55d6fa547da2fab27a22f840215ffe2c96181ca9eb"
+    },
+    {
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "inputDigest": "sha256:ef6219feaea29f5d4d0f79018f530d5ae61122460961e4454c36d43bb455abac"
+    },
+    {
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "inputDigest": "sha256:97b41ea0e6a47ea1fcf1ed298b8c4395f9e74df477ba9dabb2b496d7cf9a95c8"
+    },
+    {
+      "article": "docs/10-llm-foundations/reasoning-models.md",
+      "inputDigest": "sha256:2696c2dc66c8d222bb06fd2b4c07deb34ddcc9f19c40ccc917b6ceed5cc0d330"
+    }
+  ],
+  "identity": {
+    "beforeAfterEqual": true,
+    "currentBuildHtmlTenInputsEqual": true,
+    "allEightProductHashesEqualPreviousReview": true,
+    "caseHtmlSHA256Matches": true,
+    "all36StageObservationsPresent": true
+  },
+  "visual": {
+    "ledger": {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-widths-viewed-images.json",
+      "sha256": "d25efee82be98a7696293400daae51f97c72af12d60b84a5c0b5e18f9758cec7"
+    },
+    "generated": 72,
+    "actuallyViewed": 44,
+    "scene": 36,
+    "viewport": 8,
+    "byEngine": {
+      "edge": 22,
+      "webkit": 22
+    },
+    "byWidth": {
+      "768": 22,
+      "1920": 22
+    },
+    "judgment": "No clipped mandatory labels, actual glyph collisions, disconnected wires, missing caveats or misleading comparison geometry found. At768 the figures remain readable in the stacked article layout; at1920 the side-by-side reading layout is retained. Corrected CoT wording, unmeasured metrics, condition bounds, model-external guard and empty-trial caveats remain legible.",
+    "viewportObservation": "An element partly above the viewport due normal scroll/sticky-header position is not treated as a scene clipping error; the corresponding full scene crop was also actually viewed."
+  },
+  "unchangedHistoricalEvidence": {
+    "priorFinalReview": {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-local-review.json",
+      "sha256": "e0e15866be3637d22920cde0e4dad3b27477dfa982676ffcd77cc5ffc6c3d0df"
+    },
+    "priorLedger": {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-combined-viewed-images.json",
+      "sha256": "28153cd1c06c4b83a51bcafc5c7c40ded9747f70d15b332716284d13d09e9887"
+    },
+    "priorArchiveIndex": {
+      "path": "C:\\dev\\ai-agent-library\\project\\records\\2026-09-30\\reasoning-local-evidence\\index.json",
+      "sha256": "46fffbc5ebce78ac777024f9d5f8b981480e1997e3d61b66802de105a467aeb6"
+    },
+    "priorActualViewed": 122,
+    "separateAdditionalActualViewed": 44,
+    "uniqueActualAcrossBothLedgers": 166,
+    "note": "The prior122 include one failed historical print diagnostic; this supplement does not relabel it. No previous review/ledger/archive bytes were overwritten."
+  },
+  "boundaries": [
+    "Local four-case supplement only; not an additional or filtered public121 execution.",
+    "These added widths were light-theme DSF1 only. No new claim is made for dark-theme views at these two widths.",
+    "Native browser UI zoom200% remains untested; this is not supplied by DSF emulation.",
+    "WebKit emulation is not physical Safari or a physical tablet.",
+    "This reviewer read completed browser evidence and actually viewed the listed PNGs; did not rerun browser interactions.",
+    "Existing local approval is preserved with its original timestamp; public delivery/acceptance remains pending."
+  ],
+  "publicAccepted": false,
+  "nativeZoomTested": false,
+  "edits": "Only this supplement report pair and separate image ledger in OS TEMP."
+}

@@ -28,6 +28,8 @@ const cases = [
   { name: 'pretraining data scene', marker: 'PRETRAINING / DATA', path: 'llm-internals/pretraining-and-scaling-laws', prose: '見合うだけの良質なデータがあるか', mathCount: 0 },
   { name: 'pretraining metrics scene', marker: 'PRETRAINING / METRICS', path: 'llm-internals/pretraining-and-scaling-laws', prose: '能力の有無を単一の閾値指標で断じない', mathCount: 0 },
   { name: 'pretraining compute scene', marker: 'PRETRAINING / COMPUTE', path: 'llm-internals/pretraining-and-scaling-laws', prose: '計算量(FLOPs)が比例して増える', mathCount: 1 },
+  { name: 'reasoning sequence scene', marker: 'REASONING / SEQUENCE', path: 'llm-foundations/reasoning-models', prose: '書き出した考察が、以降の予測の条件に加わる', mathCount: 0 },
+  { name: 'reasoning evaluation scene', marker: 'REASONING / EVALUATION', path: 'llm-foundations/reasoning-models', prose: '追加の思考による品質改善が、費用と待ち時間に見合うか', mathCount: 0 },
   { name: 'shared reading frame', marker: 'ReadingFigure requires at least one stage', path: 'concepts/agent-loop', prose: 'ツール要求がないことだけでは正常完了と判定できません' }
 ]
 

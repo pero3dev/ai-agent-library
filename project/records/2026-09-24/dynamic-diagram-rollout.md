@@ -1,6 +1,6 @@
 # 動的図解の展開状況
 
-開始日: 2026-09-24。状態: **P1の8/15記事が公開受入完了、D1アラインメント理論を実装中**。全199記事の完了記録ではない。
+開始日: 2026-09-24。状態: **P1の9/15記事が公開受入完了、D2推論モデルを実装中**。全199記事の完了記録ではない。
 
 ## 作業契約
 
@@ -19,16 +19,16 @@
 | --- | --- | --- | --- |
 | 計画 | 全199記事 | 計画作成・独立レビュー済み、採択 | [全件棚卸し](../../plans/engineering/dynamic-diagram-inventory.md)、[計画作成記録](dynamic-diagram-plan.md) |
 | P0 | 共通基盤・自己注意・Agentループ・Workflow比較 | PR #52マージ・公開受入完了 | [P0実施記録](reading-diagram-foundation.md) |
-| P1 | LLM内部構造・基礎15記事 | Transformer・注意変種・MoE・文章生成・トークン化・推論内部・学習パイプライン・事前学習の8/15記事が公開受入完了。D1アラインメント理論を実装中 | [Transformer](transformer-reading-diagrams.md)、[注意変種](attention-variants-reading-diagrams.md)、[MoE](moe-reading-diagrams.md)、[文章生成・トークン化](generation-tokenization-reading-diagrams.md)、[推論内部](inference-reading-diagrams.md)、[学習パイプライン](training-reading-diagrams.md) |
+| P1 | LLM内部構造・基礎15記事 | Transformer・注意変種・MoE・文章生成・トークン化・推論内部・学習パイプライン・事前学習・アラインメントの9/15記事が公開受入完了。D2推論モデルを実装中 | [Transformer](transformer-reading-diagrams.md)、[注意変種](attention-variants-reading-diagrams.md)、[MoE](moe-reading-diagrams.md)、[文章生成・トークン化](generation-tokenization-reading-diagrams.md)、[推論内部](inference-reading-diagrams.md)、[学習パイプライン](training-reading-diagrams.md) |
 | P2 | 中核54記事 | 未着手（P0の2記事は内数） | 今回は着手しない。P1後、別セッションの依頼で再開 |
 | P3 | 実装・品質・運用78記事 | 未着手 | P2受入後に着手 |
 | P4 | 応用・判断52記事 | 未着手 | P3受入後に着手 |
 | P5 | 全体受入・更新運用 | 未着手 | P4受入後に着手 |
 
-図解を一部導入した記事、記事全体の主要論点の割当と受入を完了した記事、公開確認済みの記事を別に数える。PR #62時点の公開受入済みはP0の部分導入2記事を含む10記事の24図。記事全体の完成基準では8/199記事（P1の8/15記事）であり、図の本数を記事の完了数に読み替えない。
+図解を一部導入した記事、記事全体の主要論点の割当と受入を完了した記事、公開確認済みの記事を別に数える。PR #63時点の公開受入済みはP0の部分導入2記事を含む11記事の27図。記事全体の完成基準では9/199記事（P1の9/15記事）であり、図の本数を記事の完了数に読み替えない。
 
 ## 再開地点
 
 推論内部の[PR #57](https://github.com/pero3dev/ai-agent-library/pull/57)はマージ・公開機械58件成功後、独立画像レビューで表示ラベル修正1件が必要となった。[修正記録](inference-score-label-fix.md)に従い、`fix/inference-score-labels` の[PR #58](https://github.com/pero3dev/ai-agent-library/pull/58)を提出し、全必須チェック後に `67b1309fcea8267749be6e52881f3d6a4049ae2b` としてマージした。同じmain CIとPages、公開58/58、独立公開レビューapproved / low・must 0を確認し、6記事を公開受入した。6本のPR #58固定スナップショットと以前のPR #56記録を保持する。続く[C1学習パイプライン](training-reading-diagrams.md)の[PR #59](https://github.com/pero3dev/ai-agent-library/pull/59)は `517dc8b5166bd7b0c85baef3800d7fe57bac7b31` でマージされ、main CI `36019573674`・Pages `107704025706` と同artifactの公開HTMLを確認した。C1両engine 13/13、Edge全71/71、原WebKit66/71と元assertを保つ限定5/5、[独立公開画像レビュー](training-public-review.md)approved / low・must 0を確認し、7記事のPR #59固定snapshotと7 completeのCLI結果を保存した。次は `feat/pretraining-reading-diagrams` の[C2事前学習](../2026-09-25/pretraining-reading-diagrams.md)。共有変更後は新しい入力版で再受入する。他のworktreeや音声制作は変更しない。
 
-C2は2026-09-30 JSTに実装・独立ローカル画像レビューと正式記事レビューを完了し、PR #61で公開した。公開Edge/WebKit両91/91は成功したが、独立画像レビューで旧推論図の6桁ロジット表示にmust 1を確認した。その後、[表示間隔の修正](../2026-09-30/inference-score-spacing-fix.md)をPR #62で公開し、両engine 91/91と独立公開レビューの承認を得て8/15記事を完了した。PR #61の未受入結果は履歴として保持する。現在は[D1アラインメント](../2026-09-30/alignment-reading-diagrams.md)のローカル検証を終え、独立総合レビュー・正式記事レビューと公開受入を進めている。
+C2は2026-09-30 JSTに実装・独立ローカル画像レビューと正式記事レビューを完了し、PR #61で公開した。公開Edge/WebKit両91/91は成功したが、独立画像レビューで旧推論図の6桁ロジット表示にmust 1を確認した。その後、[表示間隔の修正](../2026-09-30/inference-score-spacing-fix.md)をPR #62で公開し、両engine 91/91と独立公開レビューの承認を得て8/15記事を完了した。PR #61の未受入結果は履歴として保持する。[D1アラインメント](../2026-09-30/alignment-reading-diagrams.md)はPR #63で公開し、Edge107/107・WebKit初回106/107と条件不変の限定2/2・137実視認の独立レビューにより9記事を公開受入した。初回失敗と原因未確定の限界を原本に保持する。[9記事の固定受入](../2026-09-30/diagram-acceptance-pr63.json)を保存し、次の[D2推論モデル](../2026-09-30/reasoning-reading-diagrams.md)を実装中。

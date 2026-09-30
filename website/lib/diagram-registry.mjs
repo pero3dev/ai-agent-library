@@ -4,6 +4,120 @@ import { readFileSync } from 'node:fs'
 // IDs resolve to code-owned bindings, never to module paths supplied by Markdown
 // or the registry. Adding a diagram requires an explicit implementation change.
 const BINDINGS = {
+  'reasoning-sequence': {
+  "article": "docs/10-llm-foundations/reasoning-models.md",
+  "route": "/docs/llm-foundations/reasoning-models",
+  "binding": "grouped-blocks",
+  "stageCount": 4,
+  "headings": [
+    "仕組みの直感: 答える前に考えを書く"
+  ],
+  "sourceHeadings": [
+    "仕組みの直感: 答える前に考えを書く",
+    "思考量の制御とコスト・レイテンシ設計",
+    "プロンプトの変化: 必須手順と探索の余地を分ける",
+    "評価の注意: 思考は見えず、揺れる"
+  ],
+  "blockGroups": [
+    [
+      {
+        "stage": 0,
+        "count": 1
+      },
+      {
+        "stage": 2,
+        "count": 1
+      },
+      {
+        "stage": 3,
+        "count": 1
+      }
+    ]
+  ],
+  "blockTypes": [
+    [
+      "paragraph",
+      "list",
+      "paragraph"
+    ]
+  ]
+},
+  'reasoning-evaluation': {
+  "article": "docs/10-llm-foundations/reasoning-models.md",
+  "route": "/docs/llm-foundations/reasoning-models",
+  "binding": "grouped-blocks",
+  "stageCount": 5,
+  "headings": [
+    "効くタスクと効かないタスク",
+    "思考量の制御とコスト・レイテンシ設計",
+    "考えすぎ(overthinking)",
+    "プロンプトの変化: 必須手順と探索の余地を分ける",
+    "評価の注意: 思考は見えず、揺れる"
+  ],
+  "sourceHeadings": [
+    "仕組みの直感: 答える前に考えを書く",
+    "効くタスクと効かないタスク",
+    "思考量の制御とコスト・レイテンシ設計",
+    "考えすぎ(overthinking)",
+    "プロンプトの変化: 必須手順と探索の余地を分ける",
+    "評価の注意: 思考は見えず、揺れる"
+  ],
+  "blockGroups": [
+    [
+      {
+        "stage": 0,
+        "count": 3
+      }
+    ],
+    [
+      {
+        "stage": 1,
+        "count": 2
+      }
+    ],
+    [
+      {
+        "stage": 2,
+        "count": 2
+      }
+    ],
+    [
+      {
+        "stage": 3,
+        "count": 2
+      }
+    ],
+    [
+      {
+        "stage": 4,
+        "count": 2
+      }
+    ]
+  ],
+  "blockTypes": [
+    [
+      "paragraph",
+      "table",
+      "paragraph"
+    ],
+    [
+      "paragraph",
+      "list"
+    ],
+    [
+      "paragraph",
+      "list"
+    ],
+    [
+      "paragraph",
+      "list"
+    ],
+    [
+      "paragraph",
+      "list"
+    ]
+  ]
+},
   'alignment-preference': {
   "article": "docs/11-llm-internals/alignment-theory.md",
   "route": "/docs/llm-internals/alignment-theory",

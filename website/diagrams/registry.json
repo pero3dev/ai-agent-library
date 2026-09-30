@@ -1164,6 +1164,102 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "reasoning-sequence",
+      "article": "docs/10-llm-foundations/reasoning-models.md",
+      "route": "/docs/llm-foundations/reasoning-models",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "仕組みの直感: 答える前に考えを書く"
+      ],
+      "sourceHeadings": [
+        "仕組みの直感: 答える前に考えを書く",
+        "思考量の制御とコスト・レイテンシ設計",
+        "プロンプトの変化: 必須手順と探索の余地を分ける",
+        "評価の注意: 思考は見えず、揺れる"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:497581aab0df110ad41c3fbc116fc1837073be16d937aaaa44e99d4cab8ad107",
+      "reviewedDigest": "sha256:497581aab0df110ad41c3fbc116fc1837073be16d937aaaa44e99d4cab8ad107",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "reasoning-evaluation",
+      "article": "docs/10-llm-foundations/reasoning-models.md",
+      "route": "/docs/llm-foundations/reasoning-models",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "効くタスクと効かないタスク",
+        "思考量の制御とコスト・レイテンシ設計",
+        "考えすぎ(overthinking)",
+        "プロンプトの変化: 必須手順と探索の余地を分ける",
+        "評価の注意: 思考は見えず、揺れる"
+      ],
+      "sourceHeadings": [
+        "仕組みの直感: 答える前に考えを書く",
+        "効くタスクと効かないタスク",
+        "思考量の制御とコスト・レイテンシ設計",
+        "考えすぎ(overthinking)",
+        "プロンプトの変化: 必須手順と探索の余地を分ける",
+        "評価の注意: 思考は見えず、揺れる"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:4b26e91dcb1f6d5d7e09a43f86a1b622cd2c9a5a3b53e8846e234d39ec615930",
+      "reviewedDigest": "sha256:4b26e91dcb1f6d5d7e09a43f86a1b622cd2c9a5a3b53e8846e234d39ec615930",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "kind": "D1-dependency-patch-final-submission-originals",
+  "archivedAt": "2026-09-30T10:19:29.593Z",
+  "archivist": "/root/inference_change_evidence",
+  "archiveOnly": true,
+  "scope": {
+    "ownedDirectory": "project/records/2026-09-30/alignment-submission-evidence",
+    "originals": 7,
+    "existingArchivesChanged": false,
+    "productKitGatesParentRecordsOrGitChanged": false,
+    "authorization": "Parent bounded archive task; preserve final submission originals for a later public-record commit."
+  },
+  "submission": {
+    "repository": "pero3dev/ai-agent-library",
+    "pr": 63,
+    "base": "5940334a6fd3aab8178cfeb8746a58c8b937d390",
+    "head": "b7b6ac034716fc38b351266b87bb8b38f02dd2aa",
+    "reviewedTree": "ac7e30d48f46754893688afac7cb8aebbcf98b38",
+    "finalTree": "d4f6f0c5abd70b3f37a91f088d9c2cd453b8e93c",
+    "contentDigest": "700ee5d2fdd47618af83efe03afcd04327718f7d36654c5b2c5cae22c0187b43",
+    "record": "raw/alignment-pr63-patch-submission.json.gz",
+    "recordSHA256": "1ae30cf21bb34a8bfce26ccda7e9ee19e049b660b8f495175a0b36fc80f1af71",
+    "identityBoundary": "Reviewed tree is the fixed article-review candidate; final tree is reported by the submission original. Equal digest and review binding were checked against these original records; archivist did not execute new Git verification."
+  },
+  "articleReview": {
+    "reviewedAt": "2026-09-30T10:03:36Z",
+    "verdict": "approved",
+    "risk": "low",
+    "must": 0,
+    "should": 2,
+    "newMust": 0,
+    "newShould": 0,
+    "priorTwoShouldDeferred": true,
+    "markdown": "raw/alignment-article-dependency-review-20260930.md.gz",
+    "json": "raw/alignment-article-dependency-review-20260930.json.gz",
+    "sha256": "bc254a9f6b0b5cd3c44bbefc597cb87e40089c19ce3e0b22bda082d861f3df41",
+    "scope": "Limited re-review of the immutable dependency-patch candidate against the prior article approval; prior article/source judgments carried only after byte equality verification. Not a new image, browser, performance or public acceptance."
+  },
+  "metadataSnapshots": {
+    "oldResponse": {
+      "path": "raw/alignment-pr63-patch.json.gz",
+      "head": "e00d6ee700d27816a94e151c4d0d2bfdc0b9a1a4",
+      "interpretation": "Immediate post-push metadata retained the old head and initial failed CI. Historical original only; not validation of current head."
+    },
+    "refetchedResponse": {
+      "path": "raw/alignment-pr63-patch-current.json.gz",
+      "head": "b7b6ac034716fc38b351266b87bb8b38f02dd2aa",
+      "state": "OPEN",
+      "checksAtSnapshot": "Most checks IN_PROGRESS; this snapshot is not CI completion evidence."
+    }
+  },
+  "status": {
+    "localAccepted": true,
+    "ciComplete": false,
+    "pagesComplete": false,
+    "publicAccepted": false,
+    "boundary": "Submission-time snapshot only. No live CI, deployment or public acceptance queried or asserted by this archive."
+  },
+  "relatedEvidence": [
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-article-final-review-20260930.json",
+      "path": "../alignment-ci-evidence/raw/alignment-article-final-review-20260930.json.gz",
+      "encoding": "gzip",
+      "originalSHA256": "e363b28ce08685ae75a6e2d3ebef437ce8de2f923b063f24958442b7d44e3d03",
+      "verified": true
+    },
+    {
+      "originalPath": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json",
+      "path": "../alignment-dependency-evidence/final-review.json",
+      "encoding": "identity",
+      "originalSHA256": "a0dbbd9df2dc24cdc071667986610543e6b8edde052f75ad0ea85cbc97865639",
+      "verified": true
+    }
+  ],
+  "files": [
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-article-dependency-review-20260930.md",
+      "originalSHA256": "2e717f875256dee8e1602dd48f4bb45eb8826e9d0217b289a426bbc88cbc40fd",
+      "originalBytes": 2872,
+      "path": "raw/alignment-article-dependency-review-20260930.md.gz",
+      "storedSHA256": "94dfe1493061c7a48351dca7eab8947606befa10386271130e8b49ecee936db4",
+      "storedBytes": 1796,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-article-dependency-review-20260930.json",
+      "originalSHA256": "bc254a9f6b0b5cd3c44bbefc597cb87e40089c19ce3e0b22bda082d861f3df41",
+      "originalBytes": 6663,
+      "path": "raw/alignment-article-dependency-review-20260930.json.gz",
+      "storedSHA256": "648a09f95b6dc2384dea2a537be50168f60afe4d7b2f18b3c11e2e931dcfa27c",
+      "storedBytes": 3153,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-pr63-patch-submission.json",
+      "originalSHA256": "1ae30cf21bb34a8bfce26ccda7e9ee19e049b660b8f495175a0b36fc80f1af71",
+      "originalBytes": 1243,
+      "path": "raw/alignment-pr63-patch-submission.json.gz",
+      "storedSHA256": "3431936da926871357834481f2f384ce7e47889a1c2c579ed7d78bf5eb756328",
+      "storedBytes": 736,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-pr63-patch.json",
+      "originalSHA256": "72560fee5aba3566e271d509e220f841363afc4cca16d5b43a8efb7fc942d7f5",
+      "originalBytes": 6096,
+      "path": "raw/alignment-pr63-patch.json.gz",
+      "storedSHA256": "32456a58a0e30d3b1a32f8b2903b3e6a8848c2af5f6b47d2ec1e58b9961bd8b7",
+      "storedBytes": 1949,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-pr63-patch-current.json",
+      "originalSHA256": "404c3e7ae515713e259e72effa048732bc59dab9b8e7b6332ccba44771ee6dea",
+      "originalBytes": 5182,
+      "path": "raw/alignment-pr63-patch-current.json.gz",
+      "storedSHA256": "171475cb5e26ccca2e0123427335866d95ea53ab91fb6cba9663c920f265c982",
+      "storedBytes": 1814,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-dependency-commit.log",
+      "originalSHA256": "21ce90f190c6897913933f1e72e8d21a6e78abdc0b55532948abef75c08aca51",
+      "originalBytes": 8535,
+      "path": "raw/alignment-dependency-commit.log.gz",
+      "storedSHA256": "dc3f71b1106d8970a8f22fe3c29145d2fc76d47aa9de470d025d2d092cc7366e",
+      "storedBytes": 890,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-pr-body-patch.md",
+      "originalSHA256": "4042fea75d9d09f35acb496d3f16e8c4566c66cf1b658ac0b9d909af27b035c2",
+      "originalBytes": 1714,
+      "path": "raw/alignment-pr-body-patch.md.gz",
+      "storedSHA256": "ac03d6334e0ef870a07485f216e20a9e7380f4d23df3d91d51ca8694a8353dfb",
+      "storedBytes": 1153,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    }
+  ],
+  "verification": {
+    "allSevenOriginalsPreserved": true,
+    "allStoredHashesVerified": true,
+    "allGzipRoundtripsByteEqual": true,
+    "reviewedTreeAndContentDigestMatch": true,
+    "articleReviewHashMatchesSubmission": true,
+    "currentHeadMatchesSubmission": true,
+    "oldAndCurrentHeadDiffer": true,
+    "previousReviewAndLocalReviewHashesVerified": true
+  },
+  "pending": [
+    "Final current-head CI outcome",
+    "Actual merge, main CI and Pages outcome",
+    "Public 9-article HTML and both 107-case engines",
+    "Independent public acceptance"
+  ]
+}

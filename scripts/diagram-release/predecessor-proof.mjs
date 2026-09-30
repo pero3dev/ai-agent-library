@@ -91,3 +91,46 @@ export function restoreD1CaseNames(names, addedNames, proof) {
   assert.deepEqual(restored, proof.priorCaseNames, 'All prior 91 cases must be recovered by only the explicit control rename')
   return restored
 }
+// D2 extends this helper after the complete, byte-identical D1 prefix.
+export function restoreD1ReleaseBodies(current, proof) {
+  assert.equal(hash(JSON.stringify(proof)), '31e84395380c9288beaa538ae8fc9850600e173a71f9f04c8d141896181f14b0', 'The complete adopted D2 reversal contract is fixed independently of the candidate files')
+  assert.equal(proof.schemaVersion, 1); assert.equal(proof.revision, 'D2-reasoning')
+  assert.equal(proof.predecessorManifestSHA256, '40cca5a2f969f4c0385fac358cf4988decb6f72076c5b91e1b52fe22153adee9')
+  assert.deepEqual(proof.predecessorFiles.map(item => item.file), ['extract-ci-html.mjs', 'collect-deployment.ps1', 'verify-public.mjs', 'local-alignment-adapter.mjs'])
+  assert.equal(hash(JSON.stringify(proof.priorCaseNames)), '738970b0cf992440fd36d40e5445c44b71f988185e6dcbf4c4422313c39fe589')
+  assert.equal(proof.priorCaseNamesSHA256, hash(JSON.stringify(proof.priorCaseNames)))
+  const result = { ...current }
+  for (const item of proof.predecessorFiles) {
+    assert.equal(typeof current[item.file], 'string')
+    let body = current[item.file]
+    for (const edit of item.sourceEdits.toReversed()) {
+      assert.equal(typeof edit.before, 'string'); assert.ok(edit.before.length > 0)
+      assert.equal(typeof edit.after, 'string'); assert.ok(edit.after.length > 0)
+      assert.equal(body.split(edit.after).length - 1, 1, 'A declared D2 replacement must occur exactly once')
+      body = body.replace(edit.after, () => edit.before)
+    }
+    const historical = proof.historicalFiles.find(entry => entry.file === item.file)
+    assert.ok(historical); assert.equal(item.previousSHA256, historical.sha256)
+    assert.equal(hash(body), item.previousSHA256, 'Release file changed beyond declared D2 additions: ' + item.file)
+    result[item.file] = body
+  }
+  for (const file of [...unchanged, 'pretraining-checks.mjs', 'alignment-checks.mjs', 'c2-predecessor-proof.json', 'd1-predecessor-proof.json']) {
+    const historical = proof.historicalFiles.find(item => item.file === file)
+    assert.ok(historical); assert.equal(hash(current[file]), historical.sha256, 'An unchanged D1 regression module differs: ' + file)
+  }
+  const prefix = current['predecessor-proof.mjs'].slice(0, current['predecessor-proof.mjs'].indexOf('// D2 extends this helper'))
+  assert.equal(hash(prefix), 'bad076d8cee2beb374de194d0cabae8e7183b3c87b7bc6531022f1626e95e443', 'The complete old D1 helper prefix is protected')
+  result['predecessor-proof.mjs'] = prefix
+  return result
+}
+
+export function restoreD2CaseNames(names, addedNames, proof) {
+  assert.equal(names.length, 121); assert.equal(new Set(names).size, 121)
+  assert.equal(addedNames.length, 14); assert.equal(new Set(addedNames).size, 14)
+  assert.deepEqual(names.filter(name => addedNames.includes(name)), addedNames)
+  assert.equal(names.indexOf(addedNames[0]), 81, 'D2 follows D1 and precedes mandatory favicon')
+  assert.deepEqual(names.slice(81, 95), addedNames, 'The fourteen D2 cases form one consecutive block')
+  const restored = names.filter(name => !addedNames.includes(name))
+  assert.deepEqual(restored, proof.priorCaseNames, 'All 107 prior case names must remain in order')
+  return restored
+}

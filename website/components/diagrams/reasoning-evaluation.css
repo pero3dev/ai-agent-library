@@ -1,0 +1,23 @@
+.reasoning-evaluation-scene text { fill: #e6edf6; font-family: inherit; font-size: 22px; }
+.reasoning-evaluation-scene .re-heading { font-size: 24px; font-weight: 650; }
+.reasoning-evaluation-scene .re-label { font-size: 22px; font-weight: 620; }
+.reasoning-evaluation-scene .re-note { fill: #bdcedd; font-size: 20px; }
+.reasoning-evaluation-scene .re-box, .reasoning-evaluation-scene .re-variant, .reasoning-evaluation-scene .re-trial { fill: #112638; stroke: #7794a9; stroke-width: 1.4; }
+.reasoning-evaluation-scene .re-panel, .reasoning-evaluation-scene .re-task-row { fill: #102131; stroke: #4b687e; stroke-width: 1.4; }
+.reasoning-evaluation-scene [data-emphasized="true"] > .re-task-row, .reasoning-evaluation-scene [data-emphasized="true"] > .re-variant { fill: #17333e; stroke: #74e3cf; stroke-width: 2.4; }
+.reasoning-evaluation-scene .re-selected-mark { fill: none; stroke: #74e3cf; stroke-width: 4; stroke-linecap: round; }
+.reasoning-evaluation-scene .re-divider { fill: none; stroke: #4b687e; stroke-width: 1; }
+.reasoning-evaluation-scene .re-extra { fill: #302e25; stroke: #f1c27e; stroke-width: 1.2; stroke-dasharray: 5 4; }
+.reasoning-evaluation-scene .re-condition { fill: #211e38; stroke: #baa7f3; stroke-width: 1.4; }
+.reasoning-evaluation-scene .re-boundary { fill: #102131; stroke: #baa7f3; stroke-width: 2; }
+.reasoning-evaluation-scene .re-exploration { fill: #17333e; stroke: #74e3cf; stroke-width: 1.6; }
+.reasoning-evaluation-scene .re-execution { fill: #302e25; stroke: #f1c27e; stroke-width: 1.8; }
+.re-controls { padding: 0 1.25rem .5rem; }
+.re-controls .cd-select { display: flex; align-items: center; gap: .5rem; color: #d6e4ed; font-size: .9rem; }
+.re-controls .cd-select > span { flex-shrink: 0; }
+.re-controls select { min-width: 0; width: 100%; border: 1px solid #648292; border-radius: .3rem; background: #152c3c; color: #edf6fa; padding: .4rem; font: inherit; }
+.re-controls select:focus-visible { outline: 2px solid #74e3cf; outline-offset: 3px; }
+.re-controls select:disabled { opacity: .6; }
+@media (max-width: 560px) { .re-controls { padding-inline: .75rem; } }
+@media (prefers-reduced-motion: reduce) { .reasoning-evaluation-scene * { transition: none !important; animation: none !important; } }
+@media print { .re-controls { display: none; } .reasoning-evaluation-scene * { transition: none !important; animation: none !important; } }

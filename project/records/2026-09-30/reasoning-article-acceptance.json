@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "article": "docs/10-llm-foundations/reasoning-models.md",
+  "review": {
+    "inputDigest": "sha256:2696c2dc66c8d222bb06fd2b4c07deb34ddcc9f19c40ccc917b6ceed5cc0d330",
+    "status": "approved",
+    "checkedAt": "2026-09-30T12:28:37.439Z",
+    "independent": true,
+    "record": "project/records/2026-09-30/reasoning-local-evidence/final-review.json"
+  },
+  "local": {
+    "inputDigest": "sha256:2696c2dc66c8d222bb06fd2b4c07deb34ddcc9f19c40ccc917b6ceed5cc0d330",
+    "status": "passed",
+    "checkedAt": "2026-09-30T12:28:37.439Z",
+    "record": "project/records/2026-09-30/reasoning-local-evidence/final-review.json"
+  },
+  "public": null
+}

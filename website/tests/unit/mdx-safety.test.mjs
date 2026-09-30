@@ -261,3 +261,33 @@ test('pretraining wrappers permit only their fixed IDs, literal props and parent
     '<ReadingStep step="3">本文</ReadingStep>'
   ]) assert.ok(findUnsafeMdx(source).length, source)
 })
+
+test('reasoning wrappers permit only their fixed IDs, literal props and parent-specific stages', () => {
+  for (const [id, count] of [["reasoning-sequence",4],["reasoning-evaluation",5]]) {
+    for (let stage = 0; stage < count; stage++) {
+      assert.deepEqual(findUnsafeMdx(`<ReasoningWalkthrough diagramId="${id}">\n\n<ReadingStep step="${stage}">\n\n- 本文\n\n</ReadingStep>\n\n</ReasoningWalkthrough>`), [])
+    }
+    assert.ok(findUnsafeMdx(`<ReasoningWalkthrough diagramId="${id}"><ReadingStep step="${count}">本文</ReadingStep></ReasoningWalkthrough>`).length)
+    assert.ok(findUnsafeMdx(`<FoundationsWalkthrough diagramId="${id}">本文</FoundationsWalkthrough>`).length)
+    assert.ok(findUnsafeMdx(`<InferenceWalkthrough diagramId="${id}">本文</InferenceWalkthrough>`).length)
+  }
+  for (const source of [
+    '<ReasoningWalkthrough>本文</ReasoningWalkthrough>',
+    '<ReasoningWalkthrough diagramId="reasoning-sequence" onClick="untrusted">本文</ReasoningWalkthrough>',
+    '<ReasoningWalkthrough diagramId="generation-token-loop">本文</ReasoningWalkthrough>',
+    '<ReasoningWalkthrough diagramId="../scene">本文</ReasoningWalkthrough>',
+    '<ReasoningWalkthrough diagramId={"reasoning-sequence"}>本文</ReasoningWalkthrough>',
+    '<ReasoningWalkthrough diagramId="reasoning-sequence" module="./scene">本文</ReasoningWalkthrough>',
+    '<ReasoningWalkthrough diagramId="reasoning-sequence" diagramId="reasoning-evaluation">本文</ReasoningWalkthrough>',
+    '<ReasoningWalkthrough {...{diagramId: "reasoning-sequence"}}>本文</ReasoningWalkthrough>',
+    '<ReasoningWalkthrough diagramId="reasoning-sequence"><AttentionStep step="0">本文</AttentionStep></ReasoningWalkthrough>',
+    '<ReasoningWalkthrough diagramId="reasoning-sequence"><ReadingStep step={1}>本文</ReadingStep></ReasoningWalkthrough>',
+    '<ReasoningWalkthrough diagramId="reasoning-sequence"><ReadingStep step="05">本文</ReadingStep></ReasoningWalkthrough>',
+    '<ReasoningWalkthrough diagramId="reasoning-sequence"><ReadingStep>本文</ReadingStep></ReasoningWalkthrough>',
+    '<ReasoningWalkthrough diagramId="reasoning-sequence"><ReasoningWalkthrough diagramId="reasoning-evaluation">本文</ReasoningWalkthrough></ReasoningWalkthrough>',
+    '<TransformerWalkthrough diagramId="transformer-block"><ReasoningWalkthrough diagramId="reasoning-sequence">本文</ReasoningWalkthrough></TransformerWalkthrough>',
+    '<ReasoningWalkthrough diagramId="reasoning-sequence"><InferenceWalkthrough diagramId="inference-sampling">本文</InferenceWalkthrough></ReasoningWalkthrough>',
+    'import { ReasoningWalkthrough } from "untrusted"',
+    '<ReadingStep step="3">本文</ReadingStep>'
+  ]) assert.ok(findUnsafeMdx(source).length, source)
+})

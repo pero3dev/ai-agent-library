@@ -1,0 +1,1144 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-final-local-review",
+  "reviewer_run_id": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+  "independent": true,
+  "reviewed_at": "2026-09-30T12:28:37.439Z",
+  "recorded_at": "2026-09-30T12:31:01.138Z",
+  "verdict": "approved",
+  "risk": "low",
+  "must": [],
+  "should": [],
+  "scope": "D2 product/model/shared AST semantics, final kit follow-up, actual image review and bounded old-nine source inheritance, completed local browser evidence and performance. This is local acceptance only.",
+  "base": "b6686c92dbb678ea8b94eb12df37a33207c4c84b",
+  "buildId": "ay8Xdd-uRIpIwdWdgy70j",
+  "inputs": [
+    {
+      "article": "docs/11-llm-internals/transformer-architecture.md",
+      "inputDigest": "sha256:3b53235296261639ec059e2951219305e168bb70fd65296bd89a8a0ab480986d"
+    },
+    {
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "inputDigest": "sha256:cac8069445fadb21af8f77fa0a46d9ba75378fdcc1207e4b0c05e62562071164"
+    },
+    {
+      "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "inputDigest": "sha256:570f41059ca3d4f09e9e5c3f309326710fd32e932f1aad850bd7516c9dc97be5"
+    },
+    {
+      "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "inputDigest": "sha256:7989470e2bb26e883bba4e67aa37e8271f54346a40e76ca15350745c7232ae47"
+    },
+    {
+      "article": "docs/10-llm-foundations/tokenization.md",
+      "inputDigest": "sha256:aa3f88fe68ae184855ebb162c5043afd93f4cf1332c9360bbeeaf50e16c157df"
+    },
+    {
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "inputDigest": "sha256:26017742695429975e20f64f18354d59612a97bc563fec10668325be849d0e6a"
+    },
+    {
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "inputDigest": "sha256:103aa08bd2f29a4b880fef55d6fa547da2fab27a22f840215ffe2c96181ca9eb"
+    },
+    {
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "inputDigest": "sha256:ef6219feaea29f5d4d0f79018f530d5ae61122460961e4454c36d43bb455abac"
+    },
+    {
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "inputDigest": "sha256:97b41ea0e6a47ea1fcf1ed298b8c4395f9e74df477ba9dabb2b496d7cf9a95c8"
+    },
+    {
+      "article": "docs/10-llm-foundations/reasoning-models.md",
+      "inputDigest": "sha256:2696c2dc66c8d222bb06fd2b4c07deb34ddcc9f19c40ccc917b6ceed5cc0d330"
+    }
+  ],
+  "reviewedInputs": [
+    {
+      "article": "docs/11-llm-internals/transformer-architecture.md",
+      "inputDigest": "sha256:3b53235296261639ec059e2951219305e168bb70fd65296bd89a8a0ab480986d"
+    },
+    {
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "inputDigest": "sha256:cac8069445fadb21af8f77fa0a46d9ba75378fdcc1207e4b0c05e62562071164"
+    },
+    {
+      "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "inputDigest": "sha256:570f41059ca3d4f09e9e5c3f309326710fd32e932f1aad850bd7516c9dc97be5"
+    },
+    {
+      "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "inputDigest": "sha256:7989470e2bb26e883bba4e67aa37e8271f54346a40e76ca15350745c7232ae47"
+    },
+    {
+      "article": "docs/10-llm-foundations/tokenization.md",
+      "inputDigest": "sha256:aa3f88fe68ae184855ebb162c5043afd93f4cf1332c9360bbeeaf50e16c157df"
+    },
+    {
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "inputDigest": "sha256:26017742695429975e20f64f18354d59612a97bc563fec10668325be849d0e6a"
+    },
+    {
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "inputDigest": "sha256:103aa08bd2f29a4b880fef55d6fa547da2fab27a22f840215ffe2c96181ca9eb"
+    },
+    {
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "inputDigest": "sha256:ef6219feaea29f5d4d0f79018f530d5ae61122460961e4454c36d43bb455abac"
+    },
+    {
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "inputDigest": "sha256:97b41ea0e6a47ea1fcf1ed298b8c4395f9e74df477ba9dabb2b496d7cf9a95c8"
+    },
+    {
+      "article": "docs/10-llm-foundations/reasoning-models.md",
+      "inputDigest": "sha256:2696c2dc66c8d222bb06fd2b4c07deb34ddcc9f19c40ccc917b6ceed5cc0d330"
+    }
+  ],
+  "html": [
+    {
+      "article": "docs/11-llm-internals/transformer-architecture.md",
+      "route": "/docs/llm-internals/transformer-architecture",
+      "bytes": 1078462,
+      "sha256": "cc648b9fb6077ea58eb86ca3c8d7ee7cd5033b89563d8ca38e9477df9c66d213"
+    },
+    {
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "route": "/docs/llm-internals/attention-variants-and-long-context",
+      "bytes": 771527,
+      "sha256": "f7e3064f7b1fc01bbd12ab2cd07443136323c770f32f8c4481687e527d30553f"
+    },
+    {
+      "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "route": "/docs/llm-internals/mixture-of-experts-internals",
+      "bytes": 712942,
+      "sha256": "ab444b52ae05a5485b76c49ae66c215893b569947866b615b128c9d3061919d1"
+    },
+    {
+      "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "route": "/docs/llm-foundations/how-llms-generate-text",
+      "bytes": 597030,
+      "sha256": "fa4dd86f723dd27af69bd4983af6e4702053e7400abb1eb0852c94ebb36d3d28"
+    },
+    {
+      "article": "docs/10-llm-foundations/tokenization.md",
+      "route": "/docs/llm-foundations/tokenization",
+      "bytes": 583450,
+      "sha256": "6f1f6d1c1ad94376578f04c0fbc7c1ff26ace24fed66c543c53683b2608b1f53"
+    },
+    {
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "route": "/docs/llm-internals/inference-internals",
+      "bytes": 718762,
+      "sha256": "cc12962076f35a1c7ef5629a2cda1459cc4648422daea9073b1e4e1a6e0d994d"
+    },
+    {
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "route": "/docs/llm-foundations/llm-training-pipeline",
+      "bytes": 611908,
+      "sha256": "741f77f30f04b04f9d944564ac0b16de2f4f92ee3e91ab14c073019ce8279947"
+    },
+    {
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+      "bytes": 766374,
+      "sha256": "a927212a9616b956cc0f80f90bb816ec264257cce9386eb3339a4334b8b93624"
+    },
+    {
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "route": "/docs/llm-internals/alignment-theory",
+      "bytes": 768377,
+      "sha256": "2079ab721dc2b3339b9481193d537c3d426604e5e239d834f96002dfa867e306"
+    },
+    {
+      "article": "docs/10-llm-foundations/reasoning-models.md",
+      "route": "/docs/llm-foundations/reasoning-models",
+      "bytes": 623618,
+      "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30"
+    }
+  ],
+  "publicAccepted": false,
+  "finalArticleHTMLSHA256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+  "sourceComparison": {
+    "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-input-comparison.json",
+    "sha256": "ad7f91a2e38bf0d24361368fae558c523b7fbd371afef52d3c15a900ce5b6c67"
+  },
+  "reviewedProductFiles": [
+    {
+      "path": "website/lib/reasoning-sequence-model.mjs",
+      "sha256": "9c9aed089793a463625ef5775818f3bc55754098ac061e0065d41b73e910bfbc",
+      "priorReviewedSHA256": "9c9aed089793a463625ef5775818f3bc55754098ac061e0065d41b73e910bfbc",
+      "unchangedFromFirstReview": true
+    },
+    {
+      "path": "website/lib/reasoning-evaluation-model.mjs",
+      "sha256": "19fecee44512d824f05c1c6ed723c2645585daa4d2b45dfbfa3dd48a9f22a4b4",
+      "priorReviewedSHA256": "19fecee44512d824f05c1c6ed723c2645585daa4d2b45dfbfa3dd48a9f22a4b4",
+      "unchangedFromFirstReview": true
+    },
+    {
+      "path": "website/components/diagrams/reasoning-sequence-walkthrough.jsx",
+      "sha256": "9dc1f67e63e1a579e3e8d6df869916a9fb22fec8151d9bce35798843b9a8a19c",
+      "priorReviewedSHA256": "77271156f7553e4110c5ed79a75a65aa50bf27f74414396ceb1e0093d677a868",
+      "unchangedFromFirstReview": false
+    },
+    {
+      "path": "website/components/diagrams/reasoning-evaluation-walkthrough.jsx",
+      "sha256": "a2228e74d454449e6523237cbe85df82e64b4590963b2fa6e1181b3481a2efd6",
+      "priorReviewedSHA256": "a2228e74d454449e6523237cbe85df82e64b4590963b2fa6e1181b3481a2efd6",
+      "unchangedFromFirstReview": true
+    },
+    {
+      "path": "website/components/diagrams/reasoning-sequence.css",
+      "sha256": "c23cc92eb01583844ffd7feef9d332883a266e72d842a52eb0fde496a525411e",
+      "priorReviewedSHA256": "c23cc92eb01583844ffd7feef9d332883a266e72d842a52eb0fde496a525411e",
+      "unchangedFromFirstReview": true
+    },
+    {
+      "path": "website/components/diagrams/reasoning-evaluation.css",
+      "sha256": "5fd025b1e561a37272fe40f7fc59c114fcfa4531152388601a42808dc8c2f259",
+      "priorReviewedSHA256": "5fd025b1e561a37272fe40f7fc59c114fcfa4531152388601a42808dc8c2f259",
+      "unchangedFromFirstReview": true
+    },
+    {
+      "path": "website/tests/unit/reasoning-sequence-model.test.mjs",
+      "sha256": "26711d858dbe8c0e00a7bc13eece021e8bfd073468c4a78f5bc0d9273d8a1579",
+      "priorReviewedSHA256": "26711d858dbe8c0e00a7bc13eece021e8bfd073468c4a78f5bc0d9273d8a1579",
+      "unchangedFromFirstReview": true
+    },
+    {
+      "path": "website/tests/unit/reasoning-evaluation-model.test.mjs",
+      "sha256": "d3462e1ce87d0caad65f22609ee4bf5cccaee8f90d0657026fb0e69becaf0bd4",
+      "priorReviewedSHA256": "d3462e1ce87d0caad65f22609ee4bf5cccaee8f90d0657026fb0e69becaf0bd4",
+      "unchangedFromFirstReview": true
+    }
+  ],
+  "references": [
+    {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-semantic-review.json",
+      "sha256": "2f29d4d8a0b4fd223556ff9eebfdc13b504e0b0aed5faf281d0dd246cb2020de"
+    },
+    {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-kit-code-review.json",
+      "sha256": "5172d8debb2af2c93ac65083b9d1d846f0ff2d900e1621eb8fbbf9eb222c1b17"
+    },
+    {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-kit-code-followup-review.json",
+      "sha256": "bf75535c9090660ac28e422a551741abbf4e3d52ebe240baad9d98abdf4b18a3"
+    },
+    {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-first-visual-review.json",
+      "sha256": "b0c3f79b7577325424601c3af2a4e2b004b67551264507076472f5d2dcae8d87"
+    },
+    {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-first-viewed-images.json",
+      "sha256": "85605a0f19f792d2fa725eeed29185a5fbc870889a38ccda03084bf00dc08b29"
+    },
+    {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-independent-input-comparison.json",
+      "sha256": "bacb66fb7aa521c7a92916a8200f7921f245d1167eba77ff6b715e1cfd0269ff"
+    }
+  ],
+  "sourceAndSemantic": {
+    "article": "docs/10-llm-foundations/reasoning-models.md",
+    "articleRawSHA256": "71246ca014e171936139af9083df301f16dcb7dade8f7aeb3a0b14516a19ef44",
+    "articleUnchanged": true,
+    "canonicalAstSHA256": "eb85b1513c5f56e896902a387d505e0ee967ff6d5cbbbd93566846f61202cecc",
+    "topics": 43,
+    "dynamicTopics": 26,
+    "staticTopics": 17,
+    "stages": 9,
+    "READ": 8,
+    "manual": 1,
+    "readMeaningCarryover": true,
+    "originalSourceAndASTPreserved": true,
+    "wordingFollowup": {
+      "file": "website/components/diagrams/reasoning-sequence-walkthrough.jsx",
+      "line": 62,
+      "old": "CoT 指示を加えるだけではない",
+      "current": "CoT 指示だけとは限らない",
+      "status": "resolved; sole product-byte change since initial review",
+      "finalActualImageConfirmed": true
+    },
+    "judgment": "Both regular and reasoning models may write intermediate considerations; symbols do not reproduce hidden thoughts. Inference weights fixed; costs and performance null/unmeasured. Source-table candidates stay distinct from controlled same-input comparison. READ0 to2 to3 retains mandatory sequence conclusions; evaluation keeps controls stage-scoped, all variants and boundaries explicit, and four empty trials/twelve unmeasured fields."
+  },
+  "kitFollowup": {
+    "report": {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-kit-code-followup-review.json",
+      "sha256": "bf75535c9090660ac28e422a551741abbf4e3d52ebe240baad9d98abdf4b18a3"
+    },
+    "M1": "resolved by independently pinned whole-proof canonical SHA and linked-mutation rejection",
+    "M2": "resolved; hidden print selector value is verified without requiring visibility; SVG semantics stay visible",
+    "M3": "resolved; independent visible-text oracle, per-variant metrics, candidate text, real containment bounds and null metrics",
+    "S1": "resolved; new14 cases form the exact contiguous block",
+    "oldCases": 107,
+    "newCases": 14,
+    "totalPublicCases": 121,
+    "routes": 10,
+    "independence": "M2/M3 reviewed here; M1/S1 and performance-helper code independently checked by named child, whose real timestamp and source hashes are preserved in follow-up report."
+  },
+  "imageReview": {
+    "ledger": {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-combined-viewed-images.json",
+      "sha256": "28153cd1c06c4b83a51bcafc5c7c40ded9747f70d15b332716284d13d09e9887"
+    },
+    "actualViewed": 122,
+    "historical83": {
+      "actual": 83,
+      "passedCaseImages": 82,
+      "failedCaseDiagnosticImages": 1,
+      "inheritance": "Geometry and unchanged semantic surfaces only. Old S2 wording is superseded; failed historical print is never a pass."
+    },
+    "finalBuild39": {
+      "actual": 39,
+      "webkit": 34,
+      "edgePreflight": 5,
+      "scope": "Desktop nine stages, mobile light/dark, low height, DSF2, all seven inline selector scene choices, modal corrected S2 text, and both engines print scenes."
+    },
+    "renderJudgment": "No actual glyph collision, clipped mandatory labels, disconnected wires or misleading semantic display found in reviewed images.",
+    "generatedCountsAreNotViewedCounts": true
+  },
+  "browserRuns": [
+    {
+      "run": "third-edge",
+      "scope": "Historical run; one failed print case remains diagnostic",
+      "caseCount": 14,
+      "passed": 13,
+      "failed": 1,
+      "generatedPngCount": 138,
+      "cases": [
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-third-edge\\reasoning-reasoning-all-8--55810-d-independent-figure-states\\reasoning-result.json",
+          "sha256": "1c80ade4b35a68e0caabde4539c7b61ca5bf0b9d95c0c8edeb283faf45e00553",
+          "name": "reasoning: all 8 READ stops, manual-stage meaning carryover and independent figure states",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "001ef3f4c140e3190e5c65d00e728a874c70f3fc7d4b99230fa425d2c75e637e",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 0
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-third-edge\\reasoning-reasoning-all-9-stages-1280x720-light-DSF1\\reasoning-result.json",
+          "sha256": "6efa671aac3dbfb6a416cbf62967a1d99fe6d64b6aa8affb529c464846893a3f",
+          "name": "reasoning: all 9 stages 1280x720 light DSF1",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "001ef3f4c140e3190e5c65d00e728a874c70f3fc7d4b99230fa425d2c75e637e",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 18
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-third-edge\\reasoning-reasoning-all-9-stages-1440x1000-dark-DSF1\\reasoning-result.json",
+          "sha256": "2c8275e72f38d0f38f43e27357dbc594ec938e4d059f5652c105c22ebcc08f9d",
+          "name": "reasoning: all 9 stages 1440x1000 dark DSF1",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "001ef3f4c140e3190e5c65d00e728a874c70f3fc7d4b99230fa425d2c75e637e",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 18
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-third-edge\\reasoning-reasoning-all-9-stages-1440x1000-light-DSF1\\reasoning-result.json",
+          "sha256": "349a0a313f598848b9d2e018077d8293802dc40c603152c5d37a1db054370299",
+          "name": "reasoning: all 9 stages 1440x1000 light DSF1",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "001ef3f4c140e3190e5c65d00e728a874c70f3fc7d4b99230fa425d2c75e637e",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 18
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-third-edge\\reasoning-reasoning-all-9-stages-390x844-dark-DSF1\\reasoning-result.json",
+          "sha256": "486e08815506022247c154e4533e02d6f19c09a96ab23a9cdedb9e6129ced388",
+          "name": "reasoning: all 9 stages 390x844 dark DSF1",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "001ef3f4c140e3190e5c65d00e728a874c70f3fc7d4b99230fa425d2c75e637e",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 18
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-third-edge\\reasoning-reasoning-all-9-stages-390x844-light-DSF1\\reasoning-result.json",
+          "sha256": "f15744645122c714544300b128b92eb7378c7d8ef9d63eb6ab39966a233aecd9",
+          "name": "reasoning: all 9 stages 390x844 light DSF1",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "001ef3f4c140e3190e5c65d00e728a874c70f3fc7d4b99230fa425d2c75e637e",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 18
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-third-edge\\reasoning-reasoning-all-9-stages-960x540-light-DSF2\\reasoning-result.json",
+          "sha256": "ed9b87adfce8dba44fc499bddcb22dae03f6b539985501d2010c78e2fd54a4d8",
+          "name": "reasoning: all 9 stages 960x540 light DSF2",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "001ef3f4c140e3190e5c65d00e728a874c70f3fc7d4b99230fa425d2c75e637e",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 18
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-third-edge\\reasoning-reasoning-evalua-18758-d-stage-restricted-controls\\reasoning-result.json",
+          "sha256": "972ffbe83c5d2349bf300cbc3906d5ef19c0aa30e564ebbeecbd1060163da90e",
+          "name": "reasoning-evaluation: independent meaning fixtures, all six setting pairs and stage-restricted controls",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "001ef3f4c140e3190e5c65d00e728a874c70f3fc7d4b99230fa425d2c75e637e",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 14
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-third-edge\\reasoning-reasoning-evalua-ede74-pause-replay-and-completion\\reasoning-result.json",
+          "sha256": "e99f875ac47acc463e9e4306102a8c564c9046cea04129051b90a36ff6b2b165",
+          "name": "reasoning-evaluation: native elapsed play, frozen pause, replay and completion",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "001ef3f4c140e3190e5c65d00e728a874c70f3fc7d4b99230fa425d2c75e637e",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 0
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-third-edge\\reasoning-reasoning-keyboa-e1833-ated-state-and-focus-return\\reasoning-result.json",
+          "sha256": "54ce464b9abb2353c2a2da33e4d02e1773133a01f2b5354cf3947d3b36e47f30",
+          "name": "reasoning: keyboard transport, modal selectors, isolated state and focus return",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "001ef3f4c140e3190e5c65d00e728a874c70f3fc7d4b99230fa425d2c75e637e",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 12
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-third-edge\\reasoning-reasoning-noJS-o-46044-e-static-stage-descriptions\\reasoning-result.json",
+          "sha256": "125e27e100ce3f903f07b5b50f171e1954a39a8c5635b88fbd922f87520e7d84",
+          "name": "reasoning noJS: original prose, nine headings, two tables and all nine static stage descriptions",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "001ef3f4c140e3190e5c65d00e728a874c70f3fc7d4b99230fa425d2c75e637e",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 3
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-third-edge\\reasoning-reasoning-print--533e3-rticle-with-controls-hidden\\reasoning-result.json",
+          "sha256": "c48d28c223244dfce24ca77504744f3874faae7668029b742a7d93ed98c2edd7",
+          "name": "reasoning print: coherent scenes and original article with controls hidden",
+          "status": "failed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "001ef3f4c140e3190e5c65d00e728a874c70f3fc7d4b99230fa425d2c75e637e",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 1
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-third-edge\\reasoning-reasoning-sequen-b7210--and-midpoint-reverse-seeks\\reasoning-result.json",
+          "sha256": "4f301d35310bae14d69d1740f860b8adb85ca6f16e1d3ca4f37aa01493b4b8f6",
+          "name": "reasoning-sequence: independent meaning fixtures, history-free stages and midpoint reverse seeks",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "001ef3f4c140e3190e5c65d00e728a874c70f3fc7d4b99230fa425d2c75e637e",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 0
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-third-edge\\reasoning-reasoning-sequen-b9fed-pause-replay-and-completion\\reasoning-result.json",
+          "sha256": "eac74bd4fc72fb79a8c5ae25e6be62c56ec43df5ec5dc84e9cc7d73368abb329",
+          "name": "reasoning-sequence: native elapsed play, frozen pause, replay and completion",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "001ef3f4c140e3190e5c65d00e728a874c70f3fc7d4b99230fa425d2c75e637e",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 0
+        }
+      ]
+    },
+    {
+      "run": "preflight-edge",
+      "scope": "Two focused cases; not a fourteen-case rerun",
+      "caseCount": 2,
+      "passed": 2,
+      "failed": 0,
+      "generatedPngCount": 21,
+      "cases": [
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-preflight-edge\\reasoning-reasoning-all-9-stages-1440x1000-light-DSF1\\reasoning-result.json",
+          "sha256": "4396969a24c61e9146e72b71a8039b99166cb51ac4756f9feb02eb783bca7b0d",
+          "name": "reasoning: all 9 stages 1440x1000 light DSF1",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 18
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-preflight-edge\\reasoning-reasoning-print--533e3-rticle-with-controls-hidden\\reasoning-result.json",
+          "sha256": "954637264c52dd268e5cf912b9c06c062ff1a894cfa839ac96ac7f5ae6faa80d",
+          "name": "reasoning print: coherent scenes and original article with controls hidden",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 3
+        }
+      ]
+    },
+    {
+      "run": "final-edge",
+      "scope": "Fourteen D2 cases",
+      "caseCount": 14,
+      "passed": 14,
+      "failed": 0,
+      "generatedPngCount": 140,
+      "cases": [
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-edge\\reasoning-reasoning-all-8--55810-d-independent-figure-states\\reasoning-result.json",
+          "sha256": "f821d2588310f66bb67ac305c8000aecbcb35231f3a88dd5c2700933c3a73763",
+          "name": "reasoning: all 8 READ stops, manual-stage meaning carryover and independent figure states",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 0
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-edge\\reasoning-reasoning-all-9-stages-1280x720-light-DSF1\\reasoning-result.json",
+          "sha256": "9820f06cb67a071c8b8a07a0803bbf9967f5ea6cf0926db44a722fbf66758aae",
+          "name": "reasoning: all 9 stages 1280x720 light DSF1",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 18
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-edge\\reasoning-reasoning-all-9-stages-1440x1000-dark-DSF1\\reasoning-result.json",
+          "sha256": "912e3d7dc7d0b6a262fd3fda32b655b3e316af38670948c9f11f9da784e23814",
+          "name": "reasoning: all 9 stages 1440x1000 dark DSF1",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 18
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-edge\\reasoning-reasoning-all-9-stages-1440x1000-light-DSF1\\reasoning-result.json",
+          "sha256": "38c4285e88f07aa2df74b6f3cd5c8ddd63895654ca52815e3509e63001c424dc",
+          "name": "reasoning: all 9 stages 1440x1000 light DSF1",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 18
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-edge\\reasoning-reasoning-all-9-stages-390x844-dark-DSF1\\reasoning-result.json",
+          "sha256": "23ba3a8ef3a53a31c0dd4ca64d22bc939afc6d25b57bdddb5d5430b4f5cea902",
+          "name": "reasoning: all 9 stages 390x844 dark DSF1",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 18
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-edge\\reasoning-reasoning-all-9-stages-390x844-light-DSF1\\reasoning-result.json",
+          "sha256": "3da3f549c7d23046ece972029b2984b188d9eadd35fa495818d3cce31876e1d6",
+          "name": "reasoning: all 9 stages 390x844 light DSF1",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 18
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-edge\\reasoning-reasoning-all-9-stages-960x540-light-DSF2\\reasoning-result.json",
+          "sha256": "4fc634d8af9424aec41fcd7ab969dd0e5c5830416e08e1d37a43b95c827fcaf9",
+          "name": "reasoning: all 9 stages 960x540 light DSF2",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 18
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-edge\\reasoning-reasoning-evalua-18758-d-stage-restricted-controls\\reasoning-result.json",
+          "sha256": "a98b6fac14a0695542972ed50e9fddb647c221a94ae2ce427445a9f5b7334b17",
+          "name": "reasoning-evaluation: independent meaning fixtures, all six setting pairs and stage-restricted controls",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 14
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-edge\\reasoning-reasoning-evalua-ede74-pause-replay-and-completion\\reasoning-result.json",
+          "sha256": "b3002e7db6edf48bee530857d426579a3fdd83d0f340e227b700e1a656ea13b7",
+          "name": "reasoning-evaluation: native elapsed play, frozen pause, replay and completion",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 0
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-edge\\reasoning-reasoning-keyboa-e1833-ated-state-and-focus-return\\reasoning-result.json",
+          "sha256": "340f3298fe8be95668f5bf6a00ab509e199ff175dc4f99ddd446259788a85b5a",
+          "name": "reasoning: keyboard transport, modal selectors, isolated state and focus return",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 12
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-edge\\reasoning-reasoning-noJS-o-46044-e-static-stage-descriptions\\reasoning-result.json",
+          "sha256": "0df4c79c5bb55caaa518b4c2d46b81efb7dd3e84d2d5a232063a2d7aa65188bc",
+          "name": "reasoning noJS: original prose, nine headings, two tables and all nine static stage descriptions",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 3
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-edge\\reasoning-reasoning-print--533e3-rticle-with-controls-hidden\\reasoning-result.json",
+          "sha256": "dcea9f44ebeaf5cfc939dfbaef0ba196b0599091fb5ae53b97336e8cfe1fc2a0",
+          "name": "reasoning print: coherent scenes and original article with controls hidden",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 3
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-edge\\reasoning-reasoning-sequen-b7210--and-midpoint-reverse-seeks\\reasoning-result.json",
+          "sha256": "dd5c944eed2c2f058e0403adab2a3dfc2017cadef1ed5640e202e6ffdaa6fb7b",
+          "name": "reasoning-sequence: independent meaning fixtures, history-free stages and midpoint reverse seeks",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 0
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-edge\\reasoning-reasoning-sequen-b9fed-pause-replay-and-completion\\reasoning-result.json",
+          "sha256": "206f661a7f35ae8ea85ded32b1de7c5b19c9173bca5c5cd24cf16141ee4bbb7b",
+          "name": "reasoning-sequence: native elapsed play, frozen pause, replay and completion",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 0
+        }
+      ]
+    },
+    {
+      "run": "final-webkit",
+      "scope": "Fourteen D2 cases",
+      "caseCount": 14,
+      "passed": 14,
+      "failed": 0,
+      "generatedPngCount": 140,
+      "cases": [
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-webkit\\reasoning-reasoning-all-8--55810-d-independent-figure-states\\reasoning-result.json",
+          "sha256": "50e439c2c75bbc0b02ad6ffb615f2405268af11bee148b00a99d25373a3bc539",
+          "name": "reasoning: all 8 READ stops, manual-stage meaning carryover and independent figure states",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 0
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-webkit\\reasoning-reasoning-all-9-stages-1280x720-light-DSF1\\reasoning-result.json",
+          "sha256": "371391a6a6e9bac3e4b6f5f617fab43f1aba24abbc897b391579fd1e43b3527b",
+          "name": "reasoning: all 9 stages 1280x720 light DSF1",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 18
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-webkit\\reasoning-reasoning-all-9-stages-1440x1000-dark-DSF1\\reasoning-result.json",
+          "sha256": "ce30245a24a8bb7ee6e7abc575a52761940f5aa415d9374943a9583bb8019f5f",
+          "name": "reasoning: all 9 stages 1440x1000 dark DSF1",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 18
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-webkit\\reasoning-reasoning-all-9-stages-1440x1000-light-DSF1\\reasoning-result.json",
+          "sha256": "25eceaa4ba19a28bd6161ce07e86c50be8d9384568e304cc0169f6f29f373dac",
+          "name": "reasoning: all 9 stages 1440x1000 light DSF1",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 18
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-webkit\\reasoning-reasoning-all-9-stages-390x844-dark-DSF1\\reasoning-result.json",
+          "sha256": "742a49894cce826a5823439523003c6c7bb850c89a9587026529eb9efee265e5",
+          "name": "reasoning: all 9 stages 390x844 dark DSF1",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 18
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-webkit\\reasoning-reasoning-all-9-stages-390x844-light-DSF1\\reasoning-result.json",
+          "sha256": "6be717c6eed57e6cd758aef923f369f00b6bb02bf7ed7d0d77ad28c13cdc737e",
+          "name": "reasoning: all 9 stages 390x844 light DSF1",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 18
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-webkit\\reasoning-reasoning-all-9-stages-960x540-light-DSF2\\reasoning-result.json",
+          "sha256": "f87e51d5428d22c7e38d59d60809b1038c146e9b6d1bcb16e6ba12a5dfa5e511",
+          "name": "reasoning: all 9 stages 960x540 light DSF2",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 18
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-webkit\\reasoning-reasoning-evalua-18758-d-stage-restricted-controls\\reasoning-result.json",
+          "sha256": "6031dedf380e40e78dff3b5a576e2e637499de1fb38c1826dae0bd6e1a01c06f",
+          "name": "reasoning-evaluation: independent meaning fixtures, all six setting pairs and stage-restricted controls",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 14
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-webkit\\reasoning-reasoning-evalua-ede74-pause-replay-and-completion\\reasoning-result.json",
+          "sha256": "32a6e410311dae69a9231b59fe89c89783c8b386add0dab54ca408bc82fddc2d",
+          "name": "reasoning-evaluation: native elapsed play, frozen pause, replay and completion",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 0
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-webkit\\reasoning-reasoning-keyboa-e1833-ated-state-and-focus-return\\reasoning-result.json",
+          "sha256": "308cfd36b7dc128e7fd8e0d3909893d19b189ff63ee6cc3842f71de1a1bfb946",
+          "name": "reasoning: keyboard transport, modal selectors, isolated state and focus return",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 12
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-webkit\\reasoning-reasoning-noJS-o-46044-e-static-stage-descriptions\\reasoning-result.json",
+          "sha256": "0d11d18d04fdd39ffedb803423bad911f3a2384e475506131655029f4dec6a89",
+          "name": "reasoning noJS: original prose, nine headings, two tables and all nine static stage descriptions",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 3
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-webkit\\reasoning-reasoning-print--533e3-rticle-with-controls-hidden\\reasoning-result.json",
+          "sha256": "2d16149149adcb53d96e84594bd45d948e2561037c3627d1441e772f1b6c98c0",
+          "name": "reasoning print: coherent scenes and original article with controls hidden",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 3
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-webkit\\reasoning-reasoning-sequen-b7210--and-midpoint-reverse-seeks\\reasoning-result.json",
+          "sha256": "8d9a144c9ad98bd5407e87be8259dfe55b3760f13ccd286176bb63921169f448",
+          "name": "reasoning-sequence: independent meaning fixtures, history-free stages and midpoint reverse seeks",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 0
+        },
+        {
+          "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-webkit\\reasoning-reasoning-sequen-b9fed-pause-replay-and-completion\\reasoning-result.json",
+          "sha256": "398efe7947c81726e6ce205d25ef38d2b205cb5a77c20e13061bfe62b363fef6",
+          "name": "reasoning-sequence: native elapsed play, frozen pause, replay and completion",
+          "status": "passed",
+          "localDocument": {
+            "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+            "status": 200,
+            "contentType": "text/html; charset=utf-8",
+            "sha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+            "identityClass": "localhost-static-export-only"
+          },
+          "screenshotCount": 0
+        }
+      ]
+    }
+  ],
+  "browserLogs": [
+    {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-edge.log",
+      "sha256": "2e0ed659f004e7b2199c1822929970ba73b4560ae7bfa9eee3be9edf600bfe46",
+      "scope": "Current whole-site Edge regression",
+      "passed": 347,
+      "skipped": 5,
+      "failed": 0,
+      "total": 352
+    },
+    {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-final-webkit.log",
+      "sha256": "efab145a8b94bf365e370e155ab7536ec083d795b365cd0190d956712b56d7df",
+      "scope": "Current D2 WebKit suite",
+      "passed": 14,
+      "skipped": 0,
+      "failed": 0
+    },
+    {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-preflight-edge.log",
+      "sha256": "1a0f0c7c2e97537bc70ec139e3f9fec082caa62c4f27cd8140908e77c85fdac3",
+      "scope": "Earlier same-final-build focused Edge preflight",
+      "passed": 2,
+      "failed": 0
+    },
+    {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-fallback-edge.log",
+      "sha256": "4ab2647c024cbb619ab451767dbe989b3b124967e73b37414a394bfb9bb3a73e",
+      "scope": "Separately executed D2 lazy-chunk failure fallback Edge; not included in 352",
+      "passed": 2,
+      "failed": 0
+    },
+    {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-fallback-webkit.log",
+      "sha256": "f714ab609dc1c39ccdf02d02354ebf9b194133be661f28e2c0304e05ffbd19d5",
+      "scope": "Separately executed D2 lazy-chunk failure fallback WebKit",
+      "passed": 2,
+      "failed": 0
+    }
+  ],
+  "performance": {
+    "raw": {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-independent-performance\\2026-09-30T12-26-53.566Z\\result.json",
+      "sha256": "5654dfa2dd64be37246ee8bde96f608642efce8116e501ed0dfa77ce06cd29e0"
+    },
+    "executedBy": "root; completed result independently checked by this reviewer",
+    "reviewerCheckedAt": "2026-09-30T12:28:37.439Z",
+    "helper": {
+      "path": "C:\\dev\\ai-agent-library\\TEMP\\reasoning-independent-performance.mjs",
+      "sha256": "e5bb82f3275f52f03d9684c90193ef48001fc5aef2c0b665aae2b1c7c0066b4b"
+    },
+    "startedAt": "2026-09-30T12:26:53.862Z",
+    "finishedAt": "2026-09-30T12:27:24.901Z",
+    "identityUnchanged": true,
+    "beforeAfterTenInputsAndHtmlMatch": true,
+    "environment": {
+      "os": "win32",
+      "release": "10.0.26200",
+      "arch": "x64",
+      "node": "v24.16.0",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "deviceScaleFactor": 1,
+      "cpuNetworkThrottling": "none",
+      "transport": "loopback uncompressed static export",
+      "browser": "154.0.4258.37"
+    },
+    "thresholds": {
+      "commonGzipBytes": 102400,
+      "sceneGzipBytes": 76800,
+      "cls": 0.05,
+      "inputMs": 200,
+      "rafP95Ms": 32,
+      "idleSettleMs": 200,
+      "idleWindowMs": 500
+    },
+    "cold": [
+      {
+        "label": "D2",
+        "route": "/docs/llm-foundations/reasoning-models",
+        "sceneGzipBytes": 17309,
+        "sharedGzipBytes": 21954,
+        "CLS": 0,
+        "figureCount": 2
+      },
+      {
+        "label": "negative-control",
+        "route": "/docs/implementation/embeddings",
+        "sceneGzipBytes": 0,
+        "sharedGzipBytes": 21954,
+        "CLS": 0,
+        "figureCount": 0
+      }
+    ],
+    "figures": [
+      {
+        "id": "reasoning-sequence",
+        "responseMs": 14.200000047683716,
+        "rafP95Ms": 7.100000000000364,
+        "rafSamples": 792,
+        "distinctPhases": 123,
+        "pause": {
+          "windowMs": 514.2000000476837,
+          "requestedDelta": 0,
+          "executedDelta": 0,
+          "pending": 0,
+          "phaseStable": true
+        },
+        "actualViewportExit": {
+          "windowMs": 524.9000000953674,
+          "requestedDelta": 0,
+          "executedDelta": 0,
+          "pending": 0,
+          "phaseStable": true,
+          "outsideViewport": true
+        }
+      },
+      {
+        "id": "reasoning-evaluation",
+        "responseMs": 10.100000143051147,
+        "rafP95Ms": 7.100000000000364,
+        "rafSamples": 786,
+        "distinctPhases": 123,
+        "pause": {
+          "windowMs": 516,
+          "requestedDelta": 0,
+          "executedDelta": 0,
+          "pending": 0,
+          "phaseStable": true
+        },
+        "actualViewportExit": {
+          "windowMs": 525.7000000476837,
+          "requestedDelta": 0,
+          "executedDelta": 0,
+          "pending": 0,
+          "phaseStable": true,
+          "outsideViewport": true
+        }
+      }
+    ],
+    "criticalErrors": 0,
+    "retainedNonCriticalAbortedFetches": 38,
+    "networkBoundary": "Thirty-eight fetch ERR_ABORTED records are retained. Their cause is not inferred; this is not a claim of zero network failures.",
+    "measurementBoundary": "Loopback static export, Windows Edge 1440x1000 DSF1, no CPU/network throttle. gzip is whole emitted-chunk calculation, not observed transfer. UI latency is handler-to-range observation; rAF intervals are callback intervals, not GPU frame times. No claim for physical phones or slow devices."
+  },
+  "oldNineInheritance": {
+    "independentComparison": {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-independent-input-comparison.json",
+      "sha256": "bacb66fb7aa521c7a92916a8200f7921f245d1167eba77ff6b715e1cfd0269ff"
+    },
+    "checkedAt": "2026-09-30T12:14:19.751Z",
+    "lastCurrentIdentityRecheck": "2026-09-30T12:27:41.301Z",
+    "uniqueOldInputFiles": 132,
+    "oldRegistryEntries": 27,
+    "oldArticleAssignments": 9,
+    "oldArticleSpecificInputsUnchanged": true,
+    "onlyFiveSharedFilesChanged": [
+      "website/lib/diagram-registry.mjs",
+      "website/lib/diagram-decoration.mjs",
+      "website/lib/mdx-safety.mjs",
+      "website/lib/diagram-article-acceptance.mjs",
+      "website/mdx-components.js"
+    ],
+    "sharedFiveIndependentReviewConfirmed": true,
+    "historicalPublicAcceptance": {
+      "merge": "b6686c92dbb678ea8b94eb12df37a33207c4c84b",
+      "reviewer": "/root/pretraining_visual_review",
+      "reviewed_at": "2026-09-30T11:18:33.154Z",
+      "review": "project/records/2026-09-30/alignment-public-evidence/final-review.json",
+      "boundary": "PR63 evidence is historical. Its WebKit first full-run failure and successful focused repeat retain their original statuses, not a full rerun."
+    },
+    "currentWholeSiteEdgePassed": true,
+    "currentOldNinePublicAccepted": false
+  },
+  "boundaries": [
+    "No final public deployment or public artifact acceptance. After deployment, same new public artifact must pass all121 cases in both Edge and WebKit plus independent visual acceptance.",
+    "Actual screenshot review is independent visual evidence; native motion/interaction comes from reviewed raw browser test evidence, not a claim that this reviewer personally operated the UI.",
+    "WebKit desktop/mobile emulation is not physical iPhone Safari acceptance. DSF2 is not actual browser UI zoom200%.",
+    "Root static/unit/preparation passes remain author-run evidence; this report does not recast them as reviewer executions.",
+    "Archived failed and interrupted runs are preserved as historical diagnostics; final passed evidence is named and hash-bound separately."
+  ],
+  "edits": "Only reviewer reports and image ledger in OS TEMP; no product, kit, source article, Git or gate edits."
+}

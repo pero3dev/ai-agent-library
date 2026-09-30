@@ -9,7 +9,8 @@ import { isKnownRootFavicon404 } from './known-site-observations.mjs'
 
 // Local adapter has no public CLI, release SHA, artifact or deployment arguments.
 // It calls the same 16 case callbacks through Playwright's real local test fixtures.
-export function createLocalAlignmentAdapter({ browser, expect, baseURL, basePath = '', outputPath, report }) {
+export function createLocalAlignmentAdapter({ browser, expect, baseURL, basePath = '', outputPath, report, extraSceneMarkers = [] }) {
+  assert.ok(Array.isArray(extraSceneMarkers) && extraSceneMarkers.every(value => typeof value === 'string' && value.length > 0), 'Extra scene markers must be nonempty strings')
   const parsed = new URL(baseURL)
   assert.ok(['127.0.0.1', 'localhost', '[::1]'].includes(parsed.hostname), 'Local adapter only accepts loopback')
   assert.equal(parsed.protocol, 'http:'); assert.equal(parsed.pathname, '/')
@@ -36,7 +37,7 @@ const moe = [
   { id: 'moe-parameters-communication', labels: ['保持', '使用', '配置', '送出', '返送', '確認'], steps: [0, 1, 2, 5], marker: 'MoE / PARAMETERS & COMMUNICATION' }
 ]
 
-  const sceneMarkers = [...alignment, ...pretraining, ...training, ...inference, ...foundations, ...variants, ...transformers, ...moe].map(item => item.marker).concat(['AGENT LOOP / CONTROL FLOW', 'WORKFLOW / AGENT'])
+  const sceneMarkers = [...alignment, ...pretraining, ...training, ...inference, ...foundations, ...variants, ...transformers, ...moe].map(item => item.marker).concat(['AGENT LOOP / CONTROL FLOW', 'WORKFLOW / AGENT'], extraSceneMarkers)
   const markers = sceneMarkers.concat(['ReadingFigure requires at least one stage'])
 function observe(page) {
   const state = { resources: [], failures: [], consoleErrors: [], pageErrors: [], pending: [] }

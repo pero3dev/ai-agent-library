@@ -2,25 +2,25 @@
   "schemaVersion": 1,
   "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
   "review": {
-    "inputDigest": "sha256:498e320639470aba47e30970eab4d22b953eacf36719d94e774c373f41efe9a3",
+    "inputDigest": "sha256:ef6219feaea29f5d4d0f79018f530d5ae61122460961e4454c36d43bb455abac",
     "status": "approved",
-    "checkedAt": "2026-09-30T09:55:15.572Z",
+    "checkedAt": "2026-09-30T12:28:37.439Z",
     "independent": true,
-    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
+    "record": "project/records/2026-09-30/reasoning-local-evidence/final-review.json"
   },
   "local": {
-    "inputDigest": "sha256:498e320639470aba47e30970eab4d22b953eacf36719d94e774c373f41efe9a3",
+    "inputDigest": "sha256:ef6219feaea29f5d4d0f79018f530d5ae61122460961e4454c36d43bb455abac",
     "status": "passed",
-    "checkedAt": "2026-09-30T09:55:15.572Z",
-    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
+    "checkedAt": "2026-09-30T12:28:37.439Z",
+    "record": "project/records/2026-09-30/reasoning-local-evidence/final-review.json"
   },
   "public": {
-    "inputDigest": "sha256:0fa344cb9b3ec838864fb9c0f7b6e4f2532751e8535a43e057cd53f41f7a18b6",
+    "inputDigest": "sha256:498e320639470aba47e30970eab4d22b953eacf36719d94e774c373f41efe9a3",
     "status": "passed",
-    "checkedAt": "2026-09-29T19:43:48.515Z",
-    "commit": "5940334a6fd3aab8178cfeb8746a58c8b937d390",
-    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36615994124",
-    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36615994124/job/109574494236",
-    "browserRecord": "project/records/2026-09-30/inference-score-spacing-public-pr62-review.md"
+    "checkedAt": "2026-09-30T11:18:33.154Z",
+    "commit": "b6686c92dbb678ea8b94eb12df37a33207c4c84b",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36702086701",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36702086701/job/109848894912",
+    "browserRecord": "project/records/2026-09-30/alignment-public-evidence/final-review.json"
   }
 }

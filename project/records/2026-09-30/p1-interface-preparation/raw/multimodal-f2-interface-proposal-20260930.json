@@ -1,0 +1,1749 @@
+{
+  "schemaVersion": 1,
+  "kind": "F2 interface proposal, not accepted or implemented",
+  "writer": "/root",
+  "createdAt": "2026-09-29T19:03:27.004Z",
+  "repoEdited": false,
+  "sourceModified": false,
+  "requiresPublicAcceptanceOf": [
+    "F1"
+  ],
+  "inputs": [
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "sha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319"
+    },
+    {
+      "file": "docs/10-llm-foundations/multimodal-models.md",
+      "sha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033"
+    },
+    {
+      "file": "research/internals/p1-remaining-diagram-sources-2026-09-24.json",
+      "sha256": "3aff21e037e9eec6962925e459e5e8a762f8b8511d8d8212b34f91cd55eb28d1"
+    },
+    {
+      "file": "website/lib/diagram-registry.mjs",
+      "sha256": "85e75284f46ce42f7c89384a32bce6d227d2273855adfc81238d2f78966518d9"
+    },
+    {
+      "file": "website/lib/reading-clock.mjs",
+      "sha256": "f39eadf5eb39ebbb0f33877e6bceb9966211fc7acdaad13118428a4c2019081b"
+    }
+  ],
+  "counts": {
+    "rootNodes": 43,
+    "contentH3": 9,
+    "contentBodyBlocks": 18,
+    "wrappedH3": 6,
+    "wrappedBody": 14,
+    "displayMath": 0,
+    "mermaid": 0,
+    "tables": 1,
+    "dynamicTopics": 27,
+    "staticTopics": 15,
+    "stages": 9,
+    "readStops": 9,
+    "corrections": 13
+  },
+  "adopted": {
+    "unit": "F2",
+    "file": "docs/10-llm-foundations/multimodal-models.md",
+    "route": "/docs/llm-foundations/multimodal-models",
+    "requiresPublicAcceptanceOf": [
+      "E1",
+      "F1"
+    ],
+    "learningOrderReason": "テキスト系列・注意・トークン経済を共通土台に、入力経路を増やす。P1の最後に15記事全体受入を行い、P2へ進まず停止する。",
+    "sourceSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+    "sections": [
+      {
+        "heading": "概要: 分担と「同じ土俵に載せる」",
+        "parent": "本文",
+        "line": 29,
+        "start": 9,
+        "end": 12,
+        "bodyTypes": [
+          "table",
+          "paragraph"
+        ]
+      },
+      {
+        "heading": "直感①: すべてを「表現ベクトルの列」に変換する",
+        "parent": "本文",
+        "line": 40,
+        "start": 12,
+        "end": 16,
+        "bodyTypes": [
+          "paragraph",
+          "list",
+          "paragraph"
+        ]
+      },
+      {
+        "heading": "直感②: 画像は「パッチ」に分けてトークン相当にする",
+        "parent": "本文",
+        "line": 50,
+        "start": 16,
+        "end": 19,
+        "bodyTypes": [
+          "paragraph",
+          "list"
+        ]
+      },
+      {
+        "heading": "直感③: 統一された系列を注意機構で混ぜ合わせる",
+        "parent": "本文",
+        "line": 58,
+        "start": 19,
+        "end": 22,
+        "bodyTypes": [
+          "paragraph",
+          "list"
+        ]
+      },
+      {
+        "heading": "なぜ効くのか、どこで崖が来るのか",
+        "parent": "本文",
+        "line": 66,
+        "start": 22,
+        "end": 25,
+        "bodyTypes": [
+          "paragraph",
+          "list"
+        ]
+      },
+      {
+        "heading": "トークン経済とコスト・レイテンシ設計",
+        "parent": "本文",
+        "line": 75,
+        "start": 25,
+        "end": 28,
+        "bodyTypes": [
+          "paragraph",
+          "list"
+        ]
+      },
+      {
+        "heading": "理解と生成は別物: 非対称に注意",
+        "parent": "本文",
+        "line": 83,
+        "start": 28,
+        "end": 32,
+        "bodyTypes": [
+          "paragraph",
+          "list",
+          "blockquote"
+        ]
+      },
+      {
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "line": 95,
+        "start": 33,
+        "end": 35,
+        "bodyTypes": [
+          "list"
+        ]
+      },
+      {
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "line": 103,
+        "start": 35,
+        "end": 37,
+        "bodyTypes": [
+          "list"
+        ]
+      }
+    ],
+    "diagrams": [
+      {
+        "id": "multimodal-representation",
+        "title": "入力から表現へ",
+        "heads": [
+          1,
+          2,
+          3
+        ],
+        "sources": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "groups": [
+          [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ]
+          ],
+          [
+            [
+              2,
+              2
+            ]
+          ],
+          [
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ]
+          ]
+        ],
+        "objects": [
+          "テキスト/画像/音声の入口",
+          "エンコーダ/接続部",
+          "同じ画像パッチID",
+          "表現列",
+          "質問語ラベル",
+          "出力テキスト"
+        ],
+        "stages": [
+          {
+            "label": "異なる入口",
+            "state": "三つの入力を別の入口に保持。ここから単一系列へ接続する構成例と表示。",
+            "motion": "入口から接続部へ順に経路点灯。"
+          },
+          {
+            "label": "数値表現",
+            "state": "テキストの埋込と画像/音声の変換を区別。内部の同じ意味や実装を保証しない。",
+            "motion": "入力を対応する表現カードへ移す。"
+          },
+          {
+            "label": "画像パッチ",
+            "state": "本文の格子→パッチ由来の列を同じIDで示す。説明用の分割で実トークン換算ではない。",
+            "motion": "格子の小片がIDを保って列へ並ぶ。"
+          },
+          {
+            "label": "系列へ接続",
+            "state": "この構成例の画像由来表現とテキスト表現を一列に配置。全モデルの唯一方式としない。",
+            "motion": "同じカードを接続順に並べる。"
+          },
+          {
+            "label": "関係と生成",
+            "state": "質問語と画像由来表現の関係からテキスト出力へ。モデルの注意の実測とは示さない。",
+            "motion": "関連線を強調し末尾にテキスト出力枠を開く。"
+          }
+        ],
+        "checks": [
+          "構成例と実モデルを区別",
+          "1パッチ=1課金トークンとしない",
+          "音声に画像パッチ処理を流用しない",
+          "本文最小訂正M1-M5および関連同期候補を先行",
+          "図中IDを移動中も維持"
+        ],
+        "article": "docs/10-llm-foundations/multimodal-models.md",
+        "route": "/docs/llm-foundations/multimodal-models",
+        "binding": "grouped-blocks",
+        "stageCount": 5,
+        "headings": [
+          "直感①: すべてを「表現ベクトルの列」に変換する",
+          "直感②: 画像は「パッチ」に分けてトークン相当にする",
+          "直感③: 統一された系列を注意機構で混ぜ合わせる"
+        ],
+        "sourceHeadings": [
+          "概要: 分担と「同じ土俵に載せる」",
+          "直感①: すべてを「表現ベクトルの列」に変換する",
+          "直感②: 画像は「パッチ」に分けてトークン相当にする",
+          "直感③: 統一された系列を注意機構で混ぜ合わせる",
+          "なぜ効くのか、どこで崖が来るのか",
+          "トークン経済とコスト・レイテンシ設計",
+          "理解と生成は別物: 非対称に注意"
+        ],
+        "blockGroups": [
+          [
+            {
+              "stage": 0,
+              "count": 1
+            },
+            {
+              "stage": 1,
+              "count": 2
+            }
+          ],
+          [
+            {
+              "stage": 2,
+              "count": 2
+            }
+          ],
+          [
+            {
+              "stage": 3,
+              "count": 1
+            },
+            {
+              "stage": 4,
+              "count": 1
+            }
+          ]
+        ],
+        "blockTypes": [
+          [
+            "paragraph",
+            "list",
+            "paragraph"
+          ],
+          [
+            "paragraph",
+            "list"
+          ],
+          [
+            "paragraph",
+            "list"
+          ]
+        ],
+        "sourceDigest": "sha256:3324ade1e55f96e5d8e661b93a7f3d0e9ca1b44ca21fac462cc78030e5917a2d",
+        "status": "planned-not-reviewed",
+        "reviewedDigest": null,
+        "enabled": false,
+        "contentKind": "conceptual",
+        "staticFallback": "同じ意味モデルの主要段階の静止表示と短い図ラベル。追加の本文・例題・ナレーションを作らない。",
+        "layout": "既存ReadingFigureの操作・同期・拡大・JS無効/印刷経路を再利用。固有model/scene/CSSは記事chunkで遅延読込。",
+        "stateContract": "frame(phase, options)は副作用なし。同じ位相/選択で同じ図、逆シーク・中点でもID/関係を保持。停止/非表示に常時loopを残さない。",
+        "readingStages": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "manualOnlyStages": [],
+        "minimumCountReason": "同じ対象と意味を保てる連続H3を一図にまとめる。異なる意味の図を操作回数のためだけに増やさない。",
+        "postCorrectionSourceDigestCandidate": "sha256:bde65e9480e412b84f43e04b32556b2ca9f8be4f29b09523581d27ffcdaf728a"
+      },
+      {
+        "id": "multimodal-input-tradeoffs",
+        "title": "入力の粒度と能力の境界",
+        "heads": [
+          4,
+          5,
+          6
+        ],
+        "sources": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "groups": [
+          [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          [
+            [
+              2,
+              2
+            ]
+          ],
+          [
+            [
+              3,
+              3
+            ]
+          ]
+        ],
+        "objects": [
+          "同じ入力領域",
+          "必要な細部",
+          "入力量",
+          "確認手段",
+          "理解/生成の別能力枠"
+        ],
+        "stages": [
+          {
+            "label": "残る情報",
+            "state": "入力→表現の既存経路を保持し、細部が表現に残るかを区別。",
+            "motion": "細部ラベルを元入力と表現側へ対応づける。"
+          },
+          {
+            "label": "細部と補完",
+            "state": "小文字/表/位置/数え上げの既存ラベルで、入力粒度と見えない細部の補完を分ける。精度曲線を作らない。",
+            "motion": "同じ対象の粒度を変え、検証が必要な範囲を残す。"
+          },
+          {
+            "label": "渡す量",
+            "state": "解像度・枚数・動画フレーム、関心領域/OCR・構造化データの選択肢を同じ入力枠で比較。実料金は未計測。",
+            "motion": "必要領域へ入力を絞る経路とテキスト入力経路を表示。"
+          },
+          {
+            "label": "理解と生成",
+            "state": "画像を読む→テキストと、画像/音声を生成の能力枠を分ける。特定製品の対応判定はしない。",
+            "motion": "二つの出力先を分岐し、双方を可能にする保証線を引かない。"
+          }
+        ],
+        "checks": [
+          "解像度=精度=費用の固定等式にしない",
+          "OCRをあらゆる入力で優位と保証しない",
+          "理解できる→生成できるとしない",
+          "プロバイダーの換算/対応を発明しない",
+          "本文最小訂正M4/M5と55/56/79/97/98/100/105/108行の同期候補を先行"
+        ],
+        "article": "docs/10-llm-foundations/multimodal-models.md",
+        "route": "/docs/llm-foundations/multimodal-models",
+        "binding": "grouped-blocks",
+        "stageCount": 4,
+        "headings": [
+          "なぜ効くのか、どこで崖が来るのか",
+          "トークン経済とコスト・レイテンシ設計",
+          "理解と生成は別物: 非対称に注意"
+        ],
+        "sourceHeadings": [
+          "直感①: すべてを「表現ベクトルの列」に変換する",
+          "直感②: 画像は「パッチ」に分けてトークン相当にする",
+          "直感③: 統一された系列を注意機構で混ぜ合わせる",
+          "なぜ効くのか、どこで崖が来るのか",
+          "トークン経済とコスト・レイテンシ設計",
+          "理解と生成は別物: 非対称に注意"
+        ],
+        "blockGroups": [
+          [
+            {
+              "stage": 0,
+              "count": 1
+            },
+            {
+              "stage": 1,
+              "count": 1
+            }
+          ],
+          [
+            {
+              "stage": 2,
+              "count": 2
+            }
+          ],
+          [
+            {
+              "stage": 3,
+              "count": 3
+            }
+          ]
+        ],
+        "blockTypes": [
+          [
+            "paragraph",
+            "list"
+          ],
+          [
+            "paragraph",
+            "list"
+          ],
+          [
+            "paragraph",
+            "list",
+            "blockquote"
+          ]
+        ],
+        "sourceDigest": "sha256:1aeec688b92f8892b56e7df0db626df803cabaf660b68c6a3d1f38898047107f",
+        "status": "planned-not-reviewed",
+        "reviewedDigest": null,
+        "enabled": false,
+        "contentKind": "conceptual",
+        "staticFallback": "同じ意味モデルの主要段階の静止表示と短い図ラベル。追加の本文・例題・ナレーションを作らない。",
+        "layout": "既存ReadingFigureの操作・同期・拡大・JS無効/印刷経路を再利用。固有model/scene/CSSは記事chunkで遅延読込。",
+        "stateContract": "frame(phase, options)は副作用なし。同じ位相/選択で同じ図、逆シーク・中点でもID/関係を保持。停止/非表示に常時loopを残さない。",
+        "readingStages": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "manualOnlyStages": [],
+        "minimumCountReason": "同じ対象と意味を保てる連続H3を一図にまとめる。異なる意味の図を操作回数のためだけに増やさない。",
+        "postCorrectionSourceDigestCandidate": "sha256:1134db9f9a307d41fa2db299aa46ca92bf28df5e3eb264087ffdb2314df04cb0"
+      }
+    ],
+    "topics": [
+      {
+        "id": "f2-s0-b0.row0",
+        "heading": "概要: 分担と「同じ土俵に載せる」",
+        "parent": "本文",
+        "sourceLine": 29,
+        "sourceBlock": 0,
+        "kind": "tableRow",
+        "topic": "テキスト生成の仕組み(次トークン予測) | LLM はどうやってテキストを生成するか | —",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "記事間の分担を示す既存表・案内文であり、機構の遷移ではない。リンク・担当範囲をそのまま保持する。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "テキスト生成の仕組み(次トークン予測) | LLM はどうやってテキストを生成するか | —",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s0-b0.row1",
+        "heading": "概要: 分担と「同じ土俵に載せる」",
+        "parent": "本文",
+        "sourceLine": 29,
+        "sourceBlock": 0,
+        "kind": "tableRow",
+        "topic": "トークンが課金・文脈の単位である理由 | トークナイザとトークン経済 | —",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "記事間の分担を示す既存表・案内文であり、機構の遷移ではない。リンク・担当範囲をそのまま保持する。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "トークンが課金・文脈の単位である理由 | トークナイザとトークン経済 | —",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s0-b0.row2",
+        "heading": "概要: 分担と「同じ土俵に載せる」",
+        "parent": "本文",
+        "sourceLine": 29,
+        "sourceBlock": 0,
+        "kind": "tableRow",
+        "topic": "マルチモーダルエージェントの作り方(使う側) | コンピュータ操作とマルチモーダルエージェント | —",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "記事間の分担を示す既存表・案内文であり、機構の遷移ではない。リンク・担当範囲をそのまま保持する。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "マルチモーダルエージェントの作り方(使う側) | コンピュータ操作とマルチモーダルエージェント | —",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s0-b0.row3",
+        "heading": "概要: 分担と「同じ土俵に載せる」",
+        "parent": "本文",
+        "sourceLine": 29,
+        "sourceBlock": 0,
+        "kind": "tableRow",
+        "topic": "画像・音声を内部でどう扱うかの直感 | 本記事 | 表現ベクトル化・パッチ・統一系列・限界・トークン経済",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "記事間の分担を示す既存表・案内文であり、機構の遷移ではない。リンク・担当範囲をそのまま保持する。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "画像・音声を内部でどう扱うかの直感 | 本記事 | 表現ベクトル化・パッチ・統一系列・限界・トークン経済",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s0-b1",
+        "heading": "概要: 分担と「同じ土俵に載せる」",
+        "parent": "本文",
+        "sourceLine": 29,
+        "sourceBlock": 1,
+        "kind": "paragraph",
+        "topic": "マルチモーダルモデルの核心は、テキスト以外の入力を、テキストと同じ「土俵」に載せることです。本記事はその内部の直感を扱い、それを使ってエージェントを作る側は コンピュータ操作とマルチモーダルエージェント が扱います。",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "記事間の分担を示す既存表・案内文であり、機構の遷移ではない。リンク・担当範囲をそのまま保持する。",
+        "correctionIds": [
+          "M1"
+        ],
+        "topicAfterCorrectionsCandidate": "マルチモーダルモデルの核心は、テキスト以外の入力を、テキストと同じ「土俵」に載せることです。本記事は、画像表現をテキスト系列に接続する構成を例に内部の直感を扱い、それを使ってエージェントを作る側は コンピュータ操作とマルチモーダルエージェント が扱います。",
+        "candidateTopicChanged": true
+      },
+      {
+        "id": "f2-s1-b0",
+        "heading": "直感①: すべてを「表現ベクトルの列」に変換する",
+        "parent": "本文",
+        "sourceLine": 40,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "LLM は本来、テキストのトークンを**表現ベクトル(意味を表す数の並び)**に変換して処理します(埋め込み(embeddings)と同じ発想)。マルチモーダルモデルは、この入り口を拡張します。",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-representation",
+        "readingStage": 0,
+        "stageScope": [
+          0
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "LLM は本来、テキストのトークンを**表現ベクトル(意味を表す数の並び)**に変換して処理します(埋め込み(embeddings)と同じ発想)。マルチモーダルモデルは、この入り口を拡張します。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s1-b1.li0",
+        "heading": "直感①: すべてを「表現ベクトルの列」に変換する",
+        "parent": "本文",
+        "sourceLine": 40,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "テキストは、これまでどおりトークン → 表現ベクトルに変換します",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-representation",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "テキストは、これまでどおりトークン → 表現ベクトルに変換します",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s1-b1.li1",
+        "heading": "直感①: すべてを「表現ベクトルの列」に変換する",
+        "parent": "本文",
+        "sourceLine": 40,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "画像や音声は、専用の変換器(エンコーダ)を通して、同じ形の表現ベクトルの列に変換します",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-representation",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [
+          "M2"
+        ],
+        "topicAfterCorrectionsCandidate": "画像や音声は、専用の変換器などで数値表現に変換し、言語モデルへ接続します。具体的な形式・接続方法は構成により異なります",
+        "candidateTopicChanged": true
+      },
+      {
+        "id": "f2-s1-b1.li2",
+        "heading": "直感①: すべてを「表現ベクトルの列」に変換する",
+        "parent": "本文",
+        "sourceLine": 40,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "こうして、入力の種類が違っても、モデルの内部では同じ形式のベクトル列になります。あとはテキストと同じように処理できます",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-representation",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [
+          "M3"
+        ],
+        "topicAfterCorrectionsCandidate": "本記事の例では、異なる入力を同じ形式のベクトル列に揃え、テキストとともに処理します",
+        "candidateTopicChanged": true
+      },
+      {
+        "id": "f2-s1-b2",
+        "heading": "直感①: すべてを「表現ベクトルの列」に変換する",
+        "parent": "本文",
+        "sourceLine": 40,
+        "sourceBlock": 2,
+        "kind": "paragraph",
+        "topic": "要点は、モデルが「画像そのもの」を見ているのではなく、画像を変換した表現ベクトルの列を見ている、ということです。この変換の質が、読み取りの精度を左右します。",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-representation",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "要点は、モデルが「画像そのもの」を見ているのではなく、画像を変換した表現ベクトルの列を見ている、ということです。この変換の質が、読み取りの精度を左右します。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s2-b0",
+        "heading": "直感②: 画像は「パッチ」に分けてトークン相当にする",
+        "parent": "本文",
+        "sourceLine": 50,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "では画像はどうやってベクトルの列になるのでしょうか。直感は、画像を格子状の小片(パッチ)に分割することです。",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-representation",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "では画像はどうやってベクトルの列になるのでしょうか。直感は、画像を格子状の小片(パッチ)に分割することです。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s2-b1.li0",
+        "heading": "直感②: 画像は「パッチ」に分けてトークン相当にする",
+        "parent": "本文",
+        "sourceLine": 50,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "画像を小さなタイルに分け、各タイルを 1 つの表現ベクトルに変換します。テキストが単語片(トークン)の列になるように、画像はパッチの列になります",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-representation",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "画像を小さなタイルに分け、各タイルを 1 つの表現ベクトルに変換します。テキストが単語片(トークン)の列になるように、画像はパッチの列になります",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s2-b1.li1",
+        "heading": "直感②: 画像は「パッチ」に分けてトークン相当にする",
+        "parent": "本文",
+        "sourceLine": 50,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "だから、画像はトークンを消費します(トークナイザとトークン経済)。1 枚の画像が何十〜何百トークン分にもなり、解像度が高い・大きい画像ほど多くのトークンを食います",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-representation",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [
+          "M4-sync-55"
+        ],
+        "topicAfterCorrectionsCandidate": "画像入力も、採用モデルの換算方法に応じてトークンや料金を消費します(トークナイザとトークン経済)。解像度・サイズと消費量の関係は、モデルや前処理によって異なります",
+        "candidateTopicChanged": true
+      },
+      {
+        "id": "f2-s2-b1.li2",
+        "heading": "直感②: 画像は「パッチ」に分けてトークン相当にする",
+        "parent": "本文",
+        "sourceLine": 50,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "これが「画像を入れたら急にコンテキストとコストが増えた」の正体です。画像は「1 個の入力」ではなく「多数のパッチ=多数のトークン」として扱われます",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-representation",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [
+          "M4-sync-56"
+        ],
+        "topicAfterCorrectionsCandidate": "画像は「1 個の入力」でも内部では多数の表現に変換されるため、コンテキストと費用への影響を採用モデルの仕様で確認します",
+        "candidateTopicChanged": true
+      },
+      {
+        "id": "f2-s3-b0",
+        "heading": "直感③: 統一された系列を注意機構で混ぜ合わせる",
+        "parent": "本文",
+        "sourceLine": 58,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "テキストのトークン列と画像のパッチ列が同じ形式になったら、あとは1 つの系列に並べて、いつもの仕組みで処理します。",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-representation",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "テキストのトークン列と画像のパッチ列が同じ形式になったら、あとは1 つの系列に並べて、いつもの仕組みで処理します。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s3-b1.li0",
+        "heading": "直感③: 統一された系列を注意機構で混ぜ合わせる",
+        "parent": "本文",
+        "sourceLine": 58,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "テキストと画像のベクトルを 1 本の系列に連ね、注意機構で相互に関連づけます。これにより「画像のこの部分と、質問のこの語」を結びつけられます",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-representation",
+        "readingStage": 4,
+        "stageScope": [
+          4
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "テキストと画像のベクトルを 1 本の系列に連ね、注意機構で相互に関連づけます。これにより「画像のこの部分と、質問のこの語」を結びつけられます",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s3-b1.li1",
+        "heading": "直感③: 統一された系列を注意機構で混ぜ合わせる",
+        "parent": "本文",
+        "sourceLine": 58,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "出力は、これまでどおりテキストのトークンを 1 つずつ生成します(LLM はどうやってテキストを生成するか)。入力はマルチモーダルでも、多くのモデルの出力はテキストです",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-representation",
+        "readingStage": 4,
+        "stageScope": [
+          4
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "出力は、これまでどおりテキストのトークンを 1 つずつ生成します(LLM はどうやってテキストを生成するか)。入力はマルチモーダルでも、多くのモデルの出力はテキストです",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s3-b1.li2",
+        "heading": "直感③: 統一された系列を注意機構で混ぜ合わせる",
+        "parent": "本文",
+        "sourceLine": 58,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "つまりマルチモーダル理解は、「入力の入り口を増やし、あとは共通の系列処理に流し込む」構図です。生成の仕組みそのものは変わりません",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-representation",
+        "readingStage": 4,
+        "stageScope": [
+          4
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "つまりマルチモーダル理解は、「入力の入り口を増やし、あとは共通の系列処理に流し込む」構図です。生成の仕組みそのものは変わりません",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s4-b0",
+        "heading": "なぜ効くのか、どこで崖が来るのか",
+        "parent": "本文",
+        "sourceLine": 66,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "この構図は強力ですが、限界も構図から予測できます。",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-input-tradeoffs",
+        "readingStage": 0,
+        "stageScope": [
+          0
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "この構図は強力ですが、限界も構図から予測できます。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s4-b1.li0",
+        "heading": "なぜ効くのか、どこで崖が来るのか",
+        "parent": "本文",
+        "sourceLine": 66,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "効く: 画像・音声を言語と結びつけた理解(説明・要約・質問応答・大まかなレイアウト把握)。パッチ表現が捉えられる範囲の情報",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-input-tradeoffs",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "効く: 画像・音声を言語と結びつけた理解(説明・要約・質問応答・大まかなレイアウト把握)。パッチ表現が捉えられる範囲の情報",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s4-b1.li1",
+        "heading": "なぜ効くのか、どこで崖が来るのか",
+        "parent": "本文",
+        "sourceLine": 66,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "崖が来る: パッチに分割・圧縮する過程で細部が失われるため、小さな文字・密な表・精密な位置関係・数え上げなどで急に外します。「だいたい合っているが細部が違う」が典型です",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-input-tradeoffs",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "崖が来る: パッチに分割・圧縮する過程で細部が失われるため、小さな文字・密な表・精密な位置関係・数え上げなどで急に外します。「だいたい合っているが細部が違う」が典型です",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s4-b1.li2",
+        "heading": "なぜ効くのか、どこで崖が来るのか",
+        "parent": "本文",
+        "sourceLine": 66,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "解像度がトレードオフ: 細部を読ませたいなら解像度(=トークン数=コスト)を上げる必要があり、精度とコストが直結します。低解像度で渡して「読めない」のは、多くの場合モデルの知能ではなく入力の粒度の問題です",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-input-tradeoffs",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [
+          "M4"
+        ],
+        "topicAfterCorrectionsCandidate": "解像度がトレードオフ: 細部の読み取りには入力の粒度が影響します。解像度とトークン数・料金の関係はモデルや前処理に依存するため、必要な粒度での精度と費用を比較します",
+        "candidateTopicChanged": true
+      },
+      {
+        "id": "f2-s4-b1.li3",
+        "heading": "なぜ効くのか、どこで崖が来るのか",
+        "parent": "本文",
+        "sourceLine": 66,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "幻覚は同じ構造で起きる: モデルは見えない細部を「もっともらしく補完」します。画像でも幻覚(hallucination)は起き(LLM の能力と限界の由来の補完傾向)、しかも「画像に書いてあるように見せて」出るため気づきにくいです",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-input-tradeoffs",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "幻覚は同じ構造で起きる: モデルは見えない細部を「もっともらしく補完」します。画像でも幻覚(hallucination)は起き(LLM の能力と限界の由来の補完傾向)、しかも「画像に書いてあるように見せて」出るため気づきにくいです",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s5-b0",
+        "heading": "トークン経済とコスト・レイテンシ設計",
+        "parent": "本文",
+        "sourceLine": 75,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "マルチモーダルの実務判断は、多くがトークン経済に帰着します(トークナイザとトークン経済)。",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-input-tradeoffs",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "マルチモーダルの実務判断は、多くがトークン経済に帰着します(トークナイザとトークン経済)。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s5-b1.li0",
+        "heading": "トークン経済とコスト・レイテンシ設計",
+        "parent": "本文",
+        "sourceLine": 75,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "画像・音声・動画はトークンを大量に消費します。とくに動画は多数のフレーム=多数の画像で、コストとレイテンシが跳ねます",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-input-tradeoffs",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [
+          "M4-sync-79"
+        ],
+        "topicAfterCorrectionsCandidate": "画像・音声・動画は、モデルや処理方法に応じてトークン・費用・レイテンシに影響します。動画は利用するフレーム数も確認します",
+        "candidateTopicChanged": true
+      },
+      {
+        "id": "f2-s5-b1.li1",
+        "heading": "トークン経済とコスト・レイテンシ設計",
+        "parent": "本文",
+        "sourceLine": 75,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "解像度・枚数を必要最小限にする: 読み取りに要る粒度だけ渡します。全画面の高解像度を丸ごと渡す前に、関心領域の切り出し・縮小を検討します(コスト管理・レイテンシ最適化)",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-input-tradeoffs",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "解像度・枚数を必要最小限にする: 読み取りに要る粒度だけ渡します。全画面の高解像度を丸ごと渡す前に、関心領域の切り出し・縮小を検討します(コスト管理・レイテンシ最適化)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s5-b1.li2",
+        "heading": "トークン経済とコスト・レイテンシ設計",
+        "parent": "本文",
+        "sourceLine": 75,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "テキストで足りるなら渡さない: OCR 済みテキストや構造化データがあるなら、画像より安く確実です。マルチモーダルは「テキスト化できない情報」にこそ使います",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-input-tradeoffs",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [
+          "M5"
+        ],
+        "topicAfterCorrectionsCandidate": "テキストで足りるか確かめる: OCR 済みテキストや構造化データで必要な情報が保たれる場合は、画像入力と精度・費用を比較します。位置や外観が必要なら画像も使い、重要な読み取りは検証します",
+        "candidateTopicChanged": true
+      },
+      {
+        "id": "f2-s6-b0",
+        "heading": "理解と生成は別物: 非対称に注意",
+        "parent": "本文",
+        "sourceLine": 83,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "「マルチモーダル」は、入力を理解する側と、画像・音声を生成する側で仕組みが異なります。混同しないことが実務上重要です。",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-input-tradeoffs",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "「マルチモーダル」は、入力を理解する側と、画像・音声を生成する側で仕組みが異なります。混同しないことが実務上重要です。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s6-b1.li0",
+        "heading": "理解と生成は別物: 非対称に注意",
+        "parent": "本文",
+        "sourceLine": 83,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "本記事が扱ったのは入力理解(画像を読む)です。多くの LLM 系マルチモーダルモデルは、理解はできても出力はテキストです",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-input-tradeoffs",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "本記事が扱ったのは入力理解(画像を読む)です。多くの LLM 系マルチモーダルモデルは、理解はできても出力はテキストです",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s6-b1.li1",
+        "heading": "理解と生成は別物: 非対称に注意",
+        "parent": "本文",
+        "sourceLine": 83,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "画像・音声そのものの生成は、別系統の技術(拡散モデルなど)が担うことが多く、同じモデルが両方を高品質にこなすとは限りません",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-input-tradeoffs",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "画像・音声そのものの生成は、別系統の技術(拡散モデルなど)が担うことが多く、同じモデルが両方を高品質にこなすとは限りません",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s6-b1.li2",
+        "heading": "理解と生成は別物: 非対称に注意",
+        "parent": "本文",
+        "sourceLine": 83,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "「この画像を説明して」(理解)と「こういう画像を作って」(生成)は、別の能力・別の課金・別の限界だと捉えます",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-input-tradeoffs",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "「この画像を説明して」(理解)と「こういう画像を作って」(生成)は、別の能力・別の課金・別の限界だと捉えます",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s6-b2",
+        "heading": "理解と生成は別物: 非対称に注意",
+        "parent": "本文",
+        "sourceLine": 83,
+        "sourceBlock": 2,
+        "kind": "blockquote",
+        "topic": "TODO(要確認): 各モデルが「入力理解のみか、画像・音声生成も含むか」「動画・音声の対応範囲」「画像のトークン換算式」は製品ごとに異なり変化も速い。本文は共通の直感に絞っており、具体は各モデル公式ドキュメントと 主要 LLM の全体像 で確認する(最終確認: 2026-07)",
+        "coverage": "dynamic",
+        "diagramId": "multimodal-input-tradeoffs",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "TODO(要確認): 各モデルが「入力理解のみか、画像・音声生成も含むか」「動画・音声の対応範囲」「画像のトークン換算式」は製品ごとに異なり変化も速い。本文は共通の直感に絞っており、具体は各モデル公式ドキュメントと 主要 LLM の全体像 で確認する(最終確認: 2026-07)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s7-b0.li0",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 95,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "画像を「1 個の入力」だと思う → トークン消費とコンテキスト圧迫を見落とす → 画像=多数のパッチ=多数のトークンとして見積もる",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [
+          "M4-sync-97"
+        ],
+        "topicAfterCorrectionsCandidate": "画像を「1 個の入力」だと思う → トークン消費とコンテキスト圧迫を見落とす → 画像のトークン換算・料金は採用モデルの仕様で見積もる",
+        "candidateTopicChanged": true
+      },
+      {
+        "id": "f2-s7-b0.li1",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 95,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "細部の読み取りを低解像度で渡す → 小さい文字・表・位置関係で外し、モデルの知能のせいにする → 読み取りに要る解像度(=コスト)を確保するか、関心領域を切り出す",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [
+          "M4-sync-98"
+        ],
+        "topicAfterCorrectionsCandidate": "細部の読み取りを低解像度で渡す → 小さい文字・表・位置関係で外し、モデルの知能のせいにする → 読み取りに要る解像度を確保するか、関心領域を切り出す",
+        "candidateTopicChanged": true
+      },
+      {
+        "id": "f2-s7-b0.li2",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 95,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "画像の幻覚を素通しする → 「画像に書いてあるように見える」補完を検証しない → 重要な読み取りは別手段(OCR・構造化データ)と突き合わせる",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "画像の幻覚を素通しする → 「画像に書いてあるように見える」補完を検証しない → 重要な読み取りは別手段(OCR・構造化データ)と突き合わせる",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s7-b0.li3",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 95,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "テキストで足りるのに画像を渡す → 高コスト・低確実性を招く → テキスト化できるものはテキストで渡し、画像は最後の手段にする",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [
+          "M5-sync-100"
+        ],
+        "topicAfterCorrectionsCandidate": "テキスト化できるだけで入力方式を決める → 位置や外観の情報、認識誤りを見落とす → 必要な情報が保たれるか確認し、精度・費用を比較する",
+        "candidateTopicChanged": true
+      },
+      {
+        "id": "f2-s7-b0.li4",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 95,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "理解と生成を混同する → 「読める=作れる」と誤認する → 入力理解と画像生成は別能力・別課金として扱う",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "理解と生成を混同する → 「読める=作れる」と誤認する → 入力理解と画像生成は別能力・別課金として扱う",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s8-b0.li0",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 103,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "画像・音声がトークンを消費し、解像度・枚数でコストが増えることを見積もりに入れた",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [
+          "M4-sync-105"
+        ],
+        "topicAfterCorrectionsCandidate": "画像・音声のトークン換算・料金を採用モデルの仕様で確認し、見積もりに入れた",
+        "candidateTopicChanged": true
+      },
+      {
+        "id": "f2-s8-b0.li1",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 103,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "読み取りに必要な解像度・関心領域を検討し、無駄に高解像度を渡していない",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "読み取りに必要な解像度・関心領域を検討し、無駄に高解像度を渡していない",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s8-b0.li2",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 103,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "細部(小さい文字・表・位置・数え上げ)の読み取りは崖が来ると理解し、重要箇所を検証している",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "細部(小さい文字・表・位置・数え上げ)の読み取りは崖が来ると理解し、重要箇所を検証している",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "f2-s8-b0.li3",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 103,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "テキスト化できる情報は画像でなくテキストで渡している",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [
+          "M5-sync-108"
+        ],
+        "topicAfterCorrectionsCandidate": "必要な情報が保たれることを確かめ、入力方式を精度・費用で比較している",
+        "candidateTopicChanged": true
+      },
+      {
+        "id": "f2-s8-b0.li4",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 103,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "「入力理解」と「画像・音声生成」を別の能力・課金として区別している",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "「入力理解」と「画像・音声生成」を別の能力・課金として区別している",
+        "candidateTopicChanged": false
+      }
+    ],
+    "ownership": {
+      "articleSpecific": [
+        "website/lib/multimodal-representation-model.mjs",
+        "website/components/diagrams/multimodal-representation-walkthrough.jsx",
+        "website/components/diagrams/multimodal-representation.css",
+        "website/tests/unit/multimodal-representation-model.test.mjs",
+        "website/lib/multimodal-input-tradeoffs-model.mjs",
+        "website/components/diagrams/multimodal-input-tradeoffs-walkthrough.jsx",
+        "website/components/diagrams/multimodal-input-tradeoffs.css",
+        "website/tests/unit/multimodal-input-tradeoffs-model.test.mjs"
+      ],
+      "shared": "統合担当1名がregistry/BINDINGS/dispatcher/MDX許可/記事台帳/受入コード/回帰試験を所有。記事担当は共有部を独断で変更しない。"
+    },
+    "acceptance": {
+      "contentReview": null,
+      "local": null,
+      "public": null
+    },
+    "postCorrectionSha256Candidate": "27956431766343cd1c4b910ce9d7b703e655365856c3e10484de315684688ced"
+  },
+  "corrections": [
+    {
+      "id": "M1",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "heading": "概要: 分担と「同じ土俵に載せる」",
+      "old": "本記事はその内部の直感を扱い、それを使ってエージェントを作る側は",
+      "replacement": "本記事は、画像表現をテキスト系列に接続する構成を例に内部の直感を扱い、それを使ってエージェントを作る側は",
+      "reason": "Flamingoにはcross-attentionによる接続があり、全モデルで単一系列への連結が必須とはできない。新方式の解説を増やさず既存の例の適用範囲を限定。",
+      "sources": [
+        "https://arxiv.org/html/2204.14198v1"
+      ],
+      "sections": "§3.1.2 Conditioning a frozen language model on visual representations; Figures 3 and 5",
+      "requiredBefore": "multimodal-representation",
+      "status": "candidate-not-applied",
+      "checkedAt": "2026-09-24",
+      "matchCount": 1,
+      "verifiedAtUTC": "2026-09-24T12:35:25Z",
+      "verifiedBy": "plan-author live web recheck"
+    },
+    {
+      "id": "M2",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "heading": "直感①: すべてを「表現ベクトルの列」に変換する",
+      "old": "画像や音声は、専用の変換器(エンコーダ)を通して、**同じ形の表現ベクトルの列**に変換します",
+      "replacement": "画像や音声は、専用の変換器などで数値表現に変換し、言語モデルへ接続します。具体的な形式・接続方法は構成により異なります",
+      "reason": "数値表現への変換と、そのままテキストと同形式で接続できるという断定を分離する。画像構成の反例が普遍的な原文を限定する根拠。音声の具体方式は追加しない。",
+      "sources": [
+        "https://arxiv.org/html/2204.14198v1"
+      ],
+      "sections": "§3.1.1 Visual processing and the Perceiver Resampler; §3.1.2 Conditioning a frozen language model on visual representations; Figures 3–5",
+      "requiredBefore": "multimodal-representation",
+      "status": "candidate-not-applied",
+      "checkedAt": "2026-09-24",
+      "matchCount": 1,
+      "verifiedAtUTC": "2026-09-24T12:35:25Z",
+      "verifiedBy": "plan-author live web recheck"
+    },
+    {
+      "id": "M3",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "heading": "直感①: すべてを「表現ベクトルの列」に変換する",
+      "old": "こうして、入力の種類が違っても、モデルの内部では**同じ形式のベクトル列**になります。あとはテキストと同じように処理できます",
+      "replacement": "本記事の例では、異なる入力を**同じ形式のベクトル列**に揃え、テキストとともに処理します",
+      "reason": "一つの構成例に限定するM1と同期する。",
+      "sources": [
+        "https://arxiv.org/html/2204.14198v1",
+        "https://arxiv.org/abs/2010.11929"
+      ],
+      "sections": "Flamingo §3.1.1/3.1.2, Figures 3–5; ViT abstract (patch sequence)",
+      "requiredBefore": "multimodal-representation",
+      "status": "candidate-not-applied",
+      "checkedAt": "2026-09-24",
+      "matchCount": 1,
+      "sourceReverification": [
+        {
+          "url": "https://arxiv.org/html/2204.14198v1",
+          "verifiedAtUTC": "2026-09-24T12:35:25Z",
+          "verifiedBy": "plan-author live web recheck"
+        }
+      ]
+    },
+    {
+      "id": "M4",
+      "correctionGroup": "M4",
+      "sourceLine": 72,
+      "heading": "なぜ効くのか、どこで崖が来るのか",
+      "old": "**解像度がトレードオフ**: 細部を読ませたいなら解像度(=トークン数=コスト)を上げる必要があり、精度とコストが直結します。低解像度で渡して「読めない」のは、多くの場合モデルの知能ではなく入力の粒度の問題です",
+      "replacement": "**解像度がトレードオフ**: 細部の読み取りには入力の粒度が影響します。解像度とトークン数・料金の関係はモデルや前処理に依存するため、必要な粒度での精度と費用を比較します",
+      "reason": "解像度と視覚トークン数は恒等関係ではない。固定個数へ再サンプリングする一次資料の反例に合わせ、精度・費用は測定する条件として残す。",
+      "sources": [
+        "https://arxiv.org/html/2204.14198v1"
+      ],
+      "sections": "§3.1.1 Visual processing and the Perceiver Resampler; Figure 4",
+      "evidenceBoundary": "Flamingoの構成は入力解像度/フレーム数と出力視覚トークン数の固定比例を否定する反例。特定サービスの料金や費用の優劣は確認していない。",
+      "requiredBefore": "multimodal-input-tradeoffs",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "status": "candidate-not-applied",
+      "checkedAt": "2026-09-24",
+      "verifiedAtUTC": "2026-09-24T12:35:25Z",
+      "verifiedBy": "plan-author live web recheck",
+      "matchCount": 1
+    },
+    {
+      "id": "M4-sync-97",
+      "correctionGroup": "M4",
+      "sourceLine": 97,
+      "heading": "アンチパターン",
+      "old": "画像=多数のパッチ=多数のトークンとして見積もる",
+      "replacement": "画像のトークン換算・料金は採用モデルの仕様で見積もる",
+      "reason": "M4と同期し、画像パッチ由来表現と課金トークンの固定対応を除く。",
+      "sources": [
+        "https://arxiv.org/html/2204.14198v1"
+      ],
+      "sections": "§3.1.1 Visual processing and the Perceiver Resampler; Figure 4",
+      "evidenceBoundary": "課金は論文の検証範囲外。採用モデルの仕様を確認する条件へ置換する。",
+      "requiredBefore": "multimodal-input-tradeoffs",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "status": "candidate-not-applied",
+      "checkedAt": "2026-09-24",
+      "verifiedAtUTC": "2026-09-24T12:35:25Z",
+      "verifiedBy": "plan-author live web recheck",
+      "matchCount": 1
+    },
+    {
+      "id": "M4-sync-98",
+      "correctionGroup": "M4",
+      "sourceLine": 98,
+      "heading": "アンチパターン",
+      "old": "読み取りに要る解像度(=コスト)を確保するか、関心領域を切り出す",
+      "replacement": "読み取りに要る解像度を確保するか、関心領域を切り出す",
+      "reason": "M4と同期し、解像度と費用の等号だけを除く。",
+      "sources": [
+        "https://arxiv.org/html/2204.14198v1"
+      ],
+      "sections": "§3.1.1 Visual processing and the Perceiver Resampler; Figure 4",
+      "evidenceBoundary": "解像度/トークン数の恒等関係に対する反例。料金自体の検証ではない。",
+      "requiredBefore": "multimodal-input-tradeoffs",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "status": "candidate-not-applied",
+      "checkedAt": "2026-09-24",
+      "verifiedAtUTC": "2026-09-24T12:35:25Z",
+      "verifiedBy": "plan-author live web recheck",
+      "matchCount": 1
+    },
+    {
+      "id": "M5",
+      "correctionGroup": "M5",
+      "sourceLine": 81,
+      "heading": "トークン経済とコスト・レイテンシ設計",
+      "old": "**テキストで足りるなら渡さない**: OCR 済みテキストや構造化データがあるなら、画像より安く確実です。マルチモーダルは「テキスト化できない情報」にこそ使います",
+      "replacement": "**テキストで足りるか確かめる**: OCR 済みテキストや構造化データで必要な情報が保たれる場合は、画像入力と精度・費用を比較します。位置や外観が必要なら画像も使い、重要な読み取りは検証します",
+      "reason": "OCR文字列の存在だけで画像の文脈や必要な視覚情報が保たれるとは限らない。入力方式の優劣の断定を比較条件へ置換する。",
+      "sources": [
+        "https://arxiv.org/abs/1904.08920"
+      ],
+      "sections": "Abstract (TextVQA and LoRRA)",
+      "evidenceBoundary": "読んだ文字に加えて画像・質問の文脈を用いる研究。OCRの一律代替を否定する根拠であり、入力方式の費用の優劣は同論文で検証していない。",
+      "requiredBefore": "multimodal-input-tradeoffs",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "status": "candidate-not-applied",
+      "checkedAt": "2026-09-24",
+      "verifiedAtUTC": "2026-09-24T12:35:25Z",
+      "verifiedBy": "plan-author live web recheck",
+      "matchCount": 1
+    },
+    {
+      "id": "M5-sync-100",
+      "correctionGroup": "M5",
+      "sourceLine": 100,
+      "heading": "アンチパターン",
+      "old": "**テキストで足りるのに画像を渡す** → 高コスト・低確実性を招く → テキスト化できるものはテキストで渡し、画像は最後の手段にする",
+      "replacement": "**テキスト化できるだけで入力方式を決める** → 位置や外観の情報、認識誤りを見落とす → 必要な情報が保たれるか確認し、精度・費用を比較する",
+      "reason": "M5と同期し、OCR/テキストを一律に安く確実とするアンチパターンを条件付きの評価に変える。",
+      "sources": [
+        "https://arxiv.org/abs/1904.08920"
+      ],
+      "sections": "Abstract (TextVQA and LoRRA)",
+      "evidenceBoundary": "視覚情報と文字情報を組み合わせる必要があるタスクの反例。一般的な費用比較は未実施。",
+      "requiredBefore": "multimodal-input-tradeoffs",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "status": "candidate-not-applied",
+      "checkedAt": "2026-09-24",
+      "verifiedAtUTC": "2026-09-24T12:35:25Z",
+      "verifiedBy": "plan-author live web recheck",
+      "matchCount": 1
+    },
+    {
+      "id": "M4-sync-55",
+      "correctionGroup": "M4",
+      "sourceLine": 55,
+      "heading": "直感②: 画像は「パッチ」に分けてトークン相当にする",
+      "old": "だから、画像は**トークンを消費します**([トークナイザとトークン経済](tokenization.md))。1 枚の画像が何十〜何百トークン分にもなり、**解像度が高い・大きい画像ほど多くのトークン**を食います",
+      "replacement": "画像入力も、採用モデルの換算方法に応じて**トークンや料金を消費します**([トークナイザとトークン経済](tokenization.md))。解像度・サイズと消費量の関係は、モデルや前処理によって異なります",
+      "reason": "M4のモデル/前処理依存と同期し、解像度・サイズから課金トークン数の一律増加を断定しない。",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "sources": [
+        "https://arxiv.org/html/2204.14198v1"
+      ],
+      "sections": "§3.1.1 Visual processing and the Perceiver Resampler; Figure 4",
+      "evidenceBoundary": "固定個数の視覚表現へ変換する構成上の反例。特定サービスの料金・費用・速度の一般的な優劣は検証していない。",
+      "requiredBefore": "multimodal-input-tradeoffs",
+      "status": "candidate-not-applied",
+      "checkedAt": "2026-09-24",
+      "verifiedAtUTC": "2026-09-24T12:35:25Z",
+      "verifiedBy": "plan-author previous live web recheck reused; no new web retrieval in v3",
+      "addedAtUTC": "2026-09-24T12:52:45.102Z",
+      "matchCount": 1
+    },
+    {
+      "id": "M4-sync-56",
+      "correctionGroup": "M4",
+      "sourceLine": 56,
+      "heading": "直感②: 画像は「パッチ」に分けてトークン相当にする",
+      "old": "これが「画像を入れたら急にコンテキストとコストが増えた」の正体です。画像は「1 個の入力」ではなく「多数のパッチ=多数のトークン」として扱われます",
+      "replacement": "画像は「1 個の入力」でも内部では多数の表現に変換されるため、コンテキストと費用への影響を採用モデルの仕様で確認します",
+      "reason": "M4と同期し、内部の多数の表現と課金トークン数を同一視しない。",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "sources": [
+        "https://arxiv.org/html/2204.14198v1"
+      ],
+      "sections": "§3.1.1 Visual processing and the Perceiver Resampler; Figure 4",
+      "evidenceBoundary": "固定個数の視覚表現へ変換する構成上の反例。特定サービスの料金・費用・速度の一般的な優劣は検証していない。",
+      "requiredBefore": "multimodal-input-tradeoffs",
+      "status": "candidate-not-applied",
+      "checkedAt": "2026-09-24",
+      "verifiedAtUTC": "2026-09-24T12:35:25Z",
+      "verifiedBy": "plan-author previous live web recheck reused; no new web retrieval in v3",
+      "addedAtUTC": "2026-09-24T12:52:45.103Z",
+      "matchCount": 1
+    },
+    {
+      "id": "M4-sync-79",
+      "correctionGroup": "M4",
+      "sourceLine": 79,
+      "heading": "トークン経済とコスト・レイテンシ設計",
+      "old": "画像・音声・動画はトークンを大量に消費します。とくに動画は多数のフレーム=多数の画像で、コストとレイテンシが跳ねます",
+      "replacement": "画像・音声・動画は、モデルや処理方法に応じてトークン・費用・レイテンシに影響します。動画は利用するフレーム数も確認します",
+      "reason": "M4と同期し、全入力が一律に大量のトークンや費用・待ち時間を生むという断定を避ける。",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "sources": [
+        "https://arxiv.org/html/2204.14198v1"
+      ],
+      "sections": "§3.1.1 Visual processing and the Perceiver Resampler; Figure 4",
+      "evidenceBoundary": "固定個数の視覚表現へ変換する構成上の反例。特定サービスの料金・費用・速度の一般的な優劣は検証していない。",
+      "requiredBefore": "multimodal-input-tradeoffs",
+      "status": "candidate-not-applied",
+      "checkedAt": "2026-09-24",
+      "verifiedAtUTC": "2026-09-24T12:35:25Z",
+      "verifiedBy": "plan-author previous live web recheck reused; no new web retrieval in v3",
+      "addedAtUTC": "2026-09-24T12:52:45.103Z",
+      "matchCount": 1
+    },
+    {
+      "id": "M4-sync-105",
+      "correctionGroup": "M4",
+      "sourceLine": 105,
+      "heading": "チェックリスト",
+      "old": "画像・音声がトークンを消費し、解像度・枚数でコストが増えることを見積もりに入れた",
+      "replacement": "画像・音声のトークン換算・料金を採用モデルの仕様で確認し、見積もりに入れた",
+      "reason": "本文M4と注意点を、見積もり確認項目でも同じモデル依存の条件にそろえる。",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "sources": [
+        "https://arxiv.org/html/2204.14198v1"
+      ],
+      "sections": "§3.1.1 Visual processing and the Perceiver Resampler; Figure 4",
+      "evidenceBoundary": "固定個数の視覚表現へ変換する構成上の反例。特定サービスの料金・費用・速度の一般的な優劣は検証していない。",
+      "requiredBefore": "multimodal-input-tradeoffs",
+      "status": "candidate-not-applied",
+      "checkedAt": "2026-09-24",
+      "verifiedAtUTC": "2026-09-24T12:35:25Z",
+      "verifiedBy": "plan-author previous live web recheck reused; no new web retrieval in v3",
+      "addedAtUTC": "2026-09-24T12:52:45.103Z",
+      "matchCount": 1
+    },
+    {
+      "id": "M5-sync-108",
+      "correctionGroup": "M5",
+      "sourceLine": 108,
+      "heading": "チェックリスト",
+      "old": "テキスト化できる情報は画像でなくテキストで渡している",
+      "replacement": "必要な情報が保たれることを確かめ、入力方式を精度・費用で比較している",
+      "reason": "M5およびM5-sync-100と同期し、テキスト化できるという理由だけで画像を省く判断をしない。",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "sources": [
+        "https://arxiv.org/abs/1904.08920"
+      ],
+      "sections": "Abstract (TextVQA and LoRRA)",
+      "evidenceBoundary": "OCR文字列だけで画像/質問の文脈を一律に代替できるとは一般化しないための根拠。費用の優劣は検証していない。",
+      "requiredBefore": "multimodal-input-tradeoffs",
+      "status": "candidate-not-applied",
+      "checkedAt": "2026-09-24",
+      "verifiedAtUTC": "2026-09-24T12:35:25Z",
+      "verifiedBy": "plan-author previous live web recheck reused; no new web retrieval in v3",
+      "addedAtUTC": "2026-09-24T12:52:45.103Z",
+      "matchCount": 1
+    }
+  ],
+  "proposed": {
+    "correctionBoundary": "Apply exactly13 adopted replacements M1–M5 plus8 related synchronizations before enabling either figure. In-memory corrected hash here excludes production last_updated change. Do not claim this proposal applied article changes or freshly reverified sources; production requires actual date, T-task manifest and independent final article review.",
+    "integration": {
+      "dispatcher": "website/components/diagrams/multimodal-walkthrough.jsx",
+      "export": "MultimodalWalkthrough",
+      "articleSpecific": [
+        "website/lib/multimodal-representation-model.mjs",
+        "website/components/diagrams/multimodal-representation-walkthrough.jsx",
+        "website/components/diagrams/multimodal-representation.css",
+        "website/tests/unit/multimodal-representation-model.test.mjs",
+        "website/lib/multimodal-input-tradeoffs-model.mjs",
+        "website/components/diagrams/multimodal-input-tradeoffs-walkthrough.jsx",
+        "website/components/diagrams/multimodal-input-tradeoffs.css",
+        "website/tests/unit/multimodal-input-tradeoffs-model.test.mjs"
+      ],
+      "shared": "Root owns registry/AST/MDX/dispatcher/article inputs/acceptance/structural and browser tests/public kit/records and article corrections."
+    },
+    "shared": "Pure deterministic frame using clampPhase/stageForPhase; stable IDs through movement, reverse and midpoint; strict options; no DOM/timers/network/randomness; conceptual layouts are not a model simulation or measured tensors.",
+    "figures": [
+      {
+        "id": "multimodal-representation",
+        "component": "MultimodalRepresentation",
+        "scene": "MultimodalRepresentationScene",
+        "frame": "multimodalRepresentationFrame",
+        "stages": "MULTIMODAL_REPRESENTATION_STAGES",
+        "marker": "MULTIMODAL / REPRESENTATION",
+        "stageAttribute": "data-multimodal-representation-stage",
+        "controls": [],
+        "fixture": {
+          "kind": "schematic object identities only",
+          "imageId": "input-image",
+          "audioId": "input-audio",
+          "textId": "input-text",
+          "patchGrid": {
+            "rows": 2,
+            "columns": 3,
+            "ids": [
+              "patch-0",
+              "patch-1",
+              "patch-2",
+              "patch-3",
+              "patch-4",
+              "patch-5"
+            ],
+            "meaning": "six layout tiles only; not a real processor, measured encoder sequence length, or billed token count"
+          },
+          "textUnits": [
+            "text-context",
+            "text-question"
+          ],
+          "textUnitMeaning": "schematic text-derived representation cards, not literal words claimed to equal tokenizer tokens",
+          "imageUnits": "one illustrative card per layout tile, sourcePatchId retained through S2–S4",
+          "audioUnit": "audio-representation; no patch IDs or image grid",
+          "outputId": "generated-text-pending",
+          "numericUnknowns": [
+            "embeddingDimensions",
+            "vectorValues",
+            "encoderLength",
+            "billedTokens",
+            "attentionWeights",
+            "outputQuality"
+          ]
+        },
+        "stagesContract": [
+          "S0: Three distinct text/image/audio entrances; example-architecture label visible immediately. Do not assert all models concatenate these modalities the same way.",
+          "S1: Text embedding path versus image/audio conversion paths. Audio has its own converter and representation, never image patches. Common-shaped connection is explicitly this architecture example, not equal semantics, exact internal tensors or universal implementation.",
+          "S2: Same fixed six patch IDs move from2×3 grid toward card row. Source image and patch identities persist. Always label division illustrative and patch count unequal to billing tokens; no token-price calculation.",
+          "S3: Image-derived and text-derived cards are connected into the example series, with all source IDs retained. Audio stays visibly identified as another input path with architecture-dependent connection rather than silently becoming image patches. No claim all models use this one sequence.",
+          "S4: Schematic relation lines between question representation and image-derived cards lead to a text-generation placeholder; no actual attention weights, answer sentence or successful image interpretation. Text output path is scoped to this understanding example; multimodal generation support remains unknown."
+        ],
+        "markers": [
+          "data-architecture-scope=\"example\"",
+          "data-patch-id",
+          "data-source-patch-id",
+          "data-representation-origin",
+          "data-attention-kind=\"schematic\"",
+          "data-billed-tokens=\"unknown\""
+        ]
+      },
+      {
+        "id": "multimodal-input-tradeoffs",
+        "component": "MultimodalInputTradeoffs",
+        "scene": "MultimodalInputTradeoffsScene",
+        "frame": "multimodalInputTradeoffsFrame",
+        "stages": "MULTIMODAL_INPUT_TRADEOFFS_STAGES",
+        "marker": "MULTIMODAL / INPUT",
+        "stageAttribute": "data-multimodal-input-stage",
+        "controls": [
+          {
+            "key": "granularity",
+            "label": "入力の粒度（模式図）",
+            "values": [
+              "coarse",
+              "fine"
+            ],
+            "labels": [
+              "粗い",
+              "細かい"
+            ],
+            "default": "coarse",
+            "effectiveStages": [
+              1
+            ]
+          },
+          {
+            "key": "inputPath",
+            "label": "比較する入力方式",
+            "values": [
+              "image",
+              "roi",
+              "ocr",
+              "structured"
+            ],
+            "labels": [
+              "画像全体",
+              "関心領域",
+              "OCRテキスト",
+              "構造化データ"
+            ],
+            "default": "image",
+            "effectiveStages": [
+              2
+            ]
+          }
+        ],
+        "settingsContract": "Outside S1/S2 corresponding effective setting is null. Controls alter schematic input layout or highlighted route only; never quality/cost/results. All limitations and alternative route labels visible before operation.",
+        "fixture": {
+          "inputId": "input-source",
+          "detailIds": [
+            "detail-text",
+            "detail-table",
+            "detail-position",
+            "detail-count"
+          ],
+          "detailLabels": [
+            "小さな文字",
+            "密な表",
+            "位置関係",
+            "数え上げ"
+          ],
+          "derivedInputs": "all derive from input-source; roi keeps regionId, OCR/structured preserve provenance without asserting complete information or perfect recognition",
+          "unknowns": [
+            "detailsRetained",
+            "recognitionAccuracy",
+            "hallucinationAmount",
+            "qualityScore",
+            "tokenCount",
+            "price",
+            "latency",
+            "modelUnderstandingSupport",
+            "modelGenerationSupport",
+            "bestInputPath"
+          ]
+        },
+        "stagesContract": [
+          "S0: Same input→representation relationship; whether important detail survives is a question, not an observed pass/fail. Show scope of represented information.",
+          "S1: Four source detail labels and granularity comparison, plus unseen-detail plausible completion/verification boundary. Finer schematic layout must not set detailsRetained=true or imply accuracy always improves; no numerical precision curve or price axis.",
+          "S2: Resolution, image count and used video frames are three specification/measurement dimensions without invented values. Show whole-image, ROI, OCR and structured alternatives together; selected route highlights only. OCR/structured require checking retained layout/appearance/recognition accuracy; never always cheaper/better or images-last-resort. Adopted model specifications and actual validation determine tradeoff.",
+          "S3: Separate understanding→text-output and image/audio-generation capability boxes. No guarantee arrow from understanding to generation and no named-product support verdict. Text-only output in one architecture example does not establish universal inability to generate media."
+        ],
+        "markers": [
+          "data-input-origin",
+          "data-granularity",
+          "data-input-path",
+          "data-result-status=\"unmeasured\"",
+          "data-price=\"unknown\"",
+          "data-support-status=\"unknown\""
+        ]
+      }
+    ],
+    "validation": [
+      "Unit: all9stages/midpoints/reverse, stable patch/source/derived IDs, audio has no image patch provenance, invalid settings, fresh arrays, two granularity/four input routes only at allowed stages, all unknown measurements stay null, example scope always true.",
+      "AST: apply exact13 replacements in memory and verify corrected source digests; all4 diagram-enabled subsets unwrap to corrected original AST with unchanged H3/body/list/table/link/code structure except declared substitutions and actual production date. Preserve existing overview table and any original formulas/graphs exactly once.",
+      "Browser: all9READ stops, patch IDs through motion/seek, separate audio, example label at all representation stages, no billing equivalence, default tradeoff cautions/alternatives, all6settings, understanding vs generation; PC/light/dark/short/narrow/DSF2/modal, keyboard/play/read sync, print/noJS/chunk fallback.",
+      "Independent source/semantic review of allM1–M5 affected and related claims, independent actual images, then same current CI/Pages/artifact/public acceptance. Final P1 stop after all15articles accepted; do not begin P2."
+    ]
+  },
+  "review": null
+}

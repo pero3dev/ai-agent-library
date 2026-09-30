@@ -1,0 +1,224 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-plan-interface-review",
+  "unit": "F2",
+  "verdict": "approved",
+  "risk": "low",
+  "must": 0,
+  "should": 1,
+  "findings": [
+    {
+      "severity": "should",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\multimodal-f2-interface-proposal-20260930.json",
+      "line": 1572,
+      "field": "proposed.correctionBoundary",
+      "issue": "制作時の変更記録を T-task manifest と呼ぶため、F2 対象の ROADMAP AR-2 との対応が曖昧です。",
+      "suggestion": "AR-2 に対応する通常記事変更 manifest と記し、M1–M5 と同期訂正・実適用日・タスク全成果物・最終候補の独立記事レビューへ結び付けてください。",
+      "blocking": false,
+      "basis": "ROADMAP AR-2 names docs/10-llm-foundations/multimodal-models.md; source evidence scope also records AR-2. MD line17 already says task-wide results generically."
+    }
+  ],
+  "reviewed_at": "2026-09-29T19:11:39Z",
+  "recorded_at": "2026-09-29T19:14:01.892Z",
+  "reviewer_run_id": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+  "reference_commit": "5940334a6fd3aab8178cfeb8746a58c8b937d390",
+  "targets": [
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\multimodal-f2-interface-proposal-20260930.md",
+      "sha256": "a7634a2b3a1e4de44b1200e6bddfd7b15c5ef0ff64dafb7f80e912d88aada068"
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\multimodal-f2-interface-proposal-20260930.json",
+      "sha256": "3577d71ce330008fabfa208dfd3ba444c7a46c897ee8fe6c2f5e48087c4a818b"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "sha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319"
+    },
+    {
+      "file": "docs/10-llm-foundations/multimodal-models.md",
+      "sha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033"
+    },
+    {
+      "file": "research/internals/p1-remaining-diagram-sources-2026-09-24.json",
+      "sha256": "3aff21e037e9eec6962925e459e5e8a762f8b8511d8d8212b34f91cd55eb28d1"
+    },
+    {
+      "file": "website/lib/diagram-registry.mjs",
+      "sha256": "85e75284f46ce42f7c89384a32bce6d227d2273855adfc81238d2f78966518d9"
+    },
+    {
+      "file": "website/lib/reading-clock.mjs",
+      "sha256": "f39eadf5eb39ebbb0f33877e6bceb9966211fc7acdaad13118428a4c2019081b"
+    }
+  ],
+  "scope": {
+    "planOnly": true,
+    "repoModified": false,
+    "articleModified": false,
+    "gitModified": false,
+    "implementationApproved": false,
+    "imagesApproved": false,
+    "publicApproved": false,
+    "productionArticleReviewRequired": true,
+    "requiresF1PublicAcceptance": true,
+    "p1StopAfter15PublicAccepted": true
+  },
+  "independentChecks": {
+    "adoptedExact": true,
+    "correctionsExact": true,
+    "inputRawHashMatches": 5,
+    "correctionCount": 13,
+    "eachCorrectionMatchCount": 1,
+    "correctionSourceLines": [
+      38,
+      45,
+      46,
+      72,
+      97,
+      98,
+      81,
+      100,
+      55,
+      56,
+      79,
+      105,
+      108
+    ],
+    "originalSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+    "candidateSha256ExcludingDate": "27956431766343cd1c4b910ce9d7b703e655365856c3e10484de315684688ced",
+    "originalAstSha256": "2788b1924a89263949a644475f2c282b2d1440a4506465b1fb63ded3f2f2b04e",
+    "candidateAstSha256": "ba6fdaf2a4362fb1586a9fc4d8090b8f73ad19de103c5e9be8fd1395f2415a08",
+    "counts": {
+      "rootNodes": 43,
+      "contentH3": 9,
+      "contentBodyBlocks": 18,
+      "wrappedH3": 6,
+      "wrappedBody": 14,
+      "displayMath": 0,
+      "mermaid": 0,
+      "tables": 1,
+      "dynamicTopics": 27,
+      "staticTopics": 15,
+      "stages": 9,
+      "readStops": 9,
+      "corrections": 13
+    },
+    "sourceAtomicUnits": 42,
+    "changedAtomicUnits": 13,
+    "sourceTopicsBeforeAndAfterExact": true,
+    "allDynamicTopicsReachRead": true,
+    "allHeadingNodesPreserved": 18,
+    "allLinkNodesPreserved": 25,
+    "tablePreserved": true,
+    "frontMatterUnchanged": true,
+    "hypotheticalCorrectedAstWrapperRoundTrips": 4,
+    "productionAstTestExecuted": false,
+    "ranges": [
+      {
+        "id": "multimodal-representation",
+        "start": 12,
+        "end": 22
+      },
+      {
+        "id": "multimodal-input-tradeoffs",
+        "start": 22,
+        "end": 32
+      }
+    ],
+    "diagrams": [
+      {
+        "id": "multimodal-representation",
+        "sourceDigest": "sha256:3324ade1e55f96e5d8e661b93a7f3d0e9ca1b44ca21fac462cc78030e5917a2d",
+        "postCorrectionSourceDigestCandidate": "sha256:bde65e9480e412b84f43e04b32556b2ca9f8be4f29b09523581d27ffcdaf728a",
+        "readingStages": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "manualOnlyStages": []
+      },
+      {
+        "id": "multimodal-input-tradeoffs",
+        "sourceDigest": "sha256:1aeec688b92f8892b56e7df0db626df803cabaf660b68c6a3d1f38898047107f",
+        "postCorrectionSourceDigestCandidate": "sha256:1134db9f9a307d41fa2db299aa46ca92bf28df5e3eb264087ffdb2314df04cb0",
+        "readingStages": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "manualOnlyStages": []
+      }
+    ],
+    "patchIds": [
+      "patch-0",
+      "patch-1",
+      "patch-2",
+      "patch-3",
+      "patch-4",
+      "patch-5"
+    ],
+    "patchCountIsIllustrative": true,
+    "controls": [
+      {
+        "key": "granularity",
+        "options": 2,
+        "effectiveStages": [
+          1
+        ]
+      },
+      {
+        "key": "inputPath",
+        "options": 4,
+        "effectiveStages": [
+          2
+        ]
+      }
+    ]
+  },
+  "sourceTiming": {
+    "proposalHistoricalEvidenceUnchanged": true,
+    "reviewerSupplementalRetrievalIsSeparate": true,
+    "reviewerRetrievals": [
+      {
+        "url": "https://arxiv.org/html/2204.14198v1",
+        "scope": "cross-attention connection and §3.1.1/Figure4 fixed visual outputs",
+        "checkedAfterFetchUtc": "2026-09-29T19:09:07Z"
+      },
+      {
+        "url": "https://arxiv.org/abs/2010.11929",
+        "versionShown": "v2",
+        "scope": "abstract patch sequence",
+        "checkedAfterFetchUtc": "2026-09-29T19:09:07Z"
+      },
+      {
+        "url": "https://arxiv.org/abs/1904.08920",
+        "versionShown": "v2",
+        "scope": "abstract text + image/question context",
+        "checkedAfterFetchUtc": "2026-09-29T19:09:07Z"
+      },
+      {
+        "url": "https://arxiv.org/html/2304.08485",
+        "scope": "§4.1–4.2 projection and image/instruction sequence",
+        "checkedAfterFetchUtc": "2026-09-29T19:10:55Z",
+        "fixedV2HtmlAttempt": "error; unversioned HTML used"
+      }
+    ],
+    "notVerified": [
+      "current product support",
+      "service billing",
+      "relative costs or latency",
+      "universal accuracy improvement",
+      "specific audio architecture"
+    ]
+  },
+  "markdown": {
+    "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\multimodal-f2-interface-review-20260930.md",
+    "sha256": "ed272fa33c74b9f2973f3f34e8ec134f81dd64d51f869a34317baa4e624fc08f"
+  }
+}

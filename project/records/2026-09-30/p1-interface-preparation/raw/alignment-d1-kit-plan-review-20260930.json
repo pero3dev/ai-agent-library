@@ -1,0 +1,321 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-D1-portable-kit-plan-review",
+  "status": "plan-only",
+  "verdict": "approved",
+  "risk": "low",
+  "must": 0,
+  "should": 0,
+  "findings": [],
+  "reviewer": "/root/pretraining_numeric",
+  "reviewedAt": "2026-09-29T18:04:12.788Z",
+  "targets": [
+    {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-d1-kit-plan.md",
+      "sha256": "1c18d96025931e208c0fdd76d1be8115b79addc7195eacbf5c182d29f092d7aa",
+      "bytes": 7084
+    },
+    {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-d1-kit-plan.json",
+      "sha256": "c003f801f6443662522bf0433bbd45546f7cd7bf86e93960ff5c5704accd5e21",
+      "bytes": 42772
+    }
+  ],
+  "independence": {
+    "kitPlanAuthor": "/root/inference_change_evidence",
+    "reviewerAuthoredKitPlan": false,
+    "reviewerAuthoredInterfaceProposal": true,
+    "interfaceProposalExcludedFromApproval": true,
+    "interfaceIndependentReview": "alignment-d1-interface-review-20260930.json",
+    "interfaceIndependentReviewSHA256": "e92e19b4756256952484b16994fa0a42a8a679e3442c17b2b871f8b46eb08ca0",
+    "authorValidationUsedAsEvidence": false,
+    "consultingAgentReportedChecksUsedAsIndependentEvidence": false
+  },
+  "sourceInventory": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "6a42eb8121cab94a360d9151ba1435eed7f855a8e47e2792ea7c20f7d4987fad",
+      "bytes": 5554,
+      "observedMatch": true
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "sha256": "4dcc9ff7e07a66f006972fba94adfe5fc57070ac3903a523f552cf63be3c8bf1",
+      "bytes": 22086,
+      "observedMatch": true
+    },
+    {
+      "path": "project/README.md",
+      "sha256": "b76f5992fb07fecaec67f93136b01ec89fca1c49976a5956e6ee302464bec4bc",
+      "bytes": 9715,
+      "observedMatch": true
+    },
+    {
+      "path": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "sha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "bytes": 427025,
+      "observedMatch": true
+    },
+    {
+      "path": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+      "sha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+      "bytes": 19361,
+      "observedMatch": true
+    },
+    {
+      "path": "docs/11-llm-internals/alignment-theory.md",
+      "sha256": "6bb4501e5fcd44323a0890d20286cc6e597ab042997df47d2cf9fa2ddabd480b",
+      "bytes": 15489,
+      "observedMatch": true
+    },
+    {
+      "path": "docs/03-implementation/embeddings.md",
+      "sha256": "c7535e022d1fdeb28ed7f66ffae16d2bfd7f43e7aed36593bb698a7a568dc0f2",
+      "bytes": 14335,
+      "observedMatch": true
+    },
+    {
+      "path": "website/diagrams/registry.json",
+      "sha256": "ed9ef883835222eed36e9857453535eec08210ba7addc408618b612dbbc655d4",
+      "bytes": 29217,
+      "observedMatch": true
+    },
+    {
+      "path": "website/tests/browser/math.spec.mjs",
+      "sha256": "b505a82d15600eb0916177adf1ffc09404abd3b13eee84d1caec6ce96292fa10",
+      "bytes": 10660,
+      "observedMatch": true
+    },
+    {
+      "path": "scripts/diagram-release/verify-public.mjs",
+      "sha256": "71aae210985ff432dee0a986a4bea167fea4dc01768c6081c8c7dc49bbb46085",
+      "bytes": 63744,
+      "observedMatch": true
+    },
+    {
+      "path": "scripts/diagram-release/extract-ci-html.mjs",
+      "sha256": "bd1618d4a91f9d1fe37db5e3ce68fadf871595f5eda27d2892048ec89479454f",
+      "bytes": 4310,
+      "observedMatch": true
+    },
+    {
+      "path": "scripts/diagram-release/collect-deployment.ps1",
+      "sha256": "e4c3538cba3ea525f4725afd5c7d56256e8dbf5575337d48885b8811e9880eda",
+      "bytes": 12478,
+      "observedMatch": true
+    },
+    {
+      "path": "scripts/diagram-release/check-preparation.mjs",
+      "sha256": "e1d33b2c191c137db41f7cedcdf1ec4cd8083f282fdc5ec9bb816ab3c7465eff",
+      "bytes": 13954,
+      "observedMatch": true
+    },
+    {
+      "path": "scripts/diagram-release/source-mapping.json",
+      "sha256": "caa2a618c84e6277b9fd6d60698765787a4667f4b73253fe26f86f6ec147544b",
+      "bytes": 55051,
+      "observedMatch": true
+    },
+    {
+      "path": "scripts/diagram-release/predecessor-proof.mjs",
+      "sha256": "e5ddfa8a35d527918654b683b59deb964380fd446d6da2564d3656bf665c2f39",
+      "bytes": 2537,
+      "observedMatch": true
+    },
+    {
+      "path": "scripts/diagram-release/c2-predecessor-proof.json",
+      "sha256": "a464b808ad76f33ec36df3a3e305b3847aeb056c32b58a5cfb62aa5e4ef77cea",
+      "bytes": 16010,
+      "observedMatch": true
+    },
+    {
+      "path": "scripts/diagram-release/foundations-checks.mjs",
+      "sha256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398",
+      "bytes": 26410,
+      "observedMatch": true
+    },
+    {
+      "path": "scripts/diagram-release/inference-checks.mjs",
+      "sha256": "9f52ca50576dcadc6010b60e30561b768a16b5da0ea8765952e2fc2c5c69e201",
+      "bytes": 31874,
+      "observedMatch": true
+    },
+    {
+      "path": "scripts/diagram-release/training-checks.mjs",
+      "sha256": "83bd24b85bb4179f643d4a8ba1727a87c305ed6f8b7859e410ace76c70f5e79e",
+      "bytes": 27264,
+      "observedMatch": true
+    },
+    {
+      "path": "scripts/diagram-release/pretraining-checks.mjs",
+      "sha256": "4fc7051874e6dfdfa2b92052e7ebf237808237a7a2680c85a4008f187fc5de69",
+      "bytes": 47725,
+      "observedMatch": true
+    },
+    {
+      "path": "scripts/diagram-release/portable-paths.mjs",
+      "sha256": "eb3bab3ad3e9bfcffbd2071d23c321ae71abb4a5a7fa78dee1706ef9fd1abd4a",
+      "bytes": 7151,
+      "observedMatch": true
+    },
+    {
+      "path": "scripts/diagram-release/known-site-observations.mjs",
+      "sha256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659",
+      "bytes": 130,
+      "observedMatch": true
+    },
+    {
+      "path": "scripts/diagram-release/README.md",
+      "sha256": "db5d8580d8930465d9a832f5c55a49d4be5e3cdb83757468e462de2ba9f62832",
+      "bytes": 19612,
+      "observedMatch": true
+    },
+    {
+      "path": "tests/unit/diagram-release-portable.test.mjs",
+      "sha256": "0bad8b27c8de4ff2b6faf23fcd4844e567b3a762e5bca5bec31475a94887fa25",
+      "bytes": 20510,
+      "observedMatch": true
+    },
+    {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-d1-interface-proposal-20260930.json",
+      "sha256": "019400d5862560f50f361474971a62a5f7f51a5b2926b95a2a29b9bddfc3f632",
+      "bytes": 54693,
+      "observedMatch": true
+    },
+    {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-d1-interface-review-20260930.json",
+      "sha256": "e92e19b4756256952484b16994fa0a42a8a679e3442c17b2b871f8b46eb08ca0",
+      "bytes": 3187,
+      "observedMatch": true
+    },
+    {
+      "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-d1-interface-review-20260930.md",
+      "sha256": "63f5569a81de455a7bdcbde7a15177d86f98ef670e4123fff096f763b4e11bf6",
+      "bytes": 7054,
+      "observedMatch": true
+    }
+  ],
+  "independentChecks": {
+    "registration": {
+      "method": "Read fixed reviewed declarations/registration statements from current runner; execute them with check(name,callback) recording only names, supplying pure fixture modules and undefined browser helpers. Never call callback or import verify-public as an entrypoint.",
+      "currentCases": 91,
+      "currentCaseNamesSHA256": "afcdab45db9d16af442aaeb284add5d6e952724e912e6f2b8eb6b46255550972",
+      "callbacksExecuted": false,
+      "addedPlannedCases": 16,
+      "plannedTotal": 107,
+      "allNamesUnique": true,
+      "addedNamesContiguousBeforeFavicon": true,
+      "retainedNamesUnchanged": 90,
+      "controlMigration": {
+        "from": "alignment-theory control: zero heavy figure or shared-frame chunks",
+        "to": "embeddings control: zero heavy figure or shared-frame chunks",
+        "exactlyOne": true,
+        "indexAfterRemovingNew16": 89
+      },
+      "inverseOrderedNameComparisons": [
+        91,
+        71,
+        58
+      ]
+    },
+    "currentHashAndRestoration": {
+      "planInputHashesAndBytesVerified": 27,
+      "manifestCurrentFileHashesVerified": 14,
+      "manifestSHA256": "caa2a618c84e6277b9fd6d60698765787a4667f4b73253fe26f86f6ec147544b",
+      "c2ProofSHA256": "a464b808ad76f33ec36df3a3e305b3847aeb056c32b58a5cfb62aa5e4ef77cea",
+      "oldHelperSHA256": "e5ddfa8a35d527918654b683b59deb964380fd446d6da2564d3656bf665c2f39",
+      "currentC2ToC1Executed": true,
+      "restoredC1": [
+        {
+          "file": "extract-ci-html.mjs",
+          "sha256": "bf9d7e3233c8e6daa4a71b176c967c42fbd1203c3dadb641d470b33a9eda2048"
+        },
+        {
+          "file": "collect-deployment.ps1",
+          "sha256": "96536628ace358e7c3499d51ab25a3c5c8375bdb609f1c9951bdd1794f262a1d"
+        },
+        {
+          "file": "verify-public.mjs",
+          "sha256": "87a8ada23f194d9cf4cdcfceda71aacc711626d02f0c0ff7f84e95193cf2d90c"
+        }
+      ],
+      "protectedSegmentsPassed": 5,
+      "additionalHistoricalComparisonsPassed": 6,
+      "proposedD1ToC2Executed": false
+    },
+    "routes": {
+      "currentRunnerExtractorCollectorSameEight": true,
+      "plannedUniqueRoutes": 9,
+      "newArtifactRoute": "/docs/llm-internals/alignment-theory",
+      "newControlRoute": "/docs/implementation/embeddings",
+      "newControlExcludedFromNineArtifactDocuments": true,
+      "newControlH1MatchesArticle": true,
+      "newControlRegistryEntries": 0,
+      "runtimeControlNotVerified": true
+    },
+    "fixtures": {
+      "reviewScope": "Adoption and independent-test construction in the kit plan, not reapproval of reviewer-authored interface.",
+      "productModelsImported": false,
+      "publicDOMUsedForExpectedValues": false,
+      "localBuildUsedForExpectedValues": false,
+      "independentArithmeticMethod": "For each beta compute odds=4**beta, margin=ln(odds), probability=odds/(1+odds), loss=ln((1+odds)/odds), compare literals at 1e-12. Verify explicit reward probability 3/4 separately.",
+      "dpoRowsChecked": 3,
+      "bradleyTerryProbability": 0.75,
+      "plannedFigures": 3,
+      "plannedStages": 15,
+      "plannedReadStops": 15,
+      "plannedManualOnlyStages": 0,
+      "plannedBoundaryCount": 12,
+      "plannedForwardReversePhaseVisits": 72,
+      "plannedProfiles": 6,
+      "plannedCustomControls": 2,
+      "plannedOptions": 5
+    }
+  },
+  "assessment": {
+    "routeAndIdentity": "Alignment becomes ninth required independently collected artifact HTML byte identity. Embeddings remains explicit weaker HTTP/MIME/BUILD_ID control, zero scenes/toc/heavy marker assertions kept. Same fixed route lists required in runner/extractor/collector.",
+    "lineage": "One explicit control inverse rename after excluding exactly sixteen fixed new case names restores 91 ordered names; excluding existing C2/C1 additions restores 71/58. The count proof supplements whole-file reverse edits and does not replace callback assertions.",
+    "flatProof": "New fixed D1 sidecar describes old C2 manifest/name/file hashes and exact three-entrypoint edits, without prior manifest body, recursive proof, self/current manifest hash or arbitrary paths/code. Keep original C2 sidecar bytes and old helper prefix; append restoreC2 and compare full C2 bytes before existing restoreC1/protected checks. This is feasible but not yet executed for unimplemented D1.",
+    "hashDAG": "Freeze source/tests -> old-only predecessor proof -> inventory containing new proof hash; record current manifest hash outside this hashed set. No proposed backward edge from proof to current manifest.",
+    "primaryAssertions": "Existing foundations/inference/training/pretraining, known-site and path modules remain byte-identical. Preserve release identity, tar regular/unique/single-build, favicon no-exception, network/MIME/body/console/noJS classification, output-root, lockfile and browser contracts. Current code contains these assertions; proposed integration retains them.",
+    "independentFixture": "Plan separates explicit reward from policy-derived reward, fixed response probabilities from full KL, same-x cancellation from invalid input, pair loss from dataset expectation, and fixed-beta algebra from trained update/quality. Risk/feedback require visible structure/text and unknowns, not scores invented from DOM.",
+    "imageAndOriginalArticle": "Six profiles include low-height/DSF2. Viewport plus complete-scene image capture and independent actual-size review remain separate from DOM/geometry. Original nine H3/four equations/Mermaid and 390px DPO keyboard/formula checks stay active."
+  },
+  "requiredImplementationChecksAlreadyInPlan": [
+    "Freeze actual C2 accepted baseline and recheck all hashes after C2 public acceptance.",
+    "Implement D1 fixed inverse edits and verify exact C2 bytes, old helper prefix, C2 proof and 91/71/58 names.",
+    "Retain original negative tests; apply C2 tests to restored C2 bodies; add D1 undeclared-assert/migration/path/hash/cycle counterexamples.",
+    "Validate independent observation checkers with sign/probability/logloss/normalizer/input-ID/risk/feedback mutations.",
+    "Run exact-nine synthetic tar rejection checks and final fixture/code/article/image reviews.",
+    "Rehearse via separate localhost adapter; run all 107 cases after exact D1 main CI/Pages artifact collection; inspect public images independently."
+  ],
+  "limitations": {
+    "approvalIsOnlyKitPlan": true,
+    "interfaceApproval": false,
+    "articleCorrectionApproval": false,
+    "productImplementationApproval": false,
+    "kitImplementationApproval": false,
+    "D1RestorationRuntimeApproval": false,
+    "browserApproval": false,
+    "visualApproval": false,
+    "publicApproval": false,
+    "physicalDeviceApproval": false,
+    "networkExecuted": false,
+    "browserLaunched": false,
+    "unitSuiteExecuted": false,
+    "buildExecuted": false,
+    "GitMutation": false,
+    "productEdited": false,
+    "articleEdited": false,
+    "kitEdited": false,
+    "sourceOfC2ExternalStatus": "parent report only; external CI/public status not verified by this reviewer",
+    "implementationBlockedUntilC2PublicAcceptance": true,
+    "stopAfterP1All15PublicAcceptance": true,
+    "P2Allowed": false
+  },
+  "reportFiles": {
+    "markdown": "alignment-d1-kit-plan-review-20260930.md",
+    "json": "alignment-d1-kit-plan-review-20260930.json"
+  },
+  "reportSHA256": "f970ce7787574be29d5282641c1d7e623455f08027940e7e792002175d9ae90e"
+}

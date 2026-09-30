@@ -40,7 +40,7 @@ npm ci
 
 ## 本文に連動する動的図
 
-自己注意・Agentループ・Workflow比較、Transformer・注意変種・MoE・文章生成・トークン化・推論内部・学習パイプラインの記事の図解は、`components/diagrams/reading-figure.jsx` の共通外枠で
+自己注意・Agentループ・Workflow比較、Transformer・注意変種・MoE・文章生成・トークン化・推論内部・学習パイプライン・事前学習・アラインメントの記事の図解は、`components/diagrams/reading-figure.jsx` の共通外枠で
 読書位置との同期、再生・停止、段階送り、スライダー、拡大を提供します。
 図の場面は記事・論点ごとのsceneに分け、対応する数値・意味モデルを単体試験で検証します。
 軽量な入口から各記事に必要なコードを読み込み、静的HTMLにも図を出力します。

@@ -1,0 +1,712 @@
+{
+  "schemaVersion": 1,
+  "kind": "generated-final-local-browser-images-not-viewed-claims",
+  "generated": 22,
+  "storedPNGs": 0,
+  "images": [
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-01.json.gz",
+      "sourceCase": "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-preference-beta-0.5-stage-4",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-prefer-fa61e--and-midpoint-reverse-seeks\\alignment-preference-beta-0.5-stage-4.png"
+      },
+      "originalSha256": "b0703175e6a11729f1fdb314c4057517e22e9fc47924562ad19e2a7d7d059224",
+      "originalBytes": 292955,
+      "pngDimensions": {
+        "width": 1440,
+        "height": 1000
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    },
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-01.json.gz",
+      "sourceCase": "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-preference-beta-0.5-stage-4-scene",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-prefer-fa61e--and-midpoint-reverse-seeks\\alignment-preference-beta-0.5-stage-4-scene.png",
+        "capture": "element",
+        "purpose": "supplemental-full-scene-glyph-review",
+        "bounds": {
+          "x": 764.421875,
+          "y": 186.1875,
+          "width": 626.578125,
+          "height": 420.96875
+        },
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1,
+        "pixels": {
+          "width": 627,
+          "height": 422
+        },
+        "originalScroll": {
+          "x": 0,
+          "y": 999,
+          "dialogTop": null
+        },
+        "captureScroll": {
+          "x": 0,
+          "y": 1203
+        },
+        "scrollRestored": true,
+        "stylesModified": false
+      },
+      "originalSha256": "9062eaaa2e72ea65445f307f27ca522c91676bdf12e408c4bcaf0c477a8d92e2",
+      "originalBytes": 58262,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    },
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-01.json.gz",
+      "sourceCase": "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-preference-beta-1-stage-4",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-prefer-fa61e--and-midpoint-reverse-seeks\\alignment-preference-beta-1-stage-4.png"
+      },
+      "originalSha256": "7264619e5954974d1150d59bf568325c190aefb33a463067e303bd09276e16c0",
+      "originalBytes": 290557,
+      "pngDimensions": {
+        "width": 1440,
+        "height": 1000
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    },
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-01.json.gz",
+      "sourceCase": "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-preference-beta-1-stage-4-scene",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-prefer-fa61e--and-midpoint-reverse-seeks\\alignment-preference-beta-1-stage-4-scene.png",
+        "capture": "element",
+        "purpose": "supplemental-full-scene-glyph-review",
+        "bounds": {
+          "x": 764.421875,
+          "y": 186.1875,
+          "width": 626.578125,
+          "height": 420.96875
+        },
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1,
+        "pixels": {
+          "width": 627,
+          "height": 422
+        },
+        "originalScroll": {
+          "x": 0,
+          "y": 999,
+          "dialogTop": null
+        },
+        "captureScroll": {
+          "x": 0,
+          "y": 1203
+        },
+        "scrollRestored": true,
+        "stylesModified": false
+      },
+      "originalSha256": "0eb9f68d97df53fac3e58236cd531eddb156dbe47c6c9e41d3013d3be035a944",
+      "originalBytes": 56441,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    },
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-01.json.gz",
+      "sourceCase": "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-preference-beta-2-stage-4",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-prefer-fa61e--and-midpoint-reverse-seeks\\alignment-preference-beta-2-stage-4.png"
+      },
+      "originalSha256": "b2766dd4d8f4bcafd5e1ad431fbdecc7b7ebeb0a91493b22eb78963c5ab5e658",
+      "originalBytes": 291381,
+      "pngDimensions": {
+        "width": 1440,
+        "height": 1000
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    },
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-01.json.gz",
+      "sourceCase": "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-preference-beta-2-stage-4-scene",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-prefer-fa61e--and-midpoint-reverse-seeks\\alignment-preference-beta-2-stage-4-scene.png",
+        "capture": "element",
+        "purpose": "supplemental-full-scene-glyph-review",
+        "bounds": {
+          "x": 764.421875,
+          "y": 186.1875,
+          "width": 626.578125,
+          "height": 420.96875
+        },
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1,
+        "pixels": {
+          "width": 627,
+          "height": 422
+        },
+        "originalScroll": {
+          "x": 0,
+          "y": 999,
+          "dialogTop": null
+        },
+        "captureScroll": {
+          "x": 0,
+          "y": 1203
+        },
+        "scrollRestored": true,
+        "stylesModified": false
+      },
+      "originalSha256": "6998a64935ea02a3d8765d757c42633c8068429c50f848fddd0c0db6ae5ac586",
+      "originalBytes": 57053,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    },
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-01.json.gz",
+      "sourceCase": "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-preference-beta-0.5-stage-5",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-prefer-fa61e--and-midpoint-reverse-seeks\\alignment-preference-beta-0.5-stage-5.png"
+      },
+      "originalSha256": "8588a0d4fdb8843d51ab0964b3266f44f10ef7815d5df01fe1e633d6f6ff32c2",
+      "originalBytes": 283579,
+      "pngDimensions": {
+        "width": 1440,
+        "height": 1000
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    },
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-01.json.gz",
+      "sourceCase": "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-preference-beta-0.5-stage-5-scene",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-prefer-fa61e--and-midpoint-reverse-seeks\\alignment-preference-beta-0.5-stage-5-scene.png",
+        "capture": "element",
+        "purpose": "supplemental-full-scene-glyph-review",
+        "bounds": {
+          "x": 764.421875,
+          "y": 186.1875,
+          "width": 626.578125,
+          "height": 420.96875
+        },
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1,
+        "pixels": {
+          "width": 627,
+          "height": 422
+        },
+        "originalScroll": {
+          "x": 0,
+          "y": 1369,
+          "dialogTop": null
+        },
+        "captureScroll": {
+          "x": 0,
+          "y": 1469
+        },
+        "scrollRestored": true,
+        "stylesModified": false
+      },
+      "originalSha256": "146cc513c3b9470160c495310d295c2f2f706b5c72266488413d8bbf0ee6ebe7",
+      "originalBytes": 61495,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    },
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-01.json.gz",
+      "sourceCase": "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-preference-beta-1-stage-5",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-prefer-fa61e--and-midpoint-reverse-seeks\\alignment-preference-beta-1-stage-5.png"
+      },
+      "originalSha256": "4e57767c66dec28f45f915f205022928cb97c49122132c4c7f4693e2f94f4590",
+      "originalBytes": 282909,
+      "pngDimensions": {
+        "width": 1440,
+        "height": 1000
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    },
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-01.json.gz",
+      "sourceCase": "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-preference-beta-1-stage-5-scene",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-prefer-fa61e--and-midpoint-reverse-seeks\\alignment-preference-beta-1-stage-5-scene.png",
+        "capture": "element",
+        "purpose": "supplemental-full-scene-glyph-review",
+        "bounds": {
+          "x": 764.421875,
+          "y": 186.1875,
+          "width": 626.578125,
+          "height": 420.96875
+        },
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1,
+        "pixels": {
+          "width": 627,
+          "height": 422
+        },
+        "originalScroll": {
+          "x": 0,
+          "y": 1369,
+          "dialogTop": null
+        },
+        "captureScroll": {
+          "x": 0,
+          "y": 1469
+        },
+        "scrollRestored": true,
+        "stylesModified": false
+      },
+      "originalSha256": "d71414399ed5338187600d7b981a874575a434bc760e64258257ec508866dea4",
+      "originalBytes": 61243,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    },
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-01.json.gz",
+      "sourceCase": "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-preference-beta-2-stage-5",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-prefer-fa61e--and-midpoint-reverse-seeks\\alignment-preference-beta-2-stage-5.png"
+      },
+      "originalSha256": "3ecb9b12a5a59a30bad5297fea9b9659b3aae4794bcafb31e3a10748d21fb73a",
+      "originalBytes": 282921,
+      "pngDimensions": {
+        "width": 1440,
+        "height": 1000
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    },
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-01.json.gz",
+      "sourceCase": "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-preference-beta-2-stage-5-scene",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-prefer-fa61e--and-midpoint-reverse-seeks\\alignment-preference-beta-2-stage-5-scene.png",
+        "capture": "element",
+        "purpose": "supplemental-full-scene-glyph-review",
+        "bounds": {
+          "x": 764.421875,
+          "y": 186.1875,
+          "width": 626.578125,
+          "height": 420.96875
+        },
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1,
+        "pixels": {
+          "width": 627,
+          "height": 422
+        },
+        "originalScroll": {
+          "x": 0,
+          "y": 1369,
+          "dialogTop": null
+        },
+        "captureScroll": {
+          "x": 0,
+          "y": 1469
+        },
+        "scrollRestored": true,
+        "stylesModified": false
+      },
+      "originalSha256": "8edce4be02c08709233bf88f4a992c8f8052132c7e8b00876e26284ba8b35bc4",
+      "originalBytes": 61130,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    },
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-01.json.gz",
+      "sourceCase": "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-preference-beta-0.5-stage-6",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-prefer-fa61e--and-midpoint-reverse-seeks\\alignment-preference-beta-0.5-stage-6.png"
+      },
+      "originalSha256": "87b32f0a5fba0dfacc737e7261120c615b2c36636afda316d20f7bcd5f59d8c2",
+      "originalBytes": 321459,
+      "pngDimensions": {
+        "width": 1440,
+        "height": 1000
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    },
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-01.json.gz",
+      "sourceCase": "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-preference-beta-0.5-stage-6-scene",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-prefer-fa61e--and-midpoint-reverse-seeks\\alignment-preference-beta-0.5-stage-6-scene.png",
+        "capture": "element",
+        "purpose": "supplemental-full-scene-glyph-review",
+        "bounds": {
+          "x": 764.421875,
+          "y": 186.1875,
+          "width": 626.578125,
+          "height": 420.96875
+        },
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1,
+        "pixels": {
+          "width": 627,
+          "height": 422
+        },
+        "originalScroll": {
+          "x": 0,
+          "y": 1635,
+          "dialogTop": null
+        },
+        "captureScroll": {
+          "x": 0,
+          "y": 1735
+        },
+        "scrollRestored": true,
+        "stylesModified": false
+      },
+      "originalSha256": "cd4f988d97337afca1f0ec6b4753ec2680b4fe53ec000fcda1eb45fa3679ea68",
+      "originalBytes": 73296,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    },
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-01.json.gz",
+      "sourceCase": "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-preference-beta-1-stage-6",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-prefer-fa61e--and-midpoint-reverse-seeks\\alignment-preference-beta-1-stage-6.png"
+      },
+      "originalSha256": "69eb4a74bfa164e96d0b9a4e1791adb0012d7c88db4c2908d17cc7cb41698cce",
+      "originalBytes": 320585,
+      "pngDimensions": {
+        "width": 1440,
+        "height": 1000
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    },
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-01.json.gz",
+      "sourceCase": "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-preference-beta-1-stage-6-scene",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-prefer-fa61e--and-midpoint-reverse-seeks\\alignment-preference-beta-1-stage-6-scene.png",
+        "capture": "element",
+        "purpose": "supplemental-full-scene-glyph-review",
+        "bounds": {
+          "x": 764.421875,
+          "y": 186.1875,
+          "width": 626.578125,
+          "height": 420.96875
+        },
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1,
+        "pixels": {
+          "width": 627,
+          "height": 422
+        },
+        "originalScroll": {
+          "x": 0,
+          "y": 1635,
+          "dialogTop": null
+        },
+        "captureScroll": {
+          "x": 0,
+          "y": 1735
+        },
+        "scrollRestored": true,
+        "stylesModified": false
+      },
+      "originalSha256": "bdb790161536d582ff1a1c629b11b25851e185ef4db81407ddf0a417a10a35ab",
+      "originalBytes": 73085,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    },
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-01.json.gz",
+      "sourceCase": "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-preference-beta-2-stage-6",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-prefer-fa61e--and-midpoint-reverse-seeks\\alignment-preference-beta-2-stage-6.png"
+      },
+      "originalSha256": "148a1f345b605d8e04996e996841d29800df6b429eb1376394e228c7ec4df9bf",
+      "originalBytes": 320581,
+      "pngDimensions": {
+        "width": 1440,
+        "height": 1000
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    },
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-01.json.gz",
+      "sourceCase": "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-preference-beta-2-stage-6-scene",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-prefer-fa61e--and-midpoint-reverse-seeks\\alignment-preference-beta-2-stage-6-scene.png",
+        "capture": "element",
+        "purpose": "supplemental-full-scene-glyph-review",
+        "bounds": {
+          "x": 764.421875,
+          "y": 186.1875,
+          "width": 626.578125,
+          "height": 420.96875
+        },
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1,
+        "pixels": {
+          "width": 627,
+          "height": 422
+        },
+        "originalScroll": {
+          "x": 0,
+          "y": 1635,
+          "dialogTop": null
+        },
+        "captureScroll": {
+          "x": 0,
+          "y": 1735
+        },
+        "scrollRestored": true,
+        "stylesModified": false
+      },
+      "originalSha256": "2104081d55585c4585e0c06a2ba4b185cfa0891de7b1dc84562bd216857eaa33",
+      "originalBytes": 72904,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    },
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-03.json.gz",
+      "sourceCase": "alignment-feedback: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-feedback-labelSource-human-stage-4",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-feedba-e8e3f--and-midpoint-reverse-seeks\\alignment-feedback-labelSource-human-stage-4.png"
+      },
+      "originalSha256": "cd4d3962f4ef68eb928da70f07d61043fa9a3135bcad5ff2a0a409fbc1aea6dc",
+      "originalBytes": 289452,
+      "pngDimensions": {
+        "width": 1440,
+        "height": 1000
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    },
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-03.json.gz",
+      "sourceCase": "alignment-feedback: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-feedback-labelSource-human-stage-4-scene",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-feedba-e8e3f--and-midpoint-reverse-seeks\\alignment-feedback-labelSource-human-stage-4-scene.png",
+        "capture": "element",
+        "purpose": "supplemental-full-scene-glyph-review",
+        "bounds": {
+          "x": 764.421875,
+          "y": 186.1875,
+          "width": 626.578125,
+          "height": 420.96875
+        },
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1,
+        "pixels": {
+          "width": 627,
+          "height": 422
+        },
+        "originalScroll": {
+          "x": 0,
+          "y": 4819,
+          "dialogTop": null
+        },
+        "captureScroll": {
+          "x": 0,
+          "y": 4919
+        },
+        "scrollRestored": true,
+        "stylesModified": false
+      },
+      "originalSha256": "31c147ea59e8c63be056be67072a4e456f79942f00d6a6e60f5847002ba0c062",
+      "originalBytes": 35466,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    },
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-03.json.gz",
+      "sourceCase": "alignment-feedback: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-feedback-labelSource-ai-stage-4",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-feedba-e8e3f--and-midpoint-reverse-seeks\\alignment-feedback-labelSource-ai-stage-4.png"
+      },
+      "originalSha256": "5b942a937da04c96c92811fe09554028ddd32537f739eca9451f96d52e3ef915",
+      "originalBytes": 289098,
+      "pngDimensions": {
+        "width": 1440,
+        "height": 1000
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    },
+    {
+      "sourceResultPath": "raw/edge-grid-final-case-03.json.gz",
+      "sourceCase": "alignment-feedback: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "original": {
+        "name": "alignment-feedback-labelSource-ai-stage-4-scene",
+        "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-browser-edge-grid-final\\alignment-alignment-feedba-e8e3f--and-midpoint-reverse-seeks\\alignment-feedback-labelSource-ai-stage-4-scene.png",
+        "capture": "element",
+        "purpose": "supplemental-full-scene-glyph-review",
+        "bounds": {
+          "x": 764.421875,
+          "y": 186.1875,
+          "width": 626.578125,
+          "height": 420.96875
+        },
+        "clip": {
+          "x": 764,
+          "y": 186,
+          "width": 627,
+          "height": 422
+        },
+        "deviceScaleFactor": 1,
+        "pixels": {
+          "width": 627,
+          "height": 422
+        },
+        "originalScroll": {
+          "x": 0,
+          "y": 4819,
+          "dialogTop": null
+        },
+        "captureScroll": {
+          "x": 0,
+          "y": 4919
+        },
+        "scrollRestored": true,
+        "stylesModified": false
+      },
+      "originalSha256": "6189ddd277b26feb87b7a142592e9d0c58e67c8f18b705f5fdc8679462f0be48",
+      "originalBytes": 35344,
+      "pngDimensions": {
+        "width": 627,
+        "height": 422
+      },
+      "storedPath": null,
+      "selectionStatus": "await-independent-actual-viewed-selection",
+      "actuallyViewedClaim": false
+    }
+  ]
+}

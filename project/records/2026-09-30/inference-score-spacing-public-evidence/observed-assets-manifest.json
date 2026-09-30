@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "kind": "public-observed-assets-manifest",
+  "status": "both-engines-complete-linked-to-independent-public-review",
+  "updatedAt": "2026-09-29T19:51:15.220Z",
+  "engines": [
+    {
+      "engine": "chromium",
+      "channel": "msedge",
+      "status": "completed",
+      "count": 72,
+      "manifest": "project/records/2026-09-30/inference-score-spacing-public-evidence/chromium-observed-assets.json",
+      "sourceResult": "project/records/2026-09-30/inference-score-spacing-public-evidence/chromium-result.json.gz"
+    },
+    {
+      "engine": "webkit",
+      "channel": null,
+      "status": "completed",
+      "count": 72,
+      "manifest": "project/records/2026-09-30/inference-score-spacing-public-evidence/webkit-observed-assets.json",
+      "sourceResult": "project/records/2026-09-30/inference-score-spacing-public-evidence/webkit-result.json.gz"
+    }
+  ],
+  "observationsAcrossEngines": 144,
+  "uniqueURLs": 72,
+  "sharedURLs": 72,
+  "sharedURLsWithDifferentHashesOrBytes": [],
+  "observedAssetsAccepted": true,
+  "publicAccepted": true,
+  "note": "元72×2の機械観測とraw pendingを保存したまま、別の最終独立公開レビューに結合。manifest自体を新しい画像レビューとして扱わない。",
+  "finalIndependentReviewBinding": {
+    "path": "project/records/2026-09-30/inference-score-spacing-public-pr62-review.json",
+    "sha256": "9f85d2427529fd7327a3e1cba8e24e845579f595837a2b9ee92bac86c20f05e3",
+    "reviewedAt": "2026-09-29T19:43:48.515Z",
+    "decision": "approved",
+    "risk": "low",
+    "must": 0,
+    "should": 0
+  }
+}

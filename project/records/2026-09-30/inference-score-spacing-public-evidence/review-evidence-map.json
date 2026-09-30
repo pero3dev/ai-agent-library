@@ -1,0 +1,419 @@
+{
+  "schemaVersion": 1,
+  "kind": "portable-independent-review-evidence-map",
+  "createdAt": "2026-09-29T19:48:39.760Z",
+  "reviewPath": "project/records/2026-09-30/inference-score-spacing-public-pr62-review.json",
+  "reviewOriginalSHA256": "9f85d2427529fd7327a3e1cba8e24e845579f595837a2b9ee92bac86c20f05e3",
+  "reviewRawArchivePath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-review.json.gz",
+  "sourceCount": 29,
+  "entries": [
+    {
+      "ordinal": 1,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-fixed\\chromium-2026-09-29T19-36-41.640Z\\result.json",
+        "sha256": "20efc3caa48587ee22a6a530147e895def300f928286557af6da4623240f6b25",
+        "bytes": 350995
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/focused-chromium-result.json.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "77bbb781b1abd2fdef964480ac64b1534cd5aec291bfb1a8bddf0187fd264f35",
+      "storedBytes": 27432,
+      "kind": "focused-public-success-result",
+      "state": "passed-16-observations-raw-visual-pending"
+    },
+    {
+      "ordinal": 2,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-fixed\\webkit-2026-09-29T19-36-54.572Z\\result.json",
+        "sha256": "e522ec09b4fca8abdd6a315798a58fc2179ce6da07678f2ea5ba0a9938902b17",
+        "bytes": 280769
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/focused-webkit-result.json.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "fa5ee268236087377829a41fb35c171dd388190b90235124f74965853e5a9ffd",
+      "storedBytes": 24044,
+      "kind": "focused-public-success-result",
+      "state": "passed-16-observations-raw-visual-pending"
+    },
+    {
+      "ordinal": 3,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp/inference-score-spacing-pr62-public/public-chromium-2026-09-29T19-17-34-114Z/result.json",
+        "sha256": "9ebf0c42e41f4b238f9bf5341b9dd6b863f5702d4225d6d1234bccb88c263dc2",
+        "bytes": 4785615
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/chromium-result.json.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "f5dcca25a3e88af0aa39242beda3cb26853cfd650fb5d214be37def21f88b4e0",
+      "storedBytes": 303729,
+      "kind": "completed-live-public-result",
+      "state": "root-confirmed-completed"
+    },
+    {
+      "ordinal": 4,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp/inference-score-spacing-pr62-public/public-webkit-2026-09-29T19-17-36-399Z/result.json",
+        "sha256": "f79701b5e3de5a2df0012f2d9ce8da35e848cce52b4f7debf0ef0bb4a747d0f6",
+        "bytes": 4701142
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/webkit-result.json.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "66a3594a27c7a7195d50d57d3a2bd62413fc806715508d38f4e6d12cc2503153",
+      "storedBytes": 287696,
+      "kind": "completed-live-public-result",
+      "state": "root-confirmed-completed"
+    },
+    {
+      "ordinal": 5,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-bbox-chromium.json",
+        "sha256": "ec9fed9bf7ab7f2f4c0008b3feb26f3c858c11a1cacb70207c57f320c96f9361",
+        "bytes": 53590
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-bbox-chromium.json.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "6be9e9937c5a6b4eda25a5e454cf300b4cc6a1b110f66949f65b38c372432e2d",
+      "storedBytes": 5674,
+      "kind": "independent-review-raw-evidence",
+      "state": "review-linked-original"
+    },
+    {
+      "ordinal": 6,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-bbox-webkit.json",
+        "sha256": "88c81cb2b7a2c8cc593ef34200ce79cc7939102cf19d1f0cb5c22a2f882f9964",
+        "bytes": 636
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-bbox-webkit.json.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "5d4e97682db9c4c9a224f89a05fbe8683133d3c464e58c586f8d1d5286be036f",
+      "storedBytes": 376,
+      "kind": "independent-review-raw-evidence",
+      "state": "review-linked-original"
+    },
+    {
+      "ordinal": 7,
+      "original": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-pr62-public/ci-36615994124-attempt-1-20260929T191411585Z/artifact-evidence.json",
+        "sha256": "bc8461b55ca89cc453562a1f47982bd3e235b5f53a9b8c6b92baddb64d5a3fa6",
+        "bytes": 5722
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/ci-artifact-evidence.json.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "c53e5651eb35fd3f50490957ad66ea959c18de7f4b29bdd5ce929622933f13f4",
+      "storedBytes": 1570,
+      "kind": "github-actions-pages-collector",
+      "state": "completed-collector-original"
+    },
+    {
+      "ordinal": 8,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-config.json",
+        "sha256": "1fa18af8e5891c85dcf6606055d6d5ed1480219792237a0c1cc1f3c20b5d830d",
+        "bytes": 1087
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-config.json.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "d88a8dd5f62f3e33aef32d43e581d84de20705ec2a39f5f5a4a702b87bdb3023",
+      "storedBytes": 452,
+      "kind": "independent-review-raw-evidence",
+      "state": "review-linked-original"
+    },
+    {
+      "ordinal": 9,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-review.json",
+        "sha256": "be4b2b1a010231b928ce2dc733f72fdb973b0d7950e27149a2ad6ffd07969635",
+        "bytes": 91121
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/pretraining-public-review.json.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "c51bd95719e8c34598fbc392e6f841ba4094c67ff80535fafbe98d3d27645d4e",
+      "storedBytes": 14070,
+      "kind": "prior-PR61-raw-review-history",
+      "state": "historical-pr61-not-overwritten"
+    },
+    {
+      "ordinal": 10,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\pretraining-public-viewed-images.json",
+        "sha256": "15ca91de8dcc38de3867ef3385f161dd9cc5ec13766b31ca7faef2577ed50bd6",
+        "bytes": 136582
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/pretraining-public-viewed-images.json.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "e385b3afff5f8eb272694fdf0228433407c69d279b8e2ddbeb99d5cbcbe8dc9d",
+      "storedBytes": 7715,
+      "kind": "prior-PR61-raw-review-history",
+      "state": "historical-pr61-not-overwritten"
+    },
+    {
+      "ordinal": 11,
+      "original": {
+        "sourceFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-review.json",
+        "sha256": "6dd30aad8e5a53f8efe0d7e76d6164f501c41c073ca6c398c9be74a4741fbdfa",
+        "bytes": 27412
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-review.json.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "550d5f8971add8c6720ae7c9346801318765540624525737cf3642baaea5ad1f",
+      "storedBytes": 5450,
+      "kind": "independent-review-raw-evidence",
+      "state": "review-linked-original"
+    },
+    {
+      "ordinal": 12,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-viewed-images.json",
+        "sha256": "76d7a81a49e8c24b8414c5999fa4e25a13a911cae88b0de62d2a7d97481bb99e",
+        "bytes": 55570
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-viewed-images.json.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "ef0ba0c65732fc66903422bbe2e65c193bdd116504c3571841fc3e9a23669897",
+      "storedBytes": 3454,
+      "kind": "original-actually-viewed-ledger",
+      "state": "reviewer-47-current-images"
+    },
+    {
+      "ordinal": 13,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-review-plan.json",
+        "sha256": "11040ff96a099acce7a2e3644d32542f62e254ae05c21ab8270d8ff4f0ace8ba",
+        "bytes": 1806
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-review-plan.json.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "f075af4aff9c6e0849dc854cb32f81ca73067cabb6396f8a46dd38b5869e99de",
+      "storedBytes": 970,
+      "kind": "independent-review-raw-evidence",
+      "state": "review-linked-original"
+    },
+    {
+      "ordinal": 14,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-support.mjs",
+        "sha256": "49fe3a5ed769549a5e0800169610c29f87dc629b06ab7a23bd6110da47f07728",
+        "bytes": 11854
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-support.mjs.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "819f6d40effd29ac51cb3d1cb78bfde82f108f3e53f2b8a8ac9ebeab38f08057",
+      "storedBytes": 4466,
+      "kind": "focused-helper-after-path-guard-fix",
+      "state": "corrected-temp-helper"
+    },
+    {
+      "ordinal": 15,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-support-v1-preserved.mjs",
+        "sha256": "05871591f3a0e745efc55a86822dd7b4040ef2c39194fc14f2fa2713a3e94822",
+        "bytes": 11839
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-support-v1-preserved.mjs.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "77b65e3fb5f72c8f2747aae61d3201bfb96d05b49ed4736ff454a9258b4d40ec",
+      "storedBytes": 4456,
+      "kind": "focused-helper-original-before-fix",
+      "state": "historical-original"
+    },
+    {
+      "ordinal": 16,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-run.mjs",
+        "sha256": "27decd44e31969b91bfe7f90ddaadcce505f4b736ee6c0ad6fbb2eff584310e8",
+        "bytes": 6787
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-run.mjs.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "6794fee714bb91380f1be18d04d7824801be4acb9e91ed2f0447a1dd18779917",
+      "storedBytes": 2732,
+      "kind": "independent-review-raw-evidence",
+      "state": "review-linked-original"
+    },
+    {
+      "ordinal": 17,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-generate.mjs",
+        "sha256": "962bc27862b50f6b3cec97e00c4e3a25b0e1851ed27c13467c576cd03f1e556d",
+        "bytes": 4950
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-generate.mjs.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "a88d36b83768dc876ac3838e1ad8001001e17ca13b3a532921ec2fce99d91a98",
+      "storedBytes": 2164,
+      "kind": "independent-review-raw-evidence",
+      "state": "review-linked-original"
+    },
+    {
+      "ordinal": 18,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-run-provenance.json",
+        "sha256": "1332c02410ed44d9346c3f7338619c6efc60e1cd9d17937bf78a9af5e2b70fe4",
+        "bytes": 890
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-run-provenance.json.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "1ef4600e408249c3138d943ecc111ac1bd5adbd19422f7f2ae9e702d0fabb996",
+      "storedBytes": 560,
+      "kind": "independent-review-raw-evidence",
+      "state": "review-linked-original"
+    },
+    {
+      "ordinal": 19,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-preparation.json",
+        "sha256": "5884a42f8513ca543a83d72e07997b079130a55a1c1c3cd7348a2e5c3f800862",
+        "bytes": 1906
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-preparation.json.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "b82e59856995c759232880beb65b9d7135e6037a9f662686f0e91628ce87ff27",
+      "storedBytes": 804,
+      "kind": "independent-review-raw-evidence",
+      "state": "review-linked-original"
+    },
+    {
+      "ordinal": 20,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-runtime-fix-provenance.json",
+        "sha256": "430f018f28eb6859405d2be26a009553cfc9dde4202acf58ae5a69bda7d98561",
+        "bytes": 841
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-runtime-fix-provenance.json.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "93ca4ca36e68675ea74778b220f9a44b12d65f5530e96c7ead418d6bae427938",
+      "storedBytes": 520,
+      "kind": "independent-review-raw-evidence",
+      "state": "review-linked-original"
+    },
+    {
+      "ordinal": 21,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pathcheck.mjs",
+        "sha256": "5f041b24f93001f14242edff96d8a6d5088a9ecd35aefb640f6c6a61aaeaa90a",
+        "bytes": 1419
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pathcheck.mjs.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "9fca41394e0d958b8b4d974ef741699a35e23d0a460f86e776e37dc7aa67b747",
+      "storedBytes": 731,
+      "kind": "independent-review-raw-evidence",
+      "state": "review-linked-original"
+    },
+    {
+      "ordinal": 22,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pathcheck.json",
+        "sha256": "499917ebc1d0427178b1e623c5d2964423beb77204548536c27d83993d411fba",
+        "bytes": 1206
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pathcheck.json.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "aa73406e4a0a7c7343d3e80d63f2d1b1ad807b90cd301b5a39ec4a4d0029fe06",
+      "storedBytes": 426,
+      "kind": "independent-review-raw-evidence",
+      "state": "review-linked-original"
+    },
+    {
+      "ordinal": 23,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-chromium.log",
+        "sha256": "99674c4a428cd3a730783c4602973963e16a53f62062be4f50bc5a8c66d317b9",
+        "bytes": 686
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-chromium.log.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "2dbf61f966e7ab5d6bddbd073fded2cceb6e58ac40aae04dbae8936b6c9a2f55",
+      "storedBytes": 393,
+      "kind": "focused-initial-before-browser-failure-log",
+      "state": "failed-before-browser-launch"
+    },
+    {
+      "ordinal": 24,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-webkit.log",
+        "sha256": "99674c4a428cd3a730783c4602973963e16a53f62062be4f50bc5a8c66d317b9",
+        "bytes": 686
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-webkit.log.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "2dbf61f966e7ab5d6bddbd073fded2cceb6e58ac40aae04dbae8936b6c9a2f55",
+      "storedBytes": 393,
+      "kind": "focused-initial-before-browser-failure-log",
+      "state": "failed-before-browser-launch"
+    },
+    {
+      "ordinal": 25,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-chromium-v2.log",
+        "sha256": "a6a547449188c0072e946ee099566293914997225fe22e587b9c259045f5d747",
+        "bytes": 2475
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-chromium-v2.log.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "b4f3712f22aea01aebefb8c5012da26ab0db82f87bd5fe623f3578f96a67d935",
+      "storedBytes": 481,
+      "kind": "focused-corrected-success-log",
+      "state": "completed-success"
+    },
+    {
+      "ordinal": 26,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-webkit-v2.log",
+        "sha256": "7f6c7bec92aa1c30ce64a41788c00268d996dd942ba8d94eff8c34c545454cba",
+        "bytes": 2473
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-webkit-v2.log.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "0c8477046b1a714d47b965aeedcb0c3c7516d3d1e4fb64df8c1f80145d7103a7",
+      "storedBytes": 480,
+      "kind": "focused-corrected-success-log",
+      "state": "completed-success"
+    },
+    {
+      "ordinal": 27,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-bbox-compare.mjs",
+        "sha256": "4b760e1e1daf51136e4983923903b84290c56648e926095c314500797749fbe7",
+        "bytes": 2393
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-bbox-compare.mjs.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "f92313e0b7c2709c59d9c9c3b033d55f08291deedf85381bdb4d8756aff4d8fd",
+      "storedBytes": 1026,
+      "kind": "independent-review-raw-evidence",
+      "state": "review-linked-original"
+    },
+    {
+      "ordinal": 28,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-README.md",
+        "sha256": "dbd0526d8322477bfadec49bea3af9300b6c8fc13a4964bed49779d60e5d6d28",
+        "bytes": 3191
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-README.md.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "0aa9dcbd6f8fd1cf1644ee1645f38a4d51cd0006721c88e844459ad85ef571b9",
+      "storedBytes": 2035,
+      "kind": "independent-review-raw-evidence",
+      "state": "review-linked-original"
+    },
+    {
+      "ordinal": 29,
+      "original": {
+        "sourceFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-public-pr62-finalize.mjs",
+        "sha256": "aa95a3ae358f892f9940ba80475222b81dc2916e113c311cdb1d9505395c3b92",
+        "bytes": 16912
+      },
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-finalize.mjs.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "dd6ade1a07df83b6dd01444c694d0027bb4cb90c8b8b239957940c99c8595b0e",
+      "storedBytes": 7489,
+      "kind": "independent-review-raw-evidence",
+      "state": "review-linked-original"
+    }
+  ],
+  "originalEvidenceArrayPreserved": true,
+  "note": "Each original review.evidence entry is preserved and maps to raw gzip. Existing same-source bytes are reused within this archive."
+}

@@ -2,25 +2,25 @@
   "schemaVersion": 1,
   "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
   "review": {
-    "inputDigest": "sha256:939497afc225dbe36976b72b17ce63705b744869047e069f013eb7c89be8913f",
+    "inputDigest": "sha256:0998367b434d17d843fbdcd6d56efac5652b946a927c2eb7417ae232730a48e1",
     "status": "approved",
-    "checkedAt": "2026-09-29T17:00:43.085Z",
+    "checkedAt": "2026-09-30T09:15:22.545Z",
     "independent": true,
-    "record": "project/records/2026-09-25/pretraining-scene-review.md"
+    "record": "project/records/2026-09-30/alignment-local-evidence/final-independent-review.json"
   },
   "local": {
-    "inputDigest": "sha256:939497afc225dbe36976b72b17ce63705b744869047e069f013eb7c89be8913f",
+    "inputDigest": "sha256:0998367b434d17d843fbdcd6d56efac5652b946a927c2eb7417ae232730a48e1",
     "status": "passed",
-    "checkedAt": "2026-09-29T17:08:17.450Z",
-    "record": "project/records/2026-09-25/pretraining-reading-diagrams.md"
+    "checkedAt": "2026-09-30T09:15:22.545Z",
+    "record": "project/records/2026-09-30/alignment-local-evidence/final-independent-review.json"
   },
   "public": {
-    "inputDigest": "sha256:7acb3af2a93307c3af64c58777a195d29d7c3511c56612266ee120f93a8d0b62",
+    "inputDigest": "sha256:939497afc225dbe36976b72b17ce63705b744869047e069f013eb7c89be8913f",
     "status": "passed",
-    "checkedAt": "2026-09-24T15:59:03.585Z",
-    "commit": "517dc8b5166bd7b0c85baef3800d7fe57bac7b31",
-    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36019573674",
-    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36019573674/job/107704025706",
-    "browserRecord": "project/records/2026-09-24/training-public-review.md"
+    "checkedAt": "2026-09-29T19:43:48.515Z",
+    "commit": "5940334a6fd3aab8178cfeb8746a58c8b937d390",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36615994124",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36615994124/job/109574494236",
+    "browserRecord": "project/records/2026-09-30/inference-score-spacing-public-pr62-review.md"
   }
 }

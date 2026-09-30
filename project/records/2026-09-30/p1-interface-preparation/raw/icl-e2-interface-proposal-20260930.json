@@ -1,0 +1,2743 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-09-30",
+  "unit": "E2",
+  "status": "interface-proposal-not-reviewed-not-implemented",
+  "authorRole": "preparation author; not independent approver",
+  "scope": "Only this TEMP JSON and companion MD; no product/article/kit/Git mutation or implementation/public acceptance.",
+  "authorization": "Parent bounded preparation request during PR62 CI. E2 implementation waits for adopted prerequisites and separate authorization.",
+  "article": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+  "route": "/docs/llm-internals/in-context-learning-and-memorization",
+  "prerequisites": [
+    "E1",
+    "C2"
+  ],
+  "sourcePolicy": "The adopted plan and exact source article remain authoritative. No new article prose/examples, scientific results, correctness/causal/accuracy/performance data, or primary-source freshness claims. Existing diagram labels only.",
+  "sources": [
+    {
+      "path": "project/records/2026-09-24/p1-remaining-storyboards.md",
+      "bytes": 38588,
+      "sha256": "b663581aa76b9da2cb78c7121f54108f5e01cb248d3a059996656922aeab8108"
+    },
+    {
+      "path": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "bytes": 427025,
+      "sha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319"
+    },
+    {
+      "path": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+      "bytes": 19361,
+      "sha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4"
+    },
+    {
+      "path": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+      "bytes": 13226,
+      "sha256": "c150ab8ee4a72dc6786a5abb52e0266f97d78f1b6584ce1c695e01f94106f5c4"
+    },
+    {
+      "path": "website/lib/reading-clock.mjs",
+      "bytes": 1707,
+      "sha256": "f39eadf5eb39ebbb0f33877e6bceb9966211fc7acdaad13118428a4c2019081b"
+    },
+    {
+      "path": "website/components/diagrams/reading-figure.jsx",
+      "bytes": 12435,
+      "sha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12"
+    },
+    {
+      "path": "website/components/diagrams/concept-scene-primitives.jsx",
+      "bytes": 2803,
+      "sha256": "5aac3bf8a418a57cd269b89fdab0252eb71d671dfbe6ac6dbe064a052e790a2b"
+    },
+    {
+      "path": "website/lib/pretraining-data-model.mjs",
+      "bytes": 4181,
+      "sha256": "5338703ea3cd88e8c2df1df41e4d077be40a01042dc62ba2a69ede28c97673fa"
+    },
+    {
+      "path": "website/components/diagrams/pretraining-data-walkthrough.jsx",
+      "bytes": 11140,
+      "sha256": "d2724eb12d8426bc52f812c1a6e7d4171171295bc4ac3d4acfde71b1793527bf"
+    },
+    {
+      "path": "website/tests/unit/pretraining-data-model.test.mjs",
+      "bytes": 5037,
+      "sha256": "23465e6b87a3c5ec52b7cfff882694050d6dd4e1aa9afdc3fbb174250f23d0f9"
+    },
+    {
+      "path": "website/components/diagrams/pretraining-walkthrough.jsx",
+      "bytes": 1413,
+      "sha256": "110b28350502a8e61430fdf080e435807228a5c9509b0537cee7668c1c6b7292"
+    },
+    {
+      "path": "website/lib/diagram-registry.mjs",
+      "bytes": 24546,
+      "sha256": "85e75284f46ce42f7c89384a32bce6d227d2273855adfc81238d2f78966518d9"
+    },
+    {
+      "path": "website/lib/diagram-decoration.mjs",
+      "bytes": 6067,
+      "sha256": "bd3ed962f793fbc28862d29765b6c1392fe08107cfec4d2cc141c0184cdeba6f"
+    }
+  ],
+  "adopted": {
+    "unit": "E2",
+    "file": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+    "route": "/docs/llm-internals/in-context-learning-and-memorization",
+    "requiresPublicAcceptanceOf": [
+      "E1",
+      "C2"
+    ],
+    "learningOrderReason": "文脈と重みの違いを固定してICL仮説を比較し、学習時の記憶・汎化と評価汚染を分離する。",
+    "sourceSha256": "c150ab8ee4a72dc6786a5abb52e0266f97d78f1b6584ce1c695e01f94106f5c4",
+    "sections": [
+      {
+        "heading": "概要: 重みを変えずに「学ぶ」ように見える",
+        "parent": "本文",
+        "line": 31,
+        "start": 10,
+        "end": 12,
+        "bodyTypes": [
+          "paragraph"
+        ]
+      },
+      {
+        "heading": "ICL はなぜ起きるか: 主要な理論仮説",
+        "parent": "本文",
+        "line": 35,
+        "start": 12,
+        "end": 19,
+        "bodyTypes": [
+          "paragraph",
+          "list",
+          "math",
+          "paragraph",
+          "list",
+          "paragraph"
+        ]
+      },
+      {
+        "heading": "few-shot の例の効き方",
+        "parent": "本文",
+        "line": 52,
+        "start": 19,
+        "end": 23,
+        "bodyTypes": [
+          "paragraph",
+          "list",
+          "paragraph"
+        ]
+      },
+      {
+        "heading": "記憶と汎化",
+        "parent": "本文",
+        "line": 62,
+        "start": 23,
+        "end": 27,
+        "bodyTypes": [
+          "paragraph",
+          "list",
+          "paragraph"
+        ]
+      },
+      {
+        "heading": "データ汚染とベンチマークへの含意",
+        "parent": "本文",
+        "line": 72,
+        "start": 27,
+        "end": 30,
+        "bodyTypes": [
+          "paragraph",
+          "list"
+        ]
+      },
+      {
+        "heading": "この理解が効く場面",
+        "parent": "本文",
+        "line": 80,
+        "start": 30,
+        "end": 32,
+        "bodyTypes": [
+          "list"
+        ]
+      },
+      {
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "line": 89,
+        "start": 33,
+        "end": 35,
+        "bodyTypes": [
+          "list"
+        ]
+      },
+      {
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "line": 97,
+        "start": 35,
+        "end": 37,
+        "bodyTypes": [
+          "list"
+        ]
+      }
+    ],
+    "diagrams": [
+      {
+        "id": "icl-hypotheses",
+        "title": "重みを固定した三つの説明",
+        "heads": [
+          0,
+          1
+        ],
+        "sources": [
+          0,
+          1
+        ],
+        "groups": [
+          [
+            [
+              0,
+              1
+            ]
+          ],
+          [
+            [
+              1,
+              4
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ]
+          ]
+        ],
+        "objects": [
+          "入力→出力の例列",
+          "新入力",
+          "固定重み",
+          "潜在タスクtheta",
+          "順伝播",
+          "既存A B ... Aのラベル"
+        ],
+        "stages": [
+          {
+            "label": "重みは固定",
+            "state": "例と新入力が文脈に入り、同じモデルから出力。重み更新の経路はない。",
+            "motion": "文脈カードが追加されるが重み枠は静止。"
+          },
+          {
+            "label": "ベイズ的な仮説",
+            "state": "例→タスクの事後分布→出力の周辺化を原式の項に結ぶ。仮説と明記。",
+            "motion": "theta候補の強調が変わり、積分項へ合流。"
+          },
+          {
+            "label": "学習則の模倣",
+            "state": "順伝播の内部計算が学習アルゴリズムに似るという限定的な研究解釈。推論で重みを書き換えない。",
+            "motion": "表現内部の状態だけを更新し固定重みを保持。"
+          },
+          {
+            "label": "誘導ヘッド",
+            "state": "本文のA B ... AからBへのコピー経路と、入力例→順伝播内の状態更新→出力という学習則模倣の仮説経路を並べる。状態更新は内部表現に限定し、モデル重みは固定。仮説名だけの見出しへ省略しない。",
+            "motion": "前のA/Bから後のAを経て出力Bへ経路を追う。",
+            "requiredVisible": [
+              "入力例→順伝播内の状態更新→出力の経路を、誘導ヘッドのコピー経路と並べて残す",
+              "状態更新に学習則の模倣仮説というラベルを付ける",
+              "更新対象は内部表現であり、モデル重みは固定のままと示す",
+              "両者は候補仮説であり、見出しだけに省略しない"
+            ]
+          },
+          {
+            "label": "相補的な候補",
+            "state": "3仮説を同じ入力/出力枠へ並列接続。排他的選択や決着の印は付けない。",
+            "motion": "3経路が同じモデル枠の異なる観点として揃う。"
+          }
+        ],
+        "checks": [
+          "固定重み不変",
+          "仮説を確定機構にしない",
+          "誘導ヘッドを全ICLの証明にしない",
+          "thetaを学習済み重みthetaと混同しない",
+          "READ停止持越し: 入力例→順伝播内の状態更新→出力の経路を、誘導ヘッドのコピー経路と並べて残す、状態更新に学習則の模倣仮説というラベルを付ける、更新対象は内部表現であり、モデル重みは固定のままと示す、両者は候補仮説であり、見出しだけに省略しない"
+        ],
+        "article": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+        "route": "/docs/llm-internals/in-context-learning-and-memorization",
+        "binding": "grouped-blocks",
+        "stageCount": 5,
+        "headings": [
+          "概要: 重みを変えずに「学ぶ」ように見える",
+          "ICL はなぜ起きるか: 主要な理論仮説"
+        ],
+        "sourceHeadings": [
+          "概要: 重みを変えずに「学ぶ」ように見える",
+          "ICL はなぜ起きるか: 主要な理論仮説"
+        ],
+        "blockGroups": [
+          [
+            {
+              "stage": 0,
+              "count": 1
+            }
+          ],
+          [
+            {
+              "stage": 1,
+              "count": 4
+            },
+            {
+              "stage": 3,
+              "count": 1
+            },
+            {
+              "stage": 4,
+              "count": 1
+            }
+          ]
+        ],
+        "blockTypes": [
+          [
+            "paragraph"
+          ],
+          [
+            "paragraph",
+            "list",
+            "math",
+            "paragraph",
+            "list",
+            "paragraph"
+          ]
+        ],
+        "sourceDigest": "sha256:6194981065168116f345a0845c1cced61a940a9775c702d158e53177cf04b7e5",
+        "status": "planned-not-reviewed",
+        "reviewedDigest": null,
+        "enabled": false,
+        "contentKind": "conceptual",
+        "staticFallback": "同じ意味モデルの主要段階の静止表示と短い図ラベル。追加の本文・例題・ナレーションを作らない。",
+        "layout": "既存ReadingFigureの操作・同期・拡大・JS無効/印刷経路を再利用。固有model/scene/CSSは記事chunkで遅延読込。",
+        "stateContract": "frame(phase, options)は副作用なし。同じ位相/選択で同じ図、逆シーク・中点でもID/関係を保持。停止/非表示に常時loopを残さない。",
+        "readingStages": [
+          0,
+          1,
+          3,
+          4
+        ],
+        "manualOnlyStages": [
+          2
+        ],
+        "minimumCountReason": "仮説比較・例の設計・訓練/評価の集合という異なる対象を別図にし、同じ対象の変化だけを段階化する。",
+        "postCorrectionSourceDigestCandidate": "sha256:6194981065168116f345a0845c1cced61a940a9775c702d158e53177cf04b7e5",
+        "readCarryover": [
+          {
+            "fromManualStage": 2,
+            "toReadingStage": 3,
+            "requiredVisible": [
+              "入力例→順伝播内の状態更新→出力の経路を、誘導ヘッドのコピー経路と並べて残す",
+              "状態更新に学習則の模倣仮説というラベルを付ける",
+              "更新対象は内部表現であり、モデル重みは固定のままと示す",
+              "両者は候補仮説であり、見出しだけに省略しない"
+            ],
+            "acceptance": "selectorと前後/再生操作を一度も使わず、本文連動で対象READ停止へ到達した静止表示とアクセシビリティ内容を確認する。見出しだけ/非表示DOMだけでは合格にしない。"
+          }
+        ]
+      },
+      {
+        "id": "icl-demonstrations",
+        "title": "例の形式・数・順序を分けて比べる",
+        "heads": [
+          2
+        ],
+        "sources": [
+          0,
+          1,
+          2
+        ],
+        "groups": [
+          [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ]
+        ],
+        "objects": [
+          "同じ例IDのカード列",
+          "形式/ラベル空間/分布タグ",
+          "評価条件枠"
+        ],
+        "stages": [
+          {
+            "label": "何を示す例か",
+            "state": "例列に形式・ラベル空間・入力分布のタグを付け、出力ラベルの正しさと区別。",
+            "motion": "同じ例の別の属性を順に強調。"
+          },
+          {
+            "label": "数と順序",
+            "state": "同じ例IDの順序変更と例数変更を別条件にする。ラベル破壊の研究は条件依存として小ラベルで残す。",
+            "motion": "順序ではカードを移動、例数では末尾を加減。混ぜない。"
+          },
+          {
+            "label": "評価で確認",
+            "state": "元条件・変更条件を同じ評価欄へ接続。増量の単調な改善や誤ラベル推奨の表示はしない。",
+            "motion": "変更軸を固定した比較行を揃える。"
+          }
+        ],
+        "checks": [
+          "ラベルが常に不要とは示さない",
+          "架空スコア/収穫逓減曲線を使わない",
+          "順序比較で集合が変わらない"
+        ],
+        "article": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+        "route": "/docs/llm-internals/in-context-learning-and-memorization",
+        "binding": "grouped-blocks",
+        "stageCount": 3,
+        "headings": [
+          "few-shot の例の効き方"
+        ],
+        "sourceHeadings": [
+          "概要: 重みを変えずに「学ぶ」ように見える",
+          "ICL はなぜ起きるか: 主要な理論仮説",
+          "few-shot の例の効き方"
+        ],
+        "blockGroups": [
+          [
+            {
+              "stage": 0,
+              "count": 1
+            },
+            {
+              "stage": 1,
+              "count": 1
+            },
+            {
+              "stage": 2,
+              "count": 1
+            }
+          ]
+        ],
+        "blockTypes": [
+          [
+            "paragraph",
+            "list",
+            "paragraph"
+          ]
+        ],
+        "sourceDigest": "sha256:b1fa9562e83d2c634dec83ba57fdacf802184cf3df3d44a1c8df2514dac5b750",
+        "status": "planned-not-reviewed",
+        "reviewedDigest": null,
+        "enabled": false,
+        "contentKind": "conceptual",
+        "staticFallback": "同じ意味モデルの主要段階の静止表示と短い図ラベル。追加の本文・例題・ナレーションを作らない。",
+        "layout": "既存ReadingFigureの操作・同期・拡大・JS無効/印刷経路を再利用。固有model/scene/CSSは記事chunkで遅延読込。",
+        "stateContract": "frame(phase, options)は副作用なし。同じ位相/選択で同じ図、逆シーク・中点でもID/関係を保持。停止/非表示に常時loopを残さない。",
+        "readingStages": [
+          0,
+          1,
+          2
+        ],
+        "manualOnlyStages": [],
+        "minimumCountReason": "仮説比較・例の設計・訓練/評価の集合という異なる対象を別図にし、同じ対象の変化だけを段階化する。",
+        "postCorrectionSourceDigestCandidate": "sha256:b1fa9562e83d2c634dec83ba57fdacf802184cf3df3d44a1c8df2514dac5b750"
+      },
+      {
+        "id": "icl-memory-evaluation",
+        "title": "記憶・汎化・汚染を分ける",
+        "heads": [
+          3,
+          4
+        ],
+        "sources": [
+          3,
+          4
+        ],
+        "groups": [
+          [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ]
+          ],
+          [
+            [
+              4,
+              2
+            ]
+          ]
+        ],
+        "objects": [
+          "訓練データ",
+          "テストデータ",
+          "訓練指標/テスト指標",
+          "時間軸/規模軸の明示切替",
+          "重複領域"
+        ],
+        "stages": [
+          {
+            "label": "二つの評価",
+            "state": "学習で見たデータと未見データを別枠にする。",
+            "motion": "同じモデルから二つの評価先へ分岐。"
+          },
+          {
+            "label": "逐語記憶",
+            "state": "訓練データと出力の一致を強調し、汎化への等号を付けない。",
+            "motion": "同じ記号IDが出力へ現れる対応線。"
+          },
+          {
+            "label": "異なる現象",
+            "state": "逐語記憶・grokking・二重降下を三つの小枠で同時に可読化。時間と規模の軸を混同しない。",
+            "motion": "時間枠は遅れて変化、規模枠は非単調という質的形だけ。実測値なし。",
+            "requiredVisible": [
+              "訓練データと出力の同じ記号IDの一致線を逐語記憶の小枠に残す",
+              "未見データへの汎化とは別枠とし、記憶=汎化の等号を付けない",
+              "grokkingの時間軸と二重降下の規模軸を区別したまま並べる"
+            ]
+          },
+          {
+            "label": "訓練改善と汎化",
+            "state": "訓練指標からテスト成功へ直接の保証線がないことを表示。",
+            "motion": "2評価の間の未保証表示を残す。"
+          },
+          {
+            "label": "汚染",
+            "state": "評価データが訓練集合へ混入する重複と、非公開/新しい評価を別に配置。完全無汚染の保証印は付けない。",
+            "motion": "一部評価カードが訓練領域と重なり、独立評価側を強調。"
+          }
+        ],
+        "checks": [
+          "概念曲線と実測曲線を分ける",
+          "grokkingを全LLMの常態にしない",
+          "二重降下の軸を明記",
+          "重複だけでスコアの増分を捏造しない",
+          "READ停止持越し: 訓練データと出力の同じ記号IDの一致線を逐語記憶の小枠に残す、未見データへの汎化とは別枠とし、記憶=汎化の等号を付けない、grokkingの時間軸と二重降下の規模軸を区別したまま並べる"
+        ],
+        "article": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+        "route": "/docs/llm-internals/in-context-learning-and-memorization",
+        "binding": "grouped-blocks",
+        "stageCount": 5,
+        "headings": [
+          "記憶と汎化",
+          "データ汚染とベンチマークへの含意"
+        ],
+        "sourceHeadings": [
+          "記憶と汎化",
+          "データ汚染とベンチマークへの含意"
+        ],
+        "blockGroups": [
+          [
+            {
+              "stage": 0,
+              "count": 1
+            },
+            {
+              "stage": 2,
+              "count": 1
+            },
+            {
+              "stage": 3,
+              "count": 1
+            }
+          ],
+          [
+            {
+              "stage": 4,
+              "count": 2
+            }
+          ]
+        ],
+        "blockTypes": [
+          [
+            "paragraph",
+            "list",
+            "paragraph"
+          ],
+          [
+            "paragraph",
+            "list"
+          ]
+        ],
+        "sourceDigest": "sha256:c514cb25832cbf38561bfbd14380fffb0005d3a0f55170de88cf77e835b284b4",
+        "status": "planned-not-reviewed",
+        "reviewedDigest": null,
+        "enabled": false,
+        "contentKind": "conceptual",
+        "staticFallback": "同じ意味モデルの主要段階の静止表示と短い図ラベル。追加の本文・例題・ナレーションを作らない。",
+        "layout": "既存ReadingFigureの操作・同期・拡大・JS無効/印刷経路を再利用。固有model/scene/CSSは記事chunkで遅延読込。",
+        "stateContract": "frame(phase, options)は副作用なし。同じ位相/選択で同じ図、逆シーク・中点でもID/関係を保持。停止/非表示に常時loopを残さない。",
+        "readingStages": [
+          0,
+          2,
+          3,
+          4
+        ],
+        "manualOnlyStages": [
+          1
+        ],
+        "minimumCountReason": "仮説比較・例の設計・訓練/評価の集合という異なる対象を別図にし、同じ対象の変化だけを段階化する。",
+        "postCorrectionSourceDigestCandidate": "sha256:c514cb25832cbf38561bfbd14380fffb0005d3a0f55170de88cf77e835b284b4",
+        "readCarryover": [
+          {
+            "fromManualStage": 1,
+            "toReadingStage": 2,
+            "requiredVisible": [
+              "訓練データと出力の同じ記号IDの一致線を逐語記憶の小枠に残す",
+              "未見データへの汎化とは別枠とし、記憶=汎化の等号を付けない",
+              "grokkingの時間軸と二重降下の規模軸を区別したまま並べる"
+            ],
+            "acceptance": "selectorと前後/再生操作を一度も使わず、本文連動で対象READ停止へ到達した静止表示とアクセシビリティ内容を確認する。見出しだけ/非表示DOMだけでは合格にしない。"
+          }
+        ]
+      }
+    ],
+    "topics": [
+      {
+        "id": "e2-s0-b0",
+        "heading": "概要: 重みを変えずに「学ぶ」ように見える",
+        "parent": "本文",
+        "sourceLine": 31,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "文脈内学習とは、プロンプトに数個の例(入力 → 出力)を並べるだけで、モデルがそのパターンに従って新しい入力を処理する現象です(GPT-3 で顕著に示されました)。重みは 1 ミリも更新されていないのに「例から学んだ」ように振る舞うため、その仕組みは活発な研究対象です。実務の few-shot(プロンプトエンジニアリングの基礎技法)はこの現象の応用です。",
+        "coverage": "dynamic",
+        "diagramId": "icl-hypotheses",
+        "readingStage": 0,
+        "stageScope": [
+          0
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "文脈内学習とは、プロンプトに数個の例(入力 → 出力)を並べるだけで、モデルがそのパターンに従って新しい入力を処理する現象です(GPT-3 で顕著に示されました)。重みは 1 ミリも更新されていないのに「例から学んだ」ように振る舞うため、その仕組みは活発な研究対象です。実務の few-shot(プロンプトエンジニアリングの基礎技法)はこの現象の応用です。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s1-b0",
+        "heading": "ICL はなぜ起きるか: 主要な理論仮説",
+        "parent": "本文",
+        "sourceLine": 35,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "有力な仮説がいくつかあり、互いに排他的ではなく、相補的に真実の一部を捉えていると見られています。",
+        "coverage": "dynamic",
+        "diagramId": "icl-hypotheses",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "有力な仮説がいくつかあり、互いに排他的ではなく、相補的に真実の一部を捉えていると見られています。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s1-b1.li0",
+        "heading": "ICL はなぜ起きるか: 主要な理論仮説",
+        "parent": "本文",
+        "sourceLine": 35,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "暗黙のベイズ推定: 事前学習で多様な「タスク」を含む文書を学んだモデルが、プロンプトの例からどのタスク(潜在概念)かを推論し、それに沿って続きを生成しているという見方。式で書くと、出力は潜在タスク \\theta について周辺化した形になります。",
+        "coverage": "dynamic",
+        "diagramId": "icl-hypotheses",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "暗黙のベイズ推定: 事前学習で多様な「タスク」を含む文書を学んだモデルが、プロンプトの例からどのタスク(潜在概念)かを推論し、それに沿って続きを生成しているという見方。式で書くと、出力は潜在タスク \\theta について周辺化した形になります。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s1-b2",
+        "heading": "ICL はなぜ起きるか: 主要な理論仮説",
+        "parent": "本文",
+        "sourceLine": 35,
+        "sourceBlock": 2,
+        "kind": "math",
+        "topic": "p(\\text{出力} \\mid \\text{プロンプト}) = \\int p(\\text{出力} \\mid \\theta,\\, \\text{プロンプト})\\, p(\\theta \\mid \\text{プロンプト})\\, d\\theta",
+        "coverage": "dynamic",
+        "diagramId": "icl-hypotheses",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "p(\\text{出力} \\mid \\text{プロンプト}) = \\int p(\\text{出力} \\mid \\theta,\\, \\text{プロンプト})\\, p(\\theta \\mid \\text{プロンプト})\\, d\\theta",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s1-b3",
+        "heading": "ICL はなぜ起きるか: 主要な理論仮説",
+        "parent": "本文",
+        "sourceLine": 35,
+        "sourceBlock": 3,
+        "kind": "paragraph",
+        "topic": "読み下し: 「例を見てタスク \\theta の確からしさを更新し(ベイズ的)、その分布で重み付けて出力を決める。例は新しい学習ではなく、既に持つタスクの『どれか』を選ぶ手がかり」。",
+        "coverage": "dynamic",
+        "diagramId": "icl-hypotheses",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "読み下し: 「例を見てタスク \\theta の確からしさを更新し(ベイズ的)、その分布で重み付けて出力を決める。例は新しい学習ではなく、既に持つタスクの『どれか』を選ぶ手がかり」。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s1-b4.li0",
+        "heading": "ICL はなぜ起きるか: 主要な理論仮説",
+        "parent": "本文",
+        "sourceLine": 35,
+        "sourceBlock": 4,
+        "kind": "listItem",
+        "topic": "メタ学習 / 学習アルゴリズムの模倣: Transformer の順伝播が、内部で勾配降下のような学習アルゴリズムを近似的に実行しているという見方。線形回帰のような単純なタスクで、ICL が最小二乗解に近づく挙動が示されています",
+        "coverage": "dynamic",
+        "diagramId": "icl-hypotheses",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "メタ学習 / 学習アルゴリズムの模倣: Transformer の順伝播が、内部で勾配降下のような学習アルゴリズムを近似的に実行しているという見方。線形回帰のような単純なタスクで、ICL が最小二乗解に近づく挙動が示されています",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s1-b4.li1",
+        "heading": "ICL はなぜ起きるか: 主要な理論仮説",
+        "parent": "本文",
+        "sourceLine": 35,
+        "sourceBlock": 4,
+        "kind": "listItem",
+        "topic": "誘導ヘッド(induction heads): 「直前に出た A B というパターンを見つけ、次に A が来たら B を続ける」というコピー機構を担う注意ヘッド。学習の途中で誘導ヘッドが形成される時期と ICL 能力の立ち上がりが対応することが観察され、ICL の機構的な担い手の候補とされています(→ LLM の解釈可能性の基礎)",
+        "coverage": "dynamic",
+        "diagramId": "icl-hypotheses",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "誘導ヘッド(induction heads): 「直前に出た A B というパターンを見つけ、次に A が来たら B を続ける」というコピー機構を担う注意ヘッド。学習の途中で誘導ヘッドが形成される時期と ICL 能力の立ち上がりが対応することが観察され、ICL の機構的な担い手の候補とされています(→ LLM の解釈可能性の基礎)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s1-b5",
+        "heading": "ICL はなぜ起きるか: 主要な理論仮説",
+        "parent": "本文",
+        "sourceLine": 35,
+        "sourceBlock": 5,
+        "kind": "paragraph",
+        "topic": "いずれも「事前学習で得た能力を、推論時に呼び出している」点では一致します。",
+        "coverage": "dynamic",
+        "diagramId": "icl-hypotheses",
+        "readingStage": 4,
+        "stageScope": [
+          4
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "いずれも「事前学習で得た能力を、推論時に呼び出している」点では一致します。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s2-b0",
+        "heading": "few-shot の例の効き方",
+        "parent": "本文",
+        "sourceLine": 52,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "研究知見は、実務の直感を補正します。",
+        "coverage": "dynamic",
+        "diagramId": "icl-demonstrations",
+        "readingStage": 0,
+        "stageScope": [
+          0
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "研究知見は、実務の直感を補正します。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s2-b1.li0",
+        "heading": "few-shot の例の効き方",
+        "parent": "本文",
+        "sourceLine": 52,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "形式・分布が、ラベルの正しさより効くことがある: few-shot 例のラベルをランダムに壊しても性能があまり落ちない場合がある、という報告があります。例は「正解を教える」より、出力の形式・ラベル空間・入力分布を示す役割が大きい、という解釈です(タスクや設定に依存し、常にそうとは限りません)",
+        "coverage": "dynamic",
+        "diagramId": "icl-demonstrations",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "形式・分布が、ラベルの正しさより効くことがある: few-shot 例のラベルをランダムに壊しても性能があまり落ちない場合がある、という報告があります。例は「正解を教える」より、出力の形式・ラベル空間・入力分布を示す役割が大きい、という解釈です(タスクや設定に依存し、常にそうとは限りません)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s2-b1.li1",
+        "heading": "few-shot の例の効き方",
+        "parent": "本文",
+        "sourceLine": 52,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "例数の収穫逓減: 例を増やすほど良くなるが逓減し、あるところで頭打ち・悪化することもあります",
+        "coverage": "dynamic",
+        "diagramId": "icl-demonstrations",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "例数の収穫逓減: 例を増やすほど良くなるが逓減し、あるところで頭打ち・悪化することもあります",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s2-b1.li2",
+        "heading": "few-shot の例の効き方",
+        "parent": "本文",
+        "sourceLine": 52,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "順序への敏感性: 同じ例でも並び順で結果が変わることがあり、特定の順序が安定して良いとは限りません",
+        "coverage": "dynamic",
+        "diagramId": "icl-demonstrations",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "順序への敏感性: 同じ例でも並び順で結果が変わることがあり、特定の順序が安定して良いとは限りません",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s2-b2",
+        "heading": "few-shot の例の効き方",
+        "parent": "本文",
+        "sourceLine": 52,
+        "sourceBlock": 2,
+        "kind": "paragraph",
+        "topic": "読み下すと: 「few-shot は正解の列挙というより、タスクの形を示す実演。だからラベルより形式・分布・順序の設計が効く」。これはプロンプトエンジニアリングの基礎技法で「例はフォーマットの手本として設計する」ことの理論的裏付けです。",
+        "coverage": "dynamic",
+        "diagramId": "icl-demonstrations",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "読み下すと: 「few-shot は正解の列挙というより、タスクの形を示す実演。だからラベルより形式・分布・順序の設計が効く」。これはプロンプトエンジニアリングの基礎技法で「例はフォーマットの手本として設計する」ことの理論的裏付けです。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s3-b0",
+        "heading": "記憶と汎化",
+        "parent": "本文",
+        "sourceLine": 62,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "モデルは「覚える」と「一般化する」の両方をします。その境界に関する現象を 3 つ。",
+        "coverage": "dynamic",
+        "diagramId": "icl-memory-evaluation",
+        "readingStage": 0,
+        "stageScope": [
+          0
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "モデルは「覚える」と「一般化する」の両方をします。その境界に関する現象を 3 つ。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s3-b1.li0",
+        "heading": "記憶と汎化",
+        "parent": "本文",
+        "sourceLine": 62,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "逐語記憶(memorization): 学習データの一部をそのまま暗記することがあります。頻出する・重複するデータほど記憶されやすく、大きいモデルほど記憶しやすい傾向が報告されています。これはプライバシー(学習データの漏出)と汚染の両面で問題になります",
+        "coverage": "dynamic",
+        "diagramId": "icl-memory-evaluation",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "逐語記憶(memorization): 学習データの一部をそのまま暗記することがあります。頻出する・重複するデータほど記憶されやすく、大きいモデルほど記憶しやすい傾向が報告されています。これはプライバシー(学習データの漏出)と汚染の両面で問題になります",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s3-b1.li1",
+        "heading": "記憶と汎化",
+        "parent": "本文",
+        "sourceLine": 62,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "grokking(遅れて訪れる汎化): 小さな課題で、訓練データを暗記した後、しばらくしてから急に汎化する現象。暗記と汎化が別の時間スケールで起きうることを示し、「訓練損失が下がった = 汎化した」ではないことの例証です",
+        "coverage": "dynamic",
+        "diagramId": "icl-memory-evaluation",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "grokking(遅れて訪れる汎化): 小さな課題で、訓練データを暗記した後、しばらくしてから急に汎化する現象。暗記と汎化が別の時間スケールで起きうることを示し、「訓練損失が下がった = 汎化した」ではないことの例証です",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s3-b1.li2",
+        "heading": "記憶と汎化",
+        "parent": "本文",
+        "sourceLine": 62,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "二重降下(double descent): モデルサイズやデータ量を増やすと、テスト誤差が「下がる → いったん上がる → 再び下がる」という非単調な曲線を描くことがある現象。「大きく/多くすれば単調に良くなる」という素朴な期待が成り立たない領域があることを示します",
+        "coverage": "dynamic",
+        "diagramId": "icl-memory-evaluation",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "二重降下(double descent): モデルサイズやデータ量を増やすと、テスト誤差が「下がる → いったん上がる → 再び下がる」という非単調な曲線を描くことがある現象。「大きく/多くすれば単調に良くなる」という素朴な期待が成り立たない領域があることを示します",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s3-b2",
+        "heading": "記憶と汎化",
+        "parent": "本文",
+        "sourceLine": 62,
+        "sourceBlock": 2,
+        "kind": "paragraph",
+        "topic": "読み下すと: 「暗記と汎化は別物で、時間・規模に対して単純な関係ではない。訓練指標の改善を汎化と早合点しない」。",
+        "coverage": "dynamic",
+        "diagramId": "icl-memory-evaluation",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "読み下すと: 「暗記と汎化は別物で、時間・規模に対して単純な関係ではない。訓練指標の改善を汎化と早合点しない」。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s4-b0",
+        "heading": "データ汚染とベンチマークへの含意",
+        "parent": "本文",
+        "sourceLine": 72,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "逐語記憶は、評価に直接効きます。評価データが事前学習に混入(汚染)していると、モデルは『解いた』のでなく『思い出した』だけかもしれません。",
+        "coverage": "dynamic",
+        "diagramId": "icl-memory-evaluation",
+        "readingStage": 4,
+        "stageScope": [
+          4
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "逐語記憶は、評価に直接効きます。評価データが事前学習に混入(汚染)していると、モデルは『解いた』のでなく『思い出した』だけかもしれません。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s4-b1.li0",
+        "heading": "データ汚染とベンチマークへの含意",
+        "parent": "本文",
+        "sourceLine": 72,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "汚染されたベンチマークは、能力を過大評価します(エージェントベンチマークの全体像・事前学習とスケーリング則)",
+        "coverage": "dynamic",
+        "diagramId": "icl-memory-evaluation",
+        "readingStage": 4,
+        "stageScope": [
+          4
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "汚染されたベンチマークは、能力を過大評価します(エージェントベンチマークの全体像・事前学習とスケーリング則)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s4-b1.li1",
+        "heading": "データ汚染とベンチマークへの含意",
+        "parent": "本文",
+        "sourceLine": 72,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "対策は、自社の非公開データで評価すること、汚染検査、そして時間的に新しいデータでの評価です(評価データセットの構築と保守)",
+        "coverage": "dynamic",
+        "diagramId": "icl-memory-evaluation",
+        "readingStage": 4,
+        "stageScope": [
+          4
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "対策は、自社の非公開データで評価すること、汚染検査、そして時間的に新しいデータでの評価です(評価データセットの構築と保守)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s4-b1.li2",
+        "heading": "データ汚染とベンチマークへの含意",
+        "parent": "本文",
+        "sourceLine": 72,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "「有名ベンチマークで高スコア」は、汚染の可能性を割り引いて読みます",
+        "coverage": "dynamic",
+        "diagramId": "icl-memory-evaluation",
+        "readingStage": 4,
+        "stageScope": [
+          4
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "「有名ベンチマークで高スコア」は、汚染の可能性を割り引いて読みます",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s5-b0.li0",
+        "heading": "この理解が効く場面",
+        "parent": "本文",
+        "sourceLine": 80,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "few-shot の設計: 例を「正解の列挙」でなく「形式・分布の実演」として設計する根拠(プロンプトエンジニアリングの基礎技法)",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の応用先リストであり、前の機構図を実務判断へ結び付ける参照として原文を保持する。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "few-shot の設計: 例を「正解の列挙」でなく「形式・分布の実演」として設計する根拠(プロンプトエンジニアリングの基礎技法)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s5-b0.li1",
+        "heading": "この理解が効く場面",
+        "parent": "本文",
+        "sourceLine": 80,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "評価の設計: 汚染・記憶を前提に、非公開データ・新しいデータで評価する(評価データセットの構築と保守・エージェントベンチマークの全体像)",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の応用先リストであり、前の機構図を実務判断へ結び付ける参照として原文を保持する。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "評価の設計: 汚染・記憶を前提に、非公開データ・新しいデータで評価する(評価データセットの構築と保守・エージェントベンチマークの全体像)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s5-b0.li2",
+        "heading": "この理解が効く場面",
+        "parent": "本文",
+        "sourceLine": 80,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "ベンチマークの読み方: 高スコアを汚染の可能性込みで割り引く(事前学習とスケーリング則の創発論争とも通じる)",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の応用先リストであり、前の機構図を実務判断へ結び付ける参照として原文を保持する。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "ベンチマークの読み方: 高スコアを汚染の可能性込みで割り引く(事前学習とスケーリング則の創発論争とも通じる)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s5-b0.li3",
+        "heading": "この理解が効く場面",
+        "parent": "本文",
+        "sourceLine": 80,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "機構的理解への入口: 誘導ヘッドが ICL を担うという見方が、解釈可能性の議論につながる(LLM の解釈可能性の基礎)",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の応用先リストであり、前の機構図を実務判断へ結び付ける参照として原文を保持する。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "機構的理解への入口: 誘導ヘッドが ICL を担うという見方が、解釈可能性の議論につながる(LLM の解釈可能性の基礎)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s6-b0.li0",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 89,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "few-shot の例を「正解を教えるもの」とだけ捉える → ラベルより形式・分布・順序が効く場面を見落とし、例の設計が雑になる → 例をタスクの形式・ラベル空間の実演として設計する",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "few-shot の例を「正解を教えるもの」とだけ捉える → ラベルより形式・分布・順序が効く場面を見落とし、例の設計が雑になる → 例をタスクの形式・ラベル空間の実演として設計する",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s6-b0.li1",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 89,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "例を増やせば単調に良くなると仮定する → 収穫逓減・順序敏感性で、増やしても頭打ち・悪化しうる → 例数・順序を評価で確かめる",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "例を増やせば単調に良くなると仮定する → 収穫逓減・順序敏感性で、増やしても頭打ち・悪化しうる → 例数・順序を評価で確かめる",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s6-b0.li2",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 89,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "有名ベンチマークの高スコアを額面で信じる → 汚染(記憶)で能力が過大評価されている可能性 → 自社の非公開・新しいデータで評価する",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "有名ベンチマークの高スコアを額面で信じる → 汚染(記憶)で能力が過大評価されている可能性 → 自社の非公開・新しいデータで評価する",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s6-b0.li3",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 89,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "訓練損失の低下を汎化と早合点する → grokking・二重降下が示すように、暗記と汎化は別 → テストデータ・汎化指標で確認する",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "訓練損失の低下を汎化と早合点する → grokking・二重降下が示すように、暗記と汎化は別 → テストデータ・汎化指標で確認する",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s6-b0.li4",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 89,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "ICL の理論仮説を確定した事実として語る → 主要仮説は決着していない → 「暗黙のベイズ・学習アルゴリズム模倣・誘導ヘッド」を併記し、断定を避ける",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "ICL の理論仮説を確定した事実として語る → 主要仮説は決着していない → 「暗黙のベイズ・学習アルゴリズム模倣・誘導ヘッド」を併記し、断定を避ける",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s7-b0.li0",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 97,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "文脈内学習が「重みを変えずに例から学ぶように振る舞う」現象だと説明できる",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "文脈内学習が「重みを変えずに例から学ぶように振る舞う」現象だと説明できる",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s7-b0.li1",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 97,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "ICL の主要仮説(暗黙のベイズ・学習アルゴリズム模倣・誘導ヘッド)を中立に併記できる",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "ICL の主要仮説(暗黙のベイズ・学習アルゴリズム模倣・誘導ヘッド)を中立に併記できる",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s7-b0.li2",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 97,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "few-shot の例が形式・分布・順序で効くという研究知見を理解している",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "few-shot の例が形式・分布・順序で効くという研究知見を理解している",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s7-b0.li3",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 97,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "逐語記憶・grokking・二重降下が「暗記 ≠ 汎化」を示すと説明できる",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "逐語記憶・grokking・二重降下が「暗記 ≠ 汎化」を示すと説明できる",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s7-b0.li4",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 97,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "データ汚染がベンチマークを過大評価させると理解し、非公開データで評価している",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "データ汚染がベンチマークを過大評価させると理解し、非公開データで評価している",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e2-s7-b0.li5",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 97,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "ベンチマークの高スコアを汚染の可能性込みで読んでいる",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "ベンチマークの高スコアを汚染の可能性込みで読んでいる",
+        "candidateTopicChanged": false
+      }
+    ],
+    "ownership": {
+      "articleSpecific": [
+        "website/lib/icl-hypotheses-model.mjs",
+        "website/components/diagrams/icl-hypotheses-walkthrough.jsx",
+        "website/components/diagrams/icl-hypotheses.css",
+        "website/tests/unit/icl-hypotheses-model.test.mjs",
+        "website/lib/icl-demonstrations-model.mjs",
+        "website/components/diagrams/icl-demonstrations-walkthrough.jsx",
+        "website/components/diagrams/icl-demonstrations.css",
+        "website/tests/unit/icl-demonstrations-model.test.mjs",
+        "website/lib/icl-memory-evaluation-model.mjs",
+        "website/components/diagrams/icl-memory-evaluation-walkthrough.jsx",
+        "website/components/diagrams/icl-memory-evaluation.css",
+        "website/tests/unit/icl-memory-evaluation-model.test.mjs"
+      ],
+      "shared": "統合担当1名がregistry/BINDINGS/dispatcher/MDX許可/記事台帳/受入コード/回帰試験を所有。記事担当は共有部を独断で変更しない。"
+    },
+    "acceptance": {
+      "contentReview": null,
+      "local": null,
+      "public": null
+    },
+    "postCorrectionSha256Candidate": "c150ab8ee4a72dc6786a5abb52e0266f97d78f1b6584ce1c695e01f94106f5c4"
+  },
+  "inventory": {
+    "originalSha256": "c150ab8ee4a72dc6786a5abb52e0266f97d78f1b6584ce1c695e01f94106f5c4",
+    "canonicalAstSha256": "02db1d0966c20a40c22a6334ea810b5d7d96bcd463a77630d5f9323f36bbd7d4",
+    "canonicalization": "Remove position recursively; sort object keys; normalize CR/CRLF strings to LF; JSON.stringify with no whitespace.",
+    "nodeCounts": {
+      "root": 1,
+      "yaml": 1,
+      "heading": 17,
+      "text": 165,
+      "paragraph": 60,
+      "strong": 31,
+      "list": 12,
+      "listItem": 48,
+      "link": 30,
+      "inlineMath": 2,
+      "math": 1,
+      "inlineCode": 3,
+      "blockquote": 1
+    },
+    "headings": [
+      {
+        "depth": 1,
+        "text": "文脈内学習と記憶の科学"
+      },
+      {
+        "depth": 2,
+        "text": "この記事の目的"
+      },
+      {
+        "depth": 2,
+        "text": "対象読者"
+      },
+      {
+        "depth": 2,
+        "text": "前提知識"
+      },
+      {
+        "depth": 2,
+        "text": "本文"
+      },
+      {
+        "depth": 3,
+        "text": "概要: 重みを変えずに「学ぶ」ように見える"
+      },
+      {
+        "depth": 3,
+        "text": "ICL はなぜ起きるか: 主要な理論仮説"
+      },
+      {
+        "depth": 3,
+        "text": "few-shot の例の効き方"
+      },
+      {
+        "depth": 3,
+        "text": "記憶と汎化"
+      },
+      {
+        "depth": 3,
+        "text": "データ汚染とベンチマークへの含意"
+      },
+      {
+        "depth": 3,
+        "text": "この理解が効く場面"
+      },
+      {
+        "depth": 2,
+        "text": "実務での注意点"
+      },
+      {
+        "depth": 3,
+        "text": "アンチパターン"
+      },
+      {
+        "depth": 3,
+        "text": "チェックリスト"
+      },
+      {
+        "depth": 2,
+        "text": "関連トピック"
+      },
+      {
+        "depth": 2,
+        "text": "参考資料"
+      },
+      {
+        "depth": 2,
+        "text": "TODO・未確認事項"
+      }
+    ],
+    "displayMath": [
+      "p(\\text{出力} \\mid \\text{プロンプト}) = \\int p(\\text{出力} \\mid \\theta,\\, \\text{プロンプト})\\, p(\\theta \\mid \\text{プロンプト})\\, d\\theta"
+    ],
+    "inlineMath": [
+      "\\theta",
+      "\\theta"
+    ],
+    "inlineCode": [
+      "A B",
+      "A",
+      "B"
+    ],
+    "fencedCode": [],
+    "mermaidCount": 0,
+    "h3Count": 8,
+    "wrappedH3Count": 5,
+    "wrappedBodyBlockCount": 15,
+    "diagramCount": 3,
+    "stageCount": 13,
+    "readingStopCount": 11,
+    "manualOnlyCount": 2,
+    "correctionCandidates": [],
+    "bindings": [
+      {
+        "id": "icl-hypotheses",
+        "sourceDigest": "sha256:6194981065168116f345a0845c1cced61a940a9775c702d158e53177cf04b7e5",
+        "headings": [
+          "概要: 重みを変えずに「学ぶ」ように見える",
+          "ICL はなぜ起きるか: 主要な理論仮説"
+        ],
+        "sourceHeadings": [
+          "概要: 重みを変えずに「学ぶ」ように見える",
+          "ICL はなぜ起きるか: 主要な理論仮説"
+        ],
+        "blockGroups": [
+          [
+            {
+              "stage": 0,
+              "count": 1
+            }
+          ],
+          [
+            {
+              "stage": 1,
+              "count": 4
+            },
+            {
+              "stage": 3,
+              "count": 1
+            },
+            {
+              "stage": 4,
+              "count": 1
+            }
+          ]
+        ],
+        "blockTypes": [
+          [
+            "paragraph"
+          ],
+          [
+            "paragraph",
+            "list",
+            "math",
+            "paragraph",
+            "list",
+            "paragraph"
+          ]
+        ],
+        "readingStages": [
+          0,
+          1,
+          3,
+          4
+        ],
+        "manualOnlyStages": [
+          2
+        ]
+      },
+      {
+        "id": "icl-demonstrations",
+        "sourceDigest": "sha256:b1fa9562e83d2c634dec83ba57fdacf802184cf3df3d44a1c8df2514dac5b750",
+        "headings": [
+          "few-shot の例の効き方"
+        ],
+        "sourceHeadings": [
+          "概要: 重みを変えずに「学ぶ」ように見える",
+          "ICL はなぜ起きるか: 主要な理論仮説",
+          "few-shot の例の効き方"
+        ],
+        "blockGroups": [
+          [
+            {
+              "stage": 0,
+              "count": 1
+            },
+            {
+              "stage": 1,
+              "count": 1
+            },
+            {
+              "stage": 2,
+              "count": 1
+            }
+          ]
+        ],
+        "blockTypes": [
+          [
+            "paragraph",
+            "list",
+            "paragraph"
+          ]
+        ],
+        "readingStages": [
+          0,
+          1,
+          2
+        ],
+        "manualOnlyStages": []
+      },
+      {
+        "id": "icl-memory-evaluation",
+        "sourceDigest": "sha256:c514cb25832cbf38561bfbd14380fffb0005d3a0f55170de88cf77e835b284b4",
+        "headings": [
+          "記憶と汎化",
+          "データ汚染とベンチマークへの含意"
+        ],
+        "sourceHeadings": [
+          "記憶と汎化",
+          "データ汚染とベンチマークへの含意"
+        ],
+        "blockGroups": [
+          [
+            {
+              "stage": 0,
+              "count": 1
+            },
+            {
+              "stage": 2,
+              "count": 1
+            },
+            {
+              "stage": 3,
+              "count": 1
+            }
+          ],
+          [
+            {
+              "stage": 4,
+              "count": 2
+            }
+          ]
+        ],
+        "blockTypes": [
+          [
+            "paragraph",
+            "list",
+            "paragraph"
+          ],
+          [
+            "paragraph",
+            "list"
+          ]
+        ],
+        "readingStages": [
+          0,
+          2,
+          3,
+          4
+        ],
+        "manualOnlyStages": [
+          1
+        ]
+      }
+    ],
+    "topicCounts": {
+      "total": 37,
+      "dynamic": 22,
+      "static": 15
+    }
+  },
+  "common": {
+    "exports": {
+      "icl-hypotheses": {
+        "component": "IclHypotheses",
+        "frame": "iclHypothesesFrame",
+        "stages": "ICL_HYPOTHESES_STAGES",
+        "fixture": "ICL_HYPOTHESES_FIXTURE",
+        "marker": "ICL / HYPOTHESES",
+        "stageAttribute": "data-icl-hypotheses-stage"
+      },
+      "icl-demonstrations": {
+        "component": "IclDemonstrations",
+        "frame": "iclDemonstrationsFrame",
+        "stages": "ICL_DEMONSTRATIONS_STAGES",
+        "fixture": "ICL_DEMONSTRATIONS_FIXTURE",
+        "foci": "ICL_DEMONSTRATION_FOCI",
+        "marker": "ICL / DEMONSTRATIONS",
+        "stageAttribute": "data-icl-demonstrations-stage"
+      },
+      "icl-memory-evaluation": {
+        "component": "IclMemoryEvaluation",
+        "frame": "iclMemoryEvaluationFrame",
+        "stages": "ICL_MEMORY_EVALUATION_STAGES",
+        "fixture": "ICL_MEMORY_EVALUATION_FIXTURE",
+        "marker": "ICL / MEMORY & EVALUATION",
+        "stageAttribute": "data-icl-memory-evaluation-stage"
+      }
+    },
+    "componentSignature": "Named React component({children}); scene and controls use existing ReadingFigure.",
+    "proposedDispatcher": {
+      "path": "website/components/diagrams/icl-walkthrough.jsx",
+      "export": "IclWalkthrough({diagramId,children})",
+      "implementation": "Fixed allowlist of three lazy named imports; unknown diagramId fails closed; root integration ownership."
+    },
+    "suggestedFiles": [
+      "website/lib/icl-hypotheses-model.mjs",
+      "website/components/diagrams/icl-hypotheses-walkthrough.jsx",
+      "website/components/diagrams/icl-hypotheses.css",
+      "website/tests/unit/icl-hypotheses-model.test.mjs",
+      "website/lib/icl-demonstrations-model.mjs",
+      "website/components/diagrams/icl-demonstrations-walkthrough.jsx",
+      "website/components/diagrams/icl-demonstrations.css",
+      "website/tests/unit/icl-demonstrations-model.test.mjs",
+      "website/lib/icl-memory-evaluation-model.mjs",
+      "website/components/diagrams/icl-memory-evaluation-walkthrough.jsx",
+      "website/components/diagrams/icl-memory-evaluation.css",
+      "website/tests/unit/icl-memory-evaluation-model.test.mjs"
+    ],
+    "sharedInterface": {
+      "readingFigure": "{diagramId,title,eyebrow,stages,renderScene,renderControls,footnote,children,className}",
+      "renderScene": "{phase,stage,id,ready}",
+      "renderControls": "{ready,phase,stage}",
+      "sceneBase": "640 x 430 viewBox by default; role=img with namespaced title/description IDs.",
+      "select": "{label,value,onChange,children,ready}; disabled before ready.",
+      "wire": "Existing Wire always supplies an arrowhead. Use plain SVG path without marker for nondirectional memorization correspondence; do not imply retrieval or causality."
+    },
+    "modelContract": {
+      "input": "frame(phase, options = {})",
+      "phase": "Reuse clampPhase and stageForPhase. Finite numbers clamp into [0, stageCount-1]; stage=Math.round(clampedPhase). Nonfinite numbers and nonnumber phase, including null/undefined/string, throw TypeError.",
+      "options": "Plain object only, default {}. Null/array/nonplain and unknown keys rejected. Bad enums rejected. Strict unknown-key handling is proposed for E2, not claimed as all existing-model behavior.",
+      "output": "{phase,stage,label,detail,...semantic fields listed per diagram}; labels/detail/IDs/relationships correspond to rounded stage. Fractional phase only drives presentation motion.",
+      "purity": "Deterministic, no timers/network/randomness/state mutation; fresh nested output, frozen stage/fixture constants; caller cannot mutate future frames.",
+      "stageConstants": "Adopted labels/count/order exactly retained. Stage descriptions keep all adopted state/motion/checks and requiredVisible.",
+      "ids": "Semantic IDs stable; actual SVG/DOM id attributes namespace with renderScene.id for modal coexistence.",
+      "numericPolicy": "Only structural example counts and stage/phase exist as numbers. Probabilities, scores, loss/error/time/scale observations, performance gains, causal effect, turning points and optima remain null/unknown. SVG coordinates are drawing geometry, not observations."
+    },
+    "controls": "One optional custom Select in demonstrations only, two emphasis values. Both conditions stay visible without operation. No hypothesis winner control, curve slider, invented probabilities, retrieval mode, or accuracy calculator.",
+    "representation": "Visible SVG labels and relationships plus accessible title/description. Data hooks expose visible semantic objects; hidden DOM is not acceptance. All READ carryovers work on a clean page without controls.",
+    "behavior": "Reuse reading linkage, manual pause/step/replay/resume, keyboard, modal focus, reduced motion, no-JS and print. No always-running loop while paused/offscreen.",
+    "distinctions": [
+      "ICL prompt-dependent internal representations are not optimizer updates of model weights.",
+      "Bayesian latent task theta is not model parameter W.",
+      "Induction-head context copying is a candidate mechanism, not evidence that all ICL is copying.",
+      "Prompt context copying is not an external database retrieval operation. The scope has no retrieval node; this does not claim ICL cannot be combined with retrieval.",
+      "Memorization is a training/output correspondence, not proof of an online database lookup or a causal intervention.",
+      "Fixed model weights apply to inference scenes; grokking across training progress may involve different model checkpoints.",
+      "Training performance does not guarantee held-out generalization; contamination overlap does not specify score inflation; private/recent evaluation does not guarantee cleanliness."
+    ]
+  },
+  "proposed": [
+    {
+      "id": "icl-hypotheses",
+      "component": "IclHypotheses",
+      "frame": "iclHypothesesFrame",
+      "stages": "ICL_HYPOTHESES_STAGES",
+      "fixture": {
+        "prompt": {
+          "id": "prompt-0",
+          "examples": [
+            "ex-1",
+            "ex-2",
+            "ex-3"
+          ],
+          "queryId": "query-0"
+        },
+        "outputId": "output-0",
+        "weights": {
+          "id": "weights-W",
+          "symbol": "W",
+          "kind": "model-parameters",
+          "updated": false
+        },
+        "latentTask": {
+          "id": "latent-task-theta",
+          "symbol": "theta",
+          "kind": "latent-task-not-model-weights",
+          "domain": null,
+          "posteriorNumericValues": null
+        },
+        "candidates": [
+          "bayesian",
+          "learning-rule",
+          "induction-head"
+        ],
+        "exclusive": false,
+        "settled": false,
+        "externalRetrieval": false,
+        "bayesTerms": [
+          {
+            "id": "posterior-theta",
+            "role": "posterior",
+            "label": "p(θ | プロンプト)"
+          },
+          {
+            "id": "conditional-output",
+            "role": "conditional",
+            "label": "p(出力 | θ, プロンプト)"
+          },
+          {
+            "id": "marginal-output",
+            "role": "marginal",
+            "label": "∫ … dθ"
+          }
+        ],
+        "bayesEdges": [
+          [
+            "prompt-0",
+            "posterior-theta"
+          ],
+          [
+            "posterior-theta",
+            "marginal-output"
+          ],
+          [
+            "conditional-output",
+            "marginal-output"
+          ],
+          [
+            "marginal-output",
+            "output-0"
+          ]
+        ],
+        "representationStates": [
+          "representation-before",
+          "representation-after"
+        ],
+        "learningRuleEdges": [
+          [
+            "prompt-0",
+            "representation-before"
+          ],
+          [
+            "representation-before",
+            "representation-after"
+          ],
+          [
+            "representation-after",
+            "output-0"
+          ]
+        ],
+        "updateTarget": "internal-representation-within-forward-pass",
+        "optimizerUpdate": false,
+        "inductionOccurrences": [
+          {
+            "id": "ctx-a-early",
+            "symbol": "A",
+            "scope": "prompt"
+          },
+          {
+            "id": "ctx-b-early",
+            "symbol": "B",
+            "scope": "prompt"
+          },
+          {
+            "id": "ctx-gap",
+            "symbol": "…",
+            "scope": "prompt"
+          },
+          {
+            "id": "ctx-a-late",
+            "symbol": "A",
+            "scope": "prompt"
+          },
+          {
+            "id": "out-b",
+            "symbol": "B",
+            "scope": "schematic-output"
+          }
+        ],
+        "inductionRelations": [
+          {
+            "id": "previous-pair",
+            "from": "ctx-a-early",
+            "to": "ctx-b-early",
+            "kind": "context-adjacency"
+          },
+          {
+            "id": "match-a",
+            "from": "ctx-a-late",
+            "to": "ctx-a-early",
+            "kind": "same-symbol"
+          },
+          {
+            "id": "copy-b",
+            "from": "ctx-b-early",
+            "to": "out-b",
+            "kind": "candidate-copy",
+            "conditionedOn": "match-a"
+          }
+        ],
+        "attentionWeights": null,
+        "causalEstimate": null
+      },
+      "marker": "ICL / HYPOTHESES",
+      "stageAttribute": "data-icl-hypotheses-stage",
+      "signature": "iclHypothesesFrame(phase, options = {})",
+      "optionKeys": [],
+      "controls": [],
+      "frameFields": [
+        "phase",
+        "stage",
+        "label",
+        "detail",
+        "prompt",
+        "outputId",
+        "weights",
+        "latentTask",
+        "candidatePaths",
+        "bayesTerms",
+        "bayesEdges",
+        "representationStates",
+        "learningRuleEdges",
+        "updateTarget",
+        "optimizerUpdate",
+        "inductionOccurrences",
+        "inductionRelations",
+        "exclusive",
+        "settled",
+        "externalRetrieval"
+      ],
+      "stagePresentation": [
+        {
+          "stage": 0,
+          "visible": [
+            "examples",
+            "query",
+            "fixed-W",
+            "same-model",
+            "output"
+          ],
+          "note": "Only prompt/context changes; no weight-update arrow."
+        },
+        {
+          "stage": 1,
+          "visible": [
+            "latent-task-theta",
+            "posterior",
+            "conditional",
+            "marginalization",
+            "fixed-W",
+            "hypothesis-label"
+          ],
+          "note": "Use exact original integral meaning. Task candidate emphasis is qualitative; no finite probability distribution or winning-task choice."
+        },
+        {
+          "stage": 2,
+          "visible": [
+            "complete-learning-rule-path",
+            "before/after-internal-representation",
+            "fixed-W",
+            "limited-research-setting-label"
+          ],
+          "note": "Forward-pass internal computation, not optimizer."
+        },
+        {
+          "stage": 3,
+          "visible": [
+            "complete-learning-rule-path",
+            "complete-induction-copy-path",
+            "fixed-W",
+            "two-candidate-labels",
+            "induction-limit"
+          ],
+          "layout": "Two full-width stacked lanes. Learning-rule route cannot shrink to a heading. Copy route shows five distinct occurrences and three typed relations."
+        },
+        {
+          "stage": 4,
+          "visible": [
+            "three-parallel-candidate-paths",
+            "shared-prompt-output",
+            "fixed-W",
+            "complementary-not-exclusive"
+          ],
+          "layout": "Three compact parallel routes, all visible; no selection/decision/checkmark of settled mechanism."
+        }
+      ],
+      "hooks": [
+        {
+          "stages": "all",
+          "attributes": {
+            "data-icl-hypotheses-stage": "0..4",
+            "data-empirical": "false",
+            "data-parameter-update": "false",
+            "data-external-retrieval": "false"
+          }
+        },
+        {
+          "stages": "all",
+          "attributes": {
+            "data-model-weights-id": "weights-W",
+            "data-fixed": "true",
+            "data-context-id": "prompt-0",
+            "data-query-id": "query-0",
+            "data-output-id": "output-0"
+          },
+          "visible": "Stable context/model/output objects."
+        },
+        {
+          "stages": [
+            1
+          ],
+          "attributes": {
+            "data-latent-task-id": "latent-task-theta",
+            "data-symbol-role": "latent-task",
+            "data-probabilities": "unknown",
+            "data-bayes-term": [
+              "posterior",
+              "conditional",
+              "marginal"
+            ]
+          },
+          "visible": "Each original formula term and latent-task label."
+        },
+        {
+          "stages": [
+            2,
+            3,
+            4
+          ],
+          "attributes": {
+            "data-hypothesis-path": "learning-rule",
+            "data-hypothesis-status": "candidate",
+            "data-update-target": "internal-representation"
+          },
+          "visible": "Full route and candidate label; detailed before/after boxes in stages 2/3."
+        },
+        {
+          "stages": [
+            2,
+            3
+          ],
+          "attributes": {
+            "data-representation-state": [
+              "representation-before",
+              "representation-after"
+            ]
+          },
+          "visible": "Internal representations, not model parameters."
+        },
+        {
+          "stages": [
+            3
+          ],
+          "attributes": {
+            "data-context-occurrence": [
+              "ctx-a-early",
+              "ctx-b-early",
+              "ctx-gap",
+              "ctx-a-late",
+              "out-b"
+            ],
+            "data-symbol": [
+              "A",
+              "B",
+              "…"
+            ],
+            "data-scope": [
+              "prompt",
+              "schematic-output"
+            ],
+            "data-induction-relation": [
+              "previous-pair",
+              "match-a",
+              "copy-b"
+            ],
+            "data-from": "source occurrence ID",
+            "data-to": "target occurrence ID"
+          },
+          "visible": "A B … A to B and separate occurrence-resolved relations."
+        },
+        {
+          "stages": [
+            3,
+            4
+          ],
+          "attributes": {
+            "data-induction-limit": "candidate-not-all-icl"
+          },
+          "visible": "全ICLの証明ではない"
+        },
+        {
+          "stages": [
+            4
+          ],
+          "attributes": {
+            "data-hypothesis-path": [
+              "bayesian",
+              "induction-head"
+            ],
+            "data-hypothesis-relationship": "complementary",
+            "data-exclusive": "false"
+          },
+          "visible": "Three nonexclusive candidate paths."
+        }
+      ],
+      "mandatoryConclusions": [
+        "Inference weights W stay fixed.",
+        "Latent task theta and model parameters W are distinct.",
+        "Bayesian integration is a candidate explanation, not measured posterior data.",
+        "Learning-rule imitation only updates forward-pass internal representations in the schematic and carries a limited-research-setting qualification.",
+        "Induction A/B copy is one candidate, not all ICL or external retrieval.",
+        "The three hypotheses are not exclusive or settled."
+      ],
+      "carryoverGate": "At unoperated READ stage 3, both full routes, fixed W and candidate limitations must remain visibly and accessibly readable."
+    },
+    {
+      "id": "icl-demonstrations",
+      "component": "IclDemonstrations",
+      "frame": "iclDemonstrationsFrame",
+      "stages": "ICL_DEMONSTRATIONS_STAGES",
+      "fixture": {
+        "exampleIds": [
+          "ex-1",
+          "ex-2",
+          "ex-3"
+        ],
+        "cardContent": "ID + 入力→出力 only. No added task, concrete data, answer label or prose example.",
+        "queryId": "query-0",
+        "weightsId": "weights-W",
+        "weightsUpdated": false,
+        "attributes": [
+          {
+            "id": "format",
+            "label": "形式"
+          },
+          {
+            "id": "label-space",
+            "label": "ラベル空間"
+          },
+          {
+            "id": "input-distribution",
+            "label": "入力分布"
+          }
+        ],
+        "conditions": [
+          {
+            "id": "baseline",
+            "exampleOrder": [
+              "ex-1",
+              "ex-2",
+              "ex-3"
+            ],
+            "exampleCount": 3,
+            "changedAxis": "none"
+          },
+          {
+            "id": "order",
+            "exampleOrder": [
+              "ex-3",
+              "ex-1",
+              "ex-2"
+            ],
+            "exampleCount": 3,
+            "changedAxis": "order"
+          },
+          {
+            "id": "count",
+            "exampleOrder": [
+              "ex-1",
+              "ex-2"
+            ],
+            "exampleCount": 2,
+            "changedAxis": "count"
+          }
+        ],
+        "occurrenceIdRule": "conditionId + \"-\" + exampleId; semantic exampleId is stable across all rows.",
+        "evaluationProtocolId": "evaluation-condition-0",
+        "unchangedDimensions": [
+          "query",
+          "model weights",
+          "format convention",
+          "label-space convention",
+          "evaluation protocol"
+        ],
+        "inputDistributionCaveat": "The three attributes describe what examples can indicate. Removing an example changes the examples supplied; do not claim the observed empirical input distribution remains identical across count conditions.",
+        "scores": null,
+        "optimalOrder": null,
+        "optimalCount": null,
+        "labelCorruptionRecommended": false,
+        "labelsAlwaysUnnecessary": false,
+        "improvementGuaranteed": false
+      },
+      "foci": "ICL_DEMONSTRATION_FOCI",
+      "marker": "ICL / DEMONSTRATIONS",
+      "stageAttribute": "data-icl-demonstrations-stage",
+      "signature": "iclDemonstrationsFrame(phase, {comparisonFocus = \"order\"} = {})",
+      "optionKeys": [
+        "comparisonFocus"
+      ],
+      "controls": [
+        {
+          "type": "Select",
+          "label": "強調する変更",
+          "key": "comparisonFocus",
+          "defaultValue": "order",
+          "options": [
+            {
+              "value": "order",
+              "label": "順序"
+            },
+            {
+              "value": "count",
+              "label": "例数"
+            }
+          ],
+          "activeStages": [
+            1,
+            2
+          ],
+          "inactiveStageBehavior": "Stage 0 effectiveComparisonFocus is null; selection cannot change semantic/visual frame at stage 0. Hide the inactive control; retain selection for stages 1/2.",
+          "meaning": "Emphasis only. Baseline, order and count rows remain visible concurrently without interaction."
+        }
+      ],
+      "frameFields": [
+        "phase",
+        "stage",
+        "label",
+        "detail",
+        "effectiveComparisonFocus",
+        "attributes",
+        "conditions",
+        "queryId",
+        "weightsId",
+        "weightsUpdated",
+        "evaluationProtocolId",
+        "scores",
+        "optimalOrder",
+        "optimalCount",
+        "labelCorruptionRecommended",
+        "labelsAlwaysUnnecessary",
+        "improvementGuaranteed"
+      ],
+      "stagePresentation": [
+        {
+          "stage": 0,
+          "visible": [
+            "example-IDs",
+            "format-label-space-input-distribution-tags",
+            "label-correctness-distinction",
+            "task-setting-dependent-label"
+          ],
+          "note": "Emphasize existing attributes, not numerical effects. Optional control absent."
+        },
+        {
+          "stage": 1,
+          "visible": [
+            "baseline-row",
+            "order-row",
+            "count-row",
+            "unchanged-query-and-weights",
+            "limited-label-corruption-study-note"
+          ],
+          "note": "Order changes only permutation of the same set; count changes only trailing ex-3 membership. Motion confined to each comparison row."
+        },
+        {
+          "stage": 2,
+          "visible": [
+            "all-three-conditions",
+            "same-evaluation-protocol",
+            "no-guaranteed-improvement",
+            "no-label-corruption-recommendation"
+          ],
+          "note": "Both change axes visible and separate. No invented score, diminishing-return curve or optimum."
+        }
+      ],
+      "hooks": [
+        {
+          "stages": "all",
+          "attributes": {
+            "data-icl-demonstrations-stage": "0..2",
+            "data-empirical": "false",
+            "data-score": "unknown",
+            "data-optimal-order": "unknown",
+            "data-optimal-count": "unknown"
+          }
+        },
+        {
+          "stages": [
+            0
+          ],
+          "attributes": {
+            "data-example-attribute": [
+              "format",
+              "label-space",
+              "input-distribution"
+            ]
+          },
+          "visible": "Three different attributes and their distinction from label correctness."
+        },
+        {
+          "stages": "all",
+          "attributes": {
+            "data-example-id": [
+              "ex-1",
+              "ex-2",
+              "ex-3"
+            ],
+            "data-occurrence-id": "conditionId-exampleId or stage0-exampleId"
+          },
+          "visible": "Stable labeled example cards, with occurrence IDs unique within scene."
+        },
+        {
+          "stages": [
+            1,
+            2
+          ],
+          "attributes": {
+            "data-demonstration-condition": [
+              "baseline",
+              "order",
+              "count"
+            ],
+            "data-example-order": [
+              "ex-1 ex-2 ex-3",
+              "ex-3 ex-1 ex-2",
+              "ex-1 ex-2"
+            ],
+            "data-example-count": [
+              3,
+              3,
+              2
+            ],
+            "data-changed-axis": [
+              "none",
+              "order",
+              "count"
+            ],
+            "data-comparison-focus": [
+              "order",
+              "count"
+            ]
+          },
+          "visible": "All rows concurrently; chosen value controls emphasis only."
+        },
+        {
+          "stages": "all",
+          "attributes": {
+            "data-label-study-limit": "task-and-setting-dependent",
+            "data-label-corruption-recommended": "false"
+          },
+          "visible": "研究結果はタスク・設定に依存。誤ラベルを推奨しない。Use concise diagram labels, not additional prose blocks."
+        },
+        {
+          "stages": [
+            2
+          ],
+          "attributes": {
+            "data-evaluation-protocol-id": "evaluation-condition-0",
+            "data-improvement-guarantee": "false"
+          },
+          "visible": "One shared evaluation-condition frame; no numerical outcome."
+        }
+      ],
+      "mandatoryConclusions": [
+        "Examples communicate format, label space and input distribution as distinct attributes.",
+        "Label-corruption findings are task/setting dependent, not proof labels are always unnecessary or a recommendation to corrupt them.",
+        "Order comparison preserves the same example set.",
+        "Count comparison varies a trailing example independently from order.",
+        "No monotonic improvement, universally optimal ordering/count, fabricated score or empirical curve.",
+        "Changes require evaluation under a shared protocol."
+      ]
+    },
+    {
+      "id": "icl-memory-evaluation",
+      "component": "IclMemoryEvaluation",
+      "frame": "iclMemoryEvaluationFrame",
+      "stages": "ICL_MEMORY_EVALUATION_STAGES",
+      "fixture": {
+        "modelId": "evaluated-model",
+        "checkpointId": "checkpoint-unspecified",
+        "checkpointScope": "Two evaluation branches in one snapshot use the same checkpoint. Grokking along training progress does not keep weights fixed across all points.",
+        "evaluationTargets": [
+          {
+            "id": "train",
+            "datasetId": "training-set",
+            "memberIds": [
+              "training-item"
+            ],
+            "metricId": "training-metric",
+            "metricValue": null
+          },
+          {
+            "id": "heldout",
+            "datasetId": "heldout-set",
+            "memberIds": [
+              "heldout-item"
+            ],
+            "metricId": "heldout-metric",
+            "metricValue": null
+          }
+        ],
+        "memorization": {
+          "sourceOccurrence": "train-span-occurrence",
+          "outputOccurrence": "output-span-occurrence",
+          "sharedSymbolId": "span-m",
+          "label": "同じ記号列",
+          "relationId": "verbatim-match",
+          "relationKind": "correspondence-not-retrieval-or-causal-proof",
+          "generalizationEqual": false,
+          "alwaysOccurs": false,
+          "externalRetrieval": false,
+          "causalProof": false
+        },
+        "phenomena": [
+          {
+            "id": "memorization",
+            "kind": "training-output-correspondence",
+            "axis": null
+          },
+          {
+            "id": "grokking",
+            "kind": "schematic-not-measured",
+            "xAxis": "training-progress",
+            "xAxisLabel": "学習の進行（時間）",
+            "yAxis": "error",
+            "yAxisLabel": "誤差（概念）",
+            "qualitativeRelation": "訓練での改善後、汎化が遅れて現れる場合",
+            "universality": "limited-small-task-settings-not-all-llms",
+            "sampleCoordinates": null,
+            "timeValues": null,
+            "errorValues": null
+          },
+          {
+            "id": "double-descent",
+            "kind": "schematic-not-measured",
+            "xAxis": "model-scale",
+            "xAxisLabel": "モデル規模",
+            "yAxis": "heldout-error",
+            "yAxisLabel": "テスト誤差（概念）",
+            "qualitativeDirections": [
+              "down",
+              "up",
+              "down"
+            ],
+            "otherConditions": "Conceptual comparison with other conditions fixed; not claimed from empirical data.",
+            "universality": "can-occur-not-universal",
+            "sampleCoordinates": null,
+            "scaleValues": null,
+            "errorValues": null,
+            "turningPoint": null
+          }
+        ],
+        "trainingImprovementGuaranteesGeneralization": false,
+        "contamination": {
+          "scenarioId": "contamination-schematic",
+          "trainItemIds": [
+            "training-item",
+            "shared-eval-item"
+          ],
+          "benchmarkItemIds": [
+            "shared-eval-item",
+            "benchmark-other"
+          ],
+          "intersectionIds": [
+            "shared-eval-item"
+          ],
+          "actualDatasetMemberships": null,
+          "actualContaminationStatus": "unknown",
+          "scoreIncrement": null,
+          "externalRetrieval": false,
+          "alternatives": [
+            {
+              "id": "private-evaluation",
+              "label": "非公開の評価",
+              "cleanliness": "unknown"
+            },
+            {
+              "id": "recent-evaluation",
+              "label": "新しい評価",
+              "cleanliness": "unknown"
+            },
+            {
+              "id": "contamination-check",
+              "label": "混入を点検",
+              "cleanliness": "unknown"
+            }
+          ],
+          "cleanGuarantee": false
+        }
+      },
+      "marker": "ICL / MEMORY & EVALUATION",
+      "stageAttribute": "data-icl-memory-evaluation-stage",
+      "signature": "iclMemoryEvaluationFrame(phase, options = {})",
+      "optionKeys": [],
+      "controls": [],
+      "frameFields": [
+        "phase",
+        "stage",
+        "label",
+        "detail",
+        "modelId",
+        "checkpointId",
+        "checkpointScope",
+        "evaluationTargets",
+        "memorization",
+        "phenomena",
+        "trainingImprovementGuaranteesGeneralization",
+        "contamination"
+      ],
+      "stagePresentation": [
+        {
+          "stage": 0,
+          "visible": [
+            "same-model-two-branches",
+            "train-set",
+            "unseen-heldout-set",
+            "separate-unknown-metrics"
+          ],
+          "note": "No numeric accuracy or loss."
+        },
+        {
+          "stage": 1,
+          "visible": [
+            "training-span",
+            "matching-output-span",
+            "nondirectional-match-line",
+            "separate-unseen-generalization-frame"
+          ],
+          "note": "Correspondence has no causal/retrieval arrowhead and does not imply all outputs are memorized."
+        },
+        {
+          "stage": 2,
+          "visible": [
+            "memorization-full-match-strip",
+            "heldout-generalization-contrast",
+            "grokking-time-axis",
+            "double-descent-scale-axis",
+            "qualitative-not-measured-labels",
+            "not-universal-label"
+          ],
+          "layout": "Upper full-width memorization strip; lower two distinct panels for time and scale. Three phenomena simultaneously readable. No selector hides a panel.",
+          "note": "SVG coordinates may draw qualitative shapes without numeric ticks or semantic sample values. These are schematic shapes, not results."
+        },
+        {
+          "stage": 3,
+          "visible": [
+            "train-and-heldout-metrics",
+            "no-guarantee-between-them",
+            "memorization-not-generalization"
+          ],
+          "note": "No direct success-guarantee arrow; no weights-fixed badge spanning training progress."
+        },
+        {
+          "stage": 4,
+          "visible": [
+            "train-benchmark-overlap",
+            "one-shared-conceptual-ID",
+            "private-recent-check-alternatives",
+            "unknown-cleanliness"
+          ],
+          "note": "An explicit separate schematic scenario, not an assertion about the article benchmark or real data. No score inflation amount or guaranteed clean stamp."
+        }
+      ],
+      "hooks": [
+        {
+          "stages": "all",
+          "attributes": {
+            "data-icl-memory-evaluation-stage": "0..4",
+            "data-empirical": "false",
+            "data-performance-gain": "unknown",
+            "data-external-retrieval": "false"
+          }
+        },
+        {
+          "stages": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "attributes": {
+            "data-evaluation-target": [
+              "train",
+              "heldout"
+            ]
+          },
+          "visible": "Training and unseen-evaluation references remain distinct."
+        },
+        {
+          "stages": [
+            0,
+            3
+          ],
+          "attributes": {
+            "data-learning-metric": [
+              "training-metric",
+              "heldout-metric"
+            ],
+            "data-value": "unknown"
+          },
+          "visible": "Metric labels without empirical values."
+        },
+        {
+          "stages": [
+            1,
+            2
+          ],
+          "attributes": {
+            "data-memorized-span": "span-m",
+            "data-occurrence-id": [
+              "train-span-occurrence",
+              "output-span-occurrence"
+            ],
+            "data-memory-relation": "verbatim-match",
+            "data-relation-kind": "correspondence",
+            "data-causal-proof": "false",
+            "data-retrieval": "false"
+          },
+          "visible": "Two identical symbol IDs joined by matching line, with separate heldout frame."
+        },
+        {
+          "stages": [
+            1,
+            2,
+            3
+          ],
+          "attributes": {
+            "data-memory-generalization-equality": "false"
+          },
+          "visible": "No equality of memorization and generalization."
+        },
+        {
+          "stages": [
+            2
+          ],
+          "attributes": {
+            "data-learning-phenomenon": [
+              "memorization",
+              "grokking",
+              "double-descent"
+            ],
+            "data-qualitative-axis": [
+              "training-progress",
+              "model-scale"
+            ],
+            "data-samples": "unknown",
+            "data-measured": "false",
+            "data-phenomenon-generality": "not-universal"
+          },
+          "visible": "All three phenomena with separate time and scale axes; qualitative shapes only."
+        },
+        {
+          "stages": [
+            3
+          ],
+          "attributes": {
+            "data-training-generalization-guarantee": "false"
+          },
+          "visible": "Training improvement does not guarantee test success."
+        },
+        {
+          "stages": [
+            4
+          ],
+          "attributes": {
+            "data-dataset-membership": [
+              "train",
+              "benchmark"
+            ],
+            "data-item-id": [
+              "training-item",
+              "shared-eval-item",
+              "benchmark-other"
+            ],
+            "data-contamination-overlap": "shared-eval-item",
+            "data-score-increment": "unknown"
+          },
+          "visible": "Shared symbol present in both schematic sets, no numerical performance effect."
+        },
+        {
+          "stages": [
+            4
+          ],
+          "attributes": {
+            "data-evaluation-alternative": [
+              "private-evaluation",
+              "recent-evaluation",
+              "contamination-check"
+            ],
+            "data-cleanliness": "unknown",
+            "data-clean-evaluation-guarantee": "false"
+          },
+          "visible": "Separate evaluation alternatives with no clean guarantee."
+        }
+      ],
+      "mandatoryConclusions": [
+        "Memorization and heldout generalization differ.",
+        "A matching training/output string is correspondence, not an online retrieval call or sufficient causal intervention.",
+        "Grokking uses a training-progress/time axis and remains a limited phenomenon, not the normal behavior of every LLM.",
+        "Double descent uses a model-scale axis in this schematic and remains conditional, not a measured curve or optimal scale.",
+        "Training improvement alone does not guarantee generalization.",
+        "Evaluation/training overlap can affect interpretation but provides no invented score increment.",
+        "Private/recent evaluation and contamination checks are measures, not absolute cleanliness guarantees."
+      ],
+      "carryoverGate": "At unoperated READ stage 2, matching symbol ID and line, separate unseen-generalization reference, and both separately labeled time/scale axes must all remain visible and accessible."
+    }
+  ],
+  "independentAssertions": {
+    "status": "planned-only-not-executed-against-product",
+    "oraclePolicy": "Independent author writes literal fixtures/assertions from adopted plan and reviewed interface. Do not import production model or derive expected values from rendered DOM. Structural identity/axis/relationship checks, not scientific performance validation.",
+    "fixtureVersion": "e2-conceptual-v1-proposed",
+    "counts": {
+      "figures": 3,
+      "integerStages": 13,
+      "readingStops": 11,
+      "manualOnlyStages": 2,
+      "stageBoundaries": 10,
+      "phaseVisitsForBothDirectionsAt049050051": 60,
+      "customControls": 1,
+      "customOptions": 2
+    },
+    "literalExpectations": {
+      "weightsUpdate": false,
+      "latentTaskRole": "latent-task-not-model-weights",
+      "candidateIds": [
+        "bayesian",
+        "learning-rule",
+        "induction-head"
+      ],
+      "hypothesesExclusive": false,
+      "inductionOccurrences": [
+        "ctx-a-early",
+        "ctx-b-early",
+        "ctx-gap",
+        "ctx-a-late",
+        "out-b"
+      ],
+      "inductionCopySource": "ctx-b-early",
+      "inductionCopyTarget": "out-b",
+      "baseline": [
+        "ex-1",
+        "ex-2",
+        "ex-3"
+      ],
+      "order": [
+        "ex-3",
+        "ex-1",
+        "ex-2"
+      ],
+      "count": [
+        "ex-1",
+        "ex-2"
+      ],
+      "counts": [
+        3,
+        3,
+        2
+      ],
+      "memorySharedSymbol": "span-m",
+      "memoryOccurrences": [
+        "train-span-occurrence",
+        "output-span-occurrence"
+      ],
+      "qualitativeAxes": {
+        "grokking": "training-progress",
+        "double-descent": "model-scale"
+      },
+      "contaminationIntersection": [
+        "shared-eval-item"
+      ],
+      "scores": null,
+      "cleanGuarantee": false
+    },
+    "unit": [
+      "Reject invalid phase/options, clamp finite range and use shared rounding at each boundary.",
+      "Check all 13 stages and both traversal directions at each boundary + .49/.50/.51; output IDs/relations follow the same rounded stage.",
+      "Default/options deterministic; nested-frame mutation cannot modify later results/constants.",
+      "Stage 0 demonstrations ignores emphasis option; stage 1/2 both rows remain visible under either emphasis. Hypothesis/memory models accept no options.",
+      "Check no fabricated probability/accuracy/loss/time/scale/causal/optimal/performance values; structural counts are explicit exceptions.",
+      "Check inference fixed weights versus internal representations and training checkpoint scope.",
+      "Check immutable identities, order-set equality, tail-only count change, distinct occurrence IDs and source/target relationship types.",
+      "Check memorization/read carryover and both axes/limitations in stage-specific semantic output."
+    ],
+    "negativeMutations": [
+      "Change .5 rounding or make labels use a different stage.",
+      "Change theta role to model weights or internal update to weight optimizer.",
+      "Remove manual-stage carryover route, replace by heading or hide it in DOM.",
+      "Change induction copy source occurrence or claim all ICL is proven.",
+      "Change order example set, remove a nontrailing count example or hide unselected comparison.",
+      "Swap time/scale axes or insert measured curve samples/numeric turning points.",
+      "Use a retrieval/causal arrow for memorization or equate it with generalization.",
+      "Invent numeric quality/score gain or add clean/private guarantee."
+    ],
+    "ast": [
+      "Reparse exact original article and match SHA, headings, block types/groups and all three source digests.",
+      "Apply approved wrappers and remove them; canonical original AST, formula, inline math/code, lists, links, heading order and block order remain identical.",
+      "Maintain 8 H3, 5 wrapped H3/15 body blocks, 1 display math, 2 inline math, 3 inline code, 0 fenced code and 0 Mermaid.",
+      "Check dispatcher/registry/MDX allowlists and lazy-chunk ownership fail closed; no E2 registration in this preparation."
+    ],
+    "browser": [
+      "Each 13-stage state with visible relationships/text and semantic hooks, normal click/keyboard without force.",
+      "All 11 READ stops forward/reverse. Carryovers at hypotheses READ3 and memory READ2 on fresh page by scrolling only; no selector, step, playback or modal first.",
+      "Demonstrations selector order/count at active stages, inactive stage0 no effect; figure-local state independent of other scenes.",
+      "Play/pause/replay, read resume, modal/focus return, reduced motion, noJS/print retain required meaning.",
+      "Viewport and complete-scene screenshots are separately labeled. At minimum existing acceptance profiles 1440 light/dark, 1280x720 light, 390 light/dark, 960x540 DSF2 plus current required large/tablet profiles.",
+      "Inspect actual visible SVG labels/lines and geometric overlap, not only data attributes. Verify desktop readable size without requiring fullscreen for READ meaning."
+    ],
+    "independence": [
+      "Proposal author does not self-approve this interface or later own scene implementation.",
+      "Independent scene/content review after implementation; independent public oracle from adopted semantics.",
+      "Local and public evidence are separate; same assertions and source identity required. No present product, browser, CI or public acceptance claimed."
+    ]
+  },
+  "preparationVerification": {
+    "performed": [
+      "Read adopted E2 plan and original article.",
+      "Recomputed original SHA and all three source digests against installed remark parser and current registry helper.",
+      "Recorded AST inventory and per-heading block types/groups; no source correction proposed.",
+      "Inspected existing ReadingFigure, concept primitives, reading clock and pretraining conventions."
+    ],
+    "notPerformed": [
+      "E2 model/scene implementation",
+      "E2 product unit/browser test",
+      "E2 build",
+      "independent proposal review",
+      "scientific freshness research",
+      "public acceptance"
+    ],
+    "handoff": "Review this interface independently; resolve its proposed fields; freeze exports/hooks/options with scene/root/public-fixture owners only when E2 starts after E1/C2 prerequisites. This is not a kit case-registration change.",
+    "consistencyCheck": {
+      "result": "pass",
+      "evidenceClass": "read-only source/proposal consistency, not model/unit/browser/build/CI/public acceptance",
+      "sourceFilesVerified": 13,
+      "adoptedE2DeepEquality": true,
+      "approvedPlanJsonHashMatched": true,
+      "originalShaAndThreeDigestsMatched": true,
+      "inventoryMatched": true,
+      "exportsAndMarkersUnique": true,
+      "oneControlTwoOptions": true,
+      "orderSetAndTailCountMatched": true,
+      "memorizationAndAxesAndOverlapMatched": true,
+      "utf8LfOneFinalNewline": true
+    }
+  }
+}

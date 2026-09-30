@@ -1,0 +1,438 @@
+{
+  "schemaVersion": 1,
+  "kind": "completed-first-edge-aria-local-browser-binding",
+  "completedConfirmedByOwner": true,
+  "engine": "chromium",
+  "channel": "msedge",
+  "fullSuite": {
+    "total": 338,
+    "passed": 333,
+    "failed": 0,
+    "skipped": 5,
+    "elapsed": "12.5m",
+    "logPath": "raw/alignment-browser-edge-first-aria.log.gz",
+    "lastRunPath": "raw/alignment-browser-edge-first-aria-last-run.json.gz"
+  },
+  "kitVersion": {
+    "checksSHA256": "01b0b5f8c522a7dfb67cd9d83554885685f03f06a164af30bf015c2889d15300",
+    "manifestSHA256": "6b4f4c0004ec1bcf9cd1e80f40550a855f4816a960d8516e2e0eb739441a6bd2",
+    "versionProofPath": "raw/kit-first-edge-aria-version-proof.json.gz",
+    "semantic3ResultsLackSelectedStateGrid": true,
+    "finalGridSupplement": "pending"
+  },
+  "D1": {
+    "total": 16,
+    "passed": 16,
+    "failed": 0,
+    "cases": [
+      {
+        "name": "alignment: all 15 stages 1440x1000 light DSF1",
+        "status": "passed",
+        "resultPath": "raw/edge-first-aria-case-01.json.gz",
+        "resultSHA256": "7b90306c95cd062e9b30b3cd73cf30db62391c3fc492f7d7c531fcfa737c6be8",
+        "generatedImages": 30,
+        "originalVisualStatus": "pending-actual-images",
+        "selectedStateGridPresent": false,
+        "midpointVisits": null,
+        "selectorVisits": null,
+        "localHTMLSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+        "network": {
+          "failures": 0,
+          "consoleErrors": 0,
+          "pageErrors": 0,
+          "expectedBlockedScripts": 0,
+          "unexpectedResourceErrors": 0
+        }
+      },
+      {
+        "name": "alignment: all 15 stages 1440x1000 dark DSF1",
+        "status": "passed",
+        "resultPath": "raw/edge-first-aria-case-02.json.gz",
+        "resultSHA256": "5d395d3545509fc6fa391ba84c4c8e773db987f3c9c4d4e12273f82288c14b6f",
+        "generatedImages": 30,
+        "originalVisualStatus": "pending-actual-images",
+        "selectedStateGridPresent": false,
+        "midpointVisits": null,
+        "selectorVisits": null,
+        "localHTMLSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+        "network": {
+          "failures": 0,
+          "consoleErrors": 0,
+          "pageErrors": 0,
+          "expectedBlockedScripts": 0,
+          "unexpectedResourceErrors": 0
+        }
+      },
+      {
+        "name": "alignment: all 15 stages 1280x720 light DSF1",
+        "status": "passed",
+        "resultPath": "raw/edge-first-aria-case-03.json.gz",
+        "resultSHA256": "89cce5063c630501dcad5fc5dbfda4dee8ddc20e1e98ae9006ce43a7cbf884a5",
+        "generatedImages": 30,
+        "originalVisualStatus": "pending-actual-images",
+        "selectedStateGridPresent": false,
+        "midpointVisits": null,
+        "selectorVisits": null,
+        "localHTMLSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+        "network": {
+          "failures": 0,
+          "consoleErrors": 0,
+          "pageErrors": 0,
+          "expectedBlockedScripts": 0,
+          "unexpectedResourceErrors": 0
+        }
+      },
+      {
+        "name": "alignment: all 15 stages 390x844 light DSF1",
+        "status": "passed",
+        "resultPath": "raw/edge-first-aria-case-04.json.gz",
+        "resultSHA256": "3df2c491cda52311148e48d67199701dde68f996ca52585cfc1c531ab6726c09",
+        "generatedImages": 30,
+        "originalVisualStatus": "pending-actual-images",
+        "selectedStateGridPresent": false,
+        "midpointVisits": null,
+        "selectorVisits": null,
+        "localHTMLSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+        "network": {
+          "failures": 0,
+          "consoleErrors": 0,
+          "pageErrors": 0,
+          "expectedBlockedScripts": 0,
+          "unexpectedResourceErrors": 0
+        }
+      },
+      {
+        "name": "alignment: all 15 stages 390x844 dark DSF1",
+        "status": "passed",
+        "resultPath": "raw/edge-first-aria-case-05.json.gz",
+        "resultSHA256": "7559786e3487f8516c97ced0bf2e07f0803004b8e2bd0c8cddba952cd908b7c4",
+        "generatedImages": 30,
+        "originalVisualStatus": "pending-actual-images",
+        "selectedStateGridPresent": false,
+        "midpointVisits": null,
+        "selectorVisits": null,
+        "localHTMLSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+        "network": {
+          "failures": 0,
+          "consoleErrors": 0,
+          "pageErrors": 0,
+          "expectedBlockedScripts": 0,
+          "unexpectedResourceErrors": 0
+        }
+      },
+      {
+        "name": "alignment: all 15 stages 960x540 light DSF2",
+        "status": "passed",
+        "resultPath": "raw/edge-first-aria-case-06.json.gz",
+        "resultSHA256": "d98b279eb046494e0c6f976d8403ef34bdfaab10c9c4ca09cc02c890ecfaa1b3",
+        "generatedImages": 30,
+        "originalVisualStatus": "pending-actual-images",
+        "selectedStateGridPresent": false,
+        "midpointVisits": null,
+        "selectorVisits": null,
+        "localHTMLSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+        "network": {
+          "failures": 0,
+          "consoleErrors": 0,
+          "pageErrors": 0,
+          "expectedBlockedScripts": 0,
+          "unexpectedResourceErrors": 0
+        }
+      },
+      {
+        "name": "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+        "status": "passed",
+        "resultPath": "raw/edge-first-aria-case-07.json.gz",
+        "resultSHA256": "7e5dd007fe61ec1facc453db12896d4c80bc5ac5b5443af04906e6a752209b12",
+        "generatedImages": 18,
+        "originalVisualStatus": "pending-actual-images",
+        "selectedStateGridPresent": false,
+        "midpointVisits": 36,
+        "selectorVisits": [
+          {
+            "control": "beta",
+            "value": "0.5",
+            "stage": 4
+          },
+          {
+            "control": "beta",
+            "value": "1",
+            "stage": 4
+          },
+          {
+            "control": "beta",
+            "value": "2",
+            "stage": 4
+          },
+          {
+            "control": "beta",
+            "value": "0.5",
+            "stage": 5
+          },
+          {
+            "control": "beta",
+            "value": "1",
+            "stage": 5
+          },
+          {
+            "control": "beta",
+            "value": "2",
+            "stage": 5
+          },
+          {
+            "control": "beta",
+            "value": "0.5",
+            "stage": 6
+          },
+          {
+            "control": "beta",
+            "value": "1",
+            "stage": 6
+          },
+          {
+            "control": "beta",
+            "value": "2",
+            "stage": 6
+          }
+        ],
+        "localHTMLSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+        "network": {
+          "failures": 0,
+          "consoleErrors": 0,
+          "pageErrors": 0,
+          "expectedBlockedScripts": 0,
+          "unexpectedResourceErrors": 0
+        }
+      },
+      {
+        "name": "alignment-reward-risk: independent semantic fixtures, every selector and midpoint reverse seeks",
+        "status": "passed",
+        "resultPath": "raw/edge-first-aria-case-08.json.gz",
+        "resultSHA256": "407f18e8eabb18c3ce7872bee813f1d6ee03a4be38a27d30b29548a4574383da",
+        "generatedImages": 0,
+        "originalVisualStatus": "pending-actual-images",
+        "selectedStateGridPresent": false,
+        "midpointVisits": 12,
+        "selectorVisits": [],
+        "localHTMLSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+        "network": {
+          "failures": 0,
+          "consoleErrors": 0,
+          "pageErrors": 0,
+          "expectedBlockedScripts": 0,
+          "unexpectedResourceErrors": 0
+        }
+      },
+      {
+        "name": "alignment-feedback: independent semantic fixtures, every selector and midpoint reverse seeks",
+        "status": "passed",
+        "resultPath": "raw/edge-first-aria-case-09.json.gz",
+        "resultSHA256": "d9ebafd4db40e70b87e2434c7dd27355d2357bc011283cddaed271467bb27109",
+        "generatedImages": 4,
+        "originalVisualStatus": "pending-actual-images",
+        "selectedStateGridPresent": false,
+        "midpointVisits": 24,
+        "selectorVisits": [
+          {
+            "control": "labelSource",
+            "value": "human",
+            "stage": 4
+          },
+          {
+            "control": "labelSource",
+            "value": "ai",
+            "stage": 4
+          }
+        ],
+        "localHTMLSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+        "network": {
+          "failures": 0,
+          "consoleErrors": 0,
+          "pageErrors": 0,
+          "expectedBlockedScripts": 0,
+          "unexpectedResourceErrors": 0
+        }
+      },
+      {
+        "name": "alignment: keyboard transport, modal selectors, isolated state and focus return",
+        "status": "passed",
+        "resultPath": "raw/edge-first-aria-case-10.json.gz",
+        "resultSHA256": "c83875d1c7746dcce3abb8d55e19db3da53dfac5f48c8db48e148ca844fdb3b8",
+        "generatedImages": 6,
+        "originalVisualStatus": "pending-actual-images",
+        "selectedStateGridPresent": false,
+        "midpointVisits": null,
+        "selectorVisits": null,
+        "localHTMLSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+        "network": {
+          "failures": 0,
+          "consoleErrors": 0,
+          "pageErrors": 0,
+          "expectedBlockedScripts": 0,
+          "unexpectedResourceErrors": 0
+        }
+      },
+      {
+        "name": "alignment: all 15 READ stops, no manual-only stages and independent figure states",
+        "status": "passed",
+        "resultPath": "raw/edge-first-aria-case-11.json.gz",
+        "resultSHA256": "dcc8a85878c879563cbd9453e2c1477158b86fc07df2a6b0dd19e2bf7c5c131e",
+        "generatedImages": 0,
+        "originalVisualStatus": "pending-actual-images",
+        "selectedStateGridPresent": false,
+        "midpointVisits": null,
+        "selectorVisits": null,
+        "localHTMLSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+        "network": {
+          "failures": 0,
+          "consoleErrors": 0,
+          "pageErrors": 0,
+          "expectedBlockedScripts": 0,
+          "unexpectedResourceErrors": 0
+        }
+      },
+      {
+        "name": "alignment-preference: native elapsed play, frozen pause, replay and completion",
+        "status": "passed",
+        "resultPath": "raw/edge-first-aria-case-12.json.gz",
+        "resultSHA256": "b0a975d0e2cdaedb11c9f363e907481138e1a80c893c76f02266fa94fe85f544",
+        "generatedImages": 0,
+        "originalVisualStatus": "pending-actual-images",
+        "selectedStateGridPresent": false,
+        "midpointVisits": null,
+        "selectorVisits": null,
+        "localHTMLSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+        "network": {
+          "failures": 0,
+          "consoleErrors": 0,
+          "pageErrors": 0,
+          "expectedBlockedScripts": 0,
+          "unexpectedResourceErrors": 0
+        }
+      },
+      {
+        "name": "alignment-reward-risk: native elapsed play, frozen pause, replay and completion",
+        "status": "passed",
+        "resultPath": "raw/edge-first-aria-case-13.json.gz",
+        "resultSHA256": "e4b3698033eb6222020ec27624d528f3f5b2c76c5761e782520b8b42c719ef11",
+        "generatedImages": 0,
+        "originalVisualStatus": "pending-actual-images",
+        "selectedStateGridPresent": false,
+        "midpointVisits": null,
+        "selectorVisits": null,
+        "localHTMLSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+        "network": {
+          "failures": 0,
+          "consoleErrors": 0,
+          "pageErrors": 0,
+          "expectedBlockedScripts": 0,
+          "unexpectedResourceErrors": 0
+        }
+      },
+      {
+        "name": "alignment-feedback: native elapsed play, frozen pause, replay and completion",
+        "status": "passed",
+        "resultPath": "raw/edge-first-aria-case-14.json.gz",
+        "resultSHA256": "3f214136938bcc8f7235bc6b24d3b35d73821b85f6757e4937fb1796c52f7ba6",
+        "generatedImages": 0,
+        "originalVisualStatus": "pending-actual-images",
+        "selectedStateGridPresent": false,
+        "midpointVisits": null,
+        "selectorVisits": null,
+        "localHTMLSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+        "network": {
+          "failures": 0,
+          "consoleErrors": 0,
+          "pageErrors": 0,
+          "expectedBlockedScripts": 0,
+          "unexpectedResourceErrors": 0
+        }
+      },
+      {
+        "name": "alignment noJS: original prose, nine headings, four equations, Mermaid and 15 static descriptions",
+        "status": "passed",
+        "resultPath": "raw/edge-first-aria-case-15.json.gz",
+        "resultSHA256": "9d387aa0df68614e978a49a646910ab155d075443b769db0b8b35b36a00d63c2",
+        "generatedImages": 4,
+        "originalVisualStatus": "pending-actual-images",
+        "selectedStateGridPresent": false,
+        "midpointVisits": null,
+        "selectorVisits": null,
+        "localHTMLSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+        "network": {
+          "failures": 1,
+          "consoleErrors": 0,
+          "pageErrors": 0,
+          "expectedBlockedScripts": 1,
+          "unexpectedResourceErrors": 0
+        }
+      },
+      {
+        "name": "alignment print: coherent scenes and original article with controls hidden",
+        "status": "passed",
+        "resultPath": "raw/edge-first-aria-case-16.json.gz",
+        "resultSHA256": "0f9e34caccabd193dd60fe56b8672a44c7fbcad6e4770a3a9d734d9fb3e2229a",
+        "generatedImages": 4,
+        "originalVisualStatus": "pending-actual-images",
+        "selectedStateGridPresent": false,
+        "midpointVisits": null,
+        "selectorVisits": null,
+        "localHTMLSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+        "network": {
+          "failures": 0,
+          "consoleErrors": 0,
+          "pageErrors": 0,
+          "expectedBlockedScripts": 0,
+          "unexpectedResourceErrors": 0
+        }
+      }
+    ],
+    "generatedImages": 216,
+    "storedImages": 0,
+    "independentImageSelection": "pending"
+  },
+  "initialLocalIdentity": {
+    "buildId": "XJR9sUrJP0VbXQCKQiQ8F",
+    "htmlSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+    "inputDigests": [
+      {
+        "article": "docs/11-llm-internals/transformer-architecture.md",
+        "inputDigest": "sha256:b625ce37d9aaf96c988322e24479c7b3d68b7b12fc61a95747810cf8451850ff"
+      },
+      {
+        "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+        "inputDigest": "sha256:0998367b434d17d843fbdcd6d56efac5652b946a927c2eb7417ae232730a48e1"
+      },
+      {
+        "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+        "inputDigest": "sha256:aa360c495d4010553f4e2acc620664ca848c5fac2ce9ad9dc21920e143eb7047"
+      },
+      {
+        "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+        "inputDigest": "sha256:f46d62d4dadf3ca78439fdbdfbfc70b224c245597690c42d07e3a385160edce3"
+      },
+      {
+        "article": "docs/10-llm-foundations/tokenization.md",
+        "inputDigest": "sha256:f7485f5af6c51d9777213055f1565da6c632667ee7247cce09efce96dfc1840c"
+      },
+      {
+        "article": "docs/11-llm-internals/inference-internals.md",
+        "inputDigest": "sha256:037e697c7a4ec699b486b7f891d6880c82281d003207833d639703912d9a24cb"
+      },
+      {
+        "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+        "inputDigest": "sha256:23ff06677c89c80dce28217e2bb832caabdb020ed6a762c0f43d0beff1080e79"
+      },
+      {
+        "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+        "inputDigest": "sha256:eed3b9e3c53c8b20b63428a4fda99afe8fea406aa0f034c7ef2921a1f250c8ea"
+      },
+      {
+        "article": "docs/11-llm-internals/alignment-theory.md",
+        "inputDigest": "sha256:0c544c4f549673475d56409d1b2112f02317b7e0f19cc7f6d2b97d02ed4b3450"
+      }
+    ]
+  },
+  "localAcceptance": false,
+  "publicAcceptance": false
+}

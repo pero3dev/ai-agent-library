@@ -1,8 +1,10 @@
 # 事前学習とスケーリング則の読書連動図解
 
-状態: C2の実装・ローカル検証・正式記事レビューを完了し、PR #61で公開済み。独立公開画像レビューで既存推論図にmust 1が見つかり、公開受入を保留する。P1の公開受入は7/15記事で、この記事の完成はまだ数えない。
+状態: C2の実装・ローカル検証・正式記事レビューを完了し、PR #61で公開。既存推論図の表示をPR #62で修正し、2026-09-30にC2と既存7記事の公開受入を完了した。P1の公開受入は8/15記事。
 
 ## 作業契約
+
+最新の公開受入は[PR #62の修正と公開確認](../2026-09-30/inference-score-spacing-fix.md)、[独立公開レビュー](../2026-09-30/inference-score-spacing-public-pr62-review.md)、[8記事completeの固定結果](../2026-09-30/diagram-acceptance-pr62.json)を参照する。以降の旧PR #61に関する保留記録は当時の判定として保持する。
 
 - 目的: 承認済みの[詳細設計](../2026-09-24/training-storyboards.md)と[機械対応表](../2026-09-24/training-storyboards.json)に沿い、C2を5図23段階・19 READへ対応させる。本文を増量せず6か所の事実訂正を適用する。
 - 開始: PR #59のC1独立公開受入 approved / low、must 0を確認。baseは `517dc8b5166bd7b0c85baef3800d7fe57bac7b31`、branchは `feat/pretraining-reading-diagrams`。

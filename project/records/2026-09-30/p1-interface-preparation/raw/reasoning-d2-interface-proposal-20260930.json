@@ -1,0 +1,2539 @@
+{
+  "schemaVersion": 1,
+  "status": "proposal-for-independent-review",
+  "unit": "D2",
+  "createdAt": "2026-09-29T18:47:44.039Z",
+  "authorRun": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_change_evidence",
+  "scope": {
+    "purpose": "採択済み D2 の制作を後で具体化できるよう、2図9段階のインターフェースと独立検証方針だけを準備する。",
+    "allowedWrites": [
+      "reasoning-d2-interface-proposal-20260930.md",
+      "reasoning-d2-interface-proposal-20260930.json"
+    ],
+    "productModified": false,
+    "articleModified": false,
+    "kitModified": false,
+    "gitMutation": false,
+    "networkPerformed": false,
+    "implementationStarted": false,
+    "reviewVerdict": null,
+    "localAcceptance": null,
+    "publicAcceptance": null,
+    "externalAuthorization": "今回の操作はリポジトリ読み取りとTEMPの2文書作成だけ。公開・PR・課金・外部送信を行わない。",
+    "requiresBeforeImplementation": [
+      "D1の公開受入",
+      "このインターフェース案の独立レビューと親担当による作業開始指示",
+      "開始時mainの共通契約・共有コード・source/digestの再照合"
+    ],
+    "stopBoundary": "P1採択済み15/199記事の公開受入で停止。P0部分対応2記事は15記事の達成数へ含めない。P2は開始しない。"
+  },
+  "source": {
+    "article": "docs/10-llm-foundations/reasoning-models.md",
+    "route": "/docs/llm-foundations/reasoning-models",
+    "observedHead": "ca3c09eebd1b549564f874f3304d23ae25328194",
+    "workingTreeNotice": "HEAD は入力の観測時点。親担当が別変更を作業中であり clean checkout や公開版の一致は主張しない。",
+    "adoptedArticleSha256": "71246ca014e171936139af9083df301f16dcb7dade8f7aeb3a0b14516a19ef44",
+    "currentArticleSha256": "71246ca014e171936139af9083df301f16dcb7dade8f7aeb3a0b14516a19ef44",
+    "candidateArticleSha256": "71246ca014e171936139af9083df301f16dcb7dade8f7aeb3a0b14516a19ef44",
+    "articleChangedFromAdoption": false,
+    "postCorrectionRequired": false,
+    "sourceDigests": [
+      {
+        "id": "reasoning-sequence",
+        "current": "sha256:497581aab0df110ad41c3fbc116fc1837073be16d937aaaa44e99d4cab8ad107",
+        "adopted": "sha256:497581aab0df110ad41c3fbc116fc1837073be16d937aaaa44e99d4cab8ad107"
+      },
+      {
+        "id": "reasoning-evaluation",
+        "current": "sha256:4b26e91dcb1f6d5d7e09a43f86a1b622cd2c9a5a3b53e8846e234d39ec615930",
+        "adopted": "sha256:4b26e91dcb1f6d5d7e09a43f86a1b622cd2c9a5a3b53e8846e234d39ec615930"
+      }
+    ],
+    "inputs": [
+      {
+        "file": "docs/10-llm-foundations/reasoning-models.md",
+        "rawSha256": "71246ca014e171936139af9083df301f16dcb7dade8f7aeb3a0b14516a19ef44",
+        "lfSha256": "71246ca014e171936139af9083df301f16dcb7dade8f7aeb3a0b14516a19ef44"
+      },
+      {
+        "file": "project/records/2026-09-24/p1-remaining-storyboards.json",
+        "rawSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+        "lfSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319"
+      },
+      {
+        "file": "project/records/2026-09-24/p1-remaining-storyboards.md",
+        "rawSha256": "b663581aa76b9da2cb78c7121f54108f5e01cb248d3a059996656922aeab8108",
+        "lfSha256": "b663581aa76b9da2cb78c7121f54108f5e01cb248d3a059996656922aeab8108"
+      },
+      {
+        "file": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+        "rawSha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+        "lfSha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4"
+      },
+      {
+        "file": "website/lib/diagram-registry.mjs",
+        "rawSha256": "85e75284f46ce42f7c89384a32bce6d227d2273855adfc81238d2f78966518d9",
+        "lfSha256": "85e75284f46ce42f7c89384a32bce6d227d2273855adfc81238d2f78966518d9"
+      },
+      {
+        "file": "website/lib/reading-clock.mjs",
+        "rawSha256": "f39eadf5eb39ebbb0f33877e6bceb9966211fc7acdaad13118428a4c2019081b",
+        "lfSha256": "f39eadf5eb39ebbb0f33877e6bceb9966211fc7acdaad13118428a4c2019081b"
+      },
+      {
+        "file": "website/lib/training-runtime-boundary-model.mjs",
+        "rawSha256": "290be52f3e5c413cfa0a50c5592c582fa19bbebf24cf4e9ff2b3e25c940ce097",
+        "lfSha256": "290be52f3e5c413cfa0a50c5592c582fa19bbebf24cf4e9ff2b3e25c940ce097"
+      },
+      {
+        "file": "website/components/diagrams/training-runtime-boundary-walkthrough.jsx",
+        "rawSha256": "48a8760c0710cb36ea6f661d7f4e575c4c8f347403cfe18af5238e0d88d38a53",
+        "lfSha256": "48a8760c0710cb36ea6f661d7f4e575c4c8f347403cfe18af5238e0d88d38a53"
+      },
+      {
+        "file": "website/components/diagrams/training-walkthrough.jsx",
+        "rawSha256": "7bdf27874f15d38a30270811eeeae9170a3822e41485b9542c68151ded1695e8",
+        "lfSha256": "7bdf27874f15d38a30270811eeeae9170a3822e41485b9542c68151ded1695e8"
+      },
+      {
+        "file": "website/components/diagrams/reading-figure.jsx",
+        "rawSha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12",
+        "lfSha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12"
+      },
+      {
+        "file": "website/components/diagrams/concept-scene-primitives.jsx",
+        "rawSha256": "5aac3bf8a418a57cd269b89fdab0252eb71d671dfbe6ac6dbe064a052e790a2b",
+        "lfSha256": "5aac3bf8a418a57cd269b89fdab0252eb71d671dfbe6ac6dbe064a052e790a2b"
+      },
+      {
+        "file": "website/lib/diagram-decoration.mjs",
+        "rawSha256": "bd3ed962f793fbc28862d29765b6c1392fe08107cfec4d2cc141c0184cdeba6f",
+        "lfSha256": "bd3ed962f793fbc28862d29765b6c1392fe08107cfec4d2cc141c0184cdeba6f"
+      },
+      {
+        "file": "website/lib/mdx-safety.mjs",
+        "rawSha256": "c54986f395a2e68dc5695b047ed9a846df5948969d6a2eb0c74a80cd53a78404",
+        "lfSha256": "c54986f395a2e68dc5695b047ed9a846df5948969d6a2eb0c74a80cd53a78404"
+      },
+      {
+        "file": "website/mdx-components.js",
+        "rawSha256": "deaa8c3343433ee9580540d16d0abc76f063c094e7eaf275b00b1ec3a66aa726",
+        "lfSha256": "deaa8c3343433ee9580540d16d0abc76f063c094e7eaf275b00b1ec3a66aa726"
+      },
+      {
+        "file": "website/lib/diagram-article-acceptance.mjs",
+        "rawSha256": "f3c53656f6202b5182af0e966875a3d50d58d1fd414c7d348c68f298cf1154af",
+        "lfSha256": "f3c53656f6202b5182af0e966875a3d50d58d1fd414c7d348c68f298cf1154af"
+      },
+      {
+        "file": "website/diagrams/registry.json",
+        "rawSha256": "ed9ef883835222eed36e9857453535eec08210ba7addc408618b612dbbc655d4",
+        "lfSha256": "ed9ef883835222eed36e9857453535eec08210ba7addc408618b612dbbc655d4"
+      },
+      {
+        "file": "website/diagrams/articles.json",
+        "rawSha256": "70417e40eb0930512212bc34a6ee83a704b730a052f2399642220feecf11fa45",
+        "lfSha256": "70417e40eb0930512212bc34a6ee83a704b730a052f2399642220feecf11fa45"
+      }
+    ],
+    "existingArticleReferences": [
+      {
+        "url": "https://arxiv.org/abs/2501.12948",
+        "articleAccessDate": "2026-09-10"
+      },
+      {
+        "url": "https://arxiv.org/abs/2412.21187",
+        "articleAccessDate": "2026-09-10"
+      },
+      {
+        "url": "https://platform.claude.com/docs/en/build-with-claude/extended-thinking",
+        "articleAccessDate": "2026-09-10"
+      }
+    ],
+    "referenceScope": "原記事の参照情報を記録しただけ。今回のWeb再確認や現在の各社API仕様の保証ではない。新しいAPI値・価格・性能主張は足さない。"
+  },
+  "adopted": {
+    "path": "project/records/2026-09-24/p1-remaining-storyboards.json",
+    "article": {
+      "unit": "D2",
+      "file": "docs/10-llm-foundations/reasoning-models.md",
+      "route": "/docs/llm-foundations/reasoning-models",
+      "requiresPublicAcceptanceOf": [
+        "D1"
+      ],
+      "learningOrderReason": "RLVRを学習側で区別した後、推論時の時間・費用・評価へ接続する。順序は理解を助ける提案で、技術上の必須依存ではない。",
+      "sourceSha256": "71246ca014e171936139af9083df301f16dcb7dade8f7aeb3a0b14516a19ef44",
+      "sections": [
+        {
+          "heading": "概要: 分担と「考える時間」の正体",
+          "parent": "本文",
+          "line": 28,
+          "start": 9,
+          "end": 12,
+          "bodyTypes": [
+            "table",
+            "paragraph"
+          ]
+        },
+        {
+          "heading": "仕組みの直感: 答える前に考えを書く",
+          "parent": "本文",
+          "line": 40,
+          "start": 12,
+          "end": 16,
+          "bodyTypes": [
+            "paragraph",
+            "list",
+            "paragraph"
+          ]
+        },
+        {
+          "heading": "効くタスクと効かないタスク",
+          "parent": "本文",
+          "line": 50,
+          "start": 16,
+          "end": 20,
+          "bodyTypes": [
+            "paragraph",
+            "table",
+            "paragraph"
+          ]
+        },
+        {
+          "heading": "思考量の制御とコスト・レイテンシ設計",
+          "parent": "本文",
+          "line": 62,
+          "start": 20,
+          "end": 23,
+          "bodyTypes": [
+            "paragraph",
+            "list"
+          ]
+        },
+        {
+          "heading": "考えすぎ(overthinking)",
+          "parent": "本文",
+          "line": 70,
+          "start": 23,
+          "end": 26,
+          "bodyTypes": [
+            "paragraph",
+            "list"
+          ]
+        },
+        {
+          "heading": "プロンプトの変化: 必須手順と探索の余地を分ける",
+          "parent": "本文",
+          "line": 78,
+          "start": 26,
+          "end": 29,
+          "bodyTypes": [
+            "paragraph",
+            "list"
+          ]
+        },
+        {
+          "heading": "評価の注意: 思考は見えず、揺れる",
+          "parent": "本文",
+          "line": 86,
+          "start": 29,
+          "end": 32,
+          "bodyTypes": [
+            "paragraph",
+            "list"
+          ]
+        },
+        {
+          "heading": "アンチパターン",
+          "parent": "実務での注意点",
+          "line": 96,
+          "start": 33,
+          "end": 35,
+          "bodyTypes": [
+            "list"
+          ]
+        },
+        {
+          "heading": "チェックリスト",
+          "parent": "実務での注意点",
+          "line": 104,
+          "start": 35,
+          "end": 37,
+          "bodyTypes": [
+            "list"
+          ]
+        }
+      ],
+      "diagrams": [
+        {
+          "id": "reasoning-sequence",
+          "title": "推論と最終回答の順序",
+          "heads": [
+            1
+          ],
+          "sources": [
+            1,
+            3,
+            5,
+            6
+          ],
+          "groups": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                3,
+                1
+              ]
+            ]
+          ],
+          "objects": [
+            "入力",
+            "推論トークン領域",
+            "最終回答領域",
+            "固定モデル",
+            "時間/トークンの非数値帯"
+          ],
+          "stages": [
+            {
+              "label": "同じ生成の土台",
+              "state": "入力→生成→最終回答。内部推論の領域を未公開として分ける。",
+              "motion": "入力を左に保持し処理領域が展開する。"
+            },
+            {
+              "label": "中間トークン",
+              "state": "無内容の短い記号列が後続生成の条件になる。実モデルの思考文や思考の再現を表示しない。",
+              "motion": "推論領域だけに記号が追記され、前の記号は残る。"
+            },
+            {
+              "label": "学習と実行",
+              "state": "推論を使うような学習調整と今回の推論実行を別枠。既生成の推論記号列と、それが後続予測の条件へ入る矢印を保持する。推論時の重みは固定。途中検証が正しい保証はない。",
+              "motion": "学習枠への線を点線にし、実行中の重みは固定。",
+              "requiredVisible": [
+                "既生成の推論記号列を残す",
+                "推論記号列から後続予測の条件へ向かう矢印を残す",
+                "推論時は重み固定と、学習時の調整を別枠で同時に示す",
+                "実際の思考内容の再現ではない旨の図ラベルを残す"
+              ]
+            },
+            {
+              "label": "回答と費用",
+              "state": "推論の後に最終回答。推論と回答を費用/時間の対象として区別し、製品の課金式にしない。",
+              "motion": "回答枠を開き、先行する推論の占有帯を保持。"
+            }
+          ],
+          "checks": [
+            "思考内容を捏造しない",
+            "学習時更新と推論時状態を混同しない",
+            "実費や固定トークン数を置かない",
+            "READ停止持越し: 既生成の推論記号列を残す、推論記号列から後続予測の条件へ向かう矢印を残す、推論時は重み固定と、学習時の調整を別枠で同時に示す、実際の思考内容の再現ではない旨の図ラベルを残す"
+          ],
+          "article": "docs/10-llm-foundations/reasoning-models.md",
+          "route": "/docs/llm-foundations/reasoning-models",
+          "binding": "grouped-blocks",
+          "stageCount": 4,
+          "headings": [
+            "仕組みの直感: 答える前に考えを書く"
+          ],
+          "sourceHeadings": [
+            "仕組みの直感: 答える前に考えを書く",
+            "思考量の制御とコスト・レイテンシ設計",
+            "プロンプトの変化: 必須手順と探索の余地を分ける",
+            "評価の注意: 思考は見えず、揺れる"
+          ],
+          "blockGroups": [
+            [
+              {
+                "stage": 0,
+                "count": 1
+              },
+              {
+                "stage": 2,
+                "count": 1
+              },
+              {
+                "stage": 3,
+                "count": 1
+              }
+            ]
+          ],
+          "blockTypes": [
+            [
+              "paragraph",
+              "list",
+              "paragraph"
+            ]
+          ],
+          "sourceDigest": "sha256:497581aab0df110ad41c3fbc116fc1837073be16d937aaaa44e99d4cab8ad107",
+          "status": "planned-not-reviewed",
+          "reviewedDigest": null,
+          "enabled": false,
+          "contentKind": "conceptual",
+          "staticFallback": "同じ意味モデルの主要段階の静止表示と短い図ラベル。追加の本文・例題・ナレーションを作らない。",
+          "layout": "既存ReadingFigureの操作・同期・拡大・JS無効/印刷経路を再利用。固有model/scene/CSSは記事chunkで遅延読込。",
+          "stateContract": "frame(phase, options)は副作用なし。同じ位相/選択で同じ図、逆シーク・中点でもID/関係を保持。停止/非表示に常時loopを残さない。",
+          "readingStages": [
+            0,
+            2,
+            3
+          ],
+          "manualOnlyStages": [
+            1
+          ],
+          "minimumCountReason": "同じ対象と意味を保てる連続H3を一図にまとめる。異なる意味の図を操作回数のためだけに増やさない。",
+          "postCorrectionSourceDigestCandidate": "sha256:497581aab0df110ad41c3fbc116fc1837073be16d937aaaa44e99d4cab8ad107",
+          "readCarryover": [
+            {
+              "fromManualStage": 1,
+              "toReadingStage": 2,
+              "requiredVisible": [
+                "既生成の推論記号列を残す",
+                "推論記号列から後続予測の条件へ向かう矢印を残す",
+                "推論時は重み固定と、学習時の調整を別枠で同時に示す",
+                "実際の思考内容の再現ではない旨の図ラベルを残す"
+              ],
+              "acceptance": "selectorと前後/再生操作を一度も使わず、本文連動で対象READ停止へ到達した静止表示とアクセシビリティ内容を確認する。見出しだけ/非表示DOMだけでは合格にしない。"
+            }
+          ]
+        },
+        {
+          "id": "reasoning-evaluation",
+          "title": "思考量を比較して決める",
+          "heads": [
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "sources": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "groups": [
+            [
+              [
+                0,
+                3
+              ]
+            ],
+            [
+              [
+                1,
+                2
+              ]
+            ],
+            [
+              [
+                2,
+                2
+              ]
+            ],
+            [
+              [
+                3,
+                2
+              ]
+            ],
+            [
+              [
+                4,
+                2
+              ]
+            ]
+          ],
+          "objects": [
+            "同じ実入力",
+            "比較する思考量",
+            "品質・費用・待ち時間の三つの空欄",
+            "必須条件枠",
+            "複数実行列"
+          ],
+          "stages": [
+            {
+              "label": "同じタスクで比較",
+              "state": "既存表の二群を同じ実入力で比較する入口。向き不向きは自動採否でない。",
+              "motion": "表の選択した行から同じ比較枠へ線を引く。"
+            },
+            {
+              "label": "思考量",
+              "state": "低/高の設定を並べ、三つの評価欄は未計測を維持。精度の上昇は保証しない。",
+              "motion": "設定ラベルだけ変化し、空欄へ架空の値を入れない。"
+            },
+            {
+              "label": "追加便益",
+              "state": "思考量を増やしても便益が小さい場合を概念表示。全簡単タスクが悪化する図にしない。",
+              "motion": "増える作業帯と未知の品質欄を分けて強調。"
+            },
+            {
+              "label": "必須条件",
+              "state": "目標/制約/承認等の境界を固定し、探索の余地だけを内部に示す。",
+              "motion": "探索領域が拡がっても必須境界を越えない。"
+            },
+            {
+              "label": "複数回の測定",
+              "state": "同条件の実行列を並べ、品質・費用・時間を記録する位置を表示。可視思考から因果を断定しない。",
+              "motion": "同じ入力IDの実行行を複製し、三指標の列に接続。"
+            }
+          ],
+          "checks": [
+            "品質の単調上昇を描かない",
+            "推論トークンの可視性を全製品共通にしない",
+            "必須手順を思考量で代替しない",
+            "比較条件を固定"
+          ],
+          "article": "docs/10-llm-foundations/reasoning-models.md",
+          "route": "/docs/llm-foundations/reasoning-models",
+          "binding": "grouped-blocks",
+          "stageCount": 5,
+          "headings": [
+            "効くタスクと効かないタスク",
+            "思考量の制御とコスト・レイテンシ設計",
+            "考えすぎ(overthinking)",
+            "プロンプトの変化: 必須手順と探索の余地を分ける",
+            "評価の注意: 思考は見えず、揺れる"
+          ],
+          "sourceHeadings": [
+            "仕組みの直感: 答える前に考えを書く",
+            "効くタスクと効かないタスク",
+            "思考量の制御とコスト・レイテンシ設計",
+            "考えすぎ(overthinking)",
+            "プロンプトの変化: 必須手順と探索の余地を分ける",
+            "評価の注意: 思考は見えず、揺れる"
+          ],
+          "blockGroups": [
+            [
+              {
+                "stage": 0,
+                "count": 3
+              }
+            ],
+            [
+              {
+                "stage": 1,
+                "count": 2
+              }
+            ],
+            [
+              {
+                "stage": 2,
+                "count": 2
+              }
+            ],
+            [
+              {
+                "stage": 3,
+                "count": 2
+              }
+            ],
+            [
+              {
+                "stage": 4,
+                "count": 2
+              }
+            ]
+          ],
+          "blockTypes": [
+            [
+              "paragraph",
+              "table",
+              "paragraph"
+            ],
+            [
+              "paragraph",
+              "list"
+            ],
+            [
+              "paragraph",
+              "list"
+            ],
+            [
+              "paragraph",
+              "list"
+            ],
+            [
+              "paragraph",
+              "list"
+            ]
+          ],
+          "sourceDigest": "sha256:4b26e91dcb1f6d5d7e09a43f86a1b622cd2c9a5a3b53e8846e234d39ec615930",
+          "status": "planned-not-reviewed",
+          "reviewedDigest": null,
+          "enabled": false,
+          "contentKind": "conceptual",
+          "staticFallback": "同じ意味モデルの主要段階の静止表示と短い図ラベル。追加の本文・例題・ナレーションを作らない。",
+          "layout": "既存ReadingFigureの操作・同期・拡大・JS無効/印刷経路を再利用。固有model/scene/CSSは記事chunkで遅延読込。",
+          "stateContract": "frame(phase, options)は副作用なし。同じ位相/選択で同じ図、逆シーク・中点でもID/関係を保持。停止/非表示に常時loopを残さない。",
+          "readingStages": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "manualOnlyStages": [],
+          "minimumCountReason": "同じ対象と意味を保てる連続H3を一図にまとめる。異なる意味の図を操作回数のためだけに増やさない。",
+          "postCorrectionSourceDigestCandidate": "sha256:4b26e91dcb1f6d5d7e09a43f86a1b622cd2c9a5a3b53e8846e234d39ec615930"
+        }
+      ],
+      "topics": [
+        {
+          "id": "d2-s0-b0.row0",
+          "heading": "概要: 分担と「考える時間」の正体",
+          "parent": "本文",
+          "sourceLine": 28,
+          "sourceBlock": 0,
+          "kind": "tableRow",
+          "topic": "生成の仕組み(次トークン予測) | LLM はどうやってテキストを生成するか | —",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "記事間の分担を示す既存表・案内文であり、機構の遷移ではない。リンク・担当範囲をそのまま保持する。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "生成の仕組み(次トークン予測) | LLM はどうやってテキストを生成するか | —",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s0-b0.row1",
+          "heading": "概要: 分担と「考える時間」の正体",
+          "parent": "本文",
+          "sourceLine": 28,
+          "sourceBlock": 0,
+          "kind": "tableRow",
+          "topic": "段階的推論(CoT)というプロンプト技法 | プロンプトエンジニアリングの基礎技法 | —",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "記事間の分担を示す既存表・案内文であり、機構の遷移ではない。リンク・担当範囲をそのまま保持する。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "段階的推論(CoT)というプロンプト技法 | プロンプトエンジニアリングの基礎技法 | —",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s0-b0.row2",
+          "heading": "概要: 分担と「考える時間」の正体",
+          "parent": "本文",
+          "sourceLine": 28,
+          "sourceBlock": 0,
+          "kind": "tableRow",
+          "topic": "どのモデルを選ぶか | モデル選定ガイド | —",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "記事間の分担を示す既存表・案内文であり、機構の遷移ではない。リンク・担当範囲をそのまま保持する。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "どのモデルを選ぶか | モデル選定ガイド | —",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s0-b0.row3",
+          "heading": "概要: 分担と「考える時間」の正体",
+          "parent": "本文",
+          "sourceLine": 28,
+          "sourceBlock": 0,
+          "kind": "tableRow",
+          "topic": "モデル別の具体的な制御方法 | Claude / OpenAI / Gemini の各ガイド | —",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "記事間の分担を示す既存表・案内文であり、機構の遷移ではない。リンク・担当範囲をそのまま保持する。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "モデル別の具体的な制御方法 | Claude / OpenAI / Gemini の各ガイド | —",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s0-b0.row4",
+          "heading": "概要: 分担と「考える時間」の正体",
+          "parent": "本文",
+          "sourceLine": 28,
+          "sourceBlock": 0,
+          "kind": "tableRow",
+          "topic": "推論モデルの仕組みの直感と使いどころ | 本記事 | 仕組み・効くタスク・思考量制御・overthinking・評価",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "記事間の分担を示す既存表・案内文であり、機構の遷移ではない。リンク・担当範囲をそのまま保持する。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "推論モデルの仕組みの直感と使いどころ | 本記事 | 仕組み・効くタスク・思考量制御・overthinking・評価",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s0-b1",
+          "heading": "概要: 分担と「考える時間」の正体",
+          "parent": "本文",
+          "sourceLine": 28,
+          "sourceBlock": 1,
+          "kind": "paragraph",
+          "topic": "本記事は 10 章の方針どおり数式を使わず、仕組みの直感と実務判断に絞ります。個別モデルの具体(制御パラメータの名称・思考の見え方)は変化が速いため、モデル別の各プロンプティングガイドと公式ドキュメントに委ねます(TODO)。",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "記事間の分担を示す既存表・案内文であり、機構の遷移ではない。リンク・担当範囲をそのまま保持する。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "本記事は 10 章の方針どおり数式を使わず、仕組みの直感と実務判断に絞ります。個別モデルの具体(制御パラメータの名称・思考の見え方)は変化が速いため、モデル別の各プロンプティングガイドと公式ドキュメントに委ねます(TODO)。",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s1-b0",
+          "heading": "仕組みの直感: 答える前に考えを書く",
+          "parent": "本文",
+          "sourceLine": 40,
+          "sourceBlock": 0,
+          "kind": "paragraph",
+          "topic": "推論モデルは、LLM はどうやってテキストを生成するかで見た「書き出した考察が、以降の予測の条件に加わる」という性質を、製品として組み込んだものです。",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-sequence",
+          "readingStage": 0,
+          "stageScope": [
+            0
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "推論モデルは、LLM はどうやってテキストを生成するかで見た「書き出した考察が、以降の予測の条件に加わる」という性質を、製品として組み込んだものです。",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s1-b1.li0",
+          "heading": "仕組みの直感: 答える前に考えを書く",
+          "parent": "本文",
+          "sourceLine": 40,
+          "sourceBlock": 1,
+          "kind": "listItem",
+          "topic": "通常のモデルでも、指示や例示に応じて中間の考察を書けます",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-sequence",
+          "readingStage": 2,
+          "stageScope": [
+            2
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "通常のモデルでも、指示や例示に応じて中間の考察を書けます",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s1-b1.li1",
+          "heading": "仕組みの直感: 答える前に考えを書く",
+          "parent": "本文",
+          "sourceLine": 40,
+          "sourceBlock": 1,
+          "kind": "listItem",
+          "topic": "推論モデルは、最終回答の前に中間の推論トークンを使うよう学習・推論処理を調整したモデルです。問題の分解や検証を行う場合がありますが、その手順が常に正しいとは保証されません",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-sequence",
+          "readingStage": 2,
+          "stageScope": [
+            2
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "推論モデルは、最終回答の前に中間の推論トークンを使うよう学習・推論処理を調整したモデルです。問題の分解や検証を行う場合がありますが、その手順が常に正しいとは保証されません",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s1-b1.li2",
+          "heading": "仕組みの直感: 答える前に考えを書く",
+          "parent": "本文",
+          "sourceLine": 40,
+          "sourceBlock": 1,
+          "kind": "listItem",
+          "topic": "段階的推論(chain of thought)を出力するという直感は共通しますが、単にプロンプト技法を内蔵しただけとは限りません。DeepSeek-R1 は、強化学習で検証可能な課題の推論能力を改善した例です",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-sequence",
+          "readingStage": 2,
+          "stageScope": [
+            2
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "段階的推論(chain of thought)を出力するという直感は共通しますが、単にプロンプト技法を内蔵しただけとは限りません。DeepSeek-R1 は、強化学習で検証可能な課題の推論能力を改善した例です",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s1-b2",
+          "heading": "仕組みの直感: 答える前に考えを書く",
+          "parent": "本文",
+          "sourceLine": 40,
+          "sourceBlock": 2,
+          "kind": "paragraph",
+          "topic": "要点は、思考にもトークンを消費することです。推論トークンは通常コストとして課金され、生成に時間がかかります。「考える時間」はタダではありません。",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-sequence",
+          "readingStage": 3,
+          "stageScope": [
+            3
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "要点は、思考にもトークンを消費することです。推論トークンは通常コストとして課金され、生成に時間がかかります。「考える時間」はタダではありません。",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s2-b0",
+          "heading": "効くタスクと効かないタスク",
+          "parent": "本文",
+          "sourceLine": 50,
+          "sourceBlock": 0,
+          "kind": "paragraph",
+          "topic": "推論モデルは万能ではなく、向き不向きがあります。",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-evaluation",
+          "readingStage": 0,
+          "stageScope": [
+            0
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "推論モデルは万能ではなく、向き不向きがあります。",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s2-b1.row0",
+          "heading": "効くタスクと効かないタスク",
+          "parent": "本文",
+          "sourceLine": 50,
+          "sourceBlock": 1,
+          "kind": "tableRow",
+          "topic": "多段の推論が要る問題(数学・計画・複雑なデバッグ) | 単純な事実検索・定型の抽出・分類",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-evaluation",
+          "readingStage": 0,
+          "stageScope": [
+            0
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "多段の推論が要る問題(数学・計画・複雑なデバッグ) | 単純な事実検索・定型の抽出・分類",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s2-b1.row1",
+          "heading": "効くタスクと効かないタスク",
+          "parent": "本文",
+          "sourceLine": 50,
+          "sourceBlock": 1,
+          "kind": "tableRow",
+          "topic": "検証可能な問題(答えの正しさを確かめられる) | 低レイテンシが要る対話・大量処理",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-evaluation",
+          "readingStage": 0,
+          "stageScope": [
+            0
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "検証可能な問題(答えの正しさを確かめられる) | 低レイテンシが要る対話・大量処理",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s2-b1.row2",
+          "heading": "効くタスクと効かないタスク",
+          "parent": "本文",
+          "sourceLine": 50,
+          "sourceBlock": 1,
+          "kind": "tableRow",
+          "topic": "制約が多く、慎重な検討が要る判断 | 参照先や処理手順が定型化された問い",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-evaluation",
+          "readingStage": 0,
+          "stageScope": [
+            0
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "制約が多く、慎重な検討が要る判断 | 参照先や処理手順が定型化された問い",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s2-b2",
+          "heading": "効くタスクと効かないタスク",
+          "parent": "本文",
+          "sourceLine": 50,
+          "sourceBlock": 2,
+          "kind": "paragraph",
+          "topic": "判断するのは、追加の思考による品質改善が、費用と待ち時間に見合うかです。答えが一意でも数学問題のように推論が必要な場合があり、検索・分類でも制約次第で改善しえます。表だけで採否を決めず、同じ実入力でモデルと思考量を比較します(LLM の能力と限界の由来)。",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-evaluation",
+          "readingStage": 0,
+          "stageScope": [
+            0
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "判断するのは、追加の思考による品質改善が、費用と待ち時間に見合うかです。答えが一意でも数学問題のように推論が必要な場合があり、検索・分類でも制約次第で改善しえます。表だけで採否を決めず、同じ実入力でモデルと思考量を比較します(LLM の能力と限界の由来)。",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s3-b0",
+          "heading": "思考量の制御とコスト・レイテンシ設計",
+          "parent": "本文",
+          "sourceLine": 62,
+          "sourceBlock": 0,
+          "kind": "paragraph",
+          "topic": "推論モデルでは、どれだけ考えさせるかを制御できるのが一般的です(2026-07 時点)。",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-evaluation",
+          "readingStage": 1,
+          "stageScope": [
+            1
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "推論モデルでは、どれだけ考えさせるかを制御できるのが一般的です(2026-07 時点)。",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s3-b1.li0",
+          "heading": "思考量の制御とコスト・レイテンシ設計",
+          "parent": "本文",
+          "sourceLine": 62,
+          "sourceBlock": 1,
+          "kind": "listItem",
+          "topic": "思考量の制御: 多くのモデルは「努力(effort)の水準」や「思考の予算」といったパラメータで、考える量を段階的に調整できます。名称・仕様はモデルにより異なります(モデル間の違いと移行(横断比較))",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-evaluation",
+          "readingStage": 1,
+          "stageScope": [
+            1
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "思考量の制御: 多くのモデルは「努力(effort)の水準」や「思考の予算」といったパラメータで、考える量を段階的に調整できます。名称・仕様はモデルにより異なります(モデル間の違いと移行(横断比較))",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s3-b1.li1",
+          "heading": "思考量の制御とコスト・レイテンシ設計",
+          "parent": "本文",
+          "sourceLine": 62,
+          "sourceBlock": 1,
+          "kind": "listItem",
+          "topic": "コスト・レイテンシとの直結: 思考量を上げるほど、精度は上がりうる一方でトークンコストとレイテンシが増えます。思考量は「精度 ↔ コスト・速度」のつまみです",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-evaluation",
+          "readingStage": 1,
+          "stageScope": [
+            1
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "コスト・レイテンシとの直結: 思考量を上げるほど、精度は上がりうる一方でトークンコストとレイテンシが増えます。思考量は「精度 ↔ コスト・速度」のつまみです",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s3-b1.li2",
+          "heading": "思考量の制御とコスト・レイテンシ設計",
+          "parent": "本文",
+          "sourceLine": 62,
+          "sourceBlock": 1,
+          "kind": "listItem",
+          "topic": "タスクで使い分ける: 難しいタスクには高い思考量を、簡単なタスクには低い思考量(または通常モデル)を割り当てます。全タスクを最大思考量で回すのは、コストの無駄です(レイテンシ最適化・コスト管理)",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-evaluation",
+          "readingStage": 1,
+          "stageScope": [
+            1
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "タスクで使い分ける: 難しいタスクには高い思考量を、簡単なタスクには低い思考量(または通常モデル)を割り当てます。全タスクを最大思考量で回すのは、コストの無駄です(レイテンシ最適化・コスト管理)",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s4-b0",
+          "heading": "考えすぎ(overthinking)",
+          "parent": "本文",
+          "sourceLine": 70,
+          "sourceBlock": 0,
+          "kind": "paragraph",
+          "topic": "思考量を上げれば質が上がる、とは限りません。**考えすぎ(overthinking)**という失敗があります。",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-evaluation",
+          "readingStage": 2,
+          "stageScope": [
+            2
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "思考量を上げれば質が上がる、とは限りません。**考えすぎ(overthinking)**という失敗があります。",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s4-b1.li0",
+          "heading": "考えすぎ(overthinking)",
+          "parent": "本文",
+          "sourceLine": 70,
+          "sourceBlock": 1,
+          "kind": "listItem",
+          "topic": "Chen らの研究 は、対象モデルが単純な問題にも多くの推論資源を使い、追加の便益が小さい場合を報告しています。すべての簡単な問いやモデルで必ず悪化するという結果ではありません",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-evaluation",
+          "readingStage": 2,
+          "stageScope": [
+            2
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "Chen らの研究 は、対象モデルが単純な問題にも多くの推論資源を使い、追加の便益が小さい場合を報告しています。すべての簡単な問いやモデルで必ず悪化するという結果ではありません",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s4-b1.li1",
+          "heading": "考えすぎ(overthinking)",
+          "parent": "本文",
+          "sourceLine": 70,
+          "sourceBlock": 1,
+          "kind": "listItem",
+          "topic": "指示が矛盾している・停止条件が曖昧・ツールアクセスが広い場合は、探索量と成功条件を別々に見直します。思考量を増やすことを、曖昧な要件や権限制御の代わりにしません",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-evaluation",
+          "readingStage": 2,
+          "stageScope": [
+            2
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "指示が矛盾している・停止条件が曖昧・ツールアクセスが広い場合は、探索量と成功条件を別々に見直します。思考量を増やすことを、曖昧な要件や権限制御の代わりにしません",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s4-b1.li2",
+          "heading": "考えすぎ(overthinking)",
+          "parent": "本文",
+          "sourceLine": 70,
+          "sourceBlock": 1,
+          "kind": "listItem",
+          "topic": "対策は、思考量を「品質の主ノブ」として上げ続けないことです。タスクに見合った水準を評価で見つけ、上げるのは精度向上が確認できるときだけにします",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-evaluation",
+          "readingStage": 2,
+          "stageScope": [
+            2
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "対策は、思考量を「品質の主ノブ」として上げ続けないことです。タスクに見合った水準を評価で見つけ、上げるのは精度向上が確認できるときだけにします",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s5-b0",
+          "heading": "プロンプトの変化: 必須手順と探索の余地を分ける",
+          "parent": "本文",
+          "sourceLine": 78,
+          "sourceBlock": 0,
+          "kind": "paragraph",
+          "topic": "推論モデルは、プロンプトの書き方を変えます(プロンプトエンジニアリングの基礎技法の「思考の誘導と推論モデル」の詳解)。",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-evaluation",
+          "readingStage": 3,
+          "stageScope": [
+            3
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "推論モデルは、プロンプトの書き方を変えます(プロンプトエンジニアリングの基礎技法の「思考の誘導と推論モデル」の詳解)。",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s5-b1.li0",
+          "heading": "プロンプトの変化: 必須手順と探索の余地を分ける",
+          "parent": "本文",
+          "sourceLine": 78,
+          "sourceBlock": 1,
+          "kind": "listItem",
+          "topic": "思考指示の効果はモデル別に確かめる: 内部推論を使うモデルに、毎回「ステップバイステップで考えて」と追加する必要があるとは限りません。採用モデルの公式ガイドと自社評価で、指示の有無を比較します",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-evaluation",
+          "readingStage": 3,
+          "stageScope": [
+            3
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "思考指示の効果はモデル別に確かめる: 内部推論を使うモデルに、毎回「ステップバイステップで考えて」と追加する必要があるとは限りません。採用モデルの公式ガイドと自社評価で、指示の有無を比較します",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s5-b1.li1",
+          "heading": "プロンプトの変化: 必須手順と探索の余地を分ける",
+          "parent": "本文",
+          "sourceLine": 78,
+          "sourceBlock": 1,
+          "kind": "listItem",
+          "topic": "目標・制約・必須手順を明確にする: 計算や調査の探索過程には裁量を持たせられますが、承認・根拠確認・業務規程など守るべき手順は省きません。安全上の条件は実行側でも強制します",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-evaluation",
+          "readingStage": 3,
+          "stageScope": [
+            3
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "目標・制約・必須手順を明確にする: 計算や調査の探索過程には裁量を持たせられますが、承認・根拠確認・業務規程など守るべき手順は省きません。安全上の条件は実行側でも強制します",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s5-b1.li2",
+          "heading": "プロンプトの変化: 必須手順と探索の余地を分ける",
+          "parent": "本文",
+          "sourceLine": 78,
+          "sourceBlock": 1,
+          "kind": "listItem",
+          "topic": "モデル別に作法が違う: 具体的な制御(思考の促し方・抑え方)はモデルごとに異なります(モデル別の作法は Claude / OpenAI / Gemini の各ガイド)",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-evaluation",
+          "readingStage": 3,
+          "stageScope": [
+            3
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "モデル別に作法が違う: 具体的な制御(思考の促し方・抑え方)はモデルごとに異なります(モデル別の作法は Claude / OpenAI / Gemini の各ガイド)",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s6-b0",
+          "heading": "評価の注意: 思考は見えず、揺れる",
+          "parent": "本文",
+          "sourceLine": 86,
+          "sourceBlock": 0,
+          "kind": "paragraph",
+          "topic": "推論モデルの評価には固有の注意があります。",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-evaluation",
+          "readingStage": 4,
+          "stageScope": [
+            4
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "推論モデルの評価には固有の注意があります。",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s6-b1.li0",
+          "heading": "評価の注意: 思考は見えず、揺れる",
+          "parent": "本文",
+          "sourceLine": 86,
+          "sourceBlock": 1,
+          "kind": "listItem",
+          "topic": "思考の非公開: モデルの生の思考は、公開されない・要約でしか見えないことが多いです。「なぜその答えになったか」を思考から追えるとは限りません",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-evaluation",
+          "readingStage": 4,
+          "stageScope": [
+            4
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "思考の非公開: モデルの生の思考は、公開されない・要約でしか見えないことが多いです。「なぜその答えになったか」を思考から追えるとは限りません",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s6-b1.li1",
+          "heading": "評価の注意: 思考は見えず、揺れる",
+          "parent": "本文",
+          "sourceLine": 86,
+          "sourceBlock": 1,
+          "kind": "listItem",
+          "topic": "再現性: 思考の過程は実行ごとに揺れます。Agent 評価の基礎の複数回実行が、推論モデルではとくに重要です",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-evaluation",
+          "readingStage": 4,
+          "stageScope": [
+            4
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "再現性: 思考の過程は実行ごとに揺れます。Agent 評価の基礎の複数回実行が、推論モデルではとくに重要です",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s6-b1.li2",
+          "heading": "評価の注意: 思考は見えず、揺れる",
+          "parent": "本文",
+          "sourceLine": 86,
+          "sourceBlock": 1,
+          "kind": "listItem",
+          "topic": "コストと品質を同時に測る: 思考量を変えたときの精度とコスト・レイテンシを両方見ます。「思考量を上げたら精度が 2 ポイント上がったがコストが 3 倍」を見逃さないようにします",
+          "coverage": "dynamic",
+          "diagramId": "reasoning-evaluation",
+          "readingStage": 4,
+          "stageScope": [
+            4
+          ],
+          "staticReason": null,
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "コストと品質を同時に測る: 思考量を変えたときの精度とコスト・レイテンシを両方見ます。「思考量を上げたら精度が 2 ポイント上がったがコストが 3 倍」を見逃さないようにします",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s7-b0.li0",
+          "heading": "アンチパターン",
+          "parent": "実務での注意点",
+          "sourceLine": 96,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "検索・分類という名称だけで思考量を決める → 制約の複雑さと追加思考の便益を見落とす → 同じ入力で品質・費用・レイテンシを比較する",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "検索・分類という名称だけで思考量を決める → 制約の複雑さと追加思考の便益を見落とす → 同じ入力で品質・費用・レイテンシを比較する",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s7-b0.li1",
+          "heading": "アンチパターン",
+          "parent": "実務での注意点",
+          "sourceLine": 96,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "思考量を常に最大にする → 簡単な問題で overthinking を招き、コスト・レイテンシが暴走する → タスクに見合った思考量を評価で見つける",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "思考量を常に最大にする → 簡単な問題で overthinking を招き、コスト・レイテンシが暴走する → タスクに見合った思考量を評価で見つける",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s7-b0.li2",
+          "heading": "アンチパターン",
+          "parent": "実務での注意点",
+          "sourceLine": 96,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "推論モデルだから必須手順も省く → 承認や業務規程まで裁量に委ねる → 探索の余地と守るべき条件を分ける",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "推論モデルだから必須手順も省く → 承認や業務規程まで裁量に委ねる → 探索の余地と守るべき条件を分ける",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s7-b0.li3",
+          "heading": "アンチパターン",
+          "parent": "実務での注意点",
+          "sourceLine": 96,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "通常モデルと同じ低レイテンシを期待する → 思考にトークンと時間を使うため応答が遅い → レイテンシ要件のあるタスクでは思考量を下げるか通常モデルにする",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "通常モデルと同じ低レイテンシを期待する → 思考にトークンと時間を使うため応答が遅い → レイテンシ要件のあるタスクでは思考量を下げるか通常モデルにする",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s7-b0.li4",
+          "heading": "アンチパターン",
+          "parent": "実務での注意点",
+          "sourceLine": 96,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "1 回実行で評価する → 思考が揺れるため結果を誤認する → 複数回実行し、コストと品質を同時に測る",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "1 回実行で評価する → 思考が揺れるため結果を誤認する → 複数回実行し、コストと品質を同時に測る",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s8-b0.li0",
+          "heading": "チェックリスト",
+          "parent": "実務での注意点",
+          "sourceLine": 104,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "推論モデルを、考える価値のある問題(多段推論・検証可能)に使っている",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "推論モデルを、考える価値のある問題(多段推論・検証可能)に使っている",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s8-b0.li1",
+          "heading": "チェックリスト",
+          "parent": "実務での注意点",
+          "sourceLine": 104,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "思考量(effort・予算)をタスクの難易度で使い分けている",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "思考量(effort・予算)をタスクの難易度で使い分けている",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s8-b0.li2",
+          "heading": "チェックリスト",
+          "parent": "実務での注意点",
+          "sourceLine": 104,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "思考量を「品質の主ノブ」として上げ続けていない(overthinking を避けている)",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "思考量を「品質の主ノブ」として上げ続けていない(overthinking を避けている)",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s8-b0.li3",
+          "heading": "チェックリスト",
+          "parent": "実務での注意点",
+          "sourceLine": 104,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "目標・制約・出力要件に加え、承認などの必須手順を明示している",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "目標・制約・出力要件に加え、承認などの必須手順を明示している",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s8-b0.li4",
+          "heading": "チェックリスト",
+          "parent": "実務での注意点",
+          "sourceLine": 104,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "思考にもトークンコスト・レイテンシがかかることを見積もりに入れている",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "思考にもトークンコスト・レイテンシがかかることを見積もりに入れている",
+          "candidateTopicChanged": false
+        },
+        {
+          "id": "d2-s8-b0.li5",
+          "heading": "チェックリスト",
+          "parent": "実務での注意点",
+          "sourceLine": 104,
+          "sourceBlock": 0,
+          "kind": "listItem",
+          "topic": "複数回実行で評価し、精度とコスト・レイテンシを同時に測っている",
+          "coverage": "static",
+          "diagramId": null,
+          "readingStage": null,
+          "stageScope": [],
+          "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+          "correctionIds": [],
+          "topicAfterCorrectionsCandidate": "複数回実行で評価し、精度とコスト・レイテンシを同時に測っている",
+          "candidateTopicChanged": false
+        }
+      ],
+      "ownership": {
+        "articleSpecific": [
+          "website/lib/reasoning-sequence-model.mjs",
+          "website/components/diagrams/reasoning-sequence-walkthrough.jsx",
+          "website/components/diagrams/reasoning-sequence.css",
+          "website/tests/unit/reasoning-sequence-model.test.mjs",
+          "website/lib/reasoning-evaluation-model.mjs",
+          "website/components/diagrams/reasoning-evaluation-walkthrough.jsx",
+          "website/components/diagrams/reasoning-evaluation.css",
+          "website/tests/unit/reasoning-evaluation-model.test.mjs"
+        ],
+        "shared": "統合担当1名がregistry/BINDINGS/dispatcher/MDX許可/記事台帳/受入コード/回帰試験を所有。記事担当は共有部を独断で変更しない。"
+      },
+      "acceptance": {
+        "contentReview": null,
+        "local": null,
+        "public": null
+      },
+      "postCorrectionSha256Candidate": "71246ca014e171936139af9083df301f16dcb7dade8f7aeb3a0b14516a19ef44"
+    },
+    "statusInterpretation": "JSON内のplanned/candidate等は採択時記録を無改変で保持。計画の approved/low と将来の実装・公開受入を別に扱う。"
+  },
+  "inventory": {
+    "rootNodes": 43,
+    "nodeCounts": {
+      "root": 1,
+      "yaml": 1,
+      "heading": 18,
+      "text": 177,
+      "paragraph": 51,
+      "strong": 29,
+      "list": 11,
+      "listItem": 40,
+      "link": 32,
+      "table": 2,
+      "tableRow": 10,
+      "tableCell": 26,
+      "blockquote": 1
+    },
+    "canonicalWholeAstSha256": "eb85b1513c5f56e896902a387d505e0ee967ff6d5cbbbd93566846f61202cecc",
+    "canonicalNormalization": "全ASTから position だけ除外、object key sort、文字列のCRLF/CRをLFへ。その他のvalue/URL/code/frontmatterを保持。",
+    "h3Count": 9,
+    "h3BodyBlockCount": 18,
+    "wrappedH3Count": 6,
+    "wrappedBodyBlocks": 14,
+    "staticH3Count": 3,
+    "staticBodyBlocks": 4,
+    "topics": {
+      "all": 43,
+      "dynamic": 26,
+      "static": 17
+    },
+    "formulaInventory": [],
+    "displayMathCount": 0,
+    "inlineMathCount": 0,
+    "mermaidInventory": [],
+    "codeFenceCount": 0,
+    "sections": [
+      {
+        "heading": "概要: 分担と「考える時間」の正体",
+        "parent": "本文",
+        "start": 9,
+        "end": 12,
+        "line": 28,
+        "bodyTypes": [
+          "table",
+          "paragraph"
+        ],
+        "canonicalAstSha256": "c6ca7399966db73812e77243220f3bec85db276cc37cba62659e9522a0084b28"
+      },
+      {
+        "heading": "仕組みの直感: 答える前に考えを書く",
+        "parent": "本文",
+        "start": 12,
+        "end": 16,
+        "line": 40,
+        "bodyTypes": [
+          "paragraph",
+          "list",
+          "paragraph"
+        ],
+        "canonicalAstSha256": "b009a0b98853400672b9e43c0886b4c604447180472b842cbc2d674eff646fe8"
+      },
+      {
+        "heading": "効くタスクと効かないタスク",
+        "parent": "本文",
+        "start": 16,
+        "end": 20,
+        "line": 50,
+        "bodyTypes": [
+          "paragraph",
+          "table",
+          "paragraph"
+        ],
+        "canonicalAstSha256": "537c239b9c1d5e82d45795ed9866dc8edc36e9b06285844723718f1041310f87"
+      },
+      {
+        "heading": "思考量の制御とコスト・レイテンシ設計",
+        "parent": "本文",
+        "start": 20,
+        "end": 23,
+        "line": 62,
+        "bodyTypes": [
+          "paragraph",
+          "list"
+        ],
+        "canonicalAstSha256": "683c9c98b49652928391d6e7fc4fc1050628fc1a655188b49a999e3d6608df15"
+      },
+      {
+        "heading": "考えすぎ(overthinking)",
+        "parent": "本文",
+        "start": 23,
+        "end": 26,
+        "line": 70,
+        "bodyTypes": [
+          "paragraph",
+          "list"
+        ],
+        "canonicalAstSha256": "4fd10b032f717571902e05c8a7abc4c2ad5298252e3201d7bed118fb62c306f7"
+      },
+      {
+        "heading": "プロンプトの変化: 必須手順と探索の余地を分ける",
+        "parent": "本文",
+        "start": 26,
+        "end": 29,
+        "line": 78,
+        "bodyTypes": [
+          "paragraph",
+          "list"
+        ],
+        "canonicalAstSha256": "6a6aed6d1edf43e3fd5390a333de4e6a13abcc50aaa95680f360e348936c482c"
+      },
+      {
+        "heading": "評価の注意: 思考は見えず、揺れる",
+        "parent": "本文",
+        "start": 29,
+        "end": 32,
+        "line": 86,
+        "bodyTypes": [
+          "paragraph",
+          "list"
+        ],
+        "canonicalAstSha256": "b26cdfcadc389c5e062adabc65f375499bb8f01666dc51f6198b4849200b3946"
+      },
+      {
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "start": 33,
+        "end": 35,
+        "line": 96,
+        "bodyTypes": [
+          "list"
+        ],
+        "canonicalAstSha256": "9f1a94572d81b444f1c227e5cb3c26087d0b91e78d50d98fec85b377ff0f209b"
+      },
+      {
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "start": 35,
+        "end": 37,
+        "line": 104,
+        "bodyTypes": [
+          "list"
+        ],
+        "canonicalAstSha256": "02c99238049a7f0dec167fa2339a564c410c07aba2bd792de1c0eece4d1eb8a7"
+      }
+    ]
+  },
+  "reading": {
+    "figureCount": 2,
+    "stageCount": 9,
+    "readingStopCount": 8,
+    "manualOnlyCount": 1,
+    "bindings": [
+      {
+        "id": "reasoning-sequence",
+        "stageCount": 4,
+        "readingStages": [
+          0,
+          2,
+          3
+        ],
+        "manualOnlyStages": [
+          1
+        ],
+        "sourceDigestActual": "sha256:497581aab0df110ad41c3fbc116fc1837073be16d937aaaa44e99d4cab8ad107",
+        "wrappedRange": {
+          "start": 12,
+          "end": 16
+        },
+        "groups": [
+          {
+            "heading": "仕組みの直感: 答える前に考えを書く",
+            "sourceRootHeadingIndex": 12,
+            "groups": [
+              {
+                "stage": 0,
+                "count": 1,
+                "bodyOffset": 0,
+                "sourceRootIndices": [
+                  13
+                ],
+                "bodyTypes": [
+                  "paragraph"
+                ],
+                "includeHeading": true
+              },
+              {
+                "stage": 2,
+                "count": 1,
+                "bodyOffset": 1,
+                "sourceRootIndices": [
+                  14
+                ],
+                "bodyTypes": [
+                  "list"
+                ],
+                "includeHeading": false
+              },
+              {
+                "stage": 3,
+                "count": 1,
+                "bodyOffset": 2,
+                "sourceRootIndices": [
+                  15
+                ],
+                "bodyTypes": [
+                  "paragraph"
+                ],
+                "includeHeading": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "reasoning-evaluation",
+        "stageCount": 5,
+        "readingStages": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "manualOnlyStages": [],
+        "sourceDigestActual": "sha256:4b26e91dcb1f6d5d7e09a43f86a1b622cd2c9a5a3b53e8846e234d39ec615930",
+        "wrappedRange": {
+          "start": 16,
+          "end": 32
+        },
+        "groups": [
+          {
+            "heading": "効くタスクと効かないタスク",
+            "sourceRootHeadingIndex": 16,
+            "groups": [
+              {
+                "stage": 0,
+                "count": 3,
+                "bodyOffset": 0,
+                "sourceRootIndices": [
+                  17,
+                  18,
+                  19
+                ],
+                "bodyTypes": [
+                  "paragraph",
+                  "table",
+                  "paragraph"
+                ],
+                "includeHeading": true
+              }
+            ]
+          },
+          {
+            "heading": "思考量の制御とコスト・レイテンシ設計",
+            "sourceRootHeadingIndex": 20,
+            "groups": [
+              {
+                "stage": 1,
+                "count": 2,
+                "bodyOffset": 0,
+                "sourceRootIndices": [
+                  21,
+                  22
+                ],
+                "bodyTypes": [
+                  "paragraph",
+                  "list"
+                ],
+                "includeHeading": true
+              }
+            ]
+          },
+          {
+            "heading": "考えすぎ(overthinking)",
+            "sourceRootHeadingIndex": 23,
+            "groups": [
+              {
+                "stage": 2,
+                "count": 2,
+                "bodyOffset": 0,
+                "sourceRootIndices": [
+                  24,
+                  25
+                ],
+                "bodyTypes": [
+                  "paragraph",
+                  "list"
+                ],
+                "includeHeading": true
+              }
+            ]
+          },
+          {
+            "heading": "プロンプトの変化: 必須手順と探索の余地を分ける",
+            "sourceRootHeadingIndex": 26,
+            "groups": [
+              {
+                "stage": 3,
+                "count": 2,
+                "bodyOffset": 0,
+                "sourceRootIndices": [
+                  27,
+                  28
+                ],
+                "bodyTypes": [
+                  "paragraph",
+                  "list"
+                ],
+                "includeHeading": true
+              }
+            ]
+          },
+          {
+            "heading": "評価の注意: 思考は見えず、揺れる",
+            "sourceRootHeadingIndex": 29,
+            "groups": [
+              {
+                "stage": 4,
+                "count": 2,
+                "bodyOffset": 0,
+                "sourceRootIndices": [
+                  30,
+                  31
+                ],
+                "bodyTypes": [
+                  "paragraph",
+                  "list"
+                ],
+                "includeHeading": true
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "preserveRule": "docs/ の本文、見出し、式、表、リスト、リンクを編集・移動・複製しない。原H3+body ASTの連続包装だけを行い、table/listを分割しない。",
+    "staticSections": [
+      "概要: 分担と「考える時間」の正体",
+      "アンチパターン",
+      "チェックリスト"
+    ],
+    "sourceDependencyRule": "sourceHeadingsは意味依存。包装H3と混同しない。reasoning-sequenceは4H3、evaluationは6H3のdigestを保つ。"
+  },
+  "ownership": {
+    "articleSpecific": [
+      "website/lib/reasoning-sequence-model.mjs",
+      "website/components/diagrams/reasoning-sequence-walkthrough.jsx",
+      "website/components/diagrams/reasoning-sequence.css",
+      "website/tests/unit/reasoning-sequence-model.test.mjs",
+      "website/lib/reasoning-evaluation-model.mjs",
+      "website/components/diagrams/reasoning-evaluation-walkthrough.jsx",
+      "website/components/diagrams/reasoning-evaluation.css",
+      "website/tests/unit/reasoning-evaluation-model.test.mjs"
+    ],
+    "sharedOwner": "root integration only",
+    "proposedSharedTouches": [
+      "website/components/diagrams/reasoning-walkthrough.jsx",
+      "website/lib/diagram-registry.mjs",
+      "website/diagrams/registry.json",
+      "website/lib/diagram-decoration.mjs",
+      "website/lib/mdx-safety.mjs",
+      "website/mdx-components.js",
+      "website/diagrams/articles.json",
+      "website/lib/diagram-article-acceptance.mjs",
+      "website/tests/unit/reasoning-decoration.test.mjs",
+      "website/tests/unit/mdx-safety.test.mjs",
+      "website/tests/unit/diagram-article-acceptance.test.mjs",
+      "website/tests/browser/reasoning.spec.mjs"
+    ],
+    "releaseKitOwnership": "scripts/diagram-release と受入証拠は別単位・統合担当のみ。今回変更しない。",
+    "generatedFiles": "website/content, generated, out, .next, public/_pagefind, next-env.d.ts は手編集しない。"
+  },
+  "interfaces": {
+    "common": {
+      "pattern": [
+        "ReadingFigure",
+        "SceneBase",
+        "Select",
+        "Wire",
+        "tones"
+      ],
+      "clock": "website/lib/reading-clock.mjs の clampPhase / stageForPhase",
+      "frameRules": [
+        "副作用なし。Date/random/network/provider API/独自timerなし。",
+        "同じphase/settingsで同じ意味・ID。前段階のReact stateへ依存しない。",
+        "enum定数・段階定義はfreeze。返す配列/ネスト object は独立したコピー。",
+        "既存ReadingFigureが再生/読書/拡大/停止/逆シークを所有。sceneは一方向のframe描画のみ。",
+        "SVG pathの補間は表示だけ。モデルのトークン生成/学習/実測として扱わない。"
+      ],
+      "optionsValidation": {
+        "omitted": "default object",
+        "allowedObjects": "plain object (Object.prototype or null prototype)",
+        "invalidObject": "TypeError for null, array, Date, function, primitive",
+        "unknownKey": "TypeError",
+        "unknownEnum": "RangeError",
+        "inactiveValidSetting": "許容し保存するがeffective fieldはnull、対象外段階のframe意味を変えない。"
+      },
+      "phaseValidation": {
+        "finiteNumbersOnly": true,
+        "invalidType": "TypeError",
+        "clamp": true,
+        "midpoint": "共通stageForPhaseのMath.round境界、0.5は次段階"
+      },
+      "dataTruth": "未測定を0や空文字に変換しない。unknown numeric value は null、visible label は「未計測」。装飾座標・位相・stage index は科学値ではない。"
+    },
+    "sequence": {
+      "id": "reasoning-sequence",
+      "model": "website/lib/reasoning-sequence-model.mjs",
+      "exports": [
+        "REASONING_SEQUENCE_STAGES",
+        "reasoningSequenceFrame"
+      ],
+      "signature": "reasoningSequenceFrame(phase, options = {})",
+      "stageLabels": [
+        "同じ生成の土台",
+        "中間トークン",
+        "学習と実行",
+        "回答と費用"
+      ],
+      "sceneExport": "ReasoningSequence",
+      "sceneProps": [
+        "children"
+      ],
+      "cssPrefix": "rs-",
+      "sceneClass": "reasoning-sequence-scene",
+      "walkthroughClass": "reasoning-sequence-walkthrough",
+      "customControls": [],
+      "allowedSettingKeys": [],
+      "frameFields": {
+        "common": [
+          "phase",
+          "stage",
+          "label",
+          "title",
+          "detail"
+        ],
+        "nodes": "stable id + visible + emphasized + label; final-answer枠はS0未展開/S3展開",
+        "edges": "source/target/meaning/kind/visible; conditioning edgeはS0/1/2で可視必須",
+        "reasoning": "seqFixtures.reasoningRepresentation + markReveal presentation fraction; content/rawThought/tokenCountは常にnull",
+        "runtimeWeights": "fixed",
+        "trainingAdjustmentVisible": "stage===2",
+        "resourceBands": "stage===3で推論/回答の非数値帯を同時表示、値はnull",
+        "claims": "seqFixtures.nonClaims"
+      },
+      "fixtures": {
+        "nodeIds": [
+          "input",
+          "reasoning-region",
+          "prior-symbols",
+          "next-prediction",
+          "final-answer",
+          "training-adjustment",
+          "runtime-model"
+        ],
+        "conditioningEdge": {
+          "source": "prior-symbols",
+          "target": "next-prediction",
+          "meaning": "conditions-following-prediction"
+        },
+        "answerEdge": {
+          "source": "next-prediction",
+          "target": "final-answer",
+          "meaning": "answer-after-reasoning"
+        },
+        "trainingAssociation": {
+          "source": "training-adjustment",
+          "target": "runtime-model",
+          "meaning": "training-and-inference-configuration",
+          "kind": "association",
+          "runtimeUpdate": false
+        },
+        "reasoningRepresentation": {
+          "content": null,
+          "rawThought": null,
+          "tokenCount": null,
+          "decorativeSymbols": [
+            "prior-mark",
+            "continuation-mark"
+          ],
+          "representsActualTokenCount": false,
+          "displayLabel": "記号は模式表示。実際の思考内容ではない"
+        },
+        "resourceBands": [
+          {
+            "id": "reasoning",
+            "label": "推論",
+            "tokenCount": null,
+            "duration": null,
+            "price": null
+          },
+          {
+            "id": "answer",
+            "label": "最終回答",
+            "tokenCount": null,
+            "duration": null,
+            "price": null
+          }
+        ],
+        "nonClaims": {
+          "reproducesPrivateThought": false,
+          "allProvidersExposeReasoning": false,
+          "runtimeWeightsUpdated": false,
+          "correctReasoningGuaranteed": false,
+          "cotPromptAloneExplainsReasoningModel": false,
+          "costEstimate": null,
+          "billingFormula": null
+        }
+      },
+      "stageAssertions": [
+        {
+          "stage": 0,
+          "read": true,
+          "visible": [
+            "input",
+            "reasoning-region",
+            "prior-symbols",
+            "next-prediction",
+            "final-answer",
+            "runtime-model"
+          ],
+          "requiredEdges": [
+            "conditions-following-prediction",
+            "answer-after-reasoning"
+          ],
+          "requiredLabels": [
+            "既生成の内容 → 後続予測の条件",
+            "実際の思考内容ではない"
+          ],
+          "state": "全体の順序。最終回答は未展開の枠。推論領域は不透明な模式帯であり、非公開が全製品共通とは表示しない。"
+        },
+        {
+          "stage": 1,
+          "read": false,
+          "visible": [
+            "input",
+            "reasoning-region",
+            "prior-symbols",
+            "next-prediction",
+            "runtime-model"
+          ],
+          "requiredEdges": [
+            "conditions-following-prediction"
+          ],
+          "requiredLabels": [
+            "実際の思考内容ではない"
+          ],
+          "state": "補助操作の記号追記。装飾の個数・長さをトークン数や性能値にしない。新しい事実をここだけに閉じ込めない。"
+        },
+        {
+          "stage": 2,
+          "read": true,
+          "visible": [
+            "input",
+            "reasoning-region",
+            "prior-symbols",
+            "next-prediction",
+            "training-adjustment",
+            "runtime-model"
+          ],
+          "requiredEdges": [
+            "conditions-following-prediction"
+          ],
+          "requiredLabels": [
+            "学習・推論処理の調整",
+            "推論時の重みは固定",
+            "通常モデルも中間の考察を書ける",
+            "検証の正しさは保証されない",
+            "実際の思考内容ではない"
+          ],
+          "state": "過去の操作に依存せず完成構図を返す。学習側の調整を点線の別枠、実行側を固定モデルとして同時に示す。CoT 指示だけと同一視しない。"
+        },
+        {
+          "stage": 3,
+          "read": true,
+          "visible": [
+            "input",
+            "reasoning-region",
+            "prior-symbols",
+            "next-prediction",
+            "final-answer",
+            "runtime-model"
+          ],
+          "requiredEdges": [
+            "answer-after-reasoning"
+          ],
+          "requiredLabels": [
+            "推論にも時間・費用がかかる",
+            "比率・実費は示さない"
+          ],
+          "state": "最終回答を展開し、先行する推論の非数値帯を残す。推論・回答の各帯は同じ意味 ID を保持。"
+        }
+      ],
+      "semanticAttributes": {
+        "root": [
+          "data-reasoning-sequence-stage",
+          "data-runtime-weights=\"fixed\"",
+          "data-reasoning-content=\"not-reproduced\"",
+          "data-cost-estimate=\"none\""
+        ],
+        "nodes": [
+          "data-reasoning-node=<stable id>",
+          "data-visible=<true|false>"
+        ],
+        "edges": [
+          "data-edge-source",
+          "data-edge-target",
+          "data-edge-meaning"
+        ],
+        "resources": [
+          "data-resource-band=<reasoning|answer>",
+          "data-measured=\"false\""
+        ],
+        "caveats": [
+          "data-caveat=\"not-private-thought\"",
+          "data-caveat=\"reasoning-not-guaranteed\"",
+          "data-caveat=\"not-billing-formula\""
+        ]
+      },
+      "footnote": "推論と回答の順序を示す模式図です。記号は実際の思考内容・トークン数を再現せず、時間・費用の比率も表しません。"
+    },
+    "evaluation": {
+      "id": "reasoning-evaluation",
+      "model": "website/lib/reasoning-evaluation-model.mjs",
+      "exports": [
+        "REASONING_EVALUATION_STAGES",
+        "REASONING_TASK_FOCI",
+        "REASONING_EFFORT_FOCI",
+        "reasoningEvaluationFrame"
+      ],
+      "signature": "reasoningEvaluationFrame(phase, { taskFocus = \"multi-step\", effortFocus = \"lower\" } = {})",
+      "stageLabels": [
+        "同じタスクで比較",
+        "思考量",
+        "追加便益",
+        "必須条件",
+        "複数回の測定"
+      ],
+      "sceneExport": "ReasoningEvaluation",
+      "sceneProps": [
+        "children"
+      ],
+      "cssPrefix": "re-",
+      "sceneClass": "reasoning-evaluation-scene",
+      "walkthroughClass": "reasoning-evaluation-walkthrough",
+      "allowedSettingKeys": [
+        "taskFocus",
+        "effortFocus"
+      ],
+      "customControls": [
+        {
+          "key": "taskFocus",
+          "label": "表の観点",
+          "values": [
+            {
+              "value": "multi-step",
+              "label": "多段推論と定型処理"
+            },
+            {
+              "value": "verifiable",
+              "label": "検証可能性と待ち時間"
+            },
+            {
+              "value": "constraints",
+              "label": "制約と定型手順"
+            }
+          ],
+          "default": "multi-step",
+          "activeStages": [
+            0
+          ],
+          "dataControl": "reasoning-task-focus",
+          "effect": "選択した既存表の行を強調するだけ。入力の中身・成績・採否を作らない。左右の候補は別タスク。"
+        },
+        {
+          "key": "effortFocus",
+          "label": "注目する思考量",
+          "values": [
+            {
+              "value": "lower",
+              "label": "低め"
+            },
+            {
+              "value": "higher",
+              "label": "高め"
+            }
+          ],
+          "default": "lower",
+          "activeStages": [
+            1,
+            2
+          ],
+          "dataControl": "reasoning-effort-focus",
+          "effect": "比較する両設定を保持し、選択した側を強調するだけ。測定値、制約、試行条件を変更しない。"
+        }
+      ],
+      "controlVisibility": "対象stageだけrenderし、readyで操作可能。stage4の反復行数・metricsやstage3必須条件を変更するcontrolは設けない。",
+      "frameFields": {
+        "common": [
+          "phase",
+          "stage",
+          "label",
+          "title",
+          "detail"
+        ],
+        "taskFocus": "S0のみ有効、他はnull",
+        "effortFocus": "S1/2のみ有効、他はnull",
+        "taskRows": "fixturesの3行、各2候補。選択行emphasizedのみ変更",
+        "comparison": "固定のsame-input/same-model/same-instructions/same-criteria、isExecuted false",
+        "variants": "lower/higherとも残す、providerValue/budget null",
+        "metrics": "quality/cost/latency; value/unit null / unmeasured",
+        "extraWork": "S2の追加作業を表す非数値帯、便益はnull、比例性能グラフなし",
+        "requiredConditions": "S3の5つの境界ラベル、実行側ownerはoutside-model",
+        "trials": "S4の2設定×2模式行; measurementsは3指標すべてnull; 推奨試行数ではない",
+        "claims": "evalFixtures.nonClaims"
+      },
+      "fixtures": {
+        "taskRows": [
+          {
+            "id": "multi-step",
+            "label": "多段推論と定型処理",
+            "sourceTopic": "d2-s2-b1.row0",
+            "candidates": [
+              "多段の推論が要る問題(数学・計画・複雑なデバッグ)",
+              "単純な事実検索・定型の抽出・分類"
+            ]
+          },
+          {
+            "id": "verifiable",
+            "label": "検証可能性と待ち時間",
+            "sourceTopic": "d2-s2-b1.row1",
+            "candidates": [
+              "検証可能な問題(答えの正しさを確かめられる)",
+              "低レイテンシが要る対話・大量処理"
+            ]
+          },
+          {
+            "id": "constraints",
+            "label": "制約と定型手順",
+            "sourceTopic": "d2-s2-b1.row2",
+            "candidates": [
+              "制約が多く、慎重な検討が要る判断",
+              "参照先や処理手順が定型化された問い"
+            ]
+          }
+        ],
+        "effortVariants": [
+          {
+            "id": "lower",
+            "label": "低めの思考量",
+            "providerValue": null,
+            "budget": null
+          },
+          {
+            "id": "higher",
+            "label": "高めの思考量",
+            "providerValue": null,
+            "budget": null
+          }
+        ],
+        "comparison": {
+          "inputId": "same-input",
+          "inputText": null,
+          "modelId": "same-model",
+          "modelName": null,
+          "promptId": "same-instructions",
+          "criteriaId": "same-criteria",
+          "isExecuted": false,
+          "meaning": "各タスク内で、同じ実入力・モデル・指示・評価基準を保ち思考量を比較する模式枠。左右の異なるタスク例を同一入力とは扱わない。モデルを比較する実務評価を禁止する意図ではなく、この図で同時に変える要素を思考量だけへ限定する。"
+        },
+        "metrics": [
+          {
+            "id": "quality",
+            "label": "品質",
+            "value": null,
+            "unit": null,
+            "status": "unmeasured"
+          },
+          {
+            "id": "cost",
+            "label": "費用",
+            "value": null,
+            "unit": null,
+            "status": "unmeasured"
+          },
+          {
+            "id": "latency",
+            "label": "待ち時間",
+            "value": null,
+            "unit": null,
+            "status": "unmeasured"
+          }
+        ],
+        "requiredConditions": [
+          {
+            "id": "goal",
+            "label": "目標"
+          },
+          {
+            "id": "constraints",
+            "label": "制約"
+          },
+          {
+            "id": "approval",
+            "label": "承認"
+          },
+          {
+            "id": "evidence-check",
+            "label": "根拠確認"
+          },
+          {
+            "id": "business-rules",
+            "label": "業務規程"
+          }
+        ],
+        "executionBoundary": {
+          "owner": "outside-model",
+          "enforcedBy": "execution-code",
+          "approvalDecision": null,
+          "operationExecuted": false
+        },
+        "trials": [
+          {
+            "id": "lower-a",
+            "effort": "lower",
+            "inputId": "same-input",
+            "conditionId": "lower-settings"
+          },
+          {
+            "id": "lower-b",
+            "effort": "lower",
+            "inputId": "same-input",
+            "conditionId": "lower-settings"
+          },
+          {
+            "id": "higher-a",
+            "effort": "higher",
+            "inputId": "same-input",
+            "conditionId": "higher-settings"
+          },
+          {
+            "id": "higher-b",
+            "effort": "higher",
+            "inputId": "same-input",
+            "conditionId": "higher-settings"
+          }
+        ],
+        "trialPolicy": "a/b は複数回を示す空欄の見本で、推奨サンプル数や実行済み件数ではない。同設定内の反復条件を固定し、設定間では思考量だけが異なる。試行名は低め A/低め B/高め A/高め B。測定値を生成しない。",
+        "nonClaims": {
+          "automaticTaskDecision": null,
+          "qualityMonotonic": false,
+          "allSimpleTasksWorsen": false,
+          "extraEffortFixesUnclearRequirements": false,
+          "extraEffortReplacesPermissionChecks": false,
+          "visibleThoughtProvesCause": false,
+          "allModelsNeedStepByStepPrompt": false,
+          "measuredBenefit": null,
+          "recommendedEffort": null
+        }
+      },
+      "stageAssertions": [
+        {
+          "stage": 0,
+          "read": true,
+          "required": [
+            "existing-table-candidates",
+            "same-input",
+            "lower",
+            "higher",
+            "quality",
+            "cost",
+            "latency"
+          ],
+          "requiredLabels": [
+            "表だけで採否を決めない",
+            "同じ実入力で設定を比較"
+          ],
+          "controls": [
+            "taskFocus"
+          ],
+          "state": "既存表の選択した行は観点の強調。左右の異なる候補を同一タスク・同一入力だとみなさない。全候補は元表に残し、低め/高めの比較枠は一つの同じ入力。"
+        },
+        {
+          "stage": 1,
+          "read": true,
+          "required": [
+            "same-input",
+            "lower",
+            "higher",
+            "quality",
+            "cost",
+            "latency"
+          ],
+          "requiredLabels": [
+            "名称・仕様はモデル別",
+            "品質・費用・待ち時間は未計測"
+          ],
+          "controls": [
+            "effortFocus"
+          ],
+          "state": "両設定を並べたまま選択側の枠・線だけ強調。品質の増減も費用比も生成しない。低め/高めは API enum ではない。"
+        },
+        {
+          "stage": 2,
+          "read": true,
+          "required": [
+            "same-input",
+            "lower",
+            "higher",
+            "extra-work",
+            "quality",
+            "cost",
+            "latency"
+          ],
+          "requiredLabels": [
+            "追加便益が小さい場合もある",
+            "すべての簡単な問いで悪化するわけではない",
+            "曖昧な要件・権限制御は別に見直す"
+          ],
+          "controls": [
+            "effortFocus"
+          ],
+          "state": "高め側に追加の作業帯を示すが目盛・比率・秒数は置かない。未知の品質欄は空欄のまま、上昇/下降の性能曲線を描かない。"
+        },
+        {
+          "stage": 3,
+          "read": true,
+          "required": [
+            "goal",
+            "constraints",
+            "approval",
+            "evidence-check",
+            "business-rules",
+            "exploration",
+            "execution-code"
+          ],
+          "requiredLabels": [
+            "必須手順を保ち、探索は境界内で",
+            "安全条件は実行側でも強制",
+            "思考指示の効果はモデル別に比較"
+          ],
+          "controls": [],
+          "state": "探索枠の移動は固定の境界内。指示の絵を権限強制の実装と同一視せず、モデル外の実行側を別ラベルで示す。実際の許可や操作を行わない。"
+        },
+        {
+          "stage": 4,
+          "read": true,
+          "required": [
+            "same-input",
+            "lower-a",
+            "lower-b",
+            "higher-a",
+            "higher-b",
+            "quality",
+            "cost",
+            "latency"
+          ],
+          "requiredLabels": [
+            "同条件で複数回",
+            "品質・費用・待ち時間を同時に記録",
+            "見える思考から原因を断定しない"
+          ],
+          "controls": [],
+          "state": "各設定内では同一条件の反復。設定間では思考量だけが変わる。試行枠も指標値も未実行/未計測。生の思考が非公開・要約のみの場合もあることを短いラベルで残す。"
+        }
+      ],
+      "semanticAttributes": {
+        "root": [
+          "data-reasoning-evaluation-stage",
+          "data-task-focus=<enum|none>",
+          "data-effort-focus=<enum|none>",
+          "data-measurement-state=\"unmeasured\"",
+          "data-task-decision=\"none\""
+        ],
+        "table": [
+          "data-task-row=<multi-step|verifiable|constraints>",
+          "data-task-candidate=<improvement|lower-comparison>"
+        ],
+        "comparison": [
+          "data-comparison-input=\"same-input\"",
+          "data-comparison-model=\"same-model\"",
+          "data-effort-variant=<lower|higher>",
+          "data-emphasized=<true|false>"
+        ],
+        "metrics": [
+          "data-metric=<quality|cost|latency>",
+          "data-metric-status=\"unmeasured\""
+        ],
+        "boundary": [
+          "data-required-condition=<id>",
+          "data-execution-boundary=\"outside-model\"",
+          "data-exploration=\"within-boundary\""
+        ],
+        "trials": [
+          "data-trial-id=<id>",
+          "data-trial-condition=<lower-settings|higher-settings>",
+          "data-trial-input=\"same-input\"",
+          "data-trial-effort=<lower|higher>"
+        ],
+        "caveats": [
+          "data-caveat=\"no-auto-choice\"",
+          "data-caveat=\"provider-specific\"",
+          "data-caveat=\"benefit-not-guaranteed\"",
+          "data-caveat=\"effort-not-permission\"",
+          "data-caveat=\"thought-not-cause\""
+        ]
+      },
+      "footnote": "思考量を比べるための模式図です。品質・費用・待ち時間は未計測で、最適な設定や必要な試行回数を決める図ではありません。"
+    },
+    "dispatcher": {
+      "file": "website/components/diagrams/reasoning-walkthrough.jsx",
+      "export": "ReasoningWalkthrough",
+      "props": [
+        "diagramId",
+        "children"
+      ],
+      "literalLazyImports": [
+        {
+          "id": "reasoning-sequence",
+          "module": "./reasoning-sequence-walkthrough",
+          "export": "ReasoningSequence"
+        },
+        {
+          "id": "reasoning-evaluation",
+          "module": "./reasoning-evaluation-walkthrough",
+          "export": "ReasoningEvaluation"
+        }
+      ],
+      "cssImports": [
+        "./reasoning-sequence.css",
+        "./reasoning-evaluation.css"
+      ],
+      "reuse": [
+        "ReadingArticleContents",
+        "DiagramBoundary"
+      ],
+      "unknownId": "元childrenを保つ。任意pathのdynamic importを受け入れない。",
+      "allowlist": "MDXはReasoningWalkthroughのliteral diagramIdをこの2IDだけ、ReadingStepは対応段階だけに限定。任意props/spread/式/import/ネストwalkthroughを許可しない。生成時READ stageはsequence0/2/3、evaluation0..4。"
+    },
+    "layout": {
+      "svg": "既存SceneBaseのviewBoxを維持し、両図の意味 ID と位置を段階間で残す。独自サイズや文字縮小で読めない長文を詰めず、短い図ラベルと原本文で役割分担。",
+      "sequence": "左: 入力 → 中: 記号を含む不透明な推論領域・後続予測 → 右: 最終回答。S2は上/下に学習と今回実行の別枠、S3は下部に推論/回答の非数値帯。",
+      "evaluation": "共通入力を上に固定、低め/高めの2レーンと3指標欄を同位置に保つ。S2は追加作業帯、S3は固定境界と内側の探索、S4は同じ条件の反復行へ展開。",
+      "animation": "opacity/path reveal/位置補間をphaseから計算。自動スクロール・動画・外部API・タイマーを増やさない。強調は色と線幅/ラベルの両方。",
+      "accessibility": "短いtitle/detail、svg title/descと可視ラベルを一致させる。非表示DOMやARIA文言だけで必要物の可視確認を代用しない。"
+    }
+  },
+  "nonClaims": [
+    "思考内容を生成・推測・再現せず、秘密のchain-of-thoughtや個別モデルの推論ログを扱わない。",
+    "推論トークンの表示可否/要約方法/effort enum/予算/課金式を全製品共通とは言わない。",
+    "品質の単調増加や全簡単タスクの悪化を示さない。研究の対象範囲を越えた数値・性能曲線を追加しない。",
+    "本文の「精度2ポイント・コスト3倍」は説明例として原文に保存するが、図の実測データやoracle値に転用しない。",
+    "記号の個数、非数値帯の長さ、試行a/bは画面構成。トークン数、費用・時間比、推奨サンプル数ではない。",
+    "学習と推論の設定を区別し、推論中の重み更新、検証の正しさ、承認や業務規程の自動強制をモデルへ帰属しない。",
+    "通常モデルにも中間の考察は可能。推論モデルを単なるCoT定型プロンプト内蔵と同一視しない。",
+    "図は評価準備の説明で、実モデル/API/Agentの評価や公開受入を実施した証拠ではない。"
+  ],
+  "independentAssertions": [
+    {
+      "id": "source-ast",
+      "kind": "source+decoration",
+      "assertions": [
+        "元記事の raw SHA と canonical AST を固定し、装飾を外した tree 全体が同一。43 root nodes / H3 9 / body 18。全リンク、強調、表2、リスト11、引用1を保持。数式0、Mermaid0。",
+        "2 figures の順序と 8 ReadingStep、グループの原 AST 参照を literal fixture で確認。H3 はその節最初の step へ一度だけ同梱。",
+        "sourceHeadings と sourceDigest の変更、誤った blockTypes/count、重複 heading・step は拒否。"
+      ]
+    },
+    {
+      "id": "literal-oracle",
+      "kind": "independent-fixture",
+      "assertions": [
+        "検証者が採択計画と本文から書いた literal の9段階必要物・辺・ラベル・null指標を固定する。製品 frame 関数を oracle として呼ばない。",
+        "本提案の fixtures を出発点に独立レビューで確認する。JSON を実装担当がそのまま期待値へコピーしただけでは独立検算済みにしない。",
+        "意味検査は attributes だけでなく SVG の実物、線の両端、表示ラベル、getBBox の正面衝突、アクセシビリティ内容へ結ぶ。"
+      ]
+    },
+    {
+      "id": "sequence-carryover",
+      "kind": "model+browser",
+      "assertions": [
+        "未操作の READ 0→2→3 と逆方向を使用。READ2 で prior-symbols と conditioning-edge、学習別枠と固定重み、非再現ラベルが同時に見える。manual1/selector/再生を使わず確認。",
+        "stage0 にも paragraph の条件追加という論点が実物で見える。stage2だけに依存させない。",
+        "phase と設定から完全な frame を返す。1 を経由しなくても同じ 2、逆 seek 後も同じ 2。rawThought/content/tokenCount/costEstimate は null。"
+      ]
+    },
+    {
+      "id": "evaluation-controls",
+      "kind": "model+browser",
+      "assertions": [
+        "taskFocus 3 値は S0 の選択行だけ、effortFocus 2 値は S1/S2 の強調だけに効く。非対象段階の effective focus は null。非対象設定を変えても意味 frame は変わらない。",
+        "S0 の3行6候補は原表と対応し、自動採否は null。左右の候補と比較入力は別概念。",
+        "S1/S2 の両設定・共通入力・3指標を保持し全測定値は null。成功率、秒、金額、性能曲線、比較の勝者を生成しない。",
+        "S3 は5必須条件とモデル外の実行境界が見え、探索経路は境界を越えない。",
+        "S4 は低め A/B と高め A/B、同設定内の conditionId 一致、全 inputId 一致、未計測12セル。同じ条件に別 effort を混ぜていない。試行数を推奨回数と説明しない。"
+      ]
+    },
+    {
+      "id": "phase-contract",
+      "kind": "pure-model",
+      "assertions": [
+        "共通 clampPhase/stageForPhase を使用。有限数以外は TypeError、範囲外有限値は端へクランプ。中点は共通の Math.round 境界に一致。",
+        "不正 object / unknown settings key は TypeError、未知 enum は RangeError。入力を変更せず、返り値の配列や子 object を変更しても次 frame・定数に漏れない。",
+        "sequence4基本段階と評価5段階×設定6組、前進・逆順・既存中点境界を意味 oracle に照合。性能や推論の実行試験とは呼ばない。"
+      ]
+    },
+    {
+      "id": "reading-ux",
+      "kind": "browser+visual",
+      "assertions": [
+        "共通 READ/PLAY/STOP/手動段階/戻る/拡大/キーボード/reduced-motion を再利用。2図が互いの読書位置を奪わない。停止・非表示に固有RAF/intervalを残さない。",
+        "PCの通常/拡大と狭幅の静止 fallback で全9段階を確認。元記事の長い表やリンクを切らず、ページ全体に横スクロールを作らない。",
+        "可視 bbox と screenshot で重なり・切れ・線端・色だけの意味依存を確認。属性のtrueだけでは合格しない。"
+      ]
+    },
+    {
+      "id": "fallback-and-isolation",
+      "kind": "SSR+runtime",
+      "assertions": [
+        "JS無効・図chunk遮断・読込失敗・print/reduced-motionで原文を読める。共通の主要段階静止図を意味同等にし、非公開思考内容を埋め込まない。",
+        "記事外の無図対照に ReadingFigure がなく、D2固有chunkを実行しない。2 literal lazy imports以外の任意モジュール入力を拒否。",
+        "前単位の受入 assertion 名/順/本文を保つ。D2追加の公開kit設計と fixture hash は別途独立レビュー。"
+      ]
+    }
+  ],
+  "followUp": {
+    "implementation": "この案の独立レビュー後、D1公開受入を確認し、親担当がD2担当ファイルを明示して開始。記事の現行SHA/digestが変わった場合は案を更新し再レビュー。",
+    "validation": "実装時にroot npm run check、website npm test・sync・build:clean、対象 browser回帰、独立内容/可視レビュー、記事coverage、release kit fixture/proof、CI/Pages/公開配信/実ブラウザーを順に別証拠として記録する。今回はいずれも未実施。",
+    "preservePredecessor": "D2追加時はD1までの旧受入本文・case名順序・元primary assertionを維持。公開kit拡張は本案の承認に含めず別レビューを行う。",
+    "portable": "将来採択してrepoへ移す際はrepo相対pathを正本にし、TEMPをimportや実行依存にしない。本TEMP案は引継ぎの唯一の正本にしない。"
+  },
+  "selfCheck": {
+    "kind": "author-preparation-only",
+    "adoptedArticleHashMatches": true,
+    "sourceDigestsMatch": true,
+    "adoptedD2CopiedWithoutChanges": true,
+    "sectionOffsetsAndBodyTypesMatch": true,
+    "dynamicTopicsAssignedToReadStages": true,
+    "formulaCountZero": true,
+    "mermaidCountZero": true,
+    "productPathsCurrentlyExisting": [],
+    "independentReviewPerformed": false,
+    "runtimePerformed": false,
+    "publicPerformed": false
+  }
+}

@@ -1,0 +1,295 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-final-local-review-portable-binding",
+  "reviewer": "/root/pretraining_visual_review",
+  "reviewedAt": "2026-09-30T09:15:22.545Z",
+  "decision": "approved",
+  "risk": "low",
+  "must": 0,
+  "should": 0,
+  "scope": "D1 code/formulas/meaning/integration, actual images and completed local browser/performance acceptance. Old eight articles carried through independently verified limited source equality, prior independent public review and current full Edge regression. Formal frozen-tree article review and current public acceptance are separate.",
+  "baseCommit": "5940334a6fd3aab8178cfeb8746a58c8b937d390",
+  "buildId": "XJR9sUrJP0VbXQCKQiQ8F",
+  "inputDigests": [
+    {
+      "article": "docs/11-llm-internals/transformer-architecture.md",
+      "inputDigest": "sha256:b625ce37d9aaf96c988322e24479c7b3d68b7b12fc61a95747810cf8451850ff"
+    },
+    {
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "inputDigest": "sha256:0998367b434d17d843fbdcd6d56efac5652b946a927c2eb7417ae232730a48e1"
+    },
+    {
+      "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "inputDigest": "sha256:aa360c495d4010553f4e2acc620664ca848c5fac2ce9ad9dc21920e143eb7047"
+    },
+    {
+      "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "inputDigest": "sha256:f46d62d4dadf3ca78439fdbdfbfc70b224c245597690c42d07e3a385160edce3"
+    },
+    {
+      "article": "docs/10-llm-foundations/tokenization.md",
+      "inputDigest": "sha256:f7485f5af6c51d9777213055f1565da6c632667ee7247cce09efce96dfc1840c"
+    },
+    {
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "inputDigest": "sha256:037e697c7a4ec699b486b7f891d6880c82281d003207833d639703912d9a24cb"
+    },
+    {
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "inputDigest": "sha256:23ff06677c89c80dce28217e2bb832caabdb020ed6a762c0f43d0beff1080e79"
+    },
+    {
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "inputDigest": "sha256:eed3b9e3c53c8b20b63428a4fda99afe8fea406aa0f034c7ef2921a1f250c8ea"
+    },
+    {
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "inputDigest": "sha256:0c544c4f549673475d56409d1b2112f02317b7e0f19cc7f6d2b97d02ed4b3450"
+    }
+  ],
+  "articleGates": [
+    {
+      "article": "docs/11-llm-internals/transformer-architecture.md",
+      "inputDigest": "sha256:b625ce37d9aaf96c988322e24479c7b3d68b7b12fc61a95747810cf8451850ff",
+      "review": "approved",
+      "local": "passed",
+      "public": "pending-current-candidate",
+      "basis": "Bounded PR62 independent carry + unchanged non-shared inputs/additive five-shared review + current full Edge regression"
+    },
+    {
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "inputDigest": "sha256:0998367b434d17d843fbdcd6d56efac5652b946a927c2eb7417ae232730a48e1",
+      "review": "approved",
+      "local": "passed",
+      "public": "pending-current-candidate",
+      "basis": "Bounded PR62 independent carry + unchanged non-shared inputs/additive five-shared review + current full Edge regression"
+    },
+    {
+      "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "inputDigest": "sha256:aa360c495d4010553f4e2acc620664ca848c5fac2ce9ad9dc21920e143eb7047",
+      "review": "approved",
+      "local": "passed",
+      "public": "pending-current-candidate",
+      "basis": "Bounded PR62 independent carry + unchanged non-shared inputs/additive five-shared review + current full Edge regression"
+    },
+    {
+      "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "inputDigest": "sha256:f46d62d4dadf3ca78439fdbdfbfc70b224c245597690c42d07e3a385160edce3",
+      "review": "approved",
+      "local": "passed",
+      "public": "pending-current-candidate",
+      "basis": "Bounded PR62 independent carry + unchanged non-shared inputs/additive five-shared review + current full Edge regression"
+    },
+    {
+      "article": "docs/10-llm-foundations/tokenization.md",
+      "inputDigest": "sha256:f7485f5af6c51d9777213055f1565da6c632667ee7247cce09efce96dfc1840c",
+      "review": "approved",
+      "local": "passed",
+      "public": "pending-current-candidate",
+      "basis": "Bounded PR62 independent carry + unchanged non-shared inputs/additive five-shared review + current full Edge regression"
+    },
+    {
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "inputDigest": "sha256:037e697c7a4ec699b486b7f891d6880c82281d003207833d639703912d9a24cb",
+      "review": "approved",
+      "local": "passed",
+      "public": "pending-current-candidate",
+      "basis": "Bounded PR62 independent carry + unchanged non-shared inputs/additive five-shared review + current full Edge regression"
+    },
+    {
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "inputDigest": "sha256:23ff06677c89c80dce28217e2bb832caabdb020ed6a762c0f43d0beff1080e79",
+      "review": "approved",
+      "local": "passed",
+      "public": "pending-current-candidate",
+      "basis": "Bounded PR62 independent carry + unchanged non-shared inputs/additive five-shared review + current full Edge regression"
+    },
+    {
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "inputDigest": "sha256:eed3b9e3c53c8b20b63428a4fda99afe8fea406aa0f034c7ef2921a1f250c8ea",
+      "review": "approved",
+      "local": "passed",
+      "public": "pending-current-candidate",
+      "basis": "Bounded PR62 independent carry + unchanged non-shared inputs/additive five-shared review + current full Edge regression"
+    },
+    {
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "inputDigest": "sha256:0c544c4f549673475d56409d1b2112f02317b7e0f19cc7f6d2b97d02ed4b3450",
+      "review": "approved",
+      "local": "passed",
+      "public": "pending-current-candidate",
+      "basis": "Current D1 independent code/formula/visual + local browser/performance evidence"
+    }
+  ],
+  "review": {
+    "path": "raw/independent-final-review.json.gz",
+    "sha256": "c5907866fdcab0d3f37d3a3c1abd4711ab96aa46810244a833abc2d521ed4180",
+    "markdownPath": "raw/independent-final-review.md.gz",
+    "markdownSHA256": "cbab81a9afd269f4c4e9c24d9e445f6c63f4f5832e026f9b63a2f010bfae766f"
+  },
+  "identity": {
+    "path": "raw/independent-final-identity.json.gz",
+    "sha256": "cd4f6dc73270c7b98a7bf591b11372acbea4c1135938b44a65113c6e6c06b9ce",
+    "htmlCount": 9,
+    "normalizedLFSourceCount": 51
+  },
+  "kitManifestSHA256": "40cca5a2f969f4c0385fac358cf4988decb6f72076c5b91e1b52fe22153adee9",
+  "viewedImages": {
+    "path": "final-viewed-images.json",
+    "sha256": "038aac290bc85b99857ce8ba30b768d8bd23eeee7690defb74bf9bb59d68fd25",
+    "actualViewed": 168,
+    "engines": {
+      "chromium": 84,
+      "webkit": 84
+    },
+    "captureKinds": {
+      "fullScene": 140,
+      "viewport": 28
+    }
+  },
+  "browser": {
+    "edgeFull": {
+      "passed": 333,
+      "skipped": 5,
+      "failed": 0,
+      "total": 338
+    },
+    "webkitFinal": {
+      "passed": 42,
+      "failed": 0,
+      "skipped": 0,
+      "alignmentCases": 16,
+      "mathCases": 26
+    },
+    "edgeFinalGrid": {
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0
+    },
+    "selectedStateGridPerFinalEngine": {
+      "preference": 21,
+      "feedback": 10,
+      "rewardRisk": 0
+    },
+    "generatedPNGs": {
+      "initial": 96,
+      "edgeD1": 216,
+      "webkitFinalD1": 216,
+      "edgeFinalGrid": 22
+    },
+    "note": "Generated PNG counts are not actual-view counts. Initial Edge cases used the earlier aria fixture; final selector-grid cases and final WebKit use the final manifest."
+  },
+  "performance": {
+    "path": "independent-performance.json",
+    "sha256": "076a4c90d5722ffe375a863c32a22eac36974ca1a0a3572acf13c1ed9b70abde",
+    "rawNetworkErrorsPreserved": 30,
+    "criticalErrors": 0
+  },
+  "sourceReferences": [
+    {
+      "originalFile": "C:/Users/81906/AppData/Local/Temp/alignment-independent-final-identity.json",
+      "originalSha256": "cd4f6dc73270c7b98a7bf591b11372acbea4c1135938b44a65113c6e6c06b9ce",
+      "path": "raw/independent-final-identity.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalFile": "C:/dev/ai-agent-library/scripts/diagram-release/source-mapping.json",
+      "originalSha256": "40cca5a2f969f4c0385fac358cf4988decb6f72076c5b91e1b52fe22153adee9",
+      "path": "raw/kit-manifest-after-history-label-fix.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalFile": "C:/Users/81906/AppData/Local/Temp/alignment-independent-code-proof.json",
+      "originalSha256": "6f751a800c6333c190117bc0226beadb2b806081dba8cd2d914fb79d3bc9a651",
+      "path": "raw/independent-code-proof.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalFile": "C:/Users/81906/AppData/Local/Temp/alignment-independent-initial-review.json",
+      "originalSha256": "25ccb4c4f65b44a5792a21980d16dd8971b515746d9f9e26fb5e0c65f8f894f0",
+      "path": "raw/independent-initial-review.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalFile": "C:/Users/81906/AppData/Local/Temp/alignment-independent-final-case-inventory.json",
+      "originalSha256": "85cda4a88a344a67632cdbcfe4aa686d1c7e9e33df9ba3d990cf656674a223f2",
+      "path": "raw/independent-final-case-inventory.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalFile": "C:/Users/81906/AppData/Local/Temp/alignment-browser-edge.log",
+      "originalSha256": "6df76593c7045315654553d3b18b3c90f733a944ba0fa64607adfc803f745a41",
+      "path": "raw/alignment-browser-edge-first-aria.log.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalFile": "C:/Users/81906/AppData/Local/Temp/alignment-browser-webkit-final.log",
+      "originalSha256": "018b39a9d3c0a375e1581323ce624b9e5c474f68e810aaa412a1f6ac98704309",
+      "path": "raw/alignment-browser-webkit-final.log.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalFile": "C:/Users/81906/AppData/Local/Temp/alignment-browser-edge-grid-final.log",
+      "originalSha256": "3256ad70844f41bbd68340b97bdd3b824540ad1dc914f4d6d631ef5a14688269",
+      "path": "raw/alignment-browser-edge-grid-final.log.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalFile": "C:/Users/81906/AppData/Local/Temp/alignment-independent-final-viewed-images.json",
+      "originalSha256": "ed7965f384d48d11c78df393dd2181761c7ca7bf1d37b38993c2d6deb0a8d3d4",
+      "path": "raw/independent-final-viewed-images.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalFile": "C:/Users/81906/AppData/Local/Temp/alignment-independent-performance/2026-09-29T20-27-02.077Z/result.json",
+      "originalSha256": "0ec012303a8be26eb1f364ea00c3bd2eb4bc013b94f38f95c067c84bb7c0d08d",
+      "path": "raw/independent-performance-result.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalFile": "C:/Users/81906/AppData/Local/Temp/alignment-independent-performance-network-classification.json",
+      "originalSha256": "3f3c947239f0f124073d310a495ccb7d54b0b2df0d3971f305d755e3e8cd7599",
+      "path": "raw/independent-performance-network-classification.json.gz",
+      "encoding": "gzip"
+    },
+    {
+      "originalFile": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-public-pr62-review.json",
+      "originalSha256": "9f85d2427529fd7327a3e1cba8e24e845579f595837a2b9ee92bac86c20f05e3",
+      "path": "../inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-review.json.gz",
+      "encoding": "gzip",
+      "scope": "prior PR62 review only; old8 carry boundary retained"
+    },
+    {
+      "originalFile": "C:/Users/81906/AppData/Local/Temp/alignment-independent-code-proof.json",
+      "originalSha256": "6f751a800c6333c190117bc0226beadb2b806081dba8cd2d914fb79d3bc9a651",
+      "path": "raw/independent-code-proof.json.gz",
+      "encoding": "gzip"
+    }
+  ],
+  "oldEightCarry": {
+    "priorIndependentReview": {
+      "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-public-pr62-review.json",
+      "sha256": "9f85d2427529fd7327a3e1cba8e24e845579f595837a2b9ee92bac86c20f05e3"
+    },
+    "independentSourceProof": {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-independent-code-proof.json",
+      "sha256": "6f751a800c6333c190117bc0226beadb2b806081dba8cd2d914fb79d3bc9a651"
+    },
+    "basis": "All old eight article bytes and every non-five-shared input unchanged from PR62. Existing registry/assignment entries unchanged. Five shared diffs independently inspected as additive D1 integration; current complete input hashes differ and are explicitly recorded. Current Edge full regression passed; WebKit final adds D1+math only.",
+    "actualOld8ImagesViewedAgain": 0,
+    "priorImageCountsExcludedFromCurrent168": true
+  },
+  "unperformed": [
+    "Formal independent final frozen-tree article review",
+    "Current D1 CI/Pages/public deployed HTTP and browser acceptance",
+    "Current full old-eight WebKit suite and new visual review of every old-eight image",
+    "Physical iPhone/iPad/other devices, real Safari app and real screenreader",
+    "Throttled or broad hardware performance characterization; GPU paint timing and physical printout"
+  ],
+  "originalPendingFieldsPreserved": true,
+  "initialHelper404EventsPreserved": true,
+  "localAccepted": true,
+  "publicAccepted": false,
+  "frozenTreeArticleReview": "separate-pending"
+}

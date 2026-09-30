@@ -2,25 +2,25 @@
   "schemaVersion": 1,
   "article": "docs/11-llm-internals/inference-internals.md",
   "review": {
-    "inputDigest": "sha256:e7b10bba12334b71d3eb0b5b469344d2d7e0451c42f52814693d955dd165ab82",
+    "inputDigest": "sha256:037e697c7a4ec699b486b7f891d6880c82281d003207833d639703912d9a24cb",
     "status": "approved",
-    "checkedAt": "2026-09-29T18:43:36.531Z",
+    "checkedAt": "2026-09-30T09:15:22.545Z",
     "independent": true,
-    "record": "project/records/2026-09-30/inference-score-spacing-review.md"
+    "record": "project/records/2026-09-30/alignment-local-evidence/final-independent-review.json"
   },
   "local": {
-    "inputDigest": "sha256:e7b10bba12334b71d3eb0b5b469344d2d7e0451c42f52814693d955dd165ab82",
+    "inputDigest": "sha256:037e697c7a4ec699b486b7f891d6880c82281d003207833d639703912d9a24cb",
     "status": "passed",
-    "checkedAt": "2026-09-29T18:45:26.5493341Z",
-    "record": "project/records/2026-09-30/inference-score-spacing-fix.md"
+    "checkedAt": "2026-09-30T09:15:22.545Z",
+    "record": "project/records/2026-09-30/alignment-local-evidence/final-independent-review.json"
   },
   "public": {
-    "inputDigest": "sha256:26d9cd2be56aa9a93a255ffc4f020530065966d4f411768559ac18a553b01d76",
+    "inputDigest": "sha256:e7b10bba12334b71d3eb0b5b469344d2d7e0451c42f52814693d955dd165ab82",
     "status": "passed",
-    "checkedAt": "2026-09-24T15:59:03.585Z",
-    "commit": "517dc8b5166bd7b0c85baef3800d7fe57bac7b31",
-    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36019573674",
-    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36019573674/job/107704025706",
-    "browserRecord": "project/records/2026-09-24/training-public-review.md"
+    "checkedAt": "2026-09-29T19:43:48.515Z",
+    "commit": "5940334a6fd3aab8178cfeb8746a58c8b937d390",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36615994124",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36615994124/job/109574494236",
+    "browserRecord": "project/records/2026-09-30/inference-score-spacing-public-pr62-review.md"
   }
 }

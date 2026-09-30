@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "kind": "portable-exact-ci-html-manifest",
+  "createdAt": "2026-09-29T19:29:02.228Z",
+  "release": {
+    "mergeSha": "5940334a6fd3aab8178cfeb8746a58c8b937d390",
+    "runId": 36615994124,
+    "buildId": "FnChqMe5DEINmNrKQkZeM"
+  },
+  "pathConvention": "storedPath is repository-relative; originalLocalFile/localFile are historical source-PC paths.",
+  "documents": [
+    {
+      "route": "/docs/llm-internals/inference-internals",
+      "archiveMember": "./docs/llm-internals/inference-internals.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\inference-internals.html",
+      "bytes": 718590,
+      "htmlSHA256": "97dff913ab697c641e4e607b9e5151c6b9aa63170e4acf94fe135a83171e2781",
+      "buildId": "FnChqMe5DEINmNrKQkZeM",
+      "originalLocalFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\inference-internals.html",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-internals.html.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "829498a538ba9f34934f0eefbe4f1dc489325848f5eef60b5679239eb1183f5d",
+      "storedBytes": 80818
+    },
+    {
+      "route": "/docs/llm-foundations/how-llms-generate-text",
+      "archiveMember": "./docs/llm-foundations/how-llms-generate-text.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\how-llms-generate-text.html",
+      "bytes": 596944,
+      "htmlSHA256": "20a2694b99504c92366f5a3bf08b39ce71324247ed065ef4a3e61d8feafba31f",
+      "buildId": "FnChqMe5DEINmNrKQkZeM",
+      "originalLocalFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\how-llms-generate-text.html",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/how-llms-generate-text.html.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "376085d5c91e1525e9a9eb0b65d778517c40b38e19e28e987fb4c5da8641de37",
+      "storedBytes": 63898
+    },
+    {
+      "route": "/docs/llm-foundations/tokenization",
+      "archiveMember": "./docs/llm-foundations/tokenization.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\tokenization.html",
+      "bytes": 583364,
+      "htmlSHA256": "65a57527d97e6f1919000bbace3510b35725455d787c1560b89c4af2ee000414",
+      "buildId": "FnChqMe5DEINmNrKQkZeM",
+      "originalLocalFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\tokenization.html",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/tokenization.html.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "15ddc869533eaca099898ca49053b33361ed91a1f1512355834af0afb20e2385",
+      "storedBytes": 60831
+    },
+    {
+      "route": "/docs/llm-internals/mixture-of-experts-internals",
+      "archiveMember": "./docs/llm-internals/mixture-of-experts-internals.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\mixture-of-experts-internals.html",
+      "bytes": 712770,
+      "htmlSHA256": "d65091ff38823996f3ea2fffd9217b97e51b33cbf4a28bb8c17d10d1307ecf35",
+      "buildId": "FnChqMe5DEINmNrKQkZeM",
+      "originalLocalFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\mixture-of-experts-internals.html",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/mixture-of-experts-internals.html.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "b5b964345a4af8b353147fabb552cc46ae78cc8acde7b119f42dfa93a89d3df8",
+      "storedBytes": 76913
+    },
+    {
+      "route": "/docs/llm-internals/attention-variants-and-long-context",
+      "archiveMember": "./docs/llm-internals/attention-variants-and-long-context.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\attention-variants-and-long-context.html",
+      "bytes": 771312,
+      "htmlSHA256": "0431091bbfa736c76c556c921f917c15f132ea00f8137b7178a742c5d59b1f44",
+      "buildId": "FnChqMe5DEINmNrKQkZeM",
+      "originalLocalFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\attention-variants-and-long-context.html",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/attention-variants-and-long-context.html.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "f68162e171bae49b092b62446c0b377eb2202001a13b788ba833fb9efbd7dd38",
+      "storedBytes": 84701
+    },
+    {
+      "route": "/docs/llm-internals/transformer-architecture",
+      "archiveMember": "./docs/llm-internals/transformer-architecture.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\transformer-architecture.html",
+      "bytes": 1077989,
+      "htmlSHA256": "7e68023cf5a0e53cc3eaf33e668b9282a9a5f0609c04a62d1cd228be97ac63d3",
+      "buildId": "FnChqMe5DEINmNrKQkZeM",
+      "originalLocalFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\transformer-architecture.html",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/transformer-architecture.html.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "cc42ab7ec74372958a43a914d40ea8bb5f075e98790352515d15694ac006ed0d",
+      "storedBytes": 113105
+    },
+    {
+      "route": "/docs/llm-foundations/llm-training-pipeline",
+      "archiveMember": "./docs/llm-foundations/llm-training-pipeline.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\llm-training-pipeline.html",
+      "bytes": 611779,
+      "htmlSHA256": "8c2346984503136cb5157d16d9a73897e2d9d88645126486e1a07b0f8398bb7c",
+      "buildId": "FnChqMe5DEINmNrKQkZeM",
+      "originalLocalFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\llm-training-pipeline.html",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/llm-training-pipeline.html.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "94be9b605665960478d993bf4bf789fb1e1e417e9d3316596e5bed527fb67979",
+      "storedBytes": 66044
+    },
+    {
+      "route": "/docs/llm-internals/pretraining-and-scaling-laws",
+      "archiveMember": "./docs/llm-internals/pretraining-and-scaling-laws.html",
+      "localFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\pretraining-and-scaling-laws.html",
+      "bytes": 766159,
+      "htmlSHA256": "36c003fcae0106d4187524f30407613d658cf0232a49b206816d920347d7f1e7",
+      "buildId": "FnChqMe5DEINmNrKQkZeM",
+      "originalLocalFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\inference-score-spacing-pr62-public\\ci-36615994124-attempt-1-20260929T191411585Z\\html-2026-09-29T19-15-45-944Z\\pretraining-and-scaling-laws.html",
+      "storedPath": "project/records/2026-09-30/inference-score-spacing-public-evidence/pretraining-and-scaling-laws.html.gz",
+      "encoding": "gzip of original bytes",
+      "storedSHA256": "2bbe46d86509a3d5e282cbe0a3e5b090aaa1600c0705e90b378c0efb48e81680",
+      "storedBytes": 84652
+    }
+  ],
+  "digestScope": "api artifact digest and archive.tar SHA are distinct; HTML raw SHA is verified independently."
+}

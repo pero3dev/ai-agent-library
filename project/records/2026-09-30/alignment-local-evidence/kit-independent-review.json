@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-kit-code-review-binding",
+  "reviewedAt": "2026-09-29T20:24:05.615Z",
+  "reviewer": "/root/pretraining_numeric",
+  "verdict": "approved",
+  "risk": "low",
+  "must": [],
+  "should": [],
+  "manifestSHA256": "40cca5a2f969f4c0385fac358cf4988decb6f72076c5b91e1b52fe22153adee9",
+  "reviewPaths": {
+    "md": "raw/kit-code-review-20260930.md.gz",
+    "json": "raw/kit-code-review-20260930.json.gz"
+  },
+  "reviewSHA256": {
+    "md": "e43e9f47d507a1a8124281bc92d9895a6f7c878e0f290d3bdc8abc2a28dfa5be",
+    "json": "73b896d10d65517bcdd50386f08b72aaef5850f2c8c2ba35968ed91c69a86e27"
+  },
+  "evidence": [
+    {
+      "original": {
+        "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-d1-kit-independent-unit.log",
+        "bytes": 2910,
+        "sha256": "bdc7c2f92cf1466c720e76c68dc92838ee752b64e46471f208d75d2a7f8a1d67"
+      },
+      "storedPath": "raw/alignment-d1-kit-independent-unit.log.gz",
+      "storedSHA256": "0739b5b333737b54262e4aecc77b02d7dec0a0e1b66a89b0fc8eb28eed020e3c"
+    },
+    {
+      "original": {
+        "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-d1-kit-independent-check-20260930.mjs",
+        "bytes": 13519,
+        "sha256": "071b17396a357394b9306af355db7dc1dbd4236e3e1fabc3ef9b9e5a4459a872"
+      },
+      "storedPath": "raw/alignment-d1-kit-independent-check-20260930.mjs.gz",
+      "storedSHA256": "9d21e8b27600755f2dcb5fb8015a76bc9c498fd5c1d9f90cb2c0bcd9b42352b0"
+    },
+    {
+      "original": {
+        "path": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-d1-kit-independent-probes.json",
+        "bytes": 9858,
+        "sha256": "e441fb50c3ee388433fa17898c4c6669d2c0b9d6ed6d9619b2a49f7fd0216376"
+      },
+      "storedPath": "raw/alignment-d1-kit-independent-probes.json.gz",
+      "storedSHA256": "85afb80fef3d5e72155f6f11620b3f639032bb3fae6d77150716b6d3c03a673c"
+    }
+  ],
+  "scope": {
+    "ownedOutputs": "OS TEMP review helper, observations and report only",
+    "reviewed": "D1 public kit, manifest/proofs/docs, offline unit changes and localhost browser entry",
+    "excluded": [
+      "Reviewer-authored alignment-preference product model/scene/CSS/unit approval",
+      "Whole-article semantic approval",
+      "Actual local browser success or screenshot readability",
+      "GitHub CI/Pages deployment or public runtime acceptance",
+      "Physical device, physical print and screen-reader acceptance"
+    ],
+    "independence": "The reviewer authored the interface proposal and preference product. This judgment covers another author’s kit implementation against separately adopted contracts, not approval of those authored products. Product approval remains with other independent reviewers.",
+    "productEdited": false,
+    "kitEdited": false,
+    "repositoryTestsEdited": false,
+    "gitMutated": false,
+    "buildExecuted": false,
+    "browserExecuted": false,
+    "networkExecuted": false,
+    "publicAuditExecuted": false
+  },
+  "validation": {
+    "unitPassed": 30,
+    "unitFailed": 0,
+    "independentProbeGroups": 11,
+    "negativeProbes": 53,
+    "actualGitRestoredFiles": 11
+  },
+  "localBrowserAccepted": false,
+  "localVisualAccepted": false,
+  "publicAccepted": false,
+  "remainingGates": [
+    "Root final local browser evidence for exact module version",
+    "Independent actual screenshot readability review",
+    "Formal final article/integration tree review",
+    "Actual successful CI/Pages identity and full 107-case public audit",
+    "Independent public image acceptance before article completion"
+  ]
+}

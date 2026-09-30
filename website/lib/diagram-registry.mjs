@@ -4,6 +4,171 @@ import { readFileSync } from 'node:fs'
 // IDs resolve to code-owned bindings, never to module paths supplied by Markdown
 // or the registry. Adding a diagram requires an explicit implementation change.
 const BINDINGS = {
+  'alignment-preference': {
+  "article": "docs/11-llm-internals/alignment-theory.md",
+  "route": "/docs/llm-internals/alignment-theory",
+  "binding": "grouped-blocks",
+  "stageCount": 7,
+  "headings": [
+    "概要: 「良さ」をどう最適化するか",
+    "RLHF の定式化",
+    "DPO の導出: 報酬モデルを消す"
+  ],
+  "sourceHeadings": [
+    "概要: 「良さ」をどう最適化するか",
+    "RLHF の定式化",
+    "DPO の導出: 報酬モデルを消す",
+    "報酬の過剰最適化(Goodhart)"
+  ],
+  "blockGroups": [
+    [
+      {
+        "stage": 0,
+        "count": 2
+      }
+    ],
+    [
+      {
+        "stage": 1,
+        "count": 2
+      },
+      {
+        "stage": 2,
+        "count": 2
+      },
+      {
+        "stage": 3,
+        "count": 2
+      },
+      {
+        "stage": 4,
+        "count": 1
+      }
+    ],
+    [
+      {
+        "stage": 5,
+        "count": 3
+      },
+      {
+        "stage": 6,
+        "count": 2
+      }
+    ]
+  ],
+  "blockTypes": [
+    [
+      "paragraph",
+      "code"
+    ],
+    [
+      "paragraph",
+      "paragraph",
+      "math",
+      "paragraph",
+      "paragraph",
+      "math",
+      "paragraph"
+    ],
+    [
+      "paragraph",
+      "math",
+      "paragraph",
+      "math",
+      "paragraph"
+    ]
+  ]
+},
+  'alignment-reward-risk': {
+  "article": "docs/11-llm-internals/alignment-theory.md",
+  "route": "/docs/llm-internals/alignment-theory",
+  "binding": "grouped-blocks",
+  "stageCount": 3,
+  "headings": [
+    "報酬の過剰最適化(Goodhart)"
+  ],
+  "sourceHeadings": [
+    "RLHF の定式化",
+    "報酬の過剰最適化(Goodhart)"
+  ],
+  "blockGroups": [
+    [
+      {
+        "stage": 0,
+        "count": 1
+      },
+      {
+        "stage": 1,
+        "count": 1
+      },
+      {
+        "stage": 2,
+        "count": 1
+      }
+    ]
+  ],
+  "blockTypes": [
+    [
+      "paragraph",
+      "list",
+      "paragraph"
+    ]
+  ]
+},
+  'alignment-feedback': {
+  "article": "docs/11-llm-internals/alignment-theory.md",
+  "route": "/docs/llm-internals/alignment-theory",
+  "binding": "grouped-blocks",
+  "stageCount": 5,
+  "headings": [
+    "検証可能報酬(RLVR)とプロセス報酬",
+    "迎合とアラインメント税"
+  ],
+  "sourceHeadings": [
+    "概要: 「良さ」をどう最適化するか",
+    "報酬の過剰最適化(Goodhart)",
+    "検証可能報酬(RLVR)とプロセス報酬",
+    "迎合とアラインメント税"
+  ],
+  "blockGroups": [
+    [
+      {
+        "stage": 0,
+        "count": 1
+      },
+      {
+        "stage": 1,
+        "count": 1
+      },
+      {
+        "stage": 2,
+        "count": 1
+      }
+    ],
+    [
+      {
+        "stage": 3,
+        "count": 2
+      },
+      {
+        "stage": 4,
+        "count": 1
+      }
+    ]
+  ],
+  "blockTypes": [
+    [
+      "paragraph",
+      "list",
+      "paragraph"
+    ],
+    [
+      "paragraph",
+      "list",
+      "paragraph"
+    ]
+  ]
+},
   'pretraining-loss-perplexity': {
   article: 'docs/11-llm-internals/pretraining-and-scaling-laws.md',
   route: '/docs/llm-internals/pretraining-and-scaling-laws',

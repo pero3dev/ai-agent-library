@@ -19,6 +19,8 @@
 
 ## 現在地
 
+最新の公開完了はPR #62、actual merge `5940334a6fd3aab8178cfeb8746a58c8b937d390`。C2と既存7記事の公開全91件×2・追加32観測・独立画像レビューを完了し、[8記事の受入を固定した](../2026-09-30/diagram-acceptance-pr62.json)。P1は8/15で、次は[D1アラインメント理論](../2026-09-30/alignment-reading-diagrams.md)を実装中。以下のC1・PR #61保留の記述は旧時点の履歴であり、最新の状態は[表示修正の受入記録](../2026-09-30/inference-score-spacing-fix.md)を優先する。
+
 P1の対象は10章の7記事と11章の8記事。P1の完了は15/15、全学習記事に対して15/199となる。P0で部分対応したAgentループ・Workflow比較の2記事を記事全体の完了数へ加算しない。
 
 履歴ではPR #56までの5記事が公開受入済み。推論内部の[PR #57](https://github.com/pero3dev/ai-agent-library/pull/57)は公開機械58件が成功したが、独立画像レビューでラベル修正1件が必要となった。修正版の[PR #58](https://github.com/pero3dev/ai-agent-library/pull/58)は全必須チェックを通過し、`67b1309fcea8267749be6e52881f3d6a4049ae2b` としてマージ済み。同じmain CI・Pages、公開58/58、独立公開レビューapproved / low・must 0を確認し、6記事の公開受入を完了した。詳細は[ラベル修正の公開受入記録](inference-score-label-fix.md)に保存した。C1の2図は[PR #59](https://github.com/pero3dev/ai-agent-library/pull/59)、actual merge `517dc8b5166bd7b0c85baef3800d7fe57bac7b31`、main CI `36019573674`、Pages `107704025706` と公開HTML同一性、[独立公開レビュー](training-public-review.md)approved / low・must 0で受入済み。P1は7/15記事（全体7/199）、P0の部分対応を含む図解公開は9記事19図となった。2026-09-24T16:12:34.933Zに7 completeのCLI結果とPR #59の7固定snapshotを保存した。次は `feat/pretraining-reading-diagrams` の[C2事前学習](../2026-09-25/pretraining-reading-diagrams.md)。共有入力の変更後はPR #58・#59固定snapshotを履歴として保持し、現行版を再受入する。最終停止時に、この節を実際の公開版と15記事の確認結果へ更新する。
@@ -27,9 +29,11 @@ P1の対象は10章の7記事と11章の8記事。P1の完了は15/15、全学�
 
 さらに後続7記事は[詳細設計](p1-remaining-storyboards.md)、[機械可読の対応表](p1-remaining-storyboards.json)、[独立計画レビュー](p1-remaining-storyboards-review.md)、[検査結果](p1-remaining-storyboards-check.json)を保存した。15図71段階と必要な本文訂正の最小置換を含む承認済み計画であり、本文への適用・図の実装・公開受入は未実施。
 
+2026-09-30に、7記事のexports・段階・操作・意味モデル・独立検査の[具体案とレビュー34原本](../2026-09-30/p1-interface-preparation/README.md)を追加保存した。原本のハッシュを保持し、閲覧用の整形版は区別している。全具体案が計画レビューを通過したが、実装・公開の承認ではない。D1の次の実作業は[アラインメント制作記録](../2026-09-30/alignment-reading-diagrams.md)を参照する。
+
 C2の6訂正に関する[一次資料の確認](../../../research/internals/pretraining-diagram-sources-2026-09-24.md)と[詳細JSON](../../../research/internals/pretraining-diagram-sources-2026-09-24.json)も保存した。2026-09-24の実取得結果であり、最終候補レビュー・公開受入の代わりにはしない。C2本文訂正の適用状況は翌日の制作記録を正本とする。移管では改行だけLFに正規化し、元TEMPの所有範囲を記した本文は履歴として保持した。
 
-D1・F2の8論点16置換も、[一次資料の確認](../../../research/internals/p1-remaining-diagram-sources-2026-09-24.md)と[詳細JSON](../../../research/internals/p1-remaining-diagram-sources-2026-09-24.json)に実取得日時と適用限界を保存した。現行beforeの一致を確認した段階で、記事本文には未適用。指定5論文に加え、画像を言語埋め込みへ接続する構成例の直接根拠としてLLaVAを確認した。
+D1・F2の8論点16置換も、[一次資料の確認](../../../research/internals/p1-remaining-diagram-sources-2026-09-24.md)と[詳細JSON](../../../research/internals/p1-remaining-diagram-sources-2026-09-24.json)に実取得日時と適用限界を保存した。調査時点では未適用だったが、現在はD1のA1〜A3のみ再照合して実装候補へ適用済みで、正式記事レビューと公開受入を進めている。F2の13置換は未適用。指定5論文に加え、画像を言語埋め込みへ接続する構成例の直接根拠としてLLaVAを確認した。
 
 C1公開の[相対証拠索引](training-public-evidence/public-acceptance-index.json)から、最終画像レビュー、原raw gzip、7 HTML同一性、限定診断、Transformer4図の補助raw・8 PNG・実行コードを辿れる。原WebKitは66成功・5失敗のまま、初段操作前の安定待機で同じ5ケースを補完した。修正版全71件再実行や実機Safariとは区別する。旧PCのTEMPを引き継ぎの必須条件にしない。
 

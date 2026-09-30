@@ -25,7 +25,9 @@ export const TRAINING_ARTICLE = 'docs/10-llm-foundations/llm-training-pipeline.m
 export const TRAINING_EVIDENCE_PATH = 'project/records/2026-09-24/training-article-acceptance.json'
 export const PRETRAINING_ARTICLE = 'docs/11-llm-internals/pretraining-and-scaling-laws.md'
 export const PRETRAINING_EVIDENCE_PATH = 'project/records/2026-09-25/pretraining-article-acceptance.json'
-export const TRACKED_ARTICLES = Object.freeze([TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE, INFERENCE_ARTICLE, TRAINING_ARTICLE, PRETRAINING_ARTICLE])
+export const ALIGNMENT_ARTICLE = 'docs/11-llm-internals/alignment-theory.md'
+export const ALIGNMENT_EVIDENCE_PATH = 'project/records/2026-09-30/alignment-article-acceptance.json'
+export const TRACKED_ARTICLES = Object.freeze([TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE, INFERENCE_ARTICLE, TRAINING_ARTICLE, PRETRAINING_ARTICLE, ALIGNMENT_ARTICLE])
 const MANIFEST = 'website/diagrams/articles.json'
 const TRANSFORMER_TOPICS = {
   '概要: デコーダ専用 Transformer の全体像': ['decoder-flow', 'overview-and-notation'],
@@ -155,6 +157,69 @@ const INFERENCE_TOPICS = { '概要: プリフィルとデコードの 2 相':
      'free-quantization-pitfall',
      'temperature-zero-reproducibility-pitfall' ],
   'チェックリスト': [ 'understanding-check' ] }
+
+const ALIGNMENT_TOPICS = {
+  "概要: 「良さ」をどう最適化するか": [
+    "d1-s0-b0",
+    "d1-s0-b1"
+  ],
+  "RLHF の定式化": [
+    "d1-s1-b0",
+    "d1-s1-b1",
+    "d1-s1-b2",
+    "d1-s1-b3",
+    "d1-s1-b4",
+    "d1-s1-b5",
+    "d1-s1-b6"
+  ],
+  "DPO の導出: 報酬モデルを消す": [
+    "d1-s2-b0",
+    "d1-s2-b1",
+    "d1-s2-b2",
+    "d1-s2-b3",
+    "d1-s2-b4"
+  ],
+  "報酬の過剰最適化(Goodhart)": [
+    "d1-s3-b0",
+    "d1-s3-b1.li0",
+    "d1-s3-b1.li1",
+    "d1-s3-b1.li2",
+    "d1-s3-b2"
+  ],
+  "検証可能報酬(RLVR)とプロセス報酬": [
+    "d1-s4-b0",
+    "d1-s4-b1.li0",
+    "d1-s4-b1.li1",
+    "d1-s4-b2"
+  ],
+  "迎合とアラインメント税": [
+    "d1-s5-b0",
+    "d1-s5-b1.li0",
+    "d1-s5-b1.li1",
+    "d1-s5-b2"
+  ],
+  "この理解が効く場面": [
+    "d1-s6-b0.li0",
+    "d1-s6-b0.li1",
+    "d1-s6-b0.li2",
+    "d1-s6-b0.li3"
+  ],
+  "アンチパターン": [
+    "d1-s7-b0.li0",
+    "d1-s7-b0.li1",
+    "d1-s7-b0.li2",
+    "d1-s7-b0.li3",
+    "d1-s7-b0.li4"
+  ],
+  "チェックリスト": [
+    "d1-s8-b0.li0",
+    "d1-s8-b0.li1",
+    "d1-s8-b0.li2",
+    "d1-s8-b0.li3",
+    "d1-s8-b0.li4",
+    "d1-s8-b0.li5"
+  ]
+}
 
 const PRETRAINING_TOPICS = {
   '概要: 事前学習は「次トークン予測」の一点': [ 'pretraining-pretraining-purpose', 'pretraining-loss-not-ability' ],
@@ -333,7 +398,17 @@ export const PRETRAINING_INPUT_FILES = Object.freeze([...SHARED_INPUT_FILES, ...
   'website/components/diagrams/pretraining-compute.css',
   'website/lib/pretraining-compute-model.mjs'
 ]])
+const ALIGNMENT_INPUT_FILES = [...SHARED_INPUT_FILES, 'website/components/diagrams/alignment-walkthrough.jsx',
+  'website/components/diagrams/alignment-preference-walkthrough.jsx', 'website/components/diagrams/alignment-preference.css', 'website/lib/alignment-preference-model.mjs',
+  'website/components/diagrams/alignment-reward-risk-walkthrough.jsx', 'website/components/diagrams/alignment-reward-risk.css', 'website/lib/alignment-reward-risk-model.mjs',
+  'website/components/diagrams/alignment-feedback-walkthrough.jsx', 'website/components/diagrams/alignment-feedback.css', 'website/lib/alignment-feedback-model.mjs'
+]
 const configs = {
+  [ALIGNMENT_ARTICLE]: { primaryDiagramIds: [
+  "alignment-preference",
+  "alignment-reward-risk",
+  "alignment-feedback"
+], topics: ALIGNMENT_TOPICS, inputFiles: ALIGNMENT_INPUT_FILES, evidencePath: ALIGNMENT_EVIDENCE_PATH, requireReadingStage: true },
   [PRETRAINING_ARTICLE]: {
     primaryDiagramIds: [
   'pretraining-loss-perplexity',
@@ -374,6 +449,7 @@ const configs = {
   }
 }
 const overrideDirectories = {
+  [ALIGNMENT_ARTICLE]: 'llm-internals',
   [PRETRAINING_ARTICLE]: 'llm-internals',
   [TRAINING_ARTICLE]: 'llm-foundations',
   [INFERENCE_ARTICLE]: 'llm-internals',

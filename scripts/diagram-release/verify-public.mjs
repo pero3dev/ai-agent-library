@@ -8,6 +8,7 @@ import { foundations, runFoundationsChecks } from './foundations-checks.mjs'
 import { inference, inferencePath, runInferenceChecks } from './inference-checks.mjs'
 import { training, trainingPath, runTrainingChecks } from './training-checks.mjs'
 import { pretraining, pretrainingPath, runPretrainingChecks } from './pretraining-checks.mjs'
+import { alignment, alignmentPath, runAlignmentChecks } from './alignment-checks.mjs'
 
 // PUBLIC-ONLY audit. Do not run before the release owner confirms Pages success.
 // This script does not read website/out, start a server, invoke Git or deploy.
@@ -28,8 +29,8 @@ const base = 'https://pero3dev.github.io/ai-agent-library'
 const moePath = '/docs/llm-internals/mixture-of-experts-internals'
 const variantsPath = '/docs/llm-internals/attention-variants-and-long-context'
 const transformerPath = '/docs/llm-internals/transformer-architecture'
-const controlPath = '/docs/llm-internals/alignment-theory'
-const artifactRoutes = [pretrainingPath, trainingPath, inferencePath, ...foundations.map(item => item.route), moePath, variantsPath, transformerPath]
+const controlPath = '/docs/implementation/embeddings'
+const artifactRoutes = [alignmentPath, pretrainingPath, trainingPath, inferencePath, ...foundations.map(item => item.route), moePath, variantsPath, transformerPath]
 const artifactEvidence = JSON.parse(await readFile(evidenceFile, 'utf8'))
 assert.equal(artifactEvidence.schemaVersion, 1)
 assert.equal(artifactEvidence.evidenceClass, 'github-actions-pages-artifact')
@@ -40,7 +41,7 @@ assert.equal(artifactEvidence.expectedBuildId, args['expected-build-id'])
 assert.equal(artifactEvidence.deploymentState, 'success')
 assert.ok(Number.isSafeInteger(artifactEvidence.runId) && artifactEvidence.runId > 0)
 assert.ok(Number.isSafeInteger(artifactEvidence.artifactId) && artifactEvidence.artifactId > 0)
-assert.deepEqual(artifactEvidence.documents.map(item => item.route).sort(), [...artifactRoutes].sort(), 'Exactly eight independently collected artifact HTML documents are required')
+assert.deepEqual(artifactEvidence.documents.map(item => item.route).sort(), [...artifactRoutes].sort(), 'Exactly nine independently collected artifact HTML documents are required')
 for (const route of artifactRoutes) {
   const documents = artifactEvidence.documents.filter(item => item.route === route)
   assert.equal(documents.length, 1, `Missing/duplicate CI artifact HTML identity for ${route}`)
@@ -62,19 +63,19 @@ const moe = [
   { id: 'moe-routing-load', labels: ['全体', 'ゲート', 'top-k', '合算', '選ぶ向き', '集中', '容量', '学習'], steps: [0, 1, 2, 3, 4, 5, 7], marker: 'MOE / ROUTING & LOAD' },
   { id: 'moe-parameters-communication', labels: ['保持', '使用', '配置', '送出', '返送', '確認'], steps: [0, 1, 2, 5], marker: 'MoE / PARAMETERS & COMMUNICATION' }
 ]
-const sceneMarkers = [...pretraining, ...training, ...inference, ...foundations, ...variants, ...transformers, ...moe].map(item => item.marker).concat(['AGENT LOOP / CONTROL FLOW', 'WORKFLOW / AGENT'])
+const sceneMarkers = [...alignment, ...pretraining, ...training, ...inference, ...foundations, ...variants, ...transformers, ...moe].map(item => item.marker).concat(['AGENT LOOP / CONTROL FLOW', 'WORKFLOW / AGENT'])
 const markers = sceneMarkers.concat(['ReadingFigure requires at least one stage'])
 const playwright = await lockedPlaywright(repo)
 const expect = playwright.expect.configure({ timeout: 15_000 })
 const output = await newChild(outputDirectory, `public-${engine}-${new Date().toISOString().replaceAll(':', '-').replaceAll('.', '-')}`)
 const report = {
   evidenceClass: 'live-public-browser-and-http', baseURL: base, expectedDeploymentSha: args['deployed-sha'], expectedBuildId: args['expected-build-id'],
-  identityNote: 'collect-deployment.ps1 binds the successful main run, SHA, exact deploy job/status and github-pages artifact. This audit compares public HTML/Flight build IDs and all eight article HTML byte hashes to that independently downloaded CI artifact.',
+  identityNote: 'collect-deployment.ps1 binds the successful main run, SHA, exact deploy job/status and github-pages artifact. This audit compares public HTML/Flight build IDs and all nine article HTML byte hashes to that independently downloaded CI artifact.',
   artifactEvidenceFile: args['artifact-evidence'], artifactEvidence,
-  scope: 'All previous 71 cases and fixed fixtures retained in order. C2 adds 20 cases for five pretraining diagrams, all 23 stages, 19 READ stops, all selectors, midpoint boundaries, six screen conditions, keyboard/modal, native-time playback, noJS and print. Eight independently collected CI HTML identities. Unrelated scene markers remain forbidden and alignment-theory remains the no-diagram control.',
+  scope: 'D1 adds 16 cases for three alignment diagrams, all 15 READ stages, fixed independent DPO and semantic fixtures, all selectors, midpoint/reverse seeks, six profiles, keyboard/modal, native-time playback, noJS and print. Prior 90 cases remain byte-identical; the prior no-diagram alignment control is explicitly migrated to embeddings with unchanged HTTP/MIME/body/BUILD_ID/zero-heavy checks. Nine independently collected CI HTML identities.',
   limitation: 'Browser viewport emulation is not physical iPhone Safari. Screenshots need human/agent visual inspection; passing geometry is not semantic visual acceptance.',
   independentVisualReview: { status: 'pending-independent-public-image-review', note: 'Machine case success does not approve readability. Review actual public screenshots, including every recorded text BBox overlap candidate. Local image acceptance does not replace this public check.' },
-  expectedCaseCount: 91,
+  expectedCaseCount: 107,
   startedAt: new Date().toISOString(), browser: null, cases: [], assets: [], screenshots: []
 }
 const save = () => writeFile(join(output, 'result.json'), JSON.stringify({
@@ -504,6 +505,7 @@ try {
   await runInferenceChecks({ check, usePage, open, structure, sceneDelivery, stage, phase, geometry, screenshot, rootOf, panelOf, expect })
   await runTrainingChecks({ check, usePage, open, structure, sceneDelivery, stage, phase, geometry, screenshot, rootOf, panelOf, expect })
   await runPretrainingChecks({ check, usePage, open, structure, sceneDelivery, stage, phase, geometry, screenshot, rootOf, panelOf, expect })
+  await runAlignmentChecks({ check, usePage, open, structure, sceneDelivery, stage, phase, geometry, screenshot, rootOf, panelOf, expect })
   await check('mandatory basePath SVG favicon: declaration, HTTP 200 and image/svg+xml', async result => {
     await usePage(result, {}, async page => {
       await open(page, inferencePath, inference, result)
@@ -737,10 +739,10 @@ try {
     sceneDelivery(result, transformers)
   })
 
-  await check('alignment-theory control: zero heavy figure or shared-frame chunks', async result => {
+  await check('embeddings control: zero heavy figure or shared-frame chunks', async result => {
     await usePage(result, {}, async page => {
       await open(page, controlPath, [], result)
-      await expect(page.locator('article h1')).toContainText('アラインメント'); await expect(page.locator('.reading-figure')).toHaveCount(0); await expect(page.locator('.rf-article-toc')).toHaveCount(0)
+      await expect(page.locator('article h1')).toContainText('埋め込み(embeddings)の選定と運用'); await expect(page.locator('.reading-figure')).toHaveCount(0); await expect(page.locator('.rf-article-toc')).toHaveCount(0)
     })
     const heavy = result.network.resources.filter(item => item.markers.length)
     result.heavyChunks = heavy.length; assert.deepEqual(heavy, [], 'heavy diagram code delivered to control article')

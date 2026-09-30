@@ -1,0 +1,1264 @@
+{
+  "schemaVersion": 1,
+  "kind": "portable-p1-preparation-archive",
+  "recordedAt": "2026-09-29T19:33:39.210Z",
+  "scope": "P1 remaining 7 article preparation and independent plan/interface reviews only. No runtime/article/implementation/public approval granted by this archive.",
+  "ownedDirectory": "project/records/2026-09-30/p1-interface-preparation",
+  "baseCommitObserved": "5940334a6fd3aab8178cfeb8746a58c8b937d390",
+  "branchObserved": "feat/alignment-reading-diagrams",
+  "authority": {
+    "adoptedPlanPath": "project/records/2026-09-24/p1-remaining-storyboards.json",
+    "adoptedPlanReviewPath": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+    "noPlanModification": true
+  },
+  "units": [
+    {
+      "unit": "D1",
+      "interfaceState": "independently-reviewed-preparation",
+      "interfaceReviewPath": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-interface-review-20260930.json",
+      "must": 0,
+      "should": 0,
+      "adoptionState": "archived-reviewed-preparation",
+      "runtimeApproved": false,
+      "wholeArticleApproved": false,
+      "implementationApproved": false,
+      "publicApproved": false
+    },
+    {
+      "unit": "D2",
+      "interfaceState": "independently-reviewed-preparation",
+      "interfaceReviewPath": "project/records/2026-09-30/p1-interface-preparation/raw/reasoning-d2-interface-review-20260930.json",
+      "must": 0,
+      "should": 0,
+      "adoptionState": "archived-reviewed-preparation",
+      "runtimeApproved": false,
+      "wholeArticleApproved": false,
+      "implementationApproved": false,
+      "publicApproved": false
+    },
+    {
+      "unit": "E1",
+      "interfaceState": "independently-reviewed-preparation",
+      "interfaceReviewPath": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-review-20260930.json",
+      "must": 0,
+      "should": 0,
+      "adoptionState": "archived-reviewed-preparation",
+      "runtimeApproved": false,
+      "wholeArticleApproved": false,
+      "implementationApproved": false,
+      "publicApproved": false
+    },
+    {
+      "unit": "E2",
+      "interfaceState": "independently-reviewed-preparation",
+      "interfaceReviewPath": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-review-20260930.json",
+      "must": 0,
+      "should": 0,
+      "adoptionState": "archived-reviewed-preparation",
+      "runtimeApproved": false,
+      "wholeArticleApproved": false,
+      "implementationApproved": false,
+      "publicApproved": false
+    },
+    {
+      "unit": "E3",
+      "interfaceState": "independently-reviewed-preparation",
+      "interfaceReviewPath": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-review-20260930.json",
+      "must": 0,
+      "should": 0,
+      "adoptionState": "archived-reviewed-preparation",
+      "runtimeApproved": false,
+      "wholeArticleApproved": false,
+      "implementationApproved": false,
+      "publicApproved": false
+    },
+    {
+      "unit": "F1",
+      "interfaceState": "independently-reviewed-preparation",
+      "interfaceReviewPath": "project/records/2026-09-30/p1-interface-preparation/raw/capabilities-f1-interface-review-20260930.json",
+      "must": 0,
+      "should": 0,
+      "adoptionState": "archived-reviewed-preparation",
+      "runtimeApproved": false,
+      "wholeArticleApproved": false,
+      "implementationApproved": false,
+      "publicApproved": false
+    },
+    {
+      "unit": "F2",
+      "interfaceState": "independently-reviewed-preparation",
+      "interfaceReviewPath": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-review-20260930.json",
+      "must": 0,
+      "should": 1,
+      "adoptionState": "archived-reviewed-preparation-with-accepted-implementation-note",
+      "runtimeApproved": false,
+      "wholeArticleApproved": false,
+      "implementationApproved": false,
+      "publicApproved": false
+    }
+  ],
+  "files": [
+    {
+      "unit": "D1",
+      "classification": "readonly-preparation",
+      "originalBasename": "alignment-d1-readonly-preparation-20260930.md",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "alignment-d1-readonly-preparation-20260930.md"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-readonly-preparation-20260930.md.gz",
+      "storage": "gzip-original-bytes",
+      "originalBytes": 5947,
+      "originalSha256": "a9aa319d77cd55684b7fc80375a7febcba98d8e73c67bcb397c53f2431c1a1bd",
+      "storedBytes": 3249,
+      "storedSha256": "30ed894c08deaa35e05e619974555af8f67e7db1273e36f8179c661436124d9d",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false,
+      "readableViewPath": "project/records/2026-09-30/p1-interface-preparation/views/alignment-d1-readonly-preparation-20260930.md"
+    },
+    {
+      "unit": "D1",
+      "classification": "readonly-preparation",
+      "originalBasename": "alignment-d1-readonly-preparation-20260930.json",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "alignment-d1-readonly-preparation-20260930.json"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-readonly-preparation-20260930.json",
+      "storage": "original-bytes",
+      "originalBytes": 81105,
+      "originalSha256": "2437089201f5a41040113814de9a44109c8a1d3405f8cb5597e4d52038c081e8",
+      "storedBytes": 81105,
+      "storedSha256": "2437089201f5a41040113814de9a44109c8a1d3405f8cb5597e4d52038c081e8",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "D1",
+      "classification": "interface-proposal",
+      "originalBasename": "alignment-d1-interface-proposal-20260930.md",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "alignment-d1-interface-proposal-20260930.md"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-interface-proposal-20260930.md",
+      "storage": "original-bytes",
+      "originalBytes": 8834,
+      "originalSha256": "3498b1b6a2b1797410e0490026da0fb1272458b8e519f7bac252f52a3c8d1b6c",
+      "storedBytes": 8834,
+      "storedSha256": "3498b1b6a2b1797410e0490026da0fb1272458b8e519f7bac252f52a3c8d1b6c",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "D1",
+      "classification": "interface-proposal",
+      "originalBasename": "alignment-d1-interface-proposal-20260930.json",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "alignment-d1-interface-proposal-20260930.json"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-interface-proposal-20260930.json",
+      "storage": "original-bytes",
+      "originalBytes": 54693,
+      "originalSha256": "019400d5862560f50f361474971a62a5f7f51a5b2926b95a2a29b9bddfc3f632",
+      "storedBytes": 54693,
+      "storedSha256": "019400d5862560f50f361474971a62a5f7f51a5b2926b95a2a29b9bddfc3f632",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "D1",
+      "classification": "interface-review",
+      "originalBasename": "alignment-d1-interface-review-20260930.md",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "alignment-d1-interface-review-20260930.md"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-interface-review-20260930.md",
+      "storage": "original-bytes",
+      "originalBytes": 7054,
+      "originalSha256": "63f5569a81de455a7bdcbde7a15177d86f98ef670e4123fff096f763b4e11bf6",
+      "storedBytes": 7054,
+      "storedSha256": "63f5569a81de455a7bdcbde7a15177d86f98ef670e4123fff096f763b4e11bf6",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "D1",
+      "classification": "interface-review",
+      "originalBasename": "alignment-d1-interface-review-20260930.json",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "alignment-d1-interface-review-20260930.json"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-interface-review-20260930.json",
+      "storage": "original-bytes",
+      "originalBytes": 3187,
+      "originalSha256": "e92e19b4756256952484b16994fa0a42a8a679e3442c17b2b871f8b46eb08ca0",
+      "storedBytes": 3187,
+      "storedSha256": "e92e19b4756256952484b16994fa0a42a8a679e3442c17b2b871f8b46eb08ca0",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "D1",
+      "classification": "kit-plan",
+      "originalBasename": "alignment-d1-kit-plan.md",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "alignment-d1-kit-plan.md"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-kit-plan.md",
+      "storage": "original-bytes",
+      "originalBytes": 7084,
+      "originalSha256": "1c18d96025931e208c0fdd76d1be8115b79addc7195eacbf5c182d29f092d7aa",
+      "storedBytes": 7084,
+      "storedSha256": "1c18d96025931e208c0fdd76d1be8115b79addc7195eacbf5c182d29f092d7aa",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "D1",
+      "classification": "kit-plan",
+      "originalBasename": "alignment-d1-kit-plan.json",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "alignment-d1-kit-plan.json"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-kit-plan.json",
+      "storage": "original-bytes",
+      "originalBytes": 42772,
+      "originalSha256": "c003f801f6443662522bf0433bbd45546f7cd7bf86e93960ff5c5704accd5e21",
+      "storedBytes": 42772,
+      "storedSha256": "c003f801f6443662522bf0433bbd45546f7cd7bf86e93960ff5c5704accd5e21",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "D1",
+      "classification": "kit-plan-review",
+      "originalBasename": "alignment-d1-kit-plan-review-20260930.md",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "alignment-d1-kit-plan-review-20260930.md"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-kit-plan-review-20260930.md",
+      "storage": "original-bytes",
+      "originalBytes": 5710,
+      "originalSha256": "f970ce7787574be29d5282641c1d7e623455f08027940e7e792002175d9ae90e",
+      "storedBytes": 5710,
+      "storedSha256": "f970ce7787574be29d5282641c1d7e623455f08027940e7e792002175d9ae90e",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "D1",
+      "classification": "kit-plan-review",
+      "originalBasename": "alignment-d1-kit-plan-review-20260930.json",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "alignment-d1-kit-plan-review-20260930.json"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-kit-plan-review-20260930.json",
+      "storage": "original-bytes",
+      "originalBytes": 14342,
+      "originalSha256": "89bee7d25110b36270877e4795ec8618644c1642914c1c47bd73dab753753601",
+      "storedBytes": 14342,
+      "storedSha256": "89bee7d25110b36270877e4795ec8618644c1642914c1c47bd73dab753753601",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "D2",
+      "classification": "interface-proposal",
+      "originalBasename": "reasoning-d2-interface-proposal-20260930.md",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "reasoning-d2-interface-proposal-20260930.md"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/reasoning-d2-interface-proposal-20260930.md",
+      "storage": "original-bytes",
+      "originalBytes": 17239,
+      "originalSha256": "cad4d2c26839426d4d4ca42027def563c9c33299666ff7b493c505426b1e2732",
+      "storedBytes": 17239,
+      "storedSha256": "cad4d2c26839426d4d4ca42027def563c9c33299666ff7b493c505426b1e2732",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "D2",
+      "classification": "interface-proposal",
+      "originalBasename": "reasoning-d2-interface-proposal-20260930.json",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "reasoning-d2-interface-proposal-20260930.json"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/reasoning-d2-interface-proposal-20260930.json",
+      "storage": "original-bytes",
+      "originalBytes": 107995,
+      "originalSha256": "e9fed4e5450549dd04704fbff3d9ae4148dabdfe52c607d5f0b486e1467ced99",
+      "storedBytes": 107995,
+      "storedSha256": "e9fed4e5450549dd04704fbff3d9ae4148dabdfe52c607d5f0b486e1467ced99",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "D2",
+      "classification": "interface-review",
+      "originalBasename": "reasoning-d2-interface-review-20260930.md",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "reasoning-d2-interface-review-20260930.md"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/reasoning-d2-interface-review-20260930.md",
+      "storage": "original-bytes",
+      "originalBytes": 8398,
+      "originalSha256": "6df6f65ec29fdae4a09fb9497a61a0dddbb983a14c7ee4798a570da5c5890844",
+      "storedBytes": 8398,
+      "storedSha256": "6df6f65ec29fdae4a09fb9497a61a0dddbb983a14c7ee4798a570da5c5890844",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "D2",
+      "classification": "interface-review",
+      "originalBasename": "reasoning-d2-interface-review-20260930.json",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "reasoning-d2-interface-review-20260930.json"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/reasoning-d2-interface-review-20260930.json",
+      "storage": "original-bytes",
+      "originalBytes": 3968,
+      "originalSha256": "db8852c9c09f253424d9932180b91da6e2320f9a34bab3d2e18fab5d67651bf5",
+      "storedBytes": 3968,
+      "storedSha256": "db8852c9c09f253424d9932180b91da6e2320f9a34bab3d2e18fab5d67651bf5",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "E1",
+      "classification": "interface-proposal",
+      "originalBasename": "attention-context-e1-interface-proposal-20260930.md",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "attention-context-e1-interface-proposal-20260930.md"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-proposal-20260930.md.gz",
+      "storage": "gzip-original-bytes",
+      "originalBytes": 23579,
+      "originalSha256": "998f0261c2ce57aaa326a431b822d05426f1a96448afd2cda2b146beedb01b4f",
+      "storedBytes": 10486,
+      "storedSha256": "19aa4039900a5ca9901ce28ed7fe281b0b5029eeab286e9b8c5b448547e37db0",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false,
+      "readableViewPath": "project/records/2026-09-30/p1-interface-preparation/views/attention-context-e1-interface-proposal-20260930.md",
+      "storageHistory": [
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-proposal-20260930.md",
+          "storage": "original-bytes",
+          "sha256": "998f0261c2ce57aaa326a431b822d05426f1a96448afd2cda2b146beedb01b4f",
+          "reason": "Archived direct MD replaced only after exact gzip roundtrip to keep raw bytes outside Markdown lint; view contains declared formatting edits."
+        }
+      ]
+    },
+    {
+      "unit": "E1",
+      "classification": "interface-proposal",
+      "originalBasename": "attention-context-e1-interface-proposal-20260930.json",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "attention-context-e1-interface-proposal-20260930.json"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-proposal-20260930.json",
+      "storage": "original-bytes",
+      "originalBytes": 110395,
+      "originalSha256": "b9b35c1da9bec520550ee5e658e74eb48109f4d673bb1e3f0858ab36654ccd43",
+      "storedBytes": 110395,
+      "storedSha256": "b9b35c1da9bec520550ee5e658e74eb48109f4d673bb1e3f0858ab36654ccd43",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "E1",
+      "classification": "interface-review",
+      "originalBasename": "attention-context-e1-interface-review-20260930.md",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "attention-context-e1-interface-review-20260930.md"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-review-20260930.md",
+      "storage": "original-bytes",
+      "originalBytes": 6489,
+      "originalSha256": "50788adbcbb9f2b0ad9d697fa9648b90ef80662faca7735d5db2aa55d4142ad6",
+      "storedBytes": 6489,
+      "storedSha256": "50788adbcbb9f2b0ad9d697fa9648b90ef80662faca7735d5db2aa55d4142ad6",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "E1",
+      "classification": "interface-review",
+      "originalBasename": "attention-context-e1-interface-review-20260930.json",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "attention-context-e1-interface-review-20260930.json"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-review-20260930.json",
+      "storage": "original-bytes",
+      "originalBytes": 9763,
+      "originalSha256": "72e280ce99f7312bb0ca4cb651d23e950928cd2976796cd15d044443c05f219a",
+      "storedBytes": 9763,
+      "storedSha256": "72e280ce99f7312bb0ca4cb651d23e950928cd2976796cd15d044443c05f219a",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "E2",
+      "classification": "interface-proposal",
+      "originalBasename": "icl-e2-interface-proposal-20260930.md",
+      "origin": {
+        "kind": "repository-temp",
+        "path": "TEMP/icl-e2-interface-proposal-20260930.md"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-proposal-20260930.md.gz",
+      "storage": "gzip-original-bytes",
+      "originalBytes": 22360,
+      "originalSha256": "4a90d0af2a03be54ffb63fbedb7d66f0dd1f994290d100583c9abb6cddef2196",
+      "storedBytes": 10474,
+      "storedSha256": "a2cc4ff81c3cefb49a03393528d6c3213788f8dc66222daf8616a695dacc2232",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false,
+      "readableViewPath": "project/records/2026-09-30/p1-interface-preparation/views/icl-e2-interface-proposal-20260930.md",
+      "storageHistory": [
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-proposal-20260930.md",
+          "storage": "original-bytes",
+          "sha256": "4a90d0af2a03be54ffb63fbedb7d66f0dd1f994290d100583c9abb6cddef2196",
+          "reason": "Archived direct MD replaced only after exact gzip roundtrip to keep raw bytes outside Markdown lint; view contains declared formatting edits."
+        }
+      ],
+      "currentOriginalLocation": {
+        "kind": "os-temp",
+        "basename": "icl-e2-interface-proposal-20260930.md"
+      },
+      "originalLocationHistory": [
+        {
+          "kind": "repository-temp",
+          "path": "TEMP/icl-e2-interface-proposal-20260930.md",
+          "sha256": "4a90d0af2a03be54ffb63fbedb7d66f0dd1f994290d100583c9abb6cddef2196",
+          "movedAfterVerifiedByteCopy": true
+        }
+      ]
+    },
+    {
+      "unit": "E2",
+      "classification": "interface-proposal",
+      "originalBasename": "icl-e2-interface-proposal-20260930.json",
+      "origin": {
+        "kind": "repository-temp",
+        "path": "TEMP/icl-e2-interface-proposal-20260930.json"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-proposal-20260930.json",
+      "storage": "original-bytes",
+      "originalBytes": 107666,
+      "originalSha256": "46b275e0da9d9033d07fecb775f74b4136b76f7d0308268c4e7dfd4729c4c828",
+      "storedBytes": 107666,
+      "storedSha256": "46b275e0da9d9033d07fecb775f74b4136b76f7d0308268c4e7dfd4729c4c828",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "E3",
+      "classification": "interface-proposal",
+      "originalBasename": "interpretability-e3-interface-proposal-20260930.md",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "interpretability-e3-interface-proposal-20260930.md"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-proposal-20260930.md",
+      "storage": "original-bytes",
+      "originalBytes": 2594,
+      "originalSha256": "d060d5467bfb47f1b02115ef91b42ac14d845c0271d25b6a16fddaba1bfe84b0",
+      "storedBytes": 2594,
+      "storedSha256": "d060d5467bfb47f1b02115ef91b42ac14d845c0271d25b6a16fddaba1bfe84b0",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "E3",
+      "classification": "interface-proposal",
+      "originalBasename": "interpretability-e3-interface-proposal-20260930.json",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "interpretability-e3-interface-proposal-20260930.json"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-proposal-20260930.json",
+      "storage": "original-bytes",
+      "originalBytes": 65930,
+      "originalSha256": "2396351aa8afbd8e1853fac5a18a5cbcc5c3af1d3b7669152edd2fd4662c066c",
+      "storedBytes": 65930,
+      "storedSha256": "2396351aa8afbd8e1853fac5a18a5cbcc5c3af1d3b7669152edd2fd4662c066c",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "E3",
+      "classification": "interface-review",
+      "originalBasename": "interpretability-e3-interface-review-20260930.md",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "interpretability-e3-interface-review-20260930.md"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-review-20260930.md",
+      "storage": "original-bytes",
+      "originalBytes": 8124,
+      "originalSha256": "2eff7b9f4826b496bafa13c9a21e1f7d375d42cd5f06ce47bb0989e2eee92b6b",
+      "storedBytes": 8124,
+      "storedSha256": "2eff7b9f4826b496bafa13c9a21e1f7d375d42cd5f06ce47bb0989e2eee92b6b",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "E3",
+      "classification": "interface-review",
+      "originalBasename": "interpretability-e3-interface-review-20260930.json",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "interpretability-e3-interface-review-20260930.json"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-review-20260930.json",
+      "storage": "original-bytes",
+      "originalBytes": 3867,
+      "originalSha256": "df0ba3264efcdf36c7941ab394c528c0f1332ec8e5daa7171401664089b17d1e",
+      "storedBytes": 3867,
+      "storedSha256": "df0ba3264efcdf36c7941ab394c528c0f1332ec8e5daa7171401664089b17d1e",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "F1",
+      "classification": "interface-proposal",
+      "originalBasename": "capabilities-f1-interface-proposal-20260930.md",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "capabilities-f1-interface-proposal-20260930.md"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/capabilities-f1-interface-proposal-20260930.md",
+      "storage": "original-bytes",
+      "originalBytes": 1834,
+      "originalSha256": "3094823e84dc82174149ad5d71e70f040fbacf41bde64333da0177ebc309b1f4",
+      "storedBytes": 1834,
+      "storedSha256": "3094823e84dc82174149ad5d71e70f040fbacf41bde64333da0177ebc309b1f4",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "F1",
+      "classification": "interface-proposal",
+      "originalBasename": "capabilities-f1-interface-proposal-20260930.json",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "capabilities-f1-interface-proposal-20260930.json"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/capabilities-f1-interface-proposal-20260930.json",
+      "storage": "original-bytes",
+      "originalBytes": 50886,
+      "originalSha256": "20fbd3d8d4df2a613c4005f2471cdc11f041749d9f01eaa250e3d41212c9f692",
+      "storedBytes": 50886,
+      "storedSha256": "20fbd3d8d4df2a613c4005f2471cdc11f041749d9f01eaa250e3d41212c9f692",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "F1",
+      "classification": "interface-review",
+      "originalBasename": "capabilities-f1-interface-review-20260930.md",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "capabilities-f1-interface-review-20260930.md"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/capabilities-f1-interface-review-20260930.md",
+      "storage": "original-bytes",
+      "originalBytes": 5420,
+      "originalSha256": "c388f7956eac1a7266136f47f4539f5bc81ec7c82f3a52eadbc187f1c93878c9",
+      "storedBytes": 5420,
+      "storedSha256": "c388f7956eac1a7266136f47f4539f5bc81ec7c82f3a52eadbc187f1c93878c9",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "F1",
+      "classification": "interface-review",
+      "originalBasename": "capabilities-f1-interface-review-20260930.json",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "capabilities-f1-interface-review-20260930.json"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/capabilities-f1-interface-review-20260930.json",
+      "storage": "original-bytes",
+      "originalBytes": 3227,
+      "originalSha256": "1ececcfb3db3e2edb29b6460c4e6add1224d2b6c9fee555ff74895a2e92a9924",
+      "storedBytes": 3227,
+      "storedSha256": "1ececcfb3db3e2edb29b6460c4e6add1224d2b6c9fee555ff74895a2e92a9924",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "F2",
+      "classification": "interface-proposal",
+      "originalBasename": "multimodal-f2-interface-proposal-20260930.md",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "multimodal-f2-interface-proposal-20260930.md"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-proposal-20260930.md",
+      "storage": "original-bytes",
+      "originalBytes": 2627,
+      "originalSha256": "a7634a2b3a1e4de44b1200e6bddfd7b15c5ef0ff64dafb7f80e912d88aada068",
+      "storedBytes": 2627,
+      "storedSha256": "a7634a2b3a1e4de44b1200e6bddfd7b15c5ef0ff64dafb7f80e912d88aada068",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "F2",
+      "classification": "interface-proposal",
+      "originalBasename": "multimodal-f2-interface-proposal-20260930.json",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "multimodal-f2-interface-proposal-20260930.json"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-proposal-20260930.json",
+      "storage": "original-bytes",
+      "originalBytes": 83536,
+      "originalSha256": "3577d71ce330008fabfa208dfd3ba444c7a46c897ee8fe6c2f5e48087c4a818b",
+      "storedBytes": 83536,
+      "storedSha256": "3577d71ce330008fabfa208dfd3ba444c7a46c897ee8fe6c2f5e48087c4a818b",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "F2",
+      "classification": "interface-review",
+      "originalBasename": "multimodal-f2-interface-review-20260930.md",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "multimodal-f2-interface-review-20260930.md"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-review-20260930.md",
+      "storage": "original-bytes",
+      "originalBytes": 7766,
+      "originalSha256": "ed272fa33c74b9f2973f3f34e8ec134f81dd64d51f869a34317baa4e624fc08f",
+      "storedBytes": 7766,
+      "storedSha256": "ed272fa33c74b9f2973f3f34e8ec134f81dd64d51f869a34317baa4e624fc08f",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "F2",
+      "classification": "interface-review",
+      "originalBasename": "multimodal-f2-interface-review-20260930.json",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "multimodal-f2-interface-review-20260930.json"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-review-20260930.json",
+      "storage": "original-bytes",
+      "originalBytes": 7109,
+      "originalSha256": "dac1cf661e4659b884c64875dc112fa9b8a42e950f7ebd49e79e22d2057ae650",
+      "storedBytes": 7109,
+      "storedSha256": "dac1cf661e4659b884c64875dc112fa9b8a42e950f7ebd49e79e22d2057ae650",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "E2",
+      "classification": "interface-review",
+      "originalBasename": "icl-e2-interface-review-20260930.md",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "icl-e2-interface-review-20260930.md"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-review-20260930.md",
+      "storage": "original-bytes",
+      "originalBytes": 7901,
+      "originalSha256": "5aaa85bc3a655d72c3a91c0be6d1fab3a3a21d44e422ff8585b8b42af65ebf36",
+      "storedBytes": 7901,
+      "storedSha256": "5aaa85bc3a655d72c3a91c0be6d1fab3a3a21d44e422ff8585b8b42af65ebf36",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    },
+    {
+      "unit": "E2",
+      "classification": "interface-review",
+      "originalBasename": "icl-e2-interface-review-20260930.json",
+      "origin": {
+        "kind": "os-temp",
+        "basename": "icl-e2-interface-review-20260930.json"
+      },
+      "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-review-20260930.json",
+      "storage": "original-bytes",
+      "originalBytes": 8476,
+      "originalSha256": "5e49ffceea5f2b4677efbbe1893ab0046c1225a6132f85545c14c56f34e9f8e2",
+      "storedBytes": 8476,
+      "storedSha256": "5e49ffceea5f2b4677efbbe1893ab0046c1225a6132f85545c14c56f34e9f8e2",
+      "rawBytesPreserved": true,
+      "runtimeApproved": false
+    }
+  ],
+  "readableViews": [
+    {
+      "path": "project/records/2026-09-30/p1-interface-preparation/views/alignment-d1-readonly-preparation-20260930.md",
+      "classification": "readable-view-not-raw-original",
+      "originalBasename": "alignment-d1-readonly-preparation-20260930.md",
+      "originalSha256": "a9aa319d77cd55684b7fc80375a7febcba98d8e73c67bcb397c53f2431c1a1bd",
+      "bytes": 5981,
+      "sha256": "03b716010b73ee99c18d8ac806b7ba63ef7fd838d121c73658c24dbc920e7eb4",
+      "changes": [
+        {
+          "kind": "relative-link-rebase-only",
+          "from": "../10-llm-foundations/reasoning-models.md",
+          "to": "../../../../../docs/10-llm-foundations/reasoning-models.md",
+          "occurrences": 2
+        }
+      ],
+      "reviewTargetUses": "originalSha256, never readable view hash"
+    },
+    {
+      "path": "project/records/2026-09-30/p1-interface-preparation/views/attention-context-e1-interface-proposal-20260930.md",
+      "classification": "readable-view-not-raw-original",
+      "originalBasename": "attention-context-e1-interface-proposal-20260930.md",
+      "originalSha256": "998f0261c2ce57aaa326a431b822d05426f1a96448afd2cda2b146beedb01b4f",
+      "bytes": 23583,
+      "sha256": "7f18b1084b5f165053f2814d091899c192954f7cecf1226923200df68aea69d7",
+      "changes": [
+        {
+          "kind": "blank-line-before-list",
+          "from": "frame fields:\n- ",
+          "to": "frame fields:\n\n- ",
+          "occurrences": 2
+        },
+        {
+          "kind": "blank-line-before-list",
+          "from": "DOMの意味属性（実際の可視要素へ付ける）:\n- ",
+          "to": "DOMの意味属性（実際の可視要素へ付ける）:\n\n- ",
+          "occurrences": 2
+        }
+      ],
+      "verificationMethod": "Apply declared literal replacements to decoded original in listed order; compare full view bytes.",
+      "reviewTargetUses": "originalSha256, never readable view hash"
+    },
+    {
+      "path": "project/records/2026-09-30/p1-interface-preparation/views/icl-e2-interface-proposal-20260930.md",
+      "classification": "readable-view-not-raw-original",
+      "originalBasename": "icl-e2-interface-proposal-20260930.md",
+      "originalSha256": "4a90d0af2a03be54ffb63fbedb7d66f0dd1f994290d100583c9abb6cddef2196",
+      "bytes": 22367,
+      "sha256": "0432ae1ce8a664a49a9a6e8b128ed6e1c23a46f324984b17827a4f27e57f02f0",
+      "changes": [
+        {
+          "kind": "inline-code-path-placeholder",
+          "from": "website/lib/<id>-model.mjs",
+          "to": "`website/lib/<id>-model.mjs`",
+          "occurrences": 1
+        },
+        {
+          "kind": "inline-code-path-placeholder",
+          "from": "website/components/diagrams/<id>-walkthrough.jsx",
+          "to": "`website/components/diagrams/<id>-walkthrough.jsx`",
+          "occurrences": 1
+        },
+        {
+          "kind": "inline-code-path-placeholder",
+          "from": "<id>.css",
+          "to": "`<id>.css`",
+          "occurrences": 1
+        },
+        {
+          "kind": "inline-code-path-placeholder",
+          "from": "website/tests/unit/<id>-model.test.mjs",
+          "to": "`website/tests/unit/<id>-model.test.mjs`",
+          "occurrences": 1
+        },
+        {
+          "kind": "collapse-multiple-blank-lines",
+          "from": "\n\n\n",
+          "to": "\n\n",
+          "occurrences": 1
+        }
+      ],
+      "verificationMethod": "Apply declared literal replacements to decoded original in listed order; compare full view bytes.",
+      "reviewTargetUses": "originalSha256, never readable view hash"
+    }
+  ],
+  "reviews": [
+    {
+      "unit": "D1",
+      "classification": "interface-review",
+      "sourceReviewPath": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-interface-review-20260930.json",
+      "reviewer": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+      "verdict": "approved",
+      "risk": "low",
+      "must": 0,
+      "should": 0,
+      "findings": [],
+      "planOnly": true,
+      "runtimeApproved": false,
+      "targetVerification": [
+        {
+          "originalBasename": "alignment-d1-interface-proposal-20260930.md",
+          "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-interface-proposal-20260930.md",
+          "reviewedSha256": "3498b1b6a2b1797410e0490026da0fb1272458b8e519f7bac252f52a3c8d1b6c",
+          "archivedOriginalSha256": "3498b1b6a2b1797410e0490026da0fb1272458b8e519f7bac252f52a3c8d1b6c",
+          "match": true
+        },
+        {
+          "originalBasename": "alignment-d1-interface-proposal-20260930.json",
+          "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-interface-proposal-20260930.json",
+          "reviewedSha256": "019400d5862560f50f361474971a62a5f7f51a5b2926b95a2a29b9bddfc3f632",
+          "archivedOriginalSha256": "019400d5862560f50f361474971a62a5f7f51a5b2926b95a2a29b9bddfc3f632",
+          "match": true
+        }
+      ]
+    },
+    {
+      "unit": "D1",
+      "classification": "kit-plan-review",
+      "sourceReviewPath": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-kit-plan-review-20260930.json",
+      "reviewer": "/root/pretraining_numeric",
+      "verdict": "approved",
+      "risk": "low",
+      "must": 0,
+      "should": 0,
+      "findings": [],
+      "planOnly": true,
+      "runtimeApproved": false,
+      "targetVerification": [
+        {
+          "originalBasename": "alignment-d1-kit-plan.md",
+          "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-kit-plan.md",
+          "reviewedSha256": "1c18d96025931e208c0fdd76d1be8115b79addc7195eacbf5c182d29f092d7aa",
+          "archivedOriginalSha256": "1c18d96025931e208c0fdd76d1be8115b79addc7195eacbf5c182d29f092d7aa",
+          "match": true
+        },
+        {
+          "originalBasename": "alignment-d1-kit-plan.json",
+          "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-kit-plan.json",
+          "reviewedSha256": "c003f801f6443662522bf0433bbd45546f7cd7bf86e93960ff5c5704accd5e21",
+          "archivedOriginalSha256": "c003f801f6443662522bf0433bbd45546f7cd7bf86e93960ff5c5704accd5e21",
+          "match": true
+        }
+      ]
+    },
+    {
+      "unit": "D2",
+      "classification": "interface-review",
+      "sourceReviewPath": "project/records/2026-09-30/p1-interface-preparation/raw/reasoning-d2-interface-review-20260930.json",
+      "reviewer": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+      "verdict": "approved",
+      "risk": "low",
+      "must": 0,
+      "should": 0,
+      "findings": [],
+      "planOnly": true,
+      "runtimeApproved": false,
+      "targetVerification": [
+        {
+          "originalBasename": "reasoning-d2-interface-proposal-20260930.md",
+          "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/reasoning-d2-interface-proposal-20260930.md",
+          "reviewedSha256": "cad4d2c26839426d4d4ca42027def563c9c33299666ff7b493c505426b1e2732",
+          "archivedOriginalSha256": "cad4d2c26839426d4d4ca42027def563c9c33299666ff7b493c505426b1e2732",
+          "match": true
+        },
+        {
+          "originalBasename": "reasoning-d2-interface-proposal-20260930.json",
+          "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/reasoning-d2-interface-proposal-20260930.json",
+          "reviewedSha256": "e9fed4e5450549dd04704fbff3d9ae4148dabdfe52c607d5f0b486e1467ced99",
+          "archivedOriginalSha256": "e9fed4e5450549dd04704fbff3d9ae4148dabdfe52c607d5f0b486e1467ced99",
+          "match": true
+        }
+      ]
+    },
+    {
+      "unit": "E1",
+      "classification": "interface-review",
+      "sourceReviewPath": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-review-20260930.json",
+      "reviewer": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+      "verdict": "approved",
+      "risk": "low",
+      "must": 0,
+      "should": 0,
+      "findings": [],
+      "planOnly": true,
+      "runtimeApproved": false,
+      "targetVerification": [
+        {
+          "originalBasename": "attention-context-e1-interface-proposal-20260930.md",
+          "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-proposal-20260930.md.gz",
+          "reviewedSha256": "998f0261c2ce57aaa326a431b822d05426f1a96448afd2cda2b146beedb01b4f",
+          "archivedOriginalSha256": "998f0261c2ce57aaa326a431b822d05426f1a96448afd2cda2b146beedb01b4f",
+          "match": true
+        },
+        {
+          "originalBasename": "attention-context-e1-interface-proposal-20260930.json",
+          "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-proposal-20260930.json",
+          "reviewedSha256": "b9b35c1da9bec520550ee5e658e74eb48109f4d673bb1e3f0858ab36654ccd43",
+          "archivedOriginalSha256": "b9b35c1da9bec520550ee5e658e74eb48109f4d673bb1e3f0858ab36654ccd43",
+          "match": true
+        }
+      ]
+    },
+    {
+      "unit": "E3",
+      "classification": "interface-review",
+      "sourceReviewPath": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-review-20260930.json",
+      "reviewer": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+      "verdict": "approved",
+      "risk": "low",
+      "must": 0,
+      "should": 0,
+      "findings": [],
+      "planOnly": true,
+      "runtimeApproved": false,
+      "targetVerification": [
+        {
+          "originalBasename": "interpretability-e3-interface-proposal-20260930.md",
+          "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-proposal-20260930.md",
+          "reviewedSha256": "d060d5467bfb47f1b02115ef91b42ac14d845c0271d25b6a16fddaba1bfe84b0",
+          "archivedOriginalSha256": "d060d5467bfb47f1b02115ef91b42ac14d845c0271d25b6a16fddaba1bfe84b0",
+          "match": true
+        },
+        {
+          "originalBasename": "interpretability-e3-interface-proposal-20260930.json",
+          "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-proposal-20260930.json",
+          "reviewedSha256": "2396351aa8afbd8e1853fac5a18a5cbcc5c3af1d3b7669152edd2fd4662c066c",
+          "archivedOriginalSha256": "2396351aa8afbd8e1853fac5a18a5cbcc5c3af1d3b7669152edd2fd4662c066c",
+          "match": true
+        }
+      ]
+    },
+    {
+      "unit": "F1",
+      "classification": "interface-review",
+      "sourceReviewPath": "project/records/2026-09-30/p1-interface-preparation/raw/capabilities-f1-interface-review-20260930.json",
+      "reviewer": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+      "verdict": "approved",
+      "risk": "low",
+      "must": 0,
+      "should": 0,
+      "findings": [],
+      "planOnly": true,
+      "runtimeApproved": false,
+      "targetVerification": [
+        {
+          "originalBasename": "capabilities-f1-interface-proposal-20260930.md",
+          "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/capabilities-f1-interface-proposal-20260930.md",
+          "reviewedSha256": "3094823e84dc82174149ad5d71e70f040fbacf41bde64333da0177ebc309b1f4",
+          "archivedOriginalSha256": "3094823e84dc82174149ad5d71e70f040fbacf41bde64333da0177ebc309b1f4",
+          "match": true
+        },
+        {
+          "originalBasename": "capabilities-f1-interface-proposal-20260930.json",
+          "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/capabilities-f1-interface-proposal-20260930.json",
+          "reviewedSha256": "20fbd3d8d4df2a613c4005f2471cdc11f041749d9f01eaa250e3d41212c9f692",
+          "archivedOriginalSha256": "20fbd3d8d4df2a613c4005f2471cdc11f041749d9f01eaa250e3d41212c9f692",
+          "match": true
+        }
+      ]
+    },
+    {
+      "unit": "F2",
+      "classification": "interface-review",
+      "sourceReviewPath": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-review-20260930.json",
+      "reviewer": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+      "verdict": "approved",
+      "risk": "low",
+      "must": 0,
+      "should": 1,
+      "findings": [
+        {
+          "severity": "should",
+          "file": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-proposal-20260930.json",
+          "line": 1572,
+          "field": "proposed.correctionBoundary",
+          "issue": "制作時の変更記録を T-task manifest と呼ぶため、F2 対象の ROADMAP AR-2 との対応が曖昧です。",
+          "suggestion": "AR-2 に対応する通常記事変更 manifest と記し、M1–M5 と同期訂正・実適用日・タスク全成果物・最終候補の独立記事レビューへ結び付けてください。",
+          "blocking": false,
+          "basis": "ROADMAP AR-2 names docs/10-llm-foundations/multimodal-models.md; source evidence scope also records AR-2. MD line17 already says task-wide results generically.",
+          "originalTargetBasename": "multimodal-f2-interface-proposal-20260930.json"
+        }
+      ],
+      "planOnly": true,
+      "runtimeApproved": false,
+      "targetVerification": [
+        {
+          "originalBasename": "multimodal-f2-interface-proposal-20260930.md",
+          "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-proposal-20260930.md",
+          "reviewedSha256": "a7634a2b3a1e4de44b1200e6bddfd7b15c5ef0ff64dafb7f80e912d88aada068",
+          "archivedOriginalSha256": "a7634a2b3a1e4de44b1200e6bddfd7b15c5ef0ff64dafb7f80e912d88aada068",
+          "match": true
+        },
+        {
+          "originalBasename": "multimodal-f2-interface-proposal-20260930.json",
+          "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-proposal-20260930.json",
+          "reviewedSha256": "3577d71ce330008fabfa208dfd3ba444c7a46c897ee8fe6c2f5e48087c4a818b",
+          "archivedOriginalSha256": "3577d71ce330008fabfa208dfd3ba444c7a46c897ee8fe6c2f5e48087c4a818b",
+          "match": true
+        }
+      ]
+    },
+    {
+      "unit": "E2",
+      "classification": "interface-review",
+      "sourceReviewPath": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-review-20260930.json",
+      "reviewer": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+      "verdict": "approved",
+      "risk": "low",
+      "must": 0,
+      "should": 0,
+      "findings": [],
+      "planOnly": true,
+      "runtimeApproved": false,
+      "targetVerification": [
+        {
+          "originalBasename": "icl-e2-interface-proposal-20260930.md",
+          "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-proposal-20260930.md.gz",
+          "reviewedSha256": "4a90d0af2a03be54ffb63fbedb7d66f0dd1f994290d100583c9abb6cddef2196",
+          "archivedOriginalSha256": "4a90d0af2a03be54ffb63fbedb7d66f0dd1f994290d100583c9abb6cddef2196",
+          "match": true
+        },
+        {
+          "originalBasename": "icl-e2-interface-proposal-20260930.json",
+          "storedPath": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-proposal-20260930.json",
+          "reviewedSha256": "46b275e0da9d9033d07fecb775f74b4136b76f7d0308268c4e7dfd4729c4c828",
+          "archivedOriginalSha256": "46b275e0da9d9033d07fecb775f74b4136b76f7d0308268c4e7dfd4729c4c828",
+          "match": true
+        }
+      ]
+    }
+  ],
+  "missingExpectedFiles": [],
+  "counts": {
+    "units": 7,
+    "expectedOriginalFiles": 34,
+    "archivedOriginalFiles": 34,
+    "missingOriginalFiles": 0,
+    "rawGzip": 3,
+    "directRawCopies": 31,
+    "readableViews": 3,
+    "independentReviewPairs": 8
+  },
+  "adoptionNotes": [
+    {
+      "unit": "D1",
+      "scope": "readonly-preparation",
+      "note": "Historical read-only research/correction extraction is retained as provenance; later reviewed interface fixes exports/hooks/options. Original statuses and source hashes are not rewritten to current runtime approval."
+    },
+    {
+      "unit": "F2",
+      "finding": "should 1 in independent interface review",
+      "rawPhrase": "T-task manifest",
+      "acceptedInterpretation": "At F2 implementation, use the normal article-change manifest for ROADMAP AR-2. Link M1–M5 and synchronized corrections, actual application date, all task artifacts, and final-candidate independent article review. Raw proposal and review bytes remain unchanged.",
+      "status": "accepted-for-implementation-follow-up-not-yet-implemented"
+    }
+  ],
+  "portableResolution": {
+    "storedPaths": "Every storedPath/path in archive inventory is repository-relative. Resolve from repository root, never from an old PC username or cwd.",
+    "rawSourcePaths": "Absolute sourceFiles/sourceInventory/report paths inside raw originals are historical evidence and intentionally unchanged. Resolve references to archived inputs by originalBasename + originalSha256; do not execute those absolute paths.",
+    "reviewBinding": "A review always binds to originalSha256; readable-view normalization is not substituted for its target.",
+    "staleSharedFiles": "Original base/source hashes are historical. Reread current main and shared APIs before each implementation; do not overwrite current files using preparation snapshots.",
+    "missing": "Missing review files are not considered approved. Add only finalized MD/JSON with target hash verification; preserve earlier raw originals."
+  },
+  "privacyReview": {
+    "scope": "Only selected technical preparation/review files; no terminal logs, chat exports, full conversations, credentials or unrelated attachments.",
+    "scanner": [
+      "privateKey",
+      "credentialLiteral",
+      "email",
+      "serializedConversation",
+      "phone"
+    ],
+    "scannedOriginalFiles": 34,
+    "hits": [],
+    "manualInspection": "Document headings, JSON schemas, review findings and all link destinations checked as technical plans/reviews. Existing local source paths and reviewer provenance IDs remain only in original reports as authorized; they are not treated as personal-contact data.",
+    "limitations": "Pattern scan plus content/schema inspection, not a general DLP certification."
+  },
+  "verificationPath": "project/records/2026-09-30/p1-interface-preparation/verification.json",
+  "readmePath": "project/records/2026-09-30/p1-interface-preparation/README.md",
+  "appendHistory": [
+    {
+      "unit": "E2",
+      "event": "final-independent-interface-review-arrived",
+      "reviewedAt": "2026-09-29T19:22:23Z",
+      "addedOriginalFiles": 2,
+      "previousOriginalFilesPreserved": 32,
+      "previousStoredHashes": [
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-readonly-preparation-20260930.md.gz",
+          "sha256": "30ed894c08deaa35e05e619974555af8f67e7db1273e36f8179c661436124d9d"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-readonly-preparation-20260930.json",
+          "sha256": "2437089201f5a41040113814de9a44109c8a1d3405f8cb5597e4d52038c081e8"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-interface-proposal-20260930.md",
+          "sha256": "3498b1b6a2b1797410e0490026da0fb1272458b8e519f7bac252f52a3c8d1b6c"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-interface-proposal-20260930.json",
+          "sha256": "019400d5862560f50f361474971a62a5f7f51a5b2926b95a2a29b9bddfc3f632"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-interface-review-20260930.md",
+          "sha256": "63f5569a81de455a7bdcbde7a15177d86f98ef670e4123fff096f763b4e11bf6"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-interface-review-20260930.json",
+          "sha256": "e92e19b4756256952484b16994fa0a42a8a679e3442c17b2b871f8b46eb08ca0"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-kit-plan.md",
+          "sha256": "1c18d96025931e208c0fdd76d1be8115b79addc7195eacbf5c182d29f092d7aa"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-kit-plan.json",
+          "sha256": "c003f801f6443662522bf0433bbd45546f7cd7bf86e93960ff5c5704accd5e21"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-kit-plan-review-20260930.md",
+          "sha256": "f970ce7787574be29d5282641c1d7e623455f08027940e7e792002175d9ae90e"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-kit-plan-review-20260930.json",
+          "sha256": "89bee7d25110b36270877e4795ec8618644c1642914c1c47bd73dab753753601"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/reasoning-d2-interface-proposal-20260930.md",
+          "sha256": "cad4d2c26839426d4d4ca42027def563c9c33299666ff7b493c505426b1e2732"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/reasoning-d2-interface-proposal-20260930.json",
+          "sha256": "e9fed4e5450549dd04704fbff3d9ae4148dabdfe52c607d5f0b486e1467ced99"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/reasoning-d2-interface-review-20260930.md",
+          "sha256": "6df6f65ec29fdae4a09fb9497a61a0dddbb983a14c7ee4798a570da5c5890844"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/reasoning-d2-interface-review-20260930.json",
+          "sha256": "db8852c9c09f253424d9932180b91da6e2320f9a34bab3d2e18fab5d67651bf5"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-proposal-20260930.md",
+          "sha256": "998f0261c2ce57aaa326a431b822d05426f1a96448afd2cda2b146beedb01b4f"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-proposal-20260930.json",
+          "sha256": "b9b35c1da9bec520550ee5e658e74eb48109f4d673bb1e3f0858ab36654ccd43"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-review-20260930.md",
+          "sha256": "50788adbcbb9f2b0ad9d697fa9648b90ef80662faca7735d5db2aa55d4142ad6"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-review-20260930.json",
+          "sha256": "72e280ce99f7312bb0ca4cb651d23e950928cd2976796cd15d044443c05f219a"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-proposal-20260930.md",
+          "sha256": "4a90d0af2a03be54ffb63fbedb7d66f0dd1f994290d100583c9abb6cddef2196"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-proposal-20260930.json",
+          "sha256": "46b275e0da9d9033d07fecb775f74b4136b76f7d0308268c4e7dfd4729c4c828"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-proposal-20260930.md",
+          "sha256": "d060d5467bfb47f1b02115ef91b42ac14d845c0271d25b6a16fddaba1bfe84b0"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-proposal-20260930.json",
+          "sha256": "2396351aa8afbd8e1853fac5a18a5cbcc5c3af1d3b7669152edd2fd4662c066c"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-review-20260930.md",
+          "sha256": "2eff7b9f4826b496bafa13c9a21e1f7d375d42cd5f06ce47bb0989e2eee92b6b"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-review-20260930.json",
+          "sha256": "df0ba3264efcdf36c7941ab394c528c0f1332ec8e5daa7171401664089b17d1e"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/capabilities-f1-interface-proposal-20260930.md",
+          "sha256": "3094823e84dc82174149ad5d71e70f040fbacf41bde64333da0177ebc309b1f4"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/capabilities-f1-interface-proposal-20260930.json",
+          "sha256": "20fbd3d8d4df2a613c4005f2471cdc11f041749d9f01eaa250e3d41212c9f692"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/capabilities-f1-interface-review-20260930.md",
+          "sha256": "c388f7956eac1a7266136f47f4539f5bc81ec7c82f3a52eadbc187f1c93878c9"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/capabilities-f1-interface-review-20260930.json",
+          "sha256": "1ececcfb3db3e2edb29b6460c4e6add1224d2b6c9fee555ff74895a2e92a9924"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-proposal-20260930.md",
+          "sha256": "a7634a2b3a1e4de44b1200e6bddfd7b15c5ef0ff64dafb7f80e912d88aada068"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-proposal-20260930.json",
+          "sha256": "3577d71ce330008fabfa208dfd3ba444c7a46c897ee8fe6c2f5e48087c4a818b"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-review-20260930.md",
+          "sha256": "ed272fa33c74b9f2973f3f34e8ec134f81dd64d51f869a34317baa4e624fc08f"
+        },
+        {
+          "path": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-review-20260930.json",
+          "sha256": "dac1cf661e4659b884c64875dc112fa9b8a42e950f7ebd49e79e22d2057ae650"
+        }
+      ],
+      "runtimeApproved": false
+    },
+    {
+      "event": "lint-compatible-readable-views",
+      "scope": "Original bytes/verdicts preserved; E1 list-spacing and E2 inline-code placeholders/multiple-blank formatting only.",
+      "originalFilesStill34": true,
+      "rawGzipNow3": true,
+      "sourceLocationRelocation": {
+        "historicalPath": "TEMP/icl-e2-interface-proposal-20260930.md",
+        "currentLocation": {
+          "kind": "os-temp",
+          "basename": "icl-e2-interface-proposal-20260930.md"
+        },
+        "originalSha256": "4a90d0af2a03be54ffb63fbedb7d66f0dd1f994290d100583c9abb6cddef2196",
+        "byteCopyVerifiedBeforeDeletingSingleSource": true
+      },
+      "runtimeApproved": false
+    }
+  ],
+  "storageRelocations": [
+    {
+      "originalBasename": "attention-context-e1-interface-proposal-20260930.md",
+      "oldStoredPath": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-proposal-20260930.md",
+      "newStoredPath": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-proposal-20260930.md.gz",
+      "originalSha256": "998f0261c2ce57aaa326a431b822d05426f1a96448afd2cda2b146beedb01b4f",
+      "viewPath": "project/records/2026-09-30/p1-interface-preparation/views/attention-context-e1-interface-proposal-20260930.md",
+      "gzipRoundtrip": true
+    },
+    {
+      "originalBasename": "icl-e2-interface-proposal-20260930.md",
+      "oldStoredPath": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-proposal-20260930.md",
+      "newStoredPath": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-proposal-20260930.md.gz",
+      "originalSha256": "4a90d0af2a03be54ffb63fbedb7d66f0dd1f994290d100583c9abb6cddef2196",
+      "viewPath": "project/records/2026-09-30/p1-interface-preparation/views/icl-e2-interface-proposal-20260930.md",
+      "gzipRoundtrip": true
+    }
+  ]
+}

@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 1,
+  "kind": "completed-final-local-browser-binding",
+  "completedConfirmedByOwner": true,
+  "processExitCode": 0,
+  "completionAuthorization": "Owner message 2026-09-30 after 09:05 UTC: final WebKit42/42 and final Edge selectedStateGrid3/3 completed; archive permitted",
+  "engine": "chromium",
+  "channel": "msedge",
+  "suite": {
+    "total": 3,
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "elapsed": "1.3m",
+    "logPath": "raw/alignment-browser-edge-grid-final.log.gz",
+    "lastRunPath": "raw/alignment-browser-edge-grid-final-last-run.json.gz",
+    "scope": "D1 semantic selectedStateGrid3 supplement only"
+  },
+  "kitVersion": {
+    "checksSHA256": "c2dec4a5e62f2f557de44fbfff9a4d9b4a10aa94d449356268ebf9a267c74717",
+    "manifestSHA256": "40cca5a2f969f4c0385fac358cf4988decb6f72076c5b91e1b52fe22153adee9",
+    "versionProofPath": "raw/kit-first-edge-aria-version-proof.json.gz",
+    "identityBasis": "Owner reports final checks execution; current checks hash matches frozen final source; result files preserve actual selectedStateGrid observations"
+  },
+  "D1": {
+    "total": 3,
+    "passed": 3,
+    "failed": 0,
+    "cases": [
+      {
+        "name": "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+        "status": "passed",
+        "resultPath": "raw/edge-grid-final-case-01.json.gz",
+        "resultSHA256": "5db1dac7602f95566a979c310c315167966289d4d0d2a73b4e7c75eb56a01946",
+        "generatedImages": 18,
+        "originalVisualStatus": "pending-actual-images",
+        "selectedStateGridPresent": true,
+        "selectedStateGridCount": 21,
+        "midpointVisits": null,
+        "selectorVisits": [
+          {
+            "control": "beta",
+            "value": "0.5",
+            "stage": 4
+          },
+          {
+            "control": "beta",
+            "value": "1",
+            "stage": 4
+          },
+          {
+            "control": "beta",
+            "value": "2",
+            "stage": 4
+          },
+          {
+            "control": "beta",
+            "value": "0.5",
+            "stage": 5
+          },
+          {
+            "control": "beta",
+            "value": "1",
+            "stage": 5
+          },
+          {
+            "control": "beta",
+            "value": "2",
+            "stage": 5
+          },
+          {
+            "control": "beta",
+            "value": "0.5",
+            "stage": 6
+          },
+          {
+            "control": "beta",
+            "value": "1",
+            "stage": 6
+          },
+          {
+            "control": "beta",
+            "value": "2",
+            "stage": 6
+          }
+        ],
+        "localHTMLSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+        "network": {
+          "failures": 0,
+          "consoleErrors": 0,
+          "pageErrors": 0,
+          "expectedBlockedScripts": 0,
+          "unexpectedResourceErrors": 0
+        }
+      },
+      {
+        "name": "alignment-reward-risk: independent semantic fixtures, every selector and midpoint reverse seeks",
+        "status": "passed",
+        "resultPath": "raw/edge-grid-final-case-02.json.gz",
+        "resultSHA256": "33a3515faf411849fb6a70b43b67d1193bae82323e05eeef555291e0be344583",
+        "generatedImages": 0,
+        "originalVisualStatus": "pending-actual-images",
+        "selectedStateGridPresent": true,
+        "selectedStateGridCount": 0,
+        "midpointVisits": null,
+        "selectorVisits": [],
+        "localHTMLSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+        "network": {
+          "failures": 0,
+          "consoleErrors": 0,
+          "pageErrors": 0,
+          "expectedBlockedScripts": 0,
+          "unexpectedResourceErrors": 0
+        }
+      },
+      {
+        "name": "alignment-feedback: independent semantic fixtures, every selector and midpoint reverse seeks",
+        "status": "passed",
+        "resultPath": "raw/edge-grid-final-case-03.json.gz",
+        "resultSHA256": "eb9c412f3e8409fdaadd8cf8ddff561b7cc79a752578ac89ca6a9830adb2ec5e",
+        "generatedImages": 4,
+        "originalVisualStatus": "pending-actual-images",
+        "selectedStateGridPresent": true,
+        "selectedStateGridCount": 10,
+        "midpointVisits": null,
+        "selectorVisits": [
+          {
+            "control": "labelSource",
+            "value": "human",
+            "stage": 4
+          },
+          {
+            "control": "labelSource",
+            "value": "ai",
+            "stage": 4
+          }
+        ],
+        "localHTMLSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+        "network": {
+          "failures": 0,
+          "consoleErrors": 0,
+          "pageErrors": 0,
+          "expectedBlockedScripts": 0,
+          "unexpectedResourceErrors": 0
+        }
+      }
+    ],
+    "generatedImages": 22,
+    "storedImages": 0,
+    "independentImageSelection": "pending"
+  },
+  "initialLocalIdentity": {
+    "buildId": "XJR9sUrJP0VbXQCKQiQ8F",
+    "htmlSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
+    "inputDigests": [
+      {
+        "article": "docs/11-llm-internals/transformer-architecture.md",
+        "inputDigest": "sha256:b625ce37d9aaf96c988322e24479c7b3d68b7b12fc61a95747810cf8451850ff"
+      },
+      {
+        "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+        "inputDigest": "sha256:0998367b434d17d843fbdcd6d56efac5652b946a927c2eb7417ae232730a48e1"
+      },
+      {
+        "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+        "inputDigest": "sha256:aa360c495d4010553f4e2acc620664ca848c5fac2ce9ad9dc21920e143eb7047"
+      },
+      {
+        "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+        "inputDigest": "sha256:f46d62d4dadf3ca78439fdbdfbfc70b224c245597690c42d07e3a385160edce3"
+      },
+      {
+        "article": "docs/10-llm-foundations/tokenization.md",
+        "inputDigest": "sha256:f7485f5af6c51d9777213055f1565da6c632667ee7247cce09efce96dfc1840c"
+      },
+      {
+        "article": "docs/11-llm-internals/inference-internals.md",
+        "inputDigest": "sha256:037e697c7a4ec699b486b7f891d6880c82281d003207833d639703912d9a24cb"
+      },
+      {
+        "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+        "inputDigest": "sha256:23ff06677c89c80dce28217e2bb832caabdb020ed6a762c0f43d0beff1080e79"
+      },
+      {
+        "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+        "inputDigest": "sha256:eed3b9e3c53c8b20b63428a4fda99afe8fea406aa0f034c7ef2921a1f250c8ea"
+      },
+      {
+        "article": "docs/11-llm-internals/alignment-theory.md",
+        "inputDigest": "sha256:0c544c4f549673475d56409d1b2112f02317b7e0f19cc7f6d2b97d02ed4b3450"
+      }
+    ]
+  },
+  "localAcceptance": false,
+  "publicAcceptance": false
+}

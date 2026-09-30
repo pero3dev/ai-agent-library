@@ -12,7 +12,7 @@ import {
   TOKENIZATION_ARTICLE, TOKENIZATION_EVIDENCE_PATH, TOKENIZATION_INPUT_FILES,
   INFERENCE_ARTICLE, INFERENCE_EVIDENCE_PATH, INFERENCE_INPUT_FILES,
   TRAINING_ARTICLE, TRAINING_EVIDENCE_PATH, TRAINING_INPUT_FILES,
-  PRETRAINING_ARTICLE, PRETRAINING_EVIDENCE_PATH, PRETRAINING_INPUT_FILES
+  PRETRAINING_ARTICLE, PRETRAINING_EVIDENCE_PATH, PRETRAINING_INPUT_FILES, ALIGNMENT_ARTICLE
 } from '../../lib/diagram-article-acceptance.mjs'
 import { getDiagramCoverage } from '../../lib/diagram-coverage.mjs'
 import { diagramRegistry } from '../../lib/diagram-registry.mjs'
@@ -250,7 +250,7 @@ test('coverage computes complete article count from acceptance and keeps publica
 })
 
 test('eight article configurations are code-owned and returned copies cannot alter the policy', () => {
-  assert.deepEqual(TRACKED_ARTICLES, [TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE, INFERENCE_ARTICLE, TRAINING_ARTICLE, PRETRAINING_ARTICLE])
+  assert.deepEqual(TRACKED_ARTICLES, [TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE, INFERENCE_ARTICLE, TRAINING_ARTICLE, PRETRAINING_ARTICLE, ALIGNMENT_ARTICLE])
   const config = getDiagramArticleConfig(ATTENTION_VARIANTS_ARTICLE)
   assert.equal(Object.keys(config.topics).length, 11)
   assert.equal(config.evidencePath, ATTENTION_VARIANTS_EVIDENCE_PATH)
@@ -1027,4 +1027,74 @@ test('pretraining optional overrides and unwrapped checklist invalidate whole-ar
   assert.notEqual(f.report(PRETRAINING_ARTICLE).inputDigest, before.get(PRETRAINING_ARTICLE))
   assert.equal(f.report(PRETRAINING_ARTICLE).diagramsCurrent, true)
   assert.equal(f.report(PRETRAINING_ARTICLE).complete, false)
+})
+
+test('alignment assigns all nine headings and 42 topics, with three independent acceptance gates', t => {
+  const f = trackedArticlesFixture(t), config = getDiagramArticleConfig(ALIGNMENT_ARTICLE)
+  assert.deepEqual(config.primaryDiagramIds, ['alignment-preference','alignment-reward-risk','alignment-feedback'])
+  assert.equal(Object.keys(config.topics).length, 9)
+  assert.equal(Object.values(config.topics).flat().length, 42)
+  const topics = f.manifest().articles.find(a => a.article === ALIGNMENT_ARTICLE).sections.flatMap(s => s.topics)
+  assert.equal(topics.filter(t => t.diagramId).length, 27)
+  assert.equal(topics.filter(t => t.staticReason).length, 15)
+  assert.equal(f.report(ALIGNMENT_ARTICLE).assignmentCurrent, true)
+  assert.equal(f.report(ALIGNMENT_ARTICLE).diagramsCurrent, true)
+  for (const gate of ['review','local','public']) {
+    const evidence = f.evidence(ALIGNMENT_ARTICLE)
+    evidence[gate] = null
+    f.json(config.evidencePath, evidence)
+    assert.equal(f.report(ALIGNMENT_ARTICLE)[`${gate}Recorded`], false)
+    assert.equal(f.report(ALIGNMENT_ARTICLE).complete, false)
+  }
+  for (const mutate of [
+    a => a.sections.pop(), a => a.sections.reverse(), a => a.sections[0].topics.pop(),
+    a => a.sections[0].topics.push(a.sections[0].topics[0]), a => a.primaryDiagramIds.pop(),
+    a => a.sections[0].topics[0].stages = [7],
+    a => a.sections[0].topics[0].diagramId = 'generation-token-loop',
+    a => a.sections.at(-1).topics[0].staticReason = ''
+  ]) {
+    const manifest = f.manifest()
+    mutate(manifest.articles.find(a => a.article === ALIGNMENT_ARTICLE))
+    f.json(manifestPath, manifest)
+    f.json(config.evidencePath, f.evidence(ALIGNMENT_ARTICLE))
+    assert.equal(f.report(ALIGNMENT_ARTICLE).assignmentCurrent, false, String(mutate))
+    assert.equal(f.report(ALIGNMENT_ARTICLE).complete, false)
+  }
+})
+
+test('each alignment scene input invalidates only its own article and fails closed if missing', t => {
+  const f = trackedArticlesFixture(t), config = getDiagramArticleConfig(ALIGNMENT_ARTICLE)
+  const before = new Map(TRACKED_ARTICLES.map(a => [a, f.report(a).inputDigest]))
+  const specific = config.inputFiles.filter(file => !ARTICLE_INPUT_FILES.includes(file))
+  assert.equal(specific.length, 10)
+  for (const a of TRACKED_ARTICLES) f.json(getDiagramArticleConfig(a).evidencePath, f.evidence(a))
+  for (const file of specific) {
+    const source = readFileSync(path.join(f.root,file), 'utf8')
+    f.write(file, source + '\n// Changed alignment input\n')
+    for (const a of TRACKED_ARTICLES) {
+      assert.equal(f.report(a).inputDigest !== before.get(a), a === ALIGNMENT_ARTICLE, file)
+      assert.equal(f.report(a).complete, a !== ALIGNMENT_ARTICLE, file)
+    }
+    rmSync(path.join(f.root,file))
+    assert.equal(f.report(ALIGNMENT_ARTICLE).inputDigest, null)
+    assert.equal(f.report(ALIGNMENT_ARTICLE).complete, false)
+    f.write(file, source)
+  }
+})
+
+test('alignment unwrapped checklist and content overrides invalidate whole-article acceptance', t => {
+  const f = trackedArticlesFixture(t), config = getDiagramArticleConfig(ALIGNMENT_ARTICLE)
+  const before = f.report(ALIGNMENT_ARTICLE).inputDigest
+  for (const file of config.optionalInputs) {
+    f.json(config.evidencePath, f.evidence(ALIGNMENT_ARTICLE))
+    f.write(file, '# Override\n')
+    assert.notEqual(f.report(ALIGNMENT_ARTICLE).inputDigest, before)
+    assert.equal(f.report(ALIGNMENT_ARTICLE).complete, false)
+    rmSync(path.join(f.root,file))
+  }
+  f.json(config.evidencePath, f.evidence(ALIGNMENT_ARTICLE))
+  f.write(ALIGNMENT_ARTICLE, readFileSync(path.join(f.root,ALIGNMENT_ARTICLE), 'utf8').replace('### チェックリスト', '### チェックリスト\n\n確認内容の変更。'))
+  assert.notEqual(f.report(ALIGNMENT_ARTICLE).inputDigest, before)
+  assert.equal(f.report(ALIGNMENT_ARTICLE).diagramsCurrent, true)
+  assert.equal(f.report(ALIGNMENT_ARTICLE).complete, false)
 })

@@ -1,0 +1,1353 @@
+{
+  "schemaVersion": 1,
+  "kind": "E3 interface proposal, not accepted or implemented",
+  "createdAt": "2026-09-29T18:53:57.341Z",
+  "writer": "/root",
+  "repoEdited": false,
+  "sourceModified": false,
+  "requiresPublicAcceptanceOf": [
+    "E2"
+  ],
+  "inputs": [
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "sha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319"
+    },
+    {
+      "file": "docs/11-llm-internals/interpretability-basics.md",
+      "sha256": "d7a2febb87771c6afbf440be223527c2c9a465f1e1c72f000432540ec2cda68e"
+    },
+    {
+      "file": "website/lib/diagram-registry.mjs",
+      "sha256": "85e75284f46ce42f7c89384a32bce6d227d2273855adfc81238d2f78966518d9"
+    },
+    {
+      "file": "website/lib/reading-clock.mjs",
+      "sha256": "f39eadf5eb39ebbb0f33877e6bceb9966211fc7acdaad13118428a4c2019081b"
+    },
+    {
+      "file": "website/lib/pretraining-data-model.mjs",
+      "sha256": "5338703ea3cd88e8c2df1df41e4d077be40a01042dc62ba2a69ede28c97673fa"
+    }
+  ],
+  "counts": {
+    "rootNodes": 50,
+    "contentH3": 9,
+    "contentBodyBlocks": 21,
+    "displayMath": 1,
+    "mermaid": 0,
+    "wrappedH3": 5,
+    "wrappedBody": 16,
+    "dynamicTopics": 20,
+    "staticTopics": 21,
+    "stages": 9,
+    "readStops": 9
+  },
+  "adopted": {
+    "unit": "E3",
+    "file": "docs/11-llm-internals/interpretability-basics.md",
+    "route": "/docs/llm-internals/interpretability-basics",
+    "requiresPublicAcceptanceOf": [
+      "E2"
+    ],
+    "learningOrderReason": "ICLの誘導ヘッドを受けて、取り出せる情報と因果的利用の違い、SAEの限界を扱う。",
+    "sourceSha256": "d7a2febb87771c6afbf440be223527c2c9a465f1e1c72f000432540ec2cda68e",
+    "sections": [
+      {
+        "heading": "概要: 行動を見るか、機構を理解するか",
+        "parent": "本文",
+        "line": 32,
+        "start": 11,
+        "end": 15,
+        "bodyTypes": [
+          "paragraph",
+          "list",
+          "paragraph"
+        ]
+      },
+      {
+        "heading": "プロービング: 表現に情報はあるか",
+        "parent": "本文",
+        "line": 41,
+        "start": 15,
+        "end": 18,
+        "bodyTypes": [
+          "paragraph",
+          "paragraph"
+        ]
+      },
+      {
+        "heading": "帰属と「注意は説明か」論争",
+        "parent": "本文",
+        "line": 47,
+        "start": 18,
+        "end": 22,
+        "bodyTypes": [
+          "paragraph",
+          "list",
+          "paragraph"
+        ]
+      },
+      {
+        "heading": "回路: 誘導ヘッドという発見",
+        "parent": "本文",
+        "line": 56,
+        "start": 22,
+        "end": 26,
+        "bodyTypes": [
+          "paragraph",
+          "list",
+          "paragraph"
+        ]
+      },
+      {
+        "heading": "重ね合わせと SAE: 特徴を疎に取り出す",
+        "parent": "本文",
+        "line": 65,
+        "start": 26,
+        "end": 32,
+        "bodyTypes": [
+          "paragraph",
+          "list",
+          "math",
+          "paragraph",
+          "paragraph"
+        ]
+      },
+      {
+        "heading": "実務への応用可能性と限界",
+        "parent": "本文",
+        "line": 80,
+        "start": 32,
+        "end": 35,
+        "bodyTypes": [
+          "paragraph",
+          "list"
+        ]
+      },
+      {
+        "heading": "この理解が効く場面",
+        "parent": "本文",
+        "line": 88,
+        "start": 35,
+        "end": 37,
+        "bodyTypes": [
+          "list"
+        ]
+      },
+      {
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "line": 97,
+        "start": 38,
+        "end": 40,
+        "bodyTypes": [
+          "list"
+        ]
+      },
+      {
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "line": 105,
+        "start": 40,
+        "end": 42,
+        "bodyTypes": [
+          "list"
+        ]
+      },
+      {
+        "heading": "変わりやすい項目(定点観測)",
+        "parent": "TODO・未確認事項",
+        "line": 141,
+        "start": 48,
+        "end": 50,
+        "bodyTypes": [
+          "blockquote"
+        ]
+      }
+    ],
+    "diagrams": [
+      {
+        "id": "interpretability-evidence",
+        "title": "観察と介入の証明範囲",
+        "heads": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "sources": [
+          0,
+          1,
+          2,
+          3,
+          5
+        ],
+        "groups": [
+          [
+            [
+              0,
+              3
+            ]
+          ],
+          [
+            [
+              1,
+              2
+            ]
+          ],
+          [
+            [
+              2,
+              3
+            ]
+          ],
+          [
+            [
+              3,
+              2
+            ],
+            [
+              4,
+              1
+            ]
+          ]
+        ],
+        "objects": [
+          "同じモデル内部",
+          "中間表現",
+          "独立プローブ",
+          "注意/帰属表示",
+          "介入対象",
+          "同じ入力の出力比較"
+        ],
+        "stages": [
+          {
+            "label": "行動と内部",
+            "state": "外側の入出力と内側の機構の二つの観測範囲。単一手法で決定しない。",
+            "motion": "モデル枠を開いて内部観測経路を追加。"
+          },
+          {
+            "label": "取り出せる",
+            "state": "中間表現→独立分類器の読出し経路。モデル本体の出力経路とは別。",
+            "motion": "表現からプローブへ枝線、因果利用への矢印は描かない。"
+          },
+          {
+            "label": "帰属を比べる",
+            "state": "注意分布と別の重要度表示を同じ入出力枠に並べる。既存論争の両論を短ラベルで保持。",
+            "motion": "強調分布が切り替わっても説明確定の印は出ない。"
+          },
+          {
+            "label": "介入する",
+            "state": "同じ入力の通常/部品停止・差替えを並べ、出力差を調べる位置を示す。結果の方向や量は未計測。",
+            "motion": "対象部品だけを切替え、出力枠は比較待ち表示。"
+          },
+          {
+            "label": "候補の限界",
+            "state": "誘導ヘッドの既存A B ... A経路を残し、対象機構の候補と全モデルの証明を区別。",
+            "motion": "候補の範囲境界を表示し全体への外挿線を引かない。"
+          }
+        ],
+        "checks": [
+          "プローブ成功を因果の証明にしない",
+          "注意=説明/注意は無価値の一方に決着させない",
+          "介入結果を作らない",
+          "候補と一般的機構を区別"
+        ],
+        "article": "docs/11-llm-internals/interpretability-basics.md",
+        "route": "/docs/llm-internals/interpretability-basics",
+        "binding": "grouped-blocks",
+        "stageCount": 5,
+        "headings": [
+          "概要: 行動を見るか、機構を理解するか",
+          "プロービング: 表現に情報はあるか",
+          "帰属と「注意は説明か」論争",
+          "回路: 誘導ヘッドという発見"
+        ],
+        "sourceHeadings": [
+          "概要: 行動を見るか、機構を理解するか",
+          "プロービング: 表現に情報はあるか",
+          "帰属と「注意は説明か」論争",
+          "回路: 誘導ヘッドという発見",
+          "実務への応用可能性と限界"
+        ],
+        "blockGroups": [
+          [
+            {
+              "stage": 0,
+              "count": 3
+            }
+          ],
+          [
+            {
+              "stage": 1,
+              "count": 2
+            }
+          ],
+          [
+            {
+              "stage": 2,
+              "count": 3
+            }
+          ],
+          [
+            {
+              "stage": 3,
+              "count": 2
+            },
+            {
+              "stage": 4,
+              "count": 1
+            }
+          ]
+        ],
+        "blockTypes": [
+          [
+            "paragraph",
+            "list",
+            "paragraph"
+          ],
+          [
+            "paragraph",
+            "paragraph"
+          ],
+          [
+            "paragraph",
+            "list",
+            "paragraph"
+          ],
+          [
+            "paragraph",
+            "list",
+            "paragraph"
+          ]
+        ],
+        "sourceDigest": "sha256:3a1971be6655134de6a600c9d03afe0ff8cef25ed9662dff1bd065990150d0d7",
+        "status": "planned-not-reviewed",
+        "reviewedDigest": null,
+        "enabled": false,
+        "contentKind": "conceptual",
+        "staticFallback": "同じ意味モデルの主要段階の静止表示と短い図ラベル。追加の本文・例題・ナレーションを作らない。",
+        "layout": "既存ReadingFigureの操作・同期・拡大・JS無効/印刷経路を再利用。固有model/scene/CSSは記事chunkで遅延読込。",
+        "stateContract": "frame(phase, options)は副作用なし。同じ位相/選択で同じ図、逆シーク・中点でもID/関係を保持。停止/非表示に常時loopを残さない。",
+        "readingStages": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "manualOnlyStages": [],
+        "minimumCountReason": "同じ対象と意味を保てる連続H3を一図にまとめる。異なる意味の図を操作回数のためだけに増やさない。",
+        "postCorrectionSourceDigestCandidate": "sha256:3a1971be6655134de6a600c9d03afe0ff8cef25ed9662dff1bd065990150d0d7"
+      },
+      {
+        "id": "interpretability-sae",
+        "title": "疎な特徴と再構成",
+        "heads": [
+          4
+        ],
+        "sources": [
+          0,
+          4,
+          5
+        ],
+        "groups": [
+          [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              3,
+              1
+            ]
+          ]
+        ],
+        "objects": [
+          "元の活性x",
+          "複数特徴方向d_i",
+          "疎な係数f_i",
+          "再構成x_hat",
+          "残差"
+        ],
+        "stages": [
+          {
+            "label": "多義性",
+            "state": "一つのニューロン/次元から複数特徴への対応。概念を一対一の真実として固定しない。",
+            "motion": "同じ次元から複数の方向線を開く。"
+          },
+          {
+            "label": "重ね合わせ仮説",
+            "state": "次元より多い候補特徴が疎に使われる考え方。玩具モデル由来の仮説表示。",
+            "motion": "多くの方向を保持し少数だけを強調。"
+          },
+          {
+            "label": "SAE再構成",
+            "state": "原式の非負係数・大半0・方向の和・近似を対応させる。記号モデルで不要な新例を増やさない。",
+            "motion": "非零項だけが再構成へ合流し残差を保持。"
+          },
+          {
+            "label": "何が未解決か",
+            "state": "抽出特徴と元モデルの全機構・安全保証の間に未解決の境界を残す。",
+            "motion": "網羅性/評価/規模の短ラベルを境界へ配置。"
+          }
+        ],
+        "checks": [
+          "近似を等号にしない",
+          "f_i非負・疎性",
+          "特徴名を実測発見として発明しない",
+          "SAEを安全保証にしない"
+        ],
+        "article": "docs/11-llm-internals/interpretability-basics.md",
+        "route": "/docs/llm-internals/interpretability-basics",
+        "binding": "grouped-blocks",
+        "stageCount": 4,
+        "headings": [
+          "重ね合わせと SAE: 特徴を疎に取り出す"
+        ],
+        "sourceHeadings": [
+          "概要: 行動を見るか、機構を理解するか",
+          "重ね合わせと SAE: 特徴を疎に取り出す",
+          "実務への応用可能性と限界"
+        ],
+        "blockGroups": [
+          [
+            {
+              "stage": 0,
+              "count": 1
+            },
+            {
+              "stage": 1,
+              "count": 1
+            },
+            {
+              "stage": 2,
+              "count": 2
+            },
+            {
+              "stage": 3,
+              "count": 1
+            }
+          ]
+        ],
+        "blockTypes": [
+          [
+            "paragraph",
+            "list",
+            "math",
+            "paragraph",
+            "paragraph"
+          ]
+        ],
+        "sourceDigest": "sha256:782e82380a0061d618371bbb4709a2ed263a52af2b031a0754a8591e3ccead15",
+        "status": "planned-not-reviewed",
+        "reviewedDigest": null,
+        "enabled": false,
+        "contentKind": "conceptual",
+        "staticFallback": "同じ意味モデルの主要段階の静止表示と短い図ラベル。追加の本文・例題・ナレーションを作らない。",
+        "layout": "既存ReadingFigureの操作・同期・拡大・JS無効/印刷経路を再利用。固有model/scene/CSSは記事chunkで遅延読込。",
+        "stateContract": "frame(phase, options)は副作用なし。同じ位相/選択で同じ図、逆シーク・中点でもID/関係を保持。停止/非表示に常時loopを残さない。",
+        "readingStages": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "manualOnlyStages": [],
+        "minimumCountReason": "同じ対象と意味を保てる連続H3を一図にまとめる。異なる意味の図を操作回数のためだけに増やさない。",
+        "postCorrectionSourceDigestCandidate": "sha256:782e82380a0061d618371bbb4709a2ed263a52af2b031a0754a8591e3ccead15"
+      }
+    ],
+    "topics": [
+      {
+        "id": "e3-s0-b0",
+        "heading": "概要: 行動を見るか、機構を理解するか",
+        "parent": "本文",
+        "sourceLine": 32,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "モデルの理解には 2 つの水準があります。",
+        "coverage": "dynamic",
+        "diagramId": "interpretability-evidence",
+        "readingStage": 0,
+        "stageScope": [
+          0
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "モデルの理解には 2 つの水準があります。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s0-b1.li0",
+        "heading": "概要: 行動を見るか、機構を理解するか",
+        "parent": "本文",
+        "sourceLine": 32,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "行動の評価: 入力に対する出力を観察し、能力・癖を測る(Agent 評価の基礎)。外から見た振る舞いを扱う",
+        "coverage": "dynamic",
+        "diagramId": "interpretability-evidence",
+        "readingStage": 0,
+        "stageScope": [
+          0
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "行動の評価: 入力に対する出力を観察し、能力・癖を測る(Agent 評価の基礎)。外から見た振る舞いを扱う",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s0-b1.li1",
+        "heading": "概要: 行動を見るか、機構を理解するか",
+        "parent": "本文",
+        "sourceLine": 32,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "機構の理解(解釈可能性): モデルの内部の計算が何をしているかを、人間が理解できる形に逆算しようとする。特に、内部を回路やアルゴリズムとして説明しようとする流れを機構的解釈可能性(mechanistic interpretability)と呼ぶ",
+        "coverage": "dynamic",
+        "diagramId": "interpretability-evidence",
+        "readingStage": 0,
+        "stageScope": [
+          0
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "機構の理解(解釈可能性): モデルの内部の計算が何をしているかを、人間が理解できる形に逆算しようとする。特に、内部を回路やアルゴリズムとして説明しようとする流れを機構的解釈可能性(mechanistic interpretability)と呼ぶ",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s0-b2",
+        "heading": "概要: 行動を見るか、機構を理解するか",
+        "parent": "本文",
+        "sourceLine": 32,
+        "sourceBlock": 2,
+        "kind": "paragraph",
+        "topic": "本記事は後者の入口です。以下の手法は、いずれも「モデルの中で何が起きているか」を別の角度から探るもので、互いに補完的で、単独では決定的でないという前提で読みます。",
+        "coverage": "dynamic",
+        "diagramId": "interpretability-evidence",
+        "readingStage": 0,
+        "stageScope": [
+          0
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "本記事は後者の入口です。以下の手法は、いずれも「モデルの中で何が起きているか」を別の角度から探るもので、互いに補完的で、単独では決定的でないという前提で読みます。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s1-b0",
+        "heading": "プロービング: 表現に情報はあるか",
+        "parent": "本文",
+        "sourceLine": 41,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "プロービング(probing)は、モデルの中間層の表現の上に、独立に訓練した単純な分類器(線形プローブ)を載せ、「ある情報(品詞・構文・事実など)が表現の中に取り出せる形で存在するか」を測る手法です。",
+        "coverage": "dynamic",
+        "diagramId": "interpretability-evidence",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "プロービング(probing)は、モデルの中間層の表現の上に、独立に訓練した単純な分類器(線形プローブ)を載せ、「ある情報(品詞・構文・事実など)が表現の中に取り出せる形で存在するか」を測る手法です。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s1-b1",
+        "heading": "プロービング: 表現に情報はあるか",
+        "parent": "本文",
+        "sourceLine": 41,
+        "sourceBlock": 1,
+        "kind": "paragraph",
+        "topic": "重要な限界があります。プローブが情報を取り出せることは、「その情報が表現にアクセス可能」であることを示すだけで、「その層が因果的にその計算を行っている」ことの証明ではありません。 強力なプローブは、モデルが実際には使っていない情報まで拾ってしまいます。この「アクセス可能性 ≠ 因果」という限界が、後述の回路研究が因果的な介入を重視する動機になっています。",
+        "coverage": "dynamic",
+        "diagramId": "interpretability-evidence",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "重要な限界があります。プローブが情報を取り出せることは、「その情報が表現にアクセス可能」であることを示すだけで、「その層が因果的にその計算を行っている」ことの証明ではありません。 強力なプローブは、モデルが実際には使っていない情報まで拾ってしまいます。この「アクセス可能性 ≠ 因果」という限界が、後述の回路研究が因果的な介入を重視する動機になっています。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s2-b0",
+        "heading": "帰属と「注意は説明か」論争",
+        "parent": "本文",
+        "sourceLine": 47,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "帰属(attribution)は、出力に対して入力のどの部分・内部のどの要素が効いたかを割り当てる試みです。ここで象徴的なのが「注意重みはモデルの説明になるか」という論争です。",
+        "coverage": "dynamic",
+        "diagramId": "interpretability-evidence",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "帰属(attribution)は、出力に対して入力のどの部分・内部のどの要素が効いたかを割り当てる試みです。ここで象徴的なのが「注意重みはモデルの説明になるか」という論争です。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s2-b1.li0",
+        "heading": "帰属と「注意は説明か」論争",
+        "parent": "本文",
+        "sourceLine": 47,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "ある研究(Jain & Wallace, 2019)は、注意重みが勾配ベースの重要度としばしば無相関で、同じ予測を与える別の注意分布を作れることを示し、「注意重みを説明として扱うべきでない」と主張しました",
+        "coverage": "dynamic",
+        "diagramId": "interpretability-evidence",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "ある研究(Jain & Wallace, 2019)は、注意重みが勾配ベースの重要度としばしば無相関で、同じ予測を与える別の注意分布を作れることを示し、「注意重みを説明として扱うべきでない」と主張しました",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s2-b1.li1",
+        "heading": "帰属と「注意は説明か」論争",
+        "parent": "本文",
+        "sourceLine": 47,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "別の研究(Wiegreffe & Pinter, 2019)は、「説明」の定義次第であり、モデル全体を考慮した検証をすれば注意にも意味がある、と反論しました",
+        "coverage": "dynamic",
+        "diagramId": "interpretability-evidence",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "別の研究(Wiegreffe & Pinter, 2019)は、「説明」の定義次第であり、モデル全体を考慮した検証をすれば注意にも意味がある、と反論しました",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s2-b2",
+        "heading": "帰属と「注意は説明か」論争",
+        "parent": "本文",
+        "sourceLine": 47,
+        "sourceBlock": 2,
+        "kind": "paragraph",
+        "topic": "読み解くと: 「注意重みが直感的に『どこを見たか』に見えても、それをモデルの説明として断定するのは危うい」。この論争自体が、単一の帰属手法を根拠に内部を断定してはいけないことの好例です。ヒートマップの見た目に説得されないための予防接種として押さえます。",
+        "coverage": "dynamic",
+        "diagramId": "interpretability-evidence",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "読み解くと: 「注意重みが直感的に『どこを見たか』に見えても、それをモデルの説明として断定するのは危うい」。この論争自体が、単一の帰属手法を根拠に内部を断定してはいけないことの好例です。ヒートマップの見た目に説得されないための予防接種として押さえます。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s3-b0",
+        "heading": "回路: 誘導ヘッドという発見",
+        "parent": "本文",
+        "sourceLine": 56,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "回路(circuits)研究は、特定の機能を担う内部の部品(注意ヘッド・特徴)の連なりを、因果的な介入(その部品を止める・すり替える)で特定しようとします。代表例が誘導ヘッド(induction heads)です。",
+        "coverage": "dynamic",
+        "diagramId": "interpretability-evidence",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "回路(circuits)研究は、特定の機能を担う内部の部品(注意ヘッド・特徴)の連なりを、因果的な介入(その部品を止める・すり替える)で特定しようとします。代表例が誘導ヘッド(induction heads)です。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s3-b1.li0",
+        "heading": "回路: 誘導ヘッドという発見",
+        "parent": "本文",
+        "sourceLine": 56,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "「直前に A B というパターンが出たら、次に A が来たとき B を続ける」というコピー機構を担う注意ヘッド",
+        "coverage": "dynamic",
+        "diagramId": "interpretability-evidence",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "「直前に A B というパターンが出たら、次に A が来たとき B を続ける」というコピー機構を担う注意ヘッド",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s3-b1.li1",
+        "heading": "回路: 誘導ヘッドという発見",
+        "parent": "本文",
+        "sourceLine": 56,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "ある研究(Olsson et al., 2022)は、学習の途中で誘導ヘッドが形成される時期と、文脈内学習(文脈内学習と記憶の科学)能力の急な立ち上がりが一致すると観察・報告しました",
+        "coverage": "dynamic",
+        "diagramId": "interpretability-evidence",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "ある研究(Olsson et al., 2022)は、学習の途中で誘導ヘッドが形成される時期と、文脈内学習(文脈内学習と記憶の科学)能力の急な立ち上がりが一致すると観察・報告しました",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s3-b2",
+        "heading": "回路: 誘導ヘッドという発見",
+        "parent": "本文",
+        "sourceLine": 56,
+        "sourceBlock": 2,
+        "kind": "paragraph",
+        "topic": "ただし、これは「誘導ヘッドが文脈内学習の原因だと証明した」わけではなく、主要メカニズムの候補としての提案です。回路研究は残差ストリームという見方(各部品が共有通信路に読み書きする)を土台にしています。",
+        "coverage": "dynamic",
+        "diagramId": "interpretability-evidence",
+        "readingStage": 4,
+        "stageScope": [
+          4
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "ただし、これは「誘導ヘッドが文脈内学習の原因だと証明した」わけではなく、主要メカニズムの候補としての提案です。回路研究は残差ストリームという見方(各部品が共有通信路に読み書きする)を土台にしています。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s4-b0",
+        "heading": "重ね合わせと SAE: 特徴を疎に取り出す",
+        "parent": "本文",
+        "sourceLine": 65,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "ニューロン 1 個が 1 つの概念に対応していれば理解は簡単ですが、実際には1 個のニューロンが複数の無関係な概念を担う多義性(polysemanticity)が観察されます。これを説明する仮説が重ね合わせ(superposition)です。",
+        "coverage": "dynamic",
+        "diagramId": "interpretability-sae",
+        "readingStage": 0,
+        "stageScope": [
+          0
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "ニューロン 1 個が 1 つの概念に対応していれば理解は簡単ですが、実際には1 個のニューロンが複数の無関係な概念を担う多義性(polysemanticity)が観察されます。これを説明する仮説が重ね合わせ(superposition)です。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s4-b1.li0",
+        "heading": "重ね合わせと SAE: 特徴を疎に取り出す",
+        "parent": "本文",
+        "sourceLine": 65,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "モデルは、次元数より多くの「特徴」を、スパース(疎)に使う前提で重ね合わせて格納しているのではないか、という仮説(Anthropic の Toy Models of Superposition が玩具モデルで提案)",
+        "coverage": "dynamic",
+        "diagramId": "interpretability-sae",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "モデルは、次元数より多くの「特徴」を、スパース(疎)に使う前提で重ね合わせて格納しているのではないか、という仮説(Anthropic の Toy Models of Superposition が玩具モデルで提案)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s4-b1.li1",
+        "heading": "重ね合わせと SAE: 特徴を疎に取り出す",
+        "parent": "本文",
+        "sourceLine": 65,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "ここから、スパースオートエンコーダ(SAE)で表現を疎に分解し、ニューロンより解釈しやすい「特徴」を取り出す研究が進んでいます。活性 \\mathbf{x} を、少数だけが発火する特徴の重ね合わせとして書きます。",
+        "coverage": "dynamic",
+        "diagramId": "interpretability-sae",
+        "readingStage": 1,
+        "stageScope": [
+          1
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "ここから、スパースオートエンコーダ(SAE)で表現を疎に分解し、ニューロンより解釈しやすい「特徴」を取り出す研究が進んでいます。活性 \\mathbf{x} を、少数だけが発火する特徴の重ね合わせとして書きます。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s4-b2",
+        "heading": "重ね合わせと SAE: 特徴を疎に取り出す",
+        "parent": "本文",
+        "sourceLine": 65,
+        "sourceBlock": 2,
+        "kind": "math",
+        "topic": "\\mathbf{x} \\approx \\sum_i f_i(\\mathbf{x})\\, \\mathbf{d}_i, \\qquad f_i(\\mathbf{x}) \\ge 0\\ \\text{かつ大半が}\\ 0",
+        "coverage": "dynamic",
+        "diagramId": "interpretability-sae",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "\\mathbf{x} \\approx \\sum_i f_i(\\mathbf{x})\\, \\mathbf{d}_i, \\qquad f_i(\\mathbf{x}) \\ge 0\\ \\text{かつ大半が}\\ 0",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s4-b3",
+        "heading": "重ね合わせと SAE: 特徴を疎に取り出す",
+        "parent": "本文",
+        "sourceLine": 65,
+        "sourceBlock": 3,
+        "kind": "paragraph",
+        "topic": "読み下し: 「活性を、特徴の方向 \\mathbf{d}_i に、疎な係数 f_i で重ね合わせたものとして近似する(ほとんどの特徴は 0)」。Anthropic は製品モデルにこの手法を適用し、具体的・抽象的な特徴を抽出し、特徴を操作すると挙動が変わったと報告しています(Scaling Monosemanticity)。",
+        "coverage": "dynamic",
+        "diagramId": "interpretability-sae",
+        "readingStage": 2,
+        "stageScope": [
+          2
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "読み下し: 「活性を、特徴の方向 \\mathbf{d}_i に、疎な係数 f_i で重ね合わせたものとして近似する(ほとんどの特徴は 0)」。Anthropic は製品モデルにこの手法を適用し、具体的・抽象的な特徴を抽出し、特徴を操作すると挙動が変わったと報告しています(Scaling Monosemanticity)。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s4-b4",
+        "heading": "重ね合わせと SAE: 特徴を疎に取り出す",
+        "parent": "本文",
+        "sourceLine": 65,
+        "sourceBlock": 4,
+        "kind": "paragraph",
+        "topic": "ただし、これらはラボの自己報告です。 SAE が「モデルを解釈できた」「安全監査に使える」ことを意味するわけではありません。特徴の網羅性・評価方法・大規模モデルへのスケールには未解決問題が残る、というのが 2026 年時点の位置づけです。",
+        "coverage": "dynamic",
+        "diagramId": "interpretability-sae",
+        "readingStage": 3,
+        "stageScope": [
+          3
+        ],
+        "staticReason": null,
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "ただし、これらはラボの自己報告です。 SAE が「モデルを解釈できた」「安全監査に使える」ことを意味するわけではありません。特徴の網羅性・評価方法・大規模モデルへのスケールには未解決問題が残る、というのが 2026 年時点の位置づけです。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s5-b0",
+        "heading": "実務への応用可能性と限界",
+        "parent": "本文",
+        "sourceLine": 80,
+        "sourceBlock": 0,
+        "kind": "paragraph",
+        "topic": "解釈可能性への期待は、デバッグ(なぜこの出力が出たかを内部から説明する)や安全性監査(危険な能力・欺瞞の兆候を検出する)です。しかし現状は次のように読みます。",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "研究上の未解決点と実務標準でない旨の既存リストを保持。定量的達成度や架空の採用判定を図へ足さない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "解釈可能性への期待は、デバッグ(なぜこの出力が出たかを内部から説明する)や安全性監査(危険な能力・欺瞞の兆候を検出する)です。しかし現状は次のように読みます。",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s5-b1.li0",
+        "heading": "実務への応用可能性と限界",
+        "parent": "本文",
+        "sourceLine": 80,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "ラボ横断のレビュー・オープン問題集(Bereska & Gavves 2024、Sharkey et al. 2025 など)は、機構的解釈可能性のスケーラビリティ・自動化・因果的検証の難しさを未解決課題として挙げています",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "研究上の未解決点と実務標準でない旨の既存リストを保持。定量的達成度や架空の採用判定を図へ足さない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "ラボ横断のレビュー・オープン問題集(Bereska & Gavves 2024、Sharkey et al. 2025 など)は、機構的解釈可能性のスケーラビリティ・自動化・因果的検証の難しさを未解決課題として挙げています",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s5-b1.li1",
+        "heading": "実務への応用可能性と限界",
+        "parent": "本文",
+        "sourceLine": 80,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "デバッグ・安全監査への応用は、「研究段階の期待」であって、確立した実務標準ではありません。「解釈可能性で安全を保証できる」という主張は、現時点では自己報告として扱います",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "研究上の未解決点と実務標準でない旨の既存リストを保持。定量的達成度や架空の採用判定を図へ足さない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "デバッグ・安全監査への応用は、「研究段階の期待」であって、確立した実務標準ではありません。「解釈可能性で安全を保証できる」という主張は、現時点では自己報告として扱います",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s5-b1.li2",
+        "heading": "実務への応用可能性と限界",
+        "parent": "本文",
+        "sourceLine": 80,
+        "sourceBlock": 1,
+        "kind": "listItem",
+        "topic": "実務では、内部の解釈より外から観測できる行動の評価・監視(可観測性とトレーシング・Agent 評価の基礎)が依然として主力です。解釈可能性はそれを置き換えるものではなく、補完する研究フロンティアとして位置づけます",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "研究上の未解決点と実務標準でない旨の既存リストを保持。定量的達成度や架空の採用判定を図へ足さない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "実務では、内部の解釈より外から観測できる行動の評価・監視(可観測性とトレーシング・Agent 評価の基礎)が依然として主力です。解釈可能性はそれを置き換えるものではなく、補完する研究フロンティアとして位置づけます",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s6-b0.li0",
+        "heading": "この理解が効く場面",
+        "parent": "本文",
+        "sourceLine": 88,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "帰属の見た目に騙されない: 注意ヒートマップ・重要度スコアを「モデルの説明」として断定しない規律(LLM-as-a-Judgeの説明の扱いにも通じる)",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の応用先リストであり、前の機構図を実務判断へ結び付ける参照として原文を保持する。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "帰属の見た目に騙されない: 注意ヒートマップ・重要度スコアを「モデルの説明」として断定しない規律(LLM-as-a-Judgeの説明の扱いにも通じる)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s6-b0.li1",
+        "heading": "この理解が効く場面",
+        "parent": "本文",
+        "sourceLine": 88,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "安全主張の批判的読解: 「解釈可能性で安全を検証した」という主張を、研究段階の自己報告として割り引く(フロンティアセーフティの概観)",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の応用先リストであり、前の機構図を実務判断へ結び付ける参照として原文を保持する。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "安全主張の批判的読解: 「解釈可能性で安全を検証した」という主張を、研究段階の自己報告として割り引く(フロンティアセーフティの概観)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s6-b0.li2",
+        "heading": "この理解が効く場面",
+        "parent": "本文",
+        "sourceLine": 88,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "研究動向の入口: 回路・SAE の用語と限界を押さえ、Transformer Circuits Thread などの一次情報を自分で追える",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の応用先リストであり、前の機構図を実務判断へ結び付ける参照として原文を保持する。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "研究動向の入口: 回路・SAE の用語と限界を押さえ、Transformer Circuits Thread などの一次情報を自分で追える",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s6-b0.li3",
+        "heading": "この理解が効く場面",
+        "parent": "本文",
+        "sourceLine": 88,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "機構的な見方の獲得: 残差ストリーム・誘導ヘッドという内部の見方が、モデルの挙動を「魔法」でなく機構として捉える助けになる",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の応用先リストであり、前の機構図を実務判断へ結び付ける参照として原文を保持する。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "機構的な見方の獲得: 残差ストリーム・誘導ヘッドという内部の見方が、モデルの挙動を「魔法」でなく機構として捉える助けになる",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s7-b0.li0",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 97,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "注意重みを「モデルがどこを見たか = 説明」として断定する → 注意は説明かは未決着で、同じ出力を出す別の注意分布も作れる → 単一の帰属手法を根拠に内部を断定しない(両論を踏まえて慎重に扱う)",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "注意重みを「モデルがどこを見たか = 説明」として断定する → 注意は説明かは未決着で、同じ出力を出す別の注意分布も作れる → 単一の帰属手法を根拠に内部を断定しない(両論を踏まえて慎重に扱う)",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s7-b0.li1",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 97,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "プロービングの結果を因果として解釈する → プローブは情報のアクセス可能性を示すだけで、その層がその計算をしている証明ではない → 「取り出せた ≠ 使っている」を区別する",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "プロービングの結果を因果として解釈する → プローブは情報のアクセス可能性を示すだけで、その層がその計算をしている証明ではない → 「取り出せた ≠ 使っている」を区別する",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s7-b0.li2",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 97,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "SAE・解釈可能性を「安全監査の確立した手法」として扱う → 現状は研究段階の自己報告で、スケール・評価に未解決問題 → 「研究フロンティアの期待」として位置づけ、実務は行動の評価・監視を主力にする",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "SAE・解釈可能性を「安全監査の確立した手法」として扱う → 現状は研究段階の自己報告で、スケール・評価に未解決問題 → 「研究フロンティアの期待」として位置づけ、実務は行動の評価・監視を主力にする",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s7-b0.li3",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 97,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "具体的な特徴数・モデル名・「最新手法」を断定で引用する → 分野の変化が速く、すぐ陳腐化する → 「2026 年時点では」と絶対時間で書き、一次情報で最新を確認する",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "具体的な特徴数・モデル名・「最新手法」を断定で引用する → 分野の変化が速く、すぐ陳腐化する → 「2026 年時点では」と絶対時間で書き、一次情報で最新を確認する",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s7-b0.li4",
+        "heading": "アンチパターン",
+        "parent": "実務での注意点",
+        "sourceLine": 97,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "解釈可能性が行動評価を置き換えると考える → 内部の理解は外部の評価・監視を補完するもの → 可観測性・評価を主力に据えたうえで補助的に使う",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "既存の失敗→理由→対処のリストを保持する。各機構を再びアニメーション化して本文を複製する必要はない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "解釈可能性が行動評価を置き換えると考える → 内部の理解は外部の評価・監視を補完するもの → 可観測性・評価を主力に据えたうえで補助的に使う",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s8-b0.li0",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 105,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "「行動の評価」と「機構の理解」の 2 水準を区別できる",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "「行動の評価」と「機構の理解」の 2 水準を区別できる",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s8-b0.li1",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 105,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "プロービングの限界(アクセス可能性 ≠ 因果)を説明できる",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "プロービングの限界(アクセス可能性 ≠ 因果)を説明できる",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s8-b0.li2",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 105,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "「注意は説明か」論争を両論併記で説明でき、単一手法の断定を避けられる",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "「注意は説明か」論争を両論併記で説明でき、単一手法の断定を避けられる",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s8-b0.li3",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 105,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "回路(誘導ヘッド)が因果的介入で特定される候補メカニズムだと理解している",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "回路(誘導ヘッド)が因果的介入で特定される候補メカニズムだと理解している",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s8-b0.li4",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 105,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "重ね合わせ仮説と SAE(特徴の疎な分解)の考え方と、それが自己報告段階であることを理解している",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "重ね合わせ仮説と SAE(特徴の疎な分解)の考え方と、それが自己報告段階であることを理解している",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s8-b0.li5",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 105,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "安全監査・デバッグへの応用が「研究段階の期待」であり実務標準でないと踏まえている",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "安全監査・デバッグへの応用が「研究段階の期待」であり実務標準でないと踏まえている",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s8-b0.li6",
+        "heading": "チェックリスト",
+        "parent": "実務での注意点",
+        "sourceLine": 105,
+        "sourceBlock": 0,
+        "kind": "listItem",
+        "topic": "手法・成果を引用するとき、絶対時間表現と一次情報の確認を添えている",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "知識・運用確認の既存チェックリスト。図の操作だけで実務検証が済んだとは判定しない。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "手法・成果を引用するとき、絶対時間表現と一次情報の確認を添えている",
+        "candidateTopicChanged": false
+      },
+      {
+        "id": "e3-s9-b0",
+        "heading": "変わりやすい項目(定点観測)",
+        "parent": "TODO・未確認事項",
+        "sourceLine": 141,
+        "sourceBlock": 0,
+        "kind": "blockquote",
+        "topic": "TODO(要確認): SAE・回路研究の後継動向(より大きなモデルへの適用・attribution graphs・回路追跡)、SAE の評価と批判(特徴単位の妥当性への反証・代替手法)、機構的解釈可能性の安全監査への実運用が「期待」から「標準」へ動くかを四半期ごとに確認する(research/internals/interpretability.md を更新起点にする)。Scaling Monosemanticity の arXiv 版の有無も含め、引用時に一次情報で番号を再確認(最終確認: 2026-07)",
+        "coverage": "static",
+        "diagramId": null,
+        "readingStage": null,
+        "stageScope": [],
+        "staticReason": "運用上の追跡先と確認時点であり学習機構の図の対象ではない。原文のTODOを保持する。",
+        "correctionIds": [],
+        "topicAfterCorrectionsCandidate": "TODO(要確認): SAE・回路研究の後継動向(より大きなモデルへの適用・attribution graphs・回路追跡)、SAE の評価と批判(特徴単位の妥当性への反証・代替手法)、機構的解釈可能性の安全監査への実運用が「期待」から「標準」へ動くかを四半期ごとに確認する(research/internals/interpretability.md を更新起点にする)。Scaling Monosemanticity の arXiv 版の有無も含め、引用時に一次情報で番号を再確認(最終確認: 2026-07)",
+        "candidateTopicChanged": false
+      }
+    ],
+    "ownership": {
+      "articleSpecific": [
+        "website/lib/interpretability-evidence-model.mjs",
+        "website/components/diagrams/interpretability-evidence-walkthrough.jsx",
+        "website/components/diagrams/interpretability-evidence.css",
+        "website/tests/unit/interpretability-evidence-model.test.mjs",
+        "website/lib/interpretability-sae-model.mjs",
+        "website/components/diagrams/interpretability-sae-walkthrough.jsx",
+        "website/components/diagrams/interpretability-sae.css",
+        "website/tests/unit/interpretability-sae-model.test.mjs"
+      ],
+      "shared": "統合担当1名がregistry/BINDINGS/dispatcher/MDX許可/記事台帳/受入コード/回帰試験を所有。記事担当は共有部を独断で変更しない。"
+    },
+    "acceptance": {
+      "contentReview": null,
+      "local": null,
+      "public": null
+    },
+    "postCorrectionSha256Candidate": "d7a2febb87771c6afbf440be223527c2c9a465f1e1c72f000432540ec2cda68e"
+  },
+  "proposed": {
+    "integration": {
+      "dispatcher": "website/components/diagrams/interpretability-walkthrough.jsx",
+      "export": "InterpretabilityWalkthrough",
+      "rootOwns": "registry/articles.json, AST binding, dispatcher, MDX allowlist, acceptance inputs, browser/AST/MDX tests, public kit and records"
+    },
+    "figures": [
+      {
+        "id": "interpretability-evidence",
+        "component": "InterpretabilityEvidence",
+        "sceneExport": "InterpretabilityEvidenceScene",
+        "frame": "interpretabilityEvidenceFrame",
+        "stages": "INTERPRETABILITY_EVIDENCE_STAGES",
+        "marker": "INTERPRETABILITY / EVIDENCE",
+        "stageAttribute": "data-interpretability-evidence-stage",
+        "controls": [
+          {
+            "key": "intervention",
+            "label": "介入の種類",
+            "values": [
+              "ablate",
+              "replace"
+            ],
+            "labels": [
+              "部品を止める",
+              "部品を差し替える"
+            ],
+            "default": "ablate",
+            "effectiveStages": [
+              3
+            ],
+            "earlierAndLaterEffect": "null; selection may persist in state but cannot alter other stages"
+          }
+        ],
+        "frameContract": {
+          "shared": "clampPhase / stageForPhase; deterministic plain data, no DOM/network/randomness; reject invalid option object or value; fresh nested arrays; reverse and midpoint preserve object IDs",
+          "identities": [
+            "input-x",
+            "model-original",
+            "representation-h",
+            "probe-independent",
+            "model-output-y",
+            "component-target",
+            "model-intervened",
+            "comparison-pending"
+          ],
+          "unknowns": [
+            "probeAccuracy",
+            "probeResult",
+            "causalUse",
+            "attentionWeights",
+            "attributionScores",
+            "observedInterventionOutput",
+            "effectSize",
+            "qualityJudgment"
+          ],
+          "defaults": "unknown fields are null; no generated experiment result or measured importance scores; diagram does not call an LLM",
+          "stage0": "External input/output observation and internal mechanism view visible together; complementarity and no single decisive method remain visible.",
+          "stage1": "Independent trained probe branches from representation; original model output path remains separate. No causal arrow from probe output to model output. Shows what could be measured, never asserts successful decoding from an actual run.",
+          "stage2": "Attention and separate attribution views use symbolic highlighting only, with no score scale or invented normalized array. Both dispute positions are visible by default: standalone explanation is insufficient; definition and model-wide tests matter. Same schematic input/output framing does not claim equal outputs from a performed experiment.",
+          "stage3": "Both normal and intervened lanes carry the same input-x; only target component differs. Ablation/replacement is the selected intervention, output delta remains unmeasured. The READ list here already names induction-head pattern A B … A, so keep the pattern and candidate mechanism label visible now, not only at S4.",
+          "stage4": "Retain A B … A → candidate continuation B as the already present conceptual mechanism, not a new model execution. Preserve observed timing association versus causal proof, residual-stream context, candidate scope and no generalization to whole-model ICL."
+        },
+        "requiredDataMarkers": [
+          "data-probe-independent",
+          "data-causal-proof=\"false\"",
+          "data-result-status=\"unmeasured\"",
+          "data-intervention-kind",
+          "data-same-input-id",
+          "data-mechanism-status=\"candidate\""
+        ]
+      },
+      {
+        "id": "interpretability-sae",
+        "component": "InterpretabilitySae",
+        "sceneExport": "InterpretabilitySaeScene",
+        "frame": "interpretabilitySaeFrame",
+        "stages": "INTERPRETABILITY_SAE_STAGES",
+        "marker": "INTERPRETABILITY / SAE",
+        "stageAttribute": "data-interpretability-sae-stage",
+        "controls": [],
+        "frameContract": {
+          "shared": "Same deterministic phase contract; no feature-name invention, trained model, fitting, reconstruction quality estimate, or new numerical example.",
+          "identities": [
+            "activation-x",
+            "feature-directions",
+            "sparse-coefficients",
+            "reconstruction-xhat",
+            "residual-r",
+            "scope-boundary"
+          ],
+          "unknowns": [
+            "dimensionCount",
+            "learnedFeatureCount",
+            "coefficientValues",
+            "directionValues",
+            "reconstructionError",
+            "featureCoverage",
+            "safetyJudgment"
+          ],
+          "stage0": "One neuron/dimension can relate to several symbolic features; avoid treating a drawn connection as a discovered named concept or universal one-to-one mapping.",
+          "stage1": "More candidate features than dimensions is a toy-model hypothesis, not a measured property of this illustration. Use direction symbols d_i/d_j/ellipsis and many zero coefficient slots. Include the SAE decomposition research path from the second READ list item already at S1.",
+          "stage2": "Map original formula symbols x, f_i(x), d_i into sparse sum and approximate reconstruction xhat; nonnegative coefficients, mostly zero, only nonzero terms flow. f_i/f_j are symbolic, not newly assigned numeric coefficients. Geometry is schematic rather than measured directions/magnitudes. Always show approximation and an unresolved residual; no equality, exact inverse, zero residual or full mechanism claim. Preserve original article KaTeX once; use SVG text for diagram symbols.",
+          "stage3": "Preserve reconstruction objects while showing unresolved feature coverage, evaluation and scaling, plus lab self-report and safety-not-established boundaries. These limitations are READ-visible, not behind a control."
+        },
+        "requiredDataMarkers": [
+          "data-coefficient-domain=\"nonnegative\"",
+          "data-coefficient-mode=\"symbolic\"",
+          "data-reconstruction=\"approximate\"",
+          "data-result-status=\"unmeasured\"",
+          "data-safety-guarantee=\"false\""
+        ]
+      }
+    ],
+    "visual": "Use shared dark scene surface, clear arrows/lanes and a fixed object vocabulary. No decorative heatmaps presented as findings. Keep key conclusion and limits at their earliest assigned READ stage; carry them forward where needed. Primary PC widths plus narrow/modal, no overflow, reduced motion, print and no-JS follow existing ReadingFigure.",
+    "validation": [
+      "Unit: stage clamps, midpoint .49/.50/.51, reverse, deterministic identity, unknown/null claims, invalid settings, setting effective only at evidence S3, retained induction candidate at S3/S4; all SAE stages preserve symbolic/nonnegative/approximate invariants.",
+      "AST: all four enabled subsets unwrap to original node structure; 5 H3/16 body blocks wrap once; original 9 content H3/21 body blocks plus TODO H3 remain; one display equation and no Mermaid remain in original order. Verify derived counts before implementation.",
+      "Browser: all nine stages and nine READ stops, isolation, native play/pause/seek and modal focus; both intervention options same input and unknown outputs; whole-scene labels on light/dark PC, short PC, narrow and DSF2; print/no-JS/chunk fallback; original math regression.",
+      "Independent semantics and actual images must check no probe-to-model causal implication, both attention controversy positions, induction candidate caveat at the correct READ group, SAE approximate sign and nonnegative/sparsity/no safety guarantee.",
+      "Public acceptance follows E2 first, then E3 own commit/CI/Pages/artifact/HTTP/assets/current input digests and independent images; current proposal is not implementation or acceptance."
+    ]
+  },
+  "review": null
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "run_id": "2026-09-30-alignment-reading-diagrams",
+  "base_sha": "5940334a6fd3aab8178cfeb8746a58c8b937d390",
+  "writer_run_id": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root",
+  "completed_at": "2026-09-30T09:28:17.540Z",
+  "changes": [
+    {
+      "path": "docs/11-llm-internals/alignment-theory.md",
+      "kind": "substantive",
+      "summary": "評価する粒度と報酬の出所を混同していた結果報酬・RLVR・プロセス報酬の記述をA1〜A3の3置換で訂正する。段落・数式・例を増やさず、作業日と実取得した2参考資料のアクセス日を同期する。"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "T-1",
+      "artifacts": [
+        "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+        "docs/11-llm-internals/alignment-theory.md"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://arxiv.org/html/2305.20050v1",
+      "accessed_at": "2026-09-29T19:19:58Z",
+      "claim": "§2、§2.4〜2.6を確認。最終結果を予測する報酬モデルと、人手ステップラベルで学ぶプロセス報酬モデルがある。A1〜A3の評価粒度と報酬の出所を区別する訂正を支える。固定生成器の候補選択評価であり、生成器のRL更新を同論文の結果として示さない。",
+      "affected_docs": [
+        "docs/11-llm-internals/alignment-theory.md"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/html/2305.18290v2",
+      "accessed_at": "2026-09-29T19:19:58Z",
+      "claim": "§3〜4、式4〜7を再確認。同じ入力の正規化項が差で消えるDPO導出と元の4数式の保持を照合。参考資料のアクセス日を同期し、図の説明用1ペア損失と本文の期待値を区別する。",
+      "affected_docs": [
+        "docs/11-llm-internals/alignment-theory.md"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/html/2501.12948v1",
+      "accessed_at": "2026-09-29T19:19:58Z",
+      "claim": "§2.2.2を確認。規則による正解確認・コードのテストの報酬は構成例であり、結果/過程という評価粒度の全体と同一視しない。既存のA1〜A3採択根拠を再照合した。",
+      "affected_docs": [
+        "docs/11-llm-internals/alignment-theory.md"
+      ]
+    }
+  ],
+  "review": {
+    "verdict": "approved",
+    "independent": true,
+    "reviewer_run_id": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+    "reviewed_at": "2026-09-30T09:25:15Z",
+    "content_digest": "40cc21197f9e144cb13356da00120c664309afbf022124b6f559ecddfbeaac03"
+  }
+}

@@ -6,7 +6,7 @@ import { createHash } from 'node:crypto'
 import { join } from 'node:path'
 import { parseArgs, repoRoot, outputRoot, insideExisting, newChild, relativePath } from './portable-paths.mjs'
 
-// Offline extractor: list the tar and read only eight regular HTML members through
+// Offline extractor: list the tar and read only nine regular HTML members through
 // stdout. No archive member path is used as a filesystem destination.
 const args = parseArgs(process.argv.slice(2), ['repo', 'output', 'archive'])
 if (args.help) { console.log('Offline only: node extract-ci-html.mjs --archive=<archive.tar inside output> --output=<evidence-directory> [--repo=<root; default cwd>]'); process.exit(0) }
@@ -27,7 +27,8 @@ const routes = [
   '/docs/llm-internals/attention-variants-and-long-context',
   '/docs/llm-internals/transformer-architecture',
   '/docs/llm-foundations/llm-training-pipeline',
-  '/docs/llm-internals/pretraining-and-scaling-laws'
+  '/docs/llm-internals/pretraining-and-scaling-laws',
+  '/docs/llm-internals/alignment-theory'
 ]
 const hash = data => createHash('sha256').update(data).digest('hex')
 const documents = []
@@ -49,7 +50,7 @@ for (const route of routes) {
   await writeFile(file, bytes)
   documents.push({ route, archiveMember: member, localFile: file, bytes: bytes.length, htmlSHA256: hash(bytes), buildId: ids[0] })
 }
-assert.equal(documents.length, 8, 'Expected inference, generation, tokenization, MoE, attention variants, Transformer, training and pretraining artifact documents')
+assert.equal(documents.length, 9, 'Expected inference, generation, tokenization, MoE, attention variants, Transformer, training, pretraining and alignment artifact documents')
 assert.equal(new Set(documents.map(item => item.buildId)).size, 1, 'The eight artifact documents belong to different builds')
 const tarHash = createHash('sha256')
 for await (const chunk of createReadStream(archive)) tarHash.update(chunk)

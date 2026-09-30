@@ -33,15 +33,17 @@ const readingStages = {
   'inference-sampling': 7, 'inference-cache-batching': 6, 'inference-speculative': 6, 'inference-quantization': 4,
   'generation-token-loop': 8, 'tokenization-counting': 7,
   'moe-routing-load': 8, 'moe-parameters-communication': 6,
+  'agent-components': 5, 'agent-autonomy': 6, 'tool-execution': 7, 'tool-contract': 6, 'memory-layers': 5, 'memory-lifecycle': 7,
   'agent-loop': 5, 'workflow-comparison': 5,
   'transformer-io': 4, 'transformer-position': 4, 'transformer-block': 9,
   'attention-kv-sharing': 5, 'attention-compute-memory': 6, 'attention-context-range': 4
 }
-const walkthroughs = new Set(['AttentionWalkthrough', 'ReadingWalkthrough', 'TransformerWalkthrough', 'AttentionVariantsWalkthrough', 'MoEWalkthrough', 'FoundationsWalkthrough', 'InferenceWalkthrough', 'TrainingWalkthrough', 'PretrainingWalkthrough', 'AlignmentWalkthrough', 'ReasoningWalkthrough', 'ContextWalkthrough', 'IclWalkthrough', 'InterpretabilityWalkthrough', 'CapabilitiesWalkthrough', 'MultimodalWalkthrough'])
+const walkthroughs = new Set(['AgentConceptsWalkthrough', 'AttentionWalkthrough', 'ReadingWalkthrough', 'TransformerWalkthrough', 'AttentionVariantsWalkthrough', 'MoEWalkthrough', 'FoundationsWalkthrough', 'InferenceWalkthrough', 'TrainingWalkthrough', 'PretrainingWalkthrough', 'AlignmentWalkthrough', 'ReasoningWalkthrough', 'ContextWalkthrough', 'IclWalkthrough', 'InterpretabilityWalkthrough', 'CapabilitiesWalkthrough', 'MultimodalWalkthrough'])
 
 // sync が装飾として挿入する props だけを許可する。コンポーネント名だけでは、
 // 属性式や {...spread} を経由したビルド時の JavaScript 実行を防げない。
 const attributes = {
+  AgentConceptsWalkthrough: { diagramId: value => ['agent-components', 'agent-autonomy', 'tool-execution', 'tool-contract', 'memory-layers', 'memory-lifecycle'].includes(value) },
   MultimodalWalkthrough: { diagramId: value => [
   "multimodal-representation",
   "multimodal-input-tradeoffs"
@@ -130,7 +132,7 @@ export function findUnsafeMdx(mdx) {
           if (seen.has(attribute.name)) bad.add(`重複した JSX 属性 (${attribute.name})`)
           seen.add(attribute.name)
         }
-        const required = { ReadingWalkthrough: 'diagramId', TransformerWalkthrough: 'diagramId', AttentionVariantsWalkthrough: 'diagramId', MoEWalkthrough: 'diagramId', FoundationsWalkthrough: 'diagramId', InferenceWalkthrough: 'diagramId', TrainingWalkthrough: 'diagramId', PretrainingWalkthrough: 'diagramId', AlignmentWalkthrough: 'diagramId', ReasoningWalkthrough: 'diagramId', ContextWalkthrough: 'diagramId', IclWalkthrough: 'diagramId', InterpretabilityWalkthrough: 'diagramId', CapabilitiesWalkthrough: 'diagramId', MultimodalWalkthrough: 'diagramId', ReadingStep: 'step', AttentionStep: 'step' }[node.name]
+        const required = { AgentConceptsWalkthrough: 'diagramId', ReadingWalkthrough: 'diagramId', TransformerWalkthrough: 'diagramId', AttentionVariantsWalkthrough: 'diagramId', MoEWalkthrough: 'diagramId', FoundationsWalkthrough: 'diagramId', InferenceWalkthrough: 'diagramId', TrainingWalkthrough: 'diagramId', PretrainingWalkthrough: 'diagramId', AlignmentWalkthrough: 'diagramId', ReasoningWalkthrough: 'diagramId', ContextWalkthrough: 'diagramId', IclWalkthrough: 'diagramId', InterpretabilityWalkthrough: 'diagramId', CapabilitiesWalkthrough: 'diagramId', MultimodalWalkthrough: 'diagramId', ReadingStep: 'step', AttentionStep: 'step' }[node.name]
         if (required && !seen.has(required)) bad.add(`必須の JSX 属性がありません (${node.name}.${required})`)
         if (walkthroughs.has(node.name)) {
           if (parentFigure) bad.add('図解コンポーネントの入れ子')

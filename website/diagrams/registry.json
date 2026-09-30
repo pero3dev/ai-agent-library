@@ -1736,6 +1736,286 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "agent-components",
+      "article": "docs/01-concepts/what-is-an-ai-agent.md",
+      "route": "/docs/concepts/what-is-an-ai-agent",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: このライブラリでの定義",
+        "詳細: Agent を構成する 4 つの要素"
+      ],
+      "sourceHeadings": [
+        "概要: このライブラリでの定義",
+        "詳細: Agent を構成する 4 つの要素"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 4
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:8361f78083369af876eef8583745a6cd5adfe5560c8d43f576b87a7064dc3159",
+      "reviewedDigest": "sha256:8361f78083369af876eef8583745a6cd5adfe5560c8d43f576b87a7064dc3159",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "agent-autonomy",
+      "article": "docs/01-concepts/what-is-an-ai-agent.md",
+      "route": "/docs/concepts/what-is-an-ai-agent",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "詳細: 自律性のスペクトラム",
+        "詳細: Agent の 3 類型",
+        "設計判断: 「Agent が必要か」から始める"
+      ],
+      "sourceHeadings": [
+        "詳細: 自律性のスペクトラム",
+        "詳細: Agent の 3 類型",
+        "設計判断: 「Agent が必要か」から始める"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 5
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:b0268808af2c9faaac38bd791e4f4ed4e66bcbd7105525d5de1ccf429c880e63",
+      "reviewedDigest": "sha256:b0268808af2c9faaac38bd791e4f4ed4e66bcbd7105525d5de1ccf429c880e63",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "tool-execution",
+      "article": "docs/01-concepts/tool-use.md",
+      "route": "/docs/concepts/tool-use",
+      "binding": "grouped-blocks",
+      "stageCount": 7,
+      "headings": [
+        "概要: モデルはツールを「実行しない」"
+      ],
+      "sourceHeadings": [
+        "概要: モデルはツールを「実行しない」"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:8f145c6d68159f198804b1ac4fad0913ba7d20e919f77879eaf8ad902796867b",
+      "reviewedDigest": "sha256:8f145c6d68159f198804b1ac4fad0913ba7d20e919f77879eaf8ad902796867b",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "tool-contract",
+      "article": "docs/01-concepts/tool-use.md",
+      "route": "/docs/concepts/tool-use",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "詳細: ツール定義の 3 要素",
+        "詳細: 結果の返し方も設計対象",
+        "詳細: 自前実装と標準プロトコル(MCP)",
+        "設計判断: 何をツールにするか(粒度)"
+      ],
+      "sourceHeadings": [
+        "詳細: ツール定義の 3 要素",
+        "詳細: 結果の返し方も設計対象",
+        "詳細: 自前実装と標準プロトコル(MCP)",
+        "設計判断: 何をツールにするか(粒度)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:46842b33496374b93e49dc0119f43e6c665188304bf30317ddc48ad0a3f51e42",
+      "reviewedDigest": "sha256:46842b33496374b93e49dc0119f43e6c665188304bf30317ddc48ad0a3f51e42",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "memory-layers",
+      "article": "docs/01-concepts/memory-and-state.md",
+      "route": "/docs/concepts/memory-and-state",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 「メモリ」は 1 つではない",
+        "詳細: 短期記憶はコンテキストウィンドウとの戦い"
+      ],
+      "sourceHeadings": [
+        "概要: 「メモリ」は 1 つではない",
+        "詳細: 短期記憶はコンテキストウィンドウとの戦い"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:52178b3dd773560d5810faff2f7446e95cb6f5fb0d6b5b7a16e6d8957ef50f13",
+      "reviewedDigest": "sha256:52178b3dd773560d5810faff2f7446e95cb6f5fb0d6b5b7a16e6d8957ef50f13",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "memory-lifecycle",
+      "article": "docs/01-concepts/memory-and-state.md",
+      "route": "/docs/concepts/memory-and-state",
+      "binding": "grouped-blocks",
+      "stageCount": 7,
+      "headings": [
+        "詳細: 履歴圧縮の基本手法",
+        "詳細: セッション管理と長時間タスクの再開",
+        "詳細: 長期記憶と RAG の関係",
+        "設計判断: 何をコンテキストに残し、何を外部化するか"
+      ],
+      "sourceHeadings": [
+        "詳細: 履歴圧縮の基本手法",
+        "詳細: セッション管理と長時間タスクの再開",
+        "詳細: 長期記憶と RAG の関係",
+        "設計判断: 何をコンテキストに残し、何を外部化するか"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 6,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:09904e101d6a3e7fac32c31ea923c8d1382ac2f2b70286f0b83592bf5423a063",
+      "reviewedDigest": "sha256:09904e101d6a3e7fac32c31ea923c8d1382ac2f2b70286f0b83592bf5423a063",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

@@ -1,0 +1,2537 @@
+{
+  "schemaVersion": 1,
+  "status": "proposal-for-independent-kit-review",
+  "unit": "E1",
+  "author": "/root/pretraining_visual_review",
+  "scope": {
+    "allowedWrites": [
+      "TEMP/context-e1-kit-plan-20260930.md",
+      "TEMP/context-e1-kit-plan-20260930.json"
+    ],
+    "productModified": false,
+    "articleModified": false,
+    "kitModified": false,
+    "registrationModified": false,
+    "gitMutation": false,
+    "networkExecuted": false,
+    "browserExecuted": false,
+    "implementationStarted": false,
+    "acceptance": null,
+    "prerequisites": [
+      "D2正式公開受入",
+      "E1 kit案の独立レビューとroot開始指示",
+      "最終D2マージtreeから全predecessor内容と記事ASTを再凍結"
+    ],
+    "stopBoundary": "P1採択15/199記事の公開受入で停止。P0部分対応2を達成数に加えずP2未着手。"
+  },
+  "proposedExtension": {
+    "route": "/docs/llm-foundations/attention-and-context",
+    "oldCases": 121,
+    "newCases": 14,
+    "totalCases": 135,
+    "routeCount": 11,
+    "insertion": "runReasoningChecks直後、mandatory basePath SVG favicon直前の連続14 block。取り除けば旧121の順序・名前・本文は同一。",
+    "profiles": [
+      [
+        1440,
+        1000,
+        "light",
+        1
+      ],
+      [
+        1440,
+        1000,
+        "dark",
+        1
+      ],
+      [
+        1280,
+        720,
+        "light",
+        1
+      ],
+      [
+        390,
+        844,
+        "light",
+        1
+      ],
+      [
+        390,
+        844,
+        "dark",
+        1
+      ],
+      [
+        960,
+        540,
+        "light",
+        2
+      ]
+    ],
+    "counts": {
+      "figures": 2,
+      "stages": 11,
+      "readStops": 10,
+      "manualOnlyStages": 1,
+      "profileStageVisits": 66,
+      "midpointVisits": 54,
+      "selectorStageVisits": 21,
+      "distinctOptionValues": 16,
+      "settingGridStageVisits": 168
+    },
+    "proposedFiles": [
+      "scripts/diagram-release/context-checks.mjs",
+      "scripts/diagram-release/local-context-adapter.mjs",
+      "scripts/diagram-release/e1-predecessor-proof.json"
+    ],
+    "proposedExports": [
+      "context",
+      "contextPath",
+      "contextProfiles",
+      "CONTEXT_ORACLE",
+      "runContextChecks",
+      "assertContextCausalObservation",
+      "assertContextCacheObservation",
+      "createLocalContextAdapter",
+      "contextLocalCases"
+    ],
+    "markers": {
+      "status": "proposal; not specified by adopted interface",
+      "causal": "CONTEXT / CAUSAL COST",
+      "cacheQuality": "CONTEXT / CACHE QUALITY"
+    },
+    "cases": [
+      {
+        "name": "context: all 11 stages 1440x1000 light DSF1",
+        "kind": "all-stages-profile",
+        "profile": {
+          "width": 1440,
+          "height": 1000,
+          "theme": "light",
+          "deviceScaleFactor": 1
+        },
+        "assertions": [
+          "2 figures/all11 integer stages; source, visible semantics, exact per-side counts, geometry, scene delivery.",
+          "Each stage viewport + completeScene PNG with dimensions/hash; low PC panel relative and no page overflow."
+        ]
+      },
+      {
+        "name": "context: all 11 stages 1440x1000 dark DSF1",
+        "kind": "all-stages-profile",
+        "profile": {
+          "width": 1440,
+          "height": 1000,
+          "theme": "dark",
+          "deviceScaleFactor": 1
+        },
+        "assertions": [
+          "2 figures/all11 integer stages; source, visible semantics, exact per-side counts, geometry, scene delivery.",
+          "Each stage viewport + completeScene PNG with dimensions/hash; low PC panel relative and no page overflow."
+        ]
+      },
+      {
+        "name": "context: all 11 stages 1280x720 light DSF1",
+        "kind": "all-stages-profile",
+        "profile": {
+          "width": 1280,
+          "height": 720,
+          "theme": "light",
+          "deviceScaleFactor": 1
+        },
+        "assertions": [
+          "2 figures/all11 integer stages; source, visible semantics, exact per-side counts, geometry, scene delivery.",
+          "Each stage viewport + completeScene PNG with dimensions/hash; low PC panel relative and no page overflow."
+        ]
+      },
+      {
+        "name": "context: all 11 stages 390x844 light DSF1",
+        "kind": "all-stages-profile",
+        "profile": {
+          "width": 390,
+          "height": 844,
+          "theme": "light",
+          "deviceScaleFactor": 1
+        },
+        "assertions": [
+          "2 figures/all11 integer stages; source, visible semantics, exact per-side counts, geometry, scene delivery.",
+          "Each stage viewport + completeScene PNG with dimensions/hash; low PC panel relative and no page overflow."
+        ]
+      },
+      {
+        "name": "context: all 11 stages 390x844 dark DSF1",
+        "kind": "all-stages-profile",
+        "profile": {
+          "width": 390,
+          "height": 844,
+          "theme": "dark",
+          "deviceScaleFactor": 1
+        },
+        "assertions": [
+          "2 figures/all11 integer stages; source, visible semantics, exact per-side counts, geometry, scene delivery.",
+          "Each stage viewport + completeScene PNG with dimensions/hash; low PC panel relative and no page overflow."
+        ]
+      },
+      {
+        "name": "context: all 11 stages 960x540 light DSF2",
+        "kind": "all-stages-profile",
+        "profile": {
+          "width": 960,
+          "height": 540,
+          "theme": "light",
+          "deviceScaleFactor": 2
+        },
+        "assertions": [
+          "2 figures/all11 integer stages; source, visible semantics, exact per-side counts, geometry, scene delivery.",
+          "Each stage viewport + completeScene PNG with dimensions/hash; low PC panel relative and no page overflow."
+        ]
+      },
+      {
+        "name": "context-causal-cost: independent mask and KV fixtures, every selector and midpoint reverse seeks",
+        "kind": "semantic-selector",
+        "figure": "context-causal-cost",
+        "midpointVisits": 24,
+        "selectorVisits": 10,
+        "stateGridVisits": 60,
+        "assertions": [
+          "Literal4/6 masks, all6queries; no future line.",
+          "Exact4 illustrative mix sources and no real weights/answer.",
+          "Both prefill/decode lanes and candidate KV timing.",
+          "K/V each n, no Q/learned-weight cache, null scientific metrics."
+        ]
+      },
+      {
+        "name": "context-cache-quality: independent prefix and quality fixtures, every selector and midpoint reverse seeks",
+        "kind": "semantic-selector",
+        "figure": "context-cache-quality",
+        "midpointVisits": 30,
+        "selectorVisits": 11,
+        "stateGridVisits": 108,
+        "assertions": [
+          "Exact3prefix cases and empty reused/recompute/new sets.",
+          "History-free READ2 aligned rows, fixed/variable,4retained/2recompute.",
+          "Same important-info0/3/5; READ4three summaries and2independent unknown eval frames.",
+          "Needed2 retained; optional2 toggle; S5 independent2axes."
+        ]
+      },
+      {
+        "name": "context: keyboard transport, modal selectors, isolated state and focus return",
+        "kind": "transport-modal",
+        "assertions": [
+          "Home/End/prev/next disabled edges, Space/Enter, Escape/button close, focus return/unique IDs.",
+          "All16option values in modal, inactive controls absent, inline state preserved.",
+          "Other figure phase/settings unchanged."
+        ]
+      },
+      {
+        "name": "context: all 10 READ stops, manual-stage meaning carryover and independent figure states",
+        "kind": "reading",
+        "assertions": [
+          "10READ forward/reverse20; no wrapped cache1.",
+          "Fresh visit before selectors/transport/play: causal0..4, cache0→2→3→4→5.",
+          "READ2default shows both rows, prefix4/recompute2 without manual1; READ4summary3 without prior position selection.",
+          "Manual survives scroll, explicit READ resumes, other figure unchanged."
+        ]
+      },
+      {
+        "name": "context-causal-cost: native elapsed play, frozen pause, replay and completion",
+        "kind": "native-play",
+        "figure": "context-causal-cost",
+        "assertions": [
+          "Real clock progress, phase/scene/settings freeze, final replay/completion.",
+          "Actual viewport exit auto-pause; no simulated document.hidden; separate reviewed performance helper counts app-rAF idle."
+        ]
+      },
+      {
+        "name": "context-cache-quality: native elapsed play, frozen pause, replay and completion",
+        "kind": "native-play",
+        "figure": "context-cache-quality",
+        "assertions": [
+          "Same real-clock contract; final stage5."
+        ]
+      },
+      {
+        "name": "context noJS: original prose, eight headings, one table and all 11 static stage descriptions",
+        "kind": "no-js",
+        "assertions": [
+          "JSdisabled:2SSRfigures, original prose, disabled controls, noJS notice, readable static5/6descriptions.",
+          "Source8H3/1table/10lists; no invented TODOaside."
+        ]
+      },
+      {
+        "name": "context print: coherent scenes and original article with controls hidden",
+        "kind": "print",
+        "assertions": [
+          "Seek2.25→beforeprint→print emulation coherent integer stage.",
+          "Content semantics same oracle checkControls:false, stored effective setting; independently assert controls hidden.",
+          "Original prose/no overflow retained. Emulation not physical printing."
+        ]
+      }
+    ],
+    "caseNames": [
+      "context: all 11 stages 1440x1000 light DSF1",
+      "context: all 11 stages 1440x1000 dark DSF1",
+      "context: all 11 stages 1280x720 light DSF1",
+      "context: all 11 stages 390x844 light DSF1",
+      "context: all 11 stages 390x844 dark DSF1",
+      "context: all 11 stages 960x540 light DSF2",
+      "context-causal-cost: independent mask and KV fixtures, every selector and midpoint reverse seeks",
+      "context-cache-quality: independent prefix and quality fixtures, every selector and midpoint reverse seeks",
+      "context: keyboard transport, modal selectors, isolated state and focus return",
+      "context: all 10 READ stops, manual-stage meaning carryover and independent figure states",
+      "context-causal-cost: native elapsed play, frozen pause, replay and completion",
+      "context-cache-quality: native elapsed play, frozen pause, replay and completion",
+      "context noJS: original prose, eight headings, one table and all 11 static stage descriptions",
+      "context print: coherent scenes and original article with controls hidden"
+    ],
+    "insertionIndexZeroBased": 95,
+    "beforeOldCase": "mandatory basePath SVG favicon: declaration, HTTP 200 and image/svg+xml",
+    "expectedRoutes": [
+      "/docs/llm-internals/inference-internals",
+      "/docs/llm-foundations/how-llms-generate-text",
+      "/docs/llm-foundations/tokenization",
+      "/docs/llm-internals/mixture-of-experts-internals",
+      "/docs/llm-internals/attention-variants-and-long-context",
+      "/docs/llm-internals/transformer-architecture",
+      "/docs/llm-foundations/llm-training-pipeline",
+      "/docs/llm-internals/pretraining-and-scaling-laws",
+      "/docs/llm-internals/alignment-theory",
+      "/docs/llm-foundations/reasoning-models",
+      "/docs/llm-foundations/attention-and-context"
+    ],
+    "allCaseNames": [
+      "generation-token-loop: all stages 1440x1000 light",
+      "generation-token-loop: all stages 1440x1000 dark",
+      "generation-token-loop: all stages 1280x720 light",
+      "generation-token-loop: all stages 390x844 light",
+      "generation-token-loop: all stages 390x844 dark",
+      "generation-token-loop: transport, keyboard, reading sync and expansion focus",
+      "generation-token-loop: actual elapsed playback, frozen scene and restart",
+      "generation-token-loop: noJS retains original article and all static stage descriptions",
+      "generation-token-loop: print freezes the midpoint into a coherent static scene",
+      "tokenization-counting: all stages 1440x1000 light",
+      "tokenization-counting: all stages 1440x1000 dark",
+      "tokenization-counting: all stages 1280x720 light",
+      "tokenization-counting: all stages 390x844 light",
+      "tokenization-counting: all stages 390x844 dark",
+      "tokenization-counting: transport, keyboard, reading sync and expansion focus",
+      "tokenization-counting: actual elapsed playback, frozen scene and restart",
+      "tokenization-counting: noJS retains original article and all static stage descriptions",
+      "tokenization-counting: print freezes the midpoint into a coherent static scene",
+      "inference: all 23 stages 1440x1000 light",
+      "inference: all 23 stages 1440x1000 dark",
+      "inference: all 23 stages 1280x720 light",
+      "inference: all 23 stages 390x844 light",
+      "inference: all 23 stages 390x844 dark",
+      "inference: every selector, independent numerical fixtures, all midpoint boundaries and reverse seeks",
+      "inference: keyboard transport, modal selector state and focus return",
+      "inference: independent figure states, every reading step, manual override and resumption",
+      "inference-sampling: native elapsed play, frozen pause, replay and completion",
+      "inference-cache-batching: native elapsed play, frozen pause, replay and completion",
+      "inference-speculative: native elapsed play, frozen pause, replay and completion",
+      "inference-quantization: native elapsed play, frozen pause, replay and completion",
+      "inference noJS: original prose, 9 headings, 2 equations and all 23 static descriptions",
+      "inference print: four coherent scenes and original article with controls hidden",
+      "training: all 10 stages 1440x1000 light DSF1",
+      "training: all 10 stages 1440x1000 dark DSF1",
+      "training: all 10 stages 1280x720 light DSF1",
+      "training: all 10 stages 390x844 light DSF1",
+      "training: all 10 stages 390x844 dark DSF1",
+      "training: all 10 stages 960x540 light DSF2",
+      "training: all selectors, fixed semantic fixtures, midpoint boundaries and reverse seeks",
+      "training: keyboard transport, modal selector state and focus return",
+      "training: all nine READ stops, manual-only auxiliary stage and independent figure states",
+      "training-stages: native elapsed play, frozen pause, replay and completion",
+      "training-runtime-boundary: native elapsed play, frozen pause, replay and completion",
+      "training noJS: original prose, eight headings, Mermaid and all ten static descriptions",
+      "training print: coherent scenes and original article with controls hidden",
+      "pretraining: all 23 stages 1440x1000 light DSF1",
+      "pretraining: all 23 stages 1440x1000 dark DSF1",
+      "pretraining: all 23 stages 1280x720 light DSF1",
+      "pretraining: all 23 stages 390x844 light DSF1",
+      "pretraining: all 23 stages 390x844 dark DSF1",
+      "pretraining: all 23 stages 960x540 light DSF2",
+      "pretraining-loss-perplexity: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "pretraining-scaling: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "pretraining-data: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "pretraining-metrics: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "pretraining-compute: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "pretraining: keyboard transport, modal selectors, isolated state and focus return",
+      "pretraining: all 19 READ stops, four manual-only stages and independent figure states",
+      "pretraining-loss-perplexity: native elapsed play, frozen pause, replay and completion",
+      "pretraining-scaling: native elapsed play, frozen pause, replay and completion",
+      "pretraining-data: native elapsed play, frozen pause, replay and completion",
+      "pretraining-metrics: native elapsed play, frozen pause, replay and completion",
+      "pretraining-compute: native elapsed play, frozen pause, replay and completion",
+      "pretraining noJS: original prose, nine headings, four equations, Mermaid and 23 static descriptions",
+      "pretraining print: coherent scenes and original article with controls hidden",
+      "alignment: all 15 stages 1440x1000 light DSF1",
+      "alignment: all 15 stages 1440x1000 dark DSF1",
+      "alignment: all 15 stages 1280x720 light DSF1",
+      "alignment: all 15 stages 390x844 light DSF1",
+      "alignment: all 15 stages 390x844 dark DSF1",
+      "alignment: all 15 stages 960x540 light DSF2",
+      "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "alignment-reward-risk: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "alignment-feedback: independent semantic fixtures, every selector and midpoint reverse seeks",
+      "alignment: keyboard transport, modal selectors, isolated state and focus return",
+      "alignment: all 15 READ stops, no manual-only stages and independent figure states",
+      "alignment-preference: native elapsed play, frozen pause, replay and completion",
+      "alignment-reward-risk: native elapsed play, frozen pause, replay and completion",
+      "alignment-feedback: native elapsed play, frozen pause, replay and completion",
+      "alignment noJS: original prose, nine headings, four equations, Mermaid and 15 static descriptions",
+      "alignment print: coherent scenes and original article with controls hidden",
+      "reasoning: all 9 stages 1440x1000 light DSF1",
+      "reasoning: all 9 stages 1440x1000 dark DSF1",
+      "reasoning: all 9 stages 1280x720 light DSF1",
+      "reasoning: all 9 stages 390x844 light DSF1",
+      "reasoning: all 9 stages 390x844 dark DSF1",
+      "reasoning: all 9 stages 960x540 light DSF2",
+      "reasoning-sequence: independent meaning fixtures, history-free stages and midpoint reverse seeks",
+      "reasoning-evaluation: independent meaning fixtures, all six setting pairs and stage-restricted controls",
+      "reasoning: keyboard transport, modal selectors, isolated state and focus return",
+      "reasoning: all 8 READ stops, manual-stage meaning carryover and independent figure states",
+      "reasoning-sequence: native elapsed play, frozen pause, replay and completion",
+      "reasoning-evaluation: native elapsed play, frozen pause, replay and completion",
+      "reasoning noJS: original prose, nine headings, two tables and all nine static stage descriptions",
+      "reasoning print: coherent scenes and original article with controls hidden",
+      "context: all 11 stages 1440x1000 light DSF1",
+      "context: all 11 stages 1440x1000 dark DSF1",
+      "context: all 11 stages 1280x720 light DSF1",
+      "context: all 11 stages 390x844 light DSF1",
+      "context: all 11 stages 390x844 dark DSF1",
+      "context: all 11 stages 960x540 light DSF2",
+      "context-causal-cost: independent mask and KV fixtures, every selector and midpoint reverse seeks",
+      "context-cache-quality: independent prefix and quality fixtures, every selector and midpoint reverse seeks",
+      "context: keyboard transport, modal selectors, isolated state and focus return",
+      "context: all 10 READ stops, manual-stage meaning carryover and independent figure states",
+      "context-causal-cost: native elapsed play, frozen pause, replay and completion",
+      "context-cache-quality: native elapsed play, frozen pause, replay and completion",
+      "context noJS: original prose, eight headings, one table and all 11 static stage descriptions",
+      "context print: coherent scenes and original article with controls hidden",
+      "mandatory basePath SVG favicon: declaration, HTTP 200 and image/svg+xml",
+      "MoE all 14 stages: 1440x1000 light",
+      "MoE all 14 stages: 1440x1000 dark",
+      "MoE all 14 stages: 1280x720 light",
+      "MoE all 14 stages: 390x844 light",
+      "MoE all 14 stages: 390x844 dark",
+      "MoE: transport, keyboard, expansion, selectors and focus return",
+      "MoE: isolated manual states and every registered reading step",
+      "moe-routing-load: actual elapsed play, frozen scene and replay",
+      "moe-parameters-communication: actual elapsed play, frozen scene and replay",
+      "MoE noJS and print: original prose, 9 H3, 4 equations, Mermaid and 14 stage descriptions",
+      "variants all 15 stages: 1440x1000 light",
+      "variants all 15 stages: 1440x1000 dark",
+      "variants all 15 stages: 1280x720 light",
+      "variants all 15 stages: 390x844 light",
+      "variants all 15 stages: 390x844 dark",
+      "variants: transport, keyboard, expansion and focus return",
+      "variants: isolated manual states and every registered reading step",
+      "attention-kv-sharing: actual elapsed play and frozen pause",
+      "attention-compute-memory: actual elapsed play and frozen pause",
+      "attention-context-range: actual elapsed play and frozen pause",
+      "variants noJS and print: original prose, 11 H3, 3 display equations and 15 stage descriptions",
+      "Transformer regression: four figures 1440 light",
+      "Transformer regression: four figures 390 dark",
+      "embeddings control: zero heavy figure or shared-frame chunks",
+      "public assets: HTTP 200, nonempty bodies and matching MIME types"
+    ]
+  },
+  "sourceContract": {
+    "article": "docs/10-llm-foundations/attention-and-context.md",
+    "counts": {
+      "rootNodes": 39,
+      "h3": 8,
+      "body": 15,
+      "wrappedH3": 5,
+      "wrappedBody": 12,
+      "table": 1,
+      "tableRowsIncludingHeader": 3,
+      "tableCells": 9,
+      "sourceLists": 10,
+      "links": 23,
+      "strong": 18,
+      "displayMath": 0,
+      "inlineMath": 0,
+      "code": 0,
+      "mermaid": 0,
+      "blockquote": 0,
+      "todoCallout": 0
+    },
+    "staticHeadings": [
+      "この理解が効く場面",
+      "アンチパターン",
+      "チェックリスト"
+    ],
+    "topics": {
+      "total": 30,
+      "dynamic": 18,
+      "static": 12
+    },
+    "todoDecoration": "doc-decorationsはTODO(要確認)blockquoteだけをaside.todo-calloutに変換する。E1はその原文node0、末尾TODO節は『なし』。blockquote0/aside0と末尾節保持を検査しD2のaside1を流用しない。",
+    "browserListExclusions": [
+      ".rf-article-toc",
+      ".rf-static-stages"
+    ],
+    "tableText": [
+      [
+        "段階",
+        "何が起きるか",
+        "効く指標"
+      ],
+      [
+        "プリフィル(prefill)",
+        "入力全体を一括処理し、各トークンの中間表現を計算する",
+        "最初のトークンが出るまでの時間(TTFT)。入力長に依存"
+      ],
+      [
+        "デコード(decode)",
+        "1 トークンずつ生成する。各ステップで過去全トークンの中間表現を参照",
+        "トークン毎秒。文脈が長いほど 1 トークンが重い"
+      ]
+    ],
+    "preservation": "positionだけ除いた全原文AST、wrapper逆変換、table/list非分割、各H3を最初のREADへ1回。frontmatterや本文が変われば承認hashを再確定し、旧受入を黙って流用しない。",
+    "articleSHA256": "433d75095383235eeace9c4b34048bad43a3f4b0ba6e65c2e7e7d25eebdb1c55",
+    "canonicalAstSHA256": "ea4d5da00220847b1c69d5deaee1a6fac11cc20dfbfb19b3d1d67d6523370ce8",
+    "sourceDigests": [
+      {
+        "id": "context-causal-cost",
+        "adopted": "sha256:3d148c85ba70c31149692bbbb25b7ce25ec0d9a9457b43f85b646287e4ff625e",
+        "current": "sha256:3d148c85ba70c31149692bbbb25b7ce25ec0d9a9457b43f85b646287e4ff625e"
+      },
+      {
+        "id": "context-cache-quality",
+        "adopted": "sha256:cbdf6f68c773444b57ccffc29430974e2705c11460558a8b39b4ea0fabc6c7ed",
+        "current": "sha256:cbdf6f68c773444b57ccffc29430974e2705c11460558a8b39b4ea0fabc6c7ed"
+      }
+    ],
+    "reading": {
+      "figureCount": 2,
+      "stageCount": 11,
+      "readStopCount": 10,
+      "manualOnlyCount": 1,
+      "bindings": [
+        {
+          "id": "context-causal-cost",
+          "stageCount": 5,
+          "readingStages": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "manualOnlyStages": [],
+          "sourceDigestActual": "sha256:3d148c85ba70c31149692bbbb25b7ce25ec0d9a9457b43f85b646287e4ff625e",
+          "wrappedRange": [
+            9,
+            19
+          ],
+          "sections": [
+            {
+              "heading": "概要: 「全部が全部を見る」仕組みとその請求書",
+              "sourceRootHeadingIndex": 9,
+              "groups": [
+                {
+                  "stage": 0,
+                  "count": 1,
+                  "bodyOffset": 0,
+                  "sourceRootIndices": [
+                    10
+                  ],
+                  "bodyTypes": [
+                    "paragraph"
+                  ],
+                  "includeHeading": true
+                }
+              ]
+            },
+            {
+              "heading": "注意機構の直感",
+              "sourceRootHeadingIndex": 11,
+              "groups": [
+                {
+                  "stage": 1,
+                  "count": 1,
+                  "bodyOffset": 0,
+                  "sourceRootIndices": [
+                    12
+                  ],
+                  "bodyTypes": [
+                    "paragraph"
+                  ],
+                  "includeHeading": true
+                },
+                {
+                  "stage": 2,
+                  "count": 2,
+                  "bodyOffset": 1,
+                  "sourceRootIndices": [
+                    13,
+                    14
+                  ],
+                  "bodyTypes": [
+                    "paragraph",
+                    "list"
+                  ],
+                  "includeHeading": false
+                }
+              ]
+            },
+            {
+              "heading": "コンテキスト長のコスト構造",
+              "sourceRootHeadingIndex": 15,
+              "groups": [
+                {
+                  "stage": 3,
+                  "count": 2,
+                  "bodyOffset": 0,
+                  "sourceRootIndices": [
+                    16,
+                    17
+                  ],
+                  "bodyTypes": [
+                    "paragraph",
+                    "table"
+                  ],
+                  "includeHeading": true
+                },
+                {
+                  "stage": 4,
+                  "count": 1,
+                  "bodyOffset": 2,
+                  "sourceRootIndices": [
+                    18
+                  ],
+                  "bodyTypes": [
+                    "paragraph"
+                  ],
+                  "includeHeading": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "context-cache-quality",
+          "stageCount": 6,
+          "readingStages": [
+            0,
+            2,
+            3,
+            4,
+            5
+          ],
+          "manualOnlyStages": [
+            1
+          ],
+          "sourceDigestActual": "sha256:cbdf6f68c773444b57ccffc29430974e2705c11460558a8b39b4ea0fabc6c7ed",
+          "wrappedRange": [
+            19,
+            26
+          ],
+          "sections": [
+            {
+              "heading": "KV キャッシュとプロンプトキャッシュ",
+              "sourceRootHeadingIndex": 19,
+              "groups": [
+                {
+                  "stage": 0,
+                  "count": 1,
+                  "bodyOffset": 0,
+                  "sourceRootIndices": [
+                    20
+                  ],
+                  "bodyTypes": [
+                    "paragraph"
+                  ],
+                  "includeHeading": true
+                },
+                {
+                  "stage": 2,
+                  "count": 1,
+                  "bodyOffset": 1,
+                  "sourceRootIndices": [
+                    21
+                  ],
+                  "bodyTypes": [
+                    "list"
+                  ],
+                  "includeHeading": false
+                }
+              ]
+            },
+            {
+              "heading": "長文での品質劣化",
+              "sourceRootHeadingIndex": 22,
+              "groups": [
+                {
+                  "stage": 3,
+                  "count": 1,
+                  "bodyOffset": 0,
+                  "sourceRootIndices": [
+                    23
+                  ],
+                  "bodyTypes": [
+                    "paragraph"
+                  ],
+                  "includeHeading": true
+                },
+                {
+                  "stage": 4,
+                  "count": 1,
+                  "bodyOffset": 1,
+                  "sourceRootIndices": [
+                    24
+                  ],
+                  "bodyTypes": [
+                    "list"
+                  ],
+                  "includeHeading": false
+                },
+                {
+                  "stage": 5,
+                  "count": 1,
+                  "bodyOffset": 2,
+                  "sourceRootIndices": [
+                    25
+                  ],
+                  "bodyTypes": [
+                    "paragraph"
+                  ],
+                  "includeHeading": false
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "staticSections": [
+        "この理解が効く場面",
+        "アンチパターン",
+        "チェックリスト"
+      ],
+      "preserveRule": "元本文を移動/複製せず、例文を追加しない。原H3+body連続ASTだけを包装しtable/listは分割しない。H3は最初のstepへ1回同梱。",
+      "carryover": "cache-quality補助1→READ2で共通接頭辞・固定/可変配置・変更前の保持と以降の再計算を必ず残す。"
+    },
+    "sourceHeadings": [
+      "概要: 「全部が全部を見る」仕組みとその請求書",
+      "注意機構の直感",
+      "コンテキスト長のコスト構造",
+      "KV キャッシュとプロンプトキャッシュ",
+      "長文での品質劣化",
+      "この理解が効く場面",
+      "アンチパターン",
+      "チェックリスト"
+    ]
+  },
+  "observationContract": {
+    "base": "実表示からserializable observationを採り、独立literal oracleで検査。製品frameから期待値を生成しない。",
+    "normalization": "必要時のみ空白/NFKCを正規化。数値・符号・否定・語順を維持。可視文言は各欄/レーン/セルに結合し全体textだけで局所欠落を救済しない。",
+    "visibility": "祖先display/visibility/opacity、paintと実boundsを確認。水平/垂直SVGGeometryElementは片軸bbox0でもstroke幅/opacity>0、stroke!=none、getTotalLength()>0なら可視。groupは可視子で判定。title/desc/hidden leafは除外しtextとtspanを二重集計しない。",
+    "causal": {
+      "tokens": "n6（S2/4のlength4時だけn4）の正確なID順、位置/役割の可視textとbounds。",
+      "matrix": "n*n=16/36個の一意(query,key)とallowed/future。literal4/6行の下三角、query0..5全設定、query5の未来0件も正例。row/column textと実セル中心を対応。",
+      "mix": "t0..t3からcontextual-representationへの可視path4本、t3それ/t1参照候補(名詞)、light/strong/medium/medium。numericWeights/outputVector/correctReferent=null。",
+      "processing": "prefill/decodeの可視laneをexact2。各lane自身にprocessed/cached/sampledと未測定metric各1: prefill=ttft、decode=tokens-per-second。片lane欠落を全体metric数で救済しない。cache位置prefill0..5の6個、decode0..6の7個。候補6/7を先に保存しない。",
+      "kv": "K/Vのexact2field、各n個の一意位置、合計2n。元token列と位置整列。Q/学習重みをcacheに入れずbytes等未知値はnull。",
+      "metrics": "S3は各lane固有のTTFT/生成速度を各1。S4はmemory/price/qualityの未測定欄と時間の条件依存注記。実装freeze時に各可視集合と欄数を独立literal化し、欠落・重複・欄交換を拒否。新しい数式/実測値を増やさない。",
+      "caveats": "各stageの採択requiredLabelsを該当可視要素textに結合。意味の反転/欠落を負例化し単なるdata-ID一致は不可。"
+    },
+    "cache": {
+      "generation": "same-generation/cross-requestの両枠、過去K/V0..5→候補6を入力処理→K/V0..6/次候補7未保存。時点別に各K/V行のexact位置を観測。",
+      "prefix": "base/candidate各rowのtoken/位置/fixed-variable/stateを実セルへ結合。両入力配列、prefix長/change位置と説明も観測。行の列中心整列と境界xを1px以内で比較。prefix0/append6の空領域を作らない。",
+      "quality": "同じimportant-info、内容null、選択0/3/5への実containment。S3/S4のsummary3件はexact ID/位置、性能順位/スコアなし。必要/追加文書は設定別exact2/4でラベル・roleも一致。",
+      "evaluation": "retrieval/integrationの可視exact2枠がそれぞれresult:null、score:null、unmeasuredと可視ラベルを持つ。片側不足、結果の共有/流用、null→0を拒否。D2の3metric構造を盲目的に移植しない。",
+      "axes": "S5はinformation-selection/prefix-reuseのexact2軸、needed-a/b保持、distractor-a/b折畳み表現、独立prefix境界、入力選択で一致も変わり得る注記。",
+      "counts": "front/suffix/appendでcandidate6/6/7、reusable0/4/6、recompute6/2/0、new0/0/1。S4 needed2常在、distractor0/2、評価枠2、位置summary3。"
+    },
+    "geometry": "同じ座標系のSVG変換でprefix境界、二行の列中心、mask/重要情報のslot内包含を1px許容で数値検査。text bbox候補はPNGの実字形で別判断。viewport/completeScene、寸法とhashを分離記録。",
+    "print": "content semanticsとcontrol UIを分離。印刷は同じoracleへcheckControls:falseを渡し、selector/transport非表示を別assert。表示に使ったstored settingを保持し意味検査全体をskipしない。"
+  },
+  "selectorPlan": {
+    "causal": {
+      "queryIndex": {
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "activeStages": [
+          0
+        ]
+      },
+      "length": {
+        "values": [
+          4,
+          6
+        ],
+        "activeStages": [
+          2,
+          4
+        ]
+      },
+      "allStoredSettingPairs": 12,
+      "stageGridCount": 60
+    },
+    "cache": {
+      "editMode": {
+        "values": [
+          "front-change",
+          "suffix-change",
+          "append"
+        ],
+        "activeStages": [
+          2
+        ]
+      },
+      "importantPosition": {
+        "values": [
+          "beginning",
+          "middle",
+          "end"
+        ],
+        "activeStages": [
+          3,
+          4
+        ]
+      },
+      "documentSet": {
+        "values": [
+          "needed-only",
+          "with-distractors"
+        ],
+        "activeStages": [
+          4
+        ]
+      },
+      "allStoredSettingTriples": 18,
+      "stageGridCount": 108
+    },
+    "outOfStage": "combobox不存在、effective値none、無関係setting変更で意味frame不変。数値変換はUIのSelect側だけ、modelでは数値文字列拒否。",
+    "boundaries": "i+.49/.5/.51を全境界で往復、button/aria-valuetext整合。有限値clamp、無効phase TypeError、unknown key/object TypeError、未知enum/numeric選択RangeError。nested mutation隔離。"
+  },
+  "negativeFixtures": [
+    {
+      "id": "C-MASK",
+      "mutation": "未来key許可、転置/欠落/重複セル、query3→t4/t5参照、query5へ架空future追加",
+      "reject": "literal mask4/6、exact16/36一意pair、全6queryの許可集合とpath endpoint"
+    },
+    {
+      "id": "C-MIX",
+      "mutation": "参照4本の欠落、名詞役割消失、重み数値/正答/vectorを生成",
+      "reject": "各source可視text/模式role、4path、未知値null"
+    },
+    {
+      "id": "C-REACH",
+      "mutation": "data-IDは保持したまま正しい利用の保証、実時間倍率、全方式共通を表示",
+      "reject": "各欄の可視留保と非主張・未知値"
+    },
+    {
+      "id": "C-LANES",
+      "mutation": "prefill/decode片側欠落、両metricを一方へ集中、TTFT/生成速度交換",
+      "reject": "lane exact2、各lane固有metric exact1と可視意味"
+    },
+    {
+      "id": "C-KV-TIMING",
+      "mutation": "候補6を入力処理前から保存、候補7を選んだだけで保存、処理後6欠落",
+      "reject": "時点別processed/cache/sampled集合と可視説明"
+    },
+    {
+      "id": "C-KV-FIELDS",
+      "mutation": "Q保存、Vの1位置欠落、K重複、学習重みと同一視、byte値生成",
+      "reject": "K/V各nのunique位置とラベル、学習枠分離、未知値"
+    },
+    {
+      "id": "Q-GENERATION",
+      "mutation": "別要求へ自動hit保証、未処理候補のKV再利用",
+      "reject": "same-generation/cross-request可視境界と時点oracle"
+    },
+    {
+      "id": "Q-PREFIX",
+      "mutation": "suffixのprefix3/5、変更p4保持、以前p2再計算、片入力欠落",
+      "reject": "両row exact配列/role、保持0..3/再計算4,5、境界geometry"
+    },
+    {
+      "id": "Q-APPEND",
+      "mutation": "appendのp6を過去無効化扱い、prefix7、frontで保持1件",
+      "reject": "append保持0..5/new6/無効化[]、front保持[]/再計算0..5"
+    },
+    {
+      "id": "Q-CARRY",
+      "mutation": "titleに正しい語だけ残しREAD2の可視固定/可変や4/2説明を隠す",
+      "reject": "未操作0→2の可視text/各領域/境界、非表示metadataは不採用"
+    },
+    {
+      "id": "Q-SERVICE",
+      "mutation": "provider-cache-hit unknownのまま実hit/TTL/割引を表示",
+      "reject": "可視文言の反転とnonnull service値"
+    },
+    {
+      "id": "Q-POSITION",
+      "mutation": "情報ID交換、位置0/3/5誤り、READ4のsummary消失、中間必敗/U字性能",
+      "reject": "同じIDと実slot、summary exact3、モデル/タスク依存留保"
+    },
+    {
+      "id": "Q-DOCUMENTS",
+      "mutation": "needed片方欠落、distractorをneededに改名、needed-onlyで追加資料保持",
+      "reject": "設定ごとexact ID/role/可視labelと必要2/追加0or2"
+    },
+    {
+      "id": "Q-EVALUATION",
+      "mutation": "retrieval/integration片側欠落、結果共有、検索成功を統合成功へコピー",
+      "reject": "別々のexact2枠と各result/score null、未測定text"
+    },
+    {
+      "id": "Q-CAUSE-AXES",
+      "mutation": "希釈だけが原因、S5片軸消失、情報選択でcache不変/品質向上を保証",
+      "reject": "局所留保text、exact2軸、保持/折畳み文書と独立prefix境界"
+    },
+    {
+      "id": "SETTINGS",
+      "mutation": "非対象stageでもcontrol有効、値漏れ、重複option、中点丸め差、戻ると結果差",
+      "reject": "全設定×stage168、exact option、直接到達/逆シーク、純粋model単体"
+    },
+    {
+      "id": "GEOMETRY",
+      "mutation": "mask/情報印をslot外、prefix境界xずれ、二行列中心ずれ、水平線をheight0で不可視扱い",
+      "reject": "実bounds/center/pathとstroke可視、1px許容。文字重なりは実画像で追加確認"
+    },
+    {
+      "id": "TEXT-SCOPE",
+      "mutation": "正しいID/titleだけ保持し実labelを空/否定/別laneへ移す/透明化",
+      "reject": "可視leaf textのrole別照合、祖先可視/paint、tspan二重集計なし"
+    },
+    {
+      "id": "PRINT",
+      "mutation": "printでselector残る、selector非表示を理由に意味全skip",
+      "reject": "control非表示とcontent意味を独立assert"
+    },
+    {
+      "id": "SOURCE",
+      "mutation": "表/list分割・H3重複・TODO廃棄・D2aside1を要求",
+      "reject": "全AST逆変換/inventoryと原文依存の装飾契約"
+    },
+    {
+      "id": "PROOF",
+      "mutation": "旧proof本文と内蔵hashとmanifestを一緒に改ざん、旧case順/名前/primary assert変更",
+      "reject": "外側に独立固定したD2原byte/hashと121callback、全宣言差分逆変換"
+    },
+    {
+      "id": "RELEASE",
+      "mutation": "異なるmerge/run/deploy/artifact/BUILD、10/11HTMLだけ、duplicate route、critical asset失敗",
+      "reject": "CI→公開identity鎖、exact11set、asset body/MIME、partial raw不受入"
+    }
+  ],
+  "portableAndProof": {
+    "sameCallback": "contextLocalCasesがrunContextChecksの登録callbackそのものを返す。public/localの14名・関数・primary assertを共用し、adapterは接続/identity/deliveryのみ。",
+    "paths": "localはhttp localhost/127.0.0.1/[::1] originのみ。既存path containment、regular-file、tar選択、lockとoutputルール保持。publicにlocalhost例外を流用しない。",
+    "extensionEdits": [
+      "contextのliteral import/登録1block",
+      "collector/extractor/public/preparationの11routeとcount",
+      "追加2markerの配信混入検査",
+      "README/manifest/new module参照のみ。旧callback本文/primary assert/timeout不変"
+    ],
+    "proof": "新flat e1 proofはD2全kit、source-mapping、c2/d1/d2 proof JSONの全内容、predecessor-proof.mjsを固定。raw/LF hashと全121名/本文hashを後継proof外の記録で独立保持。全before/after置換を各1回として逆変換しD2各file全byteへ戻す。既存D2→D1→C2→C1復元も保持。変えたproofが自身のhashを更新しただけでは通さない。",
+    "finalFreeze": "今回のkit snapshotは公開前D2候補。正式公開受入後にmerge/tree/manifest/full-kit/proof/121callbacksを再凍結し、今回観測との差分を明示してレビュー。これ以前にE1実装しない。",
+    "offlineTests": [
+      "実登録のみ列挙し135unique、連続14削除後に旧121が同順/本文hash",
+      "local/public14同callbackとlocalhost拒否行列",
+      "全意味positive/negative fixture、製品modelをoracleにしない",
+      "各proof全体改変＋hash追随、置換重複/欠落、旧assert弱体化を拒否",
+      "exact11regular artifact HTML/同BUILD、動的routeとtraversal負例を維持"
+    ]
+  },
+  "runtimeAndRelease": {
+    "local": "凍結static BUILD＋全11inputDigest/HTML前後一致、全必要回帰と独立code/imageレビュー。localをpublicに代用しない。",
+    "public": "正式tree→PR/CI/Pages後にcollectorで実merge/run/build/deploy/artifact固定。全11公開HTML/BUILDと観測assetbodyをCI artifactへ照合、Edge/WebKit各135。失敗原raw保持、限定repeatは同条件の別報告。",
+    "performance": "別途独立review済みhelperを低負荷時実行。common100KiB/scene75KiB gzip、CLS<=.05、input<=200ms、native rAF p95<=32ms、手動/実viewport退出後app rAF idle。実service性能ではない。",
+    "visual": "生成PNG数と実視認数分離。absolute source path/hash/engine/profile/capture/sourceCase/actuallyViewed台帳。新11段階とrisk条件を独立実視認。旧10carryは入力不変の独立proof＋現在公開identity/回帰を限定根拠とする。WebKitは物理iPhone/Safariやscreen readerではない。",
+    "limits": [
+      "実model/API/Agent、実service cache hit/TTL/料金、思考内容、物理端末/印刷/screen reader未実施",
+      "本文・新例文・数式・架空の科学値/品質曲線・課金式を増やさない"
+    ]
+  },
+  "openItems": [
+    {
+      "id": "E1-MARKERS",
+      "kind": "minor implementation binding",
+      "proposal": [
+        "CONTEXT / CAUSAL COST",
+        "CONTEXT / CACHE QUALITY"
+      ],
+      "reason": "採択interfaceにmarker文字列未指定。rootが制作前に採用または代替を記録する。"
+    },
+    {
+      "id": "D2-FINAL-BASELINE",
+      "kind": "required future evidence, not semantic ambiguity",
+      "reason": "D2正式公開受入後の最終predecessor再凍結が必要。今の候補snapshotを公開承認とは扱わない。"
+    }
+  ],
+  "selfCheck": {
+    "kind": "plan-only author consistency",
+    "caseCallbackBodiesExecuted": 0,
+    "independentReview": null,
+    "actualRegistrationNamesObserved": 121,
+    "proposedCases": 14,
+    "proposedTotal": 135,
+    "proposedRoutes": 11,
+    "articleRawMatchesApproved": true,
+    "kitSnapshotStable": true
+  },
+  "createdAt": "2026-09-30T12:18:30.080Z",
+  "currentBaseline": {
+    "status": "observed D2 candidate; not a final accepted release",
+    "observedAt": "2026-09-30T12:18:30.080Z",
+    "fileCount": 20,
+    "kitFiles": [
+      {
+        "file": "scripts/diagram-release/README.md",
+        "bytes": 25175,
+        "rawSHA256": "7a2010f9decfb5cf5ecfdb354c5f926f5f034e5c57af6d5bfe9bdec9dfe04067",
+        "lfSHA256": "7a2010f9decfb5cf5ecfdb354c5f926f5f034e5c57af6d5bfe9bdec9dfe04067"
+      },
+      {
+        "file": "scripts/diagram-release/alignment-checks.mjs",
+        "bytes": 40400,
+        "rawSHA256": "c2dec4a5e62f2f557de44fbfff9a4d9b4a10aa94d449356268ebf9a267c74717",
+        "lfSHA256": "c2dec4a5e62f2f557de44fbfff9a4d9b4a10aa94d449356268ebf9a267c74717"
+      },
+      {
+        "file": "scripts/diagram-release/c2-predecessor-proof.json",
+        "bytes": 16010,
+        "rawSHA256": "a464b808ad76f33ec36df3a3e305b3847aeb056c32b58a5cfb62aa5e4ef77cea",
+        "lfSHA256": "a464b808ad76f33ec36df3a3e305b3847aeb056c32b58a5cfb62aa5e4ef77cea"
+      },
+      {
+        "file": "scripts/diagram-release/check-preparation.mjs",
+        "bytes": 17643,
+        "rawSHA256": "dde082c0e18e2f680ffe2b71de4474c3cb2b7bb35dbbe83f44e9295032a3fa33",
+        "lfSHA256": "dde082c0e18e2f680ffe2b71de4474c3cb2b7bb35dbbe83f44e9295032a3fa33"
+      },
+      {
+        "file": "scripts/diagram-release/collect-deployment.ps1",
+        "bytes": 12582,
+        "rawSHA256": "25e8fb862b57bd04dd6fbba2504bbf8bee63a80674a07cf053b725c8e9ecfbb1",
+        "lfSHA256": "25e8fb862b57bd04dd6fbba2504bbf8bee63a80674a07cf053b725c8e9ecfbb1"
+      },
+      {
+        "file": "scripts/diagram-release/d1-predecessor-proof.json",
+        "bytes": 14612,
+        "rawSHA256": "a2d25ae6426d42fa9961cef797918861253758cc6a0a245968981f24b12f6276",
+        "lfSHA256": "a2d25ae6426d42fa9961cef797918861253758cc6a0a245968981f24b12f6276"
+      },
+      {
+        "file": "scripts/diagram-release/d2-predecessor-proof.json",
+        "bytes": 16731,
+        "rawSHA256": "2e71eff4aed80aec129d9a149d6a811bbd39e4c05dc9a6f2d7de1f535e804d87",
+        "lfSHA256": "2e71eff4aed80aec129d9a149d6a811bbd39e4c05dc9a6f2d7de1f535e804d87"
+      },
+      {
+        "file": "scripts/diagram-release/extract-ci-html.mjs",
+        "bytes": 4415,
+        "rawSHA256": "0ea0950867ca72274f627cf9f3afd7db4317f3f7315ddce6767647b31d3b0529",
+        "lfSHA256": "0ea0950867ca72274f627cf9f3afd7db4317f3f7315ddce6767647b31d3b0529"
+      },
+      {
+        "file": "scripts/diagram-release/foundations-checks.mjs",
+        "bytes": 26410,
+        "rawSHA256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398",
+        "lfSHA256": "cab2f1e086b6913de48bb2c47978ad733d3f04dca2bf4934b48c818ca9859398"
+      },
+      {
+        "file": "scripts/diagram-release/inference-checks.mjs",
+        "bytes": 31874,
+        "rawSHA256": "9f52ca50576dcadc6010b60e30561b768a16b5da0ea8765952e2fc2c5c69e201",
+        "lfSHA256": "9f52ca50576dcadc6010b60e30561b768a16b5da0ea8765952e2fc2c5c69e201"
+      },
+      {
+        "file": "scripts/diagram-release/known-site-observations.mjs",
+        "bytes": 130,
+        "rawSHA256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659",
+        "lfSHA256": "1e4865a7c6c9c83af239a2b395e9f0100d03bae88a776ebbac6c48883fb31659"
+      },
+      {
+        "file": "scripts/diagram-release/local-alignment-adapter.mjs",
+        "bytes": 18906,
+        "rawSHA256": "a529ecca76d37a69af20184582981e26fea9beb0109dc59c1fdc16f496b2ea63",
+        "lfSHA256": "a529ecca76d37a69af20184582981e26fea9beb0109dc59c1fdc16f496b2ea63"
+      },
+      {
+        "file": "scripts/diagram-release/local-reasoning-adapter.mjs",
+        "bytes": 567,
+        "rawSHA256": "8c1992f5d1d7d80111c82a9fe8083291fe5d3464d68acd65121a7a1d96332b5e",
+        "lfSHA256": "8c1992f5d1d7d80111c82a9fe8083291fe5d3464d68acd65121a7a1d96332b5e"
+      },
+      {
+        "file": "scripts/diagram-release/portable-paths.mjs",
+        "bytes": 7151,
+        "rawSHA256": "eb3bab3ad3e9bfcffbd2071d23c321ae71abb4a5a7fa78dee1706ef9fd1abd4a",
+        "lfSHA256": "eb3bab3ad3e9bfcffbd2071d23c321ae71abb4a5a7fa78dee1706ef9fd1abd4a"
+      },
+      {
+        "file": "scripts/diagram-release/predecessor-proof.mjs",
+        "bytes": 9615,
+        "rawSHA256": "99194c3669f8059118d73737b9ea38a0aeddfe1284f020d804c3efe73a4af93d",
+        "lfSHA256": "99194c3669f8059118d73737b9ea38a0aeddfe1284f020d804c3efe73a4af93d"
+      },
+      {
+        "file": "scripts/diagram-release/pretraining-checks.mjs",
+        "bytes": 47725,
+        "rawSHA256": "4fc7051874e6dfdfa2b92052e7ebf237808237a7a2680c85a4008f187fc5de69",
+        "lfSHA256": "4fc7051874e6dfdfa2b92052e7ebf237808237a7a2680c85a4008f187fc5de69"
+      },
+      {
+        "file": "scripts/diagram-release/reasoning-checks.mjs",
+        "bytes": 47345,
+        "rawSHA256": "2e064f100dcff5fd1b6968c425a9ac55acacfcc8897ef6309a3be84acb225b98",
+        "lfSHA256": "2e064f100dcff5fd1b6968c425a9ac55acacfcc8897ef6309a3be84acb225b98"
+      },
+      {
+        "file": "scripts/diagram-release/source-mapping.json",
+        "bytes": 60320,
+        "rawSHA256": "70c2178e900c3e641c1c5f13f272e8578bd106617db81e613965e5c4d0f51e19",
+        "lfSHA256": "70c2178e900c3e641c1c5f13f272e8578bd106617db81e613965e5c4d0f51e19"
+      },
+      {
+        "file": "scripts/diagram-release/training-checks.mjs",
+        "bytes": 27264,
+        "rawSHA256": "83bd24b85bb4179f643d4a8ba1727a87c305ed6f8b7859e410ace76c70f5e79e",
+        "lfSHA256": "83bd24b85bb4179f643d4a8ba1727a87c305ed6f8b7859e410ace76c70f5e79e"
+      },
+      {
+        "file": "scripts/diagram-release/verify-public.mjs",
+        "bytes": 64263,
+        "rawSHA256": "ad1c6e33badb6a8c6bae853e5699a6c6f028eb6092c7fb0b5600a3cfdd809a02",
+        "lfSHA256": "ad1c6e33badb6a8c6bae853e5699a6c6f028eb6092c7fb0b5600a3cfdd809a02"
+      }
+    ],
+    "manifestSHA256": "70c2178e900c3e641c1c5f13f272e8578bd106617db81e613965e5c4d0f51e19",
+    "priorProofFiles": [
+      {
+        "file": "scripts/diagram-release/c2-predecessor-proof.json",
+        "bytes": 16010,
+        "rawSHA256": "a464b808ad76f33ec36df3a3e305b3847aeb056c32b58a5cfb62aa5e4ef77cea",
+        "lfSHA256": "a464b808ad76f33ec36df3a3e305b3847aeb056c32b58a5cfb62aa5e4ef77cea"
+      },
+      {
+        "file": "scripts/diagram-release/d1-predecessor-proof.json",
+        "bytes": 14612,
+        "rawSHA256": "a2d25ae6426d42fa9961cef797918861253758cc6a0a245968981f24b12f6276",
+        "lfSHA256": "a2d25ae6426d42fa9961cef797918861253758cc6a0a245968981f24b12f6276"
+      },
+      {
+        "file": "scripts/diagram-release/d2-predecessor-proof.json",
+        "bytes": 16731,
+        "rawSHA256": "2e71eff4aed80aec129d9a149d6a811bbd39e4c05dc9a6f2d7de1f535e804d87",
+        "lfSHA256": "2e71eff4aed80aec129d9a149d6a811bbd39e4c05dc9a6f2d7de1f535e804d87"
+      },
+      {
+        "file": "scripts/diagram-release/predecessor-proof.mjs",
+        "bytes": 9615,
+        "rawSHA256": "99194c3669f8059118d73737b9ea38a0aeddfe1284f020d804c3efe73a4af93d",
+        "lfSHA256": "99194c3669f8059118d73737b9ea38a0aeddfe1284f020d804c3efe73a4af93d"
+      }
+    ],
+    "registeredCaseCount": 121,
+    "callbackRegistrationSHA256": "82ab890a5496fb05252f0ce65a7ffa71da804085094691a60066df1ba5ea0839",
+    "callbacks": [
+      {
+        "name": "generation-token-loop: all stages 1440x1000 light",
+        "callbackSHA256": "ca56595bd7a7c696480480fda9c93b062151d6492fc2857e80eec7f81a0efdee"
+      },
+      {
+        "name": "generation-token-loop: all stages 1440x1000 dark",
+        "callbackSHA256": "ca56595bd7a7c696480480fda9c93b062151d6492fc2857e80eec7f81a0efdee"
+      },
+      {
+        "name": "generation-token-loop: all stages 1280x720 light",
+        "callbackSHA256": "ca56595bd7a7c696480480fda9c93b062151d6492fc2857e80eec7f81a0efdee"
+      },
+      {
+        "name": "generation-token-loop: all stages 390x844 light",
+        "callbackSHA256": "ca56595bd7a7c696480480fda9c93b062151d6492fc2857e80eec7f81a0efdee"
+      },
+      {
+        "name": "generation-token-loop: all stages 390x844 dark",
+        "callbackSHA256": "ca56595bd7a7c696480480fda9c93b062151d6492fc2857e80eec7f81a0efdee"
+      },
+      {
+        "name": "generation-token-loop: transport, keyboard, reading sync and expansion focus",
+        "callbackSHA256": "31ef0aca1e4f9cb63a190d0482d45231e3bf0236d15ecad368266b1460e22b57"
+      },
+      {
+        "name": "generation-token-loop: actual elapsed playback, frozen scene and restart",
+        "callbackSHA256": "024581d476991e6f055f09c05e309b99eea2278a66234812ba2de58617f912be"
+      },
+      {
+        "name": "generation-token-loop: noJS retains original article and all static stage descriptions",
+        "callbackSHA256": "fae73973bae8751aaae1a51b4cda7d7142d944f24393825000d4d3ac2363e703"
+      },
+      {
+        "name": "generation-token-loop: print freezes the midpoint into a coherent static scene",
+        "callbackSHA256": "3b2c0ad7790de0cd21dd7b10a2bd18e2537bbd91878e7397937a4ed212df66ad"
+      },
+      {
+        "name": "tokenization-counting: all stages 1440x1000 light",
+        "callbackSHA256": "ca56595bd7a7c696480480fda9c93b062151d6492fc2857e80eec7f81a0efdee"
+      },
+      {
+        "name": "tokenization-counting: all stages 1440x1000 dark",
+        "callbackSHA256": "ca56595bd7a7c696480480fda9c93b062151d6492fc2857e80eec7f81a0efdee"
+      },
+      {
+        "name": "tokenization-counting: all stages 1280x720 light",
+        "callbackSHA256": "ca56595bd7a7c696480480fda9c93b062151d6492fc2857e80eec7f81a0efdee"
+      },
+      {
+        "name": "tokenization-counting: all stages 390x844 light",
+        "callbackSHA256": "ca56595bd7a7c696480480fda9c93b062151d6492fc2857e80eec7f81a0efdee"
+      },
+      {
+        "name": "tokenization-counting: all stages 390x844 dark",
+        "callbackSHA256": "ca56595bd7a7c696480480fda9c93b062151d6492fc2857e80eec7f81a0efdee"
+      },
+      {
+        "name": "tokenization-counting: transport, keyboard, reading sync and expansion focus",
+        "callbackSHA256": "31ef0aca1e4f9cb63a190d0482d45231e3bf0236d15ecad368266b1460e22b57"
+      },
+      {
+        "name": "tokenization-counting: actual elapsed playback, frozen scene and restart",
+        "callbackSHA256": "024581d476991e6f055f09c05e309b99eea2278a66234812ba2de58617f912be"
+      },
+      {
+        "name": "tokenization-counting: noJS retains original article and all static stage descriptions",
+        "callbackSHA256": "fae73973bae8751aaae1a51b4cda7d7142d944f24393825000d4d3ac2363e703"
+      },
+      {
+        "name": "tokenization-counting: print freezes the midpoint into a coherent static scene",
+        "callbackSHA256": "3b2c0ad7790de0cd21dd7b10a2bd18e2537bbd91878e7397937a4ed212df66ad"
+      },
+      {
+        "name": "inference: all 23 stages 1440x1000 light",
+        "callbackSHA256": "a4033ecd9147af5557603cc7608b599d0f03a902ac0ae36ae532c8f0f7abbeff"
+      },
+      {
+        "name": "inference: all 23 stages 1440x1000 dark",
+        "callbackSHA256": "a4033ecd9147af5557603cc7608b599d0f03a902ac0ae36ae532c8f0f7abbeff"
+      },
+      {
+        "name": "inference: all 23 stages 1280x720 light",
+        "callbackSHA256": "a4033ecd9147af5557603cc7608b599d0f03a902ac0ae36ae532c8f0f7abbeff"
+      },
+      {
+        "name": "inference: all 23 stages 390x844 light",
+        "callbackSHA256": "a4033ecd9147af5557603cc7608b599d0f03a902ac0ae36ae532c8f0f7abbeff"
+      },
+      {
+        "name": "inference: all 23 stages 390x844 dark",
+        "callbackSHA256": "a4033ecd9147af5557603cc7608b599d0f03a902ac0ae36ae532c8f0f7abbeff"
+      },
+      {
+        "name": "inference: every selector, independent numerical fixtures, all midpoint boundaries and reverse seeks",
+        "callbackSHA256": "9e6a03f506225915203b0a9ded077fd9692a4ab4d5830bf1005be5aad59fdafd"
+      },
+      {
+        "name": "inference: keyboard transport, modal selector state and focus return",
+        "callbackSHA256": "2c7f6b73dfc94a7743985eb371c8e6520e48e865135f58fe263dadec281ecad1"
+      },
+      {
+        "name": "inference: independent figure states, every reading step, manual override and resumption",
+        "callbackSHA256": "b1c2141b6aebd62a637e023db1905cba3cbdf6cfb6aa55c4a167185297512fce"
+      },
+      {
+        "name": "inference-sampling: native elapsed play, frozen pause, replay and completion",
+        "callbackSHA256": "abd10c99c5c3d0ca928c7a44f8b96e314eb64c78681f1d909ec723cb3d0f9b10"
+      },
+      {
+        "name": "inference-cache-batching: native elapsed play, frozen pause, replay and completion",
+        "callbackSHA256": "abd10c99c5c3d0ca928c7a44f8b96e314eb64c78681f1d909ec723cb3d0f9b10"
+      },
+      {
+        "name": "inference-speculative: native elapsed play, frozen pause, replay and completion",
+        "callbackSHA256": "abd10c99c5c3d0ca928c7a44f8b96e314eb64c78681f1d909ec723cb3d0f9b10"
+      },
+      {
+        "name": "inference-quantization: native elapsed play, frozen pause, replay and completion",
+        "callbackSHA256": "abd10c99c5c3d0ca928c7a44f8b96e314eb64c78681f1d909ec723cb3d0f9b10"
+      },
+      {
+        "name": "inference noJS: original prose, 9 headings, 2 equations and all 23 static descriptions",
+        "callbackSHA256": "ba50b4fc80bad18181d37a81bd7213d454e954511f3f1dc5ba741bb5094148fa"
+      },
+      {
+        "name": "inference print: four coherent scenes and original article with controls hidden",
+        "callbackSHA256": "a49ab38de97bc286f29e444297d63243bc3f24dff97589ba5f61ee4495fdb2ef"
+      },
+      {
+        "name": "training: all 10 stages 1440x1000 light DSF1",
+        "callbackSHA256": "807d034992df4353b7c410538ad13d893a3002d71167cedeb5398030b468dc33"
+      },
+      {
+        "name": "training: all 10 stages 1440x1000 dark DSF1",
+        "callbackSHA256": "807d034992df4353b7c410538ad13d893a3002d71167cedeb5398030b468dc33"
+      },
+      {
+        "name": "training: all 10 stages 1280x720 light DSF1",
+        "callbackSHA256": "807d034992df4353b7c410538ad13d893a3002d71167cedeb5398030b468dc33"
+      },
+      {
+        "name": "training: all 10 stages 390x844 light DSF1",
+        "callbackSHA256": "807d034992df4353b7c410538ad13d893a3002d71167cedeb5398030b468dc33"
+      },
+      {
+        "name": "training: all 10 stages 390x844 dark DSF1",
+        "callbackSHA256": "807d034992df4353b7c410538ad13d893a3002d71167cedeb5398030b468dc33"
+      },
+      {
+        "name": "training: all 10 stages 960x540 light DSF2",
+        "callbackSHA256": "807d034992df4353b7c410538ad13d893a3002d71167cedeb5398030b468dc33"
+      },
+      {
+        "name": "training: all selectors, fixed semantic fixtures, midpoint boundaries and reverse seeks",
+        "callbackSHA256": "c65c350eae6b0bd701654e7dea8d4e659f7e8c5b285899f52d648fcf81098a1e"
+      },
+      {
+        "name": "training: keyboard transport, modal selector state and focus return",
+        "callbackSHA256": "7e23254832ac6e066bd89389656cb5b96127bc5df33de87e3438cd1fb51bc807"
+      },
+      {
+        "name": "training: all nine READ stops, manual-only auxiliary stage and independent figure states",
+        "callbackSHA256": "8b4a871edef68f80546f46368c2c2fc64e321633769c4c61490c0b3a05490a2e"
+      },
+      {
+        "name": "training-stages: native elapsed play, frozen pause, replay and completion",
+        "callbackSHA256": "6aea252185cc4b08ec1fb9a1ae2d2664a04faed69fc86798732d2d995eafb475"
+      },
+      {
+        "name": "training-runtime-boundary: native elapsed play, frozen pause, replay and completion",
+        "callbackSHA256": "6aea252185cc4b08ec1fb9a1ae2d2664a04faed69fc86798732d2d995eafb475"
+      },
+      {
+        "name": "training noJS: original prose, eight headings, Mermaid and all ten static descriptions",
+        "callbackSHA256": "3b7f023e9a921e4a0f7ad87cedefbecd2f50c0d7f1894ff68f92001493031bb8"
+      },
+      {
+        "name": "training print: coherent scenes and original article with controls hidden",
+        "callbackSHA256": "a7add81e2af8533e03717fcd81dafdbbfc8cfe2d79a29dcaa5d5ba6df2757058"
+      },
+      {
+        "name": "pretraining: all 23 stages 1440x1000 light DSF1",
+        "callbackSHA256": "a28357295b47482e8d97aae5f92ee78b5636e1f912ac8cbb2ea31832d05ddfef"
+      },
+      {
+        "name": "pretraining: all 23 stages 1440x1000 dark DSF1",
+        "callbackSHA256": "a28357295b47482e8d97aae5f92ee78b5636e1f912ac8cbb2ea31832d05ddfef"
+      },
+      {
+        "name": "pretraining: all 23 stages 1280x720 light DSF1",
+        "callbackSHA256": "a28357295b47482e8d97aae5f92ee78b5636e1f912ac8cbb2ea31832d05ddfef"
+      },
+      {
+        "name": "pretraining: all 23 stages 390x844 light DSF1",
+        "callbackSHA256": "a28357295b47482e8d97aae5f92ee78b5636e1f912ac8cbb2ea31832d05ddfef"
+      },
+      {
+        "name": "pretraining: all 23 stages 390x844 dark DSF1",
+        "callbackSHA256": "a28357295b47482e8d97aae5f92ee78b5636e1f912ac8cbb2ea31832d05ddfef"
+      },
+      {
+        "name": "pretraining: all 23 stages 960x540 light DSF2",
+        "callbackSHA256": "a28357295b47482e8d97aae5f92ee78b5636e1f912ac8cbb2ea31832d05ddfef"
+      },
+      {
+        "name": "pretraining-loss-perplexity: independent semantic fixtures, every selector and midpoint reverse seeks",
+        "callbackSHA256": "a08e34916d45ef58f886e49cdabd83cb5b13aa6286c654e04dfeb747400a3c25"
+      },
+      {
+        "name": "pretraining-scaling: independent semantic fixtures, every selector and midpoint reverse seeks",
+        "callbackSHA256": "a08e34916d45ef58f886e49cdabd83cb5b13aa6286c654e04dfeb747400a3c25"
+      },
+      {
+        "name": "pretraining-data: independent semantic fixtures, every selector and midpoint reverse seeks",
+        "callbackSHA256": "a08e34916d45ef58f886e49cdabd83cb5b13aa6286c654e04dfeb747400a3c25"
+      },
+      {
+        "name": "pretraining-metrics: independent semantic fixtures, every selector and midpoint reverse seeks",
+        "callbackSHA256": "a08e34916d45ef58f886e49cdabd83cb5b13aa6286c654e04dfeb747400a3c25"
+      },
+      {
+        "name": "pretraining-compute: independent semantic fixtures, every selector and midpoint reverse seeks",
+        "callbackSHA256": "a08e34916d45ef58f886e49cdabd83cb5b13aa6286c654e04dfeb747400a3c25"
+      },
+      {
+        "name": "pretraining: keyboard transport, modal selectors, isolated state and focus return",
+        "callbackSHA256": "ad00485f7924b64678a1febcd126474691ab5883f64c578f87258488928daed1"
+      },
+      {
+        "name": "pretraining: all 19 READ stops, four manual-only stages and independent figure states",
+        "callbackSHA256": "9be8f181b1972fa02aa271abd2c907e382f54c203bedb78a870c56449a5b0535"
+      },
+      {
+        "name": "pretraining-loss-perplexity: native elapsed play, frozen pause, replay and completion",
+        "callbackSHA256": "a7f25943d22291778545a7b1059fd1c6bbddacf6c5a458b9674de589bf66550f"
+      },
+      {
+        "name": "pretraining-scaling: native elapsed play, frozen pause, replay and completion",
+        "callbackSHA256": "a7f25943d22291778545a7b1059fd1c6bbddacf6c5a458b9674de589bf66550f"
+      },
+      {
+        "name": "pretraining-data: native elapsed play, frozen pause, replay and completion",
+        "callbackSHA256": "a7f25943d22291778545a7b1059fd1c6bbddacf6c5a458b9674de589bf66550f"
+      },
+      {
+        "name": "pretraining-metrics: native elapsed play, frozen pause, replay and completion",
+        "callbackSHA256": "a7f25943d22291778545a7b1059fd1c6bbddacf6c5a458b9674de589bf66550f"
+      },
+      {
+        "name": "pretraining-compute: native elapsed play, frozen pause, replay and completion",
+        "callbackSHA256": "a7f25943d22291778545a7b1059fd1c6bbddacf6c5a458b9674de589bf66550f"
+      },
+      {
+        "name": "pretraining noJS: original prose, nine headings, four equations, Mermaid and 23 static descriptions",
+        "callbackSHA256": "162d74c57b04a49b31f391cd06a23df8add3e3f96d80e51d5dae952dbaf89118"
+      },
+      {
+        "name": "pretraining print: coherent scenes and original article with controls hidden",
+        "callbackSHA256": "00551802d4f965d0f0ae752e14207f8780471ce892b2e4080af370bd62eddf86"
+      },
+      {
+        "name": "alignment: all 15 stages 1440x1000 light DSF1",
+        "callbackSHA256": "a2ec4556d2230c0c2a40731d3f88f49d0e0fecfbd28191b38e42e7b9260e4e03"
+      },
+      {
+        "name": "alignment: all 15 stages 1440x1000 dark DSF1",
+        "callbackSHA256": "a2ec4556d2230c0c2a40731d3f88f49d0e0fecfbd28191b38e42e7b9260e4e03"
+      },
+      {
+        "name": "alignment: all 15 stages 1280x720 light DSF1",
+        "callbackSHA256": "a2ec4556d2230c0c2a40731d3f88f49d0e0fecfbd28191b38e42e7b9260e4e03"
+      },
+      {
+        "name": "alignment: all 15 stages 390x844 light DSF1",
+        "callbackSHA256": "a2ec4556d2230c0c2a40731d3f88f49d0e0fecfbd28191b38e42e7b9260e4e03"
+      },
+      {
+        "name": "alignment: all 15 stages 390x844 dark DSF1",
+        "callbackSHA256": "a2ec4556d2230c0c2a40731d3f88f49d0e0fecfbd28191b38e42e7b9260e4e03"
+      },
+      {
+        "name": "alignment: all 15 stages 960x540 light DSF2",
+        "callbackSHA256": "a2ec4556d2230c0c2a40731d3f88f49d0e0fecfbd28191b38e42e7b9260e4e03"
+      },
+      {
+        "name": "alignment-preference: independent semantic fixtures, every selector and midpoint reverse seeks",
+        "callbackSHA256": "2bcd8b8b4812ea7fe1099fde4237bc2bfbea82181eac65e1c1a6fec139863bbe"
+      },
+      {
+        "name": "alignment-reward-risk: independent semantic fixtures, every selector and midpoint reverse seeks",
+        "callbackSHA256": "2bcd8b8b4812ea7fe1099fde4237bc2bfbea82181eac65e1c1a6fec139863bbe"
+      },
+      {
+        "name": "alignment-feedback: independent semantic fixtures, every selector and midpoint reverse seeks",
+        "callbackSHA256": "2bcd8b8b4812ea7fe1099fde4237bc2bfbea82181eac65e1c1a6fec139863bbe"
+      },
+      {
+        "name": "alignment: keyboard transport, modal selectors, isolated state and focus return",
+        "callbackSHA256": "acb70968d0d7da93a99d217e315cdd961098c25a0913778fff80b0de250b59eb"
+      },
+      {
+        "name": "alignment: all 15 READ stops, no manual-only stages and independent figure states",
+        "callbackSHA256": "c718539ff43dc139439ab71af3bd8ae28d9cc6e84e03f35702a37a2170d0d7f5"
+      },
+      {
+        "name": "alignment-preference: native elapsed play, frozen pause, replay and completion",
+        "callbackSHA256": "69d40462a943d04fc6e633ff79f08a2b28c6cd77ccda5375535b3d73090effb5"
+      },
+      {
+        "name": "alignment-reward-risk: native elapsed play, frozen pause, replay and completion",
+        "callbackSHA256": "69d40462a943d04fc6e633ff79f08a2b28c6cd77ccda5375535b3d73090effb5"
+      },
+      {
+        "name": "alignment-feedback: native elapsed play, frozen pause, replay and completion",
+        "callbackSHA256": "69d40462a943d04fc6e633ff79f08a2b28c6cd77ccda5375535b3d73090effb5"
+      },
+      {
+        "name": "alignment noJS: original prose, nine headings, four equations, Mermaid and 15 static descriptions",
+        "callbackSHA256": "5f25e088ae2af8d8a3501212b34a591525d9739d7c85de21a8fd982165538e1f"
+      },
+      {
+        "name": "alignment print: coherent scenes and original article with controls hidden",
+        "callbackSHA256": "c02f23e281b8a11a03fb7828f3dbde714ee9e20be57be6c8fcd1f848c20abf18"
+      },
+      {
+        "name": "reasoning: all 9 stages 1440x1000 light DSF1",
+        "callbackSHA256": "128154e36cb6349fe7d4160415006b6aacb7d2744eb28319a75ae0dfbd9f466c"
+      },
+      {
+        "name": "reasoning: all 9 stages 1440x1000 dark DSF1",
+        "callbackSHA256": "128154e36cb6349fe7d4160415006b6aacb7d2744eb28319a75ae0dfbd9f466c"
+      },
+      {
+        "name": "reasoning: all 9 stages 1280x720 light DSF1",
+        "callbackSHA256": "128154e36cb6349fe7d4160415006b6aacb7d2744eb28319a75ae0dfbd9f466c"
+      },
+      {
+        "name": "reasoning: all 9 stages 390x844 light DSF1",
+        "callbackSHA256": "128154e36cb6349fe7d4160415006b6aacb7d2744eb28319a75ae0dfbd9f466c"
+      },
+      {
+        "name": "reasoning: all 9 stages 390x844 dark DSF1",
+        "callbackSHA256": "128154e36cb6349fe7d4160415006b6aacb7d2744eb28319a75ae0dfbd9f466c"
+      },
+      {
+        "name": "reasoning: all 9 stages 960x540 light DSF2",
+        "callbackSHA256": "128154e36cb6349fe7d4160415006b6aacb7d2744eb28319a75ae0dfbd9f466c"
+      },
+      {
+        "name": "reasoning-sequence: independent meaning fixtures, history-free stages and midpoint reverse seeks",
+        "callbackSHA256": "788e4e298fb355a2e25505a26af9a9e6a35d9fd23fadf0f6fb77a134bc6aa0b9"
+      },
+      {
+        "name": "reasoning-evaluation: independent meaning fixtures, all six setting pairs and stage-restricted controls",
+        "callbackSHA256": "788e4e298fb355a2e25505a26af9a9e6a35d9fd23fadf0f6fb77a134bc6aa0b9"
+      },
+      {
+        "name": "reasoning: keyboard transport, modal selectors, isolated state and focus return",
+        "callbackSHA256": "aacbe079a451d0d3299749e82201025aae0f0e5594ecf5ba6cc6ea20fdfe44f1"
+      },
+      {
+        "name": "reasoning: all 8 READ stops, manual-stage meaning carryover and independent figure states",
+        "callbackSHA256": "20d7a798b3b0d9a9357a8d2449012e45126d717558bcd00dd5c524d6211c445e"
+      },
+      {
+        "name": "reasoning-sequence: native elapsed play, frozen pause, replay and completion",
+        "callbackSHA256": "eba10a70d9caeb1eb81bb23838de1e219e09eac9bb1504aabae509b84e7915dc"
+      },
+      {
+        "name": "reasoning-evaluation: native elapsed play, frozen pause, replay and completion",
+        "callbackSHA256": "eba10a70d9caeb1eb81bb23838de1e219e09eac9bb1504aabae509b84e7915dc"
+      },
+      {
+        "name": "reasoning noJS: original prose, nine headings, two tables and all nine static stage descriptions",
+        "callbackSHA256": "a5943aa0a9e7e0fdebd856b08255084b3971f9f68f126a7b9eeb7db8bafcedb0"
+      },
+      {
+        "name": "reasoning print: coherent scenes and original article with controls hidden",
+        "callbackSHA256": "e6c134bb529a20b2a0ca57dce8a43340c980e4b3415fd8046d7fc814e446f448"
+      },
+      {
+        "name": "mandatory basePath SVG favicon: declaration, HTTP 200 and image/svg+xml",
+        "callbackSHA256": "421880644bf96dda0c0d5b0c48dbf508fee862230f0145aecb7c0162fcf38051"
+      },
+      {
+        "name": "MoE all 14 stages: 1440x1000 light",
+        "callbackSHA256": "48ce9069ffc391cdb0fc5a7d80dbd5f341d8a659f219526cfe02ddf5caf6db48"
+      },
+      {
+        "name": "MoE all 14 stages: 1440x1000 dark",
+        "callbackSHA256": "48ce9069ffc391cdb0fc5a7d80dbd5f341d8a659f219526cfe02ddf5caf6db48"
+      },
+      {
+        "name": "MoE all 14 stages: 1280x720 light",
+        "callbackSHA256": "48ce9069ffc391cdb0fc5a7d80dbd5f341d8a659f219526cfe02ddf5caf6db48"
+      },
+      {
+        "name": "MoE all 14 stages: 390x844 light",
+        "callbackSHA256": "48ce9069ffc391cdb0fc5a7d80dbd5f341d8a659f219526cfe02ddf5caf6db48"
+      },
+      {
+        "name": "MoE all 14 stages: 390x844 dark",
+        "callbackSHA256": "48ce9069ffc391cdb0fc5a7d80dbd5f341d8a659f219526cfe02ddf5caf6db48"
+      },
+      {
+        "name": "MoE: transport, keyboard, expansion, selectors and focus return",
+        "callbackSHA256": "5e5bc718bf6d20ad1d8e1c7cbfd0ed274f40f1e8ca5b42e7192ea2bb0e9c2c15"
+      },
+      {
+        "name": "MoE: isolated manual states and every registered reading step",
+        "callbackSHA256": "ead1310dd17e38e809e8096f8a9da679c0bc14f09d84bd9d2e886d4b21aefee7"
+      },
+      {
+        "name": "moe-routing-load: actual elapsed play, frozen scene and replay",
+        "callbackSHA256": "2773701110bcf8eacc2e695cdbc251c23ef7aea6f9cdc5eb83dc3ad13c5f20cf"
+      },
+      {
+        "name": "moe-parameters-communication: actual elapsed play, frozen scene and replay",
+        "callbackSHA256": "2773701110bcf8eacc2e695cdbc251c23ef7aea6f9cdc5eb83dc3ad13c5f20cf"
+      },
+      {
+        "name": "MoE noJS and print: original prose, 9 H3, 4 equations, Mermaid and 14 stage descriptions",
+        "callbackSHA256": "a4f1f2d13167e0561995aa4e2922f595ed08e21064740ce7f66ea04d8afb6b26"
+      },
+      {
+        "name": "variants all 15 stages: 1440x1000 light",
+        "callbackSHA256": "ad5e78cb69097b7509ba296ad13f128d5ed7dd6c06ef80b443026a698b71ea0c"
+      },
+      {
+        "name": "variants all 15 stages: 1440x1000 dark",
+        "callbackSHA256": "ad5e78cb69097b7509ba296ad13f128d5ed7dd6c06ef80b443026a698b71ea0c"
+      },
+      {
+        "name": "variants all 15 stages: 1280x720 light",
+        "callbackSHA256": "ad5e78cb69097b7509ba296ad13f128d5ed7dd6c06ef80b443026a698b71ea0c"
+      },
+      {
+        "name": "variants all 15 stages: 390x844 light",
+        "callbackSHA256": "ad5e78cb69097b7509ba296ad13f128d5ed7dd6c06ef80b443026a698b71ea0c"
+      },
+      {
+        "name": "variants all 15 stages: 390x844 dark",
+        "callbackSHA256": "ad5e78cb69097b7509ba296ad13f128d5ed7dd6c06ef80b443026a698b71ea0c"
+      },
+      {
+        "name": "variants: transport, keyboard, expansion and focus return",
+        "callbackSHA256": "d2943e157ea09b3997be4fc5b3a5ce396781d1ad89ad3003002187d2bf1dacc2"
+      },
+      {
+        "name": "variants: isolated manual states and every registered reading step",
+        "callbackSHA256": "ae69d367138e5622b8b1206b9afe02abeb3adfed321ccee9f217040af151adf2"
+      },
+      {
+        "name": "attention-kv-sharing: actual elapsed play and frozen pause",
+        "callbackSHA256": "0ceb45b14069d0c1fae5925e7ad5b9b98bb97a7d438c9538ec49ad9ec2b1e8e0"
+      },
+      {
+        "name": "attention-compute-memory: actual elapsed play and frozen pause",
+        "callbackSHA256": "0ceb45b14069d0c1fae5925e7ad5b9b98bb97a7d438c9538ec49ad9ec2b1e8e0"
+      },
+      {
+        "name": "attention-context-range: actual elapsed play and frozen pause",
+        "callbackSHA256": "0ceb45b14069d0c1fae5925e7ad5b9b98bb97a7d438c9538ec49ad9ec2b1e8e0"
+      },
+      {
+        "name": "variants noJS and print: original prose, 11 H3, 3 display equations and 15 stage descriptions",
+        "callbackSHA256": "b814bb79c9f4808948bd9274373a64f331254eae21851682c75d17ec808bd907"
+      },
+      {
+        "name": "Transformer regression: four figures 1440 light",
+        "callbackSHA256": "19d3dab611014cffaa28b54e92d0e3280d07b237c32109768267607ab84f6746"
+      },
+      {
+        "name": "Transformer regression: four figures 390 dark",
+        "callbackSHA256": "19d3dab611014cffaa28b54e92d0e3280d07b237c32109768267607ab84f6746"
+      },
+      {
+        "name": "embeddings control: zero heavy figure or shared-frame chunks",
+        "callbackSHA256": "bf90ce096cc6c2f6f0888a4d159a27e9bd6b3272202b753d3e7297e8b6038958"
+      },
+      {
+        "name": "public assets: HTTP 200, nonempty bodies and matching MIME types",
+        "callbackSHA256": "a1706f02d674b432d75661693738d85032789f8e01803e5d085d9c4ae08e1dd1"
+      }
+    ],
+    "routes": [
+      "/docs/llm-internals/inference-internals",
+      "/docs/llm-foundations/how-llms-generate-text",
+      "/docs/llm-foundations/tokenization",
+      "/docs/llm-internals/mixture-of-experts-internals",
+      "/docs/llm-internals/attention-variants-and-long-context",
+      "/docs/llm-internals/transformer-architecture",
+      "/docs/llm-foundations/llm-training-pipeline",
+      "/docs/llm-internals/pretraining-and-scaling-laws",
+      "/docs/llm-internals/alignment-theory",
+      "/docs/llm-foundations/reasoning-models"
+    ],
+    "registrationObservation": "Registration functions only; check records names/function source hashes. Zero case callback invocation, Playwright launch or network."
+  },
+  "evidenceInputs": [
+    {
+      "file": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-proposal-20260930.json",
+      "rawSHA256": "b9b35c1da9bec520550ee5e658e74eb48109f4d673bb1e3f0858ab36654ccd43",
+      "bytes": 110395
+    },
+    {
+      "file": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-review-20260930.json",
+      "rawSHA256": "72e280ce99f7312bb0ca4cb651d23e950928cd2976796cd15d044443c05f219a",
+      "bytes": 9763
+    },
+    {
+      "file": "project/records/2026-09-30/p1-interface-preparation/views/attention-context-e1-interface-proposal-20260930.md",
+      "rawSHA256": "7f18b1084b5f165053f2814d091899c192954f7cecf1226923200df68aea69d7",
+      "bytes": 23583
+    },
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "rawSHA256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "bytes": 427025
+    },
+    {
+      "file": "docs/10-llm-foundations/attention-and-context.md",
+      "rawSHA256": "433d75095383235eeace9c4b34048bad43a3f4b0ba6e65c2e7e7d25eebdb1c55",
+      "bytes": 11623
+    },
+    {
+      "file": "website/lib/doc-decorations.mjs",
+      "rawSHA256": "abcba21db7e379e21f81602b97151e09f4c31d2a9f9beb01b48e86fee1de6fc2",
+      "bytes": 5575
+    },
+    {
+      "file": "tests/unit/diagram-release-portable.test.mjs",
+      "rawSHA256": "6880bc7d5e7f56f806ffb84976d47d4a7bc15ed9ced01c517ed8a77561ad3589",
+      "bytes": 50960
+    }
+  ],
+  "fixtures": {
+    "provenance": "Data copied from independently reviewed E1 interface, not product frame. Future kit literals require independent article/plan validation.",
+    "causal": {
+      "illustrationScope": "同一モデル・同一計算条件の密な因果注意。セル数は説明用で製品の上限ではない。",
+      "tokens": [
+        {
+          "id": "t0",
+          "position": 0,
+          "label": "·"
+        },
+        {
+          "id": "t1",
+          "position": 1,
+          "label": "名詞",
+          "role": "原文の参照候補という役割名"
+        },
+        {
+          "id": "t2",
+          "position": 2,
+          "label": "·"
+        },
+        {
+          "id": "t3",
+          "position": 3,
+          "label": "それ",
+          "role": "原文の語"
+        },
+        {
+          "id": "t4",
+          "position": 4,
+          "label": "·"
+        },
+        {
+          "id": "t5",
+          "position": 5,
+          "label": "·"
+        }
+      ],
+      "maskOracle": {
+        "4": [
+          "1000",
+          "1100",
+          "1110",
+          "1111"
+        ],
+        "6": [
+          "100000",
+          "110000",
+          "111000",
+          "111100",
+          "111110",
+          "111111"
+        ]
+      },
+      "allowedPairCount": {
+        "4": 10,
+        "6": 21
+      },
+      "pairMeaning": "許される参照ペアの模式セル数。FLOPs・最適化後演算数・実時間・金額・品質へ換算しない。数式/速度倍率を画面に足さない。",
+      "queryOracle": [
+        {
+          "query": 0,
+          "allowed": [
+            0
+          ],
+          "masked": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "query": 1,
+          "allowed": [
+            0,
+            1
+          ],
+          "masked": [
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "query": 2,
+          "allowed": [
+            0,
+            1,
+            2
+          ],
+          "masked": [
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "query": 3,
+          "allowed": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "masked": [
+            4,
+            5
+          ]
+        },
+        {
+          "query": 4,
+          "allowed": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "masked": [
+            5
+          ]
+        },
+        {
+          "query": 5,
+          "allowed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "masked": []
+        }
+      ],
+      "mix": {
+        "queryId": "t3",
+        "sourceIds": [
+          "t0",
+          "t1",
+          "t2",
+          "t3"
+        ],
+        "weightRoles": [
+          "light",
+          "strong",
+          "medium",
+          "medium"
+        ],
+        "numericWeights": null,
+        "outputId": "contextual-representation",
+        "outputVector": null,
+        "correctReferent": null,
+        "caption": "太さは模式的な重み。実モデルの値や正答の説明ではない。"
+      },
+      "processing": {
+        "prefill": {
+          "inputPositions": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "processedPositions": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cachePositions": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sampledPosition": 6,
+          "sampledInCache": false,
+          "metric": "ttft"
+        },
+        "decode": {
+          "processedPositions": [
+            6
+          ],
+          "pastCachePositions": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "newlyComputedKvPosition": 6,
+          "cachePositions": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "allowedKeyPositions": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "sampledPosition": 7,
+          "sampledInCache": false,
+          "metric": "tokens-per-second"
+        },
+        "sequence": "prefill末尾で候補を選ぶ → 次回入力として処理 → その位置のKVを保持 → 次候補を選ぶ。選んだだけの候補はまだKVにない。",
+        "timeClaim": "prefill/TTFTとdecode/生成速度の代表的な対応。TTFT全要因/時間/価格を計算しない。"
+      },
+      "kv": {
+        "storedFields": [
+          "K",
+          "V"
+        ],
+        "storedQ": false,
+        "learnedWeightsAreSeparate": true,
+        "bytes": null,
+        "kvHeads": null,
+        "layers": null,
+        "dtype": null,
+        "meaning": "同じ構成で保存位置が増えるとKVも増える。帯の長さはバイト数ではない。"
+      },
+      "metrics": [
+        {
+          "id": "ttft",
+          "label": "応答開始まで",
+          "value": null,
+          "unit": null
+        },
+        {
+          "id": "tokens-per-second",
+          "label": "生成速度",
+          "value": null,
+          "unit": null
+        },
+        {
+          "id": "memory",
+          "label": "KVの保持",
+          "value": null,
+          "unit": null
+        },
+        {
+          "id": "price",
+          "label": "料金",
+          "value": null,
+          "unit": null
+        },
+        {
+          "id": "quality",
+          "label": "実効品質",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "nonClaims": {
+        "attentionReachIsCorrectUse": false,
+        "attentionWeightExplainsAnswer": false,
+        "fixedLayerLinguisticHierarchy": false,
+        "allAttentionIsDenseCausal": false,
+        "pairCountPredictsRuntime": false,
+        "pairCountPredictsPrice": false,
+        "qualityJudgment": null,
+        "providerLimit": null
+      }
+    },
+    "cachePrefix": {
+      "assumptions": [
+        "同じモデル・位置・計算条件",
+        "密な因果注意の依存構造だけ",
+        "サービスの保持期間/最小長/認証境界/一致条件/課金はモデル化しない"
+      ],
+      "baseTokens": [
+        "p0",
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5"
+      ],
+      "fixedPositions": [
+        0,
+        1
+      ],
+      "variablePositions": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "fixedLabels": [
+        "システムプロンプト",
+        "ツール定義"
+      ],
+      "variableLabel": "履歴・ユーザー入力・検索結果",
+      "modes": [
+        {
+          "id": "front-change",
+          "label": "先頭を変更",
+          "candidateTokens": [
+            "p0-changed",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5"
+          ],
+          "firstDifference": 0,
+          "commonPrefixLength": 0,
+          "structurallyReusablePositions": [],
+          "invalidatedPositions": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "newUncomputedPositions": []
+        },
+        {
+          "id": "suffix-change",
+          "label": "後方を変更",
+          "candidateTokens": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4-changed",
+            "p5"
+          ],
+          "firstDifference": 4,
+          "commonPrefixLength": 4,
+          "structurallyReusablePositions": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "invalidatedPositions": [
+            4,
+            5
+          ],
+          "newUncomputedPositions": []
+        },
+        {
+          "id": "append",
+          "label": "後方へ追記",
+          "candidateTokens": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5",
+            "p6"
+          ],
+          "firstDifference": null,
+          "appendPosition": 6,
+          "commonPrefixLength": 6,
+          "structurallyReusablePositions": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "invalidatedPositions": [],
+          "newUncomputedPositions": [
+            6
+          ]
+        }
+      ],
+      "stateVocabulary": [
+        "structurally-reusable",
+        "needs-recompute",
+        "new-uncomputed"
+      ],
+      "service": {
+        "cacheHit": null,
+        "hitRate": null,
+        "ttl": null,
+        "price": null,
+        "discount": null,
+        "minimumPrefixLength": null,
+        "provider": null
+      },
+      "manualStage1": "base/suffix-changeの2入力で先頭4位置の共通帯と境界。S2既定も同じ配置/固定可変ラベルを残す。",
+      "readStage2": "未操作のsuffix-changeで前4位置の保持候補/後2位置の再計算を同時表示。front-change/appendでも先頭揃えと固定/可変区分は同じ。"
+    },
+    "cacheQuality": {
+      "importantInformation": {
+        "id": "important-info",
+        "text": null,
+        "role": "同じ重要情報",
+        "positions": {
+          "beginning": 0,
+          "middle": 3,
+          "end": 5
+        },
+        "slotCount": 6
+      },
+      "positionCases": [
+        {
+          "id": "beginning",
+          "label": "先頭",
+          "importantPosition": 0
+        },
+        {
+          "id": "middle",
+          "label": "中間",
+          "importantPosition": 3
+        },
+        {
+          "id": "end",
+          "label": "末尾",
+          "importantPosition": 5
+        }
+      ],
+      "neededDocuments": [
+        {
+          "id": "needed-a",
+          "contains": [
+            "important-info"
+          ],
+          "label": "必要文書 A",
+          "text": null
+        },
+        {
+          "id": "needed-b",
+          "contains": [
+            "supporting-info"
+          ],
+          "label": "必要文書 B",
+          "text": null
+        }
+      ],
+      "distractorDocuments": [
+        {
+          "id": "distractor-a",
+          "label": "追加の無関係な文書",
+          "text": null
+        },
+        {
+          "id": "distractor-b",
+          "label": "追加の類似文書",
+          "text": null
+        }
+      ],
+      "documentSets": [
+        {
+          "id": "needed-only",
+          "documentIds": [
+            "needed-a",
+            "needed-b"
+          ]
+        },
+        {
+          "id": "with-distractors",
+          "documentIds": [
+            "needed-a",
+            "needed-b",
+            "distractor-a",
+            "distractor-b"
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "id": "retrieval",
+          "label": "一節を探す",
+          "result": null,
+          "score": null,
+          "status": "unmeasured"
+        },
+        {
+          "id": "integration",
+          "label": "複数箇所を統合",
+          "result": null,
+          "score": null,
+          "status": "unmeasured"
+        }
+      ],
+      "selection": {
+        "retained": [
+          "needed-a",
+          "needed-b"
+        ],
+        "collapsed": [
+          "distractor-a",
+          "distractor-b"
+        ],
+        "qualityGain": null,
+        "methodLabel": "必要な情報を選んで渡す"
+      },
+      "axes": [
+        {
+          "id": "information-selection",
+          "label": "何を渡すか",
+          "decision": null
+        },
+        {
+          "id": "prefix-reuse",
+          "label": "何を再利用できるか",
+          "decision": null
+        }
+      ],
+      "nonClaims": {
+        "positionUniversalUCurve": false,
+        "allMiddleInformationIsLost": false,
+        "distractorsAlwaysReduceQuality": false,
+        "attentionDilutionIsSoleCause": false,
+        "successfulRetrievalImpliesIntegration": false,
+        "moreContextGuaranteesCorrectAnswer": false,
+        "selectionGuaranteesImprovement": false,
+        "betterCacheImpliesBetterQuality": false,
+        "cacheHitMeasured": false,
+        "realModelExecution": false
+      }
+    },
+    "requiredStageMeaning": {
+      "causal": [
+        {
+          "stage": 0,
+          "read": true,
+          "label": "因果的な範囲",
+          "required": [
+            "same-token-sequence",
+            "current-query",
+            "future-mask",
+            "allowed-past-and-self"
+          ],
+          "controls": [
+            "queryIndex"
+          ],
+          "labels": [
+            "密な因果注意の例",
+            "自分以前を参照",
+            "未来は参照しない"
+          ],
+          "contract": "既定6位置/query3。query変更時に現在行と未来maskを更新し、未来へ活動中の参照線を残さない。"
+        },
+        {
+          "stage": 1,
+          "read": true,
+          "label": "関連を混ぜる",
+          "required": [
+            "t3",
+            "t1",
+            "weighted-reference-lines",
+            "contextual-representation"
+          ],
+          "controls": [],
+          "labels": [
+            "それ",
+            "参照候補(名詞)",
+            "重み付けして表現を更新",
+            "語・句・文という固定の層順ではない"
+          ],
+          "contract": "既存「それ」と名詞役割だけ。t3の参照可能なt0..t3から混合枠へ線。太さは模式で数値weight/vector/正答判定はnull。"
+        },
+        {
+          "stage": 2,
+          "read": true,
+          "label": "機会と保証",
+          "required": [
+            "causal-pair-area",
+            "access-opportunity",
+            "actual-use-unknown"
+          ],
+          "controls": [
+            "length"
+          ],
+          "labels": [
+            "参照できる ≠ 正しく使える",
+            "入力一括の注意ペアは急増",
+            "実測時間や品質の倍率ではない"
+          ],
+          "contract": "4/6位置の下三角範囲を比較。面積が増えても品質の合格印/性能曲線を足さない。入力一括の素朴な注意と実時間を区別。"
+        },
+        {
+          "stage": 3,
+          "read": true,
+          "label": "二つの処理",
+          "required": [
+            "prefill-lane",
+            "decode-lane",
+            "ttft",
+            "tokens-per-second",
+            "candidate-not-yet-cached"
+          ],
+          "controls": [],
+          "labels": [
+            "入力全体を一括処理",
+            "1位置を入力して続ける",
+            "応答開始まで(TTFT)",
+            "生成速度"
+          ],
+          "contract": "両レーンを同時に残す。prefillは0..5、次回decodeは位置6だけ。候補6は次回処理前にはKVなし、処理後KV0..6/次候補7はKVなし。時間値は未測定。"
+        },
+        {
+          "stage": 4,
+          "read": true,
+          "label": "計算とメモリ",
+          "required": [
+            "token-sequence",
+            "K-band",
+            "V-band",
+            "conditional-metrics"
+          ],
+          "controls": [
+            "length"
+          ],
+          "labels": [
+            "保存するK/V",
+            "同じ構成では長さに応じて増える",
+            "料金・時間・品質は実装や条件に依存"
+          ],
+          "contract": "入力4/6位置とK/V帯のIDを対応させる。Qを保存せず学習重みは別枠。bytes/料金/品質をセル数から計算しない。"
+        }
+      ],
+      "cacheQuality": [
+        {
+          "stage": 0,
+          "read": true,
+          "label": "KV再利用",
+          "required": [
+            "same-generation",
+            "past-K-band",
+            "past-V-band",
+            "new-input-position",
+            "cross-request-boundary"
+          ],
+          "controls": [],
+          "labels": [
+            "同じ生成内のK/V再利用",
+            "別リクエストの共通接頭辞は別の境界",
+            "保存期間・一致条件・料金は提供仕様"
+          ],
+          "contract": "過去6位置のK/Vを再利用し、候補を次回入力処理してから位置6KVを追記。別要求で自動的にhitするとは言わない。"
+        },
+        {
+          "stage": 1,
+          "read": false,
+          "label": "共通接頭辞",
+          "required": [
+            "two-aligned-inputs",
+            "fixed-prefix",
+            "variable-suffix",
+            "common-prefix-boundary"
+          ],
+          "controls": [],
+          "labels": [
+            "固定部分は先頭",
+            "可変部分は後方",
+            "構造上の再利用候補"
+          ],
+          "contract": "補助段階。先頭4位置を一致帯、後2位置を比較対象にする。実service hitとは表示しない。"
+        },
+        {
+          "stage": 2,
+          "read": true,
+          "label": "変更位置",
+          "required": [
+            "two-aligned-inputs",
+            "fixed-prefix",
+            "variable-suffix",
+            "common-prefix-boundary",
+            "retained-prefix",
+            "recompute-suffix",
+            "append-location"
+          ],
+          "controls": [
+            "editMode"
+          ],
+          "labels": [
+            "固定部分は先頭",
+            "可変部分は後方",
+            "変更より前は保持候補",
+            "変更位置以降は再計算",
+            "追記は既存の過去を変えない"
+          ],
+          "contract": "未操作の既定suffix-changeで4保持/2再計算を同時表示。先頭変更は保持0、追記は保持6/新規未計算1/無効化0。Agent履歴の追記も同じ末尾。"
+        },
+        {
+          "stage": 3,
+          "read": true,
+          "label": "入ると使える",
+          "required": [
+            "important-info",
+            "position-comparison",
+            "evaluation-frame"
+          ],
+          "controls": [
+            "importantPosition"
+          ],
+          "labels": [
+            "入ることと使えることは別",
+            "先頭・中間・末尾を比較",
+            "対象モデルとタスクで評価"
+          ],
+          "contract": "同じ情報IDを位置0/3/5へ移す。値null、普遍的U曲線・中間必敗の色付け・品質順位なし。"
+        },
+        {
+          "stage": 4,
+          "read": true,
+          "label": "妨害と統合",
+          "required": [
+            "important-info",
+            "position-comparison-summary",
+            "needed-a",
+            "needed-b",
+            "optional-distractors",
+            "retrieval",
+            "integration"
+          ],
+          "controls": [
+            "importantPosition",
+            "documentSet"
+          ],
+          "labels": [
+            "必要文書のみ / 妨害文書を追加",
+            "位置も比較条件として確認",
+            "一節を探す / 複数箇所を統合",
+            "品質差を重みの希釈だけで説明しない"
+          ],
+          "contract": "位置と必要2文書を保持して追加資料だけ加減。未操作READ4でも3位置比較の小さな要約図を残す。検索/統合は別の未測定枠で、成功を転用しない。"
+        },
+        {
+          "stage": 5,
+          "read": true,
+          "label": "選んで渡す",
+          "required": [
+            "retained-needed-documents",
+            "collapsed-unneeded-documents",
+            "information-selection-axis",
+            "prefix-reuse-axis"
+          ],
+          "controls": [],
+          "labels": [
+            "必要な情報を選んで渡す",
+            "何を渡すか / 何を再利用できるか",
+            "品質と再利用を別々に確かめる"
+          ],
+          "contract": "不要資料を畳む模式図と独立したprefix境界図を同時表示。選択で入力が変われば一致範囲も変わり得る。cache不変/品質改善を保証しない。"
+        }
+      ]
+    },
+    "attributes": {
+      "causal": {
+        "root": [
+          "data-context-causal-stage",
+          "data-attention-scope=\"dense-causal-example\"",
+          "data-query-index=<integer|none>",
+          "data-context-length=<integer>",
+          "data-quality-judgment=\"none\""
+        ],
+        "tokens": [
+          "data-context-token-id",
+          "data-context-position"
+        ],
+        "matrix": [
+          "data-query-position",
+          "data-key-position",
+          "data-attention-allowed=<true|false>",
+          "data-future-masked=<true|false>"
+        ],
+        "mix": [
+          "data-mix-source",
+          "data-weight-role=<light|medium|strong>",
+          "data-weight-origin=\"illustrative\"",
+          "data-mix-target=\"contextual-representation\""
+        ],
+        "processing": [
+          "data-processing-lane=<prefill|decode>",
+          "data-processed-positions",
+          "data-cached-positions",
+          "data-sampled-position",
+          "data-sampled-in-cache=\"false\""
+        ],
+        "kv": [
+          "data-kv-field=<K|V>",
+          "data-kv-position"
+        ],
+        "metrics": [
+          "data-context-metric=<id>",
+          "data-measured=\"false\""
+        ],
+        "caveats": [
+          "data-caveat=\"reach-not-correct-use\"",
+          "data-caveat=\"pairs-not-wall-clock\"",
+          "data-caveat=\"not-all-attention\""
+        ]
+      },
+      "cacheQuality": {
+        "root": [
+          "data-context-cache-stage",
+          "data-prefix-edit=<enum|none>",
+          "data-important-position=<enum|none>",
+          "data-document-set=<enum|none>",
+          "data-provider-cache-hit=\"unknown\""
+        ],
+        "generation": [
+          "data-cache-boundary=<same-generation|cross-request>",
+          "data-kv-field=<K|V>",
+          "data-kv-position"
+        ],
+        "prefix": [
+          "data-prefix-input=<base|candidate>",
+          "data-prefix-position",
+          "data-prefix-role=<fixed|variable>",
+          "data-prefix-state=<structurally-reusable|needs-recompute|new-uncomputed>",
+          "data-common-prefix-length",
+          "data-change-position=<integer|none>"
+        ],
+        "quality": [
+          "data-important-info=\"important-info\"",
+          "data-info-position",
+          "data-position-case=<beginning|middle|end>",
+          "data-document-id",
+          "data-document-role=<needed|distractor>"
+        ],
+        "evaluation": [
+          "data-evaluation-kind=<retrieval|integration>",
+          "data-evaluation-status=\"unmeasured\""
+        ],
+        "axes": [
+          "data-decision-axis=<information-selection|prefix-reuse>"
+        ],
+        "caveats": [
+          "data-caveat=\"structure-not-service-hit\"",
+          "data-caveat=\"position-not-universal\"",
+          "data-caveat=\"retrieval-not-integration\"",
+          "data-caveat=\"not-only-dilution\""
+        ]
+      }
+    }
+  },
+  "markdown": {
+    "file": "TEMP/context-e1-kit-plan-20260930.md",
+    "sha256": "e503657ddcdc7358bb3df16b4fdc2e8741a85e32831fd6e439780e858a6589d5"
+  }
+}

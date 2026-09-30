@@ -1,0 +1,853 @@
+{
+  "schemaVersion": 1,
+  "unit": "F1",
+  "status": "proposal-for-independent-kit-review",
+  "author": "/root/pretraining_visual_review",
+  "scope": {
+    "allowedWrites": [
+      "TEMP/capabilities-f1-kit-plan-20260930.md",
+      "TEMP/capabilities-f1-kit-plan-20260930.json"
+    ],
+    "planOnly": true,
+    "productModified": false,
+    "articleModified": false,
+    "kitModified": false,
+    "registrationModified": false,
+    "gitMutation": false,
+    "networkExecuted": false,
+    "browserExecuted": false,
+    "implementationStarted": false,
+    "acceptance": null,
+    "startRequires": [
+      "E3 formal public acceptance",
+      "Independent F1 kit-plan review and root start instruction",
+      "Freeze actual accepted E3 predecessor before implementation"
+    ],
+    "stopBoundary": "Stop after P1 all15 articles publicly accepted; do not start P2."
+  },
+  "baseline": {
+    "actualObserved": {
+      "status": "D2 candidate; not public acceptance",
+      "cases": 121,
+      "artifactRoutes": 10,
+      "source": "scripts/diagram-release/verify-public.mjs"
+    },
+    "futureE3": {
+      "status": "Planned165 cases/13routes only; not a real accepted predecessor",
+      "plannedCases": 165,
+      "plannedArtifactRoutes": 13,
+      "acceptedMergeSha": null,
+      "acceptedTreeSha": null,
+      "manifestSha256": null,
+      "kitFileHashes": null,
+      "callbackNames": null,
+      "callbackBodyHashes": null,
+      "wholePredecessorProofHashes": null,
+      "artifactRouteNames": null,
+      "freezeAt": "After E3 formal public acceptance, from the actual accepted tree. Current121 and future E3 plan cannot supply165 callback bodies or proof hashes."
+    }
+  },
+  "extension": {
+    "route": "/docs/llm-foundations/capabilities-and-limits",
+    "newCases": 12,
+    "plannedTotalCases": 177,
+    "plannedArtifactRoutes": 14,
+    "formula": "165 + (6 profiles + 1 semantic/controls + 1 keyboard/modal + 1 READ + 1 native + 1 fallback + 1 print) =177; 13+1=14 artifact routes",
+    "insertion": "One consecutive12-case block after future runInterpretabilityChecks and before existing mandatory favicon case. Determine exact index only from accepted E3; removing F1 additions restores all165 names/order/callback bodies under documented newline normalization.",
+    "profiles": [
+      [
+        1440,
+        1000,
+        "light",
+        1
+      ],
+      [
+        1440,
+        1000,
+        "dark",
+        1
+      ],
+      [
+        1280,
+        720,
+        "light",
+        1
+      ],
+      [
+        390,
+        844,
+        "light",
+        1
+      ],
+      [
+        390,
+        844,
+        "dark",
+        1
+      ],
+      [
+        960,
+        540,
+        "light",
+        2
+      ]
+    ],
+    "cases": [
+      {
+        "name": "capabilities: all 5 stages 1440x1000 light DSF1",
+        "kind": "profile"
+      },
+      {
+        "name": "capabilities: all 5 stages 1440x1000 dark DSF1",
+        "kind": "profile"
+      },
+      {
+        "name": "capabilities: all 5 stages 1280x720 light DSF1",
+        "kind": "profile"
+      },
+      {
+        "name": "capabilities: all 5 stages 390x844 light DSF1",
+        "kind": "profile"
+      },
+      {
+        "name": "capabilities: all 5 stages 390x844 dark DSF1",
+        "kind": "profile"
+      },
+      {
+        "name": "capabilities: all 5 stages 960x540 light DSF2",
+        "kind": "profile"
+      },
+      {
+        "name": "capabilities-assessment: independent visible meaning, six tasks, four focuses and midpoint reverse seeks",
+        "kind": "semantic-controls"
+      },
+      {
+        "name": "capabilities: keyboard transport, modal stage-scoped controls and focus return",
+        "kind": "keyboard-modal"
+      },
+      {
+        "name": "capabilities: all 5 READ stops and default task meaning before selector interaction",
+        "kind": "read"
+      },
+      {
+        "name": "capabilities-assessment: native elapsed play, frozen pause, replay and completion",
+        "kind": "native"
+      },
+      {
+        "name": "capabilities fallback: noJS retains 5 static descriptions; chunk failure retains article, table, status and h1",
+        "kind": "noJS-fallback"
+      },
+      {
+        "name": "capabilities print: coherent scene, original article and table with controls hidden",
+        "kind": "print"
+      }
+    ],
+    "observations": {
+      "browserProfileIntegerPerEngine": {
+        "formula": "6 profiles *5 stages",
+        "count": 30
+      },
+      "browserDefaultMidpointPerEngine": {
+        "formula": "2 directions *3 offsets(.49,.50,.51) *4 boundaries",
+        "count": 24
+      },
+      "browserAlternateMidpointPerEngine": {
+        "formula": "taskKind=procedure at0.5/1.5 and assessmentFocus=failure-cost at3.5, each3 offsets and2 directions",
+        "count": 18
+      },
+      "browserActiveSelectionsPerEngine": {
+        "formula": "6 tasks@S1 +4 focuses@S4",
+        "count": 10
+      },
+      "browserFactorizedStoredChoiceGridPerEngine": {
+        "formula": "6 task values *5 stages with defaultfocus +4 focus values *5 stages with defaulttask",
+        "observations": 50,
+        "uniqueSettingsStageCells": 45,
+        "note": "The5 default/default stage cells occur in both audits. This is not a claim of full24-pair browser coverage."
+      },
+      "browserCrossedStoredChoiceTracesPerEngine": {
+        "settings": [
+          [
+            "procedure",
+            "failure-cost"
+          ],
+          [
+            "arithmetic",
+            "cases"
+          ]
+        ],
+        "stages": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "count": 10
+      },
+      "browserReadPerEngine": {
+        "formula": "5 stops *2 directions",
+        "count": 10
+      },
+      "modelAllStoredSettingStageCells": {
+        "formula": "6 task values *4 focus values *5 stages",
+        "count": 120
+      },
+      "modelAllStoredSettingMidpoints": {
+        "formula": "24 setting pairs *4 boundaries *3 offsets *2 directions",
+        "count": 576
+      },
+      "manualOnlyStages": 0,
+      "meaning": "Model unit coverage is distinct from browser observations. Counts are nested checks inside12 registrations; active selections/read points can overlap stage coverage. No product execution or image-count claim is made."
+    }
+  },
+  "sourceContract": {
+    "article": "docs/10-llm-foundations/capabilities-and-limits.md",
+    "articleSha256": "cc83e31509fc1b5a8e43793be4c06fc2682c90e76f83e7ebf784fafbd23beb4a",
+    "astSha256": "8053b377359e74456e5f6c8dbd6d027daae94f4bfa868f699ff58ec160c49a0c",
+    "canonicalization": "unified + remark-parse/frontmatter(yaml)/gfm/math; recursively remove position, sort object keys, normalize CR/CRLF strings to LF and compact JSON.stringify.",
+    "counts": {
+      "figures": 1,
+      "stages": 5,
+      "read": 5,
+      "manual": 0,
+      "rootChildren": 38,
+      "h3": 8,
+      "contentBody": 14,
+      "wrappedH3": 5,
+      "wrappedBody": 11,
+      "topics": 35,
+      "dynamicTopics": 23,
+      "staticTopics": 12,
+      "lists": 10,
+      "listItems": 37,
+      "links": 25,
+      "strong": 17,
+      "tables": 1,
+      "tableHeaderRows": 1,
+      "tableBodyRows": 6,
+      "tableColumns": 3,
+      "tableCells": 21,
+      "displayMath": 0,
+      "inlineMath": 0,
+      "inlineCode": 0,
+      "fencedCode": 0,
+      "mermaid": 0,
+      "blockquotes": 0,
+      "todoAsides": 0
+    },
+    "h3": [
+      "概要: 流暢さと正確さは別の能力",
+      "得意と不得意の構造",
+      "ツールによる補完: Agent 設計の理論的根拠",
+      "世代差とスケーリングの読み方",
+      "能力見積りの実務",
+      "この理解が効く場面",
+      "アンチパターン",
+      "チェックリスト"
+    ],
+    "binding": {
+      "id": "capabilities-assessment",
+      "range": [
+        9,
+        25
+      ],
+      "sourceDigest": "sha256:78f355317c83010206e383ae35f6c39e98319a924d9cfe7560f4b1b52659c9c3",
+      "read": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "manual": [],
+      "bodyCountsByRead": [
+        1,
+        3,
+        3,
+        2,
+        2
+      ]
+    },
+    "tableHeader": [
+      "傾向",
+      "タスクの例",
+      "由来"
+    ],
+    "tableTextSha256": "852ce7639b4126cb9689d83eb23420419a9d7a3d20c7aee37e1fafd6c4b35632",
+    "tableTextHashMethod": "SHA256 of JSON.stringify of original7x3 table text matrix, recursive textContent including link label but not URL; original AST hash separately binds link destinations.",
+    "astChecks": "Both enabled/disabled wrapper states restore identical original AST and sourceDigest. Preserve one original table with header+6 ordered body rows and all3 columns, no added examples or formula. Verify table/link/list/heading order and all35 topics; source table is not a current model ranking.",
+    "domChecks": "Count original prose separately from .rf-article-toc/.rf-static-stages and scene duplicates. Keep8 H3, original table cells/hrefs and checklist/list content; account for existing glossary/practice decorations rather than equating total DOM link/strong count to AST count. Source TODO section contains only『なし』, so no TODO aside is expected. No math/KaTeX nodes are added."
+  },
+  "oraclePolicy": {
+    "independent": "Expected IDs/roles/source rows/unknown fields are independently literal from adopted interface/article, never production frame/fixture import or generated from observed DOM. Freeze future scoped collector details separately from semantic literals.",
+    "visible": "Per local card/evaluation field/tool mapping/checkpoint/record/step, require actual visible text plus semantic IDs. Hidden title/desc, an unrelated panel's duplicate, or data attributes alone cannot satisfy meaning. Reviewed bounded wording alternatives must reject erased caveats and reversed claims.",
+    "geometry": "Record output-to-two-evaluation branches, task-to-independent-check path, model/tool boundary, three tool mappings and checkpoint placement in same coordinate system. Check actual endpoints and scoped boxes; wrong connections cannot pass from IDs alone. Zero-height horizontal strokes can be visible when painted and nonzero-length. Suspected bbox/text collisions require actual image inspection.",
+    "unknowns": "Scores, gain, latency, cost, success, decision, sample sufficiency, ranking and tool correctness remain null/unmeasured. No generated output example, correct-answer mark, fake success, completed measurement/date or automatic adoption recommendation. Source10–20 trial guidance and illustrative counts/phase/geometry are not measured outputs.",
+    "model": "Deterministic pure shared phase clamp/rounding; stable IDs, fresh nested arrays, strict plain options and valid enums; invalid phase/options rejected. No API/network/random/timer. Stored options affect only their adopted effective stages."
+  },
+  "figure": {
+    "id": "capabilities-assessment",
+    "marker": "CAPABILITIES / ASSESSMENT",
+    "stageAttribute": "data-capabilities-assessment-stage",
+    "interfacePointer": "/proposed",
+    "stageLabels": [
+      "二つの軸",
+      "タスクの条件",
+      "ツールと検証",
+      "条件付きの記録",
+      "見積りの手順"
+    ],
+    "identities": [
+      "task-current",
+      "output-current",
+      "fluency-review",
+      "accuracy-review",
+      "verification-independent",
+      "tool-calculation",
+      "tool-knowledge",
+      "tool-operation",
+      "record-conditions",
+      "benchmark-context",
+      "real-case-context",
+      "assessment-precision",
+      "assessment-verification",
+      "assessment-cases",
+      "assessment-failure-cost"
+    ],
+    "nullFields": [
+      "fluencyScore",
+      "accuracyScore",
+      "qualityGain",
+      "latency",
+      "cost",
+      "successRate",
+      "acceptanceDecision",
+      "sampleSufficiency",
+      "modelRanking",
+      "toolCorrectness"
+    ],
+    "literalClaims": {
+      "evaluationStatus": "unmeasured",
+      "trendSource": "article-table",
+      "trendGuarantee": false,
+      "independentVerification": "required",
+      "decision": "unmade",
+      "sampleStatisticalGuarantee": false
+    },
+    "controls": [
+      {
+        "key": "taskKind",
+        "label": "表のタスク",
+        "values": [
+          "text",
+          "code",
+          "arithmetic",
+          "characters",
+          "knowledge",
+          "procedure"
+        ],
+        "labels": [
+          "要約・翻訳など",
+          "コード生成・説明・修正",
+          "大きな計算・厳密な集計",
+          "文字数指定・数え上げ",
+          "最新情報・ニッチな事実",
+          "長い厳密な手順"
+        ],
+        "default": "text",
+        "activeStages": [
+          1
+        ],
+        "inactiveStages": [
+          0,
+          2,
+          3,
+          4
+        ],
+        "inactiveEffectiveValue": null
+      },
+      {
+        "key": "assessmentFocus",
+        "label": "見積りの観点",
+        "values": [
+          "precision",
+          "verification",
+          "cases",
+          "failure-cost"
+        ],
+        "labels": [
+          "厳密さ",
+          "検証可能性",
+          "実ケース",
+          "失敗と回復"
+        ],
+        "default": "precision",
+        "activeStages": [
+          4
+        ],
+        "inactiveStages": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "inactiveEffectiveValue": null
+      }
+    ],
+    "controlPolicy": "Only active-stage control is shown; inactive control hidden/effective null. Stored values may persist, but inactive controls cannot change semantic or visible frame. AtS4 assessmentFocus changes emphasis only and never hides/reorders four steps. Both controls are never active simultaneously; all24 stored pairs are possible states, not24 simultaneous user options. Proposed inactive UI makes effective-stage contract explicit.",
+    "sourceRowLiterals": [
+      [
+        "text",
+        1,
+        "要約・翻訳など",
+        "得意"
+      ],
+      [
+        "code",
+        2,
+        "コード生成・説明・修正",
+        "得意"
+      ],
+      [
+        "arithmetic",
+        3,
+        "大きな計算・厳密な集計",
+        "苦手"
+      ],
+      [
+        "characters",
+        4,
+        "文字数指定・数え上げ",
+        "苦手"
+      ],
+      [
+        "knowledge",
+        5,
+        "最新情報・ニッチな事実",
+        "苦手"
+      ],
+      [
+        "procedure",
+        6,
+        "長い厳密な手順",
+        "要検証"
+      ]
+    ],
+    "toolMappingLiterals": [
+      [
+        "tool-calculation",
+        "計算・集計",
+        "コード実行・電卓"
+      ],
+      [
+        "tool-knowledge",
+        "最新情報・ニッチな知識",
+        "検索・RAG"
+      ],
+      [
+        "tool-operation",
+        "正確な操作・状態変更",
+        "API呼び出し"
+      ]
+    ],
+    "toolCheckLiterals": [
+      "選択",
+      "引数",
+      "結果の解釈"
+    ],
+    "recordFieldLiterals": [
+      "日付",
+      "モデル",
+      "試し方"
+    ],
+    "benchmarkCaveats": [
+      "ハーネス",
+      "汚染",
+      "飽和"
+    ],
+    "assessmentStepLiterals": [
+      [
+        "assessment-precision",
+        "厳密さ"
+      ],
+      [
+        "assessment-verification",
+        "検証可能性"
+      ],
+      [
+        "assessment-cases",
+        "代表実ケース"
+      ],
+      [
+        "assessment-failure-cost",
+        "失敗コスト・検知・回復"
+      ]
+    ],
+    "visibleByStage": [
+      "S0: one schematic output branches into separate fluency and requirement-accuracy evaluation fields. Exactly one unmeasured field in each side, not two labels in one box. Dependence on model/language/input/task remains visible; natural output does not imply requirement correctness.",
+      "S1: default text row before any selector operation already shows separate unmeasured fluency/accuracy, trend-not-guarantee, independent-verification-required and task→verification relationship. All6 choices map to exact original table row/short label/trend. Preserve training-data-cause uncertainty, weak≠impossible, and need to check meaning accuracy for text strengths. No added row-specific verification example or numerical capability result.",
+      "S2: all3 tool mappings and all3 check points visible at once. Model judgment versus external deterministic execution is clear, while selection/arguments/result interpretation can still be wrong. Tool access does not imply whole-Agent correctness or quality gain. A shared set of3 checkpoints is allowed; do not require invented3-per-lane replicas.",
+      "S3: date/model/method are visibly unrecorded placeholders. Benchmark and real-case contexts remain separate, with harness/contamination/saturation cautions. Reasoning effort is an evaluation axis of quality/latency/cost, not a measured curve or optimal setting. Visible reevaluation return path when model/conditions change.",
+      "S4: all4 source steps in source order, under every focus. Representative difficult real cases and failure cost plus detection/recovery remain visible.10–20 is trial guidance from source, not required test count, sufficient sample, pass threshold/confidence guarantee. No automatic adopt/deploy decision."
+    ],
+    "scopedCounts": {
+      "s0s1EvaluationFields": 2,
+      "evaluationFieldsPerSide": 1,
+      "s1SelectedSourceRow": 1,
+      "s2ToolMappings": 3,
+      "s2CheckPoints": 3,
+      "s3RequiredConditionFields": 3,
+      "s3ComparisonContexts": 2,
+      "s3BenchmarkCaveats": 3,
+      "s4AlwaysVisibleOrderedSteps": 4
+    },
+    "geometryChecks": [
+      "output-current reaches fluency-review and accuracy-review separately; no path or pass icon infers accuracy from fluency.",
+      "AtS1 current task has a visible independent verification path, including default text without user selection. Both score/status fields remain inside their respective evaluation boxes.",
+      "Each S2 source task maps to the correct external tool endpoint across a clearly labeled model/execution boundary. Shared checkpoints must visibly apply to the tool path, not be unrelated text at page bottom.",
+      "Benchmark-context and real-case-context are distinct boxes; no automatic score/ranking transfer to current-task adoption. Re-evaluation path returns to assessment/conditions instead of an unverified success node.",
+      "S4 four ordered step cards stay in view; focus changes visual emphasis only.10–20 belongs to real-case guidance, no pass/threshold geometry or arrow to automatic acceptance."
+    ],
+    "defaultReadAcceptance": "Fresh page, scroll intoREAD1 without selectors/play/manual/modal first. Record default text row and all four required conclusions before any control interaction. This is separate from a later selected-text state."
+  },
+  "negativeFixtures": [
+    {
+      "id": "N01",
+      "mutation": "Wrong rounding or stage-mismatched labels/relationships",
+      "rejection": "Model120 stage cells/576 midpoint states plus browser24 default/18 representative nondefault boundary observations."
+    },
+    {
+      "id": "N02",
+      "mutation": "Matching data-ID remains but local text/caveat is missing, hidden or negated",
+      "rejection": "Per-field visible meaning and geometry; hidden/other-panel duplicate cannot substitute."
+    },
+    {
+      "id": "N03",
+      "mutation": "Both evaluation results placed in one box or fluency implies correct output",
+      "rejection": "Exactly one unmeasured field per side and two separate branches; forbid success transfer."
+    },
+    {
+      "id": "N04",
+      "mutation": "DefaultREAD1 lacks verification relation or shows it only after selection",
+      "rejection": "Fresh untouched text default with both fields, tendency limit and independent verification label/path."
+    },
+    {
+      "id": "N05",
+      "mutation": "Swap source-row/trend, add ranking or turn difficult into impossible",
+      "rejection": "Six literal row mappings, article-table provenance and visible caveats."
+    },
+    {
+      "id": "N06",
+      "mutation": "Attribute nonpublic-data cause with certainty or skip text meaning verification because 得意",
+      "rejection": "Scoped data-cause uncertainty and text-accuracy/independent-check requirement."
+    },
+    {
+      "id": "N07",
+      "mutation": "taskKind affects outsideS1, focus affects outsideS4, wrong control active or stored choices interact",
+      "rejection": "Full24-pair model grid; browser factorized grids and two crossed traces; inactive null/hidden and visual equality."
+    },
+    {
+      "id": "N08",
+      "mutation": "Hide/reorder nonfocused assessment step",
+      "rejection": "All4 source-order steps under every focus, local text/count/geometry."
+    },
+    {
+      "id": "N09",
+      "mutation": "Wrong/missing tool mapping or one checkpoint omitted",
+      "rejection": "Exact3 source-target mappings and3 selection/argument/interpretation checks visible locally."
+    },
+    {
+      "id": "N10",
+      "mutation": "Deterministic tool execution means error-free Agent or fabricated tool success/gain",
+      "rejection": "Model/tool separation and retained end-to-end error caveats; all result unknown fields null."
+    },
+    {
+      "id": "N11",
+      "mutation": "Fake measured date/model/method, quality score or known zero instead of unrecorded/unmeasured",
+      "rejection": "Required3 condition placeholders, ten null measurement/decision fields and visible status."
+    },
+    {
+      "id": "N12",
+      "mutation": "Benchmark rank directly decides task suitability or omit harness/contamination/saturation caution",
+      "rejection": "Two separate contexts, three limitations and actual-case evaluation/reevaluation path."
+    },
+    {
+      "id": "N13",
+      "mutation": "Reasoning effort guarantees quality or fabricated latency/cost curve/best setting",
+      "rejection": "Three evaluation dimensions remain unknown and no automatic optimum/decision."
+    },
+    {
+      "id": "N14",
+      "mutation": "10–20 gives statistical confidence/sufficient sample/pass threshold; hide hard cases or detection/recovery",
+      "rejection": "Source-guidance-only scope, sampleSufficiency null and visible last two steps; no threshold/result mark."
+    },
+    {
+      "id": "N15",
+      "mutation": "Original6-row table/list/link order changes, or source TODOなし becomes a fabricated callout",
+      "rejection": "Two AST roundtrips, exact table text/AST hash and source content counts."
+    },
+    {
+      "id": "N16",
+      "mutation": "Conflate noJS static5 descriptions with chunk error fallback or omit actual blocked request",
+      "rejection": "NoJS requires5; valid chunk failure may have0 scene descriptions but requires article/table/h1/status. Actual target request must be blocked/observed; missing required content fails."
+    },
+    {
+      "id": "N17",
+      "mutation": "Horizontal painted line rejected, print demands selector, or DSF2 claimed as native200%",
+      "rejection": "Visible-stroke positive, separate print semantic/control assertions and distinct zoom evidence."
+    },
+    {
+      "id": "N18",
+      "mutation": "Alter old callback/assertion/timeout, omit profile/case or change predecessor proof bytes",
+      "rejection": "Frozen accepted E3 whole sources/proofs and ordered165 names/bodies; full177 and14route equality."
+    }
+  ],
+  "executionPlan": {
+    "profiles": "Actual F1 route, all5 stages per six profiles. Check source table overflow at table boundary, article/panel/control clipping and local meaning/geometry. Save viewport/fullScene separately with stage/engine/profile/hash; reduced-motion snapshots are not playback proof.",
+    "semanticControls": "All six task choices@S1 and four focus values@S4, both controls' factorized stored-state grids, two crossed traces,24 default and18 representative nondefault browser boundary visits. Pure model tests separately cover all120 setting/stage cells and576 midpoint observations. Stable visible controls only, ordinary clicks/keys, no forced stage mutations.",
+    "keyboardModal": "Keyboard Home/End/arrows, step/pause/replay/read return, focus restoration and namespaced IDs. All6 task values and4 focuses also exercised in appropriate modal stages. Single-figure frame/settings remain coherent when modal opens/closes; verify task/focus stage isolation rather than inventing a second figure.",
+    "read": "All5 READ stops forward/reverse, no manual-only stage. Fresh untouchedREAD1 default acceptance before any selector action. Resume reading after manual state; verify current default or stored-effective choice as appropriate without rewriting scene state.",
+    "native": "One native elapsed-play case: progression, frozen pause, replay, completion and actual offscreen pause. Preserve shared idle-loop policy and observe application RAF separately from helper observer; no simulated document.hidden as substitute.",
+    "fallback": {
+      "registeredCases": 1,
+      "contextCount": 2,
+      "noJS": {
+        "required": [
+          "original article prose and h1",
+          "one original six-body-row table",
+          "all5 static stage descriptions"
+        ],
+        "staticDescriptionCount": 5
+      },
+      "chunkFailure": {
+        "target": "capabilities-assessment",
+        "required": [
+          "original article prose",
+          "one original six-body-row table",
+          "article h1",
+          "visible load-failure/continued-reading role=status"
+        ],
+        "statusText": "図解を読み込めませんでした。本文は引き続き読めます。",
+        "failedSceneStaticDescriptionCount": null,
+        "method": "Separate fresh JS-enabled context resolves actual final-build target lazy chunk URL/hash, actually blocks it, observes that request and target DiagramBoundary fallback. Zero failed-scene static descriptions is valid; no blocked request means failed coverage. No actual tool/model call is involved."
+      },
+      "network": "Keep deliberate target block separate from unexpected critical asset errors; do not weaken global network checks. No math is added or demanded in this formula-free article."
+    },
+    "print": "Coherent visible scene and original article/table; controls hidden. Apply semantic scene assertions without screen-only active-selector requirement. Preserve original text/table once and zero invented formula/TODO callouts.",
+    "additionalLocalWidthAcceptance": {
+      "required": true,
+      "status": "planned-not-executed",
+      "registeredCaseContribution": 0,
+      "route": "/docs/llm-foundations/capabilities-and-limits",
+      "engines": [
+        "Edge",
+        "WebKit"
+      ],
+      "profiles": [
+        [
+          1920,
+          1080,
+          "light",
+          1
+        ],
+        [
+          1920,
+          1080,
+          "dark",
+          1
+        ],
+        [
+          768,
+          1024,
+          "light",
+          1
+        ],
+        [
+          768,
+          1024,
+          "dark",
+          1
+        ]
+      ],
+      "stagesPerProfile": 5,
+      "perEngineObservations": 20,
+      "bothEngineObservations": 40,
+      "evidence": "Final candidate actual route, all5 stages at each condition. Save raw, viewport/fullScene and independent actual-image ledger with file/hash/profile/engine/stage/actuallyViewed. Check text, diagram, table and controls; bind input digests/BUILD/HTML before-after. No extra case registrations or generated-count-as-viewed assumption."
+    },
+    "nativeZoom200": {
+      "required": true,
+      "status": "planned-not-executed",
+      "registeredCaseContribution": 0,
+      "distinction": "960x540 DSF2 is viewport/device-scale testing, not native browser zoom200%.",
+      "evidence": "Separate real-browser zoom200% on actual F1 route and independent viewed images. Record browser/engine, original viewport, verified zoom method/setting, effective viewport and tested stages. DSF/CSS/image enlargement cannot substitute; remain unverified if not executed."
+    },
+    "independentVisual": "All5 stage meanings plus six task-card variants/four focus highlights and risky defaultREAD1/tool routes/record placeholders/10–20 limitation. Inspect actual dark/narrow/shortPC/DSF2/modal and required1920/768 images as appropriate; readable default PC READ without fullscreen. Record actual viewed image ledger; do not claim physical-device/screen-reader approval without execution.",
+    "performance": "Maintain common gzip100 KiB/article-specific75 KiB, CLS<=.05, input<=200ms, RAFp95<=32ms. After other browser runs stop, measure lazy loading only on target route and application idle behavior. No performance test executed by this plan."
+  },
+  "preservationAndRelease": {
+    "proposedFiles": [
+      "scripts/diagram-release/capabilities-checks.mjs",
+      "scripts/diagram-release/local-capabilities-adapter.mjs",
+      "website/tests/browser/capabilities.spec.mjs"
+    ],
+    "freeze": "After actual E3 public acceptance, independently freeze commit/tree, entire kit/manifest source byte hashes, every predecessor proof file's whole content hash, ordered165 callback names/bodies and13artifact routes. Partial protected segments supplement full-proof hashes, not replace them. No future hashes fabricated from this plan.",
+    "protection": "One12-case contiguous extension. Revert only reviewed F1 imports/route/block additions in proof, then compare old names/order/bodies to frozen E3, preserving assertions/timeouts. Mutation fixtures reject missing/reordered callbacks and changed predecessor proof bytes. Independent review checks proof content rather than trusting sidecar self-reports.",
+    "sameCallbacks": "Local adapter and public runner use exact same F1 callback/assertions with explicit environment dependencies. Exactly14 CI artifact HTML routes=accepted13+F1, no omitted/duplicate/substitute route. Final local review binds input digests and HTML/BUILD before-after plus actual images.",
+    "public": "After frozen-tree review, own merge/CI/Pages success: independent artifact collector, full177 Edge/WebKit, observed asset HTTP/MIME/hash and14HTML/BUILD identity, current input digests and independent public images. Preserve original failed raw and explain any limited repeat; local evidence is not public evidence.",
+    "pending": "All implementation, unit/browser execution against F1, actual local/nativezoom/public acceptance remain pending. This plan updates no acceptance gates."
+  },
+  "openItems": [
+    {
+      "id": "O1",
+      "kind": "deferred-evidence",
+      "text": "Actual accepted E3 165-case/13-route baseline with callback/proof bytes and release commit/tree does not yet exist; freeze after public acceptance."
+    },
+    {
+      "id": "O2",
+      "kind": "implementation-detail",
+      "text": "Finalize scoped DOM hooks, bounded visible-text alternatives and endpoint geometry from authored scene, then independently literalize before running checks. Table row mappings/control stages/unknowns/no statistical guarantee are already fixed; no new policy decision required."
+    }
+  ],
+  "createdAt": "2026-09-30T13:14:16.026Z",
+  "evidenceInputs": [
+    {
+      "file": "AGENTS.md",
+      "bytes": 5554,
+      "sha256": "6a42eb8121cab94a360d9151ba1435eed7f855a8e47e2792ea7c20f7d4987fad",
+      "scope": "Common scope/source/acceptance rules"
+    },
+    {
+      "file": "CONTRIBUTING.md",
+      "bytes": 22086,
+      "sha256": "4dcc9ff7e07a66f006972fba94adfe5fc57070ac3903a523f552cf63be3c8bf1",
+      "scope": "Site and harness verification"
+    },
+    {
+      "file": "project/records/2026-09-30/p1-interface-preparation/raw/capabilities-f1-interface-proposal-20260930.json",
+      "bytes": 50886,
+      "sha256": "20fbd3d8d4df2a613c4005f2471cdc11f041749d9f01eaa250e3d41212c9f692",
+      "scope": "/adopted; /proposed; /counts"
+    },
+    {
+      "file": "project/records/2026-09-30/p1-interface-preparation/raw/capabilities-f1-interface-proposal-20260930.md",
+      "bytes": 1834,
+      "sha256": "3094823e84dc82174149ad5d71e70f040fbacf41bde64333da0177ebc309b1f4",
+      "scope": "Readable interface"
+    },
+    {
+      "file": "project/records/2026-09-30/p1-interface-preparation/raw/capabilities-f1-interface-review-20260930.json",
+      "bytes": 3227,
+      "sha256": "1ececcfb3db3e2edb29b6460c4e6add1224d2b6c9fee555ff74895a2e92a9924",
+      "scope": "Approved interface only; no implementation/public approval"
+    },
+    {
+      "file": "project/records/2026-09-30/p1-interface-preparation/raw/capabilities-f1-interface-review-20260930.md",
+      "bytes": 5420,
+      "sha256": "c388f7956eac1a7266136f47f4539f5bc81ec7c82f3a52eadbc187f1c93878c9",
+      "scope": "Independent source and semantic review"
+    },
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "bytes": 427025,
+      "sha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "scope": "Adopted F1 object"
+    },
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+      "bytes": 19361,
+      "sha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+      "scope": "Storyboard review"
+    },
+    {
+      "file": "docs/10-llm-foundations/capabilities-and-limits.md",
+      "bytes": 10795,
+      "sha256": "cc83e31509fc1b5a8e43793be4c06fc2682c90e76f83e7ebf784fafbd23beb4a",
+      "scope": "Original article/table/list"
+    },
+    {
+      "file": "project/plans/engineering/dynamic-diagrams.md",
+      "bytes": 28105,
+      "sha256": "58a359debbb0e2462ea4202d9dad99ba608fbef6317644beaafb0b89c95f08c0",
+      "scope": "Performance/1920/768/200% and P1 boundary"
+    },
+    {
+      "file": "TEMP/interpretability-e3-kit-plan-20260930.json",
+      "bytes": 44320,
+      "sha256": "eaaa92f7baa2f37e05f39cafd7c91bc7459a0d3963fb8c52b00485248c20140e",
+      "scope": "Future E3 165/13 plan only, not accepted predecessor evidence"
+    },
+    {
+      "file": "TEMP/interpretability-e3-kit-plan-20260930.md",
+      "bytes": 12288,
+      "sha256": "d8730a5f5b9ce59418dee0f9aeaeb3ab50411c35be537b1308c61bb3100f9364",
+      "scope": "E3 plan and fallback distinction"
+    },
+    {
+      "file": "scripts/diagram-release/source-mapping.json",
+      "bytes": 60320,
+      "sha256": "70c2178e900c3e641c1c5f13f272e8578bd106617db81e613965e5c4d0f51e19",
+      "scope": "Actual D2 candidate manifest"
+    },
+    {
+      "file": "scripts/diagram-release/verify-public.mjs",
+      "bytes": 64263,
+      "sha256": "ad1c6e33badb6a8c6bae853e5699a6c6f028eb6092c7fb0b5600a3cfdd809a02",
+      "scope": "Actual121/10 declaration, not future165"
+    },
+    {
+      "file": "website/components/diagrams/diagram-boundary.jsx",
+      "bytes": 586,
+      "sha256": "5d7468c61107323df661809ff369d91e1cb27a0201b7c1f0b1c7ca83f29b0ac6",
+      "scope": "Chunk failure status plus original children"
+    },
+    {
+      "file": "website/components/diagrams/reading-figure.jsx",
+      "bytes": 12435,
+      "sha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12",
+      "scope": "Scene owns static stage descriptions"
+    },
+    {
+      "file": "website/lib/doc-decorations.mjs",
+      "bytes": 5575,
+      "sha256": "abcba21db7e379e21f81602b97151e09f4c31d2a9f9beb01b48e86fee1de6fc2",
+      "scope": "Existing source decoration boundaries"
+    }
+  ],
+  "markdown": {
+    "file": "TEMP/capabilities-f1-kit-plan-20260930.md",
+    "sha256": "c0ce67f1dfc008c24a43c464fa58a592b12a1cf1f46d0d9597de0763f2615282"
+  },
+  "selfCheck": {
+    "checkedAt": "2026-09-30T13:14:16.060Z",
+    "scope": "Plan/source checks only; not F1 model/browser tests",
+    "interfaceHashesBoundToApprovedReview": true,
+    "originalAstAndTableHashesMatch": true,
+    "sourceDigestIndependentlyRecomputed": "sha256:78f355317c83010206e383ae35f6c39e98319a924d9cfe7560f4b1b52659c9c3",
+    "sourceCounts": {
+      "root": 1,
+      "yaml": 1,
+      "heading": 17,
+      "text": 141,
+      "paragraph": 46,
+      "strong": 17,
+      "list": 10,
+      "listItem": 37,
+      "link": 25,
+      "table": 1,
+      "tableRow": 7,
+      "tableCell": 21
+    },
+    "caseNamesUnique12": true,
+    "planned177And14Routes": true,
+    "actual121And10Routes": true,
+    "future165HashesNull": true,
+    "stage5Read5Manual0": true,
+    "controlValues6And4Match": true,
+    "controlStages1And4Match": true,
+    "noJSAndFailureContractsSeparated": true,
+    "largeTabletExtraLocal": true,
+    "dsf2DistinctFromNativeZoom200": true,
+    "sampleGuidanceHasNoStatisticalGuarantee": true
+  }
+}

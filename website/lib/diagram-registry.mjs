@@ -4,6 +4,562 @@ import { readFileSync } from 'node:fs'
 // IDs resolve to code-owned bindings, never to module paths supplied by Markdown
 // or the registry. Adding a diagram requires an explicit implementation change.
 const BINDINGS = {
+  'multimodal-representation': {
+  "article": "docs/10-llm-foundations/multimodal-models.md",
+  "route": "/docs/llm-foundations/multimodal-models",
+  "binding": "grouped-blocks",
+  "stageCount": 5,
+  "headings": [
+    "直感①: すべてを「表現ベクトルの列」に変換する",
+    "直感②: 画像は「パッチ」に分けてトークン相当にする",
+    "直感③: 統一された系列を注意機構で混ぜ合わせる"
+  ],
+  "sourceHeadings": [
+    "概要: 分担と「同じ土俵に載せる」",
+    "直感①: すべてを「表現ベクトルの列」に変換する",
+    "直感②: 画像は「パッチ」に分けてトークン相当にする",
+    "直感③: 統一された系列を注意機構で混ぜ合わせる",
+    "なぜ効くのか、どこで崖が来るのか",
+    "トークン経済とコスト・レイテンシ設計",
+    "理解と生成は別物: 非対称に注意"
+  ],
+  "blockGroups": [
+    [
+      {
+        "stage": 0,
+        "count": 1
+      },
+      {
+        "stage": 1,
+        "count": 2
+      }
+    ],
+    [
+      {
+        "stage": 2,
+        "count": 2
+      }
+    ],
+    [
+      {
+        "stage": 3,
+        "count": 1
+      },
+      {
+        "stage": 4,
+        "count": 1
+      }
+    ]
+  ],
+  "blockTypes": [
+    [
+      "paragraph",
+      "list",
+      "paragraph"
+    ],
+    [
+      "paragraph",
+      "list"
+    ],
+    [
+      "paragraph",
+      "list"
+    ]
+  ]
+},
+  'multimodal-input-tradeoffs': {
+  "article": "docs/10-llm-foundations/multimodal-models.md",
+  "route": "/docs/llm-foundations/multimodal-models",
+  "binding": "grouped-blocks",
+  "stageCount": 4,
+  "headings": [
+    "なぜ効くのか、どこで崖が来るのか",
+    "トークン経済とコスト・レイテンシ設計",
+    "理解と生成は別物: 非対称に注意"
+  ],
+  "sourceHeadings": [
+    "直感①: すべてを「表現ベクトルの列」に変換する",
+    "直感②: 画像は「パッチ」に分けてトークン相当にする",
+    "直感③: 統一された系列を注意機構で混ぜ合わせる",
+    "なぜ効くのか、どこで崖が来るのか",
+    "トークン経済とコスト・レイテンシ設計",
+    "理解と生成は別物: 非対称に注意"
+  ],
+  "blockGroups": [
+    [
+      {
+        "stage": 0,
+        "count": 1
+      },
+      {
+        "stage": 1,
+        "count": 1
+      }
+    ],
+    [
+      {
+        "stage": 2,
+        "count": 2
+      }
+    ],
+    [
+      {
+        "stage": 3,
+        "count": 3
+      }
+    ]
+  ],
+  "blockTypes": [
+    [
+      "paragraph",
+      "list"
+    ],
+    [
+      "paragraph",
+      "list"
+    ],
+    [
+      "paragraph",
+      "list",
+      "blockquote"
+    ]
+  ]
+},
+  'capabilities-assessment': {
+  "article": "docs/10-llm-foundations/capabilities-and-limits.md",
+  "route": "/docs/llm-foundations/capabilities-and-limits",
+  "binding": "grouped-blocks",
+  "stageCount": 5,
+  "headings": [
+    "概要: 流暢さと正確さは別の能力",
+    "得意と不得意の構造",
+    "ツールによる補完: Agent 設計の理論的根拠",
+    "世代差とスケーリングの読み方",
+    "能力見積りの実務"
+  ],
+  "sourceHeadings": [
+    "概要: 流暢さと正確さは別の能力",
+    "得意と不得意の構造",
+    "ツールによる補完: Agent 設計の理論的根拠",
+    "世代差とスケーリングの読み方",
+    "能力見積りの実務"
+  ],
+  "blockGroups": [
+    [
+      {
+        "stage": 0,
+        "count": 1
+      }
+    ],
+    [
+      {
+        "stage": 1,
+        "count": 3
+      }
+    ],
+    [
+      {
+        "stage": 2,
+        "count": 3
+      }
+    ],
+    [
+      {
+        "stage": 3,
+        "count": 2
+      }
+    ],
+    [
+      {
+        "stage": 4,
+        "count": 2
+      }
+    ]
+  ],
+  "blockTypes": [
+    [
+      "paragraph"
+    ],
+    [
+      "paragraph",
+      "table",
+      "paragraph"
+    ],
+    [
+      "paragraph",
+      "list",
+      "paragraph"
+    ],
+    [
+      "paragraph",
+      "list"
+    ],
+    [
+      "paragraph",
+      "list"
+    ]
+  ]
+},
+  'interpretability-evidence': {
+  "article": "docs/11-llm-internals/interpretability-basics.md",
+  "route": "/docs/llm-internals/interpretability-basics",
+  "binding": "grouped-blocks",
+  "stageCount": 5,
+  "headings": [
+    "概要: 行動を見るか、機構を理解するか",
+    "プロービング: 表現に情報はあるか",
+    "帰属と「注意は説明か」論争",
+    "回路: 誘導ヘッドという発見"
+  ],
+  "sourceHeadings": [
+    "概要: 行動を見るか、機構を理解するか",
+    "プロービング: 表現に情報はあるか",
+    "帰属と「注意は説明か」論争",
+    "回路: 誘導ヘッドという発見",
+    "実務への応用可能性と限界"
+  ],
+  "blockGroups": [
+    [
+      {
+        "stage": 0,
+        "count": 3
+      }
+    ],
+    [
+      {
+        "stage": 1,
+        "count": 2
+      }
+    ],
+    [
+      {
+        "stage": 2,
+        "count": 3
+      }
+    ],
+    [
+      {
+        "stage": 3,
+        "count": 2
+      },
+      {
+        "stage": 4,
+        "count": 1
+      }
+    ]
+  ],
+  "blockTypes": [
+    [
+      "paragraph",
+      "list",
+      "paragraph"
+    ],
+    [
+      "paragraph",
+      "paragraph"
+    ],
+    [
+      "paragraph",
+      "list",
+      "paragraph"
+    ],
+    [
+      "paragraph",
+      "list",
+      "paragraph"
+    ]
+  ]
+},
+  'interpretability-sae': {
+  "article": "docs/11-llm-internals/interpretability-basics.md",
+  "route": "/docs/llm-internals/interpretability-basics",
+  "binding": "grouped-blocks",
+  "stageCount": 4,
+  "headings": [
+    "重ね合わせと SAE: 特徴を疎に取り出す"
+  ],
+  "sourceHeadings": [
+    "概要: 行動を見るか、機構を理解するか",
+    "重ね合わせと SAE: 特徴を疎に取り出す",
+    "実務への応用可能性と限界"
+  ],
+  "blockGroups": [
+    [
+      {
+        "stage": 0,
+        "count": 1
+      },
+      {
+        "stage": 1,
+        "count": 1
+      },
+      {
+        "stage": 2,
+        "count": 2
+      },
+      {
+        "stage": 3,
+        "count": 1
+      }
+    ]
+  ],
+  "blockTypes": [
+    [
+      "paragraph",
+      "list",
+      "math",
+      "paragraph",
+      "paragraph"
+    ]
+  ]
+},
+  'icl-hypotheses': {
+  "article": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+  "route": "/docs/llm-internals/in-context-learning-and-memorization",
+  "binding": "grouped-blocks",
+  "stageCount": 5,
+  "headings": [
+    "概要: 重みを変えずに「学ぶ」ように見える",
+    "ICL はなぜ起きるか: 主要な理論仮説"
+  ],
+  "sourceHeadings": [
+    "概要: 重みを変えずに「学ぶ」ように見える",
+    "ICL はなぜ起きるか: 主要な理論仮説"
+  ],
+  "blockGroups": [
+    [
+      {
+        "stage": 0,
+        "count": 1
+      }
+    ],
+    [
+      {
+        "stage": 1,
+        "count": 4
+      },
+      {
+        "stage": 3,
+        "count": 1
+      },
+      {
+        "stage": 4,
+        "count": 1
+      }
+    ]
+  ],
+  "blockTypes": [
+    [
+      "paragraph"
+    ],
+    [
+      "paragraph",
+      "list",
+      "math",
+      "paragraph",
+      "list",
+      "paragraph"
+    ]
+  ]
+},
+  'icl-demonstrations': {
+  "article": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+  "route": "/docs/llm-internals/in-context-learning-and-memorization",
+  "binding": "grouped-blocks",
+  "stageCount": 3,
+  "headings": [
+    "few-shot の例の効き方"
+  ],
+  "sourceHeadings": [
+    "概要: 重みを変えずに「学ぶ」ように見える",
+    "ICL はなぜ起きるか: 主要な理論仮説",
+    "few-shot の例の効き方"
+  ],
+  "blockGroups": [
+    [
+      {
+        "stage": 0,
+        "count": 1
+      },
+      {
+        "stage": 1,
+        "count": 1
+      },
+      {
+        "stage": 2,
+        "count": 1
+      }
+    ]
+  ],
+  "blockTypes": [
+    [
+      "paragraph",
+      "list",
+      "paragraph"
+    ]
+  ]
+},
+  'icl-memory-evaluation': {
+  "article": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+  "route": "/docs/llm-internals/in-context-learning-and-memorization",
+  "binding": "grouped-blocks",
+  "stageCount": 5,
+  "headings": [
+    "記憶と汎化",
+    "データ汚染とベンチマークへの含意"
+  ],
+  "sourceHeadings": [
+    "記憶と汎化",
+    "データ汚染とベンチマークへの含意"
+  ],
+  "blockGroups": [
+    [
+      {
+        "stage": 0,
+        "count": 1
+      },
+      {
+        "stage": 2,
+        "count": 1
+      },
+      {
+        "stage": 3,
+        "count": 1
+      }
+    ],
+    [
+      {
+        "stage": 4,
+        "count": 2
+      }
+    ]
+  ],
+  "blockTypes": [
+    [
+      "paragraph",
+      "list",
+      "paragraph"
+    ],
+    [
+      "paragraph",
+      "list"
+    ]
+  ]
+},
+  'context-causal-cost': {
+  "article": "docs/10-llm-foundations/attention-and-context.md",
+  "route": "/docs/llm-foundations/attention-and-context",
+  "binding": "grouped-blocks",
+  "stageCount": 5,
+  "headings": [
+    "概要: 「全部が全部を見る」仕組みとその請求書",
+    "注意機構の直感",
+    "コンテキスト長のコスト構造"
+  ],
+  "sourceHeadings": [
+    "概要: 「全部が全部を見る」仕組みとその請求書",
+    "注意機構の直感",
+    "コンテキスト長のコスト構造",
+    "KV キャッシュとプロンプトキャッシュ"
+  ],
+  "blockGroups": [
+    [
+      {
+        "stage": 0,
+        "count": 1
+      }
+    ],
+    [
+      {
+        "stage": 1,
+        "count": 1
+      },
+      {
+        "stage": 2,
+        "count": 2
+      }
+    ],
+    [
+      {
+        "stage": 3,
+        "count": 2
+      },
+      {
+        "stage": 4,
+        "count": 1
+      }
+    ]
+  ],
+  "blockTypes": [
+    [
+      "paragraph"
+    ],
+    [
+      "paragraph",
+      "paragraph",
+      "list"
+    ],
+    [
+      "paragraph",
+      "table",
+      "paragraph"
+    ]
+  ]
+},
+  'context-cache-quality': {
+  "article": "docs/10-llm-foundations/attention-and-context.md",
+  "route": "/docs/llm-foundations/attention-and-context",
+  "binding": "grouped-blocks",
+  "stageCount": 6,
+  "headings": [
+    "KV キャッシュとプロンプトキャッシュ",
+    "長文での品質劣化"
+  ],
+  "sourceHeadings": [
+    "概要: 「全部が全部を見る」仕組みとその請求書",
+    "注意機構の直感",
+    "コンテキスト長のコスト構造",
+    "KV キャッシュとプロンプトキャッシュ",
+    "長文での品質劣化"
+  ],
+  "blockGroups": [
+    [
+      {
+        "stage": 0,
+        "count": 1
+      },
+      {
+        "stage": 2,
+        "count": 1
+      }
+    ],
+    [
+      {
+        "stage": 3,
+        "count": 1
+      },
+      {
+        "stage": 4,
+        "count": 1
+      },
+      {
+        "stage": 5,
+        "count": 1
+      }
+    ]
+  ],
+  "blockTypes": [
+    [
+      "paragraph",
+      "list"
+    ],
+    [
+      "paragraph",
+      "list",
+      "paragraph"
+    ]
+  ]
+},
   'reasoning-sequence': {
   "article": "docs/10-llm-foundations/reasoning-models.md",
   "route": "/docs/llm-foundations/reasoning-models",

@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "unit": "E3",
+  "kind": "independent-kit-plan-limited-rereview",
+  "verdict": "approved-plan-only",
+  "reviewerIdentity": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review/d2_browser_parallelism_check",
+  "checkedAt": "2026-09-30T13:05:18.304Z",
+  "recordingScope": "Root transcription of the reviewer's delivered judgment; not a new root review.",
+  "targets": [
+    {"file":"TEMP/interpretability-e3-kit-plan-20260930.md","sha256":"d8730a5f5b9ce59418dee0f9aeaeb3ab50411c35be537b1308c61bb3100f9364"},
+    {"file":"TEMP/interpretability-e3-kit-plan-20260930.json","sha256":"eaaa92f7baa2f37e05f39cafd7c91bc7459a0d3963fb8c52b00485248c20140e"}
+  ],
+  "must": [], "should": [], "resolvedFindings": ["E3-M1"],
+  "checkedFacts": {
+    "reviewedLocations": ["MD:20", "MD:54", "JSON:597-655", "JSON:567", "JSON:648"],
+    "freshContextsWithinOneRegisteredCase": {"noJavaScript":1,"independentSingleChunkFailures":2},
+    "noJavaScriptStaticStages": 9,
+    "failedSceneStaticStageRequirement": null,
+    "chunkFailureKeeps": ["original prose", "formulas", "h1", "status"],
+    "actualChunkEvidence": ["actual URL and hash", "blocked request observed", "corresponding target fallback"],
+    "rejects": ["no intercepted request", "one scene omitted", "only simultaneous blocking of both chunks", "required content absent"],
+    "validZeroStaticFailurePositiveCase": true,
+    "initialFilesMatchReviewedOriginalBytes": true,
+    "unchangedByNormalizedComparison": ["other thirteen case names and order", "fourteen new /165 total /13 routes", "semantics", "READ", "profiles", "baseline"],
+    "addedSourceHashesMatch": ["DiagramBoundary", "ReadingFigure"]
+  },
+  "priorReview": "TEMP/interpretability-e3-kit-plan-review-initial-20260930.json",
+  "notExecuted": ["Browser", "Runtime", "Product or kit implementation", "File edits"],
+  "acceptanceBoundary": "Plan approval only. Initial must1 is preserved; future implementation and real acceptance remain pending."
+}

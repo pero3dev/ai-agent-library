@@ -1,0 +1,105 @@
+{
+  "checkedAt": "2026-09-30T13:12:37.274Z",
+  "scope": "Read-only preimplementation check; date is not changed, no article writes",
+  "article": "docs/10-llm-foundations/multimodal-models.md",
+  "beforeSHA256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+  "proposedAfterBeforeDateSHA256": "27956431766343cd1c4b910ce9d7b703e655365856c3e10484de315684688ced",
+  "matches": [
+    {
+      "id": "M1",
+      "uniqueBeforeMatchCount": 1,
+      "sourceIds": [
+        "flamingo",
+        "llava-auxiliary"
+      ]
+    },
+    {
+      "id": "M2",
+      "uniqueBeforeMatchCount": 1,
+      "sourceIds": [
+        "flamingo"
+      ]
+    },
+    {
+      "id": "M3",
+      "uniqueBeforeMatchCount": 1,
+      "sourceIds": [
+        "flamingo",
+        "vit",
+        "llava-auxiliary"
+      ]
+    },
+    {
+      "id": "M4",
+      "uniqueBeforeMatchCount": 1,
+      "sourceIds": [
+        "flamingo"
+      ]
+    },
+    {
+      "id": "M4-sync-97",
+      "uniqueBeforeMatchCount": 1,
+      "sourceIds": [
+        "flamingo"
+      ]
+    },
+    {
+      "id": "M4-sync-98",
+      "uniqueBeforeMatchCount": 1,
+      "sourceIds": [
+        "flamingo"
+      ]
+    },
+    {
+      "id": "M5",
+      "uniqueBeforeMatchCount": 1,
+      "sourceIds": [
+        "textvqa"
+      ]
+    },
+    {
+      "id": "M5-sync-100",
+      "uniqueBeforeMatchCount": 1,
+      "sourceIds": [
+        "textvqa"
+      ]
+    },
+    {
+      "id": "M4-sync-55",
+      "uniqueBeforeMatchCount": 1,
+      "sourceIds": [
+        "flamingo"
+      ]
+    },
+    {
+      "id": "M4-sync-56",
+      "uniqueBeforeMatchCount": 1,
+      "sourceIds": [
+        "flamingo"
+      ]
+    },
+    {
+      "id": "M4-sync-79",
+      "uniqueBeforeMatchCount": 1,
+      "sourceIds": [
+        "flamingo"
+      ]
+    },
+    {
+      "id": "M4-sync-105",
+      "uniqueBeforeMatchCount": 1,
+      "sourceIds": [
+        "flamingo"
+      ]
+    },
+    {
+      "id": "M5-sync-108",
+      "uniqueBeforeMatchCount": 1,
+      "sourceIds": [
+        "textvqa"
+      ]
+    }
+  ],
+  "articleModified": false,
+  "formalArticleReview": "not performed"
+}

@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-native-zoom-capture-probe-source-review",
+  "reviewer": "/root",
+  "checkedAt": "2026-09-30T13:46:55Z",
+  "verdict": "approved-bounded-diagnostic-execution",
+  "target": {
+    "file": "TEMP/reasoning-native-zoom-capture-probe.mjs",
+    "sha256": "c2ccbc8853c66d035fe1599674548c726f59c4da3f3473c0de024a3a9def77c6"
+  },
+  "must": [],
+  "should": [],
+  "scope": "Reviewed full diff from approved initial probe. Preserves isolated profile/source identities/native API1→2→1. Adds only Page.getLayoutMetrics and unclipped Page.captureScreenshot around Playwright screenshot, no CSS/DSF/viewport emulation or image editing. Same scroll/stage asserted; old raw hash preserved. No runtime/cause/visual acceptance yet."
+}

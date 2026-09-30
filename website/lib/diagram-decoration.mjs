@@ -5,6 +5,16 @@ const element = (name, children, attributes = []) => ({ type: 'mdxJsxFlowElement
 const attribute = (name, value) => ({ type: 'mdxJsxAttribute', name, value: String(value) })
 const step = (index, children) => element('ReadingStep', children, [attribute('step', index)])
 const components = {
+  'multimodal-representation': 'MultimodalWalkthrough',
+  'multimodal-input-tradeoffs': 'MultimodalWalkthrough',
+  'capabilities-assessment': 'CapabilitiesWalkthrough',
+  'interpretability-evidence': 'InterpretabilityWalkthrough',
+  'interpretability-sae': 'InterpretabilityWalkthrough',
+  'icl-hypotheses': 'IclWalkthrough',
+  'icl-demonstrations': 'IclWalkthrough',
+  'icl-memory-evaluation': 'IclWalkthrough',
+  'context-causal-cost': 'ContextWalkthrough',
+  'context-cache-quality': 'ContextWalkthrough',
   'reasoning-sequence': 'ReasoningWalkthrough',
   'reasoning-evaluation': 'ReasoningWalkthrough',
   'alignment-preference': 'AlignmentWalkthrough',
@@ -87,7 +97,7 @@ export function assertDiagramPageMetadata(tree, expected) {
   const diagramIds = []
   const walk = node => {
     if (node.name === 'AttentionWalkthrough') diagramIds.push('self-attention')
-    if (['ReadingWalkthrough', 'TransformerWalkthrough', 'AttentionVariantsWalkthrough', 'MoEWalkthrough', 'FoundationsWalkthrough', 'InferenceWalkthrough', 'TrainingWalkthrough', 'PretrainingWalkthrough', 'AlignmentWalkthrough', 'ReasoningWalkthrough'].includes(node.name)) {
+    if (['ReadingWalkthrough', 'TransformerWalkthrough', 'AttentionVariantsWalkthrough', 'MoEWalkthrough', 'FoundationsWalkthrough', 'InferenceWalkthrough', 'TrainingWalkthrough', 'PretrainingWalkthrough', 'AlignmentWalkthrough', 'ReasoningWalkthrough', 'ContextWalkthrough', 'IclWalkthrough', 'InterpretabilityWalkthrough', 'CapabilitiesWalkthrough', 'MultimodalWalkthrough'].includes(node.name)) {
       diagramIds.push(node.attributes?.find(attribute => attribute.name === 'diagramId')?.value)
     }
     for (const child of node.children ?? []) walk(child)

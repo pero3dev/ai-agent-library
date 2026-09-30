@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-native-diagnosis-archive-integrity-review",
+  "checkedAt": "2026-09-30T13:59:32Z",
+  "reviewer": "/root/inference_doc_review/d2_browser_parallelism_check",
+  "transcribedBy": "/root",
+  "target": "reasoning-native-zoom-evidence/",
+  "hashes": {
+    "index.json": "cf1a55d22a31747bd8c457d3bfcaa45a6e1280cd35e942adf188f34c123fb871",
+    "README.md": "ef3676cb28a191b6083e0b25a259324d9eb33f8f3fd45fae91b1d96138eddfdd",
+    "viewed-ledger.json": "2bcd06342f4eddf77169f112a753afc1a64784602d21b8084bba1c13b54502a5"
+  },
+  "verdict": "approved-archive-integrity-only",
+  "must": 0,
+  "should": 0,
+  "checked": {
+    "rawFiles": 30,
+    "originalStoredHashAndByteMatches": 30,
+    "identityRoundTrips": 26,
+    "gzipHtmlRoundTrips": 4,
+    "sourceReviewTargetBindings": 2,
+    "pngHashAndDimensions": 12,
+    "originalViewEvents": 10,
+    "rootViewedPaths": 4,
+    "authorViewedPaths": 6,
+    "overlapPaths": 3,
+    "unionViewedPaths": 7,
+    "unviewedPaths": 5,
+    "uniqueImageHashes": 6,
+    "uniqueViewedImageHashes": 5,
+    "relativeMappingsContained": true,
+    "duplicateHashDidNotConferViewedStatus": true,
+    "rawActuallyViewedFalsePreserved": true,
+    "rawStatusPassedBoundedProbeOnlyPreserved": true,
+    "profilesCacheCookiesAbsentFromArchive": true,
+    "missingSources": 0,
+    "generatedImagesOmitted": 0
+  },
+  "boundaries": {
+    "nativeApiProbeSeparateFromCaptureMismatch": true,
+    "internalCaptureCauseUnproven": true,
+    "wholeArticleAllStageAcceptance": false,
+    "fullNative200VisualAcceptance": false,
+    "publicAcceptance": false,
+    "physicalDeviceAcceptance": false,
+    "newReviewerImageViews": 0,
+    "browserExecuted": false,
+    "filesEdited": false
+  },
+  "notes": [
+    "Local build ay8Xdd-uRIpIwdWdgy70j and input/served-HTML identity are preserved before/after both runs; no main/public equivalence inferred.",
+    "Raw results retain independentImageReview pending and actualImagesViewed 0; subsequent explicit path-level events remain in separate ledger.",
+    "API 1→2→1/layout-DPR evidence, capture-path mismatch and untested full visual acceptance are distinguished; noncritical fetch aborts remain 11/12, separate from zero critical resource/page/console errors.",
+    "Future all9-stage light/dark native200 helper and execution are outside this review."
+  ]
+}

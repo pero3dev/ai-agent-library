@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "run_id": "2026-10-01-p1-diagram-completion",
+  "base_sha": "b7bb4b12f3878d2f7b12c542c32b66d1ac6709c6",
+  "writer_run_id": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root",
+  "completed_at": "2026-09-30T17:22:51Z",
+  "changes": [
+    {
+      "path": "docs/10-llm-foundations/multimodal-models.md",
+      "kind": "substantive",
+      "summary": "系列へ接続する構成を一例に限定し、解像度・トークン・料金の一律な同一視とOCRの無条件な優位性を訂正する。採択済み13箇所を関連段落・注意点・チェックリストまで同期し、参照資料と作業日を更新する。"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "AR-2",
+      "artifacts": [
+        "docs/10-llm-foundations/multimodal-models.md"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://arxiv.org/html/2304.08485v2",
+      "accessed_at": "2026-09-30T17:17:17Z",
+      "claim": "LLaVA 4.1と4.2の視覚特徴から言語埋め込みへの射影と系列化を確認した。一つの接続構成の説明であり、全モデルへの一般化を避ける。",
+      "affected_docs": [
+        "docs/10-llm-foundations/multimodal-models.md"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/html/2204.14198v1",
+      "accessed_at": "2026-09-30T17:17:17Z",
+      "claim": "Flamingo 3.1.2は言語側Queryと視覚側Key/Valueの交差注意を使う。画像とテキストの単一系列化だけが唯一の構成ではない。",
+      "affected_docs": [
+        "docs/10-llm-foundations/multimodal-models.md"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/abs/2010.11929",
+      "accessed_at": "2026-09-30T17:17:17Z",
+      "claim": "画像パッチを系列として扱うViTの構成を確認した。パッチ数を提供モデル共通の課金単位へ同一視しない。",
+      "affected_docs": [
+        "docs/10-llm-foundations/multimodal-models.md"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/abs/1904.08920",
+      "accessed_at": "2026-09-30T17:17:17Z",
+      "claim": "画像中の文字と視覚情報を組み合わせるTextVQAの課題を確認した。文字化だけで必要情報が保たれるとは限らず、OCR・構造化・画像を条件に応じて比較する。",
+      "affected_docs": [
+        "docs/10-llm-foundations/multimodal-models.md"
+      ]
+    }
+  ],
+  "review": {
+    "verdict": "approved",
+    "independent": true,
+    "reviewer_run_id": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/required_multimodal_review",
+    "reviewed_at": "2026-09-30T17:21:59Z",
+    "content_digest": "24c4ab6f7a7d06ac47437a041c6846c50c1999d6fa6a2c4396b8bb934c839cab"
+  }
+}

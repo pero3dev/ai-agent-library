@@ -29,7 +29,17 @@ export const ALIGNMENT_ARTICLE = 'docs/11-llm-internals/alignment-theory.md'
 export const ALIGNMENT_EVIDENCE_PATH = 'project/records/2026-09-30/alignment-article-acceptance.json'
 export const REASONING_ARTICLE = 'docs/10-llm-foundations/reasoning-models.md'
 export const REASONING_EVIDENCE_PATH = 'project/records/2026-09-30/reasoning-article-acceptance.json'
-export const TRACKED_ARTICLES = Object.freeze([TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE, INFERENCE_ARTICLE, TRAINING_ARTICLE, PRETRAINING_ARTICLE, ALIGNMENT_ARTICLE, REASONING_ARTICLE])
+export const CONTEXT_ARTICLE = 'docs/10-llm-foundations/attention-and-context.md'
+export const CONTEXT_EVIDENCE_PATH = 'project/records/2026-10-01/context-article-acceptance.json'
+export const ICL_ARTICLE = 'docs/11-llm-internals/in-context-learning-and-memorization.md'
+export const ICL_EVIDENCE_PATH = 'project/records/2026-10-01/icl-article-acceptance.json'
+export const INTERPRETABILITY_ARTICLE = 'docs/11-llm-internals/interpretability-basics.md'
+export const INTERPRETABILITY_EVIDENCE_PATH = 'project/records/2026-10-01/interpretability-article-acceptance.json'
+export const CAPABILITIES_ARTICLE = 'docs/10-llm-foundations/capabilities-and-limits.md'
+export const CAPABILITIES_EVIDENCE_PATH = 'project/records/2026-10-01/capabilities-article-acceptance.json'
+export const MULTIMODAL_ARTICLE = 'docs/10-llm-foundations/multimodal-models.md'
+export const MULTIMODAL_EVIDENCE_PATH = 'project/records/2026-10-01/multimodal-article-acceptance.json'
+export const TRACKED_ARTICLES = Object.freeze([TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE, INFERENCE_ARTICLE, TRAINING_ARTICLE, PRETRAINING_ARTICLE, ALIGNMENT_ARTICLE, REASONING_ARTICLE, CONTEXT_ARTICLE, ICL_ARTICLE, INTERPRETABILITY_ARTICLE, CAPABILITIES_ARTICLE, MULTIMODAL_ARTICLE])
 const MANIFEST = 'website/diagrams/articles.json'
 const TRANSFORMER_TOPICS = {
   '概要: デコーダ専用 Transformer の全体像': ['decoder-flow', 'overview-and-notation'],
@@ -472,7 +482,333 @@ const REASONING_INPUT_FILES = [...SHARED_INPUT_FILES, 'website/components/diagra
   'website/components/diagrams/reasoning-sequence-walkthrough.jsx', 'website/components/diagrams/reasoning-sequence.css', 'website/lib/reasoning-sequence-model.mjs',
   'website/components/diagrams/reasoning-evaluation-walkthrough.jsx', 'website/components/diagrams/reasoning-evaluation.css', 'website/lib/reasoning-evaluation-model.mjs'
 ]
+const CONTEXT_TOPICS = {
+  "概要: 「全部が全部を見る」仕組みとその請求書": [
+    "e1-s0-b0"
+  ],
+  "注意機構の直感": [
+    "e1-s1-b0",
+    "e1-s1-b1",
+    "e1-s1-b2.li0",
+    "e1-s1-b2.li1"
+  ],
+  "コンテキスト長のコスト構造": [
+    "e1-s2-b0",
+    "e1-s2-b1.row0",
+    "e1-s2-b1.row1",
+    "e1-s2-b2"
+  ],
+  "KV キャッシュとプロンプトキャッシュ": [
+    "e1-s3-b0",
+    "e1-s3-b1.li0",
+    "e1-s3-b1.li1",
+    "e1-s3-b1.li2"
+  ],
+  "長文での品質劣化": [
+    "e1-s4-b0",
+    "e1-s4-b1.li0",
+    "e1-s4-b1.li1",
+    "e1-s4-b1.li2",
+    "e1-s4-b2"
+  ],
+  "この理解が効く場面": [
+    "e1-s5-b0.li0",
+    "e1-s5-b0.li1",
+    "e1-s5-b0.li2"
+  ],
+  "アンチパターン": [
+    "e1-s6-b0.li0",
+    "e1-s6-b0.li1",
+    "e1-s6-b0.li2",
+    "e1-s6-b0.li3"
+  ],
+  "チェックリスト": [
+    "e1-s7-b0.li0",
+    "e1-s7-b0.li1",
+    "e1-s7-b0.li2",
+    "e1-s7-b0.li3",
+    "e1-s7-b0.li4"
+  ]
+}
+const CONTEXT_INPUT_FILES = [...SHARED_INPUT_FILES,
+  'website/components/diagrams/context-walkthrough.jsx', 'website/components/diagrams/context-scenes.jsx',
+  'website/components/diagrams/learning-scene-primitives.jsx', 'website/components/diagrams/learning-scenes.css',
+  'website/lib/learning-foundations-model.mjs'
+]
+const ICL_TOPICS = {
+  "概要: 重みを変えずに「学ぶ」ように見える": [
+    "e2-s0-b0"
+  ],
+  "ICL はなぜ起きるか: 主要な理論仮説": [
+    "e2-s1-b0",
+    "e2-s1-b1.li0",
+    "e2-s1-b2",
+    "e2-s1-b3",
+    "e2-s1-b4.li0",
+    "e2-s1-b4.li1",
+    "e2-s1-b5"
+  ],
+  "few-shot の例の効き方": [
+    "e2-s2-b0",
+    "e2-s2-b1.li0",
+    "e2-s2-b1.li1",
+    "e2-s2-b1.li2",
+    "e2-s2-b2"
+  ],
+  "記憶と汎化": [
+    "e2-s3-b0",
+    "e2-s3-b1.li0",
+    "e2-s3-b1.li1",
+    "e2-s3-b1.li2",
+    "e2-s3-b2"
+  ],
+  "データ汚染とベンチマークへの含意": [
+    "e2-s4-b0",
+    "e2-s4-b1.li0",
+    "e2-s4-b1.li1",
+    "e2-s4-b1.li2"
+  ],
+  "この理解が効く場面": [
+    "e2-s5-b0.li0",
+    "e2-s5-b0.li1",
+    "e2-s5-b0.li2",
+    "e2-s5-b0.li3"
+  ],
+  "アンチパターン": [
+    "e2-s6-b0.li0",
+    "e2-s6-b0.li1",
+    "e2-s6-b0.li2",
+    "e2-s6-b0.li3",
+    "e2-s6-b0.li4"
+  ],
+  "チェックリスト": [
+    "e2-s7-b0.li0",
+    "e2-s7-b0.li1",
+    "e2-s7-b0.li2",
+    "e2-s7-b0.li3",
+    "e2-s7-b0.li4",
+    "e2-s7-b0.li5"
+  ]
+}
+const ICL_INPUT_FILES = [...SHARED_INPUT_FILES,
+  'website/components/diagrams/icl-walkthrough.jsx', 'website/components/diagrams/icl-scenes.jsx',
+  'website/components/diagrams/learning-scene-primitives.jsx', 'website/components/diagrams/learning-scenes.css',
+  'website/lib/learning-foundations-model.mjs'
+]
+const INTERPRETABILITY_TOPICS = {
+  "概要: 行動を見るか、機構を理解するか": [
+    "e3-s0-b0",
+    "e3-s0-b1.li0",
+    "e3-s0-b1.li1",
+    "e3-s0-b2"
+  ],
+  "プロービング: 表現に情報はあるか": [
+    "e3-s1-b0",
+    "e3-s1-b1"
+  ],
+  "帰属と「注意は説明か」論争": [
+    "e3-s2-b0",
+    "e3-s2-b1.li0",
+    "e3-s2-b1.li1",
+    "e3-s2-b2"
+  ],
+  "回路: 誘導ヘッドという発見": [
+    "e3-s3-b0",
+    "e3-s3-b1.li0",
+    "e3-s3-b1.li1",
+    "e3-s3-b2"
+  ],
+  "重ね合わせと SAE: 特徴を疎に取り出す": [
+    "e3-s4-b0",
+    "e3-s4-b1.li0",
+    "e3-s4-b1.li1",
+    "e3-s4-b2",
+    "e3-s4-b3",
+    "e3-s4-b4"
+  ],
+  "実務への応用可能性と限界": [
+    "e3-s5-b0",
+    "e3-s5-b1.li0",
+    "e3-s5-b1.li1",
+    "e3-s5-b1.li2"
+  ],
+  "この理解が効く場面": [
+    "e3-s6-b0.li0",
+    "e3-s6-b0.li1",
+    "e3-s6-b0.li2",
+    "e3-s6-b0.li3"
+  ],
+  "アンチパターン": [
+    "e3-s7-b0.li0",
+    "e3-s7-b0.li1",
+    "e3-s7-b0.li2",
+    "e3-s7-b0.li3",
+    "e3-s7-b0.li4"
+  ],
+  "チェックリスト": [
+    "e3-s8-b0.li0",
+    "e3-s8-b0.li1",
+    "e3-s8-b0.li2",
+    "e3-s8-b0.li3",
+    "e3-s8-b0.li4",
+    "e3-s8-b0.li5",
+    "e3-s8-b0.li6"
+  ],
+  "変わりやすい項目(定点観測)": [
+    "e3-s9-b0"
+  ]
+}
+const INTERPRETABILITY_INPUT_FILES = [...SHARED_INPUT_FILES,
+  'website/components/diagrams/interpretability-walkthrough.jsx', 'website/components/diagrams/interpretability-scenes.jsx',
+  'website/components/diagrams/learning-scene-primitives.jsx', 'website/components/diagrams/learning-scenes.css',
+  'website/lib/learning-foundations-model.mjs'
+]
+const CAPABILITIES_TOPICS = {
+  "概要: 流暢さと正確さは別の能力": [
+    "f1-s0-b0"
+  ],
+  "得意と不得意の構造": [
+    "f1-s1-b0",
+    "f1-s1-b1.row0",
+    "f1-s1-b1.row1",
+    "f1-s1-b1.row2",
+    "f1-s1-b1.row3",
+    "f1-s1-b1.row4",
+    "f1-s1-b1.row5",
+    "f1-s1-b2"
+  ],
+  "ツールによる補完: Agent 設計の理論的根拠": [
+    "f1-s2-b0",
+    "f1-s2-b1.li0",
+    "f1-s2-b1.li1",
+    "f1-s2-b1.li2",
+    "f1-s2-b2"
+  ],
+  "世代差とスケーリングの読み方": [
+    "f1-s3-b0",
+    "f1-s3-b1.li0",
+    "f1-s3-b1.li1",
+    "f1-s3-b1.li2"
+  ],
+  "能力見積りの実務": [
+    "f1-s4-b0",
+    "f1-s4-b1.li0",
+    "f1-s4-b1.li1",
+    "f1-s4-b1.li2",
+    "f1-s4-b1.li3"
+  ],
+  "この理解が効く場面": [
+    "f1-s5-b0.li0",
+    "f1-s5-b0.li1",
+    "f1-s5-b0.li2"
+  ],
+  "アンチパターン": [
+    "f1-s6-b0.li0",
+    "f1-s6-b0.li1",
+    "f1-s6-b0.li2",
+    "f1-s6-b0.li3"
+  ],
+  "チェックリスト": [
+    "f1-s7-b0.li0",
+    "f1-s7-b0.li1",
+    "f1-s7-b0.li2",
+    "f1-s7-b0.li3",
+    "f1-s7-b0.li4"
+  ]
+}
+const CAPABILITIES_INPUT_FILES = [...SHARED_INPUT_FILES,
+  'website/components/diagrams/capabilities-walkthrough.jsx', 'website/components/diagrams/capabilities-scenes.jsx',
+  'website/components/diagrams/learning-scene-primitives.jsx', 'website/components/diagrams/learning-scenes.css',
+  'website/lib/learning-foundations-model.mjs'
+]
+const MULTIMODAL_TOPICS = {
+  "概要: 分担と「同じ土俵に載せる」": [
+    "f2-s0-b0.row0",
+    "f2-s0-b0.row1",
+    "f2-s0-b0.row2",
+    "f2-s0-b0.row3",
+    "f2-s0-b1"
+  ],
+  "直感①: すべてを「表現ベクトルの列」に変換する": [
+    "f2-s1-b0",
+    "f2-s1-b1.li0",
+    "f2-s1-b1.li1",
+    "f2-s1-b1.li2",
+    "f2-s1-b2"
+  ],
+  "直感②: 画像は「パッチ」に分けてトークン相当にする": [
+    "f2-s2-b0",
+    "f2-s2-b1.li0",
+    "f2-s2-b1.li1",
+    "f2-s2-b1.li2"
+  ],
+  "直感③: 統一された系列を注意機構で混ぜ合わせる": [
+    "f2-s3-b0",
+    "f2-s3-b1.li0",
+    "f2-s3-b1.li1",
+    "f2-s3-b1.li2"
+  ],
+  "なぜ効くのか、どこで崖が来るのか": [
+    "f2-s4-b0",
+    "f2-s4-b1.li0",
+    "f2-s4-b1.li1",
+    "f2-s4-b1.li2",
+    "f2-s4-b1.li3"
+  ],
+  "トークン経済とコスト・レイテンシ設計": [
+    "f2-s5-b0",
+    "f2-s5-b1.li0",
+    "f2-s5-b1.li1",
+    "f2-s5-b1.li2"
+  ],
+  "理解と生成は別物: 非対称に注意": [
+    "f2-s6-b0",
+    "f2-s6-b1.li0",
+    "f2-s6-b1.li1",
+    "f2-s6-b1.li2",
+    "f2-s6-b2"
+  ],
+  "アンチパターン": [
+    "f2-s7-b0.li0",
+    "f2-s7-b0.li1",
+    "f2-s7-b0.li2",
+    "f2-s7-b0.li3",
+    "f2-s7-b0.li4"
+  ],
+  "チェックリスト": [
+    "f2-s8-b0.li0",
+    "f2-s8-b0.li1",
+    "f2-s8-b0.li2",
+    "f2-s8-b0.li3",
+    "f2-s8-b0.li4"
+  ]
+}
+const MULTIMODAL_INPUT_FILES = [...SHARED_INPUT_FILES,
+  'website/components/diagrams/multimodal-walkthrough.jsx', 'website/components/diagrams/multimodal-scenes.jsx',
+  'website/components/diagrams/learning-scene-primitives.jsx', 'website/components/diagrams/learning-scenes.css',
+  'website/lib/learning-foundations-model.mjs'
+]
 const configs = {
+  [MULTIMODAL_ARTICLE]: { primaryDiagramIds: [
+  "multimodal-representation",
+  "multimodal-input-tradeoffs"
+], topics: MULTIMODAL_TOPICS, inputFiles: MULTIMODAL_INPUT_FILES, evidencePath: MULTIMODAL_EVIDENCE_PATH, requireReadingStage: true },
+  [CAPABILITIES_ARTICLE]: { primaryDiagramIds: [
+  "capabilities-assessment"
+], topics: CAPABILITIES_TOPICS, inputFiles: CAPABILITIES_INPUT_FILES, evidencePath: CAPABILITIES_EVIDENCE_PATH, requireReadingStage: true },
+  [INTERPRETABILITY_ARTICLE]: { primaryDiagramIds: [
+  "interpretability-evidence",
+  "interpretability-sae"
+], topics: INTERPRETABILITY_TOPICS, inputFiles: INTERPRETABILITY_INPUT_FILES, evidencePath: INTERPRETABILITY_EVIDENCE_PATH, requireReadingStage: true },
+  [ICL_ARTICLE]: { primaryDiagramIds: [
+  "icl-hypotheses",
+  "icl-demonstrations",
+  "icl-memory-evaluation"
+], topics: ICL_TOPICS, inputFiles: ICL_INPUT_FILES, evidencePath: ICL_EVIDENCE_PATH, requireReadingStage: true },
+  [CONTEXT_ARTICLE]: { primaryDiagramIds: [
+  "context-causal-cost",
+  "context-cache-quality"
+], topics: CONTEXT_TOPICS, inputFiles: CONTEXT_INPUT_FILES, evidencePath: CONTEXT_EVIDENCE_PATH, requireReadingStage: true },
   [REASONING_ARTICLE]: { primaryDiagramIds: [
   "reasoning-sequence",
   "reasoning-evaluation"
@@ -522,6 +858,11 @@ const configs = {
   }
 }
 const overrideDirectories = {
+  [MULTIMODAL_ARTICLE]: 'llm-foundations',
+  [CAPABILITIES_ARTICLE]: 'llm-foundations',
+  [INTERPRETABILITY_ARTICLE]: 'llm-internals',
+  [ICL_ARTICLE]: 'llm-internals',
+  [CONTEXT_ARTICLE]: 'llm-foundations',
   [REASONING_ARTICLE]: 'llm-foundations',
   [ALIGNMENT_ARTICLE]: 'llm-internals',
   [PRETRAINING_ARTICLE]: 'llm-internals',

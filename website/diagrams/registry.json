@@ -1260,6 +1260,482 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "context-causal-cost",
+      "article": "docs/10-llm-foundations/attention-and-context.md",
+      "route": "/docs/llm-foundations/attention-and-context",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 「全部が全部を見る」仕組みとその請求書",
+        "注意機構の直感",
+        "コンテキスト長のコスト構造"
+      ],
+      "sourceHeadings": [
+        "概要: 「全部が全部を見る」仕組みとその請求書",
+        "注意機構の直感",
+        "コンテキスト長のコスト構造",
+        "KV キャッシュとプロンプトキャッシュ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:3d148c85ba70c31149692bbbb25b7ce25ec0d9a9457b43f85b646287e4ff625e",
+      "reviewedDigest": "sha256:3d148c85ba70c31149692bbbb25b7ce25ec0d9a9457b43f85b646287e4ff625e",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "context-cache-quality",
+      "article": "docs/10-llm-foundations/attention-and-context.md",
+      "route": "/docs/llm-foundations/attention-and-context",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "KV キャッシュとプロンプトキャッシュ",
+        "長文での品質劣化"
+      ],
+      "sourceHeadings": [
+        "概要: 「全部が全部を見る」仕組みとその請求書",
+        "注意機構の直感",
+        "コンテキスト長のコスト構造",
+        "KV キャッシュとプロンプトキャッシュ",
+        "長文での品質劣化"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:cbdf6f68c773444b57ccffc29430974e2705c11460558a8b39b4ea0fabc6c7ed",
+      "reviewedDigest": "sha256:cbdf6f68c773444b57ccffc29430974e2705c11460558a8b39b4ea0fabc6c7ed",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "icl-hypotheses",
+      "article": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+      "route": "/docs/llm-internals/in-context-learning-and-memorization",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 重みを変えずに「学ぶ」ように見える",
+        "ICL はなぜ起きるか: 主要な理論仮説"
+      ],
+      "sourceHeadings": [
+        "概要: 重みを変えずに「学ぶ」ように見える",
+        "ICL はなぜ起きるか: 主要な理論仮説"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 4
+          },
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:6194981065168116f345a0845c1cced61a940a9775c702d158e53177cf04b7e5",
+      "reviewedDigest": "sha256:6194981065168116f345a0845c1cced61a940a9775c702d158e53177cf04b7e5",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "icl-demonstrations",
+      "article": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+      "route": "/docs/llm-internals/in-context-learning-and-memorization",
+      "binding": "grouped-blocks",
+      "stageCount": 3,
+      "headings": [
+        "few-shot の例の効き方"
+      ],
+      "sourceHeadings": [
+        "概要: 重みを変えずに「学ぶ」ように見える",
+        "ICL はなぜ起きるか: 主要な理論仮説",
+        "few-shot の例の効き方"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:b1fa9562e83d2c634dec83ba57fdacf802184cf3df3d44a1c8df2514dac5b750",
+      "reviewedDigest": "sha256:b1fa9562e83d2c634dec83ba57fdacf802184cf3df3d44a1c8df2514dac5b750",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "icl-memory-evaluation",
+      "article": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+      "route": "/docs/llm-internals/in-context-learning-and-memorization",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "記憶と汎化",
+        "データ汚染とベンチマークへの含意"
+      ],
+      "sourceHeadings": [
+        "記憶と汎化",
+        "データ汚染とベンチマークへの含意"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:c514cb25832cbf38561bfbd14380fffb0005d3a0f55170de88cf77e835b284b4",
+      "reviewedDigest": "sha256:c514cb25832cbf38561bfbd14380fffb0005d3a0f55170de88cf77e835b284b4",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "interpretability-evidence",
+      "article": "docs/11-llm-internals/interpretability-basics.md",
+      "route": "/docs/llm-internals/interpretability-basics",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 行動を見るか、機構を理解するか",
+        "プロービング: 表現に情報はあるか",
+        "帰属と「注意は説明か」論争",
+        "回路: 誘導ヘッドという発見"
+      ],
+      "sourceHeadings": [
+        "概要: 行動を見るか、機構を理解するか",
+        "プロービング: 表現に情報はあるか",
+        "帰属と「注意は説明か」論争",
+        "回路: 誘導ヘッドという発見",
+        "実務への応用可能性と限界"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:3a1971be6655134de6a600c9d03afe0ff8cef25ed9662dff1bd065990150d0d7",
+      "reviewedDigest": "sha256:3a1971be6655134de6a600c9d03afe0ff8cef25ed9662dff1bd065990150d0d7",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "interpretability-sae",
+      "article": "docs/11-llm-internals/interpretability-basics.md",
+      "route": "/docs/llm-internals/interpretability-basics",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "重ね合わせと SAE: 特徴を疎に取り出す"
+      ],
+      "sourceHeadings": [
+        "概要: 行動を見るか、機構を理解するか",
+        "重ね合わせと SAE: 特徴を疎に取り出す",
+        "実務への応用可能性と限界"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:782e82380a0061d618371bbb4709a2ed263a52af2b031a0754a8591e3ccead15",
+      "reviewedDigest": "sha256:782e82380a0061d618371bbb4709a2ed263a52af2b031a0754a8591e3ccead15",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "capabilities-assessment",
+      "article": "docs/10-llm-foundations/capabilities-and-limits.md",
+      "route": "/docs/llm-foundations/capabilities-and-limits",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 流暢さと正確さは別の能力",
+        "得意と不得意の構造",
+        "ツールによる補完: Agent 設計の理論的根拠",
+        "世代差とスケーリングの読み方",
+        "能力見積りの実務"
+      ],
+      "sourceHeadings": [
+        "概要: 流暢さと正確さは別の能力",
+        "得意と不得意の構造",
+        "ツールによる補完: Agent 設計の理論的根拠",
+        "世代差とスケーリングの読み方",
+        "能力見積りの実務"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:78f355317c83010206e383ae35f6c39e98319a924d9cfe7560f4b1b52659c9c3",
+      "reviewedDigest": "sha256:78f355317c83010206e383ae35f6c39e98319a924d9cfe7560f4b1b52659c9c3",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "multimodal-representation",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "route": "/docs/llm-foundations/multimodal-models",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "直感①: すべてを「表現ベクトルの列」に変換する",
+        "直感②: 画像は「パッチ」に分けてトークン相当にする",
+        "直感③: 統一された系列を注意機構で混ぜ合わせる"
+      ],
+      "sourceHeadings": [
+        "概要: 分担と「同じ土俵に載せる」",
+        "直感①: すべてを「表現ベクトルの列」に変換する",
+        "直感②: 画像は「パッチ」に分けてトークン相当にする",
+        "直感③: 統一された系列を注意機構で混ぜ合わせる",
+        "なぜ効くのか、どこで崖が来るのか",
+        "トークン経済とコスト・レイテンシ設計",
+        "理解と生成は別物: 非対称に注意"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:4415152b86df90f9f7eac9094a346a271e4906258b6228508067a662ae1d8f58",
+      "reviewedDigest": "sha256:4415152b86df90f9f7eac9094a346a271e4906258b6228508067a662ae1d8f58",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "multimodal-input-tradeoffs",
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "route": "/docs/llm-foundations/multimodal-models",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "なぜ効くのか、どこで崖が来るのか",
+        "トークン経済とコスト・レイテンシ設計",
+        "理解と生成は別物: 非対称に注意"
+      ],
+      "sourceHeadings": [
+        "直感①: すべてを「表現ベクトルの列」に変換する",
+        "直感②: 画像は「パッチ」に分けてトークン相当にする",
+        "直感③: 統一された系列を注意機構で混ぜ合わせる",
+        "なぜ効くのか、どこで崖が来るのか",
+        "トークン経済とコスト・レイテンシ設計",
+        "理解と生成は別物: 非対称に注意"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:5b659d256256744b963b26ce966795b0104ce332225149e581b288250bbafef8",
+      "reviewedDigest": "sha256:5b659d256256744b963b26ce966795b0104ce332225149e581b288250bbafef8",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

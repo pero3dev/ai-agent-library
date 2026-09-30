@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "unit": "E3",
+  "kind": "independent-kit-plan-review",
+  "verdict": "changes-requested-plan-only",
+  "reviewerIdentity": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review/d2_browser_parallelism_check",
+  "checkedAt": "2026-09-30T13:00:54.119Z",
+  "recordingScope": "Root transcription of the reviewer's delivered judgment; not a new root review.",
+  "targets": [
+    {"file": "TEMP/interpretability-e3-kit-plan-initial-20260930.md", "sha256": "0bdbd1d6e751afc3f2746c1b4f472d2850e462fe5cdca8e803937b6786ba4659"},
+    {"file": "TEMP/interpretability-e3-kit-plan-initial-20260930.json", "sha256": "64e3e0d4fcb61841739073ca8d13763407700173e405c8795afafc443e2fa6bb"}
+  ],
+  "must": [{"id": "E3-M1", "locations": ["MD:20", "JSON:150", "JSON:597"], "issue": "Chunk failure incorrectly requires nine static scene explanations, but DiagramBoundary:15-19 renders status and original children while ReadingFigure:237-241 owns static explanations.", "required": "Separate noJS original prose/formulas/nine static explanations from each individual scene-chunk failure original prose/formulas/h1/status/structure; do not demand failed-scene static explanations. Keep one registered case and prove both actual chunks were blocked in separate contexts."}],
+  "should": [],
+  "checkedFacts": {
+    "evidenceInputHashesMatched": 16,
+    "adoptedStoryboardDeepEqual": true,
+    "articleAstAndFormulaHashesMatched": true,
+    "figures": 2, "stages": 9, "readStops": 9, "manualOnlyStages": 0,
+    "newCases": 14, "plannedTotalCases": 165, "plannedRoutes": 13,
+    "profileVisits": 54, "defaultBoundaryVisits": 42, "replaceBoundaryVisits": 12, "selectorGridVisits": 10, "readVisits": 18,
+    "negativeFixtureGroups": 18,
+    "future151BaselineFixedFieldsNull": 8,
+    "supplementalLargeTabletVisitsPerEngine": 36,
+    "nativeZoomNotDsf2": true,
+    "performanceLimits": {"sharedGzipKiB":100,"articleGzipKiB":75,"cls":0.05,"inputMs":200,"rafP95Ms":32},
+    "semanticScope": "Probe is not causal; both interpretability positions; intervention lanes separately checked; SAE approximation, residual, many zeros and contribution lines; self-report and no safety guarantee.",
+    "sourceStructure": {"h3":10,"sourceBlockquotes":3,"renderedOrdinaryBlockquotes":1,"todoAsides":2}
+  },
+  "notExecuted": ["Product or kit implementation", "Browser or runtime", "Network", "Git operations", "File edits"],
+  "acceptanceBoundary": "Plan review only. Prior public acceptance and root start remain required."
+}

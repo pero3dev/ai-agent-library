@@ -1,0 +1,1144 @@
+{
+  "schemaVersion": 1,
+  "kind": "portable-native-zoom-limited-diagnostic-evidence",
+  "lifecycle": "frozen-limited-diagnostic-archive",
+  "checkedAt": "2026-09-30T13:53:06.864Z",
+  "archiveRelativeToRepository": "project/records/2026-09-30/reasoning-native-zoom-evidence",
+  "scope": {
+    "mechanisms": [
+      "native tabs.setZoom/getZoom automatic per-tab",
+      "unclipped CDP surface versus Playwright viewport capture"
+    ],
+    "diagram": "reasoning-sequence",
+    "stage": 2,
+    "localBuildId": "ay8Xdd-uRIpIwdWdgy70j",
+    "inputDigest": "sha256:2696c2dc66c8d222bb06fd2b4c07deb34ddcc9f19c40ccc917b6ceed5cc0d330",
+    "productAcceptance": false,
+    "allStageAcceptance": false,
+    "articleAcceptance": false,
+    "publicAcceptance": false,
+    "fullNative200VisualAcceptance": false,
+    "internalCauseProven": false,
+    "archiveBrowserRerun": false
+  },
+  "originalStatusPolicy": "Preserve raw status and execution-time actuallyViewed values. Treat later explicit source-ledger views separately; no machine-pass-to-product-acceptance upgrade.",
+  "sourcePolicy": "Historical absolute/TEMP paths are provenance, never portable executable paths; stored paths and bindings are relative to this directory.",
+  "entries": [
+    {
+      "stored": "raw/initial/result.json",
+      "kind": "unmodified-run-result",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-probe-1yEOID/result.json",
+        "repositoryRelative": null
+      },
+      "originalBytes": 44372,
+      "originalSha256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+      "encoding": "identity",
+      "storedBytes": 44372,
+      "storedSha256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+      "roundTripSha256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/initial/before-served.html.gz",
+      "kind": "served-article-html",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-probe-1yEOID/before-served.html",
+        "repositoryRelative": null
+      },
+      "originalBytes": 623618,
+      "originalSha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+      "encoding": "gzip",
+      "storedBytes": 65876,
+      "storedSha256": "c33dc8e2295fea70424f624ed3e424ece9f4b9f6fb754d896562132e8e3349ce",
+      "roundTripSha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/initial/after-served.html.gz",
+      "kind": "served-article-html",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-probe-1yEOID/after-served.html",
+        "repositoryRelative": null
+      },
+      "originalBytes": 623618,
+      "originalSha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+      "encoding": "gzip",
+      "storedBytes": 65876,
+      "storedSha256": "c33dc8e2295fea70424f624ed3e424ece9f4b9f6fb754d896562132e8e3349ce",
+      "roundTripSha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/initial/images/zoom-100-before-viewport.png",
+      "kind": "generated-png",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-probe-1yEOID/images/zoom-100-before-viewport.png",
+        "repositoryRelative": null
+      },
+      "originalBytes": 286662,
+      "originalSha256": "5d299a383adf914b04674d16675e5796d7a1a6d7896c2ea73517ca5cd157d5f8",
+      "encoding": "identity",
+      "storedBytes": 286662,
+      "storedSha256": "5d299a383adf914b04674d16675e5796d7a1a6d7896c2ea73517ca5cd157d5f8",
+      "roundTripSha256": "5d299a383adf914b04674d16675e5796d7a1a6d7896c2ea73517ca5cd157d5f8",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/initial/images/zoom-100-before-fullScene.png",
+      "kind": "generated-png",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-probe-1yEOID/images/zoom-100-before-fullScene.png",
+        "repositoryRelative": null
+      },
+      "originalBytes": 70134,
+      "originalSha256": "d519dd7e949e8e7aee7b4000d6488b1fbcadad5c030bd5bfaa97e10126548b36",
+      "encoding": "identity",
+      "storedBytes": 70134,
+      "storedSha256": "d519dd7e949e8e7aee7b4000d6488b1fbcadad5c030bd5bfaa97e10126548b36",
+      "roundTripSha256": "d519dd7e949e8e7aee7b4000d6488b1fbcadad5c030bd5bfaa97e10126548b36",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/initial/images/zoom-200-viewport.png",
+      "kind": "generated-png",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-probe-1yEOID/images/zoom-200-viewport.png",
+        "repositoryRelative": null
+      },
+      "originalBytes": 1967,
+      "originalSha256": "7b837ba22228b55252cd813090c8b7fcc666e7bbdb57244a7488cff18bc1dd7d",
+      "encoding": "identity",
+      "storedBytes": 1967,
+      "storedSha256": "7b837ba22228b55252cd813090c8b7fcc666e7bbdb57244a7488cff18bc1dd7d",
+      "roundTripSha256": "7b837ba22228b55252cd813090c8b7fcc666e7bbdb57244a7488cff18bc1dd7d",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/initial/images/zoom-200-fullScene.png",
+      "kind": "generated-png",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-probe-1yEOID/images/zoom-200-fullScene.png",
+        "repositoryRelative": null
+      },
+      "originalBytes": 32986,
+      "originalSha256": "4e8f323017caab9dbdf5888eb54c444895630d16c747affe78fdf3cdbc4a06f1",
+      "encoding": "identity",
+      "storedBytes": 32986,
+      "storedSha256": "4e8f323017caab9dbdf5888eb54c444895630d16c747affe78fdf3cdbc4a06f1",
+      "roundTripSha256": "4e8f323017caab9dbdf5888eb54c444895630d16c747affe78fdf3cdbc4a06f1",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/initial/images/zoom-100-restored-viewport.png",
+      "kind": "generated-png",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-probe-1yEOID/images/zoom-100-restored-viewport.png",
+        "repositoryRelative": null
+      },
+      "originalBytes": 286662,
+      "originalSha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "encoding": "identity",
+      "storedBytes": 286662,
+      "storedSha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "roundTripSha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/initial/images/zoom-100-restored-fullScene.png",
+      "kind": "generated-png",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-probe-1yEOID/images/zoom-100-restored-fullScene.png",
+        "repositoryRelative": null
+      },
+      "originalBytes": 70134,
+      "originalSha256": "d519dd7e949e8e7aee7b4000d6488b1fbcadad5c030bd5bfaa97e10126548b36",
+      "encoding": "identity",
+      "storedBytes": 70134,
+      "storedSha256": "d519dd7e949e8e7aee7b4000d6488b1fbcadad5c030bd5bfaa97e10126548b36",
+      "roundTripSha256": "d519dd7e949e8e7aee7b4000d6488b1fbcadad5c030bd5bfaa97e10126548b36",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/helpers/reasoning-native-zoom-probe.mjs",
+      "kind": "historical-probe-helper-do-not-run-in-place",
+      "source": {
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/reasoning-native-zoom-probe.mjs",
+        "repositoryRelative": "TEMP/reasoning-native-zoom-probe.mjs"
+      },
+      "originalBytes": 17574,
+      "originalSha256": "8e825aee26dd99f6767d2fabc907028f319651f7d9aef21dbecf4086f974dcb1",
+      "encoding": "identity",
+      "storedBytes": 17574,
+      "storedSha256": "8e825aee26dd99f6767d2fabc907028f319651f7d9aef21dbecf4086f974dcb1",
+      "roundTripSha256": "8e825aee26dd99f6767d2fabc907028f319651f7d9aef21dbecf4086f974dcb1",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/reviews/reasoning-native-zoom-probe-source-review.json",
+      "kind": "bounded-execution-source-review",
+      "source": {
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/reasoning-native-zoom-probe-source-review.json",
+        "repositoryRelative": "TEMP/reasoning-native-zoom-probe-source-review.json"
+      },
+      "originalBytes": 1162,
+      "originalSha256": "b59366363b3ddd35e79a3529358fc2a81314a1555a929c355941802cd069365a",
+      "encoding": "identity",
+      "storedBytes": 1162,
+      "storedSha256": "b59366363b3ddd35e79a3529358fc2a81314a1555a929c355941802cd069365a",
+      "roundTripSha256": "b59366363b3ddd35e79a3529358fc2a81314a1555a929c355941802cd069365a",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/initial/local-extension/manifest.json",
+      "kind": "tiny-locally-authored-extension-original",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-probe-1yEOID/local-extension/manifest.json",
+        "repositoryRelative": null
+      },
+      "originalBytes": 205,
+      "originalSha256": "a69db858510540769cb04dbbd065f51e06da4fd1e27ca221802371f0c99d9176",
+      "encoding": "identity",
+      "storedBytes": 205,
+      "storedSha256": "a69db858510540769cb04dbbd065f51e06da4fd1e27ca221802371f0c99d9176",
+      "roundTripSha256": "a69db858510540769cb04dbbd065f51e06da4fd1e27ca221802371f0c99d9176",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/initial/local-extension/background.js",
+      "kind": "tiny-locally-authored-extension-original",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-probe-1yEOID/local-extension/background.js",
+        "repositoryRelative": null
+      },
+      "originalBytes": 50,
+      "originalSha256": "7e9c368e21496d7a9c897bbb6887c70fd328348b82fd1365af538b0ec014da0f",
+      "encoding": "identity",
+      "storedBytes": 50,
+      "storedSha256": "7e9c368e21496d7a9c897bbb6887c70fd328348b82fd1365af538b0ec014da0f",
+      "roundTripSha256": "7e9c368e21496d7a9c897bbb6887c70fd328348b82fd1365af538b0ec014da0f",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/capture/result.json",
+      "kind": "unmodified-run-result",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-capture-probe-OfXYeq/result.json",
+        "repositoryRelative": null
+      },
+      "originalBytes": 98183,
+      "originalSha256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+      "encoding": "identity",
+      "storedBytes": 98183,
+      "storedSha256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+      "roundTripSha256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/capture/before-served.html.gz",
+      "kind": "served-article-html",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-capture-probe-OfXYeq/before-served.html",
+        "repositoryRelative": null
+      },
+      "originalBytes": 623618,
+      "originalSha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+      "encoding": "gzip",
+      "storedBytes": 65876,
+      "storedSha256": "c33dc8e2295fea70424f624ed3e424ece9f4b9f6fb754d896562132e8e3349ce",
+      "roundTripSha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/capture/after-served.html.gz",
+      "kind": "served-article-html",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-capture-probe-OfXYeq/after-served.html",
+        "repositoryRelative": null
+      },
+      "originalBytes": 623618,
+      "originalSha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+      "encoding": "gzip",
+      "storedBytes": 65876,
+      "storedSha256": "c33dc8e2295fea70424f624ed3e424ece9f4b9f6fb754d896562132e8e3349ce",
+      "roundTripSha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/capture/images/zoom-200-cdp-before-playwright.png",
+      "kind": "generated-png",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-capture-probe-OfXYeq/images/zoom-200-cdp-before-playwright.png",
+        "repositoryRelative": null
+      },
+      "originalBytes": 177342,
+      "originalSha256": "f255029776a00073b3464fbc065370904f5ae6120a77b3a357761fcd611e5f57",
+      "encoding": "identity",
+      "storedBytes": 177342,
+      "storedSha256": "f255029776a00073b3464fbc065370904f5ae6120a77b3a357761fcd611e5f57",
+      "roundTripSha256": "f255029776a00073b3464fbc065370904f5ae6120a77b3a357761fcd611e5f57",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/capture/images/zoom-200-playwright-viewport.png",
+      "kind": "generated-png",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-capture-probe-OfXYeq/images/zoom-200-playwright-viewport.png",
+        "repositoryRelative": null
+      },
+      "originalBytes": 1967,
+      "originalSha256": "7b837ba22228b55252cd813090c8b7fcc666e7bbdb57244a7488cff18bc1dd7d",
+      "encoding": "identity",
+      "storedBytes": 1967,
+      "storedSha256": "7b837ba22228b55252cd813090c8b7fcc666e7bbdb57244a7488cff18bc1dd7d",
+      "roundTripSha256": "7b837ba22228b55252cd813090c8b7fcc666e7bbdb57244a7488cff18bc1dd7d",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/capture/images/zoom-200-cdp-after-playwright.png",
+      "kind": "generated-png",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-capture-probe-OfXYeq/images/zoom-200-cdp-after-playwright.png",
+        "repositoryRelative": null
+      },
+      "originalBytes": 177342,
+      "originalSha256": "f255029776a00073b3464fbc065370904f5ae6120a77b3a357761fcd611e5f57",
+      "encoding": "identity",
+      "storedBytes": 177342,
+      "storedSha256": "f255029776a00073b3464fbc065370904f5ae6120a77b3a357761fcd611e5f57",
+      "roundTripSha256": "f255029776a00073b3464fbc065370904f5ae6120a77b3a357761fcd611e5f57",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/capture/images/zoom-100-restored-cdp-before-playwright.png",
+      "kind": "generated-png",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-capture-probe-OfXYeq/images/zoom-100-restored-cdp-before-playwright.png",
+        "repositoryRelative": null
+      },
+      "originalBytes": 286662,
+      "originalSha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "encoding": "identity",
+      "storedBytes": 286662,
+      "storedSha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "roundTripSha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/capture/images/zoom-100-restored-playwright-viewport.png",
+      "kind": "generated-png",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-capture-probe-OfXYeq/images/zoom-100-restored-playwright-viewport.png",
+        "repositoryRelative": null
+      },
+      "originalBytes": 286662,
+      "originalSha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "encoding": "identity",
+      "storedBytes": 286662,
+      "storedSha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "roundTripSha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/capture/images/zoom-100-restored-cdp-after-playwright.png",
+      "kind": "generated-png",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-capture-probe-OfXYeq/images/zoom-100-restored-cdp-after-playwright.png",
+        "repositoryRelative": null
+      },
+      "originalBytes": 286662,
+      "originalSha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "encoding": "identity",
+      "storedBytes": 286662,
+      "storedSha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "roundTripSha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/helpers/reasoning-native-zoom-capture-probe.mjs",
+      "kind": "historical-probe-helper-do-not-run-in-place",
+      "source": {
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/reasoning-native-zoom-capture-probe.mjs",
+        "repositoryRelative": "TEMP/reasoning-native-zoom-capture-probe.mjs"
+      },
+      "originalBytes": 20690,
+      "originalSha256": "c2ccbc8853c66d035fe1599674548c726f59c4da3f3473c0de024a3a9def77c6",
+      "encoding": "identity",
+      "storedBytes": 20690,
+      "storedSha256": "c2ccbc8853c66d035fe1599674548c726f59c4da3f3473c0de024a3a9def77c6",
+      "roundTripSha256": "c2ccbc8853c66d035fe1599674548c726f59c4da3f3473c0de024a3a9def77c6",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/reviews/reasoning-native-zoom-capture-probe-source-review.json",
+      "kind": "bounded-execution-source-review",
+      "source": {
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/reasoning-native-zoom-capture-probe-source-review.json",
+        "repositoryRelative": "TEMP/reasoning-native-zoom-capture-probe-source-review.json"
+      },
+      "originalBytes": 763,
+      "originalSha256": "ddf084c05e58a46b474455877a2ff98aca13d18fd8c797e7e7a02b8d41113abc",
+      "encoding": "identity",
+      "storedBytes": 763,
+      "storedSha256": "ddf084c05e58a46b474455877a2ff98aca13d18fd8c797e7e7a02b8d41113abc",
+      "roundTripSha256": "ddf084c05e58a46b474455877a2ff98aca13d18fd8c797e7e7a02b8d41113abc",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/capture/local-extension/manifest.json",
+      "kind": "tiny-locally-authored-extension-original",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-capture-probe-OfXYeq/local-extension/manifest.json",
+        "repositoryRelative": null
+      },
+      "originalBytes": 205,
+      "originalSha256": "a69db858510540769cb04dbbd065f51e06da4fd1e27ca221802371f0c99d9176",
+      "encoding": "identity",
+      "storedBytes": 205,
+      "storedSha256": "a69db858510540769cb04dbbd065f51e06da4fd1e27ca221802371f0c99d9176",
+      "roundTripSha256": "a69db858510540769cb04dbbd065f51e06da4fd1e27ca221802371f0c99d9176",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/capture/local-extension/background.js",
+      "kind": "tiny-locally-authored-extension-original",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-capture-probe-OfXYeq/local-extension/background.js",
+        "repositoryRelative": null
+      },
+      "originalBytes": 50,
+      "originalSha256": "7e9c368e21496d7a9c897bbb6887c70fd328348b82fd1365af538b0ec014da0f",
+      "encoding": "identity",
+      "storedBytes": 50,
+      "storedSha256": "7e9c368e21496d7a9c897bbb6887c70fd328348b82fd1365af538b0ec014da0f",
+      "roundTripSha256": "7e9c368e21496d7a9c897bbb6887c70fd328348b82fd1365af538b0ec014da0f",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/capture/visual-diagnosis.json",
+      "kind": "author-visual-diagnosis-and-actual-view-ledger",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-capture-probe-OfXYeq/visual-diagnosis.json",
+        "repositoryRelative": null
+      },
+      "originalBytes": 11672,
+      "originalSha256": "37b1d4a2c2aad146e77ee92477bd654e4100a393d320aa9ebd6c43d24d69216c",
+      "encoding": "identity",
+      "storedBytes": 11672,
+      "storedSha256": "37b1d4a2c2aad146e77ee92477bd654e4100a393d320aa9ebd6c43d24d69216c",
+      "roundTripSha256": "37b1d4a2c2aad146e77ee92477bd654e4100a393d320aa9ebd6c43d24d69216c",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/capture/visual-diagnosis.md",
+      "kind": "author-visual-diagnosis-original",
+      "source": {
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-capture-probe-OfXYeq/visual-diagnosis.md",
+        "repositoryRelative": null
+      },
+      "originalBytes": 1094,
+      "originalSha256": "32087d897b86a945971e8fbe68e05725409aa89f712ca2f9afaeed21036810b9",
+      "encoding": "identity",
+      "storedBytes": 1094,
+      "storedSha256": "32087d897b86a945971e8fbe68e05725409aa89f712ca2f9afaeed21036810b9",
+      "roundTripSha256": "32087d897b86a945971e8fbe68e05725409aa89f712ca2f9afaeed21036810b9",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/viewed/reasoning-native-zoom-initial-viewed.json",
+      "kind": "root-actual-view-ledger-original",
+      "source": {
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/reasoning-native-zoom-initial-viewed.json",
+        "repositoryRelative": "TEMP/reasoning-native-zoom-initial-viewed.json"
+      },
+      "originalBytes": 1892,
+      "originalSha256": "dff2a54bc17f5be0168fb48ae21cdedd1b08ad4ee046f82a9dcbc74a5601047c",
+      "encoding": "identity",
+      "storedBytes": 1892,
+      "storedSha256": "dff2a54bc17f5be0168fb48ae21cdedd1b08ad4ee046f82a9dcbc74a5601047c",
+      "roundTripSha256": "dff2a54bc17f5be0168fb48ae21cdedd1b08ad4ee046f82a9dcbc74a5601047c",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    },
+    {
+      "stored": "raw/viewed/reasoning-native-zoom-capture-root-viewed.json",
+      "kind": "root-actual-view-ledger-original",
+      "source": {
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/reasoning-native-zoom-capture-root-viewed.json",
+        "repositoryRelative": "TEMP/reasoning-native-zoom-capture-root-viewed.json"
+      },
+      "originalBytes": 820,
+      "originalSha256": "a78a5e2579640d9fa535da217d3ac9b52d9be14c678273326505e61aea2a82eb",
+      "encoding": "identity",
+      "storedBytes": 820,
+      "storedSha256": "a78a5e2579640d9fa535da217d3ac9b52d9be14c678273326505e61aea2a82eb",
+      "roundTripSha256": "a78a5e2579640d9fa535da217d3ac9b52d9be14c678273326505e61aea2a82eb",
+      "roundTripMatchesOriginal": true,
+      "contentTransformation": null
+    }
+  ],
+  "reviewBindings": [
+    {
+      "review": "raw/reviews/reasoning-native-zoom-probe-source-review.json",
+      "reviewSha256": "b59366363b3ddd35e79a3529358fc2a81314a1555a929c355941802cd069365a",
+      "originalTarget": {
+        "file": "TEMP/reasoning-native-zoom-probe.mjs",
+        "sha256": "8e825aee26dd99f6767d2fabc907028f319651f7d9aef21dbecf4086f974dcb1"
+      },
+      "archivedTarget": "raw/helpers/reasoning-native-zoom-probe.mjs",
+      "targetSha256": "8e825aee26dd99f6767d2fabc907028f319651f7d9aef21dbecf4086f974dcb1",
+      "matches": true,
+      "verdict": "approved-bounded-probe-execution"
+    },
+    {
+      "review": "raw/reviews/reasoning-native-zoom-capture-probe-source-review.json",
+      "reviewSha256": "ddf084c05e58a46b474455877a2ff98aca13d18fd8c797e7e7a02b8d41113abc",
+      "originalTarget": {
+        "file": "TEMP/reasoning-native-zoom-capture-probe.mjs",
+        "sha256": "c2ccbc8853c66d035fe1599674548c726f59c4da3f3473c0de024a3a9def77c6"
+      },
+      "archivedTarget": "raw/helpers/reasoning-native-zoom-capture-probe.mjs",
+      "targetSha256": "c2ccbc8853c66d035fe1599674548c726f59c4da3f3473c0de024a3a9def77c6",
+      "matches": true,
+      "verdict": "approved-bounded-diagnostic-execution"
+    }
+  ],
+  "runs": [
+    {
+      "id": "initial",
+      "originalResult": "raw/initial/result.json",
+      "originalSha256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+      "originalStatus": "passed-bounded-probe-only",
+      "startedAt": "2026-09-30T13:42:41.093Z",
+      "completedAt": "2026-09-30T13:42:47.527Z",
+      "buildId": "ay8Xdd-uRIpIwdWdgy70j",
+      "inputDigest": "sha256:2696c2dc66c8d222bb06fd2b4c07deb34ddcc9f19c40ccc917b6ceed5cc0d330",
+      "htmlSha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+      "generatedImages": 6,
+      "actualViewsAreSeparate": true
+    },
+    {
+      "id": "capture",
+      "originalResult": "raw/capture/result.json",
+      "originalSha256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+      "originalStatus": "passed-bounded-probe-only",
+      "startedAt": "2026-09-30T13:47:21.416Z",
+      "completedAt": "2026-09-30T13:47:26.883Z",
+      "buildId": "ay8Xdd-uRIpIwdWdgy70j",
+      "inputDigest": "sha256:2696c2dc66c8d222bb06fd2b4c07deb34ddcc9f19c40ccc917b6ceed5cc0d330",
+      "htmlSha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+      "generatedImages": 6,
+      "actualViewsAreSeparate": true
+    }
+  ],
+  "images": [
+    {
+      "run": "initial",
+      "sourceFile": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-probe-1yEOID/images/zoom-100-before-viewport.png",
+      "stored": "raw/initial/images/zoom-100-before-viewport.png",
+      "sha256": "5d299a383adf914b04674d16675e5796d7a1a6d7896c2ea73517ca5cd157d5f8",
+      "capture": "viewport",
+      "zoom": 1,
+      "stage": 2,
+      "dimensions": {
+        "width": 1424,
+        "height": 905
+      },
+      "rawActuallyViewedValue": false,
+      "sourceResult": "raw/initial/result.json",
+      "sourceResultSha256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+      "actuallyViewedByAnyRecordedViewer": false,
+      "viewers": [],
+      "viewEvents": [],
+      "note": "Retained generated image; no source-ledger actual view for this path. A same-byte sibling is not counted as this path being viewed."
+    },
+    {
+      "run": "initial",
+      "sourceFile": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-probe-1yEOID/images/zoom-100-before-fullScene.png",
+      "stored": "raw/initial/images/zoom-100-before-fullScene.png",
+      "sha256": "d519dd7e949e8e7aee7b4000d6488b1fbcadad5c030bd5bfaa97e10126548b36",
+      "capture": "fullScene",
+      "zoom": 1,
+      "stage": 2,
+      "dimensions": {
+        "width": 618,
+        "height": 415
+      },
+      "rawActuallyViewedValue": false,
+      "sourceResult": "raw/initial/result.json",
+      "sourceResultSha256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+      "actuallyViewedByAnyRecordedViewer": true,
+      "viewers": [
+        "/root"
+      ],
+      "viewEvents": [
+        {
+          "storedImage": "raw/initial/images/zoom-100-before-fullScene.png",
+          "imageSha256": "d519dd7e949e8e7aee7b4000d6488b1fbcadad5c030bd5bfaa97e10126548b36",
+          "viewer": "/root",
+          "viewerRole": "root",
+          "sourceLedger": "raw/viewed/reasoning-native-zoom-initial-viewed.json",
+          "sourceLedgerSha256": "dff2a54bc17f5be0168fb48ae21cdedd1b08ad4ee046f82a9dcbc74a5601047c",
+          "sourcePointer": "/0",
+          "originalRecord": {
+            "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\images\\zoom-100-before-fullScene.png",
+            "sha256": "d519dd7e949e8e7aee7b4000d6488b1fbcadad5c030bd5bfaa97e10126548b36",
+            "sourceResult": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\result.json",
+            "sourceResultSHA256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+            "actuallyViewed": true,
+            "viewer": "/root",
+            "viewedAt": "2026-09-30T13:47:04.4431833Z",
+            "observation": "The intended S2 diagram is visible and readable."
+          }
+        }
+      ],
+      "note": "Path has explicit actual-view evidence in an original source ledger."
+    },
+    {
+      "run": "initial",
+      "sourceFile": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-probe-1yEOID/images/zoom-200-viewport.png",
+      "stored": "raw/initial/images/zoom-200-viewport.png",
+      "sha256": "7b837ba22228b55252cd813090c8b7fcc666e7bbdb57244a7488cff18bc1dd7d",
+      "capture": "viewport",
+      "zoom": 2,
+      "stage": 2,
+      "dimensions": {
+        "width": 712,
+        "height": 452
+      },
+      "rawActuallyViewedValue": false,
+      "sourceResult": "raw/initial/result.json",
+      "sourceResultSha256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+      "actuallyViewedByAnyRecordedViewer": true,
+      "viewers": [
+        "/root/pretraining_visual_review",
+        "/root"
+      ],
+      "viewEvents": [
+        {
+          "storedImage": "raw/initial/images/zoom-200-viewport.png",
+          "imageSha256": "7b837ba22228b55252cd813090c8b7fcc666e7bbdb57244a7488cff18bc1dd7d",
+          "viewer": "/root/pretraining_visual_review",
+          "viewerRole": "author",
+          "sourceLedger": "raw/capture/visual-diagnosis.json",
+          "sourceLedgerSha256": "37b1d4a2c2aad146e77ee92477bd654e4100a393d320aa9ebd6c43d24d69216c",
+          "sourcePointer": "/viewed/0",
+          "originalRecord": {
+            "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\images\\zoom-200-viewport.png",
+            "sha256": "7b837ba22228b55252cd813090c8b7fcc666e7bbdb57244a7488cff18bc1dd7d",
+            "sourceResult": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\result.json",
+            "sourceResultSha256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+            "engine": "bundled Chromium153.0.8010.12",
+            "profile": "isolated headless persistent context, outer1440x1000, viewport:null",
+            "capture": "viewport",
+            "zoom": 2,
+            "diagram": "reasoning-sequence",
+            "stage": 2,
+            "actuallyViewed": true,
+            "viewer": "/root/pretraining_visual_review",
+            "observation": "Initial Playwright viewport is blank."
+          }
+        },
+        {
+          "storedImage": "raw/initial/images/zoom-200-viewport.png",
+          "imageSha256": "7b837ba22228b55252cd813090c8b7fcc666e7bbdb57244a7488cff18bc1dd7d",
+          "viewer": "/root",
+          "viewerRole": "root",
+          "sourceLedger": "raw/viewed/reasoning-native-zoom-initial-viewed.json",
+          "sourceLedgerSha256": "dff2a54bc17f5be0168fb48ae21cdedd1b08ad4ee046f82a9dcbc74a5601047c",
+          "sourcePointer": "/1",
+          "originalRecord": {
+            "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\images\\zoom-200-viewport.png",
+            "sha256": "7b837ba22228b55252cd813090c8b7fcc666e7bbdb57244a7488cff18bc1dd7d",
+            "sourceResult": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\result.json",
+            "sourceResultSHA256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+            "actuallyViewed": true,
+            "viewer": "/root",
+            "viewedAt": "2026-09-30T13:47:04.4494835Z",
+            "observation": "White viewport; not valid visual acceptance evidence for the diagram."
+          }
+        }
+      ],
+      "note": "Path has explicit actual-view evidence in an original source ledger."
+    },
+    {
+      "run": "initial",
+      "sourceFile": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-probe-1yEOID/images/zoom-200-fullScene.png",
+      "stored": "raw/initial/images/zoom-200-fullScene.png",
+      "sha256": "4e8f323017caab9dbdf5888eb54c444895630d16c747affe78fdf3cdbc4a06f1",
+      "capture": "fullScene",
+      "zoom": 2,
+      "stage": 2,
+      "dimensions": {
+        "width": 678,
+        "height": 456
+      },
+      "rawActuallyViewedValue": false,
+      "sourceResult": "raw/initial/result.json",
+      "sourceResultSha256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+      "actuallyViewedByAnyRecordedViewer": true,
+      "viewers": [
+        "/root/pretraining_visual_review",
+        "/root"
+      ],
+      "viewEvents": [
+        {
+          "storedImage": "raw/initial/images/zoom-200-fullScene.png",
+          "imageSha256": "4e8f323017caab9dbdf5888eb54c444895630d16c747affe78fdf3cdbc4a06f1",
+          "viewer": "/root/pretraining_visual_review",
+          "viewerRole": "author",
+          "sourceLedger": "raw/capture/visual-diagnosis.json",
+          "sourceLedgerSha256": "37b1d4a2c2aad146e77ee92477bd654e4100a393d320aa9ebd6c43d24d69216c",
+          "sourcePointer": "/viewed/1",
+          "originalRecord": {
+            "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\images\\zoom-200-fullScene.png",
+            "sha256": "4e8f323017caab9dbdf5888eb54c444895630d16c747affe78fdf3cdbc4a06f1",
+            "sourceResult": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\result.json",
+            "sourceResultSha256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+            "engine": "bundled Chromium153.0.8010.12",
+            "profile": "isolated headless persistent context, outer1440x1000, viewport:null",
+            "capture": "fullScene",
+            "zoom": 2,
+            "diagram": "reasoning-sequence",
+            "stage": 2,
+            "actuallyViewed": true,
+            "viewer": "/root/pretraining_visual_review",
+            "observation": "Initial Playwright fullScene contains article heading/table rather than requested scene."
+          }
+        },
+        {
+          "storedImage": "raw/initial/images/zoom-200-fullScene.png",
+          "imageSha256": "4e8f323017caab9dbdf5888eb54c444895630d16c747affe78fdf3cdbc4a06f1",
+          "viewer": "/root",
+          "viewerRole": "root",
+          "sourceLedger": "raw/viewed/reasoning-native-zoom-initial-viewed.json",
+          "sourceLedgerSha256": "dff2a54bc17f5be0168fb48ae21cdedd1b08ad4ee046f82a9dcbc74a5601047c",
+          "sourcePointer": "/2",
+          "originalRecord": {
+            "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\images\\zoom-200-fullScene.png",
+            "sha256": "4e8f323017caab9dbdf5888eb54c444895630d16c747affe78fdf3cdbc4a06f1",
+            "sourceResult": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\result.json",
+            "sourceResultSHA256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+            "actuallyViewed": true,
+            "viewer": "/root",
+            "viewedAt": "2026-09-30T13:47:04.4500783Z",
+            "observation": "Shows unrelated article heading/table instead of the intended diagram; native200 visual acceptance pending diagnosis."
+          }
+        }
+      ],
+      "note": "Path has explicit actual-view evidence in an original source ledger."
+    },
+    {
+      "run": "initial",
+      "sourceFile": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-probe-1yEOID/images/zoom-100-restored-viewport.png",
+      "stored": "raw/initial/images/zoom-100-restored-viewport.png",
+      "sha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "capture": "viewport",
+      "zoom": 1,
+      "stage": 2,
+      "dimensions": {
+        "width": 1424,
+        "height": 905
+      },
+      "rawActuallyViewedValue": false,
+      "sourceResult": "raw/initial/result.json",
+      "sourceResultSha256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+      "actuallyViewedByAnyRecordedViewer": false,
+      "viewers": [],
+      "viewEvents": [],
+      "note": "Retained generated image; no source-ledger actual view for this path. A same-byte sibling is not counted as this path being viewed."
+    },
+    {
+      "run": "initial",
+      "sourceFile": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-probe-1yEOID/images/zoom-100-restored-fullScene.png",
+      "stored": "raw/initial/images/zoom-100-restored-fullScene.png",
+      "sha256": "d519dd7e949e8e7aee7b4000d6488b1fbcadad5c030bd5bfaa97e10126548b36",
+      "capture": "fullScene",
+      "zoom": 1,
+      "stage": 2,
+      "dimensions": {
+        "width": 618,
+        "height": 415
+      },
+      "rawActuallyViewedValue": false,
+      "sourceResult": "raw/initial/result.json",
+      "sourceResultSha256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+      "actuallyViewedByAnyRecordedViewer": false,
+      "viewers": [],
+      "viewEvents": [],
+      "note": "Retained generated image; no source-ledger actual view for this path. A same-byte sibling is not counted as this path being viewed."
+    },
+    {
+      "run": "capture",
+      "sourceFile": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-capture-probe-OfXYeq/images/zoom-200-cdp-before-playwright.png",
+      "stored": "raw/capture/images/zoom-200-cdp-before-playwright.png",
+      "sha256": "f255029776a00073b3464fbc065370904f5ae6120a77b3a357761fcd611e5f57",
+      "capture": "cdp-before-playwright",
+      "zoom": 2,
+      "stage": 2,
+      "dimensions": {
+        "width": 1424,
+        "height": 905
+      },
+      "rawActuallyViewedValue": false,
+      "sourceResult": "raw/capture/result.json",
+      "sourceResultSha256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+      "actuallyViewedByAnyRecordedViewer": true,
+      "viewers": [
+        "/root/pretraining_visual_review",
+        "/root"
+      ],
+      "viewEvents": [
+        {
+          "storedImage": "raw/capture/images/zoom-200-cdp-before-playwright.png",
+          "imageSha256": "f255029776a00073b3464fbc065370904f5ae6120a77b3a357761fcd611e5f57",
+          "viewer": "/root/pretraining_visual_review",
+          "viewerRole": "author",
+          "sourceLedger": "raw/capture/visual-diagnosis.json",
+          "sourceLedgerSha256": "37b1d4a2c2aad146e77ee92477bd654e4100a393d320aa9ebd6c43d24d69216c",
+          "sourcePointer": "/viewed/2",
+          "originalRecord": {
+            "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\images\\zoom-200-cdp-before-playwright.png",
+            "sha256": "f255029776a00073b3464fbc065370904f5ae6120a77b3a357761fcd611e5f57",
+            "sourceResult": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\result.json",
+            "sourceResultSha256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+            "engine": "bundled Chromium153.0.8010.12",
+            "profile": "isolated headless persistent context, outer1440x1000, viewport:null",
+            "capture": "cdp-before-playwright",
+            "zoom": 2,
+            "diagram": "reasoning-sequence",
+            "stage": 2,
+            "actuallyViewed": true,
+            "viewer": "/root/pretraining_visual_review",
+            "observation": "Native200 scene visibly rendered; title/top section partly outside viewport or underneath fixed header."
+          }
+        },
+        {
+          "storedImage": "raw/capture/images/zoom-200-cdp-before-playwright.png",
+          "imageSha256": "f255029776a00073b3464fbc065370904f5ae6120a77b3a357761fcd611e5f57",
+          "viewer": "/root",
+          "viewerRole": "root",
+          "sourceLedger": "raw/viewed/reasoning-native-zoom-capture-root-viewed.json",
+          "sourceLedgerSha256": "a78a5e2579640d9fa535da217d3ac9b52d9be14c678273326505e61aea2a82eb",
+          "sourcePointer": "/0",
+          "originalRecord": {
+            "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\images\\zoom-200-cdp-before-playwright.png",
+            "sha256": "f255029776a00073b3464fbc065370904f5ae6120a77b3a357761fcd611e5f57",
+            "sourceResult": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\result.json",
+            "sourceResultSHA256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+            "actuallyViewed": true,
+            "viewer": "/root",
+            "viewedAt": "2026-09-30T13:50:04.4098036Z",
+            "observation": "Native200 CDP image visibly contains the intended S2 scene and readable central/lower text. Fixed navigation covers the top in this centered low-height viewport. This is capture-route diagnosis, not full-scene/all-stage visual acceptance."
+          }
+        }
+      ],
+      "note": "Path has explicit actual-view evidence in an original source ledger."
+    },
+    {
+      "run": "capture",
+      "sourceFile": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-capture-probe-OfXYeq/images/zoom-200-playwright-viewport.png",
+      "stored": "raw/capture/images/zoom-200-playwright-viewport.png",
+      "sha256": "7b837ba22228b55252cd813090c8b7fcc666e7bbdb57244a7488cff18bc1dd7d",
+      "capture": "playwright-viewport",
+      "zoom": 2,
+      "stage": 2,
+      "dimensions": {
+        "width": 712,
+        "height": 452
+      },
+      "rawActuallyViewedValue": false,
+      "sourceResult": "raw/capture/result.json",
+      "sourceResultSha256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+      "actuallyViewedByAnyRecordedViewer": true,
+      "viewers": [
+        "/root/pretraining_visual_review"
+      ],
+      "viewEvents": [
+        {
+          "storedImage": "raw/capture/images/zoom-200-playwright-viewport.png",
+          "imageSha256": "7b837ba22228b55252cd813090c8b7fcc666e7bbdb57244a7488cff18bc1dd7d",
+          "viewer": "/root/pretraining_visual_review",
+          "viewerRole": "author",
+          "sourceLedger": "raw/capture/visual-diagnosis.json",
+          "sourceLedgerSha256": "37b1d4a2c2aad146e77ee92477bd654e4100a393d320aa9ebd6c43d24d69216c",
+          "sourcePointer": "/viewed/3",
+          "originalRecord": {
+            "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\images\\zoom-200-playwright-viewport.png",
+            "sha256": "7b837ba22228b55252cd813090c8b7fcc666e7bbdb57244a7488cff18bc1dd7d",
+            "sourceResult": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\result.json",
+            "sourceResultSha256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+            "engine": "bundled Chromium153.0.8010.12",
+            "profile": "isolated headless persistent context, outer1440x1000, viewport:null",
+            "capture": "playwright-viewport",
+            "zoom": 2,
+            "diagram": "reasoning-sequence",
+            "stage": 2,
+            "actuallyViewed": true,
+            "viewer": "/root/pretraining_visual_review",
+            "observation": "Playwright viewport is blank at the same paused stage, zoom and scroll position."
+          }
+        }
+      ],
+      "note": "Path has explicit actual-view evidence in an original source ledger."
+    },
+    {
+      "run": "capture",
+      "sourceFile": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-capture-probe-OfXYeq/images/zoom-200-cdp-after-playwright.png",
+      "stored": "raw/capture/images/zoom-200-cdp-after-playwright.png",
+      "sha256": "f255029776a00073b3464fbc065370904f5ae6120a77b3a357761fcd611e5f57",
+      "capture": "cdp-after-playwright",
+      "zoom": 2,
+      "stage": 2,
+      "dimensions": {
+        "width": 1424,
+        "height": 905
+      },
+      "rawActuallyViewedValue": false,
+      "sourceResult": "raw/capture/result.json",
+      "sourceResultSha256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+      "actuallyViewedByAnyRecordedViewer": true,
+      "viewers": [
+        "/root/pretraining_visual_review"
+      ],
+      "viewEvents": [
+        {
+          "storedImage": "raw/capture/images/zoom-200-cdp-after-playwright.png",
+          "imageSha256": "f255029776a00073b3464fbc065370904f5ae6120a77b3a357761fcd611e5f57",
+          "viewer": "/root/pretraining_visual_review",
+          "viewerRole": "author",
+          "sourceLedger": "raw/capture/visual-diagnosis.json",
+          "sourceLedgerSha256": "37b1d4a2c2aad146e77ee92477bd654e4100a393d320aa9ebd6c43d24d69216c",
+          "sourcePointer": "/viewed/4",
+          "originalRecord": {
+            "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\images\\zoom-200-cdp-after-playwright.png",
+            "sha256": "f255029776a00073b3464fbc065370904f5ae6120a77b3a357761fcd611e5f57",
+            "sourceResult": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\result.json",
+            "sourceResultSha256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+            "engine": "bundled Chromium153.0.8010.12",
+            "profile": "isolated headless persistent context, outer1440x1000, viewport:null",
+            "capture": "cdp-after-playwright",
+            "zoom": 2,
+            "diagram": "reasoning-sequence",
+            "stage": 2,
+            "actuallyViewed": true,
+            "viewer": "/root/pretraining_visual_review",
+            "observation": "Scene remains visibly rendered; exact same bytes as CDP-before."
+          }
+        }
+      ],
+      "note": "Path has explicit actual-view evidence in an original source ledger."
+    },
+    {
+      "run": "capture",
+      "sourceFile": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-capture-probe-OfXYeq/images/zoom-100-restored-cdp-before-playwright.png",
+      "stored": "raw/capture/images/zoom-100-restored-cdp-before-playwright.png",
+      "sha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "capture": "cdp-before-playwright",
+      "zoom": 1,
+      "stage": 2,
+      "dimensions": {
+        "width": 1424,
+        "height": 905
+      },
+      "rawActuallyViewedValue": false,
+      "sourceResult": "raw/capture/result.json",
+      "sourceResultSha256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+      "actuallyViewedByAnyRecordedViewer": false,
+      "viewers": [],
+      "viewEvents": [],
+      "note": "Retained generated image; no source-ledger actual view for this path. A same-byte sibling is not counted as this path being viewed."
+    },
+    {
+      "run": "capture",
+      "sourceFile": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-capture-probe-OfXYeq/images/zoom-100-restored-playwright-viewport.png",
+      "stored": "raw/capture/images/zoom-100-restored-playwright-viewport.png",
+      "sha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "capture": "playwright-viewport",
+      "zoom": 1,
+      "stage": 2,
+      "dimensions": {
+        "width": 1424,
+        "height": 905
+      },
+      "rawActuallyViewedValue": false,
+      "sourceResult": "raw/capture/result.json",
+      "sourceResultSha256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+      "actuallyViewedByAnyRecordedViewer": true,
+      "viewers": [
+        "/root/pretraining_visual_review"
+      ],
+      "viewEvents": [
+        {
+          "storedImage": "raw/capture/images/zoom-100-restored-playwright-viewport.png",
+          "imageSha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+          "viewer": "/root/pretraining_visual_review",
+          "viewerRole": "author",
+          "sourceLedger": "raw/capture/visual-diagnosis.json",
+          "sourceLedgerSha256": "37b1d4a2c2aad146e77ee92477bd654e4100a393d320aa9ebd6c43d24d69216c",
+          "sourcePointer": "/viewed/5",
+          "originalRecord": {
+            "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\images\\zoom-100-restored-playwright-viewport.png",
+            "sha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+            "sourceResult": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\result.json",
+            "sourceResultSha256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+            "engine": "bundled Chromium153.0.8010.12",
+            "profile": "isolated headless persistent context, outer1440x1000, viewport:null",
+            "capture": "playwright-viewport",
+            "zoom": 1,
+            "diagram": "reasoning-sequence",
+            "stage": 2,
+            "actuallyViewed": true,
+            "viewer": "/root/pretraining_visual_review",
+            "observation": "Restored100 shows expected reading layout and sequence S2; matches both restored CDP files by hash."
+          }
+        }
+      ],
+      "note": "Path has explicit actual-view evidence in an original source ledger."
+    },
+    {
+      "run": "capture",
+      "sourceFile": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-capture-probe-OfXYeq/images/zoom-100-restored-cdp-after-playwright.png",
+      "stored": "raw/capture/images/zoom-100-restored-cdp-after-playwright.png",
+      "sha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "capture": "cdp-after-playwright",
+      "zoom": 1,
+      "stage": 2,
+      "dimensions": {
+        "width": 1424,
+        "height": 905
+      },
+      "rawActuallyViewedValue": false,
+      "sourceResult": "raw/capture/result.json",
+      "sourceResultSha256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+      "actuallyViewedByAnyRecordedViewer": false,
+      "viewers": [],
+      "viewEvents": [],
+      "note": "Retained generated image; no source-ledger actual view for this path. A same-byte sibling is not counted as this path being viewed."
+    }
+  ],
+  "duplicateByteGroups": [
+    {
+      "sha256": "d519dd7e949e8e7aee7b4000d6488b1fbcadad5c030bd5bfaa97e10126548b36",
+      "paths": [
+        "raw/initial/images/zoom-100-before-fullScene.png",
+        "raw/initial/images/zoom-100-restored-fullScene.png"
+      ],
+      "actuallyViewedPaths": [
+        "raw/initial/images/zoom-100-before-fullScene.png"
+      ]
+    },
+    {
+      "sha256": "7b837ba22228b55252cd813090c8b7fcc666e7bbdb57244a7488cff18bc1dd7d",
+      "paths": [
+        "raw/initial/images/zoom-200-viewport.png",
+        "raw/capture/images/zoom-200-playwright-viewport.png"
+      ],
+      "actuallyViewedPaths": [
+        "raw/initial/images/zoom-200-viewport.png",
+        "raw/capture/images/zoom-200-playwright-viewport.png"
+      ]
+    },
+    {
+      "sha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "paths": [
+        "raw/initial/images/zoom-100-restored-viewport.png",
+        "raw/capture/images/zoom-100-restored-cdp-before-playwright.png",
+        "raw/capture/images/zoom-100-restored-playwright-viewport.png",
+        "raw/capture/images/zoom-100-restored-cdp-after-playwright.png"
+      ],
+      "actuallyViewedPaths": [
+        "raw/capture/images/zoom-100-restored-playwright-viewport.png"
+      ]
+    },
+    {
+      "sha256": "f255029776a00073b3464fbc065370904f5ae6120a77b3a357761fcd611e5f57",
+      "paths": [
+        "raw/capture/images/zoom-200-cdp-before-playwright.png",
+        "raw/capture/images/zoom-200-cdp-after-playwright.png"
+      ],
+      "actuallyViewedPaths": [
+        "raw/capture/images/zoom-200-cdp-before-playwright.png",
+        "raw/capture/images/zoom-200-cdp-after-playwright.png"
+      ]
+    }
+  ],
+  "viewedLedger": {
+    "stored": "viewed-ledger.json",
+    "sha256": "2bcd06342f4eddf77169f112a753afc1a64784602d21b8084bba1c13b54502a5",
+    "generated": 12,
+    "unionActualPaths": 7,
+    "unviewedPaths": 5,
+    "rootActualPaths": 4,
+    "authorActualPaths": 6,
+    "overlapPaths": 3
+  },
+  "omitted": [
+    {
+      "source": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-probe-1yEOID/isolated-profile",
+      "category": "entire-isolated-browser-profile",
+      "reason": "Do not copy browser profiles, cache, cookies, or settings; fresh profile is mandatory for any separately reviewed future probe."
+    },
+    {
+      "source": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-capture-probe-OfXYeq/isolated-profile",
+      "category": "entire-isolated-browser-profile",
+      "reason": "Do not copy browser profiles, cache, cookies, or settings; fresh profile is mandatory for any separately reviewed future probe."
+    }
+  ],
+  "missingSources": [],
+  "generatedImagesOmitted": [],
+  "sourceBytesMutated": false,
+  "verification": {
+    "originalsValidatedBeforeArchiveWrite": true,
+    "sourceFiles": 30,
+    "identityCopies": 26,
+    "gzipHTMLCopies": 4,
+    "allRoundTripsMatch": true,
+    "exactSourceReviewTargets": 2,
+    "originalLedgerEvents": 10,
+    "allLedgerImageAndResultHashesMatch": true,
+    "pngDimensionsMatchRaw": true,
+    "readmeLint": {
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "",
+      "onlyReadme": true
+    },
+    "links": {
+      "tool": "scripts/check-links.mjs checkLinks, archive subtree problem filter",
+      "checkedRepositoryFiles": 402,
+      "checkedRepositoryLinks": 5977,
+      "archiveProblems": [],
+      "unrelatedProblemCount": 0
+    }
+  },
+  "frozenAt": "2026-09-30T13:53:09.064Z"
+}

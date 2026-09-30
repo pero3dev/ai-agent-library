@@ -1,0 +1,1536 @@
+{
+  "schemaVersion": 1,
+  "kind": "bounded-local-native-browser-zoom-feasibility-probe",
+  "status": "passed-bounded-probe-only",
+  "startedAt": "2026-09-30T13:42:41.093Z",
+  "output": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID",
+  "scope": {
+    "targetUrl": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+    "article": "docs/10-llm-foundations/reasoning-models.md",
+    "expectedBuildId": "ay8Xdd-uRIpIwdWdgy70j",
+    "diagram": "reasoning-sequence",
+    "stage": 2,
+    "plannedZoomSequence": [
+      1,
+      2,
+      1
+    ],
+    "productAcceptance": false,
+    "wholeArticleStageAcceptance": false,
+    "independentImageReview": "pending",
+    "actualImagesViewed": 0,
+    "physicalDeviceAcceptance": false
+  },
+  "method": {
+    "nativeApi": "chrome.tabs.setZoom/getZoom",
+    "zoomSettings": {
+      "mode": "automatic",
+      "scope": "per-tab"
+    },
+    "viewport": null,
+    "deviceScaleFactorOverride": null,
+    "pageScaleFactorOverride": null,
+    "cssChanges": false,
+    "userProfileTouched": false,
+    "installs": false,
+    "settingsOnlyInIsolatedProfile": true
+  },
+  "primaryReferences": [
+    {
+      "url": "https://playwright.dev/docs/chrome-extensions",
+      "checkedDate": "2026-09-30",
+      "basis": "Bundled Chromium persistent context; chromium channel supports headless extensions."
+    },
+    {
+      "url": "https://developer.chrome.com/docs/extensions/reference/api/tabs",
+      "checkedDate": "2026-09-30",
+      "basis": "setZoom/getZoom and automatic per-tab handling are native browser APIs; manual mode would not apply native rendering."
+    }
+  ],
+  "environment": {
+    "platform": "win32",
+    "osRelease": "10.0.26200",
+    "arch": "x64",
+    "node": "v24.16.0",
+    "profile": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\isolated-profile",
+    "extension": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\local-extension",
+    "helperSha256": "8e825aee26dd99f6767d2fabc907028f319651f7d9aef21dbecf4086f974dcb1",
+    "playwright": {
+      "installedVersion": "1.63.0",
+      "coreVersion": "1.63.0",
+      "lockedVersion": "1.63.0",
+      "executablePath": "C:\\Users\\81906\\AppData\\Local\\ms-playwright\\chromium-1243\\chrome-win64\\chrome.exe"
+    },
+    "launch": {
+      "channel": "chromium",
+      "headless": true,
+      "viewport": null,
+      "reducedMotion": "reduce",
+      "timeout": 20000,
+      "args": [
+        "--disable-extensions-except=C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\local-extension",
+        "--load-extension=C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\local-extension",
+        "--window-size=1440,1000"
+      ]
+    },
+    "browserVersion": "153.0.8010.12"
+  },
+  "steps": [
+    {
+      "label": "zoom-100-before",
+      "requested": 1,
+      "startedAt": "2026-09-30T13:42:45.100Z",
+      "before": {
+        "at": "2026-09-30T13:42:45.101Z",
+        "tabId": 1787570260,
+        "factor": 1,
+        "settings": {
+          "defaultZoomFactor": 1,
+          "mode": "automatic",
+          "scope": "per-tab"
+        }
+      },
+      "after": {
+        "at": "2026-09-30T13:42:45.105Z",
+        "tabId": 1787570260,
+        "factor": 1,
+        "settings": {
+          "defaultZoomFactor": 1,
+          "mode": "automatic",
+          "scope": "per-tab"
+        }
+      },
+      "metrics": {
+        "at": "2026-09-30T13:42:45.336Z",
+        "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+        "innerWidth": 1424,
+        "innerHeight": 905,
+        "outerWidth": 1440,
+        "outerHeight": 1000,
+        "devicePixelRatio": 1,
+        "visualViewport": {
+          "width": 1424,
+          "height": 905,
+          "scale": 1,
+          "offsetLeft": 0,
+          "offsetTop": 0
+        },
+        "screen": {
+          "width": 800,
+          "height": 600,
+          "availWidth": 800,
+          "availHeight": 600
+        },
+        "document": {
+          "clientWidth": 1424,
+          "scrollWidth": 1424,
+          "scrollY": 1599,
+          "cssZoom": "1",
+          "cssTransform": "none",
+          "bodyCssZoom": "1",
+          "bodyCssTransform": "none"
+        },
+        "diagram": {
+          "stage": 2,
+          "mode": "manual",
+          "phase": "2",
+          "bounds": {
+            "x": 756.9375,
+            "y": -115.484375,
+            "width": 619.0625,
+            "height": 751.171875,
+            "top": -115.484375,
+            "bottom": 635.6875
+          },
+          "scene": {
+            "x": 757.9375,
+            "y": -10.890625,
+            "width": 617.0625,
+            "height": 414.578125,
+            "top": -10.890625,
+            "bottom": 403.6875
+          }
+        }
+      },
+      "completedAt": "2026-09-30T13:42:45.339Z"
+    },
+    {
+      "label": "zoom-200",
+      "requested": 2,
+      "startedAt": "2026-09-30T13:42:45.696Z",
+      "before": {
+        "at": "2026-09-30T13:42:45.697Z",
+        "tabId": 1787570260,
+        "factor": 1,
+        "settings": {
+          "defaultZoomFactor": 1,
+          "mode": "automatic",
+          "scope": "per-tab"
+        }
+      },
+      "after": {
+        "at": "2026-09-30T13:42:45.722Z",
+        "tabId": 1787570260,
+        "factor": 2,
+        "settings": {
+          "defaultZoomFactor": 1,
+          "mode": "automatic",
+          "scope": "per-tab"
+        }
+      },
+      "metrics": {
+        "at": "2026-09-30T13:42:46.236Z",
+        "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+        "innerWidth": 712,
+        "innerHeight": 452,
+        "outerWidth": 1440,
+        "outerHeight": 1000,
+        "devicePixelRatio": 2,
+        "visualViewport": {
+          "width": 712,
+          "height": 452.5,
+          "scale": 1,
+          "offsetLeft": 0,
+          "offsetTop": 0
+        },
+        "screen": {
+          "width": 800,
+          "height": 600,
+          "availWidth": 800,
+          "availHeight": 600
+        },
+        "document": {
+          "clientWidth": 712,
+          "scrollWidth": 712,
+          "scrollY": 1343,
+          "cssZoom": "1",
+          "cssTransform": "none",
+          "bodyCssZoom": "1",
+          "bodyCssTransform": "none"
+        },
+        "diagram": {
+          "stage": 2,
+          "mode": "manual",
+          "phase": "2",
+          "bounds": {
+            "x": 16,
+            "y": 352.546875,
+            "width": 680,
+            "height": 772.34375,
+            "top": 352.546875,
+            "bottom": 1124.890625
+          },
+          "scene": {
+            "x": 17,
+            "y": 457.140625,
+            "width": 678,
+            "height": 455.53125,
+            "top": 457.140625,
+            "bottom": 912.671875
+          }
+        }
+      },
+      "completedAt": "2026-09-30T13:42:46.236Z"
+    },
+    {
+      "label": "zoom-100-restored",
+      "requested": 1,
+      "startedAt": "2026-09-30T13:42:46.655Z",
+      "before": {
+        "at": "2026-09-30T13:42:46.656Z",
+        "tabId": 1787570260,
+        "factor": 2,
+        "settings": {
+          "defaultZoomFactor": 1,
+          "mode": "automatic",
+          "scope": "per-tab"
+        }
+      },
+      "after": {
+        "at": "2026-09-30T13:42:46.661Z",
+        "tabId": 1787570260,
+        "factor": 1,
+        "settings": {
+          "defaultZoomFactor": 1,
+          "mode": "automatic",
+          "scope": "per-tab"
+        }
+      },
+      "metrics": {
+        "at": "2026-09-30T13:42:46.904Z",
+        "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+        "innerWidth": 1424,
+        "innerHeight": 905,
+        "outerWidth": 1440,
+        "outerHeight": 1000,
+        "devicePixelRatio": 1,
+        "visualViewport": {
+          "width": 1424,
+          "height": 905,
+          "scale": 1,
+          "offsetLeft": 0,
+          "offsetTop": 0
+        },
+        "screen": {
+          "width": 800,
+          "height": 600,
+          "availWidth": 800,
+          "availHeight": 600
+        },
+        "document": {
+          "clientWidth": 1424,
+          "scrollWidth": 1424,
+          "scrollY": 1802,
+          "cssZoom": "1",
+          "cssTransform": "none",
+          "bodyCssZoom": "1",
+          "bodyCssTransform": "none"
+        },
+        "diagram": {
+          "stage": 2,
+          "mode": "manual",
+          "phase": "2",
+          "bounds": {
+            "x": 756.9375,
+            "y": -318.484375,
+            "width": 619.0625,
+            "height": 751.171875,
+            "top": -318.484375,
+            "bottom": 432.6875
+          },
+          "scene": {
+            "x": 757.9375,
+            "y": -213.890625,
+            "width": 617.0625,
+            "height": 414.578125,
+            "top": -213.890625,
+            "bottom": 200.6875
+          }
+        }
+      },
+      "completedAt": "2026-09-30T13:42:46.904Z"
+    }
+  ],
+  "captures": [
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\images\\zoom-100-before-viewport.png",
+      "relativeFile": "images/zoom-100-before-viewport.png",
+      "sha256": "5d299a383adf914b04674d16675e5796d7a1a6d7896c2ea73517ca5cd157d5f8",
+      "bytes": 286662,
+      "pngWidth": 1424,
+      "pngHeight": 905,
+      "capture": "viewport",
+      "zoom": 1,
+      "stage": 2,
+      "actuallyViewed": false,
+      "before": {
+        "api": {
+          "at": "2026-09-30T13:42:45.553Z",
+          "tabId": 1787570260,
+          "factor": 1,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:42:45.555Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 1424,
+          "innerHeight": 905,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 1,
+          "visualViewport": {
+            "width": 1424,
+            "height": 905,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 1424,
+            "scrollWidth": 1424,
+            "scrollY": 1343,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 756.9375,
+              "y": 140.515625,
+              "width": 619.0625,
+              "height": 751.171875,
+              "top": 140.515625,
+              "bottom": 891.6875
+            },
+            "scene": {
+              "x": 757.9375,
+              "y": 245.109375,
+              "width": 617.0625,
+              "height": 414.578125,
+              "top": 245.109375,
+              "bottom": 659.6875
+            }
+          }
+        }
+      },
+      "after": {
+        "api": {
+          "at": "2026-09-30T13:42:45.627Z",
+          "tabId": 1787570260,
+          "factor": 1,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:42:45.630Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 1424,
+          "innerHeight": 905,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 1,
+          "visualViewport": {
+            "width": 1424,
+            "height": 905,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 1424,
+            "scrollWidth": 1424,
+            "scrollY": 1343,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 756.9375,
+              "y": 140.515625,
+              "width": 619.0625,
+              "height": 751.171875,
+              "top": 140.515625,
+              "bottom": 891.6875
+            },
+            "scene": {
+              "x": 757.9375,
+              "y": 245.109375,
+              "width": 617.0625,
+              "height": 414.578125,
+              "top": 245.109375,
+              "bottom": 659.6875
+            }
+          }
+        }
+      }
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\images\\zoom-100-before-fullScene.png",
+      "relativeFile": "images/zoom-100-before-fullScene.png",
+      "sha256": "d519dd7e949e8e7aee7b4000d6488b1fbcadad5c030bd5bfaa97e10126548b36",
+      "bytes": 70134,
+      "pngWidth": 618,
+      "pngHeight": 415,
+      "capture": "fullScene",
+      "zoom": 1,
+      "stage": 2,
+      "actuallyViewed": false,
+      "before": {
+        "api": {
+          "at": "2026-09-30T13:42:45.634Z",
+          "tabId": 1787570260,
+          "factor": 1,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:42:45.636Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 1424,
+          "innerHeight": 905,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 1,
+          "visualViewport": {
+            "width": 1424,
+            "height": 905,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 1424,
+            "scrollWidth": 1424,
+            "scrollY": 1343,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 756.9375,
+              "y": 140.515625,
+              "width": 619.0625,
+              "height": 751.171875,
+              "top": 140.515625,
+              "bottom": 891.6875
+            },
+            "scene": {
+              "x": 757.9375,
+              "y": 245.109375,
+              "width": 617.0625,
+              "height": 414.578125,
+              "top": 245.109375,
+              "bottom": 659.6875
+            }
+          }
+        }
+      },
+      "after": {
+        "api": {
+          "at": "2026-09-30T13:42:45.690Z",
+          "tabId": 1787570260,
+          "factor": 1,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:42:45.692Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 1424,
+          "innerHeight": 905,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 1,
+          "visualViewport": {
+            "width": 1424,
+            "height": 905,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 1424,
+            "scrollWidth": 1424,
+            "scrollY": 1343,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 756.9375,
+              "y": 140.515625,
+              "width": 619.0625,
+              "height": 751.171875,
+              "top": 140.515625,
+              "bottom": 891.6875
+            },
+            "scene": {
+              "x": 757.9375,
+              "y": 245.109375,
+              "width": 617.0625,
+              "height": 414.578125,
+              "top": 245.109375,
+              "bottom": 659.6875
+            }
+          }
+        }
+      }
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\images\\zoom-200-viewport.png",
+      "relativeFile": "images/zoom-200-viewport.png",
+      "sha256": "7b837ba22228b55252cd813090c8b7fcc666e7bbdb57244a7488cff18bc1dd7d",
+      "bytes": 1967,
+      "pngWidth": 712,
+      "pngHeight": 452,
+      "capture": "viewport",
+      "zoom": 2,
+      "stage": 2,
+      "actuallyViewed": false,
+      "before": {
+        "api": {
+          "at": "2026-09-30T13:42:46.451Z",
+          "tabId": 1787570260,
+          "factor": 2,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:42:46.452Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 712,
+          "innerHeight": 452,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 2,
+          "visualViewport": {
+            "width": 712,
+            "height": 452.5,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 712,
+            "scrollWidth": 712,
+            "scrollY": 1801.5,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 16,
+              "y": -105.953125,
+              "width": 680,
+              "height": 772.34375,
+              "top": -105.953125,
+              "bottom": 666.390625
+            },
+            "scene": {
+              "x": 17,
+              "y": -1.359375,
+              "width": 678,
+              "height": 455.53125,
+              "top": -1.359375,
+              "bottom": 454.171875
+            }
+          }
+        }
+      },
+      "after": {
+        "api": {
+          "at": "2026-09-30T13:42:46.483Z",
+          "tabId": 1787570260,
+          "factor": 2,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:42:46.485Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 712,
+          "innerHeight": 452,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 2,
+          "visualViewport": {
+            "width": 712,
+            "height": 452.5,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 712,
+            "scrollWidth": 712,
+            "scrollY": 1801.5,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 16,
+              "y": -105.953125,
+              "width": 680,
+              "height": 772.34375,
+              "top": -105.953125,
+              "bottom": 666.390625
+            },
+            "scene": {
+              "x": 17,
+              "y": -1.359375,
+              "width": 678,
+              "height": 455.53125,
+              "top": -1.359375,
+              "bottom": 454.171875
+            }
+          }
+        }
+      }
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\images\\zoom-200-fullScene.png",
+      "relativeFile": "images/zoom-200-fullScene.png",
+      "sha256": "4e8f323017caab9dbdf5888eb54c444895630d16c747affe78fdf3cdbc4a06f1",
+      "bytes": 32986,
+      "pngWidth": 678,
+      "pngHeight": 456,
+      "capture": "fullScene",
+      "zoom": 2,
+      "stage": 2,
+      "actuallyViewed": false,
+      "before": {
+        "api": {
+          "at": "2026-09-30T13:42:46.491Z",
+          "tabId": 1787570260,
+          "factor": 2,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:42:46.493Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 712,
+          "innerHeight": 452,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 2,
+          "visualViewport": {
+            "width": 712,
+            "height": 452.5,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 712,
+            "scrollWidth": 712,
+            "scrollY": 1801.5,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 16,
+              "y": -105.953125,
+              "width": 680,
+              "height": 772.34375,
+              "top": -105.953125,
+              "bottom": 666.390625
+            },
+            "scene": {
+              "x": 17,
+              "y": -1.359375,
+              "width": 678,
+              "height": 455.53125,
+              "top": -1.359375,
+              "bottom": 454.171875
+            }
+          }
+        }
+      },
+      "after": {
+        "api": {
+          "at": "2026-09-30T13:42:46.649Z",
+          "tabId": 1787570260,
+          "factor": 2,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:42:46.652Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 712,
+          "innerHeight": 452,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 2,
+          "visualViewport": {
+            "width": 712,
+            "height": 452.5,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 712,
+            "scrollWidth": 712,
+            "scrollY": 1801.5,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 16,
+              "y": -105.953125,
+              "width": 680,
+              "height": 772.34375,
+              "top": -105.953125,
+              "bottom": 666.390625
+            },
+            "scene": {
+              "x": 17,
+              "y": -1.359375,
+              "width": 678,
+              "height": 455.53125,
+              "top": -1.359375,
+              "bottom": 454.171875
+            }
+          }
+        }
+      }
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\images\\zoom-100-restored-viewport.png",
+      "relativeFile": "images/zoom-100-restored-viewport.png",
+      "sha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "bytes": 286662,
+      "pngWidth": 1424,
+      "pngHeight": 905,
+      "capture": "viewport",
+      "zoom": 1,
+      "stage": 2,
+      "actuallyViewed": false,
+      "before": {
+        "api": {
+          "at": "2026-09-30T13:42:47.118Z",
+          "tabId": 1787570260,
+          "factor": 1,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:42:47.121Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 1424,
+          "innerHeight": 905,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 1,
+          "visualViewport": {
+            "width": 1424,
+            "height": 905,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 1424,
+            "scrollWidth": 1424,
+            "scrollY": 1343,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 756.9375,
+              "y": 140.515625,
+              "width": 619.0625,
+              "height": 751.171875,
+              "top": 140.515625,
+              "bottom": 891.6875
+            },
+            "scene": {
+              "x": 757.9375,
+              "y": 245.109375,
+              "width": 617.0625,
+              "height": 414.578125,
+              "top": 245.109375,
+              "bottom": 659.6875
+            }
+          }
+        }
+      },
+      "after": {
+        "api": {
+          "at": "2026-09-30T13:42:47.193Z",
+          "tabId": 1787570260,
+          "factor": 1,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:42:47.196Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 1424,
+          "innerHeight": 905,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 1,
+          "visualViewport": {
+            "width": 1424,
+            "height": 905,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 1424,
+            "scrollWidth": 1424,
+            "scrollY": 1343,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 756.9375,
+              "y": 140.515625,
+              "width": 619.0625,
+              "height": 751.171875,
+              "top": 140.515625,
+              "bottom": 891.6875
+            },
+            "scene": {
+              "x": 757.9375,
+              "y": 245.109375,
+              "width": 617.0625,
+              "height": 414.578125,
+              "top": 245.109375,
+              "bottom": 659.6875
+            }
+          }
+        }
+      }
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\images\\zoom-100-restored-fullScene.png",
+      "relativeFile": "images/zoom-100-restored-fullScene.png",
+      "sha256": "d519dd7e949e8e7aee7b4000d6488b1fbcadad5c030bd5bfaa97e10126548b36",
+      "bytes": 70134,
+      "pngWidth": 618,
+      "pngHeight": 415,
+      "capture": "fullScene",
+      "zoom": 1,
+      "stage": 2,
+      "actuallyViewed": false,
+      "before": {
+        "api": {
+          "at": "2026-09-30T13:42:47.200Z",
+          "tabId": 1787570260,
+          "factor": 1,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:42:47.202Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 1424,
+          "innerHeight": 905,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 1,
+          "visualViewport": {
+            "width": 1424,
+            "height": 905,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 1424,
+            "scrollWidth": 1424,
+            "scrollY": 1343,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 756.9375,
+              "y": 140.515625,
+              "width": 619.0625,
+              "height": 751.171875,
+              "top": 140.515625,
+              "bottom": 891.6875
+            },
+            "scene": {
+              "x": 757.9375,
+              "y": 245.109375,
+              "width": 617.0625,
+              "height": 414.578125,
+              "top": 245.109375,
+              "bottom": 659.6875
+            }
+          }
+        }
+      },
+      "after": {
+        "api": {
+          "at": "2026-09-30T13:42:47.265Z",
+          "tabId": 1787570260,
+          "factor": 1,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:42:47.267Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 1424,
+          "innerHeight": 905,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 1,
+          "visualViewport": {
+            "width": 1424,
+            "height": 905,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 1424,
+            "scrollWidth": 1424,
+            "scrollY": 1343,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 756.9375,
+              "y": 140.515625,
+              "width": 619.0625,
+              "height": 751.171875,
+              "top": 140.515625,
+              "bottom": 891.6875
+            },
+            "scene": {
+              "x": 757.9375,
+              "y": 245.109375,
+              "width": 617.0625,
+              "height": 414.578125,
+              "top": 245.109375,
+              "bottom": 659.6875
+            }
+          }
+        }
+      }
+    }
+  ],
+  "console": [],
+  "pageErrors": [],
+  "requestFailures": [
+    {
+      "at": "2026-09-30T13:42:44.889Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:42:44.889Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/audio",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:42:44.889Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/roadmap",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:42:44.889Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/glossary",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:42:44.897Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/tags",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:42:44.900Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/how-llms-generate-text",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:42:44.900Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/prompt-engineering-fundamentals",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:42:44.903Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/model-selection",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:42:45.360Z",
+      "phase": "zoom-100-before",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/gemini-prompting",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:42:45.360Z",
+      "phase": "zoom-100-before",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/openai-prompting",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:42:45.360Z",
+      "phase": "zoom-100-before",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/claude-prompting",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    }
+  ],
+  "responseErrors": [],
+  "fatalErrors": [],
+  "cleanup": {
+    "zoomRestored": {
+      "at": "2026-09-30T13:42:47.273Z",
+      "tabId": 1787570260,
+      "factor": 1,
+      "settings": {
+        "defaultZoomFactor": 1,
+        "mode": "automatic",
+        "scope": "per-tab"
+      }
+    },
+    "contextClosed": true
+  },
+  "before": {
+    "checkedAt": "2026-09-30T13:42:41.138Z",
+    "buildId": "ay8Xdd-uRIpIwdWdgy70j",
+    "expectedBuildId": "ay8Xdd-uRIpIwdWdgy70j",
+    "status": 200,
+    "responseUrl": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+    "responseHeaders": {
+      "cache-control": "no-store",
+      "connection": "keep-alive",
+      "content-type": "text/html; charset=utf-8",
+      "date": "Wed, 30 Sep 2026 13:42:41 GMT",
+      "keep-alive": "timeout=5",
+      "transfer-encoding": "chunked"
+    },
+    "localHtmlSha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+    "servedHtmlSha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+    "servedHtmlBytes": 623618,
+    "buildIds": [
+      "ay8Xdd-uRIpIwdWdgy70j"
+    ],
+    "inputDigest": "sha256:2696c2dc66c8d222bb06fd2b4c07deb34ddcc9f19c40ccc917b6ceed5cc0d330",
+    "packageLockSha256": "0ae8cfb06301b580ea35818dec4d3879db65480b8d4a825dde37d0e3815443f5"
+  },
+  "extension": {
+    "manifest": {
+      "manifest_version": 3,
+      "name": "Isolated native zoom probe",
+      "version": "1.0.0",
+      "host_permissions": [
+        "http://127.0.0.1/*"
+      ],
+      "background": {
+        "service_worker": "background.js"
+      }
+    },
+    "manifestSha256": "a69db858510540769cb04dbbd065f51e06da4fd1e27ca221802371f0c99d9176",
+    "backgroundSha256": "7e9c368e21496d7a9c897bbb6887c70fd328348b82fd1365af538b0ec014da0f",
+    "serviceWorkerUrl": "chrome-extension://mlfigidiiogfillbkgbianijmikbpnjk/background.js"
+  },
+  "navigation": {
+    "at": "2026-09-30T13:42:44.689Z",
+    "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+    "status": 200,
+    "htmlSha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30"
+  },
+  "targetTab": {
+    "id": 1787570260,
+    "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+    "windowId": 1787570259
+  },
+  "originalZoom": {
+    "at": "2026-09-30T13:42:45.093Z",
+    "tabId": 1787570260,
+    "factor": 1,
+    "settings": {
+      "defaultZoomFactor": 1,
+      "mode": "automatic",
+      "scope": "per-origin"
+    }
+  },
+  "comparison": {
+    "widthRatio": 2,
+    "heightRatio": 2.002212389380531,
+    "dprRatio": 2,
+    "visualViewportScales": [
+      1,
+      1,
+      1
+    ],
+    "cssZoomAndTransform": [
+      {
+        "cssZoom": "1",
+        "cssTransform": "none",
+        "bodyCssZoom": "1",
+        "bodyCssTransform": "none"
+      },
+      {
+        "cssZoom": "1",
+        "cssTransform": "none",
+        "bodyCssZoom": "1",
+        "bodyCssTransform": "none"
+      },
+      {
+        "cssZoom": "1",
+        "cssTransform": "none",
+        "bodyCssZoom": "1",
+        "bodyCssTransform": "none"
+      }
+    ]
+  },
+  "nativeApiProbe": "passed-1-to-2-to-1-with-layout-and-dpr-evidence",
+  "after": {
+    "checkedAt": "2026-09-30T13:42:47.480Z",
+    "buildId": "ay8Xdd-uRIpIwdWdgy70j",
+    "expectedBuildId": "ay8Xdd-uRIpIwdWdgy70j",
+    "status": 200,
+    "responseUrl": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+    "responseHeaders": {
+      "cache-control": "no-store",
+      "connection": "keep-alive",
+      "content-type": "text/html; charset=utf-8",
+      "date": "Wed, 30 Sep 2026 13:42:47 GMT",
+      "keep-alive": "timeout=5",
+      "transfer-encoding": "chunked"
+    },
+    "localHtmlSha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+    "servedHtmlSha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+    "servedHtmlBytes": 623618,
+    "buildIds": [
+      "ay8Xdd-uRIpIwdWdgy70j"
+    ],
+    "inputDigest": "sha256:2696c2dc66c8d222bb06fd2b4c07deb34ddcc9f19c40ccc917b6ceed5cc0d330",
+    "packageLockSha256": "0ae8cfb06301b580ea35818dec4d3879db65480b8d4a825dde37d0e3815443f5"
+  },
+  "criticalResourceFailures": [],
+  "unclassifiedNoncriticalNetworkObservations": [
+    {
+      "at": "2026-09-30T13:42:44.889Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:42:44.889Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/audio",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:42:44.889Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/roadmap",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:42:44.889Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/glossary",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:42:44.897Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/tags",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:42:44.900Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/how-llms-generate-text",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:42:44.900Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/prompt-engineering-fundamentals",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:42:44.903Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/model-selection",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:42:45.360Z",
+      "phase": "zoom-100-before",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/gemini-prompting",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:42:45.360Z",
+      "phase": "zoom-100-before",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/openai-prompting",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:42:45.360Z",
+      "phase": "zoom-100-before",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/claude-prompting",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    }
+  ],
+  "consoleErrors": [],
+  "completedAt": "2026-09-30T13:42:47.527Z"
+}

@@ -9,6 +9,16 @@ const parser = unified().use(remarkParse).use(remarkGfm).use(remarkMath)
   .use(remarkFrontmatter, ['yaml']).use(remarkMdx)
 
 const readingStages = {
+  'multimodal-representation': 5,
+  'multimodal-input-tradeoffs': 4,
+  'capabilities-assessment': 5,
+  'interpretability-evidence': 5,
+  'interpretability-sae': 4,
+  'icl-hypotheses': 5,
+  'icl-demonstrations': 3,
+  'icl-memory-evaluation': 5,
+  'context-causal-cost': 5,
+  'context-cache-quality': 6,
   'reasoning-sequence': 4,
   'reasoning-evaluation': 5,
   'alignment-preference': 7,
@@ -27,11 +37,31 @@ const readingStages = {
   'transformer-io': 4, 'transformer-position': 4, 'transformer-block': 9,
   'attention-kv-sharing': 5, 'attention-compute-memory': 6, 'attention-context-range': 4
 }
-const walkthroughs = new Set(['AttentionWalkthrough', 'ReadingWalkthrough', 'TransformerWalkthrough', 'AttentionVariantsWalkthrough', 'MoEWalkthrough', 'FoundationsWalkthrough', 'InferenceWalkthrough', 'TrainingWalkthrough', 'PretrainingWalkthrough', 'AlignmentWalkthrough', 'ReasoningWalkthrough'])
+const walkthroughs = new Set(['AttentionWalkthrough', 'ReadingWalkthrough', 'TransformerWalkthrough', 'AttentionVariantsWalkthrough', 'MoEWalkthrough', 'FoundationsWalkthrough', 'InferenceWalkthrough', 'TrainingWalkthrough', 'PretrainingWalkthrough', 'AlignmentWalkthrough', 'ReasoningWalkthrough', 'ContextWalkthrough', 'IclWalkthrough', 'InterpretabilityWalkthrough', 'CapabilitiesWalkthrough', 'MultimodalWalkthrough'])
 
 // sync が装飾として挿入する props だけを許可する。コンポーネント名だけでは、
 // 属性式や {...spread} を経由したビルド時の JavaScript 実行を防げない。
 const attributes = {
+  MultimodalWalkthrough: { diagramId: value => [
+  "multimodal-representation",
+  "multimodal-input-tradeoffs"
+].includes(value) },
+  CapabilitiesWalkthrough: { diagramId: value => [
+  "capabilities-assessment"
+].includes(value) },
+  InterpretabilityWalkthrough: { diagramId: value => [
+  "interpretability-evidence",
+  "interpretability-sae"
+].includes(value) },
+  IclWalkthrough: { diagramId: value => [
+  "icl-hypotheses",
+  "icl-demonstrations",
+  "icl-memory-evaluation"
+].includes(value) },
+  ContextWalkthrough: { diagramId: value => [
+  "context-causal-cost",
+  "context-cache-quality"
+].includes(value) },
   ReasoningWalkthrough: { diagramId: value => [
   "reasoning-sequence",
   "reasoning-evaluation"
@@ -100,7 +130,7 @@ export function findUnsafeMdx(mdx) {
           if (seen.has(attribute.name)) bad.add(`重複した JSX 属性 (${attribute.name})`)
           seen.add(attribute.name)
         }
-        const required = { ReadingWalkthrough: 'diagramId', TransformerWalkthrough: 'diagramId', AttentionVariantsWalkthrough: 'diagramId', MoEWalkthrough: 'diagramId', FoundationsWalkthrough: 'diagramId', InferenceWalkthrough: 'diagramId', TrainingWalkthrough: 'diagramId', PretrainingWalkthrough: 'diagramId', AlignmentWalkthrough: 'diagramId', ReasoningWalkthrough: 'diagramId', ReadingStep: 'step', AttentionStep: 'step' }[node.name]
+        const required = { ReadingWalkthrough: 'diagramId', TransformerWalkthrough: 'diagramId', AttentionVariantsWalkthrough: 'diagramId', MoEWalkthrough: 'diagramId', FoundationsWalkthrough: 'diagramId', InferenceWalkthrough: 'diagramId', TrainingWalkthrough: 'diagramId', PretrainingWalkthrough: 'diagramId', AlignmentWalkthrough: 'diagramId', ReasoningWalkthrough: 'diagramId', ContextWalkthrough: 'diagramId', IclWalkthrough: 'diagramId', InterpretabilityWalkthrough: 'diagramId', CapabilitiesWalkthrough: 'diagramId', MultimodalWalkthrough: 'diagramId', ReadingStep: 'step', AttentionStep: 'step' }[node.name]
         if (required && !seen.has(required)) bad.add(`必須の JSX 属性がありません (${node.name}.${required})`)
         if (walkthroughs.has(node.name)) {
           if (parentFigure) bad.add('図解コンポーネントの入れ子')

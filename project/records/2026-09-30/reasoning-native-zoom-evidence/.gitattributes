@@ -1,0 +1,2 @@
+# Preserve original diagnostic bytes prepared before the simplified workflow.
+raw/** -text whitespace=cr-at-eol

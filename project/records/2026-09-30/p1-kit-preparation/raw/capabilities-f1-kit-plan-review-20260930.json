@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-kit-plan-review",
+  "unit": "F1",
+  "reviewerIdentity": "/root/inference_doc_review/d2_browser_parallelism_check",
+  "checkedAt": "2026-09-30T13:19:58.436Z",
+  "verdict": "approved-plan-only",
+  "must": 0,
+  "should": 0,
+  "findings": [],
+  "targets": [
+    {
+      "file": "TEMP/capabilities-f1-kit-plan-20260930.md",
+      "sha256": "c0ce67f1dfc008c24a43c464fa58a592b12a1cf1f46d0d9597de0763f2615282"
+    },
+    {
+      "file": "TEMP/capabilities-f1-kit-plan-20260930.json",
+      "sha256": "d3fdf2f1026ae5d58af1b42632099b799cdaf33dd3a14dd978758fd63f38813f"
+    }
+  ],
+  "checkedFacts": {
+    "evidenceInputsMatched": 17,
+    "adoptedStoryboardObjectExact": true,
+    "interfaceLiteralsExact": true,
+    "articleSha256": "cc83e31509fc1b5a8e43793be4c06fc2682c90e76f83e7ebf784fafbd23beb4a",
+    "astSha256": "8053b377359e74456e5f6c8dbd6d027daae94f4bfa868f699ff58ec160c49a0c",
+    "sourceDigest": "sha256:78f355317c83010206e383ae35f6c39e98319a924d9cfe7560f4b1b52659c9c3",
+    "tableTextSha256": "852ce7639b4126cb9689d83eb23420419a9d7a3d20c7aee37e1fafd6c4b35632",
+    "topics": 35,
+    "dynamicTopics": 23,
+    "staticTopics": 12,
+    "newCases": 12,
+    "totalCases": 177,
+    "artifactRoutes": 14,
+    "figures": 1,
+    "stages": 5,
+    "read": 5,
+    "manual": 0,
+    "activeSelections": 10,
+    "negativeGroups": 18,
+    "extraWidthStageVisitsPerEngine": 20,
+    "extraWidths": [
+      1920,
+      768
+    ],
+    "extraThemes": [
+      "light",
+      "dark"
+    ],
+    "futureE3IdentityFieldsNull": 8,
+    "baseline": "Freeze actual accepted E3 kit and callback bodies after E3 public acceptance"
+  },
+  "scope": [
+    "Independent source, AST, table, literal, hash and count verification",
+    "Stage-limited 6 task/4 focus controls and unknown metrics; 10-20 examples not statistical sufficiency",
+    "NoJS 5 static descriptions separate from fresh actual scene chunk failure with article/table/h1/status; no blocked request fails",
+    "Native zoom distinct from DSF2; future runtime evidence required"
+  ],
+  "notExecuted": [
+    "Product implementation",
+    "Runtime tests",
+    "Image inspection",
+    "Native zoom",
+    "Performance",
+    "GitHub/Pages/public acceptance"
+  ],
+  "transcription": {
+    "recordedBy": "/root",
+    "source": "Reviewer collaboration message plus explicit MD SHA transcription correction; compact factual summary",
+    "reviewerWroteFiles": false
+  }
+}

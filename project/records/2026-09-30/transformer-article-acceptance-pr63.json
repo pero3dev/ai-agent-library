@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "article": "docs/11-llm-internals/transformer-architecture.md",
+  "review": {
+    "inputDigest": "sha256:e07026fd593a0d925daaae5b6f0c7749ea6bc845d13c603dc05c6b4c2c706776",
+    "status": "approved",
+    "checkedAt": "2026-09-30T09:55:15.572Z",
+    "independent": true,
+    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
+  },
+  "local": {
+    "inputDigest": "sha256:e07026fd593a0d925daaae5b6f0c7749ea6bc845d13c603dc05c6b4c2c706776",
+    "status": "passed",
+    "checkedAt": "2026-09-30T09:55:15.572Z",
+    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
+  },
+  "public": {
+    "inputDigest": "sha256:e07026fd593a0d925daaae5b6f0c7749ea6bc845d13c603dc05c6b4c2c706776",
+    "status": "passed",
+    "checkedAt": "2026-09-30T11:18:33.154Z",
+    "commit": "b6686c92dbb678ea8b94eb12df37a33207c4c84b",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36702086701",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36702086701/job/109848894912",
+    "browserRecord": "project/records/2026-09-30/alignment-public-evidence/final-review.json"
+  }
+}

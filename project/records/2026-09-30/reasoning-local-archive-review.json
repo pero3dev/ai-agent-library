@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-local-archive-integrity-review",
+  "reviewer_run_id": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+  "independent": true,
+  "reviewed_at": "2026-09-30T12:35:30.606Z",
+  "verdict": "approved",
+  "risk": "low",
+  "must": [],
+  "should": [],
+  "scope": "Read-only archive persistence, provenance, ten canonical review/local gates, README and production-record acceptance boundaries. No new product, browser or image review.",
+  "archive": {
+    "path": "C:\\dev\\ai-agent-library\\project\\records\\2026-09-30\\reasoning-local-evidence\\index.json",
+    "sha256": "46fffbc5ebce78ac777024f9d5f8b981480e1997e3d61b66802de105a467aeb6"
+  },
+  "canonical": [
+    {
+      "path": "C:\\dev\\ai-agent-library\\project\\records\\2026-09-30\\reasoning-local-evidence\\final-review.json",
+      "sha256": "e0e15866be3637d22920cde0e4dad3b27477dfa982676ffcd77cc5ffc6c3d0df"
+    },
+    {
+      "path": "C:\\dev\\ai-agent-library\\project\\records\\2026-09-30\\reasoning-local-evidence\\viewed-images.json",
+      "sha256": "28153cd1c06c4b83a51bcafc5c7c40ded9747f70d15b332716284d13d09e9887"
+    }
+  ],
+  "documents": [
+    {
+      "path": "C:\\dev\\ai-agent-library\\project\\records\\2026-09-30\\reasoning-local-evidence\\README.md",
+      "sha256": "db71a55d6cc6f51fde4aaea438403f50c91e06be3fe0d28d77041f6b781b2eb7"
+    },
+    {
+      "path": "C:\\dev\\ai-agent-library\\project\\records\\2026-09-30\\reasoning-reading-diagrams.md",
+      "sha256": "6b0b2668395f9d37f0d43b5a72df2e439deef4c126454b14c7af767303f7a498"
+    }
+  ],
+  "gates": [
+    {
+      "path": "C:\\dev\\ai-agent-library\\project\\records\\2026-09-24\\transformer-article-acceptance.json",
+      "sha256": "ff2214b43eead58f0fccdfc37ddaa1256553bd38e9ef641937a63a4f6d0e616d",
+      "article": "docs/11-llm-internals/transformer-architecture.md",
+      "inputDigest": "sha256:3b53235296261639ec059e2951219305e168bb70fd65296bd89a8a0ab480986d",
+      "publicCurrent": false
+    },
+    {
+      "path": "C:\\dev\\ai-agent-library\\project\\records\\2026-09-24\\attention-variants-article-acceptance.json",
+      "sha256": "7454482099da0687fa18e8a1502c0c5aaf138f284e5b66854aa5d9d97b7db5d9",
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "inputDigest": "sha256:cac8069445fadb21af8f77fa0a46d9ba75378fdcc1207e4b0c05e62562071164",
+      "publicCurrent": false
+    },
+    {
+      "path": "C:\\dev\\ai-agent-library\\project\\records\\2026-09-24\\moe-article-acceptance.json",
+      "sha256": "94edca721aec5ed9900a5e708c9f478a3134f8b2c9dc76d69ca1aa6692764580",
+      "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "inputDigest": "sha256:570f41059ca3d4f09e9e5c3f309326710fd32e932f1aad850bd7516c9dc97be5",
+      "publicCurrent": false
+    },
+    {
+      "path": "C:\\dev\\ai-agent-library\\project\\records\\2026-09-24\\generation-article-acceptance.json",
+      "sha256": "8fe316b084c3cc3c969ffa8b5cd83169fee75ec882b0c3d972f228a55472465a",
+      "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "inputDigest": "sha256:7989470e2bb26e883bba4e67aa37e8271f54346a40e76ca15350745c7232ae47",
+      "publicCurrent": false
+    },
+    {
+      "path": "C:\\dev\\ai-agent-library\\project\\records\\2026-09-24\\tokenization-article-acceptance.json",
+      "sha256": "ed7e5bccc791ee557cc792040aadc4e9e6741280c1ea1fdb61ba7cd6dbb83d18",
+      "article": "docs/10-llm-foundations/tokenization.md",
+      "inputDigest": "sha256:aa3f88fe68ae184855ebb162c5043afd93f4cf1332c9360bbeeaf50e16c157df",
+      "publicCurrent": false
+    },
+    {
+      "path": "C:\\dev\\ai-agent-library\\project\\records\\2026-09-24\\inference-article-acceptance.json",
+      "sha256": "44ecada649296598f7e50282b8d4feafd09d0fc406020df5969f615c78bc8b92",
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "inputDigest": "sha256:26017742695429975e20f64f18354d59612a97bc563fec10668325be849d0e6a",
+      "publicCurrent": false
+    },
+    {
+      "path": "C:\\dev\\ai-agent-library\\project\\records\\2026-09-24\\training-article-acceptance.json",
+      "sha256": "08050d2df13ac536332f70411032da9014cf0a0807864c32d96757258d1e7222",
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "inputDigest": "sha256:103aa08bd2f29a4b880fef55d6fa547da2fab27a22f840215ffe2c96181ca9eb",
+      "publicCurrent": false
+    },
+    {
+      "path": "C:\\dev\\ai-agent-library\\project\\records\\2026-09-25\\pretraining-article-acceptance.json",
+      "sha256": "edd3a363a30a41f20a2357c8f4c9254001629acfd1c3ba177bf2c2e3f8f5fb48",
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "inputDigest": "sha256:ef6219feaea29f5d4d0f79018f530d5ae61122460961e4454c36d43bb455abac",
+      "publicCurrent": false
+    },
+    {
+      "path": "C:\\dev\\ai-agent-library\\project\\records\\2026-09-30\\alignment-article-acceptance.json",
+      "sha256": "6bcf0ee4b9a57291b501f49d12dd095c64d5ceb9649a7497d6ba6451dabcd7a7",
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "inputDigest": "sha256:97b41ea0e6a47ea1fcf1ed298b8c4395f9e74df477ba9dabb2b496d7cf9a95c8",
+      "publicCurrent": false
+    },
+    {
+      "path": "C:\\dev\\ai-agent-library\\project\\records\\2026-09-30\\reasoning-article-acceptance.json",
+      "sha256": "a8bc42518d4cdfb65ad87d4f0a5175de6e152a91a803bbaf20336399bab96ba0",
+      "article": "docs/10-llm-foundations/reasoning-models.md",
+      "inputDigest": "sha256:2696c2dc66c8d222bb06fd2b4c07deb34ddcc9f19c40ccc917b6ceed5cc0d330",
+      "publicCurrent": false
+    }
+  ],
+  "checks": {
+    "originals": 229,
+    "gzipRoundTrips": 107,
+    "PNG": 122,
+    "storedBytes": 11222557,
+    "allStoredSHABytesMatch": true,
+    "allDecodedSHABytesMatch": true,
+    "allLiveOriginalBytesMatch": true,
+    "noStoredPathEscapeOrDuplicates": true,
+    "canonicalReviewAndLedgerByteCopies": true,
+    "allActualImageOriginsAndCaseSnapshotReferencesResolve": true,
+    "imageDimensionsMatch": true,
+    "historicalActualImages": 83,
+    "historicalFailedCaseDiagnosticImages": 1,
+    "finalActualImages": 39,
+    "allReferencedBrowserRawLogAndReviewHashesMatch": true,
+    "inputs": 10,
+    "currentInputDigestsMatchFinalReview": true,
+    "reviewLocalGatesAgree": true,
+    "oldNinePublicFieldsBindOnlyHistoricalPR63": true,
+    "newD2PublicFieldNull": true,
+    "relativeLinksReachable": 13,
+    "failedHistoricalRawStatusesPreserved": true
+  },
+  "buildId": "ay8Xdd-uRIpIwdWdgy70j",
+  "publicAccepted": false,
+  "documentJudgment": "README and production record separate initial failures, final local acceptance, historical nine-article acceptance and pending GitHub/public acceptance. Intermediate repair notes are explicitly historical sections. DSF2, WebKit emulation, performance/network limits and future public121 checks remain explicit.",
+  "limitations": [
+    "Public fields were verified against immutable PR63 review evidence; no claim is made of a byte-level before-update comparison without an earlier snapshot.",
+    "No PNG was re-viewed and no browser/product test was re-executed; earlier independent visual and local review are retained by exact bytes/hash.",
+    "This verifies archive persistence and current gate binding only; it does not approve GitHub or public delivery."
+  ],
+  "edits": "Only this dedicated reviewer report pair in OS TEMP."
+}

@@ -2,25 +2,25 @@
   "schemaVersion": 1,
   "article": "docs/10-llm-foundations/llm-training-pipeline.md",
   "review": {
-    "inputDigest": "sha256:85a0c5f646fd52e72c1c77a41fd5e9b4bc32f14e60a8c3fe224da222fef50237",
+    "inputDigest": "sha256:103aa08bd2f29a4b880fef55d6fa547da2fab27a22f840215ffe2c96181ca9eb",
     "status": "approved",
-    "checkedAt": "2026-09-30T09:55:15.572Z",
+    "checkedAt": "2026-09-30T12:28:37.439Z",
     "independent": true,
-    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
+    "record": "project/records/2026-09-30/reasoning-local-evidence/final-review.json"
   },
   "local": {
-    "inputDigest": "sha256:85a0c5f646fd52e72c1c77a41fd5e9b4bc32f14e60a8c3fe224da222fef50237",
+    "inputDigest": "sha256:103aa08bd2f29a4b880fef55d6fa547da2fab27a22f840215ffe2c96181ca9eb",
     "status": "passed",
-    "checkedAt": "2026-09-30T09:55:15.572Z",
-    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
+    "checkedAt": "2026-09-30T12:28:37.439Z",
+    "record": "project/records/2026-09-30/reasoning-local-evidence/final-review.json"
   },
   "public": {
-    "inputDigest": "sha256:33237ab6f74f953e7ceab16d01631b765eb21bf28df6e3ff7cc8eb7f4f261ec5",
+    "inputDigest": "sha256:85a0c5f646fd52e72c1c77a41fd5e9b4bc32f14e60a8c3fe224da222fef50237",
     "status": "passed",
-    "checkedAt": "2026-09-29T19:43:48.515Z",
-    "commit": "5940334a6fd3aab8178cfeb8746a58c8b937d390",
-    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36615994124",
-    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36615994124/job/109574494236",
-    "browserRecord": "project/records/2026-09-30/inference-score-spacing-public-pr62-review.md"
+    "checkedAt": "2026-09-30T11:18:33.154Z",
+    "commit": "b6686c92dbb678ea8b94eb12df37a33207c4c84b",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36702086701",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36702086701/job/109848894912",
+    "browserRecord": "project/records/2026-09-30/alignment-public-evidence/final-review.json"
   }
 }

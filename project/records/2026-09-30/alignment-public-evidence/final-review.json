@@ -1,0 +1,554 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-composed-public-release-review",
+  "reviewer": "/root/pretraining_visual_review",
+  "checkedAt": "2026-09-30T11:18:33.154Z",
+  "status": "approved",
+  "risk": "low",
+  "must": [],
+  "should": [],
+  "release": {
+    "mergeSha": "b6686c92dbb678ea8b94eb12df37a33207c4c84b",
+    "runId": 36702086701,
+    "artifactId": 11090349965,
+    "buildId": "Iytr-Mx-iwwzxrZ8pUUHR"
+  },
+  "inputs": [
+    {
+      "article": "docs/11-llm-internals/transformer-architecture.md",
+      "inputDigest": "sha256:e07026fd593a0d925daaae5b6f0c7749ea6bc845d13c603dc05c6b4c2c706776",
+      "assignmentCurrent": true,
+      "diagramsCurrent": true
+    },
+    {
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "inputDigest": "sha256:8809841796614289128e5884b1c2903a314ea98e423e7a41e900c91de32da3c1",
+      "assignmentCurrent": true,
+      "diagramsCurrent": true
+    },
+    {
+      "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "inputDigest": "sha256:49e51accac9ee58c51adc8d61c4f08b380ecb925fe2b8b33a5675c273991f56a",
+      "assignmentCurrent": true,
+      "diagramsCurrent": true
+    },
+    {
+      "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "inputDigest": "sha256:38449145717747f7115b5ea83ffd3cd097669897e4fbc60b4096d94685b09364",
+      "assignmentCurrent": true,
+      "diagramsCurrent": true
+    },
+    {
+      "article": "docs/10-llm-foundations/tokenization.md",
+      "inputDigest": "sha256:df2301c51d5de40f286f6186f37e0daeb2e0c46738a359cd7ba13e7e0bad694f",
+      "assignmentCurrent": true,
+      "diagramsCurrent": true
+    },
+    {
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "inputDigest": "sha256:43cd8cbd73c9430a3c84548455de79b138721a8d368e5ee62b98121bd5c4aea6",
+      "assignmentCurrent": true,
+      "diagramsCurrent": true
+    },
+    {
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "inputDigest": "sha256:85a0c5f646fd52e72c1c77a41fd5e9b4bc32f14e60a8c3fe224da222fef50237",
+      "assignmentCurrent": true,
+      "diagramsCurrent": true
+    },
+    {
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "inputDigest": "sha256:498e320639470aba47e30970eab4d22b953eacf36719d94e774c373f41efe9a3",
+      "assignmentCurrent": true,
+      "diagramsCurrent": true
+    },
+    {
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "inputDigest": "sha256:49c3c707ed6741a80d4de4927a4d55cdd8523999c694ee022fe1bcc6bf8f54f2",
+      "assignmentCurrent": true,
+      "diagramsCurrent": true
+    }
+  ],
+  "browserRuns": [
+    {
+      "kind": "full-edge",
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-public-20260930/public-chromium-2026-09-30T10-43-33-674Z/result.json",
+      "sha256": "1e9e90954313387d4c19167b049aee2c754bac99e6bd69c88470556d25b014f5",
+      "rawStatus": "passed",
+      "startedAt": "2026-09-30T10:43:33.678Z",
+      "finishedAt": "2026-09-30T10:56:57.117Z",
+      "expectedCaseCount": 107,
+      "passed": 107,
+      "failed": 0,
+      "generatedPNGs": 887,
+      "assets": 75,
+      "browser": {
+        "engine": "chromium",
+        "channel": "msedge",
+        "version": "154.0.4258.37"
+      }
+    },
+    {
+      "kind": "full-webkit",
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-public-20260930/public-webkit-2026-09-30T10-43-34-326Z/result.json",
+      "sha256": "3ee83dd743d0216fee0c546e1137da55cacb1f502260aa946a9bccfac0c2b23a",
+      "rawStatus": "failed",
+      "startedAt": "2026-09-30T10:43:34.328Z",
+      "finishedAt": "2026-09-30T11:11:22.084Z",
+      "expectedCaseCount": 107,
+      "passed": 106,
+      "failed": 1,
+      "generatedPNGs": 844,
+      "assets": 75,
+      "browser": {
+        "engine": "webkit",
+        "channel": null,
+        "version": "26.6"
+      }
+    },
+    {
+      "kind": "focused-webkit",
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-public-20260930/public-webkit-2026-09-30T11-11-44-939Z/result.json",
+      "sha256": "1e35e1110e6c71094aed0cad75631d152efc75c10ec57c507dffb28397689ccc",
+      "rawStatus": "passed",
+      "startedAt": "2026-09-30T11:11:44.943Z",
+      "finishedAt": "2026-09-30T11:12:29.425Z",
+      "expectedCaseCount": 2,
+      "passed": 2,
+      "failed": 0,
+      "generatedPNGs": 46,
+      "assets": 52,
+      "browser": {
+        "engine": "webkit",
+        "channel": null,
+        "version": "26.6"
+      }
+    }
+  ],
+  "repeatedCaseNames": [
+    "pretraining: all 23 stages 1440x1000 light DSF1",
+    "public assets: HTTP 200, nonempty bodies and matching MIME types"
+  ],
+  "decision": "Approve this exact nine-article published release by composition of Edge original 107/107, WebKit original 106/107 plus one unchanged two-case focused repeat 2/2, independent CI asset/document/source identity and 137 actual public image views. The original WebKit run remains failed; no claim of a clean full WebKit rerun or diagnosed timeout cause.",
+  "failureDisposition": {
+    "sourceResult": {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-public-20260930/public-webkit-2026-09-30T10-43-34-326Z/result.json",
+      "sha256": "3ee83dd743d0216fee0c546e1137da55cacb1f502260aa946a9bccfac0c2b23a"
+    },
+    "case": "pretraining: all 23 stages 1440x1000 light DSF1",
+    "initialError": "PPL ordinary locator.click visible/enabled/stable wait timed out at 15000ms after successful loss stage2.",
+    "initialCaseNetwork": {
+      "failures": 0,
+      "consoleErrors": 0,
+      "pageErrors": 0
+    },
+    "focusedResult": {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-public-20260930/public-webkit-2026-09-30T11-11-44-939Z/result.json",
+      "sha256": "1e35e1110e6c71094aed0cad75631d152efc75c10ec57c507dffb28397689ccc"
+    },
+    "repeatMethod": {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-focused-public-repeat-review-20260930.json",
+      "sha256": "fc6723af31f7568f8cf111814a9b373b01c84198ac0ceb1759c8305f7374c357"
+    },
+    "attempts": 1,
+    "conditionsUnchanged": true,
+    "entire23StageProfileRepeated": true,
+    "rootCause": "unknown",
+    "resolvedClaim": "The complete original case passed once under unchanged conditions; this supplies the missing completion evidence without changing original failure status.",
+    "diagnostic": {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-public-ppl-failure-observation.json",
+      "sha256": "0d26a58b59a4bef03b8381d87f1fc36df92c44c458cdbfa1a0d17def681c2b47"
+    }
+  },
+  "D1": [
+    {
+      "engine": {
+        "engine": "chromium",
+        "channel": "msedge",
+        "version": "154.0.4258.37"
+      },
+      "passedCases": 16,
+      "profiles": 6,
+      "integerStageVisits": 90,
+      "midpointVisits": 72,
+      "selectedStateGrid": {
+        "beta": 21,
+        "labelSource": 10
+      },
+      "selectorVisits": 11,
+      "READ": {
+        "alignment-preference": {
+          "forward": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "reverse": [
+            6,
+            5,
+            4,
+            3,
+            2,
+            1,
+            0
+          ]
+        },
+        "alignment-reward-risk": {
+          "forward": [
+            0,
+            1,
+            2
+          ],
+          "reverse": [
+            2,
+            1,
+            0
+          ]
+        },
+        "alignment-feedback": {
+          "forward": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "reverse": [
+            4,
+            3,
+            2,
+            1,
+            0
+          ]
+        }
+      },
+      "bboxObservations": 104,
+      "bboxPairOrWireChangesFromIndependentLocal": 0,
+      "semanticNumericalBasis": "Previously independent closed-form DPO oracle and fixed fixture assertions retained; exact published product inputs match approved reviewed inputs. beta=.5/1/2 gives preference 2/3,4/5,16/17 and loss ln(1.5),ln(1.25),ln(17/16). Public actual images show rounded numbers, explicit/implicit distinction and shared-Z cancellation."
+    },
+    {
+      "engine": {
+        "engine": "webkit",
+        "channel": null,
+        "version": "26.6"
+      },
+      "passedCases": 16,
+      "profiles": 6,
+      "integerStageVisits": 90,
+      "midpointVisits": 72,
+      "selectedStateGrid": {
+        "beta": 21,
+        "labelSource": 10
+      },
+      "selectorVisits": 11,
+      "READ": {
+        "alignment-preference": {
+          "forward": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "reverse": [
+            6,
+            5,
+            4,
+            3,
+            2,
+            1,
+            0
+          ]
+        },
+        "alignment-reward-risk": {
+          "forward": [
+            0,
+            1,
+            2
+          ],
+          "reverse": [
+            2,
+            1,
+            0
+          ]
+        },
+        "alignment-feedback": {
+          "forward": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "reverse": [
+            4,
+            3,
+            2,
+            1,
+            0
+          ]
+        }
+      },
+      "bboxObservations": 104,
+      "bboxPairOrWireChangesFromIndependentLocal": 0,
+      "semanticNumericalBasis": "Previously independent closed-form DPO oracle and fixed fixture assertions retained; exact published product inputs match approved reviewed inputs. beta=.5/1/2 gives preference 2/3,4/5,16/17 and loss ln(1.5),ln(1.25),ln(17/16). Public actual images show rounded numbers, explicit/implicit distinction and shared-Z cancellation."
+    }
+  ],
+  "visual": {
+    "actualViewed": 137,
+    "byEngine": {
+      "chromium": 66,
+      "webkit": 71
+    },
+    "byCapture": {
+      "viewport": 45,
+      "full-scene": 92
+    },
+    "D1": 114,
+    "originalFailedCaseDiagnostic": 2,
+    "focusedRepeat": 4,
+    "generatedPNGs": 1777,
+    "priorViewsNotAdded": true,
+    "ledger": {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-public-final-viewed-images.json",
+      "sha256": "4523b9750dc40fe60ba0ba8cab2e772c9b3b9e5044301e5476cc5238a0659897"
+    },
+    "selection": "Both engines: all 15 D1 light desktop stages; beta .5/2 at stages4/5/6 and AI stage4; dense representatives across all six profiles; three modal viewports; noJS/print all three scenes and article viewport. Old eight current representatives including inference signed six-decimal stage6. Focused repeat PPL and comparison-condition scene+viewport. Two initial failed-case preceding images are counted separately in this same ledger.",
+    "findings": "No visible text collision, lost diagram content or semantic misrepresentation found in viewed images. Low-height viewport screenshots intentionally show a scrolled portion; corresponding unmodified full-scene captures show complete content. Small screens are readable via expansion, not a claim that dense text is large at 390px. Bounding-box candidates are not glyph overlaps: all 104 D1 observations per engine retain the exact local candidate text-pair/wire inventory; baseline/riskiest current glyphs were actually viewed.",
+    "metadataCorrections": [
+      {
+        "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-public-20260930/public-chromium-2026-09-30T10-43-33-674Z/moe-routing-load-7-1440-light.png",
+        "field": "article",
+        "before": "docs/11-llm-internals/moe-internals.md",
+        "after": "docs/11-llm-internals/mixture-of-experts-internals.md"
+      },
+      {
+        "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-public-20260930/public-webkit-2026-09-30T10-43-34-326Z/moe-routing-load-7-1440-light.png",
+        "field": "article",
+        "before": "docs/11-llm-internals/moe-internals.md",
+        "after": "docs/11-llm-internals/mixture-of-experts-internals.md"
+      }
+    ],
+    "previousPublicInferenceFinding": "PUBLIC-V1 remains resolved: actual public stage6 signed six-decimal score columns separated in both engines."
+  },
+  "publicTransport": {
+    "articleCount": 9,
+    "fullRunCIAssets": [
+      75,
+      75
+    ],
+    "focusedCIAssets": 52,
+    "fullObservedResources": [
+      4650,
+      4658
+    ],
+    "focusedObservedResources": 52,
+    "rawProofs": [
+      {
+        "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-public-edge-raw-proof.json",
+        "sha256": "908427ece8cae82cdfaf560b41691c3d539406562fb2c564fc58271f9012d2ef"
+      },
+      {
+        "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-public-webkit-raw-proof.json",
+        "sha256": "6654681f745fa30024604dbce96cb8fb9b5098ae362376c0f687eb9456a72367"
+      },
+      {
+        "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-public-focused-webkit-raw-proof.json",
+        "sha256": "0772d5cde8b51885a196051c7d19543ed733e5687ab966dd4cd4dfb5fc98735d"
+      }
+    ],
+    "exceptions": "Only individually recorded no-JavaScript CSP script refusals, exactly matched to expectedBlockedScripts, are accepted. Normal contexts have no failed resources, console errors or page errors. Embeddings is a no-diagram control outside the selected nine; its document bytes also independently match the CI tar."
+  },
+  "oldEightCarry": {
+    "priorPublicReview": {
+      "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-public-pr62-review.json",
+      "sha256": "9f85d2427529fd7327a3e1cba8e24e845579f595837a2b9ee92bac86c20f05e3"
+    },
+    "localD1IndependentReview": {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-independent-final-review.json",
+      "sha256": "c5907866fdcab0d3f37d3a3c1abd4711ab96aa46810244a833abc2d521ed4180"
+    },
+    "dependencySupplement": {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch-independent-review.json",
+      "sha256": "a0dbbd9df2dc24cdc071667986610543e6b8edde052f75ad0ea85cbc97865639"
+    },
+    "basis": "Old eight article/runtime/scene source remains unchanged from PR62 except five additive D1 shared integration files and the approved compatible website lock patch. Prior local independent proof covers those changes. Actual merge input proof then matches all124 historical inputs plus13 extra files and recomputes nine latest input digests. Combine this bounded carry with current full public cases, CI-matched delivered bytes and current representative images; do not claim the old eight complete digests or whole output tree were unchanged.",
+    "priorImageCountsNotAdded": [
+      47,
+      90,
+      168
+    ],
+    "oldSuiteScope": "90 previous cases retained; no-diagram alignment control explicitly migrated to embeddings;16 D1 cases added for107."
+  },
+  "articleGates": [
+    {
+      "article": "docs/11-llm-internals/transformer-architecture.md",
+      "inputDigest": "sha256:e07026fd593a0d925daaae5b6f0c7749ea6bc845d13c603dc05c6b4c2c706776",
+      "assignmentCurrent": true,
+      "diagramsCurrent": true,
+      "review": "approved",
+      "localBrowser": "carried-independent-approved",
+      "publicBrowser": "approved-composed",
+      "scope": "bounded old-eight carry plus current public regression and representative visuals"
+    },
+    {
+      "article": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "inputDigest": "sha256:8809841796614289128e5884b1c2903a314ea98e423e7a41e900c91de32da3c1",
+      "assignmentCurrent": true,
+      "diagramsCurrent": true,
+      "review": "approved",
+      "localBrowser": "carried-independent-approved",
+      "publicBrowser": "approved-composed",
+      "scope": "bounded old-eight carry plus current public regression and representative visuals"
+    },
+    {
+      "article": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "inputDigest": "sha256:49e51accac9ee58c51adc8d61c4f08b380ecb925fe2b8b33a5675c273991f56a",
+      "assignmentCurrent": true,
+      "diagramsCurrent": true,
+      "review": "approved",
+      "localBrowser": "carried-independent-approved",
+      "publicBrowser": "approved-composed",
+      "scope": "bounded old-eight carry plus current public regression and representative visuals"
+    },
+    {
+      "article": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "inputDigest": "sha256:38449145717747f7115b5ea83ffd3cd097669897e4fbc60b4096d94685b09364",
+      "assignmentCurrent": true,
+      "diagramsCurrent": true,
+      "review": "approved",
+      "localBrowser": "carried-independent-approved",
+      "publicBrowser": "approved-composed",
+      "scope": "bounded old-eight carry plus current public regression and representative visuals"
+    },
+    {
+      "article": "docs/10-llm-foundations/tokenization.md",
+      "inputDigest": "sha256:df2301c51d5de40f286f6186f37e0daeb2e0c46738a359cd7ba13e7e0bad694f",
+      "assignmentCurrent": true,
+      "diagramsCurrent": true,
+      "review": "approved",
+      "localBrowser": "carried-independent-approved",
+      "publicBrowser": "approved-composed",
+      "scope": "bounded old-eight carry plus current public regression and representative visuals"
+    },
+    {
+      "article": "docs/11-llm-internals/inference-internals.md",
+      "inputDigest": "sha256:43cd8cbd73c9430a3c84548455de79b138721a8d368e5ee62b98121bd5c4aea6",
+      "assignmentCurrent": true,
+      "diagramsCurrent": true,
+      "review": "approved",
+      "localBrowser": "carried-independent-approved",
+      "publicBrowser": "approved-composed",
+      "scope": "bounded old-eight carry plus current public regression and representative visuals"
+    },
+    {
+      "article": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "inputDigest": "sha256:85a0c5f646fd52e72c1c77a41fd5e9b4bc32f14e60a8c3fe224da222fef50237",
+      "assignmentCurrent": true,
+      "diagramsCurrent": true,
+      "review": "approved",
+      "localBrowser": "carried-independent-approved",
+      "publicBrowser": "approved-composed",
+      "scope": "bounded old-eight carry plus current public regression and representative visuals"
+    },
+    {
+      "article": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "inputDigest": "sha256:498e320639470aba47e30970eab4d22b953eacf36719d94e774c373f41efe9a3",
+      "assignmentCurrent": true,
+      "diagramsCurrent": true,
+      "review": "approved",
+      "localBrowser": "carried-independent-approved",
+      "publicBrowser": "approved-composed",
+      "scope": "bounded old-eight carry plus current public regression and representative visuals"
+    },
+    {
+      "article": "docs/11-llm-internals/alignment-theory.md",
+      "inputDigest": "sha256:49c3c707ed6741a80d4de4927a4d55cdd8523999c694ee022fe1bcc6bf8f54f2",
+      "assignmentCurrent": true,
+      "diagramsCurrent": true,
+      "review": "approved",
+      "localBrowser": "carried-independent-approved",
+      "publicBrowser": "approved-composed",
+      "scope": "new D1 full scoped public acceptance"
+    }
+  ],
+  "identity": {
+    "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-public-final-identity.json",
+    "sha256": "c8c30b7e36546fdc0a8089fe7941e390121a134d9bf7929bfa9f365f47d0d11e"
+  },
+  "evidence": [
+    {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-independent-input-proof.json",
+      "sha256": "bdf471a88a30f68047fc7584c7ebe5f6a32dec6db134557f5000087c3959858f"
+    },
+    {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-public-artifact-proof.json",
+      "sha256": "f6af54ebb21aa6616059529d9f5006a7cc2185aefaca178c359e560255fcfe4d"
+    },
+    {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-public-edge-raw-proof.json",
+      "sha256": "908427ece8cae82cdfaf560b41691c3d539406562fb2c564fc58271f9012d2ef"
+    },
+    {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-public-webkit-raw-proof.json",
+      "sha256": "6654681f745fa30024604dbce96cb8fb9b5098ae362376c0f687eb9456a72367"
+    },
+    {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-public-focused-webkit-raw-proof.json",
+      "sha256": "0772d5cde8b51885a196051c7d19543ed733e5687ab966dd4cd4dfb5fc98735d"
+    },
+    {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-focused-public-repeat-review-20260930.json",
+      "sha256": "fc6723af31f7568f8cf111814a9b373b01c84198ac0ceb1759c8305f7374c357"
+    },
+    {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-focused-public-repeat-proof.json",
+      "sha256": "53a79e36dd29fccfacb70d2b9e35e609bedb14add9ec0d2df7e7b9d400df51a3"
+    },
+    {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-focused-public-repeat.mjs",
+      "sha256": "215b666c8e13ab4898a903341770708028221079b2f6bb5688b49ad0f45e2c7e"
+    },
+    {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-public-ppl-failure-observation.json",
+      "sha256": "0d26a58b59a4bef03b8381d87f1fc36df92c44c458cdbfa1a0d17def681c2b47"
+    },
+    {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-pr63-public-review-plan.json",
+      "sha256": "fc75a4d7b7b3607aad2b73bd6a8af81c3eff874f4e623e8c3aba51c95724d847"
+    },
+    {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-independent-code-proof.json",
+      "sha256": "6f751a800c6333c190117bc0226beadb2b806081dba8cd2d914fb79d3bc9a651"
+    },
+    {
+      "file": "C:/Users/81906/AppData/Local/Temp/inference-score-spacing-public-pr62-review.json",
+      "sha256": "9f85d2427529fd7327a3e1cba8e24e845579f595837a2b9ee92bac86c20f05e3"
+    },
+    {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-independent-final-review.json",
+      "sha256": "c5907866fdcab0d3f37d3a3c1abd4711ab96aa46810244a833abc2d521ed4180"
+    },
+    {
+      "file": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch-independent-review.json",
+      "sha256": "a0dbbd9df2dc24cdc071667986610543e6b8edde052f75ad0ea85cbc97865639"
+    }
+  ],
+  "helperObservations": [
+    "Independent raw-proof draft initially treated expected noJS CSP entries as ordinary failures; corrected to exact noJS-only type/script/csp matching, retaining the initial helper. A later draft expected selected-nine artifact fields on the embeddings control; corrected only for this exact control while independently hashing its CI tar HTML. These are offline reviewer-helper assumptions, not browser/product failures."
+  ],
+  "unperformed": [
+    "Physical iPhone/Safari or any physical mobile device",
+    "Real screenreader session",
+    "Physical print or exported multipage PDF acceptance",
+    "New public performance/CLS/GPU benchmarking; prior performance remains explicitly local",
+    "All generated PNGs or all old-eight stages re-viewed",
+    "Root cause determination of the initial WebKit timeout"
+  ]
+}

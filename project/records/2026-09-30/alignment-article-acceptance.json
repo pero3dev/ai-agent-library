@@ -2,17 +2,25 @@
   "schemaVersion": 1,
   "article": "docs/11-llm-internals/alignment-theory.md",
   "review": {
-    "inputDigest": "sha256:49c3c707ed6741a80d4de4927a4d55cdd8523999c694ee022fe1bcc6bf8f54f2",
+    "inputDigest": "sha256:97b41ea0e6a47ea1fcf1ed298b8c4395f9e74df477ba9dabb2b496d7cf9a95c8",
     "status": "approved",
-    "checkedAt": "2026-09-30T09:55:15.572Z",
+    "checkedAt": "2026-09-30T12:28:37.439Z",
     "independent": true,
-    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
+    "record": "project/records/2026-09-30/reasoning-local-evidence/final-review.json"
   },
   "local": {
+    "inputDigest": "sha256:97b41ea0e6a47ea1fcf1ed298b8c4395f9e74df477ba9dabb2b496d7cf9a95c8",
+    "status": "passed",
+    "checkedAt": "2026-09-30T12:28:37.439Z",
+    "record": "project/records/2026-09-30/reasoning-local-evidence/final-review.json"
+  },
+  "public": {
     "inputDigest": "sha256:49c3c707ed6741a80d4de4927a4d55cdd8523999c694ee022fe1bcc6bf8f54f2",
     "status": "passed",
-    "checkedAt": "2026-09-30T09:55:15.572Z",
-    "record": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json"
-  },
-  "public": null
+    "checkedAt": "2026-09-30T11:18:33.154Z",
+    "commit": "b6686c92dbb678ea8b94eb12df37a33207c4c84b",
+    "ci": "https://github.com/pero3dev/ai-agent-library/actions/runs/36702086701",
+    "pages": "https://github.com/pero3dev/ai-agent-library/actions/runs/36702086701/job/109848894912",
+    "browserRecord": "project/records/2026-09-30/alignment-public-evidence/final-review.json"
+  }
 }

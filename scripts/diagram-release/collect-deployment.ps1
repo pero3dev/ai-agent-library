@@ -144,9 +144,10 @@ $expectedRoutes = @(
   '/docs/llm-foundations/llm-training-pipeline',
   '/docs/llm-internals/pretraining-and-scaling-laws',
   '/docs/llm-internals/alignment-theory'
+  '/docs/llm-foundations/reasoning-models'
 )
 $actualRoutes = @($htmlIdentity.documents | ForEach-Object { $_.route })
-if ($actualRoutes.Count -ne 9 -or @(Compare-Object $expectedRoutes $actualRoutes).Count -ne 0) { throw 'Expected exactly nine fixed artifact HTML routes' }
+if ($actualRoutes.Count -ne 10 -or @(Compare-Object $expectedRoutes $actualRoutes).Count -ne 0) { throw 'Expected exactly ten fixed artifact HTML routes' }
 
 # Re-read identities after download, so a rerun/replacement/status transition is
 # not silently accepted under the earlier metadata.
@@ -172,7 +173,7 @@ $evidence = [ordered]@{
   archiveTarSHA256 = $htmlIdentity.archiveTarSHA256; expectedBuildId = $htmlIdentity.expectedBuildId
   documents = $htmlIdentity.documents
   digestNote = 'artifactApiDigest describes the GitHub artifact container. archiveTarSHA256 is independently computed for downloaded archive.tar; the two digests are not equated.'
-  expectedValueSource = 'Nine selected HTML files (inference, generation, tokenization, MoE, attention variants, Transformer, training, pretraining, alignment) from the successful exact-run github-pages artifact. No expected value is read from public HTTP or a local build.'
+  expectedValueSource = 'Ten selected HTML files (inference, generation, tokenization, MoE, attention variants, Transformer, training, pretraining, alignment, reasoning) from the successful exact-run github-pages artifact. No expected value is read from public HTTP or a local build.'
 }
 Write-Json (Join-Path $evidenceRoot 'deployment-after.json') ([ordered]@{ run = $runAfter; artifact = $artifactAfter; latestStatus = $statusAfter })
 $expectedFile = Join-Path $evidenceRoot 'artifact-evidence.json'

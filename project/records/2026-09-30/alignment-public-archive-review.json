@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-public-evidence-archive-integrity-review",
+  "verdict": "approved",
+  "risk": "low",
+  "independent": true,
+  "reviewer_run_id": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+  "reviewed_at": "2026-09-30T11:22:49Z",
+  "scope": "Read-only integrity and portability review of the fixed final D1 public archive. Not a new browser run, public deployment observation, visual re-review, product/kit/gate acceptance or D2 implementation review.",
+  "must": [],
+  "should": [],
+  "sourcePublicReview": {
+    "reviewer": "/root/pretraining_visual_review",
+    "checkedAt": "2026-09-30T11:18:33.154Z",
+    "status": "approved",
+    "risk": "low",
+    "must": 0,
+    "should": 0
+  },
+  "checks": {
+    "archiveRoot": "C:\\dev\\ai-agent-library\\project\\records\\2026-09-30\\alignment-public-evidence",
+    "indexSHA256": "64c692ccbfb0559ff4c179d2b05bec037c9fb227ca5b4fdd0e9961607923e956",
+    "README_SHA256": "f05b1758cee745aa42d3a32bee72fa568a96eaea0ca834b9f8618a552544f8fa",
+    "files": 266,
+    "storedBytes": 16218486,
+    "originalBytes": 38477936,
+    "gzipFiles": 129,
+    "pngFiles": 137,
+    "hashSizeRoundtripAndOriginalByteVerified": 266,
+    "canonical": [
+      {
+        "file": "final-review.json",
+        "sha256": "e51d69bf35c9a37cf4e14782009e99a96dc9f6389067d61a445d6bc22fcd1a97",
+        "originalBytesEqual": true
+      },
+      {
+        "file": "viewed-images.json",
+        "sha256": "4523b9750dc40fe60ba0ba8cab2e772c9b3b9e5044301e5476cc5238a0659897",
+        "originalBytesEqual": true
+      }
+    ],
+    "release": {
+      "mergeSha": "b6686c92dbb678ea8b94eb12df37a33207c4c84b",
+      "runId": 36702086701,
+      "artifactId": 11090349965,
+      "buildId": "Iytr-Mx-iwwzxrZ8pUUHR"
+    },
+    "finalIdentitySHA256": "c8c30b7e36546fdc0a8089fe7941e390121a134d9bf7929bfa9f365f47d0d11e",
+    "browserRuns": [
+      {
+        "kind": "full-edge",
+        "sha256": "1e9e90954313387d4c19167b049aee2c754bac99e6bd69c88470556d25b014f5",
+        "status": "passed",
+        "passed": 107,
+        "total": 107,
+        "generatedPNGs": 887,
+        "finishedAt": "2026-09-30T10:56:57.117Z"
+      },
+      {
+        "kind": "full-webkit",
+        "sha256": "3ee83dd743d0216fee0c546e1137da55cacb1f502260aa946a9bccfac0c2b23a",
+        "status": "failed",
+        "passed": 106,
+        "total": 107,
+        "generatedPNGs": 844,
+        "finishedAt": "2026-09-30T11:11:22.084Z"
+      },
+      {
+        "kind": "focused-webkit",
+        "sha256": "1e35e1110e6c71094aed0cad75631d152efc75c10ec57c507dffb28397689ccc",
+        "status": "passed",
+        "passed": 2,
+        "total": 2,
+        "generatedPNGs": 46,
+        "finishedAt": "2026-09-30T11:12:29.425Z"
+      }
+    ],
+    "ledger": {
+      "entries": 137,
+      "unique": 137,
+      "caseSnapshotsReferenced": 41,
+      "allStoredSnapshots": 41,
+      "PNGAndSourceCaseBindingsVerified": 137,
+      "dimensionsChecked": 135,
+      "byEngine": {
+        "chromium": 66,
+        "webkit": 71
+      },
+      "byCapture": {
+        "viewport": 45,
+        "full-scene": 92
+      },
+      "bySourceCaseStatus": {
+        "passed": 135,
+        "failed": 2
+      }
+    },
+    "linksChecked": 15,
+    "rawPendingReviewLabelsPreserved": 3,
+    "failures": []
+  },
+  "crossArchiveReferences": [
+    {
+      "path": "C:\\dev\\ai-agent-library\\project\\records\\2026-09-30\\alignment-dependency-evidence\\final-review.json",
+      "originalSHA256": "a0dbbd9df2dc24cdc071667986610543e6b8edde052f75ad0ea85cbc97865639",
+      "expectedMatches": true
+    },
+    {
+      "path": "C:\\dev\\ai-agent-library\\project\\records\\2026-09-30\\alignment-local-evidence\\raw\\independent-final-review.json.gz",
+      "originalSHA256": "c5907866fdcab0d3f37d3a3c1abd4711ab96aa46810244a833abc2d521ed4180",
+      "expectedMatches": true
+    },
+    {
+      "path": "C:\\dev\\ai-agent-library\\project\\records\\2026-09-30\\alignment-local-evidence\\raw\\independent-code-proof.json.gz",
+      "originalSHA256": "6f751a800c6333c190117bc0226beadb2b806081dba8cd2d914fb79d3bc9a651",
+      "expectedMatches": true
+    },
+    {
+      "path": "C:\\dev\\ai-agent-library\\project\\records\\2026-09-30\\inference-score-spacing-public-evidence\\inference-score-spacing-public-pr62-review.json.gz",
+      "originalSHA256": "9f85d2427529fd7327a3e1cba8e24e845579f595837a2b9ee92bac86c20f05e3",
+      "expectedMatches": true
+    }
+  ],
+  "fileFindings": [
+    {
+      "file": "index.json",
+      "result": "問題なし"
+    },
+    {
+      "file": "README.md",
+      "lines": [
+        3,
+        7,
+        8,
+        9,
+        11,
+        13,
+        15
+      ],
+      "result": "問題なし"
+    },
+    {
+      "file": "final-review.json",
+      "result": "問題なし; exact source bytes retained"
+    },
+    {
+      "file": "viewed-images.json",
+      "result": "問題なし; exact source bytes retained"
+    },
+    {
+      "file": "266 indexed originals",
+      "result": "問題なし"
+    }
+  ],
+  "preservedBoundaries": [
+    "Original WebKit full run stays failed (106/107); focused unchanged repeat stays a distinct 2/2 run after both full runs finished.",
+    "The original failed case has two diagnostic images in the 137-entry ledger, with failed sourceCaseStatus preserved.",
+    "All three raw files retain pending-independent-public-image-review labels; the separate immutable final public review supplies the completed visual verdict.",
+    "137 actual-view records are not conflated with 1777 generated PNGs or the prior local 168 views.",
+    "The final public acceptance is the same input version of nine articles, not completion of all fifteen P1 articles.",
+    "The initial ordinary click stability timeout root cause remains unknown.",
+    "Old absolute paths remain provenance; index and repository-relative references resolve archived originals without the old PC."
+  ],
+  "notPerformed": [
+    "No browser or network execution",
+    "No new actual image viewing or semantic/numeric re-review",
+    "No product, kit, gate, Git or staged edits",
+    "No reconstruction of the omitted full tar; archived selected HTML, tar hash and inventory are retained"
+  ],
+  "conclusion": "The fixed archive is internally consistent and preserves the scope and raw states of the original public review. No blocking or nonblocking finding.",
+  "recorded_at": "2026-09-30T11:24:07.857Z"
+}

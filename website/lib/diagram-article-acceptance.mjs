@@ -27,7 +27,9 @@ export const PRETRAINING_ARTICLE = 'docs/11-llm-internals/pretraining-and-scalin
 export const PRETRAINING_EVIDENCE_PATH = 'project/records/2026-09-25/pretraining-article-acceptance.json'
 export const ALIGNMENT_ARTICLE = 'docs/11-llm-internals/alignment-theory.md'
 export const ALIGNMENT_EVIDENCE_PATH = 'project/records/2026-09-30/alignment-article-acceptance.json'
-export const TRACKED_ARTICLES = Object.freeze([TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE, INFERENCE_ARTICLE, TRAINING_ARTICLE, PRETRAINING_ARTICLE, ALIGNMENT_ARTICLE])
+export const REASONING_ARTICLE = 'docs/10-llm-foundations/reasoning-models.md'
+export const REASONING_EVIDENCE_PATH = 'project/records/2026-09-30/reasoning-article-acceptance.json'
+export const TRACKED_ARTICLES = Object.freeze([TRANSFORMER_ARTICLE, ATTENTION_VARIANTS_ARTICLE, MOE_ARTICLE, GENERATION_ARTICLE, TOKENIZATION_ARTICLE, INFERENCE_ARTICLE, TRAINING_ARTICLE, PRETRAINING_ARTICLE, ALIGNMENT_ARTICLE, REASONING_ARTICLE])
 const MANIFEST = 'website/diagrams/articles.json'
 const TRANSFORMER_TOPICS = {
   '概要: デコーダ専用 Transformer の全体像': ['decoder-flow', 'overview-and-notation'],
@@ -403,7 +405,78 @@ const ALIGNMENT_INPUT_FILES = [...SHARED_INPUT_FILES, 'website/components/diagra
   'website/components/diagrams/alignment-reward-risk-walkthrough.jsx', 'website/components/diagrams/alignment-reward-risk.css', 'website/lib/alignment-reward-risk-model.mjs',
   'website/components/diagrams/alignment-feedback-walkthrough.jsx', 'website/components/diagrams/alignment-feedback.css', 'website/lib/alignment-feedback-model.mjs'
 ]
+const REASONING_TOPICS = {
+  "概要: 分担と「考える時間」の正体": [
+    "d2-s0-b0.row0",
+    "d2-s0-b0.row1",
+    "d2-s0-b0.row2",
+    "d2-s0-b0.row3",
+    "d2-s0-b0.row4",
+    "d2-s0-b1"
+  ],
+  "仕組みの直感: 答える前に考えを書く": [
+    "d2-s1-b0",
+    "d2-s1-b1.li0",
+    "d2-s1-b1.li1",
+    "d2-s1-b1.li2",
+    "d2-s1-b2"
+  ],
+  "効くタスクと効かないタスク": [
+    "d2-s2-b0",
+    "d2-s2-b1.row0",
+    "d2-s2-b1.row1",
+    "d2-s2-b1.row2",
+    "d2-s2-b2"
+  ],
+  "思考量の制御とコスト・レイテンシ設計": [
+    "d2-s3-b0",
+    "d2-s3-b1.li0",
+    "d2-s3-b1.li1",
+    "d2-s3-b1.li2"
+  ],
+  "考えすぎ(overthinking)": [
+    "d2-s4-b0",
+    "d2-s4-b1.li0",
+    "d2-s4-b1.li1",
+    "d2-s4-b1.li2"
+  ],
+  "プロンプトの変化: 必須手順と探索の余地を分ける": [
+    "d2-s5-b0",
+    "d2-s5-b1.li0",
+    "d2-s5-b1.li1",
+    "d2-s5-b1.li2"
+  ],
+  "評価の注意: 思考は見えず、揺れる": [
+    "d2-s6-b0",
+    "d2-s6-b1.li0",
+    "d2-s6-b1.li1",
+    "d2-s6-b1.li2"
+  ],
+  "アンチパターン": [
+    "d2-s7-b0.li0",
+    "d2-s7-b0.li1",
+    "d2-s7-b0.li2",
+    "d2-s7-b0.li3",
+    "d2-s7-b0.li4"
+  ],
+  "チェックリスト": [
+    "d2-s8-b0.li0",
+    "d2-s8-b0.li1",
+    "d2-s8-b0.li2",
+    "d2-s8-b0.li3",
+    "d2-s8-b0.li4",
+    "d2-s8-b0.li5"
+  ]
+}
+const REASONING_INPUT_FILES = [...SHARED_INPUT_FILES, 'website/components/diagrams/reasoning-walkthrough.jsx',
+  'website/components/diagrams/reasoning-sequence-walkthrough.jsx', 'website/components/diagrams/reasoning-sequence.css', 'website/lib/reasoning-sequence-model.mjs',
+  'website/components/diagrams/reasoning-evaluation-walkthrough.jsx', 'website/components/diagrams/reasoning-evaluation.css', 'website/lib/reasoning-evaluation-model.mjs'
+]
 const configs = {
+  [REASONING_ARTICLE]: { primaryDiagramIds: [
+  "reasoning-sequence",
+  "reasoning-evaluation"
+], topics: REASONING_TOPICS, inputFiles: REASONING_INPUT_FILES, evidencePath: REASONING_EVIDENCE_PATH, requireReadingStage: true },
   [ALIGNMENT_ARTICLE]: { primaryDiagramIds: [
   "alignment-preference",
   "alignment-reward-risk",
@@ -449,6 +522,7 @@ const configs = {
   }
 }
 const overrideDirectories = {
+  [REASONING_ARTICLE]: 'llm-foundations',
   [ALIGNMENT_ARTICLE]: 'llm-internals',
   [PRETRAINING_ARTICLE]: 'llm-internals',
   [TRAINING_ARTICLE]: 'llm-foundations',

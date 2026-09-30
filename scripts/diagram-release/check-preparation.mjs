@@ -7,8 +7,9 @@ import { runInferenceChecks, inference, SPECULATIVE_ORACLE, BATCH_ORACLE, sampli
 import { foundations, runFoundationsChecks } from './foundations-checks.mjs'
 import { training, trainingPath, trainingProfiles, TRAINING_ORACLE, runTrainingChecks } from './training-checks.mjs'
 import { pretraining, pretrainingPath, pretrainingProfiles, runPretrainingChecks } from './pretraining-checks.mjs'
-import { restoreC1ReleaseBodies, restoreC2ReleaseBodies, restoreD1CaseNames } from './predecessor-proof.mjs'
+import { restoreC1ReleaseBodies, restoreC2ReleaseBodies, restoreD1CaseNames, restoreD1ReleaseBodies, restoreD2CaseNames } from './predecessor-proof.mjs'
 import { alignment, alignmentPath, alignmentProfiles, ALIGNMENT_ORACLE, runAlignmentChecks } from './alignment-checks.mjs'
+import { reasoning, reasoningPath, reasoningProfiles, REASONING_ORACLE, runReasoningChecks } from './reasoning-checks.mjs'
 import { isKnownRootFavicon404 } from './known-site-observations.mjs'
 const args = parseArgs(process.argv.slice(2), ['repo', 'output'])
 if (args.help) { console.log('Offline: node check-preparation.mjs --output=<evidence-directory> [--repo=<repository-root; default cwd>]'); process.exit(0) }
@@ -21,7 +22,7 @@ const files = []
 for (const item of [...manifest.sourceFiles, ...manifest.addedFiles]) {
   let file
   if (item.location === 'repository') {
-    assert.ok(['tests/unit/diagram-release-portable.test.mjs', 'website/tests/browser/alignment.spec.mjs'].includes(item.file), 'Only the fixed repository-owned tests may live outside the kit')
+    assert.ok(['tests/unit/diagram-release-portable.test.mjs', 'website/tests/browser/alignment.spec.mjs', 'website/tests/browser/reasoning.spec.mjs'].includes(item.file), 'Only the fixed repository-owned tests may live outside the kit')
     file = await insideExisting(repo, join(repo, item.file))
   } else {
     assert.equal(item.location, undefined, 'Unknown manifest file location')
@@ -59,7 +60,10 @@ const proof = JSON.parse(await readFile(proofPath, 'utf8'))
 const currentBodies = Object.fromEntries(await Promise.all([...manifest.sourceFiles, ...manifest.addedFiles].filter(item => !item.location).map(async item => [item.file, await readFile(join(kitRoot, item.file), 'utf8')])))
 assert.equal(manifest.d1Revision.proofFile, 'd1-predecessor-proof.json', 'Use the fixed D1 sidecar only')
 const d1Proof = JSON.parse(await readFile(join(kitRoot, 'd1-predecessor-proof.json'), 'utf8'))
-const c2Bodies = restoreC2ReleaseBodies(currentBodies, d1Proof)
+assert.equal(manifest.d2Revision.proofFile, 'd2-predecessor-proof.json')
+const d2Proof = JSON.parse(await readFile(join(kitRoot, 'd2-predecessor-proof.json'), 'utf8'))
+const d1Bodies = restoreD1ReleaseBodies(currentBodies, d2Proof)
+const c2Bodies = restoreC2ReleaseBodies(d1Bodies, d1Proof)
 const c1Bodies = restoreC1ReleaseBodies(c2Bodies, proof)
 for (const segment of manifest.protectedSegments) {
   const body = c1Bodies[segment.file], start = body.indexOf(segment.start)
@@ -86,12 +90,24 @@ for (const predecessor of [...manifest.c1Revision.predecessorFiles, ...manifest.
   }
   assert.equal(hash(comparable), predecessor.previousSHA256, `A release file changed beyond the declared additions: ${predecessor.file}`)
 }
-const names = [], foundationNames = [], trainingNames = [], pretrainingNames = [], alignmentNames = []
+const names = [], foundationNames = [], trainingNames = [], pretrainingNames = [], alignmentNames = [], reasoningNames = []
 await runInferenceChecks({ check: async name => names.push(name) })
 await runFoundationsChecks({ check: async name => foundationNames.push(name) })
 await runTrainingChecks({ check: async name => trainingNames.push(name) })
 await runPretrainingChecks({ check: async name => pretrainingNames.push(name) })
 await runAlignmentChecks({ check: async name => alignmentNames.push(name) })
+await runReasoningChecks({ check: async name => reasoningNames.push(name) })
+assert.equal(reasoningNames.length, 14); assert.equal(new Set(reasoningNames).size, 14)
+assert.equal(reasoning.length, 2)
+assert.equal(reasoning.reduce((sum, item) => sum + item.labels.length, 0), 9)
+assert.equal(reasoning.reduce((sum, item) => sum + item.steps.length, 0), 8)
+assert.deepEqual(reasoning.map(item => item.steps), [[0, 2, 3], [0, 1, 2, 3, 4]])
+assert.equal(reasoningProfiles.length, 6)
+assert.equal(reasoning.reduce((sum, item) => sum + item.controls.length, 0), 2)
+assert.equal(reasoning.reduce((sum, item) => sum + item.controls.reduce((count, control) => count + control.options.length, 0), 0), 5)
+assert.equal(REASONING_ORACLE.evaluation.settingGrid.observations, 30)
+assert.equal(REASONING_ORACLE.evaluation.trials.length * REASONING_ORACLE.evaluation.metrics.length, 12)
+assert.ok(REASONING_ORACLE.evaluation.metrics.every(item => item.value === null && item.unit === null && item.status === 'unmeasured'))
 assert.equal(alignmentNames.length, 16); assert.equal(new Set(alignmentNames).size, 16)
 assert.equal(alignment.length, 3)
 assert.equal(alignment.reduce((sum, item) => sum + item.labels.length, 0), 15)
@@ -128,15 +144,15 @@ const quotedRoutes = block => [...block.matchAll(/^\s*'(\/docs\/[^']+)'[,]?$/gm)
 const extractorBlock = extractor.match(/const routes = \[\n([\s\S]*?)\n\]/)?.[1]
 const collectorBlock = collector.match(/\$expectedRoutes = @\(\n([\s\S]*?)\n\)/)?.[1]
 assert.ok(extractorBlock && collectorBlock, 'Missing fixed artifact route declarations')
-assert.equal(runner.split('const artifactRoutes = [alignmentPath, pretrainingPath, trainingPath, inferencePath, ...foundations.map(item => item.route), moePath, variantsPath, transformerPath]').length - 1, 1)
-const runnerRoutes = [alignmentPath, pretrainingPath, trainingPath, '/docs/llm-internals/inference-internals', ...foundations.map(item => item.route)]
+assert.equal(runner.split('const artifactRoutes = [reasoningPath, alignmentPath, pretrainingPath, trainingPath, inferencePath, ...foundations.map(item => item.route), moePath, variantsPath, transformerPath]').length - 1, 1)
+const runnerRoutes = [reasoningPath, alignmentPath, pretrainingPath, trainingPath, '/docs/llm-internals/inference-internals', ...foundations.map(item => item.route)]
 for (const name of ['moePath', 'variantsPath', 'transformerPath']) {
   const match = runner.match(new RegExp(`const ${name} = '([^']+)'`))
   assert.ok(match, `Missing fixed runner route ${name}`); runnerRoutes.push(match[1])
 }
 for (const routes of [quotedRoutes(extractorBlock), quotedRoutes(collectorBlock), runnerRoutes]) {
-  assert.equal(routes.length, 9); assert.equal(new Set(routes).size, 9)
-  assert.deepEqual(routes.toSorted(), [...manifest.c1Revision.artifactRoutes, pretrainingPath, alignmentPath].toSorted())
+  assert.equal(routes.length, 10); assert.equal(new Set(routes).size, 10)
+  assert.deepEqual(routes.toSorted(), [...manifest.c1Revision.artifactRoutes, pretrainingPath, alignmentPath, reasoningPath].toSorted())
   assert.ok(!routes.includes('/docs/implementation/embeddings'))
 }
 // Execute only the registration statements. check records names and never runs
@@ -146,19 +162,21 @@ const registrationStart = runner.indexOf('  await runFoundationsChecks('), regis
 assert.ok(declarationsStart >= 0 && declarationsEnd > declarationsStart && registrationStart >= 0 && registrationEnd > registrationStart)
 const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor
 const apiNames = ['usePage', 'open', 'structure', 'sceneDelivery', 'stage', 'phase', 'geometry', 'screenshot', 'rootOf', 'panelOf', 'expect']
-const register = new AsyncFunction('check', 'runFoundationsChecks', 'runInferenceChecks', 'runTrainingChecks', 'runPretrainingChecks', 'runAlignmentChecks', ...apiNames, runner.slice(declarationsStart, declarationsEnd) + '\n' + runner.slice(registrationStart, registrationEnd))
+const register = new AsyncFunction('check', 'runFoundationsChecks', 'runInferenceChecks', 'runTrainingChecks', 'runPretrainingChecks', 'runAlignmentChecks', 'runReasoningChecks', ...apiNames, runner.slice(declarationsStart, declarationsEnd) + '\n' + runner.slice(registrationStart, registrationEnd))
 const runnerNames = []
-await register(async name => runnerNames.push(name), runFoundationsChecks, runInferenceChecks, runTrainingChecks, runPretrainingChecks, runAlignmentChecks, ...apiNames.map(() => undefined))
-assert.equal(runnerNames.length, 107); assert.equal(new Set(runnerNames).size, 107)
+await register(async name => runnerNames.push(name), runFoundationsChecks, runInferenceChecks, runTrainingChecks, runPretrainingChecks, runAlignmentChecks, runReasoningChecks, ...apiNames.map(() => undefined))
+assert.equal(runnerNames.length, 121); assert.equal(new Set(runnerNames).size, 121)
 assert.deepEqual(alignmentNames, manifest.d1Revision.addedCaseNames)
-const oldRunnerNames = restoreD1CaseNames(runnerNames, alignmentNames, d1Proof)
+assert.deepEqual(reasoningNames, manifest.d2Revision.addedCaseNames)
+const d1RunnerNames = restoreD2CaseNames(runnerNames, reasoningNames, d2Proof)
+const oldRunnerNames = restoreD1CaseNames(d1RunnerNames, alignmentNames, d1Proof)
 assert.deepEqual(oldRunnerNames.filter(name => !pretrainingNames.includes(name)), proof.priorCaseNames, 'All 71 prior case names must remain in order')
 assert.deepEqual(runnerNames.filter(name => pretrainingNames.includes(name)), pretrainingNames)
 assert.deepEqual(pretrainingNames, manifest.c2Revision.addedCaseNames)
 assert.deepEqual(oldRunnerNames.filter(name => !trainingNames.includes(name) && !pretrainingNames.includes(name)), manifest.c1Revision.regressionBaseline.caseNames, 'All 58 prior case names must remain in order')
 assert.deepEqual(runnerNames.filter(name => trainingNames.includes(name)), trainingNames)
 assert.deepEqual(trainingNames, manifest.c1Revision.addedCaseNames)
-assert.match(runner, /expectedCaseCount: 107,/)
+assert.match(runner, /expectedCaseCount: 121,/)
 const positive = values => values.every(p => p >= 0 && p <= 1) && Math.abs(values.reduce((a, b) => a + b, 0) - 1) < 1e-12
 for (const fixture of SPECULATIVE_ORACLE) for (const key of ['p', 'q', 'exit']) assert.ok(positive(fixture[key]))
 for (const fixture of SPECULATIVE_ORACLE) assert.equal(Math.min(1, fixture.p[fixture.token] / fixture.q[fixture.token]), fixture.alpha)
@@ -170,7 +188,7 @@ for (const t of [.5, 1, 2]) for (const method of ['top-k', 'top-p']) for (const 
 }
 assert.equal(fixtures, 54)
 for (const icons of [undefined, [], [{ rel: 'icon', href: 'https://pero3dev.github.io/ai-agent-library/favicon.svg' }]]) assert.equal(isKnownRootFavicon404({ url: 'https://pero3dev.github.io/favicon.ico', text: 'Failed to load resource: the server responded with a status of 404 ()' }, icons), false)
-const report = { evidenceClass: 'offline-preparation-only', networkExecuted: false, publicAuditExecuted: false, buildExecuted: false, independentReviewStatus: 'pending', priorCases: { total: 91, caseNamesPreservedByExplicitControlMigration: true, protectedBodiesRestored: true }, newCases: 16, totalCases: 107, alignmentStages: 15, alignmentReadStops: 15, alignmentScreenConditions: 6, pretrainingStages: 23, pretrainingReadStops: 19, pretrainingScreenConditions: 6, inferenceStages: 23, trainingStages: 10, trainingReadStops: 9, trainingScreenConditions: 6, artifactRoutes: [...manifest.c1Revision.artifactRoutes, pretrainingPath, alignmentPath], samplingOracleSettings: fixtures, inferenceCaseNames: names, foundationsCaseNames: foundationNames, trainingCaseNames: trainingNames, pretrainingCaseNames: pretrainingNames, alignmentCaseNames: alignmentNames, allCaseNames: runnerNames, mandatoryFavicon: '/ai-agent-library/favicon.svg', favicon404Exception: false, files }
+const report = { evidenceClass: 'offline-preparation-only', networkExecuted: false, publicAuditExecuted: false, buildExecuted: false, independentReviewStatus: 'pending', priorCases: { total: 107, caseNamesPreserved: true, protectedBodiesRestored: true }, newCases: 14, totalCases: 121, reasoningStages: 9, reasoningReadStops: 8, reasoningScreenConditions: 6, alignmentStages: 15, alignmentReadStops: 15, alignmentScreenConditions: 6, pretrainingStages: 23, pretrainingReadStops: 19, pretrainingScreenConditions: 6, inferenceStages: 23, trainingStages: 10, trainingReadStops: 9, trainingScreenConditions: 6, artifactRoutes: [...manifest.c1Revision.artifactRoutes, pretrainingPath, alignmentPath, reasoningPath], samplingOracleSettings: fixtures, inferenceCaseNames: names, foundationsCaseNames: foundationNames, trainingCaseNames: trainingNames, pretrainingCaseNames: pretrainingNames, alignmentCaseNames: alignmentNames, reasoningCaseNames: reasoningNames, allCaseNames: runnerNames, mandatoryFavicon: '/ai-agent-library/favicon.svg', favicon404Exception: false, files }
 const run = await newChild(output, 'preparation-' + new Date().toISOString().replaceAll(':', '-').replaceAll('.', '-'))
 await writeFile(join(run, 'preparation.json'), JSON.stringify(report, null, 2) + '\n')
 console.log(JSON.stringify(report, null, 2))

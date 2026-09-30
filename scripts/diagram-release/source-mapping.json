@@ -1,28 +1,28 @@
 {
   "schemaVersion": 8,
-  "status": "D1-candidate-pending-independent-review",
+  "status": "D2-candidate-pending-independent-review",
   "sourceKit": "ai-agent-library-inference-public",
   "networkExecuted": false,
   "publicAuditExecuted": false,
-  "scope": "D1 candidate: nine fixed CI artifact routes and all107 cases; old90 unchanged, one explicit no-diagram control migration, sixteen added alignment checks. Offline preparation/local export are not public acceptance.",
+  "scope": "D2 candidate: ten fixed CI artifact routes and all121 cases; old107 names and bodies unchanged, fourteen added reasoning checks. Offline preparation/local export are not public acceptance.",
   "sourceFiles": [
     {
       "file": "collect-deployment.ps1",
-      "portableSHA256": "6fdd080b56c215f43c352c5cd06827a890cdaa51bf8908304d70e01594326c19",
+      "portableSHA256": "25e8fb862b57bd04dd6fbba2504bbf8bee63a80674a07cf053b725c8e9ecfbb1",
       "change": "PowerShell 7 help and release gate; explicit output/repo; shared offline path validation; preserved GitHub identity body; relative references. C1: exact seven-article scope and new module registration, recorded as reversible predecessor edits; old CI identity and case bodies retained.",
       "sourceRawSHA256": "bdb4a7812875a9a8b83daee5e9f759d75ee802e63c3866545aeb45807191c113",
       "normalizedSourceSHA256": "bdb4a7812875a9a8b83daee5e9f759d75ee802e63c3866545aeb45807191c113"
     },
     {
       "file": "extract-ci-html.mjs",
-      "portableSHA256": "bab471e15e441d46b6dd6c52efb30996b76981c8cb4ec15c0224404d241cc309",
+      "portableSHA256": "0ea0950867ca72274f627cf9f3afd7db4317f3f7315ddce6767647b31d3b0529",
       "change": "Explicit output/repo and help; contained archive; exclusive extraction directory; relative references; unchanged regular HTML selection and build checks. C1: exact seven-article scope and new module registration, recorded as reversible predecessor edits; old CI identity and case bodies retained.",
       "sourceRawSHA256": "3e509d1434615996582df8bfd6a461bfe4cd393d2398870a66c6dbabcb26f556",
       "normalizedSourceSHA256": "3e509d1434615996582df8bfd6a461bfe4cd393d2398870a66c6dbabcb26f556"
     },
     {
       "file": "verify-public.mjs",
-      "portableSHA256": "309c2a106b7f25650e2640e9eee6cc525c50f80d310fea3835c646a959ccb806",
+      "portableSHA256": "ad1c6e33badb6a8c6bae853e5699a6c6f028eb6092c7fb0b5600a3cfdd809a02",
       "change": "Strict CLI; explicit output/repo; website lockfile Playwright; contained evidence; relative output references; unchanged identities, fixtures and all test bodies. Subsequent channel fix: two declared startup/report source edits relative to the LF predecessor; original protected-body hash verified after reversing only those edits. C1: exact seven-article scope and new module registration, recorded as reversible predecessor edits; old CI identity and case bodies retained. Optional full-element screenshot path added while viewport behavior remains unchanged.",
       "sourceRawSHA256": "feda2fe31c1f983ab534714e4b3aaadebbd17155951d9f7a5089284ca1f03edd",
       "normalizedSourceSHA256": "feda2fe31c1f983ab534714e4b3aaadebbd17155951d9f7a5089284ca1f03edd"
@@ -85,14 +85,14 @@
     },
     {
       "file": "check-preparation.mjs",
-      "portableSHA256": "02ec3e179cea91c68611517844e28bb43104efcec8d5621d4ecff79ce87c3256",
+      "portableSHA256": "dde082c0e18e2f680ffe2b71de4474c3cb2b7bb35dbbe83f44e9295032a3fa33",
       "change": "Old TEMP dependencies replaced by frozen source segment hashes; portable manifest verification, 32 module cases enumerated, fixture invariants preserved; explicit output. LF-only package gate; raw source provenance and normalized source preservation hashes separated. Verify candidate section hash and reverse exact single-occurrence declared source edits before checking original normalized source hash. Repository-layout successor: fixed allowlisted repository test path resolved with regular-file and symlink/junction checks; kit entries restricted to plain filenames. Label successor: verify approved normalized incoming module and reverse exact declared file edits to compare historical normalized B module. C1: enumerate actual runner registration without invoking case callbacks; check fixed seven-route sets, all previous 58 case names, 13 new names and complete predecessor reversals. Capture predecessor reversals and leading/final LF shape are checked.",
       "sourceRawSHA256": "c03b60e16cd467f468f4dc22327f852580e3546e3d3b2214c3c901127cb3a866",
       "normalizedSourceSHA256": "6fb2603518e240077157e2786d442a377caa1ae976f723851ca5fe843966c3c4"
     },
     {
       "file": "README.md",
-      "portableSHA256": "b6c2829aaaf39281dfc32e9111d8a2294108f18037df59a572c88419e55a8c00",
+      "portableSHA256": "7a2010f9decfb5cf5ecfdb354c5f926f5f034e5c57af6d5bfe9bdec9dfe04067",
       "change": "Standalone Windows handoff, pending status, source map, P1 stop boundary and 15-article expansion requirements. LF contract and raw-versus-normalized preservation documented. Explain bundled Chromium default, explicit Edge and LF predecessor versus channel-fix provenance. Repository-layout successor: test command uses tests/unit; root/Ubuntu CI inclusion and prerequisite boundaries documented. Distinguish historical initial proposal and approved predecessors from the pending label successor; document both provenance hashes and source-edit reversal. C1: seven-article/71-case pending candidate and current coverage, preserving historical provenance. Document complete scene evidence and explicit leading/final LF normalization.",
       "sourceRawSHA256": "611f5e684274ff2d4fc0d65e72cdfae22aa4475ac9dc2a951d8dbecb67d2d3e1",
       "normalizedSourceSHA256": "5faed88979e5c63faf15a59d5781135180b1cb6f8d5da502e35c11bd13894e9e"
@@ -210,7 +210,7 @@
     },
     {
       "file": "tests/unit/diagram-release-portable.test.mjs",
-      "portableSHA256": "ffc69e4b9d32209c349b9262b72609ba0be9045a12dccb82265370891ed5937c",
+      "portableSHA256": "6880bc7d5e7f56f806ffb84976d47d4a7bc15ed9ced01c517ed8a77561ad3589",
       "location": "repository",
       "previousKitPath": "portable-validation.test.mjs"
     },
@@ -226,7 +226,7 @@
     },
     {
       "file": "predecessor-proof.mjs",
-      "portableSHA256": "bad076d8cee2beb374de194d0cabae8e7183b3c87b7bc6531022f1626e95e443",
+      "portableSHA256": "99194c3669f8059118d73737b9ea38a0aeddfe1284f020d804c3efe73a4af93d",
       "change": "Fixed, pure inverse application of C2 entrypoint edits; rejects undeclared changes before historical proof checks."
     },
     {
@@ -241,7 +241,7 @@
     },
     {
       "file": "local-alignment-adapter.mjs",
-      "portableSHA256": "c5170691e034afa1378b0a1d425b08ca9df75f04eca256fb4782d06baabf65a1",
+      "portableSHA256": "a529ecca76d37a69af20184582981e26fea9beb0109dc59c1fdc16f496b2ea63",
       "change": "D1 alignment fixed independent checks, local-only adapter or flat predecessor proof; pending independent implementation review."
     },
     {
@@ -254,6 +254,23 @@
       "portableSHA256": "69332439b02df0ae8ca0016f2f7f7062010acfbf719bf1e64c161438190a6b0a",
       "location": "repository",
       "change": "Local CI adapter executes the same sixteen callbacks without public-release evidence."
+    },
+    {
+      "file": "reasoning-checks.mjs",
+      "portableSHA256": "2e064f100dcff5fd1b6968c425a9ac55acacfcc8897ef6309a3be84acb225b98"
+    },
+    {
+      "file": "local-reasoning-adapter.mjs",
+      "portableSHA256": "8c1992f5d1d7d80111c82a9fe8083291fe5d3464d68acd65121a7a1d96332b5e"
+    },
+    {
+      "file": "d2-predecessor-proof.json",
+      "portableSHA256": "2e71eff4aed80aec129d9a149d6a811bbd39e4c05dc9a6f2d7de1f535e804d87"
+    },
+    {
+      "file": "website/tests/browser/reasoning.spec.mjs",
+      "location": "repository",
+      "portableSHA256": "1788bbbe3bee4b47c5a3c63658369efee2b8f5341710083b9a26907ab3f6bef2"
     }
   ],
   "lineEndingPolicy": "All portable files use LF. Source raw hashes are retained; normalized source hashes apply CRLF-to-LF only, with no other text transformation.",
@@ -645,5 +662,29 @@
     "localAdapter": "local-alignment-adapter.mjs",
     "localBrowserSpec": "website/tests/browser/alignment.spec.mjs",
     "reviewStatus": "pending-independent-review"
+  },
+  "d2Revision": {
+    "proofFile": "d2-predecessor-proof.json",
+    "artifactRoute": "/docs/llm-foundations/reasoning-models",
+    "addedCaseNames": [
+      "reasoning: all 9 stages 1440x1000 light DSF1",
+      "reasoning: all 9 stages 1440x1000 dark DSF1",
+      "reasoning: all 9 stages 1280x720 light DSF1",
+      "reasoning: all 9 stages 390x844 light DSF1",
+      "reasoning: all 9 stages 390x844 dark DSF1",
+      "reasoning: all 9 stages 960x540 light DSF2",
+      "reasoning-sequence: independent meaning fixtures, history-free stages and midpoint reverse seeks",
+      "reasoning-evaluation: independent meaning fixtures, all six setting pairs and stage-restricted controls",
+      "reasoning: keyboard transport, modal selectors, isolated state and focus return",
+      "reasoning: all 8 READ stops, manual-stage meaning carryover and independent figure states",
+      "reasoning-sequence: native elapsed play, frozen pause, replay and completion",
+      "reasoning-evaluation: native elapsed play, frozen pause, replay and completion",
+      "reasoning noJS: original prose, nine headings, two tables and all nine static stage descriptions",
+      "reasoning print: coherent scenes and original article with controls hidden"
+    ],
+    "localAdapter": "local-reasoning-adapter.mjs",
+    "localBrowserSpec": "website/tests/browser/reasoning.spec.mjs",
+    "reviewStatus": "pending-independent-review",
+    "restoration": "Restore the four explicit D2 entrypoint/adapter edits and D1 helper prefix, then run unchanged D1/C2/C1 predecessor checks. All old 107 names and bodies remain."
   }
 }

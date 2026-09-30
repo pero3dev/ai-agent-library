@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "kind": "D2-public-kit-approved-plan-preparation-archive",
+  "archivedAt": "2026-09-30T10:22:12.185Z",
+  "archivist": "/root/inference_change_evidence",
+  "archiveOnly": true,
+  "scope": {
+    "ownedDirectory": "project/records/2026-09-30/reasoning-kit-preparation",
+    "originals": 4,
+    "authorization": "Parent bounded preservation task, plan originals and independent plan review only.",
+    "existingArtifactsChanged": false,
+    "productKitGitChanged": false
+  },
+  "adoptedInterface": {
+    "markdown": "../p1-interface-preparation/raw/reasoning-d2-interface-proposal-20260930.md",
+    "json": "../p1-interface-preparation/raw/reasoning-d2-interface-proposal-20260930.json",
+    "sha256": "e9fed4e5450549dd04704fbff3d9ae4148dabdfe52c607d5f0b486e1467ced99",
+    "review": "../p1-interface-preparation/raw/reasoning-d2-interface-review-20260930.json"
+  },
+  "plan": {
+    "markdown": "raw/reasoning-d2-kit-plan-20260930.md.gz",
+    "json": "raw/reasoning-d2-kit-plan-20260930.json.gz",
+    "addedCases": 14,
+    "totalCases": 121,
+    "routes": 10,
+    "figures": 2,
+    "stages": 9,
+    "readStops": 8,
+    "manualStops": 1,
+    "profiles": 6,
+    "controls": 2,
+    "options": 5,
+    "settingStageObservations": 30,
+    "originalStatusPreserved": "proposal-pending-independent-review-not-implementation"
+  },
+  "independentPlanReview": {
+    "markdown": "raw/reasoning-d2-kit-plan-review-20260930.md.gz",
+    "json": "raw/reasoning-d2-kit-plan-review-20260930.json.gz",
+    "sha256": "363414b4e55b450b7dca4292d19b34cb3edeaad5237c2a4c4fe78e09c7e176f3",
+    "reviewedAt": "2026-09-30T10:18:42Z",
+    "reviewer": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+    "verdict": "approved",
+    "risk": "low",
+    "must": 0,
+    "should": 0,
+    "scope": "Plan sufficiency and consistency with adopted D2 article/interface, current D1 kit, semantic boundaries, old assertion protection and acceptance provenance. No implementation/public authorization or actual D2 test acceptance.",
+    "targets": [
+      {
+        "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-kit-plan-20260930.md",
+        "path": "raw/reasoning-d2-kit-plan-20260930.md.gz",
+        "originalSHA256": "18f12533187dfe3a2bf0ee57c19f2c7a0afbce80d124af0202ecbab2ed7020a5"
+      },
+      {
+        "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-kit-plan-20260930.json",
+        "path": "raw/reasoning-d2-kit-plan-20260930.json.gz",
+        "originalSHA256": "279fa20de494010a81d6e6ecf1fe9ca37230ce328711e678da2ac22700470ff4"
+      }
+    ],
+    "markerDecision": "The review records root adoption of REASONING / SEQUENCE and REASONING / EVALUATION as ordinary visible labels; original plan pending wording is preserved."
+  },
+  "statusAtArchive": {
+    "D1PublicAcceptanceComplete": false,
+    "D2ProductStarted": false,
+    "D2KitStarted": false,
+    "planApproved": true,
+    "implementationApproved": false,
+    "localAccepted": false,
+    "publicAccepted": false,
+    "rootStartInstructionRequired": true,
+    "P1Total": 15,
+    "inventoryTotal": 199,
+    "P0PartialExcluded": 2,
+    "stopAfterP1PublicAcceptance": true,
+    "P2Started": false
+  },
+  "files": [
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-kit-plan-20260930.md",
+      "path": "raw/reasoning-d2-kit-plan-20260930.md.gz",
+      "originalSHA256": "18f12533187dfe3a2bf0ee57c19f2c7a0afbce80d124af0202ecbab2ed7020a5",
+      "originalBytes": 8172,
+      "storedSHA256": "9809ce67bd27b4611b3e060e7086e1d612bd52e5d1dc9ddbf257a401d6112239",
+      "storedBytes": 4463,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-kit-plan-20260930.json",
+      "path": "raw/reasoning-d2-kit-plan-20260930.json.gz",
+      "originalSHA256": "279fa20de494010a81d6e6ecf1fe9ca37230ce328711e678da2ac22700470ff4",
+      "originalBytes": 32826,
+      "storedSHA256": "4059b22cbd48d096b255c1385c57d3f1fe3d7bf18c8527652568042c490e2155",
+      "storedBytes": 9370,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-kit-plan-review-20260930.md",
+      "path": "raw/reasoning-d2-kit-plan-review-20260930.md.gz",
+      "originalSHA256": "f37669f50a70fe074ee3c60f6806a959fb30cca1d7fe70f2d1433a5e47208cbb",
+      "originalBytes": 3115,
+      "storedSHA256": "ba76505d06ca42e1442e9a0834a95d4c1b1b3f0134fdff0a027b1c7e463592d9",
+      "storedBytes": 2035,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    },
+    {
+      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-kit-plan-review-20260930.json",
+      "path": "raw/reasoning-d2-kit-plan-review-20260930.json.gz",
+      "originalSHA256": "363414b4e55b450b7dca4292d19b34cb3edeaad5237c2a4c4fe78e09c7e176f3",
+      "originalBytes": 7146,
+      "storedSHA256": "2914c17c3a228c76d1419eed45725a1a8de7efb65b6759f18c515a2be3333362",
+      "storedBytes": 3002,
+      "encoding": "gzip",
+      "roundtripMatchesOriginal": true
+    }
+  ],
+  "verification": {
+    "allFourOriginalHashesMatched": true,
+    "allGzipRoundtripsByteEqual": true,
+    "reviewTargetHashesMatchPlan": true,
+    "adoptedInterfaceHashMatched": true
+  },
+  "notPerformed": [
+    "D2 product or kit implementation",
+    "D2 callbacks/unit/browser/build/CI/Pages/public execution",
+    "Actual screenshot review or motion observation",
+    "Physical device/Safari/screenreader/print acceptance",
+    "New external primary-source retrieval"
+  ]
+}

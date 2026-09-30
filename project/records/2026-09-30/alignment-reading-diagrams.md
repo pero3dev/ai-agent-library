@@ -1,6 +1,6 @@
 # アラインメント理論の読書連動図解（D1）
 
-状態: D1の3図・15段階を実装し、PR #63を作成。CIの依存監査で見つかった問題を互換パッチで解消し、補足の独立ローカルレビューを完了した。最終固定候補の記事再レビューとCI・公開確認へ進む。P1の公開完了は8/15記事。
+状態: D1の3図・15段階をPR #63で公開受入した。main CI・Pages・独立公開レビューを完了し、既存8記事も現行入力で再受入。P1の公開完了は9/15記事。
 
 ## 作業契約
 
@@ -66,3 +66,21 @@ C2と既存7記事は[PR #62の公開受入](inference-score-spacing-fix.md)を�
 2026-09-30T09:55:15.572Zの[独立補足レビュー](alignment-dependency-evidence/final-review.json)はapproved / low・must 0・should 0。比較対象419ファイルでは、230 HTMLがBUILD_IDの文字列を除いて一致し、186資産は同じパス・バイト、3 manifestはBUILD_IDを含むディレクトリ名だけが変わった。出力全2551ファイルの残り2132ファイルを旧版と比較したとは扱わない。実際のリンクによるSPA遷移をEdge/WebKitそれぞれ9記事で確認し、図解の停止・次段階・読書連動への復帰、各engineの83 RSC応答と8 WOFF2も照合した。
 
 WebKitの最終補助検査は成功。Edgeは既存ページへのfetch中断を拒否したfailed原本を保持する。独立レビューが39件の中断先すべての実在HTMLとhashを確認し、失敗後に未実行だった3検査を生データから補完して承認した。中断の原因やタイミングは断定しない。critical resourceの失敗、console/page errorはない。旧168画像・性能値は出力同一性と今回の動作確認による限定継承で、新しい実視認・性能再実行は0件。9記事のreview/localゲートを新入力へ更新し、publicゲートは実公開の検証まで更新しない。
+
+### PR #63の最終提出とマージ
+
+固定tree `ac7e30d48f46754893688afac7cb8aebbcf98b38`、digest `700ee5d2fdd47618af83efe03afcd04327718f7d36654c5b2c5cae22c0187b43`は2026-09-30T10:03:36Zに正式記事の限定再レビューを通過（approved / low、新規must 0・should 0）。T-1の2記事・一次根拠は前回候補から不変で、前回should 2は後続候補として保持する。[最終提出の原本](alignment-submission-evidence/README.md)に、最終レビュー、旧headを返したpush直後の応答と再取得した正しい応答を区別して保存した。
+
+manifestの記録欄を反映したtree `d4f6f0c5abd70b3f37a91f088d9c2cd453b8e93c`でpolicyを通過し、追加head `b7b6ac034716fc38b351266b87bb8b38f02dd2aa`を提出した。[PR CI](https://github.com/pero3dev/ai-agent-library/actions/runs/36700305122)を含む全11チェックが成功（PRのdeployは既定skip）。2026-09-30T10:23:04Zにactual merge `b6686c92dbb678ea8b94eb12df37a33207c4c84b`へsquashマージされ、実merge treeと最終tree、指定した件名・本文・名義の完全一致を確認した。公開受入はmain CI・Pagesと独立公開確認の後に別途記録する。
+
+[main CI](https://github.com/pero3dev/ai-agent-library/actions/runs/36702086701)と[Pages deploy](https://github.com/pero3dev/ai-agent-library/actions/runs/36702086701/job/109848894912)の実successを確認した。独立担当はactual mergeの137 Git blobと現行ファイルの完全一致、actual mergeから再計算した9 inputDigestとローカル承認値の一致を確認した。公開HTML・ブラウザー・画像の受入は、この入力照合とは別に進める。
+
+mainの実ログでもsite単体392/392、browser 333成功・規定5 skip（13.2分）、Linux root 485件中476成功・条件付き9 skip・失敗0を確認した。同runのPages artifact `11090349965`、BUILD_ID `Iytr-Mx-iwwzxrZ8pUUHR`から9記事HTMLを取得し、collectorの取得前後照合と独立したtar member・HTML hashの照合に成功した。
+
+### PR #63の公開受入
+
+2026-09-30T11:18:33.154Zの[独立公開レビュー](alignment-public-evidence/final-review.json)はapproved / low・must 0・should 0。Edgeは107/107成功。WebKit初回は106/107で、事前学習の1440×1000明のPPLボタンに15秒の操作待ちtimeoutを記録した。このfailed原本は保持し、両全件実行の終了後、callback・assertion・通常click・timeoutを変えない独立承認済みhelperで対象23段階と資源確認の2ケースだけを1回再実行し、2/2成功を確認した。これは合成受入であり、WebKit全107件の再走や初回の具体原因の解明を主張しない。
+
+実視認は137枚（Edge 66・WebKit 71、scene 92・viewport 45）。D1の両engine全15段階、β両端、AI選好、6画面条件の代表、拡大・noJS・print、旧8記事の代表、失敗直前2枚と限定repeat4枚を含む。全生成1777枚とは区別する。公開HTMLと全75/75/52配信資産、観測resource4650/4658/52を同CI artifactへ照合した。新しい実機iPhone・screen reader・物理印刷・学習効果の受入は行っていない。
+
+[移管可能な公開証拠](alignment-public-evidence/README.md)に266原本・137実視認PNG・相対索引を保存し、旧絶対パスやpending/failedも原byteで保持した。[保存物の独立検査](alignment-public-archive-review.md)もapproved / low・must 0・should 0となった。9記事の現行publicゲート、9個のPR #63記事別snapshot、[9 completeの固定結果](diagram-acceptance-pr63.json)を保存した。次は[D2推論モデル](reasoning-reading-diagrams.md)。P1全15記事の公開受入で止め、P2へ進まない。

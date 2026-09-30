@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-kit-plan-limited-rereview",
+  "unit": "E2",
+  "verdict": "approved-plan-only",
+  "must": 0,
+  "should": 0,
+  "findings": [],
+  "resolvedFindings": ["E2-S1"],
+  "reviewerIdentity": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review/d2_browser_parallelism_check",
+  "checkedAt": "2026-09-30T12:42:17.238Z",
+  "recordedAt": "2026-09-30T12:45:36Z",
+  "recordingScope": "Transcription by root of the reviewer-supplied JSON; no checks rerun at recording time.",
+  "targets": [
+    {"file": "TEMP/icl-e2-kit-plan-20260930.md", "sha256": "c2381027bbc59203308a27d1d6c313dcc52b78cf7f67b013d5fdb65bc83360ad"},
+    {"file": "TEMP/icl-e2-kit-plan-20260930.json", "sha256": "fc6a2ee1cb7645a127cd4a1c4a0248928f42bf1189cc1dd6ae75cf4ee9b3f236"}
+  ],
+  "initialTargets": [
+    {"file": "TEMP/icl-e2-kit-plan-initial-20260930.md", "sha256": "613295c79d92b3b092d07409d5d31309d5219c320fa02bf787c621447ce1987c", "byteIdenticalToInitiallyReviewedVersion": true},
+    {"file": "TEMP/icl-e2-kit-plan-initial-20260930.json", "sha256": "d336501a82c603eb216f22c2cbb3dd70fdeb2397c3d0b0f00bc73e729121c8b9", "byteIdenticalToInitiallyReviewedVersion": true}
+  ],
+  "checkedFacts": {
+    "comparisonScope": "Entire old/new JSON recursive diff and added/removed Markdown lines; no expansion into product or runtime verification.",
+    "supplementalWidths": {"markdownLine": 28, "required": true, "route": "/docs/llm-internals/in-context-learning-and-memorization", "engines": ["Edge", "WebKit"], "profiles": [[1920,1080,"light",1],[1920,1080,"dark",1],[768,1024,"light",1],[768,1024,"dark",1]], "stagesPerProfile": 13, "observationsPerEngine": 52, "observationsBothEngines": 104, "registeredCaseContribution": 0},
+    "supplementalEvidence": "Required actual E2 route on final static build, existing semantic oracle, clipping/overflow/overlap checks, viewport/full-scene PNG hashes, independent actuallyViewed ledger, and before/after input/BUILD/article-HTML identity binding from final local acceptance.",
+    "nativeZoom": {"markdownLine": 30, "dsf2IsNotNativeZoom200": true, "requiredEvidence": "Actual browser zoom setting/method on E2 route, engine and unzoomed/observed viewport, independent actual image review", "forbiddenSubstitutes": ["DSF-only change", "CSS transform", "enlarged screenshot"], "unperformedRemainsUnverified": true},
+    "jsonChangesOnly": ["executionPlan.supplementalLargeTabletLocalAcceptance", "executionPlan.nativeZoom200Evidence", "markdown.sha256", "selfCheck recording metadata", "revision metadata"],
+    "unchangedByFullComparison": ["extension including sixteen case names/order/counts/standard profiles", "planned151 cases and12 routes", "all three figure literal fixtures", "sourceContract", "negativeFixtures", "actual121 baseline", "deferred future135 baseline and null proof fields"],
+    "markdownChanges": "Only additions at lines28,30,69; no original lines removed."
+  },
+  "priorReview": {"file": "TEMP/icl-e2-kit-plan-review-initial-20260930.json", "checkedAt": "2026-09-30T12:37:12.940Z", "carriedScope": "Initial semantic/source/fixture/count/proof/performance-boundary conclusions, after unchanged-section comparison"},
+  "notExecuted": ["Product/kit/plan edits", "Product callbacks or tests", "Browser/native zoom/performance execution", "Network or public acceptance", "Git operations"],
+  "acceptanceBoundary": "Plan approval only. Supplemental measurements and images are planned, not performed. E1/C2 public acceptance and root implementation start conditions remain."
+}

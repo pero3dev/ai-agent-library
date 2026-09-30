@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-kit-plan-review",
+  "unit": "F2",
+  "reviewerIdentity": "/root/inference_doc_review/d2_browser_parallelism_check",
+  "checkedAt": "2026-09-30T13:31:28.800Z",
+  "verdict": "approved-plan-only",
+  "must": 0,
+  "should": 0,
+  "findings": [],
+  "targets": [
+    {
+      "file": "TEMP/multimodal-f2-kit-plan-20260930.md",
+      "sha256": "175cd5f34036393d188a898d38a73902c3db047b7a857bf34f970dda49c6bd70"
+    },
+    {
+      "file": "TEMP/multimodal-f2-kit-plan-20260930.json",
+      "sha256": "58e20bda52fcfa9d5223f1750a622e6140d996ce1244a3d6e17c14e8a03d6a11"
+    }
+  ],
+  "checkedFacts": {
+    "evidenceInputsMatched": 19,
+    "adoptedStoryboardObjectExact": true,
+    "interfaceLiteralProjectionsExact": true,
+    "corrections": {
+      "article": "docs/10-llm-foundations/multimodal-models.md",
+      "articleCount": 1,
+      "replacementCount": 13,
+      "everyBeforeMatchesOnce": true,
+      "idsBeforeAfterMatchResearchAndInterface": true,
+      "articleWritten": false,
+      "dateChanged": false,
+      "beforeSHA256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+      "candidateBeforeDateSHA256": "27956431766343cd1c4b910ce9d7b703e655365856c3e10484de315684688ced",
+      "originalAstSHA256": "2788b1924a89263949a644475f2c282b2d1440a4506465b1fb63ded3f2f2b04e",
+      "candidateAstSHA256": "ba6fdaf2a4362fb1586a9fc4d8090b8f73ad19de103c5e9be8fd1395f2415a08"
+    },
+    "enableGate": "AR-2 normal article-change manifest, actual revision date and all task outputs/final tree/digests independently reviewed before either figure enabled. Eight final identity fields and both source digests null.",
+    "baseline": "Future177/14 planned; eight accepted identity/proof/callback fields null until actual F1 public acceptance. Old callbacks/assertions/timeouts retained.",
+    "plannedCounts": {
+      "newCases": 14,
+      "totalCases": 191,
+      "artifactRoutes": 15,
+      "figures": 2,
+      "stages": 9,
+      "read": 9,
+      "manual": 0,
+      "profileObservationsPerEngine": 54,
+      "defaultMidpoints": 42,
+      "alternateMidpoints": 18,
+      "activeChoices": 6,
+      "storedSettingStageGrid": 32,
+      "readDirections": 18,
+      "modelMidpoints": [
+        24,
+        144
+      ],
+      "negativeGroups": 19
+    },
+    "sourceStructure": {
+      "rootChildren": 43,
+      "h3": 9,
+      "body": 18,
+      "wrappedH3": 6,
+      "wrappedBody": 14,
+      "topics": 42,
+      "dynamicTopics": 27,
+      "staticTopics": 15,
+      "tableHeaderRows": 1,
+      "tableBodyRows": 4,
+      "tableColumns": 3,
+      "tableCells": 15,
+      "lists": 12,
+      "listItems": 42,
+      "links": 25,
+      "strongAfterCorrections": 31,
+      "math": 0,
+      "code": 0,
+      "sourceTodoBlockquotes": 2,
+      "plannedTodoAsides": 2,
+      "plannedOrdinaryBlockquotes": 0,
+      "candidateSourceDigestsIndependentlyMatched": 2,
+      "productionAstRoundtripExecuted": false
+    },
+    "semanticsAndGeometry": "One architecture example; 2x3/sixpatch/eightcard illustrative, never real encoder/token/billing counts. Patch provenance, separate audio, endpoints/ROI geometry; four input alternatives/two capability boxes local unknown. No invented price/latency/retention/accuracy or understanding-to-generation guarantee; adopted stage scopes and visible local caveats.",
+    "fallback": "One registration: noJS9static plus two separate fresh target-chunk contexts; failed-scene staticcount null. Actual URL/hash/request/fallback required; reject missing/wrong/simultaneous-only or suppression of unrelated resource errors.",
+    "visualAndPerformance": "1920/768 light/dark DSF1 bothengines all9=36each. ActuallyViewed bound to input/BUILD/HTML; native200distinct. Limits100/75KiB,CLS.05,input200ms,framep9532ms; performance isolated.",
+    "stopBoundary": "All15 P1 public acceptance and portable handoff then stop; no P2"
+  },
+  "notExecuted": [
+    "Article corrections/date update",
+    "Formal AR-2 review",
+    "Product/kit implementation/tests",
+    "Browser/images/native zoom/performance",
+    "Network/Git/CI/Pages"
+  ],
+  "transcription": {
+    "recordedBy": "/root",
+    "source": "Compact transcription of reviewer-delivered JSON; reviewer wrote no files and did no fresh primary-source retrieval"
+  }
+}

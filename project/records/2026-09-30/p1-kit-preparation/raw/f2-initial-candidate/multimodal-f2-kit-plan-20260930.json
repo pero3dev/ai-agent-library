@@ -1,0 +1,1061 @@
+{
+  "schemaVersion": 1,
+  "unit": "F2",
+  "status": "proposal-for-independent-kit-review",
+  "author": "/root/pretraining_visual_review",
+  "scope": {
+    "allowedWrites": [
+      "TEMP/multimodal-f2-kit-plan-20260930.md",
+      "TEMP/multimodal-f2-kit-plan-20260930.json"
+    ],
+    "planOnly": true,
+    "productModified": false,
+    "articleModified": false,
+    "kitModified": false,
+    "registrationModified": false,
+    "gitMutation": false,
+    "networkExecuted": false,
+    "browserExecuted": false,
+    "implementationStarted": false,
+    "acceptance": null,
+    "startRequires": [
+      "F1 formal public acceptance",
+      "Independent F2 kit-plan review and root start instruction",
+      "Freeze actual accepted F1 predecessor"
+    ],
+    "enableRequires": [
+      "Apply exactly13 adopted M replacements in the one article with actual revision date",
+      "AR-2 normal article-change manifest covering all task outputs",
+      "Formal independent AR-2 article review of final candidate tree/digests before either figure is enabled"
+    ],
+    "stopBoundary": "After F2 and every P1 article reach formal public acceptance, confirm all15 then stop and complete cross-PC handoff. P2 is not authorized by this plan."
+  },
+  "baseline": {
+    "actualObserved": {
+      "status": "Current D2 candidate only",
+      "cases": 121,
+      "artifactRoutes": 10,
+      "source": "scripts/diagram-release/verify-public.mjs"
+    },
+    "futureF1": {
+      "status": "Planned177/14 only; not accepted evidence",
+      "plannedCases": 177,
+      "plannedArtifactRoutes": 14,
+      "acceptedMergeSha": null,
+      "acceptedTreeSha": null,
+      "manifestSha256": null,
+      "kitFileHashes": null,
+      "callbackNames": null,
+      "callbackBodyHashes": null,
+      "wholePredecessorProofHashes": null,
+      "artifactRouteNames": null,
+      "freezeAt": "After F1 public acceptance, from actual accepted tree; never synthesize177 callback bodies/hashes from current121 or a plan."
+    }
+  },
+  "correctionGate": {
+    "article": "docs/10-llm-foundations/multimodal-models.md",
+    "authority": "research/internals/p1-remaining-diagram-sources-2026-09-24.json /corrections filtered by this article; original accepted F2 interface corrections must match IDs/before/after",
+    "count": 13,
+    "articleCount": 1,
+    "ids": [
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M4-sync-97",
+      "M4-sync-98",
+      "M5",
+      "M5-sync-100",
+      "M4-sync-55",
+      "M4-sync-56",
+      "M4-sync-79",
+      "M4-sync-105",
+      "M5-sync-108"
+    ],
+    "semantics": [
+      "M1–M3: numerical representations/connectivity are architecture-dependent; single-sequence connection is this illustration only, not every model or audio design.",
+      "M4 and synchronizations: resolution, image-derived representations, billed tokens and price are not identities; actual model/preprocessing/specification and measurements matter.",
+      "M5 and synchronizations: OCR/structured data need retained layout/appearance/context and recognition checks; neither universally cheaper/more accurate nor images-last-resort."
+    ],
+    "originalArticleSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+    "originalAstSha256": "2788b1924a89263949a644475f2c282b2d1440a4506465b1fb63ded3f2f2b04e",
+    "inMemoryCandidateBeforeDate": {
+      "status": "Simulation only; article not written",
+      "articleSha256": "27956431766343cd1c4b910ce9d7b703e655365856c3e10484de315684688ced",
+      "astSha256": "ba6fdaf2a4362fb1586a9fc4d8090b8f73ad19de103c5e9be8fd1395f2415a08",
+      "dateChanged": false
+    },
+    "finalAfterActualDate": {
+      "status": "Pending production corrections and formal AR-2 review",
+      "actualLastUpdated": null,
+      "articleSha256": null,
+      "canonicalAstSha256": null,
+      "figureSourceDigests": null,
+      "productInputDigests": null,
+      "manifestPath": null,
+      "reviewedTreeSha": null,
+      "formalReview": null
+    },
+    "applicationCheck": "Before actual application recheck source bytes and each old text occurs once; no fuzzy replacement. Apply only adopted13 changes and actual date through root ownership. Reparse final article and recompute all final digests; do not reuse simulated before-date identity as final review/input evidence.",
+    "provenance": "Read root precheck and primary recheck note as recorded evidence, independently reproduce substitution matches/hashes. The2026-09-30 primary fetches belong to root's note; this plan performs no new Web retrieval and does not change historical source access dates. The interface review's T-task naming should is addressed here as AR-2 normal article revision, not a T-task manifest.",
+    "reviewScope": "Final review covers M1–M5 plus8 related phrases, actual date, all task outputs, whole final tree and digests. An interface approval/precheck/simulated hash is not formal AR-2 approval."
+  },
+  "extension": {
+    "route": "/docs/llm-foundations/multimodal-models",
+    "newCases": 14,
+    "plannedTotalCases": 191,
+    "plannedArtifactRoutes": 15,
+    "formula": "177 + (6 profiles +2 semantic +1 keyboard/modal +1 READ +2 native +1 fallback +1 print)=191;14+1=15 artifact routes",
+    "insertion": "One consecutive14-case block after future runCapabilitiesChecks and before existing mandatory favicon case. Exact index/callback bytes are frozen after accepted F1. Removing reviewed F2 additions restores all177 names/order/bodies with documented newline normalization.",
+    "profiles": [
+      [
+        1440,
+        1000,
+        "light",
+        1
+      ],
+      [
+        1440,
+        1000,
+        "dark",
+        1
+      ],
+      [
+        1280,
+        720,
+        "light",
+        1
+      ],
+      [
+        390,
+        844,
+        "light",
+        1
+      ],
+      [
+        390,
+        844,
+        "dark",
+        1
+      ],
+      [
+        960,
+        540,
+        "light",
+        2
+      ]
+    ],
+    "cases": [
+      {
+        "name": "multimodal: all 9 stages 1440x1000 light DSF1",
+        "kind": "profile"
+      },
+      {
+        "name": "multimodal: all 9 stages 1440x1000 dark DSF1",
+        "kind": "profile"
+      },
+      {
+        "name": "multimodal: all 9 stages 1280x720 light DSF1",
+        "kind": "profile"
+      },
+      {
+        "name": "multimodal: all 9 stages 390x844 light DSF1",
+        "kind": "profile"
+      },
+      {
+        "name": "multimodal: all 9 stages 390x844 dark DSF1",
+        "kind": "profile"
+      },
+      {
+        "name": "multimodal: all 9 stages 960x540 light DSF2",
+        "kind": "profile"
+      },
+      {
+        "name": "multimodal-representation: independent architecture scope, patch provenance and midpoint reverse seeks",
+        "kind": "semantic",
+        "figure": "multimodal-representation"
+      },
+      {
+        "name": "multimodal-input-tradeoffs: independent visible limits, all settings and midpoint reverse seeks",
+        "kind": "semantic",
+        "figure": "multimodal-input-tradeoffs"
+      },
+      {
+        "name": "multimodal: keyboard transport, modal stage-scoped controls, isolated state and focus return",
+        "kind": "keyboard-modal"
+      },
+      {
+        "name": "multimodal: all 9 READ stops and default architecture and tradeoff limits",
+        "kind": "read"
+      },
+      {
+        "name": "multimodal-representation: native elapsed play, frozen pause, replay and completion",
+        "kind": "native",
+        "figure": "multimodal-representation"
+      },
+      {
+        "name": "multimodal-input-tradeoffs: native elapsed play, frozen pause, replay and completion",
+        "kind": "native",
+        "figure": "multimodal-input-tradeoffs"
+      },
+      {
+        "name": "multimodal fallback: noJS retains 9 descriptions; each failed scene retains original article, table, status and h1",
+        "kind": "noJS-fallback"
+      },
+      {
+        "name": "multimodal print: coherent scenes and corrected original article with controls hidden",
+        "kind": "print"
+      }
+    ],
+    "observations": {
+      "browserProfileIntegersPerEngine": {
+        "formula": "6*(5+4)",
+        "count": 54
+      },
+      "browserDefaultMidpointsPerEngine": {
+        "formula": "2 directions*3 offsets(.49,.50,.51)*(4+3)",
+        "count": 42,
+        "perFigure": [
+          24,
+          18
+        ]
+      },
+      "browserAlternateMidpointsPerEngine": {
+        "settings": {
+          "granularity": "fine",
+          "inputPath": "structured"
+        },
+        "formula": "all3 tradeoff boundaries*3 offsets*2 directions",
+        "count": 18
+      },
+      "browserActiveChoicesPerEngine": {
+        "formula": "2 granularities@S1+4 input paths@S2",
+        "count": 6
+      },
+      "browserStoredSettingGridPerEngine": {
+        "formula": "2 granularities*4 input paths*4 stages",
+        "count": 32
+      },
+      "readPerEngine": {
+        "formula": "9 stops*2 directions",
+        "count": 18
+      },
+      "modelTradeoffMidpoints": {
+        "formula": "8 stored pairs*3 boundaries*3 offsets*2 directions",
+        "count": 144
+      },
+      "modelRepresentationMidpoints": {
+        "formula": "4 boundaries*3 offsets*2 directions",
+        "count": 24
+      },
+      "manualOnlyStages": 0,
+      "meaning": "Nested planned observations, not added registrations or screenshot counts. Model and browser claims stay separate; stored pair grid does not mean both controls are simultaneously active."
+    }
+  },
+  "sourceContract": {
+    "basis": "Corrected in-memory candidate before actual date; all final production hashes pending correctionGate.finalAfterActualDate",
+    "canonicalization": "unified + remark-parse/frontmatter(yaml)/gfm/math; recursively omit position, sort keys, normalize CR/CRLF to LF, compact JSON.stringify.",
+    "counts": {
+      "rootChildren": 43,
+      "h3": 9,
+      "contentBody": 18,
+      "wrappedH3": 6,
+      "wrappedBody": 14,
+      "topics": 42,
+      "dynamicTopics": 27,
+      "staticTopics": 15,
+      "figures": 2,
+      "stages": 9,
+      "read": 9,
+      "manual": 0,
+      "lists": 12,
+      "listItems": 42,
+      "links": 25,
+      "strongAfterCorrections": 31,
+      "tables": 1,
+      "tableHeaderRows": 1,
+      "tableBodyRows": 4,
+      "tableColumns": 3,
+      "tableCells": 15,
+      "displayMath": 0,
+      "inlineMath": 0,
+      "inlineCode": 0,
+      "fencedCode": 0,
+      "mermaid": 0,
+      "sourceBlockquotes": 2,
+      "renderedOrdinaryBlockquotes": 0,
+      "todoAsides": 2
+    },
+    "tableTextSha256": "054da7b9379d81aa46803591f5cb1a1e3c94fd2a53ed4ae76cd6b5a54267259d",
+    "tableTextHashMethod": "SHA256 of JSON.stringify of original overview table5x3 recursively flattened text matrix; AST additionally binds URLs and structure.",
+    "h3": [
+      "概要: 分担と「同じ土俵に載せる」",
+      "直感①: すべてを「表現ベクトルの列」に変換する",
+      "直感②: 画像は「パッチ」に分けてトークン相当にする",
+      "直感③: 統一された系列を注意機構で混ぜ合わせる",
+      "なぜ効くのか、どこで崖が来るのか",
+      "トークン経済とコスト・レイテンシ設計",
+      "理解と生成は別物: 非対称に注意",
+      "アンチパターン",
+      "チェックリスト"
+    ],
+    "bindings": [
+      {
+        "id": "multimodal-representation",
+        "range": [
+          12,
+          22
+        ],
+        "read": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "manual": [],
+        "bodyCountsByRead": [
+          1,
+          2,
+          2,
+          1,
+          1
+        ],
+        "oldSourceDigest": "sha256:3324ade1e55f96e5d8e661b93a7f3d0e9ca1b44ca21fac462cc78030e5917a2d",
+        "simulatedCorrectedSourceDigestBeforeDate": "sha256:bde65e9480e412b84f43e04b32556b2ca9f8be4f29b09523581d27ffcdaf728a",
+        "finalSourceDigest": null
+      },
+      {
+        "id": "multimodal-input-tradeoffs",
+        "range": [
+          22,
+          32
+        ],
+        "read": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "manual": [],
+        "bodyCountsByRead": [
+          1,
+          1,
+          2,
+          3
+        ],
+        "oldSourceDigest": "sha256:1aeec688b92f8892b56e7df0db626df803cabaf660b68c6a3d1f38898047107f",
+        "simulatedCorrectedSourceDigestBeforeDate": "sha256:1134db9f9a307d41fa2db299aa46ca92bf28df5e3eb264087ffdb2314df04cb0",
+        "finalSourceDigest": null
+      }
+    ],
+    "ast": "After actual corrections/date and formal review, all4 enabled subsets unwrap exactly to that corrected final AST. Check13 declared replacements rather than comparing corrected article to old text, preserve unchanged headings/table/links/order and keep no new prose/examples/math. Ranges and counts are planning expectations, revalidated at freeze.",
+    "dom": "Keep original overview table once,9 H3, original corrected text and links. Two TODO blockquotes become two aside.todo-callout, including one inside the second figure; DOM ordinary blockquotes0. Exclude scene duplicates/.rf-article-toc/.rf-static-stages and account for glossary/practice decoration when comparing source content. Preserve original formulas if any; current accepted candidate has zero and must not gain invented equations."
+  },
+  "oraclePolicy": {
+    "independent": "Write literal IDs/counts/roles/limits from accepted interface and corrected source, not production frame/fixture imports or observed DOM as expected values. Scene author does not self-approve these oracles.",
+    "visible": "Scoped visible text/relationship/geometry must agree with data attributes. Hidden title/desc, unrelated duplicate text and whole-page keyword match cannot satisfy caveats. Require model-dependent/example/schematic/unmeasured limitations at each assigned READ without operating a selector.",
+    "geometry": "Use same-coordinate visible rectangles/endpoints/source mappings. Follow patch identity through actual movement and source→derived input routes; validate ROI containment, separate audio path and capability boundaries. Horizontal painted strokes can be visible with zero bbox height; check stroke/length. Treat bbox text collision as image-review candidate, not automatic visual acceptance.",
+    "numbers": "Only illustrative grid2x3/six layout identities, phase and geometry are fixed numbers. No embedding dimensions/tensor values/token count/price/retention/quality/latency/support performance fabricated. Null/unknown cannot become0 or false/true measured outcome.",
+    "model": "Pure deterministic shared clamp/rounding, stable object/source IDs, fresh nested output and strict valid options; invalid phase/options rejected, no network/timer/random or real OCR/model/media request."
+  },
+  "figures": [
+    {
+      "id": "multimodal-representation",
+      "marker": "MULTIMODAL / REPRESENTATION",
+      "stageAttribute": "data-multimodal-representation-stage",
+      "interfacePointer": "/proposed/figures/0",
+      "stages": 5,
+      "read": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "manual": [],
+      "controls": [],
+      "stageLabels": [
+        "異なる入口",
+        "数値表現",
+        "画像パッチ",
+        "系列へ接続",
+        "関係と生成"
+      ],
+      "literals": {
+        "inputIds": [
+          "input-text",
+          "input-image",
+          "input-audio"
+        ],
+        "patchRows": 2,
+        "patchColumns": 3,
+        "patchIds": [
+          "patch-0",
+          "patch-1",
+          "patch-2",
+          "patch-3",
+          "patch-4",
+          "patch-5"
+        ],
+        "textUnitIds": [
+          "text-context",
+          "text-question"
+        ],
+        "audioRepresentation": "audio-representation",
+        "output": "generated-text-pending",
+        "architectureScope": "example",
+        "attentionKind": "schematic",
+        "billedTokens": "unknown"
+      },
+      "nullFields": [
+        "embeddingDimensions",
+        "vectorValues",
+        "encoderLength",
+        "billedTokens",
+        "attentionWeights",
+        "outputQuality"
+      ],
+      "visibleByStage": [
+        "S0: separate text/image/audio entrances, scope label says this is one architecture example immediately; not every model concatenates all modalities the same way.",
+        "S1: distinct text embedding and image/audio converters/representations; audio never receives image patch IDs. Common-shaped connection is this illustration only, not identical semantics/tensors/universal architecture.",
+        "S2: six same patch identities in illustrative2x3 image grid move toward six image-derived cards. Source image/provenance and six sourcePatchIds persist; visible label rejects billing/encoder-length equivalence.",
+        "S3: two text-derived and six image-derived cards enter this example series with source identity retained. Audio is still visibly a separate input/conversion path with architecture-dependent connection; not silently dropped or reclassified as image patches.",
+        "S4: schematic relationships from question representation to image-derived cards lead to text-generation placeholder, no real attention scores or generated answer. Text output describes this understanding example; media-generation support remains unknown."
+      ],
+      "scopedCounts": {
+        "entrances": 3,
+        "illustrativePatches": 6,
+        "imageDerivedCards": 6,
+        "textDerivedCards": 2,
+        "exampleImageTextSeriesCards": 8,
+        "separateAudioRepresentation": 1
+      },
+      "identityGeometry": "AtS2–S4 exact sourcePatchIds patch-0..5 map bijectively to six image-derived cards; no missing/duplicate/swapped provenance. Semantic IDs stable across forward/reverse/intermediate movement, actual DOM IDs namespaced. Grid2rows×3columns must match real rectangles, and image/text provenance remains distinct in the eight-card illustrative series. Audio has no patch provenance or edge from image-grid converter. Question links terminate at actual relevant image cards and carry schematic scope, not measured weights. The8-card count is illustration structure, never a tokenizer claim."
+    },
+    {
+      "id": "multimodal-input-tradeoffs",
+      "marker": "MULTIMODAL / INPUT",
+      "stageAttribute": "data-multimodal-input-stage",
+      "interfacePointer": "/proposed/figures/1",
+      "stages": 4,
+      "read": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "manual": [],
+      "stageLabels": [
+        "残る情報",
+        "細部と補完",
+        "渡す量",
+        "理解と生成"
+      ],
+      "controls": [
+        {
+          "key": "granularity",
+          "label": "入力の粒度（模式図）",
+          "values": [
+            "coarse",
+            "fine"
+          ],
+          "labels": [
+            "粗い",
+            "細かい"
+          ],
+          "default": "coarse",
+          "activeStages": [
+            1
+          ],
+          "inactiveStages": [
+            0,
+            2,
+            3
+          ],
+          "inactiveEffectiveValue": null
+        },
+        {
+          "key": "inputPath",
+          "label": "比較する入力方式",
+          "values": [
+            "image",
+            "roi",
+            "ocr",
+            "structured"
+          ],
+          "labels": [
+            "画像全体",
+            "関心領域",
+            "OCRテキスト",
+            "構造化データ"
+          ],
+          "default": "image",
+          "activeStages": [
+            2
+          ],
+          "inactiveStages": [
+            0,
+            1,
+            3
+          ],
+          "inactiveEffectiveValue": null
+        }
+      ],
+      "controlPolicy": "Inactive controls hidden/effective null with retained stored value; no semantic/visible effect outside allowed stage. Granularity changes schematic input layout, inputPath changes route emphasis only. All four alternative labels/limitations are visible by defaultS2 and never hidden by selection. Both controls never active simultaneously.",
+      "literals": {
+        "inputOrigin": "input-source",
+        "details": [
+          [
+            "detail-text",
+            "小さな文字"
+          ],
+          [
+            "detail-table",
+            "密な表"
+          ],
+          [
+            "detail-position",
+            "位置関係"
+          ],
+          [
+            "detail-count",
+            "数え上げ"
+          ]
+        ],
+        "paths": [
+          [
+            "image",
+            "画像全体"
+          ],
+          [
+            "roi",
+            "関心領域"
+          ],
+          [
+            "ocr",
+            "OCRテキスト"
+          ],
+          [
+            "structured",
+            "構造化データ"
+          ]
+        ],
+        "specificationDimensions": [
+          "解像度",
+          "枚数",
+          "利用する動画フレーム"
+        ],
+        "capabilityRoles": [
+          "入力理解からテキスト出力",
+          "画像・音声の生成"
+        ]
+      },
+      "nullFields": [
+        "detailsRetained",
+        "recognitionAccuracy",
+        "hallucinationAmount",
+        "qualityScore",
+        "tokenCount",
+        "price",
+        "latency",
+        "modelUnderstandingSupport",
+        "modelGenerationSupport",
+        "bestInputPath"
+      ],
+      "visibleByStage": [
+        "S0: same source input→representation and question whether important detail survives; no observed pass/fail or fabricated preservation rate.",
+        "S1: all four detail labels, schematic coarse/fine and unseen-detail plausible-completion risk with verification requirement. Fine must not flip detailsRetained to true or guarantee better accuracy; no price/precision curve.",
+        "S2: resolution/image count/used video frames are three specification/measurement dimensions without invented values. Whole image/ROI/OCR/structured routes all shown from same source. ROI keeps region provenance; OCR/structured require checking layout, appearance and recognition error. Compare actual adopted model specifications/results; no universally cheaper/better path or images-last-resort claim.",
+        "S3: two separate capability boxes: understanding→text and media generation. Both actual model support statuses unknown. No understanding⇒generation guarantee, product capability verdict, or universal assertion that understanding models cannot generate media."
+      ],
+      "scopedCounts": {
+        "s1Details": 4,
+        "s2AlternativePaths": 4,
+        "s2SpecificationDimensions": 3,
+        "s3CapabilityBoxes": 2,
+        "s3UnknownSupportStatusPerBox": 1
+      },
+      "geometryChecks": [
+        "All four S1 detail labels belong to the same input-source and representation comparison; a label/true flag on a hidden node cannot claim retained detail.",
+        "S2 all four routes each retain input-source provenance; ROI region ID is nonempty/stable and its actual visible crop rectangle lies within source image bounds. Chosen region identity/coordinates are illustrative layout, frozen with scene; no retention percentage follows from area.",
+        "OCR/structured derivation edges start at the same source, preserve provenance and retain uncertainty/verification warnings; source→derived arrow is not proof of full information preservation.",
+        "S3 exact two capability boxes with one local unknown support status each, no causal/guarantee arrow from understanding to generation. Endpoints and visible caveats agree."
+      ]
+    }
+  ],
+  "negativeFixtures": [
+    {
+      "id": "N01",
+      "mutation": "One adopted replacement missing/duplicated, wrong article or fuzzy old-text match",
+      "reject": "Exact13 IDs in one article; each before occurs once, full candidate comparison and source provenance."
+    },
+    {
+      "id": "N02",
+      "mutation": "Enable with uncorrected source, before-date digest or precheck/interface approval instead of AR-2 final review",
+      "reject": "Final actual-date article/input/source digests and formal reviewed tree must exist before enabling; future fields remain null in plan."
+    },
+    {
+      "id": "N03",
+      "mutation": "Wrong midpoint rounding, stale labels/IDs or mutable reused output",
+      "reject": "Default42 and nondefault18 browser midpoint checks plus independent pure model setting/boundary matrix and mutation isolation."
+    },
+    {
+      "id": "N04",
+      "mutation": "Correct data attributes with hidden/missing/reversed example/schematic/unknown text",
+      "reject": "Stage-local visible text and geometry; remote duplicate/title/desc cannot substitute."
+    },
+    {
+      "id": "N05",
+      "mutation": "Single series/common-shaped embeddings asserted for every model or audio forced into image-grid pipeline",
+      "reject": "Example scope at every representation stage, distinct audio converter/origin and no audio patch IDs."
+    },
+    {
+      "id": "N06",
+      "mutation": "Patch ID disappears/duplicates/swaps while grid becomes row, or2x3 geometry disagrees",
+      "reject": "Exact six-source bijection acrossS2–S4, real geometry and forward/reverse intermediate movement."
+    },
+    {
+      "id": "N07",
+      "mutation": "Six tiles/eight example cards become encoder length, tokens or billed cost",
+      "reject": "Illustration labels and null embedding/encoder/billing fields; no invented conversion/price."
+    },
+    {
+      "id": "N08",
+      "mutation": "S4 attention is numeric measured weights or placeholder becomes an answer/success",
+      "reject": "Schematic relationships and generated-text-pending, no outputQuality/attention measurement."
+    },
+    {
+      "id": "N09",
+      "mutation": "Missing detail label, fine implies all retained or replaces unknown by true/0",
+      "reject": "Exact four local detail identities and null results under both granularities."
+    },
+    {
+      "id": "N10",
+      "mutation": "Controls leak into other stage, hide an alternative, or change price/quality instead of layout/emphasis",
+      "reject": "All8 stored pairs×4 stages, six active choices, null/effective stage isolation and visible comparison defaults."
+    },
+    {
+      "id": "N11",
+      "mutation": "ROI loses source/region identity, crop leaves source, or OCR/structured refers to another input",
+      "reject": "Each derived route origin=input-source; actual containment/edge geometry and stable region ID."
+    },
+    {
+      "id": "N12",
+      "mutation": "OCR/structured always preserves all information, is always cheaper/better, or images only last resort",
+      "reject": "Visible layout/appearance/recognition checks, unmeasured retention/quality/price and correctedM5 scope."
+    },
+    {
+      "id": "N13",
+      "mutation": "Resolution=token count=price, universal fixed proportional cost/latency, or invented values in three dimensions",
+      "reject": "M4 corrected specification-dependent text, three unknown measurement dimensions and no fabricated curve."
+    },
+    {
+      "id": "N14",
+      "mutation": "Understanding guarantees generation, unknown statuses moved to one box, or named product support invented",
+      "reject": "Two local capability roles/statuses, real boundary geometry and no guarantee connector/verdict."
+    },
+    {
+      "id": "N15",
+      "mutation": "Lose overview table/TODO, add formula/example, or unwrap into pre-correction original",
+      "reject": "Final corrected/date-bound AST four roundtrips; original table/order/links retained and two TODO asides recognized."
+    },
+    {
+      "id": "N16",
+      "mutation": "Require9 static descriptions for chunk failure, omit either scene block trial or never intercept a request",
+      "reject": "Separate noJS and two target-specific fresh contexts; valid zero-description error fallback passes; missing article/table/h1/status or unobserved target block fails."
+    },
+    {
+      "id": "N17",
+      "mutation": "Swallow unrelated critical resource error or use wrong cached scene as chunk-failure evidence",
+      "reject": "Capture target URL/hash/request and actual target boundary; fail missing mapping, unintended block or global error ignore. Fresh context and deliberate block classification required."
+    },
+    {
+      "id": "N18",
+      "mutation": "Zero-height stroke incorrectly invisible, print selector assertion reused, or DSF2 labeled native200%",
+      "reject": "Painted-line positive, print scene/control split and distinct measured zoom evidence."
+    },
+    {
+      "id": "N19",
+      "mutation": "Old callback/proof/timeout changes or only subset presented as full191",
+      "reject": "Accepted F1 whole source/proof hashes,177 names/bodies/order preserved, exact191/15routes and raw provenance."
+    }
+  ],
+  "executionPlan": {
+    "profiles": "All9 stages on actual corrected F2 route in six profiles, scoped semantics and original table/body/controls readable. Save viewport/fullScene separately with engine/profile/stage/hash. Stable reduced-motion captures are not native-play evidence.",
+    "semantic": "Two shared callbacks. Representation validates exact IDs/origins and meaningful fractional movement, not just rounded stage. Tradeoffs validates six active choices and all32 stored-pair/stage cells. Both run42 default midpoint visits, plus18 tradeoff visits with fine/structured. Pure model matrices remain separately reported.",
+    "read": "All9 READ stops forward/reverse, no manual-only stage. Fresh defaultS0 representation already shows example scope; untouched tradeoffS1/S2 has four details, uncertainty and all alternatives/limits. Scope/limits never depend on control interaction. Resume READ after manual operation and keep two figures' phases/options isolated.",
+    "keyboardModal": "Home/End/arrows, previous/next/pause/replay/read return, modal for each figure, six active settings in appropriate modal stages and hidden inactive controls. Focus returns and namespaced IDs; actual modal content rather than hidden base panel satisfies assertions.",
+    "native": "Two real elapsed-play cases; progression/frozen pause/replay/completion and actual offscreen transition. Stop unused application RAF while paused/offscreen; helper observer uses saved native RAF excluded from application counter. No fake document.hidden or forced internal phase.",
+    "fallback": {
+      "registeredCases": 1,
+      "totalContexts": 3,
+      "noJS": {
+        "required": [
+          "corrected original article/h1/table",
+          "all9 static stage descriptions",
+          "original formulas if present; current candidate has zero"
+        ],
+        "staticDescriptionCount": 9
+      },
+      "chunkFailure": {
+        "targets": [
+          "multimodal-representation",
+          "multimodal-input-tradeoffs"
+        ],
+        "separateFreshContextPerTarget": true,
+        "required": [
+          "corrected original article and table",
+          "article h1",
+          "target boundary visible load-failure/continued-reading status",
+          "original formula preservation; no invented formula"
+        ],
+        "failedSceneStaticDescriptionCount": null,
+        "statusText": "図解を読み込めませんでした。本文は引き続き読めます。",
+        "method": "Resolve each target's emitted lazy chunk URL/hash from final build. Actually block only intended target in its own fresh JS-enabled context; observe blocked request and corresponding target DiagramBoundary. Do not substitute the other target or a simultaneous-block-only context; no observed block is failure. Scene-owned static list may be absent and is not required under error."
+      },
+      "networkSafeguards": "Record intentional intercepted URL/type/time/target/hash separately. Do not ignore unrelated script/style/font/data errors or global request failures. Negative controls reject wrong/untriggered interception, cached/no-fallback result, omitted target and false network clean report. Valid zero-description error fallback must pass."
+    },
+    "print": "Coherent scene meaning plus corrected source article/table/TODO. Controls hidden; do not require screen selectors. Preserve source once and separate semantic assertions from interactive-control visibility.",
+    "additionalLocalWidths": {
+      "required": true,
+      "status": "planned-not-executed",
+      "registeredCaseContribution": 0,
+      "route": "/docs/llm-foundations/multimodal-models",
+      "engines": [
+        "Edge",
+        "WebKit"
+      ],
+      "profiles": [
+        [
+          1920,
+          1080,
+          "light",
+          1
+        ],
+        [
+          1920,
+          1080,
+          "dark",
+          1
+        ],
+        [
+          768,
+          1024,
+          "light",
+          1
+        ],
+        [
+          768,
+          1024,
+          "dark",
+          1
+        ]
+      ],
+      "stagesPerProfile": 9,
+      "perEngineObservations": 36,
+      "bothEngineObservations": 72,
+      "evidence": "All9 stages each width/theme/engine on final static candidate. Save viewport/fullScene/raw and independent actuallyViewed ledger keyed by file/hash/engine/profile/stage; bind input/BUILD/HTML before-after. No extra registrations and no generated-image count as viewed count."
+    },
+    "nativeZoom200": {
+      "required": true,
+      "status": "planned-not-executed",
+      "registeredCaseContribution": 0,
+      "distinction": "960x540 DSF2 is viewport/device-scale, not actual browser native zoom200%.",
+      "evidence": "Separate actual F2-route real-browser200% setting confirmation and independent image viewing; record engine, original viewport, actual zoom method/setting, effective viewport and checked stages. DSF/CSS/image scaling is not a substitute; unexecuted native zoom remains unverified."
+    },
+    "independentImages": "All9 stages and risky patch movement/audio separation/example limits, both granularities/four paths/ROI and capability split; dark/narrow/shortPC/DSF2/modal and required1920/768 actual images. Readable standard PC READ without fullscreen, actual glyph/edge collision review. Generated versus viewed count distinct; physical device/screen-reader acceptance separate.",
+    "performance": "Keep common gzip100 KiB/article-specific75 KiB, CLS<=.05, input<=200ms, RAFp95<=32ms. Measure without concurrent browser load; verify target lazy chunks absent on unrelated route and idle behavior. No current performance measurements."
+  },
+  "preservationAndRelease": {
+    "proposedFiles": [
+      "scripts/diagram-release/multimodal-checks.mjs",
+      "scripts/diagram-release/local-multimodal-adapter.mjs",
+      "website/tests/browser/multimodal.spec.mjs"
+    ],
+    "predecessor": "After F1 public acceptance independently freeze accepted commit/tree, kit/manifest full byte hashes, all predecessor proof files' whole content hashes, ordered177 callback names/bodies and14 artifact routes. Segment hashes cannot replace whole-proof hashes. Current planning references are not final baseline.",
+    "extensionProof": "Remove only reviewed F2 imports/route/contiguous14 registration additions and compare predecessor names/order/body/assertions/timeouts to accepted F1. Mutation negatives reject missing/moved cases, changed old content and modified predecessor proof bytes.",
+    "sameCallbacks": "Local adapter and public runner share exact F2 callbacks/assertions with explicit environment dependencies; no relaxed public oracle. Exactly15 independently collected CI HTML routes=accepted14+F2. Local final review binds final after-correction/date input digests,15HTML/BUILD pre-post and independently viewed images.",
+    "release": "Formal AR-2 final article/tree approval and diagram-local acceptance, own merge/CI/Pages success, independent artifact collector, full191 Edge/WebKit with observed assets/HTTP/MIME/hash and15HTML/BUILD/input identity, then independent actual public images. Failed initial raw and limited repeats remain separate. No local or plan result becomes public acceptance.",
+    "stop": "After all15 P1 articles pass actual public acceptance, root records final release identities, portable kit/proof paths and cross-PC resumption handoff, then stops without P2 implementation.",
+    "pending": "Correction application/date/final digests/AR-2 review, all implementation/unit/browser/performance/nativezoom and public acceptance remain unexecuted."
+  },
+  "openItems": [
+    {
+      "id": "O1",
+      "kind": "deferred-evidence",
+      "text": "Actual accepted F1 177/14 baseline and final post-correction-date article/source/input digests plus AR-2 review are not yet available; all relevant final identity fields are null."
+    },
+    {
+      "id": "O2",
+      "kind": "implementation-detail",
+      "text": "Freeze actual image-unit DOM IDs, illustrative ROI region ID/geometry and scoped visible text/hooks with authored scene and independent oracle before execution. These are layout/observation details, never measured encoder or retention parameters."
+    }
+  ],
+  "createdAt": "2026-09-30T13:27:14.717Z",
+  "evidenceInputs": [
+    {
+      "file": "AGENTS.md",
+      "bytes": 5554,
+      "sha256": "6a42eb8121cab94a360d9151ba1435eed7f855a8e47e2792ea7c20f7d4987fad",
+      "scope": "Source/scope/acceptance contract"
+    },
+    {
+      "file": "CONTRIBUTING.md",
+      "bytes": 22086,
+      "sha256": "4dcc9ff7e07a66f006972fba94adfe5fc57070ac3903a523f552cf63be3c8bf1",
+      "scope": "Website/harness checks"
+    },
+    {
+      "file": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-proposal-20260930.json",
+      "bytes": 83536,
+      "sha256": "3577d71ce330008fabfa208dfd3ba444c7a46c897ee8fe6c2f5e48087c4a818b",
+      "scope": "/adopted; /corrections; /proposed/figures; naming should handled asAR-2"
+    },
+    {
+      "file": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-proposal-20260930.md",
+      "bytes": 2627,
+      "sha256": "a7634a2b3a1e4de44b1200e6bddfd7b15c5ef0ff64dafb7f80e912d88aada068",
+      "scope": "Readable interface"
+    },
+    {
+      "file": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-review-20260930.json",
+      "bytes": 7109,
+      "sha256": "dac1cf661e4659b884c64875dc112fa9b8a42e950f7ebd49e79e22d2057ae650",
+      "scope": "Interface approval only, must0/should1 naming clarification"
+    },
+    {
+      "file": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-review-20260930.md",
+      "bytes": 7766,
+      "sha256": "ed272fa33c74b9f2973f3f34e8ec134f81dd64d51f869a34317baa4e624fc08f",
+      "scope": "Independent source/scope review"
+    },
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "bytes": 427025,
+      "sha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "scope": "Adopted F2 object"
+    },
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+      "bytes": 19361,
+      "sha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+      "scope": "Storyboard review"
+    },
+    {
+      "file": "research/internals/p1-remaining-diagram-sources-2026-09-24.json",
+      "bytes": 53403,
+      "sha256": "3aff21e037e9eec6962925e459e5e8a762f8b8511d8d8212b34f91cd55eb28d1",
+      "scope": "Exactly13 M corrections in one article and recorded primary evidence boundaries"
+    },
+    {
+      "file": "docs/10-llm-foundations/multimodal-models.md",
+      "bytes": 12231,
+      "sha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+      "scope": "Current uncorrected source; no write in this task"
+    },
+    {
+      "file": "TEMP/multimodal-f2-correction-precheck-20260930.json",
+      "bytes": 2088,
+      "sha256": "1f3a2d96cb4b4e5bb7ef0e4884303345cef638bddaf89cba79a32dc0a1823d74",
+      "scope": "Root read-only unique-match check; independently reproduced here"
+    },
+    {
+      "file": "TEMP/multimodal-f2-primary-recheck-20260930.md",
+      "bytes": 2839,
+      "sha256": "7f803ebc2e0cc54fc095f0c296034157f8b537f85fa7653328c7bb9a5d20d915",
+      "scope": "Root primary retrieval notes including2026-09-30 LLaVA supplement; no new retrieval by this plan"
+    },
+    {
+      "file": "project/plans/engineering/dynamic-diagrams.md",
+      "bytes": 28105,
+      "sha256": "58a359debbb0e2462ea4202d9dad99ba608fbef6317644beaafb0b89c95f08c0",
+      "scope": "Performance and1920/768/200% plan"
+    },
+    {
+      "file": "TEMP/capabilities-f1-kit-plan-20260930.json",
+      "bytes": 36641,
+      "sha256": "d3fdf2f1026ae5d58af1b42632099b799cdaf33dd3a14dd978758fd63f38813f",
+      "scope": "Future F1 177/14 plan only"
+    },
+    {
+      "file": "scripts/diagram-release/source-mapping.json",
+      "bytes": 60320,
+      "sha256": "70c2178e900c3e641c1c5f13f272e8578bd106617db81e613965e5c4d0f51e19",
+      "scope": "Actual D2 candidate manifest only"
+    },
+    {
+      "file": "scripts/diagram-release/verify-public.mjs",
+      "bytes": 64263,
+      "sha256": "ad1c6e33badb6a8c6bae853e5699a6c6f028eb6092c7fb0b5600a3cfdd809a02",
+      "scope": "Actual121/10 declaration only"
+    },
+    {
+      "file": "website/components/diagrams/diagram-boundary.jsx",
+      "bytes": 586,
+      "sha256": "5d7468c61107323df661809ff369d91e1cb27a0201b7c1f0b1c7ca83f29b0ac6",
+      "scope": "Failure status plus original children"
+    },
+    {
+      "file": "website/components/diagrams/reading-figure.jsx",
+      "bytes": 12435,
+      "sha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12",
+      "scope": "Static descriptions owned inside scene"
+    },
+    {
+      "file": "website/lib/doc-decorations.mjs",
+      "bytes": 5575,
+      "sha256": "abcba21db7e379e21f81602b97151e09f4c31d2a9f9beb01b48e86fee1de6fc2",
+      "scope": "TODO/practice/glossary decoration boundaries"
+    }
+  ],
+  "markdown": {
+    "file": "TEMP/multimodal-f2-kit-plan-20260930.md",
+    "sha256": "175cd5f34036393d188a898d38a73902c3db047b7a857bf34f970dda49c6bd70"
+  },
+  "selfCheck": {
+    "checkedAt": "2026-09-30T13:27:14.776Z",
+    "scope": "Read-only correction simulation/source/plan checks; no product or browser test",
+    "interfaceTargetHashesMatch": true,
+    "ar2NamingShouldExplicitlyAddressed": true,
+    "correctionCount13OneArticle": true,
+    "correctionMatches": [
+      {
+        "id": "M1",
+        "uniqueBeforeMatchCount": 1,
+        "sourceIds": [
+          "flamingo",
+          "llava-auxiliary"
+        ]
+      },
+      {
+        "id": "M2",
+        "uniqueBeforeMatchCount": 1,
+        "sourceIds": [
+          "flamingo"
+        ]
+      },
+      {
+        "id": "M3",
+        "uniqueBeforeMatchCount": 1,
+        "sourceIds": [
+          "flamingo",
+          "vit",
+          "llava-auxiliary"
+        ]
+      },
+      {
+        "id": "M4",
+        "uniqueBeforeMatchCount": 1,
+        "sourceIds": [
+          "flamingo"
+        ]
+      },
+      {
+        "id": "M4-sync-97",
+        "uniqueBeforeMatchCount": 1,
+        "sourceIds": [
+          "flamingo"
+        ]
+      },
+      {
+        "id": "M4-sync-98",
+        "uniqueBeforeMatchCount": 1,
+        "sourceIds": [
+          "flamingo"
+        ]
+      },
+      {
+        "id": "M5",
+        "uniqueBeforeMatchCount": 1,
+        "sourceIds": [
+          "textvqa"
+        ]
+      },
+      {
+        "id": "M5-sync-100",
+        "uniqueBeforeMatchCount": 1,
+        "sourceIds": [
+          "textvqa"
+        ]
+      },
+      {
+        "id": "M4-sync-55",
+        "uniqueBeforeMatchCount": 1,
+        "sourceIds": [
+          "flamingo"
+        ]
+      },
+      {
+        "id": "M4-sync-56",
+        "uniqueBeforeMatchCount": 1,
+        "sourceIds": [
+          "flamingo"
+        ]
+      },
+      {
+        "id": "M4-sync-79",
+        "uniqueBeforeMatchCount": 1,
+        "sourceIds": [
+          "flamingo"
+        ]
+      },
+      {
+        "id": "M4-sync-105",
+        "uniqueBeforeMatchCount": 1,
+        "sourceIds": [
+          "flamingo"
+        ]
+      },
+      {
+        "id": "M5-sync-108",
+        "uniqueBeforeMatchCount": 1,
+        "sourceIds": [
+          "textvqa"
+        ]
+      }
+    ],
+    "sourceArticleUnchanged": true,
+    "correctedBeforeDateHashMatchesRootPrecheck": true,
+    "astHashesMatchApprovedReview": true,
+    "sourceDigests": [
+      {
+        "id": "multimodal-representation",
+        "before": "sha256:3324ade1e55f96e5d8e661b93a7f3d0e9ca1b44ca21fac462cc78030e5917a2d",
+        "afterBeforeDate": "sha256:bde65e9480e412b84f43e04b32556b2ca9f8be4f29b09523581d27ffcdaf728a",
+        "finalAfterDate": null
+      },
+      {
+        "id": "multimodal-input-tradeoffs",
+        "before": "sha256:1aeec688b92f8892b56e7df0db626df803cabaf660b68c6a3d1f38898047107f",
+        "afterBeforeDate": "sha256:1134db9f9a307d41fa2db299aa46ca92bf28df5e3eb264087ffdb2314df04cb0",
+        "finalAfterDate": null
+      }
+    ],
+    "candidateNodeCounts": {
+      "root": 1,
+      "yaml": 1,
+      "heading": 18,
+      "text": 164,
+      "paragraph": 53,
+      "strong": 31,
+      "list": 12,
+      "listItem": 42,
+      "link": 25,
+      "table": 1,
+      "tableRow": 5,
+      "tableCell": 15,
+      "blockquote": 2
+    },
+    "markersStagesSettingsMatchAdopted": true,
+    "caseNamesUnique14": true,
+    "planned191And15Routes": true,
+    "actual121And10Routes": true,
+    "future177AndActualDateDigestsRemainNull": true,
+    "stages9Read9Manual0": true,
+    "failedSceneStaticListNotRequired": true,
+    "bothActualChunkInterceptionsRequired": true,
+    "extra1920And768AllStages": true,
+    "dsf2NotNativeZoom200": true
+  }
+}

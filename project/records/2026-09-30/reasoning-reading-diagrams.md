@@ -1,6 +1,6 @@
 # 推論モデルの読書連動図解（D2）
 
-状態: 2026-09-30、D2の実装・独立ローカル受入を完了し、PR提出を準備。P1の正式公開受入は9/15記事。D2自身の公開受入は未完了。
+状態: D2は[PR #64](https://github.com/pero3dev/ai-agent-library/pull/64)で公開済み。2026-10-01のユーザー指示により、旧手順の独立公開レビューと証跡アーカイブの追加は省略し、公開表示確認へ切り替えた。[後続5記事と現行手順](../2026-10-01/p1-completion.md)を参照。以下は中断前の経緯であり、未完了の旧ゲートを成功へ書き換えていない。
 
 ## 作業契約
 
@@ -58,3 +58,23 @@ Windows・Edge・1440×1000・DSF 1・負荷制限なしの単独測定で、D2�
 共通の表示要件に合わせ、1920×1080・768×1024のlightを両engineで追加確認した。4ケースが全9段階で成功し、生成72枚中44枚を独立実視認、2026-09-30T12:48:48.371Zにapproved / low / must 0 / should 0。元122枚と合わせ166枚の視認となる。[提出前の追補証拠](reasoning-submission-evidence/README.md)に元記録と分離して保存した。補足2幅のdark・native 200% zoomは未確認。
 
 最終root `npm run check`は489成功・既存音声1 skipで完了した。最初の提出前実行では一時PR本文の`.md`拡張子が記事lintへ混入し終了1となり、提出用`.txt`へ改名後に全体を再実行した。両ログを追補証拠へ保存し、最初の失敗を削除していない。製品・kit・本文の変更は追加していない。
+
+## PR提出と公開前の確認
+
+PR #64のheadは`da5a61e8584de10943f28b5eb939f0f3d98a890e`、baseは`b6686c92dbb678ea8b94eb12df37a33207c4c84b`。PR CIは[36719009030](https://github.com/pero3dev/ai-agent-library/actions/runs/36719009030)。2026-09-30T13:17Zの実APIで11検査中10成功・build進行中を確認した。マージ、main CI、Pages、公開121ケースと独立画像レビューはこの時点では未完了。
+
+最初のpush/PR作成要求は、保存証拠に旧PCの絶対パスが含まれるため自動承認審査で実行前に差し止められた。全643ファイルのGit blob（79 text・261 gzip text・303 PNG）を検査し、秘密情報の検出0、PNGのtext/exif metadata 0、利用者パスは同じプロジェクトの既公開証拠に存在するものと確認した。別担当の独立内容監査もmust 0・should 0だった。同じ操作を再審査した結果、承認され通常pushとPR作成が成功した。審査を迂回した操作や、認証情報の引き継ぎは行っていない。監査原本は公開証拠保存時に相対索引へ追加する。
+
+PRの11必須検査が成功し、2026-09-30T13:27:18Zに`b7bb4b12f3878d2f7b12c542c32b66d1ac6709c6`として通常squashマージした。取得した実マージメッセージの件名・本文・名義は共通検査に成功。PR buildは17分55秒、browserは349成功・既存音声5 skipで14.8分だった。ローカル全体実行後に追加した配信失敗2件もPR CIには含まれる。
+
+2026-09-30T13:31:24.356Zの独立照合で、候補とマージのtree `7a57521f23b03a6b34586ee4f839770a1eac1abc`・全2517 entryが一致した。実merge blobから10記事のinputDigestを再計算し、最終local reviewの10値、関連142 source、kit全20ファイルと照合した。これはソース同一性の証拠であり、公開ブラウザー受入ではない。main CIは[36721749315](https://github.com/pero3dev/ai-agent-library/actions/runs/36721749315)で実行中。
+
+GitHubのジョブ一覧APIの一時的なHTTP 502によりwatchが終了したが、CI失敗ではなかった。既知jobの個別APIでPR build成功と原ログを取得した。mainの完了監視はrun APIを使い、collectorでは実attempt・artifact・Pagesの条件を改めて照合する。検査を省略した成功扱いにはしない。
+
+main CI `36721749315`（attempt 1）とPages job `109913755187`が成功し、2026-09-30T13:44:39.174Zのcollectorでartifact `11101346874`、BUILD_ID `4tjwjOwQRImwvRy83cFRh`、同一artifactの10 HTMLを取得した。main browserは349成功・既存音声5 skip、10.2分。13:45ZからEdge・WebKitの全121ケースをそれぞれ実行している。途中の機械結果や画像確認を最終公開受入とは扱わない。
+
+## native 200% zoom の補足
+
+既存DSF 2検査と区別するため、使い捨てのChromium profileと標準tabs APIで100%→200%→100%を試した。実API値、viewport幅1424→712→1424、DPR 1→2→1、visualViewport.scale 1、前後の入力・BUILD・HTML一致を確認した。普段のprofileや設定を変更していない。[限定診断の原本](reasoning-native-zoom-evidence/README.md)に2回の実行・画像12枚と実視認7 pathを保存した。
+
+同じ200%・同じスクロール位置で、直接取得したCDP画像には図があり、Playwrightのviewport画像は白くなった。取得経路の不一致を分離したが、内部原因は未確定。低い画面で中央に合わせた画像では固定headerが図の上部を覆うため、全段階の可読性確認とは扱わない。全9段階・明暗・通常スクロールでの到達性は別の補足検査として準備する。

@@ -1,0 +1,926 @@
+{
+  "schemaVersion": 1,
+  "unit": "E3",
+  "status": "proposal-for-independent-kit-review",
+  "author": "/root/pretraining_visual_review",
+  "scope": {
+    "allowedWrites": [
+      "TEMP/interpretability-e3-kit-plan-20260930.md",
+      "TEMP/interpretability-e3-kit-plan-20260930.json"
+    ],
+    "planOnly": true,
+    "productModified": false,
+    "articleModified": false,
+    "kitModified": false,
+    "registrationModified": false,
+    "gitMutation": false,
+    "networkExecuted": false,
+    "browserExecuted": false,
+    "implementationStarted": false,
+    "acceptance": null,
+    "startRequires": [
+      "E2 formal public acceptance",
+      "Independent E3 kit plan review and root start instruction",
+      "Freeze the actual accepted E2 predecessor before implementation"
+    ],
+    "stopBoundary": "P1 all fifteen articles publicly accepted; P2 remains out of scope."
+  },
+  "baseline": {
+    "actualObserved": {
+      "status": "Current D2 candidate, not public acceptance",
+      "registeredCases": 121,
+      "artifactRoutes": 10,
+      "source": "scripts/diagram-release/verify-public.mjs",
+      "historicalDetailedSnapshot": "TEMP/context-e1-kit-plan-20260930.json#/currentBaseline"
+    },
+    "futureE2": {
+      "status": "Planned151 cases and12 artifact routes; not implemented or accepted baseline evidence",
+      "plannedCases": 151,
+      "plannedArtifactRoutes": 12,
+      "acceptedMergeSha": null,
+      "acceptedTreeSha": null,
+      "manifestSha256": null,
+      "kitFileHashes": null,
+      "callbackNames": null,
+      "callbackBodyHashes": null,
+      "wholePredecessorProofHashes": null,
+      "artifactRouteNames": null,
+      "freezeAt": "Only after E2 formal public acceptance, from that actual accepted tree; do not derive future151 callback bodies/hashes from current121 or planning documents."
+    }
+  },
+  "extension": {
+    "route": "/docs/llm-internals/interpretability-basics",
+    "newCases": 14,
+    "plannedTotalCases": 165,
+    "plannedArtifactRoutes": 13,
+    "formula": "151 + 6 profiles + 2 semantic + 1 keyboard/modal + 1 READ + 2 native + 1 noJS/fallback + 1 print =165; 12+1=13 artifact routes",
+    "insertion": "One consecutive fourteen-case block after the future E2 runIclChecks and before existing mandatory favicon case. Exact insertion index is deferred until accepted E2 is frozen. Removing E3 additions restores all151 names, order and callback bodies under documented newline normalization.",
+    "profiles": [
+      [
+        1440,
+        1000,
+        "light",
+        1
+      ],
+      [
+        1440,
+        1000,
+        "dark",
+        1
+      ],
+      [
+        1280,
+        720,
+        "light",
+        1
+      ],
+      [
+        390,
+        844,
+        "light",
+        1
+      ],
+      [
+        390,
+        844,
+        "dark",
+        1
+      ],
+      [
+        960,
+        540,
+        "light",
+        2
+      ]
+    ],
+    "cases": [
+      {
+        "name": "interpretability: all 9 stages 1440x1000 light DSF1",
+        "kind": "profile"
+      },
+      {
+        "name": "interpretability: all 9 stages 1440x1000 dark DSF1",
+        "kind": "profile"
+      },
+      {
+        "name": "interpretability: all 9 stages 1280x720 light DSF1",
+        "kind": "profile"
+      },
+      {
+        "name": "interpretability: all 9 stages 390x844 light DSF1",
+        "kind": "profile"
+      },
+      {
+        "name": "interpretability: all 9 stages 390x844 dark DSF1",
+        "kind": "profile"
+      },
+      {
+        "name": "interpretability: all 9 stages 960x540 light DSF2",
+        "kind": "profile"
+      },
+      {
+        "name": "interpretability-evidence: independent visible claims, both interventions and midpoint reverse seeks",
+        "kind": "semantic",
+        "figure": "interpretability-evidence"
+      },
+      {
+        "name": "interpretability-sae: independent symbolic sparsity, approximate reconstruction and midpoint reverse seeks",
+        "kind": "semantic",
+        "figure": "interpretability-sae"
+      },
+      {
+        "name": "interpretability: keyboard transport, modal intervention, isolated state and focus return",
+        "kind": "keyboard-modal"
+      },
+      {
+        "name": "interpretability: all 9 READ stops, earliest assigned meaning and independent figure states",
+        "kind": "read"
+      },
+      {
+        "name": "interpretability-evidence: native elapsed play, frozen pause, replay and completion",
+        "kind": "native",
+        "figure": "interpretability-evidence"
+      },
+      {
+        "name": "interpretability-sae: native elapsed play, frozen pause, replay and completion",
+        "kind": "native",
+        "figure": "interpretability-sae"
+      },
+      {
+        "name": "interpretability fallback: noJS retains 9 static descriptions; chunk failure retains article, equation, status and h1",
+        "kind": "noJS-fallback"
+      },
+      {
+        "name": "interpretability print: coherent scenes and original article with controls hidden",
+        "kind": "print"
+      }
+    ],
+    "observationsPerEngine": {
+      "profileIntegerStages": {
+        "formula": "6 * (5+4)",
+        "count": 54
+      },
+      "semanticDefaultIntegerStages": {
+        "formula": "5+4",
+        "count": 9
+      },
+      "defaultMidpointVisits": {
+        "formula": "2 directions *3 offsets(.49,.50,.51) *(4+3)",
+        "count": 42,
+        "perFigure": [
+          24,
+          18
+        ]
+      },
+      "alternateInterventionBoundaries": {
+        "formula": "replace at 2.49/2.50/2.51 and 3.49/3.50/3.51, each direction",
+        "count": 12
+      },
+      "activeSelectorStates": {
+        "formula": "2 choices *1 effective stage",
+        "count": 2
+      },
+      "storedChoiceStageGrid": {
+        "formula": "2 stored choices *5 stages",
+        "count": 10
+      },
+      "readVisits": {
+        "formula": "2 directions *9",
+        "count": 18
+      },
+      "freshEarliestReadChecks": {
+        "count": 2,
+        "paths": [
+          {
+            "figure": "interpretability-evidence",
+            "stages": [
+              0,
+              3
+            ],
+            "required": "induction candidate already visible at READ3"
+          },
+          {
+            "figure": "interpretability-sae",
+            "stages": [
+              0,
+              1
+            ],
+            "required": "SAE decomposition research path already visible at READ1"
+          }
+        ]
+      },
+      "manualOnlyStages": 0,
+      "meaning": "Counts are nested observations, not extra registered cases, empirical results, or claims of viewed screenshots. The42 default and12 alternate midpoint observations are distinct; do not label the54 as default coverage."
+    }
+  },
+  "sourceContract": {
+    "article": "docs/11-llm-internals/interpretability-basics.md",
+    "articleSha256": "d7a2febb87771c6afbf440be223527c2c9a465f1e1c72f000432540ec2cda68e",
+    "canonicalAstSha256": "78062d2eb40c839ea9bca97713fa433e70a63fc2cb711746277a819e91058857",
+    "canonicalization": "Parse unified + remark-parse/frontmatter(yaml)/gfm/math; recursively remove position, sort keys, normalize CR/CRLF strings to LF, JSON.stringify without spaces.",
+    "counts": {
+      "figures": 2,
+      "stages": 9,
+      "read": 9,
+      "manual": 0,
+      "rootChildren": 50,
+      "contentH3": 9,
+      "allH3": 10,
+      "contentBody": 21,
+      "wrappedH3": 5,
+      "wrappedBody": 16,
+      "topics": 41,
+      "dynamicTopics": 20,
+      "staticTopics": 21,
+      "lists": 12,
+      "listItems": 47,
+      "links": 25,
+      "strong": 43,
+      "displayMath": 1,
+      "inlineMath": 3,
+      "inlineCode": 6,
+      "mermaid": 0,
+      "fencedCode": 0,
+      "tables": 0,
+      "sourceBlockquotes": 3,
+      "renderedOrdinaryBlockquotes": 1,
+      "todoAsides": 2
+    },
+    "allH3": [
+      "概要: 行動を見るか、機構を理解するか",
+      "プロービング: 表現に情報はあるか",
+      "帰属と「注意は説明か」論争",
+      "回路: 誘導ヘッドという発見",
+      "重ね合わせと SAE: 特徴を疎に取り出す",
+      "実務への応用可能性と限界",
+      "この理解が効く場面",
+      "アンチパターン",
+      "チェックリスト",
+      "変わりやすい項目(定点観測)"
+    ],
+    "bindings": [
+      {
+        "id": "interpretability-evidence",
+        "range": [
+          11,
+          26
+        ],
+        "sourceDigest": "sha256:3a1971be6655134de6a600c9d03afe0ff8cef25ed9662dff1bd065990150d0d7",
+        "read": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "manual": [],
+        "wrappedH3": 4,
+        "wrappedBody": 11
+      },
+      {
+        "id": "interpretability-sae",
+        "range": [
+          26,
+          32
+        ],
+        "sourceDigest": "sha256:782e82380a0061d618371bbb4709a2ed263a52af2b031a0754a8591e3ccead15",
+        "read": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "manual": [],
+        "wrappedH3": 1,
+        "wrappedBody": 5
+      }
+    ],
+    "displayFormulaValueSha256": "ef9baac87eabd9271a9fdeef7821e52cd05f5b4ec135cbe22ef2bb358f4ee500",
+    "displayFormula": "\\mathbf{x} \\approx \\sum_i f_i(\\mathbf{x})\\, \\mathbf{d}_i, \\qquad f_i(\\mathbf{x}) \\ge 0\\ \\text{かつ大半が}\\ 0",
+    "inlineMathValues": [
+      "\\mathbf{x}",
+      "\\mathbf{d}_i",
+      "f_i"
+    ],
+    "inlineCodeValues": [
+      "research/internals/interpretability.md",
+      "A B",
+      "A",
+      "B",
+      "research/internals/interpretability.md",
+      "research/internals/interpretability.md"
+    ],
+    "astChecks": "All2^2=4 enabled subsets unwrap to the identical original AST/formula/sourceDigests and block order. No new prose/formula/examples. Source body counts are not whole-tree paragraph counts. All41 topics include40 content topics plus1 periodic-TODO topic.",
+    "domChecks": "Count original article content excluding .rf-article-toc and .rf-static-stages. Preserve initial dated ordinary blockquote and its visible self-report/not-standard note; two TODO blockquotes become two aside.todo-callout with original prose and code links. Check all10 H3, not only9 content H3. Preserve original KaTeX display formula once plus3 inline formulas, load CSS/fonts and contain formula overflow. Source link/strong counts are AST-only; DOM checks normalize existing glossary/TODO decorations and compare original href/text instead of equating total DOM anchor/strong count to source count."
+  },
+  "oraclePolicy": {
+    "independent": "Write literal expected semantic roles/IDs/unknowns/labels from hash-bound adopted contract and article. Never import production frame/fixture or turn observed DOM values into expected values. Additional scoped collector hooks and precise wording are reviewed during implementation, not silently treated as existing adopted IDs.",
+    "visible": "Match exact adopted labels where fixed and reviewed bounded visible-text alternatives for explanatory meaning, per local role/row/caveat. Do not accept data-ID/boolean alone, hidden title/desc, a different panel's matching phrase, or whole-page substring searches. Negation/reversal must fail.",
+    "geometry": "Record visible node rectangles, path endpoints/arrow markers and scoped row/boundary boxes in one coordinate system. Check branch separation and causal direction against real SVG edges. Horizontal/vertical painted strokes with one zero bbox dimension are visible; length/stroke and endpoints matter. Image review decides suspected glyph collision; no automatic bounding-box-only acceptance.",
+    "numeric": "This is conceptual, not a performed probe/intervention/SAE experiment. Unknown measurements stay null/unmeasured. Literal zero and nonnegative sign belong to the existing SAE formula; drawn slot counts/positions are illustration structure, not empirical dimensions/features/coefficients. Do not invent named discovered features or numeric quality.",
+    "model": "Shared finite phase clamp/rounding, deterministic plain data, no DOM/network/randomness/timer, fresh nested output and stable identities. Invalid phase/options fail closed; allowed intervention values only. Any exception subtype not fixed by adopted contract must be resolved consistently in implementation rather than invented by this plan."
+  },
+  "figures": [
+    {
+      "id": "interpretability-evidence",
+      "marker": "INTERPRETABILITY / EVIDENCE",
+      "stageAttribute": "data-interpretability-evidence-stage",
+      "stages": 5,
+      "read": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "manual": [],
+      "interfacePointer": "/proposed/figures/0",
+      "stageLabels": [
+        "行動と内部",
+        "取り出せる",
+        "帰属を比べる",
+        "介入する",
+        "候補の限界"
+      ],
+      "identities": [
+        "input-x",
+        "model-original",
+        "representation-h",
+        "probe-independent",
+        "model-output-y",
+        "component-target",
+        "model-intervened",
+        "comparison-pending"
+      ],
+      "unknowns": [
+        "probeAccuracy",
+        "probeResult",
+        "causalUse",
+        "attentionWeights",
+        "attributionScores",
+        "observedInterventionOutput",
+        "effectSize",
+        "qualityJudgment"
+      ],
+      "literalClaims": {
+        "probeIndependent": true,
+        "causalProof": false,
+        "resultStatus": "unmeasured",
+        "mechanismStatus": "candidate",
+        "sameInputId": "input-x"
+      },
+      "controls": [
+        {
+          "key": "intervention",
+          "label": "介入の種類",
+          "values": [
+            "ablate",
+            "replace"
+          ],
+          "labels": [
+            "部品を止める",
+            "部品を差し替える"
+          ],
+          "default": "ablate",
+          "activeStages": [
+            3
+          ],
+          "inactiveStages": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "inactiveEffectiveValue": null,
+          "inactiveUIPlan": "Hide inactive control; retained stored choice cannot alter any semantic/visible state outsideS3. This makes the adopted effective-onlyS3 contract explicit."
+        }
+      ],
+      "visibleByStage": [
+        "S0: input/output behavioral observation and internal mechanism view simultaneously; complementary methods and no single decisive method. Internal view does not replace external evaluation.",
+        "S1: representation-h branches to separately trained probe-independent while original model-output-y route stays separate. Explain accessible information versus actual causal use; probe output never drives model output. Successful decoding/accuracy is not asserted from an unperformed experiment.",
+        "S2: distinct attention and attribution panels, with both dispute positions visible concurrently: attention alone is not sufficient explanation; explanation definition and model-wide tests matter. Symbolic highlights only, no scored colorbar/normalized attention array. Shared schematic input/output is not a measured equal-prediction experiment.",
+        "S3: exactly two comparable normal/intervened lanes with the same input-x and only component-target changed. Each lane has its own scoped visible input, target state and output status; comparison remains pending/unmeasured under either intervention. Already show A B … A and induction-head candidate label at this READ, not only S4.",
+        "S4: retain conceptual A B … A → candidate B and residual-stream context. Timing association is not causal proof; candidate mechanism is not a whole-model/all-ICL explanation. Visible boundary blocks that extrapolation without making a new model result."
+      ],
+      "scopedCardinality": {
+        "s2DisputePositions": 2,
+        "s3ComparisonLanes": 2,
+        "s3InputPerLane": 1,
+        "s3TargetStatePerLane": 1,
+        "s3OutputStatusPerLane": 1
+      },
+      "geometryChecks": [
+        "S1 branch originates at representation-h and reaches independent probe; no probe-output→model-output arrow or visual merge suggesting causal use.",
+        "S3 both lane input labels equal input-x; normal state and intervention targets stay inside their own lanes and only selected target treatment changes. Collect each lane separately, not aggregate counts.",
+        "S3/S4 repeated A/B glyphs remain distinguishable occurrences in the pattern; continuation B connects from the candidate pattern. Do not use a glyph label alone as an occurrence identifier or invent a fixed E2-hook contract not adopted here.",
+        "S4 candidate scope and limitation text are visible near the mechanism; no arrow from candidate boundary to a whole-model proven/safe conclusion."
+      ],
+      "selectorPlan": "Ten-cell stored choice×stage grid; two activeS3 states in panel and modal. Inactive0/1/2/4 effective null and no visual/semantic change. Retain chosen value when returning toS3. Alternate replace also traverses both activation boundaries forward/reverse. Other figure's phase is unaffected."
+    },
+    {
+      "id": "interpretability-sae",
+      "marker": "INTERPRETABILITY / SAE",
+      "stageAttribute": "data-interpretability-sae-stage",
+      "stages": 4,
+      "read": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "manual": [],
+      "controls": [],
+      "interfacePointer": "/proposed/figures/1",
+      "stageLabels": [
+        "多義性",
+        "重ね合わせ仮説",
+        "SAE再構成",
+        "何が未解決か"
+      ],
+      "identities": [
+        "activation-x",
+        "feature-directions",
+        "sparse-coefficients",
+        "reconstruction-xhat",
+        "residual-r",
+        "scope-boundary"
+      ],
+      "unknowns": [
+        "dimensionCount",
+        "learnedFeatureCount",
+        "coefficientValues",
+        "directionValues",
+        "reconstructionError",
+        "featureCoverage",
+        "safetyJudgment"
+      ],
+      "literalClaims": {
+        "coefficientDomain": "nonnegative",
+        "coefficientMode": "symbolic",
+        "reconstruction": "approximate",
+        "resultStatus": "unmeasured",
+        "safetyGuarantee": false
+      },
+      "visibleByStage": [
+        "S0: one neuron/dimension can be associated with multiple symbolic features; neither universal one-to-one concept correspondence nor named empirically discovered concepts.",
+        "S1: more candidate features than dimensions is marked as a toy-model hypothesis, with d_i/d_j/ellipsis and many zero coefficient slots. SAE decomposition research path is already visible at READ1. Illustrated slot count is not actual dimension/learned-feature count.",
+        "S2: map x, f_i(x), d_i and the sparse sum to approximate xhat. Nonnegative coefficients, mostly zero; only symbolically nonzero terms contribute. Always show approximate relation and unresolved residual-r. No assigned numeric coefficients/directions/magnitudes/error, unconditional x=xhat, perfect inverse or zero-error claim.",
+        "S3: keep reconstruction objects and approximate/residual meaning while displaying three distinct unresolved issues: coverage, evaluation, scale. Lab self-report and unestablished safety guarantee remain READ-visible without a control."
+      ],
+      "localLiteralText": {
+        "approximation": "≈",
+        "coefficientDomain": "f_i(x) ≥ 0",
+        "sparsity": "大半が0",
+        "directions": [
+          "d_i",
+          "d_j"
+        ],
+        "limitations": [
+          "網羅性",
+          "評価",
+          "規模"
+        ]
+      },
+      "scopedCardinality": {
+        "s3IssueLabels": 3,
+        "s2OriginalActivation": 1,
+        "s2Reconstruction": 1,
+        "s2Residual": 1
+      },
+      "geometryChecks": [
+        "Different feature directions retain distinct visible identities and converge into reconstruction only via active symbolic terms; zero slots have no active contribution edge.",
+        "Each explicitly shown coefficient slot is locally classified zero or symbolic-active. Verify majority zero among explicit finite slots, excluding ellipsis; do not convert slot counts to empirical sparsity rates or dimension counts. Exact number of illustrative slots is a layout choice to freeze with authored scene and independent oracle before tests.",
+        "Approximate sign connects original/reconstruction scope and residual is visible nearby, not hidden behind another panel. Residual remains unresolved, not a measured positive magnitude or known zero.",
+        "S3 exactly three unresolved issue labels and the self-report/no-safety caveat lie in their intended scope; no connector bypasses boundary to imply full mechanism or safety proof."
+      ],
+      "textNormalization": "Math symbol typography may use Unicode subscripts, tspans or accessible visible equivalents, but semantic variables/indexes/operators must agree with the original formula. Do not require a duplicated KaTeX formula inside the scene."
+    }
+  ],
+  "negativeFixtures": [
+    {
+      "id": "N01",
+      "mutation": "Wrong .50 rounding or label/relations out of sync with stage",
+      "rejection": "Every42 default midpoint observation plus12 alternate activation-boundary observations compares full semantic stage."
+    },
+    {
+      "id": "N02",
+      "mutation": "Correct data attributes survive but visible text/caveat is absent, hidden or negation reversed",
+      "rejection": "Scoped visible-text/geometry oracle, including remote duplicate and hidden title/desc negatives."
+    },
+    {
+      "id": "N03",
+      "mutation": "Probe becomes model output driver or information accessibility becomes causal-use proof",
+      "rejection": "Separate branch graph/endpoints and explicit non-equivalence text; no invented decoding result."
+    },
+    {
+      "id": "N04",
+      "mutation": "Hide one attention dispute position or conclude attention is explanation/always worthless",
+      "rejection": "Exactly two local dispute positions with both bounded meanings visible simultaneously."
+    },
+    {
+      "id": "N05",
+      "mutation": "Invent normalized attention weights, importance scores or measured equal outputs",
+      "rejection": "Unknown-field literals and visible unmeasured/schematic qualifiers; forbid numeric color scale/results."
+    },
+    {
+      "id": "N06",
+      "mutation": "Use different inputs or move both result labels into one comparison lane",
+      "rejection": "Two lanes with same input-x; exact per-lane input/target/output fields, not aggregate totals."
+    },
+    {
+      "id": "N07",
+      "mutation": "Intervention changes a nontarget component, reports output improvement or persists outsideS3",
+      "rejection": "Two choices, ten-cell stage grid, source/target geometry and null unknowns/effective state."
+    },
+    {
+      "id": "N08",
+      "mutation": "Induction candidate missing at READ3 or turns timing coincidence into whole-ICL causal proof",
+      "rejection": "FreshREAD3 pattern/candidate text plus S4 residual-stream and scope limitations."
+    },
+    {
+      "id": "N09",
+      "mutation": "Omit SAE research flow until S2 or show superposition as proven measured dimensions/features",
+      "rejection": "FreshREAD1 early research route, toy-model hypothesis text and unknown dimension/feature counts."
+    },
+    {
+      "id": "N10",
+      "mutation": "Negative/assigned numeric coefficients, dense slots despite sparsity label or active edge from zero slot",
+      "rejection": "Nonnegative symbolic fields, actual slot types/majority and per-slot contribution geometry."
+    },
+    {
+      "id": "N11",
+      "mutation": "Replace approximation by equality, hide residual, show residual/error0 or exact inverse",
+      "rejection": "Local visible≈ and residual identities/text/geometry with unmeasured error fields."
+    },
+    {
+      "id": "N12",
+      "mutation": "Invent named discovered features or measured direction/length values",
+      "rejection": "Fixed symbolic vocabulary and unknown direction/quality fields; drawing geometry cannot become result data."
+    },
+    {
+      "id": "N13",
+      "mutation": "Drop/duplicate unresolved issue or hide self-report/no-safety boundary at S3",
+      "rejection": "Three distinct local issue labels, retained reconstruction and visible self-report/no-guarantee language."
+    },
+    {
+      "id": "N14",
+      "mutation": "Count only9 total H3, lose ordinary date quote or erase either TODO during decoration; conflate noJS static descriptions with failed-scene fallback or remove fallback h1/status; skip either target lazy-chunk trial",
+      "rejection": "Original AST and DOM structure distinguish9 content/10 total H3,1 ordinary quote and2 decorated TODO asides. NoJS requires9 static descriptions; chunk-failure requires original prose/formula/h1/status and accepts zero failed-scene descriptions. Positive legitimate fallback and missing-required-content negatives guard the split. Require separate actually observed blocked requests and target fallbacks for evidence and SAE; no simultaneous-block-only substitute."
+    },
+    {
+      "id": "N15",
+      "mutation": "Alter/duplicate original equation or disturb source wrapper order/digest",
+      "rejection": "Four AST restoration combinations, original formula byte-value hash and source structural counts."
+    },
+    {
+      "id": "N16",
+      "mutation": "Reject horizontal painted stroke as invisible, or require active selector in print",
+      "rejection": "Positive zero-height stroke fixture and separate semantic/control visibility assertions for print."
+    },
+    {
+      "id": "N17",
+      "mutation": "Remove/move old callback, change old timeout/assertion or predecessor proof bytes",
+      "rejection": "Whole accepted E2 source/proof hashes, exact151 names/order/body comparison and all165 count."
+    },
+    {
+      "id": "N18",
+      "mutation": "Use DSF2/screenshot enlargement as native200% evidence or omit1920/768 coverage",
+      "rejection": "Separate required local evidence records; unexecuted native zoom remains unverified."
+    }
+  ],
+  "executionPlan": {
+    "profile": "All9 stages in six fixed profiles on actual E3 route. Assert visible scoped semantics, no page overflow or label/control clipping; save viewport and fullScene captures separately with stage/profile/engine and SHA256. Stable reduced-motion capture does not substitute for native playback evidence.",
+    "semantic": "Two callbacks with independently literal fixtures. Use42 default boundary visits and12 replace-mode activation-boundary visits, nine default integers, ten-cell stored intervention grid. Capture real per-lane texts/endpoints/slots and preserve all unknown measurements. Pure frame negatives and DOM observation negatives are separate.",
+    "read": "All9 READ stops forward/reverse, no manual-only stage. Fresh page read-only scroll to evidenceS3 and saeS1 additionally checks meaning at earliest assigned stage without earlier selector/play/modal. Both figures preserve independent state and can resume reading after manual control.",
+    "keyboardModal": "Home/End/arrows, previous/next, pause/replay/read return; modal for both figures, both intervention choices only at evidenceS3, inactive stages hidden/effective null. Verify focus restoration, namespaced IDs and no hidden base-panel substitution for modal content.",
+    "native": "Two real elapsed-play cases: progress, frozen pause, replay and completion. Observe application RAF stopping after manual pause and actual offscreen transition; observer RAF uses saved native scheduling and is excluded. No fake hidden-document state or forced stage mutation.",
+    "noJSAndChunkFallback": {
+      "registeredCases": 1,
+      "contexts": [
+        "JavaScript disabled",
+        "Fresh JS context: block actual interpretability-evidence lazy chunk only",
+        "Fresh JS context: block actual interpretability-sae lazy chunk only"
+      ],
+      "noJS": {
+        "required": [
+          "original article prose",
+          "original formula",
+          "all9 static stage descriptions"
+        ],
+        "staticDescriptionCount": 9
+      },
+      "chunkFailure": {
+        "required": [
+          "original article prose",
+          "original formula",
+          "article h1",
+          "visible role=status explaining loading failure and continued readable article"
+        ],
+        "statusText": "図解を読み込めませんでした。本文は引き続き読めます。",
+        "failedSceneStaticDescriptionCount": null,
+        "staticDescriptionPolicy": "Do not require static stage descriptions from the failed scene. DiagramBoundary fallback is status plus original children; ReadingFigure owns the static list inside the failed scene. A valid fallback with zero failed-scene static descriptions must pass.",
+        "trials": [
+          {
+            "target": "interpretability-evidence",
+            "freshJavaScriptContext": true,
+            "block": "Resolve emitted URL from final build lazy-import/asset mapping; actually abort that target chunk request in this separate trial.",
+            "require": [
+              "Observed intended blocked request with target identity, resolved URL and chunk hash",
+              "Target DiagramBoundary fallback status plus original children",
+              "Original article formula and h1 remain readable"
+            ],
+            "prohibit": "Do not substitute the other scene trial or block both target chunks together. If intended blocked request was never observed, fail the trial."
+          },
+          {
+            "target": "interpretability-sae",
+            "freshJavaScriptContext": true,
+            "block": "Resolve emitted URL from final build lazy-import/asset mapping; actually abort that target chunk request in this separate trial.",
+            "require": [
+              "Observed intended blocked request with target identity, resolved URL and chunk hash",
+              "Target DiagramBoundary fallback status plus original children",
+              "Original article formula and h1 remain readable"
+            ],
+            "prohibit": "Do not substitute the other scene trial or block both target chunks together. If intended blocked request was never observed, fail the trial."
+          }
+        ],
+        "trialCount": 2
+      },
+      "positiveAndNegativeFixtures": [
+        "Valid noJS article/formula with9 static descriptions passes; missing description fails noJS oracle.",
+        "Valid chunk-failure article/formula/h1/status with zero failed-scene static descriptions passes.",
+        "Missing chunk-failure article, formula, h1 or status fails; a surviving other scene static list cannot substitute.",
+        "Omit one target trial, reuse another target result, block both chunks only together, or never observe the intended blocked request: fail coverage proof."
+      ],
+      "network": "Record exact deliberately blocked chunk URL separately; do not ignore unexpected critical-resource failures or weaken all network checks.",
+      "totalContexts": 3
+    },
+    "print": "Visible coherent scene plus original article/formula/one ordinary quote/two TODO asides; controls hidden. Do not call a screen-only selector-presence assertion. Keep scene meaning assertions separate from control UI assertions.",
+    "additionalLocalWidthAcceptance": {
+      "required": true,
+      "status": "planned-not-executed",
+      "registeredCaseContribution": 0,
+      "route": "/docs/llm-internals/interpretability-basics",
+      "engines": [
+        "Edge",
+        "WebKit"
+      ],
+      "profiles": [
+        [
+          1920,
+          1080,
+          "light",
+          1
+        ],
+        [
+          1920,
+          1080,
+          "dark",
+          1
+        ],
+        [
+          768,
+          1024,
+          "light",
+          1
+        ],
+        [
+          768,
+          1024,
+          "dark",
+          1
+        ]
+      ],
+      "stagesPerProfile": 9,
+      "perEngineObservations": 36,
+      "bothEngineObservations": 72,
+      "evidence": "On final static candidate, verify every9-stage state in every width/theme/engine, save viewport/fullScene and independently view actual images for required conditions. Record file/hash/engine/profile/stage/actuallyViewed plus source raw. Bind before/after product input digests, BUILD and article HTML to local acceptance. Never substitute generated count for view count. Does not add registrations to14/165."
+    },
+    "nativeZoom200": {
+      "required": true,
+      "status": "planned-not-executed",
+      "registeredCaseContribution": 0,
+      "distinction": "960x540 DSF2 is viewport/device scale, not browser native zoom200%.",
+      "evidence": "Separate actual E3-route local verification with browser zoom setting200% confirmed and independent actual-image review. Record engine, prezoom viewport, actual method/setting, resulting viewport and checked stage scope. DSF-only/CSS transform/enlarged PNG cannot satisfy it. Leave unverified if actual native zoom has not run; do not claim physical device acceptance."
+    },
+    "performance": "Maintain common gzip<=100 KiB/article-specific<=75 KiB, CLS<=.05, input response<=200ms and RAFp95<=32ms. Measure after concurrent browser runs stop; new chunks absent on unrelated article and no common idle-loop regression. Product/performance measurements are not executed by this plan.",
+    "independentImages": "Inspect actual images for all9 new stages and risks: independent probe branch, both controversy positions, two intervention choices, READ3 induction scope, SAE early path/zero slots/≈/residual/safety boundary. Include dark/narrow/shortPC/DSF2/modal and required1920/768 coverage. Default PC READ must be readable without fullscreen. Track generated versus actuallyViewed counts and viewport versus fullScene; physical device/screen-reader acceptance is separate."
+  },
+  "preservationAndRelease": {
+    "proposedFiles": [
+      "scripts/diagram-release/interpretability-checks.mjs",
+      "scripts/diagram-release/local-interpretability-adapter.mjs",
+      "website/tests/browser/interpretability.spec.mjs"
+    ],
+    "predecessor": "After E2 public acceptance, capture accepted merge/tree, complete kit/manifest byte hashes, all predecessor proof files' full hashes and ordered151 callback names/bodies/12 artifact routes. Existing planning hashes are not future evidence. Protected segment hashes supplement rather than replace full-proof hashes.",
+    "preservation": "One14-case block; removing only reviewed E3 imports/route/registration additions restores exact accepted predecessor content under documented newline normalization. Unit negative fixtures catch old-body/timeout/assertion change, missing/reordered callbacks and changed predecessor proof bytes. Freeze and hash actual proof content independently, not just self-reported sidecar hashes.",
+    "localPublic": "Same E3 callbacks and assert functions for local export and public route through dependency-injected adapter; no separate relaxed oracle. Required13 CI HTML artifact routes equal accepted12 plus E3, with no missing/duplicate/unexpected documents. Local final input/HTML/BUILD pre-post identity and independent image review precede formal frozen-tree review.",
+    "public": "Only after own merge, CI and Pages success: independent artifact collector, full165 Edge/WebKit, observed assets/HTTP/MIME,13HTML/BUILD and source inputs bound to release. Actual public images and independent review remain separate from local evidence. Retain initial failed raw and explicitly scoped repeats without claiming the original full run passed.",
+    "status": "All implementation, model/browser execution, local review, native zoom, CI and public acceptance are pending. This plan changes no gates."
+  },
+  "openItems": [
+    {
+      "id": "O1",
+      "kind": "deferred-evidence",
+      "text": "Actual accepted E2 baseline151/12routes with complete proofs, callback bytes and merge/tree will exist only after E2 public acceptance; fields remain null."
+    },
+    {
+      "id": "O2",
+      "kind": "implementation-detail",
+      "text": "Final scoped DOM hooks/wording and concrete illustrative coefficient slot count must be frozen from authored E3 scene and independently literalized before tests. Adopted semantics fixes symbolic/nonnegative/mostly-zero meaning, not a scientific sparsity percentage or exact layout slot count."
+    }
+  ],
+  "createdAt": "2026-09-30T12:52:47.907Z",
+  "evidenceInputs": [
+    {
+      "file": "AGENTS.md",
+      "bytes": 5554,
+      "sha256": "6a42eb8121cab94a360d9151ba1435eed7f855a8e47e2792ea7c20f7d4987fad",
+      "scope": "Ownership/source/acceptance contract"
+    },
+    {
+      "file": "CONTRIBUTING.md",
+      "bytes": 22086,
+      "sha256": "4dcc9ff7e07a66f006972fba94adfe5fc57070ac3903a523f552cf63be3c8bf1",
+      "scope": "Verification contract"
+    },
+    {
+      "file": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-proposal-20260930.json",
+      "bytes": 65930,
+      "sha256": "2396351aa8afbd8e1853fac5a18a5cbcc5c3af1d3b7669152edd2fd4662c066c",
+      "scope": "/adopted; /proposed/figures/0..1; /counts; /proposed/validation"
+    },
+    {
+      "file": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-proposal-20260930.md",
+      "bytes": 2594,
+      "sha256": "d060d5467bfb47f1b02115ef91b42ac14d845c0271d25b6a16fddaba1bfe84b0",
+      "scope": "Readable adopted interface"
+    },
+    {
+      "file": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-review-20260930.json",
+      "bytes": 3867,
+      "sha256": "df0ba3264efcdf36c7941ab394c528c0f1332ec8e5daa7171401664089b17d1e",
+      "scope": "Approved interface only; not implementation/public approval"
+    },
+    {
+      "file": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-review-20260930.md",
+      "bytes": 8124,
+      "sha256": "2eff7b9f4826b496bafa13c9a21e1f7d375d42cd5f06ce47bb0989e2eee92b6b",
+      "scope": "Independent semantic and source proof"
+    },
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "bytes": 427025,
+      "sha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "scope": "E3 object"
+    },
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+      "bytes": 19361,
+      "sha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+      "scope": "Adopted storyboard review"
+    },
+    {
+      "file": "docs/11-llm-internals/interpretability-basics.md",
+      "bytes": 15559,
+      "sha256": "d7a2febb87771c6afbf440be223527c2c9a465f1e1c72f000432540ec2cda68e",
+      "scope": "Original article"
+    },
+    {
+      "file": "project/plans/engineering/dynamic-diagrams.md",
+      "bytes": 28105,
+      "sha256": "58a359debbb0e2462ea4202d9dad99ba608fbef6317644beaafb0b89c95f08c0",
+      "scope": "Performance budgets and1920/768/200% requirements"
+    },
+    {
+      "file": "TEMP/icl-e2-kit-plan-20260930.json",
+      "bytes": 40006,
+      "sha256": "fc6a2ee1cb7645a127cd4a1c4a0248928f42bf1189cc1dd6ae75cf4ee9b3f236",
+      "scope": "E2 future151/12 plan; not actual predecessor body/hash"
+    },
+    {
+      "file": "TEMP/icl-e2-kit-plan-20260930.md",
+      "bytes": 11828,
+      "sha256": "c2381027bbc59203308a27d1d6c313dcc52b78cf7f67b013d5fdb65bc83360ad",
+      "scope": "E2 plan readable source"
+    },
+    {
+      "file": "scripts/diagram-release/source-mapping.json",
+      "bytes": 60320,
+      "sha256": "70c2178e900c3e641c1c5f13f272e8578bd106617db81e613965e5c4d0f51e19",
+      "scope": "Current D2 candidate manifest only"
+    },
+    {
+      "file": "scripts/diagram-release/verify-public.mjs",
+      "bytes": 64263,
+      "sha256": "ad1c6e33badb6a8c6bae853e5699a6c6f028eb6092c7fb0b5600a3cfdd809a02",
+      "scope": "Current real121/10 declaration only"
+    },
+    {
+      "file": "website/lib/doc-decorations.mjs",
+      "bytes": 5575,
+      "sha256": "abcba21db7e379e21f81602b97151e09f4c31d2a9f9beb01b48e86fee1de6fc2",
+      "scope": "TODO marker transformation and other existing decoration"
+    },
+    {
+      "file": "website/components/mdx/todo-callout.jsx",
+      "bytes": 334,
+      "sha256": "214c0da8d73c1057889a46e93d2fdcb7936f39e8dcdadfd16ee071741da52cc8",
+      "scope": "TODO DOM aside representation"
+    },
+    {
+      "file": "website/components/diagrams/diagram-boundary.jsx",
+      "bytes": 586,
+      "sha256": "5d7468c61107323df661809ff369d91e1cb27a0201b7c1f0b1c7ca83f29b0ac6",
+      "scope": "Current error fallback: status plus original children at render failure"
+    },
+    {
+      "file": "website/components/diagrams/reading-figure.jsx",
+      "bytes": 12435,
+      "sha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12",
+      "scope": "Static stage descriptions are owned within the scene ReadingFigure"
+    }
+  ],
+  "markdown": {
+    "file": "TEMP/interpretability-e3-kit-plan-20260930.md",
+    "sha256": "d8730a5f5b9ce59418dee0f9aeaeb3ab50411c35be537b1308c61bb3100f9364"
+  },
+  "selfCheck": {
+    "checkedAt": "2026-09-30T13:02:36.051Z",
+    "scope": "Plan/source verification only; no E3 product execution",
+    "interfaceTargetHashesMatchApprovedReview": true,
+    "articleAstAndFormulaHashesMatch": true,
+    "sourceDigestsIndependentlyRecomputed": [
+      {
+        "id": "interpretability-evidence",
+        "sourceDigest": "sha256:3a1971be6655134de6a600c9d03afe0ff8cef25ed9662dff1bd065990150d0d7"
+      },
+      {
+        "id": "interpretability-sae",
+        "sourceDigest": "sha256:782e82380a0061d618371bbb4709a2ed263a52af2b031a0754a8591e3ccead15"
+      }
+    ],
+    "originalNodeCounts": {
+      "root": 1,
+      "yaml": 1,
+      "heading": 19,
+      "text": 191,
+      "paragraph": 64,
+      "strong": 43,
+      "list": 12,
+      "listItem": 47,
+      "link": 25,
+      "blockquote": 3,
+      "inlineCode": 6,
+      "inlineMath": 3,
+      "math": 1
+    },
+    "caseNamesUnique14": true,
+    "stages9Read9Manual0": true,
+    "markersAndLabelsMatchAdopted": true,
+    "currentActual121And10Routes": true,
+    "future151ProofStillNull": true,
+    "planned165And13Routes": true,
+    "additionalWidths1920And768": true,
+    "dsf2NotNativeZoom200": true,
+    "fallbackContractSplitMatchesRuntime": true,
+    "chunkFailureDoesNotRequireStaticDescriptions": true,
+    "registered14Planned165Routes13Unchanged": true,
+    "bothLazyTargetsHaveSeparateActualBlockTrials": true
+  },
+  "revision": {
+    "recordedAt": "2026-09-30T13:02:36.048Z",
+    "reason": "Independent plan review: separate noJS full static descriptions from failed lazy scene boundary fallback.",
+    "initialFiles": [
+      {
+        "file": "TEMP/interpretability-e3-kit-plan-initial-20260930.md",
+        "sha256": "0bdbd1d6e751afc3f2746c1b4f472d2850e462fe5cdca8e803937b6786ba4659",
+        "preservation": "Original byte copy before amendment"
+      },
+      {
+        "file": "TEMP/interpretability-e3-kit-plan-initial-20260930.json",
+        "sha256": "64e3e0d4fcb61841739073ca8d13763407700173e405c8795afafc443e2fa6bb",
+        "preservation": "Original byte copy before amendment"
+      }
+    ],
+    "changes": [
+      "One planned fallback case name clarified; no case added/removed.",
+      "executionPlan.noJSAndChunkFallback separates expected noJS9 descriptions from failure original article/equation/h1/status.",
+      "N14 includes valid zero-description failure fallback and missing-content negatives.",
+      "Two existing runtime source hashes bound as evidence.",
+      "One noJS context plus two separate target-specific actual lazy-chunk block contexts inside the same registered case; require blocked request observation for each."
+    ],
+    "unchanged": [
+      "14 added cases,165 planned total,13 artifact routes",
+      "Remaining thirteen planned case names/order",
+      "Source/literal semantics/control/profile/native/READ plans",
+      "Actual121 baseline and future151 null proof fields"
+    ],
+    "initialReview": {
+      "status": "changes_requested",
+      "must": 1,
+      "should": 0,
+      "checkedAt": "2026-09-30T13:00:54.119Z",
+      "source": "Root relayed independent initial review; amended plan awaits rereview"
+    }
+  }
+}

@@ -1,0 +1,257 @@
+{
+  "schemaVersion": 1,
+  "kind": "bounded-native-zoom-capture-diagnosis-and-actual-view-ledger",
+  "checkedAt": "2026-09-30T13:49:11.169Z",
+  "reviewer": "/root/pretraining_visual_review",
+  "status": "diagnosis-complete-bounded",
+  "scope": {
+    "independentProductReview": false,
+    "boundedCaptureInvestigation": true,
+    "productVisualAcceptance": false,
+    "allStageAcceptance": false,
+    "publicAcceptance": false,
+    "actualNative200LayoutProbe": true,
+    "userProfileTouched": false,
+    "imageManipulation": false,
+    "cssOrDsfOverride": false,
+    "additionalRuns": 1,
+    "noFurtherRun": true
+  },
+  "rawRuns": [
+    {
+      "kind": "initial-native-API-probe",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\result.json",
+      "sha256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+      "preservedUnchanged": true
+    },
+    {
+      "kind": "native-capture-diagnosis",
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\result.json",
+      "sha256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+      "preservedUnchanged": true
+    }
+  ],
+  "identity": {
+    "buildId": "ay8Xdd-uRIpIwdWdgy70j",
+    "htmlSha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+    "inputDigest": "sha256:2696c2dc66c8d222bb06fd2b4c07deb34ddcc9f19c40ccc917b6ceed5cc0d330",
+    "beforeAfterMatches": true,
+    "helperSha256": "c2ccbc8853c66d035fe1599674548c726f59c4da3f3473c0de024a3a9def77c6"
+  },
+  "observed": {
+    "apiZoom": [
+      1,
+      2,
+      1
+    ],
+    "cssViewport": [
+      712,
+      452.5
+    ],
+    "nativeSurfaceImage": [
+      1424,
+      905
+    ],
+    "dprAt200": 2,
+    "visualViewportScale": 1,
+    "same200Scene": true,
+    "cdpBeforeAfterSameHash": true,
+    "playwright200BlankSameHashAsPrior": true,
+    "restored100AllThreeSameHash": true,
+    "generationCountThisDiagnostic": 6,
+    "actuallyViewedThisDiagnostic": 4,
+    "actuallyViewedPriorRunByThisReviewer": 2,
+    "totalActuallyViewedHere": 6,
+    "criticalResourceFailures": 0,
+    "pageErrors": 0,
+    "consoleErrors": 0,
+    "noncriticalNetworkObservations": [
+      {
+        "at": "2026-09-30T13:47:23.800Z",
+        "url": "http://127.0.0.1:4183/ai-agent-library",
+        "type": "fetch",
+        "method": "HEAD",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "at": "2026-09-30T13:47:23.800Z",
+        "url": "http://127.0.0.1:4183/ai-agent-library/audio",
+        "type": "fetch",
+        "method": "HEAD",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "at": "2026-09-30T13:47:23.800Z",
+        "url": "http://127.0.0.1:4183/ai-agent-library/roadmap",
+        "type": "fetch",
+        "method": "HEAD",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "at": "2026-09-30T13:47:23.800Z",
+        "url": "http://127.0.0.1:4183/ai-agent-library/glossary",
+        "type": "fetch",
+        "method": "HEAD",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "at": "2026-09-30T13:47:23.802Z",
+        "url": "http://127.0.0.1:4183/ai-agent-library/tags",
+        "type": "fetch",
+        "method": "HEAD",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "at": "2026-09-30T13:47:23.802Z",
+        "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/how-llms-generate-text",
+        "type": "fetch",
+        "method": "HEAD",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "at": "2026-09-30T13:47:23.802Z",
+        "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/model-selection",
+        "type": "fetch",
+        "method": "HEAD",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "at": "2026-09-30T13:47:23.802Z",
+        "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/prompt-engineering-fundamentals",
+        "type": "fetch",
+        "method": "HEAD",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "at": "2026-09-30T13:47:23.821Z",
+        "url": "http://127.0.0.1:4183/ai-agent-library/tags/__next.tags.__PAGE__.txt?_rsc=5CvjwWPY5f9Ac3tN",
+        "type": "fetch",
+        "method": "GET",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "at": "2026-09-30T13:47:24.404Z",
+        "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/openai-prompting",
+        "type": "fetch",
+        "method": "HEAD",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "at": "2026-09-30T13:47:24.404Z",
+        "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/claude-prompting",
+        "type": "fetch",
+        "method": "HEAD",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "at": "2026-09-30T13:47:24.404Z",
+        "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/gemini-prompting",
+        "type": "fetch",
+        "method": "HEAD",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "controlLimit": "Native200 viewport does not show the complete scene unobstructed: scene extends slightly beyond viewport and fixed page header overlays its top; ordinary scrolling was used, no full-scene acceptance."
+  },
+  "conclusion": "In this exact paused native200 local scene, unclipped CDP surface images before and after the Playwright screenshot visibly contain the diagram, while Playwright viewport produces a blank image. The blank image is therefore not evidence that the product failed to render this scene. A capture-path discrepancy is demonstrated; the exact Playwright/Chromium internal coordinate cause has not been proven. Use no-clip CDP surface output as a candidate method for any separately authorized native-zoom visual inspection, with explicit viewport/scroll coverage; do not accept old scene clips or claim whole-article/native-zoom visual completion.",
+  "limits": [
+    "One diagram, one stage, one isolated bundled Chromium environment.",
+    "No Edge/WebKit native-zoom or physical browser/device acceptance.",
+    "Six generated diagnostic images are distinct from four actually viewed diagnostic images.",
+    "Two prior images viewed now; root prior3 ledger remains separate.",
+    "Network fetch aborts retained, not reclassified as clean network or established context-close effects.",
+    "No product or kit changes or further probe execution."
+  ],
+  "viewed": [
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\images\\zoom-200-viewport.png",
+      "sha256": "7b837ba22228b55252cd813090c8b7fcc666e7bbdb57244a7488cff18bc1dd7d",
+      "sourceResult": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\result.json",
+      "sourceResultSha256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+      "engine": "bundled Chromium153.0.8010.12",
+      "profile": "isolated headless persistent context, outer1440x1000, viewport:null",
+      "capture": "viewport",
+      "zoom": 2,
+      "diagram": "reasoning-sequence",
+      "stage": 2,
+      "actuallyViewed": true,
+      "viewer": "/root/pretraining_visual_review",
+      "observation": "Initial Playwright viewport is blank."
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\images\\zoom-200-fullScene.png",
+      "sha256": "4e8f323017caab9dbdf5888eb54c444895630d16c747affe78fdf3cdbc4a06f1",
+      "sourceResult": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\result.json",
+      "sourceResultSha256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+      "engine": "bundled Chromium153.0.8010.12",
+      "profile": "isolated headless persistent context, outer1440x1000, viewport:null",
+      "capture": "fullScene",
+      "zoom": 2,
+      "diagram": "reasoning-sequence",
+      "stage": 2,
+      "actuallyViewed": true,
+      "viewer": "/root/pretraining_visual_review",
+      "observation": "Initial Playwright fullScene contains article heading/table rather than requested scene."
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\images\\zoom-200-cdp-before-playwright.png",
+      "sha256": "f255029776a00073b3464fbc065370904f5ae6120a77b3a357761fcd611e5f57",
+      "sourceResult": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\result.json",
+      "sourceResultSha256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+      "engine": "bundled Chromium153.0.8010.12",
+      "profile": "isolated headless persistent context, outer1440x1000, viewport:null",
+      "capture": "cdp-before-playwright",
+      "zoom": 2,
+      "diagram": "reasoning-sequence",
+      "stage": 2,
+      "actuallyViewed": true,
+      "viewer": "/root/pretraining_visual_review",
+      "observation": "Native200 scene visibly rendered; title/top section partly outside viewport or underneath fixed header."
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\images\\zoom-200-playwright-viewport.png",
+      "sha256": "7b837ba22228b55252cd813090c8b7fcc666e7bbdb57244a7488cff18bc1dd7d",
+      "sourceResult": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\result.json",
+      "sourceResultSha256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+      "engine": "bundled Chromium153.0.8010.12",
+      "profile": "isolated headless persistent context, outer1440x1000, viewport:null",
+      "capture": "playwright-viewport",
+      "zoom": 2,
+      "diagram": "reasoning-sequence",
+      "stage": 2,
+      "actuallyViewed": true,
+      "viewer": "/root/pretraining_visual_review",
+      "observation": "Playwright viewport is blank at the same paused stage, zoom and scroll position."
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\images\\zoom-200-cdp-after-playwright.png",
+      "sha256": "f255029776a00073b3464fbc065370904f5ae6120a77b3a357761fcd611e5f57",
+      "sourceResult": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\result.json",
+      "sourceResultSha256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+      "engine": "bundled Chromium153.0.8010.12",
+      "profile": "isolated headless persistent context, outer1440x1000, viewport:null",
+      "capture": "cdp-after-playwright",
+      "zoom": 2,
+      "diagram": "reasoning-sequence",
+      "stage": 2,
+      "actuallyViewed": true,
+      "viewer": "/root/pretraining_visual_review",
+      "observation": "Scene remains visibly rendered; exact same bytes as CDP-before."
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\images\\zoom-100-restored-playwright-viewport.png",
+      "sha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "sourceResult": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\result.json",
+      "sourceResultSha256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+      "engine": "bundled Chromium153.0.8010.12",
+      "profile": "isolated headless persistent context, outer1440x1000, viewport:null",
+      "capture": "playwright-viewport",
+      "zoom": 1,
+      "diagram": "reasoning-sequence",
+      "stage": 2,
+      "actuallyViewed": true,
+      "viewer": "/root/pretraining_visual_review",
+      "observation": "Restored100 shows expected reading layout and sequence S2; matches both restored CDP files by hash."
+    }
+  ]
+}

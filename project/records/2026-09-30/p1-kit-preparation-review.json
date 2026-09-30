@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-archive-integrity-review",
+  "reviewerIdentity": "/root/inference_doc_review/d2_browser_parallelism_check",
+  "checkedAt": "2026-09-30T13:40:05.937Z",
+  "verdict": "approved-archive-integrity-only",
+  "must": 0,
+  "should": 0,
+  "findings": [],
+  "targets": [
+    {
+      "file": "project/records/2026-09-30/p1-kit-preparation/index.json",
+      "sha256": "d421d0f2b3a4e492e506ca548410a914e497979888be5c4cd1317f9085242b8c"
+    },
+    {
+      "file": "project/records/2026-09-30/p1-kit-preparation/README.md",
+      "sha256": "7707c7ff953f74ca9027608ed0a7bdc420c77a4339cb1e1b96779934257cd92c"
+    }
+  ],
+  "checkedFacts": {
+    "rawFiles": 28,
+    "rawKinds": {
+      "json": 17,
+      "markdown": 10,
+      "mjs": 1
+    },
+    "originalAndStoredBytesHashesMatched": 28,
+    "identityEncodingRoundTripsMatched": 28,
+    "unindexedOrMissingRawFiles": 0,
+    "reviewRecords": 8,
+    "exactReviewTargetBindings": 17,
+    "sourceReferences": 135,
+    "referenceMissing": 0,
+    "referenceDrift": 0,
+    "repositoryReferences": 115,
+    "archiveReferences": 20,
+    "osTempOriginalsVerified": 1,
+    "e1AddendumReviewSha256": "c772da31912b10c50b4a857de10d0e84115c324978a50c00a6aae7180ebbe176",
+    "e1AddendumTargetSha256": "afa635a440d4ec5fa555891ff40461b89e28f41ac896ab8a59b38dfe96729b27",
+    "relativeMapping": "All stored/resolvedStored/archiveSource inside archive; repositorySource inside repository; exact review targets including legacy E1 rawSHA256 verified.",
+    "historicalStates": "E2 initial should1, E3 initial must1 retained; final0/0 bind amendments. F2 initial/final copies byte-identical and approved by actual review. E1 original and addendum separate.",
+    "pendingBoundary": "All5 plan-only; implementation/localRuntime/publicAccepted false. Future predecessor identities null. F2 actualdate/finalsource/tree/formalAR2review null;13 corrections unapplied. Historical121/10 not future acceptance.",
+    "privacyInspection": {
+      "knownCredentialPatternHits": 0,
+      "newNonHistoricalProfilePaths": 0,
+      "historicalProfilePathFieldsInIndex": 1,
+      "scope": "Targeted privatekey/token/authheader/credentialURL patterns across30files; same originals. Sole index userprofilepath is historical OS TEMP review locator."
+    }
+  },
+  "notExecuted": [
+    "Semantic plan rereview",
+    "Archived helper execution",
+    "Product/kit/browser/performance tests",
+    "Network/Git/public operations",
+    "File edits"
+  ],
+  "transcription": {
+    "recordedBy": "/root",
+    "source": "Compact transcription of independent reviewer JSON, no checks rerun at transcription."
+  }
+}

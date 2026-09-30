@@ -1,0 +1,993 @@
+{
+  "schemaVersion": 1,
+  "unit": "E2",
+  "status": "proposal-for-independent-kit-review",
+  "author": "/root/pretraining_visual_review",
+  "scope": {
+    "allowedWrites": [
+      "TEMP/icl-e2-kit-plan-20260930.md",
+      "TEMP/icl-e2-kit-plan-20260930.json"
+    ],
+    "planOnly": true,
+    "productModified": false,
+    "kitModified": false,
+    "articleModified": false,
+    "registrationModified": false,
+    "gitMutation": false,
+    "networkExecuted": false,
+    "browserExecuted": false,
+    "implementationStarted": false,
+    "acceptance": null,
+    "startRequires": [
+      "E1 and C2 formal public acceptance",
+      "E2 kit plan independent review and root start instruction",
+      "Freeze actual accepted E1 predecessor files, callbacks, proof files and eleven artifact routes"
+    ],
+    "stopBoundary": "P1 fifteen accepted articles; do not start P2."
+  },
+  "baseline": {
+    "actualObserved": {
+      "status": "D2 candidate only; not an assertion of public acceptance",
+      "caseCount": 121,
+      "artifactRouteCount": 10,
+      "source": "scripts/diagram-release/verify-public.mjs",
+      "existingDetailedSnapshot": "TEMP/context-e1-kit-plan-20260930.json#/currentBaseline"
+    },
+    "plannedE1": {
+      "caseCount": 135,
+      "artifactRouteCount": 11,
+      "implemented": false,
+      "acceptedMergeSha": null,
+      "acceptedTreeSha": null,
+      "manifestSha256": null,
+      "kitFiles": null,
+      "callbackNames": null,
+      "callbackBodyHashes": null,
+      "wholePredecessorProofHashes": null,
+      "freezeAt": "After E1 formal public acceptance, before E2 implementation; recompute from the actual accepted tree. Future 135-case contents/hashes are not available."
+    }
+  },
+  "extension": {
+    "route": "/docs/llm-internals/in-context-learning-and-memorization",
+    "newCases": 16,
+    "plannedTotalCases": 151,
+    "plannedArtifactRouteCount": 12,
+    "countFormula": "135 + (6 profile + 3 semantic + 1 keyboard/modal + 1 READ + 3 native + 1 noJS + 1 print) = 151",
+    "insertion": "One continuous block after the future runContextChecks call and before the existing mandatory favicon case. Recompute exact index from accepted E1; deleting this block must restore all 135 names, order and callback bodies byte-for-byte under the documented newline normalization.",
+    "profiles": [
+      [
+        1440,
+        1000,
+        "light",
+        1
+      ],
+      [
+        1440,
+        1000,
+        "dark",
+        1
+      ],
+      [
+        1280,
+        720,
+        "light",
+        1
+      ],
+      [
+        390,
+        844,
+        "light",
+        1
+      ],
+      [
+        390,
+        844,
+        "dark",
+        1
+      ],
+      [
+        960,
+        540,
+        "light",
+        2
+      ]
+    ],
+    "cases": [
+      {
+        "name": "icl: all 13 stages 1440x1000 light DSF1",
+        "kind": "profile"
+      },
+      {
+        "name": "icl: all 13 stages 1440x1000 dark DSF1",
+        "kind": "profile"
+      },
+      {
+        "name": "icl: all 13 stages 1280x720 light DSF1",
+        "kind": "profile"
+      },
+      {
+        "name": "icl: all 13 stages 390x844 light DSF1",
+        "kind": "profile"
+      },
+      {
+        "name": "icl: all 13 stages 390x844 dark DSF1",
+        "kind": "profile"
+      },
+      {
+        "name": "icl: all 13 stages 960x540 light DSF2",
+        "kind": "profile"
+      },
+      {
+        "name": "icl-hypotheses: independent hypotheses, history-free carryover and midpoint reverse seeks",
+        "kind": "semantic",
+        "figure": "icl-hypotheses"
+      },
+      {
+        "name": "icl-demonstrations: independent example rows, both emphasis values and midpoint reverse seeks",
+        "kind": "semantic",
+        "figure": "icl-demonstrations"
+      },
+      {
+        "name": "icl-memory-evaluation: independent memory and contamination fixtures, history-free carryover and midpoint reverse seeks",
+        "kind": "semantic",
+        "figure": "icl-memory-evaluation"
+      },
+      {
+        "name": "icl: keyboard transport, modal emphasis, isolated state and focus return",
+        "kind": "keyboard-modal"
+      },
+      {
+        "name": "icl: all 11 READ stops, two manual-stage carryovers and independent figure states",
+        "kind": "reading"
+      },
+      {
+        "name": "icl-hypotheses: native elapsed play, frozen pause, replay and completion",
+        "kind": "native",
+        "figure": "icl-hypotheses"
+      },
+      {
+        "name": "icl-demonstrations: native elapsed play, frozen pause, replay and completion",
+        "kind": "native",
+        "figure": "icl-demonstrations"
+      },
+      {
+        "name": "icl-memory-evaluation: native elapsed play, frozen pause, replay and completion",
+        "kind": "native",
+        "figure": "icl-memory-evaluation"
+      },
+      {
+        "name": "icl noJS: original prose, eight headings, one equation and all 13 static stage descriptions",
+        "kind": "noJS"
+      },
+      {
+        "name": "icl print: coherent scenes and original article with controls hidden",
+        "kind": "print"
+      }
+    ],
+    "minimumVisitsPerEngine": {
+      "profileIntegerStages": {
+        "formula": "6 * (5 + 3 + 5)",
+        "count": 78
+      },
+      "semanticDefaultIntegerStages": {
+        "formula": "5 + 3 + 5",
+        "count": 13
+      },
+      "defaultMidpointSeeks": {
+        "formula": "2 directions * 3 offsets(.49,.50,.51) * (4 + 2 + 4)",
+        "count": 60,
+        "perFigure": [
+          24,
+          12,
+          24
+        ]
+      },
+      "activeSelectorStates": {
+        "formula": "2 values * 2 active stages",
+        "count": 4
+      },
+      "selectorStageGrid": {
+        "formula": "2 stored values * 3 stages",
+        "count": 6
+      },
+      "readingVisits": {
+        "formula": "2 directions * (4 + 3 + 4)",
+        "count": 22
+      },
+      "freshReadCarryovers": {
+        "count": 2,
+        "paths": [
+          {
+            "figure": "icl-hypotheses",
+            "read": [
+              0,
+              1,
+              3
+            ],
+            "neverVisited": 2
+          },
+          {
+            "figure": "icl-memory-evaluation",
+            "read": [
+              0,
+              2
+            ],
+            "neverVisited": 1
+          }
+        ]
+      },
+      "interpretation": "Visits are nested assertions inside the sixteen cases, not additional cases or screenshot counts. Selector states need not be multiplied by all six profiles."
+    }
+  },
+  "sourceContract": {
+    "article": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+    "articleSha256": "c150ab8ee4a72dc6786a5abb52e0266f97d78f1b6584ce1c695e01f94106f5c4",
+    "canonicalAstSha256": "02db1d0966c20a40c22a6334ea810b5d7d96bcd463a77630d5f9323f36bbd7d4",
+    "canonicalization": "Recursively remove position, sort object keys, normalize CR/CRLF in strings to LF, JSON.stringify without whitespace.",
+    "topics": {
+      "total": 37,
+      "dynamic": 22,
+      "static": 15
+    },
+    "counts": {
+      "figures": 3,
+      "stages": 13,
+      "read": 11,
+      "manual": 2,
+      "rootChildren": 43,
+      "h3": 8,
+      "body": 18,
+      "wrappedH3": 5,
+      "wrappedBody": 15,
+      "lists": 12,
+      "listItems": 48,
+      "links": 30,
+      "strong": 31,
+      "displayMath": 1,
+      "inlineMath": 2,
+      "inlineCode": 3,
+      "fencedCode": 0,
+      "mermaid": 0,
+      "tables": 0,
+      "sourceBlockquotes": 1,
+      "renderedBlockquotes": 0,
+      "todoAsides": 1
+    },
+    "sourceH3": [
+      "概要: 重みを変えずに「学ぶ」ように見える",
+      "ICL はなぜ起きるか: 主要な理論仮説",
+      "few-shot の例の効き方",
+      "記憶と汎化",
+      "データ汚染とベンチマークへの含意",
+      "この理解が効く場面",
+      "アンチパターン",
+      "チェックリスト"
+    ],
+    "bindings": [
+      {
+        "id": "icl-hypotheses",
+        "range": [
+          10,
+          19
+        ],
+        "read": [
+          0,
+          1,
+          3,
+          4
+        ],
+        "manual": [
+          2
+        ],
+        "digest": "sha256:6194981065168116f345a0845c1cced61a940a9775c702d158e53177cf04b7e5"
+      },
+      {
+        "id": "icl-demonstrations",
+        "range": [
+          19,
+          23
+        ],
+        "read": [
+          0,
+          1,
+          2
+        ],
+        "manual": [],
+        "digest": "sha256:b1fa9562e83d2c634dec83ba57fdacf802184cf3df3d44a1c8df2514dac5b750"
+      },
+      {
+        "id": "icl-memory-evaluation",
+        "range": [
+          23,
+          30
+        ],
+        "read": [
+          0,
+          2,
+          3,
+          4
+        ],
+        "manual": [
+          1
+        ],
+        "digest": "sha256:c514cb25832cbf38561bfbd14380fffb0005d3a0f55170de88cf77e835b284b4"
+      }
+    ],
+    "displayMathValueSha256": "fa069ab3dd1e685ff5b374e4dd93d631b31b084eef95e54833d4bfe7ddf4fb0d",
+    "inlineMathValues": [
+      "\\theta",
+      "\\theta"
+    ],
+    "inlineCodeValues": [
+      "A B",
+      "A",
+      "B"
+    ],
+    "astVerification": "All 2^3=8 enabled subsets unwrap to the identical canonical article AST. Preserve original formula and links once; no added article examples/formula. Reject changed heading/body order, formula text or source digest.",
+    "domVerification": "Count source content in article prose excluding .rf-article-toc and .rf-static-stages. The original TODO blockquote intentionally becomes one visible aside.todo-callout with its original text/links; do not require a blockquote element or erase TODO. Verify one original display formula plus two inline formulas, KaTeX CSS/fonts and contained formula overflow.",
+    "staticStageDescriptions": 13
+  },
+  "oraclePolicy": {
+    "literalSource": "Write literals independently from the hash-bound adopted interface and original article. Import neither production model nor its fixture into the oracle; do not turn observed DOM into expected values.",
+    "visibleEvidence": "Collect text from each scoped visible node/row/metric/caveat and check its expected meaning in addition to IDs/booleans. A matching hidden title/desc, duplicate text in another panel or hidden data attribute does not satisfy it. Exact literal labels where specified; equivalent explanatory wording only through reviewed bounded alternatives, never a broad whole-page keyword match.",
+    "geometry": "Collect actual visible edge endpoints/bounds and scoped node rectangles in the same coordinate system. Correspondence/branch direction must agree with SVG geometry. Zero-height horizontal SVG strokes are visible when length and painted stroke exist; do not require both width and height > 0. Bbox collision is a candidate for actual image inspection, not automatic text-overlap proof.",
+    "numbers": "Only declared structural counts, phase/stage and drawing geometry are numerical. No fabricated probabilities, quality scores, curve samples, scale/time measurements, optima, causal estimates or contamination gain. Unknown semantic fields stay null/unknown.",
+    "model": "Finite clamp and Math.round; nonfinite/nonnumber phase throws TypeError. Plain options only, reject unknown keys/values and malformed objects. Determinism, fresh nested output and frozen constants. Semantic fields follow rounded stage at each boundary. No new timer/network/rAF."
+  },
+  "figures": [
+    {
+      "id": "icl-hypotheses",
+      "marker": "ICL / HYPOTHESES",
+      "stageAttribute": "data-icl-hypotheses-stage",
+      "stages": 5,
+      "read": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "manual": [
+        2
+      ],
+      "controls": [],
+      "fixturePointer": "/proposed/0/fixture",
+      "independentLiterals": {
+        "fixedWeights": {
+          "id": "weights-W",
+          "symbol": "W",
+          "updated": false
+        },
+        "latentRole": "latent-task-not-model-weights",
+        "candidates": [
+          "bayesian",
+          "learning-rule",
+          "induction-head"
+        ],
+        "bayesTerms": [
+          [
+            "posterior-theta",
+            "posterior",
+            "p(θ | プロンプト)"
+          ],
+          [
+            "conditional-output",
+            "conditional",
+            "p(出力 | θ, プロンプト)"
+          ],
+          [
+            "marginal-output",
+            "marginal",
+            "∫ … dθ"
+          ]
+        ],
+        "bayesEdges": [
+          [
+            "prompt-0",
+            "posterior-theta"
+          ],
+          [
+            "posterior-theta",
+            "marginal-output"
+          ],
+          [
+            "conditional-output",
+            "marginal-output"
+          ],
+          [
+            "marginal-output",
+            "output-0"
+          ]
+        ],
+        "learningRulePath": [
+          "prompt-0",
+          "representation-before",
+          "representation-after",
+          "output-0"
+        ],
+        "inductionOccurrences": [
+          [
+            "ctx-a-early",
+            "A"
+          ],
+          [
+            "ctx-b-early",
+            "B"
+          ],
+          [
+            "ctx-gap",
+            "…"
+          ],
+          [
+            "ctx-a-late",
+            "A"
+          ],
+          [
+            "out-b",
+            "B"
+          ]
+        ],
+        "inductionRelations": [
+          [
+            "previous-pair",
+            "ctx-a-early",
+            "ctx-b-early",
+            "context-adjacency"
+          ],
+          [
+            "match-a",
+            "ctx-a-late",
+            "ctx-a-early",
+            "same-symbol"
+          ],
+          [
+            "copy-b",
+            "ctx-b-early",
+            "out-b",
+            "candidate-copy"
+          ]
+        ],
+        "copyCondition": "match-a"
+      },
+      "visibleByStage": [
+        "S0: three example cards and one query feed the same model/output; inference W fixed, no weight update route.",
+        "S1: theta is latent task, distinct from W; posterior and conditional terms both feed marginalization. Display the hypothesis qualifier and no selected winner/probability values.",
+        "S2 manual: full before/after internal-representation route and limited research-setting qualifier; no optimizer/parameter update.",
+        "S3 READ: complete learning-rule route and complete five-occurrence/three-relation induction route in two readable lanes, W fixed and both limitations. Check all required path nodes/edges and visible caveats; a heading alone fails.",
+        "S4 READ: exactly three simultaneous parallel candidate paths with common prompt/output, complementary and unsettled, not mutually exclusive; no external lookup node."
+      ],
+      "historyFree": "Fresh page READ0→1→3, scroll only. No earlier manual2, selector, playback or modal. Full learning-rule path and limited-setting caveat must already be visible."
+    },
+    {
+      "id": "icl-demonstrations",
+      "marker": "ICL / DEMONSTRATIONS",
+      "stageAttribute": "data-icl-demonstrations-stage",
+      "stages": 3,
+      "read": [
+        0,
+        1,
+        2
+      ],
+      "manual": [],
+      "fixturePointer": "/proposed/1/fixture",
+      "controls": [
+        {
+          "key": "comparisonFocus",
+          "label": "強調する変更",
+          "default": "order",
+          "options": [
+            [
+              "order",
+              "順序"
+            ],
+            [
+              "count",
+              "例数"
+            ]
+          ],
+          "activeStages": [
+            1,
+            2
+          ],
+          "inactiveStages": [
+            0
+          ],
+          "inactiveEffectiveValue": null,
+          "inactiveVisible": false,
+          "semantics": "Emphasis only; keep all three conditions visible. Retain stored choice when returning to active stages."
+        }
+      ],
+      "independentLiterals": {
+        "attributes": [
+          [
+            "format",
+            "形式"
+          ],
+          [
+            "label-space",
+            "ラベル空間"
+          ],
+          [
+            "input-distribution",
+            "入力分布"
+          ]
+        ],
+        "conditions": [
+          {
+            "id": "baseline",
+            "exampleOrder": [
+              "ex-1",
+              "ex-2",
+              "ex-3"
+            ],
+            "count": 3,
+            "axis": "none"
+          },
+          {
+            "id": "order",
+            "exampleOrder": [
+              "ex-3",
+              "ex-1",
+              "ex-2"
+            ],
+            "count": 3,
+            "axis": "order"
+          },
+          {
+            "id": "count",
+            "exampleOrder": [
+              "ex-1",
+              "ex-2"
+            ],
+            "count": 2,
+            "axis": "count"
+          }
+        ],
+        "exactPerRowCounts": [
+          3,
+          3,
+          2
+        ],
+        "uniqueRenderedOccurrenceCount": 8,
+        "query": "query-0",
+        "weights": "weights-W",
+        "evaluation": "evaluation-condition-0"
+      },
+      "visibleByStage": [
+        "S0: format/label-space/input-distribution attributes distinguished from label correctness. Readable task-and-setting-dependent qualification; selector absent and both stored choices yield identical semantic/visual state.",
+        "S1: baseline/order/count rows simultaneously, exact identities/order and per-row 3/3/2 counts. Order keeps same example set; count removes trailing ex-3 only. Show shared query/W and limited label-study caveat. Do not claim removing an example holds the empirical input distribution identical.",
+        "S2: all three conditions feed the same evaluation protocol, no guaranteed improvement, optimum or recommendation to corrupt labels. Both change axes remain visible under either emphasis."
+      ],
+      "selectorChecks": "Six-cell stored-value × stage grid; compare scoped row text/IDs/count and actual visible emphasis. Test active choices in panel and modal, inactive stage0 absent, and retained choice on return. Other two figures' phase/options remain unchanged."
+    },
+    {
+      "id": "icl-memory-evaluation",
+      "marker": "ICL / MEMORY & EVALUATION",
+      "stageAttribute": "data-icl-memory-evaluation-stage",
+      "stages": 5,
+      "read": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "manual": [
+        1
+      ],
+      "controls": [],
+      "fixturePointer": "/proposed/2/fixture",
+      "independentLiterals": {
+        "evaluationBranches": [
+          [
+            "train",
+            "training-set",
+            "training-item",
+            "training-metric"
+          ],
+          [
+            "heldout",
+            "heldout-set",
+            "heldout-item",
+            "heldout-metric"
+          ]
+        ],
+        "metricsEachSide": 1,
+        "metricValues": [
+          null,
+          null
+        ],
+        "memoryOccurrences": [
+          "train-span-occurrence",
+          "output-span-occurrence"
+        ],
+        "sharedSymbol": "span-m",
+        "relation": "verbatim-match",
+        "relationKind": "correspondence-not-retrieval-or-causal-proof",
+        "axes": [
+          [
+            "grokking",
+            "training-progress",
+            "学習の進行（時間）",
+            "error",
+            "誤差（概念）"
+          ],
+          [
+            "double-descent",
+            "model-scale",
+            "モデル規模",
+            "heldout-error",
+            "テスト誤差（概念）"
+          ]
+        ],
+        "doubleDescentDirections": [
+          "down",
+          "up",
+          "down"
+        ],
+        "contaminationSets": {
+          "train": [
+            "training-item",
+            "shared-eval-item"
+          ],
+          "benchmark": [
+            "shared-eval-item",
+            "benchmark-other"
+          ]
+        },
+        "intersection": [
+          "shared-eval-item"
+        ],
+        "membershipsPerSet": [
+          2,
+          2
+        ],
+        "uniqueItemIds": 3,
+        "alternatives": [
+          [
+            "private-evaluation",
+            "非公開の評価"
+          ],
+          [
+            "recent-evaluation",
+            "新しい評価"
+          ],
+          [
+            "contamination-check",
+            "混入を点検"
+          ]
+        ]
+      },
+      "visibleByStage": [
+        "S0: same model/checkpoint snapshot has separate train and heldout branches. Exactly one unknown metric inside each branch, not merely two anywhere.",
+        "S1 manual: two matching span occurrences joined by a nondirectional plain SVG path with no start/end arrowhead; separate unseen-heldout evaluation remains. Correspondence, not retrieval/causal proof or all-output memorization.",
+        "S2 READ: complete memory match strip/heldout contrast plus both qualitative panels, each with its own correct x/y labels and non-measured/non-universal caveat. Visible training-improvement-before-delayed-generalization and down/up/down shapes, no numeric axes/samples. No causal connector between phenomena.",
+        "S3 READ: train and heldout metrics remain separate, memorization is not generalization, improvement gives no guarantee. Fixed inference W must not span the training-progress timeline.",
+        "S4 READ: separate contamination schematic, two memberships inside each set with exactly one shared identity in both. Exactly three visible alternatives, cleanliness unknown and no guarantee. Actual dataset membership, contamination and score increment are unmeasured."
+      ],
+      "historyFree": "Fresh page READ0→2, scroll only without manual1. Full two-occurrence match strip and nondirectional relation already visible; headings/hidden hooks alone fail."
+    }
+  ],
+  "negativeFixtures": [
+    {
+      "id": "N01",
+      "mutation": "Boundary .50 rounds down or label/relations use another stage",
+      "rejectBy": "literal stage and semantic comparison at all sixty forward/reverse midpoint visits"
+    },
+    {
+      "id": "N02",
+      "mutation": "Correct IDs remain but scoped visible text/term/caveat is removed, hidden or polarity reversed",
+      "rejectBy": "per-node visible text and geometry, for each affected stage; remote duplicate does not substitute"
+    },
+    {
+      "id": "N03",
+      "mutation": "theta becomes W, fixed W is updated, or internal representation becomes optimizer update",
+      "rejectBy": "roles, path targets and visible distinction"
+    },
+    {
+      "id": "N04",
+      "mutation": "Drop conditional factor into marginalization or select a winning Bayesian task",
+      "rejectBy": "exact three terms/four edges and visible hypothesis scope"
+    },
+    {
+      "id": "N05",
+      "mutation": "S3 loses manual learning-rule path, or S2 memory loses manual match strip on fresh READ",
+      "rejectBy": "full node/edge/text sets in both history-free cases"
+    },
+    {
+      "id": "N06",
+      "mutation": "Collapse repeated A/B occurrence IDs, copy from wrong B or remove match condition",
+      "rejectBy": "five distinct occurrences and exact typed source/target/condition plus visible endpoints"
+    },
+    {
+      "id": "N07",
+      "mutation": "Induction proves all ICL, hypotheses become exclusive/settled or external lookup is added",
+      "rejectBy": "candidate limits, three concurrent paths and forbidden relation/node checks"
+    },
+    {
+      "id": "N08",
+      "mutation": "Order row changes membership or count row removes a nontrailing item",
+      "rejectBy": "literal row arrays, per-row counts and unique occurrence IDs"
+    },
+    {
+      "id": "N09",
+      "mutation": "Hide unselected row, leak selector into S0, mutate S0 via stored choice or affect another figure",
+      "rejectBy": "six-cell grid and figure-local state snapshots"
+    },
+    {
+      "id": "N10",
+      "mutation": "Labels always unnecessary, corrupt labels recommended, input-distribution identity or improvement guaranteed",
+      "rejectBy": "scoped visible qualifications and no guarantee literal"
+    },
+    {
+      "id": "N11",
+      "mutation": "Move both unknown metrics into one evaluation branch or replace unknown by zero",
+      "rejectBy": "exact one metric per side with branch identity, null/unknown and visible text"
+    },
+    {
+      "id": "N12",
+      "mutation": "Memorization becomes retrieval/causal arrow or equal to generalization",
+      "rejectBy": "plain path marker-start/end none, correspondence text and separate heldout branch"
+    },
+    {
+      "id": "N13",
+      "mutation": "Swap axes, reverse curve relations, add numeric empirical points or universal grokking claim",
+      "rejectBy": "axis labels/directions, qualitative/non-universal text and null observation fields"
+    },
+    {
+      "id": "N14",
+      "mutation": "Fixed inference W badge spans training-progress/checkpoint axis",
+      "rejectBy": "visible scope and geometry; distinguish snapshot branch identity from learning timeline"
+    },
+    {
+      "id": "N15",
+      "mutation": "Shared contamination item drawn outside both sets, missing one membership or adding another intersection",
+      "rejectBy": "two scoped memberships per set, literal intersection and containment geometry"
+    },
+    {
+      "id": "N16",
+      "mutation": "Remove an evaluation alternative, imply private/recent guarantees clean, or invent score gain",
+      "rejectBy": "exact three visible alternatives, unknown cleanliness and no guarantee/score fields"
+    },
+    {
+      "id": "N17",
+      "mutation": "TODO source is lost/duplicated or the sole formula/list/link is altered by wrappers",
+      "rejectBy": "eight AST roundtrips and DOM original-content counts including one decorated TODO aside"
+    },
+    {
+      "id": "N18",
+      "mutation": "Hidden title supplies required labels, horizontal stroke is falsely rejected, or print-only hidden controls cause a semantic false pass/fail",
+      "rejectBy": "negative hidden-text cases, positive zero-height painted-line fixture and separate print scene/control assertions"
+    },
+    {
+      "id": "N19",
+      "mutation": "Old callback/proof-file content changes under an unchanged path or a registered case disappears",
+      "rejectBy": "accepted predecessor full-file hashes, exact names/order/body proof, required count and artifact-route equality"
+    }
+  ],
+  "executionPlan": {
+    "profile": "Thirteen integer stages per six profiles. Screenshot both viewport and full scene with profile/capture labels; collect sourceResult/case/stage and PNG hash. Verify no page overflow, clipped labels or misplaced endpoints. Use reduced motion for stable captures without CSS transforms that falsify the layout.",
+    "semantic": "Three shared callback oracles use the literals/visible assertions above, all default integers, sixty boundaries and the demonstrated selector grid. Boundary rounding tests include preceding and following labels/detail/relationship sets, not stage attribute alone.",
+    "keyboardModal": "Home/End/arrows, previous/next, pause/replay/read return; each figure modal, focus return and namespaced IDs. Demonstrations both active choices in modal; stage0 inactive. Don't count hidden original panel as modal content.",
+    "read": "All eleven stops forward/reverse plus two fresh-page skip paths. Wait for stable real READ stage in view, then observe scene; no forced click or semantic-state mutation. Other figure states remain independent.",
+    "native": "One real elapsed-play case per figure; phase progresses, pause freezes, replay and completion work. Verify offscreen/manual idle with original common runtime policy; reduced-motion snapshots are not evidence of native playback.",
+    "noJS": "Original article text/structure and all thirteen static stage descriptions readable. Controls/animation are not required. Original TODO aside and formula survive.",
+    "print": "Assert coherent visible scene meaning separately from hidden interactive controls. Do not call a screen oracle requiring a visible selector in print. Assert original article/formula/TODO and no duplicated source content.",
+    "performance": "Use accepted budgets (common gzip <=100 KiB, article-specific gzip <=75 KiB, CLS<=0.05, interaction<=200 ms, RAF p95<=32 ms). Measure after other browser runs stop. New lazy chunks absent on unrelated article; common pause/offscreen timer policy maintained. Separate helper observer RAF from application RAF. No measurements executed by this plan.",
+    "actualVisualReview": "Independent reviewer views actual images for all thirteen new stages and risk-bearing options/carryovers/axes/correspondence in desktop, dark, narrow, short-PC/DSF2 and modal conditions as needed. Maintain actuallyViewed ledger; generated count never equals viewed count by assumption. Confirm readable default READ without fullscreen. Physical iPhone/screen-reader tests remain unclaimed unless executed.",
+    "supplementalLargeTabletLocalAcceptance": {
+      "status": "planned-not-executed",
+      "required": true,
+      "registeredCaseCountContribution": 0,
+      "rationale": "Resolve independent plan review should: canonical plan requires 1920px/768px and adopted E2 interface requires current large/tablet profiles.",
+      "route": "/docs/llm-internals/in-context-learning-and-memorization",
+      "engines": [
+        "Edge",
+        "WebKit"
+      ],
+      "profiles": [
+        [
+          1920,
+          1080,
+          "light",
+          1
+        ],
+        [
+          1920,
+          1080,
+          "dark",
+          1
+        ],
+        [
+          768,
+          1024,
+          "light",
+          1
+        ],
+        [
+          768,
+          1024,
+          "dark",
+          1
+        ]
+      ],
+      "stagesPerProfile": 13,
+      "observationsPerEngine": 52,
+      "observationsBothEngines": 104,
+      "observationFormula": "2 widths * 2 themes * all13 stages = 52 per engine; Edge + WebKit =104",
+      "assertions": [
+        "Use actual E2 article route on final static candidate, not isolated component or scaled screenshot.",
+        "Check scoped visible text/relations, reading panel/article/control overlap, clipping and horizontal overflow in every stage.",
+        "Keep existing stage semantic oracle and full thirteen-stage coverage; no automatic pass from viewport dimensions alone."
+      ],
+      "evidence": "Capture separate viewport/fullScene PNGs with engine/profile/figure/stage and SHA256. Independent reviewer views actual images for every required condition and records actuallyViewed; generated counts do not imply visual review. Bind raw and independent image ledger to before/after candidate input digests, BUILD and article HTML. Reference both from final local acceptance report.",
+      "nonSubstitution": "This required local supplement does not change sixteen new registered callbacks or planned full151 public cases, does not claim a public browser run, and cannot be omitted because the six standard profiles passed."
+    },
+    "nativeZoom200Evidence": {
+      "status": "planned-not-executed",
+      "required": true,
+      "registeredCaseCountContribution": 0,
+      "dsf2ProfileMeaning": "960x540 viewport with deviceScaleFactor2 only; not browser native zoom200%.",
+      "acceptance": "Perform separate additional local acceptance on actual E2 route with verified real browser zoom200% and independently viewed images. Record engine, unzoomed viewport, actual zoom method/setting, observed viewport and actual viewed scope.",
+      "forbiddenSubstitutes": [
+        "DSF-only change",
+        "CSS transform",
+        "enlarged screenshot"
+      ],
+      "reporting": "Until actual browser200% evidence exists, mark it unverified; do not label DSF2 as native zoom or infer physical-device acceptance."
+    }
+  },
+  "portableProofPlan": {
+    "newFilesProposed": [
+      "scripts/diagram-release/icl-checks.mjs",
+      "scripts/diagram-release/local-icl-adapter.mjs",
+      "website/tests/browser/icl.spec.mjs"
+    ],
+    "sameCallbacks": "Local adapter registers the exact public ICL callbacks against local artifact/URL dependencies; do not maintain divergent assertions or weaken network/timeout rules for public runs.",
+    "freeze": "After E1 acceptance, independently capture every kit-source file byte hash, every predecessor proof file's full content hash, accepted manifest and exact ordered 135 callback names/bodies. Hash selected normative portions too if needed, never substitute them for whole-proof hashes. Bind all proof inputs to accepted E1 commit/tree and this plan's source hashes.",
+    "extensionProof": "Remove only the contiguous sixteen registrations and approved E2 imports/artifact-route edits, then compare normalized predecessor content to frozen accepted E1. Preserve old assertions/timeouts/names/order; no self-consistency-only whitelist. Offline mutation tests reject omitted/moved callbacks, changed old body and changed predecessor proof bytes.",
+    "routes": "Exactly twelve CI HTML artifact routes: eleven accepted E1 routes plus E2. Fail missing, duplicate, unexpected or mismatched document. Negative-control route is not a twelfth accepted article substitute.",
+    "gates": "Root manages actual integration and gates. Final local review binds final product input digests, all twelve HTML files and BUILD before/after. After merge/CI/Pages, collect actual public build/artifact and run full151 in Edge and WebKit with unchanged shared callbacks. Independent public images and served assets must bind to the actual published identity; local images are not public evidence. Preserve initial failed raw and explicit scoped reruns.",
+    "pending": "Future135 baseline proof, E2 callbacks/models/DOM, implementation unit/browser/performance, independent review and release acceptance are all not executed."
+  },
+  "openItems": [
+    {
+      "id": "O1",
+      "kind": "deferred-evidence",
+      "text": "E1 final135 callbacks/proof bytes/eleven routes and accepted commit/tree are not available until its formal public acceptance; all future hash fields deliberately null."
+    },
+    {
+      "id": "O2",
+      "kind": "implementation-detail",
+      "text": "Visible explanatory wording and scoped DOM geometry collectors must be finalized from authored E2 scenes and independently reviewed. Adopted exact labels/roles/relationships already fix meaning; no unresolved content-policy choice."
+    }
+  ],
+  "createdAt": "2026-09-30T12:32:09.322Z",
+  "evidenceInputs": [
+    {
+      "file": "AGENTS.md",
+      "bytes": 5554,
+      "sha256": "6a42eb8121cab94a360d9151ba1435eed7f855a8e47e2792ea7c20f7d4987fad",
+      "scope": "Common ownership/source and acceptance rules"
+    },
+    {
+      "file": "CONTRIBUTING.md",
+      "bytes": 22086,
+      "sha256": "4dcc9ff7e07a66f006972fba94adfe5fc57070ac3903a523f552cf63be3c8bf1",
+      "scope": "Site and harness verification requirements"
+    },
+    {
+      "file": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-proposal-20260930.json",
+      "bytes": 107666,
+      "sha256": "46b275e0da9d9033d07fecb775f74b4136b76f7d0308268c4e7dfd4729c4c828",
+      "scope": "/common; /proposed/0..2; /independentAssertions; /adopted; /inventory"
+    },
+    {
+      "file": "project/records/2026-09-30/p1-interface-preparation/views/icl-e2-interface-proposal-20260930.md",
+      "bytes": 22367,
+      "sha256": "0432ae1ce8a664a49a9a6e8b128ed6e1c23a46f324984b17827a4f27e57f02f0",
+      "scope": "Readable adopted E2 interface"
+    },
+    {
+      "file": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-review-20260930.json",
+      "bytes": 8476,
+      "sha256": "5e49ffceea5f2b4677efbbe1893ab0046c1225a6132f85545c14c56f34e9f8e2",
+      "scope": "/verdict; /independentChecks; /scope"
+    },
+    {
+      "file": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-review-20260930.md",
+      "bytes": 7901,
+      "sha256": "5aaa85bc3a655d72c3a91c0be6d1fab3a3a21d44e422ff8585b8b42af65ebf36",
+      "scope": "Independent interface review narrative"
+    },
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "bytes": 427025,
+      "sha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "scope": "Adopted E2 unit; unrelated units are not duplicated"
+    },
+    {
+      "file": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+      "bytes": 19361,
+      "sha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+      "scope": "Adopted storyboard review"
+    },
+    {
+      "file": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+      "bytes": 13226,
+      "sha256": "c150ab8ee4a72dc6786a5abb52e0266f97d78f1b6584ce1c695e01f94106f5c4",
+      "scope": "Original article source"
+    },
+    {
+      "file": "TEMP/context-e1-kit-plan-20260930.json",
+      "bytes": 101345,
+      "sha256": "ce2506ca44322f9358d7569a7b4361f11bdb44c3aed7c19a4353c602044f7f78",
+      "scope": "Prior E1 plan; /currentBaseline is actual D2 snapshot, /proposedExtension remains future"
+    },
+    {
+      "file": "TEMP/context-e1-kit-plan-20260930.md",
+      "bytes": 15984,
+      "sha256": "e503657ddcdc7358bb3df16b4fdc2e8741a85e32831fd6e439780e858a6589d5",
+      "scope": "Prior E1 kit proposal; not E1 public acceptance"
+    },
+    {
+      "file": "scripts/diagram-release/source-mapping.json",
+      "bytes": 60320,
+      "sha256": "70c2178e900c3e641c1c5f13f272e8578bd106617db81e613965e5c4d0f51e19",
+      "scope": "Current D2 candidate manifest; not future E1 manifest"
+    },
+    {
+      "file": "scripts/diagram-release/verify-public.mjs",
+      "bytes": 64263,
+      "sha256": "ad1c6e33badb6a8c6bae853e5699a6c6f028eb6092c7fb0b5600a3cfdd809a02",
+      "scope": "Current 121 expected cases and ten artifact routes; not future135 callback content"
+    },
+    {
+      "file": "project/plans/engineering/dynamic-diagrams.md",
+      "bytes": 28105,
+      "sha256": "58a359debbb0e2462ea4202d9dad99ba608fbef6317644beaafb0b89c95f08c0",
+      "scope": "Adopted expansion plan; common100/article-specific75 KiB budgets and P1 boundary"
+    }
+  ],
+  "markdown": {
+    "file": "TEMP/icl-e2-kit-plan-20260930.md",
+    "sha256": "c2381027bbc59203308a27d1d6c313dcc52b78cf7f67b013d5fdb65bc83360ad"
+  },
+  "selfCheck": {
+    "checkedAt": "2026-09-30T12:40:57.244Z",
+    "scope": "Plan JSON consistency/source hash checks only; no product tests",
+    "caseNamesUnique16": true,
+    "stages13Read11Manual2": true,
+    "reviewTargetHashMatches": true,
+    "bindingsMatchApprovedInterfaceReview": true,
+    "markersMatchAdoptedInterface": true,
+    "currentRunner121AndTenRoutes": true,
+    "future135HashesRemainNull": true,
+    "productTestsExecuted": false,
+    "performanceBudgetMapping": "common100/article-specific75 KiB; checked against canonical rollout plan and existing performance helper",
+    "supplementalWidths1920And768All13": true,
+    "supplementalObservationCounts52PerEngine104Both": true,
+    "registered16AndPlanned151Unchanged": true,
+    "dsf2NotNativeZoom200Explicit": true
+  },
+  "revision": {
+    "recordedAt": "2026-09-30T12:40:57.241Z",
+    "reason": "Independent E2 kit plan review must0/should1: make large/tablet supplemental evidence path explicit; keep DSF2 distinct from native200% zoom.",
+    "initialFiles": [
+      {
+        "file": "TEMP/icl-e2-kit-plan-initial-20260930.md",
+        "sha256": "613295c79d92b3b092d07409d5d31309d5219c320fa02bf787c621447ce1987c",
+        "preservation": "byte-identical copy made before revision"
+      },
+      {
+        "file": "TEMP/icl-e2-kit-plan-initial-20260930.json",
+        "sha256": "d336501a82c603eb216f22c2cbb3dd70fdeb2397c3d0b0f00bc73e729121c8b9",
+        "preservation": "byte-identical copy made before revision"
+      }
+    ],
+    "unchanged": [
+      "extension including all sixteen names/order/counts/profiles",
+      "planned151 cases and12 routes",
+      "literal fixtures/source contract/negative fixtures",
+      "actual121 baseline and deferred future135 proof"
+    ]
+  }
+}

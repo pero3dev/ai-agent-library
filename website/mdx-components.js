@@ -14,6 +14,11 @@ import { FoundationsWalkthrough } from './components/diagrams/foundations-walkth
 import { InferenceWalkthrough } from './components/diagrams/inference-walkthrough'
 import { TrainingWalkthrough } from './components/diagrams/training-walkthrough'
 import { ReasoningWalkthrough } from './components/diagrams/reasoning-walkthrough'
+import { ContextWalkthrough } from './components/diagrams/context-walkthrough'
+import { IclWalkthrough } from './components/diagrams/icl-walkthrough'
+import { InterpretabilityWalkthrough } from './components/diagrams/interpretability-walkthrough'
+import { CapabilitiesWalkthrough } from './components/diagrams/capabilities-walkthrough'
+import { MultimodalWalkthrough } from './components/diagrams/multimodal-walkthrough'
 import { AlignmentWalkthrough } from './components/diagrams/alignment-walkthrough'
 import { PretrainingWalkthrough } from './components/diagrams/pretraining-walkthrough'
 
@@ -35,6 +40,11 @@ export const useMDXComponents = components => ({
   TrainingWalkthrough,
   PretrainingWalkthrough,
   AlignmentWalkthrough,
+  MultimodalWalkthrough,
+  CapabilitiesWalkthrough,
+  InterpretabilityWalkthrough,
+  IclWalkthrough,
+  ContextWalkthrough,
   ReasoningWalkthrough,
   ReadingStep,
   TodoCallout,

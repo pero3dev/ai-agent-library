@@ -1,74 +1,110 @@
-# 動的図解の別PCへの引き継ぎ
+# 動的図解：別PCへの引き継ぎ
 
-状態: **作成中・P1未完了。最終引き継ぎではない**。2026-09-30、D1公開受入を完了し、D2推論モデルの制作を始めた段階の入口。会話履歴、旧PCのTEMP、認証状態がなくても、この文書とリポジトリ内の証拠から再開する。次のPCはユーザー指定のCodex / GPT-6 Astra / Ultraを想定する。
+更新: 2026-10-01。P1の最終実装と次回の進め方をまとめる。会話履歴、旧PCのTEMP、認証状態は不要。引き継ぎ先は **Codex / GPT-6 Astra / Ultra**。
 
-## 現在地と次の操作
+## 現在地
 
-| 区分 | 確定した状態 | 正本・証拠 |
+P1対象は10章7記事・11章8記事の計15記事。既存10記事に、次の5記事の10図・47段階を追加した。検証・公開状態は[実施記録](../2026-10-01/p1-completion.md)と、`feat/p1-remaining-reading-diagrams` のPR本文・CIを参照する。公開後の表示確認結果はPR本文へ追記する。
+
+| 記事 | 図 | 段階 |
 | --- | --- | --- |
-| 正式な公開受入 | **P1 9/15記事**。最新はPR #63、merge `b6686c92dbb678ea8b94eb12df37a33207c4c84b` | [固定した9記事の受入](../2026-09-30/diagram-acceptance-pr63.json)、[D1公開受入記録](../2026-09-30/alignment-reading-diagrams.md)、[公開証拠と137実視認](../2026-09-30/alignment-public-evidence/README.md) |
-| D2 推論モデル | `feat/reasoning-reading-diagrams`、baseはPR #63。2図・9段階の実装・独立ローカル受入を完了しPR提出を準備。D2の公開受入は未完了 | [D2の作業契約と検証](../2026-09-30/reasoning-reading-diagrams.md)、[kit計画と独立レビュー](../2026-09-30/reasoning-kit-preparation/README.md) |
-| E1以降 | 製品は未着手。具体案の独立レビュー済み | [後続記事の具体案・レビュー](../2026-09-30/p1-interface-preparation/README.md) |
+| 注意と文脈 | 因果注意と処理負担／キャッシュと品質 | 11 |
+| 文脈内学習と記憶 | 三つの仮説／例の比較／記憶と評価 | 13 |
+| 解釈可能性 | 観察と介入／SAE | 9 |
+| 能力と限界 | 条件と検証からの能力見積り | 5 |
+| マルチモーダル | 入力の表現と接続／入力の選択 | 9 |
 
-D1のmain CI `36702086701`・Pages deploy `109848894912`、artifact `11090349965`・BUILD_ID `Iytr-Mx-iwwzxrZ8pUUHR`を公開版と照合した。Edge107/107、WebKit初回106/107と同条件の限定2/2による合成受入で、初回の失敗原因は未確定。137枚を独立実視認し、9記事の現行入力を受入済み。固定snapshotは当該公開版の結果であり、D2の共有入力変更後の受入を代替しない。
+P0のAgentループ・Workflow比較はP2に属する部分対応で、P1には加算しない。全体の初期対象は199記事。**今回の停止境界はP1。P2は未着手**。
 
-残る順序はD2 reasoning-models → E1 attention-and-context → E2 in-context-learning-and-memorization → E3 interpretability-basics → F1 capabilities-and-limits → F2 multimodal-models。[採択済み対応表](p1-remaining-storyboards.json)が記事パス・論点・段階の正本。D2 kitは14ケース追加、合計121ケース・10記事へ拡張する。制作中の最新コードと検査結果はD2記録で確認する。
+## ユーザーの優先事項
 
-## ユーザー方針と停止境界
+- 本人がPCでじっくり学ぶ。本文・具体例の増量より、読書と一体になった高品質な動的図解を重視する。
+- 読む位置への同期と、手動送り・戻る・再生・停止・シーク・拡大を保つ。止めた状態でも意味が読めること。
+- 2026-10-01の追加指示: 週間枠を浪費しない。サブエージェントを控え、追加のハッシュ・証跡・独立レビューは省く。公開後は表示確認だけにする。
+- 意味モデル、本文保持、ビルド、必要な表示・操作、必須CIは確認する。実施していない独立レビュー・実機確認を成功と記さない。
+- 有料API、新たな外部サービス登録、次のタスクの自動作成は不要。
 
-本人がPCでじっくり学べる、記事と一体になった高品質な動的図解を作る。本文・具体例の増量は目的ではない。読む位置への同期、手動送り・戻る・再生・停止・シーク・拡大を備え、停止中にも意味が読める図にする。SVG/HTMLと既存共通操作を使い、有料APIや新たな外部サービス登録は含めない。
+旧計画の「1記事ごとの独立レビュー・証跡保存・全面的な公開再検査」は、現在のユーザー指示で簡略化した。再開条件として復活させない。図登録用sourceDigestは本文変更を検出する実装として保持するが、検証のための追加台帳は作らない。
 
-P1は10章7記事・11章8記事の計15記事。**15/15の公開受入（全体15/199）で停止し、P2へ進まない**。P0で部分対応したAgentループ・Workflow比較の2記事を完了数に加えない。今回の実装、通常修正、独立レビュー、既存公開GitHubへのPR・通常CI・マージ・Pages確認は許可済み。次回の範囲はそのときのユーザー依頼で確定し、新しいタスクの自動作成はしない。
+`website/lib/diagram-article-acceptance.mjs` と旧JSONは独立レビュー等の3ゲートに基づく過去の受入方式を表す。最新コードで古いゲートが一致しないことを、図が未実装であるという意味に読み替えない。未実施ゲートへ架空の成功を書き込まない。
 
-## 読む順と編集する正本
+公開済み学習記事の本文訂正だけは、現行の必須CIが通常記事manifestと独立記事レビューを要求する。任意の図解レビューと分け、必要な対象に一度だけ絞る。CIや保護規則を迂回しない。
 
-1. [AGENTS.md](../../../AGENTS.md)、[CONTRIBUTING.md](../../../CONTRIBUTING.md)、[Git共通規約](../../../harness/git-rules.md)。他者の差分を戻さず、生成物を直接編集しない。
-2. この入口と[展開状況](dynamic-diagram-rollout.md)、現在の制作記録。次に[採択計画](../../plans/engineering/dynamic-diagrams.md)と[199記事の棚卸し](../../plans/engineering/dynamic-diagram-inventory.md)。計画中の「未着手」は採択時点の記述として読む。
-3. [サイトREADME](../../../website/README.md)、[図登録](../../../website/diagrams/registry.json)、[論点割当](../../../website/diagrams/articles.json)、[記事別受入](../../../website/lib/diagram-article-acceptance.mjs)、[公開検証kit](../../../scripts/diagram-release/README.md)。
+## 最初に読むもの
 
-本文は `docs/`、場面は `website/components/diagrams/`、純粋な意味・数値モデルは `website/lib/`、試験は `website/tests/` が正本。段落・式・表・MermaidをMarkdown ASTのまま包装し、本文を図定義へ複製しない。公開済みの制作単位を最初から作り直さない。
+1. [AGENTS.md](../../../AGENTS.md)、[CONTRIBUTING.md](../../../CONTRIBUTING.md)、[Git規約](../../../harness/git-rules.md)。現在のユーザー指示が旧計画より優先。
+2. [最新実施記録](../2026-10-01/p1-completion.md)、[全体計画](../../plans/engineering/dynamic-diagrams.md)、[記事棚卸し](../../plans/engineering/dynamic-diagram-inventory.md)。
+3. 実装する記事の原文と、近い既存図だけを読む。過去の画像・ログ・ハッシュ台帳を一括で読み直す必要はない。
 
 ## 新PCの準備
 
-任意のclone先で `pero3dev/ai-agent-library` の最新mainと未完了PRを確認する。Git、Node.js 22以上、PowerShell 7以上、GitHub CLI、tarを準備し、GitHub認証は新PCで行う。旧node_modules・認証情報・ローカルrunを移す必要はない。
+Node.js 22以降、Git、GitHub CLIを用意し、認証は新PCで行う。トークンや旧PCの設定をコピーしない。Windowsでは短いclone先を使う。
 
-ルートと `website/` で各 `npm ci`、`website/` で `npx --no-install playwright install chromium webkit` を実行する。Edgeを使う場合は別途インストール済みであることを確認する。Pythonなど追加検査の条件はCONTRIBUTINGに従う。
-
-```text
+```powershell
+git -c core.longpaths=true clone https://github.com/pero3dev/ai-agent-library.git C:/dev/ai-agent-library
+cd C:/dev/ai-agent-library
 git status --short --branch
-git remote -v
-node website/scripts/diagram-coverage.mjs
-node website/scripts/diagram-acceptance.mjs
+git fetch origin main
+gh pr view feat/p1-remaining-reading-diagrams --json state,url,mergeCommit,body
+npm ci
+npm ci --prefix website
 ```
 
-受入CLIは保存入力と記録の整合を調べるもので、現在のGitHubや配信内容の検証ではない。不一致を過去digestの置換だけで解消しない。kitはrepoと新しい証拠出力先を明示し、出力をrepo外へ置く。準備・オフライン検査から公開実行までの正確なコマンドは[kit README](../../../scripts/diagram-release/README.md)に従う。[移管記録](diagram-release-portability.md)も参照する。
+`core.longpaths` はこのコマンドだけの指定。グローバルGit設定は変えない。既存cloneでは他者の未保存差分を確認する。
 
-## 1制作単位の作業サイクル
+```powershell
+# 開発表示
+npm run dev --prefix website
+# 公開相当のビルド
+$env:STATIC_EXPORT='1'
+$env:NEXT_PUBLIC_BASE_PATH='/ai-agent-library'
+npm run build:clean --prefix website
+# 変更箇所に応じた検証
+npm run check
+npm test --prefix website
+npm run test:browser --prefix website -- learning-foundations.spec.mjs
+```
 
-1. 全主要論点を図の段階または原文で保持する理由へ対応付け、意味モデル・絵コンテ・AST境界を作者以外が確認する。重要な結論を手動操作だけに隠さず、本文にない性能値・品質点数・推奨順位を作らない。
-2. 実装と独立fixtureを分離し、数値・原文保持・不正MDX拒否、全READ、逆シーク、読書/手動切替、明暗・狭幅・低画面・拡大・キーボード・reduced motion・noJS・printを検査する。実画像と操作も独立レビューする。
-3. 必要な本文訂正は一次情報を実取得し、[publish-review](../../../.agents/skills/publish-review/SKILL.md)の通常記事変更manifestを作る。機械検査後に候補treeとdigestを固定し、最終内容の独立記事レビューとpolicyを通す。レビュー後の追記でdigestが変わる場合も判定を同期する。
-4. PR全チェック → actual merge → main CI/Pages → 同runのartifactと公開HTMLのhash/BUILD_ID照合 → 両engineの公開検査 → 独立公開レビューの順に進める。現行入力へ各ゲートを結合し、共有入力が変わった既存記事も再受入する。
-5. 原本・必要画像・helper・相対索引をrepoへ保存し、展開記録とこの入口を更新する。旧版の失敗や承認はPR別snapshotに残す。15記事の公開受入で停止する。
+Playwright環境がなければwebsite内で `npx --no-install playwright install chromium webkit` を実行する。WindowsのEdgeを使う場合は `PLAYWRIGHT_CHANNEL=msedge` を設定する。WebKit検査は実機iPhone/Safariの確認とは異なる。
 
-## 根拠を辿る入口
+## 編集する場所
 
-| 内容 | 保存先 |
+| 対象 | 正本 |
 | --- | --- |
-| D1の実装・ローカル証拠 | [移管可能な実装記録](../2026-09-30/alignment-portable-implementation.md)、[原本・168実視認画像の索引](../2026-09-30/alignment-local-evidence/index.json) |
-| D1初回CI失敗・依存修正・最終提出 | [初回CI原本](../2026-09-30/alignment-ci-evidence/index.json)、[依存修正と限定継承の索引](../2026-09-30/alignment-dependency-evidence/index.json)、[最終提出原本](../2026-09-30/alignment-submission-evidence/index.json) |
-| 旧PR58・59・61・62の経緯 | [推論ラベル修正](inference-score-label-fix.md)、[C1公開レビュー](training-public-review.md)、[C1相対証拠索引](training-public-evidence/public-acceptance-index.json)、[C2制作](../2026-09-25/pretraining-reading-diagrams.md)、[PR62表示修正と再受入](../2026-09-30/inference-score-spacing-fix.md) |
-| C1/C2採択設計 | [詳細設計](training-storyboards.md)、[対応JSON](training-storyboards.json)、[計画レビュー](training-storyboards-review.md)、[検査結果](training-storyboards-check.json) |
-| D1〜F2採択設計 | [詳細設計](p1-remaining-storyboards.md)、[対応JSON](p1-remaining-storyboards.json)、[計画レビュー](p1-remaining-storyboards-review.md)、[検査結果](p1-remaining-storyboards-check.json)、[具体案原本](../2026-09-30/p1-interface-preparation/README.md) |
-| 本文訂正の一次根拠 | [C2確認](../../../research/internals/pretraining-diagram-sources-2026-09-24.md)・[JSON](../../../research/internals/pretraining-diagram-sources-2026-09-24.json)、[D1/F2確認](../../../research/internals/p1-remaining-diagram-sources-2026-09-24.md)・[JSON](../../../research/internals/p1-remaining-diagram-sources-2026-09-24.json)。D1のA1〜A3は適用済み、F2の13置換は未適用 |
-| 引き継ぎ草案の過去の確認 | [独立レビュー](dynamic-diagram-handoff-draft-review.md)、[追補](dynamic-diagram-handoff-draft-review-addendum.md)。当時の準備文書の判定であり、今回の改訂やP1最終公開の承認ではない |
+| 本文 | `docs/`。段落・式・表を保つ |
+| 新しい5記事の場面 | `website/components/diagrams/{context,icl,interpretability,capabilities,multimodal}-scenes.jsx` |
+| 意味モデル・段階説明 | `website/lib/learning-foundations-model.mjs` |
+| 新図の描画部品 | `learning-scene-primitives.jsx`、`learning-scenes.css` |
+| 同期・再生・拡大 | 既存の `reading-figure.jsx`、`reading-clock.mjs` |
+| 登録・本文包装 | `website/diagrams/registry.json`、`articles.json`、`website/lib/diagram-registry.mjs`、`diagram-decoration.mjs` |
+| 追加した検査 | `website/tests/unit/learning-foundations.test.mjs`、`website/tests/browser/learning-foundations.spec.mjs` |
 
-生証拠の絶対パス・failed・pendingを成功状態へ書き換えない。gzip原本は展開後のhashと索引で照合する。保存helperは当時の候補専用の場合があるため、再実行可能な入口かを確認し、統合済みhelperを無条件に再実行しない。旧TEMPにあることを実行条件にしない。
+`website/content/`、`generated/`、`out/`、`.next/`は生成物。直接編集しない。各記事はlazy chunkで読み込み、共通の停止・縮小モーション・本文fallbackを使う。新規図の追加時はMDX許可一覧と原文保持の検査も更新する。
 
-## 証拠の限界と最終化の残件
+## 次の作業
 
-静的・単体・ローカルbrowser・実GitHub・公開配信・実機を区別する。Chromium/EdgeとWebKitの幅エミュレーションは物理iPhone Safariではない。実スクリーンリーダー・物理印刷・本人の学習効果は未実施なら未検証と記す。旧失敗を限定再検証や独立補完で受け入れた範囲は各原本に従い、全件再実行と呼ばない。D1依存修正では旧168画像・性能の限定継承で、新規視認・性能再走は0だった。既存チェックリストへの非阻害shouldは後続の本文改訂候補として保持する。
+次回はP2の中核54記事（00概要、01概念、02アーキテクチャ、08コーディングエージェント）。既存のAgentループ・Workflow比較を再利用し、棚卸しから1〜3記事の作業単位を選ぶ。P1の作り直しや旧証跡の全面更新から始めない。
 
-P1完了時に、最終PR・merge/tree・branchと未保存差分、15記事のinputDigestと受入結果、CI run/attempt/job/artifact/deployment、BUILD_ID・公開HTML hash・確認日時・実画像レビューを確定する。会話や旧TEMPなしで原本・ツールへ到達できること、必要な最終コードが相対pathで動くことも確認する。
+## 次回に貼り付けるプロンプト
 
-[次回の貼り付け用プロンプト](dynamic-diagram-next-session-prompt.md)は準備稿で、P1完了時に最終版と開始範囲を確定する。そこに書かれた次回P2再開案を、今回のP2開始指示として扱わない。
+```text
+AI Agent Libraryの動的図解対応を、P1完了地点から続けてください。
+このPCには前の会話やTEMPの内容はありません。
+
+最初にAGENTS.md、project/records/2026-09-24/dynamic-diagram-handoff.md、
+project/records/2026-10-01/p1-completion.mdを読み、最新mainと
+feat/p1-remaining-reading-diagramsのPR状態を確認してください。
+
+目的はPCで本文を読みながら理解できる、高品質な動的図解です。
+文章や具体例を増やす方向ではありません。
+読書同期、手動送り、戻る、再生・停止、シーク、拡大を保ってください。
+
+週間枠を節約するためサブエージェントの常用、追加ハッシュ台帳、
+大量の証跡保存、任意の独立レビューは行わないでください。
+変更に必要な検査と必須CIは実行し、公開後は表示確認だけにしてください。
+通常PR・CI・squashマージ・GitHub Pages反映まで進めて構いません。
+
+P1の15記事を作り直さず、P2の棚卸しから次の1〜3記事を選び、
+短い方針を示してから自律的に実装・公開してください。
+一区切りごとに進捗と次の作業を簡潔にリポジトリへ残してください。
+```

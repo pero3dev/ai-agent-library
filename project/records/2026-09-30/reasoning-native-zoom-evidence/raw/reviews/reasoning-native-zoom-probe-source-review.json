@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-native-zoom-probe-source-review",
+  "reviewer": "/root",
+  "checkedAt": "2026-09-30 13:42:12 UTC",
+  "verdict": "approved-bounded-probe-execution",
+  "must": [],
+  "should": [],
+  "target": {
+    "file": "TEMP/reasoning-native-zoom-probe.mjs",
+    "sha256": "8e825aee26dd99f6767d2fabc907028f319651f7d9aef21dbecf4086f974dcb1"
+  },
+  "checked": [
+    "Only loopback4183/D2 and reviewedBUILD accepted",
+    "Unique OS temp profile and locally authored minimal MV3; no user profile or installed extension modifications",
+    "Native chrome.tabs automatic per-tab1→2→1 and getZoom observations; viewport:null and no DSF/CSS/page-scale override",
+    "Layout/DPR/visualViewport and restoration assertions",
+    "Only sequenceS2, generated6 images remain unviewed and no article/public acceptance",
+    "Before-after HTML/BUILD/input/lock/helper identity",
+    "Errors and all network observations retained, context close/zoom restore attempted"
+  ],
+  "limits": [
+    "Source inspection only; extension support/runtime behavior not yet observed",
+    "No all-stage, Edge/WebKit, public or physicaldevice claim"
+  ]
+}

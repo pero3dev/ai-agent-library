@@ -1,0 +1,32 @@
+[
+  {
+    "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\images\\zoom-100-before-fullScene.png",
+    "sha256": "d519dd7e949e8e7aee7b4000d6488b1fbcadad5c030bd5bfaa97e10126548b36",
+    "sourceResult": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\result.json",
+    "sourceResultSHA256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+    "actuallyViewed": true,
+    "viewer": "/root",
+    "viewedAt": "2026-09-30T13:47:04.4431833Z",
+    "observation": "The intended S2 diagram is visible and readable."
+  },
+  {
+    "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\images\\zoom-200-viewport.png",
+    "sha256": "7b837ba22228b55252cd813090c8b7fcc666e7bbdb57244a7488cff18bc1dd7d",
+    "sourceResult": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\result.json",
+    "sourceResultSHA256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+    "actuallyViewed": true,
+    "viewer": "/root",
+    "viewedAt": "2026-09-30T13:47:04.4494835Z",
+    "observation": "White viewport; not valid visual acceptance evidence for the diagram."
+  },
+  {
+    "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\images\\zoom-200-fullScene.png",
+    "sha256": "4e8f323017caab9dbdf5888eb54c444895630d16c747affe78fdf3cdbc4a06f1",
+    "sourceResult": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-probe-1yEOID\\result.json",
+    "sourceResultSHA256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+    "actuallyViewed": true,
+    "viewer": "/root",
+    "viewedAt": "2026-09-30T13:47:04.4500783Z",
+    "observation": "Shows unrelated article heading/table instead of the intended diagram; native200 visual acceptance pending diagnosis."
+  }
+]

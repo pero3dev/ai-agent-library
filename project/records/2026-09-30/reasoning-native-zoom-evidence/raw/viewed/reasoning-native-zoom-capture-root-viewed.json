@@ -1,0 +1,12 @@
+[
+  {
+    "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\images\\zoom-200-cdp-before-playwright.png",
+    "sha256": "f255029776a00073b3464fbc065370904f5ae6120a77b3a357761fcd611e5f57",
+    "sourceResult": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\result.json",
+    "sourceResultSHA256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+    "actuallyViewed": true,
+    "viewer": "/root",
+    "viewedAt": "2026-09-30T13:50:04.4098036Z",
+    "observation": "Native200 CDP image visibly contains the intended S2 scene and readable central/lower text. Fixed navigation covers the top in this centered low-height viewport. This is capture-route diagnosis, not full-scene/all-stage visual acceptance."
+  }
+]

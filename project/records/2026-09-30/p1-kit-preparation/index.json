@@ -1,0 +1,2656 @@
+{
+  "schemaVersion": 1,
+  "kind": "portable-p1-kit-preparation-archive",
+  "checkedAt": "2026-09-30T13:35:45.374Z",
+  "lifecycle": "frozen-plan-archive",
+  "archiveRelativeToRepository": "project/records/2026-09-30/p1-kit-preparation",
+  "authority": "Raw original plan/review bytes. This index does not grant implementation or release acceptance.",
+  "permission": "Root delegation: archive this subtree and optional TEMP helper only; no product, article, kit, Git or external mutation.",
+  "historicalPaths": "Absolute paths and TEMP paths in raw originals are historical provenance, not executable or portable commands. Resolve this index stored/source bindings relative to this directory.",
+  "futureBaselinePolicy": "All accepted predecessor identities below remain null until each prerequisite is publicly accepted and the real predecessor is frozen. Planned counts and historical D2 candidate bytes are not accepted future baselines.",
+  "units": [
+    {
+      "unit": "E1",
+      "stem": "context-e1",
+      "title": "文脈・KV cache",
+      "predecessor": "D2",
+      "newCases": 14,
+      "totalCases": 135,
+      "routes": 11,
+      "status": "approved-plan-only",
+      "planMarkdown": "raw/context-e1-kit-plan-20260930.md",
+      "planJson": "raw/context-e1-kit-plan-20260930.json",
+      "finalReview": "raw/context-e1-kit-plan-review-20260930.json",
+      "implementationAccepted": false,
+      "localRuntimeAccepted": false,
+      "publicAccepted": false,
+      "prerequisites": [
+        "D2正式公開受入",
+        "E1 kit案の独立レビューとroot開始指示",
+        "最終D2マージtreeから全predecessor内容と記事ASTを再凍結"
+      ],
+      "acceptedPredecessor": {
+        "status": "pending-prerequisite-public-acceptance-and-new-freeze",
+        "mergeSha": null,
+        "treeSha": null,
+        "manifestSha256": null,
+        "kitFiles": null,
+        "callbackNames": null,
+        "callbackBodyHashes": null,
+        "wholePredecessorProofHashes": null
+      },
+      "actualHistoricalObservation": {
+        "caseCount": 121,
+        "routes": 10,
+        "status": "D2 candidate snapshot in original plans; not a future predecessor or new acceptance"
+      }
+    },
+    {
+      "unit": "E2",
+      "stem": "icl-e2",
+      "title": "文脈内学習・記憶",
+      "predecessor": "E1（およびC2）",
+      "newCases": 16,
+      "totalCases": 151,
+      "routes": 12,
+      "status": "approved-plan-only",
+      "planMarkdown": "raw/icl-e2-kit-plan-20260930.md",
+      "planJson": "raw/icl-e2-kit-plan-20260930.json",
+      "finalReview": "raw/icl-e2-kit-plan-review-20260930.json",
+      "implementationAccepted": false,
+      "localRuntimeAccepted": false,
+      "publicAccepted": false,
+      "prerequisites": [
+        "E1 and C2 formal public acceptance",
+        "E2 kit plan independent review and root start instruction",
+        "Freeze actual accepted E1 predecessor files, callbacks, proof files and eleven artifact routes"
+      ],
+      "acceptedPredecessor": {
+        "status": "pending-prerequisite-public-acceptance-and-new-freeze",
+        "mergeSha": null,
+        "treeSha": null,
+        "manifestSha256": null,
+        "kitFiles": null,
+        "callbackNames": null,
+        "callbackBodyHashes": null,
+        "wholePredecessorProofHashes": null
+      },
+      "actualHistoricalObservation": {
+        "caseCount": 121,
+        "routes": 10,
+        "status": "D2 candidate snapshot in original plans; not a future predecessor or new acceptance"
+      }
+    },
+    {
+      "unit": "E3",
+      "stem": "interpretability-e3",
+      "title": "解釈可能性",
+      "predecessor": "E2",
+      "newCases": 14,
+      "totalCases": 165,
+      "routes": 13,
+      "status": "approved-plan-only",
+      "planMarkdown": "raw/interpretability-e3-kit-plan-20260930.md",
+      "planJson": "raw/interpretability-e3-kit-plan-20260930.json",
+      "finalReview": "raw/interpretability-e3-kit-plan-review-20260930.json",
+      "implementationAccepted": false,
+      "localRuntimeAccepted": false,
+      "publicAccepted": false,
+      "prerequisites": [
+        "E2 formal public acceptance",
+        "Independent E3 kit plan review and root start instruction",
+        "Freeze the actual accepted E2 predecessor before implementation"
+      ],
+      "acceptedPredecessor": {
+        "status": "pending-prerequisite-public-acceptance-and-new-freeze",
+        "mergeSha": null,
+        "treeSha": null,
+        "manifestSha256": null,
+        "kitFiles": null,
+        "callbackNames": null,
+        "callbackBodyHashes": null,
+        "wholePredecessorProofHashes": null
+      },
+      "actualHistoricalObservation": {
+        "caseCount": 121,
+        "routes": 10,
+        "status": "D2 candidate snapshot in original plans; not a future predecessor or new acceptance"
+      }
+    },
+    {
+      "unit": "F1",
+      "stem": "capabilities-f1",
+      "title": "能力と限界",
+      "predecessor": "E3",
+      "newCases": 12,
+      "totalCases": 177,
+      "routes": 14,
+      "status": "approved-plan-only",
+      "planMarkdown": "raw/capabilities-f1-kit-plan-20260930.md",
+      "planJson": "raw/capabilities-f1-kit-plan-20260930.json",
+      "finalReview": "raw/capabilities-f1-kit-plan-review-20260930.json",
+      "implementationAccepted": false,
+      "localRuntimeAccepted": false,
+      "publicAccepted": false,
+      "prerequisites": [
+        "E3 formal public acceptance",
+        "Independent F1 kit-plan review and root start instruction",
+        "Freeze actual accepted E3 predecessor before implementation"
+      ],
+      "acceptedPredecessor": {
+        "status": "pending-prerequisite-public-acceptance-and-new-freeze",
+        "mergeSha": null,
+        "treeSha": null,
+        "manifestSha256": null,
+        "kitFiles": null,
+        "callbackNames": null,
+        "callbackBodyHashes": null,
+        "wholePredecessorProofHashes": null
+      },
+      "actualHistoricalObservation": {
+        "caseCount": 121,
+        "routes": 10,
+        "status": "D2 candidate snapshot in original plans; not a future predecessor or new acceptance"
+      }
+    },
+    {
+      "unit": "F2",
+      "stem": "multimodal-f2",
+      "title": "マルチモーダル",
+      "predecessor": "F1",
+      "newCases": 14,
+      "totalCases": 191,
+      "routes": 15,
+      "status": "approved-plan-only",
+      "planMarkdown": "raw/multimodal-f2-kit-plan-20260930.md",
+      "planJson": "raw/multimodal-f2-kit-plan-20260930.json",
+      "finalReview": "raw/multimodal-f2-kit-plan-review-20260930.json",
+      "implementationAccepted": false,
+      "localRuntimeAccepted": false,
+      "publicAccepted": false,
+      "prerequisites": [
+        "F1 formal public acceptance",
+        "Independent F2 kit-plan review and root start instruction",
+        "Freeze actual accepted F1 predecessor"
+      ],
+      "acceptedPredecessor": {
+        "status": "pending-prerequisite-public-acceptance-and-new-freeze",
+        "mergeSha": null,
+        "treeSha": null,
+        "manifestSha256": null,
+        "kitFiles": null,
+        "callbackNames": null,
+        "callbackBodyHashes": null,
+        "wholePredecessorProofHashes": null
+      },
+      "actualHistoricalObservation": {
+        "caseCount": 121,
+        "routes": 10,
+        "status": "D2 candidate snapshot in original plans; not a future predecessor or new acceptance"
+      }
+    }
+  ],
+  "e1ImplementationAddendum": {
+    "status": "approved-plan-only-implementation-pending",
+    "file": "raw/context-e1-kit-plan-addendum-20260930.md",
+    "review": "raw/context-e1-kit-plan-addendum-review-20260930.json",
+    "originalPlanRewritten": false,
+    "originalSixProfilesDoNotSpecifySupplemental1920And768": true,
+    "plannedSupplementalObservationsPerEngine": 44,
+    "plannedSupplementalObservationsBothEngines": 88,
+    "nativeZoom200NotDSF2": true,
+    "chunkFailureContexts": 2,
+    "registeredCaseCountUnchanged": true
+  },
+  "f2CorrectionBoundary": {
+    "sourceCopies": [
+      "raw/source/multimodal-f2-correction-precheck-20260930.json",
+      "raw/source/multimodal-f2-primary-recheck-20260930.md",
+      "raw/source/check-f2-correction-slots.mjs"
+    ],
+    "corrections": 13,
+    "articleCount": 1,
+    "applied": false,
+    "actualRevisionDate": null,
+    "finalArticleSha256": null,
+    "finalInputDigest": null,
+    "finalTreeSha": null,
+    "formalAR2ArticleReview": null,
+    "authority": "research/internals/p1-remaining-diagram-sources-2026-09-24.json remains canonical. Preparation precheck, root retrieval note, and historical helper are not applied corrections or article acceptance."
+  },
+  "entries": [
+    {
+      "unit": "E1",
+      "source": {
+        "repoRelative": "TEMP/context-e1-kit-plan-20260930.md",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/context-e1-kit-plan-20260930.md"
+      },
+      "stored": "raw/context-e1-kit-plan-20260930.md",
+      "kind": "final-plan-original",
+      "originalBytes": 15984,
+      "originalSha256": "e503657ddcdc7358bb3df16b4fdc2e8741a85e32831fd6e439780e858a6589d5",
+      "storedBytes": 15984,
+      "storedSha256": "e503657ddcdc7358bb3df16b4fdc2e8741a85e32831fd6e439780e858a6589d5",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "e503657ddcdc7358bb3df16b4fdc2e8741a85e32831fd6e439780e858a6589d5",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "E1",
+      "source": {
+        "repoRelative": "TEMP/context-e1-kit-plan-20260930.json",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/context-e1-kit-plan-20260930.json"
+      },
+      "stored": "raw/context-e1-kit-plan-20260930.json",
+      "kind": "final-plan-original",
+      "originalBytes": 101345,
+      "originalSha256": "ce2506ca44322f9358d7569a7b4361f11bdb44c3aed7c19a4353c602044f7f78",
+      "storedBytes": 101345,
+      "storedSha256": "ce2506ca44322f9358d7569a7b4361f11bdb44c3aed7c19a4353c602044f7f78",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "ce2506ca44322f9358d7569a7b4361f11bdb44c3aed7c19a4353c602044f7f78",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "E1",
+      "source": {
+        "repoRelative": "TEMP/context-e1-kit-plan-review-20260930.json",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/context-e1-kit-plan-review-20260930.json"
+      },
+      "stored": "raw/context-e1-kit-plan-review-20260930.json",
+      "kind": "final-independent-plan-review-original",
+      "originalBytes": 3196,
+      "originalSha256": "4713bea60a4e8005d1a83a7b3d69e30cbd3671bbceabeef605ef7ae99c68ac78",
+      "storedBytes": 3196,
+      "storedSha256": "4713bea60a4e8005d1a83a7b3d69e30cbd3671bbceabeef605ef7ae99c68ac78",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "4713bea60a4e8005d1a83a7b3d69e30cbd3671bbceabeef605ef7ae99c68ac78",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "E2",
+      "source": {
+        "repoRelative": "TEMP/icl-e2-kit-plan-20260930.md",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/icl-e2-kit-plan-20260930.md"
+      },
+      "stored": "raw/icl-e2-kit-plan-20260930.md",
+      "kind": "final-plan-original",
+      "originalBytes": 11828,
+      "originalSha256": "c2381027bbc59203308a27d1d6c313dcc52b78cf7f67b013d5fdb65bc83360ad",
+      "storedBytes": 11828,
+      "storedSha256": "c2381027bbc59203308a27d1d6c313dcc52b78cf7f67b013d5fdb65bc83360ad",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "c2381027bbc59203308a27d1d6c313dcc52b78cf7f67b013d5fdb65bc83360ad",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "E2",
+      "source": {
+        "repoRelative": "TEMP/icl-e2-kit-plan-20260930.json",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/icl-e2-kit-plan-20260930.json"
+      },
+      "stored": "raw/icl-e2-kit-plan-20260930.json",
+      "kind": "final-plan-original",
+      "originalBytes": 40006,
+      "originalSha256": "fc6a2ee1cb7645a127cd4a1c4a0248928f42bf1189cc1dd6ae75cf4ee9b3f236",
+      "storedBytes": 40006,
+      "storedSha256": "fc6a2ee1cb7645a127cd4a1c4a0248928f42bf1189cc1dd6ae75cf4ee9b3f236",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "fc6a2ee1cb7645a127cd4a1c4a0248928f42bf1189cc1dd6ae75cf4ee9b3f236",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "E2",
+      "source": {
+        "repoRelative": "TEMP/icl-e2-kit-plan-review-20260930.json",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/icl-e2-kit-plan-review-20260930.json"
+      },
+      "stored": "raw/icl-e2-kit-plan-review-20260930.json",
+      "kind": "final-independent-plan-review-original",
+      "originalBytes": 3554,
+      "originalSha256": "ab6741a0c0aaf50341a9b275d91eb1311e9af92914be04d04ce11612b88ba16d",
+      "storedBytes": 3554,
+      "storedSha256": "ab6741a0c0aaf50341a9b275d91eb1311e9af92914be04d04ce11612b88ba16d",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "ab6741a0c0aaf50341a9b275d91eb1311e9af92914be04d04ce11612b88ba16d",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "E2",
+      "source": {
+        "repoRelative": "TEMP/icl-e2-kit-plan-initial-20260930.md",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/icl-e2-kit-plan-initial-20260930.md"
+      },
+      "stored": "raw/icl-e2-kit-plan-initial-20260930.md",
+      "kind": "initial-plan-original",
+      "originalBytes": 9981,
+      "originalSha256": "613295c79d92b3b092d07409d5d31309d5219c320fa02bf787c621447ce1987c",
+      "storedBytes": 9981,
+      "storedSha256": "613295c79d92b3b092d07409d5d31309d5219c320fa02bf787c621447ce1987c",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "613295c79d92b3b092d07409d5d31309d5219c320fa02bf787c621447ce1987c",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "E2",
+      "source": {
+        "repoRelative": "TEMP/icl-e2-kit-plan-initial-20260930.json",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/icl-e2-kit-plan-initial-20260930.json"
+      },
+      "stored": "raw/icl-e2-kit-plan-initial-20260930.json",
+      "kind": "initial-plan-original",
+      "originalBytes": 35972,
+      "originalSha256": "d336501a82c603eb216f22c2cbb3dd70fdeb2397c3d0b0f00bc73e729121c8b9",
+      "storedBytes": 35972,
+      "storedSha256": "d336501a82c603eb216f22c2cbb3dd70fdeb2397c3d0b0f00bc73e729121c8b9",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "d336501a82c603eb216f22c2cbb3dd70fdeb2397c3d0b0f00bc73e729121c8b9",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "E2",
+      "source": {
+        "repoRelative": "TEMP/icl-e2-kit-plan-review-initial-20260930.json",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/icl-e2-kit-plan-review-initial-20260930.json"
+      },
+      "stored": "raw/icl-e2-kit-plan-review-initial-20260930.json",
+      "kind": "initial-independent-plan-review-original",
+      "originalBytes": 4597,
+      "originalSha256": "4c997d502cde7e7e39bf054016f4ab406441a2f41d3b3d62916349ba1d64def8",
+      "storedBytes": 4597,
+      "storedSha256": "4c997d502cde7e7e39bf054016f4ab406441a2f41d3b3d62916349ba1d64def8",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "4c997d502cde7e7e39bf054016f4ab406441a2f41d3b3d62916349ba1d64def8",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "E3",
+      "source": {
+        "repoRelative": "TEMP/interpretability-e3-kit-plan-20260930.md",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/interpretability-e3-kit-plan-20260930.md"
+      },
+      "stored": "raw/interpretability-e3-kit-plan-20260930.md",
+      "kind": "final-plan-original",
+      "originalBytes": 12288,
+      "originalSha256": "d8730a5f5b9ce59418dee0f9aeaeb3ab50411c35be537b1308c61bb3100f9364",
+      "storedBytes": 12288,
+      "storedSha256": "d8730a5f5b9ce59418dee0f9aeaeb3ab50411c35be537b1308c61bb3100f9364",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "d8730a5f5b9ce59418dee0f9aeaeb3ab50411c35be537b1308c61bb3100f9364",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "E3",
+      "source": {
+        "repoRelative": "TEMP/interpretability-e3-kit-plan-20260930.json",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/interpretability-e3-kit-plan-20260930.json"
+      },
+      "stored": "raw/interpretability-e3-kit-plan-20260930.json",
+      "kind": "final-plan-original",
+      "originalBytes": 44320,
+      "originalSha256": "eaaa92f7baa2f37e05f39cafd7c91bc7459a0d3963fb8c52b00485248c20140e",
+      "storedBytes": 44320,
+      "storedSha256": "eaaa92f7baa2f37e05f39cafd7c91bc7459a0d3963fb8c52b00485248c20140e",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "eaaa92f7baa2f37e05f39cafd7c91bc7459a0d3963fb8c52b00485248c20140e",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "E3",
+      "source": {
+        "repoRelative": "TEMP/interpretability-e3-kit-plan-review-20260930.json",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/interpretability-e3-kit-plan-review-20260930.json"
+      },
+      "stored": "raw/interpretability-e3-kit-plan-review-20260930.json",
+      "kind": "final-independent-plan-review-original",
+      "originalBytes": 1994,
+      "originalSha256": "f38d6ff8515c57af36633b9e8b55dcdad0a2953fb2315837a26b5997d22b0451",
+      "storedBytes": 1994,
+      "storedSha256": "f38d6ff8515c57af36633b9e8b55dcdad0a2953fb2315837a26b5997d22b0451",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "f38d6ff8515c57af36633b9e8b55dcdad0a2953fb2315837a26b5997d22b0451",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "E3",
+      "source": {
+        "repoRelative": "TEMP/interpretability-e3-kit-plan-initial-20260930.md",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/interpretability-e3-kit-plan-initial-20260930.md"
+      },
+      "stored": "raw/interpretability-e3-kit-plan-initial-20260930.md",
+      "kind": "initial-plan-original",
+      "originalBytes": 10738,
+      "originalSha256": "0bdbd1d6e751afc3f2746c1b4f472d2850e462fe5cdca8e803937b6786ba4659",
+      "storedBytes": 10738,
+      "storedSha256": "0bdbd1d6e751afc3f2746c1b4f472d2850e462fe5cdca8e803937b6786ba4659",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "0bdbd1d6e751afc3f2746c1b4f472d2850e462fe5cdca8e803937b6786ba4659",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "E3",
+      "source": {
+        "repoRelative": "TEMP/interpretability-e3-kit-plan-initial-20260930.json",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/interpretability-e3-kit-plan-initial-20260930.json"
+      },
+      "stored": "raw/interpretability-e3-kit-plan-initial-20260930.json",
+      "kind": "initial-plan-original",
+      "originalBytes": 38245,
+      "originalSha256": "64e3e0d4fcb61841739073ca8d13763407700173e405c8795afafc443e2fa6bb",
+      "storedBytes": 38245,
+      "storedSha256": "64e3e0d4fcb61841739073ca8d13763407700173e405c8795afafc443e2fa6bb",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "64e3e0d4fcb61841739073ca8d13763407700173e405c8795afafc443e2fa6bb",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "E3",
+      "source": {
+        "repoRelative": "TEMP/interpretability-e3-kit-plan-review-initial-20260930.json",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/interpretability-e3-kit-plan-review-initial-20260930.json"
+      },
+      "stored": "raw/interpretability-e3-kit-plan-review-initial-20260930.json",
+      "kind": "initial-independent-plan-review-original",
+      "originalBytes": 2515,
+      "originalSha256": "73ce9c73403a527ca0d1b1c551a25500f95f115d22cf1920165374ec87a31126",
+      "storedBytes": 2515,
+      "storedSha256": "73ce9c73403a527ca0d1b1c551a25500f95f115d22cf1920165374ec87a31126",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "73ce9c73403a527ca0d1b1c551a25500f95f115d22cf1920165374ec87a31126",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "F1",
+      "source": {
+        "repoRelative": "TEMP/capabilities-f1-kit-plan-20260930.md",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/capabilities-f1-kit-plan-20260930.md"
+      },
+      "stored": "raw/capabilities-f1-kit-plan-20260930.md",
+      "kind": "final-plan-original",
+      "originalBytes": 10725,
+      "originalSha256": "c0ce67f1dfc008c24a43c464fa58a592b12a1cf1f46d0d9597de0763f2615282",
+      "storedBytes": 10725,
+      "storedSha256": "c0ce67f1dfc008c24a43c464fa58a592b12a1cf1f46d0d9597de0763f2615282",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "c0ce67f1dfc008c24a43c464fa58a592b12a1cf1f46d0d9597de0763f2615282",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "F1",
+      "source": {
+        "repoRelative": "TEMP/capabilities-f1-kit-plan-20260930.json",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/capabilities-f1-kit-plan-20260930.json"
+      },
+      "stored": "raw/capabilities-f1-kit-plan-20260930.json",
+      "kind": "final-plan-original",
+      "originalBytes": 36641,
+      "originalSha256": "d3fdf2f1026ae5d58af1b42632099b799cdaf33dd3a14dd978758fd63f38813f",
+      "storedBytes": 36641,
+      "storedSha256": "d3fdf2f1026ae5d58af1b42632099b799cdaf33dd3a14dd978758fd63f38813f",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "d3fdf2f1026ae5d58af1b42632099b799cdaf33dd3a14dd978758fd63f38813f",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "F1",
+      "source": {
+        "repoRelative": "TEMP/capabilities-f1-kit-plan-review-20260930.json",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/capabilities-f1-kit-plan-review-20260930.json"
+      },
+      "stored": "raw/capabilities-f1-kit-plan-review-20260930.json",
+      "kind": "final-independent-plan-review-original",
+      "originalBytes": 2439,
+      "originalSha256": "f87bba591978c3a47b6041fc653cdc6d263399821c60d03460de32beece050e4",
+      "storedBytes": 2439,
+      "storedSha256": "f87bba591978c3a47b6041fc653cdc6d263399821c60d03460de32beece050e4",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "f87bba591978c3a47b6041fc653cdc6d263399821c60d03460de32beece050e4",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "E1",
+      "source": {
+        "repoRelative": "TEMP/context-e1-kit-plan-addendum-20260930.md",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/context-e1-kit-plan-addendum-20260930.md"
+      },
+      "stored": "raw/context-e1-kit-plan-addendum-20260930.md",
+      "kind": "implementation-addendum-plan-original",
+      "originalBytes": 2629,
+      "originalSha256": "afa635a440d4ec5fa555891ff40461b89e28f41ac896ab8a59b38dfe96729b27",
+      "storedBytes": 2629,
+      "storedSha256": "afa635a440d4ec5fa555891ff40461b89e28f41ac896ab8a59b38dfe96729b27",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "afa635a440d4ec5fa555891ff40461b89e28f41ac896ab8a59b38dfe96729b27",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "F2",
+      "source": {
+        "repoRelative": "TEMP/multimodal-f2-kit-plan-20260930.md",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/multimodal-f2-kit-plan-20260930.md"
+      },
+      "stored": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.md",
+      "kind": "initial-candidate-plan-original",
+      "originalBytes": 11609,
+      "originalSha256": "175cd5f34036393d188a898d38a73902c3db047b7a857bf34f970dda49c6bd70",
+      "storedBytes": 11609,
+      "storedSha256": "175cd5f34036393d188a898d38a73902c3db047b7a857bf34f970dda49c6bd70",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "175cd5f34036393d188a898d38a73902c3db047b7a857bf34f970dda49c6bd70",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "F2",
+      "source": {
+        "repoRelative": "TEMP/multimodal-f2-kit-plan-20260930.json",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/multimodal-f2-kit-plan-20260930.json"
+      },
+      "stored": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.json",
+      "kind": "initial-candidate-plan-original",
+      "originalBytes": 45616,
+      "originalSha256": "58e20bda52fcfa9d5223f1750a622e6140d996ce1244a3d6e17c14e8a03d6a11",
+      "storedBytes": 45616,
+      "storedSha256": "58e20bda52fcfa9d5223f1750a622e6140d996ce1244a3d6e17c14e8a03d6a11",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "58e20bda52fcfa9d5223f1750a622e6140d996ce1244a3d6e17c14e8a03d6a11",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "F2",
+      "source": {
+        "repoRelative": "TEMP/multimodal-f2-correction-precheck-20260930.json",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/multimodal-f2-correction-precheck-20260930.json"
+      },
+      "stored": "raw/source/multimodal-f2-correction-precheck-20260930.json",
+      "kind": "read-only-preparation-source-original",
+      "originalBytes": 2088,
+      "originalSha256": "1f3a2d96cb4b4e5bb7ef0e4884303345cef638bddaf89cba79a32dc0a1823d74",
+      "storedBytes": 2088,
+      "storedSha256": "1f3a2d96cb4b4e5bb7ef0e4884303345cef638bddaf89cba79a32dc0a1823d74",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "1f3a2d96cb4b4e5bb7ef0e4884303345cef638bddaf89cba79a32dc0a1823d74",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "F2",
+      "source": {
+        "repoRelative": "TEMP/multimodal-f2-primary-recheck-20260930.md",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/multimodal-f2-primary-recheck-20260930.md"
+      },
+      "stored": "raw/source/multimodal-f2-primary-recheck-20260930.md",
+      "kind": "read-only-preparation-source-original",
+      "originalBytes": 2839,
+      "originalSha256": "7f803ebc2e0cc54fc095f0c296034157f8b537f85fa7653328c7bb9a5d20d915",
+      "storedBytes": 2839,
+      "storedSha256": "7f803ebc2e0cc54fc095f0c296034157f8b537f85fa7653328c7bb9a5d20d915",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "7f803ebc2e0cc54fc095f0c296034157f8b537f85fa7653328c7bb9a5d20d915",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "F2",
+      "source": {
+        "repoRelative": "TEMP/check-f2-correction-slots.mjs",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/check-f2-correction-slots.mjs"
+      },
+      "stored": "raw/source/check-f2-correction-slots.mjs",
+      "kind": "read-only-preparation-source-original",
+      "originalBytes": 1678,
+      "originalSha256": "e9e2679c97990dfbffb38919088c613f0a5b0b8cbe880e02936b54f8b57ccd79",
+      "storedBytes": 1678,
+      "storedSha256": "e9e2679c97990dfbffb38919088c613f0a5b0b8cbe880e02936b54f8b57ccd79",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "e9e2679c97990dfbffb38919088c613f0a5b0b8cbe880e02936b54f8b57ccd79",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "F2",
+      "source": {
+        "repoRelative": "TEMP/multimodal-f2-kit-plan-review-20260930.json",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/multimodal-f2-kit-plan-review-20260930.json"
+      },
+      "stored": "raw/multimodal-f2-kit-plan-review-20260930.json",
+      "kind": "final-independent-plan-review-original",
+      "originalBytes": 4281,
+      "originalSha256": "4b4038665e4b0c75665b6a98506411c20f0e535af3bb13a0a86a7cf57441ef4d",
+      "storedBytes": 4281,
+      "storedSha256": "4b4038665e4b0c75665b6a98506411c20f0e535af3bb13a0a86a7cf57441ef4d",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "4b4038665e4b0c75665b6a98506411c20f0e535af3bb13a0a86a7cf57441ef4d",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "E1",
+      "source": {
+        "repoRelative": null,
+        "historicalAbsolute": "C:/Users/81906/AppData/Local/Temp/context-e1-kit-plan-addendum-review-20260930.json"
+      },
+      "stored": "raw/context-e1-kit-plan-addendum-review-20260930.json",
+      "kind": "independent-addendum-review-original",
+      "originalBytes": 5024,
+      "originalSha256": "c772da31912b10c50b4a857de10d0e84115c324978a50c00a6aae7180ebbe176",
+      "storedBytes": 5024,
+      "storedSha256": "c772da31912b10c50b4a857de10d0e84115c324978a50c00a6aae7180ebbe176",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "c772da31912b10c50b4a857de10d0e84115c324978a50c00a6aae7180ebbe176",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "F2",
+      "source": {
+        "repoRelative": "TEMP/multimodal-f2-kit-plan-20260930.md",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/multimodal-f2-kit-plan-20260930.md"
+      },
+      "stored": "raw/multimodal-f2-kit-plan-20260930.md",
+      "kind": "final-plan-original",
+      "originalBytes": 11609,
+      "originalSha256": "175cd5f34036393d188a898d38a73902c3db047b7a857bf34f970dda49c6bd70",
+      "storedBytes": 11609,
+      "storedSha256": "175cd5f34036393d188a898d38a73902c3db047b7a857bf34f970dda49c6bd70",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "175cd5f34036393d188a898d38a73902c3db047b7a857bf34f970dda49c6bd70",
+      "roundTripMatchesOriginal": true
+    },
+    {
+      "unit": "F2",
+      "source": {
+        "repoRelative": "TEMP/multimodal-f2-kit-plan-20260930.json",
+        "historicalAbsolute": "C:/dev/ai-agent-library/TEMP/multimodal-f2-kit-plan-20260930.json"
+      },
+      "stored": "raw/multimodal-f2-kit-plan-20260930.json",
+      "kind": "final-plan-original",
+      "originalBytes": 45616,
+      "originalSha256": "58e20bda52fcfa9d5223f1750a622e6140d996ce1244a3d6e17c14e8a03d6a11",
+      "storedBytes": 45616,
+      "storedSha256": "58e20bda52fcfa9d5223f1750a622e6140d996ce1244a3d6e17c14e8a03d6a11",
+      "encoding": "identity/raw-bytes",
+      "transformation": null,
+      "roundTripSha256": "58e20bda52fcfa9d5223f1750a622e6140d996ce1244a3d6e17c14e8a03d6a11",
+      "roundTripMatchesOriginal": true
+    }
+  ],
+  "reviewBindings": [
+    {
+      "unit": "E1",
+      "kind": "final-independent-plan-review-original",
+      "stored": "raw/context-e1-kit-plan-review-20260930.json",
+      "sha256": "4713bea60a4e8005d1a83a7b3d69e30cbd3671bbceabeef605ef7ae99c68ac78",
+      "verdict": "approved-plan-only",
+      "checkedAt": "2026-09-30T12:27:04.111Z",
+      "mustCount": 0,
+      "shouldCount": 0,
+      "targetBindings": [
+        {
+          "field": "targets",
+          "originalTarget": {
+            "file": "TEMP/context-e1-kit-plan-20260930.md",
+            "sha256": "e503657ddcdc7358bb3df16b4fdc2e8741a85e32831fd6e439780e858a6589d5"
+          },
+          "resolvedStored": "raw/context-e1-kit-plan-20260930.md",
+          "reviewedSha256": "e503657ddcdc7358bb3df16b4fdc2e8741a85e32831fd6e439780e858a6589d5",
+          "storedSha256": "e503657ddcdc7358bb3df16b4fdc2e8741a85e32831fd6e439780e858a6589d5",
+          "matches": true
+        },
+        {
+          "field": "targets",
+          "originalTarget": {
+            "file": "TEMP/context-e1-kit-plan-20260930.json",
+            "sha256": "ce2506ca44322f9358d7569a7b4361f11bdb44c3aed7c19a4353c602044f7f78"
+          },
+          "resolvedStored": "raw/context-e1-kit-plan-20260930.json",
+          "reviewedSha256": "ce2506ca44322f9358d7569a7b4361f11bdb44c3aed7c19a4353c602044f7f78",
+          "storedSha256": "ce2506ca44322f9358d7569a7b4361f11bdb44c3aed7c19a4353c602044f7f78",
+          "matches": true
+        }
+      ],
+      "onlyPlanAcceptance": true
+    },
+    {
+      "unit": "E2",
+      "kind": "final-independent-plan-review-original",
+      "stored": "raw/icl-e2-kit-plan-review-20260930.json",
+      "sha256": "ab6741a0c0aaf50341a9b275d91eb1311e9af92914be04d04ce11612b88ba16d",
+      "verdict": "approved-plan-only",
+      "checkedAt": "2026-09-30T12:42:17.238Z",
+      "mustCount": 0,
+      "shouldCount": 0,
+      "targetBindings": [
+        {
+          "field": "targets",
+          "originalTarget": {
+            "file": "TEMP/icl-e2-kit-plan-20260930.md",
+            "sha256": "c2381027bbc59203308a27d1d6c313dcc52b78cf7f67b013d5fdb65bc83360ad"
+          },
+          "resolvedStored": "raw/icl-e2-kit-plan-20260930.md",
+          "reviewedSha256": "c2381027bbc59203308a27d1d6c313dcc52b78cf7f67b013d5fdb65bc83360ad",
+          "storedSha256": "c2381027bbc59203308a27d1d6c313dcc52b78cf7f67b013d5fdb65bc83360ad",
+          "matches": true
+        },
+        {
+          "field": "targets",
+          "originalTarget": {
+            "file": "TEMP/icl-e2-kit-plan-20260930.json",
+            "sha256": "fc6a2ee1cb7645a127cd4a1c4a0248928f42bf1189cc1dd6ae75cf4ee9b3f236"
+          },
+          "resolvedStored": "raw/icl-e2-kit-plan-20260930.json",
+          "reviewedSha256": "fc6a2ee1cb7645a127cd4a1c4a0248928f42bf1189cc1dd6ae75cf4ee9b3f236",
+          "storedSha256": "fc6a2ee1cb7645a127cd4a1c4a0248928f42bf1189cc1dd6ae75cf4ee9b3f236",
+          "matches": true
+        },
+        {
+          "field": "initialTargets",
+          "originalTarget": {
+            "file": "TEMP/icl-e2-kit-plan-initial-20260930.md",
+            "sha256": "613295c79d92b3b092d07409d5d31309d5219c320fa02bf787c621447ce1987c",
+            "byteIdenticalToInitiallyReviewedVersion": true
+          },
+          "resolvedStored": "raw/icl-e2-kit-plan-initial-20260930.md",
+          "reviewedSha256": "613295c79d92b3b092d07409d5d31309d5219c320fa02bf787c621447ce1987c",
+          "storedSha256": "613295c79d92b3b092d07409d5d31309d5219c320fa02bf787c621447ce1987c",
+          "matches": true
+        },
+        {
+          "field": "initialTargets",
+          "originalTarget": {
+            "file": "TEMP/icl-e2-kit-plan-initial-20260930.json",
+            "sha256": "d336501a82c603eb216f22c2cbb3dd70fdeb2397c3d0b0f00bc73e729121c8b9",
+            "byteIdenticalToInitiallyReviewedVersion": true
+          },
+          "resolvedStored": "raw/icl-e2-kit-plan-initial-20260930.json",
+          "reviewedSha256": "d336501a82c603eb216f22c2cbb3dd70fdeb2397c3d0b0f00bc73e729121c8b9",
+          "storedSha256": "d336501a82c603eb216f22c2cbb3dd70fdeb2397c3d0b0f00bc73e729121c8b9",
+          "matches": true
+        }
+      ],
+      "onlyPlanAcceptance": true
+    },
+    {
+      "unit": "E2",
+      "kind": "initial-independent-plan-review-original",
+      "stored": "raw/icl-e2-kit-plan-review-initial-20260930.json",
+      "sha256": "4c997d502cde7e7e39bf054016f4ab406441a2f41d3b3d62916349ba1d64def8",
+      "verdict": "approved-plan-only-with-should",
+      "checkedAt": "2026-09-30T12:37:12.940Z",
+      "mustCount": 0,
+      "shouldCount": 1,
+      "targetBindings": [
+        {
+          "field": "targets",
+          "originalTarget": {
+            "fileAtReview": "TEMP/icl-e2-kit-plan-20260930.md",
+            "preservedInitialFile": "TEMP/icl-e2-kit-plan-initial-20260930.md",
+            "sha256": "613295c79d92b3b092d07409d5d31309d5219c320fa02bf787c621447ce1987c"
+          },
+          "resolvedStored": "raw/icl-e2-kit-plan-initial-20260930.md",
+          "reviewedSha256": "613295c79d92b3b092d07409d5d31309d5219c320fa02bf787c621447ce1987c",
+          "storedSha256": "613295c79d92b3b092d07409d5d31309d5219c320fa02bf787c621447ce1987c",
+          "matches": true
+        },
+        {
+          "field": "targets",
+          "originalTarget": {
+            "fileAtReview": "TEMP/icl-e2-kit-plan-20260930.json",
+            "preservedInitialFile": "TEMP/icl-e2-kit-plan-initial-20260930.json",
+            "sha256": "d336501a82c603eb216f22c2cbb3dd70fdeb2397c3d0b0f00bc73e729121c8b9"
+          },
+          "resolvedStored": "raw/icl-e2-kit-plan-initial-20260930.json",
+          "reviewedSha256": "d336501a82c603eb216f22c2cbb3dd70fdeb2397c3d0b0f00bc73e729121c8b9",
+          "storedSha256": "d336501a82c603eb216f22c2cbb3dd70fdeb2397c3d0b0f00bc73e729121c8b9",
+          "matches": true
+        }
+      ],
+      "onlyPlanAcceptance": true
+    },
+    {
+      "unit": "E3",
+      "kind": "final-independent-plan-review-original",
+      "stored": "raw/interpretability-e3-kit-plan-review-20260930.json",
+      "sha256": "f38d6ff8515c57af36633b9e8b55dcdad0a2953fb2315837a26b5997d22b0451",
+      "verdict": "approved-plan-only",
+      "checkedAt": "2026-09-30T13:05:18.304Z",
+      "mustCount": 0,
+      "shouldCount": 0,
+      "targetBindings": [
+        {
+          "field": "targets",
+          "originalTarget": {
+            "file": "TEMP/interpretability-e3-kit-plan-20260930.md",
+            "sha256": "d8730a5f5b9ce59418dee0f9aeaeb3ab50411c35be537b1308c61bb3100f9364"
+          },
+          "resolvedStored": "raw/interpretability-e3-kit-plan-20260930.md",
+          "reviewedSha256": "d8730a5f5b9ce59418dee0f9aeaeb3ab50411c35be537b1308c61bb3100f9364",
+          "storedSha256": "d8730a5f5b9ce59418dee0f9aeaeb3ab50411c35be537b1308c61bb3100f9364",
+          "matches": true
+        },
+        {
+          "field": "targets",
+          "originalTarget": {
+            "file": "TEMP/interpretability-e3-kit-plan-20260930.json",
+            "sha256": "eaaa92f7baa2f37e05f39cafd7c91bc7459a0d3963fb8c52b00485248c20140e"
+          },
+          "resolvedStored": "raw/interpretability-e3-kit-plan-20260930.json",
+          "reviewedSha256": "eaaa92f7baa2f37e05f39cafd7c91bc7459a0d3963fb8c52b00485248c20140e",
+          "storedSha256": "eaaa92f7baa2f37e05f39cafd7c91bc7459a0d3963fb8c52b00485248c20140e",
+          "matches": true
+        }
+      ],
+      "onlyPlanAcceptance": true
+    },
+    {
+      "unit": "E3",
+      "kind": "initial-independent-plan-review-original",
+      "stored": "raw/interpretability-e3-kit-plan-review-initial-20260930.json",
+      "sha256": "73ce9c73403a527ca0d1b1c551a25500f95f115d22cf1920165374ec87a31126",
+      "verdict": "changes-requested-plan-only",
+      "checkedAt": "2026-09-30T13:00:54.119Z",
+      "mustCount": 1,
+      "shouldCount": 0,
+      "targetBindings": [
+        {
+          "field": "targets",
+          "originalTarget": {
+            "file": "TEMP/interpretability-e3-kit-plan-initial-20260930.md",
+            "sha256": "0bdbd1d6e751afc3f2746c1b4f472d2850e462fe5cdca8e803937b6786ba4659"
+          },
+          "resolvedStored": "raw/interpretability-e3-kit-plan-initial-20260930.md",
+          "reviewedSha256": "0bdbd1d6e751afc3f2746c1b4f472d2850e462fe5cdca8e803937b6786ba4659",
+          "storedSha256": "0bdbd1d6e751afc3f2746c1b4f472d2850e462fe5cdca8e803937b6786ba4659",
+          "matches": true
+        },
+        {
+          "field": "targets",
+          "originalTarget": {
+            "file": "TEMP/interpretability-e3-kit-plan-initial-20260930.json",
+            "sha256": "64e3e0d4fcb61841739073ca8d13763407700173e405c8795afafc443e2fa6bb"
+          },
+          "resolvedStored": "raw/interpretability-e3-kit-plan-initial-20260930.json",
+          "reviewedSha256": "64e3e0d4fcb61841739073ca8d13763407700173e405c8795afafc443e2fa6bb",
+          "storedSha256": "64e3e0d4fcb61841739073ca8d13763407700173e405c8795afafc443e2fa6bb",
+          "matches": true
+        }
+      ],
+      "onlyPlanAcceptance": true
+    },
+    {
+      "unit": "F1",
+      "kind": "final-independent-plan-review-original",
+      "stored": "raw/capabilities-f1-kit-plan-review-20260930.json",
+      "sha256": "f87bba591978c3a47b6041fc653cdc6d263399821c60d03460de32beece050e4",
+      "verdict": "approved-plan-only",
+      "checkedAt": "2026-09-30T13:19:58.436Z",
+      "mustCount": 0,
+      "shouldCount": 0,
+      "targetBindings": [
+        {
+          "field": "targets",
+          "originalTarget": {
+            "file": "TEMP/capabilities-f1-kit-plan-20260930.md",
+            "sha256": "c0ce67f1dfc008c24a43c464fa58a592b12a1cf1f46d0d9597de0763f2615282"
+          },
+          "resolvedStored": "raw/capabilities-f1-kit-plan-20260930.md",
+          "reviewedSha256": "c0ce67f1dfc008c24a43c464fa58a592b12a1cf1f46d0d9597de0763f2615282",
+          "storedSha256": "c0ce67f1dfc008c24a43c464fa58a592b12a1cf1f46d0d9597de0763f2615282",
+          "matches": true
+        },
+        {
+          "field": "targets",
+          "originalTarget": {
+            "file": "TEMP/capabilities-f1-kit-plan-20260930.json",
+            "sha256": "d3fdf2f1026ae5d58af1b42632099b799cdaf33dd3a14dd978758fd63f38813f"
+          },
+          "resolvedStored": "raw/capabilities-f1-kit-plan-20260930.json",
+          "reviewedSha256": "d3fdf2f1026ae5d58af1b42632099b799cdaf33dd3a14dd978758fd63f38813f",
+          "storedSha256": "d3fdf2f1026ae5d58af1b42632099b799cdaf33dd3a14dd978758fd63f38813f",
+          "matches": true
+        }
+      ],
+      "onlyPlanAcceptance": true
+    },
+    {
+      "unit": "F2",
+      "kind": "final-independent-plan-review-original",
+      "stored": "raw/multimodal-f2-kit-plan-review-20260930.json",
+      "sha256": "4b4038665e4b0c75665b6a98506411c20f0e535af3bb13a0a86a7cf57441ef4d",
+      "verdict": "approved-plan-only",
+      "checkedAt": "2026-09-30T13:31:28.800Z",
+      "mustCount": 0,
+      "shouldCount": 0,
+      "targetBindings": [
+        {
+          "field": "targets",
+          "originalTarget": {
+            "file": "TEMP/multimodal-f2-kit-plan-20260930.md",
+            "sha256": "175cd5f34036393d188a898d38a73902c3db047b7a857bf34f970dda49c6bd70"
+          },
+          "resolvedStored": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.md",
+          "reviewedSha256": "175cd5f34036393d188a898d38a73902c3db047b7a857bf34f970dda49c6bd70",
+          "storedSha256": "175cd5f34036393d188a898d38a73902c3db047b7a857bf34f970dda49c6bd70",
+          "matches": true
+        },
+        {
+          "field": "targets",
+          "originalTarget": {
+            "file": "TEMP/multimodal-f2-kit-plan-20260930.json",
+            "sha256": "58e20bda52fcfa9d5223f1750a622e6140d996ce1244a3d6e17c14e8a03d6a11"
+          },
+          "resolvedStored": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.json",
+          "reviewedSha256": "58e20bda52fcfa9d5223f1750a622e6140d996ce1244a3d6e17c14e8a03d6a11",
+          "storedSha256": "58e20bda52fcfa9d5223f1750a622e6140d996ce1244a3d6e17c14e8a03d6a11",
+          "matches": true
+        }
+      ],
+      "onlyPlanAcceptance": true
+    },
+    {
+      "unit": "E1",
+      "kind": "independent-addendum-review-original",
+      "stored": "raw/context-e1-kit-plan-addendum-review-20260930.json",
+      "sha256": "c772da31912b10c50b4a857de10d0e84115c324978a50c00a6aae7180ebbe176",
+      "verdict": "approved-plan-only",
+      "checkedAt": "2026-09-30T13:34:42.587Z",
+      "mustCount": 0,
+      "shouldCount": 0,
+      "targetBindings": [
+        {
+          "field": "target",
+          "originalTarget": {
+            "file": "TEMP/context-e1-kit-plan-addendum-20260930.md",
+            "sha256": "afa635a440d4ec5fa555891ff40461b89e28f41ac896ab8a59b38dfe96729b27"
+          },
+          "resolvedStored": "raw/context-e1-kit-plan-addendum-20260930.md",
+          "reviewedSha256": "afa635a440d4ec5fa555891ff40461b89e28f41ac896ab8a59b38dfe96729b27",
+          "storedSha256": "afa635a440d4ec5fa555891ff40461b89e28f41ac896ab8a59b38dfe96729b27",
+          "matches": true
+        }
+      ],
+      "onlyPlanAcceptance": true
+    }
+  ],
+  "sourceBindings": [
+    {
+      "plan": "raw/context-e1-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-proposal-20260930.json",
+      "expectedSha256": "b9b35c1da9bec520550ee5e658e74eb48109f4d673bb1e3f0858ab36654ccd43",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/attention-context-e1-interface-proposal-20260930.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "b9b35c1da9bec520550ee5e658e74eb48109f4d673bb1e3f0858ab36654ccd43",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": null
+    },
+    {
+      "plan": "raw/context-e1-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-review-20260930.json",
+      "expectedSha256": "72e280ce99f7312bb0ca4cb651d23e950928cd2976796cd15d044443c05f219a",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/attention-context-e1-interface-review-20260930.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "72e280ce99f7312bb0ca4cb651d23e950928cd2976796cd15d044443c05f219a",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": null
+    },
+    {
+      "plan": "raw/context-e1-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/views/attention-context-e1-interface-proposal-20260930.md",
+      "expectedSha256": "7f18b1084b5f165053f2814d091899c192954f7cecf1226923200df68aea69d7",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/views/attention-context-e1-interface-proposal-20260930.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "7f18b1084b5f165053f2814d091899c192954f7cecf1226923200df68aea69d7",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": null
+    },
+    {
+      "plan": "raw/context-e1-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "expectedSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "archiveSource": null,
+      "repositorySource": "../../2026-09-24/p1-remaining-storyboards.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": null
+    },
+    {
+      "plan": "raw/context-e1-kit-plan-20260930.json",
+      "historicalSource": "docs/10-llm-foundations/attention-and-context.md",
+      "expectedSha256": "433d75095383235eeace9c4b34048bad43a3f4b0ba6e65c2e7e7d25eebdb1c55",
+      "archiveSource": null,
+      "repositorySource": "../../../../docs/10-llm-foundations/attention-and-context.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "433d75095383235eeace9c4b34048bad43a3f4b0ba6e65c2e7e7d25eebdb1c55",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": null
+    },
+    {
+      "plan": "raw/context-e1-kit-plan-20260930.json",
+      "historicalSource": "website/lib/doc-decorations.mjs",
+      "expectedSha256": "abcba21db7e379e21f81602b97151e09f4c31d2a9f9beb01b48e86fee1de6fc2",
+      "archiveSource": null,
+      "repositorySource": "../../../../website/lib/doc-decorations.mjs",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "abcba21db7e379e21f81602b97151e09f4c31d2a9f9beb01b48e86fee1de6fc2",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": null
+    },
+    {
+      "plan": "raw/context-e1-kit-plan-20260930.json",
+      "historicalSource": "tests/unit/diagram-release-portable.test.mjs",
+      "expectedSha256": "6880bc7d5e7f56f806ffb84976d47d4a7bc15ed9ced01c517ed8a77561ad3589",
+      "archiveSource": null,
+      "repositorySource": "../../../../tests/unit/diagram-release-portable.test.mjs",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "6880bc7d5e7f56f806ffb84976d47d4a7bc15ed9ced01c517ed8a77561ad3589",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": null
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-20260930.json",
+      "historicalSource": "AGENTS.md",
+      "expectedSha256": "6a42eb8121cab94a360d9151ba1435eed7f855a8e47e2792ea7c20f7d4987fad",
+      "archiveSource": null,
+      "repositorySource": "../../../../AGENTS.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "6a42eb8121cab94a360d9151ba1435eed7f855a8e47e2792ea7c20f7d4987fad",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Common ownership/source and acceptance rules"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-20260930.json",
+      "historicalSource": "CONTRIBUTING.md",
+      "expectedSha256": "4dcc9ff7e07a66f006972fba94adfe5fc57070ac3903a523f552cf63be3c8bf1",
+      "archiveSource": null,
+      "repositorySource": "../../../../CONTRIBUTING.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "4dcc9ff7e07a66f006972fba94adfe5fc57070ac3903a523f552cf63be3c8bf1",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Site and harness verification requirements"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-proposal-20260930.json",
+      "expectedSha256": "46b275e0da9d9033d07fecb775f74b4136b76f7d0308268c4e7dfd4729c4c828",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/icl-e2-interface-proposal-20260930.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "46b275e0da9d9033d07fecb775f74b4136b76f7d0308268c4e7dfd4729c4c828",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "/common; /proposed/0..2; /independentAssertions; /adopted; /inventory"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/views/icl-e2-interface-proposal-20260930.md",
+      "expectedSha256": "0432ae1ce8a664a49a9a6e8b128ed6e1c23a46f324984b17827a4f27e57f02f0",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/views/icl-e2-interface-proposal-20260930.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "0432ae1ce8a664a49a9a6e8b128ed6e1c23a46f324984b17827a4f27e57f02f0",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Readable adopted E2 interface"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-review-20260930.json",
+      "expectedSha256": "5e49ffceea5f2b4677efbbe1893ab0046c1225a6132f85545c14c56f34e9f8e2",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/icl-e2-interface-review-20260930.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "5e49ffceea5f2b4677efbbe1893ab0046c1225a6132f85545c14c56f34e9f8e2",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "/verdict; /independentChecks; /scope"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-review-20260930.md",
+      "expectedSha256": "5aaa85bc3a655d72c3a91c0be6d1fab3a3a21d44e422ff8585b8b42af65ebf36",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/icl-e2-interface-review-20260930.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "5aaa85bc3a655d72c3a91c0be6d1fab3a3a21d44e422ff8585b8b42af65ebf36",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Independent interface review narrative"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "expectedSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "archiveSource": null,
+      "repositorySource": "../../2026-09-24/p1-remaining-storyboards.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Adopted E2 unit; unrelated units are not duplicated"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+      "expectedSha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+      "archiveSource": null,
+      "repositorySource": "../../2026-09-24/p1-remaining-storyboards-review.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Adopted storyboard review"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-20260930.json",
+      "historicalSource": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+      "expectedSha256": "c150ab8ee4a72dc6786a5abb52e0266f97d78f1b6584ce1c695e01f94106f5c4",
+      "archiveSource": null,
+      "repositorySource": "../../../../docs/11-llm-internals/in-context-learning-and-memorization.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "c150ab8ee4a72dc6786a5abb52e0266f97d78f1b6584ce1c695e01f94106f5c4",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Original article source"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-20260930.json",
+      "historicalSource": "TEMP/context-e1-kit-plan-20260930.json",
+      "expectedSha256": "ce2506ca44322f9358d7569a7b4361f11bdb44c3aed7c19a4353c602044f7f78",
+      "archiveSource": "raw/context-e1-kit-plan-20260930.json",
+      "repositorySource": null,
+      "sourceClassification": "final-plan-original",
+      "currentSourceSha256": "ce2506ca44322f9358d7569a7b4361f11bdb44c3aed7c19a4353c602044f7f78",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": true,
+      "historicalScope": "Prior E1 plan; /currentBaseline is actual D2 snapshot, /proposedExtension remains future"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-20260930.json",
+      "historicalSource": "TEMP/context-e1-kit-plan-20260930.md",
+      "expectedSha256": "e503657ddcdc7358bb3df16b4fdc2e8741a85e32831fd6e439780e858a6589d5",
+      "archiveSource": "raw/context-e1-kit-plan-20260930.md",
+      "repositorySource": null,
+      "sourceClassification": "final-plan-original",
+      "currentSourceSha256": "e503657ddcdc7358bb3df16b4fdc2e8741a85e32831fd6e439780e858a6589d5",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": true,
+      "historicalScope": "Prior E1 kit proposal; not E1 public acceptance"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-20260930.json",
+      "historicalSource": "scripts/diagram-release/source-mapping.json",
+      "expectedSha256": "70c2178e900c3e641c1c5f13f272e8578bd106617db81e613965e5c4d0f51e19",
+      "archiveSource": null,
+      "repositorySource": "../../../../scripts/diagram-release/source-mapping.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "70c2178e900c3e641c1c5f13f272e8578bd106617db81e613965e5c4d0f51e19",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Current D2 candidate manifest; not future E1 manifest"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-20260930.json",
+      "historicalSource": "scripts/diagram-release/verify-public.mjs",
+      "expectedSha256": "ad1c6e33badb6a8c6bae853e5699a6c6f028eb6092c7fb0b5600a3cfdd809a02",
+      "archiveSource": null,
+      "repositorySource": "../../../../scripts/diagram-release/verify-public.mjs",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "ad1c6e33badb6a8c6bae853e5699a6c6f028eb6092c7fb0b5600a3cfdd809a02",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Current 121 expected cases and ten artifact routes; not future135 callback content"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-20260930.json",
+      "historicalSource": "project/plans/engineering/dynamic-diagrams.md",
+      "expectedSha256": "58a359debbb0e2462ea4202d9dad99ba608fbef6317644beaafb0b89c95f08c0",
+      "archiveSource": null,
+      "repositorySource": "../../../plans/engineering/dynamic-diagrams.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "58a359debbb0e2462ea4202d9dad99ba608fbef6317644beaafb0b89c95f08c0",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Adopted expansion plan; common100/article-specific75 KiB budgets and P1 boundary"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-initial-20260930.json",
+      "historicalSource": "AGENTS.md",
+      "expectedSha256": "6a42eb8121cab94a360d9151ba1435eed7f855a8e47e2792ea7c20f7d4987fad",
+      "archiveSource": null,
+      "repositorySource": "../../../../AGENTS.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "6a42eb8121cab94a360d9151ba1435eed7f855a8e47e2792ea7c20f7d4987fad",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Common ownership/source and acceptance rules"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-initial-20260930.json",
+      "historicalSource": "CONTRIBUTING.md",
+      "expectedSha256": "4dcc9ff7e07a66f006972fba94adfe5fc57070ac3903a523f552cf63be3c8bf1",
+      "archiveSource": null,
+      "repositorySource": "../../../../CONTRIBUTING.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "4dcc9ff7e07a66f006972fba94adfe5fc57070ac3903a523f552cf63be3c8bf1",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Site and harness verification requirements"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-initial-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-proposal-20260930.json",
+      "expectedSha256": "46b275e0da9d9033d07fecb775f74b4136b76f7d0308268c4e7dfd4729c4c828",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/icl-e2-interface-proposal-20260930.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "46b275e0da9d9033d07fecb775f74b4136b76f7d0308268c4e7dfd4729c4c828",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "/common; /proposed/0..2; /independentAssertions; /adopted; /inventory"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-initial-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/views/icl-e2-interface-proposal-20260930.md",
+      "expectedSha256": "0432ae1ce8a664a49a9a6e8b128ed6e1c23a46f324984b17827a4f27e57f02f0",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/views/icl-e2-interface-proposal-20260930.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "0432ae1ce8a664a49a9a6e8b128ed6e1c23a46f324984b17827a4f27e57f02f0",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Readable adopted E2 interface"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-initial-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-review-20260930.json",
+      "expectedSha256": "5e49ffceea5f2b4677efbbe1893ab0046c1225a6132f85545c14c56f34e9f8e2",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/icl-e2-interface-review-20260930.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "5e49ffceea5f2b4677efbbe1893ab0046c1225a6132f85545c14c56f34e9f8e2",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "/verdict; /independentChecks; /scope"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-initial-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-review-20260930.md",
+      "expectedSha256": "5aaa85bc3a655d72c3a91c0be6d1fab3a3a21d44e422ff8585b8b42af65ebf36",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/icl-e2-interface-review-20260930.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "5aaa85bc3a655d72c3a91c0be6d1fab3a3a21d44e422ff8585b8b42af65ebf36",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Independent interface review narrative"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-initial-20260930.json",
+      "historicalSource": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "expectedSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "archiveSource": null,
+      "repositorySource": "../../2026-09-24/p1-remaining-storyboards.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Adopted E2 unit; unrelated units are not duplicated"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-initial-20260930.json",
+      "historicalSource": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+      "expectedSha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+      "archiveSource": null,
+      "repositorySource": "../../2026-09-24/p1-remaining-storyboards-review.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Adopted storyboard review"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-initial-20260930.json",
+      "historicalSource": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+      "expectedSha256": "c150ab8ee4a72dc6786a5abb52e0266f97d78f1b6584ce1c695e01f94106f5c4",
+      "archiveSource": null,
+      "repositorySource": "../../../../docs/11-llm-internals/in-context-learning-and-memorization.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "c150ab8ee4a72dc6786a5abb52e0266f97d78f1b6584ce1c695e01f94106f5c4",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Original article source"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-initial-20260930.json",
+      "historicalSource": "TEMP/context-e1-kit-plan-20260930.json",
+      "expectedSha256": "ce2506ca44322f9358d7569a7b4361f11bdb44c3aed7c19a4353c602044f7f78",
+      "archiveSource": "raw/context-e1-kit-plan-20260930.json",
+      "repositorySource": null,
+      "sourceClassification": "final-plan-original",
+      "currentSourceSha256": "ce2506ca44322f9358d7569a7b4361f11bdb44c3aed7c19a4353c602044f7f78",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": true,
+      "historicalScope": "Prior E1 plan; /currentBaseline is actual D2 snapshot, /proposedExtension remains future"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-initial-20260930.json",
+      "historicalSource": "TEMP/context-e1-kit-plan-20260930.md",
+      "expectedSha256": "e503657ddcdc7358bb3df16b4fdc2e8741a85e32831fd6e439780e858a6589d5",
+      "archiveSource": "raw/context-e1-kit-plan-20260930.md",
+      "repositorySource": null,
+      "sourceClassification": "final-plan-original",
+      "currentSourceSha256": "e503657ddcdc7358bb3df16b4fdc2e8741a85e32831fd6e439780e858a6589d5",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": true,
+      "historicalScope": "Prior E1 kit proposal; not E1 public acceptance"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-initial-20260930.json",
+      "historicalSource": "scripts/diagram-release/source-mapping.json",
+      "expectedSha256": "70c2178e900c3e641c1c5f13f272e8578bd106617db81e613965e5c4d0f51e19",
+      "archiveSource": null,
+      "repositorySource": "../../../../scripts/diagram-release/source-mapping.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "70c2178e900c3e641c1c5f13f272e8578bd106617db81e613965e5c4d0f51e19",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Current D2 candidate manifest; not future E1 manifest"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-initial-20260930.json",
+      "historicalSource": "scripts/diagram-release/verify-public.mjs",
+      "expectedSha256": "ad1c6e33badb6a8c6bae853e5699a6c6f028eb6092c7fb0b5600a3cfdd809a02",
+      "archiveSource": null,
+      "repositorySource": "../../../../scripts/diagram-release/verify-public.mjs",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "ad1c6e33badb6a8c6bae853e5699a6c6f028eb6092c7fb0b5600a3cfdd809a02",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Current 121 expected cases and ten artifact routes; not future135 callback content"
+    },
+    {
+      "plan": "raw/icl-e2-kit-plan-initial-20260930.json",
+      "historicalSource": "project/plans/engineering/dynamic-diagrams.md",
+      "expectedSha256": "58a359debbb0e2462ea4202d9dad99ba608fbef6317644beaafb0b89c95f08c0",
+      "archiveSource": null,
+      "repositorySource": "../../../plans/engineering/dynamic-diagrams.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "58a359debbb0e2462ea4202d9dad99ba608fbef6317644beaafb0b89c95f08c0",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Adopted expansion plan; common100/article-specific75 KiB budgets and P1 boundary"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-20260930.json",
+      "historicalSource": "AGENTS.md",
+      "expectedSha256": "6a42eb8121cab94a360d9151ba1435eed7f855a8e47e2792ea7c20f7d4987fad",
+      "archiveSource": null,
+      "repositorySource": "../../../../AGENTS.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "6a42eb8121cab94a360d9151ba1435eed7f855a8e47e2792ea7c20f7d4987fad",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Ownership/source/acceptance contract"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-20260930.json",
+      "historicalSource": "CONTRIBUTING.md",
+      "expectedSha256": "4dcc9ff7e07a66f006972fba94adfe5fc57070ac3903a523f552cf63be3c8bf1",
+      "archiveSource": null,
+      "repositorySource": "../../../../CONTRIBUTING.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "4dcc9ff7e07a66f006972fba94adfe5fc57070ac3903a523f552cf63be3c8bf1",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Verification contract"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-proposal-20260930.json",
+      "expectedSha256": "2396351aa8afbd8e1853fac5a18a5cbcc5c3af1d3b7669152edd2fd4662c066c",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/interpretability-e3-interface-proposal-20260930.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "2396351aa8afbd8e1853fac5a18a5cbcc5c3af1d3b7669152edd2fd4662c066c",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "/adopted; /proposed/figures/0..1; /counts; /proposed/validation"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-proposal-20260930.md",
+      "expectedSha256": "d060d5467bfb47f1b02115ef91b42ac14d845c0271d25b6a16fddaba1bfe84b0",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/interpretability-e3-interface-proposal-20260930.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "d060d5467bfb47f1b02115ef91b42ac14d845c0271d25b6a16fddaba1bfe84b0",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Readable adopted interface"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-review-20260930.json",
+      "expectedSha256": "df0ba3264efcdf36c7941ab394c528c0f1332ec8e5daa7171401664089b17d1e",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/interpretability-e3-interface-review-20260930.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "df0ba3264efcdf36c7941ab394c528c0f1332ec8e5daa7171401664089b17d1e",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Approved interface only; not implementation/public approval"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-review-20260930.md",
+      "expectedSha256": "2eff7b9f4826b496bafa13c9a21e1f7d375d42cd5f06ce47bb0989e2eee92b6b",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/interpretability-e3-interface-review-20260930.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "2eff7b9f4826b496bafa13c9a21e1f7d375d42cd5f06ce47bb0989e2eee92b6b",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Independent semantic and source proof"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "expectedSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "archiveSource": null,
+      "repositorySource": "../../2026-09-24/p1-remaining-storyboards.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "E3 object"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+      "expectedSha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+      "archiveSource": null,
+      "repositorySource": "../../2026-09-24/p1-remaining-storyboards-review.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Adopted storyboard review"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-20260930.json",
+      "historicalSource": "docs/11-llm-internals/interpretability-basics.md",
+      "expectedSha256": "d7a2febb87771c6afbf440be223527c2c9a465f1e1c72f000432540ec2cda68e",
+      "archiveSource": null,
+      "repositorySource": "../../../../docs/11-llm-internals/interpretability-basics.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "d7a2febb87771c6afbf440be223527c2c9a465f1e1c72f000432540ec2cda68e",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Original article"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-20260930.json",
+      "historicalSource": "project/plans/engineering/dynamic-diagrams.md",
+      "expectedSha256": "58a359debbb0e2462ea4202d9dad99ba608fbef6317644beaafb0b89c95f08c0",
+      "archiveSource": null,
+      "repositorySource": "../../../plans/engineering/dynamic-diagrams.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "58a359debbb0e2462ea4202d9dad99ba608fbef6317644beaafb0b89c95f08c0",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Performance budgets and1920/768/200% requirements"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-20260930.json",
+      "historicalSource": "TEMP/icl-e2-kit-plan-20260930.json",
+      "expectedSha256": "fc6a2ee1cb7645a127cd4a1c4a0248928f42bf1189cc1dd6ae75cf4ee9b3f236",
+      "archiveSource": "raw/icl-e2-kit-plan-20260930.json",
+      "repositorySource": null,
+      "sourceClassification": "final-plan-original",
+      "currentSourceSha256": "fc6a2ee1cb7645a127cd4a1c4a0248928f42bf1189cc1dd6ae75cf4ee9b3f236",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": true,
+      "historicalScope": "E2 future151/12 plan; not actual predecessor body/hash"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-20260930.json",
+      "historicalSource": "TEMP/icl-e2-kit-plan-20260930.md",
+      "expectedSha256": "c2381027bbc59203308a27d1d6c313dcc52b78cf7f67b013d5fdb65bc83360ad",
+      "archiveSource": "raw/icl-e2-kit-plan-20260930.md",
+      "repositorySource": null,
+      "sourceClassification": "final-plan-original",
+      "currentSourceSha256": "c2381027bbc59203308a27d1d6c313dcc52b78cf7f67b013d5fdb65bc83360ad",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": true,
+      "historicalScope": "E2 plan readable source"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-20260930.json",
+      "historicalSource": "scripts/diagram-release/source-mapping.json",
+      "expectedSha256": "70c2178e900c3e641c1c5f13f272e8578bd106617db81e613965e5c4d0f51e19",
+      "archiveSource": null,
+      "repositorySource": "../../../../scripts/diagram-release/source-mapping.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "70c2178e900c3e641c1c5f13f272e8578bd106617db81e613965e5c4d0f51e19",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Current D2 candidate manifest only"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-20260930.json",
+      "historicalSource": "scripts/diagram-release/verify-public.mjs",
+      "expectedSha256": "ad1c6e33badb6a8c6bae853e5699a6c6f028eb6092c7fb0b5600a3cfdd809a02",
+      "archiveSource": null,
+      "repositorySource": "../../../../scripts/diagram-release/verify-public.mjs",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "ad1c6e33badb6a8c6bae853e5699a6c6f028eb6092c7fb0b5600a3cfdd809a02",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Current real121/10 declaration only"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-20260930.json",
+      "historicalSource": "website/lib/doc-decorations.mjs",
+      "expectedSha256": "abcba21db7e379e21f81602b97151e09f4c31d2a9f9beb01b48e86fee1de6fc2",
+      "archiveSource": null,
+      "repositorySource": "../../../../website/lib/doc-decorations.mjs",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "abcba21db7e379e21f81602b97151e09f4c31d2a9f9beb01b48e86fee1de6fc2",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "TODO marker transformation and other existing decoration"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-20260930.json",
+      "historicalSource": "website/components/mdx/todo-callout.jsx",
+      "expectedSha256": "214c0da8d73c1057889a46e93d2fdcb7936f39e8dcdadfd16ee071741da52cc8",
+      "archiveSource": null,
+      "repositorySource": "../../../../website/components/mdx/todo-callout.jsx",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "214c0da8d73c1057889a46e93d2fdcb7936f39e8dcdadfd16ee071741da52cc8",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "TODO DOM aside representation"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-20260930.json",
+      "historicalSource": "website/components/diagrams/diagram-boundary.jsx",
+      "expectedSha256": "5d7468c61107323df661809ff369d91e1cb27a0201b7c1f0b1c7ca83f29b0ac6",
+      "archiveSource": null,
+      "repositorySource": "../../../../website/components/diagrams/diagram-boundary.jsx",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "5d7468c61107323df661809ff369d91e1cb27a0201b7c1f0b1c7ca83f29b0ac6",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Current error fallback: status plus original children at render failure"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-20260930.json",
+      "historicalSource": "website/components/diagrams/reading-figure.jsx",
+      "expectedSha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12",
+      "archiveSource": null,
+      "repositorySource": "../../../../website/components/diagrams/reading-figure.jsx",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Static stage descriptions are owned within the scene ReadingFigure"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-initial-20260930.json",
+      "historicalSource": "AGENTS.md",
+      "expectedSha256": "6a42eb8121cab94a360d9151ba1435eed7f855a8e47e2792ea7c20f7d4987fad",
+      "archiveSource": null,
+      "repositorySource": "../../../../AGENTS.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "6a42eb8121cab94a360d9151ba1435eed7f855a8e47e2792ea7c20f7d4987fad",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Ownership/source/acceptance contract"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-initial-20260930.json",
+      "historicalSource": "CONTRIBUTING.md",
+      "expectedSha256": "4dcc9ff7e07a66f006972fba94adfe5fc57070ac3903a523f552cf63be3c8bf1",
+      "archiveSource": null,
+      "repositorySource": "../../../../CONTRIBUTING.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "4dcc9ff7e07a66f006972fba94adfe5fc57070ac3903a523f552cf63be3c8bf1",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Verification contract"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-initial-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-proposal-20260930.json",
+      "expectedSha256": "2396351aa8afbd8e1853fac5a18a5cbcc5c3af1d3b7669152edd2fd4662c066c",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/interpretability-e3-interface-proposal-20260930.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "2396351aa8afbd8e1853fac5a18a5cbcc5c3af1d3b7669152edd2fd4662c066c",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "/adopted; /proposed/figures/0..1; /counts; /proposed/validation"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-initial-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-proposal-20260930.md",
+      "expectedSha256": "d060d5467bfb47f1b02115ef91b42ac14d845c0271d25b6a16fddaba1bfe84b0",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/interpretability-e3-interface-proposal-20260930.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "d060d5467bfb47f1b02115ef91b42ac14d845c0271d25b6a16fddaba1bfe84b0",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Readable adopted interface"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-initial-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-review-20260930.json",
+      "expectedSha256": "df0ba3264efcdf36c7941ab394c528c0f1332ec8e5daa7171401664089b17d1e",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/interpretability-e3-interface-review-20260930.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "df0ba3264efcdf36c7941ab394c528c0f1332ec8e5daa7171401664089b17d1e",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Approved interface only; not implementation/public approval"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-initial-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-review-20260930.md",
+      "expectedSha256": "2eff7b9f4826b496bafa13c9a21e1f7d375d42cd5f06ce47bb0989e2eee92b6b",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/interpretability-e3-interface-review-20260930.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "2eff7b9f4826b496bafa13c9a21e1f7d375d42cd5f06ce47bb0989e2eee92b6b",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Independent semantic and source proof"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-initial-20260930.json",
+      "historicalSource": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "expectedSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "archiveSource": null,
+      "repositorySource": "../../2026-09-24/p1-remaining-storyboards.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "E3 object"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-initial-20260930.json",
+      "historicalSource": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+      "expectedSha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+      "archiveSource": null,
+      "repositorySource": "../../2026-09-24/p1-remaining-storyboards-review.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Adopted storyboard review"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-initial-20260930.json",
+      "historicalSource": "docs/11-llm-internals/interpretability-basics.md",
+      "expectedSha256": "d7a2febb87771c6afbf440be223527c2c9a465f1e1c72f000432540ec2cda68e",
+      "archiveSource": null,
+      "repositorySource": "../../../../docs/11-llm-internals/interpretability-basics.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "d7a2febb87771c6afbf440be223527c2c9a465f1e1c72f000432540ec2cda68e",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Original article"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-initial-20260930.json",
+      "historicalSource": "project/plans/engineering/dynamic-diagrams.md",
+      "expectedSha256": "58a359debbb0e2462ea4202d9dad99ba608fbef6317644beaafb0b89c95f08c0",
+      "archiveSource": null,
+      "repositorySource": "../../../plans/engineering/dynamic-diagrams.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "58a359debbb0e2462ea4202d9dad99ba608fbef6317644beaafb0b89c95f08c0",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Performance budgets and1920/768/200% requirements"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-initial-20260930.json",
+      "historicalSource": "TEMP/icl-e2-kit-plan-20260930.json",
+      "expectedSha256": "fc6a2ee1cb7645a127cd4a1c4a0248928f42bf1189cc1dd6ae75cf4ee9b3f236",
+      "archiveSource": "raw/icl-e2-kit-plan-20260930.json",
+      "repositorySource": null,
+      "sourceClassification": "final-plan-original",
+      "currentSourceSha256": "fc6a2ee1cb7645a127cd4a1c4a0248928f42bf1189cc1dd6ae75cf4ee9b3f236",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": true,
+      "historicalScope": "E2 future151/12 plan; not actual predecessor body/hash"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-initial-20260930.json",
+      "historicalSource": "TEMP/icl-e2-kit-plan-20260930.md",
+      "expectedSha256": "c2381027bbc59203308a27d1d6c313dcc52b78cf7f67b013d5fdb65bc83360ad",
+      "archiveSource": "raw/icl-e2-kit-plan-20260930.md",
+      "repositorySource": null,
+      "sourceClassification": "final-plan-original",
+      "currentSourceSha256": "c2381027bbc59203308a27d1d6c313dcc52b78cf7f67b013d5fdb65bc83360ad",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": true,
+      "historicalScope": "E2 plan readable source"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-initial-20260930.json",
+      "historicalSource": "scripts/diagram-release/source-mapping.json",
+      "expectedSha256": "70c2178e900c3e641c1c5f13f272e8578bd106617db81e613965e5c4d0f51e19",
+      "archiveSource": null,
+      "repositorySource": "../../../../scripts/diagram-release/source-mapping.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "70c2178e900c3e641c1c5f13f272e8578bd106617db81e613965e5c4d0f51e19",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Current D2 candidate manifest only"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-initial-20260930.json",
+      "historicalSource": "scripts/diagram-release/verify-public.mjs",
+      "expectedSha256": "ad1c6e33badb6a8c6bae853e5699a6c6f028eb6092c7fb0b5600a3cfdd809a02",
+      "archiveSource": null,
+      "repositorySource": "../../../../scripts/diagram-release/verify-public.mjs",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "ad1c6e33badb6a8c6bae853e5699a6c6f028eb6092c7fb0b5600a3cfdd809a02",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Current real121/10 declaration only"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-initial-20260930.json",
+      "historicalSource": "website/lib/doc-decorations.mjs",
+      "expectedSha256": "abcba21db7e379e21f81602b97151e09f4c31d2a9f9beb01b48e86fee1de6fc2",
+      "archiveSource": null,
+      "repositorySource": "../../../../website/lib/doc-decorations.mjs",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "abcba21db7e379e21f81602b97151e09f4c31d2a9f9beb01b48e86fee1de6fc2",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "TODO marker transformation and other existing decoration"
+    },
+    {
+      "plan": "raw/interpretability-e3-kit-plan-initial-20260930.json",
+      "historicalSource": "website/components/mdx/todo-callout.jsx",
+      "expectedSha256": "214c0da8d73c1057889a46e93d2fdcb7936f39e8dcdadfd16ee071741da52cc8",
+      "archiveSource": null,
+      "repositorySource": "../../../../website/components/mdx/todo-callout.jsx",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "214c0da8d73c1057889a46e93d2fdcb7936f39e8dcdadfd16ee071741da52cc8",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "TODO DOM aside representation"
+    },
+    {
+      "plan": "raw/capabilities-f1-kit-plan-20260930.json",
+      "historicalSource": "AGENTS.md",
+      "expectedSha256": "6a42eb8121cab94a360d9151ba1435eed7f855a8e47e2792ea7c20f7d4987fad",
+      "archiveSource": null,
+      "repositorySource": "../../../../AGENTS.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "6a42eb8121cab94a360d9151ba1435eed7f855a8e47e2792ea7c20f7d4987fad",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Common scope/source/acceptance rules"
+    },
+    {
+      "plan": "raw/capabilities-f1-kit-plan-20260930.json",
+      "historicalSource": "CONTRIBUTING.md",
+      "expectedSha256": "4dcc9ff7e07a66f006972fba94adfe5fc57070ac3903a523f552cf63be3c8bf1",
+      "archiveSource": null,
+      "repositorySource": "../../../../CONTRIBUTING.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "4dcc9ff7e07a66f006972fba94adfe5fc57070ac3903a523f552cf63be3c8bf1",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Site and harness verification"
+    },
+    {
+      "plan": "raw/capabilities-f1-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/capabilities-f1-interface-proposal-20260930.json",
+      "expectedSha256": "20fbd3d8d4df2a613c4005f2471cdc11f041749d9f01eaa250e3d41212c9f692",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/capabilities-f1-interface-proposal-20260930.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "20fbd3d8d4df2a613c4005f2471cdc11f041749d9f01eaa250e3d41212c9f692",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "/adopted; /proposed; /counts"
+    },
+    {
+      "plan": "raw/capabilities-f1-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/capabilities-f1-interface-proposal-20260930.md",
+      "expectedSha256": "3094823e84dc82174149ad5d71e70f040fbacf41bde64333da0177ebc309b1f4",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/capabilities-f1-interface-proposal-20260930.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "3094823e84dc82174149ad5d71e70f040fbacf41bde64333da0177ebc309b1f4",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Readable interface"
+    },
+    {
+      "plan": "raw/capabilities-f1-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/capabilities-f1-interface-review-20260930.json",
+      "expectedSha256": "1ececcfb3db3e2edb29b6460c4e6add1224d2b6c9fee555ff74895a2e92a9924",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/capabilities-f1-interface-review-20260930.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "1ececcfb3db3e2edb29b6460c4e6add1224d2b6c9fee555ff74895a2e92a9924",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Approved interface only; no implementation/public approval"
+    },
+    {
+      "plan": "raw/capabilities-f1-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/capabilities-f1-interface-review-20260930.md",
+      "expectedSha256": "c388f7956eac1a7266136f47f4539f5bc81ec7c82f3a52eadbc187f1c93878c9",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/capabilities-f1-interface-review-20260930.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "c388f7956eac1a7266136f47f4539f5bc81ec7c82f3a52eadbc187f1c93878c9",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Independent source and semantic review"
+    },
+    {
+      "plan": "raw/capabilities-f1-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "expectedSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "archiveSource": null,
+      "repositorySource": "../../2026-09-24/p1-remaining-storyboards.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Adopted F1 object"
+    },
+    {
+      "plan": "raw/capabilities-f1-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+      "expectedSha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+      "archiveSource": null,
+      "repositorySource": "../../2026-09-24/p1-remaining-storyboards-review.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Storyboard review"
+    },
+    {
+      "plan": "raw/capabilities-f1-kit-plan-20260930.json",
+      "historicalSource": "docs/10-llm-foundations/capabilities-and-limits.md",
+      "expectedSha256": "cc83e31509fc1b5a8e43793be4c06fc2682c90e76f83e7ebf784fafbd23beb4a",
+      "archiveSource": null,
+      "repositorySource": "../../../../docs/10-llm-foundations/capabilities-and-limits.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "cc83e31509fc1b5a8e43793be4c06fc2682c90e76f83e7ebf784fafbd23beb4a",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Original article/table/list"
+    },
+    {
+      "plan": "raw/capabilities-f1-kit-plan-20260930.json",
+      "historicalSource": "project/plans/engineering/dynamic-diagrams.md",
+      "expectedSha256": "58a359debbb0e2462ea4202d9dad99ba608fbef6317644beaafb0b89c95f08c0",
+      "archiveSource": null,
+      "repositorySource": "../../../plans/engineering/dynamic-diagrams.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "58a359debbb0e2462ea4202d9dad99ba608fbef6317644beaafb0b89c95f08c0",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Performance/1920/768/200% and P1 boundary"
+    },
+    {
+      "plan": "raw/capabilities-f1-kit-plan-20260930.json",
+      "historicalSource": "TEMP/interpretability-e3-kit-plan-20260930.json",
+      "expectedSha256": "eaaa92f7baa2f37e05f39cafd7c91bc7459a0d3963fb8c52b00485248c20140e",
+      "archiveSource": "raw/interpretability-e3-kit-plan-20260930.json",
+      "repositorySource": null,
+      "sourceClassification": "final-plan-original",
+      "currentSourceSha256": "eaaa92f7baa2f37e05f39cafd7c91bc7459a0d3963fb8c52b00485248c20140e",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": true,
+      "historicalScope": "Future E3 165/13 plan only, not accepted predecessor evidence"
+    },
+    {
+      "plan": "raw/capabilities-f1-kit-plan-20260930.json",
+      "historicalSource": "TEMP/interpretability-e3-kit-plan-20260930.md",
+      "expectedSha256": "d8730a5f5b9ce59418dee0f9aeaeb3ab50411c35be537b1308c61bb3100f9364",
+      "archiveSource": "raw/interpretability-e3-kit-plan-20260930.md",
+      "repositorySource": null,
+      "sourceClassification": "final-plan-original",
+      "currentSourceSha256": "d8730a5f5b9ce59418dee0f9aeaeb3ab50411c35be537b1308c61bb3100f9364",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": true,
+      "historicalScope": "E3 plan and fallback distinction"
+    },
+    {
+      "plan": "raw/capabilities-f1-kit-plan-20260930.json",
+      "historicalSource": "scripts/diagram-release/source-mapping.json",
+      "expectedSha256": "70c2178e900c3e641c1c5f13f272e8578bd106617db81e613965e5c4d0f51e19",
+      "archiveSource": null,
+      "repositorySource": "../../../../scripts/diagram-release/source-mapping.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "70c2178e900c3e641c1c5f13f272e8578bd106617db81e613965e5c4d0f51e19",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Actual D2 candidate manifest"
+    },
+    {
+      "plan": "raw/capabilities-f1-kit-plan-20260930.json",
+      "historicalSource": "scripts/diagram-release/verify-public.mjs",
+      "expectedSha256": "ad1c6e33badb6a8c6bae853e5699a6c6f028eb6092c7fb0b5600a3cfdd809a02",
+      "archiveSource": null,
+      "repositorySource": "../../../../scripts/diagram-release/verify-public.mjs",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "ad1c6e33badb6a8c6bae853e5699a6c6f028eb6092c7fb0b5600a3cfdd809a02",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Actual121/10 declaration, not future165"
+    },
+    {
+      "plan": "raw/capabilities-f1-kit-plan-20260930.json",
+      "historicalSource": "website/components/diagrams/diagram-boundary.jsx",
+      "expectedSha256": "5d7468c61107323df661809ff369d91e1cb27a0201b7c1f0b1c7ca83f29b0ac6",
+      "archiveSource": null,
+      "repositorySource": "../../../../website/components/diagrams/diagram-boundary.jsx",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "5d7468c61107323df661809ff369d91e1cb27a0201b7c1f0b1c7ca83f29b0ac6",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Chunk failure status plus original children"
+    },
+    {
+      "plan": "raw/capabilities-f1-kit-plan-20260930.json",
+      "historicalSource": "website/components/diagrams/reading-figure.jsx",
+      "expectedSha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12",
+      "archiveSource": null,
+      "repositorySource": "../../../../website/components/diagrams/reading-figure.jsx",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Scene owns static stage descriptions"
+    },
+    {
+      "plan": "raw/capabilities-f1-kit-plan-20260930.json",
+      "historicalSource": "website/lib/doc-decorations.mjs",
+      "expectedSha256": "abcba21db7e379e21f81602b97151e09f4c31d2a9f9beb01b48e86fee1de6fc2",
+      "archiveSource": null,
+      "repositorySource": "../../../../website/lib/doc-decorations.mjs",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "abcba21db7e379e21f81602b97151e09f4c31d2a9f9beb01b48e86fee1de6fc2",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Existing source decoration boundaries"
+    },
+    {
+      "plan": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "AGENTS.md",
+      "expectedSha256": "6a42eb8121cab94a360d9151ba1435eed7f855a8e47e2792ea7c20f7d4987fad",
+      "archiveSource": null,
+      "repositorySource": "../../../../AGENTS.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "6a42eb8121cab94a360d9151ba1435eed7f855a8e47e2792ea7c20f7d4987fad",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Source/scope/acceptance contract"
+    },
+    {
+      "plan": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "CONTRIBUTING.md",
+      "expectedSha256": "4dcc9ff7e07a66f006972fba94adfe5fc57070ac3903a523f552cf63be3c8bf1",
+      "archiveSource": null,
+      "repositorySource": "../../../../CONTRIBUTING.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "4dcc9ff7e07a66f006972fba94adfe5fc57070ac3903a523f552cf63be3c8bf1",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Website/harness checks"
+    },
+    {
+      "plan": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-proposal-20260930.json",
+      "expectedSha256": "3577d71ce330008fabfa208dfd3ba444c7a46c897ee8fe6c2f5e48087c4a818b",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/multimodal-f2-interface-proposal-20260930.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "3577d71ce330008fabfa208dfd3ba444c7a46c897ee8fe6c2f5e48087c4a818b",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "/adopted; /corrections; /proposed/figures; naming should handled asAR-2"
+    },
+    {
+      "plan": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-proposal-20260930.md",
+      "expectedSha256": "a7634a2b3a1e4de44b1200e6bddfd7b15c5ef0ff64dafb7f80e912d88aada068",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/multimodal-f2-interface-proposal-20260930.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "a7634a2b3a1e4de44b1200e6bddfd7b15c5ef0ff64dafb7f80e912d88aada068",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Readable interface"
+    },
+    {
+      "plan": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-review-20260930.json",
+      "expectedSha256": "dac1cf661e4659b884c64875dc112fa9b8a42e950f7ebd49e79e22d2057ae650",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/multimodal-f2-interface-review-20260930.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "dac1cf661e4659b884c64875dc112fa9b8a42e950f7ebd49e79e22d2057ae650",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Interface approval only, must0/should1 naming clarification"
+    },
+    {
+      "plan": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-review-20260930.md",
+      "expectedSha256": "ed272fa33c74b9f2973f3f34e8ec134f81dd64d51f869a34317baa4e624fc08f",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/multimodal-f2-interface-review-20260930.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "ed272fa33c74b9f2973f3f34e8ec134f81dd64d51f869a34317baa4e624fc08f",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Independent source/scope review"
+    },
+    {
+      "plan": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "expectedSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "archiveSource": null,
+      "repositorySource": "../../2026-09-24/p1-remaining-storyboards.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Adopted F2 object"
+    },
+    {
+      "plan": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+      "expectedSha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+      "archiveSource": null,
+      "repositorySource": "../../2026-09-24/p1-remaining-storyboards-review.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Storyboard review"
+    },
+    {
+      "plan": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "research/internals/p1-remaining-diagram-sources-2026-09-24.json",
+      "expectedSha256": "3aff21e037e9eec6962925e459e5e8a762f8b8511d8d8212b34f91cd55eb28d1",
+      "archiveSource": null,
+      "repositorySource": "../../../../research/internals/p1-remaining-diagram-sources-2026-09-24.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "3aff21e037e9eec6962925e459e5e8a762f8b8511d8d8212b34f91cd55eb28d1",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Exactly13 M corrections in one article and recorded primary evidence boundaries"
+    },
+    {
+      "plan": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "docs/10-llm-foundations/multimodal-models.md",
+      "expectedSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+      "archiveSource": null,
+      "repositorySource": "../../../../docs/10-llm-foundations/multimodal-models.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Current uncorrected source; no write in this task"
+    },
+    {
+      "plan": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "TEMP/multimodal-f2-correction-precheck-20260930.json",
+      "expectedSha256": "1f3a2d96cb4b4e5bb7ef0e4884303345cef638bddaf89cba79a32dc0a1823d74",
+      "archiveSource": "raw/source/multimodal-f2-correction-precheck-20260930.json",
+      "repositorySource": null,
+      "sourceClassification": "read-only-preparation-source-original",
+      "currentSourceSha256": "1f3a2d96cb4b4e5bb7ef0e4884303345cef638bddaf89cba79a32dc0a1823d74",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": true,
+      "historicalScope": "Root read-only unique-match check; independently reproduced here"
+    },
+    {
+      "plan": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "TEMP/multimodal-f2-primary-recheck-20260930.md",
+      "expectedSha256": "7f803ebc2e0cc54fc095f0c296034157f8b537f85fa7653328c7bb9a5d20d915",
+      "archiveSource": "raw/source/multimodal-f2-primary-recheck-20260930.md",
+      "repositorySource": null,
+      "sourceClassification": "read-only-preparation-source-original",
+      "currentSourceSha256": "7f803ebc2e0cc54fc095f0c296034157f8b537f85fa7653328c7bb9a5d20d915",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": true,
+      "historicalScope": "Root primary retrieval notes including2026-09-30 LLaVA supplement; no new retrieval by this plan"
+    },
+    {
+      "plan": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "project/plans/engineering/dynamic-diagrams.md",
+      "expectedSha256": "58a359debbb0e2462ea4202d9dad99ba608fbef6317644beaafb0b89c95f08c0",
+      "archiveSource": null,
+      "repositorySource": "../../../plans/engineering/dynamic-diagrams.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "58a359debbb0e2462ea4202d9dad99ba608fbef6317644beaafb0b89c95f08c0",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Performance and1920/768/200% plan"
+    },
+    {
+      "plan": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "TEMP/capabilities-f1-kit-plan-20260930.json",
+      "expectedSha256": "d3fdf2f1026ae5d58af1b42632099b799cdaf33dd3a14dd978758fd63f38813f",
+      "archiveSource": "raw/capabilities-f1-kit-plan-20260930.json",
+      "repositorySource": null,
+      "sourceClassification": "final-plan-original",
+      "currentSourceSha256": "d3fdf2f1026ae5d58af1b42632099b799cdaf33dd3a14dd978758fd63f38813f",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": true,
+      "historicalScope": "Future F1 177/14 plan only"
+    },
+    {
+      "plan": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "scripts/diagram-release/source-mapping.json",
+      "expectedSha256": "70c2178e900c3e641c1c5f13f272e8578bd106617db81e613965e5c4d0f51e19",
+      "archiveSource": null,
+      "repositorySource": "../../../../scripts/diagram-release/source-mapping.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "70c2178e900c3e641c1c5f13f272e8578bd106617db81e613965e5c4d0f51e19",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Actual D2 candidate manifest only"
+    },
+    {
+      "plan": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "scripts/diagram-release/verify-public.mjs",
+      "expectedSha256": "ad1c6e33badb6a8c6bae853e5699a6c6f028eb6092c7fb0b5600a3cfdd809a02",
+      "archiveSource": null,
+      "repositorySource": "../../../../scripts/diagram-release/verify-public.mjs",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "ad1c6e33badb6a8c6bae853e5699a6c6f028eb6092c7fb0b5600a3cfdd809a02",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Actual121/10 declaration only"
+    },
+    {
+      "plan": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "website/components/diagrams/diagram-boundary.jsx",
+      "expectedSha256": "5d7468c61107323df661809ff369d91e1cb27a0201b7c1f0b1c7ca83f29b0ac6",
+      "archiveSource": null,
+      "repositorySource": "../../../../website/components/diagrams/diagram-boundary.jsx",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "5d7468c61107323df661809ff369d91e1cb27a0201b7c1f0b1c7ca83f29b0ac6",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Failure status plus original children"
+    },
+    {
+      "plan": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "website/components/diagrams/reading-figure.jsx",
+      "expectedSha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12",
+      "archiveSource": null,
+      "repositorySource": "../../../../website/components/diagrams/reading-figure.jsx",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Static descriptions owned inside scene"
+    },
+    {
+      "plan": "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "website/lib/doc-decorations.mjs",
+      "expectedSha256": "abcba21db7e379e21f81602b97151e09f4c31d2a9f9beb01b48e86fee1de6fc2",
+      "archiveSource": null,
+      "repositorySource": "../../../../website/lib/doc-decorations.mjs",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "abcba21db7e379e21f81602b97151e09f4c31d2a9f9beb01b48e86fee1de6fc2",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "TODO/practice/glossary decoration boundaries"
+    },
+    {
+      "plan": "raw/context-e1-kit-plan-addendum-review-20260930.json",
+      "historicalSource": "TEMP/context-e1-kit-plan-addendum-20260930.md",
+      "expectedSha256": "afa635a440d4ec5fa555891ff40461b89e28f41ac896ab8a59b38dfe96729b27",
+      "archiveSource": "raw/context-e1-kit-plan-addendum-20260930.md",
+      "repositorySource": null,
+      "sourceClassification": "implementation-addendum-plan-original",
+      "currentSourceSha256": "afa635a440d4ec5fa555891ff40461b89e28f41ac896ab8a59b38dfe96729b27",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": true,
+      "historicalScope": null
+    },
+    {
+      "plan": "raw/context-e1-kit-plan-addendum-review-20260930.json",
+      "historicalSource": "TEMP/context-e1-kit-plan-20260930.md",
+      "expectedSha256": "e503657ddcdc7358bb3df16b4fdc2e8741a85e32831fd6e439780e858a6589d5",
+      "archiveSource": "raw/context-e1-kit-plan-20260930.md",
+      "repositorySource": null,
+      "sourceClassification": "final-plan-original",
+      "currentSourceSha256": "e503657ddcdc7358bb3df16b4fdc2e8741a85e32831fd6e439780e858a6589d5",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": true,
+      "historicalScope": null
+    },
+    {
+      "plan": "raw/context-e1-kit-plan-addendum-review-20260930.json",
+      "historicalSource": "TEMP/context-e1-kit-plan-20260930.json",
+      "expectedSha256": "ce2506ca44322f9358d7569a7b4361f11bdb44c3aed7c19a4353c602044f7f78",
+      "archiveSource": "raw/context-e1-kit-plan-20260930.json",
+      "repositorySource": null,
+      "sourceClassification": "final-plan-original",
+      "currentSourceSha256": "ce2506ca44322f9358d7569a7b4361f11bdb44c3aed7c19a4353c602044f7f78",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": true,
+      "historicalScope": null
+    },
+    {
+      "plan": "raw/context-e1-kit-plan-addendum-review-20260930.json",
+      "historicalSource": "TEMP/context-e1-kit-plan-review-20260930.json",
+      "expectedSha256": "4713bea60a4e8005d1a83a7b3d69e30cbd3671bbceabeef605ef7ae99c68ac78",
+      "archiveSource": "raw/context-e1-kit-plan-review-20260930.json",
+      "repositorySource": null,
+      "sourceClassification": "final-independent-plan-review-original",
+      "currentSourceSha256": "4713bea60a4e8005d1a83a7b3d69e30cbd3671bbceabeef605ef7ae99c68ac78",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": true,
+      "historicalScope": null
+    },
+    {
+      "plan": "raw/context-e1-kit-plan-addendum-review-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-proposal-20260930.json",
+      "expectedSha256": "b9b35c1da9bec520550ee5e658e74eb48109f4d673bb1e3f0858ab36654ccd43",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/attention-context-e1-interface-proposal-20260930.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "b9b35c1da9bec520550ee5e658e74eb48109f4d673bb1e3f0858ab36654ccd43",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": null
+    },
+    {
+      "plan": "raw/context-e1-kit-plan-addendum-review-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-review-20260930.json",
+      "expectedSha256": "72e280ce99f7312bb0ca4cb651d23e950928cd2976796cd15d044443c05f219a",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/attention-context-e1-interface-review-20260930.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "72e280ce99f7312bb0ca4cb651d23e950928cd2976796cd15d044443c05f219a",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": null
+    },
+    {
+      "plan": "raw/context-e1-kit-plan-addendum-review-20260930.json",
+      "historicalSource": "docs/10-llm-foundations/attention-and-context.md",
+      "expectedSha256": "433d75095383235eeace9c4b34048bad43a3f4b0ba6e65c2e7e7d25eebdb1c55",
+      "archiveSource": null,
+      "repositorySource": "../../../../docs/10-llm-foundations/attention-and-context.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "433d75095383235eeace9c4b34048bad43a3f4b0ba6e65c2e7e7d25eebdb1c55",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": null
+    },
+    {
+      "plan": "raw/context-e1-kit-plan-addendum-review-20260930.json",
+      "historicalSource": "website/components/diagrams/diagram-boundary.jsx",
+      "expectedSha256": "5d7468c61107323df661809ff369d91e1cb27a0201b7c1f0b1c7ca83f29b0ac6",
+      "archiveSource": null,
+      "repositorySource": "../../../../website/components/diagrams/diagram-boundary.jsx",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "5d7468c61107323df661809ff369d91e1cb27a0201b7c1f0b1c7ca83f29b0ac6",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": null
+    },
+    {
+      "plan": "raw/context-e1-kit-plan-addendum-review-20260930.json",
+      "historicalSource": "website/components/diagrams/reading-figure.jsx",
+      "expectedSha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12",
+      "archiveSource": null,
+      "repositorySource": "../../../../website/components/diagrams/reading-figure.jsx",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": null
+    },
+    {
+      "plan": "raw/context-e1-kit-plan-addendum-review-20260930.json",
+      "historicalSource": "website/components/diagrams/reasoning-walkthrough.jsx",
+      "expectedSha256": "ec49a040b98ddc29e9c1d28b3e78e9c74b0503a9443e32d0b035851fd21e48ee",
+      "archiveSource": null,
+      "repositorySource": "../../../../website/components/diagrams/reasoning-walkthrough.jsx",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "ec49a040b98ddc29e9c1d28b3e78e9c74b0503a9443e32d0b035851fd21e48ee",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": null
+    },
+    {
+      "plan": "raw/context-e1-kit-plan-addendum-review-20260930.json",
+      "historicalSource": "website/tests/browser/diagram-loading.spec.mjs",
+      "expectedSha256": "7a6713959b1968129ff711df8efedfd4b835ff23daa6ee7b4dda011d7c8e56a0",
+      "archiveSource": null,
+      "repositorySource": "../../../../website/tests/browser/diagram-loading.spec.mjs",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "7a6713959b1968129ff711df8efedfd4b835ff23daa6ee7b4dda011d7c8e56a0",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": null
+    },
+    {
+      "plan": "raw/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "AGENTS.md",
+      "expectedSha256": "6a42eb8121cab94a360d9151ba1435eed7f855a8e47e2792ea7c20f7d4987fad",
+      "archiveSource": null,
+      "repositorySource": "../../../../AGENTS.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "6a42eb8121cab94a360d9151ba1435eed7f855a8e47e2792ea7c20f7d4987fad",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Source/scope/acceptance contract"
+    },
+    {
+      "plan": "raw/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "CONTRIBUTING.md",
+      "expectedSha256": "4dcc9ff7e07a66f006972fba94adfe5fc57070ac3903a523f552cf63be3c8bf1",
+      "archiveSource": null,
+      "repositorySource": "../../../../CONTRIBUTING.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "4dcc9ff7e07a66f006972fba94adfe5fc57070ac3903a523f552cf63be3c8bf1",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Website/harness checks"
+    },
+    {
+      "plan": "raw/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-proposal-20260930.json",
+      "expectedSha256": "3577d71ce330008fabfa208dfd3ba444c7a46c897ee8fe6c2f5e48087c4a818b",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/multimodal-f2-interface-proposal-20260930.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "3577d71ce330008fabfa208dfd3ba444c7a46c897ee8fe6c2f5e48087c4a818b",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "/adopted; /corrections; /proposed/figures; naming should handled asAR-2"
+    },
+    {
+      "plan": "raw/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-proposal-20260930.md",
+      "expectedSha256": "a7634a2b3a1e4de44b1200e6bddfd7b15c5ef0ff64dafb7f80e912d88aada068",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/multimodal-f2-interface-proposal-20260930.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "a7634a2b3a1e4de44b1200e6bddfd7b15c5ef0ff64dafb7f80e912d88aada068",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Readable interface"
+    },
+    {
+      "plan": "raw/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-review-20260930.json",
+      "expectedSha256": "dac1cf661e4659b884c64875dc112fa9b8a42e950f7ebd49e79e22d2057ae650",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/multimodal-f2-interface-review-20260930.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "dac1cf661e4659b884c64875dc112fa9b8a42e950f7ebd49e79e22d2057ae650",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Interface approval only, must0/should1 naming clarification"
+    },
+    {
+      "plan": "raw/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-review-20260930.md",
+      "expectedSha256": "ed272fa33c74b9f2973f3f34e8ec134f81dd64d51f869a34317baa4e624fc08f",
+      "archiveSource": null,
+      "repositorySource": "../p1-interface-preparation/raw/multimodal-f2-interface-review-20260930.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "ed272fa33c74b9f2973f3f34e8ec134f81dd64d51f869a34317baa4e624fc08f",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Independent source/scope review"
+    },
+    {
+      "plan": "raw/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-24/p1-remaining-storyboards.json",
+      "expectedSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "archiveSource": null,
+      "repositorySource": "../../2026-09-24/p1-remaining-storyboards.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "1cef526de4f41aebe195360c50c526386d199f0cd511dc477911223a4a4a7319",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Adopted F2 object"
+    },
+    {
+      "plan": "raw/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "project/records/2026-09-24/p1-remaining-storyboards-review.json",
+      "expectedSha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+      "archiveSource": null,
+      "repositorySource": "../../2026-09-24/p1-remaining-storyboards-review.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "fa91dc1738a4a9aac4866806e00f7386e085eb2d0af733a4d831817c4a91eca4",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Storyboard review"
+    },
+    {
+      "plan": "raw/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "research/internals/p1-remaining-diagram-sources-2026-09-24.json",
+      "expectedSha256": "3aff21e037e9eec6962925e459e5e8a762f8b8511d8d8212b34f91cd55eb28d1",
+      "archiveSource": null,
+      "repositorySource": "../../../../research/internals/p1-remaining-diagram-sources-2026-09-24.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "3aff21e037e9eec6962925e459e5e8a762f8b8511d8d8212b34f91cd55eb28d1",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Exactly13 M corrections in one article and recorded primary evidence boundaries"
+    },
+    {
+      "plan": "raw/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "docs/10-llm-foundations/multimodal-models.md",
+      "expectedSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+      "archiveSource": null,
+      "repositorySource": "../../../../docs/10-llm-foundations/multimodal-models.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "151625bf1c3c744cbb5ed04b4de827e4dea9810e6d45844d6cc54d974da28033",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Current uncorrected source; no write in this task"
+    },
+    {
+      "plan": "raw/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "TEMP/multimodal-f2-correction-precheck-20260930.json",
+      "expectedSha256": "1f3a2d96cb4b4e5bb7ef0e4884303345cef638bddaf89cba79a32dc0a1823d74",
+      "archiveSource": "raw/source/multimodal-f2-correction-precheck-20260930.json",
+      "repositorySource": null,
+      "sourceClassification": "read-only-preparation-source-original",
+      "currentSourceSha256": "1f3a2d96cb4b4e5bb7ef0e4884303345cef638bddaf89cba79a32dc0a1823d74",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": true,
+      "historicalScope": "Root read-only unique-match check; independently reproduced here"
+    },
+    {
+      "plan": "raw/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "TEMP/multimodal-f2-primary-recheck-20260930.md",
+      "expectedSha256": "7f803ebc2e0cc54fc095f0c296034157f8b537f85fa7653328c7bb9a5d20d915",
+      "archiveSource": "raw/source/multimodal-f2-primary-recheck-20260930.md",
+      "repositorySource": null,
+      "sourceClassification": "read-only-preparation-source-original",
+      "currentSourceSha256": "7f803ebc2e0cc54fc095f0c296034157f8b537f85fa7653328c7bb9a5d20d915",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": true,
+      "historicalScope": "Root primary retrieval notes including2026-09-30 LLaVA supplement; no new retrieval by this plan"
+    },
+    {
+      "plan": "raw/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "project/plans/engineering/dynamic-diagrams.md",
+      "expectedSha256": "58a359debbb0e2462ea4202d9dad99ba608fbef6317644beaafb0b89c95f08c0",
+      "archiveSource": null,
+      "repositorySource": "../../../plans/engineering/dynamic-diagrams.md",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "58a359debbb0e2462ea4202d9dad99ba608fbef6317644beaafb0b89c95f08c0",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Performance and1920/768/200% plan"
+    },
+    {
+      "plan": "raw/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "TEMP/capabilities-f1-kit-plan-20260930.json",
+      "expectedSha256": "d3fdf2f1026ae5d58af1b42632099b799cdaf33dd3a14dd978758fd63f38813f",
+      "archiveSource": "raw/capabilities-f1-kit-plan-20260930.json",
+      "repositorySource": null,
+      "sourceClassification": "final-plan-original",
+      "currentSourceSha256": "d3fdf2f1026ae5d58af1b42632099b799cdaf33dd3a14dd978758fd63f38813f",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": true,
+      "historicalScope": "Future F1 177/14 plan only"
+    },
+    {
+      "plan": "raw/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "scripts/diagram-release/source-mapping.json",
+      "expectedSha256": "70c2178e900c3e641c1c5f13f272e8578bd106617db81e613965e5c4d0f51e19",
+      "archiveSource": null,
+      "repositorySource": "../../../../scripts/diagram-release/source-mapping.json",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "70c2178e900c3e641c1c5f13f272e8578bd106617db81e613965e5c4d0f51e19",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Actual D2 candidate manifest only"
+    },
+    {
+      "plan": "raw/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "scripts/diagram-release/verify-public.mjs",
+      "expectedSha256": "ad1c6e33badb6a8c6bae853e5699a6c6f028eb6092c7fb0b5600a3cfdd809a02",
+      "archiveSource": null,
+      "repositorySource": "../../../../scripts/diagram-release/verify-public.mjs",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "ad1c6e33badb6a8c6bae853e5699a6c6f028eb6092c7fb0b5600a3cfdd809a02",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Actual121/10 declaration only"
+    },
+    {
+      "plan": "raw/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "website/components/diagrams/diagram-boundary.jsx",
+      "expectedSha256": "5d7468c61107323df661809ff369d91e1cb27a0201b7c1f0b1c7ca83f29b0ac6",
+      "archiveSource": null,
+      "repositorySource": "../../../../website/components/diagrams/diagram-boundary.jsx",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "5d7468c61107323df661809ff369d91e1cb27a0201b7c1f0b1c7ca83f29b0ac6",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Failure status plus original children"
+    },
+    {
+      "plan": "raw/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "website/components/diagrams/reading-figure.jsx",
+      "expectedSha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12",
+      "archiveSource": null,
+      "repositorySource": "../../../../website/components/diagrams/reading-figure.jsx",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "Static descriptions owned inside scene"
+    },
+    {
+      "plan": "raw/multimodal-f2-kit-plan-20260930.json",
+      "historicalSource": "website/lib/doc-decorations.mjs",
+      "expectedSha256": "abcba21db7e379e21f81602b97151e09f4c31d2a9f9beb01b48e86fee1de6fc2",
+      "archiveSource": null,
+      "repositorySource": "../../../../website/lib/doc-decorations.mjs",
+      "sourceClassification": "repository-source-not-copied",
+      "currentSourceSha256": "abcba21db7e379e21f81602b97151e09f4c31d2a9f9beb01b48e86fee1de6fc2",
+      "currentSourceMatchesHistorical": true,
+      "archivedSourceMatchesHistorical": null,
+      "historicalScope": "TODO/practice/glossary decoration boundaries"
+    }
+  ],
+  "pending": [],
+  "verification": {
+    "rawCopies": 28,
+    "allBytesRoundTrip": true,
+    "exactReviewTargets": 17,
+    "allReviewTargetsMatch": true,
+    "sourceReferenceDrift": [],
+    "sourceReferenceMissing": [],
+    "markdownLint": {
+      "command": "node node_modules/markdownlint-cli/markdownlint.js <all archive Markdown files>",
+      "files": [
+        "README.md",
+        "raw/context-e1-kit-plan-20260930.md",
+        "raw/icl-e2-kit-plan-20260930.md",
+        "raw/icl-e2-kit-plan-initial-20260930.md",
+        "raw/interpretability-e3-kit-plan-20260930.md",
+        "raw/interpretability-e3-kit-plan-initial-20260930.md",
+        "raw/capabilities-f1-kit-plan-20260930.md",
+        "raw/context-e1-kit-plan-addendum-20260930.md",
+        "raw/f2-initial-candidate/multimodal-f2-kit-plan-20260930.md",
+        "raw/source/multimodal-f2-primary-recheck-20260930.md",
+        "raw/multimodal-f2-kit-plan-20260930.md"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "links": {
+      "tool": "scripts/check-links.mjs checkLinks, problems filtered to archive subtree",
+      "examinedRepositoryFiles": 400,
+      "examinedRepositoryLinks": 5958,
+      "archiveProblems": [],
+      "unrelatedProblemCount": 0
+    },
+    "productionTestsExecuted": false,
+    "browsersExecuted": false,
+    "publicChecksExecuted": false
+  }
+}

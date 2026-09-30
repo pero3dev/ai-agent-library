@@ -1,0 +1,2974 @@
+{
+  "schemaVersion": 1,
+  "kind": "bounded-local-native-browser-zoom-capture-diagnosis",
+  "status": "passed-bounded-probe-only",
+  "startedAt": "2026-09-30T13:47:21.416Z",
+  "output": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq",
+  "priorRun": {
+    "file": "C:/Users/81906/AppData/Local/Temp/reasoning-native-zoom-probe-1yEOID/result.json",
+    "sha256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+    "immutable": true,
+    "rootObservation": "Native API/layout probe passed, but root visually found white Playwright200 viewport and wrong text/table region in Playwright200 scene clip; visual acceptance rejected; cause not established."
+  },
+  "scope": {
+    "targetUrl": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+    "article": "docs/10-llm-foundations/reasoning-models.md",
+    "expectedBuildId": "ay8Xdd-uRIpIwdWdgy70j",
+    "diagram": "reasoning-sequence",
+    "stage": 2,
+    "plannedZoomSequence": [
+      1,
+      2,
+      1
+    ],
+    "productAcceptance": false,
+    "wholeArticleStageAcceptance": false,
+    "independentImageReview": "pending",
+    "actualImagesViewed": 0,
+    "physicalDeviceAcceptance": false
+  },
+  "method": {
+    "nativeApi": "chrome.tabs.setZoom/getZoom",
+    "zoomSettings": {
+      "mode": "automatic",
+      "scope": "per-tab"
+    },
+    "viewport": null,
+    "deviceScaleFactorOverride": null,
+    "pageScaleFactorOverride": null,
+    "cssChanges": false,
+    "userProfileTouched": false,
+    "installs": false,
+    "settingsOnlyInIsolatedProfile": true,
+    "cdpCommands": [
+      "Page.getLayoutMetrics",
+      "Page.captureScreenshot"
+    ],
+    "captureOrder": "native200 CDP(raw,no clip) before Playwright viewport then CDP(raw,no clip) after; repeat only at restored100. Same paused scene, no intervening scroll or CSS change between each triple."
+  },
+  "primaryReferences": [
+    {
+      "url": "https://playwright.dev/docs/chrome-extensions",
+      "checkedDate": "2026-09-30",
+      "basis": "Bundled Chromium persistent context; chromium channel supports headless extensions."
+    },
+    {
+      "url": "https://developer.chrome.com/docs/extensions/reference/api/tabs",
+      "checkedDate": "2026-09-30",
+      "basis": "setZoom/getZoom and automatic per-tab handling are native browser APIs; manual mode would not apply native rendering."
+    },
+    {
+      "url": "https://playwright.dev/docs/api/class-cdpsession",
+      "checkedDate": "2026-09-30",
+      "basis": "context.newCDPSession(page) and session.send use raw CDP."
+    },
+    {
+      "url": "https://chromedevtools.github.io/devtools-protocol/tot/Page/",
+      "checkedDate": "2026-09-30",
+      "basis": "Page.captureScreenshot and Page.getLayoutMetrics; exact parameter comments confirmed in installed Playwright1.63.0 types/protocol.d.ts because web viewer requires client rendering."
+    }
+  ],
+  "environment": {
+    "platform": "win32",
+    "osRelease": "10.0.26200",
+    "arch": "x64",
+    "node": "v24.16.0",
+    "profile": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\isolated-profile",
+    "extension": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\local-extension",
+    "helperSha256": "c2ccbc8853c66d035fe1599674548c726f59c4da3f3473c0de024a3a9def77c6",
+    "playwright": {
+      "installedVersion": "1.63.0",
+      "coreVersion": "1.63.0",
+      "lockedVersion": "1.63.0",
+      "executablePath": "C:\\Users\\81906\\AppData\\Local\\ms-playwright\\chromium-1243\\chrome-win64\\chrome.exe"
+    },
+    "launch": {
+      "channel": "chromium",
+      "headless": true,
+      "viewport": null,
+      "reducedMotion": "reduce",
+      "timeout": 20000,
+      "args": [
+        "--disable-extensions-except=C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\local-extension",
+        "--load-extension=C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\local-extension",
+        "--window-size=1440,1000"
+      ]
+    },
+    "browserVersion": "153.0.8010.12"
+  },
+  "steps": [
+    {
+      "label": "zoom-100-before",
+      "requested": 1,
+      "startedAt": "2026-09-30T13:47:24.136Z",
+      "before": {
+        "at": "2026-09-30T13:47:24.136Z",
+        "tabId": 1379072277,
+        "factor": 1,
+        "settings": {
+          "defaultZoomFactor": 1,
+          "mode": "automatic",
+          "scope": "per-tab"
+        }
+      },
+      "after": {
+        "at": "2026-09-30T13:47:24.141Z",
+        "tabId": 1379072277,
+        "factor": 1,
+        "settings": {
+          "defaultZoomFactor": 1,
+          "mode": "automatic",
+          "scope": "per-tab"
+        }
+      },
+      "metrics": {
+        "at": "2026-09-30T13:47:24.372Z",
+        "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+        "innerWidth": 1424,
+        "innerHeight": 905,
+        "outerWidth": 1440,
+        "outerHeight": 1000,
+        "devicePixelRatio": 1,
+        "visualViewport": {
+          "width": 1424,
+          "height": 905,
+          "scale": 1,
+          "offsetLeft": 0,
+          "offsetTop": 0
+        },
+        "screen": {
+          "width": 800,
+          "height": 600,
+          "availWidth": 800,
+          "availHeight": 600
+        },
+        "document": {
+          "clientWidth": 1424,
+          "scrollWidth": 1424,
+          "scrollY": 1599,
+          "cssZoom": "1",
+          "cssTransform": "none",
+          "bodyCssZoom": "1",
+          "bodyCssTransform": "none"
+        },
+        "diagram": {
+          "stage": 2,
+          "mode": "manual",
+          "phase": "2",
+          "bounds": {
+            "x": 756.9375,
+            "y": -115.484375,
+            "width": 619.0625,
+            "height": 751.171875,
+            "top": -115.484375,
+            "bottom": 635.6875
+          },
+          "scene": {
+            "x": 757.9375,
+            "y": -10.890625,
+            "width": 617.0625,
+            "height": 414.578125,
+            "top": -10.890625,
+            "bottom": 403.6875
+          },
+          "sceneText": "学習側の調整と、実行中のモデルを分ける。学習・推論処理の調整と、推論時に重みを固定して使うモデルを別枠で示します。通常モデルも中間の考察を書けますが、推論モデルは単にCoT指示を加えただけとは限りません。問題の分解や検証の正しさは保証されません。記号は実際の思考ではありません。学習側の調整と、今回の実行を分ける推論時の重みは固定推論の模式領域入力既生成後続予測最終回答未展開既生成の内容 → 後続予測の条件記号は模式表示。実際の思考内容ではない学習・推論処理の調整CoT 指示だけとは限らない通常モデルも中間の考察を書ける検証の正しさは保証されない",
+          "sceneStyle": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "transform": "none",
+            "zoom": "1"
+          },
+          "sceneCenterHit": {
+            "x": 1066.46875,
+            "y": 196.3984375,
+            "nodes": [
+              {
+                "tag": "rect",
+                "class": "rs-box",
+                "inTargetScene": true
+              },
+              {
+                "tag": "rect",
+                "class": "rs-region",
+                "inTargetScene": true
+              },
+              {
+                "tag": "rect",
+                "class": null,
+                "inTargetScene": true
+              },
+              {
+                "tag": "svg",
+                "class": "aw-scene reasoning-sequence-scene",
+                "inTargetScene": true
+              },
+              {
+                "tag": "DIV",
+                "class": "aw-diagram",
+                "inTargetScene": false
+              },
+              {
+                "tag": "DIV",
+                "class": "aw-sticky",
+                "inTargetScene": false
+              },
+              {
+                "tag": "DIV",
+                "class": "aw-layout",
+                "inTargetScene": false
+              },
+              {
+                "tag": "SECTION",
+                "class": "reading-figure reasoning-sequence-walkthrough",
+                "inTargetScene": false
+              }
+            ]
+          }
+        }
+      },
+      "completedAt": "2026-09-30T13:47:24.379Z"
+    },
+    {
+      "label": "zoom-200",
+      "requested": 2,
+      "startedAt": "2026-09-30T13:47:24.602Z",
+      "before": {
+        "at": "2026-09-30T13:47:24.603Z",
+        "tabId": 1379072277,
+        "factor": 1,
+        "settings": {
+          "defaultZoomFactor": 1,
+          "mode": "automatic",
+          "scope": "per-tab"
+        }
+      },
+      "after": {
+        "at": "2026-09-30T13:47:24.633Z",
+        "tabId": 1379072277,
+        "factor": 2,
+        "settings": {
+          "defaultZoomFactor": 1,
+          "mode": "automatic",
+          "scope": "per-tab"
+        }
+      },
+      "metrics": {
+        "at": "2026-09-30T13:47:25.192Z",
+        "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+        "innerWidth": 712,
+        "innerHeight": 452,
+        "outerWidth": 1440,
+        "outerHeight": 1000,
+        "devicePixelRatio": 2,
+        "visualViewport": {
+          "width": 712,
+          "height": 452.5,
+          "scale": 1,
+          "offsetLeft": 0,
+          "offsetTop": 0
+        },
+        "screen": {
+          "width": 800,
+          "height": 600,
+          "availWidth": 800,
+          "availHeight": 600
+        },
+        "document": {
+          "clientWidth": 712,
+          "scrollWidth": 712,
+          "scrollY": 1343,
+          "cssZoom": "1",
+          "cssTransform": "none",
+          "bodyCssZoom": "1",
+          "bodyCssTransform": "none"
+        },
+        "diagram": {
+          "stage": 2,
+          "mode": "manual",
+          "phase": "2",
+          "bounds": {
+            "x": 16,
+            "y": 352.546875,
+            "width": 680,
+            "height": 772.34375,
+            "top": 352.546875,
+            "bottom": 1124.890625
+          },
+          "scene": {
+            "x": 17,
+            "y": 457.140625,
+            "width": 678,
+            "height": 455.53125,
+            "top": 457.140625,
+            "bottom": 912.671875
+          },
+          "sceneText": "学習側の調整と、実行中のモデルを分ける。学習・推論処理の調整と、推論時に重みを固定して使うモデルを別枠で示します。通常モデルも中間の考察を書けますが、推論モデルは単にCoT指示を加えただけとは限りません。問題の分解や検証の正しさは保証されません。記号は実際の思考ではありません。学習側の調整と、今回の実行を分ける推論時の重みは固定推論の模式領域入力既生成後続予測最終回答未展開既生成の内容 → 後続予測の条件記号は模式表示。実際の思考内容ではない学習・推論処理の調整CoT 指示だけとは限らない通常モデルも中間の考察を書ける検証の正しさは保証されない",
+          "sceneStyle": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "transform": "none",
+            "zoom": "1"
+          },
+          "sceneCenterHit": {
+            "x": 356,
+            "y": 451,
+            "nodes": [
+              {
+                "tag": "DIV",
+                "class": "aw-scene-heading",
+                "inTargetScene": false
+              },
+              {
+                "tag": "DIV",
+                "class": "aw-diagram",
+                "inTargetScene": false
+              },
+              {
+                "tag": "DIV",
+                "class": "aw-sticky",
+                "inTargetScene": false
+              },
+              {
+                "tag": "DIV",
+                "class": "aw-layout",
+                "inTargetScene": false
+              },
+              {
+                "tag": "SECTION",
+                "class": "reading-figure reasoning-sequence-walkthrough",
+                "inTargetScene": false
+              },
+              {
+                "tag": "MAIN",
+                "class": null,
+                "inTargetScene": false
+              },
+              {
+                "tag": "ARTICLE",
+                "class": "x:w-full x:min-w-0 x:break-words x:min-h-[calc(100vh-var(--nextra-navbar-height))] x:text-slate-700 x:dark:text-slate-200 x:pb-8 x:px-4 x:pt-4 x:md:px-12",
+                "inTargetScene": false
+              },
+              {
+                "tag": "DIV",
+                "class": "x:mx-auto x:flex x:max-w-(--nextra-content-width)",
+                "inTargetScene": false
+              }
+            ]
+          }
+        }
+      },
+      "completedAt": "2026-09-30T13:47:25.194Z"
+    },
+    {
+      "label": "zoom-100-restored",
+      "requested": 1,
+      "startedAt": "2026-09-30T13:47:25.611Z",
+      "before": {
+        "at": "2026-09-30T13:47:25.612Z",
+        "tabId": 1379072277,
+        "factor": 2,
+        "settings": {
+          "defaultZoomFactor": 1,
+          "mode": "automatic",
+          "scope": "per-tab"
+        }
+      },
+      "after": {
+        "at": "2026-09-30T13:47:25.618Z",
+        "tabId": 1379072277,
+        "factor": 1,
+        "settings": {
+          "defaultZoomFactor": 1,
+          "mode": "automatic",
+          "scope": "per-tab"
+        }
+      },
+      "metrics": {
+        "at": "2026-09-30T13:47:25.869Z",
+        "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+        "innerWidth": 1424,
+        "innerHeight": 905,
+        "outerWidth": 1440,
+        "outerHeight": 1000,
+        "devicePixelRatio": 1,
+        "visualViewport": {
+          "width": 1424,
+          "height": 905,
+          "scale": 1,
+          "offsetLeft": 0,
+          "offsetTop": 0
+        },
+        "screen": {
+          "width": 800,
+          "height": 600,
+          "availWidth": 800,
+          "availHeight": 600
+        },
+        "document": {
+          "clientWidth": 1424,
+          "scrollWidth": 1424,
+          "scrollY": 1802,
+          "cssZoom": "1",
+          "cssTransform": "none",
+          "bodyCssZoom": "1",
+          "bodyCssTransform": "none"
+        },
+        "diagram": {
+          "stage": 2,
+          "mode": "manual",
+          "phase": "2",
+          "bounds": {
+            "x": 756.9375,
+            "y": -318.484375,
+            "width": 619.0625,
+            "height": 751.171875,
+            "top": -318.484375,
+            "bottom": 432.6875
+          },
+          "scene": {
+            "x": 757.9375,
+            "y": -213.890625,
+            "width": 617.0625,
+            "height": 414.578125,
+            "top": -213.890625,
+            "bottom": 200.6875
+          },
+          "sceneText": "学習側の調整と、実行中のモデルを分ける。学習・推論処理の調整と、推論時に重みを固定して使うモデルを別枠で示します。通常モデルも中間の考察を書けますが、推論モデルは単にCoT指示を加えただけとは限りません。問題の分解や検証の正しさは保証されません。記号は実際の思考ではありません。学習側の調整と、今回の実行を分ける推論時の重みは固定推論の模式領域入力既生成後続予測最終回答未展開既生成の内容 → 後続予測の条件記号は模式表示。実際の思考内容ではない学習・推論処理の調整CoT 指示だけとは限らない通常モデルも中間の考察を書ける検証の正しさは保証されない",
+          "sceneStyle": {
+            "display": "block",
+            "visibility": "visible",
+            "opacity": "1",
+            "transform": "none",
+            "zoom": "1"
+          },
+          "sceneCenterHit": {
+            "x": 1066.46875,
+            "y": 0,
+            "nodes": [
+              {
+                "tag": "NAV",
+                "class": "x:mx-auto x:flex x:max-w-(--nextra-content-width) x:items-center x:gap-4 x:pl-[max(env(safe-area-inset-left),1.5rem)] x:pr-[max(env(safe-area-inset-right),1.5rem)] x:justify-end",
+                "inTargetScene": false
+              },
+              {
+                "tag": "DIV",
+                "class": "nextra-navbar-blur x:absolute x:-z-1 x:size-full nextra-border x:border-b x:backdrop-blur-md x:bg-nextra-bg/70",
+                "inTargetScene": false
+              },
+              {
+                "tag": "HEADER",
+                "class": "nextra-navbar x:sticky x:top-0 x:z-30 x:w-full x:bg-transparent x:print:hidden x:max-md:[.nextra-banner:not([class$=hidden])~&]:top-(--nextra-banner-height)",
+                "inTargetScene": false
+              },
+              {
+                "tag": "rect",
+                "class": "rs-region",
+                "inTargetScene": true
+              },
+              {
+                "tag": "rect",
+                "class": null,
+                "inTargetScene": true
+              },
+              {
+                "tag": "svg",
+                "class": "aw-scene reasoning-sequence-scene",
+                "inTargetScene": true
+              },
+              {
+                "tag": "DIV",
+                "class": "aw-diagram",
+                "inTargetScene": false
+              },
+              {
+                "tag": "DIV",
+                "class": "aw-sticky",
+                "inTargetScene": false
+              }
+            ]
+          }
+        }
+      },
+      "completedAt": "2026-09-30T13:47:25.870Z"
+    }
+  ],
+  "captures": [
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\images\\zoom-200-cdp-before-playwright.png",
+      "relativeFile": "images/zoom-200-cdp-before-playwright.png",
+      "sha256": "f255029776a00073b3464fbc065370904f5ae6120a77b3a357761fcd611e5f57",
+      "bytes": 177342,
+      "pngWidth": 1424,
+      "pngHeight": 905,
+      "capture": "cdp-before-playwright",
+      "parameters": {
+        "format": "png",
+        "captureBeyondViewport": false,
+        "fromSurface": true
+      },
+      "imageManipulation": false,
+      "zoom": 2,
+      "stage": 2,
+      "actuallyViewed": false,
+      "before": {
+        "api": {
+          "at": "2026-09-30T13:47:25.408Z",
+          "tabId": 1379072277,
+          "factor": 2,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:47:25.410Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 712,
+          "innerHeight": 452,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 2,
+          "visualViewport": {
+            "width": 712,
+            "height": 452.5,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 712,
+            "scrollWidth": 712,
+            "scrollY": 1801.5,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 16,
+              "y": -105.953125,
+              "width": 680,
+              "height": 772.34375,
+              "top": -105.953125,
+              "bottom": 666.390625
+            },
+            "scene": {
+              "x": 17,
+              "y": -1.359375,
+              "width": 678,
+              "height": 455.53125,
+              "top": -1.359375,
+              "bottom": 454.171875
+            },
+            "sceneText": "学習側の調整と、実行中のモデルを分ける。学習・推論処理の調整と、推論時に重みを固定して使うモデルを別枠で示します。通常モデルも中間の考察を書けますが、推論モデルは単にCoT指示を加えただけとは限りません。問題の分解や検証の正しさは保証されません。記号は実際の思考ではありません。学習側の調整と、今回の実行を分ける推論時の重みは固定推論の模式領域入力既生成後続予測最終回答未展開既生成の内容 → 後続予測の条件記号は模式表示。実際の思考内容ではない学習・推論処理の調整CoT 指示だけとは限らない通常モデルも中間の考察を書ける検証の正しさは保証されない",
+            "sceneStyle": {
+              "display": "block",
+              "visibility": "visible",
+              "opacity": "1",
+              "transform": "none",
+              "zoom": "1"
+            },
+            "sceneCenterHit": {
+              "x": 356,
+              "y": 226.40625,
+              "nodes": [
+                {
+                  "tag": "rect",
+                  "class": "rs-box",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": "rs-region",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": null,
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "svg",
+                  "class": "aw-scene reasoning-sequence-scene",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-diagram",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-sticky",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-layout",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "SECTION",
+                  "class": "reading-figure reasoning-sequence-walkthrough",
+                  "inTargetScene": false
+                }
+              ]
+            }
+          }
+        },
+        "cdpLayoutMetrics": {
+          "layoutViewport": {
+            "pageX": 0,
+            "pageY": 3603,
+            "clientWidth": 1424,
+            "clientHeight": 905
+          },
+          "visualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1801.5,
+            "clientWidth": 1424,
+            "clientHeight": 905,
+            "scale": 1,
+            "zoom": 2
+          },
+          "contentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 1424,
+            "height": 16029
+          },
+          "cssLayoutViewport": {
+            "pageX": 0,
+            "pageY": 1802,
+            "clientWidth": 712,
+            "clientHeight": 452
+          },
+          "cssVisualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1801.5,
+            "clientWidth": 712,
+            "clientHeight": 452.5,
+            "scale": 1,
+            "zoom": 2
+          },
+          "cssContentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 712,
+            "height": 8014
+          }
+        }
+      },
+      "after": {
+        "api": {
+          "at": "2026-09-30T13:47:25.468Z",
+          "tabId": 1379072277,
+          "factor": 2,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:47:25.470Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 712,
+          "innerHeight": 452,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 2,
+          "visualViewport": {
+            "width": 712,
+            "height": 452.5,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 712,
+            "scrollWidth": 712,
+            "scrollY": 1801.5,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 16,
+              "y": -105.953125,
+              "width": 680,
+              "height": 772.34375,
+              "top": -105.953125,
+              "bottom": 666.390625
+            },
+            "scene": {
+              "x": 17,
+              "y": -1.359375,
+              "width": 678,
+              "height": 455.53125,
+              "top": -1.359375,
+              "bottom": 454.171875
+            },
+            "sceneText": "学習側の調整と、実行中のモデルを分ける。学習・推論処理の調整と、推論時に重みを固定して使うモデルを別枠で示します。通常モデルも中間の考察を書けますが、推論モデルは単にCoT指示を加えただけとは限りません。問題の分解や検証の正しさは保証されません。記号は実際の思考ではありません。学習側の調整と、今回の実行を分ける推論時の重みは固定推論の模式領域入力既生成後続予測最終回答未展開既生成の内容 → 後続予測の条件記号は模式表示。実際の思考内容ではない学習・推論処理の調整CoT 指示だけとは限らない通常モデルも中間の考察を書ける検証の正しさは保証されない",
+            "sceneStyle": {
+              "display": "block",
+              "visibility": "visible",
+              "opacity": "1",
+              "transform": "none",
+              "zoom": "1"
+            },
+            "sceneCenterHit": {
+              "x": 356,
+              "y": 226.40625,
+              "nodes": [
+                {
+                  "tag": "rect",
+                  "class": "rs-box",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": "rs-region",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": null,
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "svg",
+                  "class": "aw-scene reasoning-sequence-scene",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-diagram",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-sticky",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-layout",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "SECTION",
+                  "class": "reading-figure reasoning-sequence-walkthrough",
+                  "inTargetScene": false
+                }
+              ]
+            }
+          }
+        },
+        "cdpLayoutMetrics": {
+          "layoutViewport": {
+            "pageX": 0,
+            "pageY": 3603,
+            "clientWidth": 1424,
+            "clientHeight": 905
+          },
+          "visualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1801.5,
+            "clientWidth": 1424,
+            "clientHeight": 905,
+            "scale": 1,
+            "zoom": 2
+          },
+          "contentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 1424,
+            "height": 16029
+          },
+          "cssLayoutViewport": {
+            "pageX": 0,
+            "pageY": 1802,
+            "clientWidth": 712,
+            "clientHeight": 452
+          },
+          "cssVisualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1801.5,
+            "clientWidth": 712,
+            "clientHeight": 452.5,
+            "scale": 1,
+            "zoom": 2
+          },
+          "cssContentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 712,
+            "height": 8014
+          }
+        }
+      }
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\images\\zoom-200-playwright-viewport.png",
+      "relativeFile": "images/zoom-200-playwright-viewport.png",
+      "sha256": "7b837ba22228b55252cd813090c8b7fcc666e7bbdb57244a7488cff18bc1dd7d",
+      "bytes": 1967,
+      "pngWidth": 712,
+      "pngHeight": 452,
+      "capture": "playwright-viewport",
+      "parameters": {
+        "fullPage": false
+      },
+      "imageManipulation": false,
+      "zoom": 2,
+      "stage": 2,
+      "actuallyViewed": false,
+      "before": {
+        "api": {
+          "at": "2026-09-30T13:47:25.475Z",
+          "tabId": 1379072277,
+          "factor": 2,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:47:25.477Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 712,
+          "innerHeight": 452,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 2,
+          "visualViewport": {
+            "width": 712,
+            "height": 452.5,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 712,
+            "scrollWidth": 712,
+            "scrollY": 1801.5,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 16,
+              "y": -105.953125,
+              "width": 680,
+              "height": 772.34375,
+              "top": -105.953125,
+              "bottom": 666.390625
+            },
+            "scene": {
+              "x": 17,
+              "y": -1.359375,
+              "width": 678,
+              "height": 455.53125,
+              "top": -1.359375,
+              "bottom": 454.171875
+            },
+            "sceneText": "学習側の調整と、実行中のモデルを分ける。学習・推論処理の調整と、推論時に重みを固定して使うモデルを別枠で示します。通常モデルも中間の考察を書けますが、推論モデルは単にCoT指示を加えただけとは限りません。問題の分解や検証の正しさは保証されません。記号は実際の思考ではありません。学習側の調整と、今回の実行を分ける推論時の重みは固定推論の模式領域入力既生成後続予測最終回答未展開既生成の内容 → 後続予測の条件記号は模式表示。実際の思考内容ではない学習・推論処理の調整CoT 指示だけとは限らない通常モデルも中間の考察を書ける検証の正しさは保証されない",
+            "sceneStyle": {
+              "display": "block",
+              "visibility": "visible",
+              "opacity": "1",
+              "transform": "none",
+              "zoom": "1"
+            },
+            "sceneCenterHit": {
+              "x": 356,
+              "y": 226.40625,
+              "nodes": [
+                {
+                  "tag": "rect",
+                  "class": "rs-box",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": "rs-region",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": null,
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "svg",
+                  "class": "aw-scene reasoning-sequence-scene",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-diagram",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-sticky",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-layout",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "SECTION",
+                  "class": "reading-figure reasoning-sequence-walkthrough",
+                  "inTargetScene": false
+                }
+              ]
+            }
+          }
+        },
+        "cdpLayoutMetrics": {
+          "layoutViewport": {
+            "pageX": 0,
+            "pageY": 3603,
+            "clientWidth": 1424,
+            "clientHeight": 905
+          },
+          "visualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1801.5,
+            "clientWidth": 1424,
+            "clientHeight": 905,
+            "scale": 1,
+            "zoom": 2
+          },
+          "contentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 1424,
+            "height": 16029
+          },
+          "cssLayoutViewport": {
+            "pageX": 0,
+            "pageY": 1802,
+            "clientWidth": 712,
+            "clientHeight": 452
+          },
+          "cssVisualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1801.5,
+            "clientWidth": 712,
+            "clientHeight": 452.5,
+            "scale": 1,
+            "zoom": 2
+          },
+          "cssContentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 712,
+            "height": 8014
+          }
+        }
+      },
+      "after": {
+        "api": {
+          "at": "2026-09-30T13:47:25.522Z",
+          "tabId": 1379072277,
+          "factor": 2,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:47:25.525Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 712,
+          "innerHeight": 452,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 2,
+          "visualViewport": {
+            "width": 712,
+            "height": 452.5,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 712,
+            "scrollWidth": 712,
+            "scrollY": 1801.5,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 16,
+              "y": -105.953125,
+              "width": 680,
+              "height": 772.34375,
+              "top": -105.953125,
+              "bottom": 666.390625
+            },
+            "scene": {
+              "x": 17,
+              "y": -1.359375,
+              "width": 678,
+              "height": 455.53125,
+              "top": -1.359375,
+              "bottom": 454.171875
+            },
+            "sceneText": "学習側の調整と、実行中のモデルを分ける。学習・推論処理の調整と、推論時に重みを固定して使うモデルを別枠で示します。通常モデルも中間の考察を書けますが、推論モデルは単にCoT指示を加えただけとは限りません。問題の分解や検証の正しさは保証されません。記号は実際の思考ではありません。学習側の調整と、今回の実行を分ける推論時の重みは固定推論の模式領域入力既生成後続予測最終回答未展開既生成の内容 → 後続予測の条件記号は模式表示。実際の思考内容ではない学習・推論処理の調整CoT 指示だけとは限らない通常モデルも中間の考察を書ける検証の正しさは保証されない",
+            "sceneStyle": {
+              "display": "block",
+              "visibility": "visible",
+              "opacity": "1",
+              "transform": "none",
+              "zoom": "1"
+            },
+            "sceneCenterHit": {
+              "x": 356,
+              "y": 226.40625,
+              "nodes": [
+                {
+                  "tag": "rect",
+                  "class": "rs-box",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": "rs-region",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": null,
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "svg",
+                  "class": "aw-scene reasoning-sequence-scene",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-diagram",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-sticky",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-layout",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "SECTION",
+                  "class": "reading-figure reasoning-sequence-walkthrough",
+                  "inTargetScene": false
+                }
+              ]
+            }
+          }
+        },
+        "cdpLayoutMetrics": {
+          "layoutViewport": {
+            "pageX": 0,
+            "pageY": 3603,
+            "clientWidth": 1424,
+            "clientHeight": 905
+          },
+          "visualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1801.5,
+            "clientWidth": 1424,
+            "clientHeight": 905,
+            "scale": 1,
+            "zoom": 2
+          },
+          "contentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 1424,
+            "height": 16029
+          },
+          "cssLayoutViewport": {
+            "pageX": 0,
+            "pageY": 1802,
+            "clientWidth": 712,
+            "clientHeight": 452
+          },
+          "cssVisualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1801.5,
+            "clientWidth": 712,
+            "clientHeight": 452.5,
+            "scale": 1,
+            "zoom": 2
+          },
+          "cssContentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 712,
+            "height": 8014
+          }
+        }
+      }
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\images\\zoom-200-cdp-after-playwright.png",
+      "relativeFile": "images/zoom-200-cdp-after-playwright.png",
+      "sha256": "f255029776a00073b3464fbc065370904f5ae6120a77b3a357761fcd611e5f57",
+      "bytes": 177342,
+      "pngWidth": 1424,
+      "pngHeight": 905,
+      "capture": "cdp-after-playwright",
+      "parameters": {
+        "format": "png",
+        "captureBeyondViewport": false,
+        "fromSurface": true
+      },
+      "imageManipulation": false,
+      "zoom": 2,
+      "stage": 2,
+      "actuallyViewed": false,
+      "before": {
+        "api": {
+          "at": "2026-09-30T13:47:25.535Z",
+          "tabId": 1379072277,
+          "factor": 2,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:47:25.537Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 712,
+          "innerHeight": 452,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 2,
+          "visualViewport": {
+            "width": 712,
+            "height": 452.5,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 712,
+            "scrollWidth": 712,
+            "scrollY": 1801.5,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 16,
+              "y": -105.953125,
+              "width": 680,
+              "height": 772.34375,
+              "top": -105.953125,
+              "bottom": 666.390625
+            },
+            "scene": {
+              "x": 17,
+              "y": -1.359375,
+              "width": 678,
+              "height": 455.53125,
+              "top": -1.359375,
+              "bottom": 454.171875
+            },
+            "sceneText": "学習側の調整と、実行中のモデルを分ける。学習・推論処理の調整と、推論時に重みを固定して使うモデルを別枠で示します。通常モデルも中間の考察を書けますが、推論モデルは単にCoT指示を加えただけとは限りません。問題の分解や検証の正しさは保証されません。記号は実際の思考ではありません。学習側の調整と、今回の実行を分ける推論時の重みは固定推論の模式領域入力既生成後続予測最終回答未展開既生成の内容 → 後続予測の条件記号は模式表示。実際の思考内容ではない学習・推論処理の調整CoT 指示だけとは限らない通常モデルも中間の考察を書ける検証の正しさは保証されない",
+            "sceneStyle": {
+              "display": "block",
+              "visibility": "visible",
+              "opacity": "1",
+              "transform": "none",
+              "zoom": "1"
+            },
+            "sceneCenterHit": {
+              "x": 356,
+              "y": 226.40625,
+              "nodes": [
+                {
+                  "tag": "rect",
+                  "class": "rs-box",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": "rs-region",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": null,
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "svg",
+                  "class": "aw-scene reasoning-sequence-scene",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-diagram",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-sticky",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-layout",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "SECTION",
+                  "class": "reading-figure reasoning-sequence-walkthrough",
+                  "inTargetScene": false
+                }
+              ]
+            }
+          }
+        },
+        "cdpLayoutMetrics": {
+          "layoutViewport": {
+            "pageX": 0,
+            "pageY": 3603,
+            "clientWidth": 1424,
+            "clientHeight": 905
+          },
+          "visualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1801.5,
+            "clientWidth": 1424,
+            "clientHeight": 905,
+            "scale": 1,
+            "zoom": 2
+          },
+          "contentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 1424,
+            "height": 16029
+          },
+          "cssLayoutViewport": {
+            "pageX": 0,
+            "pageY": 1802,
+            "clientWidth": 712,
+            "clientHeight": 452
+          },
+          "cssVisualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1801.5,
+            "clientWidth": 712,
+            "clientHeight": 452.5,
+            "scale": 1,
+            "zoom": 2
+          },
+          "cssContentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 712,
+            "height": 8014
+          }
+        }
+      },
+      "after": {
+        "api": {
+          "at": "2026-09-30T13:47:25.603Z",
+          "tabId": 1379072277,
+          "factor": 2,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:47:25.605Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 712,
+          "innerHeight": 452,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 2,
+          "visualViewport": {
+            "width": 712,
+            "height": 452.5,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 712,
+            "scrollWidth": 712,
+            "scrollY": 1801.5,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 16,
+              "y": -105.953125,
+              "width": 680,
+              "height": 772.34375,
+              "top": -105.953125,
+              "bottom": 666.390625
+            },
+            "scene": {
+              "x": 17,
+              "y": -1.359375,
+              "width": 678,
+              "height": 455.53125,
+              "top": -1.359375,
+              "bottom": 454.171875
+            },
+            "sceneText": "学習側の調整と、実行中のモデルを分ける。学習・推論処理の調整と、推論時に重みを固定して使うモデルを別枠で示します。通常モデルも中間の考察を書けますが、推論モデルは単にCoT指示を加えただけとは限りません。問題の分解や検証の正しさは保証されません。記号は実際の思考ではありません。学習側の調整と、今回の実行を分ける推論時の重みは固定推論の模式領域入力既生成後続予測最終回答未展開既生成の内容 → 後続予測の条件記号は模式表示。実際の思考内容ではない学習・推論処理の調整CoT 指示だけとは限らない通常モデルも中間の考察を書ける検証の正しさは保証されない",
+            "sceneStyle": {
+              "display": "block",
+              "visibility": "visible",
+              "opacity": "1",
+              "transform": "none",
+              "zoom": "1"
+            },
+            "sceneCenterHit": {
+              "x": 356,
+              "y": 226.40625,
+              "nodes": [
+                {
+                  "tag": "rect",
+                  "class": "rs-box",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": "rs-region",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": null,
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "svg",
+                  "class": "aw-scene reasoning-sequence-scene",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-diagram",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-sticky",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-layout",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "SECTION",
+                  "class": "reading-figure reasoning-sequence-walkthrough",
+                  "inTargetScene": false
+                }
+              ]
+            }
+          }
+        },
+        "cdpLayoutMetrics": {
+          "layoutViewport": {
+            "pageX": 0,
+            "pageY": 3603,
+            "clientWidth": 1424,
+            "clientHeight": 905
+          },
+          "visualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1801.5,
+            "clientWidth": 1424,
+            "clientHeight": 905,
+            "scale": 1,
+            "zoom": 2
+          },
+          "contentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 1424,
+            "height": 16029
+          },
+          "cssLayoutViewport": {
+            "pageX": 0,
+            "pageY": 1802,
+            "clientWidth": 712,
+            "clientHeight": 452
+          },
+          "cssVisualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1801.5,
+            "clientWidth": 712,
+            "clientHeight": 452.5,
+            "scale": 1,
+            "zoom": 2
+          },
+          "cssContentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 712,
+            "height": 8014
+          }
+        }
+      }
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\images\\zoom-100-restored-cdp-before-playwright.png",
+      "relativeFile": "images/zoom-100-restored-cdp-before-playwright.png",
+      "sha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "bytes": 286662,
+      "pngWidth": 1424,
+      "pngHeight": 905,
+      "capture": "cdp-before-playwright",
+      "parameters": {
+        "format": "png",
+        "captureBeyondViewport": false,
+        "fromSurface": true
+      },
+      "imageManipulation": false,
+      "zoom": 1,
+      "stage": 2,
+      "actuallyViewed": false,
+      "before": {
+        "api": {
+          "at": "2026-09-30T13:47:26.083Z",
+          "tabId": 1379072277,
+          "factor": 1,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:47:26.085Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 1424,
+          "innerHeight": 905,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 1,
+          "visualViewport": {
+            "width": 1424,
+            "height": 905,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 1424,
+            "scrollWidth": 1424,
+            "scrollY": 1343,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 756.9375,
+              "y": 140.515625,
+              "width": 619.0625,
+              "height": 751.171875,
+              "top": 140.515625,
+              "bottom": 891.6875
+            },
+            "scene": {
+              "x": 757.9375,
+              "y": 245.109375,
+              "width": 617.0625,
+              "height": 414.578125,
+              "top": 245.109375,
+              "bottom": 659.6875
+            },
+            "sceneText": "学習側の調整と、実行中のモデルを分ける。学習・推論処理の調整と、推論時に重みを固定して使うモデルを別枠で示します。通常モデルも中間の考察を書けますが、推論モデルは単にCoT指示を加えただけとは限りません。問題の分解や検証の正しさは保証されません。記号は実際の思考ではありません。学習側の調整と、今回の実行を分ける推論時の重みは固定推論の模式領域入力既生成後続予測最終回答未展開既生成の内容 → 後続予測の条件記号は模式表示。実際の思考内容ではない学習・推論処理の調整CoT 指示だけとは限らない通常モデルも中間の考察を書ける検証の正しさは保証されない",
+            "sceneStyle": {
+              "display": "block",
+              "visibility": "visible",
+              "opacity": "1",
+              "transform": "none",
+              "zoom": "1"
+            },
+            "sceneCenterHit": {
+              "x": 1066.46875,
+              "y": 452.3984375,
+              "nodes": [
+                {
+                  "tag": "rect",
+                  "class": "rs-box",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": "rs-region",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": null,
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "svg",
+                  "class": "aw-scene reasoning-sequence-scene",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-diagram",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-sticky",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-layout",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "SECTION",
+                  "class": "reading-figure reasoning-sequence-walkthrough",
+                  "inTargetScene": false
+                }
+              ]
+            }
+          }
+        },
+        "cdpLayoutMetrics": {
+          "layoutViewport": {
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905
+          },
+          "visualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905,
+            "scale": 1,
+            "zoom": 1
+          },
+          "contentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 1424,
+            "height": 6978
+          },
+          "cssLayoutViewport": {
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905
+          },
+          "cssVisualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905,
+            "scale": 1,
+            "zoom": 1
+          },
+          "cssContentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 1424,
+            "height": 6978
+          }
+        }
+      },
+      "after": {
+        "api": {
+          "at": "2026-09-30T13:47:26.169Z",
+          "tabId": 1379072277,
+          "factor": 1,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:47:26.171Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 1424,
+          "innerHeight": 905,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 1,
+          "visualViewport": {
+            "width": 1424,
+            "height": 905,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 1424,
+            "scrollWidth": 1424,
+            "scrollY": 1343,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 756.9375,
+              "y": 140.515625,
+              "width": 619.0625,
+              "height": 751.171875,
+              "top": 140.515625,
+              "bottom": 891.6875
+            },
+            "scene": {
+              "x": 757.9375,
+              "y": 245.109375,
+              "width": 617.0625,
+              "height": 414.578125,
+              "top": 245.109375,
+              "bottom": 659.6875
+            },
+            "sceneText": "学習側の調整と、実行中のモデルを分ける。学習・推論処理の調整と、推論時に重みを固定して使うモデルを別枠で示します。通常モデルも中間の考察を書けますが、推論モデルは単にCoT指示を加えただけとは限りません。問題の分解や検証の正しさは保証されません。記号は実際の思考ではありません。学習側の調整と、今回の実行を分ける推論時の重みは固定推論の模式領域入力既生成後続予測最終回答未展開既生成の内容 → 後続予測の条件記号は模式表示。実際の思考内容ではない学習・推論処理の調整CoT 指示だけとは限らない通常モデルも中間の考察を書ける検証の正しさは保証されない",
+            "sceneStyle": {
+              "display": "block",
+              "visibility": "visible",
+              "opacity": "1",
+              "transform": "none",
+              "zoom": "1"
+            },
+            "sceneCenterHit": {
+              "x": 1066.46875,
+              "y": 452.3984375,
+              "nodes": [
+                {
+                  "tag": "rect",
+                  "class": "rs-box",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": "rs-region",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": null,
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "svg",
+                  "class": "aw-scene reasoning-sequence-scene",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-diagram",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-sticky",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-layout",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "SECTION",
+                  "class": "reading-figure reasoning-sequence-walkthrough",
+                  "inTargetScene": false
+                }
+              ]
+            }
+          }
+        },
+        "cdpLayoutMetrics": {
+          "layoutViewport": {
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905
+          },
+          "visualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905,
+            "scale": 1,
+            "zoom": 1
+          },
+          "contentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 1424,
+            "height": 6978
+          },
+          "cssLayoutViewport": {
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905
+          },
+          "cssVisualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905,
+            "scale": 1,
+            "zoom": 1
+          },
+          "cssContentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 1424,
+            "height": 6978
+          }
+        }
+      }
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\images\\zoom-100-restored-playwright-viewport.png",
+      "relativeFile": "images/zoom-100-restored-playwright-viewport.png",
+      "sha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "bytes": 286662,
+      "pngWidth": 1424,
+      "pngHeight": 905,
+      "capture": "playwright-viewport",
+      "parameters": {
+        "fullPage": false
+      },
+      "imageManipulation": false,
+      "zoom": 1,
+      "stage": 2,
+      "actuallyViewed": false,
+      "before": {
+        "api": {
+          "at": "2026-09-30T13:47:26.186Z",
+          "tabId": 1379072277,
+          "factor": 1,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:47:26.188Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 1424,
+          "innerHeight": 905,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 1,
+          "visualViewport": {
+            "width": 1424,
+            "height": 905,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 1424,
+            "scrollWidth": 1424,
+            "scrollY": 1343,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 756.9375,
+              "y": 140.515625,
+              "width": 619.0625,
+              "height": 751.171875,
+              "top": 140.515625,
+              "bottom": 891.6875
+            },
+            "scene": {
+              "x": 757.9375,
+              "y": 245.109375,
+              "width": 617.0625,
+              "height": 414.578125,
+              "top": 245.109375,
+              "bottom": 659.6875
+            },
+            "sceneText": "学習側の調整と、実行中のモデルを分ける。学習・推論処理の調整と、推論時に重みを固定して使うモデルを別枠で示します。通常モデルも中間の考察を書けますが、推論モデルは単にCoT指示を加えただけとは限りません。問題の分解や検証の正しさは保証されません。記号は実際の思考ではありません。学習側の調整と、今回の実行を分ける推論時の重みは固定推論の模式領域入力既生成後続予測最終回答未展開既生成の内容 → 後続予測の条件記号は模式表示。実際の思考内容ではない学習・推論処理の調整CoT 指示だけとは限らない通常モデルも中間の考察を書ける検証の正しさは保証されない",
+            "sceneStyle": {
+              "display": "block",
+              "visibility": "visible",
+              "opacity": "1",
+              "transform": "none",
+              "zoom": "1"
+            },
+            "sceneCenterHit": {
+              "x": 1066.46875,
+              "y": 452.3984375,
+              "nodes": [
+                {
+                  "tag": "rect",
+                  "class": "rs-box",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": "rs-region",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": null,
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "svg",
+                  "class": "aw-scene reasoning-sequence-scene",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-diagram",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-sticky",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-layout",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "SECTION",
+                  "class": "reading-figure reasoning-sequence-walkthrough",
+                  "inTargetScene": false
+                }
+              ]
+            }
+          }
+        },
+        "cdpLayoutMetrics": {
+          "layoutViewport": {
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905
+          },
+          "visualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905,
+            "scale": 1,
+            "zoom": 1
+          },
+          "contentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 1424,
+            "height": 6978
+          },
+          "cssLayoutViewport": {
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905
+          },
+          "cssVisualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905,
+            "scale": 1,
+            "zoom": 1
+          },
+          "cssContentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 1424,
+            "height": 6978
+          }
+        }
+      },
+      "after": {
+        "api": {
+          "at": "2026-09-30T13:47:26.292Z",
+          "tabId": 1379072277,
+          "factor": 1,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:47:26.307Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 1424,
+          "innerHeight": 905,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 1,
+          "visualViewport": {
+            "width": 1424,
+            "height": 905,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 1424,
+            "scrollWidth": 1424,
+            "scrollY": 1343,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 756.9375,
+              "y": 140.515625,
+              "width": 619.0625,
+              "height": 751.171875,
+              "top": 140.515625,
+              "bottom": 891.6875
+            },
+            "scene": {
+              "x": 757.9375,
+              "y": 245.109375,
+              "width": 617.0625,
+              "height": 414.578125,
+              "top": 245.109375,
+              "bottom": 659.6875
+            },
+            "sceneText": "学習側の調整と、実行中のモデルを分ける。学習・推論処理の調整と、推論時に重みを固定して使うモデルを別枠で示します。通常モデルも中間の考察を書けますが、推論モデルは単にCoT指示を加えただけとは限りません。問題の分解や検証の正しさは保証されません。記号は実際の思考ではありません。学習側の調整と、今回の実行を分ける推論時の重みは固定推論の模式領域入力既生成後続予測最終回答未展開既生成の内容 → 後続予測の条件記号は模式表示。実際の思考内容ではない学習・推論処理の調整CoT 指示だけとは限らない通常モデルも中間の考察を書ける検証の正しさは保証されない",
+            "sceneStyle": {
+              "display": "block",
+              "visibility": "visible",
+              "opacity": "1",
+              "transform": "none",
+              "zoom": "1"
+            },
+            "sceneCenterHit": {
+              "x": 1066.46875,
+              "y": 452.3984375,
+              "nodes": [
+                {
+                  "tag": "rect",
+                  "class": "rs-box",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": "rs-region",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": null,
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "svg",
+                  "class": "aw-scene reasoning-sequence-scene",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-diagram",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-sticky",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-layout",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "SECTION",
+                  "class": "reading-figure reasoning-sequence-walkthrough",
+                  "inTargetScene": false
+                }
+              ]
+            }
+          }
+        },
+        "cdpLayoutMetrics": {
+          "layoutViewport": {
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905
+          },
+          "visualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905,
+            "scale": 1,
+            "zoom": 1
+          },
+          "contentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 1424,
+            "height": 6978
+          },
+          "cssLayoutViewport": {
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905
+          },
+          "cssVisualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905,
+            "scale": 1,
+            "zoom": 1
+          },
+          "cssContentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 1424,
+            "height": 6978
+          }
+        }
+      }
+    },
+    {
+      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-native-zoom-capture-probe-OfXYeq\\images\\zoom-100-restored-cdp-after-playwright.png",
+      "relativeFile": "images/zoom-100-restored-cdp-after-playwright.png",
+      "sha256": "f25969f2b854fba4aa2c651d3ea7f94e8aec3abe7aefebef21675733d47509da",
+      "bytes": 286662,
+      "pngWidth": 1424,
+      "pngHeight": 905,
+      "capture": "cdp-after-playwright",
+      "parameters": {
+        "format": "png",
+        "captureBeyondViewport": false,
+        "fromSurface": true
+      },
+      "imageManipulation": false,
+      "zoom": 1,
+      "stage": 2,
+      "actuallyViewed": false,
+      "before": {
+        "api": {
+          "at": "2026-09-30T13:47:26.335Z",
+          "tabId": 1379072277,
+          "factor": 1,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:47:26.342Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 1424,
+          "innerHeight": 905,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 1,
+          "visualViewport": {
+            "width": 1424,
+            "height": 905,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 1424,
+            "scrollWidth": 1424,
+            "scrollY": 1343,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 756.9375,
+              "y": 140.515625,
+              "width": 619.0625,
+              "height": 751.171875,
+              "top": 140.515625,
+              "bottom": 891.6875
+            },
+            "scene": {
+              "x": 757.9375,
+              "y": 245.109375,
+              "width": 617.0625,
+              "height": 414.578125,
+              "top": 245.109375,
+              "bottom": 659.6875
+            },
+            "sceneText": "学習側の調整と、実行中のモデルを分ける。学習・推論処理の調整と、推論時に重みを固定して使うモデルを別枠で示します。通常モデルも中間の考察を書けますが、推論モデルは単にCoT指示を加えただけとは限りません。問題の分解や検証の正しさは保証されません。記号は実際の思考ではありません。学習側の調整と、今回の実行を分ける推論時の重みは固定推論の模式領域入力既生成後続予測最終回答未展開既生成の内容 → 後続予測の条件記号は模式表示。実際の思考内容ではない学習・推論処理の調整CoT 指示だけとは限らない通常モデルも中間の考察を書ける検証の正しさは保証されない",
+            "sceneStyle": {
+              "display": "block",
+              "visibility": "visible",
+              "opacity": "1",
+              "transform": "none",
+              "zoom": "1"
+            },
+            "sceneCenterHit": {
+              "x": 1066.46875,
+              "y": 452.3984375,
+              "nodes": [
+                {
+                  "tag": "rect",
+                  "class": "rs-box",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": "rs-region",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": null,
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "svg",
+                  "class": "aw-scene reasoning-sequence-scene",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-diagram",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-sticky",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-layout",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "SECTION",
+                  "class": "reading-figure reasoning-sequence-walkthrough",
+                  "inTargetScene": false
+                }
+              ]
+            }
+          }
+        },
+        "cdpLayoutMetrics": {
+          "layoutViewport": {
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905
+          },
+          "visualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905,
+            "scale": 1,
+            "zoom": 1
+          },
+          "contentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 1424,
+            "height": 6978
+          },
+          "cssLayoutViewport": {
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905
+          },
+          "cssVisualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905,
+            "scale": 1,
+            "zoom": 1
+          },
+          "cssContentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 1424,
+            "height": 6978
+          }
+        }
+      },
+      "after": {
+        "api": {
+          "at": "2026-09-30T13:47:26.411Z",
+          "tabId": 1379072277,
+          "factor": 1,
+          "settings": {
+            "defaultZoomFactor": 1,
+            "mode": "automatic",
+            "scope": "per-tab"
+          }
+        },
+        "metrics": {
+          "at": "2026-09-30T13:47:26.452Z",
+          "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+          "innerWidth": 1424,
+          "innerHeight": 905,
+          "outerWidth": 1440,
+          "outerHeight": 1000,
+          "devicePixelRatio": 1,
+          "visualViewport": {
+            "width": 1424,
+            "height": 905,
+            "scale": 1,
+            "offsetLeft": 0,
+            "offsetTop": 0
+          },
+          "screen": {
+            "width": 800,
+            "height": 600,
+            "availWidth": 800,
+            "availHeight": 600
+          },
+          "document": {
+            "clientWidth": 1424,
+            "scrollWidth": 1424,
+            "scrollY": 1343,
+            "cssZoom": "1",
+            "cssTransform": "none",
+            "bodyCssZoom": "1",
+            "bodyCssTransform": "none"
+          },
+          "diagram": {
+            "stage": 2,
+            "mode": "manual",
+            "phase": "2",
+            "bounds": {
+              "x": 756.9375,
+              "y": 140.515625,
+              "width": 619.0625,
+              "height": 751.171875,
+              "top": 140.515625,
+              "bottom": 891.6875
+            },
+            "scene": {
+              "x": 757.9375,
+              "y": 245.109375,
+              "width": 617.0625,
+              "height": 414.578125,
+              "top": 245.109375,
+              "bottom": 659.6875
+            },
+            "sceneText": "学習側の調整と、実行中のモデルを分ける。学習・推論処理の調整と、推論時に重みを固定して使うモデルを別枠で示します。通常モデルも中間の考察を書けますが、推論モデルは単にCoT指示を加えただけとは限りません。問題の分解や検証の正しさは保証されません。記号は実際の思考ではありません。学習側の調整と、今回の実行を分ける推論時の重みは固定推論の模式領域入力既生成後続予測最終回答未展開既生成の内容 → 後続予測の条件記号は模式表示。実際の思考内容ではない学習・推論処理の調整CoT 指示だけとは限らない通常モデルも中間の考察を書ける検証の正しさは保証されない",
+            "sceneStyle": {
+              "display": "block",
+              "visibility": "visible",
+              "opacity": "1",
+              "transform": "none",
+              "zoom": "1"
+            },
+            "sceneCenterHit": {
+              "x": 1066.46875,
+              "y": 452.3984375,
+              "nodes": [
+                {
+                  "tag": "rect",
+                  "class": "rs-box",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": "rs-region",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "rect",
+                  "class": null,
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "svg",
+                  "class": "aw-scene reasoning-sequence-scene",
+                  "inTargetScene": true
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-diagram",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-sticky",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "DIV",
+                  "class": "aw-layout",
+                  "inTargetScene": false
+                },
+                {
+                  "tag": "SECTION",
+                  "class": "reading-figure reasoning-sequence-walkthrough",
+                  "inTargetScene": false
+                }
+              ]
+            }
+          }
+        },
+        "cdpLayoutMetrics": {
+          "layoutViewport": {
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905
+          },
+          "visualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905,
+            "scale": 1,
+            "zoom": 1
+          },
+          "contentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 1424,
+            "height": 6978
+          },
+          "cssLayoutViewport": {
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905
+          },
+          "cssVisualViewport": {
+            "offsetX": 0,
+            "offsetY": 0,
+            "pageX": 0,
+            "pageY": 1343,
+            "clientWidth": 1424,
+            "clientHeight": 905,
+            "scale": 1,
+            "zoom": 1
+          },
+          "cssContentSize": {
+            "x": 0,
+            "y": 0,
+            "width": 1424,
+            "height": 6978
+          }
+        }
+      }
+    }
+  ],
+  "console": [],
+  "pageErrors": [],
+  "requestFailures": [
+    {
+      "at": "2026-09-30T13:47:23.800Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:23.800Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/audio",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:23.800Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/roadmap",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:23.800Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/glossary",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:23.802Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/tags",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:23.802Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/how-llms-generate-text",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:23.802Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/model-selection",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:23.802Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/prompt-engineering-fundamentals",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:23.821Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/tags/__next.tags.__PAGE__.txt?_rsc=5CvjwWPY5f9Ac3tN",
+      "method": "GET",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:24.404Z",
+      "phase": "zoom-100-before",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/openai-prompting",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:24.404Z",
+      "phase": "zoom-100-before",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/claude-prompting",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:24.404Z",
+      "phase": "zoom-100-before",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/gemini-prompting",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    }
+  ],
+  "responseErrors": [],
+  "fatalErrors": [],
+  "cleanup": {
+    "zoomRestored": {
+      "at": "2026-09-30T13:47:26.482Z",
+      "tabId": 1379072277,
+      "factor": 1,
+      "settings": {
+        "defaultZoomFactor": 1,
+        "mode": "automatic",
+        "scope": "per-tab"
+      }
+    },
+    "contextClosed": true
+  },
+  "before": {
+    "checkedAt": "2026-09-30T13:47:21.469Z",
+    "buildId": "ay8Xdd-uRIpIwdWdgy70j",
+    "expectedBuildId": "ay8Xdd-uRIpIwdWdgy70j",
+    "status": 200,
+    "responseUrl": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+    "responseHeaders": {
+      "cache-control": "no-store",
+      "connection": "keep-alive",
+      "content-type": "text/html; charset=utf-8",
+      "date": "Wed, 30 Sep 2026 13:47:21 GMT",
+      "keep-alive": "timeout=5",
+      "transfer-encoding": "chunked"
+    },
+    "localHtmlSha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+    "servedHtmlSha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+    "servedHtmlBytes": 623618,
+    "buildIds": [
+      "ay8Xdd-uRIpIwdWdgy70j"
+    ],
+    "inputDigest": "sha256:2696c2dc66c8d222bb06fd2b4c07deb34ddcc9f19c40ccc917b6ceed5cc0d330",
+    "packageLockSha256": "0ae8cfb06301b580ea35818dec4d3879db65480b8d4a825dde37d0e3815443f5"
+  },
+  "extension": {
+    "manifest": {
+      "manifest_version": 3,
+      "name": "Isolated native zoom probe",
+      "version": "1.0.0",
+      "host_permissions": [
+        "http://127.0.0.1/*"
+      ],
+      "background": {
+        "service_worker": "background.js"
+      }
+    },
+    "manifestSha256": "a69db858510540769cb04dbbd065f51e06da4fd1e27ca221802371f0c99d9176",
+    "backgroundSha256": "7e9c368e21496d7a9c897bbb6887c70fd328348b82fd1365af538b0ec014da0f",
+    "serviceWorkerUrl": "chrome-extension://nkicmhclaglgemhmemphhnamkplilcpg/background.js"
+  },
+  "navigation": {
+    "at": "2026-09-30T13:47:23.484Z",
+    "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+    "status": 200,
+    "htmlSha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30"
+  },
+  "targetTab": {
+    "id": 1379072277,
+    "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+    "windowId": 1379072276
+  },
+  "originalZoom": {
+    "at": "2026-09-30T13:47:24.127Z",
+    "tabId": 1379072277,
+    "factor": 1,
+    "settings": {
+      "defaultZoomFactor": 1,
+      "mode": "automatic",
+      "scope": "per-origin"
+    }
+  },
+  "comparison": {
+    "widthRatio": 2,
+    "heightRatio": 2.002212389380531,
+    "dprRatio": 2,
+    "visualViewportScales": [
+      1,
+      1,
+      1
+    ],
+    "cssZoomAndTransform": [
+      {
+        "cssZoom": "1",
+        "cssTransform": "none",
+        "bodyCssZoom": "1",
+        "bodyCssTransform": "none"
+      },
+      {
+        "cssZoom": "1",
+        "cssTransform": "none",
+        "bodyCssZoom": "1",
+        "bodyCssTransform": "none"
+      },
+      {
+        "cssZoom": "1",
+        "cssTransform": "none",
+        "bodyCssZoom": "1",
+        "bodyCssTransform": "none"
+      }
+    ]
+  },
+  "nativeApiProbe": "passed-1-to-2-to-1-with-layout-and-dpr-evidence",
+  "captureDiagnosis": "Raw files saved; image content requires actual visual review. No cause asserted by this helper.",
+  "after": {
+    "checkedAt": "2026-09-30T13:47:26.786Z",
+    "buildId": "ay8Xdd-uRIpIwdWdgy70j",
+    "expectedBuildId": "ay8Xdd-uRIpIwdWdgy70j",
+    "status": 200,
+    "responseUrl": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/reasoning-models",
+    "responseHeaders": {
+      "cache-control": "no-store",
+      "connection": "keep-alive",
+      "content-type": "text/html; charset=utf-8",
+      "date": "Wed, 30 Sep 2026 13:47:26 GMT",
+      "keep-alive": "timeout=5",
+      "transfer-encoding": "chunked"
+    },
+    "localHtmlSha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+    "servedHtmlSha256": "6be678a9345d2451b116ff79c88a1586b11cb5dabd50f3697923d69c4e4d6a30",
+    "servedHtmlBytes": 623618,
+    "buildIds": [
+      "ay8Xdd-uRIpIwdWdgy70j"
+    ],
+    "inputDigest": "sha256:2696c2dc66c8d222bb06fd2b4c07deb34ddcc9f19c40ccc917b6ceed5cc0d330",
+    "packageLockSha256": "0ae8cfb06301b580ea35818dec4d3879db65480b8d4a825dde37d0e3815443f5"
+  },
+  "criticalResourceFailures": [],
+  "unclassifiedNoncriticalNetworkObservations": [
+    {
+      "at": "2026-09-30T13:47:23.800Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:23.800Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/audio",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:23.800Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/roadmap",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:23.800Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/glossary",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:23.802Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/tags",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:23.802Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/llm-foundations/how-llms-generate-text",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:23.802Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/model-selection",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:23.802Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/prompt-engineering-fundamentals",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:23.821Z",
+      "phase": "open-current-d2",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/tags/__next.tags.__PAGE__.txt?_rsc=5CvjwWPY5f9Ac3tN",
+      "method": "GET",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:24.404Z",
+      "phase": "zoom-100-before",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/openai-prompting",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:24.404Z",
+      "phase": "zoom-100-before",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/claude-prompting",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "at": "2026-09-30T13:47:24.404Z",
+      "phase": "zoom-100-before",
+      "closing": false,
+      "url": "http://127.0.0.1:4183/ai-agent-library/docs/implementation/gemini-prompting",
+      "method": "HEAD",
+      "resourceType": "fetch",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    }
+  ],
+  "consoleErrors": [],
+  "completedAt": "2026-09-30T13:47:26.883Z"
+}

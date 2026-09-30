@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-kit-plan-addendum-review",
+  "unit": "E1",
+  "reviewer": "01a0ced7-e41c-70c1-904e-2ae30ff2fa4b:/root/inference_doc_review",
+  "checkedAt": "2026-09-30T13:34:42.587Z",
+  "verdict": "approved-plan-only",
+  "risk": "low",
+  "must": [],
+  "should": [],
+  "findings": [],
+  "target": {
+    "file": "TEMP/context-e1-kit-plan-addendum-20260930.md",
+    "sha256": "afa635a440d4ec5fa555891ff40461b89e28f41ac896ab8a59b38dfe96729b27"
+  },
+  "sourceInputs": [
+    {
+      "file": "TEMP/context-e1-kit-plan-addendum-20260930.md",
+      "sha256": "afa635a440d4ec5fa555891ff40461b89e28f41ac896ab8a59b38dfe96729b27"
+    },
+    {
+      "file": "TEMP/context-e1-kit-plan-20260930.md",
+      "sha256": "e503657ddcdc7358bb3df16b4fdc2e8741a85e32831fd6e439780e858a6589d5"
+    },
+    {
+      "file": "TEMP/context-e1-kit-plan-20260930.json",
+      "sha256": "ce2506ca44322f9358d7569a7b4361f11bdb44c3aed7c19a4353c602044f7f78"
+    },
+    {
+      "file": "TEMP/context-e1-kit-plan-review-20260930.json",
+      "sha256": "4713bea60a4e8005d1a83a7b3d69e30cbd3671bbceabeef605ef7ae99c68ac78"
+    },
+    {
+      "file": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-proposal-20260930.json",
+      "sha256": "b9b35c1da9bec520550ee5e658e74eb48109f4d673bb1e3f0858ab36654ccd43"
+    },
+    {
+      "file": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-review-20260930.json",
+      "sha256": "72e280ce99f7312bb0ca4cb651d23e950928cd2976796cd15d044443c05f219a"
+    },
+    {
+      "file": "docs/10-llm-foundations/attention-and-context.md",
+      "sha256": "433d75095383235eeace9c4b34048bad43a3f4b0ba6e65c2e7e7d25eebdb1c55"
+    },
+    {
+      "file": "website/components/diagrams/diagram-boundary.jsx",
+      "sha256": "5d7468c61107323df661809ff369d91e1cb27a0201b7c1f0b1c7ca83f29b0ac6"
+    },
+    {
+      "file": "website/components/diagrams/reading-figure.jsx",
+      "sha256": "c130ffe313b499521e0a947532d22b101050362de9050534ac105b41347b6d12"
+    },
+    {
+      "file": "website/components/diagrams/reasoning-walkthrough.jsx",
+      "sha256": "ec49a040b98ddc29e9c1d28b3e78e9c74b0503a9443e32d0b035851fd21e48ee"
+    },
+    {
+      "file": "website/tests/browser/diagram-loading.spec.mjs",
+      "sha256": "7a6713959b1968129ff711df8efedfd4b835ff23daa6ee7b4dda011d7c8e56a0"
+    }
+  ],
+  "checks": [
+    {
+      "lines": [
+        7,
+        9
+      ],
+      "result": "問題なし",
+      "detail": "2 widths x 2 themes x 11 stages = 44 stage visits per engine, 88 for Edge+WebKit. Supplemental local run does not alter public 14-new/135-total/11-route registration. Input/BUILD/HTML before-after and generated/actually-viewed evidence remain distinct. Native 200% browser zoom is not inferred from DSF 2 or image/CSS scaling."
+    },
+    {
+      "lines": [
+        13,
+        15,
+        17
+      ],
+      "result": "問題なし",
+      "detail": "Two fresh JavaScript-enabled contexts independently block the actual emitted causal-cost or cache-quality lazy chunk; real request and target fallback status are required. This extends only the new noJS callback observations and preserves its registered name/order and 14 new case count. NoJS still requires all 11 static descriptions; chunk-failure fallback requires original children and status, without assuming failed ReadingFigure-owned static stages remain."
+    },
+    {
+      "lines": [
+        15,
+        17
+      ],
+      "result": "問題なし",
+      "detail": "Current DiagramBoundary returns role=status plus fallback children after an error. ReadingFigure owns rf-static-stages itself, so the proposed failed-scene zero-static-description positive case is compatible. Source retention and missing-prose negative cases remain necessary; only the deliberately blocked request is excepted."
+    },
+    {
+      "lines": [
+        21
+      ],
+      "result": "問題なし",
+      "detail": "Old 121/proof/artifact contracts and adopted E1 semantics/READ/fixture boundaries are unchanged. D2 public acceptance and actual merge/tree/kit/callback refreeze remain prerequisites, not completed claims."
+    }
+  ],
+  "independentSourceRecalculation": {
+    "articleSHA256": "433d75095383235eeace9c4b34048bad43a3f4b0ba6e65c2e7e7d25eebdb1c55",
+    "canonicalWholeASTSHA256": "ea4d5da00220847b1c69d5deaee1a6fac11cc20dfbfb19b3d1d67d6523370ce8",
+    "matchesAdoptedInterface": true,
+    "rootNodes": 39,
+    "h3": 8,
+    "tables": 1,
+    "lists": 10,
+    "blockquote": 0,
+    "stagesByFigure": [
+      5,
+      6
+    ],
+    "readStops": 10,
+    "manualStages": 1
+  },
+  "scope": "Bounded planning review only. Original plan/approval are preserved; no production/kit/source edit, browser runtime, public run or public acceptance. Future emitted chunk identity and actual interception must be verified after implementation/build.",
+  "publicReview": "pending",
+  "filesWritten": [
+    "C:\\Users\\81906\\AppData\\Local\\Temp\\context-e1-kit-plan-addendum-review-20260930.json"
+  ]
+}

@@ -1,3 +1,4 @@
+import { FrameworkModelTuningWalkthrough } from './components/diagrams/framework-model-tuning-walkthrough'
 import { RagMemoryGraphWalkthrough } from './components/diagrams/rag-memory-graph-walkthrough'
 import { RetrievalDataWalkthrough } from './components/diagrams/retrieval-data-walkthrough'
 import { FeedbackStreamingWalkthrough } from './components/diagrams/feedback-streaming-walkthrough'
@@ -59,6 +60,7 @@ export const useMDXComponents = components => ({
   ActionBoundariesWalkthrough,
   HarnessLoopWalkthrough,
   DurableContractWalkthrough,
+  FrameworkModelTuningWalkthrough,
   RagMemoryGraphWalkthrough,
   RetrievalDataWalkthrough,
   FeedbackStreamingWalkthrough,

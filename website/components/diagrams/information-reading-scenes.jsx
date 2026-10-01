@@ -11,7 +11,7 @@ export function InformationEvidence({ children }) {
     scene={state => <Canvas diagram="information-evidence" {...state}>{f => <>
       <Text y={35}>{['全部追う前に、仕事に効く対象を絞る','発信源との関係と、検証の根拠を分ける','詳しく読む価値を、まず選別する','採用前に、自分の条件への適用を確かめる','強い主張ほど、示した条件へ戻る'][f.stage]}</Text>
       {f.stage === 0 ? <>
-        <Box x={32} y={112} width={260} height={112} title="ニュース・論文・ツール" lines={['入口は広く、対象は絞る']} tone="violet" /><Wire id={state.id} d="M292 168H340" active phase={f.phase} />
+        <Box x={32} y={112} width={260} height={112} title="ニュース・論文" lines={['ツールなども含む', '入口は広く、対象は絞る']} tone="violet" /><Wire id={state.id} d="M292 168H340" active phase={f.phase} />
         <Box x={348} y={112} width={260} height={112} title="自分の仕事への影響" lines={['業務 / 設計判断 / 学習']} />
         <Text y={321} small>{['影響が薄いものは「存在を知る」まで', '確認する価値がある対象を、次の段階へ']}</Text>
       </> : f.stage === 1 ? <>

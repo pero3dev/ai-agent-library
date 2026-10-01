@@ -8,6 +8,7 @@ import { ArticleAudio } from './components/audio/article-audio'
 import { AttentionStep, AttentionWalkthrough, ReadingStep } from './components/diagrams/diagram-entry'
 import { ReadingWalkthrough } from './components/diagrams/concept-walkthrough'
 import { AgentConceptsWalkthrough } from './components/diagrams/agent-concepts-walkthrough'
+import { OverviewReadingWalkthrough } from './components/diagrams/overview-reading-walkthrough'
 import { TransformerWalkthrough } from './components/diagrams/transformer-walkthrough'
 import { AttentionVariantsWalkthrough } from './components/diagrams/attention-variants-walkthrough'
 import { MoEWalkthrough } from './components/diagrams/moe-walkthrough'
@@ -34,6 +35,7 @@ export const useMDXComponents = components => ({
   AttentionWalkthrough,
   ReadingWalkthrough,
   AgentConceptsWalkthrough,
+  OverviewReadingWalkthrough,
   TransformerWalkthrough,
   AttentionVariantsWalkthrough,
   MoEWalkthrough,

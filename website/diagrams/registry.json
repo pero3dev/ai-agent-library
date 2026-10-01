@@ -2754,6 +2754,240 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "learning-section-map",
+      "article": "docs/00-overview/learning-roadmap.md",
+      "route": "/docs/overview/learning-roadmap",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 16 セクションの構成と依存関係",
+        "読者タイプ別の推奨ルート"
+      ],
+      "sourceHeadings": [
+        "概要: 16 セクションの構成と依存関係",
+        "読者タイプ別の推奨ルート"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:234a47d98846fbed4c25c6ce707f0eb65d2c192d751462d9ab2738d62fd5051f",
+      "reviewedDigest": "sha256:234a47d98846fbed4c25c6ce707f0eb65d2c192d751462d9ab2738d62fd5051f",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "learning-practice-loop",
+      "article": "docs/00-overview/learning-roadmap.md",
+      "route": "/docs/overview/learning-roadmap",
+      "binding": "grouped-blocks",
+      "stageCount": 3,
+      "headings": [
+        "セクションごとの読みどころ",
+        "学習の進め方の指針"
+      ],
+      "sourceHeadings": [
+        "セクションごとの読みどころ",
+        "学習の進め方の指針"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:52707b9e22743e51cbb3d0ca92541f10c46feaf2f4b5bcbd3f50d95b2f98e96c",
+      "reviewedDigest": "sha256:52707b9e22743e51cbb3d0ca92541f10c46feaf2f4b5bcbd3f50d95b2f98e96c",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "skill-development",
+      "article": "docs/00-overview/skill-map.md",
+      "route": "/docs/overview/skill-map",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: スキルマップの使い方",
+        "8 つのスキル領域と到達レベル",
+        "役割像別の重点マップ",
+        "ライブラリ内の学習パス対応",
+        "実践で伸ばす方法(社内題材の選び方)"
+      ],
+      "sourceHeadings": [
+        "概要: スキルマップの使い方",
+        "8 つのスキル領域と到達レベル",
+        "役割像別の重点マップ",
+        "ライブラリ内の学習パス対応",
+        "実践で伸ばす方法(社内題材の選び方)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 4
+          }
+        ],
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          },
+          {
+            "stage": 5,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:7b73d13e6efcf8815e3478038742dddf6341847ecae7de0bed5561cec51656a0",
+      "reviewedDigest": "sha256:7b73d13e6efcf8815e3478038742dddf6341847ecae7de0bed5561cec51656a0",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "information-evidence",
+      "article": "docs/00-overview/research-literacy.md",
+      "route": "/docs/overview/research-literacy",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 「全部追う」をやめる",
+        "情報源の階層",
+        "論文の実務的な読み方",
+        "ハイプの見分け方"
+      ],
+      "sourceHeadings": [
+        "概要: 「全部追う」をやめる",
+        "情報源の階層",
+        "論文の実務的な読み方",
+        "ハイプの見分け方"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:574925fc7d55ba4e2765d425ab314994712b10e3dea1292c02007951355e9073",
+      "reviewedDigest": "sha256:574925fc7d55ba4e2765d425ab314994712b10e3dea1292c02007951355e9073",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "information-maintenance",
+      "article": "docs/00-overview/research-literacy.md",
+      "route": "/docs/overview/research-literacy",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "追いかける仕組み",
+        "追わなくてよいものを決める",
+        "この理解が効く場面"
+      ],
+      "sourceHeadings": [
+        "追いかける仕組み",
+        "追わなくてよいものを決める",
+        "この理解が効く場面"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:61859bccfba1402c71c100f80abfecba7f265efae040ce351a3cf50f3f7bc6a3",
+      "reviewedDigest": "sha256:61859bccfba1402c71c100f80abfecba7f265efae040ce351a3cf50f3f7bc6a3",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

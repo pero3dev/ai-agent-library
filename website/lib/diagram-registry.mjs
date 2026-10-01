@@ -1,10 +1,12 @@
 import { AGENT_CONCEPT_BINDINGS } from './agent-concepts-bindings.mjs'
+import { OVERVIEW_BINDINGS } from './overview-reading-bindings.mjs'
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 
 // IDs resolve to code-owned bindings, never to module paths supplied by Markdown
 // or the registry. Adding a diagram requires an explicit implementation change.
 const BINDINGS = {
+  ...OVERVIEW_BINDINGS,
   ...AGENT_CONCEPT_BINDINGS,
   'multimodal-representation': {
   "article": "docs/10-llm-foundations/multimodal-models.md",

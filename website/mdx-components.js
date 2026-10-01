@@ -11,6 +11,7 @@ import { AgentConceptsWalkthrough } from './components/diagrams/agent-concepts-w
 import { OverviewReadingWalkthrough } from './components/diagrams/overview-reading-walkthrough'
 import { ContextDesignWalkthrough } from './components/diagrams/context-design-walkthrough'
 import { ActionBoundariesWalkthrough } from './components/diagrams/action-boundaries-walkthrough'
+import { HarnessLoopWalkthrough } from './components/diagrams/harness-loop-walkthrough'
 import { TransformerWalkthrough } from './components/diagrams/transformer-walkthrough'
 import { AttentionVariantsWalkthrough } from './components/diagrams/attention-variants-walkthrough'
 import { MoEWalkthrough } from './components/diagrams/moe-walkthrough'
@@ -40,6 +41,7 @@ export const useMDXComponents = components => ({
   OverviewReadingWalkthrough,
   ContextDesignWalkthrough,
   ActionBoundariesWalkthrough,
+  HarnessLoopWalkthrough,
   TransformerWalkthrough,
   AttentionVariantsWalkthrough,
   MoEWalkthrough,

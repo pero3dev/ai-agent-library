@@ -1,0 +1,5 @@
+.harness-loop-walkthrough .aw-prose th { white-space: nowrap; }
+.harness-loop-walkthrough .rf-scene-controls:not(:empty) { display: grid; gap: .45rem; padding: .4rem 1.2rem .15rem; }
+@container (min-width: 900px) {
+  .harness-loop-walkthrough .aw-layout { grid-template-columns: minmax(0,1fr) minmax(0,1.1fr); gap: 1.5rem; }
+}

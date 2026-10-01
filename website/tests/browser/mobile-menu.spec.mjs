@@ -44,6 +44,35 @@ const mobileCases = [
   { width: 430, height: 932, theme: 'dark', pathname: '/docs/concepts/tool-use' }
 ]
 
+for (const theme of ['light', 'dark']) test(`glossary summaries at the reading-column edges stay inside a narrow screen: ${theme}`, async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 1000 })
+  await page.addInitScript(value => localStorage.setItem('theme', value), theme)
+  await page.goto(route('/docs/architecture/error-handling-and-retries'))
+  const terms = page.locator('article .glossary-term')
+  const edgeTerms = []
+  for (const term of await terms.all()) {
+    const bounds = await term.boundingBox()
+    if (bounds && (bounds.x < 80 || bounds.x + bounds.width > 290)) edgeTerms.push(term)
+  }
+  expect(edgeTerms.length).toBeGreaterThan(0)
+  for (const term of edgeTerms) {
+    await term.hover()
+    const tooltip = term.getByRole('tooltip')
+    await expect(tooltip).toBeVisible()
+    await expect.poll(async () => {
+      const bounds = await tooltip.boundingBox()
+      return bounds.x >= 7 && bounds.x + bounds.width <= 383
+    }).toBe(true)
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
+    await page.mouse.move(0, 0)
+    await expect(tooltip).toBeHidden()
+  }
+  await page.keyboard.press('Tab')
+  await edgeTerms.at(-1).focus()
+  await expect(edgeTerms.at(-1).getByRole('tooltip')).toBeVisible()
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
+})
+
 for (const { width, height, theme, pathname } of mobileCases) {
   test.describe(`mobile menu ${width}px ${theme} ${pathname}`, () => {
     test.use({ viewport: { width, height }, isMobile: true, hasTouch: true, colorScheme: theme })

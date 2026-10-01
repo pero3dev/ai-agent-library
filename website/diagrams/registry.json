@@ -3284,6 +3284,234 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "orchestration-basics",
+      "article": "docs/02-architecture/orchestration-patterns.md",
+      "route": "/docs/architecture/orchestration-patterns",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要",
+        "詳細: 5 つの基本パターン"
+      ],
+      "sourceHeadings": [
+        "概要",
+        "詳細: 5 つの基本パターン"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:f948b394a49a5fcc3f1613cf32daae7e30b2cb38c50846cfb32f3abf8e0518ca",
+      "reviewedDigest": "sha256:f948b394a49a5fcc3f1613cf32daae7e30b2cb38c50846cfb32f3abf8e0518ca",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "orchestration-composition",
+      "article": "docs/02-architecture/orchestration-patterns.md",
+      "route": "/docs/architecture/orchestration-patterns",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "詳細: パターンは合成して使う",
+        "詳細: 外部エージェント連携の概観",
+        "設計判断: 最小構成から計測して育てる"
+      ],
+      "sourceHeadings": [
+        "詳細: パターンは合成して使う",
+        "詳細: 外部エージェント連携の概観",
+        "設計判断: 最小構成から計測して育てる"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:80a5c9ca2b040d2a598d776379653a864ecaedd08e34fae09b277cc6984cc34e",
+      "reviewedDigest": "sha256:80a5c9ca2b040d2a598d776379653a864ecaedd08e34fae09b277cc6984cc34e",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "human-intervention-positions",
+      "article": "docs/02-architecture/human-in-the-loop.md",
+      "route": "/docs/architecture/human-in-the-loop",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要",
+        "詳細: 介入の 4 形態",
+        "詳細: どこに承認を置くか — リスクベースで決める"
+      ],
+      "sourceHeadings": [
+        "概要",
+        "詳細: 介入の 4 形態",
+        "詳細: どこに承認を置くか — リスクベースで決める"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:312b8697344044378faf57da12cd4fef786ad0bdcd319e897662eb7bdbc57f2c",
+      "reviewedDigest": "sha256:312b8697344044378faf57da12cd4fef786ad0bdcd319e897662eb7bdbc57f2c",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "human-approval-lifecycle",
+      "article": "docs/02-architecture/human-in-the-loop.md",
+      "route": "/docs/architecture/human-in-the-loop",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "詳細: 承認疲れ(approval fatigue)が安全装置を壊す",
+        "詳細: 実装上の要点"
+      ],
+      "sourceHeadings": [
+        "詳細: 承認疲れ(approval fatigue)が安全装置を壊す",
+        "詳細: 実装上の要点"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:a517dcc21be92fc6e2a4ed2a15b6a8369737dcfc116025ba15a2de217c377186",
+      "reviewedDigest": "sha256:a517dcc21be92fc6e2a4ed2a15b6a8369737dcfc116025ba15a2de217c377186",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "error-layer-routing",
+      "article": "docs/02-architecture/error-handling-and-retries.md",
+      "route": "/docs/architecture/error-handling-and-retries",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 「モデルに回復させる」という選択肢",
+        "詳細: エラーの 4 層分類"
+      ],
+      "sourceHeadings": [
+        "概要: 「モデルに回復させる」という選択肢",
+        "詳細: エラーの 4 層分類"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:91c6f3430ec8fa09c1c6a9b61de48d98eefb3cb1ff6012a41ce61aceba94eb10",
+      "reviewedDigest": "sha256:91c6f3430ec8fa09c1c6a9b61de48d98eefb3cb1ff6012a41ce61aceba94eb10",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "retry-and-recovery-boundaries",
+      "article": "docs/02-architecture/error-handling-and-retries.md",
+      "route": "/docs/architecture/error-handling-and-retries",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "詳細: リトライ設計の 3 つの注意点",
+        "詳細: フォールバック — 失敗しても価値を残す",
+        "設計判断: 失敗時のユーザー体験を先に決める"
+      ],
+      "sourceHeadings": [
+        "詳細: リトライ設計の 3 つの注意点",
+        "詳細: フォールバック — 失敗しても価値を残す",
+        "設計判断: 失敗時のユーザー体験を先に決める"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:72d6b08320511e4c0357382cfb9b069be441a09ac2bb30fb7d3921c8fafa8ba5",
+      "reviewedDigest": "sha256:72d6b08320511e4c0357382cfb9b069be441a09ac2bb30fb7d3921c8fafa8ba5",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

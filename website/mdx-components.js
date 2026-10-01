@@ -10,6 +10,7 @@ import { ReadingWalkthrough } from './components/diagrams/concept-walkthrough'
 import { AgentConceptsWalkthrough } from './components/diagrams/agent-concepts-walkthrough'
 import { OverviewReadingWalkthrough } from './components/diagrams/overview-reading-walkthrough'
 import { ContextDesignWalkthrough } from './components/diagrams/context-design-walkthrough'
+import { ActionBoundariesWalkthrough } from './components/diagrams/action-boundaries-walkthrough'
 import { TransformerWalkthrough } from './components/diagrams/transformer-walkthrough'
 import { AttentionVariantsWalkthrough } from './components/diagrams/attention-variants-walkthrough'
 import { MoEWalkthrough } from './components/diagrams/moe-walkthrough'
@@ -38,6 +39,7 @@ export const useMDXComponents = components => ({
   AgentConceptsWalkthrough,
   OverviewReadingWalkthrough,
   ContextDesignWalkthrough,
+  ActionBoundariesWalkthrough,
   TransformerWalkthrough,
   AttentionVariantsWalkthrough,
   MoEWalkthrough,

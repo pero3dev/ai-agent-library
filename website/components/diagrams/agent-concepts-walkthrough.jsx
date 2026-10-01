@@ -5,6 +5,11 @@ import { DiagramBoundary } from './diagram-boundary'
 import { ReadingArticleContents } from './reading-article-navigation'
 
 const scenes = {
+  'ai-design-lineage': lazy(() => import('./ai-lineage-scenes').then(module => ({ default: module.AiDesignLineage }))),
+  'world-model-usages': lazy(() => import('./world-model-scenes').then(module => ({ default: module.WorldModelUsages }))),
+  'world-model-evidence': lazy(() => import('./world-model-scenes').then(module => ({ default: module.WorldModelEvidence }))),
+  'physical-ai-boundaries': lazy(() => import('./physical-ai-scenes').then(module => ({ default: module.PhysicalAiBoundaries }))),
+  'physical-ai-evidence': lazy(() => import('./physical-ai-scenes').then(module => ({ default: module.PhysicalAiEvidence }))),
   'planning-patterns': lazy(() => import('./planning-scenes').then(module => ({ default: module.PlanningPatterns }))),
   'planning-maintenance': lazy(() => import('./planning-scenes').then(module => ({ default: module.PlanningMaintenance }))),
   'retrieval-paths': lazy(() => import('./retrieval-design-scenes').then(module => ({ default: module.RetrievalPaths }))),

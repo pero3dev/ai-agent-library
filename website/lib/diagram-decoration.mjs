@@ -5,6 +5,11 @@ const element = (name, children, attributes = []) => ({ type: 'mdxJsxFlowElement
 const attribute = (name, value) => ({ type: 'mdxJsxAttribute', name, value: String(value) })
 const step = (index, children) => element('ReadingStep', children, [attribute('step', index)])
 const components = {
+  'ai-design-lineage': 'AgentConceptsWalkthrough',
+  'world-model-usages': 'AgentConceptsWalkthrough',
+  'world-model-evidence': 'AgentConceptsWalkthrough',
+  'physical-ai-boundaries': 'AgentConceptsWalkthrough',
+  'physical-ai-evidence': 'AgentConceptsWalkthrough',
   'planning-patterns': 'AgentConceptsWalkthrough',
   'planning-maintenance': 'AgentConceptsWalkthrough',
   'retrieval-paths': 'AgentConceptsWalkthrough',

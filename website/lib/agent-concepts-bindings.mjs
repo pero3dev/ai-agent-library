@@ -1,7 +1,9 @@
 // Code-owned placements. Each original paragraph, list, table and Mermaid is kept whole.
 import { AGENT_DESIGN_BINDINGS } from './agent-design-bindings.mjs'
+import { AGENT_LINEAGE_BINDINGS } from './agent-lineage-bindings.mjs'
 export const AGENT_CONCEPT_BINDINGS = {
   ...AGENT_DESIGN_BINDINGS,
+  ...AGENT_LINEAGE_BINDINGS,
   'agent-components': {
     article: 'docs/01-concepts/what-is-an-ai-agent.md', route: '/docs/concepts/what-is-an-ai-agent',
     binding: 'grouped-blocks', stageCount: 5,

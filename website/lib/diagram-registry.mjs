@@ -1,3 +1,4 @@
+import { RETRIEVAL_DATA_BINDINGS } from './retrieval-data-bindings.mjs'
 import { FEEDBACK_STREAMING_BINDINGS } from './feedback-streaming-bindings.mjs'
 import { PROMPT_TECHNIQUES_ASSETS_BINDINGS } from './prompt-techniques-assets-bindings.mjs'
 import { PROMPT_TOOL_OUTPUT_BINDINGS } from './prompt-tool-output-bindings.mjs'
@@ -23,6 +24,7 @@ import { readFileSync } from 'node:fs'
 // IDs resolve to code-owned bindings, never to module paths supplied by Markdown
 // or the registry. Adding a diagram requires an explicit implementation change.
 const BINDINGS = {
+  ...RETRIEVAL_DATA_BINDINGS,
   ...FEEDBACK_STREAMING_BINDINGS,
   ...PROMPT_TECHNIQUES_ASSETS_BINDINGS,
   ...PROMPT_TOOL_OUTPUT_BINDINGS,

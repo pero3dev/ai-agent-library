@@ -7846,6 +7846,298 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "embedding-choice-asymmetry",
+      "article": "docs/03-implementation/embeddings.md",
+      "route": "/docs/implementation/embeddings",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: RAG 実装パターンとの分担",
+        "埋め込みとは: 何が「近い」のか",
+        "選定軸",
+        "次元のトレードオフ",
+        "非対称検索: クエリと文書は非対称"
+      ],
+      "sourceHeadings": [
+        "概要: RAG 実装パターンとの分担",
+        "埋め込みとは: 何が「近い」のか",
+        "選定軸",
+        "次元のトレードオフ",
+        "非対称検索: クエリと文書は非対称"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:5bd0a7fd70407beea665fb9305c5e7bfa7a28d328e3b310b1057e025c95c215c",
+      "reviewedDigest": "sha256:5bd0a7fd70407beea665fb9305c5e7bfa7a28d328e3b310b1057e025c95c215c",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "embedding-chunk-deploy",
+      "article": "docs/03-implementation/embeddings.md",
+      "route": "/docs/implementation/embeddings",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "チャンクサイズとの相互作用",
+        "微調整はいつ効くか",
+        "評価: 自社の検索評価セットで比べる",
+        "運用の最重要問題: モデル更新 = 全再インデックス"
+      ],
+      "sourceHeadings": [
+        "チャンクサイズとの相互作用",
+        "微調整はいつ効くか",
+        "評価: 自社の検索評価セットで比べる",
+        "運用の最重要問題: モデル更新 = 全再インデックス"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:369a10da799757c812ea6318abe60008efb67c39ffae0c91ec88391edeeae99d",
+      "reviewedDigest": "sha256:369a10da799757c812ea6318abe60008efb67c39ffae0c91ec88391edeeae99d",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "vector-choice-approximation",
+      "article": "docs/03-implementation/vector-databases.md",
+      "route": "/docs/implementation/vector-databases",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "概要: 分担と「本当に要るか」",
+        "選択肢の類型",
+        "近似最近傍探索(ANN)の直感"
+      ],
+      "sourceHeadings": [
+        "概要: 分担と「本当に要るか」",
+        "選択肢の類型",
+        "近似最近傍探索(ANN)の直感"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 5
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:f8ae04eea63d1824fae0d4a16836dc12a340ba56d031f395855fda989d429aec",
+      "reviewedDigest": "sha256:f8ae04eea63d1824fae0d4a16836dc12a340ba56d031f395855fda989d429aec",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "vector-filter-operations",
+      "article": "docs/03-implementation/vector-databases.md",
+      "route": "/docs/implementation/vector-databases",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "メタデータフィルタとハイブリッド検索の対応力",
+        "スケールとコスト構造",
+        "運用",
+        "小規模なら単純解でよい"
+      ],
+      "sourceHeadings": [
+        "メタデータフィルタとハイブリッド検索の対応力",
+        "スケールとコスト構造",
+        "運用",
+        "小規模なら単純解でよい"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:45f42f9e885e6a004d529b677691bf0e893013c7fcba7679dc1d2f3e07a42505",
+      "reviewedDigest": "sha256:45f42f9e885e6a004d529b677691bf0e893013c7fcba7679dc1d2f3e07a42505",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "preprocess-extraction-quality",
+      "article": "docs/03-implementation/data-preprocessing-for-llm.md",
+      "route": "/docs/implementation/data-preprocessing-for-llm",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 分担と「ゴミを入れればゴミが出る」",
+        "前処理パイプラインの全体像",
+        "フォーマット別の抽出",
+        "クリーニング"
+      ],
+      "sourceHeadings": [
+        "概要: 分担と「ゴミを入れればゴミが出る」",
+        "前処理パイプラインの全体像",
+        "フォーマット別の抽出",
+        "クリーニング"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:29a40d3d4444ba551fa259ddb767addf80fc8adf5bec157ec91c3072680ae366",
+      "reviewedDigest": "sha256:29a40d3d4444ba551fa259ddb767addf80fc8adf5bec157ec91c3072680ae366",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "preprocess-metadata-lineage",
+      "article": "docs/03-implementation/data-preprocessing-for-llm.md",
+      "route": "/docs/implementation/data-preprocessing-for-llm",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "重複・準重複の排除",
+        "メタデータ設計: 原本との対応を取り込み時に残す",
+        "増分更新と再処理の運用"
+      ],
+      "sourceHeadings": [
+        "重複・準重複の排除",
+        "メタデータ設計: 原本との対応を取り込み時に残す",
+        "増分更新と再処理の運用"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:dbaf7fdb5c966a9cc94720171eb88ccce6d0429a718259a8cef20bf0d8938799",
+      "reviewedDigest": "sha256:dbaf7fdb5c966a9cc94720171eb88ccce6d0429a718259a8cef20bf0d8938799",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

@@ -1,0 +1,5 @@
+.retrieval-data-walkthrough .lf-label{font-size:22px;font-weight:700;fill:#e2ebf0}
+.retrieval-data-walkthrough .lf-note{font-size:19px;fill:#bdd0dc}
+.retrieval-data-walkthrough .lf-box[data-active="false"] .lf-label{fill:#9daebe}
+.retrieval-data-walkthrough .aw-figure-description{min-height:2.5rem}
+@media(prefers-reduced-motion:reduce){.retrieval-data-walkthrough *{scroll-behavior:auto}}

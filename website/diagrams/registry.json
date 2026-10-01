@@ -6270,6 +6270,352 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "claude-practice-mechanisms",
+      "article": "docs/08-coding-agents/claude-code-in-practice.md",
+      "route": "/docs/coding-agents/claude-code-in-practice",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "機能の使いどころ"
+      ],
+      "sourceHeadings": [
+        "機能の使いどころ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:84724bc4302bec7c077130d24be9586ce64fb10e5de7695105c3eb1a598fddac",
+      "reviewedDigest": "sha256:84724bc4302bec7c077130d24be9586ce64fb10e5de7695105c3eb1a598fddac",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "claude-practice-context-cache",
+      "article": "docs/08-coding-agents/claude-code-in-practice.md",
+      "route": "/docs/coding-agents/claude-code-in-practice",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "コスト削減: 公式テクニックの要点"
+      ],
+      "sourceHeadings": [
+        "コスト削減: 公式テクニックの要点"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 2
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:8ab83f3ef3ceb83787345e2cb3cce7338a37374f6f1471cf2208691be9423e23",
+      "reviewedDigest": "sha256:8ab83f3ef3ceb83787345e2cb3cce7338a37374f6f1471cf2208691be9423e23",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "claude-practice-automation-quality",
+      "article": "docs/08-coding-agents/claude-code-in-practice.md",
+      "route": "/docs/coding-agents/claude-code-in-practice",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "業務効率化・自動化",
+        "品質を上げる公式プラクティス"
+      ],
+      "sourceHeadings": [
+        "業務効率化・自動化",
+        "品質を上げる公式プラクティス"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:7ac3249adfc43cf7854592b13bcf3d9ce2a3c0f54616fc857d9dabfab615bb51",
+      "reviewedDigest": "sha256:7ac3249adfc43cf7854592b13bcf3d9ce2a3c0f54616fc857d9dabfab615bb51",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "codex-practice-surfaces-config",
+      "article": "docs/08-coding-agents/openai-codex-in-practice.md",
+      "route": "/docs/coding-agents/openai-codex-in-practice",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "面の使い分けとハンドオフ",
+        "カスタマイズ機構の使い分け"
+      ],
+      "sourceHeadings": [
+        "面の使い分けとハンドオフ",
+        "カスタマイズ機構の使い分け"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 3
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:dbe1984e98840d2b8039a844387596705f6495e457687ef2f46c7e07d25f21bf",
+      "reviewedDigest": "sha256:dbe1984e98840d2b8039a844387596705f6495e457687ef2f46c7e07d25f21bf",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "codex-practice-budget-context",
+      "article": "docs/08-coding-agents/openai-codex-in-practice.md",
+      "route": "/docs/coding-agents/openai-codex-in-practice",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "コスト削減: 制限の構造とレバー"
+      ],
+      "sourceHeadings": [
+        "コスト削減: 制限の構造とレバー"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:6d47f8bab55140bf5963757b3671daae32163c505ed0155341c102799a9278fb",
+      "reviewedDigest": "sha256:6d47f8bab55140bf5963757b3671daae32163c505ed0155341c102799a9278fb",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "codex-practice-automation-quality",
+      "article": "docs/08-coding-agents/openai-codex-in-practice.md",
+      "route": "/docs/coding-agents/openai-codex-in-practice",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "業務効率化・自動化",
+        "品質を上げる公式プラクティス"
+      ],
+      "sourceHeadings": [
+        "業務効率化・自動化",
+        "品質を上げる公式プラクティス"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:fc703dce32427bbff9f5979358823bfd181979c96928c4f04409b5adfc66d8c3",
+      "reviewedDigest": "sha256:fc703dce32427bbff9f5979358823bfd181979c96928c4f04409b5adfc66d8c3",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "copilot-practice-functions-config",
+      "article": "docs/08-coding-agents/github-copilot-in-practice.md",
+      "route": "/docs/coding-agents/github-copilot-in-practice",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "タスク別の機能の使い分け",
+        "カスタマイズ機構の実践"
+      ],
+      "sourceHeadings": [
+        "タスク別の機能の使い分け",
+        "カスタマイズ機構の実践"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:1ca9358417800e841de7c84df8de4df742396fe2539ae1bb7a1bb06cb3ea07f4",
+      "reviewedDigest": "sha256:1ca9358417800e841de7c84df8de4df742396fe2539ae1bb7a1bb06cb3ea07f4",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "copilot-practice-budget-cache",
+      "article": "docs/08-coding-agents/github-copilot-in-practice.md",
+      "route": "/docs/coding-agents/github-copilot-in-practice",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "コスト削減: AI Credits の構造とレバー"
+      ],
+      "sourceHeadings": [
+        "コスト削減: AI Credits の構造とレバー"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:05c87927689dd1067eb95b94851e059e24871e85627b681e76a0e428e7cead43",
+      "reviewedDigest": "sha256:05c87927689dd1067eb95b94851e059e24871e85627b681e76a0e428e7cead43",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "copilot-practice-automation",
+      "article": "docs/08-coding-agents/github-copilot-in-practice.md",
+      "route": "/docs/coding-agents/github-copilot-in-practice",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "業務効率化・自動化"
+      ],
+      "sourceHeadings": [
+        "業務効率化・自動化"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:4541d40cd1312c2e06718f05d4fde2586bdf21d04e90b9f9ee36f793d5e59741",
+      "reviewedDigest": "sha256:4541d40cd1312c2e06718f05d4fde2586bdf21d04e90b9f9ee36f793d5e59741",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

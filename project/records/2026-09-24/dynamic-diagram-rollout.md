@@ -1,6 +1,6 @@
 # 動的図解の展開状況
 
-開始日: 2026-09-24。2026-10-01現在、P1全15記事はPR #65、P2の最初の3記事はPR #66で公開済み。計画・検索・委譲3記事はPR #67で全必須CI・squash・Pages・公開表示まで完了。次の[系譜・世界モデル・フィジカルAI](../2026-10-01/lineage-world-physical-ai.md)はPR #68で全必須CI・squash・Pages・公開表示まで完了。次の[画面操作・ループ・Workflow比較](../2026-10-01/screen-loop-workflow.md)はPR #69で全必須CI・squash・Pages・公開表示まで完了。次の[全体像3記事](../2026-10-01/learning-skills-information.md)はPR #72で全必須CI・squash・Pages・公開表示まで完了。次の[コンテキスト3記事](../2026-10-01/context-design-and-boundaries.md)はPR #73で全必須CI・squash・Pages・公開表示まで完了。次の[実行構成・人の介入・回復](../2026-10-01/action-boundaries-and-recovery.md)はPR #74で必須CI・squash・Pages・公開表示まで完了。次の[ハーネスとループ](../2026-10-01/harness-and-loop-controls.md)はPR #75で必須CI・squash・Pages・公開表示まで完了。次の[耐久実行・テナント分離・API](../2026-10-01/durable-tenant-api-contracts.md)はPR #76で必須CI・squash完了、main CI 36827588414とPages公開待ち。最新の依頼はP5完了までの継続。以下の独立受入・固定snapshotの記述は旧手順での履歴である。
+開始日: 2026-09-24。2026-10-01現在、P1全15記事とP2の26/54記事はPR #65〜#69・#72〜#76で公開済み。初期対象199記事中41記事が公開完了。02章全12記事は完了。[08章の分類・選定・依頼](../2026-10-01/coding-classification-selection-request.md)はPR #77で必須CI・squash完了、Pages公開待ち。[ルール・権限・自動化](../2026-10-01/coding-rules-permissions-automation.md)3記事は7図36段階をローカル検証済み。次はチーム導入・評価・コストの3記事。依頼の到達点はP5完了。以下の独立受入・固定snapshotは旧手順での履歴である。
 
 2026-10-01のユーザー指示を優先し、親担当だけで進める。追加ハッシュ・証跡アーカイブ・任意の独立図解レビュー・公開後の網羅検査を省略する。1〜3記事ずつ実装・必要な検査・通常PR・squashマージ・Pages公開を進め、公開後は表示確認だけを行う。以前のP1停止指定は、P5までの継続依頼で更新された。
 
@@ -22,7 +22,7 @@
 | 計画 | 全199記事 | 計画作成・独立レビュー済み、採択 | [全件棚卸し](../../plans/engineering/dynamic-diagram-inventory.md)、[計画作成記録](dynamic-diagram-plan.md) |
 | P0 | 共通基盤・自己注意・Agentループ・Workflow比較 | PR #52マージ・公開受入完了 | [P0実施記録](reading-diagram-foundation.md) |
 | P1 | LLM内部構造・基礎15記事 | 15/15記事が公開完了（PR #65） | [P1完了](../2026-10-01/p1-completion.md) |
-| P2 | 中核54記事 | 23/54記事が公開完了（PR #66〜#69・#72〜#75）、ハーネスとループ2記事はPR #75で必須CI・squash・Pages・公開表示まで完了。耐久実行・テナント・API3記事はPR #76で必須CI・squash完了、main CI 36827588414とPages公開待ち。P0の2記事は今回の制作単位で未対応論点を補う | [最初の3記事](../2026-10-01/p2-agent-concepts.md)、[計画・検索・委譲](../2026-10-01/planning-retrieval-delegation.md)、[系譜・世界モデル・物理AI](../2026-10-01/lineage-world-physical-ai.md) |
+| P2 | 中核54記事 | 26/54記事が公開完了（PR #66〜#69・#72〜#76）。08章3記事はPR #77で必須CI・squash完了、Pages公開待ち。ルール等3記事は7図36段階をローカル検証済み | [08章の分類・選定・依頼](../2026-10-01/coding-classification-selection-request.md)、[ルール・権限・自動化](../2026-10-01/coding-rules-permissions-automation.md) |
 | P3 | 実装・品質・運用78記事 | 未着手 | P2受入後に着手 |
 | P4 | 応用・判断52記事 | 未着手 | P3受入後に着手 |
 | P5 | 全体受入・更新運用 | 未着手 | P4受入後に着手 |

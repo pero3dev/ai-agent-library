@@ -1,3 +1,4 @@
+import { CodingControlsWalkthrough } from './components/diagrams/coding-controls-walkthrough'
 import { useMDXComponents as getDocsMDXComponents } from 'nextra-theme-docs'
 import { ChecklistBox } from './components/mdx/checklist-box'
 import { DocMeta } from './components/mdx/doc-meta'
@@ -45,6 +46,7 @@ export const useMDXComponents = components => ({
   ActionBoundariesWalkthrough,
   HarnessLoopWalkthrough,
   DurableContractWalkthrough,
+  CodingControlsWalkthrough,
   CodingDecisionsWalkthrough,
   TransformerWalkthrough,
   AttentionVariantsWalkthrough,

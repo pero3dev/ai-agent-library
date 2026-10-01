@@ -4370,6 +4370,296 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-rules-content",
+      "article": "docs/08-coding-agents/coding-agent-rules-and-config.md",
+      "route": "/docs/coding-agents/coding-agent-rules-and-config",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要",
+        "ルールファイルの種類と対応関係",
+        "内容設計(何を書くか)"
+      ],
+      "sourceHeadings": [
+        "概要",
+        "ルールファイルの種類と対応関係",
+        "内容設計(何を書くか)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 4
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 3
+          },
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:b5f2f9488dcbe7b36443d340073b8c85e2ef4917952e0532754024a781c155fd",
+      "reviewedDigest": "sha256:b5f2f9488dcbe7b36443d340073b8c85e2ef4917952e0532754024a781c155fd",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-rules-scope-maintenance",
+      "article": "docs/08-coding-agents/coding-agent-rules-and-config.md",
+      "route": "/docs/coding-agents/coding-agent-rules-and-config",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "階層化とスコープ",
+        "保守と形骸化防止"
+      ],
+      "sourceHeadings": [
+        "階層化とスコープ",
+        "保守と形骸化防止"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:82c23cd1adab7fc83d70f3c9aabd77f034b79abb19687d30f9b0ba03cdf72039",
+      "reviewedDigest": "sha256:82c23cd1adab7fc83d70f3c9aabd77f034b79abb19687d30f9b0ba03cdf72039",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-security-threat-paths",
+      "article": "docs/08-coding-agents/coding-agent-security.md",
+      "route": "/docs/coding-agents/coding-agent-security",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要",
+        "コーディングエージェント固有の脅威"
+      ],
+      "sourceHeadings": [
+        "概要",
+        "コーディングエージェント固有の脅威"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:bec2a8ebe98a47aae1295f6454951a2b4ffcb959b0b3a2105ee21a782370d277",
+      "reviewedDigest": "sha256:bec2a8ebe98a47aae1295f6454951a2b4ffcb959b0b3a2105ee21a782370d277",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-security-permission-modes",
+      "article": "docs/08-coding-agents/coding-agent-security.md",
+      "route": "/docs/coding-agents/coding-agent-security",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "権限モデルの設計"
+      ],
+      "sourceHeadings": [
+        "権限モデルの設計"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:fb1268c04026d3895b905f81c3d5e123801a7ea1dcc79a4d343acdab30469868",
+      "reviewedDigest": "sha256:fb1268c04026d3895b905f81c3d5e123801a7ea1dcc79a4d343acdab30469868",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-security-defense-audit",
+      "article": "docs/08-coding-agents/coding-agent-security.md",
+      "route": "/docs/coding-agents/coding-agent-security",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "秘密情報の扱い",
+        "破壊的操作への多層防御",
+        "監査とログ"
+      ],
+      "sourceHeadings": [
+        "秘密情報の扱い",
+        "破壊的操作への多層防御",
+        "監査とログ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:d9ac2754ea9a477565a3652cf2d5f66d3e35dc74862a50f2b850af2c73b95d5e",
+      "reviewedDigest": "sha256:d9ac2754ea9a477565a3652cf2d5f66d3e35dc74862a50f2b850af2c73b95d5e",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-automation-task-design",
+      "article": "docs/08-coding-agents/coding-agent-automation-patterns.md",
+      "route": "/docs/coding-agents/coding-agent-automation-patterns",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 自動化の 3 段階",
+        "定番パターン集",
+        "非対話実行と CI 組み込み"
+      ],
+      "sourceHeadings": [
+        "概要: 自動化の 3 段階",
+        "定番パターン集",
+        "非対話実行と CI 組み込み"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:43ef1e69078dfd1a50cd4fbccffc6da07d9b652e4270f773d56160ad2740eb29",
+      "reviewedDigest": "sha256:43ef1e69078dfd1a50cd4fbccffc6da07d9b652e4270f773d56160ad2740eb29",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-automation-runtime-recovery",
+      "article": "docs/08-coding-agents/coding-agent-automation-patterns.md",
+      "route": "/docs/coding-agents/coding-agent-automation-patterns",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "定期実行(スケジュール)",
+        "並列化",
+        "自動化の失敗設計"
+      ],
+      "sourceHeadings": [
+        "定期実行(スケジュール)",
+        "並列化",
+        "自動化の失敗設計"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:c845cde750d04dcdbe3cc1c75e42de813a1f5c70ac5a41ee066d32a22ff3eb27",
+      "reviewedDigest": "sha256:c845cde750d04dcdbe3cc1c75e42de813a1f5c70ac5a41ee066d32a22ff3eb27",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

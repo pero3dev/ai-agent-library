@@ -2292,6 +2292,276 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "ai-design-lineage",
+      "article": "docs/01-concepts/ai-history-and-lineage.md",
+      "route": "/docs/concepts/ai-history-and-lineage",
+      "binding": "grouped-blocks",
+      "stageCount": 8,
+      "headings": [
+        "概要: 年表ではなく「転換点」でたどる",
+        "前史: 記号主義と機械学習の往復",
+        "深層学習の転換点",
+        "Transformer と事前学習パラダイム",
+        "スケーリングと基盤モデル化",
+        "指示追従・対話化",
+        "ツール使用とエージェント化",
+        "歴史から学べる判断の教訓"
+      ],
+      "sourceHeadings": [
+        "概要: 年表ではなく「転換点」でたどる",
+        "前史: 記号主義と機械学習の往復",
+        "深層学習の転換点",
+        "Transformer と事前学習パラダイム",
+        "スケーリングと基盤モデル化",
+        "指示追従・対話化",
+        "ツール使用とエージェント化",
+        "歴史から学べる判断の教訓"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 6,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 7,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:fe89ecac0c2a7fbf0fd01cc26f0d5cd72b7c3d14a289d11bd6531cea34186933",
+      "reviewedDigest": "sha256:fe89ecac0c2a7fbf0fd01cc26f0d5cd72b7c3d14a289d11bd6531cea34186933",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "world-model-usages",
+      "article": "docs/01-concepts/world-models-overview.md",
+      "route": "/docs/concepts/world-models-overview",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: 「世界モデル」は 1 つの意味ではない",
+        "世界モデルの 3 つの用法",
+        "なぜ注目されるのか"
+      ],
+      "sourceHeadings": [
+        "概要: 「世界モデル」は 1 つの意味ではない",
+        "世界モデルの 3 つの用法",
+        "なぜ注目されるのか"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:fcfe74402e210e92f882b8e42b857ff1ca04fabbe33859e87509a981c1c62877",
+      "reviewedDigest": "sha256:fcfe74402e210e92f882b8e42b857ff1ca04fabbe33859e87509a981c1c62877",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "world-model-evidence",
+      "article": "docs/01-concepts/world-models-overview.md",
+      "route": "/docs/concepts/world-models-overview",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "ソフトウェアエージェントへの含意",
+        "現在地の読み方: デモと実用の距離"
+      ],
+      "sourceHeadings": [
+        "ソフトウェアエージェントへの含意",
+        "現在地の読み方: デモと実用の距離"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:ab773fcbef73cacf2415c56b090d009185f5e59406e61e76b24abdb9c7ec0da3",
+      "reviewedDigest": "sha256:ab773fcbef73cacf2415c56b090d009185f5e59406e61e76b24abdb9c7ec0da3",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "physical-ai-boundaries",
+      "article": "docs/01-concepts/physical-ai-overview.md",
+      "route": "/docs/concepts/physical-ai-overview",
+      "binding": "grouped-blocks",
+      "stageCount": 7,
+      "headings": [
+        "概要: なぜソフトウェアエンジニアが知っておくべきか",
+        "ソフトウェア Agent との共通点",
+        "本質的に違う点: 3 つの制約"
+      ],
+      "sourceHeadings": [
+        "概要: なぜソフトウェアエンジニアが知っておくべきか",
+        "ソフトウェア Agent との共通点",
+        "本質的に違う点: 3 つの制約"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:a7b59f24085931dbc2140f12461011728713964af829538383488809c7677ca3",
+      "reviewedDigest": "sha256:a7b59f24085931dbc2140f12461011728713964af829538383488809c7677ca3",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "physical-ai-evidence",
+      "article": "docs/01-concepts/physical-ai-overview.md",
+      "route": "/docs/concepts/physical-ai-overview",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "VLA モデルの概観",
+        "現在地と展望(2026-09-10 時点)"
+      ],
+      "sourceHeadings": [
+        "VLA モデルの概観",
+        "現在地と展望(2026-09-10 時点)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 3
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:9ef4c110bbb4348ebf8a9559bb73a3d773471520ee6c8198fec3522465497afb",
+      "reviewedDigest": "sha256:9ef4c110bbb4348ebf8a9559bb73a3d773471520ee6c8198fec3522465497afb",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

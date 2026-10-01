@@ -33,6 +33,7 @@ const readingStages = {
   'inference-sampling': 7, 'inference-cache-batching': 6, 'inference-speculative': 6, 'inference-quantization': 4,
   'generation-token-loop': 8, 'tokenization-counting': 7,
   'moe-routing-load': 8, 'moe-parameters-communication': 6,
+  'ai-design-lineage': 8, 'world-model-usages': 6, 'world-model-evidence': 4, 'physical-ai-boundaries': 7, 'physical-ai-evidence': 6,
   'planning-patterns': 5, 'planning-maintenance': 6, 'retrieval-paths': 5, 'retrieval-choice': 5, 'delegation-boundaries': 7, 'delegation-patterns': 5,
   'agent-components': 5, 'agent-autonomy': 6, 'tool-execution': 7, 'tool-contract': 6, 'memory-layers': 5, 'memory-lifecycle': 7,
   'agent-loop': 5, 'workflow-comparison': 5,
@@ -44,7 +45,7 @@ const walkthroughs = new Set(['AgentConceptsWalkthrough', 'AttentionWalkthrough'
 // sync が装飾として挿入する props だけを許可する。コンポーネント名だけでは、
 // 属性式や {...spread} を経由したビルド時の JavaScript 実行を防げない。
 const attributes = {
-  AgentConceptsWalkthrough: { diagramId: value => ['planning-patterns', 'planning-maintenance', 'retrieval-paths', 'retrieval-choice', 'delegation-boundaries', 'delegation-patterns', 'agent-components', 'agent-autonomy', 'tool-execution', 'tool-contract', 'memory-layers', 'memory-lifecycle'].includes(value) },
+  AgentConceptsWalkthrough: { diagramId: value => ['ai-design-lineage', 'world-model-usages', 'world-model-evidence', 'physical-ai-boundaries', 'physical-ai-evidence', 'planning-patterns', 'planning-maintenance', 'retrieval-paths', 'retrieval-choice', 'delegation-boundaries', 'delegation-patterns', 'agent-components', 'agent-autonomy', 'tool-execution', 'tool-contract', 'memory-layers', 'memory-lifecycle'].includes(value) },
   MultimodalWalkthrough: { diagramId: value => [
   "multimodal-representation",
   "multimodal-input-tradeoffs"

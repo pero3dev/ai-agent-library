@@ -78,6 +78,18 @@ test('low PC playback pause and print preserve Codex original location and authe
  await page.goto(`${base}/docs/coding-agents/openai-codex-in-practice`)
  const root=page.locator('[data-diagram-id="codex-practice-surfaces-config"]')
  await root.scrollIntoViewIfNeeded()
+ const play=root.getByRole('button',{name:'図解を再生',exact:true})
+ await play.scrollIntoViewIfNeeded()
+ // Scrolling the controls into view must settle the panel's intersection
+ // before playback's offscreen guard reads its last observed visibility.
+ await play.evaluate(element=>new Promise(resolve=>{
+  const observer=new IntersectionObserver(entries=>{
+   if(!entries.at(-1)?.isIntersecting)return
+   observer.disconnect()
+   requestAnimationFrame(()=>requestAnimationFrame(resolve))
+  })
+  observer.observe(element.closest('.aw-sticky'))
+ }))
  await root.getByRole('button',{name:'図解を再生',exact:true}).click()
  await expect(root.locator('.aw-diagram')).toHaveAttribute('data-mode','playing')
  await root.getByRole('button',{name:'図解を一時停止',exact:true}).click()

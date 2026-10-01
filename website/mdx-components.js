@@ -13,6 +13,7 @@ import { ContextDesignWalkthrough } from './components/diagrams/context-design-w
 import { ActionBoundariesWalkthrough } from './components/diagrams/action-boundaries-walkthrough'
 import { HarnessLoopWalkthrough } from './components/diagrams/harness-loop-walkthrough'
 import { DurableContractWalkthrough } from './components/diagrams/durable-contract-walkthrough'
+import { CodingDecisionsWalkthrough } from './components/diagrams/coding-decisions-walkthrough'
 import { TransformerWalkthrough } from './components/diagrams/transformer-walkthrough'
 import { AttentionVariantsWalkthrough } from './components/diagrams/attention-variants-walkthrough'
 import { MoEWalkthrough } from './components/diagrams/moe-walkthrough'
@@ -44,6 +45,7 @@ export const useMDXComponents = components => ({
   ActionBoundariesWalkthrough,
   HarnessLoopWalkthrough,
   DurableContractWalkthrough,
+  CodingDecisionsWalkthrough,
   TransformerWalkthrough,
   AttentionVariantsWalkthrough,
   MoEWalkthrough,

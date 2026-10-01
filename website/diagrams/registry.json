@@ -4084,6 +4084,292 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-support-forms",
+      "article": "docs/08-coding-agents/coding-agents-overview.md",
+      "route": "/docs/coding-agents/coding-agents-overview",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要",
+        "コード補完からコーディングエージェントへ",
+        "提供形態による 5 分類"
+      ],
+      "sourceHeadings": [
+        "概要",
+        "コード補完からコーディングエージェントへ",
+        "提供形態による 5 分類"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:d58cbb60d2efc5debeb49fe5676624cc1ae59ee0e85716eb8ce599bd94920e57",
+      "reviewedDigest": "sha256:d58cbb60d2efc5debeb49fe5676624cc1ae59ee0e85716eb8ce599bd94920e57",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-trigger-execution-map",
+      "article": "docs/08-coding-agents/coding-agents-overview.md",
+      "route": "/docs/coding-agents/coding-agents-overview",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "2 軸での整理(トリガー面 × 実行場所)"
+      ],
+      "sourceHeadings": [
+        "2 軸での整理(トリガー面 × 実行場所)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:d1fb4337fee1bf90aae0710540a29a7042697a93ef503e7a7aa3fde7c12fbb89",
+      "reviewedDigest": "sha256:d1fb4337fee1bf90aae0710540a29a7042697a93ef503e7a7aa3fde7c12fbb89",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-autonomy-learning",
+      "article": "docs/08-coding-agents/coding-agents-overview.md",
+      "route": "/docs/coding-agents/coding-agents-overview",
+      "binding": "grouped-blocks",
+      "stageCount": 3,
+      "headings": [
+        "自律性と人の関与のスペクトラム",
+        "この章の読み方"
+      ],
+      "sourceHeadings": [
+        "自律性と人の関与のスペクトラム",
+        "この章の読み方"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:c9fff1c7d33788ebd9541f68f12297912d4e73e46654e7baeffcdbb552b5fe3f",
+      "reviewedDigest": "sha256:c9fff1c7d33788ebd9541f68f12297912d4e73e46654e7baeffcdbb552b5fe3f",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-selection-constraints",
+      "article": "docs/08-coding-agents/coding-agent-selection.md",
+      "route": "/docs/coding-agents/coding-agent-selection",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要",
+        "選定の判断軸",
+        "用途から形態を選ぶ"
+      ],
+      "sourceHeadings": [
+        "概要",
+        "選定の判断軸",
+        "用途から形態を選ぶ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:6c53530dd25733b0d3b9e53503dfddaeed897e2f61cd12a72e4d903cdaa57f95",
+      "reviewedDigest": "sha256:6c53530dd25733b0d3b9e53503dfddaeed897e2f61cd12a72e4d903cdaa57f95",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-selection-trial",
+      "article": "docs/08-coding-agents/coding-agent-selection.md",
+      "route": "/docs/coding-agents/coding-agent-selection",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "併用パターン",
+        "選定プロセスの設計"
+      ],
+      "sourceHeadings": [
+        "併用パターン",
+        "選定プロセスの設計"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:ab74932b9936355ad8d3e03e9d12c98ad8e3e7ba50a2fb570d2919e1ad42d5cd",
+      "reviewedDigest": "sha256:ab74932b9936355ad8d3e03e9d12c98ad8e3e7ba50a2fb570d2919e1ad42d5cd",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-request-contract",
+      "article": "docs/08-coding-agents/coding-agent-prompting.md",
+      "route": "/docs/coding-agents/coding-agent-prompting",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "概要",
+        "依頼の基本構造",
+        "タスク分割と粒度",
+        "コンテキストの与え方"
+      ],
+      "sourceHeadings": [
+        "概要",
+        "依頼の基本構造",
+        "タスク分割と粒度",
+        "コンテキストの与え方"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 4
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:9c4d01594a296a68f0f241ba6c536cb7ed5229f7273366b2056ff32c994fbd97",
+      "reviewedDigest": "sha256:9c4d01594a296a68f0f241ba6c536cb7ed5229f7273366b2056ff32c994fbd97",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-request-verification-recovery",
+      "article": "docs/08-coding-agents/coding-agent-prompting.md",
+      "route": "/docs/coding-agents/coding-agent-prompting",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "検証と完了条件の設計",
+        "うまくいかないときの立て直し"
+      ],
+      "sourceHeadings": [
+        "検証と完了条件の設計",
+        "うまくいかないときの立て直し"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:854299bcdbd9645942e9af5d685087e120ea6e90b5a0fbd5d3d2b2c4e9cb416c",
+      "reviewedDigest": "sha256:854299bcdbd9645942e9af5d685087e120ea6e90b5a0fbd5d3d2b2c4e9cb416c",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

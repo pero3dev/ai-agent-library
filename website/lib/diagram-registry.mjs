@@ -4,6 +4,7 @@ import { CONTEXT_DESIGN_BINDINGS } from './context-design-bindings.mjs'
 import { ACTION_BOUNDARY_BINDINGS } from './action-boundaries-bindings.mjs'
 import { HARNESS_LOOP_BINDINGS } from './harness-loop-bindings.mjs'
 import { DURABLE_CONTRACT_BINDINGS } from './durable-tenant-api-bindings.mjs'
+import { CODING_DECISION_BINDINGS } from './coding-decisions-bindings.mjs'
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 
@@ -12,6 +13,7 @@ import { readFileSync } from 'node:fs'
 const BINDINGS = {
   ...HARNESS_LOOP_BINDINGS,
   ...DURABLE_CONTRACT_BINDINGS,
+  ...CODING_DECISION_BINDINGS,
   ...ACTION_BOUNDARY_BINDINGS,
   ...CONTEXT_DESIGN_BINDINGS,
   ...OVERVIEW_BINDINGS,

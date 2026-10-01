@@ -5972,6 +5972,304 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "copilot-surfaces-flow",
+      "article": "docs/08-coding-agents/github-copilot.md",
+      "route": "/docs/coding-agents/github-copilot",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要",
+        "提供形態と実行環境",
+        "リポジトリ理解・編集・実行の仕組み"
+      ],
+      "sourceHeadings": [
+        "概要",
+        "提供形態と実行環境",
+        "リポジトリ理解・編集・実行の仕組み"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:e950b4c4526814b5f32dee4d2282e7fa67842e3adedda3186fd78de1ae07e4de",
+      "reviewedDigest": "sha256:e950b4c4526814b5f32dee4d2282e7fa67842e3adedda3186fd78de1ae07e4de",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "copilot-policy-boundaries",
+      "article": "docs/08-coding-agents/github-copilot.md",
+      "route": "/docs/coding-agents/github-copilot",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "設定ファイルとカスタマイズ",
+        "権限管理とセキュリティ",
+        "外部連携(MCP・CI・API)"
+      ],
+      "sourceHeadings": [
+        "設定ファイルとカスタマイズ",
+        "権限管理とセキュリティ",
+        "外部連携(MCP・CI・API)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:ce756d43e5e1b1c57a7a088d596a823cd4163222adcda5cc8fa334555a5cd58d",
+      "reviewedDigest": "sha256:ce756d43e5e1b1c57a7a088d596a823cd4163222adcda5cc8fa334555a5cd58d",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "copilot-adoption-budget",
+      "article": "docs/08-coding-agents/github-copilot.md",
+      "route": "/docs/coding-agents/github-copilot",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "チーム導入と提供プラン",
+        "代表的なユースケースと向き不向き"
+      ],
+      "sourceHeadings": [
+        "チーム導入と提供プラン",
+        "代表的なユースケースと向き不向き"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 3
+          },
+          {
+            "stage": 2,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:85c17e5aa04aa495bd1da01dadc4f36789ed5ed1b49863d5d5b86a6bd7114cd3",
+      "reviewedDigest": "sha256:85c17e5aa04aa495bd1da01dadc4f36789ed5ed1b49863d5d5b86a6bd7114cd3",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "oss-freedom-responsibility",
+      "article": "docs/08-coding-agents/open-source-coding-agents.md",
+      "route": "/docs/coding-agents/open-source-coding-agents",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "概要",
+        "主要ツールの一言サマリー(2026-08、Cline・Continue は 2026-09 部分更新)"
+      ],
+      "sourceHeadings": [
+        "概要",
+        "主要ツールの一言サマリー(2026-08、Cline・Continue は 2026-09 部分更新)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:efd0902577a97c6eee1e83f247298e8b61aa65b3180455402d1a32eb2edd6e06",
+      "reviewedDigest": "sha256:efd0902577a97c6eee1e83f247298e8b61aa65b3180455402d1a32eb2edd6e06",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "oss-evaluation-controls",
+      "article": "docs/08-coding-agents/open-source-coding-agents.md",
+      "route": "/docs/coding-agents/open-source-coding-agents",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "OSS 系を評価する 4 つの軸",
+        "サンドボックスと実行環境"
+      ],
+      "sourceHeadings": [
+        "OSS 系を評価する 4 つの軸",
+        "サンドボックスと実行環境"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:684db3c606e49ab5aa402829963d16f38940489eb4aa677127deb44c430126ee",
+      "reviewedDigest": "sha256:684db3c606e49ab5aa402829963d16f38940489eb4aa677127deb44c430126ee",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "comparison-matrix-meaning",
+      "article": "docs/08-coding-agents/coding-agents-comparison.md",
+      "route": "/docs/coding-agents/coding-agents-comparison",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "概要と読み方",
+        "提供形態マトリクス",
+        "実行環境・権限・セキュリティ"
+      ],
+      "sourceHeadings": [
+        "概要と読み方",
+        "提供形態マトリクス",
+        "実行環境・権限・セキュリティ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:027f34c580d30f9b6ccec816316e5b973703eb805fb5364cd835893902eb5f19",
+      "reviewedDigest": "sha256:027f34c580d30f9b6ccec816316e5b973703eb805fb5364cd835893902eb5f19",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "comparison-contract-use",
+      "article": "docs/08-coding-agents/coding-agents-comparison.md",
+      "route": "/docs/coding-agents/coding-agents-comparison",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "機能比較",
+        "導入・契約",
+        "用途別の向き不向き"
+      ],
+      "sourceHeadings": [
+        "機能比較",
+        "導入・契約",
+        "用途別の向き不向き"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:561523b3f956c41ba6b3ef9f57496707f1bdf1498b47e58dfe5491799dd64016",
+      "reviewedDigest": "sha256:561523b3f956c41ba6b3ef9f57496707f1bdf1498b47e58dfe5491799dd64016",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

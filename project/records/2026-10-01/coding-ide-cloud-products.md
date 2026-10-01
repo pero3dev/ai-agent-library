@@ -36,3 +36,5 @@
 提出baseはPR #80の実squash daf4cde2f30d659c1475409dc562aee5cb790fd5。上記本文2記事と比較表の同期箇所だけ、必須の最終記事レビューへ不変候補を提出する。通常記事manifestへ実行結果を記録し、承認済みの最終候補で提出する。次はSEの工程マップ・要件設計・テストの3記事。P2残りとP3〜P5は未完了。
 
 最終候補の必須記事レビューは実IDとUTC付きで承認され、manifestの候補digestと最終treeのharness-policyが成功。提出head d380979de72912f30655eadc3a4d457104a4170b、PR CI 36845576289と必須9検査が成功。[PR #81](https://github.com/pero3dev/ai-agent-library/pull/81)の実squashは59c1f5c1747eec09349b250fdc4412a4523356e9（2026-10-01T10:17:07Z）。実メッセージと提出ツリーを確認。main CIとPages・公開表示は待機中。
+
+main CI 36848170152とPagesが成功。公開3記事9図を1440px明色で表示確認・目視し、エラーと横はみ出しは0。公開後は表示確認のみ。PR #81本文へ最終結果を追記済み。

@@ -5704,6 +5704,274 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "se-common-principles",
+      "article": "docs/08-coding-agents/se-process-map.md",
+      "route": "/docs/coding-agents/se-process-map",
+      "binding": "grouped-blocks",
+      "stageCount": 3,
+      "headings": [
+        "概要: このシリーズの地図",
+        "全工程に共通する原則"
+      ],
+      "sourceHeadings": [
+        "概要: このシリーズの地図",
+        "全工程に共通する原則"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:4ead0e0a2402dafe8a81c87155bd71afc16fcbc4ae22fe322dad199eb5163883",
+      "reviewedDigest": "sha256:4ead0e0a2402dafe8a81c87155bd71afc16fcbc4ae22fe322dad199eb5163883",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "se-v-model-map",
+      "article": "docs/08-coding-agents/se-process-map.md",
+      "route": "/docs/coding-agents/se-process-map",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "工程別マップ(V 字モデルで見る)",
+        "ウォーターフォールとアジャイルの読み替え",
+        "自分の工程から始める"
+      ],
+      "sourceHeadings": [
+        "工程別マップ(V 字モデルで見る)",
+        "ウォーターフォールとアジャイルの読み替え",
+        "自分の工程から始める"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:9a15033e9a0fdbf50fd98758dfe2019b49e56279ea0868e788e9edff8dc58dd4",
+      "reviewedDigest": "sha256:9a15033e9a0fdbf50fd98758dfe2019b49e56279ea0868e788e9edff8dc58dd4",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "se-upstream-review",
+      "article": "docs/08-coding-agents/se-requirements-and-design.md",
+      "route": "/docs/coding-agents/se-requirements-and-design",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "概要: 上流での使いどころと分担",
+        "要件の壁打ちと抜け漏れ観点出し",
+        "設計書ドラフトの生成",
+        "設計レビュー支援"
+      ],
+      "sourceHeadings": [
+        "概要: 上流での使いどころと分担",
+        "要件の壁打ちと抜け漏れ観点出し",
+        "設計書ドラフトの生成",
+        "設計レビュー支援"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:d62f049702664b7b358c0975e6effcc60a07aad436ed4f26495af1eb38b14c12",
+      "reviewedDigest": "sha256:d62f049702664b7b358c0975e6effcc60a07aad436ed4f26495af1eb38b14c12",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "se-document-delivery",
+      "article": "docs/08-coding-agents/se-requirements-and-design.md",
+      "route": "/docs/coding-agents/se-requirements-and-design",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "図の生成(Mermaid)",
+        "ドキュメント形式の壁への現実解(Excel 設計書文化)",
+        "上流での機微情報の扱い"
+      ],
+      "sourceHeadings": [
+        "図の生成(Mermaid)",
+        "ドキュメント形式の壁への現実解(Excel 設計書文化)",
+        "上流での機微情報の扱い"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:f378f8bd6facefd3835c7f64b4066af961a5598fcad24b9c0cc6658d495cb850",
+      "reviewedDigest": "sha256:f378f8bd6facefd3835c7f64b4066af961a5598fcad24b9c0cc6658d495cb850",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "se-test-design-generation",
+      "article": "docs/08-coding-agents/se-test-process.md",
+      "route": "/docs/coding-agents/se-test-process",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "概要: テスト工程での使いどころと分担",
+        "テスト観点出しと境界値の列挙",
+        "テストケース生成と、その検証責任",
+        "テストコード・テストデータの生成"
+      ],
+      "sourceHeadings": [
+        "概要: テスト工程での使いどころと分担",
+        "テスト観点出しと境界値の列挙",
+        "テストケース生成と、その検証責任",
+        "テストコード・テストデータの生成"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:647f1c0b89df17a7335a407587c333053faaa89356bd9d5f910d8eb304f99a1f",
+      "reviewedDigest": "sha256:647f1c0b89df17a7335a407587c333053faaa89356bd9d5f910d8eb304f99a1f",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "se-test-oracle-evidence",
+      "article": "docs/08-coding-agents/se-test-process.md",
+      "route": "/docs/coding-agents/se-test-process",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "自己検証の罠",
+        "エビデンス整理の自動化",
+        "品質保証の責任は人が握る"
+      ],
+      "sourceHeadings": [
+        "自己検証の罠",
+        "エビデンス整理の自動化",
+        "品質保証の責任は人が握る"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:730f78bbfb29766219e51e7a8838c6bbe2eba9eb03739852e945755e68930734",
+      "reviewedDigest": "sha256:730f78bbfb29766219e51e7a8838c6bbe2eba9eb03739852e945755e68930734",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

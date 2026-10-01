@@ -10,7 +10,7 @@ export function GoogleProductsRuntime({children}){
   scene={s=><ProductCanvas diagram="google-products-runtime" {...s}>{f=><>
    <Text y={35}>{['三製品の入口・実行場所・契約を分ける','個人向けの終了と、移行先の案内を読む','手元の操作と、cloudでの実行を分ける','探索・組織への適応・計画承認は別の仕組み','計画の確認から、VM・差分・PRへ進む'][f.stage]}</Text>
    {f.stage===0?<>
-    {productNames.map((t,i)=><g key={t}><Box x={32} y={79+i*100} width={260} height={72} title={t} tone={i===2?'amber':'violet'}/><Wire id={s.id} d={`M292 ${115+i*100}H340`} active phase={f.phase}/><Box x={348} y={79+i*100} width={260} height={72} title={['ライセンス・API等','Standard／Enterprise','独立した個人契約'][i]} tone={i===2?'amber':'teal'}/></g>)}
+    {productNames.map((t,i)=><g key={t}><Box x={32} y={79+i*100} width={260} height={72} title={t} tone={i===2?'amber':'violet'}/><Wire id={s.id} d={`M292 ${115+i*100}H340`} active phase={f.phase}/><Box x={348} y={79+i*100} width={260} height={72} title={['ライセンス・API等','Code Assistの契約','独立した個人契約'][i]} lines={i===1?['Standard／Enterprise']:[]} tone={i===2?'amber':'teal'}/></g>)}
     <Text y={417} small>CLIとCode Assistは連動。Julesを同じ契約としない</Text>
    </>:f.stage===1?<>
     <Box x={32} y={105} width={260} height={154} title="旧個人向けの提供" lines={['本文の2026-06-18終了','CLI・IDEの旧経路']} tone="amber"/><Wire id={s.id} d="M292 182H340" active phase={f.phase}/><Box x={348} y={105} width={260} height={154} title="Antigravityへ案内" lines={['CLI・IDE等の移行先','契約と条件を再確認']} tone="teal"/>

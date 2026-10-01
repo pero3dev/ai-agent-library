@@ -1,3 +1,4 @@
+import { CODING_OUTCOME_BINDINGS } from './coding-outcomes-bindings.mjs'
 import { CODING_CONTROL_BINDINGS } from './coding-controls-bindings.mjs'
 import { AGENT_CONCEPT_BINDINGS } from './agent-concepts-bindings.mjs'
 import { OVERVIEW_BINDINGS } from './overview-reading-bindings.mjs'
@@ -12,6 +13,7 @@ import { readFileSync } from 'node:fs'
 // IDs resolve to code-owned bindings, never to module paths supplied by Markdown
 // or the registry. Adding a diagram requires an explicit implementation change.
 const BINDINGS = {
+  ...CODING_OUTCOME_BINDINGS,
   ...CODING_CONTROL_BINDINGS,
   ...HARNESS_LOOP_BINDINGS,
   ...DURABLE_CONTRACT_BINDINGS,

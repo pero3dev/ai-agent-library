@@ -17,7 +17,7 @@ export function CopilotSurfacesFlow({children}){
     <Text y={341} small>変更の確かめ方と、復元の単位を提供面へ合わせる</Text>
     <Text y={391} small>元記事の最大時間・preview・トリガーの条件を保持</Text>
    </>:f.stage===2?<>
-    <Box x={32} y={81} width={260} height={137} title="承認可能性の評価" lines={['レビュー概要に判断','評価だけは承認数へ算入しない']} tone="violet" data-assessment-counts="false"/>
+    <Box x={32} y={81} width={260} height={137} title="承認可能性の評価" lines={['レビュー概要に判断','評価は承認数に入れない']} tone="violet" data-assessment-counts="false"/>
     <Box x={348} y={81} width={260} height={137} title={approval.approvalCanCount?'承認へ算入し得る':approval.approvalInvalidated?'承認は失効':'承認機能は未有効'} lines={['管理者のopt-in preview','対象・保護規則を確認']} tone={approval.approvalCanCount?'teal':'amber'} data-approval-can-count={String(approval.approvalCanCount)}/>
     <Box x={77} y={291} width={486} height={109} title="チームのレビュー方針へ照合" lines={['承認の有無だけで、自動マージとはしない','新commitを加えたら承認状態を確かめ直す']} tone="teal" data-automatic-merge="false"/>
    </>:f.stage===3?<>

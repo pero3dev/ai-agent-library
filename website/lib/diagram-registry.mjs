@@ -2,12 +2,14 @@ import { AGENT_CONCEPT_BINDINGS } from './agent-concepts-bindings.mjs'
 import { OVERVIEW_BINDINGS } from './overview-reading-bindings.mjs'
 import { CONTEXT_DESIGN_BINDINGS } from './context-design-bindings.mjs'
 import { ACTION_BOUNDARY_BINDINGS } from './action-boundaries-bindings.mjs'
+import { HARNESS_LOOP_BINDINGS } from './harness-loop-bindings.mjs'
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 
 // IDs resolve to code-owned bindings, never to module paths supplied by Markdown
 // or the registry. Adding a diagram requires an explicit implementation change.
 const BINDINGS = {
+  ...HARNESS_LOOP_BINDINGS,
   ...ACTION_BOUNDARY_BINDINGS,
   ...CONTEXT_DESIGN_BINDINGS,
   ...OVERVIEW_BINDINGS,

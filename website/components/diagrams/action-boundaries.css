@@ -1,4 +1,5 @@
 .action-boundaries-walkthrough .aw-prose th { white-space: nowrap; }
+.action-boundaries-walkthrough .rf-scene-controls:not(:empty) { display: grid; gap: .45rem; padding: .4rem 1.2rem .15rem; }
 [data-diagram-id="error-layer-routing"] .aw-prose td:first-child { min-width: 6rem; }
 @container (min-width: 900px) {
   .action-boundaries-walkthrough .aw-layout { grid-template-columns: minmax(0,1fr) minmax(0,1.1fr); gap: 1.5rem; }

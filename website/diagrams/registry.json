@@ -3512,6 +3512,210 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "harness-system-boundaries",
+      "article": "docs/02-architecture/harness-engineering.md",
+      "route": "/docs/architecture/harness-engineering",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: なぜハーネスを一級の設計対象にするのか",
+        "構成要素の全体マップ",
+        "設計原則: モデルに任せる部分とコードで固定する部分"
+      ],
+      "sourceHeadings": [
+        "概要: なぜハーネスを一級の設計対象にするのか",
+        "構成要素の全体マップ",
+        "設計原則: モデルに任せる部分とコードで固定する部分"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:575aecf2686d06721b74aadbdaf21be2430f546c521657a422943b7841e99593",
+      "reviewedDigest": "sha256:575aecf2686d06721b74aadbdaf21be2430f546c521657a422943b7841e99593",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "harness-environment-evolution",
+      "article": "docs/02-architecture/harness-engineering.md",
+      "route": "/docs/architecture/harness-engineering",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "環境の設計: モデルが働く場所を用意する",
+        "既製ハーネスを使うか、自作するか",
+        "ハーネスの評価: 同一モデルで A/B する",
+        "モデルとの共進化: ハーネスは軽くする方向で見直す"
+      ],
+      "sourceHeadings": [
+        "環境の設計: モデルが働く場所を用意する",
+        "既製ハーネスを使うか、自作するか",
+        "ハーネスの評価: 同一モデルで A/B する",
+        "モデルとの共進化: ハーネスは軽くする方向で見直す"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:7a84ddabe86609bce760672716f4b766f1f541edd939c9e3225943f9affeca41",
+      "reviewedDigest": "sha256:7a84ddabe86609bce760672716f4b766f1f541edd939c9e3225943f9affeca41",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "loop-type-and-stopping",
+      "article": "docs/02-architecture/loop-engineering.md",
+      "route": "/docs/architecture/loop-engineering",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: ループは「空間」ではなく「時間」の設計",
+        "ループの型を選ぶ",
+        "停止条件の設計"
+      ],
+      "sourceHeadings": [
+        "概要: ループは「空間」ではなく「時間」の設計",
+        "ループの型を選ぶ",
+        "停止条件の設計"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 4
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:9cde986195e82fb64241ee1c72958732808fbf4bda2c8f2b8d5cc94a09401b6c",
+      "reviewedDigest": "sha256:9cde986195e82fb64241ee1c72958732808fbf4bda2c8f2b8d5cc94a09401b6c",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "loop-replanning-recovery",
+      "article": "docs/02-architecture/loop-engineering.md",
+      "route": "/docs/architecture/loop-engineering",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "再計画のリズム",
+        "迷走の検知と介入",
+        "バックトラックとやり直し",
+        "入れ子と分割",
+        "コードで制御するか、プロンプトで促すか"
+      ],
+      "sourceHeadings": [
+        "再計画のリズム",
+        "迷走の検知と介入",
+        "バックトラックとやり直し",
+        "入れ子と分割",
+        "コードで制御するか、プロンプトで促すか"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:8e79967b4b9445399c42a95b511cd57394d227e8004ac97185ae42612fce0fc1",
+      "reviewedDigest": "sha256:8e79967b4b9445399c42a95b511cd57394d227e8004ac97185ae42612fce0fc1",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

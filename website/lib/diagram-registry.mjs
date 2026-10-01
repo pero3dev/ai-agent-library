@@ -3,6 +3,7 @@ import { OVERVIEW_BINDINGS } from './overview-reading-bindings.mjs'
 import { CONTEXT_DESIGN_BINDINGS } from './context-design-bindings.mjs'
 import { ACTION_BOUNDARY_BINDINGS } from './action-boundaries-bindings.mjs'
 import { HARNESS_LOOP_BINDINGS } from './harness-loop-bindings.mjs'
+import { DURABLE_CONTRACT_BINDINGS } from './durable-tenant-api-bindings.mjs'
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 
@@ -10,6 +11,7 @@ import { readFileSync } from 'node:fs'
 // or the registry. Adding a diagram requires an explicit implementation change.
 const BINDINGS = {
   ...HARNESS_LOOP_BINDINGS,
+  ...DURABLE_CONTRACT_BINDINGS,
   ...ACTION_BOUNDARY_BINDINGS,
   ...CONTEXT_DESIGN_BINDINGS,
   ...OVERVIEW_BINDINGS,

@@ -1,6 +1,6 @@
 # 動的図解の展開状況
 
-開始日: 2026-09-24。2026-10-01現在、P1全15記事はPR #65、P2の最初の3記事はPR #66で公開済み。計画・検索・委譲3記事はPR #67で全必須CI・squash・Pages・公開表示まで完了。次の[系譜・世界モデル・フィジカルAI](../2026-10-01/lineage-world-physical-ai.md)はPR #68で全必須CI・squash・Pages・公開表示まで完了。次の[画面操作・ループ・Workflow比較](../2026-10-01/screen-loop-workflow.md)はPR #69で全必須CI・squash・Pages・公開表示まで完了。次の[全体像3記事](../2026-10-01/learning-skills-information.md)はPR #72で全必須CI・squash・Pages・公開表示まで完了。次の[コンテキスト3記事](../2026-10-01/context-design-and-boundaries.md)はPR #73で全必須CI・squash・Pages・公開表示まで完了。次の[実行構成・人の介入・回復](../2026-10-01/action-boundaries-and-recovery.md)はPR #74で必須CI・squash完了、Pages公開待ち。次の[ハーネスとループ](../2026-10-01/harness-and-loop-controls.md)は4図21段階をローカル検証済み。最新の依頼はP5完了までの継続。以下の独立受入・固定snapshotの記述は旧手順での履歴である。
+開始日: 2026-09-24。2026-10-01現在、P1全15記事はPR #65、P2の最初の3記事はPR #66で公開済み。計画・検索・委譲3記事はPR #67で全必須CI・squash・Pages・公開表示まで完了。次の[系譜・世界モデル・フィジカルAI](../2026-10-01/lineage-world-physical-ai.md)はPR #68で全必須CI・squash・Pages・公開表示まで完了。次の[画面操作・ループ・Workflow比較](../2026-10-01/screen-loop-workflow.md)はPR #69で全必須CI・squash・Pages・公開表示まで完了。次の[全体像3記事](../2026-10-01/learning-skills-information.md)はPR #72で全必須CI・squash・Pages・公開表示まで完了。次の[コンテキスト3記事](../2026-10-01/context-design-and-boundaries.md)はPR #73で全必須CI・squash・Pages・公開表示まで完了。次の[実行構成・人の介入・回復](../2026-10-01/action-boundaries-and-recovery.md)はPR #74で必須CI・squash・Pages・公開表示まで完了。次の[ハーネスとループ](../2026-10-01/harness-and-loop-controls.md)はPR #75で必須CI・squash完了、Pages公開待ち。次の[耐久実行・テナント分離・API](../2026-10-01/durable-tenant-api-contracts.md)は8図45段階をローカル検証済み。最新の依頼はP5完了までの継続。以下の独立受入・固定snapshotの記述は旧手順での履歴である。
 
 2026-10-01のユーザー指示を優先し、親担当だけで進める。追加ハッシュ・証跡アーカイブ・任意の独立図解レビュー・公開後の網羅検査を省略する。1〜3記事ずつ実装・必要な検査・通常PR・squashマージ・Pages公開を進め、公開後は表示確認だけを行う。以前のP1停止指定は、P5までの継続依頼で更新された。
 
@@ -22,7 +22,7 @@
 | 計画 | 全199記事 | 計画作成・独立レビュー済み、採択 | [全件棚卸し](../../plans/engineering/dynamic-diagram-inventory.md)、[計画作成記録](dynamic-diagram-plan.md) |
 | P0 | 共通基盤・自己注意・Agentループ・Workflow比較 | PR #52マージ・公開受入完了 | [P0実施記録](reading-diagram-foundation.md) |
 | P1 | LLM内部構造・基礎15記事 | 15/15記事が公開完了（PR #65） | [P1完了](../2026-10-01/p1-completion.md) |
-| P2 | 中核54記事 | 18/54記事が公開完了（PR #66〜#69・#72・#73）、実行構成3記事が必須CI・squash完了、Pages公開待ち（PR #74）。ハーネスとループ2記事をローカル検証済み。P0の2記事は今回の制作単位で未対応論点を補う | [最初の3記事](../2026-10-01/p2-agent-concepts.md)、[計画・検索・委譲](../2026-10-01/planning-retrieval-delegation.md)、[系譜・世界モデル・物理AI](../2026-10-01/lineage-world-physical-ai.md) |
+| P2 | 中核54記事 | 21/54記事が公開完了（PR #66〜#69・#72〜#74）、ハーネスとループ2記事はPR #75で必須CI・squash完了、Pages公開待ち。耐久実行・テナント・API3記事は8図45段階をローカル検証済み。P0の2記事は今回の制作単位で未対応論点を補う | [最初の3記事](../2026-10-01/p2-agent-concepts.md)、[計画・検索・委譲](../2026-10-01/planning-retrieval-delegation.md)、[系譜・世界モデル・物理AI](../2026-10-01/lineage-world-physical-ai.md) |
 | P3 | 実装・品質・運用78記事 | 未着手 | P2受入後に着手 |
 | P4 | 応用・判断52記事 | 未着手 | P3受入後に着手 |
 | P5 | 全体受入・更新運用 | 未着手 | P4受入後に着手 |

@@ -1,0 +1,5 @@
+.workflow-reading .cd-label, .workflow-reading .cd-card-title { font-size: 19px; }
+.workflow-reading .cd-small { font-size: 16px; }
+@container (min-width: 900px) {
+  .workflow-reading .aw-layout { grid-template-columns: minmax(0,1fr) minmax(0,1.1fr); gap: 1.5rem; }
+}

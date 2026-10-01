@@ -33,7 +33,7 @@ test('memory placement distinguishes current input, optional retrieval, restart 
   assert.throws(() => memoryPlacement('__proto__'), RangeError)
 })
 test('all concept stages have readable paused descriptions and support forward, reverse and bounded seeking', () => {
-  assert.equal(Object.values(AGENT_CONCEPT_STAGES).reduce((sum, rows) => sum + rows.length, 0), 100)
+  assert.equal(Object.values(AGENT_CONCEPT_STAGES).reduce((sum, rows) => sum + rows.length, 0), 123)
   for (const [id, stages] of Object.entries(AGENT_CONCEPT_STAGES)) {
     for (let i = stages.length - 1; i >= 0; i--) {
       assert.equal(agentConceptFrame(id, i).stage, i)
@@ -47,7 +47,7 @@ test('all concept stages have readable paused descriptions and support forward, 
 const parser = unified().use(remarkParse).use(remarkGfm).use(remarkMath).use(remarkFrontmatter, ['yaml'])
 const writer = unified().use(remarkStringify).use(remarkGfm).use(remarkMath).use(remarkFrontmatter, ['yaml']).use(remarkMdx)
 const mdxParser = unified().use(remarkParse).use(remarkGfm).use(remarkMath).use(remarkFrontmatter, ['yaml']).use(remarkMdx)
-const unwrap = node => ['AgentConceptsWalkthrough', 'ReadingStep'].includes(node.name) ? node.children.flatMap(unwrap)
+const unwrap = node => ['AgentConceptsWalkthrough', 'ReadingWalkthrough', 'ReadingStep'].includes(node.name) ? node.children.flatMap(unwrap)
   : [{ ...node, ...(node.children ? { children: node.children.flatMap(unwrap) } : {}) }]
 const entries = diagramRegistry.diagrams.filter(entry => Object.hasOwn(AGENT_CONCEPT_STAGES, entry.id))
 for (const article of [...new Set(entries.map(entry => entry.article))]) test(`${article}: preserve the entire original AST and only allow registered MDX IDs`, () => {
@@ -56,7 +56,10 @@ for (const article of [...new Set(entries.map(entry => entry.article))]) test(`$
   const original = structuredClone(tree)
   const metadata = wrapRegisteredDiagrams(tree, selected[0].route)
   assert.deepEqual(unwrap(tree), [original])
-  assert.deepEqual(metadata.diagramIds, selected.map(entry => entry.id))
+  const expected = diagramRegistry.diagrams.filter(entry => entry.article === article && entry.enabled)
+    .sort((a, b) => original.children.findIndex(node => node.type === 'heading' && node.children.map(c => c.value ?? '').join('') === a.headings[0])
+      - original.children.findIndex(node => node.type === 'heading' && node.children.map(c => c.value ?? '').join('') === b.headings[0]))
+  assert.deepEqual(metadata.diagramIds, expected.map(entry => entry.id))
   for (const entry of selected) assert.equal(entry.stageCount, AGENT_CONCEPT_STAGES[entry.id].length)
   const mdx = writer.stringify(tree)
   assert.deepEqual(findUnsafeMdx(mdx), [])

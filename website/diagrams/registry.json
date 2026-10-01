@@ -2562,6 +2562,198 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "screen-observation",
+      "article": "docs/01-concepts/computer-use-and-multimodal-agents.md",
+      "route": "/docs/concepts/computer-use-and-multimodal-agents",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: 画面を見て、マウスとキーボードで操作する Agent",
+        "詳細: 画面観測ループの特殊性",
+        "詳細: ツール実行型との違い"
+      ],
+      "sourceHeadings": [
+        "概要: 画面を見て、マウスとキーボードで操作する Agent",
+        "詳細: 画面観測ループの特殊性",
+        "詳細: ツール実行型との違い"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:473b7ea656a0f8e3a03fdab6d34fc198bf57f814bef0b864029b4bec986a1d78",
+      "reviewedDigest": "sha256:473b7ea656a0f8e3a03fdab6d34fc198bf57f814bef0b864029b4bec986a1d78",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "screen-boundaries",
+      "article": "docs/01-concepts/computer-use-and-multimodal-agents.md",
+      "route": "/docs/concepts/computer-use-and-multimodal-agents",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "詳細: 画面操作で注意する 3 つのリスク",
+        "設計判断: API があるなら API",
+        "観測と行動の粒度は固定ではない"
+      ],
+      "sourceHeadings": [
+        "詳細: 画面操作で注意する 3 つのリスク",
+        "設計判断: API があるなら API",
+        "観測と行動の粒度は固定ではない"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:8cd3bb9e8b43334c88905592e12edc2dfa975a652be990cec0e6f7eb255f0d75",
+      "reviewedDigest": "sha256:8cd3bb9e8b43334c88905592e12edc2dfa975a652be990cec0e6f7eb255f0d75",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "loop-stop-reasons",
+      "article": "docs/01-concepts/agent-loop.md",
+      "route": "/docs/concepts/agent-loop",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "詳細: 停止条件は「正常完了」以外に必ず用意する"
+      ],
+      "sourceHeadings": [
+        "詳細: 停止条件は「正常完了」以外に必ず用意する"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:713cd5919a398610dec796839bf60da985aee4404d4c4498a5eab22f32dc72ed",
+      "reviewedDigest": "sha256:713cd5919a398610dec796839bf60da985aee4404d4c4498a5eab22f32dc72ed",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "loop-runtime",
+      "article": "docs/01-concepts/agent-loop.md",
+      "route": "/docs/concepts/agent-loop",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "詳細: ツールの失敗はループに返す",
+        "詳細: 履歴は単調増加する",
+        "設計判断: ループを自前で書くか、フレームワークに任せるか",
+        "実装例: 最小の Agent ループ"
+      ],
+      "sourceHeadings": [
+        "詳細: ツールの失敗はループに返す",
+        "詳細: 履歴は単調増加する",
+        "設計判断: ループを自前で書くか、フレームワークに任せるか",
+        "実装例: 最小の Agent ループ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:9473c4bdc3395f450962a64648c09a50fe5174df816142967c4888a473d271e5",
+      "reviewedDigest": "sha256:9473c4bdc3395f450962a64648c09a50fe5174df816142967c4888a473d271e5",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

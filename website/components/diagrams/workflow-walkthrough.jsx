@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { ReadingFigure } from './reading-figure'
 import { CHOICE_OPTIONS, COMPARISON_ROWS, WORKFLOW_STAGES, workflowChoice } from '../../lib/workflow-comparison-model.mjs'
 import { Card, Lines, SceneBase, Select, Wire, tones } from './concept-scene-primitives'
+import { Box, Text } from './learning-scene-primitives'
+import './workflow-reading.css'
 
 function FlowLane({ id, x, agent, phase, active = true, bounded = false }) {
   const tone = agent ? 'violet' : 'teal'
@@ -16,7 +18,7 @@ function FlowLane({ id, x, agent, phase, active = true, bounded = false }) {
       <Card x={x + 55} y={141} width={160} height={57} title="モデルの判断" tone="violet" active={active} />
       <Wire id={id} d={`M${x + 135} 198V222L${x + 61} 246`} active={active} phase={phase} tone={tone} />
       <Wire id={id} d={`M${x + 135} 222L${x + 205} 246`} active={active} phase={phase + .4} tone={tone} dash />
-      {[61, 205].map((offset, i) => <g key={offset}><rect x={x + offset - 37} y="246" width="74" height="38" rx="8" fill="#20213d" stroke={color} strokeOpacity=".5" /><text x={x + offset} y="271" textAnchor="middle" className="cd-label">{i ? '別の手段' : 'ツール'}</text></g>)}
+      {[61, 205].map((offset, i) => <g key={offset}><rect x={x + offset - 37} y="246" width="74" height="38" rx="8" fill="#20213d" stroke={color} strokeOpacity=".5" /><text x={x + offset} y="271" textAnchor="middle" className="cd-label">{i ? '代替' : 'ツール'}</text></g>)}
       <Wire id={id} d={`M${x + 61} 284V308H${x + 245}V170H${x + 215}`} active={active} phase={phase} tone={tone} />
     </> : <>
       {[145, 210, 275].map((y, i) => <g key={y}>
@@ -81,8 +83,18 @@ function WorkflowScene({ id, phase, stage, criterion, choice, hybrid }) {
     : stage === 2 ? `${selected.label}。選ぶ構成は${selected.result}。${selected.answer}。`
       : stage === 3 ? (hybrid === 'workflow' ? 'Workflowの1ステップとしてAgentを埋め込み、不確実な範囲をそのステップに閉じ込めます。' : '定型手順を1つのツールに固めてAgentへ渡します。モデルはいつ使うかを判断し、手順の中身は固定します。')
         : WORKFLOW_STAGES[stage].detail
-  return <SceneBase id={id} title={`${WORKFLOW_STAGES[stage].label}：${selectionTitle}`} detail={detail} data-criterion={comparison.label}>
-    {stage === 2 ? <ChoiceScene id={id} choice={choice} phase={phase} /> : stage === 3 ? <HybridScene id={id} phase={phase} direction={hybrid} /> : <>
+  return <SceneBase id={id} title={`${WORKFLOW_STAGES[stage].label}：${selectionTitle}`} detail={detail} data-criterion={comparison.label} className="aw-scene cd-scene lf-scene">
+    {stage === 2 ? <ChoiceScene id={id} choice={choice} phase={phase} /> : stage === 3 ? <HybridScene id={id} phase={phase} direction={hybrid} /> : stage === 4 ? <>
+      <Text y={40}>ログから不足を特定し、必要な部分だけを変える</Text>
+      <Box x={32} y={89} width={260} height={100} title="Workflowで始める" lines={['固定手順で運用・記録']} />
+      <Wire id={id} d="M292 140H340" active phase={phase} />
+      <Box x={348} y={89} width={260} height={100} title="足りない手順を特定" lines={['実際のログから確認']} tone="amber" />
+      <Wire id={id} d="M478 189V253" active phase={phase} tone="amber" />
+      <Box x={348} y={261} width={260} height={102} title="探索部分だけAgentへ" lines={['固定できる部分は残す']} tone="violet" />
+      <Wire id={id} d="M348 312H300" both active phase={phase} tone="amber" />
+      <Box x={32} y={261} width={260} height={102} title="関数・ツールの境界" lines={['Workflowへ戻せる構造']} />
+      <Text y={410} small>分岐が少数なら、ルーティングで済む場合もある</Text>
+    </> : <>
       <FlowLane id={`${id}`} x={28} phase={phase} active={stage !== 1} bounded={stage === 4} />
       <FlowLane id={`${id}`} x={342} phase={phase} agent active={stage !== 1} bounded={stage === 4} />
       {stage === 1 && <g className="cd-comparison-cards">
@@ -92,14 +104,8 @@ function WorkflowScene({ id, phase, stage, criterion, choice, hybrid }) {
         <Lines x={163} y={comparison.workflow.length === 1 ? 239 : 226} lines={comparison.workflow} className="cd-comparison-text" gap={29} />
         <Lines x={477} y={comparison.agent.length === 1 ? 239 : 226} lines={comparison.agent} className="cd-comparison-text" gap={29} />
       </g>}
-      {stage === 4 ? <>
-        <Wire id={id} d="M289 166H352" both active phase={phase} tone="amber" />
-        <text x="320" y="376" textAnchor="middle" className="cd-label">境界を関数・ツールとして切る</text>
-        <text x="320" y="407" textAnchor="middle" className="cd-small">必要な部分だけを変更し、Workflowへ戻す余地を残す</text>
-      </> : <>
-        <text x="320" y="377" textAnchor="middle" className="cd-label">{stage === 1 ? '柔軟性は、本当に必要か。' : '違いは、手順の決定をどこに置くか。'}</text>
-        <text x="320" y="407" textAnchor="middle" className="cd-small">{stage === 1 ? '定性的な比較。点数や成功率を表すものではありません。' : 'Workflow でも LLM を利用できる'}</text>
-      </>}
+      <text x="320" y="377" textAnchor="middle" className="cd-label">{stage === 1 ? '柔軟性は、本当に必要か。' : '違いは、手順の決定をどこに置くか。'}</text>
+      <text x="320" y="407" textAnchor="middle" className="cd-small">{stage === 1 ? '定性的な比較。点数や成功率を表すものではありません。' : 'Workflow でも LLM を利用できる'}</text>
     </>}
   </SceneBase>
 }
@@ -108,7 +114,7 @@ export function WorkflowComparison({ children }) {
   const [criterion, setCriterion] = useState(0)
   const [choice, setChoice] = useState('bounded')
   const [hybrid, setHybrid] = useState('workflow')
-  return <ReadingFigure diagramId="workflow-comparison" title="Workflow と Agent" eyebrow="WORKFLOW / AGENT" stages={WORKFLOW_STAGES} className="concept-walkthrough"
+  return <ReadingFigure diagramId="workflow-comparison" title="Workflow と Agent" eyebrow="WORKFLOW / AGENT" stages={WORKFLOW_STAGES} className="concept-walkthrough workflow-reading"
     renderScene={state => <WorkflowScene {...state} criterion={criterion} choice={choice} hybrid={hybrid} />}
     renderControls={({ ready }) => <div className="cd-controls cd-workflow-controls">
       <Select label="比較する観点" value={String(criterion)} onChange={value => setCriterion(Number(value))} ready={ready}>{COMPARISON_ROWS.map((item, i) => <option key={item.label} value={i}>{item.label}</option>)}</Select>

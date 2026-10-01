@@ -1,3 +1,4 @@
+import { CatalogueOssLocalWalkthrough } from './components/diagrams/catalogue-oss-local-walkthrough'
 import { FrameworkModelTuningWalkthrough } from './components/diagrams/framework-model-tuning-walkthrough'
 import { RagMemoryGraphWalkthrough } from './components/diagrams/rag-memory-graph-walkthrough'
 import { RetrievalDataWalkthrough } from './components/diagrams/retrieval-data-walkthrough'
@@ -60,6 +61,7 @@ export const useMDXComponents = components => ({
   ActionBoundariesWalkthrough,
   HarnessLoopWalkthrough,
   DurableContractWalkthrough,
+  CatalogueOssLocalWalkthrough,
   FrameworkModelTuningWalkthrough,
   RagMemoryGraphWalkthrough,
   RetrievalDataWalkthrough,

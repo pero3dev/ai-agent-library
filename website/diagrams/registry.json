@@ -8698,6 +8698,332 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "catalogue-common-map",
+      "article": "docs/03-implementation/llm-landscape.md",
+      "route": "/docs/implementation/llm-landscape",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "地図の読み方: 各社に共通する構造"
+      ],
+      "sourceHeadings": [
+        "地図の読み方: 各社に共通する構造"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:2fadeb080de5ad6372b40fdae5c4c3fd9a5cf9a6e63458c3fac9d02c8c9600a1",
+      "reviewedDigest": "sha256:2fadeb080de5ad6372b40fdae5c4c3fd9a5cf9a6e63458c3fac9d02c8c9600a1",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "catalogue-provider-boundaries",
+      "article": "docs/03-implementation/llm-landscape.md",
+      "route": "/docs/implementation/llm-landscape",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "Anthropic(Claude ファミリー)",
+        "OpenAI(GPT ファミリー)",
+        "Google(Gemini ファミリー)"
+      ],
+      "sourceHeadings": [
+        "Anthropic(Claude ファミリー)",
+        "OpenAI(GPT ファミリー)",
+        "Google(Gemini ファミリー)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:5bd12443e76b922ac0fbe1bc5c5e5018abffd206a7ac604027200e30b5446d5d",
+      "reviewedDigest": "sha256:5bd12443e76b922ac0fbe1bc5c5e5018abffd206a7ac604027200e30b5446d5d",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "catalogue-openweight-licenses",
+      "article": "docs/03-implementation/llm-landscape.md",
+      "route": "/docs/implementation/llm-landscape",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "オープンウェイト系",
+        "迷わないための早見表"
+      ],
+      "sourceHeadings": [
+        "オープンウェイト系",
+        "迷わないための早見表"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:aaa3329c31d3da94504a13ce04c5a8ebe85474f5df28393882c9a0668cc6ec3d",
+      "reviewedDigest": "sha256:aaa3329c31d3da94504a13ce04c5a8ebe85474f5df28393882c9a0668cc6ec3d",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "oss-layers-permission",
+      "article": "docs/03-implementation/open-source-ai-ecosystem.md",
+      "route": "/docs/implementation/open-source-ai-ecosystem",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "概要: エコシステムを地図として持つ",
+        "エコシステムの構造",
+        "ライセンスの読み方: 「オープン ≠ 商用自由」"
+      ],
+      "sourceHeadings": [
+        "概要: エコシステムを地図として持つ",
+        "エコシステムの構造",
+        "ライセンスの読み方: 「オープン ≠ 商用自由」"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:5df223fa7ef86a0d0af095e589836658acf41b2f40f2a2475f84b92e55aa9adb",
+      "reviewedDigest": "sha256:5df223fa7ef86a0d0af095e589836658acf41b2f40f2a2475f84b92e55aa9adb",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "oss-provenance-maintenance",
+      "article": "docs/03-implementation/open-source-ai-ecosystem.md",
+      "route": "/docs/implementation/open-source-ai-ecosystem",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "モデルカード・データシートの読み方",
+        "派生モデルの系譜と信頼",
+        "コミュニティの持続性と企業としての関与",
+        "この理解が効く場面",
+        "同じ系列でもライセンスを引き継がない"
+      ],
+      "sourceHeadings": [
+        "モデルカード・データシートの読み方",
+        "派生モデルの系譜と信頼",
+        "コミュニティの持続性と企業としての関与",
+        "この理解が効く場面",
+        "同じ系列でもライセンスを引き継がない"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:b1bc3fd00598a7cd51329541d65a1a42b2f849d20a7fcd078cd6fea1785d91ec",
+      "reviewedDigest": "sha256:b1bc3fd00598a7cd51329541d65a1a42b2f849d20a7fcd078cd6fea1785d91ec",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "local-runtime-selection",
+      "article": "docs/03-implementation/local-and-on-device-llm.md",
+      "route": "/docs/implementation/local-and-on-device-llm",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "概要: 分担と「ローカルで動かす」意味",
+        "向くユースケース",
+        "実行環境の類型",
+        "モデルと形式の選定"
+      ],
+      "sourceHeadings": [
+        "概要: 分担と「ローカルで動かす」意味",
+        "向くユースケース",
+        "実行環境の類型",
+        "モデルと形式の選定"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:04348dee03e49132b83af7f7bf0d3e7d89bc58f461724c7d83aa2edb93d6157e",
+      "reviewedDigest": "sha256:04348dee03e49132b83af7f7bf0d3e7d89bc58f461724c7d83aa2edb93d6157e",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "local-quality-deployment",
+      "article": "docs/03-implementation/local-and-on-device-llm.md",
+      "route": "/docs/implementation/local-and-on-device-llm",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "品質ギャップの検証",
+        "ハイブリッド構成: ローカル優先 + クラウド昇格",
+        "配布と更新"
+      ],
+      "sourceHeadings": [
+        "品質ギャップの検証",
+        "ハイブリッド構成: ローカル優先 + クラウド昇格",
+        "配布と更新"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:8ee786c248444276576366eb145936bf1735ee129e686cd336452caeb506af56",
+      "reviewedDigest": "sha256:8ee786c248444276576366eb145936bf1735ee129e686cd336452caeb506af56",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

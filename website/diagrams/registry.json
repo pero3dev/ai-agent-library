@@ -8138,6 +8138,302 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "rag-ingestion-search",
+      "article": "docs/03-implementation/rag-implementation-patterns.md",
+      "route": "/docs/implementation/rag-implementation-patterns",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: RAG は 4 段のパイプライン",
+        "取り込み: チャンキング(chunking)とメタデータ",
+        "埋め込みと検索方式",
+        "リランキングとハイブリッド検索の組み立て"
+      ],
+      "sourceHeadings": [
+        "概要: RAG は 4 段のパイプライン",
+        "取り込み: チャンキング(chunking)とメタデータ",
+        "埋め込みと検索方式",
+        "リランキングとハイブリッド検索の組み立て"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 4
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 4
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:a65103fdee96b53693f94b21d9d63903060a48a19f1cb4cf03807677c36be2be",
+      "reviewedDigest": "sha256:a65103fdee96b53693f94b21d9d63903060a48a19f1cb4cf03807677c36be2be",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "rag-agent-evidence",
+      "article": "docs/03-implementation/rag-implementation-patterns.md",
+      "route": "/docs/implementation/rag-implementation-patterns",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "Agentic RAG の実装",
+        "引用・根拠の提示",
+        "権限反映と運用",
+        "RAG の評価: 検索と生成を分けて測る"
+      ],
+      "sourceHeadings": [
+        "Agentic RAG の実装",
+        "引用・根拠の提示",
+        "権限反映と運用",
+        "RAG の評価: 検索と生成を分けて測る"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:c18077d8e1d06f91299f24f96a7b7e338dfb7c5675779ddaf0804dca8190f46d",
+      "reviewedDigest": "sha256:c18077d8e1d06f91299f24f96a7b7e338dfb7c5675779ddaf0804dca8190f46d",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "memory-extract-store",
+      "article": "docs/03-implementation/long-term-memory-implementation.md",
+      "route": "/docs/implementation/long-term-memory-implementation",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 難しいのは「読む」より「書く」と「捨てる」",
+        "抽出: 何を・いつ覚えるか",
+        "保存: 形式の選択"
+      ],
+      "sourceHeadings": [
+        "概要: 難しいのは「読む」より「書く」と「捨てる」",
+        "抽出: 何を・いつ覚えるか",
+        "保存: 形式の選択"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:74111d6881e5875ae7a91fdc25e462056b885b0d38b2026fc761df1d52a23a41",
+      "reviewedDigest": "sha256:74111d6881e5875ae7a91fdc25e462056b885b0d38b2026fc761df1d52a23a41",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "memory-recall-forget",
+      "article": "docs/03-implementation/long-term-memory-implementation.md",
+      "route": "/docs/implementation/long-term-memory-implementation",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "想起: いつ・どう引くか",
+        "更新と忘却",
+        "プライバシーと削除要求"
+      ],
+      "sourceHeadings": [
+        "想起: いつ・どう引くか",
+        "更新と忘却",
+        "プライバシーと削除要求"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:e7ecbfb4418250d975c9e871cda2c996b1c3fe954d0ae58a2234c18b842171d5",
+      "reviewedDigest": "sha256:e7ecbfb4418250d975c9e871cda2c996b1c3fe954d0ae58a2234c18b842171d5",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "graph-build-quality",
+      "article": "docs/03-implementation/graph-rag-and-knowledge-graphs.md",
+      "route": "/docs/implementation/graph-rag-and-knowledge-graphs",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "概要: まず通常の RAG で足りるかを問う",
+        "ナレッジグラフの基礎",
+        "LLM によるグラフ構築の現実"
+      ],
+      "sourceHeadings": [
+        "概要: まず通常の RAG で足りるかを問う",
+        "ナレッジグラフの基礎",
+        "LLM によるグラフ構築の現実"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:dbe2527186df1aab7bb6f9f0e8d741bf3e4b92d5c3987b542025f067e9e6b850",
+      "reviewedDigest": "sha256:dbe2527186df1aab7bb6f9f0e8d741bf3e4b92d5c3987b542025f067e9e6b850",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "graph-types-investment",
+      "article": "docs/03-implementation/graph-rag-and-knowledge-graphs.md",
+      "route": "/docs/implementation/graph-rag-and-knowledge-graphs",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "GraphRAG の型",
+        "向く質問と向かない質問",
+        "構築・維持コストと「本当にグラフが要るか」",
+        "評価"
+      ],
+      "sourceHeadings": [
+        "GraphRAG の型",
+        "向く質問と向かない質問",
+        "構築・維持コストと「本当にグラフが要るか」",
+        "評価"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:de05ebd031320b97a447fee2453819f5ea6143baa0ba160db7d2ed9ea791a3e0",
+      "reviewedDigest": "sha256:de05ebd031320b97a447fee2453819f5ea6143baa0ba160db7d2ed9ea791a3e0",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

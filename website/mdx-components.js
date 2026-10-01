@@ -1,3 +1,4 @@
+import { RagMemoryGraphWalkthrough } from './components/diagrams/rag-memory-graph-walkthrough'
 import { RetrievalDataWalkthrough } from './components/diagrams/retrieval-data-walkthrough'
 import { FeedbackStreamingWalkthrough } from './components/diagrams/feedback-streaming-walkthrough'
 import { PromptTechniquesAssetsWalkthrough } from './components/diagrams/prompt-techniques-assets-walkthrough'
@@ -58,6 +59,7 @@ export const useMDXComponents = components => ({
   ActionBoundariesWalkthrough,
   HarnessLoopWalkthrough,
   DurableContractWalkthrough,
+  RagMemoryGraphWalkthrough,
   RetrievalDataWalkthrough,
   FeedbackStreamingWalkthrough,
   PromptTechniquesAssetsWalkthrough,

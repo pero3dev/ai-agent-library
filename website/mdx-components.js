@@ -1,3 +1,4 @@
+import { PromptToolOutputWalkthrough } from './components/diagrams/prompt-tool-output-walkthrough'
 import { ClientAdoptionWalkthrough } from './components/diagrams/client-adoption-walkthrough'
 import { SeContinuityWalkthrough } from './components/diagrams/se-continuity-walkthrough'
 import { CodingPracticeWalkthrough } from './components/diagrams/coding-practice-walkthrough'
@@ -54,6 +55,7 @@ export const useMDXComponents = components => ({
   ActionBoundariesWalkthrough,
   HarnessLoopWalkthrough,
   DurableContractWalkthrough,
+  PromptToolOutputWalkthrough,
   ClientAdoptionWalkthrough,
   SeContinuityWalkthrough,
   CodingPracticeWalkthrough,

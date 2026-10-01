@@ -6616,6 +6616,306 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "legacy-observation-draft",
+      "article": "docs/08-coding-agents/se-legacy-code-analysis.md",
+      "route": "/docs/coding-agents/se-legacy-code-analysis",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 何に使えて、何を正とするか",
+        "大規模・古いコードベースの理解",
+        "仕様書起こし(コード → 仕様)",
+        "影響調査",
+        "デッドコード・重複の発見"
+      ],
+      "sourceHeadings": [
+        "概要: 何に使えて、何を正とするか",
+        "大規模・古いコードベースの理解",
+        "仕様書起こし(コード → 仕様)",
+        "影響調査",
+        "デッドコード・重複の発見"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:b193e0588da5a513ec2d579d17b6f7b4c7f62bf7c444f50f776e15e1a7f7e6da",
+      "reviewedDigest": "sha256:b193e0588da5a513ec2d579d17b6f7b4c7f62bf7c444f50f776e15e1a7f7e6da",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "legacy-measure-migrate",
+      "article": "docs/08-coding-agents/se-legacy-code-analysis.md",
+      "route": "/docs/coding-agents/se-legacy-code-analysis",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "古い言語・環境への対応度",
+        "モダナイゼーション支援"
+      ],
+      "sourceHeadings": [
+        "古い言語・環境への対応度",
+        "モダナイゼーション支援"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:039c80e957a40ab4d7589952322ca55e8f036bfa61b1d27edce49697234e3990",
+      "reviewedDigest": "sha256:039c80e957a40ab4d7589952322ca55e8f036bfa61b1d27edce49697234e3990",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "maintenance-hypothesis-change",
+      "article": "docs/08-coding-agents/se-maintenance-and-operations.md",
+      "route": "/docs/coding-agents/se-maintenance-and-operations",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 保守での使いどころと分担",
+        "障害調査",
+        "改修の影響調査と修正案",
+        "過去経緯の調査",
+        "ドキュメントの追従"
+      ],
+      "sourceHeadings": [
+        "概要: 保守での使いどころと分担",
+        "障害調査",
+        "改修の影響調査と修正案",
+        "過去経緯の調査",
+        "ドキュメントの追従"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:f47ccbdeb954823635217ba0915746e892450967228f1d8db1a870addb9c83ae",
+      "reviewedDigest": "sha256:f47ccbdeb954823635217ba0915746e892450967228f1d8db1a870addb9c83ae",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "maintenance-production-boundary",
+      "article": "docs/08-coding-agents/se-maintenance-and-operations.md",
+      "route": "/docs/coding-agents/se-maintenance-and-operations",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "定型保守作業の自動化",
+        "本番データ・本番環境を扱う境界線"
+      ],
+      "sourceHeadings": [
+        "定型保守作業の自動化",
+        "本番データ・本番環境を扱う境界線"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:1260ade1c73994a7ec030f674fbb4f92349973a55c5e091569e90ed4c10f8beb",
+      "reviewedDigest": "sha256:1260ade1c73994a7ec030f674fbb4f92349973a55c5e091569e90ed4c10f8beb",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "enterprise-constraints-topology",
+      "article": "docs/08-coding-agents/se-enterprise-constraints.md",
+      "route": "/docs/coding-agents/se-enterprise-constraints",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 制約 → 形態 → 判断の順で考える",
+        "制約の類型",
+        "提供形態の選択肢マップ",
+        "閉域網という最難関"
+      ],
+      "sourceHeadings": [
+        "概要: 制約 → 形態 → 判断の順で考える",
+        "制約の類型",
+        "提供形態の選択肢マップ",
+        "閉域網という最難関"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:c7835006e57036b83b788b40558b0ed2e39d679b6cd772e261bad6f154eb7ded",
+      "reviewedDigest": "sha256:c7835006e57036b83b788b40558b0ed2e39d679b6cd772e261bad6f154eb7ded",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "enterprise-contract-route",
+      "article": "docs/08-coding-agents/se-enterprise-constraints.md",
+      "route": "/docs/coding-agents/se-enterprise-constraints",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "渡してよいかの判断フレーム(契約 → 分類 → 経路)",
+        "承認を取るための説明資料の型",
+        "変わりやすい項目(定点観測)"
+      ],
+      "sourceHeadings": [
+        "渡してよいかの判断フレーム(契約 → 分類 → 経路)",
+        "承認を取るための説明資料の型",
+        "変わりやすい項目(定点観測)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:8c78f7a3ddc1352bbdaf9ab516366d085ea816d051fda326bf6277ca4e2bcbfb",
+      "reviewedDigest": "sha256:8c78f7a3ddc1352bbdaf9ab516366d085ea816d051fda326bf6277ca4e2bcbfb",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

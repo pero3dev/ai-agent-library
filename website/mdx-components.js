@@ -1,3 +1,4 @@
+import { RetrievalDataWalkthrough } from './components/diagrams/retrieval-data-walkthrough'
 import { FeedbackStreamingWalkthrough } from './components/diagrams/feedback-streaming-walkthrough'
 import { PromptTechniquesAssetsWalkthrough } from './components/diagrams/prompt-techniques-assets-walkthrough'
 import { PromptToolOutputWalkthrough } from './components/diagrams/prompt-tool-output-walkthrough'
@@ -57,6 +58,7 @@ export const useMDXComponents = components => ({
   ActionBoundariesWalkthrough,
   HarnessLoopWalkthrough,
   DurableContractWalkthrough,
+  RetrievalDataWalkthrough,
   FeedbackStreamingWalkthrough,
   PromptTechniquesAssetsWalkthrough,
   PromptToolOutputWalkthrough,

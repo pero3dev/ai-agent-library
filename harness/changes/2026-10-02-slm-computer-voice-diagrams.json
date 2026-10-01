@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "run_id": "2026-10-02-slm-computer-voice-diagrams",
+  "base_sha": "cf3f982ffe0c3fe0d4af68d96fdafd61a412ede0",
+  "writer_run_id": "01a0f3a3-9ef2-7ae1-8ab8-2e73ae623aeb:/root",
+  "completed_at": "2026-10-01T23:47:53.223Z",
+  "changes": [
+    {
+      "path": "docs/03-implementation/voice-agents.md",
+      "kind": "substantive",
+      "summary": "単一音声モデルとパイプラインに加え、full-duplexの音声対話と別バックエンドの制御点を部分更新する。"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "H-1",
+      "artifacts": [
+        "docs/03-implementation/computer-use-implementation.md",
+        "docs/03-implementation/voice-agents.md"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developers.openai.com/api/docs/guides/voice-agents",
+      "accessed_at": "2026-10-01T23:14:04Z",
+      "claim": "GPT-Liveの聞く・話すと別バックエンドの推論・ツール処理、client delegationとResponses delegation、アプリが制御する権限・業務記録を単一音声モデルとchained pipelineから区分する。",
+      "affected_docs": [
+        "docs/03-implementation/voice-agents.md"
+      ]
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/guides/realtime-conversations",
+      "accessed_at": "2026-10-01T23:14:04Z",
+      "claim": "割込み時に未再生の応答を届いた履歴にしない。WebRTC/SIPとWebSocketでは停止・再生範囲・truncateの制御が異なり、実再生や業務成功は別に検証する。",
+      "affected_docs": [
+        "docs/03-implementation/voice-agents.md"
+      ]
+    }
+  ],
+  "review": {
+    "verdict": "approved",
+    "independent": true,
+    "reviewer_run_id": "01a0f6d5-c55f-7473-93ed-6c164f79dcc0:/root/required_ide_article_review",
+    "reviewed_at": "2026-10-01T23:45:42Z",
+    "content_digest": "681183d65e5bba6091695e9a12d0d2ddb1fe474a9516361aa3bfe304d55f6672"
+  }
+}

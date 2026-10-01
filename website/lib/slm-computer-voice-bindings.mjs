@@ -1,0 +1,10 @@
+const grouped=(name,count,headings,groups,types)=>({article:`docs/03-implementation/${name}.md`,route:`/docs/implementation/${name}`,binding:'grouped-blocks',stageCount:count,headings,sourceHeadings:headings,blockGroups:groups,blockTypes:types})
+export const SLM_COMPUTER_VOICE_BINDINGS={
+ 'slm-quality-components':grouped('slm-strategy',4,['概要: 分担と「小型を活かす」','SLM の性格: 得意領域と品質の境界','SLM ファースト設計'],[[{stage:0,count:2}],[{stage:1,count:2}],[{stage:2,count:2}]],[['table','paragraph'],['paragraph','list'],['paragraph','list']]),
+ 'slm-routing-cost':grouped('slm-strategy',5,['ルーティング: 難易度で振り分ける','タスク特化: 「SLM で十分」な部品を切り出す','FT・蒸留との組み合わせ','評価: タスク別の品質ゲート'],[[{stage:0,count:2}],[{stage:2,count:2}],[{stage:3,count:2}],[{stage:4,count:2}]],[['paragraph','list'],['paragraph','list'],['paragraph','list'],['paragraph','list']]),
+ 'computer-observation-permission':grouped('computer-use-implementation',5,['概要: 実装は「脆さと実害」への対処が中心','操作ループの実装'],[[{stage:0,count:1},{stage:1,count:1}],[{stage:2,count:1}]],[['paragraph','code'],['list']]),
+ 'computer-stability-evidence':grouped('computer-use-implementation',6,['要素特定と安定化','待機と成功検証','「操作より API」の原則','安全策','評価とデバッグ','toolset 更新時の操作境界'],[[{stage:0,count:2}],[{stage:1,count:2}],[{stage:2,count:2}],[{stage:3,count:2}],[{stage:4,count:1}],[{stage:5,count:2}]],[['paragraph','list'],['paragraph','list'],['paragraph','list'],['paragraph','list'],['list'],['paragraph','paragraph']]),
+ 'voice-architecture-latency':grouped('voice-agents',6,['概要: テキストとの差分は「沈黙」「ターン」「中間テキスト」','アーキテクチャと制御の位置','レイテンシ設計'],[[{stage:0,count:3}],[{stage:1,count:1},{stage:2,count:2},{stage:3,count:1}],[{stage:4,count:2}]],[['paragraph','list','code'],['table','paragraph','paragraph','paragraph'],['paragraph','list']]),
+ 'voice-interruption-tools':grouped('voice-agents',6,['会話制御: ターン検出と割り込み','ツール使用との統合'],[[{stage:0,count:1}],[{stage:3,count:2}]],[['list'],['paragraph','list']]),
+ 'voice-evaluation-providers':grouped('voice-agents',4,['音声特有の評価','音声認識と対話モデルの更新を別に追う'],[[{stage:0,count:1},{stage:1,count:1},{stage:2,count:1}],[{stage:3,count:3}]],[['paragraph','table','paragraph'],['paragraph','paragraph','paragraph']])
+}

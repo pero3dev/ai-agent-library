@@ -4660,6 +4660,302 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-team-rollout",
+      "article": "docs/08-coding-agents/coding-agent-team-adoption.md",
+      "route": "/docs/coding-agents/coding-agent-team-adoption",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要",
+        "導入ステップの設計"
+      ],
+      "sourceHeadings": [
+        "概要",
+        "導入ステップの設計"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:fe3d32c8ebab7e1c7d11a2fff21d72d6120e7ff31ec92865fa821fb1f3e228a1",
+      "reviewedDigest": "sha256:fe3d32c8ebab7e1c7d11a2fff21d72d6120e7ff31ec92865fa821fb1f3e228a1",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-team-review",
+      "article": "docs/08-coding-agents/coding-agent-team-adoption.md",
+      "route": "/docs/coding-agents/coding-agent-team-adoption",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "レビュー体制と責任"
+      ],
+      "sourceHeadings": [
+        "レビュー体制と責任"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:b363fef6285de0b1ac221873cb8f8a1448cf45dffd7ad4ad354ffa5c5399d1ac",
+      "reviewedDigest": "sha256:b363fef6285de0b1ac221873cb8f8a1448cf45dffd7ad4ad354ffa5c5399d1ac",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-team-governance",
+      "article": "docs/08-coding-agents/coding-agent-team-adoption.md",
+      "route": "/docs/coding-agents/coding-agent-team-adoption",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "利用ポリシーの策定",
+        "コストと利用状況の管理",
+        "教育とオンボーディング"
+      ],
+      "sourceHeadings": [
+        "利用ポリシーの策定",
+        "コストと利用状況の管理",
+        "教育とオンボーディング"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:caa9b876380c90db2631cb1206b75a1d15832f049da5824b2a34d970b06fa8ef",
+      "reviewedDigest": "sha256:caa9b876380c90db2631cb1206b75a1d15832f049da5824b2a34d970b06fa8ef",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-evaluation-experiment",
+      "article": "docs/08-coding-agents/coding-agent-evaluation.md",
+      "route": "/docs/coding-agents/coding-agent-evaluation",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要",
+        "公開ベンチマークの読み方と限界",
+        "社内評価タスクの設計"
+      ],
+      "sourceHeadings": [
+        "概要",
+        "公開ベンチマークの読み方と限界",
+        "社内評価タスクの設計"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 4
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:e5125a2f65c05378f1e30f0884f67f2467381760a7a2b1ec6aa1a74ac42a8690",
+      "reviewedDigest": "sha256:e5125a2f65c05378f1e30f0884f67f2467381760a7a2b1ec6aa1a74ac42a8690",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-evaluation-effects",
+      "article": "docs/08-coding-agents/coding-agent-evaluation.md",
+      "route": "/docs/coding-agents/coding-agent-evaluation",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "導入効果の測定",
+        "継続的な再評価"
+      ],
+      "sourceHeadings": [
+        "導入効果の測定",
+        "継続的な再評価"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:3185d19a919354c4dac857449ab4aa8a7695d03c366421cbd19981edfd5dcfe0",
+      "reviewedDigest": "sha256:3185d19a919354c4dac857449ab4aa8a7695d03c366421cbd19981edfd5dcfe0",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-cost-consumption",
+      "article": "docs/08-coding-agents/coding-agent-cost-optimization.md",
+      "route": "/docs/coding-agents/coding-agent-cost-optimization",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: コストはどこで発生するか",
+        "課金モデル別の最適化方針"
+      ],
+      "sourceHeadings": [
+        "概要: コストはどこで発生するか",
+        "課金モデル別の最適化方針"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:9dd9404fa114e650facc41271586773adb7651d64ed489bd26e9722e3d90a77e",
+      "reviewedDigest": "sha256:9dd9404fa114e650facc41271586773adb7651d64ed489bd26e9722e3d90a77e",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-cost-context",
+      "article": "docs/08-coding-agents/coding-agent-cost-optimization.md",
+      "route": "/docs/coding-agents/coding-agent-cost-optimization",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "コンテキスト管理 = コスト管理"
+      ],
+      "sourceHeadings": [
+        "コンテキスト管理 = コスト管理"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:8d9bfe6dc143a215feabd6405bbb54661d8ffb3e61562afba2886e2a00692c4c",
+      "reviewedDigest": "sha256:8d9bfe6dc143a215feabd6405bbb54661d8ffb3e61562afba2886e2a00692c4c",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "coding-cost-limits",
+      "article": "docs/08-coding-agents/coding-agent-cost-optimization.md",
+      "route": "/docs/coding-agents/coding-agent-cost-optimization",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "モデルの使い分け",
+        "並列・自律実行の消費制御",
+        "測定と可視化"
+      ],
+      "sourceHeadings": [
+        "モデルの使い分け",
+        "並列・自律実行の消費制御",
+        "測定と可視化"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:da53bca1dd48ceb929b6bbbff026858aa9b9520bc09c55621394f0c9fb701b9d",
+      "reviewedDigest": "sha256:da53bca1dd48ceb929b6bbbff026858aa9b9520bc09c55621394f0c9fb701b9d",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

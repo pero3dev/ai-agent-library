@@ -37,7 +37,7 @@ export function CodingRulesScopeMaintenance({children}){
         <Text y={417} small>順序と優先順位は、全ツールへ同じと仮定しない</Text>
       </>:f.stage===1?<>
         <Box x={128} y={74} width={384} height={86} title="ルートのAGENTS.md" lines={['開始の共通入口']} tone="violet" data-cwd-root-loaded="true"/>
-        {['web','ml'].map((p,i)=><g key={p}><Wire id={s.id} d={`M320 160V212H${162+i*316}V248`} active={discovered[p]} phase={f.phase} tone="violet"/><Box x={32+i*316} y={256} width={260} height={102} title={p==='web'?'apps/web/AGENTS.md':'ml/AGENTS.md'} lines={[discovered[p]?'開始cwdの経路に入る':'開始cwdの下・別経路']} active={discovered[p]} tone="teal" data-cwd-rule={p} data-loaded={String(discovered[p])}/></g>)}
+        {['web','ml'].map((p,i)=><g key={p}><Wire id={s.id} d={`M320 160V212H${162+i*316}V248`} active={discovered[p]} phase={f.phase} tone="violet"/><Box x={32+i*316} y={256} width={260} height={102} title={p==='web'?'apps/web/':'ml/'} lines={['AGENTS.md',discovered[p]?'開始cwdの経路に入る':'開始cwdの下・別経路']} active={discovered[p]} tone="teal" data-cwd-rule={p} data-loaded={String(discovered[p])}/></g>)}
         <Text y={405} small>ルートで起動しただけでは、下位を一括探索しない</Text>
       </>:f.stage===2?<>
         <Box x={32} y={99} width={260} height={149} title="共通入口の設計" lines={['対象別の参照パス','必要な時に読む条件']} tone="violet"/><Wire id={s.id} d="M292 173H340" active phase={f.phase}/><Box x={348} y={99} width={260} height={149} title="対象の詳細を読む" lines={['明示した読込を実行','利用した規約を確認']} tone="teal"/>

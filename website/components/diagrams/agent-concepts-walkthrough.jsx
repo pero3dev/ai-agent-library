@@ -5,6 +5,10 @@ import { DiagramBoundary } from './diagram-boundary'
 import { ReadingArticleContents } from './reading-article-navigation'
 
 const scenes = {
+  'screen-observation': lazy(() => import('./screen-use-scenes').then(module => ({ default: module.ScreenObservation }))),
+  'screen-boundaries': lazy(() => import('./screen-use-scenes').then(module => ({ default: module.ScreenBoundaries }))),
+  'loop-stop-reasons': lazy(() => import('./loop-runtime-scenes').then(module => ({ default: module.LoopStopReasons }))),
+  'loop-runtime': lazy(() => import('./loop-runtime-scenes').then(module => ({ default: module.LoopRuntime }))),
   'ai-design-lineage': lazy(() => import('./ai-lineage-scenes').then(module => ({ default: module.AiDesignLineage }))),
   'world-model-usages': lazy(() => import('./world-model-scenes').then(module => ({ default: module.WorldModelUsages }))),
   'world-model-evidence': lazy(() => import('./world-model-scenes').then(module => ({ default: module.WorldModelEvidence }))),

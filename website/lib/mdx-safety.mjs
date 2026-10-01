@@ -9,6 +9,7 @@ const parser = unified().use(remarkParse).use(remarkGfm).use(remarkMath)
   .use(remarkFrontmatter, ['yaml']).use(remarkMdx)
 
 const readingStages = {
+  'screen-observation': 6, 'screen-boundaries': 6, 'loop-stop-reasons': 6, 'loop-runtime': 5,
   'multimodal-representation': 5,
   'multimodal-input-tradeoffs': 4,
   'capabilities-assessment': 5,
@@ -45,7 +46,7 @@ const walkthroughs = new Set(['AgentConceptsWalkthrough', 'AttentionWalkthrough'
 // sync が装飾として挿入する props だけを許可する。コンポーネント名だけでは、
 // 属性式や {...spread} を経由したビルド時の JavaScript 実行を防げない。
 const attributes = {
-  AgentConceptsWalkthrough: { diagramId: value => ['ai-design-lineage', 'world-model-usages', 'world-model-evidence', 'physical-ai-boundaries', 'physical-ai-evidence', 'planning-patterns', 'planning-maintenance', 'retrieval-paths', 'retrieval-choice', 'delegation-boundaries', 'delegation-patterns', 'agent-components', 'agent-autonomy', 'tool-execution', 'tool-contract', 'memory-layers', 'memory-lifecycle'].includes(value) },
+  AgentConceptsWalkthrough: { diagramId: value => ['screen-observation', 'screen-boundaries', 'loop-stop-reasons', 'loop-runtime', 'ai-design-lineage', 'world-model-usages', 'world-model-evidence', 'physical-ai-boundaries', 'physical-ai-evidence', 'planning-patterns', 'planning-maintenance', 'retrieval-paths', 'retrieval-choice', 'delegation-boundaries', 'delegation-patterns', 'agent-components', 'agent-autonomy', 'tool-execution', 'tool-contract', 'memory-layers', 'memory-lifecycle'].includes(value) },
   MultimodalWalkthrough: { diagramId: value => [
   "multimodal-representation",
   "multimodal-input-tradeoffs"

@@ -1,3 +1,4 @@
+import { CodingIdeCloudWalkthrough } from './components/diagrams/coding-ide-cloud-walkthrough'
 import { CodingProductsWalkthrough } from './components/diagrams/coding-products-walkthrough'
 import { CodingOutcomesWalkthrough } from './components/diagrams/coding-outcomes-walkthrough'
 import { CodingControlsWalkthrough } from './components/diagrams/coding-controls-walkthrough'
@@ -48,6 +49,7 @@ export const useMDXComponents = components => ({
   ActionBoundariesWalkthrough,
   HarnessLoopWalkthrough,
   DurableContractWalkthrough,
+  CodingIdeCloudWalkthrough,
   CodingProductsWalkthrough,
   CodingOutcomesWalkthrough,
   CodingControlsWalkthrough,

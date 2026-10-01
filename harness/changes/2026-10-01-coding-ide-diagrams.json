@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "run_id": "2026-10-01-coding-ide-diagrams",
+  "base_sha": "daf4cde2f30d659c1475409dc562aee5cb790fd5",
+  "writer_run_id": "01a0f3a3-9ef2-7ae1-8ab8-2e73ae623aeb:/root",
+  "completed_at": "2026-10-01T09:52:35.760Z",
+  "changes": [
+    {
+      "path": "docs/08-coding-agents/cursor.md",
+      "kind": "substantive",
+      "summary": "現行のローカル検索索引と旧方式を時点別に分け、推論送信・一時キャッシュ・cloud checkoutとの差を同期する。"
+    },
+    {
+      "path": "docs/08-coding-agents/devin.md",
+      "kind": "substantive",
+      "summary": "現行Guardrailsのメッセージ遮断と、設定不可となった旧session終了を区別する。"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agents-comparison.md",
+      "kind": "substantive",
+      "summary": "Cursorの検索行と部分確認日・出典だけ、ローカル索引と推論利用の確認へ同期する。"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "A-3",
+      "artifacts": [
+        "docs/08-coding-agents/github-copilot.md",
+        "docs/08-coding-agents/cursor.md",
+        "docs/08-coding-agents/windsurf.md"
+      ]
+    },
+    {
+      "id": "A-4",
+      "artifacts": [
+        "docs/08-coding-agents/devin.md",
+        "docs/08-coding-agents/open-source-coding-agents.md"
+      ]
+    },
+    {
+      "id": "A-7",
+      "artifacts": [
+        "docs/08-coding-agents/coding-agent-evaluation.md",
+        "docs/08-coding-agents/coding-agents-comparison.md"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://cursor.com/docs/agent/tools/search",
+      "accessed_at": "2026-10-01T08:58:02Z",
+      "claim": "現行のInstant Grepは端末内で索引を構築・検索し、索引構築のためのコード・パス送信と検索用埋め込みの保存をしない。検索で開いた内容は推論要求へ含まれ得る。比較表のCursor行も同期。",
+      "affected_docs": [
+        "docs/08-coding-agents/cursor.md",
+        "docs/08-coding-agents/coding-agents-comparison.md"
+      ]
+    },
+    {
+      "url": "https://cursor.com/data-use",
+      "accessed_at": "2026-10-01T08:58:02Z",
+      "claim": "推論はBYOKでもbackend経由。サーバーのファイルキャッシュは一時・暗号化され、鍵は要求中のみ。Privacy Modeの学習条件と、安全調査・非ZDRモデルの保持例外を分ける。",
+      "affected_docs": [
+        "docs/08-coding-agents/cursor.md"
+      ]
+    },
+    {
+      "url": "https://docs.devin.ai/enterprise/features/ai-guardrails",
+      "accessed_at": "2026-10-01T08:58:02Z",
+      "claim": "現行設定はOff・log_only・warn_user・block_message。block_messageはメッセージを処理せずsessionは継続。kill_sessionは新規設定不可で、旧違反記録に残る値。",
+      "affected_docs": [
+        "docs/08-coding-agents/devin.md"
+      ]
+    }
+  ],
+  "review": {
+    "verdict": "approved",
+    "independent": true,
+    "reviewer_run_id": "01a0f6d5-c55f-7473-93ed-6c164f79dcc0:/root/required_ide_article_review",
+    "reviewed_at": "2026-10-01T09:51:08Z",
+    "content_digest": "c60701f38af2e5d20eace07b121b90c34755845c24ef9d52197107572ee3bc6a"
+  }
+}

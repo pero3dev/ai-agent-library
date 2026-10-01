@@ -5342,6 +5342,368 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "cursor-runtime-data",
+      "article": "docs/08-coding-agents/cursor.md",
+      "route": "/docs/coding-agents/cursor",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要",
+        "提供形態と実行環境",
+        "リポジトリ理解・編集・実行の仕組み"
+      ],
+      "sourceHeadings": [
+        "概要",
+        "提供形態と実行環境",
+        "リポジトリ理解・編集・実行の仕組み"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:21b9b835c27a5980032b4cdfb9911afeb9d6296c3d8249780640adeee97aa0fb",
+      "reviewedDigest": "sha256:21b9b835c27a5980032b4cdfb9911afeb9d6296c3d8249780640adeee97aa0fb",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "cursor-rules-security",
+      "article": "docs/08-coding-agents/cursor.md",
+      "route": "/docs/coding-agents/cursor",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "設定ファイルとカスタマイズ",
+        "権限管理とセキュリティ"
+      ],
+      "sourceHeadings": [
+        "設定ファイルとカスタマイズ",
+        "権限管理とセキュリティ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:bc2c2cdf2a3d0351c30f8208a7df5ff2dd4770ca1b2ee9cbae85bc877f8c62cf",
+      "reviewedDigest": "sha256:bc2c2cdf2a3d0351c30f8208a7df5ff2dd4770ca1b2ee9cbae85bc877f8c62cf",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "cursor-connections-adoption",
+      "article": "docs/08-coding-agents/cursor.md",
+      "route": "/docs/coding-agents/cursor",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "外部連携(MCP・CI・API)",
+        "チーム導入と提供プラン",
+        "代表的なユースケースと向き不向き"
+      ],
+      "sourceHeadings": [
+        "外部連携(MCP・CI・API)",
+        "チーム導入と提供プラン",
+        "代表的なユースケースと向き不向き"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:ab37f9893d7145fa97c2ba017c338885d5285de4bf0ff4050cc1289a56ffca7b",
+      "reviewedDigest": "sha256:ab37f9893d7145fa97c2ba017c338885d5285de4bf0ff4050cc1289a56ffca7b",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "windsurf-runtime-migration",
+      "article": "docs/08-coding-agents/windsurf.md",
+      "route": "/docs/coding-agents/windsurf",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要",
+        "提供形態と実行環境",
+        "リポジトリ理解・編集・実行の仕組み"
+      ],
+      "sourceHeadings": [
+        "概要",
+        "提供形態と実行環境",
+        "リポジトリ理解・編集・実行の仕組み"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:3a9544e3e809d94af5c1cf363ebafa636d1dc6e625a7201079a97a683c441b71",
+      "reviewedDigest": "sha256:3a9544e3e809d94af5c1cf363ebafa636d1dc6e625a7201079a97a683c441b71",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "windsurf-rules-security",
+      "article": "docs/08-coding-agents/windsurf.md",
+      "route": "/docs/coding-agents/windsurf",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "設定ファイルとカスタマイズ",
+        "権限管理とセキュリティ"
+      ],
+      "sourceHeadings": [
+        "設定ファイルとカスタマイズ",
+        "権限管理とセキュリティ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:efa3da73df2541cb1fc56fc1e59a67c7bab4f777a03955ff11df6e19ec4d7a81",
+      "reviewedDigest": "sha256:efa3da73df2541cb1fc56fc1e59a67c7bab4f777a03955ff11df6e19ec4d7a81",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "windsurf-connections-adoption",
+      "article": "docs/08-coding-agents/windsurf.md",
+      "route": "/docs/coding-agents/windsurf",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "外部連携(MCP・CI・API)",
+        "チーム導入と提供プラン",
+        "代表的なユースケースと向き不向き"
+      ],
+      "sourceHeadings": [
+        "外部連携(MCP・CI・API)",
+        "チーム導入と提供プラン",
+        "代表的なユースケースと向き不向き"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:0e9cbdafa6e55e0f68b7b5e8658fe4b54b3aae923eb3b537327ecb9e59bb59ec",
+      "reviewedDigest": "sha256:0e9cbdafa6e55e0f68b7b5e8658fe4b54b3aae923eb3b537327ecb9e59bb59ec",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "devin-delegation-runtime",
+      "article": "docs/08-coding-agents/devin.md",
+      "route": "/docs/coding-agents/devin",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要",
+        "提供形態と実行環境",
+        "リポジトリ理解・編集・実行の仕組み"
+      ],
+      "sourceHeadings": [
+        "概要",
+        "提供形態と実行環境",
+        "リポジトリ理解・編集・実行の仕組み"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:34cd647ed3d7b61d01cbc1e2e3a0ca7e4765dbc389537070b54b47b3319d279d",
+      "reviewedDigest": "sha256:34cd647ed3d7b61d01cbc1e2e3a0ca7e4765dbc389537070b54b47b3319d279d",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "devin-teaching-security",
+      "article": "docs/08-coding-agents/devin.md",
+      "route": "/docs/coding-agents/devin",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "設定ファイルとカスタマイズ",
+        "権限管理とセキュリティ"
+      ],
+      "sourceHeadings": [
+        "設定ファイルとカスタマイズ",
+        "権限管理とセキュリティ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:e206c0b7ea2e79ebd79725a49684537fc544ca878f9ebdc054d3151fe2dd860e",
+      "reviewedDigest": "sha256:e206c0b7ea2e79ebd79725a49684537fc544ca878f9ebdc054d3151fe2dd860e",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "devin-connections-adoption",
+      "article": "docs/08-coding-agents/devin.md",
+      "route": "/docs/coding-agents/devin",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "外部連携(MCP・CI・API)",
+        "チーム導入と提供プラン",
+        "代表的なユースケースと向き不向き"
+      ],
+      "sourceHeadings": [
+        "外部連携(MCP・CI・API)",
+        "チーム導入と提供プラン",
+        "代表的なユースケースと向き不向き"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:60581b70c5d9a3f6783f9af52d6ad1d4813ceb219be73a2e753b1a34ad2b0673",
+      "reviewedDigest": "sha256:60581b70c5d9a3f6783f9af52d6ad1d4813ceb219be73a2e753b1a34ad2b0673",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

@@ -18,7 +18,7 @@ P0のAgentループ・Workflow比較はP2に属する部分対応で、P1には�
 
 2026-10-01、P2の最初の単位として「AI Agentとは何か」「ツール使用」「メモリと状態管理」の3記事に6図・36段階を実装・ローカル検証済み。[現在の実施記録](../2026-10-01/p2-agent-concepts.md)を参照する。P1の再制作や旧受入JSONの全面更新から再開しない。最終のCI・マージ・公開表示の結果は、この単位のPR本文で確認する。
 
-2026-10-01の追加依頼で到達点をP5完了へ延長した。P1全15記事とP2の32/54記事は、PR #65〜#69・#72〜#78で必須CI・squash・Pages・公開表示まで完了。初期対象199記事のうち47記事が公開済み。02章全12記事は完了。[ルール・権限・自動化](../2026-10-01/coding-rules-permissions-automation.md)3記事はPR #78でPages・公開表示まで完了。[チーム導入・評価・コスト](../2026-10-01/coding-team-evaluation-cost.md)3記事はPR #79で必須CI・squash完了、Pages公開待ち。[製品別3記事](../2026-10-01/coding-terminal-products.md)は9図47段階をローカル検証済み。次はCursor・Windsurf・Devinの3記事。P2残りとP3〜P5は未完了。最終公開結果は各PR本文で確認する。
+2026-10-01の追加依頼で到達点をP5完了へ延長した。P1全15記事とP2の35/54記事は、PR #65〜#69・#72〜#79で必須CI・squash・Pages・公開表示まで完了。初期対象199記事のうち50記事が公開済み。02章全12記事は完了。[ルール・権限・自動化](../2026-10-01/coding-rules-permissions-automation.md)3記事はPR #78でPages・公開表示まで完了。[チーム導入・評価・コスト](../2026-10-01/coding-team-evaluation-cost.md)3記事はPR #79でPages・公開表示まで完了。[製品別3記事](../2026-10-01/coding-terminal-products.md)はPR #80で必須CI・squash完了、Pages公開待ち。[IDE・cloud製品](../2026-10-01/coding-ide-cloud-products.md)は9図44段階をローカル検証済み。次はSEの工程・要件設計・テストの3記事。P2残りとP3〜P5は未完了。最終公開結果は各PR本文で確認する。
 
 ## ユーザーの優先事項
 

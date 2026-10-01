@@ -27,3 +27,5 @@
 ## 公開と後続
 
 PR #79のマージ後の最新main（6765b2c132d0278ca50b644aad367cd4d435e76c）から提出する。通常PR・必須CI・squash・main CIとPages・公開表示は未実施。結果はPR本文へ追記する。次はCursor・Windsurf（Devin Desktop）・Devinの3記事。P2残りとP3〜P5は未完了。
+
+2026-10-01、初回Linux CIで入口ラベルの枠超え2件を検出し、7cd24cbで短い表記へ修正。静的ビルド・CLI製品11検査・PC目視が成功。最終head 7cd24cbf32f26ffa82051d06ee45a5e91dd9cf94、CI 36841945735・必須9検査が成功。[PR #80](https://github.com/pero3dev/ai-agent-library/pull/80)のsquashはdaf4cde2f30d659c1475409dc562aee5cb790fd5（2026-10-01T09:38:17Z）。実squashメッセージと提出ツリーを確認。main CIとPages・公開表示は待機中。

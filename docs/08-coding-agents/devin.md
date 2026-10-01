@@ -3,7 +3,7 @@ title: "Devin"
 category: "coding-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-10-01"
 tags: ["coding-agents", "mcp"]
 ---
 
@@ -28,7 +28,7 @@ tags: ["coding-agents", "mcp"]
 
 ## 本文
 
-> **最終確認日:** SWE-1.7、Enterprise MCP の接続・管理条件、データ利用条件は 2026-09-10、その他は 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
+> **最終確認日:** AI Guardrails の対応設定は 2026-10-01、SWE-1.7、Enterprise MCP の接続・管理条件、データ利用条件は 2026-09-10、その他は 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
 
 ### 概要
 
@@ -69,7 +69,7 @@ Knowledge / Playbook は API で組織横断的に管理でき、チーム標準
 ### 権限管理とセキュリティ
 
 - **承認モデル**: クラウドセッションにはコマンド単位の事前承認がありません。人間の関与点は ①事前(Ask Devin での方針確認、明確な完了基準の付与)②実行中(Progress Tab の追跡、停止、IDE 引き継ぎ)③事後(PR レビュー)です。[権限とセキュリティ](coding-agent-security.md) の分類では「サンドボックス内自動 + 境界で確認」型の純粋形であり、**PR レビューとブランチ保護が実質の防御境界**になります(公式も main ブランチ保護の有効化を推奨)
-- **Enterprise の AI Guardrails**: Devin へのメッセージをリアルタイム解析し、プロンプトインジェクション・データ持ち出し・ポリシー違反を検知して log / warn / block / kill_session の 4 段階で対応する追加レイヤーがあります。違反は監査ログと API に記録されます
+- **Enterprise の AI Guardrails**: Devin へのメッセージをリアルタイム解析し、プロンプトインジェクション・データ持ち出し・ポリシー違反を検知する追加レイヤーです。2026-10-01 の設定は Off / Log only(`log_only`、記録して継続)/ Warn user(`warn_user`、警告して処理)/ Block message(`block_message`、メッセージを遮断しセッションは継続)です。旧仕様の `kill_session` は過去の違反記録には残りますが、2026-10-01 時点では設定できません。違反は監査ログと API に記録されます
 - **データ学習の既定(選定上の重要事実)**: **有償のセルフサーブプランでも、既定ではデータが学習改善に使われ得ます**(有料 tier は Data Controls からオプトアウト可能で、Teams は管理者のみ。オプトアウト後はモデルプロバイダーとの ZDR が有効化)。Cognition Platform Terms §3.3.3 の安全・不正検知・法的要請による保持・開示は別の例外です。**Enterprise のみ既定で学習不使用**(書面同意なしに学習しないと明記)です
 - コンプライアンスは SOC 2 Type II、政府向け提供(Cognition for Government)、Customer Managed Keys(Enterprise)などが公表されています。GitHub App の要求権限(contents / pull requests 等の read & write)も公開されています
 
@@ -129,7 +129,7 @@ SWE 系モデルでは **SWE-1.7 が 2026-07-08 に発表**され、2026-09-10 �
 - [Devin 公式ドキュメント](https://docs.devin.ai/) — 機能・環境・API の一次情報(アクセス日: 2026-08-18)
 - [When to use Devin](https://docs.devin.ai/essential-guidelines/when-to-use-devin.md) — 公式のタスク適性ガイド(アクセス日: 2026-07-05)
 - [Security(admin)](https://docs.devin.ai/admin/security) / [Platform Terms](https://cognition.com/legal/platform-terms-of-service) — 学習利用・保持例外(アクセス日: 2026-09-10)
-- [AI Guardrails](https://docs.devin.ai/enterprise/features/ai-guardrails.md) — Enterprise の防御レイヤー(アクセス日: 2026-07-05)
+- [AI Guardrails](https://docs.devin.ai/enterprise/features/ai-guardrails.md) — 現行の対応設定と、過去の kill_session 記録(アクセス日: 2026-10-01)
 - [Devin Fusion(公式ブログ)](https://cognition.com/blog/devin-fusion) — ハイブリッド構成の発表とコスト削減効果(アクセス日: 2026-08-18)
 - [料金ページ](https://devin.ai/pricing) — プラン体系(アクセス日: 2026-07-05。2026-08-18 は 429 で機械取得できず、[Billing ドキュメント](https://docs.devin.ai/admin/billing/self-serve.md) でプラン・課金の変更なしを確認)
 - [Cognition Trust Center](https://trust.cognition.ai/) — コンプライアンス情報(アクセス日: 2026-07-05)

@@ -9,7 +9,7 @@ export function ClaudeSurfacesRuntime({children}){
   scene={s=><ProductCanvas diagram="claude-surfaces-runtime" {...s}>{f=><>
    <Text y={35}>{['複数の入口から、同じエージェントのループへ','遠隔からの操作と、コマンドの実行先を分ける','自社runnerの実行と、外部の推論・管理を分ける','必要なコードを探し、差分と実行結果を確認','戻せるファイルと、外部に残る作用を分ける'][f.stage]}</Text>
    {f.stage===0?<>
-    {['CLI・IDE・アプリ','Web・Remote Control','CI・Agent SDK'].map((t,i)=><g key={t}><Box x={32} y={79+i*97} width={260} height={70} title={t} tone="violet"/><Wire id={s.id} d={`M292 ${114+i*97}H316V211H340`} active phase={f.phase}/></g>)}
+    {['CLI・IDE・アプリ','Web・遠隔接続','CI・Agent SDK'].map((t,i)=><g key={t}><Box x={32} y={79+i*97} width={260} height={70} title={t} tone="violet"/><Wire id={s.id} d={`M292 ${114+i*97}H316V211H340`} active phase={f.phase}/></g>)}
     <Box x={348} y={131} width={260} height={157} title="同じエンジン" lines={['探索・編集・実行','権限・ルール・拡張']} tone="teal"/><Text y={414} small>入口が同じでも、実行基盤の条件を個別に確認</Text>
    </>:[1,2].includes(f.stage)?<>
     <Box x={105} y={69} width={430} height={65} title="Web・アプリ等の操作端末" tone="violet"/>

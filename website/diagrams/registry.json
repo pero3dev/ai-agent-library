@@ -4956,6 +4956,392 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "claude-surfaces-runtime",
+      "article": "docs/08-coding-agents/claude-code.md",
+      "route": "/docs/coding-agents/claude-code",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要",
+        "提供形態と実行環境",
+        "リポジトリ理解・編集・実行の仕組み"
+      ],
+      "sourceHeadings": [
+        "概要",
+        "提供形態と実行環境",
+        "リポジトリ理解・編集・実行の仕組み"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:abae658e2b543e1ee2dd61764645f7d34d17b3d9091df73a136390e1f384db6b",
+      "reviewedDigest": "sha256:abae658e2b543e1ee2dd61764645f7d34d17b3d9091df73a136390e1f384db6b",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "claude-config-permission",
+      "article": "docs/08-coding-agents/claude-code.md",
+      "route": "/docs/coding-agents/claude-code",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "設定ファイルとカスタマイズ",
+        "権限管理とセキュリティ"
+      ],
+      "sourceHeadings": [
+        "設定ファイルとカスタマイズ",
+        "権限管理とセキュリティ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:6fb5edcbd3a21ec8318e9b557c5bbf9ed43ae703f6c67403d5a15eebb8512721",
+      "reviewedDigest": "sha256:6fb5edcbd3a21ec8318e9b557c5bbf9ed43ae703f6c67403d5a15eebb8512721",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "claude-integrations-adoption",
+      "article": "docs/08-coding-agents/claude-code.md",
+      "route": "/docs/coding-agents/claude-code",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "外部連携(MCP・CI・API)",
+        "チーム導入と提供プラン",
+        "代表的なユースケースと向き不向き"
+      ],
+      "sourceHeadings": [
+        "外部連携(MCP・CI・API)",
+        "チーム導入と提供プラン",
+        "代表的なユースケースと向き不向き"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:cc5b5db184c3e8e7a81788e90caef275e1c73507fa9f448da1fb11860f16df46",
+      "reviewedDigest": "sha256:cc5b5db184c3e8e7a81788e90caef275e1c73507fa9f448da1fb11860f16df46",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "codex-surfaces-runtime",
+      "article": "docs/08-coding-agents/openai-codex.md",
+      "route": "/docs/coding-agents/openai-codex",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要",
+        "提供形態と実行環境",
+        "リポジトリ理解・編集・実行の仕組み"
+      ],
+      "sourceHeadings": [
+        "概要",
+        "提供形態と実行環境",
+        "リポジトリ理解・編集・実行の仕組み"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:47469555f558acdfa65b8d06918e25804654d4b614ea5a5d553b95a7e440d06f",
+      "reviewedDigest": "sha256:47469555f558acdfa65b8d06918e25804654d4b614ea5a5d553b95a7e440d06f",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "codex-config-permission",
+      "article": "docs/08-coding-agents/openai-codex.md",
+      "route": "/docs/coding-agents/openai-codex",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "設定ファイルとカスタマイズ",
+        "権限管理とセキュリティ"
+      ],
+      "sourceHeadings": [
+        "設定ファイルとカスタマイズ",
+        "権限管理とセキュリティ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:bc0c16bdd491451b2640addc381585b0e41bc987d5dcbbe1a9c7551ed65c0155",
+      "reviewedDigest": "sha256:bc0c16bdd491451b2640addc381585b0e41bc987d5dcbbe1a9c7551ed65c0155",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "codex-integrations-adoption",
+      "article": "docs/08-coding-agents/openai-codex.md",
+      "route": "/docs/coding-agents/openai-codex",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "外部連携(MCP・CI・API)",
+        "チーム導入と提供プラン",
+        "代表的なユースケースと向き不向き"
+      ],
+      "sourceHeadings": [
+        "外部連携(MCP・CI・API)",
+        "チーム導入と提供プラン",
+        "代表的なユースケースと向き不向き"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:c5009a7f26392ecee0eab6baff36a41142184a8148d79b2320afe7baa4a920b6",
+      "reviewedDigest": "sha256:c5009a7f26392ecee0eab6baff36a41142184a8148d79b2320afe7baa4a920b6",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "google-products-runtime",
+      "article": "docs/08-coding-agents/gemini-cli-and-code-assist.md",
+      "route": "/docs/coding-agents/gemini-cli-and-code-assist",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要",
+        "提供形態と実行環境",
+        "リポジトリ理解・編集・実行の仕組み"
+      ],
+      "sourceHeadings": [
+        "概要",
+        "提供形態と実行環境",
+        "リポジトリ理解・編集・実行の仕組み"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          },
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:26ec839da28ed02b4edf093324a5690373eae46bac365855642feac62659cdc9",
+      "reviewedDigest": "sha256:26ec839da28ed02b4edf093324a5690373eae46bac365855642feac62659cdc9",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "google-config-data",
+      "article": "docs/08-coding-agents/gemini-cli-and-code-assist.md",
+      "route": "/docs/coding-agents/gemini-cli-and-code-assist",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "設定ファイルとカスタマイズ",
+        "権限管理とセキュリティ"
+      ],
+      "sourceHeadings": [
+        "設定ファイルとカスタマイズ",
+        "権限管理とセキュリティ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:f4b87867f105ccb531c857b4346176bc029b9ac10cd809d3189efc929830b4c3",
+      "reviewedDigest": "sha256:f4b87867f105ccb531c857b4346176bc029b9ac10cd809d3189efc929830b4c3",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "google-integrations-adoption",
+      "article": "docs/08-coding-agents/gemini-cli-and-code-assist.md",
+      "route": "/docs/coding-agents/gemini-cli-and-code-assist",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "外部連携(MCP・CI・API)",
+        "チーム導入と提供プラン",
+        "代表的なユースケースと向き不向き"
+      ],
+      "sourceHeadings": [
+        "外部連携(MCP・CI・API)",
+        "チーム導入と提供プラン",
+        "代表的なユースケースと向き不向き"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:ef915074488f98ceb92fc72fbc6bdee2817c36c4806753869cb4c24015e005cd",
+      "reviewedDigest": "sha256:ef915074488f98ceb92fc72fbc6bdee2817c36c4806753869cb4c24015e005cd",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

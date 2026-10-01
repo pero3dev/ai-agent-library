@@ -25,3 +25,5 @@
 ## 公開と後続
 
 PR #78のマージ後の最新main（ed7aed6e229e25071d40870d8af428810383a098）から提出する。通常PR・必須CI・squash・main CIとPages・公開表示は未実施。結果はPR本文へ追記する。次はClaude Code・OpenAI Codex・Gemini CLIとCode Assistの3記事。P2残りとP3〜P5は未完了。
+
+2026-10-01、[PR #79](https://github.com/pero3dev/ai-agent-library/pull/79)のhead b4092d7dd9faed380b2a43deac815b23de481840でCI 36835350292と必須9検査が成功。squashは6765b2c132d0278ca50b644aad367cd4d435e76c、08:41:43 UTC。実メッセージと提出時ツリーを検査。main CI 36837925204とPages公開・表示は待機中。

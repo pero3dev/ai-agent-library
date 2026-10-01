@@ -9,6 +9,15 @@ const parser = unified().use(remarkParse).use(remarkGfm).use(remarkMath)
   .use(remarkFrontmatter, ['yaml']).use(remarkMdx)
 
 const readingStages = {
+  'claude-surfaces-runtime': 5,
+  'claude-config-permission': 5,
+  'claude-integrations-adoption': 5,
+  'codex-surfaces-runtime': 5,
+  'codex-config-permission': 6,
+  'codex-integrations-adoption': 5,
+  'google-products-runtime': 5,
+  'google-config-data': 6,
+  'google-integrations-adoption': 5,
   'coding-team-rollout': 5,
   'coding-team-review': 4,
   'coding-team-governance': 4,
@@ -61,11 +70,12 @@ const readingStages = {
   'transformer-io': 4, 'transformer-position': 4, 'transformer-block': 9,
   'attention-kv-sharing': 5, 'attention-compute-memory': 6, 'attention-context-range': 4
 }
-const walkthroughs = new Set(['CodingOutcomesWalkthrough', 'CodingControlsWalkthrough', 'CodingDecisionsWalkthrough', 'DurableContractWalkthrough', 'HarnessLoopWalkthrough', 'ActionBoundariesWalkthrough', 'ContextDesignWalkthrough', 'OverviewReadingWalkthrough', 'AgentConceptsWalkthrough', 'AttentionWalkthrough', 'ReadingWalkthrough', 'TransformerWalkthrough', 'AttentionVariantsWalkthrough', 'MoEWalkthrough', 'FoundationsWalkthrough', 'InferenceWalkthrough', 'TrainingWalkthrough', 'PretrainingWalkthrough', 'AlignmentWalkthrough', 'ReasoningWalkthrough', 'ContextWalkthrough', 'IclWalkthrough', 'InterpretabilityWalkthrough', 'CapabilitiesWalkthrough', 'MultimodalWalkthrough'])
+const walkthroughs = new Set(['CodingProductsWalkthrough', 'CodingOutcomesWalkthrough', 'CodingControlsWalkthrough', 'CodingDecisionsWalkthrough', 'DurableContractWalkthrough', 'HarnessLoopWalkthrough', 'ActionBoundariesWalkthrough', 'ContextDesignWalkthrough', 'OverviewReadingWalkthrough', 'AgentConceptsWalkthrough', 'AttentionWalkthrough', 'ReadingWalkthrough', 'TransformerWalkthrough', 'AttentionVariantsWalkthrough', 'MoEWalkthrough', 'FoundationsWalkthrough', 'InferenceWalkthrough', 'TrainingWalkthrough', 'PretrainingWalkthrough', 'AlignmentWalkthrough', 'ReasoningWalkthrough', 'ContextWalkthrough', 'IclWalkthrough', 'InterpretabilityWalkthrough', 'CapabilitiesWalkthrough', 'MultimodalWalkthrough'])
 
 // sync が装飾として挿入する props だけを許可する。コンポーネント名だけでは、
 // 属性式や {...spread} を経由したビルド時の JavaScript 実行を防げない。
 const attributes = {
+  CodingProductsWalkthrough: { diagramId: value => ["claude-surfaces-runtime","claude-config-permission","claude-integrations-adoption","codex-surfaces-runtime","codex-config-permission","codex-integrations-adoption","google-products-runtime","google-config-data","google-integrations-adoption"].includes(value) },
   CodingOutcomesWalkthrough: { diagramId: value => ["coding-team-rollout","coding-team-review","coding-team-governance","coding-evaluation-experiment","coding-evaluation-effects","coding-cost-consumption","coding-cost-context","coding-cost-limits"].includes(value) },
   CodingControlsWalkthrough: { diagramId: value => ["coding-rules-content","coding-rules-scope-maintenance","coding-security-threat-paths","coding-security-permission-modes","coding-security-defense-audit","coding-automation-task-design","coding-automation-runtime-recovery"].includes(value) },
   CodingDecisionsWalkthrough: { diagramId: value => ['coding-support-forms', 'coding-trigger-execution-map', 'coding-autonomy-learning', 'coding-selection-constraints', 'coding-selection-trial', 'coding-request-contract', 'coding-request-verification-recovery'].includes(value) },
@@ -163,7 +173,7 @@ export function findUnsafeMdx(mdx) {
           if (seen.has(attribute.name)) bad.add(`重複した JSX 属性 (${attribute.name})`)
           seen.add(attribute.name)
         }
-        const required = { CodingOutcomesWalkthrough: 'diagramId', CodingControlsWalkthrough: 'diagramId', CodingDecisionsWalkthrough: 'diagramId', DurableContractWalkthrough: 'diagramId', HarnessLoopWalkthrough: 'diagramId', ActionBoundariesWalkthrough: 'diagramId', ContextDesignWalkthrough: 'diagramId', OverviewReadingWalkthrough: 'diagramId', AgentConceptsWalkthrough: 'diagramId', ReadingWalkthrough: 'diagramId', TransformerWalkthrough: 'diagramId', AttentionVariantsWalkthrough: 'diagramId', MoEWalkthrough: 'diagramId', FoundationsWalkthrough: 'diagramId', InferenceWalkthrough: 'diagramId', TrainingWalkthrough: 'diagramId', PretrainingWalkthrough: 'diagramId', AlignmentWalkthrough: 'diagramId', ReasoningWalkthrough: 'diagramId', ContextWalkthrough: 'diagramId', IclWalkthrough: 'diagramId', InterpretabilityWalkthrough: 'diagramId', CapabilitiesWalkthrough: 'diagramId', MultimodalWalkthrough: 'diagramId', ReadingStep: 'step', AttentionStep: 'step' }[node.name]
+        const required = { CodingProductsWalkthrough: 'diagramId', CodingOutcomesWalkthrough: 'diagramId', CodingControlsWalkthrough: 'diagramId', CodingDecisionsWalkthrough: 'diagramId', DurableContractWalkthrough: 'diagramId', HarnessLoopWalkthrough: 'diagramId', ActionBoundariesWalkthrough: 'diagramId', ContextDesignWalkthrough: 'diagramId', OverviewReadingWalkthrough: 'diagramId', AgentConceptsWalkthrough: 'diagramId', ReadingWalkthrough: 'diagramId', TransformerWalkthrough: 'diagramId', AttentionVariantsWalkthrough: 'diagramId', MoEWalkthrough: 'diagramId', FoundationsWalkthrough: 'diagramId', InferenceWalkthrough: 'diagramId', TrainingWalkthrough: 'diagramId', PretrainingWalkthrough: 'diagramId', AlignmentWalkthrough: 'diagramId', ReasoningWalkthrough: 'diagramId', ContextWalkthrough: 'diagramId', IclWalkthrough: 'diagramId', InterpretabilityWalkthrough: 'diagramId', CapabilitiesWalkthrough: 'diagramId', MultimodalWalkthrough: 'diagramId', ReadingStep: 'step', AttentionStep: 'step' }[node.name]
         if (required && !seen.has(required)) bad.add(`必須の JSX 属性がありません (${node.name}.${required})`)
         if (walkthroughs.has(node.name)) {
           if (parentFigure) bad.add('図解コンポーネントの入れ子')

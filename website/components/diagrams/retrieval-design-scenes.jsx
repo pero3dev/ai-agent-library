@@ -47,7 +47,7 @@ export function RetrievalPaths({ children }) {
       <Text y={34}>RAG: 知識　／　Agent: 制御</Text>
       <Text x={173} y={98} small>コードで経路を決める</Text><Text x={472} y={98} small>モデルが経路を選ぶ</Text>
       <Text x={17} y={145} small anchor="start">検索あり</Text>
-      <Box x={32} y={164} width={276} height={87} title="固定RAG / Workflow" lines={['検索回数・段数だけでは決まらない']} />
+      <Box x={32} y={164} width={276} height={87} title="固定RAG / Workflow" lines={['経路を誰が決めるか']} />
       <Box x={332} y={164} width={276} height={87} title="Agentic RAG" lines={['途中結果から次の手を選ぶ']} tone="violet" />
       <Text x={17} y={288} small anchor="start">検索なし</Text>
       <Box x={32} y={304} width={276} height={87} title="全文投入など" lines={['知識の与え方として検討']} />

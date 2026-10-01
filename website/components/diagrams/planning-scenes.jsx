@@ -51,7 +51,7 @@ export function PlanningMaintenance({ children }) {
     scene={state => <Canvas diagram="planning-maintenance" {...state}>{f => <>
       {f.stage < 4 ? <>
         <Text y={35}>{f.stage === 3 ? '推論の深さと、進捗管理を分ける' : '計画を作り、参照し、見直す'}</Text>
-        <Box x={32} y={78} width={252} height={84} title="会話履歴の計画" lines={['履歴に流れると参照されない']} tone="coral" active={f.stage === 0} />
+        <Box x={32} y={78} width={252} height={84} title="会話履歴の計画" lines={['参照されなくなる']} tone="coral" active={f.stage === 0} />
         <Text x={309} y={127} tone="coral">×</Text>
         <Box x={349} y={78} width={259} height={84} title="構造化した作業状態" lines={['計画 / 完了 / 残り']} tone="amber" />
         <Wire id={state.id} d="M479 162V205" active={f.stage >= 1} phase={f.phase} tone="amber" />

@@ -21,7 +21,7 @@ export function CopilotSurfacesFlow({children}){
     <Box x={348} y={81} width={260} height={137} title={approval.approvalCanCount?'承認へ算入し得る':approval.approvalInvalidated?'承認は失効':'承認機能は未有効'} lines={['管理者のopt-in preview','対象・保護規則を確認']} tone={approval.approvalCanCount?'teal':'amber'} data-approval-can-count={String(approval.approvalCanCount)}/>
     <Box x={77} y={291} width={486} height={109} title="チームのレビュー方針へ照合" lines={['承認の有無だけで、自動マージとはしない','新commitを加えたら承認状態を確かめ直す']} tone="teal" data-automatic-merge="false"/>
    </>:f.stage===3?<>
-    {['索引・検索','差分を確認','コマンド実行','push後のCI'].map((t,i)=><g key={t}><Box x={32+i%2*316} y={82+Math.floor(i/2)*136} width={260} height={96} title={t} lines={i===3?['cloudのworkflowは人手ゲート']:i===1?['IDEの復元とPRの却下は別']:['提供面の環境と権限を確認']} tone={i===3?'amber':'violet'}/></g>)}
+    {['索引・検索','差分を確認','コマンド実行','push後のCI'].map((t,i)=><g key={t}><Box x={32+i%2*316} y={82+Math.floor(i/2)*136} width={260} height={96} title={t} lines={i===3?['cloud実行は承認制']:i===1?['IDEの復元とPRの却下は別']:['提供面の環境と権限を確認']} tone={i===3?'amber':'violet'}/></g>)}
     <Wire id={s.id} d="M292 130H340M478 178V210M348 266H300" active phase={f.phase}/>
     <Text y={392} small>cloud内のテストと、pushで始まるworkflowは別</Text>
    </>:<>
@@ -49,11 +49,11 @@ export function CopilotPolicyBoundaries({children}){
     <Text y={421} small>依頼者自身のPR承認は不可。CIの権限も先に確認</Text>
    </>:f.stage===3?<>
     <Box x={32} y={86} width={260} height={168} title="契約のデータ条件" lines={['個人：既定利用・opt-out','組織：契約で不使用','予定プランを照合']} tone="teal"/>
-    <Box x={348} y={86} width={260} height={168} title="公開コードの一致" lines={['Blockの設定を確認','cloudでは一致生成があり得る','一致情報のログを確認']} tone="amber"/>
+    <Box x={348} y={86} width={260} height={168} title="公開コードの一致" lines={['Blockの設定を確認','cloudは一致生成もある','一致情報のログを確認']} tone="amber"/>
     <Text y={340} small>学習利用・推論送信・一致コード生成は別の項目</Text>
    </>:<>
     <Box x={32} y={87} width={260} height={157} title="GitHubのMCP設定" lines={['cloudとcode review','接続元・OAuth・ツール','第三者Agentの有効化']} tone="violet"/>
-    <Box x={348} y={87} width={260} height={157} title="組織の対象を確認" lines={['Business／Enterpriseのseat','他社appの利用は別','APIとmetricsで管理']} tone="teal"/>
+    <Box x={348} y={87} width={260} height={157} title="組織の対象を確認" lines={['Business／Enterprise','seatの対象を確認','他社appの利用は別','APIとmetricsで管理']} tone="teal"/>
     <Text y={343} small>同じGitHub MCPへの接続でも、強制の範囲は別</Text>
    </>}
   </>}</OptionsCanvas>}>{children}</OptionsFigure>
@@ -76,7 +76,7 @@ export function CopilotAdoptionBudget({children}){
     <Box x={32} y={263} width={260} height={127} title="個別設定を保持" lines={['未設定のGA機能へ既定','既存の指定は優先']} tone="teal"/>
     <Box x={348} y={263} width={260} height={127} title="preview・例外" lines={['previewは明示有効化','所在地・ローカル保存等']} tone="amber"/>
    </>:f.stage===3?<>
-    <Box x={32} y={79} width={260} height={155} title="Autoの選択方針" lines={['効率・balance・intelligence','候補集合の選び方を変える','実際のモデルに沿う消費']} tone="violet"/>
+    <Box x={32} y={79} width={260} height={155} title="Autoの選択方針" lines={['効率・balance','intelligence','候補集合の選び方を変える','実際のモデルに沿う消費']} tone="violet"/>
     <Box x={348} y={79} width={260} height={155} title={approved==='yes'?'管理者が予算を判断':requested==='yes'?'申請だけでは増えない':'現在の予算を確認'} lines={['管理者が承認・調整・拒否','申請と決定を別に扱う']} tone={approved==='yes'?'teal':'amber'} data-budget-increase={String(approved==='yes')}/>
     <Text y={345} small>図の操作は申請・契約・支出を実行しません</Text>
    </>:<>

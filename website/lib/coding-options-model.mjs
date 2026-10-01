@@ -13,7 +13,7 @@ export const CODING_OPTIONS_STAGES=Object.freeze({
   ['提供面の制御','IDE・CLI・app・cloudで、権限と除外の範囲を分ける。','元記事のGA／previewとcloudの未確認を保持します。提供面を変えるとコンテンツ除外の扱いが変わります。'],
   ['cloudのゲート','作成ブランチ・workflow・レビュー・保護規則を分ける。','copilot/へのpush、依頼者による自己承認不可、firewallと自動検査を本文時点で示します。'],
   ['データの条件','契約予定のプランで学習設定とコード一致を確認する。','個人プランのopt-outと組織プランの契約を区別し、Blockだけでcloudの一致コード生成を防ぐとは扱いません。'],
-  ['接続の範囲','GitHubのMCP設定と、組織ポリシーの適用者を照合する。','cloud／reviewの設定、第三者Agent、REST／メトリクスを保持します。他社アプリのGitHub MCPへ一律に強制したとはしません。']
+  ['接続の範囲','GitHubのMCP設定と、組織ポリシーの適用者を照合する。','GitHub側の設定と、他社アプリへの接続を分けます。組織の制御を全接続へ一般化しません。']
  ]),
  'copilot-adoption-budget':rows([
   ['管理と課金','シート、Credits、機能・モデルの管理を分ける。','補完の扱い、PR作成者へのreview消費帰属、Enterprise優先と予算制御を本文時点に照合します。価格を算出しません。'],

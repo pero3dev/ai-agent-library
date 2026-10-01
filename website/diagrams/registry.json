@@ -7286,6 +7286,286 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "prompt-basics-input",
+      "article": "docs/03-implementation/prompt-engineering-fundamentals.md",
+      "route": "/docs/implementation/prompt-engineering-fundamentals",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 技法カタログとしての位置づけ",
+        "基本原則: 明確・具体・分離",
+        "例示(few-shot): 例が仕様書になる"
+      ],
+      "sourceHeadings": [
+        "概要: 技法カタログとしての位置づけ",
+        "基本原則: 明確・具体・分離",
+        "例示(few-shot): 例が仕様書になる"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:4532a5946ce54a8986e8dd47832f660e0a9c1e3c4982bdb35b61080303e556af",
+      "reviewedDigest": "sha256:4532a5946ce54a8986e8dd47832f660e0a9c1e3c4982bdb35b61080303e556af",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "prompt-basics-chain",
+      "article": "docs/03-implementation/prompt-engineering-fundamentals.md",
+      "route": "/docs/implementation/prompt-engineering-fundamentals",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "思考の誘導と推論モデル",
+        "分解と連鎖: 1 プロンプトに詰め込まない",
+        "形式指定: プロンプトで頼むか、構造で強制するか",
+        "技法の陳腐化との付き合い方"
+      ],
+      "sourceHeadings": [
+        "思考の誘導と推論モデル",
+        "分解と連鎖: 1 プロンプトに詰め込まない",
+        "形式指定: プロンプトで頼むか、構造で強制するか",
+        "技法の陳腐化との付き合い方"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:d7c0c06b03430ea48102e5cf81289bbeb40359153e97fe5171016e34365d1ef2",
+      "reviewedDigest": "sha256:d7c0c06b03430ea48102e5cf81289bbeb40359153e97fe5171016e34365d1ef2",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "prompt-pattern-layout",
+      "article": "docs/03-implementation/prompt-engineering-patterns.md",
+      "route": "/docs/implementation/prompt-engineering-patterns",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 基礎技法との分担",
+        "構造化の詳解: 配置には 3 つの力学がある",
+        "例示(few-shot)の詳解: 例は第 2 の仕様書"
+      ],
+      "sourceHeadings": [
+        "概要: 基礎技法との分担",
+        "構造化の詳解: 配置には 3 つの力学がある",
+        "例示(few-shot)の詳解: 例は第 2 の仕様書"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:18479678abf2a97bbd7dec03227a7432282cc3218f6cf03cf5b5e0fb97f6046a",
+      "reviewedDigest": "sha256:18479678abf2a97bbd7dec03227a7432282cc3218f6cf03cf5b5e0fb97f6046a",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "prompt-pattern-verification",
+      "article": "docs/03-implementation/prompt-engineering-patterns.md",
+      "route": "/docs/implementation/prompt-engineering-patterns",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "思考の制御: モデルと検証手段で使い分ける",
+        "出力の制御: 「お願い」を物理的な制約に近づける",
+        "長文・大量データのパターン",
+        "頑健性: きれいな入力を前提にしない",
+        "パターンの検証方法"
+      ],
+      "sourceHeadings": [
+        "思考の制御: モデルと検証手段で使い分ける",
+        "出力の制御: 「お願い」を物理的な制約に近づける",
+        "長文・大量データのパターン",
+        "頑健性: きれいな入力を前提にしない",
+        "パターンの検証方法"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:33817be5edda9068cf120f29f9f2d0b835ed345ae0e3bbaa4172b21e13af2182",
+      "reviewedDigest": "sha256:33817be5edda9068cf120f29f9f2d0b835ed345ae0e3bbaa4172b21e13af2182",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "prompt-management-assets",
+      "article": "docs/03-implementation/prompt-management.md",
+      "route": "/docs/implementation/prompt-management",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: コードと同じ規律、コードと違う性質",
+        "資産としてのプロンプト",
+        "バージョニングと環境"
+      ],
+      "sourceHeadings": [
+        "概要: コードと同じ規律、コードと違う性質",
+        "資産としてのプロンプト",
+        "バージョニングと環境"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:fff937f68a804ed34c7431e43f3416c30287994b82683e88586f60717bc8b6bf",
+      "reviewedDigest": "sha256:fff937f68a804ed34c7431e43f3416c30287994b82683e88586f60717bc8b6bf",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "prompt-management-change",
+      "article": "docs/03-implementation/prompt-management.md",
+      "route": "/docs/implementation/prompt-management",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "変更フロー",
+        "実験と計測"
+      ],
+      "sourceHeadings": [
+        "変更フロー",
+        "実験と計測"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:1d36020fe50c5f5a3490555f09cc2edd67cb234044a544f5acbde34d8d66598e",
+      "reviewedDigest": "sha256:1d36020fe50c5f5a3490555f09cc2edd67cb234044a544f5acbde34d8d66598e",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

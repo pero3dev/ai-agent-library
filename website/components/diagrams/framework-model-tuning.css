@@ -1,0 +1,5 @@
+.framework-model-tuning-walkthrough .lf-label{font-size:22px;font-weight:700;fill:#e2ebf0}
+.framework-model-tuning-walkthrough .lf-note{font-size:19px;fill:#bdd0dc}
+.framework-model-tuning-walkthrough .lf-box[data-active="false"] .lf-label{fill:#9daebe}
+.framework-model-tuning-walkthrough .aw-figure-description{min-height:2.5rem}
+@media(prefers-reduced-motion:reduce){.framework-model-tuning-walkthrough *{scroll-behavior:auto}}

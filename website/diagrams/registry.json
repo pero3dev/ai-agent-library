@@ -8434,6 +8434,270 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "framework-abstraction-selection",
+      "article": "docs/03-implementation/framework-selection.md",
+      "route": "/docs/implementation/framework-selection",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 選定の前に「生 API で小さく作る」",
+        "詳細: フレームワークの 3 つの抽象度",
+        "詳細: 選定軸チェックリスト",
+        "設計判断: 「フレームワークなし」も正式な選択肢"
+      ],
+      "sourceHeadings": [
+        "概要: 選定の前に「生 API で小さく作る」",
+        "詳細: フレームワークの 3 つの抽象度",
+        "詳細: 選定軸チェックリスト",
+        "設計判断: 「フレームワークなし」も正式な選択肢"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:f4bbbf796174a6e87881a3aac6f45ab6f15bfe9491c716c2f86254c0a3cc7081",
+      "reviewedDigest": "sha256:f4bbbf796174a6e87881a3aac6f45ab6f15bfe9491c716c2f86254c0a3cc7081",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "framework-boundary-migration",
+      "article": "docs/03-implementation/framework-selection.md",
+      "route": "/docs/implementation/framework-selection",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "詳細: 移行可能性を設計しておく",
+        "統合後の提供段階を確認する例"
+      ],
+      "sourceHeadings": [
+        "詳細: 移行可能性を設計しておく",
+        "統合後の提供段階を確認する例"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:5a678e6be68b1cf6bed00f5c56e75b9594a18fa8118c509eedc632e1d82a5d77",
+      "reviewedDigest": "sha256:5a678e6be68b1cf6bed00f5c56e75b9594a18fa8118c509eedc632e1d82a5d77",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "model-constraints-tier",
+      "article": "docs/03-implementation/model-selection.md",
+      "route": "/docs/implementation/model-selection",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 「最強の 1 つ」ではなくポートフォリオを選ぶ",
+        "選定の判断軸(7 つ)",
+        "用途別の使い分け(具体表)"
+      ],
+      "sourceHeadings": [
+        "概要: 「最強の 1 つ」ではなくポートフォリオを選ぶ",
+        "選定の判断軸(7 つ)",
+        "用途別の使い分け(具体表)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:741518aff3ba8ad0253aa1afff1cb0a8124e33480717326edc234bf70cd6a67f",
+      "reviewedDigest": "sha256:741518aff3ba8ad0253aa1afff1cb0a8124e33480717326edc234bf70cd6a67f",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "model-portfolio-updates",
+      "article": "docs/03-implementation/model-selection.md",
+      "route": "/docs/implementation/model-selection",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "ティア混在(ポートフォリオ)設計",
+        "料金体系の読み方",
+        "乗り換えと再評価"
+      ],
+      "sourceHeadings": [
+        "ティア混在(ポートフォリオ)設計",
+        "料金体系の読み方",
+        "乗り換えと再評価"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:14c1abab9a941d3755db463a2fb2abc494348097a6e5e88c2d16c9bb0ebd656c",
+      "reviewedDigest": "sha256:14c1abab9a941d3755db463a2fb2abc494348097a6e5e88c2d16c9bb0ebd656c",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "tuning-choice-methods",
+      "article": "docs/03-implementation/fine-tuning-and-distillation.md",
+      "route": "/docs/implementation/fine-tuning-and-distillation",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: FT は「最後の手段」になりやすい",
+        "FT を選ぶ前のチェックリスト",
+        "手法の概観"
+      ],
+      "sourceHeadings": [
+        "概要: FT は「最後の手段」になりやすい",
+        "FT を選ぶ前のチェックリスト",
+        "手法の概観"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 4
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 4
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:bd73d5c6d7cd8ad9d3a9d4cdd243a36e062ec9dfa79aed4d6c0dc9fe0f2092ed",
+      "reviewedDigest": "sha256:bd73d5c6d7cd8ad9d3a9d4cdd243a36e062ec9dfa79aed4d6c0dc9fe0f2092ed",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "distillation-data-lifecycle",
+      "article": "docs/03-implementation/fine-tuning-and-distillation.md",
+      "route": "/docs/implementation/fine-tuning-and-distillation",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "蒸留によるコスト削減",
+        "データ準備",
+        "評価と運用",
+        "FT 経路の提供状態をモデル単位で照合する"
+      ],
+      "sourceHeadings": [
+        "蒸留によるコスト削減",
+        "データ準備",
+        "評価と運用",
+        "FT 経路の提供状態をモデル単位で照合する"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:475be3cd6cb1a55c85046bbe2cb7d18a066a07214b315abfd357bfa12ffc2742",
+      "reviewedDigest": "sha256:475be3cd6cb1a55c85046bbe2cb7d18a066a07214b315abfd357bfa12ffc2742",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

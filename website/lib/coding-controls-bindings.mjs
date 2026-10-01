@@ -1,0 +1,26 @@
+const grouped=(article,count,headings,groups,types)=>({article:`docs/08-coding-agents/${article}.md`,route:`/docs/coding-agents/${article}`,binding:'grouped-blocks',stageCount:count,headings,sourceHeadings:headings,blockGroups:groups,blockTypes:types})
+export const CODING_CONTROL_BINDINGS={
+  'coding-rules-content':grouped('coding-agent-rules-and-config',5,
+    ['概要','ルールファイルの種類と対応関係','内容設計(何を書くか)'],
+    [[{stage:0,count:2}],[{stage:1,count:4}],[{stage:2,count:3},{stage:3,count:2},{stage:4,count:1}]],
+    [['paragraph','paragraph'],['paragraph','table','blockquote','paragraph'],['paragraph','paragraph','list','paragraph','list','paragraph']]),
+  'coding-rules-scope-maintenance':grouped('coding-agent-rules-and-config',5,
+    ['階層化とスコープ','保守と形骸化防止'],[[{stage:0,count:3},{stage:1,count:1}],[{stage:3,count:2}]],
+    [['paragraph','code','list','paragraph'],['paragraph','list']]),
+  'coding-security-threat-paths':grouped('coding-agent-security',5,
+    ['概要','コーディングエージェント固有の脅威'],[[{stage:0,count:2}],[{stage:1,count:2}]],
+    [['paragraph','paragraph'],['code','list']]),
+  'coding-security-permission-modes':grouped('coding-agent-security',5,
+    ['権限モデルの設計'],[[{stage:0,count:2},{stage:4,count:2}]],
+    [['paragraph','table','paragraph','list']]),
+  'coding-security-defense-audit':grouped('coding-agent-security',5,
+    ['秘密情報の扱い','破壊的操作への多層防御','監査とログ'],[[{stage:0,count:1}],[{stage:1,count:2}],[{stage:4,count:1}]],
+    [['list'],['paragraph','list'],['list']]),
+  'coding-automation-task-design':grouped('coding-agent-automation-patterns',5,
+    ['概要: 自動化の 3 段階','定番パターン集','非対話実行と CI 組み込み'],
+    [[{stage:0,count:3},{stage:1,count:1}],[{stage:2,count:2},{stage:3,count:1}],[{stage:4,count:2}]],
+    [['code','paragraph','table','paragraph'],['paragraph','table','paragraph'],['paragraph','list']]),
+  'coding-automation-runtime-recovery':grouped('coding-agent-automation-patterns',6,
+    ['定期実行(スケジュール)','並列化','自動化の失敗設計'],[[{stage:0,count:2},{stage:2,count:1}],[{stage:3,count:1}],[{stage:4,count:2}]],
+    [['paragraph','paragraph','list'],['list'],['paragraph','list']])
+}

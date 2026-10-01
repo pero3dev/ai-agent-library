@@ -6916,6 +6916,120 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "client-approval-contract",
+      "article": "docs/08-coding-agents/se-client-adoption.md",
+      "route": "/docs/coding-agents/se-client-adoption",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 合意形成は「誰に・何を・どの順で」",
+        "誰の合意が要るか、何を示すか",
+        "契約観点",
+        "見積り・工数モデルへの影響"
+      ],
+      "sourceHeadings": [
+        "概要: 合意形成は「誰に・何を・どの順で」",
+        "誰の合意が要るか、何を示すか",
+        "契約観点",
+        "見積り・工数モデルへの影響"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:ff9fceb92fce131abe124635ea9426e5be5ed128a2cb88df9905adcaeb90f8fe",
+      "reviewedDigest": "sha256:ff9fceb92fce131abe124635ea9426e5be5ed128a2cb88df9905adcaeb90f8fe",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "client-staged-adoption",
+      "article": "docs/08-coding-agents/se-client-adoption.md",
+      "route": "/docs/coding-agents/se-client-adoption",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "小さく始める型"
+      ],
+      "sourceHeadings": [
+        "小さく始める型"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:77cea02d1cbded202ba86c8b28280afd7371d4031fe76f0ca20370a9285dbe30",
+      "reviewedDigest": "sha256:77cea02d1cbded202ba86c8b28280afd7371d4031fe76f0ca20370a9285dbe30",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "client-measured-evidence",
+      "article": "docs/08-coding-agents/se-client-adoption.md",
+      "route": "/docs/coding-agents/se-client-adoption",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "効果の示し方"
+      ],
+      "sourceHeadings": [
+        "効果の示し方"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:7f4bddc1fe0c5bf7b2a7d57c700de0b6a1b0cadfb85c885a65b7f88924fd506e",
+      "reviewedDigest": "sha256:7f4bddc1fe0c5bf7b2a7d57c700de0b6a1b0cadfb85c885a65b7f88924fd506e",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

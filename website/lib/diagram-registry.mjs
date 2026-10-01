@@ -1,3 +1,4 @@
+import { CLIENT_ADOPTION_BINDINGS } from './client-adoption-bindings.mjs'
 import { SE_CONTINUITY_BINDINGS } from './se-continuity-bindings.mjs'
 import { CODING_PRACTICE_BINDINGS } from './coding-practice-bindings.mjs'
 import { CODING_OPTIONS_BINDINGS } from './coding-options-bindings.mjs'
@@ -19,6 +20,7 @@ import { readFileSync } from 'node:fs'
 // IDs resolve to code-owned bindings, never to module paths supplied by Markdown
 // or the registry. Adding a diagram requires an explicit implementation change.
 const BINDINGS = {
+  ...CLIENT_ADOPTION_BINDINGS,
   ...SE_CONTINUITY_BINDINGS,
   ...CODING_PRACTICE_BINDINGS,
   ...CODING_OPTIONS_BINDINGS,

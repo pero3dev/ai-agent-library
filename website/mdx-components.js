@@ -1,3 +1,4 @@
+import { ClientAdoptionWalkthrough } from './components/diagrams/client-adoption-walkthrough'
 import { SeContinuityWalkthrough } from './components/diagrams/se-continuity-walkthrough'
 import { CodingPracticeWalkthrough } from './components/diagrams/coding-practice-walkthrough'
 import { CodingOptionsWalkthrough } from './components/diagrams/coding-options-walkthrough'
@@ -53,6 +54,7 @@ export const useMDXComponents = components => ({
   ActionBoundariesWalkthrough,
   HarnessLoopWalkthrough,
   DurableContractWalkthrough,
+  ClientAdoptionWalkthrough,
   SeContinuityWalkthrough,
   CodingPracticeWalkthrough,
   CodingOptionsWalkthrough,

@@ -1,0 +1,5 @@
+.rag-memory-graph-walkthrough .lf-label{font-size:22px;font-weight:700;fill:#e2ebf0}
+.rag-memory-graph-walkthrough .lf-note{font-size:19px;fill:#bdd0dc}
+.rag-memory-graph-walkthrough .lf-box[data-active="false"] .lf-label{fill:#9daebe}
+.rag-memory-graph-walkthrough .aw-figure-description{min-height:2.5rem}
+@media(prefers-reduced-motion:reduce){.rag-memory-graph-walkthrough *{scroll-behavior:auto}}

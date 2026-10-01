@@ -1,0 +1,4 @@
+.context-design-walkthrough .cd-select { min-width: 0; }
+@container (min-width: 900px) {
+  .context-design-walkthrough .aw-layout { grid-template-columns: minmax(0,1fr) minmax(0,1.1fr); gap: 1.5rem; }
+}

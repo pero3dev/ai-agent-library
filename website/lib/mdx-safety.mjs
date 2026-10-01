@@ -9,6 +9,12 @@ const parser = unified().use(remarkParse).use(remarkGfm).use(remarkMath)
   .use(remarkFrontmatter, ['yaml']).use(remarkMdx)
 
 const readingStages = {
+  'optimization-failure-cycle': 6,
+  'optimization-search-boundaries': 5,
+  'feedback-observation-design': 4,
+  'feedback-verifier-control': 6,
+  'stream-progress-surface': 3,
+  'stream-cancellation-state': 6,
   'prompt-basics-input': 5,
   'prompt-basics-chain': 5,
   'prompt-pattern-layout': 5,
@@ -122,11 +128,12 @@ const readingStages = {
   'transformer-io': 4, 'transformer-position': 4, 'transformer-block': 9,
   'attention-kv-sharing': 5, 'attention-compute-memory': 6, 'attention-context-range': 4
 }
-const walkthroughs = new Set(['PromptTechniquesAssetsWalkthrough', 'PromptToolOutputWalkthrough', 'ClientAdoptionWalkthrough', 'SeContinuityWalkthrough', 'CodingPracticeWalkthrough', 'CodingOptionsWalkthrough', 'SeProcessWalkthrough', 'CodingIdeCloudWalkthrough', 'CodingProductsWalkthrough', 'CodingOutcomesWalkthrough', 'CodingControlsWalkthrough', 'CodingDecisionsWalkthrough', 'DurableContractWalkthrough', 'HarnessLoopWalkthrough', 'ActionBoundariesWalkthrough', 'ContextDesignWalkthrough', 'OverviewReadingWalkthrough', 'AgentConceptsWalkthrough', 'AttentionWalkthrough', 'ReadingWalkthrough', 'TransformerWalkthrough', 'AttentionVariantsWalkthrough', 'MoEWalkthrough', 'FoundationsWalkthrough', 'InferenceWalkthrough', 'TrainingWalkthrough', 'PretrainingWalkthrough', 'AlignmentWalkthrough', 'ReasoningWalkthrough', 'ContextWalkthrough', 'IclWalkthrough', 'InterpretabilityWalkthrough', 'CapabilitiesWalkthrough', 'MultimodalWalkthrough'])
+const walkthroughs = new Set(['FeedbackStreamingWalkthrough', 'PromptTechniquesAssetsWalkthrough', 'PromptToolOutputWalkthrough', 'ClientAdoptionWalkthrough', 'SeContinuityWalkthrough', 'CodingPracticeWalkthrough', 'CodingOptionsWalkthrough', 'SeProcessWalkthrough', 'CodingIdeCloudWalkthrough', 'CodingProductsWalkthrough', 'CodingOutcomesWalkthrough', 'CodingControlsWalkthrough', 'CodingDecisionsWalkthrough', 'DurableContractWalkthrough', 'HarnessLoopWalkthrough', 'ActionBoundariesWalkthrough', 'ContextDesignWalkthrough', 'OverviewReadingWalkthrough', 'AgentConceptsWalkthrough', 'AttentionWalkthrough', 'ReadingWalkthrough', 'TransformerWalkthrough', 'AttentionVariantsWalkthrough', 'MoEWalkthrough', 'FoundationsWalkthrough', 'InferenceWalkthrough', 'TrainingWalkthrough', 'PretrainingWalkthrough', 'AlignmentWalkthrough', 'ReasoningWalkthrough', 'ContextWalkthrough', 'IclWalkthrough', 'InterpretabilityWalkthrough', 'CapabilitiesWalkthrough', 'MultimodalWalkthrough'])
 
 // sync が装飾として挿入する props だけを許可する。コンポーネント名だけでは、
 // 属性式や {...spread} を経由したビルド時の JavaScript 実行を防げない。
 const attributes = {
+  FeedbackStreamingWalkthrough: { diagramId: value => ["optimization-failure-cycle","optimization-search-boundaries","feedback-observation-design","feedback-verifier-control","stream-progress-surface","stream-cancellation-state"].includes(value) },
   PromptTechniquesAssetsWalkthrough: { diagramId: value => ["prompt-basics-input","prompt-basics-chain","prompt-pattern-layout","prompt-pattern-verification","prompt-management-assets","prompt-management-change"].includes(value) },
   PromptToolOutputWalkthrough: { diagramId: value => ["prompt-structure-boundaries","prompt-cause-revision","tool-definition-contract","tool-result-maintenance","structured-method-schema","structured-validation-loop"].includes(value) },
   ClientAdoptionWalkthrough: { diagramId: value => ["client-approval-contract","client-staged-adoption","client-measured-evidence"].includes(value) },
@@ -233,7 +240,7 @@ export function findUnsafeMdx(mdx) {
           if (seen.has(attribute.name)) bad.add(`重複した JSX 属性 (${attribute.name})`)
           seen.add(attribute.name)
         }
-        const required = { PromptTechniquesAssetsWalkthrough: 'diagramId', PromptToolOutputWalkthrough: 'diagramId', ClientAdoptionWalkthrough: 'diagramId', SeContinuityWalkthrough: 'diagramId', CodingPracticeWalkthrough: 'diagramId', CodingOptionsWalkthrough: 'diagramId', SeProcessWalkthrough: 'diagramId', CodingIdeCloudWalkthrough: 'diagramId', CodingProductsWalkthrough: 'diagramId', CodingOutcomesWalkthrough: 'diagramId', CodingControlsWalkthrough: 'diagramId', CodingDecisionsWalkthrough: 'diagramId', DurableContractWalkthrough: 'diagramId', HarnessLoopWalkthrough: 'diagramId', ActionBoundariesWalkthrough: 'diagramId', ContextDesignWalkthrough: 'diagramId', OverviewReadingWalkthrough: 'diagramId', AgentConceptsWalkthrough: 'diagramId', ReadingWalkthrough: 'diagramId', TransformerWalkthrough: 'diagramId', AttentionVariantsWalkthrough: 'diagramId', MoEWalkthrough: 'diagramId', FoundationsWalkthrough: 'diagramId', InferenceWalkthrough: 'diagramId', TrainingWalkthrough: 'diagramId', PretrainingWalkthrough: 'diagramId', AlignmentWalkthrough: 'diagramId', ReasoningWalkthrough: 'diagramId', ContextWalkthrough: 'diagramId', IclWalkthrough: 'diagramId', InterpretabilityWalkthrough: 'diagramId', CapabilitiesWalkthrough: 'diagramId', MultimodalWalkthrough: 'diagramId', ReadingStep: 'step', AttentionStep: 'step' }[node.name]
+        const required = { FeedbackStreamingWalkthrough: 'diagramId', PromptTechniquesAssetsWalkthrough: 'diagramId', PromptToolOutputWalkthrough: 'diagramId', ClientAdoptionWalkthrough: 'diagramId', SeContinuityWalkthrough: 'diagramId', CodingPracticeWalkthrough: 'diagramId', CodingOptionsWalkthrough: 'diagramId', SeProcessWalkthrough: 'diagramId', CodingIdeCloudWalkthrough: 'diagramId', CodingProductsWalkthrough: 'diagramId', CodingOutcomesWalkthrough: 'diagramId', CodingControlsWalkthrough: 'diagramId', CodingDecisionsWalkthrough: 'diagramId', DurableContractWalkthrough: 'diagramId', HarnessLoopWalkthrough: 'diagramId', ActionBoundariesWalkthrough: 'diagramId', ContextDesignWalkthrough: 'diagramId', OverviewReadingWalkthrough: 'diagramId', AgentConceptsWalkthrough: 'diagramId', ReadingWalkthrough: 'diagramId', TransformerWalkthrough: 'diagramId', AttentionVariantsWalkthrough: 'diagramId', MoEWalkthrough: 'diagramId', FoundationsWalkthrough: 'diagramId', InferenceWalkthrough: 'diagramId', TrainingWalkthrough: 'diagramId', PretrainingWalkthrough: 'diagramId', AlignmentWalkthrough: 'diagramId', ReasoningWalkthrough: 'diagramId', ContextWalkthrough: 'diagramId', IclWalkthrough: 'diagramId', InterpretabilityWalkthrough: 'diagramId', CapabilitiesWalkthrough: 'diagramId', MultimodalWalkthrough: 'diagramId', ReadingStep: 'step', AttentionStep: 'step' }[node.name]
         if (required && !seen.has(required)) bad.add(`必須の JSX 属性がありません (${node.name}.${required})`)
         if (walkthroughs.has(node.name)) {
           if (parentFigure) bad.add('図解コンポーネントの入れ子')

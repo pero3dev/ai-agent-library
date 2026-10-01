@@ -7566,6 +7566,286 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "optimization-failure-cycle",
+      "article": "docs/03-implementation/prompt-optimization.md",
+      "route": "/docs/implementation/prompt-optimization",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: 最適化は評価の従属変数",
+        "評価駆動の改善サイクル",
+        "失敗モード別の対策マップ"
+      ],
+      "sourceHeadings": [
+        "概要: 最適化は評価の従属変数",
+        "評価駆動の改善サイクル",
+        "失敗モード別の対策マップ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:ad123db69b1ed539ed64025584ac33325e2bd7365cc2167f02addd890c0f7fb2",
+      "reviewedDigest": "sha256:ad123db69b1ed539ed64025584ac33325e2bd7365cc2167f02addd890c0f7fb2",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "optimization-search-boundaries",
+      "article": "docs/03-implementation/prompt-optimization.md",
+      "route": "/docs/implementation/prompt-optimization",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "LLM による改善(メタプロンプティング)",
+        "自動プロンプト最適化の原理と限界",
+        "過適合の罠: 3 つの向き",
+        "この先: 最適化を運用に組み込む"
+      ],
+      "sourceHeadings": [
+        "LLM による改善(メタプロンプティング)",
+        "自動プロンプト最適化の原理と限界",
+        "過適合の罠: 3 つの向き",
+        "この先: 最適化を運用に組み込む"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 0,
+            "count": 3
+          },
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:ef043bad8b5cfc0f4ab39f4031286ea4ef4bcb502a11237989f71a68c4c00ba6",
+      "reviewedDigest": "sha256:ef043bad8b5cfc0f4ab39f4031286ea4ef4bcb502a11237989f71a68c4c00ba6",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "feedback-observation-design",
+      "article": "docs/03-implementation/loop-feedback-and-verification.md",
+      "route": "/docs/implementation/loop-feedback-and-verification",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "概要: フィードバックは「モデルへの観測データ」",
+        "ツール結果の整形: 生・要約・構造化を使い分ける",
+        "エラーメッセージの設計: 次の一手を選べる形で返す"
+      ],
+      "sourceHeadings": [
+        "概要: フィードバックは「モデルへの観測データ」",
+        "ツール結果の整形: 生・要約・構造化を使い分ける",
+        "エラーメッセージの設計: 次の一手を選べる形で返す"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 4
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 4
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:4167789d53cc38fc552e232050473b079f9496e4c42e7f7ba7ffa7dd7af510be",
+      "reviewedDigest": "sha256:4167789d53cc38fc552e232050473b079f9496e4c42e7f7ba7ffa7dd7af510be",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "feedback-verifier-control",
+      "article": "docs/03-implementation/loop-feedback-and-verification.md",
+      "route": "/docs/implementation/loop-feedback-and-verification",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "検証器の 3 種と配置",
+        "自己修正ループの制御",
+        "検証を騙す出力への対策"
+      ],
+      "sourceHeadings": [
+        "検証器の 3 種と配置",
+        "自己修正ループの制御",
+        "検証を騙す出力への対策"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          },
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:e1be452a4653319a863a6b6923ea19cd1e658d617749e67f24855394368f60cd",
+      "reviewedDigest": "sha256:e1be452a4653319a863a6b6923ea19cd1e658d617749e67f24855394368f60cd",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "stream-progress-surface",
+      "article": "docs/03-implementation/streaming-and-agent-ux.md",
+      "route": "/docs/implementation/streaming-and-agent-ux",
+      "binding": "grouped-blocks",
+      "stageCount": 3,
+      "headings": [
+        "概要: レイテンシは消せない。不安だけ消せる",
+        "詳細: パターン 1 — トークンストリーミング",
+        "詳細: パターン 2 — 進捗の可視化"
+      ],
+      "sourceHeadings": [
+        "概要: レイテンシは消せない。不安だけ消せる",
+        "詳細: パターン 1 — トークンストリーミング",
+        "詳細: パターン 2 — 進捗の可視化"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:5049a55e59d882c9ab76527bcdf3969db58f022f812bb050cbb413718ba35bd7",
+      "reviewedDigest": "sha256:5049a55e59d882c9ab76527bcdf3969db58f022f812bb050cbb413718ba35bd7",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "stream-cancellation-state",
+      "article": "docs/03-implementation/streaming-and-agent-ux.md",
+      "route": "/docs/implementation/streaming-and-agent-ux",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "詳細: パターン 3 — 中断と軌道修正",
+        "詳細: パターン 4 — 同期チャット型か、非同期ジョブ型か",
+        "実装例: 非同期ツールと実行中の軌道修正"
+      ],
+      "sourceHeadings": [
+        "詳細: パターン 3 — 中断と軌道修正",
+        "詳細: パターン 4 — 同期チャット型か、非同期ジョブ型か",
+        "実装例: 非同期ツールと実行中の軌道修正"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:df5a108fa737c2e29d85b4a62e5dba208f3f452ef72860505ca6b16d4db73386",
+      "reviewedDigest": "sha256:df5a108fa737c2e29d85b4a62e5dba208f3f452ef72860505ca6b16d4db73386",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

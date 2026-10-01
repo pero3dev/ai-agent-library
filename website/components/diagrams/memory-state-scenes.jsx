@@ -41,7 +41,7 @@ export function MemoryLifecycle({ children }) {
         <Text y={34}>{['古いログを落とす', '古いターンを要約に置き換える', '大きな成果物を外へ置く'][f.stage]}</Text>
         <Box x={32} y={65} width={576} height={79} title="圧縮後も必ず残す情報" lines={['ユーザー指示 / 制約 / 決定']} tone="amber" />
         <Text x={115} y={190} small>元の履歴</Text><Text x={470} y={190} small>圧縮後の入力</Text>
-        <Tokens labels={['古い結果', '古いログ', '大きな成果物']} start={32} width={245} y={214} />
+        <Tokens labels={['結果', 'ログ', '成果物']} start={32} width={245} y={214} />
         <Wire id={state.id} d="M279 238H354" active phase={f.phase} tone="amber" />
         <Box x={364} y={211} width={244} height={70} title={['必要な情報のみ', '要約', '成果物への参照'][f.stage]} />
         {f.stage === 2 ? <>

@@ -32,8 +32,8 @@ test('memory placement distinguishes current input, optional retrieval, restart 
   assert.equal(memoryPlacement('preference')[0], '長期記憶＋保存基準')
   assert.throws(() => memoryPlacement('__proto__'), RangeError)
 })
-test('all 36 stages have readable paused descriptions and support forward, reverse and bounded seeking', () => {
-  assert.equal(Object.values(AGENT_CONCEPT_STAGES).reduce((sum, rows) => sum + rows.length, 0), 36)
+test('all concept stages have readable paused descriptions and support forward, reverse and bounded seeking', () => {
+  assert.equal(Object.values(AGENT_CONCEPT_STAGES).reduce((sum, rows) => sum + rows.length, 0), 69)
   for (const [id, stages] of Object.entries(AGENT_CONCEPT_STAGES)) {
     for (let i = stages.length - 1; i >= 0; i--) {
       assert.equal(agentConceptFrame(id, i).stage, i)

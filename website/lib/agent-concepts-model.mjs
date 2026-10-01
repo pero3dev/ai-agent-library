@@ -1,7 +1,9 @@
 import { clampPhase, stageForPhase } from './reading-clock.mjs'
+import { AGENT_DESIGN_STAGES } from './agent-design-model.mjs'
 
 const stages = rows => Object.freeze(rows.map(([label, title, detail]) => Object.freeze({ label, title, detail })))
 export const AGENT_CONCEPT_STAGES = Object.freeze({
+  ...AGENT_DESIGN_STAGES,
   'agent-components': stages([
     ['目標と手順', '目標を受け取り、手順は実行時に決める。', 'ユーザーやトリガーからの目標と、LLMがその状況で選ぶ次の行動を分けます。固定手順のWorkflowとの違いは手順を誰が決めるかです。'],
     ['判断と状態', '入力された状態を使い、LLMが次の行動を選ぶ。', 'メモリ・状態はアプリケーション側が管理し、必要な情報を判断に渡します。LLMの呼び出し間に自動的に残る記憶ではありません。'],

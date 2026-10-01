@@ -61,7 +61,7 @@ export function ToolContract({ children }) {
           <Box x={32} y={78 + i * 97} width={308} height={79} title={title} lines={[detail]} tone={i === 1 ? 'amber' : 'teal'} />
           <Wire id={state.id} d={`M340 ${118 + i * 97}H382V217H418`} active={f.stage === 0 || f.stage === i} phase={f.phase} />
         </g>)}
-        <Box x={425} y={164} width={180} height={112} title="構造化された要求" lines={['名前＋引数', 'アプリ側で検証']} tone="violet" />
+        <Box x={425} y={164} width={180} height={112} title="構造化要求" lines={['名前＋引数', 'アプリ側で検証']} tone="violet" />
         <Text y={403} small>{f.stage === 1 ? '用途と制約を、名前だけから推測させない' : f.stage === 2 ? 'month: YYYY-MM ／ 必須項目を指定' : '名前だけでは、用途・制約・引数は伝わらない'}</Text>
       </>}
       {f.stage === 3 && <>

@@ -148,7 +148,9 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # 全記事の図解回帰を維持する。P3追加後に30分上限へ達したため、
+    # 検査数・各テストの上限を変えず、build全体に60分を確保する。
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:

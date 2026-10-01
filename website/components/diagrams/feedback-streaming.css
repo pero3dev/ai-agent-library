@@ -1,0 +1,5 @@
+.feedback-streaming-walkthrough .lf-label{font-size:22px;font-weight:700;fill:#e2ebf0}
+.feedback-streaming-walkthrough .lf-note{font-size:19px;fill:#bdd0dc}
+.feedback-streaming-walkthrough .lf-box[data-active="false"] .lf-label{fill:#9daebe}
+.feedback-streaming-walkthrough .aw-figure-description{min-height:2.5rem}
+@media(prefers-reduced-motion:reduce){.feedback-streaming-walkthrough *{scroll-behavior:auto}}

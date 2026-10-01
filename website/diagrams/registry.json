@@ -3716,6 +3716,374 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "durable-resume-design",
+      "article": "docs/02-architecture/async-and-durable-agents.md",
+      "route": "/docs/architecture/async-and-durable-agents",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 「プロセスが生きている」前提を捨てる",
+        "同期の限界と非同期化の判断",
+        "チェックポイントと再開",
+        "耐久実行(durable execution)という考え方"
+      ],
+      "sourceHeadings": [
+        "概要: 「プロセスが生きている」前提を捨てる",
+        "同期の限界と非同期化の判断",
+        "チェックポイントと再開",
+        "耐久実行(durable execution)という考え方"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 3
+          },
+          {
+            "stage": 4,
+            "count": 4
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:0000b99b700b13466d3d5fc56d2e235ea5780bbf6a8a88fd5be13a30486ca70e",
+      "reviewedDigest": "sha256:0000b99b700b13466d3d5fc56d2e235ea5780bbf6a8a88fd5be13a30486ca70e",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "durable-side-effect-contract",
+      "article": "docs/02-architecture/async-and-durable-agents.md",
+      "route": "/docs/architecture/async-and-durable-agents",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "冪等性と重複実行"
+      ],
+      "sourceHeadings": [
+        "冪等性と重複実行"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:783632c0c232e3cc4866c341058ead5a74df8a6dd013aeb834ddcb14869590ee",
+      "reviewedDigest": "sha256:783632c0c232e3cc4866c341058ead5a74df8a6dd013aeb834ddcb14869590ee",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "durable-wait-and-progress",
+      "article": "docs/02-architecture/async-and-durable-agents.md",
+      "route": "/docs/architecture/async-and-durable-agents",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "承認待ちの永続化",
+        "進捗の可視化",
+        "非同期ツール API と耐久実行を分ける"
+      ],
+      "sourceHeadings": [
+        "承認待ちの永続化",
+        "進捗の可視化",
+        "非同期ツール API と耐久実行を分ける"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:b077fa28469cd8f310790a1c2458e63c681aecc5d33a05b7b840ae831a85cdef",
+      "reviewedDigest": "sha256:b077fa28469cd8f310790a1c2458e63c681aecc5d33a05b7b840ae831a85cdef",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "tenant-data-and-settings",
+      "article": "docs/02-architecture/multi-tenancy-and-isolation.md",
+      "route": "/docs/architecture/multi-tenancy-and-isolation",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: 分離すべき 4 つの軸",
+        "データの分離: テナントコンテキストの貫通",
+        "プロンプトとテナント別設定"
+      ],
+      "sourceHeadings": [
+        "概要: 分離すべき 4 つの軸",
+        "データの分離: テナントコンテキストの貫通",
+        "プロンプトとテナント別設定"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 6
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 4
+          },
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:d65c905aa0face4271bcf2305b9f1180781115a78685e2db576c7b47144f233f",
+      "reviewedDigest": "sha256:d65c905aa0face4271bcf2305b9f1180781115a78685e2db576c7b47144f233f",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "tenant-capacity-and-cost",
+      "article": "docs/02-architecture/multi-tenancy-and-isolation.md",
+      "route": "/docs/architecture/multi-tenancy-and-isolation",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "レートと容量の分離: ノイジーネイバー対策",
+        "コストの分離とメータリング",
+        "分離レベルの選択"
+      ],
+      "sourceHeadings": [
+        "レートと容量の分離: ノイジーネイバー対策",
+        "コストの分離とメータリング",
+        "分離レベルの選択"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:561b28d50e673e5b5ed47752c96e2c9660f3a9b003afd5ed397f6efd05b98fc9",
+      "reviewedDigest": "sha256:561b28d50e673e5b5ed47752c96e2c9660f3a9b003afd5ed397f6efd05b98fc9",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "agent-api-job-states",
+      "article": "docs/02-architecture/agent-api-design.md",
+      "route": "/docs/architecture/agent-api-design",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: 実行の状態を API の契約にする",
+        "同期かジョブ型か",
+        "ステータスモデルと部分結果"
+      ],
+      "sourceHeadings": [
+        "概要: 実行の状態を API の契約にする",
+        "同期かジョブ型か",
+        "ステータスモデルと部分結果"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 4
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:fb1ebb6653c6c0f7d53a59094c09c1038a46724b6acc7d90542a29056c2381ef",
+      "reviewedDigest": "sha256:fb1ebb6653c6c0f7d53a59094c09c1038a46724b6acc7d90542a29056c2381ef",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "agent-api-events-and-idempotency",
+      "article": "docs/02-architecture/agent-api-design.md",
+      "route": "/docs/architecture/agent-api-design",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "ストリーミングとイベント設計",
+        "冪等性と再試行の契約"
+      ],
+      "sourceHeadings": [
+        "ストリーミングとイベント設計",
+        "冪等性と再試行の契約"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 3
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:4f8bfd054a3727b50055156a6d73745b006eacb0df51a7285a3e4c14d1686fb7",
+      "reviewedDigest": "sha256:4f8bfd054a3727b50055156a6d73745b006eacb0df51a7285a3e4c14d1686fb7",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "agent-api-change-and-metering",
+      "article": "docs/02-architecture/agent-api-design.md",
+      "route": "/docs/architecture/agent-api-design",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "バージョニングと互換性",
+        "メータリングと課金・上限",
+        "実行中の指示変更を API 契約に含める"
+      ],
+      "sourceHeadings": [
+        "バージョニングと互換性",
+        "メータリングと課金・上限",
+        "実行中の指示変更を API 契約に含める"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:ff04649e904cb8776112932601653f47ebd029deaf1863a530540b87624d8968",
+      "reviewedDigest": "sha256:ff04649e904cb8776112932601653f47ebd029deaf1863a530540b87624d8968",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

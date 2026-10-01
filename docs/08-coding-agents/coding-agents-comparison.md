@@ -3,7 +3,7 @@ title: "主要コーディングエージェント比較"
 category: "coding-agents"
 level: "intermediate"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-10-01"
 tags: ["coding-agents"]
 ---
 
@@ -24,7 +24,7 @@ tags: ["coding-agents"]
 
 ## 本文
 
-> **最終確認日:** 2026-09-10 に Claude Code / Codex の権限・自社実行、Cursor / Windsurf のデータ条件、Gemini の契約経路、Copilot の企業制御、Cline / Continue の提供面を部分更新しました。他の項目は各ツール記事に示す 2026-07〜08 の確認範囲です。採用時は契約・設定・提供面ごとの一次情報を確認してください。
+> **最終確認日:** 2026-10-01 に Cursor の検索方式を更新しました。2026-09-10 に Claude Code / Codex の権限・自社実行、Cursor / Windsurf のデータ条件、Gemini の契約経路、Copilot の企業制御、Cline / Continue の提供面を部分更新しました。他の項目は各ツール記事に示す 2026-07〜08 の確認範囲です。採用時は契約・設定・提供面ごとの一次情報を確認してください。
 
 ### 概要と読み方
 
@@ -82,7 +82,7 @@ tags: ["coding-agents"]
 | Gemini Code Assist | ローカル認識 + リモートインデックス(Enterprise) | ? | ○ | GEMINI.md | — |
 | Jules | VM クローン + 環境スナップショット | PR 単位 | ? | AGENTS.md | REST API |
 | GitHub Copilot | **自動インデックス + セマンティック検索** | Keep / Undo + チェックポイント(VS Code) | ○ | copilot-instructions.md・AGENTS.md(CLAUDE.md / GEMINI.md も読む) | Skills・カスタムエージェント・Spaces |
-| Cursor | **埋め込みインデックス** + オンデマンド併用 | チェックポイント | ○ | .cursor/rules・AGENTS.md | フック・SDK・マーケットプレイス |
+| Cursor | **Instant Grep のローカル索引** + 実行時探索(検索で開いた内容の推論送信は別) | チェックポイント | ○ | .cursor/rules・AGENTS.md | フック・SDK・マーケットプレイス |
 | Windsurf / Devin Desktop | ローカル / リモートインデックス + Fast Context | プロンプト単位 revert | ○ | .devin/rules・AGENTS.md | Memories・Skills・**ACP ホスト** |
 | Devin | 事前インデックス + DeepWiki | PR 単位 | ○(自身も MCP サーバー) | AGENTS.md + Knowledge / Playbooks | API・Devin MCP・スケジュール実行 |
 
@@ -137,6 +137,7 @@ tags: ["coding-agents"]
 
 ## 参考資料
 
+- [Cursor Search](https://cursor.com/docs/agent/tools/search) — ローカル索引と、検索で開いた内容の推論利用(アクセス日: 2026-10-01)
 - [Cursor Data Use](https://cursor.com/data-use) / [Cognition Platform Terms](https://cognition.com/legal/platform-terms-of-service) / [Gemini API Terms](https://ai.google.dev/gemini-api/terms) — 学習・保持・契約条件(アクセス日: 2026-09-10)
 - [Codex Permissions](https://learn.chatgpt.com/docs/permissions) / [Claude Code self-hosted environments](https://code.claude.com/docs/en/self-hosted-environments) — 実行・権限境界(アクセス日: 2026-09-10)
 - 9 月の機能追加の出典と適用条件は各ツール記事の参考資料を参照してください

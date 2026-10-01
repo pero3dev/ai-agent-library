@@ -5,6 +5,15 @@ const element = (name, children, attributes = []) => ({ type: 'mdxJsxFlowElement
 const attribute = (name, value) => ({ type: 'mdxJsxAttribute', name, value: String(value) })
 const step = (index, children) => element('ReadingStep', children, [attribute('step', index)])
 const components = {
+  'cursor-runtime-data': 'CodingIdeCloudWalkthrough',
+  'cursor-rules-security': 'CodingIdeCloudWalkthrough',
+  'cursor-connections-adoption': 'CodingIdeCloudWalkthrough',
+  'windsurf-runtime-migration': 'CodingIdeCloudWalkthrough',
+  'windsurf-rules-security': 'CodingIdeCloudWalkthrough',
+  'windsurf-connections-adoption': 'CodingIdeCloudWalkthrough',
+  'devin-delegation-runtime': 'CodingIdeCloudWalkthrough',
+  'devin-teaching-security': 'CodingIdeCloudWalkthrough',
+  'devin-connections-adoption': 'CodingIdeCloudWalkthrough',
   'claude-surfaces-runtime': 'CodingProductsWalkthrough',
   'claude-config-permission': 'CodingProductsWalkthrough',
   'claude-integrations-adoption': 'CodingProductsWalkthrough',
@@ -178,7 +187,7 @@ export function assertDiagramPageMetadata(tree, expected) {
   const diagramIds = []
   const walk = node => {
     if (node.name === 'AttentionWalkthrough') diagramIds.push('self-attention')
-    if (['CodingProductsWalkthrough', 'CodingOutcomesWalkthrough', 'CodingControlsWalkthrough', 'CodingDecisionsWalkthrough', 'DurableContractWalkthrough', 'HarnessLoopWalkthrough', 'ActionBoundariesWalkthrough', 'ContextDesignWalkthrough', 'OverviewReadingWalkthrough', 'AgentConceptsWalkthrough', 'ReadingWalkthrough', 'TransformerWalkthrough', 'AttentionVariantsWalkthrough', 'MoEWalkthrough', 'FoundationsWalkthrough', 'InferenceWalkthrough', 'TrainingWalkthrough', 'PretrainingWalkthrough', 'AlignmentWalkthrough', 'ReasoningWalkthrough', 'ContextWalkthrough', 'IclWalkthrough', 'InterpretabilityWalkthrough', 'CapabilitiesWalkthrough', 'MultimodalWalkthrough'].includes(node.name)) {
+    if (['CodingIdeCloudWalkthrough', 'CodingProductsWalkthrough', 'CodingOutcomesWalkthrough', 'CodingControlsWalkthrough', 'CodingDecisionsWalkthrough', 'DurableContractWalkthrough', 'HarnessLoopWalkthrough', 'ActionBoundariesWalkthrough', 'ContextDesignWalkthrough', 'OverviewReadingWalkthrough', 'AgentConceptsWalkthrough', 'ReadingWalkthrough', 'TransformerWalkthrough', 'AttentionVariantsWalkthrough', 'MoEWalkthrough', 'FoundationsWalkthrough', 'InferenceWalkthrough', 'TrainingWalkthrough', 'PretrainingWalkthrough', 'AlignmentWalkthrough', 'ReasoningWalkthrough', 'ContextWalkthrough', 'IclWalkthrough', 'InterpretabilityWalkthrough', 'CapabilitiesWalkthrough', 'MultimodalWalkthrough'].includes(node.name)) {
       diagramIds.push(node.attributes?.find(attribute => attribute.name === 'diagramId')?.value)
     }
     for (const child of node.children ?? []) walk(child)

@@ -1,6 +1,6 @@
 # 動的図解の展開状況
 
-開始日: 2026-09-24。2026-10-01現在、P1全15記事とP2の32/54記事はPR #65〜#69・#72〜#78で公開済み。初期対象199記事中47記事が公開完了。02章全12記事は完了。[ルール・権限・自動化](../2026-10-01/coding-rules-permissions-automation.md)3記事はPR #78でPages・公開表示まで完了。[チーム導入・評価・コスト](../2026-10-01/coding-team-evaluation-cost.md)3記事はPR #79で必須CI・squash完了、Pages公開待ち。[製品別3記事](../2026-10-01/coding-terminal-products.md)は9図47段階をローカル検証済み。次はCursor・Windsurf・Devinの3記事。依頼の到達点はP5完了。以下の独立受入・固定snapshotは旧手順での履歴である。
+開始日: 2026-09-24。2026-10-01現在、P1全15記事とP2の35/54記事はPR #65〜#69・#72〜#79で公開済み。初期対象199記事中50記事が公開完了。02章全12記事は完了。[ルール・権限・自動化](../2026-10-01/coding-rules-permissions-automation.md)3記事はPR #78でPages・公開表示まで完了。[チーム導入・評価・コスト](../2026-10-01/coding-team-evaluation-cost.md)3記事はPR #79でPages・公開表示まで完了。[製品別3記事](../2026-10-01/coding-terminal-products.md)はPR #80で必須CI・squash完了、Pages公開待ち。[IDE・cloud製品](../2026-10-01/coding-ide-cloud-products.md)は9図44段階をローカル検証済み。次はSEの工程・要件設計・テストの3記事。依頼の到達点はP5完了。以下の独立受入・固定snapshotは旧手順での履歴である。
 
 2026-10-01のユーザー指示を優先し、親担当だけで進める。追加ハッシュ・証跡アーカイブ・任意の独立図解レビュー・公開後の網羅検査を省略する。1〜3記事ずつ実装・必要な検査・通常PR・squashマージ・Pages公開を進め、公開後は表示確認だけを行う。以前のP1停止指定は、P5までの継続依頼で更新された。
 
@@ -22,7 +22,7 @@
 | 計画 | 全199記事 | 計画作成・独立レビュー済み、採択 | [全件棚卸し](../../plans/engineering/dynamic-diagram-inventory.md)、[計画作成記録](dynamic-diagram-plan.md) |
 | P0 | 共通基盤・自己注意・Agentループ・Workflow比較 | PR #52マージ・公開受入完了 | [P0実施記録](reading-diagram-foundation.md) |
 | P1 | LLM内部構造・基礎15記事 | 15/15記事が公開完了（PR #65） | [P1完了](../2026-10-01/p1-completion.md) |
-| P2 | 中核54記事 | 32/54記事が公開完了（PR #66〜#69・#72〜#78）。ルール等3記事はPR #78でPages・公開表示まで完了。チーム等3記事は8図36段階をローカル検証済み | [ルール・権限・自動化](../2026-10-01/coding-rules-permissions-automation.md)、[チーム導入・評価・コスト](../2026-10-01/coding-team-evaluation-cost.md) |
+| P2 | 中核54記事 | 35/54記事が公開完了（PR #66〜#69・#72〜#79）。ルール等3記事はPR #78でPages・公開表示まで完了。チーム等3記事もPR #79で公開完了。製品別3記事はPR #80で必須CI・squash完了、公開待ち。IDE・cloud製品3記事は9図44段階をローカル検証済み | [ルール・権限・自動化](../2026-10-01/coding-rules-permissions-automation.md)、[チーム導入・評価・コスト](../2026-10-01/coding-team-evaluation-cost.md) |
 | P3 | 実装・品質・運用78記事 | 未着手 | P2受入後に着手 |
 | P4 | 応用・判断52記事 | 未着手 | P3受入後に着手 |
 | P5 | 全体受入・更新運用 | 未着手 | P4受入後に着手 |

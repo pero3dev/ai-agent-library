@@ -48,7 +48,7 @@ export function AgentAutonomy({ children }) {
           <Text x={25} y={93 + i * 79} anchor="start" small>{mode}</Text>
           <Box x={228} y={63 + i * 79} width={100} height={53} title={i === 0 ? '処理' : '判断'} tone={i === 0 ? 'teal' : 'violet'} />
           <Wire id={state.id} d={`M328 ${90 + i * 79}H359`} active={f.stage === i} phase={f.phase} />
-          <Box x={366} y={63 + i * 79} width={100} height={53} title={i < 2 ? '処理' : i === 2 ? 'ツール' : '子Agent'} tone={i === 3 ? 'violet' : 'teal'} />
+          <Box x={366} y={63 + i * 79} width={100} height={53} title={i < 2 ? '処理' : i === 2 ? 'ツール' : '分担'} tone={i === 3 ? 'violet' : 'teal'} />
           <Wire id={state.id} d={`M466 ${90 + i * 79}H497`} active={f.stage === i} phase={f.phase} />
           <Box x={504} y={63 + i * 79} width={106} height={53} title={i === 3 ? '統合' : '結果'} />
           {i > 0 && <Wire id={state.id} d={i === 1 ? 'M278 142L299 127M278 142L257 127' : `M558 ${118 + i * 79}V${131 + i * 79}H278V${118 + i * 79}`} active={f.stage === i} phase={f.phase} tone="violet" dash />}

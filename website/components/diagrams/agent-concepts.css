@@ -2,5 +2,9 @@
 .ac-scene .ac-muted { opacity: .32; }
 .ac-scene .ac-packet { transition: transform 420ms ease, opacity 420ms ease; }
 .agent-concepts-walkthrough .cd-select { min-width: 0; }
+.agent-concepts-walkthrough .aw-prose th { white-space: nowrap; }
+@container (min-width: 900px) {
+  .agent-concepts-walkthrough .aw-layout { grid-template-columns: minmax(0,1fr) minmax(0,1.1fr); gap: 1.5rem; }
+}
 @media (prefers-reduced-motion: reduce) { .ac-scene * { transition: none !important; } }
 @media print { .ac-scene * { transition: none !important; } }

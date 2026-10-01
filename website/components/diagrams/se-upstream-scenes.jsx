@@ -7,7 +7,7 @@ export function SeUpstreamReview({children}){
   scene={s=><SeCanvas diagram="se-upstream-review" {...s}>{f=><>
    <Text y={35}>{['上流の候補と、確定する担当を分ける','観点・矛盾・曖昧さを、人と顧客へ戻す','資産とテンプレートで草案を作り、根拠を確かめる','横断的な指摘を、採否と承認へつなぐ'][f.stage]}</Text>
    {f.stage===0?<>
-    {['要件の抜け漏れ','設計書と図','整合性レビュー'].map((t,i)=><g key={t}><Box x={32} y={ 80+i*101} width={260} height={72} title={t} tone="violet"/><Wire id={s.id} d={`M292 ${116+i*101}H340`} active phase={f.phase}/><Box x={348} y={ 80+i*101} width={260} height={72} title={['要件確定・顧客合意','方式・非機能・設計責任','指摘の採否・最終承認'][i]} tone="teal"/></g>)}
+    {['要件の抜け漏れ','設計書と図','整合性レビュー'].map((t,i)=><g key={t}><Box x={32} y={ 80+i*101} width={260} height={72} title={t} tone="violet"/><Wire id={s.id} d={`M292 ${116+i*101}H340`} active phase={f.phase}/><Box x={348} y={ 80+i*101} width={260} height={72} title={['要件確定・顧客合意','方式・非機能・責任','指摘の採否・最終承認'][i]} tone="teal"/></g>)}
    </>:f.stage===1?<>
     <Box x={75} y={75} width={490} height={96} title="要求の草案から観点を出す" lines={['異常系・性能・可用性・移行・運用']} tone="violet"/>
     <Wire id={s.id} d="M320 171V220" active phase={f.phase}/><Box x={75} y={228} width={490} height={130} title="業務の実態へ照合し、人と顧客が選ぶ" lines={['質問・矛盾・曖昧さを確認','知らない業務の補完を、合意済みにしない']} tone="teal" data-generated-is-agreed="false"/>

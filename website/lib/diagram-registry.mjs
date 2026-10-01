@@ -1,3 +1,4 @@
+import { CODING_PRACTICE_BINDINGS } from './coding-practice-bindings.mjs'
 import { CODING_OPTIONS_BINDINGS } from './coding-options-bindings.mjs'
 import { SE_PROCESS_BINDINGS } from './se-process-bindings.mjs'
 import { IDE_CLOUD_BINDINGS } from './coding-ide-cloud-bindings.mjs'
@@ -17,6 +18,7 @@ import { readFileSync } from 'node:fs'
 // IDs resolve to code-owned bindings, never to module paths supplied by Markdown
 // or the registry. Adding a diagram requires an explicit implementation change.
 const BINDINGS = {
+  ...CODING_PRACTICE_BINDINGS,
   ...CODING_OPTIONS_BINDINGS,
   ...SE_PROCESS_BINDINGS,
   ...IDE_CLOUD_BINDINGS,

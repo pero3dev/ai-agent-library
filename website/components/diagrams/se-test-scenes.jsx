@@ -7,7 +7,7 @@ export function SeTestDesignGeneration({children}){
   scene={s=><SeCanvas diagram="se-test-design-generation" {...s}>{f=><>
    <Text y={35}>{['テストの成果物を作る支援と、妥当性の確定を分ける','列挙した候補を、業務リスクへ照合する','期待結果が仕様から決まるか、人が確認する','期待値を保って、コードとダミーデータを作る'][f.stage]}</Text>
    {f.stage===0?<>
-    {['観点・ケース','コード・データ','実施記録'].map((t,i)=><g key={t}><Box x={32} y={78+i*103} width={260} height={73} title={t} tone="violet"/><Wire id={s.id} d={`M292 ${114+i*103}H340`} active phase={f.phase}/><Box x={348} y={78+i*103} width={260} height={73} title={['網羅性・仕様との突合','期待値・データの妥当性','合否と提出物の確認'][i]} tone="teal"/></g>)}
+    {['観点・ケース','コード・データ','実施記録'].map((t,i)=><g key={t}><Box x={32} y={78+i*103} width={260} height={73} title={t} tone="violet"/><Wire id={s.id} d={`M292 ${114+i*103}H340`} active phase={f.phase}/><Box x={348} y={78+i*103} width={260} height={73} title={['網羅性・仕様との突合','期待値・データの確認','合否と提出物の確認'][i]} tone="teal"/></g>)}
     <Text y={420} small>Agent自体の評価と、常設する回帰検査は別の話</Text>
    </>:f.stage===1?<>
     <Box x={77} y={70} width={486} height={98} title="仕様・機能一覧・入力条件" lines={['正常・異常・境界・非機能・状態の候補']} tone="violet"/>

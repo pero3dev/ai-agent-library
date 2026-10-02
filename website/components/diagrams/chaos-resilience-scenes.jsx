@@ -27,6 +27,6 @@ export function ChaosEnvironmentLearning({children}){
  {stage===3&&<DataPair left={['成熟した自動化','CIや本番の限定注入','対象と頻度を管理','準備が進んだ後に']} right={['備えの変更後','fallback・retry変更','実際の発動を試す','設定だけを証拠にしない']} id={id} phase={phase} arrow={false}/>}
  {stage===4&&<DataPair left={['見つけた弱点','fallback未発動','復旧手順が不明','原因と条件を読む']} right={['設計・手順を更新','retryと代替の設計','incidentのrunbook','報告だけで閉じない']} id={id} phase={phase}/>}
  {stage===5&&<DataPair left={['障害の再現','入力と状況を保つ','評価ケースを作る','必要な環境を用意']} right={['継続して検査','回帰へ加える','備え変更後も試す','永久防止の保証でない']} id={id} phase={phase}/>}
- <Text x={320} y={409} center small>図は注入・自動化・ケース保存を行わず、永続的な回復力を保証しない。</Text>
+ <Text x={320} y={409} center small>図は注入・自動化・保存をしない。回復力も保証しない。</Text>
  </>}</DataCanvas>} controls={({stage,ready})=>stage===1?<><Select label="模式の演習環境" value={environment} onChange={setEnvironment} ready={ready}><option value="evaluation">評価環境</option><option value="staging">staging</option><option value="production">限定した本番</option></Select><Select label="演習環境で不足する条件" value={missing} onChange={setMissing} ready={ready}><option value="dependency">評価では再現できない実依存</option><option value="scope">小さい影響範囲</option><option value="effects">副作用のない対象</option><option value="none">必要条件を照合</option></Select></>:null}>{children}</DataFigure>
 }

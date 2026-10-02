@@ -1,0 +1,14 @@
+.data-resilience-walkthrough .aw-layout{align-items:start}
+.data-resilience-walkthrough .lf-box text{opacity:1}
+.data-resilience-walkthrough .aw-prose table{display:block;max-width:100%;overflow-x:auto}
+.data-resilience-walkthrough .aw-prose th{white-space:nowrap}
+.data-resilience-walkthrough .aw-prose td{min-width:10rem}
+.data-resilience-walkthrough .aw-prose td:first-child{min-width:6rem}
+@media print{
+ .data-resilience-walkthrough .aw-prose table{display:table;width:100%;overflow:visible}
+ .data-resilience-walkthrough .aw-prose td{min-width:0}
+ .data-resilience-walkthrough .aw-prose th{white-space:normal}
+}
+.data-resilience-walkthrough .dr-bar-teal{fill:#6be4cd}
+.data-resilience-walkthrough .dr-bar-violet{fill:#b8a6f0}
+.data-resilience-walkthrough .dr-bar-amber{fill:#ffca7b}

@@ -1,3 +1,4 @@
+import { DATA_RESILIENCE_BINDINGS } from './data-resilience-bindings.mjs'
 import { RELEASE_RESPONSE_BINDINGS } from './release-response-bindings.mjs'
 import { SERVICE_BUDGETS_BINDINGS } from './service-budgets-bindings.mjs'
 import { QUALITY_TRACE_BINDINGS } from './quality-trace-bindings.mjs'
@@ -37,6 +38,7 @@ import { readFileSync } from 'node:fs'
 // IDs resolve to code-owned bindings, never to module paths supplied by Markdown
 // or the registry. Adding a diagram requires an explicit implementation change.
 const BINDINGS = {
+  ...DATA_RESILIENCE_BINDINGS,
   ...RELEASE_RESPONSE_BINDINGS,
   ...SERVICE_BUDGETS_BINDINGS,
   ...QUALITY_TRACE_BINDINGS,

@@ -1,3 +1,4 @@
+import { DataResilienceWalkthrough } from './components/diagrams/data-resilience-walkthrough'
 import { ReleaseResponseWalkthrough } from './components/diagrams/release-response-walkthrough'
 import { ServiceBudgetsWalkthrough } from './components/diagrams/service-budgets-walkthrough'
 import { QualityTraceWalkthrough } from './components/diagrams/quality-trace-walkthrough'
@@ -71,6 +72,7 @@ export const useMDXComponents = components => ({
   ActionBoundariesWalkthrough,
   HarnessLoopWalkthrough,
   DurableContractWalkthrough,
+  DataResilienceWalkthrough,
   ReleaseResponseWalkthrough,
   ServiceBudgetsWalkthrough,
   QualityTraceWalkthrough,

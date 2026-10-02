@@ -1,3 +1,4 @@
+import { DeploymentLifecycleWalkthrough } from './components/diagrams/deployment-lifecycle-walkthrough'
 import { GatewayReuseWalkthrough } from './components/diagrams/gateway-reuse-walkthrough'
 import { DataResilienceWalkthrough } from './components/diagrams/data-resilience-walkthrough'
 import { ReleaseResponseWalkthrough } from './components/diagrams/release-response-walkthrough'
@@ -73,6 +74,7 @@ export const useMDXComponents = components => ({
   ActionBoundariesWalkthrough,
   HarnessLoopWalkthrough,
   DurableContractWalkthrough,
+  DeploymentLifecycleWalkthrough,
   GatewayReuseWalkthrough,
   DataResilienceWalkthrough,
   ReleaseResponseWalkthrough,

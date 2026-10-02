@@ -11540,6 +11540,340 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "cost-history-measurement",
+      "article": "docs/05-operations/cost-management.md",
+      "route": "/docs/operations/cost-management",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: なぜ Agent のコストは読みにくいか",
+        "詳細: まず計測 — タスク単位の単位経済"
+      ],
+      "sourceHeadings": [
+        "概要: なぜ Agent のコストは読みにくいか",
+        "詳細: まず計測 — タスク単位の単位経済"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:0c5e01e8f916bd112d59824137c3a0d18c863d17a529bf6ad048c2aaed439b4c",
+      "reviewedDigest": "sha256:0c5e01e8f916bd112d59824137c3a0d18c863d17a529bf6ad048c2aaed439b4c",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "cost-reduction-quality",
+      "article": "docs/05-operations/cost-management.md",
+      "route": "/docs/operations/cost-management",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "詳細: 削減の主要手段"
+      ],
+      "sourceHeadings": [
+        "詳細: 削減の主要手段"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:cd91684ece869faaa99a01aabf06aa39a767c3974f037ed4fac9e4997f38b19d",
+      "reviewedDigest": "sha256:cd91684ece869faaa99a01aabf06aa39a767c3974f037ed4fac9e4997f38b19d",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "cost-budget-cache-accounting",
+      "article": "docs/05-operations/cost-management.md",
+      "route": "/docs/operations/cost-management",
+      "binding": "grouped-blocks",
+      "stageCount": 7,
+      "headings": [
+        "設計判断: 上限は 3 層で設計する",
+        "キャッシュの書込と読取を別に計測する"
+      ],
+      "sourceHeadings": [
+        "設計判断: 上限は 3 層で設計する",
+        "キャッシュの書込と読取を別に計測する"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          },
+          {
+            "stage": 6,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:63af1fc5a4dd4e0e7ed52ac105452f6e13c1c458d8e017cd00aaa8322a2bd0fa",
+      "reviewedDigest": "sha256:63af1fc5a4dd4e0e7ed52ac105452f6e13c1c458d8e017cd00aaa8322a2bd0fa",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "latency-breakdown-tools",
+      "article": "docs/05-operations/latency-optimization.md",
+      "route": "/docs/operations/latency-optimization",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 分解して計測してから削る",
+        "詳細: レバー 1 — ステップ数を減らす(最大のレバー)"
+      ],
+      "sourceHeadings": [
+        "概要: 分解して計測してから削る",
+        "詳細: レバー 1 — ステップ数を減らす(最大のレバー)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:23afb39143521a832521abf61624190ffe4aefeac492ab05d30a2b67d0231349",
+      "reviewedDigest": "sha256:23afb39143521a832521abf61624190ffe4aefeac492ab05d30a2b67d0231349",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "latency-levers-priorities",
+      "article": "docs/05-operations/latency-optimization.md",
+      "route": "/docs/operations/latency-optimization",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "詳細: レバー 2 — 出力を短くする",
+        "詳細: レバー 3 — TTFT とモデル選択",
+        "詳細: レバー 4 — ツール側の最適化",
+        "設計判断: 三すくみの優先順位と「要件を外す」選択"
+      ],
+      "sourceHeadings": [
+        "詳細: レバー 2 — 出力を短くする",
+        "詳細: レバー 3 — TTFT とモデル選択",
+        "詳細: レバー 4 — ツール側の最適化",
+        "設計判断: 三すくみの優先順位と「要件を外す」選択"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:fce15192dcb1f56697975973dfcea14084ad9fcc771336bf422ff135925e8037",
+      "reviewedDigest": "sha256:fce15192dcb1f56697975973dfcea14084ad9fcc771336bf422ff135925e8037",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "slo-indicators-reliability",
+      "article": "docs/05-operations/ai-slo-design.md",
+      "route": "/docs/operations/ai-slo-design",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 分担と「目標と予算の運用」",
+        "AI の SLI 候補と測定の信頼性",
+        "SLO の水準設定: 100% を狙わない"
+      ],
+      "sourceHeadings": [
+        "概要: 分担と「目標と予算の運用」",
+        "AI の SLI 候補と測定の信頼性",
+        "SLO の水準設定: 100% を狙わない"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:837004a4a7da52e9c787cb86d5313278c3c182e3452ac0db2e341eeaeafa689b",
+      "reviewedDigest": "sha256:837004a4a7da52e9c787cb86d5313278c3c182e3452ac0db2e341eeaeafa689b",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "slo-budget-release-sla",
+      "article": "docs/05-operations/ai-slo-design.md",
+      "route": "/docs/operations/ai-slo-design",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "エラーバジェットの運用",
+        "対外 SLA への昇格",
+        "モデル更新・プロンプト変更と SLO"
+      ],
+      "sourceHeadings": [
+        "エラーバジェットの運用",
+        "対外 SLA への昇格",
+        "モデル更新・プロンプト変更と SLO"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:dc97b85ceba445616defb82197abbe9546b8539d093dcf77b24bb47aae05bf06",
+      "reviewedDigest": "sha256:dc97b85ceba445616defb82197abbe9546b8539d093dcf77b24bb47aae05bf06",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

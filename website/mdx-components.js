@@ -1,3 +1,4 @@
+import { SecurityAuthorityWalkthrough } from './components/diagrams/security-authority-walkthrough'
 import { SecurityBoundariesWalkthrough } from './components/diagrams/security-boundaries-walkthrough'
 import { HardwareServingWalkthrough } from './components/diagrams/hardware-serving-walkthrough'
 import { DeploymentLifecycleWalkthrough } from './components/diagrams/deployment-lifecycle-walkthrough'
@@ -76,6 +77,7 @@ export const useMDXComponents = components => ({
   ActionBoundariesWalkthrough,
   HarnessLoopWalkthrough,
   DurableContractWalkthrough,
+  SecurityAuthorityWalkthrough,
   SecurityBoundariesWalkthrough,
   HardwareServingWalkthrough,
   DeploymentLifecycleWalkthrough,

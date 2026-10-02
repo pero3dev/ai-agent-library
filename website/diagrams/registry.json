@@ -13750,6 +13750,344 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "identity-delegation-scope",
+      "article": "docs/06-security/agent-identity-and-auth.md",
+      "route": "/docs/security/agent-identity-and-auth",
+      "binding": "grouped-blocks",
+      "stageCount": 7,
+      "headings": [
+        "概要: 「誰として動くのか」を 5 つの問いに分解する",
+        "2 つのアイデンティティモデル",
+        "トークンと委任の設計",
+        "権限の交差と最小化"
+      ],
+      "sourceHeadings": [
+        "概要: 「誰として動くのか」を 5 つの問いに分解する",
+        "2 つのアイデンティティモデル",
+        "トークンと委任の設計",
+        "権限の交差と最小化"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 4
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 3
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 1
+          },
+          {
+            "stage": 6,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:9dc9ce6eeea526a5005f2ad6bfa1c30745dba56add10914bbb5707b94cccb82b",
+      "reviewedDigest": "sha256:9dc9ce6eeea526a5005f2ad6bfa1c30745dba56add10914bbb5707b94cccb82b",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "identity-audit-credentials",
+      "article": "docs/06-security/agent-identity-and-auth.md",
+      "route": "/docs/security/agent-identity-and-auth",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "監査と帰属",
+        "資格情報の受け渡し"
+      ],
+      "sourceHeadings": [
+        "監査と帰属",
+        "資格情報の受け渡し"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:f20b954a2026ce3a06c917d09b187333bf85d619444ce9baf09e955dea0d8a64",
+      "reviewedDigest": "sha256:f20b954a2026ce3a06c917d09b187333bf85d619444ce9baf09e955dea0d8a64",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "identity-standards-connection",
+      "article": "docs/06-security/agent-identity-and-auth.md",
+      "route": "/docs/security/agent-identity-and-auth",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "標準化の動向(2026-08 時点)",
+        "API 接続の OAuth と設定移行"
+      ],
+      "sourceHeadings": [
+        "標準化の動向(2026-08 時点)",
+        "API 接続の OAuth と設定移行"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          },
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:c97027de35ca6a8240ba497989dfccdaa796bb4eb190d41fe0b7de1c8cda535d",
+      "reviewedDigest": "sha256:c97027de35ca6a8240ba497989dfccdaa796bb4eb190d41fe0b7de1c8cda535d",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "exfiltration-routes-url",
+      "article": "docs/06-security/data-exfiltration.md",
+      "route": "/docs/security/data-exfiltration",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: 漏えいは 2 系統 — 攻撃と事故",
+        "詳細: 漏えい経路のカタログ"
+      ],
+      "sourceHeadings": [
+        "概要: 漏えいは 2 系統 — 攻撃と事故",
+        "詳細: 漏えい経路のカタログ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:4bae8aa460ba437a28e4f3403028f50adc1acd90aa9276e4b0af95722e6061ef",
+      "reviewedDigest": "sha256:4bae8aa460ba437a28e4f3403028f50adc1acd90aa9276e4b0af95722e6061ef",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "exfiltration-structure-authorization",
+      "article": "docs/06-security/data-exfiltration.md",
+      "route": "/docs/security/data-exfiltration",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "詳細: 対策の優先順位 — まず三重奏を崩す",
+        "詳細: 事故系の基本 — 認可はモデルの手前ではなく奥で"
+      ],
+      "sourceHeadings": [
+        "詳細: 対策の優先順位 — まず三重奏を崩す",
+        "詳細: 事故系の基本 — 認可はモデルの手前ではなく奥で"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:523b57d1c937a16b7d8fe0bbe12085231cb841e65146be588b6851435209428b",
+      "reviewedDigest": "sha256:523b57d1c937a16b7d8fe0bbe12085231cb841e65146be588b6851435209428b",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "guard-layers-enforcement",
+      "article": "docs/06-security/guardrails.md",
+      "route": "/docs/security/guardrails",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: プロンプトの禁止指示はガードレールではない",
+        "詳細: 3 層のガードレール",
+        "詳細: ルールベースと LLM ベースの使い分け"
+      ],
+      "sourceHeadings": [
+        "概要: プロンプトの禁止指示はガードレールではない",
+        "詳細: 3 層のガードレール",
+        "詳細: ルールベースと LLM ベースの使い分け"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:152ff58aba9a48fdfa1f40fa797181e08e563343935da3208ad1e64e57e6135c",
+      "reviewedDigest": "sha256:152ff58aba9a48fdfa1f40fa797181e08e563343935da3208ad1e64e57e6135c",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "guard-quality-response",
+      "article": "docs/06-security/guardrails.md",
+      "route": "/docs/security/guardrails",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "詳細: ガードレール自体の品質管理",
+        "設計判断: 強度はリスクに比例させる"
+      ],
+      "sourceHeadings": [
+        "詳細: ガードレール自体の品質管理",
+        "設計判断: 強度はリスクに比例させる"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:8d9d1ea8813b9604a7508062b11a2e05c3e52305e35337074228be749db58f22",
+      "reviewedDigest": "sha256:8d9d1ea8813b9604a7508062b11a2e05c3e52305e35337074228be749db58f22",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

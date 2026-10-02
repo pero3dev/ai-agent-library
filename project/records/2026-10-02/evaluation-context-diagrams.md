@@ -23,3 +23,5 @@ rootとwebsiteで`npm ci`を実行した。root検査は487成功・0失敗・Wi
 通常PR・公開は未実施。P3〜P5は未完了。
 
 提出baseは[PR #127](https://github.com/pero3dev/ai-agent-library/pull/127)の実squash 85cdaf2e2087380fdf61eb69ed30bb2711a523f2。前単位の提出headとPR CI 36960820826・必須9検査・実メッセージ・ツリーを確認。文書・リンク・Markdown・差分を提出前に検査する。公開済みは105/199記事で、公開後は表示確認のみ。
+
+GitHubのLinux表示検査で、三列の準備工程の長いラベルが枠を超えたためseed・resetとcleanupを分割した。固有10、静的223ルート・230HTML、対象Edge14、変更場面のPC目視、共通487成功・3skipを再確認した。最初の共通再検査はWindowsホームパスのsandbox制限で失敗し、許可済みの実行環境で正常完了した。実環境作成・現行API接続を行った結果とは区別する。

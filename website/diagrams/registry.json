@@ -9346,6 +9346,302 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "synthetic-purpose-generation",
+      "article": "docs/03-implementation/synthetic-data-for-training.md",
+      "route": "/docs/implementation/synthetic-data-for-training",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 分担と「学習用」の限定",
+        "用途の類型",
+        "生成の型"
+      ],
+      "sourceHeadings": [
+        "概要: 分担と「学習用」の限定",
+        "用途の類型",
+        "生成の型"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:b871a52084706e7d3e87a5d4e829199a7ceedd8f94bad461bc52cc66c7e4171c",
+      "reviewedDigest": "sha256:b871a52084706e7d3e87a5d4e829199a7ceedd8f94bad461bc52cc66c7e4171c",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "synthetic-quality-separation",
+      "article": "docs/03-implementation/synthetic-data-for-training.md",
+      "route": "/docs/implementation/synthetic-data-for-training",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "品質管理",
+        "劣化リスク: モデル崩壊と単調化",
+        "権利と規約: 教師モデル出力の利用条件",
+        "評価データとの厳格な分離"
+      ],
+      "sourceHeadings": [
+        "品質管理",
+        "劣化リスク: モデル崩壊と単調化",
+        "権利と規約: 教師モデル出力の利用条件",
+        "評価データとの厳格な分離"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:088a385baf79314266c0fe49cc88b2ac062769979e1a2107a293d3a53a84e720",
+      "reviewedDigest": "sha256:088a385baf79314266c0fe49cc88b2ac062769979e1a2107a293d3a53a84e720",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "sandbox-isolation-selection",
+      "article": "docs/03-implementation/code-execution-sandboxes.md",
+      "route": "/docs/implementation/code-execution-sandboxes",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: 「サンドボックスを使え」の先へ",
+        "要件の整理(何から何を守るか)",
+        "実装技術の類型と比較"
+      ],
+      "sourceHeadings": [
+        "概要: 「サンドボックスを使え」の先へ",
+        "要件の整理(何から何を守るか)",
+        "実装技術の類型と比較"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:25f3bf4fb73474b65daf16e807af787f28ff2c0e39a5045e7f131e6a94fab7bc",
+      "reviewedDigest": "sha256:25f3bf4fb73474b65daf16e807af787f28ff2c0e39a5045e7f131e6a94fab7bc",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "sandbox-lifecycle-egress",
+      "article": "docs/03-implementation/code-execution-sandboxes.md",
+      "route": "/docs/implementation/code-execution-sandboxes",
+      "binding": "grouped-blocks",
+      "stageCount": 7,
+      "headings": [
+        "セッションとライフサイクル",
+        "ネットワークとエグレス制御",
+        "リソース制限と暴走対策",
+        "パッケージ・依存の扱い",
+        "マルチテナントでの分離水準"
+      ],
+      "sourceHeadings": [
+        "セッションとライフサイクル",
+        "ネットワークとエグレス制御",
+        "リソース制限と暴走対策",
+        "パッケージ・依存の扱い",
+        "マルチテナントでの分離水準"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 6,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:a48f6d58fad3b4591cb2b1949c5ab269a2c7366239f23ca19c3bd9920942abdf",
+      "reviewedDigest": "sha256:a48f6d58fad3b4591cb2b1949c5ab269a2c7366239f23ca19c3bd9920942abdf",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "interop-tool-peer-structure",
+      "article": "docs/03-implementation/agent-interop-protocols.md",
+      "route": "/docs/implementation/agent-interop-protocols",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 「部品を呼ぶ」と「相手に任せる」は違う",
+        "ツール接続と連携の非対称",
+        "プロトコルが定める 5 要素の構造"
+      ],
+      "sourceHeadings": [
+        "概要: 「部品を呼ぶ」と「相手に任せる」は違う",
+        "ツール接続と連携の非対称",
+        "プロトコルが定める 5 要素の構造"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:96c701d714e8015284f3464d8ea1cdec0a60b55b8e64cb6c98cd5417e19c6a56",
+      "reviewedDigest": "sha256:96c701d714e8015284f3464d8ea1cdec0a60b55b8e64cb6c98cd5417e19c6a56",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "interop-trust-update",
+      "article": "docs/03-implementation/agent-interop-protocols.md",
+      "route": "/docs/implementation/agent-interop-protocols",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "組織間の信頼(認証・認可)",
+        "信頼の段階設計(社内 → パートナー → 公開)",
+        "相手エージェントという新しい攻撃面",
+        "標準の現在地と「まだ標準に賭けない」設計"
+      ],
+      "sourceHeadings": [
+        "組織間の信頼(認証・認可)",
+        "信頼の段階設計(社内 → パートナー → 公開)",
+        "相手エージェントという新しい攻撃面",
+        "標準の現在地と「まだ標準に賭けない」設計"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:77b7680849475f56561e833b82086d8916e55f5c9d1742585499776290f08a50",
+      "reviewedDigest": "sha256:77b7680849475f56561e833b82086d8916e55f5c9d1742585499776290f08a50",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

@@ -13466,6 +13466,290 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "threat-boundary-cycle",
+      "article": "docs/06-security/threat-model-overview.md",
+      "route": "/docs/security/threat-model-overview",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: 前提となる 3 つの事実",
+        "詳細: 信頼境界の見取り図",
+        "詳細: 代表的な脅威のカタログ"
+      ],
+      "sourceHeadings": [
+        "概要: 前提となる 3 つの事実",
+        "詳細: 信頼境界の見取り図",
+        "詳細: 代表的な脅威のカタログ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:d3244c93da4992a9f957c588f30afc07bc16547e4425e458d9861618e630b39a",
+      "reviewedDigest": "sha256:d3244c93da4992a9f957c588f30afc07bc16547e4425e458d9861618e630b39a",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "threat-trifecta-workflow",
+      "article": "docs/06-security/threat-model-overview.md",
+      "route": "/docs/security/threat-model-overview",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "詳細: 致命的三重奏 — 漏えいが構造的に成立する条件",
+        "設計判断: 脅威モデリングの実務手順"
+      ],
+      "sourceHeadings": [
+        "詳細: 致命的三重奏 — 漏えいが構造的に成立する条件",
+        "設計判断: 脅威モデリングの実務手順"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:1b5a86fc9197deb716399da351c6cf03e527a08efaa36b976e68491cd523e300",
+      "reviewedDigest": "sha256:1b5a86fc9197deb716399da351c6cf03e527a08efaa36b976e68491cd523e300",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "injection-input-defense",
+      "article": "docs/06-security/prompt-injection.md",
+      "route": "/docs/security/prompt-injection",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: なぜ構造的に防げないのか",
+        "詳細: 直接と間接",
+        "詳細: 攻撃者の目標",
+        "詳細: 多層防御 — どの層も単独では不完全"
+      ],
+      "sourceHeadings": [
+        "概要: なぜ構造的に防げないのか",
+        "詳細: 直接と間接",
+        "詳細: 攻撃者の目標",
+        "詳細: 多層防御 — どの層も単独では不完全"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:d1fa22958607ffd62a9a9c19d9eb707ff2c738f3b0f50cb46277350bcf8e4e91",
+      "reviewedDigest": "sha256:d1fa22958607ffd62a9a9c19d9eb707ff2c738f3b0f50cb46277350bcf8e4e91",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "injection-repeated-risk",
+      "article": "docs/06-security/prompt-injection.md",
+      "route": "/docs/security/prompt-injection",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "設計判断: 「検知率 99%」は防御にならない"
+      ],
+      "sourceHeadings": [
+        "設計判断: 「検知率 99%」は防御にならない"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:38a61ec65bc0eb55225ff28acabf3f351adf2317dfe905ae3a802aa1a5d54fa8",
+      "reviewedDigest": "sha256:38a61ec65bc0eb55225ff28acabf3f351adf2317dfe905ae3a802aa1a5d54fa8",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "permission-gates-scope",
+      "article": "docs/06-security/tool-permissions-and-sandboxing.md",
+      "route": "/docs/security/tool-permissions-and-sandboxing",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: 権限は「渡した分だけ悪用されうる」と考える",
+        "詳細: 権限設計の 4 原則",
+        "詳細: 承認ゲートの配置"
+      ],
+      "sourceHeadings": [
+        "概要: 権限は「渡した分だけ悪用されうる」と考える",
+        "詳細: 権限設計の 4 原則",
+        "詳細: 承認ゲートの配置"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:90e4085b4b78ab355855622762351b7aa712a32af2ffe8716ad677a0bebba25c",
+      "reviewedDigest": "sha256:90e4085b4b78ab355855622762351b7aa712a32af2ffe8716ad677a0bebba25c",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "permission-sandbox-mcp",
+      "article": "docs/06-security/tool-permissions-and-sandboxing.md",
+      "route": "/docs/security/tool-permissions-and-sandboxing",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "詳細: サンドボックス — コード実行と画面操作は隔離が前提",
+        "詳細: 外部 MCP サーバーを信頼する条件",
+        "設計判断: 権限は静的に決めず、状況で絞る"
+      ],
+      "sourceHeadings": [
+        "詳細: サンドボックス — コード実行と画面操作は隔離が前提",
+        "詳細: 外部 MCP サーバーを信頼する条件",
+        "設計判断: 権限は静的に決めず、状況で絞る"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:cab6a11a532c382b37a270fdbdb2930f5e95e7c37dfeb2f8b0aeef9e67108f58",
+      "reviewedDigest": "sha256:cab6a11a532c382b37a270fdbdb2930f5e95e7c37dfeb2f8b0aeef9e67108f58",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

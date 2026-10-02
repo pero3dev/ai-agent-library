@@ -1,3 +1,4 @@
+import { SECURITY_BOUNDARIES_BINDINGS } from './security-boundaries-bindings.mjs'
 import { HARDWARE_SERVING_BINDINGS } from './hardware-serving-bindings.mjs'
 import { DEPLOYMENT_LIFECYCLE_BINDINGS } from './deployment-lifecycle-bindings.mjs'
 import { GATEWAY_REUSE_BINDINGS } from './gateway-reuse-bindings.mjs'
@@ -41,6 +42,7 @@ import { readFileSync } from 'node:fs'
 // IDs resolve to code-owned bindings, never to module paths supplied by Markdown
 // or the registry. Adding a diagram requires an explicit implementation change.
 const BINDINGS = {
+  ...SECURITY_BOUNDARIES_BINDINGS,
   ...HARDWARE_SERVING_BINDINGS,
   ...DEPLOYMENT_LIFECYCLE_BINDINGS,
   ...GATEWAY_REUSE_BINDINGS,

@@ -1,3 +1,4 @@
+import { VendorPromptControlsWalkthrough } from './components/diagrams/vendor-prompt-controls-walkthrough'
 import { SyntheticSandboxInteropWalkthrough } from './components/diagrams/synthetic-sandbox-interop-walkthrough'
 import { SlmComputerVoiceWalkthrough } from './components/diagrams/slm-computer-voice-walkthrough'
 import { CatalogueOssLocalWalkthrough } from './components/diagrams/catalogue-oss-local-walkthrough'
@@ -63,6 +64,7 @@ export const useMDXComponents = components => ({
   ActionBoundariesWalkthrough,
   HarnessLoopWalkthrough,
   DurableContractWalkthrough,
+  VendorPromptControlsWalkthrough,
   SyntheticSandboxInteropWalkthrough,
   SlmComputerVoiceWalkthrough,
   CatalogueOssLocalWalkthrough,

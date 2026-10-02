@@ -14088,6 +14088,306 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "red-exercise-design",
+      "article": "docs/06-security/red-teaming-agents.md",
+      "route": "/docs/security/red-teaming-agents",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: レッドチーミングは脅威モデルの「実地試験」",
+        "演習の設計",
+        "手動テストの型",
+        "自動化"
+      ],
+      "sourceHeadings": [
+        "概要: レッドチーミングは脅威モデルの「実地試験」",
+        "演習の設計",
+        "手動テストの型",
+        "自動化"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:5a07300627e554f6ec40d1f6747e56ec30bc8f823c0f9b0ac5fc987858961476",
+      "reviewedDigest": "sha256:5a07300627e554f6ec40d1f6747e56ec30bc8f823c0f9b0ac5fc987858961476",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "red-results-return",
+      "article": "docs/06-security/red-teaming-agents.md",
+      "route": "/docs/security/red-teaming-agents",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "結果の評価と修正",
+        "継続運用"
+      ],
+      "sourceHeadings": [
+        "結果の評価と修正",
+        "継続運用"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:18f1d968268b994bbbfe85c29c4654c7eaf6245b5bdc34d246ae6a092a1236f5",
+      "reviewedDigest": "sha256:18f1d968268b994bbbfe85c29c4654c7eaf6245b5bdc34d246ae6a092a1236f5",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "supply-asset-integrity",
+      "article": "docs/06-security/ai-supply-chain-security.md",
+      "route": "/docs/security/ai-supply-chain-security",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: 「動いてから守る」の手前",
+        "AI 固有のサプライチェーン面の棚卸し",
+        "信頼の確立手段"
+      ],
+      "sourceHeadings": [
+        "概要: 「動いてから守る」の手前",
+        "AI 固有のサプライチェーン面の棚卸し",
+        "信頼の確立手段"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:70072c30b3040a937525b1052faf3f3d02d40b388ad3366b9a1365f5ce1c2c6a",
+      "reviewedDigest": "sha256:70072c30b3040a937525b1052faf3f3d02d40b388ad3366b9a1365f5ce1c2c6a",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "supply-admission-update",
+      "article": "docs/06-security/ai-supply-chain-security.md",
+      "route": "/docs/security/ai-supply-chain-security",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "受け入れプロセスの設計",
+        "AI 資産の台帳",
+        "継続監視: 導入後に挙動が変わる"
+      ],
+      "sourceHeadings": [
+        "受け入れプロセスの設計",
+        "AI 資産の台帳",
+        "継続監視: 導入後に挙動が変わる"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:e5818b46dd21987ccbce8c3fb3039ba5c3ffa83548b4ff12ec008b8ce447cb1f",
+      "reviewedDigest": "sha256:e5818b46dd21987ccbce8c3fb3039ba5c3ffa83548b4ff12ec008b8ce447cb1f",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "attack-delayed-paths",
+      "article": "docs/06-security/advanced-attack-patterns.md",
+      "route": "/docs/security/advanced-attack-patterns",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: 「指示になりうる経路」が増えている",
+        "パターン①: 記憶への注入(メモリポイズニング)",
+        "パターン②: 知識源ポイズニング(RAG 経由)",
+        "パターン③: ツール定義・ツール結果経由の注入",
+        "パターン④: マルチエージェント伝播",
+        "パターン⑤: 条件起動型"
+      ],
+      "sourceHeadings": [
+        "概要: 「指示になりうる経路」が増えている",
+        "パターン①: 記憶への注入(メモリポイズニング)",
+        "パターン②: 知識源ポイズニング(RAG 経由)",
+        "パターン③: ツール定義・ツール結果経由の注入",
+        "パターン④: マルチエージェント伝播",
+        "パターン⑤: 条件起動型"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:0a1213aa64b8c98565342d118a0b381f0b256b05743b77d3ca30733d4e2aa403",
+      "reviewedDigest": "sha256:0a1213aa64b8c98565342d118a0b381f0b256b05743b77d3ca30733d4e2aa403",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "attack-propagation-controls",
+      "article": "docs/06-security/advanced-attack-patterns.md",
+      "route": "/docs/security/advanced-attack-patterns",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "対策マップ: 既存防御へのマッピング"
+      ],
+      "sourceHeadings": [
+        "対策マップ: 既存防御へのマッピング"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:ae4d57cef674059d546fc309c30a93934b596459a2429d6827d22d68d936f5a6",
+      "reviewedDigest": "sha256:ae4d57cef674059d546fc309c30a93934b596459a2429d6827d22d68d936f5a6",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

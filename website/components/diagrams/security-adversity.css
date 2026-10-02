@@ -1,0 +1,14 @@
+.security-adversity-walkthrough .aw-layout{align-items:start}
+.security-adversity-walkthrough .lf-box text{opacity:1}
+.security-adversity-walkthrough .aw-prose table{display:block;max-width:100%;overflow-x:auto}
+.security-adversity-walkthrough .aw-prose th{white-space:nowrap}
+.security-adversity-walkthrough .aw-prose td{min-width:10rem}
+.security-adversity-walkthrough .aw-prose td:first-child{min-width:6rem}
+@media print{
+ .security-adversity-walkthrough .aw-prose table{display:table;width:100%;overflow:visible}
+ .security-adversity-walkthrough .aw-prose td{min-width:0}
+ .security-adversity-walkthrough .aw-prose th{white-space:normal}
+}
+.security-adversity-walkthrough .gr-bar-teal{fill:#6be4cd}
+.security-adversity-walkthrough .gr-bar-violet{fill:#b8a6f0}
+.security-adversity-walkthrough .gr-bar-amber{fill:#ffca7b}

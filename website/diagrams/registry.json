@@ -14388,6 +14388,328 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "provenance-layers-loss",
+      "article": "docs/06-security/content-provenance-and-detection.md",
+      "route": "/docs/security/content-provenance-and-detection",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: 来歴と検出は「別レイヤー」",
+        "来歴の仕組み: コンテンツ資格情報と電子透かし",
+        "来歴の剥がれ方"
+      ],
+      "sourceHeadings": [
+        "概要: 来歴と検出は「別レイヤー」",
+        "来歴の仕組み: コンテンツ資格情報と電子透かし",
+        "来歴の剥がれ方"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:82bfb4b47a4fcec02ece9a80ea3e66ab38a437ac7c2eab6ce32f77267b41036b",
+      "reviewedDigest": "sha256:82bfb4b47a4fcec02ece9a80ea3e66ab38a437ac7c2eab6ce32f77267b41036b",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "provenance-detection-process",
+      "article": "docs/06-security/content-provenance-and-detection.md",
+      "route": "/docs/security/content-provenance-and-detection",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "検出の原理と限界",
+        "組織での運用",
+        "変わりやすい項目(定点観測)"
+      ],
+      "sourceHeadings": [
+        "検出の原理と限界",
+        "組織での運用",
+        "変わりやすい項目(定点観測)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:d19a13632d9ec2d8760a12cb9cbbde23294da124fdad95235ec3d7ec34f83cec",
+      "reviewedDigest": "sha256:d19a13632d9ec2d8760a12cb9cbbde23294da124fdad95235ec3d7ec34f83cec",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "impersonation-callback-process",
+      "article": "docs/06-security/deepfake-and-impersonation-defense.md",
+      "route": "/docs/security/deepfake-and-impersonation-defense",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: 「見破る」より「プロセスで止める」",
+        "脅威類型",
+        "防御の中心はプロセス",
+        "検出技術の位置づけ"
+      ],
+      "sourceHeadings": [
+        "概要: 「見破る」より「プロセスで止める」",
+        "脅威類型",
+        "防御の中心はプロセス",
+        "検出技術の位置づけ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:ab12aef7c2add282945da028ef470a7c555abd040ddc45b8557bdb858bc05751",
+      "reviewedDigest": "sha256:ab12aef7c2add282945da028ef470a7c555abd040ddc45b8557bdb858bc05751",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "impersonation-report-monitor",
+      "article": "docs/06-security/deepfake-and-impersonation-defense.md",
+      "route": "/docs/security/deepfake-and-impersonation-defense",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "従業員訓練と通報経路",
+        "経営層・ブランドのなりすまし監視"
+      ],
+      "sourceHeadings": [
+        "従業員訓練と通報経路",
+        "経営層・ブランドのなりすまし監視"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:c033ccb096c5bdf0d37b8c93bebf9995f578b707ba64c18c414b403ae05ff17b",
+      "reviewedDigest": "sha256:c033ccb096c5bdf0d37b8c93bebf9995f578b707ba64c18c414b403ae05ff17b",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "privacy-layers-fit",
+      "article": "docs/06-security/privacy-enhancing-technologies.md",
+      "route": "/docs/security/privacy-enhancing-technologies",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: 「高度な技術」の前に見取り図を"
+      ],
+      "sourceHeadings": [
+        "概要: 「高度な技術」の前に見取り図を"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:01bf97ca97f5ddd37fb88d4c851a2652f73781df89559c467325bd363fe57895",
+      "reviewedDigest": "sha256:01bf97ca97f5ddd37fb88d4c851a2652f73781df89559c467325bd363fe57895",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "privacy-unit-budget",
+      "article": "docs/06-security/privacy-enhancing-technologies.md",
+      "route": "/docs/security/privacy-enhancing-technologies",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "技術の階層"
+      ],
+      "sourceHeadings": [
+        "技術の階層"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          },
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:a47c11a04c7288d3ece5cdbaa907110902286a856f435263fa0b96fb9584c899",
+      "reviewedDigest": "sha256:a47c11a04c7288d3ece5cdbaa907110902286a856f435263fa0b96fb9584c899",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "privacy-basic-selection",
+      "article": "docs/06-security/privacy-enhancing-technologies.md",
+      "route": "/docs/security/privacy-enhancing-technologies",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "成熟度と適用場面",
+        "高度な技術より先にやること",
+        "選定の判断フレーム"
+      ],
+      "sourceHeadings": [
+        "成熟度と適用場面",
+        "高度な技術より先にやること",
+        "選定の判断フレーム"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:a28dc467a092f703bda70dbf576f2c7d0ac1bf40d3eb79027e254c3031643d5c",
+      "reviewedDigest": "sha256:a28dc467a092f703bda70dbf576f2c7d0ac1bf40d3eb79027e254c3031643d5c",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

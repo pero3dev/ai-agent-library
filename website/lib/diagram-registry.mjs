@@ -1,3 +1,4 @@
+import { TRUST_PRIVACY_BINDINGS } from './trust-privacy-bindings.mjs'
 import { SECURITY_ADVERSITY_BINDINGS } from './security-adversity-bindings.mjs'
 import { SECURITY_AUTHORITY_BINDINGS } from './security-authority-bindings.mjs'
 import { SECURITY_BOUNDARIES_BINDINGS } from './security-boundaries-bindings.mjs'
@@ -44,6 +45,7 @@ import { readFileSync } from 'node:fs'
 // IDs resolve to code-owned bindings, never to module paths supplied by Markdown
 // or the registry. Adding a diagram requires an explicit implementation change.
 const BINDINGS = {
+  ...TRUST_PRIVACY_BINDINGS,
   ...SECURITY_ADVERSITY_BINDINGS,
   ...SECURITY_AUTHORITY_BINDINGS,
   ...SECURITY_BOUNDARIES_BINDINGS,

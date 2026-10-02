@@ -1,3 +1,4 @@
+import { ModelMcpEvaluationWalkthrough } from './components/diagrams/model-mcp-evaluation-walkthrough'
 import { VendorPromptControlsWalkthrough } from './components/diagrams/vendor-prompt-controls-walkthrough'
 import { SyntheticSandboxInteropWalkthrough } from './components/diagrams/synthetic-sandbox-interop-walkthrough'
 import { SlmComputerVoiceWalkthrough } from './components/diagrams/slm-computer-voice-walkthrough'
@@ -64,6 +65,7 @@ export const useMDXComponents = components => ({
   ActionBoundariesWalkthrough,
   HarnessLoopWalkthrough,
   DurableContractWalkthrough,
+  ModelMcpEvaluationWalkthrough,
   VendorPromptControlsWalkthrough,
   SyntheticSandboxInteropWalkthrough,
   SlmComputerVoiceWalkthrough,

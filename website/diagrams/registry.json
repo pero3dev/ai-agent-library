@@ -13124,6 +13124,348 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "hardware-weights-runtime",
+      "article": "docs/05-operations/gpu-and-hardware-basics.md",
+      "route": "/docs/operations/gpu-and-hardware-basics",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: なぜハードウェアの話が要るのか",
+        "なぜ GPU か",
+        "VRAM とモデルサイズの関係"
+      ],
+      "sourceHeadings": [
+        "概要: なぜハードウェアの話が要るのか",
+        "なぜ GPU か",
+        "VRAM とモデルサイズの関係"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:5c9cbbe85bb0951e1ff71ab333f7176c207c136d8cf5cca7f071623ae723d347",
+      "reviewedDigest": "sha256:5c9cbbe85bb0951e1ff71ab333f7176c207c136d8cf5cca7f071623ae723d347",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "hardware-bottleneck-purchase",
+      "article": "docs/05-operations/gpu-and-hardware-basics.md",
+      "route": "/docs/operations/gpu-and-hardware-basics",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "メモリ帯域律速という直感",
+        "ハードの類型",
+        "調達の選択肢と TCO",
+        "「GPU を持つ」ことの運用負担"
+      ],
+      "sourceHeadings": [
+        "メモリ帯域律速という直感",
+        "ハードの類型",
+        "調達の選択肢と TCO",
+        "「GPU を持つ」ことの運用負担"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:bcf3e9cdb6a051fd7558564df18dfe5df522895004c4e23b80d16211e63b6467",
+      "reviewedDigest": "sha256:bcf3e9cdb6a051fd7558564df18dfe5df522895004c4e23b80d16211e63b6467",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "serving-engines-throughput",
+      "article": "docs/05-operations/self-hosted-inference.md",
+      "route": "/docs/operations/self-hosted-inference",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 分担と「なぜ自ホストするのか」",
+        "セルフホストの判断: 「原価が下がる」とは限らない",
+        "推論サーバーの類型と代表例",
+        "スループットの作り: 連続バッチングと KV キャッシュ"
+      ],
+      "sourceHeadings": [
+        "概要: 分担と「なぜ自ホストするのか」",
+        "セルフホストの判断: 「原価が下がる」とは限らない",
+        "推論サーバーの類型と代表例",
+        "スループットの作り: 連続バッチングと KV キャッシュ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 4
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:bb93121d01fad994ff476fbae83b1d54e0e22b15fde417f988ddf9f3513c499b",
+      "reviewedDigest": "sha256:bb93121d01fad994ff476fbae83b1d54e0e22b15fde417f988ddf9f3513c499b",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "serving-memory-rollout",
+      "article": "docs/05-operations/self-hosted-inference.md",
+      "route": "/docs/operations/self-hosted-inference",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "GPU メモリの見積り",
+        "量子化の運用判断",
+        "監視",
+        "モデル更新の運用"
+      ],
+      "sourceHeadings": [
+        "GPU メモリの見積り",
+        "量子化の運用判断",
+        "監視",
+        "モデル更新の運用"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:10e69a3025c67a8cdaaefcfdff8df3bddd3d4b8c7b4745ebd401cb89ef516c52",
+      "reviewedDigest": "sha256:10e69a3025c67a8cdaaefcfdff8df3bddd3d4b8c7b4745ebd401cb89ef516c52",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "environment-scope-mechanisms",
+      "article": "docs/05-operations/green-ai.md",
+      "route": "/docs/operations/green-ai",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: 環境負荷は「効率化」と「報告」の 2 面で捉える",
+        "負荷の構造",
+        "エンジニアにできる削減"
+      ],
+      "sourceHeadings": [
+        "概要: 環境負荷は「効率化」と「報告」の 2 面で捉える",
+        "負荷の構造",
+        "エンジニアにできる削減"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:9ded6332c161c53826e59ad5a44aafd2eaaab65db84745ee888b94f9ed82c081",
+      "reviewedDigest": "sha256:9ded6332c161c53826e59ad5a44aafd2eaaab65db84745ee888b94f9ed82c081",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "environment-measure-report",
+      "article": "docs/05-operations/green-ai.md",
+      "route": "/docs/operations/green-ai",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "測定の現実",
+        "報告需要への備え"
+      ],
+      "sourceHeadings": [
+        "測定の現実",
+        "報告需要への備え"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:782474588a11143acf4072a0aa52b44f54b7855d79701a3de1e2b29509fc4b59",
+      "reviewedDigest": "sha256:782474588a11143acf4072a0aa52b44f54b7855d79701a3de1e2b29509fc4b59",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "environment-honest-claims",
+      "article": "docs/05-operations/green-ai.md",
+      "route": "/docs/operations/green-ai",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "グリーンウォッシュを避ける誠実な主張"
+      ],
+      "sourceHeadings": [
+        "グリーンウォッシュを避ける誠実な主張"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:e2004f2f37f9d3d2fc203f7afec9dceca2c3642af316535a34fa5e11d97310f4",
+      "reviewedDigest": "sha256:e2004f2f37f9d3d2fc203f7afec9dceca2c3642af316535a34fa5e11d97310f4",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

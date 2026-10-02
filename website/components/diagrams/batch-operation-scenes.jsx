@@ -12,7 +12,7 @@ export function BatchRouteCapacity({children}){
  {stage===2&&<ReusePair left={['期限切れのjob','すべて成功とは限らない','未完了のエラーを回収','容量の上限も残る']} right={['完了した項目','成功結果を回収する','成功分は送り直さない','後で項目ごとに対応']} id={id} phase={phase} arrow={false}/>}
  {stage===3&&<><Tokens labels={['評価','再埋込','過去分','分類']} stage={Object.keys(works).indexOf(work)} y={90}/><Box x={65} y={190} width={510} height={164} title={works[work][0]} lines={[...works[work].slice(1),'即時性が必要なら別の経路']} tone="teal"/></>}
  {stage===4&&<ReusePair left={['バッチ対象の三条件','件数が多い','締切に猶予がある','一件ずつの即時性が不要']} right={[result.next==='batch-candidate'?'batchの検討候補':'即時経路も検討する','再投入と回収を見込む','切替先の容量も点検','条件だけで納期保証しない']} id={id} phase={phase}/>}
- <Text x={320} y={409} center small>原文のTODOを保持する。現行の単価・上限・モデルを図で生成しない。</Text>
+ <Text x={320} y={409} center small>原文のTODOを保ち、現行の単価・上限・モデルは生成しない。</Text>
  </>}</ReuseCanvas>} controls={({stage,ready})=>stage===3?<Select label="締切を読む模式ワークロード" value={work} onChange={setWork} ready={ready}>{Object.entries(works).map(([value,row])=><option key={value} value={value}>{row[0]}</option>)}</Select>:stage===4?<Select label="バッチ対象で不足する条件" value={missing} onChange={setMissing} ready={ready}><option value="small">件数が少ない</option><option value="deadline">締切の猶予がない</option><option value="immediate">一件ずつ即時に要る</option><option value="none">三条件を照合</option></Select>:null}>{children}</ReuseFigure>
 }
 const states={succeeded:'成功',failed:'失敗',expired:'期限切れ',unknown:'結果不明'}

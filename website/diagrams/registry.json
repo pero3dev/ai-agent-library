@@ -9642,6 +9642,496 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "claude-structure-examples",
+      "article": "docs/03-implementation/claude-prompting.md",
+      "route": "/docs/implementation/claude-prompting",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "概要: 汎用記事との分担",
+        "モデルファミリーの前提(プロンプトに効く差分だけ)",
+        "メッセージ構造とシステムプロンプト",
+        "構造化: XML タグが第一選択",
+        "例示(few-shot)"
+      ],
+      "sourceHeadings": [
+        "概要: 汎用記事との分担",
+        "モデルファミリーの前提(プロンプトに効く差分だけ)",
+        "メッセージ構造とシステムプロンプト",
+        "構造化: XML タグが第一選択",
+        "例示(few-shot)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:dc0aecc9f02550ad1b51ad854605055ccef686c7b1021b42d76605f1783a10cb",
+      "reviewedDigest": "sha256:dc0aecc9f02550ad1b51ad854605055ccef686c7b1021b42d76605f1783a10cb",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "claude-thinking-output",
+      "article": "docs/03-implementation/claude-prompting.md",
+      "route": "/docs/implementation/claude-prompting",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "思考の制御: アダプティブ思考と effort",
+        "出力の制御: prefill から構造化出力へ"
+      ],
+      "sourceHeadings": [
+        "思考の制御: アダプティブ思考と effort",
+        "出力の制御: prefill から構造化出力へ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:1628394ea8cb4e65110f078dfe7fb2afc38ac7e30c611831668990a0fb76af15",
+      "reviewedDigest": "sha256:1628394ea8cb4e65110f078dfe7fb2afc38ac7e30c611831668990a0fb76af15",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "claude-history-migration",
+      "article": "docs/03-implementation/claude-prompting.md",
+      "route": "/docs/implementation/claude-prompting",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "長文・長コンテキストの作法",
+        "ツール使用・エージェント文脈",
+        "Fable 5.1 の移行境界",
+        "世代交代で見直すこと",
+        "効かない・不要になった俗説"
+      ],
+      "sourceHeadings": [
+        "長文・長コンテキストの作法",
+        "ツール使用・エージェント文脈",
+        "Fable 5.1 の移行境界",
+        "世代交代で見直すこと",
+        "効かない・不要になった俗説"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:1f59f8312a0d049827fa363ad98548ea47017b3cd36b8fc672f046ad6eb5ca40",
+      "reviewedDigest": "sha256:1f59f8312a0d049827fa363ad98548ea47017b3cd36b8fc672f046ad6eb5ca40",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "openai-instruction-contract",
+      "article": "docs/03-implementation/openai-prompting.md",
+      "route": "/docs/implementation/openai-prompting",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 汎用記事との分担",
+        "モデルファミリーの前提(プロンプトに効く差分だけ)",
+        "Astra へ移行する場合",
+        "メッセージ構造と指示階層",
+        "構造化の推奨記法",
+        "例示(few-shot)"
+      ],
+      "sourceHeadings": [
+        "概要: 汎用記事との分担",
+        "モデルファミリーの前提(プロンプトに効く差分だけ)",
+        "Astra へ移行する場合",
+        "メッセージ構造と指示階層",
+        "構造化の推奨記法",
+        "例示(few-shot)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 4
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:77faf948c36d7f923169c37a742b7f80504a2688978525e9096865ca879da851",
+      "reviewedDigest": "sha256:77faf948c36d7f923169c37a742b7f80504a2688978525e9096865ca879da851",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "openai-thinking-output",
+      "article": "docs/03-implementation/openai-prompting.md",
+      "route": "/docs/implementation/openai-prompting",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "思考の制御: reasoning effort と reasoning.mode",
+        "出力の制御: Structured Outputs",
+        "長文・長コンテキスト",
+        "ツール使用・エージェント文脈"
+      ],
+      "sourceHeadings": [
+        "思考の制御: reasoning effort と reasoning.mode",
+        "出力の制御: Structured Outputs",
+        "長文・長コンテキスト",
+        "ツール使用・エージェント文脈"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:f4fa09ad17072bbc158dabe9c6598d6084f840bdf6113c82804a670d2098f28d",
+      "reviewedDigest": "sha256:f4fa09ad17072bbc158dabe9c6598d6084f840bdf6113c82804a670d2098f28d",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "openai-history-migration",
+      "article": "docs/03-implementation/openai-prompting.md",
+      "route": "/docs/implementation/openai-prompting",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "非同期ツールと実行中の指示変更",
+        "キャッシュを保った設定変更",
+        "世代交代で見直すこと",
+        "効かない・不要になった俗説"
+      ],
+      "sourceHeadings": [
+        "非同期ツールと実行中の指示変更",
+        "キャッシュを保った設定変更",
+        "世代交代で見直すこと",
+        "効かない・不要になった俗説"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:04e698a968159b4f0b62d6652c8c6d0bf8be177fb25a430028e23f2280bd5c11",
+      "reviewedDigest": "sha256:04e698a968159b4f0b62d6652c8c6d0bf8be177fb25a430028e23f2280bd5c11",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "gemini-structure-examples",
+      "article": "docs/03-implementation/gemini-prompting.md",
+      "route": "/docs/implementation/gemini-prompting",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "概要: 汎用記事との分担",
+        "モデルファミリーの前提(プロンプトに効く差分だけ)",
+        "メッセージ構造とシステム指示",
+        "構造化の推奨記法",
+        "例示(few-shot)"
+      ],
+      "sourceHeadings": [
+        "概要: 汎用記事との分担",
+        "モデルファミリーの前提(プロンプトに効く差分だけ)",
+        "メッセージ構造とシステム指示",
+        "構造化の推奨記法",
+        "例示(few-shot)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:795704d2bee468a231b1325a684d09cfe876da189dbb715c94fb999595bb667a",
+      "reviewedDigest": "sha256:795704d2bee468a231b1325a684d09cfe876da189dbb715c94fb999595bb667a",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "gemini-thinking-context",
+      "article": "docs/03-implementation/gemini-prompting.md",
+      "route": "/docs/implementation/gemini-prompting",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "思考の制御: thinking_level",
+        "出力の制御: JSON スキーマ強制",
+        "長文・長コンテキストとマルチモーダル"
+      ],
+      "sourceHeadings": [
+        "思考の制御: thinking_level",
+        "出力の制御: JSON スキーマ強制",
+        "長文・長コンテキストとマルチモーダル"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:2f713122ca18ad0e0999c60beafb5b1efc2d56adab43088cc74195719a110ca9",
+      "reviewedDigest": "sha256:2f713122ca18ad0e0999c60beafb5b1efc2d56adab43088cc74195719a110ca9",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "gemini-tool-migration",
+      "article": "docs/03-implementation/gemini-prompting.md",
+      "route": "/docs/implementation/gemini-prompting",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "ツール使用・エージェント文脈",
+        "世代交代で見直すこと",
+        "効かない・不要になった俗説"
+      ],
+      "sourceHeadings": [
+        "ツール使用・エージェント文脈",
+        "世代交代で見直すこと",
+        "効かない・不要になった俗説"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:763144c9807362193bcb440f8c5f7265e131a2acfca8c7e90560e058723a3fbe",
+      "reviewedDigest": "sha256:763144c9807362193bcb440f8c5f7265e131a2acfca8c7e90560e058723a3fbe",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

@@ -1,0 +1,9 @@
+const grouped=(name,count,headings,groups,types)=>({article:`docs/04-evaluation/${name}.md`,route:`/docs/evaluation/${name}`,binding:'grouped-blocks',stageCount:count,headings,sourceHeadings:headings,blockGroups:groups,blockTypes:types})
+export const EVALUATION_CONTEXT_BINDINGS={
+ 'environment-layers-state':grouped('evaluation-environments',5,['概要: 分担と「評価用の環境」という論点','評価環境の 3 層'],[[{stage:0,count:2}],[{stage:1,count:4}]],[['table','paragraph'],['paragraph','code','table','paragraph']]),
+ 'environment-repro-fidelity':grouped('evaluation-environments',5,['再現性の担保','忠実度と保守コストのトレードオフ','CI への統合','失敗の再現環境化'],[[{stage:0,count:2},{stage:1,count:1}],[{stage:2,count:2}],[{stage:3,count:2}],[{stage:4,count:2}]],[['paragraph','list','paragraph'],['paragraph','list'],['paragraph','list'],['paragraph','list']]),
+ 'simulator-roles-constraints':grouped('user-simulator-design',5,['概要: 相手役と審判役は別コンポーネント','シミュレータの構成','暴走の抑制: シミュレータを縛る'],[[{stage:0,count:2}],[{stage:1,count:3}],[{stage:2,count:1},{stage:3,count:1},{stage:4,count:1}]],[['table','paragraph'],['paragraph','list','paragraph'],['paragraph','list','paragraph']]),
+ 'simulator-scenarios-validation':grouped('user-simulator-design',5,['シナリオ生成','シミュレータ品質の検証','落とし穴'],[[{stage:0,count:2}],[{stage:1,count:1},{stage:2,count:1}],[{stage:3,count:1}]],[['paragraph','list'],['paragraph','list'],['list']]),
+ 'calibration-signals-bins':grouped('confidence-and-calibration',5,['概要: 分担と「確信を行動に変える」','信頼度の取り出し方','較正の測定: 確信 80% は本当に 8 割正しいか'],[[{stage:0,count:2}],[{stage:1,count:3}],[{stage:2,count:1},{stage:3,count:1}]],[['table','paragraph'],['paragraph','table','paragraph'],['paragraph','list']]),
+ 'calibration-abstain-update':grouped('confidence-and-calibration',6,['選択的予測: 低信頼なら棄権する','閾値の設計: 失敗コストとの関係','運用での再較正'],[[{stage:0,count:1},{stage:1,count:1}],[{stage:2,count:1},{stage:3,count:1}],[{stage:4,count:1},{stage:5,count:1}]],[['paragraph','list'],['paragraph','list'],['paragraph','list']])
+}

@@ -1,0 +1,11 @@
+.evaluation-context-walkthrough .aw-layout{align-items:start}
+.evaluation-context-walkthrough .lf-box text{opacity:1}
+.evaluation-context-walkthrough .aw-prose table{display:block;max-width:100%;overflow-x:auto}
+.evaluation-context-walkthrough .aw-prose th{white-space:nowrap}
+.evaluation-context-walkthrough .aw-prose td{min-width:10rem}
+.evaluation-context-walkthrough .aw-prose td:first-child{min-width:6rem}
+@media print{
+ .evaluation-context-walkthrough .aw-prose table{display:table;width:100%;overflow:visible}
+ .evaluation-context-walkthrough .aw-prose td{min-width:0}
+ .evaluation-context-walkthrough .aw-prose th{white-space:normal}
+}

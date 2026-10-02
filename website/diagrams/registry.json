@@ -10964,6 +10964,290 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "environment-layers-state",
+      "article": "docs/04-evaluation/evaluation-environments.md",
+      "route": "/docs/evaluation/evaluation-environments",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 分担と「評価用の環境」という論点",
+        "評価環境の 3 層"
+      ],
+      "sourceHeadings": [
+        "概要: 分担と「評価用の環境」という論点",
+        "評価環境の 3 層"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 4
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:5be4db75922187af7c167d972ed81271ef1924747d57a6dba25700f34b5a7ee4",
+      "reviewedDigest": "sha256:5be4db75922187af7c167d972ed81271ef1924747d57a6dba25700f34b5a7ee4",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "environment-repro-fidelity",
+      "article": "docs/04-evaluation/evaluation-environments.md",
+      "route": "/docs/evaluation/evaluation-environments",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "再現性の担保",
+        "忠実度と保守コストのトレードオフ",
+        "CI への統合",
+        "失敗の再現環境化"
+      ],
+      "sourceHeadings": [
+        "再現性の担保",
+        "忠実度と保守コストのトレードオフ",
+        "CI への統合",
+        "失敗の再現環境化"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:d24adc43a12a0f73af60a5f517f1630187113ef61273e0e0c66f9c680ef9a1ce",
+      "reviewedDigest": "sha256:d24adc43a12a0f73af60a5f517f1630187113ef61273e0e0c66f9c680ef9a1ce",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "simulator-roles-constraints",
+      "article": "docs/04-evaluation/user-simulator-design.md",
+      "route": "/docs/evaluation/user-simulator-design",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 相手役と審判役は別コンポーネント",
+        "シミュレータの構成",
+        "暴走の抑制: シミュレータを縛る"
+      ],
+      "sourceHeadings": [
+        "概要: 相手役と審判役は別コンポーネント",
+        "シミュレータの構成",
+        "暴走の抑制: シミュレータを縛る"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:68e3ecedd84d9824506b751b225ef6abe9001188e63b880dfe66cfcf4746284e",
+      "reviewedDigest": "sha256:68e3ecedd84d9824506b751b225ef6abe9001188e63b880dfe66cfcf4746284e",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "simulator-scenarios-validation",
+      "article": "docs/04-evaluation/user-simulator-design.md",
+      "route": "/docs/evaluation/user-simulator-design",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "シナリオ生成",
+        "シミュレータ品質の検証",
+        "落とし穴"
+      ],
+      "sourceHeadings": [
+        "シナリオ生成",
+        "シミュレータ品質の検証",
+        "落とし穴"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:dc1e69cb6c0d809151f38f224430f12b34f12a4b1d4ea585732f34c146a08b7a",
+      "reviewedDigest": "sha256:dc1e69cb6c0d809151f38f224430f12b34f12a4b1d4ea585732f34c146a08b7a",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "calibration-signals-bins",
+      "article": "docs/04-evaluation/confidence-and-calibration.md",
+      "route": "/docs/evaluation/confidence-and-calibration",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 分担と「確信を行動に変える」",
+        "信頼度の取り出し方",
+        "較正の測定: 確信 80% は本当に 8 割正しいか"
+      ],
+      "sourceHeadings": [
+        "概要: 分担と「確信を行動に変える」",
+        "信頼度の取り出し方",
+        "較正の測定: 確信 80% は本当に 8 割正しいか"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:d3b3154d5d05e70877e8dfa5c17d2088c5cc4c2b30e6c144d397e12016b5a8e4",
+      "reviewedDigest": "sha256:d3b3154d5d05e70877e8dfa5c17d2088c5cc4c2b30e6c144d397e12016b5a8e4",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "calibration-abstain-update",
+      "article": "docs/04-evaluation/confidence-and-calibration.md",
+      "route": "/docs/evaluation/confidence-and-calibration",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "選択的予測: 低信頼なら棄権する",
+        "閾値の設計: 失敗コストとの関係",
+        "運用での再較正"
+      ],
+      "sourceHeadings": [
+        "選択的予測: 低信頼なら棄権する",
+        "閾値の設計: 失敗コストとの関係",
+        "運用での再較正"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:21e76aed3132b25e1a4eec327f7fe538697f70b749c7bc8d8eca96206a43c893",
+      "reviewedDigest": "sha256:21e76aed3132b25e1a4eec327f7fe538697f70b749c7bc8d8eca96206a43c893",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

@@ -1,3 +1,4 @@
+import { EvaluationContextWalkthrough } from './components/diagrams/evaluation-context-walkthrough'
 import { EvaluationLifecycleWalkthrough } from './components/diagrams/evaluation-lifecycle-walkthrough'
 import { EvaluationEvidenceWalkthrough } from './components/diagrams/evaluation-evidence-walkthrough'
 import { ModelMcpEvaluationWalkthrough } from './components/diagrams/model-mcp-evaluation-walkthrough'
@@ -67,6 +68,7 @@ export const useMDXComponents = components => ({
   ActionBoundariesWalkthrough,
   HarnessLoopWalkthrough,
   DurableContractWalkthrough,
+  EvaluationContextWalkthrough,
   EvaluationLifecycleWalkthrough,
   EvaluationEvidenceWalkthrough,
   ModelMcpEvaluationWalkthrough,

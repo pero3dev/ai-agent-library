@@ -12162,6 +12162,344 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "conversation-collection-layers",
+      "article": "docs/05-operations/conversation-data-management.md",
+      "route": "/docs/operations/conversation-data-management",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: 二面性を持つデータのライフサイクル",
+        "収集とトレースの関係",
+        "機微情報の処理: 非構造ゆえの難しさ"
+      ],
+      "sourceHeadings": [
+        "概要: 二面性を持つデータのライフサイクル",
+        "収集とトレースの関係",
+        "機微情報の処理: 非構造ゆえの難しさ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:e32fbe93b80e9408451304a269f502f704a188ed346298583bcecba16b800c23",
+      "reviewedDigest": "sha256:e32fbe93b80e9408451304a269f502f704a188ed346298583bcecba16b800c23",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "conversation-retention-deletion",
+      "article": "docs/05-operations/conversation-data-management.md",
+      "route": "/docs/operations/conversation-data-management",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "保持と削除の設計"
+      ],
+      "sourceHeadings": [
+        "保持と削除の設計"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:9ae5ffa7a137f288a54dd8338b4f0ce031f2b7ceb5162cd07f7b65c9c561292b",
+      "reviewedDigest": "sha256:9ae5ffa7a137f288a54dd8338b4f0ce031f2b7ceb5162cd07f7b65c9c561292b",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "conversation-use-access",
+      "article": "docs/05-operations/conversation-data-management.md",
+      "route": "/docs/operations/conversation-data-management",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "分析・改善への活用",
+        "アクセス統制: 「誰が会話を読めるか」"
+      ],
+      "sourceHeadings": [
+        "分析・改善への活用",
+        "アクセス統制: 「誰が会話を読めるか」"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:1d3578deadc962041e7b07c599d7ff85acf1013b6955f22074e0e7a73c397e04",
+      "reviewedDigest": "sha256:1d3578deadc962041e7b07c599d7ff85acf1013b6955f22074e0e7a73c397e04",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "governance-ownership-catalogue",
+      "article": "docs/05-operations/data-governance-for-ai.md",
+      "route": "/docs/operations/data-governance-for-ai",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 分担と本記事の射程",
+        "AI 品質はデータ品質に律速される",
+        "データオーナーシップ",
+        "AI 向けデータカタログ"
+      ],
+      "sourceHeadings": [
+        "概要: 分担と本記事の射程",
+        "AI 品質はデータ品質に律速される",
+        "データオーナーシップ",
+        "AI 向けデータカタログ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:53f562857e0d1539dbd601f9c97604d71aa355a7fbc8cfe131555a4ac597830e",
+      "reviewedDigest": "sha256:53f562857e0d1539dbd601f9c97604d71aa355a7fbc8cfe131555a4ac597830e",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "governance-quality-permission",
+      "article": "docs/05-operations/data-governance-for-ai.md",
+      "route": "/docs/operations/data-governance-for-ai",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "品質基準とその計測",
+        "AI 利用可否の分類",
+        "AI 導入をデータ衛生のフォーシング関数にする",
+        "既存のデータガバナンス組織との協働"
+      ],
+      "sourceHeadings": [
+        "品質基準とその計測",
+        "AI 利用可否の分類",
+        "AI 導入をデータ衛生のフォーシング関数にする",
+        "既存のデータガバナンス組織との協働"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:d2ce22e9f48f742a61ea10adcb24e0aceb238c315da66735cf9112edf02c550b",
+      "reviewedDigest": "sha256:d2ce22e9f48f742a61ea10adcb24e0aceb238c315da66735cf9112edf02c550b",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "chaos-hypothesis-targets",
+      "article": "docs/05-operations/chaos-engineering-for-ai.md",
+      "route": "/docs/operations/chaos-engineering-for-ai",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 分担と「検証演習」という位置づけ",
+        "AI 固有の注入対象",
+        "仮説駆動の演習設計"
+      ],
+      "sourceHeadings": [
+        "概要: 分担と「検証演習」という位置づけ",
+        "AI 固有の注入対象",
+        "仮説駆動の演習設計"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:a89a405ee31a329aa0ca89f23dddb5f173704e72fb6d95b158e5caf9f784ec3c",
+      "reviewedDigest": "sha256:a89a405ee31a329aa0ca89f23dddb5f173704e72fb6d95b158e5caf9f784ec3c",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "chaos-environment-learning",
+      "article": "docs/05-operations/chaos-engineering-for-ai.md",
+      "route": "/docs/operations/chaos-engineering-for-ai",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "実施環境の選択",
+        "定常化: ゲームデーと自動注入",
+        "発見の還流"
+      ],
+      "sourceHeadings": [
+        "実施環境の選択",
+        "定常化: ゲームデーと自動注入",
+        "発見の還流"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:24500cc86b342c8ff3fee4433408586f90b2dfcf3d0d3719684db5b1245fabfe",
+      "reviewedDigest": "sha256:24500cc86b342c8ff3fee4433408586f90b2dfcf3d0d3719684db5b1245fabfe",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

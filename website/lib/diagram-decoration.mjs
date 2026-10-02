@@ -5,6 +5,13 @@ const element = (name, children, attributes = []) => ({ type: 'mdxJsxFlowElement
 const attribute = (name, value) => ({ type: 'mdxJsxAttribute', name, value: String(value) })
 const step = (index, children) => element('ReadingStep', children, [attribute('step', index)])
 const components = {
+  'conversation-collection-layers': 'DataResilienceWalkthrough',
+  'conversation-retention-deletion': 'DataResilienceWalkthrough',
+  'conversation-use-access': 'DataResilienceWalkthrough',
+  'governance-ownership-catalogue': 'DataResilienceWalkthrough',
+  'governance-quality-permission': 'DataResilienceWalkthrough',
+  'chaos-hypothesis-targets': 'DataResilienceWalkthrough',
+  'chaos-environment-learning': 'DataResilienceWalkthrough',
   'version-composition-pinning': 'ReleaseResponseWalkthrough',
   'version-rollout-migration': 'ReleaseResponseWalkthrough',
   'incident-detection-containment': 'ReleaseResponseWalkthrough',
@@ -326,7 +333,7 @@ export function assertDiagramPageMetadata(tree, expected) {
   const diagramIds = []
   const walk = node => {
     if (node.name === 'AttentionWalkthrough') diagramIds.push('self-attention')
-    if (['ReleaseResponseWalkthrough', 'ServiceBudgetsWalkthrough', 'QualityTraceWalkthrough', 'EvaluationContextWalkthrough', 'EvaluationLifecycleWalkthrough', 'EvaluationEvidenceWalkthrough', 'ModelMcpEvaluationWalkthrough', 'VendorPromptControlsWalkthrough', 'SyntheticSandboxInteropWalkthrough', 'SlmComputerVoiceWalkthrough', 'CatalogueOssLocalWalkthrough', 'FrameworkModelTuningWalkthrough', 'RagMemoryGraphWalkthrough', 'RetrievalDataWalkthrough', 'FeedbackStreamingWalkthrough', 'PromptTechniquesAssetsWalkthrough', 'PromptToolOutputWalkthrough', 'ClientAdoptionWalkthrough', 'SeContinuityWalkthrough', 'CodingPracticeWalkthrough', 'CodingOptionsWalkthrough', 'SeProcessWalkthrough', 'CodingIdeCloudWalkthrough', 'CodingProductsWalkthrough', 'CodingOutcomesWalkthrough', 'CodingControlsWalkthrough', 'CodingDecisionsWalkthrough', 'DurableContractWalkthrough', 'HarnessLoopWalkthrough', 'ActionBoundariesWalkthrough', 'ContextDesignWalkthrough', 'OverviewReadingWalkthrough', 'AgentConceptsWalkthrough', 'ReadingWalkthrough', 'TransformerWalkthrough', 'AttentionVariantsWalkthrough', 'MoEWalkthrough', 'FoundationsWalkthrough', 'InferenceWalkthrough', 'TrainingWalkthrough', 'PretrainingWalkthrough', 'AlignmentWalkthrough', 'ReasoningWalkthrough', 'ContextWalkthrough', 'IclWalkthrough', 'InterpretabilityWalkthrough', 'CapabilitiesWalkthrough', 'MultimodalWalkthrough'].includes(node.name)) {
+    if (['DataResilienceWalkthrough', 'ReleaseResponseWalkthrough', 'ServiceBudgetsWalkthrough', 'QualityTraceWalkthrough', 'EvaluationContextWalkthrough', 'EvaluationLifecycleWalkthrough', 'EvaluationEvidenceWalkthrough', 'ModelMcpEvaluationWalkthrough', 'VendorPromptControlsWalkthrough', 'SyntheticSandboxInteropWalkthrough', 'SlmComputerVoiceWalkthrough', 'CatalogueOssLocalWalkthrough', 'FrameworkModelTuningWalkthrough', 'RagMemoryGraphWalkthrough', 'RetrievalDataWalkthrough', 'FeedbackStreamingWalkthrough', 'PromptTechniquesAssetsWalkthrough', 'PromptToolOutputWalkthrough', 'ClientAdoptionWalkthrough', 'SeContinuityWalkthrough', 'CodingPracticeWalkthrough', 'CodingOptionsWalkthrough', 'SeProcessWalkthrough', 'CodingIdeCloudWalkthrough', 'CodingProductsWalkthrough', 'CodingOutcomesWalkthrough', 'CodingControlsWalkthrough', 'CodingDecisionsWalkthrough', 'DurableContractWalkthrough', 'HarnessLoopWalkthrough', 'ActionBoundariesWalkthrough', 'ContextDesignWalkthrough', 'OverviewReadingWalkthrough', 'AgentConceptsWalkthrough', 'ReadingWalkthrough', 'TransformerWalkthrough', 'AttentionVariantsWalkthrough', 'MoEWalkthrough', 'FoundationsWalkthrough', 'InferenceWalkthrough', 'TrainingWalkthrough', 'PretrainingWalkthrough', 'AlignmentWalkthrough', 'ReasoningWalkthrough', 'ContextWalkthrough', 'IclWalkthrough', 'InterpretabilityWalkthrough', 'CapabilitiesWalkthrough', 'MultimodalWalkthrough'].includes(node.name)) {
       diagramIds.push(node.attributes?.find(attribute => attribute.name === 'diagramId')?.value)
     }
     for (const child of node.children ?? []) walk(child)

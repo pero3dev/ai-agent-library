@@ -20,10 +20,10 @@ export function FrontierProcurementObservation({children}){
  const id=useId(),[missing,setMissing]=useState('coverage'),review=frontierProcurement({frameworkChecked:missing!=='framework',modelCardChecked:missing!=='card',coverageMatched:missing!=='coverage',updatesChecked:missing!=='updates',thirdPartyScopeChecked:missing!=='thirdparty'})
  return <GovernanceFigure diagram="frontier-procurement-observation" title="提供者の記録と、自社で観測・制御する範囲を結ぶ" scene={({phase})=><GovernanceCanvas diagram="frontier-procurement-observation" phase={phase} id={id}>{({stage})=><>
  <Text y={38}>{['評価の領域・閾値と、開発・展開の段階を読む','第三者機関の役割と、個別評価のscopeを読む','提供者の評価から、自社の観測と制御へ戻す','文書の存在に加えて、採用modelと範囲を揃える','複数の根拠と、自社の品質・費用・遅延を照合','採用前だけでなく、版と役割の変更を追う'][stage]}</Text>
- {stage===0&&<GovernanceThree columns={[["能力領域","サイバー・CBRN等","方法はここで","扱わない"],["評価の定義","領域ごとの閾値","どこまでを","評価するか"],["評価の段階","開発と展開の両方","緩和策と対象model"]]}/>}
+ {stage===0&&<GovernanceThree columns={[["能力領域","サイバー・CBRN等","方法はここで","扱わない"],["評価の定義","領域ごとの閾値","どこまでを","評価するか"],["評価の段階","開発と展開の両方","緩和策と","対象model"]]}/>}
  {stage===1&&<GovernancePair left={['第三者機関','各国の機関の名称と役割','連携と評価ツール','現在の所在を公式で確認']} right={['個別の評価','何を評価・公表したか','対象と確認できた範囲','網羅的な認証にしない']} id={id} phase={phase}/>}
  {stage===2&&<GovernancePair left={['提供者の評価','危険能力の対象と結果','緩和策と展開制限','自社の評価計画への材料']} right={['自社で観測・制御','Agentや環境の評価','権限と停止・回復','提供者の評価だけに頼らない']} id={id} phase={phase}/>}
- {stage===3&&<><GovernanceThree columns={[["現行の記録","framework","model card","risk report"],["modelとの一致","対象期間と版","採用対象を照合"],["変化と補完","更新履歴","第三者連携のscope"]]}/><Text y={340}>{review.reviewCandidate?'選定reviewの検討候補':'不足する記録と範囲へ戻る'}</Text><Text y={374} small>文書が揃うだけで、自社アプリを安全・採用済みにしない。</Text></>}
+ {stage===3&&<><GovernanceThree columns={[["現行の記録","framework","model card","risk report"],["modelとの一致","対象期間と版","採用対象を照合"],["変化と補完","更新履歴","第三者連携の","scope"]]}/><Text y={340}>{review.reviewCandidate?'選定reviewの検討候補':'不足する記録と範囲へ戻る'}</Text><Text y={374} small>文書が揃うだけで、自社アプリを安全・採用済みにしない。</Text></>}
  {stage===4&&<GovernancePair left={['公開の補助signal','自己申告を複数で照合','第三者連携のscope','機微用途で重みを調整']} right={['自社の要件と評価','品質・費用・遅延','securityと制御','model採用は独立の判断']} id={id} phase={phase}/>}
  {stage===5&&<><GovernanceThree columns={[["版と対象","更新・評価期間","採用model"],["主体と役割","名称・提供者","第三者の焦点"],["規制の接続","各法域の変更","自社の再確認"]]}/><Wire id={id} d="M520 269V330H120V269" active phase={phase}/><Text y={366} small>一回の調達reviewから、将来の全変更の適合を推測しない。</Text></>}
  <Text y={412} small>四軸の根拠と自社評価を結ぶ。図は実評価・採用・公開を行わない。</Text>

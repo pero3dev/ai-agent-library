@@ -1,3 +1,4 @@
+import { ServiceBudgetsWalkthrough } from './components/diagrams/service-budgets-walkthrough'
 import { QualityTraceWalkthrough } from './components/diagrams/quality-trace-walkthrough'
 import { EvaluationContextWalkthrough } from './components/diagrams/evaluation-context-walkthrough'
 import { EvaluationLifecycleWalkthrough } from './components/diagrams/evaluation-lifecycle-walkthrough'
@@ -69,6 +70,7 @@ export const useMDXComponents = components => ({
   ActionBoundariesWalkthrough,
   HarnessLoopWalkthrough,
   DurableContractWalkthrough,
+  ServiceBudgetsWalkthrough,
   QualityTraceWalkthrough,
   EvaluationContextWalkthrough,
   EvaluationLifecycleWalkthrough,

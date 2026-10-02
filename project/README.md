@@ -6,7 +6,7 @@
 
 ## 構造・運用の計画
 
-動的図解は2026-10-02現在、P1は15/15、P2は54/54、P3は39/78、P4は0/52、初期対象199記事中108記事がPages・表示確認まで完了。前単位PR #128は必須CI・squash済み。公開結果は各PR本文を参照。[今回の単位](records/2026-10-02/quality-trace-diagrams.md)3記事6図31段階をローカル検証済み。次はコスト管理・レイテンシ・AI品質SLO3記事。P5完了まで継続する。任意レビュー・追加台帳・大量証跡を省き、公開後は表示確認のみ。
+動的図解は2026-10-02現在、P1は15/15、P2は54/54、P3は42/78、P4は0/52、初期対象199記事中111記事がPages・表示確認まで完了。前単位PR #129は必須CI・squash済み。公開結果は各PR本文を参照。[今回の単位](records/2026-10-02/service-budgets-diagrams.md)3記事7図38段階をローカル検証済み。次は構成の版・インシデント対応・本番フィードバック3記事。P5完了まで継続する。任意レビュー・追加台帳・大量証跡を省き、公開後は表示確認のみ。
 
 E1〜F2の[旧検証計画](records/2026-09-30/p1-kit-preparation/README.md)と[保存時の確認](records/2026-09-30/p1-kit-preparation-review.json)は経緯として残す。旧計画の全手順を今後の作業へ再適用しない。
 
@@ -14,7 +14,7 @@ E1〜F2の[旧検証計画](records/2026-09-30/p1-kit-preparation/README.md)と[
 
 | 計画 | 状態・適用時点 | 実施記録・現行の入口 |
 | --- | --- | --- |
-| [動的図解の全記事展開](plans/engineering/dynamic-diagrams.md) | P1全15記事、P2 54/54・P3 39/78公開済み。3記事を提出準備中。P4・P5未完了 | [展開状況](records/2026-09-24/dynamic-diagram-rollout.md)、[P0実施記録](records/2026-09-24/reading-diagram-foundation.md)、[Transformer制作](records/2026-09-24/transformer-reading-diagrams.md)、[注意変種制作](records/2026-09-24/attention-variants-reading-diagrams.md)、[MoE制作](records/2026-09-24/moe-reading-diagrams.md)、[文章生成・トークン化](records/2026-09-24/generation-tokenization-reading-diagrams.md)、[推論内部](records/2026-09-24/inference-reading-diagrams.md)、[学習パイプラインの制作](records/2026-09-24/training-reading-diagrams.md)、[事前学習の制作](records/2026-09-25/pretraining-reading-diagrams.md)、[推論図の表示間隔修正](records/2026-09-30/inference-score-spacing-fix.md)、[D1アラインメント制作](records/2026-09-30/alignment-reading-diagrams.md)、[D2推論モデル制作](records/2026-09-30/reasoning-reading-diagrams.md)、[残り7記事の具体案](records/2026-09-30/p1-interface-preparation/README.md)、[記事別棚卸し](plans/engineering/dynamic-diagram-inventory.md)、[計画作成記録](records/2026-09-24/dynamic-diagram-plan.md) |
+| [動的図解の全記事展開](plans/engineering/dynamic-diagrams.md) | P1全15記事、P2 54/54・P3 42/78公開済み。3記事を提出準備中。P4・P5未完了 | [展開状況](records/2026-09-24/dynamic-diagram-rollout.md)、[P0実施記録](records/2026-09-24/reading-diagram-foundation.md)、[Transformer制作](records/2026-09-24/transformer-reading-diagrams.md)、[注意変種制作](records/2026-09-24/attention-variants-reading-diagrams.md)、[MoE制作](records/2026-09-24/moe-reading-diagrams.md)、[文章生成・トークン化](records/2026-09-24/generation-tokenization-reading-diagrams.md)、[推論内部](records/2026-09-24/inference-reading-diagrams.md)、[学習パイプラインの制作](records/2026-09-24/training-reading-diagrams.md)、[事前学習の制作](records/2026-09-25/pretraining-reading-diagrams.md)、[推論図の表示間隔修正](records/2026-09-30/inference-score-spacing-fix.md)、[D1アラインメント制作](records/2026-09-30/alignment-reading-diagrams.md)、[D2推論モデル制作](records/2026-09-30/reasoning-reading-diagrams.md)、[残り7記事の具体案](records/2026-09-30/p1-interface-preparation/README.md)、[記事別棚卸し](plans/engineering/dynamic-diagram-inventory.md)、[計画作成記録](records/2026-09-24/dynamic-diagram-plan.md) |
 | 自己注意の読書連動図解 | 2026-09-24 実装・ローカル検証・独立レビュー完了。本文と連動する図解と時間操作。公開手順と検証範囲を実施記録に記載 | [実施記録](records/2026-09-24/self-attention-reader.md) |
 | LLM 内部構造の数式表示修正 | 2026-09-23 数式・狭幅・強調表示を修正し、ローカル検証完了。公開状況はPRを参照 | [実施記録](records/2026-09-23/llm-internals-ui-fix.md)、[PR #50](https://github.com/pero3dev/ai-agent-library/pull/50) |
 | GitHub 紹介ページの改善 | 2026-09-20 README・画像の独立レビューと PR 検証済み。共有画像の登録は認証待ち | [実施記録](records/2026-09-20/github-showcase.md)、[PR #48](https://github.com/pero3dev/ai-agent-library/pull/48) |

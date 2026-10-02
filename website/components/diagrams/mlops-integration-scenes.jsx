@@ -11,7 +11,7 @@ export function MlopsCommonDifferences({children}){
  {stage===1&&<LifecyclePair left={['従来のMLにもある','非決定性と不確実性','安全・公平性・費用','単一指標とは限らない']} right={['代表例として比べる','自作予測と借りる生成','組織と利用条件で変わる','頻度を一律に断定しない']} id={id} phase={phase} arrow={false}/>}
  {stage===2&&<><Tokens labels={['資産','実験','評価','変更','監視']} selected={[Object.keys(differences).indexOf(axis)]} y={88}/><LifecyclePair left={differences[axis][0]} right={differences[axis][1]} id={id} phase={phase} y={181} arrow={false}/></>}
  {stage===3&&<><LifecycleThree columns={[["promptの変更","学習なしでも","出力が変わる"],["検索の変更","知識と権限","結果が変わる"],["toolの変更","契約と副作用","作用が変わる"]]}/><Text y={345}>modelだけの版では、アプリの挙動は固定されない</Text></>}
- {stage===4&&<LifecyclePair left={['再利用する骨格','実験・metrics・data pipeline','CI/CD・認証・監査','成熟した仕組みを点検']} right={['部品ごとの適合','feature storeの一部','検索・promptとの接点','全基盤の作り直しを避ける']} id={id} phase={phase}/>}
+ {stage===4&&<LifecyclePair left={['再利用する骨格','実験・指標・data経路','CI/CD・認証・監査','成熟した仕組みを点検']} right={['部品ごとの適合','feature storeの一部','検索・promptとの接点','全基盤の作り直しを避ける']} id={id} phase={phase}/>}
  {stage===5&&<><Tokens labels={['prompt版','確率的評価','token費用','trace']} y={90}/><Box x={65} y={184} width={510} height={174} title="共通基盤へ差分を接続" lines={['judgeも校正と失敗ケースを点検','モデル・prompt・検索・toolの組合せを記録','実評価・実計測から変更へ戻る']} tone="teal"/></>}
  <Text y={412} small>版の名前だけで挙動を固定しない。図は実評価・費用を測定しない。</Text>
  </>}</LifecycleCanvas>} controls={({stage,ready})=>stage===2?<Select label="比較する運用の差分" value={axis} onChange={setAxis} ready={ready}>{Object.entries({asset:'資産',experiment:'実験',evaluation:'評価',change:'変更経路',monitor:'監視'}).map(([v,t])=><option key={v} value={v}>{t}</option>)}</Select>:null}>{children}</LifecycleFigure>

@@ -21,3 +21,5 @@
 通常PR・必須CI・squash・Pages・公開表示は未実施。公開後は表示確認のみ。P3〜P5は未完了。
 
 提出baseは[PR #126](https://github.com/pero3dev/ai-agent-library/pull/126)の実squash a7bc2be475ced2c07fc4dcf58bd0150e10de89dc。前単位の提出headとPR CI 36954930217・必須9検査・実メッセージ・ツリーを確認。文書・リンク・Markdown・差分を提出前に検査する。公開済みは102/199記事で、公開後は表示確認のみ。
+
+PR #127の初回CI 36957792059は659成功・5skip・2失敗。LinuxフォントでL1枠のtool・guard・parserが幅を越えたため、意味を保つ「実装の単体検査」へ短縮した。原文AST・MDXとモデル9検査、最終静的223ルート・230 HTML、対象15ブラウザ検査が成功し、修正場面をPC目視した。必須CIは修正headで取り直し、成功前にマージしない。

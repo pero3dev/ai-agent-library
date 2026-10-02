@@ -8,7 +8,7 @@ export function RegressionLayerScope({children}){
  return <LifecycleFigure diagram="regression-layer-scope" title="非局所の変更と、LLM呼出し別の回帰レイヤ" scene={({phase})=><LifecycleCanvas diagram="regression-layer-scope" phase={phase} id={id}>{({stage})=><>
   <Text y={34}>{['小さな挙動変更でも、別のケースへ影響する','部品・単一呼出し・Agent全体を分ける','同じ成否列でも、必要な成功条件は異なる','同じ版の変動を、変更の劣化と区分する','不安定なケースも、品質情報として残す'][stage]}</Text>
   {stage===0?<LifecyclePair id={id} phase={phase} left={['小さな変更','promptの一行','tool説明の一語','モデルの版']} right={['全体へ照合','検索・経費・別タスク','前後を同じセットで比較','依存コードだけで絞らず']}/>:stage===1?<LifecycleThree columns={[
-   ['L1: 決定的','LLMなし','tool・guard・parser','毎コミット全量'],['L2: 部品','1ケース1呼出し','分類・抽出・judge','PR小規模＋夜間'],['L3: 全体','1ケース多数回','成果と軌跡','夜間・公開前']
+   ['L1: 決定的','LLMなし','実装の単体検査','毎コミット全量'],['L2: 部品','1ケース1呼出し','分類・抽出・judge','PR小規模＋夜間'],['L3: 全体','1ケース多数回','成果と軌跡','夜間・公開前']
   ]}/>:stage===2?<>
    <Tokens labels={values.map((value,i)=>`${i+1}: ${value?'成功':'失敗'}`)} selected={values.flatMap((value,i)=>value?[i]:[])} y={106}/>
    <Box x={64} y={227} width={512} height={140} title={`${passed}/${values.length}成功 → ${met?'模式条件を満たす':'要求条件に届かない'}`} lines={[policy==='all'?'要求: 毎回成功する':'要求: 1回以上成功する','成否列は模式入力。実スイートの測定ではない']} tone={met?'teal':'amber'} data-regression-repeat-met={String(met)} data-regression-tests-executed="false"/>

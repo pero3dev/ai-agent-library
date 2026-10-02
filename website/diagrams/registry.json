@@ -10416,6 +10416,274 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "judge-format-bias",
+      "article": "docs/04-evaluation/llm-as-a-judge.md",
+      "route": "/docs/evaluation/llm-as-a-judge",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "概要: judge は「もう 1 つの LLM アプリケーション」",
+        "詳細: 判定形式の設計",
+        "詳細: judge プロンプトの構成",
+        "詳細: 既知のバイアスと対策"
+      ],
+      "sourceHeadings": [
+        "概要: judge は「もう 1 つの LLM アプリケーション」",
+        "詳細: 判定形式の設計",
+        "詳細: judge プロンプトの構成",
+        "詳細: 既知のバイアスと対策"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:7ae64ff202f4124b95070e214cd582b30c62d36194022ae8ced4afd6609fc9de",
+      "reviewedDigest": "sha256:7ae64ff202f4124b95070e214cd582b30c62d36194022ae8ced4afd6609fc9de",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "judge-validation-split",
+      "article": "docs/04-evaluation/llm-as-a-judge.md",
+      "route": "/docs/evaluation/llm-as-a-judge",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "設計判断: judge を検証してから使う",
+        "設計判断: judge を使わない場所を残す"
+      ],
+      "sourceHeadings": [
+        "設計判断: judge を検証してから使う",
+        "設計判断: judge を使わない場所を残す"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:e0bd52e5e4895e9649a711d1aa6d2b81af44a9eed7fdf49cdc47a90c406a0713",
+      "reviewedDigest": "sha256:e0bd52e5e4895e9649a711d1aa6d2b81af44a9eed7fdf49cdc47a90c406a0713",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "trajectory-path-review",
+      "article": "docs/04-evaluation/trajectory-evaluation.md",
+      "route": "/docs/evaluation/trajectory-evaluation",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 最終成果だけでは足りない 2 つの理由",
+        "詳細: 軌跡の何を見るか",
+        "詳細: 評価方法は 2 系統の併用"
+      ],
+      "sourceHeadings": [
+        "概要: 最終成果だけでは足りない 2 つの理由",
+        "詳細: 軌跡の何を見るか",
+        "詳細: 評価方法は 2 系統の併用"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:f0229b56a6a2ebb96599903105c9cc4dadd5ea8afa6ebb4225dee14989328f55",
+      "reviewedDigest": "sha256:f0229b56a6a2ebb96599903105c9cc4dadd5ea8afa6ebb4225dee14989328f55",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "trajectory-record-constraints",
+      "article": "docs/04-evaluation/trajectory-evaluation.md",
+      "route": "/docs/evaluation/trajectory-evaluation",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "詳細: 前提は軌跡の構造化された記録",
+        "設計判断: 経路をどこまで縛るか"
+      ],
+      "sourceHeadings": [
+        "詳細: 前提は軌跡の構造化された記録",
+        "設計判断: 経路をどこまで縛るか"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:ce29552b54998e361e5d0359690f36008f3d333b73bdee96a0e899d1b8d24204",
+      "reviewedDigest": "sha256:ce29552b54998e361e5d0359690f36008f3d333b73bdee96a0e899d1b8d24204",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "dataset-source-synthetic",
+      "article": "docs/04-evaluation/evaluation-datasets.md",
+      "route": "/docs/evaluation/evaluation-datasets",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: データセットは「作る」ではなく「育てる」",
+        "収集源と選び方",
+        "合成データの使いどころと危険"
+      ],
+      "sourceHeadings": [
+        "概要: データセットは「作る」ではなく「育てる」",
+        "収集源と選び方",
+        "合成データの使いどころと危険"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 3
+          },
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:0b4968670b6935fecb251a5f74d7a38ec1cdcaec87a9ee145b7b2847bff1db4f",
+      "reviewedDigest": "sha256:0b4968670b6935fecb251a5f74d7a38ec1cdcaec87a9ee145b7b2847bff1db4f",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "dataset-label-maintenance",
+      "article": "docs/04-evaluation/evaluation-datasets.md",
+      "route": "/docs/evaluation/evaluation-datasets",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "アノテーションと品質",
+        "ゴールデンセットの設計",
+        "保守と陳腐化対策"
+      ],
+      "sourceHeadings": [
+        "アノテーションと品質",
+        "ゴールデンセットの設計",
+        "保守と陳腐化対策"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:38aa82bf5bd654ab72bc1eaa0025344c35e7f4e25f498bcc4924759a9ee6c61b",
+      "reviewedDigest": "sha256:38aa82bf5bd654ab72bc1eaa0025344c35e7f4e25f498bcc4924759a9ee6c61b",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

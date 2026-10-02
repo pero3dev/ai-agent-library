@@ -1,0 +1,9 @@
+const grouped=(name,count,headings,groups,types)=>({article:`docs/04-evaluation/${name}.md`,route:`/docs/evaluation/${name}`,binding:'grouped-blocks',stageCount:count,headings,sourceHeadings:headings,blockGroups:groups,blockTypes:types})
+export const EVALUATION_EVIDENCE_BINDINGS={
+ 'judge-format-bias':grouped('llm-as-a-judge',4,['概要: judge は「もう 1 つの LLM アプリケーション」','詳細: 判定形式の設計','詳細: judge プロンプトの構成','詳細: 既知のバイアスと対策'],[[{stage:0,count:2}],[{stage:1,count:2}],[{stage:2,count:1}],[{stage:3,count:1}]],[['paragraph','paragraph'],['table','paragraph'],['list'],['table']]),
+ 'judge-validation-split':grouped('llm-as-a-judge',6,['設計判断: judge を検証してから使う','設計判断: judge を使わない場所を残す'],[[{stage:0,count:1},{stage:2,count:1},{stage:4,count:1}],[{stage:5,count:1}]],[['paragraph','list','paragraph'],['paragraph']]),
+ 'trajectory-path-review':grouped('trajectory-evaluation',5,['概要: 最終成果だけでは足りない 2 つの理由','詳細: 軌跡の何を見るか','詳細: 評価方法は 2 系統の併用'],[[{stage:0,count:3}],[{stage:1,count:1}],[{stage:4,count:3}]],[['paragraph','paragraph','list'],['table'],['table','paragraph','paragraph']]),
+ 'trajectory-record-constraints':grouped('trajectory-evaluation',5,['詳細: 前提は軌跡の構造化された記録','設計判断: 経路をどこまで縛るか'],[[{stage:0,count:1}],[{stage:1,count:2},{stage:3,count:1}]],[['paragraph'],['paragraph','list','paragraph']]),
+ 'dataset-source-synthetic':grouped('evaluation-datasets',5,['概要: データセットは「作る」ではなく「育てる」','収集源と選び方','合成データの使いどころと危険'],[[{stage:0,count:3}],[{stage:1,count:2},{stage:2,count:1}],[{stage:3,count:3},{stage:4,count:2}]],[['paragraph','code','paragraph'],['paragraph','table','paragraph'],['paragraph','paragraph','list','paragraph','list']]),
+ 'dataset-label-maintenance':grouped('evaluation-datasets',6,['アノテーションと品質','ゴールデンセットの設計','保守と陳腐化対策'],[[{stage:0,count:2},{stage:2,count:1}],[{stage:3,count:2}],[{stage:4,count:2}]],[['paragraph','list','paragraph'],['paragraph','list'],['paragraph','list']])
+}

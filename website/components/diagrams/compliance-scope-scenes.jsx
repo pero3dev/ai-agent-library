@@ -10,7 +10,7 @@ export function ComplianceRegulatoryMap({children}){
  {stage===0&&<GovernanceThree columns={questions}/>}
  {stage===1&&<GovernancePair left={['利用する構成','法域とユースケース','providerかdeployerか','一次情報の確認日']} right={[review.reviewCandidate?'法務の検討へ':'不足する根拠へ戻る','名称だけで役割を決めない','PoCから本番への関門','図は法的適合を判定しない']} id={id} phase={phase}/>}
  {stage===2&&<><GovernanceThree columns={[["適用義務","透明性を別に確認","全延期としない"],["延期と猶予","高riskの","新しい期日","systemの対象条件"],["禁止の範囲","新設禁止の対象","施行・経過措置"]]}/><Text y={344} small>2026-09-10時点の原文。新しい法域や現行法の断定は加えていない。</Text></>}
- {stage===3&&<><GovernanceThree columns={[["成立","議論から法へ","本文と公布を確認"],["公布","法の公表","将来の施行版もある"],["施行","効力の開始","対象条項を確認"]]}/><Wire id={id} d="M208 180H230" active phase={phase}/><Wire id={id} d="M408 180H430" active phase={phase}/><Text y={337}>{law.effectiveObserved?'模式入力は施行段階':'施行したとは読めない'}</Text><Text y={367} small>議論や意見募集の資料を、最終規則へ変換しない。</Text></>}
+ {stage===3&&<><GovernanceThree columns={[["成立","議論から法へ","本文と公布を確認"],["公布","法の公表","将来の施行版","もある"],["施行","効力の開始","対象条項を確認"]]}/><Wire id={id} d="M208 180H230" active phase={phase}/><Wire id={id} d="M408 180H430" active phase={phase}/><Text y={337}>{law.effectiveObserved?'模式入力は施行段階':'施行したとは読めない'}</Text><Text y={367} small>議論や意見募集の資料を、最終規則へ変換しない。</Text></>}
  {stage===4&&<GovernancePair left={['California','model開発者の透明性','適用済みの法を読む','提案・訴訟は別の状態']} right={['Colorado','別の主体と用途','改正法と規則案','予定を確定義務にしない']} id={id} phase={phase} arrow={false}/>}
  {stage===5&&<GovernancePair left={['任意framework','リスクを管理・改善','組織内の共通言語','法的適合は独立に確認']} right={['認証規格','組織の管理体制','要求・範囲と実審査','個々の出力安全は別']} id={id} phase={phase} arrow={false}/>}
  <Text y={412} small>法域・用途・役割・一次情報を、技術担当と法務の判断へ結ぶ。</Text>

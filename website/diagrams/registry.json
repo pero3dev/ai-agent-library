@@ -14710,6 +14710,372 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "compliance-regulatory-map",
+      "article": "docs/06-security/compliance-and-governance.md",
+      "route": "/docs/security/compliance-and-governance",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: 5 つの問いに分解する",
+        "規制の全体像(2026-09-10 時点)"
+      ],
+      "sourceHeadings": [
+        "概要: 5 つの問いに分解する",
+        "規制の全体像(2026-09-10 時点)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 3
+          },
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 3
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:ac4344700f34505c84c0978ba4b063e318e3c4c88ff5318d195b8ac9c106e196",
+      "reviewedDigest": "sha256:ac4344700f34505c84c0978ba4b063e318e3c4c88ff5318d195b8ac9c106e196",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "compliance-data-governance",
+      "article": "docs/06-security/compliance-and-governance.md",
+      "route": "/docs/security/compliance-and-governance",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "データ保護と会話ログ",
+        "社内ガバナンス"
+      ],
+      "sourceHeadings": [
+        "データ保護と会話ログ",
+        "社内ガバナンス"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:2003cc4c89034554104f1f3d6933f0f26ffc4d776b881be76db5c167696cb9ab",
+      "reviewedDigest": "sha256:2003cc4c89034554104f1f3d6933f0f26ffc4d776b881be76db5c167696cb9ab",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "compliance-audit-vendor",
+      "article": "docs/06-security/compliance-and-governance.md",
+      "route": "/docs/security/compliance-and-governance",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "監査への備え",
+        "ベンダー契約チェック"
+      ],
+      "sourceHeadings": [
+        "監査への備え",
+        "ベンダー契約チェック"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:65e74739fcd45dd096a76bc353f9582300568d7e045e2eb22fcf7615356e0b07",
+      "reviewedDigest": "sha256:65e74739fcd45dd096a76bc353f9582300568d7e045e2eb22fcf7615356e0b07",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "standards-types-stage",
+      "article": "docs/06-security/ai-standards-and-certification.md",
+      "route": "/docs/security/ai-standards-and-certification",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "規格の地図: 「認証できるもの」と「指針」を分ける",
+        "発行済み規格と評価ガイド・草案を見分ける",
+        "ISO/IEC 42001 とは(所在レベル)"
+      ],
+      "sourceHeadings": [
+        "規格の地図: 「認証できるもの」と「指針」を分ける",
+        "発行済み規格と評価ガイド・草案を見分ける",
+        "ISO/IEC 42001 とは(所在レベル)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:609b0c2ef83a2fa554d0e3860bfbab6f2f3b7f964c06ce46999a66d53e81a80f",
+      "reviewedDigest": "sha256:609b0c2ef83a2fa554d0e3860bfbab6f2f3b7f964c06ce46999a66d53e81a80f",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "standards-fit-maintain",
+      "article": "docs/06-security/ai-standards-and-certification.md",
+      "route": "/docs/security/ai-standards-and-certification",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "認証を取る意味と限界",
+        "適合の進め方",
+        "監査対応",
+        "取得判断のフレーム"
+      ],
+      "sourceHeadings": [
+        "認証を取る意味と限界",
+        "適合の進め方",
+        "監査対応",
+        "取得判断のフレーム"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:a61776b81cca6f3dd5d164565ae5c160dc72229c1e3fdea4f71c3c42557d5a95",
+      "reviewedDigest": "sha256:a61776b81cca6f3dd5d164565ae5c160dc72229c1e3fdea4f71c3c42557d5a95",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "frontier-framework-report",
+      "article": "docs/06-security/frontier-safety-overview.md",
+      "route": "/docs/security/frontier-safety-overview",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: 「アプリの安全」ではなく「能力の安全」",
+        "各社フレームワークの共通構造",
+        "公表文書の版と対象日を分けて読む"
+      ],
+      "sourceHeadings": [
+        "概要: 「アプリの安全」ではなく「能力の安全」",
+        "各社フレームワークの共通構造",
+        "公表文書の版と対象日を分けて読む"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:49bf17e4a980d6862bcedf23424fad17b2a96aad47c9e62c2ed0d82b43dcace2",
+      "reviewedDigest": "sha256:49bf17e4a980d6862bcedf23424fad17b2a96aad47c9e62c2ed0d82b43dcace2",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "frontier-procurement-observation",
+      "article": "docs/06-security/frontier-safety-overview.md",
+      "route": "/docs/security/frontier-safety-overview",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "危険能力評価の領域(概観)",
+        "第三者機関と評価エコシステム",
+        "実務者への含意: 何を評価軸にするか",
+        "変わりやすい項目(定点観測)"
+      ],
+      "sourceHeadings": [
+        "危険能力評価の領域(概観)",
+        "第三者機関と評価エコシステム",
+        "実務者への含意: 何を評価軸にするか",
+        "変わりやすい項目(定点観測)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:762ce24f18122a5e1812055e1cfb5f17603bd101c2d75ad5825d6351966406fc",
+      "reviewedDigest": "sha256:762ce24f18122a5e1812055e1cfb5f17603bd101c2d75ad5825d6351966406fc",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

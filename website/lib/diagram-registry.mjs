@@ -1,3 +1,4 @@
+import { SYNTHETIC_SANDBOX_INTEROP_BINDINGS } from './synthetic-sandbox-interop-bindings.mjs'
 import { SLM_COMPUTER_VOICE_BINDINGS } from './slm-computer-voice-bindings.mjs'
 import { CATALOGUE_OSS_LOCAL_BINDINGS } from './catalogue-oss-local-bindings.mjs'
 import { FRAMEWORK_MODEL_TUNING_BINDINGS } from './framework-model-tuning-bindings.mjs'
@@ -28,6 +29,7 @@ import { readFileSync } from 'node:fs'
 // IDs resolve to code-owned bindings, never to module paths supplied by Markdown
 // or the registry. Adding a diagram requires an explicit implementation change.
 const BINDINGS = {
+  ...SYNTHETIC_SANDBOX_INTEROP_BINDINGS,
   ...SLM_COMPUTER_VOICE_BINDINGS,
   ...CATALOGUE_OSS_LOCAL_BINDINGS,
   ...FRAMEWORK_MODEL_TUNING_BINDINGS,

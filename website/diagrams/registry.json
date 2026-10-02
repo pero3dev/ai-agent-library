@@ -10132,6 +10132,290 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "cross-provider-map",
+      "article": "docs/03-implementation/cross-model-prompting.md",
+      "route": "/docs/implementation/cross-model-prompting",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 何が普遍で、何がモデル依存か",
+        "相違の構造マップ(3 社横並び)",
+        "特に壊れやすい差分"
+      ],
+      "sourceHeadings": [
+        "概要: 何が普遍で、何がモデル依存か",
+        "相違の構造マップ(3 社横並び)",
+        "特に壊れやすい差分"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:8f095c2db179eb13acaf3384340da8695d55cc243bfb7b1f76ab85d4a7b715d2",
+      "reviewedDigest": "sha256:8f095c2db179eb13acaf3384340da8695d55cc243bfb7b1f76ab85d4a7b715d2",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "cross-provider-migration",
+      "article": "docs/03-implementation/cross-model-prompting.md",
+      "route": "/docs/implementation/cross-model-prompting",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "移行チェックリスト",
+        "マルチプロバイダー設計"
+      ],
+      "sourceHeadings": [
+        "移行チェックリスト",
+        "マルチプロバイダー設計"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:b29a54a0ed84e028992f8a531a4febc75422fa2de6ce92145e977bdd152a68c8",
+      "reviewedDigest": "sha256:b29a54a0ed84e028992f8a531a4febc75422fa2de6ce92145e977bdd152a68c8",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "mcp-connection-versions",
+      "article": "docs/03-implementation/mcp-and-tool-protocols.md",
+      "route": "/docs/implementation/mcp-and-tool-protocols",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: N × M 問題を解く標準",
+        "詳細: 構成要素",
+        "仕様版と SDK の版を分けて選ぶ"
+      ],
+      "sourceHeadings": [
+        "概要: N × M 問題を解く標準",
+        "詳細: 構成要素",
+        "仕様版と SDK の版を分けて選ぶ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:b84957a09b6bf3547386d5ea9097a48e2f8fb45de06bbb3253d02a3bb831d612",
+      "reviewedDigest": "sha256:b84957a09b6bf3547386d5ea9097a48e2f8fb45de06bbb3253d02a3bb831d612",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "mcp-tool-authority",
+      "article": "docs/03-implementation/mcp-and-tool-protocols.md",
+      "route": "/docs/implementation/mcp-and-tool-protocols",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "Python サンプルで確認する境界",
+        "設計判断: 自前ツールか、MCP サーバーか",
+        "詳細: セキュリティ — 外部サーバーはサプライチェーン"
+      ],
+      "sourceHeadings": [
+        "Python サンプルで確認する境界",
+        "設計判断: 自前ツールか、MCP サーバーか",
+        "詳細: セキュリティ — 外部サーバーはサプライチェーン"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:e9f232ef6097e4a298ab6e414be0f5dace97b686e700098c484c41cbef37ce90",
+      "reviewedDigest": "sha256:e9f232ef6097e4a298ab6e414be0f5dace97b686e700098c484c41cbef37ce90",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "evaluation-layers-graders",
+      "article": "docs/04-evaluation/agent-evaluation-basics.md",
+      "route": "/docs/evaluation/agent-evaluation-basics",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: なぜ Agent の評価は普通のテストより難しいか",
+        "詳細: 評価対象の 3 層",
+        "詳細: 採点方法の 3 分類"
+      ],
+      "sourceHeadings": [
+        "概要: なぜ Agent の評価は普通のテストより難しいか",
+        "詳細: 評価対象の 3 層",
+        "詳細: 採点方法の 3 分類"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:08ab6f80af95c671444f6db35534549206b5de134538988814f534e632ce4064",
+      "reviewedDigest": "sha256:08ab6f80af95c671444f6db35534549206b5de134538988814f534e632ce4064",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "evaluation-harness-decision",
+      "article": "docs/04-evaluation/agent-evaluation-basics.md",
+      "route": "/docs/evaluation/agent-evaluation-basics",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "詳細: 評価データセットの作り方",
+        "詳細: 評価ハーネスの最小構成",
+        "設計判断: メトリクスの決め方",
+        "設計判断: 開発フェーズ別の投資"
+      ],
+      "sourceHeadings": [
+        "詳細: 評価データセットの作り方",
+        "詳細: 評価ハーネスの最小構成",
+        "設計判断: メトリクスの決め方",
+        "設計判断: 開発フェーズ別の投資"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:950c574d2fbeb22328efab9cfb080b37925e0719cc28c578334978cdd29fbb2c",
+      "reviewedDigest": "sha256:950c574d2fbeb22328efab9cfb080b37925e0719cc28c578334978cdd29fbb2c",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

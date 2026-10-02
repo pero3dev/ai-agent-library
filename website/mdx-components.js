@@ -1,3 +1,4 @@
+import { SlmComputerVoiceWalkthrough } from './components/diagrams/slm-computer-voice-walkthrough'
 import { CatalogueOssLocalWalkthrough } from './components/diagrams/catalogue-oss-local-walkthrough'
 import { FrameworkModelTuningWalkthrough } from './components/diagrams/framework-model-tuning-walkthrough'
 import { RagMemoryGraphWalkthrough } from './components/diagrams/rag-memory-graph-walkthrough'
@@ -61,6 +62,7 @@ export const useMDXComponents = components => ({
   ActionBoundariesWalkthrough,
   HarnessLoopWalkthrough,
   DurableContractWalkthrough,
+  SlmComputerVoiceWalkthrough,
   CatalogueOssLocalWalkthrough,
   FrameworkModelTuningWalkthrough,
   RagMemoryGraphWalkthrough,

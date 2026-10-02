@@ -3,7 +3,7 @@ title: "音声エージェントの実装"
 category: "implementation"
 level: "advanced"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-10-02"
 tags: ["voice-agents", "streaming", "multimodal"]
 ---
 
@@ -11,7 +11,7 @@ tags: ["voice-agents", "streaming", "multimodal"]
 
 ## この記事の目的
 
-音声で対話しツールで行動するエージェントを実装するときの設計判断を扱います。2 つのアーキテクチャ(パイプライン型 / speech-to-speech 型)の選択、レイテンシ設計、ターンテイキングと割り込みの制御、ツール呼び出しとの統合、音声特有の評価を、自分の要件に合わせて組み立てられるようになります。
+音声で対話しツールで行動するエージェントを実装するときの設計判断を扱います。パイプライン型、単一の音声モデル、音声対話とバックエンドを分ける構成の選択、レイテンシ設計、ターンテイキングと割り込みの制御、ツール呼び出しとの統合、音声特有の評価を、自分の要件に合わせて組み立てられるようになります。
 
 ## 対象読者
 
@@ -44,7 +44,7 @@ flowchart TB
     end
 ```
 
-### 2 つのアーキテクチャ
+### アーキテクチャと制御の位置
 
 | 観点 | パイプライン型(STT → LLM → TTS) | speech-to-speech 型(realtime) |
 | --- | --- | --- |
@@ -57,6 +57,8 @@ flowchart TB
 選択の目安です。**電話応対のような自然な会話体験が主目的**で、割り込みへの即応が要るなら speech-to-speech 型が有利です。**各段の可視性が必須**(発話前のポリシーチェック、承認ゲート、確定的な会話ログ)な業務や、**既存のテキスト Agent を音声化**する場合はパイプライン型が堅実です。2026-08 時点では、speech-to-speech の API は主要ベンダーの一部が一般提供・一部がプレビュー段階で、パイプライン型を公式の想定構成とするベンダーもあります。提供状況は変化が速いため、選定時に各社公式ドキュメントで確認してください(調査記録: `research/professional/voice-agents.md`)。
 
 なお両者は排他ではありません。「検証はパイプライン型で始めて資産(プロンプト・評価)を作り、体験要件が確認できたら speech-to-speech に載せ替える」という段階的な進め方も現実的です。
+
+**部分再確認(2026-10-02):** OpenAI の公式ガイドは、GPT-Live の全二重(full duplex)構成も区分しています。音声側は聞く・話すを同時に行い、推論・ツール処理は別のバックエンドへ委譲するため、処理中も会話を続けられます。既存のテキスト処理を接続するクライアント側委譲(client delegation)と、OpenAI がホストする Responses モデルへの委譲(Responses delegation)があり、いずれもアプリが権限と業務記録を制御します。単一モデルで音声・推論・ツールを担う Realtime API や、各段を検査するパイプラインとは制御点が異なります。会話の継続を業務処理の完了や承認に読み替えません。他社の提供条件・終了予定は2026-09-10の確認範囲のままです。
 
 ### レイテンシ設計
 
@@ -115,7 +117,7 @@ AWS の旧 `amazon.nova-sonic-v1:0` は 2026-09-14 EOL と案内されていま�
 
 ### チェックリスト
 
-- [ ] アーキテクチャ(パイプライン / speech-to-speech)の選択理由を制御性・レイテンシ・既存資産の観点で説明できる
+- [ ] アーキテクチャ(パイプライン / 単一の音声モデル / 音声対話と別バックエンド)の選択理由を制御点・レイテンシ・既存資産の観点で説明できる
 - [ ] first-audio latency を段ごと・分布で計測している
 - [ ] パイプライン型なら全段ストリーミング(文単位の TTS 送り)になっている
 - [ ] ターン検出の感度をユースケースに合わせて調整し、誤割り込み率を測っている
@@ -141,7 +143,7 @@ AWS の旧 `amazon.nova-sonic-v1:0` は 2026-09-14 EOL と案内されていま�
 - [提供仕様・終了日程: ai.google.dev](https://ai.google.dev/gemini-api/docs/changelog)(アクセス日: 2026-09-10)
 - [提供仕様・終了日程: docs.aws.amazon.com](https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle-legacy.html)(アクセス日: 2026-09-10)
 
-- [Voice agents(OpenAI)](https://developers.openai.com/api/docs/guides/voice-agents) — speech-to-speech とパイプラインの 2 択整理と使い分けの公式ガイド(アクセス日: 2026-07-07)
+- [Voice agents(OpenAI)](https://developers.openai.com/api/docs/guides/voice-agents) — GPT-Live、Realtime API、パイプラインの制御点と使い分けの公式ガイド(アクセス日: 2026-10-02)
 - [Gemini Live API(Google)](https://ai.google.dev/gemini-api/docs/live-api) — リアルタイム音声対話 API の例。2026-08 時点で Gemini Developer API 版は Preview、Vertex AI 版は 2025-12-13 に GA(Gemini 2.5 Flash Native Audio)(アクセス日: 2026-08-18)
 - [Amazon Nova speech-to-speech(AWS)](https://docs.aws.amazon.com/nova/latest/nova2-userguide/using-conversational-speech.html) — 双方向ストリームと非同期ツール実行の例(アクセス日: 2026-08-18)
 - [Low-latency voice assistant with ElevenLabs + Claude(Anthropic Cookbook)](https://platform.claude.com/cookbook/third-party-elevenlabs-low-latency-stt-claude-tts) — パイプライン型の実装とレイテンシ実測の公式例(アクセス日: 2026-08-18)

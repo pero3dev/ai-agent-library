@@ -9024,6 +9024,328 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "slm-quality-components",
+      "article": "docs/03-implementation/slm-strategy.md",
+      "route": "/docs/implementation/slm-strategy",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "概要: 分担と「小型を活かす」",
+        "SLM の性格: 得意領域と品質の境界",
+        "SLM ファースト設計"
+      ],
+      "sourceHeadings": [
+        "概要: 分担と「小型を活かす」",
+        "SLM の性格: 得意領域と品質の境界",
+        "SLM ファースト設計"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:32a1774fb7a53a793cf504a16558b269ded191249625f8ccafa88a652da7a63f",
+      "reviewedDigest": "sha256:32a1774fb7a53a793cf504a16558b269ded191249625f8ccafa88a652da7a63f",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "slm-routing-cost",
+      "article": "docs/03-implementation/slm-strategy.md",
+      "route": "/docs/implementation/slm-strategy",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "ルーティング: 難易度で振り分ける",
+        "タスク特化: 「SLM で十分」な部品を切り出す",
+        "FT・蒸留との組み合わせ",
+        "評価: タスク別の品質ゲート"
+      ],
+      "sourceHeadings": [
+        "ルーティング: 難易度で振り分ける",
+        "タスク特化: 「SLM で十分」な部品を切り出す",
+        "FT・蒸留との組み合わせ",
+        "評価: タスク別の品質ゲート"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:0ae10dc527aa517d7c3dea60bd911ec73f660b916a5db5d13fa5bc180f859b35",
+      "reviewedDigest": "sha256:0ae10dc527aa517d7c3dea60bd911ec73f660b916a5db5d13fa5bc180f859b35",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "computer-observation-permission",
+      "article": "docs/03-implementation/computer-use-implementation.md",
+      "route": "/docs/implementation/computer-use-implementation",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 実装は「脆さと実害」への対処が中心",
+        "操作ループの実装"
+      ],
+      "sourceHeadings": [
+        "概要: 実装は「脆さと実害」への対処が中心",
+        "操作ループの実装"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:b1fd31d49f501ce82241583e976ecbc88ed2deba95f22482a07343e5650280c9",
+      "reviewedDigest": "sha256:b1fd31d49f501ce82241583e976ecbc88ed2deba95f22482a07343e5650280c9",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "computer-stability-evidence",
+      "article": "docs/03-implementation/computer-use-implementation.md",
+      "route": "/docs/implementation/computer-use-implementation",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "要素特定と安定化",
+        "待機と成功検証",
+        "「操作より API」の原則",
+        "安全策",
+        "評価とデバッグ",
+        "toolset 更新時の操作境界"
+      ],
+      "sourceHeadings": [
+        "要素特定と安定化",
+        "待機と成功検証",
+        "「操作より API」の原則",
+        "安全策",
+        "評価とデバッグ",
+        "toolset 更新時の操作境界"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:d0f48dd107d27f796890b2b1ccacf5e0446c494939d6165cf6b2abfc84a9b1fa",
+      "reviewedDigest": "sha256:d0f48dd107d27f796890b2b1ccacf5e0446c494939d6165cf6b2abfc84a9b1fa",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "voice-architecture-latency",
+      "article": "docs/03-implementation/voice-agents.md",
+      "route": "/docs/implementation/voice-agents",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: テキストとの差分は「沈黙」「ターン」「中間テキスト」",
+        "アーキテクチャと制御の位置",
+        "レイテンシ設計"
+      ],
+      "sourceHeadings": [
+        "概要: テキストとの差分は「沈黙」「ターン」「中間テキスト」",
+        "アーキテクチャと制御の位置",
+        "レイテンシ設計"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:22b648081341862c25203f97bc2b2a828823dfbc150266994f940b3c7ef50b18",
+      "reviewedDigest": "sha256:22b648081341862c25203f97bc2b2a828823dfbc150266994f940b3c7ef50b18",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "voice-interruption-tools",
+      "article": "docs/03-implementation/voice-agents.md",
+      "route": "/docs/implementation/voice-agents",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "会話制御: ターン検出と割り込み",
+        "ツール使用との統合"
+      ],
+      "sourceHeadings": [
+        "会話制御: ターン検出と割り込み",
+        "ツール使用との統合"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:a9b67a3ed5ede2ac564db1b885ae44fd965097277c58b0cc45eb6a63102d2cdb",
+      "reviewedDigest": "sha256:a9b67a3ed5ede2ac564db1b885ae44fd965097277c58b0cc45eb6a63102d2cdb",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "voice-evaluation-providers",
+      "article": "docs/03-implementation/voice-agents.md",
+      "route": "/docs/implementation/voice-agents",
+      "binding": "grouped-blocks",
+      "stageCount": 4,
+      "headings": [
+        "音声特有の評価",
+        "音声認識と対話モデルの更新を別に追う"
+      ],
+      "sourceHeadings": [
+        "音声特有の評価",
+        "音声認識と対話モデルの更新を別に追う"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:fdfa014d0d11e117c7c39edc675f12aca26e5fa7a5e18edc02d783925743b492",
+      "reviewedDigest": "sha256:fdfa014d0d11e117c7c39edc675f12aca26e5fa7a5e18edc02d783925743b492",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

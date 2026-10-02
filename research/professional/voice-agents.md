@@ -1,12 +1,18 @@
 # 音声エージェント(voice agents)の現行 API・アーキテクチャ選択肢(2026-07 時点)調査メモ
 
 - **調査日**: 2026-07-07
-- **更新日**: 2026-09-10(上の鮮度更新を優先。旧観測は履歴として保持)
+- **更新日**: 2026-10-02(次の部分更新を優先。旧観測は履歴として保持)
 - **調査目的**: `docs/03-implementation/voice-agents.md`(音声エージェントの実装)の執筆材料。記事本体は原則(パイプライン型 vs speech-to-speech 型の選択、割り込み・ターンテイキング、レイテンシ設計、ツール併用、評価)を扱い、具体的な API・モデル名は「2026-07 時点」の注記付きで軽く触れる方針。そのため本メモは「各社が何を公式に提供し、どのアーキテクチャを推奨しているか」に絞る
 - **根拠の方針**: 各社公式ドキュメント(developers.openai.com / platform.openai.com / openai.com、ai.google.dev、docs.aws.amazon.com / aws.amazon.com、platform.claude.com)と公式ブログのみを根拠とします。個人ブログ・比較記事は使用していません
 - **確度表記**: 「公式明記」= 公式ページに明文あり(URL に実際にアクセスして本文を確認済み) / 「公式から推測」= 公式記述からの合理的推測 / 「未確認」= 今回確認できず(直接アクセス不可を含む)
 
 ---
+
+## 2026-10-02 部分更新: 会話とバックエンドを分ける構成
+
+[OpenAI Voice agents](https://developers.openai.com/api/docs/guides/voice-agents)を2026-10-02に取得し、Choose the right architectureの3行とBuild a full-duplex voice agentを確認した。公式明記: GPT-Liveは聞く・話すを同時に行い、推論とツール処理を別のバックエンドへ委譲する。client delegationは既存のagent/workflowを接続し、Responses delegationはOpenAIホストのResponsesモデルへ委譲する。どちらもアプリが権限と業務記録を制御する。Realtime APIの単一モデル構成、段ごとにテキストを検査・変換するchained pipelineとは制御点が異なる。
+
+記事の2構成を全選択肢と読む表現を改め、部分確認日と上の差分を同期した。会話継続をタスク成功・不可逆操作の承認と解釈しない。他社のGA・モデル名・価格・終了日程、実音声・実ツール動作は今回再確認していない。以下の2択の記述は当時の履歴である。
 
 ## 2026-09-10 鮮度更新
 

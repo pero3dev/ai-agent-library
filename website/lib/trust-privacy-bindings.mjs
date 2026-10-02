@@ -1,0 +1,10 @@
+const grouped=(name,count,headings,groups,types)=>({article:`docs/06-security/${name}.md`,route:`/docs/security/${name}`,binding:'grouped-blocks',stageCount:count,headings,sourceHeadings:headings,blockGroups:groups,blockTypes:types})
+export const TRUST_PRIVACY_BINDINGS={
+ 'provenance-layers-loss':grouped('content-provenance-and-detection',6,['概要: 来歴と検出は「別レイヤー」','来歴の仕組み: コンテンツ資格情報と電子透かし','来歴の剥がれ方'],[[{stage:0,count:3},{stage:1,count:1}],[{stage:2,count:2},{stage:3,count:3}],[{stage:4,count:1},{stage:5,count:1}]],[['paragraph','table','list','blockquote'],['paragraph','list','paragraph','paragraph','paragraph'],['paragraph','list']]),
+ 'provenance-detection-process':grouped('content-provenance-and-detection',6,['検出の原理と限界','組織での運用','変わりやすい項目(定点観測)'],[[{stage:0,count:1},{stage:1,count:1}],[{stage:2,count:1},{stage:3,count:1}],[{stage:4,count:1},{stage:5,count:2}]],[['paragraph','list'],['paragraph','list'],['paragraph','list','paragraph']]),
+ 'impersonation-callback-process':grouped('deepfake-and-impersonation-defense',6,['概要: 「見破る」より「プロセスで止める」','脅威類型','防御の中心はプロセス','検出技術の位置づけ'],[[{stage:0,count:1}],[{stage:1,count:3}],[{stage:2,count:1},{stage:3,count:1}],[{stage:4,count:1},{stage:5,count:1}]],[['paragraph'],['paragraph','table','list'],['paragraph','list'],['paragraph','list']]),
+ 'impersonation-report-monitor':grouped('deepfake-and-impersonation-defense',5,['従業員訓練と通報経路','経営層・ブランドのなりすまし監視'],[[{stage:0,count:1},{stage:1,count:1},{stage:2,count:1}],[{stage:3,count:1},{stage:4,count:1}]],[['paragraph','list','paragraph'],['paragraph','list']]),
+ 'privacy-layers-fit':grouped('privacy-enhancing-technologies',6,['概要: 「高度な技術」の前に見取り図を'],[[{stage:0,count:1}]],[['paragraph']]),
+ 'privacy-unit-budget':grouped('privacy-enhancing-technologies',6,['技術の階層'],[[{stage:0,count:3},{stage:1,count:2},{stage:5,count:1}]],[['paragraph','table','list','paragraph','list','paragraph']]),
+ 'privacy-basic-selection':grouped('privacy-enhancing-technologies',5,['成熟度と適用場面','高度な技術より先にやること','選定の判断フレーム'],[[{stage:0,count:1},{stage:1,count:1}],[{stage:2,count:2}],[{stage:3,count:1},{stage:4,count:1}]],[['paragraph','list'],['paragraph','list'],['paragraph','list']])
+}

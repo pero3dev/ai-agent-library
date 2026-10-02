@@ -1,3 +1,4 @@
+import { EVALUATION_LIFECYCLE_BINDINGS } from './evaluation-lifecycle-bindings.mjs'
 import { EVALUATION_EVIDENCE_BINDINGS } from './evaluation-evidence-bindings.mjs'
 import { MODEL_MCP_EVALUATION_BINDINGS } from './model-mcp-evaluation-bindings.mjs'
 import { VENDOR_PROMPT_CONTROLS_BINDINGS } from './vendor-prompt-controls-bindings.mjs'
@@ -32,6 +33,7 @@ import { readFileSync } from 'node:fs'
 // IDs resolve to code-owned bindings, never to module paths supplied by Markdown
 // or the registry. Adding a diagram requires an explicit implementation change.
 const BINDINGS = {
+  ...EVALUATION_LIFECYCLE_BINDINGS,
   ...EVALUATION_EVIDENCE_BINDINGS,
   ...MODEL_MCP_EVALUATION_BINDINGS,
   ...VENDOR_PROMPT_CONTROLS_BINDINGS,

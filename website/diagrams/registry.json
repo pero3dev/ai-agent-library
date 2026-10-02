@@ -12820,6 +12820,310 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "deployment-state-execution",
+      "article": "docs/05-operations/deployment-and-scaling.md",
+      "route": "/docs/operations/deployment-and-scaling",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: Agent 特有のインフラ制約",
+        "実行形態の選択",
+        "状態管理とスケールアウト"
+      ],
+      "sourceHeadings": [
+        "概要: Agent 特有のインフラ制約",
+        "実行形態の選択",
+        "状態管理とスケールアウト"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          },
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:a70d28ebd2bf628af4a3041b5e9ef30d904f6aa6cac1edac062cf65fa092a331",
+      "reviewedDigest": "sha256:a70d28ebd2bf628af4a3041b5e9ef30d904f6aa6cac1edac062cf65fa092a331",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "deployment-capacity-fallback",
+      "article": "docs/05-operations/deployment-and-scaling.md",
+      "route": "/docs/operations/deployment-and-scaling",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "レート制限と容量設計",
+        "フォールバックと多重化",
+        "ロールアウト戦略"
+      ],
+      "sourceHeadings": [
+        "レート制限と容量設計",
+        "フォールバックと多重化",
+        "ロールアウト戦略"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:1361cea32f6a0a63308fe5049e4ad7e2fef4f95af5902f1f818bc7b842364bfe",
+      "reviewedDigest": "sha256:1361cea32f6a0a63308fe5049e4ad7e2fef4f95af5902f1f818bc7b842364bfe",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "resident-maintenance-signals",
+      "article": "docs/05-operations/long-running-agents.md",
+      "route": "/docs/operations/long-running-agents",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 分担と「ライフサイクル全体」",
+        "長期運用で起きる劣化の類型",
+        "定期メンテナンスの設計"
+      ],
+      "sourceHeadings": [
+        "概要: 分担と「ライフサイクル全体」",
+        "長期運用で起きる劣化の類型",
+        "定期メンテナンスの設計"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:a7a049b063359acd6ee31649e3565e619b9e6bdc04e97791bef7ae20de8ec81c",
+      "reviewedDigest": "sha256:a7a049b063359acd6ee31649e3565e619b9e6bdc04e97791bef7ae20de8ec81c",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "resident-succession-retirement",
+      "article": "docs/05-operations/long-running-agents.md",
+      "route": "/docs/operations/long-running-agents",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "世代交代: 新しい個体への引き継ぎ",
+        "個体差の管理",
+        "退役の設計"
+      ],
+      "sourceHeadings": [
+        "世代交代: 新しい個体への引き継ぎ",
+        "個体差の管理",
+        "退役の設計"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:6241ac0260e490479fada7719b9f1ed9ee29714c05b46cb80eebaa08de177ded",
+      "reviewedDigest": "sha256:6241ac0260e490479fada7719b9f1ed9ee29714c05b46cb80eebaa08de177ded",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "mlops-common-differences",
+      "article": "docs/05-operations/mlops-and-llmops.md",
+      "route": "/docs/operations/mlops-and-llmops",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: LLMOps は MLOps の「別物」ではなく「差分」",
+        "共通点と相違点",
+        "再利用できる既存基盤・できないもの"
+      ],
+      "sourceHeadings": [
+        "概要: LLMOps は MLOps の「別物」ではなく「差分」",
+        "共通点と相違点",
+        "再利用できる既存基盤・できないもの"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          },
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:4f32d23602a6382c3d19744e3e518f6cf0417bace7434ed16669d9b5db905a86",
+      "reviewedDigest": "sha256:4f32d23602a6382c3d19744e3e518f6cf0417bace7434ed16669d9b5db905a86",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "mlops-roles-training-join",
+      "article": "docs/05-operations/mlops-and-llmops.md",
+      "route": "/docs/operations/mlops-and-llmops",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "役割分担",
+        "ツール類型: 特化型 vs 既存拡張",
+        "ファインチューニングを始めたときの合流点"
+      ],
+      "sourceHeadings": [
+        "役割分担",
+        "ツール類型: 特化型 vs 既存拡張",
+        "ファインチューニングを始めたときの合流点"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:0cbe56d38455b25a789598405ac57e290f3ac88079ec764a372734bff6844382",
+      "reviewedDigest": "sha256:0cbe56d38455b25a789598405ac57e290f3ac88079ec764a372734bff6844382",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

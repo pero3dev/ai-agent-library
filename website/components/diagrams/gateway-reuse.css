@@ -1,0 +1,14 @@
+.gateway-reuse-walkthrough .aw-layout{align-items:start}
+.gateway-reuse-walkthrough .lf-box text{opacity:1}
+.gateway-reuse-walkthrough .aw-prose table{display:block;max-width:100%;overflow-x:auto}
+.gateway-reuse-walkthrough .aw-prose th{white-space:nowrap}
+.gateway-reuse-walkthrough .aw-prose td{min-width:10rem}
+.gateway-reuse-walkthrough .aw-prose td:first-child{min-width:6rem}
+@media print{
+ .gateway-reuse-walkthrough .aw-prose table{display:table;width:100%;overflow:visible}
+ .gateway-reuse-walkthrough .aw-prose td{min-width:0}
+ .gateway-reuse-walkthrough .aw-prose th{white-space:normal}
+}
+.gateway-reuse-walkthrough .gr-bar-teal{fill:#6be4cd}
+.gateway-reuse-walkthrough .gr-bar-violet{fill:#b8a6f0}
+.gateway-reuse-walkthrough .gr-bar-amber{fill:#ffca7b}

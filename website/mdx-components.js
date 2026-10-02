@@ -1,3 +1,4 @@
+import { EvaluationEvidenceWalkthrough } from './components/diagrams/evaluation-evidence-walkthrough'
 import { ModelMcpEvaluationWalkthrough } from './components/diagrams/model-mcp-evaluation-walkthrough'
 import { VendorPromptControlsWalkthrough } from './components/diagrams/vendor-prompt-controls-walkthrough'
 import { SyntheticSandboxInteropWalkthrough } from './components/diagrams/synthetic-sandbox-interop-walkthrough'
@@ -65,6 +66,7 @@ export const useMDXComponents = components => ({
   ActionBoundariesWalkthrough,
   HarnessLoopWalkthrough,
   DurableContractWalkthrough,
+  EvaluationEvidenceWalkthrough,
   ModelMcpEvaluationWalkthrough,
   VendorPromptControlsWalkthrough,
   SyntheticSandboxInteropWalkthrough,

@@ -1,0 +1,14 @@
+.hardware-serving-walkthrough .aw-layout{align-items:start}
+.hardware-serving-walkthrough .lf-box text{opacity:1}
+.hardware-serving-walkthrough .aw-prose table{display:block;max-width:100%;overflow-x:auto}
+.hardware-serving-walkthrough .aw-prose th{white-space:nowrap}
+.hardware-serving-walkthrough .aw-prose td{min-width:10rem}
+.hardware-serving-walkthrough .aw-prose td:first-child{min-width:6rem}
+@media print{
+ .hardware-serving-walkthrough .aw-prose table{display:table;width:100%;overflow:visible}
+ .hardware-serving-walkthrough .aw-prose td{min-width:0}
+ .hardware-serving-walkthrough .aw-prose th{white-space:normal}
+}
+.hardware-serving-walkthrough .gr-bar-teal{fill:#6be4cd}
+.hardware-serving-walkthrough .gr-bar-violet{fill:#b8a6f0}
+.hardware-serving-walkthrough .gr-bar-amber{fill:#ffca7b}

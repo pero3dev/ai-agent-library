@@ -11248,6 +11248,298 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "fairness-types-measurement",
+      "article": "docs/04-evaluation/fairness-and-bias-evaluation.md",
+      "route": "/docs/evaluation/fairness-and-bias-evaluation",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 分担と「測って改善する」姿勢",
+        "バイアスの類型",
+        "評価設計: 対照ペアテストと層別評価"
+      ],
+      "sourceHeadings": [
+        "概要: 分担と「測って改善する」姿勢",
+        "バイアスの類型",
+        "評価設計: 対照ペアテストと層別評価"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:eea28be59a68cb0bf4972625ca1f0b8b3e55359660b634bcfde9cb5cbe8aabcc",
+      "reviewedDigest": "sha256:eea28be59a68cb0bf4972625ca1f0b8b3e55359660b634bcfde9cb5cbe8aabcc",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "fairness-japanese-remediation",
+      "article": "docs/04-evaluation/fairness-and-bias-evaluation.md",
+      "route": "/docs/evaluation/fairness-and-bias-evaluation",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "日本語・日本文化圏の観点",
+        "対応の選択肢と限界",
+        "「完全な公平」ではなく「測って改善する」"
+      ],
+      "sourceHeadings": [
+        "日本語・日本文化圏の観点",
+        "対応の選択肢と限界",
+        "「完全な公平」ではなく「測って改善する」"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 1
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:65c45fd2cc16623f8ea9978f6a95c0136cf777b26c0dcbc93cb7de6a5d417dad",
+      "reviewedDigest": "sha256:65c45fd2cc16623f8ea9978f6a95c0136cf777b26c0dcbc93cb7de6a5d417dad",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "japanese-axes-exceptions",
+      "article": "docs/04-evaluation/japanese-quality-evaluation.md",
+      "route": "/docs/evaluation/japanese-quality-evaluation",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 分担と「日本語固有」の射程",
+        "日本語固有の品質軸",
+        "評価データの作り方"
+      ],
+      "sourceHeadings": [
+        "概要: 分担と「日本語固有」の射程",
+        "日本語固有の品質軸",
+        "評価データの作り方"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          },
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:2873d3e552e057321008def3fd98da5e636098b8ae6da8a293b8a139c91a784c",
+      "reviewedDigest": "sha256:2873d3e552e057321008def3fd98da5e636098b8ae6da8a293b8a139c91a784c",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "japanese-judge-division",
+      "article": "docs/04-evaluation/japanese-quality-evaluation.md",
+      "route": "/docs/evaluation/japanese-quality-evaluation",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "judge の日本語能力を検証する",
+        "自動チェックと judge の分担",
+        "公開日本語ベンチマークの読み方"
+      ],
+      "sourceHeadings": [
+        "judge の日本語能力を検証する",
+        "自動チェックと judge の分担",
+        "公開日本語ベンチマークの読み方"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 1
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:c92669af8ae07a93ac2a1e724376852c245eed3f61d435290dab987b1ba86d02",
+      "reviewedDigest": "sha256:c92669af8ae07a93ac2a1e724376852c245eed3f61d435290dab987b1ba86d02",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "trace-hierarchy-versions",
+      "article": "docs/05-operations/observability-and-tracing.md",
+      "route": "/docs/operations/observability-and-tracing",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: なぜ普通の APM では足りないか",
+        "詳細: トレースの階層設計"
+      ],
+      "sourceHeadings": [
+        "概要: なぜ普通の APM では足りないか",
+        "詳細: トレースの階層設計"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          },
+          {
+            "stage": 2,
+            "count": 2
+          },
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:e48601fdd3bcb3f9dc83bf8766625b037f2bf2be41d555d9e610870c85cffaeb",
+      "reviewedDigest": "sha256:e48601fdd3bcb3f9dc83bf8766625b037f2bf2be41d555d9e610870c85cffaeb",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "trace-signals-data-response",
+      "article": "docs/05-operations/observability-and-tracing.md",
+      "route": "/docs/operations/observability-and-tracing",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "詳細: メトリクスは「技術」と「品質」の 2 系統",
+        "詳細: ログの中身は機微データ",
+        "設計判断: 何で作るか",
+        "詳細: アラートから対応へ"
+      ],
+      "sourceHeadings": [
+        "詳細: メトリクスは「技術」と「品質」の 2 系統",
+        "詳細: ログの中身は機微データ",
+        "設計判断: 何で作るか",
+        "詳細: アラートから対応へ"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          },
+          {
+            "stage": 1,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 3
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:512d5ec5d63f29a2e34ce3eefd20fb1ee64a1c8026c8d0582abcd6b1ba75adce",
+      "reviewedDigest": "sha256:512d5ec5d63f29a2e34ce3eefd20fb1ee64a1c8026c8d0582abcd6b1ba75adce",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

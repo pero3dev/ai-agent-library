@@ -1,3 +1,4 @@
+import { QUALITY_TRACE_BINDINGS } from './quality-trace-bindings.mjs'
 import { EVALUATION_CONTEXT_BINDINGS } from './evaluation-context-bindings.mjs'
 import { EVALUATION_LIFECYCLE_BINDINGS } from './evaluation-lifecycle-bindings.mjs'
 import { EVALUATION_EVIDENCE_BINDINGS } from './evaluation-evidence-bindings.mjs'
@@ -34,6 +35,7 @@ import { readFileSync } from 'node:fs'
 // IDs resolve to code-owned bindings, never to module paths supplied by Markdown
 // or the registry. Adding a diagram requires an explicit implementation change.
 const BINDINGS = {
+  ...QUALITY_TRACE_BINDINGS,
   ...EVALUATION_CONTEXT_BINDINGS,
   ...EVALUATION_LIFECYCLE_BINDINGS,
   ...EVALUATION_EVIDENCE_BINDINGS,

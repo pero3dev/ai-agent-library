@@ -1,3 +1,4 @@
+import { CASE_DECISIONS_BINDINGS } from './case-decisions-bindings.mjs'
 import { CASE_EVIDENCE_BINDINGS } from './case-evidence-bindings.mjs'
 import { GOVERNANCE_SAFETY_BINDINGS } from './governance-safety-bindings.mjs'
 import { TRUST_PRIVACY_BINDINGS } from './trust-privacy-bindings.mjs'
@@ -47,6 +48,7 @@ import { readFileSync } from 'node:fs'
 // IDs resolve to code-owned bindings, never to module paths supplied by Markdown
 // or the registry. Adding a diagram requires an explicit implementation change.
 const BINDINGS = {
+  ...CASE_DECISIONS_BINDINGS,
   ...CASE_EVIDENCE_BINDINGS,
   ...GOVERNANCE_SAFETY_BINDINGS,
   ...TRUST_PRIVACY_BINDINGS,

@@ -15328,6 +15328,274 @@
       "enabled": true,
       "status": "reviewed",
       "articleCoverage": "pending"
+    },
+    {
+      "id": "expense-migration-evidence",
+      "article": "docs/07-case-studies/case-study-expense-agent.md",
+      "route": "/docs/case-studies/case-study-expense-agent",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: 題材と最終形",
+        "詳細: v0 — 単発の LLM 呼び出し(規定 Q&A)",
+        "詳細: v1 — Workflow 型(照会の追加)",
+        "詳細: v2 — ツール実行型 Agent への移行(判断の根拠つき)"
+      ],
+      "sourceHeadings": [
+        "概要: 題材と最終形",
+        "詳細: v0 — 単発の LLM 呼び出し(規定 Q&A)",
+        "詳細: v1 — Workflow 型(照会の追加)",
+        "詳細: v2 — ツール実行型 Agent への移行(判断の根拠つき)"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 4
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:8bc11c6b8a542dc0f528b1cedffef81ed3a13843fd2e05c92e091a2da5934368",
+      "reviewedDigest": "sha256:8bc11c6b8a542dc0f528b1cedffef81ed3a13843fd2e05c92e091a2da5934368",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "expense-write-regression",
+      "article": "docs/07-case-studies/case-study-expense-agent.md",
+      "route": "/docs/case-studies/case-study-expense-agent",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "詳細: v3 — 書き込みの追加は「承認付き」で",
+        "詳細: 投入前の評価と運用開始",
+        "設計判断: この事例の教訓"
+      ],
+      "sourceHeadings": [
+        "詳細: v3 — 書き込みの追加は「承認付き」で",
+        "詳細: 投入前の評価と運用開始",
+        "設計判断: この事例の教訓"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:cbbc3aa8ce3dd47125c0883a1e4c0e0a3efc9b9fe9c6d4a324ed3219ae4f67de",
+      "reviewedDigest": "sha256:cbbc3aa8ce3dd47125c0883a1e4c0e0a3efc9b9fe9c6d4a324ed3219ae4f67de",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "pilot-criteria-value",
+      "article": "docs/07-case-studies/case-study-failed-poc.md",
+      "route": "/docs/case-studies/case-study-failed-poc",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "概要: 何をやろうとして、なぜやめたか",
+        "詳細: 発端 — デモの罠",
+        "詳細: パイロット — 品質が出ない",
+        "詳細: 崩れる試算 — 成功基準を緩める誘惑"
+      ],
+      "sourceHeadings": [
+        "概要: 何をやろうとして、なぜやめたか",
+        "詳細: 発端 — デモの罠",
+        "詳細: パイロット — 品質が出ない",
+        "詳細: 崩れる試算 — 成功基準を緩める誘惑"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:6c46edb596122a3d5f1e7aa10c60eb3d48d8c9bb89353c23956eb788894a872f",
+      "reviewedDigest": "sha256:6c46edb596122a3d5f1e7aa10c60eb3d48d8c9bb89353c23956eb788894a872f",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "pilot-withdrawal-assets",
+      "article": "docs/07-case-studies/case-study-failed-poc.md",
+      "route": "/docs/case-studies/case-study-failed-poc",
+      "binding": "grouped-blocks",
+      "stageCount": 6,
+      "headings": [
+        "詳細: 撤退の判断 — サンクコストに抗う",
+        "詳細: 撤退の実務 — 何を残すか",
+        "設計判断: この事例の教訓"
+      ],
+      "sourceHeadings": [
+        "詳細: 撤退の判断 — サンクコストに抗う",
+        "詳細: 撤退の実務 — 何を残すか",
+        "設計判断: この事例の教訓"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 3,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 5,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:463dbfb30cb5207b21cb97dbea67b41f6eb8017d342948f23968d6a2d6c82f60",
+      "reviewedDigest": "sha256:463dbfb30cb5207b21cb97dbea67b41f6eb8017d342948f23968d6a2d6c82f60",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "helpdesk-action-boundary",
+      "article": "docs/07-case-studies/case-study-it-helpdesk-agent.md",
+      "route": "/docs/case-studies/case-study-it-helpdesk-agent",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "概要: 題材と「実行して初めて価値が出る」性質",
+        "詳細: v0〜v1 — 照会から始める",
+        "詳細: v2 — 実行の開放は「1 操作ずつ・承認付き」で"
+      ],
+      "sourceHeadings": [
+        "概要: 題材と「実行して初めて価値が出る」性質",
+        "詳細: v0〜v1 — 照会から始める",
+        "詳細: v2 — 実行の開放は「1 操作ずつ・承認付き」で"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 1
+          }
+        ],
+        [
+          {
+            "stage": 1,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 3
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:65a592c8bc2cb1a77149aaac7fc08e90f8573d99ae4fd526c407904fd4c34c11",
+      "reviewedDigest": "sha256:65a592c8bc2cb1a77149aaac7fc08e90f8573d99ae4fd526c407904fd4c34c11",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
+    },
+    {
+      "id": "helpdesk-authority-trace",
+      "article": "docs/07-case-studies/case-study-it-helpdesk-agent.md",
+      "route": "/docs/case-studies/case-study-it-helpdesk-agent",
+      "binding": "grouped-blocks",
+      "stageCount": 5,
+      "headings": [
+        "詳細: v2 — 権限は「エージェント本人」に絞る",
+        "詳細: 実行の監査証跡",
+        "設計判断: この事例の教訓"
+      ],
+      "sourceHeadings": [
+        "詳細: v2 — 権限は「エージェント本人」に絞る",
+        "詳細: 実行の監査証跡",
+        "設計判断: この事例の教訓"
+      ],
+      "blockGroups": [
+        [
+          {
+            "stage": 0,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 2,
+            "count": 2
+          }
+        ],
+        [
+          {
+            "stage": 4,
+            "count": 1
+          }
+        ]
+      ],
+      "sourceDigest": "sha256:ee1225bff20f8637294dc77188356b97a312367f75c125cd0aeeebde7a881403",
+      "reviewedDigest": "sha256:ee1225bff20f8637294dc77188356b97a312367f75c125cd0aeeebde7a881403",
+      "enabled": true,
+      "status": "reviewed",
+      "articleCoverage": "pending"
     }
   ]
 }

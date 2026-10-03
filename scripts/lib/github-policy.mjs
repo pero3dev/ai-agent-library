@@ -9,7 +9,9 @@ export const requiredWorkflows = Object.freeze({
   'freshness-policy': Object.freeze({ path: '.github/workflows/freshness-policy.yml', event: 'pull_request_target', runName: 'Freshness policy PR #' }),
   harness: ci,
   'harness-windows': ci,
-  'harness-policy': Object.freeze({ path: '.github/workflows/harness-policy.yml', event: 'pull_request_target', runName: 'Harness policy PR #' })
+  'harness-policy': Object.freeze({ path: '.github/workflows/harness-policy.yml', event: 'pull_request_target', runName: 'Harness policy PR #' }),
+  'Audio playback regression': ci,
+  'Safari audio playback regression': ci
 })
 export const requiredChecks = Object.freeze(Object.keys(requiredWorkflows))
 

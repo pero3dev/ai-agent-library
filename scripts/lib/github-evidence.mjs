@@ -148,7 +148,7 @@ export function verifyGithubEvidence({ root = process.cwd(), prUrl, expectedHead
   const checks = pages(root, `${prefix}/commits/${expectedHead}/check-runs`, 'check_runs')
   const workflows = {}
   for (const item of protection.required_status_checks?.checks ?? []) {
-    const check = checks.filter(c => c.name === item.context && c.app?.id === 15368).sort((a, b) => b.id - a.id)[0]
+    const check = checks.filter(c => c.name === item.context && c.app?.id === 15368 && c.head_sha === expectedHead).sort((a, b) => b.id - a.id)[0]
     if (check) { const id = workflowId(check, repo); workflows[id] ??= readGitHub(root, `${prefix}/actions/runs/${id}`) }
   }
   const headCommit = readGitHub(root, `${prefix}/git/commits/${expectedHead}`)

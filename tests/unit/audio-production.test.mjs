@@ -3,12 +3,14 @@ import assert from 'node:assert/strict'
 import { mkdtemp, mkdir, readFile, readdir, rename, rm, writeFile } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
+import { spawn } from 'node:child_process'
 import { assertSafeArticlePath, discoverArticles, PrerequisiteError, productionDigest, QuotaError, readJson, readSupplementalSources, sha256, sourceDigest, sourceSections, splitSpeech, supplementalDigest, validateScript, validateSupplementalMaterial, writeJson } from '../../scripts/audio/core.mjs'
 import { askClaude, assertSubscriptionEnvironment, checkSubscription, execute, scriptSchema, scriptPrompt } from '../../scripts/audio/claude.mjs'
 import { checkAccountConfirmation, loadConfig, prepareReviewedScript, reviewProblems, runProduction } from '../../scripts/audio/pipeline.mjs'
 import { checkEngine, engineBase, evaluateSignal, synthesizeScript } from '../../scripts/audio/synthesis.mjs'
 import { parseArguments } from '../../scripts/audio-run.mjs'
 import { AuthorshipError, readScriptAuthorship, recordScriptAuthorship } from '../../scripts/audio/authorship.mjs'
+import { acquireAudioLock } from '../../scripts/audio/lock.mjs'
 
 const configPath = path.resolve('automation/audio/config.json')
 const config = await loadConfig(configPath, {})
@@ -359,6 +361,87 @@ test('invalid queue state releases the producer lock before reporting the error'
   await assert.rejects(runProduction({ ...paths, config }, dependencies), SyntaxError)
   await assert.rejects(readFile(path.join(paths.stateDir, 'run.lock')), { code: 'ENOENT' })
   assert.equal(await readFile(path.join(paths.stateDir, 'queue.json'), 'utf8'), '{invalid')
+  await rm(path.join(paths.stateDir, 'queue.json'))
+  assert.equal((await runProduction({ ...paths, config }, { ...dependencies, discover: async () => [] })).status, 'completed')
+})
+
+test('parallel same-process stale recovery never runs more than one producer', async t => {
+  const paths = await fixture(t)
+  let active = 0, maximum = 0
+  const deps = { ...dependencies, discover: async () => {
+    active++; maximum = Math.max(maximum, active)
+    try { await new Promise(resolve => setTimeout(resolve, 10)); return [] } finally { active-- }
+  } }
+  for (let round = 0; round < 30; round++) {
+    await writeJson(path.join(paths.stateDir, 'run.lock'), { pid: 2147483647, created_at: '2026-09-13T00:00:00Z' })
+    const results = await Promise.allSettled([runProduction({ ...paths, config }, deps), runProduction({ ...paths, config }, deps)])
+    assert.equal(results.filter(result => result.status === 'fulfilled').length, 1)
+    assert.match(results.find(result => result.status === 'rejected').reason.message, /already running/)
+  }
+  assert.equal(maximum, 1)
+})
+
+test('two independent child processes contend on each audio namespace without overlap', { timeout: 30000 }, async t => {
+  const paths = await fixture(t)
+  const moduleUrl = new URL('../../scripts/audio/lock.mjs', import.meta.url).href
+  const code = `
+    import { openSync, closeSync, unlinkSync } from 'node:fs';
+    import path from 'node:path';
+    const { acquireAudioLock } = await import(${JSON.stringify(moduleUrl)});
+    process.stdout.write('READY\\n');
+    await new Promise(resolve => process.stdin.once('data', resolve));
+    let lock;
+    try { lock = acquireAudioLock(process.argv[1], process.argv[2]); }
+    catch (error) { if (!/already running|Lock recovery/.test(error.message)) throw error; process.stdout.write('BLOCKED\\n'); process.exit(0); }
+    const active = path.join(process.argv[1], 'active');
+    const handle = openSync(active, 'wx'); closeSync(handle);
+    process.stdout.write('OWNER\\n');
+    await new Promise(resolve => setTimeout(resolve, 150));
+    unlinkSync(active);
+    if (!lock.release()) throw Error('Lost ownership');
+    process.stdout.write('RELEASED\\n'); process.exit(0);
+  `
+  for (const namespace of ['run', 'publication']) for (let round = 0; round < 5; round++) {
+    await writeJson(path.join(paths.stateDir, `${namespace}.lock`), { pid: 2147483647, started_at: '2026-09-13T00:00:00Z' })
+    const contenders = [0, 1].map(() => {
+      const child = spawn(process.execPath, ['--input-type=module', '-e', code, paths.stateDir, namespace], { windowsHide: true })
+      let output = '', errorOutput = ''
+      const ready = new Promise(resolve => child.stdout.on('data', bytes => { output += bytes; if (output.includes('READY\n')) resolve() }))
+      child.stderr.on('data', bytes => { errorOutput += bytes })
+      const done = new Promise((resolve, reject) => {
+        child.once('error', reject)
+        child.once('exit', code => { if (code === 0) resolve(output); else reject(new Error(`Child ${code}: ${errorOutput}`)) })
+      })
+      t.after(() => { if (child.exitCode === null) child.kill() })
+      return { child, ready, done }
+    })
+    await Promise.all(contenders.map(item => item.ready))
+    contenders.forEach(item => item.child.stdin.end('go\n'))
+    const outputs = await Promise.all(contenders.map(item => item.done))
+    assert.equal(outputs.filter(output => output.includes('OWNER\n')).length, 1)
+    assert.equal(outputs.filter(output => output.includes('BLOCKED\n')).length, 1)
+  }
+})
+
+test('replacement token cannot be released by the old owner and namespaces remain independent', async t => {
+  const { stateDir } = await fixture(t)
+  const old = acquireAudioLock(stateDir, 'run')
+  const publishing = acquireAudioLock(stateDir, 'publication')
+  await rm(path.join(stateDir, 'run.lock')) // simulate an explicitly restored replacement
+  const next = acquireAudioLock(stateDir, 'run')
+  assert.equal(old.release(), false)
+  assert.equal((await readJson(path.join(stateDir, 'run.lock'))).attempt_id, next.owner.attempt_id)
+  assert.equal(next.release(), true)
+  assert.equal(publishing.release(), true)
+})
+
+test('invalid and active legacy audio locks are preserved rather than silently recovered', async t => {
+  const { stateDir } = await fixture(t)
+  for (const owner of [{ pid: process.pid, created_at: '2026-09-13T00:00:00Z' }, { pid: -1, created_at: '2026-09-13T00:00:00Z' }, { pid: 2147483647 }, { pid: 2147483647, created_at: ['2026-09-13T00:00:00Z'] }, { pid: 2147483647, created_at: '2026-09-13T00:00:00Z', attempt_id: ['00000000-0000-4000-8000-000000000000'] }, { pid: 2147483647, created_at: '2026-09-13T00:00:00Z', attempt_id: 'bad' }]) {
+    await writeJson(path.join(stateDir, 'run.lock'), owner)
+    assert.throws(() => acquireAudioLock(stateDir, 'run'), /already running|Invalid audio lock/)
+    assert.deepEqual(await readJson(path.join(stateDir, 'run.lock')), owner)
+  }
 })
 test('atomic state writes retry temporary Windows sharing violations without deleting the previous state', async t => {
   const { root } = await fixture(t)

@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
+import { readFileSync } from 'node:fs'
+import { load, JSON_SCHEMA } from 'js-yaml'
 import { isWithinPages, parsePrUrl, validateGithubSnapshot } from '../../scripts/lib/github-evidence.mjs'
 import { requiredChecks, requiredWorkflows } from '../../scripts/lib/github-policy.mjs'
 
@@ -20,6 +22,28 @@ function fixture() {
   }
 }
 const options = { repo, expectedHead: head, requirePublication: true }
+
+test('both mandatory audio names match CI jobs and keep fixture builds outside deployment', () => {
+  const ci = load(readFileSync(new URL('../../.github/workflows/ci.yml', import.meta.url), 'utf8'), { schema: JSON_SCHEMA })
+  for (const id of ['audio-browser', 'audio-webkit']) {
+    const job = ci.jobs[id]
+    assert.ok(requiredChecks.includes(job.name))
+    assert.deepEqual(requiredWorkflows[job.name], { path: '.github/workflows/ci.yml', event: 'pull_request' })
+    assert.ok(ci.jobs.deploy.needs.includes(id))
+    assert.equal(job.steps.some(step => step.uses?.startsWith('actions/upload-pages-artifact')), false)
+  }
+})
+
+for (const name of ['Audio playback regression', 'Safari audio playback regression']) {
+  for (const condition of ['missing', 'failure', 'another-head', 'another-workflow']) test(`live evidence fixture rejects ${name} with ${condition}`, () => {
+    const s = fixture(), check = s.checks.find(item => item.name === name)
+    if (condition === 'missing') s.checks.splice(s.checks.indexOf(check), 1)
+    if (condition === 'failure') check.conclusion = 'failure'
+    if (condition === 'another-head') check.head_sha = 'e'.repeat(40)
+    if (condition === 'another-workflow') s.workflows[check.id].path = '.github/workflows/another.yml'
+    assert.throws(() => validateGithubSnapshot(s, options), /最新チェック|workflow \/ event \/ head/)
+  })
+}
 
 test('current PR, required workflows and exact merge deployment pass as separate states', () => {
   const result = validateGithubSnapshot(fixture(), options)

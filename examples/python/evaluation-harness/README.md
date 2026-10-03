@@ -4,6 +4,7 @@
 
 - [Agent 評価の基礎](../../../docs/04-evaluation/agent-evaluation-basics.md) — 評価ハーネスの 4 部品
 - [回帰テストと CI 組み込み](../../../docs/04-evaluation/regression-testing.md) — 閾値割れで異常終了させ CI に組み込む
+- [学習ロードマップ](../../../docs/00-overview/learning-roadmap.md) — Cルートの実行記録と終了条件へ戻る
 
 ## このサンプルの要点
 
@@ -32,7 +33,7 @@ python eval_harness.py
 
 ## 動作確認日
 
-- **モック実行(`--mock`)**: 2026-09-10 に確認(Python 3.11.3、追加依存なし)
+- **モック実行(`--mock`)**: 2026-10-03 に確認(Python 3.12.14、追加依存なし。c4のみNG、4/5=80%で閾値80%を満たし終了コード0)
 - **回帰テスト**: 2026-09-10 に確認。否定された正解ラベルの誤合格防止と、anthropic 1.4.0 / httpx2 2.12.0 の HTTP モックで生成打ち切りの拒否を確認([実行手順](../../tests/README.md))
 - **実 API 実行**: 未確認(各自の環境で確認し、この欄に日付を追記してください)
 

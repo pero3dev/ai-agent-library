@@ -101,7 +101,7 @@ PC の広い画面では、本文の隣に図を固定表示する。段落を�
 
 ### 4.1 現行資産をどう使うか
 
-現行の根拠は[サイト README](../../../website/README.md#本文に連動する動的図)、[自己注意の実装](../../../website/components/attention/attention-walkthrough.jsx)、[数値モデル](../../../website/lib/attention-model.mjs)、[本文装飾](../../../website/lib/attention-decoration.mjs)、[MDX ガード](../../../website/lib/mdx-safety.mjs)。自己注意の制御と表示は記事専用であり、共通化の実装はまだ行っていない。
+現行の根拠は[サイト README](https://github.com/pero3dev/ai-agent-library/blob/b321a0bf94aa2db6d19d6e1ceffb2f0a2cc46d2b/website/README.md#本文に連動する動的図)、[自己注意の実装](https://github.com/pero3dev/ai-agent-library/blob/b321a0bf94aa2db6d19d6e1ceffb2f0a2cc46d2b/website/components/attention/attention-walkthrough.jsx)、[数値モデル](https://github.com/pero3dev/ai-agent-library/blob/b321a0bf94aa2db6d19d6e1ceffb2f0a2cc46d2b/website/lib/attention-model.mjs)、[本文装飾](https://github.com/pero3dev/ai-agent-library/blob/b321a0bf94aa2db6d19d6e1ceffb2f0a2cc46d2b/website/lib/attention-decoration.mjs)、[MDX ガード](../../../website/lib/mdx-safety.mjs)。自己注意の制御と表示は記事専用であり、共通化の実装はまだ行っていない。
 
 | 層 | 共通化するもの | 記事ごとに持つもの |
 | --- | --- | --- |

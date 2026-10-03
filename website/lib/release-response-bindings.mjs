@@ -1,9 +1,0 @@
-const grouped=(name,headings,groups,types)=>({article:`docs/05-operations/${name}.md`,route:`/docs/operations/${name}`,binding:'grouped-blocks',stageCount:6,headings,sourceHeadings:headings,blockGroups:groups,blockTypes:types})
-export const RELEASE_RESPONSE_BINDINGS={
- 'version-composition-pinning':grouped('versioning-and-model-updates',['概要: Agent の「バージョン」はコードだけではない','詳細: プロンプトはコードと同じ管理に載せる','詳細: モデルはスナップショットにピン留めする'],[[{stage:0,count:1},{stage:1,count:1},{stage:2,count:1}],[{stage:3,count:1}],[{stage:4,count:1},{stage:5,count:2}]],[['paragraph','table','paragraph'],['list'],['paragraph','paragraph','blockquote']]),
- 'version-rollout-migration':grouped('versioning-and-model-updates',['詳細: 段階的リリースとロールバック','設計判断: モデル更新の標準手順'],[[{stage:0,count:1},{stage:1,count:1},{stage:2,count:1}],[{stage:3,count:1},{stage:4,count:1}]],[['paragraph','table','paragraph'],['paragraph','list']]),
- 'incident-detection-containment':grouped('incident-response',['概要: Agent 固有のインシデントの型','詳細: 検知 — 静かな失敗まで拾う','詳細: 封じ込め — キルスイッチは粒度を分けて事前に作る'],[[{stage:0,count:1},{stage:1,count:2}],[{stage:2,count:1},{stage:3,count:2}],[{stage:4,count:1},{stage:5,count:2}]],[['table','paragraph','code'],['paragraph','table','paragraph'],['paragraph','table','paragraph']]),
- 'incident-effects-learning':grouped('incident-response',['詳細: 影響特定と復旧 — 副作用の補償','設計判断: 事後 — 再発防止を資産にする'],[[{stage:0,count:1},{stage:1,count:1},{stage:2,count:1}],[{stage:3,count:1}]],[['paragraph','paragraph','list'],['list']]),
- 'feedback-signals-collection':grouped('feedback-loops',['概要: 「集める」ではなく「循環させる」','シグナルの設計','収集の実装'],[[{stage:0,count:2},{stage:1,count:1}],[{stage:2,count:2},{stage:3,count:1}],[{stage:4,count:1}]],[['paragraph','code','paragraph'],['paragraph','table','paragraph'],['list']]),
- 'feedback-triage-release':grouped('feedback-loops',['評価・改善への還流','運用サイクル'],[[{stage:0,count:1}],[{stage:3,count:1},{stage:4,count:1},{stage:5,count:1}]],[['list'],['paragraph','table','paragraph']])
-}

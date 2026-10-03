@@ -1,0 +1,13 @@
+{
+  "name": "@ai-agent-library/nextra-glob",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bounded Nextra build glob adapter backed by tinyglobby",
+  "main": "index.cjs",
+  "dependencies": {
+    "tinyglobby": "0.2.17"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,8 +1,0 @@
-.lf-scene text { fill: #e6edf6; font-family: inherit; }
-.lf-scene .lf-label { font-size: 22px; font-weight: 620; }
-.lf-scene .lf-note { font-size: 19px; fill: #bfd1df; font-weight: 450; }
-.lf-scene { background: #0b1727; }
-.lf-scene .lf-token-motion { transition: transform 420ms ease; }
-.learning-foundations-walkthrough .cd-select { min-width: 0; }
-@media (prefers-reduced-motion: reduce) { .lf-scene * { transition: none !important; animation: none !important; } }
-@media print { .lf-scene * { transition: none !important; animation: none !important; } }

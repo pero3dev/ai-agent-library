@@ -1,6 +1,0 @@
-.overview-reading-walkthrough .cd-select { min-width: 0; }
-.overview-reading-walkthrough .aw-prose th { white-space: nowrap; }
-[data-diagram-id="skill-development"] .aw-prose table:has(th:nth-child(5)) td:first-child { min-width: 9rem; }
-@container (min-width: 900px) {
-  .overview-reading-walkthrough .aw-layout { grid-template-columns: minmax(0,1fr) minmax(0,1.1fr); gap: 1.5rem; }
-}

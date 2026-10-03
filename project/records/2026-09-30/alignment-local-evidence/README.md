@@ -58,7 +58,7 @@ D1のコード・式・意味・統合、実画像、完了済みローカルブ
 
 rawのgzipは通常のgzip展開で元バイトへ戻せます。索引のoriginalSha256とoriginalBytesを復元後に確認し、storedSha256と取り違えないでください。元のPC絶対パスを実行先にせず、indexのstoredPathをこのディレクトリから解決します。画像はfinal-viewed-imagesのstoredPathを使います。
 
-**raw/alignment-integrate.mjs.gzは適用済みの製品変更helperで、再実行不可です。** その他の歴史helperも読むための保存で、元PC依存のimport・TEMP・絶対pathを含みます。別PCで検査を実行するときは[現行公開kitの案内](../../../../scripts/diagram-release/README.md)を使います。
+**raw/alignment-integrate.mjs.gzは適用済みの製品変更helperで、再実行不可です。** その他の歴史helperも読むための保存で、元PC依存のimport・TEMP・絶対pathを含みます。別PCで検査を実行するときは[現行公開kitの案内](https://github.com/pero3dev/ai-agent-library/blob/b321a0bf94aa2db6d19d6e1ceffb2f0a2cc46d2b/scripts/diagram-release/README.md)を使います。
 
 追補時は完了を確認したログと固定レビュー原本を新しい名前で保存し、対象hashを照合します。rawを上書きせず、実視認した追加画像だけを台帳へ結び付けます。indexがverificationのhashを持たず、verificationがindexのhashを記録するため、相互hash循環はありません。
 

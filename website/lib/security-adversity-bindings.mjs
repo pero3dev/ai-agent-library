@@ -1,9 +1,0 @@
-const grouped=(name,count,headings,groups,types)=>({article:`docs/06-security/${name}.md`,route:`/docs/security/${name}`,binding:'grouped-blocks',stageCount:count,headings,sourceHeadings:headings,blockGroups:groups,blockTypes:types})
-export const SECURITY_ADVERSITY_BINDINGS={
- 'red-exercise-design':grouped('red-teaming-agents',6,['概要: レッドチーミングは脅威モデルの「実地試験」','演習の設計','手動テストの型','自動化'],[[{stage:0,count:2},{stage:1,count:1}],[{stage:2,count:2}],[{stage:3,count:3}],[{stage:4,count:2},{stage:5,count:1}]],[['paragraph','code','paragraph'],['paragraph','list'],['paragraph','table','paragraph'],['paragraph','list','paragraph']]),
- 'red-results-return':grouped('red-teaming-agents',6,['結果の評価と修正','継続運用'],[[{stage:0,count:1},{stage:1,count:1}],[{stage:3,count:1},{stage:4,count:1}]],[['paragraph','list'],['paragraph','list']]),
- 'supply-asset-integrity':grouped('ai-supply-chain-security',6,['概要: 「動いてから守る」の手前','AI 固有のサプライチェーン面の棚卸し','信頼の確立手段'],[[{stage:0,count:1}],[{stage:1,count:2},{stage:2,count:1}],[{stage:3,count:1},{stage:4,count:1}]],[['paragraph'],['paragraph','table','list'],['paragraph','list']]),
- 'supply-admission-update':grouped('ai-supply-chain-security',6,['受け入れプロセスの設計','AI 資産の台帳','継続監視: 導入後に挙動が変わる'],[[{stage:0,count:2},{stage:1,count:1}],[{stage:2,count:2}],[{stage:3,count:1},{stage:4,count:1}]],[['paragraph','list','paragraph'],['paragraph','list'],['paragraph','list']]),
- 'attack-delayed-paths':grouped('advanced-attack-patterns',6,['概要: 「指示になりうる経路」が増えている','パターン①: 記憶への注入(メモリポイズニング)','パターン②: 知識源ポイズニング(RAG 経由)','パターン③: ツール定義・ツール結果経由の注入','パターン④: マルチエージェント伝播','パターン⑤: 条件起動型'],[[{stage:0,count:1}],[{stage:1,count:1}],[{stage:2,count:1}],[{stage:3,count:1}],[{stage:4,count:1}],[{stage:5,count:1}]],[['paragraph'],['list'],['list'],['list'],['list'],['list']]),
- 'attack-propagation-controls':grouped('advanced-attack-patterns',5,['対策マップ: 既存防御へのマッピング'],[[{stage:0,count:1},{stage:1,count:1},{stage:2,count:1}]],[['paragraph','table','paragraph']])
-}

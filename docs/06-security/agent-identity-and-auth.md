@@ -183,12 +183,10 @@ Okta の 2026.08.0 Preview 環境向けリリースノートでは、Managed con
 - [認証仕様・提供状態: docs.cloud.google.com](https://docs.cloud.google.com/iam/docs/auth-manager-overview)(アクセス日: 2026-09-10)
 - [認証仕様・提供状態: datatracker.ietf.org](https://datatracker.ietf.org/doc/draft-ietf-oauth-v2-1/)(アクセス日: 2026-09-10)
 - [認証仕様・提供状態: datatracker.ietf.org](https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-chaining/)(アクセス日: 2026-09-10)
-- [認証仕様・提供状態: datatracker.ietf.org](https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-assertion-authz-grant/)(アクセス日: 2026-09-10)
+- [認証仕様・提供状態: datatracker.ietf.org](https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-assertion-authz-grant/) — AI エージェントのツールアクセスをユースケースに含むクロスアプリ認可(アクセス日: 2026-09-10)
 - [認証仕様・提供状態: help.okta.com](https://help.okta.com/oie/en-us/content/topics/releasenotes/preview.htm)(アクセス日: 2026-09-10)
-
 - [RFC 8693: OAuth 2.0 Token Exchange(IETF)](https://datatracker.ietf.org/doc/rfc8693/) — subject / actor の分離と `act` クレームによる委任表現(アクセス日: 2026-07-06)
 - [MCP Authorization(2026-07-28 リビジョン)](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization) — MCP サーバーの OAuth ベース認可仕様(アクセス日: 2026-08-18)
-- [Identity Assertion JWT Authorization Grant(IETF OAuth WG ドラフト)](https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-assertion-authz-grant/) — AI エージェントのツールアクセスをユースケースに含むクロスアプリ認可(アクセス日: 2026-08-18)
 - [Microsoft Entra Agent ID](https://learn.microsoft.com/en-us/entra/agent-id/what-is-microsoft-entra-agent-id) — エージェント個別 ID・条件付きアクセス・監査の商用実装例(アクセス日: 2026-08-18)
 - [Amazon Bedrock AgentCore Identity](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/identity.html) — インバウンド / アウトバウンド認証と token vault(アクセス日: 2026-07-06)
 - [Google Cloud IAM: Agent Identity](https://docs.cloud.google.com/iam/docs/agent-identity-overview) — SPIFFE ID と証明書束縛トークンによるエージェント ID(アクセス日: 2026-08-18)

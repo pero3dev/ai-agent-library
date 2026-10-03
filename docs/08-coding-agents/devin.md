@@ -23,8 +23,6 @@ tags: ["coding-agents", "mcp"]
 ## 前提知識
 
 - [AI コーディングエージェントの分類と全体像](coding-agents-overview.md)
-- [コーディングエージェントの選定基準と使い分け](coding-agent-selection.md)
-- [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) — 事後レビュー型の関与設計の背景
 
 ## 本文
 
@@ -121,17 +119,22 @@ SWE 系モデルでは **SWE-1.7 が 2026-07-08 に発表**され、2026-09-10 �
 - [コーディングエージェントの権限とセキュリティ](coding-agent-security.md) — 事後レビュー型の防御設計
 - [チーム導入とレビュー体制](coding-agent-team-adoption.md) — レビュー負荷と責任の設計
 
+- [コーディングエージェントの選定基準と使い分け](coding-agent-selection.md) (任意の発展資料。本文を読む前の必須知識ではありません)
+
+- [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) — 事後レビュー型の関与設計の背景 (任意の発展資料。本文を読む前の必須知識ではありません)
+
 ## 参考資料
 
-- [SWE-1.7 発表](https://cognition.com/blog/swe-1-7) / [Devin pricing](https://devin.ai/pricing) — 世代の追加とプラン別提供(アクセス日: 2026-09-10)
+- [SWE-1.7 発表](https://cognition.com/blog/swe-1-7) — 世代の追加とプラン別提供(アクセス日: 2026-09-10)
+- [Devin pricing](https://devin.ai/pricing) — 世代の追加とプラン別提供 / プラン体系(アクセス日: 2026-09-10)
 - [Recent updates](https://docs.devin.ai/release-notes/overview) — 2026-08-21 の Enterprise MCP・private tunnel・CA(アクセス日: 2026-09-10)
-
 - [Devin 公式ドキュメント](https://docs.devin.ai/) — 機能・環境・API の一次情報(アクセス日: 2026-08-18)
 - [When to use Devin](https://docs.devin.ai/essential-guidelines/when-to-use-devin.md) — 公式のタスク適性ガイド(アクセス日: 2026-07-05)
-- [Security(admin)](https://docs.devin.ai/admin/security) / [Platform Terms](https://cognition.com/legal/platform-terms-of-service) — 学習利用・保持例外(アクセス日: 2026-09-10)
+- [Security(admin)](https://docs.devin.ai/admin/security) — 学習利用・保持例外(アクセス日: 2026-09-10)
+- [Platform Terms](https://cognition.com/legal/platform-terms-of-service) — 学習利用・保持例外(アクセス日: 2026-09-10)
 - [AI Guardrails](https://docs.devin.ai/enterprise/features/ai-guardrails.md) — 現行の対応設定と、過去の kill_session 記録(アクセス日: 2026-10-01)
 - [Devin Fusion(公式ブログ)](https://cognition.com/blog/devin-fusion) — ハイブリッド構成の発表とコスト削減効果(アクセス日: 2026-08-18)
-- [料金ページ](https://devin.ai/pricing) — プラン体系(アクセス日: 2026-07-05。2026-08-18 は 429 で機械取得できず、[Billing ドキュメント](https://docs.devin.ai/admin/billing/self-serve.md) でプラン・課金の変更なしを確認)
+- [Billing ドキュメント](https://docs.devin.ai/admin/billing/self-serve.md) — プラン体系(アクセス日: 2026-08-18)
 - [Cognition Trust Center](https://trust.cognition.ai/) — コンプライアンス情報(アクセス日: 2026-07-05)
 
 ## TODO・未確認事項

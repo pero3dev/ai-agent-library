@@ -23,7 +23,6 @@ Anthropic のコーディングエージェント Claude Code の提供形態・
 ## 前提知識
 
 - [AI コーディングエージェントの分類と全体像](coding-agents-overview.md)
-- [コーディングエージェントの選定基準と使い分け](coding-agent-selection.md)
 
 ## 本文
 
@@ -139,6 +138,8 @@ Claude Code は Anthropic が提供するコーディングエージェントで
 - [ルールファイルと設定の設計](coding-agent-rules-and-config.md) — CLAUDE.md の内容設計
 - [コーディングエージェントの権限とセキュリティ](coding-agent-security.md) — 権限モデル設計の一般論
 - [MCP とツール接続標準](../03-implementation/mcp-and-tool-protocols.md) — MCP 連携の仕組み
+
+- [コーディングエージェントの選定基準と使い分け](coding-agent-selection.md) (任意の発展資料。本文を読む前の必須知識ではありません)
 
 ## 参考資料
 

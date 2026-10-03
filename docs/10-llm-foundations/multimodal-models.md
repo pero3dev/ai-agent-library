@@ -1,7 +1,7 @@
 ---
 title: "マルチモーダルモデルの仕組み(数式なしの直感)"
 category: "llm-foundations"
-level: "advanced"
+level: "intermediate"
 status: "published"
 last_updated: "2026-10-01"
 tags: ["multimodal", "vision-language-model"]

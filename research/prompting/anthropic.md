@@ -253,3 +253,9 @@ docs は本観測の結果を反映済み(claude-prompting / cross-model-prompti
 > **TODO(要確認):** ミッドセッション system メッセージの Opus 4.8 対応可否を専用ページ(`/build-with-claude/mid-conversation-system-messages`)で確認する。2026-08-18 時点では Opus 5 / Fable 5 / Mythos 5 の対応と Opus 4.7 の 400 のみ確認できた(最終確認: 2026-08)
 
 > **TODO(要確認):** 新機能 Task budgets の仕様(対象モデル・`max_tokens` / effort との関係)を thinking 系ページで確認し、docs への反映要否を判断する(最終確認: 2026-08)
+
+## 2026-10-03 第3回レビューの部分再確認
+
+#176: Opus 5.5 / Sonnet 5.5 の既定思考、effort、強制ツールとサンプリングの非互換、思考履歴の移行境界を部分再確認しました。
+
+取得 URL・実取得バッチ完了 UTC・確認水準・残る TODO は [一次情報の修正記録](../reviews/2026-10-03-article-remediation.md) を参照してください。過去の日付の本文は上書きしていません。

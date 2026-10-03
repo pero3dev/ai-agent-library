@@ -141,3 +141,9 @@ AI 連携ライセンスは NTT-AT が契約する Azure OpenAI を含み、NTT-
 - https://www.ntt-at.co.jp/news/2025/detail/release251210.html
 - https://winactor.com/product/tsunagi-ai/
 - https://journal.ntt.co.jp/article/34167
+
+## 2026-10-03 第3回レビューの部分再確認
+
+#177: WorkHQ の対象 Design Studio / Digital Worker のサポート期日経過と表の掲載を再確認。実施・延期は未確認で、実行停止とは区別します。
+
+取得 URL・実取得バッチ完了 UTC・確認水準・残る TODO は [一次情報の修正記録](../reviews/2026-10-03-article-remediation.md) を参照してください。過去の日付の本文は上書きしていません。

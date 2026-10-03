@@ -3,7 +3,7 @@ title: "Gemini CLI と Gemini Code Assist"
 category: "coding-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-10-04"
 tags: ["coding-agents", "mcp"]
 ---
 
@@ -21,7 +21,6 @@ Google のコーディングエージェント群 — Gemini CLI(OSS のター�
 ## 前提知識
 
 - [AI コーディングエージェントの分類と全体像](coding-agents-overview.md)
-- [コーディングエージェントの選定基準と使い分け](coding-agent-selection.md)
 
 ## 本文
 
@@ -36,11 +35,11 @@ Google のコーディングエージェントは 1 つの製品ではなく、*
 | 形態 | OSS(Apache-2.0)のターミナル型 | IDE 拡張 + GitHub PR レビュー | 非同期クラウド型(VM 実行) |
 | 入口 | シェル(CLI) | IDE・GitHub PR | Web アプリ・CLI(Jules Tools)・REST API |
 | 実行場所 | ローカル | ローカル IDE(推論はクラウド) | Google 管理の使い捨て VM |
-| 契約(2026-08 時点) | Code Assist ライセンス、または有料 API キー / Vertex AI | Standard / Enterprise(組織向けシート課金)のみ | 個人向け Google AI プラン(Free / Pro / Ultra) |
+| 契約(2026-08 時点) | Code Assist ライセンス、または Gemini API キー(無料 / 有料枠) / Vertex AI。API キー経路は 2026-10-03 再確認 | Standard / Enterprise(組織向けシート課金)のみ | 個人向け Google AI プラン(Free / Pro / Ultra) |
 
 3 製品は連動もしています: Code Assist のライセンスには Gemini CLI の利用クォータが含まれ、Code Assist の agent mode は Gemini CLI をベースにしています(公式ドキュメントの記載からの整理)。一方 Jules は契約体系が独立した別製品です。
 
-**2026 年の最重要変化**: 2026-06-18 に個人向け提供が再編されました。**個人無料版(Gemini Code Assist for individuals)と、Google AI Pro / Ultra 経由の Gemini CLI・Code Assist IDE 拡張の利用は提供終了**し、個人向けの移行先として **Antigravity ファミリー(Antigravity CLI を含む)** が案内されています。「Gemini CLI は個人アカウントで無料枠が使える」という 2026 年前半までの情報は、すでに正しくありません(公式リポジトリの README には旧記載が 2026-08 時点も残っていますが、廃止告知ページが正です)。
+**2026 年の最重要変化**: 2026-06-18 に個人向け提供が再編されました。**個人無料版(Gemini Code Assist for individuals)と、Google AI Pro / Ultra 経由の Gemini CLI・Code Assist IDE 拡張の利用は提供終了**し、個人向けの移行先として **Antigravity ファミリー(Antigravity CLI を含む)** が案内されています。この再編は旧 Google ログイン・ライセンスの経路の話です。Gemini CLI の公式認証ガイドは AI Studio の API キーによる利用も案内し、Gemini API にはモデル・地域・プロジェクト条件に応じた Unpaid / Paid の利用枠があります(2026-10-03 確認)。旧個人向け提供の終了を、無料 API キー利用の終了へ広げて解釈しません(公式リポジトリの README には旧記載が 2026-08 時点も残っていますが、廃止告知ページが正です)。
 
 移行先の Antigravity は 2026-09-10 の確認時点で **Antigravity 2.0 / Antigravity CLI / Antigravity IDE / SDK** で構成され、プランは **Individual(無料)/ Google AI Pro / Google AI Ultra / Organization(Google Cloud 経由)** です。Gemini 系に加えて Claude 系モデルにも対応します。
 
@@ -95,7 +94,7 @@ Gemini CLI の設定はユーザー(`~/.gemini/settings.json`)とワークスペ
 **向き不向き(特性として)**:
 
 - 向く: Google Cloud 中心の組織(契約・ガバナンスが Google Cloud に統合される)、OSS の CLI を拡張して使いたいチーム(Gemini CLI)、組織コードベースへの提案適応(Enterprise の code customization)に価値を感じる場合
-- 注意が要る: **個人利用の経路が 2026 年に再編されたため、個人での試用は Antigravity(無料の Individual プランあり)か有料 API キーが前提**です。Jules は GitHub 専用・個人向けのみです。3 製品でルールファイル・契約体系が分かれるため、併用時の管理は他社の単一製品より複雑になります
+- 注意が要る: **個人利用の経路が 2026 年に再編されたため、個人での試用には Antigravity(無料の Individual プランあり)と、Gemini CLI の API キー経路(無料 / 有料枠)があります。無料 API の枠・モデル・地域条件とデータの改善利用は別途確認します。** Jules は GitHub 専用・個人向けのみです。3 製品でルールファイル・契約体系が分かれるため、併用時の管理は他社の単一製品より複雑になります
 
 ## 実務での注意点
 
@@ -119,7 +118,11 @@ Gemini CLI の設定はユーザー(`~/.gemini/settings.json`)とワークスペ
 - [コーディングエージェントの権限とセキュリティ](coding-agent-security.md) — サンドボックス・承認モデルの一般論
 - [Devin](devin.md) — Jules と同じ非同期クラウド型の代表例
 
+- [コーディングエージェントの選定基準と使い分け](coding-agent-selection.md) (任意の発展資料。本文を読む前の必須知識ではありません)
+
 ## 参考資料
+
+- [Gemini CLI authentication setup](https://geminicli.com/docs/get-started/authentication/) / [Gemini API rate limits](https://ai.google.dev/gemini-api/docs/rate-limits) — API キー認証と利用枠。旧 Google ログイン経路とは区別(アクセス日: 2026-10-03)
 
 - [google-gemini/gemini-cli(GitHub)](https://github.com/google-gemini/gemini-cli) — Gemini CLI のソースコードと README(アクセス日: 2026-08-18)
 - [Gemini CLI ドキュメント](https://geminicli.com/docs/) — 設定・サンドボックス・MCP の仕様(アクセス日: 2026-07-05)

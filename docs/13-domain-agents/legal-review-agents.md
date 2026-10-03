@@ -3,7 +3,7 @@ title: "契約レビュー・法務ドメイン Agent"
 category: "domain-agents"
 level: "intermediate"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-10-04"
 tags: ["legal", "contract-review", "citation", "confidentiality"]
 ---
 
@@ -23,7 +23,6 @@ tags: ["legal", "contract-review", "citation", "confidentiality"]
 ## 前提知識
 
 - [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) — 人の最終レビューを組み込む設計
-- [ディープリサーチ型エージェントの設計](deep-research-agents.md) — 根拠・出典を紐付ける設計(法務調査に応用)
 - [AI と著作権・知的財産の入口マップ](../09-business/ai-copyright-and-ip-map.md) — 同じ入口マップ方式の知財版
 - [データ漏えい対策](../06-security/data-exfiltration.md) — 機密・秘匿情報の経路統制
 
@@ -50,8 +49,8 @@ tags: ["legal", "contract-review", "citation", "confidentiality"]
 法務レビューの失敗には、**非対称性**があります。この性質が、設計の重心を決めます。
 
 - **見落としと過検出をともに測る**: 重要条項の見落としは重大な損失につながります。一方、過検出もレビュー負荷を増やし、重要な指摘を埋もれさせる場合があります。条項の重要度ごとに検出漏れの許容条件と過検出・確認時間を測り、法務担当者と合格基準を決めます
-- **網羅性を担保する設計**: 「たぶん問題ない」で飛ばさず、確認すべき箇所を漏れなく人に上げる設計にします。AI が自信を持って「問題なし」と断じることを、そのまま信頼しません
-- **人の最終レビューを必須にする**: AI の出力を、人のレビューを省く根拠にしません。AI は人が見るべき箇所を**増やす/絞る補助**であって、レビューの代替ではありません([Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md))
+- **網羅性を設計し、見落としを測る**: 確認項目ごとに有・無・未確認を記録し、未確認を人へ渡します。版間差分は決定的なテキスト比較も併用します。AI がすべての論点を漏れなく拾うことは保証できないため、重要条項の全件確認と「問題なし」とされた箇所の抽出レビューを残します。AI が自信を持って「問題なし」と断じることを、そのまま信頼しません
+- **人の最終レビューを必須にする**: AI の出力を、人のレビューを省く根拠にしません。AI は確認の優先順位を付ける補助であって、レビューの代替ではありません([Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md))。見落としと[自動化バイアス](../15-human-ai/automation-bias-and-deskilling.md)を前提に、レビュー範囲は AI の指摘有無だけで絞りません
 
 ### 根拠の提示(出典設計)
 
@@ -102,6 +101,7 @@ tags: ["legal", "contract-review", "citation", "confidentiality"]
 
 - [ ] 「支援するが代替しない」を前提に、検証可能で定型的な業務に切り出したか
 - [ ] 検出漏れ(見落とし)の非対称リスクを踏まえ、重要条項の再現率・過検出・レビュー負荷の合格基準を決めたか
+- [ ] 有・無・未確認の項目表、重要条項の全件確認、問題なし箇所の抽出レビュー、決定的な版間比較を用意したか
 - [ ] AI の出力を人のレビューを省く根拠にせず、人の最終レビューを必須にしたか
 - [ ] 指摘に該当条文・事例への参照を必須で添え、引用の正確さを検証しているか
 - [ ] 機密契約のデータ経路・保存・学習利用を統制し、アクセス権を反映しているか
@@ -115,7 +115,7 @@ tags: ["legal", "contract-review", "citation", "confidentiality"]
 - [AI と著作権・知的財産の入口マップ](../09-business/ai-copyright-and-ip-map.md) — 同じ入口マップ方式の知財版
 - [エージェントの責任と説明責任](../09-business/agent-liability-and-accountability.md) — 責任分界と説明責任
 - [データ漏えい対策](../06-security/data-exfiltration.md) — 機密・秘匿情報の経路統制
-- [業界別規制の入口マップ](../09-business/industry-regulations-map.md) — 業際・規制の確認入口
+- [業界別規制の入口マップ](../09-business/industry-regulations-map.md) — 業種別の規制確認入口。弁護士法の業際の確認先は本文の法務省資料
 - [評価データセットの構築と保守](../04-evaluation/evaluation-datasets.md) — 正解つき評価セットの作り方
 
 ## 参考資料
@@ -124,4 +124,4 @@ tags: ["legal", "contract-review", "citation", "confidentiality"]
 
 ## TODO・未確認事項
 
-> **TODO(要確認):** AI による法務支援と業際規制(弁護士法等)の関係の最新を一次情報で確認する。本記事は内容を断定せず確認先の提示に留めるため、具体の適法性は各社の法務・弁護士と [業界別規制の入口マップ](../09-business/industry-regulations-map.md) で追う(最終確認: 2026-07)
+> **TODO(要確認):** AI による法務支援と業際規制(弁護士法等)の関係の最新を一次情報で確認する。本記事は内容を断定せず確認先の提示に留めるため、具体の適法性は各社の法務・弁護士と法務省の弁護士法第72条 / AI 法務支援資料で追う。2026-10-03 の本文取得は 403 で失敗し、成功した確認を更新できていない(最終確認: 2026-10)

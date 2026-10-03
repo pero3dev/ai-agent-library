@@ -134,4 +134,4 @@ OpenAI Responses API の例では、`status == "incomplete"` と `incomplete_det
 
 ## TODO・未確認事項
 
-> **TODO(要確認):** 各社の構造化出力機能の名称・スキーマ制約(サポートされる JSON Schema のサブセット)・対応モデルを公式ドキュメントで確認する(最終確認: 2026-07)
+本文の未確認事項を参照してください。

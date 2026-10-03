@@ -1,7 +1,7 @@
 ---
 title: "セマンティックキャッシュと応答再利用"
 category: "operations"
-level: "intermediate"
+level: "advanced"
 status: "published"
 last_updated: "2026-09-10"
 tags: ["semantic-cache", "caching", "cost-management"]

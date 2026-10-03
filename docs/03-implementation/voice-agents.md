@@ -3,7 +3,7 @@ title: "音声エージェントの実装"
 category: "implementation"
 level: "advanced"
 status: "published"
-last_updated: "2026-10-02"
+last_updated: "2026-10-04"
 tags: ["voice-agents", "streaming", "multimodal"]
 ---
 
@@ -102,7 +102,7 @@ flowchart TB
 
 Google の 2026-08-26 リリースノートには Gemini 3.5 Transcribe と Transcribe Live の GA が掲載されています。専用の文字起こしモデルの GA を、Gemini Developer API の音声対話用 Live 全体の GA と読み替えません。
 
-AWS の旧 `amazon.nova-sonic-v1:0` は 2026-09-14 EOL と案内されています(ap-northeast-1 / eu-north-1 / us-east-1)。Nova 2 Sonic は別モデルです。期限の近い旧版を新規採用するのでなく、対象地域の後継で会話品質・割込み・ツール連携を評価します。
+2026-10-03 の AWS 表にも旧 `amazon.nova-sonic-v1:0` の EOL 期日 2026-09-14 が残っています。期日は経過していますが実停止・延期は確認不能です(ap-northeast-1 / eu-north-1 / us-east-1)。Nova 2 Sonic は別モデルです。期限の近い旧版を新規採用するのでなく、対象地域の後継で会話品質・割込み・ツール連携を評価します。
 
 ## 実務での注意点
 
@@ -126,6 +126,8 @@ AWS の旧 `amazon.nova-sonic-v1:0` は 2026-09-14 EOL と案内されていま�
 - [ ] 不可逆操作に復唱確認・別チャネル承認がある
 - [ ] トランスクリプトを記録し、評価・監査に使える形にしている
 - [ ] 評価セットに実環境の入力(騒音・言い直し・電話品質)が含まれている
+
+> **TODO(要確認):** AWS の Model lifecycle と対象地域のモデル案内で Nova Sonic v1:0 の EOL 実施・延期を確認する(最終確認: 2026-10)
 
 ## 関連トピック
 

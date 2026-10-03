@@ -34,7 +34,7 @@ Agent 開発のフレームワークを「名前」ではなく「選定軸」�
 | 層 | 提供するもの | 向く状況 |
 | --- | --- | --- |
 | 薄い SDK・エージェントランタイム | API クライアント + ループ・ツール実行の基本 | 制御を握りたい。要件が独自 |
-| オーケストレーション框組 | グラフ・ステート管理・分岐の宣言的定義 | 複雑な Workflow 構成([オーケストレーションパターン](../02-architecture/orchestration-patterns.md))を宣言的に管理したい |
+| オーケストレーションフレームワーク | グラフ・ステート管理・分岐の宣言的定義 | 複雑な Workflow 構成([オーケストレーションパターン](../02-architecture/orchestration-patterns.md))を宣言的に管理したい |
 | フルスタック / ローコード | UI・デプロイ・監視込みの統合環境 | 標準的な構成で速く出したい。カスタマイズ要求が弱い |
 
 上に行くほど自由度が高く実装量が多い、下に行くほど速いが枠から出にくい、という通常のトレードオフです。
@@ -52,7 +52,7 @@ Agent 開発のフレームワークを「名前」ではなく「選定軸」�
 7. **成熟度と保守** — 更新頻度、破壊的変更の履歴、コミュニティの厚さ。この領域のフレームワークは若く、メジャーバージョンで API が大きく変わることが珍しくありません
 8. **評価・テストとの統合** — 評価ハーネス([Agent 評価の基礎](../04-evaluation/agent-evaluation-basics.md))を組み込みやすいか
 
-> **TODO(要確認):** 主要フレームワーク(ベンダー公式 SDK、LangGraph 等のオーケストレーション框組、その他)の機能比較は変化が非常に速い。選定時に各公式ドキュメントで上記 8 軸を確認する(最終確認: 2026-07)
+> **TODO(要確認):** 主要フレームワーク(ベンダー公式 SDK、LangGraph 等のオーケストレーションフレームワーク、その他)の機能比較は変化が非常に速い。選定時に各公式ドキュメントで上記 8 軸を確認する(最終確認: 2026-07)
 
 ### 設計判断: 「フレームワークなし」も正式な選択肢
 
@@ -100,8 +100,8 @@ Microsoft Agent Framework 1.0 は 2026-04-03 に .NET / Python の production-re
 
 ## 参考資料
 
-- [一次資料: devblogs.microsoft.com](https://devblogs.microsoft.com/agent-framework/microsoft-agent-framework-version-1-0/)(アクセス日: 2026-09-10)
-- [一次資料: github.com](https://github.com/microsoft/autogen)(アクセス日: 2026-09-10)
+- [Microsoft Agent Framework version 1.0](https://devblogs.microsoft.com/agent-framework/microsoft-agent-framework-version-1-0/) — Agent Framework の GA と提供範囲(アクセス日: 2026-09-10)
+- [AutoGen repository](https://github.com/microsoft/autogen) — プロジェクトの保守・移行方針(アクセス日: 2026-09-10)
 
 - [Building Effective Agents(Anthropic)](https://www.anthropic.com/research/building-effective-agents) — 「まずシンプルに、フレームワークは理解してから」という本記事の土台となる原則(アクセス日: 2026-07-05)
 

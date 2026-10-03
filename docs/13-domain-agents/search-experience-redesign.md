@@ -20,8 +20,6 @@ tags: ["search", "answer-engine", "rag", "enterprise-search"]
 
 ## 前提知識
 
-- [RAG 実装パターン](../03-implementation/rag-implementation-patterns.md) — 検索と生成の実装(本記事はその上に載る検索体験の設計)
-- [評価データセットの構築と保守](../04-evaluation/evaluation-datasets.md) — 検索・回答の評価セット
 - [ナレッジ Agent のケーススタディ](../07-case-studies/case-study-knowledge-agent.md) — 知識源の品質が体験を決めた実例
 
 ## 本文

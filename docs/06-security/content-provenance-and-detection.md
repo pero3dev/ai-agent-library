@@ -4,7 +4,7 @@ category: "security"
 level: "intermediate"
 status: "published"
 last_updated: "2026-09-10"
-tags: ["provenance", "watermarking", "content-authenticity"]
+tags: ["content-provenance", "watermarking", "content-authenticity"]
 ---
 
 # 生成物の来歴と検出

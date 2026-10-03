@@ -23,7 +23,6 @@ Google の Gemini ファミリーに対して、**公式ガイドが推奨する
 ## 前提知識
 
 - [プロンプトエンジニアリングの基礎技法](prompt-engineering-fundamentals.md) — 汎用技法(本記事はその Gemini 具体)
-- [プロンプトエンジニアリングの上級パターン](prompt-engineering-patterns.md) — なぜ効くかの中立な原理
 - [主要 LLM の全体像(モデルカタログ)](llm-landscape.md) — Gemini ファミリーの顔ぶれ・選び方
 
 ## 本文
@@ -184,6 +183,6 @@ Gemini 3 系の思考制御は **thinking_level**(相対的な思考量の許容
 > - API 面(Interactions API が推奨 / generateContent が legacy への移行)
 > - thinking 制御の書き方(thinking_level の値・モデル別既定〔現在: 3.8 / 3.7 / 3.6 Flash は medium、3.5 Flash-Lite は minimal、3.1 Pro プレビューは high〕、thinking_budget のモデル / API 別の対応)
 > - 構造化出力のフィールド名と対応スキーマ機能
-> - サンプリングパラメータの推奨(現在は「既定維持」)
+> - サンプリングパラメータの推奨(2026-09-10 確認では「既定維持」)
 > - マルチモーダル解像度設定と画像セグメンテーションの対応世代
 > - Gemini 3 developer guide への 3.6 / 3.7 Flash の反映(2026-08-18 時点では未反映で、モデル一覧ページと乖離)

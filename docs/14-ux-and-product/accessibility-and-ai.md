@@ -4,7 +4,7 @@ category: "ux-and-product"
 level: "intermediate"
 status: "published"
 last_updated: "2026-09-10"
-tags: ["accessibility", "a11y", "ux", "inclusive-design"]
+tags: ["accessibility", "ux", "inclusive-design"]
 ---
 
 # アクセシビリティと AI

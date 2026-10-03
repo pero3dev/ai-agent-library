@@ -1,7 +1,7 @@
 ---
 title: "LLM 向けデータ前処理パイプライン"
 category: "implementation"
-level: "intermediate"
+level: "advanced"
 status: "published"
 last_updated: "2026-09-10"
 tags: ["rag", "retrieval", "data-quality"]

@@ -3,7 +3,7 @@ title: "アラインメントの理論(RLHF から DPO・RLVR まで)"
 category: "llm-internals"
 level: "advanced"
 status: "published"
-last_updated: "2026-09-30"
+last_updated: "2026-10-04"
 tags: ["alignment", "rlhf", "llm-internals"]
 ---
 
@@ -62,13 +62,19 @@ $$
 
 ### DPO の導出: 報酬モデルを消す
 
-RLHF は報酬モデルの学習と強化学習の 2 段で、実装が重く不安定になりがちです。**DPO**(Direct Preference Optimization)は、この 2 段を**選好データから直接 1 段**にまとめます。鍵は、上の KL 正則化付き最適化の**最適方策が閉じた形で書ける**ことです。その式を報酬について解くと、報酬が方策の比で表せます。
+RLHF は報酬モデルの学習と強化学習の 2 段で、実装が重く不安定になりがちです。**DPO**(Direct Preference Optimization)は、この 2 段を**選好データから直接 1 段**にまとめます。鍵は、上の KL 正則化付き最適化の**最適方策が閉じた形で書ける**ことです。まず最適方策 $\pi^*$ の閉形式を書きます(参照方策の台が同じで、正規化定数が有限な場合)。
 
 $$
-r(x, y) = \beta \log \frac{\pi_\theta(y \mid x)}{\pi_{\mathrm{ref}}(y \mid x)} + \beta \log Z(x)
+\pi^*(y \mid x) = \frac{\pi_{\mathrm{ref}}(y \mid x)\exp(r(x,y)/\beta)}{Z(x)}
 $$
 
-読み下し: 「報酬は、いまの方策と元の方策の確率比の対数(× $\beta$)に、$x$ ごとの定数を足したもの。つまり**報酬モデルは方策の中に暗黙に含まれている**」。これを Bradley-Terry の式に代入すると、扱いにくい正規化定数 $Z(x)$ が**差し引きで消え**、選好データだけで最適化できる損失になります。
+これを報酬について解くと、最適方策の比で表せます。
+
+$$
+r(x, y) = \beta \log \frac{\pi^*(y \mid x)}{\pi_{\mathrm{ref}}(y \mid x)} + \beta \log Z(x)
+$$
+
+読み下し: 「元の報酬は、その報酬に対する最適方策と参照方策の対数比に、入力 $x$ ごとの定数を足したもの」。任意の学習中の $\pi_\theta$ が元の報酬とこの等式を満たすわけではありません。DPO はここから、学習する方策が表す**暗黙の報酬** $r_\theta(x,y)=\beta\log(\pi_\theta(y\mid x)/\pi_{\mathrm{ref}}(y\mid x))+C_\theta(x)$ を定義します。同じ入力の勝ち・負けを比べる Bradley-Terry の報酬差では、共通の入力依存定数 $C_\theta(x)$ が消えるため、次の選好損失になります。
 
 $$
 \mathcal{L}_{\mathrm{DPO}} = -\, \mathbb{E}\left[ \log \sigma\!\left( \beta \log \frac{\pi_\theta(y_w \mid x)}{\pi_{\mathrm{ref}}(y_w \mid x)} - \beta \log \frac{\pi_\theta(y_l \mid x)}{\pi_{\mathrm{ref}}(y_l \mid x)} \right) \right]
@@ -145,7 +151,7 @@ RLVR は、**推論モデル(考える時間を使う LLM)の学習**を支え�
 - [Deep Reinforcement Learning from Human Preferences](https://arxiv.org/abs/1706.03741) — 人間の選好から報酬を学ぶ枠組みの原典(Christiano et al., 2017、アクセス日: 2026-07-09)
 - [Learning to summarize from human feedback](https://arxiv.org/abs/2009.01325) — 要約での RLHF(Stiennon et al., 2020、アクセス日: 2026-07-09)
 - [Training language models to follow instructions with human feedback](https://arxiv.org/abs/2203.02155) — InstructGPT。SFT + RLHF の定式化(Ouyang et al., 2022、アクセス日: 2026-07-09)
-- [Direct Preference Optimization: Your Language Model is Secretly a Reward Model](https://arxiv.org/abs/2305.18290) — DPO の原論文(Rafailov et al., 2023、アクセス日: 2026-09-30)
+- [Direct Preference Optimization: Your Language Model is Secretly a Reward Model](https://arxiv.org/abs/2305.18290) — DPO の原論文(Rafailov et al., 2023、アクセス日: 2026-10-03)
 - [Scaling Laws for Reward Model Overoptimization](https://arxiv.org/abs/2210.10760) — 報酬の過剰最適化(Gao et al., 2022、アクセス日: 2026-07-09)
 - [Let's Verify Step by Step](https://arxiv.org/abs/2305.20050) — プロセス報酬(Lightman et al., 2023、アクセス日: 2026-09-30)
 - [Towards Understanding Sycophancy in Language Models](https://arxiv.org/abs/2310.13548) — 迎合の分析(Sharma et al., 2023、アクセス日: 2026-07-09)

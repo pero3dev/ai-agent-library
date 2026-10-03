@@ -21,7 +21,6 @@ tags: ["ux", "trust", "uncertainty", "ai-ux-patterns"]
 ## 前提知識
 
 - [ストリーミングと Agent の UX 実装パターン](../03-implementation/streaming-and-agent-ux.md) — 進捗・ストリーミング・中断の実装(本記事はその上位のパターン言語)
-- [信頼度と較正](../04-evaluation/confidence-and-calibration.md) — 確信度と正解率の一致(不確実性提示の裏付け)
 
 ## 本文
 

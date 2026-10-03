@@ -3,7 +3,7 @@ title: "Cursor"
 category: "coding-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-10-01"
+last_updated: "2026-10-04"
 tags: ["coding-agents", "mcp"]
 ---
 
@@ -21,11 +21,10 @@ tags: ["coding-agents", "mcp"]
 ## 前提知識
 
 - [AI コーディングエージェントの分類と全体像](coding-agents-overview.md)
-- [コーディングエージェントの選定基準と使い分け](coding-agent-selection.md)
 
 ## 本文
 
-> **最終確認日:** 検索方式は 2026-10-01、Data Use、self-hosted machines、Origin・subscriptions は 2026-09-10、その他は 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
+> **最終確認日:** Run Modes と sandbox の適用範囲は 2026-10-03、検索方式は 2026-10-01、Data Use、self-hosted machines、Origin・subscriptions は 2026-09-10、その他は 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
 
 ### 概要
 
@@ -54,7 +53,7 @@ Cursor は Anysphere が提供する専用 IDE 型のコーディングエージ
 
 - **リポジトリ理解(この製品の要)**: 2026-10-01 の公式 Search は **Instant Grep の索引構築・検索は端末内**で行い、索引のためのコード・パス送信や検索用埋め込みの保存はしないと明記しています。2026-08 確認時のサーバー側埋め込み・ハッシュ・暗号化パスによる事前インデックス(処理中のコード平文は恒久保存されない)とは方式を分けます。ただし検索で開いたコードは推論要求に含まれ得ます。Cloud Agents のチェックアウトと、Data Use が定める**暗号化された一時ファイルキャッシュ**も別です(クライアント生成鍵は要求中のみサーバーに存在)。「索引がローカルだから送信・サーバー保存がない」とは整理できません。`.gitignore` / `.cursorignore` による対象の絞り込みと、他の操作のアクセス制御も分けて確認します
 - **ファイル編集**: 複数ファイル編集と diff ビュー、大きな変更前に自動作成されるチェックポイント(git とは独立、チャットのタイムラインから復元)があります
-- **コマンド実行**: 既定で承認制です。承認の中心概念は **Run Modes** の 3 種(Cursor 3.6 以降): Auto-review(推奨既定。許可リスト内は即実行、その他はサンドボックス実行または LLM 分類器が判定)/ Allowlist(許可リストのみ自動)/ Run Everything(全自動)。なお旧称「YOLO モード」は現行ドキュメントには存在しません
+- **コマンド実行(2026-10-03 確認)**: Auto-review の既定では毎回の人による承認を求めません。実行方法は **Run Modes** の 3 種(Cursor 3.6 以降): Auto-review(推奨既定。許可リスト内は即実行、その他はサンドボックス実行または LLM 分類器が判定)/ Allowlist(許可リストのみ自動)/ Run Everything(全自動)。組織管理者の設定とモデル許可で選択できるモードは変わります。空の Allowlist と sandbox 無効化なら都度承認に相当します。Cloud Agents はこのローカル Run Modes と別の実行面です
 
 ### 設定ファイルとカスタマイズ
 
@@ -64,8 +63,8 @@ Cursor は Anysphere が提供する専用 IDE 型のコーディングエージ
 
 ### 権限管理とセキュリティ
 
-- 読み取り・検索は承認不要、状態を変える操作は Run Modes に従います。**ネットワークは既定で制限**されており(GitHub・Web 検索等のみ)、任意の宛先への通信はできません
-- サンドボックスは macOS = Seatbelt、Linux = Landlock + seccomp です(Windows の対応は公式ドキュメントで未確認)。ワークスペース内のみ読み書き可、`.git/` と Cursor 設定ファイルは保護されます
+- ローカルでのツール実行と承認は Run Modes に従います。**sandbox の制限は、sandbox 内で実行する対応端末コマンドに適用されます**。ネットワークの到達範囲は network mode と `sandbox.json` により変わり、既定では許可されたドメインに限定されます。Allow All は sandbox 内の全ネットワーク通信を許可します。allowlist や Auto-review 分類器で許可された sandbox 外の実行へ、この制限を一般化しません
+- サンドボックスは macOS = Seatbelt、Linux = Landlock + seccomp です(Windows の対応は公式ドキュメントで未確認)。sandbox 内のコマンドは既定でワークスペースを読み書きでき、`.git/config`・`.git/hooks`・`.vscode`・機密性のある Cursor 設定など特定のパスが保護されます。追加の読み書き範囲は `sandbox.json` で設定します
 - **公式自身が「許可リスト・ガードレールはベストエフォートであり、ハードなセキュリティ境界ではない」と明記**しています。プロンプトインジェクションによる回避可能性まで公式が言及している点は誠実であり、利用側はこの前提で権限を設計すべきです([権限とセキュリティ](coding-agent-security.md))
 - **データ学習の既定は Privacy Mode に依存します**: 無効時はコード・プロンプト等を学習・改善に利用し得ます。有効時は Cursor が学習に使わず、モデルプロバイダーとは ZDR 契約があります。ただし 2026-09-03 更新の Data Use は、不正検知でフラグが立った入出力の調査目的の保持と、非 ZDR モデルの表示または管理者 opt-in を明記しています。学習不使用、通常時の保持方針、安全性審査の例外を分けて確認します。Enterprise は Privacy Mode を既定オンにし、無効化を禁止できます
 - Privacy Mode でも推論用のコード送信は行われます。**BYOK も最終プロンプトを組み立てる Cursor backend 経由**です。通信経路と、学習・保持の条件を別々に評価します
@@ -73,7 +72,7 @@ Cursor は Anysphere が提供する専用 IDE 型のコーディングエージ
 
 ### 外部連携(MCP・CI・API)
 
-- **MCP クライアント**: stdio / SSE / Streamable HTTP の 3 トランスポート + OAuth。設定は `.cursor/mcp.json`(プロジェクト)と `~/.cursor/mcp.json`(グローバル)。既定では MCP 接続とツール呼び出しの両方が承認制です
+- **MCP クライアント**: stdio / SSE / Streamable HTTP の 3 トランスポート + OAuth。設定は `.cursor/mcp.json`(プロジェクト)と `~/.cursor/mcp.json`(グローバル)。接続先の設定・許可と、個々のツール呼び出しの承認を分けます。呼び出しは Run Mode・allowlist・組織設定に従い、自動実行または人の承認になるため、すべての呼び出しで都度承認されるとは限りません
 - 2026-08-27 の Origin の開始方法では、SCM(ソースコード管理)を接続せずに作業を始め、後からリポジトリを作れます。2026-08-19 の subscriptions は Cloud Agents が PR・Slack スレッド・スケジュールを監視して再開する機能です。起動条件だけでなく終了条件・CI・レビューの責任を決めて使います
 - Slack / Linear / GitHub / Bitbucket の `@cursor` メンションから Cloud Agents を起動でき、API からのプログラム起動、CLI の CI 組み込み、Automations(定期実行)があります
 - Cursor SDK(TypeScript / Python)でカスタムエージェント・カスタムツールを構築できます
@@ -105,7 +104,7 @@ Cursor は Anysphere が提供する専用 IDE 型のコーディングエージ
 
 - [ ] Privacy Mode の状態(個人: 手動有効化 / Enterprise: 既定オン + 強制)を確認したか
 - [ ] ローカル索引と推論送信・一時キャッシュ・Cloud Agents のチェックアウト・保持例外を分け、組織のデータポリシーと突き合わせたか
-- [ ] Run Mode の既定(Auto-review)と許可リストの内容をチームで統一したか
+- [ ] Run Mode のモード・許可リスト・サンドボックス・組織ポリシーを確認し、自動実行と人への承認要求の条件をチームで統一したか
 - [ ] `.cursorignore` で機密・不要領域をインデックスから除外したか
 - [ ] オンデマンド課金の支出上限を設定したか
 
@@ -116,6 +115,8 @@ Cursor は Anysphere が提供する専用 IDE 型のコーディングエージ
 - [コーディングエージェントの権限とセキュリティ](coding-agent-security.md) — 「ベストエフォートなガードレール」を前提とした権限設計
 - [Windsurf](windsurf.md) — 同じ専用 IDE 型の対抗製品
 
+- [コーディングエージェントの選定基準と使い分け](coding-agent-selection.md) (任意の発展資料。本文を読む前の必須知識ではありません)
+
 ## 参考資料
 
 - [Cursor changelog](https://cursor.com/changelog) — self-hosted machines、Origin、subscriptions(アクセス日: 2026-09-10)
@@ -123,7 +124,7 @@ Cursor は Anysphere が提供する専用 IDE 型のコーディングエージ
 
 - [Cursor Docs(公式)](https://cursor.com/docs) — 機能・設定の一次情報(アクセス日: 2026-08-18)
 - [Search](https://cursor.com/docs/agent/tools/search) — Instant Grep のローカル索引と推論時の送信。旧 Codebase Indexing URL の転送先(アクセス日: 2026-10-01)
-- [Run Modes](https://cursor.com/docs/agent/security/run-modes) — 承認モデルとサンドボックスの仕様(アクセス日: 2026-08-18)
+- [Run Modes](https://cursor.com/docs/agent/security/run-modes) — 自動実行・分類器・承認要求の条件、端末 sandbox の保護パスと network mode。組織のモデル許可により Auto-review を利用できない場合もある(アクセス日: 2026-10-03)
 - [Bugbot](https://cursor.com/docs/bugbot) — PR 自動レビューの対応プラットフォーム(アクセス日: 2026-08-18)
 - [Data Use](https://cursor.com/data-use) — 2026-09-03 更新の学習・保持例外・BYOK・一時キャッシュ(アクセス日: 2026-09-10)
 - [Security](https://cursor.com/security) — コンプライアンス認証・インフラ(アクセス日: 2026-07-05)
@@ -137,6 +138,6 @@ Cursor は Anysphere が提供する専用 IDE 型のコーディングエージ
 
 > **TODO(要確認):** プラン構成(Pro / Pro+ / Ultra、Teams Standard / Premium)と含有利用枠を公式料金ページで確認する(2026-08-18 確認: 構成に変更なし。インド限定の低価格プラン Cursor Start が 2026-07-28 に新設されたがグローバル構成は不変。最終確認: 2026-08)
 
-> **TODO(要確認):** Run Mode と非 ZDR モデルの表示・管理者 opt-in、保持ポリシーの変化を公式ドキュメント・Data Use で確認する。2026-09-10 に保持例外と一時キャッシュを反映済み。Run Mode の既定は 2026-08 の確認範囲であり、個別モデルの保持期間は採用時に確認する(最終確認: 2026-09)
+> **TODO(要確認):** Run Mode と非 ZDR モデルの表示・管理者 opt-in、保持ポリシーの変化を公式ドキュメント・Data Use で確認する。2026-09-10 に保持例外と一時キャッシュを反映済み。Run Modes は 2026-10-03 に再確認した範囲であり、個別モデルの保持期間は採用時に確認する(最終確認: 2026-09)
 
 > **TODO(要確認):** Cursor SDK の機能範囲(2026-06 に大幅更新)と Bugbot の課金方式を確認する(2026-08-18 確認: SDK の 2026-06 以降の変化は一次情報で確認できず。Bugbot の対応プラットフォームは 4 つへの拡大を確認し本文へ反映済み。最終確認: 2026-08)

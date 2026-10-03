@@ -20,7 +20,6 @@ tags: ["text-to-speech", "voice-design", "voice-cloning"]
 
 ## 前提知識
 
-- [音声エージェント(voice agents)](../03-implementation/voice-agents.md) — 音声対話ループ全体(speech-to-speech / パイプライン)の正本(本記事は出力部品の TTS)
 - [ストリーミングと Agent の UX 実装パターン](../03-implementation/streaming-and-agent-ux.md) — 体感レイテンシ設計(本記事はその音声出力版)
 
 ## 本文

@@ -1,7 +1,7 @@
 ---
 title: "エージェントベンチマークの全体像"
 category: "evaluation"
-level: "basic"
+level: "intermediate"
 status: "published"
 last_updated: "2026-09-28"
 tags: ["benchmarks", "evaluation", "model-selection"]
@@ -137,15 +137,12 @@ WebArena-Verified は、課題・参照解・評価器を人手で点検し、�
 
 ## 参考資料
 
-- [Terminal-Bench 公式表示](https://www.tbench.ai/) / [Harbor Hub の 4.0 リーダーボード](https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/latest?leaderboard=4-0-0&tab=leaderboard) — effort 別の結果・費用の欠測表示(アクセス日: 2026-09-28)
-
-- [Terminal-Bench 4.0 の改訂内容](https://www.tbench.ai/news/terminal-bench-4-0) / [公式実行手順](https://www.tbench.ai/run) — 資源条件・課題修正・版ごとの再実行(アクセス日: 2026-09-17)
-
-- [一次資料: www.tbench.ai](https://www.tbench.ai/)(アクセス日: 2026-09-17)
-- [一次資料: github.com](https://github.com/ServiceNow/webarena-verified/blob/main/README.md)(アクセス日: 2026-09-17)
-
+- [Terminal-Bench 公式表示](https://www.tbench.ai/) — effort 別の結果・費用の欠測表示 / CLI 環境での評価タスクと測定条件 / ターミナル作業ベンチマークと検証付きリーダーボード(アクセス日: 2026-09-28)
+- [Harbor Hub の 4.0 リーダーボード](https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/latest?leaderboard=4-0-0&tab=leaderboard) — effort 別の結果・費用の欠測表示(アクセス日: 2026-09-28)
+- [Terminal-Bench 4.0 の改訂内容](https://www.tbench.ai/news/terminal-bench-4-0) — 資源条件・課題修正・版ごとの再実行(アクセス日: 2026-09-17)
+- [公式実行手順](https://www.tbench.ai/run) — 資源条件・課題修正・版ごとの再実行(アクセス日: 2026-09-17)
+- [WebArena Verified README](https://github.com/ServiceNow/webarena-verified/blob/main/README.md) — タスク・評価器の再検証範囲(アクセス日: 2026-09-17)
 - [SWE-bench 公式サイト](https://www.swebench.com/) — コーディング系の代表ファミリー(Lite / Verified / Multilingual / Multimodal)の正本(アクセス日: 2026-08-18)
-- [Terminal-Bench](https://www.tbench.ai/) — ターミナル作業ベンチマークと検証付きリーダーボード(アクセス日: 2026-08-18)
 - [WebArena-Verified](https://github.com/ServiceNow/webarena-verified) — 修正課題と network trace による評価(アクセス日: 2026-09-10)
 - [OSWorld](https://osworld-v1.xlang.ai/) — コンピュータ操作の実行ベース評価(Verified・2.0 への経緯を含む)(アクセス日: 2026-08-18)
 - [GAIA: A Benchmark for General AI Assistants(arXiv)](https://arxiv.org/abs/2311.12983) — 汎用アシスタント評価の代表(アクセス日: 2026-07-07)

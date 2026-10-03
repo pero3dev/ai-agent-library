@@ -290,3 +290,9 @@ Antigravity Organization は現行 pricing に Google Cloud 経由の Antigravit
 > **TODO(要確認):** Code Assist Enterprise の最低ライセンス数(10)と課金条件を料金ページ本体(https://cloud.google.com/products/gemini/pricing)で再確認する(最終確認: 2026-07-05、検索スニペット経由のため)
 
 > **TODO(要確認):** Code Assist GitHub コードレビューの設定ファイル名(config.yaml / styleguide.md 等)をカスタマイズ用ドキュメントで確認する(最終確認: 2026-07-05)
+
+## 2026-10-03 第3回レビューの部分再確認
+
+#182: Gemini CLI の API キー認証、Gemini API の Unpaid / Paid と rate limits を再確認。旧個人ログイン経路の終了を無料 API 利用の終了へ拡張しないよう本文・比較表を同期しました。
+
+取得 URL・実取得バッチ完了 UTC・確認水準・残る TODO は [一次情報の修正記録](../reviews/2026-10-03-article-remediation.md) を参照してください。過去の日付の本文は上書きしていません。

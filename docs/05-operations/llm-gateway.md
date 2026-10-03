@@ -21,7 +21,6 @@ tags: ["llm-gateway", "routing", "platform"]
 ## 前提知識
 
 - [モデル選定ガイド](../03-implementation/model-selection.md) — ティア混在・用途別振り分け(ゲートウェイのルーティングの土台)
-- [デプロイとスケーリング](deployment-and-scaling.md) — フォールバック・容量の原則(本記事はその実装点)
 - [エラーハンドリングとリトライ設計](../02-architecture/error-handling-and-retries.md) — リトライ・サーキットブレーカの原則
 
 ## 本文
@@ -127,8 +126,8 @@ Kong AI Gateway 2.0 は 2026-09-01 GA で、独立した runtime・control plane
 
 ## 参考資料
 
-- [一次資料: konghq.com](https://konghq.com/blog/product-releases/kong-ai-gateway-2-0-ga)(アクセス日: 2026-09-10)
-- [一次資料: developer.konghq.com](https://developer.konghq.com/ai-gateway/)(アクセス日: 2026-09-10)
+- [Kong AI Gateway 2.0 GA](https://konghq.com/blog/product-releases/kong-ai-gateway-2-0-ga) — 提供機能と GA 告知(アクセス日: 2026-09-10)
+- [Kong AI Gateway documentation](https://developer.konghq.com/ai-gateway/) — API 経路・ポリシーの設計資料(アクセス日: 2026-09-10)
 
 - [LiteLLM(公式リポジトリ)](https://github.com/BerriAI/litellm) — 100+ プロバイダーを OpenAI 形式で統一する SDK / Proxy の例(アクセス日: 2026-07-08)
 - [Portkey AI Gateway(公式リポジトリ)](https://github.com/Portkey-AI/gateway) — フォールバック・リトライ・キャッシュを備える OSS ゲートウェイの例(アクセス日: 2026-07-08)
@@ -136,4 +135,4 @@ Kong AI Gateway 2.0 は 2026-09-01 GA で、独立した runtime・control plane
 
 ## TODO・未確認事項
 
-> **TODO(要確認):** LLM ゲートウェイの OSS/マネージドの顔ぶれ・機能・ライセンス(OSS コアと有償機能の境界)は変化が速い。本文は 2026-07 時点の代表例に留めており、採用時に各製品の公式情報と調査メモ `research/llmops/serving.md` で最新を確認する(最終確認: 2026-09)
+本文の未確認事項を参照してください。

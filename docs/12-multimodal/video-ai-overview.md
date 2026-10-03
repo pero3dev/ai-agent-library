@@ -1,9 +1,9 @@
 ---
 title: "動画生成・理解の概観"
 category: "multimodal"
-level: "basic"
+level: "intermediate"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-10-04"
 tags: ["video-ai", "video-generation", "video-understanding"]
 ---
 
@@ -95,16 +95,16 @@ tags: ["video-ai", "video-generation", "video-understanding"]
 
 ### 提供終了を制作パイプラインの移行条件にする
 
-2026-09-10 確認の終了予定です。モデル名だけでなく ID と提供経路で照合します。
+2026-10-03 に再確認した告知期日の経過一覧です。期日はすべて経過していますが、表・Changelog の掲載だけで実 API 停止を確認したとは扱いません。モデル名・ID・提供経路を照合します。
 
 | 対象 | 告知された終了日 | 移行で確認すること |
 | --- | --- | --- |
 | OpenAI Videos API、sora-2 / sora-2-pro と退役表のスナップショット | 2026-09-24(告知 2026-03-24) | 新規採用の候補から外し、生成・取得処理と制作ワークフローの代替を評価します。API 終了だけで Sora アプリの状態を推定しません |
 | Amazon Nova Reel v1:0 | 2026-09-30 | ap-northeast-1 / eu-west-1 / us-east-1 の対象 ID を確認します |
 | Amazon Nova Reel v1:1 | 2026-09-30 | 対象は us-east-1。Nova 2 など別世代と混同しません |
-| gemini-omni-flash-preview | 2026-09-30 | 2026-08-27 GA の gemini-omni-1.1-flash へ、生成・編集・料金・品質の互換性を評価します |
+| gemini-omni-flash-preview | 2026-09-30(旧 preview の非推奨化の告知期日) | 2026-08-27 GA の gemini-omni-1.1-flash へ、生成・編集・料金・品質の互換性を評価します |
 
-終了予定の確認と、当日の API 停止を実呼出しで確認することは別です。ジョブの生成開始だけでなく、成果物取得まで完了できる時間を移行期限に含めます。
+告知期日の経過と、API の停止実施は別です。OpenAI・AWS の対象行は停止日 / EOL の表に残り、Google の告知は旧 preview の非推奨化を述べています。実施・延期・提供経路別の停止範囲は確認不能として扱います。ジョブの生成開始だけでなく、成果物取得まで完了できる時間を移行期限に含めます。
 
 ## 実務での注意点
 
@@ -126,6 +126,8 @@ tags: ["video-ai", "video-generation", "video-understanding"]
 - [ ] 生成動画の商用利用可否・権利を各社規約と法務で確認した(断定していない)
 - [ ] 来歴・透かしの付与を設計した
 
+> **TODO(要確認):** OpenAI Deprecations、AWS Model lifecycle (Legacy)、Gemini API Changelog / Deprecations で Videos API / sora-2 系(2026-09-24)、Nova Reel v1:0 / v1:1 と旧 gemini-omni-flash-preview(2026-09-30)の実施・延期・非推奨化と停止の違いを確認する(最終確認: 2026-10)
+
 ## 関連トピック
 
 - [マルチモーダルモデルの仕組み(数式なしの直感)](../10-llm-foundations/multimodal-models.md) — 動画のトークン経済(コストの土台)
@@ -144,7 +146,7 @@ tags: ["video-ai", "video-generation", "video-understanding"]
 - [提供仕様・終了日程: ai.google.dev](https://ai.google.dev/gemini-api/docs/deprecations)(アクセス日: 2026-09-10)
 
 - [Video understanding(Google Gemini API)](https://ai.google.dev/gemini-api/docs/video-understanding) — ネイティブ動画入力・既定 FPS・トークン構造の例(アクセス日: 2026-08-18)
-- [Video generation(OpenAI)](https://developers.openai.com/api/docs/guides/video-generation) — Videos API の旧実装例。2026-09-24 終了予定は上の退役表を優先(アクセス日: 2026-08-18)
+- [Video generation(OpenAI)](https://developers.openai.com/api/docs/guides/video-generation) — Videos API の旧実装例。2026-09-24 の告知終了期日を経過。実施状況は上の表・TODO を参照(アクセス日: 2026-08-18)
 - [Veo(Google DeepMind)](https://deepmind.google/models/veo/) — 動画生成モデル(音声・SynthID 透かし)の例(アクセス日: 2026-08-18)
 
 ## TODO・未確認事項

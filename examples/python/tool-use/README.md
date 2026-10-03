@@ -66,6 +66,10 @@ API キーなしでこれらの境界条件と、複数テキストブロック�
 
 ## 動作確認日
 
+- **今回の再確認**: 2026-10-04(Python 3.12.14、作業専用 venv、固定した anthropic 1.4.0 / httpx2 2.12.0 / mcp 2.2.0)。全 6 サンプルの `--mock` を含む 17 回帰テストが合格しました。実 SDK の HTTP モックとローカル MCP stdio を確認し、実 LLM API は呼んでいません([実行手順](../../tests/README.md))
+
+以下は過去の確認記録です。
+
 - **モック実行・SDK 回帰テスト**: 2026-09-10 に確認(Python 3.11.3、anthropic 1.4.0、httpx2 2.12.0 の HTTP モック)。`--mock` の集計と、正常応答・打ち切り・拒否・継続上限・ツールエラーを確認しました
 - **実 API 実行**: 未確認。SDK の要求生成と応答解析を確認した結果であり、実モデルの動作確認ではありません
 
@@ -74,3 +78,7 @@ API キーなしでこれらの境界条件と、複数テキストブロック�
 - [docs/01-concepts/agent-loop.md](../../../docs/01-concepts/agent-loop.md)
 - [docs/01-concepts/tool-use.md](../../../docs/01-concepts/tool-use.md)
 - [docs/03-implementation/tool-definition-design.md](../../../docs/03-implementation/tool-definition-design.md)
+
+## モデルの選択
+
+既定モデルは `claude-opus-5-5` です(モデル仕様確認: 2026-10-03)。環境変数 `ANTHROPIC_MODEL` で上書きできます。PowerShell では `$env:ANTHROPIC_MODEL = "claude-sonnet-5-5"`、POSIX シェルでは `export ANTHROPIC_MODEL=claude-sonnet-5-5` を実行してから起動します。`--mock` は API を呼びません。モデル移行時は強制ツール指定・思考履歴・出力上限の互換性を確認してください。実 API の動作確認日は従来の記録を維持し、今回のモック回帰結果は作業記録に分けます。

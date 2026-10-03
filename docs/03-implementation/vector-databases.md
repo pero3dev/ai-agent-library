@@ -1,7 +1,7 @@
 ---
 title: "ベクトルデータベースの選定と運用"
 category: "implementation"
-level: "intermediate"
+level: "advanced"
 status: "published"
 last_updated: "2026-07-08"
 tags: ["rag", "retrieval", "vector-database"]

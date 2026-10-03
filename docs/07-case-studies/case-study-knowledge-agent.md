@@ -22,7 +22,6 @@ tags: ["rag", "retrieval", "data-exfiltration"]
 
 ## 前提知識
 
-- [RAG 実装パターン](../03-implementation/rag-implementation-patterns.md) — 取り込み・検索・生成の実装判断(本事例の技術基盤)
 - [データ漏えい対策](../06-security/data-exfiltration.md) — 権限を越えた情報流出の経路と対策
 
 ## 本文

@@ -21,7 +21,6 @@ tags: ["feedback-loops", "observability", "evaluation"]
 ## 前提知識
 
 - [可観測性とトレーシング](observability-and-tracing.md) — 品質シグナルの定義とトレースの設計(本記事の土台)
-- [評価データセットの構築と保守](../04-evaluation/evaluation-datasets.md) — シグナルの主要な還流先
 
 ## 本文
 

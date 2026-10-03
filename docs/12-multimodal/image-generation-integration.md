@@ -3,7 +3,7 @@ title: "画像生成のプロダクト組み込み"
 category: "multimodal"
 level: "intermediate"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-10-04"
 tags: ["image-generation", "inpainting", "content-provenance"]
 ---
 
@@ -90,7 +90,9 @@ tags: ["image-generation", "inpainting", "content-provenance"]
 
 ### モデル終了に備えた差し替え
 
-画像生成モデルは、保存済みのプロンプトと API 接続が残っていても提供終了後には使えません。2026-09-10 確認の AWS 表では `amazon.nova-canvas-v1:0` は 2026-09-30 EOL、対象地域は ap-northeast-1 / eu-west-1 / us-east-1 です。
+画像生成モデルは、保存済みのプロンプトと API 接続が残っていても提供終了後には使えません。2026-10-03 確認の AWS 表にも `amazon.nova-canvas-v1:0` の EOL 期日 2026-09-30 が掲載されています。期日は経過していますが、実停止・延期は確認不能です。対象地域は ap-northeast-1 / eu-west-1 / us-east-1 です。
+
+> **TODO(要確認):** AWS の Model lifecycle と対象地域のモデル案内で Nova Canvas v1:0 の EOL 実施・延期を確認する(最終確認: 2026-10)
 
 モデル ID、地域、出力形式、参照画像・シードの扱いを設定として切り出し、代替モデルでブランド素材の回帰評価を行います。同じサービス内の新モデルでも画風・権利条件・来歴・料金の互換性は別に確認します。終了の告知を確認したことと、実際の停止を確認したことも区別します。
 

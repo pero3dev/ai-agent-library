@@ -20,9 +20,7 @@ tags: ["time-series", "forecasting", "hybrid", "capabilities"]
 
 ## 前提知識
 
-- [データ分析エージェント](data-analysis-agents.md) — データ分析全般(本記事は時系列固有の判断)
 - [能力と限界](../10-llm-foundations/capabilities-and-limits.md) — LLM が数値・計算で外す構造
-- [信頼度と較正](../04-evaluation/confidence-and-calibration.md) — 予測の不確かさの扱い
 
 ## 本文
 

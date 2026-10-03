@@ -21,7 +21,6 @@ tags: ["physical-ai", "multimodal", "ai-agent"]
 ## 前提知識
 
 - [AI Agent とは何か](what-is-an-ai-agent.md) — 観測・思考・行動という基本構造
-- [コンピュータ操作型・マルチモーダル Agent](computer-use-and-multimodal-agents.md) — 画面を「見て操作する」Agent(フィジカル AI に最も近い隣接領域)
 
 ## 本文
 

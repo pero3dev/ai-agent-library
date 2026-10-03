@@ -20,7 +20,6 @@ tags: ["api-design", "streaming", "versioning"]
 
 ## 前提知識
 
-- [非同期・長時間タスクの設計(耐久実行)](async-and-durable-agents.md) — 内部実装側の再開・冪等性(本記事はそれを外部契約に写す側)
 - [エラー処理・リトライ・フォールバック設計](error-handling-and-retries.md) — エラー分類(本記事で API エラーコードに写像します)
 - [ストリーミングと Agent の UX 実装パターン](../03-implementation/streaming-and-agent-ux.md) — 対人 UI 側の進捗提示(本記事は機械間の契約側)
 

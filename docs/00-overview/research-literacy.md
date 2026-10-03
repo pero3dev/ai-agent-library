@@ -4,7 +4,7 @@ category: "overview"
 level: "basic"
 status: "published"
 last_updated: "2026-09-10"
-tags: ["research-literacy", "primary-source", "overview"]
+tags: ["research-literacy", "primary-source"]
 ---
 
 # AI 情報の追い方(一次情報の目利き)

@@ -1,6 +1,0 @@
-.coding-products-walkthrough .rf-scene-controls:not(:empty) { display: grid; gap: .45rem; padding: .4rem 1.2rem .15rem; }
-.coding-products-walkthrough .aw-prose th { white-space: nowrap; }
-.coding-products-walkthrough .aw-prose td:first-child { min-width: 6rem; }
-@container (min-width: 900px) {
- .coding-products-walkthrough .aw-layout { grid-template-columns: minmax(0,1fr) minmax(0,1.1fr); gap: 1.5rem; }
-}

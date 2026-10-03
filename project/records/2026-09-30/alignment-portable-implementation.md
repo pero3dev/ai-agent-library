@@ -21,7 +21,7 @@ DPOの期待値は製品modelをimportせず、固定分数と閉形式から作
 
 flatなD1 predecessor proofで固定3入口を旧C2全文へ復元し、既存C2 proofでC1へ戻して古い保護区間まで照合します。旧91名は1件の逆renameだけで戻り、旧71/58名も順序一致を検査します。旧C2 proofと6 moduleはバイト不変、旧helperは完全prefixを保護しました。自己hashや現在manifestのhashをproofへ埋め込んでいません。
 
-localhost専用adapterは同じ16callbackを使い、公開entryへ偽SHA・artifactを渡しません。loopbackのHTTPと固定basePathだけを許可し、実ブラウザー・ネットワーク・画像をローカル証拠として記録します。390px明暗では既存DPO原式のkeyboard・focus-visible・左右端・分数と添字の高さも検査します。実行方法は[kit README](../../../scripts/diagram-release/README.md)を参照してください。
+localhost専用adapterは同じ16callbackを使い、公開entryへ偽SHA・artifactを渡しません。loopbackのHTTPと固定basePathだけを許可し、実ブラウザー・ネットワーク・画像をローカル証拠として記録します。390px明暗では既存DPO原式のkeyboard・focus-visible・左右端・分数と添字の高さも検査します。実行方法は[kit README](https://github.com/pero3dev/ai-agent-library/blob/b321a0bf94aa2db6d19d6e1ceffb2f0a2cc46d2b/scripts/diagram-release/README.md)を参照してください。
 
 ## 作者検査と版の保存
 

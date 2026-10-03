@@ -1,9 +1,0 @@
-const grouped=(article,count,headings,groups,types)=>({article:`docs/08-coding-agents/${article}.md`,route:`/docs/coding-agents/${article}`,binding:'grouped-blocks',stageCount:count,headings,sourceHeadings:headings,blockGroups:groups,blockTypes:types})
-export const SE_PROCESS_BINDINGS={
- 'se-common-principles':grouped('se-process-map',3,['概要: このシリーズの地図','全工程に共通する原則'],[[{stage:0,count:2}],[{stage:1,count:2}]],[['paragraph','blockquote'],['paragraph','list']]),
- 'se-v-model-map':grouped('se-process-map',5,['工程別マップ(V 字モデルで見る)','ウォーターフォールとアジャイルの読み替え','自分の工程から始める'],[[{stage:0,count:2},{stage:1,count:2}],[{stage:3,count:2}],[{stage:4,count:3}]],[['paragraph','code','table','paragraph'],['paragraph','list'],['paragraph','list','paragraph']]),
- 'se-upstream-review':grouped('se-requirements-and-design',4,['概要: 上流での使いどころと分担','要件の壁打ちと抜け漏れ観点出し','設計書ドラフトの生成','設計レビュー支援'],[[{stage:0,count:2}],[{stage:1,count:2}],[{stage:2,count:2}],[{stage:3,count:2}]],[['paragraph','table'],['paragraph','list'],['paragraph','list'],['paragraph','list']]),
- 'se-document-delivery':grouped('se-requirements-and-design',4,['図の生成(Mermaid)','ドキュメント形式の壁への現実解(Excel 設計書文化)','上流での機微情報の扱い'],[[{stage:0,count:2}],[{stage:1,count:2}],[{stage:3,count:2}]],[['paragraph','list'],['paragraph','list'],['paragraph','list']]),
- 'se-test-design-generation':grouped('se-test-process',4,['概要: テスト工程での使いどころと分担','テスト観点出しと境界値の列挙','テストケース生成と、その検証責任','テストコード・テストデータの生成'],[[{stage:0,count:3}],[{stage:1,count:2}],[{stage:2,count:2}],[{stage:3,count:2}]],[['paragraph','table','paragraph'],['paragraph','list'],['paragraph','list'],['paragraph','list']]),
- 'se-test-oracle-evidence':grouped('se-test-process',4,['自己検証の罠','エビデンス整理の自動化','品質保証の責任は人が握る'],[[{stage:0,count:1},{stage:1,count:1}],[{stage:2,count:2}],[{stage:3,count:2}]],[['paragraph','list'],['paragraph','list'],['paragraph','list']])
-}

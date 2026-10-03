@@ -12,7 +12,7 @@
 
 ## 移管内容
 
-[キットの手順](../../../scripts/diagram-release/README.md)を入口とする。LF版の独立再レビュー後、11ファイルをバイトを変えずに移した。[source-mapping.json](../../../scripts/diagram-release/source-mapping.json)のSHA-256は `d5ff1524136e8279af9e946ba4e4ae5faf71eb2cfa401b574a7258fd1ebaeb7c`。
+[キットの手順](https://github.com/pero3dev/ai-agent-library/blob/b321a0bf94aa2db6d19d6e1ceffb2f0a2cc46d2b/scripts/diagram-release/README.md)を入口とする。LF版の独立再レビュー後、11ファイルをバイトを変えずに移した。[source-mapping.json](https://github.com/pero3dev/ai-agent-library/blob/b321a0bf94aa2db6d19d6e1ceffb2f0a2cc46d2b/scripts/diagram-release/source-mapping.json)のSHA-256は `d5ff1524136e8279af9e946ba4e4ae5faf71eb2cfa401b574a7258fd1ebaeb7c`。
 
 元キットの生バイトと、Gitの改行契約に合わせたLF版を区別する。推論検査モジュールはCRLFからLFへの正規化だけを含み、他の検査2モジュールは元とバイト一致。旧manifest `6c28da90...` の承認を新しい版へ流用せず、2026-09-24T12:45:28.436Zの独立再レビューで17件と実際のGit改行属性を確認した。
 

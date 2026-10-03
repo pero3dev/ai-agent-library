@@ -1,9 +1,0 @@
-const grouped=(name,count,headings,groups,types)=>({article:`docs/06-security/${name}.md`,route:`/docs/security/${name}`,binding:'grouped-blocks',stageCount:count,headings,sourceHeadings:headings,blockGroups:groups,blockTypes:types})
-export const SECURITY_BOUNDARIES_BINDINGS={
- 'threat-boundary-cycle':grouped('threat-model-overview',6,['概要: 前提となる 3 つの事実','詳細: 信頼境界の見取り図','詳細: 代表的な脅威のカタログ'],[[{stage:0,count:3}],[{stage:1,count:1},{stage:2,count:1}],[{stage:3,count:1}]],[['paragraph','list','paragraph'],['code','paragraph'],['table']]),
- 'threat-trifecta-workflow':grouped('threat-model-overview',6,['詳細: 致命的三重奏 — 漏えいが構造的に成立する条件','設計判断: 脅威モデリングの実務手順'],[[{stage:0,count:1},{stage:1,count:1},{stage:2,count:1}],[{stage:3,count:1}]],[['paragraph','list','paragraph'],['list']]),
- 'injection-input-defense':grouped('prompt-injection',6,['概要: なぜ構造的に防げないのか','詳細: 直接と間接','詳細: 攻撃者の目標','詳細: 多層防御 — どの層も単独では不完全'],[[{stage:0,count:3}],[{stage:1,count:1},{stage:2,count:2}],[{stage:3,count:2}],[{stage:4,count:1}]],[['paragraph','paragraph','paragraph'],['table','paragraph','paragraph'],['paragraph','list'],['table']]),
- 'injection-repeated-risk':grouped('prompt-injection',5,['設計判断: 「検知率 99%」は防御にならない'],[[{stage:0,count:1},{stage:1,count:1},{stage:2,count:1}]],[['paragraph','paragraph','blockquote']]),
- 'permission-gates-scope':grouped('tool-permissions-and-sandboxing',6,['概要: 権限は「渡した分だけ悪用されうる」と考える','詳細: 権限設計の 4 原則','詳細: 承認ゲートの配置'],[[{stage:0,count:2}],[{stage:1,count:1},{stage:2,count:1}],[{stage:3,count:1},{stage:4,count:1},{stage:5,count:1}]],[['paragraph','paragraph'],['table','paragraph'],['paragraph','list','paragraph']]),
- 'permission-sandbox-mcp':grouped('tool-permissions-and-sandboxing',6,['詳細: サンドボックス — コード実行と画面操作は隔離が前提','詳細: 外部 MCP サーバーを信頼する条件','設計判断: 権限は静的に決めず、状況で絞る'],[[{stage:0,count:1},{stage:1,count:1},{stage:2,count:1}],[{stage:3,count:1},{stage:4,count:1}],[{stage:5,count:1}]],[['paragraph','table','paragraph'],['paragraph','list'],['list']])
-}

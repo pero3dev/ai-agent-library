@@ -27,4 +27,4 @@
 
 旧9記事はPR63の公開証拠、旧27登録と9割当の一致、132入力中共有5ファイル以外のraw bytes不変、共有追加レビュー、現行Edge全体回帰による限定継承である。今回のローカルレビューで旧9記事の全画像を新たに視認したとは扱わず、公開版の全121ケースと独立画像は次工程で確認する。
 
-raw内のhelperは当時の実行内容を保存したもので、TEMP・旧PC絶対pathを含む。別PCで再実行する入口は[現行公開kit](../../../../scripts/diagram-release/README.md)を使う。[制作記録](../reasoning-reading-diagrams.md)と[引き継ぎ](../../2026-09-24/dynamic-diagram-handoff.md)を併読する。
+raw内のhelperは当時の実行内容を保存したもので、TEMP・旧PC絶対pathを含む。別PCで再実行する入口は[現行公開kit](https://github.com/pero3dev/ai-agent-library/blob/b321a0bf94aa2db6d19d6e1ceffb2f0a2cc46d2b/scripts/diagram-release/README.md)を使う。[制作記録](../reasoning-reading-diagrams.md)と[引き継ぎ](../../2026-09-24/dynamic-diagram-handoff.md)を併読する。

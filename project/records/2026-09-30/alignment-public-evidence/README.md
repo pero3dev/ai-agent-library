@@ -12,4 +12,4 @@
 
 実mergeは`b6686c92dbb678ea8b94eb12df37a33207c4c84b`、main runは`36702086701`、Pages artifactは`11090349965`、BUILD_IDは`Iytr-Mx-iwwzxrZ8pUUHR`。9 HTMLのartifact同一性とactual mergeの入力照合を含む。巨大tarは保存せず、tar hash・member一覧・9原本HTMLと取得手順を保持する。
 
-[最終提出原本](../alignment-submission-evidence/README.md)、[ローカル補足](../alignment-dependency-evidence/final-review.json)、[制作・公開記録](../alignment-reading-diagrams.md)、[公開検証kit](../../../../scripts/diagram-release/README.md)へ接続する。保存helperは当時の保存作業専用で、新PCの再実行入口は公開kit。WebKitや画面幅の確認を物理iPhone Safariの受入と扱わない。
+[最終提出原本](../alignment-submission-evidence/README.md)、[ローカル補足](../alignment-dependency-evidence/final-review.json)、[制作・公開記録](../alignment-reading-diagrams.md)、[公開検証kit](https://github.com/pero3dev/ai-agent-library/blob/b321a0bf94aa2db6d19d6e1ceffb2f0a2cc46d2b/scripts/diagram-release/README.md)へ接続する。保存helperは当時の保存作業専用で、新PCの再実行入口は公開kit。WebKitや画面幅の確認を物理iPhone Safariの受入と扱わない。

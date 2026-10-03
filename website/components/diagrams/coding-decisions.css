@@ -1,6 +1,0 @@
-.coding-decisions-walkthrough .rf-scene-controls:not(:empty) { display: grid; gap: .45rem; padding: .4rem 1.2rem .15rem; }
-.coding-decisions-walkthrough .aw-prose th { white-space: nowrap; }
-.coding-decisions-walkthrough[data-diagram-id="coding-selection-constraints"] .aw-prose td:first-child { min-width: 6rem; }
-@container (min-width: 900px) {
-  .coding-decisions-walkthrough .aw-layout { grid-template-columns: minmax(0,1fr) minmax(0,1.1fr); gap: 1.5rem; }
-}

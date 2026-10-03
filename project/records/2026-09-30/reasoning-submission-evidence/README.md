@@ -8,4 +8,4 @@
 
 補足helperは元のprofile callbackとassertionを変更せず、このプロセス内だけ2幅を登録したローカル検査である。公開kitは全121ケースのまま。補足2幅のdark、native 200% zoom、物理端末を検証済みとは主張しない。公開受入は未完了で、実main CI・Pages・artifactと公開HTML一致・公開ブラウザーと画像の受入は次工程となる。
 
-提出前の追加差分レビュー、提案PR本文・commit文、実行helperも原本としてgzip保存している。旧PCのTEMPは実行依存ではない。再実行の入口は[現行kit](../../../../scripts/diagram-release/README.md)、全体状態は[制作記録](../reasoning-reading-diagrams.md)を確認する。
+提出前の追加差分レビュー、提案PR本文・commit文、実行helperも原本としてgzip保存している。旧PCのTEMPは実行依存ではない。再実行の入口は[現行kit](https://github.com/pero3dev/ai-agent-library/blob/b321a0bf94aa2db6d19d6e1ceffb2f0a2cc46d2b/scripts/diagram-release/README.md)、全体状態は[制作記録](../reasoning-reading-diagrams.md)を確認する。

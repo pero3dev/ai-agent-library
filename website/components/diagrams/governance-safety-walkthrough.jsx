@@ -1,6 +1,0 @@
-'use client'
-import {lazy} from 'react'
-import {DiagramBoundary} from './diagram-boundary'
-import {ReadingArticleContents} from './reading-article-navigation'
-const scenes={'compliance-regulatory-map':lazy(()=>import('./compliance-scope-scenes').then(m=>({default:m.ComplianceRegulatoryMap}))),'compliance-data-governance':lazy(()=>import('./compliance-scope-scenes').then(m=>({default:m.ComplianceDataGovernance}))),'compliance-audit-vendor':lazy(()=>import('./compliance-scope-scenes').then(m=>({default:m.ComplianceAuditVendor}))),'standards-types-stage':lazy(()=>import('./standards-scope-scenes').then(m=>({default:m.StandardsTypesStage}))),'standards-fit-maintain':lazy(()=>import('./standards-scope-scenes').then(m=>({default:m.StandardsFitMaintain}))),'frontier-framework-report':lazy(()=>import('./frontier-scope-scenes').then(m=>({default:m.FrontierFrameworkReport}))),'frontier-procurement-observation':lazy(()=>import('./frontier-scope-scenes').then(m=>({default:m.FrontierProcurementObservation})))}
-export function GovernanceSafetyWalkthrough({diagramId,children}){const Scene=Object.hasOwn(scenes,diagramId)?scenes[diagramId]:null;if(!Scene)return <>{children}</>;return <><ReadingArticleContents diagramId={diagramId}/><DiagramBoundary key={diagramId} fallback={children}><Scene>{children}</Scene></DiagramBoundary></>}

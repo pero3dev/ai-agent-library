@@ -1,9 +1,0 @@
-const grouped=(name,count,headings,groups,types)=>({article:`docs/03-implementation/${name}.md`,route:`/docs/implementation/${name}`,binding:'grouped-blocks',stageCount:count,headings,sourceHeadings:headings,blockGroups:groups,blockTypes:types})
-export const PROMPT_TECHNIQUES_ASSETS_BINDINGS={
- 'prompt-basics-input':grouped('prompt-engineering-fundamentals',5,['概要: 技法カタログとしての位置づけ','基本原則: 明確・具体・分離','例示(few-shot): 例が仕様書になる'],[[{stage:0,count:2}],[{stage:1,count:2}],[{stage:3,count:2}]],[['paragraph','table'],['paragraph','list'],['paragraph','list']]),
- 'prompt-basics-chain':grouped('prompt-engineering-fundamentals',5,['思考の誘導と推論モデル','分解と連鎖: 1 プロンプトに詰め込まない','形式指定: プロンプトで頼むか、構造で強制するか','技法の陳腐化との付き合い方'],[[{stage:0,count:2}],[{stage:1,count:2}],[{stage:2,count:1}],[{stage:4,count:2}]],[['paragraph','paragraph'],['paragraph','paragraph'],['paragraph'],['paragraph','list']]),
- 'prompt-pattern-layout':grouped('prompt-engineering-patterns',5,['概要: 基礎技法との分担','構造化の詳解: 配置には 3 つの力学がある','例示(few-shot)の詳解: 例は第 2 の仕様書'],[[{stage:0,count:1}],[{stage:0,count:2},{stage:1,count:1}],[{stage:2,count:1}]],[['table'],['paragraph','code','list'],['list']]),
- 'prompt-pattern-verification':grouped('prompt-engineering-patterns',6,['思考の制御: モデルと検証手段で使い分ける','出力の制御: 「お願い」を物理的な制約に近づける','長文・大量データのパターン','頑健性: きれいな入力を前提にしない','パターンの検証方法'],[[{stage:0,count:1}],[{stage:1,count:1}],[{stage:2,count:1}],[{stage:3,count:1}],[{stage:4,count:2}]],[['list'],['list'],['list'],['list'],['paragraph','list']]),
- 'prompt-management-assets':grouped('prompt-management',5,['概要: コードと同じ規律、コードと違う性質','資産としてのプロンプト','バージョニングと環境'],[[{stage:0,count:2}],[{stage:1,count:2},{stage:2,count:1}],[{stage:3,count:1}]],[['paragraph','list'],['paragraph','code','list'],['list']]),
- 'prompt-management-change':grouped('prompt-management',5,['変更フロー','実験と計測'],[[{stage:0,count:2},{stage:1,count:2}],[{stage:3,count:1}]],[['paragraph','code','list','paragraph'],['list']])
-}

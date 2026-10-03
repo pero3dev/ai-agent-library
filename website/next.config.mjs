@@ -25,9 +25,10 @@ const withNextra = nextra({
 const isExport = process.env.STATIC_EXPORT === '1'
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
 
-export default withNextra({
+const config = withNextra({
   reactStrictMode: true,
   turbopack: {
+    root: fileURLToPath(new URL('../', import.meta.url)),
     resolveAlias: { [mermaidImport]: mermaidRenderer }
   },
   webpack(config) {
@@ -37,3 +38,18 @@ export default withNextra({
   ...(basePath ? { basePath } : {}),
   ...(isExport ? { output: 'export', images: { unoptimized: true } } : {})
 })
+
+const loaderAdapter = fileURLToPath(new URL('./scripts/nextra-loader.cjs', import.meta.url))
+function adaptLoaders(value) {
+  if (!value || typeof value !== 'object') return
+  if (typeof value.loader === 'string' && /[/\\]nextra[/\\]loader\.cjs$/.test(value.loader)) value.loader = loaderAdapter
+  for (const child of Object.values(value)) adaptLoaders(child)
+}
+adaptLoaders(config.turbopack)
+const webpack = config.webpack
+config.webpack = (webpackConfig, options) => {
+  const result = webpack(webpackConfig, options)
+  adaptLoaders(result.module?.rules)
+  return result
+}
+export default config

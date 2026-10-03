@@ -90,6 +90,20 @@ const test = base.extend({
   }
 })
 
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => { window.audioCspViolations = []; document.addEventListener('securitypolicyviolation', event => window.audioCspViolations.push({ directive: event.violatedDirective, blocked: event.blockedURI })) })
+})
+test.afterEach(async ({ page }, info) => {
+  if (info.status !== info.expectedStatus) await info.attach('native-media-state', {
+    body: JSON.stringify(await media(page).evaluateAll(elements => elements.map(audio => ({
+      paused: audio.paused, readyState: audio.readyState, networkState: audio.networkState,
+      currentTime: audio.currentTime, error: audio.error ? { code: audio.error.code, message: audio.error.message } : null,
+      source: audio.querySelector('source')?.getAttribute('src'), type: audio.querySelector('source')?.type
+    })))), contentType: 'application/json'
+  })
+  expect(await page.evaluate(() => window.audioCspViolations || [])).toEqual([])
+})
+
 test('audio library reports real coverage and has a keyboard skip target', async ({ page }) => {
   await page.goto(route('/audio'))
   await expect(page.getByRole('heading', { name: '音声で学ぶ', exact: true })).toBeVisible()
@@ -132,8 +146,15 @@ test('article audio entry matches its canonical route under a deployment prefix'
 test('mobile navigation keeps roadmap, glossary, and tags reachable', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(route('/audio'))
+  await page.waitForLoadState('networkidle')
   for (const pathname of ['/roadmap', '/glossary', '/tags']) {
+    // URL changes before the new route's menu-closing effect and resources
+    // finish. Observe the closed state before making the next user action.
+    await page.waitForLoadState('networkidle')
+    const menu = page.locator('.nextra-mobile-nav')
+    await expect(menu).not.toBeInViewport()
     await page.getByRole('button', { name: 'Menu', exact: true }).click()
+    await expect(menu).toBeInViewport({ ratio: 0.99 })
     const link = page.locator(`.nextra-mobile-nav a[href="${route(pathname)}"]`).first()
     await link.scrollIntoViewIfNeeded()
     await expect(link).toBeVisible()

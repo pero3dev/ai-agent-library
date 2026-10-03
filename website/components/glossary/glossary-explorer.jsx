@@ -39,7 +39,7 @@ export function GlossaryExplorer({ entries }) {
           <h2 className="glossary-group-title">{group.label}</h2>
           <div className="glossary-grid">
             {group.items.map(entry => (
-              <Link key={entry.name} href={entry.href ?? '#'} className="glossary-card">
+              <Link prefetch={false} key={entry.name} href={entry.href ?? '#'} className="glossary-card">
                 <span className="glossary-card-name">{entry.name}</span>
                 {entry.english && <span className="glossary-card-english">{entry.english}</span>}
                 <p className="glossary-card-summary">{entry.summary}</p>

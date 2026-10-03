@@ -8,6 +8,7 @@ import { ArticleAudio } from './components/audio/article-audio'
 import { removeLinks } from 'nextra/remove-links'
 import { ArticleTocProvider } from './components/mdx/article-toc'
 import { ArticleActions } from './components/mdx/article-actions'
+import { StaticMermaid } from './components/mdx/static-mermaid'
 
 const docsComponents = getDocsMDXComponents()
 const DocsWrapper = docsComponents.wrapper
@@ -20,6 +21,7 @@ export const useMDXComponents = components => ({
   PracticeSection,
   GlossaryTerm,
   ChecklistBox,
+  StaticMermaid,
   // KaTeX のブロック数式はキーボードでも横スクロールできるようにする。
   span(props) {
     if (props.className?.split(/\s+/).includes('katex-display')) {

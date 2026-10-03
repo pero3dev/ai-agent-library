@@ -1,0 +1,22 @@
+name: 内容のリクエスト
+description: 学びたいテーマや記事・サイトの改善を提案します。
+title: "[内容リクエスト] "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: request
+    attributes:
+      label: 学びたいこと・改善したいこと
+      description: 必要な知識と、どのような判断に使いたいかを書いてください。
+    validations:
+      required: true
+  - type: input
+    id: related
+    attributes:
+      label: 関連する記事・ページ
+  - type: textarea
+    id: background
+    attributes:
+      label: 背景・利用場面・参考情報
+    validations:
+      required: true

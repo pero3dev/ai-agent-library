@@ -1,6 +1,7 @@
 'use client'
 
-import { Background, Controls, ReactFlow } from '@xyflow/react'
+import { Background, Controls, MarkerType, ReactFlow } from '@xyflow/react'
+import Link from 'next/link'
 import '@xyflow/react/dist/style.css'
 import { useRouter } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
@@ -92,6 +93,7 @@ export function DependencyGraph() {
       description: section.description
     },
     className: 'dep-node',
+    ariaLabel: `${section.title}。Enter または Space でセクションへ移動`,
     style: { width: 200 }
   })), [])
 
@@ -100,6 +102,7 @@ export function DependencyGraph() {
     source,
     target,
     animated: false,
+    markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20 },
     style: variant === 'dashed' ? { strokeWidth: 1.5, strokeDasharray: '6 4' } : { strokeWidth: 1.5 }
   })), [])
 
@@ -107,7 +110,11 @@ export function DependencyGraph() {
 
   return (
     <div className="dep-graph">
-      <div className="dep-graph-canvas">
+      <div className="dep-graph-canvas" onKeyDownCapture={event => {
+        const node = event.target.closest('.react-flow__node')
+        const section = sections.find(item => item.slug === node?.dataset.id)
+        if (section && ['Enter', ' '].includes(event.key)) { event.preventDefault(); router.push(section.route) }
+      }} onFocusCapture={event => setHovered(event.target.closest('.react-flow__node')?.dataset.id || null)}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -117,6 +124,8 @@ export function DependencyGraph() {
           nodesDraggable={false}
           nodesConnectable={false}
           elementsSelectable={false}
+          nodesFocusable
+          ariaLabelConfig={{ 'node.a11yDescription.default': 'Tab でノードを選び、Enter または Space でセクションへ移動します。', 'controls.zoomIn.ariaLabel': '拡大', 'controls.zoomOut.ariaLabel': '縮小', 'controls.fitView.ariaLabel': '図全体を表示' }}
           zoomOnScroll={false}
           panOnScroll={false}
           preventScrolling={false}
@@ -133,7 +142,7 @@ export function DependencyGraph() {
           <>
             <p className="dep-panel-title">{hoveredSection.title}</p>
             <p className="dep-panel-desc">{hoveredSection.description}</p>
-            <p className="dep-panel-hint">クリックでセクションへ移動</p>
+            <p className="dep-panel-hint">クリック、Enter または Space でセクションへ移動</p>
           </>
         ) : (
           <p className="dep-panel-hint">
@@ -141,6 +150,15 @@ export function DependencyGraph() {
           </p>
         )}
       </div>
+      <p className="dep-panel-hint">矢印の先の章を読む前に、手前の章を読むと理解が速くなります。実線: 基本の前提関係。破線: 関連知識として推奨。</p>
+      <section className="dependency-list" aria-label="依存関係の一覧">
+        <h2>依存関係を一覧で読む</h2>
+        <ul>{EDGES.map(([source, target, variant]) => {
+          const before = sections.find(section => section.slug === source)
+          const after = sections.find(section => section.slug === target)
+          return <li key={`${source}-${target}`}><Link prefetch={false} href={after.route}>{after.title}</Link> を読む前に <Link prefetch={false} href={before.route}>{before.title}</Link> {variant === 'dashed' ? '(関連知識として推奨)' : '(基本の前提)'}</li>
+        })}</ul>
+      </section>
     </div>
   )
 }

@@ -6,7 +6,7 @@ export function SectionGrid() {
   return (
     <div className="section-grid">
       {sections.map(section => (
-        <Link key={section.slug} href={section.route} className="section-card">
+        <Link prefetch={false} key={section.slug} href={section.route} className="section-card">
           <div className="section-card-head">
             <span className="section-num">{section.num}</span>
             <span className="section-count">{section.count} 本</span>

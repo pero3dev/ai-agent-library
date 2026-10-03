@@ -1,0 +1,41 @@
+name: 記事の誤り・古い情報の報告
+description: 記事の誤りや更新が必要な情報を報告します。
+title: "[記事訂正] "
+labels: [content]
+body:
+  - type: markdown
+    attributes:
+      value: "脆弱性や秘密情報の報告は公開Issueに書かず、[SECURITY.md](https://github.com/pero3dev/ai-agent-library/blob/main/SECURITY.md)の非公開報告先を使ってください。"
+  - type: input
+    id: article
+    attributes:
+      label: 記事のURLまたは正本パス
+      description: "公開URLまたは docs/ から始まる正本パス"
+    validations:
+      required: true
+  - type: input
+    id: updated
+    attributes:
+      label: 記事の更新日
+      description: 記事に表示されている更新日を記入してください。
+  - type: textarea
+    id: location
+    attributes:
+      label: 該当箇所と問題
+      description: 見出しと、どの記述が誤りまたは古いと考えるかを書いてください。
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: 正しいと考える情報と出典
+      description: 可能なら公式ドキュメントなど一次情報のURLを添えてください。不明な場合はその旨を記入できます。
+    validations:
+      required: true
+  - type: input
+    id: checked
+    attributes:
+      label: 情報を確認した日
+      placeholder: YYYY-MM-DD
+    validations:
+      required: true

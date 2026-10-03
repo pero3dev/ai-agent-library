@@ -39,7 +39,7 @@ export function AudioLibrary() {
       const publication = latestAudioPublication(episodes)
       return <li key={article.article_path}>
         <p className="audio-eyebrow">{article.section_title}</p>
-        <h2><Link href={article.route}>{article.title}</Link></h2>
+        <h2><Link prefetch={false} href={article.route}>{article.title}</Link></h2>
         {episodes.length ? <>
           <EpisodeActions episodes={episodes} />
           {publication && <p className="audio-help">音声公開日: <time dateTime={publication.iso}>{publication.label}</time></p>}

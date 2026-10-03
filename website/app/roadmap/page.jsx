@@ -1,11 +1,9 @@
+import { pageMetadata } from '../../lib/page-metadata.mjs'
 import Link from 'next/link'
-import { DependencyGraph } from '../../components/roadmap/dependency-graph'
+import { DependencyGraph } from '../../components/deferred-pages'
 import sections from '../../generated/sections.json'
 
-export const metadata = {
-  title: '依存マップ',
-  description: `${sections.length} セクションの依存関係をインタラクティブに辿れます。`
-}
+export const metadata = pageMetadata("/roadmap", "依存マップ", "16セクションの前提関係を、矢印付きの図と依存関係一覧から辿れます。")
 
 export default function RoadmapPage() {
   return (

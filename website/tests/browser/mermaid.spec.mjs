@@ -14,7 +14,7 @@ const articles = readdirSync(content, { recursive: true })
   .filter(file => file.endsWith('.mdx')).sort()
   .map(file => ({
     pathname: `/docs/${file.replaceAll(path.sep, '/').replace(/\.mdx$/, '').replace(/(?:^|\/)index$/, '')}`.replace(/\/$/, ''),
-    count: countDiagrams(parser.parse(readFileSync(path.join(content, file), 'utf8')))
+    count: (readFileSync(path.join(content, file), 'utf8').match(/<StaticMermaid\b/g) || []).length
   }))
   .filter(article => article.count > 0)
 
@@ -33,12 +33,12 @@ for (const { pathname, count } of articles) {
     })
     await page.goto(`${basePath}${pathname}`)
     // This marker proves the component reached by the compiled MDX import.
-    const diagrams = page.locator('article [data-mermaid-renderer="strict"]')
+    const diagrams = page.locator('article [data-mermaid-renderer="strict-static"]')
     await expect(diagrams).toHaveCount(count)
     for (let index = 0; index < count; index++) {
       const diagram = diagrams.nth(index)
       await diagram.scrollIntoViewIfNeeded()
-      const svg = diagram.locator('svg')
+      const svg = diagram.locator('img:visible')
       await expect(svg).toBeVisible()
       await expect(svg).toHaveCount(1)
       // Theme hydration can replace the SVG between visibility and measurement.
@@ -47,10 +47,12 @@ for (const { pathname, count } of articles) {
         const bounds = await svg.boundingBox()
         return Boolean(bounds && bounds.width > 0 && bounds.height > 0)
       }).toBe(true)
-      await expect(svg).not.toBeEmpty()
+      await expect.poll(() => svg.evaluate(image => image.complete && image.naturalWidth > 0)).toBe(true)
+      await expect(svg).toHaveAccessibleName(/の図$/)
       // Existing articles use HTML-style line breaks. They must remain labels,
       // rather than showing the markup itself when rendered in strict mode.
-      expect(await svg.textContent()).not.toMatch(/<br\s*\/?\s*>/i)
+      const image = await page.request.get(await svg.getAttribute('src'))
+      expect(await image.text()).not.toMatch(/<script\b|\son[a-z]+\s*=/i)
     }
     await expect(page.locator('article')).not.toContainText('Syntax error in text')
     expect(errors).toEqual([])

@@ -80,6 +80,9 @@ for (const { width, height, theme, pathname } of mobileCases) {
     test('covers the page, reopens, and navigates after scrolling', async ({ page }) => {
       await page.addInitScript(value => localStorage.setItem('theme', value), theme)
       await page.goto(route(pathname))
+      // Server-rendered Menu is visible before React attaches its handler.
+      // Await the initial hydration resources before exercising the control.
+      await page.waitForLoadState('networkidle')
       await expect(page.locator('html')).toHaveClass(new RegExp(`\\b${theme}\\b`))
       const toggle = page.getByRole('button', { name: 'Menu', exact: true })
       const menu = page.locator('.nextra-mobile-nav')

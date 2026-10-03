@@ -37,6 +37,7 @@ test('docs body links to every generated section', async ({ page }) => {
 
 test('dependency graph shows every section and navigates from a node', async ({ page }) => {
   await page.goto(route('/roadmap'))
+  await page.waitForLoadState('networkidle')
   const graph = page.locator('.dep-graph')
   await graph.scrollIntoViewIfNeeded()
   await expect(graph.locator('.react-flow__node')).toHaveCount(16)
@@ -48,7 +49,7 @@ test('dependency graph shows every section and navigates from a node', async ({ 
   await expect(page).toHaveURL(/\/docs\/concepts(?:\.html)?$/)
 })
 
-test('strict Mermaid renderer preserves normal diagrams across theme changes and magnification', async ({ page }) => {
+test('strict static Mermaid assets preserve diagrams across theme changes and magnification', async ({ page }) => {
   const errors = []
   page.on('pageerror', error => errors.push(error.message))
   page.on('console', message => {
@@ -56,21 +57,19 @@ test('strict Mermaid renderer preserves normal diagrams across theme changes and
   })
   await page.goto(route('/docs/concepts/agent-loop'))
   await page.getByRole('heading', { name: '概要: ループが Agent を作る' }).scrollIntoViewIfNeeded()
-  const diagram = page.locator('article [data-mermaid-renderer="strict"] svg')
+  const figure = page.locator('article [data-mermaid-renderer="strict-static"]').first()
+  const diagram = figure.locator('img:visible')
   await expect(diagram).toBeVisible()
-  const originalText = await diagram.textContent()
   for (const dark of [true, false]) {
-    const before = await diagram.locator('style').textContent()
     await page.evaluate(value => {
       document.documentElement.classList.toggle('dark', value)
       document.documentElement.setAttribute('data-theme', value ? 'dark' : 'light')
     }, dark)
-    await expect.poll(() => diagram.locator('style').textContent()).not.toBe(before)
+    await expect(diagram).toHaveAttribute('src', new RegExp(`-${dark ? 'dark' : 'light'}\\.svg$`))
     await expect(diagram).toBeVisible()
     // Labels survive a fresh render, regardless of generated CSS/theme values.
-    await expect(diagram.locator('.nodeLabel').first()).not.toBeEmpty()
+    await expect.poll(() => diagram.evaluate(image => image.complete && image.naturalWidth > 0)).toBe(true)
   }
-  expect(originalText.length).toBeGreaterThan(0)
   await page.setViewportSize({ width: 640, height: 800 })
   await diagram.evaluate(element => { element.parentElement.style.zoom = '2' })
   await diagram.scrollIntoViewIfNeeded()
@@ -79,6 +78,21 @@ test('strict Mermaid renderer preserves normal diagrams across theme changes and
   expect(bounds.width).toBeGreaterThan(0)
   expect(bounds.height).toBeGreaterThan(0)
   expect(errors).toEqual([])
+})
+
+test('dependency arrows, shared text relations and keyboard navigation are available', async ({ page }) => {
+  await page.goto(route('/roadmap'))
+  await page.waitForLoadState('networkidle')
+  await expect(page.locator('.react-flow__edge path.react-flow__edge-path')).toHaveCount(20)
+  for (const edge of await page.locator('.react-flow__edge path.react-flow__edge-path').all()) await expect(edge).toHaveAttribute('marker-end', /url/)
+  await expect(page.locator('.dependency-list li')).toHaveCount(20)
+  const node = page.locator('.react-flow__node[data-id="concepts"]')
+  await node.focus(); await page.keyboard.press('Enter')
+  await expect(page).toHaveURL(/\/docs\/concepts(?:\.html)?$/)
+  await page.goto(route('/roadmap'))
+  await page.setViewportSize({ width: 375, height: 812 })
+  await expect(page.locator('.dep-graph-canvas')).toBeHidden()
+  await expect(page.locator('.dependency-list')).toBeVisible()
 })
 
 test('Pagefind search returns an article and its navigation works', async ({ page }) => {

@@ -1,3 +1,4 @@
+import { CaseEvidenceWalkthrough } from './components/diagrams/case-evidence-walkthrough'
 import { GovernanceSafetyWalkthrough } from './components/diagrams/governance-safety-walkthrough'
 import { TrustPrivacyWalkthrough } from './components/diagrams/trust-privacy-walkthrough'
 import { SecurityAdversityWalkthrough } from './components/diagrams/security-adversity-walkthrough'
@@ -80,6 +81,7 @@ export const useMDXComponents = components => ({
   ActionBoundariesWalkthrough,
   HarnessLoopWalkthrough,
   DurableContractWalkthrough,
+  CaseEvidenceWalkthrough,
   GovernanceSafetyWalkthrough,
   TrustPrivacyWalkthrough,
   SecurityAdversityWalkthrough,

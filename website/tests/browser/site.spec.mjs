@@ -83,11 +83,76 @@ test('strict Mermaid renderer preserves normal diagrams across theme changes and
 
 test('Pagefind search returns an article and its navigation works', async ({ page }) => {
   await page.goto(route('/docs'))
-  const search = page.getByRole('combobox')
+  const search = page.locator('input[role="combobox"]:visible')
   await search.fill('ツール使用')
   const result = page.locator(`[role="option"][href^="${route('/docs/concepts/tool-use')}"]`)
   await expect(result.first()).toBeVisible()
   await result.first().click()
   await expect(page).toHaveURL(/\/docs\/concepts\/tool-use(?:\.html)?(?:#.*)?$/)
   await expect(page.locator('article h1')).toContainText('ツール使用')
+})
+
+for (const [query, expectedPath] of [
+  ['プロンプトインジェクション', '/docs/security/prompt-injection'],
+  ['コンテキストエンジニアリング', '/docs/architecture/context-engineering'],
+  ['ツール使用', '/docs/concepts/tool-use'],
+  ['MCP', '/docs/implementation/mcp-and-tool-protocols'],
+  ['Agent', '/docs/concepts/what-is-an-ai-agent']
+]) {
+  test(`Japanese/English search includes its article and preserves basePath: ${query}`, async ({ page }) => {
+    // A broad query loads every Pagefind fragment before Nextra renders its candidates.
+    // Keep the same navigation assertions while allowing this cold load to complete.
+    const resultsTimeout = query === 'Agent' ? 20_000 : 5000
+    if (query === 'Agent') test.setTimeout(90_000)
+    await page.goto(route('/docs'))
+    const results = await page.evaluate(async ({ query, basePath }) => {
+      const pagefind = await import(`${basePath}/_pagefind/pagefind.js`)
+      await pagefind.options({ baseUrl: `${basePath}/` })
+      const result = await pagefind.search(query)
+      return Promise.all(result.results.map(async item => (await item.data()).url))
+    }, { query, basePath })
+    expect(results.some(url => url.startsWith(route(expectedPath)))).toBe(true)
+    await page.locator('input[role="combobox"]:visible').fill(query)
+    const result = page.locator(`[role="option"][href^="${route(expectedPath)}"]`).first()
+    await expect(result).toBeVisible({ timeout: resultsTimeout })
+    await result.scrollIntoViewIfNeeded()
+    await expect(result).toBeInViewport()
+    await result.click()
+    await expect(page).toHaveURL(new RegExp(expectedPath + '(?:\\.html)?(?:#.*)?$'))
+    await page.goto(route('/docs'))
+    const search = page.locator('input[role="combobox"]:visible')
+    await search.fill(query)
+    const first = page.locator('[role="option"]').first()
+    await expect(first).toBeVisible({ timeout: resultsTimeout })
+    await page.keyboard.press('ArrowDown')
+    await expect(search).toHaveAttribute('aria-activedescendant', /.+/)
+    const activeId = await search.getAttribute('aria-activedescendant')
+    const selected = page.locator(`[role="option"][id="${activeId}"]`)
+    const selectedHref = await selected.getAttribute('href')
+    expect(selectedHref).toMatch(new RegExp(`^${basePath}/`))
+    const navigationRequests = []
+    const started = Date.now()
+    page.on('request', request => {
+      if (request.url().includes(selectedHref.split('#')[0])) navigationRequests.push({
+        url: request.url(), elapsedMs: Date.now() - started
+      })
+    })
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(new RegExp(selectedHref.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$'), { timeout: resultsTimeout })
+    await test.info().attach('search-keyboard-navigation', { body: JSON.stringify({
+      query, selectedHref, resultingUrl: page.url(), elapsedMs: Date.now() - started, navigationRequests
+    }, null, 2), contentType: 'application/json' })
+  })
+}
+
+test('search shortcut, ArrowDown and Enter preserve keyboard navigation', async ({ page }) => {
+  await page.goto(route('/docs'))
+  await page.keyboard.press('Control+k')
+  const search = page.locator('input[role="combobox"]:visible')
+  await expect(search).toBeFocused()
+  await search.fill('ツール使用')
+  await expect(page.locator(`[role="option"][href^="${route('/docs/concepts/tool-use')}"]`).first()).toBeVisible()
+  await page.keyboard.press('ArrowDown')
+  await page.keyboard.press('Enter')
+  await expect(page).toHaveURL(/\/docs\/concepts\/tool-use(?:\.html)?(?:#.*)?$/)
 })

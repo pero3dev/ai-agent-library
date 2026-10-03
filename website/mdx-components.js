@@ -7,6 +7,7 @@ import { TodoCallout } from './components/mdx/todo-callout'
 import { ArticleAudio } from './components/audio/article-audio'
 import { removeLinks } from 'nextra/remove-links'
 import { ArticleTocProvider } from './components/mdx/article-toc'
+import { ArticleActions } from './components/mdx/article-actions'
 
 const docsComponents = getDocsMDXComponents()
 const DocsWrapper = docsComponents.wrapper
@@ -18,6 +19,7 @@ export const useMDXComponents = components => ({
   TodoCallout,
   PracticeSection,
   GlossaryTerm,
+  ChecklistBox,
   // KaTeX のブロック数式はキーボードでも横スクロールできるようにする。
   span(props) {
     if (props.className?.split(/\s+/).includes('katex-display')) {
@@ -25,17 +27,11 @@ export const useMDXComponents = components => ({
     }
     return <span {...props} />
   },
-  // GFM タスクリストのチェックボックスをクリック可能にする
-  input(props) {
-    if (props.type === 'checkbox') {
-      return <ChecklistBox defaultChecked={props.checked} />
-    }
-    return <input {...props} />
-  },
   // 記事ヘッダーに front matter バッジ(level / tags / last_updated)を差し込む
   wrapper({ children, ...props }) {
     const article = (
       <DocsWrapper {...props} className={`article-reading-layout x:mx-auto x:flex x:max-w-(--nextra-content-width) ${props.className || ''}`}>
+        <ArticleActions sourceCode={props.sourceCode} />
         <DocMeta metadata={props.metadata} />
         <ArticleAudio />
         {children}

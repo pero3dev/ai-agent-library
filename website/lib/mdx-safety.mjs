@@ -11,6 +11,7 @@ const parser = unified().use(remarkParse).use(remarkGfm).use(remarkMath)
 const attributes = {
   TodoCallout: {},
   PracticeSection: { kind: value => ['antipattern', 'checklist'].includes(value) },
+  ChecklistBox: { defaultChecked: value => ['true', 'false'].includes(value) },
   GlossaryTerm: {
     href: value => /^\/(?!\/)/.test(value) && !/[\\\u0000-\u0020\u007f]/.test(value),
     summary: () => true

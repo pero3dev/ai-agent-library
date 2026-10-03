@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import remarkMdx from 'remark-mdx'
+import remarkGfm from 'remark-gfm'
 import remarkParse from 'remark-parse'
 import remarkStringify from 'remark-stringify'
 import { unified } from 'unified'
@@ -46,5 +47,20 @@ test('removed diagram components cannot re-enter generated MDX', () => {
     '<ReadingStep step="0">本文</ReadingStep>',
     '<TransformerWalkthrough diagramId="transformer-io">本文</TransformerWalkthrough>']) {
     assert.ok(findUnsafeMdx(source).some(message => message.startsWith('JSX <')))
+  }
+})
+
+test('task items preserve checked state and their full inline text for native accessible names', () => {
+  const tree = unified().use(remarkParse).use(remarkGfm).parse('- [ ] **権限**を確認する\n- [x] [根拠](https://example.com)を読む\n')
+  applyDecorations(tree, { route: '/docs/test' })
+  const items = tree.children[0].children
+  assert.equal(items[0].checked, null)
+  assert.equal(items[1].checked, null)
+  assert.equal(items[0].children[0].children[0].name, 'ChecklistBox')
+  assert.equal(items[0].children[0].children[0].attributes[0].value, 'false')
+  assert.equal(items[1].children[0].children[0].attributes[0].value, 'true')
+  assert.deepEqual(findUnsafeMdx(writer.stringify(tree)), [])
+  for (const source of ['<ChecklistBox defaultChecked={true}>本文</ChecklistBox>', '<ChecklistBox defaultChecked="anything">本文</ChecklistBox>']) {
+    assert.ok(findUnsafeMdx(source).length > 0)
   }
 })

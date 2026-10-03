@@ -121,8 +121,7 @@ test('desktop theme, glossary tooltips, and navigation remain usable', async ({ 
   const initialBackground = await html.evaluate(element => getComputedStyle(element).backgroundColor)
   expect(initialBackground).toMatch(/^rgb\(\d+, \d+, \d+\)$/)
 
-  await page.getByTitle('Change theme').filter({ visible: true }).click()
-  await page.getByRole('option', { name: 'Dark', exact: true }).click()
+  await page.getByRole('combobox', { name: '表示テーマ', exact: true }).selectOption('dark')
   await expect(html).toHaveClass(/\bdark\b/)
   await expect.poll(() => html.evaluate(element => getComputedStyle(element).backgroundColor)).not.toBe(initialBackground)
   const darkBackground = await html.evaluate(element => getComputedStyle(element).backgroundColor)

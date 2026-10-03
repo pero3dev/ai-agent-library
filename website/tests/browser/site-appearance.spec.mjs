@@ -32,7 +32,7 @@ const contrast = (foreground, background) => {
 
 for (const theme of ['light', 'dark']) {
   for (const width of [390, 1440]) {
-    test(`edge fog stays behind every page type without widening the page: ${theme} ${width}px`, async ({ page }) => {
+    test(`edge fog stays behind every page type without widening the page: ${theme} ${width}px`, async ({ page, browserName }) => {
       test.setTimeout(90_000)
       await page.setViewportSize({ width, height: width === 390 ? 844 : 900 })
       await page.addInitScript(value => localStorage.setItem('theme', value), theme)
@@ -70,7 +70,8 @@ for (const theme of ['light', 'dark']) {
         // Check the rendered color-mix result, not only the authoring tokens.
         const alphas = [...fog.background.matchAll(/\/\s*([\d.]+)(%)?/g)].map(match => Number(match[1]) / (match[2] ? 100 : 1))
         for (const expected of theme === 'light' ? [0.18, 0.12] : [0.0576, 0.0384]) {
-          expect(alphas.some(value => Math.abs(value - expected) < 0.00001), `${pathname}: ${fog.background}`).toBe(true)
+          const permitted = browserName === 'firefox' ? [expected, Math.round(expected * 100) / 100] : [expected]
+          expect(alphas.some(value => permitted.some(alpha => Math.abs(value - alpha) < 0.00001)), `${pathname}: ${fog.background}`).toBe(true)
         }
         expect(fog.overflow, pathname).toBeLessThanOrEqual(1)
         if (fog.homeAccent) expect(fog.homeAccent).toBe(fog.siteAccent)

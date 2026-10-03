@@ -111,7 +111,7 @@ merge前に最終PRのJSONとheadを取得し直し、本文から共通formatte
 gh pr merge <PR番号> --auto --squash --match-head-commit <確認したhead SHA> --subject <検査済みPRタイトル> --body-file <squash-body.txt>
 ```
 
-既存9必須チェック・独立レビュー・作業区分の条件を満たすことが前提です。GitHubの自動生成したcommit一覧に本文を任せず、PRとsquashの情報を揃えます。予約を完了とせず、実merge SHA・main CI・必要な公開内容まで確認します。マージ後は取得したmerge SHAの `%B` をUTF-8ファイルに保存し、`--message-file` で再検査して、予約した件名・本文・名義との一致も確認します。PRのtitle/bodyはheadとは別に変わるため、予約後にmetadataを変更する場合は自動マージを解除し、検査・squash本文生成・予約をやり直します。
+共通policyの11必須チェック（音声Chromium・Safari WebKitを含む）・独立レビュー・作業区分の条件を満たすことが前提です。GitHubの自動生成したcommit一覧に本文を任せず、PRとsquashの情報を揃えます。予約を完了とせず、実merge SHA・main CI・必要な公開内容まで確認します。マージ後は取得したmerge SHAの `%B` をUTF-8ファイルに保存し、`--message-file` で再検査して、予約した件名・本文・名義との一致も確認します。PRのtitle/bodyはheadとは別に変わるため、予約後にmetadataを変更する場合は自動マージを解除し、検査・squash本文生成・予約をやり直します。
 
 ## 検査と保守
 

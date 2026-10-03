@@ -1,0 +1,239 @@
+{
+  "schema_version": 1,
+  "run_id": "20261003-issue-resolution",
+  "base_sha": "d990973c2c02b6108cd9911fc06e45b3a29f9332",
+  "writer_run_id": "/root/articles",
+  "completed_at": "2026-10-03T08:17:13.614Z",
+  "changes": [
+    {
+      "path": "docs/06-security/prompt-injection.md",
+      "kind": "substantive",
+      "summary": "#151/#152: 入力経路と実効権限を分離し、直接型の反例と承認ゲートの成立条件・残余リスクを追加"
+    },
+    {
+      "path": "docs/02-architecture/error-handling-and-retries.md",
+      "kind": "substantive",
+      "summary": "#151: 引数不正と認証・認可拒否を分離し、許可済み代替・正規承認・停止を明記"
+    },
+    {
+      "path": "docs/02-architecture/human-in-the-loop.md",
+      "kind": "substantive",
+      "summary": "#152: 実引数・対象の版・期限・再使用に承認を結び付け、変更時再承認と実行時認可・4ケースを追加"
+    },
+    {
+      "path": "docs/03-implementation/structured-output.md",
+      "kind": "substantive",
+      "summary": "#153: 正常完了・拒否・打切り・設定エラーを分岐する条件付き保証と擬似コードへ訂正"
+    },
+    {
+      "path": "docs/03-implementation/openai-prompting.md",
+      "kind": "substantive",
+      "summary": "#153/#154: Structured Outputs例外処理とSol/LunaのEU条件・取得根拠範囲を同期"
+    },
+    {
+      "path": "docs/08-coding-agents/openai-codex.md",
+      "kind": "substantive",
+      "summary": "#154: Responses互換endpointが必要でChat Completions専用は非対応という接続要件へ訂正"
+    },
+    {
+      "path": "docs/08-coding-agents/claude-code.md",
+      "kind": "substantive",
+      "summary": "#155: Manualの動作と実行面・版・機能フラグ・組織設定による開始モードを分離"
+    },
+    {
+      "path": "docs/08-coding-agents/claude-code-in-practice.md",
+      "kind": "substantive",
+      "summary": "#155: autoの既定条件を固定して監視から外すTODOを現行の継続観測へ訂正"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agents-comparison.md",
+      "kind": "substantive",
+      "summary": "#155: Claude Codeの開始モードを現行の版・実行面条件と詳細表に同期"
+    },
+    {
+      "path": "docs/00-overview/learning-roadmap.md",
+      "kind": "substantive",
+      "summary": "#156/#167: 実装済み6サンプルとAPIキー不要の入口、A/B/Cの入力・成果物・終了条件・次の教材を追加"
+    },
+    {
+      "path": "docs/00-overview/skill-map.md",
+      "kind": "substantive",
+      "summary": "#167: A/B/Cの最小成果物を既存到達レベル・実務自己評価と区別して接続"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "1-1",
+      "artifacts": [
+        "docs/00-overview/learning-roadmap.md"
+      ]
+    },
+    {
+      "id": "3-4",
+      "artifacts": [
+        "docs/02-architecture/error-handling-and-retries.md",
+        "docs/02-architecture/human-in-the-loop.md"
+      ]
+    },
+    {
+      "id": "4-2",
+      "artifacts": [
+        "docs/03-implementation/agent-prompt-design.md",
+        "docs/03-implementation/structured-output.md"
+      ]
+    },
+    {
+      "id": "7-2",
+      "artifacts": [
+        "docs/06-security/prompt-injection.md"
+      ]
+    },
+    {
+      "id": "A-2",
+      "artifacts": [
+        "docs/08-coding-agents/claude-code.md",
+        "docs/08-coding-agents/gemini-cli-and-code-assist.md",
+        "docs/08-coding-agents/openai-codex.md"
+      ]
+    },
+    {
+      "id": "A-7",
+      "artifacts": [
+        "docs/08-coding-agents/coding-agent-evaluation.md",
+        "docs/08-coding-agents/coding-agents-comparison.md"
+      ]
+    },
+    {
+      "id": "B-2",
+      "artifacts": [
+        "docs/08-coding-agents/claude-code-in-practice.md"
+      ]
+    },
+    {
+      "id": "D-1",
+      "artifacts": [
+        "docs/00-overview/skill-map.md"
+      ]
+    },
+    {
+      "id": "BA-2",
+      "artifacts": [
+        "docs/03-implementation/gemini-prompting.md",
+        "docs/03-implementation/openai-prompting.md"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/",
+      "accessed_at": "2026-10-03T06:45:50Z",
+      "claim": "直接/間接は入力経路の分類。実行権限による被害、最小権限と高リスク操作の承認を確認。実引数への承認結合・期限・再使用・認可拒否の処理はこの原則を具体化した設計案で、実UI/攻撃試験の証拠ではない。",
+      "affected_docs": [
+        "docs/06-security/prompt-injection.md",
+        "docs/02-architecture/error-handling-and-retries.md",
+        "docs/02-architecture/human-in-the-loop.md"
+      ]
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/guides/structured-outputs",
+      "accessed_at": "2026-10-03T06:45:36Z",
+      "claim": "strictと対応スキーマの形式保証、refusal、incomplete/max_output_tokens、非対応スキーマの設定エラーを正常完了から分離。文書と机上照合のみで実API未検証。",
+      "affected_docs": [
+        "docs/03-implementation/structured-output.md",
+        "docs/03-implementation/openai-prompting.md"
+      ]
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/models/gpt-6-sol",
+      "accessed_at": "2026-10-03T07:32:57Z",
+      "claim": "EU data residencyはStandard/Flex/Batch対応と明記。アカウント利用可能性は未検証。独立レビュアーによる公式再取得で確認。",
+      "affected_docs": [
+        "docs/03-implementation/openai-prompting.md"
+      ]
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/models/gpt-6-luna",
+      "accessed_at": "2026-10-03T07:32:57Z",
+      "claim": "EU data residencyはStandard/Flex/Batch対応と明記。アカウント利用可能性は未検証。独立レビュアーによる公式再取得で確認。",
+      "affected_docs": [
+        "docs/03-implementation/openai-prompting.md"
+      ]
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/guides/your-data",
+      "accessed_at": "2026-10-03T07:32:57Z",
+      "claim": "Sol/LunaのEUはStandard/Flex/Batch対応、FastはEU非対応。regional storageとregional processingの対応を区別し適格条件を確認。",
+      "affected_docs": [
+        "docs/03-implementation/openai-prompting.md"
+      ]
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/pricing",
+      "accessed_at": "2026-10-03T07:32:57Z",
+      "claim": "独立レビューで公式再取得本文を確認。Sol/Luna EUの旧Standard限定記述の残存は裏付けられず、現存する資料差の断定を撤回した。現行条件はモデルページ/Your dataを根拠とし、過去のIssue観測や旧記録を現取得証拠に置き換えない。",
+      "affected_docs": [
+        "docs/03-implementation/openai-prompting.md"
+      ]
+    },
+    {
+      "url": "https://learn.chatgpt.com/docs/models",
+      "accessed_at": "2026-10-03T06:45:36Z",
+      "claim": "カスタムプロバイダー/ゲートウェイはResponses互換endpointを要求。現行Codexはwire_api=chatとChat Completions専用endpointに非対応。実接続未試験。",
+      "affected_docs": [
+        "docs/08-coding-agents/openai-codex.md"
+      ]
+    },
+    {
+      "url": "https://learn.chatgpt.com/docs/enterprise/gateway-compatibility",
+      "accessed_at": "2026-10-03T06:57:38Z",
+      "claim": "Responses互換はURLだけでなくSSE終端・会話継続・ツール呼出しと結果の対応まで確認する。",
+      "affected_docs": [
+        "docs/08-coding-agents/openai-codex.md"
+      ]
+    },
+    {
+      "url": "https://code.claude.com/docs/en/permission-modes",
+      "accessed_at": "2026-10-03T07:38:25Z",
+      "claim": "Manual/autoの動作と開始モードは別。端末/VS Code v2.1.283、-p/SDKのフラグ取得とv2.1.285、組織/対応モデル/提供条件、初回のフラグ到着とManual fallbackを照合。VS Code process wrapper例外も独立レビュアーの公式再取得で照合し、開始順を通常条件に限定。実Agent起動は未試験。",
+      "affected_docs": [
+        "docs/08-coding-agents/claude-code.md",
+        "docs/08-coding-agents/claude-code-in-practice.md",
+        "docs/08-coding-agents/coding-agents-comparison.md"
+      ]
+    },
+    {
+      "url": "https://github.com/pero3dev/ai-agent-library/blob/d990973c2c02b6108cd9911fc06e45b3a29f9332/README.md",
+      "accessed_at": "2026-10-03T07:04:57Z",
+      "claim": "GitHub connectorで固定commitの正本を取得。6サンプルとAPIキー不要のmock入口、検証・リトライ・採点の期待結果を照合し、A/B/Cの課題を既存教材に接続。Python 3.12.14で2mockを実行し、構造化出力NG→OKと評価4/5=80%・終了0を確認。実API品質/本番適性は未検証。",
+      "affected_docs": [
+        "docs/00-overview/learning-roadmap.md",
+        "docs/00-overview/skill-map.md"
+      ]
+    },
+    {
+      "url": "https://github.com/pero3dev/ai-agent-library/blob/d990973c2c02b6108cd9911fc06e45b3a29f9332/examples/python/structured-output/README.md",
+      "accessed_at": "2026-10-03T07:04:57Z",
+      "claim": "GitHub connectorで固定commitの正本を取得。6サンプルとAPIキー不要のmock入口、検証・リトライ・採点の期待結果を照合し、A/B/Cの課題を既存教材に接続。Python 3.12.14で2mockを実行し、構造化出力NG→OKと評価4/5=80%・終了0を確認。実API品質/本番適性は未検証。",
+      "affected_docs": [
+        "docs/00-overview/learning-roadmap.md",
+        "docs/00-overview/skill-map.md"
+      ]
+    },
+    {
+      "url": "https://github.com/pero3dev/ai-agent-library/blob/d990973c2c02b6108cd9911fc06e45b3a29f9332/examples/python/evaluation-harness/README.md",
+      "accessed_at": "2026-10-03T07:04:57Z",
+      "claim": "GitHub connectorで固定commitの正本を取得。6サンプルとAPIキー不要のmock入口、検証・リトライ・採点の期待結果を照合し、A/B/Cの課題を既存教材に接続。Python 3.12.14で2mockを実行し、構造化出力NG→OKと評価4/5=80%・終了0を確認。実API品質/本番適性は未検証。",
+      "affected_docs": [
+        "docs/00-overview/learning-roadmap.md",
+        "docs/00-overview/skill-map.md"
+      ]
+    }
+  ],
+  "review": {
+    "verdict": "approved",
+    "independent": true,
+    "reviewer_run_id": "/root/harness_audio",
+    "reviewed_at": "2026-10-03T08:15:51Z",
+    "content_digest": "128d9737585720aee51c69c7a4eed1538e7348a99bd36cef7a4f8244a331c10d"
+  }
+}

@@ -43,9 +43,13 @@ node scripts/todo-report.mjs           # TODO(要確認) の棚卸し
 
 `npm run check` の構成は [package.json](package.json) が正本です。これは CI 全体や有料 API の実行を意味しません。CI はこれに加えて依存監査、Actionlint、Python サンプル検証、サイトビルド・ブラウザー試験などを実行します。サイト、依存、サンプル、CI を変更した場合は、対応する CI ジョブと各 README の検証も行ってください。
 
+mainのマージ前確認は[共通policy](scripts/lib/github-policy.mjs)の11必須チェックに従います。従来の9件に`Audio playback regression`と`Safari audio playback regression`を含め、両方ともPR headとCI workflow/eventを照合します。音声fixtureは公開出力を持たない専用jobで検査し、Pagesへ混ぜません。GitHubのrequired_status_checksはstrictとadmin enforcementを維持して同じ11件に揃え、設定の実読戻しを実装の単体試験と分けて記録します。
+
 `docs/` の `.md` 編集フックは `validate-docs` を呼ぶ補助です。クライアントの設定・信頼・実行面によって発火しない場合があるため、提出前の明示実行を省略しません。フック単体試験の成功と実クライアントでの発火確認は区別して報告します。
 
 ## サイト(website/)を変更するとき
+
+公開障害の読み取り診断と復旧候補は[Pages運用手順](website/operations.md)を使い、main SHA・CI run・deployment・公開画面の結果を分けて記録します。
 
 - 正本は `docs/`。`website/content/` `website/generated/` `website/out/` は生成物です(直接編集しない)
 - 手書き上書きページのみ `website/content-src/` に置きます

@@ -88,7 +88,7 @@ node scripts/freshness-run.mjs finish --run '<checkpoint の絶対パス>' --att
 
 `finish` の outcome は `observed` / `merged` / `held` / `failed` です。merged には `pr_url` とレビュー・CI対象の `head_sha` を記録し、変更した公開ページを `publication_urls` に指定します。各項目はURL文字列または `{url, includes}`(本文の必須文字列)です。CLIがGitHubから必須チェックのApp/workflow/event・merge SHA・main CI・Pages deployment・公開URLを再取得し、`github_verification` に保存します。予約や保存済みの成功フラグだけでは完了しません。
 
-`head_sha` の Git commit と `research/freshness-runs/<run_id>.json` をローカルにも保持します。終了時には PR の tree と、今回の run ID・開始日時・base・対象系統・証拠 digest を照合します。マージ後は確認済み merge commit、またはその merge を含む取得済み `origin/main` と一致する clean checkout から終了できます。PR を差し替えて過去の成功を流用したり、未保存の別候補を残したまま完了したりしません。必須9チェックは repository・PR・head branch へも結合し、policy の固定 run-name に PR 番号がない旧実行は新しい完了証拠に使いません。
+`head_sha` の Git commit と `research/freshness-runs/<run_id>.json` をローカルにも保持します。終了時には PR の tree と、今回の run ID・開始日時・base・対象系統・証拠 digest を照合します。マージ後は確認済み merge commit、またはその merge を含む取得済み `origin/main` と一致する clean checkout から終了できます。PR を差し替えて過去の成功を流用したり、未保存の別候補を残したまま完了したりしません。音声2件を含む共通11必須チェックは repository・PR・head branch へも結合し、policy の固定 run-name に PR 番号がない旧実行は新しい完了証拠に使いません。
 
 開始時の run ID・開始日時・対象系統・mode は、編集用 checkpoint と別に state の `run_contracts` へ保存します。以後の操作はその契約と照合し、checkpoint と PR 証拠を一緒に書き換えても対象を差し替えられないようにします。base の変更は下記の再レビューを伴う main 統合手順で扱います。2026-09-12 の導入確認では旧未完了 run は0件でした。契約のない旧完了記録は閲覧できますが、旧未完了 run を検出した場合は自動再開を保留し、保存済み記録と復元元を確認してから新しい作業へ引き継ぎます。
 
@@ -123,7 +123,7 @@ node scripts/freshness-run.mjs finish --run '<checkpoint の絶対パス>' --att
 
 ローカル状態が失われた場合は保守的に再観測します。Git 上の過去の監査日は、それだけでは今日の確認済みを意味しません。ファイル・base が変わった場合は以前のレビューを引き継ぎません。
 
-公開失敗は checkpoint の publication に記録し、状態表示で検出した次の回は通常マージより復旧を優先します。利用制限や認証切れの場合も、完了していない範囲を明記して終了します。
+公開失敗は checkpoint の publication に記録し、状態表示で検出した次の回は通常マージより復旧を優先します。PagesのSHA・CI・deploymentを保持した診断、4ケースの復旧候補と終了条件は[サイトの運用手順](website/operations.md)に従います。利用制限や認証切れの場合も、完了していない範囲を明記して終了します。
 
 ## 導入の確認項目
 

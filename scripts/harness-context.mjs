@@ -4,6 +4,7 @@ import path from 'node:path'
 import crypto from 'node:crypto'
 import { collectDocs } from './lib/md-utils.mjs'
 import { roadmapTasks } from './harness-policy.mjs'
+import { readRoadmapSource } from './lib/roadmap-source.mjs'
 import { cli, git, jsonFile, parseOptions, ROOT, verificationManifest } from './lib/tooling-common.mjs'
 
 const rulesFor = {
@@ -25,7 +26,7 @@ export function selectTask(markdown, task, docs = []) {
 export function buildContext(root = ROOT, { profile = 'harness', task } = {}) {
   const catalog = jsonFile(path.join(root, 'harness/profiles.json'))
   if (catalog.schema_version !== 1 || !catalog.profiles?.[profile] || !rulesFor[profile]) throw new Error(`未対応の profile: ${profile}`)
-  const roadmap = readFileSync(path.join(root, 'ROADMAP.md'), 'utf8')
+  const roadmap = readRoadmapSource(root)
   return {
     schema_version: 1, commit: git(root, 'rev-parse', 'HEAD'), profile, contract: catalog.profiles[profile],
     roadmap: { source: 'ROADMAP.md', sha256: crypto.createHash('sha256').update(roadmap).digest('hex'), task: selectTask(roadmap, task, collectDocs(root)) },

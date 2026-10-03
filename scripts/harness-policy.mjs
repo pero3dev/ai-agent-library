@@ -17,6 +17,7 @@ import { parseFrontMatter, parseScalar, splitLocalDestination, toLines } from '.
 import { GENERATED_DIRS, GENERATED_FILES } from './lib/hook-core.mjs'
 import { requiredChecks } from './lib/github-policy.mjs'
 import { referenceComparable } from './lib/reference-comparison.mjs'
+import { roadmapSource } from './lib/roadmap-source.mjs'
 
 export { requiredChecks }
 
@@ -262,8 +263,8 @@ export function checkHarnessPolicy({ cwd = process.cwd(), base, head, branch, no
   }
   const scopes = uniqueSorted(changes.map(change => classifyPath(change.path)))
   const graph = documentGraph(after)
-  const oldTasks = roadmapTasks(before.text('ROADMAP.md'), [...before.entries.keys()])
-  const tasks = roadmapTasks(after.text('ROADMAP.md'), [...after.entries.keys()])
+  const oldTasks = roadmapTasks(roadmapSource(before.text, file => before.entries.has(file)), [...before.entries.keys()])
+  const tasks = roadmapTasks(roadmapSource(after.text, file => after.entries.has(file)), [...after.entries.keys()])
   const deleted = new Set(changes.filter(change => change.status === 'D').map(change => change.path))
   validateTaskStates(oldTasks, tasks, after, deleted)
   for (const article of graph.articles) assert([...tasks.values()].some(task => task.artifacts.includes(article)), `${article}: ROADMAP の成果物に含まれていません`)

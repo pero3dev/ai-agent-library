@@ -24,7 +24,15 @@ claude auth login --claudeai
 claude auth status
 ```
 
-導入スクリプトは Nemo 0.24.0 CPU と FFmpeg 9.0.1 を指定の SHA-256 で検証し、Git 共通ディレクトリの `harness-tools/audio-learning/` に展開します。実行パスは同じ Git 共通ディレクトリの `audio-learning/tools.json` に保存します。マシン全体の PATH は変更しません。配布元のファイルが更新されハッシュが一致しない場合は停止するので、正規の新版を確認して固定値を更新します。
+導入スクリプトは Nemo 0.24.0 CPU と FFmpeg 9.0.1 を指定の SHA-256 で検証し、Git 共通ディレクトリの `harness-tools/audio-learning/` に展開します。実行パスは同じ Git 共通ディレクトリの `audio-learning/tools.json` に保存します。マシン全体の PATH は変更しません。FFmpeg は [9.0.1 の版付き asset](https://github.com/GyanD/codexffmpeg/releases/download/9.0.1/ffmpeg-9.0.1-essentials_build.zip)と SHA-256 `fec81ae03971d9dd4be3ebe02e263bd2ec1d789483f931bdba5f5715e65da2e9` を一組で固定し、展開後の `ffmpeg`・`ffprobe -version` も照合します。新版への変更では URL・版・digest をまとめてレビューします。
+
+ダウンロードは一時ファイルへ保存し、検証後にキャッシュへ移します。途中で停止したダウンロード、不一致のキャッシュ、未完了の展開先は `.quarantine-<ID>` へ移し、元パス・取得 URL・版・期待値・実測値・隔離時刻を同名の JSON に保存します。不一致物は展開・実行せず、次の実行で固定 URL から取得し直します。隔離した証拠を削除して検査を回避しません。検証済みキャッシュは再利用します。
+
+FFmpeg だけを通常の状態領域から独立して確認するときは、空の所有するディレクトリで次を実行します。このモードは Nemo の取得や `tools.json` の更新を行いません。
+
+```powershell
+./scripts/Install-AudioLearningTools.ps1 -FFmpegOnly -ToolRoot ./.tmp/ffmpeg-verification
+```
 
 Claude のアカウント設定で Extra usage を無効にします。API キー、API 用の Console ログイン、追加使用枠への自動切替は利用しません。プログラムからアカウントの追加使用設定は読み取れないため、所有者が確認した後に次を保存します。
 
@@ -61,6 +69,8 @@ npm run audio:doctor
 
 [config.json](config.json)で話者、速度、分割合成の長さ、1 回の件数、修正回数を指定します。既定は 1 回 1 記事、修正は最大 2 回、記事間は 60 秒待機です。使用上限に達したら状態を保存して 6 時間待機します。既定の声は聞き手が女声1、解説者が男声1、クレジットは「VOICEVOX Nemo（女声1・男声1）」です。[Nemo の規約](https://voicevox.hiroshiba.jp/nemo/term/)を参照してください。
 
+元記事・台本・MP3の既存宣言と未確定条件、公開カタログ全9episodesのcredit/規約/確認先は[ライセンス棚卸し](../../project/records/2026-10-03/license-inventory.md#カタログ参照mp3の全件)で確認できます。声のcreditと音声素材全体の配布ライセンスはそれぞれ確認します。
+
 制作処理は次を順に行います。
 
 1. 記事全文の改行を正規化して SHA-256 を取り、節ごとの対応表を作ります。
@@ -94,6 +104,8 @@ npm run audio:publish
 ```
 
 記事が変わると新しいソースハッシュの作業として検出されます。完成済みでも音声ハッシュが一致しなくなった場合は再生成します。処理が起動中なら別プロセスはロックにより重複実行を避けます。PC の停止後は保存した台本・音声断片を使って継続します。
+
+制作の `run.lock` と公開の `publication.lock` は別の namespace を維持します。取得・死んだ PID の回復・解除はそれぞれ OS プロセス間の同じ mutex に入り、解除には PID と一意の attempt token の一致を要求します。旧形式の PID/時刻だけの記録は PID が存在しない場合だけ隔離して移行します。不正な記録や永続する `.run-lock-guard/lock-mutex`・`.publication-lock-guard/lock-mutex` は自動で削除しません。起動中の所有者、ログ、保存状態を確認してからその namespace の回復を判断してください。
 
 補助資料を使った台本は、使用した抜粋の本文・見出し・ハッシュを保存します。その抜粋が変わった場合も再照合します。用語集の無関係な変更だけで全音声を再制作することはありません。公開待ちの記事で原文が変わった場合は、最新記事を取り込んだ次回の制作で優先します。
 

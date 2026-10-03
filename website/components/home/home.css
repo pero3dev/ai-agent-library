@@ -13,9 +13,9 @@
   --home-accent-soft: #eef2ff;
 
   color: var(--home-fg);
-  max-width: 72rem;
+  max-width: 78rem;
   margin: 0 auto;
-  padding: 0 1.5rem 6rem;
+  padding: 0 clamp(1.25rem, 3vw, 2.5rem) 4.5rem;
 }
 
 .dark .home {
@@ -32,7 +32,7 @@
 /* ---------- 共通 ---------- */
 
 .home section {
-  margin-top: 5rem;
+  margin-top: 3.5rem;
 }
 
 .home-section-kicker {
@@ -52,19 +52,20 @@
 
 .home-section-lead {
   color: var(--home-muted);
-  margin: 0 0 1.8rem;
+  margin: 0 0 1.25rem;
   max-width: 44rem;
   line-height: 1.8;
 }
 
 /* ---------- ヒーロー ---------- */
 
-.hero {
+.home .hero {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 3rem;
+  grid-template-columns: minmax(0, 1.45fr) minmax(14rem, 0.55fr);
+  gap: clamp(2rem, 4vw, 4rem);
   align-items: center;
-  padding-top: 4.5rem;
+  margin-top: 0;
+  padding-top: 2rem;
 }
 
 .hero-kicker {
@@ -72,14 +73,14 @@
   font-weight: 600;
   letter-spacing: 0.12em;
   color: var(--home-accent);
-  margin: 0 0 1rem;
+  margin: 0 0 0.65rem;
 }
 
 .hero-title {
   font-size: clamp(1.9rem, 4.5vw, 2.9rem);
   font-weight: 800;
   line-height: 1.35;
-  margin: 0 0 1.2rem;
+  margin: 0 0 0.9rem;
   letter-spacing: -0.01em;
 }
 
@@ -91,8 +92,8 @@
 .hero-lead {
   color: var(--home-muted);
   line-height: 1.9;
-  margin: 0 0 2rem;
-  max-width: 36rem;
+  margin: 0 0 1.35rem;
+  max-width: 38rem;
 }
 
 .hero-actions {
@@ -135,8 +136,8 @@
 
 .loop-ring {
   position: relative;
-  width: 15rem;
-  height: 15rem;
+  width: 12.5rem;
+  height: 12.5rem;
   border-radius: 50%;
   border: 2px dashed var(--home-border);
 }
@@ -209,6 +210,11 @@
 
 /* ---------- 学習ルート ---------- */
 
+.home #routes {
+  margin-top: 2.75rem;
+  scroll-margin-top: 7rem;
+}
+
 .route-explorer {
   border: 1px solid var(--home-border);
   border-radius: 1rem;
@@ -227,7 +233,7 @@
   appearance: none;
   border: 0;
   background: transparent;
-  padding: 0.85rem 1.2rem;
+  padding: 0.75rem 1rem;
   font-size: 0.92rem;
   font-weight: 600;
   color: var(--home-muted);
@@ -259,11 +265,11 @@
 }
 
 .route-panel {
-  padding: 1.6rem 1.8rem 1.8rem;
+  padding: 1.35rem 1.5rem 1.5rem;
 }
 
 .route-persona {
-  margin: 0 0 1.2rem;
+  margin: 0 0 0.85rem;
   color: var(--home-muted);
   font-size: 0.95rem;
 }
@@ -498,23 +504,65 @@
 
 /* ---------- レスポンシブ ---------- */
 
-@media (max-width: 768px) {
-  .hero {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-    padding-top: 2.5rem;
-  }
-
-  .hero-visual {
-    order: -1;
+@media (max-width: 900px) {
+  .home .hero {
+    grid-template-columns: minmax(0, 1fr) 12rem;
+    gap: 2rem;
   }
 
   .loop-ring {
-    width: 11rem;
-    height: 11rem;
+    width: 10rem;
+    height: 10rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .home {
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+  }
+
+  .home .hero {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+    padding-top: 1.5rem;
+  }
+
+  .hero-visual {
+    order: 0;
+  }
+
+  .loop-ring {
+    width: 9rem;
+    height: 9rem;
   }
 
   .home section {
-    margin-top: 3.5rem;
+    margin-top: 2.75rem;
+  }
+
+  .home #routes {
+    margin-top: 2.25rem;
+  }
+
+  .route-tab {
+    padding: 0.7rem 0.8rem;
+    text-align: left;
+  }
+
+  .route-panel {
+    padding: 1.15rem 1.1rem 1.35rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .route-tab {
+    max-width: 100%;
+    padding-right: 0.65rem;
+    padding-left: 0.65rem;
+  }
+
+  .route-step {
+    gap: 0.75rem;
   }
 }

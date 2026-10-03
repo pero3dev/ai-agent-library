@@ -5,6 +5,8 @@ import { GlossaryTerm } from './components/mdx/glossary-term'
 import { PracticeSection } from './components/mdx/practice-section'
 import { TodoCallout } from './components/mdx/todo-callout'
 import { ArticleAudio } from './components/audio/article-audio'
+import { removeLinks } from 'nextra/remove-links'
+import { ArticleTocProvider } from './components/mdx/article-toc'
 
 const docsComponents = getDocsMDXComponents()
 const DocsWrapper = docsComponents.wrapper
@@ -32,13 +34,15 @@ export const useMDXComponents = components => ({
   },
   // 記事ヘッダーに front matter バッジ(level / tags / last_updated)を差し込む
   wrapper({ children, ...props }) {
-    return (
-      <DocsWrapper {...props}>
+    const article = (
+      <DocsWrapper {...props} className={`article-reading-layout x:mx-auto x:flex x:max-w-(--nextra-content-width) ${props.className || ''}`}>
         <DocMeta metadata={props.metadata} />
         <ArticleAudio />
         {children}
       </DocsWrapper>
     )
+    const headings = (props.toc || []).map(heading => ({ ...heading, value: removeLinks(heading.value) }))
+    return <ArticleTocProvider headings={headings}>{article}</ArticleTocProvider>
   },
   ...components
 })

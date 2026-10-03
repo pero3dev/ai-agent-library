@@ -7,6 +7,8 @@ import 'katex/dist/katex.min.css'
 import './docs.css'
 import { AudioProvider } from '../components/audio/audio-provider'
 import '../components/audio/audio.css'
+import { CurrentSectionToc } from '../components/mdx/article-toc'
+import '../components/mdx/reading-layout.css'
 
 // 公開 URL(OG タグの絶対 URL 解決に使用)。CI は vars.SITE_URL から NEXT_PUBLIC_SITE_URL を渡す
 // (公開先: https://pero3dev.github.io/ai-agent-library/)。ローカルは localhost:3000
@@ -66,6 +68,7 @@ export default async function RootLayout({ children }) {
           docsRepositoryBase="https://github.com/pero3dev/ai-agent-library"
           editLink={null}
           feedback={{ content: null }}
+          toc={{ extraContent: <CurrentSectionToc /> }}
         >
           {children}
         </Layout>

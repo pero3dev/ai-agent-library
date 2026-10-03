@@ -42,6 +42,10 @@
     "speech-rule-engine": {
       "@xmldom/xmldom": "0.9.12"
     },
-    "zod": "4.1.12"
+    "zod": "4.1.12",
+    "nextra": {
+      "fast-glob": "file:../../vendor/nextra-glob"
+    },
+    "dompurify": "3.4.16"
   }
 }

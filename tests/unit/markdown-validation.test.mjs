@@ -13,6 +13,12 @@ const file = 'docs/01-concepts/agent-loop.md'
 const valid = readFileSync(path.join(REPO_ROOT, file), 'utf8').replace(/\r\n/g, '\n')
 const messages = text => validateDoc(file, text).map(issue => issue.message).join('\n')
 
+test('Markdown validation parses explicit links without linkifying bare mail or URLs', () => {
+  const parsed = parseMarkdownLinks('contact@example.invalid\nhttps://example.invalid/bare\n[explicit](https://example.invalid/linked)\n')
+  assert.equal(parsed.links.length, 1)
+  assert.equal(parsed.links[0].target, 'https://example.invalid/linked')
+})
+
 test('existing article and BOM/CRLF remain valid; template comments do not alter values', () => {
   assert.deepEqual(validateDoc(file, valid), [])
   assert.deepEqual(validateDoc(file, '\uFEFF' + valid.replace(/\n/g, '\r\n')), [])

@@ -9,7 +9,7 @@
   --home-bg-card: #ffffff;
   --home-bg-soft: #fafafa;
   --home-border: #e4e4e7;
-  --home-accent: #4f46e5;
+  --home-accent: var(--site-accent);
   --home-accent-soft: #eef2ff;
 
   color: var(--home-fg);
@@ -25,7 +25,6 @@
   --home-bg-card: #18181b;
   --home-bg-soft: #111113;
   --home-border: #27272a;
-  --home-accent: #818cf8;
   --home-accent-soft: #1e1b4b;
 }
 

@@ -5,6 +5,12 @@
 - **調査方法**: [coding-agents.md](../../project/plans/content/coding-agents.md) §7 の 12 項目チェックリスト。公式情報(developers.openai.com / github.com/openai / openai.com / help.openai.com)のみを根拠とし、第三者記事は使用していません
 - **確度の凡例**: 公式明記 / 公式から推測 / 第三者(本メモでは第三者根拠なし)
 
+## 2026-10-03 Issue #154 の接続条件訂正
+
+実取得: [公式 Models](https://learn.chatgpt.com/docs/models)は2026-10-03T06:45:36Z、[Gateway compatibility](https://learn.chatgpt.com/docs/enterprise/gateway-compatibility)は2026-10-03T06:57:38Z(UTC)。カスタムプロバイダー/ゲートウェイはResponses API互換endpointが必要で、現行Codexは `wire_api = "chat"` とChat Completions専用endpointに非対応と明記しています。ストリーミング・ツール・会話継続までの条件もGateway compatibilityで確認しました。実接続は未実施です。
+
+旧 #104 と以下の2026-09-10記録の「Chat CompletionsまたはResponses対応」では現行の接続条件を満たしません。closed状態を修正の証拠にせず、現取得本文に合わせて記事を訂正しました。以下は各日付の調査履歴で、接続方式の現行判断には本節を優先します。モデル一覧・料金・他の設定を一括更新した記録ではありません。
+
 ## 2026-09-10 鮮度更新の反映
 
 対象記事の本文・比較・TODO に次の確認結果を反映しました。一次資料の文書確認であり、実サービスでの設定・実行の受入試験は行っていません。以下の旧日付の記録は調査履歴です。現行判断には本節と対応する docs を使います。

@@ -15,9 +15,7 @@ for (const theme of ['light', 'dark']) {
         await expect(page.locator('html')).toHaveClass(new RegExp(`\\b${theme}\\b`))
         await expect(page.getByRole('combobox', { name: '表示テーマ', exact: true })).toHaveValue(theme)
         if (pathname === '/roadmap') await expect(page.locator('.react-flow__node')).toHaveCount(16)
-        const auditRules = ['/docs/concepts/agent-loop', '/docs/architecture/workflow-vs-agent'].includes(pathname)
-          ? ['label', 'button-name']
-          : ['label', 'button-name', 'color-contrast', 'link-in-text-block']
+        const auditRules = ['label', 'button-name', 'color-contrast', 'link-in-text-block']
         const audit = await new AxeBuilder({ page }).withRules(auditRules).analyze()
         await test.info().attach('axe-target-rules', { body: JSON.stringify({
           pathname, theme, width, auditRules, violations: audit.violations, incomplete: audit.incomplete

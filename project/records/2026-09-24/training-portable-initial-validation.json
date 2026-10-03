@@ -3,7 +3,7 @@
   "status": "pending-independent-code-and-image-review",
   "createdAt": "2026-09-24T14:14:53.431Z",
   "manifestSHA256": "9fb0fb0d951d7ba52728b080b86948efc5bcfd6acf3288d5d044c13f6612c6a3",
-  "snapshot": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-C1-portable-whitespace-candidate",
+  "snapshot": "<user-home>\\AppData\\Local\\Temp\\ai-agent-library-C1-portable-whitespace-candidate",
   "predecessorManifestSHA256": "c68b2b87452f374be0da9d8a6a488655db1989e3425e3074895a4aa8d16c05ff",
   "files": [
     {
@@ -168,7 +168,7 @@
       "candidateManifestSHA256": "ab739274b10433c0d019a27fd062b9f21270fb530365a7bee7cd358237c118b7",
       "status": "passed",
       "passed": 13,
-      "artifactPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-local-chromium-2026-09-24T14-17-44-967Z",
+      "artifactPath": "<user-home>\\AppData\\Local\\Temp\\training-portable-local-chromium-2026-09-24T14-17-44-967Z",
       "resultSHA256": "a89a8cf692dd39c614b8c5837a161a133bd159bce84ec1957fc5659fddcccd13",
       "screenshots": 68,
       "overlapCandidates": 24,
@@ -182,7 +182,7 @@
       "candidateManifestSHA256": "9fb0fb0d951d7ba52728b080b86948efc5bcfd6acf3288d5d044c13f6612c6a3",
       "status": "passed",
       "passed": 13,
-      "artifactPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-local-webkit-2026-09-24T14-21-32-061Z",
+      "artifactPath": "<user-home>\\AppData\\Local\\Temp\\training-portable-local-webkit-2026-09-24T14-21-32-061Z",
       "resultSHA256": "1b9c180db850459a3e2c2618bd1f54f391d47747b599b4942b58a059c39fc0c5",
       "screenshots": 68,
       "overlapCandidates": 0,

@@ -1,0 +1,302 @@
+{
+  "schema_version": 1,
+  "decision_date_jst": "2026-10-03",
+  "owner_decision": "移管先がある旧Issueは理由をnot_plannedへ訂正する",
+  "changes": [
+    {
+      "number": 92,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/92",
+      "linked_issues": [
+        172,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200
+      ],
+      "verified_at": "2026-10-03T14:45:23.867Z"
+    },
+    {
+      "number": 93,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/93",
+      "linked_issues": [
+        195
+      ],
+      "verified_at": "2026-10-03T14:45:24.972Z"
+    },
+    {
+      "number": 96,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/96",
+      "linked_issues": [
+        197
+      ],
+      "verified_at": "2026-10-03T14:45:26.160Z"
+    },
+    {
+      "number": 97,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/97",
+      "linked_issues": [
+        196
+      ],
+      "verified_at": "2026-10-03T14:45:27.223Z"
+    },
+    {
+      "number": 98,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/98",
+      "linked_issues": [
+        170,
+        176,
+        177,
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188
+      ],
+      "verified_at": "2026-10-03T14:45:28.228Z"
+    },
+    {
+      "number": 99,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/99",
+      "linked_issues": [
+        187
+      ],
+      "verified_at": "2026-10-03T14:45:29.477Z"
+    },
+    {
+      "number": 100,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/100",
+      "linked_issues": [
+        178
+      ],
+      "verified_at": "2026-10-03T14:45:30.592Z"
+    },
+    {
+      "number": 101,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/101",
+      "linked_issues": [
+        179
+      ],
+      "verified_at": "2026-10-03T14:45:31.832Z"
+    },
+    {
+      "number": 102,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/102",
+      "linked_issues": [
+        180
+      ],
+      "verified_at": "2026-10-03T14:45:32.890Z"
+    },
+    {
+      "number": 103,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/103",
+      "linked_issues": [
+        181
+      ],
+      "verified_at": "2026-10-03T14:45:33.947Z"
+    },
+    {
+      "number": 104,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/104",
+      "linked_issues": [
+        176,
+        182
+      ],
+      "verified_at": "2026-10-03T14:45:35.328Z"
+    },
+    {
+      "number": 105,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/105",
+      "linked_issues": [
+        183
+      ],
+      "verified_at": "2026-10-03T14:45:36.274Z"
+    },
+    {
+      "number": 106,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/106",
+      "linked_issues": [
+        184
+      ],
+      "verified_at": "2026-10-03T14:45:37.152Z"
+    },
+    {
+      "number": 107,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/107",
+      "linked_issues": [
+        185
+      ],
+      "verified_at": "2026-10-03T14:45:38.179Z"
+    },
+    {
+      "number": 108,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/108",
+      "linked_issues": [
+        171,
+        189,
+        190,
+        191,
+        192,
+        193,
+        194,
+        209,
+        210
+      ],
+      "verified_at": "2026-10-03T14:45:39.693Z"
+    },
+    {
+      "number": 110,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/110",
+      "linked_issues": [
+        193
+      ],
+      "verified_at": "2026-10-03T14:45:40.717Z"
+    },
+    {
+      "number": 111,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/111",
+      "linked_issues": [
+        190
+      ],
+      "verified_at": "2026-10-03T14:45:41.610Z"
+    },
+    {
+      "number": 112,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/112",
+      "linked_issues": [
+        189
+      ],
+      "verified_at": "2026-10-03T14:45:42.785Z"
+    },
+    {
+      "number": 113,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/113",
+      "linked_issues": [
+        174,
+        201,
+        205,
+        206,
+        207,
+        208
+      ],
+      "verified_at": "2026-10-03T14:45:43.775Z"
+    },
+    {
+      "number": 114,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/114",
+      "linked_issues": [
+        201,
+        207
+      ],
+      "verified_at": "2026-10-03T14:45:44.910Z"
+    },
+    {
+      "number": 115,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/115",
+      "linked_issues": [
+        206
+      ],
+      "verified_at": "2026-10-03T14:45:46.116Z"
+    },
+    {
+      "number": 116,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/116",
+      "linked_issues": [
+        175,
+        210,
+        211,
+        212
+      ],
+      "verified_at": "2026-10-03T14:45:47.060Z"
+    },
+    {
+      "number": 117,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/117",
+      "linked_issues": [
+        212
+      ],
+      "verified_at": "2026-10-03T14:45:48.136Z"
+    },
+    {
+      "number": 118,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/118",
+      "linked_issues": [
+        212
+      ],
+      "verified_at": "2026-10-03T14:45:49.331Z"
+    },
+    {
+      "number": 119,
+      "state": "closed",
+      "state_reason": "not_planned",
+      "url": "https://github.com/pero3dev/ai-agent-library/issues/119",
+      "linked_issues": [
+        173,
+        178,
+        179,
+        180,
+        181,
+        201,
+        202,
+        203,
+        204
+      ],
+      "verified_at": "2026-10-03T14:45:50.958Z"
+    }
+  ]
+}

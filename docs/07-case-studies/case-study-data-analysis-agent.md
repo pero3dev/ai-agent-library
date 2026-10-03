@@ -22,8 +22,6 @@ tags: ["ai-agent", "text-to-sql", "verification"]
 
 ## 前提知識
 
-- [データ分析エージェント](../13-domain-agents/data-analysis-agents.md) — 本記事の設計ガイド(正本)
-- [ループのフィードバックと検証](../03-implementation/loop-feedback-and-verification.md) — 実行結果を検証して直すループ
 - [可観測性とトレーシング](../05-operations/observability-and-tracing.md) — 静かな失敗(エラーなき誤り)
 
 ## 本文

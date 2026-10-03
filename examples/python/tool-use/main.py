@@ -12,13 +12,15 @@ docs/03-implementation/tool-definition-design.md の内容を
 """
 
 import argparse
+
+import os
 import json
 import re
 import sys
 
 import anthropic
 
-MODEL = "claude-opus-4-8"
+MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-opus-5-5")
 MAX_STEPS = 10  # 停止条件をモデル任せにしない(agent-loop.md 参照)
 
 SYSTEM_PROMPT = (

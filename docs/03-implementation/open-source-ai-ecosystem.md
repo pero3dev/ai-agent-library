@@ -23,7 +23,6 @@ tags: ["open-source", "licensing", "ecosystem"]
 ## 前提知識
 
 - [主要 LLM の全体像](llm-landscape.md) — モデルの地図(オープンウェイト節)。本記事はエコシステムの地図
-- [AI サプライチェーンセキュリティ](../06-security/ai-supply-chain-security.md) — 外部から持ち込む AI 資産のリスク(本記事の派生モデルの信頼と接続)
 
 ## 本文
 
@@ -131,8 +130,8 @@ Gemma 4 は Apache-2.0、旧世代は対象を限定した Gemma Terms です。
 
 ## 参考資料
 
-- [一次資料: ai.google.dev](https://ai.google.dev/gemma/terms)(アクセス日: 2026-09-10)
-- [一次資料: ai.google.dev](https://ai.google.dev/gemma/apache_2)(アクセス日: 2026-09-10)
+- [Gemma Terms of Use](https://ai.google.dev/gemma/terms) — 旧世代の利用・再配布条件(アクセス日: 2026-09-10)
+- [Gemma Apache License 2.0](https://ai.google.dev/gemma/apache_2) — Gemma 4 のライセンス条件(アクセス日: 2026-09-10)
 
 - [The Open Source AI Definition(OSI)](https://opensource.org/ai/open-source-ai-definition) — オープンソース AI の定義(OSAID・現行 1.0)。オープンウェイトとの区別(アクセス日: 2026-08-18)
 - [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0) — 寛容型ライセンスの条文(特許条項・NOTICE)(アクセス日: 2026-07-10)

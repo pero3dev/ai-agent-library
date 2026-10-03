@@ -1,0 +1,10 @@
+chore(harness): {{summary}}
+
+理由: {{reason}}
+
+検証: {{validation}}
+
+影響: {{impact}}
+
+Agent: claude
+Co-authored-by: Claude <noreply@anthropic.com>

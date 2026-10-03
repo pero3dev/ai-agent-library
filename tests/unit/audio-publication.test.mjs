@@ -1,3 +1,5 @@
+import { isolateGitForTests, fixtureGit, fixtureGitSpawn } from '../helpers/isolated-git.mjs'
+isolateGitForTests()
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
@@ -83,7 +85,7 @@ function publicationFixture(t) {
   const manifests = [manifest, second]
   const manifestFiles = manifests.map((value, index) => { const file = path.join(stateDir, `ready-${index}.json`); writeFileSync(file, JSON.stringify(value)); return file })
   const git = (args, cwd = root) => {
-    const value = execFileSync('git', ['-c', 'user.name=Audio test', '-c', 'user.email=audio-test@example.invalid', ...args], { cwd, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] })
+    const value = fixtureGit(['-c', 'user.name=Audio test', '-c', 'user.email=audio-test@example.invalid', ...args], { cwd, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] })
     return args[0] === 'show' ? value : value.trim()
   }
   git(['init', '-b', 'main']); git(['add', '--', 'docs', 'website']); git(['commit', '-m', 'test fixture base'])
@@ -392,7 +394,7 @@ function refreshFixture(t, { changedSource = false, changedSupplemental = false 
   mkdirSync(readyDirectory, { recursive: true })
   writeFileSync(path.join(readyDirectory, 'ready.json'), JSON.stringify(manifest))
   const git = (args, cwd = root) => {
-    const output = execFileSync('git', ['-c', 'user.name=Audio test', '-c', 'user.email=audio-test@example.invalid', ...args], { cwd, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] })
+    const output = fixtureGit(['-c', 'user.name=Audio test', '-c', 'user.email=audio-test@example.invalid', ...args], { cwd, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] })
     return args[0] === 'show' ? output : output.trim()
   }
   git(['init', '-b', 'main'])

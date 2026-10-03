@@ -36,7 +36,7 @@ Claude Code や GitHub Copilot などの AI コーディングエージェント
 | [se-process-map.md](se-process-map.md) | SE 工程別活用マップ(V 字モデルで各工程の使いどころ・人が握る責任を一望。シリーズの背骨) |
 | [se-requirements-and-design.md](se-requirements-and-design.md) | 要件定義・設計工程での活用(観点出し・設計書ドラフト・整合性チェック・Excel 設計書文化への現実解) |
 | [se-test-process.md](se-test-process.md) | テスト工程での活用(テスト観点/ケース生成・自己検証の罠・品質保証責任は人) |
-| [se-legacy-code-analysis.md](se-legacy-code-analysis.md) | レガシーコード理解と仕様復元(構造把握・仕様書起こし・影響調査・モダナイゼーション。現行挙動が正) |
+| [se-legacy-code-analysis.md](se-legacy-code-analysis.md) | レガシーコード理解と仕様復元(構造把握・仕様書起こし・影響調査・モダナイゼーション。現行挙動の観測と要件の正当性を分ける) |
 | [se-maintenance-and-operations.md](se-maintenance-and-operations.md) | 保守・運用フェーズでの活用(障害調査・改修・経緯復元・定型自動化・本番データの境界線) |
 | [se-enterprise-constraints.md](se-enterprise-constraints.md) | 企業システム環境の制約と対応(閉域網・監査・持ち込み承認。提供形態 3 類型・判断フレーム。鮮度管理型) |
 | [se-client-adoption.md](se-client-adoption.md) | 顧客・プロジェクトへの導入合意形成(誰の合意・契約観点・見積り影響・小さく始める型) |

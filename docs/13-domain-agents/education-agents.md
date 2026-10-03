@@ -21,8 +21,6 @@ tags: ["education", "tutoring", "guardrails", "safety"]
 ## 前提知識
 
 - [ガードレール](../06-security/guardrails.md) — 出力・行動の外側からの制御(安全設計の基盤)
-- [信頼度と較正](../04-evaluation/confidence-and-calibration.md) — 確信度の扱い(誤答・不確かさへの対応)
-- [長期記憶の実装](../03-implementation/long-term-memory-implementation.md) — 学習者の理解度の保持
 - [業界別規制の入口マップ](../09-business/industry-regulations-map.md) — 教育分野の規制・ガイドラインの確認入口
 
 ## 本文

@@ -4,6 +4,7 @@ import path from 'node:path'
 import { collectLinkTargets } from './check-links.mjs'
 import { generatedPath } from './lib/hook-core.mjs'
 import { cli, git, parseOptions, ROOT } from './lib/tooling-common.mjs'
+import { checkPublicRecords } from './lib/public-records.mjs'
 
 const relativePath = value => typeof value === 'string' && value.length > 0 && !value.includes('\\') && !/[\x00-\x1f]/.test(value) && !path.posix.isAbsolute(value) && !path.win32.isAbsolute(value) && value.split('/').every(part => part && part !== '.' && part !== '..')
 
@@ -27,7 +28,7 @@ export function checkStructure(root = ROOT, { trackedFiles, linkCollector = coll
   const problems = []
   let unsafe = false
   for (const file of files) {
-    if (!relativePath(file)) { problems.push(`追跡パスが不正です: ${file}`); continue }
+    if (!relativePath(file)) { problems.push(`追跡パスが不正です: ${file}`); unsafe = true; continue }
     const parts = file.split('/')
     if (parts.length === 1 && !contract.root_files.includes(file)) problems.push(`root に追加できないファイルです。計画・記録は project/ へ置いてください: ${file}`)
     if (parts.length > 1 && !contract.top_directories.includes(parts[0])) problems.push(`未許可のトップディレクトリです: ${file}`)
@@ -49,6 +50,7 @@ export function checkStructure(root = ROOT, { trackedFiles, linkCollector = coll
     try { if (lstatSync(path.join(root, dir)).isSymbolicLink()) { problems.push(`リンク検査の入口をリンクにはできません: ${dir}`); unsafe = true } } catch (error) { if (error.code !== 'ENOENT') { problems.push(`${dir}: ${error.code ?? 'unknown'}`); unsafe = true } }
   }
   if (!unsafe) {
+    try { problems.push(...checkPublicRecords(root, files, contract)) } catch (error) { problems.push(`公開記録の検査に失敗しました: ${error.message}`) }
     try {
       const targets = new Set(linkCollector(root).map(target => target.repoRel))
       for (const file of files) if (/\.md$/i.test(file) && (contract.markdown_coverage_roots.some(dir => file.startsWith(`${dir}/`)) || contract.required_files.includes(file)) && !targets.has(file)) problems.push(`Markdown がリンク検査から脱落しています: ${file}`)

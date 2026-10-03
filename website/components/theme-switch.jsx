@@ -17,6 +17,7 @@ export function ThemeSwitch() {
   return <select
     className="site-theme-switch"
     aria-label="表示テーマ"
+    disabled={!mounted}
     value={value}
     onChange={event => setTheme(event.target.value)}
   >{options.map(option => <option key={option.id} value={option.id}>{option.name}</option>)}</select>

@@ -10,5 +10,7 @@
 
 {{impact}}
 
+<!-- Claude が編集した場合、以下を Agent: claude / Co-authored-by: Claude <noreply@anthropic.com> に置き換える。共同編集時は git-rules の定義順。モデル版・Claude-Session・Generated 行を付けない。 -->
+
 Agent: codex
 Co-authored-by: Codex <codex@openai.com>

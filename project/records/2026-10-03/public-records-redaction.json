@@ -1,0 +1,3266 @@
+{
+  "schema_version": 1,
+  "baseline_sha": "f3af9b045c3703a6540b68301f6ef25dd2690d9c",
+  "modified": [
+    {
+      "path": "project/records/2026-09-24/diagram-release-channel-review.json",
+      "original_blob": "70d869e29904313168ef01bd65bfd6c472c688ad",
+      "original_sha256": "e5664d48d44a6b264cd0f14c194eda0934b06dde6aa9991e3ce90f38d64c5a2d",
+      "redacted_sha256": "587b04a44f10ad70c59b262b53d7e4598d48113389299b253f35dd382a1a83a8",
+      "occurrences": 1
+    },
+    {
+      "path": "project/records/2026-09-24/diagram-release-label-validation.json",
+      "original_blob": "20eead2a08fd0abd151b2a246ee5f30e272db98c",
+      "original_sha256": "6b05bfe8309f869cf2d88bb3b29d3e8f6e039434973f6601217e3c0396468907",
+      "redacted_sha256": "e07cf00b8f4522cf4378dcb1d88b32c110981d45ec126a6fc47ddc70388db80d",
+      "occurrences": 2
+    },
+    {
+      "path": "project/records/2026-09-24/reading-diagram-foundation.md",
+      "original_blob": "a00d9c2c0c9405e4320b481a81ab8ff7eea0bd3b",
+      "original_sha256": "e83ad20e287aa52d8a90f3aaa417696fd87147f1aa61b40045e1dbd7ff606d3b",
+      "redacted_sha256": "cee632f5b9638ac1acc95e5cc71b63afc2c0e7bc6bf66a3b0a1728984d8c86a6",
+      "occurrences": 2
+    },
+    {
+      "path": "project/records/2026-09-24/training-portable-final-review.json",
+      "original_blob": "d0b92f2f2bf5daaa62679d53923eba44fd8ecaba",
+      "original_sha256": "1e92e8d3725a6eb8fc525cd18c38818604a5bc179b1c8f4a177b2761f6c0093b",
+      "redacted_sha256": "fc9015c842981db35bc0a17c5652ffa3d8f8cf79451f9ea0623b82f191b7d5c7",
+      "occurrences": 24
+    },
+    {
+      "path": "project/records/2026-09-24/training-portable-initial-review.md",
+      "original_blob": "ba3be54217b5c148ee2f83240253c0b385ea57b7",
+      "original_sha256": "0ae74e1dad09ed7bb48065b6ac9193c37cb14a9049c239b52425153d5becff00",
+      "redacted_sha256": "a01fdbead3ad6baed69f189fb6c49ff00e77902835a04e31f843ceabe820d480",
+      "occurrences": 8
+    },
+    {
+      "path": "project/records/2026-09-24/training-portable-initial-validation.json",
+      "original_blob": "0daa7f9c0db04d9a36d28a61f69ac08007d2059e",
+      "original_sha256": "2f611a0c75c1a64e1926b6e53680da44b25353dce03528b3a6493b7ce468a71f",
+      "redacted_sha256": "6b6edfe5ecac13a9d09b8f1b844ec709a6208045dacd3fc408370fe5b425f952",
+      "occurrences": 3
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/public-acceptance-index.json",
+      "original_blob": "78ad239c859667df2c2504e464e100e6760bb572",
+      "original_sha256": "6975b864de7a9b44d7ed6eaa87c18a19c140e653c922913678364d2f80e2713d",
+      "redacted_sha256": "ea61d49b533c9ced9fcbbaa10bdc83850614a540b732959e62d213e520f77b3f",
+      "occurrences": 13
+    },
+    {
+      "path": "project/records/2026-09-24/training-scene-audit-initial-review.json",
+      "original_blob": "49c563197e4f4ed474d8ca0af39fb7210a05ae88",
+      "original_sha256": "b59aea676879a8fcbd84c138e474df433a301a59d7730e43005e009b36ec9b88",
+      "redacted_sha256": "62e0b8bed6164fb5de28a5200511122244fb3c77c2992baf1510422404b71e1d",
+      "occurrences": 110
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-ci-evidence/index.json",
+      "original_blob": "86b4844be856321c5735357ec84824faa5e6e798",
+      "original_sha256": "855ff1d506696f82f5a0d8fde24acd9f3ecb3c86e7c43e5e97911a924855a470",
+      "redacted_sha256": "882f87644c363a033ab28a9c72ba07cab40e13d7feba170f551a86e62ceb3bd8",
+      "occurrences": 6
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/index.json",
+      "original_blob": "21dbb435b8573f81ed4406b3fabb3ef1a76a7b4e",
+      "original_sha256": "dfa4fa3478fd617f40b15ca3f8be9c8c5d9cd31250f9d16ab7deb416af45a87c",
+      "redacted_sha256": "1f941154e66881b4c2fbbbf319c1657d7041d9cfbec92f9d13e9b93d75b5c02f",
+      "occurrences": 90
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-submission-evidence/index.json",
+      "original_blob": "359aa1e820e97f1ff0c87b41c3032c061f3bed24",
+      "original_sha256": "11641f446b004bcef204af0ecfb18f7466dfab5061b8d4e5f4231527d0465365",
+      "redacted_sha256": "9d23fb8297206299c9397da022f2d5bb290f84c10e8e3f90ce856c74e9fc5506",
+      "occurrences": 8
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-kit-preparation/index.json",
+      "original_blob": "249e8d571c756e49735ad53f289c5fa28ab4a68a",
+      "original_sha256": "7f2d19826127de17b704ab93226d15a6c3ddd1f7a55ee06536a80b36e7363a0f",
+      "redacted_sha256": "d156c0ed2d516646a07049d492a5b049229c0886769e2e1c2d226dff4f96eccc",
+      "occurrences": 6
+    },
+    {
+      "path": "project/records/2026-10-03/article-issue-remediation.md",
+      "original_blob": "2b0a1ffbcde00ce90905e60a37ad30efc2ac8874",
+      "original_sha256": "96a960638a4e544f82d8dab3940f1afac91f07145caef7fe9096a2c0bbef9499",
+      "redacted_sha256": "da8a33a3babbfad99d83ae6c3ea77d6eb2d69daaf022c493bebaa8fa3fdf024b",
+      "occurrences": 1
+    },
+    {
+      "path": "project/records/2026-10-03/harness-audio-issue-remediation.md",
+      "original_blob": "232e9e7780631627bedeb4903be1df759f0cc1ac",
+      "original_sha256": "559b39476da8b80371dc9e0565159d74a7fa4f2fc826fa5272bf35dda0eea75a",
+      "redacted_sha256": "0fa09c262b5535f45853e309eac379e245c486da841549aa24276a1e5ba30c18",
+      "occurrences": 1
+    }
+  ],
+  "fixed_exceptions": [
+    {
+      "path": "project/records/2026-09-10/evidence/examples-audit.json",
+      "sha256": "0cbb8a2d4ca55b7435f0ce041efc9e17296e7c7b81e960fc639093fc28662581",
+      "occurrences": 5,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-10/freshness-automation-setup.md",
+      "sha256": "58531b8d3edc6a830fa780caf39e1174892a396e9b358f9d12713a189572bdc1",
+      "occurrences": 1,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-24/inference-label-public-evidence/artifact-evidence.json",
+      "sha256": "f02d170641883b2133ee5f08c29ace217f0ecb4aad8d3e71c5f3d3ab187a7799",
+      "occurrences": 6,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-24/inference-label-public-review.json",
+      "sha256": "a0d609dd9b5e663212f4f820b10af34173652e12fa9152ce60a3b6eb7b92563e",
+      "occurrences": 128,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-24/inference-label-public-review.md",
+      "sha256": "bd4de0e73d11ceefb9c6330fb7ed4af6fcef894c766e37d9a83ed71d6da0e904",
+      "occurrences": 89,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-24/training-portable-initial-review.json",
+      "sha256": "8f33468ffd028bd51c7a9f4846dca69fa9d0afbe6c84fa589b88fe3e3f53c2a7",
+      "occurrences": 13,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/artifact-evidence.json",
+      "sha256": "4f6dcbf1893ae978771b1d8fa3fbd9fe4135c9b61a148daa9f24e465364b3195",
+      "occurrences": 7,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/stage-race-diagnostic.json",
+      "sha256": "0f0ec7634526037d83c948526015f52b7bb849956d3263564404ea8e447c2b62",
+      "occurrences": 31,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-review.json",
+      "sha256": "fd9a3c14e00cc7858d49425c4120729d9c9d7a0a870f5004594164b4a8ca298a",
+      "occurrences": 14,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-article-final-review.json",
+      "sha256": "6278027fd3fa6c4386d19b23a724abb35b707b1fc7cae53a12655bc7074b9e62",
+      "occurrences": 1,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/index.json",
+      "sha256": "3bf35fd35073f790212f3bea47a149a62e192801d1ac276a7dddfbf036a88dbd",
+      "occurrences": 33,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/viewed-images.json",
+      "sha256": "8924ffd9b5a7afc61768cba01f5fee5220b9a80918f6076551f11bbeb7dc3ef8",
+      "occurrences": 295,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/artifact-evidence.json",
+      "sha256": "18907c1683ba217c354ac448af63b60e80f7ca24a56906f3fc39c98d2fd90e13",
+      "occurrences": 8,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/index.json",
+      "sha256": "59e90d12724bc2240b37301faccd15fd1e6398c8f62b0d1a26a1a21ebb474eed",
+      "occurrences": 206,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-review.json",
+      "sha256": "be4b2b1a010231b928ce2dc733f72fdb973b0d7950e27149a2ad6ffd07969635",
+      "occurrences": 45,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/public-raw-file-index.json",
+      "sha256": "5e1fa3d3223b18c7c50d4a3f7af00cbde1eef400c9c63d500fcb30ad19dff289",
+      "occurrences": 31,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/viewed-images.json",
+      "sha256": "2987175fd16eb6b7c77a5507c530dff1be21b6be0a7c3c66c28aad285d5a5456",
+      "occurrences": 361,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-scene-review.json",
+      "sha256": "9ee6aede5114da018adff6bc42ce306b31f601ab4b986e8b00b5c21a66247e38",
+      "occurrences": 59,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/final-review.json",
+      "sha256": "a0dbbd9df2dc24cdc071667986610543e6b8edde052f75ad0ea85cbc97865639",
+      "occurrences": 15,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/edge-first-aria-generated-images.json",
+      "sha256": "0d5e72d18c44a68153736a78093ef438c3be6850fed984d9c90f22f2b0d3131f",
+      "occurrences": 216,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/edge-grid-final-generated-images.json",
+      "sha256": "371afe1dd99e8bbd7ebafcf04154b090aeccb3b175a46ca92e8d00c658e88fd4",
+      "occurrences": 22,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/final-independent-review.json",
+      "sha256": "4df5623ee75b29f3a0ed42c8981c74e7bbd411e16b4fc22e70e0b4705acea829",
+      "occurrences": 14,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/final-viewed-images.json",
+      "sha256": "038aac290bc85b99857ce8ba30b768d8bd23eeee7690defb74bf9bb59d68fd25",
+      "occurrences": 336,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/generated-images.json",
+      "sha256": "91822059e43e77ee1e6f04e977ce6f34ea42e62839eed9e431272d10009ccbe4",
+      "occurrences": 96,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/index.json",
+      "sha256": "377757f59ca3bf2b7ca7c700150ea400ffbeb85862d96daf2364d7c375e99892",
+      "occurrences": 78,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/kit-independent-review.json",
+      "sha256": "bcd5311a5a89ef766999b3590ffcf58954de4526a9fb6c5ca564f1efe20a5cc8",
+      "occurrences": 3,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/viewed-images.json",
+      "sha256": "d2dea3b84a6e9bfe991788ba8b4a2b093e84eff7b474fb054792472f085864fd",
+      "occurrences": 96,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/webkit-final-generated-images.json",
+      "sha256": "a96115f46642d22f71450737e0e14d22ae3d3897ab4ccad940677d6b1c55f028",
+      "occurrences": 216,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/final-review.json",
+      "sha256": "e51d69bf35c9a37cf4e14782009e99a96dc9f6389067d61a445d6bc22fcd1a97",
+      "occurrences": 31,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/index.json",
+      "sha256": "64c692ccbfb0559ff4c179d2b05bec037c9fb227ca5b4fdd0e9961607923e956",
+      "occurrences": 263,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/viewed-images.json",
+      "sha256": "4523b9750dc40fe60ba0ba8cab2e772c9b3b9e5044301e5476cc5238a0659897",
+      "occurrences": 411,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-code-review.json",
+      "sha256": "7a2fce38cefe45014931873f740a17e71b856a8e733279890454c02fb41e625b",
+      "occurrences": 4,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/index.json",
+      "sha256": "a9be285e17332cd6c28f0e80a64b86c70f57284dda9e52b737f2a2830fde0a10",
+      "occurrences": 148,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/viewed-images.json",
+      "sha256": "c67b56b686313534372712c800ecc680dc1bc520b622868089f7e6cbb9c0ce7a",
+      "occurrences": 109,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/artifact-evidence.json",
+      "sha256": "0907d19726dc9c57c02dee00bc50d0d17bd0ecc6e5a03bfc9baa7498f69515a8",
+      "occurrences": 8,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/collector-html-manifest.json",
+      "sha256": "d664a00f056736de93ea8cf76253dbee4d001677d7d7d1eb1aed12f543ddf68d",
+      "occurrences": 16,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/index.json",
+      "sha256": "f6f5d72511f4f7a4a149e51f9b299b29e772f8adcc3cc7328757608f51151698",
+      "occurrences": 114,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/review-evidence-map.json",
+      "sha256": "f2ce726e4fe5d13163ef9cc191cc5ea975153d5c73e80b534ef8d72f0e151c3c",
+      "occurrences": 29,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/viewed-images.json",
+      "sha256": "e35600d058c633004490bcfb8f63aa46505a5b8e0d87ea63c51d2e2a6d51238c",
+      "occurrences": 142,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-pr62-review.json",
+      "sha256": "9f85d2427529fd7327a3e1cba8e24e845579f595837a2b9ee92bac86c20f05e3",
+      "occurrences": 44,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-pr62-review.md",
+      "sha256": "d6185b901144fab092f6c39090b68cab5c27f804792ed6ea94a115bdfe8c441e",
+      "occurrences": 4,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-review.json",
+      "sha256": "6dd30aad8e5a53f8efe0d7e76d6164f501c41c073ca6c398c9be74a4741fbdfa",
+      "occurrences": 27,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-review.md",
+      "sha256": "29d6246c55bb41d2296d403a4646c58869879d8ad2ea4632eda5f5765a90ac21",
+      "occurrences": 8,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-interface-proposal-20260930.json",
+      "sha256": "019400d5862560f50f361474971a62a5f7f51a5b2926b95a2a29b9bddfc3f632",
+      "occurrences": 2,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-interface-review-20260930.json",
+      "sha256": "e92e19b4756256952484b16994fa0a42a8a679e3442c17b2b871f8b46eb08ca0",
+      "occurrences": 1,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-kit-plan-review-20260930.json",
+      "sha256": "89bee7d25110b36270877e4795ec8618644c1642914c1c47bd73dab753753601",
+      "occurrences": 5,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-kit-plan.json",
+      "sha256": "c003f801f6443662522bf0433bbd45546f7cd7bf86e93960ff5c5704accd5e21",
+      "occurrences": 7,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-review-20260930.json",
+      "sha256": "72e280ce99f7312bb0ca4cb651d23e950928cd2976796cd15d044443c05f219a",
+      "occurrences": 3,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/p1-interface-preparation/raw/capabilities-f1-interface-review-20260930.json",
+      "sha256": "1ececcfb3db3e2edb29b6460c4e6add1224d2b6c9fee555ff74895a2e92a9924",
+      "occurrences": 3,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-review-20260930.json",
+      "sha256": "5e49ffceea5f2b4677efbbe1893ab0046c1225a6132f85545c14c56f34e9f8e2",
+      "occurrences": 1,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/p1-interface-preparation/raw/interpretability-e3-interface-review-20260930.json",
+      "sha256": "df0ba3264efcdf36c7941ab394c528c0f1332ec8e5daa7171401664089b17d1e",
+      "occurrences": 1,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/p1-interface-preparation/raw/multimodal-f2-interface-review-20260930.json",
+      "sha256": "dac1cf661e4659b884c64875dc112fa9b8a42e950f7ebd49e79e22d2057ae650",
+      "occurrences": 4,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/p1-interface-preparation/raw/reasoning-d2-interface-review-20260930.json",
+      "sha256": "db8852c9c09f253424d9932180b91da6e2320f9a34bab3d2e18fab5d67651bf5",
+      "occurrences": 1,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/p1-kit-preparation/index.json",
+      "sha256": "d421d0f2b3a4e492e506ca548410a914e497979888be5c4cd1317f9085242b8c",
+      "occurrences": 1,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/p1-kit-preparation/raw/context-e1-kit-plan-addendum-review-20260930.json",
+      "sha256": "c772da31912b10c50b4a857de10d0e84115c324978a50c00a6aae7180ebbe176",
+      "occurrences": 1,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/final-review.json",
+      "sha256": "e0e15866be3637d22920cde0e4dad3b27477dfa982676ffcd77cc5ffc6c3d0df",
+      "occurrences": 60,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/index.json",
+      "sha256": "46fffbc5ebce78ac777024f9d5f8b981480e1997e3d61b66802de105a467aeb6",
+      "occurrences": 215,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/viewed-images.json",
+      "sha256": "28153cd1c06c4b83a51bcafc5c7c40ded9747f70d15b332716284d13d09e9887",
+      "occurrences": 245,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-native-zoom-evidence/index.json",
+      "sha256": "cf1a55d22a31747bd8c457d3bfcaa45a6e1280cd35e942adf188f34c123fb871",
+      "occurrences": 58,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-native-zoom-evidence/raw/capture/result.json",
+      "sha256": "053153e54305333bf28efacaa6797d4ac81c9448eb90de3623b81e74754ab351",
+      "occurrences": 13,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-native-zoom-evidence/raw/capture/visual-diagnosis.json",
+      "sha256": "37b1d4a2c2aad146e77ee92477bd654e4100a393d320aa9ebd6c43d24d69216c",
+      "occurrences": 14,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-native-zoom-evidence/raw/helpers/reasoning-native-zoom-capture-probe.mjs",
+      "sha256": "c2ccbc8853c66d035fe1599674548c726f59c4da3f3473c0de024a3a9def77c6",
+      "occurrences": 1,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-native-zoom-evidence/raw/initial/result.json",
+      "sha256": "ab951bf7b1abaac8ed4ee1c75a9796b85f10501e54828cab51f86d82464ea05a",
+      "occurrences": 12,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-native-zoom-evidence/raw/viewed/reasoning-native-zoom-capture-root-viewed.json",
+      "sha256": "a78a5e2579640d9fa535da217d3ac9b52d9be14c678273326505e61aea2a82eb",
+      "occurrences": 2,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-native-zoom-evidence/raw/viewed/reasoning-native-zoom-initial-viewed.json",
+      "sha256": "dff2a54bc17f5be0168fb48ae21cdedd1b08ad4ee046f82a9dcbc74a5601047c",
+      "occurrences": 6,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-native-zoom-evidence/viewed-ledger.json",
+      "sha256": "2bcd06342f4eddf77169f112a753afc1a64784602d21b8084bba1c13b54502a5",
+      "occurrences": 32,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-submission-evidence/index.json",
+      "sha256": "706cf71bb129d1fd213a2d1d07a250d3e90b535c23a8d71a4c6dea7e77f21a6d",
+      "occurrences": 54,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-submission-evidence/viewed-images.json",
+      "sha256": "d25efee82be98a7696293400daae51f97c72af12d60b84a5c0b5e18f9758cec7",
+      "occurrences": 89,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-submission-evidence/width-review.json",
+      "sha256": "ec2da53caa51625ff5e8e96b1152de34639d8d70a8afe15fa4a2b6a3ee39cc67",
+      "occurrences": 8,
+      "reason": "SHA-256 is referenced by existing evidence; do not alter the original"
+    }
+  ],
+  "archive_files": [
+    {
+      "path": "project/records/2026-09-24/inference-label-public-evidence/browser-result.json.gz",
+      "sha256": "2320a6541b5666d6823b16946a61366d40a2bea2b8f39da94cf5ca5fb3064470"
+    },
+    {
+      "path": "project/records/2026-09-24/training-local-evidence/chromium-all.json.gz",
+      "sha256": "3ddc8905e4716e3d94ed3deddad2edea181b36e70de2911c942ce5d438baef6a"
+    },
+    {
+      "path": "project/records/2026-09-24/training-local-evidence/root-check-initial.log.gz",
+      "sha256": "2d3384255542e6037b910c58f5fb4c20f074f3c2e524de5414e12288d34b22f0"
+    },
+    {
+      "path": "project/records/2026-09-24/training-local-evidence/root-static-recheck.log.gz",
+      "sha256": "c8d121c894e33291b87628d675ce81e483b225bb771e173d42b24a1ddea648bd"
+    },
+    {
+      "path": "project/records/2026-09-24/training-local-evidence/scene-audit.json.gz",
+      "sha256": "e669820735d216c9bc16d8478bca1254e6cc8e7edf1f733a600f50e1739f92aa"
+    },
+    {
+      "path": "project/records/2026-09-24/training-local-evidence/static-build.log.gz",
+      "sha256": "74c76c3fd5e66faa4432e9e7daf0029b6a94604e3415f3cb307473de7e45dcb2"
+    },
+    {
+      "path": "project/records/2026-09-24/training-local-evidence/webkit-target.json.gz",
+      "sha256": "51d9144fca686fbb1b0d4f54bb6a07685989402e2a9aa808ffea87dc32e6fab2"
+    },
+    {
+      "path": "project/records/2026-09-24/training-local-evidence/website-unit.log.gz",
+      "sha256": "cf554aee2979d3ee99b7e03173a3de62e0728239b5c15475d9de88f24eec4304"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/artifact-evidence.json.gz",
+      "sha256": "a8678c5f728c14cb32870ccabec877515fcb807df32bae4230be70e34c6ec7e4"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/attention-variants-and-long-context.html.gz",
+      "sha256": "c849bd12979286da4ef7a33b7f5da3ef9abb346968855d2ceb61a33d4704dadf"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/chromium-result.json.gz",
+      "sha256": "99fcd2f5a7ff5879be51a17604df615e4f403bce2555c9a0e1e26d95a37056ad"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/deployment-after.json.gz",
+      "sha256": "d9e310bf5df30160d9fedf3aa24226813f94072479ccf8a1f79f1ced16f07b32"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/deployment-before.json.gz",
+      "sha256": "afd6ca9c6a64723339a0e9e57de849e7d4ab6003fcc497ce295b92f694eef772"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/how-llms-generate-text.html.gz",
+      "sha256": "3965042377cbf1b0de311520f5b145eb25d3051021ef38c7424be9d3055f3810"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/inference-internals.html.gz",
+      "sha256": "207570cc72ae15edf8ea16218c839e18df38e2ea2321b3a8e79a7eb6927396d3"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/llm-training-pipeline.html.gz",
+      "sha256": "cd4ae3fc8ed42744acea797d295b30e14f2d59f52e7a4c3c7e6c4459100f120e"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/mixture-of-experts-internals.html.gz",
+      "sha256": "e0015656763eaac391d1e60228eded6e3cbeb9baf13c733de6236b76decb2c4b"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/pr59-stage-candidate-proof.json.gz",
+      "sha256": "99a604c2f54b32f02c541e2d89fa38593853a10dff3bc0ed4c56acae102bc8e7"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/pr59-stage-diagnostic-transform.json.gz",
+      "sha256": "60704c4b83b60fd3bfccdae39c5d195ddfd677a12130d64b0c2073e41c405c57"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/pr59-stage-diagnostic.mjs.gz",
+      "sha256": "1cbac793d04c2f66789c7363df770da685e16db193cac1a37e4b48332514466a"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/pr59-stage-helper-candidate.diff.gz",
+      "sha256": "330893aa8151e7df1a20480c820d461b1f8aed92b52d989524cb4494c3feccdb"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/pr59-stage-helper-candidate.mjs.gz",
+      "sha256": "2de35c75ffd82d6326f25e59dac6856dad41ad9dda99945ff3d08c7327844345"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/pr59-stage-helper-original.mjs.gz",
+      "sha256": "50dde72e9199058406a85e4e5debd351158ce66ddd1cbc80a65ffe1ac53f24bc"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/pr59-stage-playback-diagnostic.mjs.gz",
+      "sha256": "56fbda1849886d90c4e6e54d3a68e84310d245670821c20935fe2a3c84198a8d"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/pr59-verify-public-stage-candidate.mjs.gz",
+      "sha256": "63335e163fc436a89ac57808af03ac9dabfcc814090abc6f8a449ff7410d9f6e"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/stage-race-environmentBlocked.json.gz",
+      "sha256": "3c252d6e9a5c9ffd8d030dd60033bfd4f4e27196df3d348790dc3c1886d91f3e"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/stage-race-original.json.gz",
+      "sha256": "359b47d4a05b091bf0fccbdb8dc70d5beef99e8209e6986eb72f501501fcbe06"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/stage-race-stabilizedPlayback.json.gz",
+      "sha256": "8814fb5a09a96be53f9847505921788d44bf62226ec0ebe36ba137133a18594b"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/stage-race-stabilizedThree.json.gz",
+      "sha256": "7d8c12a8a2510b70484323239dc3df546078a7ea060c918c6f5a4a3e2dcb6ded"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/tokenization.html.gz",
+      "sha256": "8e11431603b680399e8f57b62334aa6c72f3fbef726a3e92f78cdea14b436275"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/training-independent-diagnostic-proof.cjs.gz",
+      "sha256": "2285066c2695487a5dda76e044ace31861fa35be31349dd494b02619f06c8db4"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/training-public-identity-after.cjs.gz",
+      "sha256": "7dc94de94b3986dcde3a9b25da513e50fe86f38d2954040d23750cdfacc97ba6"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/training-public-independent-evidence-check.cjs.gz",
+      "sha256": "99f8dcb01f75be9177683fd0fed002c47f0b77cb7df32b4fa75dd3b88da20d4c"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/training-public-supplemental.mjs.gz",
+      "sha256": "299f5357cec969d5d9291dea3cdca09fde549adac407296b16f3eceb399c7645"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/transformer-architecture.html.gz",
+      "sha256": "5e3bb52c200b3ce4c7010230fb6164661ef4db0364156d659c28bf0daf0b331d"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/transformer-supplemental-result.json.gz",
+      "sha256": "27fbf9208fddb80bcc67a8eb334298701818933d7bd0517b724f5e1e7d67eead"
+    },
+    {
+      "path": "project/records/2026-09-24/training-public-evidence/webkit-initial-result.json.gz",
+      "sha256": "393a3c4fda1dd3ff5ae3fdad3ce27e47a32507d417687a44ce3d1696c4c7926f"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-4209-after-original.png.gz",
+      "sha256": "39e305bbfa58ad9014f72a1ba0057a01110115fe50224c91ab8222b7fd264eeb"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-4209-centered-reproduction.json.gz",
+      "sha256": "7f183984c270abba19e0b8934e3f556f4d3c379418b72f269db367f761d13ed0"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-4209-centered-reproduction.mjs.gz",
+      "sha256": "6e56c33ee11c9e2b6efdcc58720912542632600b441b4a646b810492d197856d"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-4209-observed-scroll-after.png.gz",
+      "sha256": "cec1d1e79daa37cf77e0fcb35f2cb03d3e375e67ae8f457ae4405bc50908109b"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-4209-observed-scroll-before.png.gz",
+      "sha256": "39e305bbfa58ad9014f72a1ba0057a01110115fe50224c91ab8222b7fd264eeb"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-4209-observed-scroll-replay.json.gz",
+      "sha256": "4699225a4d4b80b1a9da8f0e96ab6102cd1d3ad12b53b789d4b08d6a8438bbb4"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-4209-observed-scroll-replay.mjs.gz",
+      "sha256": "acdc04456554cd2e706bf6a8918cdab8a4b6bdd60edec83f07f4a3ed0a5f7192"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-4209-reproduction.json.gz",
+      "sha256": "5fdd6479102901eeea692061b983983c2cb4a67b7e7503c4edef2d6429d93e47"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-4209-reproduction.mjs.gz",
+      "sha256": "a83c670f9e7f51903f46e670b20457735090387c869f3bcdf41c862763cc1a49"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-diagnosis-1-trace.trace.gz",
+      "sha256": "279c3dbeaedc56247eafb66a43da6f40028514aa2bc0bb6678198d8105c3f08f"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-diagnosis-test.trace.gz",
+      "sha256": "eb994fd68829e2e259f53f9ec2e1165441a0be02f574a549148fe989d2203c38"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-failure-last.jpeg.gz",
+      "sha256": "890a8462220cc63a38149e887ecebe2baf7b876f39cad3376e1fd5ce93499f98"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-second-1-trace.trace.gz",
+      "sha256": "a7108fd36f18c548c54146624b220c3f7a0103e210fb6f24dd737e101d83f5bf"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-second-failure-error-context.md.gz",
+      "sha256": "0368506340e2ee8ad1500f2cfb202ddd22f5b3219e3f9f2a4c5f97b15cc419b8"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-second-reproduction.json.gz",
+      "sha256": "10bc36292d0ff7d15434ae5f10a48c3fcf0220ad479746b6ca4c2cdff895596b"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-second-reproduction.mjs.gz",
+      "sha256": "8581f26c8bf7d2ffdec808fa82d75d59d23b2e42b9e516e8c4af4b685d2b04b4"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-second-test.trace.gz",
+      "sha256": "dada791fe5515416bc5d3a1f024da4e2b129f6a0094af2b0fb6ea845457db27a"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-second-traced-0.zip.gz",
+      "sha256": "47c1074523d7cef5066b539740da7a3f08efb2120f0bd923d2e480f84daa4e0a"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-second-traced-center-0.png.gz",
+      "sha256": "9605cebc6d3ec419965deb40dc369b75f9716244ef2dd31cc8cadcfd0da72b21"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-second-traced-original-0.png.gz",
+      "sha256": "39867957e37e0e066f126dcfed9cf51ad1fe38533bfe46942996c9c4662b1dc5"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-second-traced-reproduction.json.gz",
+      "sha256": "cb046378d41d6d4cdb1ad17e90ca13ce84bb1a03cf82fcc59ea47920426308c4"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/c2-metrics-second-traced-reproduction.mjs.gz",
+      "sha256": "b8716c4c6c6d5ec6ccf5b0a2cb1f4f4c302a9e66e9b38fb9a37190ebf57f4e1e"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/independent-edge-final-result.json.gz",
+      "sha256": "99e20ab6fc1d2f607d705312e8ab1b943694149fe576afcec94f17a1f33cb631"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/independent-edge-initial-result.json.gz",
+      "sha256": "ef8b1e9f3d9806ce6f86a591d00c1af20e457c6ad276671c7ac2e59f8dcfba7e"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/independent-webkit-initial-result.json.gz",
+      "sha256": "ba61a41575da120e752620cf740adfa1b5c081a615eba8029ac7e81fe4acc64f"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/independent-webkit-loss-final-result.json.gz",
+      "sha256": "13a5bad45a8ac2f983dcc64b1d9bd17413f7dfc739b45aa62c3cfd317768f450"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-all-stage-independent-delta-20260930.json.gz",
+      "sha256": "e05124d5e78620dcf1e314d01b4bcc758da8eb84043c0262b08d4bd5841fd4aa"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-browser-edge-second.json.gz",
+      "sha256": "b2a8a7c084cf4ea47a1d696ed4bb140482fea484609652177de89d96fad00d05"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-browser-edge-sep30.json.gz",
+      "sha256": "f703ba43fc6c4cc6c7d618716fbfaba57ee80d59437422460f01dfd4c37e27d8"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-browser-edge-sep30.stderr.log.gz",
+      "sha256": "9e72928e7a01615b4cf090daa617b4ca9d68531748f887f323f695eb4ca3ef63"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-browser-edge-third.json.gz",
+      "sha256": "33eaf3d156f4508e5af33b8796cfd326244aeb33593c75f26736a0e392e3843b"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-build-final-identity.json.gz",
+      "sha256": "3d49effd68334fc9036ea97e5330f25b9acdbab8f281b02151a0c105f1045bc4"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-build-inputs-before.json.gz",
+      "sha256": "0753e90027bcbcba8cb9ab16cd2c83c7614cf8e3e830289afb58ec159e2af579"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-build-second-identity.json.gz",
+      "sha256": "896332071c9a73154d046836f6164c61d55f1e23faa5b566aed5296b98fd0cfb"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-build-second.log.gz",
+      "sha256": "87941a4dc55ed587e97447292db2342cd026f40b90cd03d6ff3cb4b0c0638b6e"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-build-sep30.log.gz",
+      "sha256": "0a3d3066323c719e47f3a9edb8e3e87c6cb8451d5462399bfbaee7602dd673a9"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-build.log.gz",
+      "sha256": "df94eaea783775e070c9345307ef8a2986e29b497cbc965d3885389e1b3c74ed"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-decoration-unit-final.log.gz",
+      "sha256": "74eef2d81f23862d5806e123e58beed02b794a40ee15b74ba4a5e0d957d7aa4c"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-independent-helper-diff-proof.json.gz",
+      "sha256": "d382c672956c90e0302e5b5b2072761f0c5c3c6d07bc49ebbb6736fd59a99d48"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-independent-helper-diff-proof.mjs.gz",
+      "sha256": "eb4d538f8556d18425f05353f5b8cbd96b37167df5aa205d557eae321836bfbc"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-initial-build-id.txt.gz",
+      "sha256": "1529e3468b029dc9639ce610f13257acc60f66491dfb56d13c2ec905d6d10056"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-integration-unit.log.gz",
+      "sha256": "b32a72c0ac0328b5a32bbc5816b1074ad4737ed07dfdad0ecfc794446f12b63c"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-metrics-first-click-second-error-context.md.gz",
+      "sha256": "0368506340e2ee8ad1500f2cfb202ddd22f5b3219e3f9f2a4c5f97b15cc419b8"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-metrics-first-click-second-trace.zip",
+      "sha256": "348f65c47af5ddc35f66d60a12c5c268b9d36cf0097bd1de5d192fc3857ab3e2"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-metrics-seek-initial-trace.zip",
+      "sha256": "8d1f0869381c06a45ed0d0b0131c862cd575207f7747a0a3cad3fd6f350008da"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-portable-independent-prep.json.gz",
+      "sha256": "bbdceac77ce8e5284ec3115f5f0b4124f725cf9c5b45a667d545e52963588741"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-portable-independent-provenance.json.gz",
+      "sha256": "ea454dd78a4f3824169fac24d1c309c59ae49d2340556380d5708d845a640616"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-portable-independent-unit.txt.gz",
+      "sha256": "b52c223b376788187397c5acc8ec95cd8a802d3c2415bac105129c02caff54f0"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-portable-preparation-sep30.json.gz",
+      "sha256": "81d0257b9d22cd2af82bf4d51b6aa62acf6fcd1d0838d7b5824abc04278cba3a"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-portable-second-unit.log.gz",
+      "sha256": "23389bc7f9599cb5392ef44a5668248d8ea2804a35c5064f4f586f709437bfd2"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-root-check-sep30.log.gz",
+      "sha256": "fe4087af822620303d2dd532c0ae705d8c2ecd35b6212b81c8deddd416395c9a"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-root-check.log.gz",
+      "sha256": "ce4c8bc56a63ced69d1fd459a8d4c29f68ae99b057b58f758e872b0dd20891f2"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-root-install-sep30.log.gz",
+      "sha256": "f2a21dda5abc3aab89006849e97d7b2cfa40f64b416fa6def6f5502207cb4135"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-scene-independent-unit.log.gz",
+      "sha256": "e5f6e16f88af80fe61dfa21a5e53d7cb3497957844e992f4065da2bbe5f4d828"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-second-preparation.json.gz",
+      "sha256": "8d1ee724776788b9dd357ab353bc66404fd5e67925ad327adda96d2d37de1ffc"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-site-install-sep30.log.gz",
+      "sha256": "ee102b50050d5b118b0c51f330928000a208711581f8405cb652a3cedcffdb57"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-site-unit.log.gz",
+      "sha256": "8de600f1347d94c513b795ba7dc73497526064a3f8dc4c183612129f1729ba6f"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-wire-change-proof.json.gz",
+      "sha256": "69a007f25e57c8b8ab9080ebbb167dd723f98e0962ebad4ba0a88b8db1648c30"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/pretraining-wire-change-proof.mjs.gz",
+      "sha256": "6065d6f617e59190d18604fef05d13b1aa4de1fc88e977cea11a631454300367"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/01-pretraining-scene-audit-contract.json.gz",
+      "sha256": "970a4a928099ecd2c472533857a431f54e9f22ed89e7468d169f8cd483a490f0"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/02-pretraining-scene-audit-code-notes.json.gz",
+      "sha256": "7f20321cbe7e4ed629439e6b0872b132b91b935423ab6f737756baa9220daf9e"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/03-pretraining-scene-independent-unit.log.gz",
+      "sha256": "c88d8ae24c1dac4034da5908f8df8db33d13d3e14a03899e5081ee1ce3ec3518"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/04-pretraining-scene-review-aggregated.json.gz",
+      "sha256": "ff957aae760388eeeac9b6cad376c6ea3ed9e34f41c6d0a2a15676c5d166c77b"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/05-pretraining-scene-viewed-initial.json.gz",
+      "sha256": "38c0a2e44ef98643d3ea754733d341a5b60755388b81e62314adce889d60d73d"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/06-pretraining-scene-viewed-final.json.gz",
+      "sha256": "3afb8cee7269b83dd9ddf0aeeffb1db55a692959751539343eff3792415964a1"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/07-pretraining-scene-viewed-old.json.gz",
+      "sha256": "d16ca416802da2449b761745e91816ba03577bb7f17e5fa8574b67752bb2aee2"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/08-pretraining-wire-change-proof.json.gz",
+      "sha256": "b9d973d031d3700e2bca47d2490ec916ad376871bdb62ee7345c209c40a62c73"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/09-pretraining-independent-helper-diff-proof.json.gz",
+      "sha256": "d91cb8e9f876bf29bd23881387968a52ef8f4833391bb3dc8fa32eab2cfe3078"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/10-pretraining-loss-limited-transform.json.gz",
+      "sha256": "01588cd8e4d96904fa0b1aa390fcf4dc165250ea57f50e0980d92ed97367e9c1"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/11-pretraining-supplemental-helper-sync.json.gz",
+      "sha256": "9afe33a43df40d39e66c1a673013a2c0a796e73f2f2c95eb71c253ab7b27f22c"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/12-pretraining-build-second-identity.json.gz",
+      "sha256": "8d6ce3a231035d26ebd4a13a8ece82010f27fc9b217b3afa1aa91ad195f5e6cc"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/13-diagnostic-result.json.gz",
+      "sha256": "c5b61541fcb9f44ac6f11283f60e70bcd138cbebffc97fd630ac0567e78c7ea1"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/14-old-supplemental-result.json.gz",
+      "sha256": "881ee13eafecde1caab614c33f5258857296b8a06e3937519fb6bb7436241adf"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/15-performance-result.json.gz",
+      "sha256": "41df999592ffefe4f17845a1744135a2ad38c3f4663d689da9d92518b07415cc"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/16-pretraining-local-adapter.mjs.gz",
+      "sha256": "8870d8034965811c70a5dfd8a384bb0361a7297c9c84dfe4ffd4d2f37b72753d"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/17-pretraining-local-serve.mjs.gz",
+      "sha256": "8233bbc726693a655dbb79d659b59cc97a0bef9a56a9f787a34dc58061c1ab57"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/18-pretraining-loss-limited-checks.mjs.gz",
+      "sha256": "75bb93d6e1aca6fade79778defa4984e21382a71c731fdefc95e9773110435b8"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/19-pretraining-loss-limited-adapter.mjs.gz",
+      "sha256": "e46de6c4eab8a0e92b614e6d790379cdb902aaf398fe306e07fb374c6f252e1f"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/20-pretraining-scene-old-regression.mjs.gz",
+      "sha256": "999152c58990dfac9411dfe1ce2d64e234c3cc78a697e9cba38174843f772de1"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/21-pretraining-scene-performance.mjs.gz",
+      "sha256": "2596f998025b04b39f24e20886185c3136f2596f2c32f9ecafa19aba5e19772a"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/22-pretraining-scene-review-aggregate.mjs.gz",
+      "sha256": "cc312c1d8dffbd4a5de6f81942e4a9a9a77ef405dab9b1f640ab176875d7f236"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/23-pretraining-scene-finalize-review.mjs.gz",
+      "sha256": "e7f543f94ea42d7841784412a33b10d168190551356585c5c1e8939ffcd33cfb"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/24-initial-edge-result.json.gz",
+      "sha256": "c40ac31b276ea026f3542c9b7aec6b2df80bb5e3a1f8149c2c311b96d2273520"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/25-initial-webkit-result.json.gz",
+      "sha256": "e6d6d0deeb88fd22452cf275271a1dba8e5102a9111e265b0a5aefd96b778466"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/26-final-edge-result.json.gz",
+      "sha256": "ebc3aa7af54c6366ba3d1f18472bd6a018d95daed93c0ecfc207a1acf8d8b60a"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/27-final-webkit-loss-limited-result.json.gz",
+      "sha256": "ae86692ed3de384ab51fadbcf37a2c7107508f869882eeaf6ad9031144934f77"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/28-pretraining-entire-input-delta-proof.mjs.gz",
+      "sha256": "bb73fe8c2a430c74d7064d95ddcf5f7208a242f36e6769dcf1c926a333f3e414"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/29-pretraining-entire-input-delta-proof.json.gz",
+      "sha256": "f2a00f5ffe6046cbebbc1cfd5a626d6d5561c878a524a91adc213c4c69d448b4"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/30-pretraining-build-inputs-sep30-before.json.gz",
+      "sha256": "302f388f2324abafb7288247a0ee9dd76e0f62acc0f917e9e85e0e48b6a83998"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/31-pretraining-build-second-inputs-before.json.gz",
+      "sha256": "3e4229d2a67cc5b802011391502bffc0e0a084f43f60e8aa2956f586fa9bb6bc"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/review-original.json.gz",
+      "sha256": "e5f5ff39e8de85d162007f41f54073fb6c280a4a574f1cdfffb12accc57dc439"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-local-evidence/scene-review/raw/review-original.md.gz",
+      "sha256": "dbecdade10c4c5b42efc60fa5fc4b9eafbcb275f048ffba323e579e29e28c312"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/attention-variants-and-long-context.html.gz",
+      "sha256": "ed75d370cae2559e6adafcb5545e58853be143c245c3d25eafe6491cb75eec2d"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/chromium-log.txt.gz",
+      "sha256": "15d40e43328910fb6a1308ce6f23d516b6c34c64fde4e77b13c00743b0b74d23"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/chromium-result.json.gz",
+      "sha256": "f3aeb07c09e05aa2c49120c581376ad4cedb7bafd40dc46aa78710ff88a337f0"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/ci-artifact-evidence.json.gz",
+      "sha256": "fcc5cd95901fc41971f3c9dc38149e5de6c0629c7f22b057bc08ddd4f03606e7"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/ci-deployment-after.json.gz",
+      "sha256": "6976f9be5a3ab4eb7a7797968325c2f951df858b29d6f217526f12e496348f2d"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/ci-deployment-before.json.gz",
+      "sha256": "477e7e2791fa1d8e871071b7cd0cf37620f9612e13a8ce2cf301ea7beb43554b"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/ci-portable-references.json.gz",
+      "sha256": "51e868432d1e7cd215c30efa0bb761f0e5da0fe7e7ead59590132643579b2bb5"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/diagnostic-result.json.gz",
+      "sha256": "3ddecdff1c0488946befacca94f32520d77bde3a126e874150b3429514390b6d"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/diagnostic-viewport.png.gz",
+      "sha256": "5ebc760bb49fc8bd8088e821e9ce718a49b6fb7da85a8bc2a8d86e349727d177"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/how-llms-generate-text.html.gz",
+      "sha256": "638ffc304f49f4a4af1c017debd24bbbf02d62b9711d3f65049d54bc5c6fb834"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/inference-internals.html.gz",
+      "sha256": "6536264624efa21ae1847834923fb6177f7cd5999995f6018aa0b4fdb7f2737c"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/llm-training-pipeline.html.gz",
+      "sha256": "0c1d80a842b02b2ba76f663da89b92cab225f6e9e8ad30d9902b21ef93318957"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/mixture-of-experts-internals.html.gz",
+      "sha256": "78d3d22e8089f06ad474a9496b72977fa6b1031383624eb6367575c3d7937577"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-and-scaling-laws.html.gz",
+      "sha256": "10708938384a587ebf271595845b69a10134f163bf0ec8c360d04ec90e2f442a"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-article-final-review.json.gz",
+      "sha256": "83ca9ce97a6fde69bd9df7182ccc91a33bfa0a4c80c67eb7d2ede03ba35dd4b4"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-article-final-review.md.gz",
+      "sha256": "35a651f458795b3943272c2d5bd8a5a7773ec1a25c4cf361f1055bcf1f7098eb"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-postrelease-archive-plan.json.gz",
+      "sha256": "4c60d7c5b2c031808d259366bbab797245605d40c7b744a18b2de8f002e1ce06"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-candidate.json.gz",
+      "sha256": "7c077e2de9077a09345b8a282451b28f60a95f26f44440a3c03754b23395b1d0"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-checks-watch.log.gz",
+      "sha256": "7baa9163e1e3dc347e3eb46978f73d55eef1bece091aa50c5b574868915ace8d"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-final.json.gz",
+      "sha256": "bb7e9d5e4a13199ceb5cfdd9743b1de85bdaa689b9f6be63e957a657692033ef"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-main-build.log.gz",
+      "sha256": "2af3ad0a4c804458cf006fd6408614510822bbfa2a7aeb9358ca4e5bc2fd2e54"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-main-ci.json.gz",
+      "sha256": "1600ccf07f70a638f59d73113f8834ee3dcd05749e4b1f85bacc99f91db3da93"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-main-docs.log.gz",
+      "sha256": "7480e6d1705aab1011da5ba5fe1a2e7423fa2e4f43cc062a4796558b14a24483"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-main-local-identity.json.gz",
+      "sha256": "eca14d7593e0f4507260f675fbea18c1f841aebdf48f5088ce00101486b8d321"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-main-watch.log.gz",
+      "sha256": "dc1dce9fb9ce4e988df67527c4fb60eaf40825b740ca041608bccd2f6c5246fa"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-merge-message.txt.gz",
+      "sha256": "5f8ee7552cffa128dfc46836cb76928a186e4e460a421f62eee3724d5ddf9838"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-pr61-merge.json.gz",
+      "sha256": "771440a8a202d5dcc514fb21aa67ded1839e3b421639b2bd8aea61d2cdec6f1f"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-inference-diagnostic.mjs.gz",
+      "sha256": "cae6dd761f69f6905e99e42b45aad12fe22e527495c6fb557e9cd93bab04665a"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-review-contract.json.gz",
+      "sha256": "1c11bbbe8d7ad1dc944a5ee5c7e18e4a004843cc10cfec48f11733d83692132d"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-review-summarize.mjs.gz",
+      "sha256": "b93ee1ffa66ddf8a1be16515971fee621f49b2b9367d21c57caa13322535d17b"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-review.json.gz",
+      "sha256": "c51bd95719e8c34598fbc392e6f841ba4094c67ff80535fafbe98d3d27645d4e"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-review.md.gz",
+      "sha256": "e27f6047f22ca798b99c0ccc14a21b8365a953ca62ba8b53f0e7ec52f7531420"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-summary-chromium.json.gz",
+      "sha256": "595be3966df3aeeeedfee667bc58e6fa6fabe9a5cb61d7eb823602d4c3675e9f"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-summary-webkit.json.gz",
+      "sha256": "e9daa8cca16f55e9c30d27f5b2bdd178e14dd0c4c7baddf7c9403e5a4e160e67"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/pretraining-public-viewed-images.json.gz",
+      "sha256": "e385b3afff5f8eb272694fdf0228433407c69d279b8e2ddbeb99d5cbcbe8dc9d"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/tokenization.html.gz",
+      "sha256": "4aec5e3e094f21db3ed6c90be169c5644a493e689f0ab7a96039bb81a4b00ff4"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/transformer-architecture.html.gz",
+      "sha256": "d95cb63193d2538be97c71ea8bbc2b64730c88c6b5cbc704e838419560c291d2"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/webkit-log.txt.gz",
+      "sha256": "20b69fc7544fc975bc1faccc01e86b60000c5c4075fd8bbfeed970ab07b1fe90"
+    },
+    {
+      "path": "project/records/2026-09-25/pretraining-public-evidence/webkit-result.json.gz",
+      "sha256": "381e89783a78152458df5f4f43fa544e25c7ee34a7a7372c617166797c05a077"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-ci-evidence/raw/alignment-article-final-review-20260930.json.gz",
+      "sha256": "6327a1b7f08595be06ba3a630d78e6a0ce46e28b39f2420f08382ec9e64a9f72"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-ci-evidence/raw/alignment-article-final-review-20260930.md.gz",
+      "sha256": "9bdfe672dc44287080b3ea7ad2d363c1b1420bf56d0889808f752db794f92661"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-ci-evidence/raw/alignment-frozen-candidate.json.gz",
+      "sha256": "1a0d6763a4f808f02e24e2501fa31c0a27ee1a105f11c2e927e198e376884c95"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-ci-evidence/raw/alignment-pr63.json.gz",
+      "sha256": "df739cff7ea4c7dee0df1d1363db1348608e5f827c661b5dc4184d8e6e1895ab"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-ci-evidence/raw/initial-ci-build.log.gz",
+      "sha256": "9be207076929684a2feee21119a6149759f1a18746cd25c2b5998343e17f0ef3"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-ci-evidence/raw/initial-ci-lint.log.gz",
+      "sha256": "d2938acd1471a2696746a590b5505345ddbd7159841e56e6bae741cb10800c04"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/after-brace-patch-alignment-theory.html.gz",
+      "sha256": "f5a5d3fd8aec7c12ebb3f260547fa8ba68951fe45955f179d61029414c17e7ca"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/after-brace-patch-attention-variants-and-long-context.html.gz",
+      "sha256": "054f1d01dfbc712d3966423cd2e298184625affa43e30e349c02c2f235e5ff38"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/after-brace-patch-how-llms-generate-text.html.gz",
+      "sha256": "1701197e923304e761be9d9a65a583a01b5d3eac068e5a6bdd4eeff88c58cd7b"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/after-brace-patch-identity.json.gz",
+      "sha256": "f0f2f3ae639494a3c35026e5efe38b971e4c27ba974ea194961dab1317250d64"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/after-brace-patch-inference-internals.html.gz",
+      "sha256": "1281bf78f8f241c4d3b5ea7e7c551b7cc7546e62c88b7ce39c0bd59c0a827bc2"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/after-brace-patch-llm-training-pipeline.html.gz",
+      "sha256": "d9225947970dbe237a6bda528a512dbe6bb95dbef12472c756ef5d75eb4a5c17"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/after-brace-patch-mixture-of-experts-internals.html.gz",
+      "sha256": "f48e20aa88e3e548152e96795076faadf0516cdc012ef5850035d47178ff1d2a"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/after-brace-patch-pretraining-and-scaling-laws.html.gz",
+      "sha256": "b765bd7b6a9352e7651a1dc5f974e65741dff33d0fa81544d69e827a4a692705"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/after-brace-patch-tokenization.html.gz",
+      "sha256": "74aa3baceef1cdf67cbfcbce0228e6587b12e4028fb3c8ae4f04d2afba62198a"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/after-brace-patch-transformer-architecture.html.gz",
+      "sha256": "1e97480500bd50355fa6a1318da6cef9d7628c8236b3111dd1d15628ae5a13cd"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/before-brace-patch-alignment-theory.html.gz",
+      "sha256": "8df82ed5c84ada964d594a7f283feb706b86d447bdad3a19e77bef51c86f6834"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/before-brace-patch-attention-variants-and-long-context.html.gz",
+      "sha256": "4b360623a68a495aa7c181d72175bb995efc55f9e610dcd8a89c0aa3bca4dfa8"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/before-brace-patch-how-llms-generate-text.html.gz",
+      "sha256": "f53545f3a14cfc0d13269b6f2beb1cca1bf15082d3ceccf09dd9dd7348cea7e2"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/before-brace-patch-identity.json.gz",
+      "sha256": "62485dce44828a91e343782789a4435593e981c0f5fba3cb18b6bd232b28668b"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/before-brace-patch-inference-internals.html.gz",
+      "sha256": "8b9c51e6f6162348af61c28bf9ff3baec8bee1cbedd0ea36fcca50ca1bbdfd07"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/before-brace-patch-llm-training-pipeline.html.gz",
+      "sha256": "70b56366f65508ece6f6cc3536578b2e9b6f06bdda014062bb4aebb90f88592a"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/before-brace-patch-mixture-of-experts-internals.html.gz",
+      "sha256": "561b1508c5f1a1252e5a27897594cf715b2f550c2007ecda39387adef7ba2753"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/before-brace-patch-pretraining-and-scaling-laws.html.gz",
+      "sha256": "a0c3998d87cc486226d2e43935ccfefdf9ef0e62c1047edf1f9fc7f5bec4dd42"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/before-brace-patch-tokenization.html.gz",
+      "sha256": "4a97940682bb7dab7b1d74ec3b2abc51ddf4d7368e234e8eb22222a4d782b006"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/before-brace-patch-transformer-architecture.html.gz",
+      "sha256": "777175fa4c1bff99d9b8d0b04ec1c2e604cb96f041277b66d8fb5e67d9907832"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/build.log.gz",
+      "sha256": "1580a6163b8242503b89d2cf9e8294dad439be9b08a472aefc5f9e1c9926333c"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/d1-pr63-brace-npm-metadata.json.gz",
+      "sha256": "e5dee9c0db7eae38ad7da9247f4eccfa4149b095cc6417a1cb7984aa52d68e02"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/d1-pr63-brace-patch-work-record.json.gz",
+      "sha256": "e69d568341f097b871ed3187404b8400baebe1d67e29b3bc9264bf84e6453eb3"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/d1-pr63-root-audit-after.json.gz",
+      "sha256": "6f2e66b6d4d24d8fb5a360ea39f96679dff847b5e087ec8c68cbfea01d9c5f53"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/d1-pr63-root-audit-before-network.json.gz",
+      "sha256": "386cbcce8afa01d0c5833a2b8d856a347a11ece8f7a6a49f010b0672986a1824"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/d1-pr63-root-audit-before-network.stderr.log.gz",
+      "sha256": "46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/d1-pr63-root-audit-before.json.gz",
+      "sha256": "7d3d14662a2bd0ae723d69a800461a32608e1d05b7aba84a1e91dac68c5b518b"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/d1-pr63-root-brace-tree-after.json.gz",
+      "sha256": "aab2740649ede9e69333b917794bf48d78e755bfefc0fb5ddbd16ed258a8e9b6"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/d1-pr63-root-brace-tree-before.json.gz",
+      "sha256": "4958be4667c690dadbe70cefe0d845de32b80825e37a7ee5cd09db3aa41ee68b"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/d1-pr63-root-brace-update.log.gz",
+      "sha256": "85f836e91261bf607335d2659b5a0343ad298e77870058caba3c1c6ff6b39a73"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/d1-pr63-root-lock-before.json.gz",
+      "sha256": "64c22b18cf1fbfda2d1e52df433b644e14a71f31218a32e039ff4ef077606aa5"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/d1-pr63-root-npm-ci.log.gz",
+      "sha256": "3d45a22ecc0438aab160e499de63298f9f84996dd28b76214bafc6ef9aa9ab1a"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/d1-pr63-website-audit-after.json.gz",
+      "sha256": "29e6edc92cbaf0a196956f676048e9614dc356b64b1ba834d762a7bbc48b6a60"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/d1-pr63-website-audit-before-network.json.gz",
+      "sha256": "adcc688e1d0a1a45819ac2d481bf361fe1d9c00e81d221ccaef72ad9f2920a77"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/d1-pr63-website-brace-tree-after.json.gz",
+      "sha256": "42956179ed8f323117418edaadb749f6d31a5b1325a768b20757383f8824f3f5"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/d1-pr63-website-brace-tree-before.json.gz",
+      "sha256": "923ce018343d2eeaa850a74a3f1720ad4ad7961ee974dcbed9446bf446bb75a6"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/d1-pr63-website-brace-update.log.gz",
+      "sha256": "1bccb2521faa4a69c27e5d7bd2cad60c6da6ae2f3173608d40be9a9133c8379d"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/d1-pr63-website-lock-before.json.gz",
+      "sha256": "5d22f12f981bb49055287e32b0b38f6296c39b5458e915c8c0ab74c4dfb03baf"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/d1-pr63-website-npm-ci.log.gz",
+      "sha256": "6b67450044b8671d8a8db8bae4c868297e88c54ce2580b09646fe137d35972d2"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/d1-pr63-website-npm-ci.stderr.log.gz",
+      "sha256": "0336173e06c3ff9e10971e0f4301180f7a2c6934c237eaa9f3353fcbbdd96917"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/final-independent-review.json.gz",
+      "sha256": "9d7a883b5cde7aafb21cb40181a1acdd3e45f67076559d9c693fb64cdea2dabd"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/final-independent-review.md.gz",
+      "sha256": "0b1714ee3178e7ebfc3fad020cb699a8d37a75a7018aa4aad3a72cd37ef4c921"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/independent-navigation-review.json.gz",
+      "sha256": "cff27d4784857daf0d9b95503dfcc226d48c4ff38f262247e33fcb12f92b53ac"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/independent-output-proof.json.gz",
+      "sha256": "da41abda4483526aca825e2e8ac0644449251a2574c0a002c198da8923eca3c4"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/independent-prerequisites.json.gz",
+      "sha256": "af3466cb720a4a88a744afe7e8fbbe56cb40609a84bff1b5d931b000ad76294c"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/navigation-disclosure-first.mjs.gz",
+      "sha256": "37b4b359fb9d61e9052418e86e5498b1d27309a9fb1504bd6a1c1865b4b8d2fb"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/navigation-initial.mjs.gz",
+      "sha256": "b026788b004f60f9bf1a2c466c9a8f4e5e8c5a7a4a40df3298900745787fcfdd"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/navigation-smoke-chromium.json.gz",
+      "sha256": "5d6c5f099a49dfc28e550f48322c683918163cd0e6c49da5cd0965cfaddc16ab"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/navigation-smoke-final-chromium.json.gz",
+      "sha256": "b00cc664508ea9cea61bb51f98d7b388be62be01b2d235150d57e950639735dd"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/navigation-smoke-final-webkit.json.gz",
+      "sha256": "1a6647a66d99df0ffcdf652b923b92f3db8b0dc041284eece771dd86ea68ae77"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/navigation-smoke-final.log.gz",
+      "sha256": "a39d87e83fb98c454288c48b3b80c131c478c99e35e1307abdfc5d96fe37093e"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/navigation-smoke-visible-disclosure-chromium.json.gz",
+      "sha256": "3cf8198a997f3016cb6ad0b78e681f66722048ccf3616ff5858339611fbd3e3c"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/navigation-smoke-visible-disclosure-webkit.json.gz",
+      "sha256": "99bedcde193d9d165c51455da6dd0514f99e055ed079235cdc0edcfed38c94af"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/navigation-smoke-visible-disclosure.log.gz",
+      "sha256": "0848343feb2466ff8de9a34551594ca0eee07ef926b82c181db46afd5a7c5c13"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/navigation-smoke-webkit.json.gz",
+      "sha256": "c0934244b414b0e4f49d6c6322d8299e259b2c209e58f932c3308a4fdc435625"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/navigation-smoke.log.gz",
+      "sha256": "39796ad947671ec832e01945fb52438af03a9ce14a833636a3b86cec7a8d2d5a"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/navigation-visible-disclosure.mjs.gz",
+      "sha256": "5e3491f9bee9041242c78601ca3f865c9605950ec487ccadaaac1d04bd366037"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/patch-report.json.gz",
+      "sha256": "395d49a4b0b2504b92ed500cda0ddc70302e337ed25c268a313e1aefee26e439"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/patch-report.md.gz",
+      "sha256": "7d8c2fc97d91e13a78d604b317a4fe9f173d7afdc035859394a0de82d813da09"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-dependency-evidence/raw/root-check.log.gz",
+      "sha256": "096c5b850f3a38ccc6de1931c03e48683cb48ffd3606f77c57ae166f391d4f18"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/alignment-browser-edge-first-aria-last-run.json.gz",
+      "sha256": "b42f1508e649a2088ab5babff17dfa7e0616a46398f3d531c95befbec258046f"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/alignment-browser-edge-first-aria.log.gz",
+      "sha256": "0761a87142c82bd8ab7a4822bcab214cb04f7f2b65c1b474e45938e110554a03"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/alignment-browser-edge-grid-final-last-run.json.gz",
+      "sha256": "b42f1508e649a2088ab5babff17dfa7e0616a46398f3d531c95befbec258046f"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/alignment-browser-edge-grid-final.log.gz",
+      "sha256": "b8c4090cc7ec2a3d4a36e4fd150ae5e65bdbce0ea90355883f39c2e72131e3b9"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/alignment-browser-webkit-final-last-run.json.gz",
+      "sha256": "b42f1508e649a2088ab5babff17dfa7e0616a46398f3d531c95befbec258046f"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/alignment-browser-webkit-final.log.gz",
+      "sha256": "edba1289b151060c3ab39a9e5db43b90a502932f3c83f4d1024666828b0dd8e7"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/alignment-build-initial.log.gz",
+      "sha256": "e0b32a095ecf27b891d2f20b827136f5e7f61572408cf7c65646f896d60c3894"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/alignment-d1-kit-independent-check-20260930.mjs.gz",
+      "sha256": "9d21e8b27600755f2dcb5fb8015a76bc9c498fd5c1d9f90cb2c0bcd9b42352b0"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/alignment-d1-kit-independent-probes.json.gz",
+      "sha256": "85afb80fef3d5e72155f6f11620b3f639032bb3fae6d77150716b6d3c03a673c"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/alignment-d1-kit-independent-unit.log.gz",
+      "sha256": "0739b5b333737b54262e4aecc77b02d7dec0a0e1b66a89b0fc8eb28eed020e3c"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/alignment-d1-kit-preparation.log.gz",
+      "sha256": "1b30b366ca8ddfde423d26fe5e68795e0f10eb6fae617b2959ba7f60b5a937fb"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/alignment-d1-kit-unit.log.gz",
+      "sha256": "b7a8f57393765967fd4cb77a9c253c8ae33631d2b4bc2bb02947f94ea1ec5aa3"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/alignment-decoration-regression.log.gz",
+      "sha256": "6818a136fcd0edcc58640a33823c40bad21564e036866a423c2adfd78b65f8ab"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/alignment-integrate.mjs.gz",
+      "sha256": "50f4a1ee208ce8f76d6070998aa6653af5036213ef1b50dcee9de32bdafc1148"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/alignment-integration-unit-initial.log.gz",
+      "sha256": "ad1d16041f1c4af93c623df7a5001a7249a58fd87c10cdc8e5dea8963568db54"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/alignment-root-check.log.gz",
+      "sha256": "ea9da6d52aa0c2a0b1ae1a7b954e5b81a66556aa7dc1717d237946ee58586ba0"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/alignment-website-unit.log.gz",
+      "sha256": "c5adafa9c701b3bb9c4265150fc8daea8d40098a1252d6835a82d475f7ab80c2"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/capture-chromium-initial-result.json.gz",
+      "sha256": "bac38d5a833c4ba1e3a3f31b3dab0602e0e33fbc151f3d874f555a594a7b966b"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/capture-webkit-initial-result.json.gz",
+      "sha256": "609d374c80c122896c741fdb628338660ae8f75b4de2919a3948a6d900aa009e"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/diagnostic-chromium-after-fix-result.json.gz",
+      "sha256": "6f1841210177e654da636af8f8f1b853000e668123ac4fd6eb3b64a7320d43fd"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/diagnostic-chromium-before-fix-result.json.gz",
+      "sha256": "ed9b8b845e7dae80e6716495aae89cc0a9ccabf0f14145eced7ccb995899a7aa"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/edge-first-aria-case-01.json.gz",
+      "sha256": "2908d400ed6018da3111b412b396855bef52a4cc9be97b6738edb2fb19a69ef1"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/edge-first-aria-case-02.json.gz",
+      "sha256": "fbbcb3e0927851ef8eee79c107f7624a3429c7730715df8220ab51afc2ba922c"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/edge-first-aria-case-03.json.gz",
+      "sha256": "d6b70ef62159f49d5d97e1b89499c73bbfec6f722e120652ed4f4aec59ab0546"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/edge-first-aria-case-04.json.gz",
+      "sha256": "ba6d42d533d70e96e0b25ca4f9798827cd0fb62e9d028c7b7a399e17db869936"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/edge-first-aria-case-05.json.gz",
+      "sha256": "e94be082cc7d1add2e24c64d06fe1b12584c48813d0e8cae5ee548790e6f201b"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/edge-first-aria-case-06.json.gz",
+      "sha256": "ee243cea68091e85154eed6a8451ef7e4f9533922f4eb1bcbc5b7b7a4ea495b6"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/edge-first-aria-case-07.json.gz",
+      "sha256": "cebb3f43f268d1e0bcb414d8eb96bbba3d3dbbf20f33678fdc5b662cbaf19579"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/edge-first-aria-case-08.json.gz",
+      "sha256": "b2e91c34bf81b41e19a5a4259936afc173f98788f5a79f3b378590eca0b5fca1"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/edge-first-aria-case-09.json.gz",
+      "sha256": "e4a35b6adc7f047acbc1a9aab04bba494373aa5fb42592f008aec16374bc7788"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/edge-first-aria-case-10.json.gz",
+      "sha256": "813ca671150fbc8cf3f914757e104d808b932fd5fa2737c19ae892a6809b75e0"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/edge-first-aria-case-11.json.gz",
+      "sha256": "2d5fdd2a3c7ece376cee4a98cf21d504d88be8e244812d002f24fea4576c76b5"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/edge-first-aria-case-12.json.gz",
+      "sha256": "f8c7ac030d0d24baa4b5bb2d08e4cc5c35b8bbcb435d7133c028ec92df0d5ecf"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/edge-first-aria-case-13.json.gz",
+      "sha256": "d3f150cf31a11a830dbccf72a1c3e100bcf13c32d55e01ecf708b3c211cb0836"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/edge-first-aria-case-14.json.gz",
+      "sha256": "5b4de92757674fb432a0b5856e44e81f3ad8c0b3cb30e2a1dd6d2ec358cbf584"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/edge-first-aria-case-15.json.gz",
+      "sha256": "8584c307205c664caf28a29baed5cc948262c222856d4209e8bf44aaf24bf023"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/edge-first-aria-case-16.json.gz",
+      "sha256": "6f301388d88169ec2021b055db6b55aa514e5e3f1e6b0930e93dcd7c32f0e68b"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/edge-grid-final-case-01.json.gz",
+      "sha256": "8682dbd58729717ab7305c3a0c336ac47b8d62ef5782f362324772566dfdc946"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/edge-grid-final-case-02.json.gz",
+      "sha256": "3e2aefbe2c212a6468a2d0ba3ce93e18c8b335173af22d56a6bed9dcd1f603ed"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/edge-grid-final-case-03.json.gz",
+      "sha256": "19c8d938a0826a2e1c5cf2040dc6fa687956c1c286594f24c5d386809f902bb1"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/independent-additional-viewed.json.gz",
+      "sha256": "1b693c7f4c859e0357efc293003b33f5fcd63805bae3a3fc5e1e5fae195fb9df"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/independent-code-proof-initial.mjs.gz",
+      "sha256": "8f1613f7e3231f55dba31efc7c61efb6e96fbdbf7f40c92ed5e8288fa944cd40"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/independent-code-proof.json.gz",
+      "sha256": "198232e852391ac659976daa8a6222db34f96c68d4dbd8cf491f4cf71512a4a4"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/independent-code-proof.mjs.gz",
+      "sha256": "fe5a07a7cba49ccbef2b03065af5dff4ef88d5f700cc71f15200a4c19189af98"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/independent-final-case-inventory.json.gz",
+      "sha256": "d6b55009757fcaf59659c3a4a1182c9cb52ebe785f8d05b73df9f6d34ff3ea02"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/independent-final-identity.json.gz",
+      "sha256": "2d5a77092c97d6aeece0947b142e8e0d57557b93856514f453c320e83322bed0"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/independent-final-review-initial.mjs.gz",
+      "sha256": "de166b629ff366e46ebc80eddf513ea299fa203d621a6db670d61ba48ea3ff99"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/independent-final-review.json.gz",
+      "sha256": "7640ac00ab3863f25d928689aeb81e7dc00d51b0925f5e45902a3103f29c9cae"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/independent-final-review.md.gz",
+      "sha256": "fcbe8b7cf758fc69c9262b17d5dc5e46bda694f2c8f5d8cca698356b174a64a3"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/independent-final-review.mjs.gz",
+      "sha256": "f761fff08521d957d37661c3c6e97dc73570097bbff34ffe3151a89a943b597e"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/independent-final-viewed-images.json.gz",
+      "sha256": "3f07a07c8b2afc17ef16781418ec4ce7ab8ff52b04976f839c6e34e358b0930f"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/independent-initial-review.json.gz",
+      "sha256": "819ccd28c38905d01aabb0ec96433a33f13b0bff818c7db60ca4318f6b849df0"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/independent-initial-review.md.gz",
+      "sha256": "4083d0000f61c85c969b7bb29b41210744e8fa4237f8422e4392db961e1fb33e"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/independent-initial-viewed-images.json.gz",
+      "sha256": "4ef49dfb9f36bbb7fe93fe20aed5c99637728a60169d2f958752bcd08e03e0c4"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/independent-initial-viewed.json.gz",
+      "sha256": "f11d52e50accf4e7448d44a3ee30ba4de17450a8ac34f9cdbbeb66f952e2c67a"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/independent-performance-helper.mjs.gz",
+      "sha256": "fe2ced3824719f55c60db57ae379767ef5bb75cf5d5091fe4347fa11f172b4ed"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/independent-performance-network-classification.json.gz",
+      "sha256": "abfb738923a18af45c5618cce906e7d5bb8cc437ebcb7d25a065f55b22565603"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/independent-performance-result.json.gz",
+      "sha256": "8872ba55af40463d25ff3f8c420cdb183b215b17620433b3723c4e213a10f99a"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/independent-save-initial-review.mjs.gz",
+      "sha256": "e5296d7cdb390f1f06263c0b6a86492e1c9332f6a88a40e2b7b7f5d559622d50"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/independent-webkit-final-viewed.json.gz",
+      "sha256": "754a28474150ffc8c9eb52fe9e9342b84c31030d594f6fdfebcc44c990f44280"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/kit-author-check.json.gz",
+      "sha256": "67f20c00a1f585675aef31767f818f711c498e5d4a7ad0cf241b082d10ff7f97"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/kit-code-review-20260930.json.gz",
+      "sha256": "61133a78a96d2fcf43356d9efa861c3fae1c1ac5518b9bd70b5adc7aa512d49b"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/kit-code-review-20260930.md.gz",
+      "sha256": "502fa6d2cadc76b6c563b0621d69b538d7a2aa8c0c6bd0864251b8f8a26fd15c"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/kit-first-edge-aria-manifest.json.gz",
+      "sha256": "abf7155f20350824af1b1f00c3b262355e05290056f18fdb48cd99c1ea065d63"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/kit-first-edge-aria-version-proof.json.gz",
+      "sha256": "14f3aa2a3df526229afe8582bf65c8aae0d5c4862db404b05bd2859a21b21084"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/kit-first-edge-aria.mjs.gz",
+      "sha256": "584e714f4784d5b3254e72b61a15efdc2da1aa5bac2053fb9ae7a1e7be4356d8"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/kit-manifest-after-history-label-fix.json.gz",
+      "sha256": "2434bf820797028d55b58aee96aff1700113814c28b8df9a4abebbd9483108cc"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/kit-readme-after-history-label-fix.md.gz",
+      "sha256": "598baf15c39d8f2b819097046890f4dfddc46e4ff17344ebeb572ef3191a361a"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/local-visual-corrected-diagnostic.mjs.gz",
+      "sha256": "da33d60637953455fa9a8a95764aebd00c8f6d6cbef7ca5d29be7f56ab8f6aab"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/local-visual-initial.mjs.gz",
+      "sha256": "33caac74b37fa7abe8508843ac21c514f6f0dab64b58fa02aaba33fe710f638e"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/shared-input-proof.json.gz",
+      "sha256": "cfa7b9eb0f72ac2ea3252d6e748c00d5db9ba4f1908dfab26a7b9e13213bfe5f"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/shared-input-proof.mjs.gz",
+      "sha256": "ecfc9e7837f3b3fc6681c6941ad3358a5100160128460cda0c4ca3d66cb03675"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/webkit-final-case-01.json.gz",
+      "sha256": "080b099a7ade375c3ee7f313046a316bf568a13f3645ed59a79a0533763d550f"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/webkit-final-case-02.json.gz",
+      "sha256": "26db54b957eb9896db6d079f42872658d36b422c025191125a662a84c52721f5"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/webkit-final-case-03.json.gz",
+      "sha256": "137ff05eb972b1286c57dadb4741f42b88d0d8c5abb106b0c145de4a48f7e203"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/webkit-final-case-04.json.gz",
+      "sha256": "0fb47c3e84a3e0ea288224bb2e30c27078f4514397f1fd34e8c2c2efb88b53a3"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/webkit-final-case-05.json.gz",
+      "sha256": "3e91b7750715cd78b4f107fe6ad1f6656d5e648ae7154e603079384c8e672e76"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/webkit-final-case-06.json.gz",
+      "sha256": "811167ea3c6203d078ae982cca272cc355aaa2abbb21a0c0bde531c6806edd1b"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/webkit-final-case-07.json.gz",
+      "sha256": "2634ccaac59b82f57b7106c95a921f3026c62d6dafbafc4d4297487467cf809a"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/webkit-final-case-08.json.gz",
+      "sha256": "c77aec43880cb1e5699d07facc8c7e960e677097b55564c0032e3f8e228ab9c0"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/webkit-final-case-09.json.gz",
+      "sha256": "446667a749ebbf7457263f522dc703113f9fc887b7465d40eab24c381f4e966f"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/webkit-final-case-10.json.gz",
+      "sha256": "11fb12b75ca503cea2b6f4b551c542a9c9fbee87db397691838e51e1948459b6"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/webkit-final-case-11.json.gz",
+      "sha256": "d148c4bccf14ef26432fb226d5d3d043ce5d60a9bb7516c780931f550b8c8614"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/webkit-final-case-12.json.gz",
+      "sha256": "46f652673f7debce87be888687e853202cb0adf37f296069beb3ebd6c90fdc3d"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/webkit-final-case-13.json.gz",
+      "sha256": "86fc05fe10138f34981b7862bc52117601e5f7ca76d1bb37061b0bd91dddeeb6"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/webkit-final-case-14.json.gz",
+      "sha256": "5cb6ea2e86a37f3ebc88e0bb5edfbb708b94ef3df35d228d7dc0a71d72ec4946"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/webkit-final-case-15.json.gz",
+      "sha256": "92f11ac809a10492fa9ee70c9c6ef525570c6c68d27dd4c3631d808a991cb81d"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-local-evidence/raw/webkit-final-case-16.json.gz",
+      "sha256": "76a98976ba3b1a12e6fe80eb6d99cb0abef062c91e4d9f7ff82b36d80b7cf456"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/alignment-pr63-actual-merge-message.txt.gz",
+      "sha256": "9e12052231d0750ab00c212f1f747125f53e76bb7c86f243aa8cbde853f03f1e"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/alignment-pr63-actual-merge.json.gz",
+      "sha256": "59652b4a3839d0913ddbc48a286ef092d8c6857b2e687c2303751c61ec75b3e9"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/alignment-pr63-before-merge.json.gz",
+      "sha256": "1808ec7660987671c52d1ec317608c948e018a581720f59365a83dceff0eec55"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/alignment-pr63-collector.log.gz",
+      "sha256": "f26ec3f6b7cfd4707acab05b8e940c93c78811cc0ffda822a0df84ddfef56498"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/alignment-pr63-focused-public-repeat-proof.json.gz",
+      "sha256": "cad77039da1efb99ec1d7f9ea66c63cc45094567e4e885953d4ae01214bea952"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/alignment-pr63-focused-public-repeat-review-20260930.json.gz",
+      "sha256": "78b14706dc6e0a2ea83146ce8594513a37e3ff540ad1480fc4c474b46be65d1c"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/alignment-pr63-focused-public-repeat-review-20260930.md.gz",
+      "sha256": "a1c977539e5923df965b81efc4dffc07660af7d28a08d8cf3278cca15790b7b7"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/alignment-pr63-focused-public-repeat.mjs.gz",
+      "sha256": "4552ef84398352f988f38ab4fc38b9bb863521c2a9e3967c0ddbb9ccbb356d86"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/alignment-pr63-independent-input-proof.json.gz",
+      "sha256": "89f8032e9a014e33b6dc7606ca2b1a6731418cf308448d68d999189de017bca7"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/alignment-pr63-main-build.log.gz",
+      "sha256": "93e483a6c7728871a106810ca176302ed9335b80174791df9f65c50ca6d7c43c"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/alignment-pr63-main-ci.json.gz",
+      "sha256": "49a976ab327e8fdb57e308521652e32403217f63c828394deff8c817ee4eaf54"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/alignment-pr63-main-docs.log.gz",
+      "sha256": "400baf9d4bf046cecbe91c5f11483a9c23515d46123531c38feb4099daae367c"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/alignment-pr63-patch-checks.json.gz",
+      "sha256": "ecb2d9a06ca3f022e92b9f6c491d93093aa3f4acdac39806a3373b59e50bcdee"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/alignment-pr63-patch-squash.txt.gz",
+      "sha256": "af0aca418a4bf160566f73ad67624e70f2a128dca3c8b917ac6cda9cc2ca9a70"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/alignment-pr63-pr-build.log.gz",
+      "sha256": "46efd14ca48a844105ffdef7ad7a73a4e439359277945a6f9a35e98293d97654"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/alignment-pr63-pr-docs.log.gz",
+      "sha256": "245942696d5937316cd48dd5653bd58d83b5b4cef59b61b22a798ab847fdb08f"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/alignment-pr63-public-artifact-proof.json.gz",
+      "sha256": "98a47b2a69e598bfed3f34cf145e34e9a6f1760cbb3e246071be44341ee6c028"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/alignment-pr63-public-final-review.json.gz",
+      "sha256": "d6882149bbfb2ecafff49576e1bc638b4792e7151b6f44cdcd8a38a2453319a2"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/alignment-pr63-public-final-review.md.gz",
+      "sha256": "8ca29ebddace6d0ee836f5c59cb99cdb06fc1e3ecc0df237c671154f6b825978"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/alignment-pr63-public-final-viewed-images.json.gz",
+      "sha256": "dc7e33a27cf63927c7183582f576f7869add96802cacd1be2487944421edb0dd"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/artifact-evidence.latest.json.gz",
+      "sha256": "9eb1f06986f888d468b1f068a596cf3e536231722d559335c764789b84600bfb"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/chromium-0a4b5064f2152a3e81ab65a6ba41adb4ad3c1a59a89f2b210e7179ea45a7300f.json.gz",
+      "sha256": "4efff514d0a774032db1f6a438eed1076964cd5f9b98bee79c0367c1a2b0a57b"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/chromium-0ae26633af479464931b5d91b084e0692b011c46567b5f4c5c31f7952d47a028.json.gz",
+      "sha256": "e77ad4ce560583de8a7a48a6afbfdabe224f1240a9d54b677687c2e3821c93ee"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/chromium-0c16da6f6a3975ac90654c55791142cc9449f122f78bab768542557d601fa56f.json.gz",
+      "sha256": "e881a21fdcf7ed22f64dbd5a5de5ced77ab58f8ee1e2b26b51af150b04c0f9a4"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/chromium-0dfdec3900ae64f61c19b3a62f6b94f6a0b1dc1fe666ff3b589395f45fae865a.json.gz",
+      "sha256": "07540094ac1d287dc9213aa67b67f9413869eb6450c585dc3ab750c3f6dff2df"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/chromium-2ad87642ddb1715a77104a146108a5e2d35f492021b1ae19820588f14b73ba27.json.gz",
+      "sha256": "db804c95f86e2ca77ec0a0db853e2dcb514ab64e59577acb9dd70bca6f74ac60"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/chromium-2af6041dbc4a1263fd78a2c874f1cff95cdb2a7987d78a64cd591df84d38ff85.json.gz",
+      "sha256": "e8cb480c6ceb713bd33f11e21286ff75230a4a068f5df535e7b73391518214a4"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/chromium-496029e7b6a399b7a4af9b23c7434a895bd39973f1d8a83a16b2bd3edf685125.json.gz",
+      "sha256": "af4ba7007b1a9ffbdcc29f91f0f90f4c00096cb542f3159bd8d1b9280107e0ee"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/chromium-55e4a00a5b7de5cdcd33795561249a818190f5377d82d951058ef4a694ceb32d.json.gz",
+      "sha256": "994ed77b55dac9461590875eb48a02a14441272968ee491131169827d8edab30"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/chromium-58e1dbf5b45cf938a0d8dee52a561936ba20a96c1b838c15b7dd404697b634ed.json.gz",
+      "sha256": "26ef6bc97b482c8b8971f46e63b075549919fc4487b76aae108ca46f0675c56b"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/chromium-7ab42177a1fb168852058d229734f17b9a97b9ec1c14ea5887b97bba2a3caaac.json.gz",
+      "sha256": "5cd9e918b1cb8d24cf539e47edeaf8980a0d4bb2522c2e92780c400386438f3b"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/chromium-870006c7c62b5edbfefce58cc6a84470a42a781cfbfd4daba7de71d782d6972e.json.gz",
+      "sha256": "a462311f951a862b478e516a0a2586e98c5f61486f0227a9fff2088cbab0b146"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/chromium-9bfb7c0345fc2263ad22e72dedd160de1e3ca4eb78fc86534ca0d681855579b4.json.gz",
+      "sha256": "036685cac63d4a1bc4fc8fa73f02f3b4f454c9537d33642a9fa8e2e73e2c93ac"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/chromium-a67a0e7988637b865ff210e03b89443df469a65118f7eb93cb647dc42d719ace.json.gz",
+      "sha256": "390934e7da6f7c9d9f592d7ec1e5ae97f28a27a9dd05b571e720c4465d82d6ad"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/chromium-a7f6de8609fcbe20e1903f96e7da3faa5c1f76422c3653e26e1e58782e5da53b.json.gz",
+      "sha256": "ea04f618a2ae580d448a979b9c4a3cba30b4793bc5c1925d02e978cb97df0419"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/chromium-b90124dfe0569132cec5337ad89922a00fe6342807601e0e05e828e6ab604d7c.json.gz",
+      "sha256": "e681b4defa805340bcd38dab49bb67d1c9c04f3d78ce3e4d85e8c047c47caf02"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/chromium-bfaba41ec2b7ff4f7bc2115e697d75d9db77e4b8dc22c3fd807ecdfce411468c.json.gz",
+      "sha256": "4a359cf9027b71def8c78b64d2e7cc5d1a59340725b9024dfe68f2c5c057876c"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/chromium-d4c3d6c61f9144eb5b29864bef9b1b2ddf013c0d1d16a8ab5a66220c446d28fb.json.gz",
+      "sha256": "880b9fb702bc19ddfcc31a61361b3e10fd3c31c041461451d200a5ccf08116fd"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/chromium-dbf9dad2ebd0bc7c02986ac3c581ea50f6d0bcfa85b2a9c5678b0daedc58e9fb.json.gz",
+      "sha256": "23730cc0e5b523b749e0e3044c6e8245321c22d504801e2d55425df4348764c0"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/chromium-f27ccad62d694fe02fa1304a08d94aada24a8db1f17a677a029b24761c6774cc.json.gz",
+      "sha256": "eedcda6c87b751de99712cc72ce6216c99a041aeb4d8eaa2e98c68feccb8e395"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/chromium-fe0a4444d3cac2be3583e710cea216eda7c17cceecd57460e060341ece0b023c.json.gz",
+      "sha256": "477e9b93af13e6baf305b8a0120258fcaf86fa8255fab8e036ae3229f84eb198"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/webkit-01b31bbfa32e4c3194283a2733fa5cf3a49b6526de1579b311397766f95ba555.json.gz",
+      "sha256": "870201cf88edab48e42a4ee844b296bc0ca88a5c955373c548cea96b665cbcde"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/webkit-0ece4a1b1986b33b36d51d8154f1407fbb7f9925752c124077005f487954aeb9.json.gz",
+      "sha256": "f569c9eaeb96d75932d866e78e8b0a84e0b69d34f3cda7ed20e1d3ff4d841c8b"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/webkit-1fed7f19207af5d153f74f2194dc257d26ace50feb375ad06ce34a374f1042f6.json.gz",
+      "sha256": "53e4ef93ea946e8e868cabb5aaeb232bff9091ce4fba0fb2c34e047f274a135b"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/webkit-360fd5a91831d19ce958da5f2e4e7efcee49744070c9aea2f9dd049a980c0041.json.gz",
+      "sha256": "e93afefd323165619e37eddf349d0f881832411bacc255633163196f9c29a1e8"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/webkit-43b13b9f0546b7edb2bd01d4f0e34d4f99b550a5d846f71cc251fa7385192422.json.gz",
+      "sha256": "998585ae94d6a2a5efb8c68ad3e883e9bfc87eb86a501d9f9475ab5af56811a3"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/webkit-4fc6d9962c8419993bd64789983ab3df6d0b54cc0763984670e195df151014eb.json.gz",
+      "sha256": "6f1c643b0314aab4f1827c91e9d53d7b25815e0d24c0d328a0c33e3050af958a"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/webkit-53250e5668a2befcdcc918dc6a91e3e31ee257900af5b0534fe8a49e6b5f7539.json.gz",
+      "sha256": "26fedd511b87a2f87f22e7cf5d79aa21564c380a8306e5babf96d0adf1a33713"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/webkit-7bd57e62a1c11b64bdc692b9366036f4d977c3330ffe47f3d4467234f84cb4a5.json.gz",
+      "sha256": "670375bbbefa7b90c8ca838329d985e3b74e2f9535c759519dd1501c6162d3c1"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/webkit-802e95324d3b789fb43e7e187f6acbc4f9b0de9f3e0e596185e33db14af15fad.json.gz",
+      "sha256": "958946fa1aad8e09152534ee0a4eeb203c1dee40c34c1731c92e9795bcdbcb92"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/webkit-8071e5d40d1feafeafa3286003203792e21fae6b1f03e185034e860250345a16.json.gz",
+      "sha256": "7bf78ce387a010b837c1641ca164157ac38618ae997015965d15cf499d451678"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/webkit-8e09490c049fdbd1e061ead0ed4c3ae79cfbffc193cf57956b4dd5aa5fc076a7.json.gz",
+      "sha256": "6094b7a64ede2ff91fabe7cab287a6cb8d70ff6fac1ab55fc81addf4863a7565"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/webkit-91271858050a7fe4b2c0348e83c1ea014ba73fc66b7cbcc31a6b33e60c705567.json.gz",
+      "sha256": "9558f031191440f20b5c9ab393174e9749102e3cb071eda4d48ac47a8b10b27b"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/webkit-a738deb1c49a7a6a20e1d94044781f7628a22d3ddbb15db7fb37919d733f9e31.json.gz",
+      "sha256": "dea245dfdfaf2c8031aa87842f5d677a2c04f40fdfee62e6f3a6b4737e2aac5a"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/webkit-b0deaa500b0aef8068414a1198c885ecc5631c0cedf0dad4252a5409a5ffa9d2.json.gz",
+      "sha256": "387640c335a59cf3146fa1e9e0f3e78e6e0d6f3a961629c1fdf66488a0a64c5b"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/webkit-c2cdc8712ceec6d46a9f3ace4f10ba1d59fba3ba76867fb985a02e916cf921f4.json.gz",
+      "sha256": "fa42696e87eb222733a0a6289bd0c2d9b70f3fceb794d3c89cb0ca71a651feda"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/webkit-cf38545a935ac7da081bd5244f04a457a63806339f07c5fab97c8678cf7eb660.json.gz",
+      "sha256": "fa1222d5334b02a71eed27ec818143fcda4df76a089d75659175fc01ccacb8a5"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/webkit-d9d941387fcfedb04904add5d23d6518ca0e9fae4b98476c4fd9f71b20290801.json.gz",
+      "sha256": "4fc39e06eda48eae86d87a9ccbbd02f9ad6927e2c877735aa2631b0d059e5db0"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/webkit-dffb0cf2ab1f8d99ec481bbd278c16c97c01557e0ff703fc5947cc3abf7aa9f0.json.gz",
+      "sha256": "1a88ac5042a0653da0257d1099cac1974c309075669e65e31cdb06b82eced810"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/webkit-e632240e820c6a49272e42f2d7ffaf285aa5af562b7737754ab51ba64b74d00c.json.gz",
+      "sha256": "82d9e81eb3e2cbe2de36db76852dd85f3ee2088ed4fb8e4cb00bf5b937469193"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/webkit-f453beda381104301840f19af0f97c37d92b4b5b37b1fe09d01ecb40e817e2a1.json.gz",
+      "sha256": "75a00d4a58375d9f088da3745fc14d9907f5c1dc1870c742c69c9b6c543cadf2"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/case-snapshots/webkit-failed-ppl.json.gz",
+      "sha256": "1f1866a57504f92150d7a81ecf27f5282d25f6e327f554fefc165c034bd62b3e"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/ci/ci-36702086701-attempt-1-20260930T104035054Z/artifact-evidence.json.gz",
+      "sha256": "9eb1f06986f888d468b1f068a596cf3e536231722d559335c764789b84600bfb"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/ci/ci-36702086701-attempt-1-20260930T104035054Z/deployment-after.json.gz",
+      "sha256": "fd69b4839130444d6836d62c31bfaa1d9ebab309b76acfb0065b6844827c6782"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/ci/ci-36702086701-attempt-1-20260930T104035054Z/deployment-before.json.gz",
+      "sha256": "3cb2e029eff8899903e723386576061e7c156b268c28e708f486e8f7237007be"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/ci/ci-36702086701-attempt-1-20260930T104035054Z/html-2026-09-30T10-42-08-368Z/alignment-theory.html.gz",
+      "sha256": "ae47f0ad2c3d483eb87dde351194f0549d05d8cf9bf8bb67f4ac58a9736212c3"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/ci/ci-36702086701-attempt-1-20260930T104035054Z/html-2026-09-30T10-42-08-368Z/artifact-html.json.gz",
+      "sha256": "534e1defb4d3b683ea38869139afd2cce306ee10883fd4396a60ac66e85fb66b"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/ci/ci-36702086701-attempt-1-20260930T104035054Z/html-2026-09-30T10-42-08-368Z/attention-variants-and-long-context.html.gz",
+      "sha256": "413f88c591d5d17ce2be7e4f61418ca5c4cc31c5db54a9e37cb5d9b6af0507ea"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/ci/ci-36702086701-attempt-1-20260930T104035054Z/html-2026-09-30T10-42-08-368Z/how-llms-generate-text.html.gz",
+      "sha256": "34f3b53e9b8f73b85b2d2cf1616a342d2d7af01120070e5caedf50c9290c328d"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/ci/ci-36702086701-attempt-1-20260930T104035054Z/html-2026-09-30T10-42-08-368Z/inference-internals.html.gz",
+      "sha256": "df8063b09d7c2a288375ba56b6bced3bd4785f00f23596927145500752f817e0"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/ci/ci-36702086701-attempt-1-20260930T104035054Z/html-2026-09-30T10-42-08-368Z/llm-training-pipeline.html.gz",
+      "sha256": "48924f0c1bfc6b29c49dcf1ca6debe003722e57afa526d7aca64cdaf8d90e89a"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/ci/ci-36702086701-attempt-1-20260930T104035054Z/html-2026-09-30T10-42-08-368Z/mixture-of-experts-internals.html.gz",
+      "sha256": "aa3a745f8170598639134b24927315995e1e461cc625de2a4e07008922237c39"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/ci/ci-36702086701-attempt-1-20260930T104035054Z/html-2026-09-30T10-42-08-368Z/pretraining-and-scaling-laws.html.gz",
+      "sha256": "13165f6840646fa63f4af3b025d03af51b99734c703cba84cdb350b882e044fe"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/ci/ci-36702086701-attempt-1-20260930T104035054Z/html-2026-09-30T10-42-08-368Z/tar-inventory.txt.gz",
+      "sha256": "915b70d912f32764bb3ebf70fc8b22e9d0e60a8ae3eedea928da22d6e0a304b8"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/ci/ci-36702086701-attempt-1-20260930T104035054Z/html-2026-09-30T10-42-08-368Z/tokenization.html.gz",
+      "sha256": "31e755b4fe5ed3a4f7f6d9276c28dab654cbea320e12bb21a28e24e73e60a8ec"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/ci/ci-36702086701-attempt-1-20260930T104035054Z/html-2026-09-30T10-42-08-368Z/transformer-architecture.html.gz",
+      "sha256": "7d1f1d435d1f5fb48594fbc75b5818635b58b34e9423b76ac5902cff5f6134dc"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/ci/ci-36702086701-attempt-1-20260930T104035054Z/portable-references.json.gz",
+      "sha256": "ec9102d7223eac26a725223613d5611b9b8f7f9ceb1f6ab77e16588687d0316a"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/edge-public.log.gz",
+      "sha256": "592e896e5a150c88e71007ae2ae1b090901d4d4b33331d75e78aa477ee61430e"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/episode-helpers/accept-alignment-public.mjs.gz",
+      "sha256": "737703a7c4aaac8aefb8a42d3a6615b43f70d75bd2796642eec0c56c6346fe37"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/episode-helpers/archive-alignment-public.mjs.gz",
+      "sha256": "60ad895ed6f13e80b50cf14890b1301b3bc4a564815b4ebd47b09f179282d6a8"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/episode-helpers/prepare-alignment-public-retry.mjs.gz",
+      "sha256": "10a2d522ee04d44f63b5b3f6024ec5a8cf1a7b93592a930d22a035b26129e94c"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/episode-helpers/select-alignment-public-archive.mjs.gz",
+      "sha256": "00a75e490dc3a7ad6d6c308d0ae4bdf63933640cb0629aa18769df50eaa69e82"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/focused-webkit/result.json.gz",
+      "sha256": "4669fb0027a32d1ac10e659620e3617d1e37e010423078e100f494261b829d03"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/full-edge/result.json.gz",
+      "sha256": "f07dd47644c81ebf1b39d4b6d0da3736af9e6bfa47f4e17940e9e2d74d833882"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/full-webkit/result.json.gz",
+      "sha256": "934d9c081651e1fc72c4852f2c64a56ab9efb206fc3954a0ec04c22e24c5cc1a"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-append-viewed.mjs.gz",
+      "sha256": "9bc372ea77fa818160724e2b8f123e541ed25d8076ab92f1685d388c3437b7f2"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-artifact-proof.mjs.gz",
+      "sha256": "320f0cefcfb6c44bb6ddd8f32762c35f576047c57d2a75641ce1f5e5012ff078"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-edge-raw-proof.json.gz",
+      "sha256": "73212032c7d56e18f25e555e0dcbdf4be59239783bf37ef6eb59ccc5aa60c524"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-enrich-viewed.mjs.gz",
+      "sha256": "b8825fb25fa98e1c49532a68eeabf2a97fa79ddf32baf05f7497767bf57b5d71"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-failure-observe.mjs.gz",
+      "sha256": "f3186b69e765abe48524170bcff1860cf39aebb1cd128b342b50711c0dc30dd6"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-final-identity.json.gz",
+      "sha256": "20737753d8b4997105d6a101cf8f720f2e72d6643dbbfd84a30d2e7cd34965ce"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-finalize-initial.mjs.gz",
+      "sha256": "e22c7fe40374b1b42ca5b83cc3fafa55b3241b1c3b2b0aceffc8f9dfae74223a"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-finalize.mjs.gz",
+      "sha256": "5f7feee98e81eaef5b45fc7a709652017ec71cbb264cbf8f9b096109d4b34239"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-focused-webkit-raw-proof.json.gz",
+      "sha256": "b73ebd5a532edb082a8f6267b12a80b8ff9af2a48634ffaa356a02b06a3a135a"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-ppl-failure-observation.json.gz",
+      "sha256": "5e3df0e7bf73a2e08a13645d8336adb557caae77cbba8bebfe04710be35da566"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-raw-proof-initial.mjs.gz",
+      "sha256": "ce7ff26a224a5ff69750257106dfd6901baa3fba0456b0abc594137b1151eaba"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-raw-proof-nojs.mjs.gz",
+      "sha256": "d66d5885fad41f5993d0b3f1057790d6d25c1a6ea3a5a90c2dc4b2cd07d313d8"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-raw-proof.mjs.gz",
+      "sha256": "a313e30926a3245b3bd0cf130919149f7c074eabf19b8507b791acbba3130dec"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-review-plan.json.gz",
+      "sha256": "fe0e9fe0a2a88f4b246905f3a642eac2a6448747a9b664c01dba36acacf70d45"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-003.json.gz",
+      "sha256": "0fc09de1fd2ee94d64e402db63e939862f9f6cf147bef6461b28b38a16ed1403"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-004.json.gz",
+      "sha256": "718ee27ed5d8a47cb4c9149a17077e0c40e9acb5fa89793a0749c623959350f7"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-005.json.gz",
+      "sha256": "25e242facb23f16520c3cbce4dcec1228c011324f43381d683ddde4a8f777236"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-006.json.gz",
+      "sha256": "f9b20d6c71e40cdc38e1e6b731b55e01c5037a549e6bdf691116faa9f410b68a"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-007.json.gz",
+      "sha256": "f8fde8b9a18bd955353230ff89b591791cf7ce22aac32c594a9e914046505036"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-008.json.gz",
+      "sha256": "ed4dd40ab422102ddccbdea281d84fad0b2e781c8be6cde6dd0a93319a18f9e1"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-009.json.gz",
+      "sha256": "179856b2caf7548cf8ddff97918209edfb52336da621a7561a6f0c4868c5c1d3"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-010.json.gz",
+      "sha256": "0b592a5dbcc7781d08f6d4fe3099c5b451251482dcfe6901ddd461aca3d8cea7"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-011.json.gz",
+      "sha256": "6ce175693de1cf612bca4ab06cc996016cbab711562458267f25ca177c8de9b0"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-012.json.gz",
+      "sha256": "f9708d4ed24fda79124c9081aebc55c861dcb60a7221a995e7a638958b8197e0"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-013.json.gz",
+      "sha256": "2df15f0a7e1112c36c64f3682d7c00cebcc52a8eb11057268c785625de01a160"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-014.json.gz",
+      "sha256": "d16d22269b842aebf7b0542fb48a960cc5a9e7e09cd336b50f0bdd74599b0644"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-015.json.gz",
+      "sha256": "fb1e56221ce2401a5a1a6b5cd606d85f0158a1ca18f7e3e87449e242a2513bcb"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-016.json.gz",
+      "sha256": "1dcbe7c4854a7e75dea332cf90bfb398f829a0646b27d43a1ebf61a25c3fccd6"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-017.json.gz",
+      "sha256": "aa0a3fc7284aee9e21499e992a32a9f4807dd256e2a42569dd763a9aabed0f92"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-018.json.gz",
+      "sha256": "58ab1f08d49b647fc72f593d4a8ddf50099ab9c43a43f96c947a57719e1fbba9"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-019.json.gz",
+      "sha256": "c2cd5e741054fd83c7f4c82629f68a621eb70c19b8df79352e763ab6287ba5fd"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-020.json.gz",
+      "sha256": "345b95946d6d3f285acc1c7c68069d1b4f4e9d50891eb6c291554854f40325dd"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-021.json.gz",
+      "sha256": "a1751c715c30b42d68e9f383b9a1e46200ee6bb52b288716dfebdc818e10379d"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-022.json.gz",
+      "sha256": "f2ff141435aea1540f5e5b4d57d4ba218a24ca6481f722c5f05cec30410abb21"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-023.json.gz",
+      "sha256": "84df6d664f2b805f6952cc41683c1b028f3c0f3c6b9d2bfa34bbb9384eb096da"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-024.json.gz",
+      "sha256": "5f52a200e363dba7e457684d1a4b9204cb394da585e73f5dc62e998c154a81e9"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-025.json.gz",
+      "sha256": "a4b831feb8b7bed23129255de488b3bf677dd425568e58fee70bfbb9a4c7cdcd"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-026.json.gz",
+      "sha256": "93a4fb2ae2fe4bcdebe18afce7ad016ab42c049eee57f8711d40442afb233039"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-027.json.gz",
+      "sha256": "2bbc527045cf034380c6967822fe6104cdddfde16a53644a215aac7b16d59199"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-batch-028.json.gz",
+      "sha256": "ef6ba4db14282702810255fcd6ce08b43d6d6674a987f35628c230b4e936b84f"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-viewed-images-working.json.gz",
+      "sha256": "cd333bebee646e7d1ffa5e4fa7af38902b5a697318b6646b2881d76ff528317b"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/independent-observations/alignment-pr63-public-webkit-raw-proof.json.gz",
+      "sha256": "c24ea57da2fac9e2a2834e64a5d41ba3f1eb9feba517667e813f74ceb7ba291f"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/webkit-focused-repeat.log.gz",
+      "sha256": "04035286bae85fa90a8d21b97d78ecb194dd4a254d345b1a25467fd54b59a180"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-public-evidence/raw/webkit-public.log.gz",
+      "sha256": "23b865e29f057f4c9eda268681c034e8f21eadce912d2844d70e9942b13edacc"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-submission-evidence/raw/alignment-article-dependency-review-20260930.json.gz",
+      "sha256": "648a09f95b6dc2384dea2a537be50168f60afe4d7b2f18b3c11e2e931dcfa27c"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-submission-evidence/raw/alignment-article-dependency-review-20260930.md.gz",
+      "sha256": "94dfe1493061c7a48351dca7eab8947606befa10386271130e8b49ecee936db4"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-submission-evidence/raw/alignment-dependency-commit.log.gz",
+      "sha256": "dc3f71b1106d8970a8f22fe3c29145d2fc76d47aa9de470d025d2d092cc7366e"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-submission-evidence/raw/alignment-pr-body-patch.md.gz",
+      "sha256": "ac03d6334e0ef870a07485f216e20a9e7380f4d23df3d91d51ca8694a8353dfb"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-submission-evidence/raw/alignment-pr63-patch-current.json.gz",
+      "sha256": "171475cb5e26ccca2e0123427335866d95ea53ab91fb6cba9663c920f265c982"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-submission-evidence/raw/alignment-pr63-patch-submission.json.gz",
+      "sha256": "3431936da926871357834481f2f384ce7e47889a1c2c579ed7d78bf5eb756328"
+    },
+    {
+      "path": "project/records/2026-09-30/alignment-submission-evidence/raw/alignment-pr63-patch.json.gz",
+      "sha256": "32456a58a0e30d3b1a32f8b2903b3e6a8848c2af5f6b47d2ec1e58b9961bd8b7"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-acceptance-before.json.gz",
+      "sha256": "20d2d969e7afe9eb0150c5e6d9c84199fae7df576a3529fb1f4ce38151d457f8"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-build.log.gz",
+      "sha256": "9ae675554aa80e9a28313b489943ec5fc28107ce1debd5d83daecf49fdeb7491"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-code-review.json.gz",
+      "sha256": "8ada6692e1eb4d0aa8e5daccaee08b2c69905d74fda5e273b5bf728948f140a6"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-code-review.md.gz",
+      "sha256": "1c49f702497848291f9cd4ca5d28f7ce8dd81318d3463bd82688a5afac1271bd"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-edge-browser.log.gz",
+      "sha256": "7367ca573ae34fff1efa7910306c2998618998508eae41cda50172575d8115fc"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-record-check.log.gz",
+      "sha256": "a0c5bed50310c6146f4375f0f4ce4639848983257553ea4bd88945ed53d6d6ee"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-baseline-provenance.json.gz",
+      "sha256": "3310152297d9ffdd75b85e1571cdea60b08a70ba6a6ba8ec46e9a9db65ab1cc4"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-baseline.mjs.gz",
+      "sha256": "7a96507e631b5525242a8254108de482e531cdc16c0e8c895d6658960da3678c"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-before-inputs.json.gz",
+      "sha256": "09d02e4dcdcab4fcb1517ff6a64a49e196a5d9ea10696f42c2332494879324b9"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-before.css.gz",
+      "sha256": "bd5a5d3fd2d9a58f242e5bf5c807422cf953eb3a8c84c2b9df92bfef1fb5a4ca"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-chromium-network-diagnostic-result.json.gz",
+      "sha256": "f8fafe87feab2f53342f34b2d8f3d448806dfe038ebaa0e8152b39055d0e65ff"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-chromium-result.json.gz",
+      "sha256": "a3abf214e4d9dd29dbd183d6dffe89a2266861c0098b105661df08c04e8bc0bf"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-chromium-v2-result.json.gz",
+      "sha256": "1ebc00a77950d43813fa55a14394290f5efd7087885fe93f0525e1972ade5a37"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-network-audit.json.gz",
+      "sha256": "234c7b40f2ff627849fbf634373fb45004438ba2a66683960aa85d963a25eac1"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-network-diagnostic-provenance.json.gz",
+      "sha256": "335697c00c6d8df0d2439d42ed1fcef8763b0e59e4bdd28a83b14bfc7729acd7"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-network-diagnostic.mjs.gz",
+      "sha256": "1e9769d67e0f63cceec23d10fa59ba24982ee8a492003302a2ecad44d2397325"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-plan.json.gz",
+      "sha256": "8db4c54b524c5df97855c8d7cf0af1c9c6c713a6dc5109bcf97fe7ac6d391168"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-pr61-inputs.json.gz",
+      "sha256": "379aedeae25f16158445a0604321826525d6169143dd0169918f422ab9b62b86"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-pr61.css.gz",
+      "sha256": "23f156cf920c531046737f35554e2ecbbc77b417dc013e1ead89440c28c2199c"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-proof.json.gz",
+      "sha256": "06833e42abe24bc614e8d5711eed30417b1661c13057d28a82ee00e7760672c8"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-proof.mjs.gz",
+      "sha256": "9fb544134036f7e9d04db06350b4f0003ea117deb01dd631818a565175c41cbc"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-run-v2-provenance.json.gz",
+      "sha256": "4f0cb87f54f9e1cbabcf3fb17a14e6565a795dab5e1bd187e32e322265dc5305"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-run-v2.mjs.gz",
+      "sha256": "cd71e622fdadef1e2505bca7e0db3675cc3b3c272b449ebe6aaf2b4347c2797f"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-run.mjs.gz",
+      "sha256": "f087c77899872d9836d0af3ad12a69f06a3156b4b883531ebbb47a2d2e14e559"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-serve.mjs.gz",
+      "sha256": "8233bbc726693a655dbb79d659b59cc97a0bef9a56a9f787a34dc58061c1ab57"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-viewed-images.json.gz",
+      "sha256": "54f18125145c3dcea68a56139b9363058864c6b58582dc6ca3dbefc198263e40"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review-webkit-result.json.gz",
+      "sha256": "4ab82637bfda5f5a32fec63eae8480eaf93c9558a5d6af6f42382a1644557c4c"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review.json.gz",
+      "sha256": "550d5f8971add8c6720ae7c9346801318765540624525737cf3642baaea5ad1f"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-review.md.gz",
+      "sha256": "ea1fb64c02eae52a03335d66427970bf16e1d6cf25a6a7d6b149e94ffb64a6e8"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-root-check.log.gz",
+      "sha256": "69e1d4a39cf470cad6e72c35a27340af310e73904a909929b66c44944e21fbd6"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-site-unit.log.gz",
+      "sha256": "3e7ea0d60847c3d1362c960ccbf59fd2cc5d15fbbb3da815cd2bc7a125b39365"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/inference-score-spacing-webkit-browser.log.gz",
+      "sha256": "9c8398e4b48f8c8984de0bcf9383563ab713161a349f5287a583f797a023f1c7"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-evidence/pretraining-pr61-main-local-identity.json.gz",
+      "sha256": "d8882a9be17d6969eff01adce8d6a619f9ade9107b92e7e4ac0bd7c6216d3006"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/attention-variants-and-long-context.html.gz",
+      "sha256": "f68162e171bae49b092b62446c0b377eb2202001a13b788ba833fb9efbd7dd38"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/chromium-log.txt.gz",
+      "sha256": "8194311dcfba9623e2b3b2e62244648ecca56f2466605cd4fee45947047414c9"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/chromium-result.json.gz",
+      "sha256": "f5dcca25a3e88af0aa39242beda3cb26853cfd650fb5d214be37def21f88b4e0"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/ci-artifact-evidence.json.gz",
+      "sha256": "c53e5651eb35fd3f50490957ad66ea959c18de7f4b29bdd5ce929622933f13f4"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/ci-deployment-after.json.gz",
+      "sha256": "50f8f75ccb859ef8ee73d6192b044a587c931b4861ef291675120770f8ee2066"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/ci-deployment-before.json.gz",
+      "sha256": "bef4916fac2f6d42a4dbc42f1e655c46fb05b71c031965d7f3b3f488a4107d97"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/ci-portable-references.json.gz",
+      "sha256": "bf6d4c8244a4cf2f3087bbdb3e1c391bace4a7e6a2c9bedbc81cc1aa656cea53"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/focused-chromium-result.json.gz",
+      "sha256": "77bbb781b1abd2fdef964480ac64b1534cd5aec291bfb1a8bddf0187fd264f35"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/focused-webkit-result.json.gz",
+      "sha256": "fa5ee268236087377829a41fb35c171dd388190b90235124f74965853e5a9ffd"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/how-llms-generate-text.html.gz",
+      "sha256": "376085d5c91e1525e9a9eb0b65d778517c40b38e19e28e987fb4c5da8641de37"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-internals.html.gz",
+      "sha256": "829498a538ba9f34934f0eefbe4f1dc489325848f5eef60b5679239eb1183f5d"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-commit.txt.gz",
+      "sha256": "eed0ae8635a17f52262ea43f0ecc21e0326c5ecc9ee94e88affdea9941aaab97"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-final-record-check.log.gz",
+      "sha256": "a4bc77d29a826a495bb1d5e599605ec5173a99e90bd93cc3808caf5c19f64958"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-local-gates.json.gz",
+      "sha256": "dd6279b91265511439c22e44bd01d47b3ae4fdaa8ea9cb137f81de3fdab3ca68"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-pr-body.md.gz",
+      "sha256": "e58640b12b9c5235b40c7aed070ba0cc3f4ec36b7840bccc15317c3f761b4dc5"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-pr-candidate.json.gz",
+      "sha256": "b19bedd0e742b480569bbafe3ff0c7c0c42ad3ebd0a5bd92616d4a4aff3dc0d7"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-pr-created.json.gz",
+      "sha256": "a01d327e15299f5a1c3cca64fb27201582598262c3dd6ed9b1d4311ac38fe529"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-pr62-checks-watch.log.gz",
+      "sha256": "348d23af435df0480b468adb48bc571b831360fc0d2ef8245984345eeaeda29c"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-pr62-ci-initial.json.gz",
+      "sha256": "408cb4d6217152b5fd00628c2b68fa15aaa313dd1aa9b0e5f2d0a93f3168512e"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-pr62-final.json.gz",
+      "sha256": "0e28a8eb3d2e6e9e624c51f09631a537c0c7998baf01af5458bd1262ca22c005"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-pr62-main-build.log.gz",
+      "sha256": "5be393175c7eb7fa99df26f7ed06783ce35bd17c4925d8bb607f165d051f84e1"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-pr62-main-docs.log.gz",
+      "sha256": "b3ee78a60afa0cf7070c0e658350d6b33face1452bbfcfbb2ff9ab826f9bda19"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-pr62-main-final.json.gz",
+      "sha256": "63e4a8cbb3bdfeb18e5a195328216039da8379cf09ff032fdb8d9df09a3ea8f3"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-pr62-main-local-identity.json.gz",
+      "sha256": "dd6279b91265511439c22e44bd01d47b3ae4fdaa8ea9cb137f81de3fdab3ca68"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-pr62-main-runs.json.gz",
+      "sha256": "3e944354bf604a54b1e755596f822f52a91e76ddff69a5c4cfcb4246c9bc883e"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-pr62-main-watch.log.gz",
+      "sha256": "7d940c32d82a3b78e59bcb5af0cd3c0f585d6aea341af25212b3449f2cf35ebd"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-pr62-merge-message.txt.gz",
+      "sha256": "9779ccc5992527bc5081abfe28dd5a9584b19f98dc3d4dd005fd856f6656e990"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-pr62-merge.json.gz",
+      "sha256": "7baf54b08368e45d4bac94d44db6b42f29dfeeadde6bc4ffefc6fff4aaeebd6e"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-pr62-run-progress.json.gz",
+      "sha256": "f0555ccc18fa235d7ba6f97a69abc63b668ef004b4186deb7417aba13caffb2a"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-pr62-squash-body.txt.gz",
+      "sha256": "51fc6628705c9f68fe6342ca2c6a3c20b27a8537f7ff848302641038af4acfaa"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-README.md.gz",
+      "sha256": "0aa9dcbd6f8fd1cf1644ee1645f38a4d51cd0006721c88e844459ad85ef571b9"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-bbox-compare.mjs.gz",
+      "sha256": "f92313e0b7c2709c59d9c9c3b033d55f08291deedf85381bdb4d8756aff4d8fd"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-generate.mjs.gz",
+      "sha256": "a88d36b83768dc876ac3838e1ad8001001e17ca13b3a532921ec2fce99d91a98"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pathcheck.json.gz",
+      "sha256": "aa73406e4a0a7c7343d3e80d63f2d1b1ad807b90cd301b5a39ec4a4d0029fe06"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pathcheck.mjs.gz",
+      "sha256": "9fca41394e0d958b8b4d974ef741699a35e23d0a460f86e776e37dc7aa67b747"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-bbox-chromium.json.gz",
+      "sha256": "6be9e9937c5a6b4eda25a5e454cf300b4cc6a1b110f66949f65b38c372432e2d"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-bbox-webkit.json.gz",
+      "sha256": "5d4e97682db9c4c9a224f89a05fbe8683133d3c464e58c586f8d1d5286be036f"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-chromium-v2.log.gz",
+      "sha256": "b4f3712f22aea01aebefb8c5012da26ab0db82f87bd5fe623f3578f96a67d935"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-chromium.log.gz",
+      "sha256": "2dbf61f966e7ab5d6bddbd073fded2cceb6e58ac40aae04dbae8936b6c9a2f55"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-config.json.gz",
+      "sha256": "d88a8dd5f62f3e33aef32d43e581d84de20705ec2a39f5f5a4a702b87bdb3023"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-finalize.mjs.gz",
+      "sha256": "dd6ade1a07df83b6dd01444c694d0027bb4cb90c8b8b239957940c99c8595b0e"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-review-plan.json.gz",
+      "sha256": "f075af4aff9c6e0849dc854cb32f81ca73067cabb6396f8a46dd38b5869e99de"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-review.json.gz",
+      "sha256": "1b0115ba19ae97f57ae72a8f67d733bbbfd02c47a090a0f24ebd450fb54e135c"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-review.md.gz",
+      "sha256": "96da2cc4badc9ac34ce471e0a17e805c72be40544e1484c4e15a6b99971ee63d"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-viewed-images.json.gz",
+      "sha256": "ef0ba0c65732fc66903422bbe2e65c193bdd116504c3571841fc3e9a23669897"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-webkit-v2.log.gz",
+      "sha256": "0c8477046b1a714d47b965aeedcb0c3c7516d3d1e4fb64df8c1f80145d7103a7"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-pr62-webkit.log.gz",
+      "sha256": "2dbf61f966e7ab5d6bddbd073fded2cceb6e58ac40aae04dbae8936b6c9a2f55"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-preparation.json.gz",
+      "sha256": "b82e59856995c759232880beb65b9d7135e6037a9f662686f0e91628ce87ff27"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-run-provenance.json.gz",
+      "sha256": "1ef4600e408249c3138d943ecc111ac1bd5adbd19422f7f2ae9e702d0fabb996"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-run.mjs.gz",
+      "sha256": "6794fee714bb91380f1be18d04d7824801be4acb9e91ed2f0447a1dd18779917"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-runtime-fix-provenance.json.gz",
+      "sha256": "93ca4ca36e68675ea74778b220f9a44b12d65f5530e96c7ead418d6bae427938"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-support-v1-preserved.mjs.gz",
+      "sha256": "77b65e3fb5f72c8f2747aae61d3201bfb96d05b49ed4736ff454a9258b4d40ec"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-public-support.mjs.gz",
+      "sha256": "819f6d40effd29ac51cb3d1cb78bfde82f108f3e53f2b8a8ac9ebeab38f08057"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/inference-score-spacing-review.json.gz",
+      "sha256": "550d5f8971add8c6720ae7c9346801318765540624525737cf3642baaea5ad1f"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/llm-training-pipeline.html.gz",
+      "sha256": "94be9b605665960478d993bf4bf789fb1e1e417e9d3316596e5bed527fb67979"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/mixture-of-experts-internals.html.gz",
+      "sha256": "b5b964345a4af8b353147fabb552cc46ae78cc8acde7b119f42dfa93a89d3df8"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/pretraining-and-scaling-laws.html.gz",
+      "sha256": "2bbe46d86509a3d5e282cbe0a3e5b090aaa1600c0705e90b378c0efb48e81680"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/pretraining-public-review.json.gz",
+      "sha256": "c51bd95719e8c34598fbc392e6f841ba4094c67ff80535fafbe98d3d27645d4e"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/pretraining-public-viewed-images.json.gz",
+      "sha256": "e385b3afff5f8eb272694fdf0228433407c69d279b8e2ddbeb99d5cbcbe8dc9d"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/tokenization.html.gz",
+      "sha256": "15ddc869533eaca099898ca49053b33361ed91a1f1512355834af0afb20e2385"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/transformer-architecture.html.gz",
+      "sha256": "cc42ab7ec74372958a43a914d40ea8bb5f075e98790352515d15694ac006ed0d"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/webkit-log.txt.gz",
+      "sha256": "1ea23dddbc8c0c4d4089804907b7c9f16038ae92722a48c7f6e1a0c99fae78b5"
+    },
+    {
+      "path": "project/records/2026-09-30/inference-score-spacing-public-evidence/webkit-result.json.gz",
+      "sha256": "66a3594a27c7a7195d50d57d3a2bd62413fc806715508d38f4e6d12cc2503153"
+    },
+    {
+      "path": "project/records/2026-09-30/p1-interface-preparation/raw/alignment-d1-readonly-preparation-20260930.md.gz",
+      "sha256": "30ed894c08deaa35e05e619974555af8f67e7db1273e36f8179c661436124d9d"
+    },
+    {
+      "path": "project/records/2026-09-30/p1-interface-preparation/raw/attention-context-e1-interface-proposal-20260930.md.gz",
+      "sha256": "19aa4039900a5ca9901ce28ed7fe281b0b5029eeab286e9b8c5b448547e37db0"
+    },
+    {
+      "path": "project/records/2026-09-30/p1-interface-preparation/raw/icl-e2-interface-proposal-20260930.md.gz",
+      "sha256": "a2cc4ff81c3cefb49a03393528d6c3213788f8dc66222daf8616a695dacc2232"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-kit-preparation/raw/reasoning-d2-kit-plan-20260930.json.gz",
+      "sha256": "4059b22cbd48d096b255c1385c57d3f1fe3d7bf18c8527652568042c490e2155"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-kit-preparation/raw/reasoning-d2-kit-plan-20260930.md.gz",
+      "sha256": "9809ce67bd27b4611b3e060e7086e1d612bd52e5d1dc9ddbf257a401d6112239"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-kit-preparation/raw/reasoning-d2-kit-plan-review-20260930.json.gz",
+      "sha256": "2914c17c3a228c76d1419eed45725a1a8de7efb65b6759f18c515a2be3333362"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-kit-preparation/raw/reasoning-d2-kit-plan-review-20260930.md.gz",
+      "sha256": "ba76505d06ca42e1442e9a0834a95d4c1b1b3f0134fdff0a027b1c7e463592d9"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/TEMP/playwright-reasoning-local.config.mjs.gz",
+      "sha256": "da9aea472ece261234dcaf58f7f060f461fc13311f111ad98dde9e301d5c8930"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/TEMP/reasoning-d2-input-comparison.mjs.gz",
+      "sha256": "3785f85c335cccadc00bccaa0fae07290efbe7844a1391678bdb80853b90584c"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/TEMP/reasoning-independent-performance.mjs.gz",
+      "sha256": "02bb2133defeb689c7be99e9b7454a98f88861a5ecece23910e47882fcc17e58"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-acceptance-unit.log.gz",
+      "sha256": "ba307e941167640cc21f4bc337118a365525c3790c78de80458bf1efa6191151"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-build.log.gz",
+      "sha256": "6bd74418eb146c99126c6188fab44b2f59a5c732724982825dee946745f247bf"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-combined-viewed-images.json.gz",
+      "sha256": "5b681cc86c6f249f5163fdb3a8c162ffd67f37b35f66129fd136c57914ef4885"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-fallback-edge.log.gz",
+      "sha256": "d338677347268880b173e7e0fe27003afce6fb59ce9fdcf51e36faba59b76769"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-fallback-webkit.log.gz",
+      "sha256": "c8bcdaa65e0f8b5ef098200affc3c74f550c54d14ff9ad41949198b2e33dd7de"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-build.log.gz",
+      "sha256": "ab79f3cb918947ef892eb1ae6bc7ade68729c260f7f809354bfe58b7d369767d"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-edge.log.gz",
+      "sha256": "57ae1409aca4eb4518597d9e8f1a3ff70bf3b389dc0f2d708d1067a106946948"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-edge/reasoning-reasoning-all-8--55810-d-independent-figure-states/reasoning-result.json.gz",
+      "sha256": "3c214c8e3fd49d86a990afef53e3087f704f7c5904027e93ddad1167fa8b9a54"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-edge/reasoning-reasoning-all-9-stages-1280x720-light-DSF1/reasoning-result.json.gz",
+      "sha256": "614d6787b5bb9c4e999ee35c4e7763913b7720d46230a5dc42b7ce3792eba499"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-edge/reasoning-reasoning-all-9-stages-1440x1000-dark-DSF1/reasoning-result.json.gz",
+      "sha256": "c52c152a16f72e88667e798da06d8a9a61f27af65739d07d767431d7bd18486d"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-edge/reasoning-reasoning-all-9-stages-1440x1000-light-DSF1/reasoning-result.json.gz",
+      "sha256": "eb70eefe4a6c4911d2d207e56d97e0d453f194774e40bbefc2cda46e4e4e121a"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-edge/reasoning-reasoning-all-9-stages-390x844-dark-DSF1/reasoning-result.json.gz",
+      "sha256": "5c0215285b508dd917bc9c7da2f865c3e106b8cf2583336dcbabb8b4d7db69a2"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-edge/reasoning-reasoning-all-9-stages-390x844-light-DSF1/reasoning-result.json.gz",
+      "sha256": "7a63fca54a2939ee2c016876dfe598ff6e6e2758b8aab533e20dde8eded1dd52"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-edge/reasoning-reasoning-all-9-stages-960x540-light-DSF2/reasoning-result.json.gz",
+      "sha256": "fe952c7294b307ddde04ed616d17da1bf627b808137409dcf74252ad66a54bdd"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-edge/reasoning-reasoning-evalua-18758-d-stage-restricted-controls/reasoning-result.json.gz",
+      "sha256": "90b41299b2ac67c256c02a58bed593c5d02ca0b1fef68367c3d497ee89aeddc1"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-edge/reasoning-reasoning-evalua-ede74-pause-replay-and-completion/reasoning-result.json.gz",
+      "sha256": "cb31a1a0845ee3e8b1fdf7d4a72d7f6860a7b44a17621e4004afd16c7e4ca293"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-edge/reasoning-reasoning-keyboa-e1833-ated-state-and-focus-return/reasoning-result.json.gz",
+      "sha256": "ce53e09f418692ba1be66a0e54f04c31eebe890e7eda15729df83de07c846310"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-edge/reasoning-reasoning-noJS-o-46044-e-static-stage-descriptions/reasoning-result.json.gz",
+      "sha256": "a28947e315a0e5a2dd56943aa970f0e1f2bfcdf062ed152ad9744fe5ec3ba696"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-edge/reasoning-reasoning-print--533e3-rticle-with-controls-hidden/reasoning-result.json.gz",
+      "sha256": "ffe4aba55365199d72f24ff243533d5c26fda6a657ec1cb3f79b0c3a567070cb"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-edge/reasoning-reasoning-sequen-b7210--and-midpoint-reverse-seeks/reasoning-result.json.gz",
+      "sha256": "f738aab138f483bdac6057a76b0c7b4fe1ed92fb325ab3c6234c1af7cb39f207"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-edge/reasoning-reasoning-sequen-b9fed-pause-replay-and-completion/reasoning-result.json.gz",
+      "sha256": "a6cfa02c23133b43313b002861ef7916a0fe039ce695ca3413c75300812112c8"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-local-review.json.gz",
+      "sha256": "2e47426d6c591013f18b0fff498ff69ec31c406b247d678f88247fadb045ebcb"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-local-review.md.gz",
+      "sha256": "016fec633e7f98aa736ba1b01e009b64bb1467d9698b99d061e48cb4000dbc72"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-webkit.log.gz",
+      "sha256": "911a7384de92cd0d5ce3ea1c6fc0a652eb1471fce1692a09d0f1a43f15a6613c"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-webkit/reasoning-reasoning-all-8--55810-d-independent-figure-states/reasoning-result.json.gz",
+      "sha256": "021cce7a6eb42e4a2be0f7e6bcbcad77ae47d9fac9c8342bd484e28f1fa879d6"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-webkit/reasoning-reasoning-all-9-stages-1280x720-light-DSF1/reasoning-result.json.gz",
+      "sha256": "f0f3a952881a937339e7bfd493f832337c30262beb39bdac039c23f6a4c30362"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-webkit/reasoning-reasoning-all-9-stages-1440x1000-dark-DSF1/reasoning-result.json.gz",
+      "sha256": "699edb4674d2a6d57eff29e8a7280975a363da1f152225766ef431ce83cf7630"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-webkit/reasoning-reasoning-all-9-stages-1440x1000-light-DSF1/reasoning-result.json.gz",
+      "sha256": "9f3a9c6ebbeacf746f4fd410cca733e4410715012fbe8b6366e9860d46e623af"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-webkit/reasoning-reasoning-all-9-stages-390x844-dark-DSF1/reasoning-result.json.gz",
+      "sha256": "5d16ee2666a666a327e0ce34ada57c466f08e4a9f31dbe3325a3dc6fa3be1811"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-webkit/reasoning-reasoning-all-9-stages-390x844-light-DSF1/reasoning-result.json.gz",
+      "sha256": "a954e4fa216c971273a3f50021010664fe11ecf15940950c64e2787c91872dae"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-webkit/reasoning-reasoning-all-9-stages-960x540-light-DSF2/reasoning-result.json.gz",
+      "sha256": "2776e24035dfea812a4cc3d52933adb3709d6420dc498a218dc584f06750a47d"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-webkit/reasoning-reasoning-evalua-18758-d-stage-restricted-controls/reasoning-result.json.gz",
+      "sha256": "604dd34680696f80a42a066378f1854dd4ebbc7e5932fe2ed2f498b09d418648"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-webkit/reasoning-reasoning-evalua-ede74-pause-replay-and-completion/reasoning-result.json.gz",
+      "sha256": "0825f0477c5b162833eda20b48eeb5cb8c473ecdca32a37893e35b1c8828b5c0"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-webkit/reasoning-reasoning-keyboa-e1833-ated-state-and-focus-return/reasoning-result.json.gz",
+      "sha256": "497b51acfd7b0b15c65cc7fba9c0decd0338695cb0c763d39d8a179e671916b5"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-webkit/reasoning-reasoning-noJS-o-46044-e-static-stage-descriptions/reasoning-result.json.gz",
+      "sha256": "1f43a25cf64170f1972b2a2f26d30c3e4c77aaaeb2d9f6b7c500351f9caac1d8"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-webkit/reasoning-reasoning-print--533e3-rticle-with-controls-hidden/reasoning-result.json.gz",
+      "sha256": "903063753ad0805e2b10195c3ca31dcf11e624e20b20861077176e0a8949c1d5"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-webkit/reasoning-reasoning-sequen-b7210--and-midpoint-reverse-seeks/reasoning-result.json.gz",
+      "sha256": "f72b6fe8428d52d7e78875110fe690a385f7c187e876d30b45f5154d5e0caff7"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-final-webkit/reasoning-reasoning-sequen-b9fed-pause-replay-and-completion/reasoning-result.json.gz",
+      "sha256": "10acaedc6dd2e84a9710e7e0755904574457dda08b87b08bf5746af217276394"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-first-edge.log.gz",
+      "sha256": "af19fdb449207c988f623e434ffd1d8496ee5cb08ef4306489e52b2a6e3a7e42"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-first-edge/reasoning-reasoning-all-9-stages-1280x720-light-DSF1/reasoning-result.json.gz",
+      "sha256": "b8ce09f71bb108c89a82d8431fbb840f539cb793ded1e8df569db357943628d8"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-first-edge/reasoning-reasoning-all-9-stages-1440x1000-dark-DSF1/reasoning-result.json.gz",
+      "sha256": "49705334c1c43c5df59eb88a10fce2e0f7d436203db4c21b0968f49f646bb28a"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-first-edge/reasoning-reasoning-all-9-stages-1440x1000-light-DSF1/reasoning-result.json.gz",
+      "sha256": "550a0e2e5a6b2d5a7f6ee8d51873f2f04b29cffcd8dcc39a66f11b7104739e70"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-first-viewed-images.json.gz",
+      "sha256": "9c485385833c525ba59704293cbde1a9c048392d26b3200aa462738b74abf9ac"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-first-visual-review.json.gz",
+      "sha256": "5e08cd8e32ed2feb083642f9cce199ddeec45050b41c3001ba4a1f7d06d10a3a"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-first-visual-review.md.gz",
+      "sha256": "7c811ffa21fa6dcdfacbb5141f46c8e194e9963f2f28737c39909e56c735f89a"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-independent-input-comparison.json.gz",
+      "sha256": "15a522366635ffd495499e6f2d2d7f8d3f87aefa80d8e142fb3be494115b3c32"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-input-comparison.json.gz",
+      "sha256": "9b7c2361535626a9e3e6f8fa94033adb098bc406e506e5f6bdeb28e711cd28ea"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-interface-review-20260930.json.gz",
+      "sha256": "9ae7a79d73050ccfda4e10e62540157ba78996426e58e004166d142cb94dfbbb"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-interface-review-20260930.md.gz",
+      "sha256": "1c881a679538b5f59b6549e7b75f5cf5e7a51e2d0b9bd0d8bf0eb4c58ec8077c"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-kit-code-followup-review.json.gz",
+      "sha256": "1ec685f46f5b9cdbc6a62fd20825c94b412daba9f3b1e098b690c907ed50fcdd"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-kit-code-followup-review.md.gz",
+      "sha256": "f27c2912fb60ab0b6154c21b518f0eca2f74968fb16db1a24772bd60e604b8c7"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-kit-code-review.json.gz",
+      "sha256": "5f35006f4a1a011891b2c6ad109f95b1fc838a0e580bda9ad3cf71f889fcfaf0"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-kit-code-review.md.gz",
+      "sha256": "c6726cf7338e72e1becf7898a8c4babcdf28dc707e1bd93b41d8d86a67a467c3"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-kit-plan-review-20260930.json.gz",
+      "sha256": "2914c17c3a228c76d1419eed45725a1a8de7efb65b6759f18c515a2be3333362"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-kit-plan-review-20260930.md.gz",
+      "sha256": "ba76505d06ca42e1442e9a0834a95d4c1b1b3f0134fdff0a027b1c7e463592d9"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-portable-final.log.gz",
+      "sha256": "b5d1978ff2f666eba9e25b38750484de1eaf83dfd2a27f5063f9b13139d693b8"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-portable-final2.log.gz",
+      "sha256": "1d5e057bd0d399bd644c65fdc4b3859ad109b5e6ee69056c9909b059a2c485a4"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-portable-unit.log.gz",
+      "sha256": "56b523713f82f4e66a6b8736fe3a33ba79e5ddaa329ad408c3d38e0a9cd5cd18"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-preflight-edge.log.gz",
+      "sha256": "3f8c667ee3321f24f653722fc512c72858c7a6c6ced5ae53d5e041ccc78fabfe"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-preflight-edge/reasoning-reasoning-all-9-stages-1440x1000-light-DSF1/reasoning-result.json.gz",
+      "sha256": "09d2d3a6b405ca4127d61fbaed2d3b643050c55e1920a24b6800eb11564ac160"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-preflight-edge/reasoning-reasoning-print--533e3-rticle-with-controls-hidden/reasoning-result.json.gz",
+      "sha256": "a73bd421f93812aaaf3cbb7e1e45505217b7f9eab8607a204fbee9baab632f26"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-preparation-final2.log.gz",
+      "sha256": "2f837f3e54cce8d5d8d3d33a12650131daacd667f7c76d2f6089c8e0b3e41b35"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-preparation-final3.log.gz",
+      "sha256": "fe211087c6a157b271694e57d96c127bc4444ca3a36e9073c17f6312e37d6a45"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-root-check.log.gz",
+      "sha256": "0d64d33114ee49f9fb2f93eaf25f05979133196b88124e6b5cbf91ce7a174b72"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-second-edge.log.gz",
+      "sha256": "68a36aff0a1f852d416237d0e68c8a1a8edab7481e10ca271d8087414ee5ea0b"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-second-edge/reasoning-reasoning-all-9-stages-1280x720-light-DSF1/reasoning-result.json.gz",
+      "sha256": "ff0dbbd848aaf71a3b03a74d6e4c7515e7a3d887eb296b56dfe021b9428c7a4d"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-second-edge/reasoning-reasoning-all-9-stages-1440x1000-dark-DSF1/reasoning-result.json.gz",
+      "sha256": "a2de448070d24905221b5b5e4f89e18f1b2926764d2d132fce4c558d58d7b664"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-second-edge/reasoning-reasoning-all-9-stages-1440x1000-light-DSF1/reasoning-result.json.gz",
+      "sha256": "0bac4daaeb77292c1555c3033e197dd1bb3f6c65d381b4562169fbca25796dd1"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-second-edge/reasoning-reasoning-all-9-stages-390x844-dark-DSF1/reasoning-result.json.gz",
+      "sha256": "8cd0ce83f9a5ddaab15f40a40747a91281328c0a8498838121703297220de059"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-second-edge/reasoning-reasoning-all-9-stages-390x844-light-DSF1/reasoning-result.json.gz",
+      "sha256": "3ff2b65afbdec1e79acb4b188253cfdd4249b575e2262c848394d9d6c1a18a85"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-second-edge/reasoning-reasoning-all-9-stages-960x540-light-DSF2/reasoning-result.json.gz",
+      "sha256": "dcbcca1bd4e42a043ba07cf42af94d10dbb296a3af14d6cdeb3d9a9b4b37d4b7"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-second-edge/reasoning-reasoning-evalua-18758-d-stage-restricted-controls/reasoning-result.json.gz",
+      "sha256": "496711b159d0673f3041f23e3492fed36245c3c159e61ed5f0e01778943c029f"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-second-edge/reasoning-reasoning-keyboa-e1833-ated-state-and-focus-return/reasoning-result.json.gz",
+      "sha256": "2a64254cfe106c9afb2c47023b99ed2baea0ccca026bfddf77b43cc148dc5809"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-second-edge/reasoning-reasoning-sequen-b7210--and-midpoint-reverse-seeks/reasoning-result.json.gz",
+      "sha256": "d5bb98b7aabecfcdf0011d01ae15a58c58a69bf77ccfbebaa68ed653f6e75814"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-semantic-review.json.gz",
+      "sha256": "7a7c6b255cb03b55da7a4460aca696298372169409f39f83a9cb4d4e32895806"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-semantic-review.md.gz",
+      "sha256": "dd9af48ca151023c39e51970758f3c6dc2d3e8382607f8e6752f5c11f2ebc157"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-site-unit.log.gz",
+      "sha256": "51922018e38a0b96884ecb9f7016489656f5fc92c89e1350d3320729d05a0aaa"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-third-edge.log.gz",
+      "sha256": "66e9c8f20474d7c02e93bc9535aa728b2824fc402d672bb1fe4f1265224b679e"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-third-edge/reasoning-reasoning-all-8--55810-d-independent-figure-states/reasoning-result.json.gz",
+      "sha256": "b46fd1be78f9cf10e94cce6eb0111e52f75bb6744508ae375e440390b4861b18"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-third-edge/reasoning-reasoning-all-9-stages-1280x720-light-DSF1/reasoning-result.json.gz",
+      "sha256": "98db18d425280db998f15c4afb99e07e9ef2786e7dcb6b4ac24c318ad07e953e"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-third-edge/reasoning-reasoning-all-9-stages-1440x1000-dark-DSF1/reasoning-result.json.gz",
+      "sha256": "6027be6bce59a1479d6a503624b0074fdb0271b7968a3c9371b5af21c07e6cdf"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-third-edge/reasoning-reasoning-all-9-stages-1440x1000-light-DSF1/reasoning-result.json.gz",
+      "sha256": "7153e9c94ffa42305b701f02e4f2134f9bd25f842cc0181e17f2a07844b8c9bd"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-third-edge/reasoning-reasoning-all-9-stages-390x844-dark-DSF1/reasoning-result.json.gz",
+      "sha256": "d28aebbfbff5b30b5776c7818396056114f3572f559457e762166dfd3b7856c7"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-third-edge/reasoning-reasoning-all-9-stages-390x844-light-DSF1/reasoning-result.json.gz",
+      "sha256": "4948074e25e7f7fe6ab6086c458b8a74f4f8e7b9d64626b7052b9bec6a65c6c8"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-third-edge/reasoning-reasoning-all-9-stages-960x540-light-DSF2/reasoning-result.json.gz",
+      "sha256": "743c770fc0328b0415f1deab3020feb2f6c14da6e30816c9297f8e54fade7dce"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-third-edge/reasoning-reasoning-evalua-18758-d-stage-restricted-controls/reasoning-result.json.gz",
+      "sha256": "12eb1a97f815f648b80c92bfaaa923ce901da554897ccb98b2e8d1eef16916af"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-third-edge/reasoning-reasoning-evalua-ede74-pause-replay-and-completion/reasoning-result.json.gz",
+      "sha256": "580bba9f184a21be908169f380b74b445115047295534b6140e9ba72a1f0c3cd"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-third-edge/reasoning-reasoning-keyboa-e1833-ated-state-and-focus-return/reasoning-result.json.gz",
+      "sha256": "3f2f18f0fdaa459266ee649b1290839275b974803f8312dfdc23703ebb47f786"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-third-edge/reasoning-reasoning-noJS-o-46044-e-static-stage-descriptions/reasoning-result.json.gz",
+      "sha256": "238c1a1a7f22a47c264f9b6c6fb00ab8dac1861bbd82bc3bbaf1fbb27b77ea27"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-third-edge/reasoning-reasoning-print--533e3-rticle-with-controls-hidden/reasoning-result.json.gz",
+      "sha256": "d99a0605f212ed9e45beb53a448a96cd1864665996da02cb5e0d324dab55aa74"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-third-edge/reasoning-reasoning-sequen-b7210--and-midpoint-reverse-seeks/reasoning-result.json.gz",
+      "sha256": "37c7ce8c539ecd42362a27afc3b03b6a1503d95a9f94257a5877615ba8e01638"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-d2-third-edge/reasoning-reasoning-sequen-b9fed-pause-replay-and-completion/reasoning-result.json.gz",
+      "sha256": "ad92814a5b41ce3fd0dc0e03d91a6efce15a9b76e03811966314adbe74c8619d"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/reasoning-independent-performance/2026-09-30T12-26-53.566Z/result.json.gz",
+      "sha256": "745e5e79bff9e534c8a7f584c13db4f6531ee4cac9e6d15be467049558bfea1f"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/scripts/diagram-release/source-mapping.json.gz",
+      "sha256": "5774f95982df1a9c6c4912bcf25f0180b7a0ed603b6f952d643e48746efea201"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/website/out/docs/llm-foundations/how-llms-generate-text.html.gz",
+      "sha256": "c5073bf24327b18c43890a5e78ef029039e792bcd1565631dcfaae893729eec3"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/website/out/docs/llm-foundations/llm-training-pipeline.html.gz",
+      "sha256": "8912ccabcb4415ddbdb44906657b299be1a8bb4cb52d17096dd68a623adfaebc"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/website/out/docs/llm-foundations/reasoning-models.html.gz",
+      "sha256": "c33dc8e2295fea70424f624ed3e424ece9f4b9f6fb754d896562132e8e3349ce"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/website/out/docs/llm-foundations/tokenization.html.gz",
+      "sha256": "321160517d1b607a9956a200014a17efe67a58b759f46f8e39e183ab68968fcf"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/website/out/docs/llm-internals/alignment-theory.html.gz",
+      "sha256": "a01edc59804c83c0dde829eb803782138047dc51e57cfd185d2a70fe8ef3c584"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/website/out/docs/llm-internals/attention-variants-and-long-context.html.gz",
+      "sha256": "7ffe8bd66db24dd597fd972d7d2698c2a7fe1035e5aafdd6d049245dc1ea3af2"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/website/out/docs/llm-internals/inference-internals.html.gz",
+      "sha256": "6b4f41cb8eb0e01bd04f813a9242976e6a31802863847bbbe1e5222bd8923d35"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/website/out/docs/llm-internals/mixture-of-experts-internals.html.gz",
+      "sha256": "aba2426cbd3545877e5d37ded7d11ee8a397668ac3ae1c4cb65d282f790b0aab"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/website/out/docs/llm-internals/pretraining-and-scaling-laws.html.gz",
+      "sha256": "a6b18fba8418f54f04e714e02a58caf50d4384fd71330bdf9e4a74bf19a0002f"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-local-evidence/raw/website/out/docs/llm-internals/transformer-architecture.html.gz",
+      "sha256": "a57cf4d8f3acdaeb5fd1553270ade63369a94a8ec7dd4dce70d6a7d8b1a95047"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-native-zoom-evidence/raw/capture/after-served.html.gz",
+      "sha256": "c33dc8e2295fea70424f624ed3e424ece9f4b9f6fb754d896562132e8e3349ce"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-native-zoom-evidence/raw/capture/before-served.html.gz",
+      "sha256": "c33dc8e2295fea70424f624ed3e424ece9f4b9f6fb754d896562132e8e3349ce"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-native-zoom-evidence/raw/initial/after-served.html.gz",
+      "sha256": "c33dc8e2295fea70424f624ed3e424ece9f4b9f6fb754d896562132e8e3349ce"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-native-zoom-evidence/raw/initial/before-served.html.gz",
+      "sha256": "c33dc8e2295fea70424f624ed3e424ece9f4b9f6fb754d896562132e8e3349ce"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-submission-evidence/raw/TEMP/reasoning-commit.txt.gz",
+      "sha256": "31fd32588309ceacf958e25db16220c6ac051d48fac115f099c2c3f4f452dd32"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-submission-evidence/raw/TEMP/reasoning-d2-submission-diff-review-20260930.json.gz",
+      "sha256": "d26e57be431b3f9e8f7065753a97125425de34919e134db78bd43a2761cf438a"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-submission-evidence/raw/TEMP/reasoning-extra-widths.mjs.gz",
+      "sha256": "febfef2fe9481e29c1fb17d3e45385fcdc7a41646f01d502fd829e7a20a80175"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-submission-evidence/raw/TEMP/reasoning-pr-body.txt.gz",
+      "sha256": "c598389ac4ea7a5506552dd3ea1dc27efe6428bdc4f518b378916c79dc9bdfa0"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-submission-evidence/raw/reasoning-d2-extra-widths.log.gz",
+      "sha256": "7353f7be8977a0493f9a08fbff94b02f437d7386332562b480d43ee43759d9ee"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-submission-evidence/raw/reasoning-d2-root-check-final.log.gz",
+      "sha256": "f21ee1188dd84e071717538238d7fd88aa0ecf32d17c2931067c4120b54356f9"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-submission-evidence/raw/reasoning-d2-root-check-final2.log.gz",
+      "sha256": "c7d9fed04f6998c779149f312b37e3216b3e2308c000429680195db9a62bf12e"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-submission-evidence/raw/reasoning-d2-widths-supplement-review.json.gz",
+      "sha256": "889eb4362a1bb4fe32a1c1d4ccf3613bbd16d078a626cc190bca0f0d43091276"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-submission-evidence/raw/reasoning-d2-widths-viewed-images.json.gz",
+      "sha256": "ec4494f4fc1265e34e287a278bab117f8b655ff5879978e47718be61680e9883"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-submission-evidence/raw/reasoning-extra-widths/2026-09-30T12-41-11.881Z/edge-1920/reasoning-result.json.gz",
+      "sha256": "9a57923efe6480b9676461ed58e1b0af766d8f0135fd7275ceadcd426ead9df3"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-submission-evidence/raw/reasoning-extra-widths/2026-09-30T12-41-11.881Z/edge-768/reasoning-result.json.gz",
+      "sha256": "354bcaeff96f0f5fe141178023e355b9f45eb315fcb3329687afe683b2ae9c6f"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-submission-evidence/raw/reasoning-extra-widths/2026-09-30T12-41-11.881Z/result.json.gz",
+      "sha256": "76d0d330846d87e7d485acca288a7a4000923fd576ebe5565223a8c68579086d"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-submission-evidence/raw/reasoning-extra-widths/2026-09-30T12-41-11.881Z/webkit-1920/reasoning-result.json.gz",
+      "sha256": "62c94d7ab5e45b881f9fda600e727d8000b7376ef8704b78103d710ba2159dec"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-submission-evidence/raw/reasoning-extra-widths/2026-09-30T12-41-11.881Z/webkit-768/reasoning-result.json.gz",
+      "sha256": "4cfcac77be998a24f2b9d2d7e7a83d5df6bf6b0aa4efe85c9312f7d0263330c4"
+    }
+  ]
+}

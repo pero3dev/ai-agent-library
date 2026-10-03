@@ -12,24 +12,31 @@ description: 四半期の定期メンテナンス(定点観測)を 1〜3 系統�
 ## 前提
 
 - 系統リストをこのファイルにハードコードしない。**正本は [ROADMAP.md](../../../ROADMAP.md) の「## 定期メンテナンス(フェーズ完了後も継続)」節**(約 16 系統 + TODO 棚卸し + examples 実行確認)。毎回そこを読み直す
-- 各系統は「対象 docs」「research/ の更新起点メモ」を持ち、多くの系統には「直近の注目」(次回確認すべき日付つきイベント)も書かれている(ない系統もある)
+- 各系統は「対象 docs」「research/ の更新起点メモ」を持ち、多くの系統には「次回確認する注目事項」(次回確認すべき日付つきイベント)も書かれている(ない系統もある)
 
 ## 手順
 
-1. **系統一覧の取得**: ROADMAP.md の「定期メンテナンス」節を読み、各系統の対象 docs・research メモ・直近の注目を把握する
+1. **系統一覧の取得**: ROADMAP.md の「定期メンテナンス」節を読み、各系統の対象 docs・research メモ・次回確認する注目事項を把握する
 2. **対象の選定**(引数で系統が指定されていない場合):
    - `node scripts/todo-report.mjs --json` で TODO(要確認) の「最終確認」月の分布を取得する
-   - 各系統の対象 docs の front matter `last_updated` を確認する
+   - `node scripts/freshness-observation-report.mjs` とローカル観測状態の `last_verified_at` を確認する。記録なしは未確認として優先し、front matter `last_updated` は本文の更新日なので観測日へ代用しない
+   - `node scripts/deadline-report.mjs --json` の expired を含む系統を優先し、upcoming の watchlist_candidates を注目事項の候補に使う
    - 最終確認が古い系統から上位 3 つを選ぶ。定期タスクの対象指定や自律選定の許可があればそれに従い、対話での候補提案を依頼された場合はユーザーに選んでもらう
    - **1 作業単位は 1〜3 系統**とし、依頼の残りは次の作業単位で継続する
 3. **系統ごとの実施**(選んだ系統ごとに繰り返す):
-   1. 更新起点の research/ メモを読み、「定点観測項目」「直近の注目」の現状を把握する
-   2. **freshness-checker サブエージェント**に「系統名・対象 docs のパス・research メモのパス・直近の注目リスト」を渡し、一次情報との差分レポート(変更なし `unchanged` / 要更新 `changed` / 確認不能 `unverifiable` / 取得失敗 `failed`)と、確認した URL・実取得時刻(UTC)を受け取る。失敗は理由と再試行条件を残し、実取得時刻の欠落を日付から補完しない
+   1. 更新起点の research/ メモを読み、「定点観測項目」「次回確認する注目事項」の現状を把握する
+   2. **freshness-checker サブエージェント**に「系統名・対象 docs のパス・research メモのパス・次回確認する注目事項リスト」を渡し、一次情報との差分レポート(変更なし `unchanged` / 要更新 `changed` / 確認不能 `unverifiable` / 取得失敗 `failed`)と、確認した URL・実取得時刻(UTC)を受け取る。失敗は理由と再試行条件を残し、実取得時刻の欠落を日付から補完しない
    3. 「要更新」の項目のみ反映する: research メモを更新 → 対象 docs の「変わりやすい項目」・本文・該当 TODO(要確認) の「最終確認: YYYY-MM」を今月に更新
-   4. **実質変更(事実・推奨・コード)があった docs のみ front matter `last_updated` を更新する**(TODO の確認日だけの更新では変えない — AGENTS.md の規約)
+   4. **実質変更(事実・推奨・コード)があった docs のみ front matter `last_updated` を更新する**(TODO の確認日だけの更新では変えない — [harness/writing-rules.md](../../../harness/writing-rules.md) の規約)
    5. 「変更なし」の項目も、該当 TODO の「最終確認: YYYY-MM」だけは今月に更新する
-   6. ROADMAP.md の当該系統の「直近の注目」を書き換える(発生済みのイベントは削除し、新たな注目を追記)
-4. **仕上げ**:
+   6. ROADMAP.md の当該系統の「次回確認する注目事項」を書き換える(発生済みのイベントは削除し、新たな注目を追記)
+4. **記録と独立レビュー**:
+   - 実際に読んだ記事・主張・未確認範囲・一次資料URL・実取得時刻を残す。部分確認を系統全体の完了へ換算しない
+   - models-prompting の毎回、Anthropic・OpenAI・Google の release notes・deprecations・pricing を前回観測以降について確認する。未確認ベンダーも not_checked と理由を明記する
+   - 通常の記事変更では [publish-review](../publish-review/SKILL.md) と [Git共通規約](../../../harness/git-rules.md) に従い、新規 `harness/changes/<run_id>.json` に所有記事・全タスク成果物・根拠・変更分類を記録する
+   - published の実質変更・公開昇格・削除には最終候補treeの独立レビューが必要。レビュアー自身が `git show` で読み、policy の --print-digest を再計算する。本文・根拠・分類を変更したら再レビューする
+   - 定期最新化の automation branch は [freshness-maintenance](../../../.agents/skills/freshness-maintenance/SKILL.md) の専用記録を使い、通常manifestと混ぜない
+5. **仕上げ**:
    - `node scripts/validate-docs.mjs <触った全ファイル>` と `node scripts/check-links.mjs` を実行して green にする
    - 変更サマリ(系統 / 更新した docs / 変更概要 / 出典)を提示する
 

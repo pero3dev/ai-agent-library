@@ -205,3 +205,9 @@ docs は本観測の結果を反映済み(llm-landscape / model-selection / clau
 - Microsoft Foundry でのモデル別提供リスト(特にレガシーモデル)→ **未確認**。確認先: https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry
 
 > **TODO(要確認):** Fast mode(Opus 5 / 4.8 の research preview、$10/$50)の GA 化・価格変更の有無と、Opus 5 の退役関連情報(現在は最短 2027-07-24)を次回定点観測で pricing / model-deprecations ページで確認する(最終確認: 2026-08)
+
+## 2026-10-03 第3回レビューの部分再確認
+
+#176: 現行 Fable 5.1 / Opus 5.5 / Sonnet 5.5 / Haiku 4.5、料金・cache read・effort・最早退役日の区別を部分再確認しました。旧表は当時の履歴として保持します。
+
+取得 URL・実取得バッチ完了 UTC・確認水準・残る TODO は [一次情報の修正記録](../reviews/2026-10-03-article-remediation.md) を参照してください。過去の日付の本文は上書きしていません。

@@ -20,8 +20,6 @@ tags: ["spreadsheet", "structured-data", "verification", "excel"]
 
 ## 前提知識
 
-- [データ分析エージェント](data-analysis-agents.md) — BI・SQL 側の分析(本記事は現場の表計算側)
-- [ループのフィードバックと検証](../03-implementation/loop-feedback-and-verification.md) — 操作結果を検証して直すループ
 - [ドキュメント AI(帳票・PDF の構造化)](../12-multimodal/document-ai.md) — 帳票からの抽出(本記事は編集可能な表の操作)
 
 ## 本文

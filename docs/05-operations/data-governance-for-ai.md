@@ -20,7 +20,6 @@ tags: ["data-governance", "data-quality"]
 
 ## 前提知識
 
-- [LLM 向けデータ前処理パイプライン](../03-implementation/data-preprocessing-for-llm.md) — 知識源を取り込む技術側(本記事はその組織・運用側)
 - [ケーススタディ: 社内ナレッジ Agent](../07-case-studies/case-study-knowledge-agent.md) — 知識源の品質と権限を扱う架空の設計例
 
 ## 本文

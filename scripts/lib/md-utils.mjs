@@ -1,7 +1,7 @@
 /**
  * md-utils.mjs — docs/ 検証スクリプト共通ユーティリティ
  *
- * 方針(CLAUDE.md / 開発環境整備計画):
+ * 方針(harness/writing-rules.md / 開発環境整備計画):
  * - npm 依存ゼロ(Node 標準ライブラリのみ)。フックからも import されるため起動を最速に保つ
  * - フックで必要な限定 front matter と行走査のみを扱う。
  *   完全な Markdown のリンク・見出し構文は markdown-links.mjs のパーサを使う。

@@ -104,7 +104,7 @@ AI 活用は契約条件に触れます。契約は法務の領分ですが、SE
 - [企業システム環境の制約と対応](se-enterprise-constraints.md) — 合意の技術的前提(データ経路・提供形態)
 - [ROI とビジネスケースの作り方](../09-business/roi-and-business-case.md) — 効果の測り方・示し方(SE 文脈に適用)
 - [業界別規制マップ](../09-business/industry-regulations-map.md) — 規制産業での合意の入口
-- [ユースケース発見と評価](../09-business/usecase-discovery.md) — 「どの業務から始めるか」の選び方
+- [ユースケース発見と要件定義](../09-business/usecase-discovery.md) — 「どの業務から始めるか」の選び方
 - [AI 調達・ベンダー選定の実務](../09-business/ai-procurement.md) — 買う側(発注者)の対になる調達実務
 
 ## 参考資料

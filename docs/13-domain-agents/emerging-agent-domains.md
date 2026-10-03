@@ -22,8 +22,7 @@ tags: ["emerging", "agent-economy", "generative-agents", "science"]
 
 ## 前提知識
 
-- [シングルエージェントとマルチエージェント](../01-concepts/single-vs-multi-agent.md) — 複数エージェントの協調(科学 AI・生成エージェントの基盤)
-- [ツール接続標準(MCP とエコシステム)](../03-implementation/mcp-and-tool-protocols.md) — ツール接続とエージェント間連携の整理
+- LLM API の呼び出しと、対象業務の基本を理解していること
 
 ## 本文
 

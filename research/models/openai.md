@@ -265,3 +265,13 @@ docs は本観測の結果を反映済み(llm-landscape / model-selection / open
 - GPT-5.4 系の effort 既定値が本当に `none` か(GPT-5.5 の既定 medium との差異)
 - GPT-5.5 の正式リリース日(公式発表 https://openai.com/index/introducing-gpt-5-5/ が 403 で取得不能。スナップショット名 `gpt-5.5-2026-04-23` から 2026 年 4 月下旬と推測 — 公式から推測)
 - Azure での `gpt-5.5-pro` 提供有無、embeddings / moderation 系の現行モデル(今回調査対象外)
+
+## 2026-10-03 第3回レビューの部分再確認
+
+#177: GPT-5.4-cyber の告知終了期日経過を確認。実停止・延期は未確認です。o4-mini 10/23 は予告を再確認し、期日後の確認を本文 TODO に残しました。
+
+取得 URL・実取得バッチ完了 UTC・確認水準・残る TODO は [一次情報の修正記録](../reviews/2026-10-03-article-remediation.md) を参照してください。過去の日付の本文は上書きしていません。
+
+## 2026-10-03 独立レビュー後の再照合
+
+公式 Deprecations を 2026-10-03T16:27:48Z の実時計で再確認しました。Cyber 行の終了期日は10/1ですが、後継は利用者が利用可能な最も高性能な cyber モデルと案内され、特定 ID は指定されていません。上の過去記録の gpt-5.6-cyber 指定を本日の表へ流用せず、llm-landscape 本文を同期しました。実 API 停止は未検証です。

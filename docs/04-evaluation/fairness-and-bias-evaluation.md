@@ -21,7 +21,6 @@ tags: ["evaluation", "fairness"]
 ## 前提知識
 
 - [Agent 評価の基礎](agent-evaluation-basics.md) — 何をどう測るか(本記事は公平性という観点の追加)
-- [オンライン評価と A/B テスト](online-evaluation-and-ab-testing.md) — セグメント別の比較(本記事の層別評価の土台)
 
 ## 本文
 

@@ -23,7 +23,6 @@ tags: ["coding-agents", "mcp"]
 ## 前提知識
 
 - [AI コーディングエージェントの分類と全体像](coding-agents-overview.md)
-- [コーディングエージェントの選定基準と使い分け](coding-agent-selection.md)
 
 ## 本文
 
@@ -52,7 +51,7 @@ Windsurf は Codeium を前身とする専用 IDE 型のコーディングエー
 | Devin CLI | ローカルの CLI エージェント(macOS / Linux / WSL / Windows) | ローカル |
 | クラウド委任 | エディタから Devin(クラウド)へタスクを委任し PR をエディタ内レビュー(全プランに含まれる) | クラウド([Devin](devin.md)) |
 
-現在の公式ポジショニングは「単なる AI IDE」ではなく、**ローカル・クラウドの複数エージェントを 1 画面(Agent Command Center)で管理する管制塔**です。ACP(Agent Client Protocol)対応により、**他社エージェント(Codex CLI・Claude Agent・Gemini CLI 等)を Devin Desktop 内で実行**することもできます(外部エージェント使用時は Devin のプライバシーポリシー適用外・課金も第三者と直接、と公式が明記)。
+2026-09-10 に確認した公式の製品説明は「単なる AI IDE」ではなく、**ローカル・クラウドの複数エージェントを 1 画面(Agent Command Center)で管理する管制塔**です。ACP(Agent Client Protocol)対応により、**他社エージェント(Codex CLI・Claude Agent・Gemini CLI 等)を Devin Desktop 内で実行**することもできます(外部エージェント使用時は Devin のプライバシーポリシー適用外・課金も第三者と直接、と公式が明記)。
 
 ### リポジトリ理解・編集・実行の仕組み
 
@@ -120,6 +119,8 @@ Windsurf は Codeium を前身とする専用 IDE 型のコーディングエー
 - [主要コーディングエージェント比較](coding-agents-comparison.md) — 他ツールとの横断比較
 - [Cursor](cursor.md) — 同じ専用 IDE 型の対抗製品
 - [コーディングエージェントの権限とセキュリティ](coding-agent-security.md) — サンドボックス・権限設計の一般論
+
+- [コーディングエージェントの選定基準と使い分け](coding-agent-selection.md) (任意の発展資料。本文を読む前の必須知識ではありません)
 
 ## 参考資料
 

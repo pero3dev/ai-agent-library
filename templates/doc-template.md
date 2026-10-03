@@ -12,7 +12,7 @@
 # 対象読者・前提知識・関連トピックは本文セクションが正であり、ここに重複させない。
 title: "(日本語のトピック名。H1 と一致させる)"
 category: "(セクション名: overview | concepts | architecture | implementation | evaluation | operations | security | case-studies | coding-agents | business | llm-foundations | llm-internals | multimodal | domain-agents | ux-and-product | human-ai)"
-level: "(basic | intermediate | advanced)"
+level: "(basic | intermediate | advanced)" # 執筆規約の内容基準で判定
 status: "draft"          # draft(フェーズレビュー未通過)| published(通過済み)
 last_updated: "YYYY-MM-DD"  # 本文の内容(事実・推奨・コード)を変更したら更新。誤字修正のみでは更新しない
 tags: []                 # 英語ケバブケース。既存タグ・ファイル名の語彙を再利用する(例: ["tool-use", "function-calling"])
@@ -33,6 +33,8 @@ tags: []                 # 英語ケバブケース。既存タグ・ファイ�
      例: 「初めてツール使用型の Agent を実装するアプリケーションエンジニア」 -->
 
 ## 前提知識
+
+<!-- 必須の前提だけを記載し、リンク先 level はこの記事以下にする。任意の発展資料は「関連トピック」に置く。 -->
 
 <!-- このライブラリ内の前提ドキュメントへの相対リンクを優先する。
      例: - [AI Agent とは何か](../01-concepts/what-is-an-ai-agent.md)
@@ -74,6 +76,6 @@ tags: []                 # 英語ケバブケース。既存タグ・ファイ�
 
 ## TODO・未確認事項
 
-<!-- 変化の速い情報・裏取り未了の情報を CLAUDE.md の書式で列挙する。
+<!-- 変化の速い情報・裏取り未了の情報を harness/writing-rules.md のTODO書式で列挙する。
      > **TODO(要確認):** ○○ を △△ で確認する(最終確認: YYYY-MM)
      TODO がない場合も、このセクションを削除せず「なし」と明記する -->

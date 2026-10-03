@@ -1,23 +1,270 @@
 {
   "schema_version": 1,
   "checks": [
-    { "id": "unit", "job": "docs", "command": "node --test tests/unit/*.test.mjs", "cwd": ".", "os": ["linux", "win32"], "evidence": "unit", "prerequisites": ["root npm ci", "tar", "PowerShell 7+"] },
-    { "id": "markdown", "job": "lint", "command": "npm run lint:md", "cwd": ".", "os": ["linux", "win32"], "evidence": "static", "prerequisites": ["root npm ci"] },
-    { "id": "articles", "job": "docs", "command": "node scripts/validate-docs.mjs --all", "cwd": ".", "os": ["linux", "win32"], "evidence": "static", "prerequisites": ["Node.js 22+"] },
-    { "id": "links", "job": "docs", "command": "node scripts/check-links.mjs", "cwd": ".", "os": ["linux", "win32"], "evidence": "static", "prerequisites": ["root npm ci"] },
-    { "id": "harness", "job": "harness", "command": "npm run check:harness", "cwd": ".", "os": ["linux", "win32"], "evidence": "static", "prerequisites": ["root npm ci", "Git checkout"] },
-    { "id": "windows", "job": "harness-windows", "command": "npm run test:harness:windows", "cwd": ".", "os": ["win32"], "evidence": "unit", "prerequisites": ["root npm ci", "Git", "Windows"] },
-    { "id": "root-audit", "job": "lint", "command": "npm audit --audit-level=high", "cwd": ".", "os": ["linux", "win32"], "evidence": "dependency-audit", "prerequisites": ["root npm ci", "network"] },
-    { "id": "actionlint", "job": "actionlint", "command": "actionlint -color", "cwd": ".", "os": ["linux", "win32"], "evidence": "static", "prerequisites": ["CI-pinned actionlint binary"] },
-    { "id": "python", "job": "examples", "command": "python -X utf8 -B -m unittest discover -s examples/tests -v", "cwd": ".", "os": ["linux", "win32"], "evidence": "sdk-mock-and-local-protocol", "prerequisites": ["Python 3.11+", "examples/tests/requirements.txt"] },
-    { "id": "python-audit", "job": "examples", "command": "python -X utf8 -m pip_audit --strict -r examples/tests/requirements.txt --progress-spinner off", "cwd": ".", "os": ["linux", "win32"], "evidence": "dependency-audit", "prerequisites": ["Python 3.11+", "harness/requirements-audit.txt", "network"] },
-    { "id": "website-unit", "job": "build", "command": "npm test", "cwd": "website", "os": ["linux", "win32"], "evidence": "unit", "prerequisites": ["website npm ci"] },
-    { "id": "website-audit", "job": "build", "command": "npm audit --audit-level=high", "cwd": "website", "os": ["linux", "win32"], "evidence": "dependency-audit", "prerequisites": ["website npm ci", "network"] },
-    { "id": "website-build", "job": "build", "command": "npm run build:clean", "cwd": "website", "os": ["linux", "win32"], "evidence": "build-and-static-html", "prerequisites": ["website npm ci", "STATIC_EXPORT=1", "Pages base path"] },
-    { "id": "browser", "job": "build", "command": "npm run test:browser", "cwd": "website", "os": ["linux", "win32"], "evidence": "browser", "prerequisites": ["website static build", "Playwright Chromium"] },
-    { "id": "audio-browser", "job": "audio-browser", "command": "npm run test:audio", "cwd": "website", "os": ["linux", "win32"], "evidence": "browser", "prerequisites": ["isolated audio fixture static build", "Playwright Chromium"] },
-    { "id": "audio-webkit", "job": "audio-webkit", "command": "npm run test:audio", "cwd": "website", "os": ["darwin"], "evidence": "browser", "prerequisites": ["isolated audio fixture static build", "Playwright WebKit", "PLAYWRIGHT_BROWSER=webkit", "macOS AVFoundation"] }
+    {
+      "id": "unit",
+      "job": "docs",
+      "command": "node --test --test-concurrency=4 tests/unit/*.test.mjs",
+      "cwd": ".",
+      "os": [
+        "linux",
+        "win32"
+      ],
+      "evidence": "unit",
+      "prerequisites": [
+        "root npm ci",
+        "tar",
+        "PowerShell 7+"
+      ]
+    },
+    {
+      "id": "markdown",
+      "job": "lint",
+      "command": "npm run lint:md",
+      "cwd": ".",
+      "os": [
+        "linux",
+        "win32"
+      ],
+      "evidence": "static",
+      "prerequisites": [
+        "root npm ci"
+      ]
+    },
+    {
+      "id": "articles",
+      "job": "docs",
+      "command": "node scripts/validate-docs.mjs --all",
+      "cwd": ".",
+      "os": [
+        "linux",
+        "win32"
+      ],
+      "evidence": "static",
+      "prerequisites": [
+        "Node.js ^22.22.2 || ^24.15.0 || >=26.0.0"
+      ]
+    },
+    {
+      "id": "links",
+      "job": "docs",
+      "command": "node scripts/check-links.mjs",
+      "cwd": ".",
+      "os": [
+        "linux",
+        "win32"
+      ],
+      "evidence": "static",
+      "prerequisites": [
+        "root npm ci"
+      ]
+    },
+    {
+      "id": "harness",
+      "job": "harness",
+      "command": "npm run check:harness",
+      "cwd": ".",
+      "os": [
+        "linux",
+        "win32"
+      ],
+      "evidence": "static",
+      "prerequisites": [
+        "root npm ci",
+        "Git checkout"
+      ]
+    },
+    {
+      "id": "windows",
+      "job": "harness-windows",
+      "command": "npm run test:harness:windows",
+      "cwd": ".",
+      "os": [
+        "win32"
+      ],
+      "evidence": "unit",
+      "prerequisites": [
+        "root npm ci",
+        "Git",
+        "Windows"
+      ]
+    },
+    {
+      "id": "root-audit",
+      "job": "lint",
+      "command": "npm audit --package-lock-only --audit-level=high",
+      "cwd": ".",
+      "os": [
+        "linux",
+        "win32"
+      ],
+      "evidence": "dependency-audit",
+      "prerequisites": [
+        "root package-lock.json",
+        "network"
+      ]
+    },
+    {
+      "id": "actionlint",
+      "job": "actionlint",
+      "command": "actionlint -color",
+      "cwd": ".",
+      "os": [
+        "linux",
+        "win32"
+      ],
+      "evidence": "static",
+      "prerequisites": [
+        "CI-pinned actionlint binary"
+      ]
+    },
+    {
+      "id": "python",
+      "job": "examples",
+      "command": "python -X utf8 -B -m unittest discover -s examples/tests -v",
+      "cwd": ".",
+      "os": [
+        "linux",
+        "win32"
+      ],
+      "evidence": "sdk-mock-and-local-protocol",
+      "prerequisites": [
+        "Python 3.11+",
+        "examples/tests/requirements.txt"
+      ]
+    },
+    {
+      "id": "python-audit",
+      "job": "examples",
+      "command": "python -X utf8 -m pip_audit --strict -r examples/tests/requirements.txt --progress-spinner off",
+      "cwd": ".",
+      "os": [
+        "linux",
+        "win32"
+      ],
+      "evidence": "dependency-audit",
+      "prerequisites": [
+        "Python 3.11+",
+        "harness/requirements-audit.txt",
+        "network"
+      ]
+    },
+    {
+      "id": "website-unit",
+      "job": "build",
+      "command": "npm test",
+      "cwd": "website",
+      "os": [
+        "linux",
+        "win32"
+      ],
+      "evidence": "unit",
+      "prerequisites": [
+        "website npm ci"
+      ]
+    },
+    {
+      "id": "website-audit",
+      "job": "build",
+      "command": "npm audit --package-lock-only --audit-level=high",
+      "cwd": "website",
+      "os": [
+        "linux",
+        "win32"
+      ],
+      "evidence": "dependency-audit",
+      "prerequisites": [
+        "website package-lock.json",
+        "network"
+      ]
+    },
+    {
+      "id": "website-build",
+      "job": "build",
+      "command": "npm run build:clean",
+      "cwd": "website",
+      "os": [
+        "linux",
+        "win32"
+      ],
+      "evidence": "build-and-static-html",
+      "prerequisites": [
+        "website npm ci",
+        "Playwright Chromium",
+        "STATIC_EXPORT=1",
+        "Pages base path"
+      ]
+    },
+    {
+      "id": "browser",
+      "job": "build",
+      "command": "npm run test:browser",
+      "cwd": "website",
+      "os": [
+        "linux",
+        "win32"
+      ],
+      "evidence": "browser",
+      "prerequisites": [
+        "website static build",
+        "Playwright Chromium"
+      ]
+    },
+    {
+      "id": "audio-browser",
+      "job": "audio-browser",
+      "command": "npm run test:audio",
+      "cwd": "website",
+      "os": [
+        "linux",
+        "win32"
+      ],
+      "evidence": "browser",
+      "prerequisites": [
+        "isolated audio fixture static build",
+        "Playwright Chromium"
+      ]
+    },
+    {
+      "id": "audio-webkit",
+      "job": "audio-webkit",
+      "command": "npm run test:audio",
+      "cwd": "website",
+      "os": [
+        "darwin"
+      ],
+      "evidence": "browser",
+      "prerequisites": [
+        "isolated audio fixture static build",
+        "Playwright Chromium (Mermaid SVG build)",
+        "Playwright WebKit",
+        "PLAYWRIGHT_BROWSER=webkit",
+        "macOS AVFoundation"
+      ]
+    },
+    {
+      "id": "publishing-safety-webkit",
+      "job": "audio-webkit",
+      "command": "npm run test:publishing-safety",
+      "cwd": "website",
+      "os": ["darwin"],
+      "evidence": "browser",
+      "prerequisites": [
+        "isolated audio fixture static build",
+        "Playwright WebKit",
+        "PLAYWRIGHT_BROWSER=webkit"
+      ]
+    }
   ],
-  "external_evidence": ["independent-review", "actual-agent", "github-pr-and-ci", "pages-publication"],
-  "excluded_actions": ["deploy", "paid-api", "credential-copy"]
+  "external_evidence": [
+    "independent-review",
+    "actual-agent",
+    "github-pr-and-ci",
+    "pages-publication"
+  ],
+  "excluded_actions": [
+    "deploy",
+    "paid-api",
+    "credential-copy"
+  ]
 }

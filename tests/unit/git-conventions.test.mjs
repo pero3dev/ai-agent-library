@@ -1,3 +1,5 @@
+import { isolateGitForTests, fixtureGit, fixtureGitSpawn } from '../helpers/isolated-git.mjs'
+isolateGitForTests()
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
@@ -5,7 +7,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { execFileSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
-import { GIT_CONVENTIONS, formatCommitMessage, formatSquashMessage, validateBranch, validateCommitMessage, validateCommitRange, validateGitConventions, validatePr, validateSubject } from '../../scripts/lib/git-conventions.mjs'
+import { GIT_CONVENTIONS, formatCommitMessage, formatSquashMessage, validateBranch, validateCommitMessage, validateCommitRange, validatePrRange, validateGitConventions, validatePr, validateSubject } from '../../scripts/lib/git-conventions.mjs'
 import { checkGitConventions, parseGitConventionArgs } from '../../scripts/check-git-conventions.mjs'
 
 const title = 'chore(harness): Git 操作の記載形式を統一する'
@@ -30,7 +32,7 @@ function directory(t) {
 
 function fixture(t) {
   const root = directory(t)
-  const git = (args, input) => execFileSync('git', args, { cwd: root, encoding: 'utf8', input, windowsHide: true, stdio: ['pipe', 'pipe', 'pipe'] }).trim()
+  const git = (args, input) => fixtureGit(args, { cwd: root, encoding: 'utf8', input, windowsHide: true, stdio: ['pipe', 'pipe', 'pipe'] }).trim()
   git(['init', '--quiet', '--initial-branch=main'])
   git(['config', 'user.name', 'Test User'])
   git(['config', 'user.email', 'test@example.com'])
@@ -56,7 +58,7 @@ test('contract and Japanese subjects are bounded, scoped, and explicit', () => {
 })
 
 test('ordinary and scheduled branch names are exact and main cannot be a PR head', () => {
-  for (const branch of ['fix/doc-links', 'test/harness-2', 'automation/freshness-20260912t123456789z-deadbeef']) assert.deepEqual(validateBranch(branch), [])
+  for (const branch of ['fix/doc-links', 'test/harness-2', 'codex/doc-links', 'claude/doc-links', 'automation/freshness-20260912t123456789z-deadbeef']) assert.deepEqual(validateBranch(branch), [])
   for (const branch of ['main', 'structure/content', 'chore/UPPER', 'fix/a--b', 'fix/a/b', 'automation/freshness-20260912T123456789Z-deadbeef', '-f', 'fix/line\nbreak']) assert.ok(validateBranch(branch).length, branch)
 })
 
@@ -258,4 +260,26 @@ test('squash output cannot overwrite its input through a hardlink or filesystem 
   assert.equal(run(output).valid, true)
   assert.equal(fs.readFileSync(output, 'utf8'), formatSquashMessage(pr).body)
   assert.equal(fs.readFileSync(input, 'utf8'), original)
+})
+
+test('ordinary WIP and Update branch messages recover on the same PR through a canonical squash', t => {
+  const repo = fixture(t)
+  const head = repo.commit('WIP temporary message\n', [repo.base])
+  const main = repo.commit('unrelated main history\n', [repo.base])
+  const merge = repo.commit('Merge branch main\n', [head, main])
+  const result = validatePrRange({ root: repo.root, base: main, head: merge, pr })
+  assert.deepEqual(result.problems, [])
+  assert.equal(result.squash_validated, true)
+  assert.ok(result.advisory_problems.length > 0)
+  assert.equal(validatePrRange({ root: repo.root, base: main, head: merge, pr: { ...pr, body: 'unfinished' } }).problems.length > 0, true)
+  const forged = repo.commit('WIP\n\nAgent: automation\nGenerated-by: ai-agent-library\n', [merge])
+  assert.ok(validatePrRange({ root: repo.root, base: main, head: forged, pr }).problems.length > 0)
+})
+
+test('Claude cloud branch accepts canonical authorship and rejects product default metadata until normalized', () => {
+  const canonical = { ...pr, branch: 'claude/quirky-ptolemy-p65p9r', body: body.replace(credit, 'Agent: claude\nCo-authored-by: Claude <noreply@anthropic.com>') }
+  assert.deepEqual(validatePr(canonical), [])
+  const defaultMessage = 'fix(harness): レビューの入口を整える\n\n理由: 入口を整えるため\n\n検証: 単体試験に成功\n\n影響: なし\n\nCo-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>\nClaude-Session: https://claude.ai/code/example\n'
+  assert.ok(validateCommitMessage(defaultMessage, { agent: 'claude' }).some(problem => problem.includes('Agent:')))
+  assert.deepEqual(validateCommitMessage(message({ agent: 'claude' }), { agent: 'claude' }), [])
 })

@@ -36,8 +36,8 @@ LLM API を使い始めた人は、この順で Agent の構造をつかめま�
 
 | タスクの性質 | 最初に検討する構成 |
 | --- | --- |
-| 処理手順を事前に列挙できる | 固定した Workflow |
-| 手順は固定で、入口の振り分けに判断が要る | Workflow + ルーティング |
+| 単一の固定手順で処理できる | 固定した Workflow |
+| 入力の種類ごとに固定手順を用意でき、振り分けだけ判断が要る | Workflow + ルーティング |
 | 探索が必要な部分を一部に限定できる | Workflow の一部に Agent を組み込む |
 | 入力や途中結果によって手順全体を変える必要がある | 停止条件・権限を定めた Agent |
 
@@ -100,11 +100,13 @@ python -X utf8 examples/python/structured-output/structured_output.py --mock
 記事には目的・前提知識・設計判断・実務上の注意点・参考資料を共通の構成で記載しています。変わりやすい仕様は一次情報と確認日をたどれるようにし、未確認事項は `TODO(要確認)` として残しています。
 
 - **機械検査**: [CI](https://github.com/pero3dev/ai-agent-library/actions/workflows/ci.yml)で記事規約・相対リンク・Python サンプル・サイトビルド・ブラウザー試験などを確認します。具体的な検査は [CONTRIBUTING.md](CONTRIBUTING.md#提出前のセルフチェック)に記載しています。
-- **内容レビュー**: [公開レビュー手順](.agents/skills/publish-review/SKILL.md)で、機械検査に加えて独立したレビュー担当が内容・整合性を確認します。
+- **内容レビュー**: [公開レビュー手順](.agents/skills/publish-review/SKILL.md)で、機械検査に加えて執筆とは別の AI 実行による独立レビューで内容・整合性を確認します。
 - **継続更新**: [定期メンテナンス](ROADMAP.md#定期メンテナンスフェーズ完了後も継続)と[定期最新化](freshness-automation.md)の手順を公開しています。確認範囲と結果は[調査・観測記録](research/README.md)に残します。
 - **変更の追跡**: [最近の変更](https://github.com/pero3dev/ai-agent-library/commits/main/)と[実施記録の索引](project/README.md)から、何を更新し、どこまで確認したかをたどれます。
 
 記事数は章索引を除く公開記事の数です。個別記事の更新日は front matter、執筆・レビューの記録は [ROADMAP.md](ROADMAP.md) で確認できます。
+
+記事・サンプルは AI Agent(主に Codex)が執筆・編集し、定期最新化も Agent が担います。人(オーナー)は方針決定と公開判断を担当し、記事の人による全件レビューは行っていません(2026-10-03にオーナー確認)。AI 同士の確認には共通した誤りを見逃す限界があり、機械検査の成功は内容の完全性や全 API・実機の検証を意味しません。制作方法・確認の限界・訂正方針は[このライブラリについて](https://pero3dev.github.io/ai-agent-library/about)にまとめています。
 
 ## 全 16 章の索引
 
@@ -131,7 +133,7 @@ python -X utf8 examples/python/structured-output/structured_output.py --mock
 
 ## コントリビューション
 
-誤りの指摘、情報更新、改善提案を歓迎します。[Issue](https://github.com/pero3dev/ai-agent-library/issues)で相談するか、[CONTRIBUTING.md](CONTRIBUTING.md)を読んで変更を提案してください。脆弱性の報告は [SECURITY.md](SECURITY.md) を参照してください。
+誤りの指摘、情報更新、改善提案を歓迎します。外部からの貢献は[記事訂正フォーム](https://github.com/pero3dev/ai-agent-library/issues/new?template=article-correction.yml)または[内容リクエスト](https://github.com/pero3dev/ai-agent-library/issues/new?template=content-request.yml)を基本の入口とします。PR で提案する場合は [Git共通規約](harness/git-rules.md)の形式・名義を満たしてください。形式が合わない PR も内容を確認し、必要に応じて保守者の Agent が規約を満たす変更へ取り込み直します。詳細は [CONTRIBUTING.md](CONTRIBUTING.md#読者からの報告と外部からの貢献)、脆弱性の非公開報告は [SECURITY.md](SECURITY.md) を参照してください。
 
 作業の共通契約は [AGENTS.md](AGENTS.md)、執筆・命名・同期更新の詳細は [harness/writing-rules.md](harness/writing-rules.md) が正本です。人が書く場合も同じ規約を使い、Claude Code 向けの入口と共通スキルは正本から生成します。
 

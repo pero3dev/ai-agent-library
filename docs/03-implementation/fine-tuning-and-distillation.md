@@ -3,7 +3,7 @@ title: "ファインチューニングと蒸留"
 category: "implementation"
 level: "advanced"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-10-04"
 tags: ["fine-tuning", "distillation", "model-selection"]
 ---
 
@@ -70,7 +70,7 @@ FT の検討に入る前に、次をすべて確認します(主要ベンダー�
 **提供状況(2026-09-10 確認)** は流動的で、ここは「原則」ではなくスナップショットとして読んでください(一次情報の記録: `research/professional/fine-tuning.md`)。
 
 - API 経由の FT は、提供されている場合でも**対象モデルと手法が限定される**ため、モデル世代名だけでは判断できません
-- 提供メニューの縮小も現実に起きています。ある大手は FT プラットフォームの新規受付を停止し縮小を告知しており、段階的な終了日程(既存顧客も 2027-01 には新規の FT ジョブを作成できなくなる)も公表済みです。別の大手は第一者 API で FT を提供していません(従来の Bedrock Claude 3 Haiku 経路も2026-09-10 EOL 予定。下表参照)。一方で、クラウド ML 基盤側は SFT・選好・蒸留を比較的広く提供しています
+- 提供メニューの縮小も現実に起きています。ある大手は FT プラットフォームの新規受付を停止し縮小を告知しており、段階的な終了日程(既存顧客も 2027-01 には新規の FT ジョブを作成できなくなる)も公表済みです。別の大手は第一者 API で FT を提供していません(従来の Bedrock Claude 3 Haiku 経路も告知 EOL 期日 2026-09-10 を経過。実施範囲は下表・TODO 参照)。一方で、クラウド ML 基盤側は SFT・選好・蒸留を比較的広く提供しています
 - **オープンウェイトモデルは自前 FT の自由度が最大**で、LoRA などの効率的な手法で自社インフラ・マネージド基盤の両方から実施できます([主要 LLM の全体像](llm-landscape.md))。「FT が本当に必要な要件」がある場合、モデル選定がオープンウェイトに寄る一因になります
 
 ### 蒸留によるコスト削減
@@ -105,7 +105,7 @@ FT の成否はデータの質で決まります。ここは[評価データセ�
 | 経路 | 確認できた状態 | 設計への影響 |
 | --- | --- | --- |
 | Google Cloud の Gemini SFT | Gemini 3.5 Flash / 3.1 Flash-Lite を 2026-06-22 に Public Preview として案内。2.5 系も対応一覧に掲載 | 3 系が一律に未提供という理解は誤りです。3 系の学習は us-central1 / europe-west4、配信は us / eu multi-region。蒸留や全フロンティアモデルの提供まで一般化しません |
-| Bedrock の Claude 3 Haiku | anthropic.claude-3-haiku-20240307-v1:0 は 2026-03-10 Legacy、2026-09-10 EOL | Legacy 移行後は新規 FT ジョブと新規 Provisioned Throughput を作れません。新規採用できる Claude FT 経路として扱いません |
+| Bedrock の Claude 3 Haiku | anthropic.claude-3-haiku-20240307-v1:0 は 2026-03-10 Legacy。告知 EOL 期日 2026-09-10 は経過。2026-10-03 の公式表の直接再取得では対象行と告知期日が残っています。期日経過だけで実停止を確認したとは扱いません | Legacy 移行後は新規 FT ジョブと新規 Provisioned Throughput を作れません。新規採用できる Claude FT 経路として扱いません |
 
 Bedrock の既存カスタムモデルのオンデマンド配備、既存 PT、基盤モデルの EOL はそれぞれ条件を確認します。EOL 当日の実停止はここでは実呼出し検証していません。地域別の状態と個別契約がある場合の扱いも、AWS の対象行と契約で確認します。Google SFT の SLA 対象外という条件も、本番学習工程の可用性設計に含めます。
 
@@ -130,6 +130,8 @@ Bedrock の既存カスタムモデルのオンデマンド配備、既存 PT、
 - [ ] ベース退役時の再チューニング計画(データ・評価・工数)がある
 - [ ] 蒸留の場合、教師出力の選別基準と、本番分布変化の監視・再蒸留の運用がある
 
+> **TODO(要確認):** Bedrock の Model lifecycle とカスタムモデル / Provisioned Throughput の案内で、Claude 3 Haiku の EOL 実施範囲と既存 FT 成果物への影響を確認する。10/03 の直接取得では過去の告知 EOL 期日が残っており、表の掲載や期日経過だけで全経路の実停止を確認したとは扱わない(最終確認: 2026-10)
+
 ## 関連トピック
 
 - [モデル選定ガイド](model-selection.md) — FT・蒸留の手前にある「モデルを変える」という選択肢とティア混在設計
@@ -148,7 +150,7 @@ Bedrock の既存カスタムモデルのオンデマンド配備、既存 PT、
 
 - [提供仕様・終了日程: docs.cloud.google.com](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/tuning/supervised-tuning)(アクセス日: 2026-09-10)
 - [提供仕様・終了日程: docs.cloud.google.com](https://docs.cloud.google.com/gemini-enterprise-agent-platform/release-notes)(アクセス日: 2026-09-10)
-- [提供仕様・終了日程: docs.aws.amazon.com](https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle-legacy.html)(アクセス日: 2026-09-10)
+- [提供仕様・終了日程: docs.aws.amazon.com](https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle-legacy.html)(アクセス日: 2026-10-03)
 
 - [Does Fine-Tuning LLMs on New Knowledge Encourage Hallucinations?](https://arxiv.org/abs/2405.05904) — 新しい事実の SFT 学習と幻覚への影響を、閉じた QA の条件で評価した研究(アクセス日: 2026-09-10)
 - [Model optimization(OpenAI)](https://developers.openai.com/api/docs/guides/model-optimization) — 「評価 → プロンプト → FT」の順序と FT 手法の整理(2026-07 時点で FT プラットフォームの縮小が告知されている点も含め)(アクセス日: 2026-07-07)

@@ -154,7 +154,7 @@
     "totalCases": 58,
     "samplingSettings": 54,
     "inferenceStages": 23,
-    "outputDirectory": "C:\\Users\\81906\\AppData\\Local\\Temp\\channel-fix-independent-checks"
+    "outputDirectory": "<user-home>\\AppData\\Local\\Temp\\channel-fix-independent-checks"
   },
   "launchBoundary": {
     "actualRunnerStatementsExecutedWithStub": true,

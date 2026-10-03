@@ -76,9 +76,10 @@ export async function checkHarness(root = ROOT, { trackedFiles, hooks } = {}) {
       if (isRole && file.endsWith('.toml') && ['doc-reviewer', 'freshness-checker'].includes(expected) && value.sandbox_mode !== 'read-only') problems.push(`${file}: 読み取り専用 role の sandbox_mode は read-only が必要です`)
       if (isRole && file.endsWith('.md') && (typeof value.tools !== 'string' || !value.tools.trim())) problems.push(`${file}: tools が必要です`)
       if (isRole && file.endsWith('.md') && ['doc-reviewer', 'freshness-checker'].includes(expected)) {
-        const required = ['Read', 'Grep', 'Glob', ...(expected === 'freshness-checker' ? ['WebSearch', 'WebFetch'] : [])].sort()
+        const required = ['Read', 'Grep', 'Glob', ...(expected === 'freshness-checker' ? ['WebSearch', 'WebFetch'] : ['Bash'])].sort()
         const actual = typeof value.tools === 'string' ? value.tools.split(',').map(tool => tool.trim()).sort() : []
         if (JSON.stringify(actual) !== JSON.stringify(required)) problems.push(`${file}: 読み取り専用 role の tools が共通 contract と不一致です`)
+        if (expected === 'doc-reviewer' && value.hooks?.PreToolUse?.[0]?.matcher !== 'Bash') problems.push(`${file}: Bash の限定検査 hook が必要です`)
       }
       const text = file.endsWith('.toml') ? value.developer_instructions ?? '' : readFileSync(path.join(root, file), 'utf8')
       for (const link of parseMarkdownLinks(text).links) {
@@ -96,6 +97,13 @@ export async function checkHarness(root = ROOT, { trackedFiles, hooks } = {}) {
     const workflow = parseConfiguration('ci.yml', readFileSync(path.join(root, '.github/workflows/ci.yml'), 'utf8'))
     problems.push(...verificationDrift(manifest, workflow))
     for (const name of ['lint', 'actionlint', 'docs', 'examples', 'build', 'harness', 'harness-windows']) if (!workflow.jobs?.[name]) problems.push(`ci.yml: 必須 job がありません: ${name}`)
+    for (const name of ['dependency-audit', 'freshness-monitor']) {
+      const file = `.github/workflows/${name}.yml`
+      const periodic = parseConfiguration(file, readFileSync(path.join(root, file), 'utf8'))
+      if (!periodic.on?.schedule?.length || !Object.hasOwn(periodic.on ?? {}, 'workflow_dispatch')) problems.push(`${file}: schedule / workflow_dispatch が必要です`)
+      if (periodic.permissions?.contents !== 'read' || Object.keys(periodic.permissions ?? {}).some(key => key !== 'contents')) problems.push(`${file}: 既定権限は contents: read が必要です`)
+      if (name === 'freshness-monitor' && (periodic.on.workflow_dispatch?.inputs?.dry_run?.type !== 'boolean' || periodic.on.workflow_dispatch.inputs.dry_run.default !== false)) problems.push(`${file}: 手動dry_runはboolean/既定falseが必要です`)
+    }
   })
   capture('profiles.json', () => {
     const catalog = JSON.parse(readFileSync(path.join(root, 'harness/profiles.json'), 'utf8'))

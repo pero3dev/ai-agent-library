@@ -8,7 +8,7 @@
  *   node scripts/validate-docs.mjs --all --warn-only=front-matter,h2,todo
  *
  * --warn-only は移行時の保険(指定した検査をエラー → 警告に降格して CI を通す)。
- * 恒常的に付けたままにしない(CLAUDE.md のレビュー観点を無効化する運用は不可)。
+ * 恒常的に付けたままにしない(harness/writing-rules.md のレビュー観点を無効化する運用は不可)。
  *
  * 出力: `docs/...:行: [検査名] メッセージ` を 1 問題 1 行。エラー 0 なら "OK: N files" のみ。
  * exit code: エラーあり = 1 / なし = 0

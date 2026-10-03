@@ -4,7 +4,7 @@ category: "business"
 level: "intermediate"
 status: "published"
 last_updated: "2026-09-10"
-tags: ["process", "organization", "review", "development"]
+tags: ["process", "organization", "review", "software-process"]
 ---
 
 # AI 前提の開発プロセス再設計

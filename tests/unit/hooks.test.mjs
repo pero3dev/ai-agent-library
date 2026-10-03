@@ -1,3 +1,5 @@
+import { isolateGitForTests, fixtureGit, fixtureGitSpawn } from '../helpers/isolated-git.mjs'
+isolateGitForTests()
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
@@ -33,7 +35,7 @@ function copyHooks(repo) {
   mkdirSync(path.join(repo, 'website'), { recursive: true })
 }
 function git(repo, ...args) {
-  const result = spawnSync('git', args, { cwd: repo, encoding: 'utf8' })
+  const result = fixtureGitSpawn(args, { cwd: repo, encoding: 'utf8' })
   assert.equal(result.status, 0, result.stderr)
   return result.stdout.trim()
 }
@@ -226,7 +228,7 @@ test('patch extraction preserves CRLF, spaces, multiple patches, and rejects amb
   ]) assert.throws(() => normalizeEditEvent(bad), /apply_patch/)
 })
 
-test('adapters anchor legacy events to their checkout and reject foreign event cwd', t => {
+test('adapters anchor legacy events and permit foreign cwd while guarding owned generated targets', t => {
   const fixture = fixtureRoot(t)
   const repo = path.join(fixture, 'repo with spaces')
   const foreign = path.join(fixture, 'other repository')
@@ -237,11 +239,10 @@ test('adapters anchor legacy events to their checkout and reject foreign event c
     const event = { tool_input: { file_path: 'website/out/probe.html' } }
     assert.equal(invokeAdapter(client, 'guard-generated.mjs', event, repo, foreign).status, 2)
     const result = invokeAdapter(client, 'guard-generated.mjs', { ...event, cwd: foreign }, repo)
-    assert.equal(result.status, 2)
-    assert.match(result.stderr, /cwd.*リポジトリ外/)
+    assert.equal(result.status, 0, result.stderr)
     const linked = invokeAdapter(client, 'guard-generated.mjs', { ...event, cwd: path.join(repo, 'foreign-alias') }, repo)
-    assert.equal(linked.status, 2)
-    assert.match(linked.stderr, /cwd.*リポジトリ外/)
+    assert.equal(linked.status, 0, linked.stderr)
+    assert.equal(invokeAdapter(client, 'guard-generated.mjs', { cwd: foreign, tool_input: { file_path: path.join(repo, 'website/out/probe.html') } }, repo).status, 2)
     assert.equal(invokeAdapter(client, 'guard-generated.mjs', { cwd: path.join(repo, 'website'), tool_input: { file_path: 'out/probe.html' } }, repo).status, 2)
   }
 })
@@ -283,8 +284,7 @@ test('Windows 8.3 event cwd names preserve source checks, generated guards and f
     assert.equal(externalArticle.status, 0, externalArticle.stderr)
     assert.equal(externalArticle.stderr, '', 'an external symlink must not turn into an owned article')
     const outside = invokeAdapter(client, 'guard-generated.mjs', { cwd: shortForeign.path, tool_input: { file_path: 'source.md' } }, repo)
-    assert.equal(outside.status, 2)
-    assert.match(outside.stderr, /cwd.*リポジトリ外/)
+    assert.equal(outside.status, 0, outside.stderr)
   }
 })
 

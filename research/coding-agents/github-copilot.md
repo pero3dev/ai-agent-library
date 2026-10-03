@@ -244,3 +244,9 @@ Auto の efficiency / balance / intelligence は 2026-09-14 告知で VS Code・
 - IDE エージェントモードの自動承認設定の粒度(VS Code「Approvals & Permissions」ページの詳細)— 追加確認推奨
 - 料金ページの AI Credits 付与額は 2026-04 の発表値から増額されており変動が激しい — 執筆直前に https://github.com/features/copilot/plans を再確認すること
 - Copilot Enterprise 固有機能(knowledge bases 等)の現行ラインアップ — 今回未調査
+
+## 2026-10-03 第3回レビューの部分再確認
+
+#177: 10/2 の全提供面の実施告知を確認し、移行先 Opus 5.5 を反映。10/19 は公式表の6モデルと予定を再確認しました。期日後の実施は未確認です。
+
+取得 URL・実取得バッチ完了 UTC・確認水準・残る TODO は [一次情報の修正記録](../reviews/2026-10-03-article-remediation.md) を参照してください。過去の日付の本文は上書きしていません。

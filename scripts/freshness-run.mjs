@@ -6,6 +6,7 @@ import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { readRegistry, selectSystems } from './freshness-registry.mjs';
+import { deadlineReport } from './deadline-report.mjs';
 
 import { git, commitTree, assertPublicationCheckout, snapshotOwned, assertRunId, readLock, acquireLock, releaseLock, releaseLockIfOwned, assertOwner, withLockMutex, saveGeneration, recoverGeneration, queuedRuns, budgetStatus } from './lib/harness-state.mjs';
 export { acquireLock, releaseLock } from './lib/harness-state.mjs';
@@ -155,6 +156,7 @@ export function main(argv = process.argv.slice(2), deps = {}) {
       finally { releaseLock(dir, recoveryOwner.run_id, recoveryOwner.attempt_id); }
     }
     const registry = readRegistry(root);
+    const deadlineCandidates = deadlineReport(root, { today: new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now) });
     const state = loadState(dir);
     const allInterrupted = interruptedRuns(dir);
     const queue = queuedRuns(allInterrupted, now);
@@ -163,7 +165,7 @@ export function main(argv = process.argv.slice(2), deps = {}) {
     const mode = interrupted?.mode ?? (!options.mode || options.mode === 'auto' ? automaticMode(now) : options.mode);
     const selected = interrupted
       ? selectSystems(registry, state, { mode: 'manual', now, limit: 3, ids: interrupted.systems })
-      : selectSystems(registry, state, { mode, now, limit: 3, ids: options.ids?.split(','), excludeIds: allInterrupted.flatMap(record => record.systems) });
+      : selectSystems(registry, state, { mode, now, limit: 3, ids: options.ids?.split(','), excludeIds: allInterrupted.flatMap(record => record.systems), priorityIds: deadlineCandidates.priority_system_ids });
     const occupied = new Set(allInterrupted.flatMap(record => record.systems));
     const systems = selected.map(row => typeof row === 'string' ? registry.find(entry => entry.id === row) : row).filter(row => interrupted || !occupied.has(row.id));
     if (!systems.length) return { status: 'nothing_due', mode, waiting: queue.waiting_external.length, needs_decision: queue.needs_decision.length };
@@ -190,7 +192,7 @@ export function main(argv = process.argv.slice(2), deps = {}) {
     }
     let orphanSnapshot = null;
     try { const savedRef = git(root, 'rev-parse', `refs/freshness/checkpoints/${runId}`); if (savedRef !== checkpoint.snapshot_commit) orphanSnapshot = savedRef; } catch { /* No snapshot has been made yet. */ }
-    return { ...checkpoint, resuming: Boolean(interrupted), current_main_sha: git(root, 'rev-parse', 'origin/main'), orphan_snapshot_commit: orphanSnapshot, dry_run: Boolean(options.dryRun), checkpoint: path.join(dir, 'runs', `${runId}.json`), evidence: `research/freshness-runs/${runId}.json`, branch: `automation/freshness-${runId}`, targets: systems, previous_pending: state.pending };
+    return { ...checkpoint, resuming: Boolean(interrupted), current_main_sha: git(root, 'rev-parse', 'origin/main'), orphan_snapshot_commit: orphanSnapshot, dry_run: Boolean(options.dryRun), checkpoint: path.join(dir, 'runs', `${runId}.json`), evidence: `research/freshness-runs/${runId}.json`, branch: `automation/freshness-${runId}`, targets: systems, previous_pending: state.pending, deadline_candidates: deadlineCandidates };
   }
   if (command === 'checkpoint' || command === 'suspend' || command === 'finish') {
     if (!options.run) throw new Error('--run is required');

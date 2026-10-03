@@ -1,7 +1,7 @@
 /**
  * validate-core.mjs — 1 ドキュメントの検証コア
  *
- * CLAUDE.md のレビュー観点 1(テンプレート準拠)と 3(TODO(要確認) 書式)を機械化する。
+ * harness/writing-rules.md のレビュー観点 1(テンプレート準拠)と 3(TODO(要確認) 書式)を機械化する。
  * scripts/validate-docs.mjs(CLI / CI)と .claude/hooks/validate-doc.mjs(編集後フック)が共用。
  * ファイル内で閉じる検査のみを行う(リンク網羅・README 収録表は scripts/check-links.mjs)。
  */
@@ -227,7 +227,7 @@ export function validateDoc(repoRel, text) {
     }
   }
 
-  // 独自 H2 は「固定 H2 のあと」にのみ追加可(CLAUDE.md 最重要ルール 2)
+  // 独自 H2 は「固定 H2 のあと」にのみ追加可(harness/writing-rules.md 最重要ルール 2)
   const fixedSet = new Set(FIXED_H2)
   const lastFixedLine = fixedFound.length > 0 ? Math.max(...fixedFound.map(f => f.line)) : 0
   for (const h of h2s) {

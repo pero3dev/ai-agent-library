@@ -9,6 +9,7 @@ const parser = unified().use(remarkParse).use(remarkGfm).use(remarkMath)
   .use(remarkFrontmatter, ['yaml']).use(remarkMdx)
 
 const attributes = {
+  StaticMermaid: { diagram: value => /^[a-f0-9]{24}$/.test(value), label: value => value.length > 0 && value.length < 300 },
   TodoCallout: {},
   PracticeSection: { kind: value => ['antipattern', 'checklist'].includes(value) },
   ChecklistBox: { defaultChecked: value => ['true', 'false'].includes(value) },

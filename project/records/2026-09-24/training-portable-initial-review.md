@@ -18,28 +18,28 @@
 
 ## 実見画像
 
-- C:\Users\81906\AppData\Local\Temp\training-portable-local-chromium-2026-09-24T14-17-44-967Z\training-stages-stage-2-1440x1000-light-dsf1.png
+- `<user-home>\AppData\Local\Temp\training-portable-local-chromium-2026-09-24T14-17-44-967Z\training-stages-stage-2-1440x1000-light-dsf1.png`
   - SHA256 25decfc4f44247de4bb13c5fb8db5ffbcb14b8f6c916213d64b120a686aec3d8
   - All three recorded adjacent-line BBox candidates have visibly separated glyphs; no text collision observed in the captured area.
-- C:\Users\81906\AppData\Local\Temp\training-portable-local-chromium-2026-09-24T14-17-44-967Z\training-stages-stage-2-1440x1000-dark-dsf1.png
+- `<user-home>\AppData\Local\Temp\training-portable-local-chromium-2026-09-24T14-17-44-967Z\training-stages-stage-2-1440x1000-dark-dsf1.png`
   - SHA256 18ff5028fbfa6e14d47fc9cd32cb881601d68aff7db806daf71869c3cc7a889e
   - All three recorded adjacent-line BBox candidates have visibly separated glyphs; no text collision observed in the captured area.
-- C:\Users\81906\AppData\Local\Temp\training-portable-local-chromium-2026-09-24T14-17-44-967Z\training-stages-stage-2-1280x720-light-dsf1.png
+- `<user-home>\AppData\Local\Temp\training-portable-local-chromium-2026-09-24T14-17-44-967Z\training-stages-stage-2-1280x720-light-dsf1.png`
   - SHA256 0d31c1049ce1f9b75915b99a74a1d7adf21cabf0ec77e793eea76537a4d9ccfd
   - All three recorded adjacent-line BBox candidates have visibly separated glyphs; no text collision observed in the captured area.
-- C:\Users\81906\AppData\Local\Temp\training-portable-local-chromium-2026-09-24T14-17-44-967Z\training-stages-stage-2-390x844-light-dsf1.png
+- `<user-home>\AppData\Local\Temp\training-portable-local-chromium-2026-09-24T14-17-44-967Z\training-stages-stage-2-390x844-light-dsf1.png`
   - SHA256 9ade1e89315b27814305c59ba8f1445c4c1fd63f6b871244999d926788c5d796
   - All three recorded adjacent-line BBox candidates have visibly separated glyphs; no text collision observed in the captured area.
-- C:\Users\81906\AppData\Local\Temp\training-portable-local-chromium-2026-09-24T14-17-44-967Z\training-stages-stage-2-390x844-dark-dsf1.png
+- `<user-home>\AppData\Local\Temp\training-portable-local-chromium-2026-09-24T14-17-44-967Z\training-stages-stage-2-390x844-dark-dsf1.png`
   - SHA256 d157f6c9dc1410c9ce995e676e5aa87e95d0e88dd55dfebc0f0f261f0390c9a6
   - All three recorded adjacent-line BBox candidates have visibly separated glyphs; no text collision observed in the captured area.
-- C:\Users\81906\AppData\Local\Temp\training-portable-local-chromium-2026-09-24T14-17-44-967Z\training-stages-stage-2-960x540-light-dsf2.png
+- `<user-home>\AppData\Local\Temp\training-portable-local-chromium-2026-09-24T14-17-44-967Z\training-stages-stage-2-960x540-light-dsf2.png`
   - SHA256 115e35edab32d305647ed0da12cd565da269791e27fddc985f41cbf5569f0ba0
   - Upper three knowledge cards are outside the captured viewport; all three recorded BBox candidates cannot be assessed in this PNG.
-- C:\Users\81906\AppData\Local\Temp\training-portable-local-chromium-2026-09-24T14-17-44-967Z\training-knowledge-focus-selected.png
+- `<user-home>\AppData\Local\Temp\training-portable-local-chromium-2026-09-24T14-17-44-967Z\training-knowledge-focus-selected.png`
   - SHA256 b27b51d78002b0f704c23dd8e677fa633c5ecf39248f6ff5cd9a900949afc750
   - All three recorded adjacent-line BBox candidates have visibly separated glyphs; no text collision observed in the captured area.
-- C:\Users\81906\AppData\Local\Temp\training-portable-local-chromium-2026-09-24T14-17-44-967Z\training-stages-expanded.png
+- `<user-home>\AppData\Local\Temp\training-portable-local-chromium-2026-09-24T14-17-44-967Z\training-stages-expanded.png`
   - SHA256 1a90ead05e4b7452bc576314eadce2d1a81a609091a71bb2ec23909c23b68b81
   - All three recorded adjacent-line BBox candidates have visibly separated glyphs; no text collision observed in the captured area.
 

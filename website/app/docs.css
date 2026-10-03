@@ -655,3 +655,33 @@ article .katex-display:focus-visible {
   font-size: 0.8rem;
   color: var(--site-text-secondary);
 }
+
+/* 表の縞背景と本文の両方で4.5:1を確保する。 */
+article a:not(.doc-meta-tag):not(.glossary-term) { color: #005cc5; }
+.dark article a:not(.doc-meta-tag):not(.glossary-term) { color: #88baff; }
+article a:not(.doc-meta-tag):hover { color: #004695; }
+.dark article a:not(.doc-meta-tag):hover { color: #b8d5ff; }
+html:not(.dark) article pre span[style*="--shiki-light:#E36209"],
+html:not(.dark) article pre span[style*="color:#E36209"],
+html:not(.dark) article pre span[style*="color:#e36209"] { color: #a34200 !important; }
+.dark article .nextra-code span[style*="--shiki-dark:#6A737D"],
+.dark article .nextra-code span[style*="--shiki-dark:#6a737d"],
+.dark article pre span[style*="--shiki-dark:#6A737D"] { color: #8d97a3 !important; }
+.static-mermaid { margin: 1.5rem 0; }
+.static-mermaid img { max-width: 100%; height: auto; margin-inline: auto; }
+.static-mermaid figcaption { color: var(--site-text-secondary); font-size: 0.8rem; text-align: center; }
+.mermaid-dark, .dark .mermaid-light { display: none; }
+.dark .mermaid-dark { display: block; }
+.dependency-list { margin-top: 2rem; line-height: 1.9; }
+.dependency-list h2 { font-size: 1.3rem; font-weight: 700; }
+.dependency-list a { text-decoration: underline; }
+.freshness-table { overflow-x: auto; margin: 1.5rem 0; }
+.freshness-table table { width: 100%; border-collapse: collapse; font-size: 0.85rem; line-height: 1.7; }
+.freshness-table th, .freshness-table td { border: 1px solid #a1a1aa; padding: 0.7rem; text-align: left; min-width: 7rem; }
+.freshness-table td:last-child { min-width: 15rem; overflow-wrap: anywhere; }
+.freshness-table caption { text-align: left; font-weight: 700; padding-bottom: 0.6rem; }
+.page-shell > h2 { font-size: 1.4rem; font-weight: 700; margin: 2rem 0 0.7rem; }
+.page-shell > p { line-height: 1.9; margin-bottom: 1rem; }
+.page-shell > p a { text-decoration: underline; }
+.dep-node:focus-visible { outline: 3px solid #4f46e5; outline-offset: 3px; }
+@media (max-width: 600px) { .dep-graph-canvas { display: none; } }

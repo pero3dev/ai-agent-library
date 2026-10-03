@@ -1,0 +1,1234 @@
+{
+  "schema_version": 1,
+  "run_id": "2026-10-04-third-review-issue-resolution",
+  "base_sha": "c43ec979262bd1a430ec743d6525f74803482b70",
+  "writer_run_id": "/root",
+  "completed_at": "2026-10-03T16:50:58.673Z",
+  "changes": [
+    {
+      "path": "docs/00-overview/research-literacy.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/00-overview/skill-map.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/01-concepts/memory-and-state.md",
+      "kind": "substantive",
+      "summary": "記憶の来歴・許可・機密最小化と未信頼入力の分離"
+    },
+    {
+      "path": "docs/01-concepts/physical-ai-overview.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/01-concepts/planning-and-reasoning.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/01-concepts/tool-use.md",
+      "kind": "substantive",
+      "summary": "アプリ実行とプロバイダー実行、実行者と承認条件の区別"
+    },
+    {
+      "path": "docs/01-concepts/what-is-an-ai-agent.md",
+      "kind": "substantive",
+      "summary": "LLMの呼び出し要求とアプリの実行・検証・権限判断の区別"
+    },
+    {
+      "path": "docs/02-architecture/agent-api-design.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/02-architecture/context-engineering-patterns.md",
+      "kind": "substantive",
+      "summary": "優先度・区切りと信頼境界、JIT取得の攻撃面の区別"
+    },
+    {
+      "path": "docs/02-architecture/context-engineering.md",
+      "kind": "substantive",
+      "summary": "取得情報・ツール・記憶の信頼区分と機密記録の制約"
+    },
+    {
+      "path": "docs/02-architecture/harness-engineering.md",
+      "kind": "substantive",
+      "summary": "任意の性能補助と必須の権限・予算・停止制約を区別"
+    },
+    {
+      "path": "docs/02-architecture/loop-engineering.md",
+      "kind": "substantive",
+      "summary": "完了の提案と独立した検証、外部副作用と内部再実行の区別"
+    },
+    {
+      "path": "docs/02-architecture/orchestration-patterns.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/02-architecture/workflow-vs-agent.md",
+      "kind": "substantive",
+      "summary": "固定単一路と入力に応じた固定ルート分岐を判断質問で区別"
+    },
+    {
+      "path": "docs/03-implementation/claude-prompting.md",
+      "kind": "substantive",
+      "summary": "現行モデルのthinking/effort・非互換と旧世代設定を分離"
+    },
+    {
+      "path": "docs/03-implementation/data-preprocessing-for-llm.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/03-implementation/fine-tuning-and-distillation.md",
+      "kind": "substantive",
+      "summary": "Haikuの期限経過と表からの削除、実FT/PT停止未確認を区別"
+    },
+    {
+      "path": "docs/03-implementation/framework-selection.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/03-implementation/gemini-prompting.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/03-implementation/llm-landscape.md",
+      "kind": "substantive",
+      "summary": "現行Claude世代・価格・既定条件と経過した停止期日の確認状況"
+    },
+    {
+      "path": "docs/03-implementation/mcp-and-tool-protocols.md",
+      "kind": "substantive",
+      "summary": "stdio配布物とリモート定義変更・再審査の対策を区別"
+    },
+    {
+      "path": "docs/03-implementation/model-selection.md",
+      "kind": "substantive",
+      "summary": "自社の試行方針とベンダー推奨・cache価格の区別"
+    },
+    {
+      "path": "docs/03-implementation/open-source-ai-ecosystem.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/03-implementation/openai-prompting.md",
+      "kind": "editorial",
+      "summary": "既存の前提を任意参照へ移し、参考資料の同一URLを統合。既存の確認日と技術本文は維持"
+    },
+    {
+      "path": "docs/03-implementation/structured-output.md",
+      "kind": "editorial",
+      "summary": "本文と末尾の重複TODOを本文1件へ統一"
+    },
+    {
+      "path": "docs/03-implementation/vector-databases.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/03-implementation/voice-agents.md",
+      "kind": "substantive",
+      "summary": "Sonic終了告知の期限経過と実施未確認を明示"
+    },
+    {
+      "path": "docs/04-evaluation/agent-benchmarks-landscape.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/04-evaluation/agent-evaluation-basics.md",
+      "kind": "substantive",
+      "summary": "少数ケース・成功率区間・反復・judge誤差と比較判断の限界"
+    },
+    {
+      "path": "docs/04-evaluation/fairness-and-bias-evaluation.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/04-evaluation/regression-testing.md",
+      "kind": "substantive",
+      "summary": "少数ケースの比較判断を成功率区間の説明へ接続"
+    },
+    {
+      "path": "docs/05-operations/batch-processing.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/05-operations/cost-management.md",
+      "kind": "substantive",
+      "summary": "現行Claudeのcache readモデル別倍率を訂正"
+    },
+    {
+      "path": "docs/05-operations/data-governance-for-ai.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/05-operations/feedback-loops.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/05-operations/gpu-and-hardware-basics.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/05-operations/incident-response.md",
+      "kind": "substantive",
+      "summary": "egress・資格情報・in-flight処理の封じ込めと読取/送信証跡"
+    },
+    {
+      "path": "docs/05-operations/llm-gateway.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/05-operations/long-running-agents.md",
+      "kind": "substantive",
+      "summary": "記憶汚染・来歴・許可範囲と読取専用の漏えいリスク"
+    },
+    {
+      "path": "docs/05-operations/self-hosted-inference.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/05-operations/semantic-caching.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/06-security/agent-identity-and-auth.md",
+      "kind": "editorial",
+      "summary": "同一参考URLを統合。仕様リビジョン日をアクセス日に拾った誤りをbaseline実取得日へ復元"
+    },
+    {
+      "path": "docs/06-security/ai-supply-chain-security.md",
+      "kind": "substantive",
+      "summary": "配布物固定とリモート定義差分・再審査を区別"
+    },
+    {
+      "path": "docs/06-security/compliance-and-governance.md",
+      "kind": "substantive",
+      "summary": "漏えい報告・本人通知入口とColorado期限の未確認状態"
+    },
+    {
+      "path": "docs/06-security/content-provenance-and-detection.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/06-security/guardrails.md",
+      "kind": "substantive",
+      "summary": "読取専用の送信リスクと承認・検出器の保証範囲"
+    },
+    {
+      "path": "docs/06-security/privacy-enhancing-technologies.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/06-security/tool-permissions-and-sandboxing.md",
+      "kind": "substantive",
+      "summary": "操作名から副作用・送信・機密・未信頼入力の評価へ訂正"
+    },
+    {
+      "path": "docs/07-case-studies/case-study-data-analysis-agent.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/07-case-studies/case-study-it-helpdesk-agent.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/07-case-studies/case-study-knowledge-agent.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/08-coding-agents/claude-code.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agent-prompting.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agents-comparison.md",
+      "kind": "substantive",
+      "summary": "Cursorの条件付き承認、Gemini API key経路、runnerと推論を区別"
+    },
+    {
+      "path": "docs/08-coding-agents/cursor.md",
+      "kind": "substantive",
+      "summary": "Auto-reviewの自動実行と人の承認が発生する条件を訂正"
+    },
+    {
+      "path": "docs/08-coding-agents/devin.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/08-coding-agents/gemini-cli-and-code-assist.md",
+      "kind": "substantive",
+      "summary": "旧login終了とAPI key無料枠・課金/data useを区別"
+    },
+    {
+      "path": "docs/08-coding-agents/github-copilot.md",
+      "kind": "substantive",
+      "summary": "10/2廃止実施と10/19の6モデル予告・再確認TODOを同期"
+    },
+    {
+      "path": "docs/08-coding-agents/openai-codex.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/08-coding-agents/se-client-adoption.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/08-coding-agents/se-enterprise-constraints.md",
+      "kind": "substantive",
+      "summary": "自社runnerと自社推論を区別し、自社保存の管理条件を保持"
+    },
+    {
+      "path": "docs/08-coding-agents/se-legacy-code-analysis.md",
+      "kind": "substantive",
+      "summary": "観測挙動による等価性と合意した要求の正しさを区別"
+    },
+    {
+      "path": "docs/08-coding-agents/se-process-map.md",
+      "kind": "substantive",
+      "summary": "影響範囲・可逆性・検出の難しさでレビュー量を決める"
+    },
+    {
+      "path": "docs/08-coding-agents/se-requirements-and-design.md",
+      "kind": "substantive",
+      "summary": "上流の無条件断定とAgent要件化の参照範囲を訂正"
+    },
+    {
+      "path": "docs/08-coding-agents/se-test-process.md",
+      "kind": "substantive",
+      "summary": "characterization testの回帰基準と要求不適合の判断を分離"
+    },
+    {
+      "path": "docs/08-coding-agents/windsurf.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/09-business/agent-liability-and-accountability.md",
+      "kind": "substantive",
+      "summary": "第三者・tool/data・攻撃原因、契約の限界と意味ある承認記録"
+    },
+    {
+      "path": "docs/09-business/ai-copyright-and-ip-map.md",
+      "kind": "substantive",
+      "summary": "届出予定の履歴と今回の取得失敗・再確認TODOを区別"
+    },
+    {
+      "path": "docs/09-business/ai-native-development-process.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "kind": "substantive",
+      "summary": "モデル固有のsampling対応条件に応じた設定を案内"
+    },
+    {
+      "path": "docs/10-llm-foundations/multimodal-models.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/11-llm-internals/alignment-theory.md",
+      "kind": "substantive",
+      "summary": "DPO元報酬の最適方策式と任意方策の暗黙報酬定義を区別"
+    },
+    {
+      "path": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "kind": "substantive",
+      "summary": "dense attention計算・素朴メモリ・全体処理・API価格を区別"
+    },
+    {
+      "path": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/11-llm-internals/transformer-architecture.md",
+      "kind": "substantive",
+      "summary": "RoPE外挿の条件とattention/full-prefillの計算・メモリを区別"
+    },
+    {
+      "path": "docs/12-multimodal/image-generation-integration.md",
+      "kind": "substantive",
+      "summary": "Canvas告知EOLの経過と実停止未確認を区別"
+    },
+    {
+      "path": "docs/12-multimodal/multimodal-rag.md",
+      "kind": "substantive",
+      "summary": "画像/OCR/抽出の未信頼入力と実際に渡した根拠単位の対応"
+    },
+    {
+      "path": "docs/12-multimodal/speech-synthesis-and-voice-design.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/12-multimodal/video-ai-overview.md",
+      "kind": "substantive",
+      "summary": "Sora/Nova/Geminiの経過期日・deprecationと実停止未確認を区別"
+    },
+    {
+      "path": "docs/12-multimodal/vision-understanding-patterns.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/13-domain-agents/education-agents.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/13-domain-agents/emerging-agent-domains.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/13-domain-agents/legal-review-agents.md",
+      "kind": "substantive",
+      "summary": "網羅性保証を除き、人の重要条項/問題なし箇所レビューと業際入口"
+    },
+    {
+      "path": "docs/13-domain-agents/personal-assistant-design.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/13-domain-agents/rpa-and-agents.md",
+      "kind": "substantive",
+      "summary": "WorkHQ support期日と実行停止を区別し未確認を明示"
+    },
+    {
+      "path": "docs/13-domain-agents/search-experience-redesign.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/13-domain-agents/spreadsheet-agents.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/13-domain-agents/time-series-and-forecasting.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/14-ux-and-product/accessibility-and-ai.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/14-ux-and-product/ai-ux-patterns.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/14-ux-and-product/proactive-agent-ux.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    },
+    {
+      "path": "docs/15-human-ai/automation-bias-and-deskilling.md",
+      "kind": "substantive",
+      "summary": "未確認LLM専門家実験の断定を削除し一般的枠組みへ限定"
+    },
+    {
+      "path": "docs/15-human-ai/verifying-ai-outputs.md",
+      "kind": "editorial",
+      "summary": "タグ別名・参考資料重複/表示名・表記・既存リンクの任意参照化またはlevelの編集。本文の技術主張は維持"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "1-2",
+      "artifacts": [
+        "docs/01-concepts/what-is-an-ai-agent.md"
+      ]
+    },
+    {
+      "id": "2-1",
+      "artifacts": [
+        "docs/01-concepts/agent-loop.md",
+        "docs/01-concepts/tool-use.md"
+      ]
+    },
+    {
+      "id": "2-2",
+      "artifacts": [
+        "docs/01-concepts/memory-and-state.md",
+        "docs/01-concepts/planning-and-reasoning.md"
+      ]
+    },
+    {
+      "id": "3-1",
+      "artifacts": [
+        "docs/02-architecture/workflow-vs-agent.md"
+      ]
+    },
+    {
+      "id": "3-2",
+      "artifacts": [
+        "docs/02-architecture/context-engineering.md"
+      ]
+    },
+    {
+      "id": "3-3",
+      "artifacts": [
+        "docs/02-architecture/orchestration-patterns.md"
+      ]
+    },
+    {
+      "id": "4-2",
+      "artifacts": [
+        "docs/03-implementation/agent-prompt-design.md",
+        "docs/03-implementation/structured-output.md"
+      ]
+    },
+    {
+      "id": "4-3",
+      "artifacts": [
+        "docs/03-implementation/mcp-and-tool-protocols.md"
+      ]
+    },
+    {
+      "id": "4-5",
+      "artifacts": [
+        "docs/03-implementation/framework-selection.md"
+      ]
+    },
+    {
+      "id": "5-1",
+      "artifacts": [
+        "docs/04-evaluation/agent-evaluation-basics.md"
+      ]
+    },
+    {
+      "id": "5-3",
+      "artifacts": [
+        "docs/04-evaluation/regression-testing.md"
+      ]
+    },
+    {
+      "id": "6-2",
+      "artifacts": [
+        "docs/05-operations/cost-management.md",
+        "docs/05-operations/latency-optimization.md"
+      ]
+    },
+    {
+      "id": "6-4",
+      "artifacts": [
+        "docs/05-operations/incident-response.md"
+      ]
+    },
+    {
+      "id": "7-3",
+      "artifacts": [
+        "docs/06-security/data-exfiltration.md",
+        "docs/06-security/tool-permissions-and-sandboxing.md"
+      ]
+    },
+    {
+      "id": "7-4",
+      "artifacts": [
+        "docs/06-security/guardrails.md"
+      ]
+    },
+    {
+      "id": "A-2",
+      "artifacts": [
+        "docs/08-coding-agents/claude-code.md",
+        "docs/08-coding-agents/gemini-cli-and-code-assist.md",
+        "docs/08-coding-agents/openai-codex.md"
+      ]
+    },
+    {
+      "id": "A-3",
+      "artifacts": [
+        "docs/08-coding-agents/cursor.md",
+        "docs/08-coding-agents/github-copilot.md",
+        "docs/08-coding-agents/windsurf.md"
+      ]
+    },
+    {
+      "id": "A-4",
+      "artifacts": [
+        "docs/08-coding-agents/devin.md",
+        "docs/08-coding-agents/open-source-coding-agents.md"
+      ]
+    },
+    {
+      "id": "A-5",
+      "artifacts": [
+        "docs/08-coding-agents/coding-agent-prompting.md",
+        "docs/08-coding-agents/coding-agent-rules-and-config.md"
+      ]
+    },
+    {
+      "id": "A-7",
+      "artifacts": [
+        "docs/08-coding-agents/coding-agent-evaluation.md",
+        "docs/08-coding-agents/coding-agents-comparison.md"
+      ]
+    },
+    {
+      "id": "C-1",
+      "artifacts": [
+        "docs/03-implementation/model-selection.md"
+      ]
+    },
+    {
+      "id": "C-2",
+      "artifacts": [
+        "docs/03-implementation/llm-landscape.md"
+      ]
+    },
+    {
+      "id": "D-1",
+      "artifacts": [
+        "docs/00-overview/skill-map.md"
+      ]
+    },
+    {
+      "id": "E-3",
+      "artifacts": [
+        "docs/06-security/agent-identity-and-auth.md"
+      ]
+    },
+    {
+      "id": "F-2",
+      "artifacts": [
+        "docs/03-implementation/prompt-management.md",
+        "docs/05-operations/feedback-loops.md"
+      ]
+    },
+    {
+      "id": "G-1",
+      "artifacts": [
+        "docs/06-security/compliance-and-governance.md",
+        "docs/06-security/red-teaming-agents.md"
+      ]
+    },
+    {
+      "id": "H-1",
+      "artifacts": [
+        "docs/03-implementation/computer-use-implementation.md",
+        "docs/03-implementation/voice-agents.md"
+      ]
+    },
+    {
+      "id": "H-2",
+      "artifacts": [
+        "docs/03-implementation/fine-tuning-and-distillation.md"
+      ]
+    },
+    {
+      "id": "I-1",
+      "artifacts": [
+        "docs/02-architecture/agent-api-design.md",
+        "docs/02-architecture/multi-tenancy-and-isolation.md"
+      ]
+    },
+    {
+      "id": "I-2",
+      "artifacts": [
+        "docs/04-evaluation/agent-benchmarks-landscape.md",
+        "docs/07-case-studies/case-study-knowledge-agent.md"
+      ]
+    },
+    {
+      "id": "J-1",
+      "artifacts": [
+        "docs/10-llm-foundations/how-llms-generate-text.md",
+        "docs/10-llm-foundations/tokenization.md"
+      ]
+    },
+    {
+      "id": "L-1",
+      "artifacts": [
+        "docs/01-concepts/physical-ai-overview.md",
+        "docs/09-business/industry-regulations-map.md"
+      ]
+    },
+    {
+      "id": "N-1",
+      "artifacts": [
+        "docs/02-architecture/context-compaction-and-isolation.md",
+        "docs/02-architecture/context-engineering-patterns.md"
+      ]
+    },
+    {
+      "id": "O-1",
+      "artifacts": [
+        "docs/02-architecture/harness-engineering.md",
+        "docs/02-architecture/loop-engineering.md"
+      ]
+    },
+    {
+      "id": "BA-1",
+      "artifacts": [
+        "docs/03-implementation/claude-prompting.md"
+      ]
+    },
+    {
+      "id": "BA-2",
+      "artifacts": [
+        "docs/03-implementation/gemini-prompting.md",
+        "docs/03-implementation/openai-prompting.md"
+      ]
+    },
+    {
+      "id": "AD-1",
+      "artifacts": [
+        "docs/03-implementation/embeddings.md",
+        "docs/03-implementation/vector-databases.md"
+      ]
+    },
+    {
+      "id": "AD-2",
+      "artifacts": [
+        "docs/03-implementation/data-preprocessing-for-llm.md"
+      ]
+    },
+    {
+      "id": "AE-2",
+      "artifacts": [
+        "docs/05-operations/data-governance-for-ai.md"
+      ]
+    },
+    {
+      "id": "AL-1",
+      "artifacts": [
+        "docs/04-evaluation/fairness-and-bias-evaluation.md",
+        "docs/04-evaluation/japanese-quality-evaluation.md"
+      ]
+    },
+    {
+      "id": "AX-2",
+      "artifacts": [
+        "docs/05-operations/long-running-agents.md"
+      ]
+    },
+    {
+      "id": "AR-2",
+      "artifacts": [
+        "docs/10-llm-foundations/multimodal-models.md"
+      ]
+    },
+    {
+      "id": "V-1",
+      "artifacts": [
+        "docs/08-coding-agents/se-process-map.md"
+      ]
+    },
+    {
+      "id": "V-2",
+      "artifacts": [
+        "docs/08-coding-agents/se-requirements-and-design.md",
+        "docs/08-coding-agents/se-test-process.md"
+      ]
+    },
+    {
+      "id": "X-1",
+      "artifacts": [
+        "docs/08-coding-agents/se-legacy-code-analysis.md",
+        "docs/08-coding-agents/se-maintenance-and-operations.md"
+      ]
+    },
+    {
+      "id": "X-2",
+      "artifacts": [
+        "docs/08-coding-agents/se-client-adoption.md",
+        "docs/08-coding-agents/se-enterprise-constraints.md"
+      ]
+    },
+    {
+      "id": "AF-1",
+      "artifacts": [
+        "docs/05-operations/gpu-and-hardware-basics.md",
+        "docs/05-operations/self-hosted-inference.md"
+      ]
+    },
+    {
+      "id": "AF-2",
+      "artifacts": [
+        "docs/05-operations/llm-gateway.md"
+      ]
+    },
+    {
+      "id": "AG-1",
+      "artifacts": [
+        "docs/03-implementation/local-and-on-device-llm.md",
+        "docs/05-operations/semantic-caching.md"
+      ]
+    },
+    {
+      "id": "AG-2",
+      "artifacts": [
+        "docs/05-operations/batch-processing.md",
+        "docs/05-operations/mlops-and-llmops.md"
+      ]
+    },
+    {
+      "id": "Y-1",
+      "artifacts": [
+        "docs/12-multimodal/document-ai.md",
+        "docs/12-multimodal/vision-understanding-patterns.md"
+      ]
+    },
+    {
+      "id": "Y-2",
+      "artifacts": [
+        "docs/12-multimodal/multimodal-rag.md"
+      ]
+    },
+    {
+      "id": "Z-1",
+      "artifacts": [
+        "docs/12-multimodal/image-generation-integration.md",
+        "docs/12-multimodal/video-ai-overview.md"
+      ]
+    },
+    {
+      "id": "Z-2",
+      "artifacts": [
+        "docs/12-multimodal/realtime-multimodal-agents.md",
+        "docs/12-multimodal/speech-synthesis-and-voice-design.md"
+      ]
+    },
+    {
+      "id": "AH-1",
+      "artifacts": [
+        "docs/06-security/advanced-attack-patterns.md",
+        "docs/06-security/ai-supply-chain-security.md"
+      ]
+    },
+    {
+      "id": "AH-2",
+      "artifacts": [
+        "docs/06-security/privacy-enhancing-technologies.md"
+      ]
+    },
+    {
+      "id": "AI-1",
+      "artifacts": [
+        "docs/06-security/content-provenance-and-detection.md",
+        "docs/06-security/deepfake-and-impersonation-defense.md"
+      ]
+    },
+    {
+      "id": "AJ-1",
+      "artifacts": [
+        "docs/09-business/agent-liability-and-accountability.md",
+        "docs/09-business/ai-copyright-and-ip-map.md"
+      ]
+    },
+    {
+      "id": "AA-2",
+      "artifacts": [
+        "docs/13-domain-agents/rpa-and-agents.md"
+      ]
+    },
+    {
+      "id": "AB-1",
+      "artifacts": [
+        "docs/13-domain-agents/personal-assistant-design.md",
+        "docs/13-domain-agents/search-experience-redesign.md"
+      ]
+    },
+    {
+      "id": "AB-2",
+      "artifacts": [
+        "docs/13-domain-agents/education-agents.md",
+        "docs/13-domain-agents/writing-and-translation-workflows.md"
+      ]
+    },
+    {
+      "id": "AC-1",
+      "artifacts": [
+        "docs/13-domain-agents/emerging-agent-domains.md"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "artifacts": [
+        "docs/13-domain-agents/spreadsheet-agents.md",
+        "docs/13-domain-agents/time-series-and-forecasting.md"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "artifacts": [
+        "docs/13-domain-agents/hr-and-recruitment-ai.md",
+        "docs/13-domain-agents/legal-review-agents.md"
+      ]
+    },
+    {
+      "id": "AU-1",
+      "artifacts": [
+        "docs/07-case-studies/case-study-data-analysis-agent.md",
+        "docs/07-case-studies/case-study-it-helpdesk-agent.md"
+      ]
+    },
+    {
+      "id": "AM-1",
+      "artifacts": [
+        "docs/14-ux-and-product/ai-ux-patterns.md",
+        "docs/14-ux-and-product/conversation-design.md"
+      ]
+    },
+    {
+      "id": "AN-1",
+      "artifacts": [
+        "docs/14-ux-and-product/accessibility-and-ai.md",
+        "docs/14-ux-and-product/proactive-agent-ux.md"
+      ]
+    },
+    {
+      "id": "AO-1",
+      "artifacts": [
+        "docs/09-business/ai-native-development-process.md",
+        "docs/09-business/ai-team-topologies.md"
+      ]
+    },
+    {
+      "id": "S-1",
+      "artifacts": [
+        "docs/11-llm-internals/transformer-architecture.md"
+      ]
+    },
+    {
+      "id": "S-2",
+      "artifacts": [
+        "docs/11-llm-internals/attention-variants-and-long-context.md",
+        "docs/11-llm-internals/mixture-of-experts-internals.md"
+      ]
+    },
+    {
+      "id": "T-1",
+      "artifacts": [
+        "docs/11-llm-internals/alignment-theory.md",
+        "docs/11-llm-internals/pretraining-and-scaling-laws.md"
+      ]
+    },
+    {
+      "id": "AW-1",
+      "artifacts": [
+        "docs/15-human-ai/automation-bias-and-deskilling.md",
+        "docs/15-human-ai/verifying-ai-outputs.md"
+      ]
+    },
+    {
+      "id": "AS-2",
+      "artifacts": [
+        "docs/03-implementation/open-source-ai-ecosystem.md"
+      ]
+    },
+    {
+      "id": "AT-1",
+      "artifacts": [
+        "docs/00-overview/research-literacy.md",
+        "docs/06-security/ai-standards-and-certification.md"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://platform.claude.com/docs/en/models/overview",
+      "accessed_at": "2026-10-03T14:48:08Z",
+      "claim": "現行4モデル、Claude API IDs、Standard入出力単価、既定effort、公式開始候補Opus5.5。価格品質はベンダー自己報告と自社評価を区別",
+      "affected_docs": [
+        "docs/03-implementation/llm-landscape.md",
+        "docs/03-implementation/model-selection.md",
+        "docs/03-implementation/claude-prompting.md"
+      ]
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "accessed_at": "2026-10-03T14:48:08Z",
+      "claim": "cache read入力比の基本0.1、Fable5.1/Mythos5.1は0.025、Opus5.5は0.05",
+      "affected_docs": [
+        "docs/03-implementation/llm-landscape.md",
+        "docs/03-implementation/model-selection.md",
+        "docs/03-implementation/claude-prompting.md",
+        "docs/05-operations/cost-management.md"
+      ]
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+      "accessed_at": "2026-10-03T14:48:08Z",
+      "claim": "旧世代Active、deprecated、retirement not-sooner-thanと確定日の区別",
+      "affected_docs": [
+        "docs/03-implementation/llm-landscape.md",
+        "docs/03-implementation/model-selection.md",
+        "docs/03-implementation/claude-prompting.md"
+      ]
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/models/opus-5-5/migration-guide",
+      "accessed_at": "2026-10-03T14:48:08Z",
+      "claim": "常時adaptive、defaultmedium、強制tool choice拒否、思考履歴の移行条件",
+      "affected_docs": [
+        "docs/03-implementation/claude-prompting.md",
+        "docs/10-llm-foundations/how-llms-generate-text.md"
+      ]
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/models/sonnet-5-5/overview",
+      "accessed_at": "2026-10-03T14:48:08Z",
+      "claim": "adaptive default、high以下between_tools、非既定temperature/top_p/top_kの400",
+      "affected_docs": [
+        "docs/03-implementation/claude-prompting.md",
+        "docs/10-llm-foundations/how-llms-generate-text.md"
+      ]
+    },
+    {
+      "url": "https://github.blog/changelog/2026-10-02-selected-models-in-github-copilot-deprecated/",
+      "accessed_at": "2026-10-03T14:26:54Z",
+      "claim": "Copilot全提供面10/2廃止実施、変更されたOpus5.5移行先",
+      "affected_docs": [
+        "docs/08-coding-agents/github-copilot.md"
+      ]
+    },
+    {
+      "url": "https://github.blog/changelog/2026-09-18-upcoming-deprecation-of-selected-github-copilot-models-in-mid-october/",
+      "accessed_at": "2026-10-03T14:49:45Z",
+      "claim": "10/19の6モデル廃止予告。実施日前のため停止は確認できない",
+      "affected_docs": [
+        "docs/08-coding-agents/github-copilot.md"
+      ]
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/deprecations",
+      "accessed_at": "2026-10-03T16:27:48Z",
+      "claim": "Cyber10/1、Videos/Sora9/24の告知期日は経過。表に期日が残るが実停止・延期は未確認。o4mini10/23は予告。独立レビュー後の再取得: Cyber後継は利用者が利用可能な最も高性能なcyberモデル、特定ID指定なし",
+      "affected_docs": [
+        "docs/03-implementation/llm-landscape.md",
+        "docs/12-multimodal/video-ai-overview.md"
+      ]
+    },
+    {
+      "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle-legacy.html",
+      "accessed_at": "2026-10-03T16:23:54.154Z",
+      "claim": "直接再取得: Nova Reel/Canvas/Sonicの告知EOL期日とClaude3Haiku行が残る。Haiku行削除の初回読取を撤回。告知期日経過は全FT/PT経路実停止の証明ではない",
+      "affected_docs": [
+        "docs/03-implementation/fine-tuning-and-distillation.md",
+        "docs/03-implementation/voice-agents.md",
+        "docs/12-multimodal/video-ai-overview.md",
+        "docs/12-multimodal/image-generation-integration.md"
+      ]
+    },
+    {
+      "url": "https://ai.google.dev/gemini-api/docs/changelog",
+      "accessed_at": "2026-10-03T14:26:54Z",
+      "claim": "旧Omni flash previewの9/30deprecation予告はshutdownと同義ではなく実施範囲未確認",
+      "affected_docs": [
+        "docs/12-multimodal/video-ai-overview.md"
+      ]
+    },
+    {
+      "url": "https://documentation.blueprism.com/workhq/en-us/announcements/announcements.htm",
+      "accessed_at": "2026-10-03T14:26:54Z",
+      "claim": "DesignStudio/DigitalWorker対象版の9/30support期日。support終了と実行停止は別、実施・延期未確認",
+      "affected_docs": [
+        "docs/13-domain-agents/rpa-and-agents.md"
+      ]
+    },
+    {
+      "url": "https://coag.gov/ai/",
+      "accessed_at": "2026-10-03T16:24:41Z",
+      "claim": "独立レビュアー実取得:8/11〜10/26コメント受付、正式審理継続時は最終日まで延長。9/23改訂案共有の実施は確認不能",
+      "affected_docs": [
+        "docs/06-security/compliance-and-governance.md"
+      ]
+    },
+    {
+      "url": "https://www.cas.go.jp/jp/seisakukaigi/titeki2/ai_principle_code/index.html",
+      "accessed_at": "2026-10-03T14:26:54Z",
+      "claim": "取得失敗。10/26届出予定の維持を確認できず、過去確認を今回の成功と扱わない",
+      "affected_docs": [
+        "docs/09-business/ai-copyright-and-ip-map.md"
+      ]
+    },
+    {
+      "url": "https://www.ppc.go.jp/personalinfo/legal/leakAction/",
+      "accessed_at": "2026-10-03T14:49:45Z",
+      "claim": "漏えい等報告・本人通知の公式入口。個別適用・期限は法務確認",
+      "affected_docs": [
+        "docs/05-operations/incident-response.md",
+        "docs/06-security/compliance-and-governance.md"
+      ]
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/guides/tools-connectors-mcp",
+      "accessed_at": "2026-10-03T14:49:45Z",
+      "claim": "プロバイダー実行MCPのallowed_tools/require_approvalをアプリ実行と区別。ツール要求と実行経路の区別を一般概念にも同期。アプリ権限・判断役割は本ライブラリの設計整理",
+      "affected_docs": [
+        "docs/01-concepts/tool-use.md",
+        "docs/01-concepts/what-is-an-ai-agent.md"
+      ]
+    },
+    {
+      "url": "https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices",
+      "accessed_at": "2026-10-03T14:49:45Z",
+      "claim": "MCP token passthroughとconfused deputyを前提にcredential scopeを分離。local/remoteの運用対策は設計判断。credentialと第三者通信の信頼境界を踏まえて、読取だけでは送信制御にならない条件を整理。記憶/画像/取得情報の分離とegress封じ込めの具体策は本ライブラリの設計判断であり、資料の効果検証結果ではない",
+      "affected_docs": [
+        "docs/01-concepts/memory-and-state.md",
+        "docs/02-architecture/context-engineering-patterns.md",
+        "docs/02-architecture/context-engineering.md",
+        "docs/03-implementation/mcp-and-tool-protocols.md",
+        "docs/05-operations/incident-response.md",
+        "docs/05-operations/long-running-agents.md",
+        "docs/06-security/ai-supply-chain-security.md",
+        "docs/06-security/guardrails.md",
+        "docs/06-security/tool-permissions-and-sandboxing.md",
+        "docs/12-multimodal/multimodal-rag.md"
+      ]
+    },
+    {
+      "url": "https://cursor.com/docs/agent/security/run-modes",
+      "accessed_at": "2026-10-03T16:17:23Z",
+      "claim": "Auto-reviewの自動実行・sandbox・classifier・approvalと組織条件。CloudAgentsとは別。再レビューで再照合: terminal sandbox/外実行、specific protected paths、network mode/Allow All、MCP呼出もRun Modesに従う",
+      "affected_docs": [
+        "docs/08-coding-agents/cursor.md",
+        "docs/08-coding-agents/coding-agents-comparison.md"
+      ]
+    },
+    {
+      "url": "https://geminicli.com/docs/get-started/authentication/",
+      "accessed_at": "2026-10-03T14:29:56Z",
+      "claim": "AIStudio GeminiAPI key認証経路。旧Google login終了はkey無料枠終了ではない",
+      "affected_docs": [
+        "docs/08-coding-agents/gemini-cli-and-code-assist.md",
+        "docs/08-coding-agents/coding-agents-comparison.md"
+      ]
+    },
+    {
+      "url": "https://ai.google.dev/gemini-api/docs/rate-limits",
+      "accessed_at": "2026-10-03T14:29:56Z",
+      "claim": "APIモデル・地域・project条件に応じたfree/paid tiersとquota。数字は固定しない",
+      "affected_docs": [
+        "docs/08-coding-agents/gemini-cli-and-code-assist.md",
+        "docs/08-coding-agents/coding-agents-comparison.md"
+      ]
+    },
+    {
+      "url": "https://ai.google.dev/gemini-api/terms",
+      "accessed_at": "2026-10-03T14:29:56Z",
+      "claim": "Unpaid改善利用、人手review、Paidと地域/課金設定条件",
+      "affected_docs": [
+        "docs/08-coding-agents/gemini-cli-and-code-assist.md",
+        "docs/08-coding-agents/coding-agents-comparison.md"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/html/2305.18290v3",
+      "accessed_at": "2026-10-03T14:33:02Z",
+      "claim": "KL正則化最適方策の閉形式とDPO implicit rewardの定義を区別、input依存定数はBT差で消える",
+      "affected_docs": [
+        "docs/11-llm-internals/alignment-theory.md"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/abs/2205.14135",
+      "accessed_at": "2026-10-03T14:33:02Z",
+      "claim": "FlashAttentionは注意行列の全HBM保持を避ける。dense計算、素朴実装メモリ、全体計算、価格の区別",
+      "affected_docs": [
+        "docs/11-llm-internals/transformer-architecture.md",
+        "docs/11-llm-internals/attention-variants-and-long-context.md"
+      ]
+    },
+    {
+      "url": "https://arxiv.org/abs/2306.15595",
+      "accessed_at": "2026-10-03T14:33:02Z",
+      "claim": "RoPE素の外挿の不安定性と位置補間の区別",
+      "affected_docs": [
+        "docs/11-llm-internals/transformer-architecture.md"
+      ]
+    },
+    {
+      "url": "https://www.itl.nist.gov/div898/handbook/prc/section2/prc241.htm",
+      "accessed_at": "2026-10-03T14:33:02Z",
+      "claim": "二項比率正規近似/Wilson、独立sample前提。反復・judge誤差・ケース選択偏りを別扱い",
+      "affected_docs": [
+        "docs/04-evaluation/agent-evaluation-basics.md",
+        "docs/04-evaluation/regression-testing.md"
+      ]
+    },
+    {
+      "url": "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/",
+      "accessed_at": "2026-10-03T14:47:12Z",
+      "claim": "GOVERN2/3役割と人の監督、GOVERN6第三者ソフト・データ。法的責任決定資料ではない。役割・責任・人の監督と第三者データ/ソフトの管理を根拠に、レビュー/検証/委任/データ経路を設計上の論点へ条件付けた。工程による費用則、characterizationの意味、Q1/Q2の決定木やネットワーク類型をNISTの実証結果と主張しない",
+      "affected_docs": [
+        "docs/02-architecture/harness-engineering.md",
+        "docs/02-architecture/loop-engineering.md",
+        "docs/02-architecture/workflow-vs-agent.md",
+        "docs/08-coding-agents/se-enterprise-constraints.md",
+        "docs/08-coding-agents/se-legacy-code-analysis.md",
+        "docs/08-coding-agents/se-process-map.md",
+        "docs/08-coding-agents/se-requirements-and-design.md",
+        "docs/08-coding-agents/se-test-process.md",
+        "docs/09-business/agent-liability-and-accountability.md",
+        "docs/13-domain-agents/legal-review-agents.md"
+      ]
+    },
+    {
+      "url": "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-14",
+      "accessed_at": "2026-10-03T14:47:33Z",
+      "claim": "高リスクAIの人の監督、出力を無視/変更/停止。Agent全般に法的義務を一律適用しない。高リスクAI監督で過信への配慮が要求されることを確認。一般的なレビュー設計の参照として使い、LLM専門家実験の効果量やAgent全般の法的義務へ読み替えない",
+      "affected_docs": [
+        "docs/09-business/agent-liability-and-accountability.md",
+        "docs/13-domain-agents/legal-review-agents.md",
+        "docs/15-human-ai/automation-bias-and-deskilling.md"
+      ]
+    },
+    {
+      "url": "https://www.meti.go.jp/press/2024/02/20250218003/20250218003.html",
+      "accessed_at": "2026-10-03T14:46:52Z",
+      "claim": "公式検索要約の利益/リスク配分とデータ利用範囲のみ確認。本文403、詳細条項未確認",
+      "affected_docs": [
+        "docs/09-business/agent-liability-and-accountability.md"
+      ]
+    }
+  ],
+  "review": {
+    "verdict": "approved",
+    "independent": true,
+    "reviewer_run_id": "/root/final_doc_review",
+    "reviewed_at": "2026-10-03T16:48:29Z",
+    "content_digest": "e919ef69456f5d9777d7f5e99decc1173fac48045b278dd1aee75cc8c4db5d71"
+  }
+}

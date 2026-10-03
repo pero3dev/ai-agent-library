@@ -20,7 +20,6 @@ tags: ["privacy", "differential-privacy", "federated-learning"]
 
 ## 前提知識
 
-- [会話データの管理基盤](../05-operations/conversation-data-management.md) — PII 検出・マスキング・保持/削除の実装(本記事はその先の技術の見取り図)
 - [AI のためのデータガバナンス](../05-operations/data-governance-for-ai.md) — データの分類・オーナーシップ(何を守るかの前提)
 
 ## 本文

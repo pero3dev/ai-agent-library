@@ -22,7 +22,6 @@ tags: ["personal-assistant", "human-in-the-loop", "prompt-injection", "privacy"]
 
 - [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) — 承認・関与点の設計(自律度の段階の基盤)
 - [データ漏えい対策](../06-security/data-exfiltration.md) — 機微データが外部に出る経路(間接インジェクションの被害面)
-- [長期記憶の実装](../03-implementation/long-term-memory-implementation.md) — 好み・文脈の保存(パーソナライズの基盤)
 - [プロンプトインジェクション](../06-security/prompt-injection.md) — 受信コンテンツ経由の間接型攻撃
 
 ## 本文

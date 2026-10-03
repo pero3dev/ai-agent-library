@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
+import { comparisonBase } from './comparison-base.mjs'
 
 // Load beside this implementation, never from the PR candidate checkout.
 export const GIT_CONVENTIONS = JSON.parse(readFileSync(new URL('../../harness/git-conventions.json', import.meta.url), 'utf8'))
@@ -28,7 +29,8 @@ export function validateGitConventions(config = contract) {
   if (Array.isArray(config.agent_values) && (['none', 'automation', ...agentEntries.map(([key]) => key)].some(key => !config.agent_values.includes(key)) || config.agent_values.some(value => !['none', 'automation'].includes(value) && value.split(',').some(key => !Object.hasOwn(config.agents ?? {}, key))))) problems.push('Git 契約の agent_values と agents が一致しません')
   list(config.automation?.subjects, 'automation.subjects', /^[a-z]+\([a-z]+\): \S[^\r\n]*$/)
   if (typeof config.automation?.generated_by !== 'string' || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(config.automation.generated_by)) problems.push('Git 契約の generated_by が不正です')
-  if (config.range_policy !== 'all-new-commits') problems.push('range_policy は all-new-commits にしてください')
+  if (config.range_policy !== 'canonical-squash-and-automation') problems.push('range_policy は canonical-squash-and-automation にしてください')
+  list(config.branch_prefixes, 'branch_prefixes', /^(?:codex|claude)$/)
   if (typeof config.base_branch !== 'string' || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(config.base_branch)) problems.push('base_branch が不正です')
   return problems
 }
@@ -56,7 +58,7 @@ export function validateBranch(branch) {
   if (typeof branch !== 'string') return ['PR の head branch が文字列ではありません']
   if (/^automation\/freshness-\d{8}t\d{9}z-[a-f0-9]{8}$/.test(branch)) return []
   const match = /^([a-z]+)\/([a-z0-9]+(?:-[a-z0-9]+)*)$/.exec(branch)
-  return match && contract.subject.types.includes(match[1]) ? [] : ['PR の head branch は type/kebab-slug または所定の automation/freshness-<runId> にしてください（main は不可）']
+  return match && [...contract.subject.types, ...contract.branch_prefixes].includes(match[1]) ? [] : ['PR の head branch は type/kebab-slug、codex/kebab-slug、claude/kebab-slug または所定の automation/freshness-<runId> にしてください（main は不可）']
 }
 
 function normalize(text, problems) {
@@ -228,4 +230,21 @@ export function validateCommitRange({ root = process.cwd(), base, head } = {}) {
   }
   if (!rows.length) result.problems.push('新規コミットがない base/head は PR 検査に使用できません')
   return result
+}
+
+/** Squash is the published commit contract; intermediate ordinary messages remain visible as advisory findings. */
+export function validatePrRange({ root = process.cwd(), base, head, pr } = {}) {
+  const effective = comparisonBase(root, base, head)
+  const result = validateCommitRange({ root, base: effective, head })
+  const blocking = [], advisory = []
+  const rows = git(root, 'rev-list', '--reverse', `${effective}..${head}`, '--').split('\n').filter(Boolean)
+  for (const sha of rows) {
+    const message = git(root, 'show', '--no-patch', '--format=%B', sha, '--')
+    const problems = validateCommitMessage(message)
+    const automation = /(?:^|\n)Agent: automation(?:\n|$)|(?:^|\n)Generated-by:/.test(message)
+    for (const problem of problems) (automation ? blocking : advisory).push(`${sha}: ${problem}`)
+  }
+  if (!rows.length) blocking.push('新規コミットがない base/head は PR 検査に使用できません')
+  try { const squash = formatSquashMessage(pr); blocking.push(...validateCommitMessage(`${squash.subject}\n\n${squash.body}`)) } catch (error) { blocking.push(error.message) }
+  return { ...result, problems: blocking, advisory_problems: advisory, comparison_base: effective, squash_validated: true }
 }

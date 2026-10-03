@@ -1,10 +1,8 @@
+import { pageMetadata } from '../../lib/page-metadata.mjs'
 import Link from 'next/link'
 import tags from '../../generated/tags.json'
 
-export const metadata = {
-  title: 'タグ別一覧',
-  description: 'front matter のタグから記事を横断的に探せます。'
-}
+export const metadata = pageMetadata("/tags", "タグ別一覧", "記事のタグからAI Agentの学習テーマを横断して探せます。")
 
 const LEVEL_LABELS = { basic: '初級', intermediate: '中級', advanced: '上級' }
 
@@ -14,7 +12,7 @@ export default function TagsPage() {
       <p className="home-section-kicker">TAGS</p>
       <h1 className="page-title">タグ別一覧</h1>
       <p className="page-lead">
-        全 {tags.length} タグ。各記事の front matter に付いたタグから横断的に探せます。記事冒頭のタグバッジからもこのページに飛べます。
+        全 {tags.length} タグ。記事に付いたタグから学習テーマを横断して探せます。記事冒頭のタグバッジからもこのページに移動できます。
       </p>
       <nav className="tag-cloud" aria-label="タグ一覧">
         {tags.map(t => (
@@ -31,7 +29,7 @@ export default function TagsPage() {
           <ul className="tag-articles">
             {t.articles.map(article => (
               <li key={article.route}>
-                <Link href={article.route}>{article.title}</Link>
+                <Link prefetch={false} href={article.route}>{article.title}</Link>
                 {article.level && (
                   <span className={`doc-meta-level doc-meta-level-${article.level}`}>
                     {LEVEL_LABELS[article.level] ?? article.level}

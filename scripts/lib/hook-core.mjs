@@ -11,7 +11,7 @@ import { validateDoc } from './validate-core.mjs'
 
 export const GENERATED_DIRS = [
   'website/content', 'website/generated', 'website/out', 'website/.next',
-  'website/public/_pagefind', 'website/test-results', 'website/playwright-report',
+  'website/public/_pagefind', 'website/public/_mermaid', 'website/test-results', 'website/playwright-report',
 ]
 export const GENERATED_FILES = ['website/next-env.d.ts', 'website/dev-server.log']
 
@@ -140,7 +140,6 @@ export function normalizeEditEvent(event) {
 export function resolveEditedPaths(edit, repoRoot) {
   const root = realpathSync.native(repoRoot)
   const cwd = physicalPath(edit.cwd ?? root)
-  if (relativeInside(root, cwd) === null) throw new Error('イベント cwd がフックのリポジトリ外です')
   return [...new Set(edit.paths.map(file => lexicalPath(path.resolve(cwd, file))))]
 }
 

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Footer, Layout, Navbar } from 'nextra-theme-docs'
-import { Head } from 'nextra/components'
+import { Head, Search } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
 import 'katex/dist/katex.min.css'
@@ -36,21 +36,21 @@ export const metadata = {
 
 const navbar = (
   <Navbar logo={<b>AI Agent Library</b>}>
-    <Link className="nav-extra-link audio-nav-link" href="/audio">
+    <Link prefetch={false} className="nav-extra-link audio-nav-link" href="/audio">
       音声で学ぶ
     </Link>
-    <Link className="nav-extra-link" href="/roadmap">
+    <Link prefetch={false} className="nav-extra-link" href="/roadmap">
       依存マップ
     </Link>
-    <Link className="nav-extra-link" href="/glossary">
+    <Link prefetch={false} className="nav-extra-link" href="/glossary">
       用語集
     </Link>
-    <Link className="nav-extra-link" href="/tags">
+    <Link prefetch={false} className="nav-extra-link" href="/tags">
       タグ
     </Link>
   </Navbar>
 )
-const footer = <Footer><div className="site-footer-content"><ThemeSwitch /><span>AI Agent Library — 実務の設計判断のための学習ドキュメント</span></div></Footer>
+const footer = <Footer><div className="site-footer-content"><ThemeSwitch /><span>AI Agent Library — 実務の設計判断のための学習ドキュメント</span><Link prefetch={false} href="/about">このライブラリについて</Link><Link prefetch={false} href="/freshness">確認状況</Link></div></Footer>
 
 export default async function RootLayout({ children }) {
   return (
@@ -71,7 +71,8 @@ export default async function RootLayout({ children }) {
           docsRepositoryBase="https://github.com/pero3dev/ai-agent-library"
           editLink={null}
           feedback={{ content: null }}
-          toc={{ extraContent: <CurrentSectionToc /> }}
+          search={<Search placeholder="記事を検索…" emptyResult="該当する記事がありません" loading="検索中…" errorText="検索を読み込めませんでした" />}
+          toc={{ title: 'このページの内容', backToTop: 'ページの先頭へ', extraContent: <CurrentSectionToc /> }}
         >
           {children}
         </Layout>

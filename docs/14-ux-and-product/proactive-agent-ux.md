@@ -21,7 +21,6 @@ tags: ["proactive", "ux", "notification", "trust"]
 ## 前提知識
 
 - [AI プロダクトの UX パターン](ai-ux-patterns.md) — 自動化レベルの提示・信頼の較正
-- [信頼度と較正](../04-evaluation/confidence-and-calibration.md) — 確信度に応じた介入の判断
 
 ## 本文
 

@@ -10,6 +10,14 @@
       "Bash(npm run lint:md:*)",
       "Bash(python -m py_compile:*)",
       "WebSearch"
+    ],
+    "deny": [
+      "Bash(git push *--force*)",
+      "Bash(git push *-f*)",
+      "Bash(git reset *--hard*)",
+      "Bash(git clean *-f*)",
+      "Bash(gh pr merge *--admin*)",
+      "Bash(gh repo delete *)"
     ]
   },
   "hooks": {
@@ -37,5 +45,10 @@
         ]
       }
     ]
+  },
+  "attribution": {
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
   }
 }

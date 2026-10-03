@@ -3,7 +3,7 @@ title: "主要コーディングエージェント比較"
 category: "coding-agents"
 level: "intermediate"
 status: "published"
-last_updated: "2026-10-03"
+last_updated: "2026-10-04"
 tags: ["coding-agents"]
 ---
 
@@ -68,7 +68,7 @@ tags: ["coding-agents"]
 | Gemini Code Assist | ローカル IDE | ? | 承認制(自動承認はオプトイン) | 不使用(公式明記) |
 | Jules | クラウド VM | VM 隔離 | 計画承認 → 自律実行 | プライベートリポジトリで不使用(公式明記) |
 | GitHub Copilot | IDE ローカル + GitHub Actions | 提供面別。JetBrains 企業管理 sandbox は preview | IDE: 承認制。app / CLI / VS Code Agent Host は企業操作制御 GA / cloud agent: 多層ゲート | Free/Pro/Pro+/Max: **既定で利用**(オプトアウト可)/ Business 以上: 契約で禁止 |
-| Cursor | ローカル / クラウド VM / self-hosted machines | macOS / Linux(Run Modes 内) | Auto-review(許可リスト + 分類器) | Privacy Mode 無効時: 利用 / 有効時: 不使用(安全性調査時の保持・非 ZDR モデル等は別条件。BYOK も backend 経由) |
+| Cursor | ローカル / クラウド VM / self-hosted machines | macOS / Linux(Run Modes 内) | ローカル: Auto-review(許可リスト → sandbox → 分類器)。組織設定で変化。Cloud Agents は別 | Privacy Mode 無効時: 利用 / 有効時: 不使用(安全性調査時の保持・非 ZDR モデル等は別条件。BYOK も backend 経由) |
 | Windsurf / Devin Desktop | ローカル | Devin Local が対応(組織強制可) | Cascade: 4 段階レベル / Devin Local: Deny・Ask・Allow × スコープ | セルフサーブ: 利用されうる。有料 tier は opt-out 可、Teams は管理者のみ / Enterprise: 契約条件(安全・法的保持例外あり) |
 | Devin | クラウド VM(セッション毎隔離) | VM 隔離が前提 | **事前承認なし**(委任 → 事後レビュー + Enterprise Guardrails) | セルフサーブ: 利用されうる(有料 tier は opt-out、Teams は管理者のみ)/ Enterprise: 不使用。安全・法的保持は別条件 |
 
@@ -90,13 +90,13 @@ tags: ["coding-agents"]
 
 | ツール | プラン体系(名称のみ) | 無料枠 | チーム管理(SSO・ポリシー・監査) | 料金参照先 |
 | --- | --- | --- | --- | --- |
-| Claude Code | Pro / Max / Team / Enterprise + API 従量 | —(Free では利用不可) | ○(Enterprise: SSO・managed settings・監査) | <https://claude.com/pricing> |
-| OpenAI Codex | ChatGPT 各プラン + API 従量 | △(Free / Go は限定的) | ○(requirements.toml・Analytics / Compliance API) | <https://developers.openai.com/codex/pricing> |
-| Gemini CLI / Code Assist | Code Assist Standard / Enterprise、API キー、Vertex AI | △(旧個人向け IDE / CLI は 2026-06-18 終了。Antigravity に無料枠・Organization 経路あり) | ○(Google Cloud のライセンス管理) | <https://cloud.google.com/products/gemini/pricing> |
+| Claude Code | Pro / Max / Team / Enterprise + API 従量 | —(Free では利用不可) | ○(Enterprise: SSO・managed settings・監査) | [Claude plans and pricing](https://claude.com/pricing) |
+| OpenAI Codex | ChatGPT 各プラン + API 従量 | △(Free / Go は限定的) | ○(requirements.toml・Analytics / Compliance API) | [Codex pricing](https://developers.openai.com/codex/pricing) |
+| Gemini CLI / Code Assist | Code Assist Standard / Enterprise、API キー、Vertex AI | △(旧個人向けログイン経路は 2026-06-18 終了。CLI の Gemini API キーに無料枠あり、条件は API 規約。Antigravity に Individual 無料枠) | ○(Google Cloud のライセンス管理) | [Gemini for Google Cloud pricing](https://cloud.google.com/products/gemini/pricing) |
 | Jules | Google AI プラン(Free / Pro / Ultra) | ○ | **—(個人向けのみ)** | Google AI プランのページ |
-| GitHub Copilot | Free / Student / Pro / Pro+ / Max / Business / Enterprise | ○(限定) | ○(ポリシー・監査・メトリクス API) | <https://github.com/features/copilot/plans> |
-| Cursor | Hobby / Pro / Pro+ / Ultra / Teams / Enterprise | ○(Hobby) | ○(SSO・SCIM・Privacy Mode 強制・監査) | <https://cursor.com/pricing> |
-| Windsurf・Devin(統合体系) | Free / Pro / Max / Teams / Enterprise | ○ | ○(Enterprise: SSO・RBAC・監査・Guardrails) | <https://devin.ai/pricing> |
+| GitHub Copilot | Free / Student / Pro / Pro+ / Max / Business / Enterprise | ○(限定) | ○(ポリシー・監査・メトリクス API) | [GitHub Copilot plans](https://github.com/features/copilot/plans) |
+| Cursor | Hobby / Pro / Pro+ / Ultra / Teams / Enterprise | ○(Hobby) | ○(SSO・SCIM・Privacy Mode 強制・監査) | [Cursor pricing](https://cursor.com/pricing) |
+| Windsurf・Devin(統合体系) | Free / Pro / Max / Teams / Enterprise | ○ | ○(Enterprise: SSO・RBAC・監査・Guardrails) | [Devin pricing](https://devin.ai/pricing) |
 | OSS 系 | ソフトウェア無料 + モデル API 従量(BYOK) | ○(ソフトウェア自体) | —(自前で統制を設計) | 各モデルプロバイダーの料金 |
 
 ### 用途別の向き不向き

@@ -3,7 +3,7 @@ title: "主要 LLM の全体像(モデルカタログ)"
 category: "implementation"
 level: "basic"
 status: "published"
-last_updated: "2026-09-28"
+last_updated: "2026-10-04"
 tags: ["model-selection"]
 ---
 
@@ -23,11 +23,12 @@ tags: ["model-selection"]
 ## 前提知識
 
 - [AI Agent とは何か](../01-concepts/what-is-an-ai-agent.md)
-- [モデル選定ガイド](model-selection.md) — 判断軸と用途別の使い分け(本記事とセットで読みます)
 
 ## 本文
 
 > **最終確認日:** 2026-09-10 — 主要 3 社の新世代と、以下に明記した公開ウェイトのライセンス差分を確認しました。価格は原則として桁感を示し、キャッシュの例外だけ具体値を併記します。全モデルの全提供経路を実行確認したものではありません。採用時には公式料金・対象配布物の LICENSE を照合してください。
+
+> **部分再確認:** 2026-10-03 — Anthropic の現行 4 モデル、価格・既定 effort・退役表を照合しました。Opus 5.5 / Sonnet 5.5 はそれぞれ 9 月 22 日 / 28 日公開です。Google の条件は最終確認日のままです。
 
 > **部分再確認:** 2026-09-28 — OpenAI の GPT-6 Sol / Luna、Astra 制約・長文キャッシュ料金・API 終了予定を確認しました。他社モデルの条件は上記の確認日のままです。
 
@@ -38,23 +39,23 @@ tags: ["model-selection"]
 - **3 ティア構成**: 上位(最高性能)/ 中位(バランス・本番の主力)/ 軽量(速く安い)のファミリーを各社が持ちます
 - **推論(thinking / reasoning)はモード統合**: 「推論専用の別モデル」は縮小し、汎用モデルの思考の深さをパラメータ(effort 等)で制御する形が標準になりました
 - **1M 級コンテキストと画像入力が標準装備**(中位以上)。テキスト出力が基本で、音声・画像生成は別系統のモデルが担当します
-- **課金項目を分ける**: 入力・出力・キャッシュ読取・書込・実行モードを別に見積もります。読取が入力の 1 割のモデルもありますが、Fable 5.1 は 2.5% です。長文の割増や割引の併用条件もモデルごとに異なります
+- **課金項目を分ける**: 入力・出力・キャッシュ読取・書込・実行モードを別に見積もります。Claude のキャッシュ読取は既定 0.1x、例外は Fable 5.1 / Mythos 5.1 が 0.025x、Opus 5.5 が 0.05x です。長文の割増や割引の併用条件もモデルごとに異なります
 
 差が出るのは、**モダリティの幅(動画・音声入力)/ 長コンテキストの割増の有無 / 提供経路とガバナンス / オープンウェイトかどうか**です。
 
 ### Anthropic(Claude ファミリー)
 
-| ティア | モデル(2026-09-10 確認) | 位置づけ(公式表現の要旨) |
+| ティア | モデル(2026-10-03 確認)・入力 / 出力 USD/MTok | 位置づけ・既定 effort |
 | --- | --- | --- |
-| フロンティア | Claude Fable 5.1 | 2026-09-01 公開。要求の厳しい推論・長時間エージェント向け(常時 adaptive thinking) |
-| 上位 | Claude Opus 5 | 複雑なエージェンティックコーディングとエンタープライズ業務。「迷ったらまず Opus 5」と公式が案内 |
-| 中位 | Claude Sonnet 5 | 速度と知能のバランス。本番ワークロードの大半 |
-| 軽量 | Claude Haiku 4.5 | ニアフロンティア知能の最速・最安モデル |
+| フロンティア | Claude Fable 5.1(\$10 / \$50) | 要求の厳しい推論・長時間エージェント向け。常時 adaptive thinking、effort `high` |
+| 上位 | Claude Opus 5.5(\$4 / \$20) | 長時間のコード・知識作業。「迷ったらまず Opus 5.5」から評価。常時 adaptive thinking、effort `medium` |
+| 中位 | Claude Sonnet 5.5(\$2 / \$10) | 速度と知能のバランス。adaptive thinking 既定オン、effort `high` |
+| 軽量 | Claude Haiku 4.5(\$1 / \$5) | 軽量・低遅延。effort 非対応 |
 
 - **特性**: 中位以上は 1M トークン入力 / 128K 出力(Haiku は 200K / 64K)。画像入力対応(動画・音声入力は非対応)。**1M コンテキストに長文割増がない**のは 3 社の中で特徴的です
 - **コスト帯**(2026-08 時点の桁感): 入力単価は軽量からフロンティアまで約 10 倍の幅(おおよそ \$1〜\$10 / 1M トークン)、出力はその約 5 倍
-- **使用場面**: まず Opus 5 等で評価し、要求品質を満たせない難しい作業で Fable 5.1 を比較します。Fable 5.1 は入力 / 出力が \$10 / \$50、キャッシュ読取は \$0.25 / 1M トークンです。旧 Fable 5 の読取単価を引き継いで計算しません
-- **補足**: 退役は 60 日以上前に通知するポリシーが明文化されています。Opus 5 の登場に伴い Opus 4.8 はレガシー(移行推奨)へ移り、Opus 4.1 は 2026-08-05 に退役済みです。Fable 5.1 は 30 日保持があり、Anthropic の明示的許可がない限りゼロデータ保持(ZDR)では利用できません。拒否応答の扱いも確認します。現行世代の一部(Opus 4.7 以降の Opus・Sonnet 5・Fable 5.1)は新トークナイザで**同じテキストが約 3 割多くトークン化される**ため、旧世代からの移行時はコスト見積りの再計算が必要です
+- **使用場面**: まず Opus 5.5 等で評価し、要求品質を満たせない難しい作業で Fable 5.1 を比較します。Fable 5.1 は入力 / 出力が \$10 / \$50、キャッシュ読取は \$0.25 / 1M トークンです。旧 Fable 5 の読取単価を引き継いで計算しません
+- **補足**: 退役は 60 日以上前に通知するポリシーが明文化されています。Opus 5 / Sonnet 5 / Opus 4.8 は旧世代ですが退役表では Active です。退役の最早日はそれぞれ 2027-07-24 / 2027-06-30 / 2027-05-28 であり、確定退役日ではありません。移行候補は Opus 5.5 / Sonnet 5.5 です。Sonnet 4.5 は非推奨化済みで 2026-11-30 に退役予定、Haiku 4.5 の「2026-10-15 より前には退役しない」は最早日で終了日ではありません。Opus 4.1 は 2026-08-05 に退役済みです。Fable 5.1 は 30 日保持があり、Anthropic の明示的許可がない限りゼロデータ保持(ZDR)では利用できません。拒否応答の扱いも確認します。現行世代の一部(Opus 4.7 以降の Opus・Sonnet 5・Fable 5.1)は新トークナイザで**同じテキストが約 3 割多くトークン化される**ため、旧世代からの移行時はコスト見積りの再計算が必要です
 
 ### OpenAI(GPT ファミリー)
 
@@ -71,7 +72,9 @@ tags: ["model-selection"]
 
 - **API の終了予定**: 2026-09-10 の公式退役表では、GPT-5 初代・o3/o3-pro の対象スナップショットは 2026-12-11、旧音声・realtime 系の対象モデルは 2027-01-20 の終了予定です。8 月 26 日には `whisper-1`・`gpt-4o-transcribe` 系の対象モデルについて 2027-02-26 の終了予定も追加されています。名称が似たモデルを一括扱いせず、利用中の ID と表の行を照合します。
 
-2026-09-28 の退役表で、`gpt-5.4-cyber` の 2026-10-01 終了予定と後継 `gpt-5.6-cyber` を再確認しました。`o4-mini` / `o4-mini-2025-04-16` は 2026-10-23 終了予定で、o3 / o3-pro の対象モデルの 2026-12-11 とは異なります。いずれも予定であり、実停止を確認したものではありません。GPT-5.4 ファミリー全体や o 系全体を同じ日付で扱いません。
+2026-10-03 の退役表では、`gpt-5.4-cyber` の告知された終了期日 2026-10-01 が掲載されています。後継は利用者が使える最も高性能な cyber モデルと案内され、特定のモデル ID は指定されていません。期日は経過していますが、実停止・延期の実施状況は確認不能です。`o4-mini` / `o4-mini-2025-04-16` は 2026-10-23 終了予定で、o3 / o3-pro の対象モデルの 2026-12-11 とは異なります。GPT-5.4 ファミリー全体や o 系全体を同じ日付で扱いません。
+
+> **TODO(要確認):** OpenAI の Deprecations と対象モデルの案内で `gpt-5.4-cyber` の 2026-10-01 の停止実施・延期を確認する。`o4-mini` の 2026-10-23 は期日後に実施状況を再確認する(最終確認: 2026-10)
 
 > **TODO(要確認):** 採用時に OpenAI のモデル別ページ・料金・退役日程で、対象 API モデル ID の提供状態、終了予定の変更、実行モード、長文・キャッシュの価格条件を確認する(最終確認: 2026-09)
 
@@ -128,7 +131,7 @@ MaaS や AI Work Assistant の定義、集計主体、期間も異なります�
 
 | プロバイダー | 迷ったときの既定 | 単純・大量処理 | 最難関タスク |
 | --- | --- | --- | --- |
-| Anthropic | Opus 5(本番の大半は Sonnet 5) | Haiku 4.5 | Fable 5.1 |
+| Anthropic | Opus 5.5 から評価(速度・費用では Sonnet 5.5 も比較) | Haiku 4.5 | Fable 5.1 |
 | OpenAI | GPT-6 Sol から評価し、難問は Astra、定型処理は Luna と比較 | `gpt-6-luna` | GPT-6 Astra(推論の強さも評価する) |
 | Google | Gemini 3.8 Flash | Gemini 3.5 Flash-Lite | Gemini 3.1 Pro(プレビューである点に注意) |
 
@@ -164,12 +167,14 @@ MaaS や AI Work Assistant の定義、集計主体、期間も異なります�
 
 ## 参考資料
 
-- [GPT-6 モデルガイド](https://developers.openai.com/api/docs/guides/latest-model) / [Sol](https://developers.openai.com/api/docs/models/gpt-6-sol) / [Luna](https://developers.openai.com/api/docs/models/gpt-6-luna) / [Astra](https://developers.openai.com/api/docs/models/gpt-6-astra) — 世代構成・仕様・Standard 料金(アクセス日: 2026-09-28)
-- [OpenAI API の退役表](https://developers.openai.com/api/docs/deprecations) — Cyber・o4-mini・o3 系の対象 ID 別終了予定(アクセス日: 2026-09-28)
-
-- [OpenAI API の終了予定](https://developers.openai.com/api/docs/deprecations) — GPT-5.4-Cyber の対象 ID・予定日・後継を確認(アクセス日: 2026-09-17)
-
-- [Claude モデル一覧](https://platform.claude.com/docs/en/models/overview)(アクセス日: 2026-09-10)
+- [Claude Models overview](https://platform.claude.com/docs/en/models/overview) — 現行モデル・価格・既定 effort(アクセス日: 2026-10-03)
+- [Claude Pricing](https://platform.claude.com/docs/en/about-claude/pricing) — キャッシュ比率と新トークナイザ(アクセス日: 2026-10-03)
+- [Claude Model deprecations](https://platform.claude.com/docs/en/about-claude/model-deprecations) — Active・非推奨・退役最早日の区別(アクセス日: 2026-10-03)
+- [GPT-6 モデルガイド](https://developers.openai.com/api/docs/guides/latest-model) — 世代構成・仕様・Standard 料金(アクセス日: 2026-09-28)
+- [Sol](https://developers.openai.com/api/docs/models/gpt-6-sol) — 世代構成・仕様・Standard 料金(アクセス日: 2026-09-28)
+- [Luna](https://developers.openai.com/api/docs/models/gpt-6-luna) — 世代構成・仕様・Standard 料金(アクセス日: 2026-09-28)
+- [Astra](https://developers.openai.com/api/docs/models/gpt-6-astra) — 世代構成・仕様・Standard 料金(アクセス日: 2026-09-28)
+- [OpenAI API の退役表](https://developers.openai.com/api/docs/deprecations) — Cyber・o4-mini・o3 系の対象 ID 別終了予定 / GPT-5.4-Cyber の対象 ID・予定日・後継を確認(アクセス日: 2026-09-28)
 - [Fable 5.1 の変更点](https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1)(アクセス日: 2026-09-10)
 - [Gemini 3.8 Flash モデル仕様](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash)(アクセス日: 2026-09-10)
 - [Gemini 最新モデルへの移行](https://ai.google.dev/gemini-api/docs/latest-model)(アクセス日: 2026-09-10)
@@ -183,12 +188,17 @@ MaaS や AI Work Assistant の定義、集計主体、期間も異なります�
 - [DeepSeek V4 Pro GA と料金体系の告知](https://api-docs.deepseek.com/news/news260813/)(アクセス日: 2026-09-10)
 - [旧世代 Gemma 利用規約](https://ai.google.dev/gemma/terms)(アクセス日: 2026-09-10)
 - [Gemma 4 Apache License 2.0](https://ai.google.dev/gemma/apache_2)(アクセス日: 2026-09-10)
-
-- [Claude モデル一覧](https://platform.claude.com/docs/en/about-claude/models/overview) / [料金](https://platform.claude.com/docs/en/about-claude/pricing) / [退役日程](https://platform.claude.com/docs/en/about-claude/model-deprecations)(アクセス日: 2026-08-18)
-- [OpenAI モデル一覧](https://developers.openai.com/api/docs/models) / [GPT-6 Astra の仕様・価格条件](https://developers.openai.com/api/docs/models/gpt-6-astra) / [API 退役日程](https://developers.openai.com/api/docs/deprecations)(アクセス日: 2026-09-10)
+- [Claude モデル一覧](https://platform.claude.com/docs/en/about-claude/models/overview)(アクセス日: 2026-08-18)
+- [OpenAI モデル一覧](https://developers.openai.com/api/docs/models)(アクセス日: 2026-09-10)
 - [OpenAI 料金](https://developers.openai.com/api/docs/pricing) — 採用時に実行モードを含めて確認する入口(アクセス日: 2026-08-18)
-- [Gemini モデル一覧](https://ai.google.dev/gemini-api/docs/models) / [料金](https://ai.google.dev/gemini-api/docs/pricing) / [提供終了](https://ai.google.dev/gemini-api/docs/deprecations)(アクセス日: 2026-08-18)
-- オープンウェイト系: [Meta Llama(Hugging Face)](https://huggingface.co/meta-llama) / [Qwen(GitHub)](https://github.com/QwenLM) / [DeepSeek(Hugging Face)](https://huggingface.co/deepseek-ai) / [Mistral モデル一覧](https://docs.mistral.ai/models/overview) / [gpt-oss(GitHub)](https://github.com/openai/gpt-oss)(アクセス日: Meta / Qwen / DeepSeek は 2026-08-18、Mistral / gpt-oss は 2026-07-06)
+- [Gemini モデル一覧](https://ai.google.dev/gemini-api/docs/models)(アクセス日: 2026-08-18)
+- [料金](https://ai.google.dev/gemini-api/docs/pricing)(アクセス日: 2026-08-18)
+- [提供終了](https://ai.google.dev/gemini-api/docs/deprecations)(アクセス日: 2026-08-18)
+- [Meta Llama(Hugging Face)](https://huggingface.co/meta-llama) — オープンウェイト系(アクセス日: 2026-08-18)
+- [Qwen(GitHub)](https://github.com/QwenLM) — オープンウェイト系(アクセス日: 2026-08-18)
+- [DeepSeek(Hugging Face)](https://huggingface.co/deepseek-ai) — オープンウェイト系(アクセス日: 2026-08-18)
+- [Mistral モデル一覧](https://docs.mistral.ai/models/overview) — オープンウェイト系:(アクセス日: 2026-07-06)
+- [gpt-oss(GitHub)](https://github.com/openai/gpt-oss) — オープンウェイト系:(アクセス日: 2026-07-06)
 
 ## TODO・未確認事項
 

@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "run_id": "2026-10-03-issue-remediation-models",
+  "started_at": "2026-10-03T14:26:54Z",
+  "completed_at": "2026-10-03T14:48:08Z",
+  "systems": [
+    "models-prompting"
+  ],
+  "observations": [
+    {
+      "system_id": "models-prompting",
+      "status": "changed",
+      "summary": "通常Issue #176/#177の部分観測。Anthropicの価格・廃止表に基づき記事を訂正。release notes全履歴は未確認。根拠と取得成功/失敗の区別は research/reviews/2026-10-03-article-remediation.md。",
+      "sources": [
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+          "accessed_at": "2026-10-03T14:48:08Z"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+          "accessed_at": "2026-10-03T14:48:08Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/03-implementation/llm-landscape.md",
+        "docs/03-implementation/model-selection.md",
+        "docs/03-implementation/claude-prompting.md",
+        "docs/05-operations/cost-management.md"
+      ]
+    },
+    {
+      "system_id": "models-prompting",
+      "status": "changed",
+      "summary": "OpenAI退役表の告知期日とGoogle Changelogの旧Omni非推奨化を部分確認。日付経過による実停止は確認不能。Google資料はmultimodal記事の対象行でありmodels全体の観測ではない。3社全体の前回観測以降の比較は未完了。",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/api/docs/deprecations",
+          "accessed_at": "2026-10-03T14:26:54Z"
+        },
+        {
+          "url": "https://ai.google.dev/gemini-api/docs/changelog",
+          "accessed_at": "2026-10-03T14:26:54Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/03-implementation/llm-landscape.md",
+        "docs/12-multimodal/video-ai-overview.md"
+      ]
+    }
+  ],
+  "coverage": [],
+  "vendor_checks": [
+    {
+      "vendor": "anthropic",
+      "release_notes": "not_checked",
+      "deprecations": "changed",
+      "pricing": "changed",
+      "summary": "対象モデルの廃止・単価/キャッシュ条件を確認し記事訂正。release notes全履歴は未確認。changedはこの部分確認で記事訂正が必要だった結果で、全履歴差分の完了ではない。",
+      "sources": [
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+          "accessed_at": "2026-10-03T14:48:08Z"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+          "accessed_at": "2026-10-03T14:48:08Z"
+        }
+      ]
+    },
+    {
+      "vendor": "openai",
+      "release_notes": "not_checked",
+      "deprecations": "changed",
+      "pricing": "not_checked",
+      "summary": "退役表のCyber/Videos/o4-mini対象行のみ確認。release notesとpricingは未確認。実停止・延期は未確認。",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/api/docs/deprecations",
+          "accessed_at": "2026-10-03T14:26:54Z"
+        }
+      ]
+    },
+    {
+      "vendor": "google",
+      "release_notes": "changed",
+      "deprecations": "not_checked",
+      "pricing": "not_checked",
+      "summary": "Changelogの旧Omni previewの対象告知のみ確認し記事訂正。全release notes履歴、独立した廃止表、pricingは未確認。非推奨化をAPI停止と扱わない。",
+      "sources": [
+        {
+          "url": "https://ai.google.dev/gemini-api/docs/changelog",
+          "accessed_at": "2026-10-03T14:26:54Z"
+        }
+      ]
+    }
+  ]
+}

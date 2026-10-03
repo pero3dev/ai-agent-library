@@ -1,0 +1,61 @@
+# Trusted main only. Reads committed records; never checks out or executes PR candidates.
+name: Freshness observation monitor
+on:
+  schedule:
+    - cron: '53 22 * * 0'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Read and report committed observations without changing tracking issues'
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: freshness-observation-monitor
+  cancel-in-progress: false
+jobs:
+  freshness-monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+      - name: Audit trusted parser lockfile before installation
+        run: npm audit --package-lock-only --audit-level=high
+      - name: Install trusted parsers without lifecycle scripts
+        run: npm ci --ignore-scripts
+      - name: Read committed observation status
+        run: |
+          node scripts/freshness-observation-report.mjs > "$RUNNER_TEMP/freshness.json"
+          node scripts/freshness-observation-report.mjs --issue-body > "$RUNNER_TEMP/freshness-body.md"
+      - name: Create or update the single tracking issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
+        run: |
+          set -euo pipefail
+          count="$(jq '[.systems[] | select(.status != "current")] | length' "$RUNNER_TEMP/freshness.json")"
+          issues="$(gh issue list --state open --search 'in:title "[freshness-monitor]"' --json number,body)"
+          number="$(jq -r '[.[] | select(.body | startswith("<!-- ai-agent-library:freshness-monitor -->"))] | sort_by(.number) | .[0].number // empty' <<< "$issues")"
+          echo "attention_systems=$count existing_tracking_issue=${number:-none} dry_run=$DRY_RUN"
+          if [[ "$DRY_RUN" == 'true' ]]; then
+            cat "$RUNNER_TEMP/freshness-body.md"
+            exit 0
+          fi
+          if [[ "$count" -eq 0 ]]; then
+            if [[ -n "$number" ]]; then gh issue close "$number" --reason completed; fi
+          elif [[ -n "$number" ]]; then
+            gh issue edit "$number" --body-file "$RUNNER_TEMP/freshness-body.md"
+          else
+            gh issue create --title '[freshness-monitor] 観測の遅延・完了記録なしを確認する' --body-file "$RUNNER_TEMP/freshness-body.md"
+          fi

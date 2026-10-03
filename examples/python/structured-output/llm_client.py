@@ -8,8 +8,10 @@
 """
 from __future__ import annotations
 
+import os
+
 # 実 API を使うときのモデル ID(必要に応じて変更してください)。
-MODEL = "claude-opus-4-8"
+MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-opus-5-5")
 
 
 class MockLLM:

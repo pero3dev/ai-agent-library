@@ -6,7 +6,9 @@
 """
 from __future__ import annotations
 
-MODEL = "claude-opus-4-8"
+import os
+
+MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-opus-5-5")
 
 
 class MockLLM:

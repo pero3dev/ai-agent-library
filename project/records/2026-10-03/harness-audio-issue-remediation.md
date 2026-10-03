@@ -51,7 +51,7 @@ ffprobe version 9.0.1-essentials_build-www.gyan.dev
 | 排他の最終対象試験（子プロセス競合に 30 秒上限を設定） | 4 tests pass、fail 0 |
 | `npm run check:harness` | 共通ハーネス・配置・Git形式検査すべて成功 |
 | 対象 Markdown lint、`git diff --check` | 成功 |
-| `npm run test:harness:windows`（sandbox） | 257 tests、238 pass、18 fail、1 skip。既存 hook の `EPERM realpath C:\Users\sho_y` と既存 PowerShell 5 子プロセスの timeout |
+| `npm run test:harness:windows`（sandbox） | 257 tests、238 pass、18 fail、1 skip。既存 hook の `EPERM realpath <user-home>` と既存 PowerShell 5 子プロセスの timeout |
 | 同 Windows 集合（通常権限、他検証と並行） | 257 tests、254 pass、2 fail、1 skip。残る失敗は既存 PowerShell 5 試験 2 件の timeout |
 | 失敗した PowerShell 5 試験を単独で再実行（通常権限） | 2 tests pass、fail 0、約 2.1 秒。timeout の閾値は変更していない |
 | 同 Windows 集合を直列再実行（通常権限、`--test-concurrency=1`） | 257 tests、256 pass、fail 0、1 skip、約 399.4 秒 |

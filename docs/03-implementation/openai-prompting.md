@@ -23,7 +23,6 @@ OpenAI の GPT ファミリーに対して、**公式ガイドが推奨する具
 ## 前提知識
 
 - [プロンプトエンジニアリングの基礎技法](prompt-engineering-fundamentals.md) — 汎用技法(本記事はその OpenAI 具体)
-- [プロンプトエンジニアリングの上級パターン](prompt-engineering-patterns.md) — なぜ効くかの中立な原理
 - [主要 LLM の全体像(モデルカタログ)](llm-landscape.md) — GPT ファミリーの顔ぶれ・選び方
 
 ## 本文
@@ -192,20 +191,21 @@ GPT-5.6 のような新世代は**ドロップイン置換ではなく、再チ�
 
 ## 参考資料
 
-- [GPT-6 Sol](https://developers.openai.com/api/docs/models/gpt-6-sol) / [Luna](https://developers.openai.com/api/docs/models/gpt-6-luna) / [最新モデルガイド](https://developers.openai.com/api/docs/guides/latest-model) — 世代内の effort・API 制約の違い(アクセス日: 2026-09-28)
-- [Reasoning models](https://developers.openai.com/api/docs/guides/reasoning) / [Prompt caching](https://developers.openai.com/api/docs/guides/prompt-caching) / [Deprecations](https://developers.openai.com/api/docs/deprecations) — GPT-6 の設定更新・保持条件・対象 ID 別の終了予定(アクセス日: 2026-09-28)
-
-- [Reasoning models: 設定更新と明示圧縮](https://developers.openai.com/api/docs/guides/reasoning) — `compaction_trigger` と圧縮後の `configuration_update` 再追加(アクセス日: 2026-09-17)
-
-- [GPT-6 Astra model guidance](https://developers.openai.com/api/docs/guides/latest-model) / [Astra model](https://developers.openai.com/api/docs/models/gpt-6-astra) — 移行・設定の条件(アクセス日: 2026-09-10)
-- [Async tool calling](https://developers.openai.com/api/docs/guides/async-tool-calling) / [Mid-turn steering](https://developers.openai.com/api/docs/guides/steering) — 非同期処理の契約(アクセス日: 2026-09-10)
-- [Prompt caching](https://developers.openai.com/api/docs/guides/prompt-caching) — 世代別の保持・課金・設定更新(アクセス日: 2026-09-10)
-
-- [Prompt engineering(OpenAI)](https://developers.openai.com/api/docs/guides/prompt-engineering) / [Prompt guidance(OpenAI)](https://developers.openai.com/api/docs/guides/prompt-guidance) — 構造化・階層・整形の指針(アクセス日: 2026-07-08。2026-08-18 時点の全文は再確認できず、指示階層の現行原文は TODO 参照)
-- [Reasoning best practices(OpenAI)](https://developers.openai.com/api/docs/guides/reasoning-best-practices) / [Reasoning models(OpenAI)](https://developers.openai.com/api/docs/guides/reasoning) — 推論モデルへの書き方・effort・`reasoning.mode`(アクセス日: Reasoning models は 2026-08-18、Reasoning best practices は 2026-07-08。overthinking 警告の現行原文は TODO 参照)
-- [Using the latest model(OpenAI)](https://developers.openai.com/api/docs/guides/latest-model) — 最新世代への移行考慮点(アクセス日: 2026-08-18)
+- [GPT-6 Sol](https://developers.openai.com/api/docs/models/gpt-6-sol) — 世代内の effort・API 制約の違い / EU条件の参照先と取得範囲(アクセス日: 2026-10-03)
+- [Luna](https://developers.openai.com/api/docs/models/gpt-6-luna) — 世代内の effort・API 制約の違い / EU条件の参照先と取得範囲(アクセス日: 2026-10-03)
+- [最新モデルガイド](https://developers.openai.com/api/docs/guides/latest-model) — 世代内の effort・API 制約の違い / 移行・設定の条件 / 最新世代への移行考慮点(アクセス日: 2026-09-28)
+- [Reasoning models](https://developers.openai.com/api/docs/guides/reasoning) — GPT-6 の設定更新・保持条件・対象 ID 別の終了予定 / `compaction_trigger` と圧縮後の `configuration_update` 再追加 / 推論モデルへの書き方・effort・`reasoning.mode`(アクセス日: 2026-09-28)
+- [Prompt caching](https://developers.openai.com/api/docs/guides/prompt-caching) — GPT-6 の設定更新・保持条件・対象 ID 別の終了予定 / 世代別の保持・課金・設定更新(アクセス日: 2026-09-28)
+- [Deprecations](https://developers.openai.com/api/docs/deprecations) — GPT-6 の設定更新・保持条件・対象 ID 別の終了予定(アクセス日: 2026-09-28)
+- [Astra model](https://developers.openai.com/api/docs/models/gpt-6-astra) — 移行・設定の条件(アクセス日: 2026-09-10)
+- [Async tool calling](https://developers.openai.com/api/docs/guides/async-tool-calling) — 非同期処理の契約(アクセス日: 2026-09-10)
+- [Mid-turn steering](https://developers.openai.com/api/docs/guides/steering) — 非同期処理の契約(アクセス日: 2026-09-10)
+- [Prompt engineering(OpenAI)](https://developers.openai.com/api/docs/guides/prompt-engineering) — 構造化・階層・整形の指針(アクセス日: 2026-07-08)
+- [Prompt guidance(OpenAI)](https://developers.openai.com/api/docs/guides/prompt-guidance) — 構造化・階層・整形の指針(アクセス日: 2026-07-08)
+- [Reasoning best practices(OpenAI)](https://developers.openai.com/api/docs/guides/reasoning-best-practices) — 推論モデルへの書き方・effort・`reasoning.mode`(アクセス日: 2026-07-08)
 - [Structured Outputs(OpenAI)](https://developers.openai.com/api/docs/guides/structured-outputs) — strict設定と正常完了・拒否・打切り・設定エラーの区別(アクセス日: 2026-10-03)
-- [GPT-6 Sol](https://developers.openai.com/api/docs/models/gpt-6-sol) / [Luna](https://developers.openai.com/api/docs/models/gpt-6-luna) / [Your data](https://developers.openai.com/api/docs/guides/your-data) / [Pricing](https://developers.openai.com/api/docs/pricing) — EU条件の参照先と取得範囲(アクセス日: 2026-10-03)
+- [Your data](https://developers.openai.com/api/docs/guides/your-data) — EU条件の参照先と取得範囲(アクセス日: 2026-10-03)
+- [Pricing](https://developers.openai.com/api/docs/pricing) — EU条件の参照先と取得範囲(アクセス日: 2026-10-03)
 - [GPT-5 prompting guide(OpenAI Cookbook)](https://developers.openai.com/cookbook/examples/gpt-5/gpt-5_prompting_guide) — エージェント・ツール文脈の実例(アクセス日: 2026-07-08)
 
 ## TODO・未確認事項

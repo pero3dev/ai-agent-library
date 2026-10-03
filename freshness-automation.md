@@ -1,6 +1,6 @@
 # 記事の定期最新化: Codex と GitHub Actions
 
-最終更新: 2026-09-12
+最終更新: 2026-10-03
 
 記事の調査・編集・独立レビューは、ChatGPT でログインしたローカルの Codex が担当します。GitHub Actions は本文差分の検査、既存 CI、Pages 公開を担当します。API キーを追加せず、普段の Codex と同じ契約枠を使う構成です。[認証方式](https://learn.chatgpt.com/docs/auth)(アクセス日: 2026-09-10)
 
@@ -40,7 +40,7 @@ flowchart LR
 
 - ローカルで認証済みの `gh` / Git を使って push・PR 作成・マージ予約を行います。個人の Codex 認証ファイルを GitHub へ送信しません。
 - `automation/freshness-<run_id>` ブランチの更新は `freshness-policy` チェックを通します。検証するコードと workflow は信頼する base 側のものを使い、候補 PR のコードを実行しません。
-- 必須チェックは `lint`、`actionlint`、`docs`、`examples`、`build`、`freshness-policy`、`harness`、`harness-windows`、`harness-policy` です。Git 形式の検査も既存の `harness-policy` に含めます。main を保護し、自動更新で `--admin` を使いません。
+- 必須チェック11件の正本は [github-policy.mjs](scripts/lib/github-policy.mjs) の `requiredChecks` です。`lint`、`actionlint`、`docs`、`examples`、`build`、`freshness-policy`、`harness`、`harness-windows`、`harness-policy`、`audio-browser`、`audio-webkit` を照合します。Git形式の検査も既存の `harness-policy` に含めます。mainを保護し、自動更新で `--admin` を使いません。新しい週次監視workflowは必須チェックへ混ぜません。
 - Git 操作規約のコマンドで取得した最終 PR 情報から squash 件名・本文を生成します。`gh pr merge <pr-url> --auto --squash --match-head-commit <head_sha> --subject <生成した件名> --body-file <commit-body>` でその内容を明示し、必須チェック後のマージを予約します。PR の head や最終内容が変われば証拠・レビュー・CI を取り直します。
 - main へのマージ後は既存の CI が Pages を公開します。予約、マージ、公開成功は別々に追跡します。
 
@@ -133,3 +133,29 @@ node scripts/freshness-run.mjs finish --run '<checkpoint の絶対パス>' --att
 - 初期数回は PR の内容と未確認の扱いを見て、対象数や周期を調整する。
 
 構築時の実測結果と登録状態は [導入記録](project/records/2026-09-10/freshness-automation-setup.md)で追跡します。
+
+## 期日と主要ベンダーの確認
+
+開始時の `node scripts/deadline-report.mjs --json` は、期日を過ぎた予定と30日以内の期日を警告候補として出します。`prepare` は expired の所属系統を選定の優先候補にし、返却した `deadline_candidates.watchlist_candidates` をROADMAPの「次回確認する注目事項」へ反映します。確認日・コード・引用・無関係な履歴表は除外し、予定日を持つ表は対象にします。期日が過ぎた事実だけで実施済みと断定せず、一次情報で実施・延期・確認不能を分類します。
+
+models-prompting の毎回、Anthropic・OpenAI・Google のrelease notes、deprecations、pricingを前回の観測以降について確認します。結果schema2の `vendor_checks` に3社を列挙し、各欄を changed / unchanged / not_checked、summaryに確認範囲・未確認理由、sourcesにURLと実取得UTC時刻を記録します。2026-10-03以降に開始したmodels実行はpolicyで3社の記録を必須にします。未確認ベンダーは明記し、他社の条件を確認済みに換算しません。
+
+## 公開観測の台帳
+
+2026-10-03の全Issue対応では方式(b)、**系統ごとの最終観測の要約を週次の通常PRでROADMAPに反映する方式**を実装しました。これは公開台帳の可逆的な実装であり、クラウド実行への移行や鮮度ティアの方針決定を含みません。系統の目標周期・所属は従来のregistryが正本です。
+
+変更ありの回は既存 `research/freshness-runs/<run_id>.json` を使います。変更なしの回はcheckpointに `public_observations` を結果schemaのobservationsと同じ形で明示し、終了後に `node scripts/freshness-public-observation.mjs --checkpoint <checkpoint>` で軽量な `research/freshness-observations/<run_id>.json` を出力します。このexportは許可した実観測の項目だけを保存し、認証・ローカルパス・notes・lock・pendingを公開せず、既存記録を上書きしません。公開用summaryやURLに私的情報がないことを差分で確認します。
+
+宣言した系統範囲を完了した回だけ `coverage` (checkpointでは `public_coverage`) にsystem_id、scope: declared-system、status: verified、verified_on: JST完了日、description:実際の確認範囲を記録します。全記事の全主張や実API動作を確認した意味ではありません。部分確認は observations と affected_docs だけを残し、完了日を進めません。modelsの完了には3社のvendor_checksで未確認がないことを必要とします。過去記録は変更せず、coverageがない既存5runは部分観測として表示します。2026-09-10の初回16系統観測も[当時の範囲](project/records/2026-09-10/freshness-update.md)と区別し、完了範囲不明の日付を補完しません。
+
+毎週の最初の実行で、未公開の軽量記録と `node scripts/freshness-observation-report.mjs --table` の出力をまとめ、ROADMAPの `freshness-observation-summary:start/end` 区画だけを更新する通常PRを作ります。記事を変更しない場合は通常manifestを作らず、Git規約のtitle/body・CIを検査します。記事の変更・独立レビューを伴う自動最新化PRへ無理に混ぜません。公開ページは同じ集計関数を使い、宣言範囲の完了日・部分観測日・対象記事・次回目標を表示します。観測結果がなくても、リポジトリとサイトで『記録なし』を確認できます。
+
+## 停止・遅延の検知と復旧
+
+手動検証では `freshness-monitor.yml` の `workflow_dispatch` に `dry_run=true` を渡します。コミット済み集計、既存追跡Issueの読取り、対象件数と本文のログ出力までを実行し、Issueを作成・更新・closeしません。既定falseの手動実行とscheduleは通常の通知を維持します。初期unknownを確認済みへ隠さず、実通知と読取り検証を別の証拠として残します。
+
+[Freshness observation monitor](.github/workflows/freshness-monitor.yml) は毎週月曜07:53 JSTと手動起動でtrusted mainのコミット済み記録だけを読みます。宣言完了日の目標周期超過、または完了記録なしを、識別marker付きの `[freshness-monitor]` 追跡Issue1件へまとめて作成・更新します。完了記録なしは実停止の証明ではなく、公開証拠が足りない状態です。contents: read と issues: write だけを使い、候補PRのコード・個人認証・有料APIを扱いません。全系統が周期内なら同じ追跡Issueを完了として閉じます。
+
+リポジトリ保守者はIssueとActionsのGitHub通知を受け、最低週1回監視workflowの成功と公開台帳を確認します。通知設定はGitHubで有効にし、通知不達を成功扱いにしません。PC/アプリ停止、ChatGPT利用枠、認証切れ、lock・保存状態、PR/CI/公開待ちを順に確認し、`freshness-run status` とcheckpointの根拠を照合します。実行中の別runがある間はlockを削除しません。失われた観測を推定で埋めず、保存済みcheckpointから再開するか未確認範囲を再観測します。
+
+復旧の完了は、実観測記録の公開、台帳の対象範囲と日付、監視workflow再実行、必要なPR/CI/Pages公開の確認で判定します。`workflow_dispatch` の実GitHub実行、実クライアントのScheduled起動、通知の到達はローカル静的検査と分けて実施記録へ残します。

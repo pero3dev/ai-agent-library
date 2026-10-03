@@ -210,3 +210,9 @@ OpenAI の Voice agents ガイドは、音声エージェントの構成を **2 
 2. **ai.google.dev 側 Live API の GA 化** — Vertex AI 版は 2025-12-13 に GA 済み。Gemini Developer API 側は 2026-08-13 付 changelog まで Preview 継続(§2.2)
 3. **`gpt-4.1-nano` deprecation(2026-10-23)後の FT 対象一覧** — nano ベース FT モデルの推論終了の帰結を確認(`research/professional/fine-tuning.md` §2.1)
 4. **Vertex AI の Gemini 3.x SFT** — 一次 docs 本文が取得できておらず未確認のまま(蒸留は preview 継続とされる。`research/professional/fine-tuning.md` §3)
+
+## 2026-10-03 第3回レビューの部分再確認
+
+#177: AWS 表に Nova Sonic v1:0 の 9/14 EOL 期日が残ることを再確認。実停止・延期は未確認です。
+
+取得 URL・実取得バッチ完了 UTC・確認水準・残る TODO は [一次情報の修正記録](../reviews/2026-10-03-article-remediation.md) を参照してください。過去の日付の本文は上書きしていません。

@@ -176,3 +176,9 @@ Bedrock Claude3 Haiku (anthropic.claude-3-haiku-20240307-v1:0)は3/10 Legacy、9
 5. **Anthropic の FT 対象は Claude 3 Haiku のみ(Bedrock 経由)**。Claude 3 Haiku 自体が旧世代で、Bedrock 側の退役スケジュール次第で FT 対象から外れる可能性がある。記事では「現行世代 Claude は FT 不可」という点を強調するのが安全。**(2026-08-18 再確認)** Claude 3 Haiku のみで変更なし(§4)。確認先: https://docs.aws.amazon.com/bedrock/latest/userguide/custom-model-fine-tuning.html
 6. **「プロンプト → RAG → FT」の順序**は業界の通説だが、この 3 段を一枚で明示する公式ページは各社に乏しい。記事では各社の実際の記載(OpenAI = evals + prompt engineering を先に / FT は最後)に沿って、断定を避けて書くこと
 7. **openai.com 公式ブログ本文が 403** で取れないため、OpenAI の蒸留・料金系は developers.openai.com(docs/cookbook)を一次参照にした。記事で openai.com ブログを引く場合はアクセス可否を再確認
+
+## 2026-10-03 第3回レビューの部分再確認
+
+#177: Bedrock Claude 3 Haiku の告知 EOL 期日は経過しています。独立レビュー後の直接再取得では対象行が残るため、初回の削除という読取を撤回しました。既存 FT 成果物を含む実停止範囲は未確認として TODO 化しました。
+
+取得 URL・実取得バッチ完了 UTC・確認水準・残る TODO は [一次情報の修正記録](../reviews/2026-10-03-article-remediation.md) を参照してください。過去の日付の本文は上書きしていません。

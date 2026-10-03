@@ -47,11 +47,12 @@ export function verificationManifest(root = ROOT) {
   return manifest
 }
 
+export const NODE_REQUIREMENT = '^22.22.2 || ^24.15.0 || >=26.0.0'
 export function versionSupported(text, name) {
-  const version = /(?:Python\s+|v?)(\d+)\.(\d+)(?:\.\d+)?/.exec(text ?? '')
+  const version = /(?:Python\s+|v?)(\d+)\.(\d+)(?:\.(\d+))?/.exec(text ?? '')
   if (!version) return 'unknown'
-  const [major, minor] = version.slice(1).map(Number)
-  return (name === 'python' ? major > 3 || major === 3 && minor >= 11 : major >= 22) ? 'supported' : 'unsupported'
+  const [major, minor, patch = 0] = version.slice(1).map(value => Number(value ?? 0))
+  return (name === 'python' ? major > 3 || major === 3 && minor >= 11 : major >= 26 || major === 24 && minor >= 15 || major === 22 && (minor > 22 || minor === 22 && patch >= 2)) ? 'supported' : 'unsupported'
 }
 export function resolvePython({ root, python, platform = process.platform, execute = (binary, args) => execFileSync(binary, args, { encoding: 'utf8', timeout: 10000, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] }) } = {}) {
   if (python && (!path.isAbsolute(python) || !existsSync(python))) throw new Error('--python は既存の Python 実行ファイルの絶対パスで指定してください')

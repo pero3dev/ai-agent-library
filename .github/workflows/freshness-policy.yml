@@ -50,6 +50,9 @@ jobs:
         if: steps.scope.outputs.enabled == 'true'
         with:
           node-version: 22
+      - name: Audit trusted base lockfile before installation
+        if: steps.scope.outputs.enabled == 'true'
+        run: npm audit --package-lock-only --audit-level=high
       - name: Install trusted base dependencies without lifecycle scripts
         if: steps.scope.outputs.enabled == 'true'
         run: npm ci --ignore-scripts

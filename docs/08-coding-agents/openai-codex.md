@@ -21,7 +21,6 @@ OpenAI のコーディングエージェント Codex の製品構成(CLI / IDE �
 ## 前提知識
 
 - [AI コーディングエージェントの分類と全体像](coding-agents-overview.md)
-- [コーディングエージェントの選定基準と使い分け](coding-agent-selection.md)
 
 ## 本文
 
@@ -140,12 +139,14 @@ ChatGPT 認証の Codex では `gpt-5.4` / `gpt-5.4-mini` の退役日が **2026
 - [コーディングエージェントの権限とセキュリティ](coding-agent-security.md) — サンドボックス・承認モデルの一般論
 - [Claude Code](claude-code.md) — 同じターミナル型を中核とする代表的な対抗ツール
 
+- [コーディングエージェントの選定基準と使い分け](coding-agent-selection.md) (任意の発展資料。本文を読む前の必須知識ではありません)
+
 ## 参考資料
 
 - [Permissions](https://learn.chatgpt.com/docs/permissions) — beta の設定・旧設定の優先関係・ネットワーク制御範囲(アクセス日: 2026-09-10)
 - [Auto-review](https://learn.chatgpt.com/docs/sandboxing/auto-review) — 承認要求の自動審査と適用範囲(アクセス日: 2026-09-10)
-- [Codex Models](https://learn.chatgpt.com/docs/models) — 推奨モデル、ChatGPT 認証に限る退役・置換先、Other models のカスタムプロバイダー設定(アクセス日: 2026-09-10)
-- [Codex Models: Other models](https://learn.chatgpt.com/docs/models) / [Gateway compatibility](https://learn.chatgpt.com/docs/enterprise/gateway-compatibility) — Responses互換endpointの要件とChat Completions専用endpointの非対応(アクセス日: 2026-10-03)
+- [Codex Models](https://learn.chatgpt.com/docs/models) — 推奨モデル、ChatGPT 認証に限る退役・置換先、Other models のカスタムプロバイダー設定 / Responses互換endpointの要件とChat Completions専用endpointの非対応(アクセス日: 2026-10-03)
+- [Gateway compatibility](https://learn.chatgpt.com/docs/enterprise/gateway-compatibility) — Responses互換endpointの要件とChat Completions専用endpointの非対応(アクセス日: 2026-10-03)
 - [Codex Docs(公式)](https://learn.chatgpt.com/docs) — 製品構成・機能の一次情報。2026-08 時点で ChatGPT との統合ドキュメントサイト(learn.chatgpt.com)へ移転済み(旧 developers.openai.com/codex 系 URL は 308 リダイレクトで生存)(アクセス日: 2026-08-18)
 - [Agent approvals & security](https://learn.chatgpt.com/docs/agent-approvals-security) — サンドボックスと承認ポリシーの仕様(アクセス日: 2026-08-18)
 - [AGENTS.md guide](https://learn.chatgpt.com/docs/agent-configuration/agents-md) — ルールファイルの階層と連結後の読込上限(アクセス日: 2026-09-10)

@@ -26,6 +26,10 @@ import { unified } from 'unified'
 import { applyDecorations } from '../lib/doc-decorations.mjs'
 import { findUnsafeMdx } from '../lib/mdx-safety.mjs'
 import { audioSourceDigest, buildAudioCatalog } from '../lib/audio-catalog.mjs'
+import { plainSummary, publicSectionIndex } from '../lib/page-metadata.mjs'
+import { replaceMermaid } from '../lib/static-mermaid.mjs'
+import { observationReport } from '../../scripts/freshness-observation-report.mjs'
+import { generatedContentLoaderSource } from '../lib/nextra-generated-loader.mjs'
 import { readmeArticleOrder, rewriteMarkdownRoutes } from '../lib/markdown-routes.mjs'
 import { forEachLine, parseFrontMatter, parseTagsArray, toLines, unquote } from '../../scripts/lib/md-utils.mjs'
 
@@ -297,6 +301,8 @@ async function main() {
   const titles = new Map() // repoRel -> title
   const readmeTexts = new Map() // sectionSlug -> README 原文
   const articleMeta = [] // タグ別一覧用 { title, route, level, tags }
+  const pagesMeta = {}
+  const charts = new Map()
   let count = 0
   for (const file of activeFiles) {
     const text = texts.get(file.repoRel)
@@ -317,11 +323,13 @@ async function main() {
       })
     }
 
-    let out = ensureFrontMatter(text, file.repoRel)
-    const tree = mdParser.parse(out)
     const route = routeMap.get(file.repoRel)
+    pagesMeta[route] = { title: getTitle(text), description: plainSummary(text, getTitle(text)), last_updated: getFrontMatterField(text, 'last_updated'), source_path: file.repoRel }
+    let out = ensureFrontMatter(file.slug === 'index' ? publicSectionIndex(text, file.repoRel, texts, getTitle) : text, file.repoRel)
+    const tree = mdParser.parse(out)
     applyDecorations(tree, { route, glossary: glossaryForLinks })
     errors.push(...rewriteMarkdownRoutes(tree, file.repoRel, routeMap))
+    replaceMermaid(tree, getTitle(text), charts)
     out = String(mdxWriter.stringify(tree))
     assertSafeMdx(out, file.repoRel) // C3: 許可外の JSX / ESM / {式} / 生 HTML を拒否
 
@@ -355,6 +363,10 @@ async function main() {
   }
 
   // generated/sections.json(トップページのセクショングリッド用)
+  await writeFile(path.join(GEN_DIR, 'pages.json'), JSON.stringify(pagesMeta, null, 2), 'utf8')
+  await writeFile(path.join(GEN_DIR, 'mermaid-charts.json'), JSON.stringify(Object.fromEntries(charts), null, 2), 'utf8')
+  await writeFile(path.join(GEN_DIR, 'freshness.json'), JSON.stringify(observationReport(REPO_ROOT, { today: new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo' }).format(new Date()) }), null, 2), 'utf8')
+  await writeFile(path.join(GEN_DIR, 'nextra-loader.mjs'), generatedContentLoaderSource(), 'utf8')
   const sectionsJson = sections.map(s => ({
     slug: s.slug,
     num: s.dirName.slice(0, 2),
@@ -394,7 +406,7 @@ async function main() {
   await cp(CONTENT_SRC, OUT_DIR, { recursive: true, force: true })
 
   // generated/routes.json(C5: postbuild のルート網羅チェックが照合する期待ルート一覧)
-  const routes = (await collectContentRoutes(OUT_DIR)).sort()
+  const routes = [...await collectContentRoutes(OUT_DIR), '/', '/roadmap', '/glossary', '/tags', '/audio', '/about', '/freshness'].sort()
   await writeFile(path.join(GEN_DIR, 'routes.json'), JSON.stringify(routes, null, 2), 'utf8')
 
   console.log(

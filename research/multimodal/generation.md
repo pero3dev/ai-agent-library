@@ -225,3 +225,9 @@ Gemini Omni 1.1 Flashは8/27 GA、旧omni-flash-previewはdeprecations表で9/30
 - Kling(Kuaishou)の公式規約・API・透かし仕様が `未確認`(現状の記載は第三者由来 = 二次情報)
 - Runway / Luma の尺・解像度・音声対応の細目と来歴機能の有無が `未確認`(公式ヘルプでの追確認が必要)
 - Stability AI / FLUX の来歴機能はオープンウェイト特性上 `未確認`(自ホスト実装依存)
+
+## 2026-10-03 第3回レビューの部分再確認
+
+#177: Sora / Videos API、Nova Reel / Canvas、Gemini Omni preview の期日経過を再確認しました。表の掲載・非推奨化・実 API 停止を分け、確認不能の分類を本文へ反映しました。
+
+取得 URL・実取得バッチ完了 UTC・確認水準・残る TODO は [一次情報の修正記録](../reviews/2026-10-03-article-remediation.md) を参照してください。過去の日付の本文は上書きしていません。

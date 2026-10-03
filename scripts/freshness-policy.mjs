@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url'
 import { matchesPattern, parseRegistry } from './freshness-registry.mjs'
 import { parseFrontMatter, parseScalar, toLines } from './lib/md-utils.mjs'
 import { referenceComparable } from './lib/reference-comparison.mjs'
+import { comparisonBase, assertManifestBase } from './lib/comparison-base.mjs'
 
 const schema = JSON.parse(readFileSync(new URL('./schemas/freshness-result.schema.json', import.meta.url), 'utf8'))
 const evidencePattern = /^research\/freshness-runs\/([a-z0-9][a-z0-9-]{3,79})\.json$/
@@ -46,6 +47,7 @@ export function validateResultShape(value, rule = schema, location = '$', root =
 
 function changesBetween(cwd, base, head) {
   for (const [label, sha] of [['base', base], ['head', head]]) assert(/^[a-f0-9]{40}$/.test(sha), `${label}: 40 桁の SHA が必要`)
+  base = comparisonBase(cwd, base, head)
   const parts = git(cwd, ['diff', '--no-ext-diff', '--no-textconv', '--no-renames', '--raw', '--abbrev=40', '-z', base, head, '--']).split('\0')
   const changes = []
   for (let index = 0; index < parts.length - 1; index += 2) {
@@ -75,12 +77,12 @@ export function contentDigest({ cwd = process.cwd(), base, head }) {
   assert(evidence.length === 1, 'digest: 根拠を含む manifest を 1 件 stage してから計算する必要がある')
   const manifest = JSON.parse(show(cwd, head, evidence[0].path))
   assert(manifest.schema_version === 2, 'digest: 新規レビューには schema_version 2 が必要')
-  const { schema_version, run_id, base_sha, writer_run_id, systems, observations, changes: declarations } = manifest
+  const { schema_version, run_id, base_sha, writer_run_id, systems, observations, changes: declarations, vendor_checks, coverage } = manifest
   for (const key of ['run_id', 'base_sha', 'writer_run_id', 'systems', 'observations', 'changes']) assert(Object.hasOwn(manifest, key), `digest: ${key} が必要`)
   const payload = {
     records: changes.filter(change => !evidencePattern.test(change.path)),
     evidence_path: evidence[0].path,
-    evidence: { schema_version, run_id, base_sha, writer_run_id, systems, observations, changes: declarations }
+    evidence: { schema_version, run_id, base_sha, writer_run_id, systems, observations, changes: declarations, ...(vendor_checks ? { vendor_checks } : {}), ...(coverage ? { coverage } : {}) }
   }
   return createHash('sha256').update(JSON.stringify(canonical(payload))).digest('hex')
 }
@@ -125,6 +127,7 @@ function unchangedOutsideWatchlist(before, after) {
 export function checkFreshnessPolicy({ cwd = process.cwd(), base, head, branch, now = Date.now() }) {
   assert(typeof branch === 'string' && branch.length > 0, 'branch が必要')
   if (!branch.startsWith('automation/freshness-')) return { skipped: true, reason: '通常ブランチ' }
+  base = comparisonBase(cwd, base, head)
   const changes = changesBetween(cwd, base, head)
   const evidence = changes.filter(change => evidencePattern.test(change.path))
   assert(evidence.length === 1 && evidence[0].status === 'A', '新規 run manifest が 1 件必要(過去の記録の編集は禁止)')
@@ -132,7 +135,7 @@ export function checkFreshnessPolicy({ cwd = process.cwd(), base, head, branch, 
   validateResultShape(manifest)
   assert(evidence[0].path === `research/freshness-runs/${manifest.run_id}.json`, 'run_id と manifest path が不一致')
   assert(branch === `automation/freshness-${manifest.run_id}`, 'run_id と branch が不一致')
-  assert(manifest.base_sha === base, 'manifest の base_sha が検証 base と不一致')
+  assertManifestBase(cwd, manifest.base_sha, base, changes.filter(change => !evidencePattern.test(change.path)))
 
   const started = timestamp(manifest.started_at, 'started_at')
   const completed = timestamp(manifest.completed_at, 'completed_at')
@@ -144,6 +147,27 @@ export function checkFreshnessPolicy({ cwd = process.cwd(), base, head, branch, 
   assert(manifest.review.content_digest === contentDigest({ cwd, base, head }), 'レビュー後に内容差分が変わっている(content_digest 不一致)')
 
   const registry = parseRegistry(show(cwd, base, 'ROADMAP.md'))
+  if (manifest.systems.includes('models-prompting') && started >= Date.parse('2026-10-03T00:00:00Z')) {
+    const vendors = manifest.vendor_checks ?? []
+    assert(vendors.length === 3 && new Set(vendors.map(row => row.vendor)).size === 3, 'models-prompting には Anthropic/OpenAI/Google の vendor_checks が必要です')
+    for (const vendor of vendors) {
+      const verified = ['release_notes', 'deprecations', 'pricing'].some(field => vendor[field] !== 'not_checked')
+      assert(!verified || vendor.sources.length > 0, `${vendor.vendor}: 確認済み vendor check には根拠が必要です`)
+      for (const source of vendor.sources) {
+        const sourceUrl = new URL(source.url)
+        assert(sourceUrl.protocol === 'https:' && !sourceUrl.username && !sourceUrl.password, 'vendor 根拠は認証情報を含まない HTTPS が必要です')
+        const accessed = timestamp(source.accessed_at, 'vendor.accessed_at')
+        assert(accessed >= started && accessed <= reviewed, 'vendor 根拠の取得は実行開始後かつレビュー以前が必要です')
+      }
+    }
+  }
+  for (const coverage of manifest.coverage ?? []) {
+    assert(manifest.systems.includes(coverage.system_id), 'coverage に対象外系統があります')
+    const date = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(completed))
+    assert(coverage.verified_on === date, 'coverage の完了日は実行完了の JST 日付が必要です')
+    assert(!manifest.observations.some(row => row.system_id === coverage.system_id && ['unverifiable', 'failed'].includes(row.status)), '未確認・失敗がある系統を coverage 完了にできません')
+    if (coverage.system_id === 'models-prompting') assert((manifest.vendor_checks ?? []).length === 3 && manifest.vendor_checks.every(row => ['release_notes', 'deprecations', 'pricing'].every(field => row[field] !== 'not_checked')), 'models-prompting の完了には主要ベンダー確認が必要です')
+  }
   const systems = manifest.systems.map(id => {
     const system = registry.find(entry => entry.id === id)
     assert(system, `未知の系統: ${id}`)

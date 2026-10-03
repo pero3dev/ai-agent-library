@@ -23,7 +23,6 @@ tags: ["coding-agents", "prompt-design"]
 ## 前提知識
 
 - [AI コーディングエージェントの分類と全体像](coding-agents-overview.md)
-- [ルールファイルと設定の設計](coding-agent-rules-and-config.md) — 恒常的な規約はルールファイル側に置きます
 
 ## 本文
 

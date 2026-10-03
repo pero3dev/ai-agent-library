@@ -17,17 +17,19 @@ description: Codex の定期タスクから既存記事の鮮度を確認し、�
 
 1. `git status --short --branch` と `git remote -v` を確認します。作業中の変更は引き継ぎ対象か判定し、他者の作業を消しません。
 2. `git fetch origin main` の後、`node scripts/freshness-run.mjs status` を実行します。既存 PR の URL・未完了 checkpoint を先に確認します。
-3. `node scripts/freshness-run.mjs prepare --mode auto` を実行します。定期プロンプトで指定された mode があればそれを使います。`weekly_focus` はモデル・coding、`rotation` は古い観測を優先します。対象未指定でユーザーへ選択を求めません。
-4. `nothing_due` なら観測不要と報告して終了します。lock が生きているなら別実行と競合するため、その回は書き込まず終了します。
-5. 出力された `checkpoint`・`run_id`・`attempt_id`・`base_sha`・`branch`・`targets` を使います。`resuming: true` なら同じ記録と PR を引き継ぎます。既存 PR がマージ済みなら本文編集を繰り返さず、公開確認へ進みます。
-6. 新規実行では、アプリの独立 worktree で指定された `automation/freshness-<run_id>` ブランチを origin/main から作ります。再開では先に既存ブランチ・PR head・checkpoint の `snapshot_commit` を比較します。元 worktree がなく、保存した差分がまだブランチにない場合は、きれいな worktree で `git merge --ff-only --no-overwrite-ignore <snapshot_commit>` を使うか、そのコミットから同名ブランチを復元します。無視対象ファイルとの衝突も上書きせず停止します。共通祖先・他の worktree での使用を確認し、他者の変更を上書きしません。保存対象と復元方法は運用手順を参照します。
-7. `base_sha` と取得済みの `origin/main` が異なる場合は、復元した作業を最新 main へ統合します。競合を解消して checkpoint の `base_sha` と evidence の `base_sha` を新しい main の SHA に合わせます。以前のレビューを無効にし、根拠・差分 digest・独立レビュー・CI を取り直します。共有 main の作業ディレクトリを切り替えたりリセットしません。
+3. `node scripts/deadline-report.mjs --json` を読み、expired の系統を優先し upcoming の watchlist_candidates を ROADMAP の「次回確認する注目事項」へ候補として反映します。本文は一次情報確認後に更新します。`prepare` も期限候補を選定と返却結果へ接続しています。
+4. `node scripts/freshness-run.mjs prepare --mode auto` を実行します。定期プロンプトで指定された mode があればそれを使います。`weekly_focus` はモデル・coding、`rotation` は古い観測を優先します。対象未指定でユーザーへ選択を求めません。
+5. `nothing_due` なら観測不要と報告して終了します。lock が生きているなら別実行と競合するため、その回は書き込まず終了します。
+6. 出力された `checkpoint`・`run_id`・`attempt_id`・`base_sha`・`branch`・`targets` を使います。`resuming: true` なら同じ記録と PR を引き継ぎます。既存 PR がマージ済みなら本文編集を繰り返さず、公開確認へ進みます。
+7. 新規実行では、アプリの独立 worktree で指定された `automation/freshness-<run_id>` ブランチを origin/main から作ります。再開では先に既存ブランチ・PR head・checkpoint の `snapshot_commit` を比較します。元 worktree がなく、保存した差分がまだブランチにない場合は、きれいな worktree で `git merge --ff-only --no-overwrite-ignore <snapshot_commit>` を使うか、そのコミットから同名ブランチを復元します。無視対象ファイルとの衝突も上書きせず停止します。共通祖先・他の worktree での使用を確認し、他者の変更を上書きしません。保存対象と復元方法は運用手順を参照します。
+8. `base_sha` と取得済みの `origin/main` が異なる場合は、復元した作業を最新 main へ統合します。競合を解消して checkpoint の `base_sha` と evidence の `base_sha` を新しい main の SHA に合わせます。以前のレビューを無効にし、根拠・差分 digest・独立レビュー・CI を取り直します。共有 main の作業ディレクトリを切り替えたりリセットしません。
 
 ## 調査と編集
 
 各回は 1〜3 系統です。各系統の [quarterly-maintenance](../quarterly-maintenance/SKILL.md) の調査手順を、ここで確定した対象 ID を渡して使います。対象候補全体を確認済みとせず、実際に読んだ記事・見出し・確認範囲を記録します。
 
 - `freshness-checker` に対象記事・research 起点・注目事項を渡し、一次情報を Web で検索して本文を開かせます。価格・提供条件・仕様・予定日は実行日の資料で確認します。
+- models-prompting を選んだ毎回、Anthropic・OpenAI・Google の release notes・deprecations・pricing を前回観測以降について確認し、結果 JSON の `vendor_checks` に3社を記録します。各欄を changed / unchanged / not_checked とし、未確認ベンダー・理由・根拠URLと実取得時刻も残します。部分確認で3社全体の更新なしを宣言しません。2026-10-03以降開始のmodels実行ではpolicyも3社記録を検査します。
 - 各項目を `changed / unchanged / unverifiable / failed` に分類します。取得失敗や裏付け不足を unchanged にしません。将来の終了予定は、日付が過ぎただけでは実停止と断定しません。
 - 根拠が揃う内容を既存記事へ反映します。記事の実質変更時だけ `last_updated` を実行日の日本時間の日付へ更新し、status は維持します。参考資料・research・用語集・比較表を必要な範囲で同期します。
 - 調査結果の JSON は [結果スキーマ](../../../scripts/schemas/freshness-result.schema.json) の `schema_version: 2` に従います。`writer_run_id` に現在の実行 ID、`observations` に根拠、`changes` に evidence 自身を除く変更ファイルを過不足なく記録します。`sources.accessed_at` は実際の確認時刻を UTC の ISO 8601 形式で記録し、レビュー以前の取得であることを確認します。実取得時刻を得られない場合は再取得し、日付から時刻を補完しません。
@@ -39,7 +41,7 @@ description: Codex の定期タスクから既存記事の鮮度を確認し、�
 
 ## 独立レビューと PR
 
-本文の変更がなければ空 PR を作りません。確認日時だけを進めるコミットも不要です。完了範囲を checkpoint に記録し、`finish --outcome observed` で終了します。この非対話運用では、quarterly-maintenance の「変更なしの TODO 確認月更新」は実行台帳への記録で代替します。
+本文の変更がなければ記事用の空 PR を作りません。公開観測の要約は週次の通常PRでまとめ、[公開観測の手順](../../../freshness-automation.md#公開観測の台帳)に従いROADMAPの要約と根拠を更新します。完了範囲を checkpoint に記録し、`finish --outcome observed` で終了します。この非対話運用では、quarterly-maintenance の「変更なしの TODO 確認月更新」は実行台帳への記録で代替します。
 
 1. `npm ci` が必要なら実行し、`npm run check` を通します。
 2. 本文と根拠・変更分類を確定し、evidence を `research/freshness-runs/<run_id>.json` に保存します。レビュー前は暫定の `review: {"verdict":"changes_requested"}` とし、未取得のレビュアー ID・時刻を作りません。この段階は完全な結果スキーマを満たす必要がなく、`--print-digest` のみを実行できます。変更したファイルと evidence を stage し、`git write-tree` で候補の tree SHA を得ます。
@@ -48,7 +50,7 @@ description: Codex の定期タスクから既存記事の鮮度を確認し、�
 5. 本文・根拠・変更分類を修正したら stage と digest 計算をやり直し、別実行で再レビューします。最大 2 往復で解決しなければ保留します。
 6. `review` に結果と別実行 ID、`risk`、時刻、確認した digest を記録します。完成時刻を調査・レビュー時刻より後にして evidence を保存し、全変更を stage します。**`git write-tree` をもう一度実行して最終候補の tree SHA を取得**し、その SHA を `--head` に渡して policy を再実行します。レビュー前の tree SHA を使い回しません。
 7. `git diff --cached --check` と stage 内容を確認します。Git 操作規約のコミットテンプレートを一時ファイルに記入し、`node scripts/check-git-conventions.mjs --message-file <message-file> --agent codex` を通して `git commit -F <message-file>` でコミットします。checkpoint 復元で含まれた未公開の旧形式コミットは運用手順に従って整え、公開済み履歴は書き換えません。
-8. `gh pr list --head <branch>` で重複を避け、PR テンプレートに対象・変更・出典・レビュー・検証・残件を記録します。予定する title・body・branch を JSON ファイルに保存し、`node scripts/check-git-conventions.mjs --base <base_sha> --head <head_sha> --pr-file <pr-json>` で提出する全コミットと PR を確認します。push の直前に `node scripts/freshness-run.mjs assert-lock --run-id <run_id> --attempt-id <prepare で取得した attempt_id>`、main の SHA、既存 PR head を再確認します。現在の GitHub 認証で push・PR 作成または更新し、本文は `--body-file` で渡します。実際の PR 情報も Git 操作規約のコマンドで再取得・検証します。
+8. `gh pr list --head <branch>` で重複を避け、PR テンプレートに対象・変更・出典・レビュー・検証・残件を記録します。予定する title・body・branch を JSON ファイルに保存し、`node scripts/check-git-conventions.mjs --base <base_sha> --head <head_sha> --pr-file <pr-json>` で正規squashを生成できるPRと内部automation commitを必須検査し、通常途中commitの助言も確認します。push の直前に `node scripts/freshness-run.mjs assert-lock --run-id <run_id> --attempt-id <prepare で取得した attempt_id>`、main の SHA、既存 PR head を再確認します。現在の GitHub 認証で push・PR 作成または更新し、本文は `--body-file` で渡します。実際の PR 情報も Git 操作規約のコマンドで再取得・検証します。
 
 ## マージ・公開と終了
 

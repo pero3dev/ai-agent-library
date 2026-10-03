@@ -3,7 +3,7 @@ title: "RPA と Agent の使い分け・移行戦略"
 category: "domain-agents"
 level: "intermediate"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-10-04"
 tags: ["rpa", "workflow-vs-agent", "migration", "computer-use"]
 ---
 
@@ -21,7 +21,6 @@ tags: ["rpa", "workflow-vs-agent", "migration", "computer-use"]
 ## 前提知識
 
 - [Workflow 型 vs Agent 型の使い分け](../02-architecture/workflow-vs-agent.md) — 決定的な手順と適応的な判断の使い分け(本記事の商流版)
-- [ブラウザ・コンピュータ操作の実装](../03-implementation/computer-use-implementation.md) — 画面操作を Agent に行わせる場合の実装と限界
 - [ユースケース発見と要件定義](../09-business/usecase-discovery.md) — どの業務を自動化対象に選ぶかの判断
 
 ## 本文
@@ -53,7 +52,7 @@ RPA は、画面操作や API 呼び出しなどを**事前に定義したフロ
 
 - **RPA が壊れる場所**: 対象システムの**画面レイアウト変更**、想定外のダイアログ、入力データの表記ゆれ。座標・文言に依存する実装では変化で止まる場合があります。セレクターや API を使う実装でも依存先の互換性確認は必要です。例外処理の追加による保守負担も測ります
 - **Agent が揺れる場所**: 同じ入力でも**出力がぶれる**、判断を誤ってももっともらしく続行する、コストが読みにくい。Agent は「意図で吸収できる」代わりに、**確実性の保証**が構造的に弱いです
-- **相補性**: 表記ゆれや例外の**判断**は Agent が吸収し、確定した処理の**確実な実行**は決定的な仕組み(RPA・API)が担う、という分担が自然に導かれます。片方の弱点を、もう片方の強みで埋めます
+- **相補性**: 表記ゆれや例外の**判断候補**は Agent が提示し、確定した処理の**事前定義された実行手順**は RPA・API が担う、という分担を検討します。どちらも誤認・実行失敗に備えて結果を検証し、例外時の引き取り先を決めます
 
 ### 共存パターン
 
@@ -100,7 +99,7 @@ flowchart TB
 
 | 判断軸 | 一次資料から確認できる例 | 移行時に残す判断 |
 | --- | --- | --- |
-| 提供開始と保守期限 | WorkHQ の Agentic Workflows は 2026-03-27 GA。Next Generation / Blue Prism Cloud / Enterprise 7.4.1 以降が対象。Design Studio 3.20.0〜3.21.0 と Digital Worker 2.38.0〜2.39.0 は 2026-09-30 にサポート終了 | 2026-04-29 の名称発表と GA を分け、実行部品の版を棚卸しする。サポート終了を一律の実行停止と読み替えない |
+| 提供開始と保守期限 | WorkHQ の Agentic Workflows は 2026-03-27 GA。Next Generation / Blue Prism Cloud / Enterprise 7.4.1 以降が対象。Design Studio 3.20.0〜3.21.0 と Digital Worker 2.38.0〜2.39.0 は 告知されたサポート終了期日 2026-09-30 を経過。2026-10-03 の告知表に同日が残るが、実施・延期は確認不能 | 2026-04-29 の名称発表と GA を分け、実行部品の版を棚卸しする。サポート終了を一律の実行停止と読み替えない |
 | 自己ホストと外部通信 | Maestro は Automation Suite 2.2510.2(2026-04-15)から EKS / AKS / OpenShift で自己ホスト可能。ワークフロー実行サービス TaaS(Temporal as a Service)はクラスタ内の Kubernetes deployment | 自己ホストでも利用モデル・全機能の通信経路を別に確認する。名称の「as a Service」だけで外部 SaaS と判定しない |
 | 機能とモデルの GA | Copilot Studio computer use の公式資料では OpenAI CUA / Sonnet 4.5 は GA、Sonnet 4.6 / Opus 4.6 は Experimental | 「GA が必要だから RPA のみ」とは決めず、選択モデルと地域の状態、自社の成功率で比較する |
 | 同名に見える実行基盤 | Copilot Studio は GitHub Copilot / standard / Copilot chat の各 harness を区別。agent flows は standard(classic)に属し、新 workflows は別の仕組み | Power Automate から agent flow への変換は一方向。新 workflows にそのまま変換できると想定せず、容量枯渇による新規実行停止も監視する |
@@ -115,7 +114,7 @@ RPA には長年かけて作られた**運用統制**(誰が・いつ・何を�
 
 - **監査証跡を引き継ぐ**: RPA の実行ログに相当するものを、Agent でも残します。何を入力に・どう判断し・どのツールを・どう実行したかのトレース([可観測性とトレーシング](../05-operations/observability-and-tracing.md))を、既存の監査要件に合う粒度で確保します
 - **承認フローを維持する**: RPA で人の承認を挟んでいた重要操作は、Agent でも[Human-in-the-Loop](../02-architecture/human-in-the-loop.md)として承認点を残します。自律度を上げる判断は、統制の要件とセットで行います
-- **変更管理を移植する**: RPA の「変更時のレビューとテスト」に相当する運用を、プロンプト・ツール・モデルの変更に対しても用意します([回帰テストと CI 組み込み](../04-evaluation/regression-testing.md))。決定的だった RPA と違い、Agent はモデル更新でも挙動が変わるため、変更管理の対象が増えます
+- **変更管理を移植する**: RPA の「変更時のレビューとテスト」に相当する運用を、プロンプト・ツール・モデルの変更に対しても用意します([回帰テストと CI 組み込み](../04-evaluation/regression-testing.md))。RPA が依存先の変更で影響を受けることに加え、Agent はモデル更新でも挙動が変わるため、変更管理の対象が増えます
 - **権限を絞る**: RPA ロボットに広すぎる権限を与えていた場合、Agent 化はそれを見直す好機です。実行アカウントの権限を業務に必要な最小限に絞ります([エージェントの認証・認可](../06-security/agent-identity-and-auth.md))
 
 ## 実務での注意点
@@ -138,6 +137,8 @@ RPA には長年かけて作られた**運用統制**(誰が・いつ・何を�
 - [ ] 画面操作の移行で、API 化を先に検討したか(画面操作は最後の手段か)
 - [ ] RPA の監査証跡・承認フロー・変更管理を Agent の統制として引き継いだか
 - [ ] ベンダーのエージェント機能を、自社のデータ経路・確実性・統制要件で PoC 検証したか
+
+> **TODO(要確認):** WorkHQ Announcements と各部品のサポート表で Design Studio 3.20.0〜3.21.0 / Digital Worker 2.38.0〜2.39.0 のサポート終了実施・延期を確認する。実行停止とは分ける(最終確認: 2026-10)
 
 ## 関連トピック
 

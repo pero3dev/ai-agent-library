@@ -1,3 +1,5 @@
+import { isolateGitForTests, fixtureGit, fixtureGitSpawn } from '../helpers/isolated-git.mjs'
+isolateGitForTests()
 import assert from 'node:assert/strict'
 import { execFileSync, spawnSync } from 'node:child_process'
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
@@ -76,7 +78,7 @@ function fixture(t, { changed = true, draft = false, sample = false, body } = {}
     assert.ok(path.basename(cwd).startsWith('ai-agent-library-policy-'))
     rmSync(cwd, { recursive: true, force: true })
   })
-  const git = (args, input) => execFileSync('git', args, { cwd, input, encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] }).trim()
+  const git = (args, input) => fixtureGit(args, { cwd, input, encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] }).trim()
   const write = (file, content) => {
     const destination = path.resolve(cwd, file)
     assert.ok(destination.startsWith(cwd + path.sep))
@@ -90,6 +92,8 @@ function fixture(t, { changed = true, draft = false, sample = false, body } = {}
   }
   const tree = () => { git(['add', '-A']); return git(['write-tree']) }
   git(['init', '--quiet'])
+  git(['config', 'user.name', 'Policy Fixture'])
+  git(['config', 'user.email', 'fixture@example.invalid'])
   write(a, article(body, draft ? 'draft' : 'published', undefined, sample))
   write(b, article(undefined, draft ? 'draft' : 'published'))
   write('docs/01-concepts/README.md', index(['agent-loop.md', 'tool-use.md']))
@@ -454,4 +458,40 @@ test('both trusted policies bind PR events and prepare only base dependencies fo
     assert.equal(steps[checkout].with['persist-credentials'], false)
     if (name === 'freshness-policy') assert.equal(steps[install].if, "steps.scope.outputs.enabled == 'true'")
   }
+})
+
+test('a stale harness-only PR compares at merge-base and never asks for unrelated main article evidence', t => {
+  const f = fixture(t, { changed: false })
+  const baseCommit = f.git(['commit-tree', f.base, '-m', 'baseline'])
+  f.write(b, article('main の独立更新です。', 'published', '2026-09-10'))
+  const main = f.git(['commit-tree', f.tree(), '-p', baseCommit, '-m', 'other article'])
+  f.write(b, article())
+  f.write('scripts/local-fix.mjs', 'export const changed = true\n')
+  const head = f.git(['commit-tree', f.tree(), '-p', baseCommit, '-m', 'WIP'])
+  const result = checkHarnessPolicy({ cwd: f.cwd, base: main, head, branch: 'fix/stale-harness', now })
+  assert.equal(result.articles, 0)
+  assert.deepEqual(result.scopes, ['harness'])
+})
+
+test('unrelated main updates preserve a reviewed manifest after Update branch, target changes invalidate it', t => {
+  const f = fixture(t)
+  const baseCommit = f.git(['commit-tree', f.base, '-m', 'baseline'])
+  f.manifest.base_sha = baseCommit
+  const reviewed = f.finish()
+  const head = f.git(['commit-tree', reviewed, '-p', baseCommit, '-m', 'reviewed article'])
+  const digest = f.manifest.review.content_digest
+  f.write(a, article())
+  f.remove(record)
+  f.write(b, article('main の別の記事だけを更新。', 'published', '2026-09-10'))
+  const main = f.git(['commit-tree', f.tree(), '-p', baseCommit, '-m', 'main update'])
+  f.write(a, article('変更した本文です。', 'published', '2026-09-10'))
+  f.manifest.review.content_digest = digest
+  const merged = f.git(['commit-tree', f.finish({ refreshDigest: false }), '-p', head, '-p', main, '-m', 'Merge branch main'])
+  assert.equal(checkHarnessPolicy({ cwd: f.cwd, base: main, head: merged, branch: 'fix/reviewed', now }).articles, 1)
+  f.remove(record)
+  f.write(a, article('main が同じ記事を更新。', 'published', '2026-09-10'))
+  const conflictingMain = f.git(['commit-tree', f.tree(), '-p', main, '-m', 'main touched target'])
+  f.write(a, article('変更した本文です。', 'published', '2026-09-10'))
+  const conflictMerged = f.git(['commit-tree', f.finish({ refreshDigest: false }), '-p', head, '-p', conflictingMain, '-m', 'Merge branch main'])
+  assert.throws(() => checkHarnessPolicy({ cwd: f.cwd, base: conflictingMain, head: conflictMerged, branch: 'fix/reviewed', now }), /比較 base.*変わりました/)
 })

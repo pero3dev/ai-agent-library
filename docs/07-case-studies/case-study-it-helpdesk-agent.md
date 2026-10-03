@@ -23,7 +23,6 @@ tags: ["ai-agent", "agent-identity", "human-in-the-loop"]
 ## 前提知識
 
 - [経費精算アシスタントの段階的 Agent 化](case-study-expense-agent.md) — 段階導入の背骨(本記事は実行権限の運用に重心)
-- [エージェントの認証・認可](../06-security/agent-identity-and-auth.md) — 誰の権限で実行するか
 - [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) — 実行の承認ゲート
 
 ## 本文

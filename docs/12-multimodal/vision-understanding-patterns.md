@@ -4,7 +4,7 @@ category: "multimodal"
 level: "intermediate"
 status: "published"
 last_updated: "2026-09-10"
-tags: ["vision-language-model", "multimodal", "prompt-engineering"]
+tags: ["vision-language-model", "multimodal", "prompt-design"]
 ---
 
 # 画像理解の実務パターン

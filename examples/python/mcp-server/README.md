@@ -36,6 +36,10 @@ python mcp_server.py
 
 ## 動作確認日
 
+- **今回の再確認**: 2026-10-04(Python 3.12.14、作業専用 venv、固定した anthropic 1.4.0 / httpx2 2.12.0 / mcp 2.2.0)。全 6 サンプルの `--mock` を含む 17 回帰テストが合格しました。実 SDK の HTTP モックとローカル MCP stdio を確認し、実 LLM API は呼んでいません([実行手順](../../tests/README.md))
+
+以下は過去の確認記録です。
+
 - **自己テスト(`--mock`)**: 2026-09-10 に確認(Python 3.11.3、追加依存なし)
 - **実 MCP サーバー起動(クライアント接続)**: 2026-09-10 に確認(Python 3.11.3、mcp 2.2.0、ローカル stdio)。`Client(mode="auto")` の server/discover(2026-07-28)、`Client(mode="legacy")` の initialize(2025-11-25)、両方式の list_tools・call_tool と、不正金額の `isError=true`、通常受理・高額の承認案内を確認([実行手順](../../tests/README.md))
 

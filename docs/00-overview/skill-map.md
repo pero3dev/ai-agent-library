@@ -51,14 +51,14 @@ flowchart TD
 
 | # | スキル領域 | 中心の問い | 主担当セクション |
 | --- | --- | --- | --- |
-| S1 | 概念・原理の理解 | Agent はどういう仕組みで動くのか | [01-concepts](../01-concepts/README.md) |
+| S1 | 概念・原理の理解 | Agent はどういう仕組みで動くのか | [01-concepts](../01-concepts/README.md)、直感を深める [10-llm-foundations](../10-llm-foundations/README.md)、数式・内部実装へ進む [11-llm-internals](../11-llm-internals/README.md) |
 | S2 | アーキテクチャ設計 | どんな構成にすべきか(そもそも Agent にすべきか) | [02-architecture](../02-architecture/README.md) |
-| S3 | 実装技術 | どう書くか(ツール定義・プロンプト・モデル選定) | [03-implementation](../03-implementation/README.md) |
+| S3 | 実装技術 | どう書くか(ツール定義・プロンプト・モデル選定) | [03-implementation](../03-implementation/README.md)、画像・音声を扱う [12-multimodal](../12-multimodal/README.md) |
 | S4 | 評価・品質保証 | 品質をどう測り、劣化をどう検知するか | [04-evaluation](../04-evaluation/README.md) |
 | S5 | 運用・信頼性 | 本番で安定して動かし続けられるか | [05-operations](../05-operations/README.md) |
 | S6 | セキュリティ・ガバナンス | 何が脅威で、どう防ぐか | [06-security](../06-security/README.md) |
-| S7 | ビジネス実務(案件推進) | 何をやるか・どう本番に届けるか・投資に見合うか | [09-business](../09-business/README.md) |
-| S8 | ツール活用・生産性 | コーディングエージェントをどう使いこなすか | [08-coding-agents](../08-coding-agents/README.md) |
+| S7 | ビジネス実務(案件推進) | 何をやるか・どう本番に届けるか・投資に見合うか | [09-business](../09-business/README.md)、業務別の設計 [13-domain-agents](../13-domain-agents/README.md)、ユーザー体験 [14-ux-and-product](../14-ux-and-product/README.md) |
+| S8 | ツール活用・生産性 | コーディングエージェントをどう使いこなすか | [08-coding-agents](../08-coding-agents/README.md)、人の技能・検証・組織導入 [15-human-ai](../15-human-ai/README.md) |
 
 到達レベルは、資格や年数ではなく **観察可能な行動** で定義します。自己評価では「説明できるか」ではなく「直近 3〜6 か月で実際にやったか」で判定してください。
 

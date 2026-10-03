@@ -1,3 +1,5 @@
+import { isolateGitForTests, fixtureGit, fixtureGitSpawn } from '../helpers/isolated-git.mjs'
+isolateGitForTests()
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { execFile, execFileSync } from 'node:child_process'
@@ -20,7 +22,7 @@ test('Windows audio wrapper shares state across a real linked worktree with spac
   })
   const source = path.join(temporary, 'source')
   const linked = path.join(temporary, 'linked checkout')
-  const git = args => execFileSync('git', args, { encoding: 'utf8', windowsHide: true })
+  const git = args => fixtureGit(args, { encoding: 'utf8', windowsHide: true })
   git(['init', source])
   git(['-C', source, '-c', 'user.name=Audio runtime test', '-c', 'user.email=audio-test@example.invalid', 'commit', '--allow-empty', '-m', 'fixture'])
   git(['-C', source, 'worktree', 'add', '--detach', linked])

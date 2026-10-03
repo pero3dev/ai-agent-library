@@ -20,7 +20,6 @@ tags: ["human-ai", "verification", "critical-thinking"]
 
 ## 前提知識
 
-- [LLM の能力と限界の由来](../10-llm-foundations/capabilities-and-limits.md) — なぜ検証が要るのか(限界の由来)
 - 特別な前提はありません。本記事はこのセクションの入口の 1 つです
 
 ## 本文

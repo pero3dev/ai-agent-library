@@ -3,7 +3,7 @@ title: "Workflow 型 vs Agent 型の使い分け"
 category: "architecture"
 level: "basic"
 status: "published"
-last_updated: "2026-07-05"
+last_updated: "2026-10-04"
 tags: ["workflow", "ai-agent"]
 ---
 
@@ -48,8 +48,8 @@ Agent 型が優位なのは「柔軟性」だけです。それ以外のすべ�
 
 ```mermaid
 flowchart TD
-    Q1{"タスクの手順を<br/>事前にすべて列挙できる?"} -- "できる" --> W["Workflow 型"]
-    Q1 -- "できない" --> Q2{"手順は固定で、<br/>入口の振り分けだけ判断が要る?"}
+    Q1{"単一の固定手順で<br/>処理できる?"} -- "できる" --> W["Workflow 型"]
+    Q1 -- "できない" --> Q2{"入力の種類ごとに固定手順を用意でき、<br/>振り分けだけ判断が要る?"}
     Q2 -- "はい" --> R["Workflow 型 + ルーティング"]
     Q2 -- "いいえ" --> Q3{"手順が入力によって変わる範囲を<br/>一部に限定できる?"}
     Q3 -- "できる" --> H["ハイブリッド<br/>(Workflow の中に Agent を埋め込む)"]

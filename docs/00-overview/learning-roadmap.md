@@ -3,7 +3,7 @@ title: "AI Agent 学習ロードマップ"
 category: "overview"
 level: "basic"
 status: "published"
-last_updated: "2026-07-09"
+last_updated: "2026-10-03"
 tags: ["learning-roadmap", "ai-agent"]
 ---
 
@@ -20,7 +20,7 @@ tags: ["learning-roadmap", "ai-agent"]
 
 ## 前提知識
 
-- LLM API(チャット補完 API)を一度でも呼び出した経験があること。システムプロンプトとユーザーメッセージの区別が付けば十分です
+- システムプロンプトとユーザーメッセージの区別が付けば読み始められます。LLM API の呼出し経験は理解の助けになりますが、APIキーなしのmock経路で学習を開始できます
 - このライブラリ内の前提ドキュメントはありません(本記事が入口です)
 
 ## 本文
@@ -61,7 +61,7 @@ flowchart TD
 | --- | --- | --- |
 | A: 入門 | AI Agent をこれから学ぶ | [01-concepts](../01-concepts/README.md) を上から順に → [Workflow 型 vs Agent 型](../02-architecture/workflow-vs-agent.md) → [03-implementation](../03-implementation/README.md) → [Agent 評価の基礎](../04-evaluation/agent-evaluation-basics.md) → [プロンプトインジェクション](../06-security/prompt-injection.md) |
 | B: 設計担当 | 要件を受けて設計を始める | [AI Agent とは何か](../01-concepts/what-is-an-ai-agent.md) → [Agent ループ](../01-concepts/agent-loop.md) → [02-architecture](../02-architecture/README.md) を全部 → [Agent の脅威モデル概観](../06-security/threat-model-overview.md) |
-| C: 実装担当 | 設計済みのものを実装する | [03-implementation](../03-implementation/README.md) を全部 → `examples/` のサンプル → [04-evaluation](../04-evaluation/README.md) |
+| C: 実装担当 | 設計済みのものを実装する | [03-implementation](../03-implementation/README.md) を全部 → [実装済みサンプル](https://github.com/pero3dev/ai-agent-library/blob/d990973c2c02b6108cd9911fc06e45b3a29f9332/examples/README.md) → [04-evaluation](../04-evaluation/README.md) |
 | D: 運用・SRE | 既存の Agent を本番運用する | [05-operations](../05-operations/README.md) を全部 → [回帰テストと CI 組み込み](../04-evaluation/regression-testing.md) → [06-security](../06-security/README.md) |
 | E: セキュリティ | Agent システムをレビュー・監査する | [06-security](../06-security/README.md) を全部 → [ツール使用](../01-concepts/tool-use.md) → [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) |
 | F: エージェント活用 | Claude Code 等のコーディングエージェントを使う・導入する | [AI Agent とは何か](../01-concepts/what-is-an-ai-agent.md) → [Agent ループ](../01-concepts/agent-loop.md) → [08-coding-agents](../08-coding-agents/README.md) を「この章の読み方」の順で |
@@ -69,6 +69,40 @@ flowchart TD
 | H: 企業システム開発(SIer・情シス) | 受託・社内の企業システム開発でコーディングエージェントを工程横断で使う | [AI コーディングエージェントの分類と全体像](../08-coding-agents/coding-agents-overview.md) → [SE 工程別活用マップ](../08-coding-agents/se-process-map.md) → 自分の工程の記事(要件定義・設計 / テスト / レガシー / 保守)→ [企業システム環境の制約と対応](../08-coding-agents/se-enterprise-constraints.md) |
 
 個別ドキュメントの執筆状況は各セクションの README で確認できます(ファイル名がリンクになっているものが執筆済み、バッククォートのままの名前は計画段階です)。
+
+### A・B・Cの最初の小課題と到達確認
+
+最初の成果物を次の3つに限定します。A/Bは文章だけ、CはPython 3.11以降の標準ライブラリだけで完了でき、APIキーも有料API実行も不要です。これは学習の区切りであり、資格認定・実APIの生成品質・本番適性の証明ではありません。[スキルマップ](skill-map.md)の既存の到達レベルや実務経験の自己評価とは分けて使います。
+
+#### A: 構成と使い分けを1ページで説明する
+
+- 入力: 「先月の請求額が二重に引き落とされています。至急確認してください。」という問い合わせを、カテゴリ・優先度・要約に整理する業務です。外部への送信は行いません。
+- 必要な記事: [AI Agentとは何か](../01-concepts/what-is-an-ai-agent.md)、[Agentループ](../01-concepts/agent-loop.md)、[Workflow型 vs Agent型](../02-architecture/workflow-vs-agent.md)。
+- 成果物: モデル・ツール・状態・ループの役割、固定した分類Workflowで足りる理由、Agentにするなら何を動的に選ぶか、成功/失敗/回数上限/人への引継ぎという停止条件を1ページに書きます。
+- 終了条件: 分類の手順が固定ならWorkflowを選べること、ツールを呼ぶモデルと実行コードを区別できること、無制限に続けない条件を説明できることを、記事に照らして確認します。
+- 次へ: [ツール使用](../01-concepts/tool-use.md)を読んでBの設計メモへ進みます。
+
+#### B: 実行境界を埋めた設計メモを作る
+
+- 入力: Aと同じ問い合わせを分類し、回答の下書きまで作る業務です。実データや実サービスは使いません。
+- 必要な記事: [ツール使用](../01-concepts/tool-use.md)、[Human-in-the-Loop設計](../02-architecture/human-in-the-loop.md)、[エラー処理](../02-architecture/error-handling-and-retries.md)、[Agent評価の基礎](../04-evaluation/agent-evaluation-basics.md)。
+- 成果物: 入力、出力(category/priority/summary/回答下書き)、ツール権限(参照と下書きのみ)、承認(外部送信は今回禁止、将来許可するなら実引数・宛先・差分の承認)、停止(検証成功、認可拒否、最大試行2回)、評価(期待カテゴリ「請求」、優先度「高」、要約30字以内、外部送信0件)を空欄なく書きます。
+- 終了条件: 正常分類、許容外priority、認可拒否、承認後の引数変更の4ケースについて、検証・許可済み代替・停止・再承認のどこへ進むか一意に書ければ一区切りです。禁止操作を代替経路で実行しません。
+- 次へ: [構造化出力](../03-implementation/structured-output.md)を読んでCの実行記録へ進みます。
+
+#### C: 2つのmockの実行結果を説明する
+
+- 入力: [structured-outputのREADME](../../examples/python/structured-output/README.md)と[evaluation-harnessのREADME](../../examples/python/evaluation-harness/README.md)の固定mock入力です。
+- 成果物: Pythonの版、コマンド、標準出力、終了コード、検証NG/OKと評価NGの理由、mockで確認できる範囲と実APIでは未確認の範囲を実行記録に残します。
+- 実行: リポジトリのルートで次の2コマンドを実行します。終了コードは端末で確認します(PowerShellでは各実行の直後に `$LASTEXITCODE`)。
+
+```bash
+python -X utf8 examples/python/structured-output/structured_output.py --mock
+python -X utf8 examples/python/evaluation-harness/eval_harness.py --mock
+```
+
+- 終了条件: structured-outputの試行1は許容外の「至急」でNG、試行2は「高」でOKとなり終了0。evaluation-harnessはc4が「その他」/正解「請求」でNG、全体は4/5=80%で閾値80%を満たし終了0になることを説明します。1ケースのNGと、全体の閾値割れによる終了1を区別します。READMEの手順で閾値を90%にすると、この同じ結果は全体不合格になります。
+- 次へ: [回帰テストとCI組み込み](../04-evaluation/regression-testing.md)を読み、実APIを使う場合は各READMEの依存・キー・費用条件を確認して別の検証として記録します。
 
 ### セクションごとの読みどころ
 
@@ -92,7 +126,9 @@ flowchart TD
 
 1. **概念(01)を飛ばさない**。フレームワークの API はすぐ変わりますが、Agent ループやツール使用(tool use)の原理は変わりません
 2. **評価(04)とセキュリティ(06)を「あとで」にしない**。どちらも後付けが最も高くつく領域です
-3. 読むだけでなく、`examples/` のサンプルを手元で動かして確かめてください(Phase 4 以降で追加予定)
+3. 読むだけでなく、[実装済みの6サンプル](https://github.com/pero3dev/ai-agent-library/blob/d990973c2c02b6108cd9911fc06e45b3a29f9332/examples/README.md)を手元で動かして確かめてください。最初は [structured-output](../../examples/python/structured-output/README.md) の `--mock` を使い、検証NGから再試行でOKになる流れを確認します。ほかにツール使用・RAG・MCPサーバー・マルチエージェント・評価ハーネスを収録しています。6件ともAPIキー不要の `--mock` 経路があり、追加依存と確認範囲は各READMEを参照します
+
+mock実行はPython 3.11以降など、各READMEの条件を満たす環境で始められます。実APIは任意の次段階で、APIキー・固定SDK依存・利用費用を別に準備します。mockの成功は、実モデルの生成品質や外部サービスとの接続を確認した結果ではありません。
 
 ## 実務での注意点
 
@@ -108,7 +144,9 @@ flowchart TD
 
 - [ ] 自分の読者タイプ(A〜H)を決めた
 - [ ] 作りたいもの(または運用するもの)を 1 文で説明できる
-- [ ] LLM API を呼び出せる開発環境がある(examples を動かすため)
+- [ ] mockを実行する場合、Python 3.11以降と対象READMEの条件を満たす環境がある(APIキー不要)
+- [ ] A/B/Cの小課題を選び、入力・成果物・終了条件を確認した
+- [ ] 任意の実API検証はmockと分け、依存・キー・費用条件と未確認範囲を記録する
 - [ ] 読む予定のセクションの README にざっと目を通した
 
 ## 関連トピック

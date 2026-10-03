@@ -3,7 +3,7 @@ title: "Claude Code 実践ガイド"
 category: "coding-agents"
 level: "intermediate"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-10-03"
 tags: ["coding-agents", "cost-management", "prompt-caching"]
 ---
 
@@ -117,6 +117,7 @@ Claude Code v2.1.242 以降では、主会話は `promptCacheTtl` / `CLAUDE_CODE
 
 ## 参考資料
 
+- [Permission modes](https://code.claude.com/docs/en/permission-modes) — auto開始条件の継続観測先(アクセス日: 2026-10-03)
 - [CLI reference](https://code.claude.com/docs/en/cli-reference) / [Claude Code Action usage](https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md) — `--max-turns` と `claude_args` の既定値(アクセス日: 2026-09-10)
 - [Self-hosted environments](https://code.claude.com/docs/en/self-hosted-environments) / [Quickstart](https://code.claude.com/docs/en/self-hosted-environments-quickstart) — public beta の範囲と外部通信(アクセス日: 2026-09-10)
 - [Best practices(公式)](https://code.claude.com/docs/en/best-practices) — 検証・4 フェーズ・失敗パターン(旧エンジニアリングブログの統合先)(アクセス日: 2026-07-06)
@@ -133,6 +134,8 @@ Claude Code v2.1.242 以降では、主会話は `promptCacheTtl` / `CLAUDE_CODE
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** research preview / beta 機能(Routines・GitLab CI/CD)のステータス変化を公式ドキュメントで確認する(2026-08-18 確認: Routines は research preview 継続・GitLab CI/CD は beta 継続。auto モードは research preview を終了し Pro / Max / Team の既定モードになったため監視対象から除外〔詳細は [Claude Code](claude-code.md)〕。最終確認: 2026-08)
+> **TODO(要確認):** research preview / beta 機能(Routines・GitLab CI/CD)のステータス変化を公式ドキュメントで確認する(2026-08-18確認: Routinesはresearch preview継続・GitLab CI/CDはbeta継続。最終確認: 2026-08)
+
+> **TODO(要確認):** autoの開始条件を公式 Permission modes で継続観測する。2026-10-03確認の端末/VS Codeと-p/SDKの版・機能フラグ・組織条件は [Claude Code](claude-code.md) を参照し、起動後の実モードも確認する(最終確認: 2026-10)
 
 > **TODO(要確認):** 採用モデルのキャッシュ読み取り・書き込み単価、TTL の提供条件と effort 維持条件を公式 pricing / prompt-caching ページで確認する。2026-09-10 に TTL 設定と Fable 5.1 の例外を反映し、CLI reference で `--max-turns` は無制限と訂正済み。Agent teams の倍率は 2026-08 の確認範囲のまま(最終確認: 2026-09)

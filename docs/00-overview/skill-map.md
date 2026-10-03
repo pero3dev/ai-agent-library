@@ -3,7 +3,7 @@ title: "AI Agent プロフェッショナルのスキルマップ"
 category: "overview"
 level: "basic"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-10-03"
 tags: ["skill-map", "learning-roadmap"]
 ---
 
@@ -103,6 +103,8 @@ flowchart TD
 専門レベルへ進むための advanced ドキュメント([マルチテナント設計](../02-architecture/multi-tenancy-and-isolation.md)、[RAG 実装パターン](../03-implementation/rag-implementation-patterns.md)、[評価データセットの構築と保守](../04-evaluation/evaluation-datasets.md)、[デプロイとスケーリング](../05-operations/deployment-and-scaling.md)、[エージェントの認証・認可](../06-security/agent-identity-and-auth.md)など)も各セクションに収録しています。執筆状況は各セクション README の収録予定表で確認してください。
 
 ### 実践で伸ばす方法(社内題材の選び方)
+
+最初の学習成果物には、[学習ロードマップのA/B/C小課題](learning-roadmap.md#abcの最初の小課題と到達確認)を使えます。Aは構成・Workflowとの使い分け・停止条件を説明する1ページ、Bは入力/出力/ツール権限/承認/停止/評価を埋めた設計メモ、Cは構造化出力と評価ハーネスのmock実行記録です。記事とAPIキー不要の経路で完了でき、各課題の終了条件を満たしたら次のリンクへ進みます。これはS1〜S4・S6を学び始める確認で、既存の実務/専門の自己評価、資格認定、実API品質、本番適性を保証しません。
 
 読むだけで実務レベルには到達できません。レベルを上げるには、実際の題材で作り・測り・直すサイクルが必要です。社内で実践題材を選ぶときの条件は次の 4 つです。
 

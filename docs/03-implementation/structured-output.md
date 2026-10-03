@@ -3,7 +3,7 @@ title: "構造化出力"
 category: "implementation"
 level: "intermediate"
 status: "published"
-last_updated: "2026-07-05"
+last_updated: "2026-10-03"
 tags: ["structured-output", "function-calling"]
 ---
 
@@ -34,10 +34,10 @@ LLM の出力を後続のコードで安全に処理するために、出力を�
 | 手法 | 仕組み | 保証の強さ |
 | --- | --- | --- |
 | プロンプト指示 | 「次の JSON 形式で答えてください」と指示する | 弱い(逸脱・余計な前置き・コードフェンス混入が起きる) |
-| ツール定義の流用 | 出力形式をツールの入力スキーマとして定義し、そのツールを呼ばせる | 中〜強(スキーマに沿った引数が返る) |
-| ネイティブの構造化出力機能 | API にスキーマを渡し、出力がスキーマに準拠することを API 側が保証する | 強 |
+| ツール定義の流用 | 出力形式をツールの入力スキーマとして定義し、そのツールを呼ばせる | 通常はベストエフォート。対応モデル・対応スキーマ・strict 設定などが満たされ、正常に完了した呼出しでは強い形式保証を使える場合があります |
+| ネイティブの構造化出力機能 | API に対応スキーマと設定を渡す | 正常完了した構造化応答に形式保証。拒否・打切り・設定エラーを別に処理する必要があります |
 
-2026 年時点では、主要な LLM API がネイティブの構造化出力機能(スキーマ準拠の保証)を提供しています。新規実装ではまずネイティブ機能を検討し、未対応の環境でツール流用にフォールバックするのが基本です。
+新規実装ではネイティブ機能の対応モデル・スキーマ制約・設定と例外状態を先に確認します。未対応の環境でツール流用や指示だけへ切り替える場合は、保証が同じとは扱わず、後段の検証で補います。OpenAI の具体例は 2026-10-03 の公式ガイドで確認しています。`strict: true` と対応 JSON Schema を使い、拒否や打切りがない正常完了した構造化応答が保証の対象です。
 
 > **TODO(要確認):** 各社の構造化出力機能の名称・スキーマ制約(サポートされる JSON Schema のサブセット)・対応モデルを公式ドキュメントで確認する(最終確認: 2026-07)
 
@@ -50,24 +50,45 @@ LLM の出力を後続のコードで安全に処理するために、出力を�
 
 ### 詳細: 検証と再生成のループ
 
-ネイティブ機能でも、業務ルールのレベル(合計値の整合、参照先の実在)までは保証されません。**モデルの出力は常に検証してから使う**のが原則です。
+ネイティブ機能でも、業務ルールのレベル(合計値の整合、参照先の実在)までは保証されません。まず応答状態を分け、正常完了だけを構造・業務検証へ渡します。拒否や打切りをパース失敗として再生成すると、拒否を回避したり不完全な値を使ったりする危険があります。
 
 ```python
-# ベンダー中立の擬似コード
+# ベンダー中立の擬似コード。adapter が API 固有の状態を正規化します
 MAX_RETRIES = 2
 
 def extract(text: str) -> dict:
     prompt = build_prompt(text)
+    budget = INITIAL_OUTPUT_BUDGET
     for attempt in range(MAX_RETRIES + 1):
-        raw = llm_call(prompt, schema=EXPENSE_SCHEMA)
-        result, errors = validate(raw)   # スキーマ + 業務ルールの検証
+        try:
+            response = adapter.call(prompt, schema=EXPENSE_SCHEMA,
+                                    strict=True, output_budget=budget)
+        except UnsupportedSchemaOrSetting as error:
+            # 運用担当が対応スキーマ/モデル/設定へ訂正。同じ設定で再送しません
+            raise ConfigurationCorrectionRequired(error)
+        if response.refusal:
+            # 通知して停止。拒否を形式エラーとして再生成しません
+            raise ExtractionRefused(response.refusal)
+        if response.status == "incomplete":
+            if response.reason == "output_limit" and attempt < MAX_RETRIES:
+                budget = increase_within_cost_limit(budget)
+                continue   # 打切り出力は利用せず、予算内で再生成します
+            # 安全制約による打切り、理由不明、上限到達は停止・通知します
+            raise ExtractionIncomplete(response.reason)
+        if response.status != "completed":
+            raise ExtractionFailed(response.status)
+        result, errors = validate(response.output)  # スキーマ + 業務ルール
         if not errors:
             return result
-        prompt = build_retry_prompt(text, raw, errors)  # エラー内容を添えて再生成
+        if attempt == MAX_RETRIES:
+            raise ExtractionFailed(errors)
+        prompt = build_retry_prompt(text, response.output, errors)
     raise ExtractionFailed(errors)
 ```
 
-ポイントは 2 つです。(1) 再生成時に**何がどう違反したか**を伝える(エラーは観測、という [Agent ループ](../01-concepts/agent-loop.md) と同じ原則)。(2) **回数上限**を置き、上限到達を「品質の低い成功」ではなく明示的な失敗として扱う。
+adapter の `output_limit` は API 固有の理由を正規化した名前です。予算を増やせない場合も停止します。再生成するのは訂正可能な正常応答の検証失敗、または理由と予算が明確な打切りだけで、共通の回数上限を消費します。後続の登録・送信などの副作用は検証成功後に行い、抽出の再生成と外部操作の再実行を分けます。
+
+OpenAI Responses API の例では、`status == "incomplete"` と `incomplete_details.reason`(例: `max_output_tokens`)、出力中の `refusal` を正常完了と分けます。非対応スキーマを `strict: true` で渡すと設定エラーになります。JSON モードは JSON としての妥当性を目的とし、指定スキーマへの準拠保証とは別です。SDK・APIごとのフィールドは [OpenAI特化ガイド](openai-prompting.md) と公式資料で照合してください。
 
 ### 設計判断: どこまで構造化するか
 
@@ -84,12 +105,16 @@ def extract(text: str) -> dict:
 - **逃げ道のない enum** → 該当なしの入力が最も近いラベルに誤分類され、静かに品質が劣化する → 「その他」「判定不能」を必ず入れ、その割合を監視する
 - **巨大な一発スキーマ** → 数十フィールドを 1 回の呼び出しで埋めさせると、後半のフィールドの品質が落ちる → 独立した関心事ごとに呼び出しを分ける([オーケストレーションパターン](../02-architecture/orchestration-patterns.md) の直列・並列)
 - **検証なしのパース** → スキーマ準拠 = 内容が正しい、ではない → 業務ルール検証(値域・整合性・実在チェック)を必ず挟む
+- **拒否・打切り・設定エラーをすべて再生成する** → 拒否の回避や同じ設定エラーの反復、不完全な値の利用につながる → 状態を先に分岐し、拒否は停止、打切りは理由別の上限付き処理、設定エラーは設定訂正へ渡す
 
 ### チェックリスト
 
 - [ ] 後続処理がコードである出力に、指示だけでなくスキーマによる強制を使っている
 - [ ] 分類 enum に「その他 / 判定不能」の逃げ道がある
 - [ ] スキーマ検証 + 業務ルール検証を通ってから後続処理に渡している
+- [ ] 対応モデル・スキーマ・strict 設定と正常完了という保証条件を確認した
+- [ ] 正常完了・拒否・打切り・設定エラーの処理先を分け、拒否は自動再生成しない
+- [ ] 打切り理由を確認し、予算内の再生成だけを許し、不完全な出力は後続へ渡さない
 - [ ] 再生成にエラー内容を添え、回数上限がある
 - [ ] 「その他」判定率・再生成率をモニタリングしている
 
@@ -105,6 +130,7 @@ def extract(text: str) -> dict:
 ## 参考資料
 
 - [Structured outputs(Anthropic docs)](https://platform.claude.com/docs/en/build-with-claude/structured-outputs) — ネイティブ構造化出力の仕様(アクセス日: 2026-07-05)
+- [Structured model outputs(OpenAI)](https://developers.openai.com/api/docs/guides/structured-outputs) — strict設定、拒否、incomplete、非対応スキーマの処理(アクセス日: 2026-10-03)
 
 ## TODO・未確認事項
 

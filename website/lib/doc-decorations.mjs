@@ -81,6 +81,23 @@ function wrapPracticeSections(root) {
   root.children = out
 }
 
+// GFM の匿名 input を、同じ項目本文と結び付くサイト所有コンポーネントへ変換する。
+function labelChecklistItems(node) {
+  if (node.type === 'listItem' && typeof node.checked === 'boolean') {
+    const paragraph = node.children?.find(child => child.type === 'paragraph')
+    if (paragraph) {
+      paragraph.children = [{
+        type: 'mdxJsxTextElement',
+        name: 'ChecklistBox',
+        attributes: [jsxAttr('defaultChecked', String(node.checked))],
+        children: paragraph.children
+      }]
+      node.checked = null
+    }
+  }
+  for (const child of node.children ?? []) labelChecklistItems(child)
+}
+
 /* ---------- 3. GLOSSARY 用語の自動リンク(ページ内初出のみ) ---------- */
 
 const SKIP_TYPES = new Set(['heading', 'link', 'linkReference', 'mdxJsxTextElement'])
@@ -139,4 +156,5 @@ export function applyDecorations(tree, { route, glossary = [] }) {
   if (glossary.length > 0 && route !== '/docs/glossary') {
     autolinkGlossary(tree, new Set(), route, false, glossary)
   }
+  labelChecklistItems(tree)
 }

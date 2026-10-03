@@ -5,7 +5,7 @@
 .home {
   --home-fg: #18181b;
   --home-muted: #52525b;
-  --home-faint: #a1a1aa;
+  --home-faint: var(--site-text-secondary);
   --home-bg-card: #ffffff;
   --home-bg-soft: #fafafa;
   --home-border: #e4e4e7;
@@ -21,7 +21,7 @@
 .dark .home {
   --home-fg: #fafafa;
   --home-muted: #a1a1aa;
-  --home-faint: #71717a;
+  --home-faint: var(--site-text-secondary);
   --home-bg-card: #18181b;
   --home-bg-soft: #111113;
   --home-border: #27272a;
@@ -119,6 +119,10 @@
 .btn-primary {
   background: var(--home-accent);
   color: #fff;
+}
+
+.dark .btn-primary {
+  color: #18181b;
 }
 
 .btn-ghost {
@@ -341,6 +345,13 @@
 
 .route-more a {
   color: var(--home-accent);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.route-more a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
 }
 
 /* ---------- 概念カード ---------- */

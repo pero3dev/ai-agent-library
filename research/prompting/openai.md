@@ -28,6 +28,21 @@
 
 ---
 
+## 2026-10-03 Issue #153・#154 の確認
+
+実取得: 2026-10-03T06:45:36Z(UTC)。公式ページの文書確認であり、実 API・アカウントの利用可能性は未検証です。
+
+独立レビューでの再取得: 2026-10-03T07:32:57Z(UTC)、Sol/Lunaモデルページ・Your data・Pricing。以下のEU条件とPricingの取得範囲は、この再取得を最終根拠にします。
+
+- [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs): strict設定と対応スキーマの正常完了に形式保証があります。refusal、incomplete(max_output_tokens等)、非対応スキーマの設定エラーを正常出力から分離し、2記事の本文・例・チェックリストに反映しました。
+- [Sol](https://developers.openai.com/api/docs/models/gpt-6-sol) / [Luna](https://developers.openai.com/api/docs/models/gpt-6-luna): EU data residencyにStandard / Flex / Batchの対応を明記します。
+- [Your data](https://developers.openai.com/api/docs/guides/your-data): 同じ3種の対応を案内します。FastはEU非対応。regional storageの対応はregional processingの対応を意味しません。対象モデル・API・地域・プロジェクトの適格条件の確認が必要です。
+- [Pricing](https://developers.openai.com/api/docs/pricing): 独立レビュー時の再取得本文では、Sol / LunaのEUをStandard限定とする記述の残存を確認できませんでした。初回取得の該当原文を保存しておらず、Issueの過去観測を今回の取得証拠には使えないため、現存する資料差の断定を撤回しました。現行条件はモデルページとYour dataの取得本文を根拠とします。
+
+旧 #104 のclosed状態を訂正の証拠にせず、現Issueの指摘と取得本文を照合しました。以下の2026-09-28以前のStandard限定記録は過去の宣言として保持し、現行条件の裏付けには使いません。現行記事では本節で取得できた条件を優先します。他のモデル/価格/設定を一括再確認した記録ではありません。
+
+> **TODO(要確認):** Sol / LunaのEU条件について、対象アカウント/プロジェクト/APIの適格条件は実環境で未検証です。利用前にYour dataと管理画面/公式サポートで確認する(最終確認: 2026-10)
+
 ## 2026-09-28 重点観測
 
 GPT-6 Sol / Luna は effort に none を含み、既定は medium です。Chat Completions の function calling は none の場合だけ対応するため、推論を有効にしたツール処理は Responses API を使います。EU データレジデンシーでは Standard 限定です。Astra の none / minimal 非対応・ツール処理の Responses 要件・サンプリング制約は一致しました。

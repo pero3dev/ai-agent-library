@@ -3,7 +3,7 @@ title: "主要コーディングエージェント比較"
 category: "coding-agents"
 level: "intermediate"
 status: "published"
-last_updated: "2026-10-01"
+last_updated: "2026-10-03"
 tags: ["coding-agents"]
 ---
 
@@ -24,7 +24,7 @@ tags: ["coding-agents"]
 
 ## 本文
 
-> **最終確認日:** 2026-10-01 に Cursor の検索方式を更新しました。2026-09-10 に Claude Code / Codex の権限・自社実行、Cursor / Windsurf のデータ条件、Gemini の契約経路、Copilot の企業制御、Cline / Continue の提供面を部分更新しました。他の項目は各ツール記事に示す 2026-07〜08 の確認範囲です。採用時は契約・設定・提供面ごとの一次情報を確認してください。
+> **最終確認日:** 2026-10-03 に Claude Code の開始モード条件を更新しました。2026-10-01 に Cursor の検索方式を更新しました。2026-09-10 に Claude Code / Codex の権限・自社実行、Cursor / Windsurf のデータ条件、Gemini の契約経路、Copilot の企業制御、Cline / Continue の提供面を部分更新しました。他の項目は各ツール記事に示す 2026-07〜08 の確認範囲です。採用時は契約・設定・提供面ごとの一次情報を確認してください。
 
 ### 概要と読み方
 
@@ -62,7 +62,7 @@ tags: ["coding-agents"]
 
 | ツール | 実行場所 | サンドボックス | 承認モデル(既定) | 学習利用の既定 |
 | --- | --- | --- | --- | --- |
-| Claude Code | ローカル / 管理 VM / 自社 runner(public beta、Team・Enterprise) | 内蔵(**既定オフ**。Win ネイティブ非対応) | Pro/Max/Team: 既定 auto(分類器レビュー)/ Enterprise・API 経由: 都度承認(Manual)(全 6 モード、deny → ask → allow) | Consumer: ユーザー設定次第で利用 / Commercial: 不使用 |
+| Claude Code | ローカル / 管理 VM / 自社 runner(public beta、Team・Enterprise) | 内蔵(**既定オフ**。Win ネイティブ非対応) | 端末/VS Codeはv2.1.283以降auto。-p/SDKは機能フラグ取得・v2.1.285・組織条件で変化。明示設定とauto利用可否を含め [詳細表](claude-code.md) で確認 | Consumer: ユーザー設定次第で利用 / Commercial: 不使用 |
 | OpenAI Codex | ローカル(+ クラウドコンテナ) | **既定で有効**(従来は workspace-write)+ ネットワーク既定オフ | ファイル・通信境界 × 承認。permission profiles beta / Auto-review あり | 個人: ChatGPT 設定に従い利用されうる / Business 以上: 不使用 |
 | Gemini CLI | ローカル | オプトイン(5 方式から選択) | 都度承認(auto_edit / plan、全自動はフラグ限定) | ライセンス経由: 不使用 / API: Unpaid は改善利用、Paid は不使用(地域・課金設定の例外あり) |
 | Gemini Code Assist | ローカル IDE | ? | 承認制(自動承認はオプトイン) | 不使用(公式明記) |
@@ -137,6 +137,7 @@ tags: ["coding-agents"]
 
 ## 参考資料
 
+- [Claude Code Permission modes](https://code.claude.com/docs/en/permission-modes) — 実行面・版・機能フラグ・組織設定による開始モード(アクセス日: 2026-10-03)
 - [Cursor Search](https://cursor.com/docs/agent/tools/search) — ローカル索引と、検索で開いた内容の推論利用(アクセス日: 2026-10-01)
 - [Cursor Data Use](https://cursor.com/data-use) / [Cognition Platform Terms](https://cognition.com/legal/platform-terms-of-service) / [Gemini API Terms](https://ai.google.dev/gemini-api/terms) — 学習・保持・契約条件(アクセス日: 2026-09-10)
 - [Codex Permissions](https://learn.chatgpt.com/docs/permissions) / [Claude Code self-hosted environments](https://code.claude.com/docs/en/self-hosted-environments) — 実行・権限境界(アクセス日: 2026-09-10)

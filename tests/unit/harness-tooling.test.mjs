@@ -50,6 +50,13 @@ test('schema verification resolves escaped local references and rejects dangling
   assert.throws(() => validateSchemaReferences({ ...schema, required: ['missing'] }))
 })
 
+test('YAML configuration retains JSON schema scalars and treats merge keys as plain data', () => {
+  const value = parseConfiguration('config.yml', 'base: &base {enabled: true}\ncopy: {<<: *base, count: 3}\non: off\ndate: 2026-10-03\n')
+  assert.deepEqual(value.copy, { '<<': { enabled: true }, count: 3 })
+  assert.equal(value.on, 'off')
+  assert.equal(value.date, '2026-10-03')
+})
+
 test('doctor reports selected configuration origins without exposing unrelated secrets or asserting hook firing', () => {
   const rows = selectedConfig({ model: 'gpt-example', api_key: 'DO_NOT_EXPOSE', mcp_servers: { server: { token: 'DO_NOT_EXPOSE' } }, features: { hooks: true }, projects: { '/repo': { trust_level: 'trusted' } } }, '/user/config.toml', '/repo')
   assert.equal(rows.length, 3)

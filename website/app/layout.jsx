@@ -9,6 +9,7 @@ import { AudioProvider } from '../components/audio/audio-provider'
 import '../components/audio/audio.css'
 import { CurrentSectionToc } from '../components/mdx/article-toc'
 import '../components/mdx/reading-layout.css'
+import { ThemeSwitch } from '../components/theme-switch'
 
 // 公開 URL(OG タグの絶対 URL 解決に使用)。CI は vars.SITE_URL から NEXT_PUBLIC_SITE_URL を渡す
 // (公開先: https://pero3dev.github.io/ai-agent-library/)。ローカルは localhost:3000
@@ -49,7 +50,7 @@ const navbar = (
     </Link>
   </Navbar>
 )
-const footer = <Footer>AI Agent Library — 実務の設計判断のための学習ドキュメント</Footer>
+const footer = <Footer><div className="site-footer-content"><ThemeSwitch /><span>AI Agent Library — 実務の設計判断のための学習ドキュメント</span></div></Footer>
 
 export default async function RootLayout({ children }) {
   return (
@@ -62,6 +63,8 @@ export default async function RootLayout({ children }) {
           navbar={navbar}
           pageMap={await getPageMap()}
           footer={footer}
+          darkMode={false}
+          copyPageButton={false}
           // 「Edit this page」「Feedback」は既定で上流 shuding/nextra を指す 404 リンクになる。
           // content/ は sync の生成物で docs/ 正本へ 1:1 対応しないため、両リンクを無効化する(C12)。
           // docsRepositoryBase も既定(shuding/nextra)を実リポジトリに上書きし、設定 JSON から上流参照を消す

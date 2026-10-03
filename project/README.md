@@ -6,6 +6,10 @@
 
 ## 構造・運用の計画
 
+2026-10-03の総合レビューIssueを解決する作業は[実施記録](records/2026-10-03/issue-resolution.md)で追跡する。[公開資産の既存ライセンス棚卸し](records/2026-10-03/license-inventory.md)、[Pages診断・復旧の現行手順](../website/operations.md)、[公開正本による保守基準値](records/2026-10-03/maintenance-baseline.md)を作成し、記事・サイト・音声排他・依存を修正する。完了は各記録とPR/CI/公開証拠で確認する。
+
+担当別の変更と検証範囲は[記事の修正](records/2026-10-03/article-issue-remediation.md)、[サイトの修正](records/2026-10-03/website-issue-remediation.md)、[音声・CI・依存の修正](records/2026-10-03/harness-audio-issue-remediation.md)に記録する。
+
 動的図解の全記事展開は停止し、全ソース・未提出状態・保存時の表示をバックアップして機能削除へ移行した。[実施記録](records/2026-10-03/dynamic-diagram-removal.md)に保存先・復元確認・削除と公開の結果を記載する。本文・既存Mermaid・数式を保持する。
 
 E1〜F2の[旧検証計画](records/2026-09-30/p1-kit-preparation/README.md)と[保存時の確認](records/2026-09-30/p1-kit-preparation-review.json)は経緯として残す。旧計画の全手順を今後の作業へ再適用しない。

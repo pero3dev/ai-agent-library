@@ -3,7 +3,7 @@ title: "Claude Code"
 category: "coding-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-10-03"
 tags: ["coding-agents", "mcp"]
 ---
 
@@ -27,7 +27,7 @@ Anthropic のコーディングエージェント Claude Code の提供形態・
 
 ## 本文
 
-> **最終確認日:** self-hosted environments は 2026-09-10、その他は 2026-08-18 — 本記事の製品仕様・提供形態はこの日付時点の公式情報に基づきます。主な出典は「参考資料」を参照してください。
+> **最終確認日:** 承認モードと開始時の選択条件は 2026-10-03、self-hosted environments は 2026-09-10、その他は 2026-08-18 — 部分更新です。公式資料の読み合わせであり、実 Agent の起動試験は行っていません。主な出典は「参考資料」を参照してください。
 
 ### 概要
 
@@ -35,7 +35,7 @@ Claude Code は Anthropic が提供するコーディングエージェントで
 
 特徴は次の 3 点に集約されます。
 
-- **権限システムが第一層** — すべての編集・コマンド実行が承認制(既定)で、allow / ask / deny ルールで細かく制御できます
+- **権限システムが第一層** — 実行前に権限を照合し、選択されたモードとルールで、人への確認・自動許可・拒否を分けます。手動承認モードの動作と、どのモードで開始するかは別の仕様です
 - **拡張機構の厚さ** — ルールファイル(CLAUDE.md)・フック・サブエージェント・スキル・プラグイン・MCP により、チーム標準を配布できます
 - **エンジンの再利用性** — 同じエージェントを CLI・IDE・Web・CI・SDK から使え、設定・ルールが共通で機能します
 
@@ -60,7 +60,7 @@ Claude Code は Anthropic が提供するコーディングエージェントで
 
 - **リポジトリ理解**: 事前インデックスを作らず、ripgrep ベースのオンデマンド検索(グロブ・正規表現)で探索します(公式のアーキテクチャ説明に索引構築の工程は登場しません)。型付き言語ではコードインテリジェンスプラグイン(LSP 連携)を追加でき、シンボル単位の参照検索が可能になります
 - **ファイル編集**: 編集前スナップショットによるチェックポイント機構があり、`/rewind` でファイル状態を巻き戻せます(git とは独立。外部作用は対象外)。IDE 拡張ではインライン diff でプレビューできます
-- **コマンド実行**: シェル実行は既定で承認制です。読み取り専用コマンド(`ls`・`git status` 等)は自動、複合コマンド(`&&` 等)はサブコマンドごとに独立して権限照合されます。バックグラウンド実行にも対応します
+- **コマンド実行**: Manual(`default`)では、事前許可のない操作に人への確認を求めます。読み取り専用コマンドや許可ルール等の例外があり、すべてを都度確認するわけではありません。`auto` は分類器による審査で通常の確認を減らします。開始モードの条件は次節を参照してください。バックグラウンド実行にも対応します
 - **大規模リポジトリ対策**: サブディレクトリ CLAUDE.md のオンデマンド読込、パス限定ルール(`.claude/rules/` の `paths`)、探索のサブエージェント委譲(要約のみ本体へ)などで対応します
 
 ### 設定ファイルとカスタマイズ
@@ -72,11 +72,24 @@ Claude Code は Anthropic が提供するコーディングエージェントで
 
 ### 権限管理とセキュリティ
 
-- **権限モード** は 6 種(Manual = 都度承認、acceptEdits、plan = 読み取り専用、auto = 分類器レビュー付き自動承認、dontAsk、bypassPermissions = 隔離環境専用)。既定モードは認証経路で異なり、2026-08 時点では **Pro / Max / Team プランの組み込み開始モードが `auto`** です(v2.1.228 以降。ネイティブ Windows は v2.1.233 以降)。Enterprise・Console(API キー)・`claude -p`・Agent SDK・Bedrock 等の経由では従来どおり `default`(Manual)が既定で、組織は managed settings の `disableAutoMode` で `auto` を組織的に禁止できます。ルールは allow / ask / deny で、評価順は deny → ask → allow 固定です
+- **権限モード** は Manual(`default`)、`acceptEdits`、`plan`、`auto`、`dontAsk`、`bypassPermissions` の6種です。Manualは許可されていない操作に確認、autoは分類器レビューを使います。`auto` は安全性の保証ではなく、`bypassPermissions` を使うなら隔離環境が必要です。モードの動作と組み込み開始モードを区別します
 - **OS サンドボックス**(macOS Seatbelt / Linux・WSL2 bubblewrap)を内蔵しますが**既定では無効**です。有効化すると境界内の Bash を自動実行に切り替えられます。ネイティブ Windows は非対応です。「権限 = 常時オン、サンドボックス = オプトイン」という関係を混同しないでください
 - サンドボックスのネットワークはドメイン単位のデフォルト拒否 + 初回承認です。既定では TLS を終端しないため、公式自身が限界(広いドメイン許可は持ち出し経路になり得る)と、より強い保証にはカスタムプロキシ + TLS 検査を推奨することを明記しています
 - 認証情報保護(`sandbox.credentials` による読取拒否・環境変数マスク)、WebFetch の隔離コンテキスト処理、コマンドインジェクション検出、fail-closed 照合などの防御があります
 - **データ学習の既定はプランで正反対になり得ます**: Consumer(Free/Pro/Max)はユーザーの設定がオンだと学習に使用(保持 5 年、オフで 30 日)。Commercial(Team/Enterprise/API)は明示オプトインしない限り学習に**使用しません**(標準保持 30 日、Enterprise は ZDR の個別適用可)。組織導入ではこの差が選定の重要事実です
+
+**開始モードの確認(2026-10-03)**。明示設定がない場合の組み込み既定は、公式 Permission modes の表を上から照合します。
+
+| 条件 | 組み込み開始モード |
+| --- | --- |
+| いずれかの設定が `permissions.disableAutoMode: "disable"` | Manual(`default`) |
+| `claude -p` / Agent SDK、機能フラグ取得あり | Manual |
+| `claude -p` / Agent SDK、機能フラグ取得なし(例: 第三者プロバイダー/telemetry off) | v2.1.285以降はauto、以前はManual。組織がauto既定を制限する場合はManual |
+| 対話端末 / VS Code | v2.1.283以降はプラン・プロバイダーを問わずauto。以前はPro/Max/Teamかつ機能フラグ取得ありでauto、それ以外はManual |
+
+古い版で組み込みauto既定を使える最小版はmacOS/Linux/WSLでv2.1.228、ネイティブWindowsでv2.1.233です。さらにautoは対応モデル・プロバイダー・組織設定・サーバー側の提供条件を満たす必要があります。選ばれたautoが利用できない場合はManualへ戻ります。初回のインストール/更新直後は機能フラグの到着前に選択され、表と違う場合があるため、実セッションの表示を確認します。
+
+端末は起動フラグ→設定の `permissions.defaultMode` →組み込み既定の順です。ただしプロジェクトの `.claude/settings.json` / `.claude/settings.local.json` に書いたautoは開始設定として効きません。VS Codeは通常、拡張の `claudeCode.initialPermissionMode` →直前に選択した対象モード→managed/userのdefaultMode→組み込み既定の順で、プロジェクト設定から開始モードを読みません。`claudeCode.claudeProcessWrapper` が設定されている場合は後ろ2項目を読まず、上位2項目がなければManualになります。Desktop/Webなど別の実行面と例外条件は公式の各タブで確認します。手動承認を必要とする組織では、既定を推測せず明示設定と起動後の表示で確認してください。
 
 ### 外部連携(MCP・CI・API)
 
@@ -113,6 +126,7 @@ Claude Code は Anthropic が提供するコーディングエージェントで
 ### チェックリスト
 
 - [ ] 契約プラン(Consumer / Commercial)のデータ学習・保持の既定を確認したか
+- [ ] 実行面・版・機能フラグ・組織設定から開始モードを確認し、起動後の実表示とauto利用条件を照合したか
 - [ ] 自動承認(acceptEdits・サンドボックス auto-allow)の範囲が可逆な操作に限定されているか
 - [ ] `~/.ssh`・認証情報ファイルが読み取り除外(deny・`sandbox.credentials`)されているか
 - [ ] 組織導入で managed settings(危険モードの禁止・MCP 制限)を配布したか
@@ -132,7 +146,7 @@ Claude Code は Anthropic が提供するコーディングエージェントで
 
 - [Claude Code Docs(公式)](https://code.claude.com/docs/en/overview) — 機能・提供形態の一次情報(アクセス日: 2026-08-18)
 - [Permissions](https://code.claude.com/docs/en/permissions) — 権限ルールの仕様(アクセス日: 2026-07-05)
-- [Permission modes](https://code.claude.com/docs/en/permission-modes) — 権限モードと既定モードの仕様(アクセス日: 2026-08-18)
+- [Permission modes](https://code.claude.com/docs/en/permission-modes) — Manual/autoの動作、実行面・版・機能フラグ・組織設定別の開始条件とfallback(アクセス日: 2026-10-03)
 - [Sandboxing](https://code.claude.com/docs/en/sandboxing) — サンドボックスの仕様と限界(アクセス日: 2026-07-05)
 - [Data usage](https://code.claude.com/docs/en/data-usage) — データ保持・学習利用の既定(アクセス日: 2026-08-18)
 - [料金ページ](https://claude.com/pricing) — プラン体系(アクセス日: 2026-08-18)
@@ -142,6 +156,8 @@ Claude Code は Anthropic が提供するコーディングエージェントで
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** Claude Code on the web(research preview)と Agent teams(experimental)のステータス変化を公式ドキュメントで確認する(2026-08-18 確認: 両者とも継続。権限モード `auto` は research preview を外れ Pro / Max / Team の既定モードになったため監視対象から除外。最終確認: 2026-08)
+> **TODO(要確認):** Claude Code on the web(research preview)と Agent teams(experimental)のステータス変化を公式ドキュメントで確認する(2026-08-18確認: 両者とも継続。最終確認: 2026-08)
+
+> **TODO(要確認):** autoの開始条件・対応モデル・組織制御・機能フラグとfallbackを公式 Permission modes で継続観測する。実セッションの表示と挙動は利用する版・実行面で確認する(最終確認: 2026-10)
 
 > **TODO(要確認):** サブスクリプションの使用量制限の具体的構造・対象プランを公式ヘルプセンターで確認する(2026-08-18 確認: 5 時間窓 + 週次上限・チャット製品と共通プール・超過後 usage credits の構造に変更なし。数値は流動的なため本文には構造のみ記載。最終確認: 2026-08)

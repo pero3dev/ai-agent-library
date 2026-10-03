@@ -3,7 +3,7 @@ title: "OpenAI(GPT 系)特化プロンプティングガイド"
 category: "implementation"
 level: "intermediate"
 status: "published"
-last_updated: "2026-09-28"
+last_updated: "2026-10-03"
 tags: ["prompt-design", "model-selection"]
 ---
 
@@ -28,7 +28,7 @@ OpenAI の GPT ファミリーに対して、**公式ガイドが推奨する具
 
 ## 本文
 
-> **最終確認日:** 2026-09-28 — GPT-6 内の設定差・キャッシュ・設定更新と対象 ID 別の退役予定を確認しました。非同期ツールは 2026-09-10、従来の設計指針は各参考資料の確認日を参照し、未取得の現行原文は TODO に分けます。
+> **最終確認日:** 2026-10-03 — Structured Outputs の例外処理と Sol / Luna の EU 条件を確認しました。GPT-6 内の設定差・キャッシュ・設定更新・対象 ID 別の退役予定は 2026-09-28、非同期ツールは 2026-09-10 の確認です。従来の設計指針は各参考資料の確認日を参照し、未取得の現行原文は TODO に分けます。
 
 ### 概要: 汎用記事との分担
 
@@ -64,7 +64,9 @@ Claude・Gemini との横並び比較と移行は [モデル間の違いと移�
 
 委任の条件、必要な検証の範囲、完了基準も明示します。自律化の指示は、実行権限や必要な承認を省略する根拠にはしません。
 
-同じ GPT-6 でも Sol / Luna は `none / low / medium / high / xhigh / max` に対応し、既定は `medium` です。Chat Completions の関数呼出し(function calling)は `none` の場合に限られるため、推論を有効にしたツール処理には Responses API を使います。EU データレジデンシーでは Sol / Luna も Standard 限定です。Astra の `none` 非対応と区別して実装します。
+同じ GPT-6 でも Sol / Luna は `none / low / medium / high / xhigh / max` に対応し、既定は `medium` です。Chat Completions の関数呼出し(function calling)は `none` の場合に限られるため、推論を有効にしたツール処理には Responses API を使います。Astra の `none` 非対応と区別して実装します。
+
+Sol / Luna の EU データレジデンシーは、2026-10-03 に取得したモデルページと Your data が Standard / Flex / Batch 対応を案内します。Pricing の現取得本文では、以前の Standard 限定記述の残存を確認できませんでした。取得範囲と過去の観測は [調査メモ](https://github.com/pero3dev/ai-agent-library/blob/main/research/prompting/openai.md) に記録しました。利用前に対象モデル・アカウント・プロジェクト・API の適格条件を Your data と管理画面/公式サポートで確認し、全アカウントでの利用を保証しません。Fast の EU 非対応と、地域内保存(regional storage)・地域内処理(regional processing)は別の条件です。保存対応だけで処理対応とは判断しません。
 
 ### メッセージ構造と指示階層
 
@@ -98,7 +100,8 @@ GPT-5.x は推論を内蔵し、**reasoning effort** で思考とツール使用
 
 ### 出力の制御: Structured Outputs
 
-- **機械処理する出力は Structured Outputs で強制する**: 供給した JSON Schema への遵守を保証します(妥当な JSON だけを保証する JSON モードの発展形。`strict: true` + `json_schema`)。基本設計は [構造化出力](structured-output.md) が正本です
+- **機械処理する出力は Structured Outputs を使う**: 対応モデル・対応 JSON Schema・`strict: true` などの条件を満たす正常完了した構造化応答で形式を保証します。拒否や打切りの応答までスキーマに従う保証ではなく、業務上の正しさも別途検証します。JSON モードの JSON 妥当性と区別し、基本設計は [構造化出力](structured-output.md) を参照します
+- **状態を先に分岐する**: Responses API では出力中の `refusal` は停止・通知し、`status == "incomplete"` は `incomplete_details.reason` を確認します。`max_output_tokens` は予算内・回数上限内の再生成を検討できますが、安全制約や理由不明の打切りは停止します。`strict: true` に非対応スキーマを渡した設定エラーは設定訂正へ渡し、正常完了だけを構造・業務検証へ進めます
 - **出力スキーマをプロンプト本文から外す**: 「一貫した書式のための強い言い回し」は不要になりました。スキーマは Structured Outputs 側に置きます
 - **応答の長さは verbosity で制御する**: 最終回答の長さは推論品質とは別物として、`verbosity`(low / medium / high)や語数・セクション数の明示で制御します
 - **prefill は前提にしない**: OpenAI は Anthropic 型の自由な応答書き出し指定(prefill)を主要技法として扱いません。出力形式は Structured Outputs、前置き除去は指示で行います
@@ -144,7 +147,7 @@ GPT-5.6 のような新世代は**ドロップイン置換ではなく、再チ�
 以下は OpenAI 公式が非推奨・不要とするものです(2026-08 時点)。
 
 - **推論モデルへの「ステップバイステップで考えて」**: 内部で推論するため不要
-- **一貫した JSON のための「強い言い回し」の書式指示**: Structured Outputs でスキーマ遵守が保証されるため不要
+- **一貫した JSON のための「強い言い回し」の書式指示**: 正常完了時の形式は対応スキーマと strict 設定で制御します。拒否・打切りへの処理は別に必要です
 - **出力スキーマをプロンプト本文に書き込む**: 外して Structured Outputs へ
 - **現在日付をプロンプトに入れる**: 新世代は UTC 日付を把握済み
 - **判断が要る箇所への `ALWAYS` / `NEVER` 乱用**: 真の不変条件にだけ使う
@@ -159,6 +162,7 @@ GPT-5.6 のような新世代は**ドロップイン置換ではなく、再チ�
 - **推論内蔵モデルに CoT スキャフォールドと詳細手順を書く** → 過剰思考・冗長化し、ときに品質が下がる → ゴールと出力契約を書き、手順は任せる
 - **reasoning effort を「品質のつまみ」として上げる** → overthinking・無駄な探索を招く → 最後の微調整ノブとして、評価で正当化できるときだけ上げる
 - **JSON をプロンプトの強い言い回しで得ようとする** → 前置き・形式崩れが混ざる → Structured Outputs(strict schema)で強制する
+- **Structured Outputs の拒否・打切りもJSONとして再生成する** → 例外状態を形式違反と混同する → 拒否は停止、打切りは理由と予算で判断し、設定エラーは設定を訂正する
 - **矛盾・曖昧な指示を放置する** → GPT-5 系は矛盾解消に推論を浪費する → 指示を整合させ、絶対語は不変条件だけに使う
 - **旧世代のプロンプトを新世代へ丸ごと流用する** → 逐語解釈・既定 effort 変化で挙動がずれる → 最小プロンプトから再チューニングする
 
@@ -169,6 +173,8 @@ GPT-5.6 のような新世代は**ドロップイン置換ではなく、再チ�
 - [ ] 推論内蔵モデルに CoT 指示・詳細手順を書かず、ゴールと出力契約を与えた
 - [ ] reasoning effort を明示ピン留めし、上げるのは評価で正当化できるときだけにした
 - [ ] 機械処理する出力を Structured Outputs(strict schema)で強制している
+- [ ] 正常完了を確認して構造・業務検証へ渡し、拒否・incomplete・設定エラーを別の処理にした
+- [ ] Sol / Luna の EU 条件はモデルページ/Your dataで確認し、地域内保存と処理、Fastの非対応を区別した
 - [ ] ツール固有の指示をツール記述(description)側に置いた
 - [ ] 世代移行時に現在日付を削除し、出力スキーマを Structured Outputs へ移した
 - [ ] 新世代へ移行する際、最小プロンプトから再チューニングする運用がある
@@ -198,10 +204,13 @@ GPT-5.6 のような新世代は**ドロップイン置換ではなく、再チ�
 - [Prompt engineering(OpenAI)](https://developers.openai.com/api/docs/guides/prompt-engineering) / [Prompt guidance(OpenAI)](https://developers.openai.com/api/docs/guides/prompt-guidance) — 構造化・階層・整形の指針(アクセス日: 2026-07-08。2026-08-18 時点の全文は再確認できず、指示階層の現行原文は TODO 参照)
 - [Reasoning best practices(OpenAI)](https://developers.openai.com/api/docs/guides/reasoning-best-practices) / [Reasoning models(OpenAI)](https://developers.openai.com/api/docs/guides/reasoning) — 推論モデルへの書き方・effort・`reasoning.mode`(アクセス日: Reasoning models は 2026-08-18、Reasoning best practices は 2026-07-08。overthinking 警告の現行原文は TODO 参照)
 - [Using the latest model(OpenAI)](https://developers.openai.com/api/docs/guides/latest-model) — 最新世代への移行考慮点(アクセス日: 2026-08-18)
-- [Structured Outputs(OpenAI)](https://developers.openai.com/api/docs/guides/structured-outputs) — スキーマ強制出力(アクセス日: 2026-08-18)
+- [Structured Outputs(OpenAI)](https://developers.openai.com/api/docs/guides/structured-outputs) — strict設定と正常完了・拒否・打切り・設定エラーの区別(アクセス日: 2026-10-03)
+- [GPT-6 Sol](https://developers.openai.com/api/docs/models/gpt-6-sol) / [Luna](https://developers.openai.com/api/docs/models/gpt-6-luna) / [Your data](https://developers.openai.com/api/docs/guides/your-data) / [Pricing](https://developers.openai.com/api/docs/pricing) — EU条件の参照先と取得範囲(アクセス日: 2026-10-03)
 - [GPT-5 prompting guide(OpenAI Cookbook)](https://developers.openai.com/cookbook/examples/gpt-5/gpt-5_prompting_guide) — エージェント・ツール文脈の実例(アクセス日: 2026-07-08)
 
 ## TODO・未確認事項
+
+> **TODO(要確認):** Sol / Luna の EU データレジデンシーについて、対象アカウント・プロジェクト・APIの適格条件は実環境で未検証です。利用前に Your data と管理画面/公式サポートで確認する(最終確認: 2026-10)
 
 > **TODO(要確認):** 停止シーケンス(`stop`)の現行 API 仕様、および Anthropic 型の assistant prefill の可否は、プロンプト系ガイドでは扱われず未確定です。必要時に公式 API リファレンスで確認する(最終確認: 2026-07)
 

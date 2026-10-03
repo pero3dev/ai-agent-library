@@ -1,0 +1,2140 @@
+{
+  "schema_version": 1,
+  "baseline_date_jst": "2026-10-03",
+  "input_head": "d990973c2c02b6108cd9911fc06e45b3a29f9332",
+  "measurement": "Tracked public sources at input_head; no production, API, or local runtime state",
+  "published": {
+    "count": 199,
+    "denominator_all_articles": 199,
+    "sections": [
+      {
+        "section": "00-overview",
+        "count": 3
+      },
+      {
+        "section": "01-concepts",
+        "count": 11
+      },
+      {
+        "section": "02-architecture",
+        "count": 12
+      },
+      {
+        "section": "03-implementation",
+        "count": 32
+      },
+      {
+        "section": "04-evaluation",
+        "count": 12
+      },
+      {
+        "section": "05-operations",
+        "count": 19
+      },
+      {
+        "section": "06-security",
+        "count": 15
+      },
+      {
+        "section": "07-case-studies",
+        "count": 8
+      },
+      {
+        "section": "08-coding-agents",
+        "count": 28
+      },
+      {
+        "section": "09-business",
+        "count": 16
+      },
+      {
+        "section": "10-llm-foundations",
+        "count": 7
+      },
+      {
+        "section": "11-llm-internals",
+        "count": 8
+      },
+      {
+        "section": "12-multimodal",
+        "count": 7
+      },
+      {
+        "section": "13-domain-agents",
+        "count": 12
+      },
+      {
+        "section": "14-ux-and-product",
+        "count": 5
+      },
+      {
+        "section": "15-human-ai",
+        "count": 4
+      }
+    ]
+  },
+  "samples": {
+    "count": 6,
+    "entries": [
+      {
+        "path": "examples/python/evaluation-harness/README.md",
+        "declared_verification": "- **モック実行(`--mock`)**: 2026-09-10 に確認(Python 3.11.3、追加依存なし)\n- **回帰テスト**: 2026-09-10 に確認。否定された正解ラベルの誤合格防止と、anthropic 1.4.0 / httpx2 2.12.0 の HTTP モックで生成打ち切りの拒否を確認([実行手順](../../tests/README.md))\n- **実 API 実行**: 未確認(各自の環境で確認し、この欄に日付を追記してください)",
+        "run_now": false
+      },
+      {
+        "path": "examples/python/mcp-server/README.md",
+        "declared_verification": "- **自己テスト(`--mock`)**: 2026-09-10 に確認(Python 3.11.3、追加依存なし)\n- **実 MCP サーバー起動(クライアント接続)**: 2026-09-10 に確認(Python 3.11.3、mcp 2.2.0、ローカル stdio)。`Client(mode=\"auto\")` の server/discover(2026-07-28)、`Client(mode=\"legacy\")` の initialize(2025-11-25)、両方式の list_tools・call_tool と、不正金額の `isError=true`、通常受理・高額の承認案内を確認([実行手順](../../tests/README.md))",
+        "run_now": false
+      },
+      {
+        "path": "examples/python/multi-agent/README.md",
+        "declared_verification": "- **モック実行(`--mock`)**: 2026-09-10 に確認(Python 3.11.3、追加依存なし)\n- **回帰テスト**: 2026-09-10 に確認。空・欠落・重複した計画、取得失敗時の部分結果・全件失敗、anthropic 1.4.0 / httpx2 2.12.0 の HTTP モックで SDK の打ち切り応答を確認([実行手順](../../tests/README.md))\n- **実 API 実行**: 未確認(各自の環境で確認し、この欄に日付を追記してください)",
+        "run_now": false
+      },
+      {
+        "path": "examples/python/rag-basics/README.md",
+        "declared_verification": "- **モック実行(`--mock`)+ 検索**: 2026-09-10 に確認(Python 3.11.3、追加依存なし)\n- **SDK 回帰テスト**: 2026-09-10 に確認(anthropic 1.4.0、httpx2 2.12.0 の HTTP モック)。打ち切り・拒否応答を通常の完成出力として返さないことを確認([実行手順](../../tests/README.md))\n- **実 API 実行(生成)**: 未確認(各自の環境で確認し、この欄に日付を追記してください)",
+        "run_now": false
+      },
+      {
+        "path": "examples/python/structured-output/README.md",
+        "declared_verification": "- **モック実行(`--mock`)**: 2026-09-10 に確認(Python 3.11.3、追加依存なし)\n- **SDK 回帰テスト**: 2026-09-10 に確認(anthropic 1.4.0、httpx2 2.12.0 の HTTP モック)。打ち切り・拒否応答を通常の完成出力として返さないことを確認([実行手順](../../tests/README.md))\n- **実 API 実行**: 未確認(各自の環境で `ANTHROPIC_API_KEY` を設定して確認し、この欄に日付を追記してください)",
+        "run_now": false
+      },
+      {
+        "path": "examples/python/tool-use/README.md",
+        "declared_verification": "- **モック実行・SDK 回帰テスト**: 2026-09-10 に確認(Python 3.11.3、anthropic 1.4.0、httpx2 2.12.0 の HTTP モック)。`--mock` の集計と、正常応答・打ち切り・拒否・継続上限・ツールエラーを確認しました\n- **実 API 実行**: 未確認。SDK の要求生成と応答解析を確認した結果であり、実モデルの動作確認ではありません",
+        "run_now": false
+      }
+    ],
+    "boundary": "README declarations only; historical mock/SDK evidence is not a fresh run or real API verification"
+  },
+  "audio": {
+    "articles": 9,
+    "denominator_published": 199,
+    "episodes": 9,
+    "source_digest_mismatches": 0,
+    "entries": [
+      {
+        "id": "00-overview--learning-roadmap-70c1702d98bf-80cbd75bddd0-5e46e5712e06-p01",
+        "article_path": "docs/00-overview/learning-roadmap.md",
+        "part": 1,
+        "parts": 1,
+        "source_digest": "70c1702d98bf27171a59069e358f551340df02237f23d1163a81595d9438d750",
+        "source_matches": true,
+        "article_published": true,
+        "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-learning-roadmap-70c1702d98bf2717-80cbd75bddd0b4c3/00-overview--learning-roadmap-70c1702d98bf-80cbd75bddd0-5e46e5712e06-p01-5e46e5712e06af3e.mp3",
+        "credit": "VOICEVOX Nemo（女声1・男声1）",
+        "voice_terms": [
+          "https://voicevox.hiroshiba.jp/nemo/term/",
+          "https://voicevox.hiroshiba.jp/nemo/term/"
+        ]
+      },
+      {
+        "id": "00-overview--research-literacy-fad6f5ae3b58-beeb534a8845-4bc9266fdaa2-p01",
+        "article_path": "docs/00-overview/research-literacy.md",
+        "part": 1,
+        "parts": 1,
+        "source_digest": "fad6f5ae3b581157ceaae69a628b836c2cdbf421764a41a1e5259ff6ad7e34c4",
+        "source_matches": true,
+        "article_published": true,
+        "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-research-literacy-fad6f5ae3b581157-beeb534a884589b1/00-overview--research-literacy-fad6f5ae3b58-beeb534a8845-4bc9266fdaa2-p01-4bc9266fdaa2cb17.mp3",
+        "credit": "VOICEVOX Nemo（女声1・男声1）",
+        "voice_terms": [
+          "https://voicevox.hiroshiba.jp/nemo/term/",
+          "https://voicevox.hiroshiba.jp/nemo/term/"
+        ]
+      },
+      {
+        "id": "00-overview--skill-map-3f928eb4ba8c-7213b633277c-cf5cf8c2b5d3-p01",
+        "article_path": "docs/00-overview/skill-map.md",
+        "part": 1,
+        "parts": 1,
+        "source_digest": "3f928eb4ba8caf80da9ac34a848285d29b0cb3a641be12539fdd5da5a65bbefc",
+        "source_matches": true,
+        "article_published": true,
+        "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-skill-map-3f928eb4ba8caf80-7213b633277c1bdb/00-overview--skill-map-3f928eb4ba8c-7213b633277c-cf5cf8c2b5d3-p01-cf5cf8c2b5d3cca7.mp3",
+        "credit": "VOICEVOX Nemo（女声1・男声1）",
+        "voice_terms": [
+          "https://voicevox.hiroshiba.jp/nemo/term/",
+          "https://voicevox.hiroshiba.jp/nemo/term/"
+        ]
+      },
+      {
+        "id": "01-concepts--agent-loop-3c6f324e5d0d-7ab8a0e6323a-47803c3cb76f-p01",
+        "article_path": "docs/01-concepts/agent-loop.md",
+        "part": 1,
+        "parts": 1,
+        "source_digest": "3c6f324e5d0d4a60c48cf9be030279731c2e3ea2951f1e51c1c3a570eec7f101",
+        "source_matches": true,
+        "article_published": true,
+        "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-agent-loop-3c6f324e5d0d4a60-7ab8a0e6323a20e7/01-concepts--agent-loop-3c6f324e5d0d-7ab8a0e6323a-47803c3cb76f-p01-47803c3cb76f5e73.mp3",
+        "credit": "VOICEVOX Nemo（女声1・男声1）",
+        "voice_terms": [
+          "https://voicevox.hiroshiba.jp/nemo/term/",
+          "https://voicevox.hiroshiba.jp/nemo/term/"
+        ]
+      },
+      {
+        "id": "01-concepts--ai-history-and-lineage-508240fb9ce2-1fa9339ce58d-eba5f2a0f215-p01",
+        "article_path": "docs/01-concepts/ai-history-and-lineage.md",
+        "part": 1,
+        "parts": 1,
+        "source_digest": "508240fb9ce27f550b1ac25dd82c6f0196ae798f756f45b5666f114864d129e4",
+        "source_matches": true,
+        "article_published": true,
+        "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-ai-history-and-lineage-508240fb9ce27f55-1fa9339ce58da1f4/01-concepts--ai-history-and-lineage-508240fb9ce2-1fa9339ce58d-eba5f2a0f215-p01-eba5f2a0f215582c.mp3",
+        "credit": "VOICEVOX Nemo（女声1・男声1）",
+        "voice_terms": [
+          "https://voicevox.hiroshiba.jp/nemo/term/",
+          "https://voicevox.hiroshiba.jp/nemo/term/"
+        ]
+      },
+      {
+        "id": "01-concepts--computer-use-and-multimodal-agents-72b2d739835c-dfdd62fa182b-a4c135d05beb-p01",
+        "article_path": "docs/01-concepts/computer-use-and-multimodal-agents.md",
+        "part": 1,
+        "parts": 1,
+        "source_digest": "72b2d739835c08a18f163f19eee76f0c7ef48966fcac6b97f62395467916dae6",
+        "source_matches": true,
+        "article_published": true,
+        "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-computer-use-and-multimodal-agents-72b2d739835c08a1-dfdd62fa182b4e96/01-concepts--computer-use-and-multimodal-agents-72b2d739835c-dfdd62fa182b-a4c135d05beb-p01-a4c135d05bebd170.mp3",
+        "credit": "VOICEVOX Nemo（女声1・男声1）",
+        "voice_terms": [
+          "https://voicevox.hiroshiba.jp/nemo/term/",
+          "https://voicevox.hiroshiba.jp/nemo/term/"
+        ]
+      },
+      {
+        "id": "01-concepts--memory-and-state-b17d73317aee-d19b0b1cb91a-d83c237b01da-p01",
+        "article_path": "docs/01-concepts/memory-and-state.md",
+        "part": 1,
+        "parts": 1,
+        "source_digest": "b17d73317aeea3a77278b74ad9ed43412c93ec2b3ee497a84a4099c7fabd7959",
+        "source_matches": true,
+        "article_published": true,
+        "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-memory-and-state-b17d73317aeea3a7-d19b0b1cb91a9aa8/01-concepts--memory-and-state-b17d73317aee-d19b0b1cb91a-d83c237b01da-p01-d83c237b01da6bb3.mp3",
+        "credit": "VOICEVOX Nemo（女声1・男声1）",
+        "voice_terms": [
+          "https://voicevox.hiroshiba.jp/nemo/term/",
+          "https://voicevox.hiroshiba.jp/nemo/term/"
+        ]
+      },
+      {
+        "id": "01-concepts--physical-ai-overview-c35ef6ae1842-88b372e9e194-92ddaf0d718e-p01",
+        "article_path": "docs/01-concepts/physical-ai-overview.md",
+        "part": 1,
+        "parts": 1,
+        "source_digest": "c35ef6ae18429a44343d838931a7e379bcda36b72f7e5d134b18579cc5a3c0e8",
+        "source_matches": true,
+        "article_published": true,
+        "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-physical-ai-overview-c35ef6ae18429a44-88b372e9e19476c9/01-concepts--physical-ai-overview-c35ef6ae1842-88b372e9e194-92ddaf0d718e-p01-92ddaf0d718ed0d1.mp3",
+        "credit": "VOICEVOX Nemo（女声1・男声1）",
+        "voice_terms": [
+          "https://voicevox.hiroshiba.jp/nemo/term/",
+          "https://voicevox.hiroshiba.jp/nemo/term/"
+        ]
+      },
+      {
+        "id": "01-concepts--planning-and-reasoning-bf99366e9f72-4bf01c1ff6dd-c9ea13fdf2bb-p01",
+        "article_path": "docs/01-concepts/planning-and-reasoning.md",
+        "part": 1,
+        "parts": 1,
+        "source_digest": "bf99366e9f722e65647ab67ea5f34957a22ee86c842ce22838207c05b5e2c533",
+        "source_matches": true,
+        "article_published": true,
+        "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-planning-and-reasoning-bf99366e9f722e65-4bf01c1ff6dd8666/01-concepts--planning-and-reasoning-bf99366e9f72-4bf01c1ff6dd-c9ea13fdf2bb-p01-c9ea13fdf2bb66b2.mp3",
+        "credit": "VOICEVOX Nemo（女声1・男声1）",
+        "voice_terms": [
+          "https://voicevox.hiroshiba.jp/nemo/term/",
+          "https://voicevox.hiroshiba.jp/nemo/term/"
+        ]
+      }
+    ],
+    "boundary": "Catalog parts and LF-normalized source hashes; no MP3 decode or human listening"
+  },
+  "freshness": {
+    "committed_run_files": 5,
+    "unique_declared_affected_docs": 13,
+    "unique_observed_system_ids": [
+      "benchmarks",
+      "coding-agents",
+      "compliance",
+      "emerging-domains",
+      "geopolitics-green-ai",
+      "models-prompting"
+    ],
+    "entries": [
+      {
+        "path": "research/freshness-runs/20260910t051816467z-aff02e28.json",
+        "run_id": "20260910t051816467z-aff02e28",
+        "started_at": "2026-09-10T05:18:16.467Z",
+        "completed_at": "2026-09-10T05:30:16.474Z",
+        "declared_systems": [
+          "coding-agents"
+        ],
+        "observations": [
+          {
+            "system_id": "coding-agents",
+            "status": "changed",
+            "summary": "受入確認として2記事のCodex定期タスク・非対話認証・CI分担の節を照合。CODEX_API_KEYの対応範囲を訂正し、Local/worktreeの稼働条件、ChatGPTとAPI課金の区別、Actionsとの分担例を反映。系統全体や他ツールの機能・レートは今回未観測。",
+            "affected_docs": [
+              "docs/08-coding-agents/openai-codex-in-practice.md",
+              "docs/08-coding-agents/coding-agent-automation-patterns.md"
+            ],
+            "sources": [
+              {
+                "url": "https://learn.chatgpt.com/docs/automations",
+                "accessed_at": "2026-09-10T05:19:04Z"
+              },
+              {
+                "url": "https://learn.chatgpt.com/docs/auth",
+                "accessed_at": "2026-09-10T05:19:04Z"
+              },
+              {
+                "url": "https://learn.chatgpt.com/docs/non-interactive-mode",
+                "accessed_at": "2026-09-10T05:19:04Z"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "path": "research/freshness-runs/20260910t080131121z-190c5e22.json",
+        "run_id": "20260910t080131121z-190c5e22",
+        "started_at": "2026-09-10T08:01:31.121Z",
+        "completed_at": "2026-09-10T08:10:04.797Z",
+        "declared_systems": [
+          "coding-agents"
+        ],
+        "observations": [
+          {
+            "system_id": "coding-agents",
+            "status": "changed",
+            "summary": "AGENTS.md読込範囲だけを確認。公式本文は起動時にproject rootから開始cwdまでchainを構築しcwdで探索終了と明記。ネスト配置のみで必要な指示が常に注入されると読めた説明とチェックリストを訂正。調査担当 /root/source_check が08:02:01Z〜08:02:03Zに取得。実Agent読込試験・料金・モデル・セキュリティ推奨・系統全体は未検証。",
+            "affected_docs": [
+              "docs/08-coding-agents/openai-codex-in-practice.md",
+              "docs/08-coding-agents/coding-agent-rules-and-config.md"
+            ],
+            "sources": [
+              {
+                "url": "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
+                "accessed_at": "2026-09-10T08:02:03Z"
+              }
+            ]
+          },
+          {
+            "system_id": "coding-agents",
+            "status": "unverifiable",
+            "summary": "参照先全文の自動注入保証は指定公式資料から確認不能。保証として採用せず、明示して読むよう依頼し結果を確認する運用上の設計例として区別した。保証を前提にした記述は残さないため本訂正の追加調査は不要。",
+            "affected_docs": [
+              "docs/08-coding-agents/openai-codex-in-practice.md",
+              "docs/08-coding-agents/coding-agent-rules-and-config.md"
+            ],
+            "sources": [
+              {
+                "url": "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
+                "accessed_at": "2026-09-10T08:02:03Z"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "path": "research/freshness-runs/20260914t022552632z-79535e7f.json",
+        "run_id": "20260914t022552632z-79535e7f",
+        "started_at": "2026-09-14T02:25:52.632Z",
+        "completed_at": "2026-09-17T02:14:28.021Z",
+        "declared_systems": [
+          "models-prompting",
+          "coding-agents",
+          "benchmarks"
+        ],
+        "observations": [
+          {
+            "system_id": "models-prompting",
+            "status": "changed",
+            "summary": "Reasoning guide permits explicit compaction_trigger in /responses and requires a fresh configuration_update before the next user message after compaction. Preserve standard/single-agent and automatic compaction/truncation restrictions. API not executed.",
+            "affected_docs": [
+              "docs/03-implementation/openai-prompting.md"
+            ],
+            "sources": [
+              {
+                "url": "https://developers.openai.com/api/docs/guides/reasoning",
+                "accessed_at": "2026-09-17T02:01:36Z"
+              }
+            ]
+          },
+          {
+            "system_id": "models-prompting",
+            "status": "changed",
+            "summary": "Deprecations: gpt-5.4-cyber scheduled shutdown 2026-10-01 (announced 2026-09-11), successor gpt-5.6-cyber. Historical research replacement rows superseded by Sol/Terra/Luna and Sol pro mode; o4-mini and o4-mini-2025-04-16 scheduled 2026-10-23, replacement Terra. Scheduled dates, not observed shutdowns.",
+            "affected_docs": [
+              "docs/03-implementation/llm-landscape.md"
+            ],
+            "sources": [
+              {
+                "url": "https://developers.openai.com/api/docs/deprecations",
+                "accessed_at": "2026-09-17T02:01:36Z"
+              }
+            ]
+          },
+          {
+            "system_id": "models-prompting",
+            "status": "unchanged",
+            "summary": "Scoped verification only: Astra API effort/sampling/tool/EU restrictions, >272K input price multipliers, GPT-5.6+ TTL 30m and cache write/read charging, existing listed deprecation dates unchanged. Other providers, complete pricing and actual API behavior not verified.",
+            "affected_docs": [
+              "docs/03-implementation/llm-landscape.md",
+              "docs/03-implementation/openai-prompting.md"
+            ],
+            "sources": [
+              {
+                "url": "https://developers.openai.com/api/docs/guides/latest-model",
+                "accessed_at": "2026-09-17T02:00:32Z"
+              },
+              {
+                "url": "https://developers.openai.com/api/docs/models/gpt-6-astra",
+                "accessed_at": "2026-09-17T02:00:32Z"
+              },
+              {
+                "url": "https://developers.openai.com/api/docs/guides/prompt-caching",
+                "accessed_at": "2026-09-17T02:00:32Z"
+              },
+              {
+                "url": "https://developers.openai.com/api/docs/deprecations",
+                "accessed_at": "2026-09-17T02:00:32Z"
+              }
+            ]
+          },
+          {
+            "system_id": "coding-agents",
+            "status": "changed",
+            "summary": "Copilot auto-resolution of repaired comments on re-review, shell-based analysis and Lite multi-agent integration; MAI-Code-1-Flash deprecated on 2026-09-10 with MAI-Code-1.1-Flash replacement. Auto selection tiers rolling out to VS Code/CLI/app (2026-09-14); Business/Enterprise usage-budget requests GA (2026-09-16), subject to admin decision. No product execution.",
+            "affected_docs": [
+              "docs/08-coding-agents/github-copilot.md"
+            ],
+            "sources": [
+              {
+                "url": "https://github.blog/changelog/2026-09-11-auto-resolution-and-analysis-updates-in-copilot-code-review/",
+                "accessed_at": "2026-09-17T02:00:52Z"
+              },
+              {
+                "url": "https://github.blog/changelog/2026-09-10-mai-code-1-flash-deprecated/",
+                "accessed_at": "2026-09-17T02:01:10Z"
+              },
+              {
+                "url": "https://github.blog/changelog/2026-09-14-configure-cost-and-quality-in-copilot-auto-model-selection/",
+                "accessed_at": "2026-09-17T02:01:10Z"
+              },
+              {
+                "url": "https://github.blog/changelog/2026-09-16-copilot-budget-increase-requests-are-generally-available/",
+                "accessed_at": "2026-09-17T02:01:10Z"
+              }
+            ]
+          },
+          {
+            "system_id": "coding-agents",
+            "status": "unchanged",
+            "summary": "Copilot 2026-10-02 model retirement plan and successors, PR approval preview/admin conditions, JetBrains managed sandbox preview unchanged in accessed announcements.",
+            "affected_docs": [
+              "docs/08-coding-agents/github-copilot.md"
+            ],
+            "sources": [
+              {
+                "url": "https://github.blog/changelog/2026-09-03-upcoming-deprecation-of-selected-github-copilot-models/",
+                "accessed_at": "2026-09-17T02:00:52Z"
+              },
+              {
+                "url": "https://github.blog/changelog/2026-09-01-copilot-code-review-can-now-approve-pull-requests/",
+                "accessed_at": "2026-09-17T02:00:52Z"
+              },
+              {
+                "url": "https://github.blog/changelog/2026-09-08-enterprise-managed-sandbox-in-copilot-for-jetbrains/",
+                "accessed_at": "2026-09-17T02:00:52Z"
+              }
+            ]
+          },
+          {
+            "system_id": "coding-agents",
+            "status": "unchanged",
+            "summary": "Continue README maintenance-end/read-only policy and final 2.0.0, repository archived=false/disabled=false and acquisition statement remain consistent. Preserve distinction between policy and actual API attributes. Article not edited.",
+            "affected_docs": [
+              "docs/08-coding-agents/open-source-coding-agents.md"
+            ],
+            "sources": [
+              {
+                "url": "https://api.github.com/repos/continuedev/continue/readme",
+                "accessed_at": "2026-09-17T02:01:25.262Z"
+              },
+              {
+                "url": "https://api.github.com/repos/continuedev/continue",
+                "accessed_at": "2026-09-17T02:01:11.979Z"
+              },
+              {
+                "url": "https://continue.dev/",
+                "accessed_at": "2026-09-17T02:01:10Z"
+              }
+            ]
+          },
+          {
+            "system_id": "coding-agents",
+            "status": "unverifiable",
+            "summary": "Continue existing-user support duration and guarantees not established from README or extracted official FAQ. Existing article TODO retained; retry FAQ content. Initial web API error recovered using public REST API without authentication.",
+            "affected_docs": [
+              "docs/08-coding-agents/open-source-coding-agents.md"
+            ],
+            "sources": [
+              {
+                "url": "https://api.github.com/repos/continuedev/continue/readme",
+                "accessed_at": "2026-09-17T02:01:25.262Z"
+              },
+              {
+                "url": "https://continue.dev/",
+                "accessed_at": "2026-09-17T02:01:10Z"
+              }
+            ]
+          },
+          {
+            "system_id": "benchmarks",
+            "status": "changed",
+            "summary": "TB 4.0 calibrates CPU/memory/time, fixes 19 tasks, removes eight (two each saturation/refusal/public solutions/quality or compatibility). Eight hours is agent timeout, not typical duration. Breaking environment/task-set changes require reruns. Harbor version-pinned dataset and GPU-capable sandbox specified; scores and all other benchmarks not revalidated.",
+            "affected_docs": [
+              "docs/04-evaluation/agent-benchmarks-landscape.md"
+            ],
+            "sources": [
+              {
+                "url": "https://www.tbench.ai/news/terminal-bench-4-0",
+                "accessed_at": "2026-09-17T02:00:38Z"
+              },
+              {
+                "url": "https://www.tbench.ai/run",
+                "accessed_at": "2026-09-17T02:00:38Z"
+              }
+            ]
+          },
+          {
+            "system_id": "benchmarks",
+            "status": "unchanged",
+            "summary": "TB 4.0 top page lists resolution/cost/token columns with 95% confidence intervals. WebArena-Verified README retains human-reviewed tasks/references/evaluators and deterministic evaluation on responses and saved network trace. No runtime benchmark executed.",
+            "affected_docs": [
+              "docs/04-evaluation/agent-benchmarks-landscape.md"
+            ],
+            "sources": [
+              {
+                "url": "https://www.tbench.ai/",
+                "accessed_at": "2026-09-17T02:00:38Z"
+              },
+              {
+                "url": "https://github.com/ServiceNow/webarena-verified/blob/main/README.md",
+                "accessed_at": "2026-09-17T02:00:38Z"
+              }
+            ]
+          },
+          {
+            "system_id": "benchmarks",
+            "status": "unverifiable",
+            "summary": "TB top page extracted leaderboard rows did not expose numerical ranks/costs or cost accounting scope. Do not infer infrastructure-inclusive total cost. Retry official data or dynamic rendering; no ranking numbers published.",
+            "affected_docs": [
+              "docs/04-evaluation/agent-benchmarks-landscape.md"
+            ],
+            "sources": [
+              {
+                "url": "https://www.tbench.ai/",
+                "accessed_at": "2026-09-17T02:00:38Z"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "path": "research/freshness-runs/20260920t222658728z-922c2745.json",
+        "run_id": "20260920t222658728z-922c2745",
+        "started_at": "2026-09-20T22:26:58.728Z",
+        "completed_at": "2026-09-20T22:41:40.212Z",
+        "declared_systems": [
+          "compliance",
+          "emerging-domains",
+          "geopolitics-green-ai"
+        ],
+        "observations": [
+          {
+            "system_id": "compliance",
+            "status": "changed",
+            "summary": "PPCは9月16日の第369回で基本的な考え方①を議論・公表。予定のままだった記事とresearchを更新。正式公募や最終規則とは区別する。",
+            "affected_docs": [
+              "docs/06-security/compliance-and-governance.md"
+            ],
+            "sources": [
+              {
+                "url": "https://www.ppc.go.jp/personalinfo/legal/r8kaiseihogohou/",
+                "accessed_at": "2026-09-20T22:27:44Z"
+              },
+              {
+                "url": "https://www.ppc.go.jp/files/pdf/260916_kihonntekinakanngaekatanitsuite_1.pdf",
+                "accessed_at": "2026-09-20T22:27:52Z"
+              },
+              {
+                "url": "https://www.ppc.go.jp/files/pdf/260909_kongonosusumekatanitsuite.pdf",
+                "accessed_at": "2026-09-20T22:28:00Z"
+              }
+            ]
+          },
+          {
+            "system_id": "compliance",
+            "status": "unchanged",
+            "summary": "EU 2026/1744の発効日、Article 113の高リスク義務・新設禁止行為の期限、Article 111(4)の既存対象システムの猶予は一致。researchの旧小括は履歴と明示。米国・ベンダー規約・法的適用判断は対象外。",
+            "affected_docs": [
+              "docs/06-security/compliance-and-governance.md"
+            ],
+            "sources": [
+              {
+                "url": "https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX%3A32026R1744",
+                "accessed_at": "2026-09-20T22:27:52Z"
+              }
+            ]
+          },
+          {
+            "system_id": "compliance",
+            "status": "unverifiable",
+            "summary": "PPCの公布発表は成立・公布日と一致。法附則の相対期間は読めたがe-Gov本文は抽出不能。主な施行日の確定状況と一部罰則2027-01-17の絶対日付の直接再確認は未了。過去の日付記録は維持し当日確認済みとしない。",
+            "affected_docs": [
+              "docs/06-security/compliance-and-governance.md"
+            ],
+            "sources": [
+              {
+                "url": "https://www.ppc.go.jp/news/press/2026/260717/",
+                "accessed_at": "2026-09-20T22:28:36Z"
+              },
+              {
+                "url": "https://www.ppc.go.jp/files/pdf/260717_houritsu.pdf",
+                "accessed_at": "2026-09-20T22:28:00Z"
+              },
+              {
+                "url": "https://laws.e-gov.go.jp/document?lawid=415AC0000000057_20270117_508AC0000000056",
+                "accessed_at": "2026-09-20T22:28:09Z"
+              }
+            ]
+          },
+          {
+            "system_id": "emerging-domains",
+            "status": "changed",
+            "summary": "Co-Scientist原論文本文を取得し、薬剤再利用・肝線維症標的・抗菌薬耐性機構の3領域、専門家関与、初期検証との位置づけを具体化。性能数値再計算や独立追試ではない。",
+            "affected_docs": [
+              "docs/13-domain-agents/emerging-agent-domains.md"
+            ],
+            "sources": [
+              {
+                "url": "https://www.nature.com/articles/s41586-026-10644-y",
+                "accessed_at": "2026-09-20T22:28:06Z"
+              },
+              {
+                "url": "https://www.nature.com/articles/s41586-026-10644-y",
+                "accessed_at": "2026-09-20T22:28:46Z"
+              }
+            ]
+          },
+          {
+            "system_id": "emerging-domains",
+            "status": "unchanged",
+            "summary": "Robinの出版・半自律構成、AP2 v0.2の委任構造とFIDO寄贈、STORMの調査・アウトライン・記事生成の分離は一致。deep-research記事は無変更。A-Lab、PUBG、合成ユーザー、決済pilot、その他の設計主張は対象外。",
+            "affected_docs": [
+              "docs/13-domain-agents/emerging-agent-domains.md",
+              "docs/13-domain-agents/deep-research-agents.md"
+            ],
+            "sources": [
+              {
+                "url": "https://www.nature.com/articles/s41586-026-10652-y",
+                "accessed_at": "2026-09-20T22:27:48Z"
+              },
+              {
+                "url": "https://ap2-protocol.org/ap2/specification/",
+                "accessed_at": "2026-09-20T22:28:34Z"
+              },
+              {
+                "url": "https://github.com/google-agentic-commerce/AP2/releases",
+                "accessed_at": "2026-09-20T22:28:34Z"
+              },
+              {
+                "url": "https://fidoalliance.org/fido-alliance-to-develop-standards-for-trusted-ai-agent-interactions/",
+                "accessed_at": "2026-09-20T22:28:15Z"
+              },
+              {
+                "url": "https://arxiv.org/html/2402.14207v2",
+                "accessed_at": "2026-09-20T22:28:46Z"
+              }
+            ]
+          },
+          {
+            "system_id": "emerging-domains",
+            "status": "unverifiable",
+            "summary": "Robin / Co-Scientistの独立追試を示す一次報告には今回到達せず。原論文内の専門家検証を独立追試とは数えない。未存在とも断定しない。",
+            "affected_docs": [
+              "docs/13-domain-agents/emerging-agent-domains.md"
+            ],
+            "sources": [
+              {
+                "url": "https://www.nature.com/articles/s41586-026-10652-y",
+                "accessed_at": "2026-09-20T22:27:48Z"
+              },
+              {
+                "url": "https://www.nature.com/articles/s41586-026-10644-y",
+                "accessed_at": "2026-09-20T22:28:06Z"
+              }
+            ]
+          },
+          {
+            "system_id": "geopolitics-green-ai",
+            "status": "changed",
+            "summary": "EUは9月14日にAnnex Iの2026年更新を採択したと発表。通常2か月の審査と官報掲載を経る発効を区別し、既存2025/2003に後続発表を追記する。個別品目の適用判断はしない。",
+            "affected_docs": [
+              "docs/09-business/ai-geopolitics-map.md"
+            ],
+            "sources": [
+              {
+                "url": "https://policy.trade.ec.europa.eu/news/2026-update-eu-control-list-dual-use-items-2026-09-14_en",
+                "accessed_at": "2026-09-20T22:28:28Z"
+              }
+            ]
+          },
+          {
+            "system_id": "geopolitics-green-ai",
+            "status": "unverifiable",
+            "summary": "EU更新の登録原文C(2026)6323は抽出本文が空。原文・官報番号・発効の独立照合は未了。採択発表だけで発効済みとしない。",
+            "affected_docs": [
+              "docs/09-business/ai-geopolitics-map.md"
+            ],
+            "sources": [
+              {
+                "url": "https://ec.europa.eu/transparency/documents-register/detail?lang=en&ref=C(2026)6323",
+                "accessed_at": "2026-09-20T22:28:46Z"
+              }
+            ]
+          },
+          {
+            "system_id": "geopolitics-green-ai",
+            "status": "changed",
+            "summary": "公式CCFTリリースノートPDFの6月30日節でdeprecatedを確認。予告のみの観測を更新。AWS方法論のMarketplace対象境界と履歴再計算を追記。旧画面の実停止・個別アカウント移行は未検証。",
+            "affected_docs": [
+              "docs/05-operations/green-ai.md"
+            ],
+            "sources": [
+              {
+                "url": "https://docs.aws.amazon.com/pdfs/ccft/latest/releasenotes/ccft-releasenotes.pdf",
+                "accessed_at": "2026-09-20T22:29:05Z"
+              },
+              {
+                "url": "https://docs.aws.amazon.com/sustainability/latest/userguide/methodology.html",
+                "accessed_at": "2026-09-20T22:28:55Z"
+              }
+            ]
+          },
+          {
+            "system_id": "geopolitics-green-ai",
+            "status": "unchanged",
+            "summary": "AWS提供開始・無料・権限・月次排出/年次取水と、基本SCI ISO/IEC 21031:2024・GSF AI拡張の区別は一致。AI拡張のISO発行は主張しない。CSRD/EED・年次環境数値は今回対象外。",
+            "affected_docs": [
+              "docs/05-operations/green-ai.md"
+            ],
+            "sources": [
+              {
+                "url": "https://aws.amazon.com/about-aws/whats-new/2026/03/aws-launches-sustainability-console/",
+                "accessed_at": "2026-09-20T22:28:55Z"
+              },
+              {
+                "url": "https://docs.aws.amazon.com/sustainability/latest/userguide/getting-started.html",
+                "accessed_at": "2026-09-20T22:28:55Z"
+              },
+              {
+                "url": "https://docs.aws.amazon.com/sustainability/latest/APIReference/API_GetEstimatedWaterAllocation.html",
+                "accessed_at": "2026-09-20T22:28:55Z"
+              },
+              {
+                "url": "https://greensoftware.foundation/articles/sci-ai-specification-ratified-standard-for-measuring-ai-emissions-across-the/",
+                "accessed_at": "2026-09-20T22:28:28Z"
+              },
+              {
+                "url": "https://greensoftware.foundation/standards/sci-ai/",
+                "accessed_at": "2026-09-20T22:27:57Z"
+              },
+              {
+                "url": "https://www.iso.org/standard/86612.html",
+                "accessed_at": "2026-09-20T22:28:46Z"
+              }
+            ]
+          },
+          {
+            "system_id": "geopolitics-green-ai",
+            "status": "unchanged",
+            "summary": "BIS掲載済みUAE/最終親会社条件の説明、ECブラジル決定/韓国再審査、CAC索引/FAQ、DPDP Rule 1段階施行は一致。BIS官報発効日、各制裁リスト、DPDP日単位期限の全件確認は対象外。",
+            "affected_docs": [
+              "docs/09-business/ai-geopolitics-map.md"
+            ],
+            "sources": [
+              {
+                "url": "https://www.bis.gov/news-updates",
+                "accessed_at": "2026-09-20T22:28:08Z"
+              },
+              {
+                "url": "https://media.bis.gov/media/documents/bis-guidance-may-31-2026.pdf",
+                "accessed_at": "2026-09-20T22:28:28Z"
+              },
+              {
+                "url": "https://commission.europa.eu/law/law-topic/data-protection/international-dimension-data-protection/adequacy-decisions_en",
+                "accessed_at": "2026-09-20T22:28:08Z"
+              },
+              {
+                "url": "https://www.cac.gov.cn/wxzw/sjzl/sjcjaqpg/A09370801index_1.htm",
+                "accessed_at": "2026-09-20T22:28:19Z"
+              },
+              {
+                "url": "https://www.cac.gov.cn/2026-08/12/c_1788195297373459.htm",
+                "accessed_at": "2026-09-20T22:28:55Z"
+              },
+              {
+                "url": "https://www.meity.gov.in/static/uploads/2025/11/53450e6e5dc0bfa85ebd78686cadad39.pdf",
+                "accessed_at": "2026-09-20T22:28:19Z"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "path": "research/freshness-runs/20260927t222509029z-952c90ea.json",
+        "run_id": "20260927t222509029z-952c90ea",
+        "started_at": "2026-09-27T22:25:09.029Z",
+        "completed_at": "2026-09-27T22:43:49.086Z",
+        "declared_systems": [
+          "models-prompting",
+          "coding-agents",
+          "benchmarks"
+        ],
+        "observations": [
+          {
+            "system_id": "models-prompting",
+            "status": "changed",
+            "summary": "公式ガイドはGPT-6 Astra/Sol/Lunaを掲載。Sol/Lunaは1,050,000 context・128,000 output、none/low/medium既定/high/xhigh/max。Standard単価はSol入力2/読取0.20/書込2.50/出力10、Luna 0.10/0.01/0.125/0.50 USD per 1M。Astra通常入力10との幅は100倍。5.6提供終了は意味しない。Sol/LunaのChat Completions function callingはnoneのみ、EU Standard限定。 Sol/Lunaも272K超で全リクエストの入力/cache2倍・出力1.5倍。",
+            "affected_docs": [
+              "docs/03-implementation/llm-landscape.md",
+              "docs/03-implementation/openai-prompting.md"
+            ],
+            "sources": [
+              {
+                "url": "https://developers.openai.com/api/docs/guides/latest-model",
+                "accessed_at": "2026-09-27T22:26:26Z"
+              },
+              {
+                "url": "https://developers.openai.com/api/docs/models/gpt-6-sol",
+                "accessed_at": "2026-09-27T22:26:40Z"
+              },
+              {
+                "url": "https://developers.openai.com/api/docs/models/gpt-6-luna",
+                "accessed_at": "2026-09-27T22:26:40Z"
+              },
+              {
+                "url": "https://developers.openai.com/api/docs/models/gpt-6-astra",
+                "accessed_at": "2026-09-27T22:26:49Z"
+              },
+              {
+                "accessed_at": "2026-09-27T22:38:45Z",
+                "url": "https://developers.openai.com/api/docs/models/gpt-6-sol"
+              },
+              {
+                "accessed_at": "2026-09-27T22:38:45Z",
+                "url": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+              }
+            ]
+          },
+          {
+            "system_id": "models-prompting",
+            "status": "changed",
+            "summary": "configuration_updateはGPT-6ファミリーに対応。standard・単一agent、元request-level effort維持、隣接update禁止、自動compaction/truncationと単独compact非互換、明示compaction_trigger後の再追加条件は維持。",
+            "affected_docs": [
+              "docs/03-implementation/openai-prompting.md"
+            ],
+            "sources": [
+              {
+                "url": "https://developers.openai.com/api/docs/guides/reasoning",
+                "accessed_at": "2026-09-27T22:26:49Z"
+              }
+            ]
+          },
+          {
+            "system_id": "models-prompting",
+            "status": "changed",
+            "summary": "o系一律2026-12-11という本文を訂正。o4-mini/o4-mini-2025-04-16は2026-10-23、o3/o3-pro対象は2026-12-11。gpt-5.4-cyberの2026-10-01と後継gpt-5.6-cyber、v1/prompts 2026-11-30は維持。予定であり実停止未確認。",
+            "affected_docs": [
+              "docs/03-implementation/llm-landscape.md",
+              "docs/03-implementation/openai-prompting.md"
+            ],
+            "sources": [
+              {
+                "url": "https://developers.openai.com/api/docs/deprecations",
+                "accessed_at": "2026-09-27T22:26:40Z"
+              },
+              {
+                "url": "https://developers.openai.com/api/docs/deprecations",
+                "accessed_at": "2026-09-27T22:26:49Z"
+              }
+            ]
+          },
+          {
+            "system_id": "models-prompting",
+            "status": "unchanged",
+            "summary": "Astraのnone/minimal・sampling非対応、tool calling Responses要件、EU Standard限定と272K超の入力/cache2倍・出力1.5倍は一致。GPT-5.6以降のTTL30mは最短、書込1.25倍・読取0.1倍と別計上は一致。実APIや請求未検証、既存overthinking/指示階層TODOは対象外。",
+            "affected_docs": [
+              "docs/03-implementation/llm-landscape.md",
+              "docs/03-implementation/openai-prompting.md"
+            ],
+            "sources": [
+              {
+                "url": "https://developers.openai.com/api/docs/models/gpt-6-astra",
+                "accessed_at": "2026-09-27T22:26:49Z"
+              },
+              {
+                "url": "https://developers.openai.com/api/docs/guides/latest-model",
+                "accessed_at": "2026-09-27T22:26:26Z"
+              },
+              {
+                "url": "https://developers.openai.com/api/docs/guides/prompt-caching",
+                "accessed_at": "2026-09-27T22:26:26Z"
+              },
+              {
+                "url": "https://developers.openai.com/api/docs/guides/prompt-caching",
+                "accessed_at": "2026-09-27T22:26:40Z"
+              }
+            ]
+          },
+          {
+            "system_id": "coding-agents",
+            "status": "changed",
+            "summary": "2026-09-18告知でCopilotの2026-10-19追加廃止予定: Gemini3.7Flash→3.8Flash、GPT5.5/5.4→5.6Sol、GPT5.4mini/5mini→5.6Luna、Grok4.5→4.6。提供元APIとは別。",
+            "affected_docs": [
+              "docs/08-coding-agents/github-copilot.md"
+            ],
+            "sources": [
+              {
+                "url": "https://github.blog/changelog/2026-09-18-upcoming-deprecation-of-selected-github-copilot-models-in-mid-october/",
+                "accessed_at": "2026-09-27T22:26:17Z"
+              }
+            ]
+          },
+          {
+            "system_id": "coding-agents",
+            "status": "changed",
+            "summary": "Business/Enterpriseの機能既定policyは設定可能で適用2026-10-22。既定enabled、未設定対象GAのみ、明示設定維持、preview opt-in継続。GHE.comのデータ所在地/FedRAMP制限とCLI/VSCode local session Cloud保存など例外。既にactiveのmodel policyとは別。設定変更・セキュリティ推奨変更は行わない。",
+            "affected_docs": [
+              "docs/08-coding-agents/github-copilot.md"
+            ],
+            "sources": [
+              {
+                "url": "https://github.blog/changelog/2026-09-24-default-enablement-of-copilot-features-for-copilot-business-and-enterprise/",
+                "accessed_at": "2026-09-27T22:26:24Z"
+              },
+              {
+                "url": "https://docs.github.com/en/copilot/concepts/enterprise/default-availability",
+                "accessed_at": "2026-09-27T22:26:52Z"
+              }
+            ]
+          },
+          {
+            "system_id": "coding-agents",
+            "status": "unchanged",
+            "summary": "10/2 Copilot廃止予定・PR承認preview管理条件・JetBrains sandbox previewは一致。app local sandboxの9/23告知はlocal repository/working tree・既定off・新session・cloud/remote対象外・CLI設定別。既存の一般的preview記述と矛盾せず、調査メモに提供面を記録。実機は未検証。",
+            "affected_docs": [
+              "docs/08-coding-agents/github-copilot.md"
+            ],
+            "sources": [
+              {
+                "url": "https://github.blog/changelog/2026-09-03-upcoming-deprecation-of-selected-github-copilot-models/",
+                "accessed_at": "2026-09-27T22:26:17Z"
+              },
+              {
+                "url": "https://github.blog/changelog/2026-09-01-copilot-code-review-can-now-approve-pull-requests/",
+                "accessed_at": "2026-09-27T22:26:17Z"
+              },
+              {
+                "url": "https://github.blog/changelog/2026-09-08-enterprise-managed-sandbox-in-copilot-for-jetbrains/",
+                "accessed_at": "2026-09-27T22:26:17Z"
+              },
+              {
+                "url": "https://github.blog/changelog/2026-09-23-local-sandboxing-in-the-github-copilot-app/",
+                "accessed_at": "2026-09-27T22:26:52Z"
+              }
+            ]
+          },
+          {
+            "system_id": "coding-agents",
+            "status": "unchanged",
+            "summary": "Continue READMEは積極保守終了/read-only方針/最終2.0.0、GitHub API archived=false/disabled=falseで既存記述と一致。本文と更新日は変更しない。",
+            "affected_docs": [
+              "docs/08-coding-agents/open-source-coding-agents.md"
+            ],
+            "sources": [
+              {
+                "url": "https://github.com/continuedev/continue",
+                "accessed_at": "2026-09-27T22:26:24Z"
+              },
+              {
+                "url": "https://api.github.com/repos/continuedev/continue",
+                "accessed_at": "2026-09-27T22:26:24Z"
+              }
+            ]
+          },
+          {
+            "system_id": "coding-agents",
+            "status": "unverifiable",
+            "summary": "Continueの既存ユーザーsupport期間・対象・責任主体は公式本文で確認できず。FAQは見出しのみ。pending coding-continue-support-20260917を維持。",
+            "affected_docs": [
+              "docs/08-coding-agents/open-source-coding-agents.md"
+            ],
+            "sources": [
+              {
+                "url": "https://continue.dev/",
+                "accessed_at": "2026-09-27T22:26:24Z"
+              },
+              {
+                "url": "https://github.com/continuedev/continue",
+                "accessed_at": "2026-09-27T22:26:24Z"
+              }
+            ]
+          },
+          {
+            "system_id": "benchmarks",
+            "status": "unchanged",
+            "summary": "Terminal-Bench4.0の8課題除外/19修正/8時間上限・major版間再実行は一致。Harborの公式例はterminal-bench/terminal-bench@4.0.0、Modal、-k 5、GPU対応sandbox。実ベンチは未実行。",
+            "affected_docs": [
+              "docs/04-evaluation/agent-benchmarks-landscape.md"
+            ],
+            "sources": [
+              {
+                "url": "https://www.tbench.ai/news/terminal-bench-4-0",
+                "accessed_at": "2026-09-27T22:26:18Z"
+              },
+              {
+                "url": "https://www.tbench.ai/run",
+                "accessed_at": "2026-09-27T22:26:18Z"
+              }
+            ]
+          },
+          {
+            "system_id": "benchmarks",
+            "status": "changed",
+            "summary": "公式ブラウザー表示で数値取得成功。Astra/Codex max58.2±2.8%/$3.3k、xhigh57.9±2.7%/$2.4k、high57.9±3.0%/$2.3k。Fable5.1/ClaudeCode max57.9±3.8%/$6.2k、Opus5 xhigh53.9±3.2%/$6.1k。±は95%CI、金額は丸め表示。HubのGrok4.7は$3.68k(partial:324/330)、トップ$3.7k。effort・欠測条件の照合を追記。Web本文抽出空枠をCUA公式表示で補完。",
+            "affected_docs": [
+              "docs/04-evaluation/agent-benchmarks-landscape.md"
+            ],
+            "sources": [
+              {
+                "url": "https://www.tbench.ai/",
+                "accessed_at": "2026-09-27T22:26:44Z"
+              },
+              {
+                "url": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/latest?leaderboard=4-0-0&tab=leaderboard",
+                "accessed_at": "2026-09-27T22:27:30Z"
+              }
+            ]
+          },
+          {
+            "system_id": "benchmarks",
+            "status": "unverifiable",
+            "summary": "数値取得済みだが費用包含範囲(API/インフラ)・算定単価・欠測時集計条件は確認不能。benchmarks-tb4-numerical-cost-20260917をこの範囲に狭め維持。変更の根拠には使用しない。",
+            "affected_docs": [
+              "docs/04-evaluation/agent-benchmarks-landscape.md"
+            ],
+            "sources": [
+              {
+                "url": "https://www.tbench.ai/",
+                "accessed_at": "2026-09-27T22:26:44Z"
+              },
+              {
+                "url": "https://hub.harborframework.com/datasets/terminal-bench/terminal-bench/latest?leaderboard=4-0-0&tab=leaderboard",
+                "accessed_at": "2026-09-27T22:27:30Z"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "boundary": "Declared observation claims only; excludes separate 2026-09-10 audit and uncommitted local runs; neither last_updated nor chapter membership is observation completion"
+  },
+  "unknown": {
+    "production_success_rate": "unknown",
+    "waiting_duration": "unknown",
+    "execution_frequency": "unknown",
+    "cycle_overdue": "unknown",
+    "maintenance_effort": "unknown",
+    "learner_outcomes": "unknown"
+  },
+  "separate_evidence": {
+    "initial_cross_section_audit": "project/records/2026-09-10/freshness-audit.md",
+    "follow_up_updates": "project/records/2026-09-10/freshness-update.md",
+    "local_runtime_state": "not acquired"
+  },
+  "inputs": [
+    {
+      "path": "docs/00-overview/learning-roadmap.md",
+      "blob_sha": "552addd517fc9cc6173bbd30519670b72b90358b",
+      "sha256": "70c1702d98bf27171a59069e358f551340df02237f23d1163a81595d9438d750"
+    },
+    {
+      "path": "docs/00-overview/research-literacy.md",
+      "blob_sha": "2fba2f1d8f04631fe0e5a0e8b7ffae39c03307d3",
+      "sha256": "fad6f5ae3b581157ceaae69a628b836c2cdbf421764a41a1e5259ff6ad7e34c4"
+    },
+    {
+      "path": "docs/00-overview/skill-map.md",
+      "blob_sha": "d101872c669984d2e7e83680c2876730b4787fda",
+      "sha256": "3f928eb4ba8caf80da9ac34a848285d29b0cb3a641be12539fdd5da5a65bbefc"
+    },
+    {
+      "path": "docs/01-concepts/agent-loop.md",
+      "blob_sha": "a7146517ff11b36e9bdc3a937f64b1a0fd7a8cd7",
+      "sha256": "3c6f324e5d0d4a60c48cf9be030279731c2e3ea2951f1e51c1c3a570eec7f101"
+    },
+    {
+      "path": "docs/01-concepts/ai-history-and-lineage.md",
+      "blob_sha": "b1f757136bb6e71e0d0a1e66dc6c44d6a09bb204",
+      "sha256": "508240fb9ce27f550b1ac25dd82c6f0196ae798f756f45b5666f114864d129e4"
+    },
+    {
+      "path": "docs/01-concepts/computer-use-and-multimodal-agents.md",
+      "blob_sha": "843199f2e5cb73e51c82dd6ce8c76620923fec7a",
+      "sha256": "72b2d739835c08a18f163f19eee76f0c7ef48966fcac6b97f62395467916dae6"
+    },
+    {
+      "path": "docs/01-concepts/memory-and-state.md",
+      "blob_sha": "6d5dec23d6c8968ba4776cb5cf804e85c6c348e1",
+      "sha256": "b17d73317aeea3a77278b74ad9ed43412c93ec2b3ee497a84a4099c7fabd7959"
+    },
+    {
+      "path": "docs/01-concepts/physical-ai-overview.md",
+      "blob_sha": "026efdb8dff6a124b02bfa71f76504b5f237cc01",
+      "sha256": "c35ef6ae18429a44343d838931a7e379bcda36b72f7e5d134b18579cc5a3c0e8"
+    },
+    {
+      "path": "docs/01-concepts/planning-and-reasoning.md",
+      "blob_sha": "7eb54b105b11c76191bb98e7f9ab4b0831cabe69",
+      "sha256": "bf99366e9f722e65647ab67ea5f34957a22ee86c842ce22838207c05b5e2c533"
+    },
+    {
+      "path": "docs/01-concepts/rag-vs-agent.md",
+      "blob_sha": "4cd8b2f6e9cd014970c85e06a8f1144ede9cb86a",
+      "sha256": "2cc6696c687d59784bddef86f9a0f0f14b74295a75c56d833da04a18bfd8185d"
+    },
+    {
+      "path": "docs/01-concepts/single-vs-multi-agent.md",
+      "blob_sha": "ba6815b2fe3cfedeea41291625e492bb859ec1aa",
+      "sha256": "a06d569ea0fbdb6cc4ece9ca0c37b6e3176c1ae28d331a266887312da5c7b7d6"
+    },
+    {
+      "path": "docs/01-concepts/tool-use.md",
+      "blob_sha": "1acd21b0113fc140c177e366a502123e990a560f",
+      "sha256": "f0b624d181a9464bcb3304978515aff60a40cd82cfad39dc726eb73c74e1aded"
+    },
+    {
+      "path": "docs/01-concepts/what-is-an-ai-agent.md",
+      "blob_sha": "3172b8291a0caf6f284a83677247d47d2b0be73f",
+      "sha256": "dc91555656483a7db9dd2c4534789cbb1e1874f3977d7bdf0b1eff58a7bf2ae9"
+    },
+    {
+      "path": "docs/01-concepts/world-models-overview.md",
+      "blob_sha": "9a107436a443517f3e8c37f1bc434f0d0e9829cb",
+      "sha256": "835bdbcc68c669ac7c328aa062015f58df90f1e59759d1d15d99b6838ea0cbbf"
+    },
+    {
+      "path": "docs/02-architecture/agent-api-design.md",
+      "blob_sha": "a517305b4ee707de1aaf0ea2d1658e633ad157c9",
+      "sha256": "305ebac94a4cd6a72a20b5fd4df195fd995bb7b907ee2d788412b7e3eb2033e6"
+    },
+    {
+      "path": "docs/02-architecture/async-and-durable-agents.md",
+      "blob_sha": "79d358e07f74db1d1029d81f545167fbe7b88278",
+      "sha256": "dd201bb4d4830484466d336ebc620adc1ebe4b64b2feb6fc1a821944501335c4"
+    },
+    {
+      "path": "docs/02-architecture/context-compaction-and-isolation.md",
+      "blob_sha": "802128938af43b12bdc4cfbe6b56ad67b442c7b1",
+      "sha256": "aef497d6a3e05bb03325463e2deb557048b91a9dea1317fa9deb1c76688df030"
+    },
+    {
+      "path": "docs/02-architecture/context-engineering-patterns.md",
+      "blob_sha": "5c346c1eb96cdd2f3ab0b48cd74b6ea7efd7d40c",
+      "sha256": "73b4b4d2aff3a98854382bacee7e569c566c9f1f805a929f51180d0a343a6945"
+    },
+    {
+      "path": "docs/02-architecture/context-engineering.md",
+      "blob_sha": "4300c7c096d686956d38248c62cb5540d0475f7f",
+      "sha256": "4e244a0995e68cca370229795a030f4f4785468857a225ad4c89761accf3fbe7"
+    },
+    {
+      "path": "docs/02-architecture/error-handling-and-retries.md",
+      "blob_sha": "79a2a825b6f03e53bf374f9d5e7a11b1e132427f",
+      "sha256": "1497b5cc4778afe54f86378f0be58d6dcb76935d6f90947aa2427b6c44461bd5"
+    },
+    {
+      "path": "docs/02-architecture/harness-engineering.md",
+      "blob_sha": "cd24836ea57fdc1f42b20e41bce7f1aea1f8cc0b",
+      "sha256": "c5a665e04d1685f93e7b59b28b525ced226a9fae4a31db50786b2a4b84165bcb"
+    },
+    {
+      "path": "docs/02-architecture/human-in-the-loop.md",
+      "blob_sha": "5e32f44c637df4cb57b535cfd1ccc0f752475861",
+      "sha256": "c585d3f43f84959db23327c8e955216e6d8e51e05dcece93f820240b0b80a273"
+    },
+    {
+      "path": "docs/02-architecture/loop-engineering.md",
+      "blob_sha": "03674c72ad1d41c8ecffe908dfab1a2494993dc1",
+      "sha256": "1169d76c553b4beb05b1095b934c9b0c54e1ad9497d6795d06a085f3875d2b54"
+    },
+    {
+      "path": "docs/02-architecture/multi-tenancy-and-isolation.md",
+      "blob_sha": "ac15d23be0594b4bc43dc670a2a1ba3562bc2761",
+      "sha256": "64aefd4e978148e2430bb74eb949dc75b0954bdfc3aeb51b55d03c5803081b80"
+    },
+    {
+      "path": "docs/02-architecture/orchestration-patterns.md",
+      "blob_sha": "99177caa6ee03c2a75f24d926eb86bc5e726fc47",
+      "sha256": "10b16673b422b6ee54315c2ac87edc84be7a6b803161ea52490bb750a5525d6b"
+    },
+    {
+      "path": "docs/02-architecture/workflow-vs-agent.md",
+      "blob_sha": "4c0cd2860f17116081a7b794c6306dc6393f44a9",
+      "sha256": "a2e3ea0d0519611d2afab07288068724cea955f51528d7d9a068b05f16a3dafa"
+    },
+    {
+      "path": "docs/03-implementation/agent-interop-protocols.md",
+      "blob_sha": "0041798f0aa5934424caeed48fd32c806e5ce438",
+      "sha256": "c4b5f972ba1e7359390002e29dd6bd39b8f6eea1c3fd379a77445aaa6129a384"
+    },
+    {
+      "path": "docs/03-implementation/agent-prompt-design.md",
+      "blob_sha": "5ef43de444ec18575c332046669898c3218adf7b",
+      "sha256": "14fcdef246c41d5af495230c2fcbe6ac1abedcacb1d41f0c472ff0d5b067e3c3"
+    },
+    {
+      "path": "docs/03-implementation/claude-prompting.md",
+      "blob_sha": "d24d11b1425ea6f770b906d51c8c27a87b75d1b8",
+      "sha256": "c0e3282d1943cb9fb40efdc61d0aab5b127b1bfb0dd5735661d60e5fcc1c2e71"
+    },
+    {
+      "path": "docs/03-implementation/code-execution-sandboxes.md",
+      "blob_sha": "53007dff993a70ee04239f7772793ec7341aa889",
+      "sha256": "121759fe457ecd0cf985cf855de21e1351c0cd9e9e9103e307834643de4f3718"
+    },
+    {
+      "path": "docs/03-implementation/computer-use-implementation.md",
+      "blob_sha": "750d4075471ec747e688c034e19cd4ce089ab1f9",
+      "sha256": "882ebf10ac8ef55eb7adc102782f41272a3c5256a69d99cdc33aeb787cf4e052"
+    },
+    {
+      "path": "docs/03-implementation/cross-model-prompting.md",
+      "blob_sha": "0f4c16f16c950f88a2032a390dfe1795aafa3f13",
+      "sha256": "a1d3860d62ae9c74ad0d5cae829fb9725f901f27aa5633559b3efb535900555f"
+    },
+    {
+      "path": "docs/03-implementation/data-preprocessing-for-llm.md",
+      "blob_sha": "d8b3f9ff83b31a63469750ab44a540d36e941aab",
+      "sha256": "81af0b02d6911ee21bc949338f26ede1529fc7390eaca152f73ee46ed9784e99"
+    },
+    {
+      "path": "docs/03-implementation/embeddings.md",
+      "blob_sha": "9dca1c57195bb6b980851625b1e614432703224d",
+      "sha256": "c7535e022d1fdeb28ed7f66ffae16d2bfd7f43e7aed36593bb698a7a568dc0f2"
+    },
+    {
+      "path": "docs/03-implementation/fine-tuning-and-distillation.md",
+      "blob_sha": "97c331ca6aa2d7ffa2fe12a12230aa214462fd20",
+      "sha256": "a09c492f977b970c322af6f8d7b0fc4deab9c37b9cfe0209922929bc02ebdd0c"
+    },
+    {
+      "path": "docs/03-implementation/framework-selection.md",
+      "blob_sha": "be199e99198cf7b2107d277dd0af9682565714b7",
+      "sha256": "9f3a6baa1e67a71106e396ccdab0ae2acd2329b98277c66d87ae0a87fc6e73ba"
+    },
+    {
+      "path": "docs/03-implementation/gemini-prompting.md",
+      "blob_sha": "a3c7de2b923e7a6193b291d6ec8d23e70349faf7",
+      "sha256": "d949db66a609a4f398649546393ed58a67e553ebe9c9f1eb120967162fc4cccd"
+    },
+    {
+      "path": "docs/03-implementation/graph-rag-and-knowledge-graphs.md",
+      "blob_sha": "81394bd888b1c6008f15bbb66ec0ccf0c94183aa",
+      "sha256": "79352502dc96954836125c759b17631484f05eefd117b74b9302f8ea898943ec"
+    },
+    {
+      "path": "docs/03-implementation/llm-landscape.md",
+      "blob_sha": "017003976056976be2027f14d36f4adbe58791a7",
+      "sha256": "a0eaef5d45095a4da0f91b9b9e9eb4b1bfafa481ec109cddd8da6a360a637210"
+    },
+    {
+      "path": "docs/03-implementation/local-and-on-device-llm.md",
+      "blob_sha": "fac70af06548f0458550093caa27a54a56cb7a64",
+      "sha256": "d2bd395d9cb26b8c15e28736c8d7aac620e5fa859868d975e44a56ed020611c5"
+    },
+    {
+      "path": "docs/03-implementation/long-term-memory-implementation.md",
+      "blob_sha": "a1ee856e0e77e88aeb8bf19b7ab2075404f14805",
+      "sha256": "548bc078bec83cc195877bdbf93bcae7ffc15a8b1bd546c0e2ee4ff11199185b"
+    },
+    {
+      "path": "docs/03-implementation/loop-feedback-and-verification.md",
+      "blob_sha": "67db2344529a7eb232988500c48db8414fc729d5",
+      "sha256": "418d12d8332a6861a9a1f54f92065756c04ef99a6a43e036e36ab889b8f89ad2"
+    },
+    {
+      "path": "docs/03-implementation/mcp-and-tool-protocols.md",
+      "blob_sha": "336eaeae973d78fdbc61a93797238165b1ccd37f",
+      "sha256": "b5ec27090dcac5d1e13fff9d3130bb2f35e65cc162d5f1130df6ca74d41c0d07"
+    },
+    {
+      "path": "docs/03-implementation/model-selection.md",
+      "blob_sha": "05a676ee94cf8fc8e39106307525ee394ba33b0c",
+      "sha256": "7bf7c327c9d977e800b78719f5f2653c16b80c02fc59dce0481d8dcc2afb2f5e"
+    },
+    {
+      "path": "docs/03-implementation/open-source-ai-ecosystem.md",
+      "blob_sha": "028fa1d3df87662b6576f6857d0d7e8ffae67094",
+      "sha256": "a169937b6964df77b1aaa89312cef669ca6804fbf29a1b76c06c94e4b9b562ee"
+    },
+    {
+      "path": "docs/03-implementation/openai-prompting.md",
+      "blob_sha": "aef8dd9c7d4ad162c9bab08b428f971d3751b469",
+      "sha256": "37c73ad6d17bc6c5a6bd0026f3d804c6b92b2b3572ed30b24416c8cca13d07b6"
+    },
+    {
+      "path": "docs/03-implementation/prompt-engineering-fundamentals.md",
+      "blob_sha": "dc3890684b9c1b36b9f4e5b446b31dd935593952",
+      "sha256": "cd7f948b2303f846b6b5780d0eeeb80643cf8658d263f8cd8d872a25bcec5e9f"
+    },
+    {
+      "path": "docs/03-implementation/prompt-engineering-patterns.md",
+      "blob_sha": "ee02c1078d01516309938b4373501e20c41645b3",
+      "sha256": "76e1e2c787bcde23177489c14b667c0328e51a08bd96a4807770b79529fdafc8"
+    },
+    {
+      "path": "docs/03-implementation/prompt-management.md",
+      "blob_sha": "ef70da5d71a6f075e8e70e32a0426be24e123c9f",
+      "sha256": "4e9a2a766c5a2634ecbe86e7031599b00b889ed42d29a9e828aced69d34dba6a"
+    },
+    {
+      "path": "docs/03-implementation/prompt-optimization.md",
+      "blob_sha": "1c01975dc5ee5b9aceb55d2122f338dd9c87e22b",
+      "sha256": "d44e99c9f4562f5a0fcabc15803da0e2ae72eb0b1cc4c0133af3428e0c15e257"
+    },
+    {
+      "path": "docs/03-implementation/rag-implementation-patterns.md",
+      "blob_sha": "6c765ac332193d77f498878859118a751467febb",
+      "sha256": "f2221dffa36dca995c6369958caeb64a02949386e0d857565183acf6249ac1a9"
+    },
+    {
+      "path": "docs/03-implementation/slm-strategy.md",
+      "blob_sha": "8b70ecef3f1cfd8a98609c687f72b69ed266c5a6",
+      "sha256": "9221d7a5388b53cf050e92f9ce96549fde28fffdf7a0767bf08e73df8032f65b"
+    },
+    {
+      "path": "docs/03-implementation/streaming-and-agent-ux.md",
+      "blob_sha": "8bcb24a46d42d3fe25cdd5a187559f835505158b",
+      "sha256": "d31338ed15b00a6207286d4de225fffa02ee6b0936b649a24def748b61593068"
+    },
+    {
+      "path": "docs/03-implementation/structured-output.md",
+      "blob_sha": "607de506696f50d091a8a6f530e1e5a702d49b19",
+      "sha256": "a589cb74c87b0079517676abcbeac9dc3ba0d81e43e97a6513e2419fad77bd30"
+    },
+    {
+      "path": "docs/03-implementation/synthetic-data-for-training.md",
+      "blob_sha": "a1fa3103aea8570b2ca196949f83823141d6c7f1",
+      "sha256": "193ceb2377e9e72633762d17ba645a98da44c3860f47cc30a1304a1d27f532fe"
+    },
+    {
+      "path": "docs/03-implementation/tool-definition-design.md",
+      "blob_sha": "3af4339a41781b61a15ead9b53f8613ea4a1d09a",
+      "sha256": "7de8015ceb9a860eedaa676fd2be7edef1f9d7ca974a9d504c5c84fbab39d829"
+    },
+    {
+      "path": "docs/03-implementation/vector-databases.md",
+      "blob_sha": "9902726a8ca17d135f34214987e5deddac50ec01",
+      "sha256": "0532d01eda6421412f4e5fee1249ee5ece92a366cec977f2e12313e605086c60"
+    },
+    {
+      "path": "docs/03-implementation/voice-agents.md",
+      "blob_sha": "dd10b7e62d554b59c4f1e6d297e473cdd927bc31",
+      "sha256": "8a9a55ea97e549730c4778f003bcd0ca4de89a60b9eec448c76359e88d5b0773"
+    },
+    {
+      "path": "docs/04-evaluation/agent-benchmarks-landscape.md",
+      "blob_sha": "3d9d35250bd7bc9f54424888baa596350ef2971a",
+      "sha256": "e71b918cf94fcdd8cead55005ed5568c7f163fddf63862445c5b4d084ef83d58"
+    },
+    {
+      "path": "docs/04-evaluation/agent-evaluation-basics.md",
+      "blob_sha": "b8ad18a7ea60e9c17ed0102663c2ce26cd45d402",
+      "sha256": "1664c829463f26f8d74e6c42aabc99237ee0ee4482cc3f6061ffb42b0e582dbc"
+    },
+    {
+      "path": "docs/04-evaluation/confidence-and-calibration.md",
+      "blob_sha": "3cfd820a7d73e45998a0263ae52e6199d8ff8718",
+      "sha256": "3659f55f6fefbfd9a09d74f51b7140ecf8fef3dff12072b56aad11108c1e9957"
+    },
+    {
+      "path": "docs/04-evaluation/evaluation-datasets.md",
+      "blob_sha": "00e2df8720c7646bd72eb0bafcc025811caa3a35",
+      "sha256": "106f2a42dea535e5e52ce3d2b8b66c278b1f3afd5beb97fb4e2ff887e5dba6bd"
+    },
+    {
+      "path": "docs/04-evaluation/evaluation-environments.md",
+      "blob_sha": "ad710b4c855bb104d0f19a5ca6444b92fa5519d3",
+      "sha256": "fa923d85e3215d7c96d45ae9664eb5291cf065165f5ef15ad3c9fb4b9329ef5e"
+    },
+    {
+      "path": "docs/04-evaluation/fairness-and-bias-evaluation.md",
+      "blob_sha": "8e49765c055c959614ee39e0868cfce33c9b606f",
+      "sha256": "d0b3349503d5836fb9866f6ea065d8aa3bdac312fbb109a3cba11b36f8680734"
+    },
+    {
+      "path": "docs/04-evaluation/japanese-quality-evaluation.md",
+      "blob_sha": "b3875410e5095a5b77ffd5856fdea9480317adb7",
+      "sha256": "185c906267d956adefdb790e4eecbc57e25fbeefc699ebca554bc1cff9c329cb"
+    },
+    {
+      "path": "docs/04-evaluation/llm-as-a-judge.md",
+      "blob_sha": "1a3d7c8997bb1a6e7eda65fd77fb0412efb7a292",
+      "sha256": "837a9f37df7ac7c71e520bfaf0b7fc385fbd161b5eac644bdbfaa529b50edfd4"
+    },
+    {
+      "path": "docs/04-evaluation/online-evaluation-and-ab-testing.md",
+      "blob_sha": "4f1b1b9609b81f5aa51a1a208fa9a259c7d753ec",
+      "sha256": "832fa85fe0ea9bb18b7cccc8928557ae4dee165b24e78d5ec33c29bbc8ae20fb"
+    },
+    {
+      "path": "docs/04-evaluation/regression-testing.md",
+      "blob_sha": "c46bdaa36f91111dab3b6ec14dc98854d25e503a",
+      "sha256": "e514424f092690712762184ad07e01239bce983b522fba64441bd0bf050cabcc"
+    },
+    {
+      "path": "docs/04-evaluation/trajectory-evaluation.md",
+      "blob_sha": "40cb21b477d58477632f46fd76ed6757fe2a8090",
+      "sha256": "1a52e2f48c45ffdd0021ddea3965000bb9b22891d7bb64d2c4b40e31d43e4aff"
+    },
+    {
+      "path": "docs/04-evaluation/user-simulator-design.md",
+      "blob_sha": "4abe5946019fc30eb10b323acdaa47563ee00581",
+      "sha256": "9564a187608015ff3829a7bc90cf740bbf25883a4df0109e7077012dc1124e5e"
+    },
+    {
+      "path": "docs/05-operations/ai-slo-design.md",
+      "blob_sha": "cd1fa249554d0c057bce5506a213f0b8977cbd58",
+      "sha256": "ccbb02f5bdd8555e9ed56d17cefb71c7277280805db1545cf7984ebbea61c23a"
+    },
+    {
+      "path": "docs/05-operations/batch-processing.md",
+      "blob_sha": "5a1aa4fab2ebccac7b1df646531b2c0478287b18",
+      "sha256": "73a18788c06ae11913debd7f31eef7667bb34f2cce5b7d91a3559b7e03326658"
+    },
+    {
+      "path": "docs/05-operations/chaos-engineering-for-ai.md",
+      "blob_sha": "0138ba8debbc9909acb4944abd6328b2306a5b0b",
+      "sha256": "75dc6e08c60e527b2ec4a04a0e6ae8edba64d2e05eefdf0eb24447c7aea2e966"
+    },
+    {
+      "path": "docs/05-operations/conversation-data-management.md",
+      "blob_sha": "0ebe8696787dfa3dbd98b9e7df74877fa335c42a",
+      "sha256": "91f24741e50bbff50d662deb47d8a602d1d3ad95d79f71e7399bae10f195f9e2"
+    },
+    {
+      "path": "docs/05-operations/cost-management.md",
+      "blob_sha": "cb7f0c6718ac4c681033c70fb120b7ed9c563e8a",
+      "sha256": "95e0e1d7350a19d03108ca078fff1a032e417d3466f6a6edc44586a2bd362d3a"
+    },
+    {
+      "path": "docs/05-operations/data-governance-for-ai.md",
+      "blob_sha": "b852249762dca756dff66569a7017e683877b82d",
+      "sha256": "bbe191042ceb3abb82432b19dc24e235bdb99633527cfdfd75584b1719574dbf"
+    },
+    {
+      "path": "docs/05-operations/deployment-and-scaling.md",
+      "blob_sha": "2d2fc2ecd9802bff65fa301e940f19a1c065c623",
+      "sha256": "3461f49a891af513d3990b9a119064c7398b5ccf6466b50d72ddb977e018aff7"
+    },
+    {
+      "path": "docs/05-operations/feedback-loops.md",
+      "blob_sha": "b6ff9dac432c91a022fac412c91507c61fa3676d",
+      "sha256": "9e8f8583d506e026d45e2b2e420b97f489967d06b1e5583ba611f9069cbc0fc1"
+    },
+    {
+      "path": "docs/05-operations/gpu-and-hardware-basics.md",
+      "blob_sha": "46b9de84b5137e420c6472907a4d7471299d2838",
+      "sha256": "b1ecfb14609508f95cbd05c8b531d2d45b7a9929735a10acaae5ad82d8be8a50"
+    },
+    {
+      "path": "docs/05-operations/green-ai.md",
+      "blob_sha": "5786e7da238d90465fd38064b60b501f17c020b4",
+      "sha256": "e1f483372db52612d989766a7db6420ca28c3ce4b2ee9b24a3080ab61b4efb69"
+    },
+    {
+      "path": "docs/05-operations/incident-response.md",
+      "blob_sha": "bad4773a1991994e41cc6da8df2e2ae4f5b1a13a",
+      "sha256": "1b9ca5d7b00194111bf08415d8e83fdcb68d50edfa08d1697629cfaf7ca70496"
+    },
+    {
+      "path": "docs/05-operations/latency-optimization.md",
+      "blob_sha": "8c53b540de27959baaf2c4e04d7d1cb215d959da",
+      "sha256": "e71b6f0a555d82e6fe1e182a36d1450264c2086253fc3735039e209c3c9832c1"
+    },
+    {
+      "path": "docs/05-operations/llm-gateway.md",
+      "blob_sha": "299864c189c9467640ff7f92bb917214384d8441",
+      "sha256": "2a579209f5ca49cf5f5462ef66d606187d4a22e0bf5a6413c180e13d2a78ad3b"
+    },
+    {
+      "path": "docs/05-operations/long-running-agents.md",
+      "blob_sha": "3f832542e89eaaa819b5103460bd83099afcb056",
+      "sha256": "65384bdcffac584db8b26c1d1f3f838c57607861f4acfc774dfd145520a52224"
+    },
+    {
+      "path": "docs/05-operations/mlops-and-llmops.md",
+      "blob_sha": "82745969e2cf9772e5fe05f5afef408a13356a76",
+      "sha256": "8140431684573c3a8f55acc6c87fe7ab6c9885a7daee80fd91aeb1a29234c7e6"
+    },
+    {
+      "path": "docs/05-operations/observability-and-tracing.md",
+      "blob_sha": "e68959abda42eea50b2b534dde08b02de709d537",
+      "sha256": "e69ea0630d0c9e63833d858cfc2cd21716045b63dccef927f117d8d44fb2023d"
+    },
+    {
+      "path": "docs/05-operations/self-hosted-inference.md",
+      "blob_sha": "721fa1dae4e59612e74024650848e576dbf360d4",
+      "sha256": "dd9dcafc4d41be16f55742f0664039f3f37a58f00cdc4773d8fab8fc91404ec2"
+    },
+    {
+      "path": "docs/05-operations/semantic-caching.md",
+      "blob_sha": "cdcf18e163fb29be4f71bfc54287ceb39c8fde5f",
+      "sha256": "621c595d592a2b6d920d28d15b554a28981b8574820f530991f4a0bb12a7dd00"
+    },
+    {
+      "path": "docs/05-operations/versioning-and-model-updates.md",
+      "blob_sha": "062c065c2d8435170617fd5a0aa920275b16b407",
+      "sha256": "f452489272252555891970b60e2d08ca6dcf2e4834c25a5ff863946ae5d71e29"
+    },
+    {
+      "path": "docs/06-security/advanced-attack-patterns.md",
+      "blob_sha": "ac157d11f660add4de8dd846bba13e51527df8f8",
+      "sha256": "282f17fc5836a96a6ce8854ee7e501ea8f318cacf5e96774f1f5b1f35a68a33f"
+    },
+    {
+      "path": "docs/06-security/agent-identity-and-auth.md",
+      "blob_sha": "b5146d30f20b26b09e4629fe907f8d4b48eb89db",
+      "sha256": "0397b55d348deab9948522201116f558d5c7e19ecd1ffb81c02b59f90ffb3265"
+    },
+    {
+      "path": "docs/06-security/ai-standards-and-certification.md",
+      "blob_sha": "91bd6a65634fad24379efb99bedd80414dd4ffeb",
+      "sha256": "74ed7f21092f4114890a8c9aad2cc05a31911586202dc2c5bb3e5ce2f2b74a04"
+    },
+    {
+      "path": "docs/06-security/ai-supply-chain-security.md",
+      "blob_sha": "f60ac583bcbb8b082796dc46067b489fc70b62c6",
+      "sha256": "853d1f250012aaa8a0bbad11c920dbbcc3b6e31beb6c9d379cc25ecd1a4b4c09"
+    },
+    {
+      "path": "docs/06-security/compliance-and-governance.md",
+      "blob_sha": "4f22061c9c6376a423aea1de3014661913b8c5ca",
+      "sha256": "b74d0c410eb1e04a215c16f3025a7a306b4ca51b0fb1d6934b648fab38f76e33"
+    },
+    {
+      "path": "docs/06-security/content-provenance-and-detection.md",
+      "blob_sha": "6df2c4b83b021833a89886efb576c6c802c5dc16",
+      "sha256": "a5dafc5f61e53ef2b2d0cfff22360405ec0c1c3c5651fc41e5208fc7bcb2f791"
+    },
+    {
+      "path": "docs/06-security/data-exfiltration.md",
+      "blob_sha": "3b584147f72473f512feba75899e4bf7013c34fe",
+      "sha256": "66796c3c7338428e48d72a9bc82a579ac1634c800339efcc5bb41ea8018cd8ea"
+    },
+    {
+      "path": "docs/06-security/deepfake-and-impersonation-defense.md",
+      "blob_sha": "6db617cc2f506657f6f65b0a80bcef6dfc56be0a",
+      "sha256": "e0e7886819dfa151ed610661e6cd3ad28cdb3d8806b3948e97668d32e2167500"
+    },
+    {
+      "path": "docs/06-security/frontier-safety-overview.md",
+      "blob_sha": "be2a107cc7b47a44a7a0f6a4f75e707cca76af5a",
+      "sha256": "a7fb22d91003d2efd7a7017d428eb1712fe7937002e0a540960243088ab108f0"
+    },
+    {
+      "path": "docs/06-security/guardrails.md",
+      "blob_sha": "a2dcc1519a0f8cf40225927a5416167b1e2031be",
+      "sha256": "13267dc6f73e6c3e94fe022a2a327ab5d4ba17382228c9a3fc1c23fa8fa501a8"
+    },
+    {
+      "path": "docs/06-security/privacy-enhancing-technologies.md",
+      "blob_sha": "4b44141fd6f69c0bf2089b4b96903001a9e54afc",
+      "sha256": "f2a60aba4e138a1731a67a14187a6f227d91fca184e7d5984d7adbc51f4edf63"
+    },
+    {
+      "path": "docs/06-security/prompt-injection.md",
+      "blob_sha": "5fbba4a555506ed942064355a24e5b31f819dc91",
+      "sha256": "8689e3ad078237b5b44899eb912a4cd9316cecb5a6dee5d177d7718830f8fa55"
+    },
+    {
+      "path": "docs/06-security/red-teaming-agents.md",
+      "blob_sha": "7579524d702ac843a88108793412dbc3e17a7762",
+      "sha256": "d125576c1b47c18780ebee3d3754acfccf2f29039c81e448a65dc5faf5251a5b"
+    },
+    {
+      "path": "docs/06-security/threat-model-overview.md",
+      "blob_sha": "789d11292983fe04846c408500c410b1200f8cee",
+      "sha256": "7feb6f20918765344cad6cdca0e0977e8dfe7c9bda51daa30a0a245d50887d22"
+    },
+    {
+      "path": "docs/06-security/tool-permissions-and-sandboxing.md",
+      "blob_sha": "1248ed9868ccc944eac6c3ed82e8dfdb4450568f",
+      "sha256": "8a70bbf712c60eb14e6ef6fba0fe64ddd6dae3a14c005572772bd9f1ae8a8892"
+    },
+    {
+      "path": "docs/07-case-studies/case-study-customer-support-agent.md",
+      "blob_sha": "44c28b2fe6ccc1cdca6e042f91c970569f8fc521",
+      "sha256": "39587d2ea443bfa3f1669b7a9ae82884d4e1c1e85340f4385da7c4e9ac82ca41"
+    },
+    {
+      "path": "docs/07-case-studies/case-study-data-analysis-agent.md",
+      "blob_sha": "8e63bc617856aef21119eba608891a5d4eacff0b",
+      "sha256": "96d2bc0e302855daf9f2569aafb9075a720179fc2b2328f9878d57e59d0fdcf4"
+    },
+    {
+      "path": "docs/07-case-studies/case-study-email-assistant-incident.md",
+      "blob_sha": "6a204f1dd394d4c23a16322dca3c1608834d6092",
+      "sha256": "9e642b2230822900f5365c4090c37ee08b76a20924c43f2050634ec09cc11283"
+    },
+    {
+      "path": "docs/07-case-studies/case-study-expense-agent.md",
+      "blob_sha": "d19dd89ac1cc66d50ddadafa9b4ebf9e1c44f91b",
+      "sha256": "dd8ff850854470b62e446e8e74f959ae2ecb9880f417af6979f6ce59da4d8fe1"
+    },
+    {
+      "path": "docs/07-case-studies/case-study-failed-poc.md",
+      "blob_sha": "8f99cffa01e08c9b57744f8a46235a2f386eae3f",
+      "sha256": "bee4fdf76113e6122bdc38697386f195b3fe82bd8b233bbb8d34001a408c4fc2"
+    },
+    {
+      "path": "docs/07-case-studies/case-study-it-helpdesk-agent.md",
+      "blob_sha": "4b85dfac357ccd8d24506a337e5cffa5bfc3c73c",
+      "sha256": "84c539724614d4ce3d1c1107a356b3522b7ac75712ac89ec9b338f972f04e259"
+    },
+    {
+      "path": "docs/07-case-studies/case-study-knowledge-agent.md",
+      "blob_sha": "da69b9fcc09d223603112a802a3cdd229c61ec01",
+      "sha256": "5e329578b7dc4ff602cd7935f7f064716eda4ea8667b457bcc5b5710f6794dcd"
+    },
+    {
+      "path": "docs/07-case-studies/common-anti-patterns.md",
+      "blob_sha": "ba64443d96903c838f75624ee5ccba87dd4f725f",
+      "sha256": "6198d2dce6ee3ba1653ba3e29e4bdd7d1bcd37c3f0cdb29cbb147ebfe27fdfd6"
+    },
+    {
+      "path": "docs/08-coding-agents/claude-code-in-practice.md",
+      "blob_sha": "3917d8ad8f21b0455e22936f82be48b00e5ffbc7",
+      "sha256": "6b82df6974120d9f1c79e4bdfbdaf1c599a37bd227098c4d19515e60946f0f7f"
+    },
+    {
+      "path": "docs/08-coding-agents/claude-code.md",
+      "blob_sha": "bc229a63ffb22a5f11c03e405aec085719761bd7",
+      "sha256": "0d22ecf88c79125171afc92ae888c7507819fd62ad1c559fdd05b88b0aa609c7"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agent-automation-patterns.md",
+      "blob_sha": "5d446c7ffd6d56e54e5335e771c106ba07c3ec52",
+      "sha256": "e95990dfdac1a68b30fed8eb7196fa1a12baefb06d2d3516dee7b1e5d01ea4c5"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agent-cost-optimization.md",
+      "blob_sha": "ad9976a9fc5384862ea7f78bef7cf79f2f153b0a",
+      "sha256": "f4868d7884e5e6a169038d5fd298ba0e2af0c7faf8e6aba8798faf1c7b8a239a"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agent-evaluation.md",
+      "blob_sha": "cb8944c79537b3fdcad78e8f97ed060ba446f494",
+      "sha256": "fe250b7582e2d8ae6f1f8ec18ccbf4d6d57117e30614c6b53bc20e32f03bacef"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agent-prompting.md",
+      "blob_sha": "903eddca030dddb8e44dd1104c9eecb77f96fa69",
+      "sha256": "e825ad276f40e9961d23f3a1f0fbc05c7a360d6d17b5725d67574ecdcac018db"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agent-rules-and-config.md",
+      "blob_sha": "0a5c8d9eb32329ce7e7d42f814d913dc3b33fe7a",
+      "sha256": "353591d83addabfff93b25bb40240e15832352d5fd6d9f1d32242ae023e8ef6e"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agent-security.md",
+      "blob_sha": "da6e5ff36ce27ca02b69a1ec12df011634ce5657",
+      "sha256": "924fc607f41ea0a6b749c606d857c743bff0f9ed05e3560359adeb05b2999bbd"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agent-selection.md",
+      "blob_sha": "037a033a7b27cabc60ed19d48689f1b38b4793d3",
+      "sha256": "cd73fe5b90bd348c0ef15c24fe9973a3a7d3e8d20fc74b0694384344f64dc059"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agent-team-adoption.md",
+      "blob_sha": "a4f704dd0d4b967210a06fdefe0cec261b521666",
+      "sha256": "450ea7072487becc72b952b1b61b07bf24ef0bfc60e1b178c51dcb71ddf03df6"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agents-comparison.md",
+      "blob_sha": "2dc85478054bb555e676886c7e0cf52097f5acb3",
+      "sha256": "d2d087fc00b8efc3cfc8070f046541608d6cb227bebb7978f0d168c967ed6c70"
+    },
+    {
+      "path": "docs/08-coding-agents/coding-agents-overview.md",
+      "blob_sha": "a8e454b3b9d396fa8277f9c2703c0592cbc8de1a",
+      "sha256": "a3412fe6c6496ff609f933c3da62b5b6588fb0f417519911d51ad4eef94d88be"
+    },
+    {
+      "path": "docs/08-coding-agents/cursor.md",
+      "blob_sha": "119834faa2a23cfb62e28081c630f0ebf769e07a",
+      "sha256": "76554414584f20204682d615eaf3b44f64498001d533028cb5b321bcaf168d5f"
+    },
+    {
+      "path": "docs/08-coding-agents/devin.md",
+      "blob_sha": "29019eca0cb23107a1b64141100b99d39f755b67",
+      "sha256": "2a84c2595dbf798fe0ac6ca130ed5ec84554a86c740b6e2574ab22133b7985c5"
+    },
+    {
+      "path": "docs/08-coding-agents/gemini-cli-and-code-assist.md",
+      "blob_sha": "6af859f25e21c24310c3c8397b6ddc6b7755582e",
+      "sha256": "0553b425875346d0fdf87b1789ad2e96184fe5f14b2305f085d75b24cffd8ea5"
+    },
+    {
+      "path": "docs/08-coding-agents/github-copilot-in-practice.md",
+      "blob_sha": "c46f64a298a193d430b9b7f825614bfe62d3fc39",
+      "sha256": "1bbe628aa8cbfcdc69f1563541e9391d242f3550759260fbb2e06e12804ba144"
+    },
+    {
+      "path": "docs/08-coding-agents/github-copilot.md",
+      "blob_sha": "c306cc3f4f79665011fb2acf2593d45abe8385db",
+      "sha256": "7715799482407594691212dea87cfdb6b61ef1b5d0fcc2e35c1856091936b1fa"
+    },
+    {
+      "path": "docs/08-coding-agents/open-source-coding-agents.md",
+      "blob_sha": "10a6a87068ac060e71bd5fdb2d0d96a42248a451",
+      "sha256": "2d5ba9540bf3bfe01c7a606aa8cd4d3240e49f0ff5f142c351178ae3dfc7ea48"
+    },
+    {
+      "path": "docs/08-coding-agents/openai-codex-in-practice.md",
+      "blob_sha": "6f07a882284e1ae15b6f7f25e26f997438c18635",
+      "sha256": "7e3f0acf73bd32932dffe87a9125eae6294a23c839367fe3a0c0ee409dfe9cbd"
+    },
+    {
+      "path": "docs/08-coding-agents/openai-codex.md",
+      "blob_sha": "e62e7e39dbbd774619322c51f0c0ea53bfa5b653",
+      "sha256": "e47b5abc2350e847aab1ee1beb0342da590f09b004d57e891d57e8bc0a64a40d"
+    },
+    {
+      "path": "docs/08-coding-agents/se-client-adoption.md",
+      "blob_sha": "63576c7b2292a93383af95e54676f27cb888518f",
+      "sha256": "8af437b283cf3384dc8a168270d735200dabc2a8ad88c3e6997c638d7b355f62"
+    },
+    {
+      "path": "docs/08-coding-agents/se-enterprise-constraints.md",
+      "blob_sha": "be0eefc61a1e23a249254ef9f34289122f91a7db",
+      "sha256": "bcde157566f694d6ae2d5fd69a2ddd3532b6a37844a989b43f388023b1add62b"
+    },
+    {
+      "path": "docs/08-coding-agents/se-legacy-code-analysis.md",
+      "blob_sha": "d28228181f5f3f2aa7ac4f77f4cfed2b619a16c9",
+      "sha256": "06b9434092c3bed6d971d5f1f82917bfe6c0de208c78abf30b8b0eeed667a31d"
+    },
+    {
+      "path": "docs/08-coding-agents/se-maintenance-and-operations.md",
+      "blob_sha": "cffd200788e080d50cdf89f4270ba02d65ca4e21",
+      "sha256": "783f633a769e8453187d295dd03e0be53fb4e65b6751c35a145b3b7567df458b"
+    },
+    {
+      "path": "docs/08-coding-agents/se-process-map.md",
+      "blob_sha": "633792eb5a0eaa365c88f7122382c07c782259fb",
+      "sha256": "79d5802e962a6613f6d2c9d1af3b593560c70eda9458c855b3dd383e401a157d"
+    },
+    {
+      "path": "docs/08-coding-agents/se-requirements-and-design.md",
+      "blob_sha": "651b557464bfcf72f5bdcb9e9c2d70f1e40f6c14",
+      "sha256": "a90cfdb1365a311fe312f0f264fa274d714ccba8ebc9e849b2a5f24b43ceccbf"
+    },
+    {
+      "path": "docs/08-coding-agents/se-test-process.md",
+      "blob_sha": "53377e7be5f799cbf4f623a057a30279c3a3acca",
+      "sha256": "a585200ae879d7fdda600877242080000c688e47f3628bab4c57975594b8107f"
+    },
+    {
+      "path": "docs/08-coding-agents/windsurf.md",
+      "blob_sha": "b6a5921732f7ba9aa0939b4bb8f802958726003b",
+      "sha256": "8b4057ea4f6aa601505c1460702fc669f621d797eb272887b5e669dc8872c297"
+    },
+    {
+      "path": "docs/09-business/agent-liability-and-accountability.md",
+      "blob_sha": "483eb1b6fd9f47c0ed162e61e1a111d7a1da6f16",
+      "sha256": "0b13cdb4ec87dbc8f724e85c96156512b601a0d62ffb944886c9ea6ad698416e"
+    },
+    {
+      "path": "docs/09-business/ai-asset-sharing.md",
+      "blob_sha": "6c4fdd41c7dd2ac1d9408233b563bea0925d8b37",
+      "sha256": "7e1938f392b9e843d3830d5af2ec88c77e8edbaed42c622b38420c022a0f0100"
+    },
+    {
+      "path": "docs/09-business/ai-copyright-and-ip-map.md",
+      "blob_sha": "efd51288ebd496dc01cbc5567a45989987e2d117",
+      "sha256": "ef268586996bdd49fe18f6dfe07fb50cf40805bbf0b13e4dcf729ea245d59678"
+    },
+    {
+      "path": "docs/09-business/ai-geopolitics-map.md",
+      "blob_sha": "c1eee3faa57107eb88406b01eafc00a46729a2c5",
+      "sha256": "05d51a1abd18ae01706319d819fa8d10c1b1e3616e4452dc189e90aaa0602bc5"
+    },
+    {
+      "path": "docs/09-business/ai-industry-map.md",
+      "blob_sha": "e1a03edd093283632f6ff967b72e0e068cf3342b",
+      "sha256": "22dea338957d3dd723566633ce292e6e49f46be4683d3d0d3dfcbf56260a0705"
+    },
+    {
+      "path": "docs/09-business/ai-native-development-process.md",
+      "blob_sha": "5130b82d03bdc149f06a5f7476ea29bae4f3f823",
+      "sha256": "40af673ab8a3bdc55d11d4f854cc1d90c05afed92b44b3a0ec725807dc3174cf"
+    },
+    {
+      "path": "docs/09-business/ai-pricing-and-packaging.md",
+      "blob_sha": "e96ceb6bc51aaf013077300897b7f10fd2f1b524",
+      "sha256": "f5c9b6694ef6ede8885b4a7dd2f235a8eb16ab5bcce4c55e6005af2c325fa71b"
+    },
+    {
+      "path": "docs/09-business/ai-procurement.md",
+      "blob_sha": "b414cb073c64a3ba1bba821dcc163fb842a3efee",
+      "sha256": "26787386c07b98d191d801e66604027bd64464f7db08022a44afdd0ce0ad014b"
+    },
+    {
+      "path": "docs/09-business/ai-team-topologies.md",
+      "blob_sha": "51156dc562b83ea5202fe34a27b6ca4aeb115f4f",
+      "sha256": "4db6c19535c4674f59d8b929d374bb8dac6f8bc3c198c4c6525a5c87483f09b4"
+    },
+    {
+      "path": "docs/09-business/ai-usage-policy.md",
+      "blob_sha": "dc71052c4864d5ef99db9b6306f23bd5f8707f13",
+      "sha256": "4030529cb8b8788173210238611b2cd01737d7c1f16a0f53fe9cb7b176f06296"
+    },
+    {
+      "path": "docs/09-business/industry-regulations-map.md",
+      "blob_sha": "1dfbf970be1756e6b3c26368988f283fb6537d9d",
+      "sha256": "da77e47f450ef43fa4252d252f0cc5925d3f03973de49a431916833652f0993e"
+    },
+    {
+      "path": "docs/09-business/own-model-strategy.md",
+      "blob_sha": "8e6b57784017a7f518ea10a5aac9e99418903a25",
+      "sha256": "c3eee14db3ba452d02fddc777bdb689f18d7108c19fd0a778b4e313e8ffc82b4"
+    },
+    {
+      "path": "docs/09-business/poc-to-production.md",
+      "blob_sha": "4db241119cbd4fa428b2ea2fa68f26356b0cf102",
+      "sha256": "e688b76dd41924f5b9b9f800615e5bc83ed01409f567f7d5b06fbe0df1b5471d"
+    },
+    {
+      "path": "docs/09-business/roi-and-business-case.md",
+      "blob_sha": "759b8834a70ef8bc7c11da0953afaf7d92081184",
+      "sha256": "c658d53d0d02ad11817b47b65afb885be3a0a1679f678a3eae6ccab55ac037e9"
+    },
+    {
+      "path": "docs/09-business/skill-shift-and-change-management.md",
+      "blob_sha": "beef53750f262e9fa3dd68c153e45350ca4ba92d",
+      "sha256": "4235656de1c2c787dd673be617086fc4ed00d25c294f8a6e1179b3a5c8072911"
+    },
+    {
+      "path": "docs/09-business/usecase-discovery.md",
+      "blob_sha": "dd1aec8e0a097bd4d3519504241c22f564b407d2",
+      "sha256": "b1f9ad7482d40845e34b3c27eb1e4ae8ee101906a23dc0e74b289b044b2efe06"
+    },
+    {
+      "path": "docs/10-llm-foundations/attention-and-context.md",
+      "blob_sha": "2670475b6789bc330e4276418cdfb4ff798e0b86",
+      "sha256": "433d75095383235eeace9c4b34048bad43a3f4b0ba6e65c2e7e7d25eebdb1c55"
+    },
+    {
+      "path": "docs/10-llm-foundations/capabilities-and-limits.md",
+      "blob_sha": "c7f3812926e03605c496ae38cbb987b9ed59b687",
+      "sha256": "cc83e31509fc1b5a8e43793be4c06fc2682c90e76f83e7ebf784fafbd23beb4a"
+    },
+    {
+      "path": "docs/10-llm-foundations/how-llms-generate-text.md",
+      "blob_sha": "48bfd87d9aec50dc6c6e3ccf20c09b87290078ef",
+      "sha256": "252a118e9db2a3c98a27d681d5a7935625511db312bf69c1cec2bee51ad9b8b3"
+    },
+    {
+      "path": "docs/10-llm-foundations/llm-training-pipeline.md",
+      "blob_sha": "0f1398c326e7cc8f50f9d70605cfb2d6f5761916",
+      "sha256": "993147125244a6bfc7b3e64ca5d9f4f2142dd944b7a1fa7d43d33a79b7242e62"
+    },
+    {
+      "path": "docs/10-llm-foundations/multimodal-models.md",
+      "blob_sha": "bd20b18453d8708e60c39fa589ce42f426aa355d",
+      "sha256": "d5613741bcd48a6c8d676160b840acbb631967f4caf0024248599839702b6409"
+    },
+    {
+      "path": "docs/10-llm-foundations/reasoning-models.md",
+      "blob_sha": "27cd8aefcb336abe82f947ff7b326ae65f95d8aa",
+      "sha256": "71246ca014e171936139af9083df301f16dcb7dade8f7aeb3a0b14516a19ef44"
+    },
+    {
+      "path": "docs/10-llm-foundations/tokenization.md",
+      "blob_sha": "5926b6d0c75abb98506ef2f258353f3e9260d2a9",
+      "sha256": "c7cfa3103d66cab419bbac059e30e1cfd19d090b66ca04b111a0b49191b327e1"
+    },
+    {
+      "path": "docs/11-llm-internals/alignment-theory.md",
+      "blob_sha": "02cb6d14477db3558ede278d90e46ad8936e3916",
+      "sha256": "e39186401f56313517b2712b4634545b2a8eeb29ca7dbb7407997c65afc677d8"
+    },
+    {
+      "path": "docs/11-llm-internals/attention-variants-and-long-context.md",
+      "blob_sha": "fe484ace6d5ff31437449128f89771cb2a4ae150",
+      "sha256": "038c9cd9de3edeeb44ee0ff089834fa9b14205098cb952d00bafebfce706dd0e"
+    },
+    {
+      "path": "docs/11-llm-internals/in-context-learning-and-memorization.md",
+      "blob_sha": "cf12abfa0f9e3c3515d288a6fbd9c29a43b6de08",
+      "sha256": "c150ab8ee4a72dc6786a5abb52e0266f97d78f1b6584ce1c695e01f94106f5c4"
+    },
+    {
+      "path": "docs/11-llm-internals/inference-internals.md",
+      "blob_sha": "4fc53b44e47f8e3e6664b34bd8526159748b1ee2",
+      "sha256": "ee882b3e290c2bde293b095d593d84943822997b748bac955c037583f42a0cc2"
+    },
+    {
+      "path": "docs/11-llm-internals/interpretability-basics.md",
+      "blob_sha": "65be19fbc5807a7589c1d97a61880f2cf3715f6d",
+      "sha256": "d7a2febb87771c6afbf440be223527c2c9a465f1e1c72f000432540ec2cda68e"
+    },
+    {
+      "path": "docs/11-llm-internals/mixture-of-experts-internals.md",
+      "blob_sha": "2ed77946362b31815b397994070be78a441a1ac5",
+      "sha256": "0f69508f745bdbd239c496090ceeb091dc8f1f28aa4fd1bf00e8fd0be4bac243"
+    },
+    {
+      "path": "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+      "blob_sha": "3da5141108ea1c571ba6245d0354b1f1a9b8c35b",
+      "sha256": "4385c84ea1a6f0c126ea8477b93f3777b08a5acc8317b90917a3b2ddf83557c2"
+    },
+    {
+      "path": "docs/11-llm-internals/transformer-architecture.md",
+      "blob_sha": "8456a7f1cc3648f2ab3fe0fe8f5c519b1f9980d5",
+      "sha256": "f3d97b1425cc9a9950ebd7d0978547c0a22cee7672a7e33421386db9866630a0"
+    },
+    {
+      "path": "docs/12-multimodal/document-ai.md",
+      "blob_sha": "3ef3c97a591fd3b83b191d380a6053b1fb17e782",
+      "sha256": "975812d7d67928dd068f2e43d82efc1904d0ae247a787a14bfac1d85e8100340"
+    },
+    {
+      "path": "docs/12-multimodal/image-generation-integration.md",
+      "blob_sha": "947e07930e95504de305137e9f081e3e4d18506c",
+      "sha256": "9bbc92f218b4dbcb64acef2802fc0c4fdd0d7b59a3e5761f9e5cfe9b75b1b357"
+    },
+    {
+      "path": "docs/12-multimodal/multimodal-rag.md",
+      "blob_sha": "a0fbc8635ba24ab39b8cc747ddb5fbfcc60f4431",
+      "sha256": "f6a6bc7314be6b9e71c2eef99baf496e3e6fe65cc834007ba6b72718626203c6"
+    },
+    {
+      "path": "docs/12-multimodal/realtime-multimodal-agents.md",
+      "blob_sha": "660598fd5be59609aa0f79e834c747e5e856c797",
+      "sha256": "d145fa4d078d1a7b32d627bb9e57aba91d5e33ceab3c7f80599fbb3e193c522e"
+    },
+    {
+      "path": "docs/12-multimodal/speech-synthesis-and-voice-design.md",
+      "blob_sha": "8d2cb967e4fa75e315864d71f3502c9d6f788088",
+      "sha256": "d9c93621a62456cf0779fe3524d3c0cd56f2518205d234dce501c7e79c278a4a"
+    },
+    {
+      "path": "docs/12-multimodal/video-ai-overview.md",
+      "blob_sha": "867f070682eec1f8bec9e7ce0fc0bcd390bb9781",
+      "sha256": "3ab7fbccf27d34682db295959a66350cea371f6d6dca4ecd0c0f0f70a5f9d969"
+    },
+    {
+      "path": "docs/12-multimodal/vision-understanding-patterns.md",
+      "blob_sha": "34b8c9de13f825c864713497f77bd99ce5032dce",
+      "sha256": "b121b7ac4ab7050928282eea60842ef33a465adbbf6968e049c8ee95886460c6"
+    },
+    {
+      "path": "docs/13-domain-agents/data-analysis-agents.md",
+      "blob_sha": "23a222c5bb884e2828734c4dcb0f2455a74cfc0a",
+      "sha256": "f22946a4dc1980b28387e6ca40d0b172bbdc91946d0e0bc13bcd0c5b398b0d70"
+    },
+    {
+      "path": "docs/13-domain-agents/deep-research-agents.md",
+      "blob_sha": "90501d4f4606bbb9abe7e28d51c9f2d8c43a1079",
+      "sha256": "8a77b96b4c666b31b60c80f76a60400ea0e298604de816aecb06930963acef4c"
+    },
+    {
+      "path": "docs/13-domain-agents/education-agents.md",
+      "blob_sha": "2ef19f6f6894c463567cf8a103faccf68a7613e1",
+      "sha256": "c8edae1cb3e48623587cdc5aa789db1f4d50a3e5cae404b9a43245790f3e0468"
+    },
+    {
+      "path": "docs/13-domain-agents/emerging-agent-domains.md",
+      "blob_sha": "dfaf45be67316b99f9dd24809253e86e0b909a13",
+      "sha256": "01dd254db7eb5ea26cc65ce3c34518a2d8203efe8432469dbca67376f7209e4e"
+    },
+    {
+      "path": "docs/13-domain-agents/hr-and-recruitment-ai.md",
+      "blob_sha": "905c980aaa97eb0f9c3c709a7b117aff43e3f788",
+      "sha256": "5272f75942218641617e93695a1634f9decc4fc32b7c7d71db4cc71357877f50"
+    },
+    {
+      "path": "docs/13-domain-agents/legal-review-agents.md",
+      "blob_sha": "b271f1d1b8c659bba05ce0a198d7d3e1d002a1e9",
+      "sha256": "3071ae34e1cce397b719e5a3e15e8e7c68cfec134c7d3fa2e396a49f4d5b4fbc"
+    },
+    {
+      "path": "docs/13-domain-agents/personal-assistant-design.md",
+      "blob_sha": "2a85c8d6cc6e97e99d2390075cbbf841ea3cc1c0",
+      "sha256": "d4519ba17846d97eb93446f77185cd012533c0bd6e2606b267de8911fbdddd7d"
+    },
+    {
+      "path": "docs/13-domain-agents/rpa-and-agents.md",
+      "blob_sha": "0aad43c6aa7d30b01c317454433ace495bbd13db",
+      "sha256": "f4d4eb0e36b5a07fb12f1704abab003b7c311d73fa669d33abdbf914d34c519f"
+    },
+    {
+      "path": "docs/13-domain-agents/search-experience-redesign.md",
+      "blob_sha": "52e3666632e129bc0cc520e6a81c9842da3c2fb3",
+      "sha256": "2b8485809451de94f6970b2a6de5ca8eb668b51d470656b147f910efa5434d45"
+    },
+    {
+      "path": "docs/13-domain-agents/spreadsheet-agents.md",
+      "blob_sha": "827cd7cf49f63a271838c576ce41008df99524a3",
+      "sha256": "74c8c0889d2c6e9cd54fe8442f39f9eee2159b13395fa6c2020479b2f045a736"
+    },
+    {
+      "path": "docs/13-domain-agents/time-series-and-forecasting.md",
+      "blob_sha": "e80abc97a9935906ec931c5ff69803ada7c193a1",
+      "sha256": "2fb1e2db0cd8acc7a17cc7f01a4506c78481217169002282fd663545636c8d43"
+    },
+    {
+      "path": "docs/13-domain-agents/writing-and-translation-workflows.md",
+      "blob_sha": "7176c0cdaacb5a688af6f16d6f568c3a9d7e3d69",
+      "sha256": "6835a52e49531cf082229cdf597eabc6d38d0f2f06739c6a34fb745dbee6e85a"
+    },
+    {
+      "path": "docs/14-ux-and-product/accessibility-and-ai.md",
+      "blob_sha": "c38e1be32e23c92c6480b22cf1906dc47211da61",
+      "sha256": "6a5de75ed7159021568a95e2305482777dc52000b4c4198b84e7c66c4840b2b5"
+    },
+    {
+      "path": "docs/14-ux-and-product/ai-ux-patterns.md",
+      "blob_sha": "f34b1b693d7973fec77797fe37a1e3bb291fb01a",
+      "sha256": "b611251b2bfa46d8000c17616cf0feb5f1547128fb0e918f29bbffe22f5c6568"
+    },
+    {
+      "path": "docs/14-ux-and-product/beyond-chat-ui.md",
+      "blob_sha": "2729dc9ed9c04965c356d197d9c338b4dbb010bd",
+      "sha256": "5f2a564f709e35046f1ffd00afc7d8747878e2971bf1d972010cf9d1d2293643"
+    },
+    {
+      "path": "docs/14-ux-and-product/conversation-design.md",
+      "blob_sha": "6b9bda4a276caed45da6c9ab4db5a07502582e92",
+      "sha256": "97e94ea77057534dafa1be6d9667a08487c767bea10816dbef082cf636b55f28"
+    },
+    {
+      "path": "docs/14-ux-and-product/proactive-agent-ux.md",
+      "blob_sha": "823493329a248b4568ac964197172bd480be4b14",
+      "sha256": "1836a5ac90ea77de09bec9a166409c6735ef04298a6668abadf370443cbd3a21"
+    },
+    {
+      "path": "docs/15-human-ai/ai-career-strategy.md",
+      "blob_sha": "ab0a20cd69b5177071acf109edc6fa267daaa891",
+      "sha256": "bd35e80c0e6f4712d44b5abe3d28eb3aa052970484c758c5968230e675c3b153"
+    },
+    {
+      "path": "docs/15-human-ai/ai-literacy-training-design.md",
+      "blob_sha": "6c1b881b8d5cfe54b36cd67be05327583d23a4cd",
+      "sha256": "b02731b98077b65ecc1132294efcb6a934e020899701a57b901526bdbf1891ce"
+    },
+    {
+      "path": "docs/15-human-ai/automation-bias-and-deskilling.md",
+      "blob_sha": "f8f2a9ea9a8719f73430ecb944f78b2b3901f7b6",
+      "sha256": "f030debbe67850c616699eaea87071e77e9c900388fbeb877b79843add6956c5"
+    },
+    {
+      "path": "docs/15-human-ai/verifying-ai-outputs.md",
+      "blob_sha": "e9dd00319f6fc33710408b8e347862e7b771a15f",
+      "sha256": "2a1cc9aa33d20fcd4c40f71b796e4293b89d951c812a52e74eff3b983cce6a43"
+    },
+    {
+      "path": "examples/python/evaluation-harness/README.md",
+      "blob_sha": "9d4b896a5761170dc74a5f303d6d5b192dbb0335",
+      "sha256": "d896727918927a489abaa5f659cc0814cf2258105b80d1cbe5feda83e795e234"
+    },
+    {
+      "path": "examples/python/mcp-server/README.md",
+      "blob_sha": "99c3dcc3693ad88553d6a3fb7195abee410d63d9",
+      "sha256": "5f846eb65ed1343d83c2cc67dd41a6e02442a31b2d1c48ed3af2beb5dc35c1ec"
+    },
+    {
+      "path": "examples/python/multi-agent/README.md",
+      "blob_sha": "c62ea55531d8d3a6e41d7a5d29c5214f00e344c5",
+      "sha256": "eb0297c732fbf78474b69291b1cbfa5168bd706a4be30d6b28f797ca8b33a6b5"
+    },
+    {
+      "path": "examples/python/rag-basics/README.md",
+      "blob_sha": "142dc7712a8657e1e44aab1f06551be123546afc",
+      "sha256": "79c83ef2f8efdb2f779a299f396d80e6908fd1a80c4dfe32cd8e629d22f4a3ff"
+    },
+    {
+      "path": "examples/python/structured-output/README.md",
+      "blob_sha": "df8272d84927d399a0db01504b187922d7dac139",
+      "sha256": "7b7ee4c258911538444a8b5f93d78630f8ba4dbc6d4be885f6ce30795e50a6c1"
+    },
+    {
+      "path": "examples/python/tool-use/README.md",
+      "blob_sha": "4c05abc4614a8c3654a73a4e9176245ddcd70e1a",
+      "sha256": "c2c16fb5f11b34924af5f5f053c3b77dab5f84dcae13f1a522f7043f233d29df"
+    },
+    {
+      "path": "research/freshness-runs/20260910t051816467z-aff02e28.json",
+      "blob_sha": "677cf872e7c67012de110dec7df9cfd372932eef",
+      "sha256": "f48f1c76fd660681683a1a5ed6492628fedadc7cbf1d7b5609db3df3c0a1c223"
+    },
+    {
+      "path": "research/freshness-runs/20260910t080131121z-190c5e22.json",
+      "blob_sha": "b0fe5327866ea81bc548c33964c4d951d9ae2bb0",
+      "sha256": "9b76b06b845e8fd2125b1e849bd4d39b7c1d6f5681ff79297967418419eef8b5"
+    },
+    {
+      "path": "research/freshness-runs/20260914t022552632z-79535e7f.json",
+      "blob_sha": "de3bedb63cc8e96409c7d6d9fbd0231a8d795194",
+      "sha256": "b0218ad446a8dd515fcb9576703447aebbb1f22dd3cbd75cd5ac8d2ff8d947fa"
+    },
+    {
+      "path": "research/freshness-runs/20260920t222658728z-922c2745.json",
+      "blob_sha": "6fdc5af392658a4770d83e8fb92bb81af5ba5b5f",
+      "sha256": "197686551c2b38001c8731b55a0ac96413ea5dfed7083de9e10837ccaa680602"
+    },
+    {
+      "path": "research/freshness-runs/20260927t222509029z-952c90ea.json",
+      "blob_sha": "c7a0bd4a2e76d54003f4c52836ac68697e882225",
+      "sha256": "525c6cb4d518c2eff06bd8909d31b1817d134e4350bbef74c25d0e9062990b54"
+    },
+    {
+      "path": "scripts/audio/core.mjs",
+      "blob_sha": "8cd86517cc180a006a14c34a081232a87fea46f2",
+      "sha256": "595d36ec3a678e4b1e74068e811160b63bba34234df433445594508354efb9fe"
+    },
+    {
+      "path": "scripts/lib/md-utils.mjs",
+      "blob_sha": "a9873ea9ce1aeed0875ef5f5d87ce0c678dc3592",
+      "sha256": "7b9a2b4d1cdefbbb2222be19401fe1f6e60173b471a95711f2604e1dfa732b15"
+    },
+    {
+      "path": "website/audio/catalog.json",
+      "blob_sha": "ab9d3be83212b9155b500a2d7de49595bb1a3948",
+      "sha256": "62cad93c2283cd3b2f6eb2e269e1b863c53e90e817770c10d7792007d715f322"
+    }
+  ]
+}

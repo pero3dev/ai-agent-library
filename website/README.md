@@ -6,6 +6,8 @@
 - 公開先: [pero3dev.github.io/ai-agent-library](https://pero3dev.github.io/ai-agent-library/)
 - 正本は `docs/`。このディレクトリのコンテンツは **生成物** で、直接編集しません
 
+公開失敗・表示不具合の分類、SHA/CI/deploymentの照合、復旧候補と終了条件は[GitHub Pagesの診断と復旧](operations.md)を参照してください。
+
 ## セットアップ
 
 ```bash
@@ -56,8 +58,9 @@ npm ci
 - **CRLF 正規化**: 読込時に LF へ正規化(`.gitattributes` でも作業ツリーを LF に統一)
 - **未解決リンク / 読込失敗**: `sync` が `exit 1`(不完全な公開物を防ぐ)
 - **MDX ガード**: 生成 MDX を再パースし、`TodoCallout` / `PracticeSection` / `GlossaryTerm`
-  以外の JSX・`import`/`export`・`{式}`・生 HTML を検出したらビルドを失敗させる。
+  / `ChecklistBox` 以外の JSX・`import`/`export`・`{式}`・生 HTML を検出したらビルドを失敗させる。
   許可コンポーネントでも属性式・spread は拒否し、挿入する文字列属性と値だけを許可する
+  （`ChecklistBox` のchecked値も文字列`true`/`false`に限定する）
 - **Mermaid の描画設定**: Nextra が生成する直接 import を、Turbopack / Webpack ともに
   `components/mdx/mermaid.jsx` へ解決する。`lib/mermaid-render.mjs` が描画ごとに
   `securityLevel: 'strict'` を指定し、Mermaid 既定の `secure` キーを維持する。

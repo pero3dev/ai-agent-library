@@ -46,6 +46,19 @@ Python サンプルは `python -X utf8 -m pip_audit --strict -r examples/tests/r
 2026-09-10 のローカル監査では、サイト依存関係の脆弱性報告は 0 件でした。
 これは将来の報告や未発見の脆弱性がないことを保証しません。
 
+2026-10-03 にルートの `markdown-it` を 14.3.1、`js-yaml` を 5.4.1 へ限定更新しました。
+[markdown-it の advisory](https://github.com/advisories/GHSA-253c-mchw-3w2r) と
+[js-yaml の advisory](https://github.com/advisories/GHSA-r3ph-w7gj-g6xm) が示す修正版です。
+Markdown のリンク検査は `linkify: false`、YAML 設定検査は `JSON_SCHEMA` を維持します。
+これらは upstream が記載する linkify 有効時・merge key 有効時の条件を制限しますが、
+CLI を含む全経路の安全性を設定だけで保証しません。
+
+`markdownlint-cli` 0.49.1 の `js-yaml ~5.2.1` を、ルートで固定する 5.4.1 へ限定 override します。
+CLI が修正版を許容する依存指定へ移行したときに override を取り除き、`npm ci`・Markdown/YAML
+回帰・全数記事/リンク検査・監査を再実行してください。次回依存メンテナンスで見直します。
+更新後の `npm audit --json` は total 0、high/critical 0、`npm ls` は両依存が CLI 経由でも
+同じ修正版へ解決したことを確認しました。監査件数は実悪用の観測や未発見問題の不存在を表しません。
+
 `speech-rule-engine` が固定する `@xmldom/xmldom` 0.9.10 を、同じ 0.9 系の修正版 0.9.12 に
 限定して上書きしています。上流の依存指定が修正版を取り込んだときに override を取り除き、
 監査と静的サイトのクリーンビルドを再実行してください。

@@ -254,10 +254,10 @@ function mergeFixture(t, { target = 'lint', workflowOverrides = {} } = {}) {
   const { root, stateDir } = fixture(t)
   mkdirSync(path.join(stateDir, 'publication'))
   const pr = { number: 123, state: 'OPEN', headRefOid: 'a'.repeat(40), title: 'chore(website): 検証済みの記事音声をカタログへ反映する', body: '## 変更内容\n\n検証済み音声を反映します。\n\n## 検証\n\n実音声の配信を確認しました。\n\n## 影響・残件\n\n音声カタログを更新します。\n\nAgent: claude\nCo-authored-by: Claude <noreply@anthropic.com>\n', headRefName: `chore/audio-catalog-${'b'.repeat(20)}`, baseRefName: 'main', isCrossRepository: false, files: [{ path: 'website/audio/catalog.json' }], mergeStateStatus: 'BLOCKED' }
-  const names = [...requiredChecks, 'Audio playback regression']
+  const names = requiredChecks
   const checks = names.map((name, index) => ({ id: 100 + index, name, app: { id: 15368 }, head_sha: pr.headRefOid, status: 'completed', conclusion: 'success', details_url: `https://github.com/${AUDIO_REPOSITORY}/actions/runs/${1000 + index}/job/${100 + index}`, check_suite: { id: 2000 + index } }))
   const workflows = new Map(names.map((name, index) => {
-    const expected = name === 'Audio playback regression' ? { path: '.github/workflows/ci.yml', event: 'pull_request' } : workflowFor(name)
+    const expected = workflowFor(name)
     return [String(1000 + index), { head_sha: pr.headRefOid, path: expected.path, event: expected.event, repository: { full_name: AUDIO_REPOSITORY }, head_branch: pr.headRefName, check_suite_id: 2000 + index, display_title: expected.runName ? `${expected.runName}${pr.number}` : pr.title, status: 'completed', conclusion: 'success', ...(name === target ? workflowOverrides : {}) }]
   }))
   const calls = []
@@ -271,7 +271,23 @@ function mergeFixture(t, { target = 'lint', workflowOverrides = {} } = {}) {
     if (args[0] === 'pr' && args[1] === 'merge') return ''
     throw new Error(`Unexpected command: ${binary} ${args.join(' ')}`)
   }
-  return { root, stateDir, pr, calls, run }
+  return { root, stateDir, pr, calls, run, checks, workflows }
+}
+
+for (const name of ['Audio playback regression', 'Safari audio playback regression']) {
+  for (const condition of ['missing', 'failure', 'another-head', 'another-workflow']) test(`audio auto-merge refuses ${name} with ${condition}`, t => {
+    const data = mergeFixture(t)
+    const check = data.checks.find(item => item.name === name)
+    if (condition === 'missing') data.checks.splice(data.checks.indexOf(check), 1)
+    if (condition === 'failure') check.conclusion = 'failure'
+    if (condition === 'another-head') check.head_sha = 'c'.repeat(40)
+    if (condition === 'another-workflow') {
+      const runId = /\/runs\/(\d+)/.exec(check.details_url)[1]
+      data.workflows.get(runId).path = '.github/workflows/another.yml'
+      assert.throws(() => queueCatalogMerge(data.pr, data), /identity mismatch/)
+    } else assert.equal(queueCatalogMerge(data.pr, data).status, condition === 'failure' ? 'HELD_CHECK_FAILED' : 'WAITING_CHECKS')
+    assert.equal(data.calls.some(call => call.includes('merge')), false)
+  })
 }
 
 test('auto-merge waits when an individual check passes before its complete workflow', t => {

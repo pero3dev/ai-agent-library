@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto'
 import { execFileSync } from 'node:child_process'
-import { closeSync, copyFileSync, existsSync, lstatSync, mkdirSync, openSync, readFileSync, readdirSync, realpathSync, renameSync, statSync, unlinkSync, writeFileSync } from 'node:fs'
+import { copyFileSync, existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, realpathSync, renameSync, statSync, unlinkSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { parseFrontMatter, toLines } from '../lib/md-utils.mjs'
 import { formatCommitMessage, formatSquashMessage, validateCommitMessage, validatePr } from '../lib/git-conventions.mjs'
@@ -10,6 +10,7 @@ import { reviewProblems } from './pipeline.mjs'
 import { validateAudioCatalog } from '../../website/lib/audio-catalog.mjs'
 import { verifyGithubEvidence } from '../lib/github-evidence.mjs'
 import { normalizeScriptAgents, readScriptAuthorship } from './authorship.mjs'
+import { acquireAudioLock } from './lock.mjs'
 
 export const AUDIO_REPOSITORY = 'pero3dev/ai-agent-library'
 const catalogPath = 'website/audio/catalog.json'
@@ -535,12 +536,12 @@ export function queueCatalogMerge(pr, { root, stateDir, run = command } = {}) {
   assert(Array.isArray(required) && requiredChecks.every(name => required.some(check => check.context === name && check.app_id === 15368)), 'Required checks are missing')
   const checks = JSON.parse(gh('api', `repos/${AUDIO_REPOSITORY}/commits/${fresh.headRefOid}/check-runs?per_page=100`))
   assert(checks.total_count <= 100, 'Check pagination must be inspected before auto-merge')
-  for (const policy of [...required, { context: 'Audio playback regression', app_id: 15368 }]) {
+  for (const policy of required) {
     assert(policy.app_id === 15368, 'Unexpected required check application')
     const check = checks.check_runs.filter(item => item.name === policy.context && item.app?.id === 15368 && item.head_sha === fresh.headRefOid).sort((a, b) => b.id - a.id)[0]
     if (!check || check.status !== 'completed') return { status: 'WAITING_CHECKS', check: policy.context }
     if (check.conclusion !== 'success') return { status: 'HELD_CHECK_FAILED', check: policy.context, conclusion: check.conclusion }
-    const expected = policy.context === 'Audio playback regression' ? { path: '.github/workflows/ci.yml', event: 'pull_request' } : workflowFor(policy.context)
+    const expected = workflowFor(policy.context)
     const runId = /^https:\/\/github\.com\/pero3dev\/ai-agent-library\/actions\/runs\/(\d+)(?:\/job\/\d+)?$/.exec(check.details_url ?? '')?.[1]
     assert(runId, 'Unexpected check URL')
     const workflow = JSON.parse(gh('api', `repos/${AUDIO_REPOSITORY}/actions/runs/${runId}`))
@@ -588,30 +589,11 @@ export function selectPublicationBatches(manifests, { articles, catalog, queue =
   return { selected, waiting }
 }
 
-function publicationLock(stateDir) {
-  const file = path.join(stateDir, 'publication.lock')
-  try {
-    const handle = openSync(file, 'wx')
-    writeFileSync(handle, JSON.stringify({ pid: process.pid, started_at: new Date().toISOString() }))
-    closeSync(handle)
-  } catch (error) {
-    if (error.code !== 'EEXIST') throw error
-    safeFile(file, stateDir)
-    const owner = readPublicationJson(file)
-    assert(Number.isInteger(owner.pid) && owner.pid > 0, 'Invalid publication lock; inspect the owning process')
-    try { process.kill(owner.pid, 0); throw new Error('Audio publication is already running') } catch (check) {
-      if (check.code !== 'ESRCH') throw check
-      unlinkSync(file)
-      return publicationLock(stateDir)
-    }
-  }
-  return () => unlinkSync(file)
-}
 
 export async function runPublication({ root, stateDir, manifestFiles, apply = false, autoMerge = false, minimumBatch = 3, run = command, probe = probePublicAsset, verifyPublication = verifyGithubEvidence } = {}) {
   assert(!autoMerge || apply, '--auto-merge requires --apply')
   mkdirSync(stateDir, { recursive: true })
-  const releaseLock = publicationLock(stateDir)
+  const { release: releaseLock } = acquireAudioLock(stateDir, 'publication')
   try {
   const result = { mode: apply ? 'apply' : 'dry-run', ready: [], held: [], publications: [] }
   if (apply) { ensureRemote(root, run); run('git', ['fetch', 'origin', 'main'], root) }

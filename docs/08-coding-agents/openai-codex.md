@@ -3,7 +3,7 @@ title: "OpenAI Codex"
 category: "coding-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-10-03"
 tags: ["coding-agents", "mcp"]
 ---
 
@@ -25,7 +25,7 @@ OpenAI のコーディングエージェント Codex の製品構成(CLI / IDE �
 
 ## 本文
 
-> **最終確認日:** モデル・カスタムプロバイダー、AGENTS.md の読込上限、permission profiles・Auto-review は 2026-09-10、他の製品仕様・提供形態は 2026-08-18 — 部分更新です。主な出典は「参考資料」を参照してください。
+> **最終確認日:** カスタムプロバイダーの接続条件は 2026-10-03、モデル、AGENTS.md の読込上限、permission profiles・Auto-review は 2026-09-10、他の製品仕様・提供形態は 2026-08-18 — 部分更新です。主な出典は「参考資料」を参照してください。
 
 ### 概要
 
@@ -113,7 +113,7 @@ ChatGPT 認証の Codex では `gpt-5.4` / `gpt-5.4-mini` の退役日が **2026
 **向き不向き(特性として)**:
 
 - 向く: ChatGPT を組織契約済みのチーム(追加契約なしで開始可能)、サンドボックス・ネットワーク遮断を既定にしたい組織、AGENTS.md でマルチツール標準化を進めたいチーム、CLI の OSS 性(挙動の検証可能性)を重視する場合
-- 注意が要る: ChatGPT 認証の提供モデルと、API キー・カスタムプロバイダーを設定する場合の選択肢は異なります。公式 Models は Chat Completions または Responses API に対応する他社モデル・プロバイダーへの接続も案内しており、利用する提供面の設定・機能互換性を確認します。クラウド実行は GitHub 連携が前提の設計です。個人プランではデータ学習の既定設定の確認が必須です
+- 注意が要る: ChatGPT 認証の提供モデルと、API キー・カスタムプロバイダーを設定する場合の選択肢は異なります。2026-10-03 の公式 Models はカスタムプロバイダー/ゲートウェイに **Responses API 互換 endpoint** を要求し、現行 Codex は `wire_api = "chat"` と Chat Completions 専用 endpoint に非対応と明記します。Responses のURLがあるだけでは十分でなく、ストリーミング・ツール呼出し・会話継続の互換性も確認します。接続条件は [調査メモ](https://github.com/pero3dev/ai-agent-library/blob/main/research/coding-agents/openai-codex.md) と公式 Gateway compatibility を参照してください。クラウド実行は GitHub 連携が前提の設計です。個人プランではデータ学習の既定設定の確認が必須です
 
 ## 実務での注意点
 
@@ -130,6 +130,7 @@ ChatGPT 認証の Codex では `gpt-5.4` / `gpt-5.4-mini` の退役日が **2026
 - [ ] AGENTS.md の階層構成(グローバル / ルート / サブディレクトリ)がチームの意図どおりか
 - [ ] 組織導入で `requirements.toml` によるモード制限を配布したか
 - [ ] クラウド利用時、GitHub Connector の権限範囲を確認したか
+- [ ] カスタムプロバイダーはResponses互換endpointを使い、ストリーミング・ツール・会話継続の互換性を確認したか
 
 ## 関連トピック
 
@@ -144,6 +145,7 @@ ChatGPT 認証の Codex では `gpt-5.4` / `gpt-5.4-mini` の退役日が **2026
 - [Permissions](https://learn.chatgpt.com/docs/permissions) — beta の設定・旧設定の優先関係・ネットワーク制御範囲(アクセス日: 2026-09-10)
 - [Auto-review](https://learn.chatgpt.com/docs/sandboxing/auto-review) — 承認要求の自動審査と適用範囲(アクセス日: 2026-09-10)
 - [Codex Models](https://learn.chatgpt.com/docs/models) — 推奨モデル、ChatGPT 認証に限る退役・置換先、Other models のカスタムプロバイダー設定(アクセス日: 2026-09-10)
+- [Codex Models: Other models](https://learn.chatgpt.com/docs/models) / [Gateway compatibility](https://learn.chatgpt.com/docs/enterprise/gateway-compatibility) — Responses互換endpointの要件とChat Completions専用endpointの非対応(アクセス日: 2026-10-03)
 - [Codex Docs(公式)](https://learn.chatgpt.com/docs) — 製品構成・機能の一次情報。2026-08 時点で ChatGPT との統合ドキュメントサイト(learn.chatgpt.com)へ移転済み(旧 developers.openai.com/codex 系 URL は 308 リダイレクトで生存)(アクセス日: 2026-08-18)
 - [Agent approvals & security](https://learn.chatgpt.com/docs/agent-approvals-security) — サンドボックスと承認ポリシーの仕様(アクセス日: 2026-08-18)
 - [AGENTS.md guide](https://learn.chatgpt.com/docs/agent-configuration/agents-md) — ルールファイルの階層と連結後の読込上限(アクセス日: 2026-09-10)

@@ -5,14 +5,35 @@
  *    — next build(output: 'export')は public/ を out/ へコピーした「後」に postbuild が走るため、
  *      複製しないと out/ に前回ビルドの古いインデックスが残る
  */
-import { execSync } from 'node:child_process'
-import { cpSync, existsSync, readFileSync, rmSync } from 'node:fs'
+import { cpSync, existsSync, readFileSync, readdirSync, rmSync } from 'node:fs'
+import { join, relative } from 'node:path'
+import { createIndex, close } from 'pagefind'
 import { checkExportSkipTargets, missingSectionLinks } from '../lib/export-checks.mjs'
 import { materializeExportSegments } from '../lib/export-segments.mjs'
+import { addTitleSearchAliases } from '../lib/search-titles.mjs'
 
-execSync('npx pagefind --site .next/server/app --output-path public/_pagefind', {
-  stdio: 'inherit'
-})
+// Rust 側の辞書と browser Intl の分割が違っても、完全な日本語タイトルを失わない。
+// HTML は読み取り、索引へ渡すコピーにのみ別名を追加する。
+const source = '.next/server/app'
+const { index, errors: indexErrors } = await createIndex()
+if (indexErrors.length || !index) throw new Error(indexErrors.join('\n'))
+let pages = 0
+try {
+  for (const entry of readdirSync(source, { recursive: true, withFileTypes: true })) {
+    if (!entry.isFile() || !entry.name.endsWith('.html')) continue
+    const file = join(entry.parentPath, entry.name)
+    const url = `/${relative(source, file).replace(/\\/g, '/')}`
+    const added = await index.addHTMLFile({ url, content: addTitleSearchAliases(readFileSync(file, 'utf8')) })
+    if (added.errors.length) throw new Error(added.errors.join('\n'))
+    if (added.file) pages++
+  }
+  rmSync('public/_pagefind', { recursive: true, force: true })
+  const written = await index.writeFiles({ outputPath: 'public/_pagefind' })
+  if (written.errors.length) throw new Error(written.errors.join('\n'))
+  console.log(`postbuild: 日本語タイトル別名付き Pagefind 索引 ${pages} HTML`)
+} finally {
+  await close()
+}
 
 if (existsSync('out')) {
   const segments = materializeExportSegments('out')

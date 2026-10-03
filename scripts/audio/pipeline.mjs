@@ -1,9 +1,10 @@
-import { mkdir, open, readFile, unlink } from 'node:fs/promises'
+import { mkdir, readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { articleSlug, discoverArticles, PrerequisiteError, productionDigest, QuotaError, readGeneratedJson, readJson, readSupplementalSources, sha256, sourceDigest, sourceSections, supplementalDigest, validateScript, validateSupplementalMaterial, writeJson } from './core.mjs'
 import { askClaude, checkSubscription, execute, reviewPrompt, reviewSchema, scriptPrompt, scriptSchema } from './claude.mjs'
 import { checkEngine, synthesizeScript } from './synthesis.mjs'
 import { AuthorshipError, readScriptAuthorship, recordScriptAuthorship } from './authorship.mjs'
+import { acquireAudioLock } from './lock.mjs'
 
 export async function loadConfig(file, env = process.env, stateDir) {
   const config = await readJson(file)
@@ -39,22 +40,6 @@ export async function doctor(config, { run = execute, request = fetch, cwd, env 
     try { checks.push({ name, passed: true, detail: await check() }) } catch (error) { checks.push({ name, passed: false, error: error.message }) }
   }
   return { passed: checks.every(check => check.passed), checks, note: 'Account Extra usage must be disabled by the account owner; auth status cannot verify that setting. Signal checks do not prove pronunciation or semantic correctness.' }
-}
-async function acquireLock(stateDir) {
-  const lockFile = path.join(stateDir, 'run.lock')
-  try {
-    const handle = await open(lockFile, 'wx')
-    await handle.writeFile(JSON.stringify({ pid: process.pid, created_at: new Date().toISOString() })); await handle.close()
-  } catch (error) {
-    if (error.code !== 'EEXIST') throw error
-    const owner = await readJson(lockFile)
-    let alive = true
-    try { process.kill(owner.pid, 0) } catch (checkError) { if (checkError.code === 'ESRCH') alive = false; else throw checkError }
-    if (alive) throw new PrerequisiteError(`Audio producer is already running (PID ${owner.pid})`)
-    await unlink(lockFile)
-    return acquireLock(stateDir)
-  }
-  return async () => { await unlink(lockFile) }
 }
 export function reviewProblems(review, sections) {
   const problems = []
@@ -134,7 +119,7 @@ async function readyIsCurrent(file, article, productionSignature, repoRoot) {
 export async function runProduction({ repoRoot, stateDir, config, section, limit = config.max_articles_per_run, retryHeld = false }, deps = {}) {
   const { preflight = checkSubscription, engineCheck = checkEngine, generate = askClaude, synthesize = synthesizeScript, discover = discoverArticles, delay = ms => new Promise(resolve => setTimeout(resolve, ms)), progress = message => process.stderr.write(`${JSON.stringify(message)}\n`) } = deps
   await mkdir(stateDir, { recursive: true })
-  const releaseLock = await acquireLock(stateDir)
+  const { release: releaseLock } = acquireAudioLock(stateDir, 'run')
   const queueFile = path.join(stateDir, 'queue.json')
   let queue
   const summary = { status: 'completed', ready: [], held: [], processed: 0, skipped: 0 }

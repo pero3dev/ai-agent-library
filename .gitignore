@@ -7,6 +7,9 @@ venv/
 # Node.js(root検証・website・将来のTypeScriptサンプル)
 node_modules/
 
+# 私有の作業証跡・ブラウザー/検証依存キャッシュ
+.local/
+
 # 環境変数・秘密情報
 .env
 .env.*
@@ -24,7 +27,9 @@ website/out/
 website/content/
 website/generated/
 website/public/_pagefind/
+website/public/_mermaid/
 website/next-env.d.ts
 website/dev-server.log
 website/test-results/
+test-results/
 website/playwright-report/

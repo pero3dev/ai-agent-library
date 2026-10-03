@@ -266,7 +266,7 @@
   "files": [
     {
       "kind": "worker-report",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-brace-expansion-patch-report.md",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-brace-expansion-patch-report.md",
       "originalSHA256": "ca864b762db0bd417b2e96234dfb517254491d7a10803f5462d1c8421c25a54c",
       "originalBytes": 3194,
       "path": "raw/patch-report.md.gz",
@@ -277,7 +277,7 @@
     },
     {
       "kind": "worker-report",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-brace-expansion-patch-report.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-brace-expansion-patch-report.json",
       "originalSHA256": "34c3cb4e9457c07c3d27e302c276ff259abdac2bc0c68e7f9034c4de813d11a0",
       "originalBytes": 15987,
       "path": "raw/patch-report.json.gz",
@@ -288,7 +288,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-audit-before.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-root-audit-before.json",
       "originalSHA256": "34ff0d80fb1da8823371feacbef5faf6b64a8f34e5face86537e456c7f156250",
       "originalBytes": 539,
       "path": "raw/d1-pr63-root-audit-before.json.gz",
@@ -299,7 +299,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-audit-before.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-website-audit-before.json",
       "originalSHA256": "34ff0d80fb1da8823371feacbef5faf6b64a8f34e5face86537e456c7f156250",
       "originalBytes": 539,
       "path": "raw/d1-pr63-root-audit-before.json.gz",
@@ -310,7 +310,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-brace-tree-before.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-root-brace-tree-before.json",
       "originalSHA256": "1bf51b8aee20ac02fe664388fa4b6d335d6e78b1f621b34fcb79760d673a5f90",
       "originalBytes": 730,
       "path": "raw/d1-pr63-root-brace-tree-before.json.gz",
@@ -321,7 +321,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-brace-tree-before.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-website-brace-tree-before.json",
       "originalSHA256": "fc65aee574040b3c3e2595d379a1e98abfa2d0ec975399279f54348737ea731b",
       "originalBytes": 1315,
       "path": "raw/d1-pr63-website-brace-tree-before.json.gz",
@@ -332,7 +332,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-audit-before-network.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-root-audit-before-network.json",
       "originalSHA256": "4b82382b5210ec0114149f2c1cfe2b132ed09f05e182db44506b878ad94d7711",
       "originalBytes": 4906,
       "path": "raw/d1-pr63-root-audit-before-network.json.gz",
@@ -343,7 +343,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-audit-before-network.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-website-audit-before-network.json",
       "originalSHA256": "ace0fbdc9adf72902856595da88ade23ce24297cc6195ad0fc1f8a495db1c362",
       "originalBytes": 2524,
       "path": "raw/d1-pr63-website-audit-before-network.json.gz",
@@ -354,7 +354,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-audit-before-network.stderr.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-root-audit-before-network.stderr.log",
       "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "originalBytes": 0,
       "path": "raw/d1-pr63-root-audit-before-network.stderr.log.gz",
@@ -365,7 +365,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-audit-before-network.stderr.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-website-audit-before-network.stderr.log",
       "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "originalBytes": 0,
       "path": "raw/d1-pr63-root-audit-before-network.stderr.log.gz",
@@ -376,7 +376,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-lock-before.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-root-lock-before.json",
       "originalSHA256": "b6303e20ec9b0b4eed216449beebd9b6c7e1d2fa8755f569c6e800463a62c404",
       "originalBytes": 42884,
       "path": "raw/d1-pr63-root-lock-before.json.gz",
@@ -387,7 +387,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-lock-before.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-website-lock-before.json",
       "originalSHA256": "f9c837dea78a160837d1fb7b6f9aba80249c505e94a45f4be465e1e96e598d31",
       "originalBytes": 249536,
       "path": "raw/d1-pr63-website-lock-before.json.gz",
@@ -398,7 +398,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-public-main-package-lock.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-public-main-package-lock.json",
       "originalSHA256": "b6303e20ec9b0b4eed216449beebd9b6c7e1d2fa8755f569c6e800463a62c404",
       "originalBytes": 42884,
       "path": "raw/d1-pr63-root-lock-before.json.gz",
@@ -409,7 +409,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-public-main-website-package-lock.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-public-main-website-package-lock.json",
       "originalSHA256": "f9c837dea78a160837d1fb7b6f9aba80249c505e94a45f4be465e1e96e598d31",
       "originalBytes": 249536,
       "path": "raw/d1-pr63-website-lock-before.json.gz",
@@ -420,7 +420,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-brace-npm-metadata.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-brace-npm-metadata.json",
       "originalSHA256": "6a15bb6d618b84524e713628c0ef7250ac4e5797a6f7f6293e9272648aac8685",
       "originalBytes": 291,
       "path": "raw/d1-pr63-brace-npm-metadata.json.gz",
@@ -431,7 +431,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-brace-npm-metadata.stderr.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-brace-npm-metadata.stderr.log",
       "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "originalBytes": 0,
       "path": "raw/d1-pr63-root-audit-before-network.stderr.log.gz",
@@ -442,7 +442,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-brace-update.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-root-brace-update.log",
       "originalSHA256": "069f1f2d79da5f8aa288f53c51c9d02d484667287397c9320270fbf354390321",
       "originalBytes": 23,
       "path": "raw/d1-pr63-root-brace-update.log.gz",
@@ -453,7 +453,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-brace-update.stderr.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-root-brace-update.stderr.log",
       "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "originalBytes": 0,
       "path": "raw/d1-pr63-root-audit-before-network.stderr.log.gz",
@@ -464,7 +464,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-brace-update.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-website-brace-update.log",
       "originalSHA256": "c4357ff8bb4d7bb0a81cf5fe1afb6bece9477ef5fcfe1a7f5e21682e1cb97905",
       "originalBytes": 23,
       "path": "raw/d1-pr63-website-brace-update.log.gz",
@@ -475,7 +475,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-brace-update.stderr.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-website-brace-update.stderr.log",
       "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "originalBytes": 0,
       "path": "raw/d1-pr63-root-audit-before-network.stderr.log.gz",
@@ -486,7 +486,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-npm-ci.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-root-npm-ci.log",
       "originalSHA256": "d48f4dcbbb2defac99f2875ff0705a276afc9ee6fa3ab2a7a8c37268769496dc",
       "originalBytes": 27,
       "path": "raw/d1-pr63-root-npm-ci.log.gz",
@@ -497,7 +497,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-npm-ci.stderr.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-root-npm-ci.stderr.log",
       "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "originalBytes": 0,
       "path": "raw/d1-pr63-root-audit-before-network.stderr.log.gz",
@@ -508,7 +508,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-npm-ci.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-website-npm-ci.log",
       "originalSHA256": "11509bc64b9710ed47a3de9622cfe4f1a6327c095eba563fd4960a87e1c6c1eb",
       "originalBytes": 29,
       "path": "raw/d1-pr63-website-npm-ci.log.gz",
@@ -519,7 +519,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-npm-ci.stderr.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-website-npm-ci.stderr.log",
       "originalSHA256": "b680b68ccee3f93cf4dcad02ad7cf483f279dd70f34fead785ba76da55dd129f",
       "originalBytes": 110,
       "path": "raw/d1-pr63-website-npm-ci.stderr.log.gz",
@@ -530,7 +530,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-audit-after.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-root-audit-after.json",
       "originalSHA256": "c8764ddf029343e9009328ac9ecae561d4a8fb64d05c21614040f0882046bd88",
       "originalBytes": 2770,
       "path": "raw/d1-pr63-root-audit-after.json.gz",
@@ -541,7 +541,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-audit-after.stderr.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-root-audit-after.stderr.log",
       "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "originalBytes": 0,
       "path": "raw/d1-pr63-root-audit-before-network.stderr.log.gz",
@@ -552,7 +552,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-audit-after.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-website-audit-after.json",
       "originalSHA256": "07163582eb2576da0f2224d5df7c4dc4f0bf3d14e4e350aeddc1c00ca2589183",
       "originalBytes": 385,
       "path": "raw/d1-pr63-website-audit-after.json.gz",
@@ -563,7 +563,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-audit-after.stderr.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-website-audit-after.stderr.log",
       "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "originalBytes": 0,
       "path": "raw/d1-pr63-root-audit-before-network.stderr.log.gz",
@@ -574,7 +574,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-brace-tree-after.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-root-brace-tree-after.json",
       "originalSHA256": "ffb01cc69a340bd8cce8dd0d87f3219c02948b927f6a33ed2a2e8775800c7396",
       "originalBytes": 732,
       "path": "raw/d1-pr63-root-brace-tree-after.json.gz",
@@ -585,7 +585,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-root-brace-tree-after.stderr.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-root-brace-tree-after.stderr.log",
       "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "originalBytes": 0,
       "path": "raw/d1-pr63-root-audit-before-network.stderr.log.gz",
@@ -596,7 +596,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-brace-tree-after.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-website-brace-tree-after.json",
       "originalSHA256": "6702de9a93554efd89110bc4d79b8c9678dd7f2746dafaa240bce7a2875777a0",
       "originalBytes": 1317,
       "path": "raw/d1-pr63-website-brace-tree-after.json.gz",
@@ -607,7 +607,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-website-brace-tree-after.stderr.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-website-brace-tree-after.stderr.log",
       "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "originalBytes": 0,
       "path": "raw/d1-pr63-root-audit-before-network.stderr.log.gz",
@@ -618,7 +618,7 @@
     },
     {
       "kind": "worker-evidence",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\d1-pr63-brace-patch-work-record.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\d1-pr63-brace-patch-work-record.json",
       "originalSHA256": "7bab63f73f33eb83cca66198853938d0edb0500cf424fb68fa167cf7d34399b1",
       "originalBytes": 3813,
       "path": "raw/d1-pr63-brace-patch-work-record.json.gz",
@@ -629,7 +629,7 @@
     },
     {
       "kind": "completed-local-check",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\root-check.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\root-check.log",
       "originalSHA256": "77f905cb2067264504c079678b8c5bd074a6fe2661d2d1d22d61daad0b994917",
       "originalBytes": 92553,
       "path": "raw/root-check.log.gz",
@@ -640,7 +640,7 @@
     },
     {
       "kind": "export-identity",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\identity.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\identity.json",
       "originalSHA256": "efa2a039e6d68b3179714dfc97cfd3645bbd48ab52fd36f080d1253b735c0ae7",
       "originalBytes": 76899,
       "path": "raw/before-brace-patch-identity.json.gz",
@@ -651,7 +651,7 @@
     },
     {
       "kind": "article-html",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\transformer-architecture.html",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\transformer-architecture.html",
       "originalSHA256": "7e7970c9f4f51dcc43f73617aa0eb17221260b4639887283539673f4d1f75e32",
       "originalBytes": 1078462,
       "path": "raw/before-brace-patch-transformer-architecture.html.gz",
@@ -662,7 +662,7 @@
     },
     {
       "kind": "article-html",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\attention-variants-and-long-context.html",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\attention-variants-and-long-context.html",
       "originalSHA256": "fef155346ce0e45d9f937f4b653d35157dc806495fc709a03267f107ddd75022",
       "originalBytes": 771527,
       "path": "raw/before-brace-patch-attention-variants-and-long-context.html.gz",
@@ -673,7 +673,7 @@
     },
     {
       "kind": "article-html",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\mixture-of-experts-internals.html",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\mixture-of-experts-internals.html",
       "originalSHA256": "d31ea40b127484610dfede130e10693bfa360c86e5e31f88bb9b6fee03417160",
       "originalBytes": 712942,
       "path": "raw/before-brace-patch-mixture-of-experts-internals.html.gz",
@@ -684,7 +684,7 @@
     },
     {
       "kind": "article-html",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\how-llms-generate-text.html",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\how-llms-generate-text.html",
       "originalSHA256": "1c63b16a93c62a7bd2f37af128ad0173a567c94c1459aa77aa9b15d52ad5a769",
       "originalBytes": 597030,
       "path": "raw/before-brace-patch-how-llms-generate-text.html.gz",
@@ -695,7 +695,7 @@
     },
     {
       "kind": "article-html",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\tokenization.html",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\tokenization.html",
       "originalSHA256": "d6629e430c2a2f0a3164ccc66f5fec3a66020e2d31024abc9554369d48c9960e",
       "originalBytes": 583450,
       "path": "raw/before-brace-patch-tokenization.html.gz",
@@ -706,7 +706,7 @@
     },
     {
       "kind": "article-html",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\inference-internals.html",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\inference-internals.html",
       "originalSHA256": "da934f26d25a448c1703c057bafa588cb3407e01406d69d9daac1c50c8f20c38",
       "originalBytes": 718762,
       "path": "raw/before-brace-patch-inference-internals.html.gz",
@@ -717,7 +717,7 @@
     },
     {
       "kind": "article-html",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\llm-training-pipeline.html",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\llm-training-pipeline.html",
       "originalSHA256": "6e1c2cb87a09c75d04bce63847a4479f8717c8174d6ea2f53ed4983162111a25",
       "originalBytes": 611908,
       "path": "raw/before-brace-patch-llm-training-pipeline.html.gz",
@@ -728,7 +728,7 @@
     },
     {
       "kind": "article-html",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\pretraining-and-scaling-laws.html",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\pretraining-and-scaling-laws.html",
       "originalSHA256": "c0368783b0a0d843297360c66d5b202a40d96a676b927e30ab4a3f66912b02c2",
       "originalBytes": 766374,
       "path": "raw/before-brace-patch-pretraining-and-scaling-laws.html.gz",
@@ -739,7 +739,7 @@
     },
     {
       "kind": "article-html",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\alignment-theory.html",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\before-brace-patch\\alignment-theory.html",
       "originalSHA256": "16c1e36c35ebf570cfc1bce9186a5723b8495c35362c08063706cfc4e4bfea16",
       "originalBytes": 768377,
       "path": "raw/before-brace-patch-alignment-theory.html.gz",
@@ -750,7 +750,7 @@
     },
     {
       "kind": "export-identity",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\identity.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\identity.json",
       "originalSHA256": "a70d9e8f0a8926c3fae8a44b6405778bb898782dbf791ce983b129556bf6f26c",
       "originalBytes": 76898,
       "path": "raw/after-brace-patch-identity.json.gz",
@@ -761,7 +761,7 @@
     },
     {
       "kind": "article-html",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\transformer-architecture.html",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\transformer-architecture.html",
       "originalSHA256": "24d971eb42068253e162bead0155ce23c460f2f798cf28a408b222dfce25db0d",
       "originalBytes": 1078462,
       "path": "raw/after-brace-patch-transformer-architecture.html.gz",
@@ -772,7 +772,7 @@
     },
     {
       "kind": "article-html",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\attention-variants-and-long-context.html",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\attention-variants-and-long-context.html",
       "originalSHA256": "c56e620c8dd97cb67d9e620078dc48f6b6380c8899ca9454d4c70f25e5c9f8a8",
       "originalBytes": 771527,
       "path": "raw/after-brace-patch-attention-variants-and-long-context.html.gz",
@@ -783,7 +783,7 @@
     },
     {
       "kind": "article-html",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\mixture-of-experts-internals.html",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\mixture-of-experts-internals.html",
       "originalSHA256": "565ce0609f5789349e9904e62b50ad15dc10fe53239af64d03d2600168b905a3",
       "originalBytes": 712942,
       "path": "raw/after-brace-patch-mixture-of-experts-internals.html.gz",
@@ -794,7 +794,7 @@
     },
     {
       "kind": "article-html",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\how-llms-generate-text.html",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\how-llms-generate-text.html",
       "originalSHA256": "e7535eac1dcb8b063b38721476cee3b084613935c55f389c10d0a73a163eb00c",
       "originalBytes": 597030,
       "path": "raw/after-brace-patch-how-llms-generate-text.html.gz",
@@ -805,7 +805,7 @@
     },
     {
       "kind": "article-html",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\tokenization.html",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\tokenization.html",
       "originalSHA256": "576e33631be1fd3adc75aaf05df415f393fb89cc4158fde4cf028fe11e6578bd",
       "originalBytes": 583450,
       "path": "raw/after-brace-patch-tokenization.html.gz",
@@ -816,7 +816,7 @@
     },
     {
       "kind": "article-html",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\inference-internals.html",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\inference-internals.html",
       "originalSHA256": "bf8ead5c8fdd638134484402a97e0801ce090fdaf7c81619dfbfa1807f0e0043",
       "originalBytes": 718762,
       "path": "raw/after-brace-patch-inference-internals.html.gz",
@@ -827,7 +827,7 @@
     },
     {
       "kind": "article-html",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\llm-training-pipeline.html",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\llm-training-pipeline.html",
       "originalSHA256": "c789fb677777feeead3dd31d598c16ac77ba7bb44ebb65fa1e55d0e8af71de4f",
       "originalBytes": 611908,
       "path": "raw/after-brace-patch-llm-training-pipeline.html.gz",
@@ -838,7 +838,7 @@
     },
     {
       "kind": "article-html",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\pretraining-and-scaling-laws.html",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\pretraining-and-scaling-laws.html",
       "originalSHA256": "708dfde026e770c0fce08329cda0faa0d8b151b1cc719469beae9cc876ae4b75",
       "originalBytes": 766374,
       "path": "raw/after-brace-patch-pretraining-and-scaling-laws.html.gz",
@@ -849,7 +849,7 @@
     },
     {
       "kind": "article-html",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\alignment-theory.html",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\after-brace-patch\\alignment-theory.html",
       "originalSHA256": "6a6f8b3a96d9e1e7e254bb55c67a51b967adefb59f8b7f34f061502dd5c93ddb",
       "originalBytes": 768377,
       "path": "raw/after-brace-patch-alignment-theory.html.gz",
@@ -860,7 +860,7 @@
     },
     {
       "kind": "completed-local-build",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\build.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\build.log",
       "originalSHA256": "9e1df5de99338b7bec0c361d1c63ccb6dba86522bc692ba34abd4ed871252f57",
       "originalBytes": 35303,
       "path": "raw/build.log.gz",
@@ -871,7 +871,7 @@
     },
     {
       "kind": "pending-independent-review",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch-independent-prerequisites.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch-independent-prerequisites.json",
       "originalSHA256": "3f6daaca1435b54ab33ffb658c62b85ca48027abc499feb26536f401d144ba72",
       "originalBytes": 3589,
       "path": "raw/independent-prerequisites.json.gz",
@@ -882,7 +882,7 @@
     },
     {
       "kind": "historical-SPA-helper-not-reexecuted",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-initial.mjs",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-initial.mjs",
       "originalSHA256": "df2de07e800e191ba2889f25a8d3626ef085a153efad6f57f6871acccb3486ff",
       "originalBytes": 7164,
       "path": "raw/navigation-initial.mjs.gz",
@@ -893,7 +893,7 @@
     },
     {
       "kind": "historical-SPA-helper-not-reexecuted",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-disclosure-first.mjs",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-disclosure-first.mjs",
       "originalSHA256": "9f07bb8ad620e2fe45a5dff200e17aa0a6cf754a6d7bc2b3f0522588bf338875",
       "originalBytes": 7849,
       "path": "raw/navigation-disclosure-first.mjs.gz",
@@ -904,7 +904,7 @@
     },
     {
       "kind": "historical-SPA-helper-not-reexecuted",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-visible-disclosure.mjs",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-visible-disclosure.mjs",
       "originalSHA256": "c3aa62567bf5184616aa1d19cafdfcf573c1a4bc6dc45970b8676708d6c062ad",
       "originalBytes": 7870,
       "path": "raw/navigation-visible-disclosure.mjs.gz",
@@ -915,7 +915,7 @@
     },
     {
       "kind": "completed-SPA-attempt-log",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke.log",
       "originalSHA256": "7bb3d13f60f275e81883e5d9961e22d07456b088756624c1ef33f3d2e73c0ea5",
       "originalBytes": 15982,
       "path": "raw/navigation-smoke.log.gz",
@@ -926,7 +926,7 @@
     },
     {
       "kind": "completed-SPA-attempt-log",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke-final.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke-final.log",
       "originalSHA256": "c6168a5f1ce05c3b251b748ed3740c2a55f418688ff1cbf7dd617207e1bf3332",
       "originalBytes": 32302,
       "path": "raw/navigation-smoke-final.log.gz",
@@ -937,7 +937,7 @@
     },
     {
       "kind": "completed-SPA-attempt-log",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke-visible-disclosure.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke-visible-disclosure.log",
       "originalSHA256": "e0ae98029cf213ed53e03a914de749ce91db7cb7533102420d43991c389b4198",
       "originalBytes": 1612,
       "path": "raw/navigation-smoke-visible-disclosure.log.gz",
@@ -948,7 +948,7 @@
     },
     {
       "kind": "unaltered-SPA-attempt-result",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke\\chromium.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke\\chromium.json",
       "originalSHA256": "85574e8913f5b8e9a751138cc39673812ca8b6104d259ff47133d612553ee08e",
       "originalBytes": 49129,
       "path": "raw/navigation-smoke-chromium.json.gz",
@@ -959,7 +959,7 @@
     },
     {
       "kind": "unaltered-SPA-attempt-result",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke\\webkit.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke\\webkit.json",
       "originalSHA256": "cb0bf379f52a62540a072636a1888287effe6b4f3bfcac4ffc3ed869c4b1d4e4",
       "originalBytes": 33424,
       "path": "raw/navigation-smoke-webkit.json.gz",
@@ -970,7 +970,7 @@
     },
     {
       "kind": "unaltered-SPA-attempt-result",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke-final\\chromium.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke-final\\chromium.json",
       "originalSHA256": "7b41a2fcbd2d7041118e4d2122281c84703cad38bae55da6d3f6869add59eaa0",
       "originalBytes": 49862,
       "path": "raw/navigation-smoke-final-chromium.json.gz",
@@ -981,7 +981,7 @@
     },
     {
       "kind": "unaltered-SPA-attempt-result",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke-final\\webkit.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke-final\\webkit.json",
       "originalSHA256": "30f0ab93e1c84206b1989180817eb8a5b04b4dc71a1c8c9c78d3a56bef1d5584",
       "originalBytes": 45580,
       "path": "raw/navigation-smoke-final-webkit.json.gz",
@@ -992,7 +992,7 @@
     },
     {
       "kind": "unaltered-SPA-attempt-result",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke-visible-disclosure\\chromium.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke-visible-disclosure\\chromium.json",
       "originalSHA256": "22f6db61a411a0976a5b5a221b2eae998e5a18afc00236117ba75c8441b5ab72",
       "originalBytes": 73934,
       "path": "raw/navigation-smoke-visible-disclosure-chromium.json.gz",
@@ -1003,7 +1003,7 @@
     },
     {
       "kind": "unaltered-SPA-attempt-result",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke-visible-disclosure\\webkit.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\navigation-smoke-visible-disclosure\\webkit.json",
       "originalSHA256": "e138e0cce6395cbbc7492d75f17d8d3f5da48c5f4d50a8046e1fdbaab8fea2be",
       "originalBytes": 61890,
       "path": "raw/navigation-smoke-visible-disclosure-webkit.json.gz",
@@ -1014,7 +1014,7 @@
     },
     {
       "kind": "static-scope-proof-SPA-supplement-pending",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch-independent-output-proof.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch-independent-output-proof.json",
       "originalSHA256": "64bd4503dbb2b95f5c021f5809236dd3e840cfb33f738abc446ebba2ac6cea83",
       "originalBytes": 542269,
       "path": "raw/independent-output-proof.json.gz",
@@ -1025,7 +1025,7 @@
     },
     {
       "kind": "final-independent-dependency-patch-review",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch-independent-review.md",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch-independent-review.md",
       "originalSHA256": "08f8d02ddbcf509715c545452aef2cf5ea382f17c19971776cf6a6c8e6057e94",
       "originalBytes": 2553,
       "path": "raw/final-independent-review.md.gz",
@@ -1036,7 +1036,7 @@
     },
     {
       "kind": "final-independent-dependency-patch-review",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch-independent-review.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch-independent-review.json",
       "originalSHA256": "a0dbbd9df2dc24cdc071667986610543e6b8edde052f75ad0ea85cbc97865639",
       "originalBytes": 42101,
       "path": "raw/final-independent-review.json.gz",
@@ -1047,7 +1047,7 @@
     },
     {
       "kind": "final-independent-dependency-patch-review",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch-independent-navigation-review.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch-independent-navigation-review.json",
       "originalSHA256": "7cc342b6e67952d6263f18a098592f20d45e98a22d9cc0900641c57748760211",
       "originalBytes": 46621,
       "path": "raw/independent-navigation-review.json.gz",
@@ -1238,31 +1238,31 @@
   },
   "finalReviewReferences": [
     {
-      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-independent-final-review.json",
+      "originalPath": "<user-home>/AppData/Local/Temp/alignment-independent-final-review.json",
       "originalSHA256": "c5907866fdcab0d3f37d3a3c1abd4711ab96aa46810244a833abc2d521ed4180",
       "path": "../alignment-local-evidence/raw/independent-final-review.json.gz",
       "encoding": "gzip"
     },
     {
-      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch-independent-prerequisites.json",
+      "originalPath": "<user-home>/AppData/Local/Temp/alignment-brace-patch-independent-prerequisites.json",
       "originalSHA256": "3f6daaca1435b54ab33ffb658c62b85ca48027abc499feb26536f401d144ba72",
       "path": "raw/independent-prerequisites.json.gz",
       "encoding": "gzip"
     },
     {
-      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch-independent-output-proof.json",
+      "originalPath": "<user-home>/AppData/Local/Temp/alignment-brace-patch-independent-output-proof.json",
       "originalSHA256": "64bd4503dbb2b95f5c021f5809236dd3e840cfb33f738abc446ebba2ac6cea83",
       "path": "raw/independent-output-proof.json.gz",
       "encoding": "gzip"
     },
     {
-      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch-independent-navigation-review.json",
+      "originalPath": "<user-home>/AppData/Local/Temp/alignment-brace-patch-independent-navigation-review.json",
       "originalSHA256": "7cc342b6e67952d6263f18a098592f20d45e98a22d9cc0900641c57748760211",
       "path": "raw/independent-navigation-review.json.gz",
       "encoding": "gzip"
     },
     {
-      "originalPath": "C:/Users/81906/AppData/Local/Temp/d1-pr63-brace-expansion-patch-report.json",
+      "originalPath": "<user-home>/AppData/Local/Temp/d1-pr63-brace-expansion-patch-report.json",
       "originalSHA256": "34c3cb4e9457c07c3d27e302c276ff259abdac2bc0c68e7f9034c4de813d11a0",
       "path": "raw/patch-report.json.gz",
       "encoding": "gzip"
@@ -1274,79 +1274,79 @@
       "encoding": "gzip"
     },
     {
-      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-visible-disclosure/chromium.json",
+      "originalPath": "<user-home>/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-visible-disclosure/chromium.json",
       "originalSHA256": "22f6db61a411a0976a5b5a221b2eae998e5a18afc00236117ba75c8441b5ab72",
       "path": "raw/navigation-smoke-visible-disclosure-chromium.json.gz",
       "encoding": "gzip"
     },
     {
-      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-visible-disclosure/webkit.json",
+      "originalPath": "<user-home>/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-visible-disclosure/webkit.json",
       "originalSHA256": "e138e0cce6395cbbc7492d75f17d8d3f5da48c5f4d50a8046e1fdbaab8fea2be",
       "path": "raw/navigation-smoke-visible-disclosure-webkit.json.gz",
       "encoding": "gzip"
     },
     {
-      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke/chromium.json",
+      "originalPath": "<user-home>/AppData/Local/Temp/alignment-brace-patch/navigation-smoke/chromium.json",
       "originalSHA256": "85574e8913f5b8e9a751138cc39673812ca8b6104d259ff47133d612553ee08e",
       "path": "raw/navigation-smoke-chromium.json.gz",
       "encoding": "gzip"
     },
     {
-      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke/webkit.json",
+      "originalPath": "<user-home>/AppData/Local/Temp/alignment-brace-patch/navigation-smoke/webkit.json",
       "originalSHA256": "cb0bf379f52a62540a072636a1888287effe6b4f3bfcac4ffc3ed869c4b1d4e4",
       "path": "raw/navigation-smoke-webkit.json.gz",
       "encoding": "gzip"
     },
     {
-      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-final/chromium.json",
+      "originalPath": "<user-home>/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-final/chromium.json",
       "originalSHA256": "7b41a2fcbd2d7041118e4d2122281c84703cad38bae55da6d3f6869add59eaa0",
       "path": "raw/navigation-smoke-final-chromium.json.gz",
       "encoding": "gzip"
     },
     {
-      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-final/webkit.json",
+      "originalPath": "<user-home>/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-final/webkit.json",
       "originalSHA256": "30f0ab93e1c84206b1989180817eb8a5b04b4dc71a1c8c9c78d3a56bef1d5584",
       "path": "raw/navigation-smoke-final-webkit.json.gz",
       "encoding": "gzip"
     },
     {
-      "originalPath": "C:/Users/81906/AppData/Local/Temp/d1-pr63-root-audit-after.json",
+      "originalPath": "<user-home>/AppData/Local/Temp/d1-pr63-root-audit-after.json",
       "originalSHA256": "c8764ddf029343e9009328ac9ecae561d4a8fb64d05c21614040f0882046bd88",
       "path": "raw/d1-pr63-root-audit-after.json.gz",
       "encoding": "gzip"
     },
     {
-      "originalPath": "C:/Users/81906/AppData/Local/Temp/d1-pr63-website-audit-after.json",
+      "originalPath": "<user-home>/AppData/Local/Temp/d1-pr63-website-audit-after.json",
       "originalSHA256": "07163582eb2576da0f2224d5df7c4dc4f0bf3d14e4e350aeddc1c00ca2589183",
       "path": "raw/d1-pr63-website-audit-after.json.gz",
       "encoding": "gzip"
     },
     {
-      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/root-check.log",
+      "originalPath": "<user-home>/AppData/Local/Temp/alignment-brace-patch/root-check.log",
       "originalSHA256": "77f905cb2067264504c079678b8c5bd074a6fe2661d2d1d22d61daad0b994917",
       "path": "raw/root-check.log.gz",
       "encoding": "gzip"
     },
     {
-      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/build.log",
+      "originalPath": "<user-home>/AppData/Local/Temp/alignment-brace-patch/build.log",
       "originalSHA256": "9e1df5de99338b7bec0c361d1c63ccb6dba86522bc692ba34abd4ed871252f57",
       "path": "raw/build.log.gz",
       "encoding": "gzip"
     },
     {
-      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-visible-disclosure/chromium.json",
+      "originalPath": "<user-home>/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-visible-disclosure/chromium.json",
       "originalSHA256": "22f6db61a411a0976a5b5a221b2eae998e5a18afc00236117ba75c8441b5ab72",
       "path": "raw/navigation-smoke-visible-disclosure-chromium.json.gz",
       "encoding": "gzip"
     },
     {
-      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-visible-disclosure/webkit.json",
+      "originalPath": "<user-home>/AppData/Local/Temp/alignment-brace-patch/navigation-smoke-visible-disclosure/webkit.json",
       "originalSHA256": "e138e0cce6395cbbc7492d75f17d8d3f5da48c5f4d50a8046e1fdbaab8fea2be",
       "path": "raw/navigation-smoke-visible-disclosure-webkit.json.gz",
       "encoding": "gzip"
     },
     {
-      "originalPath": "C:/Users/81906/AppData/Local/Temp/alignment-brace-patch/navigation-visible-disclosure.mjs",
+      "originalPath": "<user-home>/AppData/Local/Temp/alignment-brace-patch/navigation-visible-disclosure.mjs",
       "originalSHA256": "c3aa62567bf5184616aa1d19cafdfcf573c1a4bc6dc45970b8676708d6c062ad",
       "path": "raw/navigation-visible-disclosure.mjs.gz",
       "encoding": "gzip"

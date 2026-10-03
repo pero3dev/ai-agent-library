@@ -2,8 +2,8 @@
   "evidenceClass": "offline-portable-label-successor",
   "status": "pending-independent-final-review-with-C1",
   "createdAt": "2026-09-24T13:58:17.206Z",
-  "snapshot": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-label-portable-snapshot",
-  "predecessorSnapshot": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-layout-approved-snapshot",
+  "snapshot": "<user-home>\\AppData\\Local\\Temp\\ai-agent-library-label-portable-snapshot",
+  "predecessorSnapshot": "<user-home>\\AppData\\Local\\Temp\\ai-agent-library-layout-approved-snapshot",
   "manifestSHA256": "c68b2b87452f374be0da9d8a6a488655db1989e3425e3074895a4aa8d16c05ff",
   "predecessorManifestSHA256": "bbbb935cd4a81212fc5c703624625659e2d708e6ffa0e378dcafaf10b35a6da8",
   "changedFiles": [

@@ -46,12 +46,12 @@
     "scope": "Plan sufficiency and consistency with adopted D2 article/interface, current D1 kit, semantic boundaries, old assertion protection and acceptance provenance. No implementation/public authorization or actual D2 test acceptance.",
     "targets": [
       {
-        "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-kit-plan-20260930.md",
+        "originalPath": "<user-home>\\AppData\\Local\\Temp\\reasoning-d2-kit-plan-20260930.md",
         "path": "raw/reasoning-d2-kit-plan-20260930.md.gz",
         "originalSHA256": "18f12533187dfe3a2bf0ee57c19f2c7a0afbce80d124af0202ecbab2ed7020a5"
       },
       {
-        "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-kit-plan-20260930.json",
+        "originalPath": "<user-home>\\AppData\\Local\\Temp\\reasoning-d2-kit-plan-20260930.json",
         "path": "raw/reasoning-d2-kit-plan-20260930.json.gz",
         "originalSHA256": "279fa20de494010a81d6e6ecf1fe9ca37230ce328711e678da2ac22700470ff4"
       }
@@ -75,7 +75,7 @@
   },
   "files": [
     {
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-kit-plan-20260930.md",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\reasoning-d2-kit-plan-20260930.md",
       "path": "raw/reasoning-d2-kit-plan-20260930.md.gz",
       "originalSHA256": "18f12533187dfe3a2bf0ee57c19f2c7a0afbce80d124af0202ecbab2ed7020a5",
       "originalBytes": 8172,
@@ -85,7 +85,7 @@
       "roundtripMatchesOriginal": true
     },
     {
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-kit-plan-20260930.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\reasoning-d2-kit-plan-20260930.json",
       "path": "raw/reasoning-d2-kit-plan-20260930.json.gz",
       "originalSHA256": "279fa20de494010a81d6e6ecf1fe9ca37230ce328711e678da2ac22700470ff4",
       "originalBytes": 32826,
@@ -95,7 +95,7 @@
       "roundtripMatchesOriginal": true
     },
     {
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-kit-plan-review-20260930.md",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\reasoning-d2-kit-plan-review-20260930.md",
       "path": "raw/reasoning-d2-kit-plan-review-20260930.md.gz",
       "originalSHA256": "f37669f50a70fe074ee3c60f6806a959fb30cca1d7fe70f2d1433a5e47208cbb",
       "originalBytes": 3115,
@@ -105,7 +105,7 @@
       "roundtripMatchesOriginal": true
     },
     {
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\reasoning-d2-kit-plan-review-20260930.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\reasoning-d2-kit-plan-review-20260930.json",
       "path": "raw/reasoning-d2-kit-plan-review-20260930.json.gz",
       "originalSHA256": "363414b4e55b450b7dca4292d19b34cb3edeaad5237c2a4c4fe78e09c7e176f3",
       "originalBytes": 7146,

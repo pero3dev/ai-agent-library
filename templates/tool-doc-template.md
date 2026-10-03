@@ -14,7 +14,7 @@
 # ============================================================
 title: "(ツールの正式名称。H1 と一致させる)"
 category: "coding-agents"
-level: "basic"
+level: "(basic | intermediate | advanced)" # 内容から執筆規約の基準で判定
 status: "draft"
 last_updated: "YYYY-MM-DD"
 tags: ["coding-agents"]   # 必要に応じて既存タグ(mcp / sandboxing など)を追加。新タグ乱造をしない
@@ -32,6 +32,8 @@ tags: ["coding-agents"]   # 必要に応じて既存タグ(mcp / sandboxing な�
 <!-- 例: 「AI コーディングエージェントの導入を検討していて、候補として本ツールを評価したいエンジニア」 -->
 
 ## 前提知識
+
+<!-- 必須の前提だけを記載し、リンク先 level はこの記事以下にする。任意の発展資料は「関連トピック」に置く。 -->
 
 <!-- 最低限、次の 2 本を挙げる:
      - [AI コーディングエージェントの分類と全体像](coding-agents-overview.md)

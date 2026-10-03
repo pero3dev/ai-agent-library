@@ -258,7 +258,7 @@
     {
       "file": "transformer-supplemental-result.json.gz",
       "originalFileName": "result.json",
-      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\result.json",
+      "originalPathHistorical": "<user-home>\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\result.json",
       "originalBytes": 15920,
       "storedBytes": 3391,
       "originalSHA256": "1f58d7040463665785a26ad9e6d08ef9e6d66468844b4d91f52fa064d0fbd415",
@@ -268,7 +268,7 @@
     {
       "file": "training-public-supplemental.mjs.gz",
       "originalFileName": "training-public-supplemental.mjs",
-      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-public-supplemental.mjs",
+      "originalPathHistorical": "<user-home>\\AppData\\Local\\Temp\\training-public-supplemental.mjs",
       "originalBytes": 5689,
       "storedBytes": 2422,
       "originalSHA256": "b21084cc253f2455246863aad3918b4196236d3f9fb1b2f7cb526da75ebafe72",
@@ -278,7 +278,7 @@
     {
       "file": "public-review-transformer-io-stage-2-1440x1000-light.png",
       "originalFileName": "public-review-transformer-io-stage-2-1440x1000-light.png",
-      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-transformer-io-stage-2-1440x1000-light.png",
+      "originalPathHistorical": "<user-home>\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-transformer-io-stage-2-1440x1000-light.png",
       "originalBytes": 245781,
       "storedBytes": 245781,
       "originalSHA256": "21c76b35639431cd52abea6b6dfbd3f5c0ac7b4f3c70184e15c59a19e61e0f6b",
@@ -288,7 +288,7 @@
     {
       "file": "public-review-transformer-io-stage-2-1440x1000-light-scene.png",
       "originalFileName": "public-review-transformer-io-stage-2-1440x1000-light-scene.png",
-      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-transformer-io-stage-2-1440x1000-light-scene.png",
+      "originalPathHistorical": "<user-home>\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-transformer-io-stage-2-1440x1000-light-scene.png",
       "originalBytes": 53155,
       "storedBytes": 53155,
       "originalSHA256": "acc2bd78878b9bd5f7e63618ee59e88fd5c9e3775060153e538f62f8758129a0",
@@ -298,7 +298,7 @@
     {
       "file": "public-review-transformer-position-stage-2-1440x1000-light.png",
       "originalFileName": "public-review-transformer-position-stage-2-1440x1000-light.png",
-      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-transformer-position-stage-2-1440x1000-light.png",
+      "originalPathHistorical": "<user-home>\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-transformer-position-stage-2-1440x1000-light.png",
       "originalBytes": 258694,
       "storedBytes": 258694,
       "originalSHA256": "9798489dbc6268d765b2a045215af20379395378d6c320c8a773d337a58ea334",
@@ -308,7 +308,7 @@
     {
       "file": "public-review-transformer-position-stage-2-1440x1000-light-scene.png",
       "originalFileName": "public-review-transformer-position-stage-2-1440x1000-light-scene.png",
-      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-transformer-position-stage-2-1440x1000-light-scene.png",
+      "originalPathHistorical": "<user-home>\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-transformer-position-stage-2-1440x1000-light-scene.png",
       "originalBytes": 51452,
       "storedBytes": 51452,
       "originalSHA256": "d6fde0596f45a6fda8e0eef4a579f1c3186822ce034d56fe5fe1f249e0399e1c",
@@ -318,7 +318,7 @@
     {
       "file": "public-review-self-attention-stage-2-1440x1000-light.png",
       "originalFileName": "public-review-self-attention-stage-2-1440x1000-light.png",
-      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-self-attention-stage-2-1440x1000-light.png",
+      "originalPathHistorical": "<user-home>\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-self-attention-stage-2-1440x1000-light.png",
       "originalBytes": 228385,
       "storedBytes": 228385,
       "originalSHA256": "53c995794dbefd911c154d1bfe3a1d9fd225cb2a775b1f92750616a53b2a40b6",
@@ -328,7 +328,7 @@
     {
       "file": "public-review-self-attention-stage-2-1440x1000-light-scene.png",
       "originalFileName": "public-review-self-attention-stage-2-1440x1000-light-scene.png",
-      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-self-attention-stage-2-1440x1000-light-scene.png",
+      "originalPathHistorical": "<user-home>\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-self-attention-stage-2-1440x1000-light-scene.png",
       "originalBytes": 25178,
       "storedBytes": 25178,
       "originalSHA256": "2806db070fcd532b3b84da181b98d0aa2a842ccd9c150b7c30d5fc06626ce78e",
@@ -338,7 +338,7 @@
     {
       "file": "public-review-transformer-block-stage-2-1440x1000-light.png",
       "originalFileName": "public-review-transformer-block-stage-2-1440x1000-light.png",
-      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-transformer-block-stage-2-1440x1000-light.png",
+      "originalPathHistorical": "<user-home>\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-transformer-block-stage-2-1440x1000-light.png",
       "originalBytes": 267154,
       "storedBytes": 267154,
       "originalSHA256": "2e6b0ae999e43452f88c99b8a88fdcf5170855cede37ac716097c9030a13ed42",
@@ -348,7 +348,7 @@
     {
       "file": "public-review-transformer-block-stage-2-1440x1000-light-scene.png",
       "originalFileName": "public-review-transformer-block-stage-2-1440x1000-light-scene.png",
-      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-transformer-block-stage-2-1440x1000-light-scene.png",
+      "originalPathHistorical": "<user-home>\\AppData\\Local\\Temp\\ai-agent-library-pr59-public\\training-public-supplemental\\public-review-transformer-block-stage-2-1440x1000-light-scene.png",
       "originalBytes": 39691,
       "storedBytes": 39691,
       "originalSHA256": "2a2e6f38c989797dea98df8da86a4a5d02d84fb40881e507a70222931314e801",
@@ -358,7 +358,7 @@
     {
       "file": "training-independent-diagnostic-proof.cjs.gz",
       "originalFileName": "training-independent-diagnostic-proof.cjs",
-      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-independent-diagnostic-proof.cjs",
+      "originalPathHistorical": "<user-home>\\AppData\\Local\\Temp\\training-independent-diagnostic-proof.cjs",
       "originalBytes": 3089,
       "storedBytes": 1156,
       "originalSHA256": "bcddbbae88b3d9f49b69d30018c86ee6e6110dd353a71acab86689d174d6c396",
@@ -368,7 +368,7 @@
     {
       "file": "training-public-identity-after.cjs.gz",
       "originalFileName": "training-public-identity-after.cjs",
-      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-public-identity-after.cjs",
+      "originalPathHistorical": "<user-home>\\AppData\\Local\\Temp\\training-public-identity-after.cjs",
       "originalBytes": 2040,
       "storedBytes": 977,
       "originalSHA256": "77a66d3575212ad3056fdcd57e100e5c603ba77f124da1e376f3e716c0d99dc3",
@@ -378,7 +378,7 @@
     {
       "file": "training-public-independent-evidence-check.cjs.gz",
       "originalFileName": "training-public-independent-evidence-check.cjs",
-      "originalPathHistorical": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-public-independent-evidence-check.cjs",
+      "originalPathHistorical": "<user-home>\\AppData\\Local\\Temp\\training-public-independent-evidence-check.cjs",
       "originalBytes": 21830,
       "storedBytes": 7872,
       "originalSHA256": "4200aa2899e4b776be8586b3c25270d6d3527e97011532d282326ccaf8b97a6c",

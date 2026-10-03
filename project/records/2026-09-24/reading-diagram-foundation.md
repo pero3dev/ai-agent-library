@@ -117,7 +117,7 @@ Next.js BUILD_IDは `-Hmy_ZhTBAYD1skVFF2WE`。開始時と終了時にBUILD_ID�
 | `docs/architecture/workflow-vs-agent.html` | `9f39bcf9feb371cd7312a005f04d8fe4ffff73f2e7ed7f32ece3d9a39bcb9bce` |
 | `docs/llm-internals/attention-variants-and-long-context.html`（図なし対照） | `a619fe0dd55461f343a928a0379fe5727574728cc41869a7bd210719abbc6e51` |
 
-ローカル証拠の保存先は `C:\Users\81906\AppData\Local\Temp\codex-reading-figure-audit-20260924-023701\build-ssr`。`audit-build-ssr.mjs` が再現用スクリプト、`audit-chromium.json` が測定全文、`summary.json` が集計、PNG4枚が表示証拠。TEMP内の証拠はリポジトリ配布物ではなく、この記録に結果・測定条件・識別子を残す。
+ローカル証拠の保存先は `<user-home>\AppData\Local\Temp\codex-reading-figure-audit-20260924-023701\build-ssr`。`audit-build-ssr.mjs` が再現用スクリプト、`audit-chromium.json` が測定全文、`summary.json` が集計、PNG4枚が表示証拠。TEMP内の証拠はリポジトリ配布物ではなく、この記録に結果・測定条件・識別子を残す。
 
 再測定するときは、上記のスクリプトを新しい専用一時ディレクトリへコピーしてから次を実行する。スクリプトは自身のディレクトリに結果を保存し、`website/scripts/serve-export.mjs` の一時コピーを4205で起動・終了する。既存証拠を上書きせず、再ビルドした場合は新しいBUILD_IDを別の測定として扱う。
 
@@ -215,7 +215,7 @@ BUILD_ID `b4D9OrIx54Q5rylkZZkI-`。サイト単体126件と再ビルド（223ル
 - 予期しないconsoleエラー0、捕捉したHTTP 4xx/5xx応答0、不存在preload JavaScript 0。既知のローカル `/favicon.ico` 404はconsole記録1件として別計上した。
 - `requestfailed` はHTTP応答と別に記録した。ページ遷移・context終了に伴うfetchの `net::ERR_ABORTED` 111件と、noJSの3contextでscript preloadの `csp` 3件を含む。これらを「全通信エラーなし」と言い換えない。
 
-証拠の保存先は `C:\Users\81906\AppData\Local\Temp\codex-reading-figure-audit-20260924-023701\build-io`。`audit-build-ssr.mjs` が再現用スクリプト（ファイル名は元のまま）、`audit-chromium.json` が測定全文、`summary.json` が集計、`summarize-audit.mjs` が集計処理、PNG4枚が画面証拠である。再測定時はスクリプトを別の一時ディレクトリへコピーし、既存証拠を上書きしない。
+証拠の保存先は `<user-home>\AppData\Local\Temp\codex-reading-figure-audit-20260924-023701\build-io`。`audit-build-ssr.mjs` が再現用スクリプト（ファイル名は元のまま）、`audit-chromium.json` が測定全文、`summary.json` が集計、`summarize-audit.mjs` が集計処理、PNG4枚が画面証拠である。再測定時はスクリプトを別の一時ディレクトリへコピーし、既存証拠を上書きしない。
 
 ```powershell
 $env:AUDIT_REPO = 'C:\dev\ai-agent-library'

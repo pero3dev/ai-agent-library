@@ -55,7 +55,7 @@
 
 ### mockの実行
 
-PATHのpython/pyは利用できなかったため、`load_workspace_dependencies` が返したbundled Python `C:\Users\sho_y\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe` を使いました。版はPython 3.12.14です。各READMEのディレクトリで `-X utf8 <script> --mock` を実行し、追加依存もAPIキーも使っていません。
+PATHのpython/pyは利用できなかったため、`load_workspace_dependencies` が返したbundled Python `<user-home>\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe` を使いました。版はPython 3.12.14です。各READMEのディレクトリで `-X utf8 <script> --mock` を実行し、追加依存もAPIキーも使っていません。
 
 - structured-output: exit0。試行1はpriority「至急」で検証NG、試行2は「高」で検証OK、最終categoryは「請求」。
 - evaluation-harness: exit0。c4だけ予測「その他」/期待「請求」でNG、全体4/5=80%で閾値80%を満たしました。

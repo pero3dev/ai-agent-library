@@ -6,6 +6,12 @@
 
 ## 構造・運用の計画
 
+第3回総合レビューの全43Issueは[解決記録](records/2026-10-03/third-review-resolution.md)で追跡します。[記事の修正](records/2026-10-03/third-review-article-remediation.md)、[サイトの修正](records/2026-10-03/third-review-website-remediation.md)、[前提知識55件の判断](records/2026-10-03/prerequisite-level-audit.md)、[タグ193件の判断](records/2026-10-03/tag-singleton-audit.md)、[公開記録の保持とパスの扱い](records/2026-10-03/public-records-retention.md)、[執筆履歴の移行](records/2026-10-03/roadmap-history-migration.json)から担当範囲と証拠を確認できます。IssueのCloseは[根拠と全完了条件の照合](../harness/git-rules.md#issueのcloseと解消の証拠)を満たしてから行います。
+
+憲章・鮮度ティア・実行環境・計測の選択肢は[2026Q4判断メモ](plans/maintenance/2026q4-decision-memo.md)と[199記事の3層試算](plans/maintenance/2026q4-tier-proposal.json)にまとめました。提案であり、運用を変更した記録ではありません。
+
+Git契約・単体試験・期限検出・週次監視は[ハーネスの修正と検証範囲](records/2026-10-03/third-review-harness-remediation.md)で追跡します。本文の訂正と一次資料の実取得は[今回の調査](../research/reviews/2026-10-03-article-remediation.md)に記録しています。
+
 2026-10-03の総合レビューIssueを解決する作業は[実施記録](records/2026-10-03/issue-resolution.md)で追跡する。[公開資産の既存ライセンス棚卸し](records/2026-10-03/license-inventory.md)、[Pages診断・復旧の現行手順](../website/operations.md)、[公開正本による保守基準値](records/2026-10-03/maintenance-baseline.md)を作成し、記事・サイト・音声排他・依存を修正する。完了は各記録とPR/CI/公開証拠で確認する。
 
 担当別の変更と検証範囲は[記事の修正](records/2026-10-03/article-issue-remediation.md)、[サイトの修正](records/2026-10-03/website-issue-remediation.md)、[音声・CI・依存の修正](records/2026-10-03/harness-audio-issue-remediation.md)に記録する。
@@ -16,8 +22,8 @@ E1〜F2の[旧検証計画](records/2026-09-30/p1-kit-preparation/README.md)と[
 
 | 計画 | 状態・適用時点 | 実施記録・現行の入口 |
 | --- | --- | --- |
-| R1-01 本文を主役にする三列 | 2026-10-03 通常表示への採用・公開を承認。実装・ローカル検証・独立レビュー完了。公開状態はPRとCIを参照 | [サンプル・公開の実施記録](records/2026-10-03/r1-01-layout-preview.md) |
-| [動的図解のバックアップと機能削除](plans/engineering/dynamic-diagram-removal-and-recovery.md) | 2026-10-03採択。ローカルと非公開GitHubからの復元確認完了。削除・公開を検証中 | [実施記録](records/2026-10-03/dynamic-diagram-removal.md) |
+| R1-01 本文を主役にする三列 | 2026-10-03、main `d990973`へ反映。対応deployment `6823843847`のsuccessと公開先URLを実APIで確認 | [サンプル・公開の実施記録](records/2026-10-03/r1-01-layout-preview.md) |
+| [動的図解のバックアップと機能削除](plans/engineering/dynamic-diagram-removal-and-recovery.md) | 2026-10-03、復元確認後にmain `42dcee2`へ反映。対応deployment `6822376321`のsuccessを実APIで確認 | [実施記録](records/2026-10-03/dynamic-diagram-removal.md) |
 | [動的図解の全記事展開](plans/engineering/dynamic-diagrams.md) | 2026-10-03展開停止。削除前の4保存点を私有バックアップへ保存。旧計画・制作記録は経緯 | [展開状況](records/2026-09-24/dynamic-diagram-rollout.md)、[P0実施記録](records/2026-09-24/reading-diagram-foundation.md)、[Transformer制作](records/2026-09-24/transformer-reading-diagrams.md)、[注意変種制作](records/2026-09-24/attention-variants-reading-diagrams.md)、[MoE制作](records/2026-09-24/moe-reading-diagrams.md)、[文章生成・トークン化](records/2026-09-24/generation-tokenization-reading-diagrams.md)、[推論内部](records/2026-09-24/inference-reading-diagrams.md)、[学習パイプラインの制作](records/2026-09-24/training-reading-diagrams.md)、[事前学習の制作](records/2026-09-25/pretraining-reading-diagrams.md)、[推論図の表示間隔修正](records/2026-09-30/inference-score-spacing-fix.md)、[D1アラインメント制作](records/2026-09-30/alignment-reading-diagrams.md)、[D2推論モデル制作](records/2026-09-30/reasoning-reading-diagrams.md)、[残り7記事の具体案](records/2026-09-30/p1-interface-preparation/README.md)、[記事別棚卸し](plans/engineering/dynamic-diagram-inventory.md)、[計画作成記録](records/2026-09-24/dynamic-diagram-plan.md) |
 | 自己注意の読書連動図解 | 2026-09-24実装・公開後、2026-10-03の機能削除対象へ移行。保存時の記録 | [実施記録](records/2026-09-24/self-attention-reader.md) |
 | LLM 内部構造の数式表示修正 | 2026-09-23 数式・狭幅・強調表示を修正し、ローカル検証完了。公開状況はPRを参照 | [実施記録](records/2026-09-23/llm-internals-ui-fix.md)、[PR #50](https://github.com/pero3dev/ai-agent-library/pull/50) |
@@ -35,7 +41,7 @@ E1〜F2の[旧検証計画](records/2026-09-30/p1-kit-preparation/README.md)と[
 
 ## 完了した記事拡張計画
 
-22 計画と、そのうち後続の拡張を横断した [実施順の記録](plans/content/priority-map.md) を保持します。各フェーズの成果物・完了状態は [ROADMAP.md](../ROADMAP.md#フェーズ別タスク分割claude-への依頼単位) で確認できます。以後の記事保守は定点観測と [research の調査記録](../research/README.md) に接続します。
+22 計画と、そのうち後続の拡張を横断した [実施順の記録](plans/content/priority-map.md) を保持します。各フェーズの成果物・完了状態は [執筆履歴](plans/content/roadmap-history.md#フェーズ別タスク分割作業依頼単位) で確認できます。以後の記事保守は[ROADMAPの定点観測](../ROADMAP.md#定期メンテナンスフェーズ完了後も継続)と [research の調査記録](../research/README.md) に接続します。
 
 | 計画 | 対応フェーズ | 完了日 |
 | --- | --- | --- |

@@ -19,7 +19,7 @@
     }
   ],
   "previousReview": {
-    "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-review-9fb0fb0.json",
+    "file": "<user-home>\\AppData\\Local\\Temp\\training-portable-review-9fb0fb0.json",
     "sha256": "8f33468ffd028bd51c7a9f4846dca69fa9d0afbe6c84fa589b88fe3e3f53c2a7",
     "manifestSHA256": "9fb0fb0d951d7ba52728b080b86948efc5bcfd6acf3288d5d044c13f6612c6a3",
     "status": "changes_requested",
@@ -112,7 +112,7 @@
     "pathAndNetworkBoundary": "Strict CLI, explicit output outside repository/kit, symlink/junction and Windows short-name checks, locked local Playwright chain and fixed HTTP/GitHub targets inspected. Offline commands executed here made no external requests. Local browser adapters restrict requests to 127.0.0.1:4209 and their recorded blockedExternalRequests arrays are empty. Production public browser is not represented as an OS/network sandbox.",
     "harness": "Verification prerequisites correctly add tar and PowerShell 7+ to root unit execution. Root unit glob includes the test; Windows-only short-path branch is described separately; Linux execution is not claimed.",
     "images": {
-      "historicalReview": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-review-9fb0fb0.json",
+      "historicalReview": "<user-home>\\AppData\\Local\\Temp\\training-portable-review-9fb0fb0.json",
       "status": "capture deficiency resolved by current candidate; old PNGs unchanged"
     }
   },
@@ -125,13 +125,13 @@
       "failed": 0,
       "skipped": 0,
       "durationMs": 12155.1563,
-      "log": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-review-unit-4359.log",
+      "log": "<user-home>\\AppData\\Local\\Temp\\training-portable-review-unit-4359.log",
       "logSHA256": "ba688e61c893c2248b3a83261b29d8c386056fa6305bdecc1b0c25e21b3d6c0f"
     },
     "independentPreparation": {
       "command": "node scripts/diagram-release/check-preparation.mjs --output=<TEMP>/training-portable-review-evidence-4359",
       "exitCode": 0,
-      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-review-evidence-4359\\preparation-2026-09-24T14-53-20-967Z\\preparation.json",
+      "file": "<user-home>\\AppData\\Local\\Temp\\training-portable-review-evidence-4359\\preparation-2026-09-24T14-53-20-967Z\\preparation.json",
       "sha256": "cfc1c7536de12575f755de5ed990b9ab678fe96ffe9b6a3a4284344ae0fd6015",
       "priorCases": 58,
       "addedCases": 13,
@@ -245,7 +245,7 @@
       "rehearsals": [
         {
           "engine": "chromium",
-          "directory": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z",
+          "directory": "<user-home>\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z",
           "resultSHA256": "307e6645cdc1e7df7392b48bf87009a6cfdb18c921a46324b53992817c5389f0",
           "adapterSHA256": "9c7fc130519a3a942cdd25829221705beb62b978e14e64292e73b028ba0ca88b",
           "sameScreenshotHelperAsCandidate": true,
@@ -333,7 +333,7 @@
         },
         {
           "engine": "webkit",
-          "directory": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-capture-clip-local-webkit-2026-09-24T14-52-32-571Z",
+          "directory": "<user-home>\\AppData\\Local\\Temp\\training-portable-capture-clip-local-webkit-2026-09-24T14-52-32-571Z",
           "resultSHA256": "f95096f1210cd22d999bd4374e0c6c061ae9df7b3b91c12462918b3589dde7ea",
           "adapterSHA256": "9c7fc130519a3a942cdd25829221705beb62b978e14e64292e73b028ba0ca88b",
           "sameScreenshotHelperAsCandidate": true,
@@ -357,9 +357,9 @@
       ],
       "completedAt": "2026-09-24T14:57:28.321Z"
     },
-    "proofFile": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-review-capture-proof-4359.json",
+    "proofFile": "<user-home>\\AppData\\Local\\Temp\\training-portable-review-capture-proof-4359.json",
     "producerHelperProbes": {
-      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-capture-clip-probes.json",
+      "file": "<user-home>\\AppData\\Local\\Temp\\training-portable-capture-clip-probes.json",
       "sha256": "f11341b0c968c7e06ad1d50a44f17ed782e636076d4bc6e523a66c49f6140e88",
       "scenarios": 7,
       "readByReviewer": true,
@@ -379,7 +379,7 @@
   },
   "images": [
     {
-      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-stages-stage-2-960x540-light-dsf2.png",
+      "file": "<user-home>\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-stages-stage-2-960x540-light-dsf2.png",
       "sha256": "115e35edab32d305647ed0da12cd565da269791e27fddc985f41cbf5569f0ba0",
       "width": 1920,
       "height": 1080,
@@ -387,7 +387,7 @@
       "finding": "Original viewport retained with its original upper crop; not substituted for the complete-scene image."
     },
     {
-      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-stages-stage-2-1440x1000-light-dsf1-scene.png",
+      "file": "<user-home>\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-stages-stage-2-1440x1000-light-dsf1-scene.png",
       "sha256": "01beb90da119f6481b7ff7618f0d0a6efddd78734810e293149a5cfd034da495",
       "width": 627,
       "height": 422,
@@ -395,7 +395,7 @@
       "finding": "Complete scene visible; all three recorded adjacent-line BBox candidates have separated glyphs."
     },
     {
-      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-stages-stage-2-1440x1000-dark-dsf1-scene.png",
+      "file": "<user-home>\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-stages-stage-2-1440x1000-dark-dsf1-scene.png",
       "sha256": "01beb90da119f6481b7ff7618f0d0a6efddd78734810e293149a5cfd034da495",
       "width": 627,
       "height": 422,
@@ -403,7 +403,7 @@
       "finding": "Complete scene visible; all three recorded adjacent-line BBox candidates have separated glyphs."
     },
     {
-      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-stages-stage-2-1280x720-light-dsf1-scene.png",
+      "file": "<user-home>\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-stages-stage-2-1280x720-light-dsf1-scene.png",
       "sha256": "be8074b39cfd609922521da0a80ca8390420e9ab596cc3948ed170c22e846ef4",
       "width": 532,
       "height": 358,
@@ -411,7 +411,7 @@
       "finding": "Complete scene visible; all three recorded adjacent-line BBox candidates have separated glyphs."
     },
     {
-      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-stages-stage-2-390x844-light-dsf1-scene.png",
+      "file": "<user-home>\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-stages-stage-2-390x844-light-dsf1-scene.png",
       "sha256": "9ffbc5585ebcd4102b34cd2099b00d154f54b2d50fdaad3ba40c114dae5484d9",
       "width": 356,
       "height": 240,
@@ -419,7 +419,7 @@
       "finding": "Complete scene visible; all three recorded adjacent-line BBox candidates have separated glyphs."
     },
     {
-      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-stages-stage-2-390x844-dark-dsf1-scene.png",
+      "file": "<user-home>\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-stages-stage-2-390x844-dark-dsf1-scene.png",
       "sha256": "9ffbc5585ebcd4102b34cd2099b00d154f54b2d50fdaad3ba40c114dae5484d9",
       "width": 356,
       "height": 240,
@@ -427,7 +427,7 @@
       "finding": "Complete scene visible; all three recorded adjacent-line BBox candidates have separated glyphs."
     },
     {
-      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-stages-stage-2-960x540-light-dsf2-scene.png",
+      "file": "<user-home>\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-stages-stage-2-960x540-light-dsf2-scene.png",
       "sha256": "cba55433eadca07187daebcab1449114b803b45c6c29c0701e96b05e35b4e887",
       "width": 1212,
       "height": 816,
@@ -435,7 +435,7 @@
       "finding": "Complete scene visible; all three recorded adjacent-line BBox candidates have separated glyphs."
     },
     {
-      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-knowledge-focus-selected-scene.png",
+      "file": "<user-home>\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-knowledge-focus-selected-scene.png",
       "sha256": "4f8decdc63fe623fd767659e1628924148f09efa1eb90099c6489aa74d8bdf3f",
       "width": 627,
       "height": 422,
@@ -443,7 +443,7 @@
       "finding": "Complete scene visible; three recorded BBox candidates have separated glyphs."
     },
     {
-      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-stages-expanded-scene.png",
+      "file": "<user-home>\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-stages-expanded-scene.png",
       "sha256": "4b6b7b922b15ea075eaa077f639b74f0aee4e69238a684885ae5cc57aa8b078d",
       "width": 818,
       "height": 551,
@@ -451,7 +451,7 @@
       "finding": "Complete modal scene visible; three recorded BBox candidates have separated glyphs."
     },
     {
-      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-runtime-boundary-stage-3-960x540-light-dsf2-scene.png",
+      "file": "<user-home>\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-runtime-boundary-stage-3-960x540-light-dsf2-scene.png",
       "sha256": "4ef016d1c06fc0dec096fcd3ddc376a470aec49b8fa4bfa7bceb791cf9a49464",
       "width": 1212,
       "height": 818,
@@ -459,7 +459,7 @@
       "finding": "Complete runtime scene visible from heading through bottom caveat without header occlusion."
     },
     {
-      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-no-javascript-training-stages-scene.png",
+      "file": "<user-home>\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-no-javascript-training-stages-scene.png",
       "sha256": "5bb0e02550eeb09faf9d8c04b0d2fc085320a4120dc4620708b53f4d63fa0266",
       "width": 627,
       "height": 422,
@@ -467,7 +467,7 @@
       "finding": "Complete SSR/noJS scene captured without an animation-frame wait."
     },
     {
-      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-print-training-runtime-boundary-scene.png",
+      "file": "<user-home>\\AppData\\Local\\Temp\\training-portable-capture-clip-local-chromium-2026-09-24T14-52-31-590Z\\training-print-training-runtime-boundary-scene.png",
       "sha256": "16690173575b5acb05f13a5c249a594158429bb1265d7318a81ae387a37e4f00",
       "width": 566,
       "height": 381,
@@ -475,7 +475,7 @@
       "finding": "Complete print scene captured. This confirms capture completeness, not product semantic approval."
     },
     {
-      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-capture-clip-local-webkit-2026-09-24T14-52-32-571Z\\training-stages-stage-2-960x540-light-dsf2-scene.png",
+      "file": "<user-home>\\AppData\\Local\\Temp\\training-portable-capture-clip-local-webkit-2026-09-24T14-52-32-571Z\\training-stages-stage-2-960x540-light-dsf2-scene.png",
       "sha256": "7be6a9452ab704e4aa38f4bb3fef9dd3057ab49d283580f17444d69a79e55cea",
       "width": 1212,
       "height": 816,
@@ -483,7 +483,7 @@
       "finding": "Complete knowledge scene visible from heading through cards and bottom caveat, without header occlusion."
     },
     {
-      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-capture-clip-local-webkit-2026-09-24T14-52-32-571Z\\training-runtime-boundary-stage-3-960x540-light-dsf2-scene.png",
+      "file": "<user-home>\\AppData\\Local\\Temp\\training-portable-capture-clip-local-webkit-2026-09-24T14-52-32-571Z\\training-runtime-boundary-stage-3-960x540-light-dsf2-scene.png",
       "sha256": "d9ddcf6bf5ec8edc2bb8072d45b40c0ee2be490a12313496d19cdb6d23a73541",
       "width": 1212,
       "height": 816,
@@ -491,7 +491,7 @@
       "finding": "Complete runtime scene visible from heading through bottom caveat, without header occlusion."
     },
     {
-      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-capture-clip-local-webkit-2026-09-24T14-52-32-571Z\\training-no-javascript-training-stages-scene.png",
+      "file": "<user-home>\\AppData\\Local\\Temp\\training-portable-capture-clip-local-webkit-2026-09-24T14-52-32-571Z\\training-no-javascript-training-stages-scene.png",
       "sha256": "fd4d4dcf680c74646e0525401b731bfce358327016ee097d18a0b36bf722ea91",
       "width": 627,
       "height": 422,
@@ -499,7 +499,7 @@
       "finding": "Complete SSR/noJS scene captured without an animation-frame wait."
     },
     {
-      "file": "C:\\Users\\81906\\AppData\\Local\\Temp\\training-portable-capture-clip-local-webkit-2026-09-24T14-52-32-571Z\\training-print-training-runtime-boundary-scene.png",
+      "file": "<user-home>\\AppData\\Local\\Temp\\training-portable-capture-clip-local-webkit-2026-09-24T14-52-32-571Z\\training-print-training-runtime-boundary-scene.png",
       "sha256": "07536c1264f2e34241822164a490eeb692001b05ac8974f6e4175f9964e299b9",
       "width": 566,
       "height": 381,

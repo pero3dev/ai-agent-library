@@ -59,7 +59,7 @@
   },
   "relatedEvidence": [
     {
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-article-final-review-20260930.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-article-final-review-20260930.json",
       "path": "../alignment-ci-evidence/raw/alignment-article-final-review-20260930.json.gz",
       "encoding": "gzip",
       "originalSHA256": "e363b28ce08685ae75a6e2d3ebef437ce8de2f923b063f24958442b7d44e3d03",
@@ -75,7 +75,7 @@
   ],
   "files": [
     {
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-article-dependency-review-20260930.md",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-article-dependency-review-20260930.md",
       "originalSHA256": "2e717f875256dee8e1602dd48f4bb45eb8826e9d0217b289a426bbc88cbc40fd",
       "originalBytes": 2872,
       "path": "raw/alignment-article-dependency-review-20260930.md.gz",
@@ -85,7 +85,7 @@
       "roundtripMatchesOriginal": true
     },
     {
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-article-dependency-review-20260930.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-article-dependency-review-20260930.json",
       "originalSHA256": "bc254a9f6b0b5cd3c44bbefc597cb87e40089c19ce3e0b22bda082d861f3df41",
       "originalBytes": 6663,
       "path": "raw/alignment-article-dependency-review-20260930.json.gz",
@@ -95,7 +95,7 @@
       "roundtripMatchesOriginal": true
     },
     {
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-pr63-patch-submission.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-pr63-patch-submission.json",
       "originalSHA256": "1ae30cf21bb34a8bfce26ccda7e9ee19e049b660b8f495175a0b36fc80f1af71",
       "originalBytes": 1243,
       "path": "raw/alignment-pr63-patch-submission.json.gz",
@@ -105,7 +105,7 @@
       "roundtripMatchesOriginal": true
     },
     {
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-pr63-patch.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-pr63-patch.json",
       "originalSHA256": "72560fee5aba3566e271d509e220f841363afc4cca16d5b43a8efb7fc942d7f5",
       "originalBytes": 6096,
       "path": "raw/alignment-pr63-patch.json.gz",
@@ -115,7 +115,7 @@
       "roundtripMatchesOriginal": true
     },
     {
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-pr63-patch-current.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-pr63-patch-current.json",
       "originalSHA256": "404c3e7ae515713e259e72effa048732bc59dab9b8e7b6332ccba44771ee6dea",
       "originalBytes": 5182,
       "path": "raw/alignment-pr63-patch-current.json.gz",
@@ -125,7 +125,7 @@
       "roundtripMatchesOriginal": true
     },
     {
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-dependency-commit.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-dependency-commit.log",
       "originalSHA256": "21ce90f190c6897913933f1e72e8d21a6e78abdc0b55532948abef75c08aca51",
       "originalBytes": 8535,
       "path": "raw/alignment-dependency-commit.log.gz",
@@ -135,7 +135,7 @@
       "roundtripMatchesOriginal": true
     },
     {
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-pr-body-patch.md",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-pr-body-patch.md",
       "originalSHA256": "4042fea75d9d09f35acb496d3f16e8c4566c66cf1b658ac0b9d909af27b035c2",
       "originalBytes": 1714,
       "path": "raw/alignment-pr-body-patch.md.gz",

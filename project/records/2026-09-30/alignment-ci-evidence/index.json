@@ -84,7 +84,7 @@
   "files": [
     {
       "kind": "formal-article-review",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-article-final-review-20260930.md",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-article-final-review-20260930.md",
       "originalSHA256": "c870f4263fce419459a74d00d372782b657a7ba3464a7b92d70064c5f0b10877",
       "originalBytes": 5284,
       "path": "raw/alignment-article-final-review-20260930.md.gz",
@@ -95,7 +95,7 @@
     },
     {
       "kind": "formal-article-review",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-article-final-review-20260930.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-article-final-review-20260930.json",
       "originalSHA256": "e363b28ce08685ae75a6e2d3ebef437ce8de2f923b063f24958442b7d44e3d03",
       "originalBytes": 9626,
       "path": "raw/alignment-article-final-review-20260930.json.gz",
@@ -106,7 +106,7 @@
     },
     {
       "kind": "reviewed-candidate-tree",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-frozen-candidate.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-frozen-candidate.json",
       "originalSHA256": "362b672036e021e2e91e7cd335be498763c04a7b90e287ef70e78947fbd98d37",
       "originalBytes": 194,
       "path": "raw/alignment-frozen-candidate.json.gz",
@@ -117,7 +117,7 @@
     },
     {
       "kind": "initial-pr-snapshot",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-pr63.json",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-pr63.json",
       "originalSHA256": "172583b5988ac69343e7e137ba05a5daf55dbacfef3f088a70e00c380d0b2e62",
       "originalBytes": 4892,
       "path": "raw/alignment-pr63.json.gz",
@@ -128,7 +128,7 @@
     },
     {
       "kind": "initial-ci-failure-log",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\initial-ci-lint.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\initial-ci-lint.log",
       "originalSHA256": "1825bff46b5cab9c691fdeb3730fe4a14659974b06fbdd119384990b63f23a0f",
       "originalBytes": 21322,
       "path": "raw/initial-ci-lint.log.gz",
@@ -139,7 +139,7 @@
     },
     {
       "kind": "initial-ci-failure-log",
-      "originalPath": "C:\\Users\\81906\\AppData\\Local\\Temp\\alignment-brace-patch\\initial-ci-build.log",
+      "originalPath": "<user-home>\\AppData\\Local\\Temp\\alignment-brace-patch\\initial-ci-build.log",
       "originalSHA256": "fdd1a464461f8d5071ded49054ad9c33e5213ca7e7b2f7b8682390f1b4c3be6a",
       "originalBytes": 182257,
       "path": "raw/initial-ci-build.log.gz",

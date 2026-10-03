@@ -119,13 +119,14 @@ function timestamp(value, field, fallback) {
  * last_verified_at represents a completed observation, never front-matter last_updated.
  * Rotation ignores pending urgency so fixed weekly work cannot starve other systems.
  */
-export function selectSystems(registry, state = {}, { mode = 'rotation', now = new Date(), limit = 3, ids = [], excludeIds = [] } = {}) {
+export function selectSystems(registry, state = {}, { mode = 'rotation', now = new Date(), limit = 3, ids = [], excludeIds = [], priorityIds = [] } = {}) {
   if (!Array.isArray(registry) || !registry.length) fail('選定対象の registry がありません')
   if (!Number.isInteger(limit) || limit < 1 || limit > 3) fail('limit は 1〜3 にしてください')
   if (!['weekly_focus', 'rotation', 'manual'].includes(mode)) fail(`未対応の選定モードです: ${mode}`)
   const nowMs = timestamp(now, 'now')
   if (!Number.isFinite(nowMs)) fail('now がありません')
   const byId = new Map(registry.map(system => [system.id, system]))
+  if (!Array.isArray(priorityIds) || priorityIds.some(id => !byId.has(id))) fail('期限優先対象に未知の ID があります')
   if (byId.size !== registry.length) fail('選定対象の ID が重複しています')
   if (!state || typeof state !== 'object' || Array.isArray(state)) fail('state はオブジェクトで指定してください')
   const systems = state.systems ?? {}
@@ -169,11 +170,12 @@ export function selectSystems(registry, state = {}, { mode = 'rotation', now = n
   const eligible = registry.filter(({ id, cadenceDays }) => {
     if (excludeIds.includes(id) || timestamp(systems[id]?.next_retry_at, `${id}.next_retry_at`, -Infinity) > nowMs) return false
     if (jstDay(Math.max(observed(id), attempted(id))) === jstDay(nowMs)) return false
-    return observed(id) + cadenceDays * DAY <= nowMs || pendingDue.has(id) || Boolean(systems[id]?.next_retry_at)
+    return observed(id) + cadenceDays * DAY <= nowMs || pendingDue.has(id) || priorityIds.includes(id) || Boolean(systems[id]?.next_retry_at)
   })
-  if (mode === 'rotation') return [...eligible].sort(oldest).slice(0, limit)
+  if (mode === 'rotation') return [...eligible].sort((a, b) => Number(priorityIds.includes(b.id)) - Number(priorityIds.includes(a.id)) || oldest(a, b)).slice(0, limit)
   const selected = FOCUS_IDS.map(id => eligible.find(system => system.id === id)).filter(Boolean).slice(0, limit)
   const others = eligible.filter(system => !selected.includes(system)).sort((a, b) => {
+    if (priorityIds.includes(a.id) !== priorityIds.includes(b.id)) return priorityIds.includes(a.id) ? -1 : 1
     const aDue = pendingDue.get(a.id) ?? Infinity
     const bDue = pendingDue.get(b.id) ?? Infinity
     if (aDue !== bDue) return aDue < bDue ? -1 : 1

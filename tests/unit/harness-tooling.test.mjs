@@ -28,6 +28,17 @@ test('YAML and TOML parsers handle multiline values and reject duplicate or malf
   for (const [file, text] of [['a.yml', 'name: one\nname: two'], ['a.toml', 'name="one"\nname="two"'], ['a.json', '{invalid'], ['role.md', '# No metadata']]) assert.throws(() => parseConfiguration(file, text))
 })
 
+test('every npm install is preceded by the same working directory lockfile audit', () => {
+  for (const file of readdirSync(path.join(ROOT, '.github/workflows')).filter(name => name.endsWith('.yml'))) {
+    const workflow = parseConfiguration(file, readFileSync(path.join(ROOT, '.github/workflows', file), 'utf8'))
+    for (const [job, value] of Object.entries(workflow.jobs)) for (const [index, step] of (value.steps ?? []).entries()) {
+      if (!/\bnpm ci\b/.test(step.run ?? '')) continue
+      const directory = step['working-directory'] ?? value.defaults?.run?.['working-directory'] ?? '.'
+      assert.ok(value.steps.slice(0, index).some(before => /npm audit --package-lock-only/.test(before.run ?? '') && (before['working-directory'] ?? value.defaults?.run?.['working-directory'] ?? '.') === directory), `${file}/${job}: audit before install in ${directory}`)
+    }
+  }
+})
+
 test('teaching settings are inert across examples, templates and harness test fixtures', () => {
   for (const file of ['examples/demo/AGENTS.md', 'examples/demo/agents.md', 'examples/demo/AGENTS.MD', 'examples/demo/CLAUDE.local.md', 'examples/demo/.CODEX/CONFIG.TOML', 'examples/demo/.codex/agents/writer.toml', 'examples/demo/.claude/agents/writer.md', 'examples/demo/.claude/commands/nested/run.md', 'examples/demo/.claude/rules/nested/files.md', 'examples/demo/.github/prompts/run.prompt.md', 'templates/demo/SKILL.md', 'tests/harness/case/.codex/config.toml', 'tests/other/AGENTS.md', 'tests/fixture/.claude/settings.json', 'harness/fixtures/example/.claude/settings.json']) {
     assert.equal(isActiveTeachingFile(file), true)
@@ -69,6 +80,11 @@ test('doctor reports selected configuration origins without exposing unrelated s
 test('Python selection detects an unsupported PATH interpreter and uses an available launcher without installation', t => {
   assert.equal(versionSupported('Python 3.10.1', 'python'), 'unsupported')
   assert.equal(versionSupported('Python 3.11.3', 'python'), 'supported')
+  assert.equal(versionSupported('v22.22.0', 'node'), 'unsupported')
+  assert.equal(versionSupported('v22.22.2', 'node'), 'supported')
+  assert.equal(versionSupported('v24.14.0', 'node'), 'unsupported')
+  assert.equal(versionSupported('v24.19.0', 'node'), 'supported')
+  assert.equal(versionSupported('v23.5.0', 'node'), 'unsupported')
   const selected = resolvePython({ platform: 'win32', execute: binary => binary === 'python' ? 'Python 3.10.1' : 'Python 3.11.3' })
   assert.equal(selected.binary, 'py')
   assert.deepEqual(selected.args, ['-3.11'])

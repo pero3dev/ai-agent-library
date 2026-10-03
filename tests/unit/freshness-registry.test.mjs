@@ -166,3 +166,10 @@ test('automatic selection skips repeat observations on the same JST day and occu
   assert.deepEqual(selectedIds(registry, state, { now: '2026-09-10T01:00:00Z', excludeIds: ['two', 'three'] }), ['four'])
   assert.deepEqual(selectedIds(registry, state, { now: '2026-09-10T01:00:00Z', mode: 'manual', ids: ['one'] }), ['one'])
 })
+
+test('deadline priorities become due and outrank stale rotation while keeping retry boundaries', () => {
+  const registry = [system('old'), system('recent'), system('blocked')]
+  const state = { systems: { recent: { last_verified_at: '2026-09-09' }, blocked: { next_retry_at: '2026-09-11' } } }
+  assert.deepEqual(selectedIds(registry, state, { now, mode: 'rotation', priorityIds: ['recent', 'blocked'] }), ['recent', 'old'])
+  assert.throws(() => selectSystems(registry, state, { now, priorityIds: ['unknown'] }), /Freshness registry/)
+})

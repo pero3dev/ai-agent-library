@@ -23,11 +23,11 @@ function fixture(t) {
   return { root, write, files }
 }
 
-test('final structure has 15 root files, eight Markdown entries and required checked indexes', t => {
+test('final structure has 16 root files, eight Markdown entries and required checked indexes', t => {
   const { root, files } = fixture(t)
   const result = checkStructure(root, { trackedFiles: files })
   assert.equal(result.verified, true, result.problems.join('\n'))
-  assert.equal(result.root_files, 15)
+  assert.equal(result.root_files, 16)
   assert.equal(result.root_markdown_files, 8)
   assert.equal(checkStructure(root, { trackedFiles: files.filter(file => file !== 'project/README.md') }).verified, false)
 })

@@ -4,7 +4,7 @@ import { existsSync, readFileSync, statSync } from 'node:fs'
 import path from 'node:path'
 import os from 'node:os'
 import { parse as toml } from 'smol-toml'
-import { cli, git, jsonFile, parseOptions, resolvePython, ROOT, versionSupported } from './lib/tooling-common.mjs'
+import { cli, git, jsonFile, parseOptions, resolvePython, ROOT, versionSupported, NODE_REQUIREMENT } from './lib/tooling-common.mjs'
 
 export function readObservations(file, now = new Date()) {
   if (!file) return []
@@ -54,7 +54,7 @@ export function doctor(root = ROOT, { observations, python, personalConfig = pat
   return {
     schema_version: 1, checked_at: now.toISOString(), root, platform: process.platform,
     git: { commit: git(root, 'rev-parse', 'HEAD'), branch: git(root, 'branch', '--show-current'), common_dir: common, changed_paths: git(root, 'status', '--porcelain').split('\n').filter(Boolean) },
-    tools: ['node', 'git', 'gh', 'python', 'codex'].map(name => { const tool = probes(name, ['--version'], root); return ['node', 'python'].includes(name) ? { ...tool, requirement: { minimum: name === 'node' ? '22' : '3.11', result: versionSupported(tool.version, name) } } : tool }),
+    tools: ['node', 'git', 'gh', 'python', 'codex'].map(name => { const tool = probes(name, ['--version'], root); return ['node', 'python'].includes(name) ? { ...tool, requirement: { minimum: name === 'node' ? NODE_REQUIREMENT : '3.11', result: versionSupported(tool.version, name) } } : tool }),
     python_selection: resolvePython({ root, python }),
     additional_codex: { binary: installed, present: existsSync(installed), model_compatibility: 'unknown', source: 'common Git directory' },
     settings, effective_overrides: 'コマンドライン・親セッションの上書きは未観測です。設定ファイルだけでは実効値を確定しません。',

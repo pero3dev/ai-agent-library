@@ -1,3 +1,5 @@
+import { isolateGitForTests, fixtureGit, fixtureGitSpawn } from '../helpers/isolated-git.mjs'
+isolateGitForTests()
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -18,7 +20,7 @@ function fixture(t) {
     fs.rmSync(resolved, { recursive: true, force: true });
   });
   const root = path.join(directory, 'checkout'); fs.mkdirSync(root);
-  const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+  const git = (...args) => fixtureGit(args, { cwd: root, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] }).trim();
   git('init', '-b', 'main'); git('config', 'user.name', 'Harness Fixture'); git('config', 'user.email', 'fixture@example.invalid');
   for (const file of ['scripts/example.mjs', 'docs/01-concepts/article.md', 'website/app/page.tsx']) {
     fs.mkdirSync(path.dirname(path.join(root, file)), { recursive: true }); fs.writeFileSync(path.join(root, file), 'original\n');
@@ -178,10 +180,10 @@ test('snapshot restore preserves ignored files and releases the failed resume at
   fs.appendFileSync(path.join(f.root, '.git/info/exclude'), '\nscripts/new.mjs\n');
   const ignored = path.join(replacement, 'scripts/new.mjs');
   fs.writeFileSync(ignored, 'user ignored content\n');
-  const head = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: replacement, encoding: 'utf8' }).trim();
+  const head = fixtureGit(['rev-parse', 'HEAD'], { cwd: replacement, encoding: 'utf8' }).trim();
   await assert.rejects(main(['resume', '--run-id', record.run_id, '--apply', '--root', replacement], f.deps), /overwritten by merge|merge.*ff-only/s);
   assert.equal(fs.readFileSync(ignored, 'utf8'), 'user ignored content\n');
-  assert.equal(execFileSync('git', ['rev-parse', 'HEAD'], { cwd: replacement, encoding: 'utf8' }).trim(), head);
+  assert.equal(fixtureGit(['rev-parse', 'HEAD'], { cwd: replacement, encoding: 'utf8' }).trim(), head);
   assert.equal(readLock(f.locks), null);
   assert.equal(f.git('rev-parse', `refs/harness/checkpoints/${record.run_id}`), saved.snapshot_commit);
   fs.unlinkSync(ignored);

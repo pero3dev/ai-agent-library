@@ -18,6 +18,7 @@ import { GENERATED_DIRS, GENERATED_FILES } from './lib/hook-core.mjs'
 import { requiredChecks } from './lib/github-policy.mjs'
 import { referenceComparable } from './lib/reference-comparison.mjs'
 import { roadmapSource } from './lib/roadmap-source.mjs'
+import { comparisonBase, assertManifestBase } from './lib/comparison-base.mjs'
 
 export { requiredChecks }
 
@@ -57,6 +58,7 @@ export function isGenerated(file) {
 
 export function readChanges({ cwd, base, head }) {
   sha(base, 'base'); sha(head, 'head')
+  base = comparisonBase(cwd, base, head)
   const raw = git(cwd, ['diff', '--no-ext-diff', '--no-textconv', '--no-renames', '--raw', '--abbrev=40', '-z', base, head, '--']).split('\0')
   const changes = []
   for (let i = 0; i < raw.length - 1; i += 2) {
@@ -252,6 +254,7 @@ export function reviewDigest(options) {
 
 export function checkHarnessPolicy({ cwd = process.cwd(), base, head, branch, now = Date.now() }) {
   assert(typeof branch === 'string' && branch.length > 0, 'branch が必要です')
+  base = comparisonBase(cwd, base, head)
   const options = { cwd, base, head }
   const changes = readChanges(options)
   const before = treeReader(cwd, base)
@@ -281,7 +284,7 @@ export function checkHarnessPolicy({ cwd = process.cwd(), base, head, branch, no
   const { manifest, evidence } = manifestFromHead(options, changes)
   validateManifestShape(manifest)
   assert(evidence.path === `harness/changes/${manifest.run_id}.json`, 'manifest の run_id とパスが不一致です')
-  assert(manifest.base_sha === base, 'manifest の base_sha が検証 base と不一致です')
+  assertManifestBase(cwd, manifest.base_sha, base, changes.filter(change => !manifestPattern.test(change.path)))
   assert(equalSet(manifest.changes.map(item => item.path), articles.map(item => item.path)) && manifest.changes.length === articles.length, 'changes は変更記事を過不足なく列挙してください')
   const relocationSources = manifest.changes.filter(item => item.kind === 'relocate').map(item => item.previous_path)
   assert(new Set(relocationSources).size === relocationSources.length, '同じ旧記事を複数の relocate 元にできません')

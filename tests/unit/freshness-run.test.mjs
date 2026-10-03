@@ -1,3 +1,5 @@
+import { isolateGitForTests, fixtureGit, fixtureGitSpawn } from '../helpers/isolated-git.mjs'
+isolateGitForTests()
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -34,7 +36,7 @@ function gitFixture(t) {
   const directory = temporaryDirectory(t);
   const root = path.join(directory, 'checkout');
   fs.mkdirSync(root);
-  const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+  const git = (...args) => fixtureGit(args, { cwd: root, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] }).trim();
   git('init', '-b', 'main');
   git('config', 'user.name', 'Freshness Fixture');
   git('config', 'user.email', 'fixture@example.invalid');
@@ -485,6 +487,7 @@ function publicationFixture(t) {
   const manifest = {
     schema_version: 2, run_id: prepared.run_id, base_sha: prepared.base_sha, writer_run_id: 'fixture-writer', started_at: prepared.started_at, completed_at: completed, systems: prepared.systems,
     observations: [{ system_id: 'models-prompting', status: 'changed', summary: 'Fixture observation.', sources: [{ url: 'https://example.com/reference', accessed_at: prepared.started_at }], affected_docs: [article] }],
+    vendor_checks: ['anthropic', 'openai', 'google'].map(vendor => ({ vendor, release_notes: 'unchanged', deprecations: 'unchanged', pricing: 'unchanged', summary: 'Fixture vendor observation.', sources: [{ url: 'https://example.com/reference', accessed_at: prepared.started_at }] })),
     changes: [{ path: article, kind: 'substantive', observation_indices: [0], summary: 'Updated fixture claim.' }],
     review: { verdict: 'approved', risk: 'low', independent: true, reviewer_run_id: 'fixture-reviewer', reviewed_at: completed, content_digest: '0'.repeat(64) },
   };

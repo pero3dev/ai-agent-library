@@ -2,7 +2,7 @@
 import { closeSync, existsSync, fstatSync, ftruncateSync, openSync, readFileSync, realpathSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { GIT_CONVENTIONS, formatSquashMessage, validateCommitMessage, validateCommitRange, validateGitConventions, validatePr } from './lib/git-conventions.mjs'
+import { GIT_CONVENTIONS, formatSquashMessage, validateCommitMessage, validatePrRange, validateGitConventions, validatePr } from './lib/git-conventions.mjs'
 
 const implementationRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 
@@ -65,7 +65,7 @@ export function checkGitConventions(args, cwd = process.cwd()) {
     problems.push(...validatePr(pr))
     if (options.base) {
       if (pr.baseRefOid !== undefined && pr.baseRefOid !== options.base || pr.headRefOid !== undefined && pr.headRefOid !== options.head) throw new Error('PR metadata の base/head SHA と検査範囲が一致しません')
-      evidence = validateCommitRange({ root, base: options.base, head: options.head })
+      evidence = validatePrRange({ root, base: options.base, head: options.head, pr })
     }
   }
   if (options.event) {
@@ -73,7 +73,7 @@ export function checkGitConventions(args, cwd = process.cwd()) {
     const pr = event.pull_request
     if (!pr || pr.base?.ref !== GIT_CONVENTIONS.base_branch || typeof pr.head?.ref !== 'string' || pr.head.ref === pr.base.ref) throw new Error(`${GIT_CONVENTIONS.base_branch} を base とする pull_request イベントが必要です`)
     problems.push(...validatePr({ title: pr.title, body: pr.body, branch: pr.head.ref }))
-    evidence = validateCommitRange({ root, base: pr.base.sha, head: pr.head.sha })
+    evidence = validatePrRange({ root, base: pr.base.sha, head: pr.head.sha, pr: { title: pr.title, body: pr.body } })
   }
   if (options['squash-file']) {
     const pr = json(path.resolve(cwd, options['squash-file']))
@@ -85,7 +85,7 @@ export function checkGitConventions(args, cwd = process.cwd()) {
     return { valid: true, subject: output.subject, body_file: bodyFile }
   }
   problems = [...problems, ...(evidence.problems ?? [])]
-  return { valid: problems.length === 0, problems, checked_commits: evidence.checked_commits, checked_merges: evidence.checked_merges }
+  return { valid: problems.length === 0, problems, checked_commits: evidence.checked_commits, checked_merges: evidence.checked_merges, ...(evidence.advisory_problems ? { advisory_problems: evidence.advisory_problems, comparison_base: evidence.comparison_base, squash_validated: evidence.squash_validated } : {}) }
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

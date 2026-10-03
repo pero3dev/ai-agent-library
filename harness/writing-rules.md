@@ -49,7 +49,7 @@ ROADMAP.md は **タスク単位** の進捗だけを管理します。対応関
 | 図版のエクスポート画像 | `<セクション番号>-<トピック>-<内容>.<拡張子>` | `01-agent-loop-overview.svg` |
 | H1 見出し | ファイルに 1 つだけ。日本語のトピック名(front matter の `title` と一致させる) | `# Agent ループ` |
 | H2 見出し | テンプレート指定の固定セクション名を変更しない | `## 実務での注意点` |
-| front matter の `tags` | 英語ケバブケース。原則としてファイル名や GLOSSARY 見出しに使われている語を再利用する。新規タグを導入する前に既存タグを grep し、同義語の揺れ(例: `tools` と `tool-use`)を作らない | `["tool-use", "function-calling"]` |
+| front matter の `tags` | 英語ケバブケース。原則としてファイル名や GLOSSARY 見出しに使われている語を再利用する。1 記事だけのタグも、GLOSSARY・記事名・本文で定義する独立した対象/手法/用途を示し、共通タグだけでは検索で区別できない場合は残せる。略称・同義語は代表表記に寄せ、頻度だけを理由に主題タグを削除しない。新規タグを導入する前に既存タグを grep し、同義語の揺れ(例: `tools` と `tool-use`)を作らない | `["tool-use", "function-calling"]` |
 
 - ファイル名の英語は、業界で一般的な用語をそのまま使う(`rag` を `retrieval-augmented-generation` と過剰展開しない。慣用に従う: `rag-vs-agent.md` は可)
 - 略語も小文字にする(正: `llm-as-a-judge.md` / 誤: `LLM-as-a-Judge.md`)
@@ -57,6 +57,8 @@ ROADMAP.md は **タスク単位** の進捗だけを管理します。対応関
 ## ドキュメント構造(テンプレート準拠)
 
 `docs/` の学習記事は次の構造を持つこと。セクション README、GLOSSARY、ROADMAP、調査・運用文書、スキルには記事テンプレートを強制しません。詳細は [templates/doc-template.md](../templates/doc-template.md) を参照。
+
+難易度 `level` は内容から判定します。`basic` は LLM API の利用経験と一般的なソフトウェア知識だけで読める入口・概観、`intermediate` は basic の概念を使う設計・運用判断、`advanced` は数式・内部実装の詳解、または複数の intermediate の設計を組み合わせた専門的な実装・評価です。製品名や記事の長さで固定しません。「前提知識」の必須記事は自分以下の level にします。より難しい任意の参考は「関連トピック」に移し、必須前提へ混ぜません。変更後は `node scripts/check-prerequisite-levels.mjs` で逆転 0 件を確認します。
 
 記事の front matter はトップレベルの 6 項目を 1 行ずつ記述します。文字列の単一・二重引用符、引用符外のコメント、単純な非引用文字列、1 行の tags 配列に対応します。入れ子・複数行値・不正な行は検証で拒否します。
 

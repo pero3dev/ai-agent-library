@@ -3,7 +3,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSyn
 import os from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
-import { sharedSkills, syncHarness } from '../../scripts/sync-harness.mjs'
+import { sharedSkills, sharedRoles, syncHarness } from '../../scripts/sync-harness.mjs'
 
 function fixture(t) {
   const base = path.resolve(os.tmpdir())
@@ -18,14 +18,16 @@ function fixture(t) {
     mkdirSync(path.join(root, '.agents/skills', skill), { recursive: true })
     writeFileSync(path.join(root, '.agents/skills', skill, 'SKILL.md'), `---\nname: ${skill}\ndescription: Valid description\n---\n\n# Work\n\nOriginal instruction.\n`)
   }
+  fsRoleSources(root)
   return root
 }
+function fsRoleSources(root) { mkdirSync(path.join(root, 'harness/roles'), { recursive: true }); for (const role of sharedRoles) writeFileSync(path.join(root,'harness/roles',role+'.json'), readFileSync(new URL('../../harness/roles/'+role+'.json', import.meta.url))); }
 
 test('check reports missing outputs without writing; generation is deterministic and excludes Codex-only skill', t => {
   const root = fixture(t)
-  assert.equal(syncHarness(root).mismatches.length, 5)
-  assert.equal(syncHarness(root).mismatches.length, 5)
-  assert.equal(syncHarness(root, { write: true }).written.length, 5)
+  assert.equal(syncHarness(root).mismatches.length, 9)
+  assert.equal(syncHarness(root).mismatches.length, 9)
+  assert.equal(syncHarness(root, { write: true }).written.length, 9)
   assert.deepEqual(syncHarness(root), { mismatches: [], unexpected: [], written: [] })
   assert.equal(syncHarness(root, { write: true }).written.length, 0)
   assert.throws(() => readFileSync(path.join(root, '.claude/skills/freshness-maintenance/SKILL.md')), { code: 'ENOENT' })
@@ -57,6 +59,22 @@ test('changed generated content is detected; harmless checkout line endings do n
   assert.equal(syncHarness(root).mismatches.length, 0)
   writeFileSync(target, original.replace('Common contract.', 'Different contract.'))
   assert.deepEqual(syncHarness(root).mismatches, ['CLAUDE.md'])
+})
+
+test('reviewer definitions share canonical instructions and drift is detected on either client', t => {
+  const root = fixture(t)
+  syncHarness(root, { write: true })
+  const canonical = JSON.parse(readFileSync(path.join(root, 'harness/roles/doc-reviewer.json'), 'utf8'))
+  for (const file of ['.codex/agents/doc-reviewer.toml', '.claude/agents/doc-reviewer.md']) {
+    const target = path.join(root, file), original = readFileSync(target, 'utf8')
+    assert.match(original, /harness\/writing-rules\.md/)
+    assert.match(original, /git show/)
+    assert.match(original, /--print-digest/)
+    writeFileSync(target, original.replace('git show', 'untrusted reader'))
+    assert.deepEqual(syncHarness(root).mismatches, [file])
+    writeFileSync(target, original)
+  }
+  assert.match(canonical.instructions, /候補 tree/)
 })
 
 test('unexpected compatibility instructions prevent writes and are never deleted', t => {

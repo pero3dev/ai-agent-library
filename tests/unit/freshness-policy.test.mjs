@@ -1,3 +1,5 @@
+import { isolateGitForTests, fixtureGit, fixtureGitSpawn } from '../helpers/isolated-git.mjs'
+isolateGitForTests()
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
@@ -12,7 +14,7 @@ const manifestPath = `research/freshness-runs/${runId}.json`
 const article = text => `---\ntitle: "Agent ループ"\ncategory: "concepts"\nlevel: "basic"\nstatus: "published"\nlast_updated: "2026-09-09"\ntags: ["agent-loop"]\n---\n\n# Agent ループ\n\n## 本文\n\n${text}\n\n## 参考資料\n\n- [公式](https://example.com/original)(アクセス日: 2026-09-09)\n\n## TODO・未確認事項\n\nなし\n`
 const roadmap = `# ROADMAP\n\n<!-- freshness-registry:start -->\n| ID | 系統 | 記事対象 | 調査起点 | 周期(日) |\n| --- | --- | --- | --- | --- |\n| concepts | 概念 | \`docs/01-concepts/*.md\` | \`research/concepts/guide.md\` | 42 |\n<!-- freshness-registry:end -->\n\n<!-- freshness-watchlist:start -->\n- 次の確認: 停止条件\n<!-- freshness-watchlist:end -->\n`
 
-function fixture(t, originalText = '元の主張です。') {
+function fixture(t, originalText = '元の主張です。', { systemId = 'concepts', date = '2026-09-10' } = {}) {
   const temp = path.resolve(os.tmpdir())
   const cwd = mkdtempSync(path.join(temp, 'ai-agent-freshness-policy-'))
   t.after(() => {
@@ -20,27 +22,29 @@ function fixture(t, originalText = '元の主張です。') {
     assert.ok(path.basename(cwd).startsWith('ai-agent-freshness-policy-'))
     rmSync(cwd, { force: true, recursive: true })
   })
-  const git = args => execFileSync('git', ['-c', 'core.autocrlf=false', ...args], { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim()
+  const git = (args, input) => fixtureGit(['-c', 'core.autocrlf=false', ...args], { cwd, input, encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] }).trim()
   const write = (file, text) => {
     mkdirSync(path.dirname(path.join(cwd, file)), { recursive: true })
     writeFileSync(path.join(cwd, file), text, 'utf8')
   }
   const tree = () => { git(['add', '--all']); return git(['write-tree']) }
   git(['init', '--quiet'])
-  write('ROADMAP.md', roadmap)
+  git(['config', 'user.name', 'Policy Fixture'])
+  git(['config', 'user.email', 'fixture@example.invalid'])
+  write('ROADMAP.md', roadmap.replace('| concepts |', `| ${systemId} |`))
   write('GLOSSARY.md', '# 用語集\n')
   write('research/concepts/guide.md', '# 調査メモ\n')
   write(articlePath, article(originalText))
   write('docs/01-concepts/README.md', '# 概念\n')
   const base = tree()
-  write(articlePath, article('一次資料で確認した主張です。').replace('last_updated: "2026-09-09"', 'last_updated: "2026-09-10"'))
+  write(articlePath, article('一次資料で確認した主張です。').replace('last_updated: "2026-09-09"', `last_updated: "${date}"`))
   const manifest = {
     schema_version: 2, run_id: runId, base_sha: base, writer_run_id: 'writer-001',
-    started_at: '2026-09-10T00:00:00Z', completed_at: '2026-09-10T01:00:00Z', systems: ['concepts'],
-    observations: [{ system_id: 'concepts', status: 'changed', summary: '一次情報を確認しました。',
-      sources: [{ url: 'https://example.com/official', accessed_at: '2026-09-10T00:10:00Z', published_at: '2026-09-09' }], affected_docs: [articlePath] }],
+    started_at: `${date}T00:00:00Z`, completed_at: `${date}T01:00:00Z`, systems: [systemId],
+    observations: [{ system_id: systemId, status: 'changed', summary: '一次情報を確認しました。',
+      sources: [{ url: 'https://example.com/official', accessed_at: `${date}T00:10:00Z`, published_at: '2026-09-09' }], affected_docs: [articlePath] }],
     changes: [{ path: articlePath, kind: 'substantive', observation_indices: [0], summary: '本文の主張を更新しました。' }],
-    review: { verdict: 'approved', risk: 'low', independent: true, reviewer_run_id: 'reviewer-002', reviewed_at: '2026-09-10T00:50:00Z', content_digest: '0'.repeat(64) }
+    review: { verdict: 'approved', risk: 'low', independent: true, reviewer_run_id: 'reviewer-002', reviewed_at: `${date}T00:50:00Z`, content_digest: '0'.repeat(64) }
   }
   const finish = ({ refreshDigest = true } = {}) => {
     write(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)
@@ -48,7 +52,7 @@ function fixture(t, originalText = '元の主張です。') {
     write(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)
     return tree()
   }
-  const check = options => checkFreshnessPolicy({ cwd, base, head: finish(options), branch: `automation/freshness-${runId}`, now: Date.parse('2026-09-10T02:00:00Z') })
+  const check = options => checkFreshnessPolicy({ cwd, base, head: finish(options), branch: `automation/freshness-${runId}`, now: Date.parse(`${date}T02:00:00Z`) })
   return { cwd, base, git, write, tree, manifest, finish, check }
 }
 
@@ -272,4 +276,42 @@ test('schema itself remains strict about bounded systems and independent review'
   assert.equal(schema.properties.systems.maxItems, 3)
   assert.equal(schema.properties.review.properties.independent.const, true)
   assert.throws(() => validateResultShape({}), /必須/)
+})
+
+test('stale automated article PR uses merge-base and excludes unrelated main code changes', t => {
+  const f = fixture(t)
+  const baseCommit = f.git(['commit-tree', f.base, '-m', 'baseline'])
+  f.manifest.base_sha = baseCommit
+  const head = f.git(['commit-tree', f.finish(), '-p', baseCommit, '-m', 'candidate'])
+  const unrelated = f.git(['hash-object', '-w', '--stdin'], 'main-only code\n')
+  f.git(['read-tree', f.base])
+  f.git(['update-index', '--add', '--cacheinfo', `100644,${unrelated},scripts/main-only.mjs`])
+  const main = f.git(['commit-tree', f.git(['write-tree']), '-p', baseCommit, '-m', 'main code'])
+  assert.equal(checkFreshnessPolicy({ cwd: f.cwd, base: main, head, branch: `automation/freshness-${runId}`, now: Date.parse('2026-09-10T12:00:00Z') }).articles, 1)
+})
+
+test('model runs record all three vendors, including unchecked vendors, before declaring coverage', t => {
+  const f = fixture(t, '元の主張です。', { systemId: 'models-prompting', date: '2026-10-03' })
+  assert.throws(() => f.check(), /vendor_checks/)
+  f.manifest.vendor_checks = ['anthropic', 'openai', 'google'].map(vendor => ({ vendor, release_notes: 'unchanged', deprecations: 'unchanged', pricing: 'not_checked', summary: '価格は未確認。リリースと廃止表を確認しました。', sources: [{ url: 'https://example.com/official', accessed_at: '2026-10-03T00:20:00Z' }] }))
+  assert.equal(f.check().articles, 1)
+  f.manifest.coverage = [{ system_id: 'models-prompting', scope: 'declared-system', status: 'verified', verified_on: '2026-10-03', description: '宣言した3社の確認を完了しました。' }]
+  assert.throws(() => f.check(), /主要ベンダー確認/)
+  for (const row of f.manifest.vendor_checks) row.pricing = 'unchanged'
+  assert.equal(f.check().articles, 1)
+  f.finish()
+  f.manifest.vendor_checks[0].summary = 'レビュー後の別の確認内容です。'
+  assert.throws(() => f.check({ refreshDigest: false }), /content_digest/)
+})
+
+test('declared coverage is bound to review digest and cannot hide an unverified observation', t => {
+  const f = fixture(t)
+  f.manifest.coverage = [{ system_id: 'concepts', scope: 'declared-system', status: 'verified', verified_on: '2026-09-10', description: '宣言した対象を確認しました。' }]
+  assert.equal(f.check().articles, 1)
+  f.manifest.observations.push({ system_id: 'concepts', status: 'unverifiable', summary: '対象内の別の主張を確認できません。', sources: [], affected_docs: [] })
+  assert.throws(() => f.check(), /未確認・失敗/)
+  f.manifest.observations.pop()
+  f.finish()
+  f.manifest.coverage[0].description = 'レビュー後に拡張した確認範囲です。'
+  assert.throws(() => f.check({ refreshDigest: false }), /content_digest/)
 })

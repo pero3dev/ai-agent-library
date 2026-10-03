@@ -18,6 +18,7 @@
     "subjects": ["chore(harness): 作業状態を保存する", "test(harness): 隔離評価環境を準備する"],
     "generated_by": "ai-agent-library"
   },
-  "range_policy": "all-new-commits",
+  "range_policy": "canonical-squash-and-automation",
+  "branch_prefixes": ["codex", "claude"],
   "base_branch": "main"
 }

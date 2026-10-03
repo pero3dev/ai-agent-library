@@ -1,3 +1,5 @@
+import { isolateGitForTests, fixtureGit, fixtureGitSpawn } from '../helpers/isolated-git.mjs'
+isolateGitForTests()
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -18,7 +20,7 @@ function fixture(t) {
   const checkout = path.join(directory, 'checkout');
   fs.mkdirSync(checkout);
   const git = (...args) => {
-    const result = spawnSync('git', args, { cwd: checkout, encoding: 'utf8', windowsHide: true });
+    const result = fixtureGitSpawn(args, { cwd: checkout, encoding: 'utf8', windowsHide: true });
     assert.equal(result.status, 0, result.stderr);
     return result.stdout;
   };

@@ -158,6 +158,21 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          fetch-depth: 0
+      - name: Detect theme changes for before/after evidence
+        id: theme-changes
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if git diff --quiet "$BASE_SHA" "$HEAD_SHA" -- website/app/docs.css website/components/home/home.css; then
+            echo 'changed=false' >> "$GITHUB_OUTPUT"
+          else
+            result=$?
+            if [ "$result" -ne 1 ]; then exit "$result"; fi
+            echo 'changed=true' >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 22
@@ -177,6 +192,40 @@ jobs:
       - name: Install browser for regression checks
         run: npx playwright install --with-deps chromium
         working-directory: website
+      - name: Install Firefox for appearance checks
+        run: npx playwright install --with-deps firefox
+        working-directory: website
+      # PR base の静的出力を同じ撮影helperで比較する。候補CSSを戻した画像をbeforeにしない。
+      - name: Check out theme comparison baseline
+        if: steps.theme-changes.outputs.changed == 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: .local/theme-baseline
+          persist-credentials: false
+      - name: Audit theme baseline dependencies
+        if: steps.theme-changes.outputs.changed == 'true'
+        run: npm audit --package-lock-only --audit-level=high
+        working-directory: .local/theme-baseline/website
+      - name: Install theme baseline dependencies
+        if: steps.theme-changes.outputs.changed == 'true'
+        run: npm ci
+        working-directory: .local/theme-baseline/website
+      - name: Build theme comparison baseline
+        if: steps.theme-changes.outputs.changed == 'true'
+        run: npm run build:clean
+        working-directory: .local/theme-baseline/website
+        env:
+          STATIC_EXPORT: '1'
+          NEXT_PUBLIC_BASE_PATH: ${{ vars.SITE_BASE_PATH || '' }}
+          NEXT_PUBLIC_SITE_URL: ${{ vars.SITE_URL || '' }}
+      - name: Capture theme before screenshots
+        if: steps.theme-changes.outputs.changed == 'true'
+        run: node scripts/capture-theme-evidence.mjs --export-root ../.local/theme-baseline/website/out --output-dir ../.local/theme-evidence/before --revision "$BASE_SHA"
+        working-directory: website
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          NEXT_PUBLIC_BASE_PATH: ${{ vars.SITE_BASE_PATH || '' }}
       - name: Build (static export)
         run: npm run build:clean
         working-directory: website
@@ -184,11 +233,36 @@ jobs:
           STATIC_EXPORT: '1'
           NEXT_PUBLIC_BASE_PATH: ${{ vars.SITE_BASE_PATH || '' }}
           NEXT_PUBLIC_SITE_URL: ${{ vars.SITE_URL || '' }}
+      - name: Capture theme after screenshots
+        if: steps.theme-changes.outputs.changed == 'true'
+        run: node scripts/capture-theme-evidence.mjs --export-root out --output-dir ../.local/theme-evidence/after --revision "$GITHUB_SHA"
+        working-directory: website
+        env:
+          EVIDENCE_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          NEXT_PUBLIC_BASE_PATH: ${{ vars.SITE_BASE_PATH || '' }}
       - name: Browser regression checks
         run: npm run test:browser
         working-directory: website
         env:
           NEXT_PUBLIC_BASE_PATH: ${{ vars.SITE_BASE_PATH || '' }}
+      - name: Firefox site appearance checks
+        run: npx playwright test site-appearance.spec.mjs --output ../.local/appearance-results/firefox
+        working-directory: website
+        env:
+          PLAYWRIGHT_BROWSER: firefox
+          NEXT_PUBLIC_BASE_PATH: ${{ vars.SITE_BASE_PATH || '' }}
+      - name: Retain browser results and theme comparison evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: browser-and-theme-evidence-${{ github.run_id }}
+          path: |
+            .local/theme-evidence
+            .local/appearance-results/firefox
+            website/test-results
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 90
       # 検索・キーボード・Mermaid のブラウザー検査を通った出力だけを公開する。
       - name: Upload Pages artifact
         if: github.ref == 'refs/heads/main'
@@ -282,6 +356,21 @@ jobs:
           PLAYWRIGHT_BROWSER: webkit
           NEXT_PUBLIC_BASE_PATH: /__audio-test
           NEXT_PUBLIC_SITE_URL: http://127.0.0.1:4183/__audio-test
+      - name: WebKit site appearance checks
+        run: npx playwright test site-appearance.spec.mjs --output ../.local/appearance-results/webkit
+        working-directory: website
+        env:
+          PLAYWRIGHT_BROWSER: webkit
+          NEXT_PUBLIC_BASE_PATH: /__audio-test
+      - name: Retain WebKit appearance evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: webkit-appearance-evidence-${{ github.run_id }}
+          path: .local/appearance-results/webkit
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 90
 
   deploy:
     if: github.ref == 'refs/heads/main' && vars.DEPLOY_PAGES == 'true'

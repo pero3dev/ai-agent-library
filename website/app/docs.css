@@ -3,10 +3,48 @@
 
 :root {
   --site-text-secondary: #62626c;
+  --site-accent: #4f46e5;
+  --site-fog-violet: #7c3aed;
+  --site-fog-accent-amount: 18%;
+  --site-fog-violet-amount: 12%;
 }
 
 .dark {
   --site-text-secondary: #b4b4be;
+  --site-accent: #818cf8;
+  --site-fog-violet: #a78bfa;
+  --site-fog-accent-amount: 5.76%;
+  --site-fog-violet-amount: 3.84%;
+}
+
+/* html の背景と本文の間に固定し、中心の読書領域と操作を妨げない。 */
+body {
+  isolation: isolate;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 75% 70% at 50% 42%,
+      transparent 55%,
+      color-mix(in oklab, var(--site-accent) var(--site-fog-accent-amount), transparent)
+    ),
+    radial-gradient(
+      28rem 20rem at 0% 100%,
+      color-mix(in oklab, var(--site-fog-violet) var(--site-fog-violet-amount), transparent),
+      transparent 70%
+    );
+}
+
+@media print {
+  body::before {
+    display: none;
+  }
 }
 
 .site-footer-content {
@@ -151,8 +189,9 @@ article .katex-display:focus-visible {
 }
 
 .dark .todo-callout {
-  border-color: #92700c;
-  background: #2a2205;
+  border-color: #403b33;
+  border-left-color: #6c582a;
+  background: #121211;
 }
 
 .todo-callout-label {
@@ -165,7 +204,7 @@ article .katex-display:focus-visible {
 }
 
 .dark .todo-callout-label {
-  color: #fcd34d;
+  color: #eed58b;
 }
 
 .todo-callout-body {
@@ -191,8 +230,8 @@ article .katex-display:focus-visible {
 }
 
 .dark .practice-antipattern {
-  border-color: #7f1d1d;
-  background: #1c0f0f;
+  border-color: #402e30;
+  background: #121111;
 }
 
 .practice-antipattern > ul {
@@ -217,7 +256,7 @@ article .katex-display:focus-visible {
 }
 
 .dark .practice-antipattern > ul > li::before {
-  color: #f87171;
+  color: #f09896;
 }
 
 .practice-antipattern > ul > li + li {
@@ -225,7 +264,7 @@ article .katex-display:focus-visible {
 }
 
 .dark .practice-antipattern > ul > li + li {
-  border-top-color: #7f1d1d;
+  border-top-color: #402e30;
 }
 
 .practice-checklist {
@@ -234,8 +273,8 @@ article .katex-display:focus-visible {
 }
 
 .dark .practice-checklist {
-  border-color: #14532d;
-  background: #0c1a10;
+  border-color: #2c3632;
+  background: #111111;
 }
 
 .practice-checklist ul {
@@ -255,6 +294,10 @@ article .katex-display:focus-visible {
   vertical-align: -0.18rem;
   accent-color: #16a34a;
   cursor: pointer;
+}
+
+.dark .checklist-box {
+  accent-color: #70b67f;
 }
 
 /* ---------- 用語リンク(ホバーで要約) ---------- */

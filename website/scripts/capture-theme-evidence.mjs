@@ -56,13 +56,24 @@ try {
         await context.addInitScript(value => localStorage.setItem('theme', value), theme)
         await context.route('**/*', route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort())
         const page = await context.newPage()
-        const capture = async (name, pathname, selector) => {
+        const capture = async (name, pathname, selector, sidebarState) => {
           const response = await page.goto(`${origin}${basePath}${pathname}`)
           if (response.status() !== 200) throw new Error(`${pathname}: HTTP ${response.status()}`)
           await page.locator('main h1').first().waitFor({ state: 'visible' })
           await page.waitForFunction(value => document.documentElement.classList.contains(value), theme)
           await page.waitForFunction(() => document.querySelector('.site-theme-switch')?.disabled === false)
           await page.evaluate(() => document.fonts.ready)
+          if (sidebarState) {
+            const sidebar = page.locator('aside.nextra-sidebar')
+            const scroller = sidebar.locator(':scope > div').first()
+            await scroller.evaluate((element, scrolled) => { element.scrollTop = scrolled ? element.scrollHeight : 0 }, sidebarState.scrolled)
+            if (sidebarState.collapsed) {
+              await sidebar.getByRole('button', { name: 'Collapse sidebar', exact: true }).click()
+              await page.waitForFunction(() => document.querySelector('aside.nextra-sidebar')?.getBoundingClientRect().width === 80)
+            }
+            // Finish Nextra's button fade and width transitions before comparing pixels.
+            await sidebar.evaluate(async element => { await Promise.all(element.getAnimations({ subtree: true }).map(animation => animation.finished.catch(() => {}))) })
+          }
           if (selector) await page.locator(selector).first().scrollIntoViewIfNeeded()
           if (selector === '.practice-checklist') await page.locator('.practice-checklist .checklist-box').first().check()
           const file = `${device}-${theme}-${name}.png`
@@ -72,12 +83,27 @@ try {
             pageBackground: getComputedStyle(document.documentElement).backgroundColor,
             fog: getComputedStyle(document.body, '::before').backgroundImage,
             documentWidth: document.documentElement.scrollWidth,
-            viewportWidth: innerWidth
+            viewportWidth: innerWidth,
+            sidebar: document.querySelector('aside.nextra-sidebar') ? {
+              width: document.querySelector('aside.nextra-sidebar').getBoundingClientRect().width,
+              background: getComputedStyle(document.querySelector('aside.nextra-sidebar')).backgroundColor,
+              scrollTop: document.querySelector('aside.nextra-sidebar > div').scrollTop,
+              scrollHeight: document.querySelector('aside.nextra-sidebar > div').scrollHeight,
+              clientHeight: document.querySelector('aside.nextra-sidebar > div').clientHeight,
+              menuBackground: getComputedStyle(document.querySelector('aside.nextra-sidebar > div')).backgroundColor,
+              footerBackground: getComputedStyle(document.querySelector('.nextra-sidebar-footer')).backgroundColor,
+              footerBlur: getComputedStyle(document.querySelector('.nextra-sidebar-footer')).backdropFilter
+            } : null
           }))
-          evidence.push({ file, pathname, selector: selector || null, theme, viewport, sha256: createHash('sha256').update(pixels).digest('hex'), styles })
+          evidence.push({ file, pathname, selector: selector || null, sidebar_state: sidebarState || null, theme, viewport, sha256: createHash('sha256').update(pixels).digest('hex'), styles })
         }
         await capture('home', '/')
         await capture('article', '/docs/concepts/agent-loop')
+        if (device === 'pc') {
+          for (const collapsed of [false, true]) for (const scrolled of [false, true]) {
+            await capture(`sidebar-${collapsed ? 'collapsed' : 'open'}-${scrolled ? 'scrolled' : 'top'}`, '/docs/concepts/agent-loop', null, { collapsed, scrolled })
+          }
+        }
         if (theme === 'dark') {
           await capture('todo', '/docs/concepts/agent-loop', '.todo-callout')
           await capture('antipattern', '/docs/architecture/workflow-vs-agent', '.practice-antipattern')

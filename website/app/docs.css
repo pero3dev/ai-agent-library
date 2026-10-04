@@ -41,6 +41,15 @@ body::before {
     );
 }
 
+/* PC サイドバーの操作欄もナビバーと同じ透過率にし、背後の霧をつなぐ。
+   --nextra-bg はカンマ区切りの RGB。幅のクラスに依存せず折りたたみ時も適用する。
+   モバイルの全画面メニューは、不透明な背景で本文との重なりを防ぐ。 */
+.nextra-sidebar > .nextra-sidebar-footer {
+  background-color: color-mix(in oklab, rgb(var(--nextra-bg)) 70%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
 @media print {
   body::before {
     display: none;

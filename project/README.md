@@ -6,6 +6,8 @@
 
 ## 構造・運用の計画
 
+サイドバー下部にも背景の霧を透かす Issue #218 は[2026-10-04の実施記録](records/2026-10-04/sidebar-footer-fog.md)で、開閉・スクロール・両テーマの画面証拠と修正・公開の結果を追跡します。
+
 サイト背景の霧とダークテーマの装飾色の Issue #215・#216 は[2026-10-04の実施記録](records/2026-10-04/site-fog-and-dark-callouts.md)で、実装・画面・検証・公開の証拠を追跡します。
 
 第3回総合レビューの全43Issueは[解決記録](records/2026-10-03/third-review-resolution.md)で追跡します。[記事の修正](records/2026-10-03/third-review-article-remediation.md)、[サイトの修正](records/2026-10-03/third-review-website-remediation.md)、[前提知識55件の判断](records/2026-10-03/prerequisite-level-audit.md)、[タグ193件の判断](records/2026-10-03/tag-singleton-audit.md)、[公開記録の保持とパスの扱い](records/2026-10-03/public-records-retention.md)、[執筆履歴の移行](records/2026-10-03/roadmap-history-migration.json)から担当範囲と証拠を確認できます。IssueのCloseは[根拠と全完了条件の照合](../harness/git-rules.md#issueのcloseと解消の証拠)を満たしてから行います。

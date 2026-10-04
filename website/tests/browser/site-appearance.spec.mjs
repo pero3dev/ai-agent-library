@@ -127,6 +127,72 @@ for (const theme of ['light', 'dark']) {
     })
   }
 
+  test(`sidebar footer lets fog through while scrolling, collapsing and navigating: ${theme}`, async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.addInitScript(value => localStorage.setItem('theme', value), theme)
+    await page.goto(`${base}/docs/concepts/agent-loop`)
+    await page.waitForLoadState('networkidle')
+    await expect(page.locator('html')).toHaveClass(new RegExp(`\\b${theme}\\b`))
+    const sidebar = page.locator('.nextra-sidebar')
+    const scroll = sidebar.locator(':scope > .nextra-scrollbar')
+    const footer = sidebar.locator(':scope > .nextra-sidebar-footer')
+    const toggle = footer.locator('button[aria-expanded]')
+    const initialWidth = (await sidebar.boundingBox()).width
+    const expectTranslucentFooter = async () => {
+      const colors = await footer.evaluate(element => {
+        const canvas = document.createElement('canvas')
+        canvas.width = canvas.height = 1
+        const context = canvas.getContext('2d')
+        const rgba = target => {
+          context.clearRect(0, 0, 1, 1)
+          context.fillStyle = getComputedStyle(target).backgroundColor
+          context.fillRect(0, 0, 1, 1)
+          return [...context.getImageData(0, 0, 1, 1).data]
+        }
+        return { footer: rgba(element), navbar: rgba(document.querySelector('.nextra-navbar-blur')) }
+      })
+      expect(colors.footer[3] / 255).toBeCloseTo(0.7, 2)
+      expect(colors.footer).toEqual(colors.navbar)
+      await expect(footer).toHaveCSS('backdrop-filter', 'blur(12px)')
+      await expect(footer).toHaveCSS('position', 'sticky')
+      await expect(sidebar).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+      await expect(scroll).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+      await expect(toggle).toBeInViewport()
+      expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1)
+    }
+    await expectTranslucentFooter()
+
+    const active = sidebar.locator(`li.active > a[href="${base}/docs/concepts/agent-loop"]`)
+    const destination = sidebar.locator(`a[href="${base}/docs/concepts/tool-use"]`)
+    await expect(active).toBeVisible()
+    const inactiveBackground = await destination.evaluate(element => getComputedStyle(element).backgroundColor)
+    expect(await active.evaluate(element => getComputedStyle(element).backgroundColor)).not.toBe(inactiveBackground)
+    await destination.hover()
+    await expect.poll(() => destination.evaluate(element => getComputedStyle(element).backgroundColor)).not.toBe(inactiveBackground)
+    await page.mouse.move(720, 450)
+    await expect(destination).toHaveCSS('background-color', inactiveBackground)
+
+    // Scroll the navigation itself to its end, then exercise the sticky control.
+    await scroll.evaluate(element => { element.scrollTop = element.scrollHeight })
+    await expect.poll(() => scroll.evaluate(element => element.scrollTop)).toBeGreaterThan(0)
+    await expect.poll(() => scroll.evaluate(element => element.scrollHeight - element.clientHeight - element.scrollTop)).toBeLessThanOrEqual(1)
+    await expectTranslucentFooter()
+    await toggle.focus()
+    await page.keyboard.press('Enter')
+    await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    await expect.poll(async () => (await sidebar.boundingBox()).width).toBe(80)
+    await expectTranslucentFooter()
+    await toggle.focus()
+    await page.keyboard.press('Enter')
+    await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    await expect.poll(async () => (await sidebar.boundingBox()).width).toBe(initialWidth)
+    await expectTranslucentFooter()
+    await destination.click()
+    await expect(page).toHaveURL(/\/docs\/concepts\/tool-use(?:\.html)?\/?$/)
+    await expect(page.locator('article h1')).toBeVisible()
+    await expect(page.locator('html')).toHaveClass(new RegExp(`\\b${theme}\\b`))
+  })
+
   test(`fog is disabled for print: ${theme}`, async ({ page }) => {
     await page.addInitScript(value => localStorage.setItem('theme', value), theme)
     await page.goto(`${base}${article}`)

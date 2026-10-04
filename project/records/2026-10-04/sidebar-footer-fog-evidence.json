@@ -1,0 +1,196 @@
+{
+  "schema_version": 1,
+  "issue": 218,
+  "verified_at": "2026-10-04T04:10:11.7873673Z",
+  "evidence_kind": "local-real-static-export",
+  "base_revision": "658062d8c3bf766f1c113b9ac4078489d7309de4",
+  "candidate_revision": null,
+  "candidate_css_sha256": "ff0d8b2475807730690b9f940abcd6bc29a03f97f04beb5b94ff231f137b2944",
+  "browser": "chromium",
+  "browser_version": "153.0.8010.12",
+  "base_path": "/ai-agent-library",
+  "before_count": 22,
+  "after_count": 22,
+  "all_44_image_hashes_match": true,
+  "manifests": {
+    "after_sha256": "4acbea071e69e95d3c058a599a904381e66a66d195196d934f2ef03fcbbf8885",
+    "before_sha256": "5094db9c915e5e9216d2f012ee9eee5f766cc330c47f373eb1b550c1714d24bf"
+  },
+  "sidebar_after": [
+    {
+      "file": "pc-light-sidebar-open-top.png",
+      "theme": "light",
+      "state": {
+        "collapsed": false,
+        "scrolled": false
+      },
+      "sha256": "3b9af494a8a2051b403f2d8efd76aa0d0a0480331cfb21b0c5eaf21a2dd9f730",
+      "styles": {
+        "width": 240,
+        "background": "rgba(0, 0, 0, 0)",
+        "scrollTop": 0,
+        "scrollHeight": 1556,
+        "clientHeight": 775,
+        "menuBackground": "rgba(0, 0, 0, 0)",
+        "footerBackground": "oklab(0.985098 0.0000447631 0.0000197291 / 0.7)",
+        "footerBlur": "blur(12px)"
+      }
+    },
+    {
+      "file": "pc-light-sidebar-open-scrolled.png",
+      "theme": "light",
+      "state": {
+        "collapsed": false,
+        "scrolled": true
+      },
+      "sha256": "b9817b6a45ba9a21d312af1874e84b431e572956de79e35458c9b7cc39887221",
+      "styles": {
+        "width": 240,
+        "background": "rgba(0, 0, 0, 0)",
+        "scrollTop": 781,
+        "scrollHeight": 1556,
+        "clientHeight": 775,
+        "menuBackground": "rgba(0, 0, 0, 0)",
+        "footerBackground": "oklab(0.985098 0.0000447631 0.0000197291 / 0.7)",
+        "footerBlur": "blur(12px)"
+      }
+    },
+    {
+      "file": "pc-light-sidebar-collapsed-top.png",
+      "theme": "light",
+      "state": {
+        "collapsed": true,
+        "scrolled": false
+      },
+      "sha256": "a2fce6d2110f8de31a559a18e85057fd0bcf9644907ce100fb65cf2969c44ab6",
+      "styles": {
+        "width": 80,
+        "background": "rgba(0, 0, 0, 0)",
+        "scrollTop": 0,
+        "scrollHeight": 1536,
+        "clientHeight": 775,
+        "menuBackground": "rgba(0, 0, 0, 0)",
+        "footerBackground": "oklab(0.985098 0.0000447631 0.0000197291 / 0.7)",
+        "footerBlur": "blur(12px)"
+      }
+    },
+    {
+      "file": "pc-light-sidebar-collapsed-scrolled.png",
+      "theme": "light",
+      "state": {
+        "collapsed": true,
+        "scrolled": true
+      },
+      "sha256": "a2fce6d2110f8de31a559a18e85057fd0bcf9644907ce100fb65cf2969c44ab6",
+      "styles": {
+        "width": 80,
+        "background": "rgba(0, 0, 0, 0)",
+        "scrollTop": 761,
+        "scrollHeight": 1536,
+        "clientHeight": 775,
+        "menuBackground": "rgba(0, 0, 0, 0)",
+        "footerBackground": "oklab(0.985098 0.0000447631 0.0000197291 / 0.7)",
+        "footerBlur": "blur(12px)"
+      }
+    },
+    {
+      "file": "pc-dark-sidebar-open-top.png",
+      "theme": "dark",
+      "state": {
+        "collapsed": false,
+        "scrolled": false
+      },
+      "sha256": "4b9ad43176a49222107c2c1a59305f1e8076b1ae1cdc64e808375c7a35b3dfa0",
+      "styles": {
+        "width": 240,
+        "background": "rgba(0, 0, 0, 0)",
+        "scrollTop": 0,
+        "scrollHeight": 1556,
+        "clientHeight": 775,
+        "menuBackground": "rgba(0, 0, 0, 0)",
+        "footerBackground": "oklab(0.177637 0.00000810623 0.00000356138 / 0.7)",
+        "footerBlur": "blur(12px)"
+      }
+    },
+    {
+      "file": "pc-dark-sidebar-open-scrolled.png",
+      "theme": "dark",
+      "state": {
+        "collapsed": false,
+        "scrolled": true
+      },
+      "sha256": "aa4d1bb4a1f694082b689ce261e4d8edf4d86dc7871030feb87566e3f0a6a72b",
+      "styles": {
+        "width": 240,
+        "background": "rgba(0, 0, 0, 0)",
+        "scrollTop": 781,
+        "scrollHeight": 1556,
+        "clientHeight": 775,
+        "menuBackground": "rgba(0, 0, 0, 0)",
+        "footerBackground": "oklab(0.177637 0.00000810623 0.00000356138 / 0.7)",
+        "footerBlur": "blur(12px)"
+      }
+    },
+    {
+      "file": "pc-dark-sidebar-collapsed-top.png",
+      "theme": "dark",
+      "state": {
+        "collapsed": true,
+        "scrolled": false
+      },
+      "sha256": "67bf1e32a625ab8e17f4aa3dd636cca17e0394dfbfdf21338241e27723b1d405",
+      "styles": {
+        "width": 80,
+        "background": "rgba(0, 0, 0, 0)",
+        "scrollTop": 0,
+        "scrollHeight": 1536,
+        "clientHeight": 775,
+        "menuBackground": "rgba(0, 0, 0, 0)",
+        "footerBackground": "oklab(0.177637 0.00000810623 0.00000356138 / 0.7)",
+        "footerBlur": "blur(12px)"
+      }
+    },
+    {
+      "file": "pc-dark-sidebar-collapsed-scrolled.png",
+      "theme": "dark",
+      "state": {
+        "collapsed": true,
+        "scrolled": true
+      },
+      "sha256": "67bf1e32a625ab8e17f4aa3dd636cca17e0394dfbfdf21338241e27723b1d405",
+      "styles": {
+        "width": 80,
+        "background": "rgba(0, 0, 0, 0)",
+        "scrollTop": 761,
+        "scrollHeight": 1536,
+        "clientHeight": 775,
+        "menuBackground": "rgba(0, 0, 0, 0)",
+        "footerBackground": "oklab(0.177637 0.00000810623 0.00000356138 / 0.7)",
+        "footerBlur": "blur(12px)"
+      }
+    }
+  ],
+  "validation": {
+    "root_tests": {
+      "fail": 0,
+      "pass": 520,
+      "skip": 3
+    },
+    "root_check": "passed",
+    "github_publication": "pending",
+    "focused_chromium": {
+      "fail": 0,
+      "pass": 23
+    },
+    "website_unit": {
+      "fail": 0,
+      "pass": 84
+    },
+    "static_export": {
+      "html": 232,
+      "exit_code": 0,
+      "routes": 230
+    }
+  },
+  "retention": "CI Actions artifact, 90 days; PR and Issue link final acquisition URL and revision"
+}

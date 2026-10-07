@@ -275,3 +275,22 @@ docs は本観測の結果を反映済み(llm-landscape / model-selection / open
 ## 2026-10-03 独立レビュー後の再照合
 
 公式 Deprecations を 2026-10-03T16:27:48Z の実時計で再確認しました。Cyber 行の終了期日は10/1ですが、後継は利用者が利用可能な最も高性能な cyber モデルと案内され、特定 ID は指定されていません。上の過去記録の gpt-5.6-cyber 指定を本日の表へ流用せず、llm-landscape 本文を同期しました。実 API 停止は未検証です。
+
+## 2026-10-08 Issue #220 再開の部分観測
+
+対象は [モデルカタログ](../../docs/03-implementation/llm-landscape.md) の GPT-6.1 Sol と既存 GPT-6 Sol / Luna との差分です。過去の表・観測日は当時の履歴として残します。この記録だけで models-prompting 系統全体の完了日を進めません。
+
+- GPT-6.1 Sol は 2026-09-29 公開、ID は `gpt-6.1-sol`。コンテキスト 1,050,000 / 最大出力 128,000、effort は low / medium(既定) / high / xhigh / max で、none / minimal は非対応です。
+- ツール呼出しは Responses API のみです。Chat Completions はツールなしで、旧 `gpt-6-sol` / `gpt-6-luna` の none 時の関数呼出し条件と分けます。
+- 272K 入力以下の Standard 単価(米ドル / MTok)は、入力 / キャッシュ読取 / 書込 / 出力が 2 / 0.10 / 2.50 / 10。旧 `gpt-6-sol` の読取 0.20 と異なります。272K 入力超の長文割増は別条件です。
+
+一次資料と実取得 UTC:
+
+| URL | 実取得日時 | 確認した範囲 |
+| --- | --- | --- |
+| [API Changelog](https://developers.openai.com/api/docs/changelog) | 2026-10-07T17:35:16Z | 6.1 Sol の公開日 |
+| [6.1 Sol](https://developers.openai.com/api/docs/models/gpt-6.1-sol) | 2026-10-07T17:38:22Z | モデル仕様、effort、API 制約、長文条件 |
+| [Pricing](https://developers.openai.com/api/docs/pricing) | 2026-10-07T17:35:16Z | 6.1 Sol の Standard 単価 |
+| [6 Sol](https://developers.openai.com/api/docs/models/gpt-6-sol) / [6 Luna](https://developers.openai.com/api/docs/models/gpt-6-luna) | 2026-10-07T17:40:59Z | 旧モデルの effort・API 制約、Sol のキャッシュ読取単価 |
+
+実 API・実請求・Azure 等の提供経路は未検証です。Cyber の 2026-10-01 期日の経過だけで実停止済みとは扱いません。全ベンダーの観測分類と残件は [実行の根拠記録](../freshness-runs/20261007t173132543z-fc61a4ee.json) を参照してください。

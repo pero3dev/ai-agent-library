@@ -3,7 +3,7 @@ title: "OpenAI Codex 実践ガイド"
 category: "coding-agents"
 level: "intermediate"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-10-08"
 tags: ["coding-agents", "cost-management", "prompt-caching"]
 ---
 
@@ -26,6 +26,8 @@ OpenAI Codex の機能(ローカル / クラウドの各面・スキル・サブ
 ## 本文
 
 > **最終確認日:** AGENTS.md の開始 cwd と読込範囲、サブエージェントの委任条件、モデル退役、Fast の速度・課金区分、定期タスクの実行場所・認証別課金、`CODEX_API_KEY` の対応範囲は 2026-09-10、その他は 2026-08-18 の公式ドキュメントに基づきます。制限値・レートは特に変わりやすいため、必ず公式ページ(参考資料)で最新値を確認してください。
+
+モデル別のキャッシュ入力レート、Fast の利用枠・課金区分と認証別退役は 2026-10-08 に部分再確認しました。AGENTS.md・定期タスク・その他の製品仕様まで再検証したという意味ではありません。
 
 ### 面の使い分けとハンドオフ
 
@@ -73,9 +75,9 @@ Codex は拡張機構が多いため、公式の使い分け指針(Customization
 
 AGENTS.md の例では、ルートで起動すると `services/payments/AGENTS.md` は開始時の探索経路に入りません。`codex --cd services/payments` で起動すれば、その経路上の指示が対象になります(各階層の override 優先・サイズ上限は別途適用)。ルートから作業する場合は、必要な下位規約を明示して読むよう依頼し、読込結果を確認する運用を選べます。明示参照は運用上の設計例であり、リンクを書くだけで参照先が自動注入される保証ではありません。[公式の探索・確認手順](https://learn.chatgpt.com/docs/agent-configuration/agents-md)(アクセス日: 2026-09-10)
 
-相対関係として押さえる価値がある事実(2026-08 時点、絶対値は変動): **キャッシュ済み入力は通常入力の約 1/10 のレート**(同一スレッドの継続はキャッシュが効きやすい)。モデル間の入力レートには数倍〜数十倍の差があります。
+2026-10-08 の公式 Pricing では、キャッシュ済み入力のレートはモデルごとに異なります。GPT-6.1 Sol は通常入力 50 / キャッシュ済み入力 2.5 credits per 1M tokens で **1/20**、GPT-6 Sol / Luna と GPT-5.6 系は **1/10** です。キャッシュが消費を抑える関係と、具体的なモデル別レートを分けて確認します。
 
-2026-09-10 の公式 Speed ページでは、ChatGPT 認証の Fast mode は GPT-5.6 / 5.5 で速度 1.5 倍、クレジット消費は標準の 2.5 倍と案内されています。同ページには GPT-5.4 の速度 1.5 倍・クレジット 2 倍の記載も残っていますが、ChatGPT 認証での GPT-5.4 は 2026-08-31 に提供終了しているため、現行の利用可能性を示すものではありません([モデルと認証方式の区別](openai-codex.md))。GPT-6 Astra は利用可能な場合に 2.5 倍のクレジットですが、速度倍率は同じと断定できません。API キー利用にはこのクレジット倍率を適用せず、API のトークン料金で見積もります。API Priority は別体系で、GPT-5.6 では標準 API 料金の 2 倍です。
+2026-10-08 の公式 Speed では、対応モデルの Fast mode は **契約に含まれる利用枠を標準の 2.5 倍で消費**し、**購入クレジットと Enterprise の従量利用は標準の 2 倍で課金**されます。この倍率は速度倍率ではありません。GPT-5.6 / 5.5 の速度向上は 1.5 倍と案内されていますが、GPT-6 系へ同じ速度倍率を一般化しません。利用可能性はプラン・クライアント・管理者設定・展開状況に依存します。API キー認証では API のトークン料金を使い、ChatGPT のクレジット倍率を適用しません。[モデルと認証方式の区別](openai-codex.md)も確認します。
 
 - 逆に、**サブエージェントの多用は消費を増やします**(「同等の単一エージェント実行よりトークンを消費する」と公式明記)。並列化の便益と消費のトレードオフで判断してください
 - 残量確認は CLI の `/status` と Web の使用量ダッシュボードです。コンパクションは自動(閾値は `model_auto_compact_token_limit` で調整可)+ 手動 `/compact` があります
@@ -113,7 +115,7 @@ ChatGPT でログインしたローカル Codex は契約の利用枠を使い�
 
 - **1 つのスレッドをプロジェクト全体で使い続ける** — 消費が毎ターン膨らみ、品質も落ちます(公式の「よくある間違い」筆頭)。→ タスク単位でスレッドを切り、`/compact`・新スレッドを使い分けます
 - **MCP・サブエージェントを「便利そうだから」全部盛りにする** — 常時コンテキストと消費が増え、制限に早く当たります。→ 公式の導入順序(AGENTS.md → スキル → MCP → サブエージェント)に従い、使っていないものを外します
-- **Fast mode を常時オンにする** — 対象モデルと認証方式に応じて消費が増えます(2026-09-10 のモデル別条件は本文参照)。→ 対話的な反復など速度が効く場面に限定します
+- **Fast mode を常時オンにする** — 対象モデルと利用枠・課金区分に応じて消費が増えます(2026-10-08 の条件は本文参照)。→ 対話的な反復など速度が効く場面に限定します
 - **手動で安定していないワークフローを定期タスク・自動レビューに載せる** — 失敗が定期的に量産されます。→ 通常スレッドで成功パターンを固めてから自動化します([自動化パターン](coding-agent-automation-patterns.md))
 
 ### チェックリスト
@@ -136,7 +138,7 @@ ChatGPT でログインしたローカル Codex は契約の利用枠を使い�
 
 - [Custom instructions with AGENTS.md(公式)](https://learn.chatgpt.com/docs/agent-configuration/agents-md) — 起動時の探索範囲と確認方法(アクセス日: 2026-09-10)
 - [Subagents](https://learn.chatgpt.com/docs/agent-configuration/subagents) — 提供面ごとの委任条件(アクセス日: 2026-09-10)
-- [Speed](https://learn.chatgpt.com/docs/agent-configuration/speed) / [Models](https://learn.chatgpt.com/docs/models) — Fast の速度・credit・API 課金、認証別のモデル提供(アクセス日: 2026-09-10)
+- [Speed](https://learn.chatgpt.com/docs/agent-configuration/speed) / [Pricing](https://learn.chatgpt.com/docs/pricing) / [Models](https://learn.chatgpt.com/docs/models) — Fast の利用枠・課金区分、モデル別キャッシュ料金、認証別退役の部分再確認(アクセス日: 2026-10-08)
 - [Codex Best Practices(公式)](https://learn.chatgpt.com/docs/learn/best-practices) — プロンプト 4 要素・よくある間違い。公式 docs は 2026-08 時点で ChatGPT との統合サイト(learn.chatgpt.com)へ移転済み(旧 developers.openai.com/codex 系 URL は 308 リダイレクトで生存)(アクセス日: 2026-08-18)
 - [Codex Workflows(公式)](https://learn.chatgpt.com/docs/workflows) — 面別の使い分けとハンドオフ(アクセス日: 2026-08-18)
 - [Codex pricing(公式)](https://learn.chatgpt.com/docs/pricing) — 制限の構造・節約テクニック・レート(アクセス日: 2026-08-18)
@@ -152,6 +154,6 @@ ChatGPT でログインしたローカル Codex は契約の利用枠を使い�
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** プラン別の 5 時間ウィンドウ制限値・モデル別クレジットレート・Fast mode の倍率を公式 Pricing・Speed・Models ページで確認する。2026-09-10 に Fast のモデル別速度・credit と API Priority の区別を反映済み。プラン別の絶対レート・利用枠は未再確認(最終確認: 2026-09)
+> **TODO(要確認):** プラン別の 5 時間ウィンドウ制限値と利用枠を公式 Pricing・契約レートカードで再確認する。2026-10-08 はモデル別キャッシュ料金と Fast の契約内利用枠・購入クレジット・Enterprise 従量利用の区分のみを確認し、プラン別利用枠と実課金は未検証(最終確認: 2026-10)
 
 > **TODO(要確認):** help.openai.com のレートカード記事(2026-08-18 時点も直接取得 403)の本文をブラウザで確認する(最終確認: 2026-08)

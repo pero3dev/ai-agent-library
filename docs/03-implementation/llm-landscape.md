@@ -3,7 +3,7 @@ title: "主要 LLM の全体像(モデルカタログ)"
 category: "implementation"
 level: "basic"
 status: "published"
-last_updated: "2026-10-04"
+last_updated: "2026-10-08"
 tags: ["model-selection"]
 ---
 
@@ -27,6 +27,8 @@ tags: ["model-selection"]
 ## 本文
 
 > **最終確認日:** 2026-09-10 — 主要 3 社の新世代と、以下に明記した公開ウェイトのライセンス差分を確認しました。価格は原則として桁感を示し、キャッシュの例外だけ具体値を併記します。全モデルの全提供経路を実行確認したものではありません。採用時には公式料金・対象配布物の LICENSE を照合してください。
+
+> **部分再確認:** 2026-10-08 — GPT-6.1 Sol のモデル仕様・API 制約・料金、Gemini 3.8 / 3.7 Flash の導入価格、Gemini 2.5 系の既存利用者限定を確認しました。未確認のモデル・配布物・提供経路は以前の確認範囲のままで、モデル系統全体の観測完了ではありません。
 
 > **部分再確認:** 2026-10-03 — Anthropic の現行 4 モデル、価格・既定 effort・退役表を照合しました。Opus 5.5 / Sonnet 5.5 はそれぞれ 9 月 22 日 / 28 日公開です。Google の条件は最終確認日のままです。
 
@@ -59,15 +61,16 @@ tags: ["model-selection"]
 
 ### OpenAI(GPT ファミリー)
 
-| ティア | モデル(2026-09-28 確認) | 位置づけ(公式表現の要旨) |
+| ティア | モデル(6.1 Sol は 2026-10-08、他は 2026-09-28 確認) | 位置づけ(公式表現の要旨) |
 | --- | --- | --- |
 | 最上位 | GPT-6 Astra(`gpt-6-astra`) | 複雑な推論・コード・コンピューター操作・調査など、難しい一連の作業向け |
-| 主力 | GPT-6 Sol(`gpt-6-sol`) | 複雑なコーディング・エージェント処理向け |
+| 主力 | GPT-6.1 Sol(`gpt-6.1-sol`) | 2026-09-29 公開。コーディング・日常の作業向け |
+| 前世代の主力 | GPT-6 Sol(`gpt-6-sol`) | 複雑なコーディング・エージェント処理向け |
 | 軽量 | GPT-6 Luna(`gpt-6-luna`) | コストを重視する大量の定型処理向け |
 
-- **特性**: GPT-6 Astra / Sol / Luna は約 1.05M のコンテキスト枠 / 最大 128K 出力、テキスト・画像入力に対応します。Astra の effort は low / medium / high / xhigh / max、Sol / Luna は none も使え、既定は medium です。モデルごとに許可値を確認し、設定をそのまま移植しません
-- **費用**: 通常入力の Standard 単価は Luna から Astra まで 100 倍の幅があります。Astra / Sol / Luna は 272K 入力トークン超でリクエスト全体の入力・キャッシュ単価と出力単価に割増があるため、長文・キャッシュ書き込み・実行モードの条件を含めて見積もります
-- **選定**: 難しい一連の作業に Astra、複雑なコーディング・エージェント処理に Sol、大量の定型処理に Luna を候補とします。自社の品質基準・遅延・費用で比較し、モデル名だけで一律に切り替えません。GPT-6 の掲載を GPT-5.6 系の提供終了とは扱いません
+- **特性**: GPT-6.1 Sol / GPT-6 Astra / Sol / Luna は約 1.05M のコンテキスト枠 / 最大 128K 出力、テキスト・画像入力に対応します。6.1 Sol と Astra の effort は low / medium / high / xhigh / max、旧 `gpt-6-sol` / `gpt-6-luna` は none も使え、既定は medium です。6.1 Sol のツール呼出しは Responses API のみで、Chat Completions はツールなしの呼出しに限られます。モデルごとに許可値・API を確認し、設定をそのまま移植しません
+- **費用**: 通常入力の Standard 単価は Luna から Astra まで 100 倍の幅があります。6.1 Sol / Astra / Sol / Luna は 272K 入力トークン超でリクエスト全体の入力・キャッシュ単価と出力単価に割増があるため、長文・キャッシュ書き込み・実行モードの条件を含めて見積もります。6.1 Sol の 272K 入力以下の Standard 単価は、入力 / キャッシュ読取 / 書込 / 出力が \$2 / \$0.10 / \$2.50 / \$10(MTok 当たり、2026-10-08 確認)で、旧 `gpt-6-sol` の読取 \$0.20 と区別します
+- **選定**: 難しい一連の作業に Astra、コーディング・エージェント処理に 6.1 Sol、大量の定型処理に Luna を候補とします。自社の品質基準・遅延・費用で比較し、モデル名だけで一律に切り替えません。6.1 Sol の掲載を GPT-6 Sol や GPT-5.6 系の提供終了とは扱いません
 - **Codex との区別**: ChatGPT 認証の Codex では GPT-5.4 / 5.4 mini の退役日が 2026-08-31 と案内されています。この変更は API キー認証の Codex と OpenAI API の提供終了を意味しません([OpenAI Codex](../08-coding-agents/openai-codex.md))
 
 - **API の終了予定**: 2026-09-10 の公式退役表では、GPT-5 初代・o3/o3-pro の対象スナップショットは 2026-12-11、旧音声・realtime 系の対象モデルは 2027-01-20 の終了予定です。8 月 26 日には `whisper-1`・`gpt-4o-transcribe` 系の対象モデルについて 2027-02-26 の終了予定も追加されています。名称が似たモデルを一括扱いせず、利用中の ID と表の行を照合します。
@@ -80,17 +83,17 @@ tags: ["model-selection"]
 
 ### Google(Gemini ファミリー)
 
-| ティア | モデル(2026-09-10 確認) | 位置づけ(公式表現の要旨) |
+| ティア | モデル(2.5 の提供条件・導入価格は 2026-10-08、他は 2026-09-10 確認) | 位置づけ(公式表現の要旨) |
 | --- | --- | --- |
 | 上位 | Gemini 3.1 Pro(**プレビュー**) | 高度な問題解決。正確なツール使用が要るエージェント・ソフトウェアエンジニアリング |
-| 主力 | Gemini 3.8 Flash(安定版) | 2026-09-02 GA。入力 1,048,576 / 出力 65,536 トークン、思考は low / medium / high(既定 medium、minimal 非対応) |
-| 前世代の主力 | Gemini 3.7 Flash(安定版) | 2026-08 登場。2026-12-31 までの導入価格はこのモデルの条件で、3.8 へ流用しません |
+| 主力 | Gemini 3.8 Flash(安定版) | 2026-09-02 GA。入力 1,048,576 / 出力 65,536 トークン、思考は low / medium / high(既定 medium、minimal 非対応)。独自の導入価格を料金表で確認 |
+| 前世代の主力 | Gemini 3.7 Flash(安定版) | 2026-08 登場。3.8 とともに、各モデルの料金表に 2026-12-31 までの導入価格が掲載されています |
 | 準主力 | Gemini 3.6 Flash(安定版) | 3.7 の 1 世代前(2026-07-21 登場)。安定版として提供継続 |
 | 軽量 | Gemini 3.5 Flash-Lite / 3.1 Flash-Lite(安定版) | 大量・低遅延処理、単純な抽出・翻訳、モデルルーティング |
-| 移行期の旧世代 | Gemini 3.5 Flash、Gemini 2.5 Pro / Flash / Flash-Lite | 3.5 Flash はレガシー扱いに。2.5 系は**終了日未定**(2026-10-16 の提供終了告知は撤回)。移行先は 3.x 系 |
+| 移行期の旧世代 | Gemini 3.5 Flash、Gemini 2.5 Pro / Flash / Flash-Lite | 3.5 Flash はレガシー扱いに。2.5 系は 2026-09-18 から過去の利用者のみ利用可能で、**終了日未定**(2026-10-16 の提供終了告知は撤回)。新規プロジェクトは 3.5 Flash-Lite / 3.8 Flash などを検討 |
 
 - **特性**: 主要モデルは共通して 1M 入力 / 64K 出力 / thinking 対応で(2026-07 確認分。3.6 / 3.7 Flash の個別仕様は未確認)、**動画・音声・PDF のネイティブ入力**が 3 社の中の最大の差別化点です。Pro 系のみ 200K トークン超で割増があります。Google Search グラウンディングの統合、Gemini API の無料枠(3.1 Pro を除く)も特徴です
-- **コスト帯**(2026-08 時点の桁感): 入力単価は Flash-Lite から Pro(長文時)まで 10 倍超の幅(おおよそ \$0.25〜\$4 / 1M トークン)、出力はその約 5〜6 倍。3.7 Flash は 2026-12-31 までの導入価格で提供中です(2027-01-01 に引き上げ予定)
+- **コスト帯**(2026-08 時点の桁感): 入力単価は Flash-Lite から Pro(長文時)まで 10 倍超の幅(おおよそ \$0.25〜\$4 / 1M トークン)、出力はその約 5〜6 倍。2026-10-08 の料金表では、3.8 Flash と 3.7 Flash それぞれの Standard 入力 / 出力は \$0.75 / \$3.75(MTok 当たり)の導入価格で、2026-12-31 までです。2027-01-01 から \$1.50 / \$7.50 が予定されています。Batch 等の実行モードは別の料金欄で確認します
 - **注意が 2 つ**: ①「Flash = 廉価版」は旧世代の話です。3.8 / 3.7 / 3.6 Flash は主力(中位)で、廉価枠は Flash-Lite(3.5 / 3.1)が担います ②最上位の 3.1 Pro は**プレビューのみで安定版がありません**(2026-08 時点)。本番の既定にする場合は安定版の Flash 系が基本です
 - **補足**: knowledge cutoff が長く据え置かれる傾向があり(2026-07 確認分では全モデル 2025-01。3.6 / 3.7 Flash の値は未確認)、新しい知識は検索グラウンディングで補う想定とみられます
 
@@ -127,12 +130,12 @@ MaaS や AI Work Assistant の定義、集計主体、期間も異なります�
 
 ### 迷わないための早見表
 
-公式のモデル位置づけを、本ライブラリの評価の開始候補として整理した表です。用途からの詳しい逆引きは [モデル選定ガイド](model-selection.md) を参照してください。新世代の差分は 2026-09-10、OpenAI の行は 2026-09-28 に確認しました。
+公式のモデル位置づけを、本ライブラリの評価の開始候補として整理した表です。用途からの詳しい逆引きは [モデル選定ガイド](model-selection.md) を参照してください。新世代の差分は 2026-09-10、OpenAI の主力モデルは 2026-10-08 に確認しました。
 
 | プロバイダー | 迷ったときの既定 | 単純・大量処理 | 最難関タスク |
 | --- | --- | --- | --- |
 | Anthropic | Opus 5.5 から評価(速度・費用では Sonnet 5.5 も比較) | Haiku 4.5 | Fable 5.1 |
-| OpenAI | GPT-6 Sol から評価し、難問は Astra、定型処理は Luna と比較 | `gpt-6-luna` | GPT-6 Astra(推論の強さも評価する) |
+| OpenAI | GPT-6.1 Sol から評価し、難問は Astra、定型処理は Luna と比較 | `gpt-6-luna` | GPT-6 Astra(推論の強さも評価する) |
 | Google | Gemini 3.8 Flash | Gemini 3.5 Flash-Lite | Gemini 3.1 Pro(プレビューである点に注意) |
 
 ## 実務での注意点
@@ -171,14 +174,16 @@ MaaS や AI Work Assistant の定義、集計主体、期間も異なります�
 - [Claude Pricing](https://platform.claude.com/docs/en/about-claude/pricing) — キャッシュ比率と新トークナイザ(アクセス日: 2026-10-03)
 - [Claude Model deprecations](https://platform.claude.com/docs/en/about-claude/model-deprecations) — Active・非推奨・退役最早日の区別(アクセス日: 2026-10-03)
 - [GPT-6 モデルガイド](https://developers.openai.com/api/docs/guides/latest-model) — 世代構成・仕様・Standard 料金(アクセス日: 2026-09-28)
-- [Sol](https://developers.openai.com/api/docs/models/gpt-6-sol) — 世代構成・仕様・Standard 料金(アクセス日: 2026-09-28)
-- [Luna](https://developers.openai.com/api/docs/models/gpt-6-luna) — 世代構成・仕様・Standard 料金(アクセス日: 2026-09-28)
+- [GPT-6.1 Sol](https://developers.openai.com/api/docs/models/gpt-6.1-sol) — モデル仕様・effort・API 制約・長文条件(アクセス日: 2026-10-08)
+- [OpenAI API Changelog](https://developers.openai.com/api/docs/changelog) — GPT-6.1 Sol の公開日(アクセス日: 2026-10-08)
+- [Sol](https://developers.openai.com/api/docs/models/gpt-6-sol) — 旧モデルの effort・API 制約・キャッシュ料金(アクセス日: 2026-10-08)
+- [Luna](https://developers.openai.com/api/docs/models/gpt-6-luna) — 旧モデルの effort・API 制約(アクセス日: 2026-10-08)
 - [Astra](https://developers.openai.com/api/docs/models/gpt-6-astra) — 世代構成・仕様・Standard 料金(アクセス日: 2026-09-28)
 - [OpenAI API の退役表](https://developers.openai.com/api/docs/deprecations) — Cyber・o4-mini・o3 系の対象 ID 別終了予定 / GPT-5.4-Cyber の対象 ID・予定日・後継を確認(アクセス日: 2026-09-28)
 - [Fable 5.1 の変更点](https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1)(アクセス日: 2026-09-10)
-- [Gemini 3.8 Flash モデル仕様](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash)(アクセス日: 2026-09-10)
+- [Gemini 3.8 Flash モデル仕様](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash)(アクセス日: 2026-10-08)
 - [Gemini 最新モデルへの移行](https://ai.google.dev/gemini-api/docs/latest-model)(アクセス日: 2026-09-10)
-- [Gemini API リリースノート](https://ai.google.dev/gemini-api/docs/changelog)(アクセス日: 2026-09-10)
+- [Gemini API リリースノート](https://ai.google.dev/gemini-api/docs/changelog) — 2.5 系の既存利用者限定(アクセス日: 2026-10-08)
 - [Qwen3.8-Max License](https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B-FP8/blob/main/LICENSE)(アクセス日: 2026-09-10)
 - [Mistral Medium 3.5 モデルカード](https://huggingface.co/mistralai/Mistral-Medium-3.5-128B)(アクセス日: 2026-09-10)
 - [Mistral Medium 3.5 Modified MIT License](https://huggingface.co/mistralai/Mistral-Medium-3.5-128B/blob/main/LICENSE)(アクセス日: 2026-09-10)
@@ -190,10 +195,10 @@ MaaS や AI Work Assistant の定義、集計主体、期間も異なります�
 - [Gemma 4 Apache License 2.0](https://ai.google.dev/gemma/apache_2)(アクセス日: 2026-09-10)
 - [Claude モデル一覧](https://platform.claude.com/docs/en/about-claude/models/overview)(アクセス日: 2026-08-18)
 - [OpenAI モデル一覧](https://developers.openai.com/api/docs/models)(アクセス日: 2026-09-10)
-- [OpenAI 料金](https://developers.openai.com/api/docs/pricing) — 採用時に実行モードを含めて確認する入口(アクセス日: 2026-08-18)
+- [OpenAI 料金](https://developers.openai.com/api/docs/pricing) — 6.1 Sol の入力・キャッシュ読取・書込・出力(アクセス日: 2026-10-08)
 - [Gemini モデル一覧](https://ai.google.dev/gemini-api/docs/models)(アクセス日: 2026-08-18)
-- [料金](https://ai.google.dev/gemini-api/docs/pricing)(アクセス日: 2026-08-18)
-- [提供終了](https://ai.google.dev/gemini-api/docs/deprecations)(アクセス日: 2026-08-18)
+- [料金](https://ai.google.dev/gemini-api/docs/pricing) — 3.8 / 3.7 Flash のモデル別導入価格と終了後の予定(アクセス日: 2026-10-08)
+- [提供終了](https://ai.google.dev/gemini-api/docs/deprecations) — 2.5 系の提供条件・終了日未定(アクセス日: 2026-10-08)
 - [Meta Llama(Hugging Face)](https://huggingface.co/meta-llama) — オープンウェイト系(アクセス日: 2026-08-18)
 - [Qwen(GitHub)](https://github.com/QwenLM) — オープンウェイト系(アクセス日: 2026-08-18)
 - [DeepSeek(Hugging Face)](https://huggingface.co/deepseek-ai) — オープンウェイト系(アクセス日: 2026-08-18)
@@ -206,6 +211,6 @@ MaaS や AI Work Assistant の定義、集計主体、期間も異なります�
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** 全カタログ表のモデル名・ティア・価格・提供状態を各社公式ページで再確認する。Gemini 3.7 Flash の導入価格終了、Fable 5.1 の保持条件、時間帯別・長文・キャッシュ課金の変更を追跡する(最終確認: 2026-09)
+> **TODO(要確認):** 全カタログ表のモデル名・ティア・価格・提供状態を各社公式ページで再確認する。Gemini 3.8 / 3.7 Flash の導入価格終了、Fable 5.1 の保持条件、時間帯別・長文・キャッシュ課金の変更を追跡する。6.1 Sol・Gemini 価格と 2.5 の提供条件だけを 2026-10-08 に部分再確認しており、全カタログは未再確認です(最終確認: 2026-09)
 
 > **TODO(要確認):** Gemini 3.1 Pro の GA 化、表で未確認とした公開ウェイトのコンテキスト長、独自ライセンスの改版を各モデルの公式仕様・LICENSE で確認する。全サイズ・全提供経路の互換性は未検証です(最終確認: 2026-09)

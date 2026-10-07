@@ -227,3 +227,18 @@ docs は本観測の結果を反映済み(gemini-prompting / cross-model-prompti
 > **TODO(要確認):** 採用するモデル/APIで数値予算と思考レベルの受理・排他条件を公式APIリファレンスと実呼出しで確認する。SDKの型と2.5 Liveの説明は確認済み(最終確認: 2026-09)
 
 > **TODO(要確認):** gemini-3 developer guide への 3.6 / 3.7 Flash 反映(thinking_level の対応レベル・minimal 対応の現行化)を次回定点観測で確認する(最終確認: 2026-08)
+
+## 2026-10-08 Issue #220 再開の部分観測
+
+[Gemini 特化プロンプティング](../../docs/03-implementation/gemini-prompting.md) のモデル利用条件と 3.8 Flash の思考制御を部分再確認しました。2.5 Pro / Flash / Flash-Lite は 2026-09-18 から過去の利用者のみ利用可能で、新規プロジェクトには 3.5 Flash-Lite / 3.8 Flash などが案内されています。終了日は未定です。
+
+3.8 Flash は安定版、入力 1,048,576 / 出力 65,536、thinking_level は low / medium(既定) / high、minimal 非対応で、既存本文と一致しました。
+
+一次資料と実取得 UTC:
+
+- [Changelog](https://ai.google.dev/gemini-api/docs/changelog): 2026-10-07T17:35:16Z、2.5 系の利用対象の変更日。
+- [Deprecations](https://ai.google.dev/gemini-api/docs/deprecations): 2026-10-07T17:37:55Z、2.5 系の利用対象・終了日未定。
+- [3.8 Flash](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash): 2026-10-07T17:38:22Z、提供段階・入出力上限。
+- [Thinking](https://ai.google.dev/gemini-api/docs/thinking): 2026-10-07T17:37:18Z、3.8 Flash の対応レベル・既定。
+
+GenerateContent / Interactions / Live API 別の実呼出し、数値思考予算の受理・排他、全プロンプト指針は未再検証です。過去の記録と TODO の確認月は維持しました。この部分確認を系統全体の完了にせず、全ベンダーの観測分類と残件は [実行の根拠記録](../freshness-runs/20261007t173132543z-fc61a4ee.json) を参照してください。

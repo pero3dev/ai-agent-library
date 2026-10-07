@@ -1,7 +1,7 @@
 # AI 規制・ガバナンスの一次情報 調査メモ
 
 - **初回調査日**: 2026-07-07
-- **差分更新日**: 2026-09-21(PPC の 9 月 16 日の議論・資料公表)。EU の改正後期限も部分確認しました。他の行の確認日は据え置きです
+- **差分更新日**: 2026-10-08(PPC の 10 月 1 日の議論・資料公表、Colorado の 10 月 6 日の中間案公表)。EU の改正後期限も部分確認しました。他の行の確認日は据え置きです
 - **調査目的**: `docs/06-security/compliance-and-governance.md`(コンプライアンスとガバナンス)の執筆材料。「何が存在し、いつ適用され、どの一次情報を見るべきか」のレベルで、EU / 日本 / 米国の規制、国際規格、主要 LLM ベンダーのデータ取扱いポリシーを公式一次情報のみで整理する
 - **根拠の方針**: EU 公式(eur-lex / digital-strategy.ec.europa.eu / consilium.europa.eu / europarl.europa.eu / ai-act-service-desk.ec.europa.eu)、日本の政府公式(内閣府 / e-Gov / 個人情報保護委員会 / 総務省 / 経産省)、米国公式(whitehouse.gov / 州議会公式)、nist.gov、各社公式ドキュメントのみを根拠とします。法律事務所・個人ブログの解説は使用していません
 - **確度表記**: 「公式明記」= 公式ページ・公式資料に明文あり / 「公式から推測」= 公式記述からの合理的推測 / 「未確認」= 今回確認できず
@@ -82,6 +82,7 @@
 | いわゆる 3 年ごと見直しの「**制度改正方針**」を 2026-01-09 に公表 | https://www.ppc.go.jp/files/pdf/01-1_seidokaiseihousin.pdf | 2026-07-07 | 公式明記(表題確認) |
 | **個人情報の保護に関する法律等の一部を改正する法律(令和 8 年法律第 56 号)**は 2026-07-10 成立・7/17 公布。主な施行は公布から 2 年以内の政令指定日(未確定)、一部罰則は 2027-01-17 | https://www.ppc.go.jp/personalinfo/legal/r8kaiseihogohou/ / https://www.ppc.go.jp/files/pdf/260717_houritsu.pdf / https://laws.e-gov.go.jp/document?lawid=415AC0000000057_20270117_508AC0000000056 | 2026-09-10 | 公式確認。e-Gov は将来施行版として参照 |
 | **9/9 工程表と 9/16 の進捗**: 第 369 回委員会で子ども・顔特徴データ等を含む基本的な考え方①を議論し資料を公表。9 月下旬以降の他項目、意見交換・ヒアリング、その後の条文案・正式公募を別イベントとして追う | https://www.ppc.go.jp/files/pdf/260909_kongonosusumekatanitsuite.pdf / https://www.ppc.go.jp/files/pdf/260916_kihonntekinakanngaekatanitsuite_1.pdf | 2026-09-21 | 公式本文確認。資料公表を正式公募・最終規則と扱わない |
+| **10/1 の後続議論**: 第 370 回委員会で基本的な考え方②を議論し資料を公表。統計作成等の特例、委託先における個人データ等の適正な取扱い、漏えい等報告・本人通知義務を扱う。課徴金等の後続議論・施行政令・正式公募・最終規則は未確認 | https://www.ppc.go.jp/personalinfo/legal/r8kaiseihogohou/ / https://www.ppc.go.jp/files/pdf/261001_kihonntekinakanngaekatanitsuite_2.pdf | 2026-10-08 | 公式本文確認。議論・資料公表を施行・正式公募・最終化と扱わない |
 
 ### 2.3 AI 事業者ガイドライン(経産省・総務省)
 
@@ -116,6 +117,7 @@
 | 結論: **2026-07-07 時点で Colorado の AI 法の実体的義務はまだ適用されていない**(2027-01-01 から) | 同上 | 2026-07-07 | 公式明記 |
 | **Chatbot Safety Act(HB 26-1263)**は ADMT と別法。対話 AI の開示・未成年保護等の義務は 2027-01-01 から。署名日は公式資料間に差があるため断定しない | https://coag.gov/ai/ / https://leg.colorado.gov/bills/hb26-1263 | 2026-09-10 | 義務開始・対象を公式確認 |
 | **規則案**: ADMT / Chatbot Safety を扱う案を 8/11 に提出。9/23 までに改訂案共有予定、10/26 がコメント期限(審理継続時は延長)。xAI 関連訴訟の最終判断は未確認 | https://coag.gov/ai/ | 2026-09-10 | 公式工程・案の段階を確認 |
+| **10/6 の中間案**: 司法長官が interim draft 公表を告知し PDF を掲載。10/26 のコメント期限・審理継続時の延長を再確認。9/23 の予定の実施・延期と規則の最終化は未確認 | https://coag.gov/ai/ / https://coag.gov/app/uploads/2026/10/2026.10.06-ADMT-Chatbot-Act-Rulemaking-Interim-Draft-Redline.pdf | 2026-10-08 | 公式告知と PDF 本文確認。中間案と最終規則を区別 |
 
 ### 3.3 州法の代表例 (2): California — 複数の法律が段階施行
 
@@ -225,3 +227,26 @@ EU 改正 https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX%3A32026R1744
 取得 URL・実取得バッチ完了 UTC・確認水準・残る TODO は [一次情報の修正記録](../reviews/2026-10-03-article-remediation.md) を参照してください。過去の日付の本文は上書きしていません。
 
 独立レビュー時 2026-10-03T16:24:41Z に Colorado 公式ページのコメント受付 8/11〜10/26 と審理継続時の延長を確認し、本文を部分更新しました。9/23 の改訂案共有の実施・延期は依然確認不能です。上の初回取得記録を最終確認結果として流用しません。
+
+## 2026-10-08 Issue #220 の部分観測
+
+目的は、公開完了記録がない `compliance` 系統の未確認事項を再観測することです。所有・変更範囲は `docs/06-security/compliance-and-governance.md` と本メモです。[AGENTS.md](../../AGENTS.md) と[執筆規約](../../harness/writing-rules.md)を入口とし、[ROADMAP](../../ROADMAP.md) の系統・注目事項、[運用手順](../../freshness-automation.md)、[freshness-maintenance](../../.agents/skills/freshness-maintenance/SKILL.md)に従います。ユーザーの Issue #220 残件対応依頼に基づき、一次情報で確認できた事実訂正を反映します。本単位は親実行が検証・独立レビュー・PR・公開確認を継続できる差分と根拠を渡すところまでです。
+
+宣言範囲は PPC・EU・California・FTC・商務省/NTIA・Colorado・DOJ の watchlist にある公的文書と日付です。対象 6 記事は読みましたが、他の 5 記事については TODO・参考資料・規制解説を本記事へ委ねる記述の確認にとどまります。PET 技術、データ品質文献、契約チェックリスト、ベンダー規約、個別案件への法的適用は今回の一次情報再検証範囲外です。未確認・取得失敗が残るため系統全体の完了扱いにはせず、`completed_systems` や宣言範囲の完了日を進めません。
+
+| 確認した主張 | 出典 URL と実確認時刻(UTC) | 分類と結果 |
+| --- | --- | --- |
+| PPC の後続議論 | [改正法特集](https://www.ppc.go.jp/personalinfo/legal/r8kaiseihogohou/): `2026-10-07T17:33:36Z`、[基本的な考え方②](https://www.ppc.go.jp/files/pdf/261001_kihonntekinakanngaekatanitsuite_2.pdf): `2026-10-07T17:35:25Z` | `changed`。10 月 1 日の第 370 回委員会の議論・資料公表を本文へ反映。正式公募・施行・規則最終化と区別 |
+| Colorado の中間案 | [司法長官告知](https://coag.gov/ai/): `2026-10-07T17:33:52Z`、[中間案 PDF](https://coag.gov/app/uploads/2026/10/2026.10.06-ADMT-Chatbot-Act-Rulemaking-Interim-Draft-Redline.pdf): `2026-10-07T17:36:43Z` | `changed`。10 月 6 日の interim draft 公表を反映。両法の 2027-01-01 適用案内、10 月 26 日のコメント期限・正式審理継続時の延長は既存記述と一致。9 月 23 日予定の実施・延期と最終規則は未確認 |
+| EU 改正後期限 | [EUR-Lex TXT 本文](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ%3AL_202601744): `2026-10-07T17:35:25Z`、[欧州委員会概要](https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai): `2026-10-07T17:33:52Z` | `unchanged`。Article 111(4)・113 の既存システムのマーキング期限・新設禁止行為は 2026-12-02、高リスク義務は 2027-12-02 / 2028-08-02 で一致。ALL URL は本文取得不能のため、取得できた公式 TXT URL へ参考資料を同期 |
+| FTC の 7 月 1 日案の位置付け | [FTC 発表](https://www.ftc.gov/news-events/news/press-releases/2026/07/ftc-seeks-public-comment-policy-statement-addressing-ai-accuracy): `2026-10-07T17:33:52Z`、[政策声明一覧](https://www.ftc.gov/legal-library/browse/policy-statements): `2026-10-07T17:34:13Z` | `unchanged`。7 月 1 日の項目が Proposed と掲載され、案のコメント期限 7 月 31 日と一致。新しい最終文書の不存在・未最終化を断定しない |
+| DOJ の介入発表 | [DOJ 発表](https://www.justice.gov/opa/pr/justice-department-intervenes-xai-lawsuit-challenging-colorados-algorithmic-discrimination): `2026-10-07T17:35:25Z` | `unverifiable`。2026-04-24 の介入申立発表は本文確認。その後の裁判所判断・終局状態は一次資料を特定できない |
+
+未確認・失敗した項目の取得 URL・実確認時刻・分類は[今回の機械可読根拠](../freshness-runs/20261007t173132543z-fc61a4ee.json)に記録します。失敗時の時刻は取得失敗を確認した時刻であり、本文確認の成功時刻ではありません。
+
+- `unverifiable`: 改正法の主な施行政令・正式公募・最終規則。法律附則の「公布から 2 年以内の政令指定日」は確認しましたが、e-Gov は本文 0 行で、PPC 公募一覧の取得だけから未公表と断定しません。課徴金等の後続議論も未確認です。
+- `unverifiable`: 個別の EU 整合規格の正式発行・官報(OJ)引用、FTC 政策声明案の最終化、Colorado の 9 月 23 日予定の実施・延期と中間案以降の最終化、DOJ 介入後の裁判判断。
+- `failed`: California の州法典・§22757.6・AB 853 本文は 403 または取得エラー。Commerce news と NTIA AI/news も取得失敗で、州法評価リストを特定できませんでした。既存の確認日を進めず、アクセス回復後に公式本文を再取得します。
+- 次回は PPC/e-Gov の施行・公募の正式記録、EUR-Lex 等の規格引用、FTC・Commerce/NTIA の正式文書、Colorado の規則記録・裁判所の一次文書を照合します。2026-10-26 のコメント期日後には受付終了・審理継続による延長を再確認します。10 月 6 日の中間案公表だけで 9 月 23 日の残件を解決済みにはしません。
+
+本記事を指定した `node scripts/validate-docs.mjs docs/06-security/compliance-and-governance.md` は `OK: 1 files` で成功しました。親実行で共通検査と最終差分の独立レビューを継続します。Issue #220 の GitHub 状態・全系統の完了条件は親実行で別途照合し、この部分観測を Issue の完了証拠に置き換えません。

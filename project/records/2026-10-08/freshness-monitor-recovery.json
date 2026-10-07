@@ -1,0 +1,626 @@
+{
+  "schema_version": 1,
+  "issue": "https://github.com/pero3dev/ai-agent-library/issues/220",
+  "recorded_on": "2026-10-08",
+  "run_id": "20261007t173132543z-fc61a4ee",
+  "evidence": "https://github.com/pero3dev/ai-agent-library/blob/52814f7a79ba4c746a0038c1d0afcae16bb56df2/research/freshness-runs/20261007t173132543z-fc61a4ee.json",
+  "baseline_sha": "4c72c1a651bd01cc4034e0c10b1dbaeec63c46da",
+  "initial_reconciliation": {
+    "clean_worktree": true,
+    "checkpoint_found": false,
+    "open_pr_found": false,
+    "prior_merged_pr": "https://github.com/pero3dev/ai-agent-library/pull/60"
+  },
+  "article_pr": {
+    "url": "https://github.com/pero3dev/ai-agent-library/pull/221",
+    "head_sha": "52814f7a79ba4c746a0038c1d0afcae16bb56df2",
+    "tree_sha": "6438df50e748d4cd59ef87b2ac9234a1b41ffea1",
+    "state": "open",
+    "merged": false,
+    "review": {
+      "verdict": "approved",
+      "risk": "low",
+      "reviewed_at": "2026-10-07T18:15:50Z",
+      "content_digest": "3126006c9064d0c3932aeadaddaeae10ca44162b729290d7002ee38acda27567"
+    },
+    "ci": {
+      "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/37665893911",
+      "conclusion": "failure",
+      "required_success_count": 8,
+      "required_failed": [
+        "build",
+        "Audio playback regression",
+        "Safari audio playback regression"
+      ]
+    }
+  },
+  "publication_verification": {
+    "status": "not_performed",
+    "reason": "required_ci_failed"
+  },
+  "checks": {
+    "npm_ci": "passed",
+    "npm_run_check": "passed",
+    "node": "24.19.0",
+    "tests": 523,
+    "passed": 520,
+    "skipped": 3,
+    "windows_sandbox_first_attempt": "failed_symlink_EPERM_ENOENT",
+    "live_api": "not_performed",
+    "real_device": "not_performed"
+  },
+  "observations": {
+    "changed": 9,
+    "unchanged": 8,
+    "unverifiable": 6,
+    "failed": 2
+  },
+  "completed_systems": [],
+  "systems": [
+    {
+      "id": "coding-agents",
+      "selected": true,
+      "registered_article_count": 28,
+      "observation_count": 5,
+      "observed_articles": [
+        "docs/08-coding-agents/github-copilot.md",
+        "docs/08-coding-agents/open-source-coding-agents.md",
+        "docs/08-coding-agents/openai-codex.md",
+        "docs/08-coding-agents/openai-codex-in-practice.md"
+      ],
+      "not_independently_reverified_articles": [
+        "docs/08-coding-agents/claude-code-in-practice.md",
+        "docs/08-coding-agents/claude-code.md",
+        "docs/08-coding-agents/coding-agent-automation-patterns.md",
+        "docs/08-coding-agents/coding-agent-cost-optimization.md",
+        "docs/08-coding-agents/coding-agent-evaluation.md",
+        "docs/08-coding-agents/coding-agent-prompting.md",
+        "docs/08-coding-agents/coding-agent-rules-and-config.md",
+        "docs/08-coding-agents/coding-agent-security.md",
+        "docs/08-coding-agents/coding-agent-selection.md",
+        "docs/08-coding-agents/coding-agent-team-adoption.md",
+        "docs/08-coding-agents/coding-agents-comparison.md",
+        "docs/08-coding-agents/coding-agents-overview.md",
+        "docs/08-coding-agents/cursor.md",
+        "docs/08-coding-agents/devin.md",
+        "docs/08-coding-agents/gemini-cli-and-code-assist.md",
+        "docs/08-coding-agents/github-copilot-in-practice.md",
+        "docs/08-coding-agents/se-client-adoption.md",
+        "docs/08-coding-agents/se-enterprise-constraints.md",
+        "docs/08-coding-agents/se-legacy-code-analysis.md",
+        "docs/08-coding-agents/se-maintenance-and-operations.md",
+        "docs/08-coding-agents/se-process-map.md",
+        "docs/08-coding-agents/se-requirements-and-design.md",
+        "docs/08-coding-agents/se-test-process.md",
+        "docs/08-coding-agents/windsurf.md"
+      ],
+      "coverage": [],
+      "declared_system_completion": "not_recorded"
+    },
+    {
+      "id": "models-prompting",
+      "selected": true,
+      "registered_article_count": 41,
+      "observation_count": 10,
+      "observed_articles": [
+        "docs/03-implementation/llm-landscape.md",
+        "docs/03-implementation/openai-prompting.md",
+        "docs/03-implementation/gemini-prompting.md",
+        "docs/03-implementation/claude-prompting.md"
+      ],
+      "not_independently_reverified_articles": [
+        "docs/00-overview/learning-roadmap.md",
+        "docs/00-overview/research-literacy.md",
+        "docs/00-overview/skill-map.md",
+        "docs/01-concepts/agent-loop.md",
+        "docs/01-concepts/ai-history-and-lineage.md",
+        "docs/01-concepts/computer-use-and-multimodal-agents.md",
+        "docs/01-concepts/memory-and-state.md",
+        "docs/01-concepts/physical-ai-overview.md",
+        "docs/01-concepts/planning-and-reasoning.md",
+        "docs/01-concepts/rag-vs-agent.md",
+        "docs/01-concepts/single-vs-multi-agent.md",
+        "docs/01-concepts/tool-use.md",
+        "docs/01-concepts/what-is-an-ai-agent.md",
+        "docs/01-concepts/world-models-overview.md",
+        "docs/03-implementation/agent-prompt-design.md",
+        "docs/03-implementation/cross-model-prompting.md",
+        "docs/03-implementation/model-selection.md",
+        "docs/03-implementation/prompt-engineering-fundamentals.md",
+        "docs/03-implementation/prompt-engineering-patterns.md",
+        "docs/03-implementation/prompt-management.md",
+        "docs/03-implementation/prompt-optimization.md",
+        "docs/03-implementation/structured-output.md",
+        "docs/10-llm-foundations/attention-and-context.md",
+        "docs/10-llm-foundations/capabilities-and-limits.md",
+        "docs/10-llm-foundations/how-llms-generate-text.md",
+        "docs/10-llm-foundations/llm-training-pipeline.md",
+        "docs/10-llm-foundations/multimodal-models.md",
+        "docs/10-llm-foundations/reasoning-models.md",
+        "docs/10-llm-foundations/tokenization.md",
+        "docs/11-llm-internals/alignment-theory.md",
+        "docs/11-llm-internals/attention-variants-and-long-context.md",
+        "docs/11-llm-internals/in-context-learning-and-memorization.md",
+        "docs/11-llm-internals/inference-internals.md",
+        "docs/11-llm-internals/interpretability-basics.md",
+        "docs/11-llm-internals/mixture-of-experts-internals.md",
+        "docs/11-llm-internals/pretraining-and-scaling-laws.md",
+        "docs/11-llm-internals/transformer-architecture.md"
+      ],
+      "coverage": [],
+      "declared_system_completion": "not_recorded"
+    },
+    {
+      "id": "identity-protocols",
+      "selected": false,
+      "registered_article_count": 5,
+      "observation_count": 0,
+      "observed_articles": [],
+      "not_independently_reverified_articles": [
+        "docs/02-architecture/agent-api-design.md",
+        "docs/02-architecture/multi-tenancy-and-isolation.md",
+        "docs/03-implementation/agent-interop-protocols.md",
+        "docs/03-implementation/mcp-and-tool-protocols.md",
+        "docs/06-security/agent-identity-and-auth.md"
+      ],
+      "coverage": [],
+      "declared_system_completion": "not_recorded"
+    },
+    {
+      "id": "compliance",
+      "selected": true,
+      "registered_article_count": 6,
+      "observation_count": 10,
+      "observed_articles": [
+        "docs/06-security/compliance-and-governance.md"
+      ],
+      "not_independently_reverified_articles": [
+        "docs/05-operations/conversation-data-management.md",
+        "docs/05-operations/data-governance-for-ai.md",
+        "docs/06-security/privacy-enhancing-technologies.md",
+        "docs/09-business/agent-liability-and-accountability.md",
+        "docs/09-business/ai-usage-policy.md"
+      ],
+      "coverage": [],
+      "declared_system_completion": "not_recorded"
+    },
+    {
+      "id": "voice-fine-tuning",
+      "selected": false,
+      "registered_article_count": 5,
+      "observation_count": 0,
+      "observed_articles": [],
+      "not_independently_reverified_articles": [
+        "docs/03-implementation/data-preprocessing-for-llm.md",
+        "docs/03-implementation/fine-tuning-and-distillation.md",
+        "docs/03-implementation/synthetic-data-for-training.md",
+        "docs/03-implementation/voice-agents.md",
+        "docs/09-business/own-model-strategy.md"
+      ],
+      "coverage": [],
+      "declared_system_completion": "not_recorded"
+    },
+    {
+      "id": "benchmarks",
+      "selected": false,
+      "registered_article_count": 16,
+      "observation_count": 0,
+      "observed_articles": [],
+      "not_independently_reverified_articles": [
+        "docs/04-evaluation/agent-benchmarks-landscape.md",
+        "docs/04-evaluation/agent-evaluation-basics.md",
+        "docs/04-evaluation/confidence-and-calibration.md",
+        "docs/04-evaluation/evaluation-datasets.md",
+        "docs/04-evaluation/evaluation-environments.md",
+        "docs/04-evaluation/fairness-and-bias-evaluation.md",
+        "docs/04-evaluation/japanese-quality-evaluation.md",
+        "docs/04-evaluation/llm-as-a-judge.md",
+        "docs/04-evaluation/online-evaluation-and-ab-testing.md",
+        "docs/04-evaluation/regression-testing.md",
+        "docs/04-evaluation/trajectory-evaluation.md",
+        "docs/04-evaluation/user-simulator-design.md",
+        "docs/15-human-ai/ai-career-strategy.md",
+        "docs/15-human-ai/ai-literacy-training-design.md",
+        "docs/15-human-ai/automation-bias-and-deskilling.md",
+        "docs/15-human-ai/verifying-ai-outputs.md"
+      ],
+      "coverage": [],
+      "declared_system_completion": "not_recorded"
+    },
+    {
+      "id": "industry-regulations",
+      "selected": false,
+      "registered_article_count": 4,
+      "observation_count": 0,
+      "observed_articles": [],
+      "not_independently_reverified_articles": [
+        "docs/09-business/industry-regulations-map.md",
+        "docs/13-domain-agents/education-agents.md",
+        "docs/13-domain-agents/hr-and-recruitment-ai.md",
+        "docs/13-domain-agents/legal-review-agents.md"
+      ],
+      "coverage": [],
+      "declared_system_completion": "not_recorded"
+    },
+    {
+      "id": "physical-ai",
+      "selected": false,
+      "registered_article_count": 2,
+      "observation_count": 0,
+      "observed_articles": [],
+      "not_independently_reverified_articles": [
+        "docs/01-concepts/physical-ai-overview.md",
+        "docs/01-concepts/world-models-overview.md"
+      ],
+      "coverage": [],
+      "declared_system_completion": "not_recorded"
+    },
+    {
+      "id": "serving-gateways",
+      "selected": false,
+      "registered_article_count": 34,
+      "observation_count": 0,
+      "observed_articles": [],
+      "not_independently_reverified_articles": [
+        "docs/02-architecture/agent-api-design.md",
+        "docs/02-architecture/async-and-durable-agents.md",
+        "docs/02-architecture/context-compaction-and-isolation.md",
+        "docs/02-architecture/context-engineering-patterns.md",
+        "docs/02-architecture/context-engineering.md",
+        "docs/02-architecture/error-handling-and-retries.md",
+        "docs/02-architecture/harness-engineering.md",
+        "docs/02-architecture/human-in-the-loop.md",
+        "docs/02-architecture/loop-engineering.md",
+        "docs/02-architecture/multi-tenancy-and-isolation.md",
+        "docs/02-architecture/orchestration-patterns.md",
+        "docs/02-architecture/workflow-vs-agent.md",
+        "docs/03-implementation/code-execution-sandboxes.md",
+        "docs/03-implementation/local-and-on-device-llm.md",
+        "docs/03-implementation/slm-strategy.md",
+        "docs/05-operations/ai-slo-design.md",
+        "docs/05-operations/batch-processing.md",
+        "docs/05-operations/chaos-engineering-for-ai.md",
+        "docs/05-operations/conversation-data-management.md",
+        "docs/05-operations/cost-management.md",
+        "docs/05-operations/data-governance-for-ai.md",
+        "docs/05-operations/deployment-and-scaling.md",
+        "docs/05-operations/feedback-loops.md",
+        "docs/05-operations/gpu-and-hardware-basics.md",
+        "docs/05-operations/green-ai.md",
+        "docs/05-operations/incident-response.md",
+        "docs/05-operations/latency-optimization.md",
+        "docs/05-operations/llm-gateway.md",
+        "docs/05-operations/long-running-agents.md",
+        "docs/05-operations/mlops-and-llmops.md",
+        "docs/05-operations/observability-and-tracing.md",
+        "docs/05-operations/self-hosted-inference.md",
+        "docs/05-operations/semantic-caching.md",
+        "docs/05-operations/versioning-and-model-updates.md"
+      ],
+      "coverage": [],
+      "declared_system_completion": "not_recorded"
+    },
+    {
+      "id": "multimodal-generation",
+      "selected": false,
+      "registered_article_count": 15,
+      "observation_count": 0,
+      "observed_articles": [],
+      "not_independently_reverified_articles": [
+        "docs/01-concepts/computer-use-and-multimodal-agents.md",
+        "docs/03-implementation/computer-use-implementation.md",
+        "docs/03-implementation/streaming-and-agent-ux.md",
+        "docs/12-multimodal/document-ai.md",
+        "docs/12-multimodal/image-generation-integration.md",
+        "docs/12-multimodal/multimodal-rag.md",
+        "docs/12-multimodal/realtime-multimodal-agents.md",
+        "docs/12-multimodal/speech-synthesis-and-voice-design.md",
+        "docs/12-multimodal/video-ai-overview.md",
+        "docs/12-multimodal/vision-understanding-patterns.md",
+        "docs/14-ux-and-product/accessibility-and-ai.md",
+        "docs/14-ux-and-product/ai-ux-patterns.md",
+        "docs/14-ux-and-product/beyond-chat-ui.md",
+        "docs/14-ux-and-product/conversation-design.md",
+        "docs/14-ux-and-product/proactive-agent-ux.md"
+      ],
+      "coverage": [],
+      "declared_system_completion": "not_recorded"
+    },
+    {
+      "id": "trust-ip",
+      "selected": false,
+      "registered_article_count": 16,
+      "observation_count": 0,
+      "observed_articles": [],
+      "not_independently_reverified_articles": [
+        "docs/06-security/advanced-attack-patterns.md",
+        "docs/06-security/agent-identity-and-auth.md",
+        "docs/06-security/ai-standards-and-certification.md",
+        "docs/06-security/ai-supply-chain-security.md",
+        "docs/06-security/compliance-and-governance.md",
+        "docs/06-security/content-provenance-and-detection.md",
+        "docs/06-security/data-exfiltration.md",
+        "docs/06-security/deepfake-and-impersonation-defense.md",
+        "docs/06-security/frontier-safety-overview.md",
+        "docs/06-security/guardrails.md",
+        "docs/06-security/privacy-enhancing-technologies.md",
+        "docs/06-security/prompt-injection.md",
+        "docs/06-security/red-teaming-agents.md",
+        "docs/06-security/threat-model-overview.md",
+        "docs/06-security/tool-permissions-and-sandboxing.md",
+        "docs/09-business/ai-copyright-and-ip-map.md"
+      ],
+      "coverage": [],
+      "declared_system_completion": "not_recorded"
+    },
+    {
+      "id": "rpa-automation",
+      "selected": false,
+      "registered_article_count": 3,
+      "observation_count": 0,
+      "observed_articles": [],
+      "not_independently_reverified_articles": [
+        "docs/07-case-studies/case-study-expense-agent.md",
+        "docs/13-domain-agents/rpa-and-agents.md",
+        "docs/13-domain-agents/spreadsheet-agents.md"
+      ],
+      "coverage": [],
+      "declared_system_completion": "not_recorded"
+    },
+    {
+      "id": "emerging-domains",
+      "selected": false,
+      "registered_article_count": 20,
+      "observation_count": 0,
+      "observed_articles": [],
+      "not_independently_reverified_articles": [
+        "docs/07-case-studies/case-study-customer-support-agent.md",
+        "docs/07-case-studies/case-study-data-analysis-agent.md",
+        "docs/07-case-studies/case-study-email-assistant-incident.md",
+        "docs/07-case-studies/case-study-expense-agent.md",
+        "docs/07-case-studies/case-study-failed-poc.md",
+        "docs/07-case-studies/case-study-it-helpdesk-agent.md",
+        "docs/07-case-studies/case-study-knowledge-agent.md",
+        "docs/07-case-studies/common-anti-patterns.md",
+        "docs/13-domain-agents/data-analysis-agents.md",
+        "docs/13-domain-agents/deep-research-agents.md",
+        "docs/13-domain-agents/education-agents.md",
+        "docs/13-domain-agents/emerging-agent-domains.md",
+        "docs/13-domain-agents/hr-and-recruitment-ai.md",
+        "docs/13-domain-agents/legal-review-agents.md",
+        "docs/13-domain-agents/personal-assistant-design.md",
+        "docs/13-domain-agents/rpa-and-agents.md",
+        "docs/13-domain-agents/search-experience-redesign.md",
+        "docs/13-domain-agents/spreadsheet-agents.md",
+        "docs/13-domain-agents/time-series-and-forecasting.md",
+        "docs/13-domain-agents/writing-and-translation-workflows.md"
+      ],
+      "coverage": [],
+      "declared_system_completion": "not_recorded"
+    },
+    {
+      "id": "geopolitics-green-ai",
+      "selected": false,
+      "registered_article_count": 2,
+      "observation_count": 0,
+      "observed_articles": [],
+      "not_independently_reverified_articles": [
+        "docs/05-operations/green-ai.md",
+        "docs/09-business/ai-geopolitics-map.md"
+      ],
+      "coverage": [],
+      "declared_system_completion": "not_recorded"
+    },
+    {
+      "id": "industry-oss",
+      "selected": false,
+      "registered_article_count": 25,
+      "observation_count": 0,
+      "observed_articles": [],
+      "not_independently_reverified_articles": [
+        "docs/03-implementation/embeddings.md",
+        "docs/03-implementation/framework-selection.md",
+        "docs/03-implementation/graph-rag-and-knowledge-graphs.md",
+        "docs/03-implementation/long-term-memory-implementation.md",
+        "docs/03-implementation/loop-feedback-and-verification.md",
+        "docs/03-implementation/open-source-ai-ecosystem.md",
+        "docs/03-implementation/rag-implementation-patterns.md",
+        "docs/03-implementation/tool-definition-design.md",
+        "docs/03-implementation/vector-databases.md",
+        "docs/09-business/agent-liability-and-accountability.md",
+        "docs/09-business/ai-asset-sharing.md",
+        "docs/09-business/ai-copyright-and-ip-map.md",
+        "docs/09-business/ai-geopolitics-map.md",
+        "docs/09-business/ai-industry-map.md",
+        "docs/09-business/ai-native-development-process.md",
+        "docs/09-business/ai-pricing-and-packaging.md",
+        "docs/09-business/ai-procurement.md",
+        "docs/09-business/ai-team-topologies.md",
+        "docs/09-business/ai-usage-policy.md",
+        "docs/09-business/industry-regulations-map.md",
+        "docs/09-business/own-model-strategy.md",
+        "docs/09-business/poc-to-production.md",
+        "docs/09-business/roi-and-business-case.md",
+        "docs/09-business/skill-shift-and-change-management.md",
+        "docs/09-business/usecase-discovery.md"
+      ],
+      "coverage": [],
+      "declared_system_completion": "not_recorded"
+    },
+    {
+      "id": "standards",
+      "selected": false,
+      "registered_article_count": 2,
+      "observation_count": 0,
+      "observed_articles": [],
+      "not_independently_reverified_articles": [
+        "docs/00-overview/research-literacy.md",
+        "docs/06-security/ai-standards-and-certification.md"
+      ],
+      "coverage": [],
+      "declared_system_completion": "not_recorded"
+    }
+  ],
+  "selected_pending": [
+    {
+      "system_id": "coding-agents",
+      "reason": "公開manifest20260927t222509029z-952c90eaから既存IDを復元。2026-10-08再取得でもFAQ回答本文/継続サポート保証を立証できず。公式FAQ回答または告知取得時に再試行",
+      "next_retry_at": "2026-10-11T00:00:00Z",
+      "id": "coding-continue-support-20260917"
+    },
+    {
+      "system_id": "compliance",
+      "next_retry_at": "2026-10-14T00:00:00Z",
+      "id": "compliance-enactment-20260921-recovered",
+      "reason": "既存公開記録の主な施行政令未確認を復元。原IDは公開記録にないため復元用新ID。PPC/e-Gov/官報本文で指定日と公布を確認"
+    },
+    {
+      "system_id": "compliance",
+      "next_retry_at": "2026-10-14T00:00:00Z",
+      "id": "compliance-ppc-formal-consultation-20261008",
+      "reason": "正式公募開始・最終化は未確認。PPC特集/公募一覧と案件本文を照合"
+    },
+    {
+      "system_id": "compliance",
+      "next_retry_at": "2026-10-14T00:00:00Z",
+      "id": "compliance-eu-harmonised-oj-20261008",
+      "reason": "個別整合規格の正式発行/OJ引用未確認。JTC21とEUR-Lex引用原文を取得"
+    },
+    {
+      "system_id": "compliance",
+      "next_retry_at": "2026-10-14T00:00:00Z",
+      "id": "compliance-california-operative-20261008",
+      "reason": "州法典/単一条文/AB853本文は403または取得エラー。公式アクセス回復後に主体別適用を再取得"
+    },
+    {
+      "system_id": "compliance",
+      "next_retry_at": "2026-10-14T00:00:00Z",
+      "id": "compliance-ftc-final-policy-20261008",
+      "reason": "最終声明の一次文書未特定。Proposed掲載だけで未最終化を断定せず再取得"
+    },
+    {
+      "system_id": "compliance",
+      "next_retry_at": "2026-10-14T00:00:00Z",
+      "id": "compliance-commerce-state-list-20261008",
+      "reason": "Commerce/NTIA3面取得失敗。公式アクセス回復後に州法評価本文を取得"
+    },
+    {
+      "system_id": "compliance",
+      "next_retry_at": "2026-10-14T00:00:00Z",
+      "id": "compliance-colorado-draft-20260923-recovered",
+      "reason": "9月23日予定の実施/延期、10月6日中間案以後の最終化未確認。AG/州務長官正式記録を照合"
+    },
+    {
+      "system_id": "compliance",
+      "next_retry_at": "2026-10-14T00:00:00Z",
+      "id": "compliance-doj-colorado-judgment-20261008",
+      "reason": "DOJ介入発表以後の裁判判断・終局状態未確認。裁判所一次文書を取得"
+    },
+    {
+      "system_id": "compliance",
+      "next_retry_at": "2026-10-27T00:00:00Z",
+      "id": "compliance-colorado-hearing-20261026",
+      "reason": "10月26日期日後にコメント受付終了/審理延長をAG公式告知で確認"
+    },
+    {
+      "system_id": "models-prompting",
+      "next_retry_at": "2026-10-14T00:00:00Z",
+      "id": "models-prompting-gpt54cyber-runtime",
+      "reason": "10月1日の公式予定表現は一致、実停止/延期の一次情報は未取得。公式実施/延期告知取得時に再判定。実API未実施"
+    },
+    {
+      "id": "models-prompting-sonnet55-cache-pricing-20261008",
+      "system_id": "models-prompting",
+      "reason": "独立レビューがAnthropic PricingのSonnet5.5 cache read表とPrompt caching節の粒度差を発見。本文の既存料金を断定置換せず、https://platform.claude.com/docs/en/about-claude/pricing の表/倍率/提供条件を次回整合確認する",
+      "next_retry_at": "2026-10-14T00:00:00Z"
+    }
+  ],
+  "unselected_legacy_pending": [
+    {
+      "system_id": "benchmarks",
+      "id": "benchmarks-tb4-numerical-cost-20260917",
+      "source": "research/freshness-runs/20260927t222509029z-952c90ea.json",
+      "reason": "費用包含範囲・算定単価・欠測時集計条件。今回未観測。次のbenchmarks runで原IDを復元する"
+    },
+    {
+      "system_id": "emerging-domains",
+      "original_id": null,
+      "source": "research/freshness-runs/20260920t222658728z-922c2745.json",
+      "reason": "Robin / AI co-scientistの独立追試。今回未観測"
+    },
+    {
+      "system_id": "geopolitics-green-ai",
+      "original_id": null,
+      "source": "research/freshness-runs/20260920t222658728z-922c2745.json",
+      "reason": "EU Annex I採択原文・官報番号・発効の照合。今回未観測"
+    },
+    {
+      "system_id": "geopolitics-green-ai",
+      "original_id": null,
+      "source": "ROADMAP.md#次回確認する注目事項",
+      "reason": "AWS Sustainability / CCFT非推奨化後の実画面移行。今回未観測"
+    }
+  ],
+  "monitoring": {
+    "previous_scheduled_run": {
+      "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/37250941225",
+      "event": "schedule",
+      "conclusion": "success",
+      "created_at": "2026-10-05T01:18:49Z",
+      "head_sha": "4c72c1a651bd01cc4034e0c10b1dbaeec63c46da"
+    },
+    "rerun": {
+      "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/37667955241",
+      "event": "workflow_dispatch",
+      "dry_run": true,
+      "conclusion": "success",
+      "head_sha": "4c72c1a651bd01cc4034e0c10b1dbaeec63c46da",
+      "attention_systems": 16,
+      "existing_tracking_issue": 220,
+      "issue_writes": false
+    }
+  },
+  "scheduled_client": {
+    "specified_ids": [
+      "ai-agent-library-weekly-focus",
+      "ai-agent-library-rotation"
+    ],
+    "matching_registration_count": 0,
+    "configuration_directory_present": false,
+    "inspection": "local_read_only",
+    "actual_scheduled_launch": "not_verified",
+    "notification_delivery": "not_verified",
+    "limitation": "指定ID/設定の不在は観測遅延の原因を確定する証拠ではない。別IDや別実行環境のスケジュールの有無は未確認"
+  },
+  "issue_completion": {
+    "state": "open",
+    "current_systems": 0,
+    "unknown_systems": 16,
+    "condition": "16系統すべての宣言範囲のverified coverageをコミットし、目標周期内のcurrentを監視workflowで確認する"
+  },
+  "dependency_repair": {
+    "url": "https://github.com/pero3dev/ai-agent-library/pull/222",
+    "head_sha": "cb8196dc12ba00f2664b84a9299ff1c0954cf00e",
+    "draft": true,
+    "merged": false,
+    "packages": {
+      "sharp": "0.35.5",
+      "source-map-js": "1.2.2"
+    },
+    "audit": {
+      "high": 0,
+      "critical": 0,
+      "low": 8
+    },
+    "site_tests": {
+      "passed": 84,
+      "failed": 0
+    },
+    "clean_build": {
+      "passed": true,
+      "html": 232,
+      "routes": 230
+    },
+    "merge_decision": "pending_user"
+  }
+}

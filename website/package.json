@@ -49,6 +49,8 @@
     "nextra": {
       "fast-glob": "file:../../vendor/nextra-glob"
     },
-    "dompurify": "3.4.16"
+    "dompurify": "3.4.16",
+    "sharp": "0.35.5",
+    "source-map-js": "1.2.2"
   }
 }

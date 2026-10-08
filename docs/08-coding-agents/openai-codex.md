@@ -3,7 +3,7 @@ title: "OpenAI Codex"
 category: "coding-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-10-03"
+last_updated: "2026-10-08"
 tags: ["coding-agents", "mcp"]
 ---
 
@@ -24,7 +24,7 @@ OpenAI のコーディングエージェント Codex の製品構成(CLI / IDE �
 
 ## 本文
 
-> **最終確認日:** カスタムプロバイダーの接続条件は 2026-10-03、モデル、AGENTS.md の読込上限、permission profiles・Auto-review は 2026-09-10、他の製品仕様・提供形態は 2026-08-18 — 部分更新です。主な出典は「参考資料」を参照してください。
+> **最終確認日:** モデルと認証別の退役・置換先は 2026-10-08、カスタムプロバイダーの接続条件は 2026-10-03、AGENTS.md の読込上限、permission profiles・Auto-review は 2026-09-10、他の製品仕様・提供形態は 2026-08-18 — 部分更新です。主な出典は「参考資料」を参照してください。
 
 ### 概要
 
@@ -97,9 +97,11 @@ Codex は OpenAI のコーディングエージェント製品群です。まず
 
 ### チーム導入と提供プラン
 
-2026-09-10 の公式モデル一覧は **GPT-6 Astra** と **GPT-5.6 Sol / Terra / Luna** を推奨候補として掲載しています。保存済み設定・カスタムエージェント・定期実行では、利用するモデル ID を明示して確認します。
+2026-10-08 の公式モデル一覧は、利用可能な場合に複雑な作業へ **GPT-6.1 Sol**、範囲の明確な反復作業へ **GPT-6 Luna** を案内しています。GPT-5.6 Sol / Terra / Luna は展開中も提供されています。利用可能性はプラン・認証方式・クライアント・管理者設定に依存するため、保存済み設定・カスタムエージェント・定期実行のモデル ID を確認します。
 
-ChatGPT 認証の Codex では `gpt-5.4` / `gpt-5.4-mini` の退役日が **2026-08-31** と案内されており、公式の置換先はそれぞれ `gpt-5.6-terra` / `gpt-5.6-luna` です。**OpenAI API と API キー認証の Codex はこの退役の対象外**です。認証方式を区別せず API の設定まで一律に変更しないようにします。
+ChatGPT 認証の Codex では `gpt-5.4` / `gpt-5.4-mini` が **2026-08-31** に提供終了しました。2026-10-08 の公式置換案内は、利用可能な場合にそれぞれ `gpt-6-sol` / `gpt-6-luna` です。Enterprise / Edu の Luna は管理者による有効化が必要です。**OpenAI API と API キー認証の Codex はこの退役の対象外**です。
+
+GPT-5.5 は **2026-10-14 に ChatGPT・ChatGPT Work・Codex の全プランで提供終了予定**です。OpenAI API は対象外です。認証方式と提供面を区別し、保存したモデル設定・管理設定・定期実行の選択を点検します。
 
 - Codex は ChatGPT の各プラン(Free / Go / Plus / Pro / Business / Edu / Enterprise)に含まれます(Free / Go は限定的)。API キー認証による従量課金も選べます
 - 利用制限は「5 時間ウィンドウあたりのメッセージ数」構造で、超過分はクレジット購入で継続できます。具体値は変動が激しいため公式料金ページ(参考資料)で確認してください
@@ -145,7 +147,7 @@ ChatGPT 認証の Codex では `gpt-5.4` / `gpt-5.4-mini` の退役日が **2026
 
 - [Permissions](https://learn.chatgpt.com/docs/permissions) — beta の設定・旧設定の優先関係・ネットワーク制御範囲(アクセス日: 2026-09-10)
 - [Auto-review](https://learn.chatgpt.com/docs/sandboxing/auto-review) — 承認要求の自動審査と適用範囲(アクセス日: 2026-09-10)
-- [Codex Models](https://learn.chatgpt.com/docs/models) — 推奨モデル、ChatGPT 認証に限る退役・置換先、Other models のカスタムプロバイダー設定 / Responses互換endpointの要件とChat Completions専用endpointの非対応(アクセス日: 2026-10-03)
+- [Codex Models](https://learn.chatgpt.com/docs/models) / [Workspace model availability](https://learn.chatgpt.com/docs/enterprise/workspace-model-availability) — モデル・認証別の退役・置換先・管理者設定を部分再確認(アクセス日: 2026-10-08)。カスタムプロバイダーの接続条件は 2026-10-03 の確認範囲
 - [Gateway compatibility](https://learn.chatgpt.com/docs/enterprise/gateway-compatibility) — Responses互換endpointの要件とChat Completions専用endpointの非対応(アクセス日: 2026-10-03)
 - [Codex Docs(公式)](https://learn.chatgpt.com/docs) — 製品構成・機能の一次情報。2026-08 時点で ChatGPT との統合ドキュメントサイト(learn.chatgpt.com)へ移転済み(旧 developers.openai.com/codex 系 URL は 308 リダイレクトで生存)(アクセス日: 2026-08-18)
 - [Agent approvals & security](https://learn.chatgpt.com/docs/agent-approvals-security) — サンドボックスと承認ポリシーの仕様(アクセス日: 2026-08-18)
@@ -160,7 +162,7 @@ ChatGPT 認証の Codex では `gpt-5.4` / `gpt-5.4-mini` の退役日が **2026
 
 ### 変わりやすい項目(定点観測)
 
-> **TODO(要確認):** 対応モデルと認証方式ごとの提供状況を公式 Models ページで確認する。2026-09-10 の一覧は GPT-6 Astra と GPT-5.6 系を推奨し、ChatGPT 認証での GPT-5.4 系の退役日を 2026-08-31 と案内している。保存済み設定・定期実行のモデル ID を採用時に点検する(最終確認: 2026-09)
+> **TODO(要確認):** GPT-5.5 の 2026-10-14 の期日後、公式 Models と Workspace model availability で ChatGPT・Work・Codex の提供終了実施・延期を確認する。API は対象外。保存済み設定・定期実行のモデル ID とプラン・管理者条件も採用時に点検する(最終確認: 2026-10)
 
 > **TODO(要確認):** プラン別レート制限・クレジット条件を公式 Pricing ページ(learn.chatgpt.com/docs/pricing)で再確認する。モデル節の 9 月更新では価格・利用枠を再検証していない(最終確認: 2026-08)
 

@@ -3,7 +3,7 @@ title: "OpenAI(GPT 系)特化プロンプティングガイド"
 category: "implementation"
 level: "intermediate"
 status: "published"
-last_updated: "2026-10-03"
+last_updated: "2026-10-08"
 tags: ["prompt-design", "model-selection"]
 ---
 
@@ -28,6 +28,8 @@ OpenAI の GPT ファミリーに対して、**公式ガイドが推奨する具
 ## 本文
 
 > **最終確認日:** 2026-10-03 — Structured Outputs の例外処理と Sol / Luna の EU 条件を確認しました。GPT-6 内の設定差・キャッシュ・設定更新・対象 ID 別の退役予定は 2026-09-28、非同期ツールは 2026-09-10 の確認です。従来の設計指針は各参考資料の確認日を参照し、未取得の現行原文は TODO に分けます。
+
+> **部分再確認:** 2026-10-08 — GPT-6.1 Sol の effort・API 制約と旧 `gpt-6-sol` / `gpt-6-luna` との違いを確認しました。EU 条件・共通プロンプト指針・全モデルの互換性を一括再確認したものではありません。
 
 ### 概要: 汎用記事との分担
 
@@ -63,9 +65,11 @@ Claude・Gemini との横並び比較と移行は [モデル間の違いと移�
 
 委任の条件、必要な検証の範囲、完了基準も明示します。自律化の指示は、実行権限や必要な承認を省略する根拠にはしません。
 
-同じ GPT-6 でも Sol / Luna は `none / low / medium / high / xhigh / max` に対応し、既定は `medium` です。Chat Completions の関数呼出し(function calling)は `none` の場合に限られるため、推論を有効にしたツール処理には Responses API を使います。Astra の `none` 非対応と区別して実装します。
+旧 `gpt-6-sol` / `gpt-6-luna` は `none / low / medium / high / xhigh / max` に対応し、既定は `medium` です。Chat Completions の関数呼出し(function calling)は `none` の場合に限られるため、推論を有効にしたツール処理には Responses API を使います。Astra の `none` 非対応と区別して実装します。
 
-Sol / Luna の EU データレジデンシーは、2026-10-03 に取得したモデルページと Your data が Standard / Flex / Batch 対応を案内します。Pricing の現取得本文では、以前の Standard 限定記述の残存を確認できませんでした。取得範囲と過去の観測は [調査メモ](https://github.com/pero3dev/ai-agent-library/blob/main/research/prompting/openai.md) に記録しました。利用前に対象モデル・アカウント・プロジェクト・API の適格条件を Your data と管理画面/公式サポートで確認し、全アカウントでの利用を保証しません。Fast の EU 非対応と、地域内保存(regional storage)・地域内処理(regional processing)は別の条件です。保存対応だけで処理対応とは判断しません。
+2026-09-29 公開の `gpt-6.1-sol` は `low / medium / high / xhigh / max` に対応し、既定は `medium`、`none / minimal` は非対応です。ツール呼出しは Responses API のみで、Chat Completions はツールなしに限られます。旧 Sol での `none` と関数呼出しの組合せを 6.1 Sol に移植しません(2026-10-08 確認)。
+
+旧 `gpt-6-sol` / `gpt-6-luna` の EU データレジデンシーは、2026-10-03 に取得したモデルページと Your data が Standard / Flex / Batch 対応を案内します。Pricing の当時の取得本文では、以前の Standard 限定記述の残存を確認できませんでした。取得範囲と過去の観測は [調査メモ](https://github.com/pero3dev/ai-agent-library/blob/main/research/prompting/openai.md) に記録しました。利用前に対象モデル・アカウント・プロジェクト・API の適格条件を Your data と管理画面/公式サポートで確認し、全アカウントでの利用を保証しません。Fast の EU 非対応と、地域内保存(regional storage)・地域内処理(regional processing)は別の条件です。保存対応だけで処理対応とは判断しません。6.1 Sol の適格条件も対象モデルの資料で個別に確認します。
 
 ### メッセージ構造と指示階層
 
@@ -191,8 +195,10 @@ GPT-5.6 のような新世代は**ドロップイン置換ではなく、再チ�
 
 ## 参考資料
 
-- [GPT-6 Sol](https://developers.openai.com/api/docs/models/gpt-6-sol) — 世代内の effort・API 制約の違い / EU条件の参照先と取得範囲(アクセス日: 2026-10-03)
-- [Luna](https://developers.openai.com/api/docs/models/gpt-6-luna) — 世代内の effort・API 制約の違い / EU条件の参照先と取得範囲(アクセス日: 2026-10-03)
+- [GPT-6.1 Sol](https://developers.openai.com/api/docs/models/gpt-6.1-sol) — effort・API 制約(アクセス日: 2026-10-08)
+- [OpenAI API Changelog](https://developers.openai.com/api/docs/changelog) — GPT-6.1 Sol の公開日(アクセス日: 2026-10-08)
+- [GPT-6 Sol](https://developers.openai.com/api/docs/models/gpt-6-sol) — 旧モデルの effort・API 制約(アクセス日: 2026-10-08。EU 条件は 2026-10-03 の確認範囲)
+- [Luna](https://developers.openai.com/api/docs/models/gpt-6-luna) — 旧モデルの effort・API 制約(アクセス日: 2026-10-08。EU 条件は 2026-10-03 の確認範囲)
 - [最新モデルガイド](https://developers.openai.com/api/docs/guides/latest-model) — 世代内の effort・API 制約の違い / 移行・設定の条件 / 最新世代への移行考慮点(アクセス日: 2026-09-28)
 - [Reasoning models](https://developers.openai.com/api/docs/guides/reasoning) — GPT-6 の設定更新・保持条件・対象 ID 別の終了予定 / `compaction_trigger` と圧縮後の `configuration_update` 再追加 / 推論モデルへの書き方・effort・`reasoning.mode`(アクセス日: 2026-09-28)
 - [Prompt caching](https://developers.openai.com/api/docs/guides/prompt-caching) — GPT-6 の設定更新・保持条件・対象 ID 別の終了予定 / 世代別の保持・課金・設定更新(アクセス日: 2026-09-28)
@@ -220,7 +226,7 @@ GPT-5.6 のような新世代は**ドロップイン置換ではなく、再チ�
 
 > **TODO(要確認):** 四半期ごとに OpenAI 公式の「Prompt guidance」「Reasoning models」「Using the latest model」ページと GPT-5.x 系 cookbook で次を再確認する(更新起点: `research/prompting/openai.md`、最終確認: 2026-09):
 >
-> - 現行フロンティア世代と対応 effort(Astra は none / minimal 非対応、GPT-5.6 / 5.5 の既定は medium)
+> - 現行フロンティア世代と対応 effort(2026-10-08 部分確認: 6.1 Sol は none / minimal 非対応・既定 medium。Astra は none / minimal 非対応、旧 GPT-6 Sol / Luna は none 対応)
 > - reasoning effort の水準集合(none / minimal / low / medium / high / xhigh / max。GPT-5.6 世代は `minimal` 非対応)と `reasoning.mode`(standard / pro)の対応モデル
 > - developer / system メッセージの用語と指示階層(Model Spec の更新)
 > - Structured Outputs の対応モデルと未対応スキーマ機能

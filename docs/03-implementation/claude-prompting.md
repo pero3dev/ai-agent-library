@@ -3,7 +3,7 @@ title: "Claude 特化プロンプティングガイド"
 category: "implementation"
 level: "intermediate"
 status: "published"
-last_updated: "2026-10-04"
+last_updated: "2026-10-08"
 tags: ["prompt-design", "model-selection"]
 ---
 
@@ -28,6 +28,8 @@ Anthropic の Claude ファミリーに対して、**公式ガイドが推奨す
 ## 本文
 
 > **最終確認日:** 2026-09-10 — Fable 5.1 の非互換と設定更新を確認しました。従来の共通指針は参考資料の確認日を参照してください。
+
+> **部分再確認:** 2026-10-08 — 会話途中の effort 更新について、対応モデル・提供経路と Fable 5.1 の Bedrock InvokeModel の beta 指定を確認しました。共通プロンプト指針・全モデルの互換性を一括再確認したものではありません。
 
 ### 概要: 汎用記事との分担
 
@@ -136,7 +138,7 @@ Opus 5.5 / Sonnet 5.5 は強制ツール指定 `any` / `tool` を拒否します
 
 思考ブロック前の system・tools・過去のメッセージを変更すると、保持した思考との結び付きが無効になります。2026-08-31 以降に作成されたアカウントでは検査が強制され、無効なブロックの再送は既定で 400 です。それ以前のアカウントや明示的な drop 設定では扱いが異なります。履歴は追記し、圧縮は対応するサーバー側機構か、思考の再送方針を定めたクライアント処理で行います。Fable 5.1 の思考を旧モデルへ渡すとブロックが破棄されるため、フォールバック時にも継続性を検証します。
 
-会話途中の effort 更新は `mid-conversation-output-config-2026-07-01` beta と対応モデル・提供経路を確認します。Fable 5.1 / Mythos 5.1 / Opus 5 の Claude API と Google Cloud が対象です。ターン限定の system は `clear_at: "next_user_message"` と `mid-conversation-system-clear-at-2026-08-21` beta を使い、期限後も履歴から削除せず再送します。任意の過去本文の編集とは区別します。
+会話途中のメッセージ単位の effort 更新は `mid-conversation-output-config-2026-07-01` beta と対応モデル・提供経路を確認します。2026-10-08 の effort ガイドでは、Claude API と Google Cloud の Fable 5.1 / Mythos 5.1 / Opus 5.5 / Opus 5 / Sonnet 5.5 が対象です。Sonnet 5.5 でターンごとに effort を変える場合は `thinking.type: "adaptive"` を使います。`between_tools` では、有効な値と異なるメッセージ単位の `output_config.effort` を送ると 400 エラーになります。Fable 5.1 の変更ガイドは、Bedrock InvokeModel でもリクエスト本文の `anthropic_beta` 配列に同じ beta を指定する方式を案内します。この条件を他の Bedrock API やモデルへ一般化しません。ターン限定の system は `clear_at: "next_user_message"` と `mid-conversation-system-clear-at-2026-08-21` beta を使い、期限後も履歴から削除せず再送します。任意の過去本文の編集とは区別します。
 
 Fable 5.1 のキャッシュ読取は入力単価の 2.5% です。また 30 日保持があり、Anthropic の明示的許可がない限り ZDR では利用できません。能力評価とともに [モデルカタログ](llm-landscape.md) の費用・保持条件を確認します。
 
@@ -198,11 +200,11 @@ Claude はモデル更新のたびにプロンプトを見直す前提です(202
 - [Claude Opus 5.5](https://platform.claude.com/docs/en/models/opus-5-5/overview) — 思考・effort の既定(アクセス日: 2026-10-03)
 - [Claude Sonnet 5.5](https://platform.claude.com/docs/en/models/sonnet-5-5/overview) — 思考設定と非互換条件(アクセス日: 2026-10-03)
 - [Migrating to Claude Opus 5.5](https://platform.claude.com/docs/en/models/opus-5-5/migration-guide) — 強制ツール・履歴の移行境界(アクセス日: 2026-10-03)
-- [What’s new in Claude Fable 5.1](https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1) — 強制ツール・思考の結び付き・beta・保持条件(アクセス日: 2026-09-10)
+- [What’s new in Claude Fable 5.1](https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1) — メッセージ単位の effort 更新・Bedrock InvokeModel の beta 指定(アクセス日: 2026-10-08。強制ツール・思考の結び付き・保持条件は 2026-09-10 の確認範囲)
 - [Prompt engineering overview(Anthropic)](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview) — プロンプト設計の入口(アクセス日: 2026-08-18)
 - [Claude prompting best practices(Anthropic)](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices) — 全モデル共通技法 + モデル別ガイド + 移行考慮点の正本(アクセス日: 2026-08-18)
 - [Thinking(Anthropic)](https://platform.claude.com/docs/en/build-with-claude/thinking) — 思考制御の正本。2026-08 時点で「Steering thinking and cost」「Tool workflows」「Troubleshooting」の分冊構成に再編済み(旧 Adaptive thinking ページの URL は Steering thinking へ移行)(アクセス日: 2026-08-18)
-- [Effort(Anthropic)](https://platform.claude.com/docs/en/build-with-claude/effort) — effort の仕様(アクセス日: 2026-08-18)
+- [Effort(Anthropic)](https://platform.claude.com/docs/en/build-with-claude/effort) — メッセージ単位の effort 更新の対応モデル・提供経路(アクセス日: 2026-10-08。一般的な effort の説明は 2026-08-18 の確認範囲)
 - [Structured outputs(Anthropic)](https://platform.claude.com/docs/en/build-with-claude/structured-outputs) — `output_config.format` の仕様(アクセス日: 2026-08-18)
 - [Model migration guide(Anthropic)](https://platform.claude.com/docs/en/about-claude/models/migration-guide) — 世代間の変更点(prefill 廃止・サンプリング・トークナイザ)(アクセス日: 2026-08-18)
 

@@ -259,3 +259,19 @@ docs は本観測の結果を反映済み(claude-prompting / cross-model-prompti
 #176: Opus 5.5 / Sonnet 5.5 の既定思考、effort、強制ツールとサンプリングの非互換、思考履歴の移行境界を部分再確認しました。
 
 取得 URL・実取得バッチ完了 UTC・確認水準・残る TODO は [一次情報の修正記録](../reviews/2026-10-03-article-remediation.md) を参照してください。過去の日付の本文は上書きしていません。
+
+## 2026-10-08 Issue #220 再開の部分観測
+
+[Claude 特化プロンプティング](../../docs/03-implementation/claude-prompting.md) の会話途中の effort 更新について、対応モデル・提供経路だけを訂正しました。
+
+- effort ガイドは、`mid-conversation-output-config-2026-07-01` beta によるメッセージ単位の effort 更新を Claude API と Google Cloud の Fable 5.1 / Mythos 5.1 / Opus 5.5 / Opus 5 / Sonnet 5.5 で案内しています。
+- 独立レビューの再取得では、Sonnet 5.5 のターンごとの変更は `thinking.type: "adaptive"` が条件です。`between_tools` で有効値と異なるメッセージ単位の `output_config.effort` を送ると 400 になるという条件も記事へ同期しました。モデル列挙だけで互換性を判断しません。
+- Fable 5.1 の変更ガイドは、Bedrock InvokeModel で同じ beta をリクエスト本文の `anthropic_beta` 配列に指定する方式も案内しています。Fable 5.1 について確認した条件を、他の Bedrock API やモデルの対応へ一般化しません。
+
+一次資料と実取得 UTC:
+
+- [Effort](https://platform.claude.com/docs/en/build-with-claude/effort): 2026-10-07T17:38:51Z、メッセージ単位の更新の対応モデル・Claude API / Google Cloud。
+- [Effort の独立再取得](https://platform.claude.com/docs/en/build-with-claude/effort): 2026-10-08T01:27:34Z、Sonnet 5.5 の adaptive 条件と between_tools での 400。元の取得時刻は上書きせず保持しました。
+- [What's new in Fable 5.1](https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1): 2026-10-07T17:39:28Z、Fable 5.1 の Bedrock InvokeModel の beta 指定。
+
+実 SDK・実 API・全モデルの互換性は未検証です。共通プロンプト指針、ターン限定 system、保持条件はこの部分更新で再確認した項目に数えません。過去の観測日と未解決 TODO は維持します。この部分記録は系統全体の完了ではなく、全ベンダーの観測分類と残件は [実行の根拠記録](../freshness-runs/20261007t173132543z-fc61a4ee.json) を参照してください。

@@ -3,7 +3,7 @@ title: "Gemini 特化プロンプティングガイド"
 category: "implementation"
 level: "intermediate"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-10-08"
 tags: ["prompt-design", "model-selection"]
 ---
 
@@ -29,6 +29,8 @@ Google の Gemini ファミリーに対して、**公式ガイドが推奨する
 
 > **最終確認日:** 2026-09-10 — Gemini 3.8 Flash のモデル仕様と、数値思考予算のモデル / API 別の扱いを更新しました。共通指針は各参考資料の確認日を参照してください。
 
+> **部分再確認:** 2026-10-08 — Gemini 2.5 系の利用対象と、3.8 Flash のモデル仕様・思考レベルを再確認しました。API 別の実呼出しや共通プロンプト指針の全項目は未再検証です。
+
 ### 概要: 汎用記事との分担
 
 | 層 | 正本 | 本記事 |
@@ -45,7 +47,7 @@ Claude・OpenAI との横並び比較と移行は [モデル間の違いと移�
 
 顔ぶれ・価格・選び方は [モデルカタログ](llm-landscape.md) が正本です。プロンプト設計に効く差分だけを押さえます。Gemini 3.8 Flash は 2026-09-10 に確認し、従来モデルの共通指針は各参考資料の確認日を基にしています。
 
-- **現行は Gemini 3 系**: 安定版は Gemini 3.8 Flash(2026-09-02 GA、入力 1,048,576 / 出力 65,536 トークン)・3.7 Flash・3.6 Flash(2026-07-21 登場)・3.5 Flash-Lite / 3.1 Flash-Lite(軽量)で、プレビューの 3.1 Pro などがあります。3.5 Flash はレガシー扱いに移りました。旧世代の 2.5 系も提供中で、**終了日は未定**です(2026-10-16 提供終了の告知は撤回されました)
+- **現行は Gemini 3 系**: 安定版は Gemini 3.8 Flash(2026-09-02 GA、入力 1,048,576 / 出力 65,536 トークン)・3.7 Flash・3.6 Flash(2026-07-21 登場)・3.5 Flash-Lite / 3.1 Flash-Lite(軽量)で、プレビューの 3.1 Pro などがあります。3.5 Flash はレガシー扱いに移りました。旧世代の 2.5 Pro / Flash / Flash-Lite は 2026-09-18 から過去の利用者のみ利用可能で、**終了日は未定**です(2026-10-16 提供終了の告知は撤回されました)。新規プロジェクトは 3.5 Flash-Lite / 3.8 Flash などを検討します(提供条件は 2026-10-08 確認)
 - **3 系は thinking_level を基本にする**: 数値予算の有無はモデル / API 別に確認します。2.5 系の Live API と一括化しません(後述)
 - **マルチモーダルが最大の差別化点**: text / image / audio / video を同格の入力として扱えます。プロンプトはこれを前提に書きます
 - **サンプリングパラメータは既定のまま**が公式推奨で、これは他社の慣行と逆向きです(後述)
@@ -160,12 +162,13 @@ Gemini 3 系の思考制御は **thinking_level**(相対的な思考量の許容
 
 ## 参考資料
 
-- [Gemini 3.8 Flash](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash) — モデル仕様(アクセス日: 2026-09-10)
+- [Gemini 3.8 Flash](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash) — モデル仕様(アクセス日: 2026-10-08)
+- [Gemini API release notes](https://ai.google.dev/gemini-api/docs/changelog) / [Deprecations](https://ai.google.dev/gemini-api/docs/deprecations) — 2.5 系の既存利用者限定と終了日未定(アクセス日: 2026-10-08)
 - [Live API capabilities](https://ai.google.dev/gemini-api/docs/live-api/capabilities) / [Python SDK ThinkingConfig](https://github.com/googleapis/python-genai/blob/main/google/genai/types.py) — 数値予算の説明・型(アクセス日: 2026-09-10)
 
 - [Prompting strategies(Google Gemini API)](https://ai.google.dev/gemini-api/docs/prompting-strategies) — 構造化・few-shot・長文・マルチモーダルの指針(アクセス日: 2026-08-18)
 - [Gemini 3 developer guide(Google)](https://ai.google.dev/gemini-api/docs/gemini-3) — 世代固有の推奨(thinking_level・サンプリング・移行)(アクセス日: 2026-08-18。2026-08-18 時点では 3.6 / 3.7 Flash が未反映で、モデル一覧ページと乖離あり)
-- [Thinking(Google Gemini API)](https://ai.google.dev/gemini-api/docs/thinking) — thinking_level・思考署名(アクセス日: 2026-08-18)
+- [Thinking(Google Gemini API)](https://ai.google.dev/gemini-api/docs/thinking) — 3.8 Flash の thinking_level(アクセス日: 2026-10-08。思考署名の説明は 2026-08-18 の確認範囲)
 - [Structured output(Google Gemini API)](https://ai.google.dev/gemini-api/docs/structured-output) — JSON スキーマ強制(アクセス日: 2026-07-08)
 - [Long context(Google Gemini API)](https://ai.google.dev/gemini-api/docs/long-context) / [Function calling(Google Gemini API)](https://ai.google.dev/gemini-api/docs/function-calling) — 長文配置・ツール使用(アクセス日: 2026-07-08)
 
@@ -179,7 +182,7 @@ Gemini 3 系の思考制御は **thinking_level**(相対的な思考量の許容
 
 > **TODO(要確認):** 四半期ごとに Google 公式の「Prompting strategies」「Gemini 3 developer guide」「Thinking」ページで次を再確認する(更新起点: `research/prompting/google.md`、最終確認: 2026-09):
 >
-> - 現行モデル世代とモデル ID(2026-09-10 確認: 3.8 Flash が主力 GA、3.7 Flash も GA、3.6 Flash も GA、3.5 Flash はレガシー、3.1 Pro はプレビュー、2.5 系は終了日未定〔2026-10-16 終了告知は撤回〕)
+> - 現行モデル世代とモデル ID(2026-09-10 確認: 3.8 Flash が主力 GA、3.7 Flash も GA、3.6 Flash も GA、3.5 Flash はレガシー、3.1 Pro はプレビュー。2026-10-08 部分確認: 2.5 系は過去の利用者のみ利用可能で終了日未定〔2026-10-16 終了告知は撤回〕)
 > - API 面(Interactions API が推奨 / generateContent が legacy への移行)
 > - thinking 制御の書き方(thinking_level の値・モデル別既定〔現在: 3.8 / 3.7 / 3.6 Flash は medium、3.5 Flash-Lite は minimal、3.1 Pro プレビューは high〕、thinking_budget のモデル / API 別の対応)
 > - 構造化出力のフィールド名と対応スキーマ機能

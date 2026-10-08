@@ -375,3 +375,12 @@ Linear(出典: <https://developers.openai.com/codex/integrations/linear>、確�
 6. SDK の構造化出力 API(§4-2)
 7. help.openai.com のレートカード・プラン記事(直接取得 403。検索スニペット経由の記述はブラウザで再確認): <https://help.openai.com/en/articles/20001106-codex-rate-card> / <https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan>
 8. プラン別メッセージ数レンジ・クレジットレート・Fast mode 倍率は改定されやすい → 執筆直前に <https://developers.openai.com/codex/pricing> / <https://developers.openai.com/codex/speed> / <https://developers.openai.com/codex/models> を再取得(`.md` 付き URL が便利)
+
+## 2026-10-08 の部分観測(Issue #220)
+
+コスト節だけを再確認しました。GPT-6.1 Sol は通常入力 50 / キャッシュ入力 2.5 credits per 1M tokens で比率は 1/20、6 Sol / Luna と 5.6 系の 1/10 とは異なります。Fast は対応モデルの契約内利用枠を 2.5 倍で消費し、購入クレジットと Enterprise 従量利用は 2 倍で課金します。消費・課金倍率を速度倍率と混同せず、API キー認証では API 料金を使います。
+
+- [Pricing](https://learn.chatgpt.com/docs/pricing) / [Speed](https://learn.chatgpt.com/docs/agent-configuration/speed): 実取得 UTC 2026-10-07T17:35:35Z
+- 反映先: `docs/08-coding-agents/openai-codex-in-practice.md` のキャッシュ比率・Fast・関連 TODO。AGENTS.md、定期タスク、help の契約レートカード、プラン別絶対利用枠と実課金は再検証していません
+- 認証別退役は [Models](https://learn.chatgpt.com/docs/models) を実取得 UTC 2026-10-07T17:36:11Z に照合しました
+- 観測根拠: [今回の結果](../freshness-runs/20261007t173132543z-fc61a4ee.json)。系統全体の完了ではありません

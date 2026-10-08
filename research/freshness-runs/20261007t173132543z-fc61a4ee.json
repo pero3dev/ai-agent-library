@@ -1,0 +1,747 @@
+{
+  "schema_version": 2,
+  "run_id": "20261007t173132543z-fc61a4ee",
+  "base_sha": "08e12dd2619a3493d2396cf8452889898aeff059",
+  "writer_run_id": "20261007t173132543z-fc61a4ee",
+  "started_at": "2026-10-07T17:31:32.543Z",
+  "systems": [
+    "coding-agents",
+    "compliance",
+    "models-prompting"
+  ],
+  "coverage": [],
+  "observations": [
+    {
+      "system_id": "coding-agents",
+      "status": "unchanged",
+      "summary": "Copilotの10月2日4モデル廃止実施と変更後の移行先、10月19日6モデル廃止予定、10月22日機能既定ポリシーの開始・明示設定保持・preview opt-in・例外は一致。将来予定の実施、PR承認・JetBrains sandbox・料金は今回未確認。",
+      "sources": [
+        {
+          "url": "https://github.blog/changelog/2026-10-02-selected-models-in-github-copilot-deprecated/",
+          "accessed_at": "2026-10-07T17:35:20Z"
+        },
+        {
+          "url": "https://github.blog/changelog/2026-09-18-upcoming-deprecation-of-selected-github-copilot-models-in-mid-october/",
+          "accessed_at": "2026-10-07T17:35:12Z"
+        },
+        {
+          "url": "https://github.blog/changelog/2026-09-24-default-enablement-of-copilot-features-for-copilot-business-and-enterprise/",
+          "accessed_at": "2026-10-07T17:35:12Z"
+        },
+        {
+          "url": "https://docs.github.com/en/copilot/concepts/enterprise/default-availability",
+          "accessed_at": "2026-10-07T17:35:20Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/08-coding-agents/github-copilot.md"
+      ]
+    },
+    {
+      "system_id": "coding-agents",
+      "status": "unchanged",
+      "summary": "Continue READMEの積極保守終了・read-only方針・final2.0.0、Repository APIのarchived=false/disabled=falseは一致。非アーカイブ属性を継続保守やサポート保証へ換算しない。",
+      "sources": [
+        {
+          "url": "https://github.com/continuedev/continue",
+          "accessed_at": "2026-10-07T17:35:12Z"
+        },
+        {
+          "url": "https://api.github.com/repos/continuedev/continue",
+          "accessed_at": "2026-10-07T17:35:20Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/08-coding-agents/open-source-coding-agents.md"
+      ]
+    },
+    {
+      "system_id": "coding-agents",
+      "status": "unverifiable",
+      "summary": "Continue公式サイトはFAQ見出しまでで、拡張・CLI・既存ユーザーへの継続サポート保証を確認できない。既存ID coding-continue-support-20260917を維持し、公式回答またはサポート告知取得時に再試行する。",
+      "sources": [
+        {
+          "url": "https://continue.dev/",
+          "accessed_at": "2026-10-07T17:35:20Z"
+        },
+        {
+          "url": "https://github.com/continuedev/continue",
+          "accessed_at": "2026-10-07T17:35:12Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/08-coding-agents/open-source-coding-agents.md"
+      ]
+    },
+    {
+      "system_id": "coding-agents",
+      "status": "changed",
+      "summary": "Codex推奨は6.1 Sol/6 Luna、5.6系は展開中継続。ChatGPT認証の5.4/miniの8月31日終了とAPI対象外を再確認し、置換案内を利用可能な6 Sol/Lunaへ同期。Enterprise/EduのLunaは管理者有効化が必要。GPT-5.5は10月14日ChatGPT/Work/Codex全プラン終了予定、API対象外。",
+      "sources": [
+        {
+          "url": "https://learn.chatgpt.com/docs/models",
+          "accessed_at": "2026-10-07T17:36:11Z"
+        },
+        {
+          "url": "https://learn.chatgpt.com/docs/enterprise/workspace-model-availability",
+          "accessed_at": "2026-10-07T17:36:11Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/08-coding-agents/openai-codex.md",
+        "docs/08-coding-agents/openai-codex-in-practice.md"
+      ]
+    },
+    {
+      "system_id": "coding-agents",
+      "status": "changed",
+      "summary": "Fastは契約内利用枠2.5倍、購入creditsとEnterprise従量利用2倍を分離。速度倍率とAPI料金は別。6.1 Sol通常入力50/cache2.5 credits per1Mで1/20、他掲載モデルの1/10を全モデルへ一般化しない。プラン別絶対利用枠、help契約レートカード、実課金は未検証。",
+      "sources": [
+        {
+          "url": "https://learn.chatgpt.com/docs/agent-configuration/speed",
+          "accessed_at": "2026-10-07T17:35:35Z"
+        },
+        {
+          "url": "https://learn.chatgpt.com/docs/pricing",
+          "accessed_at": "2026-10-07T17:35:35Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/08-coding-agents/openai-codex-in-practice.md"
+      ]
+    },
+    {
+      "system_id": "compliance",
+      "status": "changed",
+      "summary": "PPCは10月1日第370回委員会で基本的な考え方②を議論し、統計作成等の特例・委託先の取扱い・漏えい報告/本人通知の資料を公表。正式公募・施行・最終規則と区別。",
+      "sources": [
+        {
+          "url": "https://www.ppc.go.jp/personalinfo/legal/r8kaiseihogohou/",
+          "accessed_at": "2026-10-07T17:33:36Z"
+        },
+        {
+          "url": "https://www.ppc.go.jp/files/pdf/261001_kihonntekinakanngaekatanitsuite_2.pdf",
+          "accessed_at": "2026-10-07T17:35:25Z",
+          "published_at": "2026-10-01"
+        }
+      ],
+      "affected_docs": [
+        "docs/06-security/compliance-and-governance.md"
+      ]
+    },
+    {
+      "system_id": "compliance",
+      "status": "unverifiable",
+      "summary": "改正法附則の公布から2年以内の政令指定日という規定は確認。主な施行政令・正式公募開始・最終化は未確認。e-Gov本文0行、一覧に見当たらないことを不存在の証拠にしない。",
+      "sources": [
+        {
+          "url": "https://www.ppc.go.jp/files/pdf/260717_houritsu.pdf",
+          "accessed_at": "2026-10-07T17:36:43Z"
+        },
+        {
+          "url": "https://www.ppc.go.jp/news/public-comment/?ref=gnavi",
+          "accessed_at": "2026-10-07T17:35:25Z"
+        },
+        {
+          "url": "https://laws.e-gov.go.jp/law/508AC0000000056",
+          "accessed_at": "2026-10-07T17:35:25Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/06-security/compliance-and-governance.md"
+      ]
+    },
+    {
+      "system_id": "compliance",
+      "status": "unchanged",
+      "summary": "EUR-LexのArt111(4)/113改正文は既存システムのマーキング2026-12-02、高リスク義務2027-12-02/2028-08-02、新設禁止行為2026-12-02に一致。ALLの本文空を公式TXT本文で再取得した。",
+      "sources": [
+        {
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ%3AL_202601744",
+          "accessed_at": "2026-10-07T17:35:25Z"
+        },
+        {
+          "url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai",
+          "accessed_at": "2026-10-07T17:33:52Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/06-security/compliance-and-governance.md"
+      ]
+    },
+    {
+      "system_id": "compliance",
+      "status": "unverifiable",
+      "summary": "標準化の開発・評価・OJ引用の工程は確認したが、個別整合規格の正式発行とOJ引用の最新状態は未確認。",
+      "sources": [
+        {
+          "url": "https://digital-strategy.ec.europa.eu/en/policies/ai-act-standardisation",
+          "accessed_at": "2026-10-07T17:36:43Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/06-security/compliance-and-governance.md"
+      ]
+    },
+    {
+      "system_id": "compliance",
+      "status": "failed",
+      "summary": "California主体別適用の州法典/単一条文/AB853は403または取得エラー。accessed_atは失敗確認時刻。公式本文アクセス回復時に再試行し、二次資料でunchangedにしない。",
+      "sources": [
+        {
+          "url": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=BPC&division=8.&title=&part=&chapter=25.&article=",
+          "accessed_at": "2026-10-07T17:33:36Z"
+        },
+        {
+          "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=22757.6.&lawCode=BPC",
+          "accessed_at": "2026-10-07T17:35:25Z"
+        },
+        {
+          "url": "https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202520260AB853",
+          "accessed_at": "2026-10-07T17:36:04Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/06-security/compliance-and-governance.md"
+      ]
+    },
+    {
+      "system_id": "compliance",
+      "status": "unchanged",
+      "summary": "FTCの7月1日文書がProposedとして掲載され、コメント期限7月31日と一致。新しい最終文書の不存在・未最終化を断定する観測ではない。",
+      "sources": [
+        {
+          "url": "https://www.ftc.gov/news-events/news/press-releases/2026/07/ftc-seeks-public-comment-policy-statement-addressing-ai-accuracy",
+          "accessed_at": "2026-10-07T17:33:52Z"
+        },
+        {
+          "url": "https://www.ftc.gov/legal-library/browse/policy-statements",
+          "accessed_at": "2026-10-07T17:34:13Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/06-security/compliance-and-governance.md"
+      ]
+    },
+    {
+      "system_id": "compliance",
+      "status": "unverifiable",
+      "summary": "FTC AI accuracy政策声明案の最終文書は未特定。提案の継続掲載だけで未最終化を推測しない。",
+      "sources": [
+        {
+          "url": "https://www.ftc.gov/legal-library/browse/policy-statements",
+          "accessed_at": "2026-10-07T17:34:13Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/06-security/compliance-and-governance.md"
+      ]
+    },
+    {
+      "system_id": "compliance",
+      "status": "failed",
+      "summary": "商務省州法評価リストはCommerce/NTIA3面の取得失敗で未特定。accessed_atは失敗確認時刻。公式アクセス回復後に評価本文を再取得する。",
+      "sources": [
+        {
+          "url": "https://www.commerce.gov/news",
+          "accessed_at": "2026-10-07T17:35:25Z"
+        },
+        {
+          "url": "https://www.ntia.gov/artificial-intelligence",
+          "accessed_at": "2026-10-07T17:35:25Z"
+        },
+        {
+          "url": "https://www.ntia.gov/news/2026",
+          "accessed_at": "2026-10-07T17:36:04Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/06-security/compliance-and-governance.md"
+      ]
+    },
+    {
+      "system_id": "compliance",
+      "status": "changed",
+      "summary": "Colorado AGは10月6日interim draftとPDFを公開。両法2027-01-01適用案内、コメント10月26日/審理継続時の延長は一致。9月23日予定の実施/延期、最終規則は未確認。",
+      "sources": [
+        {
+          "url": "https://coag.gov/ai/",
+          "accessed_at": "2026-10-07T17:33:52Z"
+        },
+        {
+          "url": "https://coag.gov/app/uploads/2026/10/2026.10.06-ADMT-Chatbot-Act-Rulemaking-Interim-Draft-Redline.pdf",
+          "accessed_at": "2026-10-07T17:36:43Z",
+          "published_at": "2026-10-06"
+        }
+      ],
+      "affected_docs": [
+        "docs/06-security/compliance-and-governance.md"
+      ]
+    },
+    {
+      "system_id": "compliance",
+      "status": "unverifiable",
+      "summary": "DOJの4月24日介入申立発表は確認。その後の裁判所判断・終局状態は一次裁判資料を特定できず、改正や日付経過から終結を推測しない。",
+      "sources": [
+        {
+          "url": "https://www.justice.gov/opa/pr/justice-department-intervenes-xai-lawsuit-challenging-colorados-algorithmic-discrimination",
+          "accessed_at": "2026-10-07T17:35:25Z",
+          "published_at": "2026-04-24"
+        }
+      ],
+      "affected_docs": [
+        "docs/06-security/compliance-and-governance.md"
+      ]
+    },
+    {
+      "system_id": "models-prompting",
+      "status": "changed",
+      "summary": "API gpt-6.1-solは9月29日公開、1,050,000context/128,000output、effort low/medium/high/xhigh/max(既定medium)、none/minimal非対応。ツールはResponses、Chat Completionsはツールなし。Standard短文の入力/読取/書込/出力$2/$0.10/$2.50/$10。従来6 Solのnone対応・読取$0.20を区別。公開は前回部分観測以前だが対象記事未反映。",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+          "accessed_at": "2026-10-07T17:38:22Z"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/changelog",
+          "accessed_at": "2026-10-07T17:35:16Z",
+          "published_at": "2026-09-29"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/pricing",
+          "accessed_at": "2026-10-07T17:35:16Z"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/models/gpt-6-sol",
+          "accessed_at": "2026-10-07T17:40:59Z"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/models/gpt-6-luna",
+          "accessed_at": "2026-10-07T17:40:59Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/03-implementation/llm-landscape.md",
+        "docs/03-implementation/openai-prompting.md"
+      ]
+    },
+    {
+      "system_id": "models-prompting",
+      "status": "changed",
+      "summary": "Gemini3.8にも独立した導入価格が掲載。Standard入力/出力2026-12-31まで$0.75/$3.75、2027-01-01から$1.50/$7.50。3.7のみを説明したカタログを訂正。価格改定発生日は今回取得から確定しない。",
+      "sources": [
+        {
+          "url": "https://ai.google.dev/gemini-api/docs/pricing",
+          "accessed_at": "2026-10-07T17:35:53Z",
+          "effective_at": "2027-01-01"
+        }
+      ],
+      "affected_docs": [
+        "docs/03-implementation/llm-landscape.md"
+      ]
+    },
+    {
+      "system_id": "models-prompting",
+      "status": "changed",
+      "summary": "9月18日告知と現行退役表でGemini2.5系は過去利用者限定。終了日未定は維持し、新規プロジェクトに3.5 Flash-Lite/3.8 Flashを案内。提供中という記述へ条件を同期する。",
+      "sources": [
+        {
+          "url": "https://ai.google.dev/gemini-api/docs/changelog",
+          "accessed_at": "2026-10-07T17:35:16Z",
+          "published_at": "2026-09-18"
+        },
+        {
+          "url": "https://ai.google.dev/gemini-api/docs/deprecations",
+          "accessed_at": "2026-10-07T17:37:55Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/03-implementation/llm-landscape.md",
+        "docs/03-implementation/gemini-prompting.md"
+      ]
+    },
+    {
+      "system_id": "models-prompting",
+      "status": "changed",
+      "summary": "Per-message effortはClaude API/Google CloudのFable5.1/Mythos5.1/Opus5.5/Opus5/Sonnet5.5に対応。Fable5.1のBedrock InvokeModelはmid-conversation-output-config-2026-07-01をanthropic_beta配列へ指定。資料間の粒度差がある他モデル/Bedrock別APIには一般化しない。 Sonnet5.5のターンごとの変更はthinking.type=adaptiveが条件。between_toolsで有効値と異なるper-message output_config.effortを送ると400。元取得に加え独立再取得で条件を確認。",
+      "sources": [
+        {
+          "url": "https://platform.claude.com/docs/en/build-with-claude/effort",
+          "accessed_at": "2026-10-07T17:38:51Z"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1",
+          "accessed_at": "2026-10-07T17:39:28Z"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/build-with-claude/effort",
+          "accessed_at": "2026-10-08T01:27:34Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/03-implementation/claude-prompting.md"
+      ]
+    },
+    {
+      "system_id": "models-prompting",
+      "status": "unchanged",
+      "summary": "Anthropic現行4モデルの入力/出力単価、Fable5.1 cache read$0.25、Opus5.5 read$0.20、Sonnet4.5の11月30日退役、Activeの最早日/確定日の区別は一致。Sonnet5.5 cache readは元取得時の表/説明不一致として一致の対象から除外し、別再取得観測25へ記録。Fable30日保持・明示許可なしZDR不可・思考履歴/新規アカウント検査も対象記述と一致。",
+      "sources": [
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+          "accessed_at": "2026-10-07T17:35:53Z"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+          "accessed_at": "2026-10-07T17:35:53Z"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1",
+          "accessed_at": "2026-10-07T17:39:28Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/03-implementation/llm-landscape.md",
+        "docs/03-implementation/claude-prompting.md"
+      ]
+    },
+    {
+      "system_id": "models-prompting",
+      "status": "unchanged",
+      "summary": "5.6以降30m最短保持と書込/再利用更新・cache_write_tokens、GPT6 standard/単一agentのconfiguration_update・隣接禁止・自動圧縮/切詰めと単独compactの非互換・明示圧縮後の再追加は対象節に一致。",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/api/docs/guides/prompt-caching",
+          "accessed_at": "2026-10-07T17:38:51Z"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/guides/reasoning",
+          "accessed_at": "2026-10-07T17:39:28Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/03-implementation/openai-prompting.md"
+      ]
+    },
+    {
+      "system_id": "models-prompting",
+      "status": "unchanged",
+      "summary": "o4-mini対象IDの10月23日、v1/promptsの11月30日、GPT5/o3対象スナップショットの12月11日終了予定は一致。期日後の実施確認とは区別。",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/api/docs/deprecations",
+          "accessed_at": "2026-10-07T17:37:55Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/03-implementation/llm-landscape.md",
+        "docs/03-implementation/openai-prompting.md"
+      ]
+    },
+    {
+      "system_id": "models-prompting",
+      "status": "unverifiable",
+      "summary": "gpt-5.4-cyber公式表は10月1日終了予定の表現を維持。実停止/延期の一次情報は取得できず期日経過から断定しない。公式実施/延期告知、または明示許可された対象アカウントの実API確認が必要。実APIは未実施。",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/api/docs/deprecations",
+          "accessed_at": "2026-10-07T17:37:55Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/03-implementation/llm-landscape.md"
+      ]
+    },
+    {
+      "system_id": "models-prompting",
+      "status": "unchanged",
+      "summary": "Gemini3.8 Stable、入力1,048,576/出力65,536、low/medium/high、既定medium・minimal非対応は一致。Thinkingの取得範囲はInteractions。GenerateContent/Live等の全呼出し互換は未検証。",
+      "sources": [
+        {
+          "url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash",
+          "accessed_at": "2026-10-07T17:38:22Z"
+        },
+        {
+          "url": "https://ai.google.dev/gemini-api/docs/thinking",
+          "accessed_at": "2026-10-07T17:37:18Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/03-implementation/llm-landscape.md",
+        "docs/03-implementation/gemini-prompting.md"
+      ]
+    },
+    {
+      "system_id": "models-prompting",
+      "status": "changed",
+      "summary": "10月3日以降のrelease notesはAnthropic10/5 Models API disabled capability、OpenAI10/6 Decisions API beta/usage tiers、Google10/6 Nano Banana2.1 GAと3.1-flash-image非推奨化を掲載。今回の記事訂正は既存のモデル構成/料金/提供条件に限定し、これらの新機能は本文へ追加しない。",
+      "sources": [
+        {
+          "url": "https://platform.claude.com/docs/en/release-notes/overview",
+          "accessed_at": "2026-10-07T17:34:33Z"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/changelog",
+          "accessed_at": "2026-10-07T17:35:16Z"
+        },
+        {
+          "url": "https://ai.google.dev/gemini-api/docs/changelog",
+          "accessed_at": "2026-10-07T17:35:16Z"
+        },
+        {
+          "url": "https://ai.google.dev/gemini-api/docs/deprecations",
+          "accessed_at": "2026-10-07T17:37:55Z"
+        }
+      ],
+      "affected_docs": []
+    },
+    {
+      "system_id": "models-prompting",
+      "status": "changed",
+      "summary": "独立再取得でSonnet5.5のモデル表(入力$2/出力$10/cache read$0.10 per MTok)、Prompt caching表/説明(0.05x/$0.10)が一致。記事の既定0.1xの例外にSonnet5.5を追加。元取得時の$0.20/$0.10の不一致履歴をresearchに保持し、整合確認pendingを解消。価格改定発生日・実課金は未特定。",
+      "sources": [
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+          "accessed_at": "2026-10-08T01:29:04Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/03-implementation/llm-landscape.md"
+      ]
+    }
+  ],
+  "vendor_checks": [
+    {
+      "vendor": "anthropic",
+      "release_notes": "changed",
+      "deprecations": "unchanged",
+      "pricing": "changed",
+      "summary": "10月3日以降の10/5 Models API capability追加を確認。退役は対象行に一致。Sonnet5.5 cache readは元取得の表/説明不一致を保存後、独立再取得で$0.10/0.05xの一致を確認し記事へ反映。変更は記事との差分で価格改定発生日は未特定。全提供経路の実API確認ではない。",
+      "sources": [
+        {
+          "url": "https://platform.claude.com/docs/en/release-notes/overview",
+          "accessed_at": "2026-10-07T17:34:33Z"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+          "accessed_at": "2026-10-07T17:35:53Z"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+          "accessed_at": "2026-10-07T17:35:53Z"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+          "accessed_at": "2026-10-08T01:29:04Z"
+        }
+      ]
+    },
+    {
+      "vendor": "openai",
+      "release_notes": "changed",
+      "deprecations": "unchanged",
+      "pricing": "changed",
+      "summary": "10/6 Decisions API beta/usage tiers変更。対象終了予定は一致、Cyber実停止は未確認。Pricing changedは未反映6.1 Solの料金・6 Solとの読取差であり10月3日以降の値上げを意味しない。6.1公開は9/29。",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/api/docs/changelog",
+          "accessed_at": "2026-10-07T17:35:16Z"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/deprecations",
+          "accessed_at": "2026-10-07T17:37:55Z"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/pricing",
+          "accessed_at": "2026-10-07T17:35:16Z"
+        }
+      ]
+    },
+    {
+      "vendor": "google",
+      "release_notes": "changed",
+      "deprecations": "changed",
+      "pricing": "changed",
+      "summary": "10/6 Nano Banana2.1 GAと3.1-flash-image非推奨化を確認、終了日未告知を停止とは扱わない。2.5過去利用者限定と3.8導入価格は対象記事未反映。Pricing changedは記事との差分、改定発生日未確定。",
+      "sources": [
+        {
+          "url": "https://ai.google.dev/gemini-api/docs/changelog",
+          "accessed_at": "2026-10-07T17:35:16Z"
+        },
+        {
+          "url": "https://ai.google.dev/gemini-api/docs/deprecations",
+          "accessed_at": "2026-10-07T17:37:55Z"
+        },
+        {
+          "url": "https://ai.google.dev/gemini-api/docs/pricing",
+          "accessed_at": "2026-10-07T17:35:53Z"
+        }
+      ]
+    }
+  ],
+  "changes": [
+    {
+      "path": "docs/08-coding-agents/openai-codex.md",
+      "kind": "substantive",
+      "observation_indices": [
+        3
+      ],
+      "summary": "推奨モデル・認証別退役と置換先・GPT-5.5終了予定を同期"
+    },
+    {
+      "path": "docs/08-coding-agents/openai-codex-in-practice.md",
+      "kind": "substantive",
+      "observation_indices": [
+        3,
+        4
+      ],
+      "summary": "キャッシュ入力比率とFastの利用枠/課金区分を訂正"
+    },
+    {
+      "path": "docs/06-security/compliance-and-governance.md",
+      "kind": "substantive",
+      "observation_indices": [
+        5,
+        7,
+        13
+      ],
+      "summary": "PPC後続資料とColorado中間案の公表実績、限定参考資料と残件を同期"
+    },
+    {
+      "path": "docs/03-implementation/llm-landscape.md",
+      "kind": "substantive",
+      "observation_indices": [
+        15,
+        16,
+        17,
+        25
+      ],
+      "summary": "6.1 Solのモデル別条件とGemini3.8価格/2.5アクセス制限を訂正、Sonnet5.5キャッシュ読取の例外を同期"
+    },
+    {
+      "path": "docs/03-implementation/openai-prompting.md",
+      "kind": "substantive",
+      "observation_indices": [
+        15
+      ],
+      "summary": "6.1 Solと従来Sol/Lunaのeffort/ツール制約を区別"
+    },
+    {
+      "path": "docs/03-implementation/gemini-prompting.md",
+      "kind": "substantive",
+      "observation_indices": [
+        17
+      ],
+      "summary": "2.5系の過去利用者限定をモデル前提と確認項目へ同期"
+    },
+    {
+      "path": "docs/03-implementation/claude-prompting.md",
+      "kind": "substantive",
+      "observation_indices": [
+        18
+      ],
+      "summary": "会話途中effortのモデル別提供条件とFable5.1 InvokeModel経路を同期、Sonnet5.5 adaptive限定を同期"
+    },
+    {
+      "path": "research/coding-agents/openai-codex.md",
+      "kind": "supporting",
+      "observation_indices": [
+        3
+      ],
+      "summary": "モデル・認証別終了予定の部分観測と実取得UTCを追記"
+    },
+    {
+      "path": "research/coding-agents/openai-codex-practice.md",
+      "kind": "supporting",
+      "observation_indices": [
+        3,
+        4
+      ],
+      "summary": "キャッシュ/Fastの部分観測と未検証利用枠を追記"
+    },
+    {
+      "path": "research/professional/compliance.md",
+      "kind": "supporting",
+      "observation_indices": [
+        5,
+        7,
+        10,
+        13
+      ],
+      "summary": "公的資料の変更・一致・取得失敗・未確認の範囲を追記"
+    },
+    {
+      "path": "research/models/openai.md",
+      "kind": "supporting",
+      "observation_indices": [
+        15
+      ],
+      "summary": "API6.1 Solのモデル/料金差と取得UTCを追記"
+    },
+    {
+      "path": "research/models/google.md",
+      "kind": "supporting",
+      "observation_indices": [
+        16,
+        17
+      ],
+      "summary": "3.8導入価格と2.5アクセス制限の根拠を追記"
+    },
+    {
+      "path": "research/prompting/openai.md",
+      "kind": "supporting",
+      "observation_indices": [
+        15
+      ],
+      "summary": "6.1/従来モデルのeffortとツール制約の根拠を追記"
+    },
+    {
+      "path": "research/prompting/google.md",
+      "kind": "supporting",
+      "observation_indices": [
+        17
+      ],
+      "summary": "2.5アクセス制限の同期と限定確認範囲を追記"
+    },
+    {
+      "path": "research/prompting/anthropic.md",
+      "kind": "supporting",
+      "observation_indices": [
+        18
+      ],
+      "summary": "per-message effortの経路別条件と資料粒度差を追記"
+    },
+    {
+      "path": "ROADMAP.md",
+      "kind": "supporting",
+      "observation_indices": [
+        0,
+        3,
+        5,
+        13,
+        15,
+        16,
+        17,
+        18
+      ],
+      "summary": "確認済み事実に沿って注目事項を更新し終了予定/取得失敗/未確認を保持"
+    },
+    {
+      "path": "research/models/anthropic.md",
+      "kind": "supporting",
+      "observation_indices": [
+        25
+      ],
+      "summary": "元取得の表/説明不一致履歴と再取得の一致、整合確認残件の解消を記録"
+    }
+  ],
+  "review": {
+    "verdict": "approved",
+    "risk": "low",
+    "independent": true,
+    "reviewer_run_id": "/root/publication_final_review",
+    "reviewed_at": "2026-10-08T02:04:16Z",
+    "content_digest": "f949a5b63ae416ae58bce673efa9b7c7d8c6a0004ab2c614516c65f76b9df08f"
+  },
+  "completed_at": "2026-10-08T02:05:30.352Z"
+}

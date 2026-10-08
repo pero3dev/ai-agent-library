@@ -59,15 +59,15 @@ AGENTS.md、harness/writing-rules.mdとtemplates/doc-template.mdに従い、
 
 ### 公開観測の状況
 
-部分観測と宣言範囲の完了を区別します。2026-10-04（日本時間）時点のコミット対象を集計しています。集計方法と停止検知は[freshness-automation](freshness-automation.md#公開観測の台帳)を参照してください。
+部分観測と宣言範囲の完了を区別します。2026-10-08（日本時間）時点のコミット対象を集計しています。集計方法と停止検知は[freshness-automation](freshness-automation.md#公開観測の台帳)を参照してください。
 
 <!-- freshness-observation-summary:start -->
 | 系統 | 宣言範囲の最終完了日 | 最新の部分観測 | 次回目標 |
 | --- | --- | --- | --- |
-| `coding-agents` | 記録なし | 2026-09-28 | 未確定(完了範囲の記録が必要) |
-| `models-prompting` | 記録なし | 2026-10-03 | 未確定(完了範囲の記録が必要) |
+| `coding-agents` | 記録なし | 2026-10-08 | 未確定(完了範囲の記録が必要) |
+| `models-prompting` | 記録なし | 2026-10-08 | 未確定(完了範囲の記録が必要) |
 | `identity-protocols` | 記録なし | 記録なし | 未確定(完了範囲の記録が必要) |
-| `compliance` | 記録なし | 2026-09-21 | 未確定(完了範囲の記録が必要) |
+| `compliance` | 記録なし | 2026-10-08 | 未確定(完了範囲の記録が必要) |
 | `voice-fine-tuning` | 記録なし | 記録なし | 未確定(完了範囲の記録が必要) |
 | `benchmarks` | 記録なし | 2026-09-28 | 未確定(完了範囲の記録が必要) |
 | `industry-regulations` | 記録なし | 記録なし | 未確定(完了範囲の記録が必要) |

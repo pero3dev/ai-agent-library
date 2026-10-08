@@ -91,16 +91,41 @@ for (const pathname of ['/docs/overview/learning-roadmap', '/docs/llm-internals/
       await expect(region).toBeFocused()
       const horizontal = await region.evaluate(element => element.scrollWidth > element.clientWidth)
       if (horizontal) {
+        await region.evaluate(element => {
+          element.keyboardScrollEnded = false
+          const ended = event => {
+            if (event.target !== element) return
+            element.keyboardScrollEnded = true
+            element.removeEventListener('scrollend', ended)
+          }
+          element.addEventListener('scrollend', ended)
+        })
         await region.press('ArrowRight')
         await expect.poll(() => region.evaluate(element => element.scrollLeft)).toBeGreaterThan(0)
+        // A visible/stable box can still be scrolling after a keyboard action.
+        // Finish that native action before testing a separate mouse gesture.
+        await expect.poll(() => region.evaluate(element => element.keyboardScrollEnded)).toBe(true)
       }
-      await region.hover(); await page.mouse.wheel(10000, 10000)
-      await expect.poll(() => region.evaluate(element => Math.abs(element.scrollWidth - element.clientWidth - element.scrollLeft))).toBeLessThan(2)
-      await expect.poll(() => region.evaluate(element => Math.abs(element.scrollHeight - element.clientHeight - element.scrollTop))).toBeLessThan(2)
-      await page.mouse.wheel(-10000, -10000)
+      // Exercise each axis separately. A diagonal wheel gesture can be locked
+      // to its vertical axis by the browser, even when this figure only scrolls horizontally.
+      const axes = [
+        { position: 'scrollLeft', size: 'scrollWidth', viewport: 'clientWidth', deltaX: 10000, deltaY: 0 },
+        { position: 'scrollTop', size: 'scrollHeight', viewport: 'clientHeight', deltaX: 0, deltaY: 10000 }
+      ]
+      for (const axis of axes) {
+        const maximum = await region.evaluate((element, axis) => element[axis.size] - element[axis.viewport], axis)
+        if (maximum > 0) { await region.hover(); await page.mouse.wheel(axis.deltaX, axis.deltaY) }
+        await expect.poll(() => region.evaluate((element, axis) => Math.abs(element[axis.size] - element[axis.viewport] - element[axis.position]), axis)).toBeLessThan(2)
+      }
+      const scrollEnd = await region.evaluate(element => ({ x: element.scrollLeft, y: element.scrollTop }))
+      for (const axis of axes.toReversed()) {
+        const maximum = await region.evaluate((element, axis) => element[axis.size] - element[axis.viewport], axis)
+        if (maximum > 0) { await region.hover(); await page.mouse.wheel(-axis.deltaX, -axis.deltaY) }
+        await expect.poll(() => region.evaluate((element, axis) => element[axis.position], axis)).toBeLessThan(2)
+      }
       await expect.poll(() => region.evaluate(element => element.scrollLeft + element.scrollTop)).toBeLessThan(2)
       expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1)
-      await test.info().attach('diagram-reading-dimensions', { body: JSON.stringify({ pathname, width, theme, before, after }), contentType: 'application/json' })
+      await test.info().attach('diagram-reading-dimensions', { body: JSON.stringify({ pathname, width, theme, before, after, scrollEnd }), contentType: 'application/json' })
       if (width === 375 && theme === 'light') await test.info().attach('original-size-diagram', { body: await figure.screenshot(), contentType: 'image/png' })
       await summary.click()
       await expect(region).toBeHidden()

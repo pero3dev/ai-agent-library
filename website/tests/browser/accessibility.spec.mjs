@@ -82,12 +82,14 @@ test('checklist Space and theme Enter keep keyboard focus and current value', as
   await expect(theme).toHaveValue('system')
 })
 
-test('article copy and named usage menu retain the Markdown and existing destinations', async ({ page, context }) => {
-  await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+test('article copy and named usage menu retain the Markdown and existing destinations', async ({ page }) => {
+  await page.addInitScript(() => Object.defineProperty(navigator, 'clipboard', {
+    configurable: true, value: { writeText: async text => { window.copiedArticleMarkdown = text } }
+  }))
   await page.goto(`${basePath}/docs/concepts/tool-use`)
   await page.getByRole('button', { name: '記事をコピー', exact: true }).click()
   await expect(page.getByRole('button', { name: 'コピーしました', exact: true })).toBeVisible()
-  expect(await page.evaluate(() => navigator.clipboard.readText())).toContain('# ツール使用')
+  expect(await page.evaluate(() => window.copiedArticleMarkdown)).toContain('# ツール使用')
   await page.evaluate(() => { window.open = (...args) => { window.articleOpenArguments = args; return null } })
   const menu = page.getByRole('combobox', { name: '記事の利用方法', exact: true })
   await menu.focus()

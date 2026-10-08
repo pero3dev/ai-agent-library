@@ -32,6 +32,106 @@ test('an acknowledged past deadline does not classify a later upcoming event as 
   assert.deepEqual(rows.map(row => [row.date, row.status]), [['2026-10-01', 'addressed'], ['2026-10-23', 'upcoming'], ['2026-09-30', 'addressed']])
 })
 
+test('a later event stays unresolved before and after its deadline despite another event acknowledgement', () => {
+  const text = '2026-10-03 の退役表では、Cyber の告知された終了期日 2026-10-01 が掲載されています。後継モデルは未指定です。期日は経過していますが、実停止・延期の実施状況は確認不能です。o4-mini は 2026-10-23 終了予定で、別モデルの 2026-12-11 とは異なります。'
+  for (const [today, status] of [['2026-10-08', 'upcoming'], ['2026-10-24', 'expired']]) {
+    const rows = datedPlans(text, { ...options, today })
+    assert.deepEqual(rows.map(row => [row.date, row.status, row.classification, row.needs_verification]), [
+      ['2026-10-01', 'addressed', 'addressed', false],
+      ['2026-10-23', status, 'pending', true]
+    ])
+  }
+})
+
+test('withdrawn future announcements are addressed without suppressing a separate live event', () => {
+  const text = 'Gemini 2.5 系は終了日未定です(2026-10-16 提供終了の告知は撤回されました)。別モデルは 2026-10-23 終了予定です。'
+  const rows = datedPlans(text, { ...options, today: '2026-10-08' })
+  assert.deepEqual(rows.map(row => [row.date, row.status, row.needs_verification]), [
+    ['2026-10-16', 'addressed', false], ['2026-10-23', 'upcoming', true]
+  ])
+  const clauses = datedPlans('2026-10-16 終了予定は撤回され、2026-10-23 終了予定は未確認です。', { ...options, today: '2026-10-24' })
+  assert.deepEqual(clauses.map(row => [row.date, row.classification, row.needs_verification]), [
+    ['2026-10-16', 'addressed', false], ['2026-10-23', 'todo', true]
+  ])
+})
+
+test('a postponed original deadline is addressed while its replacement remains a live deadline', () => {
+  for (const text of [
+    '終了予定日は 2026-10-01 から 2026-10-23 に延期されました。',
+    '終了予定日は 2026-10-01 を 2026-10-23 に延期しました。',
+    '2026-10-01 終了予定は 2026-10-23 に延期されました。',
+    '2026-10-01 終了予定は延期され、新しい終了予定日は 2026-10-23 です。'
+  ]) {
+    for (const [today, status] of [['2026-10-08', 'upcoming'], ['2026-10-24', 'expired']]) {
+      const rows = datedPlans(text, { ...options, today })
+      assert.deepEqual(rows.map(row => [row.date, row.status, row.needs_verification]), [
+        ['2026-10-01', 'addressed', false], ['2026-10-23', status, true]
+      ], text)
+    }
+  }
+})
+
+test('unverified withdrawal or postponement wording does not assert that a future deadline was cancelled', () => {
+  const rows = datedPlans('2026-10-16 終了予定です。撤回を確認できません。\n2026-10-23 終了予定ですが、延期の実施状況は未確認です。', { ...options, today: '2026-10-08' })
+  assert.deepEqual(rows.map(row => [row.status, row.classification, row.needs_verification]), [
+    ['upcoming', 'todo', true], ['upcoming', 'todo', true]
+  ])
+})
+
+test('denied or unconfirmed status assertions leave future and past deadlines requiring verification', () => {
+  const statements = [
+    ['撤回されていません', 'pending'],
+    ['延期されていません', 'pending'],
+    ['撤回されたとの情報を確認できません', 'todo'],
+    ['実施済みではありません', 'pending'],
+    ['終了済みではない', 'pending'],
+    ['廃止済みと確認していません', 'pending'],
+    ['延期されたかどうかは未確認です', 'todo'],
+    ['撤回された場合は移行を止めます', 'pending'],
+    ['延期される予定です', 'pending']
+  ]
+  for (const [statement, classification] of statements) {
+    for (const [today, status] of [['2026-10-08', 'upcoming'], ['2026-10-24', 'expired']]) {
+      const rows = datedPlans(`2026-10-16 終了予定は${statement}。`, { ...options, today })
+      assert.deepEqual(rows.map(row => [row.date, row.status, row.classification, row.needs_verification]), [
+        ['2026-10-16', status, classification, true]
+      ], statement)
+    }
+  }
+})
+
+test('a denied or unconfirmed postponement does not withdraw the original date or create a replacement deadline', () => {
+  for (const statement of ['延期されていません', '延期されなかった', '延期されたとの情報を確認できません', '延期される予定です']) {
+    for (const [today, status] of [['2026-10-08', 'upcoming'], ['2026-10-24', 'expired']]) {
+      const rows = datedPlans(`終了予定日は 2026-10-16 から 2026-10-23 に${statement}。`, { ...options, today })
+      assert.deepEqual(rows.map(row => [row.date, row.status, row.needs_verification]), [
+        ['2026-10-16', status, true]
+      ], statement)
+    }
+  }
+})
+
+test('confirmed completion is addressed independently of whether the planned date has passed', () => {
+  for (const assertion of ['実施済みです', '終了済みです', '廃止済みです', '撤回されました', '延期されました']) {
+    for (const today of ['2026-10-08', '2026-10-24']) {
+      const rows = datedPlans(`2026-10-16 終了予定は${assertion}。`, { ...options, today })
+      assert.deepEqual(rows.map(row => [row.status, row.needs_verification]), [['addressed', false]], assertion)
+    }
+  }
+  const acknowledged = datedPlans('2026-10-16 終了予定の期日は経過していますが、実施状況は確認不能です。', { ...options, today: '2026-10-24' })
+  assert.deepEqual(acknowledged.map(row => [row.status, row.needs_verification]), [['addressed', false]])
+})
+
+test('unresolved status notes do not leak to another event on the same line or across table cells', () => {
+  const rows = datedPlans('2026-10-16 終了予定は未確認です。2026-10-23 終了予定です。\n| 対象 | 終了予定 | 別の終了予定 |\n| --- | --- | --- |\n| old | 2026-10-16 (告知は撤回されました) | 2026-10-23 |', { ...options, today: '2026-10-08' })
+  assert.deepEqual(rows.map(row => [row.date, row.classification, row.needs_verification]), [
+    ['2026-10-16', 'todo', true], ['2026-10-23', 'pending', true],
+    ['2026-10-16', 'addressed', false], ['2026-10-23', 'pending', true]
+  ])
+  const nextPrefix = datedPlans('2026-10-16 終了予定です。TODO(要確認): 2026-10-23 終了予定です。', { ...options, today: '2026-10-08' })
+  assert.deepEqual(nextPrefix.map(row => row.classification), ['pending', 'todo'])
+})
+
 test('a migration deadline paragraph heading does not turn its announcement date into a deadline', () => {
   const rows = datedPlans('**モデル移行期限**: 2026-09-03 の告知では、対象モデルは **2026-10-02 に廃止予定**です。', options)
   assert.deepEqual(rows.map(row => row.date), ['2026-10-02'])

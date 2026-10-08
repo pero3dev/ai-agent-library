@@ -49,7 +49,7 @@ test('dependency graph shows every section and navigates from a node', async ({ 
   await expect(page).toHaveURL(/\/docs\/concepts(?:\.html)?$/)
 })
 
-test('strict static Mermaid assets preserve diagrams across theme changes and magnification', async ({ page }) => {
+test('strict static Mermaid assets preserve diagrams across theme changes and original-size reading', async ({ page }) => {
   const errors = []
   page.on('pageerror', error => errors.push(error.message))
   page.on('console', message => {
@@ -71,12 +71,15 @@ test('strict static Mermaid assets preserve diagrams across theme changes and ma
     await expect.poll(() => diagram.evaluate(image => image.complete && image.naturalWidth > 0)).toBe(true)
   }
   await page.setViewportSize({ width: 640, height: 800 })
-  await diagram.evaluate(element => { element.parentElement.style.zoom = '2' })
-  await diagram.scrollIntoViewIfNeeded()
-  await expect(diagram).toBeVisible()
-  const bounds = await diagram.boundingBox()
-  expect(bounds.width).toBeGreaterThan(0)
-  expect(bounds.height).toBeGreaterThan(0)
+  const summary = figure.locator('summary')
+  await summary.focus(); await summary.press('Enter')
+  const original = figure.locator('.mermaid-original-scroll img:visible')
+  await expect(original).toBeVisible()
+  await expect.poll(() => original.evaluate(image => image.complete && image.naturalWidth > 0)).toBe(true)
+  expect(await original.evaluate(image => Math.abs(image.getBoundingClientRect().width - image.naturalWidth))).toBeLessThan(2)
+  await summary.focus(); await summary.press('Enter')
+  await expect(original).toBeHidden()
+  await expect(summary).toBeFocused()
   expect(errors).toEqual([])
 })
 

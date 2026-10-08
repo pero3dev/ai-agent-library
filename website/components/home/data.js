@@ -64,10 +64,11 @@ export const READER_ROUTES = [
     label: 'エージェント活用',
     persona: 'Claude Code 等のコーディングエージェントを使う・導入する',
     steps: [
-      { title: 'AI Agent とは何か', href: '/docs/concepts/what-is-an-ai-agent', note: '前提となる最小限の概念' },
+      { title: 'AI Agent とは何か', href: '/docs/concepts/what-is-an-ai-agent', note: 'システムプロンプト・チャット履歴・トークンの基本も確認する' },
       { title: 'Agent ループ', href: '/docs/concepts/agent-loop', note: 'コーディングエージェントの動作原理そのもの' },
       { title: '分類と全体像', href: '/docs/coding-agents/coding-agents-overview', note: '提供形態 5 分類と自律性の軸' },
       { title: '選定基準と使い分け', href: '/docs/coding-agents/coding-agent-selection', note: '制約で絞り、試用で決める' },
+      { title: 'セキュリティの前提を補う', href: '/docs/overview/learning-roadmap#fのセキュリティへ進む前に', note: 'ツール使用 → ツール定義 → MCP → 脅威モデル → 権限設計。既読なら省略' },
       { title: '権限とセキュリティ', href: '/docs/coding-agents/coding-agent-security', note: '導入前に必ず読む防御設計' }
     ]
   },
@@ -87,9 +88,13 @@ export const READER_ROUTES = [
     label: '企業システム開発(SIer・情シス)',
     persona: '受託・社内の企業システム開発でコーディングエージェントを工程横断で使う',
     steps: [
+      { title: 'AI Agent とは何か', href: '/docs/concepts/what-is-an-ai-agent', note: 'システムプロンプト・チャット履歴・トークンの基本も確認する' },
+      { title: 'Agent ループ', href: '/docs/concepts/agent-loop', note: '入口の概念をそろえる。既読なら省略' },
       { title: '分類と全体像', href: '/docs/coding-agents/coding-agents-overview', note: '前提となるツールの提供形態と自律性の軸' },
+      { title: 'コーディングエージェントへの依頼設計', href: '/docs/coding-agents/coding-agent-prompting', note: 'タスク分割・コンテキスト・完了条件を工程マップの前に読む' },
       { title: 'SE 工程別活用マップ', href: '/docs/coding-agents/se-process-map', note: 'V 字モデルで各工程の使いどころと人が握る責任を一望' },
-      { title: '自分の工程の記事へ', href: '/docs/coding-agents/se-requirements-and-design', note: '要件定義・設計 / テスト / レガシー / 保守の各記事' },
+      { title: '工程別の前提と記事を選ぶ', href: '/docs/overview/learning-roadmap#hの工程別記事へ進む前に', note: '要件定義・設計 / テスト / レガシー / 保守の対応表で必須の寄り道を確認' },
+      { title: '企業制約の前提を補う', href: '/docs/overview/learning-roadmap#hの企業制約へ進む前に', note: 'Fの防御設計と業界別規制マップを先に読む。未読の前提も正本で確認' },
       { title: '企業システム環境の制約と対応', href: '/docs/coding-agents/se-enterprise-constraints', note: '閉域網・監査・持ち込み承認と提供形態の判断' }
     ]
   }

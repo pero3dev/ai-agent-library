@@ -3,7 +3,7 @@ title: "モデル選定ガイド"
 category: "implementation"
 level: "intermediate"
 status: "published"
-last_updated: "2026-10-04"
+last_updated: "2026-10-08"
 tags: ["model-selection", "cost-management"]
 ---
 
@@ -97,7 +97,7 @@ flowchart TD
 
 - **出力は入力より数倍高い**(主要 3 社とも 5〜6 倍が典型)。生成量の多いワークロードは出力単価が支配します
 - **思考(thinking / reasoning)トークンは出力側で課金**されるのが一般的です(Anthropic は公式明記。各社の扱いは料金ページで確認してください)。推論を深くする設定はコストに直結します
-- Claude のキャッシュ読取は既定 0.1x、例外は Fable 5.1 / Mythos 5.1 が 0.025x、Opus 5.5 が 0.05x です。他社の比率はモデル・経路ごとに確認します。プロンプトの固定部分を先頭に置く設計で効きます([コスト管理](../05-operations/cost-management.md))
+- Claude のキャッシュ読取は既定 0.1x、例外は Fable 5.1 / Mythos 5.1 が 0.025x、Opus 5.5 / Sonnet 5.5 が 0.05x です(この比率は2026-10-08確認)。Sonnet 5.5は通常入力 \$2 に対して読取 \$0.10 / MTokで、5分・1時間のキャッシュ書込料金とは分けます。他社の比率はモデル・経路ごとに確認します。プロンプトの固定部分を先頭に置く設計で効きます([コスト管理](../05-operations/cost-management.md))
 - **Batch API はおおむね半額**。非同期で許されるワークロードは常に検討価値があります
 - 一部モデルには**長コンテキスト利用時の割増**があります。また、モデルの世代交代で同等性能の単価は下がる傾向があるため、単価前提は定期的に見直します
 
@@ -144,7 +144,7 @@ flowchart TD
 
 ## 参考資料
 
-- [Claude Pricing](https://platform.claude.com/docs/en/about-claude/pricing) — モデル別キャッシュ比率(アクセス日: 2026-10-03)
+- [Claude Pricing](https://platform.claude.com/docs/en/about-claude/pricing) — モデル別キャッシュ読取比率と書込料金の区別(アクセス日: 2026-10-08、取得: 2026-10-08T04:47:02Z)
 - [Claude モデル一覧(Anthropic)](https://platform.claude.com/docs/en/models/overview) — 現行モデルと公式の評価開始点(アクセス日: 2026-10-03)
 - [OpenAI Models](https://developers.openai.com/api/docs/models) — 同上(アクセス日: 2026-08-18)
 - [Gemini API Models(Google)](https://ai.google.dev/gemini-api/docs/models) — 同上(アクセス日: 2026-08-18)

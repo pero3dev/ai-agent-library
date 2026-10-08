@@ -722,6 +722,12 @@ html:not(.dark) article pre span[style*="color:#e36209"] { color: #a34200 !impor
 .static-mermaid { margin: 1.5rem 0; }
 .static-mermaid img { max-width: 100%; height: auto; margin-inline: auto; }
 .static-mermaid figcaption { color: var(--site-text-secondary); font-size: 0.8rem; text-align: center; }
+.mermaid-original { margin-top: 0.7rem; }
+.mermaid-original summary { width: fit-content; cursor: pointer; text-decoration: underline; text-underline-offset: 0.2em; }
+.mermaid-original p { font-size: 0.85rem; margin: 0.7rem 0; }
+.mermaid-original-scroll { max-width: 100%; max-height: 70vh; overflow: auto; overscroll-behavior: contain; border: 1px solid var(--site-text-secondary); }
+.static-mermaid .mermaid-original-scroll img { max-width: none; width: auto; margin: 0; }
+.mermaid-original summary:focus-visible, .mermaid-original-scroll:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
 .mermaid-dark, .dark .mermaid-light { display: none; }
 .dark .mermaid-dark { display: block; }
 .dependency-list { margin-top: 2rem; line-height: 1.9; }

@@ -11,6 +11,12 @@ export function datedPlans(text, { today = jstToday(), file = '' } = {}) {
   const now = Date.parse(`${today}T00:00:00Z`)
   const lines = text.split(/\r?\n/)
   const visible = line => line.replace(/(`+)[\s\S]*?\1/g, '').replace(/\]\([^)]*\)/g, ']').replace(/https?:\/\/\S+/g, '').replace(/[*_]/g, '')
+  // A status word alone is not evidence of completion: its own assertion may
+  // deny it, leave it unconfirmed, or describe a conditional/future action.
+  const affirmedStatus = (context, pattern) => [...context.matchAll(pattern)].some(match => {
+    const assertion = context.slice(match.index).split(/[。|;；]/)[0]
+    return !/未確認|未確定|未実施|未完了|不明|確認(?:できません|できない|不能)|な(?:い|かった)|ません|場合|仮定|見込み|予定|可能性|(?:され|させ)(?:る|れば)|したら/.test(assertion)
+  })
   const deadlineHeader = /予定|期限|EOL|(?:終了|停止|廃止|退役)日/
   for (const [index, line] of lines.entries()) {
     if (index === 0 && line === '---') { frontmatter = true; continue }
@@ -27,6 +33,17 @@ export function datedPlans(text, { today = jstToday(), file = '' } = {}) {
     }
     const year = cleaned.match(/\b(20\d{2})-\d{2}-\d{2}\b/)?.[1] ?? today.slice(0, 4)
     const matches = [...cleaned.matchAll(/(?<![\w/-])(20\d{2}-\d{2}-\d{2}|\d{1,2}\/\d{1,2})(?![\w/-])/g)]
+    const postponedDates = new Set(), replacementDates = new Set()
+    for (let ordinal = 1; ordinal < matches.length; ordinal++) {
+      const previous = matches[ordinal - 1], current = matches[ordinal]
+      const between = cleaned.slice(previous.index + previous[0].length, current.index).trim()
+      const suffix = cleaned.slice(current.index + current[0].length, matches[ordinal + 1]?.index ?? cleaned.length)
+      if (/^(?:から|を|→|(?:終了|停止|廃止|開始|移行|退役)予定(?:は|を))$/.test(between) && affirmedStatus(suffix, /^\s*(?:に|へ)\s*延期(?:され|しました|した|です|済み)/g)) {
+        postponedDates.add(ordinal - 1)
+        replacementDates.add(ordinal)
+      }
+    }
+    const events = []
     for (const [ordinal, match] of matches.entries()) {
       const date = match[0].includes('/') ? `${year}-${match[0].split('/').map(part => part.padStart(2, '0')).join('-')}` : match[0]
       const parsed = Date.parse(`${date}T00:00:00Z`)
@@ -39,11 +56,31 @@ export function datedPlans(text, { today = jstToday(), file = '' } = {}) {
       // Bind a date to its own event, rather than to another plan elsewhere in the paragraph.
       const before = /(?:期限|期日|(?:終了|停止|廃止|退役|開始|移行)(?:予定)?日|予定日)\s*(?:は|が|を|[:：])?\s*$/.test(preceding)
       const after = /^\s*(?:に|から|までに|は|を)?\s*(?:EOL\b|(?:サポート|提供)終了|(?:終了|停止|廃止|開始|移行|退役)(?:予定|見込み)|(?:まで|が期限|が締切))/.test(following)
-      if (!(tableDeadline || before || after)) continue
+      if (!(tableDeadline || before || after || postponedDates.has(ordinal) || replacementDates.has(ordinal))) continue
       const days = Math.round((parsed - now) / 86400000)
+      events.push({ ordinal, match, date, days })
+    }
+    for (const [eventIndex, { ordinal, match, date, days }] of events.entries()) {
       if (days > 30) continue
-      const addressed = days < 0 && (tableAddressed || /実施済み|終了済み|廃止済み|撤回|延期|予定日を(?:過ぎ|経過)|(?:期日|予定日).{0,8}経過|(?:終了|廃止|開始|実施)しました|実施状況.*確認不能/.test(cleaned))
-      const classification = addressed ? 'addressed' : /TODO\(要確認\)|要確認|未確認|確認できません|確認不能/.test(cleaned) ? 'todo' : 'pending'
+      // Status notes belong to this date's event. A prior sentence, clause or table cell
+      // must not acknowledge or withdraw another event later on the same line.
+      const previous = events[eventIndex - 1]?.match
+      const previousEnd = previous ? previous.index + previous[0].length : 0
+      const left = cleaned.slice(previousEnd, match.index)
+      const boundary = Math.max(left.lastIndexOf('。'), left.lastIndexOf('、'), left.lastIndexOf('|'), left.lastIndexOf(';'), left.lastIndexOf('；'))
+      const start = previousEnd + boundary + 1
+      const next = events[eventIndex + 1]?.match
+      const right = cleaned.slice(match.index + match[0].length, next?.index ?? cleaned.length)
+      const nextBoundary = Math.max(right.lastIndexOf('。'), right.lastIndexOf('、'), right.lastIndexOf('|'), right.lastIndexOf(';'), right.lastIndexOf('；'))
+      const end = next && nextBoundary >= 0 ? match.index + match[0].length + nextBoundary + 1 : next?.index ?? cleaned.length
+      const cellEnd = table ? cleaned.indexOf('|', match.index) : -1
+      const context = cleaned.slice(start, cellEnd < 0 ? end : Math.min(end, cellEnd))
+      const withdrawn = affirmedStatus(context, /撤回(?:され|済み|しました|した|です|[）)〕。]|$)|取消済み|取り消(?:され|しました|した)/g)
+      const postponed = postponedDates.has(ordinal) || (!replacementDates.has(ordinal) && affirmedStatus(context, /延期(?:され|済み|しました|した|です|とな(?:りました|った)|にな(?:りました|った)|[）)〕。]|$)/g))
+      const completed = affirmedStatus(context, /実施済み|終了済み|廃止済み|(?:終了|廃止|開始|実施)しました/g)
+      const acknowledged = days < 0 && (tableAddressed || /予定日を(?:過ぎ|経過)|(?:期日|予定日).{0,8}経過|実施状況.*確認不能/.test(context))
+      const addressed = withdrawn || postponed || completed || acknowledged
+      const classification = addressed ? 'addressed' : /TODO\(要確認\)|要確認|未確認|確認できません|確認不能/.test(context) ? 'todo' : 'pending'
       rows.push({ file, line: index + 1, date, days_until: days, status: addressed ? 'addressed' : days < 0 ? 'expired' : 'upcoming', classification, needs_verification: !addressed, text: line.trim() })
     }
   }

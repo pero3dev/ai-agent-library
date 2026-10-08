@@ -90,6 +90,8 @@ jobs:
         run: node scripts/validate-docs.mjs --all
       - name: 相対リンク切れ / セクション README 収録表
         run: node scripts/check-links.mjs
+      - name: 必須前提の難易度 graph
+        run: node scripts/check-prerequisite-levels.mjs
       - name: ハーネスと文書検証の回帰検査
         run: node --test --test-concurrency=4 tests/unit/*.test.mjs
 

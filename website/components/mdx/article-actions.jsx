@@ -9,11 +9,11 @@ const options = [
   { id: 'claude', name: 'Claude で開く' }
 ]
 
-/** Nextra の Copy page と同じ操作を、目的が読める操作部品で提供する。 */
-export function ArticleActions({ sourceCode }) {
+/** 表示中の記事の装飾前 Markdown をコピーし、利用先を選べるようにする。 */
+export function ArticleActions({ markdown }) {
   const { copy, isCopied } = useCopy()
-  if (!sourceCode) return null
-  const handleCopy = () => copy(sourceCode)
+  if (!markdown) return null
+  const handleCopy = () => copy(markdown)
   const useArticle = value => {
     if (value === 'copy') return handleCopy()
     const target = value === 'chatgpt' ? 'https://chatgpt.com/?hints=search&prompt=' : 'https://claude.ai/new?q='

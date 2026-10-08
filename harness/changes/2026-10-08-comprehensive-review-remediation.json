@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "run_id": "2026-10-08-comprehensive-review-remediation",
+  "base_sha": "c0df67fdeaa2646cdf5570dc0b94568030e9bc7b",
+  "writer_run_id": "/root",
+  "completed_at": "2026-10-08T05:07:16Z",
+  "changes": [
+    {
+      "path": "docs/00-overview/learning-roadmap.md",
+      "kind": "substantive",
+      "summary": "F/Hを実在する主順と必須前提を補う寄り道へ同期する。既存A/B/C小課題を保持する"
+    },
+    {
+      "path": "docs/02-architecture/human-in-the-loop.md",
+      "kind": "substantive",
+      "summary": "実行主体と承認設定の4構成に制御点を限定し、製品機能で必要条件を強制できない場合の方式見直しを示す。既存承認4ケースを保持する"
+    },
+    {
+      "path": "docs/03-implementation/model-selection.md",
+      "kind": "substantive",
+      "summary": "回帰監査で確認した旧#176 C2のキャッシュ比率不一致を、公式pricing再取得でSonnet5.5の0.05xへ同期する。キャッシュ書込と読取を区別する"
+    },
+    {
+      "path": "docs/05-operations/cost-management.md",
+      "kind": "substantive",
+      "summary": "旧#176 C2の横断整合としてモデル選定/カタログとSonnet5.5読取0.05xを同期する。読取と5分/1時間書込の区別を保つ"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "1-1",
+      "artifacts": [
+        "docs/00-overview/learning-roadmap.md"
+      ]
+    },
+    {
+      "id": "3-4",
+      "artifacts": [
+        "docs/02-architecture/error-handling-and-retries.md",
+        "docs/02-architecture/human-in-the-loop.md"
+      ]
+    },
+    {
+      "id": "C-1",
+      "artifacts": [
+        "docs/03-implementation/model-selection.md"
+      ]
+    },
+    {
+      "id": "6-2",
+      "artifacts": [
+        "docs/05-operations/cost-management.md",
+        "docs/05-operations/latency-optimization.md"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developers.openai.com/api/docs/guides/tools-connectors-mcp#step-2-calling-tools",
+      "accessed_at": "2026-10-08T04:33:51Z",
+      "claim": "公式ページをWeb取得。Responses APIのremote MCPではrequire_approval alwaysでツール名・引数に対する要求を返し、mcp_approval_responseで許可/拒否できる。neverまたはツールごとの省略は当該承認待ちを省略する。allowed_toolsと接続先認証は別の制限。実APIや承認UIを試験した記録ではない",
+      "affected_docs": [
+        "docs/02-architecture/human-in-the-loop.md"
+      ]
+    },
+    {
+      "url": "https://github.com/pero3dev/ai-agent-library/tree/c0df67fdeaa2646cdf5570dc0b94568030e9bc7b/docs",
+      "accessed_at": "2026-10-08T04:41:45Z",
+      "claim": "取得面はローカルGitの固定SHA記事群と現199記事の必須前提グラフ。SE工程マップの依頼設計、防御設計の脅威モデル/権限、企業制約の防御設計/規制をGit本文で確認し、推移的前提を補うF/Hの候補経路を機械照合した。URLのHTTP再取得や読者の学習効果測定ではない",
+      "affected_docs": [
+        "docs/00-overview/learning-roadmap.md"
+      ]
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "accessed_at": "2026-10-08T04:47:02Z",
+      "claim": "公式pricingページをWeb取得。通常入力/キャッシュ読取はFable/Mythos5.1が10/0.25、Opus5.5が4/0.20、Sonnet5.5が2/0.10 USD/MTokで、読取比率はそれぞれ0.025x/0.05x/0.05x。他モデル既定0.1x、5分/1時間書込は1.25x/2xで別の料金。実API課金、全提供経路、モデル系統全体の完了は検証していない",
+      "affected_docs": [
+        "docs/03-implementation/model-selection.md",
+        "docs/05-operations/cost-management.md"
+      ]
+    }
+  ],
+  "review": {
+    "verdict": "approved",
+    "independent": true,
+    "reviewer_run_id": "/root/final_doc_review",
+    "reviewed_at": "2026-10-08T05:03:45Z",
+    "content_digest": "11041446e6e6447ec29e6d0d799ab27203cc1b868b1b0a30b4d0628a4129c5f7"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "run_id": "20261007t173132543z-fc61a4ee",
-  "base_sha": "863cb74b2c641bd20731d1b3a6b8ff4d3aefa823",
+  "base_sha": "08e12dd2619a3493d2396cf8452889898aeff059",
   "writer_run_id": "20261007t173132543z-fc61a4ee",
   "started_at": "2026-10-07T17:31:32.543Z",
   "systems": [
@@ -736,6 +736,12 @@
     }
   ],
   "review": {
-    "verdict": "changes_requested"
-  }
+    "verdict": "approved",
+    "risk": "low",
+    "independent": true,
+    "reviewer_run_id": "/root/publication_final_review",
+    "reviewed_at": "2026-10-08T02:04:16Z",
+    "content_digest": "f949a5b63ae416ae58bce673efa9b7c7d8c6a0004ab2c614516c65f76b9df08f"
+  },
+  "completed_at": "2026-10-08T02:05:30.352Z"
 }

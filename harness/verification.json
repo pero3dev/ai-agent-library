@@ -60,6 +60,21 @@
       ]
     },
     {
+      "id": "levels",
+      "job": "docs",
+      "command": "node scripts/check-prerequisite-levels.mjs",
+      "cwd": ".",
+      "os": [
+        "linux",
+        "win32"
+      ],
+      "evidence": "static",
+      "prerequisites": [
+        "Node.js ^22.22.2 || ^24.15.0 || >=26.0.0",
+        "docs/ article sources"
+      ]
+    },
+    {
       "id": "harness",
       "job": "harness",
       "command": "npm run check:harness",

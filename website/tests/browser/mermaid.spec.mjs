@@ -58,3 +58,79 @@ for (const { pathname, count } of articles) {
     expect(errors).toEqual([])
   })
 }
+
+for (const pathname of ['/docs/overview/learning-roadmap', '/docs/llm-internals/transformer-architecture', '/docs/concepts/tool-use']) {
+  for (const width of [375, 1366]) for (const theme of ['light', 'dark']) {
+    test(`original-size diagram is keyboard reachable and scrolls: ${pathname} ${width}px ${theme}`, async ({ page }) => {
+      await page.setViewportSize({ width, height: width === 375 ? 812 : 900 })
+      await page.addInitScript(theme => {
+        localStorage.setItem('theme', theme)
+        window.diagramCspViolations = []
+        document.addEventListener('securitypolicyviolation', event => window.diagramCspViolations.push(event.violatedDirective))
+      }, theme)
+      await page.goto(`${basePath}${pathname}`)
+      await expect(page.locator('html')).toHaveClass(theme === 'dark' ? /\bdark\b/ : /\blight\b/)
+      const figure = page.locator('article .static-mermaid').first()
+      await figure.scrollIntoViewIfNeeded()
+      const preview = figure.locator(':scope > img:visible')
+      await expect.poll(() => preview.evaluate(image => image.complete && image.naturalWidth > 0)).toBe(true)
+      const before = await preview.evaluate(image => ({ naturalWidth: image.naturalWidth, width: image.getBoundingClientRect().width }))
+      const summary = figure.locator('summary')
+      await expect(summary).toHaveAccessibleName(/の図を元の大きさで表示$/)
+      await summary.focus(); await summary.press('Enter')
+      const region = figure.getByRole('region', { name: /の図のスクロール領域$/ })
+      const original = region.locator('img:visible')
+      await expect(original).toBeVisible()
+      await expect.poll(() => original.evaluate(image => image.complete && image.naturalWidth > 0)).toBe(true)
+      await expect(original).toHaveAttribute('src', new RegExp(`-${theme}\\.svg$`))
+      const after = await original.evaluate(image => ({ naturalWidth: image.naturalWidth, width: image.getBoundingClientRect().width }))
+      expect(Math.abs(after.width - after.naturalWidth)).toBeLessThan(2)
+      expect(after.width).toBeGreaterThanOrEqual(before.width)
+      // Native Tab and arrow handling, followed by mouse scrolling to both ends.
+      await summary.focus(); await summary.press('Tab')
+      await expect(region).toBeFocused()
+      const horizontal = await region.evaluate(element => element.scrollWidth > element.clientWidth)
+      if (horizontal) {
+        await region.evaluate(element => {
+          element.keyboardScrollEnded = false
+          const ended = event => {
+            if (event.target !== element) return
+            element.keyboardScrollEnded = true
+            element.removeEventListener('scrollend', ended)
+          }
+          element.addEventListener('scrollend', ended)
+        })
+        await region.press('ArrowRight')
+        await expect.poll(() => region.evaluate(element => element.scrollLeft)).toBeGreaterThan(0)
+        // A visible/stable box can still be scrolling after a keyboard action.
+        // Finish that native action before testing a separate mouse gesture.
+        await expect.poll(() => region.evaluate(element => element.keyboardScrollEnded)).toBe(true)
+      }
+      // Exercise each axis separately. A diagonal wheel gesture can be locked
+      // to its vertical axis by the browser, even when this figure only scrolls horizontally.
+      const axes = [
+        { position: 'scrollLeft', size: 'scrollWidth', viewport: 'clientWidth', deltaX: 10000, deltaY: 0 },
+        { position: 'scrollTop', size: 'scrollHeight', viewport: 'clientHeight', deltaX: 0, deltaY: 10000 }
+      ]
+      for (const axis of axes) {
+        const maximum = await region.evaluate((element, axis) => element[axis.size] - element[axis.viewport], axis)
+        if (maximum > 0) { await region.hover(); await page.mouse.wheel(axis.deltaX, axis.deltaY) }
+        await expect.poll(() => region.evaluate((element, axis) => Math.abs(element[axis.size] - element[axis.viewport] - element[axis.position]), axis)).toBeLessThan(2)
+      }
+      const scrollEnd = await region.evaluate(element => ({ x: element.scrollLeft, y: element.scrollTop }))
+      for (const axis of axes.toReversed()) {
+        const maximum = await region.evaluate((element, axis) => element[axis.size] - element[axis.viewport], axis)
+        if (maximum > 0) { await region.hover(); await page.mouse.wheel(-axis.deltaX, -axis.deltaY) }
+        await expect.poll(() => region.evaluate((element, axis) => element[axis.position], axis)).toBeLessThan(2)
+      }
+      await expect.poll(() => region.evaluate(element => element.scrollLeft + element.scrollTop)).toBeLessThan(2)
+      expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1)
+      await test.info().attach('diagram-reading-dimensions', { body: JSON.stringify({ pathname, width, theme, before, after, scrollEnd }), contentType: 'application/json' })
+      if (width === 375 && theme === 'light') await test.info().attach('original-size-diagram', { body: await figure.screenshot(), contentType: 'image/png' })
+      await summary.click()
+      await expect(region).toBeHidden()
+      await expect(summary).toBeFocused()
+      expect(await page.evaluate(() => window.diagramCspViolations)).toEqual([])
+    })
+  }
+}

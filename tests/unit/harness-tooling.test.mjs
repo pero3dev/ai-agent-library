@@ -186,6 +186,26 @@ test('verification manifest rejects CI command, working directory and optional-s
   assert.deepEqual(verificationDrift(manifest, { defaults: { run: { 'working-directory': 'website' } }, jobs: { docs: { steps: [{ run: 'npm test' }] } } }), [])
 })
 
+test('real article prerequisite levels remain registered and mandatory in the CI docs job', () => {
+  const manifest = JSON.parse(readFileSync(path.join(ROOT, 'harness/verification.json'), 'utf8'))
+  const workflow = parseConfiguration('ci.yml', readFileSync(path.join(ROOT, '.github/workflows/ci.yml'), 'utf8'))
+  const levels = manifest.checks.filter(row => row.id === 'levels')
+  assert.equal(levels.length, 1)
+  assert.equal(levels[0].job, 'docs')
+  assert.equal(levels[0].command, 'node scripts/check-prerequisite-levels.mjs')
+  assert.equal(levels[0].cwd, '.')
+  assert.equal(levels[0].evidence, 'static')
+  assert.deepEqual(verificationDrift({ checks: levels }, workflow), [])
+  const changed = structuredClone(workflow)
+  changed.jobs.docs.steps = changed.jobs.docs.steps.filter(step => step.run !== levels[0].command)
+  assert.match(verificationDrift({ checks: levels }, changed).join('\n'), /levels/)
+  assert.ok(describeChecks(ROOT, 'linux').checks.some(row => row.id === 'levels' && row.result === 'not-run'))
+  const planned = []
+  const selected = runChecks(ROOT, 'levels', { platform: 'linux', execute: (row, command) => { planned.push([row.id, row.cwd, command.args]); return 'fixture execution' } })
+  assert.deepEqual(planned, [['levels', '.', ['scripts/check-prerequisite-levels.mjs']]])
+  assert.equal(selected.verified, true)
+})
+
 test('CI inventory cannot claim unexecuted checks or execute deploy through a selected command', () => {
   const inventory = describeChecks(ROOT, 'linux')
   assert.ok(inventory.checks.every(row => row.result === 'not-run'))

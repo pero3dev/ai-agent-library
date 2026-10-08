@@ -3,7 +3,7 @@ title: "AI Agent 学習ロードマップ"
 category: "overview"
 level: "basic"
 status: "published"
-last_updated: "2026-10-03"
+last_updated: "2026-10-08"
 tags: ["learning-roadmap", "ai-agent"]
 ---
 
@@ -27,7 +27,7 @@ tags: ["learning-roadmap", "ai-agent"]
 
 ### 概要: 16 セクションの構成と依存関係
 
-このライブラリは「概念 → 設計 → 実装 → 評価 → 運用」という開発ライフサイクルの順にセクションを並べ、セキュリティと事例を横断テーマとして置いています。08(コーディングエージェント)は「Agent を**使う**側」の独立したテーマで、01 の基礎概念だけを前提に読めます。09(ビジネス実務)は「何をやるか・どう本番に届けるか」という案件推進の方法論で、技術セクションと並行して読めます。10(LLM 基礎)は「LLM 自体がなぜそう振る舞うか」を深める任意の基礎で、01 と並行して、または実務で挙動の疑問に当たったときに読めます。11(LLM 内部構造)は 10 の学術的な下層で、Transformer の数式・スケーリング則・アラインメント理論・推論機構・解釈可能性などを原論文つきで深めます(10 を読んで「なぜ」をさらに数式で掘りたい人向けの任意セクション)。12(モダリティ応用)は文書・画像・動画・音声の理解と生成を扱う応用テーマで、03(実装)を前提に、必要になったときに読めます。13(ドメイン応用)はリサーチ・データ分析・RPA・アシスタントなど応用ドメインごとの設計判断で、03(実装)を前提に、該当ドメインに取り組むときに読めます。14(UX・プロダクト)は非決定的な AI システムの体験設計で、02・03(設計・実装)を前提に、体験を作り込む段で読めます。15(人と AI の協働)は、AI を使うすべての人の認知と技能 — 過信・検証習慣・キャリア・リテラシー教育 — を扱う横断的な基礎で、全読者に関わります。
+このライブラリは「概念 → 設計 → 実装 → 評価 → 運用」という開発ライフサイクルの順にセクションを並べ、セキュリティと事例を横断テーマとして置いています。08(コーディングエージェント)は「Agent を**使う**側」の独立したテーマで、入口は01の基礎概念です。防御設計やSE実践では追加の必須前提があるため、下記のF・Hルートで寄り道を確認します。09(ビジネス実務)は「何をやるか・どう本番に届けるか」という案件推進の方法論で、技術セクションと並行して読めます。10(LLM 基礎)は「LLM 自体がなぜそう振る舞うか」を深める任意の基礎で、01 と並行して、または実務で挙動の疑問に当たったときに読めます。11(LLM 内部構造)は 10 の学術的な下層で、Transformer の数式・スケーリング則・アラインメント理論・推論機構・解釈可能性などを原論文つきで深めます(10 を読んで「なぜ」をさらに数式で掘りたい人向けの任意セクション)。12(モダリティ応用)は文書・画像・動画・音声の理解と生成を扱う応用テーマで、03(実装)を前提に、必要になったときに読めます。13(ドメイン応用)はリサーチ・データ分析・RPA・アシスタントなど応用ドメインごとの設計判断で、03(実装)を前提に、該当ドメインに取り組むときに読めます。14(UX・プロダクト)は非決定的な AI システムの体験設計で、02・03(設計・実装)を前提に、体験を作り込む段で読めます。15(人と AI の協働)は、AI を使うすべての人の認知と技能 — 過信・検証習慣・キャリア・リテラシー教育 — を扱う横断的な基礎で、全読者に関わります。
 
 ```mermaid
 flowchart TD
@@ -64,11 +64,43 @@ flowchart TD
 | C: 実装担当 | 設計済みのものを実装する | [03-implementation](../03-implementation/README.md) を全部 → [実装済みサンプル](https://github.com/pero3dev/ai-agent-library/blob/d990973c2c02b6108cd9911fc06e45b3a29f9332/examples/README.md) → [04-evaluation](../04-evaluation/README.md) |
 | D: 運用・SRE | 既存の Agent を本番運用する | [05-operations](../05-operations/README.md) を全部 → [回帰テストと CI 組み込み](../04-evaluation/regression-testing.md) → [06-security](../06-security/README.md) |
 | E: セキュリティ | Agent システムをレビュー・監査する | [06-security](../06-security/README.md) を全部 → [ツール使用](../01-concepts/tool-use.md) → [Human-in-the-Loop 設計](../02-architecture/human-in-the-loop.md) |
-| F: エージェント活用 | Claude Code 等のコーディングエージェントを使う・導入する | [AI Agent とは何か](../01-concepts/what-is-an-ai-agent.md) → [Agent ループ](../01-concepts/agent-loop.md) → [08-coding-agents](../08-coding-agents/README.md) を「この章の読み方」の順で |
+| F: エージェント活用 | Claude Code 等のコーディングエージェントを使う・導入する | [AI Agent とは何か](../01-concepts/what-is-an-ai-agent.md) → [Agent ループ](../01-concepts/agent-loop.md) → [分類と全体像](../08-coding-agents/coding-agents-overview.md) → [選定基準と使い分け](../08-coding-agents/coding-agent-selection.md) → [セキュリティの前提を補う](#fのセキュリティへ進む前に) → [権限・秘密情報・破壊的操作への対策](../08-coding-agents/coding-agent-security.md) |
 | G: プロフェッショナル志向 | 全領域を実務レベルに広げ、案件を推進する | [スキルマップ](skill-map.md)で自己評価 → 弱い領域のセクションを README の順に → [ユースケース発見と要件定義](../09-business/usecase-discovery.md) → [PoC から本番への進め方](../09-business/poc-to-production.md) → 組織定着なら [AI 時代のチームトポロジー](../09-business/ai-team-topologies.md) ほか 09 章の組織・プロセス層 |
-| H: 企業システム開発(SIer・情シス) | 受託・社内の企業システム開発でコーディングエージェントを工程横断で使う | [AI コーディングエージェントの分類と全体像](../08-coding-agents/coding-agents-overview.md) → [SE 工程別活用マップ](../08-coding-agents/se-process-map.md) → 自分の工程の記事(要件定義・設計 / テスト / レガシー / 保守)→ [企業システム環境の制約と対応](../08-coding-agents/se-enterprise-constraints.md) |
+| H: 企業システム開発(SIer・情シス) | 受託・社内の企業システム開発でコーディングエージェントを工程横断で使う | [AI Agent とは何か](../01-concepts/what-is-an-ai-agent.md) → [Agent ループ](../01-concepts/agent-loop.md) → [分類と全体像](../08-coding-agents/coding-agents-overview.md) → [依頼設計](../08-coding-agents/coding-agent-prompting.md) → [SE 工程別活用マップ](../08-coding-agents/se-process-map.md) → [工程別の前提と記事を選ぶ](#hの工程別記事へ進む前に) → [企業制約の前提を補う](#hの企業制約へ進む前に) → [企業システム環境の制約と対応](../08-coding-agents/se-enterprise-constraints.md) |
 
 個別ドキュメントの執筆状況は各セクションの README で確認できます(ファイル名がリンクになっているものが執筆済み、バッククォートのままの名前は計画段階です)。
+
+### F・Hの必須前提と寄り道
+
+F・Hの入口は「AI Agentとは何か」と「Agentループ」です。システムプロンプト・チャット履歴・トークンの基本を説明できることも確認してください。既読の記事は再読を省けますが、業務SEの経験だけでAgent固有の前提を既知と見なしません。下記は各記事の「前提知識」に合わせた必須の寄り道です。製品別の紹介や実践記事は、Fの防御設計を読んだ後に[08章の索引](../08-coding-agents/README.md)から選びます。
+
+#### Fのセキュリティへ進む前に
+
+「分類と全体像」「選定基準」の後、未読なら [ツール使用](../01-concepts/tool-use.md) → [ツール定義の設計](../03-implementation/tool-definition-design.md) → [ツール接続標準(MCP)](../03-implementation/mcp-and-tool-protocols.md) → [Agentの脅威モデル概観](../06-security/threat-model-overview.md) → [ツール権限設計とサンドボックス](../06-security/tool-permissions-and-sandboxing.md) の順に読みます。これで[権限・秘密情報・破壊的操作への対策](../08-coding-agents/coding-agent-security.md)の必須前提である分類・脅威モデル・権限設計をそろえられます。Hの企業制約へ進む場合にもこの寄り道を使います。
+
+#### Hの工程別記事へ進む前に
+
+「分類と全体像」→「依頼設計」→「SE工程別活用マップ」までを共通の先行ステップにします。その後は担当工程を選び、次の対応表で未読の必須前提を補ってから工程記事を読みます。一般的な要件定義・テスト・保守の経験は読みやすさを助けますが、表の必須記事を置き換えません。
+
+| 選ぶ工程記事 | 必須前提のそろえ方 |
+| --- | --- |
+| [要件定義・設計](../08-coding-agents/se-requirements-and-design.md) | 工程マップ・依頼設計は先行ステップ。さらに [Workflow型 vs Agent型](../02-architecture/workflow-vs-agent.md) → [ユースケース発見と要件定義](../09-business/usecase-discovery.md) を先に読む |
+| [テスト](../08-coding-agents/se-test-process.md) | 工程マップと、上の要件定義・設計記事を先に読む。さらに下記の評価の寄り道を経て [回帰テストと評価データセットの管理](../04-evaluation/regression-testing.md) を読む。一般的なCI/CDの経験も必要 |
+| [レガシーコード理解](../08-coding-agents/se-legacy-code-analysis.md) | 工程マップ・依頼設計は先行ステップで充足 |
+| [保守・運用](../08-coding-agents/se-maintenance-and-operations.md) | 工程マップは先行ステップ。上のレガシーコード理解記事を先に読む |
+
+テスト工程の評価の寄り道は [Workflow型 vs Agent型](../02-architecture/workflow-vs-agent.md) → [Agent評価の基礎](../04-evaluation/agent-evaluation-basics.md)、および [ツール使用](../01-concepts/tool-use.md) → [構造化出力](../03-implementation/structured-output.md) です。両方を読んだ後に [LLM-as-a-Judge](../04-evaluation/llm-as-a-judge.md) → [回帰テスト](../04-evaluation/regression-testing.md) へ進みます。Workflow型の前提は入口の「AI Agentとは何か」、評価の基礎の前提は入口の「Agentループ」とWorkflow型です。
+
+#### Hの企業制約へ進む前に
+
+[企業システム環境の制約と対応](../08-coding-agents/se-enterprise-constraints.md)の必須前提は、先行ステップの工程マップ、Fで案内した権限・秘密情報への対策、[業界別規制マップ](../09-business/industry-regulations-map.md)です。規制マップが未読なら、次の前提を順に補います。
+
+1. Fの寄り道でツール使用・脅威モデルまで読み、[プロンプトインジェクション](../06-security/prompt-injection.md) → [データ漏えい対策](../06-security/data-exfiltration.md)へ進みます。
+2. [Workflow型 vs Agent型](../02-architecture/workflow-vs-agent.md) → [Agent評価の基礎](../04-evaluation/agent-evaluation-basics.md) → [軌跡評価](../04-evaluation/trajectory-evaluation.md) → [可観測性とトレーシング](../05-operations/observability-and-tracing.md)へ進みます。入口のAgentループもこれらの前提です。
+3. 1・2のデータ漏えい対策と可観測性を読んだ後、[コンプライアンスとガバナンス](../06-security/compliance-and-governance.md)を読みます。別に、Workflow型の後で[ユースケース発見と要件定義](../09-business/usecase-discovery.md)を読みます。
+4. コンプライアンスとユースケース発見を読んだ後、[業界別規制マップ](../09-business/industry-regulations-map.md)へ進み、企業制約の記事へ戻ります。
+
+これらは導入可否・データ持ち出し・監査を判断するための前提です。工程記事を選ぶことと、そのまま本番データや顧客コードをAgentへ渡してよいことは別です。
 
 ### A・B・Cの最初の小課題と到達確認
 
@@ -113,7 +145,7 @@ python -X utf8 examples/python/evaluation-harness/eval_harness.py --mock
 - [05-operations](../05-operations/README.md) — 可観測性・コスト・インシデント対応など本番運用の実務
 - [06-security](../06-security/README.md) — プロンプトインジェクションを筆頭とする Agent 固有の脅威と対策。**設計初期に一読**してください
 - [07-case-studies](../07-case-studies/README.md) — 具体事例とアンチパターン詳解。他セクションを読んだあとの総仕上げ
-- [08-coding-agents](../08-coding-agents/README.md) — Claude Code などのコーディングエージェントを**使う**側の体系(選定・設定・セキュリティ・チーム導入)。01 だけ読めば独立して読めます
+- [08-coding-agents](../08-coding-agents/README.md) — Claude Code などのコーディングエージェントを**使う**側の体系(選定・設定・セキュリティ・チーム導入)。入口は01の基礎概念です。防御設計・SE実践の追加前提は上記F・Hの案内で確認します
 - [09-business](../09-business/README.md) — ユースケース選定・PoC → 本番・ROI といった**案件推進の方法論**。技術の前(何をやるか)と後(どう届けるか)を扱い、04(評価)を先に読むと本番化の関門判断が理解しやすくなります
 - [10-llm-foundations](../10-llm-foundations/README.md) — 生成・トークン・注意機構・学習・能力限界という **LLM 自体の「なぜ」**。数式なしの直感で、01 の理解と日々のデバッグ・設計判断を深めます(任意の基礎。01 と並行して読めます)
 - [11-llm-internals](../11-llm-internals/README.md) — Transformer の数式・注意の変種・MoE 内部・スケーリング則・アラインメント理論・推論機構・解釈可能性・文脈内学習という **LLM 内部の「なぜ」を数式と原論文で**。10 の学術的下層で、数式ありの深掘り(任意。10 を読んでさらに掘りたいとき)

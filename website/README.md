@@ -33,7 +33,7 @@ npm ci
 | パス | 位置づけ |
 | --- | --- |
 | `content/` | sync 生成の記事 MDX(git 管理外) |
-| `generated/` | `sections.json` / `glossary.json` / `tags.json` / `routes.json` / `audio.json`(git 管理外) |
+| `generated/` | `sections.json` / `glossary.json` / `tags.json` / `routes.json` / `audio.json`、記事別の `markdown/*.json`(git 管理外) |
 | `out/` | 静的エクスポート(git 管理外) |
 | `content-src/` | 手書き上書きページ(**唯一の手編集対象**。同名は手書きが勝つ) |
 | `audio/catalog.json` | 公開済み音声と記事の版を結ぶカタログの正本。音声本体は GitHub Releases |
@@ -42,6 +42,10 @@ npm ci
 
 読書連動・再生・操作付きの動的図解は廃止しました。本文・既存Mermaid・数式を維持します。
 削除前の全制作状態と表示は[バックアップ・削除記録](../project/records/2026-10-03/dynamic-diagram-removal.md)から復元できます。
+
+Mermaid は安全性を検査した静的 SVG 画像で表示します。「図を元の大きさで表示」を選ぶと、縮小していない図をスクロールして読めます。この入口は JavaScript 無効時も動き、Tab と Enter、図の領域での矢印キーを使えます。
+
+「記事をコピー」は、サイト専用の装飾や静的画像化を行う前の Markdown を使います。Mermaid コード、数式、チェックリストを保持し、記事リンクは公開先の絶対 URL にします。コピー用データは記事別に生成し、サーバー側で表示中の記事だけを読み取って操作部品へ渡します。
 
 ## 音声学習
 

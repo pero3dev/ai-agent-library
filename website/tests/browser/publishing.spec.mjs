@@ -1,5 +1,10 @@
 import { test, expect } from '@playwright/test'
 import { readFileSync } from 'node:fs'
+import { unified } from 'unified'
+import remarkParse from 'remark-parse'
+import remarkGfm from 'remark-gfm'
+import remarkMath from 'remark-math'
+import remarkFrontmatter from 'remark-frontmatter'
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
 const route = value => `${basePath}${value}`
@@ -59,7 +64,46 @@ test('strict static diagrams have theme-specific assets and render when JavaScri
   await image.scrollIntoViewIfNeeded()
   await expect.poll(() => image.evaluate(element => element.complete && element.naturalWidth > 0)).toBe(true)
   await expect(image).toHaveAccessibleName(/の図$/)
+  const figure = image.locator('..')
+  const summary = figure.locator('summary')
+  await summary.focus(); await summary.press('Enter')
+  const original = figure.locator('.mermaid-original-scroll img:visible')
+  await expect(original).toBeVisible()
+  await expect.poll(() => original.evaluate(element => element.complete && element.naturalWidth > 0)).toBe(true)
+  expect(await original.evaluate(element => Math.abs(element.getBoundingClientRect().width - element.naturalWidth))).toBeLessThan(2)
+  await summary.press('Enter')
+  await expect(original).toBeHidden()
   await context.close()
+})
+
+const markdownParser = unified().use(remarkParse).use(remarkGfm).use(remarkMath).use(remarkFrontmatter, ['yaml'])
+const markdownNodes = (node, type) => (node.type === type ? [node] : []).concat((node.children ?? []).flatMap(child => markdownNodes(child, type)))
+for (const [pathname, sourcePath] of [
+  ['/docs/concepts/agent-loop', '../../../docs/01-concepts/agent-loop.md'],
+  ['/docs/llm-internals/transformer-architecture', '../../../docs/11-llm-internals/transformer-architecture.md']
+]) test(`article copy preserves original Markdown structure: ${pathname}`, async ({ page }) => {
+  await page.addInitScript(() => Object.defineProperty(navigator, 'clipboard', {
+    configurable: true, value: { writeText: async text => { window.copiedArticleMarkdown = text } }
+  }))
+  await page.goto(route(pathname))
+  await page.getByRole('button', { name: '記事をコピー', exact: true }).click()
+  await expect(page.getByRole('button', { name: 'コピーしました', exact: true })).toBeVisible()
+  const markdown = await page.evaluate(() => window.copiedArticleMarkdown)
+  const expected = JSON.parse(readFileSync(new URL(`../../generated/markdown/${pathname.slice('/docs/'.length)}.json`, import.meta.url), 'utf8'))
+  expect(markdown).toBe(expected)
+  expect(markdown).not.toMatch(/<(?:StaticMermaid|GlossaryTerm|PracticeSection|ChecklistBox|TodoCallout)\b/)
+  const copied = markdownParser.parse(markdown)
+  const source = markdownParser.parse(readFileSync(new URL(sourcePath, import.meta.url), 'utf8'))
+  for (const type of ['code', 'math', 'inlineMath', 'listItem']) {
+    const values = tree => markdownNodes(tree, type).map(node => ({ value: node.value, lang: node.lang, checked: node.checked }))
+    expect(values(copied)).toEqual(values(source))
+  }
+  expect(markdownNodes(copied, 'code').filter(node => node.lang === 'mermaid').length).toBeGreaterThan(0)
+  const headings = tree => markdownNodes(tree, 'heading').map(node => ({ depth: node.depth, text: node.children.map(child => child.value || '').join('') }))
+  expect(headings(copied)).toEqual(headings(source))
+  const text = node => node.value ?? (node.children ?? []).map(text).join('')
+  expect(markdownNodes(copied, 'paragraph').map(text)).toEqual(markdownNodes(source, 'paragraph').map(text))
+  expect(markdownNodes(copied, 'link').filter(node => node.url.startsWith('/'))).toEqual([])
 })
 
 test('CSP permits search, math, diagrams and theme changes without violations', async ({ page }) => {

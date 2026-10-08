@@ -28,6 +28,8 @@ import { findUnsafeMdx } from '../lib/mdx-safety.mjs'
 import { audioSourceDigest, buildAudioCatalog } from '../lib/audio-catalog.mjs'
 import { plainSummary, publicSectionIndex } from '../lib/page-metadata.mjs'
 import { replaceMermaid } from '../lib/static-mermaid.mjs'
+import { articleMarkdown } from '../lib/article-markdown.mjs'
+import { copyFileForRoute } from '../lib/article-copy.mjs'
 import { observationReport } from '../../scripts/freshness-observation-report.mjs'
 import { generatedContentLoaderSource } from '../lib/nextra-generated-loader.mjs'
 import { readmeArticleOrder, rewriteMarkdownRoutes } from '../lib/markdown-routes.mjs'
@@ -327,8 +329,11 @@ async function main() {
     pagesMeta[route] = { title: getTitle(text), description: plainSummary(text, getTitle(text)), last_updated: getFrontMatterField(text, 'last_updated'), source_path: file.repoRel }
     let out = ensureFrontMatter(file.slug === 'index' ? publicSectionIndex(text, file.repoRel, texts, getTitle) : text, file.repoRel)
     const tree = mdParser.parse(out)
-    applyDecorations(tree, { route, glossary: glossaryForLinks })
     errors.push(...rewriteMarkdownRoutes(tree, file.repoRel, routeMap))
+    const copyPath = path.join(GEN_DIR, 'markdown', copyFileForRoute(route))
+    await mkdir(path.dirname(copyPath), { recursive: true })
+    await writeFile(copyPath, JSON.stringify(articleMarkdown(tree, route)), 'utf8')
+    applyDecorations(tree, { route, glossary: glossaryForLinks })
     replaceMermaid(tree, getTitle(text), charts)
     out = String(mdxWriter.stringify(tree))
     assertSafeMdx(out, file.repoRel) // C3: 許可外の JSX / ESM / {式} / 生 HTML を拒否
@@ -404,6 +409,9 @@ async function main() {
 
   // 手書きページ(content-src/)を最後に重ねる(同名は手書きが勝つ)
   await cp(CONTENT_SRC, OUT_DIR, { recursive: true, force: true })
+  // 現在唯一の手書き上書きページも、装飾前の Markdown をコピーする。
+  const indexTree = mdParser.parse((await readFile(path.join(CONTENT_SRC, 'index.mdx'), 'utf8')).replace(/\r\n/g, '\n'))
+  await writeFile(path.join(GEN_DIR, 'markdown', copyFileForRoute(BASE_PATH)), JSON.stringify(articleMarkdown(indexTree, BASE_PATH)), 'utf8')
 
   // generated/routes.json(C5: postbuild のルート網羅チェックが照合する期待ルート一覧)
   const routes = [...await collectContentRoutes(OUT_DIR), '/', '/roadmap', '/glossary', '/tags', '/audio', '/about', '/freshness'].sort()

@@ -30,10 +30,10 @@ export const useMDXComponents = components => ({
     return <span {...props} />
   },
   // 記事ヘッダーに front matter バッジ(level / tags / last_updated)を差し込む
-  wrapper({ children, ...props }) {
+  wrapper({ children, copyMarkdown, ...props }) {
     const article = (
       <DocsWrapper {...props} className={`article-reading-layout x:mx-auto x:flex x:max-w-(--nextra-content-width) ${props.className || ''}`}>
-        <ArticleActions sourceCode={props.sourceCode} />
+        <ArticleActions markdown={copyMarkdown} />
         <DocMeta metadata={props.metadata} />
         <ArticleAudio />
         {children}

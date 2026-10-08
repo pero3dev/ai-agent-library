@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "run_id": "20261007t173132543z-fc61a4ee",
-  "base_sha": "4c72c1a651bd01cc4034e0c10b1dbaeec63c46da",
+  "base_sha": "863cb74b2c641bd20731d1b3a6b8ff4d3aefa823",
   "writer_run_id": "20261007t173132543z-fc61a4ee",
   "started_at": "2026-10-07T17:31:32.543Z",
   "systems": [
@@ -363,7 +363,7 @@
     {
       "system_id": "models-prompting",
       "status": "changed",
-      "summary": "Per-message effortはClaude API/Google CloudのFable5.1/Mythos5.1/Opus5.5/Opus5/Sonnet5.5に対応。Fable5.1のBedrock InvokeModelはmid-conversation-output-config-2026-07-01をanthropic_beta配列へ指定。資料間の粒度差がある他モデル/Bedrock別APIには一般化しない。",
+      "summary": "Per-message effortはClaude API/Google CloudのFable5.1/Mythos5.1/Opus5.5/Opus5/Sonnet5.5に対応。Fable5.1のBedrock InvokeModelはmid-conversation-output-config-2026-07-01をanthropic_beta配列へ指定。資料間の粒度差がある他モデル/Bedrock別APIには一般化しない。 Sonnet5.5のターンごとの変更はthinking.type=adaptiveが条件。between_toolsで有効値と異なるper-message output_config.effortを送ると400。元取得に加え独立再取得で条件を確認。",
       "sources": [
         {
           "url": "https://platform.claude.com/docs/en/build-with-claude/effort",
@@ -372,6 +372,10 @@
         {
           "url": "https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1",
           "accessed_at": "2026-10-07T17:39:28Z"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/build-with-claude/effort",
+          "accessed_at": "2026-10-08T01:27:34Z"
         }
       ],
       "affected_docs": [
@@ -381,7 +385,7 @@
     {
       "system_id": "models-prompting",
       "status": "unchanged",
-      "summary": "Anthropic現行4モデルの単価、Fable5.1 cache read$0.25、Opus5.5 read$0.20、Sonnet4.5の11月30日退役、Activeの最早日/確定日の区別は一致。Fable30日保持・明示許可なしZDR不可・思考履歴/新規アカウント検査も現記述と一致。",
+      "summary": "Anthropic現行4モデルの入力/出力単価、Fable5.1 cache read$0.25、Opus5.5 read$0.20、Sonnet4.5の11月30日退役、Activeの最早日/確定日の区別は一致。Sonnet5.5 cache readは元取得時の表/説明不一致として一致の対象から除外し、別再取得観測25へ記録。Fable30日保持・明示許可なしZDR不可・思考履歴/新規アカウント検査も対象記述と一致。",
       "sources": [
         {
           "url": "https://platform.claude.com/docs/en/about-claude/pricing",
@@ -490,6 +494,20 @@
         }
       ],
       "affected_docs": []
+    },
+    {
+      "system_id": "models-prompting",
+      "status": "changed",
+      "summary": "独立再取得でSonnet5.5のモデル表(入力$2/出力$10/cache read$0.10 per MTok)、Prompt caching表/説明(0.05x/$0.10)が一致。記事の既定0.1xの例外にSonnet5.5を追加。元取得時の$0.20/$0.10の不一致履歴をresearchに保持し、整合確認pendingを解消。価格改定発生日・実課金は未特定。",
+      "sources": [
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+          "accessed_at": "2026-10-08T01:29:04Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/03-implementation/llm-landscape.md"
+      ]
     }
   ],
   "vendor_checks": [
@@ -497,8 +515,8 @@
       "vendor": "anthropic",
       "release_notes": "changed",
       "deprecations": "unchanged",
-      "pricing": "unchanged",
-      "summary": "10月3日以降の10/5 Models API capability追加を確認。価格/退役は対象記事の現行4モデル・対象行との一致で全提供経路の実API確認ではない。Bedrock effort経路は別観測で訂正。",
+      "pricing": "changed",
+      "summary": "10月3日以降の10/5 Models API capability追加を確認。退役は対象行に一致。Sonnet5.5 cache readは元取得の表/説明不一致を保存後、独立再取得で$0.10/0.05xの一致を確認し記事へ反映。変更は記事との差分で価格改定発生日は未特定。全提供経路の実API確認ではない。",
       "sources": [
         {
           "url": "https://platform.claude.com/docs/en/release-notes/overview",
@@ -511,6 +529,10 @@
         {
           "url": "https://platform.claude.com/docs/en/about-claude/pricing",
           "accessed_at": "2026-10-07T17:35:53Z"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+          "accessed_at": "2026-10-08T01:29:04Z"
         }
       ]
     },
@@ -591,9 +613,10 @@
       "observation_indices": [
         15,
         16,
-        17
+        17,
+        25
       ],
-      "summary": "6.1 Solのモデル別条件とGemini3.8価格/2.5アクセス制限を訂正"
+      "summary": "6.1 Solのモデル別条件とGemini3.8価格/2.5アクセス制限を訂正、Sonnet5.5キャッシュ読取の例外を同期"
     },
     {
       "path": "docs/03-implementation/openai-prompting.md",
@@ -617,7 +640,7 @@
       "observation_indices": [
         18
       ],
-      "summary": "会話途中effortのモデル別提供条件とFable5.1 InvokeModel経路を同期"
+      "summary": "会話途中effortのモデル別提供条件とFable5.1 InvokeModel経路を同期、Sonnet5.5 adaptive限定を同期"
     },
     {
       "path": "research/coding-agents/openai-codex.md",
@@ -702,15 +725,17 @@
         18
       ],
       "summary": "確認済み事実に沿って注目事項を更新し終了予定/取得失敗/未確認を保持"
+    },
+    {
+      "path": "research/models/anthropic.md",
+      "kind": "supporting",
+      "observation_indices": [
+        25
+      ],
+      "summary": "元取得の表/説明不一致履歴と再取得の一致、整合確認残件の解消を記録"
     }
   ],
   "review": {
-    "verdict": "approved",
-    "risk": "low",
-    "independent": true,
-    "reviewer_run_id": "/root/final_freshness_review",
-    "reviewed_at": "2026-10-07T18:15:50Z",
-    "content_digest": "3126006c9064d0c3932aeadaddaeae10ca44162b729290d7002ee38acda27567"
-  },
-  "completed_at": "2026-10-07T18:17:30.072Z"
+    "verdict": "changes_requested"
+  }
 }

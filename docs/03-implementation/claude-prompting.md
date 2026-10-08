@@ -138,7 +138,7 @@ Opus 5.5 / Sonnet 5.5 は強制ツール指定 `any` / `tool` を拒否します
 
 思考ブロック前の system・tools・過去のメッセージを変更すると、保持した思考との結び付きが無効になります。2026-08-31 以降に作成されたアカウントでは検査が強制され、無効なブロックの再送は既定で 400 です。それ以前のアカウントや明示的な drop 設定では扱いが異なります。履歴は追記し、圧縮は対応するサーバー側機構か、思考の再送方針を定めたクライアント処理で行います。Fable 5.1 の思考を旧モデルへ渡すとブロックが破棄されるため、フォールバック時にも継続性を検証します。
 
-会話途中のメッセージ単位の effort 更新は `mid-conversation-output-config-2026-07-01` beta と対応モデル・提供経路を確認します。2026-10-08 の effort ガイドでは、Claude API と Google Cloud の Fable 5.1 / Mythos 5.1 / Opus 5.5 / Opus 5 / Sonnet 5.5 が対象です。Fable 5.1 の変更ガイドは、Bedrock InvokeModel でもリクエスト本文の `anthropic_beta` 配列に同じ beta を指定する方式を案内します。この条件を他の Bedrock API やモデルへ一般化しません。ターン限定の system は `clear_at: "next_user_message"` と `mid-conversation-system-clear-at-2026-08-21` beta を使い、期限後も履歴から削除せず再送します。任意の過去本文の編集とは区別します。
+会話途中のメッセージ単位の effort 更新は `mid-conversation-output-config-2026-07-01` beta と対応モデル・提供経路を確認します。2026-10-08 の effort ガイドでは、Claude API と Google Cloud の Fable 5.1 / Mythos 5.1 / Opus 5.5 / Opus 5 / Sonnet 5.5 が対象です。Sonnet 5.5 でターンごとに effort を変える場合は `thinking.type: "adaptive"` を使います。`between_tools` では、有効な値と異なるメッセージ単位の `output_config.effort` を送ると 400 エラーになります。Fable 5.1 の変更ガイドは、Bedrock InvokeModel でもリクエスト本文の `anthropic_beta` 配列に同じ beta を指定する方式を案内します。この条件を他の Bedrock API やモデルへ一般化しません。ターン限定の system は `clear_at: "next_user_message"` と `mid-conversation-system-clear-at-2026-08-21` beta を使い、期限後も履歴から削除せず再送します。任意の過去本文の編集とは区別します。
 
 Fable 5.1 のキャッシュ読取は入力単価の 2.5% です。また 30 日保持があり、Anthropic の明示的許可がない限り ZDR では利用できません。能力評価とともに [モデルカタログ](llm-landscape.md) の費用・保持条件を確認します。
 

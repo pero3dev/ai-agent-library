@@ -245,3 +245,11 @@ GPT-5.4 / 5.4 mini は ChatGPT sign-in の Codex で 2026-08-31 提供終了で�
 6. クラウド実行時の MCP 対応可否(§6)
 7. Codex を MCP サーバーとして使う機能の詳細(§6)
 8. Chrome 拡張・App Server・Bedrock デプロイの位置づけ(前提の表)
+
+## 2026-10-08 の部分観測(Issue #220)
+
+モデル節だけを再確認しました。公式 Models は GPT-6.1 Sol / GPT-6 Luna を推奨し、5.6 系は展開中も提供しています。ChatGPT 認証の 5.4 / mini の 2026-08-31 終了は再確認でき、置換案内は利用可能な場合の 6 Sol / Luna へ変わっています。Enterprise / Edu の Luna は管理者による有効化が必要です。GPT-5.5 は ChatGPT・Work・Codex の全プランで 2026-10-14 終了予定、OpenAI API は対象外です。予定日を実停止確認とは扱いません。
+
+- [Models](https://learn.chatgpt.com/docs/models) / [Workspace model availability](https://learn.chatgpt.com/docs/enterprise/workspace-model-availability): 実取得 UTC 2026-10-07T17:36:11Z
+- 反映先: `docs/08-coding-agents/openai-codex.md` のモデル・退役・TODO。権限、ゲートウェイ、定期タスク、プラン別利用枠は再検証していません
+- 観測根拠: [今回の結果](../freshness-runs/20261007t173132543z-fc61a4ee.json)。系統全体の完了ではありません

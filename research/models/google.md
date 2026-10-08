@@ -186,3 +186,23 @@ docs は本観測の結果を反映済み(llm-landscape / model-selection / gemi
 - 「Agent Platform」への改称の正式アナウンス
 - Gemini 1.5 系の退役完了日
 - 本メモの事実はすべて 2026-07-06 に上記公式ページから取得したものであり、プレビューモデル(特に 3.1 Pro)は仕様・価格が変わりやすい点に注意
+
+## 2026-10-08 Issue #220 再開の部分観測
+
+対象は [モデルカタログ](../../docs/03-implementation/llm-landscape.md) の Gemini 3.8 / 3.7 Flash の料金と 2.5 系の利用条件です。上記の 2026-07-06 調査表・後続ログはそれぞれ当時の履歴で、今回の確認を過去の日付へ遡って追記しません。全モデル・全提供経路の再確認ではありません。
+
+- 3.8 Flash と 3.7 Flash は、それぞれの料金欄に Standard 入力 / 出力が 0.75 / 3.75 米ドル / MTok の導入価格を掲載しています。2026-12-31 までで、2027-01-01 から 1.50 / 7.50 が予定されています。3.7 の条件を 3.8 に流用せず、各モデルの欄で確認しました。2026-10-03 以降に価格変更が発生したという判定ではありません。Batch 等のモードは別欄です。
+- Gemini 2.5 Pro / Flash / Flash-Lite は 2026-09-18 から過去の利用者のみ利用可能です。新規プロジェクト向けには 3.5 Flash-Lite / 3.8 Flash などが案内されています。終了日は未定で、撤回済みの 2026-10-16 を確定期日として復活させません。
+- 3.8 Flash の安定版、入力 1,048,576 / 出力 65,536、thinking_level low / medium(既定) / high、minimal 非対応は既存記述と一致しました。
+
+一次資料と実取得 UTC:
+
+| URL | 実取得日時 | 確認した範囲 |
+| --- | --- | --- |
+| [Pricing](https://ai.google.dev/gemini-api/docs/pricing) | 2026-10-07T17:35:53Z | 3.8 / 3.7 Flash 各モデルの Standard 導入価格と終了後の予定 |
+| [Changelog](https://ai.google.dev/gemini-api/docs/changelog) | 2026-10-07T17:35:16Z | 2.5 系の既存利用者限定の開始日 |
+| [Deprecations](https://ai.google.dev/gemini-api/docs/deprecations) | 2026-10-07T17:37:55Z | 2.5 系の利用条件・終了日未定 |
+| [3.8 Flash](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash) | 2026-10-07T17:38:22Z | 提供段階・入出力上限 |
+| [Thinking](https://ai.google.dev/gemini-api/docs/thinking) | 2026-10-07T17:37:18Z | 3.8 Flash の対応レベルと既定 |
+
+実 API・実請求・Vertex 等の提供経路・他モデルの全仕様は未検証です。この部分記録は models-prompting 全体の完了ではありません。全ベンダーの観測分類と残件は [実行の根拠記録](../freshness-runs/20261007t173132543z-fc61a4ee.json) を参照してください。

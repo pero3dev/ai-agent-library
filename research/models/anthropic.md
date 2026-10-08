@@ -211,3 +211,11 @@ docs は本観測の結果を反映済み(llm-landscape / model-selection / clau
 #176: 現行 Fable 5.1 / Opus 5.5 / Sonnet 5.5 / Haiku 4.5、料金・cache read・effort・最早退役日の区別を部分再確認しました。旧表は当時の履歴として保持します。
 
 取得 URL・実取得バッチ完了 UTC・確認水準・残る TODO は [一次情報の修正記録](../reviews/2026-10-03-article-remediation.md) を参照してください。過去の日付の本文は上書きしていません。
+
+## 2026-10-08 キャッシュ読取料金の部分再確認
+
+#220: Sonnet 5.5 のキャッシュ読取を [モデルカタログ](../../docs/03-implementation/llm-landscape.md) へ同期しました。確認先は [Claude Pricing](https://platform.claude.com/docs/en/about-claude/pricing) です。
+
+- 元の取得(2026-10-07T17:35:53Z)では、独立レビューがモデル表の読取 $0.20 と Prompt caching 節の $0.10 / 0.05x の不一致を指摘しました。断定置換を保留し、残件 `models-prompting-sonnet55-cache-pricing-20261008` として保存しました。この履歴は維持します。
+- 独立再取得(2026-10-08T01:29:04Z)では、モデル表の入力 $2・出力 $10・読取 $0.10 / MTok と、Prompt caching 表・説明の 0.05x / $0.10 が一致しました。記事の読取例外に Sonnet 5.5 を追加し、上記の整合確認の残件を解消しました。
+- 料金改定の発生日、全提供経路での実課金、他モデルの全条件を再確認した観測ではありません。旧料金表と観測日の記述は当時の履歴として保持します。

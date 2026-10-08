@@ -301,3 +301,17 @@ docs は本観測の結果を反映済み(openai-prompting / cross-model-prompti
 4. **変更なしの確認**: `v1/prompts` 停止 2026-11-30 は据え置き。Structured Outputs・Responses API 推奨・zero-shot 先行の few-shot 方針も変更なし
 
 > **TODO(要確認):** overthinking 警告と指示階層の現行原文を「Reasoning best practices」「Prompt guidance」の直接取得で確認する(2026-08-18 時点では要約経由のみ)。あわせて GPT-5.6 世代の cookbook prompting guide の有無を確認する(最終確認: 2026-08)
+
+## 2026-10-08 Issue #220 再開の部分観測
+
+[OpenAI 特化プロンプティング](../../docs/03-implementation/openai-prompting.md) のモデル別 effort・API 制約だけを同期しました。GPT-6.1 Sol は 2026-09-29 公開で、low / medium(既定) / high / xhigh / max に対応、none / minimal は非対応です。ツール呼出しは Responses API のみで、Chat Completions はツールなしに限られます。
+
+旧 `gpt-6-sol` / `gpt-6-luna` は none も対応し、Chat Completions の関数呼出しは none のときだけです。旧 Sol の設定を 6.1 Sol へそのまま移植しません。2026-10-03 の EU 条件の観測は旧 6 Sol / Luna についての記録であり、6.1 Sol の適格性へ一般化しません。
+
+一次資料と実取得 UTC:
+
+- [API Changelog](https://developers.openai.com/api/docs/changelog): 2026-10-07T17:35:16Z、6.1 Sol の公開日。
+- [6.1 Sol](https://developers.openai.com/api/docs/models/gpt-6.1-sol): 2026-10-07T17:38:22Z、effort と API 制約。
+- [6 Sol](https://developers.openai.com/api/docs/models/gpt-6-sol) / [6 Luna](https://developers.openai.com/api/docs/models/gpt-6-luna): 2026-10-07T17:40:59Z、旧モデルの effort と API 制約。
+
+実 API・EU 適格性・共通プロンプト指針の全項目は未再検証です。過去のログ・TODO の確認月は維持し、部分確認を系統全体の完了としません。全ベンダーの観測分類と残件は [実行の根拠記録](../freshness-runs/20261007t173132543z-fc61a4ee.json) を参照してください。

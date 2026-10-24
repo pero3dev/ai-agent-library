@@ -19,4 +19,6 @@
 
 通常3記事・fixture付き4記事のCoreSmokeが成功した。XCTestを8件追加し、50件を含むSDK build-for-testingとRelease buildが成功した。新しいXCTestの実行成功という意味ではない。Release監査は3記事・140ファイル・2,455,933 bytesのSHAとTestContent不在を確認した。共通検査はNode567件中552成功・15skip・失敗0（親のCI PRの新規8件を含む）。独立レビューではoptional pathの型を修正し、最終内容で修正必須事項がないことを確認した。
 
-新しい実機操作・SimulatorでのXCTest実行、block内の文字・pixel精度は未完了。実装結果と未実施の受入は[JSON](ios-reading-revision-restore.json)で分けて追跡する。
+続く[PR #244](https://github.com/pero3dev/ai-agent-library/pull/244)、head `2ad2cff29c86a25185e197ff5171be11efcc67d9`の[Hosted実行](https://github.com/pero3dev/ai-agent-library/actions/runs/40135742109)では、XCTest50件（Core27・Audio6・Inline17、失敗0）とRelease build・140ファイルの同梱監査が成功した。ここで新しい8件も実行まで確認できた。既存サイト依存の監査失敗と、追加native jobの成功を分けて記録する。
+
+新しい実機操作、block内の文字・pixel精度は未完了。実装結果と未実施の受入は[JSON](ios-reading-revision-restore.json)で分けて追跡する。

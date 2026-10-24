@@ -2,7 +2,7 @@
   "schema_version": 1,
   "task": "ios-reading-revision-restore",
   "date": "2026-10-25",
-  "status": "implemented-reviewed-SDK-compiled-awaiting-PR",
+  "status": "PR-open-hosted-native-job-passed-awaiting-prerequisites",
   "base_PR": "https://github.com/pero3dev/ai-agent-library/pull/242",
   "base_head": "d2596980a9ea3a8f1dcfeb54fd12567052b92d97",
   "branch": "codex/ios-reading-revision-restore",
@@ -22,7 +22,13 @@
     "compiled_XCTest_cases": 50,
     "SDK_build_for_testing": "passed-compilation-only",
     "SDK_Release_build": "passed",
-    "XCTest_execution": "not-run",
+    "XCTest_execution": {
+      "status": "passed-hosted",
+      "tests": 50,
+      "failed": 0,
+      "head": "2ad2cff29c86a25185e197ff5171be11efcc67d9",
+      "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40135742109"
+    },
     "physical_acceptance": "not-run-user-allows-skip",
     "release_package": {
       "schema_version": 1,
@@ -41,6 +47,10 @@
       "passed": 552,
       "skipped": 15,
       "failed": 0
-    }
-  }
+    },
+    "hosted_Release_build": "passed",
+    "hosted_native_job": "success"
+  },
+  "PR": "https://github.com/pero3dev/ai-agent-library/pull/244",
+  "head": "2ad2cff29c86a25185e197ff5171be11efcc67d9"
 }

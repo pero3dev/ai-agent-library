@@ -79,7 +79,7 @@ Developer Programは年額99 USDまたは提供地域の現地通貨。日本円
 
 0.2.4（6）の[IOS-10実装](../../records/2026-10-25/ios-search-hit-navigation.md)では、検索queryを一時routeへ渡し、本文内の一致ブロック・入れ子のleafへ移動する接続を追加した。CoreSmokeとSDK compile・独立レビューまで確認した。表・コードはブロック境界までで、新しい実機スクロール・VoiceOver受入はユーザー指定により未実施。実装の進捗を記録し、未確認の受入を理由なく成功へ変えないためIOS-10の完了欄は維持する。
 
-0.2.5（7）の[IOS-11実装](../../records/2026-10-25/ios-reading-revision-restore.md)では、旧保存を維持する任意anchorを追加し、本文digestと意味内容fingerprintで改訂前後を照合する。一意な本文、見出し内の一意な本文、見出し、割合へ順にfallbackし、読取時は保存を書き換えない。CoreSmoke通常・fixture、50件のXCTestを含むSDK compile、Release監査と独立レビューを確認した。新しいXCTestの実行と実機受入、block内の精度は未完了としてIOS-11を維持する。
+0.2.5（7）の[IOS-11実装](../../records/2026-10-25/ios-reading-revision-restore.md)では、旧保存を維持する任意anchorを追加し、本文digestと意味内容fingerprintで改訂前後を照合する。一意な本文、見出し内の一意な本文、見出し、割合へ順にfallbackし、読取時は保存を書き換えない。CoreSmoke通常・fixture、50件のXCTestを含むSDK compile、Release監査と独立レビューを確認した。続くHosted実行でも50件・失敗0とRelease監査が成功した。実機受入とblock内の精度は未完了としてIOS-11を維持する。
 
 IOS-25・26の[CI実装](../../records/2026-10-25/ios-native-ci.md)は[PR #243](https://github.com/pero3dev/ai-agent-library/pull/243)へ分けた。生成・監査と全AILibraryTests、Releaseのfixture除外を追加チェックで確認する。hostedの実行結果が揃うまでは実行成功へ変えず、UI試験と実機受入も別に残す。既存11必須チェックと保護設定は変更しない。
 
@@ -100,12 +100,14 @@ IOS-25・26の[CI実装](../../records/2026-10-25/ios-native-ci.md)は[PR #243](
 
 | 状態 | ID | TODO | 完了条件 |
 | --- | --- | --- | --- |
-| [ ] | IOS-19 | ネイティブ記事パッケージを定義する | 実行コードを含まない構造化本文・許可資産・manifestとし、schema／native renderer／appの互換性を定義する。HTML／JSを含む旧形式の扱いを明示する |
+| [x] | IOS-19 | ネイティブ記事パッケージを定義する | 実行コードを含まない構造化本文・許可資産・manifestとし、schema／native renderer／appの互換性を定義する。HTML／JSを含む旧形式の扱いを明示する |
 | [ ] | IOS-20 | 記事データの独立更新を実装する | IOS-05で採用する場合の工程。更新確認・サイズ案内・取消・再試行、発行元の確認、互換性を扱う。通信断・不正データ・不適合版でも最後の正常版を読める |
 | [ ] | IOS-21 | 旧版と残骸の容量管理を実装する | 独立更新やimportを採用する場合の工程。現行版・表示中の版を守り、旧版・孤立stagingを上限付きで整理する。低容量・処理中終了・繰り返し更新を試す |
 | [ ] | IOS-22 | 保存・旧パッケージの移行と復旧を整える | 記事改名・削除・見出し変更・schema更新で学習記録を引き継ぐ。旧HTMLパッケージからnative形式へ移り、不適合版を誤って表示しない。破損時にしおりを黙って全消去せず、復旧・案内を行う |
 
 SHA照合・staging検証・原子的切替・失敗時の旧版維持は既存実装を拡張する。記事をアプリ更新だけで同梱する初版では、独立配信・更新UI・複数旧版の管理を必須にしない。配信を採る場合は既存GitHub等の条件・帯域・運用費を測り、新しいサーバーが必須とは決めない。
+
+2026-10-25の[形式契約の確認](../../records/2026-10-25/ios-native-package-contract.md)でIOS-19を完了した。manifest 2・document 1・renderer v1とappの対応、未対応形式の拒否・保存済みfuture版のfallbackを定義・検査し、旧HTML CLIを比較用一時出力へ限定した。生成側の音声時間・manifest込み件数／容量・PNG byte上限もconsumerへ揃え、通常とfixtureの実生成revisionを維持した。新しいXCTest2件はSDK compileまでで、形式のFoundation回帰と独立レビューを成功として区別する。独立配信の採択・真正性・容量管理やIOS-22全体の完了を示さない。
 
 Appleの2.5.2は、アプリの機能を導入・変更するコードのダウンロード等を制限する。完成版では構造化記事データとアプリ側の描画機能を分ける。配信署名等は真正性を確認する設計として検討するもので、署名だけでコード更新の制限が免除されるわけではない。現在の手動importを直ちに違反と断定せず、公開する挙動と更新範囲を審査へ説明する。[ソフトウェア要件](https://developer.apple.com/app-store/review/guidelines/#software-requirements)
 

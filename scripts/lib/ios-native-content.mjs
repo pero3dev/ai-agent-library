@@ -10,6 +10,7 @@ const comparePath = ([a], [b]) => a < b ? -1 : a > b ? 1 : 0;
 const fileFor = id => `articles/${id.replaceAll('/', '--')}.json`;
 const maxTextBytes = 1024 * 1024;
 const maxDocumentBytes = 16 * 1024 * 1024;
+const maxPNGBytes = 32 * 1024 * 1024;
 const maxElements = 20000;
 const maxDepth = 32;
 
@@ -199,6 +200,15 @@ function validateAsset(asset, files) {
   }
 }
 
+/** Counts include manifest.json, matching ContentValidator's on-device limits. */
+export function validateNativePackageBounds({ fileCount, totalBytes, manifestBytes }) {
+  if (![fileCount, totalBytes, manifestBytes].every(Number.isSafeInteger) || fileCount < 1 || manifestBytes < 1 || totalBytes < manifestBytes) {
+    throw new Error('Invalid native package size accounting');
+  }
+  if (manifestBytes > 8 * 1024 * 1024) throw new Error('Native manifest exceeds 8388608 bytes');
+  if (fileCount > 4096 || totalBytes > 256 * 1024 * 1024) throw new Error('Native package exceeds file count or byte size limit');
+}
+
 /** Build an offline, hashed JSON/PNG-only package. Browser use is injectable for tests. */
 export async function buildNativeContent({ root, output, fixtures = false, dependencies, selection } = {}) {
   if (typeof fixtures !== 'boolean') throw new Error('fixtures must be a boolean');
@@ -254,15 +264,22 @@ export async function buildNativeContent({ root, output, fixtures = false, depen
     const { body, normalized_digest, ...metadata } = article;
     return { ...metadata, document_path, summary: value.summary, search_text: value.search_text, headings: value.headings, ...(article === audioArticle ? { audio_id: audio[0].id } : {}) };
   });
-  if (assets.size > 4096 || [...assets.values()].reduce((size, data) => size + data.length, 0) > 256 * 1024 * 1024) throw new Error('Native package exceeds file count or byte size limit');
-  for (const [file, data] of assets) { safeOutputPath(file); if (!Buffer.isBuffer(data)) throw new Error(`Native asset must be a Buffer: ${file}`); }
+  for (const [file, data] of assets) {
+    safeOutputPath(file);
+    if (!Buffer.isBuffer(data)) throw new Error(`Native asset must be a Buffer: ${file}`);
+    if (file.endsWith('.png') && data.length > maxPNGBytes) throw new Error(`Native PNG exceeds ${maxPNGBytes} bytes: ${file}`);
+  }
   const files = Object.fromEntries([...assets].sort(comparePath).map(([file, data]) => [file, sha256(data)]));
   const manifestBody = { schema_version: 2, articles: manifestArticles, audio, files };
   const manifest = { schema_version: 2, revision: sha256(JSON.stringify(manifestBody)), articles: manifestArticles, audio, files };
+  const manifestData = Buffer.from(`${JSON.stringify(manifest, null, 2)}\n`);
+  validateNativePackageBounds({ fileCount: assets.size + 1,
+    totalBytes: [...assets.values()].reduce((size, data) => size + data.length, manifestData.length),
+    manifestBytes: manifestData.length });
   // Finish parsing, reference checks and asset validation before replacing generated output.
   await rm(output, { recursive: true, force: true });
   await mkdir(output, { recursive: true });
   for (const [file, data] of assets) { await mkdir(path.dirname(path.join(output, file)), { recursive: true }); await writeFile(path.join(output, file), data); }
-  await writeFile(path.join(output, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
+  await writeFile(path.join(output, 'manifest.json'), manifestData);
   return manifest;
 }

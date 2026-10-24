@@ -3,8 +3,11 @@ import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, readFile, realpath, rm, symlink, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import { runInNewContext } from 'node:vm';
-import { buildContent, parseArticle, readSource, renderArticle, rewriteLink, sha256, validateOutput } from '../../scripts/lib/ios-content.mjs';
+import { audioMetadata, buildContent, parseArticle, readSource, renderArticle, rewriteLink, sha256, validateOutput } from '../../scripts/lib/ios-content.mjs';
+import { parseLegacyBuildOptions, validateLegacyBuildOutput } from '../../scripts/build-ios-content.mjs';
 
 const source = (title, body = '本文です。') => `---\ntitle: "${title}"\ncategory: "concepts"\nlevel: "basic"\nstatus: "published"\nlast_updated: "2026-10-22"\n---\n\n# ${title}\n\n## この記事の目的\n\n${body}\n`;
 const paths = ['docs/01-concepts/one.md', 'docs/01-concepts/two.md', 'docs/11-llm-internals/three.md'];
@@ -31,6 +34,54 @@ async function fixture(t) {
   await writeFile(path.join(root, 'website/audio/catalog.json'), JSON.stringify({ schema_version: 1, episodes: [episode] }));
   return { root, files, episode, selection: { schema_version: 1, articles: paths, audio_article: paths[0] }, output: path.join(root, 'bundle/Content') };
 }
+
+test('legacy CLI requires one explicit output and importing it cannot start generation', async t => {
+  assert.deepEqual(parseLegacyBuildOptions(['--output', 'comparison/Content']), { output: path.resolve('comparison/Content') });
+  for (const args of [[], ['--output'], ['--output', ''], ['--output', '--fixtures'], ['--fixtures'],
+    ['--output', 'one', '--output', 'two'], ['--output', 'one', 'extra'], ['--unknown', 'one']]) {
+    assert.throws(() => parseLegacyBuildOptions(args), /exactly one explicit/);
+  }
+  const value = await fixture(t);
+  const script = new URL('../../scripts/build-ios-content.mjs', import.meta.url);
+  const env = { ...process.env, IOS_TOOLS_DIR: path.join(value.root, 'missing-rendering-dependencies') };
+  const imported = spawnSync(process.execPath, ['--input-type=module', '-e', `await import(${JSON.stringify(script.href)}); console.log('import-only');`],
+    { cwd: value.root, env, encoding: 'utf8' });
+  assert.equal(imported.status, 0, imported.stderr);
+  assert.equal(imported.stdout.trim(), 'import-only');
+  assert.equal(imported.stderr, '');
+  const noOutput = spawnSync(process.execPath, [fileURLToPath(script)], { cwd: value.root, env, encoding: 'utf8' });
+  assert.equal(noOutput.status, 1);
+  assert.match(noOutput.stderr, /requires exactly one explicit --output/);
+  assert.doesNotMatch(noOutput.stderr, /Rendering dependencies/);
+});
+
+test('legacy CLI accepts temporary output only and preserves both native package directories', async t => {
+  const value = await fixture(t);
+  const regular = path.join(value.root, 'ios/AILibrary/Content');
+  const testing = path.join(value.root, 'ios/AILibrary/TestContent');
+  for (const directory of [regular, testing]) {
+    await mkdir(directory, { recursive: true });
+    await writeFile(path.join(directory, 'sentinel'), 'keep');
+  }
+  assert.equal(await validateLegacyBuildOutput(value.root, value.output), value.output);
+  for (const output of [regular, path.join(regular, 'child'), testing, path.join(testing, 'child'), path.dirname(regular), value.root]) {
+    await assert.rejects(validateLegacyBuildOutput(value.root, output), /Output must|Legacy HTML output/);
+  }
+  await assert.rejects(validateLegacyBuildOutput(value.root, path.join(os.tmpdir(), 'unrelated-comparison-output')), /Output must/);
+  for (const directory of [regular, testing]) assert.equal(await readFile(path.join(directory, 'sentinel'), 'utf8'), 'keep');
+});
+
+test('audio metadata obeys the same positive 24-hour limit as the native package consumer', async t => {
+  const value = await fixture(t);
+  const article = parseArticle(value.files.get(paths[0]), paths[0]);
+  const metadata = duration => audioMetadata({ schema_version: 1, episodes: [{ ...value.episode, duration_seconds: duration,
+    chapters: [{ id: 'intro', title: '導入', start_seconds: 0 }] }] }, article, paths[0]);
+  assert.equal(metadata(0.25).duration_seconds, 0.25);
+  assert.equal(metadata(86_400).duration_seconds, 86_400);
+  for (const duration of [0, -1, NaN, Infinity, -Infinity, 86_400 + Number.EPSILON * 86_400, 1e300]) {
+    assert.throws(() => metadata(duration), /Invalid audio metadata/);
+  }
+});
 
 test('article parser requires published articles and preserves source SHA', () => {
   const text = source('試験');

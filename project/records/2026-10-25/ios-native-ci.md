@@ -19,4 +19,8 @@
 
 新規Node回帰8件、既存harness-tooling22件、YAML解析、9 shell stepの`bash -n`が成功した。新規8件は独立レビュー側でも再実行して成功し、修正必須事項はなかった。既存のRelease成果物に監査scriptを実行し、3記事・140ファイル・2,455,933 bytesのSHA、通常manifestとの一致、TestContent不在を確認した。これを新たなhostedビルド成功とは扱わない。
 
-実機とUI試験は未実施のままとし、hostedのXCTest・Release実行結果はPRを作成してから取得する。既存11必須チェックとmain保護設定は変更しない。[JSON](ios-native-ci.json)へ検証面を分けて記録する。
+[PR #243](https://github.com/pero3dev/ai-agent-library/pull/243)、head `c16f17e93029460fba43562020fa2091ac95c043`の[Hosted実行](https://github.com/pero3dev/ai-agent-library/actions/runs/40135576086)で追加jobが成功した。正本からの通常・fixture生成と監査、CoreSmoke、XCTest42件（Core19・Audio6・Inline17、失敗0）、Release buildと140ファイルの同梱SHA・TestContent不在を確認した。検索PR #242からアプリとXCTestのコード差分がないことも照合し、検索機能を含む版の実行結果として記録する。
+
+実機とUI試験は未実施のままとする。既存サイトの3jobは前提PR #240の修正が未統合のため、旧依存の監査で失敗している。これを追加したnative jobの結果と混同せず、main反映は前提の復旧待ちとする。既存11必須チェックとmain保護設定は変更しない。[JSON](ios-native-ci.json)へ検証面を分けて記録する。
+
+同じworkflowを引き継いだ[復帰PR #244の実行](https://github.com/pero3dev/ai-agent-library/actions/runs/40135742109)でも、XCTest50件（追加した改訂復帰8件を含む、失敗0）とRelease検査が成功した。各結果のheadを保持し、後から変更したコードの検証へ流用しない。

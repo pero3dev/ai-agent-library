@@ -10,7 +10,7 @@
   "repository": "pero3dev/ai-agent-library",
   "repository_visibility": "public",
   "default_branch": "main",
-  "current_checkpoint": "M2-IOS-11",
+  "current_checkpoint": "M3-IOS-19",
   "checkpoints": [
     {
       "id": "M0",
@@ -48,14 +48,16 @@
     },
     {
       "id": "M3-IOS-26",
-      "status": "PR-open-hosted-CI-running",
+      "status": "hosted-native-job-passed",
       "PR": "https://github.com/pero3dev/ai-agent-library/pull/243",
       "head": "c16f17e93029460fba43562020fa2091ac95c043",
-      "main_merged": false
+      "main_merged": false,
+      "tests_executed": 42,
+      "hosted_run": "https://github.com/pero3dev/ai-agent-library/actions/runs/40135576086"
     },
     {
       "id": "M2-IOS-11",
-      "status": "implemented-reviewed-SDK-compiled-awaiting-PR",
+      "status": "PR-open-hosted-native-job-passed-awaiting-prerequisites",
       "version": "0.2.5",
       "build": 7,
       "validation": {
@@ -65,7 +67,13 @@
         "compiled_XCTest_cases": 50,
         "SDK_build_for_testing": "passed-compilation-only",
         "SDK_Release_build": "passed",
-        "XCTest_execution": "not-run",
+        "XCTest_execution": {
+          "status": "passed-hosted",
+          "tests": 50,
+          "failed": 0,
+          "head": "2ad2cff29c86a25185e197ff5171be11efcc67d9",
+          "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40135742109"
+        },
         "physical_acceptance": "not-run-user-allows-skip",
         "release_package": {
           "schema_version": 1,
@@ -84,8 +92,46 @@
           "passed": 552,
           "skipped": 15,
           "failed": 0
-        }
+        },
+        "hosted_Release_build": "passed",
+        "hosted_native_job": "success"
+      },
+      "PR": "https://github.com/pero3dev/ai-agent-library/pull/244",
+      "head": "2ad2cff29c86a25185e197ff5171be11efcc67d9"
+    },
+    {
+      "id": "M3-IOS-19",
+      "status": "definition-and-rejection-regressions-complete-awaiting-PR",
+      "base_PR": "https://github.com/pero3dev/ai-agent-library/pull/244",
+      "validation": {
+        "format_Node_tests": {
+          "passed": 31,
+          "failed": 0
+        },
+        "core_smoke_normal": "passed",
+        "core_smoke_fixtures": "passed",
+        "new_XCTest_cases": 2,
+        "compiled_XCTest_cases": 52,
+        "SDK_build_for_testing": "passed-compilation-only",
+        "new_XCTest_execution": "not-run",
+        "independent_review": "approved-after-PNG-boundary-fix",
+        "normal_generation_revision": "c10353c16891efda1997cd17a698220c09d9af37092fe3a2e7691fd05999b6f4",
+        "fixture_generation_revision": "15df0e08aa2597ea012970f812a4eb7fe242ff626d4e6d0f17b62888b258e60a",
+        "revisions_unchanged": true,
+        "npm_check": {
+          "tests": 573,
+          "passed": 558,
+          "skipped": 15,
+          "failed": 0
+        },
+        "normal_content_audit": "passed",
+        "fixture_content_audit": "passed"
       }
+    },
+    {
+      "id": "M3-native-UI-CI",
+      "status": "workflow-implemented-awaiting-PR",
+      "physical_acceptance": "not-run"
     }
   ],
   "excluded_actions_without_specific_authorization": [
@@ -122,7 +168,7 @@
       "PR": "https://github.com/pero3dev/ai-agent-library/pull/240"
     }
   ],
-  "current_branch": "codex/ios-reading-revision-restore",
+  "current_branch": "codex/ios-native-package-contract",
   "manual_device_checks_policy": "User explicitly allows skipping new physical-device checks and recording them incomplete while other work proceeds.",
   "reviews": {
     "pipeline": "approved; build-output writes are not atomic across I/O failures",

@@ -46,6 +46,25 @@ final class LibraryCoreTests: XCTestCase {
                        headings: [ArticleHeading(id: "intro", title: "導入", level: 2)], audio_id: nil, is_test_fixture: isTestFixture)
     }
 
+    private var futureSchemaCases: [(name: String, manifest: Int, document: Int)] {
+        [(name: "manifest", manifest: 3, document: 1), (name: "document", manifest: 2, document: 2)]
+    }
+
+    private func futurePackage(_ name: String, manifestSchema: Int, documentSchema: Int) throws -> URL {
+        let originalDocument = document()
+        let futureDocument = NativeDocument(schema_version: documentSchema, article_id: originalDocument.article_id,
+            source_sha256: originalDocument.source_sha256, blocks: originalDocument.blocks)
+        let root = try fixture(name, revision: "future", document: futureDocument)
+        let manifestURL = root.appendingPathComponent("manifest.json")
+        let originalManifest = try JSONDecoder().decode(ContentManifest.self, from: Data(contentsOf: manifestURL))
+        try JSONEncoder().encode(ContentManifest(schema_version: manifestSchema, revision: originalManifest.revision,
+            articles: originalManifest.articles, audio: originalManifest.audio, files: originalManifest.files)).write(to: manifestURL)
+        // Only schema compatibility is invalid; the document binding and all file hashes remain valid.
+        XCTAssertEqual(try ContentValidator.sha256(at: root.appendingPathComponent("articles/example.json")),
+                       originalManifest.files["articles/example.json"])
+        return root
+    }
+
     private func readerTestPackage(_ name: String) throws -> URL {
         let root = try fixture(name)
         let original = try ContentValidator.validate(root: root).manifest
@@ -347,6 +366,80 @@ final class LibraryCoreTests: XCTestCase {
         var bytes = [UInt8](pixel); bytes.replaceSubrange(16..<20, with: [0, 0, 32, 1]) // 8193px: one over the shared renderer limit.
         try replaceFile(oversized, path: "assets/pixel.png", data: Data(bytes))
         XCTAssertThrowsError(try ContentValidator.validate(root: oversized))
+    }
+
+    func testFutureSchemasRejectUpdatesAndPreserveCurrentVersionAndReadingRecords() throws {
+        for scenario in futureSchemaCases {
+            let bundled = try fixture("future-install-\(scenario.name)-bundle", revision: "bundled")
+            let update = try fixture("future-install-\(scenario.name)-accepted", revision: "accepted")
+            let future = try futurePackage("future-install-\(scenario.name)-source",
+                manifestSchema: scenario.manifest, documentSchema: scenario.document)
+            let storage = directory.appendingPathComponent("future-install-\(scenario.name)-storage")
+            let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+            let accepted = try repository.install(from: update)
+            let pointerURL = storage.appendingPathComponent("current.json")
+            let pointerBefore = try Data(contentsOf: pointerURL)
+            let acceptedDocument = try Data(contentsOf: accepted.root.appendingPathComponent("articles/example.json"))
+            let suite = "library-future-install-test-" + UUID().uuidString
+            let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+            defer { defaults.removePersistentDomain(forName: suite) }
+            let reading = ReadingStore(defaults: defaults)
+            reading.toggleBookmark("example")
+            reading.record(articleID: "example", heading: "intro", fraction: 0.42, blockID: "paragraph")
+            let savedRecords = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+
+            XCTAssertThrowsError(try ContentValidator.validate(root: future), scenario.name)
+            XCTAssertThrowsError(try repository.install(from: future), scenario.name)
+            XCTAssertEqual(try repository.load().manifest.revision, "accepted", scenario.name)
+            XCTAssertEqual(try Data(contentsOf: pointerURL), pointerBefore, scenario.name)
+            XCTAssertEqual(try Data(contentsOf: accepted.root.appendingPathComponent("articles/example.json")), acceptedDocument)
+            XCTAssertEqual(try FileManager.default.contentsOfDirectory(atPath: storage.appendingPathComponent("versions").path).count, 1)
+            XCTAssertTrue(FileManager.default.fileExists(atPath: future.path))
+            XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), savedRecords)
+            let restored = ReadingStore(defaults: defaults)
+            XCTAssertEqual(restored.bookmarks, ["example"])
+            XCTAssertEqual(restored.position(for: article()).fraction, 0.42)
+            XCTAssertEqual(restored.position(for: article()).blockID, "paragraph")
+        }
+    }
+
+    func testStoredFutureSchemasFallBackWithoutDeletingPackagesOrReadingRecords() throws {
+        for scenario in futureSchemaCases {
+            let bundled = try fixture("future-load-\(scenario.name)-bundle", revision: "bundled")
+            let future = try futurePackage("future-load-\(scenario.name)-source",
+                manifestSchema: scenario.manifest, documentSchema: scenario.document)
+            let storage = directory.appendingPathComponent("future-load-\(scenario.name)-storage")
+            let versions = storage.appendingPathComponent("versions")
+            try FileManager.default.createDirectory(at: versions, withIntermediateDirectories: true)
+            let id = UUID().uuidString
+            let stored = versions.appendingPathComponent(id)
+            try FileManager.default.copyItem(at: future, to: stored)
+            let manifestBefore = try Data(contentsOf: stored.appendingPathComponent("manifest.json"))
+            let pointer = try JSONSerialization.data(withJSONObject: ["directory": id])
+            let pointerURL = storage.appendingPathComponent("current.json")
+            try pointer.write(to: pointerURL)
+            let suite = "library-future-load-test-" + UUID().uuidString
+            let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+            defer { defaults.removePersistentDomain(forName: suite) }
+            let reading = ReadingStore(defaults: defaults)
+            reading.toggleBookmark("example")
+            reading.record(articleID: "example", heading: "intro", fraction: 0.42, blockID: "paragraph")
+            let savedRecords = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+
+            let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+            let fallback = try repository.load()
+            XCTAssertEqual(fallback.manifest.revision, "bundled", scenario.name)
+            XCTAssertEqual(fallback.root.standardizedFileURL, bundled.standardizedFileURL)
+            XCTAssertEqual(try fallback.document(for: article()), document())
+            XCTAssertThrowsError(try repository.install(from: stored), scenario.name)
+            XCTAssertEqual(try Data(contentsOf: stored.appendingPathComponent("manifest.json")), manifestBefore)
+            XCTAssertEqual(try Data(contentsOf: pointerURL), pointer)
+            XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), savedRecords)
+            let restored = ReadingStore(defaults: defaults)
+            XCTAssertEqual(restored.bookmarks, ["example"])
+            XCTAssertEqual(restored.position(for: article()).fraction, 0.42)
+            XCTAssertEqual(restored.position(for: article()).blockID, "paragraph")
+        }
     }
 
     func testOldHTMLPackageFallsBackWithoutDeletingUserData() throws {

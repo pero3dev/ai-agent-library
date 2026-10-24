@@ -176,7 +176,7 @@ test('relative path boundaries cover POSIX, Windows drives, UNC paths, and prefi
     assert.equal(relativeInside(base, outside, api), null)
     assert.ok(generatedPath(relativeInside(base, inside, api)))
   }
-  for (const file of ['website/out', 'website/OUT/a', 'website/test-results/a', 'website/playwright-report/a']) assert.ok(generatedPath(file))
+  for (const file of ['website/out', 'website/OUT/a', 'website/test-results/a', 'website/playwright-report/a', 'ios/AILibrary/Content/manifest.json', 'ios/AILibrary/TestContent/manifest.json', 'ios/ailibrary/testcontent/a.json', 'ios/DerivedData/a', 'ios/build/a']) assert.ok(generatedPath(file))
   for (const file of ['website/outside/a', 'website/content-src/a', '../website/out/a', null]) assert.ok(!generatedPath(file))
 })
 

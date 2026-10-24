@@ -34,7 +34,7 @@ test('final structure has 16 root files, eight Markdown entries and required che
 
 test('tracked root plans, generated dependencies, retired placements and new top directories fail', t => {
   const { root, files, write } = fixture(t)
-  for (const file of ['OLD-PLAN.md', 'unexpected/data.json', 'website/out/index.html', 'website/node_modules/pkg/index.js', 'scripts/example.test.mjs', 'website/scripts/example.test.mjs', 'tests/harness/fixture.example', '.codex/hooks/edited-paths.mjs', 'examples/typescript/.gitkeep']) {
+  for (const file of ['OLD-PLAN.md', 'unexpected/data.json', 'website/out/index.html', 'ios/AILibrary/Content/manifest.json', 'ios/AILibrary/TestContent/manifest.json', 'ios/DerivedData/build.json', 'website/node_modules/pkg/index.js', 'scripts/example.test.mjs', 'website/scripts/example.test.mjs', 'tests/harness/fixture.example', '.codex/hooks/edited-paths.mjs', 'examples/typescript/.gitkeep']) {
     write(file)
     const result = checkStructure(root, { trackedFiles: [...files, file] })
     assert.ok(result.problems.some(problem => problem.includes(file)), file)
@@ -59,6 +59,16 @@ test('case variants of Markdown extensions cannot bypass project link coverage',
     assert.equal(result.verified, false)
     assert.ok(result.problems.some(problem => problem.includes('リンク検査から脱落') && problem.includes(file)))
   }
+})
+
+test('iOS source documentation is checked while generated content stays excluded', t => {
+  const { root, files, write } = fixture(t)
+  write('ios/README.md', '# iOS\n\n[project](../project/README.md)\n')
+  assert.equal(checkStructure(root, { trackedFiles: [...files, 'ios/README.md'] }).verified, true)
+  assert.ok(checkStructure(root, { trackedFiles: [...files, 'ios/README.md'], linkCollector: () => [] }).problems.some(problem => problem.includes('ios/README.md')))
+  write('ios/AILibrary/Content/generated.md', '# Generated\n\n[not a source](missing.md)\n')
+  write('ios/AILibrary/TestContent/generated.md', '# Generated fixture\n\n[not a source](missing.md)\n')
+  assert.equal(checkStructure(root, { trackedFiles: files }).verified, true)
 })
 
 test('Windows helper is allowed only at the relocated test helper path', t => {

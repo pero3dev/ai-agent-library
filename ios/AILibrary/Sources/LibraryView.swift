@@ -1,11 +1,6 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
-struct ReaderRoute: Hashable {
-    let articleID: String
-    var heading: String? = nil
-}
-
 struct LibraryView: View {
     @ObservedObject var store: LibraryStore
     @State private var query = ""
@@ -22,6 +17,10 @@ struct LibraryView: View {
         store.listedArticles.filter {
             (!bookmarksOnly || store.bookmarks.contains($0.id)) && LibrarySearch.matches($0, query: query)
         }
+    }
+
+    private var searchQuery: String? {
+        LibrarySearch.normalizedTerms(query).isEmpty ? nil : query
     }
 
     var body: some View {
@@ -41,7 +40,7 @@ struct LibraryView: View {
                 }
                 Section {
                     ForEach(articles) { article in
-                        NavigationLink(value: ReaderRoute(articleID: article.id)) {
+                        NavigationLink(value: ReaderRoute(articleID: article.id, searchQuery: searchQuery)) {
                             VStack(alignment: .leading, spacing: 8) {
                                 Text(article.title).font(.headline)
                                 Text(article.summary).font(.subheadline).foregroundStyle(.secondary).lineLimit(3)
@@ -104,7 +103,8 @@ struct LibraryView: View {
             }
             .navigationDestination(for: ReaderRoute.self) { route in
                 if let snapshot = store.snapshot, let article = snapshot.article(id: route.articleID) {
-                    ArticleReaderView(store: store, snapshot: snapshot, article: article, initialHeading: route.heading) { next in path.append(next) }
+                    ArticleReaderView(store: store, snapshot: snapshot, article: article,
+                                      initialHeading: route.heading, initialSearchQuery: route.searchQuery) { next in path.append(next) }
                 }
             }
         }

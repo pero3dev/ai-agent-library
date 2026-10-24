@@ -23,6 +23,47 @@ struct NativeDocument: Codable, Hashable, Sendable {
         }
         return nil
     }
+
+    /// Prefer a leaf containing all query terms. If terms occur in different
+    /// blocks, use the most matching distinct terms and keep document order for
+    /// ties. The article list retains its whole-article AND condition.
+    func searchHit(query: String) -> NativeSearchHit? {
+        let terms = LibrarySearch.normalizedTerms(query)
+        guard !terms.isEmpty else { return nil }
+        var nearestHeading: String?
+        var best: NativeSearchHit?
+        var bestScore = 0
+        func visit(_ values: [NativeBlock], containerID: String) -> Bool {
+            for block in values {
+                if block.type == "heading" { nearestHeading = block.heading_id }
+                if let text = block.searchableText {
+                    let normalized = LibrarySearch.normalize(text)
+                    let score = terms.reduce(0) { $0 + (normalized.contains($1) ? 1 : 0) }
+                    if score > bestScore {
+                        best = NativeSearchHit(blockID: block.id, containerBlockID: containerID,
+                                               headingID: nearestHeading)
+                        bestScore = score
+                        if score == terms.count { return true }
+                    }
+                }
+                if visit(block.blocks ?? [], containerID: containerID) { return true }
+                for item in block.items ?? [] {
+                    if visit(item.blocks, containerID: containerID) { return true }
+                }
+            }
+            return false
+        }
+        for block in blocks {
+            if visit([block], containerID: block.id) { break }
+        }
+        return best
+    }
+}
+
+struct NativeSearchHit: Hashable, Sendable {
+    let blockID: String
+    let containerBlockID: String
+    let headingID: String?
 }
 
 struct NativeBlock: Codable, Hashable, Identifiable, Sendable {
@@ -46,6 +87,26 @@ struct NativeBlock: Codable, Hashable, Identifiable, Sendable {
         [self] + (blocks ?? []).flatMap { $0.descendants } + (items ?? []).flatMap { $0.blocks.flatMap { $0.descendants } }
     }
 
+    fileprivate var searchableText: String? {
+        switch type {
+        case "heading", "paragraph":
+            return (inlines ?? []).map(\.searchableText).joined()
+        case "code":
+            return text ?? ""
+        case "table":
+            guard let table else { return nil }
+            return ([table.header] + table.rows).map { row in
+                row.map { $0.map(\.searchableText).joined() }.joined(separator: " ")
+            }.joined(separator: "\n")
+        case "diagram", "math":
+            return [source ?? "", accessibility_text ?? ""].joined(separator: " ")
+        default:
+            // Containers have no target of their own; their leaf blocks are
+            // visited individually so a distant nested hit is not lost.
+            return nil
+        }
+    }
+
     fileprivate var fields: Set<String> {
         Set([("heading_id", heading_id != nil), ("level", level != nil), ("inlines", inlines != nil),
              ("ordered", ordered != nil), ("start", start != nil), ("items", items != nil), ("blocks", blocks != nil),
@@ -62,6 +123,17 @@ struct NativeInline: Codable, Hashable, Sendable {
     var asset: NativeAsset? = nil
     var source: String? = nil
     var accessibility_text: String? = nil
+
+    fileprivate var searchableText: String {
+        switch type {
+        case "text", "code": return text ?? ""
+        case "strong", "emphasis", "link": return (children ?? []).map(\.searchableText).joined()
+        case "soft_break": return " "
+        case "hard_break": return "\n"
+        case "math": return [source ?? "", accessibility_text ?? ""].joined(separator: " ")
+        default: return ""
+        }
+    }
 
     fileprivate var fields: Set<String> {
         Set([("text", text != nil), ("children", children != nil), ("target", target != nil), ("asset", asset != nil),

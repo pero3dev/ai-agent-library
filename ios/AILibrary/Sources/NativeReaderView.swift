@@ -14,26 +14,60 @@ private struct NativeReadProgress {
     let fraction: Double
 }
 
-/// Fragment and TOC destinations are one-shot requests. A reader retained below
-/// another article resumes its current block instead of replaying an old link.
+private enum NativeReaderScrollTarget: Hashable {
+    case container(String)
+    case block(String)
+}
+
+struct NativeReaderNavigationDestination {
+    let heading: String?
+    /// The top-level container used by the existing reading-position format.
+    let blockID: String?
+    /// The actual leaf anchor, which may be nested inside the saved container.
+    let scrollBlockID: String?
+    let focusBlockID: String?
+}
+
+/// Search, fragment and TOC destinations are one-shot requests. A reader retained
+/// below another article resumes its current block instead of replaying a search.
 struct NativeReaderNavigationState {
-    private var initialHeadingConsumed = false
+    private var initialRequestConsumed = false
     private var consumedHeadingRequestID: UUID?
 
     func destination(document: NativeDocument, position: ReadingPosition, initialHeading: String?,
-                     requestedHeading: String?, headingRequestID: UUID, currentBlockID: String?) -> (heading: String?, blockID: String?) {
+                     requestedHeading: String?, headingRequestID: UUID, currentBlockID: String?,
+                     initialSearchHit: NativeSearchHit? = nil,
+                     searchStartsAtBeginning: Bool = false) -> NativeReaderNavigationDestination {
         let requested = consumedHeadingRequestID == headingRequestID ? nil : requestedHeading
-        let heading = requested ?? (initialHeadingConsumed ? nil : initialHeading)
-        let blockID = heading.flatMap { document.topLevelBlockID(forHeading: $0) }
-            ?? currentBlockID.flatMap { document.topLevelBlockID(containing: $0) }
+        let heading = requested ?? (initialRequestConsumed ? nil : initialHeading)
+        if let heading, let leaf = document.block(forHeading: heading),
+           let container = document.topLevelBlockID(containing: leaf.id) {
+            return NativeReaderNavigationDestination(heading: heading, blockID: container,
+                scrollBlockID: leaf.id, focusBlockID: leaf.id)
+        }
+        if !initialRequestConsumed {
+            if let hit = initialSearchHit,
+               document.block(id: hit.blockID) != nil,
+               document.topLevelBlockID(containing: hit.blockID) == hit.containerBlockID {
+                return NativeReaderNavigationDestination(heading: nil, blockID: hit.containerBlockID,
+                    scrollBlockID: hit.blockID, focusBlockID: hit.blockID)
+            }
+            if searchStartsAtBeginning {
+                let first = document.blocks.first?.id
+                return NativeReaderNavigationDestination(heading: nil, blockID: first,
+                    scrollBlockID: first, focusBlockID: first)
+            }
+        }
+        let blockID = currentBlockID.flatMap { document.topLevelBlockID(containing: $0) }
             ?? position.blockID.flatMap { document.topLevelBlockID(containing: $0) }
             ?? position.heading.flatMap { document.topLevelBlockID(forHeading: $0) }
             ?? document.blocks.first?.id
-        return (heading, blockID)
+        return NativeReaderNavigationDestination(heading: nil, blockID: blockID,
+            scrollBlockID: blockID, focusBlockID: nil)
     }
 
     mutating func consume(headingRequestID: UUID) {
-        initialHeadingConsumed = true
+        initialRequestConsumed = true
         consumedHeadingRequestID = headingRequestID
     }
 }
@@ -48,6 +82,8 @@ struct NativeReaderView: View {
     let headingRequestID: UUID
     let onPosition: (String?, String?, Double) -> Void
     let navigate: (ReaderRoute) -> Void
+    var initialSearchHit: NativeSearchHit? = nil
+    var searchStartsAtBeginning = false
     @ScaledMetric(relativeTo: .body) private var bodySize: CGFloat = 17
     @Environment(\.scenePhase) private var scenePhase
     @State private var restoring = true
@@ -58,7 +94,7 @@ struct NativeReaderView: View {
     @State private var navigationTask: Task<Void, Never>?
     @State private var restoreGeneration = UUID()
     @State private var navigationState = NativeReaderNavigationState()
-    @AccessibilityFocusState(for: .voiceOver) private var focusedHeadingID: String?
+    @AccessibilityFocusState(for: .voiceOver) private var focusedBlockID: String?
 
     var body: some View {
         GeometryReader { viewport in
@@ -69,9 +105,9 @@ struct NativeReaderView: View {
                             NativeBlockView(block: block, snapshot: snapshot,
                                             fontScale: min(4, max(0.8, bodySize / 17)),
                                             availableWidth: max(1, viewport.size.width - 36),
-                                            focusedHeading: $focusedHeadingID)
+                                            focusedBlock: $focusedBlockID)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .id(block.id)
+                                .id(NativeReaderScrollTarget.container(block.id))
                                 .background {
                                     GeometryReader { bounds in
                                         Color.clear.preference(key: NativeBlockFrames.self,
@@ -112,39 +148,46 @@ struct NativeReaderView: View {
         trackingReady = false
         let destination = navigationState.destination(document: document, position: position,
             initialHeading: initialHeading, requestedHeading: requestedHeading,
-            headingRequestID: headingRequestID, currentBlockID: currentBlockID)
-        let heading = destination.heading
+            headingRequestID: headingRequestID, currentBlockID: currentBlockID,
+            initialSearchHit: initialSearchHit, searchStartsAtBeginning: searchStartsAtBeginning)
         let target = destination.blockID
         // Lazy stacks discover row sizes as they appear. A second, nonanimated
         // placement after layout also handles long code and diagram blocks.
         try? await Task.sleep(for: .milliseconds(100))
         guard !Task.isCancelled, restoreGeneration == generation else { return }
         if let target {
-            proxy.scrollTo(target, anchor: .top)
+            proxy.scrollTo(NativeReaderScrollTarget.container(target), anchor: .top)
             currentBlockID = target
             pendingProgress = progress(for: target)
         }
-        navigationState.consume(headingRequestID: headingRequestID)
         try? await Task.sleep(for: .milliseconds(250))
         guard !Task.isCancelled, restoreGeneration == generation else { return }
-        if let target { proxy.scrollTo(target, anchor: .top) }
+        if let leaf = destination.scrollBlockID {
+            proxy.scrollTo(NativeReaderScrollTarget.block(leaf), anchor: .top)
+        }
+        navigationState.consume(headingRequestID: headingRequestID)
         try? await Task.sleep(for: .milliseconds(200))
         guard !Task.isCancelled, restoreGeneration == generation else { return }
+        if let leaf = destination.scrollBlockID {
+            proxy.scrollTo(NativeReaderScrollTarget.block(leaf), anchor: .top)
+        }
         currentBlockID = target
         restoring = false
         trackingReady = true
-        // A fragment is an explicit destination; resuming a saved position must
-        // leave VoiceOver's current focus alone.
-        if let heading, UIAccessibility.isVoiceOverRunning { focusedHeadingID = heading }
+        // Explicit search/fragment destinations receive focus; a normal resume
+        // leaves VoiceOver's current focus alone.
+        if let focus = destination.focusBlockID, UIAccessibility.isVoiceOverRunning { focusedBlockID = focus }
     }
 
     private func jump(to heading: String, using proxy: ScrollViewProxy) {
-        guard let blockID = document.topLevelBlockID(forHeading: heading) else { return }
-        move(to: blockID, heading: heading, using: proxy)
+        guard let leaf = document.block(forHeading: heading),
+              let blockID = document.topLevelBlockID(containing: leaf.id) else { return }
+        move(to: blockID, targetBlockID: leaf.id, using: proxy)
     }
 
-    private func move(to blockID: String, heading: String? = nil, using proxy: ScrollViewProxy) {
+    private func move(to blockID: String, targetBlockID: String? = nil, using proxy: ScrollViewProxy) {
         guard let progress = progress(for: blockID) else { return }
+        let leaf = targetBlockID ?? blockID
         restoreGeneration = UUID()
         navigationTask?.cancel()
         saveTask?.cancel()
@@ -154,15 +197,18 @@ struct NativeReaderView: View {
         currentBlockID = blockID
         navigationState.consume(headingRequestID: headingRequestID)
         restoring = true
-        focusedHeadingID = nil
-        withAnimation(.easeOut(duration: 0.2)) { proxy.scrollTo(blockID, anchor: .top) }
+        focusedBlockID = nil
+        withAnimation(.easeOut(duration: 0.2)) {
+            proxy.scrollTo(NativeReaderScrollTarget.container(blockID), anchor: .top)
+        }
         navigationTask = Task { @MainActor in
             try? await Task.sleep(for: .milliseconds(350))
             guard !Task.isCancelled else { return }
+            proxy.scrollTo(NativeReaderScrollTarget.block(leaf), anchor: .top)
             currentBlockID = blockID
             restoring = false
             trackingReady = true
-            if let heading, UIAccessibility.isVoiceOverRunning { focusedHeadingID = heading }
+            if UIAccessibility.isVoiceOverRunning { focusedBlockID = leaf }
             flushProgress()
         }
     }
@@ -231,9 +277,9 @@ private struct NativeBlockView: View {
     let snapshot: ContentSnapshot
     let fontScale: CGFloat
     let availableWidth: CGFloat
-    let focusedHeading: AccessibilityFocusState<String?>.Binding
+    let focusedBlock: AccessibilityFocusState<String?>.Binding
 
-    var body: some View { rendered }
+    var body: some View { rendered.id(NativeReaderScrollTarget.block(block.id)) }
 
     private var rendered: AnyView {
         switch block.type {
@@ -243,13 +289,14 @@ private struct NativeBlockView: View {
                                             maximumWidth: availableWidth)
                 .accessibilityAddTraits(.isHeader)
                 .accessibilityHeading(headingAccessibilityLevel)
-                .accessibilityFocused(focusedHeading, equals: block.heading_id)
+                .accessibilityFocused(focusedBlock, equals: block.id)
                 .accessibilityIdentifier("native-heading-\(block.heading_id ?? block.id)")
                 .padding(.top, (block.level ?? 2) <= 2 ? 14 : 6))
         case "paragraph":
             return AnyView(NativeInlineText(inlines: block.inlines ?? [], snapshot: snapshot,
                                             fontScale: fontScale, maximumWidth: availableWidth)
                 .lineSpacing(5)
+                .accessibilityFocused(focusedBlock, equals: block.id)
                 .accessibilityIdentifier("native-text-\(block.id)"))
         case "list":
             return AnyView(VStack(alignment: .leading, spacing: 10) {
@@ -264,7 +311,7 @@ private struct NativeBlockView: View {
                             ForEach(item.blocks) { child in
                                 NativeBlockView(block: child, snapshot: snapshot, fontScale: fontScale,
                                                 availableWidth: max(1, availableWidth - markerWidth - 10),
-                                                focusedHeading: focusedHeading)
+                                                focusedBlock: focusedBlock)
                             }
                         }
                     }
@@ -280,17 +327,19 @@ private struct NativeBlockView: View {
                     ForEach(block.blocks ?? []) { child in
                         NativeBlockView(block: child, snapshot: snapshot, fontScale: fontScale,
                                         availableWidth: max(1, availableWidth - 15),
-                                        focusedHeading: focusedHeading)
+                                        focusedBlock: focusedBlock)
                     }
                 }.foregroundStyle(.secondary)
             }.fixedSize(horizontal: false, vertical: true)
                 .accessibilityElement(children: .contain)
                 .accessibilityLabel("引用"))
         case "code":
-            return AnyView(NativeCodeView(text: block.text ?? "", language: block.language ?? ""))
+            return AnyView(NativeCodeView(text: block.text ?? "", language: block.language ?? "",
+                                          blockID: block.id, focusedBlock: focusedBlock))
         case "table":
             if let table = block.table {
-                return AnyView(NativeTableView(table: table, snapshot: snapshot, fontScale: fontScale))
+                return AnyView(NativeTableView(table: table, snapshot: snapshot, fontScale: fontScale,
+                                              blockID: block.id, focusedBlock: focusedBlock))
             }
             return AnyView(EmptyView())
         case "diagram", "math":
@@ -298,7 +347,8 @@ private struct NativeBlockView: View {
                 return AnyView(NativeFigureView(asset: asset, snapshot: snapshot, source: block.source ?? "",
                                                 description: block.accessibility_text ?? (block.type == "math" ? "数式" : "図"),
                                                 isMath: block.type == "math", fontScale: fontScale,
-                                                availableWidth: availableWidth))
+                                                availableWidth: availableWidth,
+                                                blockID: block.id, focusedBlock: focusedBlock))
             }
             return AnyView(EmptyView())
         case "thematic_break": return AnyView(Divider().padding(.vertical, 4))
@@ -340,6 +390,8 @@ private struct NativeBlockView: View {
 private struct NativeCodeView: View {
     let text: String
     let language: String
+    let blockID: String
+    let focusedBlock: AccessibilityFocusState<String?>.Binding
     @State private var copied = false
 
     var body: some View {
@@ -362,6 +414,7 @@ private struct NativeCodeView: View {
             ScrollView(.horizontal) {
                 Text(text).font(.system(.body, design: .monospaced))
                     .textSelection(.enabled).fixedSize(horizontal: true, vertical: false)
+                    .accessibilityFocused(focusedBlock, equals: blockID)
                     .padding(12)
             }
         }
@@ -374,6 +427,8 @@ private struct NativeTableView: View {
     let table: NativeTable
     let snapshot: ContentSnapshot
     let fontScale: CGFloat
+    let blockID: String
+    let focusedBlock: AccessibilityFocusState<String?>.Binding
 
     private var columnWidths: [CGFloat] {
         table.header.indices.map { column in
@@ -409,8 +464,8 @@ private struct NativeTableView: View {
         .accessibilityHint("横にスクロールするとすべての列を読めます")
     }
 
-    private func cell(_ inlines: [NativeInline], column: Int, row: Int?, width: CGFloat) -> some View {
-        NativeInlineText(inlines: inlines, snapshot: snapshot, bold: row == nil,
+    @ViewBuilder private func cell(_ inlines: [NativeInline], column: Int, row: Int?, width: CGFloat) -> some View {
+        let content = NativeInlineText(inlines: inlines, snapshot: snapshot, bold: row == nil,
                          fontScale: fontScale, maximumWidth: width - 24)
             .multilineTextAlignment(textAlignment(column))
             .frame(maxWidth: .infinity, alignment: alignment(column))
@@ -420,6 +475,11 @@ private struct NativeTableView: View {
             .background(row == nil ? Color.secondary.opacity(0.14) : Color.secondary.opacity(0.03))
             .overlay(Rectangle().stroke(Color.secondary.opacity(0.25), lineWidth: 0.5))
             .accessibilityCustomContent("表の位置", Text(cellPosition(column: column, row: row)), importance: .high)
+        if row == nil, column == 0 {
+            content.accessibilityFocused(focusedBlock, equals: blockID)
+        } else {
+            content
+        }
     }
 
     private func cellPosition(column: Int, row: Int?) -> String {
@@ -454,6 +514,8 @@ private struct NativeFigureView: View {
     let isMath: Bool
     let fontScale: CGFloat
     let availableWidth: CGFloat
+    let blockID: String
+    let focusedBlock: AccessibilityFocusState<String?>.Binding
     @Environment(\.colorScheme) private var colorScheme
     @State private var enlarged = false
 
@@ -478,6 +540,7 @@ private struct NativeFigureView: View {
                     Image(uiImage: image).resizable().interpolation(.high)
                         .frame(width: displayWidth, height: displayHeight)
                         .accessibilityLabel(description)
+                        .accessibilityFocused(focusedBlock, equals: blockID)
                         .frame(minWidth: availableWidth, alignment: isMath ? .center : .leading)
                         .padding(.vertical, 2)
                 }
@@ -494,6 +557,7 @@ private struct NativeFigureView: View {
             } else {
                 Label("画像を表示できません。テキスト表現をご確認ください。", systemImage: "photo")
                     .font(.callout).foregroundStyle(.secondary)
+                    .accessibilityFocused(focusedBlock, equals: blockID)
             }
             DisclosureGroup(isMath ? "数式のテキスト表現" : "図のテキスト表現") {
                 Text(source.isEmpty ? description : source)

@@ -253,4 +253,96 @@ final class NativeInlineTests: XCTestCase {
         XCTAssertNil(resumed.heading)
         XCTAssertEqual(resumed.blockID, "last-body")
     }
+
+    private var nestedNavigationDocument: NativeDocument {
+        NativeDocument(schema_version: 1, article_id: "search-navigation", source_sha256: "test", blocks: [
+            NativeBlock(id: "first-block", type: "heading", heading_id: "first", level: 2),
+            NativeBlock(id: "quote-container", type: "quote", blocks: [
+                NativeBlock(id: "nested-list", type: "list", ordered: false, items: [
+                    NativeListItem(id: "item", blocks: [NativeBlock(id: "nested-hit", type: "paragraph")])])]),
+            NativeBlock(id: "last-block", type: "heading", heading_id: "last", level: 2),
+            NativeBlock(id: "last-body", type: "paragraph")])
+    }
+
+    func testSearchDestinationKeepsNestedAnchorSeparateFromSavedContainer() {
+        let state = NativeReaderNavigationState()
+        let hit = NativeSearchHit(blockID: "nested-hit", containerBlockID: "quote-container", headingID: "first")
+        let destination = state.destination(document: nestedNavigationDocument,
+            position: ReadingPosition(heading: "last", fraction: 1, blockID: "last-body"),
+            initialHeading: nil, requestedHeading: nil, headingRequestID: UUID(), currentBlockID: nil,
+            initialSearchHit: hit, searchStartsAtBeginning: true)
+        XCTAssertEqual(destination.blockID, "quote-container", "Reading persistence still uses a top-level block")
+        XCTAssertEqual(destination.scrollBlockID, "nested-hit", "The visible destination must be the actual nested hit")
+        XCTAssertEqual(destination.focusBlockID, "nested-hit")
+    }
+
+    func testConsumedSearchDoesNotReplayWhenReturningFromAnotherArticle() {
+        var state = NativeReaderNavigationState()
+        let request = UUID()
+        let hit = NativeSearchHit(blockID: "nested-hit", containerBlockID: "quote-container", headingID: "first")
+        state.consume(headingRequestID: request)
+        let destination = state.destination(document: nestedNavigationDocument,
+            position: ReadingPosition(heading: "first", fraction: 0), initialHeading: nil,
+            requestedHeading: nil, headingRequestID: request, currentBlockID: "last-body",
+            initialSearchHit: hit, searchStartsAtBeginning: true)
+        XCTAssertEqual(destination.blockID, "last-body")
+        XCTAssertEqual(destination.scrollBlockID, "last-body")
+        XCTAssertNil(destination.focusBlockID, "Normal resume must not take VoiceOver focus")
+    }
+
+    func testNewTOCRequestAndInitialFragmentTakePriorityOverSearch() {
+        var state = NativeReaderNavigationState()
+        let hit = NativeSearchHit(blockID: "nested-hit", containerBlockID: "quote-container", headingID: "first")
+        let saved = ReadingPosition(heading: "first", fraction: 0)
+        let initial = state.destination(document: nestedNavigationDocument, position: saved,
+            initialHeading: "last", requestedHeading: nil, headingRequestID: UUID(), currentBlockID: nil,
+            initialSearchHit: hit, searchStartsAtBeginning: true)
+        XCTAssertEqual(initial.scrollBlockID, "last-block")
+        state.consume(headingRequestID: UUID())
+        let requested = state.destination(document: nestedNavigationDocument, position: saved,
+            initialHeading: nil, requestedHeading: "last", headingRequestID: UUID(), currentBlockID: "quote-container",
+            initialSearchHit: hit, searchStartsAtBeginning: true)
+        XCTAssertEqual(requested.heading, "last")
+        XCTAssertEqual(requested.blockID, "last-block")
+        XCTAssertEqual(requested.focusBlockID, "last-block")
+    }
+
+    func testSearchWithoutBodyHitStartsAtBeginningButEmptySearchResumes() {
+        let saved = ReadingPosition(heading: "last", fraction: 1, blockID: "last-body")
+        var state = NativeReaderNavigationState()
+        let request = UUID()
+        let fallback = state.destination(document: nestedNavigationDocument, position: saved,
+            initialHeading: nil, requestedHeading: nil, headingRequestID: request, currentBlockID: nil,
+            initialSearchHit: nil, searchStartsAtBeginning: true)
+        XCTAssertEqual(fallback.blockID, "first-block")
+        XCTAssertEqual(fallback.focusBlockID, "first-block")
+        let empty = state.destination(document: nestedNavigationDocument, position: saved,
+            initialHeading: nil, requestedHeading: nil, headingRequestID: request, currentBlockID: nil)
+        XCTAssertEqual(empty.blockID, "last-body")
+        XCTAssertNil(empty.focusBlockID)
+        state.consume(headingRequestID: request)
+        let resumed = state.destination(document: nestedNavigationDocument, position: saved,
+            initialHeading: nil, requestedHeading: nil, headingRequestID: request, currentBlockID: "last-body",
+            initialSearchHit: nil, searchStartsAtBeginning: true)
+        XCTAssertEqual(resumed.blockID, "last-body", "The metadata fallback must also be one-shot")
+    }
+
+    func testUnplacedSearchCanRetryAndInvalidSearchAnchorFallsBackSafely() {
+        let state = NativeReaderNavigationState()
+        let saved = ReadingPosition(heading: "last", fraction: 1)
+        let hit = NativeSearchHit(blockID: "nested-hit", containerBlockID: "quote-container", headingID: "first")
+        let request = UUID()
+        for _ in 0..<2 {
+            let retry = state.destination(document: nestedNavigationDocument, position: saved,
+                initialHeading: nil, requestedHeading: nil, headingRequestID: request, currentBlockID: nil,
+                initialSearchHit: hit, searchStartsAtBeginning: true)
+            XCTAssertEqual(retry.scrollBlockID, "nested-hit")
+        }
+        let invalid = NativeSearchHit(blockID: "nested-hit", containerBlockID: "last-body", headingID: nil)
+        let fallback = state.destination(document: nestedNavigationDocument, position: saved,
+            initialHeading: nil, requestedHeading: nil, headingRequestID: request, currentBlockID: nil,
+            initialSearchHit: invalid, searchStartsAtBeginning: true)
+        XCTAssertEqual(fallback.blockID, "first-block")
+        XCTAssertEqual(fallback.scrollBlockID, "first-block")
+    }
 }

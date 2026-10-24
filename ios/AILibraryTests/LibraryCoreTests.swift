@@ -82,6 +82,98 @@ final class LibraryCoreTests: XCTestCase {
         XCTAssertFalse(LibrarySearch.matches(article(), query: "tools unknown"))
     }
 
+    private func searchDocument() -> NativeDocument {
+        let text: (String) -> NativeInline = { NativeInline(type: "text", text: $0) }
+        return NativeDocument(schema_version: 1, article_id: "example", source_sha256: article().source_sha256, blocks: [
+            NativeBlock(id: "search-intro", type: "heading", heading_id: "intro", level: 2, inlines: [text("第一章")]),
+            NativeBlock(id: "partial", type: "paragraph", inlines: [text("Alpha Alpha Alpha")]),
+            NativeBlock(id: "styled", type: "paragraph", inlines: [text("ＡＩ soft"),
+                NativeInline(type: "strong", children: [text("max")]),
+                NativeInline(type: "emphasis", children: [text(" えーじぇんと ")]),
+                NativeInline(type: "code", text: "cafe\u{301}"),
+                NativeInline(type: "link", children: [text(" LinkLabel")],
+                    target: NativeLink(kind: "external", url: "https://example.com/only-url-secret"))]),
+            NativeBlock(id: "breaks", type: "paragraph", inlines: [text("before"), NativeInline(type: "soft_break"),
+                text("after"), NativeInline(type: "hard_break"), text("next")]),
+            NativeBlock(id: "list-container", type: "list", ordered: true, start: 8, items: [
+                NativeListItem(id: "parent-item", blocks: [
+                    NativeBlock(id: "parent-text", type: "paragraph", inlines: [text("Parentword")]),
+                    NativeBlock(id: "nested-quote", type: "quote", blocks: [
+                        NativeBlock(id: "nested-hit", type: "paragraph", inlines: [text("Needle Agent")])]),
+                    NativeBlock(id: "nested-list", type: "list", ordered: false, start: 1, items: [
+                        NativeListItem(id: "grandchild-item", blocks: [
+                            NativeBlock(id: "grandchild-hit", type: "paragraph", inlines: [text("孫のTarget")])])])])]),
+            NativeBlock(id: "details-heading", type: "heading", heading_id: "details", level: 2, inlines: [text("詳細節")]),
+            NativeBlock(id: "quote-container", type: "quote", blocks: [
+                NativeBlock(id: "quote-hit", type: "paragraph", inlines: [text("Quote distinct")])]),
+            NativeBlock(id: "code-hit", type: "code", language: "python", text: "  MAX_STEPS = 20\n\tprint('done')\n"),
+            NativeBlock(id: "table-hit", type: "table", table: NativeTable(header: [[text("Left")], [text("Right")]],
+                rows: [[[text("CellValue")], [NativeInline(type: "math", asset: image, source: "x^{2}", accessibility_text: "分数の見本")]]],
+                alignments: ["left", "right"])),
+            NativeBlock(id: "diagram-hit", type: "diagram", asset: image,
+                source: "graph TD; A-->FLOW_TARGET", accessibility_text: "図の流れ"),
+            NativeBlock(id: "math-hit", type: "math", asset: image,
+                source: "\\frac{QK^{\\top}}{\\sqrt{d_k}}", accessibility_text: "クエリの二乗"),
+            NativeBlock(id: "all-terms", type: "paragraph", inlines: [text("alpha beta")])])
+    }
+
+    func testNormalizedSearchTermsAndNavigationDefaults() {
+        XCTAssertEqual(LibrarySearch.normalizedTerms(" ＡＰＩ\tAPI\nCAFÉ cafe\u{301} "), ["api", "cafe"])
+        XCTAssertTrue(LibrarySearch.normalizedTerms(" \n\t　").isEmpty)
+        XCTAssertTrue(LibrarySearch.matches(article(), query: ""))
+        XCTAssertTrue(LibrarySearch.matches(article(), query: "TOOLS tools ＡＰＩ"))
+        let normal = ReaderRoute(articleID: "example")
+        XCTAssertNil(normal.heading)
+        XCTAssertNil(normal.searchQuery)
+        XCTAssertNotEqual(normal, ReaderRoute(articleID: "example", searchQuery: "tools"))
+        XCTAssertEqual(ReaderRoute(articleID: "example", heading: "intro").heading, "intro")
+    }
+
+    func testNativeSearchPrefersAllTermsAndDocumentOrderRatherThanOccurrences() {
+        let document = searchDocument()
+        XCTAssertEqual(document.searchHit(query: "ALPHA alpha beta")?.blockID, "all-terms")
+        let distributed = NativeDocument(schema_version: 1, article_id: "example", source_sha256: article().source_sha256,
+            blocks: [NativeBlock(id: "first", type: "paragraph", inlines: [NativeInline(type: "text", text: "alpha alpha alpha")]),
+                     NativeBlock(id: "second", type: "paragraph", inlines: [NativeInline(type: "text", text: "beta")])])
+        XCTAssertEqual(distributed.searchHit(query: "alpha beta")?.blockID, "first")
+        XCTAssertNil(distributed.searchHit(query: "alpha beta")?.headingID)
+        let tie = NativeDocument(schema_version: 1, article_id: "example", source_sha256: article().source_sha256,
+            blocks: [NativeBlock(id: "first", type: "paragraph", inlines: [NativeInline(type: "text", text: "tie")]),
+                     NativeBlock(id: "second", type: "paragraph", inlines: [NativeInline(type: "text", text: "tie")])])
+        XCTAssertEqual(tie.searchHit(query: "tie")?.blockID, "first")
+    }
+
+    func testNativeSearchPreservesNestedTargetsStylesAndStructuredText() {
+        let document = searchDocument()
+        for query in ["softmax", "ＡＩ ｴｰｼﾞｪﾝﾄ", "cafe", "LinkLabel"] {
+            XCTAssertEqual(document.searchHit(query: query)?.blockID, "styled", query)
+        }
+        XCTAssertEqual(document.searchHit(query: "before after next")?.blockID, "breaks")
+        XCTAssertNil(document.searchHit(query: "beforeafter"))
+        XCTAssertNil(document.searchHit(query: "only-url-secret"))
+        XCTAssertEqual(document.searchHit(query: "Parentword Needle Agent"),
+                       NativeSearchHit(blockID: "nested-hit", containerBlockID: "list-container", headingID: "intro"))
+        XCTAssertEqual(document.searchHit(query: "孫のtarget"),
+                       NativeSearchHit(blockID: "grandchild-hit", containerBlockID: "list-container", headingID: "intro"))
+        XCTAssertEqual(document.searchHit(query: "Quote distinct"),
+                       NativeSearchHit(blockID: "quote-hit", containerBlockID: "quote-container", headingID: "details"))
+        for (query, expected) in [("MAX_STEPS", "code-hit"), ("Left 分数", "table-hit"), ("x^{2}", "table-hit"),
+                                  ("FLOW_TARGET", "diagram-hit"), ("図の流れ", "diagram-hit"),
+                                  ("d_k", "math-hit"), ("クエリ", "math-hit"), ("詳細節", "details-heading")] {
+            XCTAssertEqual(document.searchHit(query: query)?.blockID, expected, query)
+        }
+        XCTAssertNil(document.searchHit(query: "LeftRight"), "Adjacent table cells must not form a word")
+    }
+
+    func testNativeSearchReturnsNoBodyTargetForEmptyOrMetadataOnlyMatches() {
+        let document = searchDocument()
+        for query in ["", " \t\n　", "not-in-document"] { XCTAssertNil(document.searchHit(query: query)) }
+        XCTAssertTrue(LibrarySearch.matches(article(), query: "基礎"))
+        XCTAssertNil(document.searchHit(query: "基礎"))
+        let empty = NativeDocument(schema_version: 1, article_id: "example", source_sha256: article().source_sha256, blocks: [])
+        XCTAssertNil(empty.searchHit(query: "anything"))
+    }
+
     func testAudioDisplayBoundsBeforeIntegerConversion() {
         XCTAssertEqual(AudioTime.maximumDurationSeconds, 86_400)
         for value in [Double.nan, Double.infinity, -Double.infinity, -Double.greatestFiniteMagnitude, -1, 0] {

@@ -5,8 +5,10 @@ struct ArticleReaderView: View {
     let snapshot: ContentSnapshot
     let article: LibraryArticle
     let initialHeading: String?
+    var initialSearchQuery: String? = nil
     let navigate: (ReaderRoute) -> Void
     @State private var document: NativeDocument?
+    @State private var searchHit: NativeSearchHit?
     @State private var loadedContentID: String?
     @State private var loadError: String?
     @State private var reloadID = UUID()
@@ -27,13 +29,27 @@ struct ArticleReaderView: View {
     }
 
     private var contentID: String { article.id + ":" + snapshot.manifest.revision }
-    private var loadID: String { contentID + ":" + reloadID.uuidString }
+    private var activeSearchQuery: String? {
+        guard let initialSearchQuery, !LibrarySearch.normalizedTerms(initialSearchQuery).isEmpty else { return nil }
+        return initialSearchQuery
+    }
+    private var readerID: String { contentID + ":search:" + (activeSearchQuery ?? "") }
+    private var loadID: String { readerID + ":" + reloadID.uuidString }
     private var isBookmarked: Bool { store.bookmarks.contains(article.id) }
 
     @ViewBuilder private var readerContent: some View {
         Group {
             if let document {
-                nativeReader(document)
+                VStack(spacing: 0) {
+                    if activeSearchQuery != nil, searchHit == nil {
+                        Text("本文中に一致する語句がないため、先頭から表示しました。")
+                            .font(.callout).foregroundStyle(.secondary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 18).padding(.vertical, 10)
+                            .accessibilityIdentifier("native-search-no-body-hit")
+                    }
+                    nativeReader(document)
+                }
             } else if let loadError {
                 loadFailure(loadError)
             } else {
@@ -48,8 +64,9 @@ struct ArticleReaderView: View {
         return NativeReaderView(snapshot: snapshot, article: article, document: document,
                                 position: saved, initialHeading: initialHeading,
                                 requestedHeading: requestedHeading, headingRequestID: headingRequestID,
-                                onPosition: recordPosition, navigate: navigate)
-            .id(contentID)
+                                onPosition: recordPosition, navigate: navigate,
+                                initialSearchHit: searchHit, searchStartsAtBeginning: activeSearchQuery != nil)
+            .id(readerID)
     }
 
     private func recordPosition(_ heading: String?, _ blockID: String?, _ fraction: Double) {
@@ -119,17 +136,21 @@ struct ArticleReaderView: View {
         // NavigationStack restarts .task when returning from a linked article.
         // Keeping the successful document also retains the reader's consumed
         // fragment requests, current block and VoiceOver state.
-        guard loadedContentID != contentID || document == nil else { return }
+        guard loadedContentID != readerID || document == nil else { return }
         document = nil
+        searchHit = nil
         loadedContentID = nil
         loadError = nil
+        let query = activeSearchQuery
         do {
             let loaded = try await Task.detached(priority: .userInitiated) {
-                try snapshot.document(for: article)
+                let document = try snapshot.document(for: article)
+                return (document, query.flatMap { document.searchHit(query: $0) })
             }.value
             guard !Task.isCancelled else { return }
-            document = loaded
-            loadedContentID = contentID
+            searchHit = loaded.1
+            document = loaded.0
+            loadedContentID = readerID
         } catch {
             guard !Task.isCancelled else { return }
             loadError = error.localizedDescription

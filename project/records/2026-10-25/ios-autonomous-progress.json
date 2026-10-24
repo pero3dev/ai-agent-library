@@ -10,8 +10,41 @@
   "repository": "pero3dev/ai-agent-library",
   "repository_visibility": "public",
   "default_branch": "main",
-  "current_checkpoint": "M0",
-  "checkpoints": [],
+  "current_checkpoint": "M2-IOS-10",
+  "checkpoints": [
+    {
+      "id": "M0",
+      "status": "PR-open-awaiting-prerequisite-repair",
+      "PR": "https://github.com/pero3dev/ai-agent-library/pull/241",
+      "head": "3dc5cc6dedf98da880acbb098edb5b1bdbff3383",
+      "intent_commits": 4,
+      "main_merged": false
+    },
+    {
+      "id": "M2-IOS-10",
+      "status": "implemented-SDK-compiled-awaiting-PR",
+      "version": "0.2.4",
+      "build": 6,
+      "physical_acceptance": "not-run",
+      "validation": {
+        "core_smoke_normal": "passed",
+        "core_smoke_fixtures": "passed",
+        "independent_code_review": "approved",
+        "SDK_build_for_testing": "passed-compilation-only",
+        "compiled_XCTest_cases": 42,
+        "new_XCTest_cases": 9,
+        "XCTest_execution": "not-run",
+        "physical_acceptance": "not-run-user-allows-skip",
+        "npm_check": {
+          "tests": 559,
+          "passed": 544,
+          "skipped": 15,
+          "failed": 0
+        },
+        "candidate_structure": "passed"
+      }
+    }
+  ],
   "excluded_actions_without_specific_authorization": [
     "paid-account-registration",
     "contract-acceptance",
@@ -35,17 +68,25 @@
       "passed": 544,
       "skipped": 15,
       "failed": 0
-    }
+    },
+    "baseline_version": "0.2.3",
+    "baseline_build": 5
   },
-  "user_required_actions": [],
-  "current_branch": "codex/ios-native-baseline",
+  "user_required_actions": [
+    {
+      "kind": "main-recovery-decision",
+      "status": "awaiting-remaining-CI-before-request",
+      "PR": "https://github.com/pero3dev/ai-agent-library/pull/240"
+    }
+  ],
+  "current_branch": "codex/ios-search-hit-navigation",
   "manual_device_checks_policy": "User explicitly allows skipping new physical-device checks and recording them incomplete while other work proceeds.",
   "reviews": {
     "pipeline": "approved; build-output writes are not atomic across I/O failures",
     "native": "approved after numeric-bound and cache-identity fixes"
   },
-  "source_version": "0.2.3",
-  "source_build": 5,
+  "source_version": "0.2.4",
+  "source_build": 6,
   "dependency_PR": "https://github.com/pero3dev/ai-agent-library/pull/240",
   "CI_prerequisite": "Existing trusted-base dependency audit fails, plus existing website dependency audits; no override performed."
 }

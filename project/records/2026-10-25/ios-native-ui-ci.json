@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task": "ios-native-ui-ci",
+  "date": "2026-10-25",
+  "status": "implemented-static-validated-awaiting-hosted-execution",
+  "branch": "codex/ios-native-ui-regression",
+  "base_PR": "https://github.com/pero3dev/ai-agent-library/pull/245",
+  "base_head": "f9c8cf39141f7a8bb49e4d5dac57c11f503e9d75",
+  "UI_test_target": "AILibraryUITests",
+  "existing_UI_tests": 2,
+  "validation": {
+    "YAML_and_10_shell_steps": "passed",
+    "harness_tooling_tests": {
+      "passed": 22,
+      "failed": 0
+    },
+    "hosted_UI_execution": "not-run-yet",
+    "physical_acceptance": "not-run-user-allows-skip",
+    "independent_review": "approved"
+  },
+  "coverage": [
+    "3-article-nonempty-body",
+    "Transformer-TOC-heading",
+    "bookmark",
+    "relaunch-and-resume"
+  ],
+  "not_covered": [
+    "offline-UI",
+    "copy-UI",
+    "internal-link-UI",
+    "legacy-record-migration-UI",
+    "max-text-or-theme-or-orientation-matrix",
+    "physical-device-acceptance"
+  ]
+}

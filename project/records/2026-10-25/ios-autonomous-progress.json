@@ -10,7 +10,7 @@
   "repository": "pero3dev/ai-agent-library",
   "repository_visibility": "public",
   "default_branch": "main",
-  "current_checkpoint": "M3-IOS-19",
+  "current_checkpoint": "M3-native-UI-CI",
   "checkpoints": [
     {
       "id": "M0",
@@ -101,7 +101,7 @@
     },
     {
       "id": "M3-IOS-19",
-      "status": "definition-and-rejection-regressions-complete-awaiting-PR",
+      "status": "PR-open-definition-complete-awaiting-integration",
       "base_PR": "https://github.com/pero3dev/ai-agent-library/pull/244",
       "validation": {
         "format_Node_tests": {
@@ -126,7 +126,9 @@
         },
         "normal_content_audit": "passed",
         "fixture_content_audit": "passed"
-      }
+      },
+      "PR": "https://github.com/pero3dev/ai-agent-library/pull/245",
+      "head": "f9c8cf39141f7a8bb49e4d5dac57c11f503e9d75"
     },
     {
       "id": "M3-native-UI-CI",
@@ -168,7 +170,7 @@
       "PR": "https://github.com/pero3dev/ai-agent-library/pull/240"
     }
   ],
-  "current_branch": "codex/ios-native-package-contract",
+  "current_branch": "codex/ios-native-ui-regression",
   "manual_device_checks_policy": "User explicitly allows skipping new physical-device checks and recording them incomplete while other work proceeds.",
   "reviews": {
     "pipeline": "approved; build-output writes are not atomic across I/O failures",

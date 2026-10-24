@@ -83,6 +83,8 @@ Developer Programは年額99 USDまたは提供地域の現地通貨。日本円
 
 IOS-25・26の[CI実装](../../records/2026-10-25/ios-native-ci.md)は[PR #243](https://github.com/pero3dev/ai-agent-library/pull/243)へ分けた。生成・監査と全AILibraryTests、Releaseのfixture除外を追加チェックで確認する。hostedの実行結果が揃うまでは実行成功へ変えず、UI試験と実機受入も別に残す。既存11必須チェックと保護設定は変更しない。
 
+続く[UI実行の追加](../../records/2026-10-25/ios-native-ui-ci.md)では既存2件をunit後のstrictなstepへ接続する。実際のHosted結果が得られるまでは未実施とし、2件が扱う本文・目次・しおり・再起動復帰を、オフライン・コピー・内部リンク等のUI全体受入と区別する。
+
 ### P1: 全記事と既存音声へ展開する
 
 | 状態 | ID | TODO | 完了条件 |

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task": "markdown-parser-security-update",
+  "date": "2026-10-25",
+  "timezone": "Asia/Tokyo",
+  "status": "preparing-limited-PR",
+  "authorization": "Prerequisite to the user-authorized autonomous iOS TODO execution, including normal commits/PR/main integration; no protection override authorized.",
+  "base_sha": "405e29273a7a3257adeb370c6ac3196d35693d4d",
+  "dependency": "markdown-it",
+  "old_version": "14.3.1",
+  "new_version": "14.3.3",
+  "advisory": "https://github.com/advisories/GHSA-gfr2-rv44-r23c",
+  "changed_lock_entries": [
+    "",
+    "node_modules/markdown-it"
+  ],
+  "validation": {
+    "patched_audit": {
+      "low": 3,
+      "moderate": 2,
+      "high": 0,
+      "critical": 0
+    },
+    "root_check_with_ios_working_changes": {
+      "tests": 559,
+      "passed": 544,
+      "skipped": 15,
+      "failed": 0,
+      "result": "passed"
+    },
+    "lock_entries_other_than_markdown_it_changed": false
+  },
+  "CI_or_protection_changes": false,
+  "admin_bypass": false
+}

@@ -6,7 +6,7 @@
 
 ## 構造・運用の計画
 
-Markdownパーサーのhigh対策は[限定依存修正の記録](records/2026-10-25/markdown-parser-security-update.md)で追跡する。14.3.1から14.3.3へ限定更新し、通常CIとbase側の監査結果を分けて記録する。
+共通検査・サイト依存のhigh／critical対策は[限定依存修正の記録](records/2026-10-25/markdown-parser-security-update.md)で追跡する。パーサー・描画依存と必要な互換処理を更新し、通常CIとbase側の監査結果を分けて記録する。
 
 2026-10-08の総合レビュー親 #224–#231・子 #232–#237 は[是正記録](records/2026-10-08/comprehensive-review-remediation.md)で、6件の修正と検証・独立レビュー・公開後の終了条件を追跡します。最終のmerge・CI・公開確認とCloseの証拠は各Issueに記録します。
 

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "task": "ios-native-ui-ci",
   "date": "2026-10-25",
-  "status": "implemented-static-validated-awaiting-hosted-execution",
+  "status": "hosted-native-unit-UI-and-Release-passed-awaiting-integration",
   "branch": "codex/ios-native-ui-regression",
   "base_PR": "https://github.com/pero3dev/ai-agent-library/pull/245",
   "base_head": "f9c8cf39141f7a8bb49e4d5dac57c11f503e9d75",
@@ -14,9 +14,26 @@
       "passed": 22,
       "failed": 0
     },
-    "hosted_UI_execution": "not-run-yet",
+    "hosted_UI_execution": {
+      "status": "passed",
+      "tests": 2,
+      "failed": 0,
+      "skipped": 0
+    },
     "physical_acceptance": "not-run-user-allows-skip",
-    "independent_review": "approved"
+    "independent_review": "approved",
+    "hosted_unit_execution": {
+      "status": "passed",
+      "tests": 52,
+      "failed": 0
+    },
+    "hosted_Release_build_and_package_audit": "passed",
+    "hosted_run": {
+      "id": 40137064755,
+      "head": "d4d982ce8850cd3ae71710c6eb205815edc7af73",
+      "conclusion": "success",
+      "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40137064755"
+    }
   },
   "coverage": [
     "3-article-nonempty-body",
@@ -31,5 +48,7 @@
     "legacy-record-migration-UI",
     "max-text-or-theme-or-orientation-matrix",
     "physical-device-acceptance"
-  ]
+  ],
+  "PR": "https://github.com/pero3dev/ai-agent-library/pull/246",
+  "head": "d4d982ce8850cd3ae71710c6eb205815edc7af73"
 }

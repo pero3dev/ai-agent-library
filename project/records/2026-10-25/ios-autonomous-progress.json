@@ -3,14 +3,14 @@
   "task": "ios-autonomous-todo-execution",
   "date": "2026-10-25",
   "timezone": "Asia/Tokyo",
-  "status": "active",
+  "status": "awaiting-main-recovery-decision-after-validation-checkpoint",
   "authorization": "User requested continuing autonomously in TODO priority order after the commit/PR/main-merge plan was added.",
   "baseline_branch": "main",
   "baseline_HEAD": "405e29273a7a3257adeb370c6ac3196d35693d4d",
   "repository": "pero3dev/ai-agent-library",
   "repository_visibility": "public",
   "default_branch": "main",
-  "current_checkpoint": "M3-native-UI-CI",
+  "current_checkpoint": "pre-main-integration",
   "checkpoints": [
     {
       "id": "M0",
@@ -113,7 +113,13 @@
         "new_XCTest_cases": 2,
         "compiled_XCTest_cases": 52,
         "SDK_build_for_testing": "passed-compilation-only",
-        "new_XCTest_execution": "not-run",
+        "new_XCTest_execution": {
+          "status": "passed-hosted",
+          "tests": 52,
+          "failed": 0,
+          "head": "f9c8cf39141f7a8bb49e4d5dac57c11f503e9d75",
+          "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40136845808"
+        },
         "independent_review": "approved-after-PNG-boundary-fix",
         "normal_generation_revision": "c10353c16891efda1997cd17a698220c09d9af37092fe3a2e7691fd05999b6f4",
         "fixture_generation_revision": "15df0e08aa2597ea012970f812a4eb7fe242ff626d4e6d0f17b62888b258e60a",
@@ -125,15 +131,52 @@
           "failed": 0
         },
         "normal_content_audit": "passed",
-        "fixture_content_audit": "passed"
+        "fixture_content_audit": "passed",
+        "hosted_Release_build": "passed",
+        "hosted_content_and_Release_audits": "passed"
       },
       "PR": "https://github.com/pero3dev/ai-agent-library/pull/245",
       "head": "f9c8cf39141f7a8bb49e4d5dac57c11f503e9d75"
     },
     {
       "id": "M3-native-UI-CI",
-      "status": "workflow-implemented-awaiting-PR",
-      "physical_acceptance": "not-run"
+      "status": "hosted-native-unit-UI-and-Release-passed-awaiting-integration",
+      "physical_acceptance": "not-run",
+      "PR": "https://github.com/pero3dev/ai-agent-library/pull/246",
+      "head": "d4d982ce8850cd3ae71710c6eb205815edc7af73",
+      "validation": {
+        "YAML_and_10_shell_steps": "passed",
+        "harness_tooling_tests": {
+          "passed": 22,
+          "failed": 0
+        },
+        "hosted_UI_execution": {
+          "status": "passed",
+          "tests": 2,
+          "failed": 0,
+          "skipped": 0
+        },
+        "physical_acceptance": "not-run-user-allows-skip",
+        "independent_review": "approved",
+        "hosted_unit_execution": {
+          "status": "passed",
+          "tests": 52,
+          "failed": 0
+        },
+        "hosted_Release_build_and_package_audit": "passed",
+        "hosted_run": {
+          "id": 40137064755,
+          "head": "d4d982ce8850cd3ae71710c6eb205815edc7af73",
+          "conclusion": "success",
+          "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40137064755"
+        }
+      }
+    },
+    {
+      "id": "M3-IOS-24",
+      "status": "runtime-target-condition-verified-already-satisfied",
+      "base_head": "d4d982ce8850cd3ae71710c6eb205815edc7af73",
+      "main_merged": false
     }
   ],
   "excluded_actions_without_specific_authorization": [
@@ -170,7 +213,7 @@
       "PR": "https://github.com/pero3dev/ai-agent-library/pull/240"
     }
   ],
-  "current_branch": "codex/ios-native-ui-regression",
+  "current_branch": "codex/ios-native-validation-checkpoint",
   "manual_device_checks_policy": "User explicitly allows skipping new physical-device checks and recording them incomplete while other work proceeds.",
   "reviews": {
     "pipeline": "approved; build-output writes are not atomic across I/O failures",
@@ -179,5 +222,24 @@
   "source_version": "0.2.5",
   "source_build": 7,
   "dependency_PR": "https://github.com/pero3dev/ai-agent-library/pull/240",
-  "CI_prerequisite": "PR240 latest head passed 10 ordinary checks; trusted-base harness-policy still fails on main markdown-it high. Limited recovery decision requested; no bypass performed."
+  "CI_prerequisite": "PR240 latest head passed 10 ordinary checks; trusted-base harness-policy still fails on main markdown-it high. Limited recovery decision requested; no bypass performed.",
+  "next_operations": [
+    "Await explicit human decision on limited PR240 recovery; do not infer approval from silence.",
+    "After permitted recovery, confirm restored protection and merged SHA/main CI.",
+    "Synchronize each dependent branch with current main by ordinary merges, revalidate final metadata/head and all required checks, and merge PR241 through PR246 in order. Then integrate the documentation checkpoint PR with the same final-head checks.",
+    "Resume remaining TODO after the integration checkpoint; physical checks remain unconfirmed."
+  ],
+  "separate_uncommitted_content": {
+    "PR": 240,
+    "head": "57c96d24c8682aab20485a004a4dd20d3abcf520",
+    "files": 9,
+    "working_file_bytes_match_published_head": true,
+    "excluded_from_native_PRs": true
+  },
+  "main_snapshot": {
+    "head": "405e29273a7a3257adeb370c6ac3196d35693d4d",
+    "protected": true,
+    "required_checks": 11
+  },
+  "checkpoint_record_review": "approved"
 }

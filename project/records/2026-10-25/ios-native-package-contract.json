@@ -26,7 +26,13 @@
     "new_XCTest_cases": 2,
     "compiled_XCTest_cases": 52,
     "SDK_build_for_testing": "passed-compilation-only",
-    "new_XCTest_execution": "not-run",
+    "new_XCTest_execution": {
+      "status": "passed-hosted",
+      "tests": 52,
+      "failed": 0,
+      "head": "f9c8cf39141f7a8bb49e4d5dac57c11f503e9d75",
+      "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40136845808"
+    },
     "independent_review": "approved-after-PNG-boundary-fix",
     "normal_generation_revision": "c10353c16891efda1997cd17a698220c09d9af37092fe3a2e7691fd05999b6f4",
     "fixture_generation_revision": "15df0e08aa2597ea012970f812a4eb7fe242ff626d4e6d0f17b62888b258e60a",
@@ -38,7 +44,9 @@
       "failed": 0
     },
     "normal_content_audit": "passed",
-    "fixture_content_audit": "passed"
+    "fixture_content_audit": "passed",
+    "hosted_Release_build": "passed",
+    "hosted_content_and_Release_audits": "passed"
   },
   "PR": "https://github.com/pero3dev/ai-agent-library/pull/245",
   "head": "f9c8cf39141f7a8bb49e4d5dac57c11f503e9d75"

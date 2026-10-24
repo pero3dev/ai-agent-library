@@ -16,6 +16,8 @@
 
 既存のネイティブUI試験2件のHosted実行は[専用のCI追加記録](records/2026-10-25/ios-native-ui-ci.md)で追跡する。通常3記事の本文とTransformerの目次・しおり・再起動復帰を確認し、未対象のオフライン・コピー・内部リンク等のUI受入を区別する。
 
+[runtimeの照合記録](records/2026-10-25/ios-native-runtime-audit.md)では、現行app targetに旧WebKit・HTML/JS bridge・blockerが残っていないことを確認した。再利用する生成parserと比較用旧HTMLツールを保持したままIOS-24を完了とし、UI・実機の全体受入を別に残す。
+
 Markdownパーサーのhigh対策は[限定依存修正の記録](records/2026-10-25/markdown-parser-security-update.md)で追跡する。iOSの[自律実施記録](records/2026-10-25/ios-autonomous-progress.md)とはPRの範囲を分け、base依存監査による阻害と通常の検証結果を区別する。
 
 代表3記事にない書式・見出しリンクは、[専用テスト記事の実施記録](records/2026-10-25/ios-native-fixtures.md)と[実機チェック表](records/2026-10-25/ios-native-fixture-checklist.md)で追跡する。2026-10-25に0.2.2（4）のA〜Dと補足2点をユーザー報告で正常と確認した。数式・重複見出し・記事内外リンク、階層リスト・引用・表・コピー、最大文字・VoiceOver、テスト用記録の保存と通常側からの分離を確認し、実機XCTest30件も成功した。代表3記事の過去の受入と合わせてIOS-07・08・12を完了とし、検索ヒットの本文位置・改訂後の位置照合・全記事展開は残す。確認版と機械検査・本人操作の結果を区別して記録する。

@@ -33,3 +33,21 @@ main反映待ちの間に[記事改訂後の復帰](ios-reading-revision-restore
 前提PR #240は最新head `57c96d24…`で通常検査10件が成功した。残るHarness policyはbase監査のhighによる失敗を再確認した。限定した管理者復旧の判断を本人へ依頼し、回答まで例外操作を行わない。返答待ちでも独立した機能とCIの実装・検証を続ける。
 
 追加native CIはPR #243でXCTest42件、復帰を加えたPR #244で50件、いずれも失敗0とRelease同梱検査の成功を取得した。実機未実施のままでも、SDK compileだけだった部分をHosted Simulatorの実行結果へ進められた。続いて[IOS-19](ios-native-package-contract.md)の形式対応・future版拒否と正常版維持・producer/consumerの境界を揃え、旧HTML CLIの上書きを防ぐ。UI試験は別PRへ分け、既存2件の狭い確認範囲と残りの受入を区別する。
+
+## 今回の統合前チェックポイント
+
+| 作業単位 | PR | 確認結果と統合状態 |
+| --- | --- | --- |
+| 依存の前提修正 | [#240](https://github.com/pero3dev/ai-agent-library/pull/240) | 通常10検査成功、trusted base監査だけ失敗。限定復旧の本人判断待ち |
+| nativeの基準M0 | [#241](https://github.com/pero3dev/ai-agent-library/pull/241) | 意図別4commit、生成・SDK・独立レビューを保存。main未統合 |
+| 検索ヒットへの移動 | [#242](https://github.com/pero3dev/ai-agent-library/pull/242) | 専用1commit。後続の同じnativeコードでHosted42件成功 |
+| 生成・unit・ReleaseのCI | [#243](https://github.com/pero3dev/ai-agent-library/pull/243) | 専用1commit、Hosted job成功 |
+| 記事改訂後の復帰 | [#244](https://github.com/pero3dev/ai-agent-library/pull/244) | 専用1commit、Hosted50件とRelease成功 |
+| 形式契約と生成境界 | [#245](https://github.com/pero3dev/ai-agent-library/pull/245) | 専用1commit、Hosted52件とRelease成功。IOS-19完了 |
+| 既存UI2件のCI | [#246](https://github.com/pero3dev/ai-agent-library/pull/246) | 専用1commit、Hosted単体52件・UI2件・Release成功。IOS-26完了 |
+
+[runtime照合](ios-native-runtime-audit.md)では現targetに旧WebKit等が残っていないことを確認し、実装の追加削除をせずIOS-24を完了とした。実機未確認、本文block内の精度、全UI回帰や全記事展開は残る。今回のチェックポイントはmain統合の完了ではない。
+
+mainは`405e29273a7a3257adeb370c6ac3196d35693d4d`のままで、11必須チェックと保護設定を維持している。PR #240への限定した管理者復旧は本人へ質問済みで、回答まで例外操作を行わない。復旧後は保護復元・実merge SHA・main CIを確認し、後続branchを通常のmain統合で同期して最終headと必須検査を取り直し、#241から順にsquashする。App Store関連の契約・支払い・公開・OS更新は別途採択の対象である。
+
+working treeに残すwebsite・依存記録の9ファイルは、別PR #240の公開head `57c96d24…`とbyte単位で一致することを確認し、nativeのコミットへ取り込んでいない。再開時に未保存の新規修正と誤認してstash・reset・一括stageしない。

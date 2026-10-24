@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "task": "ios-native-reader-three-articles",
+  "date": "2026-10-24",
+  "timezone": "Asia/Tokyo",
+  "status": "implemented-basic-device-acceptance-confirmed",
+  "input_head": "405e29273a7a3257adeb370c6ac3196d35693d4d",
+  "authorization": "User explicitly requested structured data conversion and SwiftUI article rendering for the representative three articles.",
+  "existing_changes_preserved": true,
+  "articles": [
+    "01-concepts/agent-loop",
+    "01-concepts/tool-use",
+    "11-llm-internals/transformer-architecture"
+  ],
+  "native_package_schema": 2,
+  "document_schema": 1,
+  "asset_strategy": "build-time-light-dark-PNG-native-runtime",
+  "validation": {
+    "npm_ci": {
+      "exit_code": 0
+    },
+    "repository_check": {
+      "exit_code": 0,
+      "tests": 551,
+      "passed": 536,
+      "skipped": 15,
+      "failed": 0,
+      "evidence": "static-and-unit"
+    },
+    "foundation_crypto_kit": {
+      "exit_code": 0,
+      "generated_package_validated": true,
+      "evidence": "macOS-native-core"
+    },
+    "ios_sdk_build_for_testing": {
+      "exit_code": 0,
+      "xcode": "16.2",
+      "sdk": "18.2",
+      "evidence": "SDK-compile"
+    },
+    "simulator_ui": {
+      "status": "not-executed-environment-failure",
+      "test_cases": 2,
+      "existing_simulator": "stalled-during-iOS-boot",
+      "fresh_simulator": "iOS-boot-not-completed-within-six-minutes",
+      "timeout_seconds": 360,
+      "disposable_simulator_deleted": true,
+      "evidence": "test-runner-attempt",
+      "launcher_diagnostic_on_termination": "NSMachErrorDomain -308 server died"
+    },
+    "signed_device_build": {
+      "exit_code": 0,
+      "signature_valid": true,
+      "profile_matches": true
+    },
+    "physical_device": {
+      "model": "iPhone 12",
+      "ios": "27.0.1",
+      "install_exit_code": 0,
+      "launch_exit_code": 0,
+      "process_running": true,
+      "reading_state_preserved_exactly": true,
+      "bookmarks": 1,
+      "positions": 3,
+      "manual_visual_acceptance": "passed-user-report",
+      "evidence": "CoreDevice-install-launch-and-app-preference-read",
+      "manual_confirmation": {
+        "date": "2026-10-24",
+        "app_version": "0.2.0",
+        "app_build": 2,
+        "evidence": "user-report",
+        "reported_result": "本文・図・数式・目次・しおり・復帰すべて正常",
+        "checks": [
+          "three-article-body-diagram-and-math",
+          "transformer-contents-self-attention-heading",
+          "bookmark",
+          "resume-after-termination-and-relaunch"
+        ],
+        "scope": "basic-manual-device-acceptance"
+      }
+    },
+    "bundle": {
+      "schema": 2,
+      "unlisted_files": 0,
+      "disallowed_files": 0,
+      "direct_WebKit_dependency": false
+    },
+    "candidate_structure": {
+      "files": 2605,
+      "problems": 0,
+      "evidence": "static-including-untracked-candidates"
+    },
+    "final_markdown_and_links": {
+      "exit_code": 0,
+      "markdown_files": 478,
+      "links": 6196
+    }
+  },
+  "not_performed": [
+    "full-199-article-migration",
+    "App-Store-submission",
+    "paid-registration",
+    "OS-upgrade"
+  ],
+  "app_version": "0.2.0",
+  "app_build": 2,
+  "content": {
+    "revision": "747726ba4f0b0613fb05a0d260f5de8325e9ad5d0ccf57ed7b437848ff41e2be",
+    "verified_files": 140,
+    "files_including_manifest": 141,
+    "bytes": 2521507,
+    "top_level_blocks": [
+      41,
+      40,
+      78
+    ],
+    "typed_links": 55,
+    "runtime_file_types": [
+      "json",
+      "png",
+      "txt"
+    ]
+  },
+  "remaining": [
+    "native-table-code-copy-link-zoom-and-theme-acceptance",
+    "offline-and-audio-regression-after-native-migration",
+    "maximum-Dynamic-Type-rotation-VoiceOver",
+    "precise-intra-block-position-and-article-revision-migration",
+    "search-hit-navigation"
+  ],
+  "acceptance_record_update": {
+    "date": "2026-10-24",
+    "scope": "documentation-and-validation-only",
+    "app_code_changed": false,
+    "device_settings_changed": false,
+    "full_IOS_07_through_12_accepted": false,
+    "validation": {
+      "repository_check_exit_code": 0,
+      "tests": 551,
+      "passed": 536,
+      "skipped": 15,
+      "failed": 0,
+      "json_valid": true,
+      "diff_check_exit_code": 0
+    }
+  }
+}

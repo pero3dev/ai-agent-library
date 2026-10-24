@@ -1,0 +1,286 @@
+{
+  "schema_version": 1,
+  "task": "ios-swiftui-wkwebview-prototype",
+  "date": "2026-10-23",
+  "timezone": "Asia/Tokyo",
+  "status": "simulator-verified-device-acceptance-pending",
+  "xcode_setup": {
+    "requested": true,
+    "status": "installed-and-initialized",
+    "macos": "14.6.1",
+    "architecture": "arm64",
+    "available_disk_gib_approx": 9.68,
+    "compatible_candidate": "Xcode 16.2",
+    "download_started": true,
+    "download_complete": true,
+    "download_bytes": 2969019672,
+    "installed": true,
+    "user_files_deleted": true,
+    "os_upgrade_performed": false,
+    "storage_inventory": {
+      "date": "2026-10-24",
+      "result": "metadata-inventory-complete-with-protected-path-exclusions",
+      "private_evidence": ".local/xcode-storage/candidates.json",
+      "awaiting_target_selection": false,
+      "deleted": true,
+      "moved": false,
+      "docker_unused_bytes_known": false,
+      "record_verification": "root-check-passed-528-pass-14-skip",
+      "candidate_allocated_gib_approx": {
+        "A": 7.32,
+        "B": 4.76,
+        "C": 7.25,
+        "D": 2.97,
+        "E": 2.07,
+        "F": 20.58
+      },
+      "authorized_groups": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "cleanup_private_evidence": ".local/xcode-storage/cleanup-results.json",
+      "preserved_active_cache": "JetBrains Toolbox",
+      "cleanup_result": "31-selected-targets-deleted-no-errors",
+      "deleted_targets": 31,
+      "available_increase_bytes_immediately_after": 24531447808,
+      "available_bytes_at_cleanup_end": 25679937536,
+      "available_bytes_at_verification": 20095328256,
+      "preserved_office_self_updater": true,
+      "office_auto_update_cache_regeneration_observed": true,
+      "latest_available_bytes": 26432266240,
+      "latest_observation_jst": "2026-10-24 02:47:26",
+      "selected_cache_regeneration_at_latest_observation": "no-allocated-A-cache-and-only-existing-Office-self-updater",
+      "final_available_bytes": 10395430912,
+      "vm_swap_peak_observed_bytes": 12884901888
+    },
+    "authentication_handoff": {
+      "destination": "https://developer.apple.com/download/all/?q=Xcode%2016.2",
+      "state": "signed-in-apple-developer-agreement-required",
+      "credentials_collected_in_chat": false,
+      "sign_in_completed_by_user": true
+    },
+    "agreement_handoff": {
+      "agreement": "Apple Developer Agreement",
+      "url": "https://developer.apple.com/register/agree/",
+      "state": "completed-by-user",
+      "accepted_by_user": true,
+      "accepted_by_agent": false,
+      "confirmation_source": "computer-use-confirmation-policy-legal-agreement-action-time",
+      "paid_program_enrollment": false
+    },
+    "archive_signature": {
+      "initial_sandbox_check": "invalid-signature",
+      "unsandboxed_read_only_check": "signed-apple-software-exit-0",
+      "certificate_chain": [
+        "Software Update expires 2029-04-14",
+        "Apple Software Update Certification Authority expires 2031-10-15",
+        "Apple Root CA expires 2035-02-09"
+      ],
+      "trust_settings_changed": false,
+      "quarantine_removed": false,
+      "initial_automatic_review_rejection": "xip-expansion-after-initial-invalid-signature",
+      "safe_recheck_completed": true
+    },
+    "xip_expand": {
+      "result": "exit-0",
+      "reported_signer": "Software Update",
+      "validation_message": "validation not attempted"
+    },
+    "app_signature": {
+      "codesign_deep_strict": "exit-0-valid-on-disk-satisfies-designated-requirement",
+      "gatekeeper": "accepted-source-apple-system"
+    },
+    "bundle": {
+      "identifier": "com.apple.dt.Xcode",
+      "version": "16.2",
+      "build": "23507",
+      "minimum_macos": "14.5",
+      "allocated_bytes_at_expansion": 6114344960
+    },
+    "path": "/Applications/Xcode.app",
+    "xcodebuild_version": {
+      "version": "16.2",
+      "build": "16C5032a"
+    },
+    "initial_setup": {
+      "cli_sdk_check_before_gui": "license-required-exit-69",
+      "gui_platform_selection": [
+        "macOS 15.2 built-in",
+        "iOS 18.2 8.72 GB"
+      ],
+      "gui_current_state": "complete",
+      "agent_clicked_agreement": false,
+      "finished": true,
+      "first_launch_check_exit_code": 0,
+      "ios_sdk": "18.2",
+      "runtime": {
+        "version": "18.3.1",
+        "identifier": "com.apple.CoreSimulator.SimRuntime.iOS-18-3",
+        "build": "22D8075",
+        "available": true
+      },
+      "cli_sdk_list": "passed",
+      "simulator_shutdown_after_testing": true
+    },
+    "new_archive_cleanup": {
+      "initial_review": "rejected-missing-explicit-new-xip-deletion-authorization",
+      "user_explicitly_authorized": true,
+      "deleted": true,
+      "bytes": 2969019672,
+      "sha256": "0e367d06eb7c334ea143bada5e4422f56688aabff571bedf0d2ad9434b7290de",
+      "private_evidence": ".local/xcode-storage/new-installation-archive-cleanup.json"
+    }
+  },
+  "input_head": "405e29273a7a3257adeb370c6ac3196d35693d4d",
+  "authorization": "User explicitly requested local SwiftUI + WKWebView prototype with three articles and one existing audio episode. No publication or paid enrollment.",
+  "previous_research_changes_preserved": true,
+  "project": "ios/AILibrary.xcodeproj",
+  "instructions": "ios/README.md",
+  "selection": "ios/content-selection.json",
+  "content": {
+    "articles": 3,
+    "audio_metadata": 1,
+    "audio_files_bundled": 0,
+    "verified_files_excluding_manifest": 74,
+    "bytes_including_manifest": 1515546,
+    "revision": "b17704b3fbc3ed1549a2dfa232ef4e0643acf7832921132e9d295374faf74360",
+    "selected_audio_source_is_current": true
+  },
+  "checks": {
+    "root": {
+      "command": "TMPDIR=/private/tmp npm run check",
+      "result": "passed",
+      "tests": 542,
+      "passed": 527,
+      "skipped": 15,
+      "failed": 0
+    },
+    "content_unit_tests": {
+      "passed": 9,
+      "failed": 0
+    },
+    "native_core_cli": {
+      "surface": "macos-foundation-cryptokit",
+      "result": "passed",
+      "scenarios": 5,
+      "actual_content_manifest_and_hashes": "passed",
+      "xctest": false
+    },
+    "swift_syntax": "passed",
+    "xcode_project_structure": "static-check-and-xcode16.2-build-passed",
+    "reader": {
+      "surface": "desktop-chromium-mobile-viewport",
+      "result": "passed",
+      "articles": 3,
+      "widths": [
+        320,
+        390
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "font_scales": [
+        1.6,
+        2.5
+      ],
+      "remote_requests": 0,
+      "javascript_errors": 0,
+      "ios_native_test": false
+    },
+    "audio_http": {
+      "head": 200,
+      "range": 206,
+      "size_bytes": 13007768,
+      "sampled_bytes_in_memory": 1024,
+      "id3_header": true,
+      "full_sha_measured": false,
+      "audio_decoded": true,
+      "full_stream_played": false,
+      "content_type": "application/octet-stream",
+      "avplayer_mime_override": "audio/mpeg",
+      "playback_scope": "short-simulator-playback"
+    },
+    "final_document_and_candidate_structure_checks": {
+      "result": "passed",
+      "link_files": 474,
+      "links": 6166,
+      "candidate_files_including_untracked": 2589,
+      "markdown_lint": "passed",
+      "record_json": "passed",
+      "diff_whitespace": "passed"
+    },
+    "ios_sdk_build": {
+      "result": "passed",
+      "sdk": "18.2",
+      "generic_simulator_architectures": [
+        "arm64",
+        "x86_64"
+      ],
+      "final_source_verified_architectures": [
+        "arm64"
+      ],
+      "final_application_build": "passed-in-latest-xctest-run"
+    },
+    "xctest": {
+      "result": "passed",
+      "passed": 6,
+      "failed": 0,
+      "runtime": "18.3.1",
+      "device": "iPhone 16",
+      "test_run": "20261024T040305Z",
+      "exit_code": 0,
+      "webkit_rule_compilation_regression": true,
+      "previous_incomplete_runs_counted_as_pass": false
+    },
+    "simulator_ui": {
+      "result": "basic-smoke-passed",
+      "articles_opened": [
+        "agent-loop",
+        "tool-use",
+        "transformer-architecture"
+      ],
+      "toc_heading_jump": "passed",
+      "katex_math": "visually-confirmed",
+      "audio_position_progress_seconds": [
+        0,
+        6,
+        13
+      ],
+      "audio_pause_position_seconds": 13,
+      "audio_pause_stable": true,
+      "full_acceptance_matrix": false,
+      "device_test": false,
+      "native_full_network_capture": false
+    }
+  },
+  "review": {
+    "independent_read_only_review": "findings-addressed-and-rechecked",
+    "findings": [
+      "debug-testability",
+      "pending-heading-navigation",
+      "content-snapshot-webview-consistency"
+    ],
+    "ios_sdk_followup": "independent-read-only-reviews-passed-for-initializer-concurrency-phase-webkit-regression-and-audio-mime"
+  },
+  "not_performed": [
+    "simulator-full-acceptance-matrix",
+    "iphone-device-test",
+    "voiceover-device-test",
+    "avplayer-device-playback",
+    "phone-call-interruption-device-test",
+    "headphone-disconnection-device-test",
+    "app-store-submission",
+    "external-publication"
+  ],
+  "evidence_local": {
+    "reader": ".local/ios-evidence/reader-check.json",
+    "screenshots_tracked": false,
+    "xcode_tests": ".local/ios-evidence/AILibrary-tests-20261024T040305Z.xcresult",
+    "native_ui": ".local/ios-evidence/simulator-smoke.json"
+  },
+  "last_updated": "2026-10-24"
+}

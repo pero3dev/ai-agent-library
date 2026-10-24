@@ -62,6 +62,10 @@ mainのマージ前確認は[共通policy](scripts/lib/github-policy.mjs)の11�
 - ローカル確認: `cd website && npm ci && npm run dev`
 - 公開相当のビルド: `cd website && npm run build:clean`(`sync` → クリーンビルド → Pagefind → ルート網羅チェック)
 
+## iOS試作(ios/)を変更するとき
+
+[iOSの開発手順](ios/README.md)に従い、`npm ci --prefix ios/tools --ignore-scripts`で生成ツールを準備し、`npm run ios:prepare`で正本の`docs/`から記事を生成します。`ios/AILibrary/Content/`、`ios/AILibrary/TestContent/`、DerivedData、ビルド出力は生成物で、手修正・追跡しません。未収録の形式・見出しリンクの検証は`ios/fixtures/native-reader.md`を正本とし、`npm run ios:prepare:fixtures`と`npm run ios:test:fixtures`で別packageを用意・監査します。テスト記事はDebug入口と専用保存領域を使い、Releaseには同梱しません。原本からの生成試験と`npm run check`に加え、本文を変えた場合は`npm run ios:test:reader`、Swiftを変えた場合はXcodeでのbuild/testと対応する実機受入を行います。環境がない検査は未実施と報告し、Swiftの構文解析やデスクトップブラウザーの結果と区別します。
+
 ## サンプルコード(examples/)を変更するとき
 
 - 各サンプルは自己完結。`README.md`(実行方法・**動作確認日**)と依存固定ファイルを必ず含めます

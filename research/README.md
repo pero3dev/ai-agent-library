@@ -27,6 +27,7 @@
 
 | 記録 | 用途 |
 | --- | --- |
+| [iOSアプリ化の実現性](ios-app-feasibility-2026-10-21.md) | 2026-10-21の既存資産・公式仕様の調査。方式比較、表示・更新・音声・審査・保守の懸念、試作の合格条件。方式採択と実機検証は未実施 |
 | [事前学習の図解に伴う訂正根拠](internals/pretraining-diagram-sources-2026-09-24.md)、[詳細JSON](internals/pretraining-diagram-sources-2026-09-24.json) | 2026-09-24に一次資料を実取得し、C2の計画上の6訂正を照合。記事適用と最終候補の承認は別途実施 |
 | [アラインメント・マルチモーダルの図解に伴う訂正根拠](internals/p1-remaining-diagram-sources-2026-09-24.md)、[詳細JSON](internals/p1-remaining-diagram-sources-2026-09-24.json) | 2026-09-24に一次資料を実取得し、D1・F2の8論点16置換を照合。記事適用と最終候補の承認は別途実施 |
 | [音声学習機能の実現性](audio-learning-feasibility-2026-09-13.md) | 2026-09-13 の公式資料・初期判断と、実生成・Releases配信・Chrome再生の後続確認。iPhone実機受入は未実施 |

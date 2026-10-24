@@ -6,7 +6,21 @@
 
 ## 構造・運用の計画
 
-Markdownパーサーのhigh対策は[限定依存修正の記録](records/2026-10-25/markdown-parser-security-update.md)で追跡する。14.3.1から14.3.3へ限定更新し、通常CIとbase側の監査結果を分けて記録する。
+Markdownパーサーのhigh対策は[限定依存修正の記録](records/2026-10-25/markdown-parser-security-update.md)で追跡する。iOSの[自律実施記録](records/2026-10-25/ios-autonomous-progress.md)とはPRの範囲を分け、base依存監査による阻害と通常の検証結果を区別する。
+
+代表3記事にない書式・見出しリンクは、[専用テスト記事の実施記録](records/2026-10-25/ios-native-fixtures.md)と[実機チェック表](records/2026-10-25/ios-native-fixture-checklist.md)で追跡する。2026-10-25に0.2.2（4）のA〜Dと補足2点をユーザー報告で正常と確認した。数式・重複見出し・記事内外リンク、階層リスト・引用・表・コピー、最大文字・VoiceOver、テスト用記録の保存と通常側からの分離を確認し、実機XCTest30件も成功した。代表3記事の過去の受入と合わせてIOS-07・08・12を完了とし、検索ヒットの本文位置・改訂後の位置照合・全記事展開は残す。確認版と機械検査・本人操作の結果を区別して記録する。
+
+代表3記事のネイティブ版の詳細受入は[詳細確認の記録](records/2026-10-24/ios-native-detailed-validation.md)と[手動チェック表](records/2026-10-24/ios-native-manual-checklist.md)で追跡する。修正版0.2.1（3）について、指定A〜Dの実施した手順は2026-10-25までにユーザー報告で正常と確認した。オフライン・表・コピー・リンク・図数式・音声・表示設定と復帰・VoiceOverを確認し、実機のCore・音声XCTest16件も成功した。実着信・未収録要素のfixture等は残し、自動UI試験の未実行とも区別する。
+
+iPhone向けのネイティブ本文は[開発・起動手順](../ios/README.md)と[2026-10-24の実施記録](records/2026-10-24/ios-native-reader.md)で追跡する。代表3記事を構造化JSONへ変換し、文章・コード・表をSwiftUI、図・数式をビルド時のPNG生成とネイティブ画像で表示する実装を行った。0.2.0（2）の実機操作について、本文・図・数式・目次・しおり・再起動後の復帰が正常とユーザーから確認を得た。詳細受入の残件、生成・SDKビルド・Simulatorの結果は、この記録で確認する。
+
+移行前のSwiftUI・WKWebView試作は[2026-10-23の実施記録](records/2026-10-23/ios-prototype.md)に残す。3記事と音声1本を対象に実装し、2026-10-24にXcode 16.2の導入、iOS SDKでのビルド、XCTest 6件、Simulatorでの本文表示と短時間の音声再生を確認した。これは旧方式の結果である。
+
+旧方式のiPhone実機の基本受入は[2026-10-24の確認記録](records/2026-10-24/ios-device-validation.md)を参照する。iPhone 12で本文空白を修正し、オフラインの3記事・図・数式・検索、しおり・読書位置の復帰、音声の基本操作を確認した。当時未確認だったVoiceOverや着信時などの項目も、この履歴に保持する。現行のネイティブ版の結果は上記の詳細確認の記録で確認する。
+
+iOS完成版への作業は[完成版TODO](plans/engineering/ios-app-completion.md)に整理した。ユーザー指定の本文を含むSwiftUI全面移行を前提に、代表3記事のネイティブ描画から全記事・既存音声・更新・品質・配布まで32項目で追跡する。2026-10-25に[コミットとmainへのマージの計画](plans/engineering/ios-app-completion.md#コミットとmainへのマージの計画)を追加し、受入済みの基準PRから機能ごとのPR・公開準備までM0〜M9の節目を設けた。[追記の記録](records/2026-10-25/ios-delivery-checkpoints.md)は計画更新までであり、Git操作は未実施。初版の公開方法・費用等は採択が必要であり、[作成記録](records/2026-10-24/ios-completion-planning.md)と実装の進捗を区別する。
+
+iOSアプリ化の可能性は[2026-10-21の実現性調査](../research/ios-app-feasibility-2026-10-21.md)に、既存資産の再利用、方式比較、配布・運用上の懸念と次の試作条件をまとめた。[作業記録](records/2026-10-21/ios-app-feasibility.md)は調査の範囲・検証・未実施事項を示す。実装方式の採択やアプリの開発開始を示すものではない。
 
 2026-10-08の総合レビュー親 #224–#231・子 #232–#237 は[是正記録](records/2026-10-08/comprehensive-review-remediation.md)で、6件の修正と検証・独立レビュー・公開後の終了条件を追跡します。最終のmerge・CI・公開確認とCloseの証拠は各Issueに記録します。
 

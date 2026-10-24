@@ -79,6 +79,10 @@ Developer Programは年額99 USDまたは提供地域の現地通貨。日本円
 
 0.2.4（6）の[IOS-10実装](../../records/2026-10-25/ios-search-hit-navigation.md)では、検索queryを一時routeへ渡し、本文内の一致ブロック・入れ子のleafへ移動する接続を追加した。CoreSmokeとSDK compile・独立レビューまで確認した。表・コードはブロック境界までで、新しい実機スクロール・VoiceOver受入はユーザー指定により未実施。実装の進捗を記録し、未確認の受入を理由なく成功へ変えないためIOS-10の完了欄は維持する。
 
+0.2.5（7）の[IOS-11実装](../../records/2026-10-25/ios-reading-revision-restore.md)では、旧保存を維持する任意anchorを追加し、本文digestと意味内容fingerprintで改訂前後を照合する。一意な本文、見出し内の一意な本文、見出し、割合へ順にfallbackし、読取時は保存を書き換えない。CoreSmoke通常・fixture、50件のXCTestを含むSDK compile、Release監査と独立レビューを確認した。新しいXCTestの実行と実機受入、block内の精度は未完了としてIOS-11を維持する。
+
+IOS-25・26の[CI実装](../../records/2026-10-25/ios-native-ci.md)は[PR #243](https://github.com/pero3dev/ai-agent-library/pull/243)へ分けた。生成・監査と全AILibraryTests、Releaseのfixture除外を追加チェックで確認する。hostedの実行結果が揃うまでは実行成功へ変えず、UI試験と実機受入も別に残す。既存11必須チェックと保護設定は変更しない。
+
 ### P1: 全記事と既存音声へ展開する
 
 | 状態 | ID | TODO | 完了条件 |

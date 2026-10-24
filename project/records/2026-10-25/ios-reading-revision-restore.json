@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "task": "ios-reading-revision-restore",
+  "date": "2026-10-25",
+  "status": "implemented-reviewed-SDK-compiled-awaiting-PR",
+  "base_PR": "https://github.com/pero3dev/ai-agent-library/pull/242",
+  "base_head": "d2596980a9ea3a8f1dcfeb54fd12567052b92d97",
+  "branch": "codex/ios-reading-revision-restore",
+  "TODO": "IOS-11",
+  "package_schema_changed": false,
+  "reading_anchor": "optional-v1",
+  "physical_acceptance": "not-run-user-allows-skip",
+  "intra_block_precision": "not-implemented",
+  "direct_parent_head": "c16f17e93029460fba43562020fa2091ac95c043",
+  "direct_parent_PR": "https://github.com/pero3dev/ai-agent-library/pull/243",
+  "version": "0.2.5",
+  "build": 7,
+  "validation": {
+    "core_smoke_normal": "passed",
+    "core_smoke_fixtures": "passed",
+    "new_XCTest_cases": 8,
+    "compiled_XCTest_cases": 50,
+    "SDK_build_for_testing": "passed-compilation-only",
+    "SDK_Release_build": "passed",
+    "XCTest_execution": "not-run",
+    "physical_acceptance": "not-run-user-allows-skip",
+    "release_package": {
+      "schema_version": 1,
+      "status": "passed",
+      "native_schema_version": 2,
+      "revision": "c10353c16891efda1997cd17a698220c09d9af37092fe3a2e7691fd05999b6f4",
+      "articles": 3,
+      "audio": 1,
+      "verified_files": 140,
+      "verified_bytes": 2455933,
+      "test_content_absent": true
+    },
+    "independent_review": "approved",
+    "npm_check": {
+      "tests": 567,
+      "passed": 552,
+      "skipped": 15,
+      "failed": 0
+    }
+  }
+}

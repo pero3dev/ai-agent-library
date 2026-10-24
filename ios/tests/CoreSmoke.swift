@@ -25,6 +25,7 @@ enum CoreSmoke {
         try legacyPackageFallback(scratch)
         try testFixtureIsolation(scratch)
         try readingRecords()
+        try revisedReadingRecords()
         if let argument = CommandLine.arguments.dropFirst().first {
             let snapshot = try ContentValidator.validate(root: URL(fileURLWithPath: argument, isDirectory: true))
             let fixtures = snapshot.manifest.articles.filter(\.isTestFixture)
@@ -461,5 +462,90 @@ enum CoreSmoke {
         try expect(damaged.bookmarks == ["example"], "Malformed reading position erased bookmarks")
         try expect(damaged.position(for: article(), document: document()).blockID.flatMap { document().block(id: $0) } != nil, "Malformed position did not restore to a known block")
         print("PASS bookmark and reading-position restoration")
+    }
+
+    private static func revisedReadingRecords() throws {
+        let digest = String(repeating: "a", count: 64), revisedDigest = String(repeating: "b", count: 64)
+        let heading: (String, String) -> NativeBlock = { id, text in
+            NativeBlock(id: id, type: "heading", heading_id: id, level: 2, inlines: [NativeInline(type: "text", text: text)])
+        }
+        let paragraph: (String, String) -> NativeBlock = { id, text in
+            NativeBlock(id: id, type: "paragraph", inlines: [NativeInline(type: "text", text: text)])
+        }
+        let doc: ([NativeBlock]) -> NativeDocument = {
+            NativeDocument(schema_version: 1, article_id: "example", source_sha256: digest, blocks: $0)
+        }
+        let original = doc([heading("old-heading", "節"), paragraph("target", "本文")])
+        guard let anchor = original.readingAnchor(blockID: "target", documentDigest: digest) else {
+            throw SmokeFailure(message: "Could not create native reading anchor")
+        }
+        let position = ReadingPosition(heading: "old-heading", fraction: 1, blockID: "target", anchor: anchor)
+        try expect(original.readingBlockID(for: position, documentDigest: digest) == "target", "Same-digest direct restore failed")
+        let renamed = doc([heading("new-heading", "改名"), paragraph("front", "追加"), paragraph("new-target", "本文"), paragraph("end", "末尾")])
+        try expect(renamed.readingBlockID(for: position, documentDigest: revisedDigest) == "new-target", "Inserted paragraph / renamed heading lost target")
+        try expect(renamed.readingBlockID(for: position) == "new-target", "Missing digest trusted a stale ID")
+        let deleted = doc([paragraph("front", "前方"), heading("new-heading", "節"), paragraph("target", "別の本文")])
+        try expect(deleted.readingBlockID(for: position, documentDigest: revisedDigest) == "new-heading", "Changed target failed heading fallback")
+        let repeated = doc([heading("other-heading", "別節"), paragraph("target", "本文"), heading("new-heading", "節"), paragraph("correct", "本文")])
+        try expect(repeated.readingBlockID(for: position, documentDigest: revisedDigest) == "correct", "Repeated paragraph ignored unique section")
+        let repeatedInSection = doc(repeated.blocks + [paragraph("another-copy", "本文")])
+        try expect(repeatedInSection.readingBlockID(for: position, documentDigest: revisedDigest) == "new-heading", "Ambiguous section target did not fall back to heading")
+        let ambiguous = doc([heading("one", "節"), paragraph("target", "本文"), heading("two", "節"), paragraph("last", "本文")])
+        try expect(ambiguous.readingBlockID(for: position, documentDigest: revisedDigest) == "last", "Ambiguous section trusted a reassigned ID")
+        let legacy = ReadingPosition(heading: nil, fraction: 1, blockID: "target")
+        try expect(ambiguous.readingBlockID(for: legacy) == "target", "Legacy direct restore changed")
+        try expect(doc([]).readingBlockID(for: position) == nil, "Empty document resolved to an invalid block")
+        var firstMath = NativeBlock(id: "old-math", type: "math", asset: image, source: "x^2", accessibility_text: "二乗")
+        var nextMath = firstMath
+        nextMath.asset = NativeAsset(light: "assets/changed.png", dark: "assets/dark.png", width: 800, height: 400, scale: 2)
+        let firstFP = doc([firstMath]).readingAnchor(blockID: "old-math", documentDigest: digest)?.blockFingerprint
+        try expect(firstFP == doc([nextMath]).readingAnchor(blockID: "old-math", documentDigest: digest)?.blockFingerprint, "Generated asset changed semantic fingerprint")
+        firstMath.source = "x^3"
+        try expect(firstFP != doc([firstMath]).readingAnchor(blockID: "old-math", documentDigest: digest)?.blockFingerprint, "Changed TeX did not change fingerprint")
+        let code1 = NativeBlock(id: "code", type: "code", language: "python", text: "  x\n")
+        let code2 = NativeBlock(id: "code", type: "code", language: "python", text: " x\n")
+        try expect(doc([code1]).readingAnchor(blockID: "code", documentDigest: digest)?.blockFingerprint
+            != doc([code2]).readingAnchor(blockID: "code", documentDigest: digest)?.blockFingerprint, "Code indentation was normalized away")
+        for type in ["quote", "list", "table"] {
+            func wrapped(_ value: String) -> NativeBlock {
+                let child = paragraph("child", value)
+                if type == "quote" { return NativeBlock(id: "container", type: type, blocks: [child]) }
+                if type == "list" { return NativeBlock(id: "container", type: type, ordered: true, start: 8,
+                    items: [NativeListItem(id: "item", blocks: [child])]) }
+                return NativeBlock(id: "container", type: type, table: NativeTable(header: [[NativeInline(type: "text", text: "列")]],
+                    rows: [[[NativeInline(type: "text", text: value)]]], alignments: ["left"]))
+            }
+            try expect(doc([wrapped("旧値")]).readingAnchor(blockID: "container", documentDigest: digest)?.blockFingerprint
+                != doc([wrapped("新値")]).readingAnchor(blockID: "container", documentDigest: digest)?.blockFingerprint, "Nested \(type) meaning was lost")
+        }
+        let suite = "ai-library-anchor-smoke-" + UUID().uuidString
+        guard let defaults = UserDefaults(suiteName: suite) else { throw SmokeFailure(message: "Could not create isolated defaults") }
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("example")
+        reading.record(articleID: "other", heading: nil, fraction: 0.8)
+        reading.record(articleID: "example", heading: "intro", fraction: 1, blockID: "target", anchor: anchor)
+        let before = defaults.data(forKey: "library.reading.v1")
+        let restored = ReadingStore(defaults: defaults)
+        try expect(restored.position(for: article()).anchor == anchor, "Anchor did not survive reload")
+        try expect(restored.position(for: article(), document: renamed, documentDigest: revisedDigest).blockID == "new-target", "Saved anchor did not resolve after revision")
+        try expect(defaults.data(forKey: "library.reading.v1") == before, "Resolving rewrote saved data")
+        let unknownVersion = "{\"version\":2,\"documentDigest\":\"\(digest)\",\"blockFingerprint\":\"\(digest)\"}"
+        let invalidHeading = "{\"version\":1,\"documentDigest\":\"\(digest)\",\"blockFingerprint\":\"\(digest)\",\"headingFingerprint\":7}"
+        for invalid in [unknownVersion, invalidHeading,
+                        "{\"version\":1,\"documentDigest\":\"invalid\",\"blockFingerprint\":\"invalid\"}", "\"invalid\""] {
+            let json = "{\"bookmarks\":[\"example\"],\"positions\":{\"example\":{\"heading\":\"intro\",\"fraction\":0.5,\"blockID\":\"paragraph\",\"anchor\":\(invalid)},\"other\":{\"fraction\":0.8}},\"lastArticleID\":\"other\"}"
+            let bytes = Data(json.utf8)
+            defaults.set(bytes, forKey: "library.reading.v1")
+            let damaged = ReadingStore(defaults: defaults)
+            try expect(damaged.position(for: article()).anchor == nil, "Invalid or unknown anchor accepted")
+            try expect(damaged.position(for: article(), document: document(), documentDigest: digest).blockID == "paragraph", "Invalid anchor lost legacy position")
+            try expect(damaged.bookmarks == ["example"] && damaged.lastArticleID == "other", "Invalid anchor cleared other records")
+            try expect(defaults.data(forKey: "library.reading.v1") == bytes, "Invalid-anchor read mutated defaults")
+            damaged.markOpened("example")
+            let updated = try JSONSerialization.jsonObject(with: defaults.data(forKey: "library.reading.v1")!) as! [String: Any]
+            try expect((updated["positions"] as? [String: Any])?["other"] != nil, "Rewriting invalid anchor erased another position")
+        }
+        print("PASS revision-aware reading anchors, semantic disambiguation, fallback and backward-compatible storage")
     }
 }

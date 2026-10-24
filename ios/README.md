@@ -80,6 +80,10 @@ Debugで`TestContent`を生成していない場合は、入口で記事が含�
 
 0.2.4（6）では検索結果から本文への移動を追加しました。本文内で全語が揃う箇所を優先し、語が別の段落に分かれる場合は一致する語の種類が多い箇所へ移動します。入れ子リスト・引用にも対応し、表・コードはその要素の先頭へ移ります。語句の色付けやセル・コード行内の移動は含みません。タイトル・概要等だけが一致して本文に語句がない場合は、先頭を表示して案内します。検索語は保存せず、通常の「続きを読む」は保存位置へ戻ります。[実施記録](../project/records/2026-10-25/ios-search-hit-navigation.md)にコード・SDKの確認と未実施の実機受入を分けて記載します。
 
+0.2.5（7）では[記事改訂後の復帰](../project/records/2026-10-25/ios-reading-revision-restore.md)を追加しました。旧保存を維持し、新たな保存時には本文JSONのdigestと内容の指紋を記録します。段落挿入や見出し改名後も一意に一致する本文を探し、重複・変更・削除で照合できない場合は見出し、次に近い割合へ戻ります。本文を開くだけで保存を書き換えません。block内の文字位置やpixel精度、改訂後の実機スクロールは未確認です。
+
+[Hosted Simulator CI](../.github/workflows/ios-native.yml)は記事生成・監査、全AILibraryTests、Releaseの通常manifest・全SHA・TestContent不在を追加チェックとして検査します。既存11必須チェックやmain保護設定は維持します。[実施記録](../project/records/2026-10-25/ios-native-ci.md)でhostedの実行結果とローカルSDK compileを区別し、UI試験・実機受入は別に追跡します。
+
 ## 記事の生成と更新の試験
 
 [生成CLI](../scripts/build-ios-native-content.mjs)と[変換処理](../scripts/lib/ios-native-content.mjs)は、Markdown原本と音声カタログからパッケージを作ります。[資産生成](../scripts/lib/ios-native-assets.mjs)は行内・表示数式とMermaidを明暗別PNGへ変換します。元のTeX・Mermaidと代替読み上げ文をJSONへ残し、KaTeX・Mermaid・記事のライセンスも同梱します。端末用パッケージはJSON・PNG・TXTで構成し、HTML・JS・CSS・SVG・フォントは含めません。

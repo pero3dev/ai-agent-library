@@ -24,6 +24,48 @@ struct NativeDocument: Codable, Hashable, Sendable {
         return nil
     }
 
+    /// Persist only the displayed top-level block. Asset paths and generated IDs
+    /// are intentionally absent from the semantic fingerprints.
+    func readingAnchor(blockID: String?, documentDigest: String) -> NativeReadingAnchor? {
+        guard let blockID, let container = blocks.first(where: { $0.descendants.contains { $0.id == blockID } }),
+              let fingerprint = container.readingFingerprint else { return nil }
+        let heading = headingID(forBlock: container.id).flatMap { block(forHeading: $0) }
+        return NativeReadingAnchor(documentDigest: documentDigest, blockFingerprint: fingerprint,
+                                   headingFingerprint: heading?.readingHeadingFingerprint)
+    }
+
+    /// Resolving a saved record is pure: only a later scroll record updates it.
+    /// Changed documents never trust a possibly reassigned duplicate block ID.
+    func readingBlockID(for position: ReadingPosition, documentDigest: String? = nil) -> String? {
+        guard !blocks.isEmpty else { return nil }
+        let fractionIndex = min(blocks.count - 1, Int(position.fraction * Double(blocks.count - 1)))
+        let fractional = blocks[fractionIndex].id
+        let direct = position.blockID.flatMap { topLevelBlockID(containing: $0) }
+        guard let anchor = position.anchor else {
+            return direct ?? position.heading.flatMap { topLevelBlockID(forHeading: $0) } ?? fractional
+        }
+        if documentDigest == anchor.documentDigest, let direct { return direct }
+
+        let candidates = blocks.filter { $0.readingFingerprint == anchor.blockFingerprint }
+        if candidates.count == 1 { return candidates[0].id }
+        if let headingFingerprint = anchor.headingFingerprint {
+            let headings = allBlocks.filter { $0.type == "heading" && $0.readingHeadingFingerprint == headingFingerprint }
+            if headings.count == 1, let headingID = headings[0].heading_id {
+                // Scan once even for thousands of identical paragraphs.
+                let candidateIDs = Set(candidates.map(\.id))
+                var currentHeading: String?
+                var inSection: [NativeBlock] = []
+                for block in allBlocks {
+                    if block.type == "heading" { currentHeading = block.heading_id }
+                    if candidateIDs.contains(block.id), currentHeading == headingID { inSection.append(block) }
+                }
+                if inSection.count == 1 { return inSection[0].id }
+                return topLevelBlockID(containing: headings[0].id) ?? fractional
+            }
+        }
+        return fractional
+    }
+
     /// Prefer a leaf containing all query terms. If terms occur in different
     /// blocks, use the most matching distinct terms and keep document order for
     /// ties. The article list retains its whole-article AND condition.
@@ -87,6 +129,28 @@ struct NativeBlock: Codable, Hashable, Identifiable, Sendable {
         [self] + (blocks ?? []).flatMap { $0.descendants } + (items ?? []).flatMap { $0.blocks.flatMap { $0.descendants } }
     }
 
+    fileprivate var readingFingerprint: String? { semanticReadingBlock.fingerprint }
+    fileprivate var readingHeadingFingerprint: String? {
+        guard type == "heading" else { return nil }
+        // A heading can move to another level without changing its meaning.
+        return NativeBlock(id: "", type: "heading", inlines: inlines?.map(\.semanticReadingInline)).fingerprint
+    }
+    private var fingerprint: String? {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys]
+        guard let data = try? encoder.encode(self) else { return nil }
+        return SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+    }
+    fileprivate var semanticReadingBlock: NativeBlock {
+        NativeBlock(id: "", type: type, level: level, inlines: inlines?.map(\.semanticReadingInline),
+                    ordered: ordered, start: start,
+                    items: items?.map { NativeListItem(id: "", blocks: $0.blocks.map(\.semanticReadingBlock)) },
+                    blocks: blocks?.map(\.semanticReadingBlock), language: language, text: text, table: table.map {
+                        NativeTable(header: $0.header.map { $0.map(\.semanticReadingInline) },
+                                    rows: $0.rows.map { $0.map { $0.map(\.semanticReadingInline) } }, alignments: $0.alignments)
+                    }, source: source, accessibility_text: accessibility_text)
+    }
+
     fileprivate var searchableText: String? {
         switch type {
         case "heading", "paragraph":
@@ -123,6 +187,12 @@ struct NativeInline: Codable, Hashable, Sendable {
     var asset: NativeAsset? = nil
     var source: String? = nil
     var accessibility_text: String? = nil
+
+    fileprivate var semanticReadingInline: NativeInline {
+        NativeInline(type: type, text: text, children: children?.map(\.semanticReadingInline),
+                     target: target.map { NativeLink(kind: $0.kind, article_id: $0.article_id, url: $0.url) },
+                     source: source, accessibility_text: accessibility_text)
+    }
 
     fileprivate var searchableText: String {
         switch type {

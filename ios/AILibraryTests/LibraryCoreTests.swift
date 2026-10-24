@@ -481,6 +481,142 @@ final class LibraryCoreTests: XCTestCase {
         XCTAssertEqual(damaged.bookmarks, ["example"])
         XCTAssertNotNil(damaged.position(for: article(), document: document()).blockID.flatMap { document().block(id: $0) })
     }
+
+    private func readingDocument(_ blocks: [NativeBlock]) -> NativeDocument {
+        NativeDocument(schema_version: 1, article_id: "example", source_sha256: article().source_sha256, blocks: blocks)
+    }
+    private func readingHeading(_ id: String, _ text: String) -> NativeBlock {
+        NativeBlock(id: id, type: "heading", heading_id: id, level: 2, inlines: [NativeInline(type: "text", text: text)])
+    }
+    private func readingParagraph(_ id: String, _ text: String) -> NativeBlock {
+        NativeBlock(id: id, type: "paragraph", inlines: [NativeInline(type: "text", text: text)])
+    }
+    private var readingDigest: String { String(repeating: "a", count: 64) }
+    private var revisedReadingDigest: String { String(repeating: "b", count: 64) }
+
+    func testReadingAnchorRestoresSameDocumentAndSurvivesInsertionAndHeadingRename() throws {
+        let old = readingDocument([readingHeading("old-heading", "旧見出し"), readingParagraph("old-target", "読書中の本文")])
+        let anchor = try XCTUnwrap(old.readingAnchor(blockID: "old-target", documentDigest: readingDigest))
+        let saved = ReadingPosition(heading: "old-heading", fraction: 1, blockID: "old-target", anchor: anchor)
+        XCTAssertEqual(old.readingBlockID(for: saved, documentDigest: readingDigest), "old-target")
+        let changed = readingDocument([readingHeading("new-heading", "改名した見出し"), readingParagraph("inserted", "追加段落"),
+                                       readingParagraph("new-target", "読書中の本文"), readingParagraph("end", "末尾")])
+        XCTAssertEqual(changed.readingBlockID(for: saved, documentDigest: revisedReadingDigest), "new-target")
+        XCTAssertEqual(changed.readingBlockID(for: saved), "new-target", "Unknown digest must use semantic comparison")
+    }
+
+    func testReadingAnchorChangedOrDeletedParagraphFallsBackToMatchingHeading() throws {
+        let old = readingDocument([readingHeading("old-heading", "変わらない見出し"), readingParagraph("target", "読書中")])
+        let anchor = try XCTUnwrap(old.readingAnchor(blockID: "target", documentDigest: readingDigest))
+        let saved = ReadingPosition(heading: "old-heading", fraction: 1, blockID: "target", anchor: anchor)
+        for body in [[], [readingParagraph("target", "書き換えた別の本文")]] {
+            let changed = readingDocument([readingParagraph("front", "先頭"), readingHeading("new-heading", "変わらない見出し")] + body)
+            XCTAssertEqual(changed.readingBlockID(for: saved, documentDigest: revisedReadingDigest), "new-heading")
+        }
+    }
+
+    func testReadingAnchorDisambiguatesRepeatedParagraphByUniqueHeadingAfterSectionMove() throws {
+        let old = readingDocument([readingHeading("section-a", "第一節"), readingParagraph("target", "同じ本文"),
+                                   readingHeading("section-b", "第二節"), readingParagraph("other", "同じ本文")])
+        let anchor = try XCTUnwrap(old.readingAnchor(blockID: "target", documentDigest: readingDigest))
+        let saved = ReadingPosition(heading: "section-a", fraction: 0.3, blockID: "target", anchor: anchor)
+        let changed = readingDocument([readingHeading("new-b", "第二節"), readingParagraph("target", "同じ本文"),
+                                       readingHeading("new-a", "第一節"), readingParagraph("correct", "同じ本文")])
+        XCTAssertEqual(changed.readingBlockID(for: saved, documentDigest: revisedReadingDigest), "correct")
+        let ambiguousInSection = readingDocument(changed.blocks + [readingParagraph("duplicate", "同じ本文")])
+        XCTAssertEqual(ambiguousInSection.readingBlockID(for: saved, documentDigest: revisedReadingDigest), "new-a")
+    }
+
+    func testReadingAnchorAmbiguousHeadingsUseFractionWithoutTrustingReassignedID() throws {
+        let old = readingDocument([readingHeading("old", "重複見出し"), readingParagraph("target", "同じ本文")])
+        let anchor = try XCTUnwrap(old.readingAnchor(blockID: "target", documentDigest: readingDigest))
+        let saved = ReadingPosition(heading: "old", fraction: 1, blockID: "target", anchor: anchor)
+        let changed = readingDocument([readingHeading("first", "重複見出し"), readingParagraph("target", "同じ本文"),
+                                       readingHeading("second", "重複見出し"), readingParagraph("last", "同じ本文")])
+        XCTAssertEqual(changed.readingBlockID(for: saved, documentDigest: revisedReadingDigest), "last")
+        XCTAssertEqual(changed.readingBlockID(for: ReadingPosition(heading: nil, fraction: 0.5, blockID: "target")), "target",
+                       "Legacy records must retain their existing direct-ID behavior")
+        XCTAssertNil(readingDocument([]).readingBlockID(for: saved, documentDigest: revisedReadingDigest))
+    }
+
+    func testReadingFingerprintsIgnoreGeneratedAssetsAndIDsButKeepMeaning() throws {
+        let originalMath = NativeBlock(id: "math-old", type: "math", asset: image, source: "x^{2}", accessibility_text: "二乗")
+        let newImage = NativeAsset(light: "assets/new-light.png", dark: "assets/new-dark.png", width: 800, height: 400, scale: 2)
+        let regeneratedMath = NativeBlock(id: "math-new", type: "math", asset: newImage, source: "x^{2}", accessibility_text: "二乗")
+        let old = readingDocument([readingHeading("heading-old", "見出し"), originalMath])
+        let changed = readingDocument([readingHeading("heading-new", "見出し"), regeneratedMath])
+        let first = try XCTUnwrap(old.readingAnchor(blockID: "math-old", documentDigest: readingDigest))
+        let second = try XCTUnwrap(changed.readingAnchor(blockID: "math-new", documentDigest: revisedReadingDigest))
+        XCTAssertEqual(first.blockFingerprint, second.blockFingerprint)
+        XCTAssertEqual(first.headingFingerprint, second.headingFingerprint)
+        var edited = regeneratedMath; edited.source = "x^{3}"
+        XCTAssertNotEqual(first.blockFingerprint,
+                          readingDocument([edited]).readingAnchor(blockID: "math-new", documentDigest: readingDigest)?.blockFingerprint)
+        XCTAssertNil(old.readingAnchor(blockID: "removed", documentDigest: readingDigest))
+        XCTAssertNil(old.readingAnchor(blockID: "math-old", documentDigest: "invalid"))
+    }
+
+    func testReadingFingerprintsRetainCodeWhitespaceAndNestedTableListQuoteContent() throws {
+        let text: (String) -> NativeInline = { NativeInline(type: "text", text: $0) }
+        let variants: [(NativeBlock, NativeBlock)] = [
+            (NativeBlock(id: "block", type: "code", language: "python", text: "  x\n"),
+             NativeBlock(id: "block", type: "code", language: "python", text: " x\n")),
+            (NativeBlock(id: "block", type: "table", table: NativeTable(header: [[text("列")]], rows: [[[text("旧値")]]], alignments: ["left"])),
+             NativeBlock(id: "block", type: "table", table: NativeTable(header: [[text("列")]], rows: [[[text("新値")]]], alignments: ["left"]))),
+            (NativeBlock(id: "block", type: "list", ordered: true, start: 8, items: [NativeListItem(id: "old", blocks: [readingParagraph("p", "旧値")])]),
+             NativeBlock(id: "block", type: "list", ordered: true, start: 8, items: [NativeListItem(id: "new", blocks: [readingParagraph("p", "新値")])])),
+            (NativeBlock(id: "block", type: "quote", blocks: [readingParagraph("p", "旧値")]),
+             NativeBlock(id: "block", type: "quote", blocks: [readingParagraph("p", "新値")]))]
+        for (old, changed) in variants {
+            let first = try XCTUnwrap(readingDocument([old]).readingAnchor(blockID: "block", documentDigest: readingDigest))
+            let second = try XCTUnwrap(readingDocument([changed]).readingAnchor(blockID: "block", documentDigest: readingDigest))
+            XCTAssertNotEqual(first.blockFingerprint, second.blockFingerprint, old.type)
+        }
+    }
+
+    func testReadingAnchorRoundTripAndResolutionDoNotWriteOrClearOtherRecords() throws {
+        let suite = "library-anchor-test-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let doc = document()
+        let anchor = try XCTUnwrap(doc.readingAnchor(blockID: "paragraph", documentDigest: readingDigest))
+        let first = ReadingStore(defaults: defaults)
+        first.toggleBookmark("example")
+        first.record(articleID: "other", heading: nil, fraction: 0.8)
+        first.record(articleID: "example", heading: "intro", fraction: 0.5, blockID: "paragraph", anchor: anchor)
+        let before = defaults.data(forKey: "library.reading.v1")
+        let restored = ReadingStore(defaults: defaults)
+        XCTAssertEqual(restored.position(for: article()).anchor, anchor)
+        XCTAssertEqual(restored.position(for: article(), document: doc, documentDigest: readingDigest).blockID, "paragraph")
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), before)
+        let decoded = try XCTUnwrap(try JSONSerialization.jsonObject(with: XCTUnwrap(before)) as? [String: Any])
+        XCTAssertNotNil((decoded["positions"] as? [String: Any])?["other"])
+        XCTAssertEqual(restored.bookmarks, ["example"])
+    }
+
+    func testUnknownOrMalformedAnchorPreservesLegacyPositionAndOtherRecords() throws {
+        let suite = "library-invalid-anchor-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let unknownVersion = "{\"version\":2,\"documentDigest\":\"\(readingDigest)\",\"blockFingerprint\":\"\(readingDigest)\"}"
+        let invalidHeading = "{\"version\":1,\"documentDigest\":\"\(readingDigest)\",\"blockFingerprint\":\"\(readingDigest)\",\"headingFingerprint\":7}"
+        for anchor in [unknownVersion, invalidHeading,
+                       "{\"version\":1,\"documentDigest\":\"invalid\",\"blockFingerprint\":\"invalid\"}", "\"invalid\""] {
+            let json = "{\"bookmarks\":[\"example\"],\"positions\":{\"example\":{\"heading\":\"intro\",\"fraction\":0.5,\"blockID\":\"paragraph\",\"anchor\":\(anchor)},\"other\":{\"fraction\":0.8}},\"lastArticleID\":\"other\"}"
+            let before = Data(json.utf8)
+            defaults.set(before, forKey: "library.reading.v1")
+            let reading = ReadingStore(defaults: defaults)
+            XCTAssertNil(reading.position(for: article()).anchor)
+            XCTAssertEqual(reading.position(for: article(), document: document(), documentDigest: readingDigest).blockID, "paragraph")
+            XCTAssertEqual(reading.bookmarks, ["example"])
+            XCTAssertEqual(reading.lastArticleID, "other")
+            XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), before)
+            reading.markOpened("example")
+            let rewritten = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+            let object = try XCTUnwrap(try JSONSerialization.jsonObject(with: rewritten) as? [String: Any])
+            XCTAssertNotNil((object["positions"] as? [String: Any])?["other"])
+        }
+    }
 }
 
 /// These tests never play a permitted URL or activate an audio session. Each test

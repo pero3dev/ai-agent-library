@@ -6,7 +6,11 @@
 
 ## 構造・運用の計画
 
-検索結果からネイティブ本文の一致位置へ移動する作業は[0.2.4の実施記録](records/2026-10-25/ios-search-hit-navigation.md)で追跡する。正規化AND検索を維持し、入れ子の本文位置と保存用の位置を分けた。Foundation回帰とSDK compileを確認し、新たな実機受入はユーザー指定により未実施として残す。前提PRのmain反映待ちと、機能の検証を分けて進める。
+検索結果からネイティブ本文の一致位置へ移動する作業は[0.2.4の実施記録](records/2026-10-25/ios-search-hit-navigation.md)と[PR #242](https://github.com/pero3dev/ai-agent-library/pull/242)で追跡する。正規化AND検索を維持し、入れ子の本文位置と保存用の位置を分けた。Foundation回帰とSDK compileを確認し、新たな実機受入はユーザー指定により未実施として残す。前提PRのmain反映待ちと、機能の検証を分けて進める。
+
+記事改訂後の保存位置は[照合の実施記録](records/2026-10-25/ios-reading-revision-restore.md)で追跡する。旧保存を維持しつつ、本文digestと意味内容fingerprintを使う任意anchorを追加する。見出し・本文が曖昧な重複を持つ場合のfallbackと、未完了のblock内精度を区別する。
+
+追加の[Hosted Simulator CI](records/2026-10-25/ios-native-ci.md)は[PR #243](https://github.com/pero3dev/ai-agent-library/pull/243)へ分けた。正本からの生成・監査、全AILibraryTests、Releaseの同梱SHA・TestContent除外を検査し、実行結果と未実施のUI・実機受入を区別する。
 
 Markdownパーサーのhigh対策は[限定依存修正の記録](records/2026-10-25/markdown-parser-security-update.md)で追跡する。iOSの[自律実施記録](records/2026-10-25/ios-autonomous-progress.md)とはPRの範囲を分け、base依存監査による阻害と通常の検証結果を区別する。
 

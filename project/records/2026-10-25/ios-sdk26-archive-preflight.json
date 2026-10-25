@@ -5,9 +5,11 @@
   "parent_PR": 262,
   "parent_head": "e8032494fb396718bbfe2218b1dfa428abfd7313",
   "app_version": "unchanged-0.2.14(16)",
-  "status": "final-commoncheck-passed-awaiting-six-path-review-and-first-Hosted",
+  "status": "optional-empty-credential-fields-fixed-awaiting-exact-Hosted",
   "source_sha256": {
-    ".github/workflows/ios-sdk26-archive.yml": "d419716dc3104ec12529729587701884612ce24cf14c2e2f814e46ce987ee8ca"
+    ".github/workflows/ios-sdk26-archive.yml": "de552ae7a7f7531fba57df0f0021d66eb7032548bcd2265452f9c081ed46ed72",
+    "ios/tests/archive-signing-settings.mjs": "4fc3dbefcf282653d5fd6d68982ccc060eaa71f1317f8101784c9f814801bb7e",
+    "tests/unit/ios-archive-signing-settings.test.mjs": "722890bc39a90b0adc7b3cad40b06701f50d821c57b5633d9ceb5001212f0765"
   },
   "repository_visibility": {
     "repository": "pero3dev/ai-agent-library",
@@ -20,7 +22,7 @@
     "Xcode": "26.6",
     "build": "17F113",
     "SDK": "26.5",
-    "actual_existence": "runtime asserted, not executed yet"
+    "actual_existence": "verified in first Hosted; exact-new-head retest pending"
   },
   "security": {
     "job_gate": "exact public repository",
@@ -52,10 +54,10 @@
       "bytes": 9330
     }
   },
-  "Hosted": "not-run-final-head",
-  "SDK26_actual_Archive": null,
+  "Hosted": "exact-new-head-retest-pending",
+  "SDK26_actual_Archive": "first run generation/archive/Content audit succeeded; full post-metadata audit pending",
   "not_completed": [
-    "new actual toolchain and output parsers",
+    "post-buildsettings Info/Privacy/inventory/MachO/UUID/codesign audit and exact-new-head retry",
     "signed distribution and export",
     "paid/legal/Team/Store adoption",
     "physical and minimum-OS runtime acceptance",
@@ -93,5 +95,42 @@
       "log": "/private/tmp/ios-sdk26-archive-final-common-check-20261025.log",
       "sha256": "f2d5a33f39393309f4c0a7f317e6361a717836b5a1e78bdf4aae087e9ab493e6"
     }
+  },
+  "pre_signing_settings_fix_source_sha256": {
+    ".github/workflows/ios-sdk26-archive.yml": "d419716dc3104ec12529729587701884612ce24cf14c2e2f814e46ce987ee8ca"
+  },
+  "first_Hosted": {
+    "head": "1570335f0ec65de09935872401e00fdf828f20b7",
+    "run": 40190379973,
+    "job": 121159920156,
+    "artifact": 12598440918,
+    "artifact_bytes": 96190,
+    "artifact_sha256": "3c444da053908dc129a524ebc775674fec63b0b0e22f908b6225a0d65e94d72d",
+    "toolchain": "actual macOS26.6.2 arm64/Xcode26.6 17F113/SDK26.5 23F81a verified",
+    "passed": [
+      "tracked199source",
+      "generation/source audits",
+      "generic iOS Release ARCHIVE SUCCEEDED",
+      "actual Content625SHA/199documents/8389blocks/422PNG/audio1/noTestContent"
+    ],
+    "failed": "undefined !== empty string at optional CODE_SIGN_IDENTITY before post-buildsettings commands",
+    "unperformed": [
+      "actual app Info/Privacy equivalence",
+      "whole app inventory",
+      "MachO/LC_BUILD_VERSION/UUID",
+      "actual codesign/provisioning audit"
+    ],
+    "workflow": "failure-not-success"
+  },
+  "signing_settings_fix": {
+    "scope": "optional six credential names allow absence or exact empty string; two suppression flags remain own keys with exact NO",
+    "Node_tests": 7,
+    "Node_pass": 7,
+    "actionlint": "1.7.12-passed",
+    "YAML": "passed",
+    "Bash_blocks": 12,
+    "Node_blocks": 4,
+    "independent_review": "approved-three-source-files-and-actual-raw-projection",
+    "proof": "/private/tmp/ios-archive-signing-settings-validation-20261025/proof.json"
   }
 }

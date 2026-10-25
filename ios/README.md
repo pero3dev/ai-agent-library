@@ -226,7 +226,7 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 
 [専用preflight](../.github/workflows/ios-sdk26-archive.yml)は、公開リポジトリの標準`macos-26`でXcode26.6・iOS26.5 SDKを実行時に照合し、全記事を生成してgeneric iOS向けのRelease Archiveを作る候補です。配布用の署名資格情報やProvisioningを使わず、署名が無い場合とTeam/Authorityを持たないad-hocだけを扱います。Archiveの実アプリの全SHA・本文集合・ライセンス・Privacy Manifest、SDK・最低OS17・arm64・device platform・dSYM UUID・fixture不在を監査します。
 
-ローカルMacの更新や署名済みIPAのexport、TestFlight・Store申請とは別の検査です。静的レビューと構文検証を通した段階で、SDK26の実Archiveと新しい実出力パーサーは初回Hosted待ちです。[SDK26の記録](../project/records/2026-10-25/ios-sdk26-archive-preflight.md)で段階を追跡します。従来のXcode16.4・iOS18.5 Simulator回帰と最低対応OS17は維持します。
+ローカルMacの更新や署名済みIPAのexport、TestFlight・Store申請とは別の検査です。初回Hostedで実SDK26環境・Archive生成・actual Content監査まで成功しました。空の署名資格情報のキー省略で後段監査が停止したため、限定したguard修正後の実Info/Privacy・MachO/UUID/codesign監査を再検証します。[SDK26の記録](../project/records/2026-10-25/ios-sdk26-archive-preflight.md)で段階を追跡します。従来のXcode16.4・iOS18.5 Simulator回帰と最低対応OS17は維持します。
 
 ## ライセンスと通信
 

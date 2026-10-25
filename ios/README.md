@@ -123,6 +123,20 @@ bash ios/tests/check-package.sh "$all_package_root/Content" 199
 
 [全記事の実施記録](../project/records/2026-10-25/ios-all-article-package.md)では、199記事・PNG422本・manifest込み625ファイル、37,547,753 bytesを実生成し、appと同じContentValidatorと本文読み込み入口で全199記事を受け入れました。約2.28秒はこのMacのFoundation CLIでの検証・全本文読み込み時間であり、アプリ起動・描画・実機性能の測定ではありません。CIへ全記事の一時生成・consumer監査stepを追加し、初回に見つかった出力先と環境の一時ディレクトリの不一致を修正しました。Hostedでの全記事生成成功は未確認です。全記事の画面・VoiceOver・性能受入を残し、IOS-13・15を完了とはしません。
 
+## 全記事を通常同梱する候補の生成
+
+`--published-library`は、全publishedを固定の`ios/AILibrary/Content`へ生成する明示モードです。実行すると通常Contentを候補で置き換えます。他profile・fixtures・`--output`とは併用できません。既定の`npm run ios:prepare`は代表3記事、fixtureは4記事のままです。
+
+```bash
+PLAYWRIGHT_CHANNEL=chrome node scripts/build-ios-native-content.mjs --published-library
+node ios/tests/native-content-audit.mjs --published-library
+bash ios/tests/check-package.sh ios/AILibrary/Content 199
+```
+
+`199`は2026-10-25時点のpublished数です。一時全記事の原文監査は`TMPDIR=/private/tmp node ios/tests/native-content-audit.mjs --all-published --content <一時Content>`、従来3記事はno flag、fixture4記事は`--fixtures`で行います。
+
+[通常同梱候補の記録](../project/records/2026-10-25/ios-published-library-profile.md)では、共有Contentを保った私有rootで実生成・consumer・原文監査を確認しました。実Mermaidの微小な再描画差によってrevisionが変わる場合があり、同じassetsを使ったmode比較とは区別します。候補のアプリUI・Releaseと既定切替は未確認です。保存済みの正常packageは同梱版より優先されるため、同梱更新だけでは取り込み済み3記事版の選択を変えません。
+
 ## 検証
 
 rootの`npm run check`でコンテンツ変換の単体試験と共通検査を実行します。macOSで一時ディレクトリのsymlink拒否に当たる場合は、`TMPDIR=/private/tmp npm run check`を使います。PNG生成は実ブラウザーを使うため、注入した資産を使う単体試験と区別します。

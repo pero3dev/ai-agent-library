@@ -3,32 +3,156 @@
 // This does not launch a browser, Simulator, device, VoiceOver, or the application.
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { readFile, readdir } from 'node:fs/promises';
+import { lstat, readFile, readdir, realpath } from 'node:fs/promises';
 import { createRequire } from 'node:module';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { inflateSync } from 'node:zlib';
 import MarkdownIt from 'markdown-it';
 import GithubSlugger from 'github-slugger';
-import { installMath, parseArticle } from '../../scripts/lib/ios-content.mjs';
+import { installMath, parseArticle, readSource, rejectSymlinks } from '../../scripts/lib/ios-content.mjs';
+import { parseFrontMatter, parseScalar, toLines } from '../../scripts/lib/md-utils.mjs';
 
-async function audit() {
-  const args = process.argv.slice(2);
-  assert.ok(args.length === 0 || args.length === 1 && args[0] === '--fixtures', 'Usage: node ios/tests/native-content-audit.mjs [--fixtures]');
-  const fixtures = args.includes('--fixtures');
-  const root = fileURLToPath(new URL('../../', import.meta.url));
-  const content = path.join(root, fixtures ? 'ios/AILibrary/TestContent' : 'ios/AILibrary/Content');
+const repositoryRoot = fileURLToPath(new URL('../../', import.meta.url));
+const usage = 'Usage: node ios/tests/native-content-audit.mjs [--fixtures | --published-library | --all-published --content <temporary ailibrary-ios-*/Content>]';
+const profiles = new Set(['representative', 'fixtures', 'published-library', 'all-published']);
+
+export function parseNativeAuditOptions(args) {
+  assert.ok(Array.isArray(args), usage);
+  const options = { profile: 'representative' };
+  const seen = new Set();
+  for (let index = 0; index < args.length; index++) {
+    const argument = args[index];
+    assert.ok(['--fixtures', '--published-library', '--all-published', '--content'].includes(argument) && !seen.has(argument), usage);
+    seen.add(argument);
+    if (argument === '--content') {
+      const value = args[++index];
+      assert.ok(typeof value === 'string' && value.trim() && !value.startsWith('--'), usage);
+      options.content = value;
+    } else {
+      assert.equal(options.profile, 'representative', usage);
+      options.profile = argument.slice(2);
+    }
+  }
+  assert.equal(options.profile === 'all-published', options.content !== undefined, usage);
+  return options;
+}
+
+export async function resolveNativeAuditContent(root, { profile = 'representative', content } = {}) {
+  assert.ok(profiles.has(profile), 'Unknown native audit profile');
+  root = await realpath(root);
+  if (profile !== 'all-published') {
+    assert.equal(content, undefined, 'Only the temporary all-published audit accepts --content');
+    const canonical = path.join(root, profile === 'fixtures' ? 'ios/AILibrary/TestContent' : 'ios/AILibrary/Content');
+    await rejectSymlinks(canonical);
+    return canonical;
+  }
+  assert.ok(typeof content === 'string' && content.trim(), 'The temporary all-published audit requires --content');
+  const temp = await realpath(os.tmpdir()), tempAlias = path.resolve(os.tmpdir());
+  let absolute = path.resolve(content);
+  if (absolute.startsWith(tempAlias + path.sep)) absolute = path.join(temp, path.relative(tempAlias, absolute));
+  const relative = path.relative(temp, absolute);
+  assert.ok(!relative.startsWith('..') && !path.isAbsolute(relative) && /^ailibrary-ios-[^/\\]+[/\\].+/.test(relative) && path.basename(absolute) === 'Content', 'Audit content must be a temporary ailibrary-ios-*/Content');
+  const comparable = value => process.platform === 'darwin' || process.platform === 'win32' ? value.toLowerCase() : value;
+  for (const name of ['Content', 'TestContent']) {
+    const canonical = comparable(path.join(root, 'ios/AILibrary', name)), candidate = comparable(absolute);
+    assert.ok(candidate !== canonical && !candidate.startsWith(canonical + path.sep) && !canonical.startsWith(candidate + path.sep), 'Temporary audit must be separate from canonical Content and TestContent');
+  }
+  await rejectSymlinks(absolute);
+  return absolute;
+}
+
+export async function publishedAuditSources(root) {
+  const sources = [];
+  const sections = await readdir(path.join(root, 'docs'), { withFileTypes: true });
+  for (const section of sections) {
+    if (!/^\d{2}-[a-z0-9-]+$/.test(section.name)) continue;
+    assert.ok(!section.isSymbolicLink(), 'Published source sections must not be symlinks');
+    if (!section.isDirectory()) continue;
+    for (const file of await readdir(path.join(root, 'docs', section.name), { withFileTypes: true })) {
+      if (file.name.toLowerCase() === 'readme.md' || !/^[a-z0-9-]+\.md$/.test(file.name)) continue;
+      assert.ok(!file.isSymbolicLink(), 'Published article sources must not be symlinks');
+      if (!file.isFile()) continue;
+      const sourcePath = `docs/${section.name}/${file.name}`;
+      const frontMatter = parseFrontMatter(toLines((await readSource(root, sourcePath)).toString('utf8')));
+      assert.ok(frontMatter && !frontMatter.unclosed && !frontMatter.errors.length, `Invalid published-source front matter: ${sourcePath}`);
+      const statuses = frontMatter.fields.filter(field => field.key === 'status');
+      assert.equal(statuses.length, 1, `Expected exactly one source status: ${sourcePath}`);
+      const status = parseScalar(statuses[0].value);
+      assert.ok(['published', 'draft'].includes(status), `Unknown source status: ${sourcePath}`);
+      if (status === 'published') sources.push(sourcePath);
+    }
+  }
+  assert.ok(sources.length > 0 && sources.length <= 2000, 'Published audit requires 1–2000 source articles');
+  return sources.sort();
+}
+
+export function assertNativeAuditArticleSet(articles, sourcePaths) {
+  assert.ok(Array.isArray(articles), 'Manifest articles must be an array');
+  assert.deepEqual(articles.map(article => article.source_path), sourcePaths, 'Exact ordered source article set');
+  assert.deepEqual(articles.map(article => article.id), sourcePaths.map(file => file === 'ios/fixtures/native-reader.md' ? 'test-fixtures/native-reader' : file.replace(/^docs\//, '').replace(/\.md$/, '')), 'Each source keeps its canonical article ID');
+}
+
+export function expectedNativeAuditLink(href, article, selected) {
+  assert.ok(typeof href === 'string', 'Source links must be strings');
+  const decode = value => { try { return decodeURIComponent(value); } catch { assert.fail(`Malformed source link: ${href}`); } };
+  if (href.startsWith('#')) return { kind: 'article', article_id: article.id, ...(href.length > 1 ? { heading_id: decode(href.slice(1)) } : {}) };
+  const external = value => {
+    const url = new URL(value);
+    assert.ok(url.protocol === 'https:' && !url.username && !url.password, 'External source links require HTTPS without credentials');
+    return { kind: 'external', url: url.href };
+  };
+  if (/^https?:\/\//i.test(href)) return external(href);
+  assert.ok(!/^[a-z][a-z\d+.-]*:/i.test(href) && !href.startsWith('//'), 'Unsupported source link protocol');
+  const match = href.match(/^([^?#]*)(\?[^#]*)?(#.*)?$/);
+  assert.ok(match, `Unknown source link format: ${href}`);
+  const pathname = decode(match[1]);
+  assert.ok(!pathname.includes('\\') && !pathname.includes('\0') && !pathname.startsWith('/'), 'Unsafe source link path');
+  const target = path.posix.normalize(path.posix.join(path.posix.dirname(article.source_path), pathname));
+  assert.ok(target !== '..' && !target.startsWith('../'), 'Source link escapes repository');
+  const selectedID = selected.get(target);
+  if (selectedID !== undefined) return { kind: 'article', article_id: selectedID, ...(match[3] && match[3].length > 1 ? { heading_id: decode(match[3].slice(1)) } : {}) };
+  const fragment = match[3] || '', document = target.match(/^docs\/\d{2}-([^/]+)\/(.+)\.md$/), example = target.match(/^examples\/python\/([^/]+)\/README\.md$/);
+  const site = 'https://pero3dev.github.io/ai-agent-library';
+  if (document) return external(`${site}/docs/${document[1]}${document[2] === 'README' ? '' : '/' + document[2]}${match[2] || ''}${fragment}`);
+  if (example) return external(`${site}/docs/examples/${example[1]}${fragment}`);
+  if (target === 'GLOSSARY.md') return external(`${site}/glossary${fragment}`);
+  if (target === 'README.md') return external(`${site}/${fragment}`);
+  return external(`https://github.com/pero3dev/ai-agent-library/blob/main/${target.split('/').map(encodeURIComponent).join('/')}${fragment}`);
+}
+
+export function assertNativeAuditDescriptions(keys, descriptions) {
+  assert.ok(descriptions && typeof descriptions === 'object' && !Array.isArray(descriptions), 'Invalid diagram description map');
+  for (const [key, description] of Object.entries(descriptions)) assert.ok(/^[a-f0-9]{24}$/.test(key) && typeof description === 'string' && description.trim() && Buffer.byteLength(description) <= 16384, 'Invalid source-bound diagram description');
+  assert.deepEqual([...keys].sort(), Object.keys(descriptions).sort(), 'No missing, stale or unbound diagram descriptions');
+}
+
+export async function auditNativeContent({ root = repositoryRoot, profile = 'representative', content: requestedContent } = {}) {
+  root = await realpath(root);
+  const content = await resolveNativeAuditContent(root, { profile, content: requestedContent });
+  const fixtures = profile === 'fixtures', published = ['all-published', 'published-library'].includes(profile);
   const require = createRequire(new URL('../tools/package.json', import.meta.url));
   const katex = require('katex');
   const digest = data => createHash('sha256').update(data).digest('hex');
   const readJSON = async file => JSON.parse(await readFile(file, 'utf8'));
+  const manifestStat = await lstat(path.join(content, 'manifest.json'));
+  assert.ok(manifestStat.isFile() && !manifestStat.isSymbolicLink(), 'Manifest must be a regular file');
+  assert.ok(manifestStat.size <= 8 * 1024 * 1024, 'Manifest must fit the native byte limit');
   const manifest = await readJSON(path.join(content, 'manifest.json'));
-  const selection = await readJSON(path.join(root, 'ios/content-selection.json'));
+  const selection = JSON.parse(await readSource(root, 'ios/content-selection.json'));
+  let descriptions = selection.diagram_descriptions || {};
+  if (published) {
+    const fullDescriptions = JSON.parse(await readSource(root, 'ios/all-published-diagram-descriptions.json'));
+    assert.equal(fullDescriptions.schema_version, 1, 'All-published description map schema');
+    descriptions = fullDescriptions.diagram_descriptions;
+  }
   assert.equal(manifest.schema_version, 2, 'This audit requires the JSON/PNG native package');
   assert.equal(manifest.revision, digest(JSON.stringify({ schema_version: 2, articles: manifest.articles, audio: manifest.audio, files: manifest.files })), 'Manifest revision matches its content');
   const fixturePath = 'ios/fixtures/native-reader.md';
-  assert.deepEqual(manifest.articles.map(article => article.source_path), [...selection.articles, ...(fixtures ? [fixturePath] : [])]);
-  const documents = new Map(await Promise.all(manifest.articles.map(async article => [article.id, await readJSON(path.join(content, article.document_path))])));
+  assertNativeAuditArticleSet(manifest.articles, published ? await publishedAuditSources(root) : [...selection.articles, ...(fixtures ? [fixturePath] : [])]);
+  const selected = new Map(manifest.articles.map(article => [article.source_path, article.id]));
+  for (const article of manifest.articles) assert.equal(article.document_path, `articles/${article.id.replaceAll('/', '--')}.json`, 'Article document path is source-bound');
   const headings = new Map(manifest.articles.map(article => [article.id, new Set(article.headings.map(heading => heading.id))]));
   const normalize = value => value.replace(/\s+/g, ' ').trim();
   const leaves = tokens => tokens.flatMap(token => token.children ? leaves(token.children) :
@@ -109,25 +233,6 @@ async function audit() {
       tables.push(table);
     }
     return tables;
-  }
-
-  function expectedLink(href, article) {
-    if (href.startsWith('#')) return { kind: 'article', article_id: article.id, ...(href.length > 1 ? { heading_id: decodeURIComponent(href.slice(1)) } : {}) };
-    if (/^https:\/\//.test(href)) return { kind: 'external', url: new URL(href).href };
-    const match = href.match(/^([^?#]*)(\?[^#]*)?(#.*)?$/);
-    assert.ok(match, `Unknown source link format: ${href}`);
-    const target = path.posix.normalize(path.posix.join(path.posix.dirname(article.source_path), decodeURIComponent(match[1])));
-    const selected = manifest.articles.find(value => value.source_path === target);
-    if (selected) return { kind: 'article', article_id: selected.id, ...(match[3] ? { heading_id: decodeURIComponent(match[3].slice(1)) } : {}) };
-    const document = target.match(/^docs\/\d{2}-([^/]+)\/(.+)\.md$/);
-    const example = target.match(/^examples\/python\/([^/]+)\/README\.md$/);
-    let route;
-    if (document) route = `/docs/${document[1]}${document[2] === 'README' ? '' : '/' + document[2]}`;
-    else if (example) route = `/docs/examples/${example[1]}`;
-    else if (target === 'GLOSSARY.md') route = '/glossary';
-    else if (target === 'README.md') route = '/';
-    else assert.fail(`Add an independently checked route for source link: ${href}`);
-    return { kind: 'external', url: `https://pero3dev.github.io/ai-agent-library${route}${match[2] || ''}${match[3] || ''}` };
   }
 
   function decodeEntities(value) {
@@ -215,29 +320,43 @@ async function audit() {
     return { width, height, painted_pixels: painted, ink_on_outer_border: border };
   }
 
-  const inventory = async (directory, prefix = '') => {
+  let inventoryEntries = 0;
+  const inventory = async (directory, prefix = '', depth = 0) => {
+    assert.ok(depth <= 32, 'Native package directory depth limit');
     const result = [];
     for (const entry of await readdir(directory, { withFileTypes: true })) {
+      assert.ok(++inventoryEntries <= 8192, 'Native package entry count limit');
       assert.ok(!entry.isSymbolicLink(), 'Generated package must not contain symlinks');
       const relative = prefix + entry.name;
-      if (entry.isDirectory()) result.push(...await inventory(path.join(directory, entry.name), relative + '/'));
+      if (entry.isDirectory()) result.push(...await inventory(path.join(directory, entry.name), relative + '/', depth + 1));
       else { assert.ok(entry.isFile()); result.push(relative); }
     }
+    assert.ok(result.length <= 4096, 'Native package file count limit');
     return result;
   };
   assert.deepEqual((await inventory(content)).sort(), [...Object.keys(manifest.files), 'manifest.json'].sort());
+  for (const file of ['assets/licenses/NOTICE.txt', 'assets/katex/LICENSE.txt', 'assets/licenses/Mermaid-LICENSE.txt']) assert.ok(Object.hasOwn(manifest.files, file), `Required attribution file: ${file}`);
   const pngs = new Map();
+  let packageBytes = (await lstat(path.join(content, 'manifest.json'))).size;
   for (const [file, hash] of Object.entries(manifest.files)) {
     assert.ok(/^(?:assets|articles)\/[a-zA-Z0-9/_.-]+\.(json|png|txt)$/.test(file) && !file.split('/').includes('..'), 'Native asset path');
+    assert.match(hash, /^[a-f0-9]{64}$/, 'Native file SHA format');
+    const size = (await lstat(path.join(content, file))).size;
+    assert.ok(size <= (file.endsWith('.png') ? 32 : 16) * 1024 * 1024, 'Native file byte limit');
+    packageBytes += size;
+    assert.ok(packageBytes <= 256 * 1024 * 1024, 'Native package byte limit');
     const data = await readFile(path.join(content, file));
     assert.equal(digest(data), hash, `Package SHA: ${file}`);
     if (file.endsWith('.png')) pngs.set(file, pngPixels(data));
   }
+  assert.deepEqual(await readFile(path.join(content, 'assets/licenses/NOTICE.txt')), await readSource(root, 'LICENSE'), 'Documentation and code attribution matches the current source');
+  for (const article of manifest.articles) assert.ok(Object.hasOwn(manifest.files, article.document_path), 'Article document is in the hashed inventory');
+  const documents = new Map(await Promise.all(manifest.articles.map(async article => [article.id, await readJSON(path.join(content, article.document_path))])));
 
   const reports = [], issues = [], referencedPNGs = new Set(), pairs = new Set(), descriptionKeys = new Set();
   const coverage = { same_article_fragment: 0, selected_article_fragment: 0, selected_article: 0, external: 0 };
   for (const article of manifest.articles) {
-    const source = await readFile(path.join(root, article.source_path), 'utf8');
+    const source = (await readSource(root, article.source_path)).toString('utf8');
     const isFixture = fixtures && article.source_path === fixturePath;
     assert.equal(article.is_test_fixture, isFixture ? true : undefined, 'Only the explicit test article carries fixture metadata');
     if (isFixture) assert.equal(article.id, 'test-fixtures/native-reader');
@@ -268,7 +387,7 @@ async function audit() {
     const code = tokens.filter(token => ['fence', 'code_block'].includes(token.type) && token.info.trim() !== 'mermaid').map(token => ({ language: token.info.trim().split(/\s+/)[0] || 'text', text: token.content }));
     assert.deepEqual(all.filter(node => node.type === 'code' && node.id).map(node => ({ language: node.language, text: node.text })), code, `Exact code contents: ${article.id}`);
     const links = all.filter(node => node.type === 'link');
-    const expectedLinks = tokens.flatMap(token => walk(token.children || [])).filter(token => token.type === 'link_open').map(token => expectedLink(token.attrGet('href'), article));
+    const expectedLinks = tokens.flatMap(token => walk(token.children || [])).filter(token => token.type === 'link_open').map(token => expectedNativeAuditLink(token.attrGet('href'), article, selected));
     assert.deepEqual(links.map(node => node.target), expectedLinks, `All source links: ${article.id}`);
     const distribution = { same_article_fragment: 0, selected_article_fragment: 0, selected_article: 0, external: 0 };
     for (const { target } of links) {
@@ -277,7 +396,7 @@ async function audit() {
         assert.ok(headings.has(target.article_id), 'Selected destination article exists');
         if (target.heading_id) assert.ok(headings.get(target.article_id).has(target.heading_id), 'Destination fragment exists');
         kind = target.heading_id ? target.article_id === article.id ? 'same_article_fragment' : 'selected_article_fragment' : 'selected_article';
-      } else { assert.equal(new URL(target.url).protocol, 'https:'); kind = 'external'; }
+      } else { const url = new URL(target.url); assert.ok(url.protocol === 'https:' && !url.username && !url.password); kind = 'external'; }
       distribution[kind]++; coverage[kind]++;
     }
     let spokenMathCount = 0;
@@ -302,8 +421,8 @@ async function audit() {
       if (node.type === 'diagram') {
         const sourceKey = digest(`diagram\0true\0${node.source.trim()}`).slice(0, 24);
         assert.equal(asset.light, `assets/native/${sourceKey}-light.png`, 'Diagram assets are bound to the original diagram source');
-        if (selection.diagram_descriptions) {
-          const description = selection.diagram_descriptions[sourceKey];
+        if (published || selection.diagram_descriptions !== undefined) {
+          const description = descriptions?.[sourceKey];
           assert.ok(typeof description === 'string' && description.trim(), 'Source-bound diagram description exists');
           assert.ok(node.accessibility_text.startsWith(`${description}\n図中のラベル: `), 'Generated diagram reading text includes the current complete description');
           descriptionKeys.add(sourceKey);
@@ -329,20 +448,24 @@ async function audit() {
       math_reading_text_compared: spokenMathCount });
   }
   assert.deepEqual([...referencedPNGs].sort(), [...pngs.keys()].sort(), 'All PNGs are referenced by article content');
-  assert.deepEqual([...descriptionKeys].sort(), Object.keys(selection.diagram_descriptions || {}).sort(), 'No stale or unbound diagram descriptions');
-  const output = { surface: 'static/content-integrity', fixtures, native_ui_test: false, voiceover_test: false, result: issues.length ? 'failed' : 'passed', revision: manifest.revision,
+  assertNativeAuditDescriptions(descriptionKeys, descriptions);
+  const output = { surface: 'static/content-integrity', profile, fixtures, native_ui_test: false, voiceover_test: false, result: issues.length ? 'failed' : 'passed', revision: manifest.revision,
     checked_files: Object.keys(manifest.files).length, checked_pngs: pngs.size, unique_light_dark_pairs: pairs.size,
     source_bound_diagram_descriptions: descriptionKeys.size,
     pngs_with_ink_on_outermost_border: [...pngs].filter(([, value]) => value.ink_on_outer_border > 0).map(([file]) => file),
     articles: reports, source_link_coverage: coverage, issues,
     fixture_needed_for: Object.entries(coverage).filter(([kind, count]) => kind.includes('fragment') && !count).map(([kind]) => kind),
     limitations: ['Asset pixels and reading text are checked statically; native layout, zoom gestures, copy actions, navigation, and VoiceOver require separate UI/device checks.', 'Math reading text matches the generated MathML conversion; this does not establish natural pronunciation or complete mathematical semantics.'] };
-  console.log(JSON.stringify(output, null, 2));
-  if (issues.length) process.exitCode = 1;
+  return output;
 }
 
-try { await audit(); }
-catch (error) {
-  console.log(JSON.stringify({ surface: 'static/content-integrity', native_ui_test: false, voiceover_test: false, result: 'failed', error: error.message }, null, 2));
-  process.exitCode = 1;
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  try {
+    const output = await auditNativeContent(parseNativeAuditOptions(process.argv.slice(2)));
+    console.log(JSON.stringify(output, null, 2));
+    if (output.result === 'failed') process.exitCode = 1;
+  } catch (error) {
+    console.log(JSON.stringify({ surface: 'static/content-integrity', native_ui_test: false, voiceover_test: false, result: 'failed', error: error.message }, null, 2));
+    process.exitCode = 1;
+  }
 }

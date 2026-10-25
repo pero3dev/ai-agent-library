@@ -48,6 +48,13 @@ struct ArticleHeading: Codable, Hashable, Identifiable, Sendable {
     let level: Int
 }
 
+/// Navigation-only context. Search terms are not part of a saved reading record.
+struct ReaderRoute: Hashable, Sendable {
+    let articleID: String
+    var heading: String? = nil
+    var searchQuery: String? = nil
+}
+
 struct AudioEpisode: Codable, Hashable, Identifiable, Sendable {
     let id: String
     let title: String
@@ -112,8 +119,14 @@ enum LibrarySearch {
     }
 
     static func matches(_ article: LibraryArticle, query: String) -> Bool {
-        let terms = normalize(query).split(whereSeparator: { $0.isWhitespace })
+        let terms = normalizedTerms(query)
         let text = normalize([article.title, article.summary, article.category, article.search_text].joined(separator: " "))
         return terms.allSatisfy { text.contains($0) }
+    }
+
+    static func normalizedTerms(_ query: String) -> [String] {
+        var seen = Set<String>()
+        return normalize(query).split(whereSeparator: { $0.isWhitespace }).map(String.init)
+            .filter { seen.insert($0).inserted }
     }
 }

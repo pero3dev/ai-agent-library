@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "task": "ios-search-hit-navigation",
+  "date": "2026-10-25",
+  "timezone": "Asia/Tokyo",
+  "status": "implemented-SDK-compiled-awaiting-PR-and-physical-acceptance",
+  "TODO": "IOS-10",
+  "base_head": "3dc5cc6dedf98da880acbb098edb5b1bdbff3383",
+  "base_PR": "https://github.com/pero3dev/ai-agent-library/pull/241",
+  "branch": "codex/ios-search-hit-navigation",
+  "query_persisted": false,
+  "reading_schema_changed": false,
+  "validation": {
+    "core_smoke_normal": "passed",
+    "core_smoke_fixtures": "passed",
+    "independent_code_review": "approved",
+    "SDK_build_for_testing": "passed-compilation-only",
+    "compiled_XCTest_cases": 42,
+    "new_XCTest_cases": 9,
+    "XCTest_execution": "not-run",
+    "physical_acceptance": "not-run-user-allows-skip",
+    "npm_check": {
+      "tests": 559,
+      "passed": 544,
+      "skipped": 15,
+      "failed": 0
+    },
+    "candidate_structure": "passed"
+  },
+  "physical_acceptance": "not-run-user-allows-skip",
+  "version": "0.2.4",
+  "build": 6,
+  "limitations": [
+    "Table and code navigation stops at block boundary, not a matching cell/line.",
+    "Character-range highlighting is not implemented.",
+    "Reading persistence remains top-level container based; revision/intra-block precision is IOS-11."
+  ]
+}

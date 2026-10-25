@@ -6,6 +6,8 @@
 
 ## 構造・運用の計画
 
+検索結果からネイティブ本文の一致位置へ移動する作業は[0.2.4の実施記録](records/2026-10-25/ios-search-hit-navigation.md)で追跡する。正規化AND検索を維持し、入れ子の本文位置と保存用の位置を分けた。Foundation回帰とSDK compileを確認し、新たな実機受入はユーザー指定により未実施として残す。前提PRのmain反映待ちと、機能の検証を分けて進める。
+
 共通検査・サイト依存のhigh／critical対策は[限定依存修正の記録](records/2026-10-25/markdown-parser-security-update.md)で追跡する。パーサー・描画依存と必要な互換処理を更新し、通常CIとbase側の監査結果を分けて記録する。
 
 iOSのTODO自律実施と段階統合は[自律実施記録](records/2026-10-25/ios-autonomous-progress.md)で追跡する。

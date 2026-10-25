@@ -15,6 +15,7 @@ enum CoreSmoke {
         try FileManager.default.createDirectory(at: scratch, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: scratch) }
         try search()
+        try nativeSearch()
         try pathsAndHashes(scratch)
         try audioTimes(scratch)
         try linksAndInventory(scratch)
@@ -35,6 +36,18 @@ enum CoreSmoke {
                            "Test content fixture identity changed")
             }
             try expect(snapshot.manifest.audio.count == 1, "The prototype must contain one audio episode")
+            if let article = snapshot.article(id: "01-concepts/agent-loop") {
+                let document = try snapshot.document(for: article)
+                let hit = document.searchHit(query: "MAX_STEPS")
+                try expect(hit != nil && document.block(id: hit!.blockID)?.type == "code",
+                           "Generated code must resolve to its native block")
+            }
+            if let article = fixtures.first {
+                let document = try snapshot.document(for: article)
+                let hit = document.searchHit(query: "DUPLICATE-SECOND")
+                try expect(hit != nil && document.block(id: hit!.blockID)?.type == "paragraph"
+                    && hit?.headingID == "同じ見出し-1", "Generated duplicate-heading marker target changed")
+            }
             print("PASS generated content: \(snapshot.manifest.articles.count) articles, \(snapshot.manifest.audio.count) audio, \(snapshot.manifest.files.count) verified files")
         }
         print("Core smoke passed. iOS SDK, XCTest and device checks are separate.")
@@ -100,6 +113,65 @@ enum CoreSmoke {
         try expect(LibrarySearch.matches(article(), query: "エージェント tools"), "Multiple-term search failed")
         try expect(!LibrarySearch.matches(article(), query: "tools unknown"), "Every search term must match")
         print("PASS normalized Japanese/English search")
+    }
+
+    private static func nativeSearch() throws {
+        try expect(LibrarySearch.normalizedTerms(" ＡＰＩ\tAPI CAFÉ cafe\u{301} ") == ["api", "cafe"],
+                   "Normalized search terms must be distinct and keep their first order")
+        try expect(LibrarySearch.normalizedTerms(" \t\n　").isEmpty, "Empty normalized query produced a term")
+        try expect(ReaderRoute(articleID: "example").searchQuery == nil, "Normal routes must not carry a search request")
+        try expect(ReaderRoute(articleID: "example") != ReaderRoute(articleID: "example", searchQuery: "tools"),
+                   "A search launch must be separate from a normal reading route")
+        let text: (String) -> NativeInline = { NativeInline(type: "text", text: $0) }
+        let value = NativeDocument(schema_version: 1, article_id: "example", source_sha256: article().source_sha256, blocks: [
+            NativeBlock(id: "heading", type: "heading", heading_id: "intro", level: 2, inlines: [text("第一章")]),
+            NativeBlock(id: "partial", type: "paragraph", inlines: [text("alpha alpha alpha")]),
+            NativeBlock(id: "styled", type: "paragraph", inlines: [text("ＡＩ soft"),
+                NativeInline(type: "strong", children: [text("max")]),
+                NativeInline(type: "emphasis", children: [text(" えーじぇんと ")]), NativeInline(type: "code", text: "cafe\u{301}"),
+                NativeInline(type: "link", children: [text(" LinkLabel")],
+                    target: NativeLink(kind: "external", url: "https://example.com/only-url-secret"))]),
+            NativeBlock(id: "breaks", type: "paragraph", inlines: [text("before"), NativeInline(type: "soft_break"),
+                text("after"), NativeInline(type: "hard_break"), text("next")]),
+            NativeBlock(id: "list-container", type: "list", ordered: true, start: 8, items: [
+                NativeListItem(id: "parent-item", blocks: [
+                    NativeBlock(id: "parent-text", type: "paragraph", inlines: [text("Parentword")]),
+                    NativeBlock(id: "nested-quote", type: "quote", blocks: [
+                        NativeBlock(id: "nested-hit", type: "paragraph", inlines: [text("Needle Agent")])])])]),
+            NativeBlock(id: "details", type: "heading", heading_id: "details", level: 2, inlines: [text("詳細節")]),
+            NativeBlock(id: "quote-container", type: "quote", blocks: [
+                NativeBlock(id: "quote-hit", type: "paragraph", inlines: [text("Quote distinct")])]),
+            NativeBlock(id: "code-hit", type: "code", language: "python", text: "  MAX_STEPS = 20\n\tprint('done')"),
+            NativeBlock(id: "table-hit", type: "table", table: NativeTable(header: [[text("Left")], [text("Right")]],
+                rows: [[[text("CellValue")], [NativeInline(type: "math", asset: image, source: "x^{2}", accessibility_text: "分数の見本")]]],
+                alignments: ["left", "right"])),
+            NativeBlock(id: "diagram-hit", type: "diagram", asset: image, source: "graph TD; A-->FLOW_TARGET", accessibility_text: "図の流れ"),
+            NativeBlock(id: "math-hit", type: "math", asset: image, source: "\\frac{QK^{\\top}}{\\sqrt{d_k}}", accessibility_text: "クエリの二乗"),
+            NativeBlock(id: "all-terms", type: "paragraph", inlines: [text("alpha beta")])])
+        try expect(value.searchHit(query: "alpha alpha beta")?.blockID == "all-terms", "A full-term leaf must beat repeated partial matches")
+        for query in ["softmax", "ＡＩ ｴｰｼﾞｪﾝﾄ", "cafe", "LinkLabel"] {
+            try expect(value.searchHit(query: query)?.blockID == "styled", "Styled text was not searched: " + query)
+        }
+        try expect(value.searchHit(query: "Parentword Needle Agent") == NativeSearchHit(blockID: "nested-hit", containerBlockID: "list-container", headingID: "intro"),
+                   "Nested hit must retain its leaf, parent container and heading")
+        try expect(value.searchHit(query: "Quote distinct") == NativeSearchHit(blockID: "quote-hit", containerBlockID: "quote-container", headingID: "details"),
+                   "Quoted hit lost its native position")
+        for (query, block) in [("MAX_STEPS", "code-hit"), ("Left 分数", "table-hit"), ("x^{2}", "table-hit"),
+                               ("FLOW_TARGET", "diagram-hit"), ("図の流れ", "diagram-hit"), ("d_k", "math-hit"),
+                               ("クエリ", "math-hit"), ("before after next", "breaks"), ("詳細節", "details")] {
+            try expect(value.searchHit(query: query)?.blockID == block, "Structured text target failed: " + query)
+        }
+        for query in ["", " \t\n　", "beforeafter", "LeftRight", "only-url-secret", "基礎", "absent"] {
+            try expect(value.searchHit(query: query) == nil, "Unexpected body hit: " + query)
+        }
+        try expect(LibrarySearch.matches(article(), query: "基礎"), "Metadata-only article matching changed")
+        let spread = NativeDocument(schema_version: 1, article_id: "example", source_sha256: article().source_sha256,
+            blocks: [NativeBlock(id: "first", type: "paragraph", inlines: [text("alpha alpha alpha")]),
+                     NativeBlock(id: "second", type: "paragraph", inlines: [text("beta")])])
+        try expect(spread.searchHit(query: "alpha beta")?.blockID == "first", "Distributed-term ties must retain document order")
+        let empty = NativeDocument(schema_version: 1, article_id: "example", source_sha256: article().source_sha256, blocks: [])
+        try expect(empty.searchHit(query: "anything") == nil, "An empty document produced a target")
+        print("PASS native search ranking, styles, structured text, nested targets and route defaults")
     }
 
     private static func pathsAndHashes(_ scratch: URL) throws {

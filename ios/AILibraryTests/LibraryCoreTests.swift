@@ -1,4 +1,5 @@
 import AVFoundation
+import Combine
 import CryptoKit
 import Foundation
 import XCTest
@@ -93,6 +94,353 @@ final class LibraryCoreTests: XCTestCase {
         files[path] = SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
         try JSONEncoder().encode(ContentManifest(schema_version: manifest.schema_version, revision: manifest.revision,
             articles: manifest.articles, audio: manifest.audio, files: files)).write(to: root.appendingPathComponent("manifest.json"))
+    }
+
+    private let roadmapID = "00-overview/learning-roadmap"
+    private let secondLearningID = "00-overview/second"
+
+    private func learningPackage(_ name: String, revision: String = "learning-v1", validIndex: Bool = true,
+                                 order: [String]? = nil) throws -> URL {
+        let root = try fixture(name, revision: revision)
+        try FileManager.default.removeItem(at: root.appendingPathComponent("articles/example.json"))
+        var files = ["assets/pixel.png": SHA256.hash(data: pixel).map { String(format: "%02x", $0) }.joined()]
+        var articles: [LibraryArticle] = []
+        let digest = article().source_sha256
+        for (index, id) in [secondLearningID, roadmapID].enumerated() {
+            let path = "articles/learning-\(index).json"
+            let document = NativeDocument(schema_version: 1, article_id: id, source_sha256: digest, blocks: self.document().blocks)
+            let data = try JSONEncoder().encode(document)
+            try data.write(to: root.appendingPathComponent(path))
+            files[path] = SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+            articles.append(LibraryArticle(id: id, title: "学習 \(index)", summary: "学習記事", category: "概要", level: "beginner",
+                last_updated: "2026-10-25", source_path: "docs/\(id).md", source_sha256: digest, document_path: path,
+                search_text: "Tools API", headings: [ArticleHeading(id: "intro", title: "導入", level: 2)], audio_id: nil))
+        }
+        let target: [String: Any] = ["type": "article", "article_id": roadmapID, "heading_id": "intro"]
+        let payload: [String: Any] = ["schema_version": validIndex ? 1 : 2,
+            "source_sha256": ["docs/\(roadmapID).md": digest, "docs/\(secondLearningID).md": digest,
+                              "docs/00-overview/README.md": digest, "GLOSSARY.md": digest],
+            "article_tags": [roadmapID: ["roadmap", "shared"], secondLearningID: ["second", "shared"]],
+            "chapters": [["id": "00-overview", "title": "概要", "description": "学習する", "article_ids": order ?? [roadmapID, secondLearningID]]],
+            "routes": Array("ABCDEFGH").map { ["id": String($0), "label": "学ぶ", "persona": "読者",
+                                               "steps": [["inlines": [["type": "link", "text": "本文", "target": target]]]]] },
+            "glossary": [["id": "agent", "name": "エージェント", "english": NSNull(), "summary": "説明",
+                           "links": [["label": "本文", "target": target]]]]]
+        let data = try JSONSerialization.data(withJSONObject: payload, options: [.sortedKeys])
+        try FileManager.default.createDirectory(at: root.appendingPathComponent("assets/learning"), withIntermediateDirectories: true)
+        try data.write(to: root.appendingPathComponent(NativeLearningIndex.path))
+        files[NativeLearningIndex.path] = SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+        try JSONEncoder().encode(ContentManifest(schema_version: 2, revision: revision, articles: articles, audio: [], files: files))
+            .write(to: root.appendingPathComponent("manifest.json"))
+        return root
+    }
+
+    private final class DelayedLearningLoader {
+        let started = XCTestExpectation(description: "Older snapshot read started")
+        let release = DispatchSemaphore(value: 0)
+        private let lock = NSLock()
+        private var calls = 0
+        private let first: Result<ContentSnapshot, Error>
+        private let next: Result<ContentSnapshot, Error>
+
+        init(first: Result<ContentSnapshot, Error>, next: ContentSnapshot) { self.first = first; self.next = .success(next) }
+        init(first: Result<ContentSnapshot, Error>, next: Result<ContentSnapshot, Error>) { self.first = first; self.next = next }
+        func load() throws -> ContentSnapshot {
+            lock.lock(); let number = calls; calls += 1; lock.unlock()
+            if number == 0 {
+                started.fulfill()
+                guard release.wait(timeout: .now() + 10) == .success else { throw ContentError.invalid("Test snapshot read timed out") }
+                return try first.get()
+            }
+            return try next.get()
+        }
+    }
+
+    func testLearningTagFilterCombinesAllConditionsWithinItsArticleScope() {
+        let articles = [article(id: "other-tag", category: "concepts", level: "basic"),
+                        article(id: "match", category: "concepts", level: "basic"),
+                        article(id: "other-category", category: "foundations", level: "basic"),
+                        article(id: "other-level", category: "concepts", level: "advanced"),
+                        article(id: "other-query", category: "concepts", level: "basic", searchText: "別の本文"),
+                        article(id: "no-bookmark", category: "concepts", level: "basic")]
+        let tags = Dictionary(uniqueKeysWithValues: articles.map { ($0.id, $0.id == "other-tag" ? ["different"] : ["agent"]) })
+            .merging(["test-only": ["hidden"]]) { first, _ in first }
+        let bookmarks = Set(articles.map(\.id)).subtracting(["no-bookmark"])
+        var filter = LibraryArticleFilter(query: "tools API", category: "concepts", level: "basic", bookmarksOnly: true, tag: "agent")
+        XCTAssertEqual(filter.articles(in: articles, bookmarks: bookmarks, articleTags: tags).map(\.id), ["match"])
+        filter.tag = nil
+        XCTAssertEqual(filter.articles(in: articles, bookmarks: bookmarks, articleTags: tags).map(\.id), ["other-tag", "match"])
+        XCTAssertEqual(filter.articles(in: articles, bookmarks: bookmarks).map(\.id), ["other-tag", "match"])
+        filter.tag = "missing"
+        XCTAssertTrue(filter.articles(in: articles, bookmarks: bookmarks, articleTags: tags).isEmpty)
+        filter.reset()
+        XCTAssertNil(filter.tag)
+        XCTAssertFalse(filter.isActive)
+        XCTAssertEqual(LibraryArticleFilter.tags(in: articles, articleTags: tags), ["agent", "different"])
+        XCTAssertEqual(LibraryArticleFilter.tags(in: [], articleTags: tags), [])
+    }
+
+    func testLearningArticleOrderKeepsUnknownDuplicateAndUnlistedIDsSafe() {
+        let articles = [article(id: "b"), article(id: "a"), article(id: "c"), article(id: "a")]
+        XCTAssertEqual(LibraryArticleOrder.ordered(articles, articleIDs: []).map(\.id), ["b", "a", "c", "a"])
+        XCTAssertEqual(LibraryArticleOrder.ordered(articles, articleIDs: ["unknown", "c", "c", "a", "test-only"]).map(\.id), ["c", "a", "a", "b"])
+        XCTAssertEqual(LibraryArticleOrder.ordered(articles, articleIDs: ["unknown"]).map(\.id), articles.map(\.id))
+    }
+
+    @MainActor
+    func testStoreLoadsOptionalLearningIndexWithoutChangingLegacyArticleScope() async throws {
+        let suite = "ailibrary-learning-legacy-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let reading = ReadingStore(defaults: defaults)
+        for (name, root, testing) in [("normal", try fixture("learning-old-normal"), false),
+                                      ("fixture", try readerTestPackage("learning-old-fixture"), true)] {
+            let store = LibraryStore(reading: reading, bundledRoot: root, isTestLibrary: testing,
+                                     storageRoot: directory.appendingPathComponent("learning-unused-" + name))
+            await store.load()
+            XCTAssertNotNil(store.snapshot)
+            XCTAssertNil(store.learningIndex)
+            XCTAssertNil(store.learningError)
+            XCTAssertNil(store.loadError)
+            XCTAssertEqual(store.orderedListedArticles.map(\.id), store.listedArticles.map(\.id))
+            XCTAssertTrue(store.listedArticles.allSatisfy { $0.isTestFixture == testing })
+        }
+    }
+
+    @MainActor
+    func testStoreLearningIndexOrdersArticlesAndInvalidMetadataCanRetry() async throws {
+        let root = try learningPackage("learning-invalid", validIndex: false)
+        let suite = "ailibrary-learning-retry-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark(roadmapID)
+        reading.record(articleID: roadmapID, heading: "intro", fraction: 0.5, blockID: "paragraph")
+        let records = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+        let store = LibraryStore(reading: reading, bundledRoot: root, storageRoot: directory.appendingPathComponent("learning-retry-unused"))
+        await store.load()
+        let loaded = try XCTUnwrap(store.snapshot)
+        XCTAssertNotNil(try loaded.document(for: loaded.manifest.articles[0]))
+        XCTAssertNil(store.learningIndex)
+        XCTAssertNotNil(store.learningError)
+        XCTAssertNil(store.loadError)
+        XCTAssertEqual(store.orderedListedArticles.map(\.id), [secondLearningID, roadmapID])
+        XCTAssertEqual(store.bookmarks, [roadmapID])
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), records)
+
+        var payload = try JSONSerialization.jsonObject(with: Data(contentsOf: root.appendingPathComponent(NativeLearningIndex.path))) as! [String: Any]
+        payload["schema_version"] = 1
+        try replaceFile(root, path: NativeLearningIndex.path, data: JSONSerialization.data(withJSONObject: payload))
+        await store.retryLoad()
+        XCTAssertNotNil(store.learningIndex)
+        XCTAssertNil(store.learningError)
+        XCTAssertEqual(store.orderedListedArticles.map(\.id), [roadmapID, secondLearningID])
+        XCTAssertEqual(LibraryArticleFilter(tag: "roadmap").articles(in: store.orderedListedArticles, bookmarks: store.bookmarks,
+            articleTags: try XCTUnwrap(store.learningIndex).article_tags).map(\.id), [roadmapID])
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), records)
+    }
+
+    @MainActor
+    func testStoreLearningImportRecoveryAndCoreFailureKeepTheLastBundleAndRecords() async throws {
+        let valid = try learningPackage("learning-import-valid", revision: "accepted")
+        let invalid = try learningPackage("learning-import-invalid", revision: "bad-index", validIndex: false)
+        let suite = "ailibrary-learning-import-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark(roadmapID)
+        reading.record(articleID: roadmapID, heading: "intro", fraction: 0.5, blockID: "paragraph")
+        let records = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+        let storage = directory.appendingPathComponent("learning-import-storage")
+        let store = LibraryStore(reading: reading, bundledRoot: directory.appendingPathComponent("missing-learning-bundle"), storageRoot: storage)
+        await store.load()
+        XCTAssertNil(store.snapshot)
+        XCTAssertNotNil(store.loadError)
+        await store.install(from: invalid)
+        XCTAssertEqual(store.snapshot?.manifest.revision, "bad-index")
+        XCTAssertNil(store.learningIndex)
+        XCTAssertNotNil(store.learningError)
+        XCTAssertNil(store.loadError)
+        await store.install(from: valid)
+        let accepted = try XCTUnwrap(store.snapshot)
+        let tags = try XCTUnwrap(store.learningIndex).article_tags
+        XCTAssertEqual(accepted.manifest.revision, "accepted")
+        XCTAssertNil(store.learningError)
+        let pointer = try Data(contentsOf: storage.appendingPathComponent("current.json"))
+        let broken = try learningPackage("learning-import-broken")
+        try Data("broken".utf8).write(to: broken.appendingPathComponent("articles/learning-0.json"))
+        await store.install(from: broken)
+        XCTAssertEqual(store.snapshot?.root, accepted.root)
+        XCTAssertEqual(store.learningIndex?.article_tags, tags)
+        XCTAssertNil(store.learningError)
+        XCTAssertEqual(try Data(contentsOf: storage.appendingPathComponent("current.json")), pointer)
+        XCTAssertNotNil(try accepted.document(for: accepted.manifest.articles[0]))
+        XCTAssertEqual(store.bookmarks, [roadmapID])
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), records)
+    }
+
+    @MainActor
+    func testStoreDiscardsOlderSnapshotMetadataAndErrorsAfterANewerRetry() async throws {
+        let old = try ContentValidator.validate(root: learningPackage("learning-old-result", revision: "old", validIndex: false))
+        let newest = try ContentValidator.validate(root: learningPackage("learning-new-result", revision: "new"))
+        let suite = "ailibrary-learning-generation-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark(roadmapID)
+        let records = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+        let outcomes: [Result<ContentSnapshot, Error>] = [.success(old), .failure(ContentError.invalid("Older read failed"))]
+        for (index, outcome) in outcomes.enumerated() {
+            let delayed = DelayedLearningLoader(first: outcome, next: newest)
+            let store = LibraryStore(reading: reading, bundledRoot: newest.root,
+                storageRoot: directory.appendingPathComponent("learning-generation-\(index)"), snapshotLoader: delayed.load)
+            let olderTask = Task { await store.load() }
+            await fulfillment(of: [delayed.started], timeout: 5)
+            await store.retryLoad()
+            XCTAssertEqual(store.snapshot?.manifest.revision, "new")
+            XCTAssertNotNil(store.learningIndex)
+            XCTAssertNil(store.learningError)
+            delayed.release.signal()
+            await olderTask.value
+            XCTAssertEqual(store.snapshot?.manifest.revision, "new")
+            XCTAssertNotNil(store.learningIndex)
+            XCTAssertNil(store.learningError)
+            XCTAssertNil(store.loadError)
+            XCTAssertFalse(store.isLoading)
+            XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), records)
+        }
+    }
+
+    @MainActor
+    func testStoreFailedRetryPreservesTheLastLearningBundleAndRecords() async throws {
+        let loaded = try ContentValidator.validate(root: learningPackage("learning-retry-last-good"))
+        let delayed = DelayedLearningLoader(first: .success(loaded), next: .failure(ContentError.invalid("Retry failed")))
+        delayed.release.signal()
+        let suite = "ailibrary-learning-retained-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark(roadmapID)
+        let records = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+        let store = LibraryStore(reading: reading, bundledRoot: loaded.root,
+            storageRoot: directory.appendingPathComponent("learning-retry-retained"), snapshotLoader: delayed.load)
+        await store.load()
+        let tags = try XCTUnwrap(store.learningIndex).article_tags
+        await store.retryLoad()
+        XCTAssertEqual(store.snapshot?.root, loaded.root)
+        XCTAssertEqual(store.learningIndex?.article_tags, tags)
+        XCTAssertNil(store.learningError)
+        XCTAssertNotNil(store.loadError)
+        XCTAssertFalse(store.isLoading)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), records)
+    }
+
+    @MainActor
+    func testStorePublishesSnapshotAndLearningMetadataAsOneBundle() async throws {
+        let valid = try learningPackage("learning-publication-valid", revision: "good-index")
+        let invalid = try learningPackage("learning-publication-invalid", revision: "bad-index", validIndex: false)
+        let suite = "ailibrary-learning-publication-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let store = LibraryStore(reading: ReadingStore(defaults: defaults), bundledRoot: valid,
+                                 storageRoot: directory.appendingPathComponent("learning-publication-storage"))
+        var observedInvalidBundle = false
+        let subscription = store.objectWillChange.sink {
+            switch store.snapshot?.manifest.revision {
+            case "good-index":
+                XCTAssertNotNil(store.learningIndex)
+                XCTAssertNil(store.learningError)
+            case "bad-index":
+                observedInvalidBundle = true
+                XCTAssertNil(store.learningIndex)
+                XCTAssertNotNil(store.learningError)
+            default:
+                XCTAssertNil(store.snapshot)
+                XCTAssertNil(store.learningIndex)
+                XCTAssertNil(store.learningError)
+            }
+        }
+        await store.load()
+        await store.install(from: invalid)
+        XCTAssertTrue(observedInvalidBundle)
+        withExtendedLifetime(subscription) {}
+    }
+
+    @MainActor
+    func testStoreCancelledBeforeImportDoesNotCommitOrChangeItsLearningBundle() async throws {
+        let original = try learningPackage("learning-cancel-before-original", revision: "original")
+        let incoming = try learningPackage("learning-cancel-before-incoming", revision: "incoming", order: [secondLearningID, roadmapID])
+        let suite = "ailibrary-learning-cancel-before-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark(roadmapID)
+        let records = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+        let storage = directory.appendingPathComponent("learning-cancel-before-storage")
+        let store = LibraryStore(reading: reading, bundledRoot: original, storageRoot: storage)
+        await store.load()
+        let task = Task { @MainActor in
+            withUnsafeCurrentTask { $0?.cancel() }
+            await store.install(from: incoming)
+        }
+        await task.value
+        XCTAssertFalse(Task.isCancelled, "Cancelling the importing child must not cancel its parent test")
+        let persisted = try ContentRepository(bundledRoot: original, storageRoot: storage).load()
+        let index = try XCTUnwrap(NativeLearningIndex.load(from: persisted))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: storage.appendingPathComponent("current.json").path))
+        XCTAssertEqual(store.snapshot?.root, persisted.root)
+        XCTAssertEqual(store.snapshot?.manifest.revision, "original")
+        XCTAssertEqual(store.orderedListedArticles.map(\.id), index.chapters.flatMap(\.article_ids))
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), records)
+        XCTAssertFalse(store.isLoading)
+    }
+
+    @MainActor
+    func testStoreCancellationAfterImportStartsStillPublishesTheCommittedLearningBundle() async throws {
+        let original = try learningPackage("learning-cancel-running-original", revision: "original")
+        let incoming = try learningPackage("learning-cancel-running-incoming", revision: "incoming", order: [secondLearningID, roadmapID])
+        let suite = "ailibrary-learning-cancel-running-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark(roadmapID)
+        let records = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+        let storage = directory.appendingPathComponent("learning-cancel-running-storage")
+        let store = LibraryStore(reading: reading, bundledRoot: original, storageRoot: storage)
+        await store.load()
+        var cancelNextPublication = true
+        var cancelledDuringImport = false
+        var cancellationCount = 0
+        let subscription = store.objectWillChange.sink {
+            guard cancelNextPublication else { return }
+            cancelNextPublication = false
+            cancellationCount += 1
+            // Synchronous publication runs inside the importing task after its
+            // entry guard, before the detached repository commit. No timing poll
+            // or production test hook is needed to cancel that exact task.
+            withUnsafeCurrentTask { current in
+                current?.cancel()
+                cancelledDuringImport = current?.isCancelled == true
+            }
+        }
+        let task = Task { @MainActor in await store.install(from: incoming) }
+        await task.value
+        subscription.cancel()
+        XCTAssertFalse(Task.isCancelled, "The synchronous subscriber must only cancel the importing child")
+        XCTAssertEqual(cancellationCount, 1)
+        XCTAssertTrue(cancelledDuringImport)
+        XCTAssertTrue(FileManager.default.fileExists(atPath: storage.appendingPathComponent("current.json").path))
+        let persisted = try ContentRepository(bundledRoot: original, storageRoot: storage).load()
+        let index = try XCTUnwrap(NativeLearningIndex.load(from: persisted))
+        XCTAssertEqual(persisted.manifest.revision, "incoming")
+        XCTAssertEqual(store.snapshot?.root, persisted.root)
+        XCTAssertEqual(store.snapshot?.manifest.revision, persisted.manifest.revision)
+        XCTAssertEqual(store.learningIndex?.article_tags, index.article_tags)
+        XCTAssertEqual(store.orderedListedArticles.map(\.id), index.chapters.flatMap(\.article_ids))
+        XCTAssertEqual(store.bookmarks, [roadmapID])
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), records)
+        XCTAssertNil(store.learningError)
+        XCTAssertFalse(store.isLoading)
     }
 
     func testSearchNormalizesWidthCaseKanaAndMultipleTerms() {

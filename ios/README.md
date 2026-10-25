@@ -145,6 +145,8 @@ bash ios/tests/check-package.sh ios/AILibrary/Content 199
 
 学習案内の[Swift検証モデル](AILibrary/Sources/LearningIndex.swift)も追加し、任意資産の不在、破損・不適合・参照不整合を区別できるようにしています。Store・学習UIへの接続は後続です。[consumerの実施記録](../project/records/2026-10-25/ios-learning-index-consumer.md)で、Mac直接XCTest・SDK compileと未実施のHosted・UI受入を分けます。
 
+0.2.9（11）では、学習案内付きコンテンツの「学習ガイド」から章・ルート・用語集へ進めます。タグ検索と他条件のAND、章README順、用語から関連本文、記事内の正規用語集リンクをnative画面へ接続しました。索引なしの従来3/4記事は以前の表示を維持します。[学習UIの記録](../project/records/2026-10-25/ios-native-learning-ui.md)で、SDK compileと未実施のHosted画面・実機受入を区別しています。
+
 ## 全記事候補のHosted UI検査
 
 [全記事候補workflow](../.github/workflows/ios-published-candidate.yml)は、独立したrunnerで全publishedを通常Contentへ生成し、原文・実consumer・Debug実アプリ・全UI・Releaseを検査します。通常の3記事jobとローカルの`ios:test:reader`は既存の`NativeReaderUITests`だけを実行します。

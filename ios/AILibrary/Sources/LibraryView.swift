@@ -7,14 +7,27 @@ struct LibraryView: View {
     @State private var importPresented = false
     @State private var aboutPresented = false
     @State private var path: [ReaderRoute] = []
+    @State private var selectedChapterID: String?
+    @State private var tagPresented = false
+    @State private var learningPresented: NativeLearningPresentation?
+    @State private var pendingLearningDestination: NativeLearningDestination?
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.openURL) private var openURL
     #if DEBUG
     @State private var readerTestPresented = false
     #endif
 
     private var articles: [LibraryArticle] {
-        filter.articles(in: store.listedArticles, bookmarks: store.bookmarks)
+        let ordered = store.orderedListedArticles
+        let scoped: [LibraryArticle]
+        if let selectedChapterID {
+            let ids = Set(store.learningIndex?.chapters.first(where: { $0.id == selectedChapterID })?.article_ids ?? [])
+            scoped = ordered.filter { ids.contains($0.id) }
+        } else { scoped = ordered }
+        return filter.articles(in: scoped, bookmarks: store.bookmarks, articleTags: store.learningIndex?.article_tags ?? [:])
     }
+
+    private var isFiltering: Bool { filter.isActive || selectedChapterID != nil }
 
     private var searchQuery: String? {
         LibrarySearch.normalizedTerms(filter.query).isEmpty ? nil : filter.query
@@ -22,20 +35,35 @@ struct LibraryView: View {
 
     private var filterSummary: String {
         var conditions: [String] = []
+        if let selectedChapterID {
+            let chapter = store.learningIndex?.chapters.first(where: { $0.id == selectedChapterID })
+            conditions.append("章: " + (chapter.map(NativeLearningNavigation.chapterTitle) ?? "選択した章"))
+        }
         if let category = filter.category { conditions.append("章: \(category)") }
         if let level = filter.level { conditions.append("難易度: \(level)") }
+        if let tag = filter.tag { conditions.append("タグ: \(tag)") }
         if filter.bookmarksOnly { conditions.append("しおり") }
         if searchQuery != nil { conditions.append("検索: \(filter.query)") }
         return conditions.joined(separator: "、")
     }
 
-    private func clearFilters() { filter.reset() }
+    private func clearFilters() { filter.reset(); selectedChapterID = nil }
 
     @ViewBuilder private var filterMenu: some View {
-        Picker("章", selection: $filter.category) {
-            Text("すべての章").tag(String?.none)
-            ForEach(LibraryArticleFilter.categories(in: store.listedArticles), id: \.self) { category in
-                Text(category).tag(Optional(category))
+        if let index = store.learningIndex {
+            Picker("章", selection: $selectedChapterID) {
+                Text("すべての章").tag(String?.none)
+                ForEach(index.chapters) { chapter in
+                    Text(NativeLearningNavigation.chapterTitle(chapter)).tag(Optional(chapter.id))
+                }
+            }
+            Button("タグを選ぶ") { tagPresented = true }
+        } else {
+            Picker("章", selection: $filter.category) {
+                Text("すべての章").tag(String?.none)
+                ForEach(LibraryArticleFilter.categories(in: store.listedArticles), id: \.self) { category in
+                    Text(category).tag(Optional(category))
+                }
             }
         }
         Picker("難易度", selection: $filter.level) {
@@ -44,7 +72,7 @@ struct LibraryView: View {
                 Text(level).tag(Optional(level))
             }
         }
-        if filter.isActive {
+        if isFiltering {
             Button("絞り込みをすべて解除", systemImage: "line.3.horizontal.decrease.circle") { clearFilters() }
         }
     }
@@ -52,13 +80,32 @@ struct LibraryView: View {
     var body: some View {
         NavigationStack(path: $path) {
             List {
-                if filter.isActive {
-                    Section("絞り込み中") {
-                        Text(filterSummary).font(.subheadline)
-                        Button("絞り込みをすべて解除") { clearFilters() }
+                if store.learningIndex != nil {
+                    Section {
+                        Button { learningPresented = .guide } label: { Label("学習ガイド", systemImage: "map") }
+                            .accessibilityIdentifier("library-learning-guide")
+                        Button { tagPresented = true } label: {
+                            Label(filter.tag.map { "タグ: " + $0 } ?? "タグで絞り込む", systemImage: "tag")
+                        }
+                        .accessibilityIdentifier("library-tag-filter")
+                        .accessibilityValue(filter.tag ?? "すべてのタグ")
+                    }
+                } else if store.learningError != nil {
+                    Section("学習ガイドを読み込めません") {
+                        Text("学習ルートと用語集の情報を確認できませんでした。").font(.callout)
+                        Text("記事本文は引き続き読めます。").font(.callout).foregroundStyle(.secondary)
+                        Button("学習ガイドを再試行") { Task { await store.retryLoad() } }
                     }
                 }
-                if let last = store.listedArticles.first(where: { $0.id == store.lastArticleID }), !filter.isActive {
+                if isFiltering {
+                    Section("絞り込み中") {
+                        Text(filterSummary).font(.subheadline)
+                            .accessibilityIdentifier("library-filter-summary")
+                        Button("絞り込みをすべて解除") { clearFilters() }
+                            .accessibilityIdentifier("library-clear-filters")
+                    }
+                }
+                if let last = store.listedArticles.first(where: { $0.id == store.lastArticleID }), !isFiltering {
                     Section {
                         NavigationLink(value: ReaderRoute(articleID: last.id)) {
                             Label {
@@ -116,7 +163,7 @@ struct LibraryView: View {
                         } description: {
                             Text(error)
                         } actions: {
-                            Button("再試行") { Task { await store.load() } }
+                            Button("再試行") { Task { await store.retryLoad() } }
                         }
                     } else {
                         ProgressView("コンテンツを確認中")
@@ -126,9 +173,12 @@ struct LibraryView: View {
                     ContentUnavailableView {
                         Label("記事が見つかりません", systemImage: filter.bookmarksOnly ? "bookmark" : "magnifyingglass")
                     } description: {
-                        if filter.isActive { Text("章・難易度・検索・しおりの条件を変えてお試しください。") }
+                        if isFiltering { Text("章・難易度・検索・しおり・タグの条件を変えてお試しください。") }
                     } actions: {
-                        if filter.isActive { Button("絞り込みをすべて解除") { clearFilters() } }
+                        if isFiltering {
+                            Button("絞り込みをすべて解除") { clearFilters() }
+                                .accessibilityIdentifier("library-clear-empty-filters")
+                        }
                     }
                 }
             }
@@ -143,7 +193,7 @@ struct LibraryView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu { filterMenu } label: {
-                        Image(systemName: filter.category != nil || filter.level != nil ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
+                        Image(systemName: selectedChapterID != nil || filter.category != nil || filter.level != nil || filter.tag != nil ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
                     }
                     .accessibilityLabel("記事の絞り込み")
                     .accessibilityValue(filterSummary.isEmpty ? "すべての記事" : filterSummary)
@@ -174,7 +224,8 @@ struct LibraryView: View {
             .navigationDestination(for: ReaderRoute.self) { route in
                 if let snapshot = store.snapshot, let article = snapshot.article(id: route.articleID) {
                     ArticleReaderView(store: store, snapshot: snapshot, article: article,
-                                      initialHeading: route.heading, initialSearchQuery: route.searchQuery) { next in path.append(next) }
+                                      initialHeading: route.heading, initialSearchQuery: route.searchQuery,
+                                      navigate: { next in path.append(next) }, openLearningChapter: showChapter)
                 } else {
                     ContentUnavailableView {
                         Label("記事を利用できません", systemImage: "doc.text")
@@ -188,6 +239,19 @@ struct LibraryView: View {
             }
         }
         .task { await store.load() }
+        .onChange(of: store.learningIndex == nil) { _, absent in
+            if absent { selectedChapterID = nil; filter.tag = nil }
+            else { filter.category = nil }
+        }
+        .sheet(isPresented: $tagPresented) {
+            NativeTagPicker(tags: LibraryArticleFilter.tags(in: store.listedArticles,
+                            articleTags: store.learningIndex?.article_tags ?? [:]), selection: $filter.tag)
+        }
+        .sheet(item: $learningPresented, onDismiss: dispatchLearningSelection) { presentation in
+            if let index = store.learningIndex {
+                NativeLearningSheet(index: index, presentation: presentation, select: selectLearningDestination)
+            }
+        }
         .sheet(isPresented: $aboutPresented) { LibraryAboutView(snapshot: store.snapshot) }
         #if DEBUG
         .sheet(isPresented: $readerTestPresented) { ReaderTestLibrarySheet() }
@@ -201,6 +265,29 @@ struct LibraryView: View {
         .alert("コンテンツ", isPresented: Binding(get: { store.message != nil }, set: { if !$0 { store.message = nil } })) {
             Button("閉じる", role: .cancel) { store.message = nil }
         } message: { Text(store.message ?? "") }
+    }
+
+    private func showChapter(_ id: String) {
+        guard store.learningIndex?.chapters.contains(where: { $0.id == id }) == true else { return }
+        clearFilters()
+        selectedChapterID = id
+        path.removeAll()
+    }
+
+    private func selectLearningDestination(_ destination: NativeLearningDestination) {
+        if case .external(let url) = destination { openURL(url); return }
+        pendingLearningDestination = destination
+        learningPresented = nil
+    }
+
+    private func dispatchLearningSelection() {
+        guard let destination = pendingLearningDestination else { return }
+        pendingLearningDestination = nil
+        switch destination {
+        case .article(let route): path.append(route)
+        case .chapter(let id): showChapter(id)
+        case .external: break
+        }
     }
 }
 

@@ -7,6 +7,7 @@ struct ArticleReaderView: View {
     let initialHeading: String?
     var initialSearchQuery: String? = nil
     let navigate: (ReaderRoute) -> Void
+    var openLearningChapter: (String) -> Void = { _ in }
     @State private var document: NativeDocument?
     @State private var savedPosition = ReadingPosition(heading: nil, fraction: 0)
     @State private var searchHit: NativeSearchHit?
@@ -18,6 +19,9 @@ struct ArticleReaderView: View {
     @State private var headingRequestID = UUID()
     @State private var contentsPresented = false
     @State private var episode: AudioEpisode?
+    @State private var learningPresented: NativeLearningPresentation?
+    @State private var pendingLearningDestination: NativeLearningDestination?
+    @Environment(\.openURL) private var openURL
 
     var body: some View {
         readerContent
@@ -33,6 +37,11 @@ struct ArticleReaderView: View {
                 headingRequestID = UUID()
             }) { contentsSheet }
             .sheet(item: $episode) { selected in audioSheet(selected) }
+            .sheet(item: $learningPresented, onDismiss: dispatchLearningSelection) { presentation in
+                if let index = store.learningIndex {
+                    NativeLearningSheet(index: index, presentation: presentation, select: selectLearningDestination)
+                }
+            }
     }
 
     private var contentID: String { article.id + ":" + snapshot.manifest.revision }
@@ -74,7 +83,8 @@ struct ArticleReaderView: View {
                                 position: savedPosition, initialHeading: initialHeading,
                                 requestedHeading: requestedHeading, headingRequestID: headingRequestID,
                                 onPosition: recordPosition, navigate: navigate,
-                                initialSearchHit: searchHit, searchStartsAtBeginning: activeSearchQuery != nil)
+                                initialSearchHit: searchHit, searchStartsAtBeginning: activeSearchQuery != nil,
+                                openGlossary: openGlossary)
             .id(readerID)
     }
 
@@ -108,6 +118,11 @@ struct ArticleReaderView: View {
             }
             Button { contentsPresented = true } label: { Image(systemName: "list.bullet") }
                 .accessibilityLabel("目次")
+            if store.learningIndex != nil {
+                Button { learningPresented = .glossary(.list) } label: { Image(systemName: "character.book.closed") }
+                    .accessibilityLabel("用語集")
+                    .accessibilityIdentifier("reader-glossary")
+            }
         }
     }
 
@@ -141,6 +156,29 @@ struct ArticleReaderView: View {
                         Button("閉じる") { episode = nil }
                     }
                 }
+        }
+    }
+
+    private func openGlossary(_ url: URL) -> Bool {
+        let ids = store.learningIndex.map { Set($0.glossary.map(\.id)) }
+        guard let destination = NativeLearningNavigation.glossaryDestination(for: url, termIDs: ids) else { return false }
+        learningPresented = .glossary(destination)
+        return true
+    }
+
+    private func selectLearningDestination(_ destination: NativeLearningDestination) {
+        if case .external(let url) = destination { openURL(url); return }
+        pendingLearningDestination = destination
+        learningPresented = nil
+    }
+
+    private func dispatchLearningSelection() {
+        guard let destination = pendingLearningDestination else { return }
+        pendingLearningDestination = nil
+        switch destination {
+        case .article(let route): navigate(route)
+        case .chapter(let id): openLearningChapter(id)
+        case .external: break
         }
     }
 

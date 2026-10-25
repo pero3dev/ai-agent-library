@@ -22,7 +22,19 @@ class NativeReaderUITestCase: XCTestCase {
         guard element.exists else { return false }
         if let container, !container.exists { return false }
         let frame = element.frame
-        let viewport = app.frame.intersection(container?.frame ?? app.frame)
+        var viewport = app.frame.intersection(container?.frame ?? app.frame)
+        if container != nil {
+            // A reader can extend beneath the navigation bar. Its geometric
+            // screen intersection alone does not make a heading readable.
+            for bar in app.navigationBars.allElementsBoundByIndex where bar.exists {
+                let barFrame = bar.frame.intersection(viewport)
+                if !barFrame.isNull, !barFrame.isEmpty {
+                    let top = max(viewport.minY, barFrame.maxY)
+                    viewport = CGRect(x: viewport.minX, y: top, width: viewport.width,
+                                      height: max(0, viewport.maxY - top))
+                }
+            }
+        }
         guard !frame.isNull, !frame.isInfinite, !frame.isEmpty,
               !viewport.isNull, !viewport.isEmpty else { return false }
         let visible = frame.intersection(viewport)
@@ -37,11 +49,22 @@ class NativeReaderUITestCase: XCTestCase {
         return element.isHittable
     }
 
-    func requireHittable(_ element: XCUIElement, timeout: TimeInterval = 15,
+    func requireHittable(_ element: XCUIElement, inside container: XCUIElement? = nil,
+                         fullyVisible: Bool = false, timeout: TimeInterval = 15,
                          file: StaticString = #filePath, line: UInt = #line) {
-        let predicate = NSPredicate { _, _ in self.isHittableOnScreen(element) }
+        let predicate = NSPredicate { _, _ in
+            self.isHittableOnScreen(element, inside: container, fullyVisible: fullyVisible)
+        }
         let visible = XCTNSPredicateExpectation(predicate: predicate, object: nil)
-        XCTAssertEqual(XCTWaiter.wait(for: [visible], timeout: timeout), .completed,
+        let result = XCTWaiter.wait(for: [visible], timeout: timeout)
+        if result != .completed {
+            capture("Public-UI-target-not-visible")
+            let hierarchy = XCTAttachment(string: app.debugDescription)
+            hierarchy.name = "Public-UI-target-not-visible-hierarchy"
+            hierarchy.lifetime = .keepAlways
+            add(hierarchy)
+        }
+        XCTAssertEqual(result, .completed,
                        "The requested public UI element must be visible and usable", file: file, line: line)
     }
 
@@ -85,7 +108,8 @@ class NativeReaderUITestCase: XCTestCase {
         }
         requireHittable(target)
         target.tap()
-        requireHittable(app.staticTexts["native-heading-" + headingID])
+        requireHittable(app.staticTexts["native-heading-" + headingID],
+                        inside: app.scrollViews["native-reader"], fullyVisible: true)
     }
 
     func returnToLibrary() {
@@ -97,7 +121,7 @@ class NativeReaderUITestCase: XCTestCase {
         XCTAssertTrue(app.searchFields.firstMatch.waitForExistence(timeout: 10))
         let count = app.staticTexts["library-article-count"]
         // A long filtered list may restore below its unmaterialized section header.
-        for _ in 0..<8 where !hasVisibleFrame(count) { app.swipeDown(velocity: .slow) }
+        for _ in 0..<8 where !isHittableOnScreen(count) { app.swipeDown(velocity: .slow) }
         requireHittable(count)
     }
 
@@ -134,7 +158,8 @@ final class NativeReaderUITests: NativeReaderUITestCase {
         XCTAssertTrue(resume.waitForExistence(timeout: 45))
         resume.tap()
         XCTAssertTrue(app.buttons["しおりを削除"].waitForExistence(timeout: 10))
-        requireHittable(app.staticTexts["native-heading-自己注意の数式"])
+        requireHittable(app.staticTexts["native-heading-自己注意の数式"],
+                        inside: app.scrollViews["native-reader"], fullyVisible: true)
         capture("Native-resume")
     }
 }

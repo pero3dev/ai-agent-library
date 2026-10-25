@@ -65,7 +65,8 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         resume.tap()
         requireNativeBody()
         XCTAssertTrue(app.buttons["しおりを削除"].waitForExistence(timeout: 10))
-        requireHittable(app.staticTexts["native-heading-世代交代で見直すこと"])
+        requireHittable(app.staticTexts["native-heading-世代交代で見直すこと"],
+                        inside: app.scrollViews["native-reader"], fullyVisible: true)
         capture("Published-03-long-article-resume")
     }
 

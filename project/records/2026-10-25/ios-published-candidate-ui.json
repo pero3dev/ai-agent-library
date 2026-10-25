@@ -2,7 +2,7 @@
   "schema_version": 1,
   "task": "ios-published-candidate-ui",
   "date": "2026-10-25",
-  "status": "first-Hosted-failed-placement-fix-SDK-compiled-awaiting-retest",
+  "status": "second-Hosted-failed-progress-coordinate-fix-reviewed-awaiting-third-run",
   "base_PR": 253,
   "source_version": "0.2.8",
   "build": 10,
@@ -79,7 +79,7 @@
     "Debug_manifest_SHA_and_all_documents": "passed"
   },
   "actionlint": "passed-on-PR-initial-Hosted",
-  "runtime_UI": "first-Hosted-3-failures; corrected-Hosted-not-run",
+  "runtime_UI": "two-candidate-runs-failed; third-candidate-awaiting-Hosted",
   "physical_VoiceOver_performance": "not-run",
   "limits_are_performance_thresholds": false,
   "initial_source_version": "0.2.7(9)",
@@ -206,5 +206,65 @@
     "failed": 0,
     "environment": "Node24; TMPDIR=/private/tmp"
   },
-  "initial_common_check_environment_failure": "Default macOS /var symlink temp root rejected by existing path-safety fixtures; repeated with documented canonical TMPDIR and no code changes."
+  "initial_common_check_environment_failure": "Default macOS /var symlink temp root rejected by existing path-safety fixtures; repeated with documented canonical TMPDIR and no code changes.",
+  "second_Hosted_candidate": {
+    "run": 40171117318,
+    "head": "0dbeefe6370ffed4281b1a269f9ff06c0ce76f56",
+    "status": "failed",
+    "unit": {
+      "passed": 63,
+      "failed": 0
+    },
+    "UI": {
+      "passed": 2,
+      "failed": 3,
+      "skipped": 0,
+      "passed_cases": [
+        "large-diagram",
+        "largest-table"
+      ],
+      "failed_cases": [
+        "two-library-header-returns",
+        "long-article-resume"
+      ]
+    },
+    "Release": "not-run-after-UI-failure"
+  },
+  "second_normal_3_article_Hosted": {
+    "run": 40171117378,
+    "status": "passed",
+    "unit": 63,
+    "UI": 2,
+    "Release": "passed"
+  },
+  "second_placement_fix": {
+    "source_sha256": {
+      "ios/AILibrary/Sources/NativeReaderView.swift": "b89d09d5863bc02ecedab8a8b6c942cf74b6d8886b3140d56546f31d48ff98d2",
+      "ios/AILibrary/Sources/ArticleReaderView.swift": "ea77983af31cd48621072cee58c917de509f5eaac31798be1e80cb8cca85731a",
+      "ios/AILibraryTests/NativeInlineTests.swift": "ae0fdb3ebf87a4f55e263a08593b972fd421b6ef27a2da232ca9334e5a8c9a22",
+      "ios/AILibraryUITests/NativeReaderUITests.swift": "a0e52d073e1101f2edb884d2a0d9ddf1f7dec07c261ef4a0760d0358c8edba11",
+      "ios/AILibraryUITests/PublishedReaderUITests.swift": "828e3f18c2a89a34233e4b6a6cb79a204904c50c72b8a8ef5cd127e26b41ec2d"
+    },
+    "observed_causes": {
+      "libraryReturn": "Returning really reaches the filtered library at a retained offset. A count frame intersecting the whole app stopped the old swipe loop even when the count could not be hit. The count never became usable before its assertion timed out.",
+      "longResume": "Deep-contents capture shows the requested heading directly below navigation. The final decoded resume frame shows the following list at the top while the requested heading and intervening paragraph are occluded.",
+      "sourceCoordinateMismatch": "The former progress code compared SwiftUI named-coordinate block Y values to a UIKit adjustedContentInset; final placement used UIKit target content coordinates. Unifying progress with the exact placement coordinate system removes that inconsistency. The old named-frame values and saved bytes were not captured, so the concrete double-inset mechanism is an inference rather than a measured trace."
+    },
+    "implementation": {
+      "progress": "Use only weak markers for candidate top-level blocks, convert into the known vertical UIScrollView content coordinates, subtract current contentOffset, then compare with the same adjusted inset used by alignment. SwiftUI preference values trigger updates and supply materialized IDs only. No schema/placement/delay change.",
+      "regression": "One new UIKit fixture case checks the aligned heading remains the reading block across inset103/140, movement of the entire scroll view, deliberate reading into the next list and unavailable IDs.",
+      "testSynchronization": "Library-return bounded gestures stop only when count is actually hittable. Heading assertions require a fully visible frame in the reader excluding measured navigation bar frames before asking hittability. The actual destination/usability assertions remain, with screenshot and full AX hierarchy on a predicate timeout. No manual reader scroll correction."
+    },
+    "SDK": {
+      "result": "passed",
+      "log": ".local/ios-autonomous-evidence/published-reader-second-fix-sdk-build.log",
+      "logSHA256": "bae8d7294a2365af3222173a04409b2d5edfb6a57712a38d7be2d81f1df209ae",
+      "configuration": "Debug, generic/platform=iOS Simulator, Xcode 16.2, iOS Simulator SDK18.2, CODE_SIGNING_ALLOWED=NO, jobs2",
+      "compiled": "App, current registered unit target including the new UIKit regression, and UI target (2 baseline plus 3 published methods). Compilation only, no test execution.",
+      "sourceChangesAfterCompile": false
+    },
+    "SDK_scope": "Working superset includes the separately prepared learning consumer (pbx316e); changed four sources compiled. Exact PR254 keeps its original pbx and expects unit64/UI5 on Hosted.",
+    "independent_review": "approved-four-frozen-files",
+    "Hosted": "not-run"
+  }
 }

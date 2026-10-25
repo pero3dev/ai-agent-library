@@ -42,3 +42,13 @@ workflow2本のYAML・全23run stepのshell構文、tracked published件数199�
 修正版はXcode16.2/Simulator18.2 SDKでapp・単体63件・UI5件のcompileが成功した。新しい回帰6件のうちpure配置/位置判定3件はMacで実行成功、UIKit marker3件はcompileまで。独立レビューは修正6ソースを承認し、共通check600件中585成功・15skip・失敗0も確認した。最初の共通checkはmacOS既定tempパスのsymlinkを既存の安全検査が拒否したため、既定の`TMPDIR=/private/tmp`を指定してソース変更なしで取り直した。修正後のHostedと実画面の成功は未確認である。
 
 待機時間とgesture回数の上限は同期用で、性能の合格値ではない。全章・全記事の視覚確認、更新/import UI、オフライン実機・VoiceOver・性能、既定199記事採用は残す。[JSON](ios-published-candidate-ui.json)へ実行面を分けて保存する。
+
+## 2回目Hostedと保存位置の再修正
+
+[run40171117318](https://github.com/pero3dev/ai-agent-library/actions/runs/40171117318)、head `0dbeefe6…`は単体63件に成功し、UIは大図・最大表の2件が成功した。Transformer目次の到着確認は通過したが、その後の一覧件数header待機で旧2件が失敗し、長文は再起動後の見出し確認で失敗した。全5件のうち3件が失敗したためReleaseは実行していない。同headの通常3記事jobは単体63件・UI2件・Releaseが成功した。
+
+最終decoded sampleでは、長文の目的見出しの下にあるlistへ復帰していた。旧実装はSwiftUIのnamed frameとUIKitのtop insetを比較しており、異なる座標の混在はソースで確認した。当時のnamed frame具体値は未収録なので、その値の二重加算による誤選択という説明は画面とコードからの推論である。修正は既知の縦UIScrollView内のmarker content座標からcontentOffsetを引き、配置と同じ座標系で保存blockを選ぶ。保存schema・fieldは変えず、inset変更とscroll移動を含むUIKit回帰1件を追加した。
+
+一覧の戻りは、countが存在するだけでswipeを止めず、実際に操作可能になるまで上限付きで進める。本文の見出しはnavigation barを除いた可視範囲に全体が収まることを確認してからhittestし、本文を手動scrollして合格にしない。timeout時の画面と階層も残す。
+
+独立レビューは4ソースを承認した。SDK compileは後続consumer登録を含むworkingのsupersetで成功したが、PR #254は従来pbxのままで、最終headの単体64件・UI5件をHostedで実行する。修正後のUIKit回帰・全UI・実機は未確認である。

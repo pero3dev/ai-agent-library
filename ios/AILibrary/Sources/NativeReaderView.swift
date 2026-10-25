@@ -62,10 +62,20 @@ final class NativeReaderScrollAnchors {
         return ancestor as? UIScrollView
     }
 
-    @MainActor var adjustedTopInset: CGFloat? {
-        guard let scroll = rootScrollView(), !(scroll is UITextView), scroll.isScrollEnabled else { return nil }
-        let inset = scroll.adjustedContentInset.top
-        return inset.isFinite && inset >= 0 ? inset : nil
+    @MainActor func readingBlockID(in blockIDs: [String]) -> String? {
+        guard let window = rootMarker?.window, let scroll = rootScrollView(),
+              scroll.window === window, !(scroll is UITextView), scroll.isScrollEnabled,
+              scroll.contentOffset.y.isFinite else { return nil }
+        let frames = blockIDs.reduce(into: [String: CGFloat]()) { result, id in
+            guard let target = targets[id]?.view, target.window === window,
+                  target.isDescendant(of: scroll) else { return }
+            result[id] = target.convert(target.bounds, to: scroll).minY - scroll.contentOffset.y
+        }
+        // Alignment and tracking share UIKit's content space. SwiftUI's named
+        // scroll coordinates can already exclude the inset, so adding it there
+        // would save a later paragraph/list immediately after a heading jump.
+        return NativeReaderScrollBounds.readingBlockID(frames: frames, viewportHeight: scroll.bounds.height,
+                                                       topInset: scroll.adjustedContentInset.top)
     }
 
     @MainActor func placeTarget(_ id: String) -> NativeReaderScrollPlacement {
@@ -220,7 +230,7 @@ struct NativeReaderView: View {
                     if let requestedHeading { jump(to: requestedHeading, using: proxy) }
                 }
                 .onPreferenceChange(NativeBlockFrames.self) { frames in
-                    receive(frames, viewportHeight: viewport.size.height)
+                    receive(frames)
                 }
                 .environment(\.openURL, OpenURLAction { open($0, using: proxy) })
                 .onChange(of: scenePhase) { _, phase in
@@ -318,10 +328,9 @@ struct NativeReaderView: View {
         }
     }
 
-    private func receive(_ frames: [String: CGFloat], viewportHeight: CGFloat) {
+    private func receive(_ frames: [String: CGFloat]) {
         guard trackingReady, !restoring else { return }
-        guard let next = NativeReaderScrollBounds.readingBlockID(frames: frames, viewportHeight: viewportHeight,
-            topInset: scrollAnchors.adjustedTopInset ?? 0), currentBlockID != next else { return }
+        guard let next = scrollAnchors.readingBlockID(in: Array(frames.keys)), currentBlockID != next else { return }
         currentBlockID = next
         enqueueProgress(for: next)
     }

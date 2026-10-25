@@ -90,6 +90,30 @@ final class NativeInlineTests: XCTestCase {
         }
     }
 
+    func testReaderProgressUsesTheAlignedRootCoordinatesOnce() {
+        readerScrollFixture { scroll, content, anchors in
+            // Named SwiftUI frames may start below the navigation inset. The
+            // actual markers must keep the selected heading, not the next list.
+            for (id, y) in [("previous", CGFloat(1300)), ("selected", 1600), ("paragraph", 1644), ("list", 1710)] {
+                let marker = UIView(frame: CGRect(x: 0, y: y, width: 1, height: 0))
+                content.addSubview(marker)
+                anchors.registerTarget(marker, id: id)
+            }
+            let ids = ["previous", "selected", "paragraph", "list"]
+            for top in [CGFloat(103), 140] {
+                scroll.contentInset.top = top
+                XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
+                XCTAssertEqual(anchors.readingBlockID(in: ids), "selected")
+            }
+            // Moving the whole scroll view must not alter local progress.
+            scroll.frame.origin.y = 59
+            XCTAssertEqual(anchors.readingBlockID(in: ids), "selected")
+            scroll.contentOffset.y = 1710 - scroll.adjustedContentInset.top
+            XCTAssertEqual(anchors.readingBlockID(in: ids), "list")
+            XCTAssertNil(anchors.readingBlockID(in: ["not-materialized"]))
+        }
+    }
+
     func testReaderScrollMarkersKeepHorizontalAndDisabledTextViewOffsets() {
         readerScrollFixture { scroll, content, anchors in
             let horizontal = UIScrollView(frame: CGRect(x: 0, y: 1200, width: 300, height: 180))

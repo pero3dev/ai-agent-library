@@ -37,6 +37,40 @@ test('direct heading links and client navigation update the current section', as
   await expect(toc(page).getByRole('link', { name: 'チェックリスト', exact: true })).toHaveCount(0)
 })
 
+for (const theme of ['light', 'dark']) test(`delayed diagram keeps direct heading position and current section: ${theme}`, async ({ page }) => {
+  const diagram = 'aeadd4058b26a4e88295f971'
+  const pattern = `**/_mermaid/${diagram}-*.svg`
+  let releaseDiagram, reportRequest
+  const gate = new Promise(resolve => { releaseDiagram = resolve })
+  const requested = new Promise(resolve => { reportRequest = resolve })
+  await page.route(pattern, async route => {
+    reportRequest()
+    await gate
+    await route.continue()
+  })
+  try {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.addInitScript(theme => localStorage.setItem('theme', theme), theme)
+    await page.goto(`${article}#${encodeURIComponent('チェックリスト')}`)
+    await requested
+    await page.evaluate(() => document.fonts.ready)
+    await expect(toc(page).locator('[aria-current="location"]')).toHaveText('チェックリスト')
+    const heading = page.locator('article [id="チェックリスト"]')
+    const top = () => heading.evaluate(element => element.getBoundingClientRect().top + window.scrollY)
+    const before = await top()
+    releaseDiagram()
+    const image = page.locator(`.static-mermaid > img.mermaid-${theme}[src$="/${diagram}-${theme}.svg"]`)
+    await expect.poll(() => image.evaluate(element => element.complete && element.naturalWidth > 0)).toBe(true)
+    // Compare document coordinates as well as the visible active section. Browser
+    // scroll anchoring can compensate a layout shift without making it harmless.
+    await expect.poll(top).toBeCloseTo(before, 0)
+    await expect(toc(page).locator('[aria-current="location"]')).toHaveText('チェックリスト')
+  } finally {
+    releaseDiagram()
+    await page.unroute(pattern)
+  }
+})
+
 test('complete native TOC remains available without JavaScript', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 900 } })
   try {

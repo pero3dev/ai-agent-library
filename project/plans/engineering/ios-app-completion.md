@@ -160,6 +160,8 @@ IOS-24は[現targetの独立した照合](../../records/2026-10-25/ios-native-ru
 
 IOS-26は[PR #246のHosted実行](https://github.com/pero3dev/ai-agent-library/actions/runs/40137064755)、head `d4d982ce…`で新規checkoutからの生成・監査、iOS SDK、単体52件・UI2件、Release同梱監査が成功し、完了とした。署名不要のSimulator回帰基盤としての完了であり、App Store提出環境・配布署名・実機の完了を示さない。UI2件は本文・目次・しおり・再起動復帰の基本範囲で、IOS-25の残る操作網羅は維持する。
 
+IOS-25の[絞り込み中の追加UI回帰2件](../../records/2026-10-25/ios-filtered-actions-ui.md)では、About開閉のfilter保持と、専用記事の別しおり・音声不可・2段階戻り・通常保存の永続分離を公開UIだけで検査する。通常reader再開前のrestartを入れてcached Storeだけのfalse-passを防ぐ。既存10機能ケースを保持して12件へ増やし、SDK compileを確認した。初回Hosted・fileImporterキャンセル・VO/実機とIOS-25全体の受入は未完了を維持する。
+
 現在のPrivacy ManifestにはUserDefaultsの利用理由がある。最終版では対象API・依存SDKを再監査し、Archiveへの同梱も確認する。プライバシーポリシーとApp Privacyは、無料・アカウントなしでも必要な申請項目として扱う。[プライバシー規約](https://developer.apple.com/app-store/review/guidelines/#privacy)、[App Privacy](https://developer.apple.com/help/app-store-connect/manage-app-information/manage-app-privacy/)、[required reason API](https://developer.apple.com/documentation/bundleresources/describing-use-of-required-reason-api)
 
 ### P2: ベータ配布とApp Store公開

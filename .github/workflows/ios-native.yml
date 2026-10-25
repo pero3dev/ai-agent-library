@@ -68,6 +68,29 @@ jobs:
             bash ios/tests/check-core.sh
             bash ios/tests/check-core.sh --fixtures
           } 2>&1 | tee .local/ios-ci/evidence/content-and-core.log
+      - name: Generate and validate every published article in an isolated package
+        env:
+          TMPDIR: /private/tmp
+        run: |
+          set -euo pipefail
+          full_package_root="$(mktemp -d /private/tmp/ailibrary-ios-all-published.XXXXXX)"
+          trap 'rm -rf "$full_package_root"' EXIT
+          node scripts/build-ios-native-content.mjs --all-published --output "$full_package_root/Content" \
+            2>&1 | tee .local/ios-ci/evidence/all-published-generation.log
+          expected_articles="$(node --input-type=module <<'NODE'
+          import { execFileSync } from 'node:child_process';
+          import { readFileSync } from 'node:fs';
+          import { parseFrontMatter, parseScalar, toLines } from './scripts/lib/md-utils.mjs';
+          const files = execFileSync('git', ['ls-files', '-z', 'docs'], {encoding:'utf8'})
+            .split('\0').filter(file => file.endsWith('.md') && !file.endsWith('/README.md'));
+          const count = files.filter(file => parseFrontMatter(toLines(readFileSync(file, 'utf8')))?.fields
+            .some(field => field.key === 'status' && parseScalar(field.value) === 'published')).length;
+          if (!count) throw new Error('No tracked published articles');
+          console.log(count);
+          NODE
+          )"
+          bash ios/tests/check-package.sh "$full_package_root/Content" "$expected_articles" \
+            | tee .local/ios-ci/evidence/all-published-package.json
       # This runs the XCTest unit target, including UIKit/math and audio regression.
       - name: Run native XCTest on the iPhone Simulator
         run: |

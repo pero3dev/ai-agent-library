@@ -139,6 +139,121 @@ test('native CLI explicitly separates fixture and ordinary generation', () => {
   for (const args of [['--output'], ['--output', '--fixtures'], ['--fixtures', '--fixtures'], ['--unknown'], ['--output', 'one', '--output', 'two']]) assert.throws(() => parseNativeBuildOptions(args));
 });
 
+test('all-published CLI requires an explicit output and cannot select fixtures', () => {
+  assert.deepEqual(parseNativeBuildOptions(['--all-published', '--output', 'scratch/Content']), { fixtures: false, allPublished: true, output: path.resolve('scratch/Content') });
+  assert.deepEqual(parseNativeBuildOptions(['--output', 'scratch/Content', '--all-published']), { fixtures: false, allPublished: true, output: path.resolve('scratch/Content') });
+  for (const args of [
+    ['--all-published'], ['--all-published', '--output'], ['--all-published', '--all-published', '--output', 'scratch'],
+    ['--fixtures', '--all-published', '--output', 'scratch'], ['--all-published', '--fixtures', '--output', 'scratch']
+  ]) assert.throws(() => parseNativeBuildOptions(args));
+});
+
+async function fullDescriptionMap(value) {
+  const requests = new Map(value.selection.articles.flatMap(file => [...parseNativeArticle(parseArticle(value.files.get(file), file)).requests]));
+  const diagram_descriptions = Object.fromEntries([...requests].filter(([, request]) => request.kind === 'diagram').map(([key]) => [key, 'AからBへ進む図です。']));
+  const file = path.join(value.root, 'ios/all-published-diagram-descriptions.json');
+  await mkdir(path.dirname(file), { recursive: true });
+  await writeFile(file, JSON.stringify({ schema_version: 1, diagram_descriptions }));
+  return { file, diagram_descriptions };
+}
+
+test('all-published selection is ordered, excludes draft and README, and preserves one selected audio', async t => {
+  const value = await fixture(t);
+  await fullDescriptionMap(value);
+  const additions = new Map([
+    ['docs/00-foundations/four.md', source('第四記事', '[第一記事](../01-concepts/one.md#第一記事)')],
+    ['docs/01-concepts/draft.md', source('draft').replace('status: "published"', 'status: "draft"')],
+    ['docs/01-concepts/README.md', 'No article front matter in the chapter index.'],
+    ['docs/00-foundations/readme.md', 'Another index, excluded regardless of case.']
+  ]);
+  for (const [file, data] of additions) { await mkdir(path.dirname(path.join(value.root, file)), { recursive: true }); await writeFile(path.join(value.root, file), data); }
+  const selectionBefore = JSON.stringify(value.selection);
+  const { output, ...normalOptions } = value;
+  const normal = await buildNativeContent({ ...normalOptions, dependencies: mockDependencies });
+  const fixtures = await buildNativeContent({ ...normalOptions, fixtures: true, dependencies: mockDependencies });
+  const normalRoot = path.join(value.root, 'ios/AILibrary/Content'), fixtureRoot = path.join(value.root, 'ios/AILibrary/TestContent');
+  const normalManifest = await readFile(path.join(normalRoot, 'manifest.json'));
+  const fixtureManifest = await readFile(path.join(fixtureRoot, 'manifest.json'));
+  const manifest = await buildNativeContent({ ...value, allPublished: true, dependencies: mockDependencies });
+  assert.deepEqual(manifest.articles.map(article => article.source_path), ['docs/00-foundations/four.md', ...paths]);
+  assert.ok(manifest.articles.every(article => article.is_test_fixture === undefined));
+  assert.equal(manifest.audio.length, 1);
+  assert.equal(manifest.audio[0].article_id, '01-concepts/one');
+  assert.equal(manifest.articles.find(article => article.source_path === paths[0]).audio_id, value.episode.id);
+  assert.ok(manifest.articles.filter(article => article.source_path !== paths[0]).every(article => article.audio_id === undefined));
+  const first = JSON.parse(await readFile(path.join(output, manifest.articles[0].document_path)));
+  assert.deepEqual(nodes(first).find(node => node.type === 'link').target, { kind: 'article', article_id: '01-concepts/one', heading_id: '第一記事' });
+  const second = JSON.parse(await readFile(path.join(output, manifest.articles[2].document_path)));
+  assert.match(nodes(second).find(node => node.type === 'diagram').accessibility_text, /^AからBへ進む図です。\n図中のラベル:/);
+  assert.equal((await buildNativeContent({ ...value, allPublished: true, dependencies: mockDependencies })).revision, manifest.revision);
+  assert.deepEqual(await readFile(path.join(normalRoot, 'manifest.json')), normalManifest);
+  assert.deepEqual(await readFile(path.join(fixtureRoot, 'manifest.json')), fixtureManifest);
+  assert.equal((await buildNativeContent({ ...normalOptions, dependencies: mockDependencies })).revision, normal.revision);
+  assert.equal((await buildNativeContent({ ...normalOptions, fixtures: true, dependencies: mockDependencies })).revision, fixtures.revision);
+  assert.equal(JSON.stringify(value.selection), selectionBefore);
+});
+
+test('all-published output cannot overwrite normal or fixture packages or use a non-Content destination', async t => {
+  const value = await fixture(t);
+  const normalRoot = path.join(value.root, 'ios/AILibrary/Content'), fixtureRoot = path.join(value.root, 'ios/AILibrary/TestContent');
+  for (const directory of [normalRoot, fixtureRoot]) { await mkdir(directory, { recursive: true }); await writeFile(path.join(directory, 'sentinel'), 'keep'); }
+  for (const output of [undefined, '', normalRoot, path.dirname(normalRoot), path.join(normalRoot, 'nested/Content'), fixtureRoot, path.join(fixtureRoot, 'nested/Content'), path.join(value.root, 'Other')]) {
+    await assert.rejects(buildNativeContent({ ...value, allPublished: true, output, dependencies: mockDependencies }), /allPublished|All-published|Output must/);
+  }
+  await assert.rejects(buildNativeContent({ ...value, allPublished: true, fixtures: true, dependencies: mockDependencies }), /cannot be combined/);
+  await assert.rejects(buildNativeContent({ ...value, allPublished: 'yes', dependencies: mockDependencies }), /boolean/);
+  for (const directory of [normalRoot, fixtureRoot]) assert.equal(await readFile(path.join(directory, 'sentinel'), 'utf8'), 'keep');
+});
+
+test('all-published description schema, completeness and stale keys fail before rendering and preserve output', async t => {
+  const value = await fixture(t);
+  await mkdir(value.output, { recursive: true });
+  await writeFile(path.join(value.output, 'sentinel'), 'keep');
+  let invoked = false;
+  const dependencies = { renderAssets() { invoked = true; throw new Error('must not render'); } };
+  await assert.rejects(buildNativeContent({ ...value, allPublished: true, dependencies }), /all-published-diagram-descriptions\.json/);
+  const { file, diagram_descriptions } = await fullDescriptionMap(value);
+  for (const data of [
+    { schema_version: 2, diagram_descriptions }, { schema_version: 1 }, { schema_version: 1, diagram_descriptions: [] }
+  ]) {
+    await writeFile(file, JSON.stringify(data));
+    await assert.rejects(buildNativeContent({ ...value, allPublished: true, dependencies }), /Invalid all-published diagram description map/);
+  }
+  await writeFile(file, JSON.stringify({ schema_version: 1, diagram_descriptions: {} }));
+  await assert.rejects(buildNativeContent({ ...value, allPublished: true, dependencies }), /Missing native diagram description/);
+  await writeFile(file, JSON.stringify({ schema_version: 1, diagram_descriptions: { ['f'.repeat(24)]: '古い図です。' } }));
+  await assert.rejects(buildNativeContent({ ...value, allPublished: true, dependencies }), /Unknown or stale native diagram description/);
+  await writeFile(file, JSON.stringify({ schema_version: 1, diagram_descriptions: Object.fromEntries(Object.keys(diagram_descriptions).map(key => [key, ' '])) }));
+  await assert.rejects(buildNativeContent({ ...value, allPublished: true, dependencies }), /Invalid native diagram description/);
+  assert.equal(invoked, false);
+  assert.equal(await readFile(path.join(value.output, 'sentinel'), 'utf8'), 'keep');
+});
+
+test('all-published rejects an unpublished audio selection and invalid article metadata', async t => {
+  const value = await fixture(t);
+  await fullDescriptionMap(value);
+  let invoked = false;
+  const dependencies = { renderAssets() { invoked = true; throw new Error('must not render'); } };
+  await writeFile(path.join(value.root, paths[0]), value.files.get(paths[0]).replace('status: "published"', 'status: "draft"'));
+  await assert.rejects(buildNativeContent({ ...value, allPublished: true, dependencies }), /Selected audio article must be included/);
+  await writeFile(path.join(value.root, paths[0]), value.files.get(paths[0]).replace('status: "published"', 'status: "unknown"'));
+  await assert.rejects(buildNativeContent({ ...value, allPublished: true, dependencies }), /Invalid article status/);
+  for (const file of paths) await writeFile(path.join(value.root, file), value.files.get(file).replace('status: "published"', 'status: "draft"'));
+  await assert.rejects(buildNativeContent({ ...value, allPublished: true, dependencies }), /between 1 and 2000/);
+  assert.equal(invoked, false);
+});
+
+test('all-published rejects source and output symlinks', { skip: process.platform === 'win32' ? 'Windows symlinks require extra privileges' : false }, async t => {
+  const value = await fixture(t);
+  await fullDescriptionMap(value);
+  const alias = path.join(value.root, 'alias');
+  await symlink(path.join(value.root, 'bundle'), alias);
+  await assert.rejects(buildNativeContent({ ...value, allPublished: true, output: path.join(alias, 'Content'), dependencies: mockDependencies }), /Symlink/);
+  const sourceAlias = path.join(value.root, 'docs/01-concepts/alias.md');
+  await symlink(path.join(value.root, paths[0]), sourceAlias);
+  await assert.rejects(buildNativeContent({ ...value, allPublished: true, dependencies: mockDependencies }), /Symlink/);
+});
+
 test('fixture generation writes a separate package and cannot overwrite ordinary Content', async t => {
   const value = await fixture(t);
   const { output, ...options } = value;

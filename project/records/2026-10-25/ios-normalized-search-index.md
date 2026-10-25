@@ -17,7 +17,7 @@ title・summary・category・search_textを既存と同じ日本語・幅・大�
 
 ## 検証と性能の境界
 
-MacのFoundation回帰7件と、実Storeの読込→不正import→同IDの新版→同梱版復帰→再試行を加えた最終8件が成功した。実199記事・15queryはlegacy入口・索引なしの新filter・索引ありの3方式すべてで、一致記事IDと順序のdigestが一致した。最終Xcode16.2・Simulator SDK18.2では単体117件・UI9件のbuild-for-testingが成功した。全117件を実行した結果ではない。
+MacのFoundation回帰7件と、実Storeの読込→不正import→同IDの新版→同梱版復帰→再試行を加えた最終8件が成功した。実199記事・15queryはlegacy入口・索引なしの新filter・索引ありの3方式すべてで、一致記事IDと順序のdigestが一致した。画面修正前head865a85d2のXcode16.2・Simulator SDK18.2では単体117件・UI9件のbuild-for-testingが成功した。全117件を実行した結果ではない。
 
 同じMac CLI harnessの参考値は次のとおり。検証済みmanifestを直接decodeした別processを順に実行し、各queryの初回とwarm5回を測った。コンパイラーはCLT Swift5.8.1、最適化は-O・whole-module-optimizationである。
 
@@ -30,3 +30,5 @@ MacのFoundation回帰7件と、実Storeの読込→不正import→同IDの新�
 索引構築の1標本は175.289458ms。索引ありだけはquery前の全正規化でICU等も暖まるため、各方式のfirst queryをcold起動同士の比較に使わない。旧動作と等価なlegacy入口の参考値も保存したが、別の旧app binaryを使った比較ではない。開発作業によるCPU変動があり、別途測定した約160msやlegacyの約386msから改善倍率を算出しない。RSSはmanifest decodeと90検索を含むprocess全体の高水位で、cache単体の容量やiOS appのメモリではない。
 
 起動時間、UIKitの画像・描画、入力遅延、cold disk、実機・VoiceOver、性能の受入目標は未確認で、IOS-15全体は未完了とする。lockfile依存をnpm ci --ignore-scriptsで準備し、共通check722件中707成功・15skip・失敗0と文書・リンク等の検査が成功した。npm監査はlow3・moderate2、high/critical0で、自動修正は行っていない。最終headのHosted通常/全記事試験とReleaseも別途取得する。[JSON](ios-normalized-search-index.json)にソース・rawのSHAと実行面を記録する。
+
+前提の[同梱版切替](ios-bundled-content-activation.md)で検索中の操作入口が見つからないUI失敗を確認し、同じLibraryView修正を取り込んだ。検索索引・Mac8件・15query等価性のコードは変えず、上記SDK117/9はこの画面修正前として保持する。既存UI9件を弱めず、修正後の正確なheadのHosted/Releaseを再取得する。

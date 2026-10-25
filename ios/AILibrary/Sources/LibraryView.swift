@@ -84,6 +84,25 @@ struct LibraryView: View {
         }
     }
 
+    @ViewBuilder private var moreActions: some View {
+        if store.allowsContentImport {
+            Button("ファイルからコンテンツを更新", systemImage: "folder") { importPresented = true }
+        }
+        if store.allowsBundledContentActivation {
+            Button("同梱コンテンツへ切り替える", systemImage: "arrow.triangle.2.circlepath") {
+                previewBundledContent()
+            }
+            .accessibilityIdentifier("library-bundled-content")
+            .disabled(store.snapshot == nil || !path.isEmpty)
+        }
+        #if DEBUG
+        if !store.isTestLibrary {
+            Button("本文表示テスト", systemImage: "doc.text.magnifyingglass") { readerTestPresented = true }
+        }
+        #endif
+        Button("このアプリについて", systemImage: "info.circle") { aboutPresented = true }
+    }
+
     var body: some View {
         NavigationStack(path: $path) {
             List {
@@ -110,6 +129,9 @@ struct LibraryView: View {
                             .accessibilityIdentifier("library-filter-summary")
                         Button("絞り込みをすべて解除") { clearFilters() }
                             .accessibilityIdentifier("library-clear-filters")
+                        Menu { moreActions } label: { Label("その他の操作", systemImage: "ellipsis.circle") }
+                            .accessibilityLabel("その他の操作")
+                            .disabled(isBusy)
                     }
                 }
                 if let last = store.listedArticles.first(where: { $0.id == store.lastArticleID }), !isFiltering {
@@ -160,6 +182,17 @@ struct LibraryView: View {
                         Text("\(articles.count)件表示・全\(snapshot.manifest.articles.count)記事・オフライン試作")
                     }
                 }
+                if store.snapshot != nil, articles.isEmpty {
+                    Section {
+                        Label("記事が見つかりません", systemImage: filter.bookmarksOnly ? "bookmark" : "magnifyingglass")
+                            .font(.headline)
+                        if isFiltering {
+                            Text("章・難易度・検索・しおり・タグの条件を変えてお試しください。")
+                            Button("絞り込みをすべて解除") { clearFilters() }
+                                .accessibilityIdentifier("library-clear-empty-filters")
+                        }
+                    }
+                }
             }
             .overlay {
                 if isBusy { ProgressView(bundledActivating ? "同梱コンテンツへ切り替え中" : "コンテンツを確認中") }
@@ -174,18 +207,6 @@ struct LibraryView: View {
                         }
                     } else {
                         ProgressView("コンテンツを確認中")
-                    }
-                }
-                else if articles.isEmpty {
-                    ContentUnavailableView {
-                        Label("記事が見つかりません", systemImage: filter.bookmarksOnly ? "bookmark" : "magnifyingglass")
-                    } description: {
-                        if isFiltering { Text("章・難易度・検索・しおり・タグの条件を変えてお試しください。") }
-                    } actions: {
-                        if isFiltering {
-                            Button("絞り込みをすべて解除") { clearFilters() }
-                                .accessibilityIdentifier("library-clear-empty-filters")
-                        }
                     }
                 }
             }
@@ -212,27 +233,12 @@ struct LibraryView: View {
                     .accessibilityLabel(filter.bookmarksOnly ? "しおりの絞り込みを解除" : "しおりの記事を表示")
                     .accessibilityAddTraits(filter.bookmarksOnly ? [.isSelected] : [])
                 }
-                ToolbarItem(placement: .topBarTrailing) {
-                    Menu {
-                        if store.allowsContentImport {
-                            Button("ファイルからコンテンツを更新", systemImage: "folder") { importPresented = true }
-                        }
-                        if store.allowsBundledContentActivation {
-                            Button("同梱コンテンツへ切り替える", systemImage: "arrow.triangle.2.circlepath") {
-                                previewBundledContent()
-                            }
-                            .accessibilityIdentifier("library-bundled-content")
-                            .disabled(store.snapshot == nil || !path.isEmpty)
-                        }
-                        #if DEBUG
-                        if !store.isTestLibrary {
-                            Button("本文表示テスト", systemImage: "doc.text.magnifyingglass") { readerTestPresented = true }
-                        }
-                        #endif
-                        Button("このアプリについて", systemImage: "info.circle") { aboutPresented = true }
-                    } label: { Image(systemName: "ellipsis.circle") }
-                    .accessibilityLabel("その他の操作")
-                    .disabled(isBusy)
+                if !isFiltering {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Menu { moreActions } label: { Image(systemName: "ellipsis.circle") }
+                            .accessibilityLabel("その他の操作")
+                            .disabled(isBusy)
+                    }
                 }
             }
             .navigationDestination(for: ReaderRoute.self) { route in

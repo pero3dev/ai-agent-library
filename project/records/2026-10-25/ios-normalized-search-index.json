@@ -2,14 +2,14 @@
   "schema_version": 1,
   "task": "ios-normalized-search-index-integration",
   "date": "2026-10-25",
-  "status": "final-five-sources-approved-Mac8-SDK-common-check-passed-awaiting-Hosted",
+  "status": "inherited-More-actions-fix-awaiting-Hosted",
   "parent_PR": 258,
   "parent_head": "004cb0a6dc1d061d97ca8e2122f0f583f8f69940",
   "version": "0.2.11(13)",
   "source_sha256": {
     "ios/AILibrary/Sources/Models.swift": "f355ff9ae41e39d3c78224c097afc7e6d64ce59ac91740ee57868c56068534af",
     "ios/AILibrary/Sources/LibraryStore.swift": "b3ee113f42aa73469a177d899839623de24d8151bfbbc0824c55d29cc0c7c41c",
-    "ios/AILibrary/Sources/LibraryView.swift": "25e9df30e9c2a86a0781fbd43857be7dce358db6b682234307718ada921b5896",
+    "ios/AILibrary/Sources/LibraryView.swift": "4d399a62e5f2d694358b620987de69f291627d57ca235b569077ab89f0abecbb",
     "ios/AILibraryTests/SearchIndexTests.swift": "3bb988b77a8d8da65ae3e401d092a3ff5cfdebbad73e11e99c5efd6fb8d98eb7",
     "ios/AILibrary.xcodeproj/project.pbxproj": "391f31a913b5df78854d05de6c51917646b65b01d876f1cbd864b839d0694fa2"
   },
@@ -23,19 +23,10 @@
     "logSHA256": "04e3c2da9b9400b74832ab980cf1e673cee08f35ec792f858547f35273c53251",
     "initial_link_failure": "Missing official XCTestSwiftSupport linker library; corrected linker search/library only, tests/source unchanged"
   },
-  "SDK": {
-    "result": "TEST BUILD SUCCEEDED",
-    "registered_unit_methods_compiled": 117,
-    "registered_UI_methods_compiled": 9,
-    "runtime": "not executed by SDK build",
-    "configuration": "Xcode16.2/SimulatorSDK18.2/generic Simulator/Debug/CODE_SIGNING_ALLOWED=NO/jobs2/existing baseline cache",
-    "log": "/private/tmp/ios-search-index-final-sdk-2026-10-25.log",
-    "logSHA256": "3a7e5d35e763ad755f565bf2a6cab478b4433eafd576cc62c2be7fdb66322630"
-  },
   "source_worker_proof": "/private/tmp/ios-normalized-search-index-validation-2026-10-25.json",
   "default_catalog_change": false,
   "disk_cache_schema_change": false,
-  "Hosted": "pending-final-head",
+  "Hosted": "retry-pending-final-head",
   "Release": "pending-final-head",
   "device_VoiceOver_performance_acceptance": "not performed",
   "corpus_comparison": {
@@ -144,5 +135,44 @@
       "automatic_fix": false
     }
   },
-  "independent_review": "approved-final-five-sources-and-evidence"
+  "independent_review": "approved-final-five-sources-and-evidence",
+  "pre_more_actions_fix_source_sha256": {
+    "ios/AILibrary/Sources/Models.swift": "f355ff9ae41e39d3c78224c097afc7e6d64ce59ac91740ee57868c56068534af",
+    "ios/AILibrary/Sources/LibraryStore.swift": "b3ee113f42aa73469a177d899839623de24d8151bfbbc0824c55d29cc0c7c41c",
+    "ios/AILibrary/Sources/LibraryView.swift": "25e9df30e9c2a86a0781fbd43857be7dce358db6b682234307718ada921b5896",
+    "ios/AILibraryTests/SearchIndexTests.swift": "3bb988b77a8d8da65ae3e401d092a3ff5cfdebbad73e11e99c5efd6fb8d98eb7",
+    "ios/AILibrary.xcodeproj/project.pbxproj": "391f31a913b5df78854d05de6c51917646b65b01d876f1cbd864b839d0694fa2"
+  },
+  "inherited_more_actions_fix": {
+    "source_head": "004cb0a6dc1d061d97ca8e2122f0f583f8f69940",
+    "run": 40180468739,
+    "job": 121130246078,
+    "unit": {
+      "registered": 109,
+      "passed": 107,
+      "skipped": 2,
+      "failed": 0
+    },
+    "UI": {
+      "total": 9,
+      "passed": 8,
+      "failed": 1
+    },
+    "Release": "not-run-after-UI-failure",
+    "finding": "More toolbar absent in active nonempty search; query and tag retained in failure AX",
+    "fix": "Shared More actions in filtering section; toolbar More only when not filtering; inline zero-results section avoids overlay covering actions",
+    "assertions_weakened": false,
+    "runtime_after_fix": "pending-final-head",
+    "empty_query_search_active": "not-verified"
+  },
+  "pre_more_actions_fix_SDK": {
+    "result": "TEST BUILD SUCCEEDED",
+    "registered_unit_methods_compiled": 117,
+    "registered_UI_methods_compiled": 9,
+    "runtime": "not executed by SDK build",
+    "configuration": "Xcode16.2/SimulatorSDK18.2/generic Simulator/Debug/CODE_SIGNING_ALLOWED=NO/jobs2/existing baseline cache",
+    "log": "/private/tmp/ios-search-index-final-sdk-2026-10-25.log",
+    "logSHA256": "3a7e5d35e763ad755f565bf2a6cab478b4433eafd576cc62c2be7fdb66322630"
+  },
+  "SDK_after_more_actions_fix": "not-run-exact-head; prior117unit9UI compile was before View-only fix"
 }

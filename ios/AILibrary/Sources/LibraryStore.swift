@@ -22,6 +22,7 @@ final class LibraryStore: ObservableObject {
 
     var allowsAudioPlayback: Bool { !isTestLibrary }
     var allowsContentImport: Bool { !isTestLibrary }
+    var allowsBundledContentActivation: Bool { !isTestLibrary }
     var listedArticles: [LibraryArticle] {
         (snapshot?.manifest.articles ?? []).filter { $0.isTestFixture == isTestLibrary }
     }
@@ -109,8 +110,46 @@ final class LibraryStore: ObservableObject {
         }
     }
 
+    /// Read-only preview. It validates the installed and bundled packages without
+    /// writing a pointer or changing the currently published snapshot/index pair.
+    func previewBundledContent() async -> BundledContentPreview? {
+        guard allowsBundledContentActivation, !isLoading, !Task.isCancelled else { return nil }
+        let generation = UUID()
+        loadGeneration = generation
+        importing = true
+        isLoading = true
+        defer {
+            if loadGeneration == generation { isLoading = false; importing = false; loadGeneration = nil }
+        }
+        let repository = self.repository
+        do {
+            let preview = try await Task.detached(priority: .userInitiated) {
+                try repository.previewBundledContent()
+            }.value
+            guard loadGeneration == generation, !Task.isCancelled else { return nil }
+            return preview
+        } catch {
+            guard loadGeneration == generation, !Task.isCancelled else { return nil }
+            let recovery = snapshot == nil
+                ? "コンテンツはまだ読み込まれていません。別のフォルダを選ぶか、再試行してください。"
+                : "現在のコンテンツを引き続き利用できます。"
+            message = error.localizedDescription + " " + recovery
+            return nil
+        }
+    }
+
     func install(from url: URL) async {
-        guard allowsContentImport, !isLoading, !Task.isCancelled else { return }
+        _ = await installContent(from: url, bundledSelection: false)
+    }
+
+    @discardableResult
+    func activateBundledContent() async -> Bool {
+        guard allowsBundledContentActivation else { return false }
+        return await installContent(from: repository.bundledRoot, bundledSelection: true)
+    }
+
+    private func installContent(from url: URL, bundledSelection: Bool) async -> Bool {
+        guard allowsContentImport, !isLoading, !Task.isCancelled else { return false }
         let generation = UUID()
         loadGeneration = generation
         importing = true
@@ -122,22 +161,34 @@ final class LibraryStore: ObservableObject {
         defer { if accessed { url.stopAccessingSecurityScopedResource() } }
         let repository = self.repository
         do {
-            let loaded = try await Task.detached(priority: .userInitiated) {
-                LibraryLoadedContent(snapshot: try repository.install(from: url))
+            let result = try await Task.detached(priority: .userInitiated) {
+                if bundledSelection {
+                    let activation = try repository.activateBundledContent()
+                    return (LibraryLoadedContent(snapshot: activation.snapshot), activation.alreadyActive)
+                }
+                return (LibraryLoadedContent(snapshot: try repository.install(from: url)), false)
             }.value
-            // Repository.install has already committed current.json. Cancellation
+            // Repository may already have committed current.json. Cancellation
             // cannot roll that back, so publish the matching bundle even if the
-            // caller was cancelled while the detached import was running.
-            guard loadGeneration == generation else { return }
-            apply(loaded)
+            // caller was cancelled while the detached operation was running.
+            guard loadGeneration == generation else { return false }
+            apply(result.0)
             loadError = nil
-            message = "コンテンツを更新しました。保存したしおりと読書位置を引き継ぎます。"
+            if bundledSelection {
+                message = result.1
+                    ? "同梱コンテンツと同じ内容を利用しています。保存したしおりと読書位置を維持します。"
+                    : "同梱コンテンツへ切り替えました。保存したしおりと読書位置を引き継ぎます。"
+            } else {
+                message = "コンテンツを更新しました。保存したしおりと読書位置を引き継ぎます。"
+            }
+            return true
         } catch {
-            guard loadGeneration == generation, !Task.isCancelled else { return }
+            guard loadGeneration == generation, !Task.isCancelled else { return false }
             let recovery = snapshot == nil
                 ? "コンテンツはまだ読み込まれていません。別のフォルダを選ぶか、再試行してください。"
                 : "現在のコンテンツを引き続き利用できます。"
             message = error.localizedDescription + " " + recovery
+            return false
         }
     }
 

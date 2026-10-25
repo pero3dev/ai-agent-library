@@ -116,7 +116,7 @@ jobs:
             -derivedDataPath .local/ios-ci/DebugDerivedData \
             -resultBundlePath .local/ios-ci/evidence/ui.xcresult \
             -parallel-testing-enabled NO -jobs 2 \
-            -only-testing:AILibraryUITests CODE_SIGNING_ALLOWED=NO test \
+            -only-testing:AILibraryUITests/NativeReaderUITests CODE_SIGNING_ALLOWED=NO test \
             2>&1 | tee .local/ios-ci/evidence/xctest-ui.log
       - name: Build and verify the Release package
         run: |

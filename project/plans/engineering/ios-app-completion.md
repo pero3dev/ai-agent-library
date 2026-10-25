@@ -108,6 +108,8 @@ IOS-15の準備では[負荷の棚卸しと空検索の改善](../../records/202
 
 M4の次段階では[全記事の通常同梱候補](../../records/2026-10-25/ios-published-library-profile.md)を明示modeとして追加し、独立した原文監査で全数・図説明・リンク等を照合した。既定3記事・fixture4記事を維持し、実候補アプリのUI・Release、既存取り込み版からの切替、実Mermaid再描画の再現差を別の受入単位へ残す。
 
+続いて[全記事候補のHosted UI](../../records/2026-10-25/ios-published-candidate-ui.md)を別workflowに分けた。正本の動的件数とDebug/Release実bundleを照合し、既存2件＋大図・長文・最大表の新3件を準備した。対象は01・03・08・11章の6記事に限り、SDK compile・静的レビューと未確認のHosted実通過・全体受入を分ける。
+
 ### P1: 更新と保存データを運用できる状態にする
 
 | 状態 | ID | TODO | 完了条件 |

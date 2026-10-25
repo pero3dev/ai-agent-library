@@ -462,6 +462,7 @@ private struct NativeTableView: View {
         .accessibilityElement(children: .contain)
         .accessibilityLabel("見出し行とデータ\(table.rows.count)行、\(table.header.count)列の表")
         .accessibilityHint("横にスクロールするとすべての列を読めます")
+        .accessibilityIdentifier("native-table-\(blockID)")
     }
 
     @ViewBuilder private func cell(_ inlines: [NativeInline], column: Int, row: Int?, width: CGFloat) -> some View {
@@ -475,6 +476,7 @@ private struct NativeTableView: View {
             .background(row == nil ? Color.secondary.opacity(0.14) : Color.secondary.opacity(0.03))
             .overlay(Rectangle().stroke(Color.secondary.opacity(0.25), lineWidth: 0.5))
             .accessibilityCustomContent("表の位置", Text(cellPosition(column: column, row: row)), importance: .high)
+            .accessibilityIdentifier("native-table-cell-\(blockID)-\(row ?? 0)-\(column + 1)")
         if row == nil, column == 0 {
             content.accessibilityFocused(focusedBlock, equals: blockID)
         } else {
@@ -565,6 +567,7 @@ private struct NativeFigureView: View {
                     .textSelection(.enabled)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.vertical, 8)
+                    .accessibilityIdentifier("native-figure-source-text-\(blockID)")
             }
             .font(.callout)
         }
@@ -594,6 +597,7 @@ private struct NativeImageDetail: View {
                     .padding(20)
                     .accessibilityLabel(description)
             }
+            .accessibilityIdentifier("native-image-detail")
             .simultaneousGesture(MagnificationGesture()
                 .onChanged { zoom = min(4, max(1, lastZoom * $0)) }
                 .onEnded { _ in lastZoom = zoom })

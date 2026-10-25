@@ -14,4 +14,4 @@ xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
   -destination "platform=iOS Simulator,id=$simulator_id" \
   -destination-timeout 60 -derivedDataPath .local/ios-derived-data \
   -resultBundlePath "$result_path" -parallel-testing-enabled NO -jobs 2 \
-  -only-testing:AILibraryUITests CODE_SIGNING_ALLOWED=NO test
+  -only-testing:AILibraryUITests/NativeReaderUITests CODE_SIGNING_ALLOWED=NO test

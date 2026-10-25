@@ -47,6 +47,8 @@ xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
   -derivedDataPath ios/DerivedData CODE_SIGNING_ALLOWED=NO build
 xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
   -destination 'platform=iOS Simulator,id=<simulator-id>' \
+  -only-testing:AILibraryTests \
+  -only-testing:AILibraryUITests/NativeReaderUITests \
   -derivedDataPath ios/DerivedData CODE_SIGNING_ALLOWED=NO test
 ```
 
@@ -136,6 +138,14 @@ bash ios/tests/check-package.sh ios/AILibrary/Content 199
 `199`は2026-10-25時点のpublished数です。一時全記事の原文監査は`TMPDIR=/private/tmp node ios/tests/native-content-audit.mjs --all-published --content <一時Content>`、従来3記事はno flag、fixture4記事は`--fixtures`で行います。
 
 [通常同梱候補の記録](../project/records/2026-10-25/ios-published-library-profile.md)では、共有Contentを保った私有rootで実生成・consumer・原文監査を確認しました。実Mermaidの微小な再描画差によってrevisionが変わる場合があり、同じassetsを使ったmode比較とは区別します。候補のアプリUI・Releaseと既定切替は未確認です。保存済みの正常packageは同梱版より優先されるため、同梱更新だけでは取り込み済み3記事版の選択を変えません。
+
+## 全記事候補のHosted UI検査
+
+[全記事候補workflow](../.github/workflows/ios-published-candidate.yml)は、独立したrunnerで全publishedを通常Contentへ生成し、原文・実consumer・Debug実アプリ・全UI・Releaseを検査します。通常の3記事jobとローカルの`ios:test:reader`は既存の`NativeReaderUITests`だけを実行します。
+
+新しい`PublishedReaderUITests`は、原文から数えた件数を`TEST_RUNNER_AILIBRARY_EXPECTED_PUBLISHED_COUNT`で受け取り、公開の「全N記事」と照合します。値がない・不正・3以下ならskipせず失敗します。通常の3記事テスト例でこのクラスを一緒に実行しない構成です。
+
+既存の代表3記事・目次・しおり復帰に、大図の拡大とテキスト表現、長文の深い見出しからの復帰、最大表の最終行・列を加えた5件を準備しました。対象は01・03・08・11章の6記事で、全記事の画面受入・実機・VoiceOver・性能合格とは区別します。[候補UIの記録](../project/records/2026-10-25/ios-published-candidate-ui.md)でSDK compile・静的検査・Hosted実行を分けます。
 
 ## 検証
 

@@ -1,0 +1,286 @@
+{
+  "schema_version": 1,
+  "task": "ios-main-recovery",
+  "date": "2026-10-25",
+  "status": "recovery-closed",
+  "authorization": "Human explicitly authorized limited administrator recovery only for PR240; temporary required-check change and immediate restoration allowed if necessary.",
+  "exception_PR": 240,
+  "exception_head": "57c96d24c8682aab20485a004a4dd20d3abcf520",
+  "initial_main": "405e29273a7a3257adeb370c6ac3196d35693d4d",
+  "ordinary_checks_passed": 10,
+  "known_failure": "harness-policy trusted-base markdown-it high",
+  "initial_protected": true,
+  "initial_required_checks": [
+    "lint",
+    "actionlint",
+    "docs",
+    "examples",
+    "build",
+    "freshness-policy",
+    "harness",
+    "harness-windows",
+    "harness-policy",
+    "Audio playback regression",
+    "Safari audio playback regression"
+  ],
+  "persistent_changes": [],
+  "protection_restored": true,
+  "main_merge": {
+    "PR": 240,
+    "sha": "9c2b0466ea82886985b921fa9e0fffe4ae9e9231",
+    "source_head": "57c96d24c8682aab20485a004a4dd20d3abcf520",
+    "method": "squash"
+  },
+  "later_PR_exceptions_authorized": false,
+  "trusted_policy": {
+    "base": "405e29273a7a3257adeb370c6ac3196d35693d4d",
+    "patched_dependency": "markdown-it14.3.3",
+    "candidate_executed": false,
+    "result": "passed"
+  },
+  "final_PR_metadata": "updated-and-validated",
+  "protection_before": {
+    "rule_id": 82976758,
+    "pattern": "main",
+    "flags": [
+      [
+        "Require a pull request before merging",
+        true
+      ],
+      [
+        "Require approvals",
+        false
+      ],
+      [
+        "Dismiss stale pull request approvals when new commits are pushed",
+        true
+      ],
+      [
+        "Require review from Code Owners",
+        false
+      ],
+      [
+        "Require approval of the most recent reviewable push",
+        false
+      ],
+      [
+        "Require status checks to pass before merging",
+        true
+      ],
+      [
+        "Require branches to be up to date before merging",
+        true
+      ],
+      [
+        "Require conversation resolution before merging",
+        true
+      ],
+      [
+        "Require signed commits",
+        false
+      ],
+      [
+        "Require linear history",
+        true
+      ],
+      [
+        "Require deployments to succeed before merging",
+        false
+      ],
+      [
+        "Lock branch",
+        false
+      ],
+      [
+        "Do not allow bypassing the above settings",
+        true
+      ],
+      [
+        "Allow force pushes",
+        false
+      ],
+      [
+        "Allow deletions",
+        false
+      ]
+    ],
+    "required_checks": {
+      "enforcement_level": "everyone",
+      "contexts": [
+        "lint",
+        "actionlint",
+        "docs",
+        "examples",
+        "build",
+        "freshness-policy",
+        "harness",
+        "harness-windows",
+        "harness-policy",
+        "Audio playback regression",
+        "Safari audio playback regression"
+      ],
+      "checks": [
+        {
+          "context": "lint",
+          "app_id": 15368
+        },
+        {
+          "context": "actionlint",
+          "app_id": 15368
+        },
+        {
+          "context": "docs",
+          "app_id": 15368
+        },
+        {
+          "context": "examples",
+          "app_id": 15368
+        },
+        {
+          "context": "build",
+          "app_id": 15368
+        },
+        {
+          "context": "freshness-policy",
+          "app_id": 15368
+        },
+        {
+          "context": "harness",
+          "app_id": 15368
+        },
+        {
+          "context": "harness-windows",
+          "app_id": 15368
+        },
+        {
+          "context": "harness-policy",
+          "app_id": 15368
+        },
+        {
+          "context": "Audio playback regression",
+          "app_id": 15368
+        },
+        {
+          "context": "Safari audio playback regression",
+          "app_id": 15368
+        }
+      ]
+    }
+  },
+  "only_authorized_change": "Remove harness-policy required status temporarily, merge exact PR240 head, restore same GitHub Actions requirement immediately.",
+  "API_merge_attempt": "rejected-required-harness-policy-failing",
+  "temporary_change": "harness-policy only removed from required checks, then restored with GitHub Actions source",
+  "restored_required_count": 11,
+  "restored_enforcement": "everyone",
+  "restored_contexts_and_app_ids_match": true,
+  "reauthentication": "completed-by-human",
+  "restored_UI_all_flags_match": true,
+  "restored_UI_checkbox_flags": 15,
+  "merge_message_and_candidate_tree_match": true,
+  "stage_PRs": [
+    {
+      "PR": 241,
+      "head": "957dffc82806710c4cb71af35ba9916d7a621da4",
+      "parent_main": "c4eb4927daf62e5decbf2e4d618474775b4ec331",
+      "status": "ordinary-main-sync-final-head-CI-running",
+      "exception_used": false,
+      "independent_review": "passed-final-two-parent-merge-tree-comparison",
+      "previous_head": "67678a1882317b4d08718d12bb650822b82f07dd",
+      "parents": [
+        "67678a1882317b4d08718d12bb650822b82f07dd",
+        "c4eb4927daf62e5decbf2e4d618474775b4ec331"
+      ],
+      "tree": "c4633233ab03125d2ca1501e1b5d08f8442d03ab",
+      "review_history": [
+        "approved-after-preserving-autonomous-record-index"
+      ],
+      "required_checks": 11,
+      "main_merged": false
+    }
+  ],
+  "main_CI": {
+    "id": 40159510477,
+    "head": "c4eb4927daf62e5decbf2e4d618474775b4ec331",
+    "status": "in_progress",
+    "conclusion": "not-confirmed",
+    "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40159510477"
+  },
+  "normal_repair_PR": {
+    "PR": 248,
+    "head": "7860fc9e3b955f1cc29163821b3a68670715ab4f",
+    "status": "merged-after-11-required-checks",
+    "exception_used": false,
+    "required_checks_passed": 11,
+    "merge_sha": "c4eb4927daf62e5decbf2e4d618474775b4ec331",
+    "merge_tree": "f2cac35ecede470c9259a09a6f18fb877d8327c2",
+    "method": "squash"
+  },
+  "snapshot_scope": "Snapshot after ordinary PR248 squash, while main CI40159510477 and PR241 final-head CI were running; not live status.",
+  "exception_status": "closed-after-PR240-merge-and-full-protection-restoration",
+  "main_CI_history": [
+    {
+      "id": 40155939255,
+      "status": "completed-failure",
+      "cause": "unreserved lazy SVG shifts heading; browser674 passed/5skip/1fail"
+    }
+  ],
+  "parallel_all_article_feature": {
+    "PR": 249,
+    "head": "bee33d124d53aa3897e12fcb56ba0b9ac2c3b5fd",
+    "base_PR": 247,
+    "draft": true,
+    "files": 12,
+    "status": "draft-saved-hosted-started-result-unconfirmed",
+    "local_consumer_articles": 199,
+    "local_consumer_acceptance": "passed",
+    "hosted_full_package_result": "not-confirmed",
+    "exception_used": false,
+    "main_merged": false
+  },
+  "normal_followup_integrations": [
+    {
+      "PR": 241,
+      "head": "957dffc82806710c4cb71af35ba9916d7a621da4",
+      "main": "d498716d18eb6699d409ad60d873e62fe61a6ded",
+      "method": "ordinary-squash",
+      "exception": false
+    },
+    {
+      "PR": 242,
+      "head": "040cfbb4cf06642739f1118305834fbf4eb571d3",
+      "main": "8ea361eef226209ba9101ccc418eacdb7adb9460",
+      "method": "ordinary-squash",
+      "exception": false
+    },
+    {
+      "PR": 243,
+      "head": "05a0436ae057479221526430c4658bbdd290f405",
+      "main": "14eb3ecb3c378de00e17f2abae7243b06b09fef7",
+      "method": "ordinary-squash",
+      "exception": false
+    },
+    {
+      "PR": 244,
+      "head": "70498ed611c4424ef8683c682dd3bc17465a2a90",
+      "main": "931a0a1a84aee4cba2239feef534b5ba790afed2",
+      "method": "ordinary-squash",
+      "exception": false
+    },
+    {
+      "PR": 245,
+      "head": "c92fe72f5ba99b56c79e3c0d6886062112cd2bd4",
+      "main": "f04d362dcae31da9add197b6fa7832f58f60201e",
+      "method": "ordinary-squash",
+      "exception": false
+    },
+    {
+      "PR": 246,
+      "head": "d50586ada8709557d4680729cbc7fe80f5527099",
+      "main": "81b5da90796e061d3e2230b941f9156a61f822bc",
+      "method": "ordinary-squash",
+      "exception": false
+    }
+  ],
+  "normal_followup_latest_main": "81b5da90796e061d3e2230b941f9156a61f822bc",
+  "normal_followup_CI_at_snapshot": "latest-main-running; prior-main-success"
+}

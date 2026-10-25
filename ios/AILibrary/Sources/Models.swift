@@ -120,6 +120,7 @@ enum LibrarySearch {
 
     static func matches(_ article: LibraryArticle, query: String) -> Bool {
         let terms = normalizedTerms(query)
+        guard !terms.isEmpty else { return true }
         let text = normalize([article.title, article.summary, article.category, article.search_text].joined(separator: " "))
         return terms.allSatisfy { text.contains($0) }
     }

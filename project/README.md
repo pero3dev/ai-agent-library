@@ -6,6 +6,8 @@
 
 ## 構造・運用の計画
 
+[main前提の限定復旧](records/2026-10-25/ios-main-recovery.md)はPR #240だけに許可された管理者復旧を追跡する。trusted baseの未実行検査、変更前の保護条件、本人再認証、実merge・直後の復元を分け、後続PRは通常の11必須検査で統合する。
+
 検索結果からネイティブ本文の一致位置へ移動する作業は[0.2.4の実施記録](records/2026-10-25/ios-search-hit-navigation.md)と[PR #242](https://github.com/pero3dev/ai-agent-library/pull/242)で追跡する。正規化AND検索を維持し、入れ子の本文位置と保存用の位置を分けた。Foundation回帰とSDK compileを確認し、新たな実機受入はユーザー指定により未実施として残す。前提PRのmain反映待ちと、機能の検証を分けて進める。
 
 記事改訂後の保存位置は[照合の実施記録](records/2026-10-25/ios-reading-revision-restore.md)で追跡する。旧保存を維持しつつ、本文digestと意味内容fingerprintを使う任意anchorを追加する。見出し・本文が曖昧な重複を持つ場合のfallbackと、未完了のblock内精度を区別する。
@@ -18,7 +20,11 @@
 
 [runtimeの照合記録](records/2026-10-25/ios-native-runtime-audit.md)では、現行app targetに旧WebKit・HTML/JS bridge・blockerが残っていないことを確認した。再利用する生成parserと比較用旧HTMLツールを保持したままIOS-24を完了とし、UI・実機の全体受入を別に残す。
 
-Markdownパーサーのhigh対策は[限定依存修正の記録](records/2026-10-25/markdown-parser-security-update.md)で追跡する。iOSの[自律実施記録](records/2026-10-25/ios-autonomous-progress.md)とはPRの範囲を分け、base依存監査による阻害と通常の検証結果を区別する。
+共通検査・サイト依存のhigh／critical対策は[限定依存修正の記録](records/2026-10-25/markdown-parser-security-update.md)で追跡する。パーサー・描画依存と必要な互換処理を更新し、通常CIとbase側の監査結果を分けて記録する。
+
+iOSのTODO自律実施と段階統合は[自律実施記録](records/2026-10-25/ios-autonomous-progress.md)で追跡する。
+
+図の遅延読み込みと見出し位置の安定化は[検証記録](records/2026-10-25/website-mermaid-layout-stability.md)で追跡する。生成SVGの寸法をSSRへ渡して本文のずれを防ぐ。
 
 代表3記事にない書式・見出しリンクは、[専用テスト記事の実施記録](records/2026-10-25/ios-native-fixtures.md)と[実機チェック表](records/2026-10-25/ios-native-fixture-checklist.md)で追跡する。2026-10-25に0.2.2（4）のA〜Dと補足2点をユーザー報告で正常と確認した。数式・重複見出し・記事内外リンク、階層リスト・引用・表・コピー、最大文字・VoiceOver、テスト用記録の保存と通常側からの分離を確認し、実機XCTest30件も成功した。代表3記事の過去の受入と合わせてIOS-07・08・12を完了とし、検索ヒットの本文位置・改訂後の位置照合・全記事展開は残す。確認版と機械検査・本人操作の結果を区別して記録する。
 

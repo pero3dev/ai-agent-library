@@ -47,3 +47,18 @@ Debugかつ既存の隔離UI suiteだけで、requestごと最大32件の数値g
 独立内容レビュー後、Xcode16.2/Simulator SDK18.2・arm64-apple-ios17.0-simulator・Swift5・targeted concurrency・DEBUG・enable-testingで、公開headのApp全16 Swiftに凍結Reader候補だけを差し替えてmoduleを生成し、このmoduleへ`@testable import AILibrary`するNativeInlineTestsを型検査した。両方終了0、stdout/stderr各0 bytes。Reader SHA-256は`9043dc4f7b1bcc341820571557589fdca40a5f258712d8cbaa0172561e01f505`、Unitは`b6c5f2e731435d97bdfab6860f6774988705cd99a0bd1d24711aad4d08f83de3`である。旧24 test method本文を保持し、新規4件は重なるinset・legal clamp・UIKit marker/保存block・可視先頭の変化を検査するsourceとして型を確認した。
 
 これは実XCTest28件の実行、全target build、iOS26.5の実insetや到着成功を示さない。新しいexact headでのHosted exact2 UI、全記事を含む機能UI14件、単体・SDK/Release監査は待ちである。共有lockと所有process group、180秒・空き容量・私有cache上限を監視し、実測最低空きは4,910,505,984 bytes。検査後は生成moduleとlogを保存して所有cacheだけを解放した。証跡は`<repo>/.local/ios-autonomous-evidence/viewport26-fix-prepared/evidence/limited-sdk-proof.json`に保存し、原proof SHA-256は`54b1280a18054d0d43517dbf79b522aaff737de48d9efbf53ba1b2543e7cf8d8`である。新しい実機QAはユーザー指定により実施せず、実機・VoiceOver・現行iOS27・最低iOS17・性能の未確認を保持する。
+
+
+## 補正後の実結果と次の検証（2026-10-26）
+
+公開head `3dbdfe4512de9948074fcb74151f2422818bf214`では、[iOS26.5 run40225552342](https://github.com/pero3dev/ai-agent-library/actions/runs/40225552342)／job121266028072の既存Native2件が成功した。実toolchainはXcode26.6/SDK26.5、iPhone17/iOS26.5で、通常3記事・fixture4記事の実Debug監査と所有Simulator削除も成功した。artifact12611902287のrawを独立監査した。safe-area/adjusted insetの数値ログは回収できておらず、inset乖離という仮説の確認や、繰り返した安定性・実機の受入へ拡張しない。
+
+同headの通常Native回帰は単体133件中131成功・2skip、Native UI2件とReleaseが成功し、SDK26 Archiveも成功した。一方、全記事run40225552378／job121266028236は単体131成功・2skip、機能UI13/14で検索Aのfirst-visible判定が失敗し、Releaseはskipだった。サイトbuildのjob121266027994も、2回目のroadmap遷移後、非表示を確かめるlocatorが2個のcanvasに一致して失敗した。これらをNative2件の成功で上書きしない。
+
+後続のpicker head `238e5e99`では検索Aとpickerが成功した後、Bの最初の検索到着で失敗した。別のiOS26.5 run40226683838／job121269430717は、通常3記事・fixture4記事を出力した後、生成・監査工程の2分上限で停止し、実UIは0件だった。新候補はこの工程だけ4分にし、cap合計のコメントを40分へ訂正する。job40分・UI8分・全コマンドは保持する。outer上限はoverheadも含み、到達時にcleanup/exportの完了を保証しない。
+
+サイトの検査には、同じcanvasが1個になることを既定5秒で待ってから従来の非表示判定を行う1行を加える。0個や継続的な重複を合格へ変えず、20本のedge・関係一覧・keyboardの既存検査も保持する。失敗時の`S:0`内canvasは確認したが、streaming/hydrationのどの時点に起因するかは未確定である。新しいPlaywright実行は未実施。
+
+検索判定はPR #268の後続修正を継承する予定で、1pollのviewport・コピーしたframeを使い、完全表示・先頭ID一致・15秒を維持する。機能14件＋純粋geometry6件、新headの単体・Native2件・iOS26.5の2件・SDK26/Release・サイトbuildは改めて実行する。過去の成功を新headへ流用しない。準備時は当時未統合だったPR #268のtree `80abdee0d3a2e9148849a114bb8ffe2c8f354682`と比較した。このtreeが通常統合後のmain `656c234582bbe76b852b394eae4d6f6837f0ce04`のtreeと同一であることを照合し、旧head3dbと実main commitを親にして同期する。treeをcommit親には使わない。今回の差分は従来の固有7pathsにサイト検査1pathを加えた8pathsである。
+
+限定SDK証跡に残るbuild表記`16C5032`は当時の記録を保持し、実環境の完全な表記は`16C5032a`として区別する。新たなローカルSDK・Simulator・実機操作は行っていない。VoiceOver・最大文字・実機・現行iOS27・全体の性能受入は未完了である。最低OSの別一時PR #271では旧baselineのiOS17.0.1で2件が成功したが、この補正版の受入へは流用しない。

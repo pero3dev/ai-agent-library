@@ -162,7 +162,7 @@ IOS-26は[PR #246のHosted実行](https://github.com/pero3dev/ai-agent-library/a
 
 IOS-25の[絞り込み中の追加UI回帰2件](../../records/2026-10-25/ios-filtered-actions-ui.md)では、About開閉のfilter保持と、専用記事の別しおり・音声不可・2段階戻り・通常保存の永続分離を公開UIだけで検査する。通常reader再開前のrestartを入れてcached Storeだけのfalse-passを防ぐ。既存10機能ケースを保持して12件へ増やし、SDK compileを確認した。初回Hosted・fileImporterキャンセル・VO/実機とIOS-25全体の受入は未完了を維持する。
 
-IOS-10・25の[本文検索ヒットと復帰の追加2件](../../records/2026-10-26/ios-search-hit-ui-regression.md)では、入れ子leafへの即到着と、本文Aの検索後に保存したBへ再起動復帰する公開動作を確認する。旧12件を保持し機能14件へ増やす候補で、生成3/199記事の一致先と、専用一覧の検索キャンセル4行を加える前の候補までSDK型検査を確認した。現在の追加4行を含むソースは未compileで、型検査・全target build・実登録・実UI14件は新headのHosted待ちである。AX・保存タイミングとVoiceOver/実機、IOS-10・25全体は未完了を維持する。
+IOS-10・25の[本文検索ヒットと復帰の追加2件](../../records/2026-10-26/ios-search-hit-ui-regression.md)では、入れ子leafへの即到着と、本文Aの検索後に保存したBへ再起動復帰する公開動作を確認する。旧head a88では単体127成功・2skip、機能UI14件とReleaseが成功したが、別headの到着判定失敗も保持している。一時診断で観測したgeometryの重複取得を減らす修正は、完全表示・先頭ID一致・15秒を維持する。新sourceの機能14件＋純粋geometry6件・全target build・Releaseは正確な新headのHosted待ちである。過去の失敗原因・安定性、VoiceOver/最大文字/実機とIOS-10・25全体は未完了を維持する。
 
 現在のPrivacy ManifestにはUserDefaultsの利用理由がある。最終版では対象API・依存SDKを再監査し、Archiveへの同梱も確認する。プライバシーポリシーとApp Privacyは、無料・アカウントなしでも必要な申請項目として扱う。[プライバシー規約](https://developer.apple.com/app-store/review/guidelines/#privacy)、[App Privacy](https://developer.apple.com/help/app-store-connect/manage-app-information/manage-app-privacy/)、[required reason API](https://developer.apple.com/documentation/bundleresources/describing-use-of-required-reason-api)
 

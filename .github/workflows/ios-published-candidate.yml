@@ -149,7 +149,8 @@ jobs:
             -resultBundlePath .local/ios-published-candidate/evidence/ui.xcresult \
             -parallel-testing-enabled NO -jobs 2 \
             -only-testing:AILibraryUITests/NativeReaderUITests \
-            -only-testing:AILibraryUITests/PublishedReaderUITests CODE_SIGNING_ALLOWED=NO test \
+            -only-testing:AILibraryUITests/PublishedReaderUITests \
+            -only-testing:AILibraryUITests/ReaderViewportGeometryTests CODE_SIGNING_ALLOWED=NO test \
             2>&1 | tee .local/ios-published-candidate/evidence/xctest-ui.log
       - name: Build and verify the published Release package
         run: |

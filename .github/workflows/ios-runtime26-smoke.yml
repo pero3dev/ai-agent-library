@@ -28,7 +28,7 @@ jobs:
     # Exact public-repository gate is evaluated before allocating a standard VM.
     if: github.repository == 'pero3dev/ai-agent-library' && github.event.repository.private == false
     runs-on: macos-26
-    # Explicit step caps total38min, including4min cleanup and2min artifact upload.
+    # Explicit step caps total40min, including4min cleanup and2min artifact upload.
     # UI is followed immediately by owned cleanup. Cancelled app/result audits skip.
     # Forced cancellation/runner loss can still interrupt cleanup or upload.
     timeout-minutes: 40
@@ -163,7 +163,7 @@ jobs:
           set -euo pipefail
           ./node_modules/.bin/playwright install chromium 2>&1 | tee "$EVIDENCE_DIR/chromium-install.log"
       - name: Generate and audit representative three and separate fixture four
-        timeout-minutes: 2
+        timeout-minutes: 4
         id: content
         run: |
           set -euo pipefail

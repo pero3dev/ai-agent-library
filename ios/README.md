@@ -180,7 +180,7 @@ npm run ios:test:package
 
 終了処理を計測から外し、warm-up1回と記録3回を区別します。操作自動化とアクセシビリティの待ち時間を含み、監査でファイルcacheも温まるため、初回インストール・disk cold・Release・実機の起動時間ではありません。CPU・メモリ・スクロールや性能目標の合否も扱いません。
 
-生xcresult・CSV・型付きmetric・実行環境をartifactへ残します。欠測や異なるテストID、非数は失敗扱いで、ゼロに置き換えません。最初のXcode16.4出力でClockの識別子・単位を独立確認するまでは、取得できても未確認として非ゼロ終了します。生CSVの列や値の解釈と、legacy型付きmeasurementを別に扱います。[観測基盤の記録](../project/records/2026-10-25/ios-published-readiness-observation.md)で実測前の静的確認と実行結果を追跡します。
+生xcresult・CSV・型付きmetric・実行環境をartifactへ残します。欠測や異なるテストID、非数は失敗扱いで、ゼロに置き換えません。初回Xcode16.4のJSON・CSV・log・xcresultで実Clock識別子・表示名・秒単位と3標本を独立確認しました。初回は契約nullで非ゼロ終了を保ち、追加guardでは実CSVの5列・1行・宛先/構成・typed原順3値・秒平均を厳密照合します。平均は印字小数位の半刻みだけをBigIntで許し、欠測を補いません。追加sourceは保存済raw再生で確認し、新headのHosted成功とは区別します。[観測基盤の記録](../project/records/2026-10-25/ios-published-readiness-observation.md)で実測前の静的確認と実行結果を追跡します。
 
 ## 検証
 

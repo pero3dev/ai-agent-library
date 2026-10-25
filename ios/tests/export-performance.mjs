@@ -8,10 +8,16 @@ import { pathToFileURL } from 'node:url'
 const scenario = 'testLaunchToPublishedReadiness'
 const className = 'PublishedPerformanceUITests'
 const maxJSONBytes = 16 * 1024 * 1024
-// Adopt an identifier/unit only after inspecting the first retained Xcode 16.4
-// clock result. The generic legacy type and a human display name do not identify
-// XCTClockMetric. No value below is guessed from another metric or SDK version.
-const verifiedClockContract = null
+// Adopted from the retained Xcode 16.4 result, not inferred from a generic metric.
+// This identifies the format; it adopts no product threshold or XCTest baseline.
+const verifiedClockContract = Object.freeze({
+  identifier: 'com.apple.dt.XCTMetric_Clock.time.monotonic',
+  display_name: 'Clock Monotonic Time', unit: 's',
+  reference: {
+    run_id: '40188893652', source_head: 'e8032494fb396718bbfe2218b1dfa428abfd7313',
+    CSV_sha256: '154faa23ef6bb36ff08759061026f2b183604ce8f2517eb89af315230ae79374'
+  }
+})
 const digest = bytes => createHash('sha256').update(bytes).digest('hex')
 
 function parseOptions(args) {
@@ -88,7 +94,8 @@ export function normalizeMetrics(summary, id, modernResult) {
         !Array.isArray(measurements) || measurements.length !== 3) {
       throw new Error('Metric display name/unit or three actual recorded samples are missing')
     }
-    const rawSamples = measurements.map(item => item?._value)
+    if (measurements.some(item => item?._type?._name !== 'Double')) throw new Error('Expected three typed Double measurements')
+    const rawSamples = measurements.map(item => item._value)
     const samples = rawSamples.map(value => {
       if (typeof value !== 'string' && typeof value !== 'number') throw new Error('Invalid measurement')
       if (typeof value === 'string' && !/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/.test(value.trim())) throw new Error('Invalid numeric measurement')
@@ -102,6 +109,7 @@ export function normalizeMetrics(summary, id, modernResult) {
       display_name: displayName, unit, raw_samples: rawSamples, samples,
       sample_count: samples.length, minimum: sorted[0], median: sorted[1], maximum: sorted[2],
       baseline: {
+        acceptance_status: 'unadopted',
         name: metric.baselineName?._value ?? null,
         average: metric.baselineAverage?._value ?? null,
         maximum_percent_regression: metric.maxPercentRegression?._value ?? null,
@@ -109,6 +117,118 @@ export function normalizeMetrics(summary, id, modernResult) {
       }
     }
   })
+}
+
+// Xcode 16.4 exported two fully quoted records. Parse quoted fields instead of
+// splitting commas: the iteration array itself contains commas.
+function quotedCSV(text) {
+  if (typeof text !== 'string' || !text.length || text.includes('\0')) throw new Error('Invalid CSV text')
+  const rows = []
+  let cursor = 0
+  while (cursor < text.length) {
+    const row = []
+    while (true) {
+      if (text[cursor++] !== '"') throw new Error('CSV fields must be quoted')
+      let value = '', closed = false
+      while (cursor < text.length) {
+        const character = text[cursor++]
+        if (character !== '"') { value += character; continue }
+        if (text[cursor] === '"') { value += '"'; cursor++; continue }
+        closed = true
+        break
+      }
+      if (!closed) throw new Error('Unterminated CSV field')
+      row.push(value)
+      if (row.length > 5) throw new Error('Unexpected CSV column count')
+      if (text[cursor] === ',') { cursor++; continue }
+      if (text[cursor] === '\r') {
+        if (text[cursor + 1] !== '\n') throw new Error('Invalid CSV line ending')
+        cursor += 2
+      } else if (text[cursor] === '\n') cursor++
+      else if (cursor !== text.length) throw new Error('Unexpected text after CSV field')
+      break
+    }
+    rows.push(row)
+    if (rows.length > 2) throw new Error('Expected exactly one CSV header and data row')
+  }
+  if (rows.length !== 2 || rows.some(row => row.length !== 5)) throw new Error('Expected five CSV headers and one data row')
+  return rows
+}
+
+// Exact decimal arithmetic makes the rounding allowance come solely from the
+// CSV's printed last place. No empirical percentage or timing tolerance is used.
+function decimal(value) {
+  const source = String(value)
+  const match = /^(0|[1-9]\d*)(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/.exec(source)
+  if (!match || source.length > 512 || !Number.isFinite(Number(source))) throw new Error('Invalid finite decimal CSV value')
+  const exponent = Number(match[3] ?? 0)
+  if (!Number.isInteger(exponent) || Math.abs(exponent) > 400) throw new Error('Unsupported decimal exponent')
+  const scale = (match[2]?.length ?? 0) - exponent
+  return { coefficient: BigInt(match[1] + (match[2] ?? '')), scale, number: Number(source), source }
+}
+const power10 = exponent => 10n ** BigInt(exponent)
+const decimalUnits = (value, scale) => value.coefficient * power10(scale - value.scale)
+function equalDecimal(left, right) {
+  const scale = Math.max(0, left.scale, right.scale)
+  return decimalUnits(left, scale) === decimalUnits(right, scale)
+}
+
+export function validateClockCSV(text, metric, details) {
+  if (metric.identifier !== verifiedClockContract.identifier ||
+      metric.display_name !== verifiedClockContract.display_name || metric.unit !== verifiedClockContract.unit) {
+    throw new Error('Recorded identifier, display name and unit must match the verified clock contract')
+  }
+  if (!Array.isArray(details.devices) || details.devices.length !== 1) throw new Error('Expected one CSV measurement device')
+  const device = details.devices[0]
+  if (device.deviceName !== 'iPhone 16' || device.platform !== 'iOS Simulator' || device.osVersion !== '18.5') {
+    throw new Error('Unexpected performance measurement device')
+  }
+  const configurations = details.testPlanConfigurations
+  if (!Array.isArray(configurations) || configurations.length !== 1 ||
+      configurations[0].configurationName !== 'Test Scheme Action') throw new Error('Unexpected measurement configuration')
+  const [header, row] = quotedCSV(text)
+  const expectedHeader = ['Destination', 'Configuration', 'Clock Monotonic Time (Average)',
+    'Clock Monotonic Time (Iterations)', 'Clock Monotonic Time (Baseline)']
+  if (header.some((field, index) => field !== expectedHeader[index])) throw new Error('Unexpected CSV headers')
+  const destination = [device.deviceName, device.platform, device.osVersion].join(' ')
+  if (row[0] !== destination || row[1] !== configurations[0].configurationName) throw new Error('CSV destination/configuration differs from actual test details')
+  // The observed average is plain decimal seconds. Reject scientific/coarse
+  // exponent forms rather than deriving an unobserved, arbitrarily large unit.
+  const averageMatch = /^((?:0|[1-9]\d*)(?:\.\d+)?) s$/.exec(row[2])
+  if (!averageMatch) throw new Error('CSV average must use the observed plain decimal seconds format')
+  const average = decimal(averageMatch[1])
+  const iterationMatch = /^\[([^\[\]]*)\]$/.exec(row[3])
+  if (!iterationMatch) throw new Error('Invalid CSV iteration array')
+  const rawIterations = iterationMatch[1].split(',').map(value => value.trim())
+  if (rawIterations.length !== 3 || metric.sample_count !== 3 || metric.raw_samples.length !== 3) throw new Error('Expected three CSV and typed samples')
+  const iterations = rawIterations.map(decimal)
+  const typed = metric.raw_samples.map(decimal)
+  if (iterations.some((value, index) => !equalDecimal(value, typed[index]))) throw new Error('CSV iterations differ from typed measurements')
+  if (metric.baseline.average === null || metric.baseline.average === undefined ||
+      !equalDecimal(decimal(row[4]), decimal(metric.baseline.average))) throw new Error('CSV baseline differs from raw legacy baseline')
+  const scale = Math.max(0, average.scale, ...typed.map(value => value.scale))
+  const sum = typed.reduce((total, value) => total + decimalUnits(value, scale), 0n)
+  const count = 3n
+  const signedDifference = decimalUnits(average, scale) * count - sum
+  const difference = signedDifference < 0n ? -signedDifference : signedDifference
+  const halfUnitNumerator = count * power10(scale - average.scale)
+  // Both sides are integers representing twice the difference. Decimal wire
+  // values are exact here, so no floating epsilon is necessary (epsilon = 0).
+  if (difference * 2n > halfUnitNumerator) throw new Error('CSV mean differs beyond half of its printed rounding unit')
+  const mean = typed.reduce((total, value) => total + value.number / 3, 0)
+  if (!Number.isFinite(mean)) throw new Error('Non-finite typed mean')
+  return {
+    status: 'matched-clock-and-typed-values', header_columns: 5, data_rows: 1,
+    destination, configuration: row[1], unit: 's', sample_count: 3,
+    raw_iterations: rawIterations, average_raw: row[2], CSV_average_seconds: average.number,
+    typed_mean_seconds: mean,
+    mean_comparison: { method: 'exact decimal integer arithmetic', printed_decimal_scale: average.scale,
+      half_rounding_unit_seconds: Number.isFinite(0.5 * 10 ** -average.scale) && 0.5 * 10 ** -average.scale > 0 ? 0.5 * 10 ** -average.scale : null,
+      floating_epsilon_seconds: 0, difference_numerator: difference.toString(),
+      difference_denominator: (count * power10(scale)).toString(),
+      typed_mean_numerator: sum.toString(), typed_mean_denominator: (count * power10(scale)).toString() },
+    baseline_raw: row[4], baseline_acceptance: 'unadopted'
+  }
 }
 
 export function metricReference(testPlan, expectedID) {
@@ -254,7 +374,7 @@ function collectPerformance(options, evidence, commands) {
     }
   }
   collectCSV(csvDirectory)
-  if (!files.length || files.length > 16) throw new Error('Expected nonempty CSV metric export')
+  if (files.length !== 1) throw new Error('Expected exactly one test-scoped CSV metric export')
   const csv = files.map(file => {
     const stat = lstatSync(file)
     if (!stat.isFile() || stat.isSymbolicLink() || stat.size === 0 || stat.size > 8 * 1024 * 1024) throw new Error('Invalid CSV export')
@@ -271,18 +391,16 @@ function collectPerformance(options, evidence, commands) {
   const summaryRef = metricReference(plans, id)
   const summary = jsonCommand(['get', 'object', '--legacy', '--path', options.result, '--id', summaryRef, '--format', 'json'], 'test-summary.legacy.json')
   const metrics = normalizeMetrics(summary, id, details.testResult)
-  const clockContractConfirmed = verifiedClockContract !== null &&
-    metrics[0].identifier === verifiedClockContract.identifier && metrics[0].unit === verifiedClockContract.unit
+  const csvValidation = validateClockCSV(new TextDecoder('utf-8', { fatal: true }).decode(readFileSync(files[0])), metrics[0], details)
+  const clockContractConfirmed = true
   const result = {
-    schema_version: 1, status: !clockContractConfirmed ? 'collected-pending-metric-contract-review' :
-      (details.testResult === 'Passed' ? 'measured-and-exported' : 'measured-with-test-failure'), context, test_id: id,
+    schema_version: 1, status: 'measured-and-exported', context, test_id: id,
     test_result: details.testResult, devices: details.devices,
     declared_metric: 'XCTClockMetric', declared_recorded_iterations: 3,
     discarded_warmup_invocations: 1, metrics, csv, commands,
-    metric_contract: { status: clockContractConfirmed ? 'confirmed' : 'pending-first-real-Xcode16.4-clock-output',
-      confirmed: clockContractConfirmed, adopted_reference: verifiedClockContract,
-      note: 'The source declares XCTClockMetric; generic legacy samples do not independently prove its API identity.' },
-    csv_validation: 'Raw nonempty UTF-8 bytes retained only; columns/row count/value agreement are unvalidated. Numeric evidence comes separately from typed legacy fields.',
+    metric_contract: { status: 'confirmed', confirmed: clockContractConfirmed, adopted_reference: verifiedClockContract,
+      note: 'Metric identity and CSV schema match the inspected Xcode 16.4 reference; product performance acceptance remains unadopted.' },
+    csv_validation: csvValidation,
     legacy_test_status: summary.testStatus?._value ?? null,
     extraction: 'CSV export plus documented legacy ActionTestPerformanceMetricSummary fields; missing data fails instead of becoming zero',
     acceptance_status: 'unadopted',

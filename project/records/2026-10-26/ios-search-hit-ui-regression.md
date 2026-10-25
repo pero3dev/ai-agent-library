@@ -2,30 +2,34 @@
 
 ## 作業契約
 
-- 目的: IOS-10・25で、本文検索の入れ子leafへの実到着と、保存後の復帰で古いqueryを再実行しないことを確認する。
-- 基準: 検索終了の4行を加えた公開済みPR #265 head `fb6108db5c50257f30cdc5ce91d7b9b9f26011d4`。初期基準 `5a064a3c5ed4b7a1ece51cd672d2711662ad9014`は履歴として保持する。版0.2.14（16）を保持する。
-- 所有: PublishedReaderUITestsの追加2件、開発手順・TODO・本記録と索引。既存caseと他者の変更を戻さない。
-- 許可根拠: ユーザーによるTODO優先順の自律実装・commit/PR/通常main統合の依頼。実機確認は未完了として継続する。
-- 終了条件: 内容レビューとSDK型検査後、正確なheadで共通CI・単体・機能UI14件・Releaseを確認する。[AGENTS](../../../AGENTS.md)・[Git規約](../../../harness/git-rules.md)を適用する。
+- 目的: IOS-10・25の入れ子本文への到着と、保存後の復帰で古いqueryを再実行しない動作を検査する。
+- 基準: PR #268のhead `a88fe0720beeddcfeeb6b24bc2f353a2b2647d66`。main `b79c0a3f6b76a7603077b0a30a07cdecb94cda93`を含み、版0.2.14（16）を保持する。
+- 所有: UITest2ファイル、全記事UIのselector、開発手順と本記録。App・保存形式・既存の操作手順は変更しない。
+- 許可根拠: TODO優先順の自律実装・commit/PR/通常main統合の依頼。実機確認は未完了として継続する。
+- 終了条件: 独立レビュー後、新headの共通CI・単体・機能UI14件と純粋geometry6件・Releaseを確認する。[AGENTS](../../../AGENTS.md)・[Git規約](../../../harness/git-rules.md)を適用する。
 
-## 追加した観測
+## 検査する動作
 
-1件目は「回復 チャンス 一時的」でAgentループを開き、4項目リストの3番目にある段落が最初の完全可視paragraphになることを確認する。単にtop-levelのlist先頭へ着く場合と区別し、本文をgestureで探して成功へ合わせない。
+「回復 チャンス 一時的」でAgentループを開き、入れ子リストの特定段落が最初の完全可視paragraphになることを確認する。本文gestureで到着位置を作らず、listの先頭だけを表示する場合と区別する。
 
-2件目は「20 ステップ分」で本文Aへの到着を陽性確認した後、目次で離れた実装例Bへ移り保存する。終了・再起動後に検索欄が空で、通常の「続きを読む」からBが可視・Aが不可視になることを確認する。内部にqueryのbytesが存在しないという証明にはせず、復帰時に古いqueryを再実行しない公開動作に限定する。
+もう1件は「20 ステップ分」で本文Aへの到着を確認した後、目次で離れた実装例Bへ移って保存する。終了・再起動後に検索欄が空で、「続きを読む」からBが可視・Aが不可視になることを確認する。内部のquery bytes不存在の証明にはしない。生成3記事・199記事で各queryの全語に一致するatomic blockが1件だけになることを、実searchHitで確認済みである。
 
-旧Native2件は既にタイトル検索・目次・しおり・再起動復帰を扱う。新規性は入れ子の特定段落への即到着と、body hit Aの陽性を経たB/A差分であり、一般的な復帰の検査を新規とは数えない。既存12caseのselector・assert・helper・gestureを保持する。
+既存12機能ケースと2件の検索ケースを保持する。専用一覧の検索終了は前面バー配下の一意なキャンセルを使い、通常のfilter・保存記録との分離を確認する。
 
-前面bar判定のPR #267に合わせ、新しいpositive predicateの1か所だけpoll用の幾何helperを使う。最終の陰性判定ではunknownを明示失敗にし、判定不能を不可視として成功へ変換しない。
+## 実行履歴と判定処理の修正
+
+追加4行前のhead `18bcbf62`の[run40207531202](https://github.com/pero3dev/ai-agent-library/actions/runs/40207531202)は単体127成功・2skip、UI13/14で専用一覧の最終closeだけが失敗した。検索2件自体は成功した。その後の[head a88のrun40227071664](https://github.com/pero3dev/ai-agent-library/actions/runs/40227071664)では単体127成功・2skip、機能UI14/14とReleaseが成功した。
+
+一方、別headの[3dbのrun40225552378](https://github.com/pero3dev/ai-agent-library/actions/runs/40225552378)ではAのfirst-visible判定が失敗し、[238eのrun40226683804](https://github.com/pero3dev/ai-agent-library/actions/runs/40226683804)ではAとpickerが成功した後、Bの最初の検索到着で同じ判定が失敗した。Bの目次移動・保存・再起動には到達していない。これらをa88の成功で上書きせず、統合を保留した。
+
+一時診断[PR #272](https://github.com/pero3dev/ai-agent-library/pull/272)の最終head `b16da8f0`・[run40235571643](https://github.com/pero3dev/ai-agent-library/actions/runs/40235571643)では、Xcode16.4/SDK18.5・iPhone16/iOS18.5でA/Bだけを実行して両方成功した。公式添付manifestのtestIdentifier/deviceIdと結んだJSONでは、各1pollで先頭IDとtarget IDが一致し、targetが完全表示領域内だった。判定時間はA11.505638秒・B8.495475秒、そのうち段落ごとのgeometryを取得するfilter工程は9.957591秒・7.344782秒だった。初回2回のprebuild停止は保持し、診断PRはmainへ統合せず閉じた。成功観測の費用であり、過去の失敗原因や安定性を確定した値ではない。
+
+今回の判定は1pollで前面viewportを1回解決し、各paragraph queryのexists/frameを取得した後、値としてコピーしたCGRectだけでfilter/sortする。前面barの一意性・操作可能なcontrolの根拠・barによる上部の遮蔽・完全表示・target hittable・先頭ID一致を維持する。AX取得は逐次であり、原子的snapshotではない。targetのguardとcollectionに同じ段落が別query objectとして現れる場合、それぞれの経路でframeを読む。待機15秒・assert・gesture・case本文は変えない。
+
+unknown・複数bar・遮蔽・部分表示・同じ上端の順序・NaN・空viewport等の純粋CGRect検査6件を追加し、全記事workflowの既存2class selectorに専用classを加える。既存Native2件とPublished12件の機能UI14件、純粋6件の計20件が実行対象となる予定で、実登録数は新headの結果を採用する。
 
 ## 検証と残件
 
-生成3記事版と199記事版で、実NativeDocument.searchHitと正規化処理を使い、各queryの全語に一致するatomic blockが全体で1件だけになることを確認した。AからBはtop-levelで9block離れている。私有候補と前面helper対応後のUIソースSHA `8aaa2e61…`までSDK限定型検査が成功し、内容の独立レビューも受けた。これは専用一覧の検索キャンセル4行を加える前のソースである。
+元のbar/viewport計算式の保全、predicateだけの限定置換、既存case本文・assert・操作の不変、旧14件への一意な適用を静的確認した。新sourceのSwift/SDK compile・XCTest登録・実UI・Release・共通CIは未実施である。空き容量制約によりローカルSDK/Simulatorは実行せず、正確な新headのHostedを使う。以前の版の成功を新sourceへ流用しない。
 
-検索キャンセル追加前のhead `18bcbf62f09f179d1264e53d859dcf19508c0d73`の[Hosted run40207531202](https://github.com/pero3dev/ai-agent-library/actions/runs/40207531202)／job `121211574824`では、単体129件を登録して127成功・2skip、UI14件は13成功・1失敗だった。新しい検索到着・再起動復帰の2件は、それぞれ32.686秒・98.885秒で成功した。これは操作自動化と待機を含むcase実行時間で、製品の検索遅延や性能合格の値ではない。残った失敗は専用記事の最終close（PublishedReaderUITests.swift:397）だけで、ReleaseはUI失敗後にskipとなった。この旧 `8aaa2e61…`ソースの登録・実行結果を、追加4行を含む新版の成功へ流用しない。
-
-専用記事の最終検索値保持assert直後に、前面「本文表示テスト」バー配下のキャンセルを既存の一意性・hittable判定で押す4行を追加した。背景の通常検索を選ばず、既存の閉じる判定、About・操作シート、通常のquery・タグ・保存のassertを保持する。内容はm0承認済みだが、現在の14件ソースSHA `5638e669240cbdbaaf2b8d1323b3fbfb82ff2c93aff30d8d882ac22bca945629`は未compile・未実行である。前述の `8aaa2e61…`のSDK成功を、この新操作の型や実UI成功へ読み替えない。
-
-共有workspaceの共通検査765件は750成功・15skip・失敗0という追加4行前の原証跡を維持する。容量制約でローカルSDKを再実行せず、新14件の全target build・実登録・実UI、検索取消後の通常filter／読書記録保持、AX・スクロール・保存タイミングは正確な新headのHosted待ちとする。
-
-先行のTOC位置決めと前面判定はPR #267へまとめ、root報告のmain `8e982b8460a7b9b33f130755a7ca4c6596cfd8fe`へ通常統合済みで、PR #266の単独統合はsupersededである。PR #265の新12件版と本追加2件の結果は分ける。親headは公開済みの `fb6108db5c50257f30cdc5ce91d7b9b9f26011d4`で、初期基準 `5a064a3c…`は履歴として保持する。VoiceOver・最大文字・実機とIOS-10・25全体は未完了。[JSON](ios-search-hit-ui-regression.json)に段階別の証拠を保存する。
+VoiceOver・最大文字・実機受入はユーザー指定により未完了として記録する。IOS-10・25全体の完了や製品性能の合格を、このテスト修正だけで宣言しない。[JSON](ios-search-hit-ui-regression.json)にsourceと実行を分けて記録する。

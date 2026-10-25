@@ -238,7 +238,7 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 
 [検索ヒットの追加2件](../project/records/2026-10-26/ios-search-hit-ui-regression.md)は、入れ子の特定段落への到着と、本文検索後に別位置を保存して再起動した時のB/A差分を公開UIで検査します。本文のgestureで到着位置を作らず、旧queryが復帰で再実行されない動作までを扱います。
 
-既存12件を保持して機能UIはsource上14件になります。生成3/199記事の実searchHitで一意なleafを確認し、前面helper対応後・専用一覧の検索キャンセル4行追加前のUIソースまでSDK限定型検査は成功しました。現在の追加4行を含むソースは未compileで、型検査・全target build・実登録・実UI14件・AX/保存タイミングは新headのHosted待ちです。VoiceOver・最大文字・実機は未完了です。
+検索終了の修正後、旧head a88では単体127成功・2skip、機能UI14件とReleaseが成功しました。別headの検索到着判定の失敗も保持し、一時診断で判定中のgeometry重複取得を観測しました。新しい判定は1pollのviewportと各段落frameを再利用し、完全表示・先頭ID一致・15秒は維持します。機能14件と純粋geometry6件の計20件を新headのHostedで検証する予定です。新sourceのcompile・実登録・実行、VoiceOver・最大文字・実機は未完了です。
 
 ## SDK26のiPhoneOS Archive互換性検査
 

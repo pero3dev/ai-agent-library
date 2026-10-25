@@ -2,44 +2,31 @@
   "schema_version": 1,
   "date": "2026-10-26",
   "task": "ios-search-hit-ui-regression",
-  "parent_PR": 265,
-  "parent_head": "fb6108db5c50257f30cdc5ce91d7b9b9f26011d4",
+  "parent_PR": 268,
+  "parent_head": "a88fe0720beeddcfeeb6b24bc2f353a2b2647d66",
   "version": "unchanged-0.2.14(16)",
-  "status": "scoped-fixture-search-cancel-reviewed-current-source-uncompiled-Hosted-pending",
+  "status": "single-poll-geometry-snapshot-source-review-and-exact-head-Hosted-pending",
   "source_sha256": {
-    "ios/AILibraryUITests/PublishedReaderUITests.swift": "5638e669240cbdbaaf2b8d1323b3fbfb82ff2c93aff30d8d882ac22bca945629"
+    "ios/AILibraryUITests/NativeReaderUITests.swift": "bcafec630f8c5927a4b4b694dc33bcacd25f459ab4a636ae8e0f68309b69d1a4",
+    "ios/AILibraryUITests/PublishedReaderUITests.swift": "d9ede07fb66f6a99d5d44ad679580ad05e7dd00dc31c03cf01677767dc1470ee"
   },
   "original_candidate_SHA256": "7e87d99ec7e552d2bf27d66dc28522188fd8f9c1feba48965199225c238eab71",
-  "helper_adaptation": "Historical8aaa positive-predicate adaptation remains. Current5638 additionally has only the approved four-line fixture search cancellation; all old assertions/helpers remain.",
+  "helper_adaptation": "Single-poll viewport and value-copied paragraph frames; old foreground/top-occlusion equations, fully-visible/hittable/identifier conditions and 15-second timeout retained.",
   "counts_from_source": {
-    "previous_functional": 12,
-    "new": 2,
-    "functional_total": 14,
-    "performance": "separate1",
-    "unit_if_parent_registered": 129,
-    "actual_registration": "not-run-for-current5638"
+    "functional": 14,
+    "pure_geometry": 6,
+    "selected_total": 20,
+    "actual_registration": "not-run-new-snapshot"
   },
   "observations": [
     "unique multiword nested atomic paragraph landing without corrective reader gestures",
     "positive bodyhit A then saved B; relaunch query empty and resume B visible/A invisible; not absence of internal query bytes"
   ],
   "validation": {
-    "generated_profiles": "real searchHit + normalization on actual3/199; each query fully matches exactly one atomic block",
-    "A_to_B_top_level_distance": 9,
-    "SDK": "Standalone Native+Published typecheck passed for historical8aaa before the four-line cancellation. Current5638 has not been typechecked/compiled; new Hosted compile required.",
-    "independent_source_review": "Initial7e87 and helper-adapted8aaa approved; four-line scoped-cancellation candidates approved by m0 as reported by parent.",
-    "full_project_build": "not-run-for-current5638; Hosted pending",
-    "UI_and_registration": "not-run-for-current5638; exact fourteen-case Hosted pending",
-    "common_check": {
-      "scope": "historical shared workspace before four-line cancellation; no new local check/SDK runtime for current5638",
-      "tests": 765,
-      "passed": 750,
-      "skipped": 15,
-      "failed": 0,
-      "log": "/private/tmp/ios-search-hit-ui-common-check-20261026.log",
-      "sha256": "034a063d1bcfbd0e4494e91cbcd3513896fecbbdf566ab1f298a51836f008c0f"
-    },
-    "historical_Hosted_registration": "Old18b/source8aaa registered129unit/14UI and ran127unit-pass2skip/13UI-pass1fixture-close-fail. Current5638 remains uncompiled/unexecuted."
+    "static": "literal predicate-only adaptation and old geometry equation preservation checked",
+    "Swift_SDK_XCTest_UI_Release_common": "not-run-new-snapshot; exact-head Hosted required",
+    "independent_source_review": "pending for snapshot revision",
+    "historical_scope": "pre_snapshot_validation retains pre-snapshot receipts; Hosted_history records subsequent exact5638 success"
   },
   "evidence": {
     "/private/tmp/ios-search-hit-ui-candidate-20261025/validation.json": {
@@ -76,9 +63,9 @@
     }
   },
   "remaining": [
-    "exact current5638 compile/registration/ordinary-native/full/Release on Hosted",
-    "actual UI14/AX/search-cancel/scroll/save timing and normal record isolation",
-    "VoiceOver/maximum text/device",
+    "independent source review and exact new-head ordinary/native/full/Release CI",
+    "actual 14functional+6pure registration and execution",
+    "VoiceOver/maximum-text/physical acceptance",
     "IOS10/25 overall"
   ],
   "initial_helper_adapted_source_sha256": "8aaa2e613add1ba82a2c9cf98b74f4d217f5fc68259d69256dd75639256553f3",
@@ -149,9 +136,67 @@
     },
     "current_5638": {
       "source_sha256": "5638e669240cbdbaaf2b8d1323b3fbfb82ff2c93aff30d8d882ac22bca945629",
-      "SDK_compile": "not-run",
-      "runtime": "not-run",
-      "required_next": "new exact fourteen-case Hosted compile/registration/runtime after scoped Cancel tap"
+      "head": "a88fe0720beeddcfeeb6b24bc2f353a2b2647d66",
+      "run": 40227071664,
+      "unit_pass": 127,
+      "unit_skip": 2,
+      "UI_pass": 14,
+      "Release": "success",
+      "scope": "before snapshot helper revision"
     }
+  },
+  "original_parent_PR": 265,
+  "original_parent_head": "fb6108db5c50257f30cdc5ce91d7b9b9f26011d4",
+  "pre_snapshot_validation": {
+    "generated_profiles": "real searchHit + normalization on actual3/199; each query fully matches exactly one atomic block",
+    "A_to_B_top_level_distance": 9,
+    "SDK": "Standalone Native+Published typecheck passed for historical8aaa before the four-line cancellation. Current5638 has not been typechecked/compiled; new Hosted compile required.",
+    "independent_source_review": "Initial7e87 and helper-adapted8aaa approved; four-line scoped-cancellation candidates approved by m0 as reported by parent.",
+    "full_project_build": "not-run-for-current5638; Hosted pending",
+    "UI_and_registration": "not-run-for-current5638; exact fourteen-case Hosted pending",
+    "common_check": {
+      "scope": "historical shared workspace before four-line cancellation; no new local check/SDK runtime for current5638",
+      "tests": 765,
+      "passed": 750,
+      "skipped": 15,
+      "failed": 0,
+      "log": "/private/tmp/ios-search-hit-ui-common-check-20261026.log",
+      "sha256": "034a063d1bcfbd0e4494e91cbcd3513896fecbbdf566ab1f298a51836f008c0f"
+    },
+    "historical_Hosted_registration": "Old18b/source8aaa registered129unit/14UI and ran127unit-pass2skip/13UI-pass1fixture-close-fail. Current5638 remains uncompiled/unexecuted."
+  },
+  "snapshot_revision": {
+    "candidate_proof_sha256": "cb750f18760fcd965711e298986e3ba6663e98630e27d97558104a29378e4bd6",
+    "app_changes": 0,
+    "timeout_seconds": 15,
+    "atomic_AX_snapshot": false,
+    "future_case_count": 20,
+    "Swift_compile": "not-run",
+    "XCTest_UI": "not-run"
+  },
+  "temporary_probe": {
+    "PR": 272,
+    "closed_unmerged": true,
+    "head": "b16da8f03dd2f94325e26a569e0c3fdf8e8f2c22",
+    "run": 40235571643,
+    "job": 121296290624,
+    "pass": 2,
+    "full_suite": false,
+    "predicate_seconds": [
+      11.5056376666667,
+      8.495475458333317
+    ],
+    "filter_seconds": [
+      9.957590833333313,
+      7.344782250000094
+    ],
+    "first_target_ID_matches": [
+      true,
+      true
+    ],
+    "artifact": 12614722637,
+    "artifact_SHA256": "1836923d83f9d5bdf4e4ef4a7f3670b9c6b44725214406643b4a89d70b8f9516",
+    "audit_sha256": "d461ab6f6f24c2ce2061104782ceec5c9946cb02752cf8bcfa43b2532e093035",
+    "prior_failure_cause": "not-established"
   }
 }

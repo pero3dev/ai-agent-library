@@ -1,8 +1,12 @@
-# iPhone用の試作 — SwiftUIのネイティブ本文
+# iPhone用の開発版 — SwiftUIのネイティブ本文
 
-代表3記事を構造化JSONへ変換し、本文・一覧・保存・音声の画面をSwiftUIで表示する試作です。文章・コード・表はネイティブ表示し、図と数式はビルド時に明暗別PNGへ変換します。端末での本文表示にWKWebView・HTML・JavaScriptは使用しません。
+開発時の標準ビルドは、全published記事（2026-10-25時点で199記事）を構造化JSONへ変換し、本文・一覧・保存・音声の画面をSwiftUIで表示します。文章・コード・表はネイティブ表示し、図と数式はビルド時に明暗別PNGへ変換します。端末での本文表示にWKWebView・HTML・JavaScriptは使用しません。
 
-対象は[Agentループ](../docs/01-concepts/agent-loop.md)、[ツール使用](../docs/01-concepts/tool-use.md)、[Transformerのアーキテクチャ](../docs/11-llm-internals/transformer-architecture.md)。音声は既存のAgentループ1回（約27分）を参照します。選定の正本は[content-selection.json](content-selection.json)です。
+標準生成はdraftと章READMEを本文記事に含めません。音声は既存のAgentループ1回（約27分）を参照します。代表3記事の回帰対象は[Agentループ](../docs/01-concepts/agent-loop.md)、[ツール使用](../docs/01-concepts/tool-use.md)、[Transformerのアーキテクチャ](../docs/11-llm-internals/transformer-architecture.md)で、音声と代表版の選定は[content-selection.json](content-selection.json)が正本です。
+
+0.2.13（15）の[標準生成の記録](../project/records/2026-10-25/ios-published-development-default.md)で、通常npmの全記事生成・原文監査・実consumer監査、代表版との互換性を追跡します。一般公開・配布用登録・費用・音声権利の採択と、開発時の生成入口の変更は別の工程です。
+
+## これまでの実機・基準確認
 
 2026-10-24に、構造化データへの変換とSwiftUI本文レンダラーを実装しました。3記事・音声1本・照合対象140ファイルを実生成し、共通検査・Foundation/CryptoKit検査・iOS SDKビルドが成功しました。0.2.0（2）をiPhoneへ導入・起動し、更新前のしおり・読書記録の維持を確認しました。ユーザーの実機操作で、3記事の本文・図・数式、目次移動、しおり、終了・再起動後の読書位置の復帰が正常と確認できました。この時点の詳細受入は、後続の0.2.1で進めました。0.2.0の実装と確認範囲は[ネイティブ本文の実施記録](../project/records/2026-10-24/ios-native-reader.md)を参照してください。
 
@@ -18,7 +22,7 @@
 
 ## 準備と起動
 
-基準PRの追加レビューで、外部音声metadataの時間境界とpackage間の画像cacheの分離を修正し、ソース版を0.2.3（5）へ進めました。通常・fixtureのCoreSmokeとiOS SDKのテストターゲットcompile／Release buildを確認しています。追加したXCTestの実行と0.2.3の実機受入は未実施です。ユーザーの指示に従い未完了として記録し、0.2.2の実機結果と区別しています。
+基準PR作成時の記録では、外部音声metadataの時間境界とpackage間の画像cacheの分離を追加レビューで修正し、ソース版を0.2.3（5）へ進めました。当時の通常・fixtureのCoreSmokeとiOS SDKのテストターゲットcompile／Release buildを確認しています。追加したXCTestの実行と0.2.3の実機受入はその記録の時点で未実施です。ユーザーの指示に従い未完了として記録し、0.2.2の実機結果と区別しています。
 
 必要なものはリポジトリの要求を満たすNode.js、対応するMacとXcode、iOS 17以降のSimulatorまたはiPhoneです。プロジェクトのSwift言語モードは5、アプリに外部Swiftパッケージは使用しません。ストア配布のSDK要件とローカル試作の対応OSは別です。
 
@@ -29,6 +33,8 @@ npm ci
 npm ci --prefix ios/tools --ignore-scripts
 # Chromeが導入済みの場合。専用の一時ブラウザーを起動します。
 PLAYWRIGHT_CHANNEL=chrome npm run ios:prepare
+npm run ios:test:content
+npm run ios:test:package
 open ios/AILibrary.xcodeproj
 ```
 
@@ -54,15 +60,17 @@ xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
 
 生成後の`AILibrary/Content/`はXcodeのフォルダ参照でまとめてアプリに同梱されます。未生成のときはビルド手順でエラーを表示します。生成物・DerivedData・個人のXcode状態はGit管理しません。
 
+正常な取り込み済みパッケージは、アプリ更新後も同梱版より優先されます。一覧の「その他の操作」から同梱コンテンツの件数・版を確認し、切替を確定するとこのアプリの同梱版を選べます。取消では変更せず、しおり・読書位置・以前のパッケージも保持します。[切替の記録](../project/records/2026-10-25/ios-bundled-content-activation.md)を参照してください。
+
 ## Debug用の専用テスト記事
 
-通常の`npm run ios:prepare`は、選定した3記事を`AILibrary/Content/`へ生成します。表示確認用の原文は[ios/fixtures/native-reader.md](fixtures/native-reader.md)に置き、公開記事の`docs/`へ追加しません。次のコマンドで通常の`Content`を維持したまま、別の`AILibrary/TestContent/`へ3記事と専用記事1本を生成します。ブラウザーの準備は通常の生成と共通です。
+通常の`npm run ios:prepare`は全published記事を`AILibrary/Content/`へ生成します。代表3記事だけの回帰には`npm run ios:prepare:representative`を使います。表示確認用の原文は[ios/fixtures/native-reader.md](fixtures/native-reader.md)に置き、公開記事の`docs/`へ追加しません。次のコマンドで通常の`Content`を維持したまま、別の`AILibrary/TestContent/`へ3記事と専用記事1本を生成します。ブラウザーの準備は通常の生成と共通です。
 
 ```bash
 PLAYWRIGHT_CHANNEL=chrome npm run ios:prepare:fixtures
 ```
 
-XcodeのDebug構成で再ビルドし、通常一覧の「その他の操作」→「本文表示テスト」を開きます。専用の画面ではテスト記事だけを一覧へ表示し、本文・目次・見出しリンクには通常と同じレンダラーとナビゲーションを使います。読み込み済みのsnapshotには4記事があり、通常3記事の特定見出しへのリンクもアプリ内で開けます。一覧へ戻って「閉じる」を押すと元のライブラリへ戻ります。
+XcodeのDebug構成で再ビルドし、通常一覧の「その他の操作」→「本文表示テスト」を開きます。専用の画面ではテスト記事だけを一覧へ表示し、本文・目次・見出しリンクには通常と同じレンダラーとナビゲーションを使います。読み込み済みのsnapshotには4記事があり、代表3記事の特定見出しへのリンクもアプリ内で開けます。一覧へ戻って「閉じる」を押すと元のライブラリへ戻ります。
 
 テスト中のしおり・読書位置は専用UserDefaults suiteへ保存し、コンテンツの保存先も`LibraryReaderTestContent`へ分けます。通常のしおり・本文位置・音声設定は変更しません。テスト画面では音声とコンテンツ取り込みを利用できず、通常ライブラリへのテスト記事の取り込みも拒否します。
 
@@ -72,9 +80,10 @@ Debugで`TestContent`を生成していない場合は、入口で記事が含�
 
 ## 使える操作
 
-- 記事一覧から3記事を開く。本文検索は空白区切りのAND検索で、英字大小・全半角・ひらがな/カタカナを正規化する。検索中に開くと、一致語を含む本文の段落等へ移動する。
+- 現在選択しているパッケージの記事を一覧から開く。本文検索は空白区切りのAND検索で、英字大小・全半角・ひらがな/カタカナを正規化する。検索中に開くと、一致語を含む本文の段落等へ移動する。
 - しおりを付け、しおりだけの一覧へ切り替える。次回起動時は「続きを読む」から保存位置へ戻る。
-- 目次から見出しへ移動する。選定3記事間のリンクはアプリ内で開き、それ以外のHTTPSリンクは外部で開く。
+- 目次から見出しへ移動する。収録記事間のリンクはアプリ内で開き、有効な学習索引がある場合は正規の用語集・既知章URLもnative画面へ接続する。その他のHTTPS参照は外部で開く。
+- 学習索引付きのパッケージでは、章README順・タグ・学習ルート・用語集から本文へ進む。
 - 文章を選択する。見出し、強調、行内コード・リンク、階層リスト、引用をネイティブテキストで表示する。
 - コードを横スクロールし、コピーする。表は横スクロールで全列を読み、セル内の強調・リンク・数式も表示する。
 - 図と表示数式を横スクロール・拡大し、元のMermaid・TeXをテキスト表現として開く。行内数式は文章に組み込んだ画像で表示し、数式を含む文章の長押しメニューからTeXを開く。
@@ -82,7 +91,9 @@ Debugで`TestContent`を生成していない場合は、入口で記事が含�
 - Agentループのヘッドホンボタンで音声プレイヤーを開く。再生・停止、シーク、速度、章、ロック画面の操作を用意している。
 - 一覧の「その他の操作」から記事パッケージのフォルダを取り込み、コンテンツを切り替える。「このアプリについて」でライセンスと通信の扱いを確認する。
 
-音声は明示的な再生操作をするまで接続しません。初期起動・記事・図・数式・検索は通信不要です。**音声はストリーミングのみ**で、通信が必要です。プレイヤーを開いたまま画面をロックする利用を想定し、プレイヤーを閉じると停止します。
+音声は明示的な再生操作をするまで接続しません。初期起動・収録記事・図・数式・検索と学習案内は通信不要です。Python例など同梱対象外への参照や、外部の参考資料を開く場合は通信が必要です。**音声はストリーミングのみ**で、通信が必要です。プレイヤーを開いたまま画面をロックする利用を想定し、プレイヤーを閉じると停止します。
+
+以下の版ごとの説明は、各機能を追加した時点の作業記録です。現行の生成入口と確認範囲は、上記の標準生成手順と0.2.13の記録を参照してください。
 
 0.2.4（6）では検索結果から本文への移動を追加しました。本文内で全語が揃う箇所を優先し、語が別の段落に分かれる場合は一致する語の種類が多い箇所へ移動します。入れ子リスト・引用にも対応し、表・コードはその要素の先頭へ移ります。語句の色付けやセル・コード行内の移動は含みません。タイトル・概要等だけが一致して本文に語句がない場合は、先頭を表示して案内します。検索語は保存せず、通常の「続きを読む」は保存位置へ戻ります。[実施記録](../project/records/2026-10-25/ios-search-hit-navigation.md)にコード・SDKの確認と未実施の実機受入を分けて記載します。
 
@@ -116,7 +127,7 @@ Debugで`TestContent`を生成していない場合は、入口で記事が含�
 
 更新の試験は、生成した`Content`フォルダを「ファイル」アプリで選べる場所へ置き、一覧のメニューから取り込んで行います。ZIPで転送した場合はファイルアプリで展開してからフォルダを選択します。取り込みはパス・ファイル数・サイズ・SHAに加え、schema、block・inlineの型と必須フィールド、記事・見出し・資産参照、PNG寸法等を検証します。私有領域のstagingへコピー後に再検証してから、atomicなポインタファイルで切り替えます。失敗時は現在の版を維持します。
 
-自動ダウンロードや公開更新サーバーは、この試作には含めません。ハッシュ照合は内容の整合検査であり、作成者の真正性や悪意のない内容を保証する署名ではありません。信頼する生成手順のパッケージを選びます。過去版は開いている記事の参照を壊さないため保持し、自動整理は未実装です。
+自動ダウンロードや公開更新サーバーは、この開発版には含めません。ハッシュ照合は内容の整合検査であり、作成者の真正性や悪意のない内容を保証する署名ではありません。信頼する生成手順のパッケージを選びます。過去版は開いている記事の参照を壊さないため保持し、自動整理は未実装です。
 
 ## 全published記事の一時生成
 
@@ -129,53 +140,62 @@ TMPDIR=/private/tmp PLAYWRIGHT_CHANNEL=chrome node scripts/build-ios-native-cont
 bash ios/tests/check-package.sh "$all_package_root/Content" 199
 ```
 
-末尾の`199`は2026-10-25時点のpublished記事数です。記事数が変わった場合は、対象の正本に合わせます。draftとREADMEは含めません。全図の説明は[専用map](all-published-diagram-descriptions.json)を必須とし、音声は既存のAgentループ1本を維持します。通常の`ios:prepare`は3記事、fixtureは4記事のままで、この操作ではアプリの同梱カタログやiPhone上のコンテンツを切り替えません。
+末尾の`199`は2026-10-25時点のpublished記事数です。記事数が変わった場合は、対象の正本に合わせます。draftとREADMEは含めません。全図の説明は[専用map](all-published-diagram-descriptions.json)を必須とし、音声は既存のAgentループ1本を維持します。この一時生成は学習索引を付けない検証用profileで、標準の全記事`Content`や別の4記事fixtureを置き換えません。iPhone上のパッケージ選択も変更しません。
 
 [全記事の実施記録](../project/records/2026-10-25/ios-all-article-package.md)では、199記事・PNG422本・manifest込み625ファイル、37,547,753 bytesを実生成し、appと同じContentValidatorと本文読み込み入口で全199記事を受け入れました。約2.28秒はこのMacのFoundation CLIでの検証・全本文読み込み時間であり、アプリ起動・描画・実機性能の測定ではありません。CIへ全記事の一時生成・consumer監査stepを追加し、初回に見つかった出力先と環境の一時ディレクトリの不一致を修正しました。Hostedでの全記事生成成功は未確認です。全記事の画面・VoiceOver・性能受入を残し、IOS-13・15を完了とはしません。
 
-## 全記事を通常同梱する候補の生成
+## 全記事の標準生成と代表版の互換入口
 
-`--published-library`は、全publishedを固定の`ios/AILibrary/Content`へ生成する明示モードです。実行すると通常Contentを候補で置き換えます。他profile・fixtures・`--output`とは併用できません。既定の`npm run ios:prepare`は代表3記事、fixtureは4記事のままです。
+`npm run ios:prepare`は既存CLIの`--published-library`を使い、全publishedを固定の`ios/AILibrary/Content`へ生成します。実行するとそのContentを置き換えます。CLIのこのモードは他profile・fixtures・`--output`とは併用できません。
 
 ```bash
-PLAYWRIGHT_CHANNEL=chrome node scripts/build-ios-native-content.mjs --published-library
-node ios/tests/native-content-audit.mjs --published-library
-bash ios/tests/check-package.sh ios/AILibrary/Content 199
+PLAYWRIGHT_CHANNEL=chrome npm run ios:prepare
+npm run ios:test:content
+npm run ios:test:package
 ```
 
-`199`は2026-10-25時点のpublished数です。一時全記事の原文監査は`TMPDIR=/private/tmp node ios/tests/native-content-audit.mjs --all-published --content <一時Content>`、従来3記事はno flag、fixture4記事は`--fixtures`で行います。
+`ios:test:content`は全publishedの原文監査、`ios:test:package`は同梱物の実Swift consumer監査です。package監査へ件数も渡す場合は`npm run ios:test:package -- <独立に数えた記事数>`を使います。
 
-[通常同梱候補の記録](../project/records/2026-10-25/ios-published-library-profile.md)では、共有Contentを保った私有rootで実生成・consumer・原文監査を確認しました。実Mermaidの微小な再描画差によってrevisionが変わる場合があり、同じassetsを使ったmode比較とは区別します。候補のアプリUI・Releaseと既定切替は未確認です。保存済みの正常packageは同梱版より優先されるため、同梱更新だけでは取り込み済み3記事版の選択を変えません。
+直接CLIをno flagで呼ぶと従来どおり代表3記事です。npmの互換入口は`ios:prepare:representative`と`ios:test:content:representative`で、既存の`ios:test:core`とその明示alias `ios:test:core:representative`も代表3記事を検査します。fixture4記事は`--fixtures`と既存npm入口を維持します。一時全記事の原文監査は`TMPDIR=/private/tmp node ios/tests/native-content-audit.mjs --all-published --content <一時Content>`で行います。
 
-全記事の明示同梱モードには、章の掲載順・タグ・学習ルート・用語集を[任意の学習案内JSON](renderer/learning-index-schema.md)として追加します。正本から抽出した情報を既存のSHA一覧へ載せ、本文schemaと既定3記事・fixture4記事・一時全記事profileを維持します。[生成の実施記録](../project/records/2026-10-25/ios-learning-index-generation.md)で旧readerの非UI互換と、後続のSwift consumer・学習UI・受入を区別します。
+[通常同梱候補の記録](../project/records/2026-10-25/ios-published-library-profile.md)では、共有Contentを保った私有rootで実生成・consumer・原文監査を確認しました。実Mermaidの微小な再描画差によってrevisionが変わる場合があり、同じassetsを使ったmode比較とは区別します。この記録は明示modeを追加した時点の結果です。後続の標準npm入口の検証は[標準生成の記録](../project/records/2026-10-25/ios-published-development-default.md)へ分けます。保存済みの正常packageは同梱版より優先されるため、同梱更新だけでは取り込み済み3記事版の選択を変えません。
 
-学習案内の[Swift検証モデル](AILibrary/Sources/LearningIndex.swift)も追加し、任意資産の不在、破損・不適合・参照不整合を区別できるようにしています。Store・学習UIへの接続は後続です。[consumerの実施記録](../project/records/2026-10-25/ios-learning-index-consumer.md)で、Mac直接XCTest・SDK compileと未実施のHosted・UI受入を分けます。
+標準の全記事同梱モードには、章の掲載順・タグ・学習ルート・用語集を[任意の学習案内JSON](renderer/learning-index-schema.md)として追加します。正本から抽出した情報を既存のSHA一覧へ載せ、本文schemaと代表3記事・fixture4記事・一時全記事profileの互換性を維持します。[生成の実施記録](../project/records/2026-10-25/ios-learning-index-generation.md)で旧readerの非UI互換と、後続のSwift consumer・学習UI・受入を区別します。
+
+学習案内の[Swift検証モデル](AILibrary/Sources/LearningIndex.swift)は、任意資産の不在、破損・不適合・参照不整合を区別します。Storeは本文と学習情報を一括適用します。全SHA等のパッケージ検証を通過した後、補助JSONの形式・参照等が不正なら正常な本文を保持して学習案内のエラーを分けます。[consumerの実施記録](../project/records/2026-10-25/ios-learning-index-consumer.md)で、モデル追加時点のMac直接XCTest・SDK compileとHosted・UI受入の範囲を分けます。
 
 0.2.9（11）では、学習案内付きコンテンツの「学習ガイド」から章・ルート・用語集へ進めます。タグ検索と他条件のAND、章README順、用語から関連本文、記事内の正規用語集リンクをnative画面へ接続しました。索引なしの従来3/4記事は以前の表示を維持します。[学習UIの記録](../project/records/2026-10-25/ios-native-learning-ui.md)で、SDK compileと未実施のHosted画面・実機受入を区別しています。
 
 ## 全記事候補のHosted UI検査
 
-[全記事候補workflow](../.github/workflows/ios-published-candidate.yml)は、独立したrunnerで全publishedを通常Contentへ生成し、原文・実consumer・Debug実アプリ・全UI・Releaseを検査します。通常の3記事jobとローカルの`ios:test:reader`は既存の`NativeReaderUITests`だけを実行します。
+[全記事workflow](../.github/workflows/ios-published-candidate.yml)は、標準のnpm生成・原文監査・package監査を実行し、原本から独立に数えた件数とDebug実アプリ・全UI・Releaseを照合します。このjob内では全記事の描画を一度行い、DebugとReleaseで同じ生成物を使います。別の[代表版workflow](../.github/workflows/ios-native.yml)はrepresentative入口を明示し、3記事・fixture4記事・CoreSmokeと既存`NativeReaderUITests`2件、全記事の一時生成・consumer検査を維持します。ローカルの`ios:test:reader`もこの既存UIクラスだけを実行します。
 
-新しい`PublishedReaderUITests`は、原文から数えた件数を`TEST_RUNNER_AILIBRARY_EXPECTED_PUBLISHED_COUNT`で受け取り、公開の「全N記事」と照合します。値がない・不正・3以下ならskipせず失敗します。通常の3記事テスト例でこのクラスを一緒に実行しない構成です。
+新しい`PublishedReaderUITests`は、原文から数えた件数を`TEST_RUNNER_AILIBRARY_EXPECTED_PUBLISHED_COUNT`で受け取り、画面の「全N記事」と照合します。値がない・不正・3以下ならskipせず失敗します。代表3記事のテスト例でこのクラスを一緒に実行しない構成です。
 
-既存の代表3記事・目次・しおり復帰に、大図の拡大とテキスト表現、長文の深い見出しからの復帰、最大表の最終行・列を加えた5件を準備しました。対象は01・03・08・11章の6記事で、全記事の画面受入・実機・VoiceOver・性能合格とは区別します。[候補UIの記録](../project/records/2026-10-25/ios-published-candidate-ui.md)でSDK compile・静的検査・Hosted実行を分けます。
+初期の全記事候補UIでは、既存の代表3記事・目次・しおり復帰に、大図の拡大とテキスト表現、長文の深い見出しからの復帰、最大表の最終行・列を加えた5件を準備しました。その対象は01・03・08・11章の6記事に限ります。後続の学習導線・同梱切替・章案内にも回帰を加え、全記事jobは全UIクラスを実行します。これらを全記事の画面受入・実機・VoiceOver・性能合格とは区別し、[候補UIの記録](../project/records/2026-10-25/ios-published-candidate-ui.md)と各機能の記録で実行面を追跡します。
 
 ## 検証
 
 rootの`npm run check`でコンテンツ変換の単体試験と共通検査を実行します。macOSで一時ディレクトリのsymlink拒否に当たる場合は、`TMPDIR=/private/tmp npm run check`を使います。PNG生成は実ブラウザーを使うため、注入した資産を使う単体試験と区別します。
 
+標準の全記事生成後は、次の監査を実行します。これらは画面・VoiceOverの検査やXCTestの実行とは別です。
+
 ```bash
 TMPDIR=/private/tmp npm run check
-# 実生成したデータとSwiftのFoundation/CryptoKit部分（XCTestとは別）
-npm run ios:test:core
-# 実生成物と原文、図・数式の説明、PNGの監査（画面・読み上げの検査とは別）
 npm run ios:test:content
-# 専用記事を含むTestContentの原文・参照・資産監査
+npm run ios:test:package
+```
+
+代表3記事と専用記事の回帰を行う場合は、生成profileを明示します。`ios:prepare:representative`はContentを3記事へ置き換えるため、全記事版をビルドし直す前には`npm run ios:prepare`を実行してください。
+
+```bash
+PLAYWRIGHT_CHANNEL=chrome npm run ios:prepare:representative
+npm run ios:test:content:representative
+npm run ios:test:core:representative
+PLAYWRIGHT_CHANNEL=chrome npm run ios:prepare:fixtures
 npm run ios:test:fixtures
-# TestContent実物のFoundation/CryptoKit検査（通常の3記事検査は上のios:test:core）
 DEVELOPER_DIR=/Library/Developer/CommandLineTools bash ios/tests/check-core.sh --fixtures
-# 利用できるSimulatorのIDを選ぶ
+# 利用できるSimulatorのIDを選ぶ。既存UI2件の回帰。
 xcrun simctl list devices available
 IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 ```
@@ -184,11 +204,11 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 
 明示的なDebugのUIテスト起動ではSimulator・実機とも専用の学習記録suiteを使い、通常起動時は従来の記録を使います。`ios:test:content`は原文・表・コード・リンク・数式説明・図説明・全SHA・PNGを読み取り専用で照合します。VoiceOverの聞き取りや画面操作は実行しません。
 
-[LibraryCoreTests.swift](AILibraryTests/LibraryCoreTests.swift)は検索・不正データ・更新中断・読書記録の移行をXCTestで検査します。`CoreSmoke.swift`は同じコアの主要条件と実際の生成manifestをFoundationで確認する補助です。Xcodeがある環境で上記`xcodebuild test`を実行してから、次の実機項目をネイティブ版でも確認します。
+[LibraryCoreTests.swift](AILibraryTests/LibraryCoreTests.swift)は検索・不正データ・更新中断・読書記録の移行をXCTestで検査します。`CoreSmoke.swift`は代表3記事・fixture4記事の主要条件と実際の生成manifestをFoundationで確認する補助です。全記事は`PackageAudit.swift`を使う`ios:test:package`で検査します。Xcodeがある環境で上記`xcodebuild test`を実行してから、次の実機項目をネイティブ版でも確認します。
 
 | 実機で確認すること | 受入条件 |
 | --- | --- |
-| 初回のオフライン起動 | 機内モードで3記事・図・数式・検索が利用できる |
+| 初回のオフライン起動 | 機内モードで選択中のパッケージ全記事・図・数式・検索を利用でき、索引付きでは学習案内も辿れる |
 | 表示と読み上げ | 大きい文字、横画面、VoiceOverの見出し移動・表/数式/図の代替説明を確認する |
 | 読書の継続 | コピー、目次、記事間移動、旧記録の移行、再起動後のしおり・読書位置が機能する |
 | 更新失敗 | 壊したパッケージや取り込み中断で正常版を読める。旧schema 1を誤表示しない |
@@ -204,8 +224,8 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 
 [Appleのrequired reason API説明](https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacyaccessedapitypes/nsprivacyaccessedapitype)を2026-10-23に確認し、アプリ内の学習記録をUserDefaultsへ保存する利用を`CA92.1`として[PrivacyInfo.xcprivacy](AILibrary/PrivacyInfo.xcprivacy)へ記載しました。これはストア審査や第三者配信基盤のプライバシー確認を完了した意味ではありません。
 
-## 試作の制約
+## 開発版の制約と未完了の受入
 
-通常の利用対象は3記事と音声1本です。専用テスト記事はDebugの別画面へ限定します。音声の保存、全199記事の配信、アカウント、課金、プッシュ通知、端末間同期は含めません。読書復帰はblock ID・見出し・割合を使い、block内の厳密な文字位置までは保存しません。大きな記事改訂や見出し変更後の同一位置への復帰は保証しません。
+開発時の標準同梱対象は全published記事と既存音声1本のmetadataです。音声はストリーミングで、専用テスト記事はDebugの別画面へ限定します。音声保存、独立したネットワーク更新、アカウント、課金、プッシュ通知、端末間同期は実装していません。正常な取り込み済み版と以前のパッケージは保持し、旧版の容量整理は未完了です。読書復帰はblock ID・見出し・割合を使い、block内の厳密な文字位置までは保存しません。大きな記事改訂や見出し変更後の同一位置への復帰は保証しません。
 
-数式の読み上げ文は自動生成し、図には手動の流れの説明と抽出ラベルを含めます。代表3記事の指定箇所はVoiceOverで理解できるとユーザーから確認を得ました。追加記事・未収録形式の代替文は引き続き実機受入が必要です。行内数式の独立した画像拡大操作は未実装です。全記事へ拡張した際の長文・大きな表・最大文字での性能計測、アイコン、配布用メタデータ、App Store向けの最終ポリシーと公開申請は[完成版TODO](../project/plans/engineering/ios-app-completion.md)で追跡します。
+数式の読み上げ文は自動生成し、図には手動の流れの説明と抽出ラベルを含めます。代表3記事の指定箇所はVoiceOverで理解できるとユーザーから確認を得ました。追加記事・未収録形式の代替文は引き続き実機受入が必要です。行内数式の独立した画像拡大操作は未実装です。全記事と新しい画面の実機・VoiceOver・最大文字・性能の全体受入、公開用SDK26環境、アイコン、配布用メタデータ、App Store向けの最終ポリシーと公開申請は[完成版TODO](../project/plans/engineering/ios-app-completion.md)で追跡します。

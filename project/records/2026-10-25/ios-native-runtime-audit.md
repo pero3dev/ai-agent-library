@@ -17,4 +17,4 @@ IOS-24の条件は現targetで既に満たされていた。Xcodeのapp Sources�
 
 比較用には旧HTML CLI、reader.js・reader.css、reader-check.mjsと旧生成試験を残す。これらは現app targetと通常のios:prepareから呼ばれない。ios-content.mjsのparser・リンク処理・SHA・KaTeX準備はnative生成でも使うため、一括削除しない。Modelsのhtml_pathも旧形式を検出・拒否する互換用metadataとして残す。
 
-IOS-24を完了とし、IOS-25のUI全体回帰・新たな実機受入・main統合待ちは別に追跡する。[JSON](ios-native-runtime-audit.json)は静的な照合と実行済み履歴を区別する。
+IOS-24を完了とし、IOS-25のUI全体回帰・新たな実機受入は別に追跡する。初期監査時点はmain統合待ちだったが、現在はPR #241〜#246が通常統合され、main `81b5da90…`に対象のruntime条件がある。この監査記録自身のPR #247は別に扱う。[JSON](ios-native-runtime-audit.json)は静的な照合と実行済み履歴を区別する。

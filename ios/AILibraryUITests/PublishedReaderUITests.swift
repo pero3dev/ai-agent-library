@@ -1,5 +1,129 @@
 import XCTest
 
+/// Bounded test-only memory observations. Instance IDs are local object identities,
+/// not accessibility identifiers or stable identities across query resolutions.
+private final class SearchArrivalProbe {
+    private let lock = NSLock()
+    private var records: [[String: Any]] = []
+    private var lastComparison: [String: Any]?
+    private var recordCount = 0
+    private var pollCount = 0
+    private static func number(_ value: CGFloat) -> Any {
+        if value.isFinite { return Double(value) }
+        return NSNull()
+    }
+    private static func frame(_ value: CGRect) -> [String: Any] {
+        ["x": number(value.origin.x), "y": number(value.origin.y),
+         "width": number(value.width), "height": number(value.height),
+         "is_null": value.isNull, "is_infinite": value.isInfinite, "is_empty": value.isEmpty]
+    }
+    private func record(_ poll: Int, _ stage: String, _ values: [String: Any]) {
+        lock.lock()
+        defer { lock.unlock() }
+        recordCount += 1
+        var value = values
+        value["record"] = recordCount; value["poll"] = poll; value["stage"] = stage
+        value["recorded_uptime"] = ProcessInfo.processInfo.systemUptime
+        records.append(value)
+        if stage == "predicate.comparison" { lastComparison = value }
+        // Reserve one of 64 output slots for the most recent completed comparison,
+        // even if a later predicate stalls after many geometry observations.
+        if records.count > 63 { records.removeFirst(records.count - 63) }
+    }
+    func begin() -> Poll {
+        lock.lock(); pollCount += 1; let id = pollCount; lock.unlock()
+        let poll = Poll(probe: self, id: id)
+        poll.phase("predicate.begin")
+        return poll
+    }
+    func attach(to testCase: XCTestCase) {
+        lock.lock()
+        var snapshot = records
+        if let lastComparison, !snapshot.contains(where: { ($0["record"] as? Int) == (lastComparison["record"] as? Int) }) {
+            snapshot.append(lastComparison)
+            snapshot.sort { ($0["record"] as? Int ?? 0) < ($1["record"] as? Int ?? 0) }
+        }
+        let total = recordCount, polls = pollCount
+        lock.unlock()
+        let value: [String: Any] = ["schema_version": 1, "record_capacity": 64, "rolling_capacity": 63, "last_comparison_slot_reserved": true, "sort_cache_capacity": 32,
+            "baseline_head": "3dbdfe4512de9948074fcb74151f2422818bf214", "total_records": total,
+            "omitted_records": max(0, total - snapshot.count), "predicate_invocations": polls, "records": snapshot,
+            "scope": "Already-read predicate/geometry/sort values only. Missing, not-read, or evicted values are unknown. Cached sort frames are last reads during that comparator, not fresh frames. No additional AX queries."]
+        let data = (try? JSONSerialization.data(withJSONObject: value, options: [.prettyPrinted, .sortedKeys]))
+            ?? Data("{\"diagnostic_error\":\"serialization failed\"}".utf8)
+        let attachment = XCTAttachment(string: String(decoding: data, as: UTF8.self))
+        attachment.name = "Search-arrival-predicate-observations"
+        attachment.lifetime = .keepAlways
+        testCase.add(attachment)
+    }
+    final class Poll {
+        private let probe: SearchArrivalProbe
+        private let id: Int
+        private var frames: [ObjectIdentifier: (frame: CGRect, afterPairReads: TimeInterval)] = [:]
+        private var checkpoints: [String: TimeInterval] = [:]
+        private var targetGeometry: [String: Any]?
+        private var lastGeometry: [String: Any]?
+        private var order: [ObjectIdentifier] = []
+        private var comparisons = 0
+        private var evictions = 0
+        init(probe: SearchArrivalProbe, id: Int) { self.probe = probe; self.id = id }
+        func phase(_ stage: String, count: Int? = nil) {
+            let uptime = ProcessInfo.processInfo.systemUptime
+            checkpoints[stage] = uptime
+            var values: [String: Any] = ["phase_uptime": uptime]
+            if let count { values["count"] = count }
+            probe.record(id, stage, values)
+        }
+        func geometry(_ stage: String, _ frames: [String: CGRect], _ details: [String: String]) {
+            let value: [String: Any] = ["frames": frames.mapValues { SearchArrivalProbe.frame($0) }, "details": details]
+            if stage == "geometry.return" {
+                if targetGeometry == nil { targetGeometry = value }
+                lastGeometry = value
+            }
+            probe.record(id, stage, value)
+        }
+        private func remember(_ element: XCUIElement, _ frame: CGRect, afterPairReads: TimeInterval) {
+            let key = ObjectIdentifier(element)
+            if frames[key] == nil {
+                if order.count == 32 { frames.removeValue(forKey: order.removeFirst()); evictions += 1 }
+                order.append(key)
+            }
+            frames[key] = (frame, afterPairReads)
+        }
+        func sorted(_ lhs: XCUIElement, _ lhsFrame: CGRect, _ rhs: XCUIElement, _ rhsFrame: CGRect) {
+            comparisons += 1
+            let afterPairReads = ProcessInfo.processInfo.systemUptime
+            remember(lhs, lhsFrame, afterPairReads: afterPairReads)
+            remember(rhs, rhsFrame, afterPairReads: afterPairReads)
+        }
+        func targetGuardUnsatisfied() {
+            checkpoints["predicate.target-guard-unsatisfied"] = ProcessInfo.processInfo.systemUptime
+            probe.record(id, "predicate.target-guard-unsatisfied", ["comparison": "unknown:not-executed",
+                "first_identifier": NSNull(), "target_identifier": NSNull(), "phase_uptimes": checkpoints])
+        }
+        func compared(first: XCUIElement?, firstID: String?, targetID: String, matches: Bool) {
+            checkpoints["predicate.comparison"] = ProcessInfo.processInfo.systemUptime
+            let observedFirstID: Any = firstID.map { $0 as Any } ?? NSNull()
+            var value: [String: Any] = ["first_identifier": observedFirstID, "phase_uptimes": checkpoints,
+                "target_identifier": targetID, "matches": matches, "sort_comparisons": comparisons,
+                "target_geometry_observation": targetGeometry.map { $0 as Any } ?? NSNull(),
+                "last_geometry_observation": lastGeometry.map { $0 as Any } ?? NSNull(),
+                "sort_frame_evictions": evictions, "sort_frames": order.compactMap { key -> [String: Any]? in
+                    guard let frame = frames[key] else { return nil }
+                    return ["element_instance": String(describing: key), "last_comparator_frame": SearchArrivalProbe.frame(frame.frame),
+                        "after_pair_reads_uptime": frame.afterPairReads]
+                }]
+            if let first {
+                let key = ObjectIdentifier(first)
+                value["first_element_instance"] = String(describing: key)
+                if let frame = frames[key] { value["first_last_comparator_frame"] = SearchArrivalProbe.frame(frame.frame) }
+                else { value["first_last_comparator_frame"] = "unknown:not-read-by-sort-or-evicted" }
+            } else { value["first_last_comparator_frame"] = "unknown:no-first-element" }
+            probe.record(id, "predicate.comparison", value)
+        }
+    }
+}
+
 /// Full-catalog candidate coverage for chapters 03 and 08, alongside the baseline's 01 and 11.
 /// CI passes the independently counted published total to the runner, never to app routing.
 final class PublishedReaderUITests: NativeReaderUITestCase {
@@ -542,15 +666,38 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         let reader = app.scrollViews["native-reader"]
         let target = app.staticTexts["native-text-" + blockID]
         requireHittable(target, inside: reader, fullyVisible: true, file: file, line: line)
+        let probe = SearchArrivalProbe()
         let arrived = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
-            guard self.isHittableOnScreen(target, inside: reader, fullyVisible: true) else { return false }
-            let visible = reader.staticTexts.matching(NSPredicate(format: "identifier BEGINSWITH %@", "native-text-"))
-                .allElementsBoundByIndex.filter { self.hasVisibleFrameForPolling($0, inside: reader, fullyVisible: true) }
-                .sorted { $0.frame.minY < $1.frame.minY }
-            return visible.first?.identifier == target.identifier
+            let poll = probe.begin()
+            let observe: ReaderGeometryObserver = { stage, frames, fields in poll.geometry(stage, frames, fields) }
+            guard self.isHittableOnScreen(target, inside: reader, fullyVisible: true, observer: observe) else {
+                poll.targetGuardUnsatisfied()
+                return false
+            }
+            poll.phase("predicate.after-target-guard")
+            let collected = reader.staticTexts.matching(NSPredicate(format: "identifier BEGINSWITH %@", "native-text-"))
+                .allElementsBoundByIndex
+            poll.phase("predicate.after-collection", count: collected.count)
+            let filtered = collected.filter { self.hasVisibleFrameForPolling($0, inside: reader, fullyVisible: true, observer: observe) }
+            poll.phase("predicate.after-filter", count: filtered.count)
+            let visible = filtered.sorted { lhs, rhs in
+                let lhsFrame = lhs.frame
+                let rhsFrame = rhs.frame
+                poll.sorted(lhs, lhsFrame, rhs, rhsFrame)
+                return lhsFrame.minY < rhsFrame.minY
+            }
+            poll.phase("predicate.after-sort", count: visible.count)
+            let firstID = visible.first?.identifier
+            let targetID = target.identifier
+            let matches = firstID == targetID
+            poll.compared(first: visible.first, firstID: firstID, targetID: targetID, matches: matches)
+            return matches
         }, object: nil)
         let result = XCTWaiter.wait(for: [arrived], timeout: 15)
-        if result != .completed { capture("Search-hit-paragraph-not-at-reading-start") }
+        probe.attach(to: self)
+        if result != .completed {
+            capture("Search-hit-paragraph-not-at-reading-start")
+        }
         XCTAssertEqual(result, .completed, "The search leaf must be the first fully visible native paragraph",
                        file: file, line: line)
         for term in terms { XCTAssertTrue(target.label.contains(term), file: file, line: line) }

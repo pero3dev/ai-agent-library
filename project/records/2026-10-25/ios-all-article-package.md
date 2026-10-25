@@ -26,9 +26,13 @@ appと同じModels・NativeDocument・ContentValidator・ReadingStoreをFoundati
 
 再現手順は[iOS READMEの一時生成](../../../ios/README.md#全published記事の一時生成)に記載した。生成先は明示したシステム一時ディレクトリ内の`ailibrary-ios-*/Content`だけとし、通常3記事・fixture4記事の出力は維持する。監査には`bash ios/tests/check-package.sh <一時Content> 199`を使う。
 
+## Hosted検証の初回と修正
+
+PR #249の初回run `40159700162`では通常3記事・fixture4記事の生成・監査・CoreSmokeが成功した。全記事stepは`/private/tmp`へ出力しようとしたが、runnerの`TMPDIR`が別の場所を指すため、生成側の許可範囲検査で停止した。出力制限を維持し、当該stepだけ`TMPDIR=/private/tmp`と明示して出力先を揃えた。READMEの実行例にも同じ環境指定を加え、修正後のHosted実行を確認する。
+
 ## CIと残件
 
-[iOS CI](../../../.github/workflows/ios-native.yml)へ全published記事の一時生成と同じconsumer監査を行うstepを追加した。対象記事数は追跡済み原文のpublishedから算出し、通常・fixture・unit・UI・Releaseの既存検査と分ける。この全記事stepのHosted実行は未確認であり、過去の3記事版CIの成功を引き継がない。
+[iOS CI](../../../.github/workflows/ios-native.yml)へ全published記事の一時生成と同じconsumer監査を行うstepを追加した。対象記事数は追跡済み原文のpublishedから算出し、通常・fixture・unit・UI・Releaseの既存検査と分ける。初回の出力先検査での失敗を修正し、全記事生成のHosted成功は再実行で確認する。過去の3記事版CIの成功を引き継がない。
 
 IOS-13・15は未完了のまま維持する。全記事の生成とFoundation CLIでの受入は確認したが、アプリでの全記事カタログへの切替、画面とVoiceOverの受入、長文・大きな表・最大文字での初回起動・検索・スクロール・メモリ等の性能測定は残る。初版の対象・権利・配布の採択、全音声対応、実機受入やmainへの統合も、この一時生成の成功とは区別する。
 

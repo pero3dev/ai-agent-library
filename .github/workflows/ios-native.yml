@@ -69,6 +69,8 @@ jobs:
             bash ios/tests/check-core.sh --fixtures
           } 2>&1 | tee .local/ios-ci/evidence/content-and-core.log
       - name: Generate and validate every published article in an isolated package
+        env:
+          TMPDIR: /private/tmp
         run: |
           set -euo pipefail
           full_package_root="$(mktemp -d /private/tmp/ailibrary-ios-all-published.XXXXXX)"

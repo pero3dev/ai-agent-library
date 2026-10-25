@@ -74,7 +74,12 @@
   "hosted_full_package_ci": {
     "workflow": ".github/workflows/ios-native.yml",
     "implementation": "added-temporary-generation-and-consumer-audit-step",
-    "execution": "not-run",
+    "execution": "first-run-failed-output-boundary; TMPDIR-alignment-fixed-awaiting-rerun",
+    "initial_run": 40159700162,
+    "initial_job": 121068481885,
+    "normal_and_fixture_generation_audits_core": "passed",
+    "initial_full_package_failure": "output /private/tmp outside runner os.tmpdir",
+    "fix": "set TMPDIR=/private/tmp for only the full-package step; keep generator output restrictions",
     "expected_article_count": "derived-from-tracked-published-sources"
   },
   "TODO_status": {

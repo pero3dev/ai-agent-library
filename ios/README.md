@@ -110,14 +110,14 @@ Debugで`TestContent`を生成していない場合は、入口で記事が含�
 
 ```bash
 all_package_root="$(mktemp -d /private/tmp/ailibrary-ios-all-published.XXXXXX)"
-PLAYWRIGHT_CHANNEL=chrome node scripts/build-ios-native-content.mjs \
+TMPDIR=/private/tmp PLAYWRIGHT_CHANNEL=chrome node scripts/build-ios-native-content.mjs \
   --all-published --output "$all_package_root/Content"
 bash ios/tests/check-package.sh "$all_package_root/Content" 199
 ```
 
 末尾の`199`は2026-10-25時点のpublished記事数です。記事数が変わった場合は、対象の正本に合わせます。draftとREADMEは含めません。全図の説明は[専用map](all-published-diagram-descriptions.json)を必須とし、音声は既存のAgentループ1本を維持します。通常の`ios:prepare`は3記事、fixtureは4記事のままで、この操作ではアプリの同梱カタログやiPhone上のコンテンツを切り替えません。
 
-[全記事の実施記録](../project/records/2026-10-25/ios-all-article-package.md)では、199記事・PNG422本・manifest込み625ファイル、37,547,753 bytesを実生成し、appと同じContentValidatorと本文読み込み入口で全199記事を受け入れました。約2.28秒はこのMacのFoundation CLIでの検証・全本文読み込み時間であり、アプリ起動・描画・実機性能の測定ではありません。CIへ全記事の一時生成・consumer監査stepを追加しましたが、Hostedでの実行は未確認です。全記事の画面・VoiceOver・性能受入を残し、IOS-13・15を完了とはしません。
+[全記事の実施記録](../project/records/2026-10-25/ios-all-article-package.md)では、199記事・PNG422本・manifest込み625ファイル、37,547,753 bytesを実生成し、appと同じContentValidatorと本文読み込み入口で全199記事を受け入れました。約2.28秒はこのMacのFoundation CLIでの検証・全本文読み込み時間であり、アプリ起動・描画・実機性能の測定ではありません。CIへ全記事の一時生成・consumer監査stepを追加し、初回に見つかった出力先と環境の一時ディレクトリの不一致を修正しました。Hostedでの全記事生成成功は未確認です。全記事の画面・VoiceOver・性能受入を残し、IOS-13・15を完了とはしません。
 
 ## 検証
 

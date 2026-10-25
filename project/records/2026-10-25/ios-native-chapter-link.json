@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "task": "ios-native-chapter-link",
+  "date": "2026-10-25",
+  "status": "six-sources-reviewed-Mac6-cumulative-SDK-passed-awaiting-Hosted",
+  "authorization": "Autonomous iOS development with commits PR main; physical checks may remain incomplete",
+  "parent_PR": 259,
+  "parent_head": "5ac6881b88d9280a717f936c99521bc657767ef2",
+  "version": "0.2.12(14)",
+  "source_sha256": {
+    "ios/AILibrary/Sources/NativeLearningViews.swift": "7895724d576ac36a6ccfeeb239d8e3077e8d4202b6bcc3c7f88641625d7cf655",
+    "ios/AILibrary/Sources/ArticleReaderView.swift": "a7e758804b30f3902c37381b189f6fd6dca57284dbb81a11fcc31de31b4b28fe",
+    "ios/AILibrary/Sources/NativeReaderView.swift": "7b32d03ade5025730b009fbcc0d52af147f5a93b6e4858e9a80dc16a293ba69c",
+    "ios/AILibraryTests/LearningNavigationTests.swift": "acf4b690451e6a6ad3c97340184b35616b4dc8b8f97074c26b21dfac2aba4015",
+    "ios/AILibraryUITests/PublishedReaderUITests.swift": "a6fe02cf250ef9e98a752871a8aa1002c0adc7521344eede393c8924f75fe945",
+    "ios/AILibrary.xcodeproj/project.pbxproj": "bb84eb4bcfa21e04c7686aa8c2de780117a6bfe21413ed3a7cbe79790108a2c6"
+  },
+  "helper_Mac": {
+    "result": "passed",
+    "executed": 6,
+    "failures": 0,
+    "newMethods": 2,
+    "log": "/private/tmp/ios-native-chapter-link-check-20261025/xctest.log",
+    "logSHA256": "57b1b99723f06d44f1c2579a601e1177113e2d3d29fd8dfa748748017848da71",
+    "scope": "Actual Foundation helper prefix and all LearningNavigationTests methods, without only the app module import, compiled against product Foundation sources and run by Darwin XCTest defaultTestSuite on Mac CLI. Not iOS/SwiftUI execution."
+  },
+  "SDK": {
+    "result": "TEST BUILD SUCCEEDED",
+    "log": "/private/tmp/ios-native-chapter-link-sdk-build-2026-10-25.log",
+    "logSHA256": "d9595512aef0a0bbaa368648834d6679723dcce0cfb1b78d449e497b757df9d9",
+    "configuration": "Xcode16.2, Debug, generic/platform=iOS Simulator SDK18.2, CODE_SIGNING_ALLOWED=NO, jobs2, existing .local/ios-baseline-sdk",
+    "scope": "All app/unit/UI targets. Compiled chapter six files plus the isolated LibraryView More/zero-results P2 fix; no Simulator, device or UI runtime. Source unchanged after compile.",
+    "registered_unit_methods_compiled": 119,
+    "registered_UI_methods_compiled": 10
+  },
+  "prepared_UI": {
+    "existingMethodsPreserved": 9,
+    "newMethods": 1,
+    "total": 10,
+    "newCase": "Actually tap related chapter link; assert original qualifier; close sheet and require original linked paragraph fully visible; reopen and choose README-first chapter article; return to source reader, bookmark and visible original related-list block. No route injection/skip or reader correction after return.",
+    "tap": "Prefer exposed AX Link; otherwise a real coordinate tap on the first line of the fully visible paragraph whose first inline is the link. Never invoke a callback or rewrite a route from the test."
+  },
+  "self_review": {
+    "existingPublishedUI": "Exact entire old class prefix including seven prior Published methods preserved; NativeReader2 not edited.",
+    "scroll": "NativeReaderView exactly equals baseline with the two callback identifier occurrences renamed; no alignment/restore/save edits.",
+    "glossary": "Exact previous strict glossary helper retained.",
+    "project": "Only two marketing/build version pairs changed.",
+    "chapterData": "Accepted current index only; exact chapter slug mapping, README description and article_ids order; no producer/schema/manifest additions."
+  },
+  "source_reference": {
+    "articles": 199,
+    "prerequisite_links": 405,
+    "related_links": 1411,
+    "ordered_target_mismatches": 0,
+    "both_sections_retained": 199,
+    "corpus_profile": "learning-index-published199",
+    "proof": "/private/tmp/ios-native-prerequisites-gap-2026-10-25.json",
+    "proofSHA256": "eba61660d784044f8e13395d3a776bc8c0f79d6ed7c319a63040a559990b92a4",
+    "schema_extension": false
+  },
+  "shared_packages": {
+    "Content": {
+      "count": 3,
+      "revision": "c10353c16891efda1997cd17a698220c09d9af37092fe3a2e7691fd05999b6f4",
+      "manifestSHA256": "6acf9de646962279de13ae090fa975e177600b0c11db3bdcebe145e5e31e6c92",
+      "modifiedByThisTask": false
+    },
+    "TestContent": {
+      "count": 4,
+      "revision": "15df0e08aa2597ea012970f812a4eb7fe242ff626d4e6d0f17b62888b258e60a",
+      "manifestSHA256": "686c98ec742983cb5fa07c7561bf609691f072bf2781b53d37572a830426a517",
+      "modifiedByThisTask": false
+    }
+  },
+  "More_fix": "Already in parent259; LibraryView not part of this six-file change",
+  "format_storage_audio_change": false,
+  "default_catalog_change": false,
+  "Hosted": "pending-final-head",
+  "Release": "pending-final-head",
+  "not_completed": [
+    "fullUI10",
+    "physical-VoiceOver-maxtext",
+    "default199-adoption",
+    "IOS14-overall-acceptance"
+  ],
+  "independent_review": "approved-six-frozen-sources-and-evidence",
+  "URL_fragment": "absent-or-empty-hash-accepted; nonempty-falls-back"
+}

@@ -102,6 +102,8 @@ Debugで`TestContent`を生成していない場合は、入口で記事が含�
 
 0.2.11（13）では読込時に不変の全文検索索引を作り、入力ごとの全記事正規化を省きます。本文と同時に切り替え、別内容の同IDや索引にない記事は従来検索へ戻します。[検索索引の記録](../project/records/2026-10-25/ios-normalized-search-index.md)で結果等価性、Macの補助性能測定、SDK compileと未完了の実機性能を分けて示します。
 
+0.2.12（14）では、学習索引にある正規の章URLを本文から開くと、アプリ内の章案内とREADME順の記事へ進めます。章案内を閉じて本文へ戻る導線を用意し、未知URL等と索引のない代表3記事は従来のbrowser fallbackを保ちます。[章リンクの記録](../project/records/2026-10-25/ios-native-chapter-link.md)で、全199記事の前提・関連リンク保持、URL回帰、SDK compileと未完了の画面確認を区別します。
+
 ## 記事の生成と更新の試験
 
 [生成CLI](../scripts/build-ios-native-content.mjs)と[変換処理](../scripts/lib/ios-native-content.mjs)は、Markdown原本と音声カタログからパッケージを作ります。[資産生成](../scripts/lib/ios-native-assets.mjs)は行内・表示数式とMermaidを明暗別PNGへ変換します。元のTeX・Mermaidと代替読み上げ文をJSONへ残し、KaTeX・Mermaid・記事のライセンスも同梱します。端末用パッケージはJSON・PNG・TXTで構成し、HTML・JS・CSS・SVG・フォントは含めません。

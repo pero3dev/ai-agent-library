@@ -23,6 +23,19 @@ enum NativeLearningNavigation {
         return termIDs.contains(fragment) ? .term(fragment) : nil
     }
 
+    static func chapterID(for url: URL, chapterIDs: Set<String>?) -> String? {
+        guard let chapterIDs, let parts = URLComponents(url: url, resolvingAgainstBaseURL: false),
+              parts.scheme?.lowercased() == "https", parts.host?.lowercased() == "pero3dev.github.io",
+              parts.port == nil, parts.user == nil, parts.password == nil, parts.query == nil,
+              parts.fragment == nil || parts.fragment == "" else { return nil }
+        // The producer maps NN-slug/README.md to /docs/slug. Only an exact,
+        // unambiguous chapter in this snapshot can use the local guide.
+        let matches = chapterIDs.filter { id in
+            parts.percentEncodedPath == "/ai-agent-library/docs/" + String(id.dropFirst(3))
+        }
+        return matches.count == 1 ? matches.first : nil
+    }
+
     static func destination(for target: NativeLearningTarget) -> NativeLearningDestination? {
         switch target {
         case .article(let id, let heading):
@@ -58,12 +71,14 @@ import SwiftUI
 enum NativeLearningPresentation: Identifiable {
     case guide
     case glossary(NativeGlossaryDestination)
+    case chapter(String)
 
     var id: String {
         switch self {
         case .guide: return "guide"
         case .glossary(.list): return "glossary"
         case .glossary(.term(let id)): return "term:" + id
+        case .chapter(let id): return "chapter:" + id
         }
     }
 }
@@ -109,20 +124,27 @@ struct NativeLearningSheet: View {
     let index: NativeLearningIndex
     let presentation: NativeLearningPresentation
     let select: (NativeLearningDestination) -> Void
+    var articles: [LibraryArticle] = []
+    /// Root-library chapter actions retain their filter behavior. Reader sheets
+    /// keep chapter navigation here so closing them preserves the source reader.
+    var chapterNavigationInSheet = false
+    @State private var chapterPath: [String] = []
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $chapterPath) {
             Group {
                 switch presentation {
                 case .guide: guide
-                case .glossary(.list): NativeGlossaryList(index: index, select: select)
+                case .glossary(.list): NativeGlossaryList(index: index, select: choose)
                 case .glossary(.term(let id)):
                     if let term = index.glossary.first(where: { $0.id == id }) {
-                        NativeGlossaryTerm(term: term, index: index, select: select)
-                    } else { NativeGlossaryList(index: index, select: select) }
+                        NativeGlossaryTerm(term: term, index: index, select: choose)
+                    } else { NativeGlossaryList(index: index, select: choose) }
+                case .chapter(let id): chapterGuide(id)
                 }
             }
+            .navigationDestination(for: String.self) { id in chapterGuide(id) }
             .toolbar { ToolbarItem(placement: .cancellationAction) { Button("閉じる") { dismiss() } } }
         }
     }
@@ -131,14 +153,14 @@ struct NativeLearningSheet: View {
         List {
             Section {
                 NavigationLink {
-                    NativeGlossaryList(index: index, select: select)
+                    NativeGlossaryList(index: index, select: choose)
                 } label: { Label("用語集", systemImage: "character.book.closed") }
                 .accessibilityIdentifier("learning-open-glossary")
             }
             Section("学習ルート") {
                 ForEach(index.routes) { route in
                     NavigationLink {
-                        NativeLearningRouteView(route: route, index: index, select: select)
+                        NativeLearningRouteView(route: route, index: index, select: choose)
                     } label: {
                         VStack(alignment: .leading, spacing: 5) {
                             Text("\(route.id) \(route.label)").font(.headline)
@@ -150,7 +172,7 @@ struct NativeLearningSheet: View {
             }
             Section("章から選ぶ") {
                 ForEach(index.chapters) { chapter in
-                    Button { select(.chapter(chapter.id)) } label: {
+                    Button { choose(.chapter(chapter.id)) } label: {
                         VStack(alignment: .leading, spacing: 5) {
                             Text(NativeLearningNavigation.chapterTitle(chapter)).font(.headline)
                             Text(chapter.description).font(.subheadline).foregroundStyle(.secondary)
@@ -161,6 +183,54 @@ struct NativeLearningSheet: View {
             }
         }
         .navigationTitle("学習ガイド")
+    }
+
+    @ViewBuilder private func chapterGuide(_ id: String) -> some View {
+        if let chapter = index.chapters.first(where: { $0.id == id }) {
+            NativeChapterGuide(chapter: chapter, articles: articles, select: choose)
+        } else {
+            ContentUnavailableView("章を利用できません", systemImage: "books.vertical",
+                                   description: Text("学習ガイドから選び直してください。"))
+        }
+    }
+
+    private func choose(_ destination: NativeLearningDestination) {
+        if chapterNavigationInSheet, case .chapter(let id) = destination,
+           index.chapters.contains(where: { $0.id == id }) {
+            chapterPath.append(id)
+        } else { select(destination) }
+    }
+}
+
+private struct NativeChapterGuide: View {
+    let chapter: NativeLearningChapter
+    let articles: [LibraryArticle]
+    let select: (NativeLearningDestination) -> Void
+
+    private var orderedArticles: [LibraryArticle] {
+        let ids = Set(chapter.article_ids)
+        return LibraryArticleOrder.ordered(articles.filter { ids.contains($0.id) }, articleIDs: chapter.article_ids)
+    }
+
+    var body: some View {
+        List {
+            Section {
+                Text(chapter.description).textSelection(.enabled)
+                    .accessibilityIdentifier("learning-chapter-description")
+            }
+            Section("この章の記事") {
+                ForEach(orderedArticles) { article in
+                    Button { select(.article(ReaderRoute(articleID: article.id))) } label: {
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text(article.title).font(.headline)
+                            Text(article.summary).font(.subheadline).foregroundStyle(.secondary)
+                        }
+                    }
+                    .accessibilityIdentifier("learning-chapter-article-" + article.id)
+                }
+            }
+        }
+        .navigationTitle(NativeLearningNavigation.chapterTitle(chapter))
     }
 }
 

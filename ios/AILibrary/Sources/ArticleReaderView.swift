@@ -39,7 +39,8 @@ struct ArticleReaderView: View {
             .sheet(item: $episode) { selected in audioSheet(selected) }
             .sheet(item: $learningPresented, onDismiss: dispatchLearningSelection) { presentation in
                 if let index = store.learningIndex {
-                    NativeLearningSheet(index: index, presentation: presentation, select: selectLearningDestination)
+                    NativeLearningSheet(index: index, presentation: presentation, select: selectLearningDestination,
+                                        articles: snapshot.manifest.articles, chapterNavigationInSheet: true)
                 }
             }
     }
@@ -84,7 +85,7 @@ struct ArticleReaderView: View {
                                 requestedHeading: requestedHeading, headingRequestID: headingRequestID,
                                 onPosition: recordPosition, navigate: navigate,
                                 initialSearchHit: searchHit, searchStartsAtBeginning: activeSearchQuery != nil,
-                                openGlossary: openGlossary)
+                                openLearningLink: openLearningLink)
             .id(readerID)
     }
 
@@ -159,11 +160,18 @@ struct ArticleReaderView: View {
         }
     }
 
-    private func openGlossary(_ url: URL) -> Bool {
+    private func openLearningLink(_ url: URL) -> Bool {
         let ids = store.learningIndex.map { Set($0.glossary.map(\.id)) }
-        guard let destination = NativeLearningNavigation.glossaryDestination(for: url, termIDs: ids) else { return false }
-        learningPresented = .glossary(destination)
-        return true
+        if let destination = NativeLearningNavigation.glossaryDestination(for: url, termIDs: ids) {
+            learningPresented = .glossary(destination)
+            return true
+        }
+        let chapters = store.learningIndex.map { Set($0.chapters.map(\.id)) }
+        if let id = NativeLearningNavigation.chapterID(for: url, chapterIDs: chapters) {
+            learningPresented = .chapter(id)
+            return true
+        }
+        return false
     }
 
     private func selectLearningDestination(_ destination: NativeLearningDestination) {

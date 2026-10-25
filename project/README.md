@@ -6,6 +6,8 @@
 
 ## 構造・運用の計画
 
+現行SDKへの[Archive互換性の事前検証](records/2026-10-25/ios-sdk26-archive-preflight.md)は、公開repoの標準Hosted環境でdevice Releaseと実同梱物を監査する。資格情報を使う署名・Provisioningを分け、SDK26の初回実行とStore配布・ローカルOS更新の採択を区別する。
+
 全記事一覧が使えるまでの[性能観測基盤](records/2026-10-25/ios-published-readiness-observation.md)では、機能UIと専用Clockケースを分ける。実Debug全数監査・warm-upと3標本・生xcresult/CSVを保持し、初回の実Clock型・単位・識別子の確認と性能予算の採択を区別する。
 
 全publishedの開発用標準生成は[入口統合の記録](records/2026-10-25/ios-published-development-default.md)で追跡する。標準npmで全199記事と学習索引を生成・原文監査・実consumer監査し、代表3記事とfixture4記事の回帰入口を保つ。公開申請の採択や全記事の実機受入とは分ける。

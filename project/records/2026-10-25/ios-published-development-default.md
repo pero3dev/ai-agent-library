@@ -32,3 +32,11 @@ freshな私有copy rootで、修正していない標準npm prepare→content監
 音声は既存1本のstreaming metadataを維持し、MP3・台本・README紹介画像等を追加同梱しない。記事・変換とKaTeX/Mermaidの既存表示・LICENSE/NOTICEを保持する。新しいネットワーク更新、公開申請や料金の採択、未確認の配布権利を承認済みとは扱わない。
 
 最終headのSDK/Hosted通常・全記事UI・Release、全199記事の視覚・VoiceOver・最大文字・実機・性能目標と容量管理は未完了である。IOS-13/14全体のcheckboxは完了にしない。[JSON](ios-published-development-default.json)にコードSHA、実行面と私有生成物の証跡を残す。
+
+## 検索中の操作選択をシートへ移行
+
+全幅化したhead a03901c0でも全記事run40186338703は単体109件中107成功・2private入力skip、UI8成功・1失敗でReleaseへ進まなかった。filtered Menuを押した後の既存識別子library-bundled-contentが表示されなかった。実touchは(55.3,358.4)、15.65秒後の内側Menu boundsは{40,363,313,26}であり、瞬間boundsやUIKitの機構までは断定しない。
+
+filtered入口を通常Buttonにし、明示的な閉じる付きのSwiftUI操作一覧sheetへ移した。既存の4操作はラベル・識別子・guardを共用し、選択を保留してsheetのonDismiss後にだけ元の操作を実行する。toolbar Menuは直接実行を保つ。検索・タグ等を維持し、固定delay・yieldや既存テストのselector/assertion削減は入れない。
+
+累積0.2.14のapp-only SDK compileは成功したが、各正確なbranch headの動作成功ではない。新sheetのHosted、import/about/専用記事、0件・最大文字・VoiceOver・実機は未確認として保持する。過去の全幅化とSDKの記録は当時の段階であり、本修正の成功証拠へ読み替えない。

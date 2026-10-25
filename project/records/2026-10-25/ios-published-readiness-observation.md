@@ -30,3 +30,11 @@ Swift単独型検査、workflowのactionlint・YAML・Bash・埋込Node、全tar
 前提PR #258の検索中の操作メニューは、head a03901c0の全記事run40186338703でUI8成功・1失敗となり、別途画面の診断を続けている。今回の測定ケースを追加する前の失敗であり、機能UIの成功とは扱わない。既存のselector/assertionを削らず修正後に再検査する。
 
 初回Hosted・実Clock型・単位・標本の採択、性能目標、実機等は未完了。通常UserDefaults・既存取り込み版・共有3/4記事の資産とユーザーのiPhoneは変更していない。新たな権限・秘密情報・有料サービス・契約や公開申請は含めない。[JSON](ios-published-readiness-observation.json)にsourceと検証の段階を保存する。
+
+## 検索中の操作選択をシートへ移行
+
+全幅化したhead a03901c0でも全記事run40186338703は単体109件中107成功・2private入力skip、UI8成功・1失敗でReleaseへ進まなかった。filtered Menuを押した後の既存識別子library-bundled-contentが表示されなかった。実touchは(55.3,358.4)、15.65秒後の内側Menu boundsは{40,363,313,26}であり、瞬間boundsやUIKitの機構までは断定しない。
+
+filtered入口を通常Buttonにし、明示的な閉じる付きのSwiftUI操作一覧sheetへ移した。既存の4操作はラベル・識別子・guardを共用し、選択を保留してsheetのonDismiss後にだけ元の操作を実行する。toolbar Menuは直接実行を保つ。検索・タグ等を維持し、固定delay・yieldや既存テストのselector/assertion削減は入れない。
+
+累積0.2.14のapp-only SDK compileは成功したが、各正確なbranch headの動作成功ではない。新sheetのHosted、import/about/専用記事、0件・最大文字・VoiceOver・実機は未確認として保持する。過去の全幅化とSDKの記録は当時の段階であり、本修正の成功証拠へ読み替えない。

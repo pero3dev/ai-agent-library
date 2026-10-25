@@ -2,7 +2,7 @@
   "schema_version": 1,
   "task": "ios-published-development-default",
   "date": "2026-10-25",
-  "status": "actual-standard-private-generation-and-static-checks-passed-awaiting-review-Hosted",
+  "status": "filtered-action-sheet-fixed-awaiting-exact-head-retest",
   "authorization": "Autonomous iOS development; reversible development profile entrypoints only",
   "parent_PR": 260,
   "parent_head": "5174cf511933c3c2cd551a7c926a02764135e21b",
@@ -331,8 +331,7 @@
   "new_network_update_adoption": false,
   "physical_operations": false,
   "project_change": "Only marketing/build version",
-  "Hosted": "pending-final-head",
-  "SDK": "not-run-exact-head; no production Swift changes from prior compiled chapter version",
+  "Hosted": "retest-pending-final-head",
   "Release": "pending-final-head",
   "not_completed": [
     "full-visual-VoiceOver-device-maxtext-acceptance",
@@ -341,5 +340,64 @@
     "IOS13-and14-overall-acceptance"
   ],
   "independent_source_review": "approved-four-source-files",
-  "worker_history_note": "Initial pre-render limitations are not inherited; actual fresh standard npm pipeline succeeded and is stored separately."
+  "worker_history_note": "Initial pre-render limitations are not inherited; actual fresh standard npm pipeline succeeded and is stored separately.",
+  "pre_filtered_action_sheet_fix_source_sha256": {
+    "package.json": "9c7f0b886c67f489a3cd788c9270875267f70b6dd4103c2e25cd2429f88fd4a0",
+    ".github/workflows/ios-native.yml": "3a03ad0aa7c4276962b97e93c8128b265c05b9c1bc9a506d64075b1a07b9c480",
+    ".github/workflows/ios-published-candidate.yml": "7e0fef8e779966084b151b820c28b906c5af9767e312667ca0623e939f679b74",
+    "ios/AILibrary.xcodeproj/project.pbxproj": "19052c81b05e60c5026b8763da25282afb758396a4807cdd3c992b2e19957010"
+  },
+  "inherited_filtered_action_sheet_fix": {
+    "head": "a03901c0f5fbf3d28ba2d91456747bcf0cb852cb",
+    "run": 40186338703,
+    "job": 121147813799,
+    "unit": {
+      "registered": 109,
+      "passed": 107,
+      "skipped": 2,
+      "failed": 0
+    },
+    "UI": {
+      "total": 9,
+      "passed": 8,
+      "failed": 1
+    },
+    "Release": "not-run-after-UI-failure",
+    "observed": "More Menu still absent after full-width label; next item missing at existing line204",
+    "outer_row": [
+      20,
+      354,
+      353,
+      44
+    ],
+    "later_inner_menu_bounds": [
+      40,
+      363,
+      313,
+      26
+    ],
+    "actual_touch": [
+      55.300000526,
+      358.400000066
+    ],
+    "bounds_observation_delay_seconds": 15.65,
+    "inference": "Actual event is above later inner bounds; instantaneous bounds and UIKit cause not proved",
+    "fix": "Filtered ordinary Button opens SwiftUI action sheet; shared commands queue selection then dispatch only from sheet onDismiss; toolbar remains direct Menu",
+    "UI_assertions_changed": false,
+    "version_changed": false,
+    "app_only_cumulative_SDK": "passed Xcode16.2/SDK18.2/version0.2.14(16); not exact earlier branch runtime",
+    "artifact": {
+      "id": 12597565276,
+      "bytes": 145208313,
+      "sha256": "6611a91f8bc1c13217644fe2deeb21fd892e0570571f839a1a9cdcff3ccf3c56"
+    },
+    "unverified": [
+      "new sheet Hosted menu/bundled acceptance",
+      "sheet import/about/fixture paths",
+      "zero result and maximum text/VoiceOver",
+      "physical device"
+    ]
+  },
+  "pre_filtered_action_sheet_fix_SDK": "not-run-exact-head; no production Swift changes from prior compiled chapter version",
+  "SDK_after_filtered_action_sheet_fix": "app-only cumulative build passed; exact-head SDK/Hosted pending"
 }

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "task": "ios-native-chapter-link",
   "date": "2026-10-25",
-  "status": "More-row-hit-area-fixed-awaiting-exact-head-retest",
+  "status": "filtered-action-sheet-fixed-awaiting-exact-head-retest",
   "authorization": "Autonomous iOS development with commits PR main; physical checks may remain incomplete",
   "parent_PR": 259,
   "parent_head": "5ac6881b88d9280a717f936c99521bc657767ef2",
@@ -132,5 +132,65 @@
     "registered_unit_methods_compiled": 119,
     "registered_UI_methods_compiled": 10
   },
-  "SDK_after_more_row_hit_fix": "app-only cumulative build passed; exact-head SDK/Hosted pending"
+  "SDK_after_more_row_hit_fix": "app-only cumulative build passed; exact-head SDK/Hosted pending",
+  "pre_filtered_action_sheet_fix_source_sha256": {
+    "ios/AILibrary/Sources/NativeLearningViews.swift": "7895724d576ac36a6ccfeeb239d8e3077e8d4202b6bcc3c7f88641625d7cf655",
+    "ios/AILibrary/Sources/ArticleReaderView.swift": "a7e758804b30f3902c37381b189f6fd6dca57284dbb81a11fcc31de31b4b28fe",
+    "ios/AILibrary/Sources/NativeReaderView.swift": "7b32d03ade5025730b009fbcc0d52af147f5a93b6e4858e9a80dc16a293ba69c",
+    "ios/AILibraryTests/LearningNavigationTests.swift": "acf4b690451e6a6ad3c97340184b35616b4dc8b8f97074c26b21dfac2aba4015",
+    "ios/AILibraryUITests/PublishedReaderUITests.swift": "a6fe02cf250ef9e98a752871a8aa1002c0adc7521344eede393c8924f75fe945",
+    "ios/AILibrary.xcodeproj/project.pbxproj": "bb84eb4bcfa21e04c7686aa8c2de780117a6bfe21413ed3a7cbe79790108a2c6"
+  },
+  "inherited_filtered_action_sheet_fix": {
+    "head": "a03901c0f5fbf3d28ba2d91456747bcf0cb852cb",
+    "run": 40186338703,
+    "job": 121147813799,
+    "unit": {
+      "registered": 109,
+      "passed": 107,
+      "skipped": 2,
+      "failed": 0
+    },
+    "UI": {
+      "total": 9,
+      "passed": 8,
+      "failed": 1
+    },
+    "Release": "not-run-after-UI-failure",
+    "observed": "More Menu still absent after full-width label; next item missing at existing line204",
+    "outer_row": [
+      20,
+      354,
+      353,
+      44
+    ],
+    "later_inner_menu_bounds": [
+      40,
+      363,
+      313,
+      26
+    ],
+    "actual_touch": [
+      55.300000526,
+      358.400000066
+    ],
+    "bounds_observation_delay_seconds": 15.65,
+    "inference": "Actual event is above later inner bounds; instantaneous bounds and UIKit cause not proved",
+    "fix": "Filtered ordinary Button opens SwiftUI action sheet; shared commands queue selection then dispatch only from sheet onDismiss; toolbar remains direct Menu",
+    "UI_assertions_changed": false,
+    "version_changed": false,
+    "app_only_cumulative_SDK": "passed Xcode16.2/SDK18.2/version0.2.14(16); not exact earlier branch runtime",
+    "artifact": {
+      "id": 12597565276,
+      "bytes": 145208313,
+      "sha256": "6611a91f8bc1c13217644fe2deeb21fd892e0570571f839a1a9cdcff3ccf3c56"
+    },
+    "unverified": [
+      "new sheet Hosted menu/bundled acceptance",
+      "sheet import/about/fixture paths",
+      "zero result and maximum text/VoiceOver",
+      "physical device"
+    ]
+  },
+  "SDK_after_filtered_action_sheet_fix": "app-only cumulative build passed; exact-head SDK/Hosted pending"
 }

@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-25",
+  "task": "ios-filtered-actions-ui",
+  "parent_PR": 264,
+  "parent_head": "a9aa3f3721f1ddcd74edc217e129e0e296b58a81",
+  "version": "unchanged-0.2.14(16)",
+  "status": "review-and-SDK-compile-passed-initial-Hosted-pending",
+  "source_sha256": {
+    "ios/AILibraryUITests/PublishedReaderUITests.swift": "26d9f24c9c21663a9239af33276f3c17ee045bb742f796a8d329fe025ec44770"
+  },
+  "independent_candidate_review": "approved-after-restart-before-resume-and-fixture-count-guards",
+  "UI_cases": {
+    "old_functional": 10,
+    "new": 2,
+    "functional_total": 12,
+    "performance": 1,
+    "unit": 122,
+    "existing_Published8_prefix_and_all_assertions_preserved": true
+  },
+  "SDK": {
+    "toolchain": "Xcode16.2/Simulator18.2",
+    "initial": "exit65 nested sandbox_apply during unchanged shell phase before Swift compile",
+    "retry": "same cache and command require_escalated; TEST BUILD SUCCEEDED; Xcode script sandbox unchanged",
+    "runtime_or_Simulator_started": false,
+    "binary_registration": "arm64/x86_64 ObjectiveC method tables verify122/12/1",
+    "protected_sources": 48,
+    "protected_SHA_unchanged": true,
+    "minimum_free_GiB": 5
+  },
+  "evidence": {
+    "/private/tmp/ios-filtered-actions-ui-candidate-20261025/validation.json": {
+      "sha256": "3962adc935bcdd41fd4deeb0281f7c58da495af8babfe8795f990036e6eabeae",
+      "bytes": 7929
+    },
+    "/private/tmp/ios-filtered-actions-ui-integration-20261025/integration-proof.json": {
+      "sha256": "1cb2f2096ca327c39682c6feee87458ce8d2b8f924d8114fa577b996a78dcbc7",
+      "bytes": 19693
+    }
+  },
+  "common_check": {
+    "tests": 765,
+    "pass": 750,
+    "skip": 15,
+    "fail": 0,
+    "log": "/private/tmp/ios-filtered-actions-common-check-20261025.log",
+    "sha256": "bd33381931aac644136e621d62d814b4fc80148241dee8e3b4b2839886beb158"
+  },
+  "Hosted": "not-run-final-head",
+  "normal_user_data_changed": false,
+  "not_completed": [
+    "actual new two UI cases and AX/scroll/sheet",
+    "fileImporter cancel",
+    "maximum text/VoiceOver/device",
+    "IOS25 overall"
+  ]
+}

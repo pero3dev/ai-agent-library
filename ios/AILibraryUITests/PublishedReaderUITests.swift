@@ -320,4 +320,214 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         requireHittable(firstRelated, inside: reader)
         capture("Related-chapter-reader-return")
     }
+
+    /// Modal descendants can retain background list identifiers. Require one
+    /// actually hittable public control instead of assuming firstMatch is front.
+    private func singleHittableControl(_ query: XCUIElementQuery, name: String) throws -> XCUIElement {
+        let available = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            query.allElementsBoundByIndex.filter { self.isHittableOnScreen($0) }.count == 1
+        }, object: nil)
+        XCTAssertEqual(XCTWaiter.wait(for: [available], timeout: 15), .completed,
+                       "Exactly one foreground \(name) must be usable")
+        let visible = query.allElementsBoundByIndex.filter { isHittableOnScreen($0) }
+        guard visible.count == 1 else {
+            throw NSError(domain: "PublishedReaderUITests", code: 2,
+                          userInfo: [NSLocalizedDescriptionKey: "Missing or ambiguous foreground " + name])
+        }
+        return visible[0]
+    }
+
+    private func foregroundArticleSearch() throws -> XCUIElement {
+        let prompt = "記事の本文を検索"
+        let query = app.searchFields.matching(
+            NSPredicate(format: "identifier == %@ OR label == %@", prompt, prompt))
+        // searchable has no always-visible placement. Use the baseline's bounded
+        // reveal only when no foreground search field is currently hittable.
+        for _ in 0..<8 {
+            if query.allElementsBoundByIndex.contains(where: { isHittableOnScreen($0) }) { break }
+            app.swipeDown(velocity: .slow)
+        }
+        return try singleHittableControl(query, name: "article search")
+    }
+
+    private func setForegroundArticleQuery(_ query: String) throws {
+        let search = try foregroundArticleSearch()
+        search.tap()
+        if let current = search.value as? String, !current.isEmpty, current != search.placeholderValue {
+            let clear = search.buttons.firstMatch
+            requireHittable(clear)
+            clear.tap()
+        }
+        search.typeText(query + "\n")
+        XCTAssertEqual(search.value as? String, query)
+    }
+
+    private func setLearningTagAndArticleQuery(tag: String, query: String) throws {
+        let tags = app.buttons["library-tag-filter"]
+        for _ in 0..<8 where !isHittableOnScreen(tags) { app.swipeDown(velocity: .slow) }
+        requireHittable(tags)
+        tags.tap()
+        let tagSearch = app.searchFields["タグを検索"]
+        XCTAssertTrue(tagSearch.waitForExistence(timeout: 10))
+        requireHittable(tagSearch)
+        tagSearch.tap()
+        tagSearch.typeText(tag + "\n")
+        let choice = app.buttons["learning-tag-" + tag]
+        requireHittable(choice)
+        choice.tap()
+        try setForegroundArticleQuery(query)
+        let summary = app.staticTexts["library-filter-summary"]
+        XCTAssertTrue(summary.waitForExistence(timeout: 10))
+        XCTAssertTrue(summary.label.contains("タグ: " + tag))
+        XCTAssertTrue(summary.label.contains("検索: " + query))
+        XCTAssertEqual(tags.value as? String, tag)
+    }
+
+    private func openFilteredMoreActionsSheet() throws {
+        let more = try singleHittableControl(app.buttons.matching(
+            NSPredicate(format: "label == %@", "その他の操作")), name: "More Actions button")
+        more.tap()
+        XCTAssertTrue(app.navigationBars["その他の操作"].waitForExistence(timeout: 10))
+        requireHittable(app.buttons["このアプリについて"])
+    }
+
+    private func closePublicSheet(_ title: String) {
+        let bar = app.navigationBars[title]
+        let close = bar.buttons["閉じる"]
+        requireHittable(close)
+        close.tap()
+        let closed = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in !bar.exists }, object: nil)
+        XCTAssertEqual(XCTWaiter.wait(for: [closed], timeout: 10), .completed)
+    }
+
+    func testFilteredMoreActionsAboutRoundTripPreservesQueryAndLearningTag() throws {
+        try setLearningTagAndArticleQuery(tag: "agent-loop", query: "Agent ループ")
+        let summary = app.staticTexts["library-filter-summary"]
+        let originalSummary = summary.label
+        let article = element("library-article-01-concepts/agent-loop")
+        XCTAssertTrue(article.waitForExistence(timeout: 10))
+        try openFilteredMoreActionsSheet()
+        let about = app.buttons["このアプリについて"]
+        requireHittable(about)
+        about.tap()
+        XCTAssertTrue(app.navigationBars["このアプリについて"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.navigationBars["その他の操作"].exists)
+        closePublicSheet("このアプリについて")
+
+        XCTAssertTrue(summary.waitForExistence(timeout: 10))
+        XCTAssertEqual(summary.label, originalSummary)
+        XCTAssertEqual(try foregroundArticleSearch().value as? String, "Agent ループ")
+        XCTAssertEqual(app.buttons["library-tag-filter"].value as? String, "agent-loop")
+        XCTAssertTrue(article.exists)
+        capture("Filtered-more-actions-about-return")
+    }
+
+    func testFilteredFixtureActionsAndReadingChangesRemainIsolatedFromNormalLibrary() throws {
+        open("Transformer アーキテクチャ詳解", articleID: "11-llm-internals/transformer-architecture")
+        goToContents("自己注意の数式", headingID: "自己注意の数式")
+        app.buttons["しおりを追加"].tap()
+        XCTAssertTrue(app.buttons["しおりを削除"].waitForExistence(timeout: 5))
+        returnToLibrary()
+        try setLearningTagAndArticleQuery(tag: "transformer", query: "Transformer")
+        let summary = app.staticTexts["library-filter-summary"]
+        let originalSummary = summary.label
+
+        try openFilteredMoreActionsSheet()
+        let testLibrary = app.buttons["本文表示テスト"]
+        requireHittable(testLibrary)
+        testLibrary.tap()
+        let fixtureBar = app.navigationBars["本文表示テスト"]
+        XCTAssertTrue(fixtureBar.waitForExistence(timeout: 45))
+        let fixtureArticle = element("library-article-test-fixtures/native-reader")
+        XCTAssertTrue(fixtureArticle.waitForExistence(timeout: 45))
+        // Check the unfiltered foreground list before typing: the snapshot also
+        // contains normal articles solely as internal-link destinations.
+        let fixtureCount = try singleHittableControl(app.staticTexts.matching(
+            identifier: "library-article-count"), name: "fixture article count")
+        XCTAssertEqual(fixtureCount.label, "全1記事")
+        let foregroundRows = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "library-article-"))
+            .allElementsBoundByIndex.filter { isHittableOnScreen($0) }
+        XCTAssertEqual(foregroundRows.count, 1)
+        XCTAssertTrue(foregroundRows.allSatisfy { $0.identifier == "library-article-test-fixtures/native-reader" },
+                      "Normal article rows must not appear in the foreground fixture list")
+        try setForegroundArticleQuery("CASE-LINK-01")
+        try openFilteredMoreActionsSheet()
+        XCTAssertFalse(app.buttons["ファイルからコンテンツを更新"].exists)
+        XCTAssertFalse(app.buttons["library-bundled-content"].exists)
+        XCTAssertFalse(app.buttons["本文表示テスト"].exists)
+        closePublicSheet("その他の操作")
+        XCTAssertEqual(try foregroundArticleSearch().value as? String, "CASE-LINK-01")
+        requireHittable(fixtureArticle)
+        fixtureArticle.tap()
+        requireNativeBody()
+
+        // The fixture reading suite persists independently. Mutate its current
+        // public bookmark state without assuming a previous run left it empty.
+        let add = app.buttons["しおりを追加"], remove = app.buttons["しおりを削除"]
+        if add.exists {
+            requireHittable(add)
+            add.tap()
+            XCTAssertTrue(remove.waitForExistence(timeout: 5))
+        } else {
+            requireHittable(remove)
+            remove.tap()
+            XCTAssertTrue(add.waitForExistence(timeout: 5))
+        }
+        goToContents("CASE-LINK-01", headingID: "case-link-01")
+        let reader = app.scrollViews["native-reader"]
+        // This source-bound paragraph is one link covering all of its text.
+        // Its XCUI type need not be guessed as Link rather than StaticText.
+        let agentLink = element("native-text-paragraph-54e8aecd2e87e69446c1b222")
+        for _ in 0..<8 where !isHittableOnScreen(agentLink, inside: reader, fullyVisible: true) {
+            reader.swipeUp(velocity: .slow)
+        }
+        requireHittable(agentLink, inside: reader, fullyVisible: true)
+        XCTAssertTrue(agentLink.label.contains("Agentループの停止条件へ"))
+        agentLink.tap()
+        XCTAssertTrue(app.navigationBars["Agent ループ"].waitForExistence(timeout: 10))
+        requireNativeBody()
+        requireHittable(app.staticTexts["native-heading-詳細-停止条件は正常完了以外に必ず用意する"],
+                        inside: reader, fullyVisible: true)
+        XCTAssertFalse(app.buttons["音声で聴く"].exists)
+
+        app.navigationBars["Agent ループ"].buttons.element(boundBy: 0).tap()
+        XCTAssertTrue(app.navigationBars["ネイティブ本文テスト専用記事"].waitForExistence(timeout: 10))
+        app.navigationBars["ネイティブ本文テスト専用記事"].buttons.element(boundBy: 0).tap()
+        let readerClosed = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            !self.app.scrollViews["native-reader"].exists
+        }, object: nil)
+        XCTAssertEqual(XCTWaiter.wait(for: [readerClosed], timeout: 10), .completed)
+        XCTAssertTrue(fixtureBar.waitForExistence(timeout: 10))
+        XCTAssertEqual(try foregroundArticleSearch().value as? String, "CASE-LINK-01")
+        closePublicSheet("本文表示テスト")
+
+        XCTAssertTrue(app.navigationBars["AI Agent Library"].waitForExistence(timeout: 10))
+        XCTAssertTrue(summary.waitForExistence(timeout: 10))
+        XCTAssertEqual(summary.label, originalSummary)
+        XCTAssertEqual(try foregroundArticleSearch().value as? String, "Transformer")
+        XCTAssertEqual(app.buttons["library-tag-filter"].value as? String, "transformer")
+        let clear = app.buttons["library-clear-filters"]
+        requireHittable(clear)
+        clear.tap()
+        let filtersCleared = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in !summary.exists }, object: nil)
+        XCTAssertEqual(XCTWaiter.wait(for: [filtersCleared], timeout: 10), .completed)
+        // Reload the normal ReadingStore from persistence before opening a
+        // reader; its cached in-process value must not hide fixture pollution.
+        app.terminate()
+        app.launch()
+        let normalCount = app.staticTexts["library-article-count"]
+        XCTAssertTrue(normalCount.waitForExistence(timeout: 45))
+        XCTAssertEqual(normalCount.label, "全\(expectedPublishedCount)記事")
+        let resume = element("library-resume")
+        XCTAssertTrue(resume.waitForExistence(timeout: 10))
+        for _ in 0..<8 where !isHittableOnScreen(resume) { app.swipeDown(velocity: .slow) }
+        requireHittable(resume)
+        resume.tap()
+        requireNativeBody()
+        XCTAssertTrue(app.navigationBars["Transformer アーキテクチャ詳解"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.buttons["しおりを削除"].waitForExistence(timeout: 10))
+        requireHittable(app.staticTexts["native-heading-自己注意の数式"],
+                        inside: app.scrollViews["native-reader"], fullyVisible: true)
+        capture("Filtered-fixture-normal-reading-isolation")
+    }
 }

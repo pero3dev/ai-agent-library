@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { Footer, Layout, Navbar } from 'nextra-theme-docs'
+import { Footer, Navbar } from 'nextra-theme-docs'
+import { Layout } from '../generated/nextra-layout.mjs'
 import { Head, Search } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'

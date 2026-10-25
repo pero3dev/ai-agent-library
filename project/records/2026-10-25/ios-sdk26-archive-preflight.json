@@ -5,9 +5,9 @@
   "parent_PR": 262,
   "parent_head": "e8032494fb396718bbfe2218b1dfa428abfd7313",
   "app_version": "unchanged-0.2.14(16)",
-  "status": "optional-empty-credential-fields-fixed-awaiting-exact-Hosted",
+  "status": "ArchiveInfo-XML-projection-fixed-awaiting-exact-Hosted",
   "source_sha256": {
-    ".github/workflows/ios-sdk26-archive.yml": "de552ae7a7f7531fba57df0f0021d66eb7032548bcd2265452f9c081ed46ed72",
+    ".github/workflows/ios-sdk26-archive.yml": "f56980c39d86c0b6992d30a3e8e8e539172020b4597eaaedd5528003548dd2f5",
     "ios/tests/archive-signing-settings.mjs": "4fc3dbefcf282653d5fd6d68982ccc060eaa71f1317f8101784c9f814801bb7e",
     "tests/unit/ios-archive-signing-settings.test.mjs": "722890bc39a90b0adc7b3cad40b06701f50d821c57b5633d9ceb5001212f0765"
   },
@@ -54,8 +54,8 @@
       "bytes": 9330
     }
   },
-  "Hosted": "exact-new-head-retest-pending",
-  "SDK26_actual_Archive": "first run generation/archive/Content audit succeeded; full post-metadata audit pending",
+  "Hosted": "new-head-retest-pending",
+  "SDK26_actual_Archive": "two real Archive/Content runs succeeded; all post-ArchiveInfo metadata audits and new extraction pending",
   "not_completed": [
     "post-buildsettings Info/Privacy/inventory/MachO/UUID/codesign audit and exact-new-head retry",
     "signed distribution and export",
@@ -132,5 +132,56 @@
     "Node_blocks": 4,
     "independent_review": "approved-three-source-files-and-actual-raw-projection",
     "proof": "/private/tmp/ios-archive-signing-settings-validation-20261025/proof.json"
+  },
+  "pre_archive_info_projection_source_sha256": {
+    ".github/workflows/ios-sdk26-archive.yml": "de552ae7a7f7531fba57df0f0021d66eb7032548bcd2265452f9c081ed46ed72",
+    "ios/tests/archive-signing-settings.mjs": "4fc3dbefcf282653d5fd6d68982ccc060eaa71f1317f8101784c9f814801bb7e",
+    "tests/unit/ios-archive-signing-settings.test.mjs": "722890bc39a90b0adc7b3cad40b06701f50d821c57b5633d9ceb5001212f0765"
+  },
+  "second_Hosted": {
+    "head": "bd0022eec2d3d1a26d4d34bd4961042c9807511a",
+    "run": 40192503753,
+    "job": 121166310320,
+    "artifact": 12598403469,
+    "artifact_bytes": 97728,
+    "artifact_sha256": "f9bccabdac4ffb949ecd4361bf1cc2b7ef88d2e728df42560b7925293ee2acaf",
+    "passed": [
+      "real toolchain",
+      "generation/source/actualContent625SHA",
+      "Archive",
+      "strict signing settings guard",
+      "app-info JSON conversion"
+    ],
+    "failed": "whole Archive Info.plist JSON conversion exit1/Invalid object in plist for JSON format",
+    "commands": [
+      "app-info exit0",
+      "archive-info exit1"
+    ],
+    "independent_raw_appInfo": "17 existing build/signing/appInfo assertions match raw; not run by that workflow after archive-info stopped",
+    "unperformed": [
+      "actual Archive ApplicationProperties extraction",
+      "actual Privacy equivalence",
+      "whole app inventory",
+      "MachO/UUID/codesign"
+    ],
+    "Date_cause": "possible fixture explanation only; actual ArchiveInfo source absent from artifact"
+  },
+  "archive_info_projection_fix": {
+    "strategy": "fixed ApplicationProperties xml1 projection to fresh wx/0600 evidence file, then existing plist JSON conversion",
+    "required": "non-null object non-array plus original ApplicationPath/CFBundleIdentifier exact checks; no fallback",
+    "local_fixture": {
+      "tests": 14,
+      "accepted": 2,
+      "rejected": 12,
+      "scope": "possible nonJSON Date reproduction; actual ArchiveInfo root cause unconfirmed"
+    },
+    "actual_raw_assertions": 17,
+    "actionlint": "1.7.12-passed",
+    "YAML": "passed",
+    "Bash_blocks": 12,
+    "Node_blocks": 4,
+    "proof": "/private/tmp/ios-archive-info-projection-validation-20261025/proof.json",
+    "proof_sha256": "3b4b640cd38e22367946d8e86ecbb2f3dcc6d1b1e923a4576559632afce407ca",
+    "source_scope": "workflow only; signing helper/tests/app/PBX/UI/Clock/retention unchanged"
   }
 }

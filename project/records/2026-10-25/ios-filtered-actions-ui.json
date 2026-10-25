@@ -5,9 +5,9 @@
   "parent_PR": 264,
   "parent_head": "a9aa3f3721f1ddcd74edc217e129e0e296b58a81",
   "version": "unchanged-0.2.14(16)",
-  "status": "review-and-SDK-compile-passed-initial-Hosted-pending",
+  "status": "scoped-fixture-search-cancel-reviewed-current-source-uncompiled-Hosted-pending",
   "source_sha256": {
-    "ios/AILibraryUITests/PublishedReaderUITests.swift": "26d9f24c9c21663a9239af33276f3c17ee045bb742f796a8d329fe025ec44770"
+    "ios/AILibraryUITests/PublishedReaderUITests.swift": "ad5f668c516aed07333c2cbbcbfbe86231c45f2d00d64c549f473b0543111c6c"
   },
   "independent_candidate_review": "approved-after-restart-before-resume-and-fixture-count-guards",
   "UI_cases": {
@@ -16,7 +16,8 @@
     "functional_total": 12,
     "performance": 1,
     "unit": 122,
-    "existing_Published8_prefix_and_all_assertions_preserved": true
+    "existing_Published8_prefix_and_all_assertions_preserved": true,
+    "scope": "initial source26d9 SDK registration only; legacy122/12/1 retained"
   },
   "SDK": {
     "toolchain": "Xcode16.2/Simulator18.2",
@@ -26,7 +27,9 @@
     "binary_registration": "arm64/x86_64 ObjectiveC method tables verify122/12/1",
     "protected_sources": 48,
     "protected_SHA_unchanged": true,
-    "minimum_free_GiB": 5
+    "minimum_free_GiB": 5,
+    "source_sha256": "26d9f24c9c21663a9239af33276f3c17ee045bb742f796a8d329fe025ec44770",
+    "scope": "Historical initial26d9 bytes only. No compile evidence for currentad5f scoped cancellation."
   },
   "evidence": {
     "/private/tmp/ios-filtered-actions-ui-candidate-20261025/validation.json": {
@@ -36,6 +39,10 @@
     "/private/tmp/ios-filtered-actions-ui-integration-20261025/integration-proof.json": {
       "sha256": "1cb2f2096ca327c39682c6feee87458ce8d2b8f924d8114fa577b996a78dcbc7",
       "bytes": 19693
+    },
+    "/private/tmp/ios-fixture-close-candidate-20261026/validation.json": {
+      "sha256": "8f7985fdfb8834ef256188d8e8b94ef2e6cfa4c511623890d07200d6cb83a9b3",
+      "bytes": 14045
     }
   },
   "common_check": {
@@ -44,14 +51,95 @@
     "skip": 15,
     "fail": 0,
     "log": "/private/tmp/ios-filtered-actions-common-check-20261025.log",
-    "sha256": "bd33381931aac644136e621d62d814b4fc80148241dee8e3b4b2839886beb158"
+    "sha256": "bd33381931aac644136e621d62d814b4fc80148241dee8e3b4b2839886beb158",
+    "scope": "historical initial shared workspace; not rerun for currentad5f source"
   },
-  "Hosted": "not-run-final-head",
+  "Hosted": {
+    "initial_c333": {
+      "head": "c33301acdd1fb91b4164896533d6e22b63343e8c",
+      "UI": {
+        "total": 12,
+        "passed": 10,
+        "failed": 2
+      },
+      "scope": "historical first full-catalog run; no current-source success inferred"
+    },
+    "repaired_5a": {
+      "head": "5a064a3c5ed4b7a1ece51cd672d2711662ad9014",
+      "run": 40204963946,
+      "job": 121203831572,
+      "unit": {
+        "total": 129,
+        "passed": 127,
+        "skipped": 2,
+        "failed": 0
+      },
+      "UI": {
+        "total": 12,
+        "passed": 11,
+        "failed": 1
+      },
+      "Release": "skipped-after-UI-failure",
+      "confirmed_before_failure": [
+        "old heading navigation reached target",
+        "fixture leaf link reached Agent stop condition",
+        "Related case passed"
+      ],
+      "remaining_failure": "After returning to fixture list, search CASE-LINK-01 remains active and foreground bar has no close label; final close cannot become hittable.",
+      "artifact_status": "reported by parent/native_ready actual artifact review; not re-downloaded"
+    },
+    "current_ad5f": {
+      "source_sha256": "ad5f668c516aed07333c2cbbcbfbe86231c45f2d00d64c549f473b0543111c6c",
+      "head": null,
+      "expected_functional": 12,
+      "compile": "not-run",
+      "UI": "not-run",
+      "next": "exact new twelve-case Hosted run required"
+    }
+  },
   "normal_user_data_changed": false,
   "not_completed": [
-    "actual new two UI cases and AX/scroll/sheet",
+    "exact currentad5f source compile and twelve-case UI",
+    "actual fixture search cancellation/close and subsequent normal filter/reading isolation",
     "fileImporter cancel",
     "maximum text/VoiceOver/device",
     "IOS25 overall"
-  ]
+  ],
+  "updated_on": "2026-10-26",
+  "source_scope": "Current PR265 twelve-case branch candidate, not the working fourteen-case PR268 superset.",
+  "initial_source_sha256": {
+    "ios/AILibraryUITests/PublishedReaderUITests.swift": "26d9f24c9c21663a9239af33276f3c17ee045bb742f796a8d329fe025ec44770"
+  },
+  "current_counts_from_source": {
+    "functional": 12,
+    "performance": 1,
+    "unit_if_registered": 129,
+    "registration": "not-run-current-source"
+  },
+  "scoped_fixture_search_cancel": {
+    "status": "approved-by-m0-as-reported-by-parent",
+    "scope": "four added lines only; scoped fixture navigation-bar search cancellation before existing close",
+    "compile": "not-run-current-source",
+    "runtime": "not-run-current-source",
+    "local_SDK_reason": "capacity constraint; no SDK rerun authorized",
+    "required_next": "new exact-head Hosted compile/registration/UI for current12/current14"
+  },
+  "repair_main_integration": {
+    "PR267": {
+      "status": "merged-normally-into-main-as-reported-by-root",
+      "main_sha": "8e982b8460a7b9b33f130755a7ca4c6596cfd8fe",
+      "scope": "TOC placement policy and foreground viewport helper combined"
+    },
+    "PR266": {
+      "disposition": "superseded-by-combined-PR267",
+      "separate_merge_needed": false,
+      "closure_state": "not-claimed"
+    }
+  },
+  "branch_head_staging": {
+    "initial_head": "c33301acdd1fb91b4164896533d6e22b63343e8c",
+    "last_published_repaired_head": "5a064a3c5ed4b7a1ece51cd672d2711662ad9014",
+    "current_source_head": null,
+    "status": "New current-source commit not created yet; root will record actual head after publication."
+  }
 }

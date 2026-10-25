@@ -1,0 +1,385 @@
+name: iOS SDK 26 unsigned archive preflight
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/ios-sdk26-archive.yml'
+      - 'ios/**'
+      - 'docs/**'
+      - 'LICENSE'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'scripts/build-ios-native-content.mjs'
+      - 'scripts/lib/ios-*.mjs'
+      - 'scripts/lib/md-utils.mjs'
+      - 'website/audio/catalog.json'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-sdk26-archive-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ios-sdk26-archive:
+    name: iOS SDK 26 unsigned archive preflight
+    # Standard public runners are documented free; refuse visibility changes.
+    if: github.repository == 'pero3dev/ai-agent-library' && github.event.repository.private == false
+    runs-on: macos-26
+    timeout-minutes: 40
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
+      EVIDENCE_DIR: ${{ github.workspace }}/.local/ios-sdk26/evidence
+      EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+      REPOSITORY_IS_PRIVATE: ${{ github.event.repository.private }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            ios/tools/package-lock.json
+      - name: Create fresh evidence storage
+        id: evidence
+        run: |
+          set -euo pipefail
+          [[ ! -L .local && ! -e .local/ios-sdk26 && ! -L .local/ios-sdk26 ]]
+          mkdir -p "$EVIDENCE_DIR"
+          chmod 700 .local/ios-sdk26 "$EVIDENCE_DIR"
+      - name: Verify the actual runner and documented Xcode SDK
+        id: toolchain
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { spawnSync } from 'node:child_process';
+          import { existsSync, writeFileSync } from 'node:fs';
+          import path from 'node:path';
+          const evidence = process.env.EVIDENCE_DIR, commands = [];
+          const put = (name, value) => writeFileSync(path.join(evidence, name), value, { flag: 'wx', mode: 0o600 });
+          const read = (name, binary, args) => {
+            const result = spawnSync(binary, args, { encoding: 'utf8', timeout: 120000, maxBuffer: 8 * 1024 * 1024 });
+            put(name + '.stdout.log', result.stdout ?? ''); put(name + '.stderr.log', result.stderr ?? '');
+            commands.push({ name, binary, arguments: args, exit_code: result.status, signal: result.signal, error: result.error?.message ?? null });
+            assert.equal(result.error, undefined, name); assert.equal(result.status, 0, name);
+            return result.stdout.trim();
+          };
+          try {
+            assert.equal(process.env.GITHUB_REPOSITORY, 'pero3dev/ai-agent-library');
+            assert.equal(process.env.REPOSITORY_IS_PRIVATE, 'false');
+            assert.equal(process.env.DEVELOPER_DIR, '/Applications/Xcode_26.6.app/Contents/Developer');
+            assert.ok(existsSync(process.env.DEVELOPER_DIR), 'Documented Xcode must exist; no fallback');
+            const macOS = read('macos', 'sw_vers', ['-productVersion']);
+            const architecture = read('architecture', 'uname', ['-m']);
+            assert.equal(macOS.split('.')[0], '26'); assert.equal(architecture, 'arm64');
+            const Xcode = read('xcode', 'xcodebuild', ['-version']);
+            assert.equal(Xcode, 'Xcode 26.6\nBuild version 17F113');
+            read('available-sdks', 'xcodebuild', ['-showsdks']);
+            const sdk = read('iphoneos-sdk-version', 'xcrun', ['--sdk', 'iphoneos', '--show-sdk-version']);
+            assert.equal(sdk, '26.5');
+            const sdkBuild = read('iphoneos-sdk-build', 'xcrun', ['--sdk', 'iphoneos', '--show-sdk-build-version']);
+            assert.match(sdkBuild, /^[A-Za-z0-9]+$/);
+            const sdkPath = read('iphoneos-sdk-path', 'xcrun', ['--sdk', 'iphoneos', '--show-sdk-path']);
+            const head = read('source-head', 'git', ['rev-parse', 'HEAD']);
+            assert.match(head, /^[a-f0-9]{40}$/); assert.equal(head, process.env.EXPECTED_SOURCE_HEAD);
+            const tree = read('source-tree', 'git', ['rev-parse', 'HEAD^{tree}']);
+            put('toolchain.json', JSON.stringify({
+              schema_version: 1, status: 'toolchain-verified', source_head: head, source_tree: tree,
+              runner_label: 'macos-26', standard_runner: true, repository: process.env.GITHUB_REPOSITORY,
+              repository_private: false, macOS, architecture, Xcode, sdk, sdk_build: sdkBuild, sdk_path: sdkPath,
+              developer_directory: process.env.DEVELOPER_DIR,
+              image_OS: process.env.ImageOS ?? null, image_version: process.env.ImageVersion ?? null,
+              Node: process.version, configuration: 'Release', destination: 'generic/platform=iOS',
+              scope: 'Unsigned archive compatibility only; no local OS, signing, distribution, Simulator or device adoption.'
+            }, null, 2) + '\n');
+          } finally { put('toolchain-commands.json', JSON.stringify(commands, null, 2) + '\n'); }
+          NODE
+      - name: Audit content tooling before installation
+        run: |
+          set -euo pipefail
+          npm audit --package-lock-only --audit-level=high 2>&1 | tee "$EVIDENCE_DIR/root-lock-audit.log"
+      - name: Install content tooling without lifecycle scripts
+        run: |
+          set -euo pipefail
+          npm ci --ignore-scripts 2>&1 | tee "$EVIDENCE_DIR/root-npm-ci.log"
+      - name: Audit native assets before installation
+        working-directory: ios/tools
+        run: |
+          set -euo pipefail
+          npm audit --package-lock-only --audit-level=high 2>&1 | tee "$EVIDENCE_DIR/tools-lock-audit.log"
+      - name: Install native assets without lifecycle scripts
+        working-directory: ios/tools
+        run: |
+          set -euo pipefail
+          npm ci --ignore-scripts 2>&1 | tee "$EVIDENCE_DIR/tools-npm-ci.log"
+          ./node_modules/.bin/playwright install chromium 2>&1 | tee "$EVIDENCE_DIR/chromium-install.log"
+      - name: Count tracked published sources independently
+        id: sources
+        run: |
+          set -euo pipefail
+          expected_articles="$(node --input-type=module <<'NODE'
+          import { execFileSync } from 'node:child_process';
+          import { readFileSync, writeFileSync } from 'node:fs';
+          import path from 'node:path';
+          import { load, JSON_SCHEMA } from 'js-yaml';
+          const files = execFileSync('git', ['ls-files', '-z', 'docs'], { encoding: 'utf8' })
+            .split('\0').filter(file => /^docs\/\d{2}-[a-z0-9-]+\/[a-z0-9-]+\.md$/.test(file));
+          const articles = files.filter(file => {
+            const match = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/.exec(readFileSync(file, 'utf8'));
+            if (!match) throw new Error('Missing front matter: ' + file);
+            const fields = load(match[1], { schema: JSON_SCHEMA });
+            if (!fields || !['published', 'draft'].includes(fields.status)) throw new Error('Invalid source status: ' + file);
+            return fields.status === 'published';
+          }).sort();
+          if (articles.length < 4 || articles.length > 2000) throw new Error('Invalid full published source count');
+          writeFileSync(path.join(process.env.EVIDENCE_DIR, 'published-sources.json'),
+            JSON.stringify({ articles: articles.length, source_paths: articles }, null, 2) + '\n', { flag: 'wx' });
+          console.log(articles.length);
+          NODE
+          )"
+          [[ "$expected_articles" =~ ^[1-9][0-9]*$ ]]
+          printf 'PUBLISHED_ARTICLE_COUNT=%s\n' "$expected_articles" >> "$GITHUB_ENV"
+      - name: Generate and audit standard full and fixture packages
+        id: generation
+        run: |
+          set -euo pipefail
+          npm run ios:prepare 2>&1 | tee "$EVIDENCE_DIR/published-generation.log"
+          npm run ios:prepare:fixtures 2>&1 | tee "$EVIDENCE_DIR/fixture-generation.log"
+          npm run --silent ios:test:content 2>&1 | tee "$EVIDENCE_DIR/published-source-audit.json"
+          npm run --silent ios:test:fixtures 2>&1 | tee "$EVIDENCE_DIR/fixture-source-audit.json"
+          npm run --silent ios:test:package -- "$PUBLISHED_ARTICLE_COUNT" 2>&1 | tee "$EVIDENCE_DIR/published-consumer.json"
+          bash ios/tests/check-package.sh ios/AILibrary/TestContent 4 2>&1 | tee "$EVIDENCE_DIR/fixture-consumer.json"
+      - name: Archive generic iPhoneOS Release with signing disabled
+        id: archive
+        run: |
+          set -euo pipefail
+          build_args=(
+            -project ios/AILibrary.xcodeproj -scheme AILibrary
+            -configuration Release -sdk iphoneos -destination 'generic/platform=iOS'
+            -derivedDataPath .local/ios-sdk26/DerivedData -jobs 2
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY= DEVELOPMENT_TEAM=
+          )
+          xcodebuild "${build_args[@]}" -showBuildSettings -json \
+            > "$EVIDENCE_DIR/release-build-settings.json" 2> "$EVIDENCE_DIR/release-build-settings.stderr.log"
+          xcodebuild "${build_args[@]}" \
+            -archivePath .local/ios-sdk26/AILibrary.xcarchive \
+            -resultBundlePath "$EVIDENCE_DIR/archive.xcresult" archive \
+            2>&1 | tee "$EVIDENCE_DIR/archive.log"
+      - name: Validate the actual archived app package
+        id: package
+        run: |
+          set -euo pipefail
+          app='.local/ios-sdk26/AILibrary.xcarchive/Products/Applications/AILibrary.app'
+          node ios/tests/check-release-package.mjs "$app" 2>&1 | tee "$EVIDENCE_DIR/release-package.json"
+          bash ios/tests/check-package.sh "$app/Content" "$PUBLISHED_ARTICLE_COUNT" 2>&1 | tee "$EVIDENCE_DIR/archive-consumer.json"
+      - name: Audit metadata, all app SHA values, device binary and dSYM
+        id: binary
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE' 2>&1 | tee "$EVIDENCE_DIR/archive-audit.log"
+          import assert from 'node:assert/strict';
+          import { createHash } from 'node:crypto';
+          import { spawnSync } from 'node:child_process';
+          import { lstatSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+          import path from 'node:path';
+          const evidence = process.env.EVIDENCE_DIR;
+          const archive = path.resolve('.local/ios-sdk26/AILibrary.xcarchive');
+          const app = path.join(archive, 'Products/Applications/AILibrary.app');
+          const commands = [], findings = { schema_version: 1, status: 'incomplete', distribution_acceptance: 'unadopted' };
+          const put = (name, value) => writeFileSync(path.join(evidence, name), value, { flag: 'wx', mode: 0o600 });
+          const json = file => JSON.parse(readFileSync(file, 'utf8'));
+          const hash = bytes => createHash('sha256').update(bytes).digest('hex');
+          const command = (label, binary, args, allowFailure = false) => {
+            const result = spawnSync(binary, args, { encoding: 'utf8', timeout: 120000, maxBuffer: 8 * 1024 * 1024 });
+            put(label + '.stdout.log', result.stdout ?? ''); put(label + '.stderr.log', result.stderr ?? '');
+            commands.push({ label, binary, arguments: args, exit_code: result.status, signal: result.signal, error: result.error?.message ?? null });
+            assert.equal(result.error, undefined, label);
+            if (!allowFailure) assert.equal(result.status, 0, label);
+            return result;
+          };
+          const text = (label, binary, args) => command(label, binary, args).stdout.trim();
+          const plist = (label, file) => JSON.parse(text(label, '/usr/bin/plutil', ['-convert', 'json', '-o', '-', file]));
+          const version = value => {
+            assert.match(value, /^\d+(?:\.\d+){0,2}$/);
+            return value.split('.').concat(['0', '0']).slice(0, 3).map(Number).join('.');
+          };
+          const UUIDs = value => {
+            const rows = [...value.matchAll(/^UUID:\s+([A-Fa-f0-9-]{36})\s+\(([^)]+)\)\s+.+$/gm)]
+              .map(match => ({ architecture: match[2], uuid: match[1].toUpperCase() }));
+            assert.equal(rows.length, 1); assert.equal(rows[0].architecture, 'arm64');
+            assert.match(rows[0].uuid, /^[A-F0-9]{8}(?:-[A-F0-9]{4}){3}-[A-F0-9]{12}$/);
+            return rows;
+          };
+          try {
+            const runtime = json(path.join(evidence, 'toolchain.json'));
+            findings.toolchain = runtime;
+            const expected = Number(process.env.PUBLISHED_ARTICLE_COUNT);
+            assert.ok(Number.isInteger(expected) && expected >= 4 && expected <= 2000);
+            const sources = json(path.join(evidence, 'published-sources.json'));
+            assert.equal(sources.articles, expected);
+            const sourceAudit = json(path.join(evidence, 'published-source-audit.json'));
+            assert.equal(sourceAudit.result, 'passed'); assert.equal(sourceAudit.profile, 'published-library');
+            assert.equal(sourceAudit.articles.length, expected);
+            const packageAudit = json(path.join(evidence, 'release-package.json'));
+            const consumerAudit = json(path.join(evidence, 'archive-consumer.json'));
+            for (const audit of [packageAudit, consumerAudit]) {
+              assert.equal(audit.status, 'passed'); assert.equal(audit.articles, expected);
+            }
+            const applications = path.join(archive, 'Products/Applications');
+            assert.ok(lstatSync(applications).isDirectory());
+            assert.deepEqual(readdirSync(applications).sort(), ['AILibrary.app']);
+            assert.ok(lstatSync(app).isDirectory());
+            const settings = json(path.join(evidence, 'release-build-settings.json')).filter(value => value.target === 'AILibrary');
+            assert.equal(settings.length, 1);
+            const build = settings[0].buildSettings;
+            assert.equal(build.CONFIGURATION, 'Release');
+            assert.equal(version(build.IPHONEOS_DEPLOYMENT_TARGET), '17.0.0');
+            assert.equal(build.ENABLE_USER_SCRIPT_SANDBOXING, 'YES');
+            assert.equal(build.DEBUG_INFORMATION_FORMAT, 'dwarf-with-dsym');
+            assert.equal(build.CODE_SIGNING_ALLOWED, 'NO'); assert.equal(build.CODE_SIGNING_REQUIRED, 'NO');
+            assert.equal(build.CODE_SIGN_IDENTITY, ''); assert.equal(build.DEVELOPMENT_TEAM ?? '', '');
+            const info = plist('app-info', path.join(app, 'Info.plist'));
+            const archiveInfo = plist('archive-info', path.join(archive, 'Info.plist'));
+            assert.equal(info.CFBundleIdentifier, build.PRODUCT_BUNDLE_IDENTIFIER);
+            assert.equal(info.CFBundleShortVersionString, build.MARKETING_VERSION);
+            assert.equal(info.CFBundleVersion, build.CURRENT_PROJECT_VERSION);
+            assert.equal(info.CFBundleExecutable, 'AILibrary'); assert.equal(info.CFBundlePackageType, 'APPL');
+            assert.equal(info.LSRequiresIPhoneOS, true); assert.deepEqual(info.UIDeviceFamily, [1]);
+            assert.deepEqual(info.CFBundleSupportedPlatforms, ['iPhoneOS']);
+            assert.equal(info.DTPlatformName, 'iphoneos'); assert.equal(info.DTSDKName, 'iphoneos' + runtime.sdk);
+            assert.equal(info.DTSDKBuild, runtime.sdk_build); assert.equal(info.DTXcodeBuild, '17F113');
+            assert.equal(version(info.MinimumOSVersion), '17.0.0');
+            assert.equal(archiveInfo.ApplicationProperties?.ApplicationPath, 'Applications/AILibrary.app');
+            assert.equal(archiveInfo.ApplicationProperties?.CFBundleIdentifier, info.CFBundleIdentifier);
+            const privacy = plist('app-privacy', path.join(app, 'PrivacyInfo.xcprivacy'));
+            const sourcePrivacy = plist('source-privacy', 'ios/AILibrary/PrivacyInfo.xcprivacy');
+            assert.deepEqual(privacy, sourcePrivacy);
+            assert.equal(privacy.NSPrivacyTracking, false);
+            assert.deepEqual(privacy.NSPrivacyCollectedDataTypes, []); assert.deepEqual(privacy.NSPrivacyTrackingDomains, []);
+            const manifest = json(path.join(app, 'Content/manifest.json'));
+            assert.deepEqual(manifest.articles.map(article => article.source_path), sources.source_paths);
+            const licenses = ['assets/licenses/NOTICE.txt', 'assets/katex/LICENSE.txt', 'assets/licenses/Mermaid-LICENSE.txt'];
+            for (const relative of licenses) {
+              assert.ok(Object.hasOwn(manifest.files, relative));
+              const actual = readFileSync(path.join(app, 'Content', relative));
+              assert.ok(actual.length > 0); assert.equal(hash(actual), manifest.files[relative]);
+              assert.deepEqual(actual, readFileSync(path.join('ios/AILibrary/Content', relative)));
+            }
+            assert.deepEqual(readFileSync(path.join(app, 'Content/assets/licenses/NOTICE.txt')), readFileSync('LICENSE'));
+            const inventory = [];
+            const walk = (directory, prefix = '') => {
+              for (const name of readdirSync(directory).sort()) {
+                assert.notEqual(name, 'TestContent', 'Debug fixtures must not be archived');
+                assert.notEqual(name, 'embedded.mobileprovision', 'No provisioning profile is allowed');
+                assert.ok(!name.endsWith('.xctest'), 'No test bundle is allowed');
+                const file = path.join(directory, name), relative = prefix + name, stat = lstatSync(file);
+                assert.ok(!stat.isSymbolicLink(), 'No symlinks in the app inventory');
+                if (stat.isDirectory()) walk(file, relative + '/');
+                else {
+                  assert.ok(stat.isFile());
+                  const bytes = readFileSync(file);
+                  inventory.push({ path: relative, bytes: bytes.length, sha256: hash(bytes) });
+                }
+              }
+            };
+            walk(app); assert.ok(inventory.length > 0);
+            put('app-file-inventory.json', JSON.stringify({ files: inventory, file_count: inventory.length,
+              bytes: inventory.reduce((sum, file) => sum + file.bytes, 0) }, null, 2) + '\n');
+            const executable = path.join(app, info.CFBundleExecutable);
+            assert.ok(lstatSync(executable).isFile());
+            const architectures = text('binary-architectures', 'xcrun', ['lipo', '-archs', executable]).split(/\s+/);
+            assert.deepEqual(architectures, ['arm64']);
+            const loads = text('binary-load-commands', 'xcrun', ['otool', '-l', executable]);
+            const builds = loads.split(/(?=^Load command \d+\s*$)/m).filter(block => /^\s*cmd LC_BUILD_VERSION\s*$/m.test(block));
+            assert.equal(builds.length, 1, 'The device binary must have one LC_BUILD_VERSION');
+            const field = name => {
+              const matches = [...builds[0].matchAll(new RegExp('^\\s*' + name + '\\s+(\\S+)\\s*$', 'gm'))];
+              assert.equal(matches.length, 1, name); return matches[0][1];
+            };
+            assert.equal(field('platform'), '2', 'Mach-O PLATFORM_IOS is the device platform');
+            assert.equal(version(field('minos')), '17.0.0'); assert.equal(version(field('sdk')), version(runtime.sdk));
+            const dwarf = path.join(archive, 'dSYMs/AILibrary.app.dSYM/Contents/Resources/DWARF/AILibrary');
+            assert.ok(lstatSync(dwarf).isFile());
+            assert.deepEqual(text('dsym-architectures', 'xcrun', ['lipo', '-archs', dwarf]).split(/\s+/), architectures);
+            const binaryUUIDs = UUIDs(text('binary-UUID', 'xcrun', ['dwarfdump', '--uuid', executable]));
+            const symbolUUIDs = UUIDs(text('dsym-UUID', 'xcrun', ['dwarfdump', '--uuid', dwarf]));
+            assert.deepEqual(symbolUUIDs, binaryUUIDs);
+            const signature = command('codesign-inspection', '/usr/bin/codesign', ['-d', '--verbose=4', app], true);
+            const signatureText = signature.stdout + '\n' + signature.stderr;
+            let signatureState;
+            if (signature.status === 1 && /code object is not signed at all/.test(signatureText)) signatureState = 'unsigned';
+            else if (signature.status === 0 && /^Signature=adhoc\s*$/m.test(signatureText)
+              && /^TeamIdentifier=not set\s*$/m.test(signatureText) && !/^Authority=/m.test(signatureText)) signatureState = 'ad-hoc-without-team';
+            else throw new Error('Unexpected signing identity or unreadable signature; inspect retained raw output');
+            Object.assign(findings, {
+              status: 'passed', source_head: runtime.source_head, source_tree: runtime.source_tree,
+              app: { version: info.CFBundleShortVersionString, build: info.CFBundleVersion, bundle_id: info.CFBundleIdentifier,
+                minimum_OS: info.MinimumOSVersion, DTSDKName: info.DTSDKName, DTSDKBuild: info.DTSDKBuild,
+                DTXcode: info.DTXcode, DTXcodeBuild: info.DTXcodeBuild, architectures },
+              content: { articles: expected, revision: manifest.revision, verified_files: packageAudit.verified_files,
+                verified_bytes: packageAudit.verified_bytes, license_files: licenses },
+              app_inventory: { files: inventory.length, bytes: inventory.reduce((sum, file) => sum + file.bytes, 0),
+                file: 'app-file-inventory.json', sha256: hash(readFileSync(path.join(evidence, 'app-file-inventory.json'))) },
+              privacy: { source_semantics_match: true, actual_sha256: hash(readFileSync(path.join(app, 'PrivacyInfo.xcprivacy'))),
+                source_sha256: hash(readFileSync('ios/AILibrary/PrivacyInfo.xcprivacy')), legal_acceptance: 'unadopted' },
+              build_version: { platform: 2, minos: field('minos'), sdk: field('sdk') }, dSYM_UUIDs: symbolUUIDs,
+              signature_inspection: { state: signatureState, exit_code: signature.status,
+                credentialed_signing_or_provisioning_requested: false, provisioning_profile_present: false },
+              limits: ['No signed export/IPA/upload or distribution acceptance', 'No SDK26 Simulator or device launch',
+                'No minimum-iOS17 runtime, UI, VoiceOver or performance acceptance', 'Hosted images roll forward; toolchain presence is asserted']
+            });
+          } catch (error) { findings.status = 'failed'; findings.error = String(error.message); process.exitCode = 1; }
+          finally {
+            put('archive-audit-commands.json', JSON.stringify(commands, null, 2) + '\n');
+            put('archive-audit.json', JSON.stringify(findings, null, 2) + '\n');
+            console.log(JSON.stringify(findings, null, 2));
+          }
+          NODE
+      - name: Record compact completion or failure
+        if: always() && steps.evidence.outcome == 'success'
+        env:
+          TOOLCHAIN_OUTCOME: ${{ steps.toolchain.outcome }}
+          SOURCES_OUTCOME: ${{ steps.sources.outcome }}
+          GENERATION_OUTCOME: ${{ steps.generation.outcome }}
+          ARCHIVE_OUTCOME: ${{ steps.archive.outcome }}
+          PACKAGE_OUTCOME: ${{ steps.package.outcome }}
+          BINARY_OUTCOME: ${{ steps.binary.outcome }}
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+          import path from 'node:path';
+          const outcomes = Object.fromEntries(['TOOLCHAIN', 'SOURCES', 'GENERATION', 'ARCHIVE', 'PACKAGE', 'BINARY']
+            .map(name => [name.toLowerCase(), process.env[name + '_OUTCOME']]));
+          const auditFile = path.join(process.env.EVIDENCE_DIR, 'archive-audit.json');
+          const audit = existsSync(auditFile) ? JSON.parse(readFileSync(auditFile, 'utf8')) : null;
+          const complete = Object.values(outcomes).every(value => value === 'success') && audit?.status === 'passed';
+          const summary = {
+            schema_version: 1, status: complete ? 'signing-disabled-archive-compatibility-observed' : 'failed-or-incomplete',
+            outcomes, source_head: process.env.EXPECTED_SOURCE_HEAD, archive_audit_status: audit?.status ?? 'unavailable',
+            distribution_acceptance: 'unadopted', paid_or_larger_runner_adoption: false, local_OS_adoption: false,
+            signed_export_upload: false, Simulator_device_UI_VoiceOver_performance: 'not-run-in-this-workflow'
+          };
+          writeFileSync(path.join(process.env.EVIDENCE_DIR, 'preflight-summary.json'),
+            JSON.stringify(summary, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
+          console.log(JSON.stringify(summary, null, 2));
+          NODE
+      - name: Retain raw logs and compact compatibility evidence
+        if: always() && steps.evidence.outcome == 'success'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ios-sdk26-archive-evidence-${{ github.run_id }}
+          path: .local/ios-sdk26/evidence
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 90

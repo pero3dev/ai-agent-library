@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-25",
+  "task": "ios-sdk26-archive-preflight",
+  "parent_PR": 262,
+  "parent_head": "e8032494fb396718bbfe2218b1dfa428abfd7313",
+  "app_version": "unchanged-0.2.14(16)",
+  "status": "final-commoncheck-passed-awaiting-six-path-review-and-first-Hosted",
+  "source_sha256": {
+    ".github/workflows/ios-sdk26-archive.yml": "d419716dc3104ec12529729587701884612ce24cf14c2e2f814e46ce987ee8ca"
+  },
+  "repository_visibility": {
+    "repository": "pero3dev/ai-agent-library",
+    "visibility": "public",
+    "source": "live GitHub API verified root in this session"
+  },
+  "runner": {
+    "label": "macos-26",
+    "architecture": "arm64",
+    "Xcode": "26.6",
+    "build": "17F113",
+    "SDK": "26.5",
+    "actual_existence": "runtime asserted, not executed yet"
+  },
+  "security": {
+    "job_gate": "exact public repository",
+    "permissions": "contents read",
+    "persist_credentials": false,
+    "large_runner": false,
+    "new_paid_service": false,
+    "new_secrets": false,
+    "credentialed_signing_or_provisioning": false,
+    "unsigned_or_credential_free_adhoc_only": true,
+    "local_OS_update": false,
+    "Apple_account_or_Store_operation": false
+  },
+  "initial_validation": {
+    "independent_content_review": "approved-candidate-one-file",
+    "actionlint": "1.7.12-passed",
+    "YAML": "passed",
+    "Bash_blocks": 10,
+    "Node_blocks": 4,
+    "executed_Archive_or_new_parser": false
+  },
+  "evidence": {
+    "/private/tmp/ios-sdk26-hosted-ci-preflight-2026-10-25.json": {
+      "sha256": "b5a23dae9353166b2fc51fcb883626715a343311b9a5a5a9ff8a301f81d29db4",
+      "bytes": 12674
+    },
+    "/private/tmp/ios-sdk26-archive-candidate-validation-2026-10-25.json": {
+      "sha256": "497658e1b0d855f6ae5b3861a1b20bb0fa5d30ad7de1f0e1b5df42c3dbc6253f",
+      "bytes": 9330
+    }
+  },
+  "Hosted": "not-run-final-head",
+  "SDK26_actual_Archive": null,
+  "not_completed": [
+    "new actual toolchain and output parsers",
+    "signed distribution and export",
+    "paid/legal/Team/Store adoption",
+    "physical and minimum-OS runtime acceptance",
+    "IOS02 overall"
+  ],
+  "step_contract_fix": {
+    "source_sha256": "d419716dc3104ec12529729587701884612ce24cf14c2e2f814e46ce987ee8ca",
+    "first_common": {
+      "tests": 749,
+      "pass": 733,
+      "skip": 15,
+      "fail": 1,
+      "log": "/private/tmp/ios-sdk26-archive-common-check-20261025.log",
+      "failure": "existing audit-before-install structural contract does not recognize same-run audit+ci"
+    },
+    "change": "Split root and ios/tools audit/install into separate consecutive steps; same command order/flags/log paths; no check weakening",
+    "actionlint": "1.7.12-passed",
+    "YAML": "passed",
+    "Bash_blocks": 12,
+    "Node_blocks": 4,
+    "harness_tooling": {
+      "tests": 22,
+      "pass": 22,
+      "fail": 0,
+      "skip": 0
+    },
+    "proof": "/private/tmp/ios-sdk26-archive-step-contract-fix-validation-2026-10-25.json",
+    "proof_sha256": "ff98e860edba900b32edcaa28fd814e6efe10fa4ee493e1bbc9f54ec173a43b4",
+    "full_final_common": {
+      "tests": 749,
+      "pass": 734,
+      "skip": 15,
+      "fail": 0,
+      "result": "passed",
+      "log": "/private/tmp/ios-sdk26-archive-final-common-check-20261025.log",
+      "sha256": "f2d5a33f39393309f4c0a7f317e6361a717836b5a1e78bdf4aae087e9ab493e6"
+    }
+  }
+}

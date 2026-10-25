@@ -32,3 +32,9 @@ Core3・UI3とP2修正の独立レビューを通過し、修正前head004cb0a6�
 head004cb0a6のHosted run40180468739では単体109件中107成功・2private入力skip・失敗0、UIは既存8件成功・新規1件失敗だった。検索とタグを保持したAXにtoolbarの「その他の操作」がなく、確認画面へ進めなかった。Releaseは未実施である。
 
 共通の操作内容を絞り込みSectionへ表示し、同時のtoolbar表示を避ける。0件表示もList内へ移し、overlayで操作入口を覆わない構造へ直した。検索を消して試験を通す変更やassertion緩和は行わず、既存9件を最終headで再実行する。上記SDKはこの画面修正前の結果であり、修正後の正確なheadのSDK/Hosted/Releaseと空queryのまま検索中の状態・実機/VoiceOverは未確認として残す。
+
+## 検索中の操作行のタップ範囲
+
+修正前head50a93331の全記事run40182710048は単体109件中107成功・2private入力skip、UI8成功・新規1件失敗でRelease未実施だった。操作行は表示されtapも送られたが、画像ではmenuが開かなかった。AXの外行は{20,354,353,44}、内側Menuは{40,363,139.7,26}で、記録されたtouch down/upの{196.5,376}は外行内・内側範囲外だった。内部routingの原因断定はせず、この不一致を狭い修正の根拠にする。
+
+filtered Menuのラベルを全幅にし、Rectangleのhit領域を指定した。操作内容・guard・既存9件と章候補の追加1件のselector/assertionは変えない。累積app-only SDK buildは成功したが、各正確なbranch headのUI/Release成功を示さない。専用ローカルSimulatorによる診断は初期化中の容量不足でテスト前に中止し、作業で作った端末だけ停止・削除して不在を検証した。実機・既存Simulator・通常記録は操作せず、Hostedで再実行する。

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "task": "ios-bundled-content-activation",
   "date": "2026-10-25",
-  "status": "Hosted-new-UI-failure-fixed-awaiting-retest",
+  "status": "More-row-hit-area-fixed-awaiting-exact-head-retest",
   "authorization": "Autonomous iOS implementation with staged commit PR main; physical checks may be recorded incomplete",
   "parent_PR": 257,
   "parent_head": "39349db4043beadaf09c94ffef43155d01acdd11",
@@ -11,7 +11,7 @@
     "ios/AILibrary/Sources/ContentRepository.swift": "af4ed5924eb4c36311fa501d7adaa1208afe086499ede1e063b1526ff5d712df",
     "ios/AILibrary/Sources/LibraryStore.swift": "b5622cc8118ab5d58deb3d7d1c4aba9d2172d8d64ea0bc5451181ae4967c61fa",
     "ios/AILibraryTests/LibraryCoreTests.swift": "4e4c862a9bffabd1d81000ee11c2f8eb52b4fc3718cd7f087110d203402090c5",
-    "ios/AILibrary/Sources/LibraryView.swift": "5736316e64bcb910991d3c54aff3535f99a40d725d82291dea0f1124ed9ebac5",
+    "ios/AILibrary/Sources/LibraryView.swift": "ab4902dac3a73d2997dccbfd24063f93fb62a6698f3009ead98fc2bea3002b45",
     "ios/AILibraryUITests/PublishedReaderUITests.swift": "07014b28e7d848ffda4e34b9453b04a6d8f1a62b3122ddb14a733caf037c945d",
     "ios/AILibrary.xcodeproj/project.pbxproj": "b2eb93b1bbaccdaca458f1b9f2a355452f503a1923c3678cca1b979a77e9b5fa"
   },
@@ -193,8 +193,8 @@
     "subsequentReview": "After this successful SDK compile, parent reported a Core preview-failure wording P2. Core owner will correct it and parent will obtain another exact-source SDK compile. UI three files remain frozen and unchanged."
   },
   "independent_review": "approved-Core3-and-UI3",
-  "Hosted": "retry-pending-final-head",
-  "Release": "first-attempt-not-run-after-UI-failure",
+  "Hosted": "retest-pending-final-head",
+  "Release": "pending-final-head",
   "default_catalog_change": false,
   "not_completed": [
     "new-physical-VoiceOver-max-text-low-storage-device-acceptance",
@@ -279,5 +279,53 @@
     "next_search_index_excluded": true,
     "initial_outer_sandbox_failure": "sandbox-exec sandbox_apply Operation not permitted; log retained; exact command rerun with escalation; Xcode sandbox setting unchanged"
   },
-  "SDK_after_more_actions_fix": "not-run-exact-head; cumulative chapter SDK is separate"
+  "SDK_after_more_actions_fix": "not-run-exact-head; cumulative chapter SDK is separate",
+  "pre_more_row_hit_fix_source_sha256": {
+    "ios/AILibrary/Sources/ContentRepository.swift": "af4ed5924eb4c36311fa501d7adaa1208afe086499ede1e063b1526ff5d712df",
+    "ios/AILibrary/Sources/LibraryStore.swift": "b5622cc8118ab5d58deb3d7d1c4aba9d2172d8d64ea0bc5451181ae4967c61fa",
+    "ios/AILibraryTests/LibraryCoreTests.swift": "4e4c862a9bffabd1d81000ee11c2f8eb52b4fc3718cd7f087110d203402090c5",
+    "ios/AILibrary/Sources/LibraryView.swift": "5736316e64bcb910991d3c54aff3535f99a40d725d82291dea0f1124ed9ebac5",
+    "ios/AILibraryUITests/PublishedReaderUITests.swift": "07014b28e7d848ffda4e34b9453b04a6d8f1a62b3122ddb14a733caf037c945d",
+    "ios/AILibrary.xcodeproj/project.pbxproj": "b2eb93b1bbaccdaca458f1b9f2a355452f503a1923c3678cca1b979a77e9b5fa"
+  },
+  "inherited_more_row_hit_fix": {
+    "head": "50a93331275577d0198bbfa47e2c84be8f8fddeb",
+    "run": 40182710048,
+    "job": 121136955387,
+    "unit": {
+      "registered": 109,
+      "passed": 107,
+      "skipped": 2,
+      "failed": 0
+    },
+    "UI": {
+      "total": 9,
+      "passed": 8,
+      "failed": 1
+    },
+    "Release": "not-run-after-UI-failure",
+    "observed": "Menu row exists and receives tap but popup absent; next menu item does not exist",
+    "outer_row": [
+      20,
+      354,
+      353,
+      44
+    ],
+    "inner_menu_button": [
+      40,
+      363,
+      139.7,
+      26
+    ],
+    "actual_touch_down_and_up": [
+      196.5,
+      376
+    ],
+    "inference": "Tap falls inside visual row but outside inner Menu; exact UIKit routing unproven",
+    "fix": "Make filtered Menu Label full-width with Rectangle contentShape only",
+    "UI_assertions_changed": false,
+    "app_only_cumulative_SDK": "passed; exact canonical branch tests pending",
+    "local_probe": "Dedicated Simulator boot aborted during initial migration ENOSPC before test; owned device removed and absence verified; no app runtime result"
+  },
+  "SDK_after_more_row_hit_fix": "app-only cumulative build passed; exact-head SDK/Hosted pending"
 }

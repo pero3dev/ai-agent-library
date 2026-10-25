@@ -24,3 +24,9 @@ Macでは既存4件と新規2件のURL/helper回帰6件が成功した。Xcode16
 全記事UIには、usecase-discoveryの関連リンク・説明文から13章案内を開き、閉じて元の段落を確認し、再び開いて章の先頭記事へ進み、戻る1件を追加した。既存9件の本文は変えず、新1件を含む10件は最終headで未実行である。見えないリンクを直接callbackで実行する試験にはせず、実際のリンクをtapする。
 
 LibraryViewの検索中More入口修正は前提PRに含まれ、今回の6ファイルへ混ぜない。正確な最終headのHosted通常/全記事・Release、VoiceOver・最大文字・実機、全記事の既定採用とIOS-14全体の受入は残す。[JSON](ios-native-chapter-link.json)に凍結SHAと実行面を記録する。
+
+## 検索中の操作行のタップ範囲
+
+修正前head50a93331の全記事run40182710048は単体109件中107成功・2private入力skip、UI8成功・新規1件失敗でRelease未実施だった。操作行は表示されtapも送られたが、画像ではmenuが開かなかった。AXの外行は{20,354,353,44}、内側Menuは{40,363,139.7,26}で、記録されたtouch down/upの{196.5,376}は外行内・内側範囲外だった。内部routingの原因断定はせず、この不一致を狭い修正の根拠にする。
+
+filtered Menuのラベルを全幅にし、Rectangleのhit領域を指定した。操作内容・guard・既存9件と章候補の追加1件のselector/assertionは変えない。累積app-only SDK buildは成功したが、各正確なbranch headのUI/Release成功を示さない。専用ローカルSimulatorによる診断は初期化中の容量不足でテスト前に中止し、作業で作った端末だけ停止・削除して不在を検証した。実機・既存Simulator・通常記録は操作せず、Hostedで再実行する。

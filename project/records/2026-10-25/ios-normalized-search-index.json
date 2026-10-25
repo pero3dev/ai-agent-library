@@ -2,14 +2,14 @@
   "schema_version": 1,
   "task": "ios-normalized-search-index-integration",
   "date": "2026-10-25",
-  "status": "inherited-More-actions-fix-awaiting-Hosted",
+  "status": "More-row-hit-area-fixed-awaiting-exact-head-retest",
   "parent_PR": 258,
   "parent_head": "004cb0a6dc1d061d97ca8e2122f0f583f8f69940",
   "version": "0.2.11(13)",
   "source_sha256": {
     "ios/AILibrary/Sources/Models.swift": "f355ff9ae41e39d3c78224c097afc7e6d64ce59ac91740ee57868c56068534af",
     "ios/AILibrary/Sources/LibraryStore.swift": "b3ee113f42aa73469a177d899839623de24d8151bfbbc0824c55d29cc0c7c41c",
-    "ios/AILibrary/Sources/LibraryView.swift": "4d399a62e5f2d694358b620987de69f291627d57ca235b569077ab89f0abecbb",
+    "ios/AILibrary/Sources/LibraryView.swift": "f0d64c527d85fdd6cabcb380f42a3a7bcea241e8ee64a3d600c1d76d9859b109",
     "ios/AILibraryTests/SearchIndexTests.swift": "3bb988b77a8d8da65ae3e401d092a3ff5cfdebbad73e11e99c5efd6fb8d98eb7",
     "ios/AILibrary.xcodeproj/project.pbxproj": "391f31a913b5df78854d05de6c51917646b65b01d876f1cbd864b839d0694fa2"
   },
@@ -26,7 +26,7 @@
   "source_worker_proof": "/private/tmp/ios-normalized-search-index-validation-2026-10-25.json",
   "default_catalog_change": false,
   "disk_cache_schema_change": false,
-  "Hosted": "retry-pending-final-head",
+  "Hosted": "retest-pending-final-head",
   "Release": "pending-final-head",
   "device_VoiceOver_performance_acceptance": "not performed",
   "corpus_comparison": {
@@ -174,5 +174,52 @@
     "log": "/private/tmp/ios-search-index-final-sdk-2026-10-25.log",
     "logSHA256": "3a7e5d35e763ad755f565bf2a6cab478b4433eafd576cc62c2be7fdb66322630"
   },
-  "SDK_after_more_actions_fix": "not-run-exact-head; prior117unit9UI compile was before View-only fix"
+  "SDK_after_more_actions_fix": "not-run-exact-head; prior117unit9UI compile was before View-only fix",
+  "pre_more_row_hit_fix_source_sha256": {
+    "ios/AILibrary/Sources/Models.swift": "f355ff9ae41e39d3c78224c097afc7e6d64ce59ac91740ee57868c56068534af",
+    "ios/AILibrary/Sources/LibraryStore.swift": "b3ee113f42aa73469a177d899839623de24d8151bfbbc0824c55d29cc0c7c41c",
+    "ios/AILibrary/Sources/LibraryView.swift": "4d399a62e5f2d694358b620987de69f291627d57ca235b569077ab89f0abecbb",
+    "ios/AILibraryTests/SearchIndexTests.swift": "3bb988b77a8d8da65ae3e401d092a3ff5cfdebbad73e11e99c5efd6fb8d98eb7",
+    "ios/AILibrary.xcodeproj/project.pbxproj": "391f31a913b5df78854d05de6c51917646b65b01d876f1cbd864b839d0694fa2"
+  },
+  "inherited_more_row_hit_fix": {
+    "head": "50a93331275577d0198bbfa47e2c84be8f8fddeb",
+    "run": 40182710048,
+    "job": 121136955387,
+    "unit": {
+      "registered": 109,
+      "passed": 107,
+      "skipped": 2,
+      "failed": 0
+    },
+    "UI": {
+      "total": 9,
+      "passed": 8,
+      "failed": 1
+    },
+    "Release": "not-run-after-UI-failure",
+    "observed": "Menu row exists and receives tap but popup absent; next menu item does not exist",
+    "outer_row": [
+      20,
+      354,
+      353,
+      44
+    ],
+    "inner_menu_button": [
+      40,
+      363,
+      139.7,
+      26
+    ],
+    "actual_touch_down_and_up": [
+      196.5,
+      376
+    ],
+    "inference": "Tap falls inside visual row but outside inner Menu; exact UIKit routing unproven",
+    "fix": "Make filtered Menu Label full-width with Rectangle contentShape only",
+    "UI_assertions_changed": false,
+    "app_only_cumulative_SDK": "passed; exact canonical branch tests pending",
+    "local_probe": "Dedicated Simulator boot aborted during initial migration ENOSPC before test; owned device removed and absence verified; no app runtime result"
+  },
+  "SDK_after_more_row_hit_fix": "app-only cumulative build passed; exact-head SDK/Hosted pending"
 }

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "task": "ios-native-chapter-link",
   "date": "2026-10-25",
-  "status": "six-sources-reviewed-Mac6-cumulative-SDK-passed-awaiting-Hosted",
+  "status": "More-row-hit-area-fixed-awaiting-exact-head-retest",
   "authorization": "Autonomous iOS development with commits PR main; physical checks may remain incomplete",
   "parent_PR": 259,
   "parent_head": "5ac6881b88d9280a717f936c99521bc657767ef2",
@@ -23,15 +23,6 @@
     "log": "/private/tmp/ios-native-chapter-link-check-20261025/xctest.log",
     "logSHA256": "57b1b99723f06d44f1c2579a601e1177113e2d3d29fd8dfa748748017848da71",
     "scope": "Actual Foundation helper prefix and all LearningNavigationTests methods, without only the app module import, compiled against product Foundation sources and run by Darwin XCTest defaultTestSuite on Mac CLI. Not iOS/SwiftUI execution."
-  },
-  "SDK": {
-    "result": "TEST BUILD SUCCEEDED",
-    "log": "/private/tmp/ios-native-chapter-link-sdk-build-2026-10-25.log",
-    "logSHA256": "d9595512aef0a0bbaa368648834d6679723dcce0cfb1b78d449e497b757df9d9",
-    "configuration": "Xcode16.2, Debug, generic/platform=iOS Simulator SDK18.2, CODE_SIGNING_ALLOWED=NO, jobs2, existing .local/ios-baseline-sdk",
-    "scope": "All app/unit/UI targets. Compiled chapter six files plus the isolated LibraryView More/zero-results P2 fix; no Simulator, device or UI runtime. Source unchanged after compile.",
-    "registered_unit_methods_compiled": 119,
-    "registered_UI_methods_compiled": 10
   },
   "prepared_UI": {
     "existingMethodsPreserved": 9,
@@ -75,7 +66,7 @@
   "More_fix": "Already in parent259; LibraryView not part of this six-file change",
   "format_storage_audio_change": false,
   "default_catalog_change": false,
-  "Hosted": "pending-final-head",
+  "Hosted": "retest-pending-final-head",
   "Release": "pending-final-head",
   "not_completed": [
     "fullUI10",
@@ -84,5 +75,62 @@
     "IOS14-overall-acceptance"
   ],
   "independent_review": "approved-six-frozen-sources-and-evidence",
-  "URL_fragment": "absent-or-empty-hash-accepted; nonempty-falls-back"
+  "URL_fragment": "absent-or-empty-hash-accepted; nonempty-falls-back",
+  "pre_more_row_hit_fix_source_sha256": {
+    "ios/AILibrary/Sources/NativeLearningViews.swift": "7895724d576ac36a6ccfeeb239d8e3077e8d4202b6bcc3c7f88641625d7cf655",
+    "ios/AILibrary/Sources/ArticleReaderView.swift": "a7e758804b30f3902c37381b189f6fd6dca57284dbb81a11fcc31de31b4b28fe",
+    "ios/AILibrary/Sources/NativeReaderView.swift": "7b32d03ade5025730b009fbcc0d52af147f5a93b6e4858e9a80dc16a293ba69c",
+    "ios/AILibraryTests/LearningNavigationTests.swift": "acf4b690451e6a6ad3c97340184b35616b4dc8b8f97074c26b21dfac2aba4015",
+    "ios/AILibraryUITests/PublishedReaderUITests.swift": "a6fe02cf250ef9e98a752871a8aa1002c0adc7521344eede393c8924f75fe945",
+    "ios/AILibrary.xcodeproj/project.pbxproj": "bb84eb4bcfa21e04c7686aa8c2de780117a6bfe21413ed3a7cbe79790108a2c6"
+  },
+  "inherited_more_row_hit_fix": {
+    "head": "50a93331275577d0198bbfa47e2c84be8f8fddeb",
+    "run": 40182710048,
+    "job": 121136955387,
+    "unit": {
+      "registered": 109,
+      "passed": 107,
+      "skipped": 2,
+      "failed": 0
+    },
+    "UI": {
+      "total": 9,
+      "passed": 8,
+      "failed": 1
+    },
+    "Release": "not-run-after-UI-failure",
+    "observed": "Menu row exists and receives tap but popup absent; next menu item does not exist",
+    "outer_row": [
+      20,
+      354,
+      353,
+      44
+    ],
+    "inner_menu_button": [
+      40,
+      363,
+      139.7,
+      26
+    ],
+    "actual_touch_down_and_up": [
+      196.5,
+      376
+    ],
+    "inference": "Tap falls inside visual row but outside inner Menu; exact UIKit routing unproven",
+    "fix": "Make filtered Menu Label full-width with Rectangle contentShape only",
+    "UI_assertions_changed": false,
+    "app_only_cumulative_SDK": "passed; exact canonical branch tests pending",
+    "local_probe": "Dedicated Simulator boot aborted during initial migration ENOSPC before test; owned device removed and absence verified; no app runtime result"
+  },
+  "pre_more_row_hit_fix_SDK": {
+    "result": "TEST BUILD SUCCEEDED",
+    "log": "/private/tmp/ios-native-chapter-link-sdk-build-2026-10-25.log",
+    "logSHA256": "d9595512aef0a0bbaa368648834d6679723dcce0cfb1b78d449e497b757df9d9",
+    "configuration": "Xcode16.2, Debug, generic/platform=iOS Simulator SDK18.2, CODE_SIGNING_ALLOWED=NO, jobs2, existing .local/ios-baseline-sdk",
+    "scope": "All app/unit/UI targets. Compiled chapter six files plus the isolated LibraryView More/zero-results P2 fix; no Simulator, device or UI runtime. Source unchanged after compile.",
+    "registered_unit_methods_compiled": 119,
+    "registered_UI_methods_compiled": 10
+  },
+  "SDK_after_more_row_hit_fix": "app-only cumulative build passed; exact-head SDK/Hosted pending"
 }

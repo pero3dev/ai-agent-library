@@ -8,6 +8,8 @@
 
 共通検査・サイト依存のhigh／critical対策は[限定依存修正の記録](records/2026-10-25/markdown-parser-security-update.md)で追跡する。パーサー・描画依存と必要な互換処理を更新し、通常CIとbase側の監査結果を分けて記録する。
 
+図の遅延読み込みと見出し位置の安定化は[検証記録](records/2026-10-25/website-mermaid-layout-stability.md)で追跡する。生成SVGの寸法をSSRへ渡して本文のずれを防ぐ。
+
 2026-10-08の総合レビュー親 #224–#231・子 #232–#237 は[是正記録](records/2026-10-08/comprehensive-review-remediation.md)で、6件の修正と検証・独立レビュー・公開後の終了条件を追跡します。最終のmerge・CI・公開確認とCloseの証拠は各Issueに記録します。
 
 鮮度監視 Issue #220 は[2026-10-08の再開記録](records/2026-10-08/freshness-monitor-recovery.md)で、3系統の部分観測、未確認範囲、記事・依存修復・公開台帳の検証と公開状態を追跡します。宣言範囲の完了記録やScheduled起動の確認は引き続き残件です。

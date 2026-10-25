@@ -499,6 +499,10 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         XCTAssertEqual(XCTWaiter.wait(for: [readerClosed], timeout: 10), .completed)
         XCTAssertTrue(fixtureBar.waitForExistence(timeout: 10))
         XCTAssertEqual(try foregroundArticleSearch().value as? String, "CASE-LINK-01")
+        let cancelFixtureSearch = try singleHittableControl(
+            fixtureBar.buttons.matching(NSPredicate(format: "label == %@", "キャンセル")),
+            name: "fixture search cancellation")
+        cancelFixtureSearch.tap()
         closePublicSheet("本文表示テスト")
 
         XCTAssertTrue(app.navigationBars["AI Agent Library"].waitForExistence(timeout: 10))

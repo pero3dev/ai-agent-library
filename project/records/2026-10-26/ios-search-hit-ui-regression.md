@@ -3,7 +3,7 @@
 ## 作業契約
 
 - 目的: IOS-10・25で、本文検索の入れ子leafへの実到着と、保存後の復帰で古いqueryを再実行しないことを確認する。
-- 基準: 専用記事の再検証PR #265 head `5a064a3c5ed4b7a1ece51cd672d2711662ad9014`。版0.2.14（16）を保持する。
+- 基準: 検索終了の4行を加えた公開済みPR #265 head `fb6108db5c50257f30cdc5ce91d7b9b9f26011d4`。初期基準 `5a064a3c5ed4b7a1ece51cd672d2711662ad9014`は履歴として保持する。版0.2.14（16）を保持する。
 - 所有: PublishedReaderUITestsの追加2件、開発手順・TODO・本記録と索引。既存caseと他者の変更を戻さない。
 - 許可根拠: ユーザーによるTODO優先順の自律実装・commit/PR/通常main統合の依頼。実機確認は未完了として継続する。
 - 終了条件: 内容レビューとSDK型検査後、正確なheadで共通CI・単体・機能UI14件・Releaseを確認する。[AGENTS](../../../AGENTS.md)・[Git規約](../../../harness/git-rules.md)を適用する。
@@ -20,6 +20,12 @@
 
 ## 検証と残件
 
-生成3記事版と199記事版で、実NativeDocument.searchHitと正規化処理を使い、各queryの全語に一致するatomic blockが全体で1件だけになることを確認した。AからBはtop-levelで9block離れている。私有候補と前面helper対応後の同じUI sourceのSDK限定型検査が成功し、内容の独立レビューも受けた。
+生成3記事版と199記事版で、実NativeDocument.searchHitと正規化処理を使い、各queryの全語に一致するatomic blockが全体で1件だけになることを確認した。AからBはtop-levelで9block離れている。私有候補と前面helper対応後のUIソースSHA `8aaa2e61…`までSDK限定型検査が成功し、内容の独立レビューも受けた。これは専用一覧の検索キャンセル4行を加える前のソースである。
 
-共有workspaceの共通検査765件は750成功・15skip・失敗0で、最終treeのexact共通検査はHosted待ちである。全target build、機能14件の実登録・実行、実AX・スクロール・保存タイミングは未確認。型検査とsource上の件数を実UIの成功に読み替えない。先行のTOC未到達と専用記事の幾何誤判定はPR #266・267で分けて修正し、PR #265の12件と本追加2件の結果も分ける。VoiceOver・最大文字・実機とIOS-10・25全体は未完了。[JSON](ios-search-hit-ui-regression.json)に段階別の証拠を保存する。
+検索キャンセル追加前のhead `18bcbf62f09f179d1264e53d859dcf19508c0d73`の[Hosted run40207531202](https://github.com/pero3dev/ai-agent-library/actions/runs/40207531202)／job `121211574824`では、単体129件を登録して127成功・2skip、UI14件は13成功・1失敗だった。新しい検索到着・再起動復帰の2件は、それぞれ32.686秒・98.885秒で成功した。これは操作自動化と待機を含むcase実行時間で、製品の検索遅延や性能合格の値ではない。残った失敗は専用記事の最終close（PublishedReaderUITests.swift:397）だけで、ReleaseはUI失敗後にskipとなった。この旧 `8aaa2e61…`ソースの登録・実行結果を、追加4行を含む新版の成功へ流用しない。
+
+専用記事の最終検索値保持assert直後に、前面「本文表示テスト」バー配下のキャンセルを既存の一意性・hittable判定で押す4行を追加した。背景の通常検索を選ばず、既存の閉じる判定、About・操作シート、通常のquery・タグ・保存のassertを保持する。内容はm0承認済みだが、現在の14件ソースSHA `5638e669240cbdbaaf2b8d1323b3fbfb82ff2c93aff30d8d882ac22bca945629`は未compile・未実行である。前述の `8aaa2e61…`のSDK成功を、この新操作の型や実UI成功へ読み替えない。
+
+共有workspaceの共通検査765件は750成功・15skip・失敗0という追加4行前の原証跡を維持する。容量制約でローカルSDKを再実行せず、新14件の全target build・実登録・実UI、検索取消後の通常filter／読書記録保持、AX・スクロール・保存タイミングは正確な新headのHosted待ちとする。
+
+先行のTOC位置決めと前面判定はPR #267へまとめ、root報告のmain `8e982b8460a7b9b33f130755a7ca4c6596cfd8fe`へ通常統合済みで、PR #266の単独統合はsupersededである。PR #265の新12件版と本追加2件の結果は分ける。親headは公開済みの `fb6108db5c50257f30cdc5ce91d7b9b9f26011d4`で、初期基準 `5a064a3c…`は履歴として保持する。VoiceOver・最大文字・実機とIOS-10・25全体は未完了。[JSON](ios-search-hit-ui-regression.json)に段階別の証拠を保存する。

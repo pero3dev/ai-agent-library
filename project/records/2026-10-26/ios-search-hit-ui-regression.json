@@ -3,21 +3,21 @@
   "date": "2026-10-26",
   "task": "ios-search-hit-ui-regression",
   "parent_PR": 265,
-  "parent_head": "5a064a3c5ed4b7a1ece51cd672d2711662ad9014",
+  "parent_head": "fb6108db5c50257f30cdc5ce91d7b9b9f26011d4",
   "version": "unchanged-0.2.14(16)",
-  "status": "source-reviewed-SDK-passed-Hosted-pending",
+  "status": "scoped-fixture-search-cancel-reviewed-current-source-uncompiled-Hosted-pending",
   "source_sha256": {
-    "ios/AILibraryUITests/PublishedReaderUITests.swift": "8aaa2e613add1ba82a2c9cf98b74f4d217f5fc68259d69256dd75639256553f3"
+    "ios/AILibraryUITests/PublishedReaderUITests.swift": "5638e669240cbdbaaf2b8d1323b3fbfb82ff2c93aff30d8d882ac22bca945629"
   },
   "original_candidate_SHA256": "7e87d99ec7e552d2bf27d66dc28522188fd8f9c1feba48965199225c238eab71",
-  "helper_adaptation": "one new positive predicate uses the poll helper; old12 cases unchanged",
+  "helper_adaptation": "Historical8aaa positive-predicate adaptation remains. Current5638 additionally has only the approved four-line fixture search cancellation; all old assertions/helpers remain.",
   "counts_from_source": {
     "previous_functional": 12,
     "new": 2,
     "functional_total": 14,
     "performance": "separate1",
     "unit_if_parent_registered": 129,
-    "actual_registration": "not-run"
+    "actual_registration": "not-run-for-current5638"
   },
   "observations": [
     "unique multiword nested atomic paragraph landing without corrective reader gestures",
@@ -26,19 +26,20 @@
   "validation": {
     "generated_profiles": "real searchHit + normalization on actual3/199; each query fully matches exactly one atomic block",
     "A_to_B_top_level_distance": 9,
-    "SDK": "standalone Native+Published source typecheck passed, including final helper-adapted source8aaa",
-    "independent_source_review": "approved initial7e87 and final one-callsite adaptation8aaa",
-    "full_project_build": "not-run",
-    "UI_and_registration": "not-run",
+    "SDK": "Standalone Native+Published typecheck passed for historical8aaa before the four-line cancellation. Current5638 has not been typechecked/compiled; new Hosted compile required.",
+    "independent_source_review": "Initial7e87 and helper-adapted8aaa approved; four-line scoped-cancellation candidates approved by m0 as reported by parent.",
+    "full_project_build": "not-run-for-current5638; Hosted pending",
+    "UI_and_registration": "not-run-for-current5638; exact fourteen-case Hosted pending",
     "common_check": {
-      "scope": "shared workspace; exact final tree pending Hosted",
+      "scope": "historical shared workspace before four-line cancellation; no new local check/SDK runtime for current5638",
       "tests": 765,
       "passed": 750,
       "skipped": 15,
       "failed": 0,
       "log": "/private/tmp/ios-search-hit-ui-common-check-20261026.log",
       "sha256": "034a063d1bcfbd0e4494e91cbcd3513896fecbbdf566ab1f298a51836f008c0f"
-    }
+    },
+    "historical_Hosted_registration": "Old18b/source8aaa registered129unit/14UI and ran127unit-pass2skip/13UI-pass1fixture-close-fail. Current5638 remains uncompiled/unexecuted."
   },
   "evidence": {
     "/private/tmp/ios-search-hit-ui-candidate-20261025/validation.json": {
@@ -68,12 +69,89 @@
     "/private/tmp/ios-foreground-viewport-candidate-20261025/review.json": {
       "sha256": "a49729c9a8dc92d26e9564ac39bbd3033631d2e55ec660ebea56f3e7d470e1f9",
       "bytes": 5132
+    },
+    "/private/tmp/ios-fixture-close-candidate-20261026/validation.json": {
+      "sha256": "8f7985fdfb8834ef256188d8e8b94ef2e6cfa4c511623890d07200d6cb83a9b3",
+      "bytes": 14045
     }
   },
   "remaining": [
-    "exact-head ordinary/native/full/Release",
-    "actual UI14/AX/scroll/save timing",
+    "exact current5638 compile/registration/ordinary-native/full/Release on Hosted",
+    "actual UI14/AX/search-cancel/scroll/save timing and normal record isolation",
     "VoiceOver/maximum text/device",
     "IOS10/25 overall"
-  ]
+  ],
+  "initial_helper_adapted_source_sha256": "8aaa2e613add1ba82a2c9cf98b74f4d217f5fc68259d69256dd75639256553f3",
+  "parent_head_scope": "Current published twelve-case parent with fixture search-exit correction; initial5a is retained under parent_staging.",
+  "scoped_fixture_search_cancel": {
+    "status": "approved-by-m0-as-reported-by-parent",
+    "scope": "four added lines only; scoped fixture navigation-bar search cancellation before existing close",
+    "compile": "not-run-current-source",
+    "runtime": "not-run-current-source",
+    "local_SDK_reason": "capacity constraint; no SDK rerun authorized",
+    "required_next": "new exact-head Hosted compile/registration/UI for current12/current14"
+  },
+  "repair_main_integration": {
+    "PR267": {
+      "status": "merged-normally-into-main-as-reported-by-root",
+      "main_sha": "8e982b8460a7b9b33f130755a7ca4c6596cfd8fe",
+      "scope": "TOC placement policy and foreground viewport helper combined"
+    },
+    "PR266": {
+      "disposition": "superseded-by-combined-PR267",
+      "separate_merge_needed": false,
+      "closure_state": "not-claimed"
+    }
+  },
+  "parent_staging": {
+    "initial_PR265_head": "5a064a3c5ed4b7a1ece51cd672d2711662ad9014",
+    "new_actual_parent": "fb6108db5c50257f30cdc5ce91d7b9b9f26011d4",
+    "update_owner": "root after current twelve-case parent publication",
+    "fake_SHA_written": false
+  },
+  "Hosted_history": {
+    "before_scoped_cancel_18b": {
+      "head": "18bcbf62f09f179d1264e53d859dcf19508c0d73",
+      "source_sha256": "8aaa2e613add1ba82a2c9cf98b74f4d217f5fc68259d69256dd75639256553f3",
+      "run": 40207531202,
+      "job": 121211574824,
+      "unit": {
+        "registered": 129,
+        "passed": 127,
+        "skipped": 2,
+        "failed": 0
+      },
+      "UI": {
+        "registered": 14,
+        "passed": 13,
+        "failed": 1
+      },
+      "failure": {
+        "case": "testFilteredFixtureActionsAndReadingChangesRemainIsolatedFromNormalLibrary",
+        "location": "PublishedReaderUITests.swift:397",
+        "scope": "Only final fixture close remained; active search foreground bar had no close control."
+      },
+      "new_search_cases": [
+        {
+          "case": "testBodySearchArrivesAtNestedParagraphContainingAllTermsWithoutReaderGestures",
+          "status": "passed",
+          "duration_seconds": 32.686
+        },
+        {
+          "case": "testResumeUsesLaterReadingPositionInsteadOfReplayingThePreviousBodyQuery",
+          "status": "passed",
+          "duration_seconds": 98.885
+        }
+      ],
+      "Release": "skipped-after-UI-failure",
+      "timing_scope": "Per-case UI execution durations including automation/waits, not product latency or performance acceptance.",
+      "source": "Root-reported actual Hosted result; no new artifact was fetched here."
+    },
+    "current_5638": {
+      "source_sha256": "5638e669240cbdbaaf2b8d1323b3fbfb82ff2c93aff30d8d882ac22bca945629",
+      "SDK_compile": "not-run",
+      "runtime": "not-run",
+      "required_next": "new exact fourteen-case Hosted compile/registration/runtime after scoped Cancel tap"
+    }
+  }
 }

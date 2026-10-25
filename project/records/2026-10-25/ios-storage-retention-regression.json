@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-25",
+  "task": "ios-storage-retention-regression",
+  "parent_PR": 263,
+  "parent_head": "1570335f0ec65de09935872401e00fdf828f20b7",
+  "version": "unchanged-0.2.14(16)",
+  "source_sha256": {
+    "ios/AILibraryTests/LibraryCoreTests.swift": "37c78b5e2a53c9346c5d55ceff9d535cdef26d7f65a6b821f83814974b31f5df"
+  },
+  "scope": "three additional retention-contract tests only; no production or cleanup policy change",
+  "independent_private_review": "approved-candidate-three-tests-and-proof",
+  "Mac_new_tests": {
+    "tests": 3,
+    "pass": 3,
+    "fail": 0,
+    "skip": 0,
+    "scope": "actual current seven production source bytecopies, actual Mac AILibrary module and XCTest; not all119/122"
+  },
+  "SDK": {
+    "result": "build-for-testing-passed",
+    "toolchain": "Xcode16.2/Simulator18.2",
+    "registered_unit": 122,
+    "functional_UI": 10,
+    "performance_UI": 1,
+    "tests_executed": false,
+    "new_three_names_verified_in_actual_unit_binary": true,
+    "source_warning_error": 0,
+    "Apple_signed_framework_strip_warnings": 9
+  },
+  "evidence": {
+    "/private/tmp/ios-storage-retention-candidate-20261025/proof.json": {
+      "sha256": "eae9a05634b4bba93bc8e9d11e590f31070e3cfc55d0f60cc8fe11ab9b5a379c",
+      "bytes": 6822
+    },
+    "/private/tmp/ios-storage-retention-candidate-20261025/integration-proof.json": {
+      "sha256": "c8e6f8bc6b608dff6803fec62d1f1ae517f63b7878498b37746954d1798d166a",
+      "bytes": 7206
+    }
+  },
+  "common_check": {
+    "tests": 749,
+    "pass": 734,
+    "skip": 15,
+    "fail": 0,
+    "log": "/private/tmp/ios-storage-retention-common-check-20261025.log",
+    "sha256": "c5bd8a921db494bec6e2633138e5cace80f0d98e1e65f17d2b58282b5e232f7f"
+  },
+  "Hosted": "not-run-final-head",
+  "normal_user_data_changed": false,
+  "physical_operations": false,
+  "new_cleanup_or_retention_policy": false,
+  "not_completed": [
+    "actual iOS/Hosted new tests",
+    "real ENOSPC",
+    "kill during update",
+    "cleanup/pin/lease/exclusion design",
+    "capacity goals",
+    "IOS21 overall"
+  ],
+  "status": "Mac-three-and-all-target-SDK-commoncheck-passed-final-review-Hosted-pending"
+}

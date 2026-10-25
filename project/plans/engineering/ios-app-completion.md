@@ -104,6 +104,8 @@ IOS-14のうち[章・難易度の絞り込み](../../records/2026-10-25/ios-cat
 
 IOS-14の次の単位として、[学習案内の構造化生成](../../records/2026-10-25/ios-learning-index-generation.md)を追加した。全記事の明示同梱候補にだけ、章README順・タグ・A〜Hルート・用語集を任意JSONとして載せる。manifest 2・document 1と旧3/4記事を維持した生成・旧reader非UI互換を確認し、新Swift consumer・学習UI・操作受入とIOS-14全体は後続へ残す。
 
+学習案内の[Swift consumerとXcode登録](../../records/2026-10-25/ios-learning-index-consumer.md)では、不在互換・型/参照/上限・SHA/安全なパスを検査するAPIと回帰を用意した。Mac直接XCTestとSDK compileを確認し、最終Hosted・Store/学習UI・実機とIOS-14全体は未完了として残す。
+
 IOS-18のうち[初期失敗と利用できない記事の復旧](../../records/2026-10-25/ios-load-recovery.md)を追加した。保存を維持した再試行とimport復帰を実Storeの非UI検査で確認し、画面の操作と読み上げ・全体受入は未完了として残す。
 
 IOS-15の準備では[負荷の棚卸しと空検索の改善](../../records/2026-10-25/ios-empty-search-performance.md)を行った。全199記事で結果・順序を保ち、空queryの全文正規化を省いた。CLIの比較測定と、未完了の起動・検索入力・描画・メモリ・実機性能を分けて記録する。

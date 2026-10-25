@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "task": "ios-learning-index-consumer",
+  "date": "2026-10-25",
+  "status": "reviewed-pbx-registered-SDK-compiled-awaiting-Hosted",
+  "authorization": "Autonomous prioritized iOS implementation and staged commit/PR/main integration; skip new device checks as incomplete.",
+  "base_PR": 255,
+  "base_head": "208215cb5da598bba70ebf83c53bb3bc422df1f4",
+  "source_version": "0.2.8",
+  "build": 10,
+  "source_sha256": {
+    "ios/AILibrary/Sources/LearningIndex.swift": "aec0cb3e4ce0e1d0c68ba9eb258747c36f7427d93ffa169b79c44c23dd51b41d",
+    "ios/AILibraryTests/LearningIndexTests.swift": "3566dad12c099f8d2deb350434b2703ba7a252b5ca4fd628c4546ecfbf119eff",
+    "ios/AILibrary.xcodeproj/project.pbxproj": "316e3e749e1ae70fb14ac84356752a80e277f1cb28f29ad00019ac865aa77b43"
+  },
+  "format": {
+    "manifest": 2,
+    "document": 1,
+    "learning_index": 1,
+    "JSON_depth": 12
+  },
+  "API": {
+    "decode": "NativeLearningIndex.decode(data:manifest:)",
+    "load": "NativeLearningIndex.load(from:)",
+    "absence": "nil-only-when-unlisted-and-absent",
+    "invalid": "throws",
+    "core_validator_changed": false,
+    "storage_or_network_writes": false
+  },
+  "review": {
+    "initial_P2": [
+      "empty-or-whitespace-only-step-accepted",
+      "missing-roadmap-accepted-with-otherwise-valid-references"
+    ],
+    "fixes": "Whole-step content guard and mandatory roadmap; real original counterexamples replay reject; valid intermediate whitespace retained.",
+    "final": "independent-re-review-approved"
+  },
+  "Mac_direct_XCTest": {
+    "total": 23,
+    "passed": 22,
+    "skipped": 1,
+    "failed": 0,
+    "skip": "App bundle unavailable only in standalone CLI; bundle test registered for Hosted."
+  },
+  "explicit_real_packages": {
+    "old3": "absence-nil-passed",
+    "fixtures4": "absence-nil-passed",
+    "candidate": {
+      "articles": 199,
+      "chapters": 16,
+      "routes": 8,
+      "terms": 164,
+      "status": "passed"
+    },
+    "input_package_bytes_unchanged": true
+  },
+  "SDK": {
+    "Xcode": "16.2(16C5032a)",
+    "SDK": "iPhoneSimulator18.2",
+    "destination": "generic/platform=iOS Simulator",
+    "build_for_testing": "passed-app-unit-UI",
+    "unit_methods_at_registration": 86,
+    "unit_methods_with_latest_parent_regression": 87,
+    "all_UI_methods": 5,
+    "Simulator_started": false,
+    "unit_execution": false,
+    "initial_attempt": "Nested sandbox stopped build; same command succeeded with tool escalation; user script sandbox remains enabled."
+  },
+  "registration": {
+    "app_source": 1,
+    "unit_source": 1,
+    "pbx_lint": "passed",
+    "diff_check": "passed",
+    "source_and_tests_SHA_unchanged": true
+  },
+  "shared_Content_TestContent_SHA_and_file_list": "unchanged",
+  "Store_or_UI_connection": false,
+  "Hosted": "not-run-final-head",
+  "new_physical_checks": "not-run-user-allows-skip",
+  "remaining": [
+    "Hosted-unit-and-bundle-resource-checks",
+    "Store-and-UI-connection",
+    "metadata-failure-presentation",
+    "internal-glossary-navigation",
+    "VoiceOver-device-performance",
+    "default199-adoption-and-saved-package-migration"
+  ]
+}

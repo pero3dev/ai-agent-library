@@ -17,6 +17,7 @@ final class LibraryStore: ObservableObject {
     private var importing = false
 
     var snapshot: ContentSnapshot? { loadedContent?.snapshot }
+    var searchIndex: LibrarySearchIndex? { loadedContent?.searchIndex }
     var learningIndex: NativeLearningIndex? { loadedContent?.learningIndex }
     var learningError: String? { loadedContent?.learningError }
 
@@ -220,11 +221,13 @@ final class LibraryStore: ObservableObject {
 /// errors are recoverable without replacing a successfully validated article body.
 private struct LibraryLoadedContent: Sendable {
     let snapshot: ContentSnapshot
+    let searchIndex: LibrarySearchIndex
     let learningIndex: NativeLearningIndex?
     let learningError: String?
 
     init(snapshot: ContentSnapshot) {
         self.snapshot = snapshot
+        searchIndex = LibrarySearchIndex(articles: snapshot.manifest.articles)
         do {
             learningIndex = try NativeLearningIndex.load(from: snapshot)
             learningError = nil

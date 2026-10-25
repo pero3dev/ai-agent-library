@@ -119,16 +119,51 @@ enum LibrarySearch {
     }
 
     static func matches(_ article: LibraryArticle, query: String) -> Bool {
-        let terms = normalizedTerms(query)
+        matches(article, terms: normalizedTerms(query))
+    }
+
+    static func matches(_ article: LibraryArticle, terms: [String]) -> Bool {
         guard !terms.isEmpty else { return true }
-        let text = normalize([article.title, article.summary, article.category, article.search_text].joined(separator: " "))
+        let text = normalizedText(for: article)
         return terms.allSatisfy { text.contains($0) }
+    }
+
+    static func normalizedText(for article: LibraryArticle) -> String {
+        normalize([article.title, article.summary, article.category, article.search_text].joined(separator: " "))
     }
 
     static func normalizedTerms(_ query: String) -> [String] {
         var seen = Set<String>()
         return normalize(query).split(whereSeparator: { $0.isWhitespace }).map(String.init)
             .filter { seen.insert($0).inserted }
+    }
+}
+
+/// Immutable normalized text for one loaded article set. Construct this with its
+/// snapshot off the main actor, then replace both together when content changes.
+struct LibrarySearchIndex: Sendable {
+    private struct Entry: Sendable {
+        let article: LibraryArticle
+        let text: String
+    }
+    private let entries: [String: Entry]
+
+    init(articles: [LibraryArticle]) {
+        var entries: [String: Entry] = [:]
+        for article in articles {
+            entries[article.id] = Entry(article: article, text: LibrarySearch.normalizedText(for: article))
+        }
+        self.entries = entries
+    }
+
+    func matches(_ article: LibraryArticle, terms: [String]) -> Bool {
+        guard !terms.isEmpty else { return true }
+        // IDs can survive content revisions. A caller with another snapshot or
+        // a partial index must get the current article's uncached result.
+        guard let entry = entries[article.id], entry.article == article else {
+            return LibrarySearch.matches(article, terms: terms)
+        }
+        return terms.allSatisfy { entry.text.contains($0) }
     }
 }
 
@@ -145,13 +180,15 @@ struct LibraryArticleFilter: Equatable, Sendable {
         category != nil || level != nil || tag != nil || bookmarksOnly || !LibrarySearch.normalizedTerms(query).isEmpty
     }
 
-    func articles(in articles: [LibraryArticle], bookmarks: Set<String>, articleTags: [String: [String]] = [:]) -> [LibraryArticle] {
-        articles.filter { article in
+    func articles(in articles: [LibraryArticle], bookmarks: Set<String>, articleTags: [String: [String]] = [:],
+                  searchIndex: LibrarySearchIndex? = nil) -> [LibraryArticle] {
+        let terms = LibrarySearch.normalizedTerms(query)
+        return articles.filter { article in
             (category == nil || article.category == category) &&
             (level == nil || article.level == level) &&
             (tag.map { articleTags[article.id]?.contains($0) == true } ?? true) &&
             (!bookmarksOnly || bookmarks.contains(article.id)) &&
-            LibrarySearch.matches(article, query: query)
+            (searchIndex?.matches(article, terms: terms) ?? LibrarySearch.matches(article, terms: terms))
         }
     }
 

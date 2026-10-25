@@ -6,6 +6,8 @@
 
 ## 構造・運用の計画
 
+入力ごとの全文正規化を省く[検索索引の記録](records/2026-10-25/ios-normalized-search-index.md)では、snapshotと一緒に切り替えるメモリ上の索引、実199記事15queryの結果等価性、Macの補助測定とSDK compileを追跡する。Hostedと実機・入力遅延・性能目標は別に残す。
+
 保存済み版から同梱版への明示切替は[同梱版選択の記録](records/2026-10-25/ios-bundled-content-activation.md)で追跡する。既定3記事・通常import優先・しおりと読書位置を保持し、実3→199→再起動→3の非UI確認と、未完了の画面・実機・容量管理を区別する。
 
 章・タグ・学習ルート・用語集の画面接続は[ネイティブ学習UIの記録](records/2026-10-25/ios-native-learning-ui.md)で追跡する。本文と学習情報の一括公開、旧profile互換、SDK compileと未完了のHosted/実機受入を区別する。

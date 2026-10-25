@@ -25,4 +25,10 @@ macOS上で実Coreの単体51件が成功した。実データの3記事→学�
 
 追加のCoreSmokeコンパイルはMacの容量不足で失敗した。完了済み試験の再生成可能なコンパイラーcacheだけを整理し、ソース・記事・証跡・実行ファイルを保持した。これは新コードの試験失敗とは分けて記録する。
 
-Core3・UI3とP2修正の独立レビューを通過し、最終ソースのXcode16.2・Simulator SDK18.2で単体109件・UI9件を含むbuild-for-testingが成功した。これはcompileであり全件実行ではない。外側sandboxでXcodeのsandbox-execが拒否された初回ログを保持し、Xcodeのsandbox設定を変えず同じコマンドを昇格再実行して成功した。Hostedの通常・全記事UIとReleaseは未取得である。実機・VoiceOver・最大文字・実際の端末低容量、全記事の既定採用とIOS-22全体は未完了のまま残す。[JSON](ios-bundled-content-activation.json)に実行面と凍結SHAを記録する。
+Core3・UI3とP2修正の独立レビューを通過し、修正前head004cb0a6のXcode16.2・Simulator SDK18.2で単体109件・UI9件を含むbuild-for-testingが成功した。これはcompileであり全件実行ではない。外側sandboxでXcodeのsandbox-execが拒否された初回ログを保持し、Xcodeのsandbox設定を変えず同じコマンドを昇格再実行して成功した。このSDK取得時点ではHosted結果は未取得だった。後続の初回全記事UI結果と修正後の未完了検査は次節に示す。実機・VoiceOver・最大文字・実際の端末低容量、全記事の既定採用とIOS-22全体は未完了のまま残す。[JSON](ios-bundled-content-activation.json)に実行面と凍結SHAを記録する。
+
+## 全記事UIで見つかった検索中の操作入口
+
+head004cb0a6のHosted run40180468739では単体109件中107成功・2private入力skip・失敗0、UIは既存8件成功・新規1件失敗だった。検索とタグを保持したAXにtoolbarの「その他の操作」がなく、確認画面へ進めなかった。Releaseは未実施である。
+
+共通の操作内容を絞り込みSectionへ表示し、同時のtoolbar表示を避ける。0件表示もList内へ移し、overlayで操作入口を覆わない構造へ直した。検索を消して試験を通す変更やassertion緩和は行わず、既存9件を最終headで再実行する。上記SDKはこの画面修正前の結果であり、修正後の正確なheadのSDK/Hosted/Releaseと空queryのまま検索中の状態・実機/VoiceOverは未確認として残す。

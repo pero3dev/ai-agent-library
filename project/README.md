@@ -6,6 +6,8 @@
 
 ## 構造・運用の計画
 
+旧版と更新失敗時の[保持回帰3件](records/2026-10-25/ios-storage-retention-regression.md)では、実repositoryの3世代snapshot・後読資産、孤立版の無変更、pointer書込失敗時の既存bytesを検査する。Mac新3件とiOS単体122件のcompileを区別し、将来の削除・pin・容量管理方針の採択は残す。
+
 現行SDKへの[Archive互換性の事前検証](records/2026-10-25/ios-sdk26-archive-preflight.md)は、公開repoの標準Hosted環境でdevice Releaseと実同梱物を監査する。資格情報を使う署名・Provisioningを分け、SDK26の初回実行とStore配布・ローカルOS更新の採択を区別する。
 
 全記事一覧が使えるまでの[性能観測基盤](records/2026-10-25/ios-published-readiness-observation.md)では、機能UIと専用Clockケースを分ける。実Debug全数監査・warm-upと3標本・生xcresult/CSVを保持し、初回の実Clock型・単位・識別子の確認と性能予算の採択を区別する。

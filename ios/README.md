@@ -222,6 +222,12 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 | 更新失敗 | 壊したパッケージや取り込み中断で正常版を読める。旧schema 1を誤表示しない |
 | 音声 | ロック中の再生・停止・シーク、着信・イヤホン切断後の停止/復帰、通信断のエラーと再試行 |
 
+## 保存版の保持契約の回帰
+
+[保持契約の追加回帰](../project/records/2026-10-25/ios-storage-retention-regression.md)は、3世代の更新後も旧snapshotから本文・PNGをdisk再読できること、正常な孤立staging/未参照版をload・retryが無変更で無視すること、destination配置後のpointer書込失敗でも既存版・読書記録を保つことを検査します。既存試験を維持し、単体登録は119から122件になりました。
+
+私有Macで新3件は実行成功し、iOS SDKでは全122件・機能UI10件・performance1件のコンパイルを確認しました。iOSでの新3件の実行はHosted待ちです。削除・上限設定・pin/lease・実容量不足・プロセス終了は試していません。容量整理の方針を採用する前の回帰であり、既存の保存処理は変更しません。
+
 ## SDK26のiPhoneOS Archive互換性検査
 
 [専用preflight](../.github/workflows/ios-sdk26-archive.yml)は、公開リポジトリの標準`macos-26`でXcode26.6・iOS26.5 SDKを実行時に照合し、全記事を生成してgeneric iOS向けのRelease Archiveを作る候補です。配布用の署名資格情報やProvisioningを使わず、署名が無い場合とTeam/Authorityを持たないad-hocだけを扱います。Archiveの実アプリの全SHA・本文集合・ライセンス・Privacy Manifest、SDK・最低OS17・arm64・device platform・dSYM UUID・fixture不在を監査します。

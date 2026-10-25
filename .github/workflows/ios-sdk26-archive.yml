@@ -192,6 +192,7 @@ jobs:
           import { spawnSync } from 'node:child_process';
           import { lstatSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
           import path from 'node:path';
+          import { assertSigningDisabledBuildSettings } from './ios/tests/archive-signing-settings.mjs';
           const evidence = process.env.EVIDENCE_DIR;
           const archive = path.resolve('.local/ios-sdk26/AILibrary.xcarchive');
           const app = path.join(archive, 'Products/Applications/AILibrary.app');
@@ -246,8 +247,7 @@ jobs:
             assert.equal(version(build.IPHONEOS_DEPLOYMENT_TARGET), '17.0.0');
             assert.equal(build.ENABLE_USER_SCRIPT_SANDBOXING, 'YES');
             assert.equal(build.DEBUG_INFORMATION_FORMAT, 'dwarf-with-dsym');
-            assert.equal(build.CODE_SIGNING_ALLOWED, 'NO'); assert.equal(build.CODE_SIGNING_REQUIRED, 'NO');
-            assert.equal(build.CODE_SIGN_IDENTITY, ''); assert.equal(build.DEVELOPMENT_TEAM ?? '', '');
+            assertSigningDisabledBuildSettings(build);
             const info = plist('app-info', path.join(app, 'Info.plist'));
             const archiveInfo = plist('archive-info', path.join(archive, 'Info.plist'));
             assert.equal(info.CFBundleIdentifier, build.PRODUCT_BUNDLE_IDENTIFIER);

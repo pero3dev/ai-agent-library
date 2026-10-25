@@ -53,7 +53,7 @@ P0は方針決定・公開条件、P1は完成版に向けた実装と品質、P
 
 現在の提出最低条件は**Xcode 26以上・iOS 26 SDK以上**。例としてXcode 26の対応環境はmacOS 15.6〜26.xであり、採用するXcodeの対応範囲を確認する。2027年4月以降はiOS 27 SDK以上への引き上げ予定があるため、公開予定日に再確認する。ビルドSDKと利用者の最低OSは別に決める。[提出要件](https://developer.apple.com/news/upcoming-requirements/)、[互換表](https://developer.apple.com/xcode/system-requirements/)、[2027年の変更告知](https://developer.apple.com/news/?id=k1mtkt1k)
 
-IOS-02の準備として[SDK26のHosted Archive preflight](../../records/2026-10-25/ios-sdk26-archive-preflight.md)を追加する。公開repoの標準macos-26・公式Xcode26.6をruntime照合し、配布資格情報・Provisioningを使わずgeneric iPhoneOS Release Archiveと実同梱物を監査する候補である。静的レビュー段階で実Archiveは未確認。ローカルOSの更新・署名済み配布・Store提出環境の採択とは分け、最低対応OS17と既存Simulator回帰を保つ。IOS-02全体は未完了を維持する。
+IOS-02の準備として[SDK26のHosted Archive preflight](../../records/2026-10-25/ios-sdk26-archive-preflight.md)を追加する。公開repoの標準macos-26・公式Xcode26.6をruntime照合し、配布資格情報・Provisioningを使わずgeneric iPhoneOS Release Archiveと実同梱物を監査する候補である。初回Hostedで実環境・Archive・actual Contentまで確認し、空の資格情報キー省略への限定修正後に後段の実監査を再検証する。ローカルOSの更新・署名済み配布・Store提出環境の採択とは分け、最低対応OS17と既存Simulator回帰を保つ。IOS-02全体は未完了を維持する。
 
 Developer Programは年額99 USDまたは提供地域の現地通貨。日本円の契約額は未確認であり、予算決定時に確認する。自分用のPersonal Teamと一般配布用の登録を区別する。[Programの内容・費用](https://developer.apple.com/programs/whats-included/)
 

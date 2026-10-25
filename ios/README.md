@@ -234,6 +234,12 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 
 既存の10機能ケースを残し、機能UIは12件、専用performanceは1件です。単独型検査と全targetのunit122/機能UI12/performance1のコンパイルを確認しました。追加2件の実UIは初回Hosted待ちです。ファイル選択画面のキャンセル、VoiceOver・最大文字・実機は未確認として残します。
 
+## 本文検索ヒットと復帰のUI回帰
+
+[検索ヒットの追加2件](../project/records/2026-10-26/ios-search-hit-ui-regression.md)は、入れ子の特定段落への到着と、本文検索後に別位置を保存して再起動した時のB/A差分を公開UIで検査します。本文のgestureで到着位置を作らず、旧queryが復帰で再実行されない動作までを扱います。
+
+既存12件を保持して機能UIはsource上14件になります。生成3/199記事の実searchHitで一意なleafを確認し、前面helper対応後のSDK限定型検査は成功しました。全target build・実UI14件・AX/保存タイミングはHosted待ちで、VoiceOver・最大文字・実機は未完了です。
+
 ## SDK26のiPhoneOS Archive互換性検査
 
 [専用preflight](../.github/workflows/ios-sdk26-archive.yml)は、公開リポジトリの標準`macos-26`でXcode26.6・iOS26.5 SDKを実行時に照合し、全記事を生成してgeneric iOS向けのRelease Archiveを作る候補です。配布用の署名資格情報やProvisioningを使わず、署名が無い場合とTeam/Authorityを持たないad-hocだけを扱います。Archiveの実アプリの全SHA・本文集合・ライセンス・Privacy Manifest、SDK・最低OS17・arm64・device platform・dSYM UUID・fixture不在を監査します。

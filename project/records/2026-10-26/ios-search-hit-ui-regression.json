@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-26",
+  "task": "ios-search-hit-ui-regression",
+  "parent_PR": 265,
+  "parent_head": "5a064a3c5ed4b7a1ece51cd672d2711662ad9014",
+  "version": "unchanged-0.2.14(16)",
+  "status": "source-reviewed-SDK-passed-Hosted-pending",
+  "source_sha256": {
+    "ios/AILibraryUITests/PublishedReaderUITests.swift": "8aaa2e613add1ba82a2c9cf98b74f4d217f5fc68259d69256dd75639256553f3"
+  },
+  "original_candidate_SHA256": "7e87d99ec7e552d2bf27d66dc28522188fd8f9c1feba48965199225c238eab71",
+  "helper_adaptation": "one new positive predicate uses the poll helper; old12 cases unchanged",
+  "counts_from_source": {
+    "previous_functional": 12,
+    "new": 2,
+    "functional_total": 14,
+    "performance": "separate1",
+    "unit_if_parent_registered": 129,
+    "actual_registration": "not-run"
+  },
+  "observations": [
+    "unique multiword nested atomic paragraph landing without corrective reader gestures",
+    "positive bodyhit A then saved B; relaunch query empty and resume B visible/A invisible; not absence of internal query bytes"
+  ],
+  "validation": {
+    "generated_profiles": "real searchHit + normalization on actual3/199; each query fully matches exactly one atomic block",
+    "A_to_B_top_level_distance": 9,
+    "SDK": "standalone Native+Published source typecheck passed, including final helper-adapted source8aaa",
+    "independent_source_review": "approved initial7e87 and final one-callsite adaptation8aaa",
+    "full_project_build": "not-run",
+    "UI_and_registration": "not-run",
+    "common_check": {
+      "scope": "shared workspace; exact final tree pending Hosted",
+      "tests": 765,
+      "passed": 750,
+      "skipped": 15,
+      "failed": 0,
+      "log": "/private/tmp/ios-search-hit-ui-common-check-20261026.log",
+      "sha256": "034a063d1bcfbd0e4494e91cbcd3513896fecbbdf566ab1f298a51836f008c0f"
+    }
+  },
+  "evidence": {
+    "/private/tmp/ios-search-hit-ui-candidate-20261025/validation.json": {
+      "sha256": "fc68f20553127cce1d4e6a57ae04449005326d5b531a685af67f19f720b7630d",
+      "bytes": 12507
+    },
+    "/private/tmp/ios-search-hit-ui-candidate-20261025/content-evidence.json": {
+      "sha256": "147f1a5a360619001c6fc6dd428268c5f54e852d36667025c25a88fff367885d",
+      "bytes": 1785
+    },
+    "/private/tmp/ios-search-hit-ui-candidate-20261025/typecheck.json": {
+      "sha256": "4138fc5818b422cdd63482a597b020574d5052c15c04c63d162263409772fdfd",
+      "bytes": 1329
+    },
+    "/private/tmp/ios-search-hit-ui-integration-20261025/integration-proof.json": {
+      "sha256": "a8d6377dd42b42bbee315de855d38cfffdc2efa42a67262ebe8563c3781b9f87",
+      "bytes": 18670
+    },
+    "/private/tmp/ios-foreground-viewport-candidate-20261025/validation.json": {
+      "sha256": "96e1bc9742db30da8f04fa6dab84720792a1baf80f1bcaf00601a8ca5b1f4d59",
+      "bytes": 9800
+    },
+    "/private/tmp/ios-foreground-viewport-candidate-20261025/published-predicate-callsite.patch": {
+      "sha256": "96710b6db5aa1b3576cfc84439e7b022fd7d0993e4b313dc7ecd3de1235a6a04",
+      "bytes": 832
+    },
+    "/private/tmp/ios-foreground-viewport-candidate-20261025/review.json": {
+      "sha256": "a49729c9a8dc92d26e9564ac39bbd3033631d2e55ec660ebea56f3e7d470e1f9",
+      "bytes": 5132
+    }
+  },
+  "remaining": [
+    "exact-head ordinary/native/full/Release",
+    "actual UI14/AX/scroll/save timing",
+    "VoiceOver/maximum text/device",
+    "IOS10/25 overall"
+  ]
+}

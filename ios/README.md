@@ -232,7 +232,7 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 
 [操作シートの追加UI回帰](../project/records/2026-10-25/ios-filtered-actions-ui.md)は、検索・タグを保持したAboutの開閉と、専用テスト記事のしおり変更が通常の保存へ混ざらないことを検査します。専用一覧は検索前に全1記事と確認し、通常のfilterを確認した後、通常readerの再開より前にアプリを再起動して永続データを読み直します。
 
-既存の10機能ケースを残し、機能UIは12件、専用performanceは1件です。単独型検査と全targetのunit122/機能UI12/performance1のコンパイルを確認しました。追加2件の実UIは初回Hosted待ちです。ファイル選択画面のキャンセル、VoiceOver・最大文字・実機は未確認として残します。 [フォルダー選択取消の回帰候補](../project/records/2026-10-26/ios-picker-cancel-ui.md)を別単位で追加し、既存14件を保持してsource上15件（Published13＋Native2）とします。system pickerのAX・名前、compile・実登録・実UIは未確認で、取消後のエラーを自動で消して成功化しません。
+既存の10機能ケースを残し、機能UIは12件、専用performanceは1件です。単独型検査と全targetのunit122/機能UI12/performance1のコンパイルを確認しました。追加2件の実UIは初回Hosted待ちです。ファイル選択画面のキャンセル、VoiceOver・最大文字・実機は未確認として残します。 [フォルダー選択取消の回帰候補](../project/records/2026-10-26/ios-picker-cancel-ui.md)は既存14件を保持してsource上15件（Published13＋Native2）とします。旧fd26の初回Hostedはunit129件（127成功・2skip）、機能UI13/15成功で、本文検索A565とpicker識別が失敗しました。実観測したsystem barへ束縛するv2（9d503be6）は限定SDK型検査に成功しましたが、実登録・実UI、A565と新269本文修正版のruntimeはHosted待ちです。
 
 ## 本文検索ヒットと復帰のUI回帰
 

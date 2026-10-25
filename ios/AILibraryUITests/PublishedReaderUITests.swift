@@ -612,27 +612,49 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
     /// may supply cancellation. Existing library/search/More bars are excluded.
     private func requireNewFolderPicker(after previousIDs: Set<String>) throws
         -> (bar: XCUIElement, cancel: XCUIElement) {
+        // Observed on iOS 18.5 in the failed run. Do not infer a system picker
+        // from arbitrary new bars or fall back to background search cancellation.
+        let identifier = "FullDocumentManagerViewControllerNavigationBar"
+        let query = app.navigationBars.matching(identifier: identifier)
         let cancelPredicate = NSPredicate(format: "label == %@", "キャンセル")
+        var rejection = "The observed document-picker context has not been inspected"
         func candidates() -> [XCUIElement] {
-            let bars = app.navigationBars.allElementsBoundByIndex.filter { $0.exists }
-            return bars.filter { bar in
-                let id = bar.identifier
-                guard !id.isEmpty, !previousIDs.contains(id),
-                      bars.filter({ $0.identifier == id }).count == 1 else { return false }
-                let frame = bar.frame
-                guard frame.minX.isFinite, frame.minY.isFinite,
-                      frame.width.isFinite, frame.height.isFinite,
-                      frame.width > 0, frame.height > 0,
-                      app.frame.contains(frame) else { return false }
-                let usable = bar.buttons.matching(cancelPredicate).allElementsBoundByIndex.filter {
-                    self.isHittableOnScreen($0) && frame.contains($0.frame)
-                }
-                return usable.count == 1
+            guard !previousIDs.contains(identifier) else {
+                rejection = "The document-picker ID was already present before import"
+                return []
             }
+            let count = query.count
+            guard count == 1 else {
+                rejection = "Expected one document-picker bar; found \(count)"
+                return []
+            }
+            // Bind only after uniqueness is established for this exact query.
+            let bar = query.element(boundBy: 0)
+            guard bar.exists else {
+                rejection = "The uniquely queried document-picker bar disappeared"
+                return []
+            }
+            let frame = bar.frame, appFrame = app.frame
+            guard frame.minX.isFinite, frame.minY.isFinite,
+                  frame.width.isFinite, frame.height.isFinite,
+                  frame.width > 0, frame.height > 0,
+                  appFrame.contains(frame) else {
+                rejection = "Invalid document-picker geometry: app=\(appFrame), bar=\(frame)"
+                return []
+            }
+            let usable = bar.buttons.matching(cancelPredicate).allElementsBoundByIndex.filter {
+                $0.exists && $0.isEnabled && self.isHittableOnScreen($0) && frame.contains($0.frame)
+            }
+            guard usable.count == 1 else {
+                rejection = "Expected one visible enabled scoped cancellation; found \(usable.count)"
+                return []
+            }
+            rejection = "Observed document-picker context and scoped cancellation are ready"
+            return [bar]
         }
         func diagnose(_ reason: String) {
             capture("Content-folder-picker-not-identified")
-            let hierarchy = XCTAttachment(string: reason + "\n" + app.debugDescription)
+            let hierarchy = XCTAttachment(string: reason + "\n" + rejection + "\n" + app.debugDescription)
             hierarchy.name = "Content-folder-picker-identification"
             hierarchy.lifetime = .keepAlways
             add(hierarchy)
@@ -651,10 +673,7 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
             diagnose("Folder-picker context became missing or ambiguous")
             throw NSError(domain: "PublishedReaderUITests", code: 5)
         }
-        // Rebind by the observed unique ID; a bound-by-index bar could resolve
-        // to a background library bar after the picker disappears.
-        let identifier = bars[0].identifier
-        let query = app.navigationBars.matching(identifier: identifier)
+        // Rebind by the observed system ID, never by the index of all app bars.
         guard query.count == 1 else {
             diagnose("Folder-picker navigation identifier is no longer unique")
             throw NSError(domain: "PublishedReaderUITests", code: 8)
@@ -662,7 +681,8 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         let bar = query.element(boundBy: 0)
         let cancel = try singleHittableControl(bar.buttons.matching(cancelPredicate),
                                               name: "folder picker cancellation")
-        guard !bar.identifier.isEmpty, !previousIDs.contains(bar.identifier),
+        guard bar.identifier == identifier, !previousIDs.contains(bar.identifier),
+              cancel.exists, cancel.isEnabled,
               bar.frame.contains(cancel.frame), isHittableOnScreen(cancel) else {
             diagnose("Cancellation no longer belongs to the new foreground picker bar")
             throw NSError(domain: "PublishedReaderUITests", code: 6)

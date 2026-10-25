@@ -2,7 +2,7 @@
   "schema_version": 1,
   "task": "ios-bundled-content-activation",
   "date": "2026-10-25",
-  "status": "More-row-hit-area-fixed-awaiting-exact-head-retest",
+  "status": "filtered-action-sheet-fixed-awaiting-exact-head-retest",
   "authorization": "Autonomous iOS implementation with staged commit PR main; physical checks may be recorded incomplete",
   "parent_PR": 257,
   "parent_head": "39349db4043beadaf09c94ffef43155d01acdd11",
@@ -11,7 +11,7 @@
     "ios/AILibrary/Sources/ContentRepository.swift": "af4ed5924eb4c36311fa501d7adaa1208afe086499ede1e063b1526ff5d712df",
     "ios/AILibrary/Sources/LibraryStore.swift": "b5622cc8118ab5d58deb3d7d1c4aba9d2172d8d64ea0bc5451181ae4967c61fa",
     "ios/AILibraryTests/LibraryCoreTests.swift": "4e4c862a9bffabd1d81000ee11c2f8eb52b4fc3718cd7f087110d203402090c5",
-    "ios/AILibrary/Sources/LibraryView.swift": "ab4902dac3a73d2997dccbfd24063f93fb62a6698f3009ead98fc2bea3002b45",
+    "ios/AILibrary/Sources/LibraryView.swift": "7deebd2694ff881597616f1f3aea7c558be539f8bad348828f308860f628f0f8",
     "ios/AILibraryUITests/PublishedReaderUITests.swift": "07014b28e7d848ffda4e34b9453b04a6d8f1a62b3122ddb14a733caf037c945d",
     "ios/AILibrary.xcodeproj/project.pbxproj": "b2eb93b1bbaccdaca458f1b9f2a355452f503a1923c3678cca1b979a77e9b5fa"
   },
@@ -327,5 +327,65 @@
     "app_only_cumulative_SDK": "passed; exact canonical branch tests pending",
     "local_probe": "Dedicated Simulator boot aborted during initial migration ENOSPC before test; owned device removed and absence verified; no app runtime result"
   },
-  "SDK_after_more_row_hit_fix": "app-only cumulative build passed; exact-head SDK/Hosted pending"
+  "SDK_after_more_row_hit_fix": "app-only cumulative build passed; exact-head SDK/Hosted pending",
+  "pre_filtered_action_sheet_fix_source_sha256": {
+    "ios/AILibrary/Sources/ContentRepository.swift": "af4ed5924eb4c36311fa501d7adaa1208afe086499ede1e063b1526ff5d712df",
+    "ios/AILibrary/Sources/LibraryStore.swift": "b5622cc8118ab5d58deb3d7d1c4aba9d2172d8d64ea0bc5451181ae4967c61fa",
+    "ios/AILibraryTests/LibraryCoreTests.swift": "4e4c862a9bffabd1d81000ee11c2f8eb52b4fc3718cd7f087110d203402090c5",
+    "ios/AILibrary/Sources/LibraryView.swift": "ab4902dac3a73d2997dccbfd24063f93fb62a6698f3009ead98fc2bea3002b45",
+    "ios/AILibraryUITests/PublishedReaderUITests.swift": "07014b28e7d848ffda4e34b9453b04a6d8f1a62b3122ddb14a733caf037c945d",
+    "ios/AILibrary.xcodeproj/project.pbxproj": "b2eb93b1bbaccdaca458f1b9f2a355452f503a1923c3678cca1b979a77e9b5fa"
+  },
+  "inherited_filtered_action_sheet_fix": {
+    "head": "a03901c0f5fbf3d28ba2d91456747bcf0cb852cb",
+    "run": 40186338703,
+    "job": 121147813799,
+    "unit": {
+      "registered": 109,
+      "passed": 107,
+      "skipped": 2,
+      "failed": 0
+    },
+    "UI": {
+      "total": 9,
+      "passed": 8,
+      "failed": 1
+    },
+    "Release": "not-run-after-UI-failure",
+    "observed": "More Menu still absent after full-width label; next item missing at existing line204",
+    "outer_row": [
+      20,
+      354,
+      353,
+      44
+    ],
+    "later_inner_menu_bounds": [
+      40,
+      363,
+      313,
+      26
+    ],
+    "actual_touch": [
+      55.300000526,
+      358.400000066
+    ],
+    "bounds_observation_delay_seconds": 15.65,
+    "inference": "Actual event is above later inner bounds; instantaneous bounds and UIKit cause not proved",
+    "fix": "Filtered ordinary Button opens SwiftUI action sheet; shared commands queue selection then dispatch only from sheet onDismiss; toolbar remains direct Menu",
+    "UI_assertions_changed": false,
+    "version_changed": false,
+    "app_only_cumulative_SDK": "passed Xcode16.2/SDK18.2/version0.2.14(16); not exact earlier branch runtime",
+    "artifact": {
+      "id": 12597565276,
+      "bytes": 145208313,
+      "sha256": "6611a91f8bc1c13217644fe2deeb21fd892e0570571f839a1a9cdcff3ccf3c56"
+    },
+    "unverified": [
+      "new sheet Hosted menu/bundled acceptance",
+      "sheet import/about/fixture paths",
+      "zero result and maximum text/VoiceOver",
+      "physical device"
+    ]
+  },
+  "SDK_after_filtered_action_sheet_fix": "app-only cumulative build passed; exact-head SDK/Hosted pending"
 }

@@ -2,14 +2,14 @@
   "schema_version": 1,
   "task": "ios-normalized-search-index-integration",
   "date": "2026-10-25",
-  "status": "More-row-hit-area-fixed-awaiting-exact-head-retest",
+  "status": "filtered-action-sheet-fixed-awaiting-exact-head-retest",
   "parent_PR": 258,
   "parent_head": "004cb0a6dc1d061d97ca8e2122f0f583f8f69940",
   "version": "0.2.11(13)",
   "source_sha256": {
     "ios/AILibrary/Sources/Models.swift": "f355ff9ae41e39d3c78224c097afc7e6d64ce59ac91740ee57868c56068534af",
     "ios/AILibrary/Sources/LibraryStore.swift": "b3ee113f42aa73469a177d899839623de24d8151bfbbc0824c55d29cc0c7c41c",
-    "ios/AILibrary/Sources/LibraryView.swift": "f0d64c527d85fdd6cabcb380f42a3a7bcea241e8ee64a3d600c1d76d9859b109",
+    "ios/AILibrary/Sources/LibraryView.swift": "d65bf0e22acaf7b071048796156b379e558a00b82f7a4a4c15122438442e67f3",
     "ios/AILibraryTests/SearchIndexTests.swift": "3bb988b77a8d8da65ae3e401d092a3ff5cfdebbad73e11e99c5efd6fb8d98eb7",
     "ios/AILibrary.xcodeproj/project.pbxproj": "391f31a913b5df78854d05de6c51917646b65b01d876f1cbd864b839d0694fa2"
   },
@@ -221,5 +221,64 @@
     "app_only_cumulative_SDK": "passed; exact canonical branch tests pending",
     "local_probe": "Dedicated Simulator boot aborted during initial migration ENOSPC before test; owned device removed and absence verified; no app runtime result"
   },
-  "SDK_after_more_row_hit_fix": "app-only cumulative build passed; exact-head SDK/Hosted pending"
+  "SDK_after_more_row_hit_fix": "app-only cumulative build passed; exact-head SDK/Hosted pending",
+  "pre_filtered_action_sheet_fix_source_sha256": {
+    "ios/AILibrary/Sources/Models.swift": "f355ff9ae41e39d3c78224c097afc7e6d64ce59ac91740ee57868c56068534af",
+    "ios/AILibrary/Sources/LibraryStore.swift": "b3ee113f42aa73469a177d899839623de24d8151bfbbc0824c55d29cc0c7c41c",
+    "ios/AILibrary/Sources/LibraryView.swift": "f0d64c527d85fdd6cabcb380f42a3a7bcea241e8ee64a3d600c1d76d9859b109",
+    "ios/AILibraryTests/SearchIndexTests.swift": "3bb988b77a8d8da65ae3e401d092a3ff5cfdebbad73e11e99c5efd6fb8d98eb7",
+    "ios/AILibrary.xcodeproj/project.pbxproj": "391f31a913b5df78854d05de6c51917646b65b01d876f1cbd864b839d0694fa2"
+  },
+  "inherited_filtered_action_sheet_fix": {
+    "head": "a03901c0f5fbf3d28ba2d91456747bcf0cb852cb",
+    "run": 40186338703,
+    "job": 121147813799,
+    "unit": {
+      "registered": 109,
+      "passed": 107,
+      "skipped": 2,
+      "failed": 0
+    },
+    "UI": {
+      "total": 9,
+      "passed": 8,
+      "failed": 1
+    },
+    "Release": "not-run-after-UI-failure",
+    "observed": "More Menu still absent after full-width label; next item missing at existing line204",
+    "outer_row": [
+      20,
+      354,
+      353,
+      44
+    ],
+    "later_inner_menu_bounds": [
+      40,
+      363,
+      313,
+      26
+    ],
+    "actual_touch": [
+      55.300000526,
+      358.400000066
+    ],
+    "bounds_observation_delay_seconds": 15.65,
+    "inference": "Actual event is above later inner bounds; instantaneous bounds and UIKit cause not proved",
+    "fix": "Filtered ordinary Button opens SwiftUI action sheet; shared commands queue selection then dispatch only from sheet onDismiss; toolbar remains direct Menu",
+    "UI_assertions_changed": false,
+    "version_changed": false,
+    "app_only_cumulative_SDK": "passed Xcode16.2/SDK18.2/version0.2.14(16); not exact earlier branch runtime",
+    "artifact": {
+      "id": 12597565276,
+      "bytes": 145208313,
+      "sha256": "6611a91f8bc1c13217644fe2deeb21fd892e0570571f839a1a9cdcff3ccf3c56"
+    },
+    "unverified": [
+      "new sheet Hosted menu/bundled acceptance",
+      "sheet import/about/fixture paths",
+      "zero result and maximum text/VoiceOver",
+      "physical device"
+    ]
+  },
+  "SDK_after_filtered_action_sheet_fix": "app-only cumulative build passed; exact-head SDK/Hosted pending"
 }

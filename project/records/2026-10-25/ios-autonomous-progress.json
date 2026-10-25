@@ -3,22 +3,312 @@
   "task": "ios-autonomous-todo-execution",
   "date": "2026-10-25",
   "timezone": "Asia/Tokyo",
-  "status": "awaiting-main-recovery-decision-after-validation-checkpoint",
+  "status": "M0-M3-ordinary-main-integrated-checkpoint-CI-pending",
   "authorization": "User requested continuing autonomously in TODO priority order after the commit/PR/main-merge plan was added.",
   "baseline_branch": "main",
   "baseline_HEAD": "405e29273a7a3257adeb370c6ac3196d35693d4d",
   "repository": "pero3dev/ai-agent-library",
   "repository_visibility": "public",
   "default_branch": "main",
-  "current_checkpoint": "pre-main-integration",
+  "current_checkpoint": "M0-M3-main-integrated-PR247-final-record-CI",
   "checkpoints": [
     {
-      "id": "M0",
-      "status": "PR-open-awaiting-prerequisite-repair",
-      "PR": "https://github.com/pero3dev/ai-agent-library/pull/241",
-      "head": "3dc5cc6dedf98da880acbb098edb5b1bdbff3383",
-      "intent_commits": 4,
+      "id": "native基準M0",
+      "PR": 241,
+      "head": "957dffc82806710c4cb71af35ba9916d7a621da4",
+      "status": "main-merged",
+      "main_merged": true,
+      "main_sha": "d498716d18eb6699d409ad60d873e62fe61a6ded",
+      "method": "ordinary-squash",
+      "validation": "既存版の実機QAと修正版SDKを区別。11必須検査成功",
+      "independent_review": "approved"
+    },
+    {
+      "id": "検索ヒット移動",
+      "PR": 242,
+      "head": "040cfbb4cf06642739f1118305834fbf4eb571d3",
+      "status": "main-merged",
+      "main_merged": true,
+      "main_sha": "8ea361eef226209ba9101ccc418eacdb7adb9460",
+      "method": "ordinary-squash",
+      "validation": "同じnative sourceのHosted42件と照合。11必須検査成功",
+      "independent_review": "approved"
+    },
+    {
+      "id": "生成・unit・Release CI",
+      "PR": 243,
+      "head": "05a0436ae057479221526430c4658bbdd290f405",
+      "status": "main-merged",
+      "main_merged": true,
+      "main_sha": "14eb3ecb3c378de00e17f2abae7243b06b09fef7",
+      "method": "ordinary-squash",
+      "validation": "同期headのunit42件・Release成功",
+      "independent_review": "approved"
+    },
+    {
+      "id": "改訂後の読書位置",
+      "PR": 244,
+      "head": "70498ed611c4424ef8683c682dd3bc17465a2a90",
+      "status": "main-merged",
+      "main_merged": true,
+      "main_sha": "931a0a1a84aee4cba2239feef534b5ba790afed2",
+      "method": "ordinary-squash",
+      "validation": "同期headのunit50件・Release成功",
+      "independent_review": "approved"
+    },
+    {
+      "id": "形式・生成上限",
+      "PR": 245,
+      "head": "c92fe72f5ba99b56c79e3c0d6886062112cd2bd4",
+      "status": "main-merged",
+      "main_merged": true,
+      "main_sha": "f04d362dcae31da9add197b6fa7832f58f60201e",
+      "method": "ordinary-squash",
+      "validation": "同期headのunit52件・Release成功",
+      "independent_review": "approved"
+    },
+    {
+      "id": "既存UI回帰CI",
+      "PR": 246,
+      "head": "d50586ada8709557d4680729cbc7fe80f5527099",
+      "status": "main-merged",
+      "main_merged": true,
+      "main_sha": "81b5da90796e061d3e2230b941f9156a61f822bc",
+      "method": "ordinary-squash",
+      "validation": "同期headのunit52件・UI2件・Release成功",
+      "independent_review": "approved"
+    },
+    {
+      "id": "M0-M3-records",
+      "PR": 247,
+      "status": "final-candidate-review-and-CI",
       "main_merged": false
+    }
+  ],
+  "excluded_actions_without_specific_authorization": [
+    "paid-account-registration",
+    "contract-acceptance",
+    "OS-upgrade",
+    "App-Store-submission",
+    "tag-or-release-publication"
+  ],
+  "validation": {
+    "core_smoke_normal": "passed",
+    "core_smoke_fixtures": "passed",
+    "sdk_build_for_testing": "passed-compilation-only",
+    "sdk_release": "passed",
+    "release_normal_articles": 3,
+    "release_hashed_files": 140,
+    "release_fixtures_absent": true,
+    "new_XCTest_cases": 3,
+    "new_XCTest_execution": "not-run",
+    "new_physical_acceptance": "not-run-user-allows-skip",
+    "npm_check": {
+      "tests": 559,
+      "passed": 544,
+      "skipped": 15,
+      "failed": 0
+    },
+    "baseline_version": "0.2.3",
+    "baseline_build": 5,
+    "scope": "Initial M0 local validation before hosted execution and main integration."
+  },
+  "user_required_actions": [
+    {
+      "kind": "main-recovery-decision",
+      "status": "authorized-only-PR240-and-completed",
+      "PR": "https://github.com/pero3dev/ai-agent-library/pull/240"
+    },
+    {
+      "kind": "GitHub-sudo-reauthentication",
+      "status": "completed-by-human"
+    }
+  ],
+  "manual_device_checks_policy": "User explicitly allows skipping new physical-device checks and recording them incomplete while other work proceeds.",
+  "reviews": {
+    "pipeline": "approved; build-output writes are not atomic across I/O failures",
+    "native": "approved after numeric-bound and cache-identity fixes"
+  },
+  "source_version": "0.2.5",
+  "source_build": 7,
+  "dependency_PR": "https://github.com/pero3dev/ai-agent-library/pull/240",
+  "CI_prerequisite": "PR240 limited exception is closed and protection restored. PR248 and PR241–246 were ordinarily merged after all 11 required checks; main81b5da90 CI40167746668 and native40167746762 both passed, including deploy. PR247 final record candidate review and CI remain pending.",
+  "next_operations": [
+    "Checkpoint PR247 normal sync and CI",
+    "Sequential ordinary sync/CI/squash of249-254",
+    "Actual full-candidate UI then separate default-adoption and saved-package migration decisions"
+  ],
+  "separate_uncommitted_content": {
+    "PR": 240,
+    "head": "57c96d24c8682aab20485a004a4dd20d3abcf520",
+    "files": 9,
+    "working_file_bytes_match_published_head": true,
+    "excluded_from_native_PRs": true,
+    "scope": "Historical pre-PR240-merge working-tree separation; not a claim that these files remain currently uncommitted.",
+    "PR240_main_merge": "9c2b0466ea82886985b921fa9e0fffe4ae9e9231"
+  },
+  "main_snapshot": {
+    "sha": "81b5da90796e061d3e2230b941f9156a61f822bc",
+    "tree": "108448944bf394733da7460736a8ad724025b45c",
+    "protected": true,
+    "required_checks": 11,
+    "enforcement": "everyone",
+    "CI": "success-including-deploy",
+    "CI_run": 40167746668,
+    "native_CI_run": 40167746762
+  },
+  "checkpoint_record_review": "re-review-after-current-vs-historical-state-correction",
+  "snapshot_scope": "After PR246 ordinary squash; source0.2.5(7). Main81b5da90 CI/native/deploy success confirmed; later stack features249–254 are not main.",
+  "checkpoint_validation_scope": "Per-checkpoint results retain the recorded source head and execution surface; later runs are recorded separately.",
+  "initial_checkpoint_branch": "codex/ios-native-validation-checkpoint",
+  "CI_prerequisite_history": [
+    "PR240 latest head passed 10 ordinary checks; trusted-base harness-policy still fails on main markdown-it high. Limited recovery decision requested; no bypass performed.",
+    "PR240 limited recovery completed with protection fully restored and exception closed. Ordinary PR248 passed 11 required checks and was merged; repaired main CI40159510477 and PR241 final-head checks remain in progress at this snapshot."
+  ],
+  "normal_website_repair": {
+    "PR": 248,
+    "head": "7860fc9e3b955f1cc29163821b3a68670715ab4f",
+    "required_checks_passed": 11,
+    "merge_sha": "c4eb4927daf62e5decbf2e4d618474775b4ec331",
+    "merge_tree": "f2cac35ecede470c9259a09a6f18fb877d8327c2",
+    "method": "squash",
+    "exception_used": false,
+    "triggering_main_run": 40155939255
+  },
+  "limited_recovery": {
+    "PR": 240,
+    "status": "closed",
+    "reauthentication": "completed-by-human",
+    "merge_sha": "9c2b0466ea82886985b921fa9e0fffe4ae9e9231",
+    "protection_restored": true,
+    "required_checks_restored": 11,
+    "UI_flags_restored": 15,
+    "later_exceptions_authorized": false,
+    "record": "project/records/2026-10-25/ios-main-recovery.json"
+  },
+  "historical_snapshot_scope": "Snapshot after ordinary PR248 squash, while main CI40159510477 and PR241 final-head CI were running; not live status.",
+  "historical_main_snapshot": {
+    "head": "c4eb4927daf62e5decbf2e4d618474775b4ec331",
+    "protected": true,
+    "required_checks": 11,
+    "enforcement": "everyone",
+    "source_apps_match_original": true,
+    "UI_flags_match_original": true,
+    "tree": "f2cac35ecede470c9259a09a6f18fb877d8327c2",
+    "previous_recovery_head": "9c2b0466ea82886985b921fa9e0fffe4ae9e9231",
+    "restored_UI_checkbox_flags": 15,
+    "exception_PR240": "closed",
+    "later_exceptions_authorized": false,
+    "CI": {
+      "id": 40159510477,
+      "head": "c4eb4927daf62e5decbf2e4d618474775b4ec331",
+      "status": "in_progress",
+      "conclusion": "not-confirmed",
+      "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40159510477"
+    }
+  },
+  "main_integrations": [
+    {
+      "PR": 241,
+      "head": "957dffc82806710c4cb71af35ba9916d7a621da4",
+      "main": "d498716d18eb6699d409ad60d873e62fe61a6ded",
+      "scope": "native基準M0",
+      "validation": "既存版の実機QAと修正版SDKを区別。11必須検査成功",
+      "method": "ordinary-squash",
+      "canonical_message_tree": "verified",
+      "independent_review": "approved"
+    },
+    {
+      "PR": 242,
+      "head": "040cfbb4cf06642739f1118305834fbf4eb571d3",
+      "main": "8ea361eef226209ba9101ccc418eacdb7adb9460",
+      "scope": "検索ヒット移動",
+      "validation": "同じnative sourceのHosted42件と照合。11必須検査成功",
+      "method": "ordinary-squash",
+      "canonical_message_tree": "verified",
+      "independent_review": "approved"
+    },
+    {
+      "PR": 243,
+      "head": "05a0436ae057479221526430c4658bbdd290f405",
+      "main": "14eb3ecb3c378de00e17f2abae7243b06b09fef7",
+      "scope": "生成・unit・Release CI",
+      "run": 40162172825,
+      "unit": 42,
+      "validation": "同期headのunit42件・Release成功",
+      "method": "ordinary-squash",
+      "canonical_message_tree": "verified",
+      "independent_review": "approved"
+    },
+    {
+      "PR": 244,
+      "head": "70498ed611c4424ef8683c682dd3bc17465a2a90",
+      "main": "931a0a1a84aee4cba2239feef534b5ba790afed2",
+      "scope": "改訂後の読書位置",
+      "run": 40163432943,
+      "unit": 50,
+      "validation": "同期headのunit50件・Release成功",
+      "method": "ordinary-squash",
+      "canonical_message_tree": "verified",
+      "independent_review": "approved"
+    },
+    {
+      "PR": 245,
+      "head": "c92fe72f5ba99b56c79e3c0d6886062112cd2bd4",
+      "main": "f04d362dcae31da9add197b6fa7832f58f60201e",
+      "scope": "形式・生成上限",
+      "run": 40164911203,
+      "unit": 52,
+      "validation": "同期headのunit52件・Release成功",
+      "method": "ordinary-squash",
+      "canonical_message_tree": "verified",
+      "independent_review": "approved"
+    },
+    {
+      "PR": 246,
+      "head": "d50586ada8709557d4680729cbc7fe80f5527099",
+      "main": "81b5da90796e061d3e2230b941f9156a61f822bc",
+      "scope": "既存UI回帰CI",
+      "run": 40166418119,
+      "unit": 52,
+      "UI": 2,
+      "validation": "同期headのunit52件・UI2件・Release成功",
+      "method": "ordinary-squash",
+      "canonical_message_tree": "verified",
+      "independent_review": "approved"
+    }
+  ],
+  "limited_recovery_closed": true,
+  "later_exception_authorized": false,
+  "parallel_feature_PRs": [
+    249,
+    250,
+    251,
+    252,
+    253,
+    254
+  ],
+  "parallel_feature_scope": "separate draft stack, not adopted main catalog; no extra physical operations",
+  "historical_checkpoints": [
+    {
+      "id": "M0",
+      "status": "ordinary-main-sync-CI-running",
+      "PR": "https://github.com/pero3dev/ai-agent-library/pull/241",
+      "head": "957dffc82806710c4cb71af35ba9916d7a621da4",
+      "intent_commits": 4,
+      "main_merged": false,
+      "previous_head": "67678a1882317b4d08718d12bb650822b82f07dd",
+      "tree": "c4633233ab03125d2ca1501e1b5d08f8442d03ab",
+      "main_sync": {
+        "method": "ordinary-two-parent-merge",
+        "parents": [
+          "67678a1882317b4d08718d12bb650822b82f07dd",
+          "c4eb4927daf62e5decbf2e4d618474775b4ec331"
+        ],
+        "independent_final_tree_review": "passed",
+        "CI": "running-required-11-checks",
+        "exception_used": false
+      }
     },
     {
       "id": "M2-IOS-10",
@@ -177,69 +467,21 @@
       "status": "runtime-target-condition-verified-already-satisfied",
       "base_head": "d4d982ce8850cd3ae71710c6eb205815edc7af73",
       "main_merged": false
-    }
-  ],
-  "excluded_actions_without_specific_authorization": [
-    "paid-account-registration",
-    "contract-acceptance",
-    "OS-upgrade",
-    "App-Store-submission",
-    "tag-or-release-publication"
-  ],
-  "validation": {
-    "core_smoke_normal": "passed",
-    "core_smoke_fixtures": "passed",
-    "sdk_build_for_testing": "passed-compilation-only",
-    "sdk_release": "passed",
-    "release_normal_articles": 3,
-    "release_hashed_files": 140,
-    "release_fixtures_absent": true,
-    "new_XCTest_cases": 3,
-    "new_XCTest_execution": "not-run",
-    "new_physical_acceptance": "not-run-user-allows-skip",
-    "npm_check": {
-      "tests": 559,
-      "passed": 544,
-      "skipped": 15,
-      "failed": 0
     },
-    "baseline_version": "0.2.3",
-    "baseline_build": 5
-  },
-  "user_required_actions": [
     {
-      "kind": "main-recovery-decision",
-      "status": "asked-awaiting-response",
-      "PR": "https://github.com/pero3dev/ai-agent-library/pull/240"
+      "id": "M4-IOS-13-15",
+      "PR": 249,
+      "head": "bee33d124d53aa3897e12fcb56ba0b9ac2c3b5fd",
+      "base_PR": 247,
+      "draft": true,
+      "files": 12,
+      "status": "draft-saved-hosted-started-result-unconfirmed",
+      "local_consumer_articles": 199,
+      "local_consumer_acceptance": "passed",
+      "hosted_full_package_result": "not-confirmed",
+      "exception_used": false,
+      "main_merged": false
     }
   ],
-  "current_branch": "codex/ios-native-validation-checkpoint",
-  "manual_device_checks_policy": "User explicitly allows skipping new physical-device checks and recording them incomplete while other work proceeds.",
-  "reviews": {
-    "pipeline": "approved; build-output writes are not atomic across I/O failures",
-    "native": "approved after numeric-bound and cache-identity fixes"
-  },
-  "source_version": "0.2.5",
-  "source_build": 7,
-  "dependency_PR": "https://github.com/pero3dev/ai-agent-library/pull/240",
-  "CI_prerequisite": "PR240 latest head passed 10 ordinary checks; trusted-base harness-policy still fails on main markdown-it high. Limited recovery decision requested; no bypass performed.",
-  "next_operations": [
-    "Await explicit human decision on limited PR240 recovery; do not infer approval from silence.",
-    "After permitted recovery, confirm restored protection and merged SHA/main CI.",
-    "Synchronize each dependent branch with current main by ordinary merges, revalidate final metadata/head and all required checks, and merge PR241 through PR246 in order. Then integrate the documentation checkpoint PR with the same final-head checks.",
-    "Resume remaining TODO after the integration checkpoint; physical checks remain unconfirmed."
-  ],
-  "separate_uncommitted_content": {
-    "PR": 240,
-    "head": "57c96d24c8682aab20485a004a4dd20d3abcf520",
-    "files": 9,
-    "working_file_bytes_match_published_head": true,
-    "excluded_from_native_PRs": true
-  },
-  "main_snapshot": {
-    "head": "405e29273a7a3257adeb370c6ac3196d35693d4d",
-    "protected": true,
-    "required_checks": 11
-  },
-  "checkpoint_record_review": "approved"
+  "historical_checkpoint_scope": "Preserved earlier preparation and PR-open snapshots; superseded by checkpoints/main_integrations at the current main snapshot."
 }

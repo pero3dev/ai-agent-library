@@ -16,5 +16,6 @@
     "physical_acceptance": "not-run-user-allows-skip"
   },
   "legacy_comparison_tools_retained": true,
-  "main_integration": "pending-prerequisite-recovery"
+  "historical_main_integration": "pending-prerequisite-recovery-at-original-audit-snapshot",
+  "main_integration": "runtime-condition-present-in-main81b5da90-after-ordinary-PR241-246-merges; audit-record-PR247-pending"
 }

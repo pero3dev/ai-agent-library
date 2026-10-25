@@ -1,5 +1,64 @@
 import XCTest
 
+/// Known hidden geometry is different from a viewport that cannot be resolved.
+/// Polling waits through unknown transitions; final checks must report unknown.
+private enum ReaderFrameVisibility: Equatable {
+    case visible, hidden, unknown(String)
+
+    var visibleForPolling: Bool { self == .visible }
+
+    func checkedVisible(onUnknown: (String) -> Void) -> Bool {
+        if case .unknown(let reason) = self { onUnknown(reason) }
+        return self == .visible
+    }
+}
+
+private struct ReaderNavigationBarFrame {
+    let frame: CGRect
+    let hasEnabledHittableControl: Bool
+}
+
+private enum ReaderViewportGeometry {
+    static func finiteNonempty(_ frame: CGRect) -> Bool {
+        !frame.isNull && !frame.isInfinite && !frame.isEmpty &&
+        [frame.origin.x, frame.origin.y, frame.size.width, frame.size.height].allSatisfy(\.isFinite)
+    }
+
+    static func visibility(target: CGRect?, app: CGRect, container: CGRect?,
+                           bars: [ReaderNavigationBarFrame], fullyVisible: Bool) -> ReaderFrameVisibility {
+        guard finiteNonempty(app) else { return .unknown("Invalid application frame") }
+        var viewport = app
+        if let container {
+            guard finiteNonempty(container) else { return .unknown("Invalid container frame") }
+            viewport = app.intersection(container)
+            guard finiteNonempty(viewport) else { return .unknown("Container has no screen viewport") }
+            let foreground = bars.filter {
+                finiteNonempty($0.frame) && app.contains($0.frame) && $0.hasEnabledHittableControl
+            }
+            guard foreground.count == 1 else {
+                return .unknown("Expected one foreground navigation bar, found \(foreground.count)")
+            }
+            let barFrame = foreground[0].frame.intersection(viewport)
+            if !barFrame.isNull, !barFrame.isEmpty {
+                let top = max(viewport.minY, barFrame.maxY)
+                viewport = CGRect(x: viewport.minX, y: top, width: viewport.width,
+                                  height: max(0, viewport.maxY - top))
+            }
+            guard finiteNonempty(viewport) else { return .unknown("Navigation bar covers the viewport") }
+        }
+        // Resolve the viewport first: an absent target must not hide ambiguity
+        // when this function is used by a direct negative assertion.
+        guard let target else { return .hidden }
+        guard !target.isNull, !target.isInfinite,
+              [target.origin.x, target.origin.y, target.size.width, target.size.height].allSatisfy(\.isFinite)
+        else { return .unknown("Invalid target frame") }
+        guard !target.isEmpty else { return .hidden }
+        let visible = target.intersection(viewport)
+        guard !visible.isNull, !visible.isEmpty else { return .hidden }
+        return (!fullyVisible || viewport.contains(target)) ? .visible : .hidden
+    }
+}
+
 /// Shared public-UI actions for both the three-article baseline and the full catalog.
 /// Waits and gesture limits synchronize tests; they are not performance targets.
 class NativeReaderUITestCase: XCTestCase {
@@ -17,35 +76,50 @@ class NativeReaderUITestCase: XCTestCase {
         app.descendants(matching: .any).matching(identifier: identifier).firstMatch
     }
 
-    func hasVisibleFrame(_ element: XCUIElement, inside container: XCUIElement? = nil,
-                         fullyVisible: Bool = false) -> Bool {
-        guard element.exists else { return false }
-        if let container, !container.exists { return false }
-        let frame = element.frame
-        var viewport = app.frame.intersection(container?.frame ?? app.frame)
-        if container != nil {
-            // A reader can extend beneath the navigation bar. Its geometric
-            // screen intersection alone does not make a heading readable.
-            for bar in app.navigationBars.allElementsBoundByIndex where bar.exists {
-                let barFrame = bar.frame.intersection(viewport)
-                if !barFrame.isNull, !barFrame.isEmpty {
-                    let top = max(viewport.minY, barFrame.maxY)
-                    viewport = CGRect(x: viewport.minX, y: top, width: viewport.width,
-                                      height: max(0, viewport.maxY - top))
-                }
+    private func frameVisibility(_ element: XCUIElement, inside container: XCUIElement?,
+                                 fullyVisible: Bool) -> ReaderFrameVisibility {
+        let appFrame = app.frame
+        if let container, !container.exists { return .unknown("Container is not present") }
+        let bars: [ReaderNavigationBarFrame] = container == nil ? [] :
+            app.navigationBars.allElementsBoundByIndex.filter { $0.exists }.map { bar in
+                let barFrame = bar.frame
+                let usableControl: Bool
+                if ReaderViewportGeometry.finiteNonempty(barFrame), appFrame.contains(barFrame) {
+                    // Background bars can remain in the AX tree. A descendant
+                    // control, rather than the bar's own isHittable, witnesses
+                    // which navigation context currently accepts interaction.
+                    usableControl = bar.buttons.allElementsBoundByIndex.contains { control in
+                        guard control.exists, control.isEnabled else { return false }
+                        let controlFrame = control.frame
+                        guard ReaderViewportGeometry.finiteNonempty(controlFrame),
+                              appFrame.contains(controlFrame), barFrame.intersects(controlFrame) else { return false }
+                        return control.isHittable
+                    }
+                } else { usableControl = false }
+                return ReaderNavigationBarFrame(frame: barFrame, hasEnabledHittableControl: usableControl)
             }
+        return ReaderViewportGeometry.visibility(target: element.exists ? element.frame : nil,
+            app: appFrame, container: container?.frame, bars: bars, fullyVisible: fullyVisible)
+    }
+
+    /// A direct check, including a negative assertion, must fail on unknown.
+    func hasVisibleFrame(_ element: XCUIElement, inside container: XCUIElement? = nil,
+                         fullyVisible: Bool = false, file: StaticString = #filePath, line: UInt = #line) -> Bool {
+        frameVisibility(element, inside: container, fullyVisible: fullyVisible).checkedVisible { reason in
+            XCTFail("Cannot determine the public UI viewport: " + reason, file: file, line: line)
         }
-        guard !frame.isNull, !frame.isInfinite, !frame.isEmpty,
-              !viewport.isNull, !viewport.isEmpty else { return false }
-        let visible = frame.intersection(viewport)
-        guard !visible.isNull, !visible.isEmpty else { return false }
-        return !fullyVisible || viewport.contains(frame)
+    }
+
+    /// Nonasserting positive poll: unknown transitions remain unsatisfied.
+    func hasVisibleFrameForPolling(_ element: XCUIElement, inside container: XCUIElement? = nil,
+                                  fullyVisible: Bool = false) -> Bool {
+        frameVisibility(element, inside: container, fullyVisible: fullyVisible).visibleForPolling
     }
 
     func isHittableOnScreen(_ element: XCUIElement, inside container: XCUIElement? = nil,
                             fullyVisible: Bool = false) -> Bool {
         // XCTest can raise an activation-point error when asked about an offscreen cell.
-        guard hasVisibleFrame(element, inside: container, fullyVisible: fullyVisible) else { return false }
+        guard hasVisibleFrameForPolling(element, inside: container, fullyVisible: fullyVisible) else { return false }
         return element.isHittable
     }
 

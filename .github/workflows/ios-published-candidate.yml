@@ -1,0 +1,172 @@
+name: iOS published app candidate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - '.github/workflows/ios-published-candidate.yml'
+      - '.github/workflows/ios-native.yml'
+      - 'ios/**'
+      - 'docs/**'
+      - 'LICENSE'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'scripts/build-ios-native-content.mjs'
+      - 'scripts/lib/ios-*.mjs'
+      - 'scripts/lib/md-utils.mjs'
+      - 'tests/unit/ios-*.test.mjs'
+      - 'website/audio/catalog.json'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-published-candidate-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  ios-published-candidate:
+    name: iOS published app candidate
+    runs-on: macos-15
+    timeout-minutes: 40
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            ios/tools/package-lock.json
+      - name: Audit content tooling before installation
+        run: npm audit --package-lock-only --audit-level=high
+      - name: Install content tooling without lifecycle scripts
+        run: npm ci --ignore-scripts
+      - name: Audit native asset tooling before installation
+        run: npm audit --package-lock-only --audit-level=high
+        working-directory: ios/tools
+      - name: Install native asset tooling without lifecycle scripts
+        run: npm ci --ignore-scripts
+        working-directory: ios/tools
+      - name: Install the lockfile-matched Chromium
+        run: ./node_modules/.bin/playwright install chromium
+        working-directory: ios/tools
+      - name: Record toolchain and candidate scope
+        run: |
+          set -euo pipefail
+          mkdir -p .local/ios-published-candidate/evidence
+          {
+            xcodebuild -version
+            node --version
+            npm --version
+            echo 'Simulator: iPhone 16 / iOS 18.5'
+            echo 'Scope: all published articles in the app, all AILibraryTests and AILibraryUITests, and Release package integrity.'
+            echo 'This candidate does not change the default bundle or complete physical-device, VoiceOver or performance acceptance.'
+          } | tee .local/ios-published-candidate/evidence/environment.log
+      - name: Count tracked published source articles independently
+        run: |
+          set -euo pipefail
+          expected_articles="$(node --input-type=module <<'NODE'
+          import { execFileSync } from 'node:child_process';
+          import { readFileSync, writeFileSync } from 'node:fs';
+          import { parseFrontMatter, parseScalar, toLines } from './scripts/lib/md-utils.mjs';
+          const files = execFileSync('git', ['ls-files', '-z', 'docs'], { encoding: 'utf8' })
+            .split('\0').filter(file => /^docs\/\d{2}-[a-z0-9-]+\/[a-z0-9-]+\.md$/.test(file));
+          const articles = files.filter(file => {
+            const fields = parseFrontMatter(toLines(readFileSync(file, 'utf8')))?.fields ?? [];
+            const statuses = fields.filter(field => field.key === 'status');
+            if (statuses.length !== 1) throw new Error(`Expected one source status: ${file}`);
+            return parseScalar(statuses[0].value) === 'published';
+          }).sort();
+          if (!articles.length || articles.length > 2000) throw new Error('Invalid tracked published article count');
+          writeFileSync('.local/ios-published-candidate/evidence/published-sources.json',
+            JSON.stringify({ articles: articles.length, source_paths: articles }, null, 2) + '\n');
+          console.log(articles.length);
+          NODE
+          )"
+          [[ "$expected_articles" =~ ^[1-9][0-9]*$ ]]
+          printf 'PUBLISHED_ARTICLE_COUNT=%s\n' "$expected_articles" >> "$GITHUB_ENV"
+      # Render the full corpus once into the standard app resource directory.
+      # The root ios:prepare command remains the representative three-article profile.
+      - name: Generate and audit the published app and fixture packages
+        run: |
+          set -euo pipefail
+          node scripts/build-ios-native-content.mjs --published-library \
+            2>&1 | tee .local/ios-published-candidate/evidence/published-generation.log
+          node scripts/build-ios-native-content.mjs --fixtures \
+            2>&1 | tee .local/ios-published-candidate/evidence/fixture-generation.log
+          node ios/tests/native-content-audit.mjs --published-library \
+            2>&1 | tee .local/ios-published-candidate/evidence/published-source-audit.json
+          node ios/tests/native-content-audit.mjs --fixtures \
+            2>&1 | tee .local/ios-published-candidate/evidence/fixture-source-audit.json
+          bash ios/tests/check-package.sh ios/AILibrary/Content "$PUBLISHED_ARTICLE_COUNT" \
+            2>&1 | tee .local/ios-published-candidate/evidence/published-package.json
+          bash ios/tests/check-package.sh ios/AILibrary/TestContent 4 \
+            2>&1 | tee .local/ios-published-candidate/evidence/fixture-package.json
+      # Synthetic unit fixtures remain independent of the real bundled article count.
+      # CoreSmoke's no-flag profile is fixed to three articles and is not used here.
+      - name: Run all native XCTest units on the iPhone Simulator
+        run: |
+          set -euo pipefail
+          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
+            -configuration Debug \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.5' \
+            -destination-timeout 120 \
+            -derivedDataPath .local/ios-published-candidate/DebugDerivedData \
+            -resultBundlePath .local/ios-published-candidate/evidence/unit.xcresult \
+            -parallel-testing-enabled NO -jobs 2 \
+            -only-testing:AILibraryTests CODE_SIGNING_ALLOWED=NO test \
+            2>&1 | tee .local/ios-published-candidate/evidence/xctest.log
+      - name: Audit the actual Debug app resources
+        run: |
+          set -euo pipefail
+          debug_app='.local/ios-published-candidate/DebugDerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app'
+          cmp ios/AILibrary/Content/manifest.json "$debug_app/Content/manifest.json"
+          bash ios/tests/check-package.sh "$debug_app/Content" "$PUBLISHED_ARTICLE_COUNT" \
+            2>&1 | tee .local/ios-published-candidate/evidence/debug-app-package.json
+          cmp ios/AILibrary/TestContent/manifest.json "$debug_app/TestContent/manifest.json"
+          bash ios/tests/check-package.sh "$debug_app/TestContent" 4 \
+            2>&1 | tee .local/ios-published-candidate/evidence/debug-fixture-package.json
+      # Includes the existing two reader tests and PublishedReaderUITests.
+      - name: Run all native UI tests against the published app
+        env:
+          TEST_RUNNER_AILIBRARY_EXPECTED_PUBLISHED_COUNT: ${{ env.PUBLISHED_ARTICLE_COUNT }}
+        run: |
+          set -euo pipefail
+          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
+            -configuration Debug \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.5' \
+            -destination-timeout 120 \
+            -derivedDataPath .local/ios-published-candidate/DebugDerivedData \
+            -resultBundlePath .local/ios-published-candidate/evidence/ui.xcresult \
+            -parallel-testing-enabled NO -jobs 2 \
+            -only-testing:AILibraryUITests CODE_SIGNING_ALLOWED=NO test \
+            2>&1 | tee .local/ios-published-candidate/evidence/xctest-ui.log
+      - name: Build and verify the published Release package
+        run: |
+          set -euo pipefail
+          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
+            -configuration Release -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath .local/ios-published-candidate/ReleaseDerivedData -jobs 2 \
+            CODE_SIGNING_ALLOWED=NO build \
+            2>&1 | tee .local/ios-published-candidate/evidence/release-build.log
+          node ios/tests/check-release-package.mjs \
+            .local/ios-published-candidate/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
+            2>&1 | tee .local/ios-published-candidate/evidence/release-package.json
+      - name: Retain test results and compact candidate evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ios-published-candidate-evidence-${{ github.run_id }}
+          path: .local/ios-published-candidate/evidence
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 90

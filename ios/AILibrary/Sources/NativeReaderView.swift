@@ -19,6 +19,105 @@ private enum NativeReaderScrollTarget: Hashable {
     case block(String)
 }
 
+enum NativeReaderScrollBounds {
+    static func offset(targetMinY: CGFloat, topInset: CGFloat, bottomInset: CGFloat,
+                       contentHeight: CGFloat, viewportHeight: CGFloat) -> CGFloat? {
+        guard [targetMinY, topInset, bottomInset, contentHeight, viewportHeight].allSatisfy(\.isFinite),
+              topInset >= 0, bottomInset >= 0, contentHeight >= 0, viewportHeight > 0 else { return nil }
+        let minimum = -topInset
+        let maximum = max(minimum, contentHeight - viewportHeight + bottomInset)
+        return min(maximum, max(minimum, targetMinY - topInset))
+    }
+
+    static func readingBlockID(frames: [String: CGFloat], viewportHeight: CGFloat, topInset: CGFloat) -> String? {
+        guard viewportHeight.isFinite, viewportHeight > 0, topInset.isFinite, topInset >= 0 else { return nil }
+        let visible = frames.filter { $0.value.isFinite && $0.value < viewportHeight }
+        let above = visible.filter { $0.value <= topInset + 24 }.max { $0.value < $1.value }
+        return (above ?? visible.min { $0.value < $1.value })?.key
+    }
+}
+
+enum NativeReaderScrollPlacement: Equatable {
+    case aligned, waitingForLayout, unavailable
+}
+
+/// Root registration lives outside all horizontal figures/tables and text views.
+/// Target views are weak and are converted into that same vertical content space.
+final class NativeReaderScrollAnchors {
+    private final class WeakMarker {
+        weak var view: UIView?
+        init(_ view: UIView) { self.view = view }
+    }
+    private weak var rootMarker: UIView?
+    private var targets: [String: WeakMarker] = [:]
+
+    func registerRoot(_ view: UIView) { rootMarker = view }
+    func registerTarget(_ view: UIView, id: String) {
+        if targets[id]?.view !== view { targets[id] = WeakMarker(view) }
+    }
+
+    @MainActor private func rootScrollView() -> UIScrollView? {
+        var ancestor = rootMarker?.superview
+        while ancestor != nil, !(ancestor is UIScrollView) { ancestor = ancestor?.superview }
+        return ancestor as? UIScrollView
+    }
+
+    @MainActor func readingBlockID(in blockIDs: [String]) -> String? {
+        guard let window = rootMarker?.window, let scroll = rootScrollView(),
+              scroll.window === window, !(scroll is UITextView), scroll.isScrollEnabled,
+              scroll.contentOffset.y.isFinite else { return nil }
+        let frames = blockIDs.reduce(into: [String: CGFloat]()) { result, id in
+            guard let target = targets[id]?.view, target.window === window,
+                  target.isDescendant(of: scroll) else { return }
+            result[id] = target.convert(target.bounds, to: scroll).minY - scroll.contentOffset.y
+        }
+        // Alignment and tracking share UIKit's content space. SwiftUI's named
+        // scroll coordinates can already exclude the inset, so adding it there
+        // would save a later paragraph/list immediately after a heading jump.
+        return NativeReaderScrollBounds.readingBlockID(frames: frames, viewportHeight: scroll.bounds.height,
+                                                       topInset: scroll.adjustedContentInset.top)
+    }
+
+    @MainActor func placeTarget(_ id: String) -> NativeReaderScrollPlacement {
+        guard let root = rootMarker, let target = targets[id]?.view,
+              let scroll = rootScrollView() else { return .waitingForLayout }
+        scroll.layoutIfNeeded()
+        guard root.window != nil, target.window != nil else { return .waitingForLayout }
+        guard !(scroll is UITextView), scroll.isScrollEnabled,
+              !scroll.isTracking, !scroll.isDragging, !scroll.isDecelerating,
+              target.window === root.window, target.isDescendant(of: scroll) else { return .unavailable }
+        guard scroll.bounds.width.isFinite, scroll.bounds.width > 0,
+              scroll.bounds.height.isFinite, scroll.bounds.height > 0,
+              scroll.contentSize.height.isFinite, scroll.contentSize.height > 0 else { return .waitingForLayout }
+        let targetY = target.convert(target.bounds, to: scroll).minY
+        let insets = scroll.adjustedContentInset
+        guard let offset = NativeReaderScrollBounds.offset(targetMinY: targetY,
+            topInset: insets.top, bottomInset: insets.bottom,
+            contentHeight: scroll.contentSize.height, viewportHeight: scroll.bounds.height) else { return .unavailable }
+        scroll.setContentOffset(CGPoint(x: scroll.contentOffset.x, y: offset), animated: false)
+        return .aligned
+    }
+}
+
+private struct NativeReaderScrollMarker: UIViewRepresentable {
+    let anchors: NativeReaderScrollAnchors
+    var blockID: String? = nil
+
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView(frame: .zero)
+        view.isUserInteractionEnabled = false
+        view.isAccessibilityElement = false
+        register(view)
+        return view
+    }
+
+    func updateUIView(_ view: UIView, context: Context) { register(view) }
+    private func register(_ view: UIView) {
+        if let blockID { anchors.registerTarget(view, id: blockID) }
+        else { anchors.registerRoot(view) }
+    }
+}
+
 struct NativeReaderNavigationDestination {
     let heading: String?
     /// The top-level container used by the existing reading-position format.
@@ -94,6 +193,7 @@ struct NativeReaderView: View {
     @State private var navigationTask: Task<Void, Never>?
     @State private var restoreGeneration = UUID()
     @State private var navigationState = NativeReaderNavigationState()
+    @State private var scrollAnchors = NativeReaderScrollAnchors()
     @AccessibilityFocusState(for: .voiceOver) private var focusedBlockID: String?
 
     var body: some View {
@@ -105,7 +205,7 @@ struct NativeReaderView: View {
                             NativeBlockView(block: block, snapshot: snapshot,
                                             fontScale: min(4, max(0.8, bodySize / 17)),
                                             availableWidth: max(1, viewport.size.width - 36),
-                                            focusedBlock: $focusedBlockID)
+                                            focusedBlock: $focusedBlockID, scrollAnchors: scrollAnchors)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .id(NativeReaderScrollTarget.container(block.id))
                                 .background {
@@ -115,6 +215,9 @@ struct NativeReaderView: View {
                                     }
                                 }
                         }
+                    }
+                    .background(alignment: .top) {
+                        NativeReaderScrollMarker(anchors: scrollAnchors).frame(height: 0)
                     }
                     .padding(.horizontal, 18)
                     .padding(.top, 20)
@@ -127,7 +230,7 @@ struct NativeReaderView: View {
                     if let requestedHeading { jump(to: requestedHeading, using: proxy) }
                 }
                 .onPreferenceChange(NativeBlockFrames.self) { frames in
-                    receive(frames, viewportHeight: viewport.size.height)
+                    receive(frames)
                 }
                 .environment(\.openURL, OpenURLAction { open($0, using: proxy) })
                 .onChange(of: scenePhase) { _, phase in
@@ -162,15 +265,13 @@ struct NativeReaderView: View {
         }
         try? await Task.sleep(for: .milliseconds(250))
         guard !Task.isCancelled, restoreGeneration == generation else { return }
-        if let leaf = destination.scrollBlockID {
-            proxy.scrollTo(NativeReaderScrollTarget.block(leaf), anchor: .top)
-        }
         navigationState.consume(headingRequestID: headingRequestID)
         try? await Task.sleep(for: .milliseconds(200))
         guard !Task.isCancelled, restoreGeneration == generation else { return }
         if let leaf = destination.scrollBlockID {
-            proxy.scrollTo(NativeReaderScrollTarget.block(leaf), anchor: .top)
+            await finishPlacement(of: leaf, generation: generation)
         }
+        guard !Task.isCancelled, restoreGeneration == generation else { return }
         currentBlockID = target
         restoring = false
         trackingReady = true
@@ -188,7 +289,8 @@ struct NativeReaderView: View {
     private func move(to blockID: String, targetBlockID: String? = nil, using proxy: ScrollViewProxy) {
         guard let progress = progress(for: blockID) else { return }
         let leaf = targetBlockID ?? blockID
-        restoreGeneration = UUID()
+        let generation = UUID()
+        restoreGeneration = generation
         navigationTask?.cancel()
         saveTask?.cancel()
         // A deliberate jump is already a new reading position. Retain it before
@@ -203,8 +305,9 @@ struct NativeReaderView: View {
         }
         navigationTask = Task { @MainActor in
             try? await Task.sleep(for: .milliseconds(350))
-            guard !Task.isCancelled else { return }
-            proxy.scrollTo(NativeReaderScrollTarget.block(leaf), anchor: .top)
+            guard !Task.isCancelled, restoreGeneration == generation else { return }
+            await finishPlacement(of: leaf, generation: generation)
+            guard !Task.isCancelled, restoreGeneration == generation else { return }
             currentBlockID = blockID
             restoring = false
             trackingReady = true
@@ -213,14 +316,23 @@ struct NativeReaderView: View {
         }
     }
 
-    private func receive(_ frames: [String: CGFloat], viewportHeight: CGFloat) {
+    @MainActor private func finishPlacement(of blockID: String, generation: UUID) async {
+        // Materialization uses ScrollViewReader; final alignment uses UIKit's actual
+        // adjusted inset after sheet dismissal/layout, without global-coordinate math.
+        for _ in 0..<3 {
+            guard !Task.isCancelled, restoreGeneration == generation else { return }
+            switch scrollAnchors.placeTarget(blockID) {
+            case .aligned, .unavailable: return
+            case .waitingForLayout: try? await Task.sleep(for: .milliseconds(100))
+            }
+        }
+    }
+
+    private func receive(_ frames: [String: CGFloat]) {
         guard trackingReady, !restoring else { return }
-        let visible = frames.filter { $0.value < viewportHeight }
-        let above = visible.filter { $0.value <= 24 }.max { $0.value < $1.value }
-        let next = above ?? visible.min { $0.value < $1.value }
-        guard let next, currentBlockID != next.key else { return }
-        currentBlockID = next.key
-        enqueueProgress(for: next.key)
+        guard let next = scrollAnchors.readingBlockID(in: Array(frames.keys)), currentBlockID != next else { return }
+        currentBlockID = next
+        enqueueProgress(for: next)
     }
 
     private func enqueueProgress(for blockID: String) {
@@ -278,8 +390,15 @@ private struct NativeBlockView: View {
     let fontScale: CGFloat
     let availableWidth: CGFloat
     let focusedBlock: AccessibilityFocusState<String?>.Binding
+    let scrollAnchors: NativeReaderScrollAnchors
 
-    var body: some View { rendered.id(NativeReaderScrollTarget.block(block.id)) }
+    var body: some View {
+        rendered
+            .background(alignment: .top) {
+                NativeReaderScrollMarker(anchors: scrollAnchors, blockID: block.id).frame(height: 0)
+            }
+            .id(NativeReaderScrollTarget.block(block.id))
+    }
 
     private var rendered: AnyView {
         switch block.type {
@@ -311,7 +430,7 @@ private struct NativeBlockView: View {
                             ForEach(item.blocks) { child in
                                 NativeBlockView(block: child, snapshot: snapshot, fontScale: fontScale,
                                                 availableWidth: max(1, availableWidth - markerWidth - 10),
-                                                focusedBlock: focusedBlock)
+                                                focusedBlock: focusedBlock, scrollAnchors: scrollAnchors)
                             }
                         }
                     }
@@ -327,7 +446,7 @@ private struct NativeBlockView: View {
                     ForEach(block.blocks ?? []) { child in
                         NativeBlockView(block: child, snapshot: snapshot, fontScale: fontScale,
                                         availableWidth: max(1, availableWidth - 15),
-                                        focusedBlock: focusedBlock)
+                                        focusedBlock: focusedBlock, scrollAnchors: scrollAnchors)
                     }
                 }.foregroundStyle(.secondary)
             }.fixedSize(horizontal: false, vertical: true)
@@ -462,6 +581,7 @@ private struct NativeTableView: View {
         .accessibilityElement(children: .contain)
         .accessibilityLabel("見出し行とデータ\(table.rows.count)行、\(table.header.count)列の表")
         .accessibilityHint("横にスクロールするとすべての列を読めます")
+        .accessibilityIdentifier("native-table-\(blockID)")
     }
 
     @ViewBuilder private func cell(_ inlines: [NativeInline], column: Int, row: Int?, width: CGFloat) -> some View {
@@ -475,6 +595,7 @@ private struct NativeTableView: View {
             .background(row == nil ? Color.secondary.opacity(0.14) : Color.secondary.opacity(0.03))
             .overlay(Rectangle().stroke(Color.secondary.opacity(0.25), lineWidth: 0.5))
             .accessibilityCustomContent("表の位置", Text(cellPosition(column: column, row: row)), importance: .high)
+            .accessibilityIdentifier("native-table-cell-\(blockID)-\(row ?? 0)-\(column + 1)")
         if row == nil, column == 0 {
             content.accessibilityFocused(focusedBlock, equals: blockID)
         } else {
@@ -565,6 +686,7 @@ private struct NativeFigureView: View {
                     .textSelection(.enabled)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.vertical, 8)
+                    .accessibilityIdentifier("native-figure-source-text-\(blockID)")
             }
             .font(.callout)
         }
@@ -594,6 +716,7 @@ private struct NativeImageDetail: View {
                     .padding(20)
                     .accessibilityLabel(description)
             }
+            .accessibilityIdentifier("native-image-detail")
             .simultaneousGesture(MagnificationGesture()
                 .onChanged { zoom = min(4, max(1, lastZoom * $0)) }
                 .onEnded { _ in lastZoom = zoom })

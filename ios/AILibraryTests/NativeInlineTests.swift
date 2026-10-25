@@ -4,11 +4,156 @@ import UIKit
 import XCTest
 @testable import AILibrary
 
-/// Native attributed runs only: no web view, browser, network, user records or
+/// Native text and scroll geometry: no web view, browser, network, user records or
 /// system pasteboard. Physical link activation and VoiceOver remain device QA.
 @MainActor
 final class NativeInlineTests: XCTestCase {
     private let target = NativeLink(kind: "article", article_id: "test-fixtures/native-reader", heading_id: "case-end-01")
+
+    func testReaderScrollBoundsUseAdjustedInsetsAndClampEnds() {
+        for (top, expected) in [(CGFloat(0), CGFloat(1600)), (103, 1497), (140, 1460)] {
+            XCTAssertEqual(NativeReaderScrollBounds.offset(targetMinY: 1600, topInset: top, bottomInset: 34,
+                contentHeight: 4000, viewportHeight: 852), expected)
+        }
+        XCTAssertEqual(NativeReaderScrollBounds.offset(targetMinY: 3950, topInset: 103, bottomInset: 34,
+            contentHeight: 4000, viewportHeight: 852), 3182)
+        XCTAssertEqual(NativeReaderScrollBounds.offset(targetMinY: 0, topInset: 103, bottomInset: 34,
+            contentHeight: 4000, viewportHeight: 852), -103)
+        XCTAssertEqual(NativeReaderScrollBounds.offset(targetMinY: 160, topInset: 103, bottomInset: 34,
+            contentHeight: 200, viewportHeight: 852), -103)
+        XCTAssertEqual(NativeReaderScrollBounds.offset(targetMinY: -30, topInset: 103, bottomInset: 34,
+            contentHeight: 4000, viewportHeight: 852), -103)
+    }
+
+    func testReaderScrollBoundsRejectInvalidGeometry() {
+        for index in 0..<5 {
+            for invalid in [CGFloat.nan, .infinity, -.infinity] {
+                var values: [CGFloat] = [1600, 103, 34, 4000, 852]
+                values[index] = invalid
+                XCTAssertNil(NativeReaderScrollBounds.offset(targetMinY: values[0], topInset: values[1],
+                    bottomInset: values[2], contentHeight: values[3], viewportHeight: values[4]))
+            }
+        }
+        let invalidSizes: [[CGFloat]] = [[1600, -1, 34, 4000, 852], [1600, 103, -1, 4000, 852],
+                                        [1600, 103, 34, -1, 852], [1600, 103, 34, 4000, 0]]
+        for values in invalidSizes {
+            XCTAssertNil(NativeReaderScrollBounds.offset(targetMinY: values[0], topInset: values[1],
+                bottomInset: values[2], contentHeight: values[3], viewportHeight: values[4]))
+        }
+    }
+
+    func testReaderProgressChoosesBlockAtTheVisibleInset() {
+        let frames: [String: CGFloat] = ["previous": -900, "selected": 103, "next": 145]
+        XCTAssertEqual(NativeReaderScrollBounds.readingBlockID(frames: frames, viewportHeight: 852, topInset: 103), "selected")
+        XCTAssertEqual(NativeReaderScrollBounds.readingBlockID(frames: frames, viewportHeight: 852, topInset: 0), "previous")
+        XCTAssertEqual(NativeReaderScrollBounds.readingBlockID(frames: ["previous": -500, "selected": 140, "next": 200],
+            viewportHeight: 852, topInset: 140), "selected")
+        XCTAssertEqual(NativeReaderScrollBounds.readingBlockID(frames: ["selected": 0, "next": 80],
+            viewportHeight: 852, topInset: 0), "selected")
+        XCTAssertNil(NativeReaderScrollBounds.readingBlockID(frames: [:], viewportHeight: 852, topInset: 103))
+        XCTAssertNil(NativeReaderScrollBounds.readingBlockID(frames: ["invalid": .nan], viewportHeight: 852, topInset: 103))
+        XCTAssertNil(NativeReaderScrollBounds.readingBlockID(frames: frames, viewportHeight: 0, topInset: 103))
+    }
+
+    private func readerScrollFixture(_ run: (UIScrollView, UIView, NativeReaderScrollAnchors) throws -> Void) rethrows {
+        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 393, height: 852))
+        let scroll = UIScrollView(frame: window.bounds)
+        scroll.contentInsetAdjustmentBehavior = .never
+        scroll.contentInset = UIEdgeInsets(top: 103, left: 0, bottom: 34, right: 0)
+        scroll.contentSize = CGSize(width: 393, height: 4000)
+        window.addSubview(scroll)
+        let content = UIView(frame: CGRect(x: 0, y: 0, width: 393, height: 4000))
+        scroll.addSubview(content)
+        let root = UIView(frame: .zero)
+        content.addSubview(root)
+        let anchors = NativeReaderScrollAnchors()
+        anchors.registerRoot(root)
+        try withExtendedLifetime(window) { try run(scroll, content, anchors) }
+    }
+
+    func testReaderScrollMarkersConvertNestedTargetsWithoutDoubleCountingOffset() {
+        readerScrollFixture { scroll, content, anchors in
+            let group = UIView(frame: CGRect(x: 0, y: 1200, width: 393, height: 1000))
+            content.addSubview(group)
+            let marker = UIView(frame: CGRect(x: 0, y: 400, width: 1, height: 0))
+            group.addSubview(marker)
+            anchors.registerTarget(marker, id: "nested")
+            for offset in [CGFloat(20), CGFloat(800)] {
+                scroll.contentOffset = CGPoint(x: 0, y: offset)
+                XCTAssertEqual(marker.convert(marker.bounds, to: scroll).minY, 1600)
+                XCTAssertEqual(anchors.placeTarget("nested"), .aligned)
+                XCTAssertEqual(scroll.contentOffset.y, 1497)
+            }
+            scroll.contentInset.top = 140
+            XCTAssertEqual(anchors.placeTarget("nested"), .aligned)
+            XCTAssertEqual(scroll.contentOffset.y, 1460)
+        }
+    }
+
+    func testReaderProgressUsesTheAlignedRootCoordinatesOnce() {
+        readerScrollFixture { scroll, content, anchors in
+            // Named SwiftUI frames may start below the navigation inset. The
+            // actual markers must keep the selected heading, not the next list.
+            for (id, y) in [("previous", CGFloat(1300)), ("selected", 1600), ("paragraph", 1644), ("list", 1710)] {
+                let marker = UIView(frame: CGRect(x: 0, y: y, width: 1, height: 0))
+                content.addSubview(marker)
+                anchors.registerTarget(marker, id: id)
+            }
+            let ids = ["previous", "selected", "paragraph", "list"]
+            for top in [CGFloat(103), 140] {
+                scroll.contentInset.top = top
+                XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
+                XCTAssertEqual(anchors.readingBlockID(in: ids), "selected")
+            }
+            // Moving the whole scroll view must not alter local progress.
+            scroll.frame.origin.y = 59
+            XCTAssertEqual(anchors.readingBlockID(in: ids), "selected")
+            scroll.contentOffset.y = 1710 - scroll.adjustedContentInset.top
+            XCTAssertEqual(anchors.readingBlockID(in: ids), "list")
+            XCTAssertNil(anchors.readingBlockID(in: ["not-materialized"]))
+        }
+    }
+
+    func testReaderScrollMarkersKeepHorizontalAndDisabledTextViewOffsets() {
+        readerScrollFixture { scroll, content, anchors in
+            let horizontal = UIScrollView(frame: CGRect(x: 0, y: 1200, width: 300, height: 180))
+            horizontal.contentInsetAdjustmentBehavior = .never
+            horizontal.contentSize = CGSize(width: 2000, height: 180)
+            horizontal.contentOffset = CGPoint(x: 250, y: 0)
+            content.addSubview(horizontal)
+            let text = UITextView(frame: CGRect(x: 0, y: 100, width: 150, height: 40))
+            text.isScrollEnabled = false
+            text.contentInsetAdjustmentBehavior = .never
+            horizontal.addSubview(text)
+            let marker = UIView(frame: CGRect(x: 0, y: 8, width: 1, height: 0))
+            text.addSubview(marker)
+            anchors.registerTarget(marker, id: "inside-text")
+            XCTAssertEqual(anchors.placeTarget("inside-text"), .aligned)
+            XCTAssertEqual(scroll.contentOffset.y, 1205)
+            XCTAssertEqual(horizontal.contentOffset, CGPoint(x: 250, y: 0))
+            XCTAssertEqual(text.contentOffset, .zero)
+        }
+    }
+
+    func testReaderScrollMarkersRejectForeignViewsAndRetainOnlyWeakTargets() {
+        readerScrollFixture { scroll, content, anchors in
+            scroll.contentOffset = CGPoint(x: 0, y: 500)
+            let foreign = UIView(frame: CGRect(x: 0, y: 1600, width: 1, height: 0))
+            content.window?.addSubview(foreign)
+            anchors.registerTarget(foreign, id: "foreign")
+            XCTAssertEqual(anchors.placeTarget("foreign"), .unavailable)
+            XCTAssertEqual(scroll.contentOffset.y, 500)
+            weak var probe: UIView?
+            autoreleasepool {
+                let detached = UIView(frame: .zero)
+                probe = detached
+                anchors.registerTarget(detached, id: "released")
+            }
+            XCTAssertNil(probe)
+            XCTAssertEqual(anchors.placeTarget("released"), .waitingForLayout)
+            XCTAssertEqual(scroll.contentOffset.y, 500)
+        }
+    }
 
     private func fixture(_ run: (ContentSnapshot, NativeAsset) throws -> Void) throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent("native-inline-" + UUID().uuidString)

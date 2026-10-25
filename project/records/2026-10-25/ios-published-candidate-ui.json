@@ -1,0 +1,270 @@
+{
+  "schema_version": 1,
+  "task": "ios-published-candidate-ui",
+  "date": "2026-10-25",
+  "status": "second-Hosted-failed-progress-coordinate-fix-reviewed-awaiting-third-run",
+  "base_PR": 253,
+  "source_version": "0.2.8",
+  "build": 10,
+  "default_catalog_switch": false,
+  "app_root_injection": false,
+  "schema_storage_changes": false,
+  "existing_UI_methods": 2,
+  "new_UI_methods": 3,
+  "target_articles": 6,
+  "target_chapters": [
+    "01",
+    "03",
+    "08",
+    "11"
+  ],
+  "expected_count": {
+    "source": "tracked-published-frontmatter",
+    "hardcoded": false,
+    "runner_environment": "AILIBRARY_EXPECTED_PUBLISHED_COUNT",
+    "missing_invalid_or_three_fails": true,
+    "skip": false
+  },
+  "workflow": {
+    "name": "iOS published app candidate",
+    "platform": "macos-15",
+    "Xcode": "16.4",
+    "Simulator": "iPhone 16 / iOS18.5",
+    "timeout_minutes": 40,
+    "permissions": "contents-read",
+    "required_protection_changes": false,
+    "full_generation_count": 1
+  },
+  "gates": [
+    "independent-source-audit",
+    "app-ContentValidator-all-documents",
+    "all-unit",
+    "Debug-app-manifest-and-all-SHA",
+    "all-five-UI",
+    "Release-exact-source-SHA-and-no-TestContent"
+  ],
+  "preparation_validation": {
+    "SDK_compile": "passed-Xcode16.2-iPhoneSimulator18.2-UITests",
+    "Simulator_started": false,
+    "pbx_lint": "passed",
+    "YAML": 2,
+    "bash_steps": 23,
+    "harness_tests_passed": 76,
+    "check_harness": "passed",
+    "shared3_and_fixture4_manifest_unchanged": true,
+    "independent_review": "approved"
+  },
+  "initial_compile_attempt": "XCTest expectation argument label corrected; final compile passed",
+  "Hosted_candidate": {
+    "run": 40167723261,
+    "head": "09acf0dedd6ea304e7727bf9cf90ac14ed972d48",
+    "status": "failed",
+    "unit": {
+      "passed": 57,
+      "failed": 0
+    },
+    "UI": {
+      "passed": 2,
+      "failed": 3,
+      "skipped": 0
+    },
+    "Release": "not-run-after-UI-failure",
+    "full_bundle": {
+      "articles": 199,
+      "files_including_manifest": 625,
+      "PNG": 422,
+      "bytes": 39881869,
+      "revision": "0ee48eee2c8714cd63da3988b1de321b9f89b8de021ca10a5625b4bedd1155f1"
+    },
+    "Debug_manifest_SHA_and_all_documents": "passed"
+  },
+  "actionlint": "passed-on-PR-initial-Hosted",
+  "runtime_UI": "two-candidate-runs-failed; third-candidate-awaiting-Hosted",
+  "physical_VoiceOver_performance": "not-run",
+  "limits_are_performance_thresholds": false,
+  "initial_source_version": "0.2.7(9)",
+  "initial_normal_3_article_Hosted": {
+    "run": 40167723203,
+    "status": "passed",
+    "unit": 57,
+    "UI": 2,
+    "Release": "passed"
+  },
+  "placement_fix": {
+    "source_sha256": {
+      "ios/AILibrary/Sources/NativeReaderView.swift": "5330c16d3e691309c05c9b8ed44e964f7751251f9ffb08e9cbdb130d11d617ec",
+      "ios/AILibrary/Sources/ArticleReaderView.swift": "ea77983af31cd48621072cee58c917de509f5eaac31798be1e80cb8cca85731a",
+      "ios/AILibraryTests/NativeInlineTests.swift": "b8d32156a8ce0681907b9cdfac749aba65bba368efd7e48b17b66c4f9a739e32",
+      "ios/AILibraryUITests/NativeReaderUITests.swift": "ccc5effed2702b9f8bb57997380dd9d96dff458c3f5ddd0c0b8c765e3c82803c",
+      "ios/AILibraryUITests/PublishedReaderUITests.swift": "db4a16a4a3cf0b1e8f5984e2b38c39908f5327060d5aa8b8017b0d5859717045",
+      "ios/AILibrary.xcodeproj/project.pbxproj": "70936c7b7cc1aeeabb50d2f7a35545f1a2cae35f209ec72f49213b34c95b473f"
+    },
+    "causes": [
+      {
+        "case": "Transformer TOC",
+        "classification": "actual app placement bug",
+        "evidence": "baseline-attachments/99B0BC71-ABB0-4E64-B8A0-35CA2FB3A943.txt",
+        "target_frame": {
+          "x": 18,
+          "y": 13.3,
+          "width": 131,
+          "height": 24
+        },
+        "image": "published-candidate-first-ui/transformer-failure-last.png",
+        "finding": "Target heading exists but is occluded by status/navigation bars; unchanged hittable assertion remains"
+      },
+      {
+        "case": "return to library",
+        "classification": "test assumed a virtualized section header was always materialized",
+        "image": "published-candidate-first-ui/library-return-failure-last.png",
+        "finding": "Search results are displayed at retained scroll offset; now verify reader disappearance and search control before bounded header reveal"
+      },
+      {
+        "case": "table final column",
+        "classification": "XCTest activation-point exception before required horizontal gesture",
+        "evidence": "failure-attachments/D11B13F7-C4FE-4031-AB4A-0B695B444CB9.txt",
+        "last_left_frame": {
+          "x": 17.8,
+          "y": 449.7,
+          "width": 216.5,
+          "height": 44.8
+        },
+        "last_right_frame": {
+          "x": 1256.8,
+          "y": 449.7,
+          "width": 120.5,
+          "height": 44.8
+        },
+        "window_width": 393,
+        "finding": "Offscreen target exists; gate all hit tests on a visible frame, require full table-cell visibility and original hittability/text assertion"
+      }
+    ],
+    "implementation": {
+      "root_marker": "LazyVStack background outside horizontal views and disabled text views",
+      "target_markers": "weak UIView markers for top-level and nested blocks",
+      "placement": "Initial container ScrollViewReader materialization; final marker.convert(bounds,to:verticalScrollView) uses adjusted top inset and content/bounds clamp; no global coordinate or offset double-addition",
+      "request_safety": "same-window/descendant, finite layout, generation cancellation, no drag/deceleration placement; bounded layout retries",
+      "contents": "ArticleReaderView stores pending selection and emits the heading request only from sheet onDismiss",
+      "progress": "Existing block/heading/fraction fields unchanged; visible-top comparison uses the same adjusted inset so a corrected heading does not save the preceding block",
+      "UI_tests": "Frame gates avoid offscreen XCTest exceptions; final visible/hittable/content checks retained; no manual reader scroll to hide TOC failure",
+      "version": "0.2.8(10)"
+    },
+    "validation": {
+      "SDK_build_for_testing": {
+        "status": "passed",
+        "Xcode": "16.2",
+        "SDK": "iPhoneSimulator18.2",
+        "destination": "generic/platform=iOS Simulator",
+        "targets": "app, unit and UI",
+        "new_XCTest_methods": 6,
+        "registered_unit_methods": 63,
+        "UI_methods": 5,
+        "log": "published-reader-placement-final-sdk-build.log",
+        "Simulator_started": false,
+        "post_compile_change": "One explanatory test-class comment only; executable source unchanged"
+      },
+      "pure_bounds_progress": {
+        "status": "passed",
+        "cases": 3,
+        "scope": "Actual helper and three new XCTest method bodies extracted with Foundation precondition assertions on this Mac; not UIKit or iOS XCTest execution",
+        "log": "published-reader-scroll-bounds.log"
+      },
+      "UIKit_marker_cases": {
+        "new_methods": 3,
+        "status": "compiled-not-run"
+      },
+      "plist_lint": "passed",
+      "diff_check": "passed",
+      "shared_packages_unchanged": [
+        {
+          "path": "ios/AILibrary/Content/manifest.json",
+          "articles": 3,
+          "revision": "c10353c16891efda1997cd17a698220c09d9af37092fe3a2e7691fd05999b6f4",
+          "sha256": "6acf9de646962279de13ae090fa975e177600b0c11db3bdcebe145e5e31e6c92"
+        },
+        {
+          "path": "ios/AILibrary/TestContent/manifest.json",
+          "articles": 4,
+          "revision": "15df0e08aa2597ea012970f812a4eb7fe242ff626d4e6d0f17b62888b258e60a",
+          "sha256": "686c98ec742983cb5fa07c7561bf609691f072bf2781b53d37572a830426a517"
+        }
+      ]
+    },
+    "independent_review": "approved-six-frozen-source-files"
+  },
+  "remaining": [
+    "corrected-unit-UIKit-and-five-UI-Hosted-pass",
+    "corrected-Release-integrity",
+    "all-chapters-visual-and-accessibility-acceptance",
+    "new-physical-device-VoiceOver-performance",
+    "default199-adoption-and-saved-package-migration"
+  ],
+  "corrected_common_check": {
+    "total": 600,
+    "passed": 585,
+    "skipped": 15,
+    "failed": 0,
+    "environment": "Node24; TMPDIR=/private/tmp"
+  },
+  "initial_common_check_environment_failure": "Default macOS /var symlink temp root rejected by existing path-safety fixtures; repeated with documented canonical TMPDIR and no code changes.",
+  "second_Hosted_candidate": {
+    "run": 40171117318,
+    "head": "0dbeefe6370ffed4281b1a269f9ff06c0ce76f56",
+    "status": "failed",
+    "unit": {
+      "passed": 63,
+      "failed": 0
+    },
+    "UI": {
+      "passed": 2,
+      "failed": 3,
+      "skipped": 0,
+      "passed_cases": [
+        "large-diagram",
+        "largest-table"
+      ],
+      "failed_cases": [
+        "two-library-header-returns",
+        "long-article-resume"
+      ]
+    },
+    "Release": "not-run-after-UI-failure"
+  },
+  "second_normal_3_article_Hosted": {
+    "run": 40171117378,
+    "status": "passed",
+    "unit": 63,
+    "UI": 2,
+    "Release": "passed"
+  },
+  "second_placement_fix": {
+    "source_sha256": {
+      "ios/AILibrary/Sources/NativeReaderView.swift": "b89d09d5863bc02ecedab8a8b6c942cf74b6d8886b3140d56546f31d48ff98d2",
+      "ios/AILibrary/Sources/ArticleReaderView.swift": "ea77983af31cd48621072cee58c917de509f5eaac31798be1e80cb8cca85731a",
+      "ios/AILibraryTests/NativeInlineTests.swift": "ae0fdb3ebf87a4f55e263a08593b972fd421b6ef27a2da232ca9334e5a8c9a22",
+      "ios/AILibraryUITests/NativeReaderUITests.swift": "a0e52d073e1101f2edb884d2a0d9ddf1f7dec07c261ef4a0760d0358c8edba11",
+      "ios/AILibraryUITests/PublishedReaderUITests.swift": "828e3f18c2a89a34233e4b6a6cb79a204904c50c72b8a8ef5cd127e26b41ec2d"
+    },
+    "observed_causes": {
+      "libraryReturn": "Returning really reaches the filtered library at a retained offset. A count frame intersecting the whole app stopped the old swipe loop even when the count could not be hit. The count never became usable before its assertion timed out.",
+      "longResume": "Deep-contents capture shows the requested heading directly below navigation. The final decoded resume frame shows the following list at the top while the requested heading and intervening paragraph are occluded.",
+      "sourceCoordinateMismatch": "The former progress code compared SwiftUI named-coordinate block Y values to a UIKit adjustedContentInset; final placement used UIKit target content coordinates. Unifying progress with the exact placement coordinate system removes that inconsistency. The old named-frame values and saved bytes were not captured, so the concrete double-inset mechanism is an inference rather than a measured trace."
+    },
+    "implementation": {
+      "progress": "Use only weak markers for candidate top-level blocks, convert into the known vertical UIScrollView content coordinates, subtract current contentOffset, then compare with the same adjusted inset used by alignment. SwiftUI preference values trigger updates and supply materialized IDs only. No schema/placement/delay change.",
+      "regression": "One new UIKit fixture case checks the aligned heading remains the reading block across inset103/140, movement of the entire scroll view, deliberate reading into the next list and unavailable IDs.",
+      "testSynchronization": "Library-return bounded gestures stop only when count is actually hittable. Heading assertions require a fully visible frame in the reader excluding measured navigation bar frames before asking hittability. The actual destination/usability assertions remain, with screenshot and full AX hierarchy on a predicate timeout. No manual reader scroll correction."
+    },
+    "SDK": {
+      "result": "passed",
+      "log": ".local/ios-autonomous-evidence/published-reader-second-fix-sdk-build.log",
+      "logSHA256": "bae8d7294a2365af3222173a04409b2d5edfb6a57712a38d7be2d81f1df209ae",
+      "configuration": "Debug, generic/platform=iOS Simulator, Xcode 16.2, iOS Simulator SDK18.2, CODE_SIGNING_ALLOWED=NO, jobs2",
+      "compiled": "App, current registered unit target including the new UIKit regression, and UI target (2 baseline plus 3 published methods). Compilation only, no test execution.",
+      "sourceChangesAfterCompile": false
+    },
+    "SDK_scope": "Working superset includes the separately prepared learning consumer (pbx316e); changed four sources compiled. Exact PR254 keeps its original pbx and expects unit64/UI5 on Hosted.",
+    "independent_review": "approved-four-frozen-files",
+    "Hosted": "not-run"
+  }
+}

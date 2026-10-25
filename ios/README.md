@@ -14,7 +14,7 @@
 
 2026-10-25に専用記事のA〜Dと補足2点を完了しました。記事内・別記事の見出し・数式・表のリンク、重複目次と到着後の読み上げ、外部リンク、書式・入れ子・引用・表・コード3種類と通常段落・数式混在リンクのコピー、最大文字・縦横・明暗・VoiceOverはユーザー報告で正常です。テスト側のしおり・P05付近への再起動復帰、通常3記事と保存記録の保持、テスト側と通常側の音声ボタンの表示も確認しました。専用記事は0.2.2（4）で確認し、0.2.1の受入結果から推定していません。
 
-後続の0.2.4・0.2.5では検索ヒットへの移動と記事改訂後の照合を実装しました。現sourceは0.2.5（7）で、Hosted Simulatorの単体52件・UI2件とRelease監査が成功しています。新版の実機操作、実着信、本文block内の精度、UIの残る操作網羅と全記事展開は未完了です。今回の区切りは[自律実施記録](../project/records/2026-10-25/ios-autonomous-progress.md#今回の統合前チェックポイント)を参照してください。
+後続の0.2.4・0.2.5では検索ヒットへの移動と記事改訂後の照合を実装しました。0.2.5（7）の時点で、Hosted Simulatorの単体52件・UI2件とRelease監査が成功しました。新版の実機操作、実着信、本文block内の精度、UIの残る操作網羅と全記事展開は未完了です。今回の区切りは[自律実施記録](../project/records/2026-10-25/ios-autonomous-progress.md#今回の統合前チェックポイント)を参照してください。
 
 ## 準備と起動
 
@@ -47,6 +47,8 @@ xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
   -derivedDataPath ios/DerivedData CODE_SIGNING_ALLOWED=NO build
 xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
   -destination 'platform=iOS Simulator,id=<simulator-id>' \
+  -only-testing:AILibraryTests \
+  -only-testing:AILibraryUITests/NativeReaderUITests \
   -derivedDataPath ios/DerivedData CODE_SIGNING_ALLOWED=NO test
 ```
 
@@ -89,6 +91,8 @@ Debugで`TestContent`を生成していない場合は、入口で記事が含�
 0.2.6（8）では「絞り込み」から章・難易度を選べるようにしました。検索・しおりとANDで絞り込み、条件表示と全解除を用意しています。選択肢は表示対象の記事だけから作り、未知の難易度も表示します。条件は保存しません。タグ・章順・学習ルート・用語集は引き続き未実装です。[実施記録](../project/records/2026-10-25/ios-category-level-filter.md)でSDK compileと未実施のHosted実行・実機受入を区別します。
 
 0.2.7（9）では初期読み込み失敗に理由と「再試行」を表示し、存在しない記事への遷移から一覧へ戻れるようにしました。保存記録と正常版の保持を検査し、初期失敗中のimportエラーの案内も未読込状態に合わせています。[復旧の実施記録](../project/records/2026-10-25/ios-load-recovery.md)で、実Storeの非UI検査と未実施のiOS XCTest・画面受入を区別します。
+
+0.2.8（10）では全記事候補のHostedで見つかった、目次の到着見出しが上部バーへ隠れる不具合を修正しました。実際の縦スクロールのinsetを反映して配置し、目次を閉じた後に移動します。修正版SDK compileと、未確認のHosted再試験・実機を[候補UIの記録](../project/records/2026-10-25/ios-published-candidate-ui.md)で区別します。
 
 [現targetの照合](../project/records/2026-10-25/ios-native-runtime-audit.md)では、appの本文経路・Sources・resourcesに旧WebKitやHTML/JS bridgeが残っていないことを確認しました。比較用の旧HTML生成・試験と、nativeでも再利用するparser等は開発側へ残しています。
 
@@ -136,6 +140,14 @@ bash ios/tests/check-package.sh ios/AILibrary/Content 199
 `199`は2026-10-25時点のpublished数です。一時全記事の原文監査は`TMPDIR=/private/tmp node ios/tests/native-content-audit.mjs --all-published --content <一時Content>`、従来3記事はno flag、fixture4記事は`--fixtures`で行います。
 
 [通常同梱候補の記録](../project/records/2026-10-25/ios-published-library-profile.md)では、共有Contentを保った私有rootで実生成・consumer・原文監査を確認しました。実Mermaidの微小な再描画差によってrevisionが変わる場合があり、同じassetsを使ったmode比較とは区別します。候補のアプリUI・Releaseと既定切替は未確認です。保存済みの正常packageは同梱版より優先されるため、同梱更新だけでは取り込み済み3記事版の選択を変えません。
+
+## 全記事候補のHosted UI検査
+
+[全記事候補workflow](../.github/workflows/ios-published-candidate.yml)は、独立したrunnerで全publishedを通常Contentへ生成し、原文・実consumer・Debug実アプリ・全UI・Releaseを検査します。通常の3記事jobとローカルの`ios:test:reader`は既存の`NativeReaderUITests`だけを実行します。
+
+新しい`PublishedReaderUITests`は、原文から数えた件数を`TEST_RUNNER_AILIBRARY_EXPECTED_PUBLISHED_COUNT`で受け取り、公開の「全N記事」と照合します。値がない・不正・3以下ならskipせず失敗します。通常の3記事テスト例でこのクラスを一緒に実行しない構成です。
+
+既存の代表3記事・目次・しおり復帰に、大図の拡大とテキスト表現、長文の深い見出しからの復帰、最大表の最終行・列を加えた5件を準備しました。対象は01・03・08・11章の6記事で、全記事の画面受入・実機・VoiceOver・性能合格とは区別します。[候補UIの記録](../project/records/2026-10-25/ios-published-candidate-ui.md)でSDK compile・静的検査・Hosted実行を分けます。
 
 ## 検証
 

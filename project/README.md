@@ -6,6 +6,8 @@
 
 ## 構造・運用の計画
 
+全記事候補のDebug・UI・Release検査は[候補UIの記録](records/2026-10-25/ios-published-candidate-ui.md)で追跡する。通常3記事の回帰を保ち、動的件数と01/03/08/11章の6記事を検査する準備を分ける。
+
 全published記事の通常同梱候補と原文監査は[準備記録](records/2026-10-25/ios-published-library-profile.md)で追跡する。明示modeと既定の切替を分け、3/4記事の回帰と全数監査を維持する。
 
 全記事の負荷棚卸しと空検索の全文正規化省略は[性能準備の記録](records/2026-10-25/ios-empty-search-performance.md)で追跡する。検索結果の同値とMac CLI比較を確認し、UI・実機の性能受入を残す。

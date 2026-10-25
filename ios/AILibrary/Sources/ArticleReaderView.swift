@@ -14,6 +14,7 @@ struct ArticleReaderView: View {
     @State private var loadError: String?
     @State private var reloadID = UUID()
     @State private var requestedHeading: String?
+    @State private var pendingContentsHeading: String?
     @State private var headingRequestID = UUID()
     @State private var contentsPresented = false
     @State private var episode: AudioEpisode?
@@ -25,7 +26,12 @@ struct ArticleReaderView: View {
             .navigationTitle(article.title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { readerToolbar }
-            .sheet(isPresented: $contentsPresented) { contentsSheet }
+            .sheet(isPresented: $contentsPresented, onDismiss: {
+                guard let heading = pendingContentsHeading else { return }
+                pendingContentsHeading = nil
+                requestedHeading = heading
+                headingRequestID = UUID()
+            }) { contentsSheet }
             .sheet(item: $episode) { selected in audioSheet(selected) }
     }
 
@@ -119,8 +125,7 @@ struct ArticleReaderView: View {
 
     private func headingButton(_ heading: ArticleHeading) -> some View {
         Button {
-            requestedHeading = heading.id
-            headingRequestID = UUID()
+            pendingContentsHeading = heading.id
             contentsPresented = false
         } label: {
             Text(heading.title).padding(.leading, CGFloat(max(0, heading.level - 2)) * 12)

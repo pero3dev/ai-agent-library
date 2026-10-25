@@ -68,6 +68,7 @@ struct LibraryView: View {
                                 }
                             } icon: { Image(systemName: "book.pages") }
                         }
+                        .accessibilityIdentifier("library-resume")
                     }
                 }
                 Section {
@@ -87,9 +88,17 @@ struct LibraryView: View {
                                 }
                             }.padding(.vertical, 4)
                         }
+                        .accessibilityIdentifier("library-article-\(article.id)")
                     }
                 } header: {
-                    Text(filter.bookmarksOnly ? "しおり" : "記事")
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(filter.bookmarksOnly ? "しおり" : "記事")
+                        if store.snapshot != nil {
+                            Text("全\(store.listedArticles.count)記事")
+                                .font(.caption).foregroundStyle(.secondary)
+                                .accessibilityIdentifier("library-article-count")
+                        }
+                    }
                 } footer: {
                     if store.isTestLibrary {
                         Text("表示確認用の記事です。通常のしおりや読書位置とは別に保存します。")

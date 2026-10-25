@@ -100,6 +100,19 @@ struct LibraryView: View {
             }
             .overlay {
                 if store.isLoading { ProgressView("コンテンツを確認中") }
+                else if store.snapshot == nil {
+                    if let error = store.loadError {
+                        ContentUnavailableView {
+                            Label("コンテンツを読み込めません", systemImage: "exclamationmark.triangle")
+                        } description: {
+                            Text(error)
+                        } actions: {
+                            Button("再試行") { Task { await store.load() } }
+                        }
+                    } else {
+                        ProgressView("コンテンツを確認中")
+                    }
+                }
                 else if articles.isEmpty {
                     ContentUnavailableView {
                         Label("記事が見つかりません", systemImage: filter.bookmarksOnly ? "bookmark" : "magnifyingglass")
@@ -153,6 +166,15 @@ struct LibraryView: View {
                 if let snapshot = store.snapshot, let article = snapshot.article(id: route.articleID) {
                     ArticleReaderView(store: store, snapshot: snapshot, article: article,
                                       initialHeading: route.heading, initialSearchQuery: route.searchQuery) { next in path.append(next) }
+                } else {
+                    ContentUnavailableView {
+                        Label("記事を利用できません", systemImage: "doc.text")
+                    } description: {
+                        Text("現在のコンテンツには対象の記事がありません。記事一覧から選び直してください。")
+                    } actions: {
+                        Button("記事一覧へ戻る") { path.removeAll() }
+                    }
+                    .navigationTitle("記事を利用できません")
                 }
             }
         }

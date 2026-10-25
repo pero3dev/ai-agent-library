@@ -3,7 +3,7 @@
   "task": "markdown-parser-security-update",
   "date": "2026-10-25",
   "timezone": "Asia/Tokyo",
-  "status": "preparing-limited-PR",
+  "status": "preparing-website-security-followup",
   "authorization": "Prerequisite to the user-authorized autonomous iOS TODO execution, including normal commits/PR/main integration; no protection override authorized.",
   "base_sha": "405e29273a7a3257adeb370c6ac3196d35693d4d",
   "dependency": "markdown-it",
@@ -28,8 +28,34 @@
       "failed": 0,
       "result": "passed"
     },
-    "lock_entries_other_than_markdown_it_changed": false
+    "lock_entries_other_than_markdown_it_changed": false,
+    "website": {
+      "unit_passed": 91,
+      "new_actual_source_regressions": 4,
+      "clean_static_build": "passed",
+      "generated_pages": 235,
+      "covered_routes": 230,
+      "indexed_HTML": 232,
+      "audit_high": 0,
+      "audit_critical": 0,
+      "audit_low": 8,
+      "independent_review": "approved",
+      "browser": "pending-PR-CI"
+    }
   },
   "CI_or_protection_changes": false,
-  "admin_bypass": false
+  "admin_bypass": false,
+  "PR": "https://github.com/pero3dev/ai-agent-library/pull/240",
+  "initial_CI_head": "10f38e775f35b20b71c1b823160682ee72ee711d",
+  "initial_CI_failures": [
+    "harness-policy:trusted-base-markdown-it-high",
+    "build-and-audio:existing-website-high-critical"
+  ],
+  "website_versions": {
+    "next": "16.4.3",
+    "dompurify": "3.4.17",
+    "zod": "4.6.6",
+    "nextra-theme-docs": "4.6.1"
+  },
+  "website_compatibility": "Guarded generated copy of Nextra Layout following upstream PR 4990; installed code unmodified."
 }

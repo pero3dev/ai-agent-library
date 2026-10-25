@@ -38,3 +38,11 @@ MacのFoundation回帰7件と、実Storeの読込→不正import→同IDの新�
 修正前head50a93331の全記事run40182710048は単体109件中107成功・2private入力skip、UI8成功・新規1件失敗でRelease未実施だった。操作行は表示されtapも送られたが、画像ではmenuが開かなかった。AXの外行は{20,354,353,44}、内側Menuは{40,363,139.7,26}で、記録されたtouch down/upの{196.5,376}は外行内・内側範囲外だった。内部routingの原因断定はせず、この不一致を狭い修正の根拠にする。
 
 filtered Menuのラベルを全幅にし、Rectangleのhit領域を指定した。操作内容・guard・既存9件と章候補の追加1件のselector/assertionは変えない。累積app-only SDK buildは成功したが、各正確なbranch headのUI/Release成功を示さない。専用ローカルSimulatorによる診断は初期化中の容量不足でテスト前に中止し、作業で作った端末だけ停止・削除して不在を検証した。実機・既存Simulator・通常記録は操作せず、Hostedで再実行する。
+
+## 検索中の操作選択をシートへ移行
+
+全幅化したhead a03901c0でも全記事run40186338703は単体109件中107成功・2private入力skip、UI8成功・1失敗でReleaseへ進まなかった。filtered Menuを押した後の既存識別子library-bundled-contentが表示されなかった。実touchは(55.3,358.4)、15.65秒後の内側Menu boundsは{40,363,313,26}であり、瞬間boundsやUIKitの機構までは断定しない。
+
+filtered入口を通常Buttonにし、明示的な閉じる付きのSwiftUI操作一覧sheetへ移した。既存の4操作はラベル・識別子・guardを共用し、選択を保留してsheetのonDismiss後にだけ元の操作を実行する。toolbar Menuは直接実行を保つ。検索・タグ等を維持し、固定delay・yieldや既存テストのselector/assertion削減は入れない。
+
+累積0.2.14のapp-only SDK compileは成功したが、各正確なbranch headの動作成功ではない。新sheetのHosted、import/about/専用記事、0件・最大文字・VoiceOver・実機は未確認として保持する。過去の全幅化とSDKの記録は当時の段階であり、本修正の成功証拠へ読み替えない。

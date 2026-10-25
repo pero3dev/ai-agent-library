@@ -28,7 +28,7 @@ jobs:
     # Exact public-repository gate is evaluated before allocating a standard VM.
     if: github.repository == 'pero3dev/ai-agent-library' && github.event.repository.private == false
     runs-on: macos-26
-    # Explicit step caps total40min, including4min cleanup and2min artifact upload.
+    # Explicit step caps total42min, including4min cleanup and2min artifact upload.
     # UI is followed immediately by owned cleanup. Cancelled app/result audits skip.
     # Forced cancellation/runner loss can still interrupt cleanup or upload.
     timeout-minutes: 40
@@ -63,7 +63,7 @@ jobs:
           mkdir -p "$EVIDENCE_DIR"
           chmod 700 .local/ios-runtime26 "$EVIDENCE_DIR"
       - name: Verify toolchain and select documented runtime and device type
-        timeout-minutes: 1
+        timeout-minutes: 3
         id: inventory
         run: |
           set -euo pipefail
@@ -75,11 +75,34 @@ jobs:
           const evidence = process.env.EVIDENCE_DIR;
           const put = (name, value) => writeFileSync(path.join(evidence, name), value, { flag: 'wx', mode: 0o600 });
           const json = (name, value) => put(name, JSON.stringify(value, null, 2) + '\n');
+          const inventoryStartedMonotonicMs = performance.now();
+          const inventoryDeadlineMonotonicMs = inventoryStartedMonotonicMs + 150000;
           const read = (name, binary, args) => {
-            const result = spawnSync(binary, args, { encoding: 'utf8', timeout: 120000, maxBuffer: 16 * 1024 * 1024 });
+            const readMonotonicMs = performance.now();
+            const remainingBudgetMs = Math.floor(inventoryDeadlineMonotonicMs - readMonotonicMs);
+            const timeoutMs = Math.min(120000, Math.max(0, remainingBudgetMs));
+            json(name + '.intent.json', { schema_version: 1, binary, arguments: args,
+              timeout_ms: timeoutMs, remaining_budget_ms: remainingBudgetMs,
+              started_monotonic_ms: inventoryStartedMonotonicMs, deadline_monotonic_ms: inventoryDeadlineMonotonicMs,
+              read_monotonic_ms: readMonotonicMs, spawn_planned: remainingBudgetMs > 0 });
+            let result;
+            if (remainingBudgetMs <= 0) {
+              result = { status: null, signal: null, stdout: '', stderr: '',
+                error: new Error('Inventory read budget exhausted before spawn') };
+            } else {
+              try {
+                result = spawnSync(binary, args, { encoding: 'utf8', timeout: timeoutMs,
+                  killSignal: 'SIGKILL', maxBuffer: 16 * 1024 * 1024 });
+              } catch (error) {
+                result = { status: null, signal: null, stdout: '', stderr: '',
+                  error: error ?? new Error('Unknown inventory spawn exception') };
+              }
+            }
             put(name + '.stdout.log', result.stdout ?? ''); put(name + '.stderr.log', result.stderr ?? '');
-            json(name + '.exit.json', { binary, arguments: args, exit_code: result.status, signal: result.signal, error: result.error?.message ?? null });
+            json(name + '.exit.json', { binary, arguments: args, exit_code: result.status, signal: result.signal,
+              error: result.error?.message ?? (result.error === undefined ? null : String(result.error)) });
             assert.equal(result.error, undefined, name); assert.equal(result.status, 0, name);
+            assert.ok(performance.now() < inventoryDeadlineMonotonicMs, name + ': inventory deadline exceeded');
             return result.stdout.trim();
           };
           assert.equal(process.env.GITHUB_REPOSITORY, 'pero3dev/ai-agent-library');

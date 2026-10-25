@@ -182,6 +182,14 @@ npm run ios:test:package
 
 生xcresult・CSV・型付きmetric・実行環境をartifactへ残します。欠測や異なるテストID、非数は失敗扱いで、ゼロに置き換えません。初回Xcode16.4のJSON・CSV・log・xcresultで実Clock識別子・表示名・秒単位と3標本を独立確認しました。初回は契約nullで非ゼロ終了を保ち、追加guardでは実CSVの5列・1行・宛先/構成・typed原順3値・秒平均を厳密照合します。平均は印字小数位の半刻みだけをBigIntで許し、欠測を補いません。追加sourceは保存済raw再生で確認し、新headのHosted成功とは区別します。[観測基盤の記録](../project/records/2026-10-25/ios-published-readiness-observation.md)で実測前の静的確認と実行結果を追跡します。
 
+## 全記事Coreのhost観測
+
+`npm run ios:benchmark:core -- --help`はSDKを起動せず、[専用CLIの手順](tests/core-performance.md)を表示します。実行は`--run`を明示し、保存済みContent、不変のproduction revision、compiler/SDK/target/Swift modeを指定します。検証全体・索引構築・16 queryの検索batchを別processで測り、正当性oracle1回と各warm-up1回・記録5回を分けます。
+
+[2026-10-26の実v4 CLI記録](../project/records/2026-10-26/ios-published-core-benchmark.md)では、localの199記事・37,744,971bytesを実消費し、monotonic wallとprocess RSSを観測しました。表の主値は凍結CLIの実入口から得た結果で、先行private wrapperや旧15 query測定と混ぜません。RSSは計測後probeまでのhost process高水位で、iOS appメモリ・索引単体容量・全lifetime peakではありません。入力遅延・scroll/画像decode・実機・受入予算は未完了です。
+
+通常の`npm run check`は新3ファイルのNode fixtureを既存test globで検査し、Swift/SDKやcorpus実測を自動実行しません。実CLIには独立したdisk/cache/TMP/process-tree RSS guardを用意します。既存PackageAuditとlaunchClock exporter、app/version/CI workflowは維持します。
+
 ## 検証
 
 rootの`npm run check`でコンテンツ変換の単体試験と共通検査を実行します。macOSで一時ディレクトリのsymlink拒否に当たる場合は、`TMPDIR=/private/tmp npm run check`を使います。PNG生成は実ブラウザーを使うため、注入した資産を使う単体試験と区別します。

@@ -126,6 +126,8 @@ M4の次段階では[全記事の通常同梱候補](../../records/2026-10-25/io
 
 0.2.14（16）では[全記事一覧が使えるまでの観測](../../records/2026-10-25/ios-published-readiness-observation.md)を専用Hosted jobへ分ける。Debug起動要求から独立した全記事数・学習ガイドの表示確認までを測り、warm-up1回と記録3回、生xcresult/CSV/型付きmetricを保持する。初回は契約未採択で非ゼロ終了を保ち、生JSON/CSV/log/添付の独立照合後に実Clock識別子・秒単位・3値と厳密CSV guardを追加した。保存済raw再生と新headのHostedを区別し、欠測をゼロへ置き換えない。機能UI10件を別に維持し、操作自動化・AX同期を含む参考観測と、初回インストール・Release・実機・CPU/メモリ・スクロール・性能予算を分ける。IOS-15の完了欄は維持する。
 
+IOS-15の[全記事Core host観測](../../records/2026-10-26/ios-published-core-benchmark.md)では、既存の保存済みlocal corpusを凍結CLI入口で検証し、索引構築と16 query batchを分けて各warm-up1回・記録5回を取得した。raw19、実消費199記事、明示toolchain、計測後probeまでのprocess RSSを保持し、先行wrapperの結果と区別する。通常Node CIへfixtureを含め、SDK実測は明示CLIのままとする。入力から表示まで・scroll/画像decode・iOS appメモリ・実機・受入予算は未完了で、IOS-15のチェックは残す。
+
 ### P1: 更新と保存データを運用できる状態にする
 
 | 状態 | ID | TODO | 完了条件 |

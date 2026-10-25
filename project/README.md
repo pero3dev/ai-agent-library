@@ -6,6 +6,8 @@
 
 ## 構造・運用の計画
 
+全記事の[Core host観測](records/2026-10-26/ios-published-core-benchmark.md)は、凍結CLI入口で検証・索引構築・検索batchを別processに分け、実199記事と16 query、raw19を記録する。先行wrapperと独立した実観測で、通常CIはNode fixtureのみ、iOS/app性能・実機・IOS-15全体の受入は残す。
+
 絞り込み中の[補助画面と保存分離UI回帰](records/2026-10-25/ios-filtered-actions-ui.md)では、Aboutと専用記事の開閉、検索・タグ保持、通常reader再開前のrestartによる永続分離を検査する。既存10件を保って機能UI12件へ増やし、SDK compileと未実施の実UIを区別する。
 
 旧版と更新失敗時の[保持回帰3件](records/2026-10-25/ios-storage-retention-regression.md)では、実repositoryの3世代snapshot・後読資産、孤立版の無変更、pointer書込失敗時の既存bytesを検査する。Mac新3件とiOS単体122件のcompileを区別し、将来の削除・pin・容量管理方針の採択は残す。

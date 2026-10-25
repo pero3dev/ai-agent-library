@@ -1,0 +1,104 @@
+name: iOS native regression
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-native-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  ios-native:
+    name: iOS native regression
+    runs-on: macos-15
+    timeout-minutes: 40
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            ios/tools/package-lock.json
+      - name: Audit content tooling before installation
+        run: npm audit --package-lock-only --audit-level=high
+      - name: Install content tooling without lifecycle scripts
+        run: npm ci --ignore-scripts
+      - name: Audit native asset tooling before installation
+        run: npm audit --package-lock-only --audit-level=high
+        working-directory: ios/tools
+      - name: Install native asset tooling without lifecycle scripts
+        run: npm ci --ignore-scripts
+        working-directory: ios/tools
+      - name: Install the lockfile-matched Chromium
+        run: ./node_modules/.bin/playwright install chromium
+        working-directory: ios/tools
+      - name: Record toolchain and test scope
+        run: |
+          set -euo pipefail
+          mkdir -p .local/ios-ci/evidence
+          {
+            xcodebuild -version
+            node --version
+            npm --version
+            echo 'Simulator: iPhone 16 / iOS 18.5'
+            echo 'Scope: all AILibraryTests; UI tests and physical-device acceptance are not executed.'
+          } | tee .local/ios-ci/evidence/environment.log
+      - name: Generate and audit normal and fixture packages
+        run: |
+          set -euo pipefail
+          {
+            npm run ios:prepare
+            npm run ios:prepare:fixtures
+            npm run ios:test:content
+            npm run ios:test:fixtures
+            bash ios/tests/check-core.sh
+            bash ios/tests/check-core.sh --fixtures
+          } 2>&1 | tee .local/ios-ci/evidence/content-and-core.log
+      # This runs the XCTest unit target, including UIKit/math and audio regression.
+      # NativeReaderUITests and physical-device acceptance remain separate work.
+      - name: Run native XCTest on the iPhone Simulator
+        run: |
+          set -euo pipefail
+          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
+            -configuration Debug \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.5' \
+            -destination-timeout 120 \
+            -derivedDataPath .local/ios-ci/DebugDerivedData \
+            -resultBundlePath .local/ios-ci/evidence/unit.xcresult \
+            -parallel-testing-enabled NO -jobs 2 \
+            -only-testing:AILibraryTests CODE_SIGNING_ALLOWED=NO test \
+            2>&1 | tee .local/ios-ci/evidence/xctest.log
+      - name: Build and verify the Release package
+        run: |
+          set -euo pipefail
+          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
+            -configuration Release -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath .local/ios-ci/ReleaseDerivedData -jobs 2 \
+            CODE_SIGNING_ALLOWED=NO build \
+            2>&1 | tee .local/ios-ci/evidence/release-build.log
+          node ios/tests/check-release-package.mjs \
+            .local/ios-ci/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
+            | tee .local/ios-ci/evidence/release-package.json
+      - name: Retain test results and compact build evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ios-native-evidence-${{ github.run_id }}
+          path: .local/ios-ci/evidence
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 90

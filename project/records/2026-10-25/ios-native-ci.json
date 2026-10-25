@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "task": "ios-native-ci",
+  "date": "2026-10-25",
+  "status": "implemented-awaiting-hosted-validation",
+  "branch": "codex/ios-native-ci",
+  "base_head": "d2596980a9ea3a8f1dcfeb54fd12567052b92d97",
+  "base_PR": "https://github.com/pero3dev/ai-agent-library/pull/242",
+  "runner": "macos-15",
+  "Xcode": "16.4",
+  "simulator": "iPhone 16 / iOS 18.5",
+  "existing_required_checks_changed": false,
+  "signing_required": false,
+  "validation": {
+    "new_Node_tests": {"passed": 8, "failed": 0},
+    "harness_tooling_tests": {"passed": 22, "failed": 0},
+    "YAML_and_shell_syntax": "passed",
+    "independent_review": "approved",
+    "existing_Release_package_audit": {"status": "passed", "articles": 3, "files": 140, "bytes": 2455933},
+    "hosted_XCTest_execution": "not-run-yet",
+    "hosted_Release_build": "not-run-yet",
+    "UI_tests": "not-run",
+    "physical_acceptance": "not-run-user-allows-skip"
+  }
+}

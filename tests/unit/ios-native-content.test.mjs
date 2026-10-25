@@ -148,6 +148,17 @@ test('all-published CLI requires an explicit output and cannot select fixtures',
   ]) assert.throws(() => parseNativeBuildOptions(args));
 });
 
+test('published-library CLI fixes its destination and rejects mixed profiles', () => {
+  assert.deepEqual(parseNativeBuildOptions(['--published-library']), { fixtures: false, publishedLibrary: true });
+  for (const args of [
+    ['--published-library', '--published-library'],
+    ['--published-library', '--fixtures'], ['--fixtures', '--published-library'],
+    ['--published-library', '--all-published'], ['--all-published', '--published-library'],
+    ['--published-library', '--output', 'scratch/Content'], ['--output', 'scratch/Content', '--published-library'],
+    ['--published-library', '--output', 'ios/AILibrary/Content']
+  ]) assert.throws(() => parseNativeBuildOptions(args));
+});
+
 async function fullDescriptionMap(value) {
   const requests = new Map(value.selection.articles.flatMap(file => [...parseNativeArticle(parseArticle(value.files.get(file), file)).requests]));
   const diagram_descriptions = Object.fromEntries([...requests].filter(([, request]) => request.kind === 'diagram').map(([key]) => [key, 'AからBへ進む図です。']));
@@ -229,18 +240,23 @@ test('all-published description schema, completeness and stale keys fail before 
   assert.equal(await readFile(path.join(value.output, 'sentinel'), 'utf8'), 'keep');
 });
 
-test('all-published rejects an unpublished audio selection and invalid article metadata', async t => {
+test('published profiles reject unpublished audio and invalid article metadata without replacing output', async t => {
   const value = await fixture(t);
+  const { output, ...options } = value;
   await fullDescriptionMap(value);
+  const canonical = path.join(value.root, 'ios/AILibrary/Content');
+  for (const directory of [output, canonical]) { await mkdir(directory, { recursive: true }); await writeFile(path.join(directory, 'sentinel'), 'keep'); }
   let invoked = false;
   const dependencies = { renderAssets() { invoked = true; throw new Error('must not render'); } };
+  const profiles = [() => buildNativeContent({ ...value, allPublished: true, dependencies }), () => buildNativeContent({ ...options, publishedLibrary: true, dependencies })];
   await writeFile(path.join(value.root, paths[0]), value.files.get(paths[0]).replace('status: "published"', 'status: "draft"'));
-  await assert.rejects(buildNativeContent({ ...value, allPublished: true, dependencies }), /Selected audio article must be included/);
+  for (const generate of profiles) await assert.rejects(generate(), /Selected audio article must be included/);
   await writeFile(path.join(value.root, paths[0]), value.files.get(paths[0]).replace('status: "published"', 'status: "unknown"'));
-  await assert.rejects(buildNativeContent({ ...value, allPublished: true, dependencies }), /Invalid article status/);
+  for (const generate of profiles) await assert.rejects(generate(), /Invalid article status/);
   for (const file of paths) await writeFile(path.join(value.root, file), value.files.get(file).replace('status: "published"', 'status: "draft"'));
-  await assert.rejects(buildNativeContent({ ...value, allPublished: true, dependencies }), /between 1 and 2000/);
+  for (const generate of profiles) await assert.rejects(generate(), /between 1 and 2000/);
   assert.equal(invoked, false);
+  for (const directory of [output, canonical]) assert.equal(await readFile(path.join(directory, 'sentinel'), 'utf8'), 'keep');
 });
 
 test('all-published rejects source and output symlinks', { skip: process.platform === 'win32' ? 'Windows symlinks require extra privileges' : false }, async t => {
@@ -252,6 +268,112 @@ test('all-published rejects source and output symlinks', { skip: process.platfor
   const sourceAlias = path.join(value.root, 'docs/01-concepts/alias.md');
   await symlink(path.join(value.root, paths[0]), sourceAlias);
   await assert.rejects(buildNativeContent({ ...value, allPublished: true, dependencies: mockDependencies }), /Symlink/);
+});
+
+test('published-library writes the full ordered catalog only to canonical Content and preserves representative revisions', async t => {
+  const value = await fixture(t);
+  const { output, ...options } = value;
+  const descriptions = await fullDescriptionMap(value);
+  const fourth = 'docs/00-foundations/four.md';
+  const additions = new Map([
+    [fourth, source('第四記事', '[第一記事](../01-concepts/one.md#第一記事)')],
+    ['docs/01-concepts/draft.md', source('未公開').replace('status: "published"', 'status: "draft"')],
+    ['docs/01-concepts/README.md', '章の索引です。']
+  ]);
+  for (const [file, data] of additions) { await mkdir(path.dirname(path.join(value.root, file)), { recursive: true }); await writeFile(path.join(value.root, file), data); }
+  const normalRoot = path.join(value.root, 'ios/AILibrary/Content');
+  const fixtureRoot = path.join(value.root, 'ios/AILibrary/TestContent');
+  const normal = await buildNativeContent({ ...options, dependencies: mockDependencies });
+  const fixtures = await buildNativeContent({ ...options, fixtures: true, dependencies: mockDependencies });
+  const originalNormal = await readFile(path.join(normalRoot, 'manifest.json'));
+  const originalFixtures = await readFile(path.join(fixtureRoot, 'manifest.json'));
+  const originalSelection = JSON.stringify(value.selection);
+  const library = await buildNativeContent({ ...options, publishedLibrary: true, dependencies: mockDependencies });
+  assert.deepEqual(library.articles.map(article => article.source_path), [fourth, ...paths]);
+  assert.ok(library.articles.every(article => article.is_test_fixture === undefined));
+  assert.deepEqual(library.audio, normal.audio);
+  assert.equal(library.articles.filter(article => article.audio_id === value.episode.id).length, 1);
+  const diagramArticle = library.articles.find(article => article.source_path === paths[1]);
+  const diagram = nodes(JSON.parse(await readFile(path.join(normalRoot, diagramArticle.document_path)))).find(node => node.type === 'diagram');
+  assert.ok(diagram.accessibility_text.startsWith(`${Object.values(descriptions.diagram_descriptions)[0]}\n図中のラベル:`));
+  assert.deepEqual(await readFile(path.join(normalRoot, 'manifest.json')), Buffer.from(`${JSON.stringify(library, null, 2)}\n`));
+  const temporary = await buildNativeContent({ ...value, allPublished: true, dependencies: mockDependencies });
+  assert.equal(library.revision, temporary.revision, 'Selection scope does not change package contents across destinations');
+  assert.deepEqual(await readFile(path.join(fixtureRoot, 'manifest.json')), originalFixtures);
+  assert.equal((await buildNativeContent({ ...options, dependencies: mockDependencies })).revision, normal.revision);
+  assert.deepEqual(await readFile(path.join(normalRoot, 'manifest.json')), originalNormal);
+  assert.equal((await buildNativeContent({ ...options, fixtures: true, dependencies: mockDependencies })).revision, fixtures.revision);
+  assert.equal(JSON.stringify(value.selection), originalSelection);
+});
+
+test('published-library rejects caller destinations and mixed or non-boolean profiles before rendering', async t => {
+  const value = await fixture(t);
+  const { output, ...options } = value;
+  const normalRoot = path.join(value.root, 'ios/AILibrary/Content'), fixtureRoot = path.join(value.root, 'ios/AILibrary/TestContent');
+  for (const directory of [normalRoot, fixtureRoot]) { await mkdir(directory, { recursive: true }); await writeFile(path.join(directory, 'sentinel'), 'keep'); }
+  let invoked = false;
+  const dependencies = { renderAssets() { invoked = true; throw new Error('must not render'); } };
+  for (const destination of [normalRoot, fixtureRoot, output, path.dirname(normalRoot), path.join(normalRoot, 'nested/Content'), null, '']) {
+    await assert.rejects(buildNativeContent({ ...options, publishedLibrary: true, output: destination, dependencies }), /canonical Content/);
+  }
+  for (const flags of [{ allPublished: true }, { fixtures: true }]) {
+    await assert.rejects(buildNativeContent({ ...options, publishedLibrary: true, ...flags, dependencies }), /cannot be combined/);
+  }
+  await assert.rejects(buildNativeContent({ ...options, publishedLibrary: 'yes', dependencies }), /boolean/);
+  assert.equal(invoked, false);
+  for (const directory of [normalRoot, fixtureRoot]) assert.equal(await readFile(path.join(directory, 'sentinel'), 'utf8'), 'keep');
+});
+
+test('published-library validates full descriptions and renderer output before replacing existing Content', async t => {
+  const value = await fixture(t);
+  const { output, ...options } = value;
+  const canonical = path.join(value.root, 'ios/AILibrary/Content');
+  await mkdir(canonical, { recursive: true });
+  await writeFile(path.join(canonical, 'sentinel'), 'keep');
+  let invoked = false;
+  const dependencies = { renderAssets() { invoked = true; throw new Error('renderer failed'); } };
+  const generate = () => buildNativeContent({ ...options, publishedLibrary: true, dependencies });
+  await assert.rejects(generate(), /all-published-diagram-descriptions\.json/);
+  const { file, diagram_descriptions } = await fullDescriptionMap(value);
+  for (const data of [
+    { schema_version: 2, diagram_descriptions }, { schema_version: 1 }, { schema_version: 1, diagram_descriptions: [] }
+  ]) {
+    await writeFile(file, JSON.stringify(data));
+    await assert.rejects(generate(), /Invalid all-published diagram description map/);
+  }
+  await writeFile(file, JSON.stringify({ schema_version: 1, diagram_descriptions: {} }));
+  await assert.rejects(generate(), /Missing native diagram description/);
+  await writeFile(file, JSON.stringify({ schema_version: 1, diagram_descriptions: { ...diagram_descriptions, ['f'.repeat(24)]: '古い図です。' } }));
+  await assert.rejects(generate(), /Unknown or stale native diagram description/);
+  await writeFile(file, JSON.stringify({ schema_version: 1, diagram_descriptions: Object.fromEntries(Object.keys(diagram_descriptions).map(key => [key, ' '])) }));
+  await assert.rejects(generate(), /Invalid native diagram description/);
+  assert.equal(invoked, false);
+  await writeFile(file, JSON.stringify({ schema_version: 1, diagram_descriptions }));
+  await assert.rejects(generate(), /renderer failed/);
+  assert.equal(invoked, true);
+  await assert.rejects(buildNativeContent({ ...options, publishedLibrary: true, dependencies: { async renderAssets() { return { files: new Map(), metadata: new Map() }; } } }), /Missing native rendered metadata/);
+  assert.equal(await readFile(path.join(canonical, 'sentinel'), 'utf8'), 'keep');
+});
+
+test('published-library rejects canonical destination and source symlinks', { skip: process.platform === 'win32' ? 'Windows symlinks require extra privileges' : false }, async t => {
+  const value = await fixture(t);
+  const { output, ...options } = value;
+  await fullDescriptionMap(value);
+  const canonical = path.join(value.root, 'ios/AILibrary/Content');
+  const outside = path.join(value.root, 'untouched');
+  await mkdir(outside);
+  await writeFile(path.join(outside, 'sentinel'), 'keep');
+  await mkdir(path.dirname(canonical), { recursive: true });
+  await symlink(outside, canonical);
+  await assert.rejects(buildNativeContent({ ...options, publishedLibrary: true, dependencies: mockDependencies }), /Symlink/);
+  await rm(canonical);
+  await rm(path.dirname(canonical), { recursive: true });
+  await symlink(outside, path.dirname(canonical));
+  await assert.rejects(buildNativeContent({ ...options, publishedLibrary: true, dependencies: mockDependencies }), /Symlink/);
+  await rm(path.dirname(canonical));
+  await symlink(path.join(value.root, paths[0]), path.join(value.root, 'docs/01-concepts/alias.md'));
+  await assert.rejects(buildNativeContent({ ...options, publishedLibrary: true, dependencies: mockDependencies }), /Symlink/);
+  assert.equal(await readFile(path.join(outside, 'sentinel'), 'utf8'), 'keep');
 });
 
 test('fixture generation writes a separate package and cannot overwrite ordinary Content', async t => {

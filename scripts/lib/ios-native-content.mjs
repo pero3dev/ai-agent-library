@@ -254,10 +254,14 @@ async function allPublishedOutput(root, output) {
 }
 
 /** Build an offline, hashed JSON/PNG-only package. Browser use is injectable for tests. */
-export async function buildNativeContent({ root, output, fixtures = false, allPublished = false, dependencies, selection } = {}) {
+export async function buildNativeContent({ root, output, fixtures = false, allPublished = false, publishedLibrary = false, dependencies, selection } = {}) {
   if (typeof fixtures !== 'boolean') throw new Error('fixtures must be a boolean');
   if (typeof allPublished !== 'boolean') throw new Error('allPublished must be a boolean');
+  if (typeof publishedLibrary !== 'boolean') throw new Error('publishedLibrary must be a boolean');
+  if (publishedLibrary && (fixtures || allPublished)) throw new Error('publishedLibrary cannot be combined with fixtures or allPublished');
+  if (publishedLibrary && output !== undefined) throw new Error('publishedLibrary uses only canonical Content and cannot specify output');
   if (allPublished && fixtures) throw new Error('allPublished cannot be combined with fixtures');
+  const published = allPublished || publishedLibrary;
   root = await realpath(root);
   if (allPublished) output = await allPublishedOutput(root, output);
   else {
@@ -266,8 +270,8 @@ export async function buildNativeContent({ root, output, fixtures = false, allPu
   }
   selection ||= JSON.parse(await readSource(root, 'ios/content-selection.json'));
   if (selection?.schema_version !== 1 || typeof selection.audio_article !== 'string') throw new Error('Invalid native content selection');
-  if (!allPublished && (!Array.isArray(selection.articles) || selection.articles.length !== 3 || new Set(selection.articles).size !== 3 || !selection.articles.includes(selection.audio_article))) throw new Error('Select exactly three distinct articles and audio from one of them');
-  const articles = allPublished ? await publishedArticles(root) : await Promise.all(selection.articles.map(async file => parseArticle((await readSource(root, file)).toString('utf8'), file)));
+  if (!published && (!Array.isArray(selection.articles) || selection.articles.length !== 3 || new Set(selection.articles).size !== 3 || !selection.articles.includes(selection.audio_article))) throw new Error('Select exactly three distinct articles and audio from one of them');
+  const articles = published ? await publishedArticles(root) : await Promise.all(selection.articles.map(async file => parseArticle((await readSource(root, file)).toString('utf8'), file)));
   if (fixtures) articles.push(parseArticle((await readSource(root, NATIVE_READER_FIXTURE.source_path)).toString('utf8'), NATIVE_READER_FIXTURE.source_path, { fixture: true }));
   const catalog = JSON.parse(await readSource(root, 'website/audio/catalog.json'));
   const audioArticle = articles.find(article => article.source_path === selection.audio_article);
@@ -283,7 +287,7 @@ export async function buildNativeContent({ root, output, fixtures = false, allPu
   });
   const requests = new Map(parsed.flatMap(value => [...value.requests]));
   let descriptions = selection.diagram_descriptions ?? {};
-  if (allPublished) {
+  if (published) {
     const fullDescriptions = JSON.parse(await readSource(root, 'ios/all-published-diagram-descriptions.json'));
     if (fullDescriptions?.schema_version !== 1 || !fullDescriptions.diagram_descriptions || typeof fullDescriptions.diagram_descriptions !== 'object' || Array.isArray(fullDescriptions.diagram_descriptions)) throw new Error('Invalid all-published diagram description map');
     descriptions = fullDescriptions.diagram_descriptions;
@@ -293,7 +297,7 @@ export async function buildNativeContent({ root, output, fixtures = false, allPu
     if (!/^[a-f0-9]{24}$/.test(key) || requests.get(key)?.kind !== 'diagram') throw new Error(`Unknown or stale native diagram description: ${key}`);
     if (!text(description, 'diagram description').trim() || Buffer.byteLength(description) > 16384) throw new Error('Invalid native diagram description');
   }
-  if (allPublished || selection.diagram_descriptions !== undefined) for (const [key, request] of requests) {
+  if (published || selection.diagram_descriptions !== undefined) for (const [key, request] of requests) {
     if (request.kind === 'diagram' && !Object.hasOwn(descriptions, key)) throw new Error(`Missing native diagram description: ${key}`);
   }
   dependencies ||= await loadNativeRenderingDependencies(root);

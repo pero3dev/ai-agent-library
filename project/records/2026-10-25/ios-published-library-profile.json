@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "task": "ios-published-library-profile",
+  "date": "2026-10-25",
+  "status": "independently-reviewed-awaiting-PR",
+  "base_PR": 252,
+  "default_catalog_switch": false,
+  "shared_normal_and_fixture_changed": false,
+  "package_script_changed": false,
+  "profile": "explicit-published-library-canonical-Content-only",
+  "old_temporary_all_published_boundary": "preserved",
+  "tests": {"generator_and_legacy": 42, "new_generator": 5, "new_audit": 8, "independent_total_passed": 50, "failed": 0},
+  "candidate": {
+    "articles": 199,
+    "audio": 1,
+    "files_including_manifest": 625,
+    "PNG_files": 422,
+    "bytes_including_manifest": 37547770,
+    "revision": "429cde4a07c65d5897bfe4c37d41634a5b72d9f79d87b183e142c9c4c427e981",
+    "consumer": "passed-all-documents",
+    "source_audit": "passed",
+    "diagram_descriptions": 74,
+    "internal_links": 3525,
+    "external_links": 902,
+    "issues": 0
+  },
+  "real_source_audit_profiles_passed": ["representative3", "fixtures4", "temporary-published199", "canonical-published199-private-root"],
+  "renderer_comparison": {
+    "initial_revision_equality_assert": "failed-retained-as-evidence",
+    "article_JSON_metadata_audio_and_file_sets_equal": true,
+    "all_image_dimensions_equal": true,
+    "different_Mermaid_PNG_files": 24,
+    "total_byte_difference": 17,
+    "decoded_PNG_samples": 3,
+    "sample_changed_pixels_range": [11, 129],
+    "sample_max_channel_difference_range": [2, 5],
+    "fixed_assets_mode_manifest_and_revision_equality": "passed",
+    "real_raster_bit_reproducibility": "unresolved"
+  },
+  "source_sha256": {
+    "scripts/build-ios-native-content.mjs": "7fa3886b92dd35e3fb99bb081a977bc2cb48f22dbc4b5221d31e6881c41c21bb",
+    "scripts/lib/ios-native-content.mjs": "dcb1d6cdc130b83a284a58f38dd8ca16d3795a010a96d1b0a944fb0ffa409f7a",
+    "tests/unit/ios-native-content.test.mjs": "cca115ff31f6b115f8009c4aa2cbf93c79376d007eec7539151c3b435eacda8f",
+    "ios/tests/native-content-audit.mjs": "84f5c876b4772cb8d92a59d78e61827d478ab813e9d27ed9ae8f6680607246f0",
+    "tests/unit/ios-native-audit.test.mjs": "a4facc441549685f55c4054c61f1fdaf21ce25034c9a2775cdbd59ad0409dacc"
+  },
+  "independent_review": "approved",
+  "remaining": ["I/O-atomic-output-replacement", "real-raster-reproducibility", "published-app-Debug-UI-Release", "chapter-and-worst-load-acceptance", "saved-package-precedence-and-switch", "performance-targets", "VoiceOver-and-physical-acceptance"]
+}

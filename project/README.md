@@ -6,6 +6,8 @@
 
 ## 構造・運用の計画
 
+全published記事の通常同梱候補と原文監査は[準備記録](records/2026-10-25/ios-published-library-profile.md)で追跡する。明示modeと既定の切替を分け、3/4記事の回帰と全数監査を維持する。
+
 全記事の負荷棚卸しと空検索の全文正規化省略は[性能準備の記録](records/2026-10-25/ios-empty-search-performance.md)で追跡する。検索結果の同値とMac CLI比較を確認し、UI・実機の性能受入を残す。
 
 初期読み込み失敗の再試行と利用できない記事からの一覧復帰は[復旧の記録](records/2026-10-25/ios-load-recovery.md)で追跡する。保存と正常版の維持、実Storeの検証と画面受入を分ける。

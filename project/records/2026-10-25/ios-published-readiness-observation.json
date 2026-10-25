@@ -6,17 +6,17 @@
   "parent_head": "bc353013ec84b202e78beeeae7396395aaac1ae0",
   "version": "0.2.14(16)",
   "authorization": "User autonomous TODO implementation and staged normal PR/main integration; physical acceptance may remain incomplete",
-  "status": "filtered-action-sheet-fixed-awaiting-exact-head-retest",
+  "status": "real-Clock-contract-and-CSV-guard-approved-new-head-Hosted-pending",
   "source_sha256": {
     "ios/AILibraryUITests/PublishedPerformanceUITests.swift": "ca4a6a8675aeaa62cb3f5fb0f1c6057b00cfdcfc09f3f103dcec8383e4aaf5e5",
     ".github/workflows/ios-performance.yml": "ade26f375b74d0bd6fef52d45ec1d1c71fcbfd46ce6b54b932451068cf933627",
-    "ios/tests/export-performance.mjs": "5080108bbe0695efdb6e43ecccafd6f3bf524b8380228f23d904bcf91ecb2e12",
-    "tests/unit/ios-performance-export.test.mjs": "5bde52debb9a7f4bfe781180740920a6e0f523e1d1263a7bd9df900b9312af53",
+    "ios/tests/export-performance.mjs": "bb0b3b61ed7944fe20828ac4198cd4d0b1e9c5c882896de824437323aa71f512",
+    "tests/unit/ios-performance-export.test.mjs": "896bc6b86a0aaeef494f5b0366666131bd69e5ecd8db3c26f2ecc808b3831374",
     "ios/AILibrary.xcodeproj/project.pbxproj": "5096b9e35855f6c88577da348dbbdbeecc49e8aef583ac002b5625b2b2da9a2f",
     ".github/workflows/ios-published-candidate.yml": "ab2646df5c51b1f990aef656480980af2f9c593dfccefc6a022f44f93844a6b1"
   },
   "measurement": {
-    "metric": "declared XCTClockMetric, runtime identity not adopted",
+    "metric": "XCTClockMetric identity/display/s confirmed from first actual Xcode16.4 raw; product budgets unadopted",
     "boundary": "manual start immediately before app.launch through exact full article count and learning guide readiness; termination outside",
     "recorded_iterations": 3,
     "warmup_discarded": 1,
@@ -28,137 +28,39 @@
     "budgets": "unadopted"
   },
   "extraction": {
-    "modern_legacy_identity": "same actual test ID, modern list/detail same result, only confirmed modern Passed/legacy Success accepted",
-    "runtime_contract": "Clock identifier/unit pending first real Hosted raw output; nonzero exit until adopted",
-    "CSV": "raw nonempty UTF8 retained before typed parse; columns/rows/value agreement unvalidated",
-    "typed": "ActionTestSummary/ActionTestPerformanceMetricSummary exactly three finite nonnegative samples and actual unit; missing never zero"
+    "modern_legacy_identity": "same executed test ID, modern Passed/legacy Success only",
+    "runtime_contract": "observed Clock identifier/display_name/unit s adopted from first real Xcode16.4 result",
+    "CSV": "fatal UTF8; exact five quoted columns and one row; unique actual regular CSV; device/config and ordered three typed values; average half-last-decimal rounding via BigInt, epsilon zero",
+    "typed": "ActionTestSummary/ActionTestPerformanceMetricSummary Double3 finite nonnegative samples; missing never zero",
+    "filename_quirk": "actual csv and manifest csv.csv mismatch retained as observation; manifest filename not used as path authority"
   },
   "validation": {
-    "common_check": {
-      "tests": 749,
-      "pass": 734,
-      "fail": 0,
-      "skip": 15,
-      "result": "passed",
-      "log": "/private/tmp/ios-performance-observation-common-check-20261025.log",
-      "sha256": "771804d346b42df4c8e417d49edf6fa260086cd149018634de36b904eb1f07a2"
-    },
-    "actionlint": {
-      "version": "1.7.12",
-      "result": "passed",
-      "scope": "native/full-functional/performance workflows"
-    },
-    "SDK": {
-      "status": "passed",
-      "reason": "Parent integrated frozen performance source and authorized one reuse of baselineSDK",
-      "command": "DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath .local/ios-baseline-sdk -jobs 2 CODE_SIGNING_ALLOWED=NO build-for-testing",
-      "new_derived_data": false,
-      "test_source_snapshots": {
-        "ios/AILibraryUITests/PublishedPerformanceUITests.swift": {
-          "sha256": "ca4a6a8675aeaa62cb3f5fb0f1c6057b00cfdcfc09f3f103dcec8383e4aaf5e5",
-          "test_methods": [
-            "testLaunchToPublishedReadiness"
-          ]
-        },
-        "ios/AILibraryUITests/NativeReaderUITests.swift": {
-          "sha256": "a0e52d073e1101f2edb884d2a0d9ddf1f7dec07c261ef4a0760d0358c8edba11",
-          "test_methods": [
-            "testThreeArticlesHaveNativeBodyText",
-            "testContentsBookmarkAndResumeAfterRelaunch"
-          ]
-        },
-        "ios/AILibraryUITests/PublishedReaderUITests.swift": {
-          "sha256": "a6fe02cf250ef9e98a752871a8aa1002c0adc7521344eede393c8924f75fe945",
-          "test_methods": [
-            "testChapter03LargeDiagramCanExpandAndShowSource",
-            "testChapter03LongArticleContentsBookmarkAndResume",
-            "testChapter08LargestTableReachesFinalRowAndColumn",
-            "testLearningTagSearchCombinesWithArticleSearchAndClearsZeroResults",
-            "testLearningRouteShowsItsInstructionChapterOrderAndArticle",
-            "testGlossarySearchRelatedArticleAndReturnPreserveReaderState",
-            "testBundledContentSelectionCancelConfirmAndRestartKeepReadingAndGuide",
-            "testRelatedChapterLinkClosesInPlaceAndOpensAnArticleWithoutLosingTheReader"
-          ]
-        }
-      },
-      "unit_method_count": 119,
-      "unit_methods_per_source": {
-        "NativeInlineTests.swift": 24,
-        "LearningIndexTests.swift": 23,
-        "LearningNavigationTests.swift": 6,
-        "SearchIndexTests.swift": 8,
-        "LibraryCoreTests.swift": 58
-      },
-      "functional_method_count": 10,
-      "performance_method_count": 1,
-      "free_disk_bytes_before": 6115336192,
-      "exit_code": 0,
-      "log": "/private/tmp/ios-performance-pbx-workflow-20261025/sdk-build-for-testing.log",
-      "log_sha256": "a5e361cc380ef014d2b1b7a828570cce54c34c92047f740b3a11e3745e4ee122",
-      "toolchain": "Xcode 16.2 (16C5032a), iOS Simulator 18.2 SDK",
-      "architectures": [
-        "arm64",
-        "x86_64"
-      ],
-      "compiled_source_lists": {
-        "AILibraryTests": {
-          "arm64": [
-            "SearchIndexTests.swift",
-            "LearningNavigationTests.swift",
-            "NativeInlineTests.swift",
-            "LibraryCoreTests.swift",
-            "LearningIndexTests.swift"
-          ],
-          "x86_64": [
-            "SearchIndexTests.swift",
-            "LearningNavigationTests.swift",
-            "NativeInlineTests.swift",
-            "LibraryCoreTests.swift",
-            "LearningIndexTests.swift"
-          ]
-        },
-        "AILibraryUITests": {
-          "arm64": [
-            "NativeReaderUITests.swift",
-            "PublishedReaderUITests.swift",
-            "PublishedPerformanceUITests.swift"
-          ],
-          "x86_64": [
-            "NativeReaderUITests.swift",
-            "PublishedReaderUITests.swift",
-            "PublishedPerformanceUITests.swift"
-          ]
-        }
-      },
-      "warnings": {
-        "count": 9,
-        "type": "Apple signed XCTest/Testing frameworks not stripped with code signing disabled",
-        "source_compile_warnings": 0
-      },
-      "errors": 0,
-      "version": "0.2.14",
-      "build": "16",
-      "sources_unchanged_after_compile": true,
-      "free_disk_bytes_after": 6092505088,
-      "tests_executed": false
-    },
-    "initial_private_static_phase": {
-      "file": "/private/tmp/ios-native-ready-performance-validation-2026-10-25.json",
-      "sha256": "43633d23923959a2bd406a960012d5bb3ea02d8bdc8a6395a6a07295a011ade6",
-      "scope": "initial private Swift/workflow/exporter20 before safe-writer findings; historical working-not-written statements limited to initial phase"
-    },
-    "safe_writer_result_guard": {
-      "file": "/private/tmp/ios-native-ready-performance-writer-fix-validation-2026-10-25.json",
-      "sha256": "325ae5fd8e521046a242f804b050a1757afc65dca5926305db9e4e5de1271687",
-      "scope": "old-source reproduction and new-source rejection/input preservation, syntax only; repo27 covered by final commoncheck"
-    },
-    "independent_exporter_regressions": {
-      "tests": 27,
-      "pass": 27,
+    "Node_exporter_tests": {
+      "tests": 36,
+      "pass": 36,
       "fail": 0,
       "skip": 0,
-      "scope": "Node24/private fixtures; no performance/runtime success"
-    }
+      "independent_review": "approved and independently rerun"
+    },
+    "actual_raw_replay": {
+      "status": "CLI exit0/measured-and-exported, all seven input SHA unchanged",
+      "scope": "private xcrun double replays original retained raw; no new measurement or SDK execution"
+    },
+    "proof": {
+      "file": "/private/tmp/ios-performance-clock-csv-adoption-validation-2026-10-25.json",
+      "sha256": "da63a75f86d89a26d14a5d243b7ff0df566ad7a6f3074cd89c043601e723e632"
+    },
+    "combined_workspace_common_check": {
+      "tests": 765,
+      "pass": 750,
+      "skip": 15,
+      "fail": 0,
+      "log": "/private/tmp/ios-clock-signing-superset-common-check-20261025.log",
+      "sha256": "cd017cb510cd9bd97096b587a15bc774bfc8b4934c2eae00978fc42dfa7e2d28",
+      "scope": "superset also includes SDK signing guard seven Node cases absent from PR262; not exact PR262 runtime claim"
+    },
+    "Swift_and_PBX": "unchanged; prior SDK compile preserved in pre_clock_adoption",
+    "Hosted": "new-head-pending"
   },
   "review_findings": [
     {
@@ -172,9 +74,20 @@
       "status": "fixed-private-reproduction-and-27-regressions-independently-approved"
     }
   ],
-  "Hosted": "retest-pending-final-head",
-  "actual_measurements": null,
-  "product_acceptance": "unadopted",
+  "Hosted": "first run case passed, exporter deliberately pending/nonzero; new contract/CSV guard exact-head retest pending",
+  "actual_measurements": {
+    "source": "first immutable bootstrap run only, not new code run",
+    "unit": "s",
+    "samples": [
+      13.72942072,
+      15.904793718,
+      11.233647974
+    ],
+    "minimum": 11.233647974,
+    "median": 13.72942072,
+    "maximum": 15.904793718
+  },
+  "product_acceptance": "unadopted; default XCTest baseline metadata are not product targets",
   "physical_operations": false,
   "normal_user_storage_touched": false,
   "shared_generated_content_changed": false,
@@ -198,7 +111,7 @@
     "UI": "8passed/1failed at menu library-bundled-content missing; new performance class absent from that run",
     "status": "separate LibraryView diagnosis; full functional acceptance not claimed"
   },
-  "independent_source_review": "Swift/performance-workflow/exporter/test approved; PBX/functional-selector and full eleven-path final review pending",
+  "independent_source_review": "original eleven-path and action-sheet propagation approved; Clock source2 approved; new six-path tree review pending",
   "pre_filtered_action_sheet_fix_source_sha256": {
     "ios/AILibraryUITests/PublishedPerformanceUITests.swift": "ca4a6a8675aeaa62cb3f5fb0f1c6057b00cfdcfc09f3f103dcec8383e4aaf5e5",
     ".github/workflows/ios-performance.yml": "ade26f375b74d0bd6fef52d45ec1d1c71fcbfd46ce6b54b932451068cf933627",
@@ -259,5 +172,231 @@
     ]
   },
   "Release": "pending-final-head",
-  "SDK_after_filtered_action_sheet_fix": "app-only cumulative build passed; exact-head SDK/Hosted pending"
+  "SDK_after_filtered_action_sheet_fix": "app-only cumulative build passed; exact-head SDK/Hosted pending",
+  "pre_clock_adoption": {
+    "source_sha256": {
+      "ios/AILibraryUITests/PublishedPerformanceUITests.swift": "ca4a6a8675aeaa62cb3f5fb0f1c6057b00cfdcfc09f3f103dcec8383e4aaf5e5",
+      ".github/workflows/ios-performance.yml": "ade26f375b74d0bd6fef52d45ec1d1c71fcbfd46ce6b54b932451068cf933627",
+      "ios/tests/export-performance.mjs": "5080108bbe0695efdb6e43ecccafd6f3bf524b8380228f23d904bcf91ecb2e12",
+      "tests/unit/ios-performance-export.test.mjs": "5bde52debb9a7f4bfe781180740920a6e0f523e1d1263a7bd9df900b9312af53",
+      "ios/AILibrary.xcodeproj/project.pbxproj": "5096b9e35855f6c88577da348dbbdbeecc49e8aef583ac002b5625b2b2da9a2f",
+      ".github/workflows/ios-published-candidate.yml": "ab2646df5c51b1f990aef656480980af2f9c593dfccefc6a022f44f93844a6b1"
+    },
+    "validation": {
+      "common_check": {
+        "tests": 749,
+        "pass": 734,
+        "fail": 0,
+        "skip": 15,
+        "result": "passed",
+        "log": "/private/tmp/ios-performance-observation-common-check-20261025.log",
+        "sha256": "771804d346b42df4c8e417d49edf6fa260086cd149018634de36b904eb1f07a2"
+      },
+      "actionlint": {
+        "version": "1.7.12",
+        "result": "passed",
+        "scope": "native/full-functional/performance workflows"
+      },
+      "SDK": {
+        "status": "passed",
+        "reason": "Parent integrated frozen performance source and authorized one reuse of baselineSDK",
+        "command": "DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath .local/ios-baseline-sdk -jobs 2 CODE_SIGNING_ALLOWED=NO build-for-testing",
+        "new_derived_data": false,
+        "test_source_snapshots": {
+          "ios/AILibraryUITests/PublishedPerformanceUITests.swift": {
+            "sha256": "ca4a6a8675aeaa62cb3f5fb0f1c6057b00cfdcfc09f3f103dcec8383e4aaf5e5",
+            "test_methods": [
+              "testLaunchToPublishedReadiness"
+            ]
+          },
+          "ios/AILibraryUITests/NativeReaderUITests.swift": {
+            "sha256": "a0e52d073e1101f2edb884d2a0d9ddf1f7dec07c261ef4a0760d0358c8edba11",
+            "test_methods": [
+              "testThreeArticlesHaveNativeBodyText",
+              "testContentsBookmarkAndResumeAfterRelaunch"
+            ]
+          },
+          "ios/AILibraryUITests/PublishedReaderUITests.swift": {
+            "sha256": "a6fe02cf250ef9e98a752871a8aa1002c0adc7521344eede393c8924f75fe945",
+            "test_methods": [
+              "testChapter03LargeDiagramCanExpandAndShowSource",
+              "testChapter03LongArticleContentsBookmarkAndResume",
+              "testChapter08LargestTableReachesFinalRowAndColumn",
+              "testLearningTagSearchCombinesWithArticleSearchAndClearsZeroResults",
+              "testLearningRouteShowsItsInstructionChapterOrderAndArticle",
+              "testGlossarySearchRelatedArticleAndReturnPreserveReaderState",
+              "testBundledContentSelectionCancelConfirmAndRestartKeepReadingAndGuide",
+              "testRelatedChapterLinkClosesInPlaceAndOpensAnArticleWithoutLosingTheReader"
+            ]
+          }
+        },
+        "unit_method_count": 119,
+        "unit_methods_per_source": {
+          "NativeInlineTests.swift": 24,
+          "LearningIndexTests.swift": 23,
+          "LearningNavigationTests.swift": 6,
+          "SearchIndexTests.swift": 8,
+          "LibraryCoreTests.swift": 58
+        },
+        "functional_method_count": 10,
+        "performance_method_count": 1,
+        "free_disk_bytes_before": 6115336192,
+        "exit_code": 0,
+        "log": "/private/tmp/ios-performance-pbx-workflow-20261025/sdk-build-for-testing.log",
+        "log_sha256": "a5e361cc380ef014d2b1b7a828570cce54c34c92047f740b3a11e3745e4ee122",
+        "toolchain": "Xcode 16.2 (16C5032a), iOS Simulator 18.2 SDK",
+        "architectures": [
+          "arm64",
+          "x86_64"
+        ],
+        "compiled_source_lists": {
+          "AILibraryTests": {
+            "arm64": [
+              "SearchIndexTests.swift",
+              "LearningNavigationTests.swift",
+              "NativeInlineTests.swift",
+              "LibraryCoreTests.swift",
+              "LearningIndexTests.swift"
+            ],
+            "x86_64": [
+              "SearchIndexTests.swift",
+              "LearningNavigationTests.swift",
+              "NativeInlineTests.swift",
+              "LibraryCoreTests.swift",
+              "LearningIndexTests.swift"
+            ]
+          },
+          "AILibraryUITests": {
+            "arm64": [
+              "NativeReaderUITests.swift",
+              "PublishedReaderUITests.swift",
+              "PublishedPerformanceUITests.swift"
+            ],
+            "x86_64": [
+              "NativeReaderUITests.swift",
+              "PublishedReaderUITests.swift",
+              "PublishedPerformanceUITests.swift"
+            ]
+          }
+        },
+        "warnings": {
+          "count": 9,
+          "type": "Apple signed XCTest/Testing frameworks not stripped with code signing disabled",
+          "source_compile_warnings": 0
+        },
+        "errors": 0,
+        "version": "0.2.14",
+        "build": "16",
+        "sources_unchanged_after_compile": true,
+        "free_disk_bytes_after": 6092505088,
+        "tests_executed": false
+      },
+      "initial_private_static_phase": {
+        "file": "/private/tmp/ios-native-ready-performance-validation-2026-10-25.json",
+        "sha256": "43633d23923959a2bd406a960012d5bb3ea02d8bdc8a6395a6a07295a011ade6",
+        "scope": "initial private Swift/workflow/exporter20 before safe-writer findings; historical working-not-written statements limited to initial phase"
+      },
+      "safe_writer_result_guard": {
+        "file": "/private/tmp/ios-native-ready-performance-writer-fix-validation-2026-10-25.json",
+        "sha256": "325ae5fd8e521046a242f804b050a1757afc65dca5926305db9e4e5de1271687",
+        "scope": "old-source reproduction and new-source rejection/input preservation, syntax only; repo27 covered by final commoncheck"
+      },
+      "independent_exporter_regressions": {
+        "tests": 27,
+        "pass": 27,
+        "fail": 0,
+        "skip": 0,
+        "scope": "Node24/private fixtures; no performance/runtime success"
+      }
+    },
+    "extraction": {
+      "modern_legacy_identity": "same actual test ID, modern list/detail same result, only confirmed modern Passed/legacy Success accepted",
+      "runtime_contract": "Clock identifier/unit pending first real Hosted raw output; nonzero exit until adopted",
+      "CSV": "raw nonempty UTF8 retained before typed parse; columns/rows/value agreement unvalidated",
+      "typed": "ActionTestSummary/ActionTestPerformanceMetricSummary exactly three finite nonnegative samples and actual unit; missing never zero"
+    },
+    "Hosted": "retest-pending-final-head",
+    "actual_measurements": null
+  },
+  "first_measurement": {
+    "head": "e8032494fb396718bbfe2218b1dfa428abfd7313",
+    "tree": "86c06da989c5941241a8edec2f1df6e261ceab2c",
+    "run": 40188893652,
+    "job": 121155442650,
+    "artifact": 12597801467,
+    "artifact_bytes": 206160,
+    "artifact_sha256": "6e19552e7c32a47aff66d4ee62ebc50f6646d6adf6db4c47c777c1ef21e53a77",
+    "case_result": "Passed",
+    "initial_exporter": "expected pending/nonzero because contract was null; workflow not successful",
+    "test_source_sha256": "ca4a6a8675aeaa62cb3f5fb0f1c6057b00cfdcfc09f3f103dcec8383e4aaf5e5",
+    "context": {
+      "source_head": "e8032494fb396718bbfe2218b1dfa428abfd7313",
+      "source_tree": "86c06da989c5941241a8edec2f1df6e261ceab2c",
+      "configuration": "Debug",
+      "expected_articles": 199,
+      "actual_app_package": {
+        "articles": 199,
+        "audio": 1,
+        "bytes_including_manifest": 40079063,
+        "files_including_manifest": 626,
+        "PNG_files": 422,
+        "revision": "a3fb96a06900e5985521bed07970d0eee0de3ca8c02bf56589a57b80cbeeb3c1",
+        "schema_version": 1,
+        "status": "passed",
+        "top_level_blocks": 8389,
+        "validation_and_document_load_seconds": 2.7953790426254272,
+        "validator": "app-ContentValidator",
+        "verified_files_excluding_manifest": 625
+      },
+      "app_version": "0.2.14",
+      "app_build": "16",
+      "Xcode": "Xcode 16.4\nBuild version 16F6",
+      "host_architecture": "arm64",
+      "host_model": "VirtualMac2,1",
+      "host_memory_bytes": "7516192768",
+      "locale": "ja_JP",
+      "text_size": "fresh Simulator default, not overridden",
+      "appearance": "fresh Simulator default, not overridden",
+      "scenario": "launch-to-published-readiness",
+      "declared_recorded_iterations": 3,
+      "discarded_warmup_invocations": 1,
+      "test_source_sha256": "ca4a6a8675aeaa62cb3f5fb0f1c6057b00cfdcfc09f3f103dcec8383e4aaf5e5",
+      "limits": "The package audit warmed file caches before launches. No disk-cold, first-install, Release, physical-device or product-target claim."
+    },
+    "metrics": [
+      {
+        "identifier": "com.apple.dt.XCTMetric_Clock.time.monotonic",
+        "display_name": "Clock Monotonic Time",
+        "unit": "s",
+        "raw_samples": [
+          "13.72942072",
+          "15.904793718",
+          "11.233647974"
+        ],
+        "samples": [
+          13.72942072,
+          15.904793718,
+          11.233647974
+        ],
+        "sample_count": 3,
+        "minimum": 11.233647974,
+        "median": 13.72942072,
+        "maximum": 15.904793718,
+        "baseline": {
+          "name": "",
+          "average": "0.0",
+          "maximum_percent_regression": "10.0",
+          "maximum_relative_standard_deviation": "10.0"
+        }
+      }
+    ],
+    "csv": [
+      {
+        "file": "metrics-csv-SJRHwR/0DAB175A-B198-43F3-9E19-F2F0B05625A5.csv",
+        "bytes": 247,
+        "sha256": "154faa23ef6bb36ff08759061026f2b183604ce8f2517eb89af315230ae79374"
+      }
+    ],
+    "independent_raw_review": "approved same testID/status/metric ID/display/s/3samples across JSON, actual CSV, rawlog and xcresult protocol attachment"
+  }
 }

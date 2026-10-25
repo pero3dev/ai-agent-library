@@ -11,12 +11,14 @@ manifestの`schema_version`は2。記事・音声・SHA一覧・revisionの既�
 | appの系統 | renderer | manifest schema | document schema | 取扱い |
 | --- | --- | --- | --- | --- |
 | 旧WKWebView試作 | 旧HTML | 1 | HTML | 比較用。現行native版の取り込み対象外 |
-| 現行native版0.2.0〜0.2.5 | native renderer v1 | 2 | 1 | 現行の受入対象。記事と全参照資産を検証後に切り替える |
+| 現行native版0.2.0〜0.2.8 | native renderer v1 | 2 | 1 | 現行の受入対象。記事と全参照資産を検証後に切り替える |
 | 現行appが知らない形式 | 未対応 | 2以外、またはdocumentが1以外 | 未対応 | 新規導入を拒否。保存済み版が不適合なら正常な同梱版へ戻す |
 
 renderer v1はこの文書の型と検証規則の実装名で、manifestへ追加するフィールドではない。appのversion番号だけから受入可否を決めず、上記のschemaの組と内容検証で判定する。新しいblock・inline・必須フィールドや意味を既存readerが扱えない場合はdocument schemaを上げる。manifestの構造・許可資産・全体の互換性を変える場合はmanifest schemaを上げる。変更時はproducer・consumer・契約試験を同じ作業で更新し、旧形式への移行または拒否・正常版維持を明示する。見出しや本文の通常の改訂はschema変更ではなく、原本SHA・本文digest・revisionで区別する。
 
 旧HTMLの生成ライブラリは比較用として残し、CLIは明示した一時出力だけを使う。通常の`Content`や`TestContent`へschema 1を書き戻す入口にはしない。旧経路の全削除はIOS-24、独立更新の配信元・真正性・容量管理はIOS-20以降の別工程で扱う。
+
+全記事の明示同梱候補は、既存の許可JSONとして[任意の学習案内schema 1](learning-index-schema.md)を追加できる。`assets/learning/index.json`のSHAを通常の`files`とrevisionへ含めるため、manifest 2・document 1の構造は変えない。学習案内を使わない既存readerの本文互換と、新readerによる補助JSON自身の検証・UI受入は分けて扱う。
 
 ### 共通の容量境界
 

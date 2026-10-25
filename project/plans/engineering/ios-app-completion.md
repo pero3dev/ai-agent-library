@@ -102,6 +102,8 @@ IOS-13・15の準備として、全published記事の明示的な一時生成を
 
 IOS-14のうち[章・難易度の絞り込み](../../records/2026-10-25/ios-category-level-filter.md)を既存metadataで実装した。検索・しおりとのANDと解除を追加し、通常3記事と専用画面を維持する。タグ・章の掲載順・学習ルート・用語集と新たな実機受入は残し、IOS-14全体は未完了とする。
 
+IOS-14の次の単位として、[学習案内の構造化生成](../../records/2026-10-25/ios-learning-index-generation.md)を追加した。全記事の明示同梱候補にだけ、章README順・タグ・A〜Hルート・用語集を任意JSONとして載せる。manifest 2・document 1と旧3/4記事を維持した生成・旧reader非UI互換を確認し、新Swift consumer・学習UI・操作受入とIOS-14全体は後続へ残す。
+
 IOS-18のうち[初期失敗と利用できない記事の復旧](../../records/2026-10-25/ios-load-recovery.md)を追加した。保存を維持した再試行とimport復帰を実Storeの非UI検査で確認し、画面の操作と読み上げ・全体受入は未完了として残す。
 
 IOS-15の準備では[負荷の棚卸しと空検索の改善](../../records/2026-10-25/ios-empty-search-performance.md)を行った。全199記事で結果・順序を保ち、空queryの全文正規化を省いた。CLIの比較測定と、未完了の起動・検索入力・描画・メモリ・実機性能を分けて記録する。

@@ -197,4 +197,74 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
                         inside: app.scrollViews["native-reader"], fullyVisible: true)
         capture("Learning-glossary-reader-return")
     }
+
+    private func openBundledContentConfirmation() {
+        app.buttons["その他の操作"].tap()
+        let choose = app.buttons["library-bundled-content"]
+        requireHittable(choose)
+        choose.tap()
+        XCTAssertTrue(app.navigationBars["同梱コンテンツ"].waitForExistence(timeout: 45))
+        XCTAssertEqual(app.staticTexts["bundled-content-current-count"].label, "記事数: \(expectedPublishedCount)記事")
+        XCTAssertEqual(app.staticTexts["bundled-content-bundled-count"].label, "記事数: \(expectedPublishedCount)記事")
+    }
+
+    func testBundledContentSelectionCancelConfirmAndRestartKeepReadingAndGuide() throws {
+        // This full-bundle app starts with equivalent bundled content. The Core
+        // migration regressions separately exercise actual old-three to full switches.
+        open("Transformer アーキテクチャ詳解", articleID: "11-llm-internals/transformer-architecture")
+        goToContents("自己注意の数式", headingID: "自己注意の数式")
+        app.buttons["しおりを追加"].tap()
+        returnToLibrary()
+
+        let tags = app.buttons["library-tag-filter"]
+        for _ in 0..<8 where !isHittableOnScreen(tags) { app.swipeDown(velocity: .slow) }
+        requireHittable(tags)
+        tags.tap()
+        let tagSearch = app.searchFields["タグを検索"]
+        XCTAssertTrue(tagSearch.waitForExistence(timeout: 10))
+        tagSearch.tap()
+        tagSearch.typeText("transformer\n")
+        let tag = app.buttons["learning-tag-transformer"]
+        requireHittable(tag)
+        tag.tap()
+        let summary = app.staticTexts["library-filter-summary"]
+        XCTAssertTrue(summary.waitForExistence(timeout: 10))
+        XCTAssertTrue(summary.label.contains("タグ: transformer"))
+        XCTAssertTrue(summary.label.contains("検索: Transformer"))
+        let originalSummary = summary.label
+
+        openBundledContentConfirmation()
+        app.buttons["bundled-content-cancel"].tap()
+        let closed = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            !self.app.navigationBars["同梱コンテンツ"].exists
+        }, object: nil)
+        XCTAssertEqual(XCTWaiter.wait(for: [closed], timeout: 10), .completed)
+        XCTAssertEqual(summary.label, originalSummary, "Cancel must retain both the article query and selected tag")
+
+        openBundledContentConfirmation()
+        let confirm = app.buttons["bundled-content-confirm"]
+        for _ in 0..<5 where !isHittableOnScreen(confirm) { app.swipeUp(velocity: .slow) }
+        requireHittable(confirm)
+        confirm.tap()
+        let notice = app.alerts["コンテンツ"]
+        XCTAssertTrue(notice.waitForExistence(timeout: 45))
+        XCTAssertTrue(notice.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "保存したしおりと読書位置")).firstMatch.exists)
+        notice.buttons["閉じる"].tap()
+        XCTAssertFalse(summary.exists, "Only confirmed successful selection resets transient filters")
+        XCTAssertEqual(tags.value as? String, "すべてのタグ")
+        XCTAssertEqual(app.staticTexts["library-article-count"].label, "全\(expectedPublishedCount)記事")
+
+        app.terminate()
+        app.launch()
+        XCTAssertTrue(app.staticTexts["library-article-count"].waitForExistence(timeout: 45))
+        XCTAssertEqual(app.staticTexts["library-article-count"].label, "全\(expectedPublishedCount)記事")
+        XCTAssertTrue(app.buttons["library-learning-guide"].exists)
+        let resume = element("library-resume")
+        XCTAssertTrue(resume.waitForExistence(timeout: 10))
+        resume.tap()
+        XCTAssertTrue(app.buttons["しおりを削除"].waitForExistence(timeout: 10))
+        requireHittable(app.staticTexts["native-heading-自己注意の数式"],
+                        inside: app.scrollViews["native-reader"], fullyVisible: true)
+        capture("Bundled-content-selection-resume")
+    }
 }

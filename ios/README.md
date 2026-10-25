@@ -98,6 +98,8 @@ Debugで`TestContent`を生成していない場合は、入口で記事が含�
 
 [Hosted Simulator CI](../.github/workflows/ios-native.yml)は記事生成・監査、全AILibraryTests、既存AILibraryUITests、Releaseの通常manifest・全SHA・TestContent不在を追加チェックとして検査します。既存11必須チェックやmain保護設定は維持します。[基準CIの実施記録](../project/records/2026-10-25/ios-native-ci.md)と[UI実行の追加](../project/records/2026-10-25/ios-native-ui-ci.md)で、hostedの実行結果とローカルSDK compileを区別します。UI2件は本文・目次・しおり・再起動復帰の基本範囲で、全UI・実機受入は別に追跡します。
 
+0.2.10（12）では通常一覧の「その他の操作」から、このアプリの同梱コンテンツを確認して選べます。現在・同梱版の実際の記事数と版を表示し、確認の取消では切り替えません。成功後に一覧の一時条件だけを解除し、しおり・読書位置は保持します。保存済み版を自動で上書きせず、旧版削除や全記事の既定採用も別に扱います。[切替の記録](../project/records/2026-10-25/ios-bundled-content-activation.md)で非UI検証と未完了の画面・実機受入を区別します。
+
 ## 記事の生成と更新の試験
 
 [生成CLI](../scripts/build-ios-native-content.mjs)と[変換処理](../scripts/lib/ios-native-content.mjs)は、Markdown原本と音声カタログからパッケージを作ります。[資産生成](../scripts/lib/ios-native-assets.mjs)は行内・表示数式とMermaidを明暗別PNGへ変換します。元のTeX・Mermaidと代替読み上げ文をJSONへ残し、KaTeX・Mermaid・記事のライセンスも同梱します。端末用パッケージはJSON・PNG・TXTで構成し、HTML・JS・CSS・SVG・フォントは含めません。

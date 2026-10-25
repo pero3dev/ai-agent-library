@@ -443,6 +443,276 @@ final class LibraryCoreTests: XCTestCase {
         XCTAssertFalse(store.isLoading)
     }
 
+    func testBundledPreviewPreservesImportedSelectionAndSelectionUsesAllManifestFields() throws {
+        let bundled = try fixture("activation-bundle", revision: "same")
+        let changed = NativeDocument(schema_version: 1, article_id: "example", source_sha256: article().source_sha256,
+            blocks: [NativeBlock(id: "heading", type: "heading", heading_id: "intro", level: 2,
+                                 inlines: [NativeInline(type: "text", text: "導入")]),
+                     NativeBlock(id: "changed", type: "paragraph", inlines: [NativeInline(type: "text", text: "別の本文")])])
+        let imported = try fixture("activation-import", revision: "same", document: changed)
+        let storage = directory.appendingPathComponent("activation-selection-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        let accepted = try repository.install(from: imported)
+        let pointerURL = storage.appendingPathComponent("current.json")
+        let pointer = try Data(contentsOf: pointerURL)
+        let preview = try repository.previewBundledContent()
+        XCTAssertEqual(preview.currentArticleCount, 1)
+        XCTAssertEqual(preview.bundledArticleCount, 1)
+        XCTAssertEqual(preview.currentRevision, preview.bundledRevision)
+        XCTAssertFalse(preview.isAlreadyActive, "Equal opaque revisions must not hide changed document digests")
+        XCTAssertEqual(try Data(contentsOf: pointerURL), pointer)
+        XCTAssertEqual(try repository.load().root, accepted.root, "Ordinary load still prefers the import")
+        let selected = try repository.activateBundledContent()
+        XCTAssertFalse(selected.alreadyActive)
+        XCTAssertNotEqual(selected.snapshot.root, accepted.root)
+        XCTAssertEqual(try selected.snapshot.document(for: article()), document())
+        XCTAssertEqual(try accepted.document(for: article()), changed, "Earlier readers retain their old package")
+        let selectedPointer = try Data(contentsOf: pointerURL)
+        let selectedRoot = selected.snapshot.root
+        let again = try repository.activateBundledContent()
+        XCTAssertTrue(again.alreadyActive)
+        XCTAssertEqual(again.snapshot.root, selectedRoot)
+        XCTAssertEqual(try Data(contentsOf: pointerURL), selectedPointer)
+        XCTAssertEqual(try FileManager.default.contentsOfDirectory(atPath: storage.appendingPathComponent("versions").path).count, 2)
+    }
+
+    func testEquivalentBundledSelectionIgnoresManifestFormattingAndCreatesNoDuplicate() throws {
+        let bundled = try fixture("activation-equivalent-bundle")
+        let imported = directory.appendingPathComponent("activation-equivalent-import")
+        try FileManager.default.copyItem(at: bundled, to: imported)
+        let manifestURL = imported.appendingPathComponent("manifest.json")
+        let object = try JSONSerialization.jsonObject(with: Data(contentsOf: manifestURL))
+        try JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted, .sortedKeys]).write(to: manifestURL)
+        let storage = directory.appendingPathComponent("activation-equivalent-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        XCTAssertTrue(try repository.activateBundledContent().alreadyActive)
+        XCTAssertFalse(FileManager.default.fileExists(atPath: storage.path), "Fresh bundled selection needs no import copy")
+        let installed = try repository.install(from: imported)
+        let pointerURL = storage.appendingPathComponent("current.json")
+        let pointer = try Data(contentsOf: pointerURL)
+        XCTAssertTrue(try repository.previewBundledContent().isAlreadyActive)
+        let selected = try repository.activateBundledContent()
+        XCTAssertTrue(selected.alreadyActive)
+        XCTAssertEqual(selected.snapshot.root, installed.root)
+        XCTAssertEqual(try Data(contentsOf: pointerURL), pointer)
+        XCTAssertEqual(try FileManager.default.contentsOfDirectory(atPath: storage.appendingPathComponent("versions").path).count, 1)
+    }
+
+    func testBundledActivationFailuresPreservePointerAndEarlierPackage() throws {
+        let bundled = try fixture("activation-failure-bundle", revision: "bundled")
+        let imported = try fixture("activation-failure-import", revision: "imported")
+        let storage = directory.appendingPathComponent("activation-failure-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        let installed = try repository.install(from: imported)
+        let pointerURL = storage.appendingPathComponent("current.json")
+        let pointer = try Data(contentsOf: pointerURL)
+        let failing = ContentRepository(bundledRoot: bundled, storageRoot: storage,
+            writePointer: { _, _ in throw CocoaError(.fileWriteNoPermission) })
+        XCTAssertThrowsError(try failing.activateBundledContent())
+        XCTAssertEqual(try Data(contentsOf: pointerURL), pointer)
+        XCTAssertEqual(try repository.load().root, installed.root)
+        XCTAssertEqual(try FileManager.default.contentsOfDirectory(atPath: storage.appendingPathComponent("versions").path).count, 1)
+        for scenario in futureSchemaCases {
+            let invalid = try futurePackage("activation-future-\(scenario.name)", manifestSchema: scenario.manifest,
+                                            documentSchema: scenario.document)
+            let invalidRepository = ContentRepository(bundledRoot: invalid, storageRoot: storage)
+            XCTAssertThrowsError(try invalidRepository.previewBundledContent())
+            XCTAssertThrowsError(try invalidRepository.activateBundledContent())
+            XCTAssertEqual(try invalidRepository.load().root, installed.root)
+            XCTAssertEqual(try Data(contentsOf: pointerURL), pointer)
+        }
+        let testing = try readerTestPackage("activation-fixture-bundle")
+        XCTAssertThrowsError(try ContentRepository(bundledRoot: testing, storageRoot: storage).activateBundledContent())
+        try Data("broken".utf8).write(to: bundled.appendingPathComponent("articles/example.json"))
+        XCTAssertThrowsError(try repository.previewBundledContent())
+        XCTAssertThrowsError(try repository.activateBundledContent())
+        XCTAssertEqual(try Data(contentsOf: pointerURL), pointer)
+        XCTAssertEqual(try repository.load().root, installed.root)
+    }
+
+    @MainActor
+    func testStoreBundledSelectionKeepsRecordsAndSwitchesSnapshotAndIndexTogether() async throws {
+        let original = try fixture("activation-store-original", revision: "old")
+        let bundled = try learningPackage("activation-store-bundled", revision: "new")
+        let storage = directory.appendingPathComponent("activation-store-storage")
+        _ = try ContentRepository(bundledRoot: original, storageRoot: storage).install(from: original)
+        let suite = "ailibrary-bundle-switch-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("example")
+        reading.toggleBookmark("missing-id")
+        reading.record(articleID: "example", heading: "intro", fraction: 0.45, blockID: "paragraph")
+        let records = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+        let store = LibraryStore(reading: reading, bundledRoot: bundled, storageRoot: storage)
+        await store.load()
+        XCTAssertEqual(store.snapshot?.manifest.revision, "old")
+        XCTAssertNil(store.learningIndex)
+        let previewResult = await store.previewBundledContent()
+        let preview = try XCTUnwrap(previewResult)
+        XCTAssertEqual(preview.currentArticleCount, 1)
+        XCTAssertEqual(preview.bundledArticleCount, 2)
+        XCTAssertFalse(preview.isAlreadyActive)
+        XCTAssertEqual(store.snapshot?.manifest.revision, "old", "Preview must never activate")
+        let selected = await store.activateBundledContent()
+        XCTAssertTrue(selected)
+        XCTAssertEqual(store.snapshot?.manifest.revision, "new")
+        XCTAssertNotNil(store.learningIndex)
+        XCTAssertEqual(store.lastArticleID, "example", "An unavailable last article remains recorded")
+        XCTAssertEqual(store.bookmarks, ["example", "missing-id"])
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), records)
+        let reopened = LibraryStore(reading: ReadingStore(defaults: defaults), bundledRoot: bundled, storageRoot: storage)
+        await reopened.load()
+        XCTAssertEqual(reopened.snapshot?.root, store.snapshot?.root)
+        XCTAssertNotNil(reopened.learningIndex)
+        let oldBinary = LibraryStore(reading: ReadingStore(defaults: defaults), bundledRoot: original, storageRoot: storage)
+        await oldBinary.load()
+        XCTAssertNotNil(oldBinary.learningIndex, "A binary's bundle must not silently override its saved content")
+        let restored = await oldBinary.activateBundledContent()
+        XCTAssertTrue(restored)
+        XCTAssertEqual(oldBinary.snapshot?.manifest.revision, "old")
+        XCTAssertNil(oldBinary.learningIndex)
+        XCTAssertNil(oldBinary.learningError)
+        XCTAssertEqual(oldBinary.reading.position(for: article()).fraction, 0.45)
+        XCTAssertEqual(oldBinary.bookmarks, ["example", "missing-id"])
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), records)
+    }
+
+    @MainActor
+    func testStoreMissingContentBundledPreviewExplainsUnavailableBodyWithoutChangingRecords() async throws {
+        let suite = "ailibrary-bundled-preview-missing-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("example")
+        reading.record(articleID: "example", heading: "intro", fraction: 0.35)
+        let records = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+        let storage = directory.appendingPathComponent("activation-preview-missing-storage")
+        let store = LibraryStore(reading: reading, bundledRoot: directory.appendingPathComponent("missing-bundle"), storageRoot: storage)
+        await store.load()
+        XCTAssertNil(store.snapshot)
+        let initialError = try XCTUnwrap(store.loadError)
+        let preview = await store.previewBundledContent()
+        XCTAssertNil(preview)
+        XCTAssertNil(store.snapshot)
+        XCTAssertNil(store.learningIndex)
+        XCTAssertEqual(store.loadError, initialError)
+        XCTAssertFalse(store.isLoading)
+        let message = try XCTUnwrap(store.message)
+        XCTAssertTrue(message.contains("コンテンツはまだ読み込まれていません。"))
+        XCTAssertTrue(message.contains("別のフォルダを選ぶか、再試行してください。"))
+        XCTAssertFalse(message.contains("現在のコンテンツを引き続き利用できます。"))
+        XCTAssertEqual(store.bookmarks, ["example"])
+        XCTAssertEqual(store.lastArticleID, "example")
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), records)
+        XCTAssertFalse(FileManager.default.fileExists(atPath: storage.path))
+    }
+
+    @MainActor
+    func testStoreBundledPreviewAndSelectionFailurePreservePublishedContentAndRecords() async throws {
+        let bundled = try fixture("activation-store-broken-bundle")
+        let imported = try learningPackage("activation-store-good-import", revision: "accepted")
+        let storage = directory.appendingPathComponent("activation-store-broken-storage")
+        _ = try ContentRepository(bundledRoot: bundled, storageRoot: storage).install(from: imported)
+        try Data("broken".utf8).write(to: bundled.appendingPathComponent("articles/example.json"))
+        let suite = "ailibrary-bundle-failure-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark(roadmapID)
+        let records = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+        let store = LibraryStore(reading: reading, bundledRoot: bundled, storageRoot: storage)
+        await store.load()
+        let accepted = try XCTUnwrap(store.snapshot)
+        let pointer = try Data(contentsOf: storage.appendingPathComponent("current.json"))
+        let preview = await store.previewBundledContent()
+        XCTAssertNil(preview)
+        XCTAssertNotNil(store.message)
+        let selected = await store.activateBundledContent()
+        XCTAssertFalse(selected)
+        XCTAssertEqual(store.snapshot?.root, accepted.root)
+        XCTAssertNotNil(store.learningIndex)
+        XCTAssertNil(store.learningError)
+        XCTAssertEqual(try Data(contentsOf: storage.appendingPathComponent("current.json")), pointer)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), records)
+        XCTAssertFalse(store.isLoading)
+    }
+
+    @MainActor
+    func testStoreBundledSelectionRejectsAlreadyCancelledEntryAndFixtureLibrary() async throws {
+        let bundled = try learningPackage("activation-cancel-bundle", revision: "new")
+        let old = try fixture("activation-cancel-old", revision: "old")
+        let storage = directory.appendingPathComponent("activation-cancel-storage")
+        _ = try ContentRepository(bundledRoot: bundled, storageRoot: storage).install(from: old)
+        let suite = "ailibrary-bundle-cancel-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let store = LibraryStore(reading: ReadingStore(defaults: defaults), bundledRoot: bundled, storageRoot: storage)
+        await store.load()
+        let pointer = try Data(contentsOf: storage.appendingPathComponent("current.json"))
+        let task = Task { @MainActor in
+            withUnsafeCurrentTask { $0?.cancel() }
+            let preview = await store.previewBundledContent()
+            let selected = await store.activateBundledContent()
+            XCTAssertNil(preview)
+            XCTAssertFalse(selected)
+        }
+        await task.value
+        XCTAssertFalse(Task.isCancelled)
+        XCTAssertEqual(store.snapshot?.manifest.revision, "old")
+        XCTAssertEqual(try Data(contentsOf: storage.appendingPathComponent("current.json")), pointer)
+        let fixtureStorage = directory.appendingPathComponent("activation-disabled-test-storage")
+        let testing = LibraryStore(reading: ReadingStore(defaults: defaults), bundledRoot: try readerTestPackage("activation-disabled-test"),
+                                   isTestLibrary: true, storageRoot: fixtureStorage)
+        await testing.load()
+        XCTAssertFalse(testing.allowsBundledContentActivation)
+        let preview = await testing.previewBundledContent()
+        let selected = await testing.activateBundledContent()
+        XCTAssertNil(preview)
+        XCTAssertFalse(selected)
+        XCTAssertFalse(FileManager.default.fileExists(atPath: fixtureStorage.path))
+        XCTAssertEqual(testing.snapshot?.manifest.revision, "reader-test")
+    }
+
+    @MainActor
+    func testStoreCancelledAfterBundledSelectionStartsPublishesCommittedIndexAndSnapshot() async throws {
+        let bundled = try learningPackage("activation-running-bundle", revision: "new")
+        let old = try fixture("activation-running-old", revision: "old")
+        let storage = directory.appendingPathComponent("activation-running-storage")
+        _ = try ContentRepository(bundledRoot: bundled, storageRoot: storage).install(from: old)
+        let suite = "ailibrary-bundle-running-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("example")
+        let records = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+        let store = LibraryStore(reading: reading, bundledRoot: bundled, storageRoot: storage)
+        await store.load()
+        var cancelNext = true
+        var cancelled = false
+        let subscription = store.objectWillChange.sink {
+            guard cancelNext else { return }
+            cancelNext = false
+            withUnsafeCurrentTask { current in
+                current?.cancel()
+                cancelled = current?.isCancelled == true
+            }
+        }
+        let task = Task { @MainActor in await store.activateBundledContent() }
+        let selected = await task.value
+        subscription.cancel()
+        XCTAssertTrue(selected)
+        XCTAssertTrue(cancelled)
+        XCTAssertFalse(Task.isCancelled)
+        let persisted = try ContentRepository(bundledRoot: bundled, storageRoot: storage).load()
+        let index = try XCTUnwrap(NativeLearningIndex.load(from: persisted))
+        XCTAssertEqual(persisted.manifest.revision, "new")
+        XCTAssertEqual(store.snapshot?.root, persisted.root)
+        XCTAssertEqual(store.learningIndex?.article_tags, index.article_tags)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), records)
+        XCTAssertFalse(store.isLoading)
+    }
+
     func testSearchNormalizesWidthCaseKanaAndMultipleTerms() {
         XCTAssertTrue(LibrarySearch.matches(article(), query: "ai API"))
         XCTAssertTrue(LibrarySearch.matches(article(), query: "ｴｰｼﾞｪﾝﾄ"))

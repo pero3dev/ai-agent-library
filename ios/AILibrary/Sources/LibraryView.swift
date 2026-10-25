@@ -6,16 +6,30 @@ struct LibraryView: View {
     @State private var filter = LibraryArticleFilter()
     @State private var importPresented = false
     @State private var aboutPresented = false
+    @State private var moreActionsPresented = false
+    @State private var pendingMoreAction: MoreAction?
     @State private var path: [ReaderRoute] = []
     @State private var selectedChapterID: String?
     @State private var tagPresented = false
     @State private var learningPresented: NativeLearningPresentation?
     @State private var pendingLearningDestination: NativeLearningDestination?
+    @State private var bundledPreview: BundledContentPreview?
+    @State private var bundledPreviewing = false
+    @State private var bundledPresented = false
+    @State private var bundledActivationPending = false
+    @State private var bundledActivating = false
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
     #if DEBUG
     @State private var readerTestPresented = false
     #endif
+
+    private enum MoreAction {
+        case importContent, bundledContent, about
+        #if DEBUG
+        case readerTest
+        #endif
+    }
 
     private var articles: [LibraryArticle] {
         let ordered = store.orderedListedArticles
@@ -28,6 +42,7 @@ struct LibraryView: View {
     }
 
     private var isFiltering: Bool { filter.isActive || selectedChapterID != nil }
+    private var isBusy: Bool { store.isLoading || bundledPreviewing || bundledActivating }
 
     private var searchQuery: String? {
         LibrarySearch.normalizedTerms(filter.query).isEmpty ? nil : filter.query
@@ -77,6 +92,70 @@ struct LibraryView: View {
         }
     }
 
+    @ViewBuilder private func moreActions(inSheet: Bool = false) -> some View {
+        if store.allowsContentImport {
+            Button("ファイルからコンテンツを更新", systemImage: "folder") {
+                selectMoreAction(.importContent, inSheet: inSheet)
+            }
+        }
+        if store.allowsBundledContentActivation {
+            Button("同梱コンテンツへ切り替える", systemImage: "arrow.triangle.2.circlepath") {
+                selectMoreAction(.bundledContent, inSheet: inSheet)
+            }
+            .accessibilityIdentifier("library-bundled-content")
+            .disabled(store.snapshot == nil || !path.isEmpty)
+        }
+        #if DEBUG
+        if !store.isTestLibrary {
+            Button("本文表示テスト", systemImage: "doc.text.magnifyingglass") {
+                selectMoreAction(.readerTest, inSheet: inSheet)
+            }
+        }
+        #endif
+        Button("このアプリについて", systemImage: "info.circle") {
+            selectMoreAction(.about, inSheet: inSheet)
+        }
+    }
+
+    private var moreActionsSheet: some View {
+        NavigationStack {
+            List { moreActions(inSheet: true) }
+                .disabled(isBusy)
+                .navigationTitle("その他の操作")
+                .toolbar {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("閉じる") { moreActionsPresented = false }
+                    }
+                }
+        }
+    }
+
+    private func selectMoreAction(_ action: MoreAction, inSheet: Bool) {
+        if inSheet {
+            pendingMoreAction = action
+            moreActionsPresented = false
+        } else {
+            performMoreAction(action)
+        }
+    }
+
+    private func dispatchMoreAction() {
+        guard let action = pendingMoreAction else { return }
+        pendingMoreAction = nil
+        performMoreAction(action)
+    }
+
+    private func performMoreAction(_ action: MoreAction) {
+        switch action {
+        case .importContent: importPresented = true
+        case .bundledContent: previewBundledContent()
+        case .about: aboutPresented = true
+        #if DEBUG
+        case .readerTest: readerTestPresented = true
+        #endif
+        }
+    }
+
     var body: some View {
         NavigationStack(path: $path) {
             List {
@@ -103,6 +182,16 @@ struct LibraryView: View {
                             .accessibilityIdentifier("library-filter-summary")
                         Button("絞り込みをすべて解除") { clearFilters() }
                             .accessibilityIdentifier("library-clear-filters")
+                        Button {
+                            pendingMoreAction = nil
+                            moreActionsPresented = true
+                        } label: {
+                            Label("その他の操作", systemImage: "ellipsis.circle")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .contentShape(Rectangle())
+                        }
+                            .accessibilityLabel("その他の操作")
+                            .disabled(isBusy)
                     }
                 }
                 if let last = store.listedArticles.first(where: { $0.id == store.lastArticleID }), !isFiltering {
@@ -153,9 +242,20 @@ struct LibraryView: View {
                         Text("\(articles.count)件表示・全\(snapshot.manifest.articles.count)記事・オフライン試作")
                     }
                 }
+                if store.snapshot != nil, articles.isEmpty {
+                    Section {
+                        Label("記事が見つかりません", systemImage: filter.bookmarksOnly ? "bookmark" : "magnifyingglass")
+                            .font(.headline)
+                        if isFiltering {
+                            Text("章・難易度・検索・しおり・タグの条件を変えてお試しください。")
+                            Button("絞り込みをすべて解除") { clearFilters() }
+                                .accessibilityIdentifier("library-clear-empty-filters")
+                        }
+                    }
+                }
             }
             .overlay {
-                if store.isLoading { ProgressView("コンテンツを確認中") }
+                if isBusy { ProgressView(bundledActivating ? "同梱コンテンツへ切り替え中" : "コンテンツを確認中") }
                 else if store.snapshot == nil {
                     if let error = store.loadError {
                         ContentUnavailableView {
@@ -169,20 +269,8 @@ struct LibraryView: View {
                         ProgressView("コンテンツを確認中")
                     }
                 }
-                else if articles.isEmpty {
-                    ContentUnavailableView {
-                        Label("記事が見つかりません", systemImage: filter.bookmarksOnly ? "bookmark" : "magnifyingglass")
-                    } description: {
-                        if isFiltering { Text("章・難易度・検索・しおり・タグの条件を変えてお試しください。") }
-                    } actions: {
-                        if isFiltering {
-                            Button("絞り込みをすべて解除") { clearFilters() }
-                                .accessibilityIdentifier("library-clear-empty-filters")
-                        }
-                    }
-                }
             }
-            .disabled(store.isLoading)
+            .disabled(isBusy)
             .navigationTitle(store.isTestLibrary ? "本文表示テスト" : "AI Agent Library")
             .searchable(text: $filter.query, prompt: "記事の本文を検索")
             .toolbar {
@@ -205,20 +293,12 @@ struct LibraryView: View {
                     .accessibilityLabel(filter.bookmarksOnly ? "しおりの絞り込みを解除" : "しおりの記事を表示")
                     .accessibilityAddTraits(filter.bookmarksOnly ? [.isSelected] : [])
                 }
-                ToolbarItem(placement: .topBarTrailing) {
-                    Menu {
-                        if store.allowsContentImport {
-                            Button("ファイルからコンテンツを更新", systemImage: "folder") { importPresented = true }
-                        }
-                        #if DEBUG
-                        if !store.isTestLibrary {
-                            Button("本文表示テスト", systemImage: "doc.text.magnifyingglass") { readerTestPresented = true }
-                        }
-                        #endif
-                        Button("このアプリについて", systemImage: "info.circle") { aboutPresented = true }
-                    } label: { Image(systemName: "ellipsis.circle") }
-                    .accessibilityLabel("その他の操作")
-                    .disabled(store.isLoading)
+                if !isFiltering {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Menu { moreActions() } label: { Image(systemName: "ellipsis.circle") }
+                            .accessibilityLabel("その他の操作")
+                            .disabled(isBusy)
+                    }
                 }
             }
             .navigationDestination(for: ReaderRoute.self) { route in
@@ -238,6 +318,7 @@ struct LibraryView: View {
                 }
             }
         }
+        .sheet(isPresented: $moreActionsPresented, onDismiss: dispatchMoreAction) { moreActionsSheet }
         .task { await store.load() }
         .onChange(of: store.learningIndex == nil) { _, absent in
             if absent { selectedChapterID = nil; filter.tag = nil }
@@ -251,6 +332,9 @@ struct LibraryView: View {
             if let index = store.learningIndex {
                 NativeLearningSheet(index: index, presentation: presentation, select: selectLearningDestination)
             }
+        }
+        .sheet(isPresented: $bundledPresented, onDismiss: dispatchBundledActivation) {
+            bundledContentConfirmation
         }
         .sheet(isPresented: $aboutPresented) { LibraryAboutView(snapshot: store.snapshot) }
         #if DEBUG
@@ -287,6 +371,82 @@ struct LibraryView: View {
         case .article(let route): path.append(route)
         case .chapter(let id): showChapter(id)
         case .external: break
+        }
+    }
+
+    private func previewBundledContent() {
+        guard store.allowsBundledContentActivation, store.snapshot != nil,
+              path.isEmpty, learningPresented == nil, !tagPresented, !isBusy else { return }
+        bundledPreviewing = true
+        Task { @MainActor in
+            let preview = await store.previewBundledContent()
+            bundledPreviewing = false
+            guard !Task.isCancelled, let preview else { return }
+            bundledPreview = preview
+            bundledPresented = true
+        }
+    }
+
+    private var bundledContentConfirmation: some View {
+        NavigationStack {
+            Form {
+                if let preview = bundledPreview {
+                    Section("現在のコンテンツ") {
+                        Text("記事数: \(preview.currentArticleCount)記事")
+                            .accessibilityIdentifier("bundled-content-current-count")
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text("版").font(.caption).foregroundStyle(.secondary)
+                            Text(preview.currentRevision).font(.caption.monospaced()).textSelection(.enabled)
+                        }
+                    }
+                    Section("このアプリの同梱コンテンツ") {
+                        Text("記事数: \(preview.bundledArticleCount)記事")
+                            .accessibilityIdentifier("bundled-content-bundled-count")
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text("版").font(.caption).foregroundStyle(.secondary)
+                            Text(preview.bundledRevision).font(.caption.monospaced()).textSelection(.enabled)
+                        }
+                        if preview.isAlreadyActive { Text("すでにこの同梱版と同じ内容を利用しています。").font(.callout) }
+                    }
+                    Section {
+                        Text("しおりと読書位置を引き継ぎます。同梱版にない記事の保存記録も残ります。")
+                        Text("一覧の検索・絞り込みは解除されます。")
+                        Button("この同梱コンテンツを使う") {
+                            bundledActivationPending = true
+                            bundledActivating = true
+                            bundledPresented = false
+                        }
+                        .accessibilityIdentifier("bundled-content-confirm")
+                        .disabled(isBusy)
+                    }
+                }
+            }
+            .navigationTitle("同梱コンテンツ")
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("キャンセル", role: .cancel) { bundledPresented = false }
+                        .accessibilityIdentifier("bundled-content-cancel")
+                        .disabled(bundledActivating)
+                }
+            }
+        }
+        .interactiveDismissDisabled(bundledActivating)
+    }
+
+    private func dispatchBundledActivation() {
+        bundledPreview = nil
+        guard bundledActivationPending else { return }
+        bundledActivationPending = false
+        // The confirmation has fully closed before activation can publish an
+        // alert. Failure leaves the current navigation and list conditions intact.
+        Task { @MainActor in
+            let activated = await store.activateBundledContent()
+            if activated {
+                path.removeAll()
+                clearFilters()
+                pendingLearningDestination = nil
+            }
+            bundledActivating = false
         }
     }
 }

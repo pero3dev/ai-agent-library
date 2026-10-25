@@ -1,5 +1,14 @@
 import Foundation
 
+/// A read-only comparison, derived from fully validated packages on a background task.
+struct BundledContentPreview: Equatable, Sendable {
+    let currentArticleCount: Int
+    let bundledArticleCount: Int
+    let currentRevision: String
+    let bundledRevision: String
+    let isAlreadyActive: Bool
+}
+
 /// A complete version is validated in staging before one atomic pointer write activates it.
 final class ContentRepository {
     private struct Pointer: Codable { let directory: String }
@@ -27,6 +36,32 @@ final class ContentRepository {
             return current
         }
         return try validate(root: bundledRoot)
+    }
+
+    func previewBundledContent() throws -> BundledContentPreview {
+        let bundled = try validate(root: bundledRoot)
+        let current = try load()
+        return BundledContentPreview(currentArticleCount: current.manifest.articles.count,
+            bundledArticleCount: bundled.manifest.articles.count,
+            currentRevision: current.manifest.revision, bundledRevision: bundled.manifest.revision,
+            isAlreadyActive: try hasSameManifest(current, bundled))
+    }
+
+    /// Selection is explicit. A valid imported version still wins during ordinary load.
+    /// Equal revisions alone are not identities: metadata and every listed asset digest
+    /// must agree after both complete packages have passed validation.
+    func activateBundledContent() throws -> (snapshot: ContentSnapshot, alreadyActive: Bool) {
+        let bundled = try validate(root: bundledRoot)
+        if let current = try? load(), try hasSameManifest(current, bundled) {
+            return (current, true)
+        }
+        return (try install(from: bundledRoot), false)
+    }
+
+    private func hasSameManifest(_ lhs: ContentSnapshot, _ rhs: ContentSnapshot) throws -> Bool {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys]
+        return try encoder.encode(lhs.manifest) == encoder.encode(rhs.manifest)
     }
 
     func install(from source: URL) throws -> ContentSnapshot {

@@ -6,6 +6,10 @@
 
 ## 構造・運用の計画
 
+[前面の可視範囲判定](records/2026-10-25/ios-foreground-viewport-regression.md)では、専用記事の背景navigation barによるUI誤判定を修正する。前面の一意性が不明な場合と、直接判定・待機中の判定を分け、実UIの確認範囲を記録する。
+
+[本文の目次移動の回復](records/2026-10-25/ios-toc-placement-recovery.md)では、遅延生成後の有限再配置、実整列の確認、手動操作と世代交代での取消を扱う。過去の画面失敗、Macの制御テスト、SDK型検査とHosted実行を区別する。
+
 本文の既知章URLをアプリ内の章案内へつなぐ[章リンクの記録](records/2026-10-25/ios-native-chapter-link.md)では、全199記事の前提・関連リンク保持と、説明文を保った章・記事への導線を追跡する。厳密URL/helperと累積SDK compile、未完了のHosted/実機を区別する。
 
 入力ごとの全文正規化を省く[検索索引の記録](records/2026-10-25/ios-normalized-search-index.md)では、snapshotと一緒に切り替えるメモリ上の索引、実199記事15queryの結果等価性、Macの補助測定とSDK compileを追跡する。Hostedと実機・入力遅延・性能目標は別に残す。

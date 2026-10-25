@@ -6,6 +6,8 @@
 
 ## 構造・運用の計画
 
+学習案内の任意JSONを読むSwiftモデルとXcode登録は[consumerの記録](records/2026-10-25/ios-learning-index-consumer.md)で追跡する。不在互換・不正データ拒否・SDK compileと、後続のStore/学習UI・Hosted実行を区別する。
+
 章順・タグ・学習ルート・用語集の構造化は[学習案内の生成記録](records/2026-10-25/ios-learning-index-generation.md)で追跡する。全記事同梱候補だけへ任意JSONを追加し、旧profile互換と原文の独立監査、後続のconsumer/UI受入を分ける。
 
 全記事候補のDebug・UI・Release検査は[候補UIの記録](records/2026-10-25/ios-published-candidate-ui.md)で追跡する。通常3記事の回帰を保ち、動的件数と01/03/08/11章の6記事を検査する準備を分ける。

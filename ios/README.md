@@ -143,6 +143,8 @@ bash ios/tests/check-package.sh ios/AILibrary/Content 199
 
 全記事の明示同梱モードには、章の掲載順・タグ・学習ルート・用語集を[任意の学習案内JSON](renderer/learning-index-schema.md)として追加します。正本から抽出した情報を既存のSHA一覧へ載せ、本文schemaと既定3記事・fixture4記事・一時全記事profileを維持します。[生成の実施記録](../project/records/2026-10-25/ios-learning-index-generation.md)で旧readerの非UI互換と、後続のSwift consumer・学習UI・受入を区別します。
 
+学習案内の[Swift検証モデル](AILibrary/Sources/LearningIndex.swift)も追加し、任意資産の不在、破損・不適合・参照不整合を区別できるようにしています。Store・学習UIへの接続は後続です。[consumerの実施記録](../project/records/2026-10-25/ios-learning-index-consumer.md)で、Mac直接XCTest・SDK compileと未実施のHosted・UI受入を分けます。
+
 ## 全記事候補のHosted UI検査
 
 [全記事候補workflow](../.github/workflows/ios-published-candidate.yml)は、独立したrunnerで全publishedを通常Contentへ生成し、原文・実consumer・Debug実アプリ・全UI・Releaseを検査します。通常の3記事jobとローカルの`ios:test:reader`は既存の`NativeReaderUITests`だけを実行します。

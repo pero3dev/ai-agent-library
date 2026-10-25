@@ -88,6 +88,8 @@ Debugで`TestContent`を生成していない場合は、入口で記事が含�
 
 0.2.6（8）では「絞り込み」から章・難易度を選べるようにしました。検索・しおりとANDで絞り込み、条件表示と全解除を用意しています。選択肢は表示対象の記事だけから作り、未知の難易度も表示します。条件は保存しません。タグ・章順・学習ルート・用語集は引き続き未実装です。[実施記録](../project/records/2026-10-25/ios-category-level-filter.md)でSDK compileと未実施のHosted実行・実機受入を区別します。
 
+0.2.7（9）では初期読み込み失敗に理由と「再試行」を表示し、存在しない記事への遷移から一覧へ戻れるようにしました。保存記録と正常版の保持を検査し、初期失敗中のimportエラーの案内も未読込状態に合わせています。[復旧の実施記録](../project/records/2026-10-25/ios-load-recovery.md)で、実Storeの非UI検査と未実施のiOS XCTest・画面受入を区別します。
+
 [現targetの照合](../project/records/2026-10-25/ios-native-runtime-audit.md)では、appの本文経路・Sources・resourcesに旧WebKitやHTML/JS bridgeが残っていないことを確認しました。比較用の旧HTML生成・試験と、nativeでも再利用するparser等は開発側へ残しています。
 
 [Hosted Simulator CI](../.github/workflows/ios-native.yml)は記事生成・監査、全AILibraryTests、既存AILibraryUITests、Releaseの通常manifest・全SHA・TestContent不在を追加チェックとして検査します。既存11必須チェックやmain保護設定は維持します。[基準CIの実施記録](../project/records/2026-10-25/ios-native-ci.md)と[UI実行の追加](../project/records/2026-10-25/ios-native-ui-ci.md)で、hostedの実行結果とローカルSDK compileを区別します。UI2件は本文・目次・しおり・再起動復帰の基本範囲で、全UI・実機受入は別に追跡します。

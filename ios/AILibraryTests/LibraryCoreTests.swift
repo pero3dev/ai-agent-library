@@ -334,6 +334,100 @@ final class LibraryCoreTests: XCTestCase {
     }
 
     @MainActor
+    func testLoadFailureCanRetryAfterRepairWithoutChangingReadingState() async throws {
+        let bundled = try fixture("load-retry-bundle")
+        let bodyURL = bundled.appendingPathComponent("articles/example.json")
+        let originalBody = try Data(contentsOf: bodyURL)
+        try Data("damaged body".utf8).write(to: bodyURL)
+        let suite = "ailibrary-load-retry-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("example")
+        reading.record(articleID: "example", heading: "intro", fraction: 0.42, blockID: "paragraph")
+        let records = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+        let storage = directory.appendingPathComponent("load-retry-storage")
+        let store = LibraryStore(reading: reading, bundledRoot: bundled, storageRoot: storage)
+
+        await store.load()
+        XCTAssertNil(store.snapshot)
+        XCTAssertFalse(store.isLoading)
+        XCTAssertFalse(try XCTUnwrap(store.loadError).isEmpty)
+        XCTAssertNil(store.message, "Initial-load failure belongs to the persistent retry view, not the import alert")
+        XCTAssertEqual(store.bookmarks, ["example"])
+        XCTAssertEqual(store.lastArticleID, "example")
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), records)
+        await store.load()
+        XCTAssertNil(store.snapshot)
+        XCTAssertNotNil(store.loadError)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), records)
+
+        try originalBody.write(to: bodyURL)
+        await store.load()
+        let restored = try XCTUnwrap(store.snapshot)
+        XCTAssertEqual(restored.manifest.revision, "v1")
+        XCTAssertEqual(try restored.document(for: article()), document())
+        XCTAssertNil(store.loadError)
+        XCTAssertFalse(store.isLoading)
+        XCTAssertNil(store.message)
+        XCTAssertEqual(store.bookmarks, ["example"])
+        XCTAssertEqual(store.lastArticleID, "example")
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), records)
+        XCTAssertFalse(FileManager.default.fileExists(atPath: storage.path), "Retry does not replace or delete stored versions")
+    }
+
+    @MainActor
+    func testImportRecoversInitialLoadFailureAndKeepsCurrentContentOnFailure() async throws {
+        let suite = "ailibrary-load-import-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("example")
+        reading.record(articleID: "example", heading: "intro", fraction: 0.25, blockID: "paragraph")
+        let records = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+        let storage = directory.appendingPathComponent("load-import-storage")
+        let store = LibraryStore(reading: reading, bundledRoot: directory.appendingPathComponent("missing-content"), storageRoot: storage)
+        await store.load()
+        XCTAssertNil(store.snapshot)
+        let initialError = try XCTUnwrap(store.loadError)
+
+        let broken = try fixture("load-import-broken")
+        try Data("damaged body".utf8).write(to: broken.appendingPathComponent("articles/example.json"))
+        await store.install(from: broken)
+        XCTAssertNil(store.snapshot)
+        XCTAssertEqual(store.loadError, initialError)
+        XCTAssertFalse(store.isLoading)
+        let failureMessage = try XCTUnwrap(store.message)
+        XCTAssertTrue(failureMessage.contains("コンテンツはまだ読み込まれていません。"))
+        XCTAssertTrue(failureMessage.contains("再試行してください。"))
+        XCTAssertFalse(failureMessage.contains("現在のコンテンツを引き続き利用できます。"))
+        XCTAssertEqual(store.bookmarks, ["example"])
+        XCTAssertEqual(store.lastArticleID, "example")
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), records)
+        XCTAssertFalse(FileManager.default.fileExists(atPath: storage.path))
+
+        let source = try fixture("load-import-source", revision: "imported")
+        await store.install(from: source)
+        let accepted = try XCTUnwrap(store.snapshot)
+        XCTAssertEqual(accepted.manifest.revision, "imported")
+        XCTAssertNil(store.loadError)
+        XCTAssertNotNil(store.message)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), records)
+        let pointerURL = storage.appendingPathComponent("current.json")
+        let pointer = try Data(contentsOf: pointerURL)
+        try Data("damaged body".utf8).write(to: source.appendingPathComponent("articles/example.json"))
+        await store.install(from: source)
+        XCTAssertEqual(store.snapshot?.root, accepted.root)
+        XCTAssertEqual(store.snapshot?.manifest.revision, "imported")
+        XCTAssertEqual(try accepted.document(for: article()), document())
+        XCTAssertNil(store.loadError)
+        XCTAssertTrue(try XCTUnwrap(store.message).contains("現在のコンテンツを引き続き利用できます。"))
+        XCTAssertEqual(try Data(contentsOf: pointerURL), pointer)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), records)
+        XCTAssertFalse(store.isLoading)
+    }
+
+    @MainActor
     func testReaderTestLibraryKeepsCrossLinkTargetsAndSeparateReadingState() async throws {
         let bundled = try fixture("store-normal")
         let testing = try readerTestPackage("store-testing")

@@ -5,6 +5,7 @@ import SwiftUI
 final class LibraryStore: ObservableObject {
     @Published private(set) var snapshot: ContentSnapshot?
     @Published private(set) var isLoading = false
+    @Published private(set) var loadError: String?
     @Published private(set) var bookmarks: Set<String>
     @Published private(set) var lastArticleID: String?
     @Published var message: String?
@@ -58,6 +59,7 @@ final class LibraryStore: ObservableObject {
     func load() async {
         guard snapshot == nil, !isLoading else { return }
         isLoading = true
+        loadError = nil
         defer { isLoading = false }
         let repository = self.repository
         do {
@@ -66,8 +68,9 @@ final class LibraryStore: ObservableObject {
                 throw ContentError.invalid("本文表示テストの記事を読み込めませんでした。")
             }
             snapshot = loaded
+            loadError = nil
         }
-        catch { message = error.localizedDescription }
+        catch { loadError = error.localizedDescription }
     }
 
     func install(from url: URL) async {
@@ -79,8 +82,14 @@ final class LibraryStore: ObservableObject {
         let repository = self.repository
         do {
             snapshot = try await Task.detached(priority: .userInitiated) { try repository.install(from: url) }.value
+            loadError = nil
             message = "コンテンツを更新しました。保存したしおりと読書位置を引き継ぎます。"
-        } catch { message = error.localizedDescription + " 現在のコンテンツを引き続き利用できます。" }
+        } catch {
+            let recovery = snapshot == nil
+                ? "コンテンツはまだ読み込まれていません。別のフォルダを選ぶか、再試行してください。"
+                : "現在のコンテンツを引き続き利用できます。"
+            message = error.localizedDescription + " " + recovery
+        }
     }
 
     func toggleBookmark(_ id: String) {

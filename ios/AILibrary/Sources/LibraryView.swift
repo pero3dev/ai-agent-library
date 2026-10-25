@@ -128,7 +128,11 @@ struct LibraryView: View {
                             .accessibilityIdentifier("library-filter-summary")
                         Button("絞り込みをすべて解除") { clearFilters() }
                             .accessibilityIdentifier("library-clear-filters")
-                        Menu { moreActions } label: { Label("その他の操作", systemImage: "ellipsis.circle") }
+                        Menu { moreActions } label: {
+                            Label("その他の操作", systemImage: "ellipsis.circle")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .contentShape(Rectangle())
+                        }
                             .accessibilityLabel("その他の操作")
                             .disabled(isBusy)
                     }

@@ -18,4 +18,6 @@ mainの[CI実行](https://github.com/pero3dev/ai-agent-library/actions/runs/4015
 
 寸法manifestをcache hit時も再生成し、通常・原寸表示の両テーマへSSRのwidth・heightを付与した。旧出力で失敗した遅延2件を含むreading-layout5件は成功した。website単体97件（追加6件）、実ブラウザーでのSVG新規生成1図×2テーマとcache再利用も成功した。公開相当clean buildは230/230経路・232 HTML、SSR画像296本は148 SVGの寸法と一致した。独立レビューでも追加6件を再実行して成功し、修正必須事項はなかった。
 
-途中のPATH不足とSTATIC_EXPORT未指定による検証準備失敗は、最終の公開相当build・ブラウザー成功とは分けてローカル証跡に保持する。全ブラウザーsuiteとmainの通常統合はPR CIで確認する。[JSON](website-mermaid-layout-stability.json)へ結果を更新する。
+途中のPATH不足とSTATIC_EXPORT未指定による検証準備失敗は、最終の公開相当build・ブラウザー成功とは分けてローカル証跡に保持する。
+
+[PR #248](https://github.com/pero3dev/ai-agent-library/pull/248)の11必須検査が成功し、例外を使わずmain `c4eb4927daf62e5decbf2e4d618474775b4ec331`へsquashした。実tree・正規メッセージを照合し、PR CIと[main CI](https://github.com/pero3dev/ai-agent-library/actions/runs/40159510477)はいずれもブラウザー677成功・5skip・失敗0、Firefox14成功だった。Pages deployも成功し、[対象の公開ページ](https://pero3dev.github.io/ai-agent-library/docs/architecture/workflow-vs-agent)のMermaid画像4本にwidth・heightが付いていることをHTTPで確認した。公開全経路の再確認とは区別し、[JSON](website-mermaid-layout-stability.json)へ実施範囲を保存する。

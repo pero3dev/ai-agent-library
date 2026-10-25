@@ -20,3 +20,5 @@ producerの音声時間をconsumerと同じ24時間以下に揃えた。最終ma
 Nodeの形式関連31件が成功した。future manifest 3・document 2の拒否、保存済みfuture版のfallback・pointer・しおり・読書位置維持をCoreSmoke通常・fixtureで確認した。XCTestを2件追加し、52件のtargetがSDK compile成功。新しい2件のHosted実行成功を意味しない。先行する[PR #244の50件](https://github.com/pero3dev/ai-agent-library/actions/runs/40135742109)は実行成功済みとして別に保持する。
 
 実際にChromeで通常3記事・fixture付き4記事を再生成し、revision `c10353c1…`と`15df0e08…`を維持した。IOS-19の形式定義と拒否回帰は完了とし、main反映は前提の復旧待ちとして区別する。実機操作・未採択の独立配信・旧経路全削除の完了とはしない。[JSON](ios-native-package-contract.json)へ検証面を分けて記録する。
+
+続く[PR #245](https://github.com/pero3dev/ai-agent-library/pull/245)、head `f9c8cf39141f7a8bb49e4d5dac57c11f503e9d75`の[Hosted実行](https://github.com/pero3dev/ai-agent-library/actions/runs/40136845808)で、XCTest52件（Core29・Audio6・Inline17、失敗0）とRelease build・全140ファイルの監査が成功した。追加2件もここで実行まで確認できた。本文とアプリのsource versionは0.2.5（7）のままで、実機へ追加導入はしていない。

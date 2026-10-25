@@ -2,7 +2,7 @@
   "schema_version": 1,
   "task": "website-mermaid-layout-stability",
   "date": "2026-10-25",
-  "status": "implemented-reviewed-validated-awaiting-normal-PR",
+  "status": "merged-main-CI-and-public-check-passed",
   "base_main": "9c2b0466ea82886985b921fa9e0fffe4ae9e9231",
   "normal_required_checks": 11,
   "exception_authorized": false,
@@ -75,7 +75,12 @@
       "images_with_dimensions": 296,
       "max_serialization_difference": 5.684341886080802e-14
     },
-    "full_browser_suite": "not-run-locally; parent PR CI",
+    "full_browser_suite": {"surface": "PR-CI", "run": 40158439895, "passed": 677, "skipped": 5, "failed": 0, "Firefox_passed": 14},
     "independent_review": "approved"
-  }
+  },
+  "PR": "https://github.com/pero3dev/ai-agent-library/pull/248",
+  "head": "7860fc9e3b955f1cc29163821b3a68670715ab4f",
+  "main_merge": {"method": "squash", "sha": "c4eb4927daf62e5decbf2e4d618474775b4ec331", "tree": "f2cac35ecede470c9259a09a6f18fb877d8327c2", "canonical_message_and_tree": "verified"},
+  "main_CI": {"run": 40159510477, "status": "success-including-Pages-deploy", "browser_passed": 677, "browser_skipped": 5, "browser_failed": 0, "Firefox_passed": 14},
+  "public_check": {"status": "passed", "url": "https://pero3dev.github.io/ai-agent-library/docs/architecture/workflow-vs-agent", "Mermaid_images_with_dimensions": 4, "scope": "one affected public HTML page; not every route"}
 }

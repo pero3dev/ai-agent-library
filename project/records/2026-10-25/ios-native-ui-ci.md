@@ -17,3 +17,7 @@
 Node 24でYAML解析、10 shell stepの構文、harness-tooling22件とdiff検査が成功した。実装とstatic確認を、UIの実行成功とは扱わない。UIの成功はhosted結果を取得してから[JSON](ios-native-ui-ci.json)へ記載する。
 
 UI側はjaのlocaleをapp起動引数で指定し、各testの専用suiteを使う。文字サイズ・明暗・向きはSimulator既定であり、全端末・アクセシビリティ受入ではない。行のスクロール回数と記事タイトルに依存する既存試験なので、失敗時はログ・xcresultで実際の不足を確認する。
+
+[PR #246](https://github.com/pero3dev/ai-agent-library/pull/246)、head `d4d982ce8850cd3ae71710c6eb205815edc7af73`の[Hosted実行](https://github.com/pero3dev/ai-agent-library/actions/runs/40137064755)が成功した。単体52件（Core29・Audio6・Inline17、失敗0）、UI2件（しおり・目次・再起動復帰、3記事の非空本文、失敗0・skip0）、正本からの通常・fixture生成と監査、Release build・全140ファイルの監査とTestContent不在を確認した。
+
+新規checkoutからの生成・SDK・XCTest・UI検査を再現できたためIOS-26を完了とする。署名不要のSimulator回帰基盤であり、App Store提出環境・配布署名・実機・IOS-25全体の操作網羅を完了とするものではない。初回の結果保存時点はmain復旧判断待ちだった。その後、通常同期head `d50586ad…`の単体52件・UI2件・Releaseも成功し、PR #246はmain `81b5da90…`へ通常統合された。この記録の追記はPR #247として別に扱う。

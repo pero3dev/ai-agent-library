@@ -75,7 +75,7 @@ Developer Programは年額99 USDまたは提供地域の現地通貨。日本円
 
 2026-10-25に[専用テスト記事](../../records/2026-10-25/ios-native-fixtures.md)の受入を完了した。0.2.2（4）で数式を含むリンク・重複見出し・記事内外のfragment、入れ子・引用・表内要素・コピー、最大文字・VoiceOver、通常記録との保存の分離が正常とユーザーから確認を得た。実機XCTest30件も成功し、Releaseからのテスト記事除外を確認した。
 
-0.2.0（2）の旧記録維持・基本復帰、0.2.1（3）の代表3記事のオフライン・音声・表示・読み上げ、0.2.2（4）の不足fixtureを合わせ、独立した記録照合を経てIOS-07・08・12を完了とした。すべてを同じ版で再試験したという意味ではない。IOS-10の検索ヒットの本文位置、IOS-11の記事改訂後の照合とblock内の位置精度、実着信・SimulatorとUI自動試験、全記事展開・一般公開は残件として保持する。
+0.2.0（2）の旧記録維持・基本復帰、0.2.1（3）の代表3記事のオフライン・音声・表示・読み上げ、0.2.2（4）の不足fixtureを合わせ、独立した記録照合を経てIOS-07・08・12を完了とした。すべてを同じ版で再試験したという意味ではない。IOS-10の検索ヒットの本文位置、IOS-11の記事改訂後の照合とblock内の位置精度、実着信・追加のUI操作網羅、全記事展開・一般公開は残件として保持する。
 
 0.2.4（6）の[IOS-10実装](../../records/2026-10-25/ios-search-hit-navigation.md)では、検索queryを一時routeへ渡し、本文内の一致ブロック・入れ子のleafへ移動する接続を追加した。CoreSmokeとSDK compile・独立レビューまで確認した。表・コードはブロック境界までで、新しい実機スクロール・VoiceOver受入はユーザー指定により未実施。実装の進捗を記録し、未確認の受入を理由なく成功へ変えないためIOS-10の完了欄は維持する。
 
@@ -109,7 +109,7 @@ IOS-25・26の[CI実装](../../records/2026-10-25/ios-native-ci.md)は[PR #243](
 
 SHA照合・staging検証・原子的切替・失敗時の旧版維持は既存実装を拡張する。記事をアプリ更新だけで同梱する初版では、独立配信・更新UI・複数旧版の管理を必須にしない。配信を採る場合は既存GitHub等の条件・帯域・運用費を測り、新しいサーバーが必須とは決めない。
 
-2026-10-25の[形式契約の確認](../../records/2026-10-25/ios-native-package-contract.md)でIOS-19を完了した。manifest 2・document 1・renderer v1とappの対応、未対応形式の拒否・保存済みfuture版のfallbackを定義・検査し、旧HTML CLIを比較用一時出力へ限定した。生成側の音声時間・manifest込み件数／容量・PNG byte上限もconsumerへ揃え、通常とfixtureの実生成revisionを維持した。新しいXCTest2件はSDK compileまでで、形式のFoundation回帰と独立レビューを成功として区別する。独立配信の採択・真正性・容量管理やIOS-22全体の完了を示さない。
+2026-10-25の[形式契約の確認](../../records/2026-10-25/ios-native-package-contract.md)でIOS-19を完了した。manifest 2・document 1・renderer v1とappの対応、未対応形式の拒否・保存済みfuture版のfallbackを定義・検査し、旧HTML CLIを比較用一時出力へ限定した。生成側の音声時間・manifest込み件数／容量・PNG byte上限もconsumerへ揃え、通常とfixtureの実生成revisionを維持した。続くHosted実行で追加2件を含むXCTest52件とRelease監査も成功した。独立配信の採択・真正性・容量管理やIOS-22全体の完了を示さない。
 
 Appleの2.5.2は、アプリの機能を導入・変更するコードのダウンロード等を制限する。完成版では構造化記事データとアプリ側の描画機能を分ける。配信署名等は真正性を確認する設計として検討するもので、署名だけでコード更新の制限が免除されるわけではない。現在の手動importを直ちに違反と断定せず、公開する挙動と更新範囲を審査へ説明する。[ソフトウェア要件](https://developer.apple.com/app-store/review/guidelines/#software-requirements)
 
@@ -118,11 +118,15 @@ Appleの2.5.2は、アプリの機能を導入・変更するコードのダウ�
 | 状態 | ID | TODO | 完了条件 |
 | --- | --- | --- | --- |
 | [ ] | IOS-23 | ネイティブ本文で実機受入を完了する | VoiceOver、最大文字、横画面、長い表・コード・数式、小型端末、最低対応OSと現行OSで確認する。音声の着信・イヤホン切断・通信断と再試行、採用する更新方式の失敗も記録する |
-| [ ] | IOS-24 | iOSの旧WebKit本文経路を除去する | 完成版ターゲットからReaderWebView、HTML／JS bridge、blockerを除く。依存ライブラリも本文にWebViewを使わず、オフライン記事・図・数式をnative経路で表示する。Webサイト側の機能は維持する |
+| [x] | IOS-24 | iOSの旧WebKit本文経路を除去する | 完成版ターゲットからReaderWebView、HTML／JS bridge、blockerを除く。依存ライブラリも本文にWebViewを使わず、オフライン記事・図・数式をnative経路で表示する。Webサイト側の機能は維持する |
 | [ ] | IOS-25 | ネイティブ本文の回帰検査へ移行する | 初回オフライン、本文・コピー・内部リンク・目次・しおり・終了再起動・旧記録移行・位置復帰をNative UIで検査する。旧WebKit試験を削除するだけで終えない |
-| [ ] | IOS-26 | iOS用CIを追加する | 新規checkoutから構造化データ・資産生成、iOS SDKビルド、XCTest・UI検査を再現できる。現行のWeb用macOS jobと区別し、署名情報はCIの秘密情報として扱う |
+| [x] | IOS-26 | iOS用CIを追加する | 新規checkoutから構造化データ・資産生成、iOS SDKビルド、XCTest・UI検査を再現できる。現行のWeb用macOS jobと区別し、署名情報はCIの秘密情報として扱う |
 | [ ] | IOS-27 | プライバシー申告を完成させる | アプリ・音声配信・依存SDKの通信とデータ利用を棚卸しし、Privacy Manifest、App Privacy回答、公開ポリシーを一致させる。アプリ内とストア情報からポリシーへ到達できる |
 | [ ] | IOS-28 | 更新・障害対応の運用を決める | コンテンツ版・アプリ版の対応、公開手順、障害時の配信停止／旧版復帰、問い合わせ先、依存・SDKの更新担当を決める。個人情報を含まない診断手段を用意する |
+
+IOS-24は[現targetの独立した照合](../../records/2026-10-25/ios-native-runtime-audit.md)で既に条件を満たすことを確認し、完了とした。appのSources・resources・本文の入口に旧WebKit・HTML/JS bridge・blockerはなく、許可資産もJSON・PNG・TXTだけである。native生成でも再利用するparser・SHA等と比較用旧HTMLツールは開発側へ残す。UI全体の回帰や新たな実機受入とは区別する。
+
+IOS-26は[PR #246のHosted実行](https://github.com/pero3dev/ai-agent-library/actions/runs/40137064755)、head `d4d982ce…`で新規checkoutからの生成・監査、iOS SDK、単体52件・UI2件、Release同梱監査が成功し、完了とした。署名不要のSimulator回帰基盤としての完了であり、App Store提出環境・配布署名・実機の完了を示さない。UI2件は本文・目次・しおり・再起動復帰の基本範囲で、IOS-25の残る操作網羅は維持する。
 
 現在のPrivacy ManifestにはUserDefaultsの利用理由がある。最終版では対象API・依存SDKを再監査し、Archiveへの同梱も確認する。プライバシーポリシーとApp Privacyは、無料・アカウントなしでも必要な申請項目として扱う。[プライバシー規約](https://developer.apple.com/app-store/review/guidelines/#privacy)、[App Privacy](https://developer.apple.com/help/app-store-connect/manage-app-information/manage-app-privacy/)、[required reason API](https://developer.apple.com/documentation/bundleresources/describing-use-of-required-reason-api)
 

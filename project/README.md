@@ -6,6 +6,8 @@
 
 ## 構造・運用の計画
 
+[main前提の限定復旧](records/2026-10-25/ios-main-recovery.md)はPR #240だけに許可された管理者復旧を追跡する。trusted baseの未実行検査、変更前の保護条件、本人再認証、実merge・直後の復元を分け、後続PRは通常の11必須検査で統合する。
+
 検索結果からネイティブ本文の一致位置へ移動する作業は[0.2.4の実施記録](records/2026-10-25/ios-search-hit-navigation.md)と[PR #242](https://github.com/pero3dev/ai-agent-library/pull/242)で追跡する。正規化AND検索を維持し、入れ子の本文位置と保存用の位置を分けた。Foundation回帰とSDK compileを確認し、新たな実機受入はユーザー指定により未実施として残す。前提PRのmain反映待ちと、機能の検証を分けて進める。
 
 記事改訂後の保存位置は[照合の実施記録](records/2026-10-25/ios-reading-revision-restore.md)で追跡する。旧保存を維持しつつ、本文digestと意味内容fingerprintを使う任意anchorを追加する。見出し・本文が曖昧な重複を持つ場合のfallbackと、未完了のblock内精度を区別する。
@@ -15,6 +17,8 @@
 ネイティブ記事の[パッケージ契約](records/2026-10-25/ios-native-package-contract.md)では、app・renderer・schemaの対応、未対応版の拒否と正常版維持、生成側と端末側の音声・ファイル数・byte上限を揃える。旧HTMLの比較生成は一時出力へ限定し、全記事展開や配信の真正性とは範囲を分ける。
 
 既存のネイティブUI試験2件のHosted実行は[専用のCI追加記録](records/2026-10-25/ios-native-ui-ci.md)で追跡する。通常3記事の本文とTransformerの目次・しおり・再起動復帰を確認し、未対象のオフライン・コピー・内部リンク等のUI受入を区別する。
+
+[runtimeの照合記録](records/2026-10-25/ios-native-runtime-audit.md)では、現行app targetに旧WebKit・HTML/JS bridge・blockerが残っていないことを確認した。再利用する生成parserと比較用旧HTMLツールを保持したままIOS-24を完了とし、UI・実機の全体受入を別に残す。
 
 共通検査・サイト依存のhigh／critical対策は[限定依存修正の記録](records/2026-10-25/markdown-parser-security-update.md)で追跡する。パーサー・描画依存と必要な互換処理を更新し、通常CIとbase側の監査結果を分けて記録する。
 

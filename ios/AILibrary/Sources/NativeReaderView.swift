@@ -20,13 +20,26 @@ private enum NativeReaderScrollTarget: Hashable {
 }
 
 enum NativeReaderScrollBounds {
+    /// These exclusions overlap in the same scroll-bounds coordinates. Never
+    /// add the safe area again when UIKit already included it in adjusted insets.
+    static func visibleTopInset(adjustedTopInset: CGFloat, safeAreaTopInset: CGFloat) -> CGFloat? {
+        guard [adjustedTopInset, safeAreaTopInset].allSatisfy(\.isFinite),
+              adjustedTopInset >= 0, safeAreaTopInset >= 0 else { return nil }
+        return max(adjustedTopInset, safeAreaTopInset)
+    }
+
     static func offset(targetMinY: CGFloat, topInset: CGFloat, bottomInset: CGFloat,
-                       contentHeight: CGFloat, viewportHeight: CGFloat) -> CGFloat? {
-        guard [targetMinY, topInset, bottomInset, contentHeight, viewportHeight].allSatisfy(\.isFinite),
-              topInset >= 0, bottomInset >= 0, contentHeight >= 0, viewportHeight > 0 else { return nil }
+                       contentHeight: CGFloat, viewportHeight: CGFloat,
+                       visibleTopInset: CGFloat? = nil) -> CGFloat? {
+        let alignmentTop = visibleTopInset ?? topInset
+        guard [targetMinY, topInset, bottomInset, contentHeight, viewportHeight, alignmentTop].allSatisfy(\.isFinite),
+              topInset >= 0, bottomInset >= 0, contentHeight >= 0, viewportHeight > 0,
+              alignmentTop >= 0 else { return nil }
+        // UIKit's adjusted insets still define the legal content-offset range.
+        // The marker's visible destination can differ from that range's inset.
         let minimum = -topInset
         let maximum = max(minimum, contentHeight - viewportHeight + bottomInset)
-        return min(maximum, max(minimum, targetMinY - topInset))
+        return min(maximum, max(minimum, targetMinY - alignmentTop))
     }
 
     static func readingBlockID(frames: [String: CGFloat], viewportHeight: CGFloat, topInset: CGFloat) -> String? {
@@ -61,6 +74,9 @@ final class NativeReaderScrollAnchors: NSObject {
     private var observedScrollID: ObjectIdentifier?
     private weak var pendingLayoutFrame: NativeReaderLayoutFrame?
     private(set) var interactionEpoch: UInt64 = 0
+    #if DEBUG
+    private var geometrySampleCount = 0
+    #endif
 
     deinit { observedPan?.removeTarget(self, action: #selector(rootPanChanged(_:))) }
 
@@ -104,6 +120,9 @@ final class NativeReaderScrollAnchors: NSObject {
     @MainActor func beginPlacement() -> UInt64 {
         pendingLayoutFrame?.cancel()
         updatePanObservation()
+        #if DEBUG
+        geometrySampleCount = 0
+        #endif
         return interactionEpoch
     }
 
@@ -127,14 +146,17 @@ final class NativeReaderScrollAnchors: NSObject {
     @MainActor func readingBlockID(in blockIDs: [String]) -> String? {
         guard let window = rootMarker?.window, let scroll = rootScrollView(),
               scroll.window === window, !(scroll is UITextView), scroll.isScrollEnabled,
-              scroll.contentOffset.y.isFinite else { return nil }
+              scroll.contentOffset.y.isFinite,
+              let visibleTop = NativeReaderScrollBounds.visibleTopInset(
+                adjustedTopInset: scroll.adjustedContentInset.top,
+                safeAreaTopInset: scroll.safeAreaInsets.top) else { return nil }
         let frames = blockIDs.reduce(into: [String: CGFloat]()) { result, id in
             guard let target = targets[id]?.view, target.window === window,
                   target.isDescendant(of: scroll) else { return }
             result[id] = target.convert(target.bounds, to: scroll).minY - scroll.contentOffset.y
         }
         return NativeReaderScrollBounds.readingBlockID(frames: frames, viewportHeight: scroll.bounds.height,
-                                                       topInset: scroll.adjustedContentInset.top)
+                                                       topInset: visibleTop)
     }
 
     @MainActor private func layout(of id: String) -> Layout {
@@ -152,11 +174,52 @@ final class NativeReaderScrollAnchors: NSObject {
         guard target.window === root.window, target.isDescendant(of: scroll) else { return .unavailable }
         let targetY = target.convert(target.bounds, to: scroll).minY
         let insets = scroll.adjustedContentInset
-        guard let offset = NativeReaderScrollBounds.offset(targetMinY: targetY,
+        let safeArea = scroll.safeAreaInsets
+        guard let visibleTop = NativeReaderScrollBounds.visibleTopInset(
+                adjustedTopInset: insets.top, safeAreaTopInset: safeArea.top),
+              let offset = NativeReaderScrollBounds.offset(targetMinY: targetY,
             topInset: insets.top, bottomInset: insets.bottom,
-            contentHeight: scroll.contentSize.height, viewportHeight: scroll.bounds.height) else { return .unavailable }
+            contentHeight: scroll.contentSize.height, viewportHeight: scroll.bounds.height,
+            visibleTopInset: visibleTop) else { return .unavailable }
+        #if DEBUG
+        recordGeometry(scroll: scroll, target: target, targetY: targetY, adjusted: insets,
+                       safeArea: safeArea, visibleTop: visibleTop, goalOffset: offset)
+        #endif
         return .ready(scroll, offset)
     }
+
+    #if DEBUG
+    /// Numeric geometry only, bounded per request and limited to the existing
+    /// isolated UI-test suite. No article, query, heading or reading-record data.
+    @MainActor private func recordGeometry(scroll: UIScrollView, target: UIView, targetY: CGFloat,
+        adjusted: UIEdgeInsets, safeArea: UIEdgeInsets, visibleTop: CGFloat, goalOffset: CGFloat) {
+        guard let suite = ProcessInfo.processInfo.environment["AILIBRARY_UI_TEST_SUITE"],
+              suite.hasPrefix("ailibrary-uitest-"), suite.count < 100,
+              geometrySampleCount < 32, let window = scroll.window,
+              let legacyGoal = NativeReaderScrollBounds.offset(targetMinY: targetY,
+                topInset: adjusted.top, bottomInset: adjusted.bottom,
+                contentHeight: scroll.contentSize.height, viewportHeight: scroll.bounds.height) else { return }
+        let frame = scroll.convert(scroll.bounds, to: window)
+        let markerInWindowY = target.convert(target.bounds, to: window).minY
+        let values = [frame.minX, frame.minY, frame.width, frame.height, markerInWindowY,
+                      scroll.contentInset.top, scroll.contentInset.bottom, safeArea.bottom]
+        guard values.allSatisfy(\.isFinite) else { return }
+        geometrySampleCount += 1
+        let sample: [String: Any] = ["sample": geometrySampleCount,
+            "scrollFrameInWindow": [frame.minX, frame.minY, frame.width, frame.height].map { Double($0) },
+            "scrollBoundsY": Double(scroll.bounds.minY), "viewportHeight": Double(scroll.bounds.height),
+            "contentHeight": Double(scroll.contentSize.height),
+            "contentInsetTop": Double(scroll.contentInset.top), "contentInsetBottom": Double(scroll.contentInset.bottom),
+            "adjustedTop": Double(adjusted.top), "adjustedBottom": Double(adjusted.bottom),
+            "safeAreaTop": Double(safeArea.top), "safeAreaBottom": Double(safeArea.bottom),
+            "visibleTop": Double(visibleTop), "markerContentY": Double(targetY),
+            "markerWindowY": Double(markerInWindowY), "legacyGoalOffset": Double(legacyGoal),
+            "goalOffset": Double(goalOffset), "actualOffset": Double(scroll.contentOffset.y)]
+        guard let data = try? JSONSerialization.data(withJSONObject: sample, options: [.sortedKeys]),
+              let text = String(data: data, encoding: .utf8) else { return }
+        print("AILibraryReaderGeometry " + text)
+    }
+    #endif
 
     @MainActor func placementObservation(of id: String) -> NativeReaderPlacementPolicy.Observation {
         switch layout(of: id) {

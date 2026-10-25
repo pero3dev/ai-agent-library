@@ -42,6 +42,35 @@ final class NativeInlineTests: XCTestCase {
         }
     }
 
+    func testReaderVisibleTopUsesOverlappingInsetsWithoutAddingThem() {
+        XCTAssertEqual(NativeReaderScrollBounds.visibleTopInset(adjustedTopInset: 0, safeAreaTopInset: 116), 116)
+        XCTAssertEqual(NativeReaderScrollBounds.visibleTopInset(adjustedTopInset: 116, safeAreaTopInset: 116), 116)
+        XCTAssertEqual(NativeReaderScrollBounds.visibleTopInset(adjustedTopInset: 103, safeAreaTopInset: 0), 103)
+        XCTAssertEqual(NativeReaderScrollBounds.visibleTopInset(adjustedTopInset: 140, safeAreaTopInset: 116), 140)
+        for invalid in [CGFloat.nan, .infinity, -.infinity, -1] {
+            XCTAssertNil(NativeReaderScrollBounds.visibleTopInset(adjustedTopInset: invalid, safeAreaTopInset: 116))
+            XCTAssertNil(NativeReaderScrollBounds.visibleTopInset(adjustedTopInset: 103, safeAreaTopInset: invalid))
+        }
+    }
+
+    func testReaderVisibleTopKeepsTheAdjustedOffsetClamp() {
+        XCTAssertEqual(NativeReaderScrollBounds.offset(targetMinY: 1600, topInset: 0, bottomInset: 34,
+            contentHeight: 4000, viewportHeight: 874, visibleTopInset: 116), 1484)
+        XCTAssertEqual(NativeReaderScrollBounds.offset(targetMinY: 1600, topInset: 116, bottomInset: 34,
+            contentHeight: 4000, viewportHeight: 874, visibleTopInset: 116), 1484)
+        // Safe area excludes chrome; it must not enlarge UIKit's negative-offset range.
+        XCTAssertEqual(NativeReaderScrollBounds.offset(targetMinY: 0, topInset: 0, bottomInset: 34,
+            contentHeight: 4000, viewportHeight: 874, visibleTopInset: 116), 0)
+        XCTAssertEqual(NativeReaderScrollBounds.offset(targetMinY: 160, topInset: 0, bottomInset: 34,
+            contentHeight: 200, viewportHeight: 874, visibleTopInset: 116), 0)
+        XCTAssertEqual(NativeReaderScrollBounds.offset(targetMinY: 3950, topInset: 0, bottomInset: 34,
+            contentHeight: 4000, viewportHeight: 874, visibleTopInset: 116), 3160)
+        for invalid in [CGFloat.nan, .infinity, -.infinity, -1] {
+            XCTAssertNil(NativeReaderScrollBounds.offset(targetMinY: 1600, topInset: 0, bottomInset: 34,
+                contentHeight: 4000, viewportHeight: 874, visibleTopInset: invalid))
+        }
+    }
+
     func testReaderProgressChoosesBlockAtTheVisibleInset() {
         let frames: [String: CGFloat] = ["previous": -900, "selected": 103, "next": 145]
         XCTAssertEqual(NativeReaderScrollBounds.readingBlockID(frames: frames, viewportHeight: 852, topInset: 103), "selected")
@@ -55,9 +84,21 @@ final class NativeInlineTests: XCTestCase {
         XCTAssertNil(NativeReaderScrollBounds.readingBlockID(frames: frames, viewportHeight: 0, topInset: 103))
     }
 
-    private func readerScrollFixture(_ run: (UIScrollView, UIView, NativeReaderScrollAnchors) throws -> Void) rethrows {
+    /// Explicit unit geometry only; this does not claim any runtime's real insets.
+    private final class ReaderSafeAreaScrollView: UIScrollView {
+        var suppliedSafeAreaInsets = UIEdgeInsets.zero
+        override var safeAreaInsets: UIEdgeInsets { suppliedSafeAreaInsets }
+    }
+
+    private func readerScrollFixture(safeAreaTopInset: CGFloat? = nil,
+        _ run: (UIScrollView, UIView, NativeReaderScrollAnchors) throws -> Void) rethrows {
         let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 393, height: 852))
-        let scroll = UIScrollView(frame: window.bounds)
+        let scroll: UIScrollView
+        if let safeAreaTopInset {
+            let supplied = ReaderSafeAreaScrollView(frame: window.bounds)
+            supplied.suppliedSafeAreaInsets.top = safeAreaTopInset
+            scroll = supplied
+        } else { scroll = UIScrollView(frame: window.bounds) }
         scroll.contentInsetAdjustmentBehavior = .never
         scroll.contentInset = UIEdgeInsets(top: 103, left: 0, bottom: 34, right: 0)
         scroll.contentSize = CGSize(width: 393, height: 4000)
@@ -69,6 +110,58 @@ final class NativeInlineTests: XCTestCase {
         let anchors = NativeReaderScrollAnchors()
         anchors.registerRoot(root)
         try withExtendedLifetime(window) { try run(scroll, content, anchors) }
+    }
+
+    func testReaderMarkersAlignAndSaveAtVisibleTopWhenAdjustmentOmitsSafeArea() {
+        readerScrollFixture(safeAreaTopInset: 116) { scroll, content, anchors in
+            var selected: UIView!
+            for (id, y) in [("previous", CGFloat(1500)), ("selected", 1600), ("next", 1644)] {
+                let marker = UIView(frame: CGRect(x: 0, y: y, width: 1, height: 0))
+                content.addSubview(marker)
+                anchors.registerTarget(marker, id: id)
+                if id == "selected" { selected = marker }
+            }
+            scroll.contentInset.top = 0
+            XCTAssertEqual(scroll.adjustedContentInset.top, 0)
+            XCTAssertEqual(scroll.safeAreaInsets.top, 116)
+            for offset in [CGFloat(20), 800] {
+                scroll.contentOffset.y = offset
+                XCTAssertEqual(selected.convert(selected.bounds, to: scroll).minY, 1600)
+                XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
+                XCTAssertEqual(scroll.contentOffset.y, 1484)
+                XCTAssertEqual(selected.convert(selected.bounds, to: scroll).minY - scroll.contentOffset.y, 116)
+                XCTAssertEqual(anchors.placementObservation(of: "selected"), .aligned)
+                XCTAssertEqual(anchors.readingBlockID(in: ["previous", "selected", "next"]), "selected")
+            }
+            // An inset already included by UIKit is not counted a second time.
+            scroll.contentInset.top = 116
+            XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
+            XCTAssertEqual(scroll.contentOffset.y, 1484)
+            // Moving the root on screen must not be added to the local inset.
+            scroll.frame.origin.y = 59
+            XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
+            XCTAssertEqual(scroll.contentOffset.y, 1484)
+        }
+    }
+
+    func testReaderMarkersReobserveAChangedVisibleTop() throws {
+        try readerScrollFixture(safeAreaTopInset: 116) { scroll, content, anchors in
+            let supplied = try XCTUnwrap(scroll as? ReaderSafeAreaScrollView)
+            let marker = UIView(frame: CGRect(x: 0, y: 1600, width: 1, height: 0))
+            content.addSubview(marker)
+            anchors.registerTarget(marker, id: "selected")
+            scroll.contentInset.top = 0
+            XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
+            XCTAssertEqual(scroll.contentOffset.y, 1484)
+            supplied.suppliedSafeAreaInsets.top = 140
+            XCTAssertEqual(anchors.placementObservation(of: "selected"), .needsAlignment)
+            XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
+            XCTAssertEqual(scroll.contentOffset.y, 1460)
+            supplied.suppliedSafeAreaInsets.top = 116
+            scroll.contentInset.top = 140
+            XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
+            XCTAssertEqual(scroll.contentOffset.y, 1460)
+        }
     }
 
     func testReaderScrollMarkersConvertNestedTargetsWithoutDoubleCountingOffset() {

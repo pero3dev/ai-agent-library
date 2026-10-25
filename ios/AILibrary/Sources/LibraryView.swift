@@ -6,6 +6,8 @@ struct LibraryView: View {
     @State private var filter = LibraryArticleFilter()
     @State private var importPresented = false
     @State private var aboutPresented = false
+    @State private var moreActionsPresented = false
+    @State private var pendingMoreAction: MoreAction?
     @State private var path: [ReaderRoute] = []
     @State private var selectedChapterID: String?
     @State private var tagPresented = false
@@ -21,6 +23,13 @@ struct LibraryView: View {
     #if DEBUG
     @State private var readerTestPresented = false
     #endif
+
+    private enum MoreAction {
+        case importContent, bundledContent, about
+        #if DEBUG
+        case readerTest
+        #endif
+    }
 
     private var articles: [LibraryArticle] {
         let ordered = store.orderedListedArticles
@@ -84,23 +93,68 @@ struct LibraryView: View {
         }
     }
 
-    @ViewBuilder private var moreActions: some View {
+    @ViewBuilder private func moreActions(inSheet: Bool = false) -> some View {
         if store.allowsContentImport {
-            Button("ファイルからコンテンツを更新", systemImage: "folder") { importPresented = true }
+            Button("ファイルからコンテンツを更新", systemImage: "folder") {
+                selectMoreAction(.importContent, inSheet: inSheet)
+            }
         }
         if store.allowsBundledContentActivation {
             Button("同梱コンテンツへ切り替える", systemImage: "arrow.triangle.2.circlepath") {
-                previewBundledContent()
+                selectMoreAction(.bundledContent, inSheet: inSheet)
             }
             .accessibilityIdentifier("library-bundled-content")
             .disabled(store.snapshot == nil || !path.isEmpty)
         }
         #if DEBUG
         if !store.isTestLibrary {
-            Button("本文表示テスト", systemImage: "doc.text.magnifyingglass") { readerTestPresented = true }
+            Button("本文表示テスト", systemImage: "doc.text.magnifyingglass") {
+                selectMoreAction(.readerTest, inSheet: inSheet)
+            }
         }
         #endif
-        Button("このアプリについて", systemImage: "info.circle") { aboutPresented = true }
+        Button("このアプリについて", systemImage: "info.circle") {
+            selectMoreAction(.about, inSheet: inSheet)
+        }
+    }
+
+    private var moreActionsSheet: some View {
+        NavigationStack {
+            List { moreActions(inSheet: true) }
+                .disabled(isBusy)
+                .navigationTitle("その他の操作")
+                .toolbar {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("閉じる") { moreActionsPresented = false }
+                    }
+                }
+        }
+    }
+
+    private func selectMoreAction(_ action: MoreAction, inSheet: Bool) {
+        if inSheet {
+            pendingMoreAction = action
+            moreActionsPresented = false
+        } else {
+            performMoreAction(action)
+        }
+    }
+
+    private func dispatchMoreAction() {
+        guard let action = pendingMoreAction else { return }
+        pendingMoreAction = nil
+        performMoreAction(action)
+    }
+
+    private func performMoreAction(_ action: MoreAction) {
+        switch action {
+        case .importContent: importPresented = true
+        case .bundledContent: previewBundledContent()
+        case .about: aboutPresented = true
+        #if DEBUG
+        case .readerTest: readerTestPresented = true
+        #endif
+        }
     }
 
     var body: some View {
@@ -129,7 +183,10 @@ struct LibraryView: View {
                             .accessibilityIdentifier("library-filter-summary")
                         Button("絞り込みをすべて解除") { clearFilters() }
                             .accessibilityIdentifier("library-clear-filters")
-                        Menu { moreActions } label: {
+                        Button {
+                            pendingMoreAction = nil
+                            moreActionsPresented = true
+                        } label: {
                             Label("その他の操作", systemImage: "ellipsis.circle")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .contentShape(Rectangle())
@@ -239,7 +296,7 @@ struct LibraryView: View {
                 }
                 if !isFiltering {
                     ToolbarItem(placement: .topBarTrailing) {
-                        Menu { moreActions } label: { Image(systemName: "ellipsis.circle") }
+                        Menu { moreActions() } label: { Image(systemName: "ellipsis.circle") }
                             .accessibilityLabel("その他の操作")
                             .disabled(isBusy)
                     }
@@ -262,6 +319,7 @@ struct LibraryView: View {
                 }
             }
         }
+        .sheet(isPresented: $moreActionsPresented, onDismiss: dispatchMoreAction) { moreActionsSheet }
         .task { await store.load() }
         .onChange(of: store.learningIndex == nil) { _, absent in
             if absent { selectedChapterID = nil; filter.tag = nil }

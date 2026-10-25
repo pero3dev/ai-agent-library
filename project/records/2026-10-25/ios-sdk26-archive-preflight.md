@@ -36,3 +36,11 @@ Store向けTeam/識別子・契約・料金・署名・配布判断、実機・�
 head1570335のrun40190379973は、実macOS26.6.2/arm64、Xcode26.6 build17F113、SDK26.5を確認し、199記事生成・原文監査、generic iOS Release Archive、actual Contentの全625 SHA・全199本文・fixture不在まで成功した。後段はCODE_SIGN_IDENTITYのキー省略を空文字と厳密比較して失敗し、workflow全体は失敗だった。archive-audit-commandsは空で、実Info/Privacy意味同値・全appinventory・MachO/UUID/codesign等の検査は未到達である。
 
 資格情報6項目だけはキー省略または厳密な空stringを許し、存在するundefined/null/異型/空白/非空を拒否するpure guardを追加した。署名抑止2フラグは実キーと厳密なNOを必須に保つ。Automaticやprofile-required/supportedのYESはplatform metadataであり変更しない。実raw投影とNode7件・構文検査・独立レビューで照合し、元rawbytesを保った。Archive引数・後段の署名/Provisioning拒否は変更せず、最終headを再実行する。
+
+## Archive InfoのJSON互換性を分ける
+
+署名設定の限定修正後、headbd0022のrun40192503753も実toolchain・Archive・actual Contentを再確認した。署名settings guardは通過し、app-infoのJSON変換はexit0。次のArchive Info全体のJSON変換がexit1/Invalid object in plist for JSON formatとなり、以後の監査へ進まなかった。実app-infoの17既存条件は保存rawを独立に照合して一致したが、当該workflow内で比較した成功とは区別する。
+
+原本ArchiveInfoはartifactに含まれず、Dateが原因と断定しない。私有datefixtureではwhole変換と直接extract jsonが失敗し、必要ApplicationPropertiesをXMLへ抽出してからJSON化する二段は成功した。この辞書をfresh evidenceへwx/0600で保存し、既存のobject型・ApplicationPath・Bundle IDの厳密比較を維持する。原本・成功projectionのbytesを保持し、欠測・異型・誤値・変換失敗をfallbackで埋めない。
+
+私有fixture14件と保存rawの既存条件17件、actionlint・構文検証を通した。実Archive ApplicationProperties・Privacy・全app inventory・MachO/UUID/codesignは新headのHostedで確認する。後段コード、署名抑止・資格情報拒否、Archive引数と他のアプリ処理は変えない。

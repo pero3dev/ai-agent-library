@@ -249,7 +249,9 @@ jobs:
             assert.equal(build.DEBUG_INFORMATION_FORMAT, 'dwarf-with-dsym');
             assertSigningDisabledBuildSettings(build);
             const info = plist('app-info', path.join(app, 'Info.plist'));
-            const archiveInfo = plist('archive-info', path.join(archive, 'Info.plist'));
+            put('archive-application-properties.plist', text('archive-info-properties', '/usr/bin/plutil',
+              ['-extract', 'ApplicationProperties', 'xml1', '-o', '-', path.join(archive, 'Info.plist')]));
+            const archiveProperties = plist('archive-info', path.join(evidence, 'archive-application-properties.plist'));
             assert.equal(info.CFBundleIdentifier, build.PRODUCT_BUNDLE_IDENTIFIER);
             assert.equal(info.CFBundleShortVersionString, build.MARKETING_VERSION);
             assert.equal(info.CFBundleVersion, build.CURRENT_PROJECT_VERSION);
@@ -259,8 +261,10 @@ jobs:
             assert.equal(info.DTPlatformName, 'iphoneos'); assert.equal(info.DTSDKName, 'iphoneos' + runtime.sdk);
             assert.equal(info.DTSDKBuild, runtime.sdk_build); assert.equal(info.DTXcodeBuild, '17F113');
             assert.equal(version(info.MinimumOSVersion), '17.0.0');
-            assert.equal(archiveInfo.ApplicationProperties?.ApplicationPath, 'Applications/AILibrary.app');
-            assert.equal(archiveInfo.ApplicationProperties?.CFBundleIdentifier, info.CFBundleIdentifier);
+            assert.ok(archiveProperties !== null && typeof archiveProperties === 'object' && !Array.isArray(archiveProperties),
+              'Archive ApplicationProperties must be an object');
+            assert.equal(archiveProperties.ApplicationPath, 'Applications/AILibrary.app');
+            assert.equal(archiveProperties.CFBundleIdentifier, info.CFBundleIdentifier);
             const privacy = plist('app-privacy', path.join(app, 'PrivacyInfo.xcprivacy'));
             const sourcePrivacy = plist('source-privacy', 'ios/AILibrary/PrivacyInfo.xcprivacy');
             assert.deepEqual(privacy, sourcePrivacy);

@@ -56,4 +56,37 @@ final class LearningNavigationTests: XCTestCase {
         """.utf8))
         XCTAssertEqual(NativeLearningNavigation.chapterTitle(chapter), "01 基礎概念")
     }
+
+    func testCanonicalChapterURLRequiresAnIndexAndOneKnownChapter() throws {
+        let base = "https://pero3dev.github.io/ai-agent-library/docs/"
+        let ids: Set<String> = ["13-domain-agents", "01-concepts"]
+        for (slug, id) in [("domain-agents", "13-domain-agents"), ("concepts", "01-concepts")] {
+            for suffix in ["", "#"] {
+                let url = try XCTUnwrap(URL(string: base + slug + suffix))
+                XCTAssertEqual(NativeLearningNavigation.chapterID(for: url, chapterIDs: ids), id)
+                XCTAssertNil(NativeLearningNavigation.chapterID(for: url, chapterIDs: nil))
+                XCTAssertNil(NativeLearningNavigation.chapterID(for: url, chapterIDs: []))
+            }
+        }
+        let ambiguous = try XCTUnwrap(URL(string: base + "concepts"))
+        XCTAssertNil(NativeLearningNavigation.chapterID(for: ambiguous, chapterIDs: ["01-concepts", "99-concepts"]))
+    }
+
+    func testChapterLinkFallbackKeepsExamplesAndOtherURLsInTheBrowser() throws {
+        let base = "https://pero3dev.github.io/ai-agent-library/docs/"
+        let values = [base + "unknown", base + "domain-agents?", base + "domain-agents?q=1",
+                      base + "domain-agents#収録予定ドキュメント", base + "domain-agents/", base + "%64omain-agents",
+                      "http://pero3dev.github.io/ai-agent-library/docs/domain-agents",
+                      "https://elsewhere.example/ai-agent-library/docs/domain-agents",
+                      "https://pero3dev.github.io.example/ai-agent-library/docs/domain-agents",
+                      "https://user:secret@pero3dev.github.io/ai-agent-library/docs/domain-agents",
+                      "https://pero3dev.github.io:443/ai-agent-library/docs/domain-agents",
+                      "https://pero3dev.github.io/other/docs/domain-agents"]
+        let examples = ["multi-agent", "tool-use", "mcp-server", "rag-basics", "structured-output", "evaluation-harness"]
+            .map { base + "examples/" + $0 }
+        for value in values + examples {
+            XCTAssertNil(NativeLearningNavigation.chapterID(for: try XCTUnwrap(URL(string: value)),
+                                                           chapterIDs: ["13-domain-agents", "01-concepts"]), value)
+        }
+    }
 }

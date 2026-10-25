@@ -267,4 +267,57 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
                         inside: app.scrollViews["native-reader"], fullyVisible: true)
         capture("Bundled-content-selection-resume")
     }
+
+    func testRelatedChapterLinkClosesInPlaceAndOpensAnArticleWithoutLosingTheReader() throws {
+        open("ユースケース発見と要件定義", articleID: "09-business/usecase-discovery")
+        app.buttons["しおりを追加"].tap()
+        goToContents("関連トピック", headingID: "関連トピック")
+        let reader = app.scrollViews["native-reader"]
+        let paragraph = app.staticTexts["native-text-paragraph-5020d29916dbd75df6ba41fa"]
+        for _ in 0..<8 where !isHittableOnScreen(paragraph, inside: reader, fullyVisible: true) {
+            reader.swipeUp(velocity: .slow)
+        }
+        requireHittable(paragraph, inside: reader, fullyVisible: true)
+        XCTAssertTrue(paragraph.label.contains("ドメイン別エージェント設計(13 章)"))
+        XCTAssertTrue(paragraph.label.contains("「向き不向き」の判断を、リサーチ・データ分析・RPA などドメインごとに具体化した設計ガイド"))
+
+        func tapChapterLink() {
+            let link = reader.links["ドメイン別エージェント設計(13 章)"].firstMatch
+            if isHittableOnScreen(link, inside: reader, fullyVisible: true) { link.tap() }
+            else {
+                // SwiftUI can expose the whole linked-and-qualified paragraph as
+                // one Text. Its first inline is the link: tap its first line,
+                // rather than the qualifier at the center of the paragraph.
+                requireHittable(paragraph, inside: reader, fullyVisible: true)
+                paragraph.coordinate(withNormalizedOffset: CGVector(dx: 0.05, dy: 0))
+                    .withOffset(CGVector(dx: 0, dy: min(10, paragraph.frame.height / 2))).tap()
+            }
+            XCTAssertTrue(app.navigationBars["13 ドメイン別エージェント設計"].waitForExistence(timeout: 10))
+            let description = app.staticTexts["learning-chapter-description"]
+            XCTAssertTrue(description.waitForExistence(timeout: 10))
+            XCTAssertTrue(description.label.contains("そのドメイン固有の設計判断"))
+        }
+
+        tapChapterLink()
+        app.navigationBars["13 ドメイン別エージェント設計"].buttons["閉じる"].tap()
+        let closed = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            !self.app.navigationBars["13 ドメイン別エージェント設計"].exists
+        }, object: nil)
+        XCTAssertEqual(XCTWaiter.wait(for: [closed], timeout: 10), .completed)
+        requireHittable(paragraph, inside: reader, fullyVisible: true)
+        tapChapterLink()
+        let firstArticle = app.buttons["learning-chapter-article-13-domain-agents/deep-research-agents"]
+        for _ in 0..<8 where !isHittableOnScreen(firstArticle) { app.swipeUp(velocity: .slow) }
+        requireHittable(firstArticle)
+        firstArticle.tap()
+        XCTAssertTrue(app.navigationBars["ディープリサーチ型エージェントの設計"].waitForExistence(timeout: 10))
+        requireNativeBody()
+        app.navigationBars.buttons.element(boundBy: 0).tap()
+        XCTAssertTrue(app.navigationBars["ユースケース発見と要件定義"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.buttons["しおりを削除"].exists)
+        let firstRelated = app.staticTexts.matching(NSPredicate(format: "identifier BEGINSWITH %@ AND label CONTAINS %@",
+            "native-text-", "選んだ候補を「どう作るか」の技術判断")).firstMatch
+        requireHittable(firstRelated, inside: reader)
+        capture("Related-chapter-reader-return")
+    }
 }

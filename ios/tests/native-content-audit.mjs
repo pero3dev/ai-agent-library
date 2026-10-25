@@ -13,6 +13,7 @@ import MarkdownIt from 'markdown-it';
 import GithubSlugger from 'github-slugger';
 import { installMath, parseArticle, readSource, rejectSymlinks } from '../../scripts/lib/ios-content.mjs';
 import { parseFrontMatter, parseScalar, toLines } from '../../scripts/lib/md-utils.mjs';
+import { auditNativeLearningContent } from './learning-content-audit.mjs';
 
 const repositoryRoot = fileURLToPath(new URL('../../', import.meta.url));
 const usage = 'Usage: node ios/tests/native-content-audit.mjs [--fixtures | --published-library | --all-published --content <temporary ailibrary-ios-*/Content>]';
@@ -449,7 +450,11 @@ export async function auditNativeContent({ root = repositoryRoot, profile = 'rep
   }
   assert.deepEqual([...referencedPNGs].sort(), [...pngs.keys()].sort(), 'All PNGs are referenced by article content');
   assertNativeAuditDescriptions(descriptionKeys, descriptions);
+  const learningIndex = profile === 'published-library'
+    ? await auditNativeLearningContent({ root, content, manifest }) : undefined;
+  if (profile !== 'published-library') assert.ok(!Object.hasOwn(manifest.files, 'assets/learning/index.json'), 'Learning index belongs only to the published-library generation profile');
   const output = { surface: 'static/content-integrity', profile, fixtures, native_ui_test: false, voiceover_test: false, result: issues.length ? 'failed' : 'passed', revision: manifest.revision,
+    ...(learningIndex ? { learning_index: learningIndex } : {}),
     checked_files: Object.keys(manifest.files).length, checked_pngs: pngs.size, unique_light_dark_pairs: pairs.size,
     source_bound_diagram_descriptions: descriptionKeys.size,
     pngs_with_ink_on_outermost_border: [...pngs].filter(([, value]) => value.ink_on_outer_border > 0).map(([file]) => file),

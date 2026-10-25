@@ -6,6 +6,8 @@
 
 ## 構造・運用の計画
 
+章順・タグ・学習ルート・用語集の構造化は[学習案内の生成記録](records/2026-10-25/ios-learning-index-generation.md)で追跡する。全記事同梱候補だけへ任意JSONを追加し、旧profile互換と原文の独立監査、後続のconsumer/UI受入を分ける。
+
 全記事候補のDebug・UI・Release検査は[候補UIの記録](records/2026-10-25/ios-published-candidate-ui.md)で追跡する。通常3記事の回帰を保ち、動的件数と01/03/08/11章の6記事を検査する準備を分ける。
 
 全published記事の通常同梱候補と原文監査は[準備記録](records/2026-10-25/ios-published-library-profile.md)で追跡する。明示modeと既定の切替を分け、3/4記事の回帰と全数監査を維持する。

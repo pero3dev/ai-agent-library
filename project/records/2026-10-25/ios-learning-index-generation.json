@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "task": "ios-learning-index-generation",
+  "date": "2026-10-25",
+  "status": "generation-and-independent-learning-audit-reviewed-local-validation-passed-not-main",
+  "authorization": "User authorized autonomous prioritized iOS implementation, commit/PR/main integration and skipping new physical checks as incomplete.",
+  "base_PR": 254,
+  "owned_producer_files": [
+    "scripts/lib/ios-learning-content.mjs",
+    "scripts/lib/ios-native-content.mjs",
+    "tests/unit/ios-learning-content.test.mjs",
+    "tests/unit/ios-native-content.test.mjs"
+  ],
+  "source_sha256": {
+    "scripts/lib/ios-learning-content.mjs": "0ad9f979390234fd10f27e16cde8db64622314bfb587f7375ae38a0f27097e16",
+    "scripts/lib/ios-native-content.mjs": "3c3e215547a064f6bffbd4dcf2fc06a87069728d1d0d6f6476be403d46cb62fb",
+    "tests/unit/ios-learning-content.test.mjs": "d93355c41d6003549624db53b05b16887c2aaa75e8ce040b1eeb5847208bc3ed",
+    "tests/unit/ios-native-content.test.mjs": "6311a5526881cc3f37f15fb7bbfdfc68fc00233dd5bb1e4031d026816c473ae0",
+    "ios/tests/learning-content-audit.mjs": "694d731d904388fe3f63533436d52459ac1e4683bf034c6173ef8d9bcfe9aa5e",
+    "tests/unit/ios-learning-audit.test.mjs": "29e72dc9c3f2298195b5e1a12f2ccd3d4bc4c9a73d8088475baf41cad734ac86",
+    "ios/tests/native-content-audit.mjs": "b2d0292afb7e039ebf1e52f3092a2e2b0180a26aa4dea40959ab4855781ac7cc"
+  },
+  "format": {
+    "manifest": 2,
+    "document": 1,
+    "learning_index": 1,
+    "path": "assets/learning/index.json",
+    "profile": "published-library-only",
+    "required_for_body": false
+  },
+  "source_inventory": {
+    "articles": 199,
+    "tags": 260,
+    "chapters": 16,
+    "routes": 8,
+    "steps": 37,
+    "glossary": 164,
+    "source_SHA": 216
+  },
+  "candidate": {
+    "revision": "f4d732eae502a7de352b13925e688e09ee2ffdce05e0b82a3281d24d509e8c03",
+    "articles": 199,
+    "files": 626,
+    "bytes": 37744906,
+    "sidecar_sha256": "24861281764e612142fc4155ece78eec7a1ad317ca6f33a16c435abaa98d9151",
+    "sidecar_bytes": 197051,
+    "source_SHA_count": 216,
+    "chapters": 16,
+    "glossary": 164,
+    "route_step_counts": [
+      5,
+      4,
+      3,
+      3,
+      3,
+      6,
+      5,
+      8
+    ]
+  },
+  "render_comparison": "Identical saved PNG assets isolate mode/metadata change from known real Mermaid raster variation.",
+  "preserved_profiles": {
+    "representative": {
+      "status": "exact-manifest-and-file-SHA-equality",
+      "revision": "c10353c16891efda1997cd17a698220c09d9af37092fe3a2e7691fd05999b6f4",
+      "articles": 3,
+      "files": 141
+    },
+    "fixtures": {
+      "status": "exact-manifest-and-file-SHA-equality",
+      "revision": "15df0e08aa2597ea012970f812a4eb7fe242ff626d4e6d0f17b62888b258e60a",
+      "articles": 4,
+      "files": 152
+    },
+    "all-published": {
+      "status": "exact-manifest-and-file-SHA-equality",
+      "revision": "d9d32b9d20f61413fdeab06c795fee15477efb337cb7a29023b8f13943dde7c3",
+      "articles": 199,
+      "files": 625
+    }
+  },
+  "preexisting_listed_files": 624,
+  "preexisting_file_SHA_unchanged": true,
+  "unit": {
+    "total": 38,
+    "passed": 38,
+    "failed": 0,
+    "independent_repeat": "passed"
+  },
+  "common_check": {
+    "total": 722,
+    "passed": 707,
+    "skipped": 15,
+    "failed": 0
+  },
+  "independent_review": {
+    "producer": "approved-four-frozen-files-and-real-source-reextraction",
+    "contract": "approved",
+    "sidecar_SHA256": "24861281764e612142fc4155ece78eec7a1ad317ca6f33a16c435abaa98d9151",
+    "learning_source_audit": "approved-after-duplicate-and-depth-boundary-fix"
+  },
+  "current_app_consumer": "ContentValidator and all199 documents passed on the Mac; not UI performance",
+  "existing_source_audit": "published-library profile calls independent learning source auditor; integrated real199 audit passed; other profiles reject the optional index",
+  "frozen_old_reader": {
+    "commit": "81b5da90796e061d3e2230b941f9156a61f822bc",
+    "app": "0.2.5(7)",
+    "source_sha256": {
+      "Models.swift": "1a054bada895ad053d10230dc3bfa3fdff12b690be76eeaf00e29f894223d319",
+      "NativeDocument.swift": "2bbf76a7a53aa0404af3dadc1b4c35a841855ec5da4d907db32d6f291a11c1a5",
+      "ContentValidator.swift": "25a045747ed287c914423c4156dae60fb7130449d0b1a5680d8a9ec1b8f7d062",
+      "ReadingStore.swift": "5c434c10f83d9157f82bd1bb6ae6e23b7cc046e3a89944e41112420625bdb616"
+    },
+    "surface": "frozen-old-reader-Foundation-CLI",
+    "results": [
+      {
+        "profile": "representative",
+        "status": "passed",
+        "articles": 3,
+        "files_including_manifest": 141,
+        "revision": "c10353c16891efda1997cd17a698220c09d9af37092fe3a2e7691fd05999b6f4"
+      },
+      {
+        "profile": "fixtures",
+        "status": "passed",
+        "articles": 4,
+        "files_including_manifest": 152,
+        "revision": "15df0e08aa2597ea012970f812a4eb7fe242ff626d4e6d0f17b62888b258e60a"
+      },
+      {
+        "profile": "published-with-optional-learning",
+        "status": "passed",
+        "articles": 199,
+        "files_including_manifest": 626,
+        "revision": "f4d732eae502a7de352b13925e688e09ee2ffdce05e0b82a3281d24d509e8c03"
+      }
+    ],
+    "Simulator": false,
+    "UI": false,
+    "user_storage_touched": false
+  },
+  "shared_generated_packages_changed": false,
+  "default_catalog_switch": false,
+  "Hosted": "not-run-on-final-feature-head",
+  "physical": "not-run-user-allows-skip",
+  "remaining": [
+    "new-Swift-consumer-semantic-validation",
+    "Store-and-native-learning-UI",
+    "Hosted-final-head",
+    "full-default-catalog-and-saved-package-migration",
+    "VoiceOver-and-device-acceptance"
+  ],
+  "base_head": "e373c14f85d956440bb60978fdb9028db0ccef59",
+  "owned_audit_files": [
+    "ios/tests/learning-content-audit.mjs",
+    "tests/unit/ios-learning-audit.test.mjs",
+    "ios/tests/native-content-audit.mjs"
+  ],
+  "learning_source_audit_tests": {
+    "total": 130,
+    "passed": 130,
+    "failed": 0,
+    "independent_repeat": "passed"
+  },
+  "strict_index": {
+    "JSON_depth": 12,
+    "duplicate_decoded_keys": "rejected-including-Unicode-escape-aliases",
+    "invalid_UTF8": "rejected",
+    "negative_cases": "Raw duplicate, escaped duplicate and depth13 are rejected after file SHA and manifest revision recalculation."
+  }
+}

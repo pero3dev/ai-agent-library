@@ -33,7 +33,7 @@ test('large raster assets retain aspect ratio within the native decoder budget',
   assert.throws(() => nativeRasterGeometry(1, 0));
 });
 
-const source = (title, body = '本文です。') => `---\ntitle: "${title}"\ncategory: "concepts"\nlevel: "basic"\nstatus: "published"\nlast_updated: "2026-10-22"\n---\n\n# ${title}\n\n## この記事の目的\n\n${body}\n`;
+const source = (title, body = '本文です。') => `---\ntitle: "${title}"\ncategory: "concepts"\nlevel: "basic"\nstatus: "published"\nlast_updated: "2026-10-22"\ntags: ["fixture"]\n---\n\n# ${title}\n\n## この記事の目的\n\n${body}\n`;
 const fixtureSource = body => source('テスト専用', body).replace('status: "published"', 'status: "test-fixture"');
 const paths = ['docs/01-concepts/one.md', 'docs/01-concepts/two.md', 'docs/11-llm-internals/three.md'];
 const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=', 'base64');
@@ -270,15 +270,19 @@ test('all-published rejects source and output symlinks', { skip: process.platfor
   await assert.rejects(buildNativeContent({ ...value, allPublished: true, dependencies: mockDependencies }), /Symlink/);
 });
 
-test('published-library writes the full ordered catalog only to canonical Content and preserves representative revisions', async t => {
+test('published-library adds hash-bound learning metadata only to canonical Content and preserves representative revisions', async t => {
   const value = await fixture(t);
   const { output, ...options } = value;
   const descriptions = await fullDescriptionMap(value);
-  const fourth = 'docs/00-foundations/four.md';
+  const fourth = 'docs/00-overview/learning-roadmap.md';
+  const routeTable = `### 読者タイプ別の推奨ルート\n\n| タイプ | 状況 | 推奨ルート |\n| --- | --- | --- |\n${[...'ABCDEFGH'].map(id => `| ${id}: 担当${id} | 状況 | [第一記事](../01-concepts/one.md) |`).join('\n')}`;
   const additions = new Map([
-    [fourth, source('第四記事', '[第一記事](../01-concepts/one.md#第一記事)')],
+    [fourth, source('第四記事', '[第一記事](../01-concepts/one.md#第一記事)\n\n' + routeTable)],
     ['docs/01-concepts/draft.md', source('未公開').replace('status: "published"', 'status: "draft"')],
-    ['docs/01-concepts/README.md', '章の索引です。']
+    ['docs/00-overview/README.md', '# 全体像\n\n章の索引です。\n\n| 記事 | 内容 |\n| --- | --- |\n| [学習](learning-roadmap.md) | 道順 |\n'],
+    ['docs/01-concepts/README.md', '# 概念\n\n章の索引です。\n\n| 記事 | 内容 |\n| --- | --- |\n| [第二](two.md) | 第二 |\n| [第一](one.md) | 第一 |\n| [下書き](draft.md) | 未公開 |\n'],
+    ['docs/11-llm-internals/README.md', '# 内部構造\n\n章の索引です。\n\n| 記事 | 内容 |\n| --- | --- |\n| [第三](three.md) | 第三 |\n'],
+    ['GLOSSARY.md', '# 用語\n\n### 用語(Term)\n\n定義。→ [第一](docs/01-concepts/one.md)\n']
   ]);
   for (const [file, data] of additions) { await mkdir(path.dirname(path.join(value.root, file)), { recursive: true }); await writeFile(path.join(value.root, file), data); }
   const normalRoot = path.join(value.root, 'ios/AILibrary/Content');
@@ -297,8 +301,31 @@ test('published-library writes the full ordered catalog only to canonical Conten
   const diagram = nodes(JSON.parse(await readFile(path.join(normalRoot, diagramArticle.document_path)))).find(node => node.type === 'diagram');
   assert.ok(diagram.accessibility_text.startsWith(`${Object.values(descriptions.diagram_descriptions)[0]}\n図中のラベル:`));
   assert.deepEqual(await readFile(path.join(normalRoot, 'manifest.json')), Buffer.from(`${JSON.stringify(library, null, 2)}\n`));
+  const learningPath = 'assets/learning/index.json';
+  const learningBytes = await readFile(path.join(normalRoot, learningPath));
+  const learning = JSON.parse(learningBytes);
+  assert.equal(library.files[learningPath], sha256(learningBytes));
+  assert.equal(learning.schema_version, 1);
+  assert.deepEqual(learning.chapters[1].article_ids, ['01-concepts/two', '01-concepts/one']);
+  assert.deepEqual(Object.keys(learning.article_tags), library.articles.map(article => article.id));
+  await writeFile(path.join(value.root, 'GLOSSARY.md'), additions.get('GLOSSARY.md').replace('定義。', '改訂した定義。'));
+  const revisedLearning = await buildNativeContent({ ...options, publishedLibrary: true, dependencies: mockDependencies });
+  assert.notEqual(revisedLearning.revision, library.revision, 'A glossary-only edit changes the hash-bound package revision');
+  assert.deepEqual(revisedLearning.articles, library.articles);
+  assert.deepEqual(Object.fromEntries(Object.entries(revisedLearning.files).filter(([file]) => file !== learningPath)), Object.fromEntries(Object.entries(library.files).filter(([file]) => file !== learningPath)));
+  const previousManifest = await readFile(path.join(normalRoot, 'manifest.json'));
+  await writeFile(path.join(value.root, 'GLOSSARY.md'), '# No entries\n');
+  await assert.rejects(buildNativeContent({ ...options, publishedLibrary: true, dependencies: mockDependencies }), /learning glossary entries/);
+  assert.deepEqual(await readFile(path.join(normalRoot, 'manifest.json')), previousManifest, 'Metadata failures preserve the previous generated package');
+  await writeFile(path.join(value.root, 'GLOSSARY.md'), additions.get('GLOSSARY.md'));
   const temporary = await buildNativeContent({ ...value, allPublished: true, dependencies: mockDependencies });
-  assert.equal(library.revision, temporary.revision, 'Selection scope does not change package contents across destinations');
+  assert.notEqual(library.revision, temporary.revision, 'The optional metadata is bound into the existing revision recipe');
+  assert.deepEqual(library.articles, temporary.articles);
+  assert.deepEqual(library.audio, temporary.audio);
+  assert.deepEqual(Object.fromEntries(Object.entries(library.files).filter(([file]) => file !== learningPath)), temporary.files, 'Only the published-library profile adds metadata');
+  assert.equal(Object.hasOwn(temporary.files, learningPath), false);
+  assert.equal(Object.hasOwn(normal.files, learningPath), false);
+  assert.equal(Object.hasOwn(fixtures.files, learningPath), false);
   assert.deepEqual(await readFile(path.join(fixtureRoot, 'manifest.json')), originalFixtures);
   assert.equal((await buildNativeContent({ ...options, dependencies: mockDependencies })).revision, normal.revision);
   assert.deepEqual(await readFile(path.join(normalRoot, 'manifest.json')), originalNormal);

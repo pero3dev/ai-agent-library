@@ -5,6 +5,7 @@ import GithubSlugger from 'github-slugger';
 import { load as loadYaml, JSON_SCHEMA } from 'js-yaml';
 import { audioMetadata, installMath, NATIVE_READER_FIXTURE, parseArticle, readSource, rewriteLink, sha256, tokenText, validateOutput } from './ios-content.mjs';
 import { loadNativeRenderingDependencies } from './ios-native-assets.mjs';
+import { buildNativeLearningIndex, NATIVE_LEARNING_PATH } from './ios-learning-content.mjs';
 
 const assetKey = Symbol('nativeAssetKey');
 const comparePath = ([a], [b]) => a < b ? -1 : a > b ? 1 : 0;
@@ -324,6 +325,7 @@ export async function buildNativeContent({ root, output, fixtures = false, allPu
     const { body, normalized_digest, ...metadata } = article;
     return { ...metadata, document_path, summary: value.summary, search_text: value.search_text, headings: value.headings, ...(article === audioArticle ? { audio_id: audio[0].id } : {}) };
   });
+  if (publishedLibrary) assets.set(NATIVE_LEARNING_PATH, Buffer.from(`${JSON.stringify(await buildNativeLearningIndex({ root, articles: manifestArticles }), null, 2)}\n`));
   for (const [file, data] of assets) {
     safeOutputPath(file);
     if (!Buffer.isBuffer(data)) throw new Error(`Native asset must be a Buffer: ${file}`);

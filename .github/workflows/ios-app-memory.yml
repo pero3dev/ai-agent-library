@@ -1,0 +1,772 @@
+# PRIVATE TEMPORARY DRAFT PR ONLY. NEVER MERGE INTO MAIN.
+# Expires 2026-11-02T00:00:00Z. Job40/UI12 caps cannot guarantee cleanup/export after job deadline, overhead, cancellation or runner loss.
+name: Temporary app-memory first observation (NEVER MERGE)
+'on':
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - .github/workflows/ios-app-memory.yml
+      - ios/**
+      - tests/unit/ios-app-memory-capture.test.mjs
+permissions:
+  contents: read
+concurrency:
+  group: ios-app-memory-observation-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  ios-app-memory-observation:
+    name: Temporary app-memory first observation (never merge)
+    if: github.event_name == 'pull_request' && github.repository == 'pero3dev/ai-agent-library' && github.event.repository.private == false && github.event.pull_request.draft == true && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'codex/ios-app-memory-observation' && github.event.pull_request.base.ref == 'main'
+    runs-on: macos-15
+    timeout-minutes: 40
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+      EVIDENCE_DIR: ${{ github.workspace }}/.local/ios-app-memory-observation/evidence
+      EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
+      REPOSITORY_IS_PRIVATE: ${{ github.event.repository.private }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        timeout-minutes: 2
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            ios/tools/package-lock.json
+      - name: Create fresh private evidence storage
+        timeout-minutes: 1
+        id: evidence
+        run: |
+          set -euo pipefail
+          [[ ! -L .local && ! -e .local/ios-app-memory-observation && ! -L .local/ios-app-memory-observation ]]
+          mkdir -p "$EVIDENCE_DIR"
+          chmod 700 .local/ios-app-memory-observation "$EVIDENCE_DIR"
+      - name: Verify toolchain and select documented runtime and device type
+        timeout-minutes: 3
+        id: inventory
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { spawnSync } from 'node:child_process';
+          import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+          import path from 'node:path';
+          const evidence = process.env.EVIDENCE_DIR;
+          const put = (name, value) => writeFileSync(path.join(evidence, name), value, { flag: 'wx', mode: 0o600 });
+          const json = (name, value) => put(name, JSON.stringify(value, null, 2) + '\n');
+          const inventoryStartedMonotonicMs = performance.now();
+          const inventoryDeadlineMonotonicMs = inventoryStartedMonotonicMs + 150000;
+          const read = (name, binary, args) => {
+
+            const readMonotonicMs = performance.now();
+
+            const remainingBudgetMs = Math.floor(inventoryDeadlineMonotonicMs - readMonotonicMs);
+
+            const timeoutMs = Math.min(120000, Math.max(0, remainingBudgetMs));
+
+            json(name + '.intent.json', { schema_version: 1, binary, arguments: args,
+
+              timeout_ms: timeoutMs, remaining_budget_ms: remainingBudgetMs,
+
+              started_monotonic_ms: inventoryStartedMonotonicMs, deadline_monotonic_ms: inventoryDeadlineMonotonicMs,
+
+              read_monotonic_ms: readMonotonicMs, spawn_planned: remainingBudgetMs > 0 });
+
+            let result;
+
+            if (remainingBudgetMs <= 0) {
+
+              result = { status: null, signal: null, stdout: '', stderr: '',
+
+                error: new Error('Inventory read budget exhausted before spawn') };
+
+            } else {
+
+              try {
+
+                result = spawnSync(binary, args, { encoding: 'utf8', timeout: timeoutMs,
+
+                  killSignal: 'SIGKILL', maxBuffer: 16 * 1024 * 1024 });
+
+              } catch (error) {
+
+                result = { status: null, signal: null, stdout: '', stderr: '',
+
+                  error: error ?? new Error('Unknown inventory spawn exception') };
+
+              }
+
+            }
+
+            put(name + '.stdout.log', result.stdout ?? ''); put(name + '.stderr.log', result.stderr ?? '');
+
+            json(name + '.exit.json', { binary, arguments: args, exit_code: result.status, signal: result.signal,
+
+              error: result.error?.message ?? (result.error === undefined ? null : String(result.error)) });
+
+            assert.equal(result.error, undefined, name); assert.equal(result.status, 0, name);
+
+            assert.ok(performance.now() < inventoryDeadlineMonotonicMs, name + ': inventory deadline exceeded');
+
+            return result.stdout.trim();
+
+          };
+          assert.equal(process.env.GITHUB_EVENT_NAME, 'pull_request');
+          const event = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
+          assert.equal(event.repository?.full_name, 'pero3dev/ai-agent-library'); assert.equal(event.repository?.private, false);
+          assert.equal(event.pull_request?.draft, true); assert.equal(event.pull_request?.head?.repo?.full_name, 'pero3dev/ai-agent-library');
+          assert.equal(event.pull_request?.head?.ref, 'codex/ios-app-memory-observation'); assert.equal(event.pull_request?.base?.ref, 'main');
+          assert.equal(event.pull_request?.head?.sha, process.env.EXPECTED_SOURCE_HEAD);
+          assert.ok(Date.now() < Date.parse('2026-11-02T00:00:00Z'), 'Expired one-off observation; no fallback/download/paid runner');
+          assert.equal(process.env.GITHUB_REPOSITORY, 'pero3dev/ai-agent-library');
+          assert.equal(process.env.REPOSITORY_IS_PRIVATE, 'false');
+          assert.equal(process.env.DEVELOPER_DIR, '/Applications/Xcode_16.4.app/Contents/Developer');
+          assert.ok(existsSync(process.env.DEVELOPER_DIR), 'Documented Xcode missing; no fallback or download');
+          const macOS = read('macos', 'sw_vers', ['-productVersion']);
+          const architecture = read('architecture', 'uname', ['-m']);
+          const Xcode = read('xcode', 'xcodebuild', ['-version']);
+          assert.equal(macOS.split('.')[0], '15'); assert.equal(architecture, 'arm64');
+          assert.equal(Xcode, 'Xcode 16.4\nBuild version 16F6');
+          const sdk = read('simulator-sdk-version', 'xcrun', ['--sdk', 'iphonesimulator', '--show-sdk-version']);
+          assert.equal(sdk, '18.5');
+          const sdkBuild = read('simulator-sdk-build', 'xcrun', ['--sdk', 'iphonesimulator', '--show-sdk-build-version']);
+          const sdkPath = read('simulator-sdk-path', 'xcrun', ['--sdk', 'iphonesimulator', '--show-sdk-path']);
+          assert.match(sdkBuild, /^[A-Za-z0-9]+$/); assert.ok(path.isAbsolute(sdkPath) && existsSync(sdkPath));
+          const head = read('source-head', 'git', ['rev-parse', 'HEAD']);
+          assert.match(head, /^[a-f0-9]{40}$/); assert.equal(head, process.env.EXPECTED_SOURCE_HEAD);
+          const tree = read('source-tree', 'git', ['rev-parse', 'HEAD^{tree}']);
+          assert.match(tree, /^[a-f0-9]{40}$/);
+          // Exact same-repository PR main-base event SHA; no invented future head.
+          const base = event.pull_request?.base?.sha;
+          assert.match(base, /^[a-f0-9]{40}$/);
+          const changed = read('source-delta', 'git', ['diff', '--name-only', base, 'HEAD']).split('\n').filter(Boolean).sort();
+          const allowed = [".github/workflows/ios-app-memory.yml","ios/AILibraryUITests/PublishedPerformanceUITests.swift","ios/tests/app-memory-observation-protocol.json","ios/tests/capture-app-memory.mjs","tests/unit/ios-app-memory-capture.test.mjs"];
+          assert.deepEqual(changed, allowed, 'Only the reviewed memory source4 and temporary workflow may differ from PR main base');
+          const { createHash } = await import('node:crypto');
+          const hashes = {
+            "ios/AILibraryUITests/PublishedPerformanceUITests.swift": "004e14a8fc4f5652db68c02e49fd33baa72e8bd8e29326aca4fbdaa644d102b5",
+            "ios/tests/app-memory-observation-protocol.json": "0db025ba3631f5a6e7000ff94c0a5d6baea93cbba0f52d5adf3a9fdbc812cb4c",
+            "ios/tests/capture-app-memory.mjs": "15ea56343798f44e25688a24d283272e72bb174608f322a027798d1b462813d8",
+            "tests/unit/ios-app-memory-capture.test.mjs": "40e95646c7fc75b0a90b8a8ab368cb049345a6100528a0022621c1f28e5fd0fb"
+          };
+          for (const [file, expected] of Object.entries(hashes)) assert.equal(createHash('sha256').update(readFileSync(file)).digest('hex'), expected);
+          json('source-contract.json', { baseline_head: base, baseline_role: 'same-repository PR main-base SHA from event', observed_head: head, observed_tree: tree, changed_paths: changed, source_hashes: hashes, main_adoption:false, source_identity_role: 'External workflow checkout assertion, not xcresult source attestation' });
+
+          const runtimeInventory = JSON.parse(read('simctl-runtimes', 'xcrun', ['simctl', 'list', 'runtimes', '--json']));
+          const typeInventory = JSON.parse(read('simctl-device-types', 'xcrun', ['simctl', 'list', 'devicetypes', '--json']));
+          assert.ok(Array.isArray(runtimeInventory.runtimes)); assert.ok(Array.isArray(typeInventory.devicetypes));
+          const iosVersionRows = runtimeInventory.runtimes.filter(row => row?.version === '18.5' &&
+            (row.platform === 'iOS' || row.name === 'iOS 18.5' || String(row.identifier).startsWith('com.apple.CoreSimulator.SimRuntime.iOS-')));
+          for (const row of iosVersionRows) {
+            assert.equal(row.name, 'iOS 18.5');
+            assert.match(row.identifier, /^com\.apple\.CoreSimulator\.SimRuntime\.iOS-[A-Za-z0-9.-]+$/);
+            assert.equal(typeof row.isAvailable, 'boolean', 'Unknown availability must fail closed');
+            if (row.platform !== undefined) assert.equal(row.platform, 'iOS');
+          }
+          const available = iosVersionRows.filter(row => row.isAvailable === true);
+          assert.equal(available.length, 1, 'Exactly one available iOS 18.5 runtime is required');
+          const runtime = available[0];
+          assert.equal(typeof runtime.buildversion, 'string'); assert.ok(runtime.buildversion.length > 0);
+          const types = typeInventory.devicetypes.filter(row => row?.name === 'iPhone 16');
+          assert.equal(types.length, 1, 'Exactly one iPhone 16 device type is required');
+          const deviceType = types[0];
+          assert.match(deviceType.identifier, /^com\.apple\.CoreSimulator\.SimDeviceType\.[A-Za-z0-9.-]+$/);
+          if (deviceType.productFamily !== undefined) assert.equal(deviceType.productFamily, 'iPhone');
+          json('selection.json', { schema_version: 1, status: 'selected-from-actual-inventory', source_head: head,
+            source_tree: tree, repository: process.env.GITHUB_REPOSITORY, repository_private: false,
+            runner_label: 'macos-15', standard_runner: true, macOS, architecture, Xcode,
+            developer_directory: process.env.DEVELOPER_DIR, image_OS: process.env.ImageOS ?? null,
+            image_version: process.env.ImageVersion ?? null, sdk, sdk_build: sdkBuild, sdk_path: sdkPath,
+            runtime, device_type: deviceType,
+            inventory_reference: 'Existing full iOS18.5 workflow pins; actual inventory is authoritative',
+            scope: 'Temporary first app-memory+Clock public search observation only; full199/fixture4 resources, exact one new method. Old launch Clock and functional14/16 are not executed; no accepted memory contract, device or product budget.' });
+          NODE
+      - name: Audit content tooling before installation
+        timeout-minutes: 1
+        id: root_audit
+        run: |
+          set -euo pipefail
+          npm audit --package-lock-only --audit-level=high 2>&1 | tee "$EVIDENCE_DIR/root-lock-audit.log"
+      - name: Install content tooling without lifecycle scripts
+        timeout-minutes: 2
+        id: root_install
+        run: |
+          set -euo pipefail
+          npm ci --ignore-scripts 2>&1 | tee "$EVIDENCE_DIR/root-npm-ci.log"
+      - name: Audit native asset tooling before installation
+        timeout-minutes: 1
+        id: tools_audit
+        working-directory: ios/tools
+        run: |
+          set -euo pipefail
+          npm audit --package-lock-only --audit-level=high 2>&1 | tee "$EVIDENCE_DIR/tools-lock-audit.log"
+      - name: Install native assets without lifecycle scripts
+        timeout-minutes: 2
+        id: tools_install
+        working-directory: ios/tools
+        run: |
+          set -euo pipefail
+          npm ci --ignore-scripts 2>&1 | tee "$EVIDENCE_DIR/tools-npm-ci.log"
+      - name: Install the lockfile-matched Chromium
+        timeout-minutes: 2
+        id: browser
+        working-directory: ios/tools
+        run: |
+          set -euo pipefail
+          ./node_modules/.bin/playwright install chromium 2>&1 | tee "$EVIDENCE_DIR/chromium-install.log"
+      - name: Count tracked published source articles independently
+        run: |
+          set -euo pipefail
+          expected_articles="$(node --input-type=module <<'NODE'
+          import { execFileSync } from 'node:child_process';
+          import { readFileSync, writeFileSync } from 'node:fs';
+          import { parseFrontMatter, parseScalar, toLines } from './scripts/lib/md-utils.mjs';
+          const files = execFileSync('git', ['ls-files', '-z', 'docs'], { encoding: 'utf8' })
+            .split('\0').filter(file => /^docs\/\d{2}-[a-z0-9-]+\/[a-z0-9-]+\.md$/.test(file));
+          const articles = files.filter(file => {
+            const fields = parseFrontMatter(toLines(readFileSync(file, 'utf8')))?.fields ?? [];
+            const statuses = fields.filter(field => field.key === 'status');
+            if (statuses.length !== 1) throw new Error(`Expected one source status: ${file}`);
+            return parseScalar(statuses[0].value) === 'published';
+          }).sort();
+          if (articles.length !== 199) throw new Error('This first observation requires the reviewed full199 source set');
+          writeFileSync(process.env.EVIDENCE_DIR + '/published-sources.json',
+            JSON.stringify({ articles: articles.length, source_paths: articles }, null, 2) + '\n', {flag:'wx',mode:0o600});
+          console.log(articles.length);
+          NODE
+          )"
+          [[ "$expected_articles" =~ ^[1-9][0-9]*$ ]]
+          printf 'PUBLISHED_ARTICLE_COUNT=%s\n' "$expected_articles" >> "$GITHUB_ENV"
+        id: count
+        timeout-minutes: 1
+      - name: Generate full199 published package within six-minute cap
+        id: full
+        timeout-minutes: 6
+        run: |
+          set -euo pipefail
+          npm run ios:prepare 2>&1 | tee "$EVIDENCE_DIR/published-generation.log"
+      - name: Generate fixture4 package with four-minute generation cap
+        id: fixture
+        timeout-minutes: 4
+        run: |
+          set -euo pipefail
+          npm run ios:prepare:fixtures 2>&1 | tee "$EVIDENCE_DIR/fixture-generation.log"
+      - name: Audit full199 and fixture4 source packages
+        id: content
+        timeout-minutes: 4
+        run: |
+          set -euo pipefail
+          npm run --silent ios:test:content 2>&1 | tee "$EVIDENCE_DIR/published-source-audit.json"
+          npm run --silent ios:test:fixtures 2>&1 | tee "$EVIDENCE_DIR/fixture-source-audit.json"
+          npm run --silent ios:test:package -- "$PUBLISHED_ARTICLE_COUNT" 2>&1 | tee "$EVIDENCE_DIR/published-package.json"
+          bash ios/tests/check-package.sh ios/AILibrary/TestContent 4 2>&1 | tee "$EVIDENCE_DIR/fixture-package.json"
+      - name: Create and boot this job's dedicated Simulator
+        timeout-minutes: 4
+        id: simulator
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { spawnSync } from 'node:child_process';
+          import { randomUUID } from 'node:crypto';
+          import { readFileSync, writeFileSync } from 'node:fs';
+          import path from 'node:path';
+          const evidence = process.env.EVIDENCE_DIR;
+          const put = (name, value) => writeFileSync(path.join(evidence, name), value, { flag: 'wx', mode: 0o600 });
+          const json = (name, value) => put(name, JSON.stringify(value, null, 2) + '\n');
+          const run = (name, args) => {
+            const result = spawnSync('xcrun', ['simctl', ...args], { encoding: 'utf8', timeout: 120000, maxBuffer: 16 * 1024 * 1024 });
+            put(name + '.stdout.log', result.stdout ?? ''); put(name + '.stderr.log', result.stderr ?? '');
+            json(name + '.exit.json', { binary: 'xcrun', arguments: ['simctl', ...args], exit_code: result.status, signal: result.signal, error: result.error?.message ?? null });
+            assert.equal(result.error, undefined, name); assert.equal(result.status, 0, name);
+            return result.stdout.trim();
+          };
+          const selection = JSON.parse(readFileSync(path.join(evidence, 'selection.json'), 'utf8'));
+          assert.equal(selection.status, 'selected-from-actual-inventory');
+          assert.equal(selection.source_head, process.env.EXPECTED_SOURCE_HEAD);
+          const before = JSON.parse(run('devices-before-create', ['list', 'devices', '--json']));
+          assert.ok(before.devices && typeof before.devices === 'object' && !Array.isArray(before.devices));
+          const uuidPattern = /^[A-Fa-f0-9]{8}(?:-[A-Fa-f0-9]{4}){3}-[A-Fa-f0-9]{12}$/;
+          const preexisting = [];
+          for (const rows of Object.values(before.devices)) {
+            assert.ok(Array.isArray(rows));
+            for (const row of rows) { assert.match(row.udid, uuidPattern); preexisting.push(row.udid.toUpperCase()); }
+          }
+          assert.equal(new Set(preexisting).size, preexisting.length);
+          const token = randomUUID();
+          const name = `AILibrary-app-memory-${process.env.GITHUB_RUN_ID}-${process.env.GITHUB_RUN_ATTEMPT}-${token}`;
+          const intent = { schema_version: 1, repository: process.env.GITHUB_REPOSITORY,
+            run_id: process.env.GITHUB_RUN_ID, run_attempt: process.env.GITHUB_RUN_ATTEMPT,
+            source_head: selection.source_head, token, name, runtime_identifier: selection.runtime.identifier,
+            device_type_identifier: selection.device_type.identifier, preexisting_UUIDs: preexisting };
+          // Durable intent precedes create. Raw create output/exit survive a later failure.
+          json('owned-simulator-intent.json', intent);
+          const uuid = run('create-simulator', ['create', name, intent.device_type_identifier, intent.runtime_identifier]);
+          assert.match(uuid, uuidPattern); assert.ok(!preexisting.includes(uuid.toUpperCase()));
+          json('owned-simulator.json', { ...intent, UUID: uuid.toUpperCase(), creation_exit_code: 0 });
+          run('boot-simulator', ['boot', uuid]);
+          run('bootstatus-simulator', ['bootstatus', uuid, '-b']);
+          const afterBoot = JSON.parse(run('devices-after-boot', ['list', 'devices', '--json']));
+          assert.ok(afterBoot.devices && typeof afterBoot.devices === 'object' && !Array.isArray(afterBoot.devices));
+          const matches = Object.entries(afterBoot.devices).flatMap(([runtime, rows]) => {
+            assert.ok(Array.isArray(rows));
+            return rows.filter(device => String(device.udid).toUpperCase() === uuid.toUpperCase())
+              .map(device => ({ runtime, device }));
+          });
+          assert.equal(matches.length, 1); assert.equal(matches[0].runtime, intent.runtime_identifier);
+          assert.equal(matches[0].device.name, name); assert.equal(matches[0].device.state, 'Booted');
+          assert.equal(matches[0].device.isAvailable, true);
+          NODE
+      - name: Strict owned-ID project-context preflight before build
+        id: preflight
+        timeout-minutes: 5
+        run: |
+          set -euo pipefail
+          owned_uuid="$(node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { spawnSync } from 'node:child_process';
+          import { readFileSync, writeFileSync } from 'node:fs';
+          import path from 'node:path';
+          const owned = JSON.parse(readFileSync(path.join(process.env.EVIDENCE_DIR, 'owned-simulator.json'), 'utf8'));
+          assert.equal(owned.creation_exit_code, 0); assert.equal(owned.source_head, process.env.EXPECTED_SOURCE_HEAD);
+          assert.equal(owned.run_id, process.env.GITHUB_RUN_ID); assert.equal(owned.run_attempt, process.env.GITHUB_RUN_ATTEMPT);
+          assert.match(owned.UUID, /^[A-F0-9]{8}(?:-[A-F0-9]{4}){3}-[A-F0-9]{12}$/);
+          const destinations = spawnSync('xcodebuild', ['-showdestinations', '-project', 'ios/AILibrary.xcodeproj', '-scheme', 'AILibrary'],
+            { encoding: 'utf8', timeout: 120000, maxBuffer: 16 * 1024 * 1024 });
+          const put = (name, value) => writeFileSync(path.join(process.env.EVIDENCE_DIR, name), value, { flag: 'wx', mode: 0o600 });
+          put('showdestinations.stdout.log', destinations.stdout ?? ''); put('showdestinations.stderr.log', destinations.stderr ?? '');
+          put('showdestinations.exit.json', JSON.stringify({ exit_code: destinations.status, signal: destinations.signal, error: destinations.error?.message ?? null }) + '\n');
+          // Contract v2: the unbound listing is diagnostic; explicit owned settings
+          // establish only the project context for attempting the one dedicated memory test.
+          const selection = JSON.parse(readFileSync(path.join(process.env.EVIDENCE_DIR, 'selection.json'), 'utf8'));
+          const boundArguments = ['-project', 'ios/AILibrary.xcodeproj', '-scheme', 'AILibrary', '-configuration', 'Debug',
+
+            '-sdk', 'iphonesimulator', '-destination', `platform=iOS Simulator,id=${owned.UUID}`,
+
+            '-destination-timeout', '15', '-showBuildSettings', '-json'];
+
+          let bound;
+          try {
+
+            bound = spawnSync('xcodebuild', boundArguments,
+
+              { encoding: 'utf8', timeout: 120000, killSignal: 'SIGKILL', maxBuffer: 2 * 1024 * 1024 });
+
+          } catch (error) {
+
+            bound = { status: null, signal: null, stdout: '', stderr: '', error };
+
+          }
+          const errorFields = error => error ? {
+
+            name: error.name ?? null, message: error.message ?? String(error), code: error.code ?? null,
+
+            errno: error.errno ?? null, syscall: error.syscall ?? null,
+
+          } : null;
+          put('destination-bound-settings.stdout.log', bound.stdout ?? '');
+          put('destination-bound-settings.stderr.log', bound.stderr ?? '');
+          put('destination-bound-settings.exit.json', JSON.stringify({ binary: 'xcodebuild', arguments: boundArguments,
+
+            timeout_ms: 120000, exit_code: bound.status ?? null, signal: bound.signal ?? null,
+
+            error: errorFields(bound.error) }, null, 2) + '\n');
+
+          const report = {
+
+            schema_version: 1, contract_version: 2, status: 'rejected',
+
+            source_head: owned.source_head, run_id: owned.run_id, run_attempt: owned.run_attempt, owned_UUID: owned.UUID,
+
+            unbound_listing_role: 'diagnostic-only; read completion must still succeed; UUID substring is not acceptance',
+
+            bound_settings_role: 'strict project-context preflight only; actual exact-one memory UI result still required',
+
+            signing_assignment_added: false, prior_failed_runs_reclassified: false,
+
+          };
+          try {
+
+            // Preserve primary command/error/status checks; even a bound result does not
+
+            // hide a failed initial read. The old UUID-listing requirement is superseded.
+
+            assert.equal(destinations.error, undefined); assert.equal(destinations.status, 0);
+
+            assert.equal(bound.error, undefined); assert.equal(bound.status, 0);
+
+            assert.equal(selection.source_head, owned.source_head);
+
+            assert.equal(selection.sdk, '18.5'); assert.equal(selection.sdk_build, '22F76');
+
+            assert.equal(selection.runtime.version, '18.5');
+
+            assert.equal(selection.runtime.identifier, owned.runtime_identifier);
+
+            assert.equal(selection.device_type.identifier, owned.device_type_identifier);
+
+            assert.equal(selection.device_type.modelIdentifier, 'iPhone17,3');
+
+            assert.equal(typeof selection.sdk_path, 'string'); assert.ok(path.isAbsolute(selection.sdk_path));
+
+            const targets = JSON.parse(bound.stdout);
+
+            assert.ok(Array.isArray(targets) && targets.length === 1, 'Exactly the observed App target must be returned');
+
+            const target = targets[0];
+
+            assert.ok(target && typeof target === 'object' && !Array.isArray(target));
+
+            assert.equal(target.target, 'AILibrary'); assert.equal(target.action, 'build');
+
+            const settings = target.buildSettings;
+
+            assert.ok(settings && typeof settings === 'object' && !Array.isArray(settings));
+
+            const expected = {
+
+              TARGET_NAME: 'AILibrary', PRODUCT_NAME: 'AILibrary', PRODUCT_MODULE_NAME: 'AILibrary',
+
+              PRODUCT_BUNDLE_IDENTIFIER: 'dev.pero3.aiagentlibrary.prototype', CONFIGURATION: 'Debug',
+
+              TARGET_DEVICE_MODEL: selection.device_type.modelIdentifier, TARGET_DEVICE_OS_VERSION: '18.5',
+
+              TARGET_DEVICE_PLATFORM_NAME: 'iphonesimulator', PLATFORM_NAME: 'iphonesimulator',
+
+              EFFECTIVE_PLATFORM_NAME: '-iphonesimulator', SDK_NAME: 'iphonesimulator18.5', SDK_VERSION: '18.5',
+
+              SDK_PRODUCT_BUILD_VERSION: selection.sdk_build, SDKROOT: selection.sdk_path,
+
+              IPHONEOS_DEPLOYMENT_TARGET: '17.0', TARGETED_DEVICE_FAMILY: '1', SUPPORTED_PLATFORMS: 'iphoneos iphonesimulator',
+
+            };
+
+            for (const [key, value] of Object.entries(expected)) {
+
+              assert.equal(typeof settings[key], 'string', `Missing or nonstring bound setting: ${key}`);
+
+              assert.equal(settings[key], value, `Wrong bound setting: ${key}`);
+
+            }
+
+            assert.equal(typeof settings.TARGET_DEVICE_IDENTIFIER, 'string');
+
+            assert.match(settings.TARGET_DEVICE_IDENTIFIER, /^[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}$/);
+
+            assert.equal(settings.TARGET_DEVICE_IDENTIFIER.toUpperCase(), owned.UUID);
+
+            report.status = 'accepted-for-existing-test-attempt-only';
+
+            report.verified_target = target.target;
+
+            report.verified_settings = { ...expected, TARGET_DEVICE_IDENTIFIER: settings.TARGET_DEVICE_IDENTIFIER };
+
+            report.read_only_CODE_SIGNING_ALLOWED = typeof settings.CODE_SIGNING_ALLOWED === 'string' ? settings.CODE_SIGNING_ALLOWED : null;
+
+          } catch (error) {
+
+            report.failure = errorFields(error);
+
+            throw error;
+
+          } finally {
+
+            put('bound-destination-preflight.json', JSON.stringify(report, null, 2) + '\n');
+
+          }
+          console.log(owned.UUID);
+          NODE
+          )"
+          printf 'OWNED_SIMULATOR_UUID=%s\n' "$owned_uuid" >> "$GITHUB_ENV"
+      - name: Build registered targets without running Clock or functional tests
+        id: build
+        timeout-minutes: 6
+        run: |
+          set -euo pipefail
+          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
+            -configuration Debug -sdk iphonesimulator -destination "platform=iOS Simulator,id=$OWNED_SIMULATOR_UUID" \
+            -destination-timeout 120 -derivedDataPath .local/ios-app-memory-observation/DebugDerivedData \
+            -resultBundlePath "$EVIDENCE_DIR/build.xcresult" -parallel-testing-enabled NO -jobs 2 \
+            CODE_SIGNING_ALLOWED=NO build-for-testing 2>&1 | tee "$EVIDENCE_DIR/build.log"
+      - name: Audit actual full199 fixture4 Debug app and record external context
+        run: |
+          set -euo pipefail
+          debug_app='.local/ios-app-memory-observation/DebugDerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app'
+          cmp ios/AILibrary/Content/manifest.json "$debug_app/Content/manifest.json"
+          bash ios/tests/check-package.sh "$debug_app/Content" "$PUBLISHED_ARTICLE_COUNT" \
+            2>&1 | tee .local/ios-app-memory-observation/evidence/debug-app-package.json
+          cmp ios/AILibrary/TestContent/manifest.json "$debug_app/TestContent/manifest.json"
+          bash ios/tests/check-package.sh "$debug_app/TestContent" 4 \
+            2>&1 | tee .local/ios-app-memory-observation/evidence/debug-fixture-package.json
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { createHash } from 'node:crypto';
+          import { execFileSync } from 'node:child_process';
+          import { readFileSync, writeFileSync } from 'node:fs';
+          const read = (binary, args) => execFileSync(binary, args, { encoding: 'utf8', timeout: 30000, maxBuffer: 1024 * 1024 }).trim();
+          const expected = Number(process.env.PUBLISHED_ARTICLE_COUNT);
+          const app = '.local/ios-app-memory-observation/DebugDerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app';
+          const packageAudit = JSON.parse(readFileSync('.local/ios-app-memory-observation/evidence/debug-app-package.json', 'utf8'));
+          if (!Number.isInteger(expected) || expected < 4 || packageAudit.status !== 'passed' || packageAudit.articles !== expected) {
+            throw new Error('The actual Debug package must match the independently counted full source set');
+          }
+          const protocol = JSON.parse(readFileSync('ios/tests/app-memory-observation-protocol.json', 'utf8'));
+          const head = read('git', ['rev-parse', 'HEAD']);
+          // This checks the external workflow checkout, not xcresult source identity.
+          if (head !== process.env.EXPECTED_SOURCE_HEAD) throw new Error('Checkout must match the requested actual source head');
+          const owned = JSON.parse(readFileSync(process.env.EVIDENCE_DIR + '/owned-simulator.json', 'utf8'));
+          assert.equal(owned.creation_exit_code,0); assert.equal(owned.source_head,head);
+          assert.equal(owned.run_id,process.env.GITHUB_RUN_ID); assert.equal(owned.run_attempt,process.env.GITHUB_RUN_ATTEMPT);
+          assert.equal(owned.UUID,process.env.OWNED_SIMULATOR_UUID);
+          const context = {
+            source_head: head, source_tree: read('git', ['rev-parse', 'HEAD^{tree}']),
+            configuration: 'Debug', expected_articles: expected, actual_app_package: packageAudit,
+            app_version: read('/usr/bin/plutil', ['-extract', 'CFBundleShortVersionString', 'raw', '-o', '-', app + '/Info.plist']),
+            app_build: read('/usr/bin/plutil', ['-extract', 'CFBundleVersion', 'raw', '-o', '-', app + '/Info.plist']),
+            Xcode: read('xcodebuild', ['-version']),
+            host_architecture: read('uname', ['-m']), host_model: read('/usr/sbin/sysctl', ['-n', 'hw.model']),
+            host_memory_bytes: read('/usr/sbin/sysctl', ['-n', 'hw.memsize']),
+            requested_device: { name: 'iPhone 16', platform: 'iOS Simulator', OS: '18.5' },
+            locale: 'ja_JP', text_size: 'fresh Simulator default, not overridden',
+            appearance: 'fresh Simulator default, not overridden', diagnostics_enabled: false,
+            scenario: protocol.scenario, query: protocol.query, target_id: protocol.target_id,
+            selector: protocol.selector, declared_iteration_count: 5, observed: protocol.observed,
+            source_identity_provenance: { status: 'trusted-external-workflow-context-only', xcresult_verified: false },
+            result_binding: { inventory_sha256: null, expected_device_id: owned.UUID, expected_configuration_id: null,
+              expected_configuration_name: 'Test Scheme Action', action_window: null },
+            test_source_sha256: createHash('sha256').update(readFileSync('ios/AILibraryUITests/PublishedPerformanceUITests.swift')).digest('hex'),
+            limits: 'Fresh dedicated Hosted runner/Simulator, no imported library. Setup/index load/cache warming precede measurement. Clock includes input/gestures/AX synchronization; no cold/Release/device/product-budget claim.'
+          };
+          writeFileSync('.local/ios-app-memory-observation/evidence/context.json', JSON.stringify(context, null, 2) + '\n', {flag:'wx',mode:0o600});
+          NODE
+        id: app
+        timeout-minutes: 3
+      - name: Observe only the dedicated app-memory search case
+        env:
+          TEST_RUNNER_AILIBRARY_EXPECTED_PUBLISHED_COUNT: ${{ env.PUBLISHED_ARTICLE_COUNT }}
+          TEST_RUNNER_AILIBRARY_MEMORY_PROFILE_RUNNER: '1'
+        run: |
+          set -euo pipefail
+          node --input-type=module -e 'import {writeFileSync} from "node:fs"; writeFileSync(".local/ios-app-memory-observation/evidence/invocation-start.json", JSON.stringify({not_before_ms:Date.now()}) + "\n", {flag:"wx"});'
+          set +e
+          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
+            -configuration Debug \
+            -destination "platform=iOS Simulator,id=$OWNED_SIMULATOR_UUID" \
+            -destination-timeout 120 \
+            -derivedDataPath .local/ios-app-memory-observation/DebugDerivedData \
+            -resultBundlePath .local/ios-app-memory-observation/evidence/memory-search.xcresult \
+            -parallel-testing-enabled NO -jobs 2 \
+            -only-testing:AILibraryUITests/PublishedAppMemoryUITests/testSearchFullPublishedCatalogMemoryAndClock \
+            CODE_SIGNING_ALLOWED=NO test-without-building \
+            2>&1 | tee .local/ios-app-memory-observation/evidence/memory-search.log
+          statuses=("${PIPESTATUS[@]}")
+          set -e
+          node --input-type=module -e 'import{writeFileSync}from"node:fs";writeFileSync(process.env.EVIDENCE_DIR+"/ui-command.exit.json",JSON.stringify({xcodebuild_exit_code:Number(process.argv[1]),tee_exit_code:Number(process.argv[2])})+"\n",{flag:"wx",mode:0o600});' "${statuses[0]}" "${statuses[1]}"
+          [[ "${statuses[0]}" -eq 0 && "${statuses[1]}" -eq 0 ]]
+        id: ui
+        timeout-minutes: 12
+      - name: Always clean up only the Simulator created by this job
+        timeout-minutes: 4
+        id: cleanup
+        if: always() && steps.evidence.outcome == 'success'
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { spawnSync } from 'node:child_process';
+          import { existsSync, lstatSync, readFileSync, writeFileSync } from 'node:fs';
+          import path from 'node:path';
+          const evidence = process.env.EVIDENCE_DIR, report = { schema_version: 1, status: 'unresolved' };
+          const file = name => path.join(evidence, name);
+          const read = name => { assert.ok(lstatSync(file(name)).isFile() && !lstatSync(file(name)).isSymbolicLink()); return JSON.parse(readFileSync(file(name), 'utf8')); };
+          const put = (name, value) => writeFileSync(file(name), value, { flag: 'wx', mode: 0o600 });
+          const run = (name, args, required = true) => {
+            const result = spawnSync('xcrun', ['simctl', ...args], { encoding: 'utf8', timeout: 45000, maxBuffer: 16 * 1024 * 1024 });
+            put(name + '.stdout.log', result.stdout ?? ''); put(name + '.stderr.log', result.stderr ?? '');
+            put(name + '.exit.json', JSON.stringify({ exit_code: result.status, signal: result.signal, error: result.error?.message ?? null }) + '\n');
+            if (required) { assert.equal(result.error, undefined, name); assert.equal(result.status, 0, name); }
+            return result;
+          };
+          const allDevices = value => {
+            assert.ok(value.devices && typeof value.devices === 'object' && !Array.isArray(value.devices));
+            const found = Object.entries(value.devices).flatMap(([runtime, rows]) => {
+              assert.ok(Array.isArray(rows)); return rows.map(device => {
+                assert.match(device.udid, /^[A-Fa-f0-9]{8}(?:-[A-Fa-f0-9]{4}){3}-[A-Fa-f0-9]{12}$/);
+                return { runtime, device };
+              });
+            });
+            assert.equal(new Set(found.map(({ device }) => device.udid.toUpperCase())).size, found.length);
+            return found;
+          };
+          try {
+            if (!existsSync(file('owned-simulator-intent.json'))) {
+              assert.ok(!existsSync(file('create-simulator.exit.json')) && !existsSync(file('create-simulator.stdout.log')));
+              report.status = 'not-created';
+            } else {
+              const intent = read('owned-simulator-intent.json');
+              assert.equal(intent.repository, process.env.GITHUB_REPOSITORY); assert.equal(intent.source_head, process.env.EXPECTED_SOURCE_HEAD);
+              assert.equal(intent.run_id, process.env.GITHUB_RUN_ID); assert.equal(intent.run_attempt, process.env.GITHUB_RUN_ATTEMPT);
+              assert.match(intent.token, /^[a-f0-9-]{36}$/);
+              assert.equal(intent.name, `AILibrary-app-memory-${intent.run_id}-${intent.run_attempt}-${intent.token}`);
+              const creation = read('create-simulator.exit.json');
+              assert.equal(creation.exit_code, 0, 'Creation not proven; do not delete any device');
+              assert.equal(creation.signal, null); assert.equal(creation.error, null);
+              assert.equal(creation.binary, 'xcrun');
+              assert.deepEqual(creation.arguments, ['simctl', 'create', intent.name, intent.device_type_identifier, intent.runtime_identifier]);
+              const uuid = readFileSync(file('create-simulator.stdout.log'), 'utf8').trim().toUpperCase();
+              assert.match(uuid, /^[A-F0-9]{8}(?:-[A-F0-9]{4}){3}-[A-F0-9]{12}$/);
+              assert.ok(Array.isArray(intent.preexisting_UUIDs)); assert.ok(!intent.preexisting_UUIDs.includes(uuid));
+              const before = allDevices(read('devices-before-create.stdout.log'));
+              assert.ok(before.every(({ device }) => String(device.udid).toUpperCase() !== uuid));
+              if (existsSync(file('owned-simulator.json'))) {
+                const owned = read('owned-simulator.json');
+                assert.equal(owned.UUID, uuid); assert.equal(owned.token, intent.token);
+                assert.equal(owned.name, intent.name); assert.equal(owned.runtime_identifier, intent.runtime_identifier);
+              }
+              report.UUID = uuid;
+              const current = allDevices(JSON.parse(run('cleanup-devices-before', ['list', 'devices', '--json']).stdout));
+              const matches = current.filter(({ device }) => String(device.udid).toUpperCase() === uuid);
+              assert.ok(matches.length <= 1, 'Ambiguous UUID ownership');
+              if (matches.length === 0) report.status = 'already-absent';
+              else {
+                const { runtime, device } = matches[0];
+                assert.equal(runtime, intent.runtime_identifier); assert.equal(device.name, intent.name);
+                if (device.deviceTypeIdentifier !== undefined) assert.equal(device.deviceTypeIdentifier, intent.device_type_identifier);
+                let shutdown;
+                if (device.state === 'Shutdown') report.shutdown = 'already-shutdown';
+                else { shutdown = run('cleanup-shutdown', ['shutdown', uuid], false); report.shutdown_exit_code = shutdown.status; }
+                // Even a shutdown error must not prevent a delete attempt of this proven owned UUID.
+                const deletion = run('cleanup-delete', ['delete', uuid], false);
+                report.delete_exit_code = deletion.status;
+                const after = allDevices(JSON.parse(run('cleanup-devices-after', ['list', 'devices', '--json']).stdout));
+                assert.ok(after.every(({ device }) => String(device.udid).toUpperCase() !== uuid));
+                assert.equal(deletion.error, undefined); assert.equal(deletion.status, 0);
+                if (shutdown) { assert.equal(shutdown.error, undefined); assert.equal(shutdown.status, 0); }
+                report.status = 'owned-simulator-deleted';
+              }
+            }
+          } catch (error) { report.error = String(error); throw error; }
+          finally { put('cleanup.json', JSON.stringify(report, null, 2) + '\n'); }
+          NODE
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import {existsSync,readFileSync,writeFileSync} from 'node:fs';
+          const e=process.env.EVIDENCE_DIR;
+          if(existsSync(e+'/owned-simulator-intent.json')){
+           const intent=JSON.parse(readFileSync(e+'/owned-simulator-intent.json','utf8'));
+           const source=existsSync(e+'/cleanup-devices-after.stdout.log')?'cleanup-devices-after.stdout.log':'cleanup-devices-before.stdout.log';
+           const devices=JSON.parse(readFileSync(e+'/'+source,'utf8'));
+           const remaining=Object.values(devices.devices).flat().map(d=>d.udid.toUpperCase());
+           assert.ok(intent.preexisting_UUIDs.every(id=>remaining.includes(id)),'A preexisting UUID disappeared');
+           writeFileSync(e+'/preexisting-UUID-preservation.json',JSON.stringify({status:'preexisting-UUIDs-preserved',preexisting_UUIDs:intent.preexisting_UUIDs,remaining_UUIDs:remaining})+'\n',{flag:'wx',mode:0o600});
+          }
+          NODE
+      - name: Seal external context to completed result bytes without claiming source binding
+        if: always() && !cancelled() && steps.ui.outcome != 'skipped' && steps.evidence.outcome == 'success'
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import { readFileSync, writeFileSync } from 'node:fs';
+          import { fingerprintResult } from './ios/tests/capture-app-memory.mjs';
+          const base = '.local/ios-app-memory-observation/evidence/';
+          const context = JSON.parse(readFileSync(base + 'context.json', 'utf8'));
+          const started = JSON.parse(readFileSync(base + 'invocation-start.json', 'utf8'));
+          const inventory = fingerprintResult(base + 'memory-search.xcresult');
+          context.result_binding.inventory_sha256 = inventory.sha256;
+          context.result_binding.action_window = { not_before_ms: started.not_before_ms, not_after_ms: Date.now() };
+          // UUID comes from prior create/boot and strict owned-ID preflight; config ID stays null.
+          // Never backfill the unknown configuration ID from this same raw result.
+          // This template therefore remains raw-unbound; no new fields guessed.
+          writeFileSync(base + 'context-sealed.json', JSON.stringify(context, null, 2) + '\n', { flag: 'wx' });
+          NODE
+        id: seal
+        timeout-minutes: 2
+      - name: Retain exact-one UI result and bounded protocol attachment export
+        id: results
+        timeout-minutes: 3
+        if: always() && !cancelled() && steps.ui.outcome != 'skipped' && steps.evidence.outcome == 'success'
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import {spawnSync} from 'node:child_process';
+          import {createHash} from 'node:crypto';
+          import {existsSync,readFileSync,writeFileSync,readdirSync,lstatSync,rmSync} from 'node:fs';
+          import path from 'node:path';
+          const evidence=process.env.EVIDENCE_DIR,bundle=path.join(evidence,'memory-search.xcresult');
+          const put=(name,value)=>writeFileSync(path.join(evidence,name),value,{flag:'wx',mode:0o600});
+          const run=(name,args)=>{
+           put(name+'.intent.json',JSON.stringify({binary:'xcrun',arguments:['xcresulttool',...args],timeout_ms:90000})+'\n');
+           const result=spawnSync('xcrun',['xcresulttool',...args],{encoding:'utf8',timeout:90000,killSignal:'SIGKILL',maxBuffer:16*1024*1024});
+           put(name+'.stdout.log',result.stdout??'');put(name+'.stderr.log',result.stderr??'');
+           put(name+'.exit.json',JSON.stringify({exit_code:result.status,signal:result.signal,error:result.error?.message??null})+'\n');
+           assert.equal(result.error,undefined);assert.equal(result.status,0);return result.stdout;
+          };
+          const owned=JSON.parse(readFileSync(path.join(evidence,'owned-simulator.json'),'utf8'));
+          const protocol=JSON.parse(readFileSync('ios/tests/app-memory-observation-protocol.json','utf8'));
+          assert.equal(owned.source_head,process.env.EXPECTED_SOURCE_HEAD);
+          const testsText=run('ui-test-results',['get','test-results','tests','--path',bundle]);
+          put('ui-test-results.stdout.json',testsText);
+          const tree=JSON.parse(testsText),cases=[];
+          const visit=nodes=>{assert.ok(Array.isArray(nodes));for(const node of nodes){assert.ok(node&&typeof node==='object');assert.ok(['Passed','Failed'].includes(node.result));if(node.nodeType==='Test Case')cases.push(node);if(node.children!==undefined)visit(node.children);}};
+          visit(tree.testNodes);assert.equal(cases.length,1,'Exactly one memory case, no functional or launch Clock cases');
+          const allowed=[protocol.class_name+'/'+protocol.method+'()',protocol.selector+'()'];
+          assert.ok(allowed.includes(cases[0].nodeIdentifier));
+          assert.ok(Array.isArray(tree.devices)&&tree.devices.length===1);
+          assert.equal(tree.devices[0].deviceId.toUpperCase(),owned.UUID);assert.equal(tree.devices[0].osVersion,'18.5');assert.equal(tree.devices[0].modelName,'iPhone 16');assert.equal(tree.devices[0].platform,'iOS Simulator');
+          put('ui-test-result.json',JSON.stringify({schema_version:1,status:cases[0].result==='Passed'?'actual-exact-memory-case-passed':'actual-exact-memory-case-failed',cases,devices:tree.devices,metric_measurements:null,metric_acceptance:'unadopted',source_identity:'external-workflow-assertion-only'},null,2)+'\n');
+          const scratch=path.join(path.dirname(evidence),'attachment-export');
+          try{
+           assert.ok(!existsSync(scratch),'Exclusive fresh attachment output only');
+           run('attachments-export',['export','attachments','--path',bundle,'--output-path',scratch]);
+           let total=0,files=0;
+           const audit=(dir,depth=0)=>{assert.ok(depth<=4);for(const name of readdirSync(dir)){const f=path.join(dir,name),s=lstatSync(f);assert.ok(!s.isSymbolicLink());if(s.isDirectory())audit(f,depth+1);else{assert.ok(s.isFile()&&++files<=128);total+=s.size;assert.ok(total<=64*1024*1024);}}};audit(scratch);
+           const manifestFile=path.join(scratch,'manifest.json'),stat=lstatSync(manifestFile);assert.ok(stat.isFile()&&!stat.isSymbolicLink()&&stat.size<=2*1024*1024);
+           const manifestBytes=readFileSync(manifestFile);put('attachments-export.manifest.json',manifestBytes);
+           const manifest=JSON.parse(manifestBytes);assert.ok(Array.isArray(manifest)&&manifest.length<=64);
+           const selected=[];
+           for(const row of manifest){assert.equal(row.testIdentifier,cases[0].nodeIdentifier);assert.ok(Array.isArray(row.attachments));for(const item of row.attachments)if(typeof item?.suggestedHumanReadableName==='string'&&item.suggestedHumanReadableName.startsWith('Published-app-memory-search-protocol'))selected.push(item);}
+           assert.equal(selected.length,1,'Require the unique source protocol attachment; no opaque fallback');
+           const item=selected[0];assert.equal(item.deviceId.toUpperCase(),owned.UUID);
+           const name=item.exportedFileName;assert.ok(typeof name==='string'&&name&&path.basename(name)===name&&!name.includes('..'));
+           const file=path.join(scratch,name),s=lstatSync(file);assert.ok(s.isFile()&&!s.isSymbolicLink()&&s.size>0&&s.size<=2*1024*1024);
+           const bytes=readFileSync(file),value=JSON.parse(bytes);assert.equal(value.schema_version,1);assert.equal(value.scenario,protocol.scenario);assert.equal(value.query,protocol.query);assert.equal(value.target_id,protocol.target_id);assert.equal(value.expected_articles,Number(process.env.PUBLISHED_ARTICLE_COUNT));
+           // Keep invocation/warm-up/metric rows unadopted. This is raw protocol retention only.
+           put('memory-protocol.raw.json',bytes);
+           put('protocol-exhibit.json',JSON.stringify({testIdentifier:cases[0].nodeIdentifier,deviceId:item.deviceId,original_exportedFileName:name,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex'),metric_adoption:false,attachment_output_files:files,attachment_output_bytes:total},null,2)+'\n');
+           assert.equal(cases[0].result,'Passed','Actual failed UI remains failed; metric capture is separate');
+          }finally{if(existsSync(scratch)){assert.ok(lstatSync(scratch).isDirectory()&&!lstatSync(scratch).isSymbolicLink());assert.equal(path.dirname(scratch),path.dirname(evidence));rmSync(scratch,{recursive:true,force:false});}}
+
+          NODE
+      - name: Capture raw memory and Clock evidence without adopting a metric contract
+        if: always() && !cancelled() && steps.ui.outcome != 'skipped' && steps.evidence.outcome == 'success'
+        run: |
+          set -euo pipefail
+          node ios/tests/capture-app-memory.mjs \
+            --result .local/ios-app-memory-observation/evidence/memory-search.xcresult \
+            --output .local/ios-app-memory-observation/evidence/raw-capture \
+            --context .local/ios-app-memory-observation/evidence/context-sealed.json
+        id: capture
+        timeout-minutes: 3
+      - name: Retain raw UI log, xcresult, protocol and unadopted collector evidence
+        timeout-minutes: 2
+        if: always() && steps.evidence.outcome == 'success'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: ios-app-memory-observation-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/ios-app-memory-observation/evidence
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 90

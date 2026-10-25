@@ -17,9 +17,30 @@ class NativeReaderUITestCase: XCTestCase {
         app.descendants(matching: .any).matching(identifier: identifier).firstMatch
     }
 
+    func hasVisibleFrame(_ element: XCUIElement, inside container: XCUIElement? = nil,
+                         fullyVisible: Bool = false) -> Bool {
+        guard element.exists else { return false }
+        if let container, !container.exists { return false }
+        let frame = element.frame
+        let viewport = app.frame.intersection(container?.frame ?? app.frame)
+        guard !frame.isNull, !frame.isInfinite, !frame.isEmpty,
+              !viewport.isNull, !viewport.isEmpty else { return false }
+        let visible = frame.intersection(viewport)
+        guard !visible.isNull, !visible.isEmpty else { return false }
+        return !fullyVisible || viewport.contains(frame)
+    }
+
+    func isHittableOnScreen(_ element: XCUIElement, inside container: XCUIElement? = nil,
+                            fullyVisible: Bool = false) -> Bool {
+        // XCTest can raise an activation-point error when asked about an offscreen cell.
+        guard hasVisibleFrame(element, inside: container, fullyVisible: fullyVisible) else { return false }
+        return element.isHittable
+    }
+
     func requireHittable(_ element: XCUIElement, timeout: TimeInterval = 15,
                          file: StaticString = #filePath, line: UInt = #line) {
-        let visible = XCTNSPredicateExpectation(predicate: NSPredicate(format: "hittable == true"), object: element)
+        let predicate = NSPredicate { _, _ in self.isHittableOnScreen(element) }
+        let visible = XCTNSPredicateExpectation(predicate: predicate, object: nil)
         XCTAssertEqual(XCTWaiter.wait(for: [visible], timeout: timeout), .completed,
                        "The requested public UI element must be visible and usable", file: file, line: line)
     }
@@ -27,7 +48,7 @@ class NativeReaderUITestCase: XCTestCase {
     func open(_ title: String, articleID: String, query: String? = nil) {
         XCTAssertTrue(app.staticTexts["library-article-count"].waitForExistence(timeout: 45))
         let search = app.searchFields.firstMatch
-        for _ in 0..<8 where !search.isHittable { app.swipeDown(velocity: .slow) }
+        for _ in 0..<8 where !isHittableOnScreen(search) { app.swipeDown(velocity: .slow) }
         requireHittable(search)
         search.tap()
         if let value = search.value as? String, !value.isEmpty, value != search.placeholderValue {
@@ -39,7 +60,7 @@ class NativeReaderUITestCase: XCTestCase {
 
         let row = element("library-article-" + articleID)
         for _ in 0..<12 {
-            if row.exists && row.isHittable { break }
+            if isHittableOnScreen(row) { break }
             app.swipeUp(velocity: .slow)
         }
         requireHittable(row)
@@ -59,7 +80,7 @@ class NativeReaderUITestCase: XCTestCase {
         XCTAssertTrue(app.navigationBars["目次"].waitForExistence(timeout: 5))
         let target = app.buttons[title].firstMatch
         for _ in 0..<18 {
-            if target.exists && target.isHittable { break }
+            if isHittableOnScreen(target) { break }
             app.swipeUp(velocity: .slow)
         }
         requireHittable(target)
@@ -69,7 +90,15 @@ class NativeReaderUITestCase: XCTestCase {
 
     func returnToLibrary() {
         app.navigationBars.buttons.element(boundBy: 0).tap()
-        XCTAssertTrue(app.staticTexts["library-article-count"].waitForExistence(timeout: 10))
+        let readerClosed = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            !self.app.scrollViews["native-reader"].exists
+        }, object: nil)
+        XCTAssertEqual(XCTWaiter.wait(for: [readerClosed], timeout: 10), .completed)
+        XCTAssertTrue(app.searchFields.firstMatch.waitForExistence(timeout: 10))
+        let count = app.staticTexts["library-article-count"]
+        // A long filtered list may restore below its unmaterialized section header.
+        for _ in 0..<8 where !hasVisibleFrame(count) { app.swipeDown(velocity: .slow) }
+        requireHittable(count)
     }
 
     func capture(_ name: String) {

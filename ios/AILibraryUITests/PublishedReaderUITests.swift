@@ -24,7 +24,7 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         open("モデル選定ガイド", articleID: "03-implementation/model-selection", query: "データを外部 API に出せるか")
         let reader = app.scrollViews["native-reader"]
         let expand = app.buttons["図を拡大"].firstMatch
-        for _ in 0..<5 where !expand.isHittable { reader.swipeUp(velocity: .slow) }
+        for _ in 0..<5 where !isHittableOnScreen(expand, inside: reader) { reader.swipeUp(velocity: .slow) }
         requireHittable(expand)
         expand.tap()
         let detail = app.scrollViews["native-image-detail"]
@@ -41,7 +41,7 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         XCTAssertEqual(XCTWaiter.wait(for: [closed], timeout: 10), .completed)
 
         let sourceToggle = app.buttons["図のテキスト表現"].firstMatch
-        for _ in 0..<5 where !sourceToggle.isHittable { reader.swipeUp(velocity: .slow) }
+        for _ in 0..<5 where !isHittableOnScreen(sourceToggle, inside: reader) { reader.swipeUp(velocity: .slow) }
         requireHittable(sourceToggle)
         sourceToggle.tap()
         let source = app.staticTexts.matching(NSPredicate(format: "identifier BEGINSWITH %@", "native-figure-source-text-")).firstMatch
@@ -79,7 +79,7 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         let blockID = String(table.identifier.dropFirst("native-table-".count))
         let lastLeft = element("native-table-cell-\(blockID)-14-1")
         for _ in 0..<12 {
-            if lastLeft.exists && lastLeft.isHittable { break }
+            if isHittableOnScreen(lastLeft, inside: reader, fullyVisible: true) { break }
             reader.swipeUp(velocity: .slow)
         }
         requireHittable(lastLeft)
@@ -93,9 +93,10 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         let end = origin.withOffset(CGVector(dx: reader.frame.minX + 24, dy: visibleRow.midY))
         let lastRight = element("native-table-cell-\(blockID)-14-9")
         for _ in 0..<12 {
-            if lastRight.exists && lastRight.isHittable { break }
+            if isHittableOnScreen(lastRight, inside: reader, fullyVisible: true) { break }
             start.press(forDuration: 0.05, thenDragTo: end)
         }
+        XCTAssertTrue(hasVisibleFrame(lastRight, inside: reader, fullyVisible: true))
         requireHittable(lastRight)
         XCTAssertEqual(lastRight.label, "○")
         capture("Published-08-table-final-row-column")

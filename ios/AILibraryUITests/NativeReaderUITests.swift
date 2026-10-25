@@ -64,6 +64,58 @@ private enum ReaderViewportGeometry {
 class NativeReaderUITestCase: XCTestCase {
     private(set) var app: XCUIApplication!
 
+    // Private diagnostic proposal: bounded local observations only; no AX getters.
+    private let visibilityTraceLock = NSLock()
+    private var visibilityTraceSequence = 0
+    private var visibilityTraceContext = "precheck"
+    private var visibilityTraceSamples: [[String: String]] = []
+
+    private func beginVisibilitySample(fullyVisible: Bool, hasContainer: Bool) -> Int {
+        visibilityTraceLock.lock()
+        defer { visibilityTraceLock.unlock() }
+        visibilityTraceSequence += 1
+        visibilityTraceSamples.append(["sample": String(visibilityTraceSequence),
+            "started_uptime": String(ProcessInfo.processInfo.systemUptime),
+            "context": visibilityTraceContext, "fully_visible": String(fullyVisible),
+            "has_container": String(hasContainer)])
+        if visibilityTraceSamples.count > 64 { visibilityTraceSamples.removeFirst(visibilityTraceSamples.count - 64) }
+        return visibilityTraceSequence
+    }
+
+    private func recordVisibilitySample(_ id: Int, stage: String, value: String) {
+        visibilityTraceLock.lock()
+        defer { visibilityTraceLock.unlock() }
+        guard let index = visibilityTraceSamples.firstIndex(where: { $0["sample"] == String(id) }) else { return }
+        visibilityTraceSamples[index][stage] = value
+        visibilityTraceSamples[index][stage + ".uptime"] = String(ProcessInfo.processInfo.systemUptime)
+        visibilityTraceSamples[index]["last_stage"] = stage
+    }
+
+    private func setVisibilityTraceContext(_ value: String) -> String {
+        visibilityTraceLock.lock()
+        defer { visibilityTraceLock.unlock() }
+        let previous = visibilityTraceContext
+        visibilityTraceContext = value
+        return previous
+    }
+
+    private func attachVisibilityTrace(file: StaticString, line: UInt, timeout: TimeInterval) {
+        visibilityTraceLock.lock()
+        let samples = visibilityTraceSamples
+        visibilityTraceLock.unlock()
+        let value: [String: Any] = ["schema_version": 1,
+            "baseline_source_sha256": "1296e450ac8575244527cd58bcc8b21f4819956a7dada225f5522e954c6b46d8",
+            "callsite": String(describing: file) + ":" + String(line),
+            "timeout_seconds": timeout, "samples": samples,
+            "scope": "Already-read values only; no element label/identifier or additional AX queries. A .begin without .value means no getter return was observed."]
+        let bytes = (try? JSONSerialization.data(withJSONObject: value, options: [.prettyPrinted, .sortedKeys]))
+            ?? Data("{\"diagnostic_error\":\"serialization failed\"}".utf8)
+        let attachment = XCTAttachment(string: String(decoding: bytes, as: UTF8.self))
+        attachment.name = "Public-UI-visibility-read-observations"
+        attachment.lifetime = .keepAlways
+        add(attachment)
+    }
+
     override func setUpWithError() throws {
         continueAfterFailure = false
         app = XCUIApplication()
@@ -77,9 +129,19 @@ class NativeReaderUITestCase: XCTestCase {
     }
 
     private func frameVisibility(_ element: XCUIElement, inside container: XCUIElement?,
-                                 fullyVisible: Bool) -> ReaderFrameVisibility {
+                                 fullyVisible: Bool, trace: ((String, String) -> Void)? = nil) -> ReaderFrameVisibility {
+        trace?("app.frame.begin", "entered")
         let appFrame = app.frame
-        if let container, !container.exists { return .unknown("Container is not present") }
+        trace?("app.frame.value", String(describing: appFrame))
+        if let container {
+            trace?("container.exists.begin", "entered")
+            let observedContainerExists = container.exists
+            trace?("container.exists.value", String(observedContainerExists))
+            if !observedContainerExists {
+                trace?("geometry", "unknown: Container is not present")
+                return .unknown("Container is not present")
+            }
+        }
         let bars: [ReaderNavigationBarFrame] = container == nil ? [] :
             app.navigationBars.allElementsBoundByIndex.filter { $0.exists }.map { bar in
                 let barFrame = bar.frame
@@ -98,8 +160,25 @@ class NativeReaderUITestCase: XCTestCase {
                 } else { usableControl = false }
                 return ReaderNavigationBarFrame(frame: barFrame, hasEnabledHittableControl: usableControl)
             }
-        return ReaderViewportGeometry.visibility(target: element.exists ? element.frame : nil,
-            app: appFrame, container: container?.frame, bars: bars, fullyVisible: fullyVisible)
+        trace?("target.exists.begin", "entered")
+        let observedExists = element.exists
+        trace?("target.exists.value", String(observedExists))
+        let observedFrame: CGRect?
+        if observedExists {
+            trace?("target.frame.begin", "entered")
+            observedFrame = element.frame
+            trace?("target.frame.value", String(describing: observedFrame))
+        } else {
+            observedFrame = nil
+            trace?("target.frame.skipped", "absent target")
+        }
+        trace?("container.frame.begin", container == nil ? "not-read: no container" : "entered")
+        let observedContainerFrame = container?.frame
+        trace?("container.frame.value", String(describing: observedContainerFrame))
+        let result = ReaderViewportGeometry.visibility(target: observedFrame,
+            app: appFrame, container: observedContainerFrame, bars: bars, fullyVisible: fullyVisible)
+        trace?("geometry", String(describing: result))
+        return result
     }
 
     /// A direct check, including a negative assertion, must fail on unknown.
@@ -112,26 +191,39 @@ class NativeReaderUITestCase: XCTestCase {
 
     /// Nonasserting positive poll: unknown transitions remain unsatisfied.
     func hasVisibleFrameForPolling(_ element: XCUIElement, inside container: XCUIElement? = nil,
-                                  fullyVisible: Bool = false) -> Bool {
-        frameVisibility(element, inside: container, fullyVisible: fullyVisible).visibleForPolling
+                                  fullyVisible: Bool = false, trace: ((String, String) -> Void)? = nil) -> Bool {
+        frameVisibility(element, inside: container, fullyVisible: fullyVisible, trace: trace).visibleForPolling
     }
 
     func isHittableOnScreen(_ element: XCUIElement, inside container: XCUIElement? = nil,
                             fullyVisible: Bool = false) -> Bool {
         // XCTest can raise an activation-point error when asked about an offscreen cell.
-        guard hasVisibleFrameForPolling(element, inside: container, fullyVisible: fullyVisible) else { return false }
-        return element.isHittable
+        let id = beginVisibilitySample(fullyVisible: fullyVisible, hasContainer: container != nil)
+        let record: (String, String) -> Void = { stage, value in
+            self.recordVisibilitySample(id, stage: stage, value: value)
+        }
+        guard hasVisibleFrameForPolling(element, inside: container, fullyVisible: fullyVisible, trace: record) else {
+            record("isHittable.skipped", "existing geometry guard")
+            return false
+        }
+        record("isHittable.begin", "entered")
+        let observedHittable = element.isHittable
+        record("isHittable.value", String(observedHittable))
+        return observedHittable
     }
 
     func requireHittable(_ element: XCUIElement, inside container: XCUIElement? = nil,
                          fullyVisible: Bool = false, timeout: TimeInterval = 15,
                          file: StaticString = #filePath, line: UInt = #line) {
+        let previousContext = setVisibilityTraceContext("requireHittable@" + String(describing: file) + ":" + String(line))
+        defer { _ = setVisibilityTraceContext(previousContext) }
         let predicate = NSPredicate { _, _ in
             self.isHittableOnScreen(element, inside: container, fullyVisible: fullyVisible)
         }
         let visible = XCTNSPredicateExpectation(predicate: predicate, object: nil)
         let result = XCTWaiter.wait(for: [visible], timeout: timeout)
         if result != .completed {
+            attachVisibilityTrace(file: file, line: line, timeout: timeout)
             capture("Public-UI-target-not-visible")
             let hierarchy = XCTAttachment(string: app.debugDescription)
             hierarchy.name = "Public-UI-target-not-visible-hierarchy"

@@ -48,7 +48,6 @@ Debugかつ既存の隔離UI suiteだけで、requestごと最大32件の数値g
 
 これは実XCTest28件の実行、全target build、iOS26.5の実insetや到着成功を示さない。新しいexact headでのHosted exact2 UI、全記事を含む機能UI14件、単体・SDK/Release監査は待ちである。共有lockと所有process group、180秒・空き容量・私有cache上限を監視し、実測最低空きは4,910,505,984 bytes。検査後は生成moduleとlogを保存して所有cacheだけを解放した。証跡は`<repo>/.local/ios-autonomous-evidence/viewport26-fix-prepared/evidence/limited-sdk-proof.json`に保存し、原proof SHA-256は`54b1280a18054d0d43517dbf79b522aaff737de48d9efbf53ba1b2543e7cf8d8`である。新しい実機QAはユーザー指定により実施せず、実機・VoiceOver・現行iOS27・最低iOS17・性能の未確認を保持する。
 
-
 ## 補正後の実結果と次の検証（2026-10-26）
 
 公開head `3dbdfe4512de9948074fcb74151f2422818bf214`では、[iOS26.5 run40225552342](https://github.com/pero3dev/ai-agent-library/actions/runs/40225552342)／job121266028072の既存Native2件が成功した。実toolchainはXcode26.6/SDK26.5、iPhone17/iOS26.5で、通常3記事・fixture4記事の実Debug監査と所有Simulator削除も成功した。artifact12611902287のrawを独立監査した。safe-area/adjusted insetの数値ログは回収できておらず、inset乖離という仮説の確認や、繰り返した安定性・実機の受入へ拡張しない。

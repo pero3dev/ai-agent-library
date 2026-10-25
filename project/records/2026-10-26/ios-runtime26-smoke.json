@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-26",
+  "status": "prepared-static-only; hosted-unverified",
+  "self_pr_number": null,
+  "self_head": null,
+  "base": {
+    "pr": 268,
+    "head": "2e27cf58ad46e7d32e3581a9895056333cc52f6b",
+    "tree": "41909ef129fb1171eb6d2fb9c8f317274e562bed"
+  },
+  "purpose": "IOS-23/25/26: independent existing NativeUI2 on newer bundled runtime",
+  "owned_paths": [
+    ".github/workflows/ios-runtime26-smoke.yml",
+    "project/records/2026-10-26/ios-runtime26-smoke.md",
+    "project/records/2026-10-26/ios-runtime26-smoke.json",
+    "project/README.md"
+  ],
+  "authorization": "User authorized autonomous iOS TODO implementation and recording unperformed device checks; root delegates standard public CI preparation only. No paid/Apple/distribution adoption.",
+  "workflow": {
+    "SHA256": "e8c794ad3dd78ee7c885e886407d3218bc2823487843de3ba5bc05af8a41620d",
+    "bytes": 30638,
+    "runner": "standard public macos-26 arm64",
+    "Xcode": "26.6/17F113",
+    "SDK": "26.5",
+    "runtime": "unique actual available simctl iOS26.5+iPhone17 identifiers",
+    "no_runtime_download_or_fallback": true,
+    "permissions": "contents:read; fixed SHA Actions; persist-credentials:false; no secrets",
+    "signing": "CODE_SIGNING_ALLOWED=NO; no Apple credentials/provisioning",
+    "packages": "direct CLI representative3/fixture4 source+consumer and actual Debug audits; dedicated fixtureUI not covered",
+    "selector": "AILibraryUITests/NativeReaderUITests",
+    "expected_case_count": 2,
+    "cleanup": "Proven newly created owned UUID only; immediately after UI; cancelled device-free audits skip",
+    "caps": "38min step total/40min job, cleanup4min/call45s; cancellation5min means cleanup/summary/upload best effort"
+  },
+  "static_validation": {
+    "passed": [
+      "Actionlint1.7.12 (shellcheck/pyflakes disabled)",
+      "repository YAML JSON_SCHEMA parse",
+      "Bash14/Node6 syntax",
+      "audit order, Native selector, ownership/cancellation order and caps"
+    ],
+    "run_blocks_executed": 0,
+    "source_review": "No blocking finding reported by root; final payload review remains separate",
+    "evidence": {
+      "path": "<repo>/.local/ios-autonomous-evidence/runtime26-smoke-prepared/source-static-validation.json",
+      "SHA256": "7a54739d5eba30b76ec5305805240c8fe9e60a7a728011045b8f0918daa20fa7"
+    },
+    "payload_manifest": "<repo>/.local/ios-autonomous-evidence/runtime26-smoke-prepared/manifest.json",
+    "full_common_check": "not run in this preparation; final Hosted pending"
+  },
+  "actual_new_workflow_execution": {
+    "runtime_schema_observations": 0,
+    "dedicated_UUID_create": 0,
+    "boot": 0,
+    "UI_cases": 0,
+    "cleanup": 0,
+    "Hosted_runs": []
+  },
+  "primary_sources": {
+    "checked": "2026-10-26",
+    "image_manifest": "https://github.com/actions/runner-images/blob/macos-26-arm64/20261021.0445/images/macos/macos-26-arm64-Readme.md#installed-simulators",
+    "image": "20261021.0445.8; Installed Simulators explicitly lists iOS26.5/iPhone17",
+    "standard_public_runner": "https://docs.github.com/en/actions/reference/runners/github-hosted-runners#standard-github-hosted-runners-for-public-repositories",
+    "cancellation": "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-cancellation"
+  },
+  "unchanged": [
+    "macos15 native and full-catalog CI",
+    "Clock CI",
+    "SDK26 Archive CI",
+    "required checks",
+    "App/PBX/versions",
+    "existing UI selectors/assertions/timeouts"
+  ],
+  "not_performed": [
+    "remote/ref operations by preparation agent",
+    "CI dispatch/rerun",
+    "npm/install/SDK/local compiler/Simulator/device",
+    "runtime/artifact download",
+    "Apple account/legal/signing/Store",
+    "paid/larger runner"
+  ],
+  "remaining": [
+    "Actual simctl/xcresult schema, boot, exact UI2 and owned cleanup on first Hosted",
+    "Final payload independent review/publication by root",
+    "Current iOS27/minimum iOS17 runtime/device/VoiceOver/full-catalog/performance acceptance"
+  ],
+  "scope_boundary": "26.5 is newer than18.5, not current iOS27 or minimum iOS17 runtime acceptance."
+}

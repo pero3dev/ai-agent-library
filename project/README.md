@@ -52,6 +52,8 @@
 
 既存のネイティブUI試験2件のHosted実行は[専用のCI追加記録](records/2026-10-25/ios-native-ui-ci.md)で追跡する。通常3記事の本文とTransformerの目次・しおり・再起動復帰を確認し、未対象のオフライン・コピー・内部リンク等のUI受入を区別する。
 
+[新runtimeの代表UI検査準備](records/2026-10-26/ios-runtime26-smoke.md)では、標準public macos-26の同梱iOS26.5・iPhone17で既存2件を独立実行するCIを用意する。実inventoryからの選定と専用UUIDのcleanup、静的検査の成功を記録し、実runtime schema・boot・UI・cleanupはすべて未確認として残す。現行OSや最低OS・実機の受入とは分ける。
+
 [runtimeの照合記録](records/2026-10-25/ios-native-runtime-audit.md)では、現行app targetに旧WebKit・HTML/JS bridge・blockerが残っていないことを確認した。再利用する生成parserと比較用旧HTMLツールを保持したままIOS-24を完了とし、UI・実機の全体受入を別に残す。
 
 Markdownパーサーのhigh対策は[限定依存修正の記録](records/2026-10-25/markdown-parser-security-update.md)で追跡する。iOSの[自律実施記録](records/2026-10-25/ios-autonomous-progress.md)とはPRの範囲を分け、base依存監査による阻害と通常の検証結果を区別する。

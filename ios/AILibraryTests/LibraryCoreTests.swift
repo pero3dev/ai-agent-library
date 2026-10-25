@@ -96,6 +96,39 @@ final class LibraryCoreTests: XCTestCase {
             articles: manifest.articles, audio: manifest.audio, files: files)).write(to: root.appendingPathComponent("manifest.json"))
     }
 
+    private func retentionPackage(_ name: String, revision: String) throws -> URL {
+        let lateAsset = NativeAsset(light: "assets/late-\(revision).png", dark: "assets/late-\(revision).png",
+                                    width: 1, height: 1, scale: 1, baseline: 0)
+        let value = NativeDocument(schema_version: 1, article_id: "example", source_sha256: article().source_sha256, blocks: [
+            NativeBlock(id: "heading", type: "heading", heading_id: "intro", level: 2,
+                        inlines: [NativeInline(type: "text", text: "導入")]),
+            NativeBlock(id: "paragraph", type: "paragraph", inlines: [NativeInline(type: "text", text: "本文 \(revision)")]),
+            NativeBlock(id: "math", type: "math", asset: lateAsset, source: "x", accessibility_text: "エックス")])
+        let root = try fixture(name, revision: revision, document: value)
+        try replaceFile(root, path: lateAsset.light, data: pixel)
+        return root
+    }
+
+    private func retentionInventory(_ root: URL) throws -> [String: Data] {
+        let base = root.standardizedFileURL.path + "/"
+        let entries = try XCTUnwrap(FileManager.default.enumerator(at: root,
+            includingPropertiesForKeys: [.isRegularFileKey], options: []))
+        var files: [String: Data] = [:]
+        for case let url as URL in entries {
+            if try url.resourceValues(forKeys: [.isRegularFileKey]).isRegularFile == true {
+                files[String(url.standardizedFileURL.path.dropFirst(base.count))] = try Data(contentsOf: url)
+            }
+        }
+        return files
+    }
+
+    private func retentionDefaults() throws -> UserDefaults {
+        let suite = "ailibrary-storage-retention-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        addTeardownBlock { UserDefaults(suiteName: suite)?.removePersistentDomain(forName: suite) }
+        return defaults
+    }
+
     private let roadmapID = "00-overview/learning-roadmap"
     private let secondLearningID = "00-overview/second"
 
@@ -1246,6 +1279,129 @@ final class LibraryCoreTests: XCTestCase {
         try FileManager.default.removeItem(at: root.appendingPathComponent("outside"))
         try Data("extra".utf8).write(to: root.appendingPathComponent("extra.js"))
         XCTAssertThrowsError(try ContentValidator.validate(root: root))
+    }
+
+    @MainActor
+    func testRepeatedImportsRetainEverySnapshotAndItsLateReadAsset() async throws {
+        let bundled = try fixture("retention-bundle", revision: "bundled")
+        let revisions = ["A", "B", "C"]
+        let sources = try revisions.map { try retentionPackage("retention-source-" + $0, revision: $0) }
+        let storage = directory.appendingPathComponent("retention-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        let defaults = try retentionDefaults()
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("example")
+        reading.toggleBookmark("removed-id")
+        reading.record(articleID: "example", heading: "intro", fraction: 0.37, blockID: "paragraph")
+        let records = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+        let snapshots = try sources.map { try repository.install(from: $0) }
+        let latest = try XCTUnwrap(snapshots.last)
+        let pointerURL = storage.appendingPathComponent("current.json")
+        let pointer = try Data(contentsOf: pointerURL)
+        XCTAssertEqual(Set(try FileManager.default.contentsOfDirectory(atPath: storage.appendingPathComponent("versions").path)),
+                       Set(snapshots.map { $0.root.lastPathComponent }))
+        XCTAssertEqual(try repository.load().root, latest.root)
+        // These are disk reads after all activations; no UIKit image cache is used.
+        for (revision, snapshot) in zip(revisions, snapshots) {
+            let path = "assets/late-\(revision).png"
+            let kept = try snapshot.document(for: article())
+            XCTAssertEqual(kept.blocks.first(where: { $0.id == "paragraph" })?.inlines?.first?.text, "本文 \(revision)")
+            XCTAssertEqual(try Data(contentsOf: snapshot.root.appendingPathComponent(path)), pixel)
+            XCTAssertEqual(try ContentValidator.sha256(at: snapshot.root.appendingPathComponent(path)), snapshot.manifest.files[path])
+            for other in revisions where other != revision {
+                XCTAssertFalse(FileManager.default.fileExists(atPath: snapshot.root.appendingPathComponent("assets/late-\(other).png").path))
+            }
+        }
+        let reopened = LibraryStore(reading: ReadingStore(defaults: defaults), bundledRoot: bundled, storageRoot: storage)
+        await reopened.load()
+        XCTAssertEqual(reopened.snapshot?.root, latest.root)
+        XCTAssertEqual(try Data(contentsOf: pointerURL), pointer)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), records)
+    }
+
+    @MainActor
+    func testLoadAndRetryIgnoreOrphanStagingAndUnreferencedValidVersionWithoutMutation() async throws {
+        let bundled = try fixture("orphan-bundle", revision: "bundled")
+        let source = try retentionPackage("orphan-current", revision: "current")
+        let later = try retentionPackage("orphan-later", revision: "unreferenced-newer")
+        let storage = directory.appendingPathComponent("orphan-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        let current = try repository.install(from: source)
+        let versions = storage.appendingPathComponent("versions")
+        let staging = versions.appendingPathComponent(".staging-" + UUID().uuidString)
+        let unreferenced = versions.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.copyItem(at: later, to: staging)
+        try FileManager.default.copyItem(at: later, to: unreferenced)
+        XCTAssertEqual(try ContentValidator.validate(root: unreferenced).manifest.revision, "unreferenced-newer")
+        let defaults = try retentionDefaults()
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("example")
+        reading.record(articleID: "example", heading: "intro", fraction: 0.62, blockID: "paragraph")
+        let records = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+        let before = try retentionInventory(storage)
+        let names = Set(try FileManager.default.contentsOfDirectory(atPath: versions.path))
+        let store = LibraryStore(reading: reading, bundledRoot: bundled, storageRoot: storage)
+        await store.load()
+        XCTAssertEqual(store.snapshot?.root, current.root)
+        await store.retryLoad()
+        XCTAssertEqual(store.snapshot?.root, current.root)
+        XCTAssertEqual(try retentionInventory(storage), before)
+        XCTAssertEqual(Set(try FileManager.default.contentsOfDirectory(atPath: versions.path)), names)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), records)
+        XCTAssertNil(store.loadError)
+        XCTAssertFalse(store.isLoading)
+    }
+
+    @MainActor
+    func testOutOfSpaceAtPointerCommitRemovesOnlyTheFailedAttempt() async throws {
+        let bundled = try fixture("out-of-space-bundle", revision: "bundled")
+        let first = try retentionPackage("out-of-space-first", revision: "first")
+        let second = try retentionPackage("out-of-space-second", revision: "second")
+        let incoming = try retentionPackage("out-of-space-incoming", revision: "incoming")
+        let storage = directory.appendingPathComponent("out-of-space-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        let old = try repository.install(from: first)
+        let current = try repository.install(from: second)
+        let versions = storage.appendingPathComponent("versions")
+        let orphan = versions.appendingPathComponent(".staging-" + UUID().uuidString)
+        try FileManager.default.createDirectory(at: orphan, withIntermediateDirectories: false)
+        try Data("partial previous attempt".utf8).write(to: orphan.appendingPathComponent("partial.txt"))
+        let defaults = try retentionDefaults()
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("example")
+        reading.record(articleID: "example", heading: "intro", fraction: 0.81, blockID: "paragraph")
+        let records = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+        let store = LibraryStore(reading: reading, bundledRoot: bundled, storageRoot: storage)
+        await store.load()
+        let before = try retentionInventory(storage)
+        let names = Set(try FileManager.default.contentsOfDirectory(atPath: versions.path))
+        var attemptedDestination: URL?
+        let failing = ContentRepository(bundledRoot: bundled, storageRoot: storage, writePointer: { data, url in
+            XCTAssertEqual(url, storage.appendingPathComponent("current.json"))
+            let pointer = try JSONDecoder().decode([String: String].self, from: data)
+            let id = try XCTUnwrap(pointer["directory"])
+            XCTAssertNotNil(UUID(uuidString: id))
+            let destination = versions.appendingPathComponent(id)
+            attemptedDestination = destination
+            XCTAssertEqual(try ContentValidator.validate(root: destination).manifest.revision, "incoming",
+                           "Failure must occur after the complete destination is installed, before pointer commit")
+            throw CocoaError(.fileWriteOutOfSpace)
+        })
+        XCTAssertThrowsError(try failing.install(from: incoming)) { error in
+            XCTAssertEqual((error as NSError).domain, NSCocoaErrorDomain)
+            XCTAssertEqual((error as NSError).code, CocoaError.Code.fileWriteOutOfSpace.rawValue)
+        }
+        let failedRoot = try XCTUnwrap(attemptedDestination)
+        XCTAssertFalse(FileManager.default.fileExists(atPath: failedRoot.path))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: versions.appendingPathComponent(".staging-" + failedRoot.lastPathComponent).path))
+        XCTAssertEqual(try retentionInventory(storage), before, "Old packages, current pointer and earlier orphan bytes must survive")
+        XCTAssertEqual(Set(try FileManager.default.contentsOfDirectory(atPath: versions.path)), names)
+        XCTAssertEqual(try repository.load().root, current.root)
+        XCTAssertEqual(try Data(contentsOf: old.root.appendingPathComponent("assets/late-first.png")), pixel)
+        await store.retryLoad()
+        XCTAssertEqual(store.snapshot?.root, current.root)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), records)
+        XCTAssertFalse(store.isLoading)
     }
 
     func testFailedValidationAndActivationPreserveCurrentVersion() throws {

@@ -32,3 +32,9 @@ MacのFoundation回帰7件と、実Storeの読込→不正import→同IDの新�
 起動時間、UIKitの画像・描画、入力遅延、cold disk、実機・VoiceOver、性能の受入目標は未確認で、IOS-15全体は未完了とする。lockfile依存をnpm ci --ignore-scriptsで準備し、共通check722件中707成功・15skip・失敗0と文書・リンク等の検査が成功した。npm監査はlow3・moderate2、high/critical0で、自動修正は行っていない。最終headのHosted通常/全記事試験とReleaseも別途取得する。[JSON](ios-normalized-search-index.json)にソース・rawのSHAと実行面を記録する。
 
 前提の[同梱版切替](ios-bundled-content-activation.md)で検索中の操作入口が見つからないUI失敗を確認し、同じLibraryView修正を取り込んだ。検索索引・Mac8件・15query等価性のコードは変えず、上記SDK117/9はこの画面修正前として保持する。既存UI9件を弱めず、修正後の正確なheadのHosted/Releaseを再取得する。
+
+## 検索中の操作行のタップ範囲
+
+修正前head50a93331の全記事run40182710048は単体109件中107成功・2private入力skip、UI8成功・新規1件失敗でRelease未実施だった。操作行は表示されtapも送られたが、画像ではmenuが開かなかった。AXの外行は{20,354,353,44}、内側Menuは{40,363,139.7,26}で、記録されたtouch down/upの{196.5,376}は外行内・内側範囲外だった。内部routingの原因断定はせず、この不一致を狭い修正の根拠にする。
+
+filtered Menuのラベルを全幅にし、Rectangleのhit領域を指定した。操作内容・guard・既存9件と章候補の追加1件のselector/assertionは変えない。累積app-only SDK buildは成功したが、各正確なbranch headのUI/Release成功を示さない。専用ローカルSimulatorによる診断は初期化中の容量不足でテスト前に中止し、作業で作った端末だけ停止・削除して不在を検証した。実機・既存Simulator・通常記録は操作せず、Hostedで再実行する。

@@ -17,7 +17,13 @@
     "SDK_build_for_testing": "passed-compilation-only",
     "compiled_XCTest_cases": 42,
     "new_XCTest_cases": 9,
-    "XCTest_execution": "not-run",
+    "XCTest_execution": {
+      "status": "passed-hosted",
+      "tests": 42,
+      "head": "c16f17e93029460fba43562020fa2091ac95c043",
+      "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40135576086",
+      "native_code_identical_to_PR_head": true
+    },
     "physical_acceptance": "not-run-user-allows-skip",
     "npm_check": {
       "tests": 559,

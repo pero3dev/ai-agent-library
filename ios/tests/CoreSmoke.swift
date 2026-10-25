@@ -23,6 +23,7 @@ enum CoreSmoke {
         try nativeDocuments(scratch)
         try failedUpdates(scratch)
         try legacyPackageFallback(scratch)
+        try futurePackageSchemas(scratch)
         try testFixtureIsolation(scratch)
         try readingRecords()
         try revisedReadingRecords()
@@ -312,6 +313,74 @@ enum CoreSmoke {
         try expectThrows("old HTML update") { _ = try repository.install(from: legacy) }
         try expect(FileManager.default.fileExists(atPath: legacy.path), "Fallback deleted the legacy package")
         print("PASS old HTML package fallback without deleting stored versions")
+    }
+
+    private static func futurePackageSchemas(_ scratch: URL) throws {
+        let cases = [(name: "manifest", manifest: 3, document: 1), (name: "document", manifest: 2, document: 2)]
+        for scenario in cases {
+            let prefix = "future-\(scenario.name)"
+            let bundled = try fixture(scratch, prefix + "-bundle", revision: "bundled")
+            let update = try fixture(scratch, prefix + "-accepted", revision: "accepted")
+            let originalDocument = document()
+            let futureDocument = NativeDocument(schema_version: scenario.document, article_id: originalDocument.article_id,
+                source_sha256: originalDocument.source_sha256, blocks: originalDocument.blocks)
+            let future = try fixture(scratch, prefix + "-source", revision: "future", document: futureDocument)
+            let manifestURL = future.appendingPathComponent("manifest.json")
+            let originalManifest = try JSONDecoder().decode(ContentManifest.self, from: Data(contentsOf: manifestURL))
+            try JSONEncoder().encode(ContentManifest(schema_version: scenario.manifest, revision: originalManifest.revision,
+                articles: originalManifest.articles, audio: originalManifest.audio, files: originalManifest.files)).write(to: manifestURL)
+            try expect(try ContentValidator.sha256(at: future.appendingPathComponent("articles/example.json")) == originalManifest.files["articles/example.json"],
+                       "Future schema fixture has an unrelated hash mismatch")
+            let suite = "ai-library-future-schema-" + UUID().uuidString
+            guard let defaults = UserDefaults(suiteName: suite) else { throw SmokeFailure(message: "Could not create isolated defaults") }
+            defer { defaults.removePersistentDomain(forName: suite) }
+            let reading = ReadingStore(defaults: defaults)
+            reading.toggleBookmark("example")
+            reading.record(articleID: "example", heading: "intro", fraction: 0.42, blockID: "paragraph")
+            let savedRecords = defaults.data(forKey: "library.reading.v1")
+            try expect(savedRecords != nil, "Reading records were not saved")
+
+            let installStorage = scratch.appendingPathComponent(prefix + "-install-storage")
+            let repository = ContentRepository(bundledRoot: bundled, storageRoot: installStorage)
+            let accepted = try repository.install(from: update)
+            let pointerURL = installStorage.appendingPathComponent("current.json")
+            let pointerBefore = try Data(contentsOf: pointerURL)
+            let acceptedDocument = try Data(contentsOf: accepted.root.appendingPathComponent("articles/example.json"))
+            try expectThrows("future \(scenario.name) schema") { _ = try ContentValidator.validate(root: future) }
+            try expectThrows("future \(scenario.name) install") { _ = try repository.install(from: future) }
+            try expect(try repository.load().manifest.revision == "accepted", "Rejected future schema replaced the normal version")
+            try expect(try Data(contentsOf: pointerURL) == pointerBefore, "Rejected future schema changed the current pointer")
+            try expect(try Data(contentsOf: accepted.root.appendingPathComponent("articles/example.json")) == acceptedDocument,
+                       "Rejected future schema changed accepted content")
+            try expect(try FileManager.default.contentsOfDirectory(atPath: installStorage.appendingPathComponent("versions").path).count == 1,
+                       "Rejected future schema left a partial version")
+            try expect(FileManager.default.fileExists(atPath: future.path), "Rejected install removed the source package")
+
+            let fallbackStorage = scratch.appendingPathComponent(prefix + "-fallback-storage")
+            let versions = fallbackStorage.appendingPathComponent("versions")
+            try FileManager.default.createDirectory(at: versions, withIntermediateDirectories: true)
+            let id = UUID().uuidString
+            let stored = versions.appendingPathComponent(id)
+            try FileManager.default.copyItem(at: future, to: stored)
+            let storedManifest = try Data(contentsOf: stored.appendingPathComponent("manifest.json"))
+            let pointer = try JSONSerialization.data(withJSONObject: ["directory": id])
+            let storedPointerURL = fallbackStorage.appendingPathComponent("current.json")
+            try pointer.write(to: storedPointerURL)
+            let restarted = ContentRepository(bundledRoot: bundled, storageRoot: fallbackStorage)
+            let fallback = try restarted.load()
+            try expect(fallback.manifest.revision == "bundled" && fallback.root.standardizedFileURL == bundled.standardizedFileURL,
+                       "Stored future schema did not fall back to the bundle")
+            try expect(try fallback.document(for: article()) == document(), "Fallback returned incompatible content")
+            try expectThrows("stored future \(scenario.name) install") { _ = try restarted.install(from: stored) }
+            try expect(try Data(contentsOf: stored.appendingPathComponent("manifest.json")) == storedManifest,
+                       "Fallback changed or removed the future package")
+            try expect(try Data(contentsOf: storedPointerURL) == pointer, "Fallback rewrote the user's stored pointer")
+            try expect(defaults.data(forKey: "library.reading.v1") == savedRecords, "Schema rejection changed reading data")
+            let restored = ReadingStore(defaults: defaults)
+            try expect(restored.bookmarks == ["example"] && restored.position(for: article()).fraction == 0.42 &&
+                       restored.position(for: article()).blockID == "paragraph", "Schema fallback lost bookmarks or reading position")
+        }
+        print("PASS future manifest/document rejection, normal version preservation and stored-package fallback with reading records")
     }
 
     private static func failedUpdates(_ scratch: URL) throws {

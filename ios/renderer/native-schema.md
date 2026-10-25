@@ -6,6 +6,22 @@
 
 manifestの`schema_version`は2。記事・音声・SHA一覧・revisionの既存構造を保ち、記事は`html_path`の代わりに`document_path`（`articles/*.json`）を持つ。記事ID・見出しID・音声IDは継承する。配布ファイルはJSON・PNG・ライセンス等のTXTとし、HTML・JS・CSS・SVGを端末用パッケージへ含めない。schema 1の旧パッケージはネイティブ版へ適合せず、同梱の正常版へ戻す。学習記録は消去しない。
 
+### app・renderer・形式の対応
+
+| appの系統 | renderer | manifest schema | document schema | 取扱い |
+| --- | --- | --- | --- | --- |
+| 旧WKWebView試作 | 旧HTML | 1 | HTML | 比較用。現行native版の取り込み対象外 |
+| 現行native版0.2.0〜0.2.5 | native renderer v1 | 2 | 1 | 現行の受入対象。記事と全参照資産を検証後に切り替える |
+| 現行appが知らない形式 | 未対応 | 2以外、またはdocumentが1以外 | 未対応 | 新規導入を拒否。保存済み版が不適合なら正常な同梱版へ戻す |
+
+renderer v1はこの文書の型と検証規則の実装名で、manifestへ追加するフィールドではない。appのversion番号だけから受入可否を決めず、上記のschemaの組と内容検証で判定する。新しいblock・inline・必須フィールドや意味を既存readerが扱えない場合はdocument schemaを上げる。manifestの構造・許可資産・全体の互換性を変える場合はmanifest schemaを上げる。変更時はproducer・consumer・契約試験を同じ作業で更新し、旧形式への移行または拒否・正常版維持を明示する。見出しや本文の通常の改訂はschema変更ではなく、原本SHA・本文digest・revisionで区別する。
+
+旧HTMLの生成ライブラリは比較用として残し、CLIは明示した一時出力だけを使う。通常の`Content`や`TestContent`へschema 1を書き戻す入口にはしない。旧経路の全削除はIOS-24、独立更新の配信元・真正性・容量管理はIOS-20以降の別工程で扱う。
+
+### 共通の容量境界
+
+生成側と取り込み側の両方で、`manifest.json`を含む4,096ファイル・256 MiB以下とする。manifestは8 MiB以下、記事JSONは各16 MiB以下、PNGは各32 MiB以下。生成側はmanifestを最終的なUTF-8 byte列にしてから、資産と合計して出力前に検査する。通常・fixtureに同じ境界を適用し、上限を超える全記事展開はIOS-15・21で別途設計する。上限を緩めるだけで未対応のappへ配布しない。
+
 記事のmetadataには任意の`is_test_fixture: Bool`を持てる。通常の記事では省略し、専用記事には`true`を付ける。専用記事のIDは`test-fixtures/native-reader`、`source_path`は`ios/fixtures/native-reader.md`とする。本文JSONは同じschema 1を使い、テスト用のblock・inline型は追加しない。
 
 通常の生成は3記事の`Content`を維持する。`npm run ios:prepare:fixtures`（生成CLIの`--fixtures`）だけが、通常3記事と専用記事1本を別の`TestContent`へ生成する。4記事を同じmanifestへ含め、専用記事から通常記事の見出しへの参照も検証する。生成・起動手順は[iOSの手順書](../README.md)を参照する。

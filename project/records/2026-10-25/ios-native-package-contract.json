@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "task": "ios-native-package-contract",
+  "date": "2026-10-25",
+  "status": "implemented-reviewed-validated-awaiting-PR",
+  "TODO": "IOS-19",
+  "branch": "codex/ios-native-package-contract",
+  "base_PR": "https://github.com/pero3dev/ai-agent-library/pull/244",
+  "base_head": "2ad2cff29c86a25185e197ff5171be11efcc67d9",
+  "supported_format": {
+    "manifest_schema": 2,
+    "document_schema": 1,
+    "renderer": "native-v1"
+  },
+  "package_schema_changed": false,
+  "new_distribution_authentication": "not-adopted-in-this-task",
+  "physical_acceptance": "not-run-user-allows-skip",
+  "TODO_definition": "complete-main-integration-pending",
+  "validation": {
+    "format_Node_tests": {
+      "passed": 31,
+      "failed": 0
+    },
+    "core_smoke_normal": "passed",
+    "core_smoke_fixtures": "passed",
+    "new_XCTest_cases": 2,
+    "compiled_XCTest_cases": 52,
+    "SDK_build_for_testing": "passed-compilation-only",
+    "new_XCTest_execution": "not-run",
+    "independent_review": "approved-after-PNG-boundary-fix",
+    "normal_generation_revision": "c10353c16891efda1997cd17a698220c09d9af37092fe3a2e7691fd05999b6f4",
+    "fixture_generation_revision": "15df0e08aa2597ea012970f812a4eb7fe242ff626d4e6d0f17b62888b258e60a",
+    "revisions_unchanged": true,
+    "npm_check": {
+      "tests": 573,
+      "passed": 558,
+      "skipped": 15,
+      "failed": 0
+    },
+    "normal_content_audit": "passed",
+    "fixture_content_audit": "passed"
+  }
+}

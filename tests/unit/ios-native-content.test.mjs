@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import MarkdownIt from 'markdown-it';
-import { buildNativeContent, parseNativeArticle } from '../../scripts/lib/ios-native-content.mjs';
+import { buildNativeContent, parseNativeArticle, validateNativePackageBounds } from '../../scripts/lib/ios-native-content.mjs';
 import { installMath, NATIVE_READER_FIXTURE, parseArticle, renderArticle, rewriteLink, sha256, validateOutput } from '../../scripts/lib/ios-content.mjs';
 import { nativePaintGeometry, nativeRasterGeometry } from '../../scripts/lib/ios-native-assets.mjs';
 import { parseNativeBuildOptions } from '../../scripts/build-ios-native-content.mjs';
@@ -49,6 +49,22 @@ const mockDependencies = {
     return { files, metadata };
   }
 };
+
+test('native package bounds include manifest.json in the file and byte totals', () => {
+  const maximumBytes = 256 * 1024 * 1024;
+  const maximumManifest = 8 * 1024 * 1024;
+  assert.doesNotThrow(() => validateNativePackageBounds({ fileCount: 4096, totalBytes: maximumBytes, manifestBytes: maximumManifest }));
+  assert.throws(() => validateNativePackageBounds({ fileCount: 4097, totalBytes: 1, manifestBytes: 1 }), /file count or byte size limit/);
+  assert.throws(() => validateNativePackageBounds({ fileCount: 1, totalBytes: maximumBytes + 1, manifestBytes: 1 }), /file count or byte size limit/);
+  assert.throws(() => validateNativePackageBounds({ fileCount: 1, totalBytes: maximumManifest + 1, manifestBytes: maximumManifest + 1 }), /manifest exceeds/);
+  for (const invalid of [
+    { fileCount: 0, totalBytes: 1, manifestBytes: 1 },
+    { fileCount: 1.5, totalBytes: 1, manifestBytes: 1 },
+    { fileCount: 1, totalBytes: Infinity, manifestBytes: 1 },
+    { fileCount: 1, totalBytes: 1, manifestBytes: 2 },
+    { fileCount: 1, totalBytes: 1, manifestBytes: 0 }
+  ]) assert.throws(() => validateNativePackageBounds(invalid), /Invalid native package size/);
+});
 
 function nodes(value) {
   if (!value || typeof value !== 'object') return [];
@@ -344,6 +360,35 @@ test('invalid references and asset output preserve a previous generated package'
   await assert.rejects(buildNativeContent({ ...value, dependencies: invalid(result => result.files.set('assets/bad.js', Buffer.from('bad'))) }), /Unsafe native output/);
   await assert.rejects(buildNativeContent({ ...value, dependencies: invalid(result => result.metadata.values().next().value.accessibility_text = '') }), /Missing native asset accessibility/);
   assert.equal(await readFile(sentinel, 'utf8'), 'keep');
+});
+
+test('too many native files fail before replacing an existing package', async t => {
+  const value = await fixture(t);
+  await mkdir(value.output, { recursive: true });
+  await writeFile(path.join(value.output, 'sentinel'), 'keep');
+  const dependencies = { async renderAssets(requests) {
+    const rendered = await mockDependencies.renderAssets(requests);
+    for (let index = 0; index < 4096; index++) rendered.files.set(`assets/boundary-${index}.txt`, Buffer.alloc(0));
+    return rendered;
+  } };
+  await assert.rejects(buildNativeContent({ ...value, dependencies }), /file count or byte size limit/);
+  assert.equal(await readFile(path.join(value.output, 'sentinel'), 'utf8'), 'keep');
+});
+
+test('a PNG beyond the consumer byte limit is rejected even when its dimensions match', async t => {
+  const value = await fixture(t);
+  await mkdir(value.output, { recursive: true });
+  await writeFile(path.join(value.output, 'sentinel'), 'keep');
+  const dependencies = { async renderAssets(requests) {
+    const rendered = await mockDependencies.renderAssets(requests);
+    const [file, original] = [...rendered.files].find(([file]) => file.endsWith('.png'));
+    const oversized = Buffer.alloc(32 * 1024 * 1024 + 1);
+    original.copy(oversized); // Retain the valid 1×1 PNG header and dimensions.
+    rendered.files.set(file, oversized);
+    return rendered;
+  } };
+  await assert.rejects(buildNativeContent({ ...value, dependencies }), /Native PNG exceeds 33554432 bytes/);
+  assert.equal(await readFile(path.join(value.output, 'sentinel'), 'utf8'), 'keep');
 });
 
 test('output restrictions, symlinks and invalid audio metadata remain guarded', async t => {

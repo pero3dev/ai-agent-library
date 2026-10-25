@@ -32,6 +32,8 @@ open ios/AILibrary.xcodeproj
 
 Chrome以外では、`PLAYWRIGHT_CHANNEL`に利用可能なChromiumのchannelを指定するか、`cd ios/tools`で`npx playwright install chromium`を実行し、ルートへ戻って`npm run ios:prepare`を実行します。ブラウザーを追加取得する場合は別途ディスク容量が必要です。生成ツールは専用の[package.json](tools/package.json)とlockfileで固定し、Web全体の依存準備は不要です。ブラウザー・KaTeX・Mermaidは生成時だけ使います。
 
+現行の対応形式はmanifest schema 2・document schema 1・native renderer v1です。[互換性と容量の契約](renderer/native-schema.md)と[実施記録](../project/records/2026-10-25/ios-native-package-contract.md)を参照してください。未対応版の取り込みは拒否し、保存済み版が不適合なら正常な同梱版を使います。旧HTML生成CLIは比較用の明示的な一時出力だけに制限し、`--output`の省略や通常・fixtureの出力先を指定した実行を拒否します。旧形式へ戻す操作には使いません。
+
 Xcodeでscheme `AILibrary`とiPhone Simulatorを選び、Runします。Simulatorは開発者チームの設定なしで試せます。実機ではSigning & Capabilitiesで自分のTeamと一意のBundle Identifierを選びます。リポジトリは個人の署名・Team・認証情報を持ちません。
 
 CLIでの確認例は次のとおりです。対象のSimulatorは手元の一覧から選び、`<simulator-id>`を置き換えてください。

@@ -31,3 +31,5 @@ M0は責務別4コミットを[PR #241](https://github.com/pero3dev/ai-agent-lib
 main反映待ちの間に[記事改訂後の復帰](ios-reading-revision-restore.md)と[Hosted Simulator CI](ios-native-ci.md)を独立に進める。保存は後方互換の任意anchorを追加し、CIは既存11必須チェックと保護設定を変更しない追加jobとする。CIは[PR #243](https://github.com/pero3dev/ai-agent-library/pull/243)へ先に保存し、改訂復帰をその次のPRへ分ける。CI実装をXCTest実行済みと読み替えず、PRごとに実行結果を取得する。
 
 前提PR #240は最新head `57c96d24…`で通常検査10件が成功した。残るHarness policyはbase監査のhighによる失敗を再確認した。限定した管理者復旧の判断を本人へ依頼し、回答まで例外操作を行わない。返答待ちでも独立した機能とCIの実装・検証を続ける。
+
+追加native CIはPR #243でXCTest42件、復帰を加えたPR #244で50件、いずれも失敗0とRelease同梱検査の成功を取得した。実機未実施のままでも、SDK compileだけだった部分をHosted Simulatorの実行結果へ進められた。続いて[IOS-19](ios-native-package-contract.md)の形式対応・future版拒否と正常版維持・producer/consumerの境界を揃え、旧HTML CLIの上書きを防ぐ。UI試験は別PRへ分け、既存2件の狭い確認範囲と残りの受入を区別する。

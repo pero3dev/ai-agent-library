@@ -57,15 +57,15 @@ jobs:
             echo 'Simulator: iPhone 16 / iOS 18.5'
             echo 'Scope: all AILibraryTests and existing native UI smoke tests; physical-device acceptance is not executed.'
           } | tee .local/ios-ci/evidence/environment.log
-      - name: Generate and audit normal and fixture packages
+      - name: Generate and audit representative and fixture packages
         run: |
           set -euo pipefail
           {
-            npm run ios:prepare
+            npm run ios:prepare:representative
             npm run ios:prepare:fixtures
-            npm run ios:test:content
+            npm run ios:test:content:representative
             npm run ios:test:fixtures
-            bash ios/tests/check-core.sh
+            npm run ios:test:core:representative
             bash ios/tests/check-core.sh --fixtures
           } 2>&1 | tee .local/ios-ci/evidence/content-and-core.log
       - name: Generate and validate every published article in an isolated package

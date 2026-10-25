@@ -64,7 +64,11 @@ mainのマージ前確認は[共通policy](scripts/lib/github-policy.mjs)の11�
 
 ## iOS試作(ios/)を変更するとき
 
-[iOSの開発手順](ios/README.md)に従い、`npm ci --prefix ios/tools --ignore-scripts`で生成ツールを準備し、`npm run ios:prepare`で正本の`docs/`から記事を生成します。`ios/AILibrary/Content/`、`ios/AILibrary/TestContent/`、DerivedData、ビルド出力は生成物で、手修正・追跡しません。未収録の形式・見出しリンクの検証は`ios/fixtures/native-reader.md`を正本とし、`npm run ios:prepare:fixtures`と`npm run ios:test:fixtures`で別packageを用意・監査します。テスト記事はDebug入口と専用保存領域を使い、Releaseには同梱しません。原本からの生成試験と`npm run check`に加え、本文を変えた場合は`npm run ios:test:reader`、Swiftを変えた場合はXcodeでのbuild/testと対応する実機受入を行います。環境がない検査は未実施と報告し、Swiftの構文解析やデスクトップブラウザーの結果と区別します。
+[iOSの開発手順](ios/README.md)に従い、`npm ci --prefix ios/tools --ignore-scripts`で生成ツールを準備し、`npm run ios:prepare`で正本の`docs/`から全published記事を生成します。`npm run ios:test:content`と`npm run ios:test:package`で原文と実consumerを監査します。`ios/AILibrary/Content/`、`ios/AILibrary/TestContent/`、DerivedData、ビルド出力は生成物で、手修正・追跡しません。
+
+代表3記事の回帰は`ios:prepare:representative`・`ios:test:content:representative`・`ios:test:core:representative`を使い、全記事版のビルド前には標準生成へ戻します。未収録の形式・見出しリンクの検証は`ios/fixtures/native-reader.md`を正本とし、`npm run ios:prepare:fixtures`と`npm run ios:test:fixtures`で別packageを用意・監査します。テスト記事はDebug入口と専用保存領域を使い、Releaseには同梱しません。
+
+原本からの生成試験と`npm run check`に加え、本文を変えた場合は`npm run ios:test:reader`、Swiftを変えた場合はXcodeでのbuild/testと対応する実機受入を行います。環境がない検査は未実施と報告し、Swiftの構文解析やデスクトップブラウザーの結果と区別します。
 
 ## サンプルコード(examples/)を変更するとき
 

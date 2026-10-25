@@ -6,6 +6,8 @@
 
 ## 構造・運用の計画
 
+全publishedの開発用標準生成は[入口統合の記録](records/2026-10-25/ios-published-development-default.md)で追跡する。標準npmで全199記事と学習索引を生成・原文監査・実consumer監査し、代表3記事とfixture4記事の回帰入口を保つ。公開申請の採択や全記事の実機受入とは分ける。
+
 本文の既知章URLをアプリ内の章案内へつなぐ[章リンクの記録](records/2026-10-25/ios-native-chapter-link.md)では、全199記事の前提・関連リンク保持と、説明文を保った章・記事への導線を追跡する。厳密URL/helperと累積SDK compile、未完了のHosted/実機を区別する。
 
 入力ごとの全文正規化を省く[検索索引の記録](records/2026-10-25/ios-normalized-search-index.md)では、snapshotと一緒に切り替えるメモリ上の索引、実199記事15queryの結果等価性、Macの補助測定とSDK compileを追跡する。Hostedと実機・入力遅延・性能目標は別に残す。

@@ -69,7 +69,7 @@ jobs:
             npm --version
             echo 'Simulator: iPhone 16 / iOS 18.5'
             echo 'Scope: all published articles in the app, all AILibraryTests and AILibraryUITests, and Release package integrity.'
-            echo 'This candidate does not change the default bundle or complete physical-device, VoiceOver or performance acceptance.'
+            echo 'This job verifies the default published development bundle; physical-device, VoiceOver and performance acceptance remain separate.'
           } | tee .local/ios-published-candidate/evidence/environment.log
       - name: Count tracked published source articles independently
         run: |
@@ -95,19 +95,19 @@ jobs:
           [[ "$expected_articles" =~ ^[1-9][0-9]*$ ]]
           printf 'PUBLISHED_ARTICLE_COUNT=%s\n' "$expected_articles" >> "$GITHUB_ENV"
       # Render the full corpus once into the standard app resource directory.
-      # The root ios:prepare command remains the representative three-article profile.
+      # Exercise the normal development entrypoint; the other job explicitly keeps the representative profile.
       - name: Generate and audit the published app and fixture packages
         run: |
           set -euo pipefail
-          node scripts/build-ios-native-content.mjs --published-library \
+          npm run ios:prepare \
             2>&1 | tee .local/ios-published-candidate/evidence/published-generation.log
           node scripts/build-ios-native-content.mjs --fixtures \
             2>&1 | tee .local/ios-published-candidate/evidence/fixture-generation.log
-          node ios/tests/native-content-audit.mjs --published-library \
+          npm run --silent ios:test:content \
             2>&1 | tee .local/ios-published-candidate/evidence/published-source-audit.json
           node ios/tests/native-content-audit.mjs --fixtures \
             2>&1 | tee .local/ios-published-candidate/evidence/fixture-source-audit.json
-          bash ios/tests/check-package.sh ios/AILibrary/Content "$PUBLISHED_ARTICLE_COUNT" \
+          npm run --silent ios:test:package -- "$PUBLISHED_ARTICLE_COUNT" \
             2>&1 | tee .local/ios-published-candidate/evidence/published-package.json
           bash ios/tests/check-package.sh ios/AILibrary/TestContent 4 \
             2>&1 | tee .local/ios-published-candidate/evidence/fixture-package.json

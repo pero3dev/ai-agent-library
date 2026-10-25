@@ -12,7 +12,9 @@
 - 外部操作: 計画に沿う同じGitHubリポジトリへのbranch・commit・push・PR・mainマージを実施する。契約承諾・課金・OS更新・一般公開申請・タグ公開は、この依頼だけで実施しない。
 - 適用規約: [AGENTS](../../../AGENTS.md)、[ROADMAP](../../../ROADMAP.md)、[Git共通規約](../../../harness/git-rules.md)、[形式契約](../../../harness/git-conventions.json)、[開発と検証](../../../CONTRIBUTING.md)、[project索引](../../README.md)。
 
-## 進行
+## 初期準備と段階実施の履歴
+
+この節は当時の順序とsnapshotを保存する。現時点の統合結果は後段の「M0〜M3の通常統合」とJSONの`main_snapshot`・`checkpoints`を参照する。
 
 開始時にM0の所有差分とremote・既存PR・worktreeを照合し、独立レビューを開始した。GitHubの対象は公開リポジトリ`pero3dev/ai-agent-library`、default branchは`main`。開始時の検索ではiOSの既存open PRは見つからなかった。以後の進捗は[JSON](ios-autonomous-progress.json)へ記録する。
 
@@ -50,7 +52,7 @@ main反映待ちの間に[記事改訂後の復帰](ios-reading-revision-restore
 | Web図の寸法予約 | [#248](https://github.com/pero3dev/ai-agent-library/pull/248) | 通常の11必須チェック合格後、main `c4eb4927…`へsquash。main CIは進行中。例外なし |
 | 全記事の一時package | [#249](https://github.com/pero3dev/ai-agent-library/pull/249) | baseは#247、draft、head `bee33d12…`に12ファイルを保存。199記事の実consumer監査成功、Hostedは開始済み・結果未確認 |
 
-[runtime照合](ios-native-runtime-audit.md)では現targetに旧WebKit等が残っていないことを確認し、実装の追加削除をせずIOS-24を完了とした。実機未確認、本文block内の精度、全UI回帰や全記事展開は残る。今回のチェックポイントはmain統合の完了ではない。
+[runtime照合](ios-native-runtime-audit.md)では現targetに旧WebKit等が残っていないことを確認し、実装の追加削除をせずIOS-24を完了とした。実機未確認、本文block内の精度、全UI回帰や全記事展開は残る。この初期記録のチェックポイント時点では、main統合の完了を示していなかった。
 
 復旧前のmainは`405e29273a7a3257adeb370c6ac3196d35693d4d`で、11必須チェックと保護設定を維持したまま本人判断を待った。本人の限定許可とGitHub再認証の完了後、[復旧記録](ios-main-recovery.md)に沿ってPR #240だけを統合し、11チェックの名前・提供元と全員への適用、変更前の15 checkbox flagを完全復元した。この例外は終了しており、後続PRには使わない。App Store関連の契約・支払い・公開・OS更新は別途採択の対象である。
 
@@ -59,7 +61,6 @@ PR #240統合前のworking treeに残したwebsite・依存記録の9ファイ�
 復旧後のmain CI [40155939255](https://github.com/pero3dev/ai-agent-library/actions/runs/40155939255)は、遅延SVGによる見出し位置のずれでbuild内のbrowser検査が失敗した。通常の修正PR #248、head `7860fc9e3b955f1cc29163821b3a68670715ab4f`が11必須チェックを満たし、main `c4eb4927daf62e5decbf2e4d618474775b4ec331`、tree `f2cac35ecede470c9259a09a6f18fb877d8327c2`へsquashした。snapshot時点では、そのmain CI [40159510477](https://github.com/pero3dev/ai-agent-library/actions/runs/40159510477)が進行中であり、成功とは記録しない。
 
 PR #241は旧head `67678a18…`とこの修正済みmainを親とする通常の2親mergeで同期し、headは`957dffc82806710c4cb71af35ba9916d7a621da4`、treeは`c4633233ab03125d2ca1501e1b5d08f8442d03ab`となった。独立照合は合格し、最終headのCIを取り直している。以降も通常のmain同期・最終headの11必須チェック・レビューを経て段階統合する。全記事の一時生成は[PR #249](https://github.com/pero3dev/ai-agent-library/pull/249)で追跡し、この時点ではdraftのHosted結果やIOS-13・15の全体受入を成功と推測しない。
-
 
 ## M0〜M3の通常統合
 
@@ -77,3 +78,5 @@ PR #241〜246を通常の二親main同期・独立tree照合・最終headの11�
 依存修正PR #240の限定例外は終了し、11チェックの名前・提供元・全員への適用と15設定flagを復元済み。後続6件は例外を使っていない。PR #248の通常修正はmain CIと対象公開HTMLでも確認済み。
 
 全記事の一時生成・絞り込み・初期失敗復旧・空検索改善・通常同梱候補・全記事UI候補はPR #249〜254の別stackで保存した。これらのmain採用はこのsnapshotに含まない。3記事の既定を維持し、初版の配布・費用・権利・既定切替は別の判断として残す。新たな実機/VoiceOver/実着信、block内の精密位置、全記事の視覚・性能受入は未完了である。
+
+記録を更新した時点で、main `81b5da90…`の[通常CI](https://github.com/pero3dev/ai-agent-library/actions/runs/40167746668)と[native CI](https://github.com/pero3dev/ai-agent-library/actions/runs/40167746762)が成功し、Pagesのdeployも成功した。JSONでは古いPR-open状態を`historical_checkpoints`へ分け、現在の`checkpoints`は実merge結果へ揃えた。PR #247の記録自身の最終検査・main反映は、これらの実装統合と区別する。

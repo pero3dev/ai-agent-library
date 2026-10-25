@@ -34,7 +34,6 @@ PR #241は`67678a1882317b4d08718d12bb650822b82f07dd`と修正済みmain `c4eb492
 
 並行した全記事の一時packageは[PR #249](https://github.com/pero3dev/ai-agent-library/pull/249)、head `bee33d124d53aa3897e12fcb56ba0b9ac2c3b5fd`へ12ファイルを保存した。baseはPR #247、draftであり、199記事の実consumer監査は成功しているが、開始済みHosted検査の結果は未確認である。後続の統合やIOS-13・15の完了を、この保存だけで成功と扱わない。
 
-
 ## 通常統合の後続snapshot
 
 PR #241〜246は全件を通常の最終head検査と独立tree照合を経てmainへsquashした。最新mainは`81b5da90796e061d3e2230b941f9156a61f822bc`。PR #240の管理者例外を再利用せず、11必須チェックと元の保護設定を維持した。各実merge SHAと正規メッセージ・treeの照合はJSONおよび[自律実施記録](ios-autonomous-progress.md)へ残す。このsnapshotでは最新mainのCIは実行中であり、直前mainまでの成功と区別する。

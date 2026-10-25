@@ -534,4 +534,74 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
                         inside: app.scrollViews["native-reader"], fullyVisible: true)
         capture("Filtered-fixture-normal-reading-isolation")
     }
+    /// Observe the one-shot search landing without creating it with a reader gesture.
+    /// Requiring the first fully visible native paragraph also distinguishes a
+    /// nested leaf from merely revealing the beginning of its enclosing list.
+    private func requireSearchParagraphAtReadingStart(_ blockID: String, containing terms: [String],
+                                                     file: StaticString = #filePath, line: UInt = #line) -> XCUIElement {
+        let reader = app.scrollViews["native-reader"]
+        let target = app.staticTexts["native-text-" + blockID]
+        requireHittable(target, inside: reader, fullyVisible: true, file: file, line: line)
+        let arrived = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            self.firstFullyVisibleNativeParagraphMatches(target, inside: reader)
+        }, object: nil)
+        let result = XCTWaiter.wait(for: [arrived], timeout: 15)
+        if result != .completed { capture("Search-hit-paragraph-not-at-reading-start") }
+        XCTAssertEqual(result, .completed, "The search leaf must be the first fully visible native paragraph",
+                       file: file, line: line)
+        for term in terms { XCTAssertTrue(target.label.contains(term), file: file, line: line) }
+        XCTAssertFalse(app.staticTexts["native-search-no-body-hit"].exists, file: file, line: line)
+        return target
+    }
+
+    func testBodySearchArrivesAtNestedParagraphContainingAllTermsWithoutReaderGestures() throws {
+        // All three terms occur together only in this nested paragraph in both
+        // representative-three and full-published generated Agent-loop documents.
+        open("Agent ループ", articleID: "01-concepts/agent-loop", query: "回復 チャンス 一時的")
+        _ = requireSearchParagraphAtReadingStart("paragraph-84a3d15f08b1ab446d5aafca",
+                                                containing: ["回復", "チャンス", "一時的"])
+        capture("Body-search-nested-AND-hit-arrival")
+    }
+
+    func testResumeUsesLaterReadingPositionInsteadOfReplayingThePreviousBodyQuery() throws {
+        let query = "20 ステップ分"
+        let hitID = "paragraph-a6c65c1cbabb5998e86242b7"
+        let headingID = "実装例-最小の-agent-ループ"
+        open("Agent ループ", articleID: "01-concepts/agent-loop", query: query)
+        let originalHit = requireSearchParagraphAtReadingStart(hitID, containing: ["20", "ステップ分"])
+        let reader = app.scrollViews["native-reader"]
+
+        // A deliberate, ordinary TOC move saves B after search landed at A.
+        // A and B are nine top-level blocks apart, across several sections and a table.
+        goToContents("実装例: 最小の Agent ループ", headingID: headingID)
+        XCTAssertFalse(hasVisibleFrame(originalHit, inside: reader), "A must no longer be on screen at B")
+        capture("Body-search-later-reading-position-before-relaunch")
+        returnToLibrary()
+        XCTAssertEqual(try foregroundArticleSearch().value as? String, query,
+                       "The in-process library still has the deliberate body query")
+
+        app.terminate()
+        app.launch()
+        let count = app.staticTexts["library-article-count"]
+        XCTAssertTrue(count.waitForExistence(timeout: 45))
+        XCTAssertEqual(count.label, "全\(expectedPublishedCount)記事")
+        let search = try foregroundArticleSearch()
+        let resetValue = try XCTUnwrap(search.value as? String)
+        XCTAssertTrue(resetValue.isEmpty || resetValue == search.placeholderValue,
+                      "The library query must reset on process relaunch")
+        XCTAssertFalse(app.staticTexts["library-filter-summary"].exists)
+        let resume = element("library-resume")
+        for _ in 0..<8 where !isHittableOnScreen(resume) { app.swipeDown(velocity: .slow) }
+        requireHittable(resume)
+        resume.tap()
+        requireNativeBody()
+        XCTAssertTrue(app.navigationBars["Agent ループ"].waitForExistence(timeout: 10))
+        // No reader scroll or TOC action is allowed after resume: B, not the
+        // old query hit A, must already be visible through the public UI.
+        requireHittable(app.staticTexts["native-heading-" + headingID], inside: reader, fullyVisible: true)
+        XCTAssertFalse(hasVisibleFrame(app.staticTexts["native-text-" + hitID], inside: reader),
+                       "Resume must not replay the old query and return to A")
+        capture("Body-query-not-replayed-by-reading-resume")
+    }
+
 }

@@ -6,6 +6,8 @@
 
 ## 構造・運用の計画
 
+[本文検索の到着と復帰](records/2026-10-26/ios-search-hit-ui-regression.md)では、入れ子の特定段落への移動と、別位置を保存した後に旧queryを再実行しない動作を公開UIで検査する。既存12件を保持した追加2件を、型検査と実UIに分けて追跡する。
+
 絞り込み中の[補助画面と保存分離UI回帰](records/2026-10-25/ios-filtered-actions-ui.md)では、Aboutと専用記事の開閉、検索・タグ保持、通常reader再開前のrestartによる永続分離を検査する。既存10件を保って機能UI12件へ増やし、SDK compileと未実施の実UIを区別する。
 
 旧版と更新失敗時の[保持回帰3件](records/2026-10-25/ios-storage-retention-regression.md)では、実repositoryの3世代snapshot・後読資産、孤立版の無変更、pointer書込失敗時の既存bytesを検査する。Mac新3件とiOS単体122件のcompileを区別し、将来の削除・pin・容量管理方針の採択は残す。

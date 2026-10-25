@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "task": "ios-all-article-package",
+  "date": "2026-10-25",
+  "status": "generated-and-consumer-validated-awaiting-feature-PR",
+  "scope": "local-generation-validation-only",
+  "default_articles": 3,
+  "fixture_articles": 4,
+  "published_article_parse": {
+    "articles": 199,
+    "succeeded": 199,
+    "failed": 0
+  },
+  "internal_links": {
+    "total": 3525,
+    "heading_links": 10,
+    "invalid": 0
+  },
+  "requests": {
+    "diagrams": 74,
+    "math": 137,
+    "expected_PNG": 422
+  },
+  "curated_descriptions": {
+    "total": 74,
+    "existing_preserved": 3,
+    "new": 71,
+    "independent_review": "approved-after-one-correction-per-group",
+    "full_map_sha256": "b089202b6eadab1b75399d01c4215d91915be0e3f13c1a10a8162ddbda6f9b44"
+  },
+  "generator_tests": {
+    "passed": 37,
+    "failed": 0,
+    "new_tests": 6,
+    "independent_review": "approved"
+  },
+  "root_check": {
+    "status": "passed",
+    "tests": 579,
+    "passed": 564,
+    "skipped": 15,
+    "failed": 0
+  },
+  "estimated_manifest_bytes": 3120071,
+  "estimated_file_count": 625,
+  "estimate_scope": "Planning before actual PNG generation; actual package size and consumer results are recorded separately below.",
+  "actual_generation": {
+    "status": "passed",
+    "revision": "d9d32b9d20f61413fdeab06c795fee15477efb337cb7a29023b8f13943dde7c3",
+    "articles": 199,
+    "audio": 1,
+    "listedFiles": 624,
+    "filesIncludingManifest": 625,
+    "manifestBytes": 3120071
+  },
+  "consumer_acceptance": {
+    "articles": 199,
+    "audio": 1,
+    "bytes_including_manifest": 37547753,
+    "files_including_manifest": 625,
+    "PNG_files": 422,
+    "revision": "d9d32b9d20f61413fdeab06c795fee15477efb337cb7a29023b8f13943dde7c3",
+    "schema_version": 1,
+    "status": "passed",
+    "top_level_blocks": 8389,
+    "validation_and_document_load_seconds": 2.2819029092788696,
+    "execution_surface": "macOS-Foundation-CLI",
+    "validator": "app-ContentValidator",
+    "verified_files_excluding_manifest": 624
+  },
+  "physical_acceptance": "not-run-user-allows-skip",
+  "normal_app_catalog_switch": "not-performed",
+  "performance_scope": "Foundation CLI validation plus all-document loading on this Mac; not app-startup or physical-device performance acceptance",
+  "hosted_full_package_ci": {
+    "workflow": ".github/workflows/ios-native.yml",
+    "implementation": "added-temporary-generation-and-consumer-audit-step",
+    "execution": "not-run",
+    "expected_article_count": "derived-from-tracked-published-sources"
+  },
+  "TODO_status": {
+    "IOS-13": "incomplete; temporary generation and CLI validation only",
+    "IOS-15": "incomplete; app and physical-device performance acceptance remains"
+  },
+  "remaining_acceptance": [
+    "hosted-full-package-CI",
+    "all-article-app-catalog-and-UI",
+    "all-article-VoiceOver",
+    "app-startup-search-scroll-and-memory-performance",
+    "physical-device-acceptance"
+  ],
+  "documentation_validation": {
+    "markdown_lint": "passed",
+    "relative_links": { "status": "passed", "files": 495, "links": 6348 },
+    "README_shell_example_syntax": "passed",
+    "consumer_values_match_final_local_evidence": true,
+    "diff_whitespace": "passed",
+    "generation_or_consumer_rerun_by_documentation_task": false
+  }
+}

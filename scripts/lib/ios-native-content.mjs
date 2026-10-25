@@ -1,7 +1,8 @@
-import { mkdir, realpath, rm, writeFile } from 'node:fs/promises';
+import { mkdir, readdir, realpath, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import MarkdownIt from 'markdown-it';
 import GithubSlugger from 'github-slugger';
+import { load as loadYaml, JSON_SCHEMA } from 'js-yaml';
 import { audioMetadata, installMath, NATIVE_READER_FIXTURE, parseArticle, readSource, rewriteLink, sha256, tokenText, validateOutput } from './ios-content.mjs';
 import { loadNativeRenderingDependencies } from './ios-native-assets.mjs';
 
@@ -209,18 +210,68 @@ export function validateNativePackageBounds({ fileCount, totalBytes, manifestByt
   if (fileCount > 4096 || totalBytes > 256 * 1024 * 1024) throw new Error('Native package exceeds file count or byte size limit');
 }
 
+async function publishedArticles(root) {
+  const articles = [];
+  const sections = await readdir(path.join(root, 'docs'), { withFileTypes: true });
+  for (const section of sections.sort((a, b) => comparePath([a.name], [b.name]))) {
+    if (!/^\d{2}-[a-z0-9-]+$/.test(section.name)) continue;
+    if (section.isSymbolicLink()) throw new Error(`Symlink is not permitted: docs/${section.name}`);
+    if (!section.isDirectory()) continue;
+    const files = await readdir(path.join(root, 'docs', section.name), { withFileTypes: true });
+    for (const file of files.sort((a, b) => comparePath([a.name], [b.name]))) {
+      if (file.name.toLowerCase() === 'readme.md' || !/^[a-z0-9-]+\.md$/.test(file.name)) continue;
+      const sourcePath = `docs/${section.name}/${file.name}`;
+      if (file.isSymbolicLink()) throw new Error(`Symlink is not permitted: ${sourcePath}`);
+      if (!file.isFile()) continue;
+      const source = (await readSource(root, sourcePath)).toString('utf8');
+      const frontMatter = source.replace(/\r\n?/g, '\n').match(/^---\n([\s\S]*?)\n---(?:\n|$)/);
+      if (!frontMatter) throw new Error(`Front matter missing: ${sourcePath}`);
+      const metadata = loadYaml(frontMatter[1], { schema: JSON_SCHEMA });
+      if (!['draft', 'published'].includes(metadata?.status)) throw new Error(`Invalid article status: ${sourcePath}`);
+      if (metadata.status === 'published') articles.push(parseArticle(source, sourcePath));
+    }
+  }
+  if (!articles.length || articles.length > 2000) throw new Error('All-published selection must contain between 1 and 2000 articles');
+  return articles;
+}
+
+async function allPublishedOutput(root, output) {
+  if (typeof output !== 'string' || !output.trim()) throw new Error('allPublished requires an explicit temporary output directory');
+  const destination = await validateOutput(root, output);
+  const comparable = value => process.platform === 'darwin' || process.platform === 'win32' ? value.toLowerCase() : value;
+  const actual = comparable(destination);
+  for (const name of ['Content', 'TestContent']) {
+    const standard = path.join(root, 'ios/AILibrary', name);
+    const protectedPath = comparable(standard);
+    if (actual === protectedPath || actual.startsWith(protectedPath + path.sep) || protectedPath.startsWith(actual + path.sep)) {
+      throw new Error('All-published output must be separate from ordinary Content and TestContent');
+    }
+  }
+  // validateOutput permits only the ordinary package or a symlink-free system
+  // temporary child. The ordinary paths above are deliberately excluded here.
+  if (path.basename(destination) !== 'Content') throw new Error('All-published temporary output must be named Content');
+  return destination;
+}
+
 /** Build an offline, hashed JSON/PNG-only package. Browser use is injectable for tests. */
-export async function buildNativeContent({ root, output, fixtures = false, dependencies, selection } = {}) {
+export async function buildNativeContent({ root, output, fixtures = false, allPublished = false, dependencies, selection } = {}) {
   if (typeof fixtures !== 'boolean') throw new Error('fixtures must be a boolean');
+  if (typeof allPublished !== 'boolean') throw new Error('allPublished must be a boolean');
+  if (allPublished && fixtures) throw new Error('allPublished cannot be combined with fixtures');
   root = await realpath(root);
-  output ??= path.join(root, fixtures ? 'ios/AILibrary/TestContent' : 'ios/AILibrary/Content');
-  output = await validateOutput(root, output, { fixtures });
+  if (allPublished) output = await allPublishedOutput(root, output);
+  else {
+    output ??= path.join(root, fixtures ? 'ios/AILibrary/TestContent' : 'ios/AILibrary/Content');
+    output = await validateOutput(root, output, { fixtures });
+  }
   selection ||= JSON.parse(await readSource(root, 'ios/content-selection.json'));
-  if (selection.schema_version !== 1 || !Array.isArray(selection.articles) || selection.articles.length !== 3 || new Set(selection.articles).size !== 3 || !selection.articles.includes(selection.audio_article)) throw new Error('Select exactly three distinct articles and audio from one of them');
-  const articles = await Promise.all(selection.articles.map(async file => parseArticle((await readSource(root, file)).toString('utf8'), file)));
+  if (selection?.schema_version !== 1 || typeof selection.audio_article !== 'string') throw new Error('Invalid native content selection');
+  if (!allPublished && (!Array.isArray(selection.articles) || selection.articles.length !== 3 || new Set(selection.articles).size !== 3 || !selection.articles.includes(selection.audio_article))) throw new Error('Select exactly three distinct articles and audio from one of them');
+  const articles = allPublished ? await publishedArticles(root) : await Promise.all(selection.articles.map(async file => parseArticle((await readSource(root, file)).toString('utf8'), file)));
   if (fixtures) articles.push(parseArticle((await readSource(root, NATIVE_READER_FIXTURE.source_path)).toString('utf8'), NATIVE_READER_FIXTURE.source_path, { fixture: true }));
   const catalog = JSON.parse(await readSource(root, 'website/audio/catalog.json'));
   const audioArticle = articles.find(article => article.source_path === selection.audio_article);
+  if (!audioArticle) throw new Error('Selected audio article must be included among published articles');
   const audio = [audioMetadata(catalog, audioArticle, selection.audio_article)];
   const selected = new Map(articles.map(article => [article.source_path, article.id]));
   const parsed = articles.map(article => parseNativeArticle(article, { selected }));
@@ -231,13 +282,18 @@ export async function buildNativeContent({ root, output, fixtures = false, depen
     if (!destination || (node.target.heading_id && !destination.has(node.target.heading_id))) throw new Error(`Unknown native article or heading link: ${JSON.stringify(node.target)}`);
   });
   const requests = new Map(parsed.flatMap(value => [...value.requests]));
-  const descriptions = selection.diagram_descriptions ?? {};
+  let descriptions = selection.diagram_descriptions ?? {};
+  if (allPublished) {
+    const fullDescriptions = JSON.parse(await readSource(root, 'ios/all-published-diagram-descriptions.json'));
+    if (fullDescriptions?.schema_version !== 1 || !fullDescriptions.diagram_descriptions || typeof fullDescriptions.diagram_descriptions !== 'object' || Array.isArray(fullDescriptions.diagram_descriptions)) throw new Error('Invalid all-published diagram description map');
+    descriptions = fullDescriptions.diagram_descriptions;
+  }
   if (typeof descriptions !== 'object' || Array.isArray(descriptions)) throw new Error('Invalid native diagram descriptions');
   for (const [key, description] of Object.entries(descriptions)) {
     if (!/^[a-f0-9]{24}$/.test(key) || requests.get(key)?.kind !== 'diagram') throw new Error(`Unknown or stale native diagram description: ${key}`);
     if (!text(description, 'diagram description').trim() || Buffer.byteLength(description) > 16384) throw new Error('Invalid native diagram description');
   }
-  if (selection.diagram_descriptions !== undefined) for (const [key, request] of requests) {
+  if (allPublished || selection.diagram_descriptions !== undefined) for (const [key, request] of requests) {
     if (request.kind === 'diagram' && !Object.hasOwn(descriptions, key)) throw new Error(`Missing native diagram description: ${key}`);
   }
   dependencies ||= await loadNativeRenderingDependencies(root);

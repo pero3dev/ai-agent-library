@@ -1,0 +1,198 @@
+name: iOS published readiness observations
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/ios-performance.yml'
+      - 'ios/AILibraryUITests/PublishedPerformanceUITests.swift'
+      - 'ios/tests/export-performance.mjs'
+  pull_request:
+    paths:
+      - '.github/workflows/ios-performance.yml'
+      - 'ios/AILibraryUITests/PublishedPerformanceUITests.swift'
+      - 'ios/tests/export-performance.mjs'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-published-readiness-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  ios-published-readiness:
+    name: iOS published readiness observations
+    runs-on: macos-15
+    timeout-minutes: 40
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            ios/tools/package-lock.json
+      - name: Audit content tooling before installation
+        run: npm audit --package-lock-only --audit-level=high
+      - name: Install content tooling without lifecycle scripts
+        run: npm ci --ignore-scripts
+      - name: Audit native asset tooling before installation
+        run: npm audit --package-lock-only --audit-level=high
+        working-directory: ios/tools
+      - name: Install native asset tooling without lifecycle scripts
+        run: npm ci --ignore-scripts
+        working-directory: ios/tools
+      - name: Install the lockfile-matched Chromium
+        run: ./node_modules/.bin/playwright install chromium
+        working-directory: ios/tools
+      - name: Record the observation scope
+        run: |
+          set -euo pipefail
+          mkdir -p .local/ios-performance/evidence
+          {
+            xcodebuild -version
+            node --version
+            npm --version
+            echo 'Simulator: iPhone 16 / iOS 18.5 / Debug'
+            echo 'One dedicated launch-to-ready Clock case; no daily functional UI sweep.'
+            echo 'Three recorded iterations after one discarded warm-up; no product baseline or threshold adopted.'
+            echo 'Bootstrap rejects an unidentified clock metric until the first retained Xcode 16.4 raw result is reviewed.'
+            echo 'Includes UI automation and accessibility polling; not cold disk, first install, Release or physical-device performance.'
+          } | tee .local/ios-performance/evidence/environment.log
+      - name: Count tracked published source articles independently
+        run: |
+          set -euo pipefail
+          expected_articles="$(node --input-type=module <<'NODE'
+          import { execFileSync } from 'node:child_process';
+          import { readFileSync, writeFileSync } from 'node:fs';
+          import { load, JSON_SCHEMA } from 'js-yaml';
+          const files = execFileSync('git', ['ls-files', '-z', 'docs'], { encoding: 'utf8' })
+            .split('\0').filter(file => /^docs\/\d{2}-[a-z0-9-]+\/[a-z0-9-]+\.md$/.test(file));
+          const articles = files.filter(file => {
+            const match = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/.exec(readFileSync(file, 'utf8'));
+            if (!match) throw new Error('Missing source front matter: ' + file);
+            const fields = load(match[1], { schema: JSON_SCHEMA });
+            if (!fields || !['published', 'draft'].includes(fields.status)) throw new Error('Invalid source status: ' + file);
+            return fields.status === 'published';
+          }).sort();
+          if (articles.length < 4 || articles.length > 2000) throw new Error('Invalid full published article count');
+          writeFileSync('.local/ios-performance/evidence/published-sources.json',
+            JSON.stringify({ articles: articles.length, source_paths: articles }, null, 2) + '\n');
+          console.log(articles.length);
+          NODE
+          )"
+          [[ "$expected_articles" =~ ^[1-9][0-9]*$ ]]
+          printf 'PUBLISHED_ARTICLE_COUNT=%s\n' "$expected_articles" >> "$GITHUB_ENV"
+      - name: Generate and audit the standard published and fixture packages
+        run: |
+          set -euo pipefail
+          npm run ios:prepare \
+            2>&1 | tee .local/ios-performance/evidence/published-generation.log
+          npm run ios:prepare:fixtures \
+            2>&1 | tee .local/ios-performance/evidence/fixture-generation.log
+          npm run --silent ios:test:content \
+            2>&1 | tee .local/ios-performance/evidence/published-source-audit.json
+          npm run --silent ios:test:fixtures \
+            2>&1 | tee .local/ios-performance/evidence/fixture-source-audit.json
+          npm run --silent ios:test:package -- "$PUBLISHED_ARTICLE_COUNT" \
+            2>&1 | tee .local/ios-performance/evidence/published-package.json
+          bash ios/tests/check-package.sh ios/AILibrary/TestContent 4 \
+            2>&1 | tee .local/ios-performance/evidence/fixture-package.json
+      - name: Build the app and registered test targets without running functional tests
+        run: |
+          set -euo pipefail
+          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
+            -configuration Debug \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.5' \
+            -destination-timeout 120 \
+            -derivedDataPath .local/ios-performance/DebugDerivedData \
+            -resultBundlePath .local/ios-performance/evidence/build.xcresult \
+            -parallel-testing-enabled NO -jobs 2 \
+            CODE_SIGNING_ALLOWED=NO build-for-testing \
+            2>&1 | tee .local/ios-performance/evidence/build.log
+      - name: Audit the actual Debug app and bind the measurement context
+        run: |
+          set -euo pipefail
+          debug_app='.local/ios-performance/DebugDerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app'
+          cmp ios/AILibrary/Content/manifest.json "$debug_app/Content/manifest.json"
+          bash ios/tests/check-package.sh "$debug_app/Content" "$PUBLISHED_ARTICLE_COUNT" \
+            2>&1 | tee .local/ios-performance/evidence/debug-app-package.json
+          cmp ios/AILibrary/TestContent/manifest.json "$debug_app/TestContent/manifest.json"
+          bash ios/tests/check-package.sh "$debug_app/TestContent" 4 \
+            2>&1 | tee .local/ios-performance/evidence/debug-fixture-package.json
+          node --input-type=module <<'NODE'
+          import { createHash } from 'node:crypto';
+          import { execFileSync } from 'node:child_process';
+          import { readFileSync, writeFileSync } from 'node:fs';
+          const read = (binary, args) => execFileSync(binary, args, { encoding: 'utf8' }).trim();
+          const expected = Number(process.env.PUBLISHED_ARTICLE_COUNT);
+          const app = '.local/ios-performance/DebugDerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app';
+          const packageAudit = JSON.parse(readFileSync('.local/ios-performance/evidence/debug-app-package.json', 'utf8'));
+          if (!Number.isInteger(expected) || expected < 4 || packageAudit.status !== 'passed' || packageAudit.articles !== expected) {
+            throw new Error('The actual Debug package must match the independently counted full source set');
+          }
+          const context = {
+            source_head: read('git', ['rev-parse', 'HEAD']),
+            source_tree: read('git', ['rev-parse', 'HEAD^{tree}']),
+            configuration: 'Debug', expected_articles: expected, actual_app_package: packageAudit,
+            app_version: read('/usr/bin/plutil', ['-extract', 'CFBundleShortVersionString', 'raw', '-o', '-', app + '/Info.plist']),
+            app_build: read('/usr/bin/plutil', ['-extract', 'CFBundleVersion', 'raw', '-o', '-', app + '/Info.plist']),
+            Xcode: read('xcodebuild', ['-version']),
+            host_architecture: read('uname', ['-m']),
+            host_model: read('/usr/sbin/sysctl', ['-n', 'hw.model']),
+            host_memory_bytes: read('/usr/sbin/sysctl', ['-n', 'hw.memsize']),
+            locale: 'ja_JP', text_size: 'fresh Simulator default, not overridden',
+            appearance: 'fresh Simulator default, not overridden',
+            scenario: 'launch-to-published-readiness', declared_recorded_iterations: 3,
+            discarded_warmup_invocations: 1,
+            test_source_sha256: createHash('sha256').update(readFileSync('ios/AILibraryUITests/PublishedPerformanceUITests.swift')).digest('hex'),
+            limits: 'The package audit warmed file caches before launches. No disk-cold, first-install, Release, physical-device or product-target claim.'
+          };
+          writeFileSync('.local/ios-performance/evidence/context.json', JSON.stringify(context, null, 2) + '\n');
+          NODE
+      - name: Measure only the dedicated published-readiness case
+        env:
+          TEST_RUNNER_AILIBRARY_EXPECTED_PUBLISHED_COUNT: ${{ env.PUBLISHED_ARTICLE_COUNT }}
+          TEST_RUNNER_AILIBRARY_PERFORMANCE_RUNNER: '1'
+        run: |
+          set -euo pipefail
+          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
+            -configuration Debug \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.5' \
+            -destination-timeout 120 \
+            -derivedDataPath .local/ios-performance/DebugDerivedData \
+            -resultBundlePath .local/ios-performance/evidence/performance.xcresult \
+            -parallel-testing-enabled NO -jobs 2 \
+            -only-testing:AILibraryUITests/PublishedPerformanceUITests \
+            CODE_SIGNING_ALLOWED=NO test-without-building \
+            2>&1 | tee .local/ios-performance/evidence/performance.log
+      # Initial extraction intentionally fails closed until the real clock
+      # identifier/unit is reviewed and adopted; always retain its raw evidence.
+      - name: Export typed samples and retain raw unvalidated CSV
+        if: always()
+        run: |
+          set -euo pipefail
+          node ios/tests/export-performance.mjs \
+            --result .local/ios-performance/evidence/performance.xcresult \
+            --output .local/ios-performance/evidence/export \
+            --context .local/ios-performance/evidence/context.json
+      - name: Retain observation results and extraction failures
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ios-published-readiness-evidence-${{ github.run_id }}
+          path: .local/ios-performance/evidence
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 90

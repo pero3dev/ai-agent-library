@@ -107,7 +107,7 @@ Debugで`TestContent`を生成していない場合は、入口で記事が含�
 
 [現targetの照合](../project/records/2026-10-25/ios-native-runtime-audit.md)では、appの本文経路・Sources・resourcesに旧WebKitやHTML/JS bridgeが残っていないことを確認しました。比較用の旧HTML生成・試験と、nativeでも再利用するparser等は開発側へ残しています。
 
-[Hosted Simulator CI](../.github/workflows/ios-native.yml)は記事生成・監査、全AILibraryTests、既存AILibraryUITests、Releaseの通常manifest・全SHA・TestContent不在を追加チェックとして検査します。既存11必須チェックやmain保護設定は維持します。[基準CIの実施記録](../project/records/2026-10-25/ios-native-ci.md)と[UI実行の追加](../project/records/2026-10-25/ios-native-ui-ci.md)で、hostedの実行結果とローカルSDK compileを区別します。UI2件は本文・目次・しおり・再起動復帰の基本範囲で、全UI・実機受入は別に追跡します。
+[Hosted Simulator CI](../.github/workflows/ios-native.yml)は記事生成・監査、全AILibraryTests、NativeReaderUITestsの2件、Releaseの通常manifest・全SHA・TestContent不在を追加チェックとして検査します。既存11必須チェックやmain保護設定は維持します。[基準CIの実施記録](../project/records/2026-10-25/ios-native-ci.md)と[UI実行の追加](../project/records/2026-10-25/ios-native-ui-ci.md)で、hostedの実行結果とローカルSDK compileを区別します。UI2件は本文・目次・しおり・再起動復帰の基本範囲で、全UI・実機受入は別に追跡します。
 
 0.2.10（12）では通常一覧の「その他の操作」から、このアプリの同梱コンテンツを確認して選べます。現在・同梱版の実際の記事数と版を表示し、確認の取消では切り替えません。成功後に一覧の一時条件だけを解除し、しおり・読書位置は保持します。保存済み版を自動で上書きせず、旧版削除や全記事の既定採用も別に扱います。[切替の記録](../project/records/2026-10-25/ios-bundled-content-activation.md)で非UI検証と未完了の画面・実機受入を区別します。
 
@@ -172,7 +172,15 @@ npm run ios:test:package
 
 新しい`PublishedReaderUITests`は、原文から数えた件数を`TEST_RUNNER_AILIBRARY_EXPECTED_PUBLISHED_COUNT`で受け取り、画面の「全N記事」と照合します。値がない・不正・3以下ならskipせず失敗します。代表3記事のテスト例でこのクラスを一緒に実行しない構成です。
 
-初期の全記事候補UIでは、既存の代表3記事・目次・しおり復帰に、大図の拡大とテキスト表現、長文の深い見出しからの復帰、最大表の最終行・列を加えた5件を準備しました。その対象は01・03・08・11章の6記事に限ります。後続の学習導線・同梱切替・章案内にも回帰を加え、全記事jobは全UIクラスを実行します。これらを全記事の画面受入・実機・VoiceOver・性能合格とは区別し、[候補UIの記録](../project/records/2026-10-25/ios-published-candidate-ui.md)と各機能の記録で実行面を追跡します。
+初期の全記事候補UIでは、既存の代表3記事・目次・しおり復帰に、大図の拡大とテキスト表現、長文の深い見出しからの復帰、最大表の最終行・列を加えた5件を準備しました。その対象は01・03・08・11章の6記事に限ります。後続の学習導線・同梱切替・章案内にも回帰を加え、全記事jobは`NativeReaderUITests`と`PublishedReaderUITests`の全機能ケースを実行します。これらを全記事の画面受入・実機・VoiceOver・性能合格とは区別し、[候補UIの記録](../project/records/2026-10-25/ios-published-candidate-ui.md)と各機能の記録で実行面を追跡します。
+
+## 全記事一覧が使えるまでの性能観測
+
+[専用のHosted観測](../.github/workflows/ios-performance.yml)は、Debugの起動要求から全記事数と学習ガイドの表示確認までを`XCTClockMetric`で測ります。独立した原文件数と実Debug同梱版の監査後、専用の`PublishedPerformanceUITests`だけを実行します。通常の機能UI10件は別jobで維持します。
+
+終了処理を計測から外し、warm-up1回と記録3回を区別します。操作自動化とアクセシビリティの待ち時間を含み、監査でファイルcacheも温まるため、初回インストール・disk cold・Release・実機の起動時間ではありません。CPU・メモリ・スクロールや性能目標の合否も扱いません。
+
+生xcresult・CSV・型付きmetric・実行環境をartifactへ残します。欠測や異なるテストID、非数は失敗扱いで、ゼロに置き換えません。最初のXcode16.4出力でClockの識別子・単位を独立確認するまでは、取得できても未確認として非ゼロ終了します。生CSVの列や値の解釈と、legacy型付きmeasurementを別に扱います。[観測基盤の記録](../project/records/2026-10-25/ios-published-readiness-observation.md)で実測前の静的確認と実行結果を追跡します。
 
 ## 検証
 

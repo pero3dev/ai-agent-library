@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-25",
+  "task": "ios-published-readiness-observation",
+  "parent_PR": 261,
+  "parent_head": "bc353013ec84b202e78beeeae7396395aaac1ae0",
+  "version": "0.2.14(16)",
+  "authorization": "User autonomous TODO implementation and staged normal PR/main integration; physical acceptance may remain incomplete",
+  "status": "static-and-SDK-compile-passed-awaiting-final-independent-review-and-Hosted",
+  "source_sha256": {
+    "ios/AILibraryUITests/PublishedPerformanceUITests.swift": "ca4a6a8675aeaa62cb3f5fb0f1c6057b00cfdcfc09f3f103dcec8383e4aaf5e5",
+    ".github/workflows/ios-performance.yml": "ade26f375b74d0bd6fef52d45ec1d1c71fcbfd46ce6b54b932451068cf933627",
+    "ios/tests/export-performance.mjs": "5080108bbe0695efdb6e43ecccafd6f3bf524b8380228f23d904bcf91ecb2e12",
+    "tests/unit/ios-performance-export.test.mjs": "5bde52debb9a7f4bfe781180740920a6e0f523e1d1263a7bd9df900b9312af53",
+    "ios/AILibrary.xcodeproj/project.pbxproj": "5096b9e35855f6c88577da348dbbdbeecc49e8aef583ac002b5625b2b2da9a2f",
+    ".github/workflows/ios-published-candidate.yml": "ab2646df5c51b1f990aef656480980af2f9c593dfccefc6a022f44f93844a6b1"
+  },
+  "measurement": {
+    "metric": "declared XCTClockMetric, runtime identity not adopted",
+    "boundary": "manual start immediately before app.launch through exact full article count and learning guide readiness; termination outside",
+    "recorded_iterations": 3,
+    "warmup_discarded": 1,
+    "expected_block_invocations": 4,
+    "configuration": "Debug Simulator; fresh dedicated Hosted runner, Xcode16.4/iPhone16/iOS18.5",
+    "automation_AX_overhead": "included",
+    "file_cache": "warmed by package audit",
+    "functional_UI_selection": "NativeReaderUITests+PublishedReaderUITests=10, separate from newperformance1",
+    "budgets": "unadopted"
+  },
+  "extraction": {
+    "modern_legacy_identity": "same actual test ID, modern list/detail same result, only confirmed modern Passed/legacy Success accepted",
+    "runtime_contract": "Clock identifier/unit pending first real Hosted raw output; nonzero exit until adopted",
+    "CSV": "raw nonempty UTF8 retained before typed parse; columns/rows/value agreement unvalidated",
+    "typed": "ActionTestSummary/ActionTestPerformanceMetricSummary exactly three finite nonnegative samples and actual unit; missing never zero"
+  },
+  "validation": {
+    "common_check": {
+      "tests": 749,
+      "pass": 734,
+      "fail": 0,
+      "skip": 15,
+      "result": "passed",
+      "log": "/private/tmp/ios-performance-observation-common-check-20261025.log",
+      "sha256": "771804d346b42df4c8e417d49edf6fa260086cd149018634de36b904eb1f07a2"
+    },
+    "actionlint": {
+      "version": "1.7.12",
+      "result": "passed",
+      "scope": "native/full-functional/performance workflows"
+    },
+    "SDK": {
+      "status": "passed",
+      "reason": "Parent integrated frozen performance source and authorized one reuse of baselineSDK",
+      "command": "DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath .local/ios-baseline-sdk -jobs 2 CODE_SIGNING_ALLOWED=NO build-for-testing",
+      "new_derived_data": false,
+      "test_source_snapshots": {
+        "ios/AILibraryUITests/PublishedPerformanceUITests.swift": {
+          "sha256": "ca4a6a8675aeaa62cb3f5fb0f1c6057b00cfdcfc09f3f103dcec8383e4aaf5e5",
+          "test_methods": [
+            "testLaunchToPublishedReadiness"
+          ]
+        },
+        "ios/AILibraryUITests/NativeReaderUITests.swift": {
+          "sha256": "a0e52d073e1101f2edb884d2a0d9ddf1f7dec07c261ef4a0760d0358c8edba11",
+          "test_methods": [
+            "testThreeArticlesHaveNativeBodyText",
+            "testContentsBookmarkAndResumeAfterRelaunch"
+          ]
+        },
+        "ios/AILibraryUITests/PublishedReaderUITests.swift": {
+          "sha256": "a6fe02cf250ef9e98a752871a8aa1002c0adc7521344eede393c8924f75fe945",
+          "test_methods": [
+            "testChapter03LargeDiagramCanExpandAndShowSource",
+            "testChapter03LongArticleContentsBookmarkAndResume",
+            "testChapter08LargestTableReachesFinalRowAndColumn",
+            "testLearningTagSearchCombinesWithArticleSearchAndClearsZeroResults",
+            "testLearningRouteShowsItsInstructionChapterOrderAndArticle",
+            "testGlossarySearchRelatedArticleAndReturnPreserveReaderState",
+            "testBundledContentSelectionCancelConfirmAndRestartKeepReadingAndGuide",
+            "testRelatedChapterLinkClosesInPlaceAndOpensAnArticleWithoutLosingTheReader"
+          ]
+        }
+      },
+      "unit_method_count": 119,
+      "unit_methods_per_source": {
+        "NativeInlineTests.swift": 24,
+        "LearningIndexTests.swift": 23,
+        "LearningNavigationTests.swift": 6,
+        "SearchIndexTests.swift": 8,
+        "LibraryCoreTests.swift": 58
+      },
+      "functional_method_count": 10,
+      "performance_method_count": 1,
+      "free_disk_bytes_before": 6115336192,
+      "exit_code": 0,
+      "log": "/private/tmp/ios-performance-pbx-workflow-20261025/sdk-build-for-testing.log",
+      "log_sha256": "a5e361cc380ef014d2b1b7a828570cce54c34c92047f740b3a11e3745e4ee122",
+      "toolchain": "Xcode 16.2 (16C5032a), iOS Simulator 18.2 SDK",
+      "architectures": [
+        "arm64",
+        "x86_64"
+      ],
+      "compiled_source_lists": {
+        "AILibraryTests": {
+          "arm64": [
+            "SearchIndexTests.swift",
+            "LearningNavigationTests.swift",
+            "NativeInlineTests.swift",
+            "LibraryCoreTests.swift",
+            "LearningIndexTests.swift"
+          ],
+          "x86_64": [
+            "SearchIndexTests.swift",
+            "LearningNavigationTests.swift",
+            "NativeInlineTests.swift",
+            "LibraryCoreTests.swift",
+            "LearningIndexTests.swift"
+          ]
+        },
+        "AILibraryUITests": {
+          "arm64": [
+            "NativeReaderUITests.swift",
+            "PublishedReaderUITests.swift",
+            "PublishedPerformanceUITests.swift"
+          ],
+          "x86_64": [
+            "NativeReaderUITests.swift",
+            "PublishedReaderUITests.swift",
+            "PublishedPerformanceUITests.swift"
+          ]
+        }
+      },
+      "warnings": {
+        "count": 9,
+        "type": "Apple signed XCTest/Testing frameworks not stripped with code signing disabled",
+        "source_compile_warnings": 0
+      },
+      "errors": 0,
+      "version": "0.2.14",
+      "build": "16",
+      "sources_unchanged_after_compile": true,
+      "free_disk_bytes_after": 6092505088,
+      "tests_executed": false
+    },
+    "initial_private_static_phase": {
+      "file": "/private/tmp/ios-native-ready-performance-validation-2026-10-25.json",
+      "sha256": "43633d23923959a2bd406a960012d5bb3ea02d8bdc8a6395a6a07295a011ade6",
+      "scope": "initial private Swift/workflow/exporter20 before safe-writer findings; historical working-not-written statements limited to initial phase"
+    },
+    "safe_writer_result_guard": {
+      "file": "/private/tmp/ios-native-ready-performance-writer-fix-validation-2026-10-25.json",
+      "sha256": "325ae5fd8e521046a242f804b050a1757afc65dca5926305db9e4e5de1271687",
+      "scope": "old-source reproduction and new-source rejection/input preservation, syntax only; repo27 covered by final commoncheck"
+    },
+    "independent_exporter_regressions": {
+      "tests": 27,
+      "pass": 27,
+      "fail": 0,
+      "skip": 0,
+      "scope": "Node24/private fixtures; no performance/runtime success"
+    }
+  },
+  "review_findings": [
+    {
+      "severity": "P2",
+      "finding": "existing leaf output symlink may overwrite context on catch",
+      "status": "fixed-private-reproduction-and-27-regressions-independently-approved"
+    },
+    {
+      "severity": "P2-before-contract-adoption",
+      "finding": "modern/legacy result consistency not guarded",
+      "status": "fixed-private-reproduction-and-27-regressions-independently-approved"
+    }
+  ],
+  "Hosted": "not-run-final-head",
+  "actual_measurements": null,
+  "product_acceptance": "unadopted",
+  "physical_operations": false,
+  "normal_user_storage_touched": false,
+  "shared_generated_content_changed": false,
+  "not_measured": [
+    "disk cold",
+    "first install",
+    "Release",
+    "physical device",
+    "CPU",
+    "memory",
+    "per-key response",
+    "scrolling",
+    "image decode",
+    "product SLO"
+  ],
+  "known_inherited_runtime_failure": {
+    "PR": 258,
+    "head": "a03901c0f5fbf3d28ba2d91456747bcf0cb852cb",
+    "run": 40186338703,
+    "job": 121147813799,
+    "UI": "8passed/1failed at menu library-bundled-content missing; new performance class absent from that run",
+    "status": "separate LibraryView diagnosis; full functional acceptance not claimed"
+  },
+  "independent_source_review": "Swift/performance-workflow/exporter/test approved; PBX/functional-selector and full eleven-path final review pending"
+}

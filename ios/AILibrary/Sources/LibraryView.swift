@@ -29,7 +29,8 @@ struct LibraryView: View {
             let ids = Set(store.learningIndex?.chapters.first(where: { $0.id == selectedChapterID })?.article_ids ?? [])
             scoped = ordered.filter { ids.contains($0.id) }
         } else { scoped = ordered }
-        return filter.articles(in: scoped, bookmarks: store.bookmarks, articleTags: store.learningIndex?.article_tags ?? [:])
+        return filter.articles(in: scoped, bookmarks: store.bookmarks, articleTags: store.learningIndex?.article_tags ?? [:],
+                               searchIndex: store.searchIndex)
     }
 
     private var isFiltering: Bool { filter.isActive || selectedChapterID != nil }

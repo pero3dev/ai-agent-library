@@ -112,6 +112,8 @@ IOS-18のうち[初期失敗と利用できない記事の復旧](../../records/
 
 IOS-15の準備では[負荷の棚卸しと空検索の改善](../../records/2026-10-25/ios-empty-search-performance.md)を行った。全199記事で結果・順序を保ち、空queryの全文正規化を省いた。CLIの比較測定と、未完了の起動・検索入力・描画・メモリ・実機性能を分けて記録する。
 
+IOS-15の[全文検索索引](../../records/2026-10-25/ios-normalized-search-index.md)では、snapshotと一緒に正規化結果を保持して入力ごとの全記事変換を省く。実199記事・15queryの結果と順序を維持し、読込・取り込み・同梱選択の切替回帰とSDK compileを確認した。Mac CLIの参考値を入力遅延やappメモリと混同せず、Hosted・実機と性能受入目標は別に残す。
+
 M4の次段階では[全記事の通常同梱候補](../../records/2026-10-25/ios-published-library-profile.md)を明示modeとして追加し、独立した原文監査で全数・図説明・リンク等を照合した。既定3記事・fixture4記事を維持し、実候補アプリのUI・Release、既存取り込み版からの切替、実Mermaid再描画の再現差を別の受入単位へ残す。
 
 続いて[全記事候補のHosted UI](../../records/2026-10-25/ios-published-candidate-ui.md)を別workflowに分けた。正本の動的件数とDebug/Release実bundleを照合し、既存2件＋大図・長文・最大表の新3件を準備した。対象は01・03・08・11章の6記事に限る。初回Hostedで単体57件・Debug全数監査に成功したがUI3件が失敗し、目次到着の遮蔽とテスト操作を修正した0.2.8（10）を用意した。修正版のSDK compileと未確認のHosted再試験・全体受入を分ける。

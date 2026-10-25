@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "task": "ios-normalized-search-index-integration",
+  "date": "2026-10-25",
+  "status": "final-five-sources-approved-Mac8-SDK-common-check-passed-awaiting-Hosted",
+  "parent_PR": 258,
+  "parent_head": "004cb0a6dc1d061d97ca8e2122f0f583f8f69940",
+  "version": "0.2.11(13)",
+  "source_sha256": {
+    "ios/AILibrary/Sources/Models.swift": "f355ff9ae41e39d3c78224c097afc7e6d64ce59ac91740ee57868c56068534af",
+    "ios/AILibrary/Sources/LibraryStore.swift": "b3ee113f42aa73469a177d899839623de24d8151bfbbc0824c55d29cc0c7c41c",
+    "ios/AILibrary/Sources/LibraryView.swift": "25e9df30e9c2a86a0781fbd43857be7dce358db6b682234307718ada921b5896",
+    "ios/AILibraryTests/SearchIndexTests.swift": "3bb988b77a8d8da65ae3e401d092a3ff5cfdebbad73e11e99c5efd6fb8d98eb7",
+    "ios/AILibrary.xcodeproj/project.pbxproj": "391f31a913b5df78854d05de6c51917646b65b01d876f1cbd864b839d0694fa2"
+  },
+  "Mac_XCTest": {
+    "executed": 8,
+    "passed": 8,
+    "skipped": 0,
+    "failed": 0,
+    "source": "actual final SearchIndexTests and seven production Sources private copy",
+    "log": "/private/tmp/ios-search-index-integrated-validation/tests.log",
+    "logSHA256": "04e3c2da9b9400b74832ab980cf1e673cee08f35ec792f858547f35273c53251",
+    "initial_link_failure": "Missing official XCTestSwiftSupport linker library; corrected linker search/library only, tests/source unchanged"
+  },
+  "SDK": {
+    "result": "TEST BUILD SUCCEEDED",
+    "registered_unit_methods_compiled": 117,
+    "registered_UI_methods_compiled": 9,
+    "runtime": "not executed by SDK build",
+    "configuration": "Xcode16.2/SimulatorSDK18.2/generic Simulator/Debug/CODE_SIGNING_ALLOWED=NO/jobs2/existing baseline cache",
+    "log": "/private/tmp/ios-search-index-final-sdk-2026-10-25.log",
+    "logSHA256": "3a7e5d35e763ad755f565bf2a6cab478b4433eafd576cc62c2be7fdb66322630"
+  },
+  "source_worker_proof": "/private/tmp/ios-normalized-search-index-validation-2026-10-25.json",
+  "default_catalog_change": false,
+  "disk_cache_schema_change": false,
+  "Hosted": "pending-final-head",
+  "Release": "pending-final-head",
+  "device_VoiceOver_performance_acceptance": "not performed",
+  "corpus_comparison": {
+    "articles": 199,
+    "queries": 15,
+    "modes": [
+      "legacy per-article matching",
+      "query-once uncached filter",
+      "immutable index filter"
+    ],
+    "all_ordered_ID_digests_equal": true,
+    "revision": "f4d732eae502a7de352b13925e688e09ee2ffdce05e0b82a3281d24d509e8c03",
+    "manifest_sha256": "e1792ac1a7854d53fe6078d0365d06135791f15ab530b9621e5e2f62b3ef7577"
+  },
+  "benchmark": {
+    "compiler": "Apple Swift5.8.1, CLT, -O -whole-module-optimization",
+    "source_and_raw_root": "/private/tmp/ios-search-index-validation",
+    "harness_sha256": "fa588adc436ea9859a3a50b427bda01a64c72c497d3c9e1ea714d52e424a8ba7",
+    "measurement": "Already-audited manifest decoded directly. Separate mode processes run sequentially. One index construction sample, each query first plus five warm samples, autoreleasepool around each query work.",
+    "baseline_definition": "Candidate LibrarySearch.matches(article,query:) legacy entrypoint; equivalent refactor of PR257 behavior, not a separately linked old app binary. New uncached filter normalizes query once.",
+    "limitations": [
+      "Developer work caused substantial CPU variance, especially baseline (some query samples exceed800ms). Descriptive evidence only, no second measurement under the same competing workload.",
+      "Do not compare baseline386ms here directly with earlier160ms runtime-stage measurements; harness lifetimes/workload differ.",
+      "Index construction is one measured sample, not a median/cold launch.",
+      "RSS is whole CLI process high-water mark including manifest decode and90 searches; difference is not isolated cache size or iOS app memory.",
+      "No UIKit rendering, iOS runtime, physical device, cold disk, app input latency or acceptance target verified."
+    ],
+    "profiles": {
+      "baseline": {
+        "raw_file": "/private/tmp/ios-search-index-validation/baseline199.json",
+        "raw_sha256": "bd065ed30d0cc6ef272d7dcf8a9ec3f1d884f4bb79ba2cd3feb788bbaba2cdec",
+        "index_build_ms": 0.015875,
+        "process_peak_RSS_bytes": 17481728,
+        "sample_softmax": {
+          "query": "softmax",
+          "matching_articles": 4,
+          "ordered_IDs_sha256": "8b7fd26d376989bf30a6ab7de840724a98b1992b6ef9f705a19b3bd66e984b8c",
+          "first_ms": 193.802708,
+          "warm_median_ms": 385.806292,
+          "warm_range_ms": [
+            238.35625,
+            453.148167
+          ]
+        }
+      },
+      "indexed": {
+        "raw_file": "/private/tmp/ios-search-index-validation/indexed199.json",
+        "raw_sha256": "372c62e7e1dfbdb0f406069f0e26222a149562bbbf49c86a8a09d443bb133085",
+        "index_build_ms": 175.289458,
+        "process_peak_RSS_bytes": 19365888,
+        "sample_softmax": {
+          "query": "softmax",
+          "matching_articles": 4,
+          "ordered_IDs_sha256": "8b7fd26d376989bf30a6ab7de840724a98b1992b6ef9f705a19b3bd66e984b8c",
+          "first_ms": 27.619709,
+          "warm_median_ms": 26.745334,
+          "warm_range_ms": [
+            25.881125,
+            27.601709
+          ]
+        }
+      },
+      "uncached": {
+        "raw_file": "/private/tmp/ios-search-index-validation/uncached199.json",
+        "raw_sha256": "19918f49ea2ce046a172c4ef84c526417f372d3ce8648e4444eb7e91b158ac09",
+        "index_build_ms": 0.559709,
+        "process_peak_RSS_bytes": 17776640,
+        "sample_softmax": {
+          "query": "softmax",
+          "matching_articles": 4,
+          "ordered_IDs_sha256": "8b7fd26d376989bf30a6ab7de840724a98b1992b6ef9f705a19b3bd66e984b8c",
+          "first_ms": 186.909292,
+          "warm_median_ms": 188.861167,
+          "warm_range_ms": [
+            187.744,
+            236.844375
+          ]
+        }
+      }
+    },
+    "additional_boundary": "Only indexed mode performs full normalization before queries and warms ICU; first-query comparisons are not cold launch. Construction is a separate one-sample cost."
+  },
+  "source_worker_pre_integration_Mac7": {
+    "executed": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "log": "/private/tmp/ios-search-index-validation/tests.log",
+    "log_sha256": "e4569361d9a24388829239c7a670e12d943282a14bcc09f53f19accd46b4ae94",
+    "first_attempt": "Missing Swift XCTest overlay include path caused unresolved XCTest assertions. Repeated identical tests with official Developer/usr/lib overlay; final compile and all tests passed."
+  },
+  "authorization": "Autonomous prioritized iOS development with commits PR main; physical checks can remain incomplete",
+  "common_check": {
+    "npm_ci": "passed-ignore-scripts-after-registry-network-escalation",
+    "total": 722,
+    "passed": 707,
+    "skipped": 15,
+    "failed": 0,
+    "TMPDIR": "/private/tmp",
+    "log": "/private/tmp/ios-search-index-common-check-2026-10-25.log",
+    "dependency_audit": {
+      "low": 3,
+      "moderate": 2,
+      "high": 0,
+      "critical": 0,
+      "automatic_fix": false
+    }
+  },
+  "independent_review": "approved-final-five-sources-and-evidence"
+}

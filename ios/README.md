@@ -100,6 +100,8 @@ Debugで`TestContent`を生成していない場合は、入口で記事が含�
 
 0.2.10（12）では通常一覧の「その他の操作」から、このアプリの同梱コンテンツを確認して選べます。現在・同梱版の実際の記事数と版を表示し、確認の取消では切り替えません。成功後に一覧の一時条件だけを解除し、しおり・読書位置は保持します。保存済み版を自動で上書きせず、旧版削除や全記事の既定採用も別に扱います。[切替の記録](../project/records/2026-10-25/ios-bundled-content-activation.md)で非UI検証と未完了の画面・実機受入を区別します。
 
+0.2.11（13）では読込時に不変の全文検索索引を作り、入力ごとの全記事正規化を省きます。本文と同時に切り替え、別内容の同IDや索引にない記事は従来検索へ戻します。[検索索引の記録](../project/records/2026-10-25/ios-normalized-search-index.md)で結果等価性、Macの補助性能測定、SDK compileと未完了の実機性能を分けて示します。
+
 ## 記事の生成と更新の試験
 
 [生成CLI](../scripts/build-ios-native-content.mjs)と[変換処理](../scripts/lib/ios-native-content.mjs)は、Markdown原本と音声カタログからパッケージを作ります。[資産生成](../scripts/lib/ios-native-assets.mjs)は行内・表示数式とMermaidを明暗別PNGへ変換します。元のTeX・Mermaidと代替読み上げ文をJSONへ残し、KaTeX・Mermaid・記事のライセンスも同梱します。端末用パッケージはJSON・PNG・TXTで構成し、HTML・JS・CSS・SVG・フォントは含めません。

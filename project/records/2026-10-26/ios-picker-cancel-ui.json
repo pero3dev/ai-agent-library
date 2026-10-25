@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-26",
+  "status": "prepared-source-only; exploratory-dependent-Draft",
+  "self_pr_number": null,
+  "self_head": null,
+  "source_parent": {
+    "pr": 269,
+    "commit": "2457b070afcf4793fab1a58905e1fadb59eacd30",
+    "tree": "bfc6374a9b697ba2724faab5cb68e868bdad9999"
+  },
+  "owned_paths": [
+    "ios/AILibraryUITests/PublishedReaderUITests.swift",
+    "ios/README.md",
+    "project/plans/engineering/ios-app-completion.md",
+    "project/README.md",
+    "project/records/2026-10-26/ios-picker-cancel-ui.md",
+    "project/records/2026-10-26/ios-picker-cancel-ui.json"
+  ],
+  "authorization": "User autonomous iOS TODO implementation and recording unperformed device checks; root delegates six-path Draft preparation. No remote/ref/compiler/runtime operations by preparation agent.",
+  "source": {
+    "SHA256": "c770fdc365b3a7ea973b9b09c45553d3d5b5880caa64b0e3b6af6bb538e110db",
+    "bytes": 44095,
+    "baselineSHA256": "5638e669240cbdbaaf2b8d1323b3fbfb82ff2c93aff30d8d882ac22bca945629",
+    "old14_preserved": "Exact complete old Published source before class brace and suffix bytes preserved; Native source unchanged",
+    "source_counts_only": {
+      "Published": 13,
+      "Native": 2,
+      "functional_total": 15,
+      "performance_separate": 1,
+      "actual_registration": 0
+    },
+    "new_case": "testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions"
+  },
+  "source_review": {
+    "decision": "No blocking source finding; exploratory Draft suitable, not compiled or system-picker acceptance",
+    "path": "/private/tmp/ios-picker-cancel-candidate-20261026/review.json",
+    "SHA256": "07f3a41c8ab21222fe1a9e6f21517e93c9b9e91d23fc137eaec39cc6114c66e2"
+  },
+  "source_static_evidence": {
+    "path": "/private/tmp/ios-picker-cancel-candidate-20261026/validation.json",
+    "SHA256": "166ae42cc5df9c3a8e85e097fc2c88eb55b261323aaa5608890ff3ac4f27e868",
+    "scope": "byte/diff/source guards only; no Swift parser/typecheck"
+  },
+  "observable_scope": "Query/tag/summary/catalog count, scoped picker disappearance, no blocking content error, subsequent More/About, restart before direct bookmark/resume; not raw preference/pointer/catalog SHA equality. No folder/provider selection/import.",
+  "unobserved": [
+    "System picker AX/new bar identifier/JapaneseCancel/in-process visibility and hittability",
+    "Cancel callback semantics and no-content-error outcome",
+    "SDK typing/compile/actual15case registration and runtime",
+    "Device/VoiceOver/DynamicType"
+  ],
+  "failure_contract": "Missing/unknown/ambiguous new navigation context fails with diagnostics; no global/coordinate fallback. If cancellation exposes a content alert, retain its contents and diagnose rather than auto-dismiss or remove assertion.",
+  "actual_execution": {
+    "SDK_typecheck": 0,
+    "compile": 0,
+    "runtime_UI": 0,
+    "registration": 0,
+    "Simulator_device": 0,
+    "CI_runs": []
+  },
+  "unchanged": [
+    "All App/PBX/runtime26 source",
+    "Native helper",
+    "Previous14 assertions/selectors/gestures",
+    "Existing4CI and runtime26 smoke workflow",
+    "Performance case and previous unit source"
+  ],
+  "publication": "Main-target dependent Draft. After predecessors263-269 integrate, normal sync must leave six owned paths; exact15case/required checks and independent final review before merge.",
+  "payload_static_manifest": "<repo>/.local/ios-autonomous-evidence/picker-cancel-ui-prepared/manifest.json"
+}

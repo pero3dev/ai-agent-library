@@ -160,7 +160,7 @@ IOS-24は[現targetの独立した照合](../../records/2026-10-25/ios-native-ru
 
 IOS-26は[PR #246のHosted実行](https://github.com/pero3dev/ai-agent-library/actions/runs/40137064755)、head `d4d982ce…`で新規checkoutからの生成・監査、iOS SDK、単体52件・UI2件、Release同梱監査が成功し、完了とした。署名不要のSimulator回帰基盤としての完了であり、App Store提出環境・配布署名・実機の完了を示さない。UI2件は本文・目次・しおり・再起動復帰の基本範囲で、IOS-25の残る操作網羅は維持する。
 
-IOS-25の[絞り込み中の追加UI回帰2件](../../records/2026-10-25/ios-filtered-actions-ui.md)では、About開閉のfilter保持と、専用記事の別しおり・音声不可・2段階戻り・通常保存の永続分離を公開UIだけで検査する。通常reader再開前のrestartを入れてcached Storeだけのfalse-passを防ぐ。既存10機能ケースを保持して12件へ増やし、SDK compileを確認した。初回Hosted・fileImporterキャンセル・VO/実機とIOS-25全体の受入は未完了を維持する。
+IOS-25の[絞り込み中の追加UI回帰2件](../../records/2026-10-25/ios-filtered-actions-ui.md)では、About開閉のfilter保持と、専用記事の別しおり・音声不可・2段階戻り・通常保存の永続分離を公開UIだけで検査する。通常reader再開前のrestartを入れてcached Storeだけのfalse-passを防ぐ。既存10機能ケースを保持して12件へ増やし、SDK compileを確認した。初回Hosted・fileImporterキャンセル・VO/実機とIOS-25全体の受入は未完了を維持する。 [picker取消の追加回帰候補](../../records/2026-10-26/ios-picker-cancel-ui.md)を用意し、既存14件を保持したsource上15件を別に追跡する。実system pickerのAX・名前、compile・実登録と15件のHosted受入は未確認で、IOS-25の完了条件は変えない。
 
 IOS-10・25の[本文検索ヒットと復帰の追加2件](../../records/2026-10-26/ios-search-hit-ui-regression.md)では、入れ子leafへの即到着と、本文Aの検索後に保存したBへ再起動復帰する公開動作を確認する。旧12件を保持し機能14件へ増やす候補で、生成3/199記事の一致先と、専用一覧の検索キャンセル4行を加える前の候補までSDK型検査を確認した。現在の追加4行を含むソースは未compileで、型検査・全target build・実登録・実UI14件は新headのHosted待ちである。AX・保存タイミングとVoiceOver/実機、IOS-10・25全体は未完了を維持する。
 

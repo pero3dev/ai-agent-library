@@ -10,6 +10,8 @@
 
 絞り込み中の[補助画面と保存分離UI回帰](records/2026-10-25/ios-filtered-actions-ui.md)では、Aboutと専用記事の開閉、検索・タグ保持、通常reader再開前のrestartによる永続分離を検査する。既存10件を保って機能UI12件へ増やし、SDK compileと未実施の実UIを区別する。
 
+[フォルダー選択取消の回帰候補](records/2026-10-26/ios-picker-cancel-ui.md)では、取消後の検索・タグ・件数、補助画面の再操作と再起動後のしおり・読書位置を公開UIで検査する。既存14件を保持したsource上15件であり、実system pickerのAX・名前、compile・実登録・Hosted成功は未確認として残す。
+
 旧版と更新失敗時の[保持回帰3件](records/2026-10-25/ios-storage-retention-regression.md)では、実repositoryの3世代snapshot・後読資産、孤立版の無変更、pointer書込失敗時の既存bytesを検査する。Mac新3件とiOS単体122件のcompileを区別し、将来の削除・pin・容量管理方針の採択は残す。
 
 現行SDKへの[Archive互換性の事前検証](records/2026-10-25/ios-sdk26-archive-preflight.md)は、公開repoの標準Hosted環境でdevice Releaseと実同梱物を監査する。資格情報を使う署名・Provisioningを分け、SDK26の初回実行とStore配布・ローカルOS更新の採択を区別する。

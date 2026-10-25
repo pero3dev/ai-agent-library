@@ -608,4 +608,154 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         capture("Body-query-not-replayed-by-reading-resume")
     }
 
+    /// Only the new navigation context created by the public folder-import action
+    /// may supply cancellation. Existing library/search/More bars are excluded.
+    private func requireNewFolderPicker(after previousIDs: Set<String>) throws
+        -> (bar: XCUIElement, cancel: XCUIElement) {
+        let cancelPredicate = NSPredicate(format: "label == %@", "キャンセル")
+        func candidates() -> [XCUIElement] {
+            let bars = app.navigationBars.allElementsBoundByIndex.filter { $0.exists }
+            return bars.filter { bar in
+                let id = bar.identifier
+                guard !id.isEmpty, !previousIDs.contains(id),
+                      bars.filter({ $0.identifier == id }).count == 1 else { return false }
+                let frame = bar.frame
+                guard frame.minX.isFinite, frame.minY.isFinite,
+                      frame.width.isFinite, frame.height.isFinite,
+                      frame.width > 0, frame.height > 0,
+                      app.frame.contains(frame) else { return false }
+                let usable = bar.buttons.matching(cancelPredicate).allElementsBoundByIndex.filter {
+                    self.isHittableOnScreen($0) && frame.contains($0.frame)
+                }
+                return usable.count == 1
+            }
+        }
+        func diagnose(_ reason: String) {
+            capture("Content-folder-picker-not-identified")
+            let hierarchy = XCTAttachment(string: reason + "\n" + app.debugDescription)
+            hierarchy.name = "Content-folder-picker-identification"
+            hierarchy.lifetime = .keepAlways
+            add(hierarchy)
+        }
+        let available = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            candidates().count == 1
+        }, object: nil)
+        let result = XCTWaiter.wait(for: [available], timeout: 15)
+        guard result == .completed else {
+            diagnose("No unique new foreground folder-picker bar; empty/duplicate IDs or unknown geometry are not accepted")
+            XCTFail("The public folder import must present a uniquely identifiable foreground picker")
+            throw NSError(domain: "PublishedReaderUITests", code: 4)
+        }
+        let bars = candidates()
+        guard bars.count == 1 else {
+            diagnose("Folder-picker context became missing or ambiguous")
+            throw NSError(domain: "PublishedReaderUITests", code: 5)
+        }
+        // Rebind by the observed unique ID; a bound-by-index bar could resolve
+        // to a background library bar after the picker disappears.
+        let identifier = bars[0].identifier
+        let query = app.navigationBars.matching(identifier: identifier)
+        guard query.count == 1 else {
+            diagnose("Folder-picker navigation identifier is no longer unique")
+            throw NSError(domain: "PublishedReaderUITests", code: 8)
+        }
+        let bar = query.element(boundBy: 0)
+        let cancel = try singleHittableControl(bar.buttons.matching(cancelPredicate),
+                                              name: "folder picker cancellation")
+        guard !bar.identifier.isEmpty, !previousIDs.contains(bar.identifier),
+              bar.frame.contains(cancel.frame), isHittableOnScreen(cancel) else {
+            diagnose("Cancellation no longer belongs to the new foreground picker bar")
+            throw NSError(domain: "PublishedReaderUITests", code: 6)
+        }
+        return (bar, cancel)
+    }
+
+    func testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions() throws {
+        open("Transformer アーキテクチャ詳解", articleID: "11-llm-internals/transformer-architecture")
+        goToContents("自己注意の数式", headingID: "自己注意の数式")
+        app.buttons["しおりを追加"].tap()
+        XCTAssertTrue(app.buttons["しおりを削除"].waitForExistence(timeout: 5))
+        returnToLibrary()
+        // Establish the saved reading baseline before applying transient filters.
+        app.terminate()
+        app.launch()
+        let count = app.staticTexts["library-article-count"]
+        XCTAssertTrue(count.waitForExistence(timeout: 45))
+        XCTAssertEqual(count.label, "全\(expectedPublishedCount)記事")
+        let originalCount = count.label
+        let resume = element("library-resume")
+        XCTAssertTrue(resume.waitForExistence(timeout: 10))
+        for _ in 0..<8 where !isHittableOnScreen(resume) { app.swipeDown(velocity: .slow) }
+        requireHittable(resume)
+        let originalResume = resume.label
+        XCTAssertFalse(originalResume.isEmpty)
+
+        try setLearningTagAndArticleQuery(tag: "transformer", query: "Transformer")
+        let summary = app.staticTexts["library-filter-summary"]
+        let originalSummary = summary.label
+        let article = element("library-article-11-llm-internals/transformer-architecture")
+        XCTAssertTrue(article.waitForExistence(timeout: 10))
+        try openFilteredMoreActionsSheet()
+        let importer = app.buttons["ファイルからコンテンツを更新"]
+        requireHittable(importer)
+        let priorBars = app.navigationBars.allElementsBoundByIndex.filter { $0.exists }
+        let priorIdentifiers = priorBars.map(\.identifier)
+        guard !priorIdentifiers.isEmpty, priorIdentifiers.allSatisfy({ !$0.isEmpty }),
+              Set(priorIdentifiers).count == priorIdentifiers.count else {
+            capture("Content-folder-picker-baseline-ambiguous")
+            throw NSError(domain: "PublishedReaderUITests", code: 7,
+                          userInfo: [NSLocalizedDescriptionKey: "Cannot identify the existing navigation contexts before import: \(priorIdentifiers)"])
+        }
+        importer.tap()
+        let picker = try requireNewFolderPicker(after: Set(priorIdentifiers))
+        XCTAssertFalse(app.navigationBars["その他の操作"].exists)
+        capture("Content-folder-picker-visible-before-cancel")
+        picker.cancel.tap()
+        let closed = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            !picker.bar.exists
+        }, object: nil)
+        XCTAssertEqual(XCTWaiter.wait(for: [closed], timeout: 10), .completed)
+
+        XCTAssertTrue(summary.waitForExistence(timeout: 10))
+        XCTAssertEqual(summary.label, originalSummary)
+        XCTAssertEqual(try foregroundArticleSearch().value as? String, "Transformer")
+        XCTAssertEqual(app.buttons["library-tag-filter"].value as? String, "transformer")
+        XCTAssertTrue(article.exists)
+        XCTAssertEqual(count.label, originalCount)
+        XCTAssertFalse(app.alerts["コンテンツ"].exists, "Cancelling must not leave a blocking import error")
+        // A subsequent public operation must still be usable after cancellation.
+        try openFilteredMoreActionsSheet()
+        let about = app.buttons["このアプリについて"]
+        requireHittable(about)
+        about.tap()
+        XCTAssertTrue(app.navigationBars["このアプリについて"].waitForExistence(timeout: 10))
+        closePublicSheet("このアプリについて")
+        XCTAssertEqual(summary.label, originalSummary)
+        XCTAssertEqual(try foregroundArticleSearch().value as? String, "Transformer")
+        XCTAssertEqual(app.buttons["library-tag-filter"].value as? String, "transformer")
+        XCTAssertEqual(count.label, originalCount)
+
+        let clear = app.buttons["library-clear-filters"]
+        requireHittable(clear)
+        clear.tap()
+        let filtersCleared = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in !summary.exists }, object: nil)
+        XCTAssertEqual(XCTWaiter.wait(for: [filtersCleared], timeout: 10), .completed)
+        // Reload persistence before a reader can replace the saved position.
+        app.terminate()
+        app.launch()
+        XCTAssertTrue(count.waitForExistence(timeout: 45))
+        XCTAssertEqual(count.label, originalCount)
+        XCTAssertTrue(resume.waitForExistence(timeout: 10))
+        for _ in 0..<8 where !isHittableOnScreen(resume) { app.swipeDown(velocity: .slow) }
+        requireHittable(resume)
+        XCTAssertEqual(resume.label, originalResume)
+        resume.tap()
+        requireNativeBody()
+        XCTAssertTrue(app.navigationBars["Transformer アーキテクチャ詳解"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.buttons["しおりを削除"].waitForExistence(timeout: 10))
+        requireHittable(app.staticTexts["native-heading-自己注意の数式"],
+                        inside: app.scrollViews["native-reader"], fullyVisible: true)
+        capture("Content-folder-picker-cancel-preserves-normal-reading")
+    }
+
 }

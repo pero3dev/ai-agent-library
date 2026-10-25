@@ -84,7 +84,7 @@ Debugで`TestContent`を生成していない場合は、入口で記事が含�
 
 0.2.5（7）では[記事改訂後の復帰](../project/records/2026-10-25/ios-reading-revision-restore.md)を追加しました。旧保存を維持し、新たな保存時には本文JSONのdigestと内容の指紋を記録します。段落挿入や見出し改名後も一意に一致する本文を探し、重複・変更・削除で照合できない場合は見出し、次に近い割合へ戻ります。本文を開くだけで保存を書き換えません。block内の文字位置やpixel精度、改訂後の実機スクロールは未確認です。
 
-[Hosted Simulator CI](../.github/workflows/ios-native.yml)は記事生成・監査、全AILibraryTests、Releaseの通常manifest・全SHA・TestContent不在を追加チェックとして検査します。既存11必須チェックやmain保護設定は維持します。[実施記録](../project/records/2026-10-25/ios-native-ci.md)でhostedの実行結果とローカルSDK compileを区別し、UI試験・実機受入は別に追跡します。
+[Hosted Simulator CI](../.github/workflows/ios-native.yml)は記事生成・監査、全AILibraryTests、既存AILibraryUITests、Releaseの通常manifest・全SHA・TestContent不在を追加チェックとして検査します。既存11必須チェックやmain保護設定は維持します。[基準CIの実施記録](../project/records/2026-10-25/ios-native-ci.md)と[UI実行の追加](../project/records/2026-10-25/ios-native-ui-ci.md)で、hostedの実行結果とローカルSDK compileを区別します。UI2件は本文・目次・しおり・再起動復帰の基本範囲で、全UI・実機受入は別に追跡します。
 
 ## 記事の生成と更新の試験
 

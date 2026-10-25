@@ -2,7 +2,7 @@
   "schema_version": 1,
   "task": "ios-native-package-contract",
   "date": "2026-10-25",
-  "status": "implemented-reviewed-validated-awaiting-PR",
+  "status": "PR-open-definition-complete-awaiting-integration",
   "TODO": "IOS-19",
   "branch": "codex/ios-native-package-contract",
   "base_PR": "https://github.com/pero3dev/ai-agent-library/pull/244",
@@ -39,5 +39,7 @@
     },
     "normal_content_audit": "passed",
     "fixture_content_audit": "passed"
-  }
+  },
+  "PR": "https://github.com/pero3dev/ai-agent-library/pull/245",
+  "head": "f9c8cf39141f7a8bb49e4d5dac57c11f503e9d75"
 }

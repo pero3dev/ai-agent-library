@@ -55,7 +55,7 @@ jobs:
             node --version
             npm --version
             echo 'Simulator: iPhone 16 / iOS 18.5'
-            echo 'Scope: all AILibraryTests; UI tests and physical-device acceptance are not executed.'
+            echo 'Scope: all AILibraryTests and existing native UI smoke tests; physical-device acceptance is not executed.'
           } | tee .local/ios-ci/evidence/environment.log
       - name: Generate and audit normal and fixture packages
         run: |
@@ -69,7 +69,6 @@ jobs:
             bash ios/tests/check-core.sh --fixtures
           } 2>&1 | tee .local/ios-ci/evidence/content-and-core.log
       # This runs the XCTest unit target, including UIKit/math and audio regression.
-      # NativeReaderUITests and physical-device acceptance remain separate work.
       - name: Run native XCTest on the iPhone Simulator
         run: |
           set -euo pipefail
@@ -82,6 +81,20 @@ jobs:
             -parallel-testing-enabled NO -jobs 2 \
             -only-testing:AILibraryTests CODE_SIGNING_ALLOWED=NO test \
             2>&1 | tee .local/ios-ci/evidence/xctest.log
+      # The existing two UI tests cover nonempty bodies, TOC, bookmarks and relaunch.
+      # Offline launch, copying, internal links and legacy migration need more UI tests.
+      - name: Run native UI smoke tests on the iPhone Simulator
+        run: |
+          set -euo pipefail
+          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
+            -configuration Debug \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.5' \
+            -destination-timeout 120 \
+            -derivedDataPath .local/ios-ci/DebugDerivedData \
+            -resultBundlePath .local/ios-ci/evidence/ui.xcresult \
+            -parallel-testing-enabled NO -jobs 2 \
+            -only-testing:AILibraryUITests CODE_SIGNING_ALLOWED=NO test \
+            2>&1 | tee .local/ios-ci/evidence/xctest-ui.log
       - name: Build and verify the Release package
         run: |
           set -euo pipefail

@@ -67,8 +67,9 @@ block IDは見出しIDと内容由来のdigest等から決め、異なる段落�
 - `NativeBlock`は`id`, `type`と上表のフィールド。`NativeInline`も同様。
 - `NativeAsset`は`light`, `dark`, `width`, `height`, `scale`, `baseline: Double?`。
 - `ContentSnapshot.document(for article: LibraryArticle) throws -> NativeDocument`で検証済み本文を取得する。
-- `ReadingPosition`は従来の`heading`・`fraction`を残し、任意の`blockID`を追加する。旧JSONからもdecodeできること。
-- `ReadingStore.record(articleID:heading:fraction:blockID:)`、`LibraryStore.record(articleID:heading:fraction:blockID:)`の`blockID`はdefault nil。従来の呼び出しを維持する。
-- `ReadingStore.position(for:document:)`を用意し、旧headingから近いblockへ移せること。旧fractionだけで新しい長文レイアウトの同一位置を保証しない。
+- `ReadingPosition`は従来の`heading`・`fraction`・任意の`blockID`と保存キーを残し、任意の`anchor: NativeReadingAnchor?`を追加する。旧JSONからもdecodeできること。anchorはversion 1、本文JSONの`documentDigest`、意味内容の`blockFingerprint`・任意の`headingFingerprint`を持つ。未知・不正anchorだけを無視し、ほかの保存を失わない。
+- `ReadingStore.record(articleID:heading:fraction:blockID:anchor:)`、`LibraryStore.record(articleID:heading:fraction:blockID:anchor:)`の`blockID`・`anchor`はdefault nil。従来の呼び出しを維持する。
+- `ReadingStore.position(for:document:documentDigest:)`で検証済み本文に照合する。digestが同じならblock ID、異なるなら一意な意味内容fingerprint、同一内容が複数なら一意に照合した見出し内の一意な本文、見出し、割合の順に選ぶ。fingerprintはID・slug・生成画像のパスや寸法を含めない。旧保存はblock ID→heading→割合の従来fallbackを維持する。getterは永続記録を書き換えない。
+- 割合はblock単位の近似であり、block内の文字・pixel位置や改訂後の同一位置を保証しない。明示的な検索・fragment・目次の移動を保存位置より優先する。
 
 本文・資産の参照はmanifestと安全な相対パスへ限定し、ファイル数・本文深さ・要素数・PNG寸法等へ上限を設ける。既存のSHA検証・symlink拒否・原子的な切替を保つ。

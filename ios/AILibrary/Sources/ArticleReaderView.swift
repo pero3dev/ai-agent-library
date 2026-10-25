@@ -8,6 +8,7 @@ struct ArticleReaderView: View {
     var initialSearchQuery: String? = nil
     let navigate: (ReaderRoute) -> Void
     @State private var document: NativeDocument?
+    @State private var savedPosition = ReadingPosition(heading: nil, fraction: 0)
     @State private var searchHit: NativeSearchHit?
     @State private var loadedContentID: String?
     @State private var loadError: String?
@@ -29,6 +30,9 @@ struct ArticleReaderView: View {
     }
 
     private var contentID: String { article.id + ":" + snapshot.manifest.revision }
+    private var documentDigest: String? {
+        article.document_path.flatMap { snapshot.manifest.files[$0] }
+    }
     private var activeSearchQuery: String? {
         guard let initialSearchQuery, !LibrarySearch.normalizedTerms(initialSearchQuery).isEmpty else { return nil }
         return initialSearchQuery
@@ -60,9 +64,8 @@ struct ArticleReaderView: View {
     }
 
     private func nativeReader(_ document: NativeDocument) -> some View {
-        let saved = store.reading.position(for: article, document: document)
         return NativeReaderView(snapshot: snapshot, article: article, document: document,
-                                position: saved, initialHeading: initialHeading,
+                                position: savedPosition, initialHeading: initialHeading,
                                 requestedHeading: requestedHeading, headingRequestID: headingRequestID,
                                 onPosition: recordPosition, navigate: navigate,
                                 initialSearchHit: searchHit, searchStartsAtBeginning: activeSearchQuery != nil)
@@ -70,7 +73,11 @@ struct ArticleReaderView: View {
     }
 
     private func recordPosition(_ heading: String?, _ blockID: String?, _ fraction: Double) {
-        store.record(articleID: article.id, heading: heading, fraction: fraction, blockID: blockID)
+        let anchor = documentDigest.flatMap { digest in
+            document?.readingAnchor(blockID: blockID, documentDigest: digest)
+        }
+        store.record(articleID: article.id, heading: heading, fraction: fraction, blockID: blockID,
+                     anchor: anchor)
     }
 
     private func loadFailure(_ message: String) -> some View {
@@ -148,6 +155,8 @@ struct ArticleReaderView: View {
                 return (document, query.flatMap { document.searchHit(query: $0) })
             }.value
             guard !Task.isCancelled else { return }
+            savedPosition = store.reading.position(for: article, document: loaded.0,
+                                                  documentDigest: documentDigest)
             searchHit = loaded.1
             document = loaded.0
             loadedContentID = readerID

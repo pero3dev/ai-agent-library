@@ -93,8 +93,10 @@ final class LibraryStore: ObservableObject {
         if lastArticleID != reading.lastArticleID { lastArticleID = reading.lastArticleID }
     }
 
-    func record(articleID: String, heading: String?, fraction: Double, blockID: String? = nil) {
-        reading.record(articleID: articleID, heading: heading, fraction: fraction, blockID: blockID)
+    func record(articleID: String, heading: String?, fraction: Double, blockID: String? = nil,
+                anchor: NativeReadingAnchor? = nil) {
+        reading.record(articleID: articleID, heading: heading, fraction: fraction, blockID: blockID,
+                       anchor: anchor)
         if lastArticleID != reading.lastArticleID { lastArticleID = reading.lastArticleID }
     }
 }

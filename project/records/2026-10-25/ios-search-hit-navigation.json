@@ -3,7 +3,7 @@
   "task": "ios-search-hit-navigation",
   "date": "2026-10-25",
   "timezone": "Asia/Tokyo",
-  "status": "implemented-SDK-compiled-awaiting-PR-and-physical-acceptance",
+  "status": "PR-open-awaiting-merge-and-physical-acceptance",
   "TODO": "IOS-10",
   "base_head": "3dc5cc6dedf98da880acbb098edb5b1bdbff3383",
   "base_PR": "https://github.com/pero3dev/ai-agent-library/pull/241",
@@ -34,5 +34,7 @@
     "Table and code navigation stops at block boundary, not a matching cell/line.",
     "Character-range highlighting is not implemented.",
     "Reading persistence remains top-level container based; revision/intra-block precision is IOS-11."
-  ]
+  ],
+  "PR": "https://github.com/pero3dev/ai-agent-library/pull/242",
+  "head": "d2596980a9ea3a8f1dcfeb54fd12567052b92d97"
 }

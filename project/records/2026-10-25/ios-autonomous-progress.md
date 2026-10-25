@@ -25,3 +25,9 @@ M0レビューで、取り込んだ音声metadataの極端な時間が整数変�
 両指摘を修正し、独立した再レビューで解消を確認した。CoreSmokeは通常3記事とfixture付き4記事の双方で成功。iOS SDKのbuild-for-testingとRelease buildが成功し、Releaseは3記事・140ファイルのSHAが一致、TestContentを含まなかった。新しいXCTest3件を含むターゲットのcompileまでであり、新規XCTestの実行と実機受入は未実施。通常記事の再生成では既存の`c10353c1…`と同じ版を再現した。
 
 共通依存の監査で既存markdown-itのhighを検出したため、先に[限定依存修正PR #240](https://github.com/pero3dev/ai-agent-library/pull/240)を作成した。実CIでbase lockfileのhigh監査によるHarness policyの失敗を確認し、既存サイト依存の監査でも別のhigh・criticalを検出した。依存修正を分離して準備し、保護設定・監査の回避は行わない。接続の権限制約によりmain保護設定の詳細は取得できなかったが、branch APIでprotectedと11個の必須チェックの全員への適用を確認した。
+
+M0は責務別4コミットを[PR #241](https://github.com/pero3dev/ai-agent-library/pull/241)へ保存した。続いて検索ヒットへの移動を0.2.4（6）として[PR #242](https://github.com/pero3dev/ai-agent-library/pull/242)へ1コミットで保存し、M0をbaseにして機能差分を分けた。Foundation回帰と共通検査、42件のXCTestを含むSDK compile、独立レビューは成功した。新しい実機受入は未実施として維持する。
+
+main反映待ちの間に[記事改訂後の復帰](ios-reading-revision-restore.md)と[Hosted Simulator CI](ios-native-ci.md)を独立に進める。保存は後方互換の任意anchorを追加し、CIは既存11必須チェックと保護設定を変更しない追加jobとする。CIは[PR #243](https://github.com/pero3dev/ai-agent-library/pull/243)へ先に保存し、改訂復帰をその次のPRへ分ける。CI実装をXCTest実行済みと読み替えず、PRごとに実行結果を取得する。
+
+前提PR #240は最新head `57c96d24…`で通常検査10件が成功した。残るHarness policyはbase監査のhighによる失敗を再確認した。限定した管理者復旧の判断を本人へ依頼し、回答まで例外操作を行わない。返答待ちでも独立した機能とCIの実装・検証を続ける。

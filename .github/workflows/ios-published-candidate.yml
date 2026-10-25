@@ -68,7 +68,7 @@ jobs:
             node --version
             npm --version
             echo 'Simulator: iPhone 16 / iOS 18.5'
-            echo 'Scope: all published articles in the app, all AILibraryTests and AILibraryUITests, and Release package integrity.'
+            echo 'Scope: all published articles in the app, all AILibraryTests, NativeReaderUITests and PublishedReaderUITests, and Release package integrity.'
             echo 'This job verifies the default published development bundle; physical-device, VoiceOver and performance acceptance remain separate.'
           } | tee .local/ios-published-candidate/evidence/environment.log
       - name: Count tracked published source articles independently
@@ -135,8 +135,8 @@ jobs:
           cmp ios/AILibrary/TestContent/manifest.json "$debug_app/TestContent/manifest.json"
           bash ios/tests/check-package.sh "$debug_app/TestContent" 4 \
             2>&1 | tee .local/ios-published-candidate/evidence/debug-fixture-package.json
-      # Includes the existing two reader tests and PublishedReaderUITests.
-      - name: Run all native UI tests against the published app
+      # Keep functional UI acceptance separate from the dedicated performance suite.
+      - name: Run functional native UI tests against the published app
         env:
           TEST_RUNNER_AILIBRARY_EXPECTED_PUBLISHED_COUNT: ${{ env.PUBLISHED_ARTICLE_COUNT }}
         run: |
@@ -148,7 +148,8 @@ jobs:
             -derivedDataPath .local/ios-published-candidate/DebugDerivedData \
             -resultBundlePath .local/ios-published-candidate/evidence/ui.xcresult \
             -parallel-testing-enabled NO -jobs 2 \
-            -only-testing:AILibraryUITests CODE_SIGNING_ALLOWED=NO test \
+            -only-testing:AILibraryUITests/NativeReaderUITests \
+            -only-testing:AILibraryUITests/PublishedReaderUITests CODE_SIGNING_ALLOWED=NO test \
             2>&1 | tee .local/ios-published-candidate/evidence/xctest-ui.log
       - name: Build and verify the published Release package
         run: |

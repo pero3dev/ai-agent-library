@@ -1,11 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { existsSync, linkSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, realpathSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { exportPerformance, metricReference, normalizeMetrics, verifiedCase, verifiedDetails } from '../../ios/tests/export-performance.mjs';
+import { exportPerformance, metricReference, normalizeMetrics, validateClockCSV, verifiedCase, verifiedDetails } from '../../ios/tests/export-performance.mjs';
 
 const exporter = fileURLToPath(new URL('../../ios/tests/export-performance.mjs', import.meta.url));
 const identifier = 'PublishedPerformanceUITests/testLaunchToPublishedReadiness()';
@@ -14,8 +15,8 @@ const report = result => ({ testNodes: [{ nodeType: 'Test Suite', children: [cas
 const posixOnly = { skip: process.platform === 'win32' ? 'The xcrun executable/symlink fixture uses POSIX; no actual Xcode process runs' : false };
 
 // Legacy wire fields are documented by xcresulttool formatDescription --legacy.
-// All numeric values, units and metric identifiers below are synthetic. They do
-// not establish the identity, unit, timing or CSV schema of a real clock metric.
+// Most durations below are synthetic. The explicitly labelled 247-byte fixture
+// and Clock identity came from run40188893652, not a timing target or baseline.
 function metricSummary(samples = ['3.00', '1.00', '2.00'], unit = 'synthetic-unit') {
   return {
     _type: { _name: 'ActionTestSummary' }, identifier: { _value: identifier },
@@ -25,10 +26,32 @@ function metricSummary(samples = ['3.00', '1.00', '2.00'], unit = 'synthetic-uni
       identifier: { _value: 'unidentified.synthetic.metric' },
       displayName: { _value: 'Synthetic metric, not an identified clock' },
       unitOfMeasurement: { _value: unit },
-      measurements: { _values: samples.map(value => ({ _value: value })) },
+      baselineAverage: { _value: '0.0' }, baselineName: { _value: '' },
+      measurements: { _values: samples.map(value => ({ _type: { _name: 'Double' }, _value: value })) },
     }] },
   };
 }
+
+function clockSummary(samples) {
+  const summary = metricSummary(samples, 's'), metric = summary.performanceMetrics._values[0];
+  metric.identifier._value = 'com.apple.dt.XCTMetric_Clock.time.monotonic';
+  metric.displayName._value = 'Clock Monotonic Time';
+  return summary;
+}
+const detailsFixture = () => ({ testIdentifier: identifier, testResult: 'Passed', hasPerformanceMetrics: true,
+  devices: [{ deviceName: 'iPhone 16', platform: 'iOS Simulator', osVersion: '18.5' }],
+  testPlanConfigurations: [{ configurationId: '1', configurationName: 'Test Scheme Action' }] });
+const csvHeader = '"Destination","Configuration","Clock Monotonic Time (Average)","Clock Monotonic Time (Iterations)","Clock Monotonic Time (Baseline)"';
+const csvFixture = (overrides = {}) => {
+  const values = { destination: 'iPhone 16 iOS Simulator 18.5', configuration: 'Test Scheme Action',
+    average: '2.0000000 s', iterations: '[3.00, 1.00, 2.00]', baseline: '0', ...overrides };
+  return csvHeader + '\n' + Object.values(values).map(value => '"' + value.replaceAll('"', '""') + '"').join(',');
+};
+// Exact captured bytes, including the absence of a final newline. No output
+// bundle or host-specific path/device UUID is required by the portable tests.
+const observedCSV = csvHeader + '\n"iPhone 16 iOS Simulator 18.5","Test Scheme Action","13.6226208 s","[13.72942072, 15.904793718, 11.233647974]","0"';
+const observedSamples = ['13.72942072', '15.904793718', '11.233647974'];
+const normalizedClock = samples => normalizeMetrics(clockSummary(samples), identifier, 'Passed')[0];
 
 function reference(id = 'summary-id', testID = identifier) {
   return { _type: { _name: 'ActionTestMetadata' }, identifier: { _value: testID }, summaryRef: { id: { _value: id } } };
@@ -56,13 +79,20 @@ function runFixtureCLI(t, mode = 'complete') {
   const output = path.join(root, 'export');
   const outputs = {
     report: report('Passed'),
-    details: { testIdentifier: identifier, testResult: 'Passed', hasPerformanceMetrics: mode !== 'missing-flag' },
+    details: { ...detailsFixture(), hasPerformanceMetrics: mode !== 'missing-flag' },
     invocation: { actions: { _values: [{ actionResult: { testsRef: { id: { _value: 'plan-id' } } } }] } },
     plan: { summaries: [reference()] },
-    summary: metricSummary(mode === 'missing-sample' ? ['1', '2'] : undefined),
+    summary: clockSummary(mode === 'missing-sample' ? ['1', '2'] : undefined),
   };
   if (mode === 'legacy-status-missing') delete outputs.summary.testStatus;
   if (mode === 'legacy-status-conflict') outputs.summary.testStatus._value = 'Failure';
+  if (mode === 'foreign-metric') outputs.summary.performanceMetrics._values[0].identifier._value = 'foreign.metric';
+  if (mode === 'wrong-unit') outputs.summary.performanceMetrics._values[0].unitOfMeasurement._value = 'ms';
+  let csv = csvFixture();
+  if (mode === 'header-only') csv = csvHeader;
+  if (mode === 'different-samples') csv = csvFixture({ iterations: '[1, 3, 2]' });
+  if (mode === 'bad-rounding') csv = csvFixture({ average: '2.0000001 s' });
+  if (mode === 'invalid-csv') csv = csvFixture() + 'unquoted garbage';
   const commands = path.join(root, 'commands.jsonl');
   const mockSource = `#!/usr/bin/env node
 const { appendFileSync, linkSync, mkdirSync, symlinkSync, writeFileSync } = require('node:fs');
@@ -79,7 +109,8 @@ if (args.includes('tests') && mode.startsWith('inject-')) {
 if (args.includes('export')) {
   const out = args[args.indexOf('--output-path') + 1];
   mkdirSync(out, { recursive: true });
-  writeFileSync(path.join(out, 'raw.csv'), ['header,only', ''].join(String.fromCharCode(10)));
+  writeFileSync(path.join(out, 'raw.csv'), ${JSON.stringify(csv)});
+  if (mode === 'multiple-csv') writeFileSync(path.join(out, 'second.csv'), ${JSON.stringify(csv)});
 } else if (args.includes('tests')) console.log(JSON.stringify(fixture.report));
 else if (args.includes('test-details')) console.log(JSON.stringify(fixture.details));
 else if (args.includes('object')) {
@@ -209,18 +240,20 @@ test('CLI error reporting also refuses output ancestor symlinks', posixOnly, t =
   assert.equal(existsSync(path.join(outside, 'evidence')), false);
 });
 
-test('an unidentified foreign metric and header-only raw CSV never become accepted clock success', posixOnly, t => {
+test('the CLI accepts the verified clock identity and matching CSV without adopting a product target', posixOnly, t => {
   const value = runFixtureCLI(t);
-  assert.equal(value.run.status, 1);
-  assert.equal(value.summary.status, 'collected-pending-metric-contract-review');
-  assert.equal(value.summary.metric_contract.confirmed, false);
+  assert.equal(value.run.status, 0, value.run.stderr);
+  assert.equal(value.summary.status, 'measured-and-exported');
+  assert.equal(value.summary.metric_contract.confirmed, true);
   assert.equal(value.summary.metrics[0].sample_count, 3);
-  assert.equal(value.summary.metrics[0].identifier, 'unidentified.synthetic.metric');
-  assert.match(value.summary.csv_validation, /unvalidated/);
-  assert.equal(value.rawCSV(), 'header,only\n');
+  assert.equal(value.summary.metrics[0].identifier, 'com.apple.dt.XCTMetric_Clock.time.monotonic');
+  assert.equal(value.summary.csv_validation.status, 'matched-clock-and-typed-values');
+  assert.equal(value.summary.csv_validation.typed_mean_seconds, 2);
+  assert.equal(value.summary.acceptance_status, 'unadopted');
+  assert.equal(value.rawCSV(), csvFixture());
   const csvCommand = value.commands().find(args => args.includes('export'));
   assert.deepEqual(csvCommand.slice(0, 3), ['xcresulttool', 'export', 'metrics']);
-  assert.equal(csvCommand[csvCommand.indexOf('--test-id') + 1], identifier, 'Passed');
+  assert.equal(csvCommand[csvCommand.indexOf('--test-id') + 1], identifier);
   assert.ok(value.commands().filter(args => args.includes('object')).every(args => args.includes('--legacy')));
 });
 
@@ -229,7 +262,7 @@ test('typed-sample rejection keeps raw CSV and reports missing values as null', 
   assert.equal(value.run.status, 1);
   assert.equal(value.summary.status, 'failed-or-unavailable');
   assert.equal(value.summary.measurements, null);
-  assert.equal(value.rawCSV(), 'header,only\n');
+  assert.equal(value.rawCSV(), csvFixture());
   assert.ok(existsSync(path.join(value.output, 'test-summary.legacy.json')));
 });
 
@@ -238,7 +271,7 @@ test('an absent recorded-metrics flag is rejected after raw CSV is retained', po
   assert.equal(value.run.status, 1);
   assert.equal(value.summary.status, 'failed-or-unavailable');
   assert.equal(value.summary.measurements, null);
-  assert.equal(value.rawCSV(), 'header,only\n');
+  assert.equal(value.rawCSV(), csvFixture());
 });
 
 test('legacy Success only maps to the verified modern Passed result', () => {
@@ -260,7 +293,7 @@ test('contradictory or missing legacy status rejects the CLI result independentl
     assert.equal(value.summary.status, 'failed-or-unavailable');
     assert.match(value.summary.error, /Passed\/Success mapping/);
     assert.equal(value.summary.measurements, null);
-    assert.equal(value.rawCSV(), 'header,only\n');
+    assert.equal(value.rawCSV(), csvFixture());
   }
 });
 
@@ -342,5 +375,97 @@ test('the safe writer refuses links inserted after preparation, including its fa
     const destination = path.join(value.output, leaf);
     if (mode.includes('-hardlink')) assert.equal(lstatSync(destination).ino, lstatSync(target).ino);
     else assert.equal(lstatSync(destination).isSymbolicLink(), true);
+  }
+});
+
+test('the captured 247-byte CSV agrees with the observed typed seconds and precision', () => {
+  assert.equal(Buffer.byteLength(observedCSV), 247);
+  assert.equal(createHash('sha256').update(observedCSV).digest('hex'), '154faa23ef6bb36ff08759061026f2b183604ce8f2517eb89af315230ae79374');
+  const result = validateClockCSV(observedCSV, normalizedClock(observedSamples), detailsFixture());
+  assert.equal(result.status, 'matched-clock-and-typed-values');
+  assert.equal(result.sample_count, 3);
+  assert.equal(result.average_raw, '13.6226208 s');
+  assert.equal(result.mean_comparison.printed_decimal_scale, 7);
+  assert.equal(result.mean_comparison.half_rounding_unit_seconds, 5e-8);
+  assert.equal(result.mean_comparison.floating_epsilon_seconds, 0);
+  assert.equal(Number(result.mean_comparison.difference_numerator) / Number(result.mean_comparison.difference_denominator), 4e-9);
+  assert.equal(result.baseline_acceptance, 'unadopted');
+});
+
+test('quoted CSV accepts optional final LF or CRLF without adding a data row', () => {
+  for (const csv of [csvFixture(), csvFixture() + '\n', csvFixture().replaceAll('\n', '\r\n') + '\r\n']) {
+    assert.equal(validateClockCSV(csv, normalizedClock(), detailsFixture()).data_rows, 1);
+  }
+});
+
+test('header-only, malformed, unquoted, duplicate or extra CSV data is rejected', () => {
+  for (const csv of [csvHeader, csvFixture().replace('"Destination"', '"Elsewhere"'),
+    csvFixture().replace('"Configuration"', '"Destination"'), csvFixture() + '\n' + csvFixture().split('\n')[1],
+    csvFixture() + ',"extra"', csvFixture().slice(0, -1), csvFixture() + 'garbage',
+    csvFixture().replace('\n', '\r'), '\ufeff' + csvFixture(), csvFixture().replace('"Destination"', 'Destination'),
+    csvFixture() + '\n\n', csvFixture() + '\0']) {
+    assert.throws(() => validateClockCSV(csv, normalizedClock(), detailsFixture()));
+  }
+});
+
+test('a foreign metric ID, display name, unit or non-Double sample is refused', () => {
+  for (const override of [{ identifier: 'foreign.metric' }, { display_name: 'CPU Time' }, { unit: 'ms' }]) {
+    assert.throws(() => validateClockCSV(csvFixture(), { ...normalizedClock(), ...override }, detailsFixture()), /verified clock contract/);
+  }
+  const wrongType = clockSummary(); wrongType.performanceMetrics._values[0].measurements._values[0]._type._name = 'String';
+  assert.throws(() => normalizeMetrics(wrongType, identifier, 'Passed'), /typed Double/);
+});
+
+test('CSV destination and configuration must agree with the sole actual expected device and plan', () => {
+  for (const update of [value => { value.devices = []; }, value => { value.devices.push({ ...value.devices[0] }); },
+    value => { value.devices[0].osVersion = '18.4'; }, value => { value.devices[0].deviceName = 'iPhone 15'; },
+    value => { value.devices[0].platform = 'iOS'; }, value => { value.testPlanConfigurations = []; },
+    value => { value.testPlanConfigurations[0].configurationName = 'Other'; },
+    value => { value.testPlanConfigurations.push({ ...value.testPlanConfigurations[0] }); }]) {
+    const details = detailsFixture(); update(details);
+    assert.throws(() => validateClockCSV(csvFixture(), normalizedClock(), details));
+  }
+  for (const csv of [csvFixture({ destination: 'iPhone 15 iOS Simulator 18.5' }), csvFixture({ configuration: 'Other' })]) {
+    assert.throws(() => validateClockCSV(csv, normalizedClock(), detailsFixture()), /destination\/configuration/);
+  }
+});
+
+test('CSV iterations must match all three typed values in order, including decimal precision', () => {
+  for (const iterations of ['[1, 3, 2]', '[3, 1]', '[3, 1, 2, 4]', '[3, 1, NaN]', '[3, true, 2]',
+    '[3, 1, 2,]', '3, 1, 2', '[[3, 1, 2]]', '[3.00000000000000001, 1, 2]']) {
+    assert.throws(() => validateClockCSV(csvFixture({ iterations }), normalizedClock(), detailsFixture()));
+  }
+  assert.equal(validateClockCSV(csvFixture({ iterations: '[3.0, 1e0, 2.000]' }), normalizedClock(), detailsFixture()).sample_count, 3);
+});
+
+test('CSV average rounding allowance is exactly half of its printed last decimal place', () => {
+  const half = ['2.00000005', '2.00000005', '2.00000005'];
+  const beyond = ['2.0000000501', '2.0000000501', '2.0000000501'];
+  assert.equal(validateClockCSV(csvFixture({ iterations: '[' + half.join(', ') + ']' }), normalizedClock(half), detailsFixture()).status, 'matched-clock-and-typed-values');
+  assert.throws(() => validateClockCSV(csvFixture({ iterations: '[' + beyond.join(', ') + ']' }), normalizedClock(beyond), detailsFixture()), /half of its printed/);
+  assert.throws(() => validateClockCSV(observedCSV.replace('13.6226208 s', '13.6226209 s'), normalizedClock(observedSamples), detailsFixture()), /half of its printed/);
+  assert.throws(() => validateClockCSV(observedCSV.replace('13.6226208 s', '13.622620800000000 s'), normalizedClock(observedSamples), detailsFixture()), /half of its printed/);
+});
+
+test('invalid averages, units and baseline values cannot become zero or a product baseline', () => {
+  for (const average of ['2 ms', 'NaN s', 'Infinity s', '-1 s', '0x2 s', ' 2 s', '2  s', '2e9999 s', '0e400 s', '0e2 s']) {
+    assert.throws(() => validateClockCSV(csvFixture({ average }), normalizedClock(), detailsFixture()));
+  }
+  for (const baseline of ['NaN', '1', '', '-1']) {
+    assert.throws(() => validateClockCSV(csvFixture({ baseline }), normalizedClock(), detailsFixture()));
+  }
+  const missing = normalizedClock(); missing.baseline.average = null;
+  assert.throws(() => validateClockCSV(csvFixture(), missing, detailsFixture()));
+});
+
+test('CLI failures retain every raw CSV while rejecting header-only, foreign, inconsistent or invalid data', posixOnly, t => {
+  for (const mode of ['header-only', 'foreign-metric', 'wrong-unit', 'different-samples', 'bad-rounding', 'invalid-csv', 'multiple-csv']) {
+    const value = runFixtureCLI(t, mode);
+    assert.equal(value.run.status, 1, mode);
+    assert.equal(value.summary.status, 'failed-or-unavailable', mode);
+    assert.equal(value.summary.measurements, null, mode);
+    assert.ok(value.rawCSV().length > 0, mode);
+    assert.equal(readFileSync(value.context, 'utf8'), value.contextBytes, mode);
+    assert.equal(readFileSync(value.database, 'utf8'), value.databaseBytes, mode);
   }
 });

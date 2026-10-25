@@ -277,6 +277,45 @@ jobs:
           const put = (name, value) => writeFileSync(path.join(process.env.EVIDENCE_DIR, name), value, { flag: 'wx', mode: 0o600 });
           put('showdestinations.stdout.log', destinations.stdout ?? ''); put('showdestinations.stderr.log', destinations.stderr ?? '');
           put('showdestinations.exit.json', JSON.stringify({ exit_code: destinations.status, signal: destinations.signal, error: destinations.error?.message ?? null }) + '\n');
+          if (!(destinations.stdout ?? '').toUpperCase().includes(owned.UUID)) {
+            const project = ['-project', 'ios/AILibrary.xcodeproj', '-scheme', 'AILibrary', '-configuration', 'Debug'];
+            const timeout = 45000, maxBuffer = 2 * 1024 * 1024;
+            const diagnostics = [
+              { name: 'destination-default-build-settings', arguments: [...project, '-showBuildSettings', '-json'] },
+              { name: 'destination-simulator-listing', arguments: [...project, '-sdk', 'iphonesimulator', '-showdestinations'] },
+              { name: 'destination-owned-build-settings', arguments: [...project, '-sdk', 'iphonesimulator',
+                '-destination', `platform=iOS Simulator,id=${owned.UUID}`, '-destination-timeout', '15', '-showBuildSettings', '-json'] },
+            ];
+            const report = {
+              schema_version: 1, status: 'diagnostic-only-original-destination-guard-still-required',
+              source_head: owned.source_head, run_id: owned.run_id, run_attempt: owned.run_attempt, owned_UUID: owned.UUID,
+              original_listing_has_owned_UUID: false, additional_command_limit: 3, additional_timeout_budget_ms: 3 * timeout,
+              stdout_stderr_maxBuffer_bytes_per_command: maxBuffer, successful_diagnostic_does_not_replace_guard: true, commands: [],
+            };
+            for (const command of diagnostics) {
+              const started = Date.now();
+              let result;
+              try {
+                result = spawnSync('xcodebuild', command.arguments,
+                  { encoding: 'utf8', timeout, killSignal: 'SIGKILL', maxBuffer });
+              } catch (error) {
+                result = { status: null, signal: null, stdout: '', stderr: '', error };
+              }
+              const exit = {
+                binary: 'xcodebuild', arguments: command.arguments, timeout_ms: timeout, elapsed_ms: Date.now() - started,
+                exit_code: result.status ?? null, signal: result.signal ?? null,
+                error: result.error ? {
+                  name: result.error.name ?? null, message: result.error.message ?? String(result.error),
+                  code: result.error.code ?? null, errno: result.error.errno ?? null, syscall: result.error.syscall ?? null,
+                } : null,
+              };
+              put(`${command.name}.stdout.log`, result.stdout ?? '');
+              put(`${command.name}.stderr.log`, result.stderr ?? '');
+              put(`${command.name}.exit.json`, JSON.stringify(exit, null, 2) + '\n');
+              report.commands.push({ name: command.name, ...exit });
+            }
+            put('destination-diagnostics.json', JSON.stringify(report, null, 2) + '\n');
+          }
           assert.equal(destinations.error, undefined); assert.equal(destinations.status, 0);
           assert.ok(destinations.stdout.toUpperCase().includes(owned.UUID), 'The owned destination must be listed by this project');
           console.log(owned.UUID);

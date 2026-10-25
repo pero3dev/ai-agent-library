@@ -222,6 +222,12 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 | 更新失敗 | 壊したパッケージや取り込み中断で正常版を読める。旧schema 1を誤表示しない |
 | 音声 | ロック中の再生・停止・シーク、着信・イヤホン切断後の停止/復帰、通信断のエラーと再試行 |
 
+## SDK26のiPhoneOS Archive互換性検査
+
+[専用preflight](../.github/workflows/ios-sdk26-archive.yml)は、公開リポジトリの標準`macos-26`でXcode26.6・iOS26.5 SDKを実行時に照合し、全記事を生成してgeneric iOS向けのRelease Archiveを作る候補です。配布用の署名資格情報やProvisioningを使わず、署名が無い場合とTeam/Authorityを持たないad-hocだけを扱います。Archiveの実アプリの全SHA・本文集合・ライセンス・Privacy Manifest、SDK・最低OS17・arm64・device platform・dSYM UUID・fixture不在を監査します。
+
+ローカルMacの更新や署名済みIPAのexport、TestFlight・Store申請とは別の検査です。初回Hostedで実SDK26環境・Archive生成・actual Content監査まで成功しました。空の署名設定キーを扱うguard修正後、Archive Info全体のJSON変換で停止しました。必要な辞書のXML projectionからJSON化する限定修正を加え、実Info/Privacy・MachO/UUID/codesign監査を再検証します。[SDK26の記録](../project/records/2026-10-25/ios-sdk26-archive-preflight.md)で段階を追跡します。従来のXcode16.4・iOS18.5 Simulator回帰と最低対応OS17は維持します。
+
 ## ライセンスと通信
 
 記事は[CC BY 4.0、試作実装はMIT](../LICENSE)。生成時に原文を構造化データへ変換し、図・数式を画像化しています。KaTeXの利用条件は`assets/katex/LICENSE.txt`、Mermaidの利用条件は`assets/licenses/Mermaid-LICENSE.txt`、記事・コードのNOTICEは`assets/licenses/NOTICE.txt`へ同梱します。

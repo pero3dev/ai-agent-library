@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "task": "ios-native-learning-ui",
+  "date": "2026-10-25",
+  "status": "Core-and-UI-reviewed-final-SDK-compiled-awaiting-Hosted",
+  "authorization": "Autonomous prioritized iOS implementation with staged commits/PR/main; new physical checks may be skipped as incomplete.",
+  "base_PR": 256,
+  "base_head": "6189c6bb463252cd71cc92c56c35a4340957987e",
+  "version": "0.2.9(11)",
+  "source_sha256": {
+    "ios/AILibrary/Sources/LibraryStore.swift": "e4c250d52d56e7cfb0ba83d890b68449e72f313c697cccc146b65ea008c88497",
+    "ios/AILibrary/Sources/Models.swift": "7e0b70ab76d34d95aac1cd7b17a088c39fbdc500482bcbee1e466938fb24b57f",
+    "ios/AILibraryTests/LibraryCoreTests.swift": "e41e4b7f30ec77f9231a4e541d8c50060c262e9be5e2ddfd606bd9bb7d6d595a",
+    "ios/AILibrary/Sources/LibraryView.swift": "a548c93d764ab63b384f8d3f355b818c3a240075f4b7fd9d562e6333b31a35db",
+    "ios/AILibrary/Sources/NativeLearningViews.swift": "d14022e3a47823d307131f3a0433a4f85265cd279c0e6f0cc88183e56459bbdd",
+    "ios/AILibrary/Sources/ArticleReaderView.swift": "734b62bc57eff0fb08f136dcf7c01ee449a891f568256e949f6f5930429d987b",
+    "ios/AILibrary/Sources/NativeReaderView.swift": "d90ce0307ad5ad87b1d9531f46c170068c953d10a21172aecccdfbeefe27dcd8",
+    "ios/AILibraryUITests/PublishedReaderUITests.swift": "013e5ef5e163d1dade25e26e7feacdd5dde2ceeccbe080cc2c58eb5b5957a448",
+    "ios/AILibraryTests/LearningNavigationTests.swift": "51188e9c97fdde642d0d9563f6ed630929a61ddd18e990eaf9ff9b21b7bbe675",
+    "ios/AILibrary.xcodeproj/project.pbxproj": "5b3e3ffbca78c9f1e9470b6be1198e41d232a0dc4df996bd43b6c63de6a53f2a"
+  },
+  "core": {
+    "single_Published_bundle": true,
+    "background_validation": true,
+    "old_index_absence": "preserve-existing-body-and-controls",
+    "invalid_learning_index": "body-preserved-learning-error-only",
+    "raw_order_and_tag_helpers": true,
+    "generation_guard": true,
+    "review_P2": "commit succeeded but cancelled caller discarded Store update",
+    "review_fix": "Reject cancelled entry; publish committed success; keep read-only cancellation and stale generation guards",
+    "direct_Mac_Store_tests": {
+      "passed": 12,
+      "failed": 0
+    },
+    "real_package_checks": [
+      "old3",
+      "fixtures4",
+      "published199"
+    ],
+    "reading_and_package_bytes": "unchanged"
+  },
+  "navigation": {
+    "canonical_glossary": "https://pero3dev.github.io/ai-agent-library/glossary",
+    "known_fragment": "native-definition",
+    "no_fragment": "native-index",
+    "unknown_fragment_or_missing_index_or_other_URL": "existing-browser-fallback",
+    "typed_target": "article-heading/chapter/external-HTTPS",
+    "sheet_dispatch": "after-dismiss",
+    "fixture_scope": "preserved"
+  },
+  "UI": {
+    "chapter_order": "canonical-README-order-with-listed-scope-intersection",
+    "tags": "searchable-picker-AND-with-query-level-bookmark-chapter",
+    "routes": 8,
+    "glossary": "name-English-summary-AND; all-related-links",
+    "default3_or_fixtures4_without_index": "old-UI",
+    "existing_UI_methods": 5,
+    "new_UI_methods": 3,
+    "full_UI_methods": 8,
+    "normal_UI_methods": 2,
+    "test_root_injection": false
+  },
+  "validation": {
+    "Foundation_helper_tests": {
+      "passed": 4,
+      "failed": 0
+    },
+    "final_SDK": {
+      "result": "TEST BUILD SUCCEEDED",
+      "log": "/private/tmp/ios-native-learning-ui-final-sdk-build-2026-10-25.log",
+      "logSHA256": "984701be3c0f1ab684e2fe41c2efb989f77fcc095f631e45061d2e09ac838642",
+      "scope": "Debug app, all registered unit and UI targets; generic iOS Simulator destination; build-for-testing only.",
+      "configuration": "Xcode16.2, iOS Simulator SDK18.2, CODE_SIGNING_ALLOWED=NO, jobs2, existing .local/ios-baseline-sdk DerivedData",
+      "coreRefreezeIncluded": true,
+      "sourceChangesAfterCompile": false
+    },
+    "declared_methods_compiled": {
+      "LibraryCoreTests": 50,
+      "NativeInlineTests": 24,
+      "LearningIndexTests": 23,
+      "LearningNavigationTests": 4,
+      "NativeReaderUITests": 2,
+      "PublishedReaderUITests": 6,
+      "note": "Source method counts, not execution totals. SDK build-for-testing compiled all 101 methods without executing the full suite. Mac runs executed 12 Store regressions and four Foundation helper methods."
+    },
+    "independent_Core_review": "approved-after-cancellation-P2-fix",
+    "independent_UI_review": "approved-seven-frozen-files",
+    "Hosted": "not-run-final-head",
+    "native_UI_runtime": "not-run-final-head",
+    "VoiceOver_device_performance": "not-run",
+    "Release": "not-run-final-head",
+    "common_check": {
+      "total": 722,
+      "passed": 707,
+      "skipped": 15,
+      "failed": 0
+    }
+  },
+  "shared_generated_packages": "unchanged",
+  "default_catalog_switch": false,
+  "format": {
+    "manifest": 2,
+    "document": 1,
+    "learning_index": 1
+  },
+  "not_completed": [
+    "Hosted-unit101-and-fullUI8",
+    "new-VoiceOver-max-text-device-acceptance",
+    "performance-goals-and-measurements",
+    "default199-and-installed-package-migration",
+    "audio-catalog-rights-and-adoption",
+    "distribution-and-Store-submission",
+    "IOS14-overall-acceptance"
+  ]
+}

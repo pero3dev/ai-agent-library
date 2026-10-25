@@ -106,6 +106,8 @@ IOS-14の次の単位として、[学習案内の構造化生成](../../records/
 
 学習案内の[Swift consumerとXcode登録](../../records/2026-10-25/ios-learning-index-consumer.md)では、不在互換・型/参照/上限・SHA/安全なパスを検査するAPIと回帰を用意した。Mac直接XCTestとSDK compileを確認し、最終Hosted・Store/学習UI・実機とIOS-14全体は未完了として残す。
 
+0.2.9（11）の[ネイティブ学習UI接続](../../records/2026-10-25/ios-native-learning-ui.md)では、章順・タグ・A〜Hルート・用語集と本文を結んだ。本文と学習情報を一括適用し、import取消し後の保存先と表示の整合も修正した。Mac回帰12件とhelper4件・SDK compileを確認し、最終Hosted単体101件/全UI8件、VoiceOver・実機・性能とIOS-14全体の受入は残す。
+
 IOS-18のうち[初期失敗と利用できない記事の復旧](../../records/2026-10-25/ios-load-recovery.md)を追加した。保存を維持した再試行とimport復帰を実Storeの非UI検査で確認し、画面の操作と読み上げ・全体受入は未完了として残す。
 
 IOS-15の準備では[負荷の棚卸しと空検索の改善](../../records/2026-10-25/ios-empty-search-performance.md)を行った。全199記事で結果・順序を保ち、空queryの全文正規化を省いた。CLIの比較測定と、未完了の起動・検索入力・描画・メモリ・実機性能を分けて記録する。

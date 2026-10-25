@@ -183,6 +183,7 @@ struct NativeReaderView: View {
     let navigate: (ReaderRoute) -> Void
     var initialSearchHit: NativeSearchHit? = nil
     var searchStartsAtBeginning = false
+    var openGlossary: ((URL) -> Bool)? = nil
     @ScaledMetric(relativeTo: .body) private var bodySize: CGFloat = 17
     @Environment(\.scenePhase) private var scenePhase
     @State private var restoring = true
@@ -378,6 +379,10 @@ struct NativeReaderView: View {
         }
         guard url.scheme?.lowercased() == "https", url.host != nil,
               url.user == nil, url.password == nil else { return .discarded }
+        if openGlossary?(url) == true {
+            flushProgress()
+            return .handled
+        }
         return .systemAction(url)
     }
 }

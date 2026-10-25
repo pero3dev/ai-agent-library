@@ -6,6 +6,8 @@
 
 ## 構造・運用の計画
 
+章・タグ・学習ルート・用語集の画面接続は[ネイティブ学習UIの記録](records/2026-10-25/ios-native-learning-ui.md)で追跡する。本文と学習情報の一括公開、旧profile互換、SDK compileと未完了のHosted/実機受入を区別する。
+
 学習案内の任意JSONを読むSwiftモデルとXcode登録は[consumerの記録](records/2026-10-25/ios-learning-index-consumer.md)で追跡する。不在互換・不正データ拒否・SDK compileと、後続のStore/学習UI・Hosted実行を区別する。
 
 章順・タグ・学習ルート・用語集の構造化は[学習案内の生成記録](records/2026-10-25/ios-learning-index-generation.md)で追跡する。全記事同梱候補だけへ任意JSONを追加し、旧profile互換と原文の独立監査、後続のconsumer/UI受入を分ける。

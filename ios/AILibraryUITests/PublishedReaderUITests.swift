@@ -102,4 +102,99 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         XCTAssertEqual(lastRight.label, "○")
         capture("Published-08-table-final-row-column")
     }
+
+    private func openLearningGuide() {
+        let guide = app.buttons["library-learning-guide"]
+        for _ in 0..<8 where !isHittableOnScreen(guide) { app.swipeDown(velocity: .slow) }
+        requireHittable(guide)
+        guide.tap()
+        XCTAssertTrue(app.navigationBars["学習ガイド"].waitForExistence(timeout: 10))
+    }
+
+    func testLearningTagSearchCombinesWithArticleSearchAndClearsZeroResults() throws {
+        let tags = app.buttons["library-tag-filter"]
+        requireHittable(tags)
+        tags.tap()
+        let tagSearch = app.searchFields["タグを検索"]
+        XCTAssertTrue(tagSearch.waitForExistence(timeout: 10))
+        tagSearch.tap()
+        tagSearch.typeText("agent-loop\n")
+        let tag = app.buttons["learning-tag-agent-loop"]
+        requireHittable(tag)
+        tag.tap()
+        let summary = app.staticTexts["library-filter-summary"]
+        XCTAssertTrue(summary.waitForExistence(timeout: 10))
+        XCTAssertTrue(summary.label.contains("タグ: agent-loop"))
+        XCTAssertTrue(element("library-article-01-concepts/agent-loop").waitForExistence(timeout: 10))
+
+        let search = app.searchFields["記事の本文を検索"]
+        for _ in 0..<8 where !isHittableOnScreen(search) { app.swipeDown(velocity: .slow) }
+        requireHittable(search)
+        search.tap()
+        search.typeText("ネイティブ検証未一致872351\n")
+        XCTAssertTrue(app.staticTexts["記事が見つかりません"].waitForExistence(timeout: 10))
+        let clear = app.buttons["library-clear-empty-filters"]
+        requireHittable(clear)
+        clear.tap()
+        XCTAssertFalse(summary.exists)
+        let count = app.staticTexts["library-article-count"]
+        XCTAssertTrue(count.waitForExistence(timeout: 10))
+        XCTAssertEqual(count.label, "全\(expectedPublishedCount)記事")
+        capture("Learning-tag-zero-results-cleared")
+    }
+
+    func testLearningRouteShowsItsInstructionChapterOrderAndArticle() throws {
+        openLearningGuide()
+        app.buttons["learning-route-A"].tap()
+        XCTAssertTrue(app.navigationBars["学習ルート A"].waitForExistence(timeout: 10))
+        let instruction = app.staticTexts["learning-route-A-instruction-1"]
+        XCTAssertTrue(instruction.label.contains("を上から順に"))
+        let chapter = app.buttons["learning-route-A-step-1-link-0"]
+        requireHittable(chapter)
+        chapter.tap()
+        let summary = app.staticTexts["library-filter-summary"]
+        XCTAssertTrue(summary.waitForExistence(timeout: 10))
+        XCTAssertTrue(summary.label.contains("01 基礎概念"))
+        let firstArticle = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "library-article-")).firstMatch
+        XCTAssertEqual(firstArticle.identifier, "library-article-01-concepts/what-is-an-ai-agent")
+
+        openLearningGuide()
+        app.buttons["learning-route-A"].tap()
+        let article = app.buttons["learning-route-A-step-2-link-0"]
+        requireHittable(article)
+        article.tap()
+        requireNativeBody()
+        XCTAssertTrue(app.navigationBars.firstMatch.identifier.contains("Workflow"))
+        XCTAssertFalse(app.navigationBars["学習ルート A"].exists)
+        capture("Learning-route-article")
+    }
+
+    func testGlossarySearchRelatedArticleAndReturnPreserveReaderState() throws {
+        open("Transformer アーキテクチャ詳解", articleID: "11-llm-internals/transformer-architecture")
+        goToContents("自己注意の数式", headingID: "自己注意の数式")
+        app.buttons["しおりを追加"].tap()
+        app.buttons["reader-glossary"].tap()
+        let search = app.searchFields["用語・英語名・定義を検索"]
+        XCTAssertTrue(search.waitForExistence(timeout: 10))
+        search.tap()
+        search.typeText("Agent Loop\n")
+        let term = element("learning-term-agent-ループagent-loop")
+        requireHittable(term)
+        term.tap()
+        let definition = app.staticTexts["learning-term-definition"]
+        XCTAssertTrue(definition.waitForExistence(timeout: 10))
+        XCTAssertTrue(definition.label.contains("観測"))
+        XCTAssertTrue(definition.label.contains("行動"))
+        let related = app.buttons["learning-related-0"]
+        requireHittable(related)
+        related.tap()
+        XCTAssertTrue(app.navigationBars["Agent ループ"].waitForExistence(timeout: 10))
+        requireNativeBody()
+        XCTAssertEqual(app.navigationBars.firstMatch.identifier, "Agent ループ")
+        app.navigationBars.buttons.element(boundBy: 0).tap()
+        XCTAssertTrue(app.buttons["しおりを削除"].waitForExistence(timeout: 10))
+        requireHittable(app.staticTexts["native-heading-自己注意の数式"],
+                        inside: app.scrollViews["native-reader"], fullyVisible: true)
+        capture("Learning-glossary-reader-return")
+    }
 }

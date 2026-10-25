@@ -139,15 +139,17 @@ struct LibraryArticleFilter: Equatable, Sendable {
     var category: String?
     var level: String?
     var bookmarksOnly = false
+    var tag: String?
 
     var isActive: Bool {
-        category != nil || level != nil || bookmarksOnly || !LibrarySearch.normalizedTerms(query).isEmpty
+        category != nil || level != nil || tag != nil || bookmarksOnly || !LibrarySearch.normalizedTerms(query).isEmpty
     }
 
-    func articles(in articles: [LibraryArticle], bookmarks: Set<String>) -> [LibraryArticle] {
+    func articles(in articles: [LibraryArticle], bookmarks: Set<String>, articleTags: [String: [String]] = [:]) -> [LibraryArticle] {
         articles.filter { article in
             (category == nil || article.category == category) &&
             (level == nil || article.level == level) &&
+            (tag.map { articleTags[article.id]?.contains($0) == true } ?? true) &&
             (!bookmarksOnly || bookmarks.contains(article.id)) &&
             LibrarySearch.matches(article, query: query)
         }
@@ -161,5 +163,24 @@ struct LibraryArticleFilter: Equatable, Sendable {
         Array(Set(articles.map(\.level))).sorted()
     }
 
+    static func tags(in articles: [LibraryArticle], articleTags: [String: [String]]) -> [String] {
+        Array(Set(articles.flatMap { articleTags[$0.id] ?? [] }.filter { !$0.isEmpty })).sorted()
+    }
+
     mutating func reset() { self = Self() }
+}
+
+/// Apply a raw index order only within the caller's article scope. Unknown or
+/// repeated IDs cannot remove articles, and unlisted articles retain their order.
+enum LibraryArticleOrder {
+    static func ordered(_ articles: [LibraryArticle], articleIDs: [String]) -> [LibraryArticle] {
+        let scope = Set(articles.map(\.id))
+        var ranks: [String: Int] = [:]
+        for id in articleIDs where scope.contains(id) && ranks[id] == nil { ranks[id] = ranks.count }
+        return articles.enumerated().sorted { lhs, rhs in
+            let left = ranks[lhs.element.id] ?? Int.max
+            let right = ranks[rhs.element.id] ?? Int.max
+            return left == right ? lhs.offset < rhs.offset : left < right
+        }.map(\.element)
+    }
 }

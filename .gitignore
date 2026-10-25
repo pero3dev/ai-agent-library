@@ -33,3 +33,11 @@ website/dev-server.log
 website/test-results/
 test-results/
 website/playwright-report/
+
+# iOS試作: 記事パッケージとXcodeのローカル生成物
+ios/AILibrary/Content/
+ios/AILibrary/TestContent/
+ios/build/
+ios/DerivedData/
+ios/**/*.xcuserstate
+ios/**/xcuserdata/

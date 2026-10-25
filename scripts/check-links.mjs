@@ -10,6 +10,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { collectDocs, existsCaseSensitive, REPO_ROOT, splitLocalDestination, toRepoRel } from './lib/md-utils.mjs'
 import { parseMarkdownLinks } from './lib/markdown-links.mjs'
+import { generatedPath } from './lib/hook-core.mjs'
 
 export function collectLinkTargets(repoRoot = REPO_ROOT, { additionalFiles = [] } = {}) {
   const targets = new Map()
@@ -19,12 +20,12 @@ export function collectLinkTargets(repoRoot = REPO_ROOT, { additionalFiles = [] 
     for (const entry of readdirSync(dir, { withFileTypes: true })) {
       const abs = path.join(dir, entry.name)
       if (entry.isDirectory()) {
-        if (entry.name === 'node_modules' || entry.name.startsWith('.')) continue
+        if (entry.name === 'node_modules' || entry.name.startsWith('.') || generatedPath(toRepoRel(abs, repoRoot))) continue
         walk(abs)
       } else if (entry.isFile() && entry.name.endsWith('.md')) add(abs)
     }
   }
-  for (const dir of ['docs', 'examples', 'project', 'harness', 'scripts', '.agents', '.codex', '.claude']) walk(path.join(repoRoot, dir))
+  for (const dir of ['docs', 'examples', 'project', 'harness', 'scripts', 'ios', '.agents', '.codex', '.claude']) walk(path.join(repoRoot, dir))
   for (const entry of readdirSync(repoRoot, { withFileTypes: true })) {
     if (entry.isFile() && entry.name.endsWith('.md')) add(path.join(repoRoot, entry.name))
   }

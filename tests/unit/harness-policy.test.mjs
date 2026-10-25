@@ -8,7 +8,7 @@ import path from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { load as loadYaml } from 'js-yaml'
-import { checkHarnessPolicy, classifyPath, requiredChecks, reviewDigest, roadmapTasks } from '../../scripts/harness-policy.mjs'
+import { checkHarnessPolicy, classifyPath, isGenerated, requiredChecks, reviewDigest, roadmapTasks } from '../../scripts/harness-policy.mjs'
 import { requiredWorkflows } from '../../scripts/lib/github-policy.mjs'
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
@@ -123,6 +123,11 @@ function fixture(t, { changed = true, draft = false, sample = false, body } = {}
   const check = (options = {}) => checkHarnessPolicy({ cwd, base, head: finish(options), branch: options.branch ?? 'work/article-update', now })
   return { cwd, base, git, write, remove, tree, manifest, finish, check }
 }
+
+test('generated iOS packages are rejected consistently with hooks regardless of path case', () => {
+  for (const file of ['ios/AILibrary/Content/manifest.json', 'ios/AILibrary/TestContent/articles/test.json', 'IOS/AILIBRARY/TESTCONTENT/manifest.json']) assert.equal(isGenerated(file), true)
+  for (const file of ['ios/fixtures/native-reader.md', 'ios/AILibrary/Sources/NativeInlineText.swift']) assert.equal(isGenerated(file), false)
+})
 
 test('reviewed ordinary article updates pass with complete tasks and required CI contexts', t => {
   const f = fixture(t)

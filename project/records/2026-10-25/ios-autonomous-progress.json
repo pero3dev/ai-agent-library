@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "task": "ios-autonomous-todo-execution",
+  "date": "2026-10-25",
+  "timezone": "Asia/Tokyo",
+  "status": "active",
+  "authorization": "User requested continuing autonomously in TODO priority order after the commit/PR/main-merge plan was added.",
+  "baseline_branch": "main",
+  "baseline_HEAD": "405e29273a7a3257adeb370c6ac3196d35693d4d",
+  "repository": "pero3dev/ai-agent-library",
+  "repository_visibility": "public",
+  "default_branch": "main",
+  "current_checkpoint": "M0",
+  "checkpoints": [],
+  "excluded_actions_without_specific_authorization": [
+    "paid-account-registration",
+    "contract-acceptance",
+    "OS-upgrade",
+    "App-Store-submission",
+    "tag-or-release-publication"
+  ],
+  "validation": {
+    "core_smoke_normal": "passed",
+    "core_smoke_fixtures": "passed",
+    "sdk_build_for_testing": "passed-compilation-only",
+    "sdk_release": "passed",
+    "release_normal_articles": 3,
+    "release_hashed_files": 140,
+    "release_fixtures_absent": true,
+    "new_XCTest_cases": 3,
+    "new_XCTest_execution": "not-run",
+    "new_physical_acceptance": "not-run-user-allows-skip",
+    "npm_check": {
+      "tests": 559,
+      "passed": 544,
+      "skipped": 15,
+      "failed": 0
+    }
+  },
+  "user_required_actions": [],
+  "current_branch": "codex/ios-native-baseline",
+  "manual_device_checks_policy": "User explicitly allows skipping new physical-device checks and recording them incomplete while other work proceeds.",
+  "reviews": {
+    "pipeline": "approved; build-output writes are not atomic across I/O failures",
+    "native": "approved after numeric-bound and cache-identity fixes"
+  },
+  "source_version": "0.2.3",
+  "source_build": 5,
+  "dependency_PR": "https://github.com/pero3dev/ai-agent-library/pull/240",
+  "CI_prerequisite": "Existing trusted-base dependency audit fails, plus existing website dependency audits; no override performed."
+}

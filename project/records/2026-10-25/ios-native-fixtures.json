@@ -1,0 +1,231 @@
+{
+  "schema_version": 1,
+  "task": "ios-native-fixture-article-validation",
+  "date": "2026-10-25",
+  "timezone": "Asia/Tokyo",
+  "status": "completed-selected-fixture-acceptance",
+  "authorization": "User explicitly requested a dedicated test article for unrepresented formats and in-article links, validation, and instructions for required device operations.",
+  "baseline_app_version": "0.2.1",
+  "baseline_app_build": 3,
+  "target_app_version": "0.2.2",
+  "target_app_build": 4,
+  "normal_article_count": 3,
+  "test_package_article_count": 4,
+  "fixture_article_id": "test-fixtures/native-reader",
+  "fixture_source": "ios/fixtures/native-reader.md",
+  "normal_state_isolation_required": true,
+  "validation": {
+    "fixture_generation": {
+      "result": "passed",
+      "articles": 4,
+      "test_fixtures": 1,
+      "hashed_files": 151,
+      "pngs": 144,
+      "light_dark_pairs": 72
+    },
+    "content_audit": {
+      "result": "passed",
+      "issues": 0,
+      "native_ui_test": false,
+      "voiceover_test": false
+    },
+    "core_smoke": {
+      "normal_content": "passed",
+      "test_content": "passed"
+    },
+    "npm_check": {
+      "result": "passed",
+      "tests": 559,
+      "passed": 544,
+      "skipped": 15,
+      "failed": 0
+    },
+    "candidate_structure": {
+      "result": "passed",
+      "files": 2614,
+      "problems": 0
+    },
+    "sdk_debug_device_build": "passed",
+    "sdk_release_simulator_build": {
+      "result": "passed",
+      "simulator_booted": false,
+      "fixture_bundle_absent": true,
+      "debug_sheet_exclusive_text_absent": true
+    },
+    "sdk_debug_without_fixture_source": {
+      "result": "passed",
+      "fixture_bundle_absent": true,
+      "source_restored": true
+    },
+    "device_xctest": {
+      "result": "passed",
+      "core": 13,
+      "audio": 6,
+      "native_inline_and_navigation": 11,
+      "total": 30,
+      "failures": 0,
+      "initial_attempt": "launch-rejected-by-device-trust-before-tests",
+      "retry_after_user_opened_app": "passed"
+    },
+    "final_app": {
+      "debug_bundle_has_normal_and_test_packages": true,
+      "all_package_hashes_verified": true,
+      "xctest_plugins_absent": true,
+      "signature_and_profile": "passed",
+      "same_device_install": "passed",
+      "same_device_launch": "passed"
+    },
+    "normal_state_preservation": {
+      "reading_records_identical": true,
+      "audio_preferences_identical": true,
+      "audio_keys_checked": 3
+    },
+    "independent_code_review": {
+      "initial_finding": "old-fragment-could-replay-on-return",
+      "fix_reviewed": true,
+      "remaining_action": "return-position-user-check-passed-in-A; arrival-focus-user-check-passed-in-C"
+    },
+    "git_diff_check": "passed",
+    "final_documentation_checks": {
+      "markdown": "passed",
+      "docs_and_links": "passed",
+      "checked_links": 6247,
+      "harness": "passed"
+    },
+    "C_acceptance_documentation_checks": {
+      "markdown": "passed",
+      "docs_and_links": "passed",
+      "files": 483,
+      "links": 6246,
+      "diff_check": "passed",
+      "app_code_changed": false,
+      "SDK_tests_rerun": false
+    },
+    "closure_checks": {
+      "npm_run_check": "passed",
+      "tests": 559,
+      "passed": 544,
+      "skipped": 15,
+      "failed": 0,
+      "document_files": 483,
+      "links": 6248,
+      "candidate_structure_files": 2614,
+      "candidate_structure": "passed",
+      "git_diff_check": "passed",
+      "SDK_or_phone_tests_rerun_during_documentation_closure": false,
+      "evidence": "final-acceptance-check.log and final-acceptance-structure.json in local evidence directory"
+    }
+  },
+  "manual_acceptance": {
+    "A_links": {
+      "version": "0.2.2",
+      "build": 4,
+      "duplicate_heading_link": "DUPLICATE-SECOND-and-END-ARRIVAL-both-visible-user-clarification; target-and-block-ID-verified",
+      "selected_article_heading_links": "passed-user-report",
+      "math_and_table_links": "passed-user-report",
+      "return_position": "passed-user-report",
+      "external_links": "passed-user-report",
+      "clarification": "answered-both-markers-visible; no-wrong-target-established",
+      "duplicate_heading_TOC": "passed-user-report-in-C; FIRST-and-SECOND-markers-and-arrival-reading",
+      "same_article_near_and_file_links": "passed-user-report",
+      "end_to_start_two_links": "passed-user-report",
+      "direct_end_link": "passed-user-report-in-final-check"
+    },
+    "B_formats_copy": {
+      "version": "0.2.2",
+      "build": 4,
+      "inline_styles_breaks_rule": "passed-user-report",
+      "nested_list_and_quote": "passed-user-report",
+      "table_alignment_inline_elements_and_long_cell": "passed-user-report",
+      "three_code_block_copy_including_empty": "passed-user-report",
+      "mixed_math_link_selection_and_TeX_copy": "passed-user-report",
+      "ordinary_paragraph_selection_copy": "passed-user-report-in-final-check"
+    },
+    "C_display_voiceover": {
+      "version": "0.2.2",
+      "build": 4,
+      "maximum_dynamic_type_orientation_light_dark": "passed-user-report",
+      "heading_rotor_numbered_nested_lists_quotes_table_coordinates": "passed-user-report",
+      "duplicate_heading_TOC_and_arrival_reading": "passed-user-report",
+      "math_only_and_mixed_links_name_meaning_and_activation": "passed-user-report",
+      "math_source_actions_and_reader_controls": "passed-user-report",
+      "remote_destination_accessibility_focus": "passed-user-report"
+    },
+    "D_state_isolation": {
+      "version": "0.2.2",
+      "build": 4,
+      "test_bookmark_and_P05_resume_after_relaunch": "passed-user-report",
+      "normal_bookmark_and_resume_preserved_against_immediate_baseline": "passed-user-report",
+      "normal_three_article_list_preserved": "passed-user-report",
+      "test_audio_control_hidden_and_normal_audio_control_available": "passed-user-report",
+      "return_to_normal_library_and_restore_user_settings": "passed-user-report"
+    }
+  },
+  "not_performed": [
+    "public-article-publication",
+    "full-199-article-migration",
+    "paid-registration",
+    "OS-upgrade",
+    "App-Store-submission",
+    "user-data-deletion"
+  ],
+  "normal_content_revision": "c10353c16891efda1997cd17a698220c09d9af37092fe3a2e7691fd05999b6f4",
+  "fixture_content_revision": "15df0e08aa2597ea012970f812a4eb7fe242ff626d4e6d0f17b62888b258e60a",
+  "limitations": [
+    "No physical tap, native layout, selection or VoiceOver success is inferred from the automated tests.",
+    "No new UI automation attempt; prior UI Automation initialization timeout remains recorded separately.",
+    "Actual phone-call audio interruption remains untested.",
+    "Fixture covers selected missing cases and does not establish full published-corpus support."
+  ],
+  "local_evidence_directory": ".local/ios-fixture-evidence/",
+  "followup_scope": {
+    "purpose": "Investigate and correct the reported duplicate heading arrival without changing article data or user records.",
+    "owners": {
+      "parent": "data mapping audit, integration, SDK checks, deployment and records",
+      "renderer": "read-only scroll diagnosis first; code changes only after approach agreed"
+    },
+    "checks": [
+      "generated heading/target and block ID uniqueness",
+      "appropriate navigation regression tests",
+      "common checks",
+      "iOS SDK build/test and user device recheck"
+    ],
+    "permissions": "Existing same-iPhone signing/test/install authorization persists.",
+    "outcome": "IDs and targets verified. Intended duplicate marker was visible; duplicate TOC and VoiceOver arrival later passed in C. No renderer changes needed for the reported end-area display. All remaining requested fixture checks now passed by user report.",
+    "code_changes": false,
+    "new_SDK_or_device_tests": false
+  },
+  "acceptance_recording_scope": {
+    "purpose": "Finalize fixture A-D and final two checks, synchronize TODO/README records, and run final checks.",
+    "owner": "Parent edits record, JSON, checklist, iOS README, project README and engineering TODO; independent agent audits completion statuses read-only.",
+    "changes": "Documentation only; no new app/package/user-state mutations.",
+    "checks": "Final npm run check, candidate structure, JSON and diff checks. Documentation-only closure; no additional SDK or phone actions."
+  },
+  "manual_acceptance_completion": {
+    "date": "2026-10-25",
+    "result": "all-requested-fixture-checks-passed-by-user-report",
+    "version": "0.2.2",
+    "build": 4,
+    "scope": "Selected representative articles and the dedicated missing-format/link fixture, not the full published corpus."
+  },
+  "completion_review": {
+    "mode": "independent-read-only-record-comparison",
+    "result": "approved-for-selected-scope",
+    "completed_TODOs": [
+      "IOS-07",
+      "IOS-08",
+      "IOS-12"
+    ],
+    "remaining_TODOs": [
+      "IOS-10:search-hit-body-location",
+      "IOS-11:revision-and-intra-block-position"
+    ],
+    "evidence_versions": [
+      "0.2.0 (2):old-record-preservation-and-basic-resume",
+      "0.2.1 (3):three-article-offline-audio-display-and-VoiceOver",
+      "0.2.2 (4):missing-format-link-fixture-and-storage-isolation"
+    ],
+    "all_cases_rerun_on_one_version": false,
+    "recorded_after_final_D_answers": true
+  }
+}

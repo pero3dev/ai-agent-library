@@ -6,6 +6,8 @@
 
 ## 構造・運用の計画
 
+章・難易度のネイティブ一覧絞り込みは[実施記録](records/2026-10-25/ios-category-level-filter.md)で追跡する。検索・しおりとのANDと解除を追加し、タグ・学習ルート等の残件を分ける。
+
 全published記事の一時生成とconsumer監査は[全記事の生成記録](records/2026-10-25/ios-all-article-package.md)で追跡する。通常3記事・fixture4記事を保ち、全記事の画面・性能・実機受入を残す。
 
 検索結果からネイティブ本文の一致位置へ移動する作業は[0.2.4の実施記録](records/2026-10-25/ios-search-hit-navigation.md)と[PR #242](https://github.com/pero3dev/ai-agent-library/pull/242)で追跡する。正規化AND検索を維持し、入れ子の本文位置と保存用の位置を分けた。Foundation回帰とSDK compileを確認し、新たな実機受入はユーザー指定により未実施として残す。前提PRのmain反映待ちと、機能の検証を分けて進める。

@@ -130,3 +130,35 @@ enum LibrarySearch {
             .filter { seen.insert($0).inserted }
     }
 }
+
+/// Transient list conditions. Apply these to the store's visible article scope,
+/// so the normal library and the separate reader-test library stay isolated.
+struct LibraryArticleFilter: Equatable, Sendable {
+    var query = ""
+    var category: String?
+    var level: String?
+    var bookmarksOnly = false
+
+    var isActive: Bool {
+        category != nil || level != nil || bookmarksOnly || !LibrarySearch.normalizedTerms(query).isEmpty
+    }
+
+    func articles(in articles: [LibraryArticle], bookmarks: Set<String>) -> [LibraryArticle] {
+        articles.filter { article in
+            (category == nil || article.category == category) &&
+            (level == nil || article.level == level) &&
+            (!bookmarksOnly || bookmarks.contains(article.id)) &&
+            LibrarySearch.matches(article, query: query)
+        }
+    }
+
+    static func categories(in articles: [LibraryArticle]) -> [String] {
+        Array(Set(articles.map(\.category))).sorted()
+    }
+
+    static func levels(in articles: [LibraryArticle]) -> [String] {
+        Array(Set(articles.map(\.level))).sorted()
+    }
+
+    mutating func reset() { self = Self() }
+}

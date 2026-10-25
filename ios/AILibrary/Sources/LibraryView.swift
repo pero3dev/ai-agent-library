@@ -3,8 +3,7 @@ import UniformTypeIdentifiers
 
 struct LibraryView: View {
     @ObservedObject var store: LibraryStore
-    @State private var query = ""
-    @State private var bookmarksOnly = false
+    @State private var filter = LibraryArticleFilter()
     @State private var importPresented = false
     @State private var aboutPresented = false
     @State private var path: [ReaderRoute] = []
@@ -14,19 +13,52 @@ struct LibraryView: View {
     #endif
 
     private var articles: [LibraryArticle] {
-        store.listedArticles.filter {
-            (!bookmarksOnly || store.bookmarks.contains($0.id)) && LibrarySearch.matches($0, query: query)
-        }
+        filter.articles(in: store.listedArticles, bookmarks: store.bookmarks)
     }
 
     private var searchQuery: String? {
-        LibrarySearch.normalizedTerms(query).isEmpty ? nil : query
+        LibrarySearch.normalizedTerms(filter.query).isEmpty ? nil : filter.query
+    }
+
+    private var filterSummary: String {
+        var conditions: [String] = []
+        if let category = filter.category { conditions.append("章: \(category)") }
+        if let level = filter.level { conditions.append("難易度: \(level)") }
+        if filter.bookmarksOnly { conditions.append("しおり") }
+        if searchQuery != nil { conditions.append("検索: \(filter.query)") }
+        return conditions.joined(separator: "、")
+    }
+
+    private func clearFilters() { filter.reset() }
+
+    @ViewBuilder private var filterMenu: some View {
+        Picker("章", selection: $filter.category) {
+            Text("すべての章").tag(String?.none)
+            ForEach(LibraryArticleFilter.categories(in: store.listedArticles), id: \.self) { category in
+                Text(category).tag(Optional(category))
+            }
+        }
+        Picker("難易度", selection: $filter.level) {
+            Text("すべての難易度").tag(String?.none)
+            ForEach(LibraryArticleFilter.levels(in: store.listedArticles), id: \.self) { level in
+                Text(level).tag(Optional(level))
+            }
+        }
+        if filter.isActive {
+            Button("絞り込みをすべて解除", systemImage: "line.3.horizontal.decrease.circle") { clearFilters() }
+        }
     }
 
     var body: some View {
         NavigationStack(path: $path) {
             List {
-                if let last = store.listedArticles.first(where: { $0.id == store.lastArticleID }), query.isEmpty, !bookmarksOnly {
+                if filter.isActive {
+                    Section("絞り込み中") {
+                        Text(filterSummary).font(.subheadline)
+                        Button("絞り込みをすべて解除") { clearFilters() }
+                    }
+                }
+                if let last = store.listedArticles.first(where: { $0.id == store.lastArticleID }), !filter.isActive {
                     Section {
                         NavigationLink(value: ReaderRoute(articleID: last.id)) {
                             Label {
@@ -45,7 +77,10 @@ struct LibraryView: View {
                                 Text(article.title).font(.headline)
                                 Text(article.summary).font(.subheadline).foregroundStyle(.secondary).lineLimit(3)
                                 HStack(alignment: .firstTextBaseline) {
-                                    Text(article.category).font(.caption).foregroundStyle(.secondary)
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text("章: \(article.category)")
+                                        Text("難易度: \(article.level)")
+                                    }.font(.caption).foregroundStyle(.secondary)
                                     Spacer()
                                     if store.allowsAudioPlayback, article.audio_id != nil { Image(systemName: "headphones").accessibilityLabel("音声あり") }
                                     if store.bookmarks.contains(article.id) { Image(systemName: "bookmark.fill").accessibilityLabel("しおりあり") }
@@ -54,24 +89,30 @@ struct LibraryView: View {
                         }
                     }
                 } header: {
-                    Text(bookmarksOnly ? "しおり" : "記事")
+                    Text(filter.bookmarksOnly ? "しおり" : "記事")
                 } footer: {
                     if store.isTestLibrary {
                         Text("表示確認用の記事です。通常のしおりや読書位置とは別に保存します。")
                     } else if let snapshot = store.snapshot {
-                        Text("\(snapshot.manifest.articles.count)記事・オフライン試作")
+                        Text("\(articles.count)件表示・全\(snapshot.manifest.articles.count)記事・オフライン試作")
                     }
                 }
             }
             .overlay {
                 if store.isLoading { ProgressView("コンテンツを確認中") }
                 else if articles.isEmpty {
-                    ContentUnavailableView(bookmarksOnly ? "しおりはありません" : "記事が見つかりません", systemImage: bookmarksOnly ? "bookmark" : "magnifyingglass")
+                    ContentUnavailableView {
+                        Label("記事が見つかりません", systemImage: filter.bookmarksOnly ? "bookmark" : "magnifyingglass")
+                    } description: {
+                        if filter.isActive { Text("章・難易度・検索・しおりの条件を変えてお試しください。") }
+                    } actions: {
+                        if filter.isActive { Button("絞り込みをすべて解除") { clearFilters() } }
+                    }
                 }
             }
             .disabled(store.isLoading)
             .navigationTitle(store.isTestLibrary ? "本文表示テスト" : "AI Agent Library")
-            .searchable(text: $query, prompt: "記事の本文を検索")
+            .searchable(text: $filter.query, prompt: "記事の本文を検索")
             .toolbar {
                 if store.isTestLibrary {
                     ToolbarItem(placement: .topBarLeading) {
@@ -79,11 +120,18 @@ struct LibraryView: View {
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button { bookmarksOnly.toggle() } label: {
-                        Image(systemName: bookmarksOnly ? "bookmark.fill" : "bookmark")
+                    Menu { filterMenu } label: {
+                        Image(systemName: filter.category != nil || filter.level != nil ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
                     }
-                    .accessibilityLabel(bookmarksOnly ? "すべての記事を表示" : "しおりの記事を表示")
-                    .accessibilityAddTraits(bookmarksOnly ? [.isSelected] : [])
+                    .accessibilityLabel("記事の絞り込み")
+                    .accessibilityValue(filterSummary.isEmpty ? "すべての記事" : filterSummary)
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button { filter.bookmarksOnly.toggle() } label: {
+                        Image(systemName: filter.bookmarksOnly ? "bookmark.fill" : "bookmark")
+                    }
+                    .accessibilityLabel(filter.bookmarksOnly ? "しおりの絞り込みを解除" : "しおりの記事を表示")
+                    .accessibilityAddTraits(filter.bookmarksOnly ? [.isSelected] : [])
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {

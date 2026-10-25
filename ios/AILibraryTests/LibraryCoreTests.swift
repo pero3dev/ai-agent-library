@@ -40,9 +40,10 @@ final class LibraryCoreTests: XCTestCase {
         return root
     }
 
-    private func article(isTestFixture: Bool? = nil) -> LibraryArticle {
-        LibraryArticle(id: "example", title: "ＡＩ エージェント", summary: "日本語の学習", category: "基礎", level: "beginner", last_updated: "2026-10-22",
-                       source_path: "docs/example.md", source_sha256: String(repeating: "a", count: 64), document_path: "articles/example.json", search_text: "Tools API えーじぇんと",
+    private func article(id: String = "example", category: String = "基礎", level: String = "beginner",
+                         searchText: String = "Tools API えーじぇんと", isTestFixture: Bool? = nil) -> LibraryArticle {
+        LibraryArticle(id: id, title: "ＡＩ エージェント", summary: "日本語の学習", category: category, level: level, last_updated: "2026-10-22",
+                       source_path: "docs/example.md", source_sha256: String(repeating: "a", count: 64), document_path: "articles/example.json", search_text: searchText,
                        headings: [ArticleHeading(id: "intro", title: "導入", level: 2)], audio_id: nil, is_test_fixture: isTestFixture)
     }
 
@@ -99,6 +100,62 @@ final class LibraryCoreTests: XCTestCase {
         XCTAssertTrue(LibrarySearch.matches(article(), query: "ｴｰｼﾞｪﾝﾄ"))
         XCTAssertTrue(LibrarySearch.matches(article(), query: "エージェント tools"))
         XCTAssertFalse(LibrarySearch.matches(article(), query: "tools unknown"))
+    }
+
+    func testArticleFilterCombinesCategoryLevelSearchAndBookmarks() {
+        let articles = [article(id: "match", category: "concepts", level: "basic"),
+                        article(id: "other-level", category: "concepts", level: "advanced"),
+                        article(id: "other-category", category: "foundations", level: "basic"),
+                        article(id: "other-text", category: "concepts", level: "basic", searchText: "別の本文"),
+                        article(id: "not-bookmarked", category: "concepts", level: "basic")]
+        let bookmarks: Set<String> = ["match", "other-level", "other-category", "other-text"]
+        let filter = LibraryArticleFilter(query: "ＴＯＯＬＳ api", category: "concepts", level: "basic", bookmarksOnly: true)
+        XCTAssertEqual(filter.articles(in: articles, bookmarks: bookmarks).map(\.id), ["match"])
+
+        var changed = filter
+        changed.bookmarksOnly = false
+        XCTAssertEqual(changed.articles(in: articles, bookmarks: bookmarks).map(\.id), ["match", "not-bookmarked"])
+        changed = filter
+        changed.category = nil
+        XCTAssertEqual(changed.articles(in: articles, bookmarks: bookmarks).map(\.id), ["match", "other-category"])
+        changed = filter
+        changed.level = nil
+        XCTAssertEqual(changed.articles(in: articles, bookmarks: bookmarks).map(\.id), ["match", "other-level"])
+        changed = filter
+        changed.query = ""
+        XCTAssertEqual(changed.articles(in: articles, bookmarks: bookmarks).map(\.id), ["match", "other-text"])
+    }
+
+    func testArticleFilterResetRestoresOrderAfterNoResults() {
+        let articles = [article(id: "second"), article(id: "first", category: "concepts", level: "expert")]
+        var filter = LibraryArticleFilter(query: "unmatched", category: "removed", level: "advanced", bookmarksOnly: true)
+        XCTAssertTrue(filter.isActive)
+        XCTAssertTrue(filter.articles(in: articles, bookmarks: ["first"]).isEmpty)
+        filter.reset()
+        XCTAssertFalse(filter.isActive)
+        XCTAssertNil(filter.category)
+        XCTAssertNil(filter.level)
+        XCTAssertFalse(filter.bookmarksOnly)
+        XCTAssertEqual(filter.query, "")
+        XCTAssertEqual(filter.articles(in: articles, bookmarks: ["first"]).map(\.id), ["second", "first"])
+        filter.query = " \t\n　"
+        XCTAssertFalse(filter.isActive)
+        XCTAssertEqual(filter.articles(in: articles, bookmarks: []).map(\.id), ["second", "first"])
+    }
+
+    func testArticleFilterOptionsKeepUnknownValuesAndUseOnlySuppliedScope() {
+        let normal = [article(id: "one", category: "concepts", level: "basic"),
+                      article(id: "two", category: "foundations", level: "future-level"),
+                      article(id: "three", category: "concepts", level: "basic")]
+        let fixtureOnly = [article(id: "test-fixtures/native-reader", category: "テスト", level: "fixture-level", isTestFixture: true)]
+        XCTAssertEqual(LibraryArticleFilter.categories(in: normal), ["concepts", "foundations"])
+        XCTAssertEqual(LibraryArticleFilter.levels(in: normal), ["basic", "future-level"])
+        XCTAssertEqual(LibraryArticleFilter.categories(in: fixtureOnly), ["テスト"])
+        XCTAssertEqual(LibraryArticleFilter.levels(in: fixtureOnly), ["fixture-level"])
+        XCTAssertEqual(LibraryArticleFilter(level: "future-level").articles(in: normal, bookmarks: []).map(\.id), ["two"])
+        XCTAssertTrue(LibraryArticleFilter(category: "テスト").articles(in: normal, bookmarks: []).isEmpty)
+        XCTAssertTrue(LibraryArticleFilter.categories(in: []).isEmpty)
+        XCTAssertTrue(LibraryArticleFilter.levels(in: []).isEmpty)
     }
 
     private func searchDocument() -> NativeDocument {

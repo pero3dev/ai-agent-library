@@ -32,6 +32,7 @@ import { articleMarkdown } from '../lib/article-markdown.mjs'
 import { copyFileForRoute } from '../lib/article-copy.mjs'
 import { observationReport } from '../../scripts/freshness-observation-report.mjs'
 import { generatedContentLoaderSource } from '../lib/nextra-generated-loader.mjs'
+import { generatedLayoutSource } from '../lib/nextra-generated-layout.mjs'
 import { readmeArticleOrder, rewriteMarkdownRoutes } from '../lib/markdown-routes.mjs'
 import { forEachLine, parseFrontMatter, parseTagsArray, toLines, unquote } from '../../scripts/lib/md-utils.mjs'
 
@@ -372,6 +373,7 @@ async function main() {
   await writeFile(path.join(GEN_DIR, 'mermaid-charts.json'), JSON.stringify(Object.fromEntries(charts), null, 2), 'utf8')
   await writeFile(path.join(GEN_DIR, 'freshness.json'), JSON.stringify(observationReport(REPO_ROOT, { today: new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo' }).format(new Date()) }), null, 2), 'utf8')
   await writeFile(path.join(GEN_DIR, 'nextra-loader.mjs'), generatedContentLoaderSource(), 'utf8')
+  await writeFile(path.join(GEN_DIR, 'nextra-layout.mjs'), generatedLayoutSource(), 'utf8')
   const sectionsJson = sections.map(s => ({
     slug: s.slug,
     num: s.dirName.slice(0, 2),

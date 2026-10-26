@@ -543,11 +543,7 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         let target = app.staticTexts["native-text-" + blockID]
         requireHittable(target, inside: reader, fullyVisible: true, file: file, line: line)
         let arrived = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
-            guard self.isHittableOnScreen(target, inside: reader, fullyVisible: true) else { return false }
-            let visible = reader.staticTexts.matching(NSPredicate(format: "identifier BEGINSWITH %@", "native-text-"))
-                .allElementsBoundByIndex.filter { self.hasVisibleFrameForPolling($0, inside: reader, fullyVisible: true) }
-                .sorted { $0.frame.minY < $1.frame.minY }
-            return visible.first?.identifier == target.identifier
+            self.firstFullyVisibleNativeParagraphMatches(target, inside: reader)
         }, object: nil)
         let result = XCTWaiter.wait(for: [arrived], timeout: 15)
         if result != .completed { capture("Search-hit-paragraph-not-at-reading-start") }

@@ -235,5 +235,68 @@
       "iOS18.5 row163 failure",
       "minimum-iOS17 missing destination failure"
     ]
+  },
+  "current_followup": {
+    "source_head": "3dbdfe4512de9948074fcb74151f2422818bf214",
+    "status": "source3db-runtime26-Native2-passed-full-and-site-failed-actual-main-snapshot-sync-exact-head-pending",
+    "runtime26": {
+      "run": 40225552342,
+      "job": 121266028072,
+      "UI_pass": 2,
+      "actual_inset_values": "not-observed",
+      "artifact": 12611902287
+    },
+    "native": {
+      "run": 40225552390,
+      "registered": 133,
+      "pass": 131,
+      "skip": 2,
+      "UI_pass": 2,
+      "Release": "success"
+    },
+    "full": {
+      "run": 40225552378,
+      "job": 121266028236,
+      "unit_pass": 131,
+      "unit_skip": 2,
+      "UI_pass": 13,
+      "UI_registered": 14,
+      "failure": "A first-visible predicate; before any corrective reader gesture",
+      "Release": "skipped"
+    },
+    "site_build": {
+      "job": 121266027994,
+      "failure": "mobile hidden locator matched two graph canvases",
+      "repair": "wait exact1 using default timeout before existing hidden assertion",
+      "actual_new_Playwright": "not-run"
+    },
+    "other_head_generation_failure": {
+      "head": "238e5e9968ff669f191cf3ee62db9d9a6f14378f",
+      "run": 40226683838,
+      "job": 121269430717,
+      "UI": 0,
+      "reason": "generation/audit step2min timeout"
+    },
+    "next_workflow": {
+      "generation_minutes": 4,
+      "other_commands_unchanged": true,
+      "job_minutes": 40,
+      "UI_minutes": 8,
+      "outer_cap_cleanup_guarantee": false
+    },
+    "comparison_basis": {
+      "tree": "80abdee0d3a2e9148849a114bb8ffe2c8f354682",
+      "object_type": "verified-actual-main-commit-tree",
+      "expected_own_paths": 8,
+      "public_parent": "656c234582bbe76b852b394eae4d6f6837f0ce04",
+      "source_parent": "3dbdfe4512de9948074fcb74151f2422818bf214",
+      "actual_main_tree_matches_preview": true
+    },
+    "source_reviews": {
+      "budget_SHA256": "da004f8c39f2dd3db1c5fca5cb5ef83d9e90d18e49789dd85e80166db0c97fd2",
+      "graph_SHA256": "d6d55d05f26b95573306dc2a7b1ea64c001235c4200c9d9a682beb317b206024"
+    },
+    "new_actual_checks": "not-run; ordinary/native/full20/SDK26/runtime26/Release required",
+    "physical": "skipped-incomplete-by-user-instruction"
   }
 }

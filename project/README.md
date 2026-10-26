@@ -6,11 +6,11 @@
 
 ## 構造・運用の計画
 
+[フォルダー選択取消の追随preview](records/2026-10-26/ios-picker-cancel-ui.md)では、旧238eのfull run40226683804/job121269430760でunit133件（131成功・2skip）と機能UI14/15成功を確認した履歴を保持する。本文検索Aとpicker取消138.720秒は成功し、Bは最初の到着で失敗してTOC/save/restartへ未到達だった。新snapshot helperを保持したPub41c3＋Nativebcafは機能15件＋geometry6件のsource計21件となるが、新snapshot/full/native/runtime26・生成budget・site待機・Releaseは正確な新headで未実施である。実main269 `750a305a82c6ff7882de46fdf7889c81925c509e`（tree `7636f378ecd8e8202cd2d9c8c9e89e2aa85b875d`）へ固有6pathをbindした私有候補で、独立最終レビューと正確な新headのCIを待つ。公開PR270 head238eは未変更である。
+
 [本文検索の到着と復帰](records/2026-10-26/ios-search-hit-ui-regression.md)では、入れ子の特定段落への移動と、別位置を保存した後に旧queryを再実行しない動作を公開UIで検査する。既存12件を保持した追加2件を、型検査と実UIに分けて追跡する。
 
 絞り込み中の[補助画面と保存分離UI回帰](records/2026-10-25/ios-filtered-actions-ui.md)では、Aboutと専用記事の開閉、検索・タグ保持、通常reader再開前のrestartによる永続分離を検査する。既存10件を保って機能UI12件へ増やし、SDK compileと未実施の実UIを区別する。
-
-[フォルダー選択取消の回帰候補](records/2026-10-26/ios-picker-cancel-ui.md)は旧fd26の機能UI13/15成功・2失敗を記録し、実観測したsystem barへ束縛するv2を用意する。旧14件と全往復assertを保持したsource15件で、限定SDK型検査は成功した。新269の本文修正を保全し、本文検索A565・v2取消往復・combined sourceの実登録/実UIはHosted待ちである。
 
 旧版と更新失敗時の[保持回帰3件](records/2026-10-25/ios-storage-retention-regression.md)では、実repositoryの3世代snapshot・後読資産、孤立版の無変更、pointer書込失敗時の既存bytesを検査する。Mac新3件とiOS単体122件のcompileを区別し、将来の削除・pin・容量管理方針の採択は残す。
 
@@ -54,7 +54,7 @@
 
 既存のネイティブUI試験2件のHosted実行は[専用のCI追加記録](records/2026-10-25/ios-native-ui-ci.md)で追跡する。通常3記事の本文とTransformerの目次・しおり・再起動復帰を確認し、未対象のオフライン・コピー・内部リンク等のUI受入を区別する。
 
-[新runtimeの代表UI検査準備](records/2026-10-26/ios-runtime26-smoke.md)では、標準public macos-26の同梱iOS26.5・iPhone17で既存2件を独立実行するCIを用意する。実inventoryからの選定と専用UUIDのcleanup、静的検査の成功を記録し、実runtime schema・boot・UI・cleanupはすべて未確認として残す。現行OSや最低OS・実機の受入とは分ける。
+[新runtimeの代表UI検査](records/2026-10-26/ios-runtime26-smoke.md)では、標準public macos-26の同梱iOS26.5・iPhone17で既存2件を独立実行する。初期の静的準備に続き、head3dbでは実inventory・boot・Native2件・Debug監査・所有UUID削除が成功した。別の全記事UIとサイトbuildの失敗を保持し、検索判定・生成予算・サイト待機を修正する新headの検証は残す。現行OS・最低OS・実機の受入へ転用しない。
 
 [runtimeの照合記録](records/2026-10-25/ios-native-runtime-audit.md)では、現行app targetに旧WebKit・HTML/JS bridge・blockerが残っていないことを確認した。再利用する生成parserと比較用旧HTMLツールを保持したままIOS-24を完了とし、UI・実機の全体受入を別に残す。
 

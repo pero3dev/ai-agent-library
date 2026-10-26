@@ -134,6 +134,10 @@ jobs:
         run: |
           set -euo pipefail
           debug_app='.local/ios-published-candidate/DebugDerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app'
+          if ! node ios/tests/capture-built-app-icon.mjs "$debug_app" \
+            --output .local/ios-published-candidate/evidence/published-debug-icon-inputs; then
+            printf '%s\n' 'AppIcon diagnostic capture failed; continuing required icon audit.' >&2
+          fi
           node ios/tests/check-built-app-icon.mjs "$debug_app" --required-scales 3 \
             2>&1 | tee .local/ios-published-candidate/evidence/debug-app-icon.json
           cmp ios/AILibrary/Content/manifest.json "$debug_app/Content/manifest.json"
@@ -170,6 +174,10 @@ jobs:
           node ios/tests/check-release-package.mjs \
             .local/ios-published-candidate/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
             2>&1 | tee .local/ios-published-candidate/evidence/release-package.json
+          if ! node ios/tests/capture-built-app-icon.mjs .local/ios-published-candidate/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
+            --output .local/ios-published-candidate/evidence/published-release-icon-inputs; then
+            printf '%s\n' 'AppIcon diagnostic capture failed; continuing required icon audit.' >&2
+          fi
           node ios/tests/check-built-app-icon.mjs \
             .local/ios-published-candidate/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
             --required-scales 2,3 \

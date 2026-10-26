@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "date": "2026-10-26",
-  "status": "private-prepared-icon23-awaiting-independent-final-payload-review",
+  "status": "initial-Hosted-built-icon-acceptance-failed; bounded diagnostic preparation",
   "preview_only": true,
   "publishable": false,
   "source_basis": {
@@ -21,10 +21,10 @@
     "new_actual_CI_or_SDK_evidence": 0
   },
   "scope": {
-    "source_asset_helper_PBX": 12,
+    "source_asset_helper_PBX": 13,
     "Hosted_helper_tests_package_workflows": 6,
     "minimal_docs": 5,
-    "total_paths": 23,
+    "total_paths": 24,
     "proposed_version": "0.2.17(19)",
     "basis_version": "0.2.16(18)",
     "PBX_structural_delta": "approved asset6 fields plus four version values; total10",
@@ -117,6 +117,17 @@
       "historical_old_static_checks": "Historical earlier23 freeze recorded source check/Node13/YAML3/Bash39/MD4/JSON5/links273 success. Those source check/Node13 receipts are retained history only; this PR275 rebind does not rerun either.",
       "new_receipts": "Current PR275 rebind checks source/PNG byte bindings, YAML/Bash workflow insertion reversal, Markdown/JSON/links, trusted-main public-records/canonical metadata, and private trees only. Historical source check/Node13 logs are rehashed unchanged; new invocations0.",
       "new_Node13_or_source_check_execution": 0
+    },
+    "initial_main30a_preparation_scope": {
+      "source_asset_helper_PBX": 12,
+      "Hosted_helper_tests_package_workflows": 6,
+      "minimal_docs": 5,
+      "total_paths": 23,
+      "proposed_version": "0.2.17(19)",
+      "basis_version": "0.2.16(18)",
+      "PBX_structural_delta": "approved asset6 fields plus four version values; total10",
+      "IOS29_complete": false,
+      "TODO_checkbox_changes": 0
     }
   },
   "preparation": {
@@ -140,5 +151,76 @@
     "Home/Store/physical/VoiceOver/max-text/rotation/distribution acceptance"
   ],
   "IOS29_complete": false,
-  "normalization_or_budget_adoption": null
+  "normalization_or_budget_adoption": null,
+  "current_scope": {
+    "parent": "1f07778791e3fc24464ed2512a9944639788bee5",
+    "owned_current_paths": 6,
+    "collector": 1,
+    "CI": 3,
+    "records": 2,
+    "cumulative_from_main": 24,
+    "version": "0.2.17(19)",
+    "production_source_PBX_PNG_changes": 0
+  },
+  "initial_Hosted_observation": {
+    "head": "1f07778791e3fc24464ed2512a9944639788bee5",
+    "SDK26": {
+      "run": 40301396609,
+      "job": 121499884040,
+      "Archive": "succeeded",
+      "built_icon_audit": "failed Missing required iPhone60@3x PNG",
+      "acceptance": false
+    },
+    "full": {
+      "run": 40301396664,
+      "job": 121499884429,
+      "stage": "Debug built icon audit",
+      "same_failure": true,
+      "UI": "not reached",
+      "Release": "not reached",
+      "units": {
+        "registered": 153,
+        "passed": 151,
+        "private_skip": 2,
+        "failure": 0
+      }
+    },
+    "artifact": {
+      "id": 12640846633,
+      "ZIP_bytes": 97178,
+      "SHA256": "f7148b10da598773b9444502be3b28df01facde52e3e895f969a54a6312a6a78",
+      "memory_only": true,
+      "CRC_entries": 45,
+      "actual_App_Info_CAR_PNG_bytes_present": false,
+      "icon_result": "error1line"
+    },
+    "observed_loose_output": [
+      "AppIcon60x60@2x.png",
+      "Assets.car"
+    ],
+    "CAR_internal_180_rendition": "unknown",
+    "no_unchanged_head_retry": true
+  },
+  "diagnostic_preparation": {
+    "status": "new collector+CI3 privately preparing; exact source/tree/head/run pending",
+    "product_acceptance": false,
+    "original_required_scales_and_primary_validator": "unchanged",
+    "source_PNG_PBX_and_App": "unchanged",
+    "capture_failure_does_not_skip_primary_audit": true,
+    "outputs": "bounded actual Info/loosePNG/car hash and official assetutil output; no rawApp/CAR copy",
+    "collector_SHA256": "2e23fc5607a9232c75d2ac31c26561a87e776b0ef70b1a9d1e7e15ffd976592c",
+    "actual_new_head": null,
+    "actual_new_run": null,
+    "local_SDK_actool_Simulator": 0,
+    "new_CI_budgets": "unchanged",
+    "physical_QA": "skip authorized; incomplete",
+    "private_validation": {
+      "author_VM_cases": 27,
+      "Root_independent_VM_cases": 30,
+      "real_collector_child_calls": 0,
+      "CI_inverse_exact": 3,
+      "CI_control_mock_phases": 5,
+      "record_API_final_review": "pending"
+    }
+  }
 }

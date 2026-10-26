@@ -112,6 +112,10 @@ jobs:
       - name: Audit AppIcon metadata in the actual Debug app
         run: |
           set -euo pipefail
+          if ! node ios/tests/capture-built-app-icon.mjs .local/ios-ci/DebugDerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app \
+            --output .local/ios-ci/evidence/native-debug-icon-inputs; then
+            printf '%s\n' 'AppIcon diagnostic capture failed; continuing required icon audit.' >&2
+          fi
           node ios/tests/check-built-app-icon.mjs \
             .local/ios-ci/DebugDerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app \
             --required-scales 3 \
@@ -141,6 +145,10 @@ jobs:
           node ios/tests/check-release-package.mjs \
             .local/ios-ci/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
             | tee .local/ios-ci/evidence/release-package.json
+          if ! node ios/tests/capture-built-app-icon.mjs .local/ios-ci/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
+            --output .local/ios-ci/evidence/native-release-icon-inputs; then
+            printf '%s\n' 'AppIcon diagnostic capture failed; continuing required icon audit.' >&2
+          fi
           node ios/tests/check-built-app-icon.mjs \
             .local/ios-ci/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
             --required-scales 2,3 \

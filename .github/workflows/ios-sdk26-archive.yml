@@ -184,6 +184,10 @@ jobs:
         run: |
           set -euo pipefail
           app='.local/ios-sdk26/AILibrary.xcarchive/Products/Applications/AILibrary.app'
+          if ! node ios/tests/capture-built-app-icon.mjs "$app" \
+            --output "$EVIDENCE_DIR/archive-icon-inputs"; then
+            printf '%s\n' 'AppIcon diagnostic capture failed; continuing required icon audit.' >&2
+          fi
           node ios/tests/check-built-app-icon.mjs "$app" --required-scales 2,3 \
             2>&1 | tee "$EVIDENCE_DIR/archive-app-icon.json"
           node ios/tests/check-release-package.mjs "$app" 2>&1 | tee "$EVIDENCE_DIR/release-package.json"

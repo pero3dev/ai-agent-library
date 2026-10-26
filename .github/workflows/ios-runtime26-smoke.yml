@@ -28,7 +28,7 @@ jobs:
     # Exact public-repository gate is evaluated before allocating a standard VM.
     if: github.repository == 'pero3dev/ai-agent-library' && github.event.repository.private == false
     runs-on: macos-26
-    # Explicit step caps total42min, including4min cleanup and2min artifact upload.
+    # Explicit step caps total48min, including4min cleanup and2min artifact upload.
     # UI is followed immediately by owned cleanup. Cancelled app/result audits skip.
     # Forced cancellation/runner loss can still interrupt cleanup or upload.
     timeout-minutes: 40
@@ -198,7 +198,7 @@ jobs:
           bash ios/tests/check-package.sh ios/AILibrary/Content 3 2>&1 | tee "$EVIDENCE_DIR/representative-consumer.json"
           bash ios/tests/check-package.sh ios/AILibrary/TestContent 4 2>&1 | tee "$EVIDENCE_DIR/fixture-consumer.json"
       - name: Create and boot this job's dedicated Simulator
-        timeout-minutes: 4
+        timeout-minutes: 6
         id: simulator
         run: |
           set -euo pipefail
@@ -211,10 +211,10 @@ jobs:
           const evidence = process.env.EVIDENCE_DIR;
           const put = (name, value) => writeFileSync(path.join(evidence, name), value, { flag: 'wx', mode: 0o600 });
           const json = (name, value) => put(name, JSON.stringify(value, null, 2) + '\n');
-          const run = (name, args) => {
-            const result = spawnSync('xcrun', ['simctl', ...args], { encoding: 'utf8', timeout: 120000, maxBuffer: 16 * 1024 * 1024 });
+          const run = (name, args, timeoutMs = 120000) => {
+            const result = spawnSync('xcrun', ['simctl', ...args], { encoding: 'utf8', timeout: timeoutMs, maxBuffer: 16 * 1024 * 1024 });
             put(name + '.stdout.log', result.stdout ?? ''); put(name + '.stderr.log', result.stderr ?? '');
-            json(name + '.exit.json', { binary: 'xcrun', arguments: ['simctl', ...args], exit_code: result.status, signal: result.signal, error: result.error?.message ?? null });
+            json(name + '.exit.json', { binary: 'xcrun', arguments: ['simctl', ...args], timeout_ms: timeoutMs, exit_code: result.status, signal: result.signal, error: result.error?.message ?? null });
             assert.equal(result.error, undefined, name); assert.equal(result.status, 0, name);
             return result.stdout.trim();
           };
@@ -242,7 +242,7 @@ jobs:
           assert.match(uuid, uuidPattern); assert.ok(!preexisting.includes(uuid.toUpperCase()));
           json('owned-simulator.json', { ...intent, UUID: uuid.toUpperCase(), creation_exit_code: 0 });
           run('boot-simulator', ['boot', uuid]);
-          run('bootstatus-simulator', ['bootstatus', uuid, '-b']);
+          run('bootstatus-simulator', ['bootstatus', uuid, '-b'], 240000);
           const afterBoot = JSON.parse(run('devices-after-boot', ['list', 'devices', '--json']));
           assert.ok(afterBoot.devices && typeof afterBoot.devices === 'object' && !Array.isArray(afterBoot.devices));
           const matches = Object.entries(afterBoot.devices).flatMap(([runtime, rows]) => {
@@ -255,7 +255,7 @@ jobs:
           assert.equal(matches[0].device.isAvailable, true);
           NODE
       - name: Run only the existing two native UI smoke cases
-        timeout-minutes: 8
+        timeout-minutes: 12
         id: ui
         run: |
           set -euo pipefail
@@ -264,17 +264,58 @@ jobs:
           import { spawnSync } from 'node:child_process';
           import { readFileSync, writeFileSync } from 'node:fs';
           import path from 'node:path';
-          const owned = JSON.parse(readFileSync(path.join(process.env.EVIDENCE_DIR, 'owned-simulator.json'), 'utf8'));
+          const evidence = process.env.EVIDENCE_DIR;
+          const put = (name, value) => writeFileSync(path.join(evidence, name), value, { flag: 'wx', mode: 0o600 });
+          const json = (name, value) => put(name, JSON.stringify(value, null, 2) + '\n');
+          const read = name => JSON.parse(readFileSync(path.join(evidence, name), 'utf8'));
+          const owned = read('owned-simulator.json'), intent = read('owned-simulator-intent.json'), selection = read('selection.json');
+          const uuidPattern = /^[A-F0-9]{8}(?:-[A-F0-9]{4}){3}-[A-F0-9]{12}$/;
           assert.equal(owned.creation_exit_code, 0); assert.equal(owned.source_head, process.env.EXPECTED_SOURCE_HEAD);
           assert.equal(owned.run_id, process.env.GITHUB_RUN_ID); assert.equal(owned.run_attempt, process.env.GITHUB_RUN_ATTEMPT);
-          assert.match(owned.UUID, /^[A-F0-9]{8}(?:-[A-F0-9]{4}){3}-[A-F0-9]{12}$/);
+          assert.equal(owned.repository, process.env.GITHUB_REPOSITORY); assert.match(owned.UUID, uuidPattern);
+          assert.match(owned.token, /^[a-f0-9-]{36}$/);
+          assert.equal(owned.name, `AILibrary-runtime26-${owned.run_id}-${owned.run_attempt}-${owned.token}`);
+          assert.deepEqual(owned, { ...intent, UUID: owned.UUID, creation_exit_code: 0 });
+          assert.equal(selection.status, 'selected-from-actual-inventory');
+          assert.equal(selection.source_head, process.env.EXPECTED_SOURCE_HEAD);
+          assert.equal(owned.runtime_identifier, selection.runtime.identifier);
+          assert.equal(owned.device_type_identifier, selection.device_type.identifier);
+          assert.ok(Array.isArray(owned.preexisting_UUIDs)); assert.ok(!owned.preexisting_UUIDs.includes(owned.UUID));
           const destinations = spawnSync('xcodebuild', ['-showdestinations', '-project', 'ios/AILibrary.xcodeproj', '-scheme', 'AILibrary'],
             { encoding: 'utf8', timeout: 120000, maxBuffer: 16 * 1024 * 1024 });
-          const put = (name, value) => writeFileSync(path.join(process.env.EVIDENCE_DIR, name), value, { flag: 'wx', mode: 0o600 });
           put('showdestinations.stdout.log', destinations.stdout ?? ''); put('showdestinations.stderr.log', destinations.stderr ?? '');
           put('showdestinations.exit.json', JSON.stringify({ exit_code: destinations.status, signal: destinations.signal, error: destinations.error?.message ?? null }) + '\n');
+          json('showdestinations.json', { schema_version: 1, status: 'diagnostic-only', owned_UUID: owned.UUID,
+            owned_uuid_listed: (destinations.stdout ?? '').toUpperCase().includes(owned.UUID) });
           assert.equal(destinations.error, undefined); assert.equal(destinations.status, 0);
-          assert.ok(destinations.stdout.toUpperCase().includes(owned.UUID), 'The owned destination must be listed by this project');
+          // Unbound listing is diagnostic. The exact UUID test below owns the bounded destination lookup.
+          const args = ['simctl', 'list', 'devices', '--json'], timeoutMs = 30000, maxBuffer = 16 * 1024 * 1024;
+          json('devices-before-test.intent.json', { schema_version: 1, binary: 'xcrun', arguments: args,
+            timeout_ms: timeoutMs, max_buffer_bytes: maxBuffer, run_id: owned.run_id,
+            run_attempt: owned.run_attempt, source_head: owned.source_head, owned_UUID: owned.UUID });
+          let current;
+          try { current = spawnSync('xcrun', args, { encoding: 'utf8', timeout: timeoutMs, killSignal: 'SIGKILL', maxBuffer }); }
+          catch (error) { current = { status: null, signal: null, stdout: '', stderr: '', error }; }
+          put('devices-before-test.stdout.log', current.stdout ?? ''); put('devices-before-test.stderr.log', current.stderr ?? '');
+          json('devices-before-test.exit.json', { binary: 'xcrun', arguments: args, exit_code: current.status,
+            signal: current.signal, error: current.error?.message ?? (current.error === undefined ? null : String(current.error)) });
+          assert.equal(current.error, undefined); assert.equal(current.status, 0);
+          const inventory = JSON.parse(current.stdout);
+          assert.ok(inventory.devices && typeof inventory.devices === 'object' && !Array.isArray(inventory.devices));
+          const devices = Object.entries(inventory.devices).flatMap(([runtime, rows]) => {
+            assert.ok(Array.isArray(rows)); return rows.map(device => {
+              assert.match(device.udid.toUpperCase(), uuidPattern); return { runtime, device };
+            });
+          });
+          assert.equal(new Set(devices.map(({ device }) => device.udid.toUpperCase())).size, devices.length);
+          const matches = devices.filter(({ device }) => device.udid.toUpperCase() === owned.UUID);
+          assert.equal(matches.length, 1, 'Exactly one owned UUID must remain before the test');
+          assert.equal(matches[0].runtime, owned.runtime_identifier); assert.equal(matches[0].device.name, owned.name);
+          assert.equal(matches[0].device.deviceTypeIdentifier, owned.device_type_identifier);
+          assert.equal(matches[0].device.state, 'Booted'); assert.equal(matches[0].device.isAvailable, true);
+          json('owned-simulator-before-test.json', { schema_version: 1, status: 'owned-identity-revalidated',
+            run_id: owned.run_id, run_attempt: owned.run_attempt, source_head: owned.source_head,
+            UUID: owned.UUID, runtime_identifier: matches[0].runtime, device: matches[0].device });
           console.log(owned.UUID);
           NODE
           )"

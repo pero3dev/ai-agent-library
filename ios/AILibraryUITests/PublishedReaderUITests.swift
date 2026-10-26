@@ -774,4 +774,70 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         capture("Content-folder-picker-cancel-preserves-normal-reading")
     }
 
+
+    // IOS-11 prototype regressions; SDK compilation/execution remain pending.
+    func testFixtureTallSingleBlockResumesNearItsMeasuredInternalRowAfterRelaunch() throws {
+        func openFixtureLibrary() throws {
+            try setLearningTagAndArticleQuery(tag: "transformer", query: "Transformer")
+            try openFilteredMoreActionsSheet()
+            let action = app.buttons["本文表示テスト"]
+            requireHittable(action)
+            action.tap()
+            XCTAssertTrue(app.navigationBars["本文表示テスト"].waitForExistence(timeout: 45))
+            let count = try singleHittableControl(app.staticTexts.matching(identifier: "library-article-count"),
+                                                  name: "fixture article count")
+            XCTAssertEqual(count.label, "全1記事")
+        }
+        try openFixtureLibrary()
+        let article = element("library-article-test-fixtures/native-reader")
+        requireHittable(article)
+        article.tap()
+        requireNativeBody()
+        goToContents("CASE-INTRABLOCK-01", headingID: "case-intrablock-01")
+        let reader = app.scrollViews["native-reader"]
+        let tables = reader.scrollViews.matching(NSPredicate(format:
+            "identifier BEGINSWITH %@ AND label CONTAINS %@", "native-table-", "データ40行、2列"))
+        XCTAssertTrue(tables.firstMatch.waitForExistence(timeout: 10))
+        XCTAssertEqual(tables.count, 1, "The fixture must expose exactly one forty-row block")
+        let table = tables.element(boundBy: 0)
+        let blockID = String(table.identifier.dropFirst("native-table-".count))
+        XCTAssertFalse(blockID.isEmpty)
+        let middle = element("native-table-cell-\(blockID)-25-1")
+        for _ in 0..<18 where !isHittableOnScreen(middle, inside: reader, fullyVisible: true) {
+            reader.swipeUp(velocity: .slow)
+        }
+        requireHittable(middle, inside: reader, fullyVisible: true)
+        XCTAssertEqual(middle.label, "INTRABLOCK-R25")
+        let originalY = middle.frame.minY
+        let rowHeight = middle.frame.height
+        XCTAssertTrue(originalY.isFinite && rowHeight.isFinite && rowHeight > 0)
+        capture("Intra-block-middle-before-departure")
+        let back = app.navigationBars["ネイティブ本文テスト専用記事"].buttons.element(boundBy: 0)
+        requireHittable(back)
+        back.tap()
+        let leftReader = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            !self.app.scrollViews["native-reader"].exists
+        }, object: nil)
+        XCTAssertEqual(XCTWaiter.wait(for: [leftReader], timeout: 10), .completed)
+        XCTAssertTrue(app.navigationBars["本文表示テスト"].exists)
+        app.terminate()
+        app.launch()
+        XCTAssertTrue(app.staticTexts["library-article-count"].waitForExistence(timeout: 45))
+        try openFixtureLibrary()
+        let resume = try singleHittableControl(app.buttons.matching(identifier: "library-resume"), name: "fixture resume")
+        resume.tap()
+        XCTAssertTrue(reader.waitForExistence(timeout: 20))
+        XCTAssertTrue(app.navigationBars["ネイティブ本文テスト専用記事"].waitForExistence(timeout: 10))
+        // No corrective scrolling or TOC operation after restart may hide a
+        // top-only restore. The same row must already be near the old viewport.
+        requireHittable(middle, inside: reader, fullyVisible: true)
+        XCTAssertEqual(middle.label, "INTRABLOCK-R25")
+        XCTAssertLessThanOrEqual(abs(middle.frame.minY - originalY), rowHeight,
+                                "Same-layout restoration must stay within the previously measured row height")
+        XCTAssertFalse(hasVisibleFrame(element("native-table-cell-\(blockID)-1-1"), inside: reader))
+        capture("Intra-block-middle-after-relaunch")
+        app.navigationBars["ネイティブ本文テスト専用記事"].buttons.element(boundBy: 0).tap()
+        XCTAssertTrue(app.navigationBars["本文表示テスト"].waitForExistence(timeout: 10))
+        closePublicSheet("本文表示テスト")
+    }
 }

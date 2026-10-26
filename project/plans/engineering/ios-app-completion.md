@@ -89,6 +89,8 @@ Developer Programは年額99 USDまたは提供地域の現地通貨。日本円
 
 0.2.5（7）の[IOS-11実装](../../records/2026-10-25/ios-reading-revision-restore.md)では、旧保存を維持する任意anchorを追加し、本文digestと意味内容fingerprintで改訂前後を照合する。一意な本文、見出し内の一意な本文、見出し、割合へ順にfallbackし、読取時は保存を書き換えない。CoreSmoke通常・fixture、50件のXCTestを含むSDK compile、Release監査と独立レビューを確認した。続くHosted実行でも50件・失敗0とRelease監査が成功した。実機受入とblock内の精度は未完了としてIOS-11を維持する。
 
+0.2.16（18）の[IOS-11 block内部位置の実装候補](../../records/2026-10-26/ios-intrablock-reading-progress.md)では、旧保存を維持した任意anchorに有限な相対位置を加え、実top/end markerで得た高さから復帰する。意味内容で同じblockと確認できた場合だけ内部位置を再利用し、見出し・割合fallbackでは破棄する。自動復帰失敗時の旧位置保持、未達の明示目的地のlayout再起動持越し、最新panとVoiceOver focusの整合をproduction stateの回帰候補に含めた。承認済みv3 codeの旧SDK4段階（App16module・Core/Inline型検査・既存2CLI compile）は成功した。新snapshot/pickerを合わせたPublishedは未compileで、unit152・機能16＋pure geometry6＝22 selectedはsource数である。実main270へbindし、exact-head CI・実登録/XCTest/UI、最大文字・回転・改訂後の実位置・VoiceOver・実機を未確認としてIOS-11は未完了を保つ。 実main270 `955c066c8dc0fdbedf6f0c845a461abda39ac476`（tree `9d2525e28ce3d9b6659eeac57b0b6f910e7e262b`）へbindした私有候補である。親PR270 head85d9のunit133（131成功＋2skip）・full21・Releaseと全15check成功は親の履歴で、新P1 unit152／UI22の実登録・実行は未確認とする。独立review後にrootがDraftへ反映してCIを実行し、必要exact-head CI成功までmainへ統合しない。 Published CIのjob上限だけ40分から50分へ調整し、selector・個別15秒・assert・commandは維持する。これはCI実行上限で製品性能budgetではない。
+
 IOS-25・26の[CI実装](../../records/2026-10-25/ios-native-ci.md)は[PR #243](https://github.com/pero3dev/ai-agent-library/pull/243)へ分けた。生成・監査と全AILibraryTests、Releaseのfixture除外を追加チェックで確認する。hostedの実行結果が揃うまでは実行成功へ変えず、UI試験と実機受入も別に残す。既存11必須チェックと保護設定は変更しない。
 
 続く[UI実行の追加](../../records/2026-10-25/ios-native-ui-ci.md)では既存2件をunit後のstrictなstepへ接続する。実際のHosted結果が得られるまでは未実施とし、2件が扱う本文・目次・しおり・再起動復帰を、オフライン・コピー・内部リンク等のUI全体受入と区別する。

@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "date": "2026-10-26",
-  "status": "private-PR275-CI-repair-candidate; independent-review-and-fixed-head-CI-pending",
+  "status": "private-PR275-table-body-witness-repair; final-review-and-new-head-CI-pending",
   "purpose": "IOS-11 measured relative progress inside a native top-level block, preserving old saved semantics.",
-  "ownership": "Current repair4 paths: Published setup1line, approved runtime26 preflight workflow, P1 record MD/JSON. Cumulative main955c delta17 paths; App/PBX/unit/fixture/schema unchanged from5f590.",
+  "ownership": "Current follow-up3 paths: resume-only Published table body witness and P1 record MD/JSON. Cumulative main955c remains17 paths; App/PBX/unit/fixture/schema/runtime26 workflow unchanged fromd84.",
   "authority": "User autonomous iOS TODO implementation authority managed by root; this stage authorizes private integration and targeted static/Node checks only. No shared/index/ref/API mutation, network, CI, SDK or Simulator execution.",
   "source_basis": {
     "source_commit": "955c066c8dc0fdbedf6f0c845a461abda39ac476",
@@ -25,7 +25,8 @@
     "Unreached heading/search/TOC/inline intent survives automatic layout restart; latest user pan cancels old goal and requested VoiceOver focus.",
     "Seven approved v3 code/fixture files remain byte-exact. Latest snapshot/picker13 Published cases/helpers are preserved. Talltable setup adds only existing public tag/query helper before filtered More; row25 restoration checks and resume query are unchanged.",
     "PublishedCI job timeout40->50 only, root-reviewed one-line resource budget; all test/code/selector/individual15sec/audit bytes retained, not product performance budget.",
-    "runtime26 unbound destination listing remains diagnostic. Fresh owned Simulator identity/state inventory is checked before the unchanged exact-UUID test command; existing result checker/cleanup/limits retained."
+    "runtime26 unbound destination listing remains diagnostic. Fresh owned Simulator identity/state inventory is checked before the unchanged exact-UUID test command; existing result checker/cleanup/limits retained.",
+    "Resume-only table body witness: reader existence20sec and exact fixture article navigation bar10sec, followed by unchanged row25 fully-visible/plain-label/rowheight/row1-hidden/no-corrective-scroll assertions. Initial and shared generic paragraph helpers remain unchanged."
   ],
   "validation": {
     "source_independent_review": {
@@ -41,9 +42,9 @@
       "pure_geometry": 6,
       "selected_source_total": 22,
       "performance_separate": 1,
-      "actual_new_registration": "Root-reported full5f590 run40252163359 registered unit152 and UI22; fixed candidate execution pending."
+      "actual_new_registration": "d84 full run40259035363 registered unit152=150pass+2private skip and UI22=21pass+1fail; corrected body witness execution pending."
     },
-    "static": "Current4-path private repair, immutable approved2 source inputs, private tree/literal/compact/patch equivalence, cumulative17 paths and nonowned preservation; trusted main955c public-record and Git-format checks. No SDK/runtime execution in this preparation.",
+    "static": "Current3-path private follow-up againstd84; source-contract and exact resume-only diff, immutable helpers/App/PBX/unit/fixture/schema/runtime26 preservation, literal/API/compact/patch/private tree equivalence and canonical/public-record checks only. No SDK/runtime/CI.",
     "historical_SDK_four_stages": {
       "SHA256": "3e56565e0aaffd01ea3e03798525fcfad9e5e070e57dc0b9eecc569f2de4d744",
       "result": "pass App16 emitmodule;Core71+Inline37 typecheck; exact CoreSmoke6/PackageAudit5 source list host compile; diagnostics0",
@@ -59,15 +60,14 @@
     "fixed_candidate_SDK_Simulator_CI_executions": 0
   },
   "unverified": [
-    "Fixed-head common/native/full22/runtime26/budget/site/Release/SDK26 checks",
-    "Fixed-head first fixture entry, row25 saving and same-layout relaunch restoration; these were not reached in the first Hosted new case",
+    "Fixed-head full22 exact-head CI and row25 restoration precision; d84 stopped before the post-resume row25 assertions",
     "Actual rotation, max text, revision/reflow/pan/VoiceOver, physical QA and actual iOS26 viewport hypothesis"
   ],
   "unchanged": "App/PBX version0.2.16(18), unit152 source, fixture/schema, Nativebcaf/pure6, row25/rowheight/row1-hidden/no-corrective-scroll assertions, 15-second waits and runtime exact destination/test/result/cleanup limits remain unchanged. All nonowned mode/type/blob entries and TODO checkbox rows preserved.",
-  "next": "Independent root review, then ordinary PR275 follow-up commit and required exact new-head CI. No new CI or API operation in this candidate task. IOS-11 remains incomplete.",
+  "next": "Independent root final review then ordinary follow-up commit and one exact-new-head CI. This candidate does not run SDK/Simulator/CI. IOS-11 remains incomplete.",
   "preview_only": true,
   "publishable": false,
-  "parent_sha": "5f59010763fbded71cb1636a03159a5bf3cdd5d6",
+  "parent_sha": "d84b91c87ff29526912ea99550d736fab284a242",
   "historical_source_basis": {
     "commit": "238e5e9968ff669f191cf3ee62db9d9a6f14378f",
     "tree": "9b0d4035dd149a6bbce124b291fc1b856105c72a",
@@ -87,13 +87,15 @@
     },
     "old_Published_ae9_SHA256": "ae9eee84b4148177e7ae8a4aea60228f6578261c04eb12dffa9170585bc6cc74",
     "latest_picker_snapshot_Published_41c3_SHA256": "41c3cfe54c34d608561a5db63b7c3f087fc1b2c62a12a9a0320c993a27e2e6ba",
-    "new_Published_SHA256": "fd6de0b9967da3abcbdc42b0a6da8f1330d5b80dca699347184040ce176632bb",
+    "new_Published_SHA256": "adbe8b5b0e42f7c3c82787b9f001814129234d578de15e9695be37162048aec6",
     "complete_latest13_Published_methods_helpers_preserved": true,
     "talltable_method_bytes_unchanged": false,
     "PBX_changes": "Exactly two MARKETING_VERSION0.2.15→0.2.16 and two CURRENT_PROJECT_VERSION17→18 fields; no other PBX bytes changed",
     "prior_5f590_Published_SHA256": "7c053c8bb9e6612c689ad3b2c5f8202cbcf2b153ad2b8d0550991010bb330390",
     "historical_original_talltable_method_SHA256": "afa567b9f1ee9982b3a1770b3de621de78937d9c27ff63dcca01bdf1205bb463",
-    "talltable_setup_repair": "Exactly one public setLearningTagAndArticleQuery(transformer, Transformer) call added inside nested openFixtureLibrary. Removing that line restores the whole5f590 Published source byte-for-byte; no other method/assert/query changed."
+    "talltable_setup_repair": "Historical d84 setup repair retained byte-exact. Current resume-only body witness replacement is separate; reversing this replacement restores the entire d84 source.",
+    "prior_d84_Published_SHA256": "fd6de0b9967da3abcbdc42b0a6da8f1330d5b80dca699347184040ce176632bb",
+    "historical_d84_setup_repair": "Exactly one public setLearningTagAndArticleQuery(transformer, Transformer) call added inside nested openFixtureLibrary. Removing that line restores the whole5f590 Published source byte-for-byte; no other method/assert/query changed."
   },
   "historical_parent_actuals": {
     "picker_old238e_full": {
@@ -161,12 +163,12 @@
   "publication": {
     "preview_only": true,
     "publishable": false,
-    "parent_sha": "5f59010763fbded71cb1636a03159a5bf3cdd5d6",
+    "parent_sha": "d84b91c87ff29526912ea99550d736fab284a242",
     "regenerate_after_actual_main270_commit": false,
     "never_use_tree_as_commit_parent": true,
     "source_PR270_commit": "85d9cdbeea8f79cbe6f720b0a8bc631ffb06fecb",
     "source_tree": "9d2525e28ce3d9b6659eeac57b0b6f910e7e262b",
-    "sequence": "prepare private4-path repair against5f590; independent payload review then root ordinary PR275 follow-up and exact new-head CI; required CI gates main integration",
+    "sequence": "prepare private3-path follow-up againstd84; independent root review then ordinary follow-up commit/exact-head CI; required CI gates main integration",
     "actual_main270_commit": "955c066c8dc0fdbedf6f0c845a461abda39ac476"
   },
   "independent_Core_work": {
@@ -200,7 +202,7 @@
     "after_minutes": 50,
     "scope": "CI job execution limit only; not product performance or SLO",
     "basis_observation": "root reports exact85d9 full21 job about38min with under2min margin; no new measurement by preparer",
-    "new_case": "Talltable1 added to22 selected source. First5f590 run registered22 and stopped this case at its first More entry; fixed candidate execution pending.",
+    "new_case": "Talltable1 registered in d84 UI22; initial row25 reached but post-resume generic paragraph witness failed before restoration comparison. Corrected row25 body witness is unexecuted.",
     "source_SHA256": "9474145136f51fa853462128fd14e3c276a92e7227d07b3bd2b391ba6d41124e",
     "root_review_SHA256": "67583ba1140ff68c07267a205134708f21b7475b58f0d42da36d4d9671e26836",
     "root_review_origin": ".local/ios-autonomous-evidence/published-ci-budget50-root-review.json",
@@ -209,12 +211,12 @@
     "selectors_commands_assert_individual15sec_audits": "unchanged"
   },
   "repair_basis": {
-    "commit": "5f59010763fbded71cb1636a03159a5bf3cdd5d6",
-    "tree": "af6550c2aa440e0149aab0e99f1a69c458a99b60",
-    "kind": "actual PR275 current head, after relative public-record origin fix",
+    "commit": "d84b91c87ff29526912ea99550d736fab284a242",
+    "tree": "f86e167e92ed9286d8a403c9eb14c0a33815c2ec",
+    "kind": "actual PR275 head with setup and bound-destination repairs",
     "main_commit": "955c066c8dc0fdbedf6f0c845a461abda39ac476",
     "main_tree": "9d2525e28ce3d9b6659eeac57b0b6f910e7e262b",
-    "current_paths": 4,
+    "current_paths": 3,
     "cumulative_paths_from_main": 17
   },
   "first_PR275_Hosted_failures": {
@@ -275,9 +277,10 @@
       "setup": "Existing public tag transformer and article query Transformer before filtered More inside shared nested helper; both initial and relaunch entries",
       "resume_query": "Original app.buttons matching exact public identifier retained",
       "asserts_waits_and_recovery_conditions": "byte-exact",
-      "actual_fixed_UI": "pending",
+      "actual_fixed_UI": "d84 reached initial table and row25 departure; full case failed after resume. Current body-witness candidate is unexecuted.",
       "root_independent_setup_source_review_SHA256": "f933e40116f87276afe8f32efd9cc585bf282e2b5c553f4f063835447f71713b",
-      "review_scope": "Published one-line setup source only, not combined records/workflow or real fixed UI"
+      "review_scope": "Published one-line setup source only, not combined records/workflow or real fixed UI",
+      "scope": "Historical setup-only repair atd84; actual first fixture/table/row25-departure reached in d84 full. Current body-witness repair is separate."
     },
     "runtime26": {
       "path": ".github/workflows/ios-runtime26-smoke.yml",
@@ -295,10 +298,103 @@
         "embedded_shell_syntax_blocks": 14,
         "actionlint": "1.7.12 exit0"
       },
-      "actual_new_destination_binding_or_UI": "not executed; mocks do not establish actual acceptance"
+      "actual_new_destination_binding_or_UI": "d84 runtime26 run40259035353 exactNative2/skip0 and post-audit/cleanup passed, separately root-reviewed. No SDK27 result inferred."
     },
     "new_UI_scope": "Same-layout relaunch restoration only; this case contains no rotation action",
     "actual_rotation_max_text_VoiceOver_physical_QA": "pending",
     "product_performance_claim": false
+  },
+  "PR275_d84_Hosted": {
+    "head": "d84b91c87ff29526912ea99550d736fab284a242",
+    "full": {
+      "run": 40259035363,
+      "job": 121367137316,
+      "unit_registered": 152,
+      "unit_passed": 150,
+      "unit_private_skipped": 2,
+      "UI_registered": 22,
+      "UI_passed": 21,
+      "UI_failed": 1,
+      "Release": "skipped-after-UI-failure",
+      "unique_failed_case": "testFixtureTallSingleBlockResumesNearItsMeasuredInternalRowAfterRelaunch",
+      "case_printed_seconds": "188.461",
+      "stage": "Post-resume shared paragraph witness; reader existence passed, native-text paragraph AX lookup failed",
+      "initial_reached": [
+        "generic initial body",
+        "forty-row table",
+        "row25 full visibility and exact plain label",
+        "originalY and rowHeight measurement",
+        "before-departure capture"
+      ],
+      "post_resume_row25_checks": "not reached; restoration precision unverified"
+    },
+    "completed_log_order": {
+      "evidence_origin": ".local/ios-autonomous-evidence/pr275-d84-full-failure.json",
+      "verification": "root completed getlogs order; no raw profile-path lines reproduced",
+      "case_started_UTC": "02:52:45.296",
+      "before_departure_capture": {
+        "log_line": 5833,
+        "time_UTC": "02:55:01.807",
+        "case_t_seconds": 136.51
+      },
+      "terminate": {
+        "log_line": 5846,
+        "case_t_seconds": 140.15
+      },
+      "launch_case_t_seconds": 141.19,
+      "resume_button_tap_case_t_seconds": 174.49,
+      "reader20sec_wait_started_case_t_seconds": 175.67,
+      "reader_exists_check_passed_case_t_seconds": 176.69,
+      "paragraph10sec_wait_started_case_t_seconds": 176.85,
+      "paragraph_failure": {
+        "log_line": 6074,
+        "time_UTC": "02:55:53.503",
+        "case_t_seconds": 187.55,
+        "source": "ios/AILibraryUITests/NativeReaderUITests.swift:224"
+      },
+      "case_failed_log_line": 6076
+    },
+    "artifact_remote_metadata": {
+      "id": 12624975864,
+      "bytes": 270463986,
+      "SHA256": "5045376529cb143327c371f586bf9a725b09d2c39804576d7992b534b92f81a3",
+      "expires_at": "2027-01-24T02:25:38Z",
+      "downloaded_for_this_followup": false,
+      "local_archive_rehash_or_CRC_claimed": false
+    },
+    "other_checks": {
+      "count_succeeded": 14,
+      "native": "root reports unit152 + existing Native2 + Release passed atd84",
+      "SDK26_Archive": "root reports actual199-article Archive passed atd84",
+      "runtime26": {
+        "run": 40259035353,
+        "job": 121367136961,
+        "Native_UI_passed": 2,
+        "skipped": 0,
+        "post_audit_and_cleanup": "all steps success",
+        "independent_raw_review_prefix": "d21752ed",
+        "scope": "actual26.5 only; not SDK27 acceptance"
+      }
+    },
+    "new_candidate_execution": 0,
+    "root_report_not_a_local_rerun": true
+  },
+  "table_body_witness_repair": {
+    "path": "ios/AILibraryUITests/PublishedReaderUITests.swift",
+    "source_SHA256": "adbe8b5b0e42f7c3c82787b9f001814129234d578de15e9695be37162048aec6",
+    "before_source_SHA256": "fd6de0b9967da3abcbdc42b0a6da8f1330d5b80dca699347184040ce176632bb",
+    "added_lines": 2,
+    "deleted_lines": 1,
+    "scope": "Only immediately after resume.tap in new Tallcase: reader.waitForExistence20 and exact fixture navigationBar.waitForExistence10",
+    "initial_generic_and_shared_helper": "byte-exact",
+    "row25_itself_is_body_witness": "Fully visible/hittable row25, exact plain label, saved measured rowheight comparison and row1 hidden; no corrective scroll/TOC",
+    "post_resume_row25_already_passed": false,
+    "actual_corrected_UI": "pending",
+    "App_PBX_unit_fixture_schema_runtime_and_other13_cases": "unchanged",
+    "unit_source": 152,
+    "selected_UI_source": 22,
+    "same_layout_only": true,
+    "rotation_max_text_VO_device": "pending",
+    "IOS_11": "incomplete"
   }
 }

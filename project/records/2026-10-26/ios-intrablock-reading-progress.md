@@ -2,9 +2,9 @@
 
 ## 基線と範囲
 
-旧保存を維持したblock内部位置の候補を、実main270 `955c066c8dc0fdbedf6f0c845a461abda39ac476`（tree `9d2525e28ce3d9b6659eeac57b0b6f910e7e262b`）へbindし、PR275へ提出した。今回の私有修正は、相対参照の記録修正後の実head `5f59010763fbded71cb1636a03159a5bf3cdd5d6`（tree `af6550c2aa440e0149aab0e99f1a69c458a99b60`）を親とする。Published setup、独立承認済みruntime26 workflow、記録MD/JSONの4pathだけで、main955c比の累積は17pathとなる。prepare時点は `preview_only:true`・`publishable:false`、独立root reviewと正確な修正版headのCIを待つ。treeをcommit親にしない。
+旧保存を維持したblock内部位置の候補を、実main270 `955c066c8dc0fdbedf6f0c845a461abda39ac476`（tree `9d2525e28ce3d9b6659eeac57b0b6f910e7e262b`）へbindし、PR275へ提出した。今回の私有follow-upは実head `d84b91c87ff29526912ea99550d736fab284a242`（tree `f86e167e92ed9286d8a403c9eb14c0a33815c2ec`）を親とする。追加Tallcaseのresume後body witnessと記録MD/JSONの3pathだけで、main955c比の累積は17pathを維持する。前のsetup/runtime26修正はd84の履歴として保持する。prepare時点は `preview_only:true`・`publishable:false`、独立root reviewと正確な修正版headのCIを待つ。treeをcommit親にしない。
 
-App4・Core/Inline2・fixture1の承認v3 bytes、Reader584196/Store89eb397/Core629d6、schemaとPBX 0.2.16（18）は5f590から変更しない。最新snapshot/pickerの既存Published13case/helpers、Nativebcaf/pure geometry6、三つのpublished selector、親のruntime/picker実績・site待機を保持する。Core15のPR273は別Draftで、この候補へ混ぜない。
+App4・Core/Inline2・fixture1の承認v3 bytes、Reader584196/Store89eb397/Core629d6、schemaとPBX 0.2.16（18）はd84から変更しない。最新snapshot/pickerの既存Published13case/helpers、Nativebcaf/pure geometry6、三つのpublished selector、親のruntime/picker実績・site待機を保持する。Core15のPR273は別Draftで、この候補へ混ぜない。
 
 ## 実装候補の意味
 
@@ -24,7 +24,7 @@ rootが報告したhead5f590のfull run `40252163359` / job `121346524924` は�
 
 runtime26は独立承認済みworkflow SHA-256 `10b1d3df0c8d4f9dae259568e3ade6994a48efd0089088f6a74b899552c02d84` をそのまま採用する。未束縛一覧のraw/exitと掲載有無を診断用に残し、直後のfresh inventoryを30秒・16MiBで取得する。所有lease・head/run/attempt/repository・UUID/name/runtime/type/Booted/isAvailableを必須照合した後、既存の明示UUID testを一度だけ実行する。test commandとpost-xcresult checkerはbyte単位で同一で、結果の実UUID/OS/platformと既存2件のPassed判定、destination120秒・UI8分・job40分・所有cleanupは維持する。workerのmock28＋shell2＋既存結果監査10、embedded Node6/shell14構文、actionlint成功は私有source検証の履歴であり、実destination bindingやUI成功ではない。
 
-この追加UI caseの対象は**同じレイアウトでの再起動復帰**であり、回転操作を含まない。rootの静的照合ではtable markerのplain labelと行列のcustom content、fixture countはrender源と既存caseに整合するが、修正版の本文到達・保存・復帰の実UIはまだ未確認である。実回転・最大文字・VoiceOver・物理QAは未確認として維持する。
+この追加UI caseの対象は**同じレイアウトでの再起動復帰**であり、回転操作を含まない。rootの静的照合ではtable markerのplain labelと行列のcustom content、fixture countはrender源と既存caseに整合する。d84では初回の本文・row25到達まで進んだが、再開後のrow25復帰精度は未確認である。実回転・最大文字・VoiceOver・物理QAは未確認として維持する。
 
 ## 既存証跡とCI実行上限
 
@@ -34,8 +34,20 @@ runtime26は独立承認済みworkflow SHA-256 `10b1d3df0c8d4f9dae259568e3ade699
 
 Published CI jobの上限40→50分は、親head85d9のfull21が約38分だったroot報告と追加talltable1件に備えた既承認の実行上限調整である。selector・個別15秒・assert・commands・auditsを変えず、今回も保持する。root review originはリポジトリ相対 `.local/ios-autonomous-evidence/published-ci-budget50-root-review.json` のままとする。CI実行上限とアプリの性能改善・SLO・製品性能budgetを区別する。
 
+## d84の再開後body witness失敗と3path follow-up
+
+rootが完成ログを照合したd84 fullrun `40259035363` / job `121367137316` は、単体152件（150成功・2private skip）、UI22件（21成功・1失敗）、Release skipだった。唯一の失敗は追加Tallcaseで、開始02:52:45.296、before-departure captureはlog5833/02:55:01.807/t136.51秒、terminateは5846/t140.15秒、launchはt141.19秒に到達した。source上でcaptureは初回body・表・row25完全表示/label照合と元Y/rowheight実測の後にある。
+
+再開後はt174.49秒にfixture resumeをtap、t175.67秒にreader20秒待機へ入り、t176.69秒にreader存在を通過した。t176.85秒からparagraph10秒待機、log6074/02:55:53.503/t187.55秒に共有helperのnative-text paragraph存在で失敗し、6076でcase188.461秒の失敗を記録した。したがって初回bodyではなく再開後の汎用paragraph witnessで停止した。表row25の復帰精度を検査する後続assertは未到達で、復帰成功とは記録しない。元5f590の最初のMore入口失敗22.474秒とは別の履歴である。
+
+paragraphは `native-text-`、表cellは `native-table-cell-` という別の識別子契約で、LazyVStackの長い表の途中に別paragraphのAX存在を要求する必要はない。新caseのresume直後だけgeneric helperをreader存在20秒と同じ専用記事navigation bar存在10秒へ置換する。**修正版の本文witnessは表の行25そのもの**であり、既存のfullyVisible/hittable、plain label、元の実測rowheight以内、row1非表示、補正scroll/TOC禁止を全て維持する。初回のgeneric helper、共有helper全体、他13case/helpers・15秒・App/PBX/unit/fixture/schema/runtime26 workflowは変更しない。
+
+artifact metadataはID12624975864・270,463,986 bytes・SHA-256 `5045376529cb143327c371f586bf9a725b09d2c39804576d7992b534b92f81a3`・期限2027-01-24T02:25:38Zとして保持する。このfollow-upではdownload0で、archive bytesの再hash/CRCは主張しない。root完成ログの時刻・line番号とsource契約で段階を確定し、生のrunner profile path行は転載しない。
+
+d84の他14checkは成功し、rootはNativeのunit152・既存UI2・Release、SDK26 Archive199記事、runtime26 run40259035353/job121367136961のNative2/skip0・postaudit/cleanup全step成功を報告した。runtime26 rawの独立照合prefixはd21752edである。これらはd84の実績で、今回のbody witness修正版やSDK27の成功へ流用しない。
+
 ## 残件
 
-unit152・機能16（Published14＋Native2）＋pure geometry6＝22 selectedのsource数は維持する。5f590の単体とUI登録は確認されたが、この修正版headのcommon/native/full22/runtime26/budget/site/Release/SDK26は未実施である。今回の統合作業は静的・Node・私有Git再計算だけで、API mutation・CI・SDK/compiler・Simulator・browser・networkを実行していない。独立payload review後にrootが通常追commitでPR275へ反映し、必要exact-head CIとmerge条件が揃うまでmainへ統合しない。
+unit152・機能16（Published14＋Native2）＋pure geometry6＝22 selectedのsource数を維持する。d84の実登録と上記の成功・失敗を分けたうえで、このbody witness修正版のexact-head CIと再開後row25の実比較は未実施として残す。今回の統合作業は静的・Node・私有Git再計算だけで、API mutation・CI・SDK/compiler・Simulator・browser・networkを実行していない。独立payload review後にrootが通常追commitでPR275へ反映し、必要exact-head CIとmerge条件が揃うまでmainへ統合しない。
 
 相対高さは同じ文字・行・pixelを保証しない。記事改訂後の実位置、実viewport仮説、実回転・最大文字・VoiceOver・実機の受入を残し、IOS-11 checkboxは未完了のままとする。詳細と元の親履歴は[JSON](ios-intrablock-reading-progress.json)へ保存する。旧freezeと共有source/index/ref/publicは変更しない。

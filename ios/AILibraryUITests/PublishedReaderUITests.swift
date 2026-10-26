@@ -826,7 +826,8 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         try openFixtureLibrary()
         let resume = try singleHittableControl(app.buttons.matching(identifier: "library-resume"), name: "fixture resume")
         resume.tap()
-        requireNativeBody()
+        XCTAssertTrue(reader.waitForExistence(timeout: 20))
+        XCTAssertTrue(app.navigationBars["ネイティブ本文テスト専用記事"].waitForExistence(timeout: 10))
         // No corrective scrolling or TOC operation after restart may hide a
         // top-only restore. The same row must already be near the old viewport.
         requireHittable(middle, inside: reader, fullyVisible: true)

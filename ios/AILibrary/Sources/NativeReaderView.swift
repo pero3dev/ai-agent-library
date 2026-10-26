@@ -1,6 +1,141 @@
 import SwiftUI
 import UIKit
 
+#if DEBUG
+/// Temporary numeric/fixed-case diagnostics only. No reading content or IDs.
+@MainActor
+private enum NativeReaderTrace {
+    enum Event: String {
+        case restoreBegin = "restore_begin", moveBegin = "move_begin"
+        case observation = "placement_observation", action = "policy_action"
+        case complete = "complete_placement", receive, progress, save = "take_for_saving"
+    }
+    enum Reason: String {
+        case generationMismatch = "generation_mismatch", trackingGate = "tracking_gate"
+        case sessionGate = "session_gate", measurementGate = "measurement_unavailable_or_unchanged"
+        case staged, stageRefused = "stage_refused", takeResult = "take_result", didSave = "did_save"
+        case missingTopLevel = "missing_top_level", missingIntra = "missing_intra_fraction", measured
+    }
+    private struct Request {
+        let serial: Int
+        let startedAt: TimeInterval
+        let purpose: NativeReadingPlacementRequest.Purpose
+    }
+    private static let enabled: Bool = {
+        guard let suite = ProcessInfo.processInfo.environment["AILIBRARY_UI_TEST_SUITE"] else { return false }
+        return suite.hasPrefix("ailibrary-uitest-") && suite.count < 100
+    }()
+    private static let processID = Int(ProcessInfo.processInfo.processIdentifier)
+    private static var requests: [UUID: Request] = [:]
+    private static var requestSerial = 0
+    private static var lines = 0
+    private static let numberKeys: Set<String> = ["interactionEpoch", "requestInteractionEpoch", "userPanEpoch",
+        "requestUserPanEpoch", "blockedUserPanEpoch", "layoutPasses", "materializations", "corrections",
+        "consecutiveAlignedPasses", "remainingMs"]
+    private static let flagKeys: Set<String> = ["generationMatches", "interactionEpochMatches", "hasStoredHeading",
+        "hasStoredBlock", "hasStoredAnchor", "hasStoredIntraFraction", "hasPreviousProgress", "hasCurrentBlock",
+        "hasMeasured", "hasObservedBlock", "isUserInteracting", "trackingReady", "restoring", "layoutMatches",
+        "hasBlockedEpoch", "panEpochMatches", "hasReadingBlock", "sampleChanged", "hasDelayToken", "hasSample",
+        "willCallOnPosition", "didCallOnPosition", "hasRequestedIntraFraction", "hasStartMarker", "hasEndMarker",
+        "hasRootWindow", "startWindowMatches", "endWindowMatches", "startDescendant", "endDescendant",
+        "hasRootMarker", "hasRootScroll", "hasScrollWindow", "scrollWindowMatches", "hasStartWindow",
+        "hasEndWindow", "isScrollEnabled", "isTextView"]
+
+    static func begin(_ event: Event, generation: UUID, purpose: NativeReadingPlacementRequest.Purpose,
+                      numbers: [String: Double], flags: [String: Bool]) {
+        guard enabled, requests.count < 256 else { return }
+        requestSerial += 1
+        requests[generation] = Request(serial: requestSerial, startedAt: CACurrentMediaTime(), purpose: purpose)
+        emit(event, generation: generation, numbers: numbers, flags: flags)
+    }
+
+    static func emit(_ event: Event, generation: UUID, numbers: [String: Double] = [:],
+                     flags: [String: Bool] = [:], reason: Reason? = nil,
+                     observation: NativeReaderPlacementPolicy.Observation? = nil,
+                     action: NativeReaderPlacementPolicy.Action? = nil,
+                     outcome: NativeReaderPlacementPolicy.Outcome? = nil,
+                     effect: NativeReadingProgressSession.CompletionEffect? = nil) {
+        guard enabled, lines < 256, Set(numbers.keys).isSubset(of: numberKeys),
+              Set(flags.keys).isSubset(of: flagKeys), numbers.values.allSatisfy(\.isFinite) else { return }
+        let request = requests[generation]
+        let elapsed = request.map { max(0, (CACurrentMediaTime() - $0.startedAt) * 1000) } ?? 0
+        guard elapsed.isFinite else { return }
+        var value: [String: Any] = ["event": event.rawValue, "processID": processID,
+            "requestSerial": request?.serial ?? 0, "sequence": lines + 1, "elapsedMs": elapsed]
+        for (key, number) in numbers { value[key] = number }
+        for (key, flag) in flags { value[key] = flag }
+        if let request { value["purpose"] = purposeName(request.purpose) }
+        if let reason { value["reason"] = reason.rawValue }
+        if let observation { value["observation"] = observationName(observation) }
+        if let action {
+            switch action {
+            case .waitForLayout: value["action"] = "wait_for_layout"
+            case .materialize: value["action"] = "materialize"
+            case .align: value["action"] = "align"
+            case .finished(let end): value["action"] = "finished"; value["outcome"] = outcomeName(end)
+            }
+        }
+        if let outcome { value["outcome"] = outcomeName(outcome) }
+        if let effect { value["effect"] = effectName(effect) }
+        write("AILibraryReaderTrace", value)
+    }
+
+    static func geometry(_ original: [String: Any], generation: UUID?) {
+        guard enabled, lines < 256 else { return }
+        var value = original
+        value["processID"] = processID
+        value["requestSerial"] = generation.flatMap { requests[$0]?.serial } ?? 0
+        value["sequence"] = lines + 1
+        write("AILibraryReaderGeometry", value)
+    }
+
+    private static func write(_ prefix: String, _ value: [String: Any]) {
+        guard enabled, lines < 256,
+              let bytes = try? JSONSerialization.data(withJSONObject: value, options: [.sortedKeys]),
+              prefix.utf8.count + 1 + bytes.count + 1 <= 2048,
+              let text = String(data: bytes, encoding: .utf8) else { return }
+        lines += 1
+        print(prefix + " " + text)
+    }
+    private static func purposeName(_ value: NativeReadingPlacementRequest.Purpose) -> String {
+        switch value {
+        case .automaticResume: return "automatic_resume"
+        case .automaticReflow: return "automatic_reflow"
+        case .explicitNavigation: return "explicit_navigation"
+        }
+    }
+    private static func observationName(_ value: NativeReaderPlacementPolicy.Observation) -> String {
+        switch value {
+        case .rootNotReady: return "root_not_ready"
+        case .targetMissing: return "target_missing"
+        case .needsAlignment: return "needs_alignment"
+        case .aligned: return "aligned"
+        case .userInterruption: return "user_interruption"
+        case .unavailable: return "unavailable"
+        }
+    }
+    private static func outcomeName(_ value: NativeReaderPlacementPolicy.Outcome) -> String {
+        switch value {
+        case .aligned: return "aligned"
+        case .interrupted: return "interrupted"
+        case .exhausted: return "exhausted"
+        case .cancelled: return "cancelled"
+        case .superseded: return "superseded"
+        case .unavailable: return "unavailable"
+        }
+    }
+    private static func effectName(_ value: NativeReadingProgressSession.CompletionEffect) -> String {
+        switch value {
+        case .measuredAlignment: return "measured_alignment"
+        case .measuredUserPan: return "measured_user_pan"
+        case .preserveAutomaticPosition: return "preserve_automatic_position"
+        case .preserveUnreachedNavigation: return "preserve_unreached_navigation"
+        case .ignoreSuperseded: return "ignore_superseded"
+        }
+    }
+}
+
+#endif
 private struct NativeBlockFrames: PreferenceKey {
     static var defaultValue: [String: CGRect] = [:]
     static func reduce(value: inout [String: CGRect], nextValue: () -> [String: CGRect]) {
@@ -96,6 +231,7 @@ final class NativeReaderScrollAnchors: NSObject {
     private(set) var userPanEpoch: UInt64 = 0
     #if DEBUG
     private var geometrySampleCount = 0
+    var debugTraceGeneration: UUID?
     #endif
 
     deinit { observedPan?.removeTarget(self, action: #selector(rootPanChanged(_:))) }
@@ -140,6 +276,23 @@ final class NativeReaderScrollAnchors: NSObject {
         }
     }
 
+    #if DEBUG
+    @MainActor func debugMarkerFlags(for id: String) -> [String: Bool] {
+        let window = rootMarker?.window
+        let scroll = rootScrollView()
+        let start = targets[id]?.view, end = ends[id]?.view
+        return ["hasRootMarker": rootMarker != nil, "hasRootScroll": scroll != nil,
+            "hasScrollWindow": scroll?.window != nil, "scrollWindowMatches": window != nil && scroll?.window === window,
+            "isScrollEnabled": scroll?.isScrollEnabled ?? false, "isTextView": scroll is UITextView,
+            "hasRootWindow": window != nil, "hasStartMarker": start != nil, "hasEndMarker": end != nil,
+            "hasStartWindow": start?.window != nil, "hasEndWindow": end?.window != nil,
+            "startWindowMatches": window != nil && start?.window === window,
+            "endWindowMatches": window != nil && end?.window === window,
+            "startDescendant": scroll.map { start?.isDescendant(of: $0) ?? false } ?? false,
+            "endDescendant": scroll.map { end?.isDescendant(of: $0) ?? false } ?? false]
+    }
+
+    #endif
     @MainActor func beginPlacement() -> UInt64 {
         pendingLayoutFrame?.cancel()
         updatePanObservation()
@@ -268,9 +421,7 @@ final class NativeReaderScrollAnchors: NSObject {
             "visibleTop": Double(visibleTop), "markerContentY": Double(targetY),
             "markerWindowY": Double(markerInWindowY), "legacyGoalOffset": Double(legacyGoal),
             "goalOffset": Double(goalOffset), "actualOffset": Double(scroll.contentOffset.y)]
-        guard let data = try? JSONSerialization.data(withJSONObject: sample, options: [.sortedKeys]),
-              let text = String(data: data, encoding: .utf8) else { return }
-        print("AILibraryReaderGeometry " + text)
+        NativeReaderTrace.geometry(sample, generation: debugTraceGeneration)
     }
     #endif
 
@@ -589,6 +740,17 @@ struct NativeReaderView: View {
         let request = NativeReadingPlacementRequest(purpose: destination.focusBlockID != nil ? .explicitNavigation :
             (previousProgress == nil ? .automaticResume : .automaticReflow), userPanEpoch: userCancelledEpoch ?? currentPanEpoch,
             generation: generation)
+        #if DEBUG
+        scrollAnchors.debugTraceGeneration = generation
+        NativeReaderTrace.begin(.restoreBegin, generation: generation, purpose: request.purpose,
+            numbers: ["interactionEpoch": Double(scrollAnchors.interactionEpoch),
+                      "requestInteractionEpoch": Double(policy.interactionEpoch),
+                      "userPanEpoch": Double(scrollAnchors.userPanEpoch), "requestUserPanEpoch": Double(request.userPanEpoch)],
+            flags: ["hasStoredHeading": position.heading != nil, "hasStoredBlock": position.blockID != nil,
+                    "hasStoredAnchor": position.anchor != nil, "hasStoredIntraFraction": position.anchor?.intraBlockFraction != nil,
+                    "hasPreviousProgress": previousProgress != nil, "hasCurrentBlock": previousBlockID != nil,
+                    "hasRequestedIntraFraction": destination.intraBlockFraction != nil])
+        #endif
         progressSession.beginPlacement(request)
         var outcome = NativeReaderPlacementPolicy.Outcome.cancelled
         defer {
@@ -645,6 +807,16 @@ struct NativeReaderView: View {
             interactionEpoch: scrollAnchors.beginPlacement(), startedAt: CACurrentMediaTime())
         let request = NativeReadingPlacementRequest(purpose: .explicitNavigation,
                                                    userPanEpoch: scrollAnchors.userPanEpoch, generation: generation)
+        #if DEBUG
+        scrollAnchors.debugTraceGeneration = generation
+        NativeReaderTrace.begin(.moveBegin, generation: generation, purpose: request.purpose,
+            numbers: ["interactionEpoch": Double(scrollAnchors.interactionEpoch),
+                      "requestInteractionEpoch": Double(policy.interactionEpoch),
+                      "userPanEpoch": Double(scrollAnchors.userPanEpoch), "requestUserPanEpoch": Double(request.userPanEpoch)],
+            flags: ["hasStoredHeading": position.heading != nil, "hasStoredBlock": position.blockID != nil,
+                    "hasStoredAnchor": position.anchor != nil, "hasStoredIntraFraction": position.anchor?.intraBlockFraction != nil,
+                    "hasPreviousProgress": previousProgress != nil, "hasCurrentBlock": previousBlockID != nil])
+        #endif
         progressSession.beginPlacement(request)
         if let outcome = placementExit(policy) {
             completePlacement(outcome, target: blockID, focus: leaf, generation: generation,
@@ -688,6 +860,19 @@ struct NativeReaderView: View {
             let observation = scrollAnchors.placementObservation(of: blockID, intraBlockFraction: intraBlockFraction)
             let action = policy.next(observation, now: CACurrentMediaTime(), generation: restoreGeneration,
                 interactionEpoch: scrollAnchors.interactionEpoch, cancelled: Task.isCancelled)
+            #if DEBUG
+            var traceFlags = scrollAnchors.debugMarkerFlags(for: blockID)
+            traceFlags["generationMatches"] = restoreGeneration == policy.generation
+            traceFlags["interactionEpochMatches"] = scrollAnchors.interactionEpoch == policy.interactionEpoch
+            traceFlags["hasRequestedIntraFraction"] = intraBlockFraction != nil
+            NativeReaderTrace.emit(.action, generation: policy.generation,
+                numbers: ["interactionEpoch": Double(scrollAnchors.interactionEpoch),
+                    "requestInteractionEpoch": Double(policy.interactionEpoch), "userPanEpoch": Double(scrollAnchors.userPanEpoch),
+                    "layoutPasses": Double(policy.layoutPasses), "materializations": Double(policy.materializations),
+                    "corrections": Double(policy.corrections), "consecutiveAlignedPasses": Double(policy.consecutiveAlignedPasses),
+                    "remainingMs": max(0, (policy.deadline - CACurrentMediaTime()) * 1000)],
+                flags: traceFlags, observation: observation, action: action)
+            #endif
             switch action {
             case .finished(let outcome): return outcome
             case .materialize:
@@ -716,6 +901,12 @@ struct NativeReaderView: View {
         target: String?, focus: String?, generation: UUID, request: NativeReadingPlacementRequest,
         previousBlockID: String?,
         previousProgress: NativeReadingSample?, flush: Bool) {
+        #if DEBUG
+        if restoreGeneration != generation {
+            NativeReaderTrace.emit(.complete, generation: generation,
+                flags: ["generationMatches": false], reason: .generationMismatch, outcome: outcome)
+        }
+        #endif
         guard restoreGeneration == generation else { return }
         let userPanEpoch = scrollAnchors.userPanEpoch
         let isUserInteracting = scrollAnchors.isUserInteracting
@@ -725,6 +916,13 @@ struct NativeReaderView: View {
         let completion = progressSession.completePlacement(placementAligned: outcome == .aligned, request: request,
             currentUserPanEpoch: userPanEpoch, isUserInteracting: isUserInteracting,
             measured: measured)
+        #if DEBUG
+        NativeReaderTrace.emit(.complete, generation: generation,
+            numbers: ["userPanEpoch": Double(userPanEpoch), "requestUserPanEpoch": Double(request.userPanEpoch)],
+            flags: ["generationMatches": true, "hasMeasured": measured != nil, "hasObservedBlock": observedBlock != nil,
+                "isUserInteracting": isUserInteracting, "panEpochMatches": userPanEpoch == request.userPanEpoch,
+                "hasDelayToken": completion.delayToken != nil], outcome: outcome, effect: completion.effect)
+        #endif
         guard completion.effect != .ignoreSuperseded else { return }
         if completion.effect.consumesOneShot { navigationState.consume(headingRequestID: headingRequestID) }
         // Failed automatic placement keeps both its saved point and cache. A
@@ -741,18 +939,55 @@ struct NativeReaderView: View {
     private func receive(_ frames: [String: CGRect], layout: NativeReaderLayoutIdentity) {
         // Reflow callbacks can precede the replacement task. Do not reinterpret
         // the old offset in the new height before restoring its measured ratio.
+        #if DEBUG
+        if !trackingReady || restoring || trackingLayout != layout {
+            NativeReaderTrace.emit(.receive, generation: restoreGeneration,
+                flags: ["trackingReady": trackingReady, "restoring": restoring,
+                    "layoutMatches": trackingLayout == layout], reason: .trackingGate)
+        }
+        #endif
         guard trackingReady, !restoring, trackingLayout == layout else { return }
         _ = navigationState.consumeIfUserPanned(userPanEpoch: scrollAnchors.userPanEpoch, headingRequestID: headingRequestID)
+        #if DEBUG
+        let tracePermitted = progressSession.permitsTracking(userPanEpoch: scrollAnchors.userPanEpoch)
+        if !tracePermitted {
+            var numbers = ["userPanEpoch": Double(scrollAnchors.userPanEpoch)]
+            if let blocked = progressSession.blockedAtUserPanEpoch { numbers["blockedUserPanEpoch"] = Double(blocked) }
+            NativeReaderTrace.emit(.receive, generation: restoreGeneration, numbers: numbers,
+                flags: ["hasBlockedEpoch": progressSession.blockedAtUserPanEpoch != nil], reason: .sessionGate)
+        }
+        guard tracePermitted else { return }
+        #else
         guard progressSession.permitsTracking(userPanEpoch: scrollAnchors.userPanEpoch) else { return }
+        #endif
+        #if DEBUG
+        let traceNext = scrollAnchors.readingBlockID(in: Array(frames.keys))
+        let traceMeasured = traceNext.flatMap { progress(for: $0) }
+        if traceNext == nil || traceMeasured == nil || traceMeasured == currentProgress {
+            NativeReaderTrace.emit(.receive, generation: restoreGeneration,
+                flags: ["hasReadingBlock": traceNext != nil, "hasMeasured": traceMeasured != nil,
+                    "sampleChanged": traceMeasured != currentProgress], reason: .measurementGate)
+        }
+        guard let next = traceNext, let measured = traceMeasured, measured != currentProgress else { return }
+        #else
         guard let next = scrollAnchors.readingBlockID(in: Array(frames.keys)),
               let measured = progress(for: next), measured != currentProgress else { return }
+        #endif
         currentBlockID = next
         currentProgress = measured
         enqueueProgress(measured)
     }
 
     private func enqueueProgress(_ progress: NativeReadingSample) {
+        #if DEBUG
+        let traceToken = progressSession.stageMeasured(progress, userPanEpoch: scrollAnchors.userPanEpoch)
+        NativeReaderTrace.emit(.receive, generation: restoreGeneration,
+            numbers: ["userPanEpoch": Double(scrollAnchors.userPanEpoch)],
+            flags: ["hasDelayToken": traceToken != nil], reason: traceToken == nil ? .stageRefused : .staged)
+        guard let token = traceToken else { return }
+        #else
         guard let token = progressSession.stageMeasured(progress, userPanEpoch: scrollAnchors.userPanEpoch) else { return }
+        #endif
         scheduleProgressSave(token)
     }
 
@@ -767,8 +1002,22 @@ struct NativeReaderView: View {
     }
 
     private func progress(for blockID: String) -> NativeReadingSample? {
+        #if DEBUG
+        guard let index = document.blocks.firstIndex(where: { $0.id == blockID }) else {
+            NativeReaderTrace.emit(.progress, generation: restoreGeneration, reason: .missingTopLevel)
+            return nil
+        }
+        guard let intra = scrollAnchors.intraBlockFraction(for: blockID) else {
+            NativeReaderTrace.emit(.progress, generation: restoreGeneration,
+                flags: scrollAnchors.debugMarkerFlags(for: blockID), reason: .missingIntra)
+            return nil
+        }
+        NativeReaderTrace.emit(.progress, generation: restoreGeneration,
+            flags: ["hasMeasured": true], reason: .measured)
+        #else
         guard let index = document.blocks.firstIndex(where: { $0.id == blockID }),
               let intra = scrollAnchors.intraBlockFraction(for: blockID) else { return nil }
+        #endif
         return NativeReadingSample(heading: document.headingID(forBlock: blockID), blockID: blockID,
                                   fraction: Double(index) / Double(max(1, document.blocks.count - 1)),
                                   intraBlockFraction: intra)
@@ -777,9 +1026,27 @@ struct NativeReaderView: View {
     private func flushProgress(expectedToken: UInt64? = nil) {
         saveTask?.cancel()
         saveTask = nil
+        #if DEBUG
+        if !trackingReady {
+            NativeReaderTrace.emit(.save, generation: restoreGeneration,
+                flags: ["trackingReady": false, "restoring": restoring, "hasSample": false,
+                    "willCallOnPosition": false], reason: .trackingGate)
+            return
+        }
+        let traceProgress = progressSession.takeForSaving(expectedToken: expectedToken, restoring: restoring)
+        NativeReaderTrace.emit(.save, generation: restoreGeneration,
+            flags: ["trackingReady": trackingReady, "restoring": restoring, "hasSample": traceProgress != nil,
+                "willCallOnPosition": traceProgress != nil], reason: .takeResult)
+        guard let progress = traceProgress else { return }
+        #else
         guard trackingReady, let progress = progressSession.takeForSaving(expectedToken: expectedToken,
                                                                         restoring: restoring) else { return }
+        #endif
         onPosition(progress.heading, progress.blockID, progress.fraction, progress.intraBlockFraction)
+        #if DEBUG
+        NativeReaderTrace.emit(.save, generation: restoreGeneration,
+            flags: ["hasSample": true, "didCallOnPosition": true], reason: .didSave)
+        #endif
     }
 
     private func open(_ url: URL, using proxy: ScrollViewProxy) -> OpenURLAction.Result {

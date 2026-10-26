@@ -6,6 +6,8 @@
 
 ## 構造・運用の計画
 
+[iOS TODOと統合状況のチェックポイント](records/2026-10-26/ios-todo-integration-checkpoint.md)で、main955を基準とするIOS-02・10・13・14の達成と、12／32件の完了を追跡します。SDK26のunsigned Archive用技術環境・native導線・全199記事生成・学習案内が対象です。PR275は未マージで、iOS26.5の再起動復帰に失敗が残っています。実機・性能・配布資格・契約・公開と最新OS27の受入は未完了として分けます。
+
 [フォルダー選択取消の追随preview](records/2026-10-26/ios-picker-cancel-ui.md)では、旧238eのfull run40226683804/job121269430760でunit133件（131成功・2skip）と機能UI14/15成功を確認した履歴を保持する。本文検索Aとpicker取消138.720秒は成功し、Bは最初の到着で失敗してTOC/save/restartへ未到達だった。新snapshot helperを保持したPub41c3＋Nativebcafは機能15件＋geometry6件のsource計21件となるが、新snapshot/full/native/runtime26・生成budget・site待機・Releaseは正確な新headで未実施である。実main269 `750a305a82c6ff7882de46fdf7889c81925c509e`（tree `7636f378ecd8e8202cd2d9c8c9e89e2aa85b875d`）へ固有6pathをbindした私有候補で、独立最終レビューと正確な新headのCIを待つ。公開PR270 head238eは未変更である。
 
 [本文検索の到着と復帰](records/2026-10-26/ios-search-hit-ui-regression.md)では、入れ子の特定段落への移動と、別位置を保存した後に旧queryを再実行しない動作を公開UIで検査する。既存12件を保持した追加2件を、型検査と実UIに分けて追跡する。

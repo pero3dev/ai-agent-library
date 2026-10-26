@@ -54,3 +54,17 @@ Hosted helpの `--only-failures` は失敗に関連付いたattachmentsを選ぶ
 次は同じ実helpで確認できた `--test-id` と `--filter` を使い、実結果で失敗を確認した既知の代表testcaseに対象を絞り、PNGファイルだけを取得する候補を準備する。全case・動画・全formatへのfallbackは加えず、未知結果・不明flag・上限超過・終了未確認はpartialとして残す。既105秒の内部上限・2分step・全artifact16MiB・export64files/8MiB・保存4MiB・PNG1MiBを保持する。本文配置、AXの形状、合否条件、待機、selector、通常のVoiceOver意味は変更しない。
 
 この追記は実38fdの結果と次候補の準備snapshotである。次候補の技術2pathはmanifest SHA-256 `a701c7fb08a2122313176177f0c9258e3bdc3f817a095f63abb321e2e34572b7` でfreezeし、memory FS/fake childのpure86件と独立追加6件が成功した。最終6payloadの結合レビュー、newhead/runと実PNG取得は未確認でJSONのnullに残す。画像と必要な実配置を得てから製品側または試験側の修正を判断し、SDK27・IOS-11/23・実機・VoiceOver・性能・配布の完了とはしない。実機QAは利用者指定に従い未完了として省略する。
+
+## 9fbdの実行と取得済み結果を使うPNG診断
+
+head `9fbd53b0066110b8a402844df892cb623ebcc306` の[run40363195065](https://github.com/pero3dev/ai-agent-library/actions/runs/40363195065)では、Archiveが成功した。最初のNative実行はcreate・boot・bootstatusが成功した後の端末一覧取得で120秒timeoutとなり、UIとcollectorへ未到達だった。所有端末のshutdown・delete・削除後照合は成功している。元artifactを保持し、UI未到達の基盤障害に限ってNative jobだけを1回再実行した。source・合否条件・制限時間は変更せず、追加の同head再実行は行っていない。
+
+attempt2はUIへ到達したが、2件とも失敗した。Contentsの91.4529秒は初回目次の自己注意の数式で、AX枠とviewportは前と同じ、再起動復帰へは未到達。ThreeArticlesの296.9685秒は一覧のButtonをtapする際のUI query timeoutで、原因は未確定である。通常のTEST FAILED・exit65を確認しており、外側のUI step上限による取消と断定しない。
+
+PNG collectorは3番目のcommand（`xcresulttool get test-results tests`）が5秒でtimeoutし、PNG exportへ未到達だった。新artifactは別のattempt名で保持し、旧artifactは上書きしていない。所有端末は削除済み、厳密監査はFailed親を正しく拒否し、summaryの未完了を保持した。後段の既存primary queryはexit0で同じraw結果を取得できたため、問い合わせを重複させる構成を改める。
+
+次候補は、診断stepを既存の結果監査後・completion前へ移す。primary queryが保存する `ui-test-results.stdout.json` とexit証拠を、所有端末の削除・source/run/attempt/UUIDと照合して読み、既知のNative2階層から実失敗1件だけをPNG filterで取得する。primary監査がFailed親を拒否しても、先に保存済みのrawファイルは診断に使える。削除後にlive Simulatorへ問い合わせず、数値geometryは未測定として分ける。未知cleanup・不明raw・非0exit・scope不一致はPNG取得を抑止しpartialにする。
+
+既存cleanup・App監査・厳密Passed判定の本文、selector2件、本文配置・AX形状・版は保持する。step2分・内部105秒・job40分・UI12分・create6分・boot240秒と、全artifact16MiB・export8MiB・保存4MiB・PNG1MiBを変えない。技術3pathはmanifest SHA-256 `30b530d3634d0af118a8b800f2ff6f87533ca523c2b99c0af0c8a222741c994b` でfreezeし、Node24のpure119件と独立追加7件が成功した。最終7payloadの結合レビュー、新しい実行と実PNG、製品側または試験側の原因修正は未確認で、newhead/runはnullに保持する。
+
+main `0a20712d1fb4a686518771f36cc342b7666ef169` のCI・Native・全記事候補の3 push runは成功した。これはmainのCI対策の確認で、SDK27 Nativeの成功には付け替えない。全記事候補のUI target22件は機能UI16件とpure geometry6件であり、全てを機能UIとは数えない。TODO32行・12完了、IOS-11/23と実機・VoiceOver・性能・配布の未完了は保持する。

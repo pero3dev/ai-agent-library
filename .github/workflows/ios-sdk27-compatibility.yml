@@ -450,7 +450,7 @@ jobs:
     if: github.repository == 'pero3dev/ai-agent-library' && github.event.repository.private == false && (github.event_name == 'pull_request' || inputs.run_smoke == true)
     runs-on: xcode-27
     # Explicit step caps total51min, including2min diagnostics,4min cleanup,1min staging and2min upload.
-    # UI is followed by bounded diagnostics, then owned cleanup. Cancelled app/result audits skip.
+    # UI is followed by owned cleanup; diagnostics reuse the later primary result. Cancelled app/result audits skip.
     # Forced cancellation/runner loss can still interrupt cleanup or upload.
     timeout-minutes: 40
     env:
@@ -753,14 +753,6 @@ jobs:
           set -e
           printf '{"xcodebuild_exit_code":%s,"tee_exit_code":%s}\n' "${statuses[0]}" "${statuses[1]}" > "$EVIDENCE_DIR/ui-command.exit.json"
           [[ "${statuses[0]}" -eq 0 && "${statuses[1]}" -eq 0 ]]
-      - name: Capture bounded geometry and failure attachments before owned cleanup
-        id: reader_diagnostics
-        timeout-minutes: 2
-        continue-on-error: true
-        if: always() && !cancelled() && steps.ui.outcome != 'skipped' && steps.evidence.outcome == 'success'
-        env:
-          UI_OUTCOME: ${{ steps.ui.outcome }}
-        run: node ios/tests/capture-reader-failure-diagnostics.mjs
       - name: Always clean up only the Simulator created by this job
         timeout-minutes: 4
         id: cleanup
@@ -919,6 +911,14 @@ jobs:
             cases: tests.map(({ nodeIdentifier, result }) => ({ nodeIdentifier, result })), devices,
             scope: 'Representative public UI only; fixture resources audited separately. No minimum-iOS17 runtime, physical, VoiceOver or performance acceptance.' }, null, 2) + '\n');
           NODE
+      - name: Capture bounded failure PNGs from cached primary results
+        id: reader_diagnostics
+        timeout-minutes: 2
+        continue-on-error: true
+        if: always() && !cancelled() && steps.ui.outcome != 'skipped' && steps.evidence.outcome == 'success'
+        env:
+          UI_OUTCOME: ${{ steps.ui.outcome }}
+        run: node ios/tests/capture-reader-failure-diagnostics.mjs
       - name: Record completion and all skipped or failed stages
         timeout-minutes: 1
         if: always() && steps.evidence.outcome == 'success'

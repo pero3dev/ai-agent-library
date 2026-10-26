@@ -61,7 +61,7 @@ P0は方針決定・公開条件、P1は完成版に向けた実装と品質、P
 
 IOS-02の準備として[SDK26のHosted Archive preflight](../../records/2026-10-25/ios-sdk26-archive-preflight.md)を追加する。公開repoの標準macos-26・公式Xcode26.6をruntime照合し、配布資格情報・Provisioningを使わずgeneric iPhoneOS Release Archiveと実同梱物を監査する候補である。初回Hostedで実環境・Archive・actual Contentまで確認し、空の資格情報キーの省略とArchive InfoのJSON互換性を分けた限定修正後に、後段の実監査を再検証する。ローカルOSの更新・署名済み配布・Store提出環境の採択とは分け、最低対応OS17と既存Simulator回帰を保つ。IOS-02全体は未完了を維持する。
 
-SDK27の[別枠の互換性preflight](../../records/2026-10-26/ios-sdk27-compatibility-preflight.md)は、head38fdでもunsigned Archiveが成功し、Native2は初回目次で1成功・1失敗だった。公開AX座標を再確認したが、内部markerと失敗画像は未取得で、PNG限定収集を準備する。配置・合否条件は保持し、SDK26で達成済みのIOS-02、12／32完了、IOS-11・23等の未完了と採択snapshotを変えない。実機・性能・配布の受入へ広げない。
+SDK27の[別枠の互換性preflight](../../records/2026-10-26/ios-sdk27-compatibility-preflight.md)は、9fbdのArchiveが成功し、Nativeは基盤障害後の限定再実行で2件失敗した。PNG診断の重複queryがtimeoutしたため、既存primaryが取得済みの結果を使う候補を準備する。配置・AX形状・合否条件・予算、SDK26で達成したIOS-02、TODO12／32完了とIOS-11・23等の未完了を保持し、未取得の画像や実機・性能・配布の受入へ広げない。
 
 Developer Programは年額99 USDまたは提供地域の現地通貨。日本円の契約額は未確認であり、予算決定時に確認する。自分用のPersonal Teamと一般配布用の登録を区別する。[Programの内容・費用](https://developer.apple.com/programs/whats-included/)
 

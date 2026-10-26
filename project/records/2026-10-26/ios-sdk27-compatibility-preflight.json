@@ -583,5 +583,72 @@
     "latest_actual_observation": "diagnostic_38fd_Hosted_observation",
     "next_candidate": "png_capture_preparation",
     "old_evidence_rebound_to_future_head": false
+  },
+  "ninef_Hosted_observation": {
+    "head": "9fbd53b0066110b8a402844df892cb623ebcc306",
+    "run": 40363195065,
+    "attempt1": {
+      "Native_job": 121713810238,
+      "phase": "devices-after-boot inventory120s timeout after create/boot/bootstatus0",
+      "UI_and_collector": "skipped",
+      "cleanup": "owned deleted, shutdown/delete/afterlist0",
+      "artifact": 12670595632,
+      "SHA256": "089413507f3290d775f4d08683c3666841b790785a74b86cd37464255ca82101",
+      "summary_SHA256": "ae4e23abd0a3c984a97288f4d89f82bf63d8223e863a6cac02238f1f85ee4cd6"
+    },
+    "bounded_infrastructure_retry": {
+      "count": 1,
+      "max": 1,
+      "source_and_budgets_changed": false,
+      "old_artifacts_retained": true,
+      "not_a_functional_retry": true
+    },
+    "attempt2": {
+      "Native_job": 121724088229,
+      "UI_cases": 2,
+      "failed": 2,
+      "passed": 0,
+      "contents_seconds": 91.4529,
+      "contents_failure": "first TOC visibility, resume not reached",
+      "threearticles_seconds": 296.9685,
+      "threearticles_failure": "failed to tap Button; timed out evaluating UI query",
+      "outer_step_timeout": "not claimed; normal TEST FAILED/exit65 observed",
+      "collector": "get test-results tests5s timeout, PNG export not reached",
+      "PNG_files": 0,
+      "primary_query_exit": 0,
+      "primary_audit": "Failed parent correctly rejected",
+      "cleanup": "owned deleted",
+      "artifact": 12671572293,
+      "ZIP_bytes": 77804,
+      "SHA256": "c7772f85929225920e8597f7cfbc457935614fa5a7da2f2d30b19033a501f60d",
+      "CRC_files": 108,
+      "summary_SHA256": "0f45e244f5efb2a21007d6e98e4259fd2ce420f60303ccb5fbc914b96b227809",
+      "raw_disk": false
+    },
+    "Archive": "attempt1 successful, attempt2 API entry only carried old success forward; not rerun"
+  },
+  "cached_png_preparation": {
+    "source_head": "9fbd53b0066110b8a402844df892cb623ebcc306",
+    "status": "technical3 frozen independently reviewed; final7 and actualnewhead pending",
+    "technical_manifest_SHA256": "30b530d3634d0af118a8b800f2ff6f87533ca523c2b99c0af0c8a222741c994b",
+    "query": "reuse bounded primary raw result and exit; no duplicate get-tests or live Simulator query",
+    "placement": "after existing results, before completion; primary failure preserved",
+    "scope": "owned deleted UUID/source/run/attempt matched; first actual failed known Native2 case PNG only",
+    "geometry": "not collected; unmeasured",
+    "product_shape_primary_conditions_and_budgets_unchanged": true,
+    "actual_newhead": null,
+    "actual_new_run": null,
+    "actual_PNG": null,
+    "physical_QA": "incomplete skipped authorized",
+    "technical_independent_review_SHA256": "80d91a819482fca055a3c9c55c67f00f475f485c305d8b5ca2d126dd9219f554",
+    "pure_cases": 119,
+    "independent_extra_cases": 7,
+    "execution_scope": "Node24 fakeFS/fakechildren only"
+  },
+  "record_interpretation_cachedPNG": {
+    "older_latest_fields": "historical preparation snapshots kept",
+    "latest_actual_observation": "ninef_Hosted_observation",
+    "next_preparation": "cached_png_preparation",
+    "old_evidence_rebound": false
   }
 }

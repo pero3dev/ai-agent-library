@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { EventEmitter } from 'node:events';
 import { readFileSync } from 'node:fs';
-import { captureDiagnostics, failedNativeCases, geometrySamples, inspectExport, LIMITS, LOG_PREDICATE, runBounded,
+import { captureDiagnostics, failedNativeCases, geometrySamples, inspectExport, LIMITS, runBounded,
   verifyOwner } from '../../ios/tests/capture-reader-failure-diagnostics.mjs';
 
 const evidence = '/workspace/.local/ios-runtime27/evidence';
@@ -110,13 +110,20 @@ function fixture() {
           children: [makeCase('testContentsBookmarkAndResumeAfterRelaunch', 'Failed'), makeCase('testThreeArticlesHaveNativeBodyText', 'Passed')] }
       ] }
     ] }], testPlanConfigurations: [{ configurationId: '1', configurationName: 'Test Scheme Action' }] };
+  const exit = { exit_code: 0, signal: null, error: null };
+  memory.json('cleanup.json', { schema_version: 1, status: 'owned-simulator-deleted', UUID: uuid, shutdown_exit_code: 0, delete_exit_code: 0 });
+  memory.json('cleanup-devices-before.exit.json', exit); memory.json('cleanup-devices-before.stdout.log', current);
+  memory.json('cleanup-shutdown.exit.json', exit); memory.json('cleanup-delete.exit.json', exit);
+  memory.json('cleanup-devices-after.exit.json', exit); memory.json('cleanup-devices-after.stdout.log', { devices: {} });
+  memory.json('ui-test-results.exit.json', exit);
+  const cached = memory.add(evidence + '/ui-test-results.stdout.json');
+  Object.defineProperty(cached, 'data', { configurable: true, get: () => Buffer.from(JSON.stringify(results)) });
   const f = { ...memory, env, intent, selection, current, calls, primary, results, makeCase };
   f.run = async (binary, args, options) => {
     assert.equal(binary, 'xcrun'); assert.equal(options.env, env); assert.equal(options.cwd, '/workspace');
     assert.ok(options.timeoutMs <= 45000); calls.push({ binary, args, options });
-    if (args[0] === 'simctl' && args[1] === 'list') return healthy(JSON.stringify(current));
-    if (args[0] === 'simctl' && args[1] === 'spawn') return healthy(logs);
-    if (args[1] === 'get') return healthy(JSON.stringify(results));
+    assert.equal(args[0], 'xcresulttool');
+    assert.ok(['help', 'export'].includes(args[1]), 'No live Simulator or fresh result query is permitted');
     if (args[1] === 'help') return healthy(help);
     const output = args[args.indexOf('--output-path') + 1];
     memory.add(output + '/failure.png', png);
@@ -124,9 +131,11 @@ function fixture() {
     options.monitor(); return healthy('');
   };
   f.capture = async override => {
+    const protectedNames = ['ui-command.exit.json', 'summary.json', 'ui-test-results.exit.json', 'ui-test-results.stdout.json', 'cleanup.json'];
+    const before = new Map(protectedNames.filter(name => memory.nodes.has(evidence + '/' + name))
+      .map(name => [name, Buffer.from(memory.nodes.get(evidence + '/' + name).data)]));
     const result = await captureDiagnostics(env, { io: memory.io, run: override ?? f.run, nonce: () => exportToken, clock: () => 100 });
-    // The fixture may deliberately drift an owner before capture; only immutable primary results are compared here.
-    for (const name of ['ui-command.exit.json', 'summary.json']) assert.deepEqual(memory.nodes.get(evidence + '/' + name).data, primary.get(evidence + '/' + name));
+    for (const [name, data] of before) assert.deepEqual(memory.nodes.get(evidence + '/' + name).data, data);
     return result;
   };
   return f;
@@ -136,31 +145,33 @@ function rewrite(f, name, change) {
   const data = JSON.parse(f.nodes.get(evidence + '/' + name).data); change(data); f.json(name, data);
 }
 
-test('known owned failure captures numeric geometry and PNGs only from one actual failed Native2 case', async () => {
+test('cached failed parents select one PNG scope after proven owned cleanup without new queries', async () => {
   const f = fixture(), report = await f.capture();
-  assert.equal(report.status, 'diagnostic-only-complete'); assert.equal(report.primary_ui_outcome, 'failure');
-  assert.equal(report.primary_acceptance_modified, false); assert.deepEqual(report.geometry_samples, [sample]);
-  assert.equal(report.geometry_samples[0].markerWindowY, 116);
-  assert.deepEqual(f.calls.map(call => call.args.slice(0, 3)), [['simctl', 'list', 'devices'], ['simctl', 'spawn', uuid],
-    ['xcresulttool', 'get', 'test-results'], ['xcresulttool', 'help', 'export'], ['xcresulttool', 'export', 'attachments']]);
-  assert.deepEqual(f.calls[1].args, ['simctl', 'spawn', uuid, 'log', 'show', '--last', '20m', '--style', 'json', '--predicate', LOG_PREDICATE]);
-  assert.equal(f.calls[1].options.timeoutMs, 45000); assert.equal(f.calls[1].options.maxBytes, 512 * 1024);
-  assert.equal(f.calls[2].options.timeoutMs, 5000); assert.equal(f.calls[2].options.maxBytes, 512 * 1024);
-  assert.equal(f.calls[3].options.timeoutMs, 5000); assert.equal(f.calls[3].options.maxBytes, 64 * 1024);
+  assert.equal(report.status, 'partial'); assert.equal(report.primary_ui_outcome, 'failure');
+  assert.equal(report.primary_acceptance_modified, false); assert.equal(report.geometry, 'not-collected');
+  assert.deepEqual(report.unmeasured, ['reader-marker-geometry-after-owned-cleanup']);
+  assert.equal(report.geometry_samples, undefined); assert.deepEqual(report.errors, []);
+  assert.equal(report.cleanup.absence_proven, true); assert.equal(report.owner.deleted_identity_verified, true);
+  assert.equal(report.cached_results.fresh_query_count, 0);
+  assert.deepEqual(f.calls.map(call => call.args.slice(0, 3)), [['xcresulttool', 'help', 'export'], ['xcresulttool', 'export', 'attachments']]);
+  assert.equal(f.calls[0].options.timeoutMs, 5000); assert.equal(f.calls[0].options.maxBytes, 64 * 1024);
+  assert.equal(f.calls[1].options.timeoutMs, 45000);
+  assert.deepEqual(f.calls[1].args.slice(-4), ['--test-id', 'NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch()', '--filter', '*.png']);
   assert.ok(!f.calls.flatMap(call => call.args).includes('--only-failures')); assert.ok(!f.calls.flatMap(call => call.args).includes('--all'));
-  assert.deepEqual(f.calls[4].args.slice(-4), ['--test-id', 'NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch()', '--filter', '*.png']);
-  assert.equal(report.commands.find(row => row.name === 'test-results').raw_output_retained, false);
-  assert.ok(!f.writes.some(file => file.includes('reader-diagnostic-test-results.')));
+  assert.ok(!f.writes.some(file => /reader-diagnostic-(?:test-results|devices|geometry)\./.test(file)));
   assert.equal(report.attachments.length, 2); assert.equal(report.temporary_export_removed, true);
+  assert.equal(report.failure_attachments, 'bounded-selected-failed-case-PNGs-captured');
   assert.equal(f.removals.length, 1); assert.ok(f.nodes.has(evidence + '/ui.xcresult'));
   assert.ok(f.nodes.get(evidence + '/reader-diagnostic-summary.json').data.length <= 128 * 1024);
-  assert.ok(report.retained_payload_bytes_excluding_manifest < 4 * 1024 * 1024);
 });
 
-test('UI success captures geometry without help or attachment export', async () => {
-  const f = fixture(); f.env.UI_OUTCOME = 'success';
-  const report = await f.capture(); assert.equal(report.status, 'diagnostic-only-complete');
-  assert.equal(f.calls.length, 2); assert.equal(report.failure_attachments, 'not-requested-ui-succeeded');
+test('successful UI does not export PNG or claim marker geometry was measured', async () => {
+  const f = fixture(); f.env.UI_OUTCOME = 'success'; f.json('ui-command.exit.json', { xcodebuild_exit_code: 0, tee_exit_code: 0 });
+  caseRows(f)[0] = f.makeCase('testContentsBookmarkAndResumeAfterRelaunch', 'Passed');
+  for (const parent of parentRows(f)) parent.result = 'Passed';
+  const report = await f.capture(); assert.equal(report.status, 'partial');
+  assert.equal(f.calls.length, 0); assert.equal(report.failure_attachments, 'not-requested-ui-succeeded');
+  assert.equal(report.geometry, 'not-collected'); assert.equal(report.geometry_samples, undefined);
 });
 
 for (const name of ['owned-simulator.json', 'owned-simulator-intent.json', 'selection.json', 'create-simulator.exit.json', 'source-head.stdout.log', 'devices-before-create.stdout.log']) {
@@ -184,7 +195,7 @@ for (const [label, name, change] of [
 });
 
 for (const [key, value] of [['GITHUB_ACTIONS', 'false'], ['GITHUB_REPOSITORY', 'another/repo'], ['REPOSITORY_IS_PRIVATE', 'true'],
-  ['EVIDENCE_DIR', '/elsewhere'], ['GITHUB_WORKSPACE', '/workspace/../workspace'], ['UI_OUTCOME', 'cancelled']]) {
+  ['EVIDENCE_DIR', '/elsewhere'], ['GITHUB_WORKSPACE', '/workspace/../workspace'], ['UI_OUTCOME', 'cancelled'], ['UI_OUTCOME', 'skipped'], ['UI_OUTCOME', 'unknown']]) {
   test('invalid public CI context has no command or write: ' + key, async () => {
     const f = fixture(); f.env[key] = value;
     assert.equal((await f.capture()).status, 'partial'); assert.equal(f.calls.length, 0); assert.deepEqual(f.writes, []);
@@ -226,19 +237,10 @@ test('a consistent but non27 runtime identifier is rejected before commands', as
   rewrite(f, 'create-simulator.exit.json', v => { v.arguments[4] = other; });
   assert.equal((await f.capture()).status, 'partial'); assert.equal(f.calls.length, 0);
 });
-test('current UUID/name/runtime drift prevents simctl spawn', async () => {
-  const f = fixture(); f.current.devices[runtimeID][0].name = 'unowned';
-  assert.equal((await f.capture()).status, 'partial'); assert.equal(f.calls.length, 1);
-});
 test('existing diagnostic manifest is neither replaced nor extended', async () => {
   const f = fixture(); f.add(evidence + '/reader-diagnostic-summary.json', '{"old":true}');
   const report = await f.capture(); assert.equal(report.status, 'partial'); assert.equal(f.calls.length, 0);
   assert.equal(f.nodes.get(evidence + '/reader-diagnostic-summary.json').data.toString(), '{"old":true}');
-});
-test('unknown numeric log schema is partial while failure attachments remain collectable', async () => {
-  const f = fixture(), run = f.run;
-  const report = await f.capture((binary, args, options) => args[1] === 'spawn' ? healthy('[{"eventMessage":"other"}]') : run(binary, args, options));
-  assert.equal(report.status, 'partial'); assert.equal(report.geometry, 'partial'); assert.equal(report.attachments.length, 2);
 });
 test('geometry schema rejects nonfinite or extra nonnumeric fields and keeps32 samples', () => {
   assert.throws(() => geometrySamples(JSON.stringify([{ eventMessage: 'AILibraryReaderGeometry ' + JSON.stringify({ ...sample, contentHeight: null }) }])));
@@ -246,13 +248,6 @@ test('geometry schema rejects nonfinite or extra nonnumeric fields and keeps32 s
   assert.equal(geometrySamples(JSON.stringify(Array.from({ length: 100 }, () => ({ eventMessage: 'AILibraryReaderGeometry ' + JSON.stringify(sample) })))).length, 32);
 });
 
-for (const kind of ['timeout', 'output-limit']) test('bounded geometry capture failure remains partial: ' + kind, async () => {
-  const f = fixture(), run = f.run;
-  const report = await f.capture((binary, args, options) => args[1] === 'spawn'
-    ? { ...healthy('[]'), status: null, signal: 'SIGKILL', error: kind } : run(binary, args, options));
-  assert.equal(report.status, 'partial'); assert.equal(report.attachments.length, 2);
-  assert.equal(report.primary_ui_outcome, 'failure');
-});
 for (const text of ['unknown schema', help.replace(/--test-id/g, '--all'), help.replace(/--filter/g, '--output')]) {
   test('unknown attachments help performs no export', async () => {
     const f = fixture(), run = f.run;
@@ -319,14 +314,15 @@ for (const [label, change] of [
 ]) test('unknown or invalid failed result scope suppresses PNG export: ' + label, async () => {
   const f = fixture(); change(f);
   const report = await f.capture(); assert.equal(report.status, 'partial');
-  assert.ok(f.calls.some(call => call.args[1] === 'get'));
+  assert.equal(f.calls.length, 0);
   assert.ok(!f.calls.some(call => call.args[1] === 'help' || call.args[1] === 'export'));
   assert.equal(report.attachments.length, 0); assert.equal(report.primary_acceptance_modified, false);
 });
 test('the other existing selected case can be the sole actual failed PNG scope', async () => {
   const f = fixture(); caseRows(f)[0] = f.makeCase('testContentsBookmarkAndResumeAfterRelaunch', 'Passed');
   caseRows(f)[1] = f.makeCase('testThreeArticlesHaveNativeBodyText', 'Failed');
-  const report = await f.capture(); assert.equal(report.status, 'diagnostic-only-complete');
+  const report = await f.capture(); assert.equal(report.status, 'partial');
+  assert.equal(report.failure_attachments, 'bounded-selected-failed-case-PNGs-captured');
   const exports = f.calls.filter(call => call.args[1] === 'export'); assert.equal(exports.length, 1);
   assert.ok(exports[0].args.includes('NativeReaderUITests/testThreeArticlesHaveNativeBodyText()'));
 });
@@ -355,26 +351,84 @@ test('a video or non-PNG file returned despite the filter is rejected before any
   assert.equal(report.status, 'partial'); assert.equal(report.attachments.length, 0);
   assert.ok(report.errors.some(row => row.includes('outside the PNG filter')));
 });
-for (const kind of ['timeout', 'output-limit', 'unconfirmed-close']) test('bounded failed-results read stops export: ' + kind, async () => {
-  const f = fixture(), run = f.run;
-  const report = await f.capture((binary, args, options) => args[1] === 'get'
-    ? { ...healthy(''), status: null, signal: 'SIGKILL', error: kind, termination_confirmed: kind !== 'unconfirmed-close' } : run(binary, args, options));
-  assert.equal(report.status, 'partial'); assert.ok(!f.calls.some(call => call.args[1] === 'export'));
+function noCommands(report, f) {
+  assert.equal(report.status, 'partial'); assert.equal(f.calls.length, 0); assert.equal(report.attachments.length, 0);
+  assert.equal(report.primary_acceptance_modified, false);
+}
+for (const name of ['cleanup.json', 'cleanup-devices-before.exit.json', 'cleanup-devices-before.stdout.log',
+  'cleanup-shutdown.exit.json', 'cleanup-delete.exit.json', 'cleanup-devices-after.exit.json', 'cleanup-devices-after.stdout.log',
+  'ui-command.exit.json', 'ui-test-results.exit.json', 'ui-test-results.stdout.json']) {
+  test('missing cached primary or cleanup evidence suppresses every PNG command: ' + name, async () => {
+    const f = fixture(); f.nodes.delete(evidence + '/' + name); noCommands(await f.capture(), f);
+  });
+}
+for (const [label, name, change] of [
+  ['unknown cleanup', 'cleanup.json', v => { v.status = 'unresolved'; }],
+  ['different cleanup UUID', 'cleanup.json', v => { v.UUID = '12345678-89AB-CDEF-0123-456789ABCDEF'; }],
+  ['failed deletion', 'cleanup-delete.exit.json', v => { v.exit_code = 1; }],
+  ['unconfirmed deletion', 'cleanup-delete.exit.json', v => { v.signal = 'SIGKILL'; }],
+  ['failed shutdown', 'cleanup-shutdown.exit.json', v => { v.error = 'timeout'; }],
+  ['unknown cleanup exit schema', 'cleanup-devices-after.exit.json', v => { v.extra = true; }],
+  ['different precleanup owner', 'cleanup-devices-before.stdout.log', v => { v.devices[runtimeID][0].name = 'unowned'; }],
+  ['different precleanup runtime', 'cleanup-devices-before.stdout.log', v => { v.devices.other = v.devices[runtimeID]; delete v.devices[runtimeID]; }],
+  ['missing before identity', 'cleanup-devices-before.stdout.log', v => { v.devices = {}; }],
+  ['duplicate before identity', 'cleanup-devices-before.stdout.log', v => { v.devices[runtimeID].push(structuredClone(v.devices[runtimeID][0])); }],
+  ['owned still present', 'cleanup-devices-after.stdout.log', v => { v.devices = { [runtimeID]: [{ udid: uuid }] }; }],
+  ['failed cached query', 'ui-test-results.exit.json', v => { v.exit_code = 1; }],
+  ['cached query timeout', 'ui-test-results.exit.json', v => { v.error = 'ETIMEDOUT'; }],
+  ['cached query killed', 'ui-test-results.exit.json', v => { v.signal = 'SIGKILL'; }],
+  ['unknown cached exit shape', 'ui-test-results.exit.json', v => { v.binary = 'xcrun'; }],
+  ['UI failure with exit0', 'ui-command.exit.json', v => { v.xcodebuild_exit_code = 0; }],
+  ['unknown UI exit', 'ui-command.exit.json', v => { v.xcodebuild_exit_code = 70; }],
+  ['failed tee', 'ui-command.exit.json', v => { v.tee_exit_code = 1; }]
+]) test('drifted cached or deletion proof suppresses PNG commands: ' + label, async () => {
+  const f = fixture(); rewrite(f, name, change); noCommands(await f.capture(), f);
 });
-test('failed-results adapter output above512KiB is rejected without a new raw artifact', async () => {
-  const f = fixture(), run = f.run;
-  const report = await f.capture((binary, args, options) => args[1] === 'get'
-    ? healthy(Buffer.alloc(512 * 1024 + 1)) : run(binary, args, options));
-  assert.equal(report.status, 'partial'); assert.ok(!f.calls.some(call => call.args[1] === 'export'));
-  assert.ok(!f.writes.some(file => file.includes('reader-diagnostic-test-results.')));
+test('known already-absent branch proves absence without invented after/delete files', async () => {
+  const f = fixture(); f.json('cleanup.json', { schema_version: 1, status: 'already-absent', UUID: uuid });
+  f.json('cleanup-devices-before.stdout.log', { devices: {} });
+  for (const name of ['cleanup-shutdown', 'cleanup-delete', 'cleanup-devices-after'])
+    for (const ext of ['.exit.json', '.stdout.log', '.stderr.log']) f.nodes.delete(evidence + '/' + name + ext);
+  const report = await f.capture(); assert.equal(report.cleanup.status, 'already-absent');
+  assert.equal(report.failure_attachments, 'bounded-selected-failed-case-PNGs-captured'); assert.equal(f.calls.length, 2);
 });
-test('empty geometry logs remain partial while a bounded selected PNG can still be captured', async () => {
-  const f = fixture(), run = f.run;
-  const report = await f.capture((binary, args, options) => args[1] === 'spawn' ? healthy('[]') : run(binary, args, options));
-  assert.equal(report.status, 'partial'); assert.equal(report.geometry, 'partial');
-  assert.ok(report.attachments.some(row => row.name.endsWith('.png')));
-  assert.equal(report.exported.test_id, 'NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch()');
+test('already-absent is rejected if the before inventory contains the owned UUID', async () => {
+  const f = fixture(); f.json('cleanup.json', { schema_version: 1, status: 'already-absent', UUID: uuid });
+  noCommands(await f.capture(), f);
 });
+test('already-absent rejects leftover delete/after evidence from an unknown branch', async () => {
+  const f = fixture(); f.json('cleanup.json', { schema_version: 1, status: 'already-absent', UUID: uuid });
+  f.json('cleanup-devices-before.stdout.log', { devices: {} }); noCommands(await f.capture(), f);
+});
+test('known already-shutdown branch needs deletion and absence but no shutdown command', async () => {
+  const f = fixture(); rewrite(f, 'cleanup-devices-before.stdout.log', v => { v.devices[runtimeID][0].state = 'Shutdown'; });
+  f.json('cleanup.json', { schema_version: 1, status: 'owned-simulator-deleted', UUID: uuid, shutdown: 'already-shutdown', delete_exit_code: 0 });
+  f.nodes.delete(evidence + '/cleanup-shutdown.exit.json');
+  const report = await f.capture(); assert.equal(report.cleanup.absence_proven, true); assert.equal(f.calls.length, 2);
+});
+for (const name of ['ui-test-results.stdout.json', 'cleanup.json']) test('symlink cached/cleanup evidence starts no PNG command: ' + name, async () => {
+  const f = fixture(); f.add(evidence + '/' + name, '/elsewhere', 'symlink'); noCommands(await f.capture(), f);
+});
+test('malformed cached JSON starts no PNG command and is not rewritten', async () => {
+  const f = fixture(); f.add(evidence + '/ui-test-results.stdout.json', '{'); noCommands(await f.capture(), f);
+});
+test('cached raw output above512KiB is rejected before reading or exporting', async () => {
+  const f = fixture(); f.add(evidence + '/ui-test-results.stdout.json', '{}', 'file', 512 * 1024 + 1);
+  noCommands(await f.capture(), f); assert.ok(!f.writes.some(file => file.includes('test-results.')));
+});
+for (const kind of ['inode', 'mtime']) test('changed cached read fails closed: ' + kind, async () => {
+  const f = fixture(), open = f.io.openSync, stat = f.io.fstatSync; let cachedFD, reads = 0;
+  f.io.openSync = (file, flags) => { const fd = open(file, flags); if (file === evidence + '/ui-test-results.stdout.json') cachedFD = fd; return fd; };
+  f.io.fstatSync = fd => { const value = stat(fd); if (fd === cachedFD) { reads++; if (kind === 'inode' && reads === 1) value.ino++; if (kind === 'mtime' && reads === 2) value.mtimeMs++; } return value; };
+  noCommands(await f.capture(), f);
+});
+test('fresh SDK result reads and Simulator commands are absent even when the command adapter would reject them', async () => {
+  const f = fixture(); const report = await f.capture();
+  assert.equal(report.failure_attachments, 'bounded-selected-failed-case-PNGs-captured');
+  assert.ok(f.calls.every(call => call.args[0] === 'xcresulttool' && ['help', 'export'].includes(call.args[1])));
+  assert.ok(!f.writes.some(file => /reader-diagnostic-(?:devices|geometry|test-results)\./.test(file)));
+});
+
 test('no matching PNG remains partial without broadening the failed-case filter', async () => {
   const f = fixture(), run = f.run;
   const report = await f.capture((binary, args, options) => {
@@ -401,13 +455,20 @@ test('several PNGs in the one failed case share the existing4MiB artifact budget
   assert.ok(report.attachments.every(row => row.bytes <= LIMITS.pngBytes));
 });
 
-test('all diagnostic reads and the selected PNG export share the105second deadline', async () => {
+test('help and selected PNG export still share the unchanged105second deadline', async () => {
   const f = fixture(), run = f.run; let now = 0;
   const report = await captureDiagnostics(f.env, { io: f.io, nonce: () => exportToken, clock: () => now,
     run: async (binary, args, options) => { const result = await run(binary, args, options); now += options.timeoutMs; return result; } });
-  assert.equal(report.status, 'diagnostic-only-complete'); assert.ok(now <= 104000);
-  const exports = f.calls.filter(call => call.args[1] === 'export'); assert.equal(exports.length, 1);
-  assert.ok(exports[0].options.timeoutMs < 45000);
+  assert.equal(report.failure_attachments, 'bounded-selected-failed-case-PNGs-captured'); assert.ok(now <= 104000);
+  assert.equal(f.calls.length, 2); assert.equal(f.calls[1].options.timeoutMs, 45000);
+});
+test('cached-read time does not reset the deadline or enable a late PNG export', async () => {
+  const f = fixture(), run = f.run; let now = 0, clocks = 0;
+  const report = await captureDiagnostics(f.env, { io: f.io, nonce: () => exportToken,
+    clock: () => { if (++clocks === 2) now = 103000; return now; },
+    run: async (binary, args, options) => { const result = await run(binary, args, options); now += options.timeoutMs; return result; } });
+  assert.equal(report.status, 'partial'); assert.equal(f.calls.length, 1); assert.equal(f.calls[0].args[1], 'help');
+  assert.ok(report.errors.some(row => row.includes('budget exhausted'))); assert.ok(now <= 104000);
 });
 
 test('live monitor inspects exported disk before attachment selection', () => {
@@ -458,15 +519,15 @@ test('successful kill request without close is not confirmed termination', async
   assert.equal(killed, 1); assert.equal(detached, 1); assert.equal(result.error, 'timeout');
   assert.equal(result.group_kill_error, null); assert.equal(result.termination_confirmed, false);
 });
-for (const phase of ['spawn', 'export']) test('unobserved close prevents further commands and temp deletion: ' + phase, async () => {
+for (const phase of ['help', 'export']) test('unobserved close prevents further commands and temp deletion: ' + phase, async () => {
   const f = fixture(), run = f.run;
   const report = await f.capture((binary, args, options) => args[1] === phase
     ? { ...healthy(''), status: null, signal: 'SIGKILL', error: 'timeout', termination_confirmed: false } : run(binary, args, options));
   assert.equal(report.status, 'partial'); assert.equal(report.primary_acceptance_modified, false);
-  if (phase === 'spawn') assert.ok(!f.calls.some(call => call.args[1] === 'help'));
+  if (phase === 'help') assert.ok(!f.calls.some(call => call.args[1] === 'export'));
   else { assert.equal(f.removals.length, 0); assert.ok(f.nodes.has(evidence + '/reader-diagnostic-export-' + exportToken)); }
 });
-test('missing termination confirmation is partial and prevents Simulator spawn', async () => {
+test('missing termination confirmation is partial and prevents PNG export', async () => {
   const f = fixture(); const report = await f.capture(async () => { const value = healthy(JSON.stringify(f.current)); delete value.termination_confirmed; return value; });
   assert.equal(report.status, 'partial'); assert.equal(report.commands.length, 1);
   assert.equal(report.commands[0].termination_confirmed, false);
@@ -482,10 +543,10 @@ test('unconfirmed group kill remains partial and closes local handles within a f
 });
 test('unconfirmed child termination prevents further commands and preserves the live export tree', async () => {
   const f = fixture(), run = f.run;
-  const report = await f.capture((binary, args, options) => args[1] === 'spawn'
+  const report = await f.capture((binary, args, options) => args[1] === 'help'
     ? { ...healthy(''), status: null, signal: 'SIGKILL', error: 'timeout', group_kill_error: 'unconfirmed' } : run(binary, args, options));
-  assert.equal(report.status, 'partial'); assert.equal(f.calls.length, 1);
-  assert.ok(!f.calls.some(call => call.args[1] === 'help'));
+  assert.equal(report.status, 'partial'); assert.equal(f.calls.length, 0);
+  assert.ok(!f.calls.some(call => call.args[1] === 'export'));
 });
 test('bounded healthy fake child closes successfully and live export monitor stops unsafe output', async () => {
   const child = fakeChild();
@@ -500,21 +561,26 @@ test('bounded healthy fake child closes successfully and live export monitor sto
   assert.equal(spawns, 0); assert.match(rejected.error, /disk limit/);
 });
 
-test('workflow keeps primary budgets and audits, then narrowly stages diagnostics under the old16MiB ceiling', () => {
+test('workflow places cached PNG diagnostics after primary results without gating on Passed audit success', () => {
   const text = readFileSync(new URL('../../.github/workflows/ios-sdk27-compatibility.yml', import.meta.url), 'utf8');
   const runtime = text.slice(text.indexOf('  ios-runtime27-smoke:'));
   assert.match(runtime, /timeout-minutes: 40/);
   assert.match(runtime, /name: Run only the existing two native UI smoke cases\n        timeout-minutes: 12/);
   assert.match(runtime, /name: Create and boot this job's dedicated Simulator\n        timeout-minutes: 6/);
   assert.match(runtime, /\['bootstatus', uuid, '-b'\], 240000/);
-  assert.ok(runtime.indexOf('id: ui') < runtime.indexOf('id: reader_diagnostics'));
-  assert.ok(runtime.indexOf('id: reader_diagnostics') < runtime.indexOf('id: cleanup'));
-  assert.match(runtime, /id: reader_diagnostics\n        timeout-minutes: 2\n        continue-on-error: true/);
+  assert.ok(runtime.indexOf('id: ui') < runtime.indexOf('id: cleanup'));
+  assert.ok(runtime.indexOf('id: cleanup') < runtime.indexOf('id: app'));
+  assert.ok(runtime.indexOf('id: app') < runtime.indexOf('id: results'));
+  assert.ok(runtime.indexOf('id: results') < runtime.indexOf('id: reader_diagnostics'));
+  assert.ok(runtime.indexOf('id: reader_diagnostics') < runtime.indexOf('      - name: Record completion'));
+  const diagnostic = runtime.slice(runtime.indexOf('      - name: Capture bounded failure PNGs'), runtime.indexOf('      - name: Record completion'));
+  assert.match(diagnostic, /id: reader_diagnostics\n        timeout-minutes: 2\n        continue-on-error: true/);
+  assert.match(diagnostic, /if: always\(\) && !cancelled\(\) && steps\.ui\.outcome != 'skipped' && steps\.evidence\.outcome == 'success'/);
+  assert.ok(!diagnostic.includes('steps.results.outcome'));
   assert.match(runtime, /Failed or skipped parents are not acceptance/);
   assert.match(runtime, /assert\.equal\(tests\.length, 2,/);
   assert.match(runtime, /const budget = 16 \* 1024 \* 1024, reserved = 128 \* 1024, rawCap = 256 \* 1024, metadataCap = 1024 \* 1024/);
   assert.match(runtime, /const diagnosticCap = 4 \* 1024 \* 1024/);
-  assert.match(runtime, /Only the named diagnostic outputs may be staged/);
   assert.match(runtime, /omitted-binary-result-directory/);
   assert.match(runtime, /assert\.deepEqual\(rejected, \[\]/);
 });

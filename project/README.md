@@ -22,7 +22,7 @@
 
 旧版と更新失敗時の[保持回帰3件](records/2026-10-25/ios-storage-retention-regression.md)では、実repositoryの3世代snapshot・後読資産、孤立版の無変更、pointer書込失敗時の既存bytesを検査する。Mac新3件とiOS単体122件のcompileを区別し、将来の削除・pin・容量管理方針の採択は残す。
 
-[SDK27互換性preflight](records/2026-10-26/ios-sdk27-compatibility-preflight.md)は、head38fdでもunsigned Archiveが成功し、Native2は初回目次で1成功・1失敗だった。AX座標は得たが、内部marker logと画像の限定収集はpartialで、実描画とAX枠の差は未確定である。実失敗testcaseとPNGだけに絞る次候補を準備し、製品位置・合否条件・TODO12／32完了とIOS-11・23等の未完了を保持する。
+[SDK27互換性preflight](records/2026-10-26/ios-sdk27-compatibility-preflight.md)は、9fbdのArchiveが成功し、NativeはUI未到達の基盤障害後、限定1回の再実行で2件失敗した。PNG取得は重複queryのtimeoutで未到達のため、既存primary結果の再利用へ整理する候補を準備する。本文配置・AX形状・合否条件・予算は変えず、TODO12／32完了とIOS-11・23等の未完了を保持する。
 
 現行SDKへの[Archive互換性の事前検証](records/2026-10-25/ios-sdk26-archive-preflight.md)は、公開repoの標準Hosted環境でdevice Releaseと実同梱物を監査する。資格情報を使う署名・Provisioningを分け、SDK26の初回実行とStore配布・ローカルOS更新の採択を区別する。
 

@@ -129,6 +129,69 @@ function deviceRows(value) {
   return rows;
 }
 
+function readSuccessfulExit(io, evidence, name) {
+  const value = JSON.parse(readBounded(io, path.join(evidence, name), LIMITS.metadataBytes));
+  assert.ok(value && typeof value === 'object' && !Array.isArray(value));
+  assert.deepEqual(Object.keys(value).sort(), ['error', 'exit_code', 'signal']);
+  assert.equal(value.exit_code, 0); assert.equal(value.signal, null); assert.equal(value.error, null);
+  return value;
+}
+
+// These are the two successful branches of the unchanged owned cleanup step.
+// Its exit files have no argv fields; bind them through the proven owner, exact
+// cleanup UUID and before/after inventories written by that same workflow step.
+export function verifyCleanup(evidence, owned, io = fs) {
+  const read = name => JSON.parse(readBounded(io, path.join(evidence, name), LIMITS.metadataBytes));
+  const cleanup = read('cleanup.json');
+  assert.equal(cleanup.schema_version, 1); assert.equal(cleanup.UUID, owned.UUID);
+  assert.ok(['owned-simulator-deleted', 'already-absent'].includes(cleanup.status), 'Cleanup did not prove owned absence');
+  readSuccessfulExit(io, evidence, 'cleanup-devices-before.exit.json');
+  const before = deviceRows(read('cleanup-devices-before.stdout.log'));
+  const matches = before.filter(({ device }) => device.udid.toUpperCase() === owned.UUID);
+  if (cleanup.status === 'already-absent') {
+    assert.deepEqual(Object.keys(cleanup).sort(), ['UUID', 'schema_version', 'status']);
+    assert.equal(matches.length, 0, 'Already-absent conflicts with its inventory');
+    for (const name of ['cleanup-shutdown', 'cleanup-delete', 'cleanup-devices-after'])
+      for (const extension of ['.exit.json', '.stdout.log', '.stderr.log'])
+        assert.ok(missing(io, path.join(evidence, name + extension)), 'Unknown cleanup branch evidence');
+  } else {
+    assert.equal(matches.length, 1);
+    const { runtime, device } = matches[0];
+    assert.equal(runtime, owned.runtime_identifier); assert.equal(device.name, owned.name);
+    assert.equal(device.deviceTypeIdentifier, owned.device_type_identifier);
+    assert.equal(cleanup.delete_exit_code, 0);
+    if (device.state === 'Shutdown') {
+      assert.deepEqual(Object.keys(cleanup).sort(), ['UUID', 'delete_exit_code', 'schema_version', 'shutdown', 'status']);
+      assert.equal(cleanup.shutdown, 'already-shutdown');
+      for (const extension of ['.exit.json', '.stdout.log', '.stderr.log'])
+        assert.ok(missing(io, path.join(evidence, 'cleanup-shutdown' + extension)));
+    } else {
+      assert.equal(device.state, 'Booted', 'Unknown pre-cleanup state');
+      assert.deepEqual(Object.keys(cleanup).sort(), ['UUID', 'delete_exit_code', 'schema_version', 'shutdown_exit_code', 'status']);
+      assert.equal(cleanup.shutdown_exit_code, 0);
+      readSuccessfulExit(io, evidence, 'cleanup-shutdown.exit.json');
+    }
+    readSuccessfulExit(io, evidence, 'cleanup-delete.exit.json');
+    readSuccessfulExit(io, evidence, 'cleanup-devices-after.exit.json');
+    const after = deviceRows(read('cleanup-devices-after.stdout.log'));
+    assert.ok(after.every(({ device }) => device.udid.toUpperCase() !== owned.UUID), 'Owned UUID remains after cleanup');
+  }
+  return { status: cleanup.status, UUID: owned.UUID, absence_proven: true, live_simulator_queries: 0 };
+}
+
+export function readCachedUIResults(env, evidence, io = fs) {
+  const ui = JSON.parse(readBounded(io, path.join(evidence, 'ui-command.exit.json'), LIMITS.metadataBytes));
+  assert.deepEqual(Object.keys(ui).sort(), ['tee_exit_code', 'xcodebuild_exit_code']);
+  assert.equal(ui.tee_exit_code, 0, 'Primary UI log capture must be intact');
+  assert.equal(ui.xcodebuild_exit_code, env.UI_OUTCOME === 'failure' ? 65 : 0, 'Unknown UI outcome/exit combination');
+  const exit = readSuccessfulExit(io, evidence, 'ui-test-results.exit.json');
+  const raw = readBounded(io, path.join(evidence, 'ui-test-results.stdout.json'), LIMITS.resultsBytes);
+  return { value: JSON.parse(raw), evidence: { source: 'existing-primary-result-files',
+    stdout_file: 'ui-test-results.stdout.json', exit_file: 'ui-test-results.exit.json',
+    bytes: raw.length, SHA256: createHash('sha256').update(raw).digest('hex'), query_exit: exit,
+    UI_command_exit: ui, fresh_query_count: 0 } };
+}
+
 // Bind the known SDK27 Native2 raw hierarchy before selecting any PNG export.
 // Failed parents are evidence of a failed run, never primary acceptance.
 export function failedNativeCases(value, { owned, runtime, workspace }) {
@@ -302,7 +365,8 @@ export async function captureDiagnostics(env, dependencies = {}) {
   const report = { schema_version: 1, status: 'partial', diagnostic_only: true, primary_ui_outcome: env.UI_OUTCOME ?? null,
     primary_acceptance_modified: false, source_head: env.EXPECTED_SOURCE_HEAD ?? null,
     run_id: env.GITHUB_RUN_ID ?? null, run_attempt: env.GITHUB_RUN_ATTEMPT ?? null,
-    limits: LIMITS, commands: [], attachments: [], omissions: [], errors: [] };
+    limits: LIMITS, commands: [], attachments: [], omissions: [], errors: [],
+    geometry: 'not-collected', unmeasured: ['reader-marker-geometry-after-owned-cleanup'] };
   let evidence, temp = null, tempIdentity = null, retained = 0, unsafeChild = false;
   const put = (name, data) => {
     assert.ok(name.startsWith(PREFIX) && /^[A-Za-z0-9._-]+$/.test(name));
@@ -347,29 +411,16 @@ export async function captureDiagnostics(env, dependencies = {}) {
     const { owned, runtime } = verifyOwner(env, io);
     report.owner = { UUID: owned.UUID, token: owned.token, name: owned.name, runtime_identifier: runtime.identifier,
       runtime_version: runtime.version, runtime_build: runtime.buildversion };
-    const current = await command('devices', ['simctl', 'list', 'devices', '--json'], LIMITS.smallMs, LIMITS.helpBytes);
-    requireHealthy(current);
-    const matches = deviceRows(JSON.parse(current.stdout)).filter(({ device }) => device.udid.toUpperCase() === owned.UUID);
-    assert.equal(matches.length, 1); const live = matches[0];
-    assert.equal(live.runtime, runtime.identifier); assert.equal(live.device.name, owned.name);
-    assert.equal(live.device.deviceTypeIdentifier, owned.device_type_identifier);
-    assert.equal(live.device.state, 'Booted'); assert.equal(live.device.isAvailable, true);
-    report.owner.current_inventory_verified = true;
-    try {
-      const logs = await command('geometry', ['simctl', 'spawn', owned.UUID, 'log', 'show', '--last', '20m',
-        '--style', 'json', '--predicate', LOG_PREDICATE], LIMITS.logMs, LIMITS.logBytes);
-      requireHealthy(logs); report.geometry_samples = geometrySamples(logs.stdout.toString('utf8'));
-      report.geometry = 'numeric-samples-captured';
-    } catch (error) { report.geometry = 'partial'; report.errors.push('Geometry: ' + message(error)); }
+    report.cleanup = verifyCleanup(evidence, owned, io);
+    report.owner.deleted_identity_verified = true;
+    const cached = readCachedUIResults(env, evidence, io);
+    report.cached_results = cached.evidence;
     if (env.UI_OUTCOME === 'failure') {
       try {
         const result = path.join(evidence, 'ui.xcresult'); noLinks(io, result, true);
-        // The later primary result audit remains independent. This bounded read only selects
-        // an actual failed Native2 case; discard its raw output instead of adding a new stager prefix.
-        const results = await command('test-results', ['xcresulttool', 'get', 'test-results', 'tests', '--path', result],
-          LIMITS.smallMs, LIMITS.resultsBytes, undefined, false);
-        requireHealthy(results);
-        const scope = failedNativeCases(JSON.parse(results.stdout), { owned, runtime, workspace: env.GITHUB_WORKSPACE });
+        // The primary query and strict Passed audit already ran. Reuse its bounded
+        // snapshot for diagnostic selection even when that audit rejected Failed parents.
+        const scope = failedNativeCases(cached.value, { owned, runtime, workspace: env.GITHUB_WORKSPACE });
         report.failed_test_scope = scope;
         for (const id of scope.not_captured) report.omissions.push({ test_id: id, reason: 'additional-failed-case-not-captured' });
         const help = await command('attachments-help', ['xcresulttool', 'help', 'export', 'attachments'], LIMITS.smallMs, LIMITS.helpBytes);
@@ -413,7 +464,7 @@ export async function captureDiagnostics(env, dependencies = {}) {
         report.failure_attachments = 'bounded-selected-failed-case-PNGs-captured';
       } catch (error) { report.failure_attachments = 'partial'; report.errors.push('Attachments: ' + message(error)); }
     } else report.failure_attachments = 'not-requested-ui-succeeded';
-    report.status = report.errors.length ? 'partial' : 'diagnostic-only-complete';
+    report.status = report.errors.length || report.unmeasured.length ? 'partial' : 'diagnostic-only-complete';
   } catch (error) { report.errors.push('Ownership/context: ' + message(error)); }
   finally {
     if (temp !== null) {

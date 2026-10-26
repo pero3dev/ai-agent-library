@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "date": "2026-10-26",
-  "status": "private-final-bound-to-actual-main270-955c; separate-review-and-new-P1-CI-pending",
+  "status": "private-PR275-CI-repair-candidate; independent-review-and-fixed-head-CI-pending",
   "purpose": "IOS-11 measured relative progress inside a native top-level block, preserving old saved semantics.",
-  "ownership": "Approved15-path App/Core/fixture/schema/Published/PBX version delta unchanged; one approved Published CI job-cap line added; total16 paths.",
-  "authority": "User autonomous iOS TODO implementation request, device QA may remain uncompleted; root approved private integration only. No remote/ref/shared/SDK execution in this stage.",
+  "ownership": "Current repair4 paths: Published setup1line, approved runtime26 preflight workflow, P1 record MD/JSON. Cumulative main955c delta17 paths; App/PBX/unit/fixture/schema unchanged from5f590.",
+  "authority": "User autonomous iOS TODO implementation authority managed by root; this stage authorizes private integration and targeted static/Node checks only. No shared/index/ref/API mutation, network, CI, SDK or Simulator execution.",
   "source_basis": {
     "source_commit": "955c066c8dc0fdbedf6f0c845a461abda39ac476",
     "source_tree": "9d2525e28ce3d9b6659eeac57b0b6f910e7e262b",
@@ -17,20 +17,21 @@
   "app_version": "0.2.16",
   "build": "18",
   "self_head": null,
-  "PR_number": null,
+  "PR_number": 275,
   "changes": [
     "Optional finite intraBlockFraction on anchor version1; old ReadingPosition fields and block-order fraction retained.",
     "Actual same-root top/end measurements, visibleTop max(adjusted,safe), legal adjusted clamp, same semantic block recovery only.",
     "Failed automatic placement cannot save proxy intermediate point; delayed buffer and prior measured departure flush retained.",
     "Unreached heading/search/TOC/inline intent survives automatic layout restart; latest user pan cancels old goal and requested VoiceOver focus.",
-    "Seven approved v3 code/fixture files byte-exact; add only exact talltable UI method to latest snapshot/picker41c3 Published prefix. Nativebcaf/pure6/three class selectors and all parent actuals remain unchanged.",
-    "PublishedCI job timeout40->50 only, root-reviewed one-line resource budget; all test/code/selector/individual15sec/audit bytes retained, not product performance budget."
+    "Seven approved v3 code/fixture files remain byte-exact. Latest snapshot/picker13 Published cases/helpers are preserved. Talltable setup adds only existing public tag/query helper before filtered More; row25 restoration checks and resume query are unchanged.",
+    "PublishedCI job timeout40->50 only, root-reviewed one-line resource budget; all test/code/selector/individual15sec/audit bytes retained, not product performance budget.",
+    "runtime26 unbound destination listing remains diagnostic. Fresh owned Simulator identity/state inventory is checked before the unchanged exact-UUID test command; existing result checker/cleanup/limits retained."
   ],
   "validation": {
     "source_independent_review": {
-      "path": "/private/tmp/ios-intrablock-position-v3-candidate-20261026/review-v3.json",
       "SHA256": "270b19f8bd1badacf8f4fb0983acad6050bdea1c1b3d0659df8600391aaa66c9",
-      "scope": "historical seven approved v3 source/fixture bytes; not a review or compilation of newly joined Published/snapshot/picker"
+      "scope": "historical seven approved v3 source/fixture bytes; not a review or compilation of newly joined Published/snapshot/picker",
+      "evidence_role": "historical-approved-v3-source-review"
     },
     "source_counts": {
       "unit": 152,
@@ -40,30 +41,33 @@
       "pure_geometry": 6,
       "selected_source_total": 22,
       "performance_separate": 1,
-      "actual_new_registration": "not-run"
+      "actual_new_registration": "Root-reported full5f590 run40252163359 registered unit152 and UI22; fixed candidate execution pending."
     },
-    "actual_new_registration_XCTest_UI_CLIcorpus": 0,
-    "final_payload_SDK_or_full_build": 0,
-    "static": "Current16-path actualmain955c bind, immutable10 source files, parent-doc preservation, approved CI40->50 one-line reversal and private tree/literal checks only; no SDK/runtime.",
+    "static": "Current4-path private repair, immutable approved2 source inputs, private tree/literal/compact/patch equivalence, cumulative17 paths and nonowned preservation; trusted main955c public-record and Git-format checks. No SDK/runtime execution in this preparation.",
     "historical_SDK_four_stages": {
-      "path": "/private/tmp/ios-intrablock-position-v3-sdkcheck-20261026/proof.json",
       "SHA256": "3e56565e0aaffd01ea3e03798525fcfad9e5e070e57dc0b9eecc569f2de4d744",
       "result": "pass App16 emitmodule;Core71+Inline37 typecheck; exact CoreSmoke6/PackageAudit5 source list host compile; diagnostics0",
       "basis": "public3dbdfe + frozen v3 four App files; not this final Published/version/docs payload compile",
-      "scope_qualification": "Historical approved source code stage only: App16module, Core71+Inline37 typecheck, exact CoreSmoke6/PackageAudit5 host compile. New Published/snapshot/picker and new project/version are not compiled."
-    }
+      "scope_qualification": "Historical approved source code stage only: App16module, Core71+Inline37 typecheck, exact CoreSmoke6/PackageAudit5 host compile. New Published/snapshot/picker and new project/version are not compiled.",
+      "evidence_role": "historical-approved-v3-four-stage-SDK-receipt"
+    },
+    "historical_private_prepare_stage": {
+      "actual_new_registration_XCTest_UI_CLIcorpus": 0,
+      "final_payload_SDK_or_full_build": 0,
+      "scope": "Values describe old private final-bind preparation before PR275 Hosted run; not current execution status."
+    },
+    "fixed_candidate_SDK_Simulator_CI_executions": 0
   },
   "unverified": [
-    "New combined source unit152/functional16+puregeometry6=22 actual registration and execution",
-    "New Published snapshot/picker/talltable compilation and exact-main270 full project",
-    "New exact-head common/native/full22/runtime26/budget/site/Release/SDK26",
-    "Physical QA, max text, rotation, revision/reflow/pan/VoiceOver and actual iOS26 viewport hypothesis"
+    "Fixed-head common/native/full22/runtime26/budget/site/Release/SDK26 checks",
+    "Fixed-head first fixture entry, row25 saving and same-layout relaunch restoration; these were not reached in the first Hosted new case",
+    "Actual rotation, max text, revision/reflow/pan/VoiceOver, physical QA and actual iOS26 viewport hypothesis"
   ],
-  "unchanged": "All non-owned mode/type/blob entries from latest picker basis, Nativebcaf and pure6, three UI selectors, runtime26 budget/sitewait and actual parent records; all TODO checkbox rows retained.",
-  "next": "Separate final payload review; root Draft reflection and exact P1 head SDK/CI/physical acceptance. IOS-11 remains incomplete.",
+  "unchanged": "App/PBX version0.2.16(18), unit152 source, fixture/schema, Nativebcaf/pure6, row25/rowheight/row1-hidden/no-corrective-scroll assertions, 15-second waits and runtime exact destination/test/result/cleanup limits remain unchanged. All nonowned mode/type/blob entries and TODO checkbox rows preserved.",
+  "next": "Independent root review, then ordinary PR275 follow-up commit and required exact new-head CI. No new CI or API operation in this candidate task. IOS-11 remains incomplete.",
   "preview_only": true,
   "publishable": false,
-  "parent_sha": "955c066c8dc0fdbedf6f0c845a461abda39ac476",
+  "parent_sha": "5f59010763fbded71cb1636a03159a5bf3cdd5d6",
   "historical_source_basis": {
     "commit": "238e5e9968ff669f191cf3ee62db9d9a6f14378f",
     "tree": "9b0d4035dd149a6bbce124b291fc1b856105c72a",
@@ -83,11 +87,13 @@
     },
     "old_Published_ae9_SHA256": "ae9eee84b4148177e7ae8a4aea60228f6578261c04eb12dffa9170585bc6cc74",
     "latest_picker_snapshot_Published_41c3_SHA256": "41c3cfe54c34d608561a5db63b7c3f087fc1b2c62a12a9a0320c993a27e2e6ba",
-    "new_Published_SHA256": "7c053c8bb9e6612c689ad3b2c5f8202cbcf2b153ad2b8d0550991010bb330390",
-    "talltable_method_SHA256": "afa567b9f1ee9982b3a1770b3de621de78937d9c27ff63dcca01bdf1205bb463",
+    "new_Published_SHA256": "fd6de0b9967da3abcbdc42b0a6da8f1330d5b80dca699347184040ce176632bb",
     "complete_latest13_Published_methods_helpers_preserved": true,
-    "talltable_method_bytes_unchanged": true,
-    "PBX_changes": "Exactly two MARKETING_VERSION0.2.15→0.2.16 and two CURRENT_PROJECT_VERSION17→18 fields; no other PBX bytes changed"
+    "talltable_method_bytes_unchanged": false,
+    "PBX_changes": "Exactly two MARKETING_VERSION0.2.15→0.2.16 and two CURRENT_PROJECT_VERSION17→18 fields; no other PBX bytes changed",
+    "prior_5f590_Published_SHA256": "7c053c8bb9e6612c689ad3b2c5f8202cbcf2b153ad2b8d0550991010bb330390",
+    "historical_original_talltable_method_SHA256": "afa567b9f1ee9982b3a1770b3de621de78937d9c27ff63dcca01bdf1205bb463",
+    "talltable_setup_repair": "Exactly one public setLearningTagAndArticleQuery(transformer, Transformer) call added inside nested openFixtureLibrary. Removing that line restores the whole5f590 Published source byte-for-byte; no other method/assert/query changed."
   },
   "historical_parent_actuals": {
     "picker_old238e_full": {
@@ -125,7 +131,7 @@
       "new_snapshot_Pub41c3_Nativebcaf": "not-this-execution"
     },
     "retained_nonowned_runtime26_records": true,
-    "new_parent_snapshot21_and_budget_sitewait_exact_head": "Root reports all15 checks succeeded on exactPR270head85d9 before main955c merge; parent receipts retained unchanged. New P1unit152/UI22 remains uncompiled/unrun.",
+    "new_parent_snapshot21_and_budget_sitewait_exact_head": "Root reports all15 checks succeeded on exactPR270head85d9 before main955c merge. This is parent history, not PR275152/22 execution; later5f590 first Hosted result is recorded separately below.",
     "PR270_exact_85d9_success": {
       "source_head": "85d9cdbeea8f79cbe6f720b0a8bc631ffb06fecb",
       "tree": "9d2525e28ce3d9b6659eeac57b0b6f910e7e262b",
@@ -137,7 +143,7 @@
       "full_UI": "passed",
       "Release": "passed",
       "runtime26_SDK26_and_common": "root reports all15 checks passed at this85d9 head; details remain in exact parent receipts",
-      "P1_new_unit152_UI22": "not this execution; compile/registration/execution unverified"
+      "P1_new_unit152_UI22": "Not part of this85d9 execution; later first PR2755f590 observation is separate below."
     }
   },
   "protected_latest_parent_SHA256": {
@@ -155,12 +161,12 @@
   "publication": {
     "preview_only": true,
     "publishable": false,
-    "parent_sha": "955c066c8dc0fdbedf6f0c845a461abda39ac476",
+    "parent_sha": "5f59010763fbded71cb1636a03159a5bf3cdd5d6",
     "regenerate_after_actual_main270_commit": false,
     "never_use_tree_as_commit_parent": true,
     "source_PR270_commit": "85d9cdbeea8f79cbe6f720b0a8bc631ffb06fecb",
     "source_tree": "9d2525e28ce3d9b6659eeac57b0b6f910e7e262b",
-    "sequence": "prepare private actualmain955c bind; separate payload review then root Draft/exact-head CI; required CI gates main integration",
+    "sequence": "prepare private4-path repair against5f590; independent payload review then root ordinary PR275 follow-up and exact new-head CI; required CI gates main integration",
     "actual_main270_commit": "955c066c8dc0fdbedf6f0c845a461abda39ac476"
   },
   "independent_Core_work": {
@@ -194,12 +200,105 @@
     "after_minutes": 50,
     "scope": "CI job execution limit only; not product performance or SLO",
     "basis_observation": "root reports exact85d9 full21 job about38min with under2min margin; no new measurement by preparer",
-    "new_case": "talltable1 added to22selected source; no actual new runtime result",
+    "new_case": "Talltable1 added to22 selected source. First5f590 run registered22 and stopped this case at its first More entry; fixed candidate execution pending.",
     "source_SHA256": "9474145136f51fa853462128fd14e3c276a92e7227d07b3bd2b391ba6d41124e",
     "root_review_SHA256": "67583ba1140ff68c07267a205134708f21b7475b58f0d42da36d4d9671e26836",
     "root_review_origin": ".local/ios-autonomous-evidence/published-ci-budget50-root-review.json",
     "only_one_line_changed": true,
     "reverse_change_restores_actualmain_workflow_all_bytes": true,
     "selectors_commands_assert_individual15sec_audits": "unchanged"
+  },
+  "repair_basis": {
+    "commit": "5f59010763fbded71cb1636a03159a5bf3cdd5d6",
+    "tree": "af6550c2aa440e0149aab0e99f1a69c458a99b60",
+    "kind": "actual PR275 current head, after relative public-record origin fix",
+    "main_commit": "955c066c8dc0fdbedf6f0c845a461abda39ac476",
+    "main_tree": "9d2525e28ce3d9b6659eeac57b0b6f910e7e262b",
+    "current_paths": 4,
+    "cumulative_paths_from_main": 17
+  },
+  "first_PR275_Hosted_failures": {
+    "published_full": {
+      "head": "5f59010763fbded71cb1636a03159a5bf3cdd5d6",
+      "run": 40252163359,
+      "job": 121346524924,
+      "evidence_origin": "root-reported existing Hosted log; large raw artifact not downloaded in this candidate task",
+      "unit_registered": 152,
+      "unit_passed": 150,
+      "unit_skipped": 2,
+      "UI_registered": 22,
+      "UI_passed": 21,
+      "UI_failed": 1,
+      "Release": "skipped-after-UI-failure",
+      "failed_case": "testFixtureTallSingleBlockResumesNearItsMeasuredInternalRowAfterRelaunch",
+      "printed_case_seconds": "22.474",
+      "failure_stage": "First openFixtureLibrary -> openFilteredMoreActionsSheet -> singleHittableControl More Actions timeout at source line330",
+      "not_reached": [
+        "reader",
+        "forty-row table",
+        "row25 saving",
+        "relaunch restoration"
+      ],
+      "AX_missing_or_ambiguous": "not established",
+      "previous_filtered_fixture_case": "Root reports existing same-head/same-SDK fixture case passed with app.buttons resume query; retained without broadening"
+    },
+    "runtime26_preflight": {
+      "head": "5f59010763fbded71cb1636a03159a5bf3cdd5d6",
+      "run": 40252163497,
+      "job": 121346711814,
+      "evidence_origin": "independently reviewed workflow worker summary and root-reported retained raw",
+      "showdestinations_exit_code": 0,
+      "owned_UUID_in_unbound_listing": false,
+      "first_failure": "Unbound destination-list membership assert; cause of placeholder-only listing remains unconfirmed",
+      "bound_test_reached": false,
+      "UI_cases_executed": 0,
+      "app_or_xcresult_produced": false,
+      "summary": "not-completed",
+      "cleanup": "owned-simulator-deleted",
+      "preexisting_UUIDs_before": 60,
+      "preexisting_UUIDs_after": 60,
+      "all_preexisting_UUIDs_retained": true,
+      "artifact_integrity": {
+        "ZIP_bytes": 44994,
+        "entries": 89,
+        "CRC": "all-verified",
+        "SHA256": "7b55f150884564dd6681e2a1ac1dfe6a3bdd2ca6697aa98e1465572d8ce8e857"
+      }
+    }
+  },
+  "limited_repairs": {
+    "Published": {
+      "path": "ios/AILibraryUITests/PublishedReaderUITests.swift",
+      "SHA256": "fd6de0b9967da3abcbdc42b0a6da8f1330d5b80dca699347184040ce176632bb",
+      "added_lines": 1,
+      "deleted_lines": 0,
+      "setup": "Existing public tag transformer and article query Transformer before filtered More inside shared nested helper; both initial and relaunch entries",
+      "resume_query": "Original app.buttons matching exact public identifier retained",
+      "asserts_waits_and_recovery_conditions": "byte-exact",
+      "actual_fixed_UI": "pending",
+      "root_independent_setup_source_review_SHA256": "f933e40116f87276afe8f32efd9cc585bf282e2b5c553f4f063835447f71713b",
+      "review_scope": "Published one-line setup source only, not combined records/workflow or real fixed UI"
+    },
+    "runtime26": {
+      "path": ".github/workflows/ios-runtime26-smoke.yml",
+      "SHA256": "10b1d3df0c8d4f9dae259568e3ade6994a48efd0089088f6a74b899552c02d84",
+      "independent_source_review": "approved by root before integration; source byte-exact to approved worker candidate",
+      "unbound_listing": "diagnostic-only, preserving raw/exit",
+      "fresh_inventory": "simctl list devices JSON bounded30sec/16MiB; lease/head/run/attempt/repository/name/UUID/runtime/type/Booted/isAvailable checked before test",
+      "test_command_and_postchecker": "byte-exact; exact UUID and result identity/Passed2 remain mandatory",
+      "limits": "destination120sec/UI8min/job40min/owned cleanup unchanged",
+      "historical_worker_validation": {
+        "preflight_mock": 28,
+        "shell_mock": 2,
+        "unchanged_result_checker_mock": 10,
+        "embedded_Node_syntax_blocks": 6,
+        "embedded_shell_syntax_blocks": 14,
+        "actionlint": "1.7.12 exit0"
+      },
+      "actual_new_destination_binding_or_UI": "not executed; mocks do not establish actual acceptance"
+    },
+    "new_UI_scope": "Same-layout relaunch restoration only; this case contains no rotation action",
+    "actual_rotation_max_text_VoiceOver_physical_QA": "pending",
+    "product_performance_claim": false
   }
 }

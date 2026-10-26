@@ -778,6 +778,7 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
     // IOS-11 prototype regressions; SDK compilation/execution remain pending.
     func testFixtureTallSingleBlockResumesNearItsMeasuredInternalRowAfterRelaunch() throws {
         func openFixtureLibrary() throws {
+            try setLearningTagAndArticleQuery(tag: "transformer", query: "Transformer")
             try openFilteredMoreActionsSheet()
             let action = app.buttons["本文表示テスト"]
             requireHittable(action)

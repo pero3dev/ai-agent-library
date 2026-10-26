@@ -234,11 +234,13 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 
 既存の10機能ケースを残し、機能UIは12件、専用performanceは1件です。単独型検査と全targetのunit122/機能UI12/performance1のコンパイルを確認しました。追加2件の実UIは初回Hosted待ちです。ファイル選択画面のキャンセル、VoiceOver・最大文字・実機は未確認として残します。
 
+[フォルダー選択取消の追随preview](../project/records/2026-10-26/ios-picker-cancel-ui.md)では、旧238eのfull run40226683804/job121269430760でunit133件（131成功・2skip）と機能UI14/15成功を確認した履歴を保持する。本文検索Aとpicker取消138.720秒は成功し、Bは最初の到着で失敗してTOC/save/restartへ未到達だった。新snapshot helperを保持したPub41c3＋Nativebcafは機能15件＋geometry6件のsource計21件となるが、新snapshot/full/native/runtime26・生成budget・site待機・Releaseは正確な新headで未実施である。実main269 `750a305a82c6ff7882de46fdf7889c81925c509e`（tree `7636f378ecd8e8202cd2d9c8c9e89e2aa85b875d`）へ固有6pathをbindした私有候補で、独立最終レビューと正確な新headのCIを待つ。公開PR270 head238eは未変更である。
+
 ## 本文検索ヒットと復帰のUI回帰
 
 [検索ヒットの追加2件](../project/records/2026-10-26/ios-search-hit-ui-regression.md)は、入れ子の特定段落への到着と、本文検索後に別位置を保存して再起動した時のB/A差分を公開UIで検査します。本文のgestureで到着位置を作らず、旧queryが復帰で再実行されない動作までを扱います。
 
-検索終了の修正後、旧head a88では単体127成功・2skip、機能UI14件とReleaseが成功しました。別headの検索到着判定の失敗も保持し、一時診断で判定中のgeometry重複取得を観測しました。新しい判定は1pollのviewportと各段落frameを再利用し、完全表示・先頭ID一致・15秒は維持します。機能14件と純粋geometry6件の計20件を新headのHostedで検証する予定です。新sourceのcompile・実登録・実行、VoiceOver・最大文字・実機は未完了です。
+検索終了の修正後、旧head a88では単体127成功・2skip、機能UI14件とReleaseが成功しました。別headの検索到着判定の失敗も保持し、一時診断で判定中のgeometry重複取得を観測しました。新しい判定は1pollのviewportと各段落frameを再利用し、完全表示・先頭ID一致・15秒は維持します。picker追加前のsnapshot基線は機能14件と純粋geometry6件の計20件を新headのHostedで検証する予定です。新sourceのcompile・実登録・実行、VoiceOver・最大文字・実機は未完了です。
 
 ## SDK26のiPhoneOS Archive互換性検査
 

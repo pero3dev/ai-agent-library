@@ -271,6 +271,7 @@ final class NativeReaderScrollAnchors: NSObject {
         guard let data = try? JSONSerialization.data(withJSONObject: sample, options: [.sortedKeys]),
               let text = String(data: data, encoding: .utf8) else { return }
         print("AILibraryReaderGeometry " + text)
+        NSLog("AILibraryReaderGeometry %@", text)
     }
     #endif
 
@@ -850,9 +851,9 @@ private struct NativeBlockView: View {
     private var rendered: AnyView {
         switch block.type {
         case "heading":
-            return AnyView(NativeInlineText(inlines: block.inlines ?? [], snapshot: snapshot,
+            return AnyView(headingAccessibilityShape(NativeInlineText(inlines: block.inlines ?? [], snapshot: snapshot,
                                             font: headingFont, uiTextStyle: headingTextStyle, bold: true, fontScale: fontScale,
-                                            maximumWidth: availableWidth)
+                                            maximumWidth: availableWidth))
                 .accessibilityAddTraits(.isHeader)
                 .accessibilityHeading(headingAccessibilityLevel)
                 .accessibilityFocused(focusedBlock, equals: block.id)
@@ -919,6 +920,15 @@ private struct NativeBlockView: View {
             return AnyView(EmptyView())
         case "thematic_break": return AnyView(Divider().padding(.vertical, 4))
         default: return AnyView(Text("この本文要素を表示できません。再度記事を開いてください。"))
+        }
+    }
+
+    // This gates the observed accessibility behavior, not API availability.
+    @ViewBuilder private func headingAccessibilityShape<Content: View>(_ content: Content) -> some View {
+        if #available(iOS 27.0, *) {
+            content.contentShape(.accessibility, Rectangle())
+        } else {
+            content
         }
     }
 

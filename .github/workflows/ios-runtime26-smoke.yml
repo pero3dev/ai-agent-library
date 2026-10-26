@@ -281,7 +281,7 @@ jobs:
           assert.equal(owned.runtime_identifier, selection.runtime.identifier);
           assert.equal(owned.device_type_identifier, selection.device_type.identifier);
           assert.ok(Array.isArray(owned.preexisting_UUIDs)); assert.ok(!owned.preexisting_UUIDs.includes(owned.UUID));
-          const destinations = spawnSync('xcodebuild', ['-showdestinations', '-project', 'ios/AILibrary.xcodeproj', '-scheme', 'AILibrary'],
+          const destinations = spawnSync('xcodebuild', ['-showdestinations', '-project', 'ios/AILibrary.xcodeproj', '-scheme', 'AILibraryUISmoke'],
             { encoding: 'utf8', timeout: 120000, maxBuffer: 16 * 1024 * 1024 });
           put('showdestinations.stdout.log', destinations.stdout ?? ''); put('showdestinations.stderr.log', destinations.stderr ?? '');
           put('showdestinations.exit.json', JSON.stringify({ exit_code: destinations.status, signal: destinations.signal, error: destinations.error?.message ?? null }) + '\n');
@@ -320,14 +320,14 @@ jobs:
           NODE
           )"
           set +e
-          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
+          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibraryUISmoke \
             -configuration Debug -destination "platform=iOS Simulator,id=$owned_uuid" \
             -destination-timeout 120 \
             -derivedDataPath .local/ios-runtime26/DebugDerivedData \
             -resultBundlePath "$EVIDENCE_DIR/ui.xcresult" \
             -parallel-testing-enabled NO -jobs 2 \
             -only-testing:AILibraryUITests/NativeReaderUITests \
-            CODE_SIGNING_ALLOWED=NO test 2>&1 | tee "$EVIDENCE_DIR/xctest-ui.log"
+            CODE_SIGNING_ALLOWED=NO ONLY_ACTIVE_ARCH=YES test 2>&1 | tee "$EVIDENCE_DIR/xctest-ui.log"
           statuses=("${PIPESTATUS[@]}")
           set -e
           printf '{"xcodebuild_exit_code":%s,"tee_exit_code":%s}\n' "${statuses[0]}" "${statuses[1]}" > "$EVIDENCE_DIR/ui-command.exit.json"

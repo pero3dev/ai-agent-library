@@ -68,3 +68,17 @@ PNG collectorは3番目のcommand（`xcresulttool get test-results tests`）が5
 既存cleanup・App監査・厳密Passed判定の本文、selector2件、本文配置・AX形状・版は保持する。step2分・内部105秒・job40分・UI12分・create6分・boot240秒と、全artifact16MiB・export8MiB・保存4MiB・PNG1MiBを変えない。技術3pathはmanifest SHA-256 `30b530d3634d0af118a8b800f2ff6f87533ca523c2b99c0af0c8a222741c994b` でfreezeし、Node24のpure119件と独立追加7件が成功した。最終7payloadの結合レビュー、新しい実行と実PNG、製品側または試験側の原因修正は未確認で、newhead/runはnullに保持する。
 
 main `0a20712d1fb4a686518771f36cc342b7666ef169` のCI・Native・全記事候補の3 push runは成功した。これはmainのCI対策の確認で、SDK27 Nativeの成功には付け替えない。全記事候補のUI target22件は機能UI16件とpure geometry6件であり、全てを機能UIとは数えない。TODO32行・12完了、IOS-11/23と実機・VoiceOver・性能・配布の未完了は保持する。
+
+## 15ccの実画像と見出しのアクセシビリティ範囲
+
+head 15cc83cd108fd0100aac1b49f51774498b54ad4d、tree 2f271827790caee5851b32ff52a38466be1b3d26 の[run40375834821](https://github.com/pero3dev/ai-agent-library/actions/runs/40375834821)はSDK27 Archive成功・Native2件失敗。追加再実行は行わない。primary raw結果の再利用でhelp/export exit0、fresh query0のPNG取得へ到達し、所有端末の削除・source/run/attemptも照合した。Failed親の拒否、geometry未測定・2件目未撮影によるsummary partialを保持する。
+
+artifact12678535318は649,186 bytes、SHA-256 91dfbe1059d35460a1c1da03897f36d415c509c521fb655b8144b975fd94741e。110 entries・展開1,107,644 bytesの全CRC・path・symlinkを検査した。最初の実失敗testContentsBookmarkAndResumeAfterRelaunch()だけをtest-id/PNG filterで取得し、manifestのtest名とfailure-associated=falseを照合した。PNGは603,065 bytes・1206×2622、SHA-256 98b3b819c060e40b5e15e109836ae217ede1bade454f4031045f7b06484d2fb2。ZIP・PNG・xcresultはRAMのみで検査・表示し、追跡ファイルへ同梱しない。
+
+Rootが元画像を表示すると「自己注意の数式」の見出し全体がnavigation barより下に見える。bar下端約347px・文字上端約376px（3倍画像）は目視概算で、計測APIのglyph/layout値ではない。一方、実テストのAX枠(2,106,163,56)はviewport(0,116,402,758)上へ10pt越える。数値markerは未取得で、16pt拡張の仕組みが原因とまでは確定しない。画像1件を他見出し・設定・実機全体の受入へ広げない。
+
+Appleの[accessibility content shape](https://developer.apple.com/documentation/swiftui/contentshapekinds/accessibility)はhit-testingを変えずAX frame/pathとfocus表示・並び順へ反映する。[WWDC23](https://developer.apple.com/videos/play/wwdc2023/10036/)と[見た目より広いAX範囲を許容する説明](https://developer.apple.com/videos/play/wwdc2021/10119/)も確認した。実画像との不一致を根拠に、見出し内容に限定した.contentShape(.accessibility, Rectangle())をpaddingより前に置く候補を準備する。全段落・選択・本文位置・hit-testing・完全可視判定・selector・待機を変えない。候補0.2.18（20）は実行済み0.2.17（19）と分け、実SDK/UI・VoiceOverは未確認である。
+
+2件目はAgentループの本文表示・撮影・一覧復帰後、ツール使用の行をtapする前のrequireHittable(row)（行304）で待機が失敗した。失敗後の逐次snapshotは存在・visible・hittable・predicate satisfiedがtrueだったが待機中の状態を証明しない。旧9fのclear tap timeoutと同じ原因とも、見出しの形状変更で直るとも主張しない。既存2件を変更headでそのまま検査し、失敗が残れば限定診断を使う。
+
+同じrun head15ccの共通回帰は984件中968成功・16skip・失敗0、Web unit97、Chromium677成功/5skip、Firefox14、音声Chromium8・Safari音声8/操作2/表示14が成功。SDK26 Archive・iOS26.5代表UIも成功した。通常Nativeはunit153件（151成功/私有fixture2skip）・UI2件・Release監査が成功し、実checkoutはmainと15ccのPR mergeでtreeは15ccと一致する。全記事候補run40375834854はunit153件（151成功/2skip）成功、UI22件中21成功/1失敗（機能15/16、pure geometry6/6）。該当case冒頭のTransformer open（行214）内のnative-reader存在待機（行310）が失敗した。目次・しおり・同梱切替・取消・再起動へ未到達で、原因は未確定。Native2件はこのrunでも成功したが、Release検証はskipのため当該headの全記事Release受入へ広げない。追加再試行は行わない。旧結果を新候補へ付け替えず、IOS-11/23・最小OS17・実機・VoiceOver・性能・配布は未完了、追加実機QAは利用者指定に従い省略する。

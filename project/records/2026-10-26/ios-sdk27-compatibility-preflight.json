@@ -650,5 +650,93 @@
     "latest_actual_observation": "ninef_Hosted_observation",
     "next_preparation": "cached_png_preparation",
     "old_evidence_rebound": false
+  },
+  "fifteencc_actual": {
+    "head": "15cc83cd108fd0100aac1b49f51774498b54ad4d",
+    "tree": "2f271827790caee5851b32ff52a38466be1b3d26",
+    "run": 40375834821,
+    "attempt": 1,
+    "Archive": "success",
+    "UI": {
+      "cases": 2,
+      "pass": 0,
+      "fail": 2,
+      "first": "Contents glyph complete but AX overshoots",
+      "second": "tool-use row wait304 beforetap; post-timeout snapshot satisfied true, cause unknown"
+    },
+    "collector": {
+      "fresh_query_count": 0,
+      "cached_raw_SHA256": "f49dd1084b8cf3831b29b0c6e7ee0c84ad72d9a0fa92fae24b36b0e2220928c3",
+      "help_exit": 0,
+      "export_exit": 0,
+      "cleanup": "owned deleted/absent",
+      "primary_Failed_rejection_preserved": true,
+      "status": "partial; geometry unmeasured, second omitted"
+    },
+    "artifact": {
+      "id": 12678535318,
+      "ZIPbytes": 649186,
+      "ZIPsha256": "91dfbe1059d35460a1c1da03897f36d415c509c521fb655b8144b975fd94741e",
+      "CRCentries": 110,
+      "expanded_bytes": 1107644,
+      "PNGbytes": 603065,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "PNGsha256": "98b3b819c060e40b5e15e109836ae217ede1bade454f4031045f7b06484d2fb2",
+      "scope": "first actual Failed Contents only; manifest matched",
+      "isAssociatedWithFailure": false,
+      "Root_viewed_actualpixels": true,
+      "raw_disk_bytes": 0
+    },
+    "visual_scope": "manual original-image observation, not glyph/layout API measurement; 16pt mechanism unproven",
+    "other_matrix": "commonCI/SDK26/runtime26/Native success; Native PRmerge checkout same tree; Full failure recorded separately",
+    "samehead_retry": 0,
+    "Full": {
+      "run": 40375834854,
+      "job": 121758528985,
+      "status": "failure",
+      "unit": {
+        "total": 153,
+        "pass": 151,
+        "skip": 2
+      },
+      "UI": {
+        "total": 22,
+        "pass": 21,
+        "fail": 1,
+        "functional_pass": 15,
+        "functional_total": 16,
+        "pure_geometry_pass": 6
+      },
+      "failed_case": "PublishedReaderUITests.testBundledContentSelectionCancelConfirmAndRestartKeepReadingAndGuide",
+      "failure": "first Transformer open214/native-reader existence wait310; TOC/bookmark/bundled dialog/cancel/confirm/restart unreached",
+      "cause": "unconfirmed",
+      "Release": "skipped",
+      "samehead_retry": 0
+    }
+  },
+  "heading_AX_shape_preparation": {
+    "source_head": "15cc83cd108fd0100aac1b49f51774498b54ad4d",
+    "status": "technical2 frozen statically independently reviewed; final6/newhead pending",
+    "version": "0.2.18",
+    "build": "20",
+    "scope": "all heading contents accessibility Rectangle before padding; traits/IDs/levels/selection retained",
+    "hit_testing_scroll_primary_guards_selectors_timeouts_changed": false,
+    "AX_frame_path_focus_sorting": "intentionally changed to heading layout; new SDK/UI and VoiceOver unverified",
+    "technical_manifest_SHA256": "3597f4cbd29405353ac6ab6bca24012744156a54b26cca08430024d1b05c0317",
+    "independent_review_SHA256": "6cdf494c08cac2268c842171f72a0ac7a22837e84784a9e802ab2f8b42685b7c",
+    "actual_newhead": null,
+    "actual_newrun": null,
+    "VoiceOver": "not run",
+    "second_cause": "unknown; tests unchanged"
+  },
+  "record_interpretation_heading_shape": {
+    "old_fields": "historical snapshots retained",
+    "latest_actual": "fifteencc_actual",
+    "next": "heading_AX_shape_preparation",
+    "old_evidence_rebound": false,
+    "TODO": "32rows12done; IOS11and23 incomplete"
   }
 }

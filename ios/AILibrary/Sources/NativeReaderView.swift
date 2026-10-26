@@ -854,6 +854,7 @@ private struct NativeBlockView: View {
             return AnyView(NativeInlineText(inlines: block.inlines ?? [], snapshot: snapshot,
                                             font: headingFont, uiTextStyle: headingTextStyle, bold: true, fontScale: fontScale,
                                             maximumWidth: availableWidth)
+                .contentShape(.accessibility, Rectangle())
                 .accessibilityAddTraits(.isHeader)
                 .accessibilityHeading(headingAccessibilityLevel)
                 .accessibilityFocused(focusedBlock, equals: block.id)

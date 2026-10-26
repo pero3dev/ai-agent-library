@@ -449,8 +449,8 @@ jobs:
     # Exact public-repository gate is evaluated before allocating a standard VM.
     if: github.repository == 'pero3dev/ai-agent-library' && github.event.repository.private == false && (github.event_name == 'pull_request' || inputs.run_smoke == true)
     runs-on: xcode-27
-    # Explicit step caps total49min, including4min cleanup,1min staging and2min upload.
-    # UI is followed immediately by owned cleanup. Cancelled app/result audits skip.
+    # Explicit step caps total51min, including2min diagnostics,4min cleanup,1min staging and2min upload.
+    # UI is followed by bounded diagnostics, then owned cleanup. Cancelled app/result audits skip.
     # Forced cancellation/runner loss can still interrupt cleanup or upload.
     timeout-minutes: 40
     env:
@@ -753,6 +753,14 @@ jobs:
           set -e
           printf '{"xcodebuild_exit_code":%s,"tee_exit_code":%s}\n' "${statuses[0]}" "${statuses[1]}" > "$EVIDENCE_DIR/ui-command.exit.json"
           [[ "${statuses[0]}" -eq 0 && "${statuses[1]}" -eq 0 ]]
+      - name: Capture bounded geometry and failure attachments before owned cleanup
+        id: reader_diagnostics
+        timeout-minutes: 2
+        continue-on-error: true
+        if: always() && !cancelled() && steps.ui.outcome != 'skipped' && steps.evidence.outcome == 'success'
+        env:
+          UI_OUTCOME: ${{ steps.ui.outcome }}
+        run: node ios/tests/capture-reader-failure-diagnostics.mjs
       - name: Always clean up only the Simulator created by this job
         timeout-minutes: 4
         id: cleanup
@@ -965,8 +973,10 @@ jobs:
           import path from 'node:path';
           const source = process.env.EVIDENCE_DIR, target = path.join(path.dirname(source), 'artifact');
           const budget = 16 * 1024 * 1024, reserved = 128 * 1024, rawCap = 256 * 1024, metadataCap = 1024 * 1024;
+          const diagnosticCap = 4 * 1024 * 1024;
+          const diagnosticName = /^reader-diagnostic-(?:summary\.json|(?:devices|geometry|attachments-help|attachments-export)\.(?:stdout\.log|stderr\.log|exit\.json)|attachment-\d{3}\.(?:png|json|txt))$/;
           const entries = [], rejected = [];
-          let retained = 0;
+          let retained = 0, diagnosticBytes = 0;
           mkdirSync(target, { mode: 0o700 });
           const put = (name, data) => {
             assert.ok(retained + data.length <= budget - reserved, 'Artifact total budget exceeded');
@@ -984,8 +994,21 @@ jobs:
               const file = path.join(source, name), stat = lstatSync(file);
               if (stat.isDirectory()) { entries.push({ name, retention: 'omitted-binary-result-directory' }); continue; }
               assert.ok(stat.isFile() && !stat.isSymbolicLink(), 'Only direct regular evidence files are allowed');
-              assert.match(name, /^[A-Za-z0-9._-]+\.(?:json|log|plist)$/);
-              const isRaw = name.endsWith('.log'), cap = isRaw ? rawCap : metadataCap;
+              const diagnostic = name.startsWith('reader-diagnostic-');
+              if (diagnostic) {
+                assert.match(name, diagnosticName, 'Only the named diagnostic outputs may be staged');
+                diagnosticBytes += stat.size;
+                assert.ok(diagnosticBytes <= diagnosticCap, 'Diagnostic artifact budget exceeded');
+              }
+              const attachment = /^reader-diagnostic-attachment-\d{3}\.(?:png|json|txt)$/.test(name);
+              assert.ok(/^[A-Za-z0-9._-]+\.(?:json|log|plist)$/.test(name) || attachment);
+              const isRaw = name.endsWith('.log');
+              const cap = attachment ? (name.endsWith('.png') ? 1024 * 1024 : 128 * 1024)
+                : name === 'reader-diagnostic-summary.json' ? 128 * 1024 : isRaw ? rawCap : metadataCap;
+              if (attachment && name.endsWith('.png')) {
+                assert.ok(stat.size >= 8 && stat.size <= cap, 'Failure PNG size exceeds cap');
+                assert.ok(slice(file, 8, 0).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])), 'Failure PNG signature required');
+              }
               if (stat.size <= cap) {
                 const bytes = slice(file, stat.size, 0); put(name, bytes);
                 entries.push({ name, original_bytes: stat.size, retained_bytes: bytes.length, complete: true,
@@ -1001,7 +1024,8 @@ jobs:
           } catch (error) { rejected.push(String(error)); }
           const report = { schema_version: 1, status: rejected.length ? 'artifact-scope-rejected' : 'bounded-evidence-staged',
             source_head: process.env.EXPECTED_SOURCE_HEAD, budget_bytes: budget, retained_payload_bytes: retained,
-            raw_file_cap_bytes: rawCap, metadata_file_cap_bytes: metadataCap, entries, rejected,
+            raw_file_cap_bytes: rawCap, metadata_file_cap_bytes: metadataCap,
+            diagnostic_cap_bytes: diagnosticCap, diagnostic_source_bytes: diagnosticBytes, entries, rejected,
             xcarchive_app_xcresult_retained: false, scope: 'Logs above cap retain literal head/tail portions with incomplete=true; not complete raw logs.' };
           const bytes = Buffer.from(JSON.stringify(report, null, 2) + '\n');
           assert.ok(bytes.length <= reserved && retained + bytes.length <= budget);

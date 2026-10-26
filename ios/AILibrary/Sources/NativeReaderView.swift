@@ -271,6 +271,7 @@ final class NativeReaderScrollAnchors: NSObject {
         guard let data = try? JSONSerialization.data(withJSONObject: sample, options: [.sortedKeys]),
               let text = String(data: data, encoding: .utf8) else { return }
         print("AILibraryReaderGeometry " + text)
+        NSLog("AILibraryReaderGeometry %@", text)
     }
     #endif
 

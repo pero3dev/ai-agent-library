@@ -191,7 +191,7 @@
   ],
   "record_interpretation": {
     "historical": "Existing top-level preparation fields describe the original6path preparation onmain20f, beforePR279 firstCI. Pending/zero fields in that snapshot are preserved as history.",
-    "latest": "initial_Hosted_observation and geometry_diagnostic_preparation"
+    "latest": "f28_Hosted_observation and layout_marker_failure_capture_preparation; earlier preparation snapshots remain historical"
   },
   "initial_Hosted_observation": {
     "head": "62f284238064802b98e1abb6b92f0ecdba612d32",
@@ -276,5 +276,212 @@
     "acceptance": false,
     "physical": "incomplete skipped authorized",
     "IOS23_complete": false
+  },
+  "f28_Hosted_observation": {
+    "head": "f28c22e0e89c6e4d4cf76e295cd030d2535e454c",
+    "tree": "ea093a3cbafe7a24ab420705047306442c2fac1c",
+    "PR": 279,
+    "source": "Root verified Hosted logs and bounded public geometry diagnostics",
+    "SDK27": {
+      "workflow_run": 40340824321,
+      "Archive": {
+        "status": "success",
+        "job": null
+      },
+      "Native": {
+        "job": 121634730941,
+        "status": "failure",
+        "registered_cases": 2,
+        "passed": 1,
+        "failed": 1,
+        "phase": "InitialTOC self-attention heading; reboot/resume not reached",
+        "failed_case": "NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch",
+        "passed_case": "NativeReaderUITests/testThreeArticlesHaveNativeBodyText",
+        "geometry": {
+          "measurement": "sequential failure snapshots; not simultaneous last-poll or glyph bounds",
+          "app_frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "reader_container_frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "active_navigation_bar_count": 1,
+          "active_navigation_bar_frame": [
+            0,
+            62,
+            402,
+            54
+          ],
+          "public_viewport": [
+            0,
+            116,
+            402,
+            758
+          ],
+          "target_AX_frame": [
+            2,
+            106,
+            163,
+            56
+          ],
+          "fullyVisible_parameter": true,
+          "geometry_classification": "hidden",
+          "target_isHittable": null,
+          "hittable_null_reason": "not evaluated after geometry guard"
+        },
+        "selection_AX_frame_expansion_hypothesis": {
+          "status": "unconfirmed",
+          "points_per_edge": 16,
+          "actual_marker_glyph_failure_image_comparison": "not available"
+        },
+        "product_or_assertion_fix": false
+      }
+    },
+    "Full": {
+      "workflow_run": 40340824315,
+      "job": 121634731197,
+      "status": "success",
+      "completed_time_UTC": "15:19",
+      "XCTest": {
+        "total": 153,
+        "passed": 151,
+        "private_skipped": 2,
+        "failed": 0
+      },
+      "UI": {
+        "total": 22,
+        "passed": 22,
+        "Native": 2,
+        "Published": 14,
+        "Geometry": 6
+      },
+      "Release": "success",
+      "optional_icon_collector": {
+        "Debug": {
+          "status": "partial",
+          "errors": 1
+        },
+        "Release": {
+          "status": "captured",
+          "errors": 0
+        },
+        "role": "diagnostic only; separate from primary Release and SDK27 Archive"
+      }
+    },
+    "existing_regressions": {
+      "Native": "success",
+      "runtime26": "success",
+      "SDK26": "success"
+    },
+    "ordinary_CI": {
+      "workflow_run": 40340824254,
+      "build_job": 121634732747,
+      "build_status": "cancelled",
+      "approximate_minutes": 30,
+      "observed_delay": "slow APT package transfers",
+      "cancellation_cause": "status alone does not prove server-side cause"
+    },
+    "latest_check_names": {
+      "total": 18,
+      "success": 15,
+      "cancelled": {
+        "build": 1
+      },
+      "failure": {
+        "SDK27_Native": 1
+      },
+      "skipped": {
+        "deploy": 1
+      },
+      "common_required11": {
+        "total": 11,
+        "success": 10,
+        "build_cancelled": 1,
+        "all_success": false
+      }
+    },
+    "root_cause": "unconfirmed; product placement versus accessibility selection frame remains unresolved",
+    "physical_QA": "skipped_incomplete"
+  },
+  "layout_marker_failure_capture_preparation": {
+    "status": "private_candidate_pending_root_final_eight_payload_review_and_new_head_CI",
+    "date": "2026-10-27",
+    "source_parent": "f28c22e0e89c6e4d4cf76e295cd030d2535e454c",
+    "source_tree": "ea093a3cbafe7a24ab420705047306442c2fac1c",
+    "technical_manifest_SHA256": "bf9199a3d0545e6cfdd586e724a644c721d1c31e563cf5b1ed5eede71912fa48",
+    "technical": [
+      {
+        "path": "ios/AILibrary/Sources/NativeReaderView.swift",
+        "bytes": 61568,
+        "sha256": "8439fd1bd361cd93cf6bdb7fdda619171b331b6309b14057729e6cd0341a2c10",
+        "git_blob": "7eaacf7a9d0473bb4f918a639550752e845e57d6",
+        "before_blob": "909fee8334bc2d0977c65af0483e5f664029bae1",
+        "before_sha256": "9c8ea7195e32ebd0a51be04e6200942f09fd439696b88d07e4c239e512a4dc87"
+      },
+      {
+        "path": "ios/tests/capture-reader-failure-diagnostics.mjs",
+        "bytes": 23640,
+        "sha256": "b154111211c1e4c68c4ee4e861167660eb1ebac8339461331b9457a4bea0fc2f",
+        "git_blob": "5d7acad568cf1daf1943bb3446f766fabae9774f",
+        "before_blob": null,
+        "before_sha256": null
+      },
+      {
+        "path": "tests/unit/ios-reader-failure-diagnostics.test.mjs",
+        "bytes": 27304,
+        "sha256": "5c7bc654662ba49ef46bf057886e061cedf5f3bb5d4cc1aa0abf83e7ae08c0be",
+        "git_blob": "2b815ea55e1e5aedf264d5b224e07730247425a7",
+        "before_blob": null,
+        "before_sha256": null
+      },
+      {
+        "path": ".github/workflows/ios-sdk27-compatibility.yml",
+        "bytes": 72420,
+        "sha256": "466582da8dc2850e4a028a37e0fa6fd64226b7c4ff58a240638cffb40d4e5051",
+        "git_blob": "9b35b81cc7789a949d3d362ee2a8bea44a06b1ea",
+        "before_blob": "7eb72015faa8f451fea760dd6afcccd694e6e7eb",
+        "before_sha256": "90c3cd0ce7fcfd399b7b823c84e605d50e14026ac7d06e7b3985f34293dee14f"
+      }
+    ],
+    "scope": "Existing DEBUG numeric geometry JSON also reaches NSLog; bounded owned Simulator log plus failure-only attachments after Hosted CLI help check",
+    "product_reader_offset_or_layout_change": false,
+    "visibility_assertion_or_timeout_relaxation": false,
+    "new_actual_head": null,
+    "new_run": null,
+    "new_run_ids": [],
+    "acceptance": false,
+    "pure_tests": {
+      "cases": 59,
+      "passed": 59,
+      "real_child_or_Apple_CLI": false
+    },
+    "runtime_validation": "Hosted CLI help/export, failure image and actual SDK/Simulator not run for this candidate",
+    "diagnostic_step_minutes": 2,
+    "diagnostic_internal_deadline_ms": 105000,
+    "log_timeout_ms": 45000,
+    "log_combined_stdout_stderr_cap_bytes": 524288,
+    "help_timeout_ms": 5000,
+    "help_combined_output_cap_bytes": 65536,
+    "export_timeout_ms": 45000,
+    "export_monitor_interval_ms": 50,
+    "export_file_cap": 64,
+    "export_monitored_bytes_cap": 8388608,
+    "diagnostic_payload_cap_bytes": 4194304,
+    "diagnostic_manifest_cap_bytes": 131072,
+    "PNG_cap_bytes": 1048576,
+    "JSON_TXT_cap_bytes": 131072,
+    "failure_mode": "partial; never rewrites primary UI acceptance; missing owner starts no command; unconfirmed close prevents later commands and temp deletion",
+    "existing_job_UI_create_boot_cleanup_selector_audits_summary_and_artifact16MiB": "preserved",
+    "physical": "incomplete skipped authorized",
+    "IOS11_complete": false,
+    "IOS23_complete": false,
+    "todo_total": 32,
+    "todo_done": 12
   }
 }

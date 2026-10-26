@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "date": "2026-10-26",
-  "status": "private-PR275-table-body-witness-repair; final-review-and-new-head-CI-pending",
+  "status": "private-PR275-runtime26-cold-start-budget-candidate; new-head-CI-pending",
   "purpose": "IOS-11 measured relative progress inside a native top-level block, preserving old saved semantics.",
-  "ownership": "Current follow-up3 paths: resume-only Published table body witness and P1 record MD/JSON. Cumulative main955c remains17 paths; App/PBX/unit/fixture/schema/runtime26 workflow unchanged fromd84.",
+  "ownership": "Current3 paths: runtime26 optional boot timeout seam and finite step budgets, plus P1 record MD/JSON. Cumulative main955c17 paths. App/PBX/Published03a/unit/otherCI bytes retained.",
   "authority": "User autonomous iOS TODO implementation authority managed by root; this stage authorizes private integration and targeted static/Node checks only. No shared/index/ref/API mutation, network, CI, SDK or Simulator execution.",
   "source_basis": {
     "source_commit": "955c066c8dc0fdbedf6f0c845a461abda39ac476",
@@ -26,7 +26,8 @@
     "Seven approved v3 code/fixture files remain byte-exact. Latest snapshot/picker13 Published cases/helpers are preserved. Talltable setup adds only existing public tag/query helper before filtered More; row25 restoration checks and resume query are unchanged.",
     "PublishedCI job timeout40->50 only, root-reviewed one-line resource budget; all test/code/selector/individual15sec/audit bytes retained, not product performance budget.",
     "runtime26 unbound destination listing remains diagnostic. Fresh owned Simulator identity/state inventory is checked before the unchanged exact-UUID test command; existing result checker/cleanup/limits retained.",
-    "Resume-only table body witness: reader existence20sec and exact fixture article navigation bar10sec, followed by unchanged row25 fully-visible/plain-label/rowheight/row1-hidden/no-corrective-scroll assertions. Initial and shared generic paragraph helpers remain unchanged."
+    "Resume-only table body witness: reader existence20sec and exact fixture article navigation bar10sec, followed by unchanged row25 fully-visible/plain-label/rowheight/row1-hidden/no-corrective-scroll assertions. Initial and shared generic paragraph helpers remain unchanged.",
+    "Finite CI resource budget only: owned create/boot step4->6min, bootstatus actual source timeout120000->240000ms via one optional run timeout argument, UI step8->12min; derived step-total comment42->48. Other calls/default120000, inventory150000/job40/fresh30sec/destination120sec/XCTest/assert/exact2/result audit/cleanup4 remain unchanged. Exit receipt records timeout_ms."
   ],
   "validation": {
     "source_independent_review": {
@@ -42,9 +43,9 @@
       "pure_geometry": 6,
       "selected_source_total": 22,
       "performance_separate": 1,
-      "actual_new_registration": "d84 full run40259035363 registered unit152=150pass+2private skip and UI22=21pass+1fail; corrected body witness execution pending."
+      "actual_new_registration": "03a full unit152=150pass+2private skip/UI22 passed/Release passed; changed runtime budget head unexecuted."
     },
-    "static": "Current3-path private follow-up againstd84; source-contract and exact resume-only diff, immutable helpers/App/PBX/unit/fixture/schema/runtime26 preservation, literal/API/compact/patch/private tree equivalence and canonical/public-record checks only. No SDK/runtime/CI.",
+    "static": "Current3-path readonly private literal/API/compact/patch/pure-tree proof, exact authorized seam/budget-only diff, necessary YAML/Node/shell syntax, public-record/Git format only; no SDK, Simulator or SDK mocks.",
     "historical_SDK_four_stages": {
       "SHA256": "3e56565e0aaffd01ea3e03798525fcfad9e5e070e57dc0b9eecc569f2de4d744",
       "result": "pass App16 emitmodule;Core71+Inline37 typecheck; exact CoreSmoke6/PackageAudit5 source list host compile; diagnostics0",
@@ -60,14 +61,15 @@
     "fixed_candidate_SDK_Simulator_CI_executions": 0
   },
   "unverified": [
-    "Fixed-head full22 exact-head CI and row25 restoration precision; d84 stopped before the post-resume row25 assertions",
-    "Actual rotation, max text, revision/reflow/pan/VoiceOver, physical QA and actual iOS26 viewport hypothesis"
+    "New changed-head runtime26 exact-two acceptance under6min create/240sec boot/12min UI; both old03a attempts were incomplete",
+    "New changed-head required CI; previous03a successes are head-scoped",
+    "Actual rotation/max text/VoiceOver/physical QA and long-table iOS26 viewport hypothesis"
   ],
-  "unchanged": "App/PBX version0.2.16(18), unit152 source, fixture/schema, Nativebcaf/pure6, row25/rowheight/row1-hidden/no-corrective-scroll assertions, 15-second waits and runtime exact destination/test/result/cleanup limits remain unchanged. All nonowned mode/type/blob entries and TODO checkbox rows preserved.",
-  "next": "Independent root final review then ordinary follow-up commit and one exact-new-head CI. This candidate does not run SDK/Simulator/CI. IOS-11 remains incomplete.",
+  "unchanged": "App/PBX0.2.16(18), Published03a body-witness source and all unit/fixture/schema/otherCI files; job40, inventory150000, fresh30sec16MiB, destination120sec, each XCTest wait/assert/selector/exact2/result audit and cleanup4min; all nonowned mode/type/blob entries and TODO rows.",
+  "next": "Root final review then ordinary follow-up commit and one new changed-head CI verification; no additional same-head rerun. IOS-11 remains incomplete.",
   "preview_only": true,
   "publishable": false,
-  "parent_sha": "d84b91c87ff29526912ea99550d736fab284a242",
+  "parent_sha": "03a45eecf7a2d0842f638e29ccb78c2ca0a5d952",
   "historical_source_basis": {
     "commit": "238e5e9968ff669f191cf3ee62db9d9a6f14378f",
     "tree": "9b0d4035dd149a6bbce124b291fc1b856105c72a",
@@ -163,12 +165,12 @@
   "publication": {
     "preview_only": true,
     "publishable": false,
-    "parent_sha": "d84b91c87ff29526912ea99550d736fab284a242",
+    "parent_sha": "03a45eecf7a2d0842f638e29ccb78c2ca0a5d952",
     "regenerate_after_actual_main270_commit": false,
     "never_use_tree_as_commit_parent": true,
     "source_PR270_commit": "85d9cdbeea8f79cbe6f720b0a8bc631ffb06fecb",
     "source_tree": "9d2525e28ce3d9b6659eeac57b0b6f910e7e262b",
-    "sequence": "prepare private3-path follow-up againstd84; independent root review then ordinary follow-up commit/exact-head CI; required CI gates main integration",
+    "sequence": "prepare private3-path runtime-budget candidate against03a; independent root review then normal follow-up/new changed-head CI once; required checks gate main, no same-head rerun",
     "actual_main270_commit": "955c066c8dc0fdbedf6f0c845a461abda39ac476"
   },
   "independent_Core_work": {
@@ -211,9 +213,9 @@
     "selectors_commands_assert_individual15sec_audits": "unchanged"
   },
   "repair_basis": {
-    "commit": "d84b91c87ff29526912ea99550d736fab284a242",
-    "tree": "f86e167e92ed9286d8a403c9eb14c0a33815c2ec",
-    "kind": "actual PR275 head with setup and bound-destination repairs",
+    "commit": "03a45eecf7a2d0842f638e29ccb78c2ca0a5d952",
+    "tree": "6b8e97ec1cfbd87b9898e70644342a789129abe2",
+    "kind": "actual PR275 body-witness head; full22 passed, runtime26 attempts incomplete",
     "main_commit": "955c066c8dc0fdbedf6f0c845a461abda39ac476",
     "main_tree": "9d2525e28ce3d9b6659eeac57b0b6f910e7e262b",
     "current_paths": 3,
@@ -298,7 +300,8 @@
         "embedded_shell_syntax_blocks": 14,
         "actionlint": "1.7.12 exit0"
       },
-      "actual_new_destination_binding_or_UI": "d84 runtime26 run40259035353 exactNative2/skip0 and post-audit/cleanup passed, separately root-reviewed. No SDK27 result inferred."
+      "actual_new_destination_binding_or_UI": "d84 runtime26 run40259035353 exactNative2/skip0 and post-audit/cleanup passed, separately root-reviewed. No SDK27 result inferred.",
+      "scope": "Historical10b1 preflight source; d84 actualNative2 passed. On03a cold boot/UI step budgets stopped two attempts; new budget change is recorded separately."
     },
     "new_UI_scope": "Same-layout relaunch restoration only; this case contains no rotation action",
     "actual_rotation_max_text_VoiceOver_physical_QA": "pending",
@@ -388,13 +391,137 @@
     "scope": "Only immediately after resume.tap in new Tallcase: reader.waitForExistence20 and exact fixture navigationBar.waitForExistence10",
     "initial_generic_and_shared_helper": "byte-exact",
     "row25_itself_is_body_witness": "Fully visible/hittable row25, exact plain label, saved measured rowheight comparison and row1 hidden; no corrective scroll/TOC",
-    "post_resume_row25_already_passed": false,
-    "actual_corrected_UI": "pending",
+    "post_resume_row25_already_passed": true,
+    "actual_corrected_UI": "03a full22 passed; Tallcase202.200sec passed with all unchanged row25 checks. This new runtime-budget candidate remains unexecuted.",
     "App_PBX_unit_fixture_schema_runtime_and_other13_cases": "unchanged",
     "unit_source": 152,
     "selected_UI_source": 22,
     "same_layout_only": true,
     "rotation_max_text_VO_device": "pending",
-    "IOS_11": "incomplete"
+    "IOS_11": "incomplete",
+    "passing_head": "03a45eecf7a2d0842f638e29ccb78c2ca0a5d952"
+  },
+  "PR275_03a_Hosted": {
+    "head": "03a45eecf7a2d0842f638e29ccb78c2ca0a5d952",
+    "full": {
+      "run": 40263169058,
+      "unit_registered": 152,
+      "unit_passed": 150,
+      "unit_private_skipped": 2,
+      "UI_registered": 22,
+      "UI_passed": 22,
+      "UI_failed": 0,
+      "Release": "passed",
+      "Tallcase": {
+        "status": "Passed",
+        "printed_seconds": "202.200",
+        "log_line": 6148,
+        "scope": "same-layout row25 fullyVisible/plain label/measured rowheight/row1-hidden/no corrective scroll all passed at03a; not a performance SLO"
+      }
+    },
+    "other_nonruntime_checks": {
+      "native_run": 40263168921,
+      "Native": "unit152/UI2/Release passed as root reported",
+      "SDK26_Archive_run": 40263168906,
+      "SDK26_Archive": "passed",
+      "ordinary_run": 40263168986,
+      "ordinary_checks": 11,
+      "ordinary_result": "passed"
+    },
+    "runtime26_run": 40263168942,
+    "runtime26": "attempt1 and the single fresh-host retryattempt2 failed/incomplete; no Passed declaration",
+    "source_observation_origin": "root completed/live logs and audited raw, not local execution by this candidate"
+  },
+  "runtime26_cold_start_budget": {
+    "path": ".github/workflows/ios-runtime26-smoke.yml",
+    "before_SHA256": "10b1d3df0c8d4f9dae259568e3ade6994a48efd0089088f6a74b899552c02d84",
+    "after_SHA256": "e55e9258fdea75fb6778035c71b860ac925a12d4544313af880524d907c9e248",
+    "source_correction": {
+      "initial_root_boot_timeout_description_seconds": 150,
+      "correct_source_boot_timeout_ms": 120000,
+      "correction": "150sec was root interpretation error, not a measured/configured bootstatus budget. The only150000 is inventory deadline and is unchanged; old raw receipts are not rewritten."
+    },
+    "limits_before": {
+      "owned_create_boot_step_minutes": 4,
+      "bootstatus_timeout_ms": 120000,
+      "UI_step_minutes": 8,
+      "sum_step_caps_minutes": 42
+    },
+    "limits_after": {
+      "owned_create_boot_step_minutes": 6,
+      "bootstatus_timeout_ms": 240000,
+      "UI_step_minutes": 12,
+      "sum_step_caps_minutes": 48
+    },
+    "minimal_seam": "run(name,args,timeoutMs=120000), spawnSync timeout:timeoutMs; bootstatus call alone supplies240000; timeout_ms added to this helper exit receipts",
+    "other_helper_calls_timeout_ms": 120000,
+    "unchanged": {
+      "job_minutes": 40,
+      "inventory_total_ms": 150000,
+      "fresh_identity_timeout_ms": 30000,
+      "fresh_identity_output_bytes": 16777216,
+      "destination_timeout_seconds": 120,
+      "cleanup_minutes": 4,
+      "all_XCTest_wait_assert_selector_exact2_result_audit": true,
+      "test_command_and_result_checker": "byte-exact"
+    },
+    "meaning": "CI resource budget includes cold Simulator migration, build, runner and XCTest setup. No app performance SLO change and no weaker test success conditions.",
+    "limit": "Sum48min is greater than job40; forced job timeout/cancellation/runner loss can still interrupt cleanup and evidence. Larger step caps are not an execution success guarantee.",
+    "attempt1": {
+      "head": "03a45eecf7a2d0842f638e29ccb78c2ca0a5d952",
+      "run": 40263168942,
+      "attempt": 1,
+      "stage": "CoreLocation Data Migration inside bootstatus; ETIMEDOUT/SIGTERM under source120000 timeout",
+      "real_UI_cases": 0,
+      "summary": "not-completed",
+      "cleanup": "owned-simulator-deleted",
+      "preexisting_before": 60,
+      "preexisting_after": 60,
+      "same_preexisting_UUID_set": true,
+      "raw_integrity": {
+        "ZIP_bytes": 40565,
+        "SHA256": "1630bf00de5fbff05ae51533f6b4588e68601da4b2fda2daf4a3adffad6b181e",
+        "entries": 80,
+        "expanded_bytes": 316848,
+        "CRC": "root audited all verified"
+      }
+    },
+    "attempt2": {
+      "head": "03a45eecf7a2d0842f638e29ccb78c2ca0a5d952",
+      "run": 40263168942,
+      "attempt": 2,
+      "job": 121387213773,
+      "retry_policy": "only one fresh-host retry of old head; no further same-head rerun",
+      "UI_step_started_UTC": "03:49:38",
+      "first_case_started_UTC": "03:56:02",
+      "pre_case_preparation_seconds": 384,
+      "UI_step_forced_timeout_UTC": "03:57:51",
+      "last_case_t_seconds": 109.15,
+      "last_stage": "first case at BackButton/heading inspection; unfinished",
+      "XCTest_assertion_failure_observed": false,
+      "Passed_declaration": false,
+      "summary": {
+        "simulator": "success",
+        "UI": "failure",
+        "app_audit": "success",
+        "results": "failure",
+        "cleanup": "success"
+      },
+      "owned_cleanup": "owned-simulator-deleted",
+      "preexisting60_exactly_preserved": true,
+      "artifact": {
+        "id": 12625839922,
+        "ZIP_bytes": 1222582,
+        "SHA256": "9e1bb7b31c0ba3e84cc56238b5a14de1244265f1230105610db4aab9fedc4767",
+        "entries": 136,
+        "expanded_bytes": 19863627,
+        "CRC": "root audited all verified",
+        "root_downloaded": true,
+        "this_candidate_downloads": 0
+      },
+      "evidence_origin": ".local/ios-autonomous-evidence/pr275-03a-runtime-attempt2-excerpt.log"
+    },
+    "new_budget_execution": 0,
+    "next_execution": "one new changed-head CI after root review, not an additional same-head rerun"
   }
 }

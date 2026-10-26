@@ -602,7 +602,7 @@ struct NativeReaderView: View {
         try? await Task.sleep(for: .milliseconds(100))
         if let end = placementExit(policy) { outcome = end; return }
         if let target = destination.blockID {
-            proxy.scrollTo(NativeReaderScrollTarget.container(target), anchor: .top)
+            materializeContainer(target, using: proxy)
         }
         try? await Task.sleep(for: .milliseconds(250))
         if let end = placementExit(policy) { outcome = end; return }
@@ -651,9 +651,7 @@ struct NativeReaderView: View {
                 request: request, previousBlockID: previousBlockID, previousProgress: previousProgress, flush: false)
             return
         }
-        withAnimation(.easeOut(duration: 0.2)) {
-            proxy.scrollTo(NativeReaderScrollTarget.container(blockID), anchor: .top)
-        }
+        materializeContainer(blockID, using: proxy)
         navigationTask = Task { @MainActor in
             let outcome = await finishPlacement(of: leaf, container: blockID, using: proxy, policy: policy)
             completePlacement(outcome, target: blockID, focus: leaf, generation: generation,
@@ -667,6 +665,18 @@ struct NativeReaderView: View {
         // A reflow task can begin after a pan has already started, so its epoch
         // alone cannot detect that existing interaction before the first proxy.
         return scrollAnchors.isUserInteracting ? .interrupted : nil
+    }
+
+    /// Proxy scrolling only materializes a container. Keep both animation systems
+    /// off so the bounded UIKit coordinator owns the final leaf offset.
+    @MainActor private func materializeContainer(_ container: String, using proxy: ScrollViewProxy) {
+        var transaction = Transaction(animation: nil)
+        transaction.disablesAnimations = true
+        withTransaction(transaction) {
+            UIView.performWithoutAnimation {
+                proxy.scrollTo(NativeReaderScrollTarget.container(container), anchor: .top)
+            }
+        }
     }
 
     @MainActor private func finishPlacement(of blockID: String, container: String,
@@ -684,9 +694,7 @@ struct NativeReaderView: View {
                 if let end = placementExit(policy) { return end }
                 // Re-materialize only the still-current container; the actual
                 // nested leaf remains the final UIKit alignment target.
-                UIView.performWithoutAnimation {
-                    proxy.scrollTo(NativeReaderScrollTarget.container(container), anchor: .top)
-                }
+                materializeContainer(container, using: proxy)
             case .align:
                 if let end = placementExit(policy) { return end }
                 switch scrollAnchors.placeTarget(blockID, intraBlockFraction: intraBlockFraction) {

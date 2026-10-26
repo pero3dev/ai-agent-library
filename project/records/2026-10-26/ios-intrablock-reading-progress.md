@@ -1,18 +1,18 @@
-# IOS-11: block内部位置の候補とPR275の限定CI修正
+# IOS-11: block内部位置と描画準備後の補正
 
 ## 基線と範囲
 
-旧保存を維持したblock内部位置の候補をmain270 `955c066c8dc0fdbedf6f0c845a461abda39ac476`（tree `9d2525e28ce3d9b6659eeac57b0b6f910e7e262b`）へbindし、PR275へ提出した。現在のfollow-upの親は6c `6c32810f89556a030aadc3ac919807ec73698f02`（tree `c9b6051b6cd2fb84521edaafc28c9dbd25f2d1df`）で、NativeReaderViewのproxyアニメーション解除と記録MD/JSONの3pathを変更する。main955比の累積は17path、版は0.2.16（18）のままとする。新候補の独立レビューと正確なheadのCIを待つ。treeをcommit親にしない。
+この準備のPR親は89 `89e2a4e719c34ace5337327b15a6039c0da0f4ee`（tree `ac060b7eccede31c35c4098cffff9afa858d14be`）。追加親としてmain `ecf41376f302feeb49eb968364b4a9372a6a4fd4`（tree `299008214767abb40ab317f3f80d13dc7a26d588`）を通常同期する。mainのPR277は完了記録4ファイルだけで、App sourceは変わらず、TODOの12／32完了・全32条件・IOS-11未完了を保持する。版は0.2.16（18）のままとする。
 
-Readerの3proxy callsiteだけを共通の非アニメーションmaterializeへ置換する。Store・Core/Inline・fixture・schema・PBX、Published03aと全UIassert/helper、runtime26を含む全CI workflowの6c bytesを保持する。配置上限・pan/cancel・保存/focus・visibleTop式を変えない。Core15のPR273とIcon/SDK27等は別単位である。
+現在の所有はSource3（Reader・配置policy・同tests）、plan/index同期2、記録MD/JSON2の7path。mainの新checkpoint記録2はecfの正確bytesを引き継ぐ。追加親を含む最終treeとexact新headのCIは別段階で確認し、treeをcommit親にしない。Native153件、選択UI22件はsource上の予定で、修正版の実結果にはしない。
 
-以下の初回失敗から「03aの成功とruntime26の有限予算」までの節は、それぞれのheadでの実績と候補準備時点の履歴である。当時の「今回」「未実施」「App変更なし」を現在の状態へ読み替えず、現在の実遮蔽と修正範囲は「6cのiOS26目次着地失敗とproxyアニメーションの分離」および残件を正本とする。
+以降の初回失敗・d84・03a・6c・89の節は、それぞれのheadと準備時点の履歴である。当時の「今回」「未実施」「App変更なし」「deadline維持」を現在へ読み替えない。現在の変更は末尾の「描画準備と補正予算を分離する」を正本とし、temp647のDEBUG診断や未採択navbar候補は本流へ混ぜない。
 
 ## 実装候補の意味
 
 旧保存キー・ReadingPosition・block順fraction・anchor.version1を保ち、任意で有限な `intraBlockFraction` を加える。意味内容で同じblockと照合できる場合だけ内部割合を再利用し、見出し・割合fallbackでは捨てる。読取だけで永続記録を書き換えない。
 
-実top/end markerから高さを得て配置・読書線・captureのvisible topを統一する。自動復帰失敗や未実測proxy位置は保存せず、pan/世代/350ms debounce/離脱flushを区別する。未達の検索・目次・記事内リンクは自動layout再起動へ引き継ぎ、完了・最新ユーザー操作で消費する。この保存・ナビゲーションの意味は承認v3を維持し、現在のReaderには後述するproxyアニメーション解除だけを加える。
+実top/end markerから高さを得て配置・読書線・captureのvisible topを統一する。自動復帰失敗や未実測proxy位置は保存せず、pan/世代/350ms debounce/離脱flushを区別する。未達の検索・目次・記事内リンクは自動layout再起動へ引き継ぎ、完了・最新ユーザー操作で消費する。保存・照合の意味は承認v3を維持し、Readerにはproxyアニメーション解除と準備・補正段階の分離を加える。失敗・未実測時の保存保持は変えない。
 
 ## PR275初回Hostedの2失敗
 
@@ -72,8 +72,22 @@ visibleTop式・1秒deadline・60layout/6materialize/6correction/2aligned・pan/
 
 新候補のSDK・Simulator・実UIは未実施。実機確認は利用者の許可により未完了として省略し、IOS-11を完了にしない。
 
+## 描画準備と補正予算を分離する
+
+一度だけの診断はtemp647 `647f3e90657a8bbbf96b4e34758208757c584da5` のrun40279158598/job121428389021で実施した。mainとPR275head89を変えず、既存Native2と全assertを維持したDEBUG限定の固定値ログで、Release用source projectionは89とbyte一致した。診断のログ負荷が時刻を変え得る留保は残す。
+
+診断でも初回目次を通過した後、再起動後の完全表示がNativeReaderUITests.swift:288で失敗した。UI1成功・1失敗で、失敗case105.894秒、3記事本文case129.884秒。cleanupとcompact抽出はstep成功で、製品受入にはしない。compact artifact12631652095はZIP2,998 bytes・SHA-256 `6e3e2a86350bd25ed4a546dfabd2e16b0728e71daf7804ec34d1ff1e944450cf`・CRC2entries正常。容量保護のためメモリ内で検証し、元のremote raw/compactは14日保持した。65valid（Trace55/geometry10）・invalid0・sequence gap0で、ログ欠落やcap到達による空白ではない。
+
+初回の先頭配置は約743msでmeasured alignmentとなり、約1123msでonPosition呼出を記録した。その後の目次moveでは、beginから約950msにまだtracking gateがあり、補正のpolicy action/geometryは0件のまま、約1115msでoutcome exhaustedとなった。進捗はmeasured=trueでもeffectはpreserve_unreached_navigation、続くtakeForSavingはsampleなしで、旧先頭記録を保持した。再起動後はanchor等がある先頭を正常に復帰していた。**この診断では、初回materializeとMainActor待ちが補正用の1秒を使い切り、観測を始める前に期限切れとなった**。end marker不足・navbar不足はこの経路の根拠にしない。元89の同じ症状とsource上の経路にも整合するが、診断負荷の留保を消して同一の時刻を主張しない。
+
+修正は初回描画準備と補正段階を分ける。元のinteraction epochを準備前に一度だけcaptureし、restoreの既存100/250/200ms待機後、またはmoveのTaskが実際に開始した時点で、その同じepochを使う補正policyを一度だけ作る。cancel・世代変更・短いpanを含むepoch変更・現在のpanを初回offset前、各await後、Task入口で照合する。補正開始時のepoch取り直しとloop内deadline延長は行わない。
+
+**1秒は準備後の補正予算**であり、同期UIKit処理とMainActor待ちを含む操作全体の1秒保証ではない。補正の60layout/6materialize/6correction/2alignedとnil-progress保存保護・focus・3つの非animation proxy経路・全UIassert/待機/selectorを保持する。これは保存の正しさの修正で、初回描画の速度改善やSLO達成とはしない。
+
+pure identity判定をpolicyと準備guardで共有し、既存policy7testsをそのまま残す。追加1testは遅れて開始する時点のcancel/generation/pan/activepan、元epoch、補正内の2観測と期限後の非復活を検査する予定で、unitは153件へ増える。Swift parse・SDK・新153件の実行・修正版UIはこの準備では未実施。新Source3とDoc2の最終結合、公開記録・Git形式・exact-head Native/full/runtime26/SDK26と通常CIを別途確認する。
+
 ## 残件
 
-unit152・機能16（Published14＋Native2）＋pure geometry6＝22 selectedのsource数を維持する。03aのfull22成功、03a runtime26の2attempt未完了、6c runtime26の実UI1成功・1失敗をそれぞれ保持する。新proxy修正版のNative/full/runtime26/SDK26と通常CIは未実施であり、既存headの成功へ流用しない。候補の静的・差分・形式・公開記録の検査と、rootが別段階で行ったraw取得・公式ツール読取・旧headのHosted実行を区別する。独立payload review後に通常追commitでPR275へ反映し、必要exact-head CIとmerge条件が揃うまでmainへ統合しない。
+新Source153件・機能16（Published14＋Native2）＋geometry6＝選択22件はsource上の予定。89のunit152/full22/Release成功とruntime26失敗、temp647の診断UI1成功・1失敗を分け、修正版の成功を先取りしない。容量guardを下げずlocal SDK/CLIを実行していない。最終headは独立reviewと必要検査を揃えて通常PR経由で統合し、保護例外は使わない。
 
-相対高さは同じ文字・行・pixelを保証しない。記事改訂後の実位置、実viewport仮説、実回転・最大文字・VoiceOver・実機の受入を残し、IOS-11 checkboxは未完了のままとする。詳細と元の親履歴は[JSON](ios-intrablock-reading-progress.json)へ保存する。旧freezeと共有source/index/ref/publicは変更しない。
+同じ文字・pixelの復帰を保証せず、改訂後の実位置、回転・最大文字・VoiceOver・実機の不足はユーザー許可に従い未完了として残す。IOS-11は完了へ変えない。詳細・過去の失敗は[JSON](ios-intrablock-reading-progress.json)へ保持する。

@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "date": "2026-10-26",
-  "status": "private-PR275-proxy-animation-repair-candidate; exact-new-head-CI-unexecuted",
+  "status": "Preparation snapshot: alignment budget starts after preparation; actual new-head verification pending",
   "purpose": "IOS-11 measured relative progress inside a native top-level block, preserving old saved semantics.",
-  "ownership": "Current3 paths: NativeReaderView proxy materialization and P1 MD/JSON. Cumulative main95517 paths. All other 6c mode/type/blob entries retained.",
-  "authority": "User authorized autonomous prioritized iOS implementation and normal commits/PR/main merges. This candidate preparation is private/read-only outside owned candidate files; exact-head Hosted CI and normal publication are separate stages. Physical QA may be skipped and remains incomplete. No new paid/distribution/admin authority.",
+  "ownership": "Owned7: NativeReaderView/NativeReaderPlacementPolicy/PolicyTests, plan+project sync, record2. Incoming main checkpoint record2 copied byte-exact from ecf. No diagnostic647 or navbar proposal adopted.",
+  "authority": "User authorized autonomous iOS work, ordinary staged Git/PR/main integration and incomplete physical QA skips. New source prep is bounded text-only; external publication and CI are separately recorded. No paid/account/contract/Store/admin authority added.",
   "source_basis": {
     "source_commit": "955c066c8dc0fdbedf6f0c845a461abda39ac476",
     "source_tree": "9d2525e28ce3d9b6659eeac57b0b6f910e7e262b",
@@ -23,12 +23,13 @@
     "Actual same-root top/end measurements, visibleTop max(adjusted,safe), legal adjusted clamp, same semantic block recovery only.",
     "Failed automatic placement cannot save proxy intermediate point; delayed buffer and prior measured departure flush retained.",
     "Unreached heading/search/TOC/inline intent survives automatic layout restart; latest user pan cancels old goal and requested VoiceOver focus.",
-    "Six approved v3 source/fixture files remain exact. NativeReaderView differs only by common unanimated proxy materialization at restore, move and repeated materialize. Published03a and all its row25 assertions/helpers remain exact.",
+    "Six approved v3 source/fixture files remain exact; current Reader includes unanimated proxy materialization and preparation/correction phase separation; policy identity helper and one regression test added. UI source unchanged.",
     "PublishedCI job timeout40->50 only, root-reviewed one-line resource budget; all test/code/selector/individual15sec/audit bytes retained, not product performance budget.",
     "runtime26 unbound destination listing remains diagnostic. Fresh owned Simulator identity/state inventory is checked before the unchanged exact-UUID test command; existing result checker/cleanup/limits retained.",
     "Resume-only table body witness: reader existence20sec and exact fixture article navigation bar10sec, followed by unchanged row25 fully-visible/plain-label/rowheight/row1-hidden/no-corrective-scroll assertions. Initial and shared generic paragraph helpers remain unchanged.",
     "Finite CI resource budget only: owned create/boot step4->6min, bootstatus actual source timeout120000->240000ms via one optional run timeout argument, UI step8->12min; derived step-total comment42->48. Other calls/default120000, inventory150000/job40/fresh30sec/destination120sec/XCTest/assert/exact2/result audit/cleanup4 remain unchanged. Exit receipt records timeout_ms.",
-    "Proxy3 callsites use one animation:nil/disablesAnimations transaction plus UIKit implicit animation suppression; final leaf alignment remains with existing bounded UIKit coordinator."
+    "Proxy3 callsites use one animation:nil/disablesAnimations transaction plus UIKit implicit animation suppression; final leaf alignment remains with existing bounded UIKit coordinator.",
+    "Start one correction policy only after initial materialization/waits/MainActor queue, carrying the original epoch through preparation identity guards. No whole-operation1sec guarantee or loop renewal."
   ],
   "validation": {
     "source_independent_review": {
@@ -37,16 +38,16 @@
       "evidence_role": "historical-approved-v3-source-review"
     },
     "source_counts": {
-      "unit": 152,
+      "unit": 153,
       "Published_functional": 14,
       "Native_functional": 2,
       "functional_UI": 16,
       "pure_geometry": 6,
       "selected_source_total": 22,
       "performance_separate": 1,
-      "actual_new_registration": "03a full152(150pass2privateSkip)/UI22/Release passed.6c Native152/UI2/Release and SDK26Archive199 passed; runtime26 actual Native2 is1pass1fail. New proxy candidate has no SDK/UI result."
+      "actual_new_registration": "Expected153 from existing152 plus one pure identity/deferred-budget test; not executed.89 actual152/full22/Release success and runtime failure remain separate."
     },
-    "static": "Current3-path private literal/API/compact/patch/pure-tree proof, unanimated proxy-only source diff and preserved policy/tests/workflows, public records/Markdown/Git format; no new Swift parse, SDK/compiler or Simulator.",
+    "static": "Private source3+doc2 independent review, bounded text composition and record preparation; final joined literal/tree/record review pending. No new Swift parse/compiler/SDK/Simulator/UI results.",
     "historical_SDK_four_stages": {
       "SHA256": "3e56565e0aaffd01ea3e03798525fcfad9e5e070e57dc0b9eecc569f2de4d744",
       "result": "pass App16 emitmodule;Core71+Inline37 typecheck; exact CoreSmoke6/PackageAudit5 source list host compile; diagnostics0",
@@ -62,14 +63,14 @@
     "fixed_candidate_SDK_Simulator_CI_executions": 0
   },
   "unverified": [
-    "New proxy candidate exact-head Native/full/runtime26/SDK26 and ordinary CI",
-    "Actual rotation/max text/VoiceOver/physical QA and revision-position acceptance"
+    "New joined exact-head153 registrations and Native/full/runtime26/SDK26/ordinary CI",
+    "Actual revised-document position/rotation/max text/VoiceOver/physical QA"
   ],
-  "unchanged": "All nonowned 6c entries, PBX0.2.16(18), ReadingStore and other App files, all unit/fixture/schema, Published03a, Native/pure geometry UI source and allCI; 1sec/60layout/6materialize/6correction/2aligned, visibleTop, pan/cancel/progress/focus; runtime job40, inventory150000, fresh30sec16MiB, destination120sec, XCTest/assert/exact2/result audit/cleanup4.",
-  "next": "Independent final review then normal follow-up commit and exact new-head CI; no unchanged runtime retry or admin bypass. IOS-11 incomplete.",
+  "unchanged": "All parent89 source except Source3 and current docs/record2, plus incoming main checkpoint record2. Correction loop/1sec60/6/6/2, storage nil preservation, geometry/focus, all unit bodies except added1, all UI/CIs/PBX0.2.16(18)/content unchanged; source never merges DEBUG647.",
+  "next": "Join Source3/Doc2/record2 plus exact incoming ecf checkpoint records. Validate independently and publish one normal commit parents89+ecf, then exact new-head CI and protected merge only after success. No repeated diagnostic dispatch.",
   "preview_only": true,
   "publishable": false,
-  "parent_sha": "6c32810f89556a030aadc3ac919807ec73698f02",
+  "parent_sha": "89e2a4e719c34ace5337327b15a6039c0da0f4ee",
   "historical_source_basis": {
     "commit": "238e5e9968ff669f191cf3ee62db9d9a6f14378f",
     "tree": "9b0d4035dd149a6bbce124b291fc1b856105c72a",
@@ -98,7 +99,7 @@
     "talltable_setup_repair": "Historical d84 setup repair retained byte-exact. Current resume-only body witness replacement is separate; reversing this replacement restores the entire d84 source.",
     "prior_d84_Published_SHA256": "fd6de0b9967da3abcbdc42b0a6da8f1330d5b80dca699347184040ce176632bb",
     "historical_d84_setup_repair": "Exactly one public setLearningTagAndArticleQuery(transformer, Transformer) call added inside nested openFixtureLibrary. Removing that line restores the whole5f590 Published source byte-for-byte; no other method/assert/query changed.",
-    "evidence_role": "Historical approved-v3 hashes and earlier snapshot; NativeReaderView current hash is in proxy_materialization_repair, not this historical map."
+    "evidence_role": "Historical approved-v3 hashes and earlier snapshot. Historical89 proxy hash is in proxy_materialization_repair; current alignment candidate Source3 hashes are in alignment_phase_repair.source_SHA256."
   },
   "historical_parent_actuals": {
     "picker_old238e_full": {
@@ -164,17 +165,15 @@
     "project/records/2026-10-26/ios-runtime26-smoke.md": "a9252b5517f6913221b4f4f1d08cab20da59bc0dd7ef352a821ce8772f1ce22b"
   },
   "publication": {
-    "stage": "Private proxy-animation candidate against actual6c; normal reviewed follow-up publication and exact new-head CI are separate future steps",
-    "parent_sha": "6c32810f89556a030aadc3ac919807ec73698f02",
-    "base_tree": "c9b6051b6cd2fb84521edaafc28c9dbd25f2d1df",
-    "current_paths": [
-      "ios/AILibrary/Sources/NativeReaderView.swift",
-      "project/records/2026-10-26/ios-intrablock-reading-progress.json",
-      "project/records/2026-10-26/ios-intrablock-reading-progress.md"
+    "stage": "Preparation snapshot for one ordinary main-sync plus product-repair commit; actual final SHA/CI recorded separately",
+    "parent_sha": "89e2a4e719c34ace5337327b15a6039c0da0f4ee",
+    "additional_parent_shas": [
+      "ecf41376f302feeb49eb968364b4a9372a6a4fd4"
     ],
-    "exact_new_head_results": "not executed",
+    "base_tree": "ac060b7eccede31c35c4098cffff9afa858d14be",
     "self_head": null,
-    "physical_QA": "skipped per user authorization; incomplete",
+    "never_merge_diagnostic_head": "647f3e90657a8bbbf96b4e34758208757c584da5",
+    "physical_QA": "user authorized skip; incomplete",
     "no_admin_exception": true
   },
   "independent_Core_work": {
@@ -217,13 +216,14 @@
     "selectors_commands_assert_individual15sec_audits": "unchanged"
   },
   "repair_basis": {
-    "commit": "6c32810f89556a030aadc3ac919807ec73698f02",
-    "tree": "c9b6051b6cd2fb84521edaafc28c9dbd25f2d1df",
-    "kind": "Actual PR275 finite-budget head; runtime26 actual TOC failure retained; proxy-animation repair privately prepared",
-    "main_commit": "955c066c8dc0fdbedf6f0c845a461abda39ac476",
-    "main_tree": "9d2525e28ce3d9b6659eeac57b0b6f910e7e262b",
-    "current_paths": 3,
-    "cumulative_paths_from_main": 17
+    "commit": "89e2a4e719c34ace5337327b15a6039c0da0f4ee",
+    "tree": "ac060b7eccede31c35c4098cffff9afa858d14be",
+    "main_commit": "ecf41376f302feeb49eb968364b4a9372a6a4fd4",
+    "main_tree": "299008214767abb40ab317f3f80d13dc7a26d588",
+    "kind": "Actual89 plus verified docs-only main277; alignment phase correction privately prepared",
+    "owned_current_paths": 7,
+    "incoming_main_record_paths": 2,
+    "expected_cumulative_paths_from_main": 19
   },
   "first_PR275_Hosted_failures": {
     "published_full": {
@@ -608,7 +608,7 @@
     "unchanged_runtime_retries": 0
   },
   "proxy_materialization_repair": {
-    "status": "private candidate, actual SDK/UI not executed",
+    "status": "Historical preparation snapshot for89: later actual Native/full/SDK succeeded and runtime26 failed. Its original constraints are historical; current correction-phase timing is described in alignment_phase_repair.",
     "scope": "Remove inherited SwiftUI animation from proxy materialization; UIKit geometry correction alone owns final offset",
     "source_race": "Explicit animated proxy call returns before its 0.2-second animation finishes, while alignment may complete after two display observations; existing code does not await the proxy animation",
     "causality_limit": "This source permits a race. The observed run proves obstruction but does not prove that race is its sole cause; current inset formula and strict UI visibility remain unchanged for verification",
@@ -673,5 +673,115 @@
       "current_paths": 3,
       "cumulative_paths_from_main": 17
     }
+  },
+  "historical_proxy_animation_candidate_top_level": {
+    "status": "private-PR275-proxy-animation-repair-candidate; exact-new-head-CI-unexecuted",
+    "ownership": "Current3 paths: NativeReaderView proxy materialization and P1 MD/JSON. Cumulative main95517 paths. All other 6c mode/type/blob entries retained.",
+    "authority": "User authorized autonomous prioritized iOS implementation and normal commits/PR/main merges. This candidate preparation is private/read-only outside owned candidate files; exact-head Hosted CI and normal publication are separate stages. Physical QA may be skipped and remains incomplete. No new paid/distribution/admin authority.",
+    "parent_sha": "6c32810f89556a030aadc3ac919807ec73698f02",
+    "publication": {
+      "stage": "Private proxy-animation candidate against actual6c; normal reviewed follow-up publication and exact new-head CI are separate future steps",
+      "parent_sha": "6c32810f89556a030aadc3ac919807ec73698f02",
+      "base_tree": "c9b6051b6cd2fb84521edaafc28c9dbd25f2d1df",
+      "current_paths": [
+        "ios/AILibrary/Sources/NativeReaderView.swift",
+        "project/records/2026-10-26/ios-intrablock-reading-progress.json",
+        "project/records/2026-10-26/ios-intrablock-reading-progress.md"
+      ],
+      "exact_new_head_results": "not executed",
+      "self_head": null,
+      "physical_QA": "skipped per user authorization; incomplete",
+      "no_admin_exception": true
+    },
+    "repair_basis": {
+      "commit": "6c32810f89556a030aadc3ac919807ec73698f02",
+      "tree": "c9b6051b6cd2fb84521edaafc28c9dbd25f2d1df",
+      "kind": "Actual PR275 finite-budget head; runtime26 actual TOC failure retained; proxy-animation repair privately prepared",
+      "main_commit": "955c066c8dc0fdbedf6f0c845a461abda39ac476",
+      "main_tree": "9d2525e28ce3d9b6659eeac57b0b6f910e7e262b",
+      "current_paths": 3,
+      "cumulative_paths_from_main": 17
+    },
+    "unchanged": "All nonowned 6c entries, PBX0.2.16(18), ReadingStore and other App files, all unit/fixture/schema, Published03a, Native/pure geometry UI source and allCI; 1sec/60layout/6materialize/6correction/2aligned, visibleTop, pan/cancel/progress/focus; runtime job40, inventory150000, fresh30sec16MiB, destination120sec, XCTest/assert/exact2/result audit/cleanup4.",
+    "next": "Independent final review then normal follow-up commit and exact new-head CI; no unchanged runtime retry or admin bypass. IOS-11 incomplete.",
+    "unverified": [
+      "New proxy candidate exact-head Native/full/runtime26/SDK26 and ordinary CI",
+      "Actual rotation/max text/VoiceOver/physical QA and revision-position acceptance"
+    ]
+  },
+  "additional_parent_shas": [
+    "ecf41376f302feeb49eb968364b4a9372a6a4fd4"
+  ],
+  "alignment_phase_repair": {
+    "source_base": "89e2a4e719c34ace5337327b15a6039c0da0f4ee",
+    "source_SHA256": {
+      "ios/AILibrary/Sources/NativeReaderView.swift": "9c8ea7195e32ebd0a51be04e6200942f09fd439696b88d07e4c239e512a4dc87",
+      "ios/AILibrary/Sources/NativeReaderPlacementPolicy.swift": "8b48241f125f2f8eec5ab248583bf56b35a0709b877b374f6968b417f98d847e",
+      "ios/AILibraryTests/NativeReaderPlacementPolicyTests.swift": "5d91f6a91c8c5eb4b95c2810568d0f0cf2e310f2e0c9f702c1b4a57f33f0cc33"
+    },
+    "diagnostic": {
+      "head": "647f3e90657a8bbbf96b4e34758208757c584da5",
+      "run": 40279158598,
+      "job": 121428389021,
+      "artifact": 12631652095,
+      "ZIP_bytes": 2998,
+      "SHA256": "6e3e2a86350bd25ed4a546dfabd2e16b0728e71daf7804ec34d1ff1e944450cf",
+      "CRC_entries": 2,
+      "valid_entries": 65,
+      "Trace": 55,
+      "geometry": 10,
+      "invalid": 0,
+      "sequence_gaps": 0,
+      "UI_passed": 1,
+      "UI_failed": 1,
+      "failed_at": "NativeReaderUITests.swift:288 resumed heading visibility",
+      "failure_seconds": 105.894,
+      "three_body_seconds": 129.884,
+      "compact_read": "memory-only verified, original remote artifact14days",
+      "far_move": {
+        "first_tracking_gate_ms": 949.7337916666311,
+        "policy_actions": 0,
+        "complete_ms": 1115.207958333258,
+        "outcome": "exhausted",
+        "effect": "preserve_unreached_navigation",
+        "measured": true,
+        "take_sample": false,
+        "epoch": 0,
+        "generation_matches": true
+      },
+      "causal_scope": "Confirmed timed-out-before-observation path in this instrumented run; original89 symptom/source consistent. Logging overhead possible; no new product acceptance."
+    },
+    "design": {
+      "prepare_epoch_capture": "once before any waits/materialization",
+      "restore_waits_ms": [
+        100,
+        250,
+        200
+      ],
+      "move_budget_start": "inside deferred Task after identity guard",
+      "restore_budget_start": "after preparation waits and identity guard",
+      "correction_seconds": 1,
+      "maximum_layout_passes": 60,
+      "maximum_materializations": 6,
+      "maximum_corrections": 6,
+      "aligned_observations": 2,
+      "epoch_recapture": false,
+      "loop_rearm": false,
+      "whole_operation_one_second_guarantee": false
+    },
+    "test_scope": {
+      "existing_policy_bodies_unchanged": 7,
+      "new_pure_test": 1,
+      "expected_unit": 153,
+      "actual_new_unit": null,
+      "selected_UI_source": 22,
+      "actual_fixed_UI": null
+    },
+    "not_adopted": [
+      "DEBUG diagnostic source/workflow",
+      "Navbar occlusion proposal",
+      "Any lower resource guard",
+      "Physical/VO acceptance or latency/SLO success"
+    ]
   }
 }

@@ -43,12 +43,23 @@ struct NativeReaderPlacementPolicy {
         }
     }
 
+    /// Preparation has no correction deadline. Its original request identity
+    /// must survive cancellation, replacement and even a pan that already ended.
+    /// The timed policy keeps active-pan handling in the existing View check.
+    static func requestIdentityOutcome(generation expectedGeneration: UUID, interactionEpoch expectedEpoch: UInt64,
+        currentGeneration: UUID, currentInteractionEpoch: UInt64, cancelled: Bool,
+        isUserInteracting: Bool = false) -> Outcome? {
+        if cancelled { return .cancelled }
+        if currentGeneration != expectedGeneration { return .superseded }
+        if currentInteractionEpoch != expectedEpoch || isUserInteracting { return .interrupted }
+        return nil
+    }
+
     func terminalOutcome(now: TimeInterval, generation current: UUID,
                          interactionEpoch currentEpoch: UInt64, cancelled: Bool) -> Outcome? {
         if let outcome { return outcome }
-        if cancelled { return .cancelled }
-        if current != generation { return .superseded }
-        if currentEpoch != interactionEpoch { return .interrupted }
+        if let identity = Self.requestIdentityOutcome(generation: generation, interactionEpoch: interactionEpoch,
+            currentGeneration: current, currentInteractionEpoch: currentEpoch, cancelled: cancelled) { return identity }
         if !now.isFinite { return .unavailable }
         if now >= deadline || layoutPasses >= maximumLayoutPasses { return .exhausted }
         return nil

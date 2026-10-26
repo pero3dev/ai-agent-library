@@ -584,8 +584,7 @@ struct NativeReaderView: View {
         if userCancelledEpoch == nil {
             navigationState.retainUnreachedGoal(destination, headingRequestID: headingRequestID, userPanEpoch: currentPanEpoch)
         }
-        let policy = NativeReaderPlacementPolicy(generation: generation,
-            interactionEpoch: scrollAnchors.beginPlacement(), startedAt: CACurrentMediaTime())
+        let interactionEpoch = scrollAnchors.beginPlacement()
         let request = NativeReadingPlacementRequest(purpose: destination.focusBlockID != nil ? .explicitNavigation :
             (previousProgress == nil ? .automaticResume : .automaticReflow), userPanEpoch: userCancelledEpoch ?? currentPanEpoch,
             generation: generation)
@@ -597,18 +596,23 @@ struct NativeReaderView: View {
                 previousProgress: previousProgress, flush: false)
         }
         if userCancelledEpoch != nil { outcome = .interrupted; return }
-        // Preserve the existing initial-restore layout waits, without extending
-        // them. Every proxy or UIKit action also checks the pan epoch/deadline.
+        if let end = preparationExit(generation: generation, interactionEpoch: interactionEpoch) { outcome = end; return }
+        // Preparation keeps the existing 100/250/200 ms waits. Capture identity
+        // before them; start the one-second correction budget only afterwards.
+        // Synchronous materialization and MainActor queue time are not bounded
+        // by that correction budget. Every offset still checks request identity.
         try? await Task.sleep(for: .milliseconds(100))
-        if let end = placementExit(policy) { outcome = end; return }
+        if let end = preparationExit(generation: generation, interactionEpoch: interactionEpoch) { outcome = end; return }
         if let target = destination.blockID {
             materializeContainer(target, using: proxy)
         }
         try? await Task.sleep(for: .milliseconds(250))
-        if let end = placementExit(policy) { outcome = end; return }
+        if let end = preparationExit(generation: generation, interactionEpoch: interactionEpoch) { outcome = end; return }
         try? await Task.sleep(for: .milliseconds(200))
-        if let end = placementExit(policy) { outcome = end; return }
+        if let end = preparationExit(generation: generation, interactionEpoch: interactionEpoch) { outcome = end; return }
         if let leaf = destination.scrollBlockID, let container = destination.blockID {
+            let policy = NativeReaderPlacementPolicy(generation: generation,
+                interactionEpoch: interactionEpoch, startedAt: CACurrentMediaTime())
             outcome = await finishPlacement(of: leaf, container: container, using: proxy, policy: policy,
                                             intraBlockFraction: destination.intraBlockFraction)
         } else {
@@ -641,22 +645,36 @@ struct NativeReaderView: View {
         restoring = true
         trackingReady = false
         focusedBlockID = nil
-        let policy = NativeReaderPlacementPolicy(generation: generation,
-            interactionEpoch: scrollAnchors.beginPlacement(), startedAt: CACurrentMediaTime())
+        let interactionEpoch = scrollAnchors.beginPlacement()
         let request = NativeReadingPlacementRequest(purpose: .explicitNavigation,
                                                    userPanEpoch: scrollAnchors.userPanEpoch, generation: generation)
         progressSession.beginPlacement(request)
-        if let outcome = placementExit(policy) {
+        if let outcome = preparationExit(generation: generation, interactionEpoch: interactionEpoch) {
             completePlacement(outcome, target: blockID, focus: leaf, generation: generation,
                 request: request, previousBlockID: previousBlockID, previousProgress: previousProgress, flush: false)
             return
         }
         materializeContainer(blockID, using: proxy)
         navigationTask = Task { @MainActor in
+            if let outcome = preparationExit(generation: generation, interactionEpoch: interactionEpoch) {
+                completePlacement(outcome, target: blockID, focus: leaf, generation: generation,
+                    request: request, previousBlockID: previousBlockID, previousProgress: previousProgress, flush: true)
+                return
+            }
+            // A deferred task starts one correction budget, retaining the epoch
+            // captured before the initial proxy; it never revives an old request.
+            let policy = NativeReaderPlacementPolicy(generation: generation,
+                interactionEpoch: interactionEpoch, startedAt: CACurrentMediaTime())
             let outcome = await finishPlacement(of: leaf, container: blockID, using: proxy, policy: policy)
             completePlacement(outcome, target: blockID, focus: leaf, generation: generation,
                 request: request, previousBlockID: previousBlockID, previousProgress: previousProgress, flush: true)
         }
+    }
+
+    @MainActor private func preparationExit(generation: UUID, interactionEpoch: UInt64) -> NativeReaderPlacementPolicy.Outcome? {
+        NativeReaderPlacementPolicy.requestIdentityOutcome(generation: generation, interactionEpoch: interactionEpoch,
+            currentGeneration: restoreGeneration, currentInteractionEpoch: scrollAnchors.interactionEpoch,
+            cancelled: Task.isCancelled, isUserInteracting: scrollAnchors.isUserInteracting)
     }
 
     @MainActor private func placementExit(_ policy: NativeReaderPlacementPolicy) -> NativeReaderPlacementPolicy.Outcome? {

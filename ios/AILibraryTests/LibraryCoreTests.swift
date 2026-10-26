@@ -1635,6 +1635,334 @@ final class LibraryCoreTests: XCTestCase {
             XCTAssertNotNil((object["positions"] as? [String: Any])?["other"])
         }
     }
+
+    // IOS-11 prototype regressions; SDK compilation/execution remain pending.
+    func testIntraBlockAnchorOldJSONAndMalformedOptionalProgressRemainCompatible() throws {
+        let prefix = "{\"version\":1,\"documentDigest\":\"\(readingDigest)\",\"blockFingerprint\":\"\(readingDigest)\""
+        let legacy = try JSONDecoder().decode(NativeReadingAnchor.self, from: Data((prefix + "}").utf8))
+        XCTAssertEqual(legacy.version, 1)
+        XCTAssertNil(legacy.intraBlockFraction)
+        for suffix in [",\"intraBlockFraction\":null}", ",\"intraBlockFraction\":\"bad\"}",
+                       ",\"intraBlockFraction\":{}}", ",\"intraBlockFraction\":true}",
+                       ",\"intraBlockFraction\":-0.1}", ",\"intraBlockFraction\":1.1}"] {
+            let decoded = try JSONDecoder().decode(NativeReadingAnchor.self, from: Data((prefix + suffix).utf8))
+            XCTAssertEqual(decoded, legacy, "Malformed progress must not discard the semantic anchor")
+        }
+        for value in [Double.nan, .infinity, -.infinity, -0.01, 1.01] {
+            XCTAssertNil(NativeReadingAnchor(documentDigest: readingDigest, blockFingerprint: readingDigest,
+                                            intraBlockFraction: value)?.intraBlockFraction)
+        }
+        let nonfiniteDecoder = JSONDecoder()
+        nonfiniteDecoder.nonConformingFloatDecodingStrategy = .convertFromString(
+            positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
+        for value in ["Infinity", "-Infinity", "NaN"] {
+            let decoded = try nonfiniteDecoder.decode(NativeReadingAnchor.self,
+                from: Data((prefix + ",\"intraBlockFraction\":\"\(value)\"}").utf8))
+            XCTAssertEqual(decoded, legacy)
+        }
+        for value in [0.0, 0.2, 0.7, 1.0] {
+            let anchor = try XCTUnwrap(NativeReadingAnchor(documentDigest: readingDigest,
+                blockFingerprint: readingDigest, intraBlockFraction: value))
+            XCTAssertEqual(try JSONDecoder().decode(NativeReadingAnchor.self, from: JSONEncoder().encode(anchor)), anchor)
+            XCTAssertEqual(anchor.withoutIntraBlockFraction, legacy)
+            XCTAssertEqual(anchor.version, 1, "An optional local field does not reinterpret the old anchor version")
+        }
+    }
+
+    func testIntraBlockSemanticResolutionRetainsOnlyTheIdentifiedSameBlock() throws {
+        let old = readingDocument([readingHeading("old-heading", "第一節"), readingParagraph("target", "読書中"),
+                                   readingHeading("second", "第二節"), readingParagraph("other", "読書中")])
+        let anchor = try XCTUnwrap(old.readingAnchor(blockID: "target", documentDigest: readingDigest,
+                                                    intraBlockFraction: 0.7))
+        let saved = ReadingPosition(heading: "old-heading", fraction: 0.3, blockID: "target", anchor: anchor)
+        XCTAssertEqual(old.readingResolution(for: saved, documentDigest: readingDigest),
+                       NativeReadingResolution(blockID: "target", restoresSameBlock: true))
+        let unique = readingDocument([readingParagraph("front", "挿入"), readingHeading("new", "改名"),
+                                      readingParagraph("new-target", "読書中")])
+        XCTAssertEqual(unique.readingResolution(for: saved, documentDigest: revisedReadingDigest),
+                       NativeReadingResolution(blockID: "new-target", restoresSameBlock: true))
+        let section = readingDocument([readingHeading("new-second", "第二節"), readingParagraph("wrong", "読書中"),
+                                       readingHeading("new-first", "第一節"), readingParagraph("right", "読書中")])
+        XCTAssertEqual(section.readingResolution(for: saved, documentDigest: revisedReadingDigest),
+                       NativeReadingResolution(blockID: "right", restoresSameBlock: true))
+        for changed in [readingDocument([readingHeading("new-first", "第一節")]),
+                        readingDocument([readingHeading("new-first", "第一節"), readingParagraph("target", "書き換えた本文")]),
+                        readingDocument(section.blocks + [readingParagraph("duplicate", "読書中")])] {
+            XCTAssertEqual(changed.readingResolution(for: saved, documentDigest: revisedReadingDigest),
+                           NativeReadingResolution(blockID: "new-first", restoresSameBlock: false))
+        }
+        let ambiguous = readingDocument([readingHeading("a", "第一節"), readingParagraph("target", "読書中"),
+                                         readingHeading("b", "第一節"), readingParagraph("last", "読書中")])
+        XCTAssertEqual(ambiguous.readingResolution(for: saved, documentDigest: revisedReadingDigest),
+                       NativeReadingResolution(blockID: "a", restoresSameBlock: false))
+        XCTAssertNil(readingDocument([]).readingResolution(for: saved, documentDigest: revisedReadingDigest))
+    }
+
+    func testIntraBlockLookupDiscardsFallbackProgressWithoutRewritingRecords() throws {
+        let suite = "library-intrablock-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let original = readingDocument([readingHeading("old", "第一節"), readingParagraph("target", "読書中")])
+        let anchor = try XCTUnwrap(original.readingAnchor(blockID: "target", documentDigest: readingDigest,
+                                                         intraBlockFraction: 0.7))
+        let writer = ReadingStore(defaults: defaults)
+        writer.toggleBookmark("example")
+        writer.record(articleID: "other", heading: nil, fraction: 0.8)
+        writer.record(articleID: "example", heading: "intro", fraction: 0.42, blockID: "target", anchor: anchor)
+        let bytes = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+        let reading = ReadingStore(defaults: defaults)
+        let unchanged = reading.position(for: article(), document: original, documentDigest: readingDigest)
+        XCTAssertEqual(unchanged.anchor?.intraBlockFraction, 0.7)
+        let inserted = readingDocument([readingParagraph("front", "挿入"), readingHeading("new", "第一節"),
+                                        readingParagraph("new-target", "読書中")])
+        XCTAssertEqual(reading.position(for: article(), document: inserted,
+                                       documentDigest: revisedReadingDigest).anchor?.intraBlockFraction, 0.7)
+        let edited = readingDocument([readingHeading("new", "第一節"), readingParagraph("target", "異なる本文")])
+        let fallback = reading.position(for: article(), document: edited, documentDigest: revisedReadingDigest)
+        XCTAssertEqual(fallback.blockID, "new")
+        XCTAssertNil(fallback.anchor?.intraBlockFraction)
+        XCTAssertEqual(fallback.anchor?.blockFingerprint, anchor.blockFingerprint)
+        XCTAssertEqual(fallback.fraction, 0.42, "Legacy block-order fraction must keep its meaning")
+        let repeated = readingDocument([readingHeading("first", "第一節"), readingParagraph("copy-a", "読書中"),
+                                        readingHeading("second", "第一節"), readingParagraph("copy-b", "読書中")])
+        let fractional = reading.position(for: article(), document: repeated, documentDigest: revisedReadingDigest)
+        XCTAssertEqual(fractional.blockID, "copy-a")
+        XCTAssertNil(fractional.anchor?.intraBlockFraction, "An order fallback must not transplant progress into a duplicate block")
+        let disambiguated = readingDocument([readingHeading("other", "第二節"), readingParagraph("copy-b", "読書中"),
+                                             readingHeading("right", "第一節"), readingParagraph("copy-a", "読書中")])
+        XCTAssertEqual(reading.position(for: article(), document: disambiguated,
+                                       documentDigest: revisedReadingDigest).anchor?.intraBlockFraction, 0.7)
+        XCTAssertNil(reading.position(for: article(), document: readingDocument([])).anchor?.intraBlockFraction)
+        XCTAssertEqual(reading.position(for: article()).anchor?.intraBlockFraction, 0.7)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), bytes, "Resolution is read-only, including dropping stale progress")
+        XCTAssertEqual(reading.bookmarks, ["example"])
+        let object = try XCTUnwrap(try JSONSerialization.jsonObject(with: bytes) as? [String: Any])
+        XCTAssertNotNil((object["positions"] as? [String: Any])?["other"])
+    }
+
+    func testIntraBlockBufferCoalescesSameBlockAndRejectsSupersededDelay() throws {
+        var buffer = NativeReadingProgressBuffer()
+        let first = NativeReadingSample(heading: "intro", blockID: "tall", fraction: 0.42, intraBlockFraction: 0.2)
+        let later = NativeReadingSample(heading: "intro", blockID: "tall", fraction: 0.42, intraBlockFraction: 0.7)
+        let oldToken = try XCTUnwrap(buffer.stage(first))
+        let newToken = try XCTUnwrap(buffer.stage(later))
+        XCTAssertNil(buffer.lastSaved, "Staging even many pixel updates must not write")
+        XCTAssertNil(buffer.takeForSaving(expectedToken: oldToken, restoring: false), "An earlier task must not flush a newer sample early")
+        XCTAssertEqual(buffer.pending, later)
+        XCTAssertEqual(buffer.takeForSaving(expectedToken: newToken, restoring: false), later)
+        XCTAssertNil(buffer.takeForSaving(expectedToken: newToken, restoring: false))
+        XCTAssertNil(buffer.stage(later), "Repeated equal geometry must not write again")
+        XCTAssertEqual(buffer.lastSaved?.fraction, first.fraction)
+        XCTAssertEqual(buffer.lastSaved?.blockID, first.blockID)
+        XCTAssertNotEqual(buffer.lastSaved?.intraBlockFraction, first.intraBlockFraction)
+    }
+
+    func testIntraBlockBufferRestorationCancellationAndExitFlushOnlyMeasuredSamples() throws {
+        var buffer = NativeReadingProgressBuffer()
+        let measured = NativeReadingSample(heading: nil, blockID: "actual", fraction: 0.4, intraBlockFraction: 0.55)
+        let token = try XCTUnwrap(buffer.stage(measured))
+        XCTAssertNil(buffer.takeForSaving(expectedToken: token, restoring: true))
+        XCTAssertEqual(buffer.pending, measured)
+        buffer.cancelDelay()
+        XCTAssertNil(buffer.takeForSaving(expectedToken: token, restoring: false))
+        XCTAssertEqual(buffer.takeForSaving(restoring: false), measured, "Departure flushes the last measured point once")
+        XCTAssertNil(buffer.takeForSaving(restoring: false))
+        for bad in [Double.nan, .infinity, -.infinity, -0.2, 1.2] {
+            XCTAssertNil(buffer.stage(NativeReadingSample(heading: nil, blockID: "unmeasured", fraction: 0.4, intraBlockFraction: bad)))
+        }
+        XCTAssertNil(buffer.pending)
+        XCTAssertEqual(buffer.lastSaved, measured, "A request/invalid geometry cannot become a new saved bookmark location")
+    }
+
+    func testAutomaticIntraBlockFailureAndLaterFramesPreservePersistedGoal() throws {
+        let suite = "library-intra-completion-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let doc = document()
+        let store = ReadingStore(defaults: defaults)
+        let anchor = try XCTUnwrap(doc.readingAnchor(blockID: "paragraph", documentDigest: readingDigest, intraBlockFraction: 0.7))
+        store.toggleBookmark("example")
+        store.record(articleID: "example", heading: "intro", fraction: 0.5, blockID: "paragraph", anchor: anchor)
+        let bytes = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+        let intermediate = NativeReadingSample(heading: "intro", blockID: "paragraph", fraction: 0.5, intraBlockFraction: 0)
+        func persist(_ sample: NativeReadingSample?) {
+            guard let sample else { return }
+            store.record(articleID: "example", heading: sample.heading, fraction: sample.fraction, blockID: sample.blockID,
+                anchor: doc.readingAnchor(blockID: sample.blockID, documentDigest: readingDigest, intraBlockFraction: sample.intraBlockFraction))
+        }
+        for purpose in [NativeReadingPlacementRequest.Purpose.automaticResume, .automaticReflow] {
+            for outcome in [NativeReaderPlacementPolicy.Outcome.exhausted, .unavailable, .cancelled, .superseded, .interrupted, .aligned] {
+                var session = NativeReadingProgressSession()
+                let request = NativeReadingPlacementRequest(purpose: purpose, userPanEpoch: 9)
+                session.beginPlacement(request)
+                XCTAssertNil(session.stageMeasured(intermediate, userPanEpoch: 9), "Even valid geometry cannot record while placement is in flight")
+                let completion = session.completePlacement(placementAligned: outcome == .aligned, request: request, currentUserPanEpoch: 9,
+                    isUserInteracting: false, measured: outcome == .aligned ? nil : intermediate)
+                XCTAssertEqual(completion.effect, .preserveAutomaticPosition)
+                XCTAssertFalse(completion.effect.consumesOneShot)
+                XCTAssertNil(completion.delayToken)
+                persist(session.takeForSaving(restoring: false))
+                XCTAssertNil(session.stageMeasured(intermediate, userPanEpoch: 9), "A late preference callback must not save the proxy's intermediate top")
+                persist(session.takeForSaving(restoring: false))
+                XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), bytes)
+                XCTAssertEqual(ReadingStore(defaults: defaults).position(for: article()).anchor?.intraBlockFraction, 0.7)
+                XCTAssertEqual(store.bookmarks, ["example"])
+            }
+        }
+    }
+
+    func testIntraBlockCompletionSavesClampedActualOrRealUserPanInsteadOfRequestedRatio() throws {
+        let suite = "library-intra-actual-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let doc = document(), store = ReadingStore(defaults: defaults)
+        var writes = 0
+        func persist(_ sample: NativeReadingSample?) {
+            guard let sample else { return }
+            writes += 1
+            store.record(articleID: "example", heading: sample.heading, fraction: sample.fraction, blockID: sample.blockID,
+                anchor: doc.readingAnchor(blockID: sample.blockID, documentDigest: readingDigest, intraBlockFraction: sample.intraBlockFraction))
+        }
+        var session = NativeReadingProgressSession()
+        let requestedRatio = 0.7
+        let actual = NativeReadingSample(heading: "intro", blockID: "paragraph", fraction: 0.5, intraBlockFraction: 0.6425)
+        let request = NativeReadingPlacementRequest(purpose: .automaticResume, userPanEpoch: 4)
+        session.beginPlacement(request)
+        let completion = session.completePlacement(placementAligned: true, request: request, currentUserPanEpoch: 4,
+                                                   isUserInteracting: false, measured: actual)
+        XCTAssertEqual(completion.effect, .measuredAlignment)
+        XCTAssertTrue(completion.effect.consumesOneShot)
+        let token = try XCTUnwrap(completion.delayToken)
+        persist(session.takeForSaving(expectedToken: token, restoring: true))
+        XCTAssertEqual(writes, 0)
+        persist(session.takeForSaving(expectedToken: token, restoring: false))
+        persist(session.takeForSaving(expectedToken: token, restoring: false))
+        XCTAssertEqual(writes, 1)
+        XCTAssertEqual(store.position(for: article()).anchor?.intraBlockFraction, actual.intraBlockFraction)
+        XCTAssertNotEqual(store.position(for: article()).anchor?.intraBlockFraction, requestedRatio)
+        let panRequest = NativeReadingPlacementRequest(purpose: .automaticReflow, userPanEpoch: 4)
+        session.beginPlacement(panRequest)
+        let userPoint = NativeReadingSample(heading: "intro", blockID: "paragraph", fraction: 0.5, intraBlockFraction: 0.2)
+        let panned = session.completePlacement(placementAligned: false, request: panRequest, currentUserPanEpoch: 5,
+                                               isUserInteracting: false, measured: userPoint)
+        XCTAssertEqual(panned.effect, .measuredUserPan)
+        XCTAssertTrue(panned.effect.consumesOneShot)
+        let panToken = try XCTUnwrap(panned.delayToken)
+        persist(session.takeForSaving(expectedToken: panToken, restoring: false))
+        XCTAssertEqual(writes, 2)
+        XCTAssertEqual(store.position(for: article()).anchor?.intraBlockFraction, 0.2)
+        let active = NativeReadingPlacementRequest(purpose: .explicitNavigation, userPanEpoch: 5)
+        session.beginPlacement(active)
+        XCTAssertEqual(session.completePlacement(placementAligned: false, request: active, currentUserPanEpoch: 5,
+            isUserInteracting: true, measured: userPoint).effect, .measuredUserPan)
+    }
+
+    func testIntraBlockSessionKeepsPendingMeasurementAcrossSceneCancellationAndIgnoresOldGeneration() throws {
+        var session = NativeReadingProgressSession()
+        let prior = NativeReadingSample(heading: nil, blockID: "prior", fraction: 0.5, intraBlockFraction: 0.7)
+        let top = NativeReadingSample(heading: nil, blockID: "requested", fraction: 0.8, intraBlockFraction: 0)
+        let oldDelay = try XCTUnwrap(session.stageMeasured(prior, userPanEpoch: 3))
+        let old = NativeReadingPlacementRequest(purpose: .explicitNavigation, userPanEpoch: 3)
+        let current = NativeReadingPlacementRequest(purpose: .automaticReflow, userPanEpoch: 3)
+        session.beginPlacement(old)
+        XCTAssertNil(session.userPanBeforeReplacement(userPanEpoch: 3))
+        XCTAssertEqual(session.userPanBeforeReplacement(userPanEpoch: 4), 3,
+                       "A reflow starting before the old completion must retain proof of the real pan")
+        session.beginPlacement(current)
+        let stale = session.completePlacement(placementAligned: true, request: old, currentUserPanEpoch: 3,
+                                               isUserInteracting: false, measured: top)
+        XCTAssertEqual(stale.effect, .ignoreSuperseded)
+        XCTAssertNil(session.takeForSaving(expectedToken: oldDelay, restoring: false))
+        XCTAssertNil(session.takeForSaving(restoring: false), "The current generation is still in flight")
+        session.cancelUnreachedPlacement(userPanEpoch: 3)
+        XCTAssertEqual(session.completePlacement(placementAligned: true, request: current, currentUserPanEpoch: 3,
+            isUserInteracting: false, measured: top).effect, .ignoreSuperseded)
+        XCTAssertEqual(session.takeForSaving(restoring: false), prior, "Departure may flush only the earlier real measurement")
+        XCTAssertNil(session.takeForSaving(restoring: false))
+        XCTAssertNil(session.stageMeasured(top, userPanEpoch: 3))
+        XCTAssertNotNil(session.stageMeasured(top, userPanEpoch: 4), "Only a later real pan releases failed-placement tracking")
+        let explicit = NativeReadingPlacementRequest(purpose: .explicitNavigation, userPanEpoch: 4)
+        session.beginPlacement(explicit)
+        XCTAssertNil(session.blockedAtUserPanEpoch)
+        XCTAssertNil(session.userPanBeforeReplacement(userPanEpoch: 4), "An earlier pan must not cancel this newer explicit navigation")
+    }
+
+    func testLatestAcceptedAlignmentControlsRequestedFocusAfterAPanRace() throws {
+        let userPoint = NativeReadingSample(heading: "intro", blockID: "actual-user-block", fraction: 0.4, intraBlockFraction: 0.2)
+        let requestedPoint = NativeReadingSample(heading: "goal", blockID: "old-requested-block", fraction: 0.8, intraBlockFraction: 0.7)
+        // The policy has already returned aligned. The latest pan evidence at
+        // completion must control both the saved point and the focus decision.
+        let latestPanStates: [(UInt64, Bool)] = [(21, false), (20, true)]
+        for (currentPan, interacting) in latestPanStates {
+            var session = NativeReadingProgressSession()
+            let request = NativeReadingPlacementRequest(purpose: .explicitNavigation, userPanEpoch: 20)
+            session.beginPlacement(request)
+            let completion = session.completePlacement(placementAligned: true, request: request,
+                currentUserPanEpoch: currentPan, isUserInteracting: interacting, measured: userPoint)
+            XCTAssertEqual(completion.effect, .measuredUserPan)
+            XCTAssertTrue(completion.effect.consumesOneShot)
+            XCTAssertFalse(completion.effect.restoresRequestedFocus, "An old aligned result must not revive the cancelled goal's VoiceOver focus")
+            let token = try XCTUnwrap(completion.delayToken)
+            XCTAssertEqual(session.takeForSaving(expectedToken: token, restoring: false), userPoint)
+        }
+        var session = NativeReadingProgressSession()
+        let request = NativeReadingPlacementRequest(purpose: .explicitNavigation, userPanEpoch: 20)
+        session.beginPlacement(request)
+        let aligned = session.completePlacement(placementAligned: true, request: request,
+            currentUserPanEpoch: 20, isUserInteracting: false, measured: requestedPoint)
+        XCTAssertEqual(aligned.effect, .measuredAlignment)
+        XCTAssertTrue(aligned.effect.restoresRequestedFocus, "A current measured alignment still permits the requested focus")
+        let token = try XCTUnwrap(aligned.delayToken)
+        XCTAssertEqual(session.takeForSaving(expectedToken: token, restoring: false), requestedPoint)
+
+        for purpose in [NativeReadingPlacementRequest.Purpose.automaticResume, .explicitNavigation] {
+            for placementAligned in [false, true] {
+                var failed = NativeReadingProgressSession()
+                let pending = NativeReadingPlacementRequest(purpose: purpose, userPanEpoch: 20)
+                failed.beginPlacement(pending)
+                let completion = failed.completePlacement(placementAligned: placementAligned, request: pending,
+                    currentUserPanEpoch: 20, isUserInteracting: false, measured: placementAligned ? nil : requestedPoint)
+                XCTAssertFalse(completion.effect.restoresRequestedFocus, "Failed or unmeasured placement cannot restore requested focus")
+                XCTAssertNil(completion.delayToken)
+            }
+        }
+        let old = NativeReadingPlacementRequest(purpose: .explicitNavigation, userPanEpoch: 20)
+        let current = NativeReadingPlacementRequest(purpose: .explicitNavigation, userPanEpoch: 20)
+        session.beginPlacement(old)
+        session.beginPlacement(current)
+        let stale = session.completePlacement(placementAligned: true, request: old,
+            currentUserPanEpoch: 20, isUserInteracting: false, measured: requestedPoint)
+        XCTAssertEqual(stale.effect, .ignoreSuperseded)
+        XCTAssertFalse(stale.effect.restoresRequestedFocus)
+        XCTAssertNil(stale.delayToken)
+    }
+
+    func testMalformedOptionalIntraBlockFieldPreservesFullReadingStateAndOtherArticles() throws {
+        let suite = "library-intra-malformed-state-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let doc = document()
+        let anchor = try XCTUnwrap(doc.readingAnchor(blockID: "paragraph", documentDigest: readingDigest))
+        let anchorJSON = try XCTUnwrap(try JSONSerialization.jsonObject(with: JSONEncoder().encode(anchor)) as? [String: Any])
+        let invalidValues: [Any] = ["bad", [1], true, -0.1, 1.1, NSNull()]
+        for invalid in invalidValues {
+            var changed = anchorJSON; changed["intraBlockFraction"] = invalid
+            let object: [String: Any] = ["bookmarks": ["example"], "lastArticleID": "other", "positions": [
+                "example": ["heading": "intro", "fraction": 0.42, "blockID": "paragraph", "anchor": changed],
+                "other": ["fraction": 0.8]]]
+            let bytes = try JSONSerialization.data(withJSONObject: object)
+            defaults.set(bytes, forKey: "library.reading.v1")
+            let reading = ReadingStore(defaults: defaults)
+            XCTAssertEqual(reading.position(for: article()).anchor, anchor)
+            XCTAssertEqual(reading.position(for: article(), document: doc, documentDigest: readingDigest).blockID, "paragraph")
+            XCTAssertEqual(reading.position(for: article()).fraction, 0.42)
+            XCTAssertEqual(reading.bookmarks, ["example"])
+            XCTAssertEqual(reading.lastArticleID, "other")
+            XCTAssertEqual(reading.position(for: article(id: "other")).fraction, 0.8)
+            XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), bytes)
+            XCTAssertNotNil((object["positions"] as? [String: Any])?["other"])
+        }
+    }
 }
 
 /// These tests never play a permitted URL or activate an audio session. Each test

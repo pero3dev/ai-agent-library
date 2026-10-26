@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-26",
+  "status": "private-final-bound-to-actual-main270-955c; separate-review-and-new-P1-CI-pending",
+  "purpose": "IOS-11 measured relative progress inside a native top-level block, preserving old saved semantics.",
+  "ownership": "Approved15-path App/Core/fixture/schema/Published/PBX version delta unchanged; one approved Published CI job-cap line added; total16 paths.",
+  "authority": "User autonomous iOS TODO implementation request, device QA may remain uncompleted; root approved private integration only. No remote/ref/shared/SDK execution in this stage.",
+  "source_basis": {
+    "source_commit": "955c066c8dc0fdbedf6f0c845a461abda39ac476",
+    "source_tree": "9d2525e28ce3d9b6659eeac57b0b6f910e7e262b",
+    "kind": "actual main270 merged commit",
+    "source_PR270_head": "85d9cdbeea8f79cbe6f720b0a8bc631ffb06fecb",
+    "parent_sha": "955c066c8dc0fdbedf6f0c845a461abda39ac476",
+    "requires_actual_main270_commit_regeneration": false,
+    "tree_is_not_commit_parent": true
+  },
+  "app_version": "0.2.16",
+  "build": "18",
+  "self_head": null,
+  "PR_number": null,
+  "changes": [
+    "Optional finite intraBlockFraction on anchor version1; old ReadingPosition fields and block-order fraction retained.",
+    "Actual same-root top/end measurements, visibleTop max(adjusted,safe), legal adjusted clamp, same semantic block recovery only.",
+    "Failed automatic placement cannot save proxy intermediate point; delayed buffer and prior measured departure flush retained.",
+    "Unreached heading/search/TOC/inline intent survives automatic layout restart; latest user pan cancels old goal and requested VoiceOver focus.",
+    "Seven approved v3 code/fixture files byte-exact; add only exact talltable UI method to latest snapshot/picker41c3 Published prefix. Nativebcaf/pure6/three class selectors and all parent actuals remain unchanged.",
+    "PublishedCI job timeout40->50 only, root-reviewed one-line resource budget; all test/code/selector/individual15sec/audit bytes retained, not product performance budget."
+  ],
+  "validation": {
+    "source_independent_review": {
+      "path": "/private/tmp/ios-intrablock-position-v3-candidate-20261026/review-v3.json",
+      "SHA256": "270b19f8bd1badacf8f4fb0983acad6050bdea1c1b3d0659df8600391aaa66c9",
+      "scope": "historical seven approved v3 source/fixture bytes; not a review or compilation of newly joined Published/snapshot/picker"
+    },
+    "source_counts": {
+      "unit": 152,
+      "Published_functional": 14,
+      "Native_functional": 2,
+      "functional_UI": 16,
+      "pure_geometry": 6,
+      "selected_source_total": 22,
+      "performance_separate": 1,
+      "actual_new_registration": "not-run"
+    },
+    "actual_new_registration_XCTest_UI_CLIcorpus": 0,
+    "final_payload_SDK_or_full_build": 0,
+    "static": "Current16-path actualmain955c bind, immutable10 source files, parent-doc preservation, approved CI40->50 one-line reversal and private tree/literal checks only; no SDK/runtime.",
+    "historical_SDK_four_stages": {
+      "path": "/private/tmp/ios-intrablock-position-v3-sdkcheck-20261026/proof.json",
+      "SHA256": "3e56565e0aaffd01ea3e03798525fcfad9e5e070e57dc0b9eecc569f2de4d744",
+      "result": "pass App16 emitmodule;Core71+Inline37 typecheck; exact CoreSmoke6/PackageAudit5 source list host compile; diagnostics0",
+      "basis": "public3dbdfe + frozen v3 four App files; not this final Published/version/docs payload compile",
+      "scope_qualification": "Historical approved source code stage only: App16module, Core71+Inline37 typecheck, exact CoreSmoke6/PackageAudit5 host compile. New Published/snapshot/picker and new project/version are not compiled."
+    }
+  },
+  "unverified": [
+    "New combined source unit152/functional16+puregeometry6=22 actual registration and execution",
+    "New Published snapshot/picker/talltable compilation and exact-main270 full project",
+    "New exact-head common/native/full22/runtime26/budget/site/Release/SDK26",
+    "Physical QA, max text, rotation, revision/reflow/pan/VoiceOver and actual iOS26 viewport hypothesis"
+  ],
+  "unchanged": "All non-owned mode/type/blob entries from latest picker basis, Nativebcaf and pure6, three UI selectors, runtime26 budget/sitewait and actual parent records; all TODO checkbox rows retained.",
+  "next": "Separate final payload review; root Draft reflection and exact P1 head SDK/CI/physical acceptance. IOS-11 remains incomplete.",
+  "preview_only": true,
+  "publishable": false,
+  "parent_sha": "955c066c8dc0fdbedf6f0c845a461abda39ac476",
+  "historical_source_basis": {
+    "commit": "238e5e9968ff669f191cf3ee62db9d9a6f14378f",
+    "tree": "9b0d4035dd149a6bbce124b291fc1b856105c72a",
+    "PR": 270,
+    "actual_main": "b79c0a3f6b76a7603077b0a30a07cdecb94cda93"
+  },
+  "source_binding": {
+    "approved_final_tree": "64b6ded12bfa496f146a3bfbf4977c4b234d6356",
+    "approved_v3_code_and_fixture_byte_exact": {
+      "ios/AILibrary/Sources/ArticleReaderView.swift": "3ab2eba04a1f53022746ec36d2d3c6170511a88aa1a11080e1983e8fb1a0de7b",
+      "ios/AILibrary/Sources/NativeDocument.swift": "ce96e4960eef766e325b1b4b7d3701d4a7d5b5c3b1e69ae9599fd0f2622af2ab",
+      "ios/AILibrary/Sources/NativeReaderView.swift": "5841962299d9dcbad02bcb019c04f1bdb743851e29f61b0d9db6d18861b28c2a",
+      "ios/AILibrary/Sources/ReadingStore.swift": "89eb397a25391fca4ece786438bc2b3dac2eda0933006f587769ab5b0551c5c9",
+      "ios/AILibraryTests/LibraryCoreTests.swift": "629d6b65a21b30366b3a27feb73dbf30c623d95f03a69e569258b963b85fae95",
+      "ios/AILibraryTests/NativeInlineTests.swift": "4f26ec1bb3aad8285fc65ccdc0eca3da816c217e18c2908283ab25936f933907",
+      "ios/fixtures/native-reader.md": "8ae54acfdd1a4e1e4d4fc0d75fd5227e1f62ceb1ec0a2ff8f1d00208e805de4b"
+    },
+    "old_Published_ae9_SHA256": "ae9eee84b4148177e7ae8a4aea60228f6578261c04eb12dffa9170585bc6cc74",
+    "latest_picker_snapshot_Published_41c3_SHA256": "41c3cfe54c34d608561a5db63b7c3f087fc1b2c62a12a9a0320c993a27e2e6ba",
+    "new_Published_SHA256": "7c053c8bb9e6612c689ad3b2c5f8202cbcf2b153ad2b8d0550991010bb330390",
+    "talltable_method_SHA256": "afa567b9f1ee9982b3a1770b3de621de78937d9c27ff63dcca01bdf1205bb463",
+    "complete_latest13_Published_methods_helpers_preserved": true,
+    "talltable_method_bytes_unchanged": true,
+    "PBX_changes": "Exactly two MARKETING_VERSION0.2.15→0.2.16 and two CURRENT_PROJECT_VERSION17→18 fields; no other PBX bytes changed"
+  },
+  "historical_parent_actuals": {
+    "picker_old238e_full": {
+      "source_head": "238e5e9968ff669f191cf3ee62db9d9a6f14378f",
+      "source_Published_SHA256": "9d503be661abc1b295951acc66cf03204ccec1be0a84f9c3a5606d85b18a0c70",
+      "source_Native_SHA256": "1296e450ac8575244527cd58bcc8b21f4819956a7dada225f5522e954c6b46d8",
+      "run": 40226683804,
+      "job": 121269430760,
+      "evidence_origin": "root-provided historical full-run observation; not rerun by this preview",
+      "unit_registered": 133,
+      "unit_passed": 131,
+      "unit_skipped": 2,
+      "UI_registered": 15,
+      "UI_passed": 14,
+      "UI_failed": 1,
+      "body_search_A": "passed",
+      "picker_cancel": {
+        "case": "testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions",
+        "status": "passed",
+        "seconds": 138.72,
+        "scope": "old238e UI case duration; not new21 or a product performance budget",
+        "printed_seconds": "138.720"
+      },
+      "body_search_B": {
+        "case": "testResumeUsesLaterReadingPositionInsteadOfReplayingThePreviousBodyQuery",
+        "status": "failed-first-arrival",
+        "not_reached": [
+          "TOC move",
+          "save later position",
+          "restart",
+          "resume comparison"
+        ]
+      },
+      "Release": "skipped-after-UI-failure",
+      "new_snapshot_Pub41c3_Nativebcaf": "not-this-execution"
+    },
+    "retained_nonowned_runtime26_records": true,
+    "new_parent_snapshot21_and_budget_sitewait_exact_head": "Root reports all15 checks succeeded on exactPR270head85d9 before main955c merge; parent receipts retained unchanged. New P1unit152/UI22 remains uncompiled/unrun.",
+    "PR270_exact_85d9_success": {
+      "source_head": "85d9cdbeea8f79cbe6f720b0a8bc631ffb06fecb",
+      "tree": "9d2525e28ce3d9b6659eeac57b0b6f910e7e262b",
+      "observation": "root reports all15checks success before normal main merge; not rerun by preparation agent",
+      "unit_registered": 133,
+      "unit_passed": 131,
+      "unit_skipped": 2,
+      "full_UI_selected": 21,
+      "full_UI": "passed",
+      "Release": "passed",
+      "runtime26_SDK26_and_common": "root reports all15 checks passed at this85d9 head; details remain in exact parent receipts",
+      "P1_new_unit152_UI22": "not this execution; compile/registration/execution unverified"
+    }
+  },
+  "protected_latest_parent_SHA256": {
+    "ios/AILibraryUITests/NativeReaderUITests.swift": "bcafec630f8c5927a4b4b694dc33bcacd25f459ab4a636ae8e0f68309b69d1a4",
+    ".github/workflows/ios-published-candidate.yml": "a9a95d2a48c319f996c3ef5df3d1abad5a5f9b5b1773ff036e894e9fe2423d5f",
+    ".github/workflows/ios-native.yml": "3a03ad0aa7c4276962b97e93c8128b265c05b9c1bc9a506d64075b1a07b9c480",
+    ".github/workflows/ios-runtime26-smoke.yml": "1bdd5304ed1418504444773d83e0b43d347ebc6f39aeecda70ca73ce050aea5e",
+    ".github/workflows/ios-sdk26-archive.yml": "f56980c39d86c0b6992d30a3e8e8e539172020b4597eaaedd5528003548dd2f5",
+    "website/tests/browser/site.spec.mjs": "1973c629e36dd6ba272a035f802ea691a16c68ffcc436a3d38dc7c992fb010c4",
+    "project/records/2026-10-26/ios-picker-cancel-ui.json": "b38cdf10cedf6dae90ce25cf9b857ee6816a7b0e3431a5a89b9c475c61d8b82f",
+    "project/records/2026-10-26/ios-picker-cancel-ui.md": "0de7157ad7e2d38ea0835eea8a9a09704ec330b3de7a84e52f06712dcc9645a5",
+    "project/records/2026-10-26/ios-runtime26-smoke.json": "7fd3f44a9aa6121306187d07256a2ab4c19779837e99b15fb0056790f4a988d2",
+    "project/records/2026-10-26/ios-runtime26-smoke.md": "a9252b5517f6913221b4f4f1d08cab20da59bc0dd7ef352a821ce8772f1ce22b"
+  },
+  "publication": {
+    "preview_only": true,
+    "publishable": false,
+    "parent_sha": "955c066c8dc0fdbedf6f0c845a461abda39ac476",
+    "regenerate_after_actual_main270_commit": false,
+    "never_use_tree_as_commit_parent": true,
+    "source_PR270_commit": "85d9cdbeea8f79cbe6f720b0a8bc631ffb06fecb",
+    "source_tree": "9d2525e28ce3d9b6659eeac57b0b6f910e7e262b",
+    "sequence": "prepare private actualmain955c bind; separate payload review then root Draft/exact-head CI; required CI gates main integration",
+    "actual_main270_commit": "955c066c8dc0fdbedf6f0c845a461abda39ac476"
+  },
+  "independent_Core_work": {
+    "PR": 273,
+    "state": "separate Draft; not merged into this basis",
+    "Core_benchmark_files_added": false,
+    "later_main_sync": "after priority P1/icon work as root instructed"
+  },
+  "prior_approved_private_preview": {
+    "basis_tree": "7c3f60f2164af622677730a8d246c9631fa64712",
+    "tree": "e6fe25b7383ebc7cb7ec504a647b08f57d92ba34",
+    "freeze_SHA256": "6b95b9bcfcb4db6b977e83cc9c70ab331cf6951b9bcf3c076182021069b7548b",
+    "code_fixture_Published_schema_PBX_byte_exact": true
+  },
+  "source_PR270_observation": {
+    "head": "85d9cdbeea8f79cbe6f720b0a8bc631ffb06fecb",
+    "tree": "9d2525e28ce3d9b6659eeac57b0b6f910e7e262b",
+    "parents": [
+      "238e5e9968ff669f191cf3ee62db9d9a6f14378f",
+      "750a305a82c6ff7882de46fdf7889c81925c509e"
+    ],
+    "root_independent_bind_review_prefix": "5b4b8c8d",
+    "root_report": "Draft85d9 all15checks succeeded, full21/unit133=131+2/Release; normally merged into955c with same tree",
+    "this_agent_API_or_CI_execution": 0,
+    "actual_main_commit": "955c066c8dc0fdbedf6f0c845a461abda39ac476",
+    "new_P1_success_inferred": false
+  },
+  "published_CI_execution_cap": {
+    "path": ".github/workflows/ios-published-candidate.yml",
+    "before_minutes": 40,
+    "after_minutes": 50,
+    "scope": "CI job execution limit only; not product performance or SLO",
+    "basis_observation": "root reports exact85d9 full21 job about38min with under2min margin; no new measurement by preparer",
+    "new_case": "talltable1 added to22selected source; no actual new runtime result",
+    "source_SHA256": "9474145136f51fa853462128fd14e3c276a92e7227d07b3bd2b391ba6d41124e",
+    "root_review_SHA256": "67583ba1140ff68c07267a205134708f21b7475b58f0d42da36d4d9671e26836",
+    "root_review_origin": "/Users/yabukita_shou/dev/ai-agent-library/.local/ios-autonomous-evidence/published-ci-budget50-root-review.json",
+    "only_one_line_changed": true,
+    "reverse_change_restores_actualmain_workflow_all_bytes": true,
+    "selectors_commands_assert_individual15sec_audits": "unchanged"
+  }
+}

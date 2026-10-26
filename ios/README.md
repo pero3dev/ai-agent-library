@@ -115,6 +115,10 @@ Debugで`TestContent`を生成していない場合は、入口で記事が含�
 
 0.2.12（14）では、学習索引にある正規の章URLを本文から開くと、アプリ内の章案内とREADME順の記事へ進めます。章案内を閉じて本文へ戻る導線を用意し、未知URL等と索引のない代表3記事は従来のbrowser fallbackを保ちます。[章リンクの記録](../project/records/2026-10-25/ios-native-chapter-link.md)で、全199記事の前提・関連リンク保持、URL回帰、SDK compileと未完了の画面確認を区別します。
 
+## block内部の読書位置
+
+0.2.16（18）の[block内部の読書位置候補](../project/records/2026-10-26/ios-intrablock-reading-progress.md)では、実測したblock内の相対位置を任意anchorへ保存し、同じ本文の復帰とlayout変更後の再配置に使います。自動復帰が失敗した場合は旧保存を保ち、未到達の目次・検索等の目的地は自動layout再起動へ引き継ぎます。旧保存形式・しおり・block順の割合を維持し、意味内容で同じblockと確認できないfallbackでは内部位置を破棄します。旧v3 codeのSDK4段階（App16module・Core/Inline型検査・既存2CLI compile）は成功しましたが、新snapshot/pickerへ合わせたPublishedは未compileです。unit152・機能UI16（Published14＋Native2）＋pure geometry6＝22 selectedはsource数で、新mainの実登録・XCTest/UI・CI、最大文字・回転・VoiceOver・実機は未確認です。厳密な同じ文字やpixel位置の保証とIOS-11全体の完了は含みません。 実main270 `955c066c8dc0fdbedf6f0c845a461abda39ac476`（tree `9d2525e28ce3d9b6659eeac57b0b6f910e7e262b`）へbindした私有候補である。親PR270 head85d9のunit133（131成功＋2skip）・full21・Releaseと全15check成功は親の履歴で、新P1 unit152／UI22の実登録・実行は未確認とする。独立review後にrootがDraftへ反映してCIを実行し、必要exact-head CI成功までmainへ統合しない。 Published CIのjob上限だけ40分から50分へ調整し、selector・個別15秒・assert・commandは維持する。これはCI実行上限で製品性能budgetではない。
+
 ## 記事の生成と更新の試験
 
 [生成CLI](../scripts/build-ios-native-content.mjs)と[変換処理](../scripts/lib/ios-native-content.mjs)は、Markdown原本と音声カタログからパッケージを作ります。[資産生成](../scripts/lib/ios-native-assets.mjs)は行内・表示数式とMermaidを明暗別PNGへ変換します。元のTeX・Mermaidと代替読み上げ文をJSONへ残し、KaTeX・Mermaid・記事のライセンスも同梱します。端末用パッケージはJSON・PNG・TXTで構成し、HTML・JS・CSS・SVG・フォントは含めません。

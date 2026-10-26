@@ -89,5 +89,7 @@ block IDは見出しIDと内容由来のdigest等から決め、異なる段落�
 - `ReadingStore.record(articleID:heading:fraction:blockID:anchor:)`、`LibraryStore.record(articleID:heading:fraction:blockID:anchor:)`の`blockID`・`anchor`はdefault nil。従来の呼び出しを維持する。
 - `ReadingStore.position(for:document:documentDigest:)`で検証済み本文に照合する。digestが同じならblock ID、異なるなら一意な意味内容fingerprint、同一内容が複数なら一意に照合した見出し内の一意な本文、見出し、割合の順に選ぶ。fingerprintはID・slug・生成画像のパスや寸法を含めない。旧保存はblock ID→heading→割合の従来fallbackを維持する。getterは永続記録を書き換えない。
 - 割合はblock単位の近似であり、block内の文字・pixel位置や改訂後の同一位置を保証しない。明示的な検索・fragment・目次の移動を保存位置より優先する。
+- `NativeReadingAnchor`の任意`intraBlockFraction`は、実top/end marker間の高さに対する読書線の割合（有限な0〜1）。version 1・旧保存キー・従来のblock順`fraction`は変えない。不正な内部割合だけを無視し、有効なanchorや他記事の保存を保持する。
+- 内部割合は同じdigestのblock、または一意に照合した意味内容のblockだけへ引き継ぐ。見出し・block順割合へのfallbackでは返却値から除き、getterは永続保存を書き換えない。復帰中は記録せず、自動配置失敗は旧位置を保つ。実測値の保存は350msでまとめ、離脱では以前の安全な実測pendingだけをflushする。
 
 本文・資産の参照はmanifestと安全な相対パスへ限定し、ファイル数・本文深さ・要素数・PNG寸法等へ上限を設ける。既存のSHA検証・symlink拒否・原子的な切替を保つ。

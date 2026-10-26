@@ -89,9 +89,10 @@ struct ArticleReaderView: View {
             .id(readerID)
     }
 
-    private func recordPosition(_ heading: String?, _ blockID: String?, _ fraction: Double) {
+    private func recordPosition(_ heading: String?, _ blockID: String?, _ fraction: Double,
+                                _ intraBlockFraction: Double?) {
         let anchor = documentDigest.flatMap { digest in
-            document?.readingAnchor(blockID: blockID, documentDigest: digest)
+            document?.readingAnchor(blockID: blockID, documentDigest: digest, intraBlockFraction: intraBlockFraction)
         }
         store.record(articleID: article.id, heading: heading, fraction: fraction, blockID: blockID,
                      anchor: anchor)

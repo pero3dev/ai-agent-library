@@ -26,28 +26,39 @@ struct NativeDocument: Codable, Hashable, Sendable {
 
     /// Persist only the displayed top-level block. Asset paths and generated IDs
     /// are intentionally absent from the semantic fingerprints.
-    func readingAnchor(blockID: String?, documentDigest: String) -> NativeReadingAnchor? {
+    func readingAnchor(blockID: String?, documentDigest: String,
+                       intraBlockFraction: Double? = nil) -> NativeReadingAnchor? {
         guard let blockID, let container = blocks.first(where: { $0.descendants.contains { $0.id == blockID } }),
               let fingerprint = container.readingFingerprint else { return nil }
         let heading = headingID(forBlock: container.id).flatMap { block(forHeading: $0) }
         return NativeReadingAnchor(documentDigest: documentDigest, blockFingerprint: fingerprint,
-                                   headingFingerprint: heading?.readingHeadingFingerprint)
+                                   headingFingerprint: heading?.readingHeadingFingerprint,
+                                   intraBlockFraction: intraBlockFraction)
     }
 
     /// Resolving a saved record is pure: only a later scroll record updates it.
     /// Changed documents never trust a possibly reassigned duplicate block ID.
     func readingBlockID(for position: ReadingPosition, documentDigest: String? = nil) -> String? {
+        readingResolution(for: position, documentDigest: documentDigest)?.blockID
+    }
+
+    /// The old ID lookup is retained. Only an identified same block may carry a
+    /// block-internal position across revisions; heading/order fallbacks may not.
+    func readingResolution(for position: ReadingPosition, documentDigest: String? = nil) -> NativeReadingResolution? {
         guard !blocks.isEmpty else { return nil }
         let fractionIndex = min(blocks.count - 1, Int(position.fraction * Double(blocks.count - 1)))
         let fractional = blocks[fractionIndex].id
         let direct = position.blockID.flatMap { topLevelBlockID(containing: $0) }
         guard let anchor = position.anchor else {
-            return direct ?? position.heading.flatMap { topLevelBlockID(forHeading: $0) } ?? fractional
+            return NativeReadingResolution(blockID: direct ?? position.heading.flatMap { topLevelBlockID(forHeading: $0) } ?? fractional,
+                                           restoresSameBlock: false)
         }
-        if documentDigest == anchor.documentDigest, let direct { return direct }
+        if documentDigest == anchor.documentDigest, let direct {
+            return NativeReadingResolution(blockID: direct, restoresSameBlock: true)
+        }
 
         let candidates = blocks.filter { $0.readingFingerprint == anchor.blockFingerprint }
-        if candidates.count == 1 { return candidates[0].id }
+        if candidates.count == 1 { return NativeReadingResolution(blockID: candidates[0].id, restoresSameBlock: true) }
         if let headingFingerprint = anchor.headingFingerprint {
             let headings = allBlocks.filter { $0.type == "heading" && $0.readingHeadingFingerprint == headingFingerprint }
             if headings.count == 1, let headingID = headings[0].heading_id {
@@ -59,11 +70,12 @@ struct NativeDocument: Codable, Hashable, Sendable {
                     if block.type == "heading" { currentHeading = block.heading_id }
                     if candidateIDs.contains(block.id), currentHeading == headingID { inSection.append(block) }
                 }
-                if inSection.count == 1 { return inSection[0].id }
-                return topLevelBlockID(containing: headings[0].id) ?? fractional
+                if inSection.count == 1 { return NativeReadingResolution(blockID: inSection[0].id, restoresSameBlock: true) }
+                return NativeReadingResolution(blockID: topLevelBlockID(containing: headings[0].id) ?? fractional,
+                                               restoresSameBlock: false)
             }
         }
-        return fractional
+        return NativeReadingResolution(blockID: fractional, restoresSameBlock: false)
     }
 
     /// Prefer a leaf containing all query terms. If terms occur in different
@@ -100,6 +112,11 @@ struct NativeDocument: Codable, Hashable, Sendable {
         }
         return best
     }
+}
+
+struct NativeReadingResolution: Equatable, Sendable {
+    let blockID: String
+    let restoresSameBlock: Bool
 }
 
 struct NativeSearchHit: Hashable, Sendable {

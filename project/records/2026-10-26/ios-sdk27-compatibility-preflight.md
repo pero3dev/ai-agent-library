@@ -38,3 +38,19 @@ PR279 head `f28c22e0e89c6e4d4cf76e295cd030d2535e454c` の[SDK27 run40340824321](
 次は実marker位置を残す既DEBUGの同一numeric JSONのNSLogと、所有Simulatorからの限定log、失敗attachmentsだけのbounded captureを追加する。技術候補4pathのmanifest SHA-256は `bf9199a3d0545e6cfdd586e724a644c721d1c31e563cf5b1ed5eede71912fa48`。public CI・source/run/attempt・owner UUID/runtimeを照合し、CLI helpで失敗限定exportのflagsを確認できない場合、capture失敗、上限超過、子の終了未確認は診断 `partial` として残す。UI直後の診断stepは2分以内、既job40分・UI12分・create6分・boot240秒・owned cleanup・selector2件・strict監査・summary・artifact全体16MiBを保持する。
 
 pure Node59件はmemory FS/fake childだけで成功した。実Hosted help/export・失敗画像取得、実SDK・Simulator、full checkとコーパス生成はこの追加候補では未実施。新actual headとrunは未取得の `null`、最終8payloadの独立レビューと正確な新headのCIはこれからである。原因修正・配置変更・判定緩和をしたという意味ではない。既存採択snapshotとTODO32行・12完了、IOS-11・IOS-23の未完了、実機QAのskip未完了を保持する。
+
+## 38fdの再現結果とPNG限定収集の準備
+
+旧JSONの `record_interpretation.latest` は前候補freeze時点の案内として保持する。この追記の最新実測は `diagnostic_38fd_Hosted_observation`、次候補は `png_capture_preparation` であり、過去の結果を新headへ付け替えない。
+
+head `38fd23e0e5c148ffdbbcc8317a736bef1e65413f` の[run40352623060](https://github.com/pero3dev/ai-agent-library/actions/runs/40352623060)でも、[unsigned Archive](https://github.com/pero3dev/ai-agent-library/actions/runs/40352623060/job/121676477836)は成功し、[Native2](https://github.com/pero3dev/ai-agent-library/actions/runs/40352623060/job/121676477524)は1成功・1失敗だった。失敗は初回目次の自己注意の数式で、再起動復帰へは未到達。AX見出し枠とviewportはf28と同じ値で、16ptの選択枠拡張は未確定のままである。
+
+Archiveのsource packageはmanifestを含む626files・40,099,390B・422PNGで、actual archived packageのhash監査はmanifestを除く625files・36,979,217Bだった。比較する範囲を分ける。旧62fのmanifestを含む40,099,389Bとの差は1Bで、原因未確認のためbyte再現一致とは扱わない。App0.2.17（19）・最小OS17の宣言・arm64・SDK27.0・署名とprofileなし・privacy source一致を確認したが、最小OS17の実行や配布の受入には広げない。
+
+追加診断は約10秒で完走し、所有照合・4commandのexit0と終了確認・上限・temporary export削除・所有Simulator削除を確認した。一方、数値ログstdoutは空配列、stderrはUID解決の警告で、実marker値は得られなかった。実helperの成功終了を数値取得成功とは扱わず、未発火・未保持・query経路のどれかは未確定とする。
+
+Hosted helpの `--only-failures` は失敗に関連付いたattachmentsを選ぶ条件で、失敗したtestcase内の全attachmentsを意味しない。今回exportは両caseとも `no matching attachments`、manifest空配列のみだった。PNGは0件で、実描画の確証には使えない。primaryのxcodebuild exit65・厳密監査のfailed parent拒否・未完了summaryは保持されている。
+
+次は同じ実helpで確認できた `--test-id` と `--filter` を使い、実結果で失敗を確認した既知の代表testcaseに対象を絞り、PNGファイルだけを取得する候補を準備する。全case・動画・全formatへのfallbackは加えず、未知結果・不明flag・上限超過・終了未確認はpartialとして残す。既105秒の内部上限・2分step・全artifact16MiB・export64files/8MiB・保存4MiB・PNG1MiBを保持する。本文配置、AXの形状、合否条件、待機、selector、通常のVoiceOver意味は変更しない。
+
+この追記は実38fdの結果と次候補の準備snapshotである。次候補の技術2pathはmanifest SHA-256 `a701c7fb08a2122313176177f0c9258e3bdc3f817a095f63abb321e2e34572b7` でfreezeし、memory FS/fake childのpure86件と独立追加6件が成功した。最終6payloadの結合レビュー、newhead/runと実PNG取得は未確認でJSONのnullに残す。画像と必要な実配置を得てから製品側または試験側の修正を判断し、SDK27・IOS-11/23・実機・VoiceOver・性能・配布の完了とはしない。実機QAは利用者指定に従い未完了として省略する。

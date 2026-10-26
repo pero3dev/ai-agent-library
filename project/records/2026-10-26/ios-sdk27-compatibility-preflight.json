@@ -483,5 +483,105 @@
     "IOS23_complete": false,
     "todo_total": 32,
     "todo_done": 12
+  },
+  "diagnostic_38fd_Hosted_observation": {
+    "head": "38fd23e0e5c148ffdbbcc8317a736bef1e65413f",
+    "run": 40352623060,
+    "Archive": {
+      "job": 121676477836,
+      "status": "success",
+      "artifact": 12663932723,
+      "ZIP_bytes": 113497,
+      "SHA256": "624eec311da2b5dba40eab555936f2099784e8fabfaae055f685ea18de49aa3f",
+      "CRC_files": 66,
+      "memory_only": true,
+      "source_package_including_manifest": {
+        "files": 626,
+        "bytes": 40099390,
+        "PNGs": 422
+      },
+      "actual_archive_hash_verified_excluding_manifest": {
+        "files": 625,
+        "bytes": 36979217
+      },
+      "old_62f_same_scope_bytes": 40099389,
+      "same_scope_delta_bytes": 1,
+      "reproducibility": "unconfirmed; no identical-byte claim"
+    },
+    "Native": {
+      "job": 121676477524,
+      "cases": 2,
+      "passed": 1,
+      "failed": 1,
+      "failed_stage": "first TOC self-attention heading visibility",
+      "resume_reached": false,
+      "AX_frame": [
+        2,
+        106,
+        163,
+        56
+      ],
+      "viewport": [
+        0,
+        116,
+        402,
+        758
+      ],
+      "hittable": null,
+      "diagnostic_status": "partial",
+      "commands": 4,
+      "command_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "termination_confirmed": true,
+      "geometry_stdout": "[]",
+      "geometry_samples": 0,
+      "geometry_stderr": "getpwuid_r did not find a match for uid 501",
+      "failure_export_files": 1,
+      "failure_export_manifest": "[]",
+      "PNG_files": 0,
+      "export_omissions": 0,
+      "temporary_export_removed": true,
+      "owned_Simulator_deleted": true,
+      "primary_exit": 65,
+      "strict_audit": "failed parent correctly rejected",
+      "summary": "not-completed",
+      "artifact": 12665487980,
+      "ZIP_bytes": 81195,
+      "SHA256": "f39aa09079aa8241a11d4e554b6747c4ccfa09842611eecfd5c24955a04390cd",
+      "CRC_files": 115,
+      "memory_only": true
+    },
+    "cause": "unconfirmed; AX16pt selection expansion remains a hypothesis"
+  },
+  "png_capture_preparation": {
+    "status": "technical2 frozen independently reviewed; final6 binding and actual newhead pending",
+    "source_head": "38fd23e0e5c148ffdbbcc8317a736bef1e65413f",
+    "technical_manifest_SHA256": "a701c7fb08a2122313176177f0c9258e3bdc3f817a095f63abb321e2e34572b7",
+    "exact_failed_test_confirmation": "required; unknown schema must remain partial",
+    "scope": "actual failed known representative testcase and PNG filename filter; no all-case/all-format fallback",
+    "budgets_unchanged": true,
+    "product_placement_AX_shape_primary_conditions_unchanged": true,
+    "actual_new_head": null,
+    "actual_new_run": null,
+    "actual_PNG": null,
+    "physical_QA": "incomplete skipped authorized",
+    "technical_independent_review_SHA256": "b5d33f8027d2d67a5b361378093cc8b6a74570d264c048e0ad03e985b7c7a04c",
+    "pure_cases": 86,
+    "independent_extra_cases": 6,
+    "execution_scope": "Node24 memory FS and fake child only",
+    "first_actual_failed_case_only": true,
+    "second_failed_case": "explicit omission; not all captured",
+    "new_raw_results_artifact": false,
+    "workflow_changes": false
+  },
+  "record_interpretation_38fd": {
+    "previous_latest": "record_interpretation.latest remains prior-candidate freeze guidance",
+    "latest_actual_observation": "diagnostic_38fd_Hosted_observation",
+    "next_candidate": "png_capture_preparation",
+    "old_evidence_rebound_to_future_head": false
   }
 }

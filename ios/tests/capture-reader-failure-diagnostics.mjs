@@ -1,5 +1,5 @@
 // Diagnostic evidence only. This helper never changes primary UI results or acceptance.
-// Exact CLI support is checked on the Hosted runner; no export-all fallback is allowed.
+// Exact CLI support and actual failed-case scope are checked; no export-all fallback is allowed.
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { createHash, randomUUID } from 'node:crypto';
@@ -8,7 +8,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export const LIMITS = Object.freeze({ stepMs: 105000, logMs: 45000, exportMs: 45000,
-  smallMs: 5000, logBytes: 512 * 1024, helpBytes: 64 * 1024, exportOutputBytes: 128 * 1024,
+  smallMs: 5000, resultsBytes: 512 * 1024, logBytes: 512 * 1024, helpBytes: 64 * 1024, exportOutputBytes: 128 * 1024,
   exportedFiles: 64, exportedBytes: 8 * 1024 * 1024, artifactBytes: 4 * 1024 * 1024,
   pngBytes: 1024 * 1024, metadataBytes: 128 * 1024 });
 const PREFIX = 'reader-diagnostic-';
@@ -127,6 +127,68 @@ function deviceRows(value) {
   });
   assert.equal(new Set(rows.map(({ device }) => device.udid.toUpperCase())).size, rows.length);
   return rows;
+}
+
+// Bind the known SDK27 Native2 raw hierarchy before selecting any PNG export.
+// Failed parents are evidence of a failed run, never primary acceptance.
+export function failedNativeCases(value, { owned, runtime, workspace }) {
+  const keys = (item, expected) => {
+    assert.ok(item && typeof item === 'object' && !Array.isArray(item));
+    assert.deepEqual(Object.keys(item).sort(), [...expected].sort(), 'Unknown test-result schema');
+  };
+  keys(value, ['devices', 'testNodes', 'testPlanConfigurations']);
+  assert.ok(Array.isArray(value.devices) && value.devices.length === 1);
+  const device = value.devices[0];
+  keys(device, ['architecture', 'deviceId', 'deviceName', 'modelName', 'osBuildNumber', 'osVersion', 'platform']);
+  assert.equal(device.deviceId.toUpperCase(), owned.UUID); assert.equal(device.deviceName, owned.name);
+  assert.equal(device.osVersion, '27.0'); assert.equal(device.osBuildNumber, runtime.buildversion);
+  assert.equal(device.platform, 'iOS Simulator'); assert.equal(device.architecture, 'arm64'); assert.equal(device.modelName, 'iPhone 17');
+  assert.ok(Array.isArray(value.testPlanConfigurations) && value.testPlanConfigurations.length === 1);
+  const configuration = value.testPlanConfigurations[0]; keys(configuration, ['configurationId', 'configurationName']);
+  assert.equal(configuration.configurationId, '1'); assert.equal(configuration.configurationName, 'Test Scheme Action');
+  const bundle = 'test://com.apple.xcode/AILibrary/AILibraryUITests';
+  const container = (node, type, name, count, identifier) => {
+    keys(node, identifier ? ['children', 'name', 'nodeIdentifierURL', 'nodeType', 'result'] : ['children', 'name', 'nodeType', 'result']);
+    assert.equal(node.nodeType, type); assert.equal(node.name, name);
+    assert.ok(['Passed', 'Failed'].includes(node.result), 'Skipped/unknown parent cannot select a failed scope');
+    if (identifier) assert.equal(node.nodeIdentifierURL, identifier);
+    assert.ok(Array.isArray(node.children) && node.children.length === count);
+    return node.children;
+  };
+  assert.ok(Array.isArray(value.testNodes) && value.testNodes.length === 1);
+  const plan = value.testNodes[0], bundles = container(plan, 'Test Plan', 'AILibrary', 1);
+  const suites = container(bundles[0], 'UI test bundle', 'AILibraryUITests', 1, bundle);
+  const cases = container(suites[0], 'Test Suite', 'NativeReaderUITests', 2, bundle + '/NativeReaderUITests');
+  const allowed = ['NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch()',
+    'NativeReaderUITests/testThreeArticlesHaveNativeBodyText()'];
+  const selected = cases.map(node => {
+    const failed = node?.result === 'Failed';
+    const fields = ['duration', 'durationInSeconds', 'name', 'nodeIdentifier', 'nodeIdentifierURL', 'nodeType', 'result'];
+    keys(node, failed ? [...fields, 'children'] : fields);
+    assert.equal(node.nodeType, 'Test Case'); assert.ok(['Passed', 'Failed'].includes(node.result));
+    assert.ok(allowed.includes(node.nodeIdentifier), 'Failed scope must be an existing Native2 case');
+    assert.equal(node.nodeIdentifier, 'NativeReaderUITests/' + node.name);
+    assert.equal(node.nodeIdentifierURL, bundle + '/' + node.nodeIdentifier.slice(0, -2));
+    assert.equal(typeof node.duration, 'string'); assert.ok(node.duration.length <= 40);
+    assert.ok(Number.isFinite(node.durationInSeconds) && node.durationInSeconds >= 0 && node.durationInSeconds <= 720);
+    if (failed) {
+      assert.ok(Array.isArray(node.children) && node.children.length >= 1 && node.children.length <= 8);
+      for (const failure of node.children) {
+        keys(failure, ['name', 'nodeType', 'sourceLocation']); assert.equal(failure.nodeType, 'Failure Message');
+        assert.equal(typeof failure.name, 'string'); assert.ok(failure.name.length > 0 && failure.name.length <= 4096);
+        keys(failure.sourceLocation, ['filePath', 'lineNumber']);
+        assert.equal(failure.sourceLocation.filePath, path.join(workspace, 'ios/AILibraryUITests/NativeReaderUITests.swift'));
+        assert.ok(Number.isInteger(failure.sourceLocation.lineNumber) && failure.sourceLocation.lineNumber > 0);
+      }
+    }
+    return { id: node.nodeIdentifier, result: node.result };
+  });
+  assert.deepEqual(selected.map(row => row.id).sort(), [...allowed].sort(), 'No extra, duplicate or missing selected case');
+  const failed = selected.filter(row => row.result === 'Failed').map(row => row.id);
+  assert.ok(failed.length >= 1 && failed.length <= 2, 'UI failure must have an actual failed Native2 case');
+  for (const parent of [plan, bundles[0], suites[0]]) assert.equal(parent.result, 'Failed', 'Parent/result inconsistency');
+  return { schema: 'observed-SDK27-Native2-v1', cases: selected, failed,
+    capture: failed[0], not_captured: failed.slice(1), selection: 'first failed case in the known raw result order' };
 }
 
 export function geometrySamples(text) {
@@ -256,7 +318,7 @@ export async function captureDiagnostics(env, dependencies = {}) {
     const current = io.lstatSync(temp);
     assert.ok(current.dev === tempIdentity.dev && current.ino === tempIdentity.ino, 'Export directory ownership drift');
   };
-  const command = async (name, args, timeoutMs, maxBytes, monitor) => {
+  const command = async (name, args, timeoutMs, maxBytes, monitor, retainOutput = true) => {
     assert.equal(unsafeChild, false, 'Previous child group termination could not be confirmed');
     const remaining = Math.floor(deadline - clock()); assert.ok(remaining > 1000, 'Diagnostic step budget exhausted');
     const actualMs = Math.min(timeoutMs, remaining - 1000);
@@ -270,9 +332,12 @@ export async function captureDiagnostics(env, dependencies = {}) {
       exit_code: result.status, signal: result.signal, error: result.error ?? null,
       observed_output_bytes: result.observed_output_bytes ?? out.length + err.length,
       retained_output_bytes: out.length + err.length, group_kill_error: result.group_kill_error ?? null,
-      termination_confirmed: result.termination_confirmed === true };
-    put(PREFIX + name + '.stdout.log', out); put(PREFIX + name + '.stderr.log', err);
-    put(PREFIX + name + '.exit.json', JSON.stringify(record) + '\n'); report.commands.push(record);
+      termination_confirmed: result.termination_confirmed === true, raw_output_retained: retainOutput };
+    if (retainOutput) {
+      put(PREFIX + name + '.stdout.log', out); put(PREFIX + name + '.stderr.log', err);
+      put(PREFIX + name + '.exit.json', JSON.stringify(record) + '\n');
+    }
+    report.commands.push(record);
     return { ...result, error: result.error ?? null, group_kill_error: result.group_kill_error ?? null,
       termination_confirmed: result.termination_confirmed === true, stdout: out, stderr: err };
   };
@@ -299,22 +364,34 @@ export async function captureDiagnostics(env, dependencies = {}) {
     if (env.UI_OUTCOME === 'failure') {
       try {
         const result = path.join(evidence, 'ui.xcresult'); noLinks(io, result, true);
+        // The later primary result audit remains independent. This bounded read only selects
+        // an actual failed Native2 case; discard its raw output instead of adding a new stager prefix.
+        const results = await command('test-results', ['xcresulttool', 'get', 'test-results', 'tests', '--path', result],
+          LIMITS.smallMs, LIMITS.resultsBytes, undefined, false);
+        requireHealthy(results);
+        const scope = failedNativeCases(JSON.parse(results.stdout), { owned, runtime, workspace: env.GITHUB_WORKSPACE });
+        report.failed_test_scope = scope;
+        for (const id of scope.not_captured) report.omissions.push({ test_id: id, reason: 'additional-failed-case-not-captured' });
         const help = await command('attachments-help', ['xcresulttool', 'help', 'export', 'attachments'], LIMITS.smallMs, LIMITS.helpBytes);
         requireHealthy(help);
         const helpText = help.stdout.toString('utf8') + '\n' + help.stderr.toString('utf8');
         assert.ok(/\b(?:USAGE|Usage):[^\n]*\bxcresulttool export attachments\b/.test(helpText), 'Unknown attachments help usage');
-        for (const flag of ['--path', '--output-path', '--only-failures'])
+        for (const flag of ['--path', '--output-path', '--test-id', '--filter'])
           assert.ok(new RegExp('(?:^|\\s)' + flag + '(?=[\\s=,]|$)', 'm').test(helpText), 'Required attachments flag missing: ' + flag);
+        assert.ok(helpText.includes('*.png') && /Glob pattern to filter attachments by filename/.test(helpText), 'Unknown PNG filename filter semantics');
         const token = nonce(); assert.match(token, TOKEN);
         const freshDirectory = path.join(evidence, PREFIX + 'export-' + token);
         assert.ok(missing(io, freshDirectory)); io.mkdirSync(freshDirectory, { mode: 0o700 });
         // Only a successful exclusive mkdir establishes cleanup ownership.
         temp = freshDirectory; tempIdentity = io.lstatSync(temp); noLinks(io, temp, true);
         const exported = await command('attachments-export', ['xcresulttool', 'export', 'attachments', '--path', result,
-          '--output-path', temp, '--only-failures'], LIMITS.exportMs, LIMITS.exportOutputBytes, () => { verifyTempIdentity(); inspectExport(temp, io); });
+          '--output-path', temp, '--test-id', scope.capture, '--filter', '*.png'], LIMITS.exportMs, LIMITS.exportOutputBytes, () => { verifyTempIdentity(); inspectExport(temp, io); });
         requireHealthy(exported);
         verifyTempIdentity();
-        const inventory = inspectExport(temp, io); report.exported = { files: inventory.files.length, bytes: inventory.bytes, failures_only: true };
+        const inventory = inspectExport(temp, io); report.exported = { files: inventory.files.length, bytes: inventory.bytes,
+          scope: 'one-actual-failed-Native2-case-PNG-only', test_id: scope.capture, filter: '*.png', failure_association_filter: false };
+        assert.ok(inventory.files.every(entry => path.extname(entry.file).toLowerCase() === '.png' || entry.relative === 'manifest.json'),
+          'Exporter returned a file outside the PNG filter and its manifest');
         for (const entry of inventory.files) {
           const extension = path.extname(entry.file).toLowerCase(), cap = extension === '.png' ? LIMITS.pngBytes : LIMITS.metadataBytes;
           let omission = null;
@@ -333,7 +410,7 @@ export async function captureDiagnostics(env, dependencies = {}) {
         }
         assert.ok(report.attachments.some(entry => entry.name.endsWith('.png')), 'No bounded failure PNG captured');
         assert.equal(report.omissions.length, 0, 'Some failure attachments were omitted');
-        report.failure_attachments = 'bounded-failure-attachments-captured';
+        report.failure_attachments = 'bounded-selected-failed-case-PNGs-captured';
       } catch (error) { report.failure_attachments = 'partial'; report.errors.push('Attachments: ' + message(error)); }
     } else report.failure_attachments = 'not-requested-ui-succeeded';
     report.status = report.errors.length ? 'partial' : 'diagnostic-only-complete';

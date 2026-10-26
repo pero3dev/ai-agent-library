@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { EventEmitter } from 'node:events';
 import { readFileSync } from 'node:fs';
-import { captureDiagnostics, geometrySamples, inspectExport, LIMITS, LOG_PREDICATE, runBounded,
+import { captureDiagnostics, failedNativeCases, geometrySamples, inspectExport, LIMITS, LOG_PREDICATE, runBounded,
   verifyOwner } from '../../ios/tests/capture-reader-failure-diagnostics.mjs';
 
 const evidence = '/workspace/.local/ios-runtime27/evidence';
@@ -12,7 +12,7 @@ const exportToken = 'bbbbbbbb-cccc-dddd-eeee-ffffffffffff';
 const png = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10, 0, 0]);
 const runtimeID = 'com.apple.CoreSimulator.SimRuntime.iOS-27-0';
 const typeID = 'com.apple.CoreSimulator.SimDeviceType.iPhone-17';
-const help = 'USAGE: xcresulttool export attachments [--path <path>] [--output-path <output-path>] [--only-failures]\nOPTIONS:\n  --path <path>\n  --output-path <output-path>\n  --only-failures\n';
+const help = 'USAGE: xcresulttool export attachments [--test-id <test-id>] --path <path> --output-path <output-path> [--filter <filter>] [--only-failures]\nOPTIONS:\n  --test-id <test-id> Test identifier URL or identifier string.\n  --path <path>\n  --output-path <output-path>\n  --filter <filter> Glob pattern to filter attachments by filename (e.g. "*.png", "Screenshot*").\n  --only-failures Export only failure-associated attachments.\n';
 const sample = { sample: 1, scrollFrameInWindow: [0, 116, 402, 758], scrollBoundsY: 0,
   viewportHeight: 758, contentHeight: 12000, contentInsetTop: 0, contentInsetBottom: 0,
   adjustedTop: 0, adjustedBottom: 34, safeAreaTop: 0, safeAreaBottom: 34,
@@ -93,12 +93,30 @@ function fixture() {
   const primary = new Map([...memory.nodes].filter(([file]) => !file.endsWith('/ui.xcresult')).map(([file, node]) => [file, Buffer.from(node.data)]));
   const calls = [];
   const current = { devices: { [runtimeID]: [{ udid: uuid, name: intent.name, deviceTypeIdentifier: typeID, state: 'Booted', isAvailable: true }] } };
-  const f = { ...memory, env, intent, selection, current, calls, primary };
+  // Observed SDK27 result hierarchy with generic paths, fake IDs and synthetic failure text.
+  const bundle = 'test://com.apple.xcode/AILibrary/AILibraryUITests';
+  const makeCase = (name, result) => {
+    const row = { duration: '1s', durationInSeconds: 1, name: name + '()', nodeIdentifier: 'NativeReaderUITests/' + name + '()',
+      nodeIdentifierURL: bundle + '/NativeReaderUITests/' + name, nodeType: 'Test Case', result };
+    if (result === 'Failed') row.children = [{ name: 'Synthetic visibility failure', nodeType: 'Failure Message',
+      sourceLocation: { filePath: '/workspace/ios/AILibraryUITests/NativeReaderUITests.swift', lineNumber: 326 } }];
+    return row;
+  };
+  const results = { devices: [{ architecture: 'arm64', deviceId: uuid, deviceName: intent.name, modelName: 'iPhone 17',
+    osBuildNumber: selection.runtime.buildversion, osVersion: '27.0', platform: 'iOS Simulator' }],
+    testNodes: [{ name: 'AILibrary', nodeType: 'Test Plan', result: 'Failed', children: [
+      { name: 'AILibraryUITests', nodeType: 'UI test bundle', nodeIdentifierURL: bundle, result: 'Failed', children: [
+        { name: 'NativeReaderUITests', nodeType: 'Test Suite', nodeIdentifierURL: bundle + '/NativeReaderUITests', result: 'Failed',
+          children: [makeCase('testContentsBookmarkAndResumeAfterRelaunch', 'Failed'), makeCase('testThreeArticlesHaveNativeBodyText', 'Passed')] }
+      ] }
+    ] }], testPlanConfigurations: [{ configurationId: '1', configurationName: 'Test Scheme Action' }] };
+  const f = { ...memory, env, intent, selection, current, calls, primary, results, makeCase };
   f.run = async (binary, args, options) => {
     assert.equal(binary, 'xcrun'); assert.equal(options.env, env); assert.equal(options.cwd, '/workspace');
     assert.ok(options.timeoutMs <= 45000); calls.push({ binary, args, options });
     if (args[0] === 'simctl' && args[1] === 'list') return healthy(JSON.stringify(current));
     if (args[0] === 'simctl' && args[1] === 'spawn') return healthy(logs);
+    if (args[1] === 'get') return healthy(JSON.stringify(results));
     if (args[1] === 'help') return healthy(help);
     const output = args[args.indexOf('--output-path') + 1];
     memory.add(output + '/failure.png', png);
@@ -118,17 +136,21 @@ function rewrite(f, name, change) {
   const data = JSON.parse(f.nodes.get(evidence + '/' + name).data); change(data); f.json(name, data);
 }
 
-test('known owned failure captures numeric marker geometry and only bounded failure exports', async () => {
+test('known owned failure captures numeric geometry and PNGs only from one actual failed Native2 case', async () => {
   const f = fixture(), report = await f.capture();
   assert.equal(report.status, 'diagnostic-only-complete'); assert.equal(report.primary_ui_outcome, 'failure');
   assert.equal(report.primary_acceptance_modified, false); assert.deepEqual(report.geometry_samples, [sample]);
   assert.equal(report.geometry_samples[0].markerWindowY, 116);
   assert.deepEqual(f.calls.map(call => call.args.slice(0, 3)), [['simctl', 'list', 'devices'], ['simctl', 'spawn', uuid],
-    ['xcresulttool', 'help', 'export'], ['xcresulttool', 'export', 'attachments']]);
+    ['xcresulttool', 'get', 'test-results'], ['xcresulttool', 'help', 'export'], ['xcresulttool', 'export', 'attachments']]);
   assert.deepEqual(f.calls[1].args, ['simctl', 'spawn', uuid, 'log', 'show', '--last', '20m', '--style', 'json', '--predicate', LOG_PREDICATE]);
   assert.equal(f.calls[1].options.timeoutMs, 45000); assert.equal(f.calls[1].options.maxBytes, 512 * 1024);
-  assert.equal(f.calls[2].options.timeoutMs, 5000); assert.equal(f.calls[2].options.maxBytes, 64 * 1024);
-  assert.ok(f.calls[3].args.includes('--only-failures')); assert.ok(!f.calls.flatMap(call => call.args).includes('--all'));
+  assert.equal(f.calls[2].options.timeoutMs, 5000); assert.equal(f.calls[2].options.maxBytes, 512 * 1024);
+  assert.equal(f.calls[3].options.timeoutMs, 5000); assert.equal(f.calls[3].options.maxBytes, 64 * 1024);
+  assert.ok(!f.calls.flatMap(call => call.args).includes('--only-failures')); assert.ok(!f.calls.flatMap(call => call.args).includes('--all'));
+  assert.deepEqual(f.calls[4].args.slice(-4), ['--test-id', 'NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch()', '--filter', '*.png']);
+  assert.equal(report.commands.find(row => row.name === 'test-results').raw_output_retained, false);
+  assert.ok(!f.writes.some(file => file.includes('reader-diagnostic-test-results.')));
   assert.equal(report.attachments.length, 2); assert.equal(report.temporary_export_removed, true);
   assert.equal(f.removals.length, 1); assert.ok(f.nodes.has(evidence + '/ui.xcresult'));
   assert.ok(f.nodes.get(evidence + '/reader-diagnostic-summary.json').data.length <= 128 * 1024);
@@ -231,7 +253,7 @@ for (const kind of ['timeout', 'output-limit']) test('bounded geometry capture f
   assert.equal(report.status, 'partial'); assert.equal(report.attachments.length, 2);
   assert.equal(report.primary_ui_outcome, 'failure');
 });
-for (const text of ['unknown schema', help.replace(/--only-failures/g, '--all'), help.replace(/--output-path/g, '--output')]) {
+for (const text of ['unknown schema', help.replace(/--test-id/g, '--all'), help.replace(/--filter/g, '--output')]) {
   test('unknown attachments help performs no export', async () => {
     const f = fixture(), run = f.run;
     const report = await f.capture((binary, args, options) => args[1] === 'help' ? healthy(text) : run(binary, args, options));
@@ -275,6 +297,118 @@ for (const mode of ['symlink', 'escape', 'disk-cap', 'file-count', 'large-png', 
     assert.equal(report.attachments.length, 0); assert.equal(report.temporary_export_removed, true);
   });
 }
+
+function caseRows(f) { return f.results.testNodes[0].children[0].children[0].children; }
+function parentRows(f) { return [f.results.testNodes[0], f.results.testNodes[0].children[0], f.results.testNodes[0].children[0].children[0]]; }
+for (const [label, change] of [
+  ['extra root schema', f => { f.results.unknown = true; }],
+  ['unknown parent result', f => { parentRows(f)[0].result = 'Skipped'; }],
+  ['passed parent over failed leaf', f => { parentRows(f)[1].result = 'Passed'; }],
+  ['extra case', f => { caseRows(f).push(f.makeCase('testOther', 'Failed')); }],
+  ['duplicate case', f => { caseRows(f)[1] = structuredClone(caseRows(f)[0]); }],
+  ['unselected failed case', f => { caseRows(f)[0] = f.makeCase('testOther', 'Failed'); }],
+  ['unknown leaf schema', f => { caseRows(f)[0].details = {}; }],
+  ['retry children', f => { caseRows(f)[0].children = [f.makeCase('testContentsBookmarkAndResumeAfterRelaunch', 'Failed')]; }],
+  ['wrong failure source', f => { caseRows(f)[0].children[0].sourceLocation.filePath = '/workspace/other.swift'; }],
+  ['wrong device UUID', f => { f.results.devices[0].deviceId = '12345678-89AB-CDEF-0123-456789ABCDEF'; }],
+  ['wrong runtime build', f => { f.results.devices[0].osBuildNumber = 'unknown'; }],
+  ['extra device', f => { f.results.devices.push(structuredClone(f.results.devices[0])); }],
+  ['unknown configuration', f => { f.results.testPlanConfigurations[0].configurationName = 'other'; }],
+  ['all passed', f => { caseRows(f)[0] = f.makeCase('testContentsBookmarkAndResumeAfterRelaunch', 'Passed'); for (const p of parentRows(f)) p.result = 'Passed'; }],
+  ['skipped leaf', f => { caseRows(f)[1].result = 'Skipped'; }]
+]) test('unknown or invalid failed result scope suppresses PNG export: ' + label, async () => {
+  const f = fixture(); change(f);
+  const report = await f.capture(); assert.equal(report.status, 'partial');
+  assert.ok(f.calls.some(call => call.args[1] === 'get'));
+  assert.ok(!f.calls.some(call => call.args[1] === 'help' || call.args[1] === 'export'));
+  assert.equal(report.attachments.length, 0); assert.equal(report.primary_acceptance_modified, false);
+});
+test('the other existing selected case can be the sole actual failed PNG scope', async () => {
+  const f = fixture(); caseRows(f)[0] = f.makeCase('testContentsBookmarkAndResumeAfterRelaunch', 'Passed');
+  caseRows(f)[1] = f.makeCase('testThreeArticlesHaveNativeBodyText', 'Failed');
+  const report = await f.capture(); assert.equal(report.status, 'diagnostic-only-complete');
+  const exports = f.calls.filter(call => call.args[1] === 'export'); assert.equal(exports.length, 1);
+  assert.ok(exports[0].args.includes('NativeReaderUITests/testThreeArticlesHaveNativeBodyText()'));
+});
+test('two failed cases capture the first only and explicitly omit the second', async () => {
+  const f = fixture(); caseRows(f)[1] = f.makeCase('testThreeArticlesHaveNativeBodyText', 'Failed');
+  const report = await f.capture(); assert.equal(report.status, 'partial');
+  assert.equal(f.calls.filter(call => call.args[1] === 'export').length, 1);
+  assert.equal(report.failed_test_scope.capture, 'NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch()');
+  assert.ok(report.omissions.some(row => row.test_id === 'NativeReaderUITests/testThreeArticlesHaveNativeBodyText()'
+    && row.reason === 'additional-failed-case-not-captured'));
+  assert.ok(report.attachments.some(row => row.name.endsWith('.png')));
+});
+test('help must demonstrate a PNG filename filter before export', async () => {
+  const f = fixture(), run = f.run;
+  const report = await f.capture((binary, args, options) => args[1] === 'help' ? healthy(help.replace('*.png', '*.mp4')) : run(binary, args, options));
+  assert.equal(report.status, 'partial'); assert.ok(!f.calls.some(call => call.args[1] === 'export'));
+});
+test('a video or non-PNG file returned despite the filter is rejected before any copy', async () => {
+  const f = fixture(), run = f.run;
+  const report = await f.capture((binary, args, options) => {
+    if (args[1] !== 'export') return run(binary, args, options);
+    assert.deepEqual(args.slice(-2), ['--filter', '*.png']);
+    const output = args[args.indexOf('--output-path') + 1]; f.add(output + '/recording.mp4', 'video');
+    f.add(output + '/failure.png', png); return healthy('');
+  });
+  assert.equal(report.status, 'partial'); assert.equal(report.attachments.length, 0);
+  assert.ok(report.errors.some(row => row.includes('outside the PNG filter')));
+});
+for (const kind of ['timeout', 'output-limit', 'unconfirmed-close']) test('bounded failed-results read stops export: ' + kind, async () => {
+  const f = fixture(), run = f.run;
+  const report = await f.capture((binary, args, options) => args[1] === 'get'
+    ? { ...healthy(''), status: null, signal: 'SIGKILL', error: kind, termination_confirmed: kind !== 'unconfirmed-close' } : run(binary, args, options));
+  assert.equal(report.status, 'partial'); assert.ok(!f.calls.some(call => call.args[1] === 'export'));
+});
+test('failed-results adapter output above512KiB is rejected without a new raw artifact', async () => {
+  const f = fixture(), run = f.run;
+  const report = await f.capture((binary, args, options) => args[1] === 'get'
+    ? healthy(Buffer.alloc(512 * 1024 + 1)) : run(binary, args, options));
+  assert.equal(report.status, 'partial'); assert.ok(!f.calls.some(call => call.args[1] === 'export'));
+  assert.ok(!f.writes.some(file => file.includes('reader-diagnostic-test-results.')));
+});
+test('empty geometry logs remain partial while a bounded selected PNG can still be captured', async () => {
+  const f = fixture(), run = f.run;
+  const report = await f.capture((binary, args, options) => args[1] === 'spawn' ? healthy('[]') : run(binary, args, options));
+  assert.equal(report.status, 'partial'); assert.equal(report.geometry, 'partial');
+  assert.ok(report.attachments.some(row => row.name.endsWith('.png')));
+  assert.equal(report.exported.test_id, 'NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch()');
+});
+test('no matching PNG remains partial without broadening the failed-case filter', async () => {
+  const f = fixture(), run = f.run;
+  const report = await f.capture((binary, args, options) => {
+    if (args[1] !== 'export') return run(binary, args, options);
+    const output = args[args.indexOf('--output-path') + 1]; f.add(output + '/manifest.json', '[]'); return healthy('');
+  });
+  assert.equal(report.status, 'partial'); assert.ok(!report.attachments.some(row => row.name.endsWith('.png')));
+  assert.equal(report.commands.filter(row => row.name === 'attachments-export').length, 1);
+  const command = report.commands.find(row => row.name === 'attachments-export');
+  assert.deepEqual(command.arguments.slice(-2), ['--filter', '*.png']); assert.ok(!command.arguments.includes('--only-failures'));
+});
+test('several PNGs in the one failed case share the existing4MiB artifact budget', async () => {
+  const f = fixture(), run = f.run;
+  const bytes = Buffer.alloc(LIMITS.pngBytes); png.copy(bytes);
+  const report = await f.capture((binary, args, options) => {
+    if (args[1] !== 'export') return run(binary, args, options);
+    const output = args[args.indexOf('--output-path') + 1];
+    for (let i = 0; i < 5; i++) f.add(output + '/failure-' + i + '.png', bytes);
+    options.monitor(); return healthy('');
+  });
+  assert.equal(report.status, 'partial'); assert.ok(report.omissions.some(row => row.reason === 'diagnostic-total-cap'));
+  const manifest = f.nodes.get(evidence + '/reader-diagnostic-summary.json').data;
+  assert.ok(report.retained_payload_bytes_excluding_manifest + manifest.length <= LIMITS.artifactBytes);
+  assert.ok(report.attachments.every(row => row.bytes <= LIMITS.pngBytes));
+});
+
+test('all diagnostic reads and the selected PNG export share the105second deadline', async () => {
+  const f = fixture(), run = f.run; let now = 0;
+  const report = await captureDiagnostics(f.env, { io: f.io, nonce: () => exportToken, clock: () => now,
+    run: async (binary, args, options) => { const result = await run(binary, args, options); now += options.timeoutMs; return result; } });
+  assert.equal(report.status, 'diagnostic-only-complete'); assert.ok(now <= 104000);
+  const exports = f.calls.filter(call => call.args[1] === 'export'); assert.equal(exports.length, 1);
+  assert.ok(exports[0].options.timeoutMs < 45000);
+});
 
 test('live monitor inspects exported disk before attachment selection', () => {
   const f = fixture(), dir = evidence + '/reader-diagnostic-export-' + exportToken;

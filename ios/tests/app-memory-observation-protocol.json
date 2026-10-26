@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "status": "private-v2-source-proposal-uncompiled-unmeasured",
+  "scenario": "published-search-app-memory-and-clock",
+  "selector": "AILibraryUITests/PublishedAppMemoryUITests/testSearchFullPublishedCatalogMemoryAndClock",
+  "class_name": "PublishedAppMemoryUITests",
+  "method": "testSearchFullPublishedCatalogMemoryAndClock",
+  "planned_articles_at_b79": 199,
+  "runtime_count_requirement": "Independent tracked published-source count must match audited actual Debug app and exact full count label.",
+  "query": "回復 チャンス 一時的",
+  "target_id": "library-article-01-concepts/agent-loop",
+  "declared_iteration_count": 5,
+  "declared_metrics": [
+    "XCTMemoryMetric(application: app)",
+    "XCTClockMetric"
+  ],
+  "app_memory_target": "XCUIApplication process; never default current-process metric",
+  "setup_per_invocation": [
+    "launch",
+    "exact independently audited full count and learning guide ready",
+    "real empty article search visible and focused, keyboard ready, no active filter summary"
+  ],
+  "measured_interval": [
+    "manual start",
+    "type fixed query plus return",
+    "exact query summary and Agent-loop row visible/hittable, bounded public gestures if needed",
+    "manual stop"
+  ],
+  "termination": "Only after measure returns; a later invocation launch may replace process before its own start.",
+  "observed": {
+    "block_invocations": null,
+    "discarded_warmup_invocations": null,
+    "recorded_sample_count": null,
+    "metric_identifiers": null,
+    "metric_units": null,
+    "measurement_row_cardinality": null,
+    "csv_columns": null,
+    "sample_values": null
+  },
+  "acceptance_status": "unadopted",
+  "performance_budget": null,
+  "clock_semantics": "UI automation/keyboard/gesture/AX synchronization transaction; not pure render or per-keystroke latency.",
+  "raw_adoption_gate": "Retain exact single-case raw result, all typed rows and arbitrary test-scoped CSV, bind actual context/action; no memory contract or summary statistics before independent raw review.",
+  "source_evidence": {
+    "audit": "/private/tmp/ios-app-memory-metric-audit-20261026/report.json",
+    "commit": "b79c0a3f6b76a7603077b0a30a07cdecb94cda93",
+    "official_WWDC21": "https://developer.apple.com/videos/play/wwdc2021/10180/?time=292",
+    "official_headers": [
+      "XCTMetric.h:343-355",
+      "XCTMetric+UIAutomation.h:31-43",
+      "XCTMeasureOptions.h:16-22,46-51"
+    ]
+  },
+  "excluded": [
+    "article opening",
+    "firstVisible investigation route",
+    "app UX or navigation injection",
+    "product code changes",
+    "existing launch Clock class/workflow/exporter changes",
+    "functional UI selectors",
+    "physical acceptance",
+    "SDK/runtime execution in this private task"
+  ],
+  "evidence_identity": {
+    "source_head_tree": "Trusted external workflow context only; not verified from the checked xcresult schema.",
+    "app_package_revision": "Trusted external pre-test Debug app audit only; not verified from xcresult.",
+    "result_seal": "Canonical path/size/content SHA256 inventory of completed xcresult, written by the external workflow; rechecked before/after raw capture.",
+    "known_common_metadata_reference": "Retained adopted Xcode16.4 Clock raw JSON. Reuse only observed common action/device/config/reference fields, never its metric wire contract.",
+    "cross_checks": [
+      "modern list/details deviceId",
+      "details testRuns device UUID and configurationId",
+      "modern configuration ID/name",
+      "legacy action status/command/task/plan",
+      "legacy runDestination UUID/OS/architecture/platform",
+      "testsRef request and target type",
+      "plan configuration and UI test target",
+      "case metadata summaryRef/status/URL",
+      "summary identity and URL",
+      "external expected UUID/configuration and invocation window when available"
+    ],
+    "unknown_schema": "Do not invent fallback fields. Preserve raw and mark raw-unbound/exit2 when identity shape or external expectations are unavailable.",
+    "statuses": {
+      "raw-unbound-awaiting-binding-review": "Incomplete result/context identity; exit2; measurements null.",
+      "raw-associated-awaiting-source-and-metric-review": "Result/device/action/context association only; source identity remains unverified and metric contract unadopted; exit2.",
+      "failed-or-unavailable": "Observed contradiction, stale seal/window, failed/skipped/missing test/metric data; exit1."
+    },
+    "complete_source_binding": false,
+    "metric_contract_adopted": false,
+    "Debug_product_build_configuration": "Trusted external workflow build flags only; separate from xcresult test-plan configurationId/name."
+  },
+  "workflow_registration": {
+    "status": "proposal-unregistered-not-branch-dispatch-ready",
+    "default_branch_registration_required": true,
+    "registration_authorized": false,
+    "first_observation_start_route": "Root decides separately; no registration, bypass, dispatch or publication in this task.",
+    "source": "Independent v1 review supplied by root; GitHub manual workflow default-branch requirement."
+  }
+}

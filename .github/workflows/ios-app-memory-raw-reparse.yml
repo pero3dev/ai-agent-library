@@ -1,0 +1,103 @@
+# PRIVATE TEMPORARY EXISTING-ARTIFACT REPARSE ONLY. NEVER MERGE.
+# Workflow gate expires2026-11-02T00:00:00Z; source artifact expires2027-01-23T23:14:59Z.
+# No SDK build, Simulator, UI or measurement. Preserve original collector failure.
+name: Temporary existing app-memory artifact reparse (NEVER MERGE)
+'on':
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - .github/workflows/ios-app-memory-raw-reparse.yml
+      - ios/tests/app-memory-reader-session.mjs
+      - ios/tests/capture-app-memory.mjs
+      - ios/tests/reparse-app-memory-artifact.mjs
+      - ios/tests/app-memory-observation-protocol.json
+      - tests/unit/ios-app-memory-capture.test.mjs
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: ios-app-memory-raw-reparse-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  existing-raw-reparse:
+    if: github.event_name == 'pull_request' && github.repository == 'pero3dev/ai-agent-library' && github.event.repository.private == false && github.event.pull_request.draft == true && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'codex/ios-app-memory-raw-reparse' && github.event.pull_request.base.ref == 'main'
+    runs-on: macos-15
+    timeout-minutes: 10
+    defaults:
+      run:
+        shell: bash
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+      EXPECTED_PARSER_HEAD: ${{ github.event.pull_request.head.sha }}
+      EVIDENCE_PARENT: ${{ github.workspace }}/.local/ios-app-memory-raw-reparse
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Check temporary source gate, installed reader and pure fixtures
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          [[ ! -L .local && ! -e "$EVIDENCE_PARENT" && ! -L "$EVIDENCE_PARENT" ]]
+          mkdir -p "$EVIDENCE_PARENT/control"
+          chmod 700 "$EVIDENCE_PARENT" "$EVIDENCE_PARENT/control"
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import {createHash} from 'node:crypto';
+          import {readFileSync,writeFileSync,appendFileSync} from 'node:fs';
+          import {execFileSync} from 'node:child_process';
+          import {verifyParserEvent} from './ios/tests/reparse-app-memory-artifact.mjs';
+          const event=JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH,'utf8')),pr=event.pull_request;
+          verifyParserEvent(event);
+          const git=args=>execFileSync('git',['-c','core.fsmonitor=false',...args],{encoding:'utf8',timeout:10000,maxBuffer:1024*1024}).trim();
+          const head=git(['rev-parse','HEAD']),tree=git(['rev-parse','HEAD^{tree}']);assert.equal(head,process.env.EXPECTED_PARSER_HEAD);assert.equal(head,pr.head.sha);
+          const hashes={"ios/tests/app-memory-reader-session.mjs":"3eaf28d5a92c94a64876e73ce34745f809645110c45dd4d75b567e55ff6bd819","ios/tests/capture-app-memory.mjs":"567156feb8f62c92fffbfedfdd2857fb277abd3538d0b7611d84b09b0e753b80","ios/tests/app-memory-observation-protocol.json":"0db025ba3631f5a6e7000ff94c0a5d6baea93cbba0f52d5adf3a9fdbc812cb4c","ios/tests/reparse-app-memory-artifact.mjs":"98fdcaeb20d410869f92673342b2cb12c2d82c45e7753aceed8f7d60fa5186f9","tests/unit/ios-app-memory-capture.test.mjs":"1fa061ebf52dddbf8b849f29cf3bf274a7424e349386706be2bab0c8e6fcbe3a"};
+          const allowed=[...Object.keys(hashes),'.github/workflows/ios-app-memory-raw-reparse.yml'].sort();
+          assert.deepEqual(git(['diff','--name-only',pr.base.sha,head]).split('\n').filter(Boolean).sort(),allowed);
+          for(const[file,expected]of Object.entries(hashes))assert.equal(createHash('sha256').update(readFileSync(file)).digest('hex'),expected,'Unreviewed source bytes');
+          const pbx=readFileSync('ios/AILibrary.xcodeproj/project.pbxproj','utf8');
+          const versions=[...new Set([...pbx.matchAll(/MARKETING_VERSION = "([^"]+)"/g)].map(x=>x[1]))],builds=[...new Set([...pbx.matchAll(/CURRENT_PROJECT_VERSION = "([^"]+)"/g)].map(x=>x[1]))];
+          assert.deepEqual(versions,['0.2.15']);assert.deepEqual(builds,['17']);
+          const parser={head,tree,base:pr.base.sha,source_app_version:versions[0],source_app_build:builds[0],role:'External parser checkout only; no app build/run and no xcresult source attestation'};
+          writeFileSync(process.env.EVIDENCE_PARENT+'/control/parser-checkout.json',JSON.stringify(parser,null,2)+'\n',{flag:'wx',mode:0o600});
+          appendFileSync(process.env.GITHUB_ENV,'PARSER_CHECKOUT_CONTEXT='+JSON.stringify(parser)+'\n');
+          assert.ok([20,22,24].includes(Number(process.versions.node.split('.')[0])),'Use installed supported Node; no install fallback');
+          const version=readFileSync(process.env.DEVELOPER_DIR+'/../version.plist','utf8');
+          const key=name=>{const match=version.match(new RegExp('<key>'+name+'</key>\\s*<string>([^<]+)</string>'));assert.ok(match,'Unobserved installed version plist');return match[1];};
+          assert.equal(key('CFBundleShortVersionString'),'16.4');assert.equal(key('ProductBuildVersion'),'16F6');
+          writeFileSync(process.env.EVIDENCE_PARENT+'/control/reader-toolchain.json',JSON.stringify({Xcode:'16.4',build:'16F6',SDK_compile:false,Simulator_UI_measurement:false})+'\n',{flag:'wx'});
+          NODE
+          mkdir "$EVIDENCE_PARENT/control/fixture-tmp"
+          TMPDIR="$EVIDENCE_PARENT/control/fixture-tmp" node --test tests/unit/ios-app-memory-capture.test.mjs > "$EVIDENCE_PARENT/control/node-fixtures.log" 2>&1
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import {lstatSync,readdirSync,rmSync,writeFileSync} from 'node:fs';
+          import path from 'node:path';
+          const root=path.join(process.env.EVIDENCE_PARENT,'control','fixture-tmp');let bytes=0,entries=0;
+          const check=(file,depth=0)=>{assert.ok(depth<=4&&++entries<=256);const s=lstatSync(file);assert.ok(!s.isSymbolicLink());if(s.isDirectory())for(const name of readdirSync(file))check(path.join(file,name),depth+1);else{bytes+=s.size;assert.ok(bytes<=4*1024*1024);}};check(root);
+          rmSync(root,{recursive:true});writeFileSync(path.join(process.env.EVIDENCE_PARENT,'control','fixture-scratch-cleanup.json'),JSON.stringify({bytes,entries,scope:'own bounded fixture TMPDIR including interpreter path-cache only'})+'\n',{flag:'wx'});
+          NODE
+      - name: Download verified existing artifact and re-read only through owned v6 copy
+        id: reparse
+        timeout-minutes: 6
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          # Acquisition<=120s, safe ZIP child<=30s, shared monotonic reader<=180s.
+          # Exit2 remains unadopted and non-green; no continue-on-error conversion.
+          node ios/tests/reparse-app-memory-artifact.mjs --output "$EVIDENCE_PARENT/evidence"
+      - name: Retain original ZIP, original context and separate unadopted reparse receipts
+        if: always()
+        timeout-minutes: 1
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: ios-app-memory-raw-reparse-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/ios-app-memory-raw-reparse
+          include-hidden-files: true
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 90

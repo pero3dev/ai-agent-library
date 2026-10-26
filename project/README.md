@@ -8,6 +8,8 @@
 
 ## 構造・運用の計画
 
+通常CIの[Playwright依存取得を制限する候補](records/2026-10-27/ci-playwright-dependency-download.md)は、f28のAPT長時間転送へ対処し、30分上限・全検査を維持する私有準備である。純78ケースと独立レビューは成功したが、実APT・sudo・変更後Hosted CI・全browser検査は未実施で、通常の別PRと正確なhead/runの確認を待つ。取消原因や転送改善成功は断定せず、アプリ版・TODO・iOS source・mainは未変更とする。
+
 [iOS TODOと統合状況のチェックポイント](records/2026-10-26/ios-todo-integration-checkpoint.md)で、main955を基準とするIOS-02・10・13・14の達成と、12／32件の完了を追跡します。SDK26のunsigned Archive用技術環境・native導線・全199記事生成・学習案内が対象です。PR275は未マージで、iOS26.5の再起動復帰に失敗が残っています。実機・性能・配布資格・契約・公開と最新OS27の受入は未完了として分けます。
 
 [block内部の読書位置候補](records/2026-10-26/ios-intrablock-reading-progress.md)は、旧anchorと保存を保ち、実測した相対位置の復帰・自動配置失敗時の保全・layout再起動を扱う。承認済みv3 codeの旧SDK4段階は成功したが、新snapshot/pickerを持つPublishedは未compileである。unit152・機能16＋pure geometry6＝22 selectedはsource数で、実main270へのbind後の確認とexact-head CI・実機等をIOS-11へ残す。 実main270 `955c066c8dc0fdbedf6f0c845a461abda39ac476`（tree `9d2525e28ce3d9b6659eeac57b0b6f910e7e262b`）へbindした私有候補である。親PR270 head85d9のunit133（131成功＋2skip）・full21・Releaseと全15check成功は親の履歴で、新P1 unit152／UI22の実登録・実行は未確認とする。独立review後にrootがDraftへ反映してCIを実行し、必要exact-head CI成功までmainへ統合しない。 Published CIのjob上限だけ40分から50分へ調整し、selector・個別15秒・assert・commandは維持する。これはCI実行上限で製品性能budgetではない。

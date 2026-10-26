@@ -788,5 +788,59 @@
     "next": "UI_build_scope_preparation in runtime26 record",
     "TODO": "32rows12done, IOS11/23 incomplete",
     "old_results_rebound": false
+  },
+  "actual_CDC_OSscope_checkpoint": {
+    "head": "cdc081e3d0b5c86762254bd53f338e0fa8e2c07f",
+    "tree": "4bedb2a5323542bd61df2031eaa25ae6fbc358b6",
+    "version": "0.2.18(20)",
+    "commonCI": "9 jobs passed; root968pass16skip; Web97/677pass5skip/FF14; audio8/WebKit8+2+14",
+    "SDK26": "Archive passed199",
+    "SDK27": "Archive and strictUI2/parents/cleanup passed, no newAXnumbers, receipt1bde30f5d100e2a79d564333b8756479df0f78604d35f57f9b570bc03debc222",
+    "Native": "151pass2skip/UI2/Release passed",
+    "Full": "functional16+pure6 all22 andRelease199/625 passed",
+    "runtime26": {
+      "run": 40392047011,
+      "job": 121815237836,
+      "accepted": false,
+      "graph": "2targets App/UI, unitbuild0",
+      "architectures": "ONLY_ACTIVE_ARCHYES; arm64 App/UI",
+      "UIstep_seconds": 539,
+      "pre_suite_seconds": 304.569,
+      "Contents": "Failed72.979s at firstTOCwait326; relaunch/resume unreached",
+      "Three": "Passed110.350s",
+      "posttimeout_snapshot": "18,122,131,24/viewporttop116/fullvisible+hittable+satisfied true; sequential only doesnot negate timeout",
+      "cause": "unconfirmed",
+      "cleanup_DebugAudit": "passed",
+      "artifact": {
+        "id": 12685878667,
+        "bytes": 89464816,
+        "downloaded": false,
+        "reason": "over local16MiB cap"
+      },
+      "samehead_retry": 0,
+      "receipt_SHA256": "17d5a5afa6f684b07d66ea7f2cb2c2fed37d08b669968a77498cd32be5cc8505"
+    }
+  },
+  "heading_OSscope_preparation": {
+    "source_head": "cdc081e3d0b5c86762254bd53f338e0fa8e2c07f",
+    "version": "0.2.19",
+    "build": "21",
+    "status": "technical2 frozen independently statically reviewed; final8/newhead pending",
+    "technical_manifest_SHA256": "591cd906f2f72d23b26811c4ff03493e8c07192e4c1a2091cf17535b9b573234",
+    "behavior": "heading-only explicitshape on iOS27andlater; defaultcontent on17to26; notAPIavailability requirement",
+    "unchanged": "traits/level/focus/id/padding once outsidehelper; AnyView/layout/selection/hit-testing/positions/tests/CI budgets",
+    "conditional_identity": "new static-per-process branch still needs realAX/SDK/selection/actions verification",
+    "runtime26_cause_fix": "unproven; notclaimed",
+    "actualnewhead": null,
+    "actualnewrun": null,
+    "actualVoiceOver": "not run skippedincomplete authorized",
+    "technical_review_SHA256": "5925504e3a1bc9f97b34f367b60f48deef50a4bc86f2b18b6e8720202dd9b0f8"
+  },
+  "record_interpretation_OSscope": {
+    "old_fields": "historical snapshots preserved",
+    "latestactual": "actual_CDC_OSscope_checkpoint",
+    "next": "heading_OSscope_preparation",
+    "old_evidence_rebound": false,
+    "TODO": "32rows12done; IOS11/23 incomplete"
   }
 }

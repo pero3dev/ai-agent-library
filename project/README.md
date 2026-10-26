@@ -22,7 +22,7 @@
 
 旧版と更新失敗時の[保持回帰3件](records/2026-10-25/ios-storage-retention-regression.md)では、実repositoryの3世代snapshot・後読資産、孤立版の無変更、pointer書込失敗時の既存bytesを検査する。Mac新3件とiOS単体122件のcompileを区別し、将来の削除・pin・容量管理方針の採択は残す。
 
-[SDK27互換性preflight](records/2026-10-26/ios-sdk27-compatibility-preflight.md)は、見出しだけのAX shapeを合わせた0.2.18（20）・head367でArchiveと代表UI2件が成功した。目次・しおり・再起動復帰・3記事を厳密な既存条件で確認し、新しい数値AX frameや実機・VoiceOver・全記事全体の受入へ広げない。TODO12／32とIOS-11/23等の未完了を保持する。
+[SDK27互換性preflight](records/2026-10-26/ios-sdk27-compatibility-preflight.md)は、0.2.18（20）・CDCでもArchiveと代表UI2件が成功した。観測した形状補正をiOS27以降へ限定し、17〜26では明示的shapeを外す0.2.19（21）の候補を準備する。iOS26.5の待機失敗の原因や修正効果は未確定であり、新headのUI・実機・VoiceOverは未確認。TODO12／32とIOS-11/23等の未完了を保持する。
 
 現行SDKへの[Archive互換性の事前検証](records/2026-10-25/ios-sdk26-archive-preflight.md)は、公開repoの標準Hosted環境でdevice Releaseと実同梱物を監査する。資格情報を使う署名・Provisioningを分け、SDK26の初回実行とStore配布・ローカルOS更新の採択を区別する。
 
@@ -64,7 +64,7 @@
 
 既存のネイティブUI試験2件のHosted実行は[専用のCI追加記録](records/2026-10-25/ios-native-ui-ci.md)で追跡する。通常3記事の本文とTransformerの目次・しおり・再起動復帰を確認し、未対象のオフライン・コピー・内部リンク等のUI受入を区別する。
 
-[新runtimeの代表UI検査](records/2026-10-26/ios-runtime26-smoke.md)のhead367は、Contents成功後にUI step12分の上限へ達し、ThreeArticles未完了のため未受入とする。UI開始前に約7分、実行しないunit targetと両architectureのbuildを実ログで確認した。UI専用schemeとactive architectureへの限定を準備し、元scheme・app・実UI2件・40/12/6分とboot240秒を保つ。短縮・上限内完了は新headで未確認、同headの追加再実行は行わない。
+[新runtimeの代表UI検査](records/2026-10-26/ios-runtime26-smoke.md)のCDCは、実2target・arm64のみをbuildしUI step539秒で完了した。Contentsの最初の目次待機は失敗、ThreeArticlesは成功し未受入を維持する。失敗後の逐次snapshotがvisible/hittableでも先行timeoutを覆さない。下位OSへ及ぶ形状補正の範囲を見直す候補と原因調査を分け、同headの再試行・待機や判定の緩和は行わない。
 
 [runtimeの照合記録](records/2026-10-25/ios-native-runtime-audit.md)では、現行app targetに旧WebKit・HTML/JS bridge・blockerが残っていないことを確認した。再利用する生成parserと比較用旧HTMLツールを保持したままIOS-24を完了とし、UI・実機の全体受入を別に残す。
 

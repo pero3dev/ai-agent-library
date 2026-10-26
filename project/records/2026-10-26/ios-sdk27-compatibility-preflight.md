@@ -90,3 +90,15 @@ head 36786c6ac42f06a2c7bd3644e7196a7f8791cbf1、tree 3fc2aa19174008d24eee5d94356
 Contentsは自己注意の数式への目次移動・しおり後のterminate/relaunch・続きを読むと復帰まで成功（186.529s）。ThreeはAgent・ツール使用・Transformerの全3記事のtapとcaptureが成功（83.307s）。所有Simulatorのshutdown/delete/after inventory不在も独立照合した。成功時のfailure probeは0で、新AX frameは数値未測定、PNG exportも不要で0である。実機・VoiceOver全heading level・性能全体へ転用しない。
 
 UI artifact12680003300は74,461 bytes、SHA-256 41f3f00e49500ae635a948ddb99b3a408e4dcdc6591710fa7d250ed9609dabf1、103 entries/展開495,695 bytesのdigest/CRC/path/symlinkをRAMで検査した。小さな独立receipt SHA-256は5c1159bfa40388a1894bdd9e7a326e44143c079d0a250e5319dcdadaf7947e47。旧15ccの失敗や画像は履歴として保持する。通常Native・共通CI・SDK26 Archiveも同headで成功し、別のiOS26.5代表UIの時間上限は[専用記録](ios-runtime26-smoke.md)で未完了として追う。全記事候補run40383510495/job121785664658も成功し、unit153件（151成功/2skip）、機能UI16件とpure geometry6件の全22件、Release199記事/625 hashを確認した。旧15ccで失敗したcaseも93.307sで通過したが、その初回本文到着失敗の原因が解決したとまでは断定しない。通常NativeとFullの実checkoutはPR merge b252df9a7aac215d164a97f6987043b1b3ec9f11で、API確認したparents[main0a,367]・tree3fcはrun head367と一致した。
+
+## CDCの実検証とOSごとの補正範囲
+
+head cdc081e3d0b5c86762254bd53f338e0fa8e2c07f、tree4bedb2a5323542bd61df2031eaa25ae6fbc358b6、0.2.18（20）の[SDK27 run40392046796](https://github.com/pero3dev/ai-agent-library/actions/runs/40392046796)はArchive・代表UI2件と全親・strict primary・owned cleanupが成功した。目次・しおり・terminate/relaunch・復帰、3記事を実ログで照合し、成功時の数値AX frameは未測定のままである。追加query・PNG export・retryは0。独立receipt SHA-256は1bde30f5d100e2a79d564333b8756479df0f78604d35f57f9b570bc03debc222。
+
+同headの共通CI全9job、SDK26 Archive、Native単体151成功/2skip・UI2・Release、全記事候補の機能16＋geometry6のUI22・Release199記事625 hashも成功した。一方、iOS26.5はビルド範囲限定を実証して539秒で完了したが初回目次待機1件が失敗し、別の[専用記録](ios-runtime26-smoke.md)で未受入として追う。旧成功をこの失敗の否定や次候補の成功へ読み替えない。
+
+明示的なAX shapeでずれを観測したのはiOS27であり、下位OSへ同じ補正を及ぼす必要はこの実証から確定しない。0.2.19（21）の候補は見出し専用のprivate ViewBuilder helperでiOS27以降だけcontentShapeを付け、17〜26ではcontentを返す。API自体は27以前から存在し、これはAPIの利用可否ではなく動作の適用範囲を狭める判断である。見出しtrait/level/focus/id/paddingは一度だけ元の順序でhelper外へ適用し、AnyView・layout・hit-testing・選択・位置・検査条件は保持する。
+
+OS判定はprocess中に変わらないが、SwiftUIの条件構造は追加される。下位OSのAX bounds/identity・選択やactionsが完全に同一とは先取りせず、新headのSDK18.5/26.5/27、実機・VoiceOverを確認範囲として残す。iOS26.5の障害原因がcontentShapeだったとも、この候補で直るとも主張しない。UI2件とFullの厳密条件、全予算は変えない。
+
+技術2pathのmanifest SHA-256は591cd906f2f72d23b26811c4ff03493e8c07192e4c1a2091cf17535b9b573234、独立静的review SHA-256は5925504e3a1bc9f97b34f367b60f48deef50a4bc86f2b18b6e8720202dd9b0f8。helperだけを除いて元のheading chainへ戻せること、version4値と非所有pathの保持を確認した。最終8path結合reviewと実newhead/SDK/UIは未確認である。

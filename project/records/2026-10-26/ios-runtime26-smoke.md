@@ -75,3 +75,13 @@ UI step開始19:11:09 UTC、選択suite開始19:18:08.934、終了19:23:22で、
 技術2pathのmanifest SHA-256は9e33a1af3b40f5901f929c23a4c4a303d73c7b0242dcaa8b86b13a9cd86b3978、独立静的review SHA-256は000eba873171c99c2c7614fc45c6e6bf28f0c02afdb6db913b42d505287b1730。XMLが元schemeからunit参照1件だけを除くこと、parsed YAMLがscheme2文字列とCLI flag1件だけ異なることを検査した。最終8pathの結合reviewと実newhead、実SDK/UIは未確認でnullに保持する。元の実行のFullが終わる前に公開して取り消す操作は行わない。
 
 公開前に元head367のFull終了を待ち、run40383510495のunit151成功/2skip・機能16＋geometry6全22UI・Release199記事625 hashの成功を確認した。通常Native・SDK26 Archive・SDK27代表UI/Archive・共通CIも成功しているが、当該runtime26の2件aggregateは未完了のまま保持する。新候補の実結果へ旧成功を付け替えない。
+
+## CDCの実ビルド範囲と残る目次待機
+
+[run40392047011](https://github.com/pero3dev/ai-agent-library/actions/runs/40392047011)/job121815237836、headCDC、tree4bed、0.2.18（20）は実App/UIの2target・unit build0、ONLY_ACTIVE_ARCH=YES・App/UI arm64のみを実証した。UI stepは539秒で終了しており、前の12分上限による中断ではない。pre-suite304.569s、xcode invocationから最後のUI Touchまで195.688s、そこからsuiteまで64.830sを記録した。異なるrunの単発観測であり、普遍的な短縮値やアプリ性能指標へ一般化しない。
+
+Contentsは72.979sで失敗、ThreeArticlesは110.350sで成功。失敗は初回目次の自己注意の数式をtapした後のrequireHittable待機（行326）で、relaunch/resumeへは未到達。失敗後の逐次snapshotではtarget(18,122,131,24)、viewport上端116、fullyVisible/hittable/satisfied=trueだったが、先行pollの状態や原因を証明しない。primaryは1件の失敗を正しく拒否し、cleanupとDebug app監査は成功した。artifact12685878667は89,464,816 bytesでローカルの16MiB読取上限を越えるため取得せず、画像・階層を見たとは扱わない。同headを再試行しない。
+
+独立receipt SHA-256は17d5a5afa6f684b07d66ea7f2cb2c2fed37d08b669968a77498cd32be5cc8505、timing/architecture receiptは457f84f4616619bf4febf01aea12953acb97f6513d040b958d7a32195fe0f673。通常Native・Full・SDK26/27・共通CIの成功を、このruntimeのUI2件成功へ付け替えない。
+
+次候補はiOS27向けの明示shapeを27以降だけへ限定し、17〜26へ及ぼす範囲を減らす。これは既知の観測範囲に合わせた互換性対策の絞り込みで、26の失敗原因の確定や修復を意味しない。UISmoke・active architecture指定・40/12/6分とboot240秒・selector/strict primary・全CI設定を保持する。版0.2.19（21）の実コンパイル・UI・VoiceOverは未確認である。

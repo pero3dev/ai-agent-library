@@ -738,5 +738,55 @@
     "next": "heading_AX_shape_preparation",
     "old_evidence_rebound": false,
     "TODO": "32rows12done; IOS11and23 incomplete"
+  },
+  "actual_367_buildscope_checkpoint": {
+    "head": "36786c6ac42f06a2c7bd3644e7196a7f8791cbf1",
+    "tree": "3fc2aa19174008d24eee5d943560b33ada75b08e",
+    "version": "0.2.18(20)",
+    "run": 40383509716,
+    "attempt": 1,
+    "Archive": "199 articles unsigned arm64 dSYM audits passed",
+    "UI": "exact2 and parents Passed; strict primary; TOC bookmark relaunch resume and3articles passed",
+    "Contents_seconds": 186.529,
+    "Three_seconds": 83.307,
+    "owned_cleanup": "deleted and verifiedabsent",
+    "newAXframe": "unmeasured; failureprobe0; no PNGexport needed",
+    "receipt_SHA256": "5c1159bfa40388a1894bdd9e7a326e44143c079d0a250e5319dcdadaf7947e47",
+    "raw_disk_bytes": 0,
+    "Full": {
+      "run": 40383510495,
+      "job": 121785664658,
+      "status": "success",
+      "unit": {
+        "pass": 151,
+        "skip": 2,
+        "total": 153
+      },
+      "UI": {
+        "functional": 16,
+        "pure_geometry": 6,
+        "passed": 22,
+        "failed": 0
+      },
+      "Release": {
+        "articles": 199,
+        "hash_files": 625,
+        "audit": "passed"
+      },
+      "old_failed_case_seconds": 93.307,
+      "old_failure_cause": "unconfirmed; newpass not a causalfixclaim",
+      "actual_checkout": "b252df9a7aac215d164a97f6987043b1b3ec9f11",
+      "checkout_tree": "same as367 tree3fc verifiedAPI",
+      "receipt_SHA256": "86dd00b008dc650bd3da27a5a27e4354e4e375365ca6e0406fe8a690475f826b"
+    },
+    "runtime26": "partial timeout; see ios-runtime26-smoke record",
+    "physical_VoiceOver_performance": "incomplete"
+  },
+  "record_interpretation_buildscope": {
+    "old_fields": "historical snapshots preserved",
+    "latest_actual": "actual_367_buildscope_checkpoint",
+    "next": "UI_build_scope_preparation in runtime26 record",
+    "TODO": "32rows12done, IOS11/23 incomplete",
+    "old_results_rebound": false
   }
 }

@@ -61,3 +61,17 @@ Debugかつ既存の隔離UI suiteだけで、requestごと最大32件の数値g
 検索判定はPR #268の後続修正を継承する予定で、1pollのviewport・コピーしたframeを使い、完全表示・先頭ID一致・15秒を維持する。機能14件＋純粋geometry6件、新headの単体・Native2件・iOS26.5の2件・SDK26/Release・サイトbuildは改めて実行する。過去の成功を新headへ流用しない。準備時は当時未統合だったPR #268のtree `80abdee0d3a2e9148849a114bb8ffe2c8f354682`と比較した。このtreeが通常統合後のmain `656c234582bbe76b852b394eae4d6f6837f0ce04`のtreeと同一であることを照合し、旧head3dbと実main commitを親にして同期する。treeをcommit親には使わない。今回の差分は従来の固有7pathsにサイト検査1pathを加えた8pathsである。
 
 限定SDK証跡に残るbuild表記`16C5032`は当時の記録を保持し、実環境の完全な表記は`16C5032a`として区別する。新たなローカルSDK・Simulator・実機操作は行っていない。VoiceOver・最大文字・実機・現行iOS27・全体の性能受入は未完了である。最低OSの別一時PR #271では旧baselineのiOS17.0.1で2件が成功したが、この補正版の受入へは流用しない。
+
+## 367の上限到達とUIビルド範囲の候補
+
+0.2.18（20）・head36786c6ac42f06a2c7bd3644e7196a7f8791cbf1、tree3fc2aa19174008d24eee5d943560b33ada75b08e の[run40383509809](https://github.com/pero3dev/ai-agent-library/actions/runs/40383509809)はUI step12分の上限に達した。Contentsは212.238sで成功したが、ThreeArticlesは3件目Transformer行をtapし本文存在を待ち始めた直後に中断した。2件の最終aggregateはなく、primaryは未完了を拒否、cleanupとDebug app監査は成功した。UI2件成功や2件のassertion失敗とは数えず、追加の同head再実行は行わない。
+
+UI step開始19:11:09 UTC、選択suite開始19:18:08.934、終了19:23:22で、UI前に約7分を使った。実build graphはApp/UI/unitの3targetで、実行しないunit6ファイルも両archでcompile/linkされ、unit実行行は0。App/UIもx86_64とarm64をcompile/linkした。hostはarm64、実効ONLY_ACTIVE_ARCH=NO、CLI指定はなく、owned UUIDの候補はarm64→x86_64順だった。unitのDriver→Touch窓25.638sは並行処理を含み、exclusive costでも短縮保証でもなく、約7分全体をunitへ帰属させない。
+
+新候補は元のshared schemeからunit TestableReferenceだけを除いたAILibraryUISmokeを追加し、Runtime26の参照2か所を切り替え、具体的なowned UUIDへのDebug test commandだけにONLY_ACTIVE_ARCH=YESを指定する。App/UIの選択とDebug・launch属性は保ち、元scheme・project・app/test source・通常Native/Full・Archive/Releaseを変えない。Appは0.2.18（20）のまま。実行する2caseとprimary親階層・device・stages、job40分/UI12分/create6分/boot240秒・権限を保持する。
+
+[Appleのbuild setting](https://developer.apple.com/documentation/xcode/build-settings-reference)はactive architectureだけをbuildする設定で、generic destinationやscheme overrideでは例外がある。[TN3117](https://developer.apple.com/documentation/technotes/tn3117-resolving-build-errors-for-apple-silicon)はDebug YES/Release NOを既定として挙げる。今回の具体的なUUIDとoverrideなしを前提に、smokeだけの未実行compile範囲を狭める。実architectureのcompile coverageは当該smokeだけ変わり、他Native/FullとArchiveは保持する。新Hostedのgraph2target・actual app/UI architecture・同じUI2件と厳密監査、上限内完了は未確認で、時間短縮やアプリの読込問題の解決は主張しない。
+
+技術2pathのmanifest SHA-256は9e33a1af3b40f5901f929c23a4c4a303d73c7b0242dcaa8b86b13a9cd86b3978、独立静的review SHA-256は000eba873171c99c2c7614fc45c6e6bf28f0c02afdb6db913b42d505287b1730。XMLが元schemeからunit参照1件だけを除くこと、parsed YAMLがscheme2文字列とCLI flag1件だけ異なることを検査した。最終8pathの結合reviewと実newhead、実SDK/UIは未確認でnullに保持する。元の実行のFullが終わる前に公開して取り消す操作は行わない。
+
+公開前に元head367のFull終了を待ち、run40383510495のunit151成功/2skip・機能16＋geometry6全22UI・Release199記事625 hashの成功を確認した。通常Native・SDK26 Archive・SDK27代表UI/Archive・共通CIも成功しているが、当該runtime26の2件aggregateは未完了のまま保持する。新候補の実結果へ旧成功を付け替えない。

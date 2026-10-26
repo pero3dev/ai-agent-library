@@ -82,3 +82,11 @@ Appleの[accessibility content shape](https://developer.apple.com/documentation/
 2件目はAgentループの本文表示・撮影・一覧復帰後、ツール使用の行をtapする前のrequireHittable(row)（行304）で待機が失敗した。失敗後の逐次snapshotは存在・visible・hittable・predicate satisfiedがtrueだったが待機中の状態を証明しない。旧9fのclear tap timeoutと同じ原因とも、見出しの形状変更で直るとも主張しない。既存2件を変更headでそのまま検査し、失敗が残れば限定診断を使う。
 
 同じrun head15ccの共通回帰は984件中968成功・16skip・失敗0、Web unit97、Chromium677成功/5skip、Firefox14、音声Chromium8・Safari音声8/操作2/表示14が成功。SDK26 Archive・iOS26.5代表UIも成功した。通常Nativeはunit153件（151成功/私有fixture2skip）・UI2件・Release監査が成功し、実checkoutはmainと15ccのPR mergeでtreeは15ccと一致する。全記事候補run40375834854はunit153件（151成功/2skip）成功、UI22件中21成功/1失敗（機能15/16、pure geometry6/6）。該当case冒頭のTransformer open（行214）内のnative-reader存在待機（行310）が失敗した。目次・しおり・同梱切替・取消・再起動へ未到達で、原因は未確定。Native2件はこのrunでも成功したが、Release検証はskipのため当該headの全記事Release受入へ広げない。追加再試行は行わない。旧結果を新候補へ付け替えず、IOS-11/23・最小OS17・実機・VoiceOver・性能・配布は未完了、追加実機QAは利用者指定に従い省略する。
+
+## 367の実SDK27検証
+
+head 36786c6ac42f06a2c7bd3644e7196a7f8791cbf1、tree 3fc2aa19174008d24eee5d943560b33ada75b08e、0.2.18（20）の[run40383509716](https://github.com/pero3dev/ai-agent-library/actions/runs/40383509716)はArchive・代表UIともattempt1で成功した。Archiveは全199記事・unsigned arm64/dSYM・実package監査が成功。既存2caseと親階層Passed、primaryの厳密なexact-two-cases-passedを確認した。
+
+Contentsは自己注意の数式への目次移動・しおり後のterminate/relaunch・続きを読むと復帰まで成功（186.529s）。ThreeはAgent・ツール使用・Transformerの全3記事のtapとcaptureが成功（83.307s）。所有Simulatorのshutdown/delete/after inventory不在も独立照合した。成功時のfailure probeは0で、新AX frameは数値未測定、PNG exportも不要で0である。実機・VoiceOver全heading level・性能全体へ転用しない。
+
+UI artifact12680003300は74,461 bytes、SHA-256 41f3f00e49500ae635a948ddb99b3a408e4dcdc6591710fa7d250ed9609dabf1、103 entries/展開495,695 bytesのdigest/CRC/path/symlinkをRAMで検査した。小さな独立receipt SHA-256は5c1159bfa40388a1894bdd9e7a326e44143c079d0a250e5319dcdadaf7947e47。旧15ccの失敗や画像は履歴として保持する。通常Native・共通CI・SDK26 Archiveも同headで成功し、別のiOS26.5代表UIの時間上限は[専用記録](ios-runtime26-smoke.md)で未完了として追う。全記事候補run40383510495/job121785664658も成功し、unit153件（151成功/2skip）、機能UI16件とpure geometry6件の全22件、Release199記事/625 hashを確認した。旧15ccで失敗したcaseも93.307sで通過したが、その初回本文到着失敗の原因が解決したとまでは断定しない。通常NativeとFullの実checkoutはPR merge b252df9a7aac215d164a97f6987043b1b3ec9f11で、API確認したparents[main0a,367]・tree3fcはrun head367と一致した。

@@ -298,5 +298,53 @@
     },
     "new_actual_checks": "not-run; ordinary/native/full20/SDK26/runtime26/Release required",
     "physical": "skipped-incomplete-by-user-instruction"
+  },
+  "actual_367_buildscope_checkpoint": {
+    "head": "36786c6ac42f06a2c7bd3644e7196a7f8791cbf1",
+    "tree": "3fc2aa19174008d24eee5d943560b33ada75b08e",
+    "version": "0.2.18(20)",
+    "run": 40383509809,
+    "UI_status": "partial; outer12min timeout, notaccepted",
+    "Contents": "Passed212.238s",
+    "Three": "incomplete after thirdTransformer rowtap/readerwait began",
+    "aggregate": "missing; strictprimary rejects",
+    "cleanup_DebugAudit": "passed",
+    "samehead_retry": 0,
+    "pre_UI_seconds_approx": 420,
+    "build_graph": [
+      "App",
+      "UI->App",
+      "Unit->App"
+    ],
+    "unrun_unit": "6files compiled/linked botharm64/x86_64; execution0",
+    "App_and_UI": "both architectures compiled/linked",
+    "host": "arm64",
+    "effective_ONLY_ACTIVE_ARCH": "NO",
+    "CLI_ONLY_ACTIVE_ARCH": "absent",
+    "unitDriver_toTouch_seconds": 25.638,
+    "cost_interpretation": "parallel observed window only, not exclusive saving; preUI7min not attributed solelytoUnit",
+    "timing_receipt_SHA256": "915f6f1528ea76cee1737421a4219ff65beaf6af05da009bb84edca400f11c22"
+  },
+  "UI_build_scope_preparation": {
+    "source_head": "36786c6ac42f06a2c7bd3644e7196a7f8791cbf1",
+    "technical_manifest_SHA256": "9e33a1af3b40f5901f929c23a4c4a303d73c7b0242dcaa8b86b13a9cd86b3978",
+    "status": "technical2 frozen statically independently reviewed; final8 and actualnewhead pending",
+    "scope": "new UISmoke scheme minus unrunUnit; Runtime26 two scheme refs plusONLY_ACTIVE_ARCHYES for concreteownedUUID",
+    "unchanged": "originalscheme/project/app/tests/Native/full/Archive;40/12/6min240s;exact2strictparentsdevice/stages",
+    "version": "0.2.18(20) unchanged",
+    "architecture_coverage": "smoke narrows compilearchitecture; otherNative/full/Release retained",
+    "actualnewhead": null,
+    "actualnewrun": null,
+    "speed_or_timeout_fix": "not measured/confirmed",
+    "technical_review_SHA256": "000eba873171c99c2c7614fc45c6e6bf28f0c02afdb6db913b42d505287b1730",
+    "static_validation": "XML original minus exactly one UnitTestable; parsedYAML same except one runscalar with exactly2scheme strings and1CLIflag; allothersteps/constraints andnonowned files preserved",
+    "runtime_execution": "not run; savings/12min completion unverified"
+  },
+  "record_interpretation_buildscope": {
+    "old_fields": "historical snapshots preserved",
+    "latest_actual": "actual_367_buildscope_checkpoint",
+    "next": "UI_build_scope_preparation in runtime26 record",
+    "TODO": "32rows12done, IOS11/23 incomplete",
+    "old_results_rebound": false
   }
 }

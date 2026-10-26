@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "p1_merge_lineage": {
+    "original_pr_head": "8622ac8eb3c6e11219f6f3bcca04bc36b27f2e63",
+    "original_pr_head_role": "historical PR275 head and dry reference; never the required main ancestor",
+    "reviewed_squash_commit": "30a8a1db8d6c30eeb2c6e682f92ba94126cc5e35",
+    "reviewed_squash_tree": "7e4a5fcd93b00caf67ea171c426d735555b507c7",
+    "reviewed_squash_parent": "ecf41376f302feeb49eb968364b4a9372a6a4fd4",
+    "squash_object_identity_verified": true,
+    "reviewed_squash_is_input_ancestor": true,
+    "remote_main_freshness_and_Icon_merge_verified": false
+  },
+  "p1_history": {
+    "original_pr_head": "8622ac8eb3c6e11219f6f3bcca04bc36b27f2e63",
+    "actual_main_squash_commit": "30a8a1db8d6c30eeb2c6e682f92ba94126cc5e35",
+    "actual_main_squash_tree": "7e4a5fcd93b00caf67ea171c426d735555b507c7",
+    "actual_main_squash_parent": "ecf41376f302feeb49eb968364b4a9372a6a4fd4",
+    "original_pr_head_ancestry_required": false
+  },
+  "helper_source_sha256": "9d178dc004247d68cc4f6fe166903dd7ce9ce326059f3b7c8b7ad5dc48ca2721",
+  "prior_failed_drytext": {
+    "reference_commit": "8622ac8eb3c6e11219f6f3bcca04bc36b27f2e63",
+    "accepted": false,
+    "manifest_sha256": "4e657a3808d88ad2976717c33ca86b9e0b83d05dca0a87893ffd7c0ef7f2f7f0",
+    "issue": "Quoted status values were incorrectly counted as zero; actual reference has 199 published articles.",
+    "old_count": 0,
+    "corrected_reference_count": 199
+  },
+  "independent_namespace_review_sha256": "cb72f27265a43041033d8f68507a9f301dfcee25299712d7bb4feb074ba5320f",
+  "date": "2026-10-26",
+  "status": "private_preparation_not_adopted",
+  "input_kind": "caller_supplied_actual_main",
+  "actual_main_parent": "20f2024a107e75c0c4775e58a1223ad1c3950c05",
+  "reference_commit": "20f2024a107e75c0c4775e58a1223ad1c3950c05",
+  "reference_tree": "f4cd209febdd058ad44a184c5f4ba7fc189b35b1",
+  "remote_freshness_verified": false,
+  "adopted": false,
+  "source_metadata": {
+    "application_target": "F75109BEB4DD8800DA6B45F8",
+    "version": "0.2.17",
+    "build": "19",
+    "source_declared_unit_methods": 153,
+    "unit_sources": [
+      {
+        "path": "ios/AILibraryTests/LearningIndexTests.swift",
+        "declared_test_methods": 23
+      },
+      {
+        "path": "ios/AILibraryTests/LearningNavigationTests.swift",
+        "declared_test_methods": 6
+      },
+      {
+        "path": "ios/AILibraryTests/LibraryCoreTests.swift",
+        "declared_test_methods": 71
+      },
+      {
+        "path": "ios/AILibraryTests/NativeInlineTests.swift",
+        "declared_test_methods": 37
+      },
+      {
+        "path": "ios/AILibraryTests/NativeReaderPlacementPolicyTests.swift",
+        "declared_test_methods": 8
+      },
+      {
+        "path": "ios/AILibraryTests/SearchIndexTests.swift",
+        "declared_test_methods": 8
+      }
+    ],
+    "ui_classes": [
+      {
+        "path": "ios/AILibraryUITests/NativeReaderUITests.swift",
+        "class": "NativeReaderUITestCase",
+        "declared_test_methods": 0
+      },
+      {
+        "path": "ios/AILibraryUITests/NativeReaderUITests.swift",
+        "class": "NativeReaderUITests",
+        "declared_test_methods": 2
+      },
+      {
+        "path": "ios/AILibraryUITests/NativeReaderUITests.swift",
+        "class": "ReaderViewportGeometryTests",
+        "declared_test_methods": 6
+      },
+      {
+        "path": "ios/AILibraryUITests/PublishedPerformanceUITests.swift",
+        "class": "PublishedPerformanceUITests",
+        "declared_test_methods": 1
+      },
+      {
+        "path": "ios/AILibraryUITests/PublishedReaderUITests.swift",
+        "class": "PublishedReaderUITests",
+        "declared_test_methods": 14
+      }
+    ],
+    "native_selector": "AILibraryUITests/NativeReaderUITests",
+    "native_source_declared_methods": 2,
+    "published_markdown_count": 199,
+    "source_inventory_sha256": "33d9269bdf088647a0d72b84c3d5ecf58649d5d950e582d2d1d31c8636aa00cd",
+    "sdk_registered_counts": null,
+    "count_caveat": "Source declarations and PBX membership only; not compiler/XCTest registration or execution. Performance/UI geometry classes are reported separately."
+  },
+  "source_pins": {
+    ".github/workflows/ios-sdk27-compatibility.yml": "90c3cd0ce7fcfd399b7b823c84e605d50e14026ac7d06e7b3985f34293dee14f",
+    ".github/actionlint.yaml": "eeef7b5e3a3d60c503be99edce7d0cc3eaf840c1e2b82800009f7ce6560f91ca"
+  },
+  "preparation_validation": {
+    "namespace_v4_source_only": true,
+    "observed_shape_reference": "Xcode16.4 historical raw schema; actual SDK27 shape unknown",
+    "full_unit_run": false
+  },
+  "execution": {
+    "historical_sdk27_runs_as_of_candidate_freeze": 0,
+    "new_sdk27_execution": "pending",
+    "new_run_ids": [],
+    "sdk27_build": null,
+    "sdk27_runtime": null,
+    "archive_result": null,
+    "native2_result": null,
+    "full_unit_result": null,
+    "full_ui_result": null,
+    "device_qa": "skipped_incomplete"
+  },
+  "scope": {
+    "unsigned_archive": true,
+    "native2_only": true,
+    "full_unit_or_ui_acceptance": false,
+    "runner": "public standard GitHub-hosted xcode-27 only",
+    "paid_or_self_hosted_fallback": false,
+    "secrets": false,
+    "signing": false,
+    "store_submission": false
+  },
+  "budgets": {
+    "archive_job_minutes": 40,
+    "runtime_job_minutes": 40,
+    "create_step_minutes": 6,
+    "native_step_minutes": 12,
+    "cleanup_step_minutes": 4,
+    "bootstatus_seconds": 240,
+    "staged_artifact_payload_bytes": 16777216
+  },
+  "preservation": {
+    "todo_total": 32,
+    "todo_done": 12,
+    "checkboxes": {
+      "IOS-01": false,
+      "IOS-02": true,
+      "IOS-03": false,
+      "IOS-04": false,
+      "IOS-05": false,
+      "IOS-06": true,
+      "IOS-07": true,
+      "IOS-08": true,
+      "IOS-09": true,
+      "IOS-10": true,
+      "IOS-11": false,
+      "IOS-12": true,
+      "IOS-13": true,
+      "IOS-14": true,
+      "IOS-15": false,
+      "IOS-16": false,
+      "IOS-17": false,
+      "IOS-18": false,
+      "IOS-19": true,
+      "IOS-20": false,
+      "IOS-21": false,
+      "IOS-22": false,
+      "IOS-23": false,
+      "IOS-24": true,
+      "IOS-25": false,
+      "IOS-26": true,
+      "IOS-27": false,
+      "IOS-28": false,
+      "IOS-29": false,
+      "IOS-30": false,
+      "IOS-31": false,
+      "IOS-32": false
+    },
+    "ios02": "completed_on_existing_sdk26_basis",
+    "ios11": "incomplete",
+    "ios23": "incomplete",
+    "normal_source_and_existing_ci": "unchanged"
+  },
+  "limitations": [
+    "Source declarations are not actual SDK test registration.",
+    "No SDK27 workflow/build/Simulator/API execution in this preparation.",
+    "Historical zero SDK27 runs applies only as of pinned candidate freeze; later runs are pending, not asserted zero.",
+    "Caller must bind after actual P1 and Icon merges, obtain independent review, and run exact-head CI.",
+    "Result hierarchy fails closed on unknown SDK27 shape."
+  ]
+}

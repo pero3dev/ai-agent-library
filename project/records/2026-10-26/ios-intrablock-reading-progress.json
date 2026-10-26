@@ -197,7 +197,7 @@
     "new_case": "talltable1 added to22selected source; no actual new runtime result",
     "source_SHA256": "9474145136f51fa853462128fd14e3c276a92e7227d07b3bd2b391ba6d41124e",
     "root_review_SHA256": "67583ba1140ff68c07267a205134708f21b7475b58f0d42da36d4d9671e26836",
-    "root_review_origin": "/Users/yabukita_shou/dev/ai-agent-library/.local/ios-autonomous-evidence/published-ci-budget50-root-review.json",
+    "root_review_origin": ".local/ios-autonomous-evidence/published-ci-budget50-root-review.json",
     "only_one_line_changed": true,
     "reverse_change_restores_actualmain_workflow_all_bytes": true,
     "selectors_commands_assert_individual15sec_audits": "unchanged"

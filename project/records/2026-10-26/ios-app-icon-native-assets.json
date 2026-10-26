@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-26",
+  "status": "private-prepared-icon23-awaiting-independent-final-payload-review",
+  "preview_only": true,
+  "publishable": false,
+  "source_basis": {
+    "kind": "explicit-immutable-main",
+    "commit": "30a8a1db8d6c30eeb2c6e682f92ba94126cc5e35",
+    "tree": "7e4a5fcd93b00caf67ea171c426d735555b507c7",
+    "live_main_lease_verified_by_helper": false,
+    "origin": "Explicit --actual-main argument, verified as an existing immutable local commit; live main status remains a root check"
+  },
+  "snapshot": {
+    "phase": "preparation-only",
+    "parent_sha": "30a8a1db8d6c30eeb2c6e682f92ba94126cc5e35",
+    "expected_payload_tree": null,
+    "expected_tree_location": "Private output manifest only; omitted here to avoid a self-referential tree",
+    "created_commit": null,
+    "final_payload_review": "pending",
+    "new_actual_CI_or_SDK_evidence": 0
+  },
+  "scope": {
+    "source_asset_helper_PBX": 12,
+    "Hosted_helper_tests_package_workflows": 6,
+    "minimal_docs": 5,
+    "total_paths": 23,
+    "proposed_version": "0.2.17(19)",
+    "basis_version": "0.2.16(18)",
+    "PBX_structural_delta": "approved asset6 fields plus four version values; total10",
+    "IOS29_complete": false,
+    "TODO_checkbox_changes": 0
+  },
+  "provenance": {
+    "original": "website/public/favicon.svg",
+    "SHA256": "f9fc05866f8a15027f02e4e76c1a7bf58ece9aa89f573638d06ab5ed5ef37de1",
+    "license": "MIT under repository LICENSE; unchanged full text already included in NOTICE/About",
+    "LICENSE_SHA256": "b153cb5539cdb8adad27eabb24e45ca19abe8737a461577eab50f3a177722956",
+    "visual": "existing mint book/#72e2d1; existing background/#0b1728; transparent rx7 corners flattened onto same square background",
+    "sizes": [
+      40,
+      58,
+      60,
+      80,
+      87,
+      120,
+      180,
+      1024
+    ],
+    "PNGs": 8,
+    "PNG_total_bytes": 22198,
+    "slots": 9,
+    "source_format": "opaque RGB8/no alpha or tRNS; original fingerprints and paths/colors retained",
+    "new_design_dependency_or_generator_execution_this_preview": 0
+  },
+  "historical_local_actool": {
+    "proof": "private-evidence-role/proof.json",
+    "SHA256": "3acf3117322d98d05f1d618b07c6fa29ddc0817a6fa0a14b908a9d548fb21453",
+    "attempts": 1,
+    "Xcode": "16.2",
+    "device_SDK": "18.2",
+    "requested_platform": "iphoneos",
+    "exit_code": 1,
+    "result": "runtime mismatch: no usable22D8075 runtime for iphonesimulatorSDK22C146; no retry",
+    "partial_only": {
+      "AppIcon60x60@2x.png": {
+        "bytes": 1521,
+        "SHA256": "315ababbc4c82ca383e24661f751a8eedd65d64532a5c1c7a89024657749b184",
+        "width": 120,
+        "height": 120,
+        "color_type": 6,
+        "CgBI": true
+      },
+      "partial_Info": "emitted",
+      "Assets_car": "absent"
+    },
+    "meaning": "Partial metadata/chunk CRC can be parsed; not complete PNG/pixel/CAR/compile acceptance"
+  },
+  "history": {
+    "after_PR275_preview": {
+      "basis_commit": "5f59010763fbded71cb1636a03159a5bf3cdd5d6",
+      "basis_tree": "af6550c2aa440e0149aab0e99f1a69c458a99b60",
+      "preview_tree": "9e28152bb78cb95247a6411ef098518e33078543",
+      "manifest_SHA256": "4849a9755628718ae9360c70bd513605b92ca1c8328d7598573d6ccf61ea2186",
+      "independent_review_SHA256": "e2cf172008dde8e86ee9d2e9fbc3b626e7b1d2e61b77c5bdbc4e69a75ed81d1a",
+      "review_scope": "private content rebind only; actual-main regeneration and final validation still required",
+      "record_SHA256": "bab6853fd7edca7076fcfe6a87dd7c0ae8ddc212916add3a7bf6ea5ea2ca3ade",
+      "is_current_source_basis": false
+    },
+    "independent_prerequisites": {
+      "source12": {
+        "path": "private-evidence-role/review.json",
+        "SHA256": "ef1e36f3423c2f95fb969a17f5acdaa7e89603d2fbc3f575cca114b8fd5b137b",
+        "status": "M0 approved private12 source; not actual assetcompiler/Archive acceptance"
+      },
+      "hosted6": {
+        "path": "private-evidence-role/independent-review.json",
+        "SHA256": "107db4d35a63f15593ead01de5494447c5104300e19b449d33a68ca3f16d222e",
+        "status": "M0 approved source integration and initial Hosted observation; not final preview or emitted scale proof"
+      }
+    },
+    "source_check_and_Node13": "Historical receipts only; no rerun by this helper",
+    "old_validation": {
+      "source_check": "Historical successful source-check receipt rehashed unchanged; no new source-check execution; source17 exact and Published workflow approved insertion rebind only.",
+      "Node_tests": {
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0,
+        "scope": "historical Node13 synthetic/actual plutil receipt retained unchanged from previous Icon freeze; not rerun or actool/CAR acceptance"
+      },
+      "YAML": 3,
+      "Bash_blocks": 39,
+      "workflows": "All latest PR275 workflow bytes reconstruct after removing only exact approved icon insertions; Published retains job cap50 and three selectors.",
+      "package": "Original scripts/dependencies/overrides preserved; only ios:test:icon alias and check-chain call",
+      "PBX": "exact10 structural changes; Info source not edited",
+      "new_SDK_Swift_actool_Simulator_npm_install_fullcheck": 0,
+      "historical_old_static_checks": "Historical earlier23 freeze recorded source check/Node13/YAML3/Bash39/MD4/JSON5/links273 success. Those source check/Node13 receipts are retained history only; this PR275 rebind does not rerun either.",
+      "new_receipts": "Current PR275 rebind checks source/PNG byte bindings, YAML/Bash workflow insertion reversal, Markdown/JSON/links, trusted-main public-records/canonical metadata, and private trees only. Historical source check/Node13 logs are rehashed unchanged; new invocations0.",
+      "new_Node13_or_source_check_execution": 0
+    }
+  },
+  "preparation": {
+    "fixed_technical_content": "Frozen PNG8/22198B, 9 slots, helper/validator/unit and binary recipes preserved byte exact",
+    "existing_paths": "Strict base guards for package/three CI/PBX; docs inserted at unique anchors; all nonowned entries retained from supplied main",
+    "PBX": "Approved six asset fields and four .16(18) to .17(19) version values only",
+    "Published": "Existing cap50, three selectors and every old command retained; approved icon audit insertions only",
+    "runtime_and_UI_and_incoming_records": "Nonowned actual-main mode/type/blob preserved, including PR275 setup and runtime changes",
+    "current_source_check_or_Node13_runs": 0,
+    "actual_registration_or_runtime_acceptance": null
+  },
+  "initial_Hosted_contracts": {
+    "Debug_iPhone16_required_3x": "unobserved on actual complete built app",
+    "generic_Release_Archive_required_2x3x": "unobserved on actual complete built app",
+    "content": "App-root Assets.car and Info-declared primary icon files audited independently from article Content; no Content allowlist/schema changes",
+    "policy": "unknown/missing/ambiguous/unsafe inventory fails; initial outputs may require reviewed policy adjustment, not automatic acceptance"
+  },
+  "unverified": [
+    "Independent final actual-main payload review",
+    "Exact-head common/CI/SDK/built Info/PNG/Assets.car and emitted scale inventory",
+    "Home/Store/physical/VoiceOver/max-text/rotation/distribution acceptance"
+  ],
+  "IOS29_complete": false,
+  "normalization_or_budget_adoption": null
+}

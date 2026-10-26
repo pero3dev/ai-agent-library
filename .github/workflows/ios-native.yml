@@ -57,6 +57,11 @@ jobs:
             echo 'Simulator: iPhone 16 / iOS 18.5'
             echo 'Scope: all AILibraryTests and existing native UI smoke tests; physical-device acceptance is not executed.'
           } | tee .local/ios-ci/evidence/environment.log
+      - name: Check the frozen AppIcon source assets
+        run: |
+          set -euo pipefail
+          node ios/tools/app-icon.mjs --check \
+            2>&1 | tee .local/ios-ci/evidence/app-icon-source.json
       - name: Generate and audit representative and fixture packages
         run: |
           set -euo pipefail
@@ -104,6 +109,13 @@ jobs:
             -parallel-testing-enabled NO -jobs 2 \
             -only-testing:AILibraryTests CODE_SIGNING_ALLOWED=NO test \
             2>&1 | tee .local/ios-ci/evidence/xctest.log
+      - name: Audit AppIcon metadata in the actual Debug app
+        run: |
+          set -euo pipefail
+          node ios/tests/check-built-app-icon.mjs \
+            .local/ios-ci/DebugDerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app \
+            --required-scales 3 \
+            2>&1 | tee .local/ios-ci/evidence/debug-app-icon.json
       # The existing two UI tests cover nonempty bodies, TOC, bookmarks and relaunch.
       # Offline launch, copying, internal links and legacy migration need more UI tests.
       - name: Run native UI smoke tests on the iPhone Simulator
@@ -129,6 +141,10 @@ jobs:
           node ios/tests/check-release-package.mjs \
             .local/ios-ci/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
             | tee .local/ios-ci/evidence/release-package.json
+          node ios/tests/check-built-app-icon.mjs \
+            .local/ios-ci/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
+            --required-scales 2,3 \
+            2>&1 | tee .local/ios-ci/evidence/release-app-icon.json
       - name: Retain test results and compact build evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

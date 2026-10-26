@@ -104,6 +104,10 @@ jobs:
             }, null, 2) + '\n');
           } finally { put('toolchain-commands.json', JSON.stringify(commands, null, 2) + '\n'); }
           NODE
+      - name: Check the frozen AppIcon source assets
+        run: |
+          set -euo pipefail
+          node ios/tools/app-icon.mjs --check 2>&1 | tee "$EVIDENCE_DIR/app-icon-source.json"
       - name: Audit content tooling before installation
         run: |
           set -euo pipefail
@@ -180,6 +184,8 @@ jobs:
         run: |
           set -euo pipefail
           app='.local/ios-sdk26/AILibrary.xcarchive/Products/Applications/AILibrary.app'
+          node ios/tests/check-built-app-icon.mjs "$app" --required-scales 2,3 \
+            2>&1 | tee "$EVIDENCE_DIR/archive-app-icon.json"
           node ios/tests/check-release-package.mjs "$app" 2>&1 | tee "$EVIDENCE_DIR/release-package.json"
           bash ios/tests/check-package.sh "$app/Content" "$PUBLISHED_ARTICLE_COUNT" 2>&1 | tee "$EVIDENCE_DIR/archive-consumer.json"
       - name: Audit metadata, all app SHA values, device binary and dSYM

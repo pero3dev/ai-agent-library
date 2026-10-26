@@ -252,6 +252,10 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 
 ローカルMacの更新や署名済みIPAのexport、TestFlight・Store申請とは別の検査です。初回Hostedで実SDK26環境・Archive生成・actual Content監査まで成功しました。空の署名設定キーを扱うguard修正後、Archive Info全体のJSON変換で停止しました。必要な辞書のXML projectionからJSON化する限定修正を加え、実Info/Privacy・MachO/UUID/codesign監査を再検証します。[SDK26の記録](../project/records/2026-10-25/ios-sdk26-archive-preflight.md)で段階を追跡します。従来のXcode16.4・iOS18.5 Simulator回帰と最低対応OS17は維持します。
 
+## iPhone AppIconの候補
+
+[AppIconとビルド後監査](../project/records/2026-10-26/ios-app-icon-native-assets.md)は明示source commit `30a8a1db8d6c30eeb2c6e682f92ba94126cc5e35` へ私有準備した既存ブランドの8PNG/9slot・AppIcon監査候補で、0.2.16(18)から0.2.17(19)を提案する。PNG8/22,198B・source/validator/recipeを保ち、Published cap50・3selectorsへ承認監査呼出だけを加える。旧source check/Node13とactool失敗は履歴で、新compile・実CAR・Home/Store・exact-head CIと別人の最終payloadレビューは未実施。IOS-29全体は未完了で全TODO状態を維持する。
+
 ## ライセンスと通信
 
 記事は[CC BY 4.0、試作実装はMIT](../LICENSE)。生成時に原文を構造化データへ変換し、図・数式を画像化しています。KaTeXの利用条件は`assets/katex/LICENSE.txt`、Mermaidの利用条件は`assets/licenses/Mermaid-LICENSE.txt`、記事・コードのNOTICEは`assets/licenses/NOTICE.txt`へ同梱します。

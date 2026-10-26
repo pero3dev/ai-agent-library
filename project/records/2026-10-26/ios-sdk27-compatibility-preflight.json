@@ -188,5 +188,93 @@
     "Historical zero SDK27 runs applies only as of pinned candidate freeze; later runs are pending, not asserted zero.",
     "Caller must bind after actual P1 and Icon merges, obtain independent review, and run exact-head CI.",
     "Result hierarchy fails closed on unknown SDK27 shape."
-  ]
+  ],
+  "record_interpretation": {
+    "historical": "Existing top-level preparation fields describe the original6path preparation onmain20f, beforePR279 firstCI. Pending/zero fields in that snapshot are preserved as history.",
+    "latest": "initial_Hosted_observation and geometry_diagnostic_preparation"
+  },
+  "initial_Hosted_observation": {
+    "head": "62f284238064802b98e1abb6b92f0ecdba612d32",
+    "PR": 279,
+    "workflow_run": 40322325881,
+    "Archive": {
+      "job": 121570098187,
+      "status": "success",
+      "artifact": 12650520802,
+      "ZIP_bytes": 115346,
+      "ZIP_SHA256": "251dee4cd58d10e78b93d9b4dc185a76169f30ea96809c1a5d479f47c9b8561f",
+      "CRC_entries": 66,
+      "expanded_bytes": 591711,
+      "memory_only": true,
+      "toolchain": {
+        "macOS": "27.0.1",
+        "architecture": "arm64",
+        "Xcode": "27.0",
+        "Xcode_build": "27A266a",
+        "SDK": "27.0",
+        "SDK_build": "24A430"
+      },
+      "App": {
+        "version": "0.2.17",
+        "build": "19",
+        "minimum_OS": "17.0",
+        "architecture": "arm64",
+        "signature": "unsigned",
+        "provisioning_profile_present": false
+      },
+      "content": {
+        "articles": 199,
+        "files_including_manifest": 626,
+        "verified_excluding_manifest": 625,
+        "PNGs": 422,
+        "bytes_including_manifest": 40099389,
+        "Release_TestContent_absent": true
+      },
+      "privacy_source_semantics_equal": true,
+      "dSYM_present": true,
+      "distribution_acceptance": false
+    },
+    "Native": {
+      "job": 121570097981,
+      "status": "failure",
+      "actual_profile": "iOS27.0/iPhone17 ownedSimulator",
+      "registered_cases": 2,
+      "passed": 1,
+      "failed": 1,
+      "failed_case": "NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch",
+      "passed_case": "NativeReaderUITests/testThreeArticlesHaveNativeBodyText",
+      "failed_source": "ios/AILibraryUITests/NativeReaderUITests.swift",
+      "failed_line": 238,
+      "phase": "InitialTOC goToContents self-attention heading; reboot/resume not reached",
+      "target": "native-heading-自己注意の数式",
+      "condition": "fullyVisible and hittable within public reader viewport",
+      "position_numbers": "not captured in old evidence; product-placement versus test-viewport unresolved",
+      "strict_result_audit": "correctly rejected failed parent; not a false schema failure",
+      "owned_cleanup": "success",
+      "representative3_fixture4_bundle_audit": "success",
+      "artifact": 12650631211,
+      "ZIP_bytes": 73246,
+      "ZIP_SHA256": "ce910c5aeeb8a8868d5551418a0fbc20b58111c52570e229cdfdef5f059747f1",
+      "CRC_entries": 101,
+      "expanded_bytes": 493083,
+      "memory_only": true,
+      "old_failure_AX_and_screenshot_attachments": "created inside xcresult but omitted by artifact policy; not recoverable from old small artifact"
+    },
+    "common_required11": "success at originalhead",
+    "existing_SDK16_4_Native": "success at originalhead",
+    "unchanged_head_rerun": 0
+  },
+  "geometry_diagnostic_preparation": {
+    "status": "private preparation pending independentfinalreview and newheadCI",
+    "source_parent": "62f284238064802b98e1abb6b92f0ecdba612d32",
+    "product_reader_offset_or_layout_change": false,
+    "UI_timeouts_and_assertions": "unchanged",
+    "selectors_cases_budgets": "unchanged",
+    "scope": "Failure-only bounded public geometry JSON stdout and attachment; no article text/full AX dump",
+    "new_actual_head": null,
+    "new_run": null,
+    "acceptance": false,
+    "physical": "incomplete skipped authorized",
+    "IOS23_complete": false
+  }
 }

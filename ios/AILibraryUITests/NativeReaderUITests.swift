@@ -176,6 +176,93 @@ class NativeReaderUITestCase: XCTestCase {
         return element.isHittable
     }
 
+    /// Failure-only public-UI snapshot. Reads are sequential and may differ from the last poll.
+    /// Reuse the existing bar witnesses; bound JSON output, never the viewport calculation.
+    private func captureReaderGeometry(_ target: XCUIElement, inside container: XCUIElement?,
+                                       fullyVisible: Bool) {
+        func frameJSON(_ frame: CGRect?) -> [String: Any] {
+            guard let frame else { return ["state": "absent", "coordinates": NSNull()] }
+            func number(_ value: CGFloat) -> Any { value.isFinite ? Double(value) as Any : NSNull() }
+            let state: String
+            if frame.isNull { state = "null" }
+            else if frame.isInfinite { state = "infinite" }
+            else if ![frame.origin.x, frame.origin.y, frame.size.width, frame.size.height].allSatisfy(\.isFinite) {
+                state = "nonfinite"
+            } else if frame.isEmpty { state = "empty" }
+            else { state = "finite-nonempty" }
+            return ["state": state, "coordinates": ["x": number(frame.origin.x), "y": number(frame.origin.y),
+                "width": number(frame.size.width), "height": number(frame.size.height)]]
+        }
+
+        let appFrame = app.frame
+        let containerExists = container.map { $0.exists }
+        let containerFrame = containerExists == true ? container?.frame : nil
+        let bars = container != nil && containerExists == true ? navigationBarFrames(appFrame: appFrame) : []
+        let targetExists = target.exists
+        let targetFrame = targetExists ? target.frame : nil
+        let viewport: ReaderViewportResolution
+        if container != nil && containerExists == false {
+            viewport = .unknown("Container is not present")
+        } else {
+            viewport = ReaderViewportGeometry.viewport(app: appFrame, container: containerFrame, bars: bars)
+        }
+        let visibility: ReaderFrameVisibility
+        let viewportJSON: [String: Any]
+        switch viewport {
+        case .resolved(let frame):
+            viewportJSON = ["state": "resolved", "reason": NSNull(), "frame": frameJSON(frame)]
+            visibility = ReaderViewportGeometry.visibility(target: targetFrame, viewport: frame,
+                                                           fullyVisible: fullyVisible)
+        case .unknown(let reason):
+            viewportJSON = ["state": "unknown", "reason": reason, "frame": NSNull()]
+            visibility = .unknown(reason)
+        }
+        let visibilityJSON: [String: Any]
+        switch visibility {
+        case .visible: visibilityJSON = ["state": "visible", "reason": NSNull()]
+        case .hidden: visibilityJSON = ["state": "hidden", "reason": NSNull()]
+        case .unknown(let reason): visibilityJSON = ["state": "unknown", "reason": reason]
+        }
+        // Keep the original guard before this getter to avoid offscreen activation-point errors.
+        let targetIsHittable: Bool? = visibility.visibleForPolling ? target.isHittable : nil
+        let listedBars = bars.prefix(8).enumerated().map { index, bar -> [String: Any] in
+            ["index": index, "frame": frameJSON(bar.frame),
+             "hasEnabledHittableControl": bar.hasEnabledHittableControl,
+             "eligibleAsForeground": ReaderViewportGeometry.finiteNonempty(bar.frame) &&
+                appFrame.contains(bar.frame) && bar.hasEnabledHittableControl]
+        }
+        let snapshot: [String: Any] = [
+            "app": ["frame": frameJSON(appFrame)],
+            "container": ["requested": container != nil,
+                "exists": containerExists.map { $0 as Any } ?? NSNull(), "frame": frameJSON(containerFrame)],
+            "target": ["exists": targetExists, "frame": frameJSON(targetFrame)],
+            "navigationBars": ["sampling": container == nil ? "not-required" :
+                (containerExists == true ? "sampled" : "container-absent"),
+                "total": bars.count, "omitted": max(0, bars.count - listedBars.count), "items": listedBars],
+            "viewport": viewportJSON,
+            "predicate": ["fullyVisible": fullyVisible, "geometry": visibilityJSON,
+                "targetIsHittable": targetIsHittable.map { $0 as Any } ?? NSNull(),
+                "targetIsHittableRead": visibility.visibleForPolling ? "once-after-visible-geometry" : "skipped-by-geometry-guard",
+                "satisfied": visibility.visibleForPolling && targetIsHittable == true]
+        ]
+        let payload: [String: Any] = ["schemaVersion": 1, "sampling": "after-timeout-sequential",
+                                     "snapshot": snapshot, "encodingError": NSNull()]
+        let json: String
+        if let data = try? JSONSerialization.data(withJSONObject: payload, options: [.sortedKeys]) {
+            if data.count <= 8192 { json = String(decoding: data, as: UTF8.self) }
+            else {
+                json = #"{"schemaVersion":1,"sampling":"after-timeout-sequential","snapshot":null,"encodingError":"payload-exceeded-8192-bytes"}"#
+            }
+        } else {
+            json = #"{"schemaVersion":1,"sampling":"after-timeout-sequential","snapshot":null,"encodingError":"serialization-failed"}"#
+        }
+        print("AILibraryReaderGeometry " + json)
+        let attachment = XCTAttachment(string: json)
+        attachment.name = "Public-UI-target-not-visible-geometry"
+        attachment.lifetime = .keepAlways
+        add(attachment)
+    }
+
     func requireHittable(_ element: XCUIElement, inside container: XCUIElement? = nil,
                          fullyVisible: Bool = false, timeout: TimeInterval = 15,
                          file: StaticString = #filePath, line: UInt = #line) {
@@ -185,6 +272,7 @@ class NativeReaderUITestCase: XCTestCase {
         let visible = XCTNSPredicateExpectation(predicate: predicate, object: nil)
         let result = XCTWaiter.wait(for: [visible], timeout: timeout)
         if result != .completed {
+            captureReaderGeometry(element, inside: container, fullyVisible: fullyVisible)
             capture("Public-UI-target-not-visible")
             let hierarchy = XCTAttachment(string: app.debugDescription)
             hierarchy.name = "Public-UI-target-not-visible-hierarchy"

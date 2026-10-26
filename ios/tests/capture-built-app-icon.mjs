@@ -191,7 +191,6 @@ export function captureBuiltAppIcon(appRoot, outputDirectory) {
     try {
       const found = command('assetutil-path', '/usr/bin/xcrun', ['--find', 'assetutil'], LIMIT.help, 5000);
       record.assetutil_resolved_path = found.exit_code === 0 && !found.truncated ? found.stdoutBytes.toString('utf8').trim().slice(0, 4096) : null;
-      command('assetutil-help', '/usr/bin/xcrun', ['assetutil', '--help'], LIMIT.help, 5000);
       if (car) {
         const inventory = command('assetutil-info', '/usr/bin/xcrun', ['assetutil', '--info', path.join(app, 'Assets.car')], LIMIT.assetInfo, 45000);
         if (inventory.exit_code === 0 && !inventory.error && !inventory.truncated) {

@@ -7,11 +7,19 @@ import os from 'node:os';
 import path from 'node:path';
 import { deflateRawSync, deflateSync } from 'node:zlib';
 import { fileURLToPath } from 'node:url';
-import { verifyBuiltAppIcon } from '../../ios/tests/check-built-app-icon.mjs';
+import { inspectCompiledAppIconCatalog, verifyBuiltAppIcon } from '../../ios/tests/check-built-app-icon.mjs';
 
 // These are synthetic file/metadata fixtures. Their nonempty CAR is a sentinel,
 // never a claim that actool compiled a catalog or that CAR internals are valid.
 const helper = fileURLToPath(new URL('../../ios/tests/check-built-app-icon.mjs', import.meta.url));
+const derived = name => new URL('../fixtures/ios-built-app-icon/' + name, import.meta.url);
+const archiveCatalog = JSON.parse(await readFile(derived('archive-car.derived.json'), 'utf8'));
+const debugCatalog = JSON.parse(await readFile(derived('debug-car.derived.json'), 'utf8'));
+const observations = JSON.parse(await readFile(derived('observations.derived.json'), 'utf8'));
+const clone = value => JSON.parse(JSON.stringify(value));
+const primaryMap = rows => rows.find(row => row.AssetType === 'MultiSized Image' && row.Name === 'AppIcon' && row.Idiom === 'phone' && !Object.hasOwn(row, 'Subtype'));
+const primaryImages = rows => rows.filter(row => row.AssetType === 'Icon Image' && row.Name === 'AppIcon' && row.Idiom === 'phone' && row['Icon Index'] === 4 && !Object.hasOwn(row, 'Subtype'));
+const primaryImage = (rows, scale = 3) => primaryImages(rows).find(row => row.Scale === scale);
 const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 function chunk(type, data) {
@@ -43,19 +51,20 @@ function info() {
   return { CFBundlePackageType: 'APPL', UIDeviceFamily: [1], CFBundleSupportedPlatforms: ['iPhoneSimulator'],
     CFBundleIcons: { CFBundlePrimaryIcon: { CFBundleIconName: 'AppIcon', CFBundleIconFiles: ['AppIcon60x60'] } } };
 }
-async function fixture(t, { scales = [2, 3] } = {}) {
+async function fixture(t, { scales = [2, 3], catalog = archiveCatalog, metadata: sourceInfo } = {}) {
   const root = await realpath(await mkdtemp(path.join(os.tmpdir(), 'ailibrary-built-icon-test-')));
   t.after(() => rm(root, { recursive: true, force: true }));
   const app = path.join(root, 'AILibrary.app');
   await mkdir(path.join(app, 'Content'), { recursive: true });
-  const metadata = info();
+  const metadata = clone(sourceInfo ?? info());
   const writeInfo = () => writeFile(path.join(app, 'Info.plist'), JSON.stringify(metadata));
   await writeInfo();
   await writeFile(path.join(app, 'Assets.car'), 'SYNTHETIC-presence-only-not-real-CAR');
   await writeFile(path.join(app, 'Content', 'manifest.json'), '{}');
   for (const scale of scales) await writeFile(path.join(app, `AppIcon60x60@${scale}x.png`), png(60 * scale, scale === 3));
   return { root, app, metadata, writeInfo,
-    verify: (options = {}) => verifyBuiltAppIcon(app, { decodePlist: bytes => JSON.parse(bytes.toString('utf8')), ...options }) };
+    verify: (options = {}) => verifyBuiltAppIcon(app, { decodePlist: bytes => JSON.parse(bytes.toString('utf8')),
+      readAssetCatalog: async carPath => { assert.equal(carPath, path.join(app, 'Assets.car')); return clone(catalog); }, ...options }) };
 }
 async function snapshots(app) {
   return Object.fromEntries(await Promise.all((await readdir(app)).filter(name => name !== 'Content').map(async name =>
@@ -65,17 +74,24 @@ async function snapshots(app) {
 test('full synthetic bundle accepts standard and CgBI icon metadata without changing files', async t => {
   const value = await fixture(t), before = await snapshots(value.app);
   const result = await value.verify();
-  assert.equal(result.scope, 'built-AppIcon-file-metadata-only');
+  assert.equal(result.scope, 'built-AppIcon-file-and-CAR-metadata-only');
+  assert.equal(result.Assets_car.stable_across_reader, true);
+  assert.deepEqual(result.CAR.required_scales, [2, 3]);
+  assert.deepEqual(result.CAR.images.map(image => [image.scale, image.width, image.height]), [[2, 120, 120], [3, 180, 180]]);
   assert.deepEqual(result.required_iphone_scales, [2, 3]);
   assert.deepEqual(result.PNGs.map(image => [image.width, image.height, image.optimized_CgBI]), [[120, 120, false], [180, 180, true]]);
-  assert.ok(result.not_verified.includes('CAR internals'));
+  assert.ok(result.not_verified.includes('CAR pixel decoding or independent opacity verification'));
   assert.deepEqual(await snapshots(value.app), before);
 });
 
-test('a thinned iPhone16 Debug fixture permits 3x only while generic Release requires both scales', async t => {
-  const value = await fixture(t, { scales: [3] });
-  assert.equal((await value.verify({ requiredScales: [3] })).PNGs.length, 1);
-  await assert.rejects(value.verify(), /Missing required iPhone60@2x/);
+test('observed Debug catalog supplies required3x despite only loose2x while generic Release requires both CAR scales', async t => {
+  const value = await fixture(t, { scales: [2], catalog: debugCatalog, metadata: observations.debug.Info });
+  const result = await value.verify({ requiredScales: [3] });
+  assert.equal(result.PNGs.length, 1);
+  assert.equal(result.PNGs[0].scale, 2);
+  assert.deepEqual(result.CAR.required_scales, [3]);
+  assert.deepEqual(result.CAR.images.map(image => [image.scale, image.width, image.height]), [[3, 180, 180]]);
+  await assert.rejects(value.verify());
 });
 
 test('iPhoneOS bundle and explicit .png Info file entries resolve the same scale-bound files', async t => {
@@ -162,23 +178,136 @@ test('missing Info, partial Info, wrong target platform, and malformed scale pol
   await assert.rejects(value.verify({ requiredScales: [] }), /Invalid required/);
 });
 
+
+// These rows are derived regression inputs from captured metadata, not raw CAR
+// bytes or a second actool run. The size/index/identifier relation is an explicit
+// observed-format inference; neither fixture nor inspector proves pixels/Home.
+test('derived archive and Debug catalogs bind phone60 points to their required scales', () => {
+  const archive = inspectCompiledAppIconCatalog(clone(archiveCatalog));
+  assert.equal(archive.schema_version, 2); assert.equal(archive.storage_version, 17);
+  assert.equal(archive.primary_name, 'AppIcon');
+  assert.equal(archive.mapping.points, 60); assert.equal(archive.mapping.idiom, 'phone');
+  assert.equal(archive.mapping.subtype, null);
+  assert.deepEqual(archive.images.map(image => [image.scale, image.width, image.height]).sort((a, b) => a[0] - b[0]), [[2, 120, 120], [3, 180, 180]]);
+  const debug = inspectCompiledAppIconCatalog(clone(debugCatalog), { requiredScales: [3] });
+  assert.equal(debug.dump_tool_version, 918.8);
+  assert.deepEqual(debug.images.map(image => [image.scale, image.width, image.height]), [[3, 180, 180]]);
+  assert.throws(() => inspectCompiledAppIconCatalog(clone(debugCatalog)));
+});
+
+test('mapping index and NameIdentifier are derived rather than hardcoded to the first observation', () => {
+  const rows = clone(archiveCatalog);
+  primaryMap(rows).Sizes = primaryMap(rows).Sizes.map(value => value.replace('60x60 index:4 ', '60x60 index:9 '));
+  for (const row of primaryImages(rows)) row['Icon Index'] = 9;
+  for (const row of rows.filter(row => row.Name === 'AppIcon')) row.NameIdentifier = 321;
+  const result = inspectCompiledAppIconCatalog(rows);
+  assert.equal(result.mapping.index, 9); assert.equal(result.mapping.name_identifier, 321);
+  assert.deepEqual(result.images.map(image => image.scale).sort(), [2, 3]);
+});
+
+test('nonbinding extra metadata is permitted and positive finite fractional DumpToolVersion is preserved', () => {
+  const rows = clone(debugCatalog);
+  rows[0].FutureDiagnosticField = { note: 'nonbinding metadata' };
+  primaryImage(rows).FutureDiagnosticField = 'nonbinding metadata';
+  rows[0].DumpToolVersion = 918.8;
+  assert.equal(inspectCompiledAppIconCatalog(rows, { requiredScales: [3] }).dump_tool_version, 918.8);
+});
+
+test('catalog root, header, schema, storage and numeric header types fail closed', () => {
+  for (const rows of [null, {}, [], [null]]) assert.throws(() => inspectCompiledAppIconCatalog(rows));
+  const changes = [
+    ['missing header', rows => rows.shift()],
+    ['duplicate header', rows => rows.push(clone(rows[0]))],
+    ['wrong schema', rows => { rows[0].SchemaVersion = 3; }],
+    ['wrong storage', rows => { rows[0].StorageVersion = 18; }],
+    ['string schema', rows => { rows[0].SchemaVersion = '2'; }],
+    ['string storage', rows => { rows[0].StorageVersion = '17'; }],
+    ['missing CoreUIVersion', rows => { delete rows[0].CoreUIVersion; }],
+    ['nonfinite CoreUIVersion', rows => { rows[0].CoreUIVersion = NaN; }],
+    ['nonfinite DumpToolVersion', rows => { rows[0].DumpToolVersion = Infinity; }],
+    ['nonpositive DumpToolVersion', rows => { rows[0].DumpToolVersion = 0; }],
+    ['wrong platform', rows => { rows[0].Platform = 'macos'; }]
+  ];
+  for (const [name, change] of changes) { const rows = clone(archiveCatalog); change(rows); assert.throws(() => inspectCompiledAppIconCatalog(rows), undefined, name); }
+});
+
+test('wrong namespace, marketing or PackedImage cannot substitute for the primary phone icon', () => {
+  const changes = [
+    ['other namespace', rows => { primaryImage(rows).Name = 'OtherIcon'; }],
+    ['marketing', rows => { primaryImage(rows).Idiom = 'marketing'; }],
+    ['PackedImage', rows => { primaryImage(rows).AssetType = 'PackedImage'; }],
+    ['unknown binding type', rows => { primaryImage(rows).AssetType = 'Future Icon'; }]
+  ];
+  for (const [name, change] of changes) { const rows = clone(archiveCatalog); change(rows); assert.throws(() => inspectCompiledAppIconCatalog(rows), undefined, name); }
+});
+
+test('missing or malformed scale, dimensions, subtype and identifier bridges are rejected', () => {
+  const changes = [
+    ['missing3x', rows => rows.splice(rows.indexOf(primaryImage(rows)), 1)],
+    ['wrong scale', rows => { primaryImage(rows).Scale = 4; }],
+    ['string scale', rows => { primaryImage(rows).Scale = '3'; }],
+    ['wrong width', rows => { primaryImage(rows).PixelWidth = 179; }],
+    ['wrong height', rows => { primaryImage(rows).PixelHeight = 179; }],
+    ['string dimension', rows => { primaryImage(rows).PixelWidth = '180'; }],
+    ['unexpected image subtype', rows => { primaryImage(rows).Subtype = 1792; }],
+    ['identifier mismatch', rows => { primaryImage(rows).NameIdentifier = 999; }],
+    ['identifier type', rows => { primaryImage(rows).NameIdentifier = '6849'; }],
+    ['mapping identifier mismatch', rows => { primaryMap(rows).NameIdentifier = 999; }],
+    ['mapping identifier type', rows => { primaryMap(rows).NameIdentifier = '6849'; }],
+    ['missing60-point map', rows => { primaryMap(rows).Sizes = primaryMap(rows).Sizes.filter(value => !value.startsWith('60x60 ')); }],
+    ['map idiom mismatch', rows => { primaryMap(rows).Sizes = primaryMap(rows).Sizes.map(value => value.replace('60x60 index:4 idiom:phone', '60x60 index:4 idiom:marketing')); }]
+  ];
+  for (const [name, change] of changes) { const rows = clone(archiveCatalog); change(rows); assert.throws(() => inspectCompiledAppIconCatalog(rows), undefined, name); }
+});
+
+test('primary binding requires opaque RGB8 metadata rather than merely correctly sized image bytes', () => {
+  for (const [field, value] of [['Opaque', false], ['Opaque', 1], ['ColorModel', 'Gray'], ['BitsPerComponent', 16], ['BitsPerComponent', '8']]) {
+    const rows = clone(archiveCatalog); primaryImage(rows)[field] = value;
+    assert.throws(() => inspectCompiledAppIconCatalog(rows), undefined, field);
+  }
+  for (const field of ['Opaque', 'ColorModel', 'BitsPerComponent']) {
+    const rows = clone(archiveCatalog); delete primaryImage(rows)[field];
+    assert.throws(() => inspectCompiledAppIconCatalog(rows), undefined, 'missing ' + field);
+  }
+});
+
+test('duplicate mapping, duplicate primary rendition and ambiguous size links are rejected', () => {
+  const changes = [
+    ['mapping duplicate', rows => rows.push(clone(primaryMap(rows)))],
+    ['rendition duplicate', rows => rows.push(clone(primaryImage(rows)))],
+    ['ambiguous duplicate', rows => rows.push({ ...clone(primaryImage(rows)), RenditionName: 'Other180.png' })],
+    ['second60-point map link', rows => primaryMap(rows).Sizes.push('60x60 index:9 idiom:phone')]
+  ];
+  for (const [name, change] of changes) { const rows = clone(archiveCatalog); change(rows); assert.throws(() => inspectCompiledAppIconCatalog(rows), undefined, name); }
+});
+
+test('CAR reader failure, malformed output and same-length CAR mutation cannot pass bundle audit', async t => {
+  const value = await fixture(t);
+  await assert.rejects(value.verify({ readAssetCatalog: async () => { throw new Error('synthetic reader failure'); } }), /reader failure/);
+  await assert.rejects(value.verify({ readAssetCatalog: async () => ({}) }));
+  await assert.rejects(value.verify({ readAssetCatalog: async carPath => {
+    const before = await readFile(carPath), changed = Buffer.from(before); changed[0] ^= 1;
+    await writeFile(carPath, changed);
+    return clone(archiveCatalog);
+  } }));
+});
+
 const xmlValue = value => Array.isArray(value) ? '<array>' + value.map(xmlValue).join('') + '</array>'
   : typeof value === 'object' ? '<dict>' + Object.entries(value).map(([key, item]) => '<key>' + key + '</key>' + xmlValue(item)).join('') + '</dict>'
   : typeof value === 'number' ? '<integer>' + value + '</integer>' : '<string>' + value + '</string>';
 
-test('macOS production adapter and CLI read the actual XML and binary Info bytes', { skip: process.platform !== 'darwin' }, async t => {
+test('macOS production plist adapter reads XML and binary Info with injected derived CAR rows', { skip: process.platform !== 'darwin' }, async t => {
   const value = await fixture(t), plist = path.join(value.app, 'Info.plist');
   const xml = Buffer.from('<?xml version="1.0" encoding="UTF-8"?><plist version="1.0">' + xmlValue(value.metadata) + '</plist>');
   await writeFile(plist, xml);
-  assert.equal((await verifyBuiltAppIcon(value.app)).primary_icon_name, 'AppIcon');
+  assert.equal((await verifyBuiltAppIcon(value.app, { readAssetCatalog: async () => clone(archiveCatalog) })).primary_icon_name, 'AppIcon');
   const binary = execFileSync('/usr/bin/plutil', ['-convert', 'binary1', '-o', '-', '-'], { input: xml });
   await writeFile(plist, binary);
-  assert.equal((await verifyBuiltAppIcon(value.app)).Info_plist_sha256, hash(binary));
-  const cli = spawnSync(process.execPath, [helper, value.app, '--required-scales', '2,3'], { encoding: 'utf8' });
-  assert.equal(cli.status, 0, cli.stderr);
-  assert.equal(JSON.parse(cli.stdout).scope, 'built-AppIcon-file-metadata-only');
+  assert.equal((await verifyBuiltAppIcon(value.app, { readAssetCatalog: async () => clone(archiveCatalog) })).Info_plist_sha256, hash(binary));
+  // Positive CLI execution needs an actual compiled CAR; synthetic CAR rows
+  // are injected only into the API. Exact-head Hosted remains the CLI evidence.
   await writeFile(plist, 'invalid plist');
-  await assert.rejects(verifyBuiltAppIcon(value.app), /plutil|Unexpected token|JSON|Command failed/);
+  await assert.rejects(verifyBuiltAppIcon(value.app, { readAssetCatalog: async () => clone(archiveCatalog) }), /plutil|Unexpected token|JSON|Command failed/);
 });
 
 test('CLI rejects an unspecified or unsupported scale policy', () => {

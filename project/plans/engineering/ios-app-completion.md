@@ -185,6 +185,8 @@ IOS-10・25の[本文検索ヒットと復帰の追加2件](../../records/2026-1
 | [ ] | IOS-31 | ストア情報と申告を用意する | 説明・スクリーンショット・キーワード・サポートURL・著作権・年齢レーティング・価格・配布地域を決め、暗号化の質問を実装に照合する。DSAのtrader／非traderを申告し、EUでtraderとして配布する場合は連絡先の検証・公開条件を満たす |
 | [ ] | IOS-32 | 申請・審査対応・公開後の確認を行う | ネイティブな学習体験と更新方式を審査へ説明する。提出ビルドの完成度・リンク・配信を確認し、承認後に一般配布版の導入と不具合受付を確認する |
 
+IOS-29の[AppIcon候補](../../records/2026-10-26/ios-app-icon-native-assets.md)は明示source commit `30a8a1db8d6c30eeb2c6e682f92ba94126cc5e35` へ私有準備した既存ブランドの8PNG/9slot・AppIcon監査候補で、0.2.16(18)から0.2.17(19)を提案する。PNG8/22,198B・source/validator/recipeを保ち、Published cap50・3selectorsへ承認監査呼出だけを加える。旧source check/Node13とactool失敗は履歴で、新compile・実CAR・Home/Store・exact-head CIと別人の最終payloadレビューは未実施。IOS-29全体は未完了で全TODO状態を維持する。
+
 TestFlightは推奨するベータ工程で、App Store公開の一律必須条件ではない。使用する場合はProgram、ビルド90日の期限、外部テストの審査を計画へ含める。[TestFlight](https://developer.apple.com/help/app-store-connect/test-a-beta-version/testflight-overview/)
 
 WKWebView採用だけで審査可否は決まらない。完成度と単純なWeb再包装に関する2.1・4.2等を最終の体験へ照合する。機能数だけで通過を保証しない。[審査ガイドライン](https://developer.apple.com/app-store/review/guidelines/)

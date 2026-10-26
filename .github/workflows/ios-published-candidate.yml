@@ -71,6 +71,11 @@ jobs:
             echo 'Scope: all published articles in the app, all AILibraryTests, NativeReaderUITests and PublishedReaderUITests, and Release package integrity.'
             echo 'This job verifies the default published development bundle; physical-device, VoiceOver and performance acceptance remain separate.'
           } | tee .local/ios-published-candidate/evidence/environment.log
+      - name: Check the frozen AppIcon source assets
+        run: |
+          set -euo pipefail
+          node ios/tools/app-icon.mjs --check \
+            2>&1 | tee .local/ios-published-candidate/evidence/app-icon-source.json
       - name: Count tracked published source articles independently
         run: |
           set -euo pipefail
@@ -129,6 +134,12 @@ jobs:
         run: |
           set -euo pipefail
           debug_app='.local/ios-published-candidate/DebugDerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app'
+          if ! node ios/tests/capture-built-app-icon.mjs "$debug_app" \
+            --output .local/ios-published-candidate/evidence/published-debug-icon-inputs; then
+            printf '%s\n' 'AppIcon diagnostic capture failed; continuing required icon audit.' >&2
+          fi
+          node ios/tests/check-built-app-icon.mjs "$debug_app" --required-scales 3 \
+            2>&1 | tee .local/ios-published-candidate/evidence/debug-app-icon.json
           cmp ios/AILibrary/Content/manifest.json "$debug_app/Content/manifest.json"
           bash ios/tests/check-package.sh "$debug_app/Content" "$PUBLISHED_ARTICLE_COUNT" \
             2>&1 | tee .local/ios-published-candidate/evidence/debug-app-package.json
@@ -163,6 +174,14 @@ jobs:
           node ios/tests/check-release-package.mjs \
             .local/ios-published-candidate/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
             2>&1 | tee .local/ios-published-candidate/evidence/release-package.json
+          if ! node ios/tests/capture-built-app-icon.mjs .local/ios-published-candidate/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
+            --output .local/ios-published-candidate/evidence/published-release-icon-inputs; then
+            printf '%s\n' 'AppIcon diagnostic capture failed; continuing required icon audit.' >&2
+          fi
+          node ios/tests/check-built-app-icon.mjs \
+            .local/ios-published-candidate/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
+            --required-scales 2,3 \
+            2>&1 | tee .local/ios-published-candidate/evidence/release-app-icon.json
       - name: Retain test results and compact candidate evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

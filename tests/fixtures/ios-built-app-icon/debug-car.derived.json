@@ -1,0 +1,122 @@
+[
+  {
+    "AssetStorageVersion": "Xcode 16.4 (16F6) via AssetCatalogSimulatorAgent",
+    "CoreUIVersion": 918,
+    "DumpToolVersion": 918.8,
+    "Key Format": [
+      "kCRThemeAppearanceName",
+      "kCRThemeLocalizationName",
+      "kCRThemeScaleName",
+      "kCRThemeIdiomName",
+      "kCRThemeSubtypeName",
+      "kCRThemeDimension2Name",
+      "kCRThemeDimension1Name",
+      "kCRThemeIdentifierName",
+      "kCRThemeElementName",
+      "kCRThemePartName"
+    ],
+    "Platform": "ios",
+    "PlatformVersion": "17.0",
+    "SchemaVersion": 2,
+    "StorageVersion": 17
+  },
+  {
+    "AssetType": "Icon Image",
+    "BitsPerComponent": 8,
+    "ColorModel": "RGB",
+    "Encoding": "ARGB",
+    "Icon Index": 1,
+    "Idiom": "phone",
+    "Name": "AppIcon",
+    "NameIdentifier": 6849,
+    "Opaque": true,
+    "PixelHeight": 60,
+    "PixelWidth": 60,
+    "RenditionName": "AppIcon-60.png",
+    "Scale": 3
+  },
+  {
+    "AssetType": "Icon Image",
+    "BitsPerComponent": 8,
+    "ColorModel": "RGB",
+    "Encoding": "ARGB",
+    "Icon Index": 2,
+    "Idiom": "phone",
+    "Name": "AppIcon",
+    "NameIdentifier": 6849,
+    "Opaque": true,
+    "PixelHeight": 87,
+    "PixelWidth": 87,
+    "RenditionName": "AppIcon-87.png",
+    "Scale": 3
+  },
+  {
+    "AssetType": "Icon Image",
+    "BitsPerComponent": 8,
+    "ColorModel": "RGB",
+    "Encoding": "ARGB",
+    "Icon Index": 3,
+    "Idiom": "phone",
+    "Name": "AppIcon",
+    "NameIdentifier": 6849,
+    "Opaque": true,
+    "PixelHeight": 120,
+    "PixelWidth": 120,
+    "RenditionName": "AppIcon-120.png",
+    "Scale": 3
+  },
+  {
+    "AssetType": "Icon Image",
+    "BitsPerComponent": 8,
+    "ColorModel": "RGB",
+    "Encoding": "ARGB",
+    "Icon Index": 4,
+    "Idiom": "phone",
+    "Name": "AppIcon",
+    "NameIdentifier": 6849,
+    "Opaque": true,
+    "PixelHeight": 180,
+    "PixelWidth": 180,
+    "RenditionName": "AppIcon-180.png",
+    "Scale": 3
+  },
+  {
+    "AssetType": "MultiSized Image",
+    "Idiom": "phone",
+    "Name": "AppIcon",
+    "NameIdentifier": 6849,
+    "Scale": 1,
+    "Sizes": [
+      "20x20 index:1 idiom:phone",
+      "29x29 index:2 idiom:phone",
+      "40x40 index:3 idiom:phone",
+      "60x60 index:4 idiom:phone"
+    ]
+  },
+  {
+    "AssetType": "PackedImage",
+    "BitsPerComponent": 8,
+    "ColorModel": "RGB",
+    "Encoding": "ARGB",
+    "Idiom": "phone",
+    "Name": "ZZZZPackedAsset-3.1.0-gamut0",
+    "Opaque": true,
+    "PixelHeight": 272,
+    "PixelWidth": 306,
+    "RenditionName": "ZZZZPackedAsset-3.1.0-gamut0",
+    "Scale": 3
+  },
+  {
+    "AssetType": "PackedImage",
+    "BitsPerComponent": 8,
+    "ColorModel": "RGB",
+    "Encoding": "ARGB",
+    "Idiom": "phone",
+    "Name": "ZZZZPackedAsset-3.1.0-gamut0",
+    "Opaque": true,
+    "PixelHeight": 64,
+    "PixelWidth": 64,
+    "RenditionName": "ZZZZPackedAsset-3.1.0-gamut0",
+    "Scale": 3
+  }
+]

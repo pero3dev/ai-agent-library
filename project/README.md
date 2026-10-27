@@ -8,6 +8,8 @@
 
 ## 構造・運用の計画
 
+全記事の[Core host観測](records/2026-10-26/ios-published-core-benchmark.md)はb79基線で実施した凍結CLIのraw19process/記録15は旧観測として保持し、最新source4のsnapshotや未実施の再CLIと分ける。通常CIはNode fixtureだけで、SDK・corpus観測は明示した手動CLIと別guardのまま。App/PBX/workflow/P1/Iconと全TODOを保持し、IOS-15と予算採択は未完了である。
+
 通常CIの[Playwright依存取得を制限する候補](records/2026-10-27/ci-playwright-dependency-download.md)は、f28のAPT長時間転送へ対処し、30分上限・全検査を維持する私有準備である。純78ケースと独立レビューは成功したが、実APT・sudo・変更後Hosted CI・全browser検査は未実施で、通常の別PRと正確なhead/runの確認を待つ。取消原因や転送改善成功は断定せず、アプリ版・TODO・iOS source・mainは未変更とする。
 
 [iOS TODOと統合状況のチェックポイント](records/2026-10-26/ios-todo-integration-checkpoint.md)で、main955を基準とするIOS-02・10・13・14の達成と、12／32件の完了を追跡します。SDK26のunsigned Archive用技術環境・native導線・全199記事生成・学習案内が対象です。PR275は未マージで、iOS26.5の再起動復帰に失敗が残っています。実機・性能・配布資格・契約・公開と最新OS27の受入は未完了として分けます。

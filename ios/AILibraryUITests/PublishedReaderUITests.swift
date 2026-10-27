@@ -630,16 +630,10 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
                 rejection = "The uniquely queried document-picker bar disappeared"
                 return []
             }
-            let frame = bar.frame, appFrame = app.frame
-            guard frame.minX.isFinite, frame.minY.isFinite,
-                  frame.width.isFinite, frame.height.isFinite,
-                  frame.width > 0, frame.height > 0,
-                  appFrame.contains(frame) else {
-                rejection = "Invalid document-picker geometry: app=\(appFrame), bar=\(frame)"
-                return []
-            }
+            // Hittability requires an on-screen hit point. Delay frame reads
+            // until this cross-process picker has completed its readiness wait.
             let usable = bar.buttons.matching(cancelPredicate).allElementsBoundByIndex.filter {
-                $0.exists && $0.isEnabled && self.isHittableOnScreen($0) && frame.contains($0.frame)
+                $0.exists && $0.isEnabled && $0.isHittable
             }
             guard usable.count == 1 else {
                 rejection = "Expected one visible enabled scoped cancellation; found \(usable.count)"
@@ -675,11 +669,24 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
             throw NSError(domain: "PublishedReaderUITests", code: 8)
         }
         let bar = query.element(boundBy: 0)
-        let cancel = try singleHittableControl(bar.buttons.matching(cancelPredicate),
-                                              name: "folder picker cancellation")
-        guard bar.identifier == identifier, !previousIDs.contains(bar.identifier),
-              cancel.exists, cancel.isEnabled,
-              bar.frame.contains(cancel.frame), isHittableOnScreen(cancel) else {
+        let usable = bar.buttons.matching(cancelPredicate).allElementsBoundByIndex.filter {
+            $0.exists && $0.isEnabled && $0.isHittable
+        }
+        guard usable.count == 1 else {
+            diagnose("Cancellation became missing or ambiguous within the new picker bar")
+            throw NSError(domain: "PublishedReaderUITests", code: 6)
+        }
+        let cancel = usable[0]
+        // Inspect each frame once, after readiness, without entering another
+        // geometry-based waiter through the generic single-control helper.
+        let barFrame = bar.frame, appFrame = app.frame, cancelFrame = cancel.frame
+        let framesAreValid = [barFrame, appFrame, cancelFrame].allSatisfy {
+            $0.minX.isFinite && $0.minY.isFinite && $0.width.isFinite && $0.height.isFinite &&
+            $0.width > 0 && $0.height > 0
+        }
+        guard bar.exists, bar.identifier == identifier, !previousIDs.contains(bar.identifier),
+              cancel.exists, cancel.isEnabled, cancel.isHittable, framesAreValid,
+              appFrame.contains(barFrame), barFrame.contains(cancelFrame) else {
             diagnose("Cancellation no longer belongs to the new foreground picker bar")
             throw NSError(domain: "PublishedReaderUITests", code: 6)
         }

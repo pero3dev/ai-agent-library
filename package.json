@@ -9,6 +9,7 @@
     "ios:test:core": "bash ios/tests/check-core.sh",
     "ios:test:core:representative": "bash ios/tests/check-core.sh",
     "ios:test:package": "bash ios/tests/check-package.sh ios/AILibrary/Content",
+    "ios:benchmark:core": "bash ios/tests/check-core-performance.sh",
     "ios:test:content": "node ios/tests/native-content-audit.mjs --published-library",
     "ios:test:content:representative": "node ios/tests/native-content-audit.mjs",
     "ios:test:fixtures": "node ios/tests/native-content-audit.mjs --fixtures",

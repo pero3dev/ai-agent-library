@@ -1,0 +1,477 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-26",
+  "task": "IOS-15-published-core-host-benchmark",
+  "status": "actual-frozen-v4-CLI-host-observed-IOS15-incomplete",
+  "authority": "User authorized autonomous TODO implementation and private guarded host checks; new physical QA was explicitly skipped. Public integration is prepared separately.",
+  "basis": {
+    "commit": "b79c0a3f6b76a7603077b0a30a07cdecb94cda93",
+    "tree": "d086d0809155f125e6f5ed67f45c1231eb9cb0fe"
+  },
+  "scope": {
+    "surface": "macOS Foundation/CryptoKit host CLI, no app/XCTest lifecycle",
+    "source_v4_review": "M0 9b53f630 approved before actual CLI execution",
+    "production_source_and_App_PBX_version_CI_changed": false,
+    "IOS15_complete": false
+  },
+  "entry": {
+    "npm": "npm run ios:benchmark:core -- --run ...",
+    "node_default_check": "existing npm test glob tests/unit/*.test.mjs automatically selects the three new Node fixture files; no SDK/corpus benchmark added to default CI",
+    "toolchain_options": [
+      "--swiftc",
+      "--sdk",
+      "--target",
+      "--swift-version"
+    ],
+    "actual_shell_and_Node_run": 1,
+    "actual_compiler_count": 1,
+    "SDK_profile": {
+      "Xcode": "16.2",
+      "build": "16C5032a",
+      "actual_compiler": "Apple Swift 6.0.3",
+      "language": "5",
+      "optimization": [
+        "-O",
+        "-whole-module-optimization"
+      ],
+      "requested_SDK": "MacOSX15.2.sdk",
+      "resolved_SDK": "MacOSX.sdk (canonical macosx15.2)",
+      "target": "arm64-apple-macosx14.0"
+    }
+  },
+  "corpus": {
+    "profile": "preserved local published Content; not Hosted40MB or old15-query corpus",
+    "revision": "555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb",
+    "manifest_sha256": "872bf4fe1652d1ba7935bab05a115c46ef38f7d016d0d106f25a67c72970b4bf",
+    "corpus_sha256": "05b450c7c47595a9c02d07431e8457cfb254678a0f54b32082eba6d283b2e325",
+    "independent_immutable_published_source_count": 199,
+    "actual_consumed_counts": [
+      199,
+      199,
+      199,
+      199,
+      199,
+      199,
+      199,
+      199,
+      199,
+      199,
+      199,
+      199,
+      199,
+      199,
+      199,
+      199,
+      199,
+      199,
+      199
+    ],
+    "files_including_manifest": 626,
+    "listed_sha_files": 625,
+    "png_files": 422,
+    "bytes_including_manifest": 37744971,
+    "regenerated_or_copied": false,
+    "before_after_and_final_full_identity_equal": true
+  },
+  "protocol": {
+    "literal_query_count": 16,
+    "query_sha256": "39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b",
+    "process_count": 19,
+    "correctness_processes": 1,
+    "timed_processes_including_warmups": 18,
+    "recorded_metric_samples": 15,
+    "discarded_warmups": 3,
+    "fresh_process_each_invocation": true,
+    "query_results_scope": {
+      "oracle_processes": 1,
+      "construction_and_filter_processes": 12,
+      "total_query_bearing_processes": 13,
+      "query_digest_comparisons_against_oracle": 12,
+      "validation_processes_without_query_results": 6
+    },
+    "correctness": "oracle compares every ordered indexed ID array with production uncached filter, without copying normalization; twelve query-bearing timed processes match its ordered digests",
+    "wall": "DispatchTime monotonic wall seconds, named production operation only",
+    "RSS": "Darwin getrusage(RUSAGE_SELF).ru_maxrss bytes, whole process through post-work/pre-JSON probe; includes setup and post-timing digests, not full lifetime maximum, phase allocation or iOS app memory",
+    "index_memory_note": "construction consumes the index in an untimed query batch before RSS probe",
+    "budget": "No threshold, p95, SLO, acceptance or speedup comparison"
+  },
+  "actual_v4_statistics": [
+    {
+      "scenario": "published-core.validation.v1",
+      "discarded_warmup_count": 1,
+      "recorded_count": 5,
+      "statistics": {
+        "wall_seconds": {
+          "median": 0.910576666,
+          "minimum": 0.896286041,
+          "maximum": 0.950008167,
+          "range": 0.05372212600000004
+        },
+        "process_peak_resident_bytes": {
+          "median": 139345920,
+          "minimum": 136036352,
+          "maximum": 139444224,
+          "range": 3407872
+        }
+      }
+    },
+    {
+      "scenario": "published-core.index-construction.v1",
+      "discarded_warmup_count": 1,
+      "recorded_count": 5,
+      "statistics": {
+        "wall_seconds": {
+          "median": 0.165776833,
+          "minimum": 0.1607065,
+          "maximum": 0.169882833,
+          "range": 0.009176333000000009
+        },
+        "process_peak_resident_bytes": {
+          "median": 21757952,
+          "minimum": 21446656,
+          "maximum": 22118400,
+          "range": 671744
+        }
+      }
+    },
+    {
+      "scenario": "published-core.indexed-filter.v1",
+      "discarded_warmup_count": 1,
+      "recorded_count": 5,
+      "statistics": {
+        "wall_seconds": {
+          "median": 0.364712583,
+          "minimum": 0.359628792,
+          "maximum": 0.373177792,
+          "range": 0.013549000000000033
+        },
+        "process_peak_resident_bytes": {
+          "median": 21708800,
+          "minimum": 21479424,
+          "maximum": 22036480,
+          "range": 557056
+        }
+      }
+    }
+  ],
+  "raw_identity_sha256": "2a571e5a572397e3b56de0c44178ddc73e458fa703ba3ef00f4d3e909b098f0a",
+  "raw_identity_utf8": "{\n  \"schema_version\": 1,\n  \"source_revision\": \"b79c0a3f6b76a7603077b0a30a07cdecb94cda93\",\n  \"production_source_sha256\": {\n    \"ios/AILibrary/Sources/Models.swift\": \"f355ff9ae41e39d3c78224c097afc7e6d64ce59ac91740ee57868c56068534af\",\n    \"ios/AILibrary/Sources/NativeDocument.swift\": \"2bbf76a7a53aa0404af3dadc1b4c35a841855ec5da4d907db32d6f291a11c1a5\",\n    \"ios/AILibrary/Sources/ContentValidator.swift\": \"25a045747ed287c914423c4156dae60fb7130449d0b1a5680d8a9ec1b8f7d062\",\n    \"ios/AILibrary/Sources/ReadingStore.swift\": \"5c434c10f83d9157f82bd1bb6ae6e23b7cc046e3a89944e41112420625bdb616\"\n  },\n  \"harness_sha256\": \"92d8005e1d0fe98008e6deeff54773ee0866e0fb75c4b9dc80ce5507a03d71aa\",\n  \"runner_sha256\": \"4276643f3c0df1e21d62f020c0ebd5ec32639b536fa6933806e7ad611edcaf5f\",\n  \"query_source_sha256\": \"3bb988b77a8d8da65ae3e401d092a3ff5cfdebbad73e11e99c5efd6fb8d98eb7\",\n  \"query_sha256\": \"39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b\",\n  \"query_count\": 16,\n  \"manifest_sha256\": \"872bf4fe1652d1ba7935bab05a115c46ef38f7d016d0d106f25a67c72970b4bf\",\n  \"corpus_sha256\": \"05b450c7c47595a9c02d07431e8457cfb254678a0f54b32082eba6d283b2e325\",\n  \"files_including_manifest\": 626,\n  \"listed_sha_files\": 625,\n  \"bytes_including_manifest\": 37744971,\n  \"png_files\": 422,\n  \"corpus_revision\": \"555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb\",\n  \"expected_article_count\": 199,\n  \"expected_count_method\": \"independent immutable docs NN-section Markdown front-matter status scanner\",\n  \"published_sources_sha256\": \"4ba18c1b5d72fdd3acfdac32ece203a1d8c2a1bbf7c11fa9a0a4169c1feacaee\",\n  \"article_order_sha256\": \"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\n  \"compiler_version\": \"Apple Swift version 6.0.3 (swiftlang-6.0.3.1.10 clang-1600.0.30.1)\\nTarget: arm64-apple-macosx14.0\",\n  \"compiler_flags\": [\n    \"-parse-as-library\",\n    \"-swift-version\",\n    \"5\",\n    \"-O\",\n    \"-whole-module-optimization\",\n    \"-target\",\n    \"arm64-apple-macosx14.0\",\n    \"-sdk\",\n    \"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk\",\n    \"-module-cache-path\",\n    \"/private/tmp/ios-published-core-benchmark-v4-cli-attempt2-20261026/results/module-cache\"\n  ],\n  \"compiler_command\": [\n    \"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc\",\n    \"-parse-as-library\",\n    \"-swift-version\",\n    \"5\",\n    \"-O\",\n    \"-whole-module-optimization\",\n    \"-target\",\n    \"arm64-apple-macosx14.0\",\n    \"-sdk\",\n    \"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk\",\n    \"-module-cache-path\",\n    \"/private/tmp/ios-published-core-benchmark-v4-cli-attempt2-20261026/results/module-cache\",\n    \"/private/tmp/ios-published-core-benchmark-v4-cli-attempt2-20261026/results/Models.swift\",\n    \"/private/tmp/ios-published-core-benchmark-v4-cli-attempt2-20261026/results/NativeDocument.swift\",\n    \"/private/tmp/ios-published-core-benchmark-v4-cli-attempt2-20261026/results/ContentValidator.swift\",\n    \"/private/tmp/ios-published-core-benchmark-v4-cli-attempt2-20261026/results/ReadingStore.swift\",\n    \"/private/tmp/ios-published-core-benchmark-v4-cli-attempt2-20261026/results/PublishedCoreBenchmark.swift\",\n    \"-o\",\n    \"/private/tmp/ios-published-core-benchmark-v4-cli-attempt2-20261026/results/published-core-benchmark\"\n  ],\n  \"toolchain_selection\": {\n    \"mode\": \"explicit\",\n    \"requested\": {\n      \"swiftc\": \"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc\",\n      \"sdk\": \"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk\",\n      \"target\": \"arm64-apple-macosx14.0\",\n      \"swift_version\": \"5\"\n    },\n    \"resolved\": {\n      \"swiftc\": \"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-frontend\",\n      \"sdk\": \"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk\",\n      \"target\": \"arm64-apple-macosx14.0\",\n      \"swift_version\": \"5\"\n    },\n    \"invocation\": {\n      \"swiftc\": \"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc\",\n      \"sdk\": \"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk\"\n    },\n    \"compiler_default_target\": \"arm64-apple-macosx14.0\",\n    \"host_process_architecture\": \"arm64\",\n    \"sdk\": {\n      \"canonical_name\": \"macosx15.2\",\n      \"version\": \"15.2\",\n      \"settings_sha256\": \"2fa5c0ce1bbcd261b132b572b1a9eece3b5905b04640a44deae1a6a8812928fb\"\n    }\n  },\n  \"spawn_environment\": {\n    \"keys\": [\n      \"PATH\",\n      \"TMPDIR\"\n    ],\n    \"TMPDIR\": \"/private/tmp/ios-published-core-benchmark-v4-cli-attempt2-20261026/results/.process-tmp/\",\n    \"temp_mode\": \"0700\",\n    \"operator_TMPDIR_inherited\": false,\n    \"caller_env_overrides_forwarded\": false\n  },\n  \"executable_sha256\": \"7c85ef3ccab30e31d215ea8eb77a6d444286c2d0fc22b223a0b9d80f47aba0a9\",\n  \"executable_architecture\": \"arm64\",\n  \"os\": {\n    \"platform\": \"darwin\",\n    \"release\": \"23.6.0\",\n    \"version\": \"Darwin Kernel Version 23.6.0: Mon Jul 29 21:14:21 PDT 2024; root:xnu-10063.141.2~1/RELEASE_ARM64_T8103\",\n    \"architecture\": \"arm64\"\n  },\n  \"clock\": {\n    \"source\": \"DispatchTime.now().uptimeNanoseconds\",\n    \"unit\": \"seconds\",\n    \"scope\": \"elapsed monotonic wall time of named production operation\"\n  },\n  \"memory\": {\n    \"source\": \"Darwin getrusage(RUSAGE_SELF).ru_maxrss\",\n    \"unit\": \"bytes\",\n    \"scope\": \"whole fresh host process high-water through post-work pre-JSON probe; includes setup and post-timing result digests\",\n    \"unit_evidence\": \"Darwin getrusage(2) ru_maxrss: maximum resident set size utilized (in bytes); independently verified local primary manual, see core-performance.md\"\n  },\n  \"protocol\": {\n    \"warmup_per_scenario\": 1,\n    \"recorded_per_scenario\": 5,\n    \"fresh_process_each_invocation\": true,\n    \"sample_timeout_ms\": 60000,\n    \"sample_output_max_bytes\": 1048576,\n    \"total_deadline_ms\": 900000,\n    \"corpus_file_cache\": \"warmed by inventory SHA checks; no cold-disk claim\"\n  }\n}\n",
+  "raw19": [
+    {
+      "order": 0,
+      "scenario": "correctness",
+      "kind": "correctness",
+      "ordinal": 0,
+      "raw_sha256": "00b6907bf3309f197477b38326e4d284649eb707cfe0d93f8e012b6c34ab7747",
+      "raw_utf8": "{\"actual_article_count\":199,\"article_order_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"corpus_revision\":\"555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb\",\"correctness\":\"ordered-indexed-equals-production-uncached\",\"executable_architecture\":\"arm64\",\"host_os_version\":\"Version 14.6.1 (Build 23G93)\",\"identity_sha256\":\"2a571e5a572397e3b56de0c44178ddc73e458fa703ba3ef00f4d3e909b098f0a\",\"invocation_id\":\"cfe87967-1e4c-4bb2-9d15-ff2a9d0ef766\",\"manifest_sha256\":\"872bf4fe1652d1ba7935bab05a115c46ef38f7d016d0d106f25a67c72970b4bf\",\"mode\":\"correctness\",\"process_id\":77185,\"query_count\":16,\"query_results\":[{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":0,\"result_count\":199},{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":1,\"result_count\":199},{\"ordered_ids_sha256\":\"3273c2a840f51de0dd869fb6d2236bcff12cc9367faa670798fd58b19f74574a\",\"query_index\":2,\"result_count\":167},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":3,\"result_count\":99},{\"ordered_ids_sha256\":\"2f9d1efc34b37c9d7308110c570e7b228868b25cc1d343242733abbb1a9f6a4d\",\"query_index\":4,\"result_count\":11},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":5,\"result_count\":99},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":6,\"result_count\":126},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":7,\"result_count\":126},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":8,\"result_count\":76},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":9,\"result_count\":76},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":10,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":11,\"result_count\":0},{\"ordered_ids_sha256\":\"f1dbc8cdc929910b21fb2793c15ba4e9369bb980dd8e2e7ac385616058eaae1a\",\"query_index\":12,\"result_count\":11},{\"ordered_ids_sha256\":\"c237b5f3f7a049f7f0504cd71b59c28d9f776260ba0d393934709d8ddffca4fa\",\"query_index\":13,\"result_count\":4},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":14,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":15,\"result_count\":0}],\"query_sha256\":\"39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b\",\"schema_version\":1}\n"
+    },
+    {
+      "order": 1,
+      "scenario": "published-core.validation.v1",
+      "kind": "discarded-warmup",
+      "ordinal": 0,
+      "raw_sha256": "45fa71cbe7a28fd3a73e51a183aa974599c3eb506078a77de5b38351d3027ec5",
+      "raw_utf8": "{\"actual_article_count\":199,\"article_order_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"corpus_revision\":\"555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb\",\"executable_architecture\":\"arm64\",\"host_os_version\":\"Version 14.6.1 (Build 23G93)\",\"identity_sha256\":\"2a571e5a572397e3b56de0c44178ddc73e458fa703ba3ef00f4d3e909b098f0a\",\"invocation_id\":\"7250c2b8-c364-4aff-b37d-585cc5937186\",\"manifest_sha256\":\"872bf4fe1652d1ba7935bab05a115c46ef38f7d016d0d106f25a67c72970b4bf\",\"mode\":\"published-core.validation.v1\",\"process_id\":77231,\"process_peak_resident_bytes\":139493376,\"query_count\":16,\"query_sha256\":\"39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b\",\"schema_version\":1,\"wall_seconds\":0.93805833400000005}\n"
+    },
+    {
+      "order": 2,
+      "scenario": "published-core.validation.v1",
+      "kind": "recorded",
+      "ordinal": 1,
+      "raw_sha256": "70d4c028002c1eef8fe4bfda7dd29d96229cc60b0da41bd25fa5e86566f4c2cc",
+      "raw_utf8": "{\"actual_article_count\":199,\"article_order_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"corpus_revision\":\"555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb\",\"executable_architecture\":\"arm64\",\"host_os_version\":\"Version 14.6.1 (Build 23G93)\",\"identity_sha256\":\"2a571e5a572397e3b56de0c44178ddc73e458fa703ba3ef00f4d3e909b098f0a\",\"invocation_id\":\"e9599cc9-b2ec-4b45-942d-9fa77be851a2\",\"manifest_sha256\":\"872bf4fe1652d1ba7935bab05a115c46ef38f7d016d0d106f25a67c72970b4bf\",\"mode\":\"published-core.validation.v1\",\"process_id\":77242,\"process_peak_resident_bytes\":139444224,\"query_count\":16,\"query_sha256\":\"39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b\",\"schema_version\":1,\"wall_seconds\":0.91057666599999998}\n"
+    },
+    {
+      "order": 3,
+      "scenario": "published-core.validation.v1",
+      "kind": "recorded",
+      "ordinal": 2,
+      "raw_sha256": "323de595b64f239278d56d24f5744745777b08f949e501edd049757127605e90",
+      "raw_utf8": "{\"actual_article_count\":199,\"article_order_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"corpus_revision\":\"555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb\",\"executable_architecture\":\"arm64\",\"host_os_version\":\"Version 14.6.1 (Build 23G93)\",\"identity_sha256\":\"2a571e5a572397e3b56de0c44178ddc73e458fa703ba3ef00f4d3e909b098f0a\",\"invocation_id\":\"103351be-77db-4637-ab62-bdfa1fa52421\",\"manifest_sha256\":\"872bf4fe1652d1ba7935bab05a115c46ef38f7d016d0d106f25a67c72970b4bf\",\"mode\":\"published-core.validation.v1\",\"process_id\":77252,\"process_peak_resident_bytes\":139345920,\"query_count\":16,\"query_sha256\":\"39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b\",\"schema_version\":1,\"wall_seconds\":0.89628604099999998}\n"
+    },
+    {
+      "order": 4,
+      "scenario": "published-core.validation.v1",
+      "kind": "recorded",
+      "ordinal": 3,
+      "raw_sha256": "2adf3d8325de6c47dbb42b8f77d6242682e586fbad0da6c2a82519b6c357efe7",
+      "raw_utf8": "{\"actual_article_count\":199,\"article_order_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"corpus_revision\":\"555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb\",\"executable_architecture\":\"arm64\",\"host_os_version\":\"Version 14.6.1 (Build 23G93)\",\"identity_sha256\":\"2a571e5a572397e3b56de0c44178ddc73e458fa703ba3ef00f4d3e909b098f0a\",\"invocation_id\":\"e355668f-af68-429f-975f-9eb681db262f\",\"manifest_sha256\":\"872bf4fe1652d1ba7935bab05a115c46ef38f7d016d0d106f25a67c72970b4bf\",\"mode\":\"published-core.validation.v1\",\"process_id\":77262,\"process_peak_resident_bytes\":139378688,\"query_count\":16,\"query_sha256\":\"39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b\",\"schema_version\":1,\"wall_seconds\":0.90018883299999997}\n"
+    },
+    {
+      "order": 5,
+      "scenario": "published-core.validation.v1",
+      "kind": "recorded",
+      "ordinal": 4,
+      "raw_sha256": "b15da00b32d5d34132c410ac3b480e99cfeb42016208f97e818ae11fff59f94e",
+      "raw_utf8": "{\"actual_article_count\":199,\"article_order_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"corpus_revision\":\"555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb\",\"executable_architecture\":\"arm64\",\"host_os_version\":\"Version 14.6.1 (Build 23G93)\",\"identity_sha256\":\"2a571e5a572397e3b56de0c44178ddc73e458fa703ba3ef00f4d3e909b098f0a\",\"invocation_id\":\"be44129d-4331-4828-96bb-f892ecb633d6\",\"manifest_sha256\":\"872bf4fe1652d1ba7935bab05a115c46ef38f7d016d0d106f25a67c72970b4bf\",\"mode\":\"published-core.validation.v1\",\"process_id\":77272,\"process_peak_resident_bytes\":139018240,\"query_count\":16,\"query_sha256\":\"39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b\",\"schema_version\":1,\"wall_seconds\":0.91703175000000003}\n"
+    },
+    {
+      "order": 6,
+      "scenario": "published-core.validation.v1",
+      "kind": "recorded",
+      "ordinal": 5,
+      "raw_sha256": "e77fd2e6502bdd4029dfc7a8d4b455749ec508dd78045e2010e61fb96b9d2b4f",
+      "raw_utf8": "{\"actual_article_count\":199,\"article_order_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"corpus_revision\":\"555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb\",\"executable_architecture\":\"arm64\",\"host_os_version\":\"Version 14.6.1 (Build 23G93)\",\"identity_sha256\":\"2a571e5a572397e3b56de0c44178ddc73e458fa703ba3ef00f4d3e909b098f0a\",\"invocation_id\":\"6e54f8a2-d555-46a6-9e8c-fd2f5c19d91c\",\"manifest_sha256\":\"872bf4fe1652d1ba7935bab05a115c46ef38f7d016d0d106f25a67c72970b4bf\",\"mode\":\"published-core.validation.v1\",\"process_id\":77282,\"process_peak_resident_bytes\":136036352,\"query_count\":16,\"query_sha256\":\"39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b\",\"schema_version\":1,\"wall_seconds\":0.95000816700000001}\n"
+    },
+    {
+      "order": 7,
+      "scenario": "published-core.index-construction.v1",
+      "kind": "discarded-warmup",
+      "ordinal": 0,
+      "raw_sha256": "950eab9799f1f91e86c1916cd76d29322693beecdda5d6c9cc20e4878c3c09f3",
+      "raw_utf8": "{\"actual_article_count\":199,\"article_order_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"corpus_revision\":\"555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb\",\"executable_architecture\":\"arm64\",\"host_os_version\":\"Version 14.6.1 (Build 23G93)\",\"identity_sha256\":\"2a571e5a572397e3b56de0c44178ddc73e458fa703ba3ef00f4d3e909b098f0a\",\"invocation_id\":\"1ee4380d-40fb-4e54-9907-66f582f499eb\",\"manifest_sha256\":\"872bf4fe1652d1ba7935bab05a115c46ef38f7d016d0d106f25a67c72970b4bf\",\"mode\":\"published-core.index-construction.v1\",\"process_id\":77292,\"process_peak_resident_bytes\":21856256,\"query_count\":16,\"query_results\":[{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":0,\"result_count\":199},{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":1,\"result_count\":199},{\"ordered_ids_sha256\":\"3273c2a840f51de0dd869fb6d2236bcff12cc9367faa670798fd58b19f74574a\",\"query_index\":2,\"result_count\":167},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":3,\"result_count\":99},{\"ordered_ids_sha256\":\"2f9d1efc34b37c9d7308110c570e7b228868b25cc1d343242733abbb1a9f6a4d\",\"query_index\":4,\"result_count\":11},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":5,\"result_count\":99},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":6,\"result_count\":126},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":7,\"result_count\":126},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":8,\"result_count\":76},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":9,\"result_count\":76},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":10,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":11,\"result_count\":0},{\"ordered_ids_sha256\":\"f1dbc8cdc929910b21fb2793c15ba4e9369bb980dd8e2e7ac385616058eaae1a\",\"query_index\":12,\"result_count\":11},{\"ordered_ids_sha256\":\"c237b5f3f7a049f7f0504cd71b59c28d9f776260ba0d393934709d8ddffca4fa\",\"query_index\":13,\"result_count\":4},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":14,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":15,\"result_count\":0}],\"query_sha256\":\"39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b\",\"schema_version\":1,\"wall_seconds\":0.1686185}\n"
+    },
+    {
+      "order": 8,
+      "scenario": "published-core.index-construction.v1",
+      "kind": "recorded",
+      "ordinal": 1,
+      "raw_sha256": "27d635cffcc3b37bd51f0ed6ee3476f3fcf2c8ebefdf683452a1dc69baf0097f",
+      "raw_utf8": "{\"actual_article_count\":199,\"article_order_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"corpus_revision\":\"555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb\",\"executable_architecture\":\"arm64\",\"host_os_version\":\"Version 14.6.1 (Build 23G93)\",\"identity_sha256\":\"2a571e5a572397e3b56de0c44178ddc73e458fa703ba3ef00f4d3e909b098f0a\",\"invocation_id\":\"b1491080-e891-4b55-853b-73a0b48688f1\",\"manifest_sha256\":\"872bf4fe1652d1ba7935bab05a115c46ef38f7d016d0d106f25a67c72970b4bf\",\"mode\":\"published-core.index-construction.v1\",\"process_id\":77302,\"process_peak_resident_bytes\":21446656,\"query_count\":16,\"query_results\":[{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":0,\"result_count\":199},{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":1,\"result_count\":199},{\"ordered_ids_sha256\":\"3273c2a840f51de0dd869fb6d2236bcff12cc9367faa670798fd58b19f74574a\",\"query_index\":2,\"result_count\":167},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":3,\"result_count\":99},{\"ordered_ids_sha256\":\"2f9d1efc34b37c9d7308110c570e7b228868b25cc1d343242733abbb1a9f6a4d\",\"query_index\":4,\"result_count\":11},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":5,\"result_count\":99},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":6,\"result_count\":126},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":7,\"result_count\":126},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":8,\"result_count\":76},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":9,\"result_count\":76},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":10,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":11,\"result_count\":0},{\"ordered_ids_sha256\":\"f1dbc8cdc929910b21fb2793c15ba4e9369bb980dd8e2e7ac385616058eaae1a\",\"query_index\":12,\"result_count\":11},{\"ordered_ids_sha256\":\"c237b5f3f7a049f7f0504cd71b59c28d9f776260ba0d393934709d8ddffca4fa\",\"query_index\":13,\"result_count\":4},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":14,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":15,\"result_count\":0}],\"query_sha256\":\"39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b\",\"schema_version\":1,\"wall_seconds\":0.16988283300000001}\n"
+    },
+    {
+      "order": 9,
+      "scenario": "published-core.index-construction.v1",
+      "kind": "recorded",
+      "ordinal": 2,
+      "raw_sha256": "d1016d4499ba4a107dbd836b0f8bf3a019ec6470e9f12e9f20c9227e5bc935f0",
+      "raw_utf8": "{\"actual_article_count\":199,\"article_order_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"corpus_revision\":\"555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb\",\"executable_architecture\":\"arm64\",\"host_os_version\":\"Version 14.6.1 (Build 23G93)\",\"identity_sha256\":\"2a571e5a572397e3b56de0c44178ddc73e458fa703ba3ef00f4d3e909b098f0a\",\"invocation_id\":\"f8dca66e-2988-440a-8b15-2f81df7b0993\",\"manifest_sha256\":\"872bf4fe1652d1ba7935bab05a115c46ef38f7d016d0d106f25a67c72970b4bf\",\"mode\":\"published-core.index-construction.v1\",\"process_id\":77309,\"process_peak_resident_bytes\":21757952,\"query_count\":16,\"query_results\":[{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":0,\"result_count\":199},{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":1,\"result_count\":199},{\"ordered_ids_sha256\":\"3273c2a840f51de0dd869fb6d2236bcff12cc9367faa670798fd58b19f74574a\",\"query_index\":2,\"result_count\":167},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":3,\"result_count\":99},{\"ordered_ids_sha256\":\"2f9d1efc34b37c9d7308110c570e7b228868b25cc1d343242733abbb1a9f6a4d\",\"query_index\":4,\"result_count\":11},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":5,\"result_count\":99},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":6,\"result_count\":126},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":7,\"result_count\":126},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":8,\"result_count\":76},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":9,\"result_count\":76},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":10,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":11,\"result_count\":0},{\"ordered_ids_sha256\":\"f1dbc8cdc929910b21fb2793c15ba4e9369bb980dd8e2e7ac385616058eaae1a\",\"query_index\":12,\"result_count\":11},{\"ordered_ids_sha256\":\"c237b5f3f7a049f7f0504cd71b59c28d9f776260ba0d393934709d8ddffca4fa\",\"query_index\":13,\"result_count\":4},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":14,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":15,\"result_count\":0}],\"query_sha256\":\"39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b\",\"schema_version\":1,\"wall_seconds\":0.167492583}\n"
+    },
+    {
+      "order": 10,
+      "scenario": "published-core.index-construction.v1",
+      "kind": "recorded",
+      "ordinal": 3,
+      "raw_sha256": "9ce260c7f8a28967e0e89a879bbcf292c9e21f834836b47fc99dc029fc635dad",
+      "raw_utf8": "{\"actual_article_count\":199,\"article_order_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"corpus_revision\":\"555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb\",\"executable_architecture\":\"arm64\",\"host_os_version\":\"Version 14.6.1 (Build 23G93)\",\"identity_sha256\":\"2a571e5a572397e3b56de0c44178ddc73e458fa703ba3ef00f4d3e909b098f0a\",\"invocation_id\":\"ae1eeff4-37fd-4cb5-9a92-e0231e2bfed7\",\"manifest_sha256\":\"872bf4fe1652d1ba7935bab05a115c46ef38f7d016d0d106f25a67c72970b4bf\",\"mode\":\"published-core.index-construction.v1\",\"process_id\":77316,\"process_peak_resident_bytes\":22003712,\"query_count\":16,\"query_results\":[{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":0,\"result_count\":199},{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":1,\"result_count\":199},{\"ordered_ids_sha256\":\"3273c2a840f51de0dd869fb6d2236bcff12cc9367faa670798fd58b19f74574a\",\"query_index\":2,\"result_count\":167},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":3,\"result_count\":99},{\"ordered_ids_sha256\":\"2f9d1efc34b37c9d7308110c570e7b228868b25cc1d343242733abbb1a9f6a4d\",\"query_index\":4,\"result_count\":11},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":5,\"result_count\":99},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":6,\"result_count\":126},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":7,\"result_count\":126},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":8,\"result_count\":76},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":9,\"result_count\":76},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":10,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":11,\"result_count\":0},{\"ordered_ids_sha256\":\"f1dbc8cdc929910b21fb2793c15ba4e9369bb980dd8e2e7ac385616058eaae1a\",\"query_index\":12,\"result_count\":11},{\"ordered_ids_sha256\":\"c237b5f3f7a049f7f0504cd71b59c28d9f776260ba0d393934709d8ddffca4fa\",\"query_index\":13,\"result_count\":4},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":14,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":15,\"result_count\":0}],\"query_sha256\":\"39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b\",\"schema_version\":1,\"wall_seconds\":0.1607065}\n"
+    },
+    {
+      "order": 11,
+      "scenario": "published-core.index-construction.v1",
+      "kind": "recorded",
+      "ordinal": 4,
+      "raw_sha256": "35685bba746d02d7842e0b4ff893c2d8f7a264a70e9cd8aa4c8fc3d59ea30874",
+      "raw_utf8": "{\"actual_article_count\":199,\"article_order_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"corpus_revision\":\"555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb\",\"executable_architecture\":\"arm64\",\"host_os_version\":\"Version 14.6.1 (Build 23G93)\",\"identity_sha256\":\"2a571e5a572397e3b56de0c44178ddc73e458fa703ba3ef00f4d3e909b098f0a\",\"invocation_id\":\"35f90d42-a769-4285-aa79-f3b08c6e1845\",\"manifest_sha256\":\"872bf4fe1652d1ba7935bab05a115c46ef38f7d016d0d106f25a67c72970b4bf\",\"mode\":\"published-core.index-construction.v1\",\"process_id\":77324,\"process_peak_resident_bytes\":22118400,\"query_count\":16,\"query_results\":[{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":0,\"result_count\":199},{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":1,\"result_count\":199},{\"ordered_ids_sha256\":\"3273c2a840f51de0dd869fb6d2236bcff12cc9367faa670798fd58b19f74574a\",\"query_index\":2,\"result_count\":167},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":3,\"result_count\":99},{\"ordered_ids_sha256\":\"2f9d1efc34b37c9d7308110c570e7b228868b25cc1d343242733abbb1a9f6a4d\",\"query_index\":4,\"result_count\":11},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":5,\"result_count\":99},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":6,\"result_count\":126},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":7,\"result_count\":126},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":8,\"result_count\":76},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":9,\"result_count\":76},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":10,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":11,\"result_count\":0},{\"ordered_ids_sha256\":\"f1dbc8cdc929910b21fb2793c15ba4e9369bb980dd8e2e7ac385616058eaae1a\",\"query_index\":12,\"result_count\":11},{\"ordered_ids_sha256\":\"c237b5f3f7a049f7f0504cd71b59c28d9f776260ba0d393934709d8ddffca4fa\",\"query_index\":13,\"result_count\":4},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":14,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":15,\"result_count\":0}],\"query_sha256\":\"39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b\",\"schema_version\":1,\"wall_seconds\":0.16525466699999999}\n"
+    },
+    {
+      "order": 12,
+      "scenario": "published-core.index-construction.v1",
+      "kind": "recorded",
+      "ordinal": 5,
+      "raw_sha256": "8889c411d9c878728139fb1372ff909db48428fa53360b40064e9648a62f233d",
+      "raw_utf8": "{\"actual_article_count\":199,\"article_order_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"corpus_revision\":\"555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb\",\"executable_architecture\":\"arm64\",\"host_os_version\":\"Version 14.6.1 (Build 23G93)\",\"identity_sha256\":\"2a571e5a572397e3b56de0c44178ddc73e458fa703ba3ef00f4d3e909b098f0a\",\"invocation_id\":\"88702ded-b456-4ca6-93d4-1a28655f9827\",\"manifest_sha256\":\"872bf4fe1652d1ba7935bab05a115c46ef38f7d016d0d106f25a67c72970b4bf\",\"mode\":\"published-core.index-construction.v1\",\"process_id\":77331,\"process_peak_resident_bytes\":21479424,\"query_count\":16,\"query_results\":[{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":0,\"result_count\":199},{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":1,\"result_count\":199},{\"ordered_ids_sha256\":\"3273c2a840f51de0dd869fb6d2236bcff12cc9367faa670798fd58b19f74574a\",\"query_index\":2,\"result_count\":167},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":3,\"result_count\":99},{\"ordered_ids_sha256\":\"2f9d1efc34b37c9d7308110c570e7b228868b25cc1d343242733abbb1a9f6a4d\",\"query_index\":4,\"result_count\":11},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":5,\"result_count\":99},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":6,\"result_count\":126},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":7,\"result_count\":126},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":8,\"result_count\":76},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":9,\"result_count\":76},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":10,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":11,\"result_count\":0},{\"ordered_ids_sha256\":\"f1dbc8cdc929910b21fb2793c15ba4e9369bb980dd8e2e7ac385616058eaae1a\",\"query_index\":12,\"result_count\":11},{\"ordered_ids_sha256\":\"c237b5f3f7a049f7f0504cd71b59c28d9f776260ba0d393934709d8ddffca4fa\",\"query_index\":13,\"result_count\":4},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":14,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":15,\"result_count\":0}],\"query_sha256\":\"39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b\",\"schema_version\":1,\"wall_seconds\":0.16577683300000001}\n"
+    },
+    {
+      "order": 13,
+      "scenario": "published-core.indexed-filter.v1",
+      "kind": "discarded-warmup",
+      "ordinal": 0,
+      "raw_sha256": "91ecce1c2912e7858d42ff7fb18703c980fca847206ec62a7bd3370647699f7e",
+      "raw_utf8": "{\"actual_article_count\":199,\"article_order_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"corpus_revision\":\"555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb\",\"executable_architecture\":\"arm64\",\"host_os_version\":\"Version 14.6.1 (Build 23G93)\",\"identity_sha256\":\"2a571e5a572397e3b56de0c44178ddc73e458fa703ba3ef00f4d3e909b098f0a\",\"invocation_id\":\"1a755d64-7355-4c23-ae9a-2dcf9b965877\",\"manifest_sha256\":\"872bf4fe1652d1ba7935bab05a115c46ef38f7d016d0d106f25a67c72970b4bf\",\"mode\":\"published-core.indexed-filter.v1\",\"process_id\":77339,\"process_peak_resident_bytes\":21643264,\"query_count\":16,\"query_results\":[{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":0,\"result_count\":199},{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":1,\"result_count\":199},{\"ordered_ids_sha256\":\"3273c2a840f51de0dd869fb6d2236bcff12cc9367faa670798fd58b19f74574a\",\"query_index\":2,\"result_count\":167},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":3,\"result_count\":99},{\"ordered_ids_sha256\":\"2f9d1efc34b37c9d7308110c570e7b228868b25cc1d343242733abbb1a9f6a4d\",\"query_index\":4,\"result_count\":11},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":5,\"result_count\":99},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":6,\"result_count\":126},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":7,\"result_count\":126},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":8,\"result_count\":76},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":9,\"result_count\":76},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":10,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":11,\"result_count\":0},{\"ordered_ids_sha256\":\"f1dbc8cdc929910b21fb2793c15ba4e9369bb980dd8e2e7ac385616058eaae1a\",\"query_index\":12,\"result_count\":11},{\"ordered_ids_sha256\":\"c237b5f3f7a049f7f0504cd71b59c28d9f776260ba0d393934709d8ddffca4fa\",\"query_index\":13,\"result_count\":4},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":14,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":15,\"result_count\":0}],\"query_sha256\":\"39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b\",\"schema_version\":1,\"wall_seconds\":0.37309870899999997}\n"
+    },
+    {
+      "order": 14,
+      "scenario": "published-core.indexed-filter.v1",
+      "kind": "recorded",
+      "ordinal": 1,
+      "raw_sha256": "169f907251efcbd617b3edaaf5bc02e876fc6fd351c9a3ed66fcf7fce0408b4e",
+      "raw_utf8": "{\"actual_article_count\":199,\"article_order_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"corpus_revision\":\"555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb\",\"executable_architecture\":\"arm64\",\"host_os_version\":\"Version 14.6.1 (Build 23G93)\",\"identity_sha256\":\"2a571e5a572397e3b56de0c44178ddc73e458fa703ba3ef00f4d3e909b098f0a\",\"invocation_id\":\"9141f787-5cac-49fe-ac6e-f2309162b592\",\"manifest_sha256\":\"872bf4fe1652d1ba7935bab05a115c46ef38f7d016d0d106f25a67c72970b4bf\",\"mode\":\"published-core.indexed-filter.v1\",\"process_id\":77346,\"process_peak_resident_bytes\":21528576,\"query_count\":16,\"query_results\":[{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":0,\"result_count\":199},{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":1,\"result_count\":199},{\"ordered_ids_sha256\":\"3273c2a840f51de0dd869fb6d2236bcff12cc9367faa670798fd58b19f74574a\",\"query_index\":2,\"result_count\":167},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":3,\"result_count\":99},{\"ordered_ids_sha256\":\"2f9d1efc34b37c9d7308110c570e7b228868b25cc1d343242733abbb1a9f6a4d\",\"query_index\":4,\"result_count\":11},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":5,\"result_count\":99},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":6,\"result_count\":126},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":7,\"result_count\":126},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":8,\"result_count\":76},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":9,\"result_count\":76},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":10,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":11,\"result_count\":0},{\"ordered_ids_sha256\":\"f1dbc8cdc929910b21fb2793c15ba4e9369bb980dd8e2e7ac385616058eaae1a\",\"query_index\":12,\"result_count\":11},{\"ordered_ids_sha256\":\"c237b5f3f7a049f7f0504cd71b59c28d9f776260ba0d393934709d8ddffca4fa\",\"query_index\":13,\"result_count\":4},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":14,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":15,\"result_count\":0}],\"query_sha256\":\"39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b\",\"schema_version\":1,\"wall_seconds\":0.361657167}\n"
+    },
+    {
+      "order": 15,
+      "scenario": "published-core.indexed-filter.v1",
+      "kind": "recorded",
+      "ordinal": 2,
+      "raw_sha256": "d8ec9cd85f7dc4a7a06e02d4406bf630829f8729fcb18565f9734743a605a18f",
+      "raw_utf8": "{\"actual_article_count\":199,\"article_order_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"corpus_revision\":\"555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb\",\"executable_architecture\":\"arm64\",\"host_os_version\":\"Version 14.6.1 (Build 23G93)\",\"identity_sha256\":\"2a571e5a572397e3b56de0c44178ddc73e458fa703ba3ef00f4d3e909b098f0a\",\"invocation_id\":\"1d033ed6-d5e6-428d-aa8e-4c42a1616c94\",\"manifest_sha256\":\"872bf4fe1652d1ba7935bab05a115c46ef38f7d016d0d106f25a67c72970b4bf\",\"mode\":\"published-core.indexed-filter.v1\",\"process_id\":77354,\"process_peak_resident_bytes\":21708800,\"query_count\":16,\"query_results\":[{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":0,\"result_count\":199},{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":1,\"result_count\":199},{\"ordered_ids_sha256\":\"3273c2a840f51de0dd869fb6d2236bcff12cc9367faa670798fd58b19f74574a\",\"query_index\":2,\"result_count\":167},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":3,\"result_count\":99},{\"ordered_ids_sha256\":\"2f9d1efc34b37c9d7308110c570e7b228868b25cc1d343242733abbb1a9f6a4d\",\"query_index\":4,\"result_count\":11},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":5,\"result_count\":99},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":6,\"result_count\":126},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":7,\"result_count\":126},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":8,\"result_count\":76},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":9,\"result_count\":76},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":10,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":11,\"result_count\":0},{\"ordered_ids_sha256\":\"f1dbc8cdc929910b21fb2793c15ba4e9369bb980dd8e2e7ac385616058eaae1a\",\"query_index\":12,\"result_count\":11},{\"ordered_ids_sha256\":\"c237b5f3f7a049f7f0504cd71b59c28d9f776260ba0d393934709d8ddffca4fa\",\"query_index\":13,\"result_count\":4},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":14,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":15,\"result_count\":0}],\"query_sha256\":\"39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b\",\"schema_version\":1,\"wall_seconds\":0.35962879199999997}\n"
+    },
+    {
+      "order": 16,
+      "scenario": "published-core.indexed-filter.v1",
+      "kind": "recorded",
+      "ordinal": 3,
+      "raw_sha256": "d78a28b5c938320163265ec411ac4812d0065a82f29206d683162c1c0b71dac2",
+      "raw_utf8": "{\"actual_article_count\":199,\"article_order_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"corpus_revision\":\"555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb\",\"executable_architecture\":\"arm64\",\"host_os_version\":\"Version 14.6.1 (Build 23G93)\",\"identity_sha256\":\"2a571e5a572397e3b56de0c44178ddc73e458fa703ba3ef00f4d3e909b098f0a\",\"invocation_id\":\"67d1b2c5-34d4-4951-affa-aefd25faefec\",\"manifest_sha256\":\"872bf4fe1652d1ba7935bab05a115c46ef38f7d016d0d106f25a67c72970b4bf\",\"mode\":\"published-core.indexed-filter.v1\",\"process_id\":77361,\"process_peak_resident_bytes\":21708800,\"query_count\":16,\"query_results\":[{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":0,\"result_count\":199},{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":1,\"result_count\":199},{\"ordered_ids_sha256\":\"3273c2a840f51de0dd869fb6d2236bcff12cc9367faa670798fd58b19f74574a\",\"query_index\":2,\"result_count\":167},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":3,\"result_count\":99},{\"ordered_ids_sha256\":\"2f9d1efc34b37c9d7308110c570e7b228868b25cc1d343242733abbb1a9f6a4d\",\"query_index\":4,\"result_count\":11},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":5,\"result_count\":99},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":6,\"result_count\":126},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":7,\"result_count\":126},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":8,\"result_count\":76},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":9,\"result_count\":76},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":10,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":11,\"result_count\":0},{\"ordered_ids_sha256\":\"f1dbc8cdc929910b21fb2793c15ba4e9369bb980dd8e2e7ac385616058eaae1a\",\"query_index\":12,\"result_count\":11},{\"ordered_ids_sha256\":\"c237b5f3f7a049f7f0504cd71b59c28d9f776260ba0d393934709d8ddffca4fa\",\"query_index\":13,\"result_count\":4},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":14,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":15,\"result_count\":0}],\"query_sha256\":\"39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b\",\"schema_version\":1,\"wall_seconds\":0.36576637499999998}\n"
+    },
+    {
+      "order": 17,
+      "scenario": "published-core.indexed-filter.v1",
+      "kind": "recorded",
+      "ordinal": 4,
+      "raw_sha256": "4ad30cd6b4647772f415e2f3d2d2861c8848cf286def481e0d2d70afb802f578",
+      "raw_utf8": "{\"actual_article_count\":199,\"article_order_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"corpus_revision\":\"555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb\",\"executable_architecture\":\"arm64\",\"host_os_version\":\"Version 14.6.1 (Build 23G93)\",\"identity_sha256\":\"2a571e5a572397e3b56de0c44178ddc73e458fa703ba3ef00f4d3e909b098f0a\",\"invocation_id\":\"7e5ee92c-2046-47a8-88d9-2c9641d22497\",\"manifest_sha256\":\"872bf4fe1652d1ba7935bab05a115c46ef38f7d016d0d106f25a67c72970b4bf\",\"mode\":\"published-core.indexed-filter.v1\",\"process_id\":77369,\"process_peak_resident_bytes\":22036480,\"query_count\":16,\"query_results\":[{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":0,\"result_count\":199},{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":1,\"result_count\":199},{\"ordered_ids_sha256\":\"3273c2a840f51de0dd869fb6d2236bcff12cc9367faa670798fd58b19f74574a\",\"query_index\":2,\"result_count\":167},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":3,\"result_count\":99},{\"ordered_ids_sha256\":\"2f9d1efc34b37c9d7308110c570e7b228868b25cc1d343242733abbb1a9f6a4d\",\"query_index\":4,\"result_count\":11},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":5,\"result_count\":99},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":6,\"result_count\":126},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":7,\"result_count\":126},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":8,\"result_count\":76},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":9,\"result_count\":76},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":10,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":11,\"result_count\":0},{\"ordered_ids_sha256\":\"f1dbc8cdc929910b21fb2793c15ba4e9369bb980dd8e2e7ac385616058eaae1a\",\"query_index\":12,\"result_count\":11},{\"ordered_ids_sha256\":\"c237b5f3f7a049f7f0504cd71b59c28d9f776260ba0d393934709d8ddffca4fa\",\"query_index\":13,\"result_count\":4},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":14,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":15,\"result_count\":0}],\"query_sha256\":\"39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b\",\"schema_version\":1,\"wall_seconds\":0.37317779200000001}\n"
+    },
+    {
+      "order": 18,
+      "scenario": "published-core.indexed-filter.v1",
+      "kind": "recorded",
+      "ordinal": 5,
+      "raw_sha256": "ada3eea8b90809a9e2a7ae0939dca5cc0e12995cf07e4b0457c46e6a3203dbaa",
+      "raw_utf8": "{\"actual_article_count\":199,\"article_order_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"corpus_revision\":\"555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb\",\"executable_architecture\":\"arm64\",\"host_os_version\":\"Version 14.6.1 (Build 23G93)\",\"identity_sha256\":\"2a571e5a572397e3b56de0c44178ddc73e458fa703ba3ef00f4d3e909b098f0a\",\"invocation_id\":\"a7253019-dd58-40fa-9957-2affd54b3c4a\",\"manifest_sha256\":\"872bf4fe1652d1ba7935bab05a115c46ef38f7d016d0d106f25a67c72970b4bf\",\"mode\":\"published-core.indexed-filter.v1\",\"process_id\":77376,\"process_peak_resident_bytes\":21479424,\"query_count\":16,\"query_results\":[{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":0,\"result_count\":199},{\"ordered_ids_sha256\":\"b4cb71eff7b098e55e043f69fa82176411d0f85945c5479890f673841cb78ca9\",\"query_index\":1,\"result_count\":199},{\"ordered_ids_sha256\":\"3273c2a840f51de0dd869fb6d2236bcff12cc9367faa670798fd58b19f74574a\",\"query_index\":2,\"result_count\":167},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":3,\"result_count\":99},{\"ordered_ids_sha256\":\"2f9d1efc34b37c9d7308110c570e7b228868b25cc1d343242733abbb1a9f6a4d\",\"query_index\":4,\"result_count\":11},{\"ordered_ids_sha256\":\"da0bad3cf8aefec164fe8d57e6624bf13cc6ef954a056582436776e2be70a2a6\",\"query_index\":5,\"result_count\":99},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":6,\"result_count\":126},{\"ordered_ids_sha256\":\"a22abe53db5c53fd8cfe0b59cca63d94b0c14ed88071f049b17f4db4a7d0465e\",\"query_index\":7,\"result_count\":126},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":8,\"result_count\":76},{\"ordered_ids_sha256\":\"1804ddbcc4f6e48aecc77a9fa2c93413d385a41706045848ded5184368e9ef1e\",\"query_index\":9,\"result_count\":76},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":10,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":11,\"result_count\":0},{\"ordered_ids_sha256\":\"f1dbc8cdc929910b21fb2793c15ba4e9369bb980dd8e2e7ac385616058eaae1a\",\"query_index\":12,\"result_count\":11},{\"ordered_ids_sha256\":\"c237b5f3f7a049f7f0504cd71b59c28d9f776260ba0d393934709d8ddffca4fa\",\"query_index\":13,\"result_count\":4},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":14,\"result_count\":0},{\"ordered_ids_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"query_index\":15,\"result_count\":0}],\"query_sha256\":\"39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b\",\"schema_version\":1,\"wall_seconds\":0.36471258299999998}\n"
+    }
+  ],
+  "host_resource_guard": {
+    "independent_outer_layer": true,
+    "filesystem_sandbox": false,
+    "common_lock": "O_EXCL token/inode ownership",
+    "start_free_bytes_required": 3800000000,
+    "floor_free_bytes": 3200000000,
+    "private_cache_TMP_output_limit_bytes": 268435456,
+    "total_seconds_limit": 180,
+    "sampled_owned_tree_RSS_limit_bytes": 1610612736,
+    "minimum_observed_free_bytes": 4135305216,
+    "peak_private_allocated_bytes": 30519296,
+    "peak_sampled_owned_tree_RSS_bytes": 360873984,
+    "resource_abort": null,
+    "SIGKILL_fallback": false,
+    "owned_groups_absent": true,
+    "controlled_TMPDIR_observed_for_all19": true,
+    "compiler_driver_spawn_keys": [
+      "PATH",
+      "TMPDIR"
+    ],
+    "outer_secret_HOME_SDK_env_not_forwarded": true,
+    "context_removed_by_CLI": true,
+    "owned_cache_TMP_lock_cleanup": true,
+    "CLI_child_combined_output_limit_bytes": 1048576,
+    "outer_CLI_stdout_stderr_limit_bytes": 8388608,
+    "compile_file_monitor_scope": "No claim of direct outer compile-file monitoring: the retained outer guard referenced old WORK/compile.stdout.txt and compile.stderr.txt paths, while actual CLI stores results/compiler.stderr.txt. Compiler/profile pipe cap is enforced by CLI runBounded.",
+    "retained_compiler_stderr_bytes": 0,
+    "compiler_stdout": "not separately retained; no zero-value observation claimed",
+    "guard_elapsed_seconds_precleanup": 42.34,
+    "recorded_start_to_finish_timestamp_seconds": 42.368769,
+    "sampling_qualification": "Nominal0.1s sleep plus process/environment/filesystem scanning; extrema are historical hash-bound guard receipts, not instantaneous maxima or independently replayable unretained streams.",
+    "cleanup_scope": "Historical own-run receipts; review did not probe potentially reused process IDs/current lock or claim unrelated process absence."
+  },
+  "provenance": {
+    "actual_v4_manifest_sha256": "a7370096ad9893ced70513f78924fa06bb8554310108f0ee523144e56c68128c",
+    "actual_v4_guard_sha256": "68a10fde9a45ba7c6685d9c4bdd771340a8480b02b7aeb8457c7aaf249f7353e",
+    "actual_v4_summary_sha256": "9b1f3aed1afa3bd4ebfef6510592e8d04ec9d89b816d92ec295084e0008482b7",
+    "actual_v4_replay_sha256": "6010c50427cb7a5dfee1aaf4897f3e40ec466353ce3bddc80357c6815a6446d5",
+    "source_v4_manifest_sha256": "c7a4caa3689b931f0949026198d9abd532d35115c486eca98f7829f00e99e07d",
+    "historical_first_wrapper": {
+      "separate_accepted_observation": true,
+      "manifest_sha256": "7e117c68734aa730f553db4ce322bd52214b1675c88be694d50d4654c1d1df71",
+      "identity_sha256": "bb2acaa8c787b2b2fd98337b8a8e3859c0b30bfac30c6fc4ab78770833d0132a",
+      "summary_sha256": "da9e5ea560631df953917f43c44eecb4703ccd8fdc92e18acc256c4c63d4f173",
+      "not_used_for_current_statistics": true
+    },
+    "guard_preflight_failure": {
+      "actual_CLI_Swift_compile_benchmark_invocations": 0,
+      "receipt_sha256": "50d3c2e7236a600a9637c0d42118479cbb03e13be53698b4c9ba914d04614fe7",
+      "manifest_sha256": "63668f0cfb7d828e83abf9e3899705a59bfcdea57e70704b8da9d245bd9f3bca",
+      "all_failed_source_receipt_raw_preserved": true,
+      "continuation": "Only old-string/new-object manifest comparison corrected; object bytes and SHA both verified by units, six invalid cases rejected; resource envelope unchanged."
+    },
+    "scope_corrections": {
+      "frozen_replay_key_all19_ordered_query_digests": "Scope is narrowed here: query_results occur in13 processes (oracle1+construction/filter12); validation6 have none. All19 count/manifest/article-order identities were checked. Original frozen replay is unchanged.",
+      "outer_compile_file_paths": "Compiler direct-file-monitor success is not asserted; CLI pipe limit remains authoritative."
+    },
+    "old_v1_v4_first_and_prepared_input_freezes_unchanged": true,
+    "binary_identity_review": "Recorded CLI/guard binary SHA agrees; executable removed after recording and not rehashed by reviewer."
+  },
+  "validation": {
+    "source_Node_fixtures_passed": 26,
+    "source_Node_fixtures_failed": 0,
+    "retained_normal_timeout_signal_cleanup_and_adversarial_checks": true,
+    "raw19_values_and_ranges_recomputed": true,
+    "integration_new_SDK_or_benchmark_execution": false,
+    "integration_common_npm_check": "not run in this private preparation; normal CI must verify final head",
+    "raw_independent_review": {
+      "decision": "accepted-as-first-actual-frozen-v4-CLI-host-observation-with-qualified-boundaries",
+      "review_JSON_sha256": "548884e4517e6fa1ca586780c94123db9d4c372d76c832c766e9361f9411cf27",
+      "review_MD_sha256": "8d8885b2a0dcc9e98d6ad1e86567f69a26873bc27f914f2c76bf4e3d04fc0d37",
+      "bound_run_manifest_sha256": "a7370096ad9893ced70513f78924fa06bb8554310108f0ee523144e56c68128c",
+      "bound_files": 75,
+      "source_binding": "frozen CLI8 and Production4 equal approved v4/b79",
+      "query_result_scope": "oracle1+construction/filter12 query-bearing13; validation6 without query_results",
+      "raw19_protocol_statistics_cleanup": "approved with qualified boundaries",
+      "live_corpus_rehash_by_reviewer": false,
+      "unretained_resource_or_environment_streams_independently_recomputed": false,
+      "deleted_executable_rehashed_by_reviewer": false
+    }
+  },
+  "unperformed": [
+    "XCTest/iOS/SwiftUI/Simulator/device/launchClock in this host task",
+    "physical QA and VoiceOver for this unit, explicitly skipped by user",
+    "input-to-visible-list latency",
+    "long scrolling/UIKit image decoding",
+    "iOS app memory",
+    "performance acceptance budgets"
+  ],
+  "preserved": [
+    "production App sources and version",
+    "PBX/CI workflow/default SDK guard",
+    "PackageAudit output contract",
+    "strict launchClock exporter"
+  ],
+  "current_main_sync_snapshot": {
+    "source_basis": {
+      "kind": "explicit-immutable-main",
+      "commit": "08bdb36fd1d8bc83b6fa6bbf4a96e5acbeefb8b7",
+      "tree": "fc061c8f2d62846bf2273602361f6852a4b0f2ae",
+      "live_main_lease_verified_by_helper": false,
+      "role": "Source snapshot only; no current benchmark execution or acceptance"
+    },
+    "current_production_source4": {
+      "role": "Explicit actual-main source files; separate from historical b79 raw identity",
+      "files": [
+        {
+          "path": "ios/AILibrary/Sources/Models.swift",
+          "bytes": 8614,
+          "sha256": "f355ff9ae41e39d3c78224c097afc7e6d64ce59ac91740ee57868c56068534af",
+          "blob_sha1": "ba081adb0114b0e2e1d4d338b96d92c81905290c",
+          "mode": "100644"
+        },
+        {
+          "path": "ios/AILibrary/Sources/NativeDocument.swift",
+          "bytes": 27503,
+          "sha256": "ce96e4960eef766e325b1b4b7d3701d4a7d5b5c3b1e69ae9599fd0f2622af2ab",
+          "blob_sha1": "473c39948ab24238f209ebfd6650d7f22bae484d",
+          "mode": "100644"
+        },
+        {
+          "path": "ios/AILibrary/Sources/ContentValidator.swift",
+          "bytes": 7794,
+          "sha256": "25a045747ed287c914423c4156dae60fb7130449d0b1a5680d8a9ec1b8f7d062",
+          "blob_sha1": "e394eacaece42a844062179c0c0168cc69e911e8",
+          "mode": "100644"
+        },
+        {
+          "path": "ios/AILibrary/Sources/ReadingStore.swift",
+          "bytes": 13235,
+          "sha256": "89eb397a25391fca4ece786438bc2b3dac2eda0933006f587769ab5b0551c5c9",
+          "blob_sha1": "6c23674e07a6a467f56cbba6634a5f0a50e91031",
+          "mode": "100644"
+        }
+      ],
+      "LibraryCoreTests_included": false,
+      "bytes_verified_from_explicit_commit": true
+    },
+    "historical_record_scope": "Existing basis/raw_identity_utf8/raw19/protocol/statistics are the accepted b79 observation, not this main snapshot",
+    "preparation": {
+      "benchmark_source8": "Exact frozen15 content, including chronology-approved helper documentation",
+      "new_benchmark_or_SDK_Simulator_execution": 0,
+      "current_statistics": null,
+      "IOS15_complete": false
+    },
+    "sync_commit_recipe": {
+      "first_parent": "577bae889c3ec157330f78fa7e46dff87c8bdc61",
+      "additional_parent": "08bdb36fd1d8bc83b6fa6bbf4a96e5acbeefb8b7",
+      "force": false,
+      "new_commit": null,
+      "root_must_check_actual_PR_head_and_main_leases": true
+    },
+    "future_one_time_CLI_guard": {
+      "one_actual_attempt_only": true,
+      "min_free_bytes": 3800000000,
+      "private_output_max_bytes": 268435456,
+      "process_tree_RSS_limit_bytes": 1610612736,
+      "outer_deadline_ms": 180000,
+      "performed_by_helper": false,
+      "automatic_retry": false
+    },
+    "final_payload_review": "pending",
+    "publishable": false
+  }
+}

@@ -70,6 +70,8 @@ mainのマージ前確認は[共通policy](scripts/lib/github-policy.mjs)の11�
 
 原本からの生成試験と`npm run check`に加え、本文を変えた場合は`npm run ios:test:reader`、Swiftを変えた場合はXcodeでのbuild/testと対応する実機受入を行います。環境がない検査は未実施と報告し、Swiftの構文解析やデスクトップブラウザーの結果と区別します。
 
+全記事host Core観測は[専用CLI](ios/tests/core-performance.md)を`npm run ios:benchmark:core -- --run ...`で明示実行する。b79基線で実施した凍結CLIのraw19process/記録15は旧観測として保持し、最新source4のsnapshotや未実施の再CLIと分ける。通常CIはNode fixtureだけで、SDK・corpus観測は明示した手動CLIと別guardのまま。App/PBX/workflow/P1/Iconと全TODOを保持し、IOS-15と予算採択は未完了である。
+
 ## サンプルコード(examples/)を変更するとき
 
 - 各サンプルは自己完結。`README.md`(実行方法・**動作確認日**)と依存固定ファイルを必ず含めます

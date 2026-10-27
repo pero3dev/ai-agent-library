@@ -157,6 +157,8 @@ SHA照合・staging検証・原子的切替・失敗時の旧版維持は既存�
 
 2026-10-25の[形式契約の確認](../../records/2026-10-25/ios-native-package-contract.md)でIOS-19を完了した。manifest 2・document 1・renderer v1とappの対応、未対応形式の拒否・保存済みfuture版のfallbackを定義・検査し、旧HTML CLIを比較用一時出力へ限定した。生成側の音声時間・manifest込み件数／容量・PNG byte上限もconsumerへ揃え、通常とfixtureの実生成revisionを維持した。続くHosted実行で追加2件を含むXCTest52件とRelease監査も成功した。独立配信の採択・真正性・容量管理やIOS-22全体の完了を示さない。
 
+IOS-04・16の[音声identity契約候補](../../records/2026-10-26/ios-audio-offline-identity.md)は、通常Agentループ1音声のまま宣言tupleと実原文のSHAを束縛し、catalogや選定データによる許可policyの注入を拒否します。実main142の関連Node54件とmetadata1773Bの旧converter一致を、全package・実音声bytes・app playerの受入と分けます。追加8音声・権利・配信/保存方式、最終統合headのCIと実機は残し、IOS-04・16全体のcheckboxは完了にしません。
+
 IOS-22の準備として[同梱版の明示選択](../../records/2026-10-25/ios-bundled-content-activation.md)を追加する。正常な保存版の優先を維持し、利用者の確認後にだけ同梱版へ切り替える。実3→199→再起動→3で記録bytesと本文fingerprintの復帰を確認し、画面・Hosted・実機、記事改名・削除・容量整理とIOS-22全体は分けて追跡する。
 
 IOS-22の[読書記録の破損保全と明示復旧](../../records/2026-10-27/ios-reading-state-recovery.md)はPR282最終eabの6runとReady最新policy成功後、main76へ通常保護squashで統合した。main76の新push Common・Native・Fullも別観測で成功し、Native追加12単体と通常UI、Fullの一意22caseを確認した。旧Core性能は歴史scopeに保ち、実ユーザーの復旧固有UI・実機・VoiceOver・耐電断等とIOS-22全体は未完了、TODO32行・完了12行を維持する。後続PR283の新Recovery UIはこのmain76 checkpointの受入に含めない。
@@ -191,6 +193,8 @@ IOS-25の[絞り込み中の追加UI回帰2件](../../records/2026-10-25/ios-fil
 IOS-10・25の[本文検索ヒットと復帰の追加2件](../../records/2026-10-26/ios-search-hit-ui-regression.md)では、入れ子leafへの即到着と、本文Aの検索後に保存したBへ再起動復帰する公開動作を確認する。旧head a88では単体127成功・2skip、機能UI14件とReleaseが成功したが、別headの到着判定失敗も保持している。一時診断で観測したgeometryの重複取得を減らす修正は、完全表示・先頭ID一致・15秒を維持する。picker追加前のsnapshot基線の機能14件＋純粋geometry6件・全target build・Releaseは正確な新headのHosted待ちである。過去の失敗原因・安定性、VoiceOver/最大文字/実機とIOS-10・25全体は未完了を維持する。
 
 現在のPrivacy ManifestにはUserDefaultsの利用理由がある。最終版では対象API・依存SDKを再監査し、Archiveへの同梱も確認する。プライバシーポリシーとApp Privacyは、無料・アカウントなしでも必要な申請項目として扱う。[プライバシー規約](https://developer.apple.com/app-store/review/guidelines/#privacy)、[App Privacy](https://developer.apple.com/help/app-store-connect/manage-app-information/manage-app-privacy/)、[required reason API](https://developer.apple.com/documentation/bundleresources/describing-use-of-required-reason-api)
+
+[時計由来APIのPrivacy候補](../../records/2026-10-26/ios-privacy-clock-reason-candidate.md)は、main142のApp16 Swift・時計7箇所と新しいApple公式DocC JSONの照合を記録しました。現mainのUserDefaultsのみ591Bと、SystemBootTime/35F9.1辞書211Bを追加する私有802B候補を区別します。wrapperへの適用は保守的な推論で、FileTimestamp理由は追加しません。Copy・Audio後の実mainへの結合・独立レビュー・新headのCI/Archive一致、配信先ログ・公開policy・問い合わせ先・Store回答を残し、IOS-27は未完了です。
 
 ### P2: ベータ配布とApp Store公開
 

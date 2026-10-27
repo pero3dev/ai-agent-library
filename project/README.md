@@ -76,6 +76,8 @@
 
 ネイティブ記事の[パッケージ契約](records/2026-10-25/ios-native-package-contract.md)では、app・renderer・schemaの対応、未対応版の拒否と正常版維持、生成側と端末側の音声・ファイル数・byte上限を揃える。旧HTMLの比較生成は一時出力へ限定し、全記事展開や配信の真正性とは範囲を分ける。
 
+[音声offline identity契約](records/2026-10-26/ios-audio-offline-identity.md)は通常Agentループ1音声を保つ。旧750aのNode検証と1773Bのmetadata等価性を履歴として保持し、今回の実main snapshotと未実施のexact-head CIを分ける。追加8音声・権利・IOS-04/16全体は未採択で、実音声bytesの検証や新しい配信を採択しない。
+
 既存のネイティブUI試験2件のHosted実行は[専用のCI追加記録](records/2026-10-25/ios-native-ui-ci.md)で追跡する。通常3記事の本文とTransformerの目次・しおり・再起動復帰を確認し、未対象のオフライン・コピー・内部リンク等のUI受入を区別する。
 
 [新runtimeの代表UI検査](records/2026-10-26/ios-runtime26-smoke.md)のCDCは、実2target・arm64のみをbuildしUI step539秒で完了した。Contentsの最初の目次待機は失敗、ThreeArticlesは成功し未受入を維持する。失敗後の逐次snapshotがvisible/hittableでも先行timeoutを覆さない。下位OSへ及ぶ形状補正の範囲を見直す候補と原因調査を分け、同headの再試行・待機や判定の緩和は行わない。
@@ -105,6 +107,8 @@ iPhone向けのネイティブ本文は[開発・起動手順](../ios/README.md)
 旧方式のiPhone実機の基本受入は[2026-10-24の確認記録](records/2026-10-24/ios-device-validation.md)を参照する。iPhone 12で本文空白を修正し、オフラインの3記事・図・数式・検索、しおり・読書位置の復帰、音声の基本操作を確認した。当時未確認だったVoiceOverや着信時などの項目も、この履歴に保持する。現行のネイティブ版の結果は上記の詳細確認の記録で確認する。
 
 iOS完成版への作業は[完成版TODO](plans/engineering/ios-app-completion.md)に整理した。ユーザー指定の本文を含むSwiftUI全面移行を前提に、代表3記事のネイティブ描画から全記事・既存音声・更新・品質・配布まで32項目で追跡する。2026-10-25に[コミットとmainへのマージの計画](plans/engineering/ios-app-completion.md#コミットとmainへのマージの計画)を追加し、受入済みの基準PRから機能ごとのPR・公開準備までM0〜M9の節目を設けた。[追記の記録](records/2026-10-25/ios-delivery-checkpoints.md)は計画更新までであり、Git操作は未実施。初版の公開方法・費用等は採択が必要であり、[作成記録](records/2026-10-24/ios-completion-planning.md)と実装の進捗を区別する。
+
+[時計由来APIのPrivacy候補](records/2026-10-26/ios-privacy-clock-reason-candidate.md)は、main142のApp16 Swift・時計7箇所と新しいApple公式DocC JSONの照合を記録しました。現mainのUserDefaultsのみ591Bと、SystemBootTime/35F9.1辞書211Bを追加する私有802B候補を区別します。wrapperへの適用は保守的な推論で、FileTimestamp理由は追加しません。Copy・Audio後の実mainへの結合・独立レビュー・新headのCI/Archive一致、配信先ログ・公開policy・問い合わせ先・Store回答を残し、IOS-27は未完了です。
 
 iOSアプリ化の可能性は[2026-10-21の実現性調査](../research/ios-app-feasibility-2026-10-21.md)に、既存資産の再利用、方式比較、配布・運用上の懸念と次の試作条件をまとめた。[作業記録](records/2026-10-21/ios-app-feasibility.md)は調査の範囲・検証・未実施事項を示す。実装方式の採択やアプリの開発開始を示すものではない。
 

@@ -276,9 +276,13 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 
 音声は既存の版付きGitHub Releases URLをそのまま利用し、`VOICEVOX Nemo（女声1・男声1）`と[声の利用条件](https://voicevox.hiroshiba.jp/nemo/term/)を表示します。MP3や台本の独立配布条件は[既存の棚卸し](../project/records/2026-10-03/license-inventory.md)の未確認事項として残し、この試作で同梱・ダウンロード機能を追加しません。宣言された音声SHAは識別情報として照合しますが、AVPlayerのストリーム全体のSHAを実測したものではありません。
 
+[音声identityの契約候補](../project/records/2026-10-26/ios-audio-offline-identity.md)では、通常Agentループ1音声を保ち、宣言したepisode・記事・版付きURL・SHA・credit・規約と実原文を生成側で照合します。実main142に固定した関連Node54件と1773Bのmetadata等価性は限定検証の記録であり、将来headのCIではありません。MP3・台本・READYの実bytes、追加8音声・権利・音声保存・実機の受入は未確認です。
+
 アカウント、広告、解析SDK、クラウド同期を追加していません。しおり・読書位置・音声位置は端末内へ保存します。音声を再生するとGitHubとその配信基盤へ通信し、外部リンクを開くとそのサイトへ通信します。配信先のIP等のログまで含めたストアのApp Privacy申告は未確定です。
 
 [Appleのrequired reason API説明](https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacyaccessedapitypes/nsprivacyaccessedapitype)を2026-10-23に確認し、アプリ内の学習記録をUserDefaultsへ保存する利用を`CA92.1`として[PrivacyInfo.xcprivacy](AILibrary/PrivacyInfo.xcprivacy)へ記載しました。これはストア審査や第三者配信基盤のプライバシー確認を完了した意味ではありません。
+
+[時計由来APIのPrivacy候補](../project/records/2026-10-26/ios-privacy-clock-reason-candidate.md)は、main142のApp16 Swift・時計7箇所と新しいApple公式DocC JSONの照合を記録しました。現mainのUserDefaultsのみ591Bと、SystemBootTime/35F9.1辞書211Bを追加する私有802B候補を区別します。wrapperへの適用は保守的な推論で、FileTimestamp理由は追加しません。Copy・Audio後の実mainへの結合・独立レビュー・新headのCI/Archive一致、配信先ログ・公開policy・問い合わせ先・Store回答を残し、IOS-27は未完了です。
 
 ## 開発版の制約と未完了の受入
 

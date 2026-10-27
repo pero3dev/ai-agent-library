@@ -96,7 +96,11 @@ test('dependency arrows, shared text relations and keyboard navigation are avail
   await page.setViewportSize({ width: 375, height: 812 })
   await expect(page.locator('.dep-graph-canvas')).toHaveCount(1)
   await expect(page.locator('.dep-graph-canvas')).toBeHidden()
-  await expect(page.locator('.dependency-list')).toBeVisible()
+  const mobileList = page.getByRole('region', { name: '依存関係の一覧', exact: true })
+  await expect(page.locator('.dependency-list:visible')).toHaveCount(1)
+  await expect(mobileList).toHaveCount(1)
+  await expect(mobileList).toBeVisible()
+  await expect(mobileList.locator('li')).toHaveCount(20)
 })
 
 test('Pagefind search returns an article and its navigation works', async ({ page }) => {

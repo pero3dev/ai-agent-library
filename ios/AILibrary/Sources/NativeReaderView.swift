@@ -985,6 +985,7 @@ private struct NativeCodeView: View {
                 }
                 .frame(minHeight: 44)
                 .accessibilityLabel("コードをコピー")
+                .accessibilityValue(copied ? "コピー済み" : "未コピー")
                 .accessibilityIdentifier("native-code-copy-\(blockID)")
             }.padding(.horizontal, 12)
             Divider()

@@ -1,4 +1,4 @@
-name: iOS published app candidate
+name: iOS published app candidate (temporary copy diagnostic)
 
 on:
   push:
@@ -27,11 +27,12 @@ concurrency:
 
 jobs:
   ios-published-candidate:
-    name: iOS published app candidate
+    name: iOS code-copy diagnostic (one case)
     runs-on: macos-15
-    timeout-minutes: 50
+    timeout-minutes: 40
     env:
       DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+      COPY_PROBE_PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
     defaults:
       run:
         shell: bash
@@ -68,8 +69,8 @@ jobs:
             node --version
             npm --version
             echo 'Simulator: iPhone 16 / iOS 18.5'
-            echo 'Scope: all published articles in the app, all AILibraryTests, NativeReaderUITests and PublishedReaderUITests, and Release package integrity.'
-            echo 'This job verifies the default published development bundle; physical-device, VoiceOver and performance acceptance remain separate.'
+            echo 'TEMPORARY DIAGNOSTIC: published199 plus fixture packages, one public code-copy UI case and bounded live device pasteboard hashes only.'
+            echo 'Other22 UI cases, XCTest units and Release are not run here. Restore the original full validator before merge; no copy/product acceptance is implied.'
           } | tee .local/ios-published-candidate/evidence/environment.log
       - name: Check the frozen AppIcon source assets
         run: |
@@ -116,263 +117,243 @@ jobs:
             2>&1 | tee .local/ios-published-candidate/evidence/published-package.json
           bash ios/tests/check-package.sh ios/AILibrary/TestContent 4 \
             2>&1 | tee .local/ios-published-candidate/evidence/fixture-package.json
-      # Synthetic unit fixtures remain independent of the real bundled article count.
-      # CoreSmoke's no-flag profile is fixed to three articles and is not used here.
-      - name: Run all native XCTest units on the iPhone Simulator
+      # TEMPORARY DIAGNOSTIC ONLY. The exact original23/Release validator is
+      # retained in the private rollback patch and must be restored before merge.
+      - name: Diagnose one public code-copy action and live device pasteboard
         run: |
           set -euo pipefail
-          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
-            -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.5' \
-            -destination-timeout 120 \
-            -derivedDataPath .local/ios-published-candidate/DebugDerivedData \
-            -resultBundlePath .local/ios-published-candidate/evidence/unit.xcresult \
-            -parallel-testing-enabled NO -jobs 2 \
-            -only-testing:AILibraryTests CODE_SIGNING_ALLOWED=NO test \
-            2>&1 | tee .local/ios-published-candidate/evidence/xctest.log
-      - name: Audit the actual Debug app resources
-        run: |
-          set -euo pipefail
-          debug_app='.local/ios-published-candidate/DebugDerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app'
-          if ! node ios/tests/capture-built-app-icon.mjs "$debug_app" \
-            --output .local/ios-published-candidate/evidence/published-debug-icon-inputs; then
-            printf '%s\n' 'AppIcon diagnostic capture failed; continuing required icon audit.' >&2
-          fi
-          node ios/tests/check-built-app-icon.mjs "$debug_app" --required-scales 3 \
-            2>&1 | tee .local/ios-published-candidate/evidence/debug-app-icon.json
-          cmp ios/AILibrary/Content/manifest.json "$debug_app/Content/manifest.json"
-          bash ios/tests/check-package.sh "$debug_app/Content" "$PUBLISHED_ARTICLE_COUNT" \
-            2>&1 | tee .local/ios-published-candidate/evidence/debug-app-package.json
-          cmp ios/AILibrary/TestContent/manifest.json "$debug_app/TestContent/manifest.json"
-          bash ios/tests/check-package.sh "$debug_app/TestContent" 4 \
-            2>&1 | tee .local/ios-published-candidate/evidence/debug-fixture-package.json
-      # Keep functional UI acceptance separate from the dedicated performance suite.
-      - name: Run functional native UI tests against the published app
-        env:
-          TEST_RUNNER_AILIBRARY_EXPECTED_PUBLISHED_COUNT: ${{ env.PUBLISHED_ARTICLE_COUNT }}
-        run: |
-          set -euo pipefail
-          COPY_SIMULATOR_ID="$(node --input-type=module <<'NODE'
-          import assert from 'node:assert/strict';
-          import { spawnSync } from 'node:child_process';
-          import { readFileSync, writeFileSync } from 'node:fs';
-          import { createHash, randomUUID } from 'node:crypto';
-          const evidence = '.local/ios-published-candidate/evidence';
-          const put = (name, value) => writeFileSync(`${evidence}/${name}`, value, { flag: 'wx', mode: 0o600 });
-          const json = (name, value) => put(name, JSON.stringify(value, null, 2) + '\n');
-          assert.equal(process.env.GITHUB_ACTIONS, 'true');
-          const event = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
-          assert.equal(event.repository.full_name, 'pero3dev/ai-agent-library');
-          assert.equal(event.repository.private, false);
-          const run = (name, args, input, limit = 1024 * 1024, timeout = 30000) => {
-            json(`copy-${name}.intent.json`, { binary: 'xcrun', arguments: args, timeout_ms: timeout, max_buffer_bytes: limit });
-            const result = spawnSync('xcrun', args, { input, timeout, killSignal: 'SIGKILL', maxBuffer: limit });
-            put(`copy-${name}.stdout.bin`, result.stdout ?? Buffer.alloc(0));
-            put(`copy-${name}.stderr.log`, result.stderr ?? Buffer.alloc(0));
-            json(`copy-${name}.exit.json`, { exit_code: result.status, signal: result.signal, error: result.error?.message ?? null });
-            assert.equal(result.error, undefined); assert.equal(result.status, 0);
-            return result.stdout;
-          };
-          const raw = run('devices', ['simctl', 'list', 'devices', 'available', '--json'], undefined, 16 * 1024 * 1024);
-          const inventory = JSON.parse(raw.toString('utf8'));
-          const runtimeID = 'com.apple.CoreSimulator.SimRuntime.iOS-18-5';
-          assert.ok(Array.isArray(inventory.devices?.[runtimeID]));
-          const matches = inventory.devices[runtimeID].filter(device => device.name === 'iPhone 16');
-          assert.equal(matches.length, 1, 'Exactly one iPhone 16 on iOS18.5 must own the clipboard test');
-          const device = matches[0], UUID = device.udid.toUpperCase();
-          assert.match(UUID, /^[A-F0-9]{8}(?:-[A-F0-9]{4}){3}-[A-F0-9]{12}$/);
-          assert.equal(device.isAvailable, true);
-          assert.equal(device.deviceTypeIdentifier, 'com.apple.CoreSimulator.SimDeviceType.iPhone-16');
-          assert.ok(['Shutdown', 'Booted'].includes(device.state), 'Only Shutdown or Booted is accepted before preparation');
-          if (device.state === 'Shutdown') run('boot', ['simctl', 'boot', UUID]);
-          run('bootstatus', ['simctl', 'bootstatus', UUID, '-b'], undefined, 1024 * 1024, 240000);
-          const readyRaw = run('devices-ready', ['simctl', 'list', 'devices', 'available', '--json'], undefined, 16 * 1024 * 1024);
-          const readyInventory = JSON.parse(readyRaw.toString('utf8'));
-          assert.ok(Array.isArray(readyInventory.devices?.[runtimeID]));
-          const readyMatches = readyInventory.devices[runtimeID].filter(candidate => candidate.name === 'iPhone 16');
-          assert.equal(readyMatches.length, 1, 'Exactly the original unique iPhone 16 must remain after bootstatus');
-          const ready = readyMatches[0];
-          assert.equal(ready.udid.toUpperCase(), UUID, 'Preparation must not switch the selected Simulator');
-          assert.equal(ready.deviceTypeIdentifier, 'com.apple.CoreSimulator.SimDeviceType.iPhone-16');
-          assert.equal(ready.isAvailable, true); assert.equal(ready.state, 'Booted');
-          const canary = Buffer.from(`AILibrary-code-copy-canary:${process.env.GITHUB_RUN_ID}:${process.env.GITHUB_RUN_ATTEMPT}:${randomUUID()}\n`, 'utf8');
-          run('seed', ['simctl', 'pbcopy', UUID], canary);
-          const observed = run('canary', ['simctl', 'pbpaste', UUID]);
-          assert.ok(observed.equals(canary), 'Device pasteboard must first return the exact unique canary bytes');
-          json('copy-device.json', { schema_version: 1, status: 'unique-device-canary-roundtrip-verified',
-            repository: event.repository.full_name, run_id: process.env.GITHUB_RUN_ID, run_attempt: process.env.GITHUB_RUN_ATTEMPT,
-            event_commit: process.env.GITHUB_SHA, pull_request_head: event.pull_request?.head.sha ?? null,
-            runtime_identifier: runtimeID, device_type_identifier: device.deviceTypeIdentifier, UUID,
-            canary_bytes: canary.length, canary_SHA256: createHash('sha256').update(canary).digest('hex') });
-          console.log(UUID);
-          NODE
-          )"
-          export COPY_SIMULATOR_ID
-          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
-            -configuration Debug \
-            -destination "platform=iOS Simulator,id=$COPY_SIMULATOR_ID" \
-            -destination-timeout 120 \
-            -derivedDataPath .local/ios-published-candidate/DebugDerivedData \
-            -resultBundlePath .local/ios-published-candidate/evidence/ui.xcresult \
-            -parallel-testing-enabled NO -jobs 2 \
-            -only-testing:AILibraryUITests/NativeReaderUITests \
-            -only-testing:AILibraryUITests/PublishedReaderUITests \
-            -only-testing:AILibraryUITests/ReaderViewportGeometryTests CODE_SIGNING_ALLOWED=NO test \
-            2>&1 | tee .local/ios-published-candidate/evidence/xctest-ui.log
-          node --input-type=module <<'NODE'
-          import assert from 'node:assert/strict';
-          import { spawnSync } from 'node:child_process';
-          import { readFileSync, writeFileSync } from 'node:fs';
-          import { createHash } from 'node:crypto';
-          const evidence = '.local/ios-published-candidate/evidence';
-          const put = (name, value) => writeFileSync(`${evidence}/${name}`, value, { flag: 'wx', mode: 0o600 });
-          const json = (name, value) => put(name, JSON.stringify(value, null, 2) + '\n');
-          const binding = JSON.parse(readFileSync(`${evidence}/copy-device.json`, 'utf8'));
-          assert.equal(process.env.GITHUB_ACTIONS, 'true');
-          assert.equal(binding.status, 'unique-device-canary-roundtrip-verified');
-          assert.equal(binding.repository, process.env.GITHUB_REPOSITORY);
-          assert.equal(binding.run_id, process.env.GITHUB_RUN_ID); assert.equal(binding.run_attempt, process.env.GITHUB_RUN_ATTEMPT);
-          assert.equal(binding.event_commit, process.env.GITHUB_SHA);
-          assert.equal(binding.UUID, process.env.COPY_SIMULATOR_ID);
-          assert.match(binding.UUID, /^[A-F0-9]{8}(?:-[A-F0-9]{4}){3}-[A-F0-9]{12}$/);
-          const run = (name, args, timeout, limit) => {
-            json(`copy-${name}.intent.json`, { binary: 'xcrun', arguments: args, timeout_ms: timeout, max_buffer_bytes: limit });
-            const result = spawnSync('xcrun', args, { timeout, killSignal: 'SIGKILL', maxBuffer: limit });
-            put(`copy-${name}.stdout.bin`, result.stdout ?? Buffer.alloc(0));
-            put(`copy-${name}.stderr.log`, result.stderr ?? Buffer.alloc(0));
-            json(`copy-${name}.exit.json`, { exit_code: result.status, signal: result.signal, error: result.error?.message ?? null });
-            assert.equal(result.error, undefined); assert.equal(result.status, 0);
-            return result.stdout;
-          };
-          const raw = run('results', ['xcresulttool', 'get', 'test-results', 'tests', '--path', `${evidence}/ui.xcresult`], 60000, 16 * 1024 * 1024);
-          const tree = JSON.parse(raw.toString('utf8'));
-          assert.ok(Array.isArray(tree.devices)); assert.equal(tree.devices.length, 1);
-          const device = tree.devices[0];
-          assert.equal(device.deviceId.toUpperCase(), binding.UUID); assert.equal(device.osVersion, '18.5');
-          assert.equal(device.platform, 'iOS Simulator');
-          if (device.modelName !== undefined) assert.equal(device.modelName, 'iPhone 16');
-          // Fixed IDs are derived from the three selected Swift classes; source validation checks this exact set.
-          const expectedCaseIDs = [
-            "NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch()",
-            "NativeReaderUITests/testThreeArticlesHaveNativeBodyText()",
-            "PublishedReaderUITests/testBodySearchArrivesAtNestedParagraphContainingAllTermsWithoutReaderGestures()",
-            "PublishedReaderUITests/testBundledContentSelectionCancelConfirmAndRestartKeepReadingAndGuide()",
-            "PublishedReaderUITests/testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions()",
-            "PublishedReaderUITests/testChapter03LargeDiagramCanExpandAndShowSource()",
-            "PublishedReaderUITests/testChapter03LongArticleContentsBookmarkAndResume()",
-            "PublishedReaderUITests/testChapter08LargestTableReachesFinalRowAndColumn()",
-            "PublishedReaderUITests/testFilteredFixtureActionsAndReadingChangesRemainIsolatedFromNormalLibrary()",
-            "PublishedReaderUITests/testFilteredMoreActionsAboutRoundTripPreservesQueryAndLearningTag()",
-            "PublishedReaderUITests/testFixtureFirstCodeCopyUsesThePublicButton()",
-            "PublishedReaderUITests/testFixtureTallSingleBlockResumesNearItsMeasuredInternalRowAfterRelaunch()",
-            "PublishedReaderUITests/testGlossarySearchRelatedArticleAndReturnPreserveReaderState()",
-            "PublishedReaderUITests/testLearningRouteShowsItsInstructionChapterOrderAndArticle()",
-            "PublishedReaderUITests/testLearningTagSearchCombinesWithArticleSearchAndClearsZeroResults()",
-            "PublishedReaderUITests/testRelatedChapterLinkClosesInPlaceAndOpensAnArticleWithoutLosingTheReader()",
-            "PublishedReaderUITests/testResumeUsesLaterReadingPositionInsteadOfReplayingThePreviousBodyQuery()",
-            "ReaderViewportGeometryTests/testCopiedFramesSelectLowestFullyVisibleParagraph()",
-            "ReaderViewportGeometryTests/testEqualTopFramesPreserveCollectionOrder()",
-            "ReaderViewportGeometryTests/testForegroundOcclusionAndPartialFrameRemainExcluded()",
-            "ReaderViewportGeometryTests/testInvalidViewportAndEmptyCollectionFailClosed()",
-            "ReaderViewportGeometryTests/testNonfiniteEmptyAndOccludedFramesCannotWin()",
-            "ReaderViewportGeometryTests/testUnknownOrAmbiguousForegroundDoesNotBecomeVisible()"
-          ];
-          assert.equal(expectedCaseIDs.length, 23); assert.equal(new Set(expectedCaseIDs).size, 23);
-          const expectedSuites = [...new Set(expectedCaseIDs.map(id => id.split('/')[0]))].sort();
-          const container = (node, type, name) => {
-            assert.ok(node && typeof node === 'object' && !Array.isArray(node));
-            assert.equal(node.nodeType, type, 'Only the observed Xcode16.4 node hierarchy is supported');
-            assert.equal(node.name, name); assert.equal(node.result, 'Passed');
-            assert.ok(Array.isArray(node.children)); assert.ok(node.children.length > 0);
-            return node.children;
-          };
-          assert.ok(Array.isArray(tree.testNodes)); assert.equal(tree.testNodes.length, 1);
-          const bundles = container(tree.testNodes[0], 'Test Plan', 'AILibrary'); assert.equal(bundles.length, 1);
-          const suites = container(bundles[0], 'UI test bundle', 'AILibraryUITests');
-          const bundleURL = 'test://com.apple.xcode/AILibrary/AILibraryUITests';
-          assert.equal(bundles[0].nodeIdentifierURL, bundleURL);
-          assert.equal(suites.length, expectedSuites.length);
-          assert.deepEqual(suites.map(suite => suite.name).sort(), expectedSuites);
-          const cases = [];
-          for (const suite of suites) {
-            const children = container(suite, 'Test Suite', suite.name);
-            assert.equal(suite.nodeIdentifierURL, `${bundleURL}/${suite.name}`);
-            for (const node of children) {
-              assert.ok(node && typeof node === 'object' && !Array.isArray(node));
-              assert.equal(node.nodeType, 'Test Case'); assert.equal(node.result, 'Passed');
-              assert.equal(node.children, undefined, 'A Test Case must be a leaf in the observed schema');
-              assert.equal(typeof node.name, 'string'); assert.match(node.name, /^test\w+\(\)$/);
-              assert.equal(node.nodeIdentifier, `${suite.name}/${node.name}`);
-              assert.equal(node.nodeIdentifierURL, `${bundleURL}/${suite.name}/${node.name.slice(0, -2)}`);
-              cases.push(node);
-            }
-          }
-          assert.equal(cases.length, 23, 'All selected native UI cases must run without skips or repeats');
-          const actualCaseIDs = cases.map(node => node.nodeIdentifier);
-          assert.equal(new Set(actualCaseIDs).size, actualCaseIDs.length, 'No selected case may repeat');
-          assert.deepEqual(actualCaseIDs.sort(), expectedCaseIDs, 'The complete source-derived selected case set must pass');
-          const caseID = 'PublishedReaderUITests/testFixtureFirstCodeCopyUsesThePublicButton()';
-          assert.equal(cases.filter(test => test.nodeIdentifier === caseID).length, 1);
-          const expected = readFileSync('ios/fixtures/first-code-copy-expected.txt');
-          assert.equal(expected.length, 374);
-          assert.equal(createHash('sha256').update(expected).digest('hex'), 'e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8');
-          const actual = run('actual', ['simctl', 'pbpaste', binding.UUID], 30000, 1024 * 1024);
-          json('code-copy-summary.json', { schema_version: 1, status: actual.equals(expected) ? 'exact-first-code-copy-passed' : 'copy-mismatch',
-            run_id: binding.run_id, run_attempt: binding.run_attempt, event_commit: binding.event_commit,
-            pull_request_head: binding.pull_request_head, UUID: binding.UUID, osVersion: device.osVersion, copy_case: caseID,
-            selected_UI_passed: cases.length, expected_bytes: expected.length, actual_bytes: actual.length,
-            expected_SHA256: createHash('sha256').update(expected).digest('hex'), actual_SHA256: createHash('sha256').update(actual).digest('hex'),
-            coverage: 'First nonempty fixture code only; exact UTF8 including indentation, tab, emoji, long line and final newline',
-            remaining: 'Empty/second/inline-math copies, physical pasteboard, first offline launch and legacy UI migration are unverified' });
-          assert.ok(actual.equals(expected), 'Device pasteboard must exactly match the independent first-code bytes');
-          console.log('Verified exact 374-byte first code copy on the actual UI destination.');
-          NODE
-      - name: Build and verify the published Release package
-        run: |
-          set -euo pipefail
-          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
-            -configuration Release -destination 'generic/platform=iOS Simulator' \
-            -derivedDataPath .local/ios-published-candidate/ReleaseDerivedData -jobs 2 \
-            CODE_SIGNING_ALLOWED=NO build \
-            2>&1 | tee .local/ios-published-candidate/evidence/release-build.log
-          node ios/tests/check-release-package.mjs \
-            .local/ios-published-candidate/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
-            2>&1 | tee .local/ios-published-candidate/evidence/release-package.json
-          if ! node ios/tests/capture-built-app-icon.mjs .local/ios-published-candidate/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
-            --output .local/ios-published-candidate/evidence/published-release-icon-inputs; then
-            printf '%s\n' 'AppIcon diagnostic capture failed; continuing required icon audit.' >&2
-          fi
-          node ios/tests/check-built-app-icon.mjs \
-            .local/ios-published-candidate/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
-            --required-scales 2,3 \
-            2>&1 | tee .local/ios-published-candidate/evidence/release-app-icon.json
-      - name: Retain compact device code-copy evidence
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,math,os,selectors,signal,subprocess,sys,time,uuid
+          R=Path('.local/ios-published-candidate/evidence');R.mkdir(parents=True,exist_ok=True)
+          CASE='PublishedReaderUITests/testFixtureFirstCodeCopyUsesThePublicButton()'
+          RUNTIME='com.apple.CoreSimulator.SimRuntime.iOS-18-5'
+          TYPE='com.apple.CoreSimulator.SimDeviceType.iPhone-16'
+          EXPECTED_SHA='e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8'
+          MAX=1048576
+          sha=lambda b:hashlib.sha256(b).hexdigest()
+          result={'schema_version':1,'status':'incomplete-single-copy-diagnostic','product_copy_acceptance':'unadopted','selected_UI_cases':1,'other_22_UI_cases':'not-run','XCTest_unit_suite':'not-run','Release':'not-run','raw_clipboard_saved':False,'host_clipboard_accessed':False,'cause':None}
+          child=None;booted=False;deviceID=None;started=time.monotonic()
+          def write(name,value):
+           b=(json.dumps(value,ensure_ascii=False,indent=2,allow_nan=False)+'\n').encode();assert len(b)<=262144
+           with (R/name).open('xb') as f:f.write(b)
+          class BoundedCommandError(RuntimeError):
+           def __init__(self,reason,metadata=None):
+            super().__init__(reason);self.metadata=dict(metadata or {},reason=reason)
+          def stop_group(process,term_grace=0.25,kill_grace=1.0):
+           metadata={'TERM_requested':False,'KILL_requested':False,'TERM_grace_seconds':term_grace,'KILL_wait_seconds':kill_grace}
+           def send(sig,label):
+            try:os.killpg(process.pid,sig);metadata[label+'_requested']=True
+            except ProcessLookupError:metadata[label+'_target']='not-found'
+            except OSError as exc:metadata[label+'_error']={'type':type(exc).__name__,'errno':exc.errno}
+           # Do not use killpg(pid,0): macOS may deny probing an already-exited group.
+           # Send only to this owned new-session group, including descendants after parent exit.
+           send(signal.SIGTERM,'TERM');end=time.monotonic()+term_grace
+           while time.monotonic()<end:
+            process.poll();time.sleep(min(0.01,max(0,end-time.monotonic())))
+           send(signal.SIGKILL,'KILL')
+           try:metadata['parent_returncode']=process.wait(timeout=kill_grace)
+           except subprocess.TimeoutExpired:metadata['parent_returncode']=None
+           metadata['parent_reaped']=process.poll() is not None
+           return metadata
+
+          def bounded_capture(args,timeout,input=None,limit=MAX,absolute_deadline=None,tick=None):
+           assert type(timeout) in (int,float) and math.isfinite(timeout) and timeout>0
+           assert type(limit) is int and 0<limit<=MAX
+           assert input is None or type(input) is bytes and len(input)<=65536
+           assert absolute_deadline is None or type(absolute_deadline) in (int,float) and math.isfinite(absolute_deadline)
+           started=time.monotonic();deadline=min(started+timeout,absolute_deadline) if absolute_deadline is not None else started+timeout
+           if tick is not None:tick()
+           if time.monotonic()>=deadline:raise BoundedCommandError('command-deadline-expired-before-start',{'started':False,'stdout_bytes':0,'stderr_bytes':0,'capture_limit_bytes':limit})
+           process=subprocess.Popen(args,stdin=subprocess.PIPE if input is not None else subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+           selector=selectors.DefaultSelector();output={'stdout':bytearray(),'stderr':bytearray()};total=0;sent=0;stop_attempted=False
+           metadata={'pid':process.pid,'started':True,'capture_limit_bytes':limit,'capture_contract':'Complete stdout+stderr must be strictly below cap; reaching cap aborts conservatively without an overflow byte probe.','stdin_limit_bytes':65536,'stdin_bytes':len(input) if input is not None else 0,'deadline_includes_spawn_and_reads':True}
+           try:
+            for name,stream in (('stdout',process.stdout),('stderr',process.stderr)):
+             os.set_blocking(stream.fileno(),False);selector.register(stream,selectors.EVENT_READ,name)
+            if process.stdin is not None:
+             os.set_blocking(process.stdin.fileno(),False)
+             if input:selector.register(process.stdin,selectors.EVENT_WRITE,'stdin')
+             else:process.stdin.close()
+            while selector.get_map() or process.poll() is None:
+             if tick is not None:tick()
+             now=time.monotonic()
+             if now>=deadline:raise BoundedCommandError('command-timeout')
+             for key,events in selector.select(timeout=min(0.1,max(0,deadline-now))):
+              if tick is not None:tick()
+              if time.monotonic()>=deadline:raise BoundedCommandError('command-timeout')
+              if key.data=='stdin':
+               try:written=os.write(key.fileobj.fileno(),input[sent:sent+4096])
+               except BlockingIOError:continue
+               except BrokenPipeError:raise BoundedCommandError('command-stdin-closed-before-complete') from None
+               sent+=written
+               if sent==len(input):selector.unregister(key.fileobj);key.fileobj.close()
+               continue
+              remaining=limit-total
+              if remaining<=0:raise BoundedCommandError('command-output-cap-reached')
+              try:chunk=os.read(key.fileobj.fileno(),min(65536,remaining))
+              except BlockingIOError:continue
+              if not chunk:selector.unregister(key.fileobj);key.fileobj.close();continue
+              output[key.data].extend(chunk);total+=len(chunk)
+              if total>=limit:raise BoundedCommandError('command-output-cap-reached')
+             if tick is not None:tick()
+            finished=time.monotonic()
+            if finished>=deadline:raise BoundedCommandError('command-timeout')
+            completed=subprocess.CompletedProcess(args,process.returncode,bytes(output['stdout']),bytes(output['stderr']))
+            completed.capture_window={'started_monotonic':started,'finished_monotonic':finished,'absolute_deadline':deadline};return completed
+           except BaseException as exc:
+            metadata.update(stdout_bytes=len(output['stdout']),stderr_bytes=len(output['stderr']),captured_total_bytes=total,stdin_sent_bytes=sent,elapsed_seconds=time.monotonic()-started)
+            stop_attempted=True;metadata['termination']=stop_group(process)
+            if isinstance(exc,BoundedCommandError):exc.metadata.update(metadata)
+            raise
+           finally:
+            selector.close()
+            for stream in (process.stdin,process.stdout,process.stderr):
+             if stream is not None and not stream.closed:stream.close()
+            if process.poll() is None and not stop_attempted:stop_group(process)
+
+          def command(args,timeout=30,input=None,limit=MAX,absolute_deadline=None,tick=None):
+           fixed=[['git','rev-parse','HEAD'],['git','rev-parse','HEAD^{tree}'],['xcrun','simctl','list','devices','available','-j'],['xcrun','xcresulttool','get','test-results','tests','--path',str(R/'copy-probe.xcresult')]]
+           if deviceID is not None:
+            assert str(uuid.UUID(deviceID)).upper()==deviceID
+            fixed.extend([['xcrun','simctl',name,deviceID] for name in ('boot','pbcopy','pbpaste','shutdown')]);fixed.append(['xcrun','simctl','bootstatus',deviceID,'-b'])
+           assert type(args) is list and args in fixed,'Only fixed git/simctl/xcresult argument vectors are permitted'
+           assert input is None or args==['xcrun','simctl','pbcopy',deviceID] and type(input) is bytes and len(input)<=65536
+           return bounded_capture(args,timeout,input,limit,absolute_deadline,tick)
+
+          def poll_budget(now,case_started_at,sdk_deadline,last_poll,attempts):
+           if case_started_at is None or attempts>=180 or now-last_poll<2:return None
+           absolute_deadline=min(case_started_at+360,sdk_deadline)
+           remaining=absolute_deadline-now
+           if remaining<=0:return None
+           return {'timeout':min(10.0,remaining),'absolute_deadline':absolute_deadline}
+
+          def observed_phase(case_finished_at):
+           return 'after-observed-Started-before-observed-Finished' if case_finished_at is None else 'after-observed-Finished-before-xcode-exit-observed'
+
+          def sample(raw,expected,canary):
+           return {'bytes':len(raw),'SHA256':sha(raw),'equals_independent_expected_374':raw==expected,'equals_seeded_canary':raw==canary}
+          def observed_case(tree,UUID):
+           assert type(tree) is dict and type(tree.get('devices')) is list and len(tree['devices'])==1
+           device=tree['devices'][0]
+           assert device.get('deviceId','').upper()==UUID and device.get('osVersion')=='18.5' and device.get('platform')=='iOS Simulator'
+           if 'modelName' in device:assert device['modelName']=='iPhone 16'
+           def container(node,kind,name):
+            assert type(node) is dict and node.get('nodeType')==kind and node.get('name')==name
+            assert type(node.get('children')) is list and len(node['children'])==1
+            return node['children'][0]
+           assert type(tree.get('testNodes')) is list and len(tree['testNodes'])==1
+           plan=tree['testNodes'][0];bundle=container(plan,'Test Plan','AILibrary')
+           suite=container(bundle,'UI test bundle','AILibraryUITests')
+           leaf=container(suite,'Test Suite','PublishedReaderUITests')
+           assert leaf.get('nodeType')=='Test Case' and 'children' not in leaf and leaf.get('name')=='testFixtureFirstCodeCopyUsesThePublicButton()'
+           assert leaf.get('nodeIdentifier')==CASE and leaf.get('nodeIdentifierURL')=='test://com.apple.xcode/AILibrary/AILibraryUITests/'+CASE[:-2]
+           return {'same_UUID':UUID,'OS':device['osVersion'],'case_ID':CASE,'results':[plan.get('result'),bundle.get('result'),suite.get('result'),leaf.get('result')],'all_containers_and_leaf_Passed':all(x.get('result')=='Passed' for x in (plan,bundle,suite,leaf))}
+          try:
+           for p,h in [('ios/AILibrary/Sources/NativeReaderView.swift','5e9f5c76684a925254ed091ad1da7c9c73338adf5a81251a0f82fe2d483a8858'),('ios/AILibraryUITests/PublishedReaderUITests.swift','5a83f1eebfba8b603fe26492845c287a9f6c8a0f6fab8c74526dc6ba6755fcd9')]:assert sha(Path(p).read_bytes())==h
+           expected=Path('ios/fixtures/first-code-copy-expected.txt').read_bytes();assert len(expected)==374 and sha(expected)==EXPECTED_SHA
+           checkout=command(['git','rev-parse','HEAD']).stdout.decode().strip();tree=command(['git','rev-parse','HEAD^{tree}']).stdout.decode().strip()
+           assert checkout==os.environ['GITHUB_SHA'] and len(checkout)==40 and len(tree)==40
+           runID=os.environ['GITHUB_RUN_ID'];attempt=os.environ['GITHUB_RUN_ATTEMPT'];assert runID.isdigit() and attempt.isdigit()
+           context={'repository':os.environ['GITHUB_REPOSITORY'],'run_id':runID,'run_attempt':attempt,'event':os.environ['GITHUB_EVENT_NAME'],'event_commit':checkout,'event_tree':tree,'pull_request_head':os.environ.get('COPY_PROBE_PR_HEAD_SHA') or None,'branch':os.environ.get('GITHUB_HEAD_REF') or os.environ.get('GITHUB_REF_NAME'),'workflow_path':'.github/workflows/ios-published-candidate.yml','workflow_SHA256':sha(Path('.github/workflows/ios-published-candidate.yml').read_bytes()),'expected_bytes':374,'expected_SHA256':EXPECTED_SHA,'test_case':CASE,'candidate_source_scope':'Two reviewed AX state changes; temporary workflow diagnostic is not the final merge validator'}
+           assert context['repository']=='pero3dev/ai-agent-library' and context['event']=='pull_request'
+           assert isinstance(context['pull_request_head'],str) and len(context['pull_request_head'])==40 and all(c in '0123456789abcdef' for c in context['pull_request_head'])
+           write('copy-probe-context.json',context);result.update({k:context[k] for k in ('repository','run_id','run_attempt','event_commit','event_tree','pull_request_head')})
+           q=command(['xcrun','simctl','list','devices','available','-j']);assert q.returncode==0
+           items=json.loads(q.stdout)['devices'][RUNTIME];devices=[x for x in items if x.get('isAvailable') and x.get('deviceTypeIdentifier')==TYPE];assert len(devices)==1
+           device=devices[0];deviceID=device['udid'].upper();assert str(uuid.UUID(deviceID)).upper()==deviceID and device['state'] in ('Shutdown','Booted');initial=device['state']
+           if initial=='Shutdown':
+            q=command(['xcrun','simctl','boot',deviceID],timeout=60);assert q.returncode==0;booted=True
+           q=command(['xcrun','simctl','bootstatus',deviceID,'-b'],timeout=240);assert q.returncode==0
+           q=command(['xcrun','simctl','list','devices','available','-j']);assert q.returncode==0
+           devices=[x for x in json.loads(q.stdout)['devices'][RUNTIME] if x.get('isAvailable') and x.get('deviceTypeIdentifier')==TYPE];assert len(devices)==1 and devices[0]['udid'].upper()==deviceID and devices[0]['state']=='Booted'
+           canary=f'AILibrary-code-copy-canary:{runID}:{attempt}:{uuid.uuid4()}\n'.encode()
+           q=command(['xcrun','simctl','pbcopy',deviceID],input=canary);assert q.returncode==0
+           q=command(['xcrun','simctl','pbpaste',deviceID]);assert q.returncode==0 and q.stdout==canary
+           device={'UUID':deviceID,'runtime':RUNTIME,'device_type':TYPE,'initial_state':initial,'post_boot_state':'Booted','same_UUID_canary_roundtrip':True,'canary_bytes':len(canary),'canary_SHA256':sha(canary)};write('copy-probe-device.json',device);result['device']=device
+           args=['xcodebuild','-project','ios/AILibrary.xcodeproj','-scheme','AILibrary','-configuration','Debug','-destination','platform=iOS Simulator,id='+deviceID,'-destination-timeout','120','-derivedDataPath','.local/ios-published-candidate/DebugDerivedData','-resultBundlePath',str(R/'copy-probe.xcresult'),'-parallel-testing-enabled','NO','-jobs','2','-only-testing:AILibraryUITests/'+CASE[:-2],'CODE_SIGNING_ALLOWED=NO','test'];write('copy-probe-command.json',{'argv':args,'SDK_timeout_seconds':900,'termination_grace_seconds':{'TERM':0.25,'KILL_wait':1.0},'bounded_capture_contract':'Total stdout+stderr strictly below cap, abort on cap reached; no overflow probe','SDK_log_scope':'Forwarded to Actions; tail cap is not a cap on total Xcode output','max_live_poll_count':180,'live_poll_window_seconds':360,'live_poll_start':'Observed fixed Copycase Started rawlog marker, not compilation','live_poll_minimum_interval_seconds':2,'live_pbpaste_max_timeout_seconds':10,'ordinary_pbpaste_timeout_seconds':30,'max_bounded_command_stdout_plus_stderr_bytes':MAX,'max_log_tail_bytes':MAX})
+           child=subprocess.Popen(args,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,start_new_session=True);selector=selectors.DefaultSelector();selector.register(child.stdout,selectors.EVENT_READ)
+           tail=bytearray();pending=bytearray();loghash=hashlib.sha256();logbytes=0;events=[];changes=[];polls=0;phase_counts={'after-observed-Started-before-observed-Finished':0,'after-observed-Finished-before-xcode-exit-observed':0};case_started_at=None;case_finished_at=None;case_end_result=None;last_poll=0;sdk_start=time.monotonic();sdk_deadline=sdk_start+900;forced=None
+           live={'scope':'SameUUID readonly bounded simctl capture; exact bytes compared only in RAM','phase_basis':'Controller observation of fixed raw Started/Finished markers; not actual device case execution time','poll_count':0,'phase_poll_counts':phase_counts,'poll_window_start':'fixed raw Copycase Started marker observed','maximum_window_seconds':360,'changes':changes};result['live_clipboard']=live
+           marker="Test Case '-[AILibraryUITests.PublishedReaderUITests testFixtureFirstCodeCopyUsesThePublicButton]'"
+           def sdk_tick():
+            global forced
+            if time.monotonic()>=sdk_deadline:
+             forced='SDK-timeout';result['forced_stop']=forced;result['SDK_termination']=stop_group(child)
+             raise BoundedCommandError('SDK-timeout',{'SDK_termination':result['SDK_termination']})
+           while True:
+            sdk_tick()
+            ready=selector.select(timeout=min(0.1,max(0,sdk_deadline-time.monotonic())))
+            sdk_tick()
+            if ready:
+             data=os.read(child.stdout.fileno(),65536)
+             if not data:
+              selector.unregister(child.stdout);child.stdout.close()
+              if child.poll() is not None:break
+              continue
+             sys.stdout.buffer.write(data);sys.stdout.buffer.flush();loghash.update(data);logbytes+=len(data);tail.extend(data)
+             if len(tail)>MAX:del tail[:-MAX]
+             pending.extend(data)
+             while b'\n' in pending:
+              line,_,remaining=pending.partition(b'\n');pending=bytearray(remaining);text=line.decode('utf-8','replace')
+              if text==marker+' started.':
+               assert case_started_at is None,'The fixed case must start exactly once';case_started_at=time.monotonic()
+              if text.startswith(marker+' passed (') or text.startswith(marker+' failed ('):
+               assert case_started_at is not None and case_finished_at is None,'The fixed case must finish once after starting';case_finished_at=time.monotonic();case_end_result='Passed' if text.startswith(marker+' passed (') else 'Failed'
+              if text.startswith(('Test Case ','Test Suite ')) or 'Executed ' in text or '** TEST ' in text:
+               assert len(events)<64;events.append(text[:2048])
+             assert len(pending)<MAX
+            elif child.poll() is not None:break
+            poll_now=time.monotonic();budget=poll_budget(poll_now,case_started_at,sdk_deadline,last_poll,polls)
+            if budget is not None and child.poll() is None:
+             sdk_tick();poll_started=time.monotonic();budget=poll_budget(poll_started,case_started_at,sdk_deadline,last_poll,polls)
+             if budget is None:continue
+             start_phase=observed_phase(case_finished_at);polls+=1;live['poll_count']=polls;last_poll=poll_started
+             q=command(['xcrun','simctl','pbpaste',deviceID],timeout=budget['timeout'],absolute_deadline=budget['absolute_deadline'],tick=sdk_tick)
+             poll_started=q.capture_window['started_monotonic'];poll_ended=q.capture_window['finished_monotonic'];last_poll=poll_started;sdk_tick();fact=sample(q.stdout,expected,canary);fact.update(exit_code=q.returncode,poll_start_seconds_after_observed_Started=poll_started-case_started_at,poll_end_seconds_after_observed_Started=poll_ended-case_started_at,poll_start_seconds_after_SDK_start=poll_started-sdk_start,poll_end_seconds_after_SDK_start=poll_ended-sdk_start,timeout_seconds=budget['timeout'],phase_at_poll_start=start_phase,phase=observed_phase(case_finished_at))
+             phase_counts[fact['phase']]+=1
+             if not changes or any(fact[k]!=changes[-1][k] for k in ('exit_code','bytes','SHA256','phase')):
+              assert len(changes)<64;changes.append(fact)
+             live['last_poll_interval']={'start_seconds_after_observed_Started':poll_started-case_started_at,'end_seconds_after_observed_Started':poll_ended-case_started_at}
+           assert child.poll() is not None,'Xcode must have exited before post-run collection'
+           child.wait(timeout=1);result['fixed_case_raw_markers']={'Started_observed':case_started_at is not None,'Finished_observed':case_finished_at is not None,'Finished_result':case_end_result,'Started_seconds_after_SDK_start':case_started_at-sdk_start if case_started_at is not None else None,'Finished_seconds_after_SDK_start':case_finished_at-sdk_start if case_finished_at is not None else None,'xcodebuild_exit_observed_seconds_after_SDK_start':time.monotonic()-sdk_start,'clock_scope':'Controller rawlog marker observation, not actual on-device case time'};result['xcodebuild_exit']=child.returncode;result['forced_stop']=forced;result['case_events']=events;result['log_observed']={'bytes':logbytes,'SHA256':loghash.hexdigest(),'saved_tail_bytes':len(tail)}
+           (R/'copy-probe-xcode-tail.log').write_bytes(tail)
+           q=command(['xcrun','simctl','pbpaste',deviceID]);result['after_xcodebuild_clipboard']=dict(sample(q.stdout,expected,canary),exit_code=q.returncode,phase='after-xcodebuild-exit-observed',seconds_since_SDK_start=time.monotonic()-sdk_start,seconds_since_observed_case_started=time.monotonic()-case_started_at if case_started_at is not None else None)
+           q=command(['xcrun','xcresulttool','get','test-results','tests','--path',str(R/'copy-probe.xcresult')],timeout=60,limit=262144);result['xcresulttool_exit']=q.returncode
+           if q.returncode==0:
+            tests=json.loads(q.stdout);write('copy-probe-tests.json',tests);result['raw_case_and_device']=observed_case(tests,deviceID)
+           result['status']='single-copy-diagnostic-complete';result['same_UI_case_Passed']=result.get('xcodebuild_exit')==0 and result.get('raw_case_and_device',{}).get('all_containers_and_leaf_Passed') is True
+           assert result['same_UI_case_Passed'],'Diagnostic one-case UI did not pass; no copy acceptance inferred'
+           assert case_started_at is not None and case_finished_at is not None and case_end_result=='Passed' and polls>0 and phase_counts['after-observed-Started-before-observed-Finished']>0,'Fixed raw markers and an observation before the Finished marker is observed must exist'
+          except Exception as exc:
+           result['error']={'type':type(exc).__name__,'message':str(exc)[:2048]}
+           if isinstance(exc,BoundedCommandError):result['bounded_command_failure']=exc.metadata
+          finally:
+           if child is not None and child.poll() is None:result['SDK_finally_termination']=stop_group(child)
+           if 'tail' in globals() and not (R/'copy-probe-xcode-tail.log').exists():(R/'copy-probe-xcode-tail.log').write_bytes(tail)
+           if 'sdk_start' in globals():
+            result.setdefault('xcodebuild_exit',child.poll());result.setdefault('fixed_case_raw_markers',{'Started_observed':case_started_at is not None,'Finished_observed':case_finished_at is not None,'Finished_result':case_end_result,'Started_seconds_after_SDK_start':case_started_at-sdk_start if case_started_at is not None else None,'Finished_seconds_after_SDK_start':case_finished_at-sdk_start if case_finished_at is not None else None,'clock_scope':'Controller rawlog marker observation, not actual on-device case time'})
+           if booted:
+            try:
+             q=command(['xcrun','simctl','shutdown',deviceID],timeout=60);result['shutdown_started_here']={'exit':q.returncode}
+            except Exception as exc:result['shutdown_started_here']={'error':type(exc).__name__}
+           result['duration_seconds']=time.monotonic()-started;write('copy-probe-summary.json',result)
+           print(json.dumps({'scope':'single-case diagnostic only','status':result['status'],'same_UI_case_Passed':result.get('same_UI_case_Passed'),'error':result.get('error'),'other22_and_Release':'not-run','product_copy_acceptance':'unadopted'}),flush=True)
+          if 'error' in result:raise SystemExit(1)
+          PY
+      - name: Retain compact one-case diagnostic metadata only
         if: always()
         timeout-minutes: 2
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: ios-published-code-copy-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ios-published-copy-probe-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
-            .local/ios-published-candidate/evidence/code-copy-summary.json
-            .local/ios-published-candidate/evidence/copy-device.json
-            .local/ios-published-candidate/evidence/copy-results.intent.json
-            .local/ios-published-candidate/evidence/copy-results.exit.json
-            .local/ios-published-candidate/evidence/copy-results.stdout.bin
-            .local/ios-published-candidate/evidence/copy-results.stderr.log
-            .local/ios-published-candidate/evidence/copy-actual.intent.json
-            .local/ios-published-candidate/evidence/copy-actual.exit.json
-            .local/ios-published-candidate/evidence/copy-actual.stdout.bin
-            .local/ios-published-candidate/evidence/copy-actual.stderr.log
-            .local/ios-published-candidate/evidence/xctest-ui.log
-          include-hidden-files: true
-          if-no-files-found: ignore
-          retention-days: 90
-      - name: Retain test results and compact candidate evidence
-        if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: ios-published-candidate-evidence-${{ github.run_id }}
-          path: .local/ios-published-candidate/evidence
+            .local/ios-published-candidate/evidence/copy-probe-summary.json
+            .local/ios-published-candidate/evidence/copy-probe-context.json
+            .local/ios-published-candidate/evidence/copy-probe-device.json
+            .local/ios-published-candidate/evidence/copy-probe-command.json
+            .local/ios-published-candidate/evidence/copy-probe-tests.json
+            .local/ios-published-candidate/evidence/copy-probe-xcode-tail.log
           include-hidden-files: true
           if-no-files-found: ignore
           retention-days: 90

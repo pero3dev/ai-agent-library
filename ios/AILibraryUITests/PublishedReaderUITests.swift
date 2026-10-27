@@ -1154,7 +1154,12 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         }
         requireHittable(copy, inside: reader, fullyVisible: true)
         XCTAssertEqual(copy.label, "コードをコピー")
+        XCTAssertEqual(copy.value as? String, "未コピー")
         copy.tap()
+        let copied = NSPredicate(format: "value == %@", "コピー済み")
+        let copiedState = XCTNSPredicateExpectation(predicate: copied, object: copy)
+        XCTAssertEqual(XCTWaiter.wait(for: [copiedState], timeout: 10), .completed,
+                       "The public button must execute its copy action")
         capture("First-fixture-code-copy-public-button")
         // The fixture reading domain is shared across cases. Leave it at a
         // paragraph through public UI, so later tests need no state injection.

@@ -164,9 +164,9 @@ jobs:
           const event = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
           assert.equal(event.repository.full_name, 'pero3dev/ai-agent-library');
           assert.equal(event.repository.private, false);
-          const run = (name, args, input, limit = 1024 * 1024) => {
-            json(`copy-${name}.intent.json`, { binary: 'xcrun', arguments: args, timeout_ms: 30000, max_buffer_bytes: limit });
-            const result = spawnSync('xcrun', args, { input, timeout: 30000, killSignal: 'SIGKILL', maxBuffer: limit });
+          const run = (name, args, input, limit = 1024 * 1024, timeout = 30000) => {
+            json(`copy-${name}.intent.json`, { binary: 'xcrun', arguments: args, timeout_ms: timeout, max_buffer_bytes: limit });
+            const result = spawnSync('xcrun', args, { input, timeout, killSignal: 'SIGKILL', maxBuffer: limit });
             put(`copy-${name}.stdout.bin`, result.stdout ?? Buffer.alloc(0));
             put(`copy-${name}.stderr.log`, result.stderr ?? Buffer.alloc(0));
             json(`copy-${name}.exit.json`, { exit_code: result.status, signal: result.signal, error: result.error?.message ?? null });
@@ -181,8 +181,20 @@ jobs:
           assert.equal(matches.length, 1, 'Exactly one iPhone 16 on iOS18.5 must own the clipboard test');
           const device = matches[0], UUID = device.udid.toUpperCase();
           assert.match(UUID, /^[A-F0-9]{8}(?:-[A-F0-9]{4}){3}-[A-F0-9]{12}$/);
-          assert.equal(device.isAvailable, true); assert.equal(device.state, 'Booted');
+          assert.equal(device.isAvailable, true);
           assert.equal(device.deviceTypeIdentifier, 'com.apple.CoreSimulator.SimDeviceType.iPhone-16');
+          assert.ok(['Shutdown', 'Booted'].includes(device.state), 'Only Shutdown or Booted is accepted before preparation');
+          if (device.state === 'Shutdown') run('boot', ['simctl', 'boot', UUID]);
+          run('bootstatus', ['simctl', 'bootstatus', UUID, '-b'], undefined, 1024 * 1024, 240000);
+          const readyRaw = run('devices-ready', ['simctl', 'list', 'devices', 'available', '--json'], undefined, 16 * 1024 * 1024);
+          const readyInventory = JSON.parse(readyRaw.toString('utf8'));
+          assert.ok(Array.isArray(readyInventory.devices?.[runtimeID]));
+          const readyMatches = readyInventory.devices[runtimeID].filter(candidate => candidate.name === 'iPhone 16');
+          assert.equal(readyMatches.length, 1, 'Exactly the original unique iPhone 16 must remain after bootstatus');
+          const ready = readyMatches[0];
+          assert.equal(ready.udid.toUpperCase(), UUID, 'Preparation must not switch the selected Simulator');
+          assert.equal(ready.deviceTypeIdentifier, 'com.apple.CoreSimulator.SimDeviceType.iPhone-16');
+          assert.equal(ready.isAvailable, true); assert.equal(ready.state, 'Booted');
           const canary = Buffer.from(`AILibrary-code-copy-canary:${process.env.GITHUB_RUN_ID}:${process.env.GITHUB_RUN_ATTEMPT}:${randomUUID()}\n`, 'utf8');
           run('seed', ['simctl', 'pbcopy', UUID], canary);
           const observed = run('canary', ['simctl', 'pbpaste', UUID]);

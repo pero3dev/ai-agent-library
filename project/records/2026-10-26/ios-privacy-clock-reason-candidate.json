@@ -261,5 +261,170 @@
     "fresh_binding_after_Copy_Audio": null,
     "actual_newhead_CI_Archive_equivalence": null,
     "record_and_source_candidate_published": false
+  },
+  "adoption_20261028": {
+    "date_JST": "2026-10-28",
+    "status": "technical_Privacy_source_declaration_adopted_by_ordinary_PR289_merge",
+    "historic_fields": "Prior candidate/status/preview/parent/pending and failed or incomplete official-response entries are preserved as history; this does not rewrite their dates or scope.",
+    "recording_basis": {
+      "main": "516662fe8474a94a069914d3126c412657efb8ca",
+      "tree": "2b4e52cee11543c9cd16b15d7d07e8c824f98304",
+      "append_only": true
+    },
+    "source": {
+      "path": "ios/AILibrary/PrivacyInfo.xcprivacy",
+      "bytes": 802,
+      "SHA256": "e0698c69f7f8482f7d501a30404b25c8337f991fe1edffac06f0787f878614dd",
+      "categories": [
+        "NSPrivacyAccessedAPICategoryUserDefaults",
+        "NSPrivacyAccessedAPICategorySystemBootTime"
+      ],
+      "reasons": [
+        "CA92.1",
+        "35F9.1"
+      ],
+      "tracking_false_domains_empty_collected_data_empty_preserved": true
+    },
+    "fact_and_inference": {
+      "official_fact": "Saved official CACurrentMediaTime documentation describes a seconds conversion of mach_absolute_time; saved required-reason list names mach_absolute_time/SystemBootTime/35F9.1 but does not name CACurrentMediaTime itself.",
+      "conservative_inference": "Apply35F9.1 to this App elapsed-time/timer wrapper use. Source adoption does not establish an officially explicit wrapper requirement or legal/Store acceptance.",
+      "FileTimestamp_new_reason_added": false,
+      "new_official_document_fetch_by_record_worker": false
+    },
+    "PR289": {
+      "head": "c3b03f35ba30cb6f9668dd4666473798d70aacc1",
+      "tree": "ca959a1abd8c15d8c7d0cc73f3f587e53310fd1f",
+      "base_before_merge": "8bd51d12929441ee70fa660309615e0944376209",
+      "Common_initial": {
+        "run": 40585928258,
+        "attempt": 1,
+        "actionlint_job": 122477176535,
+        "status": "in_progress",
+        "conclusion": "success",
+        "completed_at": "2026-10-27T21:20:28Z",
+        "all11_terminal_success_at_this_point": false,
+        "browser_raw_attempt": 1,
+        "browser_job": 122477176452,
+        "browser_checkout": "64e0312e3051f9409fba1fa8979fc5dbaf09b7c8",
+        "Chromium_passed": 677,
+        "Chromium_skipped": 5,
+        "Firefox_passed": 14,
+        "new_attempt2_browser_raw_counts_claimed": false
+      },
+      "Common_repair": {
+        "requested_single_job_rerun": {
+          "job": 122477176535,
+          "accepted": true
+        },
+        "run": 40585928258,
+        "latest_run_attempt": 2,
+        "status": "completed",
+        "conclusion": "success",
+        "Common9_latest_metadata_completed_success": true,
+        "all9_jobs_physically_rerun_claimed": false,
+        "new_attempt2_raw_browser_or_Archive_claimed": false,
+        "repair_receipt_SHA256": "b2f29cedb910363f07201ec50e116592d1ed6d0358fdb319374fab1d2535a69d"
+      },
+      "post_metadata_gate": {
+        "PR_body_exact_readback": true,
+        "policy_runs": [
+          {
+            "id": 40590748938,
+            "name": "Freshness policy PR #289",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 40590749162,
+            "name": "Harness policy PR #289",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "required11_all_completed_success": true,
+        "receipt_SHA256": "d6030052e3c48234c9f802cafd23ef302d54dec2c5c45e939ac13c31b726d584",
+        "existing_Root_API_results_frozen_without_new_API": true
+      },
+      "SDK26_actual_source": {
+        "run": 40585928253,
+        "job": 122477175626,
+        "actual_checkout": "c3b03f35ba30cb6f9668dd4666473798d70aacc1",
+        "source_tree": "ca959a1abd8c15d8c7d0cc73f3f587e53310fd1f",
+        "Xcode": "26.6",
+        "SDK": "26.5",
+        "configuration": "Release unsigned generic iOS Archive",
+        "source_semantics_match": true,
+        "actual_Privacy_SHA256": "e0698c69f7f8482f7d501a30404b25c8337f991fe1edffac06f0787f878614dd",
+        "source_Privacy_SHA256": "e0698c69f7f8482f7d501a30404b25c8337f991fe1edffac06f0787f878614dd",
+        "content_articles": 199,
+        "content_verified_files": 625,
+        "content_verified_bytes": 36958502,
+        "legal_distribution_acceptance": "unadopted",
+        "independent_Archive_body_download_by_this_worker": false
+      }
+    },
+    "main_integration": {
+      "PR": 289,
+      "mode": "ordinary protected squash; no admin/protection exception",
+      "main": "f15f634ab7068549b3d5d42270a0d8223f3cc0e3",
+      "tree": "ca959a1abd8c15d8c7d0cc73f3f587e53310fd1f",
+      "parent": "8bd51d12929441ee70fa660309615e0944376209",
+      "all_mode_type_blob_tuples_equal_accepted_c3": 2776,
+      "actual_Git_proof_SHA256": "6517c945d5c9d44a389b670a49121650b49e00b7c4f912e903a14a0d7b175aa5",
+      "retained_in_main516": true,
+      "retained_Source_XML_and_record2_equal_f15": true
+    },
+    "remaining": {
+      "Apple_Privacy_Report_and_Store_scanner": false,
+      "owner_public_policy_URL_contact_and_provider_log_inventory": false,
+      "AppPrivacy_Store_forms_distribution_or_legal_adoption": false,
+      "physical_device_VoiceOver_performance_acceptance": false,
+      "additional_audio_rights_or_offline_adoption": false,
+      "IOS27_complete": false,
+      "IOS04_complete": false,
+      "IOS16_complete": false,
+      "TODO_rows": 32,
+      "TODO_complete": 12
+    },
+    "evidence": [
+      {
+        "role": "Privacy_initial_gate",
+        "bytes": 14326,
+        "SHA256": "6c0372edc8e805034742e824ba8ef286e14234831e2c9167b04169610fadfbf8"
+      },
+      {
+        "role": "Privacy_repaired_gate",
+        "bytes": 3397,
+        "SHA256": "b2f29cedb910363f07201ec50e116592d1ed6d0358fdb319374fab1d2535a69d"
+      },
+      {
+        "role": "Privacy_SDK26_audit",
+        "bytes": 3152,
+        "SHA256": "1f413989bc621ff7d1c6a2f0730c7efacca7289ca02cf7cda65580b1c10ffefd"
+      },
+      {
+        "role": "Privacy_initial_browser_SDK_logs",
+        "bytes": 8974,
+        "SHA256": "412951de90110cd87ad4c79b71b7fa1cde2ca5e335b923642723f7f0fd7085e9"
+      },
+      {
+        "role": "Privacy_metadata_review",
+        "bytes": 2165,
+        "SHA256": "b29c63c2c254de7659e24d8a1c0d497969ab3e58e2541749581fc864357dd8ff"
+      },
+      {
+        "role": "Privacy_final_metadata_gate",
+        "bytes": 3455,
+        "SHA256": "d6030052e3c48234c9f802cafd23ef302d54dec2c5c45e939ac13c31b726d584"
+      },
+      {
+        "role": "Privacy_actualmainf15_Git",
+        "bytes": 453,
+        "SHA256": "6517c945d5c9d44a389b670a49121650b49e00b7c4f912e903a14a0d7b175aa5"
+      }
+    ],
+    "new_operations_by_record_worker": {
+      "SDK_tests_network_API_Git_mutation_shared_source_index_edits": 0
+    }
   }
 }

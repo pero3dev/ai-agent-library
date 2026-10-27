@@ -82,10 +82,12 @@ async function fixture(t) {
     [paths[2], source('第三記事', '式 $x^2$ です。\n\n$$\nx = y + 1\n$$')],
     [NATIVE_READER_FIXTURE.source_path, fixtureSource('## CASE-START\n\n[同じ記事](#case-end)と[同じファイル](native-reader.md#case-end)と[元記事](../../docs/01-concepts/one.md#第一記事)。\n\n## CASE-END\n\n到着。')]
   ]);
-  const episode = { id: 'test-episode', title: '第一記事 音声', article_path: paths[0], parts: 1, source_digest: sha256(files.get(paths[0])), audio_sha256: 'a'.repeat(64), audio_url: 'https://github.com/pero3dev/ai-agent-library/releases/download/test/episode.mp3', duration_seconds: 123, attribution: 'VOICEVOX Nemo（女声1・男声1）', voices: [{ license_url: 'https://voicevox.hiroshiba.jp/nemo/term/' }], chapters: [{ id: 'intro', title: '導入', start_seconds: 0 }, { id: 'main', title: '本文', start_seconds: 60 }] };
+  const episode = { id: 'test-episode', title: '第一記事 音声', article_path: paths[0], part: 1, parts: 1, script_sha256: 'b'.repeat(64), source_digest: sha256(files.get(paths[0])), audio_sha256: 'a'.repeat(64), audio_url: 'https://github.com/pero3dev/ai-agent-library/releases/download/test/episode.mp3', duration_seconds: 123, attribution: 'VOICEVOX Nemo（女声1・男声1）', voices: [{ license_url: 'https://voicevox.hiroshiba.jp/nemo/term/' }], chapters: [{ id: 'intro', title: '導入', start_seconds: 0 }, { id: 'main', title: '本文', start_seconds: 60 }] };
+  episode.audio_url = `https://github.com/pero3dev/ai-agent-library/releases/download/test-${episode.source_digest.slice(0, 16)}-${episode.script_sha256.slice(0, 16)}/episode-${episode.audio_sha256.slice(0, 16)}.mp3`;
+  const trustedAudioDeclarations = [{ episode_id: episode.id, article_id: episode.article_path.slice(5, -3), article_path: episode.article_path, audio_url: episode.audio_url, audio_sha256: episode.audio_sha256, source_digest: episode.source_digest, script_sha256: episode.script_sha256, credit: episode.attribution, license_url: episode.voices[0].license_url }];
   files.set('website/audio/catalog.json', JSON.stringify({ schema_version: 1, episodes: [episode] }));
   for (const [name, content] of files) { await mkdir(path.dirname(path.join(root, name)), { recursive: true }); await writeFile(path.join(root, name), content); }
-  return { root, files, episode, selection: { schema_version: 1, articles: paths, audio_article: paths[0] }, output: path.join(root, 'bundle/Content') };
+  return { root, files, episode, trustedAudioDeclarations, selection: { schema_version: 1, articles: paths, audio_article: paths[0] }, output: path.join(root, 'bundle/Content') };
 }
 
 test('native parser preserves styled inline content, typed links, nested lists, quotes and tables', () => {
@@ -614,10 +616,11 @@ test('invalid references and asset output preserve a previous generated package'
   const value = await fixture(t);
   await mkdir(value.output, { recursive: true });
   const sentinel = path.join(value.output, 'sentinel'); await writeFile(sentinel, 'keep');
-  await writeFile(path.join(value.root, paths[0]), source('第一記事', '[不存在](two.md#不明)'));
+  // Keep the audio source unchanged so this negative reaches the link validator.
+  await writeFile(path.join(value.root, paths[2]), source('第三記事', '[不存在](../01-concepts/two.md#不明)'));
   await assert.rejects(buildNativeContent({ ...value, dependencies: mockDependencies }), /Unknown native article or heading/);
   assert.equal(await readFile(sentinel, 'utf8'), 'keep');
-  await writeFile(path.join(value.root, paths[0]), value.files.get(paths[0]));
+  await writeFile(path.join(value.root, paths[2]), value.files.get(paths[2]));
   const invalid = mutate => ({ async renderAssets(requests) { const result = await mockDependencies.renderAssets(requests); mutate(result); return result; } });
   await assert.rejects(buildNativeContent({ ...value, dependencies: invalid(result => result.metadata.clear()) }), /Missing native rendered metadata/);
   await assert.rejects(buildNativeContent({ ...value, dependencies: invalid(result => result.metadata.values().next().value.asset.width = 100) }), /dimensions disagree/);

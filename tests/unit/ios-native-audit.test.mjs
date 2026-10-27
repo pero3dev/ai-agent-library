@@ -25,7 +25,9 @@ async function fixture(t) {
   const root = path.join(temporary, 'source');
   const sources = new Map(articlePaths.map((file, index) => [file, articleSource(`記事${index + 1}`)]));
   const selection = { schema_version: 1, articles: articlePaths, audio_article: articlePaths[0], diagram_descriptions: {} };
-  const episode = { id: 'test-episode', title: '音声', article_path: articlePaths[0], parts: 1, source_digest: sha256(sources.get(articlePaths[0])), audio_sha256: 'a'.repeat(64), audio_url: 'https://github.com/pero3dev/ai-agent-library/releases/download/test/audio.mp3', duration_seconds: 60, attribution: 'VOICEVOX Nemo', voices: [{ license_url: 'https://voicevox.hiroshiba.jp/nemo/term/' }], chapters: [{ id: 'intro', title: '導入', start_seconds: 0 }] };
+  const episode = { id: 'test-episode', title: '音声', article_path: articlePaths[0], part: 1, parts: 1, script_sha256: 'b'.repeat(64), source_digest: sha256(sources.get(articlePaths[0])), audio_sha256: 'a'.repeat(64), audio_url: 'https://github.com/pero3dev/ai-agent-library/releases/download/test/audio.mp3', duration_seconds: 60, attribution: 'VOICEVOX Nemo', voices: [{ license_url: 'https://voicevox.hiroshiba.jp/nemo/term/' }], chapters: [{ id: 'intro', title: '導入', start_seconds: 0 }] };
+  episode.audio_url = `https://github.com/pero3dev/ai-agent-library/releases/download/test-${episode.source_digest.slice(0, 16)}-${episode.script_sha256.slice(0, 16)}/episode-${episode.audio_sha256.slice(0, 16)}.mp3`;
+  const trustedAudioDeclarations = [{ episode_id: episode.id, article_id: episode.article_path.slice(5, -3), article_path: episode.article_path, audio_url: episode.audio_url, audio_sha256: episode.audio_sha256, source_digest: episode.source_digest, script_sha256: episode.script_sha256, credit: episode.attribution, license_url: episode.voices[0].license_url }];
   const files = new Map([
     ['LICENSE', 'Documentation and source code fixture notices.'],
     ['ios/content-selection.json', JSON.stringify(selection)],
@@ -35,7 +37,7 @@ async function fixture(t) {
   ]);
   const put = async (file, content) => { await mkdir(path.dirname(path.join(root, file)), { recursive: true }); await writeFile(path.join(root, file), content); };
   for (const [file, content] of files) await put(file, content);
-  return { temporary, root, selection, put, output: path.join(temporary, 'export', 'Content') };
+  return { temporary, root, selection, trustedAudioDeclarations, put, output: path.join(temporary, 'export', 'Content') };
 }
 
 test('audit CLI distinguishes representative, fixture, production and explicit temporary profiles', () => {
@@ -106,10 +108,10 @@ test('full diagram-map audit rejects missing, stale or malformed source descript
 });
 
 test('full audit accepts an actual text-only package and rejects exact-set, source SHA and source-path tampering', async t => {
-  const { root, output, put, selection } = await fixture(t);
+  const { root, output, put, selection, trustedAudioDeclarations } = await fixture(t);
   await put('docs/01-concepts/four.md', articleSource('追加記事'));
   await put('docs/01-concepts/draft.md', articleSource('下書き', 'draft'));
-  const manifest = await buildNativeContent({ root, allPublished: true, output, selection, dependencies: mockDependencies });
+  const manifest = await buildNativeContent({ root, allPublished: true, output, selection, trustedAudioDeclarations, dependencies: mockDependencies });
   const options = { root, profile: 'all-published', content: output };
   const passed = await auditNativeContent(options);
   assert.equal(passed.result, 'passed');

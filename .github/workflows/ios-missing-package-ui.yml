@@ -63,7 +63,7 @@ jobs:
           import path from 'node:path';
           import { createHash, randomUUID } from 'node:crypto';
           import { spawn } from 'node:child_process';
-          import { selectUITestTarget, resolveUITestBuildPaths, destinationUITestRun } from '../../ios/tests/xctestrun-metadata.mjs';
+          import { selectUITestTarget, phaseUITestRun, copyPhaseApp } from '../../ios/tests/xctestrun-metadata.mjs';
           import { compareInstalledInventory } from '../../ios/tests/installed-inventory.mjs';
 
           const stage = process.argv[2];
@@ -263,35 +263,62 @@ jobs:
             catch { console.log('AILibraryContentDiagnostics ' + JSON.stringify({ label, status: 'record-write-failed' })); }
           }
 
-          async function installedRunner(label, build) {
-            const owned = owner(); assert.equal(build.source_head, process.env.EXPECTED_SOURCE_HEAD); assert.equal(build.UUID, owned.UUID);
-            assert.equal(fs.realpathSync(build.runner_path), build.runner_path);
-            const content = rows => rows.map(({ path, bytes, sha256 }) => ({ path, bytes, sha256 }));
-            const expected = content(files(build.runner_path)); assert.equal(hash(Buffer.from(JSON.stringify(expected))), build.runner_content_sha256);
-            const result = await run(label + '-app-container', 'xcrun', ['simctl', 'get_app_container', owned.UUID, build.runner_bundle_id, 'app'], 20000);
-            const location = result.stdout.trim(); assert.ok(path.isAbsolute(location)); assert.equal(fs.realpathSync(location), location);
-            const parts = location.split(path.sep), deviceIndex = parts.indexOf('Devices'); assert.ok(deviceIndex >= 0);
-            const ownedParts = parts.slice(deviceIndex + 1); assert.equal(ownedParts.length, 7); assert.equal(ownedParts[0].toUpperCase(), owned.UUID);
-            assert.deepEqual(ownedParts.slice(1, 5), ['data', 'Containers', 'Bundle', 'Application']); assert.match(ownedParts[5].toUpperCase(), uuidPattern);
-            assert.equal(ownedParts[6], path.basename(build.runner_path));
-            const actual = files(location); assert.deepEqual(content(actual), expected, 'Installed runner paths/bytes/SHA must match this build');
-            json(label + '.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, bundle_id: build.runner_bundle_id, installed_app: location,
-              files: actual.length, content_sha256: build.runner_content_sha256, actual_inventory_sha256: hash(Buffer.from(JSON.stringify(actual))),
-              scope: 'Runner paths, bytes and SHA verified; installed file modes recorded by inventory hash, with no new mode exception' });
+          function boundedInventory(name, value) {
+            const encoded = JSON.stringify(value, null, 2) + '\n'; assert.ok(Buffer.byteLength(encoded) <= 131072, 'Source inventory evidence bound'); put(name, encoded);
           }
 
-          async function ui(label, selector, expected) {
+          function baselineAfter(label) {
+            const build = read('build.json'), baseline = read('baseline-app.json'), actual = files(app);
+            const stockSHA = hash(fs.readFileSync(build.xctestrun));
+            boundedInventory('baseline-after-' + label + '-inventory.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owner().UUID, label,
+              baseline_app: app, stock_xctestrun: build.xctestrun, stock_xctestrun_sha256: stockSHA, expected: baseline, actual });
+            assert.deepEqual(actual, baseline, 'Built baseline must remain immutable after each phase'); assert.equal(stockSHA, build.xctestrun_sha256);
+          }
+
+          async function preparePhase(label, baseline, omitted = null) {
+            const build = read('build.json'), owned = owner(), products = path.join(derived, 'Build/Products');
+            assert.equal(build.source_head, process.env.EXPECTED_SOURCE_HEAD); assert.equal(build.UUID, owned.UUID); hostPackage(baseline);
+            assert.equal(fs.realpathSync(build.xctestrun), build.xctestrun); assert.equal(path.dirname(build.xctestrun), products);
+            assert.equal(hash(fs.readFileSync(build.xctestrun)), build.xctestrun_sha256);
+            const metadataBytes = fs.readFileSync(path.join(evidence, 'xctestrun-metadata.stdout.log')); assert.equal(hash(metadataBytes), build.metadata_json_sha256);
+            const metadata = JSON.parse(metadataBytes); const copy = copyPhaseApp(products, label, baseline, omitted);
+            const phase = phaseUITestRun(metadata, { expectedBlueprintName: 'AILibraryUITests', expectedBundleIdentifier: bundleID,
+              actualAppBundleIdentifier: build.actual_app_bundle_id, testRoot: products, appPath: app, phase: label });
+            assert.equal(copy.destination, phase.phaseApp);
+            const runfile = path.join(products, 'owned-' + label + '.xctestrun'); assert.notEqual(runfile, build.xctestrun);
+            fs.writeFileSync(runfile, JSON.stringify(phase.metadata), { flag: 'wx', mode: 0o600 });
+            await run(label + '-runfile-plist', '/usr/bin/plutil', ['-convert', 'xml1', runfile], 10000);
+            assert.equal(fs.realpathSync(runfile), runfile);
+            const readback = JSON.parse((await run(label + '-runfile-readback', '/usr/bin/plutil', ['-convert', 'json', '-o', '-', runfile], 10000)).stdout);
+            assert.deepEqual(readback, phase.metadata);
+            boundedInventory(label + '-phase-source-inventory.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, label,
+              phase_app: copy.destination, expected: baseline.filter(row => row.path !== omitted), actual: copy.inventory });
+            const receipt = { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, label, baseline_app: app, phase_app: copy.destination,
+              stock_xctestrun: build.xctestrun, stock_xctestrun_sha256: build.xctestrun_sha256,
+              xctestrun: runfile, xctestrun_sha256: hash(fs.readFileSync(runfile)), target_path: phase.phaseTargetPath, bundle_id: bundleID,
+              xctestrun_format_version: phase.formatVersion, selected_ui_targets: 1, dependency_replacements: phase.dependencyReplacements,
+              omitted_path: omitted, copy_checks: { exclusive: copy.exclusiveCopies, baseline_unchanged: copy.baselineUnchanged,
+                file_and_directory_modes_match: copy.fileAndDirectoryModesMatch, all_inodes_distinct: copy.inodesDistinct,
+                regular_files: copy.regularFiles, directories: copy.directories },
+              claim_scope: 'Copy filesystem checks and XML SHA are producer claims; full source file arrays are separate evidence.' };
+            json(label + '-phase.json', receipt); return receipt;
+          }
+
+          async function ui(label, selector, expected, phase) {
             const owned = owner(), build = read('build.json');
-            assert.equal(fs.realpathSync(build.xctestrun), build.xctestrun); assert.equal(path.dirname(build.xctestrun), path.join(derived, 'Build/Products'));
-            assert.equal(hash(fs.readFileSync(build.xctestrun)), build.xctestrun_sha256); assert.equal(build.use_destination_artifacts, true);
-            await installedRunner(label + '-runner-before-ui', build);
+            assert.equal(phase.source_head, process.env.EXPECTED_SOURCE_HEAD); assert.equal(phase.UUID, owned.UUID); assert.equal(phase.label, label);
+            assert.equal(phase.phase_app, path.join(derived, 'Build/Products/owned-phase-apps', label, 'AILibrary.app'));
+            assert.equal(fs.realpathSync(phase.phase_app), phase.phase_app); assert.deepEqual(files(phase.phase_app), expected);
+            assert.equal(fs.realpathSync(phase.xctestrun), phase.xctestrun); assert.equal(path.dirname(phase.xctestrun), path.join(derived, 'Build/Products'));
+            assert.equal(hash(fs.readFileSync(phase.xctestrun)), phase.xctestrun_sha256); assert.equal(hash(fs.readFileSync(build.xctestrun)), build.xctestrun_sha256);
             const pre = await installed(label + '-before-ui', expected);
-            const args = ['-xctestrun', read('build.json').xctestrun, '-destination', `platform=iOS Simulator,id=${owned.UUID}`, '-destination-timeout', '60', '-resultBundlePath', path.join(evidence, label + '.xcresult'), '-parallel-testing-enabled', 'NO', '-jobs', '2', '-only-testing:' + selector, 'CODE_SIGNING_ALLOWED=NO', 'test-without-building'];
+            const args = ['-xctestrun', phase.xctestrun, '-destination', `platform=iOS Simulator,id=${owned.UUID}`, '-destination-timeout', '60', '-resultBundlePath', path.join(evidence, label + '.xcresult'), '-parallel-testing-enabled', 'NO', '-jobs', '2', '-only-testing:' + selector, 'CODE_SIGNING_ALLOWED=NO', 'test-without-building'];
             const result = await run(label + '-ui', 'xcodebuild', args, label === 'failure' ? 180000 : 240000, false);
             const post = await installed(label + '-after-ui', expected);
-            json(label + '-execution.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, OS: '18.5', selector, xctestrun: read('build.json').xctestrun, test_exit_code: result.exit_code, test_signal: result.signal, test_error: result.error, timed_out: result.timed_out, pre, post, installation_scope: 'Explicit simctl App and runner installs; destination-artifact runfile requests no xcodebuild installation' });
+            json(label + '-execution.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, OS: '18.5', selector, xctestrun: phase.xctestrun, test_exit_code: result.exit_code, test_signal: result.signal, test_error: result.error, timed_out: result.timed_out, pre, post, installation_scope: 'Explicit phase source App install; xcodebuild source artifacts reference the same phase copy' });
             captureContentDiagnostics(label, post, owned);
-            hostPackage(expected); assert.equal(result.exit_code, 0, label); assert.equal(result.error, null, label); assert.equal(result.timed_out, false, label);
+            hostPackage(read('baseline-app.json')); assert.deepEqual(files(phase.phase_app), expected);
+            assert.equal(result.exit_code, 0, label); assert.equal(result.error, null, label); assert.equal(result.timed_out, false, label);
             return post;
           }
 
@@ -346,47 +373,25 @@ jobs:
             const { formatVersion, target } = selectUITestTarget(metadata, { expectedBlueprintName: 'AILibraryUITests', expectedBundleIdentifier: bundleID, actualAppBundleIdentifier: ownedAppInfo.CFBundleIdentifier });
             const targetPath = target.UITargetAppPath; assert.equal(typeof targetPath, 'string'); assert.ok(!targetPath.replace('__TESTROOT__', products).includes('__'));
             assert.equal(fs.realpathSync(targetPath.replace('__TESTROOT__', products)), app, 'Do not run a cached app outside this owned build');
-            const options = { expectedBlueprintName: 'AILibraryUITests', expectedBundleIdentifier: bundleID, actualAppBundleIdentifier: ownedAppInfo.CFBundleIdentifier, testRoot: products, appPath: app };
-            const paths = resolveUITestBuildPaths(metadata, options);
-            for (const location of [products, paths.runnerPath, paths.testBundlePath]) { assert.equal(fs.realpathSync(location), location); assert.ok(fs.lstatSync(location).isDirectory()); }
-            const runnerInventory = files(paths.runnerPath); // Refuse symlinks before reading either Info.plist.
-            async function artifactInfo(label, location, packageType) {
-              const infoPath = path.join(location, 'Info.plist'); assert.equal(fs.realpathSync(infoPath), infoPath); assert.ok(fs.lstatSync(infoPath).isFile());
-              const info = JSON.parse((await run(label, '/usr/bin/plutil', ['-convert', 'json', '-o', '-', infoPath], 10000)).stdout);
-              assert.equal(info.CFBundlePackageType, packageType); assert.match(info.CFBundleExecutable, /^[A-Za-z0-9_-][A-Za-z0-9_.-]*$/);
-              const executable = path.join(location, info.CFBundleExecutable); assert.equal(fs.realpathSync(executable), executable); assert.ok(fs.lstatSync(executable).isFile());
-              return info;
-            }
-            const runnerInfo = await artifactInfo('owned-runner-info', paths.runnerPath, 'APPL');
-            const testInfo = await artifactInfo('owned-ui-test-info', paths.testBundlePath, 'BNDL');
-            const destination = destinationUITestRun(metadata, { ...options, runnerBundleIdentifier: runnerInfo.CFBundleIdentifier, testBundleIdentifier: testInfo.CFBundleIdentifier });
-            const destinationRun = path.join(products, 'owned-destination.xctestrun'); assert.notEqual(destinationRun, xctestrun);
-            fs.writeFileSync(destinationRun, JSON.stringify(destination.metadata), { flag: 'wx', mode: 0o600 });
-            await run('destination-runfile-plist', '/usr/bin/plutil', ['-convert', 'xml1', destinationRun], 10000);
-            assert.equal(fs.realpathSync(destinationRun), destinationRun);
-            const readback = JSON.parse((await run('destination-runfile-readback', '/usr/bin/plutil', ['-convert', 'json', '-o', '-', destinationRun], 10000)).stdout);
-            assert.deepEqual(readback, destination.metadata);
             const baseline = hostPackage(); const manifest = JSON.parse(fs.readFileSync(path.join(app, 'Content/manifest.json'), 'utf8'));
             assert.equal(manifest.schema_version, 2); assert.equal(manifest.articles.length, 3); assert.equal(manifest.articles.some(row => row.is_test_fixture === true || row.id.startsWith('test-fixtures/')), false);
-            const binding = { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, app, xctestrun: destinationRun, xctestrun_sha256: hash(fs.readFileSync(destinationRun)), stock_xctestrun: xctestrun, stock_xctestrun_sha256: hash(fs.readFileSync(xctestrun)), target_path: targetPath, bundle_id: bundleID, xctestrun_format_version: formatVersion, metadata_declares_bundle_id: Object.hasOwn(target, 'UITargetAppBundleIdentifier'), actual_app_bundle_id: ownedAppInfo.CFBundleIdentifier, article_count: 3,
-              use_destination_artifacts: true, selected_ui_targets: 1, runner_path: paths.runnerPath, runner_bundle_id: runnerInfo.CFBundleIdentifier,
-              test_bundle_path: paths.testBundlePath, test_bundle_id: testInfo.CFBundleIdentifier, test_bundle_destination_relative_path: paths.testBundleDestinationRelativePath,
-              runner_content_sha256: hash(Buffer.from(JSON.stringify(runnerInventory.map(({ path, bytes, sha256 }) => ({ path, bytes, sha256 }))))) };
-            await run('runner-explicit-install', 'xcrun', ['simctl', 'install', owned.UUID, paths.runnerPath], 60000);
-            await installedRunner('runner-explicit-install', binding);
-            json('baseline-app.json', baseline); json('build.json', binding);
+            json('baseline-app.json', baseline); json('build.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, app, xctestrun,
+              xctestrun_sha256: hash(fs.readFileSync(xctestrun)), target_path: targetPath, bundle_id: bundleID, xctestrun_format_version: formatVersion,
+              metadata_declares_bundle_id: Object.hasOwn(target, 'UITargetAppBundleIdentifier'), actual_app_bundle_id: ownedAppInfo.CFBundleIdentifier,
+              metadata_json_sha256: hash(fs.readFileSync(path.join(evidence, 'xctestrun-metadata.stdout.log'))), article_count: 3 });
           }
 
           async function failure() {
             const baseline = read('baseline-app.json'); hostPackage(baseline); const manifest = JSON.parse(fs.readFileSync(path.join(app, 'Content/manifest.json'), 'utf8'));
             const relative = manifest.articles[0].document_path; assert.match(relative, /^articles\/[A-Za-z0-9/_-]+\.json$/); assert.ok(relative.split('/').every(p => p !== '..' && p !== '.'));
             const target = path.join(app, 'Content', relative); assert.equal(fs.realpathSync(target), target); const bytes = fs.readFileSync(target); assert.equal(hash(bytes), manifest.files[relative]);
-            put('withheld-article.json', bytes); json('withheld.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, host_app: app, relative_path: 'Content/' + relative, bytes: bytes.length, mode: fs.statSync(target).mode & 0o777, sha256: hash(bytes), saved_as: 'withheld-article.json' });
-            fs.unlinkSync(target); const expected = baseline.filter(row => row.path !== 'Content/' + relative); assert.equal(expected.length, baseline.length - 1); hostPackage(expected);
+            put('withheld-article.json', bytes); json('withheld.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, host_app: app, relative_path: 'Content/' + relative, bytes: bytes.length, mode: fs.statSync(target).mode & 0o777, sha256: hash(bytes), saved_as: 'withheld-article.json', baseline_retained: true });
+            const expected = baseline.filter(row => row.path !== 'Content/' + relative); assert.equal(expected.length, baseline.length - 1);
+            const phase = await preparePhase('failure', baseline, 'Content/' + relative);
             const owned = owner(); const absent = await run('failure-before-install-absence', 'xcrun', ['simctl', 'get_app_container', owned.UUID, bundleID, 'app'], 10000, false); assert.notEqual(absent.exit_code, 0, 'Fresh owned Simulator must not already contain this app'); assert.equal(absent.timed_out, false); assert.equal(absent.error, null);
-            await run('failure-explicit-install', 'xcrun', ['simctl', 'install', owned.UUID, app], 60000);
+            await run('failure-explicit-install', 'xcrun', ['simctl', 'install', owned.UUID, phase.phase_app], 60000);
             const proof = await installed('failure-explicit-install', expected); json('failure-installation.json', { ...proof, install_exit_code: 0, prior_app_absent: true, expected_missing_file: 'Content/' + relative, proven_by: 'Successful explicit install plus exact installed file inventory; no automatic reinstall assumption' });
-            try { await ui('failure', failureSelector, expected); }
+            try { await ui('failure', failureSelector, expected, phase); }
             finally {
               const post = await installed('failure-before-sentinel', expected);
               const relative = 'Documents/ailibrary-reinstall-' + randomUUID() + '.txt';
@@ -394,6 +399,7 @@ jobs:
               const sentinel = Buffer.from('AI Agent Library reinstall preservation sentinel v1\n', 'utf8');
               fs.writeFileSync(path.join(post.data_container, relative), sentinel, { flag: 'wx', mode: 0o600 });
               json('reinstall-sentinel.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owner().UUID, relative_path: relative, bytes: sentinel.length, sha256: hash(sentinel), data_container_before_upgrade: post.data_container, app_reads_sentinel: false });
+              baselineAfter('failure');
             }
           }
 
@@ -403,16 +409,20 @@ jobs:
             json('restored-prerequisites.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, prerequisite_stage: 'failure', status: missing.length ? 'blocked-by-prior-stage' : 'present', missing_files: missing, scope: 'Presence only; existing restore validations still apply. No restored install or UI success is implied.' });
             assert.equal(missing.length, 0, 'Stage R blocked: prior Stage F prerequisites were not completed');
             const withheld = read('withheld.json'); assert.equal(withheld.source_head, process.env.EXPECTED_SOURCE_HEAD); assert.equal(withheld.host_app, app); assert.match(withheld.relative_path, /^Content\/articles\/[A-Za-z0-9/_-]+\.json$/);
-            const target = path.join(app, withheld.relative_path); assert.ok(!fs.existsSync(target)); const bytes = fs.readFileSync(path.join(evidence, 'withheld-article.json')); assert.equal(bytes.length, withheld.bytes); assert.equal(hash(bytes), withheld.sha256);
+            const target = path.join(app, withheld.relative_path); assert.equal(fs.realpathSync(target), target); const bytes = fs.readFileSync(path.join(evidence, 'withheld-article.json')); assert.equal(bytes.length, withheld.bytes); assert.equal(hash(bytes), withheld.sha256);
             assert.ok(Number.isInteger(withheld.mode) && withheld.mode >= 0 && withheld.mode <= 0o777);
-            fs.writeFileSync(target, bytes, { flag: 'wx', mode: withheld.mode }); const baseline = read('baseline-app.json'); hostPackage(baseline);
-            json('restoration.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, relative_path: withheld.relative_path, restored_sha256: hash(bytes), full_host_bundle_matches_baseline: true, scope: 'Resource restoration and upgrade install preserving sentinel; not same-process retry recovery or reading migration' });
+            assert.equal(hash(fs.readFileSync(target)), withheld.sha256); assert.equal(fs.statSync(target).mode & 0o777, withheld.mode);
+            const baseline = read('baseline-app.json'); hostPackage(baseline); const phase = await preparePhase('restored', baseline);
+            assert.equal(hash(fs.readFileSync(path.join(phase.phase_app, withheld.relative_path))), withheld.sha256);
+            json('restoration.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, relative_path: withheld.relative_path, restored_sha256: hash(bytes), full_host_bundle_matches_baseline: true, scope: 'Complete restored phase copy and upgrade install preserving sentinel; not same-process retry recovery or reading migration' });
             const owned = owner(); const initial = read('failure-installation.json'); preservedSentinel(read('reinstall-sentinel.json').data_container_before_upgrade);
-            await run('restored-explicit-install', 'xcrun', ['simctl', 'install', owned.UUID, app], 60000);
+            await run('restored-explicit-install', 'xcrun', ['simctl', 'install', owned.UUID, phase.phase_app], 60000);
             const proof = await installed('restored-explicit-install', baseline); const sentinel = preservedSentinel(proof.data_container);
             json('restored-installation.json', { ...proof, prior_installation_UUID: initial.installation_UUID, install_exit_code: 0, uninstall_performed: false, installation_UUID_changed: proof.installation_UUID !== initial.installation_UUID, sentinel, proven_by: 'Explicit upgrade install, missing-to-full actual bundle inventory transition, preserved fixed sentinel bytes; no uninstall fallback or automatic reinstall assumption' });
-            const post = await ui('restored', restoredSelector, baseline);
-            json('sentinel-after-restored-ui.json', preservedSentinel(post.data_container));
+            try {
+              const post = await ui('restored', restoredSelector, baseline, phase);
+              json('sentinel-after-restored-ui.json', preservedSentinel(post.data_container));
+            } finally { baselineAfter('restored'); }
           }
 
           async function audit() {

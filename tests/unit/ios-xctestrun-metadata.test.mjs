@@ -1,6 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { selectUITestTarget, resolveUITestBuildPaths, destinationUITestRun } from '../../ios/tests/xctestrun-metadata.mjs';
+import * as fs from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
+import { createHash } from 'node:crypto';
+import { selectUITestTarget, phaseUITestRun, copyPhaseApp } from '../../ios/tests/xctestrun-metadata.mjs';
 
 const expected = { expectedBlueprintName: 'AILibraryUITests', expectedBundleIdentifier: 'dev.example.AILibrary', actualAppBundleIdentifier: 'dev.example.AILibrary' };
 const ui = () => ({ BlueprintName: 'AILibraryUITests', IsUITestBundle: true,
@@ -210,91 +214,119 @@ test('enabled configuration requires its own explicit TestTargets array', () => 
 });
 
 
-const destinationOptions = () => ({ ...expected, testRoot: '/owned/Products',
-  appPath: '/owned/Products/Debug-iphonesimulator/AILibrary.app',
-  runnerBundleIdentifier: 'dev.actual.CustomRunner', testBundleIdentifier: 'dev.actual.CustomTests' });
-const selected = input => input.AILibraryUITests ?? input.TestConfigurations[0].TestTargets[1];
+const phaseOptions = phase => ({ ...expected, testRoot: '/owned/Products', appPath: '/owned/Products/Debug-iphonesimulator/AILibrary.app', phase });
 
-test('legacy destination run keeps the selected target settings and immutable input but excludes all unit targets and source paths', () => {
-  const input = legacy(); input.AILibraryUITests.TestingEnvironmentVariables = { DYLD_LIBRARY_PATH: '__TESTROOT__/Debug-iphonesimulator' };
-  input.AILibraryUITests.DependentProductPaths = ['__TESTROOT__/Debug-iphonesimulator/AILibrary.app'];
-  frozen(input); const before = JSON.stringify(input), options = frozen(destinationOptions());
-  const result = destinationUITestRun(input, options), target = result.metadata.AILibraryUITests;
+test('phase legacy keeps stock runner/test paths and other settings, prunes unit, and synchronizes only original App dependency entries', () => {
+  const input = legacy(), target = input.AILibraryUITests;
+  target.TestingEnvironmentVariables = { DYLD_LIBRARY_PATH: '__TESTROOT__/Debug-iphonesimulator' };
+  target.DependentProductPaths = [target.UITargetAppPath, phaseOptions('failure').appPath, target.TestHostPath,
+    '__TESTHOST__/PlugIns/AILibraryUITests.xctest', '/canonical/Framework.framework'];
+  frozen(input); const before = JSON.stringify(input), result = phaseUITestRun(input, phaseOptions('failure')), t = result.metadata.AILibraryUITests;
   assert.deepEqual(Object.keys(result.metadata).sort(), ['AILibraryUITests', '__xctestrun_metadata__']);
-  for (const key of ['TestHostPath', 'TestBundlePath', 'UITargetAppPath']) assert.equal(Object.hasOwn(target, key), false);
-  assert.equal(target.UseDestinationArtifacts, true);
-  assert.equal(target.TestHostBundleIdentifier, options.runnerBundleIdentifier);
-  assert.equal(target.UITargetAppBundleIdentifier, options.actualAppBundleIdentifier);
-  assert.equal(target.TestBundleDestinationRelativePath, '__TESTHOST__/PlugIns/AILibraryUITests.xctest');
-  assert.deepEqual(target.TestingEnvironmentVariables, input.AILibraryUITests.TestingEnvironmentVariables);
-  assert.deepEqual(target.DependentProductPaths, input.AILibraryUITests.DependentProductPaths);
-  assert.equal(JSON.stringify(input), before); assert.equal(selectUITestTarget(input, expected).target, input.AILibraryUITests);
+  assert.equal(t.TestHostPath, target.TestHostPath); assert.equal(t.TestBundlePath, target.TestBundlePath);
+  assert.equal(t.UITargetAppPath, '__TESTROOT__/owned-phase-apps/failure/AILibrary.app'); assert.equal(result.dependencyReplacements, 2);
+  assert.deepEqual(t.DependentProductPaths, [t.UITargetAppPath, result.phaseApp, target.TestHostPath,
+    '__TESTHOST__/PlugIns/AILibraryUITests.xctest', '/canonical/Framework.framework']);
+  assert.deepEqual(t.TestingEnvironmentVariables, target.TestingEnvironmentVariables); assert.equal(Object.hasOwn(t, 'UseDestinationArtifacts'), false);
+  assert.equal(JSON.stringify(input), before);
 });
 
-test('modern destination run drops disabled and unrelated enabled configurations and preserves selected configuration settings', () => {
-  const input = modern(); input.TestPlan = { Name: 'Observed plan' }; input.TestConfigurations[0].CustomSetting = 'retained';
-  input.TestConfigurations.push({ Name: 'Disabled', IsEnabled: false, TestTargets: [ui()] },
-    { Name: 'Other', TestTargets: [unit()] });
-  const before = structuredClone(input), result = destinationUITestRun(frozen(input), destinationOptions()).metadata;
-  assert.equal(result.TestConfigurations.length, 1); assert.equal(result.TestConfigurations[0].TestTargets.length, 1);
-  assert.equal(result.TestConfigurations[0].TestTargets[0].BlueprintName, expected.expectedBlueprintName);
-  assert.equal(result.TestConfigurations[0].CustomSetting, 'retained'); assert.deepEqual(result.TestPlan, input.TestPlan);
-  assert.deepEqual(input, before);
+test('phase modern keeps selected configuration and metadata but F and R use distinct source paths with no original App reference', () => {
+  const input = modern(); input.TestConfigurations[0].Setting = 'retain'; input.TestPlan = { Name: 'observed' };
+  input.TestConfigurations.push({ IsEnabled: false, TestTargets: [ui()] }, { TestTargets: [unit()] });
+  const f = phaseUITestRun(frozen(input), phaseOptions('failure')), r = phaseUITestRun(input, phaseOptions('restored'));
+  assert.notEqual(f.phaseApp, r.phaseApp); assert.notEqual(f.phaseTargetPath, r.phaseTargetPath);
+  assert.equal(r.metadata.TestConfigurations.length, 1); assert.equal(r.metadata.TestConfigurations[0].TestTargets.length, 1);
+  assert.equal(r.metadata.TestConfigurations[0].Setting, 'retain'); assert.deepEqual(r.metadata.TestPlan, input.TestPlan);
+  const t = r.metadata.TestConfigurations[0].TestTargets[0]; assert.equal(t.UITargetAppBundleIdentifier, expected.expectedBundleIdentifier);
+  assert.equal(t.TestHostPath, input.TestConfigurations[0].TestTargets[1].TestHostPath);
+  assert.equal(JSON.stringify(r.metadata).includes('Debug-iphonesimulator/AILibrary.app'), false);
 });
 
-test('destination paths derive from the stock runner and actual Info IDs rather than standard bundle names', () => {
-  const input = legacy(); Object.assign(input.AILibraryUITests, {
-    TestHostPath: '/owned/Products/Alternate/Unusual.app',
-    TestBundlePath: '__TESTROOT__/Alternate/Unusual.app/PlugIns/Another.xctest'
+test('phase refuses residual original App references, descendant dependencies and malformed dependency arrays', () => {
+  for (const mutate of [t => { t.EnvironmentVariables = { unexpected: t.UITargetAppPath }; },
+    t => { t.DependentProductPaths = [t.UITargetAppPath + '/PlugIns/Other.xctest']; },
+    t => { t.DependentProductPaths = 'not-array'; }, t => { t.DependentProductPaths = [null]; },
+    ...['__TESTROOT__/Debug-iphonesimulator/../Debug-iphonesimulator/AILibrary.app',
+      '__TESTROOT__/Debug-iphonesimulator/./AILibrary.app', '__UNKNOWN__/Other.app', 'relative/Other.app',
+      '/canonical/../Other.app', '/canonical//Other.app'].map(value => t => { t.DependentProductPaths = [value]; })]) {
+    const input = legacy(); mutate(input.AILibraryUITests); assert.throws(() => phaseUITestRun(input, phaseOptions('failure')), /Residual|DependentProductPaths/);
+  }
+});
+
+test('phase refuses unsupported destination mode, path escape, runner aliases, wrong identity and missing phase', () => {
+  for (const changes of [{ UseDestinationArtifacts: true }, { UITargetAppPath: '__TESTROOT__/../Other.app' },
+    { TestHostPath: ui().UITargetAppPath }, { TestBundlePath: '__TESTHOST__/../Other.xctest' }]) {
+    const input = legacy(); Object.assign(input.AILibraryUITests, changes); assert.throws(() => phaseUITestRun(input, phaseOptions('failure')));
+  }
+  for (const options of [{ ...phaseOptions('failure'), phase: 'other' }, { ...phaseOptions('failure'), actualAppBundleIdentifier: 'dev.other.App' },
+    { ...phaseOptions('failure'), testRoot: '/owned/Products/..' }]) assert.throws(() => phaseUITestRun(legacy(), options));
+});
+
+const sha = bytes => createHash('sha256').update(bytes).digest('hex');
+function freeGuard(directory) { const stat = fs.statfsSync(directory, { bigint: true }); assert.ok(stat.bavail * stat.bsize >= 734003200n, 'Fixture free-space floor'); }
+function mutateAt(directory, action) { freeGuard(directory); const value = action(); freeGuard(directory); return value; }
+function inventory(directory) {
+  const rows = []; function visit(current) { for (const name of fs.readdirSync(current).sort()) {
+    const full = path.join(current, name), stat = fs.lstatSync(full);
+    if (stat.isDirectory()) visit(full); else { const bytes = fs.readFileSync(full); rows.push({ path: path.relative(directory, full), bytes: bytes.length, mode: stat.mode & 0o777, sha256: sha(bytes) }); }
+  } } visit(directory); return rows;
+}
+function appFixture(action) {
+  const parent = process.env.AILIBRARY_PHASE_FIXTURE_ROOT ?? os.tmpdir();
+  const root = mutateAt(parent, () => fs.mkdtempSync(path.join(parent, 'phase-source-')));
+  const products = path.join(root, 'Products'), app = path.join(products, 'Debug-iphonesimulator/AILibrary.app');
+  try {
+    mutateAt(root, () => fs.mkdirSync(path.join(app, 'Content/articles'), { recursive: true, mode: 0o755 }));
+    for (const [relative, bytes, mode] of [['AILibrary', 'executable-v1', 0o755], ['Info.plist', 'immutable-info', 0o444],
+      ['Content/articles/a.json', '{"a":1}\n', 0o644], ['Content/articles/b.json', '{"b":2}\n', 0o444]]) {
+      mutateAt(root, () => fs.writeFileSync(path.join(app, relative), bytes, { flag: 'wx', mode }));
+      mutateAt(root, () => fs.chmodSync(path.join(app, relative), mode));
+    }
+    mutateAt(root, () => fs.chmodSync(path.join(app, 'Content'), 0o750));
+    const stock = path.join(products, 'stock.xctestrun'); mutateAt(root, () => fs.writeFileSync(stock, 'stock-runfile-v1', { flag: 'wx', mode: 0o444 }));
+    action({ root, products, app, stock, expected: inventory(app) });
+  } finally { mutateAt(parent, () => fs.rmSync(root, { recursive: true, force: true })); }
+}
+
+test('phase copies preserve baseline and stock, exact file/directory modes and independent F/R inodes', () => appFixture(({ root, products, app, stock, expected }) => {
+  const stockBefore = fs.readFileSync(stock), f = mutateAt(root, () => copyPhaseApp(products, 'failure', expected, 'Content/articles/a.json'));
+  const r = mutateAt(root, () => copyPhaseApp(products, 'restored', expected));
+  assert.equal(fs.existsSync(path.join(f.destination, 'Content/articles/a.json')), false); assert.equal(fs.existsSync(path.join(r.destination, 'Content/articles/a.json')), true);
+  assert.deepEqual(f.inventory, expected.filter(row => row.path !== 'Content/articles/a.json')); assert.deepEqual(r.inventory, expected);
+  assert.equal(fs.statSync(path.join(f.destination, 'Content')).mode & 0o777, 0o750);
+  assert.equal(fs.statSync(path.join(r.destination, 'Info.plist')).mode & 0o777, 0o444);
+  for (const relative of ['AILibrary', 'Info.plist', 'Content/articles/b.json']) {
+    const ids = [app, f.destination, r.destination].map(base => fs.statSync(path.join(base, relative), { bigint: true }));
+    assert.equal(new Set(ids.map(stat => stat.dev + ':' + stat.ino)).size, 3); assert.equal(ids[1].nlink, 1n); assert.equal(ids[2].nlink, 1n);
+  }
+  mutateAt(root, () => fs.writeFileSync(path.join(f.destination, 'AILibrary'), 'F-only mutation'));
+  assert.equal(fs.readFileSync(path.join(app, 'AILibrary'), 'utf8'), 'executable-v1'); assert.equal(fs.readFileSync(path.join(r.destination, 'AILibrary'), 'utf8'), 'executable-v1');
+  assert.deepEqual(inventory(app), expected); assert.deepEqual(fs.readFileSync(stock), stockBefore);
+}));
+
+test('phase copies reject reuse and invalid omission without overwriting any existing baseline or copy', () => appFixture(({ root, products, app, expected }) => {
+  const f = mutateAt(root, () => copyPhaseApp(products, 'failure', expected, 'Content/articles/a.json')), before = inventory(f.destination);
+  assert.throws(() => mutateAt(root, () => copyPhaseApp(products, 'failure', expected, 'Content/articles/a.json')), /EEXIST/);
+  assert.throws(() => copyPhaseApp(products, 'restored', expected, 'Content/articles/a.json'), /Only one/);
+  assert.throws(() => copyPhaseApp(products, 'restored', expected, '../escape.json'), /Only one/);
+  assert.deepEqual(inventory(app), expected); assert.deepEqual(inventory(f.destination), before);
+}));
+
+test('phase copies refuse source and destination-parent symlinks before copying outside the owned namespace', () => {
+  appFixture(({ root, products, app, expected }) => {
+    mutateAt(root, () => fs.symlinkSync(path.join(app, 'Info.plist'), path.join(app, 'linked')));
+    assert.throws(() => copyPhaseApp(products, 'failure', expected)); assert.equal(fs.existsSync(path.join(products, 'owned-phase-apps')), false);
   });
-  const result = destinationUITestRun(input, destinationOptions());
-  assert.equal(result.paths.runnerPath, '/owned/Products/Alternate/Unusual.app');
-  assert.equal(result.paths.testBundlePath, '/owned/Products/Alternate/Unusual.app/PlugIns/Another.xctest');
-  assert.equal(result.metadata.AILibraryUITests.TestBundleDestinationRelativePath, '__TESTHOST__/PlugIns/Another.xctest');
-  assert.equal(result.metadata.AILibraryUITests.TestHostBundleIdentifier, 'dev.actual.CustomRunner');
+  appFixture(({ root, products, expected }) => {
+    const other = path.join(root, 'other'); mutateAt(root, () => fs.mkdirSync(other));
+    mutateAt(root, () => fs.symlinkSync(other, path.join(products, 'owned-phase-apps')));
+    assert.throws(() => copyPhaseApp(products, 'failure', expected)); assert.deepEqual(fs.readdirSync(other), []);
+  });
 });
 
-test('destination conversion refuses missing actual Info IDs, App-as-runner IDs and conflicting stock destination assertions', () => {
-  for (const key of ['runnerBundleIdentifier', 'testBundleIdentifier']) for (const value of [undefined, null, '', 'invalid/id', expected.actualAppBundleIdentifier]) {
-    assert.throws(() => destinationUITestRun(legacy(), { ...destinationOptions(), [key]: value }), /Info.plist|cannot be/);
-  }
-  for (const [key, value] of [['TestHostBundleIdentifier', 'dev.other.Runner'], ['TestBundleDestinationRelativePath', '__TESTHOST__/Wrong.xctest'], ['UseDestinationArtifacts', true]]) {
-    const input = legacy(); selected(input)[key] = value;
-    assert.throws(() => destinationUITestRun(input, destinationOptions()), /mismatch|stock source/);
-  }
-});
-
-test('stock host, bundle and App paths must all be explicit and free from unresolved macros and escapes', () => {
-  for (const field of ['TestHostPath', 'TestBundlePath', 'UITargetAppPath']) for (const value of [undefined, '', '__PLATFORMS__/Other.app', '__TESTROOT__/../escape.app', '__TESTROOT__//bad.app', '__TESTROOT__/./bad.app', '__TESTROOT__/bad\\path.app', '/outside/Other.app']) {
-    const input = legacy(); selected(input)[field] = value;
-    assert.throws(() => resolveUITestBuildPaths(input, destinationOptions()), /required|Escaping/);
-  }
-});
-
-test('destination conversion refuses an App mismatch, a runner equal to or nested with the App, and a test bundle outside the runner', () => {
-  for (const changes of [
-    { UITargetAppPath: '__TESTROOT__/Other.app' },
-    { TestHostPath: '__TESTROOT__/Debug-iphonesimulator/AILibrary.app' },
-    { TestHostPath: '__TESTROOT__/Debug-iphonesimulator/AILibrary.app/Nested.app' },
-    { TestBundlePath: '__TESTROOT__/Other.xctest' },
-    { TestBundlePath: '__TESTHOST__/../Other.xctest' },
-    { TestBundlePath: '__TESTHOST__/PlugIns/NotABundle.app' }
-  ]) {
-    const input = legacy(); Object.assign(selected(input), changes);
-    assert.throws(() => destinationUITestRun(input, destinationOptions()), /mismatch|Distinct|inside|Escaping/);
-  }
-});
-
-test('destination converter retains strict schema and duplicate-target refusals of the original selector', () => {
-  const unknown = legacy(); unknown.__xctestrun_metadata__.FormatVersion = 3;
-  const duplicated = modern(); duplicated.TestConfigurations[0].TestTargets.push({ ...ui(), UITargetAppBundleIdentifier: expected.actualAppBundleIdentifier });
-  for (const input of [unknown, duplicated]) assert.throws(() => destinationUITestRun(input, destinationOptions()), /FormatVersion|exactly one/);
-});
-
-test('destination paths require an explicit canonical owned root and App path, never a sibling-prefix match', () => {
-  for (const changes of [{ testRoot: '/owned/Products/..' }, { testRoot: 'Products' }, { appPath: '/owned/Products-foreign/App.app' }, { appPath: '/owned/Products/./App.app' }]) {
-    assert.throws(() => resolveUITestBuildPaths(legacy(), { ...destinationOptions(), ...changes }), /required/);
-  }
-  const input = legacy(); selected(input).TestHostPath = '/owned/Products-foreign/Runner.app';
-  assert.throws(() => resolveUITestBuildPaths(input, destinationOptions()), /Escaping/);
-});
+test('phase copies refuse a changed baseline snapshot before creating a phase and keep stock bytes unchanged', () => appFixture(({ root, products, app, stock, expected }) => {
+  mutateAt(root, () => fs.writeFileSync(path.join(app, 'AILibrary'), 'changed'));
+  assert.throws(() => copyPhaseApp(products, 'failure', expected), /Baseline before copy/);
+  assert.equal(fs.existsSync(path.join(products, 'owned-phase-apps')), false); assert.equal(fs.readFileSync(stock, 'utf8'), 'stock-runfile-v1');
+}));

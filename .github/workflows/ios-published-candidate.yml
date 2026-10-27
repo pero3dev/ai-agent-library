@@ -132,7 +132,7 @@ jobs:
           EXPECTED_SHA='e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8'
           MAX=1048576
           sha=lambda b:hashlib.sha256(b).hexdigest()
-          result={'schema_version':1,'status':'incomplete-single-copy-diagnostic','product_copy_acceptance':'unadopted','selected_UI_cases':1,'other_22_UI_cases':'not-run','XCTest_unit_suite':'not-run','Release':'not-run','raw_clipboard_saved':False,'host_clipboard_accessed':False,'cause':None}
+          result={'schema_version':1,'status':'incomplete-single-copy-diagnostic','product_copy_acceptance':'unadopted','selected_UI_cases':1,'other_22_UI_cases':'not-run','XCTest_unit_suite':'not-run','Release':'not-run','raw_clipboard_saved':False,'host_clipboard_accessed':False,'cause':None,'same_UI_case_Passed':None,'byte_observation':{'status':'not-observed','expected374_observed':None,'after_xcodebuild_status':'not-attempted'}}
           child=None;booted=False;deviceID=None;started=time.monotonic()
           def write(name,value):
            b=(json.dumps(value,ensure_ascii=False,indent=2,allow_nan=False)+'\n').encode();assert len(b)<=262144
@@ -225,6 +225,16 @@ jobs:
            except BoundedCommandError as exc:
             exc.metadata['last_command']=dict(result['last_command']);raise
 
+          def live_poll_observation(timeout,absolute_deadline,tick):
+           args=['xcrun','simctl','pbpaste',deviceID]
+           try:return command(args,timeout=timeout,absolute_deadline=absolute_deadline,tick=tick,stage='live-pasteboard-poll'),None
+           except BoundedCommandError as exc:
+            metadata=exc.metadata;cleanup=metadata.get('termination',{})
+            approved={'stage':'live-pasteboard-poll','approved_argv':args,'timeout_seconds':timeout}
+            if str(exc)!='command-timeout' or metadata.get('reason')!='command-timeout' or metadata.get('last_command')!=approved or metadata.get('started') is not True or cleanup.get('parent_reaped') is not True or any(k.endswith('_error') for k in cleanup):raise
+            tick() # An elapsed SDK900 deadline remains fatal even during a missing poll.
+            return None,dict(metadata)
+
           def poll_budget(now,case_started_at,sdk_deadline,last_poll,attempts):
            if case_started_at is None or attempts>=180 or now-last_poll<2:return None
            absolute_deadline=min(case_started_at+360,sdk_deadline)
@@ -277,8 +287,8 @@ jobs:
            device={'UUID':deviceID,'runtime':RUNTIME,'device_type':TYPE,'initial_state':initial,'post_boot_state':'Booted','same_UUID_canary_roundtrip':True,'canary_bytes':len(canary),'canary_SHA256':sha(canary)};write('copy-probe-device.json',device);result['device']=device
            args=['xcodebuild','-project','ios/AILibrary.xcodeproj','-scheme','AILibrary','-configuration','Debug','-destination','platform=iOS Simulator,id='+deviceID,'-destination-timeout','120','-derivedDataPath','.local/ios-published-candidate/DebugDerivedData','-resultBundlePath',str(R/'copy-probe.xcresult'),'-parallel-testing-enabled','NO','-jobs','2','-only-testing:AILibraryUITests/'+CASE[:-2],'CODE_SIGNING_ALLOWED=NO','test'];write('copy-probe-command.json',{'argv':args,'SDK_timeout_seconds':900,'termination_grace_seconds':{'TERM':0.25,'KILL_wait':1.0},'bounded_capture_contract':'Total stdout+stderr strictly below cap, abort on cap reached; no overflow probe','SDK_log_scope':'Forwarded to Actions; tail cap is not a cap on total Xcode output','max_live_poll_count':180,'live_poll_window_seconds':360,'live_poll_start':'Observed fixed Copycase Started rawlog marker, not compilation','live_poll_minimum_interval_seconds':2,'live_pbpaste_max_timeout_seconds':10,'ordinary_pbpaste_timeout_seconds':30,'max_bounded_command_stdout_plus_stderr_bytes':MAX,'max_log_tail_bytes':MAX})
            child=subprocess.Popen(args,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,start_new_session=True);selector=selectors.DefaultSelector();selector.register(child.stdout,selectors.EVENT_READ)
-           tail=bytearray();pending=bytearray();loghash=hashlib.sha256();logbytes=0;events=[];changes=[];polls=0;phase_counts={'after-observed-Started-before-observed-Finished':0,'after-observed-Finished-before-xcode-exit-observed':0};case_started_at=None;case_finished_at=None;case_end_result=None;last_poll=0;sdk_start=time.monotonic();sdk_deadline=sdk_start+900;forced=None
-           live={'scope':'SameUUID readonly bounded simctl capture; exact bytes compared only in RAM','phase_basis':'Controller observation of fixed raw Started/Finished markers; not actual device case execution time','poll_count':0,'phase_poll_counts':phase_counts,'poll_window_start':'fixed raw Copycase Started marker observed','maximum_window_seconds':360,'changes':changes};result['live_clipboard']=live
+           tail=bytearray();pending=bytearray();loghash=hashlib.sha256();logbytes=0;events=[];changes=[];polls=0;phase_counts={'after-observed-Started-before-observed-Finished':0,'after-observed-Finished-before-xcode-exit-observed':0};case_started_at=None;case_finished_at=None;case_end_result=None;last_poll=0;sdk_start=time.monotonic();sdk_deadline=sdk_start+900;forced=None;live_polling_stopped=False
+           live={'scope':'SameUUID readonly bounded simctl capture; exact bytes compared only in RAM','phase_basis':'Controller observation of fixed raw Started/Finished markers; not actual device case execution time','poll_count':0,'phase_poll_counts':phase_counts,'poll_window_start':'fixed raw Copycase Started marker observed','maximum_window_seconds':360,'changes':changes,'completed_captures':0,'missing_samples':[],'polling_status':'active'};result['live_clipboard']=live
            marker="Test Case '-[AILibraryUITests.PublishedReaderUITests testFixtureFirstCodeCopyUsesThePublicButton]'"
            def sdk_tick():
             global forced
@@ -308,27 +318,41 @@ jobs:
                assert len(events)<64;events.append(text[:2048])
              assert len(pending)<MAX
             elif child.poll() is not None:break
-            poll_now=time.monotonic();budget=poll_budget(poll_now,case_started_at,sdk_deadline,last_poll,polls)
+            poll_now=time.monotonic();budget=None if live_polling_stopped else poll_budget(poll_now,case_started_at,sdk_deadline,last_poll,polls)
             if budget is not None and child.poll() is None:
              sdk_tick();poll_started=time.monotonic();budget=poll_budget(poll_started,case_started_at,sdk_deadline,last_poll,polls)
              if budget is None:continue
              start_phase=observed_phase(case_finished_at);polls+=1;live['poll_count']=polls;last_poll=poll_started
-             q=command(['xcrun','simctl','pbpaste',deviceID],timeout=budget['timeout'],absolute_deadline=budget['absolute_deadline'],tick=sdk_tick,stage='live-pasteboard-poll')
+             q,missing=live_poll_observation(budget['timeout'],budget['absolute_deadline'],sdk_tick)
+             if missing is not None:
+              live_polling_stopped=True;live['polling_status']='stopped-after-command-timeout';live['missing_samples'].append({'reason':'command-timeout','bounded_command_failure':missing,'poll_start_seconds_after_observed_Started':poll_started-case_started_at,'poll_end_seconds_after_observed_Started':time.monotonic()-case_started_at,'phase_at_poll_start':start_phase,'phase_at_timeout_observed':observed_phase(case_finished_at)})
+              result['byte_observation']['status']='partial-live-command-timeout' if changes else 'missing-live-command-timeout'
+              continue
              poll_started=q.capture_window['started_monotonic'];poll_ended=q.capture_window['finished_monotonic'];last_poll=poll_started;sdk_tick();fact=sample(q.stdout,expected,canary);fact.update(exit_code=q.returncode,poll_start_seconds_after_observed_Started=poll_started-case_started_at,poll_end_seconds_after_observed_Started=poll_ended-case_started_at,poll_start_seconds_after_SDK_start=poll_started-sdk_start,poll_end_seconds_after_SDK_start=poll_ended-sdk_start,timeout_seconds=budget['timeout'],phase_at_poll_start=start_phase,phase=observed_phase(case_finished_at))
-             phase_counts[fact['phase']]+=1
+             phase_counts[fact['phase']]+=1;live['completed_captures']+=1
+             if q.returncode==0:result['byte_observation'].update(status='observed-live',expected374_observed=result['byte_observation']['expected374_observed'] is True or fact['equals_independent_expected_374'])
+             else:result['byte_observation']['status']='live-nonzero-exit-no-success-inferred'
              if not changes or any(fact[k]!=changes[-1][k] for k in ('exit_code','bytes','SHA256','phase')):
               assert len(changes)<64;changes.append(fact)
              live['last_poll_interval']={'start_seconds_after_observed_Started':poll_started-case_started_at,'end_seconds_after_observed_Started':poll_ended-case_started_at}
            assert child.poll() is not None,'Xcode must have exited before post-run collection'
            child.wait(timeout=1);result['fixed_case_raw_markers']={'Started_observed':case_started_at is not None,'Finished_observed':case_finished_at is not None,'Finished_result':case_end_result,'Started_seconds_after_SDK_start':case_started_at-sdk_start if case_started_at is not None else None,'Finished_seconds_after_SDK_start':case_finished_at-sdk_start if case_finished_at is not None else None,'xcodebuild_exit_observed_seconds_after_SDK_start':time.monotonic()-sdk_start,'clock_scope':'Controller rawlog marker observation, not actual on-device case time'};result['xcodebuild_exit']=child.returncode;result['forced_stop']=forced;result['case_events']=events;result['log_observed']={'bytes':logbytes,'SHA256':loghash.hexdigest(),'saved_tail_bytes':len(tail)}
            (R/'copy-probe-xcode-tail.log').write_bytes(tail)
-           q=command(['xcrun','simctl','pbpaste',deviceID],stage='read-after-xcode-exit');result['after_xcodebuild_clipboard']=dict(sample(q.stdout,expected,canary),exit_code=q.returncode,phase='after-xcodebuild-exit-observed',seconds_since_SDK_start=time.monotonic()-sdk_start,seconds_since_observed_case_started=time.monotonic()-case_started_at if case_started_at is not None else None)
            q=command(['xcrun','xcresulttool','get','test-results','tests','--path',str(R/'copy-probe.xcresult')],timeout=60,limit=262144,stage='raw-xcresult');result['xcresulttool_exit']=q.returncode
            if q.returncode==0:
             tests=json.loads(q.stdout);write('copy-probe-tests.json',tests);result['raw_case_and_device']=observed_case(tests,deviceID)
-           result['status']='single-copy-diagnostic-complete';result['same_UI_case_Passed']=result.get('xcodebuild_exit')==0 and result.get('raw_case_and_device',{}).get('all_containers_and_leaf_Passed') is True
+           result['same_UI_case_Passed']=(result.get('xcodebuild_exit')==0 and result['raw_case_and_device'].get('all_containers_and_leaf_Passed') is True) if 'raw_case_and_device' in result else None;result['status']='single-copy-UI-diagnostic-collected'
+           result['byte_observation']['after_xcodebuild_status']='attempting-once'
+           try:q=command(['xcrun','simctl','pbpaste',deviceID],stage='read-after-xcode-exit')
+           except BoundedCommandError as exc:
+            result['byte_observation']['after_xcodebuild_status']='missing-'+str(exc);raise
+           result['after_xcodebuild_clipboard']=dict(sample(q.stdout,expected,canary),exit_code=q.returncode,phase='after-xcodebuild-exit-observed',seconds_since_SDK_start=time.monotonic()-sdk_start,seconds_since_observed_case_started=time.monotonic()-case_started_at if case_started_at is not None else None)
+           if q.returncode==0:result['byte_observation'].update(status='observed-after-xcodebuild',after_xcodebuild_status='observed',expected374_observed=result['byte_observation']['expected374_observed'] is True or result['after_xcodebuild_clipboard']['equals_independent_expected_374'])
+           else:result['byte_observation']['after_xcodebuild_status']='nonzero-exit-no-success-inferred'
+           result['status']='single-copy-diagnostic-complete-with-live-timeout-missing' if live_polling_stopped else 'single-copy-diagnostic-complete'
            assert result['same_UI_case_Passed'],'Diagnostic one-case UI did not pass; no copy acceptance inferred'
-           assert case_started_at is not None and case_finished_at is not None and case_end_result=='Passed' and polls>0 and phase_counts['after-observed-Started-before-observed-Finished']>0,'Fixed raw markers and an observation before the Finished marker is observed must exist'
+           assert case_started_at is not None and case_finished_at is not None and case_end_result=='Passed' and polls>0,'Fixed raw markers and a live observation attempt must exist'
+           assert phase_counts['after-observed-Started-before-observed-Finished']>0 or live_polling_stopped,'A live observation before the Finished marker or explicit cleaned-up timeout missing sample must exist'
           except Exception as exc:
            result['error']={'type':type(exc).__name__,'message':str(exc)[:2048]}
            if isinstance(exc,BoundedCommandError):result['bounded_command_failure']=exc.metadata
@@ -342,7 +366,7 @@ jobs:
              q=command(['xcrun','simctl','shutdown',deviceID],timeout=60,stage='shutdown-started-here');result['shutdown_started_here']={'exit':q.returncode}
             except Exception as exc:result['shutdown_started_here']={'error':type(exc).__name__}
            result['duration_seconds']=time.monotonic()-started;write('copy-probe-summary.json',result)
-           print(json.dumps({'scope':'single-case diagnostic only','status':result['status'],'same_UI_case_Passed':result.get('same_UI_case_Passed'),'error':result.get('error'),'other22_and_Release':'not-run','product_copy_acceptance':'unadopted'}),flush=True)
+           print(json.dumps({'scope':'single-case diagnostic only','status':result['status'],'same_UI_case_Passed':result.get('same_UI_case_Passed'),'byte_observation':result['byte_observation'],'error':result.get('error'),'other22_and_Release':'not-run','product_copy_acceptance':'unadopted'}),flush=True)
           if 'error' in result:raise SystemExit(1)
           PY
       - name: Retain compact one-case diagnostic metadata only

@@ -706,5 +706,238 @@
       "three_unique_paragraphs_foreign_text_TODO32_12": "passed; all inverse paragraphs and full TODO rows equal",
       "new_SDK_parse_generation_npmci_API_Gitmutation": 0
     }
+  },
+  "app_lifecycle_followup": {
+    "date": "2026-10-27",
+    "status": "5eb observations and reviewed private F-only candidate; no effect claim",
+    "source_head": "5eb7914dfe90fabbc543d96e45f77f805babb1cf",
+    "source_tree": "729691189a8dfc4c7929f1af90c54a56d7f50248",
+    "PR282": {
+      "draft": true,
+      "merged": false
+    },
+    "normal5eb": {
+      "Native": {
+        "run": 40492939658,
+        "conclusion": "success",
+        "executed": 165,
+        "skipped": 2,
+        "failures": 0,
+        "new12_each_started_once_passed_once": true,
+        "native_UI_executed": 2,
+        "native_UI_failures": 0,
+        "actual_checkout": "c7814976a863db2db488eb1d7950495b2cc1d429",
+        "actual_tree_matches_source": true
+      },
+      "Common": {
+        "run": 40492939615,
+        "conclusion": "success",
+        "jobs_success": 9,
+        "deploy_skip": 1
+      },
+      "SDK26": {
+        "run": 40492939760,
+        "conclusion": "success",
+        "archive_succeeded": true,
+        "signed_distribution_accepted": false
+      },
+      "Runtime26": {
+        "run": 40492940004,
+        "conclusion": "success",
+        "UI": {
+          "aggregate_tests": 2,
+          "aggregate_failures": 0,
+          "unexpected": 0,
+          "seconds": 283.121,
+          "cases": [
+            {
+              "method": "testContentsBookmarkAndResumeAfterRelaunch",
+              "result": "passed",
+              "seconds": 182.858
+            },
+            {
+              "method": "testThreeArticlesHaveNativeBodyText",
+              "result": "passed",
+              "seconds": 100.263
+            }
+          ],
+          "TEST_SUCCEEDED": true
+        },
+        "actual_checkout": null,
+        "actual_SDK": null
+      },
+      "Full": {
+        "run": 40492939612,
+        "job": 122151121174,
+        "event": "pull_request",
+        "attempt": 1,
+        "head": "5eb7914dfe90fabbc543d96e45f77f805babb1cf",
+        "API_head_tree": "729691189a8dfc4c7929f1af90c54a56d7f50248",
+        "status_from_observer": "completed",
+        "conclusion": "success",
+        "raw_counts": {
+          "tests": 22,
+          "failures": 0,
+          "seconds": 1342.352,
+          "distinct_case_IDs": 22,
+          "passed_case_count": 22,
+          "failed_case_count": 0
+        },
+        "PublishedReader": {
+          "tests": 14,
+          "failures": 0,
+          "seconds": 1168.297
+        },
+        "geometry": {
+          "tests": 6,
+          "failures": 0,
+          "seconds": 1.19
+        },
+        "units": {
+          "tests": 165,
+          "failures": 0,
+          "seconds": 12.032,
+          "skipped": 2
+        },
+        "picker_case": {
+          "method": "testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions",
+          "result": "passed",
+          "seconds": 142.644
+        },
+        "prefix_evidence": {
+          "complete_RAM_line_count": 0,
+          "failure_JSON_8KiB_runtime_collection": null,
+          "lastPredicate_postAX_runtime_collection": null,
+          "mechanism_or_prior_failure_fix_proven": false
+        },
+        "Release_step_conclusion": "success",
+        "actual_checkout": null,
+        "SDK_version_from_observation": null,
+        "artifact": {
+          "id": 12731736905,
+          "bytes": 32859514,
+          "GitHub_declared_sha256": "a46b5bc0c63591e4fe8ec3c681fee3cff33b3f1660c5a3db88a27c3f237d433e",
+          "downloaded": false,
+          "actual_SHA_CRC_verified": false
+        },
+        "receipt_SHA256": "6e74aabcea52adaf3ba3f3e358f561666db784e8c2f7374b9aea83fe66fe01a1",
+        "old_head_or_new_F_candidate_success_reused": false
+      },
+      "receipt_SHA256": {
+        "three_runs": "450957f1de09d35e654232f36dfe1ae078c37fb9288f9f776d4398fe1461236f",
+        "Native_exact_cases": "475a0369c8f4f03dff0bb6b9df73baf2437d1182bf48525a296afb0791bc4583",
+        "Runtime26": "3bae8ea7d5ea9edba4558ed4cd284398e48b1418b2d462abb2bcbc235c80db61"
+      }
+    },
+    "Dedicated5eb": {
+      "run": 40492939806,
+      "job": 122151121875,
+      "attempt": 1,
+      "conclusion": "failure",
+      "F_raw": {
+        "cases": 1,
+        "result": "Passed"
+      },
+      "R_raw": {
+        "case_count": 1,
+        "result": "Failed",
+        "source_line": 345,
+        "case_seconds": 52.096,
+        "exit_code": 65,
+        "outer_timeout": false,
+        "count_wait_seconds": 45
+      },
+      "App_report": {
+        "R_suite_matches_failed_UI_launchSuite": true,
+        "R_UI_PID_equals_App_report": true,
+        "F_and_R_PIDs_different": true,
+        "same_running_instance_continuity_proven": false,
+        "reported_validated_root_category": "replaced bundle in containermanagerd/Dead",
+        "reported_root_equals_post_installed_Content": false,
+        "reported_home_equals_current_data_container": true,
+        "three_bundle_derived_Content_roots_equal": true,
+        "counts": {
+          "expected": 141,
+          "found": 140,
+          "manifestFiles": 140
+        },
+        "missing_relative_paths": [
+          "articles/01-concepts--agent-loop.json"
+        ],
+        "unexpected_relative_paths": [],
+        "retained_decoded_manifest_SHA256": "841a79d1758c92e3d2273049dfabdf3c904577c72ee1b34d9b0d6aa9aae46d3c",
+        "same_manifest_SHA_as_F": true,
+        "reported_paths_opened": false,
+        "JSON_member_CRC_SHA_independently_verified": true,
+        "absolute_URI_or_raw_UUID_published": false,
+        "mechanism": "unproven; root discrepancy observed, cache/lifecycle mechanism not established"
+      },
+      "installed": {
+        "all7_paths_bytes_SHA_match": true,
+        "F4_files": 180,
+        "R3_files": 181,
+        "only_allowed12_mode_deltas": true
+      },
+      "sentinel": "Initial/post-upgrade-before-body preserved; final post-body receipt absent; no reading-data-loss inference.",
+      "cleanup": "owned-simulator-deleted",
+      "artifact": {
+        "id": 12729477094,
+        "bytes": 349068,
+        "sha256": "63f170066c73c268ff0fb1388b07778e532a517aaae455b6a0cfdaccebc0fdc5",
+        "official_run_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40492939806",
+        "retrieved_date": "2026-10-27",
+        "precise_GET_at_UTC": null,
+        "refused_attempts": 1,
+        "successful_read_attempts": 1,
+        "auto_retry": false,
+        "whole_SHA_verified": true,
+        "index_entries": 196,
+        "original_selected": 52,
+        "combined_unique_selected": 54,
+        "expanded_including_duplicate_bytes": 1296522,
+        "selected_CRC_SHA_verified": true,
+        "unselected_CRC_verified": false,
+        "raw_ZIP_saved": false,
+        "restore": [
+          "Select compact artifact id12729477094 from official run while retained.",
+          "Compare349068 bytes and wholeSHA before bounded JSON/log inspection; never execute contents.",
+          "Do not mark restored or passed for expiry, mismatch, absent or unread material."
+        ],
+        "read_receipt_sha256": "59227b30bd0b972b378074af03238dff92036343c579155ae90bac1ef10a5190"
+      },
+      "findings_SHA256": "6aeefae8ff152b7ec66106f44321114677bfbea08d0dcd312c314387f6465057"
+    },
+    "F_only_candidate": {
+      "path": "ios/AILibraryUITests/FailureReaderUITests.swift",
+      "manifest_SHA256": "7c20f7a881ed5e0ebbbeed7572c08aa734fd9587b6503e7abf88361fd308ec99",
+      "candidate_SHA256": "c8ea92435de6ddff563d6e00889a1bf752d352a826e8446239d73519788ae923",
+      "insert_bytes": 485,
+      "independent_review_SHA256": "c2cf47568b235eec7590a926dfb459ceffba0c767c4e6a817ae86e2126bed0e8",
+      "review_findings": [],
+      "change": "F-only tearDownWithError: terminate App, assert state notRunning, then super teardown.",
+      "original_case_and_existing_driver_normal_cases_limits_preserved": true,
+      "new_wait_retry_skip": false,
+      "new_head": null,
+      "new_runs": null,
+      "effect": null,
+      "future_main": null,
+      "SDK_typecheck": null,
+      "new_Hosted": null
+    },
+    "limits": {
+      "historical_Core_not_reassigned_to22_or_this_candidate": true,
+      "same_running_instance_or_cache_mechanism_not_proven": true,
+      "no_reported_URI_open_or_raw_UUID_publication": true,
+      "recovery_specific_UI_physical_VoiceOver_power_loss_unaccepted": true,
+      "IOS22": "incomplete",
+      "TODO_rows": 32,
+      "TODO_completed": 12
+    },
+    "documentation_checks": {
+      "4MD_lint": "passed; one explicit4MD invocation in candidate cwd with immutable5eb-matched config/ignore",
+      "JSON_old_values": "passed; all old values retained and one new root section",
+      "index_and_TODO_preservation": "passed; three inverse paragraphs and32rows/12checked byte exact",
+      "SDK_Swiftparse_generation_npmci_API_Gitmutation": 0
+    }
   }
 }

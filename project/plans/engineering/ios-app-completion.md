@@ -155,7 +155,7 @@ SHA照合・staging検証・原子的切替・失敗時の旧版維持は既存�
 
 IOS-22の準備として[同梱版の明示選択](../../records/2026-10-25/ios-bundled-content-activation.md)を追加する。正常な保存版の優先を維持し、利用者の確認後にだけ同梱版へ切り替える。実3→199→再起動→3で記録bytesと本文fingerprintの復帰を確認し、画面・Hosted・実機、記事改名・削除・容量整理とIOS-22全体は分けて追跡する。
 
-IOS-22の[読書記録の破損保全と明示復旧](../../records/2026-10-27/ios-reading-state-recovery.md)は、原データを保護したまま確認後に退避と復旧を行う0.2.20（22）の候補である。PR282の固定head218では通常5runが成功し、Native165件実行・skip2・失敗0、追加12件各passを確認した。DedicatedはF1件pass／R1件failで、別snapshotのmain778 Fullにもpicker判定の失敗がある。原因を推測せず失敗時診断の候補を準備し、追加後のHostedを待つ。復旧固有UI・実機・VoiceOver・耐電断・記事改名等とIOS-22全体は未完了で、32行と完了12件を維持する。
+IOS-22の[読書記録の破損保全と明示復旧](../../records/2026-10-27/ios-reading-state-recovery.md)は0.2.20（22）の候補である。固定head5ebではNative165件実行・skip2・失敗0、追加12件各passとCommon・SDK26・Runtime26の成功を確認し、FullのUI22件は一意22caseが全pass・失敗0である。DedicatedはF1件pass／R1件failで、Fと別PIDのRが置換済みDead bundleの欠損を記録した。F専用の終了確認候補は独立技術レビューまでで、内部機序と新headの効果・Hostedは未確定である。旧Core性能のscopeを保ち、復旧固有UI・実機・VoiceOver・耐電断・記事改名等とIOS-22全体は未完了、32行・完了12件を維持する。
 
 IOS-21の準備として[旧版保持の回帰3件](../../records/2026-10-25/ios-storage-retention-regression.md)を追加する。実repositoryの3世代snapshot・後読asset、孤立版の非選択/非削除、destination検証後のpointer ENOSPC模擬で既存bytes保持を確認する。Macの新3件成功とiOS全122件のcompileを分け、iOS実行はHosted待ち。削除数・自動整理・snapshot pinや処理排他を採択するものではなく、IOS-21全体は未完了を維持する。
 

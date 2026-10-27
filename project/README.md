@@ -12,7 +12,7 @@
 
 通常CIの[Playwright依存取得を制限する候補](records/2026-10-27/ci-playwright-dependency-download.md)は、f28のAPT長時間転送へ対処し、30分上限・全検査を維持する私有準備である。純78ケースと独立レビューは成功したが、実APT・sudo・変更後Hosted CI・全browser検査は未実施で、通常の別PRと正確なhead/runの確認を待つ。取消原因や転送改善成功は断定せず、アプリ版・TODO・iOS source・mainは未変更とする。
 
-[読書記録の破損保全と明示復旧](records/2026-10-27/ios-reading-state-recovery.md)は、読める記録と原データを保持し、利用者の選択で明示復旧する0.2.20（22）の候補です。PR282の固定head218で通常5runとNative165件実行・skip2・失敗0、追加12件各passを確認しました。DedicatedはF1件pass／R1件fail、別snapshotのmain778 Fullはpicker判定で失敗し、原因は未確定です。判定を保つ診断追加候補のHostedは未確認で、復旧固有UI・実機・VoiceOverとIOS-22全体は未完了、完了12／32件を維持します。
+[読書記録の破損保全と明示復旧](records/2026-10-27/ios-reading-state-recovery.md)は、読める記録と原データを保持し、利用者の選択で明示復旧する0.2.20（22）の候補です。固定head5ebでNative165件実行・skip2・失敗0、追加12件各pass、Common・SDK26・Runtime26成功を確認し、FullのUI22件は一意22caseが全pass・失敗0でした。Dedicated Rは別PIDのApp診断が置換済みDead bundleの意図的欠損を示して失敗しました。F専用終了確認の候補を準備しましたが、内部cache機序・新headの効果は未確定です。復旧固有UI・実機・VoiceOverとIOS-22全体は未完了、完了12／32件を維持します。
 
 [iOS TODOと統合状況のチェックポイント](records/2026-10-26/ios-todo-integration-checkpoint.md)で、main955を基準とするIOS-02・10・13・14の達成と、12／32件の完了を追跡します。SDK26のunsigned Archive用技術環境・native導線・全199記事生成・学習案内が対象です。PR275は未マージで、iOS26.5の再起動復帰に失敗が残っています。実機・性能・配布資格・契約・公開と最新OS27の受入は未完了として分けます。
 

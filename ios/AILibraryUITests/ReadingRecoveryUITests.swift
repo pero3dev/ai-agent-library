@@ -9,6 +9,10 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
     private let recoveryMessage = "元の保存データを端末内に退避してから、読み取れた記録と今回の変更を保存します。読み取れない記録は利用できません。"
     private let confirmLabel = "復旧して記録の保存を再開"
 
+    private var recoveryButtons: XCUIElementQuery {
+        app.buttons.matching(NSPredicate(format: "label == %@", "読み取れる記録で復旧"))
+    }
+
     func testCancelKeepsRecoveryNoticeAfterRelaunch() throws {
         requireRecoveryNotice()
         requireBookmarkedArticle("Agent ループ", id: "01-concepts/agent-loop")
@@ -59,16 +63,17 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
 
     private func requireRecoveryNotice() {
         waitForLibrary()
-        let recovery = element("library-reading-recovery")
+        let recovery = recoveryButtons.firstMatch
         for _ in 0..<8 where !isHittableOnScreen(recovery) { app.swipeDown(velocity: .slow) }
         requireHittable(recovery)
+        XCTAssertEqual(recoveryButtons.count, 1, "Expected one public recovery Button")
         XCTAssertTrue(app.staticTexts[partialMessage].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts[recoveryNoticeMessage].exists)
     }
 
     private func presentRecoveryConfirmation() {
         requireRecoveryNotice()
-        element("library-reading-recovery").tap()
+        recoveryButtons.firstMatch.tap()
         XCTAssertTrue(app.staticTexts[recoveryTitle].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts[recoveryMessage].exists)
         requireHittable(app.buttons[confirmLabel])
@@ -85,7 +90,7 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
     private func requireNoRecoveryNotice() {
         waitForLibrary()
         let absent = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
-            !self.element("library-reading-recovery").exists &&
+            self.recoveryButtons.count == 0 &&
                 !self.app.staticTexts[self.partialMessage].exists &&
                 !self.app.staticTexts[self.recoveryNoticeMessage].exists
         }, object: nil)

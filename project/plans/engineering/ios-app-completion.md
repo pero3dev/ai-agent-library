@@ -159,6 +159,8 @@ SHA照合・staging検証・原子的切替・失敗時の旧版維持は既存�
 
 IOS-04・16の[音声identity契約候補](../../records/2026-10-26/ios-audio-offline-identity.md)は、通常Agentループ1音声のまま宣言tupleと実原文のSHAを束縛し、catalogや選定データによる許可policyの注入を拒否します。実main142の関連Node54件とmetadata1773Bの旧converter一致を、全package・実音声bytes・app playerの受入と分けます。追加8音声・権利・配信/保存方式、最終統合headのCIと実機は残し、IOS-04・16全体のcheckboxは完了にしません。
 
+[通常1本の実MP3照合](../../records/2026-10-28/ios-agent-loop-audio-byte-audit.md)では、固定mainf15とAudio候補65のAgentループ音声13,007,768Bを取得し、宣言・catalog・公式ReleaseのSHAと一致した。1取得チェーンを文書化し、音声本体の保存や再取得はしていない。台本のcanonical JSON・READY・制作証拠は未回収で、Releaseの将来不変性、受信ごとのhash検証、権利・追加8本・Store・IOS-04/16全体の受入とは分ける。
+
 IOS-22の準備として[同梱版の明示選択](../../records/2026-10-25/ios-bundled-content-activation.md)を追加する。正常な保存版の優先を維持し、利用者の確認後にだけ同梱版へ切り替える。実3→199→再起動→3で記録bytesと本文fingerprintの復帰を確認し、画面・Hosted・実機、記事改名・削除・容量整理とIOS-22全体は分けて追跡する。
 
 IOS-22の[読書記録の破損保全と明示復旧](../../records/2026-10-27/ios-reading-state-recovery.md)はPR282最終eabの6runとReady最新policy成功後、main76へ通常保護squashで統合した。main76の新push Common・Native・Fullも別観測で成功し、Native追加12単体と通常UI、Fullの一意22caseを確認した。旧Core性能は歴史scopeに保ち、実ユーザーの復旧固有UI・実機・VoiceOver・耐電断等とIOS-22全体は未完了、TODO32行・完了12行を維持する。後続PR283の新Recovery UIはこのmain76 checkpointの受入に含めない。

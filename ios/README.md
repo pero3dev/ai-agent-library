@@ -278,6 +278,8 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 
 [音声identityの契約候補](../project/records/2026-10-26/ios-audio-offline-identity.md)では、通常Agentループ1音声を保ち、宣言したepisode・記事・版付きURL・SHA・credit・規約と実原文を生成側で照合します。実main142に固定した関連Node54件と1773Bのmetadata等価性は限定検証の記録であり、将来headのCIではありません。MP3・台本・READYの実bytes、追加8音声・権利・音声保存・実機の受入は未確認です。
 
+[通常1本の実MP3照合](../project/records/2026-10-28/ios-agent-loop-audio-byte-audit.md)では、固定mainf15とAudio候補65のAgentループ音声13,007,768Bを取得し、宣言・catalog・公式ReleaseのSHAと一致した。1取得チェーンを文書化し、音声本体の保存や再取得はしていない。台本のcanonical JSON・READY・制作証拠は未回収で、Releaseの将来不変性、受信ごとのhash検証、権利・追加8本・Store・IOS-04/16全体の受入とは分ける。
+
 アカウント、広告、解析SDK、クラウド同期を追加していません。しおり・読書位置・音声位置は端末内へ保存します。音声を再生するとGitHubとその配信基盤へ通信し、外部リンクを開くとそのサイトへ通信します。配信先のIP等のログまで含めたストアのApp Privacy申告は未確定です。
 
 [Appleのrequired reason API説明](https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacyaccessedapitypes/nsprivacyaccessedapitype)を2026-10-23に確認し、アプリ内の学習記録をUserDefaultsへ保存する利用を`CA92.1`として[PrivacyInfo.xcprivacy](AILibrary/PrivacyInfo.xcprivacy)へ記載しました。これはストア審査や第三者配信基盤のプライバシー確認を完了した意味ではありません。

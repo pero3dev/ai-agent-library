@@ -21,3 +21,13 @@ cancelのcaseは、partial案内と読めたAgentループのしおりを確認�
 再検査候補では新classの1ファイルだけを変更し、復旧操作の存在・実行・不在の3箇所を、画面の公開Button名「読み取れる記録で復旧」の完全一致queryへ揃えた。存在時は一意であることを追加で要求し、従来の画面内hittable、最大8回のスクロール、待機上限、partial案内と共通警告、確認・取消し、同suite再起動、既存・今回追加のしおりの条件を保つ。seedと製品側の復旧処理は変更しない。
 
 修正ファイルは4,964 bytes、SHA-256 `0354bf0f407f6f283e6430dca9cdd10285cc374f50b8497a5df48529ad30a716`。構文parse1回と最小差分の静的レビューを行ったが、この修正の実SDK・実UI効果は新headのCI待ちである。上段の未実施・nullは初回準備時点の記録として保持し、初回の失敗を修正後の成功に置き換えない。
+
+## 確認Sheet内に操作を限定する再検査候補
+
+公開head `0d7b0a2cb789eb75dc79851438c0235e01f7a31a`では、[Native40513391169](https://github.com/pero3dev/ai-agent-library/actions/runs/40513391169)の単体165件・2 skip・失敗0と既存UI2件が成功した。新Recovery2件は復旧ボタンの一意性、partial案内と共通警告、確認dialogのタイトル・原データ退避message、confirmの操作可能判定まで進んだ。その後、画面全体の「キャンセル」がライブラリのNavigationBarと確認Sheetの2箇所に一致し、frame取得で失敗した。dialog内の取消し／confirm、終了、再起動後のしおり保持は未到達である。
+
+同headの[SDK2640513391463](https://github.com/pero3dev/ai-agent-library/actions/runs/40513391463)は成功した。独立観測票SHA-256は `0657155f0bf3803a41c5431af0367b3ef5d7c070881986d51645d047e8e7fd42`。実Sparse AX treeのlibrary NavigationBar配下と、復旧タイトルをlabelに持つSheet配下に「キャンセル」があった。
+
+新候補は公開タイトルに完全一致するSheetを一意に要求し、その内部でタイトル・messageと、一意なconfirm・cancel Buttonを確認して操作する。終了待機にはSheet不在も要求する。タイトル5秒、操作可能判定15秒、終了10秒、案内・しおり・同suite再起動の条件は保つ。製品の画面とseedは変更しない。修正1ファイルは5,713 bytes・SHA-256 `a5c820737f11cf6dc1f520bc662668270ff96070d89fa0f2813055b764a92681`。Swift構文parse1回と独立静的レビューまで完了し、新SDK・実UI効果は未確認である。
+
+別系統の[iOS26.5 run40513391433](https://github.com/pero3dev/ai-agent-library/actions/runs/40513391433)では、既存2件のうち目次→自己注意の見出しへの待機が1件失敗した。timeout後の逐次geometry snapshotでは対象が画面内・hittableだったが、待機中の成立や内部原因は証明しない。今回はRuntime26の処理・待機・判定を変更せず、新headで別に確認する。geometry票SHA-256は `e39a17de8402b1c2129a1a4c0374dedd30c1bde7e35c33c0e18b49de26b1e9f2`。過去の失敗を保持し、実機・VoiceOver・読書位置・backup生bytesとIOS-22全体は未完了である。

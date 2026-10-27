@@ -234,5 +234,204 @@
       "actual_UI_effect": null
     },
     "first_preparation_fields_remain_historical": true
+  },
+  "dialog_scope_revision_after_0d7": {
+    "previous_head": "0d7b0a2cb789eb75dc79851438c0235e01f7a31a",
+    "previous_tree": "980d8084e5c18765469351f69bda2d42dbcf69ac",
+    "Native": {
+      "id": 40513391169,
+      "name": "iOS native regression",
+      "path": ".github/workflows/ios-native.yml",
+      "event": "pull_request",
+      "head_sha": "0d7b0a2cb789eb75dc79851438c0235e01f7a31a",
+      "head_branch": "codex/ios-reading-recovery-ui",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-10-27T13:35:42Z",
+      "updated_at": "2026-10-27T13:59:02Z",
+      "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40513391169"
+    },
+    "SDK26": {
+      "id": 40513391463,
+      "name": "iOS SDK 26 unsigned archive preflight",
+      "path": ".github/workflows/ios-sdk26-archive.yml",
+      "event": "pull_request",
+      "head_sha": "0d7b0a2cb789eb75dc79851438c0235e01f7a31a",
+      "head_branch": "codex/ios-reading-recovery-ui",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-27T13:35:42Z",
+      "updated_at": "2026-10-27T13:40:10Z",
+      "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40513391463"
+    },
+    "summary": {
+      "unit": "Current165 executed/2 skipped/0 failures; added12 each Started1/Passed1",
+      "existing_UI": "Current2 distinct both passed",
+      "new_Recovery_UI": "Current2 distinct each Started1/Passed0/Failed1; progressed to dialog, failed global Cancel multiple match at NativeReaderUITests.swift133",
+      "SDK26": "Current unsigned archive compatibility success"
+    },
+    "Recovery_phase_scope": {
+      "both": {
+        "notice_public_exact_label_count1_and_hittable_reached": true,
+        "partial_and_common_warning_checks_passed": true,
+        "dialog_title_and_message_checks_passed": true,
+        "confirm_hittable_check_passed_before_cancel": true,
+        "confirm_unique_count_not_asserted_in_this_revision": true,
+        "cancel_query_failed_before_tap": true,
+        "dialog_cancel_tap": false,
+        "dialog_confirm_tap": false,
+        "dialog_close_wait": false,
+        "same_suite_relaunch": false,
+        "post_relaunch_bookmark_acceptance": false
+      },
+      "Cancel": {
+        "existing_Agent_loop_bookmark_UI_checked": true,
+        "after_cancel_or_relaunch_bookmark_acceptance": false
+      },
+      "Confirmed": {
+        "existing_Agent_loop_bookmark_UI_checked": true,
+        "Tool_Use_opened": true,
+        "live_bookmark_added_via_UI_and_delete_button_seen": true,
+        "after_recovery_or_relaunch_old_new_bookmark_acceptance": false
+      },
+      "assessment": "Source-bound ordered activity plus continuation past assertions; no standalone seed/backup bytes or persisted post-relaunch acceptance."
+    },
+    "source_binding": {
+      "Native_synthetic": {
+        "sha": "cca14a30a3ddf6b2e92a2126b062d74595fd888e",
+        "tree": "980d8084e5c18765469351f69bda2d42dbcf69ac",
+        "parents": [
+          "76d57595b52eb54b92ac188e3cdcd330c18aa116",
+          "0d7b0a2cb789eb75dc79851438c0235e01f7a31a"
+        ]
+      },
+      "SDK26_actual": {
+        "sha": "0d7b0a2cb789eb75dc79851438c0235e01f7a31a",
+        "tree": "980d8084e5c18765469351f69bda2d42dbcf69ac",
+        "parents": [
+          "07e1be8ed57b816e9565f2084cec01ba91bbb6dc"
+        ]
+      }
+    },
+    "observation_SHA256": "0657155f0bf3803a41c5431af0367b3ef5d7c070881986d51645d047e8e7fd42",
+    "Sparse_scope": "GlobalCancel matches libraryNavigationBar and recoveryTitle-labeledSheet descendants",
+    "revision": {
+      "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+      "after_bytes": 5713,
+      "after_SHA256": "a5c820737f11cf6dc1f520bc662668270ff96070d89fa0f2813055b764a92681",
+      "independent_static_review_SHA256": "6c420273dd6dd7ef0760e9483e1f852153c4898338a616d48f58c1dea184f84a",
+      "syntax_parse_calls": 1,
+      "syntax_parse_exit": 0,
+      "title_and_message": "Scoped existence, not independent count1",
+      "Sheet_confirm_cancel": "Exact public labels and count1 before actions",
+      "dialog_close": "Existingconfirmabsence plus recoverySheetcount0",
+      "production_or_seed_changed": false,
+      "waits_and_conditions_preserved": true,
+      "newhead": null,
+      "SDK_or_UI_effect": null
+    },
+    "separate_Runtime26": {
+      "run": 40513391433,
+      "job": 122220734042,
+      "head": "0d7b0a2cb789eb75dc79851438c0235e01f7a31a",
+      "existing_cases": 2,
+      "passed": 1,
+      "failed": 1,
+      "failure_stage": "Initial TOC to selfattention, before resume/relaunch",
+      "after_timeout_snapshot": {
+        "encodingError": null,
+        "sampling": "after-timeout-sequential",
+        "schemaVersion": 1,
+        "snapshot": {
+          "app": {
+            "frame": {
+              "coordinates": {
+                "height": 874,
+                "width": 402,
+                "x": 0,
+                "y": 0
+              },
+              "state": "finite-nonempty"
+            }
+          },
+          "container": {
+            "exists": true,
+            "frame": {
+              "coordinates": {
+                "height": 874,
+                "width": 402,
+                "x": 0,
+                "y": 0
+              },
+              "state": "finite-nonempty"
+            },
+            "requested": true
+          },
+          "navigationBars": {
+            "items": [
+              {
+                "eligibleAsForeground": true,
+                "frame": {
+                  "coordinates": {
+                    "height": 54,
+                    "width": 402,
+                    "x": 0,
+                    "y": 62
+                  },
+                  "state": "finite-nonempty"
+                },
+                "hasEnabledHittableControl": true,
+                "index": 0
+              }
+            ],
+            "omitted": 0,
+            "sampling": "sampled",
+            "total": 1
+          },
+          "predicate": {
+            "fullyVisible": true,
+            "geometry": {
+              "reason": null,
+              "state": "visible"
+            },
+            "satisfied": true,
+            "targetIsHittable": true,
+            "targetIsHittableRead": "once-after-visible-geometry"
+          },
+          "target": {
+            "exists": true,
+            "frame": {
+              "coordinates": {
+                "height": 24,
+                "width": 131,
+                "x": 18,
+                "y": 121.84709480122365
+              },
+              "state": "finite-nonempty"
+            }
+          },
+          "viewport": {
+            "frame": {
+              "coordinates": {
+                "height": 758,
+                "width": 402,
+                "x": 0,
+                "y": 116
+              },
+              "state": "finite-nonempty"
+            },
+            "reason": null,
+            "state": "resolved"
+          }
+        }
+      },
+      "timing_scope": "Sequentialposttimeout sample, not earlierwaitingpredicate values",
+      "geometry_receipt_SHA256": "e39a17de8402b1c2129a1a4c0374dedd30c1bde7e35c33c0e18b49de26b1e9f2",
+      "code_or_wait_changes_here": false,
+      "cause": null,
+      "newhead_result": null
+    }
   }
 }

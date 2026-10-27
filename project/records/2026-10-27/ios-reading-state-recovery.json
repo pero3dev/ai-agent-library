@@ -1,0 +1,111 @@
+{
+  "task": "IOS-22 reading-state recovery",
+  "date": "2026-10-27",
+  "status": "private candidate; not integrated",
+  "base_commit": "f5e6221b7dd01132ff76d36e993b13047b15e24c",
+  "external_operations": 0,
+  "source_files": [
+    {
+      "path": "ios/AILibrary/Sources/ReadingStore.swift",
+      "bytes": 19641,
+      "sha256": "8874792f1fc346b8c2bf465301780f1cc01a55d808a6ef0ce7fa8d9344aaf1f7",
+      "base_blob": "6c23674e07a6a467f56cbba6634a5f0a50e91031"
+    },
+    {
+      "path": "ios/AILibrary/Sources/LibraryStore.swift",
+      "bytes": 11457,
+      "sha256": "6c1eddc91c144f89fa0259f44ae4e360a61904d2abca5f9cb94bee7ee9ad3211",
+      "base_blob": "04e2bea5a11d9b5a9dbf83217c22bf29e91f16ce"
+    },
+    {
+      "path": "ios/AILibrary/Sources/LibraryView.swift",
+      "bytes": 28278,
+      "sha256": "5788d5cfd58acdc432cc2b0f2146fc393e339771faa2d2fdcb59140cc154fccf",
+      "base_blob": "f9e638cc54207dec7de401992c36922e8719ea7a"
+    },
+    {
+      "path": "ios/AILibraryTests/LibraryCoreTests.swift",
+      "bytes": 162966,
+      "sha256": "aeb6b51147ec90374dc24682bfcdddf9c79e71503a99935f354af4b32f6a47d8",
+      "base_blob": "873d8cf5101bc73d4795e42d4edc8c3d28698f45"
+    }
+  ],
+  "new_xctest_methods": 12,
+  "storage": {
+    "maximum_input_bytes": 1048576,
+    "backup_key_suffix": ".recovery.v1",
+    "backup_slots": 1,
+    "preserve_existing_backup": true,
+    "delete_backup": false
+  },
+  "verification": {
+    "swift_frontend_parse": {
+      "result": "passed",
+      "files": 4,
+      "scope": "syntax only; no module type check or execution"
+    },
+    "existing_test_methods_unchanged": true,
+    "normal_reading_methods_and_anchor_models_preserved": true,
+    "xctest_execution": "not run; Hosted required",
+    "ios_sdk_build": "not run",
+    "device_voiceover": "not run; user-directed skip",
+    "npm_ci_check": "not run in private constrained task",
+    "content_generation": "not run",
+    "optional_anchor_fallback_preserved": true,
+    "backup_readback_scope": "same-process UserDefaults equality only; not durable disk or power-loss verification"
+  },
+  "todo": {
+    "IOS-22": "incomplete",
+    "completed_count_changed": false
+  },
+  "remaining": [
+    "Independent final payload review",
+    "Hosted SDK compilation and real XCTest",
+    "UI confirmation/cancellation and failure notice acceptance",
+    "Device and VoiceOver acceptance",
+    "Article rename/deletion migration and IOS-22 whole-task acceptance"
+  ],
+  "integration_candidate": {
+    "date": "2026-10-27",
+    "base_commit": "f5e6221b7dd01132ff76d36e993b13047b15e24c",
+    "original_candidate_manifest_sha256": "194eae549ece22c29dffeee271cdd622722700c1bdc1d659b2e3d9112350411b",
+    "scope": [
+      "project/README.md",
+      "project/plans/engineering/ios-app-completion.md",
+      "ios/README.md",
+      "ios/AILibrary.xcodeproj/project.pbxproj",
+      "project/records/2026-10-27/ios-reading-state-recovery.md",
+      "project/records/2026-10-27/ios-reading-state-recovery.json"
+    ],
+    "application_version": {
+      "previous_marketing": "0.2.19",
+      "previous_build": "21",
+      "marketing": "0.2.20",
+      "build": "22",
+      "configuration_count": 2
+    },
+    "initial_implementation_and_verification_preserved": true,
+    "new_swift_changes": false,
+    "future_main": null,
+    "future_head": null,
+    "new_hosted": null,
+    "external_operations": 0,
+    "checks": {
+      "markdownlint": {
+        "result": "passed",
+        "runtime": "Node.js 24.19.0",
+        "explicit_markdown_files": 4,
+        "dependencies_installed": false
+      },
+      "json": "passed",
+      "pbx_version_only": "passed; two configurations, marketing 0.2.19 to 0.2.20 and build 21 to 22 only",
+      "todo_table_preserved": "passed; same 32 rows and 12 completed",
+      "original_six_files_preserved": "passed; original frozen manifest and all six SHA256 values match",
+      "f5_before_blobs_match": "passed; four source blobs match and two record paths absent",
+      "pbx_plutil": "passed",
+      "index_insert_only": "passed; one paragraph inserted into each index",
+      "record_append_only": "passed; Markdown original prefix and JSON existing fields preserved",
+      "outside_owned_paths": "none included in candidate"
+    }
+  }
+}

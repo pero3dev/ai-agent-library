@@ -6,6 +6,7 @@ struct LibraryView: View {
     @State private var filter = LibraryArticleFilter()
     @State private var importPresented = false
     @State private var aboutPresented = false
+    @State private var readingRecoveryPresented = false
     @State private var moreActionsPresented = false
     @State private var pendingMoreAction: MoreAction?
     @State private var path: [ReaderRoute] = []
@@ -160,6 +161,18 @@ struct LibraryView: View {
     var body: some View {
         NavigationStack(path: $path) {
             List {
+                if let issue = store.readingRecoveryIssue {
+                    Section("読書記録の復旧が必要です") {
+                        Text(issue.message).font(.callout)
+                        Text("復旧するまで、今回のしおりや読書位置の変更はアプリ終了後に残りません。")
+                            .font(.callout).foregroundStyle(.secondary)
+                        if issue.canRecover {
+                            Button("読み取れる記録で復旧") { readingRecoveryPresented = true }
+                                .accessibilityIdentifier("library-reading-recovery")
+                        }
+                    }
+                    .accessibilityIdentifier("library-reading-recovery-notice")
+                }
                 if store.learningIndex != nil {
                     Section {
                         Button { learningPresented = .guide } label: { Label("学習ガイド", systemImage: "map") }
@@ -318,6 +331,13 @@ struct LibraryView: View {
                     .navigationTitle("記事を利用できません")
                 }
             }
+        }
+        .confirmationDialog("読み取れる記録で復旧しますか？", isPresented: $readingRecoveryPresented,
+                            titleVisibility: .visible) {
+            Button("復旧して記録の保存を再開") { store.recoverReadingState() }
+            Button("キャンセル", role: .cancel) {}
+        } message: {
+            Text("元の保存データを端末内に退避してから、読み取れた記録と今回の変更を保存します。読み取れない記録は利用できません。")
         }
         .sheet(isPresented: $moreActionsPresented, onDismiss: dispatchMoreAction) { moreActionsSheet }
         .task { await store.load() }

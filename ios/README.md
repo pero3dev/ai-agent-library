@@ -236,6 +236,8 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 
 私有Macで新3件は実行成功し、iOS SDKでは全122件・機能UI10件・performance1件のコンパイルを確認しました。iOSでの新3件の実行はHosted待ちです。削除・上限設定・pin/lease・実容量不足・プロセス終了は試していません。容量整理の方針を採用する前の回帰であり、既存の保存処理は変更しません。
 
+[読書記録の破損保全と明示復旧](../project/records/2026-10-27/ios-reading-state-recovery.md)は、原データを保護して読める記録を残し、利用者の確認後に退避と復旧を行う0.2.20（22）の採択候補です。追加12件はXCTestのsourceで、Swift4ファイルの構文解析のみ成功しています。実SDK・実XCTest・UI・実機は未実施で、記事改名・削除等とIOS-22全体は未完了、完了12／32件を維持します。
+
 ## 絞り込み中の補助画面と保存分離のUI回帰
 
 [操作シートの追加UI回帰](../project/records/2026-10-25/ios-filtered-actions-ui.md)は、検索・タグを保持したAboutの開閉と、専用テスト記事のしおり変更が通常の保存へ混ざらないことを検査します。専用一覧は検索前に全1記事と確認し、通常のfilterを確認した後、通常readerの再開より前にアプリを再起動して永続データを読み直します。

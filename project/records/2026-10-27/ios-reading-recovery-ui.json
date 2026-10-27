@@ -434,4 +434,401 @@
       "newhead_result": null
     }
   }
+,
+  "adopted89_and_mainc1_checkpoint_20261028": {
+    "recorded_date": "2026-10-28",
+    "status": "adopted89-UI-feature-and-independent-mainc1-push-checkpoint",
+    "historical_preparation_values_unchanged": true,
+    "interpretation": "旧本文・旧JSONの未採用/未実施/nullは当時の準備snapshotです。以下に採用89と新mainc1実測を別scopeで追加します。Driver修正や製品全体受入へ成功を補完しません。",
+    "adopted_PR283": {
+      "PR": 283,
+      "head": "89a32389678d5b752f5b550553b42f32274c6fcc",
+      "head_tree": "a1487b7072d090ba25f8944a9b94c3234a308350",
+      "base": "76d57595b52eb54b92ac188e3cdcd330c18aa116",
+      "Ready": {
+        "draft": false,
+        "required11_all_success": true,
+        "checks": [
+          {
+            "name": "actionlint",
+            "check_id": 122243147460,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          },
+          {
+            "name": "docs",
+            "check_id": 122243147673,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          },
+          {
+            "name": "examples",
+            "check_id": 122243147808,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          },
+          {
+            "name": "lint",
+            "check_id": 122243147925,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          },
+          {
+            "name": "harness",
+            "check_id": 122243147971,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          },
+          {
+            "name": "harness-windows",
+            "check_id": 122243148036,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          },
+          {
+            "name": "build",
+            "check_id": 122243148102,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          },
+          {
+            "name": "Audio playback regression",
+            "check_id": 122243148054,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          },
+          {
+            "name": "Safari audio playback regression",
+            "check_id": 122243148085,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          },
+          {
+            "name": "harness-policy",
+            "check_id": 122272903653,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          },
+          {
+            "name": "freshness-policy",
+            "check_id": 122272891984,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          }
+        ],
+        "latest_Ready_policy_runs": [
+          {
+            "id": 40528047932,
+            "path": ".github/workflows/harness-policy.yml",
+            "event": "pull_request_target",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc",
+            "conclusion": "success"
+          },
+          {
+            "id": 40528047872,
+            "path": ".github/workflows/freshness-policy.yml",
+            "event": "pull_request_target",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc",
+            "conclusion": "success"
+          }
+        ]
+      },
+      "scope_review_sha256": "419cde2ba2b0aba5ee276c906a2013f8cf4d56d83c13e40629548607daf55e9a",
+      "actual_main": "c1e89ad994e424d1cb572802f118a82a42899bea",
+      "actual_main_tree": "a1487b7072d090ba25f8944a9b94c3234a308350",
+      "actual_main_parent": "76d57595b52eb54b92ac188e3cdcd330c18aa116",
+      "ordinary_protected_squash": true,
+      "admin_or_protection_change": false,
+      "all2770_mode_type_blob_tuples_equal_accepted89": true,
+      "main_proof_sha256": "562b4a6024c7fc5326b847cd4c5a809798ea5fc0b17a884be744e96974593b42",
+      "future_docs_publication_main_binding": null
+    },
+    "accepted89_related_runs": {
+      "scope": "PR89実測。新mainpushや新Driver結果ではありません。",
+      "Native": {
+        "run_id": 40519707888,
+        "job_id": 122243144968,
+        "profile": "representative3 plus separate fixture4",
+        "raw_UI_tests": 4,
+        "passed": 4,
+        "failures": 0,
+        "UI_seconds": 410.029,
+        "unit_executed": 165,
+        "unit_skipped": 2,
+        "unit_failures": 0,
+        "Recovery_cases": {
+          "Cancel": {
+            "case_passed": true,
+            "seconds": 120.422,
+            "notice_and_partial_common_warning_assertions": true,
+            "unique_Sheet_and_scoped_controls_assertions": true,
+            "scoped_cancel_tap": true,
+            "dialog_closed_assertion": true,
+            "notice_retained_after_cancel": true,
+            "raw_launch_count": 2,
+            "same_suite_launch_environment_assertion_passed": true,
+            "raw_suite_value_observed": false,
+            "post_relaunch_notice_retained": true,
+            "post_relaunch_old_Agent_loop_bookmark_UI_assertion": true
+          },
+          "Confirmed": {
+            "case_passed": true,
+            "seconds": 136.75,
+            "notice_old_Agent_loop_and_live_Tool_Use_bookmark_add_UI_assertions": true,
+            "unique_Sheet_and_scoped_controls_assertions": true,
+            "scoped_confirm_tap": true,
+            "dialog_closed_and_notice_absent_assertions": true,
+            "raw_launch_count": 2,
+            "same_suite_launch_environment_assertion_passed": true,
+            "raw_suite_value_observed": false,
+            "post_relaunch_notice_absent": true,
+            "post_relaunch_old_Agent_loop_and_live_Tool_Use_bookmark_UI_assertions": true
+          }
+        },
+        "proof_scope": "Fresh raw individual Passed events, ordered public activities and current approved source assertions. No direct raw defaults/backup read, physical acceptance or causal proof of earlier failure."
+      },
+      "SDK26": {
+        "run_id": 40519708024,
+        "job_id": 122243145301,
+        "conclusion": "success",
+        "scope": "unsigned archive compatibility only; no Runtime/device/distribution acceptance"
+      },
+      "Runtime26": {
+        "run_id": 40519708263,
+        "job_id": 122243146400,
+        "raw_UI_tests": 2,
+        "passed": 2,
+        "failures": 0,
+        "seconds": 258.131,
+        "prior0d7_failure_cause_or_fix_proven": false
+      },
+      "Full": {
+        "run_id": 40519707922,
+        "job_id": 122244442473,
+        "raw_UI_tests": 22,
+        "passed": 22,
+        "failures": 0,
+        "seconds": 1324.692,
+        "profile": "published199; Native2+Published14+geometry6, excluding newRecovery2",
+        "Release": {
+          "schema_version": 1,
+          "status": "passed",
+          "native_schema_version": 2,
+          "revision": "e3530249c3e21f9a77e79e08f93123997551d02845a8624c8d89b4d13c9bfbbd",
+          "articles": 199,
+          "audio": 1,
+          "verified_files": 625,
+          "verified_bytes": 36958860,
+          "test_content_absent": true
+        }
+      },
+      "Dedicated": {
+        "run_id": 40519707868,
+        "job_id": 122243145160,
+        "F_raw_case_count": 1,
+        "F_result": "Passed",
+        "R_raw_case_count": 1,
+        "R_result": "Failed",
+        "R_xcodebuild_exit": 65,
+        "R_timed_out": false,
+        "App_arrays7_all_match": true,
+        "same_live_data_container_and_new_RPID_Dead_bundle_observed": true,
+        "mechanism": null,
+        "after_body_sentinel_acceptance": null,
+        "whole_Dedicated_accepted": false
+      }
+    },
+    "work_unit_boundary": {
+      "feature_UI_separate_reviewable_unit": true,
+      "Driver3_base76_to89_unchanged": true,
+      "F_R_seed_override_false_does_not_prove_causal_independence": true,
+      "causality_limit": "Default-false seed removes the added seed write from F/R; it does not prove every changed UITest bundle artifact cannot interact with Xcode. Do not claim causal independence or a fixed R.",
+      "Dedicated_failure_disclosed_not_success": true,
+      "separate_driver_PR": 284,
+      "driver_preparation_head": "56fef8f00946aba553a42cc2081d7df6100fb65e",
+      "driver_preparation_tree": "a6a9184b3c90240c36face73bc7c69d4b70bd5f4",
+      "Driver_effect_or_F_R_acceptance": null,
+      "Source3_main_adoption": null,
+      "new_Driver_normal_or_Dedicated_CI_not_substituted_here": true
+    },
+    "mainc1_new_push_checkpoint": {
+      "source": {
+        "head": "c1e89ad994e424d1cb572802f118a82a42899bea",
+        "tree": "a1487b7072d090ba25f8944a9b94c3234a308350",
+        "parent": "76d57595b52eb54b92ac188e3cdcd330c18aa116",
+        "binding": "fresh commit API plus each directly observed Native/Full/build/harness checkout"
+      },
+      "manifest_sha256": "10d8b8a7e9285b9e682135e6d8381345bc516ab0eea3e3eece8d0e45fbe118fe",
+      "fresh_push_runlist": {
+        "observed_at": "2026-10-27T15:39:43.360Z",
+        "total_count": 3,
+        "runs": [
+          {
+            "id": 40528422662,
+            "name": "iOS native regression",
+            "head": "c1e89ad994e424d1cb572802f118a82a42899bea",
+            "event": "push",
+            "attempt": 1,
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 40528422874,
+            "name": "CI",
+            "head": "c1e89ad994e424d1cb572802f118a82a42899bea",
+            "event": "push",
+            "attempt": 1,
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 40528422694,
+            "name": "iOS published app candidate",
+            "head": "c1e89ad994e424d1cb572802f118a82a42899bea",
+            "event": "push",
+            "attempt": 1,
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      "Common": {
+        "run": 40528422874,
+        "jobs": 10,
+        "success": 10,
+        "deploy_success": true,
+        "PRpolicy11_or_public_screen_acceptance": false
+      },
+      "Native": {
+        "run": 40528422662,
+        "job": 122274234209,
+        "UI_tests": 4,
+        "UI_passed": 4,
+        "UI_failures": 0,
+        "UI_seconds": 277.996,
+        "unit_executed": 165,
+        "unit_skipped": 2,
+        "unit_failures": 0,
+        "unit_seconds": 2.342,
+        "Recovery_cancel_seconds": 74.945,
+        "Recovery_confirm_seconds": 103.842,
+        "each_Recovery_case_actual_launches": 2,
+        "post_relaunch_old_and_live_bookmarks_scope": "Current source assertions plus selected current public activities and individual Passed events; no raw suite or backup byte read acceptance.",
+        "Release": {
+          "schema_version": 1,
+          "status": "passed",
+          "native_schema_version": 2,
+          "revision": "994189bffc65ef21782058280f5f8d9aabae72dbfc63a42e832ac99a177bec56",
+          "articles": 3,
+          "audio": 1,
+          "verified_files": 140,
+          "verified_bytes": 2577102,
+          "test_content_absent": true
+        }
+      },
+      "Full": {
+        "run": 40528422694,
+        "job": 122274233822,
+        "UI_tests": 22,
+        "UI_passed": 22,
+        "UI_failures": 0,
+        "UI_seconds": 1109.326,
+        "unit_executed": 165,
+        "unit_skipped": 2,
+        "unit_failures": 0,
+        "unit_seconds": 4.465,
+        "Release": {
+          "schema_version": 1,
+          "status": "passed",
+          "native_schema_version": 2,
+          "revision": "0c7170913db012fff41c0e14a9b62b64f6173b8e24e207e8f06af4964de5d7fa",
+          "articles": 199,
+          "audio": 1,
+          "verified_files": 625,
+          "verified_bytes": 36958884,
+          "test_content_absent": true
+        },
+        "diagnostic_prefixes": 0
+      },
+      "Recovery_each_actual_launches": 2,
+      "proof_scope": "Current c1 Source assertions, current individual Passed events and ordered public activities; raw suite value/defaults/backup bytes and position precision not independently read.",
+      "SDK26_Runtime26_Dedicated_new_push": {
+        "observed": false,
+        "scope": "No corresponding additional workflow run in fresh c1/eventpush list; old PR89 results not transferred.",
+        "results": null
+      },
+      "profiles_kept_separate": true,
+      "PR89_Runtime_counts_or_Release_values_transferred": false,
+      "Common10_push_jobs_not_PR11_policies": true,
+      "deploy_success_not_independent_public_screen_acceptance": true,
+      "actual_artifact_metadata_or_body_GET_by_checkpoint_observer": 0
+    },
+    "still_unaccepted": {
+      "Core_historical_benchmark_reassigned_to_currentApp": false,
+      "Core_performance": null,
+      "physical_device": null,
+      "VoiceOver": null,
+      "reading_position_precision": null,
+      "raw_backup_bytes": null,
+      "crash_power_loss_disk_durability": null,
+      "offline_import_sameProcessRetry_product_scope": null,
+      "IOS22_whole_acceptance": null,
+      "new_Driver_effect": null
+    },
+    "evidence": {
+      "scope_review": {
+        "reference": "<private-evidence>/ios-pr283-89-final-scope-independent-review-20261028/review.json",
+        "bytes": 3871,
+        "sha256": "419cde2ba2b0aba5ee276c906a2013f8cf4d56d83c13e40629548607daf55e9a"
+      },
+      "mainc1_integration_proof": {
+        "reference": "<private-evidence>/ios-pr283-main-c1-integration-verification-20261028/proof.json",
+        "bytes": 781,
+        "sha256": "562b4a6024c7fc5326b847cd4c5a809798ea5fc0b17a884be744e96974593b42"
+      },
+      "Ready_gate": {
+        "reference": "<private-evidence>/ios-pr283-89-final-integration-metadata-20261028/ready-gate.json",
+        "bytes": 6682,
+        "sha256": "45a0f5d6c16ef512d6c63570b639ad7d34f880e5a6db9c5697ddc09f88bbd812"
+      },
+      "parent89_Native_SDK": {
+        "reference": "<private-evidence>/ios-pr283-89-native-sdk-observation-20261027/observation.json",
+        "bytes": 4989,
+        "sha256": "9330b9913db0c42f1d469075c534f3c61f110fc0df6b8b24f57b973a525b24f4"
+      },
+      "parent89_Runtime26": {
+        "reference": "<private-evidence>/ios-pr283-89-full-runtime-observation-20261027/runtime26-summary.json",
+        "bytes": 17259,
+        "sha256": "33849fa682a30812e94c8c6909a913a7791228771b2760ef4b3f9aa4bd4eceb1"
+      },
+      "parent89_Full": {
+        "reference": "<private-evidence>/ios-pr283-89-full-runtime-observation-20261027/full-summary.json",
+        "bytes": 27710,
+        "sha256": "4e24a03f705736f7c776cec3fd7cd76c172ba90a3ff8671e36bf320270d2418f"
+      },
+      "parent89_Dedicated": {
+        "reference": "<private-evidence>/ios-pr283-89-dedicated-observation-20261027/findings.json",
+        "bytes": 4242,
+        "sha256": "8b43b44ee6b63e8a719d5027c62ca1f6344888c8973d1691a51e65abe83122b7"
+      },
+      "mainc1_push_manifest": {
+        "reference": "<private-evidence>/ios-mainc1-postmerge-observation-20261028/manifest.json",
+        "bytes": 1545,
+        "sha256": "10d8b8a7e9285b9e682135e6d8381345bc516ab0eea3e3eece8d0e45fbe118fe"
+      },
+      "mainc1_push_observation": {
+        "reference": "<private-evidence>/ios-mainc1-postmerge-observation-20261028/observation.json",
+        "bytes": 4662,
+        "sha256": "7206b27e4fa578a008393fb7d230789305c19f169b7b31b30de9bf9ae70ed636"
+      }
+    },
+    "record_append_operations": {
+      "API_GET_write": 0,
+      "Git_mutation": 0,
+      "immutable_Git_read_prefix_only": true,
+      "source_shared_existing_private_public9_record6_edits": 0,
+      "SDK_UI_Node_test_reruns": 0,
+      "index_wholefile_output": 0
+    }
+  }
 }

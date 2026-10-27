@@ -159,7 +159,7 @@ IOS-22の準備として[同梱版の明示選択](../../records/2026-10-25/ios-
 
 IOS-22の[読書記録の破損保全と明示復旧](../../records/2026-10-27/ios-reading-state-recovery.md)はPR282最終eabの6runとReady最新policy成功後、main76へ通常保護squashで統合した。main76の新push Common・Native・Fullも別観測で成功し、Native追加12単体と通常UI、Fullの一意22caseを確認した。旧Core性能は歴史scopeに保ち、実ユーザーの復旧固有UI・実機・VoiceOver・耐電断等とIOS-22全体は未完了、TODO32行・完了12行を維持する。後続PR283の新Recovery UIはこのmain76 checkpointの受入に含めない。
 
-[読書記録復旧のUI回帰](../../records/2026-10-27/ios-reading-recovery-ui.md)は、DEBUG隔離suiteを用い、cancelとconfirm後の再起動で既存・今回追加のしおり保持を調べる2 caseの候補です。構文parseと独立レビューまでを確認し、実SDK／UI・読書位置・backup生bytes・実機・VoiceOverとIOS-22全体の受入は未実施です。
+[読書記録復旧のUI回帰](../../records/2026-10-27/ios-reading-recovery-ui.md)では、DEBUG隔離suiteの取消し・確認と再起動後のしおり保持を確認しています。採用89のNative4件と、通常保護で統合したmainc1の新push（Common10 jobs・Native4件・Full22件）を2026-10-28 checkpointで分けて記録しました。Dedicated89のF成功・R失敗は別Driver作業として保持し、新Driverの効果、読書位置・backup生bytes・実機・VoiceOver・Core性能とIOS-22全体は未受入です。
 
 [更新復旧試験の実行元](../../records/2026-10-28/ios-destination-artifacts-ui.md)では、head56の実機専用設定による開始拒否と、head3aのApp配下の依存参照が残った準備失敗を記録しました。欠落・復旧の別copyへApp本体と配下の依存productを揃える候補を、36単体と独立レビューで確認しています。新headのF/R・7回のApp一覧・本文後のsentinelと実効果は未確認です。head3aのNative destination不在・Runtime26の目次待機失敗は別結果として残し、実機・VoiceOverやIOS-22全体も未完了です。
 

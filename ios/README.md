@@ -278,6 +278,8 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 
 [Appleのrequired reason API説明](https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacyaccessedapitypes/nsprivacyaccessedapitype)を2026-10-23に確認し、アプリ内の学習記録をUserDefaultsへ保存する利用を`CA92.1`として[PrivacyInfo.xcprivacy](AILibrary/PrivacyInfo.xcprivacy)へ記載しました。これはストア審査や第三者配信基盤のプライバシー確認を完了した意味ではありません。
 
+[時計由来APIのPrivacy候補](../project/records/2026-10-26/ios-privacy-clock-reason-candidate.md)は、main142のApp16 Swift・時計7箇所と新しいApple公式DocC JSONの照合を記録しました。現mainのUserDefaultsのみ591Bと、SystemBootTime/35F9.1辞書211Bを追加する私有802B候補を区別します。wrapperへの適用は保守的な推論で、FileTimestamp理由は追加しません。Copy・Audio後の実mainへの結合・独立レビュー・新headのCI/Archive一致、配信先ログ・公開policy・問い合わせ先・Store回答を残し、IOS-27は未完了です。
+
 ## 開発版の制約と未完了の受入
 
 開発時の標準同梱対象は全published記事と既存音声1本のmetadataです。音声はストリーミングで、専用テスト記事はDebugの別画面へ限定します。音声保存、独立したネットワーク更新、アカウント、課金、プッシュ通知、端末間同期は実装していません。正常な取り込み済み版と以前のパッケージは保持し、旧版の容量整理は未完了です。読書復帰はblock ID・見出し・割合を使い、block内の厳密な文字位置までは保存しません。大きな記事改訂や見出し変更後の同一位置への復帰は保証しません。

@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "status": "private-future-main-bind-prepared-not-adopted",
+  "publishable": false,
+  "adopted": false,
+  "source_basis": {
+    "kind": "explicit-immutable-input",
+    "commit": "f5e6221b7dd01132ff76d36e993b13047b15e24c",
+    "tree": "fb717f389c8a94a27c942d59673fb9d762bfd683",
+    "actual_main_freshness_verified": false,
+    "Icon_SDK_merges_verified": false
+  },
+  "current_source_metadata": {
+    "App_version": "0.2.19",
+    "App_build": "21",
+    "unit_registered_sources": [
+      {
+        "path": "ios/AILibraryTests/NativeReaderPlacementPolicyTests.swift",
+        "source_methods": 8
+      },
+      {
+        "path": "ios/AILibraryTests/SearchIndexTests.swift",
+        "source_methods": 8
+      },
+      {
+        "path": "ios/AILibraryTests/LearningNavigationTests.swift",
+        "source_methods": 6
+      },
+      {
+        "path": "ios/AILibraryTests/NativeInlineTests.swift",
+        "source_methods": 37
+      },
+      {
+        "path": "ios/AILibraryTests/LibraryCoreTests.swift",
+        "source_methods": 71
+      },
+      {
+        "path": "ios/AILibraryTests/LearningIndexTests.swift",
+        "source_methods": 23
+      }
+    ],
+    "unit_source_methods": 153,
+    "UI_registered_classes": [
+      {
+        "path": "ios/AILibraryUITests/NativeReaderUITests.swift",
+        "class": "NativeReaderUITestCase",
+        "source_methods": 0
+      },
+      {
+        "path": "ios/AILibraryUITests/NativeReaderUITests.swift",
+        "class": "NativeReaderUITests",
+        "source_methods": 2
+      },
+      {
+        "path": "ios/AILibraryUITests/NativeReaderUITests.swift",
+        "class": "ReaderViewportGeometryTests",
+        "source_methods": 6
+      },
+      {
+        "path": "ios/AILibraryUITests/PublishedReaderUITests.swift",
+        "class": "PublishedReaderUITests",
+        "source_methods": 14
+      },
+      {
+        "path": "ios/AILibraryUITests/PublishedPerformanceUITests.swift",
+        "class": "PublishedPerformanceUITests",
+        "source_methods": 1
+      },
+      {
+        "path": "ios/AILibraryUITests/FailureReaderUITests.swift",
+        "class": "FailureReaderUITests",
+        "source_methods": 1
+      }
+    ],
+    "normal_selectors": [
+      {
+        "class": "NativeReaderUITests",
+        "method": null
+      },
+      {
+        "class": "PublishedReaderUITests",
+        "method": null
+      },
+      {
+        "class": "ReaderViewportGeometryTests",
+        "method": null
+      }
+    ],
+    "normal_raw_only_testing_occurrences": 4,
+    "normal_complete_only_testing_tokens": 4,
+    "normal_known_unit_selector_tokens": 1,
+    "normal_raw_UI_selector_occurrences": 3,
+    "normal_complete_UI_selector_tokens": 3,
+    "normal_selected_UI_source_methods": 22,
+    "normal_geometry_source_methods": 6,
+    "normal_functional_source_methods": 16,
+    "normal_unresolved": [],
+    "performance_registered_source_methods": 1,
+    "failure_registered_source_methods": 1,
+    "actual_XCTest_registration_or_execution": null,
+    "scope": "Source declarations only. Normal counts union complete literal UI selector case IDs and resolved inheritance. Every only-testing occurrence is accounted for; known unquoted AILibraryTests tokens are excluded from UI counts; unknown/quoted/concatenated targets or arguments and unresolved classes/inheritance yield null."
+  },
+  "history": {
+    "old_source_commit": "89e2a4e719c34ace5337327b15a6039c0da0f4ee",
+    "old_unit_registration": 152,
+    "old_normal_selected_UI_registration": 22,
+    "scope": "Historical89 snapshot only; never current counts or new execution",
+    "frozen_manifest_sha256": "2e3b8935f8df04a73ca54cb51bf4412f34e3aed880afef40c529f6c0cb847a81",
+    "independent_review_sha256": "91325db8a2eee7862436f623f672dac4feba00f0e056c1403c783d3fb1e66e22",
+    "pinned": {
+      ".github/workflows/ios-missing-package-ui.yml": "f0c15d257937ca2b8596687c532e19dbf460f43e2da5136d4490c69a1cc6f0dd",
+      "ios/AILibraryUITests/FailureReaderUITests.swift": "5b7074ebd25c472c87c890f7726e0fa0ddafadd854a6fccad1a018b3530efaab"
+    }
+  },
+  "PBX": {
+    "change": "Two new objects, append fileID to UIgroup and buildID to UISources only",
+    "inverse_exact": true
+  },
+  "scope": {
+    "owned_paths": [
+      ".github/workflows/ios-missing-package-ui.yml",
+      "ios/AILibrary.xcodeproj/project.pbxproj",
+      "ios/AILibraryUITests/FailureReaderUITests.swift",
+      "project/records/2026-10-26/ios-missing-package-ui.json",
+      "project/records/2026-10-26/ios-missing-package-ui.md"
+    ],
+    "App_sources": 0,
+    "ordinary_tests_and_existing_CI_changes": 0,
+    "private_routes": 0
+  },
+  "contract": {
+    "runner": "public standard macos-15",
+    "Xcode": "16.4",
+    "iOS": "18.5",
+    "device": "iPhone16",
+    "owned_Simulator": 1,
+    "job_minutes": 60,
+    "total_steps_minutes": 55,
+    "cleanup_minutes": 4,
+    "cleanup_driver_seconds": 210,
+    "signing": false,
+    "secrets": false,
+    "store": false
+  },
+  "stages": {
+    "F": {
+      "selector": "AILibraryUITests/FailureReaderUITests/testMissingBundledArticleShowsErrorAndRetryRemainsUsable",
+      "meaning": "Withhold exact one canonical native JSON; public error and retry remain usable; no body/count; foreground",
+      "actual_result": null
+    },
+    "R": {
+      "selector": "AILibraryUITests/NativeReaderUITests/testThreeArticlesHaveNativeBodyText",
+      "meaning": "Restore exact bytes/mode/full inventory, explicit upgrade without uninstall, fixed sentinel bytes/SHA retained before and after ordinary body case",
+      "actual_result": null
+    }
+  },
+  "automatic_reinstall_assumed": false,
+  "uninstall_fallback": false,
+  "new_actual_head_CI": null,
+  "new_run_ids": [],
+  "actual_SDK_Sim_install_UI": 0,
+  "incomplete": [
+    "Same-process repaired retry",
+    "Import picker",
+    "Initial offline",
+    "Legacy migration",
+    "Missing route UI",
+    "Physical QA",
+    "VoiceOver",
+    "Maximum text",
+    "IOS-18 overall",
+    "IOS-25 overall"
+  ],
+  "future_conditions": [
+    "Caller verifies future actual immutable main after normal merges and fresh branch lease.",
+    "Independent final5 payload review and exact-head normal checks.",
+    "Actual xctestrun/install/launch/UUID/OS/selector/sentinel/cleanup are unverified."
+  ],
+  "root_proposed_integration": {
+    "recorded_date": "2026-10-27",
+    "stage": "proposed-regression-with-Core-prerequisites-passed-awaiting-final-delta-review-and-new-head-execution",
+    "source_main": "f5e6221b7dd01132ff76d36e993b13047b15e24c",
+    "source_tree": "fb717f389c8a94a27c942d59673fb9d762bfd683",
+    "source_main_freshness_before_after_prepare": true,
+    "prerequisite_PR": 273,
+    "Core_main_push_runs": {
+      "common": 40443841890,
+      "native": 40443841894,
+      "published": 40443841889
+    },
+    "Core_main_push_observation": {
+      "head": "f5e6221b7dd01132ff76d36e993b13047b15e24c",
+      "event": "push",
+      "attempt": 1,
+      "all_three": "success",
+      "common_run": 40443841890,
+      "native_run": 40443841894,
+      "published_run": 40443841889,
+      "SDK26_and_Runtime26_push_runs": "not-triggered; existing PR results remain separate"
+    },
+    "source_content_independent_review_SHA256": "0259b2464c61159f73e5068edd22bd645765aff2e8c66f13285d55f56964ab03",
+    "helper_procedure_review_SHA256": "bc27c84913f758548c5710606a1aa4d468e07cfc95bce3fa08e048d4f738e5f6",
+    "prepared_manifest_SHA256": "bfd6c383b8896cbe5d5fa90755c61646ae41a9a8fe65341dc3856cd534fe52d1",
+    "owned_paths": [
+      ".github/workflows/ios-missing-package-ui.yml",
+      "ios/AILibrary.xcodeproj/project.pbxproj",
+      "ios/AILibraryUITests/FailureReaderUITests.swift",
+      "project/README.md",
+      "project/plans/engineering/ios-app-completion.md",
+      "project/records/2026-10-26/ios-missing-package-ui.json",
+      "project/records/2026-10-26/ios-missing-package-ui.md"
+    ],
+    "technical_three_paths_exact_prepared_bytes": true,
+    "App_version": "0.2.19",
+    "App_build": "21",
+    "new_head": null,
+    "new_CI_runs": [],
+    "actual_F_R_executed": false,
+    "main_merge": null,
+    "source_acceptance": "Core prerequisite source and new-push checks verified; candidate implementation and real F/R remain unaccepted",
+    "TODO_rows": 32,
+    "checked": 12,
+    "physical_QA": "skipped-incomplete-by-user-instruction",
+    "authorization": "User requested continued autonomous iOS implementation, commits, PRs and ordinary main merges. Fees, contracts, signing, distribution and Store remain separate owner decisions.",
+    "historical_top_level_fields": "Preserved immutable private-preparation snapshot; this added checkpoint describes the proposed public integration separately.",
+    "actual_bookmark_and_reading_position_retention_across_upgrade": "not-verified; app-unread fixed Documents sentinel only"
+  }
+}

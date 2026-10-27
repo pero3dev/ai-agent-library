@@ -52,6 +52,8 @@
 
 初期読み込み失敗の再試行と利用できない記事からの一覧復帰は[復旧の記録](records/2026-10-25/ios-load-recovery.md)で追跡する。保存と正常版の維持、実Storeの検証と画面受入を分ける。
 
+[同梱記事の欠損と正常版への更新のUI回帰](records/2026-10-26/ios-missing-package-ui.md)では、代表版のJSONを1本取り除いた実エラーと再試行操作、正常版への明示的な上書き更新後の保存維持を専用jobで検証する候補を用意した。Core main f5eへ接続し、Appと通常回帰を保持する。新SDK・F/Rは未実行であり、同じプロセス内の修復後再試行、実機・VoiceOver、IOS-18／25全体は未完了とする。
+
 章・難易度のネイティブ一覧絞り込みは[実施記録](records/2026-10-25/ios-category-level-filter.md)で追跡する。検索・しおりとのANDと解除を追加し、タグ・学習ルート等の残件を分ける。
 
 全published記事の一時生成とconsumer監査は[全記事の生成記録](records/2026-10-25/ios-all-article-package.md)で追跡する。通常3記事・fixture4記事を保ち、全記事の画面・性能・実機受入を残す。

@@ -1,0 +1,397 @@
+{
+  "schema_version": 1,
+  "recorded_date": "2026-10-28",
+  "historical_observation_date": "2026-10-27",
+  "historical_candidate_date": "2026-10-27",
+  "status": "private-documentation-candidate; driver Hosted effect unverified",
+  "purpose": "Dedicated F/R試験の実行対象を明示installしたApp/runnerへ揃えるDriver候補と、その起点となった親89の失敗を区別して記録します。",
+  "preparation_snapshot": {
+    "basis_head": "89a32389678d5b752f5b550553b42f32274c6fcc",
+    "basis_tree": "a1487b7072d090ba25f8944a9b94c3234a308350",
+    "basis_is_actual_main": false,
+    "actual_main_binding": null,
+    "new_PR_number": null,
+    "new_PR_head": null,
+    "new_Hosted_run": null,
+    "main_adoption": null,
+    "independent_code_review": null,
+    "independent_record_review": null,
+    "publication": null
+  },
+  "ownership": {
+    "record_paths": [
+      "project/records/2026-10-28/ios-destination-artifacts-ui.md",
+      "project/records/2026-10-28/ios-destination-artifacts-ui.json"
+    ],
+    "source_paths": [
+      {
+        "path": ".github/workflows/ios-missing-package-ui.yml",
+        "bytes": 55177,
+        "sha256": "8b17768ce85ceb1328695ee2a38baab71bb178ddb462cff46f64412a67674d7a"
+      },
+      {
+        "path": "ios/tests/xctestrun-metadata.mjs",
+        "bytes": 8948,
+        "sha256": "276e184be127b4fa5128f776f2b53d23a333b1439f2cb1f90e78cf2dfe2d7a57"
+      },
+      {
+        "path": "tests/unit/ios-xctestrun-metadata.test.mjs",
+        "bytes": 19512,
+        "sha256": "29a72580840ff99ad3dca24c3fa5bf7b36f13e31763da74199801ae4090e9dc5"
+      }
+    ],
+    "source_candidate_only": true,
+    "shared_checkout_edits": 0,
+    "index_wholefile_copies": 0
+  },
+  "parent89_dedicated_observation": {
+    "binding": {
+      "repository": "pero3dev/ai-agent-library",
+      "artifact_id": 12741348856,
+      "run_id": 40519707868,
+      "job_id": 122243145160,
+      "attempt": 1,
+      "head": "89a32389678d5b752f5b550553b42f32274c6fcc",
+      "tree": "a1487b7072d090ba25f8944a9b94c3234a308350",
+      "compressed_bytes": 349679,
+      "declared_digest": "sha256:d931bfed9cf976515ed2d400546068468cd8a1bbb970ef10332fc8d85a9c3749"
+    },
+    "result": "F passed / R failed; whole Dedicated not completed",
+    "F": {
+      "selector": "AILibraryUITests/FailureReaderUITests/testMissingBundledArticleShowsErrorAndRetryRemainsUsable",
+      "raw_case_count": 1,
+      "raw_case_result": "Passed",
+      "passed_leaf_and_execution_device": true,
+      "exit_code": 0,
+      "timed_out": false
+    },
+    "R": {
+      "selector": "AILibraryUITests/NativeReaderUITests/testThreeArticlesHaveNativeBodyText",
+      "raw_case_count": 1,
+      "raw_case_result": "Failed",
+      "exit_code": 65,
+      "timed_out": false,
+      "failure_source_line": 349,
+      "sentinel_after_body_accepted": null
+    },
+    "installed_App_inventories": {
+      "failure-after-ui-inventory.json": {
+        "full_arrays_independently_read_in_RAM": true,
+        "expected_files": 180,
+        "actual_files": 180,
+        "path_bytes_SHA_and_allowed_modes_match": true,
+        "expected_equals_host_stage": true,
+        "mode_delta_count": 12,
+        "error_count": 0
+      },
+      "failure-before-sentinel-inventory.json": {
+        "full_arrays_independently_read_in_RAM": true,
+        "expected_files": 180,
+        "actual_files": 180,
+        "path_bytes_SHA_and_allowed_modes_match": true,
+        "expected_equals_host_stage": true,
+        "mode_delta_count": 12,
+        "error_count": 0
+      },
+      "failure-before-ui-inventory.json": {
+        "full_arrays_independently_read_in_RAM": true,
+        "expected_files": 180,
+        "actual_files": 180,
+        "path_bytes_SHA_and_allowed_modes_match": true,
+        "expected_equals_host_stage": true,
+        "mode_delta_count": 12,
+        "error_count": 0
+      },
+      "failure-explicit-install-inventory.json": {
+        "full_arrays_independently_read_in_RAM": true,
+        "expected_files": 180,
+        "actual_files": 180,
+        "path_bytes_SHA_and_allowed_modes_match": true,
+        "expected_equals_host_stage": true,
+        "mode_delta_count": 12,
+        "error_count": 0
+      },
+      "restored-after-ui-inventory.json": {
+        "full_arrays_independently_read_in_RAM": true,
+        "expected_files": 181,
+        "actual_files": 181,
+        "path_bytes_SHA_and_allowed_modes_match": true,
+        "expected_equals_host_stage": true,
+        "mode_delta_count": 12,
+        "error_count": 0
+      },
+      "restored-before-ui-inventory.json": {
+        "full_arrays_independently_read_in_RAM": true,
+        "expected_files": 181,
+        "actual_files": 181,
+        "path_bytes_SHA_and_allowed_modes_match": true,
+        "expected_equals_host_stage": true,
+        "mode_delta_count": 12,
+        "error_count": 0
+      },
+      "restored-explicit-install-inventory.json": {
+        "full_arrays_independently_read_in_RAM": true,
+        "expected_files": 181,
+        "actual_files": 181,
+        "path_bytes_SHA_and_allowed_modes_match": true,
+        "expected_equals_host_stage": true,
+        "mode_delta_count": 12,
+        "error_count": 0
+      }
+    },
+    "R_App_vs_collector": {
+      "matching_record_count": 1,
+      "F_pid": 13578,
+      "R_pid": 16161,
+      "R_new_process_observed": true,
+      "same_live_data_container": true,
+      "collector_App_root": "<Simulator>/data/Containers/Bundle/Application/<installed>/AILibrary.app",
+      "App_Bundle_main_root": "<Simulator>/data/Library/Caches/com.apple.containermanagerd/Dead/<temporary>/AILibrary.app",
+      "validated_root_is_Dead_bundle_Content": true,
+      "reported_locations_opened_by_reader": false,
+      "expected_files": 141,
+      "found_files": 140,
+      "manifestFiles": 140,
+      "missing_relative_paths": [
+        "articles/01-concepts--agent-loop.json"
+      ],
+      "mechanism": null,
+      "causal_explanation_proven": false
+    },
+    "sentinel": {
+      "fixed_expected_bytes": 52,
+      "initial_fixed_bytes_match": true,
+      "App_reads_sentinel": false,
+      "post_upgrade_before_body_preserved": true,
+      "after_successful_body": {
+        "acceptance": null,
+        "source_receipt_flag": false,
+        "final_record_present": false,
+        "interpretation": "R本文確認が完了しておらず、最終sentinel記録がありません。sentinel消失を実証した値ではありません。"
+      },
+      "separate_pre_upgrade_raw_JSON": false
+    },
+    "cleanup_status": "owned-simulator-deleted",
+    "mechanism": null,
+    "Fstop_assertion_prevented_recurrence": false,
+    "artifact_read_scope": {
+      "archive_SHA256_verified": true,
+      "index_entries": 196,
+      "all_index_paths_types_duplicates_flags_checked": true,
+      "combined_unique_selected_count": 54,
+      "initial_selected_expanded_bytes": 1090439,
+      "total_expanded_including_duplicate_diagnostic_read": 1297940,
+      "selected_CRC_and_SHA256_checked": true,
+      "unselected_member_CRC_verified": false,
+      "raw_disk_files_saved": false,
+      "historical_proxy_GETs": 1
+    }
+  },
+  "driver_candidate": {
+    "problem_boundary": "明示App installとstock source-artifact xctestrunによるinstallの二重経路を、destination-artifact契約に沿った専用runfileへ揃える候補です。内部cache機序の修正を実証したものではありません。",
+    "documented_contract": {
+      "source": "Apple bundled xcodebuild.xctestrun(5), local lines228–257 as read in Source3 author proof",
+      "independently_read_in_this_records_task": false,
+      "UseDestinationArtifacts": true,
+      "remove_source_path_fields": [
+        "TestBundlePath",
+        "TestHostPath",
+        "UITargetAppPath"
+      ],
+      "supply_destination_fields": [
+        "TestHostBundleIdentifier",
+        "TestBundleDestinationRelativePath",
+        "UITargetAppBundleIdentifier"
+      ],
+      "Hosted_Xcode16_4_integration_verified": null
+    },
+    "candidate_operations": [
+      "stock format1/2から既存selectorで一意のUI target/configurationを選び、所有Products内の実runner/test bundle/Appのcanonical pathを解決します。",
+      "実Info.plistのAPPL/BNDLと実executableからrunner/test bundle IDを照合し、推測した標準bundle名は使いません。",
+      "所有Simulator UUIDへrunnerを事前installし、installed runnerの全path/bytes/SHAをbuild側と照合します。",
+      "専用destination runfileをstock隣へ排他的に作り、残る__TESTROOT__基準と非path設定を保持します。XML変換/readbackとSHAを確認し、F/R前にもrunfile SHAを照合します。"
+    ],
+    "guard_preservation_from_author_proof": {
+      "original_selector_entire_prefix_exact": true,
+      "original_28_test_bodies_exact": true,
+      "workflow_inverse_outside_added_runner_ui_build_and_import_exact": true,
+      "YAML_outside_driver_exact": true,
+      "failure_function_exact": true,
+      "restore_function_exact": true,
+      "cleanup_function_exact": true,
+      "all_7_App_inventory_call_sites_exact": true,
+      "F_R_selectors_exact": true,
+      "all_stage_caps_and_timeouts_unchanged": true,
+      "sentinel_52_bytes_initial_before_upgrade_and_after_body_unchanged": true,
+      "App_Source4_PBX_ordinary_UI_unchanged": true
+    },
+    "erase": 0,
+    "uninstall": 0,
+    "preferences_clear": 0,
+    "production_fallback": 0,
+    "wait_or_timeout_relaxation": 0,
+    "sentinel_bypass": 0,
+    "new_App_mode_acceptance": 0,
+    "existing7_App_inventories_preserved": true,
+    "fixed52_byte_sentinel_and_after_body_check_preserved": true,
+    "effect_on_actual_Hosted_launch_root": null,
+    "prevention_of_recurrence": null
+  },
+  "candidate_static_validation_from_source_author": {
+    "pure_Node24_unit_runs": 1,
+    "tests": 36,
+    "existing_tests": 28,
+    "added_tests": 8,
+    "passed": 36,
+    "failed": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "duration_ms": 324.986167,
+    "driver_JavaScript_syntax_parse_runs": 1,
+    "driver_syntax_exit": 0,
+    "actionlint_available": false,
+    "YAML_external_syntax_modified": false,
+    "SDK_runs": 0,
+    "UI_runs": 0,
+    "API_calls": 0,
+    "Git_mutations": 0,
+    "shared_writes": 0,
+    "new_Hosted_effect": null
+  },
+  "parent89_separate_successes": {
+    "not_new_driver_validation": true,
+    "Native": {
+      "run_id": 40519707888,
+      "job_id": 122243144968,
+      "conclusion": "success",
+      "actual_checkout": "6f9c5d86d9092a803cc63e104546e72a89c17a31",
+      "raw_UI_cases": 4,
+      "UI_failures": 0,
+      "UI_seconds": 410.029,
+      "unit_executed": 165,
+      "unit_skipped": 2,
+      "unit_failures": 0,
+      "new_Recovery_UI2_only_in_this_run": true
+    },
+    "SDK26": {
+      "run_id": 40519708024,
+      "job_id": 122243145301,
+      "conclusion": "success",
+      "actual_checkout": "89a32389678d5b752f5b550553b42f32274c6fcc",
+      "scope": "unsigned archive compatibility only; no UI/device/distribution acceptance"
+    },
+    "Runtime26": {
+      "run_id": 40519708263,
+      "job_id": 122243146400,
+      "conclusion": "success",
+      "actual_checkout": "89a32389678d5b752f5b550553b42f32274c6fcc",
+      "raw_UI_cases": 2,
+      "UI_failures": 0,
+      "UI_seconds": 258.131
+    },
+    "Full": {
+      "run_id": 40519707922,
+      "job_id": 122244442473,
+      "conclusion": "success",
+      "actual_checkout": "6f9c5d86d9092a803cc63e104546e72a89c17a31",
+      "raw_UI_cases": 22,
+      "UI_failures": 0,
+      "UI_seconds": 1324.692,
+      "Release": {
+        "schema_version": 1,
+        "status": "passed",
+        "native_schema_version": 2,
+        "revision": "e3530249c3e21f9a77e79e08f93123997551d02845a8624c8d89b4d13c9bfbbd",
+        "articles": 199,
+        "audio": 1,
+        "verified_files": 625,
+        "verified_bytes": 36958860,
+        "test_content_absent": true
+      },
+      "AppIcon_scope": "built file and CAR metadata only"
+    }
+  },
+  "new_driver_acceptance": {
+    "SDK_build": null,
+    "runner_install": null,
+    "actual_destination_runfile_execution": null,
+    "F_case": null,
+    "R_case": null,
+    "seven_App_inventories": null,
+    "actual_App_launch_root": null,
+    "after_body_sentinel": null,
+    "new_head_CI": null,
+    "main_adoption": null,
+    "Core_performance": null,
+    "physical_device": null,
+    "VoiceOver": null,
+    "offline_import_retry_product_acceptance": null
+  },
+  "evidence_references": {
+    "source_manifest": {
+      "reference": "<private-evidence>/ios-destination-artifacts-candidate-20261027/manifest.json",
+      "bytes": 1472,
+      "sha256": "f67eb0ee0ec7b6f7e7fb4f8b29bb531e5315afec86fd8611c51d77ddf44c2f92"
+    },
+    "source_proof": {
+      "reference": "<private-evidence>/ios-destination-artifacts-candidate-20261027/proof.json",
+      "bytes": 4768,
+      "sha256": "73d4b31215f3b2570f99d4e4bf844e9b4b12a054ae85ef8f30e421dd76cf449f"
+    },
+    "dedicated_findings": {
+      "reference": "<private-evidence>/ios-pr283-89-dedicated-observation-20261027/findings.json",
+      "bytes": 4242,
+      "sha256": "8b43b44ee6b63e8a719d5027c62ca1f6344888c8973d1691a51e65abe83122b7"
+    },
+    "dedicated_compact_read": {
+      "reference": "<private-evidence>/ios-pr283-89-dedicated-observation-20261027/compact-read.json",
+      "bytes": 59029,
+      "sha256": "6c8d527b26f4c026594b8e8a54ee25fbd0ae025faf75167b9b321984caa9b324"
+    },
+    "parent_native": {
+      "reference": "<private-evidence>/ios-pr283-89-native-sdk-observation-20261027/native-execution-evidence.json",
+      "bytes": 42433,
+      "sha256": "6ee9decece30ed802814dd928c941ff6fc7e75b508d534113bd0390c8f0e1615"
+    },
+    "parent_sdk26": {
+      "reference": "<private-evidence>/ios-pr283-89-native-sdk-observation-20261027/sdk26-summary.json",
+      "bytes": 8268,
+      "sha256": "6d6f9cc8c606f277f5846ddaaa594b81b94aea1c1dc20f2efdb8a8ca9fc562ad"
+    },
+    "parent_full": {
+      "reference": "<private-evidence>/ios-pr283-89-full-runtime-observation-20261027/full-summary.json",
+      "bytes": 27710,
+      "sha256": "4e24a03f705736f7c776cec3fd7cd76c172ba90a3ff8671e36bf320270d2418f"
+    },
+    "parent_runtime26": {
+      "reference": "<private-evidence>/ios-pr283-89-full-runtime-observation-20261027/runtime26-summary.json",
+      "bytes": 17259,
+      "sha256": "33849fa682a30812e94c8c6909a913a7791228771b2760ef4b3f9aa4bd4eceb1"
+    }
+  },
+  "recheck_and_restore": {
+    "upstream_run": "https://github.com/pero3dev/ai-agent-library/actions/runs/40519707868",
+    "upstream_artifact": "https://github.com/pero3dev/ai-agent-library/actions/runs/40519707868/artifacts/12741348856",
+    "compressed_bytes": 349679,
+    "compressed_sha256": "d931bfed9cf976515ed2d400546068468cd8a1bbb970ef10332fc8d85a9c3749",
+    "retained": "小JSON receiptのみです。raw ZIP/log/画像/xcresultは本記録候補へ複製していません。",
+    "method": "取得元が利用可能なら、既存のサイズ上限・path/type/重複検査を伴う限定readerで圧縮全体SHAと選択memberのCRC/SHAを再照合します。未選択memberのCRCは未検査です。SHAだけでは消えたartifactの内容を復元できません。",
+    "new_fetch_performed_by_records_author": false
+  },
+  "records_task_operations": {
+    "API_GET_or_mutation": 0,
+    "Git_read_or_mutation": 0,
+    "shared_edits": 0,
+    "SDK_or_UI_execution": 0,
+    "Node_test_rerun": 0,
+    "npm_install": 0,
+    "raw_archives_images_logs_saved": 0
+  },
+  "limits": [
+    "RootがSource3と記録2を独立レビューする前の準備snapshotです。新PR番号・実main・新CI・採用はnullです。",
+    "親89のNative4/SDK26/Runtime2/Full22の成功は新Driverの成功ではありません。DedicatedはF成功/R失敗です。",
+    "同一live data container、新R PID、Dead bundleの観測と、内部のcache/install機序の説明を分けます。",
+    "Source3の36件単体/driver構文検査は静的な範囲です。Hosted SDK/build/install/UIを証明しません。",
+    "本文完了後の52B sentinelは未確認です。Core性能、実機、VoiceOver、オフライン等の製品受入を完了にしません。"
+  ]
+}

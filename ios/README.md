@@ -240,6 +240,8 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 
 [読書記録復旧のUI回帰](../project/records/2026-10-27/ios-reading-recovery-ui.md)は、DEBUG隔離suiteを用い、cancelとconfirm後の再起動で既存・今回追加のしおり保持を調べる2 caseの候補です。構文parseと独立レビューまでを確認し、実SDK／UI・読書位置・backup生bytes・実機・VoiceOverとIOS-22全体の受入は未実施です。
 
+[専用CIのinstall経路限定候補](../project/records/2026-10-28/ios-destination-artifacts-ui.md)では、観測head `89a3238`のF成功・R失敗と、7回の実インストール一覧一致・Rの`Dead` bundle参照を分けて記録しました。`UseDestinationArtifacts`で明示install済みのApp・runnerを利用する構成を準備し、Node単体36件は成功しましたが、新Driverの実SDK・F/R・効果は未確認です。内部機序は未確定で、実機・VoiceOverやIOS-22全体は未完了のままです。
+
 ## 絞り込み中の補助画面と保存分離のUI回帰
 
 [操作シートの追加UI回帰](../project/records/2026-10-25/ios-filtered-actions-ui.md)は、検索・タグを保持したAboutの開閉と、専用テスト記事のしおり変更が通常の保存へ混ざらないことを検査します。専用一覧は検索前に全1記事と確認し、通常のfilterを確認した後、通常readerの再開より前にアプリを再起動して永続データを読み直します。

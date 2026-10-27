@@ -159,6 +159,8 @@ IOS-22の[読書記録の破損保全と明示復旧](../../records/2026-10-27/i
 
 [読書記録復旧のUI回帰](../../records/2026-10-27/ios-reading-recovery-ui.md)は、DEBUG隔離suiteを用い、cancelとconfirm後の再起動で既存・今回追加のしおり保持を調べる2 caseの候補です。構文parseと独立レビューまでを確認し、実SDK／UI・読書位置・backup生bytes・実機・VoiceOverとIOS-22全体の受入は未実施です。
 
+[専用CIのinstall経路限定候補](../../records/2026-10-28/ios-destination-artifacts-ui.md)では、観測head `89a3238`のF成功・R失敗と、7回の実インストール一覧一致・Rの`Dead` bundle参照を分けて記録しました。`UseDestinationArtifacts`で明示install済みのApp・runnerを利用する構成を準備し、Node単体36件は成功しましたが、新Driverの実SDK・F/R・効果は未確認です。内部機序は未確定で、実機・VoiceOverやIOS-22全体は未完了のままです。
+
 IOS-21の準備として[旧版保持の回帰3件](../../records/2026-10-25/ios-storage-retention-regression.md)を追加する。実repositoryの3世代snapshot・後読asset、孤立版の非選択/非削除、destination検証後のpointer ENOSPC模擬で既存bytes保持を確認する。Macの新3件成功とiOS全122件のcompileを分け、iOS実行はHosted待ち。削除数・自動整理・snapshot pinや処理排他を採択するものではなく、IOS-21全体は未完了を維持する。
 
 Appleの2.5.2は、アプリの機能を導入・変更するコードのダウンロード等を制限する。完成版では構造化記事データとアプリ側の描画機能を分ける。配信署名等は真正性を確認する設計として検討するもので、署名だけでコード更新の制限が免除されるわけではない。現在の手動importを直ちに違反と断定せず、公開する挙動と更新範囲を審査へ説明する。[ソフトウェア要件](https://developer.apple.com/app-store/review/guidelines/#software-requirements)

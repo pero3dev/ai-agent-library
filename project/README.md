@@ -76,6 +76,8 @@
 
 ネイティブ記事の[パッケージ契約](records/2026-10-25/ios-native-package-contract.md)では、app・renderer・schemaの対応、未対応版の拒否と正常版維持、生成側と端末側の音声・ファイル数・byte上限を揃える。旧HTMLの比較生成は一時出力へ限定し、全記事展開や配信の真正性とは範囲を分ける。
 
+[音声offline identity契約](records/2026-10-26/ios-audio-offline-identity.md)は通常Agentループ1音声を保つ。旧750aのNode検証と1773Bのmetadata等価性を履歴として保持し、今回の実main snapshotと未実施のexact-head CIを分ける。追加8音声・権利・IOS-04/16全体は未採択で、実音声bytesの検証や新しい配信を採択しない。
+
 既存のネイティブUI試験2件のHosted実行は[専用のCI追加記録](records/2026-10-25/ios-native-ui-ci.md)で追跡する。通常3記事の本文とTransformerの目次・しおり・再起動復帰を確認し、未対象のオフライン・コピー・内部リンク等のUI受入を区別する。
 
 [新runtimeの代表UI検査](records/2026-10-26/ios-runtime26-smoke.md)のCDCは、実2target・arm64のみをbuildしUI step539秒で完了した。Contentsの最初の目次待機は失敗、ThreeArticlesは成功し未受入を維持する。失敗後の逐次snapshotがvisible/hittableでも先行timeoutを覆さない。下位OSへ及ぶ形状補正の範囲を見直す候補と原因調査を分け、同headの再試行・待機や判定の緩和は行わない。

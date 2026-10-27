@@ -4,6 +4,7 @@ import MarkdownIt from 'markdown-it';
 import GithubSlugger from 'github-slugger';
 import { load as loadYaml, JSON_SCHEMA } from 'js-yaml';
 import { audioMetadata, installMath, NATIVE_READER_FIXTURE, parseArticle, readSource, rewriteLink, sha256, tokenText, validateOutput } from './ios-content.mjs';
+import { createDeclaredAudioResolver, DEFAULT_NATIVE_AUDIO_IDENTITIES } from './ios-audio-identity.mjs';
 import { loadNativeRenderingDependencies } from './ios-native-assets.mjs';
 import { buildNativeLearningIndex, NATIVE_LEARNING_PATH } from './ios-learning-content.mjs';
 
@@ -255,7 +256,7 @@ async function allPublishedOutput(root, output) {
 }
 
 /** Build an offline, hashed JSON/PNG-only package. Browser use is injectable for tests. */
-export async function buildNativeContent({ root, output, fixtures = false, allPublished = false, publishedLibrary = false, dependencies, selection } = {}) {
+export async function buildNativeContent({ root, output, fixtures = false, allPublished = false, publishedLibrary = false, dependencies, selection, trustedAudioDeclarations = DEFAULT_NATIVE_AUDIO_IDENTITIES } = {}) {
   if (typeof fixtures !== 'boolean') throw new Error('fixtures must be a boolean');
   if (typeof allPublished !== 'boolean') throw new Error('allPublished must be a boolean');
   if (typeof publishedLibrary !== 'boolean') throw new Error('publishedLibrary must be a boolean');
@@ -263,6 +264,8 @@ export async function buildNativeContent({ root, output, fixtures = false, allPu
   if (publishedLibrary && output !== undefined) throw new Error('publishedLibrary uses only canonical Content and cannot specify output');
   if (allPublished && fixtures) throw new Error('allPublished cannot be combined with fixtures');
   const published = allPublished || publishedLibrary;
+  // JS dependency injection only; no CLI or data file can supply this policy.
+  const resolveAudioIdentity = createDeclaredAudioResolver(trustedAudioDeclarations);
   root = await realpath(root);
   if (allPublished) output = await allPublishedOutput(root, output);
   else {
@@ -277,7 +280,9 @@ export async function buildNativeContent({ root, output, fixtures = false, allPu
   const catalog = JSON.parse(await readSource(root, 'website/audio/catalog.json'));
   const audioArticle = articles.find(article => article.source_path === selection.audio_article);
   if (!audioArticle) throw new Error('Selected audio article must be included among published articles');
-  const audio = [audioMetadata(catalog, audioArticle, selection.audio_article)];
+  const episode = resolveAudioIdentity({ catalog, article: audioArticle, sourcePath: selection.audio_article,
+    sourceText: (await readSource(root, selection.audio_article)).toString('utf8') });
+  const audio = [audioMetadata({ schema_version: 1, episodes: [episode] }, audioArticle, selection.audio_article)];
   const selected = new Map(articles.map(article => [article.source_path, article.id]));
   const parsed = articles.map(article => parseNativeArticle(article, { selected }));
   const headings = new Map(articles.map((article, index) => [article.id, new Set(parsed[index].headings.map(heading => heading.id))]));

@@ -16,7 +16,7 @@
 
 [読書記録復旧のUI回帰](records/2026-10-27/ios-reading-recovery-ui.md)は、DEBUG隔離suiteを用い、cancelとconfirm後の再起動で既存・今回追加のしおり保持を調べる2 caseの候補です。構文parseと独立レビューまでを確認し、実SDK／UI・読書位置・backup生bytes・実機・VoiceOverとIOS-22全体の受入は未実施です。
 
-[Simulatorの更新復旧試験](records/2026-10-28/ios-destination-artifacts-ui.md)では、head56がbuild通過後にF/Rとも実機専用設定で開始拒否された結果を記録しました。Simulator向けに元Appを保ち、欠落・復旧の別source copyと専用runfileへ切り替える候補を準備しています。Node単体36件とcopy分離のfixtureは成功しましたが、新headのF/R・起動root・本文後のsentinelと実効果は未確認です。親89の古いbundle参照の内部機序、実機・VoiceOverやIOS-22全体は未完了のままです。
+[更新復旧試験の実行元](records/2026-10-28/ios-destination-artifacts-ui.md)では、head56の実機専用設定による開始拒否と、head3aのApp配下の依存参照が残った準備失敗を記録しました。欠落・復旧の別copyへApp本体と配下の依存productを揃える候補を、36単体と独立レビューで確認しています。新headのF/R・7回のApp一覧・本文後のsentinelと実効果は未確認です。head3aのNative destination不在・Runtime26の目次待機失敗は別結果として残し、実機・VoiceOverやIOS-22全体も未完了です。
 
 [iOS TODOと統合状況のチェックポイント](records/2026-10-26/ios-todo-integration-checkpoint.md)で、main955を基準とするIOS-02・10・13・14の達成と、12／32件の完了を追跡します。SDK26のunsigned Archive用技術環境・native導線・全199記事生成・学習案内が対象です。PR275は未マージで、iOS26.5の再起動復帰に失敗が残っています。実機・性能・配布資格・契約・公開と最新OS27の受入は未完了として分けます。
 

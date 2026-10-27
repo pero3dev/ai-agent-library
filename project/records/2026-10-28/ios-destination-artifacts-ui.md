@@ -102,3 +102,30 @@ trusted Node24の単体36件（既存selector28件とphase用8件）が1回の�
 | Source3 proof | `cf4c369e66aafae056f616109917e9dacebf30d4374c0571f38b6413f77bf7e8` |
 | Source v1からの限定差分 | `3bb8281c925ecfc9ccfd39e65075b7e451dcd16680d9e2cf7237f5dcdfd928ca` |
 | 読取schemaの計画 | `6fb4523247ea2b689c5dd9a480a63b55412e8bd2494f7750fcd861aca55e3fc6` |
+
+## 2026-10-28: head3aの準備段階の拒否
+
+[head3aの専用run 40544769438](https://github.com/pero3dev/ai-agent-library/actions/runs/40544769438)はbuildを通過しましたが、Fの `preparePhase → phaseUITestRun → rejectOriginal` が `Residual original App reference` を報告し、UI実行前に停止しました。Rはinstall記録とsentinelがないため前提確認で停止しました。F/RのUIコマンド・意図したケース、7時点のインストール配列、sentinelの保持は今回未確認です。データが失われたという判定ではありません。専用Simulatorのcleanupは成功しています。
+
+[compact artifact 12752607890](https://github.com/pero3dev/ai-agent-library/actions/runs/40544769438/artifacts/12752607890)を1回取得し、113769Bの圧縮全体をSHA-256 `93d405d5eaf41dc6fc89d1c410727d02da41bb04ff6847bb4ee3dc1029655ea1` と照合しました。index105件、選択した旧33件と追加読取のCRC・SHAを検査し、重複読取を含む展開量は275746Bです。未選択memberのCRCは未検査です。raw ZIP・xcresult・画像は保存していません。小要約は15130B、SHA-256 `737dd0b15d5d2e650be46d9b2ef34088597f6b54dc0dbdff27beca55819f88d0` です。
+
+stock metadataの元App literalを含む6項目は、省略なくJSONpointerと値を確認しました。選択UI targetの `/AILibraryUITests/DependentProductPaths/1` は `__TESTROOT__/Debug-iphonesimulator/AILibrary.app/PlugIns/AILibraryTests.xctest` を指していました。stock JSON自体のSHA-256 `662c4ccf92e442bf214fb61798effabf74528ae6058fd217f30d50ce162752c6` はbuildの宣言と一致しています。
+
+6項目のうちunit target側の3項目はtargetの縮約で除かれ、UIのApp本体を指す2項目は既存変換で置き換わります。凍結した変換コードと実metadataを照合すると、App内のtest productを指す上記の1項目が残留する、と分析できます。実エラーは残留チェックの拒否であり、この分析をAppのcache機序や新しい変換の実効果の確認と混同しません。CodeCoverage起因としては扱いません。
+
+このheadの通常検査は別の結果です。Commonは最新policyを含む11対象が成功しました。SDK 26のunsigned archiveも成功しましたが、Nativeは指定したiPhone 16・iOS 18.5のdestinationが見つからず、単体とUIを実行できていません。Runtime26の2件は本文3記事が成功、目次・しおり・復帰のケースが初回目次移動後の待機で失敗しました。後から採取したsnapshotは条件を満たしていましたが、待機中の状態や原因は未確定です。これらを新しいheadの成功へ転用せず、通常UIの追加確認も残します。
+
+## 2026-10-28: App配下の依存productもphaseへ揃える候補
+
+依存fieldをcanonicalなpathとして検査した後、元Appそのもの、または元Appに `/` で区切られた配下のproductだけを、同じsuffixを保ってphase Appへ切り替えます。stockの `__TESTROOT__` 表記とabsolute表記を保ち、別prefixのAppやApp外の参照を誤って置き換えません。未知macro・相対path・`.`・`..` の拒否と、変換後に元App literalが残った場合の拒否は維持します。
+
+今回のtechnical差分はmetadata helperと単体の2ファイルです。workflowはhead3aの `c6459792526e973058f222b5605a924b0893e905d3be009b875e471976bd0f86` と同一で、copy・F/R選択・7回のApp一覧・52B sentinel・待機上限・cleanup等を変更していません。
+
+trusted Node24の単体36件が1回で全成功し、Driverの構文解析も成功しました。既存pureケースの中で、実観測したPlugIns productを含むF/R変換、TESTROOT・absolute表記、置換件数、別prefixやaliasの拒否を確認しました。既存selector28件のbodyとFS検査のmatrixは保持しています。新しいSDK・F/R実行と本文後のsentinel、mainへの採用は未確認です。
+
+| 凍結入力 | SHA-256 |
+| --- | --- |
+| Source v3 manifest | `90bba8c133b64bf9d81260993a5051d3709ba515c457437f4973fbbefb9da6a5` |
+| Source v3 proof | `890821057180190ac4a01bdaa32027706c78055b2cb34aafff803e36fa84ba21` |
+| 依存fieldの限定差分 | `b0fc448139574b887abf4fa8e81a18966f68648e76698fcc37369fdffd43163d` |
+| Source v3の独立レビュー | `11ec5f8666e2de5c19fc5a557a79a29e254976c1cbe11d619eb7fdd862e6ff97` |

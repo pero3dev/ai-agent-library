@@ -159,7 +159,7 @@ IOS-22の[読書記録の破損保全と明示復旧](../../records/2026-10-27/i
 
 [読書記録復旧のUI回帰](../../records/2026-10-27/ios-reading-recovery-ui.md)は、DEBUG隔離suiteを用い、cancelとconfirm後の再起動で既存・今回追加のしおり保持を調べる2 caseの候補です。構文parseと独立レビューまでを確認し、実SDK／UI・読書位置・backup生bytes・実機・VoiceOverとIOS-22全体の受入は未実施です。
 
-[Simulatorの更新復旧試験](../../records/2026-10-28/ios-destination-artifacts-ui.md)では、head56がbuild通過後にF/Rとも実機専用設定で開始拒否された結果を記録しました。Simulator向けに元Appを保ち、欠落・復旧の別source copyと専用runfileへ切り替える候補を準備しています。Node単体36件とcopy分離のfixtureは成功しましたが、新headのF/R・起動root・本文後のsentinelと実効果は未確認です。親89の古いbundle参照の内部機序、実機・VoiceOverやIOS-22全体は未完了のままです。
+[更新復旧試験の実行元](../../records/2026-10-28/ios-destination-artifacts-ui.md)では、head56の実機専用設定による開始拒否と、head3aのApp配下の依存参照が残った準備失敗を記録しました。欠落・復旧の別copyへApp本体と配下の依存productを揃える候補を、36単体と独立レビューで確認しています。新headのF/R・7回のApp一覧・本文後のsentinelと実効果は未確認です。head3aのNative destination不在・Runtime26の目次待機失敗は別結果として残し、実機・VoiceOverやIOS-22全体も未完了です。
 
 IOS-21の準備として[旧版保持の回帰3件](../../records/2026-10-25/ios-storage-retention-regression.md)を追加する。実repositoryの3世代snapshot・後読asset、孤立版の非選択/非削除、destination検証後のpointer ENOSPC模擬で既存bytes保持を確認する。Macの新3件成功とiOS全122件のcompileを分け、iOS実行はHosted待ち。削除数・自動整理・snapshot pinや処理排他を採択するものではなく、IOS-21全体は未完了を維持する。
 

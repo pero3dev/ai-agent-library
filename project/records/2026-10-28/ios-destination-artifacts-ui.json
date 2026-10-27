@@ -548,5 +548,117 @@
     "post_body_sentinel": null,
     "main_adoption": null,
     "cache_mechanism_or_fix_guarantee": null
+  },
+  "head3a_preparation_rejection_20261028": {
+    "schema_version": 1,
+    "source_head": "3a5d9c691adbfdbd7c049d7181b5cc131e77e66b",
+    "source_tree": "f0503df6589f2bdbada4a9e4cc1052351c2acde5",
+    "run": 40544769438,
+    "job": 122332296270,
+    "attempt": 1,
+    "F": "preparePhase -> phaseUITestRun -> rejectOriginal: Residual original App reference",
+    "R": "blocked: failure-installation.json and reinstall-sentinel.json absent",
+    "build": "success",
+    "intended_UI_cases_executed": false,
+    "installed_inventory_acceptance": null,
+    "sentinel_acceptance": null,
+    "cleanup": "owned-simulator-deleted",
+    "artifact": {
+      "id": 12752607890,
+      "compressed_bytes": 113769,
+      "SHA256": "93d405d5eaf41dc6fc89d1c410727d02da41bb04ff6847bb4ee3dc1029655ea1",
+      "index_entries": 105,
+      "legacy_selected_members": 33,
+      "all_duplicate_read_expanded_bytes": 275746,
+      "whole_digest_and_selected_CRC_SHA_verified": true,
+      "unselected_CRC_verified": false,
+      "successful_body_GET": 1,
+      "raw_ZIP_xcresult_images_saved": false
+    },
+    "compact_read": {
+      "bytes": 15130,
+      "SHA256": "737dd0b15d5d2e650be46d9b2ef34088597f6b54dc0dbdff27beca55819f88d0"
+    },
+    "findings_SHA256": "9307499b8d17fd9e6f3de757afca8ffd29b744c44ddecb71deb783be5e44051b",
+    "stock_metadata": {
+      "SHA256": "662c4ccf92e442bf214fb61798effabf74528ae6058fd217f30d50ce162752c6",
+      "declared_SHA_matches": true,
+      "matched_fields": 6,
+      "emitted": 6,
+      "truncated": false,
+      "remaining_UI_dependency_pointer": "/AILibraryUITests/DependentProductPaths/1",
+      "value": "__TESTROOT__/Debug-iphonesimulator/AILibrary.app/PlugIns/AILibraryTests.xctest",
+      "deduction": "Unit-side3 pruned, UI exact AUT2 rewritten, selected UI App child dependency1 remains under current converter. This is inferred from immutable code + complete literal projection, not a new successful run."
+    },
+    "normal_CI_same_head": {
+      "Common": "Latest required11 success",
+      "SDK26": "unsigned archive success",
+      "Native": {
+        "run": 40544769534,
+        "status": "failure before tests; requested iPhone16/iOS18.5 destination absent",
+        "Started": 0,
+        "unit_and_UI_accepted": false
+      },
+      "Runtime26": {
+        "run": 40544769379,
+        "status": "one pass one failure",
+        "cases": [
+          {
+            "name": "testContentsBookmarkAndResumeAfterRelaunch",
+            "result": "Failed",
+            "seconds": 150.737
+          },
+          {
+            "name": "testThreeArticlesHaveNativeBodyText",
+            "result": "Passed",
+            "seconds": 104.175
+          }
+        ],
+        "failed_scope": "Initial TOC after self-attention tap; before relaunch/resume",
+        "diagnostic_snapshot": "after-timeout-sequential only; satisfied true is not the state during waiting",
+        "summary_SHA256": "6e31cdb3186b145168c37a018aef28abfcb3997bf4f02dd73cef7adb39184734"
+      }
+    },
+    "new_subtree_fix_acceptance": null,
+    "main_adoption": null
+  },
+  "simulator_App_subtree_candidate_20261028": {
+    "schema_version": 1,
+    "basis_head": "3a5d9c691adbfdbd7c049d7181b5cc131e77e66b",
+    "basis_tree": "f0503df6589f2bdbada4a9e4cc1052351c2acde5",
+    "status": "typed App subtree dependency candidate; new Hosted acceptance pending",
+    "technical_changed_paths": 2,
+    "unchanged_workflow_SHA256": "c6459792526e973058f222b5605a924b0893e905d3be009b875e471976bd0f86",
+    "manifest_SHA256": "90bba8c133b64bf9d81260993a5051d3709ba515c457437f4973fbbefb9da6a5",
+    "proof_SHA256": "890821057180190ac4a01bdaa32027706c78055b2cb34aafff803e36fa84ba21",
+    "delta_SHA256": "b0fc448139574b887abf4fa8e81a18966f68648e76698fcc37369fdffd43163d",
+    "reader_spec_SHA256": "7c06f1a294e116e5db547ef97d3ebb098a9f773c9cd7c9d02d5ced9de89b9f02",
+    "independent_review_SHA256": "11ec5f8666e2de5c19fc5a557a79a29e254976c1cbe11d619eb7fdd862e6ff97",
+    "change": "Canonical DependentProductPaths exact AUT or AUT + '/' descendant only -> phase + identical suffix; preserve TESTROOT/absolute representation and count all rewritten products.",
+    "guards_preserved": [
+      "canonical known macros; no relative/dot/dotdot/unresolved aliases",
+      "global original App residual rejection",
+      "no replacement of other App prefixes or non-dependency fields",
+      "copy FS helper and tests",
+      "original selector/28 bodies",
+      "workflow App7/F-R/52B/cleanup/summary/diagnostics/waits"
+    ],
+    "validation": {
+      "Node24_runs": 1,
+      "tests": 36,
+      "passed": 36,
+      "failed": 0,
+      "skipped": 0,
+      "duration_ms": 408.483666,
+      "driver_parse_exit": 0,
+      "new_test_cases": 0,
+      "fixture_matrix_expansion": 0
+    },
+    "producer_claim_limits": "Raw XML/inode/directory-mode claims stay distinct from independent artifact file arrays and metadata JSON conversion.",
+    "new_SDK_UI": null,
+    "new_F_R": null,
+    "new_post_body_sentinel": null,
+    "main_adoption": null,
+    "cache_mechanism_guarantee": null
   }
 }

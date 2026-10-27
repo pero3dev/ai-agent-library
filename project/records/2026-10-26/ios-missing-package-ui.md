@@ -1,10 +1,10 @@
 # 同梱記事が欠けた場合と正常版への更新のUI回帰
 
-2026-10-26に準備した試験を、2026-10-27のCore統合後のmain `f5e6221b7dd01132ff76d36e993b13047b15e24c`（tree `fb717f389c8a94a27c942d59673fb9d762bfd683`）へ接続する候補である。Appは0.2.19（21）。実アプリのコードと通常の回帰ケースを保ち、専用の[workflow](../../../.github/workflows/ios-missing-package-ui.yml)と[FailureReaderUITests](../../../ios/AILibraryUITests/FailureReaderUITests.swift)を追加する。現在は私有準備・静的検査までで、新しい実SDKビルド・インストール・UI実行は未確認である。
+2026-10-26に準備した試験を、2026-10-27のCore統合後のmain `f5e6221b7dd01132ff76d36e993b13047b15e24c`（tree `fb717f389c8a94a27c942d59673fb9d762bfd683`）へ接続する候補である。Appは0.2.19（21）。実アプリのコードと通常の回帰ケースを保ち、専用の[workflow](../../../.github/workflows/ios-missing-package-ui.yml)と[FailureReaderUITests](../../../ios/AILibraryUITests/FailureReaderUITests.swift)を追加する。PR #281で実SDKビルド・形式照合と欠損版の明示installまで確認した。F/RのUIと正常版への更新確認は、インストール後のinventory比較で止まっており未完了である。
 
 ## 目的と作業範囲
 
-ユーザーの自律実装・commit・PR・通常main統合の依頼に基づく。所有は上記workflow、テストSwift、PBX構成、同名JSONと本記録、project索引と完成版TODOに、Runtime26 CIの待機調整、xctestrun helperとNode検査を加えた10パスである。PBXはUIテストへのファイル登録に必要な2オブジェクトと2参照だけを加える。既存App・UIケース・版番号・署名設定を維持し、既存Runtime26 CIではdevice一覧取得の待機だけを調整する。
+ユーザーの自律実装・commit・PR・通常main統合の依頼に基づく。所有は上記workflow、テストSwift、PBX構成、同名JSONと本記録、project索引と完成版TODOに、Runtime26 CIの待機調整、xctestrun helperとNode検査、installed inventory helperとNode検査を加えた12パスである。PBXはUIテストへのファイル登録に必要な2オブジェクトと2参照だけを加える。既存App・UIケース・版番号・署名設定を維持し、既存Runtime26 CIではdevice一覧取得の待機だけを調整する。
 
 [構造化記録](ios-missing-package-ui.json)の既存フィールドは、固定したprivate準備時点のsnapshotである。`root_proposed_integration`へ現在の入力・提案範囲を追加し、過去の未採用状態を新しい成功へ書き換えない。前提mainの新push CIは[共通](https://github.com/pero3dev/ai-agent-library/actions/runs/40443841890)・[Native](https://github.com/pero3dev/ai-agent-library/actions/runs/40443841894)・[全記事](https://github.com/pero3dev/ai-agent-library/actions/runs/40443841889)の3系統で成功した。最終差分の独立レビュー、新headでの必要CIと実F/Rを確認してから通常squashを判断する。
 
@@ -46,3 +46,16 @@ runtime一覧の取得だけ90秒へ配分し、inventory全体150秒・step3分
 実AppのInfo.plistからCFBundleIdentifierを読み、両形式で期待IDとの厳密一致を必須とする。metadataにIDがある場合も同じIDを要求し、version2では従来どおりmetadataのIDを必須とする。version1の欠損だけを許すが、owned buildの実App IDとUITargetAppPathのrealpath照合は省略しない。未知の形式・不正な形・重複UI target・ID不一致を拒否するNode検査も追加する。
 
 今回の所有はhelperとそのNode検査を加えた計10パスになる。実Appのコード・PBX・Failure Swift・F/R selectorと判定、全体の上限・所有cleanupは維持する。追加のplist取得は同じbuild420秒の中で10秒を上限とする。修正後headでの実SDK・形式照合・F/Rは未実施であり、さらに実bookmark／読書位置の更新維持・実機等の未確認も保持する。
+
+
+## インストール後のmode差分と実行前の停止
+
+head `2d4f156bb932322c6be025aaf8b9456d5b3e9988`の[専用run](https://github.com/pero3dev/ai-agent-library/actions/runs/40454615296)では、build-for-testingに続き、実FormatVersion 1の選択・owned Appのrealpath・実Info.plistのBundle ID照合が成功した。Appは0.2.19（21）、Xcode16.4・iOS18.5・専用iPhone16 Simulatorである。JSON1本を除いた180ファイルのアプリを明示installできたが、直後のinventory比較で停止した。
+
+診断表示には、Debug用dylib・XCTest関連framework等の12パスで、bytesとSHAは同じままmodeが0755から0644へ変わった差分がある。主実行ファイルはこの差分に含まれない。ただし詳細配列は先頭100件と省略80件の表示であり、全installed inventoryを独立に保存できていない。ほかの差分が存在しないと断定する証拠にはしない。117,437 Bのartifactは全117 entry・1,036,602 BのCRC／digest／path等をRAMで確認した。
+
+FはUI実行前、Rはhost側JSONの正しい復元後に、Fのinstallation記録がないため停止した。正常版の上書き・sentinel・F/R UIはいずれも未実施である。Rの停止を別のアプリ不具合とは数えない。所有Simulatorはshutdown・deleteの終了0と削除後の不在を確認した。
+
+次の候補では、hostの欠損・復元はmodeを含む完全一致のまま保ち、installed側だけ実観測12パスの0755→0644または0755維持を明示的に扱う。全パス集合・bytes・SHA、他パスのmode、主実行ファイルやデータは厳密に照合する。比較前にexpected／actual／差分を上限付きJSONへ保存し、RはFの前提不足を明示記録して変更・install・UI前に拒否する。この候補の新しい実F/Rは未実施である。
+
+旧head `f58d61c817dd2c1e4fef80f6a56283e7d26f2484`の[全記事UI run](https://github.com/pero3dev/ai-agent-library/actions/runs/40450998872)は22件中1件が失敗した。初回Transformerの本文表示は到達し、フォルダー選択取消を扱うケースの後段で「続きを読む」を押した後にnative-readerを20秒待って停止した。初期表示の失敗やxctestrunの解析失敗とは別であり、タップ対象・遷移・描画のどこが原因かは未確定である。旧headの失敗を後続headの成功へ置き換えず、実行ごとに追跡する。

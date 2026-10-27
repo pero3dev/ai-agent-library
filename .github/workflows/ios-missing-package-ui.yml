@@ -64,6 +64,7 @@ jobs:
           import { createHash, randomUUID } from 'node:crypto';
           import { spawn } from 'node:child_process';
           import { selectUITestTarget } from '../../ios/tests/xctestrun-metadata.mjs';
+          import { compareInstalledInventory } from '../../ios/tests/installed-inventory.mjs';
 
           const stage = process.argv[2];
           const caps = { inventory: 150000, simulator: 270000, build: 420000, failure: 300000, restore: 360000, audit: 90000, cleanup: 210000, summary: 15000 };
@@ -157,13 +158,22 @@ jobs:
             assert.equal(path.basename(location), 'AILibrary.app');
             const applicationIndex = parts.lastIndexOf('Application'); assert.ok(applicationIndex > deviceIndex);
             const installationUUID = parts[applicationIndex + 1].toUpperCase(); assert.match(installationUUID, uuidPattern);
-            assert.deepEqual(files(location), expected, 'Actual installed app differs from stage package');
+            const actual = files(location);
+            const comparison = compareInstalledInventory(expected, actual);
+            const snapshot = { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, label, expected, actual, comparison };
+            const snapshotBytes = JSON.stringify(snapshot, null, 2) + '\n';
+            if (Buffer.byteLength(snapshotBytes) > 131072) {
+              json(label + '-inventory.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, status: 'not-completed', reason: 'Inventory snapshot exceeds 128 KiB limit', expected_files: expected.length, actual_files: actual.length, expected_inventory_sha256: hash(Buffer.from(JSON.stringify(expected))), actual_inventory_sha256: hash(Buffer.from(JSON.stringify(actual))), comparison_status: comparison.status, comparison_error_count: comparison.error_count });
+              throw Error('Installed inventory snapshot exceeds bounded evidence limit');
+            }
+            put(label + '-inventory.json', snapshotBytes);
+            assert.equal(comparison.status, 'matched', 'Actual installed app differs outside the observed mode transitions');
             const dataResult = await run(label + '-data-container', 'xcrun', ['simctl', 'get_app_container', owned.UUID, bundleID, 'data'], 20000);
             const data = dataResult.stdout.trim(); assert.ok(path.isAbsolute(data)); assert.equal(fs.realpathSync(data), data);
             assert.ok(data.split(path.sep).some((part, i, parts) => part === 'Devices' && parts[i + 1]?.toUpperCase() === owned.UUID));
             const pointer = path.join(data, 'Library/Application Support/LibraryContent/current.json');
             assert.equal(fs.existsSync(pointer), false, 'A saved version could mask the missing bundle');
-            return { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, OS: '18.5', bundle_id: bundleID, installed_app: location, installation_UUID: installationUUID, data_container: data, current_pointer_absent: true, files: expected };
+            return { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, OS: '18.5', bundle_id: bundleID, installed_app: location, installation_UUID: installationUUID, data_container: data, current_pointer_absent: true, files: expected, files_scope: 'Expected build inventory; actual installed modes and deltas are recorded in installed_inventory_evidence', installed_inventory_evidence: label + '-inventory.json', installed_mode_deltas: comparison.mode_deltas };
           }
 
           async function ui(label, selector, expected) {
@@ -254,6 +264,10 @@ jobs:
           }
 
           async function restore() {
+            const prerequisites = ['failure-installation.json', 'reinstall-sentinel.json'];
+            const missing = prerequisites.filter(name => !fs.existsSync(path.join(evidence, name)));
+            json('restored-prerequisites.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, prerequisite_stage: 'failure', status: missing.length ? 'blocked-by-prior-stage' : 'present', missing_files: missing, scope: 'Presence only; existing restore validations still apply. No restored install or UI success is implied.' });
+            assert.equal(missing.length, 0, 'Stage R blocked: prior Stage F prerequisites were not completed');
             const withheld = read('withheld.json'); assert.equal(withheld.source_head, process.env.EXPECTED_SOURCE_HEAD); assert.equal(withheld.host_app, app); assert.match(withheld.relative_path, /^Content\/articles\/[A-Za-z0-9/_-]+\.json$/);
             const target = path.join(app, withheld.relative_path); assert.ok(!fs.existsSync(target)); const bytes = fs.readFileSync(path.join(evidence, 'withheld-article.json')); assert.equal(bytes.length, withheld.bytes); assert.equal(hash(bytes), withheld.sha256);
             assert.ok(Number.isInteger(withheld.mode) && withheld.mode >= 0 && withheld.mode <= 0o777);

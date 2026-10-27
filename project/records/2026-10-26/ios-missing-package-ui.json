@@ -377,5 +377,173 @@
     },
     "cumulative_PR_paths": 10,
     "new_head_SDK_UI_F_R_results": null
+  },
+  "third_Hosted_install_inventory_failure_and_correction": {
+    "recorded_date": "2026-10-27",
+    "head": "2d4f156bb932322c6be025aaf8b9456d5b3e9988",
+    "tree": "dbf34f90c8c112a98042f5209ef448b63cdd7418",
+    "event": "pull_request",
+    "attempt": 1,
+    "run_id": 40454615296,
+    "job_id": 122024926836,
+    "conclusion": "failure",
+    "actual_build_and_metadata": "passed",
+    "actual_app_info": {
+      "CFBundleIdentifier": "dev.pero3.aiagentlibrary.prototype",
+      "CFBundleShortVersionString": "0.2.19",
+      "CFBundleVersion": "21"
+    },
+    "metadata_format": 1,
+    "metadata_UI_bundle_ID_present": false,
+    "actual_Info_ID_and_owned_app_path_verified": true,
+    "baseline_files": 181,
+    "withheld_files": 180,
+    "exactly_one_JSON_removed": true,
+    "explicit_F_install_exit": 0,
+    "actual_installed_inventory_policy": "strict equality including mode rejected installed app before UI",
+    "displayed_mode_only_deltas": [
+      {
+        "path": "AILibrary.debug.dylib",
+        "bytes": 10654968,
+        "actual_mode": 420,
+        "expected_mode": 493,
+        "sha256": "3df9188d5bf65352e69396c14cb946ab166002d756a4fd2cc9a5535d417c3844"
+      },
+      {
+        "path": "Frameworks/Testing.framework/Testing",
+        "bytes": 5693024,
+        "actual_mode": 420,
+        "expected_mode": 493,
+        "sha256": "1492539b22c8ee34734b1e57ec2e6154554599acf900a31d6a4aadc132d320e9"
+      },
+      {
+        "path": "Frameworks/XCTAutomationSupport.framework/XCTAutomationSupport",
+        "bytes": 1504160,
+        "actual_mode": 420,
+        "expected_mode": 493,
+        "sha256": "6591101a88b44b12cb5f61da2de7ae4e8f3da423c002592f41fec74435cc2af6"
+      },
+      {
+        "path": "Frameworks/XCTest.framework/XCTest",
+        "bytes": 207712,
+        "actual_mode": 420,
+        "expected_mode": 493,
+        "sha256": "7f03a94d51aa621f0049f0fcd219383ba89d58deb7efaed026115e7c5f546385"
+      },
+      {
+        "path": "Frameworks/XCTestCore.framework/XCTestCore",
+        "bytes": 3339616,
+        "actual_mode": 420,
+        "expected_mode": 493,
+        "sha256": "9fc777a3d19ce0e5752049ca674200bba3f8e0054cb8344a6a72dee01e2df668"
+      },
+      {
+        "path": "Frameworks/XCTestSupport.framework/XCTestSupport",
+        "bytes": 159360,
+        "actual_mode": 420,
+        "expected_mode": 493,
+        "sha256": "410ee3aa0370b8c4b237ee8dc210e510fda8face2afd10023bd0dbe3ccd2420d"
+      },
+      {
+        "path": "Frameworks/XCUIAutomation.framework/XCUIAutomation",
+        "bytes": 3146256,
+        "actual_mode": 420,
+        "expected_mode": 493,
+        "sha256": "4a156ad223abcd1b84a1ceffa518c1d489906ded511a95b538c920884dbc5c93"
+      },
+      {
+        "path": "Frameworks/XCUnit.framework/XCUnit",
+        "bytes": 100672,
+        "actual_mode": 420,
+        "expected_mode": 493,
+        "sha256": "9c2c58a4cd354afff9424b0c26338a2b9b710b319915ed15bf3ab083c06996cb"
+      },
+      {
+        "path": "Frameworks/libXCTestBundleInject.dylib",
+        "bytes": 139760,
+        "actual_mode": 420,
+        "expected_mode": 493,
+        "sha256": "5df3d135d234765ef935c63097e7ceb1a40d1272811613db9bbd6d392d48aac1"
+      },
+      {
+        "path": "Frameworks/libXCTestSwiftSupport.dylib",
+        "bytes": 2402272,
+        "actual_mode": 420,
+        "expected_mode": 493,
+        "sha256": "5bb8ef8eb07d16fc703e2e71a206292cb3acb6d860be688a374287b166b2e88f"
+      },
+      {
+        "path": "PlugIns/AILibraryTests.xctest/AILibraryTests",
+        "bytes": 5267824,
+        "actual_mode": 420,
+        "expected_mode": 493,
+        "sha256": "7b53b5f0dd8ed4b56f246648d3c6d1902687f7d703710cff414dd4b177924f6d"
+      },
+      {
+        "path": "__preview.dylib",
+        "bytes": 33144,
+        "actual_mode": 420,
+        "expected_mode": 493,
+        "sha256": "6582f8e6e486031ea844bdfe85ad78fb3eb833ecb9dbd3b1b33179dc61df5caa"
+      }
+    ],
+    "complete_installed_inventory_retained": false,
+    "array_display_limit": {
+      "captured": 100,
+      "omitted": 80
+    },
+    "absence_of_all_other_differences_proven": false,
+    "F_UI_cases": 0,
+    "R_UI_cases": 0,
+    "R_host_resource_restoration": "passed",
+    "R_upgrade_install": "not-reached",
+    "R_prior_stage_record": "missing failure-installation.json caused secondary stop",
+    "sentinel": "not-created",
+    "owned_cleanup": {
+      "shutdown_exit": 0,
+      "delete_exit": 0,
+      "post_owned_count": 0
+    },
+    "artifact": {
+      "id": 12712267251,
+      "compressed_bytes": 117437,
+      "SHA256": "8ad3100dc8365a3859ab66ba14c380358ae0a47894ce9836f7f1b1ab99a642f2",
+      "expanded_bytes": 1036602,
+      "entries": 117,
+      "all_CRC_digest_path_size_valid": true,
+      "raw_saved": false
+    },
+    "proposed_correction": {
+      "stage": "private-candidate-not-executed",
+      "new_helper": "ios/tests/installed-inventory.mjs",
+      "new_tests": "tests/unit/ios-installed-inventory.test.mjs",
+      "host_inventory_including_modes": "unchanged-strict",
+      "installed_allowlist": "only observed12 path 0755 source to0644 or0755 installed",
+      "all_path_bytes_SHA": "strict",
+      "other_modes": "strict",
+      "before_compare": "bounded expected actual and all deltas JSON",
+      "R_missing_prerequisites": "explicit blocked-by-prior-stage record then reject before mutation/install/UI",
+      "new_actual_F_R": null
+    },
+    "observation_SHA256": "63b6a56e7130b612ec377bef400df38b799d451694fa15f00a761402eaf92cf5"
+  },
+  "old_f58_published_UI_failure": {
+    "head": "f58d61c817dd2c1e4fef80f6a56283e7d26f2484",
+    "run_id": 40450998872,
+    "job_id": 122013885014,
+    "total_cases": 22,
+    "failures": 1,
+    "geometry_cases": 6,
+    "geometry_failures": 0,
+    "case": "PublishedReaderUITests.testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions",
+    "failure_source": "ios/AILibraryUITests/NativeReaderUITests.swift:310",
+    "initial_article_open": "reached native-reader and paragraph wait",
+    "later_resume_tap_seconds": 136.07,
+    "body_wait_seconds": 20,
+    "failure_case_seconds": 157.918,
+    "root_cause": "not-established; button target, route, or render not separated",
+    "source": "bounded native Chrome UI log observation; no whole raw log/xcresult downloaded",
+    "observation_SHA256": "c0a048447eaf36914052d7eb46e63016dde876349a6783f321878b0e49561ce3",
+    "latest_2d_Full": "pending-at-this-private-draft"
   }
 }

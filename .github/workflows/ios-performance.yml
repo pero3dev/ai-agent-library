@@ -27,7 +27,6 @@ jobs:
       EXPECTED_SOURCE_HEAD: 'b39eeff4647336124a39e218205cd8dd85fc1819'
       DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
       CORE_WORK: /private/tmp/ailibrary-core-current-cli-${{ github.run_id }}-${{ github.run_attempt }}
-      CORE_ARTIFACT: ${{ runner.temp }}/core-current-cli-small-evidence
       PYTHONDONTWRITEBYTECODE: '1'
       NEVER_MERGE: 'true'
     defaults:
@@ -153,6 +152,8 @@ jobs:
       - name: Stage bounded raw evidence only; no Content/cache/executable/DerivedData
         if: always()
         timeout-minutes: 1
+        env:
+          CORE_ARTIFACT: ${{ runner.temp }}/core-current-cli-small-evidence
         run: |
           set -euo pipefail
           if [[ -d "$CORE_WORK" && -f pilot/.github/scripts/core-current-cli-inputs.mjs ]]; then
@@ -166,7 +167,7 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: NEVER-MERGE-core-current-cli-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ env.CORE_ARTIFACT }}
+          path: ${{ runner.temp }}/core-current-cli-small-evidence
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 30

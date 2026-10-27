@@ -63,6 +63,7 @@ jobs:
           import path from 'node:path';
           import { createHash, randomUUID } from 'node:crypto';
           import { spawn } from 'node:child_process';
+          import { selectUITestTarget } from '../../ios/tests/xctestrun-metadata.mjs';
 
           const stage = process.argv[2];
           const caps = { inventory: 150000, simulator: 270000, build: 420000, failure: 300000, restore: 360000, audit: 90000, cleanup: 210000, summary: 15000 };
@@ -223,14 +224,13 @@ jobs:
             const products = path.join(derived, 'Build/Products'); const candidates = fs.readdirSync(products).filter(name => name.endsWith('.xctestrun')); assert.equal(candidates.length, 1);
             const xctestrun = path.join(products, candidates[0]); assert.equal(fs.realpathSync(xctestrun), xctestrun);
             const metadata = JSON.parse((await run('xctestrun-metadata', '/usr/bin/plutil', ['-convert', 'json', '-o', '-', xctestrun], 10000)).stdout);
-            assert.ok(Array.isArray(metadata.TestConfigurations));
-            const targets = metadata.TestConfigurations.filter(c => c.IsEnabled !== false).flatMap(c => { assert.ok(Array.isArray(c.TestTargets)); return c.TestTargets; }).filter(t => t.BlueprintName === 'AILibraryUITests'); assert.equal(targets.length, 1);
-            assert.equal(targets[0].IsUITestBundle, true); assert.equal(targets[0].UITargetAppBundleIdentifier, bundleID);
-            const targetPath = targets[0].UITargetAppPath; assert.equal(typeof targetPath, 'string'); assert.ok(!targetPath.replace('__TESTROOT__', products).includes('__'));
+            const ownedAppInfo = JSON.parse((await run('owned-app-info', '/usr/bin/plutil', ['-convert', 'json', '-o', '-', path.join(app, 'Info.plist')], 10000)).stdout);
+            const { formatVersion, target } = selectUITestTarget(metadata, { expectedBlueprintName: 'AILibraryUITests', expectedBundleIdentifier: bundleID, actualAppBundleIdentifier: ownedAppInfo.CFBundleIdentifier });
+            const targetPath = target.UITargetAppPath; assert.equal(typeof targetPath, 'string'); assert.ok(!targetPath.replace('__TESTROOT__', products).includes('__'));
             assert.equal(fs.realpathSync(targetPath.replace('__TESTROOT__', products)), app, 'Do not run a cached app outside this owned build');
             const baseline = hostPackage(); const manifest = JSON.parse(fs.readFileSync(path.join(app, 'Content/manifest.json'), 'utf8'));
             assert.equal(manifest.schema_version, 2); assert.equal(manifest.articles.length, 3); assert.equal(manifest.articles.some(row => row.is_test_fixture === true || row.id.startsWith('test-fixtures/')), false);
-            json('baseline-app.json', baseline); json('build.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, app, xctestrun, xctestrun_sha256: hash(fs.readFileSync(xctestrun)), target_path: targetPath, bundle_id: bundleID, article_count: 3 });
+            json('baseline-app.json', baseline); json('build.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, app, xctestrun, xctestrun_sha256: hash(fs.readFileSync(xctestrun)), target_path: targetPath, bundle_id: bundleID, xctestrun_format_version: formatVersion, metadata_declares_bundle_id: Object.hasOwn(target, 'UITargetAppBundleIdentifier'), actual_app_bundle_id: ownedAppInfo.CFBundleIdentifier, article_count: 3 });
           }
 
           async function failure() {

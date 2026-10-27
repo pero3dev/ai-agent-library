@@ -324,5 +324,58 @@
     ],
     "cumulative_PR_paths": 8,
     "old_Primitive_source_snapshot_fields": "Previous preparation/Root fields remain historical; this correction now also changes one Runtime26 precondition timeout."
+  },
+  "second_Hosted_build_metadata_failure_and_correction": {
+    "recorded_date": "2026-10-27",
+    "source_head": "f58d61c817dd2c1e4fef80f6a56283e7d26f2484",
+    "run": 40450998480,
+    "job": 122013439053,
+    "build_for_testing_exit": {
+      "exit_code": 0,
+      "signal": null,
+      "timed_out": false,
+      "TEST_BUILD_SUCCEEDED": true
+    },
+    "FailureReader_SwiftCompile_architectures": [
+      "x86_64",
+      "arm64"
+    ],
+    "plutil_exit": 0,
+    "failure": "TestConfigurations array assertion rejected actual FormatVersion1 top-level target dictionary",
+    "actual_metadata": {
+      "top_keys": [
+        "__xctestrun_metadata__",
+        "AILibraryTests",
+        "AILibraryUITests"
+      ],
+      "format_version": 1,
+      "UITestBlueprintName": "AILibraryUITests",
+      "IsUITestBundle": true,
+      "UITargetAppBundleIdentifier": "absent",
+      "TestBundlePath": "__TESTHOST__/PlugIns/AILibraryUITests.xctest",
+      "TestHostPath": "__TESTROOT__/Debug-iphonesimulator/AILibraryUITests-Runner.app",
+      "UITargetAppPath": "__TESTROOT__/Debug-iphonesimulator/AILibrary.app"
+    },
+    "artifact": {
+      "id": 12710946567,
+      "bytes": 88589,
+      "expanded_bytes": 947128,
+      "entries": 85,
+      "SHA256": "082f0f3d183667ea454412457aa978aeb7bc53928cff9ca29029e68654df2579",
+      "CRC_digest_paths_sizes": "passed in RAM; raw files not saved"
+    },
+    "observation_SHA256": "cf5949bc266b16970bd02e9f63bd73c2ff7f4e1c13455e3b8a3fb68c6ff183bc",
+    "owned_cleanup": "newUUID outside132preexisting; shutdown/delete0; postinventory0verified",
+    "F_R_install_withhold_sentinel_results": "unreached; summarynot-completed",
+    "correction": {
+      "pure_helper": "ios/tests/xctestrun-metadata.mjs selects explicit FormatVersion1 or2; unique expected BlueprintName, trueUITestrole, actualAppBundleIdentifier strict",
+      "version1": "named top-level target dictionary; legacy metadata bundleID may be absent only here; any present field must equal expected",
+      "version2": "enabled TestConfigurations/TestTargets; metadata bundleID remains required and equal",
+      "caller_binding": "Read compiled owned App Info.plist via plutil and pass actual CFBundleIdentifier; existing target realpath must equal owned app and no unresolved macros",
+      "budgets": "unchanged build420s/stage caps/job60/step55; one extra bounded10s plist read within same build deadline",
+      "new_Node_tests": "pure positive and negative shape/identity tests, no SDK"
+    },
+    "cumulative_PR_paths": 10,
+    "new_head_SDK_UI_F_R_results": null
   }
 }

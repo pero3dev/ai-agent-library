@@ -63,7 +63,7 @@ jobs:
           import path from 'node:path';
           import { createHash, randomUUID } from 'node:crypto';
           import { spawn } from 'node:child_process';
-          import { selectUITestTarget } from '../../ios/tests/xctestrun-metadata.mjs';
+          import { selectUITestTarget, resolveUITestBuildPaths, destinationUITestRun } from '../../ios/tests/xctestrun-metadata.mjs';
           import { compareInstalledInventory } from '../../ios/tests/installed-inventory.mjs';
 
           const stage = process.argv[2];
@@ -263,13 +263,33 @@ jobs:
             catch { console.log('AILibraryContentDiagnostics ' + JSON.stringify({ label, status: 'record-write-failed' })); }
           }
 
+          async function installedRunner(label, build) {
+            const owned = owner(); assert.equal(build.source_head, process.env.EXPECTED_SOURCE_HEAD); assert.equal(build.UUID, owned.UUID);
+            assert.equal(fs.realpathSync(build.runner_path), build.runner_path);
+            const content = rows => rows.map(({ path, bytes, sha256 }) => ({ path, bytes, sha256 }));
+            const expected = content(files(build.runner_path)); assert.equal(hash(Buffer.from(JSON.stringify(expected))), build.runner_content_sha256);
+            const result = await run(label + '-app-container', 'xcrun', ['simctl', 'get_app_container', owned.UUID, build.runner_bundle_id, 'app'], 20000);
+            const location = result.stdout.trim(); assert.ok(path.isAbsolute(location)); assert.equal(fs.realpathSync(location), location);
+            const parts = location.split(path.sep), deviceIndex = parts.indexOf('Devices'); assert.ok(deviceIndex >= 0);
+            const ownedParts = parts.slice(deviceIndex + 1); assert.equal(ownedParts.length, 7); assert.equal(ownedParts[0].toUpperCase(), owned.UUID);
+            assert.deepEqual(ownedParts.slice(1, 5), ['data', 'Containers', 'Bundle', 'Application']); assert.match(ownedParts[5].toUpperCase(), uuidPattern);
+            assert.equal(ownedParts[6], path.basename(build.runner_path));
+            const actual = files(location); assert.deepEqual(content(actual), expected, 'Installed runner paths/bytes/SHA must match this build');
+            json(label + '.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, bundle_id: build.runner_bundle_id, installed_app: location,
+              files: actual.length, content_sha256: build.runner_content_sha256, actual_inventory_sha256: hash(Buffer.from(JSON.stringify(actual))),
+              scope: 'Runner paths, bytes and SHA verified; installed file modes recorded by inventory hash, with no new mode exception' });
+          }
+
           async function ui(label, selector, expected) {
-            const owned = owner();
+            const owned = owner(), build = read('build.json');
+            assert.equal(fs.realpathSync(build.xctestrun), build.xctestrun); assert.equal(path.dirname(build.xctestrun), path.join(derived, 'Build/Products'));
+            assert.equal(hash(fs.readFileSync(build.xctestrun)), build.xctestrun_sha256); assert.equal(build.use_destination_artifacts, true);
+            await installedRunner(label + '-runner-before-ui', build);
             const pre = await installed(label + '-before-ui', expected);
             const args = ['-xctestrun', read('build.json').xctestrun, '-destination', `platform=iOS Simulator,id=${owned.UUID}`, '-destination-timeout', '60', '-resultBundlePath', path.join(evidence, label + '.xcresult'), '-parallel-testing-enabled', 'NO', '-jobs', '2', '-only-testing:' + selector, 'CODE_SIGNING_ALLOWED=NO', 'test-without-building'];
             const result = await run(label + '-ui', 'xcodebuild', args, label === 'failure' ? 180000 : 240000, false);
             const post = await installed(label + '-after-ui', expected);
-            json(label + '-execution.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, OS: '18.5', selector, xctestrun: read('build.json').xctestrun, test_exit_code: result.exit_code, test_signal: result.signal, test_error: result.error, timed_out: result.timed_out, pre, post, installation_scope: 'Explicit simctl install independently proven; xcodebuild automatic reinstall is not assumed' });
+            json(label + '-execution.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, OS: '18.5', selector, xctestrun: read('build.json').xctestrun, test_exit_code: result.exit_code, test_signal: result.signal, test_error: result.error, timed_out: result.timed_out, pre, post, installation_scope: 'Explicit simctl App and runner installs; destination-artifact runfile requests no xcodebuild installation' });
             captureContentDiagnostics(label, post, owned);
             hostPackage(expected); assert.equal(result.exit_code, 0, label); assert.equal(result.error, null, label); assert.equal(result.timed_out, false, label);
             return post;
@@ -326,9 +346,35 @@ jobs:
             const { formatVersion, target } = selectUITestTarget(metadata, { expectedBlueprintName: 'AILibraryUITests', expectedBundleIdentifier: bundleID, actualAppBundleIdentifier: ownedAppInfo.CFBundleIdentifier });
             const targetPath = target.UITargetAppPath; assert.equal(typeof targetPath, 'string'); assert.ok(!targetPath.replace('__TESTROOT__', products).includes('__'));
             assert.equal(fs.realpathSync(targetPath.replace('__TESTROOT__', products)), app, 'Do not run a cached app outside this owned build');
+            const options = { expectedBlueprintName: 'AILibraryUITests', expectedBundleIdentifier: bundleID, actualAppBundleIdentifier: ownedAppInfo.CFBundleIdentifier, testRoot: products, appPath: app };
+            const paths = resolveUITestBuildPaths(metadata, options);
+            for (const location of [products, paths.runnerPath, paths.testBundlePath]) { assert.equal(fs.realpathSync(location), location); assert.ok(fs.lstatSync(location).isDirectory()); }
+            const runnerInventory = files(paths.runnerPath); // Refuse symlinks before reading either Info.plist.
+            async function artifactInfo(label, location, packageType) {
+              const infoPath = path.join(location, 'Info.plist'); assert.equal(fs.realpathSync(infoPath), infoPath); assert.ok(fs.lstatSync(infoPath).isFile());
+              const info = JSON.parse((await run(label, '/usr/bin/plutil', ['-convert', 'json', '-o', '-', infoPath], 10000)).stdout);
+              assert.equal(info.CFBundlePackageType, packageType); assert.match(info.CFBundleExecutable, /^[A-Za-z0-9_-][A-Za-z0-9_.-]*$/);
+              const executable = path.join(location, info.CFBundleExecutable); assert.equal(fs.realpathSync(executable), executable); assert.ok(fs.lstatSync(executable).isFile());
+              return info;
+            }
+            const runnerInfo = await artifactInfo('owned-runner-info', paths.runnerPath, 'APPL');
+            const testInfo = await artifactInfo('owned-ui-test-info', paths.testBundlePath, 'BNDL');
+            const destination = destinationUITestRun(metadata, { ...options, runnerBundleIdentifier: runnerInfo.CFBundleIdentifier, testBundleIdentifier: testInfo.CFBundleIdentifier });
+            const destinationRun = path.join(products, 'owned-destination.xctestrun'); assert.notEqual(destinationRun, xctestrun);
+            fs.writeFileSync(destinationRun, JSON.stringify(destination.metadata), { flag: 'wx', mode: 0o600 });
+            await run('destination-runfile-plist', '/usr/bin/plutil', ['-convert', 'xml1', destinationRun], 10000);
+            assert.equal(fs.realpathSync(destinationRun), destinationRun);
+            const readback = JSON.parse((await run('destination-runfile-readback', '/usr/bin/plutil', ['-convert', 'json', '-o', '-', destinationRun], 10000)).stdout);
+            assert.deepEqual(readback, destination.metadata);
             const baseline = hostPackage(); const manifest = JSON.parse(fs.readFileSync(path.join(app, 'Content/manifest.json'), 'utf8'));
             assert.equal(manifest.schema_version, 2); assert.equal(manifest.articles.length, 3); assert.equal(manifest.articles.some(row => row.is_test_fixture === true || row.id.startsWith('test-fixtures/')), false);
-            json('baseline-app.json', baseline); json('build.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, app, xctestrun, xctestrun_sha256: hash(fs.readFileSync(xctestrun)), target_path: targetPath, bundle_id: bundleID, xctestrun_format_version: formatVersion, metadata_declares_bundle_id: Object.hasOwn(target, 'UITargetAppBundleIdentifier'), actual_app_bundle_id: ownedAppInfo.CFBundleIdentifier, article_count: 3 });
+            const binding = { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, app, xctestrun: destinationRun, xctestrun_sha256: hash(fs.readFileSync(destinationRun)), stock_xctestrun: xctestrun, stock_xctestrun_sha256: hash(fs.readFileSync(xctestrun)), target_path: targetPath, bundle_id: bundleID, xctestrun_format_version: formatVersion, metadata_declares_bundle_id: Object.hasOwn(target, 'UITargetAppBundleIdentifier'), actual_app_bundle_id: ownedAppInfo.CFBundleIdentifier, article_count: 3,
+              use_destination_artifacts: true, selected_ui_targets: 1, runner_path: paths.runnerPath, runner_bundle_id: runnerInfo.CFBundleIdentifier,
+              test_bundle_path: paths.testBundlePath, test_bundle_id: testInfo.CFBundleIdentifier, test_bundle_destination_relative_path: paths.testBundleDestinationRelativePath,
+              runner_content_sha256: hash(Buffer.from(JSON.stringify(runnerInventory.map(({ path, bytes, sha256 }) => ({ path, bytes, sha256 }))))) };
+            await run('runner-explicit-install', 'xcrun', ['simctl', 'install', owned.UUID, paths.runnerPath], 60000);
+            await installedRunner('runner-explicit-install', binding);
+            json('baseline-app.json', baseline); json('build.json', binding);
           }
 
           async function failure() {

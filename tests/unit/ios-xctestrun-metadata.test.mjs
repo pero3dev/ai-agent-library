@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { selectUITestTarget } from '../../ios/tests/xctestrun-metadata.mjs';
+import { selectUITestTarget, resolveUITestBuildPaths, destinationUITestRun } from '../../ios/tests/xctestrun-metadata.mjs';
 
 const expected = { expectedBlueprintName: 'AILibraryUITests', expectedBundleIdentifier: 'dev.example.AILibrary', actualAppBundleIdentifier: 'dev.example.AILibrary' };
 const ui = () => ({ BlueprintName: 'AILibraryUITests', IsUITestBundle: true,
@@ -207,4 +207,94 @@ test('an inherited UI role is not evidence that the selected target is a UI bund
 test('enabled configuration requires its own explicit TestTargets array', () => {
   const input = modern(); input.TestConfigurations = [Object.create({ TestTargets: modern().TestConfigurations[0].TestTargets })];
   assert.throws(() => selectUITestTarget(input, expected), /TestTargets/);
+});
+
+
+const destinationOptions = () => ({ ...expected, testRoot: '/owned/Products',
+  appPath: '/owned/Products/Debug-iphonesimulator/AILibrary.app',
+  runnerBundleIdentifier: 'dev.actual.CustomRunner', testBundleIdentifier: 'dev.actual.CustomTests' });
+const selected = input => input.AILibraryUITests ?? input.TestConfigurations[0].TestTargets[1];
+
+test('legacy destination run keeps the selected target settings and immutable input but excludes all unit targets and source paths', () => {
+  const input = legacy(); input.AILibraryUITests.TestingEnvironmentVariables = { DYLD_LIBRARY_PATH: '__TESTROOT__/Debug-iphonesimulator' };
+  input.AILibraryUITests.DependentProductPaths = ['__TESTROOT__/Debug-iphonesimulator/AILibrary.app'];
+  frozen(input); const before = JSON.stringify(input), options = frozen(destinationOptions());
+  const result = destinationUITestRun(input, options), target = result.metadata.AILibraryUITests;
+  assert.deepEqual(Object.keys(result.metadata).sort(), ['AILibraryUITests', '__xctestrun_metadata__']);
+  for (const key of ['TestHostPath', 'TestBundlePath', 'UITargetAppPath']) assert.equal(Object.hasOwn(target, key), false);
+  assert.equal(target.UseDestinationArtifacts, true);
+  assert.equal(target.TestHostBundleIdentifier, options.runnerBundleIdentifier);
+  assert.equal(target.UITargetAppBundleIdentifier, options.actualAppBundleIdentifier);
+  assert.equal(target.TestBundleDestinationRelativePath, '__TESTHOST__/PlugIns/AILibraryUITests.xctest');
+  assert.deepEqual(target.TestingEnvironmentVariables, input.AILibraryUITests.TestingEnvironmentVariables);
+  assert.deepEqual(target.DependentProductPaths, input.AILibraryUITests.DependentProductPaths);
+  assert.equal(JSON.stringify(input), before); assert.equal(selectUITestTarget(input, expected).target, input.AILibraryUITests);
+});
+
+test('modern destination run drops disabled and unrelated enabled configurations and preserves selected configuration settings', () => {
+  const input = modern(); input.TestPlan = { Name: 'Observed plan' }; input.TestConfigurations[0].CustomSetting = 'retained';
+  input.TestConfigurations.push({ Name: 'Disabled', IsEnabled: false, TestTargets: [ui()] },
+    { Name: 'Other', TestTargets: [unit()] });
+  const before = structuredClone(input), result = destinationUITestRun(frozen(input), destinationOptions()).metadata;
+  assert.equal(result.TestConfigurations.length, 1); assert.equal(result.TestConfigurations[0].TestTargets.length, 1);
+  assert.equal(result.TestConfigurations[0].TestTargets[0].BlueprintName, expected.expectedBlueprintName);
+  assert.equal(result.TestConfigurations[0].CustomSetting, 'retained'); assert.deepEqual(result.TestPlan, input.TestPlan);
+  assert.deepEqual(input, before);
+});
+
+test('destination paths derive from the stock runner and actual Info IDs rather than standard bundle names', () => {
+  const input = legacy(); Object.assign(input.AILibraryUITests, {
+    TestHostPath: '/owned/Products/Alternate/Unusual.app',
+    TestBundlePath: '__TESTROOT__/Alternate/Unusual.app/PlugIns/Another.xctest'
+  });
+  const result = destinationUITestRun(input, destinationOptions());
+  assert.equal(result.paths.runnerPath, '/owned/Products/Alternate/Unusual.app');
+  assert.equal(result.paths.testBundlePath, '/owned/Products/Alternate/Unusual.app/PlugIns/Another.xctest');
+  assert.equal(result.metadata.AILibraryUITests.TestBundleDestinationRelativePath, '__TESTHOST__/PlugIns/Another.xctest');
+  assert.equal(result.metadata.AILibraryUITests.TestHostBundleIdentifier, 'dev.actual.CustomRunner');
+});
+
+test('destination conversion refuses missing actual Info IDs, App-as-runner IDs and conflicting stock destination assertions', () => {
+  for (const key of ['runnerBundleIdentifier', 'testBundleIdentifier']) for (const value of [undefined, null, '', 'invalid/id', expected.actualAppBundleIdentifier]) {
+    assert.throws(() => destinationUITestRun(legacy(), { ...destinationOptions(), [key]: value }), /Info.plist|cannot be/);
+  }
+  for (const [key, value] of [['TestHostBundleIdentifier', 'dev.other.Runner'], ['TestBundleDestinationRelativePath', '__TESTHOST__/Wrong.xctest'], ['UseDestinationArtifacts', true]]) {
+    const input = legacy(); selected(input)[key] = value;
+    assert.throws(() => destinationUITestRun(input, destinationOptions()), /mismatch|stock source/);
+  }
+});
+
+test('stock host, bundle and App paths must all be explicit and free from unresolved macros and escapes', () => {
+  for (const field of ['TestHostPath', 'TestBundlePath', 'UITargetAppPath']) for (const value of [undefined, '', '__PLATFORMS__/Other.app', '__TESTROOT__/../escape.app', '__TESTROOT__//bad.app', '__TESTROOT__/./bad.app', '__TESTROOT__/bad\\path.app', '/outside/Other.app']) {
+    const input = legacy(); selected(input)[field] = value;
+    assert.throws(() => resolveUITestBuildPaths(input, destinationOptions()), /required|Escaping/);
+  }
+});
+
+test('destination conversion refuses an App mismatch, a runner equal to or nested with the App, and a test bundle outside the runner', () => {
+  for (const changes of [
+    { UITargetAppPath: '__TESTROOT__/Other.app' },
+    { TestHostPath: '__TESTROOT__/Debug-iphonesimulator/AILibrary.app' },
+    { TestHostPath: '__TESTROOT__/Debug-iphonesimulator/AILibrary.app/Nested.app' },
+    { TestBundlePath: '__TESTROOT__/Other.xctest' },
+    { TestBundlePath: '__TESTHOST__/../Other.xctest' },
+    { TestBundlePath: '__TESTHOST__/PlugIns/NotABundle.app' }
+  ]) {
+    const input = legacy(); Object.assign(selected(input), changes);
+    assert.throws(() => destinationUITestRun(input, destinationOptions()), /mismatch|Distinct|inside|Escaping/);
+  }
+});
+
+test('destination converter retains strict schema and duplicate-target refusals of the original selector', () => {
+  const unknown = legacy(); unknown.__xctestrun_metadata__.FormatVersion = 3;
+  const duplicated = modern(); duplicated.TestConfigurations[0].TestTargets.push({ ...ui(), UITargetAppBundleIdentifier: expected.actualAppBundleIdentifier });
+  for (const input of [unknown, duplicated]) assert.throws(() => destinationUITestRun(input, destinationOptions()), /FormatVersion|exactly one/);
+});
+
+test('destination paths require an explicit canonical owned root and App path, never a sibling-prefix match', () => {
+  for (const changes of [{ testRoot: '/owned/Products/..' }, { testRoot: 'Products' }, { appPath: '/owned/Products-foreign/App.app' }, { appPath: '/owned/Products/./App.app' }]) {
+    assert.throws(() => resolveUITestBuildPaths(legacy(), { ...destinationOptions(), ...changes }), /required/);
+  }
+  const input = legacy(); selected(input).TestHostPath = '/owned/Products-foreign/Runner.app';
+  assert.throws(() => resolveUITestBuildPaths(input, destinationOptions()), /Escaping/);
 });

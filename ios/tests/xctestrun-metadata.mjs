@@ -63,3 +63,64 @@ export function selectUITestTarget(metadata, options) {
   }
   return { formatVersion, target };
 }
+
+// Pure path resolution only: the caller must additionally realpath/lstat and
+// inspect the Info.plists before installing these owned build products.
+const absoluteOwnedPath = value => typeof value === 'string' && value.startsWith('/') &&
+  !/[\x00-\x1f\x7f\\]/.test(value) && !value.includes('__') &&
+  value.split('/').slice(1).every(part => part !== '' && part !== '.' && part !== '..');
+const within = (root, value) => value.startsWith(root + '/');
+const bundleIdentifier = value => typeof value === 'string' && /^[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+$/.test(value);
+
+export function resolveUITestBuildPaths(metadata, options) {
+  const { formatVersion, target } = selectUITestTarget(metadata, options);
+  const { testRoot, appPath } = options;
+  assert.ok(own(options, 'testRoot') && absoluteOwnedPath(testRoot), 'Canonical owned test root is required');
+  assert.ok(own(options, 'appPath') && absoluteOwnedPath(appPath) && within(testRoot, appPath) && appPath.endsWith('.app'), 'Owned App path is required');
+  if (own(target, 'UseDestinationArtifacts')) assert.equal(target.UseDestinationArtifacts, false, 'Expected stock source artifacts');
+  function resolve(field, testHost) {
+    assert.ok(own(target, field) && name(target[field]), 'Stock ' + field + ' is required');
+    let value = target[field];
+    if (value.startsWith('__TESTROOT__/')) value = testRoot + value.slice('__TESTROOT__'.length);
+    else if (testHost && value.startsWith('__TESTHOST__/')) value = testHost + value.slice('__TESTHOST__'.length);
+    assert.ok(absoluteOwnedPath(value) && within(testRoot, value), 'Escaping or unresolved ' + field);
+    return value;
+  }
+  const targetAppPath = resolve('UITargetAppPath');
+  assert.equal(targetAppPath, appPath, 'Stock UI App path mismatch');
+  const runnerPath = resolve('TestHostPath');
+  assert.ok(runnerPath.endsWith('.app') && runnerPath !== appPath && !within(appPath, runnerPath) && !within(runnerPath, appPath), 'Distinct owned UI runner App is required');
+  const testBundlePath = resolve('TestBundlePath', runnerPath);
+  assert.ok(testBundlePath.endsWith('.xctest') && within(runnerPath, testBundlePath), 'Test bundle must be inside the owned runner App');
+  return { formatVersion, runnerPath, testBundlePath, targetAppPath,
+    testBundleDestinationRelativePath: '__TESTHOST__/' + testBundlePath.slice(runnerPath.length + 1) };
+}
+
+// xcodebuild.xctestrun(5): destination artifacts exclude the three source paths
+// and require these three destination identifiers/paths. Keep the new runfile
+// beside the stock file so all other __TESTROOT__ references retain their base.
+export function destinationUITestRun(metadata, options) {
+  const paths = resolveUITestBuildPaths(metadata, options);
+  for (const key of ['runnerBundleIdentifier', 'testBundleIdentifier']) {
+    assert.ok(own(options, key) && bundleIdentifier(options[key]), 'Actual Info.plist ' + key + ' is required');
+    assert.notEqual(options[key], options.actualAppBundleIdentifier, 'Test artifacts cannot be the UI App');
+  }
+  const { target } = selectUITestTarget(metadata, options);
+  if (own(target, 'TestHostBundleIdentifier')) assert.equal(target.TestHostBundleIdentifier, options.runnerBundleIdentifier, 'Stock runner bundle identifier mismatch');
+  if (own(target, 'TestBundleDestinationRelativePath')) assert.equal(target.TestBundleDestinationRelativePath, paths.testBundleDestinationRelativePath, 'Stock destination test path mismatch');
+  const destination = structuredClone(target);
+  for (const key of ['TestBundlePath', 'TestHostPath', 'UITargetAppPath']) delete destination[key];
+  Object.assign(destination, { UseDestinationArtifacts: true,
+    TestHostBundleIdentifier: options.runnerBundleIdentifier,
+    TestBundleDestinationRelativePath: paths.testBundleDestinationRelativePath,
+    UITargetAppBundleIdentifier: options.actualAppBundleIdentifier });
+  let converted;
+  if (paths.formatVersion === 1) {
+    converted = { __xctestrun_metadata__: structuredClone(metadata.__xctestrun_metadata__), [options.expectedBlueprintName]: destination };
+  } else {
+    const configuration = metadata.TestConfigurations.find(row => row.IsEnabled !== false && row.TestTargets.includes(target));
+    converted = structuredClone(metadata);
+    converted.TestConfigurations = [{ ...structuredClone(configuration), TestTargets: [destination] }];
+  }
+  return { metadata: converted, paths };
+}

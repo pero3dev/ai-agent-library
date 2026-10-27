@@ -106,8 +106,9 @@ export function phaseUITestRun(metadata, options) {
       if (value.startsWith('__TESTROOT__/')) resolved = testRoot + value.slice('__TESTROOT__'.length);
       else if (value.startsWith('__TESTHOST__/')) resolved = runner + value.slice('__TESTHOST__'.length);
       assert.ok(canonical(resolved), 'DependentProductPaths must be canonical paths with known macros');
-      if (resolved !== appPath) return value;
-      dependencyReplacements += 1; return value.startsWith('__TESTROOT__/') ? phaseToken : phaseApp;
+      if (resolved !== appPath && !resolved.startsWith(appPath + '/')) return value;
+      const suffix = resolved.slice(appPath.length);
+      dependencyReplacements += 1; return (value.startsWith('__TESTROOT__/') ? phaseToken : phaseApp) + suffix;
     });
   }
   let converted;

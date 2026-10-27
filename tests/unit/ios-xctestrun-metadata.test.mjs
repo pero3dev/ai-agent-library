@@ -220,15 +220,20 @@ test('phase legacy keeps stock runner/test paths and other settings, prunes unit
   const input = legacy(), target = input.AILibraryUITests;
   target.TestingEnvironmentVariables = { DYLD_LIBRARY_PATH: '__TESTROOT__/Debug-iphonesimulator' };
   target.DependentProductPaths = [target.UITargetAppPath, phaseOptions('failure').appPath, target.TestHostPath,
-    '__TESTHOST__/PlugIns/AILibraryUITests.xctest', '/canonical/Framework.framework'];
-  frozen(input); const before = JSON.stringify(input), result = phaseUITestRun(input, phaseOptions('failure')), t = result.metadata.AILibraryUITests;
+    '__TESTHOST__/PlugIns/AILibraryUITests.xctest', '/canonical/Framework.framework',
+    target.UITargetAppPath + '/PlugIns/AILibraryTests.xctest', phaseOptions('failure').appPath + '/PlugIns/AILibraryTests.xctest'];
+  frozen(input); const before = JSON.stringify(input);
+  for (const phase of ['failure', 'restored']) {
+  const result = phaseUITestRun(input, phaseOptions(phase)), t = result.metadata.AILibraryUITests;
   assert.deepEqual(Object.keys(result.metadata).sort(), ['AILibraryUITests', '__xctestrun_metadata__']);
   assert.equal(t.TestHostPath, target.TestHostPath); assert.equal(t.TestBundlePath, target.TestBundlePath);
-  assert.equal(t.UITargetAppPath, '__TESTROOT__/owned-phase-apps/failure/AILibrary.app'); assert.equal(result.dependencyReplacements, 2);
+  assert.equal(t.UITargetAppPath, '__TESTROOT__/owned-phase-apps/' + phase + '/AILibrary.app'); assert.equal(result.dependencyReplacements, 4);
   assert.deepEqual(t.DependentProductPaths, [t.UITargetAppPath, result.phaseApp, target.TestHostPath,
-    '__TESTHOST__/PlugIns/AILibraryUITests.xctest', '/canonical/Framework.framework']);
+    '__TESTHOST__/PlugIns/AILibraryUITests.xctest', '/canonical/Framework.framework',
+    t.UITargetAppPath + '/PlugIns/AILibraryTests.xctest', result.phaseApp + '/PlugIns/AILibraryTests.xctest']);
   assert.deepEqual(t.TestingEnvironmentVariables, target.TestingEnvironmentVariables); assert.equal(Object.hasOwn(t, 'UseDestinationArtifacts'), false);
   assert.equal(JSON.stringify(input), before);
+  }
 });
 
 test('phase modern keeps selected configuration and metadata but F and R use distinct source paths with no original App reference', () => {
@@ -243,9 +248,10 @@ test('phase modern keeps selected configuration and metadata but F and R use dis
   assert.equal(JSON.stringify(r.metadata).includes('Debug-iphonesimulator/AILibrary.app'), false);
 });
 
-test('phase refuses residual original App references, descendant dependencies and malformed dependency arrays', () => {
+test('phase refuses residual original App references outside dependency products and malformed dependency arrays', () => {
   for (const mutate of [t => { t.EnvironmentVariables = { unexpected: t.UITargetAppPath }; },
-    t => { t.DependentProductPaths = [t.UITargetAppPath + '/PlugIns/Other.xctest']; },
+    t => { t.TestingEnvironmentVariables = { unexpected: t.UITargetAppPath + '/PlugIns/Other.xctest' }; },
+    t => { t.DependentProductPaths = [t.UITargetAppPath + '-other/PlugIns/Other.xctest']; },
     t => { t.DependentProductPaths = 'not-array'; }, t => { t.DependentProductPaths = [null]; },
     ...['__TESTROOT__/Debug-iphonesimulator/../Debug-iphonesimulator/AILibrary.app',
       '__TESTROOT__/Debug-iphonesimulator/./AILibrary.app', '__UNKNOWN__/Other.app', 'relative/Other.app',

@@ -157,7 +157,7 @@ SHA照合・staging検証・原子的切替・失敗時の旧版維持は既存�
 
 IOS-22の準備として[同梱版の明示選択](../../records/2026-10-25/ios-bundled-content-activation.md)を追加する。正常な保存版の優先を維持し、利用者の確認後にだけ同梱版へ切り替える。実3→199→再起動→3で記録bytesと本文fingerprintの復帰を確認し、画面・Hosted・実機、記事改名・削除・容量整理とIOS-22全体は分けて追跡する。
 
-IOS-22の[読書記録の破損保全と明示復旧](../../records/2026-10-27/ios-reading-state-recovery.md)は0.2.20（22）の候補である。固定head5ebではNative165件実行・skip2・失敗0、追加12件各passとCommon・SDK26・Runtime26の成功を確認し、FullのUI22件は一意22caseが全pass・失敗0である。DedicatedはF1件pass／R1件failで、Fと別PIDのRが置換済みDead bundleの欠損を記録した。F専用の終了確認候補は独立技術レビューまでで、内部機序と新headの効果・Hostedは未確定である。旧Core性能のscopeを保ち、復旧固有UI・実機・VoiceOver・耐電断・記事改名等とIOS-22全体は未完了、32行・完了12件を維持する。
+IOS-22の[読書記録の破損保全と明示復旧](../../records/2026-10-27/ios-reading-state-recovery.md)はPR282最終eabの6runとReady最新policy成功後、main76へ通常保護squashで統合した。main76の新push Common・Native・Fullも別観測で成功し、Native追加12単体と通常UI、Fullの一意22caseを確認した。旧Core性能は歴史scopeに保ち、実ユーザーの復旧固有UI・実機・VoiceOver・耐電断等とIOS-22全体は未完了、TODO32行・完了12行を維持する。後続PR283の新Recovery UIはこのmain76 checkpointの受入に含めない。
 
 [読書記録復旧のUI回帰](../../records/2026-10-27/ios-reading-recovery-ui.md)は、DEBUG隔離suiteを用い、cancelとconfirm後の再起動で既存・今回追加のしおり保持を調べる2 caseの候補です。構文parseと独立レビューまでを確認し、実SDK／UI・読書位置・backup生bytes・実機・VoiceOverとIOS-22全体の受入は未実施です。
 

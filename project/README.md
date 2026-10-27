@@ -14,7 +14,7 @@
 
 通常CIの[Playwright依存取得を制限する候補](records/2026-10-27/ci-playwright-dependency-download.md)は、f28のAPT長時間転送へ対処し、30分上限・全検査を維持する私有準備である。純78ケースと独立レビューは成功したが、実APT・sudo・変更後Hosted CI・全browser検査は未実施で、通常の別PRと正確なhead/runの確認を待つ。取消原因や転送改善成功は断定せず、アプリ版・TODO・iOS source・mainは未変更とする。
 
-[読書記録の破損保全と明示復旧](records/2026-10-27/ios-reading-state-recovery.md)は、読める記録と原データを保持し、利用者の選択で明示復旧する0.2.20（22）の候補です。固定head5ebでNative165件実行・skip2・失敗0、追加12件各pass、Common・SDK26・Runtime26成功を確認し、FullのUI22件は一意22caseが全pass・失敗0でした。Dedicated Rは別PIDのApp診断が置換済みDead bundleの意図的欠損を示して失敗しました。F専用終了確認の候補を準備しましたが、内部cache機序・新headの効果は未確定です。復旧固有UI・実機・VoiceOverとIOS-22全体は未完了、完了12／32件を維持します。
+[読書記録の破損保全と明示復旧](records/2026-10-27/ios-reading-state-recovery.md)はPR282最終eabの6runとReady最新policy成功後、main76へ通常保護squashで統合した。main76の新push Common・Native・Fullも別観測で成功し、Native追加12単体と通常UI、Fullの一意22caseを確認した。旧Core性能は歴史scopeに保ち、実ユーザーの復旧固有UI・実機・VoiceOver・耐電断等とIOS-22全体は未完了、TODO32行・完了12行を維持する。後続PR283の新Recovery UIはこのmain76 checkpointの受入に含めない。
 
 [読書記録復旧のUI回帰](records/2026-10-27/ios-reading-recovery-ui.md)は、DEBUG隔離suiteを用い、cancelとconfirm後の再起動で既存・今回追加のしおり保持を調べる2 caseの候補です。構文parseと独立レビューまでを確認し、実SDK／UI・読書位置・backup生bytes・実機・VoiceOverとIOS-22全体の受入は未実施です。
 

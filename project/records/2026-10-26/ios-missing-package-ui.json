@@ -224,5 +224,105 @@
     "authorization": "User requested continued autonomous iOS implementation, commits, PRs and ordinary main merges. Fees, contracts, signing, distribution and Store remain separate owner decisions.",
     "historical_top_level_fields": "Preserved immutable private-preparation snapshot; this added checkpoint describes the proposed public integration separately.",
     "actual_bookmark_and_reading_position_retention_across_upgrade": "not-verified; app-unread fixed Documents sentinel only"
+  },
+  "first_Hosted_setup_failure_and_correction": {
+    "recorded_date": "2026-10-27",
+    "failed_source_head": "21b88cdaa83507e5d2e2456220621f66f81346be",
+    "dedicated_run": 40448288905,
+    "dedicated_job": 122004693556,
+    "actual_failure": "inventory runtimes command timed_out at 30000ms; runtime availability/content mismatch not established",
+    "unreached": [
+      "dependency installs",
+      "content generation",
+      "Simulator creation",
+      "SDK build",
+      "F",
+      "R",
+      "raw audits"
+    ],
+    "cleanup": "success without Simulator creation",
+    "overall_summary": "failure/not-completed",
+    "artifact_id": 12708983779,
+    "artifact_bytes": 5663,
+    "artifact_raw_independent_review": {
+      "compressed_SHA256": "eeb9335741f5892af039821efc1429b68533c4d995f128c71e6daefce3ddb89d",
+      "expanded_bytes": 3351,
+      "entries": 26,
+      "RAM_only": true,
+      "CRC_sizes_hashes_paths_links_specials": "passed",
+      "runtimes_exit": {
+        "timeout_ms": 30000,
+        "exit_code": null,
+        "signal": "SIGKILL",
+        "error": null,
+        "timed_out": true
+      },
+      "runtimes_stdout_stderr_bytes": 0,
+      "cleanup": "not-created/UUIDnull/errornull",
+      "summary": "not-completed",
+      "new_F_R_results": "absent/unexecuted"
+    },
+    "common_run": 40448288830,
+    "common_failures": {
+      "docs_job": 122004693712,
+      "Windows_job": 122004693742,
+      "test": "tests/unit/harness-tooling.test.mjs:31 every npm install is preceded by same working directory lockfile audit",
+      "reason": "audit and install were in one step; contract requires a preceding step"
+    },
+    "local_diffcheck_failure": "18 blank-only trailing-whitespace lines in new workflow",
+    "correction": {
+      "root_and_asset_tools": "split audit1min/install2min, preceding audit samecwd; ignore-scripts and pipefail preserved",
+      "summary": "add both audit outcomes, all outcomes must be success",
+      "runtime_inventory_command_ms": 90000,
+      "other_output_command_default_ms": 30000,
+      "inventory_stage_ms": 150000,
+      "inventory_step_minutes": 3,
+      "step_timeout_sum_minutes": 55,
+      "job_minutes": 60,
+      "retry": 0,
+      "blank_only_lines_normalized": 18,
+      "Runtime26_devices_before_test_command_ms": 90000,
+      "Runtime26_UI_step_minutes": 12,
+      "Runtime26_other_source_bytes": "exactly preserved except this timeout constant"
+    },
+    "preserved": [
+      "Xcode16.4/SDK18.5/unique runtime/device/source checks",
+      "all F/R selectors and assertions",
+      "FailureSwift and PBX bytes",
+      "App0.2.19(21)",
+      "all normal workflows",
+      "other stage caps and owned cleanup",
+      "sentinel-only scope; real bookmark/reading upgrade still unverified"
+    ],
+    "new_head": null,
+    "new_run_results": null,
+    "source_workflow_before_SHA256": "f0c15d257937ca2b8596687c532e19dbf460f43e2da5136d4490c69a1cc6f0dd",
+    "source_workflow_after_SHA256": "ed67f6aa3ac924a100444dbc5f06458c680cebed6834d7c208993a7e3a9d3434",
+    "separate_Runtime26_precondition_failure": {
+      "run": 40448288867,
+      "job": 122004693664,
+      "source_head": "21b88cdaa83507e5d2e2456220621f66f81346be",
+      "UI_step_seconds": 85,
+      "operation": "xcrun simctl list devices --json",
+      "timeout_ms": 30000,
+      "error": "ETIMEDOUT",
+      "xcodebuild_test_and_case_events": "not-reached/0",
+      "following_package_and_strict_audits": "failure without test results",
+      "owned_cleanup_step": "success",
+      "artifact": {
+        "id": 12709472235,
+        "bytes": 46306,
+        "raw_downloaded": false
+      },
+      "evidence": "bounded diagnostics actual error, no root-cause inference"
+    },
+    "owned_correction_paths": [
+      ".github/workflows/ios-runtime26-smoke.yml",
+      ".github/workflows/ios-missing-package-ui.yml",
+      "project/records/2026-10-26/ios-missing-package-ui.md",
+      "project/records/2026-10-26/ios-missing-package-ui.json"
+    ],
+    "cumulative_PR_paths": 8,
+    "old_Primitive_source_snapshot_fields": "Previous preparation/Root fields remain historical; this correction now also changes one Runtime26 precondition timeout."
   }
 }

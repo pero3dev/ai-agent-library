@@ -63,7 +63,7 @@ jobs:
           import path from 'node:path';
           import { createHash, randomUUID } from 'node:crypto';
           import { spawn } from 'node:child_process';
-          
+
           const stage = process.argv[2];
           const caps = { inventory: 150000, simulator: 270000, build: 420000, failure: 300000, restore: 360000, audit: 90000, cleanup: 210000, summary: 15000 };
           assert.ok(Object.hasOwn(caps, stage));
@@ -82,7 +82,7 @@ jobs:
           const json = (name, value) => put(name, JSON.stringify(value, null, 2) + '\n');
           const read = name => JSON.parse(fs.readFileSync(path.join(evidence, name), 'utf8'));
           const hash = bytes => createHash('sha256').update(bytes).digest('hex');
-          
+
           async function run(name, binary, args, timeoutMs, strict = true) {
             const remaining = Math.floor(deadline - performance.now());
             const cap = Math.min(timeoutMs, Math.max(0, remaining));
@@ -110,14 +110,14 @@ jobs:
             if (strict) { assert.equal(error, null, name); assert.equal(timedOut, false, name); assert.equal(status, 0, name); }
             return { ...result, stdout, stderr };
           }
-          
+
           function allDevices(value) {
             assert.ok(value.devices && typeof value.devices === 'object' && !Array.isArray(value.devices));
             return Object.entries(value.devices).flatMap(([runtime, rows]) => {
               assert.ok(Array.isArray(rows)); return rows.map(device => { assert.match(device.udid.toUpperCase(), uuidPattern); return { runtime, device }; });
             });
           }
-          
+
           function owner() {
             const owned = read('owned-simulator.json'), intent = read('owned-simulator-intent.json'), selection = read('selection.json');
             assert.equal(intent.repository, 'pero3dev/ai-agent-library'); assert.equal(intent.source_head, process.env.EXPECTED_SOURCE_HEAD);
@@ -129,7 +129,7 @@ jobs:
             assert.equal(intent.runtime_identifier, selection.runtime.identifier); assert.equal(intent.device_type_identifier, selection.device_type.identifier);
             return owned;
           }
-          
+
           function files(directory) {
             assert.equal(fs.realpathSync(directory), directory); const entries = []; let total = 0;
             function walk(current) {
@@ -141,12 +141,12 @@ jobs:
             }
             walk(directory); return entries;
           }
-          
+
           function hostPackage(expected) {
             assert.equal(fs.realpathSync(app), app); assert.ok(!fs.existsSync(path.join(app, 'TestContent')), 'Normal package only');
             const actual = files(app); if (expected) assert.deepEqual(actual, expected, 'Unexpected host app mutation'); return actual;
           }
-          
+
           async function installed(label, expected) {
             const owned = owner();
             const result = await run(label + '-app-container', 'xcrun', ['simctl', 'get_app_container', owned.UUID, bundleID, 'app'], 20000);
@@ -164,7 +164,7 @@ jobs:
             assert.equal(fs.existsSync(pointer), false, 'A saved version could mask the missing bundle');
             return { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, OS: '18.5', bundle_id: bundleID, installed_app: location, installation_UUID: installationUUID, data_container: data, current_pointer_absent: true, files: expected };
           }
-          
+
           async function ui(label, selector, expected) {
             const owned = owner();
             const pre = await installed(label + '-before-ui', expected);
@@ -175,7 +175,7 @@ jobs:
             hostPackage(expected); assert.equal(result.exit_code, 0, label); assert.equal(result.error, null, label); assert.equal(result.timed_out, false, label);
             return post;
           }
-          
+
           function preservedSentinel(dataContainer) {
             const sentinel = read('reinstall-sentinel.json');
             assert.equal(sentinel.source_head, process.env.EXPECTED_SOURCE_HEAD);
@@ -185,24 +185,24 @@ jobs:
             const bytes = fs.readFileSync(location); assert.equal(bytes.length, sentinel.bytes); assert.equal(hash(bytes), sentinel.sha256);
             return { relative_path: sentinel.relative_path, sha256: hash(bytes), bytes: bytes.length, data_container: dataContainer, preserved: true };
           }
-          
+
           async function inventory() {
             assert.equal(process.env.GITHUB_REPOSITORY, 'pero3dev/ai-agent-library'); assert.equal(process.env.REPOSITORY_IS_PRIVATE, 'false');
             assert.equal(process.env.DEVELOPER_DIR, '/Applications/Xcode_16.4.app/Contents/Developer'); assert.ok(fs.existsSync(process.env.DEVELOPER_DIR));
-            const output = async (name, binary, args) => (await run(name, binary, args, 30000)).stdout.trim();
+            const output = async (name, binary, args, timeoutMs = 30000) => (await run(name, binary, args, timeoutMs)).stdout.trim();
             const macOS = await output('macos', 'sw_vers', ['-productVersion']); assert.equal(macOS.split('.')[0], '15');
             const architecture = await output('architecture', 'uname', ['-m']); assert.ok(['arm64', 'x86_64'].includes(architecture));
             const Xcode = await output('xcode', 'xcodebuild', ['-version']); assert.match(Xcode, /^Xcode 16\.4\nBuild version [A-Za-z0-9]+$/);
             assert.equal(await output('sdk', 'xcrun', ['--sdk', 'iphonesimulator', '--show-sdk-version']), '18.5');
             const head = await output('source-head', 'git', ['rev-parse', 'HEAD']); assert.equal(head, process.env.EXPECTED_SOURCE_HEAD); assert.match(head, /^[a-f0-9]{40}$/);
-            const runtimes = JSON.parse(await output('runtimes', 'xcrun', ['simctl', 'list', 'runtimes', '--json'])).runtimes;
+            const runtimes = JSON.parse(await output('runtimes', 'xcrun', ['simctl', 'list', 'runtimes', '--json'], 90000)).runtimes;
             const types = JSON.parse(await output('device-types', 'xcrun', ['simctl', 'list', 'devicetypes', '--json'])).devicetypes; assert.ok(Array.isArray(runtimes)); assert.ok(Array.isArray(types));
             const matches = runtimes.filter(row => row.version === '18.5' && row.name === 'iOS 18.5' && row.isAvailable === true);
             assert.equal(matches.length, 1); assert.match(matches[0].identifier, /^com\.apple\.CoreSimulator\.SimRuntime\.iOS-[A-Za-z0-9.-]+$/);
             const phones = types.filter(row => row.name === 'iPhone 16'); assert.equal(phones.length, 1); assert.match(phones[0].identifier, /^com\.apple\.CoreSimulator\.SimDeviceType\.[A-Za-z0-9.-]+$/);
             json('selection.json', { source_head: head, repository: process.env.GITHUB_REPOSITORY, runner_label: 'macos-15', standard_runner: true, macOS, architecture, Xcode, SDK: '18.5', runtime: matches[0], device_type: phones[0] });
           }
-          
+
           async function simulator() {
             const selection = read('selection.json'); assert.equal(selection.source_head, process.env.EXPECTED_SOURCE_HEAD);
             const before = allDevices(JSON.parse((await run('devices-before-create', 'xcrun', ['simctl', 'list', 'devices', '--json'], 30000)).stdout));
@@ -216,7 +216,7 @@ jobs:
             const current = allDevices(JSON.parse((await run('devices-after-boot', 'xcrun', ['simctl', 'list', 'devices', '--json'], 30000)).stdout)).filter(row => row.device.udid.toUpperCase() === UUID);
             assert.equal(current.length, 1); assert.equal(current[0].runtime, intent.runtime_identifier); assert.equal(current[0].device.name, name); assert.equal(current[0].device.state, 'Booted'); assert.equal(current[0].device.isAvailable, true);
           }
-          
+
           async function build() {
             const owned = owner(); assert.ok(!fs.existsSync(derived));
             await run('build-for-testing', 'xcodebuild', ['-project', 'ios/AILibrary.xcodeproj', '-scheme', 'AILibrary', '-configuration', 'Debug', '-destination', `platform=iOS Simulator,id=${owned.UUID}`, '-destination-timeout', '60', '-derivedDataPath', derived, '-parallel-testing-enabled', 'NO', '-jobs', '2', 'CODE_SIGNING_ALLOWED=NO', 'build-for-testing'], 420000);
@@ -232,7 +232,7 @@ jobs:
             assert.equal(manifest.schema_version, 2); assert.equal(manifest.articles.length, 3); assert.equal(manifest.articles.some(row => row.is_test_fixture === true || row.id.startsWith('test-fixtures/')), false);
             json('baseline-app.json', baseline); json('build.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, app, xctestrun, xctestrun_sha256: hash(fs.readFileSync(xctestrun)), target_path: targetPath, bundle_id: bundleID, article_count: 3 });
           }
-          
+
           async function failure() {
             const baseline = read('baseline-app.json'); hostPackage(baseline); const manifest = JSON.parse(fs.readFileSync(path.join(app, 'Content/manifest.json'), 'utf8'));
             const relative = manifest.articles[0].document_path; assert.match(relative, /^articles\/[A-Za-z0-9/_-]+\.json$/); assert.ok(relative.split('/').every(p => p !== '..' && p !== '.'));
@@ -252,7 +252,7 @@ jobs:
               json('reinstall-sentinel.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owner().UUID, relative_path: relative, bytes: sentinel.length, sha256: hash(sentinel), data_container_before_upgrade: post.data_container, app_reads_sentinel: false });
             }
           }
-          
+
           async function restore() {
             const withheld = read('withheld.json'); assert.equal(withheld.source_head, process.env.EXPECTED_SOURCE_HEAD); assert.equal(withheld.host_app, app); assert.match(withheld.relative_path, /^Content\/articles\/[A-Za-z0-9/_-]+\.json$/);
             const target = path.join(app, withheld.relative_path); assert.ok(!fs.existsSync(target)); const bytes = fs.readFileSync(path.join(evidence, 'withheld-article.json')); assert.equal(bytes.length, withheld.bytes); assert.equal(hash(bytes), withheld.sha256);
@@ -266,7 +266,7 @@ jobs:
             const post = await ui('restored', restoredSelector, baseline);
             json('sentinel-after-restored-ui.json', preservedSentinel(post.data_container));
           }
-          
+
           async function audit() {
             const owned = owner(), accepted = [], errors = [];
             for (const [label, selector] of [['failure', failureSelector], ['restored', restoredSelector]]) {
@@ -312,7 +312,7 @@ jobs:
             json('stages-acceptance.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, status: errors.length === 0 ? 'two-separate-stages-passed' : 'not-completed', stages: accepted, errors, exclusions: ['same-process repaired retry','offline','folder import','legacy migration','missing article route','physical device','VoiceOver'] });
             assert.equal(errors.length, 0, 'Both independent raw audits and preserved sentinel receipts must pass');
           }
-          
+
           async function cleanup() {
             const report = { status: 'not-completed', UUID: null, error: null };
             try {
@@ -332,13 +332,13 @@ jobs:
             } catch (error) { report.error = String(error); throw error; }
             finally { json('cleanup.json', report); }
           }
-          
+
           async function summary() {
-            const outcomes = Object.fromEntries(['INVENTORY','ROOT_TOOLS','ASSET_TOOLS','BROWSER','CONTENT','SIMULATOR','BUILD','FAILURE','RESTORED','CLEANUP','AUDIT'].map(key => [key.toLowerCase(), process.env[key + '_OUTCOME']]));
+            const outcomes = Object.fromEntries(['INVENTORY','ROOT_AUDIT','ROOT_TOOLS','ASSET_AUDIT','ASSET_TOOLS','BROWSER','CONTENT','SIMULATOR','BUILD','FAILURE','RESTORED','CLEANUP','AUDIT'].map(key => [key.toLowerCase(), process.env[key + '_OUTCOME']]));
             let error = null; try { assert.ok(Object.values(outcomes).every(value => value === 'success')); assert.equal(read('stages-acceptance.json').status, 'two-separate-stages-passed'); assert.ok(['owned-simulator-deleted','already-absent'].includes(read('cleanup.json').status)); } catch (failure) { error = String(failure); }
             json('summary.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, status: error === null ? 'two-stage-recovery-ui-passed' : 'not-completed', outcomes, error, coverage: 'Initial missing bundle error/retry failure and separate restored upgrade with sentinel preservation only', offline_import_legacy_sameProcessRetry_missingRoute_device_VoiceOver: 'not-verified' }); assert.equal(error, null);
           }
-          
+
           await ({ inventory, simulator, build, failure, restore, audit, cleanup, summary })[stage]();
           DRIVER
           chmod 600 "$DRIVER_PATH"
@@ -346,20 +346,31 @@ jobs:
         id: inventory
         timeout-minutes: 3
         run: node "$DRIVER_PATH" inventory
-      - name: Audit and install root tooling without lifecycle scripts
-        id: root_tools
-        timeout-minutes: 3
+      - name: Audit the root lockfile before installation
+        id: root_audit
+        timeout-minutes: 1
         run: |
           set -euo pipefail
           npm audit --package-lock-only --audit-level=high 2>&1 | tee "$EVIDENCE_DIR/root-audit.log"
+      - name: Install root tooling without lifecycle scripts
+        id: root_tools
+        timeout-minutes: 2
+        run: |
+          set -euo pipefail
           npm ci --ignore-scripts 2>&1 | tee "$EVIDENCE_DIR/root-install.log"
-      - name: Audit and install native assets without lifecycle scripts
-        id: asset_tools
-        timeout-minutes: 3
+      - name: Audit the native assets lockfile before installation
+        id: asset_audit
+        timeout-minutes: 1
         working-directory: ios/tools
         run: |
           set -euo pipefail
           npm audit --package-lock-only --audit-level=high 2>&1 | tee "$EVIDENCE_DIR/assets-audit.log"
+      - name: Install native assets without lifecycle scripts
+        id: asset_tools
+        timeout-minutes: 2
+        working-directory: ios/tools
+        run: |
+          set -euo pipefail
           npm ci --ignore-scripts 2>&1 | tee "$EVIDENCE_DIR/assets-install.log"
       - name: Install the lockfile-matched Chromium
         id: browser
@@ -409,7 +420,9 @@ jobs:
         timeout-minutes: 1
         env:
           INVENTORY_OUTCOME: ${{ steps.inventory.outcome }}
+          ROOT_AUDIT_OUTCOME: ${{ steps.root_audit.outcome }}
           ROOT_TOOLS_OUTCOME: ${{ steps.root_tools.outcome }}
+          ASSET_AUDIT_OUTCOME: ${{ steps.asset_audit.outcome }}
           ASSET_TOOLS_OUTCOME: ${{ steps.asset_tools.outcome }}
           BROWSER_OUTCOME: ${{ steps.browser.outcome }}
           CONTENT_OUTCOME: ${{ steps.content.outcome }}

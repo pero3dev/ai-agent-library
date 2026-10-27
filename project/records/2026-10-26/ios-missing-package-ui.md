@@ -4,7 +4,7 @@
 
 ## 目的と作業範囲
 
-ユーザーの自律実装・commit・PR・通常main統合の依頼に基づく。所有は上記workflow、テストSwift、PBX構成、同名JSONと本記録、project索引と完成版TODOの7パスである。PBXはUIテストへのファイル登録に必要な2オブジェクトと2参照だけを加える。既存App・UIケース・CI・版番号・署名設定を維持する。
+ユーザーの自律実装・commit・PR・通常main統合の依頼に基づく。所有は上記workflow、テストSwift、PBX構成、同名JSONと本記録、project索引と完成版TODOに、Runtime26 CIの待機調整を加えた8パスである。PBXはUIテストへのファイル登録に必要な2オブジェクトと2参照だけを加える。既存App・UIケース・版番号・署名設定を維持し、既存Runtime26 CIではdevice一覧取得の待機だけを調整する。
 
 [構造化記録](ios-missing-package-ui.json)の既存フィールドは、固定したprivate準備時点のsnapshotである。`root_proposed_integration`へ現在の入力・提案範囲を追加し、過去の未採用状態を新しい成功へ書き換えない。前提mainの新push CIは[共通](https://github.com/pero3dev/ai-agent-library/actions/runs/40443841890)・[Native](https://github.com/pero3dev/ai-agent-library/actions/runs/40443841894)・[全記事](https://github.com/pero3dev/ai-agent-library/actions/runs/40443841889)の3系統で成功した。最終差分の独立レビュー、新headでの必要CIと実F/Rを確認してから通常squashを判断する。
 
@@ -26,3 +26,13 @@ Rは別の正常インストール段階である。壊れたファイルを直�
 前提Core mainの新push CIは成功した。この候補の最終checkpoint差分の独立レビュー・新head実SDK・実F/Rは未完了である。新headの必要チェックと完了ログを照合し、失敗やskipを成功へ変えずに記録する。main統合時も実merge SHA・message・tree・新main検査を確認する。
 
 更新前後の実際のしおり・読書位置の維持は未確認であり、今回のRが直接証明するのはアプリが読み込まない専用確認ファイルの保持である。同じプロセス内での修復後再試行、import picker、初回オフライン、旧記録移行、記事なしroute、最大文字・VoiceOver・実機、IOS-18／25全体は未完了である。ユーザー指定により追加実機確認は未完了のまま省略する。TODOは32行・完了12行を保つ。課金・契約・配布用署名・公開方式・Store申請はこの変更へ含めない。
+
+## 初回Hostedの準備段階での失敗と修正
+
+PR #281の初回head `21b88cdaa83507e5d2e2456220621f66f81346be`、run `40448288905` はruntime一覧の取得が30秒で時間切れになり、inventoryで停止した。runtime内容の不一致を確認した結果ではない。依存導入・生成・Simulator作成・build・F/Rへは到達せず、cleanupは作成なしで成功、全体summaryは未完了である。5,663 Bの小artifactはSHA・全26 entryのCRC／size／path等をRAMで照合した。stdout／stderrは空で、30秒のSIGKILLとtimed_outを確認した。selection・Simulator所有・build・F/Rの証拠は存在しない。
+
+同じheadの共通CI `40448288830` は、docsとWindowsで既存の「同じ作業ディレクトリのlockfile監査がinstallより前のstepにある」検査に失敗した。監査とinstallを同stepへ置いていたため、rootと`ios/tools`をそれぞれaudit1分・install2分へ分ける。`--ignore-scripts`・`pipefail`と元の計3分ずつ、全step55分・job60分を保ち、summaryでも二つのaudit結果を成功条件に含める。
+
+runtime一覧の取得だけ90秒へ配分し、inventory全体150秒・step3分の範囲を保つ。他の情報取得は30秒、SDK・OS・runtime／deviceの一意性とsource照合、F/Rの判定・selector・保存範囲・cleanupは保ち、再試行は加えない。新workflowの空行18行にあった末尾空白も除く。修正後headの実SDK・F/R・共通CIは未実施であり、前の成功や未到達段階を新しい成功へ置き換えない。
+
+別のRuntime26 run `40448288867` は、UI step冒頭の`xcrun simctl list devices --json`が30秒の`ETIMEDOUT`で停止した。実test・caseイベントには到達せず、後続監査は失敗、所有Simulator cleanup stepは成功した。こちらもAppの表示失敗を確認した結果ではない。このdevice一覧取得の上限だけ90秒へ変更し、UI step12分と他のコード・selector・判定・cleanupを保つ。二つの在庫取得が90秒なら成功することは未確認で、基盤側の根本原因も断定しない。

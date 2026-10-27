@@ -660,5 +660,457 @@
     "new_post_body_sentinel": null,
     "main_adoption": null,
     "cache_mechanism_guarantee": null
+  },
+  "C2_Dedicated_functional_checkpoint_prepared_20261028": {
+    "schema_version": 1,
+    "recorded_date": "2026-10-28",
+    "status": "Accepted limited C2 Dedicated functional evidence; public checkpoint prepared only",
+    "source_head": "c2dd2712e8eb84b109a89e127e58c0ee7e42cbaf",
+    "source_tree": "2ab281bb467db29646f5b1a5b564b6a764d008a5",
+    "run_id": 40550055821,
+    "job_id": 122351040573,
+    "attempt": 1,
+    "run_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40550055821",
+    "device": {
+      "deviceId": "B3486A6C-3C75-407F-8F28-1A4F2C2FDEB2",
+      "osVersion": "18.5",
+      "platform": "iOS Simulator",
+      "modelName": "iPhone 16"
+    },
+    "raw_cases": {
+      "failure": {
+        "status": "exact-one-case-passed",
+        "case_ID": "FailureReaderUITests/testMissingBundledArticleShowsErrorAndRetryRemainsUsable()",
+        "same_device_UUID": "B3486A6C-3C75-407F-8F28-1A4F2C2FDEB2",
+        "errors": []
+      },
+      "restored": {
+        "status": "exact-one-case-passed",
+        "case_ID": "NativeReaderUITests/testThreeArticlesHaveNativeBodyText()",
+        "same_device_UUID": "B3486A6C-3C75-407F-8F28-1A4F2C2FDEB2",
+        "errors": []
+      }
+    },
+    "installed_App7": {
+      "failure-after-ui-inventory.json": {
+        "expected_files": 180,
+        "actual_files": 180,
+        "path_bytes_SHA_and_allowed_modes_match": true,
+        "expected_equals_host_stage": true,
+        "error_count": 0
+      },
+      "failure-before-sentinel-inventory.json": {
+        "expected_files": 180,
+        "actual_files": 180,
+        "path_bytes_SHA_and_allowed_modes_match": true,
+        "expected_equals_host_stage": true,
+        "error_count": 0
+      },
+      "failure-before-ui-inventory.json": {
+        "expected_files": 180,
+        "actual_files": 180,
+        "path_bytes_SHA_and_allowed_modes_match": true,
+        "expected_equals_host_stage": true,
+        "error_count": 0
+      },
+      "failure-explicit-install-inventory.json": {
+        "expected_files": 180,
+        "actual_files": 180,
+        "path_bytes_SHA_and_allowed_modes_match": true,
+        "expected_equals_host_stage": true,
+        "error_count": 0
+      },
+      "restored-after-ui-inventory.json": {
+        "expected_files": 181,
+        "actual_files": 181,
+        "path_bytes_SHA_and_allowed_modes_match": true,
+        "expected_equals_host_stage": true,
+        "error_count": 0
+      },
+      "restored-before-ui-inventory.json": {
+        "expected_files": 181,
+        "actual_files": 181,
+        "path_bytes_SHA_and_allowed_modes_match": true,
+        "expected_equals_host_stage": true,
+        "error_count": 0
+      },
+      "restored-explicit-install-inventory.json": {
+        "expected_files": 181,
+        "actual_files": 181,
+        "path_bytes_SHA_and_allowed_modes_match": true,
+        "expected_equals_host_stage": true,
+        "error_count": 0
+      }
+    },
+    "installed_mode_rules": "12 preallowed 0755-to0644 mode transitions per snapshot; not expanded",
+    "source_correlation": {
+      "baseline_files": 181,
+      "F_R_source_paths_distinct": true,
+      "withheld_path": "Content/articles/01-concepts--agent-loop.json",
+      "phases": {
+        "failure": {
+          "source_files": 180,
+          "source_rows_exact_mode_bytes_SHA": true,
+          "baseline_after_exact_mode_bytes_SHA": true,
+          "readback_exact_transform": true,
+          "readback_member_SHA256": "ea5240579e8b27aa2b57609c023abce4ce57483114fe784048a1df765a65a8a5",
+          "explicit_install_source_path_correlated": true,
+          "dependency_replacements": 2,
+          "UI_command": {
+            "exit_code": 0,
+            "signal": null,
+            "error": null,
+            "timed_out": false,
+            "successful": true
+          }
+        },
+        "restored": {
+          "source_files": 181,
+          "source_rows_exact_mode_bytes_SHA": true,
+          "baseline_after_exact_mode_bytes_SHA": true,
+          "readback_exact_transform": true,
+          "readback_member_SHA256": "f733ff00641e9e58336b60642baed8226111d05ab8ab16bd053775bebc42a53f",
+          "explicit_install_source_path_correlated": true,
+          "dependency_replacements": 2,
+          "UI_command": {
+            "exit_code": 0,
+            "signal": null,
+            "error": null,
+            "timed_out": false,
+            "successful": true
+          }
+        }
+      }
+    },
+    "producer_claims_only": [
+      "Raw XML runfile SHA",
+      "Physical inode/copy separation",
+      "Directory mode equality",
+      "Filesystem/path authenticity of reported data"
+    ],
+    "sentinel": {
+      "initial_record_matches_fixed_bytes": true,
+      "app_reads_sentinel": false,
+      "post_upgrade_before_body_preserved": true,
+      "after_successful_body_check_preserved": true,
+      "final_record_present": true,
+      "pre_upgrade_scope": "Controlled restore flow checks sentinel before install; no separate pre-upgrade raw JSON is emitted",
+      "fixed_bytes": 52,
+      "fixed_SHA256": "59e4f9cb20c5c7928b7edcaa47e3a601edcd7efe61c107f83d128187c7785ad4"
+    },
+    "cleanup": {
+      "status": "owned-simulator-deleted",
+      "UUID": "B3486A6C-3C75-407F-8F28-1A4F2C2FDEB2",
+      "error": null
+    },
+    "R_diagnostic_scope": {
+      "launch_UI_status": "not-present",
+      "current_R_launch_suite_and_root": null,
+      "F_App_report_bundle_matches_installed_F": true,
+      "F_App_report_counts": {
+        "expected": 141,
+        "found": 140,
+        "manifestFiles": 140
+      },
+      "R_collector_has_F_record_only": true,
+      "R_record_same_name_pid_timestamp_source_as_F": true,
+      "R_live_installed_bundle_differs_from_reported_F_bundle": true,
+      "meaning": "R succeeded without a fresh error diagnostic. The retained F file is not R launch-root proof or a newly observed R error; readback/commands and passed body case are distinct evidence.",
+      "current_R_manifest_or_PID_independently_reported": false
+    },
+    "accepted_scope": "F missing bundle public error/retry and separate R upgrade native3body, same controlled Simulator, App7 and final52B, source arrays/baseline/readback/command correlation only",
+    "not_accepted": [
+      "Internal cache mechanism or impossibility of recurrence",
+      "Fresh successful R App diagnostic/live launch-root binding",
+      "All reading-state migration or all user data preservation",
+      "First offline launch/import/same-process recovery/missing-route/device/VoiceOver",
+      "Normal CI/main adoption until separately verified",
+      "IOS-22 overall completion",
+      "Core performance remeasurement",
+      "Independent filesystem reconstruction from XML/inode producer claims"
+    ],
+    "artifact": {
+      "id": 12755695776,
+      "compressed_bytes": 434926,
+      "SHA256": "sha256:220b62803460c51cdb24aa66e50c41e27abd1a6b6b9ae8f84348be9c9b2d31ef",
+      "whole_digest_verified": true,
+      "index_entries": 219,
+      "legacy_selected": 53,
+      "source_new_CRC_SHA_members": 20,
+      "all_read_expanded_bytes": 1851645,
+      "unselected_CRC_verified": false,
+      "successful_body_GET": 1,
+      "raw_ZIP_xcresult_images_saved": false,
+      "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40550055821/artifacts/12755695776"
+    },
+    "evidence": {
+      "findings": {
+        "bytes": 9893,
+        "SHA256": "62fe8cea1900ab5486a04cfea39d022dbf4929c93c3decbc3df5ea058780f8dd",
+        "location": "<private-evidence>/findings.json"
+      },
+      "compact_read": {
+        "bytes": 62091,
+        "SHA256": "86413829ddf3f4ad283abc1da6870209a0a574e5662958356f51f7c2736e9590",
+        "location": "<private-evidence>/compact-read.json"
+      },
+      "independent_scope_review": {
+        "bytes": 5027,
+        "SHA256": "31525218ed7151aec26a4610d40e3a8d2319226801fb9d82a8ec70065417f9da",
+        "location": "<private-evidence>/review.json"
+      },
+      "independent_review_scope": "Frozen reader/findings scope review; no second artifact fetch or independent re-inflation by this reviewer.",
+      "P1": [],
+      "P2": []
+    },
+    "pending_gates": {
+      "main_adoption": null,
+      "new_main_CI": null,
+      "ordinary_six_CI": null,
+      "fresh_R_launch_root": null,
+      "cache_guarantee": null,
+      "all_reading_state_or_userdata": null
+    },
+    "preparation_only": {
+      "fresh_main_binding": null,
+      "publication": false,
+      "after_public11_four_reason_commits": true,
+      "Driver_commit_order": 5,
+      "new_reader_GET_or_SDK_UI": 0
+    }
+  },
+  "C2_ordinary_six_CI_20261028": {
+    "status": "all six current C2 workflow scopes success; separate from Dedicated functional receipt",
+    "source_head": "c2dd2712e8eb84b109a89e127e58c0ee7e42cbaf",
+    "source_tree": "2ab281bb467db29646f5b1a5b564b6a764d008a5",
+    "Common": {
+      "run": 40550055906,
+      "active_jobs_success": 9,
+      "latest_policy_success": [
+        40550080480,
+        40550080324
+      ],
+      "total_current_targets_success": 11,
+      "Source36_each_one_ok": true,
+      "old_same_head_policy_run_not_substituted": true
+    },
+    "Native": {
+      "run": 40550055661,
+      "job": 122351039530,
+      "unit_executed": 165,
+      "unit_skipped": 2,
+      "unit_failures": 0,
+      "unit_seconds": 8.622,
+      "added12_each_started1_passed1_failed0": true,
+      "UI_each_started1_passed1_failed0": 4,
+      "UI_seconds": 392.843,
+      "UI_skipcount": null,
+      "UI_scope": "Native2 plus ReadingRecovery2 public bookmark controls only; not backup raw bytes/position/VO/physical",
+      "actual_synthetic_checkout": "742dc669846a2ad2e8efb8520f8be3f87f300c55",
+      "actual_tree_equals_C2": true
+    },
+    "SDK26": {
+      "run": 40550055699,
+      "job": 122351038201,
+      "unsigned_archive_success": true,
+      "Release_articles": 199,
+      "Release_files": 625,
+      "Release_bytes": 36958359,
+      "actual_checkout": "c2dd2712e8eb84b109a89e127e58c0ee7e42cbaf"
+    },
+    "Runtime26": {
+      "run": 40550055645,
+      "job": 122351038195,
+      "raw_UI_passed": 2,
+      "raw_UI_failed": 0,
+      "seconds": 242.297,
+      "SDK": "26.5",
+      "runtime_OS": "26.5",
+      "actual_checkout": "c2dd2712e8eb84b109a89e127e58c0ee7e42cbaf"
+    },
+    "Full": {
+      "run": 40550055886,
+      "job": 122352146417,
+      "raw_UI_started": 22,
+      "raw_UI_passed": 22,
+      "raw_UI_failed": 0,
+      "raw_UI_skipped": 0,
+      "UI_seconds": 1456.566,
+      "unit_executed": 165,
+      "unit_skipped": 2,
+      "unit_failures": 0,
+      "unit_seconds": 8.083,
+      "Release_articles": 199,
+      "Release_audio": 1,
+      "Release_files": 625,
+      "Release_bytes": 36958884,
+      "Release_revision": "5ef53d52ad5a232026e3c064ef2c336d6a5f99d1d493a39401751aa84ae12b4d",
+      "UI_scope": "Native2 plus Published14 plus geometry6; excludes new Recovery2 and Copy1",
+      "actual_synthetic_checkout": "742dc669846a2ad2e8efb8520f8be3f87f300c55",
+      "actual_tree_equals_C2": true
+    },
+    "Dedicated": {
+      "run": 40550055821,
+      "job": 122351040573,
+      "functional_scope": "See preserved C2 Dedicated checkpoint and its separate Root findings, compact and independent limited-scope review"
+    },
+    "evidence_SHA256": {
+      "Native_SDK_observation": "ed46eaddbc3d0da6315bc614535a98caad0bdb39e1f2ef5368723feccebc8a57",
+      "Full_Runtime_manifest": "e657610b00316ffb0fedce89504b898bab1c3bc99c6891a10f77810ae95637cd",
+      "Common_Dedicated_manifest": "a52e5523b9b4e5e0054603e2817cf7092ba407b3bd49087fa91334e8e87c3538"
+    },
+    "prior_head_results_reused": false,
+    "Core_performance_remeasurement": false,
+    "Copy_case_included": false
+  },
+  "actual_main142_adoption_20261028": {
+    "main": "142041adf3a6ff353555fba78e73f19dd1d977ff",
+    "tree": "2ab281bb467db29646f5b1a5b564b6a764d008a5",
+    "parent": "c1e89ad994e424d1cb572802f118a82a42899bea",
+    "PR": 284,
+    "ordinary_squash_one_parent": true,
+    "all2772_mode_type_blob_tuples_equal_C2": true,
+    "actual_message_common_valid": true,
+    "reserved_message_equal_except_GitHub_one_terminal_LF": true,
+    "actual_Git_proof_SHA256": "7f98ab910d32391fd8a82848d05d9f3b9c7baa5a2a208fcd3aa6aab5628060b8",
+    "new_main_CI_not_inferred_from_C2": true,
+    "record_candidate_adoption": null,
+    "fresh_publication_binding": null
+  },
+  "C2_final_Ready_gate_before_merge_20261028": {
+    "status": "Both final Ready-triggered policy runs and all11 required targets succeeded before ordinary protected squash",
+    "head": "c2dd2712e8eb84b109a89e127e58c0ee7e42cbaf",
+    "base": "c1e89ad994e424d1cb572802f118a82a42899bea",
+    "PR": 284,
+    "ready_at_UTC": "2026-10-27T18:27:12Z",
+    "latest_policy_runs_at_merge": [
+      40560108924,
+      40560108987
+    ],
+    "required_targets_success": 11,
+    "six_workflow_scopes_success": 6,
+    "earlier_C2_ordinary_six_block_policy_ids": [
+      40550080480,
+      40550080324
+    ],
+    "earlier_policy_ids_scope": "Frozen earlier edit-time observation before the final Ready transition; not the latest policy runs at merge",
+    "gate_SHA256": "92df4b46d2ca7c9d2085fbe20509c9cb6b7036ee5611feeed179a7f6b9c92470",
+    "admin_or_branch_protection_change": false
+  },
+  "actual_main142_push3_20261028": {
+    "status": "Current actualmain142 push Common, Native and Full all succeeded; PR C2 observations not substituted",
+    "source_head": "142041adf3a6ff353555fba78e73f19dd1d977ff",
+    "source_tree": "2ab281bb467db29646f5b1a5b564b6a764d008a5",
+    "actual_checkout_each": "142041adf3a6ff353555fba78e73f19dd1d977ff",
+    "Common": {
+      "run": 40560576233,
+      "jobs_success": 10,
+      "deploy_job": 122399932928,
+      "deploy_success": true,
+      "Node": {
+        "tests": 1086,
+        "passed": 1070,
+        "failed": 0,
+        "skipped": 16
+      },
+      "source_phase_Node36_each_one_pass": true,
+      "summary_bytes": 41188,
+      "summary_SHA256": "768d50a07a8a7d931b3043aabd09fabfb423df953d0df092f525f1ad1a361251",
+      "public_deployed_site_browser_acceptance": false
+    },
+    "Native": {
+      "run": 40560576309,
+      "job": 122388172953,
+      "unit": {
+        "executed": 165,
+        "skipped": 2,
+        "failures": 0,
+        "seconds": 7.7
+      },
+      "added12_each_started1_passed1_failed0": true,
+      "raw_UI": {
+        "distinct": 4,
+        "each_started1_passed1_failed0": true,
+        "seconds": 342.692,
+        "skipped": null
+      },
+      "UI_scope": "Native2 plus ReadingRecovery2; actual cancel/confirm and relaunch bookmark controls, not backup rawbytes/position/physical/VoiceOver",
+      "Release": {
+        "articles": 3,
+        "audio": 1,
+        "verified_files": 140,
+        "verified_bytes": 2577102,
+        "test_content_absent": true
+      },
+      "summary_bytes": 11688,
+      "summary_SHA256": "6be92bba8e30d99407aeba4b6c65dbead36da172dc5839868e46dd5fbd5e9f09"
+    },
+    "Full": {
+      "run": 40560576452,
+      "job": 122388174406,
+      "run_attempt": 1,
+      "conclusion": "success",
+      "raw_UI": {
+        "started": 22,
+        "passed": 22,
+        "failed": 0,
+        "skipped": 0,
+        "seconds": 1293.016,
+        "source_names_exact": true
+      },
+      "UI_scope": "Native2 plus Published14 plus geometry6; new Copy case and ReadingRecovery class excluded",
+      "unit": {
+        "executed": 165,
+        "skipped": 2,
+        "failures": 0,
+        "seconds": 22.325
+      },
+      "Release": {
+        "status": "passed",
+        "revision": "a0cb3ddbc67206baad4ddb325fa95a3a198ac7b2260fefe7587129cb99cf355d",
+        "articles": 199,
+        "audio": 1,
+        "verified_files": 625,
+        "verified_bytes": 36958893,
+        "test_content_absent": true
+      },
+      "picker_and_reader_geometry_prefixes": [
+        0,
+        0
+      ],
+      "summary_bytes": 22381,
+      "summary_SHA256": "9550cd0e8680c4d43a57c717b0121ea521b2ce3adfadfb24a2873bbf917f6d7d",
+      "manifest_SHA256": "2ae4b54dcf3afe733d73c8d3c758418279fe19ceee328d6905158f12e6bc9fac",
+      "decoded_log_UTF8_bytes": 1886403,
+      "decoded_log_UTF8_SHA256": "f78040df1297ddae6948bf80f091ead6249c3f43697a68e97a8e497453e5b56d",
+      "job_log_GET": 1,
+      "artifact_body_GET": 0,
+      "artifact_digest_or_contents_verified": false,
+      "PR_C2_Release_bytes_not_substituted": 36958884
+    },
+    "evidence": {
+      "Common_Native_manifest_SHA256": "167a498e0748d298968a91997444213248c50e8767cd5874eff1070229a3407e",
+      "Common_Native_observation_SHA256": "369d030b1fe382ffaa8ad85851fc39073005cc4224d02870cec4e3a5b1c382ad",
+      "Full_manifest_SHA256": "2ae4b54dcf3afe733d73c8d3c758418279fe19ceee328d6905158f12e6bc9fac",
+      "Full_summary_SHA256": "9550cd0e8680c4d43a57c717b0121ea521b2ce3adfadfb24a2873bbf917f6d7d"
+    },
+    "absent_in_exact_head_push_snapshot": [
+      "SDK26",
+      "Runtime26",
+      "Dedicated"
+    ],
+    "absence_scope": "The frozen exact-head snapshot has three main push workflows; PR-only successes remain separate",
+    "R_fresh_live_root_or_diagnostic": null,
+    "internal_cache_guarantee": null,
+    "all_userdata_or_reading_migration_accepted": false,
+    "Core_performance_remeasurement": false,
+    "new_Copy_case_accepted": false,
+    "physical_VoiceOver_or_whole_IOS_accepted": false,
+    "TODO_rows": 32,
+    "TODO_complete": 12,
+    "IOS18_22_25_completed_by_this_append": false,
+    "record_candidate_published": false,
+    "fresh_publication_binding": null,
+    "historical_old_values_and_null_snapshots_preserved": true
   }
 }

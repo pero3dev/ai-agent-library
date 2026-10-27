@@ -129,3 +129,63 @@ trusted Node24の単体36件が1回で全成功し、Driverの構文解析も成
 | Source v3 proof | `890821057180190ac4a01bdaa32027706c78055b2cb34aafff803e36fa84ba21` |
 | 依存fieldの限定差分 | `b0fc448139574b887abf4fa8e81a18966f68648e76698fcc37369fdffd43163d` |
 | Source v3の独立レビュー | `11ec5f8666e2de5c19fc5a557a79a29e254976c1cbe11d619eb7fdd862e6ff97` |
+
+## 2026-10-28: headC2のDedicated機能受入
+
+この節は準備時点と過去の失敗を保持した追記です。head `c2dd2712e8eb84b109a89e127e58c0ee7e42cbaf`、tree `2ab281bb467db29646f5b1a5b564b6a764d008a5` の[専用run 40550055821](https://github.com/pero3dev/ai-agent-library/actions/runs/40550055821)、job122351040573、attempt1について、欠損時Fと復旧install後Rの限定した機能受入を確認しました。通常6系統の横断受入、main採用、新main CIはこの追記では確認せず、JSONのplaceholderをnullにしています。
+
+Fの欠損エラー・再試行の1ケースと、Rの3記事本文の1ケースがrawでそれぞれPassedでした。leafだけでなく親階層・実行結果・deviceを照合し、同じiPhone 16・iOS 18.5 Simulator UUIDと一致しました。7時点のinstalled App全配列はFの4回が各180ファイル、Rの3回が各181ファイルで、path・bytes・SHAと既定の12件のmode差が一致しました。modeの受入条件は広げていません。
+
+F/Rのsource pathは別々で、source配列はF180・R181ファイル、元のbaselineは181ファイルでした。両段階後のbaseline配列と元配列を照合し、readback JSONがstockからの変換と一致すること、明示install・UIコマンド・phase sourceの対応、各段階の依存product置換2件を確認しました。raw XMLのSHA、実inodeの分離、ディレクトリmodeと報告pathの実在性はproducerの検査・報告であり、artifactの配列・JSONだけから再証明した値ではありません。
+
+固定52B sentinelは初期値、upgrade後・本文確認前、Rの本文成功後の最終記録まで一致しました。Appはこのsentinelを読みません。制御したfilesystem上の保持確認であり、実際のしおり・読書位置の移行や全userdataの保持を証明するものではありません。所有Simulatorのcleanupは成功しました。
+
+R成功時に新しいApp診断はなく、collectorにあるのはFと同じ名前・PID・時刻・source・file SHAの保持済み診断1件でした。このF記録を新しいRの失敗や、Rの実launch rootの証拠として扱いません。新たなRのPID・bundle root・manifestの相関、内部cache機序、再発しない保証は未確認です。同一processでの復旧、初回offline・import・実機・VoiceOverやIOS-22全体の受入も残ります。
+
+[compact artifact 12755695776](https://github.com/pero3dev/ai-agent-library/actions/runs/40550055821/artifacts/12755695776)の434926B全体をSHA-256 `220b62803460c51cdb24aa66e50c41e27abd1a6b6b9ae8f84348be9c9b2d31ef` と照合しました。index219件を検査し、従来の選択53件とsource用追加20件等の選択読取でCRC・SHAを確認しています。重複読取を含む展開量は1851645B、未選択memberのCRCは未検査です。取得担当の本文GET1回の凍結結果を使い、本記録作成では再取得・SDK・UIを実行せず、raw ZIP・xcresult・画像も複製していません。
+
+| 限定受入の凍結入力 | SHA-256 |
+| --- | --- |
+| 機能受入の判定 | `62fe8cea1900ab5486a04cfea39d022dbf4929c93c3decbc3df5ea058780f8dd` |
+| compact読取要約（62091B） | `86413829ddf3f4ad283abc1da6870209a0a574e5662958356f51f7c2736e9590` |
+| 限定範囲の独立レビュー | `31525218ed7151aec26a4610d40e3a8d2319226801fb9d82a8ec70065417f9da` |
+
+この結果はC2のDedicated機能に限ります。本文表示の成功を新しいCore性能測定や通常UI全体の成功へ付け替えず、mainと公開先への結合も別の確認として残します。
+
+## 2026-10-28: headC2の通常6系統とmain採用
+
+前節のDedicated限定受入と、準備時点の未確認値を履歴として保持した上で、C2の通常6系統を別に確認しました。Common40550055906と最新編集後のpolicy2件は成功、Native40550055661は単体165件・skip2・失敗0、追加12件が各1回成功し、通常2件とReading復旧2件のUI4件も各1回成功しました。新しいReading UIはしおりを公開操作で保持する範囲で、backup生bytes・読書位置・実機・VoiceOverの受入を広げません。
+
+Full40550055886ではUI22件が各1回成功、失敗・skip0、単体165件・skip2・失敗0でした。Runtime26の40550055645はUI2件が成功し、SDK26の40550055699は199記事のunsigned archiveに成功しました。Full22件、Native4件、Runtime26の2件、DedicatedのF/Rを別の選択集合として扱い、Copyの新ケースは含めません。CommonのSource単体36件も各1回の成功を照合しています。これらを旧Core性能の再測定や、署名・配布・実機の受入へ付け替えません。
+
+PR284は通常のsquashでmain `142041adf3a6ff353555fba78e73f19dd1d977ff` に採用され、親は `c1e89ad994e424d1cb572802f118a82a42899bea`、treeはC2と同じ `2ab281bb467db29646f5b1a5b564b6a764d008a5` でした。実Gitの2772件のmode・type・blob tupleがC2と一致し、1親、予約メッセージとの差がGitHubによる末尾LF1個だけであることを確認した凍結票を参照します。本記録の作成ではGit操作や再実行をしていません。
+
+| 通常検査・採用の凍結入力 | SHA-256 |
+| --- | --- |
+| C2 Native・SDK26観測 | `ed46eaddbc3d0da6315bc614535a98caad0bdb39e1f2ef5368723feccebc8a57` |
+| C2 Full・Runtime26 manifest | `e657610b00316ffb0fedce89504b898bab1c3bc99c6891a10f77810ae95637cd` |
+| C2 Common・Dedicated manifest | `a52e5523b9b4e5e0054603e2817cf7092ba407b3bd49087fa91334e8e87c3538` |
+| 実main採用のGit照合 | `7f98ab910d32391fd8a82848d05d9f3b9c7baa5a2a208fcd3aa6aab5628060b8` |
+
+## 2026-10-28: main142反映後の3系統
+
+前節のpolicy40550080480・40550080324は編集後・Ready前の時点の観測値です。統合直前の最新値はReady移行時の40560108924・40560108987（2026-10-27 18:27:12 UTC）で、両方とCommonの9件、計11必須検査が成功しました。通常6系統の成功と合わせた凍結gateを参照し、旧値を統合時の最新policyへ付け替えません。管理者例外や保護設定の変更はありませんでした。
+
+main `142041adf3a6ff353555fba78e73f19dd1d977ff` へのpush後は、[Common40560576233](https://github.com/pero3dev/ai-agent-library/actions/runs/40560576233)、[Native40560576309](https://github.com/pero3dev/ai-agent-library/actions/runs/40560576309)、[Full40560576452](https://github.com/pero3dev/ai-agent-library/actions/runs/40560576452)をそのrunのログで確認しました。Commonはdeployを含む10jobが成功し、Node1086件中1070成功・skip16・失敗0、source変換36件も各1回成功でした。deploy job成功と公開サイトの実ブラウザー受入は別で、後者はこの記録では実施していません。
+
+Nativeは単体165件・skip2・失敗0（7.700秒）、追加12件が各1回成功し、通常2件とReading復旧2件のUI4件も各1回成功（342.692秒）でした。復旧UIは確認・キャンセルと再起動後のしおり操作の範囲であり、backupの生bytes・読書位置や実機の受入には広げません。NativeのRelease監査は代表3記事・音声1本・140ファイル・2577102B、TestContentなしでした。
+
+Fullの実checkoutもmain142で、rawのUI22件はStarted・Passedが各22、失敗・skip0（1293.016秒）、選択したsource22件と一致しました。単体は165件・skip2・失敗0（22.325秒）です。Release監査は199記事・音声1本・625ファイル・36958893Bで、revisionは `a0cb3ddbc67206baad4ddb325fa95a3a198ac7b2260fefe7587129cb99cf355d`、TestContentなしでした。PR側Fullの36958884Bとは分け、このrunの実測値を記録します。FolderPicker・ReaderGeometryの診断prefixは0件でした。rawログは担当者がRAMで1回読み、artifactの本文取得・digest検証はしていません。
+
+Fullの22件は通常2件・Published14件・geometry6件で、新しいCopyケースやReadingRecoveryクラスを含みません。mainの凍結push一覧はこの3系統で、SDK26・Runtime26・Dedicatedはここでは起動していません。PR側の成功をmainで再実行した値にはしません。DedicatedのRの新しい診断・実launch root、内部cacheの保証、全userdata・初回offline・import・実機・VoiceOverとIOS-18・22・25の全体受入は残ります。旧Core性能も再測定していません。TODOは32項目・完了12項目を維持します。
+
+| main反映後と最終gateの凍結入力 | SHA-256 |
+| --- | --- |
+| 統合直前のReady gate | `92df4b46d2ca7c9d2085fbe20509c9cb6b7036ee5611feeed179a7f6b9c92470` |
+| main Common・Native manifest | `167a498e0748d298968a91997444213248c50e8767cd5874eff1070229a3407e` |
+| main Common要約（41188B） | `768d50a07a8a7d931b3043aabd09fabfb423df953d0df092f525f1ad1a361251` |
+| main Native要約（11688B） | `6be92bba8e30d99407aeba4b6c65dbead36da172dc5839868e46dd5fbd5e9f09` |
+| main Full manifest | `2ae4b54dcf3afe733d73c8d3c758418279fe19ceee328d6905158f12e6bc9fac` |
+| main Full要約（22381B） | `9550cd0e8680c4d43a57c717b0121ea521b2ce3adfadfb24a2873bbf917f6d7d` |
+
+この追記は確定した観測の記録候補です。記録自体の公開・main反映と、公開時点の新たな結合・検査は後続のGit操作で確認します。本作成ではSDK・UIの再実行、artifactの再取得や共有checkoutの編集をしていません。

@@ -186,6 +186,8 @@ npm run ios:test:package
 
 生xcresult・CSV・型付きmetric・実行環境をartifactへ残します。欠測や異なるテストID、非数は失敗扱いで、ゼロに置き換えません。初回Xcode16.4のJSON・CSV・log・xcresultで実Clock識別子・表示名・秒単位と3標本を独立確認しました。初回は契約nullで非ゼロ終了を保ち、追加guardでは実CSVの5列・1行・宛先/構成・typed原順3値・秒平均を厳密照合します。平均は印字小数位の半刻みだけをBigIntで許し、欠測を補いません。追加sourceは保存済raw再生で確認し、新headのHosted成功とは区別します。[観測基盤の記録](../project/records/2026-10-25/ios-published-readiness-observation.md)で実測前の静的確認と実行結果を追跡します。
 
+[main49のApp起動観測](../project/records/2026-10-28/ios-published-launch-readiness.md)では、Debug・Xcode16.4/iOS18.5の起動から全199記事数と学習ガイドの存在確認までをClock3標本で記録した。平均7.5879547333333335秒とCSVの丸めを照合し、終了処理を除いたUI/AX待機込みの温まったcacheでの観測として扱う。過去のCore CLI、cold起動・p95・RSS・実機・性能予算と区別し、TODOの完了欄は変更しない。
+
 ## 全記事Coreのhost観測
 
 `npm run ios:benchmark:core -- --help`と[専用CLI手順](tests/core-performance.md)、[実観測の記録](../project/records/2026-10-26/ios-published-core-benchmark.md)を参照する。b79基線で実施した凍結CLIのraw19process/記録15は旧観測として保持し、最新source4のsnapshotや未実施の再CLIと分ける。通常CIはNode fixtureだけで、SDK・corpus観測は明示した手動CLIと別guardのまま。App/PBX/workflow/P1/Iconと全TODOを保持し、IOS-15と予算採択は未完了である。

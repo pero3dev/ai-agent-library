@@ -47,7 +47,6 @@ runtime一覧の取得だけ90秒へ配分し、inventory全体150秒・step3分
 
 今回の所有はhelperとそのNode検査を加えた計10パスになる。実Appのコード・PBX・Failure Swift・F/R selectorと判定、全体の上限・所有cleanupは維持する。追加のplist取得は同じbuild420秒の中で10秒を上限とする。修正後headでの実SDK・形式照合・F/Rは未実施であり、さらに実bookmark／読書位置の更新維持・実機等の未確認も保持する。
 
-
 ## インストール後のmode差分と実行前の停止
 
 head `2d4f156bb932322c6be025aaf8b9456d5b3e9988`の[専用run](https://github.com/pero3dev/ai-agent-library/actions/runs/40454615296)では、build-for-testingに続き、実FormatVersion 1の選択・owned Appのrealpath・実Info.plistのBundle ID照合が成功した。Appは0.2.19（21）、Xcode16.4・iOS18.5・専用iPhone16 Simulatorである。JSON1本を除いた180ファイルのアプリを明示installできたが、直後のinventory比較で停止した。
@@ -59,7 +58,6 @@ FはUI実行前、Rはhost側JSONの正しい復元後に、Fのinstallation記�
 次の候補では、hostの欠損・復元はmodeを含む完全一致のまま保ち、installed側だけ実観測12パスの0755→0644または0755維持を明示的に扱う。全パス集合・bytes・SHA、他パスのmode、主実行ファイルやデータは厳密に照合する。比較前にexpected／actual／差分を上限付きJSONへ保存し、RはFの前提不足を明示記録して変更・install・UI前に拒否する。この候補の新しい実F/Rは未実施である。
 
 旧head `f58d61c817dd2c1e4fef80f6a56283e7d26f2484`の[全記事UI run](https://github.com/pero3dev/ai-agent-library/actions/runs/40450998872)は22件中1件が失敗した。初回Transformerの本文表示は到達し、フォルダー選択取消を扱うケースの後段で「続きを読む」を押した後にnative-readerを20秒待って停止した。初期表示の失敗やxctestrunの解析失敗とは別であり、タップ対象・遷移・描画のどこが原因かは未確定である。旧headの失敗を後続headの成功へ置き換えず、実行ごとに追跡する。
-
 
 ## 通常復帰テストのタップ条件と診断
 

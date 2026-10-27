@@ -317,6 +317,7 @@ class NativeReaderUITestCase: XCTestCase {
         var payload: [String: Any] = [
             "schemaVersion": 1, "sampling": "after-library-count-timeout-sequential",
             "appState": String(describing: appState), "publicElements": publicElements,
+            "launchSuite": app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"] ?? "",
             "hierarchy": hierarchy, "hierarchyTruncated": rawHierarchy.utf8.count > hierarchyLimit
         ]
         let json: String

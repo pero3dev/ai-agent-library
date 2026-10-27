@@ -176,6 +176,93 @@ jobs:
             return { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, OS: '18.5', bundle_id: bundleID, installed_app: location, installation_UUID: installationUUID, data_container: data, current_pointer_absent: true, files: expected, files_scope: 'Expected build inventory; actual installed modes and deltas are recorded in installed_inventory_evidence', installed_inventory_evidence: label + '-inventory.json', installed_mode_deltas: comparison.mode_deltas };
           }
 
+          function captureContentDiagnostics(label, post, owned) {
+            const report = { schema_version: 1, source_head: process.env.EXPECTED_SOURCE_HEAD,
+              UUID: owned.UUID, OS: post.OS, label, installed_app: post.installed_app,
+              data_container: post.data_container, status: 'not-captured', scanned_entries: 0,
+              omitted_files: 0, rejected: [], records: [], suite_binding: 'Filename and JSON testSuite; correlate launchSuite from UI stdout separately' };
+            const same = (a, b) => a.dev === b.dev && a.ino === b.ino;
+            const regular = s => s.isFile() && !s.isSymbolicLink() && s.nlink === 1 && s.uid === process.getuid();
+            const limited = v => typeof v === 'string' && Buffer.byteLength(v) <= 4096;
+            try {
+              assert.ok(['failure', 'restored'].includes(label));
+              assert.equal(post.source_head, process.env.EXPECTED_SOURCE_HEAD); assert.equal(post.UUID, owned.UUID); assert.equal(post.OS, '18.5');
+              assert.ok(limited(post.data_container) && limited(post.installed_app));
+              assert.equal(fs.realpathSync(post.data_container), post.data_container);
+              const documents = path.join(post.data_container, 'Documents');
+              report.installed_content = path.join(post.installed_app, 'Content');
+              const parent = fs.lstatSync(documents);
+              assert.ok(parent.isDirectory() && !parent.isSymbolicLink() && parent.uid === process.getuid());
+              assert.equal(fs.realpathSync(documents), documents); assert.equal(path.dirname(documents), post.data_container);
+              const parentStillSame = () => { const now = fs.lstatSync(documents); assert.ok(now.isDirectory() && !now.isSymbolicLink() && same(parent, now)); assert.equal(fs.realpathSync(documents), documents); };
+              const directory = fs.opendirSync(documents); const names = [];
+              try {
+                while (report.scanned_entries < 128 && performance.now() < deadline) {
+                  const entry = directory.readSync(); if (entry === null) { report.scan_complete = true; break; }
+                  report.scanned_entries++;
+                  if (!entry.name.startsWith('ailibrary-ui-content-') || !entry.name.endsWith('.json')) continue;
+                  if (names.length < 4) names.push(entry.name); else report.omitted_files++;
+                }
+                if (!report.scan_complete) report.scan_truncated = true;
+              } finally { directory.closeSync(); }
+              parentStillSame();
+              for (const name of names.sort()) {
+                if (performance.now() >= deadline) { report.scan_truncated = true; report.omitted_files++; continue; }
+                let fd;
+                try {
+                  const match = /^ailibrary-ui-content-(ailibrary-uitest-[A-Za-z0-9-]+)\.json$/.exec(name);
+                  assert.ok(match && match[1].length <= 100);
+                  const location = path.join(documents, name); const before = fs.lstatSync(location);
+                  assert.ok(regular(before) && before.size > 0 && before.size <= 8192); parentStillSame();
+                  fd = fs.openSync(location, fs.constants.O_RDONLY | fs.constants.O_NOFOLLOW | fs.constants.O_NONBLOCK);
+                  const opened = fs.fstatSync(fd); assert.ok(regular(opened) && same(before, opened));
+                  const buffer = Buffer.alloc(8193); let length = 0, count;
+                  while (length < buffer.length && (count = fs.readSync(fd, buffer, length, buffer.length - length, length)) > 0) length += count;
+                  assert.ok(length > 0 && length <= 8192 && length === opened.size);
+                  const after = fs.fstatSync(fd), listed = fs.lstatSync(location);
+                  assert.ok(regular(after) && regular(listed) && same(opened, after) && same(opened, listed));
+                  assert.equal(after.size, opened.size); assert.equal(after.mtimeMs, opened.mtimeMs); assert.equal(after.ctimeMs, opened.ctimeMs); parentStillSame();
+                  const bytes = buffer.subarray(0, length), text = bytes.toString('utf8');
+                  assert.ok(Buffer.from(text, 'utf8').equals(bytes));
+                  const value = JSON.parse(text); assert.ok(value && typeof value === 'object' && !Array.isArray(value));
+                  assert.equal(value.schemaVersion, 1); assert.equal(value.testSuite, match[1]);
+                  assert.ok(Number.isSafeInteger(value.pid) && value.pid > 0);
+                  assert.ok(Number.isFinite(value.capturedAtUnixSeconds) && value.capturedAtUnixSeconds > 0);
+                  assert.match(value.manifestSHA256, /^[a-f0-9]{64}$/); assert.equal(typeof value.manifestSelfEntry, 'boolean');
+                  assert.equal(typeof value.pathListsOmittedForByteCap, 'boolean');
+                  assert.deepEqual(Object.keys(value.counts).sort(), ['expected', 'found', 'manifestFiles']);
+                  assert.ok(Object.values(value.counts).every(v => Number.isSafeInteger(v) && v >= 0));
+                  const clipped = v => { assert.ok(v && typeof v === 'object' && !Array.isArray(v)); assert.deepEqual(Object.keys(v).sort(), ['truncated', 'utf8Bytes', 'value']); assert.equal(typeof v.value, 'string'); assert.ok(Buffer.byteLength(v.value) <= 258); assert.ok(Number.isSafeInteger(v.utf8Bytes) && v.utf8Bytes >= 0); assert.equal(typeof v.truncated, 'boolean'); };
+                  assert.deepEqual(Object.keys(value.locations).sort(), ['bundleContentURL', 'bundleResourceContentURL', 'bundleURL', 'documentsURL', 'homeDirectory', 'validatedRootURL']);
+                  Object.values(value.locations).forEach(clipped);
+                  for (const list of [value.missingPaths, value.unexpectedPaths]) {
+                    assert.deepEqual(Object.keys(list).sort(), ['items', 'omitted', 'total']);
+                    assert.ok(Number.isSafeInteger(list.total) && list.total >= 0 && Number.isSafeInteger(list.omitted) && list.omitted >= 0);
+                    assert.ok(Array.isArray(list.items) && list.items.length <= 8); assert.equal(list.omitted + list.items.length, list.total); list.items.forEach(clipped);
+                  }
+                  assert.deepEqual(Object.keys(value).sort(), ['capturedAtUnixSeconds', 'counts', 'locations', 'manifestSHA256', 'manifestSelfEntry', 'missingPaths', 'pathListsOmittedForByteCap', 'pid', 'schemaVersion', 'testSuite', 'unexpectedPaths']);
+                  report.records.push({ name, bytes: length, sha256: hash(bytes), regular_file: true,
+                    filename_suite_matches: true, source: value, source_scope: 'App-reported data only; reported locations were not opened' });
+                } catch (error) { report.rejected.push({ name: name.slice(0, 128), reason: 'invalid-or-inaccessible-diagnostic', code: String(error.code ?? 'shape-or-file-guard').slice(0, 40) }); }
+                finally { if (fd !== undefined) fs.closeSync(fd); }
+              }
+              report.status = report.rejected.length || report.omitted_files || report.scan_truncated ? 'partial' : (report.records.length ? 'captured' : 'absent');
+            } catch (error) { report.status = error.code === 'ENOENT' ? 'absent' : 'capture-failed'; report.reason = String(error.code ?? 'parent-or-binding-guard').slice(0, 40); }
+            let encoded = JSON.stringify(report, null, 2) + '\n';
+            if (Buffer.byteLength(encoded) > 65536) {
+              report.status = 'source-omitted-over-64KiB';
+              report.records = report.records.map(({ source, ...record }) => ({ ...record, source: null, source_omitted_reason: 'aggregate-byte-cap' }));
+              encoded = JSON.stringify(report, null, 2) + '\n';
+            }
+            if (Buffer.byteLength(encoded) > 65536) encoded = JSON.stringify({ schema_version: 1,
+              source_head: String(process.env.EXPECTED_SOURCE_HEAD).slice(0, 40), UUID: String(owned.UUID).slice(0, 36),
+              OS: String(post.OS).slice(0, 8), label: String(label).slice(0, 16),
+              data_container: String(post.data_container).slice(0, 256), installed_app: String(post.installed_app).slice(0, 256),
+              outer_strings_truncated: true, status: 'report-omitted-over-64KiB' }) + '\n';
+            try { put(label + '-content-diagnostics.json', encoded); }
+            catch { console.log('AILibraryContentDiagnostics ' + JSON.stringify({ label, status: 'record-write-failed' })); }
+          }
+
           async function ui(label, selector, expected) {
             const owned = owner();
             const pre = await installed(label + '-before-ui', expected);
@@ -183,6 +270,7 @@ jobs:
             const result = await run(label + '-ui', 'xcodebuild', args, label === 'failure' ? 180000 : 240000, false);
             const post = await installed(label + '-after-ui', expected);
             json(label + '-execution.json', { source_head: process.env.EXPECTED_SOURCE_HEAD, UUID: owned.UUID, OS: '18.5', selector, xctestrun: read('build.json').xctestrun, test_exit_code: result.exit_code, test_signal: result.signal, test_error: result.error, timed_out: result.timed_out, pre, post, installation_scope: 'Explicit simctl install independently proven; xcodebuild automatic reinstall is not assumed' });
+            captureContentDiagnostics(label, post, owned);
             hostPackage(expected); assert.equal(result.exit_code, 0, label); assert.equal(result.error, null, label); assert.equal(result.timed_out, false, label);
             return post;
           }

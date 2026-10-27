@@ -608,53 +608,199 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
     /// may supply cancellation. Existing library/search/More bars are excluded.
     private func requireNewFolderPicker(after previousIDs: Set<String>) throws
         -> (bar: XCUIElement, cancel: XCUIElement) {
+        var readinessWaitResult = "not_started"
         // Observed on iOS 18.5 in the failed run. Do not infer a system picker
         // from arbitrary new bars or fall back to background search cancellation.
         let identifier = "FullDocumentManagerViewControllerNavigationBar"
         let query = app.navigationBars.matching(identifier: identifier)
         let cancelPredicate = NSPredicate(format: "label == %@", "キャンセル")
         var rejection = "The observed document-picker context has not been inspected"
+        // Save existing query results only; later revalidation does not replace
+        // the separately retained last readiness-predicate observation.
+        var candidateObservation: [String: Any] = [:]
+        var lastPredicateObservation: [String: Any] = ["phase": "not_evaluated"]
+        var predicateEvaluationCount = 0
         func candidates() -> [XCUIElement] {
+            candidateObservation = ["branch": "checking_previous_identifiers",
+                                    "bar_count": NSNull(), "bar_exists": NSNull(),
+                                    "scoped_cancel_count": NSNull(), "usable_cancel_count": NSNull()]
             guard !previousIDs.contains(identifier) else {
+                candidateObservation["branch"] = "known_id_already_present"
                 rejection = "The document-picker ID was already present before import"
                 return []
             }
             let count = query.count
+            candidateObservation["bar_count"] = count
             guard count == 1 else {
+                candidateObservation["branch"] = "bar_count_not_one"
                 rejection = "Expected one document-picker bar; found \(count)"
                 return []
             }
             // Bind only after uniqueness is established for this exact query.
             let bar = query.element(boundBy: 0)
             guard bar.exists else {
+                candidateObservation["bar_exists"] = false
+                candidateObservation["branch"] = "unique_bar_disappeared"
                 rejection = "The uniquely queried document-picker bar disappeared"
                 return []
             }
+            candidateObservation["bar_exists"] = true
             // Hittability requires an on-screen hit point. Delay frame reads
             // until this cross-process picker has completed its readiness wait.
-            let usable = bar.buttons.matching(cancelPredicate).allElementsBoundByIndex.filter {
+            let scopedCancels = bar.buttons.matching(cancelPredicate).allElementsBoundByIndex
+            let usable = scopedCancels.filter {
                 $0.exists && $0.isEnabled && $0.isHittable
             }
+            candidateObservation["scoped_cancel_count"] = scopedCancels.count
+            candidateObservation["usable_cancel_count"] = usable.count
             guard usable.count == 1 else {
+                candidateObservation["branch"] = "usable_scoped_cancel_count_not_one"
                 rejection = "Expected one visible enabled scoped cancellation; found \(usable.count)"
                 return []
             }
+            candidateObservation["branch"] = "ready"
             rejection = "Observed document-picker context and scoped cancellation are ready"
             return [bar]
         }
+        func emitPredicateDiagnostic(_ reason: String) {
+            let prefix = "AILibraryFolderPicker "
+            let maximumRecordBytes = 8192 // Includes prefix and trailing LF.
+            let maximumJSONBytes = maximumRecordBytes - prefix.utf8.count - 1
+            let maximumRows = 10
+            let maximumStringCharacters = 160
+            func publicText(_ value: String) -> String {
+                // Navigation identifiers may unexpectedly contain user data.
+                let sensitive = #"[A-Za-z][A-Za-z0-9+.-]*:\S+|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}"#
+                if value.contains("/") || value.contains("\\") ||
+                    value.range(of: sensitive, options: [.regularExpression, .caseInsensitive]) != nil {
+                    return "<redacted>"
+                }
+                let flat = value.replacingOccurrences(of: "\n", with: " ")
+                    .replacingOccurrences(of: "\r", with: " ")
+                    .replacingOccurrences(of: "\t", with: " ")
+                return flat.count <= maximumStringCharacters ? flat
+                    : String(flat.prefix(maximumStringCharacters)) + "<truncated>"
+            }
+            func frameJSON(_ frame: CGRect) -> [String: Any] {
+                func number(_ value: CGFloat) -> Any {
+                    value.isFinite ? Double(value) as Any : NSNull()
+                }
+                return ["x": number(frame.minX), "y": number(frame.minY),
+                        "width": number(frame.width), "height": number(frame.height)]
+            }
+            // One failure-only sequential AX snapshot, later than the predicate.
+            // These reads are not an atomic recreation of its earlier state.
+            let bars = app.navigationBars
+            let navigationBarCount = bars.count
+            var barRows: [[String: Any]] = []
+            for index in 0..<min(navigationBarCount, maximumRows) {
+                let bar = bars.element(boundBy: index)
+                let exists = bar.exists
+                var row: [String: Any] = ["index": index, "exists": exists]
+                if exists {
+                    row["identifier"] = publicText(bar.identifier)
+                    row["frame"] = frameJSON(bar.frame)
+                } else {
+                    row["identifier"] = "<absent>"
+                    row["frame"] = NSNull()
+                }
+                barRows.append(row)
+            }
+            let knownBarCount = query.count
+            var knownBar: [String: Any] = ["count": knownBarCount,
+                                           "exists": NSNull(), "scoped_cancel_count": NSNull()]
+            var cancelRows: [[String: Any]] = []
+            if knownBarCount == 1 {
+                let bar = query.element(boundBy: 0)
+                let exists = bar.exists
+                knownBar["exists"] = exists
+                if exists {
+                    let cancels = bar.buttons.matching(cancelPredicate)
+                    let count = cancels.count
+                    knownBar["scoped_cancel_count"] = count
+                    for index in 0..<min(count, maximumRows) {
+                        let cancel = cancels.element(boundBy: index)
+                        let exists = cancel.exists
+                        cancelRows.append(["index": index, "known_public_label": "キャンセル",
+                                           "exists": exists, "enabled": exists && cancel.isEnabled,
+                                           "hittable": exists && cancel.isHittable])
+                    }
+                }
+            }
+            let counts: [String: Any] = ["navigation_bars": navigationBarCount,
+                "known_picker_bars": knownBarCount,
+                "known_scoped_cancels": knownBar["scoped_cancel_count"] ?? NSNull(),
+                "previous_identifiers": previousIDs.count,
+                "alerts": app.alerts.count, "keyboards": app.keyboards.count]
+            let bounds: [String: Any] = ["record_UTF8_bytes_including_prefix_LF": maximumRecordBytes,
+                "navigation_bar_rows": maximumRows, "scoped_cancel_rows": maximumRows,
+                "identifier_characters": maximumStringCharacters,
+                "nonfinite_frame_numbers": "null", "URI_path_email": "redacted",
+                "label_values": "known public cancellation label only"]
+            var predicate = lastPredicateObservation
+            if let lastRejection = predicate["rejection"] as? String {
+                predicate["rejection"] = publicText(lastRejection)
+            }
+            let snapshot: [String: Any] = ["phase": "diagnose_after_failure_sequential_AX",
+                "same_instant_as_predicate": false, "counts": counts,
+                "app_state": publicText(String(describing: app.state)),
+                "app_frame": frameJSON(app.frame),
+                "known_id_previously_present": previousIDs.contains(identifier),
+                "known_picker": knownBar, "scoped_cancel_observations": cancelRows,
+                "navigation_bars": barRows,
+                "More_bar_exists": app.navigationBars["その他の操作"].exists]
+            let record: [String: Any] = ["schema_version": 1, "reason": publicText(reason),
+                "readiness_wait_result": readinessWaitResult,
+                "last_candidate_rejection_at_diagnose": publicText(rejection),
+                "last_predicate_observation": predicate, "failure_snapshot": snapshot,
+                "bounds": bounds, "truncated_to_counts": false]
+            let fallback: [String: Any] = ["schema_version": 1,
+                "phase": "diagnose_counts_and_rejection_fallback",
+                "readiness_wait_result": readinessWaitResult,
+                "reason": publicText(reason), "last_candidate_rejection_at_diagnose": publicText(rejection),
+                "last_predicate_observation": predicate, "failure_snapshot_counts": counts,
+                "same_instant_as_predicate": false, "bounds": bounds, "truncated_to_counts": true]
+            func encoded(_ value: [String: Any]) -> Data? {
+                guard JSONSerialization.isValidJSONObject(value) else { return nil }
+                return try? JSONSerialization.data(withJSONObject: value, options: [.sortedKeys])
+            }
+            let body: Data
+            if let data = encoded(record), data.count <= maximumJSONBytes {
+                body = data
+            } else if let data = encoded(fallback), data.count <= maximumJSONBytes {
+                body = data
+            } else {
+                body = Data(#"{"schema_version":1,"phase":"diagnose_encoding_fallback","truncated_to_counts":true}"#.utf8)
+            }
+            let json = String(decoding: body, as: UTF8.self)
+            print(prefix + json)
+            let attachment = XCTAttachment(string: json)
+            attachment.name = "Public-UI-folder-picker-diagnostic"
+            attachment.lifetime = .keepAlways
+            add(attachment)
+        }
         func diagnose(_ reason: String) {
             capture("Content-folder-picker-not-identified")
+            emitPredicateDiagnostic(reason)
             let hierarchy = XCTAttachment(string: reason + "\n" + rejection + "\n" + app.debugDescription)
             hierarchy.name = "Content-folder-picker-identification"
             hierarchy.lifetime = .keepAlways
             add(hierarchy)
         }
         let available = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
-            candidates().count == 1
+            let ready = candidates().count == 1
+            predicateEvaluationCount += 1
+            lastPredicateObservation = candidateObservation
+            lastPredicateObservation["phase"] = "last_readiness_predicate_evaluation"
+            lastPredicateObservation["evaluation"] = predicateEvaluationCount
+            lastPredicateObservation["ready"] = ready
+            lastPredicateObservation["rejection"] = rejection
+            return ready
         }, object: nil)
         let result = XCTWaiter.wait(for: [available], timeout: 15)
+        readinessWaitResult = String(describing: result)
         guard result == .completed else {
-            diagnose("No unique new foreground folder-picker bar; empty/duplicate IDs or unknown geometry are not accepted")
+            diagnose("Folder-picker readiness did not observe a new unique bar and one usable scoped cancellation")
             XCTFail("The public folder import must present a uniquely identifiable foreground picker")
             throw NSError(domain: "PublishedReaderUITests", code: 4)
         }

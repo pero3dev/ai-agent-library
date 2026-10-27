@@ -8,6 +8,7 @@ final class LibraryStore: ObservableObject {
     @Published private(set) var loadError: String?
     @Published private(set) var bookmarks: Set<String>
     @Published private(set) var lastArticleID: String?
+    @Published private(set) var readingRecoveryIssue: ReadingStore.RecoveryIssue?
     @Published var message: String?
     let reading: ReadingStore
     let isTestLibrary: Bool
@@ -59,6 +60,7 @@ final class LibraryStore: ObservableObject {
         self.reading = readingStore
         bookmarks = readingStore.bookmarks
         lastArticleID = readingStore.lastArticleID
+        readingRecoveryIssue = readingStore.recoveryIssue
     }
 
     #if DEBUG
@@ -197,6 +199,13 @@ final class LibraryStore: ObservableObject {
         // One synchronous MainActor commit: never await between the snapshot and
         // its metadata, and never launch a second metadata task after publication.
         loadedContent = loaded
+    }
+
+    func recoverReadingState() {
+        reading.recoverReadableState()
+        readingRecoveryIssue = reading.recoveryIssue
+        bookmarks = reading.bookmarks
+        lastArticleID = reading.lastArticleID
     }
 
     func toggleBookmark(_ id: String) {

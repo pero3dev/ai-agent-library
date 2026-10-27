@@ -1,5 +1,8 @@
 import CryptoKit
 import Foundation
+#if DEBUG
+import Darwin
+#endif
 
 enum ContentError: LocalizedError {
     case invalid(String)
@@ -71,7 +74,8 @@ enum ContentValidator {
         guard (try manifestURL.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0) <= 8 * 1024 * 1024 else {
             throw ContentError.invalid("manifest.json が大きすぎます。")
         }
-        let manifest = try JSONDecoder().decode(ContentManifest.self, from: Data(contentsOf: manifestURL))
+        let manifestData = try Data(contentsOf: manifestURL)
+        let manifest = try JSONDecoder().decode(ContentManifest.self, from: manifestData)
         let documentPaths = manifest.articles.compactMap(\.document_path)
         guard manifest.schema_version == 2, !manifest.revision.isEmpty,
               !manifest.articles.isEmpty, manifest.articles.count <= 2000,
@@ -81,6 +85,10 @@ enum ContentValidator {
             throw ContentError.invalid("形式・版・記事IDを確認してください。")
         }
         guard !manifest.files.keys.contains("manifest.json"), Set(manifest.files.keys).union(["manifest.json"]) == found else {
+#if DEBUG
+            recordFileSetFailure(root: root, manifestData: manifestData,
+                                 manifestFiles: Set(manifest.files.keys), found: found)
+#endif
             throw ContentError.invalid("ファイル一覧と実際の内容が一致しません。")
         }
         for (path, digest) in manifest.files {
@@ -117,4 +125,88 @@ enum ContentValidator {
         }
         return ContentSnapshot(root: root, manifest: manifest)
     }
+
+#if DEBUG
+    /// First file-set failure only, in the current UI-test App's own Documents.
+    private static func recordFileSetFailure(root: URL, manifestData: Data,
+                                             manifestFiles: Set<String>, found: Set<String>) {
+        let suitePrefix = "ailibrary-uitest-"
+        guard let suite = ProcessInfo.processInfo.environment["AILIBRARY_UI_TEST_SUITE"],
+              suite.hasPrefix(suitePrefix), suite.utf8.count > suitePrefix.utf8.count, suite.utf8.count <= 100,
+              suite.utf8.allSatisfy({ (48...57).contains($0) || (65...90).contains($0) ||
+                  (97...122).contains($0) || $0 == 45 }) else { return }
+        let home = URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
+            .standardizedFileURL.resolvingSymlinksInPath()
+        let documents = home.appendingPathComponent("Documents", isDirectory: true)
+        guard let declaredDocuments = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
+              declaredDocuments.standardizedFileURL.resolvingSymlinksInPath().path == documents.path,
+              documents.resolvingSymlinksInPath().path == documents.path else { return }
+        let homeFD = Darwin.open(home.path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+        guard homeFD >= 0 else { return }
+        defer { Darwin.close(homeFD) }
+        var homeStat = stat()
+        guard Darwin.fstat(homeFD, &homeStat) == 0, homeStat.st_mode & S_IFMT == S_IFDIR,
+              homeStat.st_uid == getuid() else { return }
+        let documentsFD = Darwin.openat(homeFD, "Documents", O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+        guard documentsFD >= 0 else { return }
+        defer { Darwin.close(documentsFD) }
+        var documentsStat = stat(), declaredStat = stat()
+        guard Darwin.fstat(documentsFD, &documentsStat) == 0,
+              documentsStat.st_mode & S_IFMT == S_IFDIR, documentsStat.st_uid == getuid(),
+              Darwin.fstatat(homeFD, "Documents", &declaredStat, AT_SYMLINK_NOFOLLOW) == 0,
+              declaredStat.st_mode & S_IFMT == S_IFDIR,
+              declaredStat.st_dev == documentsStat.st_dev, declaredStat.st_ino == documentsStat.st_ino else { return }
+        func clipped(_ value: String, limit: Int = 256) -> [String: Any] {
+            ["value": String(decoding: value.utf8.prefix(limit), as: UTF8.self),
+             "utf8Bytes": value.utf8.count, "truncated": value.utf8.count > limit]
+        }
+        func paths(_ values: Set<String>) -> [String: Any] {
+            ["total": values.count, "omitted": max(0, values.count - 8),
+             "items": values.sorted().prefix(8).map { clipped($0) }]
+        }
+        let expected = manifestFiles.union(["manifest.json"])
+        let locations = ["bundleURL": Bundle.main.bundleURL.absoluteString,
+            "bundleContentURL": Bundle.main.bundleURL.appendingPathComponent("Content", isDirectory: true).absoluteString,
+            "bundleResourceContentURL": Bundle.main.resourceURL?.appendingPathComponent("Content", isDirectory: true).absoluteString ?? "",
+            "validatedRootURL": root.absoluteString, "homeDirectory": NSHomeDirectory(),
+            "documentsURL": documents.absoluteString]
+        var payload: [String: Any] = ["schemaVersion": 1, "testSuite": suite,
+            "pid": ProcessInfo.processInfo.processIdentifier, "capturedAtUnixSeconds": Date().timeIntervalSince1970,
+            "manifestSHA256": SHA256.hash(data: manifestData).map { String(format: "%02x", $0) }.joined(),
+            "manifestSelfEntry": manifestFiles.contains("manifest.json"),
+            "counts": ["expected": expected.count, "found": found.count, "manifestFiles": manifestFiles.count],
+            "locations": locations.mapValues { clipped($0) },
+            "missingPaths": paths(expected.subtracting(found)), "unexpectedPaths": paths(found.subtracting(expected)),
+            "pathListsOmittedForByteCap": false]
+        guard var bytes = try? JSONSerialization.data(withJSONObject: payload, options: [.sortedKeys]) else { return }
+        if bytes.count > 8192 {
+            payload["locations"] = locations.mapValues { clipped($0, limit: 96) }
+            payload["missingPaths"] = ["total": expected.subtracting(found).count,
+                "omitted": expected.subtracting(found).count, "items": []] as [String: Any]
+            payload["unexpectedPaths"] = ["total": found.subtracting(expected).count,
+                "omitted": found.subtracting(expected).count, "items": []] as [String: Any]
+            payload["pathListsOmittedForByteCap"] = true
+            guard let bounded = try? JSONSerialization.data(withJSONObject: payload, options: [.sortedKeys]),
+                  bounded.count <= 8192 else { return }
+            bytes = bounded
+        }
+        // A preexisting file, link or other entry is never opened or overwritten.
+        let name = "ailibrary-ui-content-" + suite + ".json"
+        let fd = Darwin.openat(documentsFD, name, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, mode_t(0o600))
+        guard fd >= 0 else { return }
+        defer { Darwin.close(fd) }
+        var fileStat = stat()
+        guard Darwin.fstat(fd, &fileStat) == 0, fileStat.st_mode & S_IFMT == S_IFREG,
+              fileStat.st_uid == getuid(), fileStat.st_nlink == 1 else { return }
+        bytes.withUnsafeBytes { buffer in
+            guard let address = buffer.baseAddress else { return }
+            var offset = 0
+            while offset < buffer.count {
+                let written = Darwin.write(fd, address.advanced(by: offset), buffer.count - offset)
+                guard written > 0 else { return }
+                offset += written
+            }
+        }
+    }
+#endif
 }

@@ -1,0 +1,943 @@
+{
+  "task": "IOS-22 reading-state recovery",
+  "date": "2026-10-27",
+  "status": "private candidate; not integrated",
+  "base_commit": "f5e6221b7dd01132ff76d36e993b13047b15e24c",
+  "external_operations": 0,
+  "source_files": [
+    {
+      "path": "ios/AILibrary/Sources/ReadingStore.swift",
+      "bytes": 19641,
+      "sha256": "8874792f1fc346b8c2bf465301780f1cc01a55d808a6ef0ce7fa8d9344aaf1f7",
+      "base_blob": "6c23674e07a6a467f56cbba6634a5f0a50e91031"
+    },
+    {
+      "path": "ios/AILibrary/Sources/LibraryStore.swift",
+      "bytes": 11457,
+      "sha256": "6c1eddc91c144f89fa0259f44ae4e360a61904d2abca5f9cb94bee7ee9ad3211",
+      "base_blob": "04e2bea5a11d9b5a9dbf83217c22bf29e91f16ce"
+    },
+    {
+      "path": "ios/AILibrary/Sources/LibraryView.swift",
+      "bytes": 28278,
+      "sha256": "5788d5cfd58acdc432cc2b0f2146fc393e339771faa2d2fdcb59140cc154fccf",
+      "base_blob": "f9e638cc54207dec7de401992c36922e8719ea7a"
+    },
+    {
+      "path": "ios/AILibraryTests/LibraryCoreTests.swift",
+      "bytes": 162966,
+      "sha256": "aeb6b51147ec90374dc24682bfcdddf9c79e71503a99935f354af4b32f6a47d8",
+      "base_blob": "873d8cf5101bc73d4795e42d4edc8c3d28698f45"
+    }
+  ],
+  "new_xctest_methods": 12,
+  "storage": {
+    "maximum_input_bytes": 1048576,
+    "backup_key_suffix": ".recovery.v1",
+    "backup_slots": 1,
+    "preserve_existing_backup": true,
+    "delete_backup": false
+  },
+  "verification": {
+    "swift_frontend_parse": {
+      "result": "passed",
+      "files": 4,
+      "scope": "syntax only; no module type check or execution"
+    },
+    "existing_test_methods_unchanged": true,
+    "normal_reading_methods_and_anchor_models_preserved": true,
+    "xctest_execution": "not run; Hosted required",
+    "ios_sdk_build": "not run",
+    "device_voiceover": "not run; user-directed skip",
+    "npm_ci_check": "not run in private constrained task",
+    "content_generation": "not run",
+    "optional_anchor_fallback_preserved": true,
+    "backup_readback_scope": "same-process UserDefaults equality only; not durable disk or power-loss verification"
+  },
+  "todo": {
+    "IOS-22": "incomplete",
+    "completed_count_changed": false
+  },
+  "remaining": [
+    "Independent final payload review",
+    "Hosted SDK compilation and real XCTest",
+    "UI confirmation/cancellation and failure notice acceptance",
+    "Device and VoiceOver acceptance",
+    "Article rename/deletion migration and IOS-22 whole-task acceptance"
+  ],
+  "integration_candidate": {
+    "date": "2026-10-27",
+    "base_commit": "f5e6221b7dd01132ff76d36e993b13047b15e24c",
+    "original_candidate_manifest_sha256": "194eae549ece22c29dffeee271cdd622722700c1bdc1d659b2e3d9112350411b",
+    "scope": [
+      "project/README.md",
+      "project/plans/engineering/ios-app-completion.md",
+      "ios/README.md",
+      "ios/AILibrary.xcodeproj/project.pbxproj",
+      "project/records/2026-10-27/ios-reading-state-recovery.md",
+      "project/records/2026-10-27/ios-reading-state-recovery.json"
+    ],
+    "application_version": {
+      "previous_marketing": "0.2.19",
+      "previous_build": "21",
+      "marketing": "0.2.20",
+      "build": "22",
+      "configuration_count": 2
+    },
+    "initial_implementation_and_verification_preserved": true,
+    "new_swift_changes": false,
+    "future_main": null,
+    "future_head": null,
+    "new_hosted": null,
+    "external_operations": 0,
+    "checks": {
+      "markdownlint": {
+        "result": "passed",
+        "runtime": "Node.js 24.19.0",
+        "explicit_markdown_files": 4,
+        "dependencies_installed": false
+      },
+      "json": "passed",
+      "pbx_version_only": "passed; two configurations, marketing 0.2.19 to 0.2.20 and build 21 to 22 only",
+      "todo_table_preserved": "passed; same 32 rows and 12 completed",
+      "original_six_files_preserved": "passed; original frozen manifest and all six SHA256 values match",
+      "f5_before_blobs_match": "passed; four source blobs match and two record paths absent",
+      "pbx_plutil": "passed",
+      "index_insert_only": "passed; one paragraph inserted into each index",
+      "record_append_only": "passed; Markdown original prefix and JSON existing fields preserved",
+      "outside_owned_paths": "none included in candidate"
+    }
+  },
+  "hosted_and_diagnostic_followup": {
+    "date": "2026-10-27",
+    "status": "historical Hosted observations plus unpublished diagnostic candidates; no new-head result",
+    "old_root_values": "Preserved as earlier private-preparation facts, not current execution claims.",
+    "actual_main_checkpoint": {
+      "sha": "7784228eb167e5909909437ff9d8a779ceb7fa68",
+      "tree": "779480ca0111484af87dbc4dabcf7009854216af",
+      "latest_main_API_not_rechecked_in_this_document_task": true
+    },
+    "PR282_checkpoint": {
+      "head": "218dbf05abb1e6f59ceecc67b64701b358c19733",
+      "tree": "edddc9298c9e24ef1e46933ecd0a0647671bf0af",
+      "parents": [
+        "91b1ed803c20410919e15d562abae9fa2b189ec5",
+        "7784228eb167e5909909437ff9d8a779ceb7fa68"
+      ],
+      "draft": true,
+      "merged": false,
+      "url": "https://github.com/pero3dev/ai-agent-library/pull/282"
+    },
+    "initial91": {
+      "head": "91b1ed803c20410919e15d562abae9fa2b189ec5",
+      "tree": "12498ede4d2b9092e95216f28f8de0529603d247",
+      "runs": [
+        {
+          "id": 40476517438,
+          "name": "iOS 26.5 representative UI smoke",
+          "conclusion": "success",
+          "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40476517438"
+        },
+        {
+          "id": 40476517443,
+          "name": "CI",
+          "conclusion": "success",
+          "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40476517443"
+        },
+        {
+          "id": 40476517359,
+          "name": "iOS SDK 26 unsigned archive preflight",
+          "conclusion": "success",
+          "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40476517359"
+        },
+        {
+          "id": 40476517545,
+          "name": "iOS native regression",
+          "conclusion": "success",
+          "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40476517545"
+        },
+        {
+          "id": 40476517381,
+          "name": "iOS published app candidate",
+          "conclusion": "success",
+          "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40476517381"
+        }
+      ],
+      "all5_success": true,
+      "Native": {
+        "run": 40476517545,
+        "job": 122095980767,
+        "units": {
+          "executed": 165,
+          "skipped": 2,
+          "failures": 0,
+          "library_core_executed": 77,
+          "library_core_failures": 0
+        },
+        "UI": {
+          "executed": 2,
+          "failures": 0
+        },
+        "new_case_count": 12,
+        "each_new_case_started_and_passed": true,
+        "actual_checkout": "bbf1b5c9ac138c6cf6e3a25545ea1bfefd0d4764",
+        "actual_tree": "12498ede4d2b9092e95216f28f8de0529603d247"
+      },
+      "scope": "This immutable head only, not substituted into218."
+    },
+    "source218": {
+      "head": "218dbf05abb1e6f59ceecc67b64701b358c19733",
+      "tree": "edddc9298c9e24ef1e46933ecd0a0647671bf0af",
+      "observed_at_UTC": "2026-10-27T10:20:16.850Z",
+      "runs": [
+        {
+          "id": 40481567094,
+          "name": "iOS SDK 26 unsigned archive preflight",
+          "conclusion": "success",
+          "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40481567094"
+        },
+        {
+          "id": 40481567201,
+          "name": "iOS missing package and restored install UI",
+          "conclusion": "failure",
+          "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40481567201"
+        },
+        {
+          "id": 40481567129,
+          "name": "CI",
+          "conclusion": "success",
+          "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40481567129"
+        },
+        {
+          "id": 40481567160,
+          "name": "iOS 26.5 representative UI smoke",
+          "conclusion": "success",
+          "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40481567160"
+        },
+        {
+          "id": 40481567185,
+          "name": "iOS native regression",
+          "conclusion": "success",
+          "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40481567185"
+        },
+        {
+          "id": 40481567137,
+          "name": "iOS published app candidate",
+          "conclusion": "success",
+          "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40481567137"
+        }
+      ],
+      "ordinary5_success": true,
+      "all6_workflows_success": false,
+      "latest_required_success": 11,
+      "required_checks": [
+        "build",
+        "docs",
+        "lint",
+        "examples",
+        "harness",
+        "harness-windows",
+        "actionlint",
+        "Audio playback regression",
+        "Safari audio playback regression",
+        "freshness-policy",
+        "harness-policy"
+      ],
+      "latest_unique_check_counts": {
+        "success": 15,
+        "failure": 1,
+        "skipped": 1,
+        "total": 17
+      },
+      "policy_runs": {
+        "harness": {
+          "run": 40481797250,
+          "job": 122113662651
+        },
+        "freshness": {
+          "run": 40481796348,
+          "job": 122113659446
+        }
+      },
+      "Native": {
+        "run": 40481567185,
+        "job": 122112889614,
+        "units": {
+          "executed": 165,
+          "skipped": 2,
+          "failures": 0,
+          "library_core_executed": 77,
+          "library_core_failures": 0
+        },
+        "UI": {
+          "executed": 2,
+          "failures": 0
+        },
+        "new_case_count": 12,
+        "each_new_case_started_and_passed": true,
+        "actual_checkout": "6996204334d802f802f86283a4a596d4eb6ab940",
+        "actual_tree": "edddc9298c9e24ef1e46933ecd0a0647671bf0af"
+      },
+      "Native_synthetic_checkout_parents": [
+        "7784228eb167e5909909437ff9d8a779ceb7fa68",
+        "218dbf05abb1e6f59ceecc67b64701b358c19733"
+      ],
+      "Native_tree_matches_source": true,
+      "new_cases": [
+        {
+          "name": "testReadingRecoveryKeepsReadableElementsAndLiveChangesBeforeExplicitRecovery",
+          "started": true,
+          "passed": true,
+          "failed": false
+        },
+        {
+          "name": "testReadingRecoveryKeepsValidPositionFieldsAndIndependentCollections",
+          "started": true,
+          "passed": true,
+          "failed": false
+        },
+        {
+          "name": "testUnreadableReadingStateRequiresExplicitRecoveryAndPreservesOriginal",
+          "started": true,
+          "passed": true,
+          "failed": false
+        },
+        {
+          "name": "testReadingRecoveryNeverOverwritesAnExistingBackupOrDropsLiveEdits",
+          "started": true,
+          "passed": true,
+          "failed": false
+        },
+        {
+          "name": "testReadingRecoveryFailsClosedWhenBackupReadbackOrMainWriteFails",
+          "started": true,
+          "passed": true,
+          "failed": false
+        },
+        {
+          "name": "testReadingRecoveryRefusesAnExternallyChangedSource",
+          "started": true,
+          "passed": true,
+          "failed": false
+        },
+        {
+          "name": "testReadingRecoveryRechecksTheSourceAfterBackingItUp",
+          "started": true,
+          "passed": true,
+          "failed": false
+        },
+        {
+          "name": "testReadingRecoveryProtectsOversizedAndNonDataSourcesWithoutCopyingToBackup",
+          "started": true,
+          "passed": true,
+          "failed": false
+        },
+        {
+          "name": "testReadingRecoveryUsesTheExactCustomNamespace",
+          "started": true,
+          "passed": true,
+          "failed": false
+        },
+        {
+          "name": "testHealthyLegacyReadingStateAndExistingBackupKeepNormalPersistence",
+          "started": true,
+          "passed": true,
+          "failed": false
+        },
+        {
+          "name": "testOptionalAnchorFallbackDoesNotBlockLegacyReadingPersistence",
+          "started": true,
+          "passed": true,
+          "failed": false
+        },
+        {
+          "name": "testLibraryStorePublishesRecoveryIssueAndRetainsLiveState",
+          "started": true,
+          "passed": true,
+          "failed": false
+        }
+      ],
+      "Full": {
+        "run": 40481567137,
+        "job": 122112889444,
+        "conclusion": "success",
+        "unit_UI_Release_steps": "success",
+        "raw_case_count": null,
+        "actual_checkout": null,
+        "artifact_bytes": 32555081,
+        "artifact_downloaded": false,
+        "reason": "Exceeds ordinary16MiB compressed cap; no old22 count substituted"
+      },
+      "old91_success_reused": false
+    },
+    "Dedicated218": {
+      "run": 40481567201,
+      "job": 122112889903,
+      "attempt": 1,
+      "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40481567201",
+      "conclusion": "failure",
+      "OS": "18.5",
+      "owned_simulator_binding_verified": true,
+      "F": {
+        "raw_case_count": 1,
+        "status": "exact-one-case-passed",
+        "selector": "AILibraryUITests/FailureReaderUITests/testMissingBundledArticleShowsErrorAndRetryRemainsUsable"
+      },
+      "R": {
+        "raw_case_count": 1,
+        "status": "not-passed",
+        "selector": "AILibraryUITests/NativeReaderUITests/testThreeArticlesHaveNativeBodyText",
+        "failure": "ios/AILibraryUITests/NativeReaderUITests.swift:344 XCTAssertTrue after library-article-count timeout",
+        "timeout_before_assert_seconds": 45,
+        "xctest_case_elapsed_seconds": 61.591,
+        "exit_code": 65,
+        "timed_out": false
+      },
+      "launch_public": {
+        "schemaVersion": 1,
+        "sampling": "after-library-count-timeout-sequential",
+        "appState": "XCUIApplicationState(rawValue: 4)",
+        "publicElements": {
+          "articleCountAfterTimeout": false,
+          "bundledInventoryMismatchReason": true,
+          "bundledSwitchingLabel": false,
+          "loadErrorHeading": true,
+          "loadingLabel": false,
+          "nativeReader": false,
+          "progressIndicator": false,
+          "retryButton": true,
+          "searchField": true
+        },
+        "hierarchyTruncated": false
+      },
+      "launch_line_sha256": "f97257b3e8a56fe33a1451b51dacace2be868ce82b8420a34332d78575689e95",
+      "installed_snapshots": {
+        "count": 7,
+        "full_arrays_match": true,
+        "expected_files": {
+          "failure-after-ui-inventory.json": 180,
+          "failure-before-sentinel-inventory.json": 180,
+          "failure-before-ui-inventory.json": 180,
+          "failure-explicit-install-inventory.json": 180,
+          "restored-after-ui-inventory.json": 181,
+          "restored-before-ui-inventory.json": 181,
+          "restored-explicit-install-inventory.json": 181
+        },
+        "allowed_mode_deltas_each": {
+          "failure-after-ui-inventory.json": 12,
+          "failure-before-sentinel-inventory.json": 12,
+          "failure-before-ui-inventory.json": 12,
+          "failure-explicit-install-inventory.json": 12,
+          "restored-after-ui-inventory.json": 12,
+          "restored-before-ui-inventory.json": 12,
+          "restored-explicit-install-inventory.json": 12
+        },
+        "allowed": "Only fixed12 paths0755 to0644; other path/bytes/SHA all match"
+      },
+      "sentinel": {
+        "initial_record_matches_fixed_bytes": true,
+        "app_reads_sentinel": false,
+        "post_upgrade_before_body_preserved": true,
+        "after_successful_body_check_preserved": false,
+        "final_record_present": false,
+        "pre_upgrade_scope": "Controlled restore flow checks sentinel before install; no separate pre-upgrade raw JSON is emitted"
+      },
+      "sentinel_limit": "No final successful-body sentinel proof; missing final receipt is not evidence that reading data was erased.",
+      "cleanup": {
+        "status": "owned-simulator-deleted",
+        "error": null
+      },
+      "root_cause": null,
+      "App_actual_validated_root_manifest_PID_time_observed": false,
+      "artifact": {
+        "id": 12723364073,
+        "name": "ios-missing-package-ui-compact-40481567201-1",
+        "bytes": 346285,
+        "sha256": "a3d37f795e53313017b65f9e16a45c017c6251d33001904a65f8dbcb65ad40b7",
+        "official_run_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40481567201",
+        "GitHub_created_at": "2026-10-27T09:48:21Z",
+        "GitHub_expires_at": "2027-01-25T09:32:33Z",
+        "retrieved_date": "2026-10-27",
+        "retrieved_at_UTC": null,
+        "time_limit": "Precise GET time was not measured and no additional primary timestamp is available; API and receipt observation timestamps are separate.",
+        "whole_SHA_verified": true,
+        "index_entries": 194,
+        "selected_entries": 52,
+        "selected_CRC_SHA_verified": true,
+        "unselected_CRC_verified": false,
+        "raw_ZIP_retained": false,
+        "read_receipt_sha256": "16741e4bce6380cd8a8dd95a9910c2b0b688a993bcf13d88812db4a51f0aa340",
+        "restore": [
+          "Select same compact id12723364073 from official run while retained.",
+          "Compare346285 bytes and whole SHA256 before bounded JSON/log reading; never execute contents.",
+          "Read exact F/R,7arrays,sentinel and cleanup; unavailable/mismatch/unread is not restored or passed."
+        ]
+      }
+    },
+    "main778_push": {
+      "head": "7784228eb167e5909909437ff9d8a779ceb7fa68",
+      "tree": "779480ca0111484af87dbc4dabcf7009854216af",
+      "runs": [
+        {
+          "id": 40479965176,
+          "name": "CI",
+          "conclusion": "success",
+          "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40479965176"
+        },
+        {
+          "id": 40479965421,
+          "name": "iOS native regression",
+          "conclusion": "success",
+          "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40479965421"
+        },
+        {
+          "id": 40479965177,
+          "name": "iOS published app candidate",
+          "conclusion": "failure",
+          "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40479965177"
+        }
+      ],
+      "Common": "success",
+      "Native": "success",
+      "Native_unit_UI_counts": null,
+      "Full": "failure",
+      "UI_aggregates": {
+        "aggregate_tests": 22,
+        "aggregate_failures": 1,
+        "unexpected": 0,
+        "aggregate_seconds": 1516.187,
+        "pass_count_casewise_not_read": null,
+        "skipped_count_not_independently_read": null,
+        "PublishedReader": {
+          "tests": 14,
+          "failures": 1,
+          "seconds": 1312.768
+        },
+        "geometry": {
+          "tests": 6,
+          "failures": 0,
+          "seconds": 1.056
+        },
+        "aggregate_is_current_main_log": true,
+        "TEST_FAILED_observed": true,
+        "xcodebuild_exit": 65
+      },
+      "failed_case": {
+        "suite": "PublishedReaderUITests",
+        "method": "testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions",
+        "result": "failed",
+        "seconds": 105.775,
+        "source_file": "ios/AILibraryUITests/PublishedReaderUITests.swift",
+        "source_line": 658,
+        "failure_at_UTC": "2026-10-27T09:46:55.0059950Z",
+        "root_cause": null
+      },
+      "Release": "skipped after UI failure",
+      "root_cause": null,
+      "not_triggered_new_push": {
+        "SDK26": true,
+        "Runtime26": true,
+        "Dedicated_missing_package": true,
+        "scope": "No matching push run in fresh same-head list; former b6 PR runs remain separate and are not assigned to main778."
+      },
+      "artifact": {
+        "id": 12724353198,
+        "bytes": 270041453,
+        "GitHub_declared_sha256": "40fe000d4c68094635c51153f104b20887f26dff145305f40405870f1f5d87b7",
+        "downloaded": false,
+        "actual_SHA_CRC_verified": false
+      },
+      "timeout_from_1800s_API_wall_inferred": false
+    },
+    "diagnostic_candidates": {
+      "base": "218dbf05abb1e6f59ceecc67b64701b358c19733",
+      "tree": "edddc9298c9e24ef1e46933ecd0a0647671bf0af",
+      "owned4": [
+        "ios/AILibrary/Sources/ContentValidator.swift",
+        "ios/AILibraryUITests/NativeReaderUITests.swift",
+        ".github/workflows/ios-missing-package-ui.yml",
+        "ios/AILibraryUITests/PublishedReaderUITests.swift"
+      ],
+      "published": false,
+      "future_head": null,
+      "future_runs": null,
+      "future_main": null,
+      "future_combined_tree": null,
+      "SDK_typecheck": null,
+      "Hosted_result": null,
+      "cause_fix_claimed": false,
+      "App3": {
+        "manifest_sha256": "8d9ed4052e6b8bf7e3da087f9f72230cb1b2383eda19ec30d056ba98f4f09140",
+        "Root_review_sha256": "55d8895eadd31dc414882704cf35ed06f4878c679bd45c08ed81883e5e41e925",
+        "DEBUG_valid_suite_failure_only": true,
+        "normal_Release_no_test_env_writes": 0,
+        "first_failure_no_overwrite_or_link_following": true,
+        "App_cap_bytes": 8192,
+        "manifest_SHA_scope": "Exact retained decoded Data; no diagnostic reread",
+        "locations_and_PID_time": "Data only; no reported URI is opened",
+        "list_cap": 8,
+        "string_byte_cap": 256,
+        "overflow_location_bytes": 96,
+        "overflow_lists_explicitly_omitted": true,
+        "Native_added_only": "launchSuite",
+        "Native_existing_output_cap": 32768,
+        "collector_file_count": 4,
+        "collector_each_cap": 8192,
+        "collector_output_cap": 65536,
+        "collector": "Verified owned Documents fixednames; lstat/no symlink/O_NOFOLLOW|O_NONBLOCK/fstat identity/bounded shape and SHA; after post-installed proof and before unchanged hard assertions",
+        "absent_partial_rejected_is_not_success": true,
+        "snapshot_scope": "Sequential controlled-owned-Simulator; not atomic or hostile-race isolation"
+      },
+      "picker_v2": {
+        "manifest_sha256": "d4531f46b151a0fd60209ad22eb594df17d4641d2e2e4b5ca19f315ca3c820d5",
+        "bytes": 66532,
+        "sha256": "ac23dd9e01e846d76e530ca1cbb3ed3507b41de6a745fcbae7210ec1991dd666",
+        "stdout_prefix": "AILibraryFolderPicker",
+        "attachment": "Public-UI-folder-picker-diagnostic",
+        "keepAlways": true,
+        "prefix_JSON_LF_cap": 8192,
+        "last_predicate_copy_and_post_failure_AX_separate": true,
+        "actual_waiter_result": "String(describing:), not inferred from timeout",
+        "finite_app_frame_failure_only": true,
+        "nav_cancel_each_max_rows": 10,
+        "identifier_max_characters": 160,
+        "URI_path_email_redacted": true,
+        "counts_rejection_fallback": true,
+        "extra_poll_AX": 0,
+        "wait_seconds_unchanged": 15,
+        "tap_assert_and_success_body_preserved": true
+      },
+      "guard_throw_user_message_and_hard_checks_preserved": true,
+      "Dedicated_job_minutes": 60,
+      "Dedicated_step_sum_minutes": 55,
+      "retry_skip_wait_extension_added": false
+    },
+    "acceptance": {
+      "recovery_confirmation_cancellation_notice_relaunch_UI": null,
+      "physical_device_VoiceOver": null,
+      "physical_skip_user_directed": true,
+      "power_loss_durability": null,
+      "article_rename_deletion_migration": "incomplete",
+      "IOS22": "incomplete",
+      "TODO_rows": 32,
+      "TODO_completed": 12
+    },
+    "evidence_receipts": [
+      {
+        "description": "ios-pr282-218-hosted-observation-20261027/final-observation.json",
+        "bytes": 64153,
+        "sha256": "c773f626afc7271e2f5c9c8c66d03578a02a010b1d50c1bdeafebbd9ca827f1b"
+      },
+      {
+        "description": "ios-pr282-218-hosted-observation-20261027/native-execution-evidence.json",
+        "bytes": 10327,
+        "sha256": "0980578b113ba6e17c17221674fd2a618debc7baf3a58a128ac5829dc3e5cc44"
+      },
+      {
+        "description": "ios-pr282-218-hosted-observation-20261027/dedicated_findings.json",
+        "bytes": 3788,
+        "sha256": "ef427176a9dc19f0fed1d13d6b75f37500ed45a4191d7995c3896450540b5c0c"
+      },
+      {
+        "description": "ios-pr282-218-hosted-observation-20261027/dedicated_metadata.json",
+        "bytes": 1645,
+        "sha256": "6123d717f9473b9b71b895a6c706d6c2941e40ca272116595f83d47fd17b4773"
+      },
+      {
+        "description": "ios-pr282-218-hosted-observation-20261027/dedicated_compact_read.json",
+        "bytes": 44379,
+        "sha256": "16741e4bce6380cd8a8dd95a9910c2b0b688a993bcf13d88812db4a51f0aa340"
+      },
+      {
+        "description": "ios-pr282-218-hosted-observation-20261027/manifest.json",
+        "bytes": 1939,
+        "sha256": "082e13a8b23ac94aa5e83d8289ab16eba00aec3c136f91aff49c930677726b99"
+      },
+      {
+        "description": "ios-pr282-91-hosted-observation-20261027/final-observation.json",
+        "bytes": 53379,
+        "sha256": "ef653581a30ae2c665c5e389f2ef927394f937e20c08bce0e2cc87ac950d9358"
+      },
+      {
+        "description": "ios-pr282-91-hosted-observation-20261027/native-execution-evidence.json",
+        "bytes": 11334,
+        "sha256": "4ce19a906a9c335c212151cdaf1f0dd2db955356c6fa584cc39f06e4993f9ff6"
+      },
+      {
+        "description": "ios-pr282-91-hosted-observation-20261027/actual-checkout-tree-verification.json",
+        "bytes": 708,
+        "sha256": "b34b35d4a1c655dcdecfeaa359677bb8524562707deb9ec2de71deee11cd8250"
+      },
+      {
+        "description": "ios-main778-postmerge-observation-20261027/observation.json",
+        "bytes": 13904,
+        "sha256": "ba9b9c009c86ff4e41d0f2cf5a916dabf1c62c23d4e75f03e74e23e42681f66c"
+      },
+      {
+        "description": "ios-main778-postmerge-observation-20261027/full-bounded-summary.json",
+        "bytes": 16141,
+        "sha256": "530aee06c8d004bbae09843445e24f2dddccba9b82d1ccb5d8e529d3b9b9f3f3"
+      },
+      {
+        "description": "ios-app-content-root-diagnostics-20261027/manifest.json",
+        "bytes": 1666,
+        "sha256": "8d9ed4052e6b8bf7e3da087f9f72230cb1b2383eda19ec30d056ba98f4f09140"
+      },
+      {
+        "description": "ios-app-content-root-diagnostics-root-review-20261027/review.json",
+        "bytes": 1473,
+        "sha256": "55d8895eadd31dc414882704cf35ed06f4878c679bd45c08ed81883e5e41e925"
+      },
+      {
+        "description": "ios-folder-picker-failure-diagnostics-v2-20261027/manifest.json",
+        "bytes": 810,
+        "sha256": "d4531f46b151a0fd60209ad22eb594df17d4641d2e2e4b5ca19f315ca3c820d5"
+      },
+      {
+        "description": "ios-folder-picker-failure-diagnostics-v2-20261027/proof.json",
+        "bytes": 3333,
+        "sha256": "77d1ecb7ae4ad294e560aa01a6d88c3cbc3b0e0639e7969d37317b870a58d3cf"
+      }
+    ],
+    "documentation_checks": {
+      "markdownlint": "passed; one explicit4MD invocation, candidate cwd and immutable218-matched existing config/ignore",
+      "markdown_files": 4,
+      "JSON_old_values": "passed; exactly one new root section and all old values equal",
+      "three_unique_paragraphs_foreign_text_TODO32_12": "passed; all inverse paragraphs and full TODO rows equal",
+      "new_SDK_parse_generation_npmci_API_Gitmutation": 0
+    }
+  },
+  "app_lifecycle_followup": {
+    "date": "2026-10-27",
+    "status": "5eb observations and reviewed private F-only candidate; no effect claim",
+    "source_head": "5eb7914dfe90fabbc543d96e45f77f805babb1cf",
+    "source_tree": "729691189a8dfc4c7929f1af90c54a56d7f50248",
+    "PR282": {
+      "draft": true,
+      "merged": false
+    },
+    "normal5eb": {
+      "Native": {
+        "run": 40492939658,
+        "conclusion": "success",
+        "executed": 165,
+        "skipped": 2,
+        "failures": 0,
+        "new12_each_started_once_passed_once": true,
+        "native_UI_executed": 2,
+        "native_UI_failures": 0,
+        "actual_checkout": "c7814976a863db2db488eb1d7950495b2cc1d429",
+        "actual_tree_matches_source": true
+      },
+      "Common": {
+        "run": 40492939615,
+        "conclusion": "success",
+        "jobs_success": 9,
+        "deploy_skip": 1
+      },
+      "SDK26": {
+        "run": 40492939760,
+        "conclusion": "success",
+        "archive_succeeded": true,
+        "signed_distribution_accepted": false
+      },
+      "Runtime26": {
+        "run": 40492940004,
+        "conclusion": "success",
+        "UI": {
+          "aggregate_tests": 2,
+          "aggregate_failures": 0,
+          "unexpected": 0,
+          "seconds": 283.121,
+          "cases": [
+            {
+              "method": "testContentsBookmarkAndResumeAfterRelaunch",
+              "result": "passed",
+              "seconds": 182.858
+            },
+            {
+              "method": "testThreeArticlesHaveNativeBodyText",
+              "result": "passed",
+              "seconds": 100.263
+            }
+          ],
+          "TEST_SUCCEEDED": true
+        },
+        "actual_checkout": null,
+        "actual_SDK": null
+      },
+      "Full": {
+        "run": 40492939612,
+        "job": 122151121174,
+        "event": "pull_request",
+        "attempt": 1,
+        "head": "5eb7914dfe90fabbc543d96e45f77f805babb1cf",
+        "API_head_tree": "729691189a8dfc4c7929f1af90c54a56d7f50248",
+        "status_from_observer": "completed",
+        "conclusion": "success",
+        "raw_counts": {
+          "tests": 22,
+          "failures": 0,
+          "seconds": 1342.352,
+          "distinct_case_IDs": 22,
+          "passed_case_count": 22,
+          "failed_case_count": 0
+        },
+        "PublishedReader": {
+          "tests": 14,
+          "failures": 0,
+          "seconds": 1168.297
+        },
+        "geometry": {
+          "tests": 6,
+          "failures": 0,
+          "seconds": 1.19
+        },
+        "units": {
+          "tests": 165,
+          "failures": 0,
+          "seconds": 12.032,
+          "skipped": 2
+        },
+        "picker_case": {
+          "method": "testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions",
+          "result": "passed",
+          "seconds": 142.644
+        },
+        "prefix_evidence": {
+          "complete_RAM_line_count": 0,
+          "failure_JSON_8KiB_runtime_collection": null,
+          "lastPredicate_postAX_runtime_collection": null,
+          "mechanism_or_prior_failure_fix_proven": false
+        },
+        "Release_step_conclusion": "success",
+        "actual_checkout": null,
+        "SDK_version_from_observation": null,
+        "artifact": {
+          "id": 12731736905,
+          "bytes": 32859514,
+          "GitHub_declared_sha256": "a46b5bc0c63591e4fe8ec3c681fee3cff33b3f1660c5a3db88a27c3f237d433e",
+          "downloaded": false,
+          "actual_SHA_CRC_verified": false
+        },
+        "receipt_SHA256": "6e74aabcea52adaf3ba3f3e358f561666db784e8c2f7374b9aea83fe66fe01a1",
+        "old_head_or_new_F_candidate_success_reused": false
+      },
+      "receipt_SHA256": {
+        "three_runs": "450957f1de09d35e654232f36dfe1ae078c37fb9288f9f776d4398fe1461236f",
+        "Native_exact_cases": "475a0369c8f4f03dff0bb6b9df73baf2437d1182bf48525a296afb0791bc4583",
+        "Runtime26": "3bae8ea7d5ea9edba4558ed4cd284398e48b1418b2d462abb2bcbc235c80db61"
+      }
+    },
+    "Dedicated5eb": {
+      "run": 40492939806,
+      "job": 122151121875,
+      "attempt": 1,
+      "conclusion": "failure",
+      "F_raw": {
+        "cases": 1,
+        "result": "Passed"
+      },
+      "R_raw": {
+        "case_count": 1,
+        "result": "Failed",
+        "source_line": 345,
+        "case_seconds": 52.096,
+        "exit_code": 65,
+        "outer_timeout": false,
+        "count_wait_seconds": 45
+      },
+      "App_report": {
+        "R_suite_matches_failed_UI_launchSuite": true,
+        "R_UI_PID_equals_App_report": true,
+        "F_and_R_PIDs_different": true,
+        "same_running_instance_continuity_proven": false,
+        "reported_validated_root_category": "replaced bundle in containermanagerd/Dead",
+        "reported_root_equals_post_installed_Content": false,
+        "reported_home_equals_current_data_container": true,
+        "three_bundle_derived_Content_roots_equal": true,
+        "counts": {
+          "expected": 141,
+          "found": 140,
+          "manifestFiles": 140
+        },
+        "missing_relative_paths": [
+          "articles/01-concepts--agent-loop.json"
+        ],
+        "unexpected_relative_paths": [],
+        "retained_decoded_manifest_SHA256": "841a79d1758c92e3d2273049dfabdf3c904577c72ee1b34d9b0d6aa9aae46d3c",
+        "same_manifest_SHA_as_F": true,
+        "reported_paths_opened": false,
+        "JSON_member_CRC_SHA_independently_verified": true,
+        "absolute_URI_or_raw_UUID_published": false,
+        "mechanism": "unproven; root discrepancy observed, cache/lifecycle mechanism not established"
+      },
+      "installed": {
+        "all7_paths_bytes_SHA_match": true,
+        "F4_files": 180,
+        "R3_files": 181,
+        "only_allowed12_mode_deltas": true
+      },
+      "sentinel": "Initial/post-upgrade-before-body preserved; final post-body receipt absent; no reading-data-loss inference.",
+      "cleanup": "owned-simulator-deleted",
+      "artifact": {
+        "id": 12729477094,
+        "bytes": 349068,
+        "sha256": "63f170066c73c268ff0fb1388b07778e532a517aaae455b6a0cfdaccebc0fdc5",
+        "official_run_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40492939806",
+        "retrieved_date": "2026-10-27",
+        "precise_GET_at_UTC": null,
+        "refused_attempts": 1,
+        "successful_read_attempts": 1,
+        "auto_retry": false,
+        "whole_SHA_verified": true,
+        "index_entries": 196,
+        "original_selected": 52,
+        "combined_unique_selected": 54,
+        "expanded_including_duplicate_bytes": 1296522,
+        "selected_CRC_SHA_verified": true,
+        "unselected_CRC_verified": false,
+        "raw_ZIP_saved": false,
+        "restore": [
+          "Select compact artifact id12729477094 from official run while retained.",
+          "Compare349068 bytes and wholeSHA before bounded JSON/log inspection; never execute contents.",
+          "Do not mark restored or passed for expiry, mismatch, absent or unread material."
+        ],
+        "read_receipt_sha256": "59227b30bd0b972b378074af03238dff92036343c579155ae90bac1ef10a5190"
+      },
+      "findings_SHA256": "6aeefae8ff152b7ec66106f44321114677bfbea08d0dcd312c314387f6465057"
+    },
+    "F_only_candidate": {
+      "path": "ios/AILibraryUITests/FailureReaderUITests.swift",
+      "manifest_SHA256": "7c20f7a881ed5e0ebbbeed7572c08aa734fd9587b6503e7abf88361fd308ec99",
+      "candidate_SHA256": "c8ea92435de6ddff563d6e00889a1bf752d352a826e8446239d73519788ae923",
+      "insert_bytes": 485,
+      "independent_review_SHA256": "c2cf47568b235eec7590a926dfb459ceffba0c767c4e6a817ae86e2126bed0e8",
+      "review_findings": [],
+      "change": "F-only tearDownWithError: terminate App, assert state notRunning, then super teardown.",
+      "original_case_and_existing_driver_normal_cases_limits_preserved": true,
+      "new_wait_retry_skip": false,
+      "new_head": null,
+      "new_runs": null,
+      "effect": null,
+      "future_main": null,
+      "SDK_typecheck": null,
+      "new_Hosted": null
+    },
+    "limits": {
+      "historical_Core_not_reassigned_to22_or_this_candidate": true,
+      "same_running_instance_or_cache_mechanism_not_proven": true,
+      "no_reported_URI_open_or_raw_UUID_publication": true,
+      "recovery_specific_UI_physical_VoiceOver_power_loss_unaccepted": true,
+      "IOS22": "incomplete",
+      "TODO_rows": 32,
+      "TODO_completed": 12
+    },
+    "documentation_checks": {
+      "4MD_lint": "passed; one explicit4MD invocation in candidate cwd with immutable5eb-matched config/ignore",
+      "JSON_old_values": "passed; all old values retained and one new root section",
+      "index_and_TODO_preservation": "passed; three inverse paragraphs and32rows/12checked byte exact",
+      "SDK_Swiftparse_generation_npmci_API_Gitmutation": 0
+    }
+  }
+}

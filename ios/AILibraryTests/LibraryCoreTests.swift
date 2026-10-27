@@ -5,6 +5,22 @@ import Foundation
 import XCTest
 @testable import AILibrary
 
+/// Fault injection remains inside a private defaults suite and performs no I/O outside it.
+private final class ReadingRecoveryWriteDefaults: UserDefaults {
+    var rejectedKey: String?
+    var changedBackup = false
+    var sourceChangedDuringBackup: String?
+    override func set(_ value: Any?, forKey defaultName: String) {
+        guard defaultName != rejectedKey else { return }
+        if changedBackup, defaultName.hasSuffix(".recovery.v1") {
+            super.set(Data("unexpected".utf8), forKey: defaultName)
+        } else { super.set(value, forKey: defaultName) }
+        if defaultName.hasSuffix(".recovery.v1"), let key = sourceChangedDuringBackup {
+            super.set(Data("changed during backup".utf8), forKey: key)
+        }
+    }
+}
+
 final class LibraryCoreTests: XCTestCase {
     private var directory: URL!
 
@@ -1498,6 +1514,260 @@ final class LibraryCoreTests: XCTestCase {
         let damaged = ReadingStore(defaults: defaults)
         XCTAssertEqual(damaged.bookmarks, ["example"])
         XCTAssertNotNil(damaged.position(for: article(), document: document()).blockID.flatMap { document().block(id: $0) })
+    }
+
+    private func recoveryDefaults() throws -> UserDefaults {
+        let suite = "library-reading-recovery-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        addTeardownBlock { UserDefaults(suiteName: suite)?.removePersistentDomain(forName: suite) }
+        return defaults
+    }
+
+    func testReadingRecoveryKeepsReadableElementsAndLiveChangesBeforeExplicitRecovery() throws {
+        let defaults = try recoveryDefaults(), key = "library.reading.v1"
+        let original = Data("""
+        {"bookmarks":["example",7,"other",null],"positions":{
+          "example":{"heading":"intro","fraction":0.42,"blockID":"paragraph"},
+          "broken":[1],"other":{"fraction":0.8}},"lastArticleID":"other"}
+        """.utf8)
+        defaults.set(original, forKey: key)
+        let reading = ReadingStore(defaults: defaults)
+        XCTAssertEqual(reading.recoveryIssue, .partial)
+        XCTAssertEqual(reading.bookmarks, ["example", "other"])
+        XCTAssertEqual(reading.position(for: article()).fraction, 0.42)
+        XCTAssertEqual(reading.position(for: article(id: "other")).fraction, 0.8)
+        reading.toggleBookmark("example")
+        reading.toggleBookmark("live")
+        reading.markOpened("live")
+        reading.record(articleID: "live", heading: "intro", fraction: 0.6, blockID: "actual")
+        XCTAssertEqual(defaults.data(forKey: key), original, "Reads and live changes must leave the source untouched")
+        XCTAssertNil(defaults.object(forKey: key + ".recovery.v1"))
+        XCTAssertEqual(reading.bookmarks, ["other", "live"])
+        XCTAssertTrue(reading.recoverReadableState())
+        XCTAssertNil(reading.recoveryIssue)
+        XCTAssertEqual(defaults.data(forKey: key + ".recovery.v1"), original)
+        let restored = ReadingStore(defaults: defaults)
+        XCTAssertNil(restored.recoveryIssue)
+        XCTAssertEqual(restored.bookmarks, ["other", "live"])
+        XCTAssertEqual(restored.lastArticleID, "live")
+        XCTAssertEqual(restored.position(for: article(id: "live")).fraction, 0.6)
+        XCTAssertEqual(restored.position(for: article(id: "live")).blockID, "actual")
+        XCTAssertEqual(restored.position(for: article(id: "other")).fraction, 0.8)
+        restored.toggleBookmark("after")
+        XCTAssertTrue(ReadingStore(defaults: defaults).bookmarks.contains("after"), "Normal persistence resumes")
+        XCTAssertEqual(defaults.data(forKey: key + ".recovery.v1"), original)
+    }
+
+    func testReadingRecoveryKeepsValidPositionFieldsAndIndependentCollections() throws {
+        let defaults = try recoveryDefaults(), key = "library.reading.v1"
+        let originals = [
+            "{\"bookmarks\":{},\"positions\":{\"example\":{\"heading\":\"intro\",\"fraction\":0.4}},\"lastArticleID\":\"example\"}",
+            "{\"bookmarks\":[\"example\"],\"positions\":{\"example\":{\"heading\":\"intro\",\"fraction\":\"bad\",\"blockID\":\"paragraph\"},\"other\":{\"fraction\":0.8}},\"lastArticleID\":9}",
+            "{\"bookmarks\":[\"example\"],\"positions\":[],\"lastArticleID\":\"example\"}"
+        ]
+        for json in originals {
+            let original = Data(json.utf8)
+            defaults.set(original, forKey: key)
+            let reading = ReadingStore(defaults: defaults)
+            XCTAssertEqual(reading.recoveryIssue, .partial)
+            if json.contains("0.4") {
+                XCTAssertEqual(reading.position(for: article()).fraction, 0.4)
+                XCTAssertEqual(reading.lastArticleID, "example")
+            } else if json.contains("bad") {
+                XCTAssertEqual(reading.bookmarks, ["example"])
+                XCTAssertEqual(reading.position(for: article()).heading, "intro")
+                XCTAssertEqual(reading.position(for: article()).blockID, "paragraph")
+                XCTAssertEqual(reading.position(for: article()).fraction, 0)
+                XCTAssertEqual(reading.position(for: article(id: "other")).fraction, 0.8)
+            } else {
+                XCTAssertEqual(reading.bookmarks, ["example"])
+                XCTAssertEqual(reading.lastArticleID, "example")
+            }
+            reading.markOpened("live")
+            XCTAssertEqual(defaults.data(forKey: key), original)
+        }
+    }
+
+    func testUnreadableReadingStateRequiresExplicitRecoveryAndPreservesOriginal() throws {
+        for json in ["{\"bookmarks\":[", "[]", "null"] {
+            let defaults = try recoveryDefaults(), key = "library.reading.v1", original = Data(json.utf8)
+            defaults.set(original, forKey: key)
+            let reading = ReadingStore(defaults: defaults)
+            XCTAssertEqual(reading.recoveryIssue, .unreadable)
+            reading.toggleBookmark("live")
+            reading.record(articleID: "example", heading: "intro", fraction: 0.5)
+            XCTAssertEqual(defaults.data(forKey: key), original)
+            XCTAssertTrue(reading.recoverReadableState())
+            XCTAssertEqual(defaults.data(forKey: key + ".recovery.v1"), original)
+            XCTAssertEqual(ReadingStore(defaults: defaults).bookmarks, ["live"])
+            XCTAssertEqual(ReadingStore(defaults: defaults).position(for: article()).fraction, 0.5)
+        }
+    }
+
+    func testReadingRecoveryNeverOverwritesAnExistingBackupOrDropsLiveEdits() throws {
+        let defaults = try recoveryDefaults(), key = "library.reading.v1"
+        let original = Data("broken current".utf8), backup = Data("earlier original".utf8)
+        defaults.set(original, forKey: key)
+        defaults.set(backup, forKey: key + ".recovery.v1")
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("live")
+        XCTAssertFalse(reading.recoverReadableState())
+        XCTAssertEqual(reading.recoveryIssue, .backupExists)
+        XCTAssertEqual(reading.bookmarks, ["live"])
+        reading.markOpened("another")
+        XCTAssertEqual(defaults.data(forKey: key), original)
+        XCTAssertEqual(defaults.data(forKey: key + ".recovery.v1"), backup)
+        XCTAssertFalse(reading.recoverReadableState())
+    }
+
+    func testReadingRecoveryFailsClosedWhenBackupReadbackOrMainWriteFails() throws {
+        for failure in ["missing-backup", "different-backup", "main-write"] {
+            let suite = "library-reading-recovery-failure-" + UUID().uuidString
+            let defaults = try XCTUnwrap(ReadingRecoveryWriteDefaults(suiteName: suite))
+            defer { defaults.removePersistentDomain(forName: suite) }
+            let key = "library.reading.v1", original = Data("original damaged bytes".utf8)
+            defaults.set(original, forKey: key)
+            let reading = ReadingStore(defaults: defaults)
+            reading.toggleBookmark("live")
+            if failure == "missing-backup" { defaults.rejectedKey = key + ".recovery.v1" }
+            if failure == "different-backup" { defaults.changedBackup = true }
+            if failure == "main-write" { defaults.rejectedKey = key }
+            XCTAssertFalse(reading.recoverReadableState())
+            XCTAssertEqual(reading.recoveryIssue, failure == "main-write" ? .writeFailed : .backupFailed)
+            XCTAssertEqual(defaults.data(forKey: key), original)
+            XCTAssertEqual(reading.bookmarks, ["live"])
+            if failure == "main-write" { XCTAssertEqual(defaults.data(forKey: key + ".recovery.v1"), original) }
+        }
+    }
+
+    func testReadingRecoveryRefusesAnExternallyChangedSource() throws {
+        let defaults = try recoveryDefaults(), key = "library.reading.v1"
+        defaults.set(Data("first damaged".utf8), forKey: key)
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("live")
+        let changed = Data("new source".utf8)
+        defaults.set(changed, forKey: key)
+        XCTAssertFalse(reading.recoverReadableState())
+        XCTAssertEqual(reading.recoveryIssue, .changed)
+        XCTAssertEqual(reading.bookmarks, ["live"])
+        XCTAssertEqual(defaults.data(forKey: key), changed)
+        XCTAssertNil(defaults.object(forKey: key + ".recovery.v1"))
+    }
+
+    func testReadingRecoveryRechecksTheSourceAfterBackingItUp() throws {
+        let suite = "library-reading-recovery-race-" + UUID().uuidString
+        let defaults = try XCTUnwrap(ReadingRecoveryWriteDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let key = "library.reading.v1", original = Data("original damaged bytes".utf8)
+        defaults.set(original, forKey: key)
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("live")
+        defaults.sourceChangedDuringBackup = key
+        XCTAssertFalse(reading.recoverReadableState())
+        XCTAssertEqual(reading.recoveryIssue, .changed)
+        XCTAssertEqual(reading.bookmarks, ["live"])
+        XCTAssertEqual(defaults.data(forKey: key), Data("changed during backup".utf8))
+        XCTAssertEqual(defaults.data(forKey: key + ".recovery.v1"), original)
+    }
+
+    func testReadingRecoveryProtectsOversizedAndNonDataSourcesWithoutCopyingToBackup() throws {
+        let defaults = try recoveryDefaults(), key = "library.reading.v1"
+        let large = Data(repeating: 0x20, count: ReadingStore.maximumRecoveryBytes + 1)
+        defaults.set(large, forKey: key)
+        let oversized = ReadingStore(defaults: defaults)
+        XCTAssertEqual(oversized.recoveryIssue, .tooLarge)
+        oversized.toggleBookmark("live")
+        XCTAssertFalse(oversized.recoverReadableState())
+        XCTAssertEqual(defaults.data(forKey: key), large)
+        defaults.set(["unexpected": "value"], forKey: key)
+        let unsupported = ReadingStore(defaults: defaults)
+        XCTAssertEqual(unsupported.recoveryIssue, .unsupported)
+        unsupported.markOpened("live")
+        XCTAssertFalse(unsupported.recoverReadableState())
+        XCTAssertEqual(defaults.dictionary(forKey: key) as? [String: String], ["unexpected": "value"])
+        XCTAssertNil(defaults.object(forKey: key + ".recovery.v1"))
+    }
+
+    func testReadingRecoveryUsesTheExactCustomNamespace() throws {
+        let defaults = try recoveryDefaults(), normalKey = "library.reading.v1", testKey = "reader-test.reading.v1"
+        let normal = ReadingStore(defaults: defaults, key: normalKey)
+        normal.toggleBookmark("normal")
+        normal.record(articleID: "normal", heading: nil, fraction: 0.7)
+        let normalBytes = defaults.data(forKey: normalKey), damaged = Data("isolated damaged data".utf8)
+        defaults.set(damaged, forKey: testKey)
+        let isolated = ReadingStore(defaults: defaults, key: testKey)
+        isolated.toggleBookmark("test")
+        XCTAssertTrue(isolated.recoverReadableState())
+        XCTAssertEqual(defaults.data(forKey: testKey + ".recovery.v1"), damaged)
+        XCTAssertNil(defaults.object(forKey: normalKey + ".recovery.v1"))
+        XCTAssertEqual(defaults.data(forKey: normalKey), normalBytes)
+        XCTAssertEqual(ReadingStore(defaults: defaults, key: normalKey).bookmarks, ["normal"])
+        XCTAssertEqual(ReadingStore(defaults: defaults, key: testKey).bookmarks, ["test"])
+    }
+
+    func testHealthyLegacyReadingStateAndExistingBackupKeepNormalPersistence() throws {
+        let defaults = try recoveryDefaults(), key = "library.reading.v1"
+        let legacy = Data("{\"bookmarks\":[\"example\"],\"positions\":{\"example\":{\"heading\":\"intro\",\"fraction\":0.42}},\"lastArticleID\":\"example\"}".utf8)
+        defaults.set(legacy, forKey: key)
+        let backup = Data("untouched earlier recovery".utf8)
+        defaults.set(backup, forKey: key + ".recovery.v1")
+        let reading = ReadingStore(defaults: defaults)
+        XCTAssertNil(reading.recoveryIssue)
+        XCTAssertFalse(reading.recoverReadableState())
+        XCTAssertEqual(reading.position(for: article(), document: document()).blockID, "heading")
+        reading.toggleBookmark("second")
+        reading.record(articleID: "example", heading: "intro", fraction: 0.6, blockID: "paragraph")
+        let restored = ReadingStore(defaults: defaults)
+        XCTAssertNil(restored.recoveryIssue)
+        XCTAssertEqual(restored.bookmarks, ["example", "second"])
+        XCTAssertEqual(restored.position(for: article()).fraction, 0.6)
+        XCTAssertEqual(restored.position(for: article()).blockID, "paragraph")
+        XCTAssertEqual(defaults.data(forKey: key + ".recovery.v1"), backup)
+    }
+
+    func testOptionalAnchorFallbackDoesNotBlockLegacyReadingPersistence() throws {
+        let defaults = try recoveryDefaults(), key = "library.reading.v1"
+        let digest = readingDigest
+        let anchors: [(json: String, retainsAnchor: Bool)] = [
+            ("{\"version\":2,\"documentDigest\":\"\(digest)\",\"blockFingerprint\":\"\(digest)\"}", false),
+            ("{\"version\":1,\"documentDigest\":\"invalid\",\"blockFingerprint\":\"invalid\"}", false),
+            ("{\"version\":1,\"documentDigest\":\"\(digest)\",\"blockFingerprint\":\"\(digest)\",\"headingFingerprint\":7}", false),
+            ("\"unsupported\"", false),
+            ("{\"version\":1,\"documentDigest\":\"\(digest)\",\"blockFingerprint\":\"\(digest)\",\"intraBlockFraction\":\"bad\"}", true)
+        ]
+        for entry in anchors {
+            let json = "{\"bookmarks\":[\"example\"],\"positions\":{\"example\":{\"heading\":\"intro\",\"fraction\":0.42,\"blockID\":\"paragraph\",\"anchor\":\(entry.json)},\"other\":{\"fraction\":0.8}},\"lastArticleID\":\"other\"}"
+            defaults.set(Data(json.utf8), forKey: key)
+            let reading = ReadingStore(defaults: defaults)
+            XCTAssertNil(reading.recoveryIssue, "Optional anchor fallback must not block independently valid legacy records")
+            XCTAssertEqual(reading.position(for: article()).anchor != nil, entry.retainsAnchor)
+            XCTAssertEqual(reading.position(for: article()).fraction, 0.42)
+            XCTAssertEqual(reading.position(for: article()).blockID, "paragraph")
+            XCTAssertEqual(reading.bookmarks, ["example"])
+            reading.markOpened("example")
+            let restored = ReadingStore(defaults: defaults)
+            XCTAssertNil(restored.recoveryIssue)
+            XCTAssertEqual(restored.lastArticleID, "example")
+            XCTAssertEqual(restored.position(for: article(id: "other")).fraction, 0.8)
+            XCTAssertNil(defaults.object(forKey: key + ".recovery.v1"))
+        }
+    }
+
+    @MainActor
+    func testLibraryStorePublishesRecoveryIssueAndRetainsLiveState() throws {
+        let defaults = try recoveryDefaults(), key = "library.reading.v1", original = Data("broken".utf8)
+        defaults.set(original, forKey: key)
+        let store = LibraryStore(reading: ReadingStore(defaults: defaults))
+        XCTAssertEqual(store.readingRecoveryIssue, .unreadable)
+        store.toggleBookmark("example")
+        store.record(articleID: "example", heading: "intro", fraction: 0.5)
+        XCTAssertEqual(defaults.data(forKey: key), original)
+        store.recoverReadingState()
+        XCTAssertNil(store.readingRecoveryIssue)
+        XCTAssertEqual(store.bookmarks, ["example"])
+        XCTAssertEqual(store.lastArticleID, "example")
+        XCTAssertEqual(ReadingStore(defaults: defaults).bookmarks, ["example"])
+        XCTAssertEqual(defaults.data(forKey: key + ".recovery.v1"), original)
     }
 
     private func readingDocument(_ blocks: [NativeBlock]) -> NativeDocument {

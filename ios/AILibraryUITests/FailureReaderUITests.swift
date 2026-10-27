@@ -3,6 +3,17 @@ import XCTest
 /// Runs only against the dedicated job's physically incomplete bundled package.
 /// App routing and the ordinary Native/Published smoke cases remain unchanged.
 final class FailureReaderUITests: NativeReaderUITestCase {
+    override func tearDownWithError() throws {
+        // Finish the deliberately broken App before the separate upgrade stage
+        // replaces its bundle. The next stage must launch the restored install.
+        if let application = app {
+            application.terminate()
+            XCTAssertEqual(application.state, .notRunning,
+                           "The missing-package App must stop before the restored upgrade")
+        }
+        try super.tearDownWithError()
+    }
+
     func testMissingBundledArticleShowsErrorAndRetryRemainsUsable() throws {
         let title = app.staticTexts["コンテンツを読み込めません"]
         let reason = app.staticTexts.matching(NSPredicate(format: "label CONTAINS %@",

@@ -238,6 +238,8 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 
 [読書記録の破損保全と明示復旧](../project/records/2026-10-27/ios-reading-state-recovery.md)は、原データを保護し、確認後に退避と復旧を行う0.2.20（22）の候補です。固定head5ebでNative165件実行・skip2・失敗0、追加12件各passとCommon・SDK26・Runtime26の成功を確認しました。FullのUI22件は一意22caseが全pass・失敗0でした。DedicatedはF1件pass／R1件failで、RのApp診断がinstalled Contentと異なる置換済みDead bundleを示しました。Fとは別PIDで、内部機序は未確定です。F専用の終了確認候補は効果・新Hosted未検証で、復旧固有UI・実機・VoiceOver等とIOS-22全体は未完了、完了12／32件を維持します。
 
+[読書記録復旧のUI回帰](../project/records/2026-10-27/ios-reading-recovery-ui.md)は、DEBUG隔離suiteを用い、cancelとconfirm後の再起動で既存・今回追加のしおり保持を調べる2 caseの候補です。構文parseと独立レビューまでを確認し、実SDK／UI・読書位置・backup生bytes・実機・VoiceOverとIOS-22全体の受入は未実施です。
+
 ## 絞り込み中の補助画面と保存分離のUI回帰
 
 [操作シートの追加UI回帰](../project/records/2026-10-25/ios-filtered-actions-ui.md)は、検索・タグを保持したAboutの開閉と、専用テスト記事のしおり変更が通常の保存へ混ざらないことを検査します。専用一覧は検索前に全1記事と確認し、通常のfilterを確認した後、通常readerの再開より前にアプリを再起動して永続データを読み直します。

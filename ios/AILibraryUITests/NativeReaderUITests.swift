@@ -88,12 +88,16 @@ private enum ReaderViewportGeometry {
 /// Waits and gesture limits synchronize tests; they are not performance targets.
 class NativeReaderUITestCase: XCTestCase {
     private(set) var app: XCUIApplication!
+    var seedsPartialReadingRecovery: Bool { false }
 
     override func setUpWithError() throws {
         continueAfterFailure = false
         app = XCUIApplication()
         app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"] = "ailibrary-uitest-" + UUID().uuidString
         app.launchArguments = ["-AppleLanguages", "(ja)", "-AppleLocale", "ja_JP"]
+        if seedsPartialReadingRecovery {
+            app.launchEnvironment["AILIBRARY_UI_TEST_READING_RECOVERY"] = "partial-v1"
+        }
         app.launch()
     }
 

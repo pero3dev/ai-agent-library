@@ -1,0 +1,125 @@
+{
+  "status": "derived-regression-inputs; not raw artifact copies; not final acceptance",
+  "source_head": "2eedf063b1c6b34e51f68e98adab7e0b53eed051",
+  "archive": {
+    "run": 40307987707,
+    "artifact": 12642369650,
+    "ZIP_bytes": 105174,
+    "ZIP_SHA256": "25ec7d2194ada8813a5187d3709696c3ea83a491e08f6af8bb1ea3d286949c77",
+    "CRC": 56,
+    "reader_stdout_SHA256": "c682f8a729773e1e08559dc9ccb8ffc08dd5b035e4c985a1a8ed54e3a1928712",
+    "receipt_SHA256": "481a85eabb93a080aff6b6ae774cc91aa7a3b63a21611f2f779550f39c285d7b",
+    "Info": {
+      "CFBundlePackageType": "APPL",
+      "UIDeviceFamily": [
+        1
+      ],
+      "CFBundleSupportedPlatforms": [
+        "iPhoneOS"
+      ],
+      "CFBundleIcons": {
+        "CFBundlePrimaryIcon": {
+          "CFBundleIconFiles": [
+            "AppIcon60x60"
+          ],
+          "CFBundleIconName": "AppIcon"
+        }
+      },
+      "CFBundleShortVersionString": "0.2.17",
+      "CFBundleVersion": "19"
+    },
+    "car": {
+      "bytes": 57672,
+      "sha256": "05ed5548865a3e483dbd58130d2f84e4de6728b16e3112bb47835c03f25ac875",
+      "raw_copy": false
+    },
+    "loose": [
+      {
+        "filename": "AppIcon60x60@2x.png",
+        "bytes": 1521,
+        "sha256": "315ababbc4c82ca383e24661f751a8eedd65d64532a5c1c7a89024657749b184",
+        "header": {
+          "width": 120,
+          "height": 120,
+          "bit_depth": 8,
+          "color_type": 6,
+          "compression": 0,
+          "filter": 0,
+          "interlace": 0,
+          "optimized_CgBI": true,
+          "verification": "header-only; no CRC or pixel acceptance"
+        },
+        "raw": "loose-01.png"
+      }
+    ],
+    "required_CAR_scales": [
+      2,
+      3
+    ]
+  },
+  "debug": {
+    "run": 40307987669,
+    "artifact": 12644395908,
+    "ZIP_bytes": 365316,
+    "ZIP_SHA256": "36243d5922184be9a9bc6cf14d8e8cc458844ec5c242c3530d8cbda724602a72",
+    "CRC": 357,
+    "reader_stdout_SHA256": "faa2c17bf4b7c3123cc64bc6aaf1a1ee06798f8fc17aa173e80015550feff6ad",
+    "receipt_SHA256": "efa622a865ed99226b331c260a1944ee90b2de45d9f93cb26c98b35155c9cba7",
+    "Info": {
+      "CFBundlePackageType": "APPL",
+      "UIDeviceFamily": [
+        1
+      ],
+      "CFBundleSupportedPlatforms": [
+        "iPhoneSimulator"
+      ],
+      "CFBundleIcons": {
+        "CFBundlePrimaryIcon": {
+          "CFBundleIconFiles": [
+            "AppIcon60x60"
+          ],
+          "CFBundleIconName": "AppIcon"
+        }
+      },
+      "CFBundleShortVersionString": "0.2.17",
+      "CFBundleVersion": "19"
+    },
+    "car": {
+      "bytes": 31087,
+      "sha256": "8c52d4b42cd32f2c3ce617b2f2810878e54ef3b39d094c789a1d25faa4a77d6c",
+      "raw_copy": false
+    },
+    "loose": [
+      {
+        "filename": "AppIcon60x60@2x.png",
+        "bytes": 1070,
+        "sha256": "97146d5f53c516f86958fd524c362a8e9a24c0ee9e71d960c87ab60d62f47904",
+        "header": {
+          "width": 120,
+          "height": 120,
+          "bit_depth": 8,
+          "color_type": 2,
+          "compression": 0,
+          "filter": 0,
+          "interlace": 0,
+          "optimized_CgBI": false,
+          "verification": "header-only; no CRC or pixel acceptance"
+        },
+        "raw": "loose-01.png"
+      }
+    ],
+    "required_CAR_scales": [
+      3
+    ]
+  },
+  "reader_path": "/usr/bin/assetutil",
+  "assetutil_info_exit": 0,
+  "assetutil_help_exit": 1,
+  "assetutil_help_stderr": "assetutil: unrecognized option `--help'\nassetutil: unknown option '?'\n",
+  "partial_status_reason": "Unsupported --help only; actual --info exit0/no truncation/validJSON",
+  "claim_limits": [
+    "Exact CAR pixel data not decoded",
+    "Home and physical QA incomplete",
+    "Rows/fields are facts from captured reader; size/index linking is an explicit observed-format inference"
+  ]
+}

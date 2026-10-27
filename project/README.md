@@ -4,13 +4,27 @@
 
 計画本文の「現状」「未着手」「追加予定」は、各計画の作成・採択時点を表します。実施結果は後継記録で確認してください。計画の終了に合わせてファイルを移し直さず、状態と適用時点をこの索引で案内します。記事の公開状態は各記事の front matter が正本です。
 
+[iPhone AppIconとビルド後監査](records/2026-10-26/ios-app-icon-native-assets.md)は明示source commit `30a8a1db8d6c30eeb2c6e682f92ba94126cc5e35` へ私有準備した既存ブランドの8PNG/9slot・AppIcon監査候補で、0.2.16(18)から0.2.17(19)を提案する。PNG8/22,198B・source/validator/recipeを保ち、Published cap50・3selectorsへ承認監査呼出だけを加える。旧source check/Node13とactool失敗は履歴で、新compile・実CAR・Home/Store・exact-head CIと別人の最終payloadレビューは未実施。IOS-29全体は未完了で全TODO状態を維持する。
+
 ## 構造・運用の計画
 
-全記事の[Core host観測](records/2026-10-26/ios-published-core-benchmark.md)は、凍結CLI入口で検証・索引構築・検索batchを別processに分け、実199記事と16 query、raw19を記録する。先行wrapperと独立した実観測で、通常CIはNode fixtureのみ、iOS/app性能・実機・IOS-15全体の受入は残す。
+全記事の[Core host観測](records/2026-10-26/ios-published-core-benchmark.md)はb79基線で実施した凍結CLIのraw19process/記録15は旧観測として保持し、最新source4のsnapshotや未実施の再CLIと分ける。通常CIはNode fixtureだけで、SDK・corpus観測は明示した手動CLIと別guardのまま。App/PBX/workflow/P1/Iconと全TODOを保持し、IOS-15と予算採択は未完了である。
+
+通常CIの[Playwright依存取得を制限する候補](records/2026-10-27/ci-playwright-dependency-download.md)は、f28のAPT長時間転送へ対処し、30分上限・全検査を維持する私有準備である。純78ケースと独立レビューは成功したが、実APT・sudo・変更後Hosted CI・全browser検査は未実施で、通常の別PRと正確なhead/runの確認を待つ。取消原因や転送改善成功は断定せず、アプリ版・TODO・iOS source・mainは未変更とする。
+
+[iOS TODOと統合状況のチェックポイント](records/2026-10-26/ios-todo-integration-checkpoint.md)で、main955を基準とするIOS-02・10・13・14の達成と、12／32件の完了を追跡します。SDK26のunsigned Archive用技術環境・native導線・全199記事生成・学習案内が対象です。PR275は未マージで、iOS26.5の再起動復帰に失敗が残っています。実機・性能・配布資格・契約・公開と最新OS27の受入は未完了として分けます。
+
+[block内部の読書位置候補](records/2026-10-26/ios-intrablock-reading-progress.md)は、旧anchorと保存を保ち、実測した相対位置の復帰・自動配置失敗時の保全・layout再起動を扱う。承認済みv3 codeの旧SDK4段階は成功したが、新snapshot/pickerを持つPublishedは未compileである。unit152・機能16＋pure geometry6＝22 selectedはsource数で、実main270へのbind後の確認とexact-head CI・実機等をIOS-11へ残す。 実main270 `955c066c8dc0fdbedf6f0c845a461abda39ac476`（tree `9d2525e28ce3d9b6659eeac57b0b6f910e7e262b`）へbindした私有候補である。親PR270 head85d9のunit133（131成功＋2skip）・full21・Releaseと全15check成功は親の履歴で、新P1 unit152／UI22の実登録・実行は未確認とする。独立review後にrootがDraftへ反映してCIを実行し、必要exact-head CI成功までmainへ統合しない。 Published CIのjob上限だけ40分から50分へ調整し、selector・個別15秒・assert・commandは維持する。これはCI実行上限で製品性能budgetではない。
+
+[フォルダー選択取消の追随preview](records/2026-10-26/ios-picker-cancel-ui.md)では、旧238eのfull run40226683804/job121269430760でunit133件（131成功・2skip）と機能UI14/15成功を確認した履歴を保持する。本文検索Aとpicker取消138.720秒は成功し、Bは最初の到着で失敗してTOC/save/restartへ未到達だった。新snapshot helperを保持したPub41c3＋Nativebcafは機能15件＋geometry6件のsource計21件となるが、新snapshot/full/native/runtime26・生成budget・site待機・Releaseは正確な新headで未実施である。実main269 `750a305a82c6ff7882de46fdf7889c81925c509e`（tree `7636f378ecd8e8202cd2d9c8c9e89e2aa85b875d`）へ固有6pathをbindした私有候補で、独立最終レビューと正確な新headのCIを待つ。公開PR270 head238eは未変更である。
+
+[本文検索の到着と復帰](records/2026-10-26/ios-search-hit-ui-regression.md)では、入れ子の特定段落への移動と、別位置を保存した後に旧queryを再実行しない動作を公開UIで検査する。既存12件を保持した追加2件を、型検査と実UIに分けて追跡する。
 
 絞り込み中の[補助画面と保存分離UI回帰](records/2026-10-25/ios-filtered-actions-ui.md)では、Aboutと専用記事の開閉、検索・タグ保持、通常reader再開前のrestartによる永続分離を検査する。既存10件を保って機能UI12件へ増やし、SDK compileと未実施の実UIを区別する。
 
 旧版と更新失敗時の[保持回帰3件](records/2026-10-25/ios-storage-retention-regression.md)では、実repositoryの3世代snapshot・後読資産、孤立版の無変更、pointer書込失敗時の既存bytesを検査する。Mac新3件とiOS単体122件のcompileを区別し、将来の削除・pin・容量管理方針の採択は残す。
+
+[SDK27互換性preflight](records/2026-10-26/ios-sdk27-compatibility-preflight.md)は、0.2.18（20）・CDCでもArchiveと代表UI2件が成功した。観測した形状補正をiOS27以降へ限定し、17〜26では明示的shapeを外す0.2.19（21）の候補を準備する。iOS26.5の待機失敗の原因や修正効果は未確定であり、新headのUI・実機・VoiceOverは未確認。TODO12／32とIOS-11/23等の未完了を保持する。
 
 現行SDKへの[Archive互換性の事前検証](records/2026-10-25/ios-sdk26-archive-preflight.md)は、公開repoの標準Hosted環境でdevice Releaseと実同梱物を監査する。資格情報を使う署名・Provisioningを分け、SDK26の初回実行とStore配布・ローカルOS更新の採択を区別する。
 
@@ -51,6 +65,8 @@
 ネイティブ記事の[パッケージ契約](records/2026-10-25/ios-native-package-contract.md)では、app・renderer・schemaの対応、未対応版の拒否と正常版維持、生成側と端末側の音声・ファイル数・byte上限を揃える。旧HTMLの比較生成は一時出力へ限定し、全記事展開や配信の真正性とは範囲を分ける。
 
 既存のネイティブUI試験2件のHosted実行は[専用のCI追加記録](records/2026-10-25/ios-native-ui-ci.md)で追跡する。通常3記事の本文とTransformerの目次・しおり・再起動復帰を確認し、未対象のオフライン・コピー・内部リンク等のUI受入を区別する。
+
+[新runtimeの代表UI検査](records/2026-10-26/ios-runtime26-smoke.md)のCDCは、実2target・arm64のみをbuildしUI step539秒で完了した。Contentsの最初の目次待機は失敗、ThreeArticlesは成功し未受入を維持する。失敗後の逐次snapshotがvisible/hittableでも先行timeoutを覆さない。下位OSへ及ぶ形状補正の範囲を見直す候補と原因調査を分け、同headの再試行・待機や判定の緩和は行わない。
 
 [runtimeの照合記録](records/2026-10-25/ios-native-runtime-audit.md)では、現行app targetに旧WebKit・HTML/JS bridge・blockerが残っていないことを確認した。再利用する生成parserと比較用旧HTMLツールを保持したままIOS-24を完了とし、UI・実機の全体受入を別に残す。
 

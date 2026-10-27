@@ -115,6 +115,10 @@ Debugで`TestContent`を生成していない場合は、入口で記事が含�
 
 0.2.12（14）では、学習索引にある正規の章URLを本文から開くと、アプリ内の章案内とREADME順の記事へ進めます。章案内を閉じて本文へ戻る導線を用意し、未知URL等と索引のない代表3記事は従来のbrowser fallbackを保ちます。[章リンクの記録](../project/records/2026-10-25/ios-native-chapter-link.md)で、全199記事の前提・関連リンク保持、URL回帰、SDK compileと未完了の画面確認を区別します。
 
+## block内部の読書位置
+
+0.2.16（18）の[block内部の読書位置候補](../project/records/2026-10-26/ios-intrablock-reading-progress.md)では、実測したblock内の相対位置を任意anchorへ保存し、同じ本文の復帰とlayout変更後の再配置に使います。自動復帰が失敗した場合は旧保存を保ち、未到達の目次・検索等の目的地は自動layout再起動へ引き継ぎます。旧保存形式・しおり・block順の割合を維持し、意味内容で同じblockと確認できないfallbackでは内部位置を破棄します。旧v3 codeのSDK4段階（App16module・Core/Inline型検査・既存2CLI compile）は成功しましたが、新snapshot/pickerへ合わせたPublishedは未compileです。unit152・機能UI16（Published14＋Native2）＋pure geometry6＝22 selectedはsource数で、新mainの実登録・XCTest/UI・CI、最大文字・回転・VoiceOver・実機は未確認です。厳密な同じ文字やpixel位置の保証とIOS-11全体の完了は含みません。 実main270 `955c066c8dc0fdbedf6f0c845a461abda39ac476`（tree `9d2525e28ce3d9b6659eeac57b0b6f910e7e262b`）へbindした私有候補である。親PR270 head85d9のunit133（131成功＋2skip）・full21・Releaseと全15check成功は親の履歴で、新P1 unit152／UI22の実登録・実行は未確認とする。独立review後にrootがDraftへ反映してCIを実行し、必要exact-head CI成功までmainへ統合しない。 Published CIのjob上限だけ40分から50分へ調整し、selector・個別15秒・assert・commandは維持する。これはCI実行上限で製品性能budgetではない。
+
 ## 記事の生成と更新の試験
 
 [生成CLI](../scripts/build-ios-native-content.mjs)と[変換処理](../scripts/lib/ios-native-content.mjs)は、Markdown原本と音声カタログからパッケージを作ります。[資産生成](../scripts/lib/ios-native-assets.mjs)は行内・表示数式とMermaidを明暗別PNGへ変換します。元のTeX・Mermaidと代替読み上げ文をJSONへ残し、KaTeX・Mermaid・記事のライセンスも同梱します。端末用パッケージはJSON・PNG・TXTで構成し、HTML・JS・CSS・SVG・フォントは含めません。
@@ -184,11 +188,7 @@ npm run ios:test:package
 
 ## 全記事Coreのhost観測
 
-`npm run ios:benchmark:core -- --help`はSDKを起動せず、[専用CLIの手順](tests/core-performance.md)を表示します。実行は`--run`を明示し、保存済みContent、不変のproduction revision、compiler/SDK/target/Swift modeを指定します。検証全体・索引構築・16 queryの検索batchを別processで測り、正当性oracle1回と各warm-up1回・記録5回を分けます。
-
-[2026-10-26の実v4 CLI記録](../project/records/2026-10-26/ios-published-core-benchmark.md)では、localの199記事・37,744,971bytesを実消費し、monotonic wallとprocess RSSを観測しました。表の主値は凍結CLIの実入口から得た結果で、先行private wrapperや旧15 query測定と混ぜません。RSSは計測後probeまでのhost process高水位で、iOS appメモリ・索引単体容量・全lifetime peakではありません。入力遅延・scroll/画像decode・実機・受入予算は未完了です。
-
-通常の`npm run check`は新3ファイルのNode fixtureを既存test globで検査し、Swift/SDKやcorpus実測を自動実行しません。実CLIには独立したdisk/cache/TMP/process-tree RSS guardを用意します。既存PackageAuditとlaunchClock exporter、app/version/CI workflowは維持します。
+`npm run ios:benchmark:core -- --help`と[専用CLI手順](tests/core-performance.md)、[実観測の記録](../project/records/2026-10-26/ios-published-core-benchmark.md)を参照する。b79基線で実施した凍結CLIのraw19process/記録15は旧観測として保持し、最新source4のsnapshotや未実施の再CLIと分ける。通常CIはNode fixtureだけで、SDK・corpus観測は明示した手動CLIと別guardのまま。App/PBX/workflow/P1/Iconと全TODOを保持し、IOS-15と予算採択は未完了である。
 
 ## 検証
 
@@ -242,11 +242,23 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 
 既存の10機能ケースを残し、機能UIは12件、専用performanceは1件です。単独型検査と全targetのunit122/機能UI12/performance1のコンパイルを確認しました。追加2件の実UIは初回Hosted待ちです。ファイル選択画面のキャンセル、VoiceOver・最大文字・実機は未確認として残します。
 
+[フォルダー選択取消の追随preview](../project/records/2026-10-26/ios-picker-cancel-ui.md)では、旧238eのfull run40226683804/job121269430760でunit133件（131成功・2skip）と機能UI14/15成功を確認した履歴を保持する。本文検索Aとpicker取消138.720秒は成功し、Bは最初の到着で失敗してTOC/save/restartへ未到達だった。新snapshot helperを保持したPub41c3＋Nativebcafは機能15件＋geometry6件のsource計21件となるが、新snapshot/full/native/runtime26・生成budget・site待機・Releaseは正確な新headで未実施である。実main269 `750a305a82c6ff7882de46fdf7889c81925c509e`（tree `7636f378ecd8e8202cd2d9c8c9e89e2aa85b875d`）へ固有6pathをbindした私有候補で、独立最終レビューと正確な新headのCIを待つ。公開PR270 head238eは未変更である。
+
+## 本文検索ヒットと復帰のUI回帰
+
+[検索ヒットの追加2件](../project/records/2026-10-26/ios-search-hit-ui-regression.md)は、入れ子の特定段落への到着と、本文検索後に別位置を保存して再起動した時のB/A差分を公開UIで検査します。本文のgestureで到着位置を作らず、旧queryが復帰で再実行されない動作までを扱います。
+
+検索終了の修正後、旧head a88では単体127成功・2skip、機能UI14件とReleaseが成功しました。別headの検索到着判定の失敗も保持し、一時診断で判定中のgeometry重複取得を観測しました。新しい判定は1pollのviewportと各段落frameを再利用し、完全表示・先頭ID一致・15秒は維持します。picker追加前のsnapshot基線は機能14件と純粋geometry6件の計20件を新headのHostedで検証する予定です。新sourceのcompile・実登録・実行、VoiceOver・最大文字・実機は未完了です。
+
 ## SDK26のiPhoneOS Archive互換性検査
 
 [専用preflight](../.github/workflows/ios-sdk26-archive.yml)は、公開リポジトリの標準`macos-26`でXcode26.6・iOS26.5 SDKを実行時に照合し、全記事を生成してgeneric iOS向けのRelease Archiveを作る候補です。配布用の署名資格情報やProvisioningを使わず、署名が無い場合とTeam/Authorityを持たないad-hocだけを扱います。Archiveの実アプリの全SHA・本文集合・ライセンス・Privacy Manifest、SDK・最低OS17・arm64・device platform・dSYM UUID・fixture不在を監査します。
 
 ローカルMacの更新や署名済みIPAのexport、TestFlight・Store申請とは別の検査です。初回Hostedで実SDK26環境・Archive生成・actual Content監査まで成功しました。空の署名設定キーを扱うguard修正後、Archive Info全体のJSON変換で停止しました。必要な辞書のXML projectionからJSON化する限定修正を加え、実Info/Privacy・MachO/UUID/codesign監査を再検証します。[SDK26の記録](../project/records/2026-10-25/ios-sdk26-archive-preflight.md)で段階を追跡します。従来のXcode16.4・iOS18.5 Simulator回帰と最低対応OS17は維持します。
+
+## iPhone AppIconの候補
+
+[AppIconとビルド後監査](../project/records/2026-10-26/ios-app-icon-native-assets.md)は明示source commit `30a8a1db8d6c30eeb2c6e682f92ba94126cc5e35` へ私有準備した既存ブランドの8PNG/9slot・AppIcon監査候補で、0.2.16(18)から0.2.17(19)を提案する。PNG8/22,198B・source/validator/recipeを保ち、Published cap50・3selectorsへ承認監査呼出だけを加える。旧source check/Node13とactool失敗は履歴で、新compile・実CAR・Home/Store・exact-head CIと別人の最終payloadレビューは未実施。IOS-29全体は未完了で全TODO状態を維持する。
 
 ## ライセンスと通信
 

@@ -404,5 +404,74 @@
     "PBX/CI workflow/default SDK guard",
     "PackageAudit output contract",
     "strict launchClock exporter"
-  ]
+  ],
+  "current_main_sync_snapshot": {
+    "source_basis": {
+      "kind": "explicit-immutable-main",
+      "commit": "08bdb36fd1d8bc83b6fa6bbf4a96e5acbeefb8b7",
+      "tree": "fc061c8f2d62846bf2273602361f6852a4b0f2ae",
+      "live_main_lease_verified_by_helper": false,
+      "role": "Source snapshot only; no current benchmark execution or acceptance"
+    },
+    "current_production_source4": {
+      "role": "Explicit actual-main source files; separate from historical b79 raw identity",
+      "files": [
+        {
+          "path": "ios/AILibrary/Sources/Models.swift",
+          "bytes": 8614,
+          "sha256": "f355ff9ae41e39d3c78224c097afc7e6d64ce59ac91740ee57868c56068534af",
+          "blob_sha1": "ba081adb0114b0e2e1d4d338b96d92c81905290c",
+          "mode": "100644"
+        },
+        {
+          "path": "ios/AILibrary/Sources/NativeDocument.swift",
+          "bytes": 27503,
+          "sha256": "ce96e4960eef766e325b1b4b7d3701d4a7d5b5c3b1e69ae9599fd0f2622af2ab",
+          "blob_sha1": "473c39948ab24238f209ebfd6650d7f22bae484d",
+          "mode": "100644"
+        },
+        {
+          "path": "ios/AILibrary/Sources/ContentValidator.swift",
+          "bytes": 7794,
+          "sha256": "25a045747ed287c914423c4156dae60fb7130449d0b1a5680d8a9ec1b8f7d062",
+          "blob_sha1": "e394eacaece42a844062179c0c0168cc69e911e8",
+          "mode": "100644"
+        },
+        {
+          "path": "ios/AILibrary/Sources/ReadingStore.swift",
+          "bytes": 13235,
+          "sha256": "89eb397a25391fca4ece786438bc2b3dac2eda0933006f587769ab5b0551c5c9",
+          "blob_sha1": "6c23674e07a6a467f56cbba6634a5f0a50e91031",
+          "mode": "100644"
+        }
+      ],
+      "LibraryCoreTests_included": false,
+      "bytes_verified_from_explicit_commit": true
+    },
+    "historical_record_scope": "Existing basis/raw_identity_utf8/raw19/protocol/statistics are the accepted b79 observation, not this main snapshot",
+    "preparation": {
+      "benchmark_source8": "Exact frozen15 content, including chronology-approved helper documentation",
+      "new_benchmark_or_SDK_Simulator_execution": 0,
+      "current_statistics": null,
+      "IOS15_complete": false
+    },
+    "sync_commit_recipe": {
+      "first_parent": "577bae889c3ec157330f78fa7e46dff87c8bdc61",
+      "additional_parent": "08bdb36fd1d8bc83b6fa6bbf4a96e5acbeefb8b7",
+      "force": false,
+      "new_commit": null,
+      "root_must_check_actual_PR_head_and_main_leases": true
+    },
+    "future_one_time_CLI_guard": {
+      "one_actual_attempt_only": true,
+      "min_free_bytes": 3800000000,
+      "private_output_max_bytes": 268435456,
+      "process_tree_RSS_limit_bytes": 1610612736,
+      "outer_deadline_ms": 180000,
+      "performed_by_helper": false,
+      "automatic_retry": false
+    },
+    "final_payload_review": "pending",
+    "publishable": false
+  }
 }

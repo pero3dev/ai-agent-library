@@ -7,25 +7,46 @@ struct NativeReadingAnchor: Codable, Equatable, Sendable {
     let documentDigest: String
     let blockFingerprint: String
     let headingFingerprint: String?
+    /// Relative reading-line position in a measured top-level block, independent
+    /// of wrapping/point size. Legacy `ReadingPosition.fraction` is unchanged.
+    private(set) var intraBlockFraction: Double?
 
-    init?(documentDigest: String, blockFingerprint: String, headingFingerprint: String? = nil) {
+    init?(documentDigest: String, blockFingerprint: String, headingFingerprint: String? = nil,
+          intraBlockFraction: Double? = nil) {
         guard ContentValidator.isDigest(documentDigest), ContentValidator.isDigest(blockFingerprint),
               headingFingerprint.map(ContentValidator.isDigest) ?? true else { return nil }
         version = 1
         self.documentDigest = documentDigest
         self.blockFingerprint = blockFingerprint
         self.headingFingerprint = headingFingerprint
+        self.intraBlockFraction = Self.validFraction(intraBlockFraction)
     }
 
-    private enum CodingKeys: String, CodingKey { case version, documentDigest, blockFingerprint, headingFingerprint }
+    static func validFraction(_ value: Double?) -> Double? {
+        guard let value, value.isFinite, (0...1).contains(value) else { return nil }
+        return value
+    }
+
+    var withoutIntraBlockFraction: Self {
+        var copy = self
+        copy.intraBlockFraction = nil
+        return copy
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case version, documentDigest, blockFingerprint, headingFingerprint, intraBlockFraction
+    }
     init(from decoder: Decoder) throws {
         let fields = try decoder.container(keyedBy: CodingKeys.self)
         let version = try fields.decode(Int.self, forKey: .version)
         let digest = try fields.decode(String.self, forKey: .documentDigest)
         let block = try fields.decode(String.self, forKey: .blockFingerprint)
         let heading = try fields.decodeIfPresent(String.self, forKey: .headingFingerprint)
+        // An invalid optional progress field must not discard a valid semantic
+        // anchor or the independently decoded legacy fields.
+        let progress = try? fields.decodeIfPresent(Double.self, forKey: .intraBlockFraction)
         guard version == 1, let value = Self(documentDigest: digest, blockFingerprint: block,
-                                             headingFingerprint: heading) else {
+                                             headingFingerprint: heading, intraBlockFraction: progress ?? nil) else {
             throw DecodingError.dataCorruptedError(forKey: .version, in: fields,
                                                   debugDescription: "Unsupported or invalid reading anchor")
         }
@@ -54,6 +75,150 @@ struct ReadingPosition: Codable, Equatable, Sendable {
         let block = try? fields?.decodeIfPresent(String.self, forKey: .blockID)
         let anchor = try? fields?.decodeIfPresent(NativeReadingAnchor.self, forKey: .anchor)
         self.init(heading: heading ?? nil, fraction: fraction, blockID: block ?? nil, anchor: anchor ?? nil)
+    }
+}
+
+/// Only an actual top/end-marker measurement can construct the renderer's sample.
+/// The buffer has no clocks/tasks/defaults: delayed tasks hold a token, and a
+/// cancelled/superseded task cannot save a newer sample on its earlier deadline.
+struct NativeReadingSample: Equatable, Sendable {
+    let heading: String?
+    let blockID: String
+    let fraction: Double
+    let intraBlockFraction: Double
+}
+
+struct NativeReadingProgressBuffer {
+    private(set) var pending: NativeReadingSample?
+    private(set) var lastSaved: NativeReadingSample?
+    private(set) var token: UInt64 = 0
+
+    mutating func stage(_ sample: NativeReadingSample) -> UInt64? {
+        token &+= 1
+        guard sample.fraction.isFinite, (0...1).contains(sample.fraction),
+              NativeReadingAnchor.validFraction(sample.intraBlockFraction) != nil else { return nil }
+        pending = sample == lastSaved ? nil : sample
+        return pending == nil ? nil : token
+    }
+
+    mutating func cancelDelay() { token &+= 1 }
+
+    mutating func takeForSaving(expectedToken: UInt64? = nil, restoring: Bool) -> NativeReadingSample? {
+        guard !restoring, expectedToken == nil || expectedToken == token,
+              let sample = pending else { return nil }
+        pending = nil
+        token &+= 1
+        guard sample != lastSaved else { return nil }
+        lastSaved = sample
+        return sample
+    }
+}
+
+/// Production completion/recording gate, shared with the persistence regressions.
+/// A proxy's intermediate position must not overwrite an automatic resume goal.
+struct NativeReadingPlacementRequest {
+    enum Purpose { case automaticResume, automaticReflow, explicitNavigation }
+    let purpose: Purpose
+    let userPanEpoch: UInt64
+    let generation: UUID
+
+    init(purpose: Purpose, userPanEpoch: UInt64, generation: UUID = UUID()) {
+        self.purpose = purpose
+        self.userPanEpoch = userPanEpoch
+        self.generation = generation
+    }
+}
+
+struct NativeReadingProgressSession {
+    enum CompletionEffect: Equatable {
+        case measuredAlignment, measuredUserPan
+        case preserveAutomaticPosition, preserveUnreachedNavigation
+        case ignoreSuperseded
+
+        var acceptsMeasurement: Bool {
+            self == .measuredAlignment || self == .measuredUserPan
+        }
+        var consumesOneShot: Bool { acceptsMeasurement }
+        // A latest user-pan measurement may consume the old intent, but must
+        // never move accessibility focus back to that cancelled destination.
+        var restoresRequestedFocus: Bool { self == .measuredAlignment }
+    }
+    struct Completion {
+        let effect: CompletionEffect
+        let delayToken: UInt64?
+    }
+    private var buffer = NativeReadingProgressBuffer()
+    private(set) var blockedAtUserPanEpoch: UInt64?
+    private var activeGeneration: UUID?
+    private var placementUserPanEpoch: UInt64?
+    private var placementInFlight = false
+
+    mutating func beginPlacement(_ request: NativeReadingPlacementRequest) {
+        activeGeneration = request.generation
+        placementUserPanEpoch = request.userPanEpoch
+        placementInFlight = true
+        if case .explicitNavigation = request.purpose { blockedAtUserPanEpoch = nil }
+        buffer.cancelDelay()
+    }
+
+    func userPanBeforeReplacement(userPanEpoch: UInt64) -> UInt64? {
+        guard placementInFlight, let epoch = placementUserPanEpoch, epoch != userPanEpoch else { return nil }
+        return epoch
+    }
+
+    mutating func cancelUnreachedPlacement(userPanEpoch: UInt64) {
+        blockedAtUserPanEpoch = userPanEpoch
+        activeGeneration = nil
+        placementUserPanEpoch = nil
+        placementInFlight = false
+        buffer.cancelDelay()
+    }
+
+    mutating func permitsTracking(userPanEpoch: UInt64) -> Bool {
+        guard !placementInFlight else { return false }
+        guard let blocked = blockedAtUserPanEpoch else { return true }
+        guard blocked != userPanEpoch else { return false }
+        blockedAtUserPanEpoch = nil
+        return true
+    }
+
+    mutating func stageMeasured(_ sample: NativeReadingSample, userPanEpoch: UInt64) -> UInt64? {
+        guard permitsTracking(userPanEpoch: userPanEpoch) else { return nil }
+        return buffer.stage(sample)
+    }
+
+    // The storage layer needs only the observed alignment result. Keeping this
+    // boundary independent of the UI policy preserves the Foundation CLI inputs.
+    mutating func completePlacement(placementAligned: Bool,
+        request: NativeReadingPlacementRequest, currentUserPanEpoch: UInt64,
+        isUserInteracting: Bool, measured: NativeReadingSample?) -> Completion {
+        guard placementInFlight, activeGeneration == request.generation else {
+            return Completion(effect: .ignoreSuperseded, delayToken: nil)
+        }
+        placementInFlight = false
+        let userMoved = currentUserPanEpoch != request.userPanEpoch || isUserInteracting
+        let effect: CompletionEffect
+        if userMoved { effect = .measuredUserPan }
+        else if placementAligned, measured != nil { effect = .measuredAlignment }
+        else {
+            switch request.purpose {
+            case .automaticResume, .automaticReflow: effect = .preserveAutomaticPosition
+            case .explicitNavigation: effect = .preserveUnreachedNavigation
+            }
+        }
+        guard effect.acceptsMeasurement else {
+            // Also gate later preference callbacks at the intermediate offset.
+            // A root replacement changes the placement epoch, not userPanEpoch.
+            blockedAtUserPanEpoch = currentUserPanEpoch
+            buffer.cancelDelay()
+            return Completion(effect: effect, delayToken: nil)
+        }
+        blockedAtUserPanEpoch = nil
+        return Completion(effect: effect, delayToken: measured.flatMap { buffer.stage($0) })
+    }
+
+    mutating func takeForSaving(expectedToken: UInt64? = nil, restoring: Bool) -> NativeReadingSample? {
+        buffer.takeForSaving(expectedToken: expectedToken, restoring: restoring || placementInFlight)
     }
 }
 
@@ -112,11 +277,14 @@ final class ReadingStore {
     func position(for article: LibraryArticle, document: NativeDocument, documentDigest: String? = nil) -> ReadingPosition {
         let saved = position(for: article)
         guard document.article_id == article.id, !document.blocks.isEmpty else {
-            return ReadingPosition(heading: saved.heading, fraction: saved.fraction, anchor: saved.anchor)
+            return ReadingPosition(heading: saved.heading, fraction: saved.fraction,
+                                   anchor: saved.anchor?.withoutIntraBlockFraction)
         }
-        let block = document.readingBlockID(for: saved, documentDigest: documentDigest)
+        let resolved = document.readingResolution(for: saved, documentDigest: documentDigest)
+        let block = resolved?.blockID
+        let anchor = resolved?.restoresSameBlock == true ? saved.anchor : saved.anchor?.withoutIntraBlockFraction
         return ReadingPosition(heading: block.flatMap { document.headingID(forBlock: $0) } ?? saved.heading,
-                               fraction: saved.fraction, blockID: block, anchor: saved.anchor)
+                               fraction: saved.fraction, blockID: block, anchor: anchor)
     }
 
     private func save() {

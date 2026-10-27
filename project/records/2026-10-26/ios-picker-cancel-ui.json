@@ -1,0 +1,306 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-26",
+  "status": "private-bound-to-actual-main269; separate-final-review-and-exact-new-head-CI-pending",
+  "self_pr_number": 270,
+  "owned_paths": [
+    "ios/AILibraryUITests/PublishedReaderUITests.swift",
+    "ios/README.md",
+    "project/README.md",
+    "project/plans/engineering/ios-app-completion.md",
+    "project/records/2026-10-26/ios-picker-cancel-ui.json",
+    "project/records/2026-10-26/ios-picker-cancel-ui.md"
+  ],
+  "authorization": "User autonomous iOS TODO implementation and recording unperformed device checks; root delegates six-path Draft preparation. No remote/ref/compiler/runtime operations by preparation agent.",
+  "source": {
+    "SHA256": "41c3cfe54c34d608561a5db63b7c3f087fc1b2c62a12a9a0320c993a27e2e6ba",
+    "bytes": 44712,
+    "basis_old14_Published_SHA256": "d9ede07fb66f6a99d5d44ad679580ad05e7dd00dc31c03cf01677767dc1470ee",
+    "authored_picker_v2_SHA256": "9d503be661abc1b295951acc66cf03204ccec1be0a84f9c3a5606d85b18a0c70",
+    "merge": "clean three-way basis d9 + original5638-to9d append; source41c3 predicted and verified",
+    "preservation": "complete basis Published prefix and every12 case/helper preserved; authored picker helper and case appended byte-exact; Nativebcaf functional2 and geometry6 unchanged",
+    "source_counts_only": {
+      "Published_functional": 13,
+      "Native_functional": 2,
+      "functional_total": 15,
+      "geometry": 6,
+      "selected_total": 21,
+      "performance_separate": 1,
+      "new_actual_registration": "not-run"
+    },
+    "new_case": "testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions"
+  },
+  "initial_candidate": {
+    "source_parent": {
+      "pr": 269,
+      "commit": "2457b070afcf4793fab1a58905e1fadb59eacd30",
+      "tree": "bfc6374a9b697ba2724faab5cb68e868bdad9999"
+    },
+    "source": {
+      "SHA256": "c770fdc365b3a7ea973b9b09c45553d3d5b5880caa64b0e3b6af6bb538e110db",
+      "bytes": 44095,
+      "baselineSHA256": "5638e669240cbdbaaf2b8d1323b3fbfb82ff2c93aff30d8d882ac22bca945629",
+      "old14_preserved": "Exact complete old Published source before class brace and suffix bytes preserved; Native source unchanged",
+      "source_counts_only": {
+        "Published": 13,
+        "Native": 2,
+        "functional_total": 15,
+        "performance_separate": 1,
+        "actual_registration": 0
+      },
+      "new_case": "testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions"
+    },
+    "source_review": {
+      "decision": "No blocking source finding; exploratory Draft suitable, not compiled or system-picker acceptance",
+      "path": "/private/tmp/ios-picker-cancel-candidate-20261026/review.json",
+      "SHA256": "07f3a41c8ab21222fe1a9e6f21517e93c9b9e91d23fc137eaec39cc6114c66e2"
+    },
+    "source_static_evidence": {
+      "path": "/private/tmp/ios-picker-cancel-candidate-20261026/validation.json",
+      "SHA256": "166ae42cc5df9c3a8e85e097fc2c88eb55b261323aaa5608890ff3ac4f27e868",
+      "scope": "byte/diff/source guards only; no Swift parser/typecheck"
+    },
+    "initial_actual_execution": {
+      "SDK_typecheck": 0,
+      "compile": 0,
+      "runtime_UI": 0,
+      "registration": 0,
+      "Simulator_device": 0,
+      "CI_runs": []
+    }
+  },
+  "execution_history": [
+    {
+      "source_head": "fd26f2c87ea2cbaffe9554610fbf535c31d57121",
+      "run": 40218125409,
+      "job": 121243610854,
+      "actual_Xcode": "16.4 /16F6",
+      "device": "iPhone16 /iOS18.5",
+      "unit_registered": 129,
+      "unit_passed": 127,
+      "unit_skipped": 2,
+      "UI_registered": 15,
+      "UI_passed": 13,
+      "UI_failed": 2,
+      "failures": [
+        {
+          "case": "testBodySearchArrivesAtNestedParagraphContainingAllTermsWithoutReaderGestures",
+          "line": 565,
+          "observation": "Requested paragraph seen in failure PNG; first-full-visible poll failed; final target/nav AX frame unavailable; product alignment versus enumeration not determined."
+        },
+        {
+          "case": "testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions",
+          "line": 646,
+          "observation": "System picker actually displayed; generic newbar identification timed out; rejected guard unknown."
+        }
+      ],
+      "Release": "skipped"
+    },
+    {
+      "source_SHA256": "9d503be661abc1b295951acc66cf03204ccec1be0a84f9c3a5606d85b18a0c70",
+      "NativeHelper_SHA256": "1296e450ac8575244527cd58bcc8b21f4819956a7dada225f5522e954c6b46d8",
+      "validation": "one bounded two-source SDK typecheck only",
+      "Xcode": "16.2",
+      "SDK": "18.2",
+      "target": "arm64-apple-ios17.0-simulator",
+      "Swift": "5 /targeted /DEBUG /XCTest",
+      "status": "passed",
+      "attempts": 1,
+      "exit_code": 0,
+      "seconds": 6.751,
+      "log_bytes": 0,
+      "log_SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "full_build_registration_UI": 0
+    },
+    {
+      "source_head": "238e5e9968ff669f191cf3ee62db9d9a6f14378f",
+      "source_Published_SHA256": "9d503be661abc1b295951acc66cf03204ccec1be0a84f9c3a5606d85b18a0c70",
+      "source_Native_SHA256": "1296e450ac8575244527cd58bcc8b21f4819956a7dada225f5522e954c6b46d8",
+      "run": 40226683804,
+      "job": 121269430760,
+      "evidence_origin": "root-provided historical full-run observation; not rerun by this preview",
+      "unit_registered": 133,
+      "unit_passed": 131,
+      "unit_skipped": 2,
+      "UI_registered": 15,
+      "UI_passed": 14,
+      "UI_failed": 1,
+      "body_search_A": "passed",
+      "picker_cancel": {
+        "case": "testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions",
+        "status": "passed",
+        "seconds": 138.72,
+        "scope": "old238e UI case duration; not new21 or a product performance budget",
+        "printed_seconds": "138.720"
+      },
+      "body_search_B": {
+        "case": "testResumeUsesLaterReadingPositionInsteadOfReplayingThePreviousBodyQuery",
+        "status": "failed-first-arrival",
+        "not_reached": [
+          "TOC move",
+          "save later position",
+          "restart",
+          "resume comparison"
+        ]
+      },
+      "Release": "skipped-after-UI-failure",
+      "new_snapshot_Pub41c3_Nativebcaf": "not-this-execution"
+    }
+  ],
+  "observed_system_picker": {
+    "run": 40218125409,
+    "navigation_identifier": "FullDocumentManagerViewControllerNavigationBar",
+    "bar_frame": [
+      0,
+      69,
+      393,
+      108
+    ],
+    "scoped_Cancel_frame": [
+      8,
+      75,
+      90.7,
+      44
+    ],
+    "background_search_Cancel_present": true,
+    "v2_change": "Exact ID query count1 before binding, baseline absence, unique visible enabled hittable scoped Cancel and geometry; diagnostic reject text added; no global/coordinate/firstMatch fallback.",
+    "old_rejected_guard": "unknown; not a proven root cause"
+  },
+  "observable_scope": "Query/tag/summary/catalog count, scoped picker disappearance, no blocking content error, subsequent More/About, restart before direct bookmark/resume; not raw preference/pointer/catalog SHA equality. No folder/provider selection/import.",
+  "failure_contract": "Missing/unknown/ambiguous new navigation context fails with diagnostics; no global/coordinate fallback. If cancellation exposes a content alert, retain its contents and diagnose rather than auto-dismiss or remove assertion.",
+  "unobserved": [
+    "Exact new Pub41c3+Nativebcaf snapshot/helper/geometry registration and UI21",
+    "Exact new full/native/Release jobs",
+    "Exact next PR270 runtime26 with actual1bdd bounded-inventory workflow and1973 site readiness changes",
+    "B first-arrival and subsequent TOC/save/restart/resume on new snapshot",
+    "Physical device/VoiceOver/DynamicType"
+  ],
+  "current_actual_execution": {
+    "new_preview_SDK_typecheck": 0,
+    "new_preview_combined_build": 0,
+    "new_preview_registration": 0,
+    "new_preview_UI": 0,
+    "new_preview_runtime26": 0,
+    "new_preview_site_or_Release": 0,
+    "new_preview_measurements": 0
+  },
+  "unchanged_compared_new269": {
+    "all_nonowned_mode_type_blobs": true,
+    "NativeReaderUITests_SHA256": "bcafec630f8c5927a4b4b694dc33bcacd25f459ab4a636ae8e0f68309b69d1a4",
+    "NativeReaderView_SHA256": "9043dc4f7b1bcc341820571557589fdca40a5f258712d8cbaa0172561e01f505",
+    "NativeInlineTests_SHA256": "b6c5f2e731435d97bdfab6860f6774988705cd99a0bd1d24711aad4d08f83de3",
+    "PBX17_SHA256": "89e81d9bcb608d0e56c9266ffd2006111887c2ff80838be754a32ce5ac135cdf",
+    "published_selector20_SHA256": "a9a95d2a48c319f996c3ef5df3d1abad5a5f9b5b1773ff036e894e9fe2423d5f",
+    "site_graph_wait_SHA256": "1973c629e36dd6ba272a035f802ea691a16c68ffcc436a3d38dc7c992fb010c4",
+    "runtime26_records": "actual main269 incoming MD/JSON bytes and old failed/main sync history preserved exactly",
+    "runtime26_workflow_SHA256": "1bdd5304ed1418504444773d83e0b43d347ebc6f39aeecda70ca73ce050aea5e"
+  },
+  "publication": {
+    "preview_only": true,
+    "publishable": false,
+    "parent_sha": "750a305a82c6ff7882de46fdf7889c81925c509e",
+    "basis_tree": "7636f378ecd8e8202cd2d9c8c9e89e2aa85b875d",
+    "requires_actual_main269_commit_regeneration": false,
+    "required_checks": "exact next PR270 head common/native/full21/runtime26/SDK26/budget/site/Release plus independent payload review; no current success claim",
+    "never_use_tree_as_commit_parent": true,
+    "basis_commit": "750a305a82c6ff7882de46fdf7889c81925c509e",
+    "actual_main269_bound": true,
+    "independent_final_review": "pending separate reviewer",
+    "public_PR270_head": "238e5e9968ff669f191cf3ee62db9d9a6f14378f unchanged by this agent; root report"
+  },
+  "preview_only": true,
+  "publishable": false,
+  "parent_sha": "750a305a82c6ff7882de46fdf7889c81925c509e",
+  "last_measured_public_head": "238e5e9968ff669f191cf3ee62db9d9a6f14378f",
+  "historical_public_head_before_v2": "fd26f2c87ea2cbaffe9554610fbf535c31d57121",
+  "historical_source_parent": {
+    "pr": 269,
+    "commit": "3dbdfe4512de9948074fcb74151f2422818bf214",
+    "tree": "29566669e346ada6748277b45bd5984202ef3aef"
+  },
+  "source_parent": {
+    "pr": 269,
+    "commit": "750a305a82c6ff7882de46fdf7889c81925c509e",
+    "tree": "7636f378ecd8e8202cd2d9c8c9e89e2aa85b875d",
+    "source_PR269_head": "dde0ee07669f6697a68446cd06235e27a96b805e",
+    "actual_main_binding": "local immutable commit/tree verified; root separately verified normal merge/API",
+    "tree_is_not_commit_parent": true
+  },
+  "historical_integration_parents": {
+    "first": "fd26f2c87ea2cbaffe9554610fbf535c31d57121",
+    "second": "3dbdfe4512de9948074fcb74151f2422818bf214"
+  },
+  "historical_v2_source": {
+    "SHA256": "9d503be661abc1b295951acc66cf03204ccec1be0a84f9c3a5606d85b18a0c70",
+    "bytes": 45105,
+    "baseline_v1_SHA256": "c770fdc365b3a7ea973b9b09c45553d3d5b5880caa64b0e3b6af6bb538e110db",
+    "old14_baseline_SHA256": "5638e669240cbdbaaf2b8d1323b3fbfb82ff2c93aff30d8d882ac22bca945629",
+    "preservation": "Only requireNewFolderPicker differs from FD; complete prefix/old14, whole new picker case suffix, assert/timeout/gesture sequence unchanged; Native1296 unchanged.",
+    "source_counts_only": {
+      "Published": 13,
+      "Native": 2,
+      "functional_total": 15,
+      "performance_separate": 1,
+      "current_combined_registration": 0
+    },
+    "new_case": "testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions"
+  },
+  "historical_v2_source_review": {
+    "reviewer": "/root/row_trace_review",
+    "status": "approved-for-diagnostic-Draft-and-exact-final-Hosted-validation-only",
+    "blocking_findings": [],
+    "path": "/private/tmp/ios-picker-cancel-v2-candidate-20261026/independent-review.json",
+    "SHA256": "663dbd09f40082b6b0fe70b1e2bf24879d0628ed2abb8a3d0d2d7d36acbe3e70"
+  },
+  "historical_private_proof": {
+    "source_proof": "/private/tmp/ios-picker-cancel-v2-candidate-20261026/proof.json",
+    "SHA256": "2683d73289db7cc2c9312475fa2564f2dbe6f66f56f4f63ba224c41ff28e33e5",
+    "SDK_proof": "/private/tmp/ios-picker-cancel-v2-candidate-20261026/sdk-proof.json",
+    "SDK_SHA256": "c42379d1deb7313cbce8ce78191c0c606d72c54d49d9adc224aaaf97d55dfce6",
+    "diagnosis": "/private/tmp/ios-picker-first-ui-diagnostic-20261026/diagnosis.json",
+    "diagnosis_SHA256": "945945828ae1af9d1d7dd7c110e2bcc1a749ea6784c33e094b89811282beab52"
+  },
+  "preview_validation": {
+    "source_static_only": true,
+    "three_way_merge_conflicts": 0,
+    "new_SDK_compile_UI_Simulator_browser_full_npm_measurements": 0,
+    "actual_registration_or_run": "not-run",
+    "private_tree_is_not_parent": true,
+    "actual_main_commit_tree_bound": true,
+    "only_record_and_entry_basis_wording_changed_from_approved_preview": true
+  },
+  "historical_after_snapshot_preview": {
+    "basis_tree": "5d8e69a906dd867916b35b982addd031be407610",
+    "expected_tree": "7c3f60f2164af622677730a8d246c9631fa64712",
+    "M0_review_SHA256": "c34cbeceb4391078b9dadd51873f113569ea8d53b74e69983a623848200d328c",
+    "manifest_SHA256": "8416db4d923226f4284e4d9258ab55924ade18ab66862d12de651ba5510221fa",
+    "current_source_bytes_unchanged": true,
+    "former_runtime26_workflow_SHA256": "d0e90a6f1b4861f76525fdf3bb23d5472207c24b9e59293e11ba44b324eceb99"
+  },
+  "actual_main269_difference_preserved": [
+    {
+      "path": ".github/workflows/ios-runtime26-smoke.yml",
+      "mode_type_blob_before": "100644 blob f3a8a54a2ff541492c6780a763d505a1b3cb141e\t.github/workflows/ios-runtime26-smoke.yml",
+      "mode_type_blob_after": "100644 blob 1b9eb7071b3cd4e1c16b1743a5d2c5cf59f25190\t.github/workflows/ios-runtime26-smoke.yml",
+      "sha256_before": "d0e90a6f1b4861f76525fdf3bb23d5472207c24b9e59293e11ba44b324eceb99",
+      "sha256_after": "1bdd5304ed1418504444773d83e0b43d347ebc6f39aeecda70ca73ce050aea5e",
+      "NONOWN": true
+    },
+    {
+      "path": "project/records/2026-10-26/ios-runtime26-smoke.json",
+      "mode_type_blob_before": "100644 blob 23dd4253cddadefb7ec541d3a47ba6f2ced65921\tproject/records/2026-10-26/ios-runtime26-smoke.json",
+      "mode_type_blob_after": "100644 blob 2675219a42c157a5a856d46a46c4ee41aec32b2f\tproject/records/2026-10-26/ios-runtime26-smoke.json",
+      "sha256_before": "cf24efa065868ce5349bebfcc81e492fb0ebe4c7c15f7eea5a52d97f973d5aee",
+      "sha256_after": "7fd3f44a9aa6121306187d07256a2ab4c19779837e99b15fb0056790f4a988d2",
+      "NONOWN": true
+    },
+    {
+      "path": "project/records/2026-10-26/ios-runtime26-smoke.md",
+      "mode_type_blob_before": "100644 blob eae65f5d92686179526ab0341c60c9ce34ac23f1\tproject/records/2026-10-26/ios-runtime26-smoke.md",
+      "mode_type_blob_after": "100644 blob 68cdff12f765d4de972b6921a337c01d2191410b\tproject/records/2026-10-26/ios-runtime26-smoke.md",
+      "sha256_before": "d483ef6a30d84543ef63be8d9bb8b5f658790b995671764033cc7c4433a4bb26",
+      "sha256_after": "a9252b5517f6913221b4f4f1d08cab20da59bc0dd7ef352a821ce8772f1ce22b",
+      "NONOWN": true
+    }
+  ]
+}

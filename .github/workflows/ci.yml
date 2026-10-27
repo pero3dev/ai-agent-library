@@ -153,7 +153,7 @@ jobs:
         run: python -X utf8 -B -m unittest discover -s examples/tests -v
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # 静的ビルド・検索・図と全ルートのアクセシビリティ回帰を実行する。
     timeout-minutes: 30
     steps:
@@ -191,11 +191,12 @@ jobs:
         working-directory: website
       # prebuild(sync)が未解決リンク・許可外 MDX・読込失敗で exit 1、
       # postbuild が generated/routes.json とのルート網羅を照合して exit 1 する
-      - name: Install browser for regression checks
-        run: npx playwright install --with-deps chromium
-        working-directory: website
-      - name: Install Firefox for appearance checks
-        run: npx playwright install --with-deps firefox
+      - name: Prepare Linux browser dependencies with bounded acquisition
+        run: node .github/scripts/prepare-playwright-linux-deps.mjs
+        env:
+          PLAYWRIGHT_DEPS_PUBLIC_REPOSITORY: ${{ github.event.repository.private == false }}
+      - name: Install browsers for regression and appearance checks
+        run: npx --no-install playwright install chromium firefox
         working-directory: website
       # PR base の静的出力を同じ撮影helperで比較する。候補CSSを戻した画像をbeforeにしない。
       - name: Check out theme comparison baseline

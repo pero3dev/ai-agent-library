@@ -1,0 +1,404 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-26",
+  "status": "prepared-static-only; hosted-unverified",
+  "self_pr_number": null,
+  "self_head": null,
+  "base": {
+    "pr": 268,
+    "head": "2e27cf58ad46e7d32e3581a9895056333cc52f6b",
+    "tree": "41909ef129fb1171eb6d2fb9c8f317274e562bed"
+  },
+  "purpose": "IOS-23/25/26: independent existing NativeUI2 on newer bundled runtime",
+  "owned_paths": [
+    ".github/workflows/ios-runtime26-smoke.yml",
+    "project/records/2026-10-26/ios-runtime26-smoke.md",
+    "project/records/2026-10-26/ios-runtime26-smoke.json",
+    "project/README.md"
+  ],
+  "authorization": "User authorized autonomous iOS TODO implementation and recording unperformed device checks; root delegates standard public CI preparation only. No paid/Apple/distribution adoption.",
+  "workflow": {
+    "SHA256": "e8c794ad3dd78ee7c885e886407d3218bc2823487843de3ba5bc05af8a41620d",
+    "bytes": 30638,
+    "runner": "standard public macos-26 arm64",
+    "Xcode": "26.6/17F113",
+    "SDK": "26.5",
+    "runtime": "unique actual available simctl iOS26.5+iPhone17 identifiers",
+    "no_runtime_download_or_fallback": true,
+    "permissions": "contents:read; fixed SHA Actions; persist-credentials:false; no secrets",
+    "signing": "CODE_SIGNING_ALLOWED=NO; no Apple credentials/provisioning",
+    "packages": "direct CLI representative3/fixture4 source+consumer and actual Debug audits; dedicated fixtureUI not covered",
+    "selector": "AILibraryUITests/NativeReaderUITests",
+    "expected_case_count": 2,
+    "cleanup": "Proven newly created owned UUID only; immediately after UI; cancelled device-free audits skip",
+    "caps": "38min step total/40min job, cleanup4min/call45s; cancellation5min means cleanup/summary/upload best effort"
+  },
+  "static_validation": {
+    "passed": [
+      "Actionlint1.7.12 (shellcheck/pyflakes disabled)",
+      "repository YAML JSON_SCHEMA parse",
+      "Bash14/Node6 syntax",
+      "audit order, Native selector, ownership/cancellation order and caps"
+    ],
+    "run_blocks_executed": 0,
+    "source_review": "No blocking finding reported by root; final payload review remains separate",
+    "evidence": {
+      "path": "<repo>/.local/ios-autonomous-evidence/runtime26-smoke-prepared/source-static-validation.json",
+      "SHA256": "7a54739d5eba30b76ec5305805240c8fe9e60a7a728011045b8f0918daa20fa7"
+    },
+    "payload_manifest": "<repo>/.local/ios-autonomous-evidence/runtime26-smoke-prepared/manifest.json",
+    "full_common_check": "not run in this preparation; final Hosted pending"
+  },
+  "actual_new_workflow_execution": {
+    "runtime_schema_observations": 0,
+    "dedicated_UUID_create": 0,
+    "boot": 0,
+    "UI_cases": 0,
+    "cleanup": 0,
+    "Hosted_runs": []
+  },
+  "primary_sources": {
+    "checked": "2026-10-26",
+    "image_manifest": "https://github.com/actions/runner-images/blob/macos-26-arm64/20261021.0445/images/macos/macos-26-arm64-Readme.md#installed-simulators",
+    "image": "20261021.0445.8; Installed Simulators explicitly lists iOS26.5/iPhone17",
+    "standard_public_runner": "https://docs.github.com/en/actions/reference/runners/github-hosted-runners#standard-github-hosted-runners-for-public-repositories",
+    "cancellation": "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-cancellation"
+  },
+  "unchanged": [
+    "macos15 native and full-catalog CI",
+    "Clock CI",
+    "SDK26 Archive CI",
+    "required checks",
+    "App/PBX/versions",
+    "existing UI selectors/assertions/timeouts"
+  ],
+  "not_performed": [
+    "remote/ref operations by preparation agent",
+    "CI dispatch/rerun",
+    "npm/install/SDK/local compiler/Simulator/device",
+    "runtime/artifact download",
+    "Apple account/legal/signing/Store",
+    "paid/larger runner"
+  ],
+  "remaining": [
+    "Actual simctl/xcresult schema, boot, exact UI2 and owned cleanup on first Hosted",
+    "Final payload independent review/publication by root",
+    "Current iOS27/minimum iOS17 runtime/device/VoiceOver/full-catalog/performance acceptance"
+  ],
+  "scope_boundary": "26.5 is newer than18.5, not current iOS27 or minimum iOS17 runtime acceptance.",
+  "follow_up": {
+    "status": "first-hosted-failed; visible-top-hypothesis-candidate; limited-SDK-typecheck-passed; new-exact-head-Hosted-pending",
+    "stage_history_note": "Original top-level preparation status, zero counters, self fields and unchanged/not_performed lists describe the initial preparation stage. This appended follow_up records later observations without replacing that stage.",
+    "pr": 269,
+    "observed_head": "2457b070afcf4793fab1a58905e1fadb59eacd30",
+    "observed_tree": "bfc6374a9b697ba2724faab5cb68e868bdad9999",
+    "proposed_self_head": null,
+    "first_hosted": {
+      "run_id": 40216989944,
+      "job_id": 121240156462,
+      "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40216989944/job/121240156462",
+      "runner": "standard public macos-26 arm64/macOS26.6.2",
+      "Xcode": "26.6/17F113",
+      "runtime": "iOS26.5/23F77",
+      "device": "iPhone17",
+      "cases": 2,
+      "passed": 1,
+      "failed": 1,
+      "passed_case": "NativeReaderUITests/testThreeArticlesHaveNativeBodyText()",
+      "failed_case": "NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch()",
+      "failure_location": "NativeReaderUITests.swift:185 after first TOC target tap; before leave/relaunch",
+      "successful_stages": [
+        "inventory",
+        "owned UUID create/boot",
+        "representative3 and fixture4 source/consumer/actual Debug bundle audits",
+        "owned Simulator cleanup"
+      ],
+      "helper_sha256": "1296e450ac8575244527cd58bcc8b21f4819956a7dada225f5522e954c6b46d8"
+    },
+    "failure_evidence": {
+      "mapping": "Explicit xcresult Attachments row15/16 -> Activities row135/138 -> TestCaseRuns row1 -> TestCases row1; exact payload IDs, not raw-string coordinate inference",
+      "root_reader": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "unique_navigation_bar": [
+        0,
+        62,
+        402,
+        54
+      ],
+      "navigation_bar_bottom": 116,
+      "unique_target_heading": [
+        18,
+        35,
+        131,
+        24
+      ],
+      "target_heading_bottom": 59,
+      "target_identifier": "native-heading-自己注意の数式",
+      "toc_navigation_bar_present": false,
+      "observed": "heading exists but lies above visible reader top and behind top chrome at failure",
+      "unconfirmed": "AX lacks control enabled/hittable witnesses; actual poll hidden/unknown and product root cause are not determined",
+      "artifact": {
+        "id": 12609482132,
+        "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40216989944/artifacts/12609482132",
+        "bytes": 82504210,
+        "sha256": "20ef4ae5f4dcaeef22ce02fd9d9753aa42177e3c3eb74c7e94b3a9973d5c7130",
+        "expires_at": "2027-01-23T17:32:48Z",
+        "remote_digest_crc_safe_paths_no_symlinks": "verified"
+      },
+      "png_sha256": "5c5e6693a11d39efe869247c531702603c3e0095eb7367d0853ac6176344bf39",
+      "AX_utf8_sha256": "b90c68796cf90316321fa0baddbd26c35634b5776bffc54a010b621ee1dd6da8"
+    },
+    "candidate": {
+      "reader_sha256": "9043dc4f7b1bcc341820571557589fdca40a5f258712d8cbaa0172561e01f505",
+      "unit_sha256": "b6c5f2e731435d97bdfab6860f6774988705cd99a0bd1d24711aad4d08f83de3",
+      "rule": "visibleTop=max(adjusted.top,safeArea.top); legal offset clamp retains adjusted top/bottom; reading-block selection uses same visible top",
+      "root_cause_confirmed": false,
+      "runtime_insets_observed": false,
+      "diagnostics": "DEBUG + existing isolated UI suite only; at most32 numeric geometry samples/request, no article/query/heading IDs or reading records, no network/new route/Nav injection",
+      "app_version": "0.2.15(17)",
+      "PBX_changes": "four Debug/Release version fields only",
+      "preserved": [
+        "0.5pt alignment",
+        "finite placement and pan/scene/generation cancellation",
+        "weak markers/root ownership",
+        "search/navigation/saved format",
+        "helper1296/selector/assertion/timeout",
+        "all workflows"
+      ],
+      "tests": {
+        "old_methods_unchanged": 24,
+        "new_methods": 4,
+        "runtime_executed_for_candidate": 0
+      }
+    },
+    "limited_SDK_validation": {
+      "status": "passed",
+      "Xcode": "16.2/16C5032",
+      "SDK": "iphonesimulator18.2",
+      "target": "arm64-apple-ios17.0-simulator",
+      "flags": "Swift5; strict-concurrency=targeted; DEBUG; enable-testing; Onone; availability checks enabled",
+      "App_module": {
+        "input_Swift": 16,
+        "exit": 0,
+        "seconds": 20.081,
+        "stdout_bytes": 0,
+        "stderr_bytes": 0
+      },
+      "NativeInlineTests_typecheck": {
+        "testable_import": "AILibrary emitted module",
+        "source_test_methods": 28,
+        "exit": 0,
+        "seconds": 3.431,
+        "stdout_bytes": 0,
+        "stderr_bytes": 0
+      },
+      "proof": "<repo>/.local/ios-autonomous-evidence/viewport26-fix-prepared/evidence/limited-sdk-proof.json",
+      "proof_sha256": "54b1280a18054d0d43517dbf79b522aaff737de48d9efbf53ba1b2543e7cf8d8",
+      "minimum_free_bytes": 4910505984,
+      "not_acceptance_for": [
+        "actual XCTest",
+        "full target build",
+        "iOS26 runtime insets or fix success"
+      ]
+    },
+    "submission_scope": {
+      "changed_from_D_paths": 5,
+      "original_runtime_owned_paths": 4,
+      "final_owned_paths_from_approved_future268": 7,
+      "new_App2_plus_PBX_paths": 3,
+      "source_origin": "2e27cf58ad46e7d32e3581a9895056333cc52f6b",
+      "expected_parents": [
+        "2457b070afcf4793fab1a58905e1fadb59eacd30",
+        "4b1045ff405c4910a679041cd026a8b246fd58b9"
+      ],
+      "ios_README_plan_project_index": "unchanged by this follow-up",
+      "raw_diff_from_2e_paths": 34,
+      "inherited_non_runtime_sync_paths_from_2e": 27,
+      "final_owned_scope_note": "runtime-owned4 + App2/PBX3 relative approved future268 baseline tree, while raw original2e diff34 includes inherited sync27",
+      "authored_scope_baseline_tree": "3ccf8e9de5db016c1aa28c5ec2e650ef012e2053",
+      "baseline_object_type": "tree for comparison only, never commit parent",
+      "current_main_at_follow_up_preparation": "4b1045ff405c4910a679041cd026a8b246fd58b9",
+      "current_main_diff_paths_including_pending_predecessors": 14
+    },
+    "pending": [
+      "final payload independent review and root publication/CAS",
+      "new exact-head Hosted NativeUI2",
+      "full-catalog functional UI14 and unit/SDK/Release audits",
+      "current iOS27/minimum iOS17 runtime/VoiceOver/performance acceptance"
+    ],
+    "physical_QA": "new physical QA skipped by user instruction; existing results retained separately",
+    "do_not_equate": [
+      "iOS18.5 row163 failure",
+      "minimum-iOS17 missing destination failure"
+    ]
+  },
+  "current_followup": {
+    "source_head": "3dbdfe4512de9948074fcb74151f2422818bf214",
+    "status": "source3db-runtime26-Native2-passed-full-and-site-failed-actual-main-snapshot-sync-exact-head-pending",
+    "runtime26": {
+      "run": 40225552342,
+      "job": 121266028072,
+      "UI_pass": 2,
+      "actual_inset_values": "not-observed",
+      "artifact": 12611902287
+    },
+    "native": {
+      "run": 40225552390,
+      "registered": 133,
+      "pass": 131,
+      "skip": 2,
+      "UI_pass": 2,
+      "Release": "success"
+    },
+    "full": {
+      "run": 40225552378,
+      "job": 121266028236,
+      "unit_pass": 131,
+      "unit_skip": 2,
+      "UI_pass": 13,
+      "UI_registered": 14,
+      "failure": "A first-visible predicate; before any corrective reader gesture",
+      "Release": "skipped"
+    },
+    "site_build": {
+      "job": 121266027994,
+      "failure": "mobile hidden locator matched two graph canvases",
+      "repair": "wait exact1 using default timeout before existing hidden assertion",
+      "actual_new_Playwright": "not-run"
+    },
+    "other_head_generation_failure": {
+      "head": "238e5e9968ff669f191cf3ee62db9d9a6f14378f",
+      "run": 40226683838,
+      "job": 121269430717,
+      "UI": 0,
+      "reason": "generation/audit step2min timeout"
+    },
+    "next_workflow": {
+      "generation_minutes": 4,
+      "other_commands_unchanged": true,
+      "job_minutes": 40,
+      "UI_minutes": 8,
+      "outer_cap_cleanup_guarantee": false
+    },
+    "comparison_basis": {
+      "tree": "80abdee0d3a2e9148849a114bb8ffe2c8f354682",
+      "object_type": "verified-actual-main-commit-tree",
+      "expected_own_paths": 8,
+      "public_parent": "656c234582bbe76b852b394eae4d6f6837f0ce04",
+      "source_parent": "3dbdfe4512de9948074fcb74151f2422818bf214",
+      "actual_main_tree_matches_preview": true
+    },
+    "source_reviews": {
+      "budget_SHA256": "da004f8c39f2dd3db1c5fca5cb5ef83d9e90d18e49789dd85e80166db0c97fd2",
+      "graph_SHA256": "d6d55d05f26b95573306dc2a7b1ea64c001235c4200c9d9a682beb317b206024"
+    },
+    "new_actual_checks": "not-run; ordinary/native/full20/SDK26/runtime26/Release required",
+    "physical": "skipped-incomplete-by-user-instruction"
+  },
+  "actual_367_buildscope_checkpoint": {
+    "head": "36786c6ac42f06a2c7bd3644e7196a7f8791cbf1",
+    "tree": "3fc2aa19174008d24eee5d943560b33ada75b08e",
+    "version": "0.2.18(20)",
+    "run": 40383509809,
+    "UI_status": "partial; outer12min timeout, notaccepted",
+    "Contents": "Passed212.238s",
+    "Three": "incomplete after thirdTransformer rowtap/readerwait began",
+    "aggregate": "missing; strictprimary rejects",
+    "cleanup_DebugAudit": "passed",
+    "samehead_retry": 0,
+    "pre_UI_seconds_approx": 420,
+    "build_graph": [
+      "App",
+      "UI->App",
+      "Unit->App"
+    ],
+    "unrun_unit": "6files compiled/linked botharm64/x86_64; execution0",
+    "App_and_UI": "both architectures compiled/linked",
+    "host": "arm64",
+    "effective_ONLY_ACTIVE_ARCH": "NO",
+    "CLI_ONLY_ACTIVE_ARCH": "absent",
+    "unitDriver_toTouch_seconds": 25.638,
+    "cost_interpretation": "parallel observed window only, not exclusive saving; preUI7min not attributed solelytoUnit",
+    "timing_receipt_SHA256": "915f6f1528ea76cee1737421a4219ff65beaf6af05da009bb84edca400f11c22"
+  },
+  "UI_build_scope_preparation": {
+    "source_head": "36786c6ac42f06a2c7bd3644e7196a7f8791cbf1",
+    "technical_manifest_SHA256": "9e33a1af3b40f5901f929c23a4c4a303d73c7b0242dcaa8b86b13a9cd86b3978",
+    "status": "technical2 frozen statically independently reviewed; final8 and actualnewhead pending",
+    "scope": "new UISmoke scheme minus unrunUnit; Runtime26 two scheme refs plusONLY_ACTIVE_ARCHYES for concreteownedUUID",
+    "unchanged": "originalscheme/project/app/tests/Native/full/Archive;40/12/6min240s;exact2strictparentsdevice/stages",
+    "version": "0.2.18(20) unchanged",
+    "architecture_coverage": "smoke narrows compilearchitecture; otherNative/full/Release retained",
+    "actualnewhead": null,
+    "actualnewrun": null,
+    "speed_or_timeout_fix": "not measured/confirmed",
+    "technical_review_SHA256": "000eba873171c99c2c7614fc45c6e6bf28f0c02afdb6db913b42d505287b1730",
+    "static_validation": "XML original minus exactly one UnitTestable; parsedYAML same except one runscalar with exactly2scheme strings and1CLIflag; allothersteps/constraints andnonowned files preserved",
+    "runtime_execution": "not run; savings/12min completion unverified"
+  },
+  "record_interpretation_buildscope": {
+    "old_fields": "historical snapshots preserved",
+    "latest_actual": "actual_367_buildscope_checkpoint",
+    "next": "UI_build_scope_preparation in runtime26 record",
+    "TODO": "32rows12done, IOS11/23 incomplete",
+    "old_results_rebound": false
+  },
+  "actual_CDC_OSscope_checkpoint": {
+    "head": "cdc081e3d0b5c86762254bd53f338e0fa8e2c07f",
+    "tree": "4bedb2a5323542bd61df2031eaa25ae6fbc358b6",
+    "version": "0.2.18(20)",
+    "commonCI": "9 jobs passed; root968pass16skip; Web97/677pass5skip/FF14; audio8/WebKit8+2+14",
+    "SDK26": "Archive passed199",
+    "SDK27": "Archive and strictUI2/parents/cleanup passed, no newAXnumbers, receipt1bde30f5d100e2a79d564333b8756479df0f78604d35f57f9b570bc03debc222",
+    "Native": "151pass2skip/UI2/Release passed",
+    "Full": "functional16+pure6 all22 andRelease199/625 passed",
+    "runtime26": {
+      "run": 40392047011,
+      "job": 121815237836,
+      "accepted": false,
+      "graph": "2targets App/UI, unitbuild0",
+      "architectures": "ONLY_ACTIVE_ARCHYES; arm64 App/UI",
+      "UIstep_seconds": 539,
+      "pre_suite_seconds": 304.569,
+      "Contents": "Failed72.979s at firstTOCwait326; relaunch/resume unreached",
+      "Three": "Passed110.350s",
+      "posttimeout_snapshot": "18,122,131,24/viewporttop116/fullvisible+hittable+satisfied true; sequential only doesnot negate timeout",
+      "cause": "unconfirmed",
+      "cleanup_DebugAudit": "passed",
+      "artifact": {
+        "id": 12685878667,
+        "bytes": 89464816,
+        "downloaded": false,
+        "reason": "over local16MiB cap"
+      },
+      "samehead_retry": 0,
+      "receipt_SHA256": "17d5a5afa6f684b07d66ea7f2cb2c2fed37d08b669968a77498cd32be5cc8505"
+    }
+  },
+  "heading_OSscope_preparation": {
+    "source_head": "cdc081e3d0b5c86762254bd53f338e0fa8e2c07f",
+    "version": "0.2.19",
+    "build": "21",
+    "status": "technical2 frozen independently statically reviewed; final8/newhead pending",
+    "technical_manifest_SHA256": "591cd906f2f72d23b26811c4ff03493e8c07192e4c1a2091cf17535b9b573234",
+    "behavior": "heading-only explicitshape on iOS27andlater; defaultcontent on17to26; notAPIavailability requirement",
+    "unchanged": "traits/level/focus/id/padding once outsidehelper; AnyView/layout/selection/hit-testing/positions/tests/CI budgets",
+    "conditional_identity": "new static-per-process branch still needs realAX/SDK/selection/actions verification",
+    "runtime26_cause_fix": "unproven; notclaimed",
+    "actualnewhead": null,
+    "actualnewrun": null,
+    "actualVoiceOver": "not run skippedincomplete authorized",
+    "technical_review_SHA256": "5925504e3a1bc9f97b34f367b60f48deef50a4bc86f2b18b6e8720202dd9b0f8"
+  },
+  "record_interpretation_OSscope": {
+    "old_fields": "historical snapshots preserved",
+    "latestactual": "actual_CDC_OSscope_checkpoint",
+    "next": "heading_OSscope_preparation",
+    "old_evidence_rebound": false,
+    "TODO": "32rows12done; IOS11/23 incomplete"
+  }
+}

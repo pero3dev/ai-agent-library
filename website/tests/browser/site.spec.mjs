@@ -94,6 +94,7 @@ test('dependency arrows, shared text relations and keyboard navigation are avail
   await expect(page).toHaveURL(/\/docs\/concepts(?:\.html)?$/)
   await page.goto(route('/roadmap'))
   await page.setViewportSize({ width: 375, height: 812 })
+  await expect(page.locator('.dep-graph-canvas')).toHaveCount(1)
   await expect(page.locator('.dep-graph-canvas')).toBeHidden()
   await expect(page.locator('.dependency-list')).toBeVisible()
 })

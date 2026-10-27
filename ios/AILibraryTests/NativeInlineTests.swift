@@ -42,6 +42,35 @@ final class NativeInlineTests: XCTestCase {
         }
     }
 
+    func testReaderVisibleTopUsesOverlappingInsetsWithoutAddingThem() {
+        XCTAssertEqual(NativeReaderScrollBounds.visibleTopInset(adjustedTopInset: 0, safeAreaTopInset: 116), 116)
+        XCTAssertEqual(NativeReaderScrollBounds.visibleTopInset(adjustedTopInset: 116, safeAreaTopInset: 116), 116)
+        XCTAssertEqual(NativeReaderScrollBounds.visibleTopInset(adjustedTopInset: 103, safeAreaTopInset: 0), 103)
+        XCTAssertEqual(NativeReaderScrollBounds.visibleTopInset(adjustedTopInset: 140, safeAreaTopInset: 116), 140)
+        for invalid in [CGFloat.nan, .infinity, -.infinity, -1] {
+            XCTAssertNil(NativeReaderScrollBounds.visibleTopInset(adjustedTopInset: invalid, safeAreaTopInset: 116))
+            XCTAssertNil(NativeReaderScrollBounds.visibleTopInset(adjustedTopInset: 103, safeAreaTopInset: invalid))
+        }
+    }
+
+    func testReaderVisibleTopKeepsTheAdjustedOffsetClamp() {
+        XCTAssertEqual(NativeReaderScrollBounds.offset(targetMinY: 1600, topInset: 0, bottomInset: 34,
+            contentHeight: 4000, viewportHeight: 874, visibleTopInset: 116), 1484)
+        XCTAssertEqual(NativeReaderScrollBounds.offset(targetMinY: 1600, topInset: 116, bottomInset: 34,
+            contentHeight: 4000, viewportHeight: 874, visibleTopInset: 116), 1484)
+        // Safe area excludes chrome; it must not enlarge UIKit's negative-offset range.
+        XCTAssertEqual(NativeReaderScrollBounds.offset(targetMinY: 0, topInset: 0, bottomInset: 34,
+            contentHeight: 4000, viewportHeight: 874, visibleTopInset: 116), 0)
+        XCTAssertEqual(NativeReaderScrollBounds.offset(targetMinY: 160, topInset: 0, bottomInset: 34,
+            contentHeight: 200, viewportHeight: 874, visibleTopInset: 116), 0)
+        XCTAssertEqual(NativeReaderScrollBounds.offset(targetMinY: 3950, topInset: 0, bottomInset: 34,
+            contentHeight: 4000, viewportHeight: 874, visibleTopInset: 116), 3160)
+        for invalid in [CGFloat.nan, .infinity, -.infinity, -1] {
+            XCTAssertNil(NativeReaderScrollBounds.offset(targetMinY: 1600, topInset: 0, bottomInset: 34,
+                contentHeight: 4000, viewportHeight: 874, visibleTopInset: invalid))
+        }
+    }
+
     func testReaderProgressChoosesBlockAtTheVisibleInset() {
         let frames: [String: CGFloat] = ["previous": -900, "selected": 103, "next": 145]
         XCTAssertEqual(NativeReaderScrollBounds.readingBlockID(frames: frames, viewportHeight: 852, topInset: 103), "selected")
@@ -55,9 +84,21 @@ final class NativeInlineTests: XCTestCase {
         XCTAssertNil(NativeReaderScrollBounds.readingBlockID(frames: frames, viewportHeight: 0, topInset: 103))
     }
 
-    private func readerScrollFixture(_ run: (UIScrollView, UIView, NativeReaderScrollAnchors) throws -> Void) rethrows {
+    /// Explicit unit geometry only; this does not claim any runtime's real insets.
+    private final class ReaderSafeAreaScrollView: UIScrollView {
+        var suppliedSafeAreaInsets = UIEdgeInsets.zero
+        override var safeAreaInsets: UIEdgeInsets { suppliedSafeAreaInsets }
+    }
+
+    private func readerScrollFixture(safeAreaTopInset: CGFloat? = nil,
+        _ run: (UIScrollView, UIView, NativeReaderScrollAnchors) throws -> Void) rethrows {
         let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 393, height: 852))
-        let scroll = UIScrollView(frame: window.bounds)
+        let scroll: UIScrollView
+        if let safeAreaTopInset {
+            let supplied = ReaderSafeAreaScrollView(frame: window.bounds)
+            supplied.suppliedSafeAreaInsets.top = safeAreaTopInset
+            scroll = supplied
+        } else { scroll = UIScrollView(frame: window.bounds) }
         scroll.contentInsetAdjustmentBehavior = .never
         scroll.contentInset = UIEdgeInsets(top: 103, left: 0, bottom: 34, right: 0)
         scroll.contentSize = CGSize(width: 393, height: 4000)
@@ -69,6 +110,58 @@ final class NativeInlineTests: XCTestCase {
         let anchors = NativeReaderScrollAnchors()
         anchors.registerRoot(root)
         try withExtendedLifetime(window) { try run(scroll, content, anchors) }
+    }
+
+    func testReaderMarkersAlignAndSaveAtVisibleTopWhenAdjustmentOmitsSafeArea() {
+        readerScrollFixture(safeAreaTopInset: 116) { scroll, content, anchors in
+            var selected: UIView!
+            for (id, y) in [("previous", CGFloat(1500)), ("selected", 1600), ("next", 1644)] {
+                let marker = UIView(frame: CGRect(x: 0, y: y, width: 1, height: 0))
+                content.addSubview(marker)
+                anchors.registerTarget(marker, id: id)
+                if id == "selected" { selected = marker }
+            }
+            scroll.contentInset.top = 0
+            XCTAssertEqual(scroll.adjustedContentInset.top, 0)
+            XCTAssertEqual(scroll.safeAreaInsets.top, 116)
+            for offset in [CGFloat(20), 800] {
+                scroll.contentOffset.y = offset
+                XCTAssertEqual(selected.convert(selected.bounds, to: scroll).minY, 1600)
+                XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
+                XCTAssertEqual(scroll.contentOffset.y, 1484)
+                XCTAssertEqual(selected.convert(selected.bounds, to: scroll).minY - scroll.contentOffset.y, 116)
+                XCTAssertEqual(anchors.placementObservation(of: "selected"), .aligned)
+                XCTAssertEqual(anchors.readingBlockID(in: ["previous", "selected", "next"]), "selected")
+            }
+            // An inset already included by UIKit is not counted a second time.
+            scroll.contentInset.top = 116
+            XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
+            XCTAssertEqual(scroll.contentOffset.y, 1484)
+            // Moving the root on screen must not be added to the local inset.
+            scroll.frame.origin.y = 59
+            XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
+            XCTAssertEqual(scroll.contentOffset.y, 1484)
+        }
+    }
+
+    func testReaderMarkersReobserveAChangedVisibleTop() throws {
+        try readerScrollFixture(safeAreaTopInset: 116) { scroll, content, anchors in
+            let supplied = try XCTUnwrap(scroll as? ReaderSafeAreaScrollView)
+            let marker = UIView(frame: CGRect(x: 0, y: 1600, width: 1, height: 0))
+            content.addSubview(marker)
+            anchors.registerTarget(marker, id: "selected")
+            scroll.contentInset.top = 0
+            XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
+            XCTAssertEqual(scroll.contentOffset.y, 1484)
+            supplied.suppliedSafeAreaInsets.top = 140
+            XCTAssertEqual(anchors.placementObservation(of: "selected"), .needsAlignment)
+            XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
+            XCTAssertEqual(scroll.contentOffset.y, 1460)
+            supplied.suppliedSafeAreaInsets.top = 116
+            scroll.contentInset.top = 140
+            XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
+            XCTAssertEqual(scroll.contentOffset.y, 1460)
+        }
     }
 
     func testReaderScrollMarkersConvertNestedTargetsWithoutDoubleCountingOffset() {
@@ -489,5 +582,236 @@ final class NativeInlineTests: XCTestCase {
             initialSearchHit: invalid, searchStartsAtBeginning: true)
         XCTAssertEqual(fallback.blockID, "first-block")
         XCTAssertEqual(fallback.scrollBlockID, "first-block")
+    }
+
+    // IOS-11 prototype regressions; SDK compilation/execution remain pending.
+    func testIntraBlockGeometryKeepsRelativeReadingLineAfterReflow() throws {
+        let fraction = try XCTUnwrap(NativeReaderScrollBounds.intraBlockFraction(
+            blockMinY: 600, blockMaxY: 2600, readingLineY: 1800))
+        XCTAssertEqual(fraction, 0.6, accuracy: 0.000001)
+        XCTAssertEqual(NativeReaderScrollBounds.offset(targetMinY: 600, topInset: 103, bottomInset: 34,
+            contentHeight: 5000, viewportHeight: 852, targetMaxY: 2600, intraBlockFraction: fraction), 1697)
+        XCTAssertEqual(NativeReaderScrollBounds.offset(targetMinY: 600, topInset: 103, bottomInset: 34,
+            contentHeight: 5000, viewportHeight: 852, targetMaxY: 3800, intraBlockFraction: fraction), 2417)
+        XCTAssertEqual(NativeReaderScrollBounds.intraBlockFraction(blockMinY: 600, blockMaxY: 3800,
+            readingLineY: 2520), fraction)
+        XCTAssertEqual(NativeReaderScrollBounds.intraBlockFraction(blockMinY: 600, blockMaxY: 2600, readingLineY: 100), 0)
+        XCTAssertEqual(NativeReaderScrollBounds.intraBlockFraction(blockMinY: 600, blockMaxY: 2600, readingLineY: 4000), 1)
+    }
+
+    func testIntraBlockGeometryRejectsMissingZeroInvertedAndNonfiniteMeasurement() {
+        for (top, end, line) in [(CGFloat(600), CGFloat(600), CGFloat(900)), (700, 600, 900),
+                                 (.nan, 2600, 1800), (600, .infinity, 1800), (600, 2600, .nan)] {
+            XCTAssertNil(NativeReaderScrollBounds.intraBlockFraction(blockMinY: top, blockMaxY: end, readingLineY: line))
+        }
+        XCTAssertNil(NativeReaderScrollBounds.offset(targetMinY: 600, topInset: 103, bottomInset: 34,
+            contentHeight: 4000, viewportHeight: 852, intraBlockFraction: 0.6), "A top-only zero-height marker cannot establish block height")
+        for fraction in [Double.nan, .infinity, -.infinity, -0.1, 1.1] {
+            XCTAssertNil(NativeReaderScrollBounds.offset(targetMinY: 600, topInset: 103, bottomInset: 34,
+                contentHeight: 4000, viewportHeight: 852, targetMaxY: 2600, intraBlockFraction: fraction))
+        }
+        for end in [CGFloat(600), 500, .nan, .infinity] {
+            XCTAssertNil(NativeReaderScrollBounds.offset(targetMinY: 600, topInset: 103, bottomInset: 34,
+                contentHeight: 4000, viewportHeight: 852, targetMaxY: end, intraBlockFraction: 0.6))
+        }
+    }
+
+    func testIntraBlockUIKitMarkersRestoreSameBlockAndReflowedHeight() throws {
+        try readerScrollFixture { scroll, content, anchors in
+            let start = UIView(frame: CGRect(x: 0, y: 600, width: 1, height: 0))
+            let end = UIView(frame: CGRect(x: 0, y: 2600, width: 1, height: 0))
+            content.addSubview(start); content.addSubview(end)
+            anchors.registerTarget(start, id: "tall")
+            anchors.registerTarget(end, id: "tall", isEnd: true)
+            scroll.contentOffset.y = 1097
+            XCTAssertEqual(try XCTUnwrap(anchors.intraBlockFraction(for: "tall")), 0.3, accuracy: 0.000001)
+            XCTAssertEqual(anchors.placeTarget("tall", intraBlockFraction: 0.6), .aligned)
+            XCTAssertEqual(scroll.contentOffset.y, 1697)
+            XCTAssertEqual(try XCTUnwrap(anchors.intraBlockFraction(for: "tall")), 0.6, accuracy: 0.000001)
+            XCTAssertEqual(anchors.placementObservation(of: "tall", intraBlockFraction: 0.6), .aligned)
+            end.frame.origin.y = 3800
+            XCTAssertEqual(anchors.placementObservation(of: "tall", intraBlockFraction: 0.6), .needsAlignment)
+            XCTAssertEqual(anchors.placeTarget("tall", intraBlockFraction: 0.6), .aligned)
+            XCTAssertEqual(scroll.contentOffset.y, 2417)
+            XCTAssertEqual(try XCTUnwrap(anchors.intraBlockFraction(for: "tall")), 0.6, accuracy: 0.000001)
+        }
+    }
+
+    func testIntraBlockClampIsSavedAsActualMeasurementNotRequestedFraction() throws {
+        try readerScrollFixture { scroll, content, anchors in
+            scroll.contentSize.height = 5000
+            content.frame.size.height = 5000
+            let start = UIView(frame: CGRect(x: 0, y: 3000, width: 1, height: 0))
+            let end = UIView(frame: CGRect(x: 0, y: 5000, width: 1, height: 0))
+            content.addSubview(start); content.addSubview(end)
+            anchors.registerTarget(start, id: "last")
+            anchors.registerTarget(end, id: "last", isEnd: true)
+            XCTAssertEqual(anchors.placeTarget("last", intraBlockFraction: 1), .aligned)
+            XCTAssertEqual(scroll.contentOffset.y, 4182)
+            XCTAssertEqual(try XCTUnwrap(anchors.intraBlockFraction(for: "last")), 0.6425, accuracy: 0.000001)
+            XCTAssertNotEqual(anchors.intraBlockFraction(for: "last"), 1)
+        }
+    }
+
+    func testIntraBlockMissingOrForeignEndCannotMasqueradeAsTopOnlySuccess() {
+        readerScrollFixture { scroll, content, anchors in
+            let start = UIView(frame: CGRect(x: 0, y: 600, width: 1, height: 0))
+            content.addSubview(start)
+            anchors.registerTarget(start, id: "tall")
+            XCTAssertNil(anchors.intraBlockFraction(for: "tall"))
+            XCTAssertEqual(anchors.placeTarget("tall", intraBlockFraction: 0.6), .waitingForLayout)
+            let end = UIView(frame: start.frame)
+            content.addSubview(end)
+            anchors.registerTarget(end, id: "tall", isEnd: true)
+            XCTAssertNil(anchors.intraBlockFraction(for: "tall"))
+            XCTAssertEqual(anchors.placeTarget("tall", intraBlockFraction: 0.6), .unavailable)
+            end.removeFromSuperview()
+            end.frame.origin.y = 2600
+            scroll.superview?.addSubview(end)
+            XCTAssertNil(anchors.intraBlockFraction(for: "tall"))
+            XCTAssertEqual(anchors.placeTarget("tall", intraBlockFraction: 0.6), .unavailable)
+            // Legacy callers that have no intra-block record keep their old API.
+            XCTAssertEqual(anchors.placeTarget("tall"), .aligned)
+            XCTAssertEqual(scroll.contentOffset.y, 497)
+        }
+    }
+
+    func testIntraBlockResumeKeepsMeasuredProgressButExplicitDestinationsStartAtTarget() throws {
+        let digest = String(repeating: "a", count: 64)
+        let anchor = try XCTUnwrap(NativeReadingAnchor(documentDigest: digest,
+            blockFingerprint: digest, intraBlockFraction: 0.6))
+        let saved = ReadingPosition(heading: "first", fraction: 0.2, blockID: "first-body", anchor: anchor)
+        var state = NativeReaderNavigationState()
+        let request = UUID()
+        let resumed = state.destination(document: navigationDocument, position: saved, initialHeading: nil,
+            requestedHeading: nil, headingRequestID: request, currentBlockID: nil)
+        XCTAssertEqual(resumed.intraBlockFraction, 0.6)
+        let toc = state.destination(document: navigationDocument, position: saved, initialHeading: nil,
+            requestedHeading: "last", headingRequestID: request, currentBlockID: nil)
+        XCTAssertNil(toc.intraBlockFraction)
+        let hit = NativeSearchHit(blockID: "first-body", containerBlockID: "first-body", headingID: "first")
+        let search = state.destination(document: navigationDocument, position: saved, initialHeading: nil,
+            requestedHeading: nil, headingRequestID: request, currentBlockID: nil, initialSearchHit: hit)
+        XCTAssertNil(search.intraBlockFraction)
+        let noHit = state.destination(document: navigationDocument, position: saved, initialHeading: nil,
+            requestedHeading: nil, headingRequestID: request, currentBlockID: nil, searchStartsAtBeginning: true)
+        XCTAssertNil(noHit.intraBlockFraction)
+        state.consume(headingRequestID: request)
+        let retained = state.destination(document: navigationDocument, position: saved, initialHeading: nil,
+            requestedHeading: nil, headingRequestID: request, currentBlockID: "last-body", currentIntraBlockFraction: 0.2)
+        XCTAssertEqual(retained.intraBlockFraction, 0.2)
+        let invalidCurrent = state.destination(document: navigationDocument, position: saved, initialHeading: nil,
+            requestedHeading: nil, headingRequestID: request, currentBlockID: "removed", currentIntraBlockFraction: 0.9)
+        XCTAssertEqual(invalidCurrent.blockID, "first-body")
+        XCTAssertEqual(invalidCurrent.intraBlockFraction, 0.6)
+        let stale = ReadingPosition(heading: "first", fraction: 0.2, blockID: "removed", anchor: anchor)
+        let headingFallback = state.destination(document: navigationDocument, position: stale, initialHeading: nil,
+            requestedHeading: nil, headingRequestID: request, currentBlockID: nil)
+        XCTAssertEqual(headingFallback.blockID, "first-block")
+        XCTAssertNil(headingFallback.intraBlockFraction, "A missing saved block must not apply its ratio to a fallback heading")
+    }
+
+    func testUnreachedInitialHeadingAndNestedSearchSurviveAutomaticLayoutRestart() {
+        let saved = ReadingPosition(heading: "first", fraction: 0, blockID: "first-body")
+        let headingID = UUID()
+        var headingState = NativeReaderNavigationState()
+        let heading = headingState.destination(document: navigationDocument, position: saved, initialHeading: "last",
+            requestedHeading: nil, headingRequestID: headingID, currentBlockID: nil)
+        headingState.retainUnreachedGoal(heading, headingRequestID: headingID)
+        // No consume: the first layout task was replaced before its first100ms
+        // proxy. Even unavailable transient route arguments cannot erase its goal.
+        let restarted = headingState.destination(document: navigationDocument, position: saved, initialHeading: nil,
+            requestedHeading: nil, headingRequestID: headingID, currentBlockID: nil)
+        XCTAssertEqual(restarted, heading)
+        XCTAssertEqual(restarted.scrollBlockID, "last-block")
+        let hit = NativeSearchHit(blockID: "nested-hit", containerBlockID: "quote-container", headingID: "first")
+        let searchID = UUID()
+        var searchState = NativeReaderNavigationState()
+        let search = searchState.destination(document: nestedNavigationDocument, position: saved, initialHeading: nil,
+            requestedHeading: nil, headingRequestID: searchID, currentBlockID: nil, initialSearchHit: hit)
+        searchState.retainUnreachedGoal(search, headingRequestID: searchID)
+        let searchRestart = searchState.destination(document: nestedNavigationDocument, position: saved, initialHeading: nil,
+            requestedHeading: nil, headingRequestID: searchID, currentBlockID: nil)
+        XCTAssertEqual(searchRestart.scrollBlockID, "nested-hit")
+        XCTAssertEqual(searchRestart.blockID, "quote-container")
+        searchState.consume(headingRequestID: searchID) // aligned or a real user cancellation
+        let consumed = searchState.destination(document: nestedNavigationDocument, position: saved, initialHeading: nil,
+            requestedHeading: nil, headingRequestID: searchID, currentBlockID: "last-body", initialSearchHit: hit)
+        XCTAssertEqual(consumed.blockID, "last-body", "A completed/cancelled historical search must remain one-shot")
+    }
+
+    func testUnreachedTOCAndInlineGoalsPersistOnlyUntilCompletionPanSceneOrNewRequest() {
+        var state = NativeReaderNavigationState()
+        state.consume(headingRequestID: UUID())
+        let saved = ReadingPosition(heading: "first", fraction: 0, blockID: "first-body")
+        let request = UUID()
+        let goal = state.destination(document: navigationDocument, position: saved, initialHeading: nil,
+            requestedHeading: "last", headingRequestID: request, currentBlockID: "first-body")
+        state.retainUnreachedGoal(goal, headingRequestID: request)
+        for _ in 0..<2 {
+            let reflow = state.destination(document: navigationDocument, position: saved, initialHeading: nil,
+                requestedHeading: nil, headingRequestID: request, currentBlockID: "first-body")
+            XCTAssertEqual(reflow, goal, "The prior measured blockA must not replace pending goalB")
+        }
+        state.consume(headingRequestID: request) // production: aligned, actual pan, scene or disappearance
+        let cancelled = state.destination(document: navigationDocument, position: saved, initialHeading: nil,
+            requestedHeading: "last", headingRequestID: request, currentBlockID: "first-body")
+        XCTAssertEqual(cancelled.blockID, "first-body")
+        let inline = NativeReaderNavigationDestination(heading: nil, blockID: "last-body",
+            scrollBlockID: "last-body", focusBlockID: "last-body")
+        state.retainUnreachedGoal(inline, headingRequestID: request)
+        XCTAssertEqual(state.destination(document: navigationDocument, position: saved, initialHeading: nil,
+            requestedHeading: nil, headingRequestID: request, currentBlockID: "first-body"), inline)
+        let nextID = UUID()
+        XCTAssertTrue(state.isNewHeadingRequest("first", headingRequestID: nextID))
+        XCTAssertNil(state.consumeIfUserPanned(userPanEpoch: 8, headingRequestID: nextID),
+                     "A pan cancelling an older goal must not consume a newer explicit request")
+        let next = state.destination(document: navigationDocument, position: saved, initialHeading: nil,
+            requestedHeading: "first", headingRequestID: nextID, currentBlockID: "last-body")
+        XCTAssertEqual(next.scrollBlockID, "first-block", "A new request supersedes the old pending route")
+        state.retainUnreachedGoal(next, headingRequestID: nextID)
+        XCTAssertFalse(state.isNewHeadingRequest("first", headingRequestID: nextID))
+        state.consume(headingRequestID: nextID)
+        XCTAssertEqual(state.destination(document: navigationDocument, position: saved, initialHeading: nil,
+            requestedHeading: "first", headingRequestID: nextID, currentBlockID: "last-body").blockID, "last-body")
+        let panID = UUID()
+        state.retainUnreachedGoal(goal, headingRequestID: panID, userPanEpoch: 4)
+        XCTAssertNil(state.consumeIfUserPanned(userPanEpoch: 4))
+        XCTAssertEqual(state.consumeIfUserPanned(userPanEpoch: 5), 4,
+                       "A pan after an exhausted task must still cancel its retained goal")
+        XCTAssertNil(state.consumeIfUserPanned(userPanEpoch: 5))
+        XCTAssertEqual(state.destination(document: navigationDocument, position: saved, initialHeading: nil,
+            requestedHeading: "last", headingRequestID: panID, currentBlockID: "first-body").blockID, "first-body")
+    }
+
+    func testIntraBlockCaptureAndReflowUseVisibleTopWithIndependentLegalClamp() throws {
+        try readerScrollFixture(safeAreaTopInset: 116) { scroll, content, anchors in
+            let supplied = try XCTUnwrap(scroll as? ReaderSafeAreaScrollView)
+            scroll.contentInset.top = 0
+            let start = UIView(frame: CGRect(x: 0, y: 600, width: 1, height: 0))
+            let end = UIView(frame: CGRect(x: 0, y: 2600, width: 1, height: 0))
+            content.addSubview(start); content.addSubview(end)
+            anchors.registerTarget(start, id: "tall")
+            anchors.registerTarget(end, id: "tall", isEnd: true)
+            XCTAssertEqual(anchors.placeTarget("tall", intraBlockFraction: 0.6), .aligned)
+            XCTAssertEqual(scroll.contentOffset.y, 1684)
+            XCTAssertEqual(try XCTUnwrap(anchors.intraBlockFraction(for: "tall")), 0.6, accuracy: 0.000001)
+            XCTAssertEqual(anchors.placementObservation(of: "tall", intraBlockFraction: 0.6), .aligned)
+            end.frame.origin.y = 3800
+            XCTAssertEqual(anchors.placeTarget("tall", intraBlockFraction: 0.6), .aligned)
+            XCTAssertEqual(scroll.contentOffset.y, 2404)
+            XCTAssertEqual(try XCTUnwrap(anchors.intraBlockFraction(for: "tall")), 0.6, accuracy: 0.000001)
+            supplied.suppliedSafeAreaInsets.top = 140
+            XCTAssertEqual(anchors.placeTarget("tall", intraBlockFraction: 0.6), .aligned)
+            XCTAssertEqual(scroll.contentOffset.y, 2380)
+            XCTAssertEqual(try XCTUnwrap(anchors.intraBlockFraction(for: "tall")), 0.6, accuracy: 0.000001)
+            scroll.contentInset.top = 160
+            XCTAssertEqual(anchors.placeTarget("tall", intraBlockFraction: 0.6), .aligned)
+            XCTAssertEqual(scroll.contentOffset.y, 2360)
+            XCTAssertEqual(try XCTUnwrap(anchors.intraBlockFraction(for: "tall")), 0.6, accuracy: 0.000001)
+            XCTAssertEqual(NativeReaderScrollBounds.offset(targetMinY: 0, topInset: 0, bottomInset: 34,
+                contentHeight: 4000, viewportHeight: 852, visibleTopInset: 140), 0,
+                "Visible exclusion may not extend the legal negative offset range")
+        }
     }
 }

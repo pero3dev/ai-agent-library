@@ -35,3 +35,9 @@ rawの独立レビューは、凍結75ファイル・CLI8/production4・raw19・
 Node fixture26件、identity・raw19・範囲の再計算、前後corpus、code/query/toolchain/PID/environmentの照合を確認した。旧freezeと準備済み入力を変更せず、integration準備でSDKや測定を再実行していない。通常CIと共通npm checkは最終headの別検証であり、ここで成功済みとは扱わない。
 
 ユーザー指定により今回の新たな実機・VoiceOver確認は省略し未実施とした。XCTest・iOS・SwiftUI・Simulator・launchClockの実行ではなく、入力から表示まで、scroll/画像decode、iOS appメモリ、受入予算は残る。IOS-15のcheckboxは未完了のまま維持する。
+
+## 最新main同期の準備と旧観測の境界
+
+この同期準備の入力は明示source commit `08bdb36fd1d8bc83b6fa6bbf4a96e5acbeefb8b7` / tree `fc061c8f2d62846bf2273602361f6852a4b0f2ae`。上のb79基線・raw19process/記録15・統計・失敗履歴は旧観測として全bytesを保持する。最新Models/NativeDocument/ContentValidator/ReadingStoreの4SHAはJSONのcurrent_main_sync_snapshotへ別snapshotとして記録し、LibraryCoreTestsを含めない。最新sourceのCLI結果は未観測、IOS-15と予算採択は未完了である。
+
+後日の通常同期commitはfirst-parent577bae、additional-parentにrootが確認した実mainを指定し、forceしない。新CLIは別guard（free>=3.8e9B、private<=256MiB、process-tree RSS<=1.5GiB、全体180秒）で後日1回だけとし、ここでは実行0・再試行0。App/PBX/workflows・P1/Iconを含む全非対象は実mainから保持し、最終payloadの別人レビューとexact-head CIを残す。

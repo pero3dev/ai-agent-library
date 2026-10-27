@@ -10,6 +10,12 @@
 
 既存のSwiftUI＋WKWebView試作は比較基準として再利用する。完成版の基準案は全published記事・既存音声・App Store公開までを含み、最低OS、公開方法、費用、初版の音声体験はIOS-01で採択する。ストア提出・配布用登録・申請の工程は、App Store／TestFlight配布を選んだ場合に適用する。ビルド時のNode.js・Mermaid・数式生成ツールと、アプリ実行時のWebView非依存は区別する。
 
+## 2026-10-26の統合状況
+
+[TODOと統合状況のチェックポイント](../../records/2026-10-26/ios-todo-integration-checkpoint.md)では、main `955c066c8dc0fdbedf6f0c845a461abda39ac476` の明示完了条件を照合し、IOS-02・10・13・14を完了とします。既存public標準Hosted Xcode26.6をSDK26最低条件に合うunsigned Archive用の技術環境として採用し、検索・native導線、全199記事生成・学習導線を確認した範囲です。他28行を保持し、12／32件の完了と、実機・性能・配布全体の未完了を分けます。
+
+以下は作成時点の計画と段階ごとの履歴です。「未commit」「前提PR待ち」「通常3記事」等を最新状態へ読み替えず、実績とPR275の未マージsnapshotは上記記録を参照します。実機スキップを成功へ変えません。配布方式・費用・契約・署名・資格・申請と、最新OS27の受入は別に未完了で残します。
+
 ## 目的と作業契約
 
 - 目的: 実機で動く試作から完成版までの差分を、優先度・依存関係・完了条件付きのTODOへ落とす。
@@ -46,7 +52,7 @@ P0は方針決定・公開条件、P1は完成版に向けた実装と品質、P
 | 状態 | ID | TODO | 完了条件 |
 | --- | --- | --- | --- |
 | [ ] | IOS-01 | 初版の範囲を採択する | 本文までSwiftUI化する目標を前提に、自分用／一般公開、最低OS、iPhoneのみ／iPadも対象、無料／有料、音声の継続再生・キューを決める。基準案は全published記事・記事オフライン・アカウントなし・既存音声のストリーミング |
-| [ ] | IOS-02 | 提出できる開発・ビルド環境を用意する | 公開時点のSDK条件に合うXcodeとmacOSでArchiveを作れる。今のMacの更新、別Mac、対応するCIのいずれを使うか決め、SDK・Simulator・実機symbol cacheを含む空き容量を確保する |
+| [x] | IOS-02 | 提出できる開発・ビルド環境を用意する | 公開時点のSDK条件に合うXcodeとmacOSでArchiveを作れる。今のMacの更新、別Mac、対応するCIのいずれを使うか決め、SDK・Simulator・実機symbol cacheを含む空き容量を確保する |
 | [ ] | IOS-03 | 配布用アカウントと識別子を整える | App Store案ではDeveloper Programの加入、配布Team、正式Bundle ID、署名管理、App Store Connectの権限を整える。契約・支払いは採択後に本人が行う |
 | [ ] | IOS-04 | 記事・音声・素材の配布条件を確定する | CC BY・MIT・KaTeX等の出典とNOTICEを同梱。音声・台本・合成音声の利用条件を採用音声ごとに確認し、ストリーミング／同梱／保存の可否を記録する |
 | [ ] | IOS-05 | 初版の更新方式と信頼境界を決める | 記事をアプリ更新で同梱する方式／記事データを独立更新する方式を選ぶ。後者や手動importを公開する場合、配信元・形式互換性・真正性・容量管理の条件をIOS-19〜22へ渡す |
@@ -54,6 +60,8 @@ P0は方針決定・公開条件、P1は完成版に向けた実装と品質、P
 現在の提出最低条件は**Xcode 26以上・iOS 26 SDK以上**。例としてXcode 26の対応環境はmacOS 15.6〜26.xであり、採用するXcodeの対応範囲を確認する。2027年4月以降はiOS 27 SDK以上への引き上げ予定があるため、公開予定日に再確認する。ビルドSDKと利用者の最低OSは別に決める。[提出要件](https://developer.apple.com/news/upcoming-requirements/)、[互換表](https://developer.apple.com/xcode/system-requirements/)、[2027年の変更告知](https://developer.apple.com/news/?id=k1mtkt1k)
 
 IOS-02の準備として[SDK26のHosted Archive preflight](../../records/2026-10-25/ios-sdk26-archive-preflight.md)を追加する。公開repoの標準macos-26・公式Xcode26.6をruntime照合し、配布資格情報・Provisioningを使わずgeneric iPhoneOS Release Archiveと実同梱物を監査する候補である。初回Hostedで実環境・Archive・actual Contentまで確認し、空の資格情報キーの省略とArchive InfoのJSON互換性を分けた限定修正後に、後段の実監査を再検証する。ローカルOSの更新・署名済み配布・Store提出環境の採択とは分け、最低対応OS17と既存Simulator回帰を保つ。IOS-02全体は未完了を維持する。
+
+SDK27の[互換性preflight](../../records/2026-10-26/ios-sdk27-compatibility-preflight.md)は、CDCの0.2.18（20）でもArchiveと代表UI2件が成功した。補正をiOS27以降だけに限定する0.2.19（21）の候補を準備し、下位OSの明示shapeを外す。[iOS26.5](../../records/2026-10-26/ios-runtime26-smoke.md)は実2target・arm64だけをbuildし539秒で終えたが、Contents待機1件が失敗して未受入である。失敗原因や新候補の効果を確定せず、本文位置・40/12/6分・boot240秒と判定を保持する。SDK26で達成したIOS-02、TODO12／32とIOS-11/23・実機・VoiceOver・性能全体の未完了を保持する。
 
 Developer Programは年額99 USDまたは提供地域の現地通貨。日本円の契約額は未確認であり、予算決定時に確認する。自分用のPersonal Teamと一般配布用の登録を区別する。[Programの内容・費用](https://developer.apple.com/programs/whats-included/)
 
@@ -69,7 +77,7 @@ Developer Programは年額99 USDまたは提供地域の現地通貨。日本円
 | [x] | IOS-07 | SwiftUIの基本本文を実装する | 段落、見出し、強調、行内コード・リンク、階層リスト、引用をネイティブ表示する。日本語の折り返し、語句選択、読み上げ、明暗・文字サイズが正常 |
 | [x] | IOS-08 | コードと表をネイティブ表示する | コードの字下げ・横スクロール・コピーを保つ。iPhoneでも表の全列・見出し・長いセルを読め、セル内のリンク・強調・数式、横スクロールと読み上げを保持する |
 | [x] | IOS-09 | 図・数式の表示方式を決めて実装する | ネイティブ描画／ビルド時の画像・ベクター等の方式を比較する。行内・表示数式の読みやすさ、図の文字・拡大・明暗、意味のある読み上げ代替を確認する。端末でHTMLやJSを描画しない |
-| [ ] | IOS-10 | 目次・リンク・検索ヒットの移動を移行する | 見出し・block IDからnativeスクロール位置へ移動できる。記事間リンク、fragment、検索ヒットの原文位置を扱い、外部HTTPSは明示操作で開く |
+| [x] | IOS-10 | 目次・リンク・検索ヒットの移動を移行する | 見出し・block IDからnativeスクロール位置へ移動できる。記事間リンク、fragment、検索ヒットの原文位置を扱い、外部HTTPSは明示操作で開く |
 | [ ] | IOS-11 | ネイティブ本文の読書位置へ移行する | 保存形式を記事revision・block ID・必要なblock内位置等で定義する。旧heading＋fractionから近い見出し等へ安全に移し、しおりを保つ。文字サイズ・回転・記事改訂後も復帰できる |
 | [x] | IOS-12 | 代表3記事を実機で合格にする | Agentループ・ツール使用・Transformerで、本文・表・コード・図・数式、オフライン、目次・コピー・リンク、旧記録移行・再起動復帰、音声併用を確認する。足りない要素は小さいfixtureで補う |
 
@@ -83,6 +91,8 @@ Developer Programは年額99 USDまたは提供地域の現地通貨。日本円
 
 0.2.5（7）の[IOS-11実装](../../records/2026-10-25/ios-reading-revision-restore.md)では、旧保存を維持する任意anchorを追加し、本文digestと意味内容fingerprintで改訂前後を照合する。一意な本文、見出し内の一意な本文、見出し、割合へ順にfallbackし、読取時は保存を書き換えない。CoreSmoke通常・fixture、50件のXCTestを含むSDK compile、Release監査と独立レビューを確認した。続くHosted実行でも50件・失敗0とRelease監査が成功した。実機受入とblock内の精度は未完了としてIOS-11を維持する。
 
+0.2.16（18）の[IOS-11 block内部位置の実装候補](../../records/2026-10-26/ios-intrablock-reading-progress.md)では、旧保存を維持した任意anchorに有限な相対位置を加え、実top/end markerで得た高さから復帰する。意味内容で同じblockと確認できた場合だけ内部位置を再利用し、見出し・割合fallbackでは破棄する。自動復帰失敗時の旧位置保持、未達の明示目的地のlayout再起動持越し、最新panとVoiceOver focusの整合をproduction stateの回帰候補に含めた。承認済みv3 codeの旧SDK4段階（App16module・Core/Inline型検査・既存2CLI compile）は成功した。新snapshot/pickerを合わせたPublishedは未compileで、unit152・機能16＋pure geometry6＝22 selectedはsource数である。実main270へbindし、exact-head CI・実登録/XCTest/UI、最大文字・回転・改訂後の実位置・VoiceOver・実機を未確認としてIOS-11は未完了を保つ。 実main270 `955c066c8dc0fdbedf6f0c845a461abda39ac476`（tree `9d2525e28ce3d9b6659eeac57b0b6f910e7e262b`）へbindした私有候補である。親PR270 head85d9のunit133（131成功＋2skip）・full21・Releaseと全15check成功は親の履歴で、新P1 unit152／UI22の実登録・実行は未確認とする。独立review後にrootがDraftへ反映してCIを実行し、必要exact-head CI成功までmainへ統合しない。 Published CIのjob上限だけ40分から50分へ調整し、selector・個別15秒・assert・commandは維持する。これはCI実行上限で製品性能budgetではない。
+
 IOS-25・26の[CI実装](../../records/2026-10-25/ios-native-ci.md)は[PR #243](https://github.com/pero3dev/ai-agent-library/pull/243)へ分けた。生成・監査と全AILibraryTests、Releaseのfixture除外を追加チェックで確認する。hostedの実行結果が揃うまでは実行成功へ変えず、UI試験と実機受入も別に残す。既存11必須チェックと保護設定は変更しない。
 
 続く[UI実行の追加](../../records/2026-10-25/ios-native-ui-ci.md)では既存2件をunit後のstrictなstepへ接続する。実際のHosted結果が得られるまでは未実施とし、2件が扱う本文・目次・しおり・再起動復帰を、オフライン・コピー・内部リンク等のUI全体受入と区別する。
@@ -91,8 +101,8 @@ IOS-25・26の[CI実装](../../records/2026-10-25/ios-native-ci.md)は[PR #243](
 
 | 状態 | ID | TODO | 完了条件 |
 | --- | --- | --- | --- |
-| [ ] | IOS-13 | 全published記事をネイティブ形式へ生成する | 作業時点の公開全記事（計画時199本）とmanifestが一致し、欠落・重複・未対応要素なし。全数の図・数式も生成でき、記事追加へ追随する |
-| [ ] | IOS-14 | 章・タグ・学習ルート・用語集を接続する | 章の掲載順、難易度、関連記事・前提知識、既存学習ルート、用語集から本文へ到達できる。WebとiOSで正本を共有し、オフラインでも辿れる |
+| [x] | IOS-13 | 全published記事をネイティブ形式へ生成する | 作業時点の公開全記事（計画時199本）とmanifestが一致し、欠落・重複・未対応要素なし。全数の図・数式も生成でき、記事追加へ追随する |
+| [x] | IOS-14 | 章・タグ・学習ルート・用語集を接続する | 章の掲載順、難易度、関連記事・前提知識、既存学習ルート、用語集から本文へ到達できる。WebとiOSで正本を共有し、オフラインでも辿れる |
 | [ ] | IOS-15 | 全記事の性能と容量を測定する | 初回起動・検索・長文スクロール・ハッシュ検査・画像解像度・メモリ・全生成物容量を計測し、受入目標を決めて満たす。必要に応じ正規化キャッシュ・索引化を行う |
 | [ ] | IOS-16 | 音声1本固定をカタログ対応へ拡張する | 採用する音声（現カタログ9本）のURL・版・SHA・章・クレジットを検証でき、切替と位置保存が正常。記事SHA不一致は内容確認と旧版表示／再制作方針で扱う |
 | [ ] | IOS-17 | 初版に必要な継続再生・キューを整える | IOS-01で採用した場合、プレイヤーをアプリ全体で保持し、本文へ戻っても聴ける。連続再生・次／前・ロック画面・音声差し替え時の保存位置を確認する |
@@ -126,7 +136,7 @@ M4の次段階では[全記事の通常同梱候補](../../records/2026-10-25/io
 
 0.2.14（16）では[全記事一覧が使えるまでの観測](../../records/2026-10-25/ios-published-readiness-observation.md)を専用Hosted jobへ分ける。Debug起動要求から独立した全記事数・学習ガイドの表示確認までを測り、warm-up1回と記録3回、生xcresult/CSV/型付きmetricを保持する。初回は契約未採択で非ゼロ終了を保ち、生JSON/CSV/log/添付の独立照合後に実Clock識別子・秒単位・3値と厳密CSV guardを追加した。保存済raw再生と新headのHostedを区別し、欠測をゼロへ置き換えない。機能UI10件を別に維持し、操作自動化・AX同期を含む参考観測と、初回インストール・Release・実機・CPU/メモリ・スクロール・性能予算を分ける。IOS-15の完了欄は維持する。
 
-IOS-15の[全記事Core host観測](../../records/2026-10-26/ios-published-core-benchmark.md)では、既存の保存済みlocal corpusを凍結CLI入口で検証し、索引構築と16 query batchを分けて各warm-up1回・記録5回を取得した。raw19、実消費199記事、明示toolchain、計測後probeまでのprocess RSSを保持し、先行wrapperの結果と区別する。通常Node CIへfixtureを含め、SDK実測は明示CLIのままとする。入力から表示まで・scroll/画像decode・iOS appメモリ・実機・受入予算は未完了で、IOS-15のチェックは残す。
+IOS-15の[全記事Core host観測](../../records/2026-10-26/ios-published-core-benchmark.md)はb79基線で実施した凍結CLIのraw19process/記録15は旧観測として保持し、最新source4のsnapshotや未実施の再CLIと分ける。通常CIはNode fixtureだけで、SDK・corpus観測は明示した手動CLIと別guardのまま。App/PBX/workflow/P1/Iconと全TODOを保持し、IOS-15と予算採択は未完了である。
 
 ### P1: 更新と保存データを運用できる状態にする
 
@@ -164,6 +174,10 @@ IOS-26は[PR #246のHosted実行](https://github.com/pero3dev/ai-agent-library/a
 
 IOS-25の[絞り込み中の追加UI回帰2件](../../records/2026-10-25/ios-filtered-actions-ui.md)では、About開閉のfilter保持と、専用記事の別しおり・音声不可・2段階戻り・通常保存の永続分離を公開UIだけで検査する。通常reader再開前のrestartを入れてcached Storeだけのfalse-passを防ぐ。既存10機能ケースを保持して12件へ増やし、SDK compileを確認した。初回Hosted・fileImporterキャンセル・VO/実機とIOS-25全体の受入は未完了を維持する。
 
+[フォルダー選択取消の追随preview](../../records/2026-10-26/ios-picker-cancel-ui.md)では、旧238eのfull run40226683804/job121269430760でunit133件（131成功・2skip）と機能UI14/15成功を確認した履歴を保持する。本文検索Aとpicker取消138.720秒は成功し、Bは最初の到着で失敗してTOC/save/restartへ未到達だった。新snapshot helperを保持したPub41c3＋Nativebcafは機能15件＋geometry6件のsource計21件となるが、新snapshot/full/native/runtime26・生成budget・site待機・Releaseは正確な新headで未実施である。実main269 `750a305a82c6ff7882de46fdf7889c81925c509e`（tree `7636f378ecd8e8202cd2d9c8c9e89e2aa85b875d`）へ固有6pathをbindした私有候補で、独立最終レビューと正確な新headのCIを待つ。公開PR270 head238eは未変更である。
+
+IOS-10・25の[本文検索ヒットと復帰の追加2件](../../records/2026-10-26/ios-search-hit-ui-regression.md)では、入れ子leafへの即到着と、本文Aの検索後に保存したBへ再起動復帰する公開動作を確認する。旧head a88では単体127成功・2skip、機能UI14件とReleaseが成功したが、別headの到着判定失敗も保持している。一時診断で観測したgeometryの重複取得を減らす修正は、完全表示・先頭ID一致・15秒を維持する。picker追加前のsnapshot基線の機能14件＋純粋geometry6件・全target build・Releaseは正確な新headのHosted待ちである。過去の失敗原因・安定性、VoiceOver/最大文字/実機とIOS-10・25全体は未完了を維持する。
+
 現在のPrivacy ManifestにはUserDefaultsの利用理由がある。最終版では対象API・依存SDKを再監査し、Archiveへの同梱も確認する。プライバシーポリシーとApp Privacyは、無料・アカウントなしでも必要な申請項目として扱う。[プライバシー規約](https://developer.apple.com/app-store/review/guidelines/#privacy)、[App Privacy](https://developer.apple.com/help/app-store-connect/manage-app-information/manage-app-privacy/)、[required reason API](https://developer.apple.com/documentation/bundleresources/describing-use-of-required-reason-api)
 
 ### P2: ベータ配布とApp Store公開
@@ -174,6 +188,8 @@ IOS-25の[絞り込み中の追加UI回帰2件](../../records/2026-10-25/ios-fil
 | [ ] | IOS-30 | TestFlightで候補版を配る | 推奨工程。配布用Archiveから内部テスト、必要に応じ外部テストを行い、上書き更新・保存データ維持・新規インストールを実機確認する |
 | [ ] | IOS-31 | ストア情報と申告を用意する | 説明・スクリーンショット・キーワード・サポートURL・著作権・年齢レーティング・価格・配布地域を決め、暗号化の質問を実装に照合する。DSAのtrader／非traderを申告し、EUでtraderとして配布する場合は連絡先の検証・公開条件を満たす |
 | [ ] | IOS-32 | 申請・審査対応・公開後の確認を行う | ネイティブな学習体験と更新方式を審査へ説明する。提出ビルドの完成度・リンク・配信を確認し、承認後に一般配布版の導入と不具合受付を確認する |
+
+IOS-29の[AppIcon候補](../../records/2026-10-26/ios-app-icon-native-assets.md)は明示source commit `30a8a1db8d6c30eeb2c6e682f92ba94126cc5e35` へ私有準備した既存ブランドの8PNG/9slot・AppIcon監査候補で、0.2.16(18)から0.2.17(19)を提案する。PNG8/22,198B・source/validator/recipeを保ち、Published cap50・3selectorsへ承認監査呼出だけを加える。旧source check/Node13とactool失敗は履歴で、新compile・実CAR・Home/Store・exact-head CIと別人の最終payloadレビューは未実施。IOS-29全体は未完了で全TODO状態を維持する。
 
 TestFlightは推奨するベータ工程で、App Store公開の一律必須条件ではない。使用する場合はProgram、ビルド90日の期限、外部テストの審査を計画へ含める。[TestFlight](https://developer.apple.com/help/app-store-connect/test-a-beta-version/testflight-overview/)
 

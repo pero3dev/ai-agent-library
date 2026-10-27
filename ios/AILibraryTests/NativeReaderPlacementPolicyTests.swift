@@ -90,4 +90,48 @@ final class NativeReaderPlacementPolicyTests: XCTestCase {
             XCTAssertEqual(nonfinite.next(.aligned, now: 10, generation: id, interactionEpoch: 0), .finished(.unavailable))
         }
     }
+
+    func testDeferredCorrectionStartsFreshBudgetWithoutRecapturingRequestIdentity() {
+        let id = UUID(), replacement = UUID()
+        let originalEpoch: UInt64 = 9
+        // Preparation can outlast one second. It checks identity, not an already
+        // expiring correction deadline, before the deferred task may start.
+        XCTAssertNil(NativeReaderPlacementPolicy.requestIdentityOutcome(generation: id, interactionEpoch: originalEpoch,
+            currentGeneration: id, currentInteractionEpoch: originalEpoch, cancelled: false))
+        XCTAssertEqual(NativeReaderPlacementPolicy.requestIdentityOutcome(generation: id, interactionEpoch: originalEpoch,
+            currentGeneration: replacement, currentInteractionEpoch: originalEpoch + 1, cancelled: true,
+            isUserInteracting: true), .cancelled)
+        XCTAssertEqual(NativeReaderPlacementPolicy.requestIdentityOutcome(generation: id, interactionEpoch: originalEpoch,
+            currentGeneration: replacement, currentInteractionEpoch: originalEpoch + 1, cancelled: false,
+            isUserInteracting: true), .superseded)
+        XCTAssertEqual(NativeReaderPlacementPolicy.requestIdentityOutcome(generation: id, interactionEpoch: originalEpoch,
+            currentGeneration: id, currentInteractionEpoch: originalEpoch + 1, cancelled: false), .interrupted)
+        XCTAssertEqual(NativeReaderPlacementPolicy.requestIdentityOutcome(generation: id, interactionEpoch: originalEpoch,
+            currentGeneration: id, currentInteractionEpoch: originalEpoch, cancelled: false,
+            isUserInteracting: true), .interrupted)
+
+        // The original epoch is reused even though preparation started at10 and
+        // the correction task did not start until12. No epoch is recaptured.
+        var fresh = NativeReaderPlacementPolicy(generation: id, interactionEpoch: originalEpoch, startedAt: 12)
+        XCTAssertEqual(fresh.interactionEpoch, originalEpoch)
+        XCTAssertEqual(fresh.deadline, 13)
+        XCTAssertEqual(fresh.next(.needsAlignment, now: 12.1, generation: id,
+            interactionEpoch: originalEpoch), .align)
+        XCTAssertEqual(fresh.next(.aligned, now: 12.2, generation: id,
+            interactionEpoch: originalEpoch), .waitForLayout)
+        XCTAssertEqual(fresh.next(.aligned, now: 12.3, generation: id,
+            interactionEpoch: originalEpoch), .finished(.aligned))
+
+        var pannedBeforeStart = NativeReaderPlacementPolicy(generation: id, interactionEpoch: originalEpoch, startedAt: 12)
+        XCTAssertEqual(pannedBeforeStart.next(.needsAlignment, now: 12, generation: id,
+            interactionEpoch: originalEpoch + 1), .finished(.interrupted))
+        XCTAssertEqual(pannedBeforeStart.corrections, 0)
+        var expired = NativeReaderPlacementPolicy(generation: id, interactionEpoch: originalEpoch, startedAt: 12)
+        XCTAssertEqual(expired.next(.targetMissing, now: 13, generation: id,
+            interactionEpoch: originalEpoch), .finished(.exhausted))
+        XCTAssertEqual(expired.next(.aligned, now: 13.1, generation: id,
+            interactionEpoch: originalEpoch), .finished(.exhausted))
+        XCTAssertEqual(expired.deadline, 13)
+        XCTAssertEqual(expired.materializations, 0)
+    }
 }

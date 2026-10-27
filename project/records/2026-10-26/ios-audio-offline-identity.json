@@ -1,0 +1,558 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-26",
+  "status": "private-v2-P2-fixture-repaired-related-suites54pass-separate-review-pending",
+  "basis_commit": "750a305a82c6ff7882de46fdf7889c81925c509e",
+  "basis_tree": "7636f378ecd8e8202cd2d9c8c9e89e2aa85b875d",
+  "preview_only": true,
+  "publishable": false,
+  "default_production_audio_count": 1,
+  "mock_only_second_candidate": "docs/01-concepts/ai-history-and-lineage.md",
+  "source_audit": {
+    "equal": 3,
+    "different_and_rejected": 6,
+    "frontmatter_only_difference_rejected": true,
+    "source_audit_SHA256": "4f0f34a942ca6e780b8b8f6afa3a0b463ad456a02b0a4d60422d79ad2358922e",
+    "release_metadata_SHA256": "fbdd2b2cfa0ab4ef618ed56f2c712c67edc95379e282cf416d4d51b7ee7e58aa",
+    "MP3_downloads": 0,
+    "script_READY_recovered": 0
+  },
+  "contract": {
+    "identity_fields": [
+      "episode_id",
+      "article_id",
+      "article_path",
+      "versioned_audio_url",
+      "audio_sha256",
+      "source_digest",
+      "script_sha256",
+      "credit",
+      "license_url"
+    ],
+    "declarations_validated_before_catalog": true,
+    "duplicate_or_ambiguous_declarations": "reject",
+    "actual_source_full_normalized_SHA": "computed from text, CRLF/CR->LF/no trim/frontmatter included",
+    "trust_input_boundary": "only internal trusted JS/test function dependency injection; no CLI/selection/catalog/manifest/import policy",
+    "known_host_or_self_claimed_SHA_alone": "never grants identity"
+  },
+  "validation": {
+    "new_pure_Node": {
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0
+    },
+    "existing_native_preflight_only": {
+      "passed": 1,
+      "failed": 0,
+      "render_assets_calls": 0,
+      "scope": "Historical v1 preflight1; v2 now runs all30 native-content cases including downstream Unknown native article/heading and asset-output rejection/sentinel preservation"
+    },
+    "native_audit_fixture": "Related native-audit Node suite8 passed, mock-only local packages, no Browser/SDK/audio",
+    "default_metadata_bytes": 1773,
+    "default_metadata_SHA256": "abee691f773ef0ea5830857932229f142fcabfdd4c836ff270351e14cc06838e",
+    "default_metadata_equal_legacy": true,
+    "full_package_generation_or_byte_comparison": false,
+    "network_init_or_resolution": 0,
+    "runtime_tuple": "source literals match unchanged old AudioPlayer, no Swift execution",
+    "related_Node_suites": {
+      "native_content": 30,
+      "native_audit": 8,
+      "identity": 16,
+      "total_passed": 54,
+      "failed": 0,
+      "skipped": 0,
+      "scope": "owned temporary small mock article/PNG/text packages only, not actual published199 generation"
+    },
+    "bounded_fixture_run": {
+      "outer_seconds": 120,
+      "sampled_owned_TMPDIR_limit_bytes": 67108864,
+      "sampled_owned_TMPDIR_peak_bytes": 45612,
+      "combined_output_limit_bytes": 524288,
+      "combined_output_bytes": 5573,
+      "Node_heap_MiB": 384,
+      "RSS": "not measured/claimed",
+      "network_nonNode_tools_guard": "no blocked attempts, no Browser/SDK/network/audio launch",
+      "cleanup": "known Node group absent, owned TMP empty after cleanup"
+    },
+    "mock_fixture_packages_generated": true,
+    "mock_scope": "No actual representative/published production package generated or byte-compared; small owned mock fixture packages only"
+  },
+  "unchanged": [
+    "ios/content-selection.json",
+    "normal singleton selection/audio_id output",
+    "AudioPlayer/runtime permission/UI/App/version/PBX",
+    "catalog and all9 source/script/audio declarations",
+    "P1/Icon sources",
+    "Core273 source/CLI execution"
+  ],
+  "unadopted": [
+    "additional8 initial adoption",
+    "audio/script bytes integrity acceptance",
+    "rights/license decisions",
+    "streaming/distribution/storage expansion",
+    "Store copy",
+    "IOS04/IOS16 overall acceptance"
+  ],
+  "operations": {
+    "SDK_Sim_CoreCLI": 0,
+    "npm_full_install": 0,
+    "audio_download": 0,
+    "network": 0,
+    "public_shared_index_ref": 0,
+    "real_all_published_assets_or_audio_generated": 0,
+    "owned_temporary_mock_PNG_text_packages_generated": true,
+    "full_published_or_full_npm": 0
+  },
+  "separate_final_review": "pending; no self approval",
+  "P2_repair": {
+    "prior_v1_freeze_SHA256": "73d13954dbbd9a9c37e2a310c4610242a009eecd1929d52178866045bb7d271f",
+    "finding": "Changing audio one.md made strict source identity reject before old Unknown native article/heading negative",
+    "fix": "Mutate non-audio third article and link ../01-concepts/two.md#unknown; restore same third article after exact error/sentinel checks",
+    "production_policy_resolver_native_producer_identity16": "byte exact v1, not weakened",
+    "assertion_and_old_output_preservation": "unchanged and reached, related case passed"
+  },
+  "current_main_rebind_snapshot": {
+    "schema_version": 1,
+    "status": "private-rebind-preparation-not-adopted",
+    "source_basis": {
+      "kind": "explicit-immutable-main",
+      "commit": "f5e6221b7dd01132ff76d36e993b13047b15e24c",
+      "tree": "fb717f389c8a94a27c942d59673fb9d762bfd683",
+      "caller_main_freshness_verified": false
+    },
+    "historical_top_level_interpretation": "The entire frozen pre-existing record, including basis/status/source_audit/validation/pending values, describes750a. This field alone is the new input snapshot.",
+    "historical_record_SHA256": "16b114436e0f8e87f99b7710be523f9db08e82a697cb6aba660bceadc452c2b4",
+    "historical_freeze_SHA256": "4b9085b6694d2d68dd751dc952ab3bd9d3e39dfaa82d8b10bbccfb344f7166f9",
+    "independent_content_review_SHA256": "571ff3228f56111442d46ed0fa75eb472a5b6dd3be60ad0dc2f793e5f547fd8c",
+    "technical_source6_exact": true,
+    "existing_source3_oldOID_matched": true,
+    "new5_paths_absent": true,
+    "README_unique_inverse_verified": true,
+    "trusted_production_inputs": {
+      "ios/content-selection.json": {
+        "mode": "100644",
+        "type": "blob",
+        "blob_sha1": "f4db2323c1a0059f0fe2e053f0f719e2741a9ce9",
+        "SHA256": "9dd11a7cd6238bd2a915fc5e4b2872ffc1f693ed48293090b187cc222fa4c537",
+        "bytes": 1846
+      },
+      "website/audio/catalog.json": {
+        "mode": "100644",
+        "type": "blob",
+        "blob_sha1": "ab9d3be83212b9155b500a2d7de49595bb1a3948",
+        "SHA256": "62cad93c2283cd3b2f6eb2e269e1b863c53e90e817770c10d7792007d715f322",
+        "bytes": 25919
+      },
+      "ios/AILibrary/Sources/AudioPlayer.swift": {
+        "mode": "100644",
+        "type": "blob",
+        "blob_sha1": "7b326d0140b11c7e9d01a290c3ebe8f37112df65",
+        "SHA256": "87e0539b12d8fc334360e015859c52472f5b21ba1ede21cd6aff1415d6a8ff9a",
+        "bytes": 20787
+      },
+      "scripts/lib/ios-content.mjs": {
+        "mode": "100644",
+        "type": "blob",
+        "blob_sha1": "22eecf80378e15ee8fde40e9cbd3c5c391b53c11",
+        "SHA256": "feec439c5ed774d654d61b138ff3f4c48a36ae301fd66d3273d0dd0152aab3da",
+        "bytes": 24607
+      },
+      "scripts/build-ios-native-content.mjs": {
+        "mode": "100644",
+        "type": "blob",
+        "blob_sha1": "8c53d84a8cb4015a3cdfd348e6fb4ec46146c7f0",
+        "SHA256": "7fa3886b92dd35e3fb99bb081a977bc2cb48f22dbc4b5221d31e6881c41c21bb",
+        "bytes": 2449
+      },
+      "docs/01-concepts/agent-loop.md": {
+        "mode": "100644",
+        "type": "blob",
+        "blob_sha1": "a7146517ff11b36e9bdc3a937f64b1a0fd7a8cd7",
+        "SHA256": "3c6f324e5d0d4a60c48cf9be030279731c2e3ea2951f1e51c1c3a570eec7f101",
+        "bytes": 11065
+      }
+    },
+    "trusted_default_metadata_reference": {
+      "count": 1,
+      "bytes": 1773,
+      "SHA256": "abee691f773ef0ea5830857932229f142fcabfdd4c836ff270351e14cc06838e",
+      "role": "Historical canonical serialized audioMetadata value; not a tracked Git file and not recomputed here",
+      "byte_equal_legacy": true,
+      "additional8_adopted": false,
+      "rights_adopted": false
+    },
+    "current_metadata_generation": 0,
+    "current_metadata_byte_equality_recomputed": false,
+    "production_declarations": 1,
+    "additional8_adopted": false,
+    "rights_adopted": false,
+    "IOS04_IOS16_complete": false,
+    "actual_new_CI_or_SDK_runs": null,
+    "current_validation": "Read-only immutable inputs, pure hashes and source guards only; exact-head related tests/default serialized-value check still required.",
+    "artifact_audio_MP3_or_script_bytes_verified": false,
+    "audio_download_or_generation": 0,
+    "whole_corpus_generation": 0,
+    "publishable": false,
+    "adopted": false,
+    "final_payload_independent_review": "pending"
+  },
+  "limited_related_Node_validation_20261027": {
+    "schema_version": 1,
+    "recorded_date": "2026-10-27",
+    "status": "private-limited-f5e-related-Node-validation-record-not-adopted",
+    "source_snapshot": {
+      "commit": "f5e6221b7dd01132ff76d36e993b13047b15e24c",
+      "tree": "fb717f389c8a94a27c942d59673fb9d762bfd683",
+      "caller_latest_main_freshness_verified": false,
+      "future_actualmain": null,
+      "PR281_head_treated_as_main": false
+    },
+    "historical_top_level_values": "All pre-existing values are preserved as historical preparation results; this section alone records the later limited validation.",
+    "evidence": {
+      "validation_summary_SHA256": "4b0ca97289faabbe255ef38857bb587c67414aacecf73d83d794bbe63b0694e8",
+      "private_manifest_SHA256": "531f1c314b1a288bcfc851696992d87f32b8347a461f91516725aa22a4611e76",
+      "private_source_evidence": "<repo>/.local/ios-audio-v2-related-validation-20261027",
+      "read_verified_evidence_only_in_this_documentation_step": true
+    },
+    "approved_Source6": [
+      {
+        "path": "scripts/lib/ios-audio-identity.mjs",
+        "bytes": 6673,
+        "SHA256": "989472b3eddfa2fe8737bcae7fe488a0e56ba542cb118c370a4ba8226f344fc4"
+      },
+      {
+        "path": "scripts/lib/ios-native-content.mjs",
+        "bytes": 23610,
+        "SHA256": "7b77e27e85e794fb6300212d7a5caf74d7efe2b6a13d9135aea763e1bb048a12"
+      },
+      {
+        "path": "tests/fixtures/ios-audio-identities.json",
+        "bytes": 7432,
+        "SHA256": "2e9ffcecf733502a0bb0389b7bb57f81d2e3c6413cc10f46a0c85061c69f65c1"
+      },
+      {
+        "path": "tests/unit/ios-audio-identity.test.mjs",
+        "bytes": 11161,
+        "SHA256": "4edda315dea09c9ac66d05fa478745eecc70b439cc7eb4800ececf490e99efa6"
+      },
+      {
+        "path": "tests/unit/ios-native-audit.test.mjs",
+        "bytes": 14581,
+        "SHA256": "07db7f3c91c28ae36da5123e2435a0ce19f85e26b6f4c245449aebdc2075506c"
+      },
+      {
+        "path": "tests/unit/ios-native-content.test.mjs",
+        "bytes": 55324,
+        "SHA256": "b614f2a72b1fbdb6439abdd6121c559452d4661633e68f1dcfc086ac8a96d94c"
+      }
+    ],
+    "approved_Source6_unchanged": true,
+    "input24_before_after_hashes_unchanged": true,
+    "input_hash_count": 24,
+    "runtime": {
+      "Node": "v24.19.0",
+      "macOS": "14.6.1",
+      "architecture": "arm64",
+      "test_process_isolation": "none",
+      "concurrency": 1,
+      "existing_dependencies_read_only": true,
+      "direct3_version_integrity_installed_lock_matched_immutable_main": true,
+      "dependency_install": 0
+    },
+    "related_tests": {
+      "tests": 54,
+      "pass": 54,
+      "fail": 0,
+      "skip": 0,
+      "cancel": 0,
+      "elapsed_seconds": 15.774,
+      "outer_timeout_seconds": 120,
+      "heap_MiB": 384,
+      "stdout_SHA256": "70c2d488d71e9f9439dafb5fa439ed828fb4f18eccf01a1b776c5adb4d65faf7",
+      "stderr_bytes": 0,
+      "Node_child_commands": 2,
+      "child_scope": [
+        "fixed audit module import",
+        "fixed invalid audit CLI"
+      ],
+      "child_timeout_seconds": 30
+    },
+    "canonical_one_audio_metadata": {
+      "schema_version": 1,
+      "status": "passed",
+      "source_main": "f5e6221b7dd01132ff76d36e993b13047b15e24c",
+      "source_guard6_passed": true,
+      "production_declarations": 1,
+      "canonical_metadata_bytes": 1773,
+      "canonical_metadata_SHA256": "abee691f773ef0ea5830857932229f142fcabfdd4c836ff270351e14cc06838e",
+      "byte_equal_legacy": true,
+      "canonical_serialization": "JSON.stringify(audioMetadata object), UTF8, no terminal LF",
+      "Swift_runtime_literal_tuple_equal": true,
+      "Swift_compile": 0,
+      "additional8_adopted": false,
+      "MP3_script_or_READY_bytes_retrieved": 0,
+      "network_or_audio_generation": 0,
+      "full_corpus_or_assets_generated": 0,
+      "rights_Store_IOS04_IOS16_acceptance": false
+    },
+    "resource_envelope": {
+      "free_floor_bytes": 734003200,
+      "root_cap_bytes": 8388608,
+      "observed_min_free_final_test_bytes": 901775360,
+      "observed_peak_allocated_final_test_bytes": 1142784,
+      "observed_peak_logical_final_test_bytes": 568457,
+      "largest_write_bytes": 7427,
+      "final_parent_mutation_counts": {
+        "mkdir": 305,
+        "mkdtemp": 20,
+        "writeFile": 480,
+        "rm": 830,
+        "symlink": 12,
+        "chmod": 0,
+        "allowedNodeChildren": 2,
+        "refusedFilesystem": 0,
+        "refusedChild": 0,
+        "refusedNetwork": 0,
+        "before": 1970,
+        "after": 1647
+      },
+      "final_network_or_write_or_child_refusals": 0,
+      "scope": "Every known source mkdir/write/chmod path and cleanup uses before/after floor/cap wrappers; fixed child allowlist and network refusals. No OS sandbox or native-bypass completeness guarantee."
+    },
+    "retained_private_harness_setup_attempts": [
+      {
+        "command_file": ".control/related-tests-command.json",
+        "result": "guard-v1 denied Node module openSync read;3 file-load failures before54cases; guard report writing also failed",
+        "candidate_Source6_changes": 0
+      },
+      {
+        "command_file": ".control/related-tests-v2-command.json",
+        "result": "guard-v2 completed17 cases then cleanup callback path refused; bounded120s timeout; one own mock fixture left and now removed",
+        "candidate_Source6_changes": 0
+      },
+      {
+        "command_file": ".control/related-tests-v3-command.json",
+        "result": "54 executed,52pass2fail due omitted immutable tool-use/Transformer/native-reader test data; source closure supplemented with3 main-f5e Markdown files only",
+        "candidate_Source6_changes": 0
+      }
+    ],
+    "prior_attempt_interpretation": "Read-only open guard, cleanup guard and omitted3 immutable Markdown fixtures were private harness setup issues. Approved Source6 remained unchanged; successful scope is the final54pass run.",
+    "cleanup": {
+      "owned_abandoned_mock_fixture_removed": {
+        "files": 7,
+        "dirs": 10,
+        "links": 2,
+        "logical_bytes": 1761
+      },
+      "tmp_empty": true,
+      "successful_test_new_fixtures_cleaned_by_test_hooks": true,
+      "known_Node_children_returned_synchronously": true
+    },
+    "operations_in_referenced_validation": {
+      "SDK_Swift_compiler_Simulator": 0,
+      "browser_real_asset_generation": 0,
+      "full_corpus_generation": 0,
+      "MP3_script_READY_download": 0,
+      "network_requests": 0,
+      "Git_mutation_or_API": 0,
+      "shared_or_frozen_source_edit": 0,
+      "additional8_or_rights_or_Store_adoption": false
+    },
+    "documentation_step": {
+      "related_tests_rerun": 0,
+      "exclusive_prepare_helper_runs": 0,
+      "Git_or_API_mutations": 0,
+      "shared_or_frozen_source_writes": 0
+    },
+    "limits": [
+      "Limited SourceSnapshot f5e plus approved source6, not future/newhead CI or main adoption",
+      "Mock small PNG/text fixtures, not real full corpus or runtime app/offline audio verification",
+      "Existing installed dependency metadata/versions checked; no reinstall or whole installed-file integrity reconstruction",
+      "No rights/media-byte/IOS-04/IOS-16/physical/Store acceptance",
+      "Not latest-main binding or new-head CI; future_actualmain stays null until Root verifies an actual merged main.",
+      "App player/UI/physical/offline acceptance and IOS-04/IOS-16 remain incomplete."
+    ],
+    "rights_or_extra8_adopted": false,
+    "IOS04_complete": false,
+    "IOS16_complete": false,
+    "independent_final_payload_review": "pending; no self approval"
+  }
+,
+  "limited_main142_related_Node_validation_20261028": {
+    "schema_version": 1,
+    "recorded_date": "2026-10-28",
+    "status": "private-fixed-main142-related-Node-second-attempt-passed-not-adopted",
+    "historical_values": "All pre-existing fields and Markdown remain historical. Only this new section records actualmain142 limited validation; no prior pending value is overwritten.",
+    "source_snapshot": {
+      "commit": "142041adf3a6ff353555fba78e73f19dd1d977ff",
+      "tree": "2ab281bb467db29646f5b1a5b564b6a764d008a5",
+      "kind": "fixed-actual-main142",
+      "latest_main_at_future_Audio_integration": null,
+      "future_Audio_head_CI": null
+    },
+    "evidence": {
+      "summary_SHA256": "9d97d16ed159da40181f65756aaf986ed2b508d539d8afa681284db67f38e021",
+      "manifest_SHA256": "b4fb181c776da6478f84cb2429242dea8c0e535050557eebc187fce1249936d0",
+      "proof_SHA256": "fb2afb19c45093ae23e0dc089b9d44bebcfe622291961a4aa1bad354a43e6651",
+      "first_incomplete_report_SHA256": "2bad91b2df14fb4c73bd878fe4da1b8f390cacb5403371060d762ff4dd234ce0",
+      "private_evidence": "<private>/ios-audio-identity-main142-related-node-20261028",
+      "manifest_file_count_verified": 46,
+      "documentation_step_reran_tests": false
+    },
+    "approved_Source6_manifest_SHA256": "98b870d2ab73c6a2febcd7b8f626fe6c5e4ee7d14ad4156b804ec555f2047b4d",
+    "approved_Source6": [
+      {
+        "path": "scripts/lib/ios-audio-identity.mjs",
+        "bytes": 6673,
+        "SHA256": "989472b3eddfa2fe8737bcae7fe488a0e56ba542cb118c370a4ba8226f344fc4"
+      },
+      {
+        "path": "scripts/lib/ios-native-content.mjs",
+        "bytes": 23610,
+        "SHA256": "7b77e27e85e794fb6300212d7a5caf74d7efe2b6a13d9135aea763e1bb048a12"
+      },
+      {
+        "path": "tests/fixtures/ios-audio-identities.json",
+        "bytes": 7432,
+        "SHA256": "2e9ffcecf733502a0bb0389b7bb57f81d2e3c6413cc10f46a0c85061c69f65c1"
+      },
+      {
+        "path": "tests/unit/ios-audio-identity.test.mjs",
+        "bytes": 11161,
+        "SHA256": "4edda315dea09c9ac66d05fa478745eecc70b439cc7eb4800ececf490e99efa6"
+      },
+      {
+        "path": "tests/unit/ios-native-audit.test.mjs",
+        "bytes": 14581,
+        "SHA256": "07db7f3c91c28ae36da5123e2435a0ce19f85e26b6f4c245449aebdc2075506c"
+      },
+      {
+        "path": "tests/unit/ios-native-content.test.mjs",
+        "bytes": 55324,
+        "SHA256": "b614f2a72b1fbdb6439abdd6121c559452d4661633e68f1dcfc086ac8a96d94c"
+      }
+    ],
+    "approved_Source6_unchanged": true,
+    "fixed_input24_before_after_exact": true,
+    "fixed_input_count": 24,
+    "runtime": {
+      "Node": "v24.19.0",
+      "isolation": "none",
+      "concurrency": 1,
+      "heap_MiB": 384,
+      "related_suites": 3,
+      "each_test_timeout_seconds": 60,
+      "outer_total_timeout_seconds": 120,
+      "credentials_inherited": false,
+      "installed_file_integrity_reconstruction": false
+    },
+    "direct3_dependency_metadata_matched_immutable_lock": true,
+    "second_attempt": {
+      "attempt": 2,
+      "tests": 54,
+      "pass": 54,
+      "fail": 0,
+      "skip": 0,
+      "cancel": 0,
+      "elapsed_seconds": 14.799,
+      "TAP_duration_ms": 14310.922292,
+      "stdout_bytes": 13018,
+      "stdout_SHA256": "28521d49df6e86479073d21dacc9c236505154075c4868bbfc61c5f47bd5a71c",
+      "stderr_bytes": 0,
+      "each_case_name_unique": true,
+      "PID": 98185,
+      "PGID": 98185,
+      "exit_code": 0,
+      "owned_process_waited": true,
+      "synchronous_Node_children": 2,
+      "output_cap_bytes": 524288,
+      "old54_results_copied": false
+    },
+    "canonical_default_metadata": {
+      "schema_version": 1,
+      "status": "passed",
+      "source_main": "142041adf3a6ff353555fba78e73f19dd1d977ff",
+      "source_guard6_passed": true,
+      "production_declarations": 1,
+      "canonical_metadata_bytes": 1773,
+      "canonical_metadata_SHA256": "abee691f773ef0ea5830857932229f142fcabfdd4c836ff270351e14cc06838e",
+      "byte_equal_legacy": true,
+      "canonical_serialization": "JSON.stringify(audioMetadata object), UTF8, no terminal LF",
+      "Swift_runtime_literal_tuple_equal": true,
+      "Swift_compile": 0,
+      "additional8_adopted": false,
+      "MP3_script_or_READY_bytes_retrieved": 0,
+      "network_or_audio_generation": 0,
+      "full_corpus_or_assets_generated": 0,
+      "rights_Store_IOS04_IOS16_acceptance": false
+    },
+    "metadata_run": {
+      "exit_code": 0,
+      "elapsed_seconds": 0.303,
+      "stdout_bytes": 630,
+      "stderr_bytes": 0,
+      "stdout_SHA256": "9a90aed42d9bbc7cee2ce17982e71444146cb11f32a347a803529a5810a8a121",
+      "child_wait_returned": true
+    },
+    "resource_envelope": {
+      "floor_bytes": 734003200,
+      "owned_root_cap_bytes": 8388608,
+      "observed_min_free_bytes": 8097570816,
+      "observed_peak_allocated_bytes": 1011712,
+      "observed_peak_logical_bytes": 535552,
+      "max_write_bytes": 7427,
+      "guard_reports": 4,
+      "all_refusal_counts_zero": true,
+      "known_Node_child_allowlist": true,
+      "network_nonNode_denied_by_existing_guard": true,
+      "outer_cleanup_race_ENOENT_skips": 0,
+      "OS_sandbox_completeness_guarantee": false
+    },
+    "first_attempt": {
+      "status": "collector ENOENT while owned cleanup; no Source failure conclusion",
+      "run_results": null,
+      "PID": null,
+      "exit": null,
+      "preserved_report_SHA256": "2bad91b2df14fb4c73bd878fe4da1b8f390cacb5403371060d762ff4dd234ce0",
+      "termination": "formal escalated read-only ps found0 exact argv/task guard matches",
+      "cleanup": "owned TMPDIR entry only; no symlink target traversal",
+      "retry_authorization": "Root explicitly allowed one corrected collector attempt",
+      "collector_delta": "only enumeration/lstat ENOENT under owned TMPDIR skipped; all other errors propagate; immediate PID/PGID/argv/time receipt; Source6 unchanged; one fixed Node child output cap narrowed to512KiB; details in guard_qualification"
+    },
+    "guard_qualification": {
+      "Source6_unchanged": true,
+      "existing_guard_child_maxBuffer_bytes": 524288,
+      "guard_delta_from_original_receipt": "One fixed Node-child maxBuffer reduced from1048576 to524288; network/child allowlist and write bounds retained.",
+      "outer_collector_delta": "Skip ENOENT only for owned TMPDIR enumeration/lstat; immediate PID/PGID receipt; wait/terminate owned child on collector error. Other errors propagate."
+    },
+    "cleanup": {
+      "tmp_empty": true,
+      "attempt2_processes_waited": true,
+      "first_attempt_unknown_process_killed": false,
+      "fixture_sources_frozen_after_validation": true
+    },
+    "scope": {
+      "small_mock_PNG_text_packages_only": true,
+      "default_production_audio_count": 1,
+      "additional8_adopted": false,
+      "audio_script_READY_bytes_verified": false,
+      "rights_Store_adopted": false,
+      "IOS04_complete": false,
+      "IOS16_complete": false,
+      "new_SDK_Swift_Simulator_browser_media_network_API_Git_or_clipboard_operations": 0,
+      "dependency_install": 0,
+      "full_corpus_generation": 0,
+      "app_player_offline_physical_acceptance": false
+    },
+    "remaining": [
+      "Fresh actualmain binding after record/Copy integrations",
+      "Independent final Source/payload/metadata review",
+      "New Audio head CI",
+      "Additional8 evidence and rights/initial scope decisions",
+      "Player/offline/physical acceptance"
+    ],
+    "future_Audio_adoption": null,
+    "future_Hosted": null,
+    "publishable": false
+  }
+}

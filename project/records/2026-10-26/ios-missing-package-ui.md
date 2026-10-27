@@ -55,7 +55,7 @@ head `2d4f156bb932322c6be025aaf8b9456d5b3e9988`の[専用run](https://github.com
 
 FはUI実行前、Rはhost側JSONの正しい復元後に、Fのinstallation記録がないため停止した。正常版の上書き・sentinel・F/R UIはいずれも未実施である。Rの停止を別のアプリ不具合とは数えない。所有Simulatorはshutdown・deleteの終了0と削除後の不在を確認した。
 
-次の候補では、hostの欠損・復元はmodeを含む完全一致のまま保ち、installed側だけ実観測12パスの0755→0644または0755維持を明示的に扱う。全パス集合・bytes・SHA、他パスのmode、主実行ファイルやデータは厳密に照合する。比較前にexpected／actual／差分を上限付きJSONへ保存し、RはFの前提不足を明示記録して変更・install・UI前に拒否する。この候補の新しい実F/Rは未実施である。
+次の候補では、hostの欠損・復元はmodeを含む完全一致のまま保ち、installed側だけ実観測12パスの0755→0644または0755維持を明示的に扱う。全パス集合・bytes・SHA、他パスのmode、主実行ファイルやデータは厳密に照合する。照合結果の成否をassertする前にexpected／actual／差分を上限付きJSONへ保存し、RはFの前提不足を明示記録して変更・install・UI前に拒否する。この候補の新しい実F/Rは未実施である。
 
 旧head `f58d61c817dd2c1e4fef80f6a56283e7d26f2484`の[全記事UI run](https://github.com/pero3dev/ai-agent-library/actions/runs/40450998872)は22件中1件が失敗した。初回Transformerの本文表示は到達し、フォルダー選択取消を扱うケースの後段で「続きを読む」を押した後にnative-readerを20秒待って停止した。初期表示の失敗やxctestrunの解析失敗とは別であり、タップ対象・遷移・描画のどこが原因かは未確定である。旧headの失敗を後続headの成功へ置き換えず、実行ごとに追跡する。
 
@@ -68,3 +68,19 @@ FはUI実行前、Rはhost側JSONの正しい復元後に、Fのinstallation記�
 失敗時だけ、公開AX上の画面タイトル・一覧／本文／読み込み／エラー表示・ボタンと検索欄の数とframeをJSONへ残す。JSON本文は8,192 Bまで、hierarchyのprefixはUTF-8の末尾補正を含め8,002 Bまでとする。AX取得そのものの時間や一連の観測の同時性を保証するものではなく、その他の遮蔽はXCTestのisHittableに依存する。通常UIの件数は22のままで、App・共通Native helper・他ケースの操作を変えない。
 
 この操作条件と診断の改善は、installed inventoryの補正とは別コミットにする。両候補の独立レビューは実SDK・実F/R・候補の復帰UI実行を代替しない。最終headの実行前であり、本文表示・保存の全体受入や旧失敗の原因解消は未完了のまま残す。
+
+## 所有Simulator起動後の一覧取得の時間切れ
+
+head `aef7d822b76c9f75c158c43e06dd4d3ffbb67eb0`の[専用run](https://github.com/pero3dev/ai-agent-library/actions/runs/40459959589)は、代表版生成と所有Simulatorのcreate・boot・bootstatusが成功した後、`simctl list devices --json`が30秒で時間切れになった。呼出し時のstage残り時間は189,512 msで、Simulator段階全体の270秒を使い切った結果ではない。stdoutは空、SIGKILL・timed_outを記録した。build・metadata・実Info・新installed比較・F/Rへは未到達であり、アプリの機能失敗とは扱わない。
+
+50,907 Bのartifactは全77 entry・466,435 BをRAMで検証し、digest・CRC・size・path等が一致した。所有UUIDは既存132台に含まれず、cleanup前の一覧ではiOS18.5／iPhone16のBootedが一つだった。shutdown・deleteはいずれも終了0、削除後は不在だった。
+
+次の候補ではこの一覧取得だけを90秒まで待つ。同じSimulator段階270秒・step5分と、job60分・step合計55分の内側で既存のdeadlineにより制限し、再試行・失敗判定の省略・全体上限の拡張は加えない。他のコマンド、App・UI・installed比較・cleanupは保つ。90秒で成功することと新しいF/Rは未確認である。
+
+同headのMarkdown検査は、記録の節間2か所の連続空行でMD012に失敗した。余分なLF2つだけを取り除く独立した書式コミットを先に置く。隔離した候補ディレクトリと正本と同じ設定で対象Markdownのlintは成功し、今回の追記を含む最終本文も提出前に検査する。旧headの検査失敗や各未到達段階は履歴として保持する。
+
+## 同じheadのiOS26の目次移動テスト
+
+[aef7のRuntime26](https://github.com/pero3dev/ai-agent-library/actions/runs/40459959585)はUI2件中1件が失敗した。Transformerの本文は表示され、目次から「自己注意の数式」を押した後の可視条件が時間切れになった。該当ケースは118.253秒、別の3記事本文ケースは133.835秒で成功し、集計は252.088秒だった。UI stepの実508秒は上限720秒に達していない。
+
+失敗後の別時刻の診断では同見出しの完全可視・isHittable等がtrueだったが、待機中のframe値は記録されていない。後の状態から待機中の条件や原因を確定せず、失敗結果を保持する。hierarchyと画像の実内容は未読で、101,924,031 Bのartifactは取得上限を超えるため取得していない。今回はApp・共通Native helperを変えておらず、旧f58の別ケースの再起動後resumeとも検証段階が異なる。次のheadの結果と、この失敗を分けて追跡する。

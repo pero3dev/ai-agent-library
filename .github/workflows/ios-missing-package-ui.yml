@@ -224,7 +224,7 @@ jobs:
             const UUID = (await run('create-simulator', 'xcrun', ['simctl', 'create', name, intent.device_type_identifier, intent.runtime_identifier], 60000)).stdout.trim().toUpperCase(); assert.match(UUID, uuidPattern); assert.ok(!preexisting.includes(UUID));
             json('owned-simulator.json', { ...intent, UUID, creation_exit_code: 0 });
             await run('boot-simulator', 'xcrun', ['simctl', 'boot', UUID], 30000); await run('bootstatus-simulator', 'xcrun', ['simctl', 'bootstatus', UUID, '-b'], 150000);
-            const current = allDevices(JSON.parse((await run('devices-after-boot', 'xcrun', ['simctl', 'list', 'devices', '--json'], 30000)).stdout)).filter(row => row.device.udid.toUpperCase() === UUID);
+            const current = allDevices(JSON.parse((await run('devices-after-boot', 'xcrun', ['simctl', 'list', 'devices', '--json'], 90000)).stdout)).filter(row => row.device.udid.toUpperCase() === UUID);
             assert.equal(current.length, 1); assert.equal(current[0].runtime, intent.runtime_identifier); assert.equal(current[0].device.name, name); assert.equal(current[0].device.state, 'Booted'); assert.equal(current[0].device.isAvailable, true);
           }
 

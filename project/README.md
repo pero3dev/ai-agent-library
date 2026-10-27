@@ -10,6 +10,8 @@
 
 全記事の[Core host観測](records/2026-10-26/ios-published-core-benchmark.md)はb79基線で実施した凍結CLIのraw19process/記録15は旧観測として保持し、最新source4のsnapshotや未実施の再CLIと分ける。通常CIはNode fixtureだけで、SDK・corpus観測は明示した手動CLIと別guardのまま。App/PBX/workflow/P1/Iconと全TODOを保持し、IOS-15と予算採択は未完了である。
 
+2026-10-27の[現行CoreのHosted観測](records/2026-10-27/ios-core-hosted-observation.md)は、b39／Workflow9bの凍結19process・15標本とCore実装main f5eを扱う。上の段落は旧準備時点の履歴として保持する。後続main76の新push Common・Native・Fullは成功し、Nativeの追加12単体と通常UI、Fullの一意22caseを確認した。旧性能値をSource4が変わったApp0.2.20（22）へ転用せず、App・実機・最低iOS17・VoiceOver・p95・性能予算とIOS-15全体は未完了とする。TODO32行・完了12行を保持する。
+
 通常CIの[Playwright依存取得を制限する候補](records/2026-10-27/ci-playwright-dependency-download.md)は、f28のAPT長時間転送へ対処し、30分上限・全検査を維持する私有準備である。純78ケースと独立レビューは成功したが、実APT・sudo・変更後Hosted CI・全browser検査は未実施で、通常の別PRと正確なhead/runの確認を待つ。取消原因や転送改善成功は断定せず、アプリ版・TODO・iOS source・mainは未変更とする。
 
 [読書記録の破損保全と明示復旧](records/2026-10-27/ios-reading-state-recovery.md)は、読める記録と原データを保持し、利用者の選択で明示復旧する0.2.20（22）の候補です。固定head5ebでNative165件実行・skip2・失敗0、追加12件各pass、Common・SDK26・Runtime26成功を確認し、FullのUI22件は一意22caseが全pass・失敗0でした。Dedicated Rは別PIDのApp診断が置換済みDead bundleの意図的欠損を示して失敗しました。F専用終了確認の候補を準備しましたが、内部cache機序・新headの効果は未確定です。復旧固有UI・実機・VoiceOverとIOS-22全体は未完了、完了12／32件を維持します。

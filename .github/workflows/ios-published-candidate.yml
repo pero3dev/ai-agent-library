@@ -120,6 +120,8 @@ jobs:
       # TEMPORARY DIAGNOSTIC ONLY. The exact original23/Release validator is
       # retained in the private rollback patch and must be restored before merge.
       - name: Diagnose one public code-copy action and live device pasteboard
+        env:
+          TEST_RUNNER_AILIBRARY_EXPECTED_PUBLISHED_COUNT: ${{ env.PUBLISHED_ARTICLE_COUNT }}
         run: |
           set -euo pipefail
           python3 - <<'PY'
@@ -225,6 +227,11 @@ jobs:
            except BoundedCommandError as exc:
             exc.metadata['last_command']=dict(result['last_command']);raise
 
+          def expected_published_count_context(environment):
+           value=environment.get('TEST_RUNNER_AILIBRARY_EXPECTED_PUBLISHED_COUNT')
+           assert type(value) is str and value.isascii() and value.isdecimal() and int(value)>3,'TEST_RUNNER_AILIBRARY_EXPECTED_PUBLISHED_COUNT must be an ASCII decimal integer greater than three before SDK startup'
+           return {'configured_value':value,'configured_integer':int(value),'step_env_name':'TEST_RUNNER_AILIBRARY_EXPECTED_PUBLISHED_COUNT','runner_env_name':'AILIBRARY_EXPECTED_PUBLISHED_COUNT','forwarding_boundary':'Step environment inherited by xcodebuild; normal TEST_RUNNER_ prefix forwarding to the test runner','actual_runner_receipt':'not-observed'}
+
           def live_poll_observation(timeout,absolute_deadline,tick):
            args=['xcrun','simctl','pbpaste',deviceID]
            try:return command(args,timeout=timeout,absolute_deadline=absolute_deadline,tick=tick,stage='live-pasteboard-poll'),None
@@ -264,12 +271,13 @@ jobs:
            assert leaf.get('nodeIdentifier')==CASE and leaf.get('nodeIdentifierURL')=='test://com.apple.xcode/AILibrary/AILibraryUITests/'+CASE[:-2]
            return {'same_UUID':UUID,'OS':device['osVersion'],'case_ID':CASE,'results':[plan.get('result'),bundle.get('result'),suite.get('result'),leaf.get('result')],'all_containers_and_leaf_Passed':all(x.get('result')=='Passed' for x in (plan,bundle,suite,leaf))}
           try:
+           published_count_forwarding=expected_published_count_context(os.environ)
            for p,h in [('ios/AILibrary/Sources/NativeReaderView.swift','5e9f5c76684a925254ed091ad1da7c9c73338adf5a81251a0f82fe2d483a8858'),('ios/AILibraryUITests/PublishedReaderUITests.swift','5a83f1eebfba8b603fe26492845c287a9f6c8a0f6fab8c74526dc6ba6755fcd9')]:assert sha(Path(p).read_bytes())==h
            expected=Path('ios/fixtures/first-code-copy-expected.txt').read_bytes();assert len(expected)==374 and sha(expected)==EXPECTED_SHA
            checkout=command(['git','rev-parse','HEAD'],stage='checkout-head').stdout.decode().strip();tree=command(['git','rev-parse','HEAD^{tree}'],stage='checkout-tree').stdout.decode().strip()
            assert checkout==os.environ['GITHUB_SHA'] and len(checkout)==40 and len(tree)==40
            runID=os.environ['GITHUB_RUN_ID'];attempt=os.environ['GITHUB_RUN_ATTEMPT'];assert runID.isdigit() and attempt.isdigit()
-           context={'repository':os.environ['GITHUB_REPOSITORY'],'run_id':runID,'run_attempt':attempt,'event':os.environ['GITHUB_EVENT_NAME'],'event_commit':checkout,'event_tree':tree,'pull_request_head':os.environ.get('COPY_PROBE_PR_HEAD_SHA') or None,'branch':os.environ.get('GITHUB_HEAD_REF') or os.environ.get('GITHUB_REF_NAME'),'workflow_path':'.github/workflows/ios-published-candidate.yml','workflow_SHA256':sha(Path('.github/workflows/ios-published-candidate.yml').read_bytes()),'expected_bytes':374,'expected_SHA256':EXPECTED_SHA,'test_case':CASE,'candidate_source_scope':'Two reviewed AX state changes; temporary workflow diagnostic is not the final merge validator'}
+           context={'repository':os.environ['GITHUB_REPOSITORY'],'run_id':runID,'run_attempt':attempt,'event':os.environ['GITHUB_EVENT_NAME'],'event_commit':checkout,'event_tree':tree,'pull_request_head':os.environ.get('COPY_PROBE_PR_HEAD_SHA') or None,'branch':os.environ.get('GITHUB_HEAD_REF') or os.environ.get('GITHUB_REF_NAME'),'workflow_path':'.github/workflows/ios-published-candidate.yml','workflow_SHA256':sha(Path('.github/workflows/ios-published-candidate.yml').read_bytes()),'expected_bytes':374,'expected_SHA256':EXPECTED_SHA,'published_count_forwarding':published_count_forwarding,'test_case':CASE,'candidate_source_scope':'Two reviewed AX state changes; temporary workflow diagnostic is not the final merge validator'}
            assert context['repository']=='pero3dev/ai-agent-library' and context['event']=='pull_request'
            assert isinstance(context['pull_request_head'],str) and len(context['pull_request_head'])==40 and all(c in '0123456789abcdef' for c in context['pull_request_head'])
            write('copy-probe-context.json',context);result.update({k:context[k] for k in ('repository','run_id','run_attempt','event_commit','event_tree','pull_request_head')})

@@ -84,3 +84,31 @@ head `aef7d822b76c9f75c158c43e06dd4d3ffbb67eb0`の[専用run](https://github.com
 [aef7のRuntime26](https://github.com/pero3dev/ai-agent-library/actions/runs/40459959585)はUI2件中1件が失敗した。Transformerの本文は表示され、目次から「自己注意の数式」を押した後の可視条件が時間切れになった。該当ケースは118.253秒、別の3記事本文ケースは133.835秒で成功し、集計は252.088秒だった。UI stepの実508秒は上限720秒に達していない。
 
 失敗後の別時刻の診断では同見出しの完全可視・isHittable等がtrueだったが、待機中のframe値は記録されていない。後の状態から待機中の条件や原因を確定せず、失敗結果を保持する。hierarchyと画像の実内容は未読で、101,924,031 Bのartifactは取得上限を超えるため取得していない。今回はApp・共通Native helperを変えておらず、旧f58の別ケースの再起動後resumeとも検証段階が異なる。次のheadの結果と、この失敗を分けて追跡する。
+
+## abe headの欠損版成功と正常版更新後の起動待機失敗
+
+2026-10-27のhead `abe25117d920d28f87cab59110a79f6f4a9f783e` / tree `6a21a27d531525cf7d6310b07f4207ed155e5aeb` の[専用run40464994671](https://github.com/pero3dev/ai-agent-library/actions/runs/40464994671)（attempt1、job122058146133）では、所有Simulatorの起動後一覧・build・実FormatVersion1・明示installへ進み、欠損版Fの対象1件が成功した。raw test hierarchyの対象case・親階層と実行deviceを照合した結果であり、宣言件数からの推定ではない。
+
+正常版Rは明示上書きinstall後、`NativeReaderUITests.testThreeArticlesHaveNativeBodyText` の1件が53.546秒で失敗した。immutable abeの `NativeReaderUITests.swift:287` は `library-article-count` の存在を45秒待つassertであり、xcodebuildの終了は65、外側の時間切れではなかった。一覧・loading・error・AX取得や表示のどこが原因かは未確定である。Fの成功をRやF/R全体の合格へ拡張しない。
+
+artifact12716478153は60,695,300 B、全体SHA-256 `e0af0cae5e9ae0be75147b81c202a22fc20e6ae1f865550dc4f6c936c8f62172` をGitHubの宣言digestと照合した。全1124 entryのpath・type等を検査し、選択した52 member・展開後1,084,200 BだけをRAMで読み、各CRC・SHAを照合した。未選択memberのCRCは未検査であり、未選択分をinflateした結果ではない。raw ZIP・log・画像はこの記録へ保存しない。選択読取の要約SHA-256は `be8b030b0b0301bf794f167de0e4bfe27ee6ef618d26f7877450a42801f95702`。
+
+Fの4 inventoryは各180ファイル、Rの3 inventoryは各181ファイルのexpected／actual全配列をRAMで照合した。全path集合・bytes・SHAが一致し、modeは既定12パスの0755→0644だけが許可範囲内だった。current pointer不在・source等のguardは実行receiptに記録された範囲として扱い、この記録作成で端末の実bytesを取り直したものではない。
+
+アプリが読み込まない固定52 Bのsentinelは、正常版上書き後・R本文試験前まで保持された。R本文後の `sentinel-after-restored-ui.json` は未出力で、本文後の保持は未確認である。未出力をsentinelの消失とは断定しない。所有Simulatorのshutdown・deleteと削除後の不在を確認した。総合acceptanceはnot-completedのままである。
+
+## 同じabe headの通常検査と観測範囲
+
+通常4系統は[Native](https://github.com/pero3dev/ai-agent-library/actions/runs/40464994767)、[全記事](https://github.com/pero3dev/ai-agent-library/actions/runs/40464994657)、[SDK26](https://github.com/pero3dev/ai-agent-library/actions/runs/40464994649)、[Runtime26](https://github.com/pero3dev/ai-agent-library/actions/runs/40464994867)のAPI結論が成功した。Nativeは単体153件中151成功・2skip・失敗0とUI2件成功、Runtime26はUI2件成功を観測した。SDK26は署名なしarchive互換性の範囲で、配布や実機受入を意味しない。
+
+全記事の現在runはUI step成功をAPIで確認したが、取得した上限付きtailにはUI集計と特定のPublished復帰caseが含まれず、実件数・特定case結果はnullである。以前のaef headのUI22件成功は過去の別snapshotとして保持し、現在runの実測件数へ流用しない。SDK26以外の3系統は実checkout値を今回の要約で取得しておらず、他workflowのcheckoutやAPI headで補わない。通常4系統の凍結receipt closureのSHA-256は `eb2ac29e8e3535f989438b175bb7d377a9e8f3f76da2656ff9dbd6058580965d`。
+
+[共通run40464994741](https://github.com/pero3dev/ai-agent-library/actions/runs/40464994741)は9 job成功・1skipで成功し、現在headのMarkdown検査も成功した。trusted policyは最新の[harness-policy](https://github.com/pero3dev/ai-agent-library/actions/runs/40465017124)と[freshness-policy](https://github.com/pero3dev/ai-agent-library/actions/runs/40465017027)が成功した。Commonで観測した実checkout `2204913b8cae8354c3375319c91b713f557c9e59` はPR用のsynthetic mergeで、code head abeとは別commit・同じtreeである。共通/policy要約SHA-256は `115a4e5d065103e7a15023c19c5abb1b51f9c19a5faa79aa5a87f06dc1bf0bb2`。これらの成功を専用Rの受入へ置き換えない。
+
+## 次の診断候補と未完了の範囲
+
+次の技術候補は、NativeReaderの `open` の先頭にある45秒待機がfalseだった場合だけ公開UI診断を追加し、元のfalseをそのまま既存 `XCTAssertTrue` へ渡す。stdout prefixは `AILibraryLaunchUI`（末尾にASCII space1個）、添付名は `Public-UI-library-count-timeout`、lifetimeはkeepAlwaysとする。metadataはapp.stateと一覧件数・検索・error・retry・loading等の公開existsに限定する。hierarchyはUTF-8先頭24576 BからURL・file path・emailとlabel/value行を伏せ、JSON・prefix・改行の合計を32768 B以下に収める。上限超過時はhierarchyを省略するfallbackを使う。
+
+元のassert・45秒待機・selector・成功時の操作とApp/View/Storeは保ち、推測による原因修正や待機延長を加えない。workflow側は既存のfull evidenceを保持したまま、トップ階層のJSON/logだけを含むcompact evidenceを追加する。job60分・step合計55分を維持する。技術候補の最終source・literal結合と独立レビューは別工程である。
+
+この記録追加ではSDK・Simulator・npm ci・prepare・API・Git・HTTPを実行していない。診断追加後のHosted新runは未実施で、run ID・新head・将来の実mainはnullのままである。記録時点のactual mainはf5e、PR #281のabeはDraft・未mergeとして扱う。F/R合格、本文後sentinel、実bookmark／読書位置、import・offline・legacy・記事なしroute・最大文字・VoiceOver・実機、IOS-18／25全体は未完了である。README・TODO・App・版・署名・公開範囲はこの記録候補では変更しない。

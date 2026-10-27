@@ -819,5 +819,398 @@
     "full_snapshot_max_UTF8_bytes": 131072,
     "over_budget": "Persist counts/hash refusal only and stop before acceptance",
     "source_code_changed_for_wording": false
+  },
+  "fifth_Hosted_restored_startup_failure_and_diagnostic_candidate": {
+    "schema_version": 1,
+    "recorded_date": "2026-10-27",
+    "status": "abe-F-passed-R-startup-wait-failed-diagnostic-preparation-not-accepted",
+    "historical_interpretation": "All old keys and values remain unchanged historical snapshots. This added section alone records abe observations and the next diagnostic scope.",
+    "recorded_actualmain": "f5e6221b7dd01132ff76d36e993b13047b15e24c",
+    "PR281": {
+      "head": "abe25117d920d28f87cab59110a79f6f4a9f783e",
+      "tree": "6a21a27d531525cf7d6310b07f4207ed155e5aeb",
+      "draft": true,
+      "merged": false,
+      "future_actualmain": null
+    },
+    "dedicated_run": {
+      "binding": {
+        "repository": "pero3dev/ai-agent-library",
+        "artifact_id": 12716478153,
+        "run_id": 40464994671,
+        "job_id": 122058146133,
+        "attempt": 1,
+        "head": "abe25117d920d28f87cab59110a79f6f4a9f783e",
+        "tree": "6a21a27d531525cf7d6310b07f4207ed155e5aeb",
+        "compressed_bytes": 60695300,
+        "declared_digest": "sha256:e0af0cae5e9ae0be75147b81c202a22fc20e6ae1f865550dc4f6c936c8f62172"
+      },
+      "observation_bytes": 45403,
+      "observation_SHA256": "be8b030b0b0301bf794f167de0e4bfe27ee6ef618d26f7877450a42801f95702",
+      "archive": {
+        "whole_bytes": 60695300,
+        "whole_SHA256": "e0af0cae5e9ae0be75147b81c202a22fc20e6ae1f865550dc4f6c936c8f62172",
+        "whole_SHA256_verified": true,
+        "index_entries": 1124,
+        "index_paths_types_duplicates_flags_checked": true,
+        "selected_members": 52,
+        "selected_expanded_bytes": 1084200,
+        "selected_CRC_and_SHA_verified": true,
+        "unselected_CRC_verified": false,
+        "unselected_inflated_or_executed": false,
+        "raw_saved": false
+      },
+      "stage_cases": {
+        "failure": {
+          "status": "exact-one-case-passed",
+          "passed_leaf_and_execution_device": true,
+          "selector": "AILibraryUITests/FailureReaderUITests/testMissingBundledArticleShowsErrorAndRetryRemainsUsable",
+          "case_results": [
+            {
+              "name": "testMissingBundledArticleShowsErrorAndRetryRemainsUsable()",
+              "result": "Passed"
+            }
+          ],
+          "devices": [
+            {
+              "deviceId": "EAAA129B-E031-440F-A037-37B81131DF4B",
+              "osVersion": "18.5",
+              "platform": "iOS Simulator",
+              "modelName": "iPhone 16"
+            }
+          ]
+        },
+        "restored": {
+          "status": "not-passed",
+          "passed_leaf_and_execution_device": false,
+          "selector": "AILibraryUITests/NativeReaderUITests/testThreeArticlesHaveNativeBodyText",
+          "case_results": [
+            {
+              "name": "testThreeArticlesHaveNativeBodyText()",
+              "result": "Failed"
+            }
+          ],
+          "devices": [
+            {
+              "deviceId": "EAAA129B-E031-440F-A037-37B81131DF4B",
+              "osVersion": "18.5",
+              "platform": "iOS Simulator",
+              "modelName": "iPhone 16"
+            }
+          ]
+        }
+      },
+      "restored_failure": {
+        "source_file": "ios/AILibraryUITests/NativeReaderUITests.swift",
+        "line": 287,
+        "asserted_identifier": "library-article-count",
+        "wait_seconds": 45,
+        "case_seconds": 53.546,
+        "xcodebuild_exit_code": 65,
+        "timed_out": false,
+        "cause": null,
+        "cause_scope": "Error/loading/display/AX/startup cause unknown; assertion source confirmed against immutable abe."
+      },
+      "installed_inventory_full_RAM_audit": {
+        "failure-after-ui-inventory.json": {
+          "full_arrays_independently_read_in_RAM": true,
+          "expected_files": 180,
+          "actual_files": 180,
+          "path_bytes_SHA_and_allowed_modes_match": true,
+          "expected_equals_host_stage": true,
+          "mode_delta_count": 12,
+          "error_count": 0,
+          "declared_status": "matched",
+          "source_head": "abe25117d920d28f87cab59110a79f6f4a9f783e",
+          "UUID": "EAAA129B-E031-440F-A037-37B81131DF4B"
+        },
+        "failure-before-sentinel-inventory.json": {
+          "full_arrays_independently_read_in_RAM": true,
+          "expected_files": 180,
+          "actual_files": 180,
+          "path_bytes_SHA_and_allowed_modes_match": true,
+          "expected_equals_host_stage": true,
+          "mode_delta_count": 12,
+          "error_count": 0,
+          "declared_status": "matched",
+          "source_head": "abe25117d920d28f87cab59110a79f6f4a9f783e",
+          "UUID": "EAAA129B-E031-440F-A037-37B81131DF4B"
+        },
+        "failure-before-ui-inventory.json": {
+          "full_arrays_independently_read_in_RAM": true,
+          "expected_files": 180,
+          "actual_files": 180,
+          "path_bytes_SHA_and_allowed_modes_match": true,
+          "expected_equals_host_stage": true,
+          "mode_delta_count": 12,
+          "error_count": 0,
+          "declared_status": "matched",
+          "source_head": "abe25117d920d28f87cab59110a79f6f4a9f783e",
+          "UUID": "EAAA129B-E031-440F-A037-37B81131DF4B"
+        },
+        "failure-explicit-install-inventory.json": {
+          "full_arrays_independently_read_in_RAM": true,
+          "expected_files": 180,
+          "actual_files": 180,
+          "path_bytes_SHA_and_allowed_modes_match": true,
+          "expected_equals_host_stage": true,
+          "mode_delta_count": 12,
+          "error_count": 0,
+          "declared_status": "matched",
+          "source_head": "abe25117d920d28f87cab59110a79f6f4a9f783e",
+          "UUID": "EAAA129B-E031-440F-A037-37B81131DF4B"
+        },
+        "restored-after-ui-inventory.json": {
+          "full_arrays_independently_read_in_RAM": true,
+          "expected_files": 181,
+          "actual_files": 181,
+          "path_bytes_SHA_and_allowed_modes_match": true,
+          "expected_equals_host_stage": true,
+          "mode_delta_count": 12,
+          "error_count": 0,
+          "declared_status": "matched",
+          "source_head": "abe25117d920d28f87cab59110a79f6f4a9f783e",
+          "UUID": "EAAA129B-E031-440F-A037-37B81131DF4B"
+        },
+        "restored-before-ui-inventory.json": {
+          "full_arrays_independently_read_in_RAM": true,
+          "expected_files": 181,
+          "actual_files": 181,
+          "path_bytes_SHA_and_allowed_modes_match": true,
+          "expected_equals_host_stage": true,
+          "mode_delta_count": 12,
+          "error_count": 0,
+          "declared_status": "matched",
+          "source_head": "abe25117d920d28f87cab59110a79f6f4a9f783e",
+          "UUID": "EAAA129B-E031-440F-A037-37B81131DF4B"
+        },
+        "restored-explicit-install-inventory.json": {
+          "full_arrays_independently_read_in_RAM": true,
+          "expected_files": 181,
+          "actual_files": 181,
+          "path_bytes_SHA_and_allowed_modes_match": true,
+          "expected_equals_host_stage": true,
+          "mode_delta_count": 12,
+          "error_count": 0,
+          "declared_status": "matched",
+          "source_head": "abe25117d920d28f87cab59110a79f6f4a9f783e",
+          "UUID": "EAAA129B-E031-440F-A037-37B81131DF4B"
+        }
+      },
+      "per_snapshot_mode_delta_count": 12,
+      "mode_policy": "Only existing twelve explicit0755->0644 paths; other mode/path/bytes/SHA remain strict.",
+      "guard_evidence_scope": "current pointer absence and source guards are reported stage receipt facts only, not fresh independent device bytes revalidation by this documentation step.",
+      "selected_guard_receipt_member_digests": [
+        {
+          "name": "failure-execution.json",
+          "bytes": 84173,
+          "CRC32": "f7de6ee8",
+          "SHA256": "9ec6c4052eb6d5fecc606f0ed3af466dd291f5719b2d8dbd85d60739b6068433"
+        },
+        {
+          "name": "reinstall-sentinel.json",
+          "bytes": 532,
+          "CRC32": "371f7892",
+          "SHA256": "dddcf4fac93b9bc65bb7dcb9d9b51703bb26420e6bb77d0e5c27ea485a051252"
+        },
+        {
+          "name": "restoration.json",
+          "bytes": 395,
+          "CRC32": "8c4b181c",
+          "SHA256": "ae0fe0648735592a8b3f10652a41801afe6ea373d602600efb4a5f86b8a9d199"
+        },
+        {
+          "name": "restored-execution.json",
+          "bytes": 84578,
+          "CRC32": "55007946",
+          "SHA256": "1416b9e028819011d7cfff6140b37184ead9e627957e6aed47dfd2c2b0859819"
+        },
+        {
+          "name": "restored-installation.json",
+          "bytes": 40431,
+          "CRC32": "37c3f36d",
+          "SHA256": "a4510c7f7f8b4d04edbd0b6b771ced6dd5fea85a16d63ee6cf353c921f96ce81"
+        }
+      ],
+      "sentinel": {
+        "fixed_bytes": 52,
+        "SHA256": "59e4f9cb20c5c7928b7edcaa47e3a601edcd7efe61c107f83d128187c7785ad4",
+        "initial_record_matches_fixed_bytes": true,
+        "app_reads_sentinel": false,
+        "post_upgrade_before_body_preserved": true,
+        "after_successful_body_check_preserved": false,
+        "final_record_present": false,
+        "pre_upgrade_scope": "Controlled restore flow checks sentinel before install; no separate pre-upgrade raw JSON is emitted",
+        "final_absent_interpretation": "Final receipt was not emitted after the R case failed; this does not prove sentinel bytes were lost."
+      },
+      "cleanup": {
+        "status": "owned-simulator-deleted",
+        "UUID": "EAAA129B-E031-440F-A037-37B81131DF4B",
+        "shutdown_delete_exit0_and_post_delete_absence": true
+      },
+      "F_and_R_accepted": false,
+      "aggregate_acceptance": "not-completed"
+    },
+    "normal_matrix": {
+      "closure_manifest_SHA256": "eb2ac29e8e3535f989438b175bb7d377a9e8f3f76da2656ff9dbd6058580965d",
+      "receipts": [
+        {
+          "receipt": "sdk26-summary.json",
+          "bytes": 14109,
+          "SHA256": "16f95f144b51a368f2eabc51afeafcc90f7a25bc932817d85767a7ed026cceb9",
+          "run": 40464994649,
+          "API_run_conclusion": "success",
+          "job_conclusion": "success",
+          "actual_checkout": "abe25117d920d28f87cab59110a79f6f4a9f783e",
+          "API_head": "abe25117d920d28f87cab59110a79f6f4a9f783e",
+          "API_tree": "6a21a27d531525cf7d6310b07f4207ed155e5aeb"
+        },
+        {
+          "receipt": "native-summary.json",
+          "bytes": 20907,
+          "SHA256": "9b6600ecc70aaf766b18f398f86b4b12765af6ea2f5c1c067f8109ca9dd7e42d",
+          "run": 40464994767,
+          "API_run_conclusion": "success",
+          "job_conclusion": "success",
+          "actual_checkout": null,
+          "API_head": "abe25117d920d28f87cab59110a79f6f4a9f783e",
+          "API_tree": "6a21a27d531525cf7d6310b07f4207ed155e5aeb"
+        },
+        {
+          "receipt": "runtime26-summary.json",
+          "bytes": 14633,
+          "SHA256": "3a36ec355ec5f10bdb5aece856d83f0503491885609188465931be43123425b8",
+          "run": 40464994867,
+          "API_run_conclusion": "success",
+          "job_conclusion": "success",
+          "actual_checkout": null,
+          "API_head": "abe25117d920d28f87cab59110a79f6f4a9f783e",
+          "API_tree": "6a21a27d531525cf7d6310b07f4207ed155e5aeb"
+        },
+        {
+          "receipt": "full-bounded-summary.json",
+          "bytes": 11000,
+          "SHA256": "57009f9d8ccc887c7f9d343537dfebad1e069312b39e5d5ab583b48e9139fefb",
+          "run": 40464994657,
+          "API_run_conclusion": "success",
+          "job_conclusion": "success",
+          "actual_checkout": null,
+          "API_head": "abe25117d920d28f87cab59110a79f6f4a9f783e",
+          "API_tree": "6a21a27d531525cf7d6310b07f4207ed155e5aeb"
+        }
+      ],
+      "Native": {
+        "unit_total": 153,
+        "unit_pass": 151,
+        "unit_skip": 2,
+        "unit_fail": 0,
+        "UI_pass": 2,
+        "UI_fail": 0
+      },
+      "Runtime26": {
+        "UI_pass": 2,
+        "UI_fail": 0,
+        "aggregate_seconds": 200.562,
+        "prior_aef_failure_retained": true,
+        "causal_fix_proven": false
+      },
+      "SDK26_scope": "Unsigned archive compatibility; no distribution or physical-device acceptance.",
+      "Full_current": {
+        "API_UI_step_success": true,
+        "UI_case_count": null,
+        "unit_count": null,
+        "specific_Published_resume_case": null,
+        "historical_aef22_count_assigned_as_current": false
+      },
+      "checkout_scope": "Only SDK26 actual checkout is observed. The other three remain null; another workflow/API head is not substituted.",
+      "normal_success_accepts_dedicated_R": false
+    },
+    "common_policy": {
+      "observation_SHA256": "115a4e5d065103e7a15023c19c5abb1b51f9c19a5faa79aa5a87f06dc1bf0bb2",
+      "run": 40464994741,
+      "conclusion": "success",
+      "job_counts": {
+        "success": 9,
+        "failure": 0,
+        "skipped": 1
+      },
+      "actual_synthetic_checkout": "2204913b8cae8354c3375319c91b713f557c9e59",
+      "actual_synthetic_tree": "6a21a27d531525cf7d6310b07f4207ed155e5aeb",
+      "source_head_distinct_commit_same_tree": true,
+      "fresh_current_markdownlint_success": true,
+      "latest_policies": [
+        {
+          "id": 40465017124,
+          "head_sha": "abe25117d920d28f87cab59110a79f6f4a9f783e",
+          "event": "pull_request_target",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 40465017027,
+          "head_sha": "abe25117d920d28f87cab59110a79f6f4a9f783e",
+          "event": "pull_request_target",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ],
+      "does_not_approve_ready_merge_or_actualmain": true
+    },
+    "next_diagnostic_candidate": {
+      "status": "private-technical-candidate-specification-received; final source/literal and independent review pending",
+      "source_of_specification": "Root supplied finalized core candidate specification; no cause or success inferred.",
+      "NativeReader_open_failed_wait_only": true,
+      "wait_seconds": 45,
+      "original_false_forwarded_to_same_XCTAssertTrue": true,
+      "stdout_prefix": "AILibraryLaunchUI ",
+      "attachment_name": "Public-UI-library-count-timeout",
+      "attachment_lifetime": "keepAlways",
+      "combined_prefix_JSON_newline_cap_bytes": 32768,
+      "hierarchy_UTF8_prefix_cap_bytes": 24576,
+      "hierarchy_redactions": [
+        "URL",
+        "file path",
+        "email",
+        "label/value lines"
+      ],
+      "over_cap_fallback": "omit hierarchy",
+      "metadata_scope": "app.state plus public exists for article count/search/error/retry/loading; no content label/value payload",
+      "existing_assert_wait_selector_success_behavior_preserved": true,
+      "App_View_Store_preserved": true,
+      "App_runtime_fix_or_cause_claimed": false,
+      "compact_evidence": {
+        "top_level_JSON_and_log_only": true,
+        "existing_full_evidence_retained": true,
+        "workflow_candidate_bytes": 41065,
+        "job_minutes": 60,
+        "sum_step_minutes": 55,
+        "final_literal_binding": "Root independent final review; not executed by this record step"
+      },
+      "new_Hosted_run": null,
+      "new_head": null,
+      "new_run_success": null
+    },
+    "operations_in_this_documentation_step": {
+      "SDK": 0,
+      "Simulator": 0,
+      "npm_ci": 0,
+      "prepare": 0,
+      "API": 0,
+      "Git_mutation": 0,
+      "HTTP": 0,
+      "shared_or_frozen_source_writes": 0,
+      "README_TODO_writes": 0
+    },
+    "incomplete": [
+      "R startup success",
+      "F/R aggregate acceptance",
+      "post-body sentinel retention",
+      "actual bookmark/reading-position preservation across upgrade",
+      "import/offline/legacy/missing-article route",
+      "Dynamic Type/VoiceOver/physical-device checks",
+      "IOS-18/25 overall acceptance",
+      "new diagnostic Hosted run",
+      "independent final source/literal review and actualmain adoption"
+    ]
   }
 }

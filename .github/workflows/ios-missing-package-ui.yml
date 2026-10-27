@@ -447,9 +447,22 @@ jobs:
           CLEANUP_OUTCOME: ${{ steps.cleanup.outcome }}
           AUDIT_OUTCOME: ${{ steps.audit.outcome }}
         run: node "$DRIVER_PATH" summary
+      - name: Retain compact top-level JSON and log receipts
+        if: always() && steps.prepare.outcome == 'success'
+        timeout-minutes: 1
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ios-missing-package-ui-compact-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .local/ios-missing-package/evidence/*.json
+            .local/ios-missing-package/evidence/*.log
+            !.local/ios-missing-package/evidence/**/*/*
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 90
       - name: Retain both raw results, package inventories and owned cleanup receipts
         if: always() && steps.prepare.outcome == 'success'
-        timeout-minutes: 2
+        timeout-minutes: 1
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ios-missing-package-ui-${{ github.run_id }}-${{ github.run_attempt }}

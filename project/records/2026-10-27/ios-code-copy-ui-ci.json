@@ -1,0 +1,190 @@
+{
+  "task": "IOS-25 first nonempty code Copy UI CI candidate",
+  "date": "2026-10-27",
+  "status": "private CI-test adoption candidate; source4 not adopted on actualmain",
+  "public_record_paths_absent_in_eab": [
+    "project/records/2026-10-27/ios-code-copy-ui-ci.md",
+    "project/records/2026-10-27/ios-code-copy-ui-ci.json"
+  ],
+  "source_context": {
+    "author_reference": "218dbf05abb1e6f59ceecc67b64701b358c19733",
+    "diagnostic_context": "5eb7914dfe90fabbc543d96e45f77f805babb1cf",
+    "diagnostic_context_tree": "729691189a8dfc4c7929f1af90c54a56d7f50248",
+    "reference_eab": "eabf1a67ed6ceb0cd9e7bd2e20ba5bcb413020fa",
+    "reference_eab_tree": "740bbbfa73f1b850f7864c961ba78ab3ecb476d5",
+    "owned_before3_blobs_and_newTXT_absence_identical_5eb_eab": true,
+    "future_actualmain": null,
+    "combined_adoption_tree": null,
+    "not_fresh_main_bind": true
+  },
+  "selected_source4": [
+    {
+      "path": ".github/workflows/ios-published-candidate.yml",
+      "mode": "100644",
+      "type": "blob",
+      "bytes": 24427,
+      "sha256": "de85126d4a0eed1b7fabde4f8c8cf7302f9fdffd6c1c49f526d1e82583917cb0",
+      "blob": "3e663a69c05b89685f428a4efb97b422da7f9e4b",
+      "origin": "latest fixed11 compact workflow delta",
+      "before5eb_equals_beforeeab": true,
+      "before_eab_blob": "c7fcc89d3f8e45b2be4f2eed4f2dc4893973ffae"
+    },
+    {
+      "path": "ios/AILibrary/Sources/NativeReaderView.swift",
+      "mode": "100644",
+      "type": "blob",
+      "bytes": 62079,
+      "sha256": "6afa09b0f26c9ab5338b71b3aea83ebb21264fe16d8a5741cee8b807a77d138d",
+      "blob": "3d7052f20aa510f3a9bbec0cd9d95f16043e23cf",
+      "origin": "diagnostic-context candidate",
+      "before5eb_equals_beforeeab": true,
+      "before_eab_blob": "671f76fa6381323bc1e8b354eb043427393990a5"
+    },
+    {
+      "path": "ios/AILibraryUITests/PublishedReaderUITests.swift",
+      "mode": "100644",
+      "type": "blob",
+      "bytes": 69087,
+      "sha256": "cedb1228e2cd161bc6d34163601977420f672df741488dbc82c841bed0562363",
+      "blob": "f22d4e4f38f3afb5e849bab1b237e971230d2f50",
+      "origin": "diagnostic-context candidate",
+      "before5eb_equals_beforeeab": true,
+      "before_eab_blob": "8858c57538f7eb0d688649c365005d749c735595"
+    },
+    {
+      "path": "ios/fixtures/first-code-copy-expected.txt",
+      "mode": "100644",
+      "type": "blob",
+      "bytes": 374,
+      "sha256": "e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8",
+      "blob": "1b66e8b846a033cf5c666c28d07ee03fe279a3e0",
+      "origin": "diagnostic-context candidate",
+      "before5eb_equals_beforeeab": true,
+      "before_eab_blob": null
+    }
+  ],
+  "App_delta": {
+    "added_AX_identifier_lines": 2,
+    "copy_action_changed": false,
+    "identifiers": [
+      "native-code-copy-<blockID>",
+      "native-code-text-<blockID>"
+    ]
+  },
+  "UI_case": {
+    "added": 1,
+    "ID": "PublishedReaderUITests/testFixtureFirstCodeCopyUsesThePublicButton()",
+    "path": "ios/AILibraryUITests/PublishedReaderUITests.swift",
+    "method": "Find independent first-code marker, pair blockID to public Copy button, tap and restore fixture reading position through public UI",
+    "expected_content_injected": false
+  },
+  "declared_selected_cases": {
+    "NativeReaderUITests": 2,
+    "PublishedReaderUITests": 15,
+    "ReaderViewportGeometryTests": 6,
+    "total": 23,
+    "exact_fixed_ID_set_required": true,
+    "Failure_selected": false,
+    "future_Recovery_UI_selected": false,
+    "runtime_count_observed": null
+  },
+  "CI_gate_design": {
+    "device": "Exactly one available Booted iPhone16 on iOS18.5; selected UUID, not newly-created-device proof",
+    "same_UUID_for": [
+      "canary seed/readback",
+      "xcodebuild destination",
+      "single raw result device",
+      "actual simctl pbpaste"
+    ],
+    "unique_canary_before_UI": true,
+    "Mac_pasteboard_access": false,
+    "expected_TXT_injected_into_device": false,
+    "raw_result": "Observed Xcode16.4 Test Plan/UI test bundle/Test Suite/Test Case hierarchy only; nonempty Passed containers and exact unique23 Passed leaves, no skip/repeat/missing/unknown schema",
+    "post_pbpaste_only_after_exact23_gate": true,
+    "expected_file": "ios/fixtures/first-code-copy-expected.txt",
+    "expected_bytes": 374,
+    "expected_SHA256": "e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8",
+    "UTF8_scope": "First fixture code literal including indentation,tab,emoji,longline,finalLF",
+    "comparison": "Whole byte equality, not substring or displayed label",
+    "parallel_testing": false,
+    "job_minutes": 50,
+    "real_23_and_374_acceptance": null
+  },
+  "compact_upload_design": {
+    "fixed_paths": [
+      ".local/ios-published-candidate/evidence/code-copy-summary.json",
+      ".local/ios-published-candidate/evidence/copy-device.json",
+      ".local/ios-published-candidate/evidence/copy-results.intent.json",
+      ".local/ios-published-candidate/evidence/copy-results.exit.json",
+      ".local/ios-published-candidate/evidence/copy-results.stdout.bin",
+      ".local/ios-published-candidate/evidence/copy-results.stderr.log",
+      ".local/ios-published-candidate/evidence/copy-actual.intent.json",
+      ".local/ios-published-candidate/evidence/copy-actual.exit.json",
+      ".local/ios-published-candidate/evidence/copy-actual.stdout.bin",
+      ".local/ios-published-candidate/evidence/copy-actual.stderr.log",
+      ".local/ios-published-candidate/evidence/xctest-ui.log"
+    ],
+    "fixed_file_count": 11,
+    "kinds": {
+      "JSON": 6,
+      "log": 3,
+      "known_bin": 2
+    },
+    "raw_bin_scope": [
+      "copy-results.stdout.bin: existing xcresulttool result JSON stdout",
+      "copy-actual.stdout.bin: actual selected-device pbpaste stdout"
+    ],
+    "action": "actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+    "if": "always()",
+    "timeout_minutes": 2,
+    "retention_days": 90,
+    "include_hidden_files": true,
+    "if_no_files_found": "ignore",
+    "name": "ios-published-code-copy-evidence-${{ github.run_id }}-${{ github.run_attempt }}",
+    "existing_full_upload_last_and_unchanged": true,
+    "globs_PNG_xcresult_other_media": false,
+    "absence_or_upload_success_is_not_copy_acceptance": true,
+    "artifact_metadata": null,
+    "artifact_actual_bytes_SHA_CRC": null
+  },
+  "existing_static_evidence": {
+    "original_technical_manifest_SHA256": "85eb5f3a6715599a6b46f11feec1c9e8d81809ae9e1aa6bead9620a158fc72ed",
+    "original_source_context": "218-based technical preview only",
+    "original_swift_parse": {
+      "files": 2,
+      "invocations": 1,
+      "exit": 0,
+      "scope": "Syntax only, not SDK/typecheck; before later diagnostic-context assembly"
+    },
+    "original_workflow_syntax": {
+      "Bash_blocks": 13,
+      "Node_modules": 3,
+      "scope": "Existing source body syntax; not execution"
+    },
+    "semantic_review_SHA256": "5223bd818eb7e228397ab912f39f34681f25cbb26a6f77d65e019b39ba80ec65",
+    "Root_delta_review_SHA256": "448262f689a8c272b8c2ae60313a6bd9a03a664bece470fb68a3721109ae1879",
+    "diagnostic_context_review_SHA256": "68fc4e46055dd7113113ab5c2a0eb4163888e1cf38d839c9950ea767854acef8",
+    "latest_upload_manifest_SHA256": "2ca2f8d9b7b58b322df3ff93b2eaeb4725512352edc16dad6412c28e309fb987",
+    "latest_upload_review_SHA256": "ae0e06f0ef04e7204697472256c1e11a3e427cb734fb94757a53e9772153f21d",
+    "review_scope": "Private semantic/mechanical/static deltas, not final-main adoption or Hosted acceptance"
+  },
+  "acceptance": {
+    "SDK": null,
+    "real_UI": null,
+    "new_runs": null,
+    "actualmain": null,
+    "raw374_byte_acceptance": null,
+    "artifact_received": null,
+    "IOS25": "incomplete",
+    "other_code_empty_inline_copy": null,
+    "first_offline_legacy_migration": null,
+    "physical_pasteboard": null
+  },
+  "documentation_work": {
+    "MD_lint": "passed; one explicit Markdown file,1 invocation,exit0",
+    "JSON": "parsed; Source identity and null acceptance scopes preserved",
+    "links_and_preservation": "passed;4 local Markdown links +3 proposed record links; no index body writes",
+    "index_body_writes": 0,
+    "new_tests_SDK_GET_benchmark_generation_npmci_API_Git_shared": 0
+  }
+}

@@ -1,4 +1,7 @@
 import assert from 'node:assert/strict';
+import * as fs from 'node:fs';
+import path from 'node:path';
+import { createHash } from 'node:crypto';
 
 const record = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 const own = (value, key) => Object.hasOwn(value, key);
@@ -62,4 +65,119 @@ export function selectUITestTarget(metadata, options) {
     assert.equal(target.UITargetAppBundleIdentifier, expectedBundleIdentifier, 'Metadata UI target App bundle identifier mismatch');
   }
   return { formatVersion, target };
+}
+
+const canonical = value => name(value) && value.startsWith('/') && !/[\x00-\x1f\x7f\\]/.test(value) &&
+  !value.includes('__') && value.split('/').slice(1).every(p => p !== '' && p !== '.' && p !== '..');
+const relativeFile = value => name(value) && !value.startsWith('/') && !/[\x00-\x1f\x7f\\]/.test(value) &&
+  value.split('/').every(p => p !== '' && p !== '.' && p !== '..');
+const digest = bytes => createHash('sha256').update(bytes).digest('hex');
+
+function sourcePath(value, root, host) {
+  assert.ok(name(value), 'Source path is required');
+  if (value.startsWith('__TESTROOT__/')) value = root + value.slice('__TESTROOT__'.length);
+  else if (host && value.startsWith('__TESTHOST__/')) value = host + value.slice('__TESTHOST__'.length);
+  assert.ok(canonical(value) && value.startsWith(root + '/'), 'Escaping or unresolved owned source path');
+  return value;
+}
+
+// Simulator source-artifact mode. The caller keeps this runfile beside stock.
+export function phaseUITestRun(metadata, options) {
+  const { formatVersion, target } = selectUITestTarget(metadata, options);
+  const { testRoot, appPath, phase } = options;
+  assert.ok(own(options, 'testRoot') && canonical(testRoot), 'Owned test root is required');
+  assert.ok(own(options, 'appPath') && appPath === testRoot + '/Debug-iphonesimulator/AILibrary.app', 'Owned baseline App is required');
+  assert.ok(own(options, 'phase') && ['failure', 'restored'].includes(phase), 'Explicit phase is required');
+  if (own(target, 'UseDestinationArtifacts')) assert.equal(target.UseDestinationArtifacts, false, 'Simulator requires source artifacts');
+  assert.equal(sourcePath(target.UITargetAppPath, testRoot), appPath, 'Stock UI App path mismatch');
+  const runner = sourcePath(target.TestHostPath, testRoot);
+  assert.ok(runner.endsWith('.app') && runner !== appPath && !runner.startsWith(appPath + '/'), 'Distinct owned UI runner is required');
+  const test = sourcePath(target.TestBundlePath, testRoot, runner);
+  assert.ok(test.startsWith(runner + '/') && test.endsWith('.xctest'), 'UI test bundle must remain inside runner');
+  const phaseApp = testRoot + '/owned-phase-apps/' + phase + '/AILibrary.app';
+  const phaseToken = '__TESTROOT__/owned-phase-apps/' + phase + '/AILibrary.app';
+  const convertedTarget = structuredClone(target);
+  convertedTarget.UITargetAppPath = phaseToken;
+  let dependencyReplacements = 0;
+  if (own(target, 'DependentProductPaths')) {
+    assert.ok(Array.isArray(target.DependentProductPaths) && target.DependentProductPaths.every(name), 'DependentProductPaths must contain strings');
+    convertedTarget.DependentProductPaths = target.DependentProductPaths.map(value => {
+      let resolved = value;
+      if (value.startsWith('__TESTROOT__/')) resolved = testRoot + value.slice('__TESTROOT__'.length);
+      else if (value.startsWith('__TESTHOST__/')) resolved = runner + value.slice('__TESTHOST__'.length);
+      assert.ok(canonical(resolved), 'DependentProductPaths must be canonical paths with known macros');
+      if (resolved !== appPath && !resolved.startsWith(appPath + '/')) return value;
+      const suffix = resolved.slice(appPath.length);
+      dependencyReplacements += 1; return (value.startsWith('__TESTROOT__/') ? phaseToken : phaseApp) + suffix;
+    });
+  }
+  let converted;
+  if (formatVersion === 1) converted = { __xctestrun_metadata__: structuredClone(metadata.__xctestrun_metadata__), [options.expectedBlueprintName]: convertedTarget };
+  else {
+    const configuration = metadata.TestConfigurations.find(row => row.IsEnabled !== false && row.TestTargets.includes(target));
+    converted = structuredClone(metadata);
+    converted.TestConfigurations = [{ ...structuredClone(configuration), TestTargets: [convertedTarget] }];
+  }
+  const originalReferences = [appPath, '__TESTROOT__/Debug-iphonesimulator/AILibrary.app'];
+  function rejectOriginal(value) {
+    if (typeof value === 'string') assert.ok(!originalReferences.some(original => value.includes(original)), 'Residual original App reference');
+    else if (Array.isArray(value)) value.forEach(rejectOriginal);
+    else if (record(value)) Object.values(value).forEach(rejectOriginal);
+  }
+  rejectOriginal(converted);
+  return { metadata: converted, phaseApp, phaseTargetPath: phaseToken, dependencyReplacements, formatVersion };
+}
+
+// Fresh regular-file copies only. The built baseline is never written/unlinked.
+export function copyPhaseApp(testRoot, phase, expected, omitted = null) {
+  assert.ok(canonical(testRoot) && fs.realpathSync(testRoot) === testRoot, 'Canonical owned Products is required');
+  assert.ok(['failure', 'restored'].includes(phase), 'Explicit phase is required');
+  assert.ok(Array.isArray(expected) && expected.length > 0 && expected.length <= 8192, 'Bounded baseline inventory is required');
+  if (omitted !== null) assert.ok(phase === 'failure' && relativeFile(omitted) && /^Content\/articles\/[A-Za-z0-9/_-]+\.json$/.test(omitted) && expected.filter(row => row.path === omitted).length === 1, 'Only one baseline article may be omitted in F');
+  const source = path.join(testRoot, 'Debug-iphonesimulator/AILibrary.app');
+  const phaseRoot = path.join(testRoot, 'owned-phase-apps');
+  const parent = path.join(phaseRoot, phase), destination = path.join(parent, 'AILibrary.app');
+  function snapshot(root) {
+    const rows = [], directories = [], identities = new Map(); let count = 0, total = 0;
+    function walk(full, relative) {
+      assert.ok(++count <= 8192, 'Copy tree entry bound'); assert.equal(fs.realpathSync(full), full);
+      const stat = fs.lstatSync(full, { bigint: true }); assert.equal(stat.isSymbolicLink(), false);
+      identities.set(relative, { dev: stat.dev, ino: stat.ino, nlink: stat.nlink });
+      if (stat.isDirectory()) {
+        directories.push({ path: relative, mode: Number(stat.mode & 0o777n) });
+        for (const part of fs.readdirSync(full).sort()) walk(path.join(full, part), relative ? relative + '/' + part : part);
+      } else {
+        assert.ok(stat.isFile() && relativeFile(relative)); total += Number(stat.size); assert.ok(total <= 512 * 1024 * 1024);
+        const bytes = fs.readFileSync(full); assert.equal(bytes.length, Number(stat.size));
+        rows.push({ path: relative, bytes: bytes.length, mode: Number(stat.mode & 0o777n), sha256: digest(bytes) });
+      }
+    }
+    walk(root, ''); return { rows, directories, identities };
+  }
+  const before = snapshot(source); assert.deepEqual(before.rows, expected, 'Baseline before copy must match');
+  if (!fs.existsSync(phaseRoot)) fs.mkdirSync(phaseRoot, { mode: 0o700 });
+  assert.equal(fs.realpathSync(phaseRoot), phaseRoot); assert.ok(fs.lstatSync(phaseRoot).isDirectory());
+  fs.mkdirSync(parent, { mode: 0o700 }); // Exclusive: no overwrite or same-phase reuse.
+  fs.mkdirSync(destination, { mode: 0o700 });
+  for (const row of before.directories.slice(1)) fs.mkdirSync(path.join(destination, row.path), { mode: 0o700 });
+  for (const row of before.rows) {
+    if (row.path === omitted) continue;
+    const from = path.join(source, row.path), to = path.join(destination, row.path);
+    fs.copyFileSync(from, to, fs.constants.COPYFILE_EXCL);
+    const identity = fs.lstatSync(to, { bigint: true }), original = before.identities.get(row.path);
+    assert.ok(identity.isFile() && identity.nlink === 1n && (identity.dev !== original.dev || identity.ino !== original.ino), 'Copy must not alias baseline inode');
+    fs.chmodSync(to, row.mode);
+  }
+  for (const row of [...before.directories].reverse()) fs.chmodSync(path.join(destination, row.path), row.mode);
+  const actual = snapshot(destination), after = snapshot(source);
+  assert.deepEqual(after.rows, expected, 'Baseline after copy must match'); assert.deepEqual(after.directories, before.directories);
+  assert.deepEqual(actual.rows, expected.filter(row => row.path !== omitted), 'Phase paths/bytes/modes/SHA must match');
+  assert.deepEqual(actual.directories, before.directories, 'Phase directory modes must match');
+  for (const [relative, identity] of actual.identities) {
+    const original = before.identities.get(relative);
+    assert.ok(identity.dev !== original.dev || identity.ino !== original.ino, 'Every copied inode must be distinct');
+  }
+  return { source, destination, inventory: actual.rows, baselineAfter: after.rows,
+    directories: actual.directories.length, regularFiles: actual.rows.length,
+    exclusiveCopies: true, baselineUnchanged: true, fileAndDirectoryModesMatch: true, inodesDistinct: true };
 }

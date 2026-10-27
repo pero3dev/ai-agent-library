@@ -240,6 +240,8 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 
 [読書記録復旧のUI回帰](../project/records/2026-10-27/ios-reading-recovery-ui.md)は、DEBUG隔離suiteを用い、cancelとconfirm後の再起動で既存・今回追加のしおり保持を調べる2 caseの候補です。構文parseと独立レビューまでを確認し、実SDK／UI・読書位置・backup生bytes・実機・VoiceOverとIOS-22全体の受入は未実施です。
 
+[更新復旧試験の実行元](../project/records/2026-10-28/ios-destination-artifacts-ui.md)では、head56の実機専用設定による開始拒否と、head3aのApp配下の依存参照が残った準備失敗を記録しました。欠落・復旧の別copyへApp本体と配下の依存productを揃える候補を、36単体と独立レビューで確認しています。新headのF/R・7回のApp一覧・本文後のsentinelと実効果は未確認です。head3aのNative destination不在・Runtime26の目次待機失敗は別結果として残し、実機・VoiceOverやIOS-22全体も未完了です。
+
 ## 絞り込み中の補助画面と保存分離のUI回帰
 
 [操作シートの追加UI回帰](../project/records/2026-10-25/ios-filtered-actions-ui.md)は、検索・タグを保持したAboutの開閉と、専用テスト記事のしおり変更が通常の保存へ混ざらないことを検査します。専用一覧は検索前に全1記事と確認し、通常のfilterを確認した後、通常readerの再開より前にアプリを再起動して永続データを読み直します。

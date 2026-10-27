@@ -16,6 +16,8 @@
 
 [読書記録復旧のUI回帰](records/2026-10-27/ios-reading-recovery-ui.md)は、DEBUG隔離suiteを用い、cancelとconfirm後の再起動で既存・今回追加のしおり保持を調べる2 caseの候補です。構文parseと独立レビューまでを確認し、実SDK／UI・読書位置・backup生bytes・実機・VoiceOverとIOS-22全体の受入は未実施です。
 
+[更新復旧試験の実行元](records/2026-10-28/ios-destination-artifacts-ui.md)では、head56の実機専用設定による開始拒否と、head3aのApp配下の依存参照が残った準備失敗を記録しました。欠落・復旧の別copyへApp本体と配下の依存productを揃える候補を、36単体と独立レビューで確認しています。新headのF/R・7回のApp一覧・本文後のsentinelと実効果は未確認です。head3aのNative destination不在・Runtime26の目次待機失敗は別結果として残し、実機・VoiceOverやIOS-22全体も未完了です。
+
 [iOS TODOと統合状況のチェックポイント](records/2026-10-26/ios-todo-integration-checkpoint.md)で、main955を基準とするIOS-02・10・13・14の達成と、12／32件の完了を追跡します。SDK26のunsigned Archive用技術環境・native導線・全199記事生成・学習案内が対象です。PR275は未マージで、iOS26.5の再起動復帰に失敗が残っています。実機・性能・配布資格・契約・公開と最新OS27の受入は未完了として分けます。
 
 [block内部の読書位置候補](records/2026-10-26/ios-intrablock-reading-progress.md)は、旧anchorと保存を保ち、実測した相対位置の復帰・自動配置失敗時の保全・layout再起動を扱う。承認済みv3 codeの旧SDK4段階は成功したが、新snapshot/pickerを持つPublishedは未compileである。unit152・機能16＋pure geometry6＝22 selectedはsource数で、実main270へのbind後の確認とexact-head CI・実機等をIOS-11へ残す。 実main270 `955c066c8dc0fdbedf6f0c845a461abda39ac476`（tree `9d2525e28ce3d9b6659eeac57b0b6f910e7e262b`）へbindした私有候補である。親PR270 head85d9のunit133（131成功＋2skip）・full21・Releaseと全15check成功は親の履歴で、新P1 unit152／UI22の実登録・実行は未確認とする。独立review後にrootがDraftへ反映してCIを実行し、必要exact-head CI成功までmainへ統合しない。 Published CIのjob上限だけ40分から50分へ調整し、selector・個別15秒・assert・commandは維持する。これはCI実行上限で製品性能budgetではない。

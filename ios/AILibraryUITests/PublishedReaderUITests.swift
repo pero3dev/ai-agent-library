@@ -1123,4 +1123,46 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         XCTAssertTrue(app.navigationBars["本文表示テスト"].waitForExistence(timeout: 10))
         closePublicSheet("本文表示テスト")
     }
+
+    func testFixtureFirstCodeCopyUsesThePublicButton() throws {
+        try setLearningTagAndArticleQuery(tag: "transformer", query: "Transformer")
+        try openFilteredMoreActionsSheet()
+        let fixtureAction = app.buttons["本文表示テスト"]
+        requireHittable(fixtureAction)
+        fixtureAction.tap()
+        XCTAssertTrue(app.navigationBars["本文表示テスト"].waitForExistence(timeout: 45))
+        let count = try singleHittableControl(app.staticTexts.matching(identifier: "library-article-count"),
+                                              name: "fixture article count")
+        XCTAssertEqual(count.label, "全1記事")
+        let article = element("library-article-test-fixtures/native-reader")
+        requireHittable(article)
+        article.tap()
+        let reader = app.scrollViews["native-reader"]
+        XCTAssertTrue(reader.waitForExistence(timeout: 20))
+        XCTAssertTrue(app.navigationBars["ネイティブ本文テスト専用記事"].waitForExistence(timeout: 10))
+        goToContents("CASE-CODE-01", headingID: "case-code-01")
+        let texts = reader.staticTexts.matching(NSPredicate(format:
+            "identifier BEGINSWITH %@ AND label CONTAINS %@", "native-code-text-", "BEGIN-COPY-01"))
+        XCTAssertTrue(texts.firstMatch.waitForExistence(timeout: 10))
+        XCTAssertEqual(texts.count, 1, "Exactly one code block must contain the independent copy marker")
+        let codeText = texts.element(boundBy: 0)
+        let blockID = String(codeText.identifier.dropFirst("native-code-text-".count))
+        XCTAssertFalse(blockID.isEmpty)
+        let copy = app.buttons["native-code-copy-" + blockID]
+        for _ in 0..<8 where !isHittableOnScreen(copy, inside: reader, fullyVisible: true) {
+            reader.swipeUp(velocity: .slow)
+        }
+        requireHittable(copy, inside: reader, fullyVisible: true)
+        XCTAssertEqual(copy.label, "コードをコピー")
+        copy.tap()
+        capture("First-fixture-code-copy-public-button")
+        // The fixture reading domain is shared across cases. Leave it at a
+        // paragraph through public UI, so later tests need no state injection.
+        goToContents("CASE-INLINE-01", headingID: "case-inline-01")
+        let back = app.navigationBars["ネイティブ本文テスト専用記事"].buttons.element(boundBy: 0)
+        requireHittable(back)
+        back.tap()
+        XCTAssertTrue(app.navigationBars["本文表示テスト"].waitForExistence(timeout: 10))
+        closePublicSheet("本文表示テスト")
+    }
 }

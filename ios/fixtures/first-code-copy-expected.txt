@@ -1,0 +1,8 @@
+BEGIN-COPY-01
+    four spaces: "double", 'single', <tag>, &amp;, backslash=\
+	tab-indented: 日本語とemoji=🐈
+literal fence follows:
+```
+LONG-LINE:0123456789-abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ-0123456789-abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ-0123456789-abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ:END-LONG-LINE
+
+END-COPY-01

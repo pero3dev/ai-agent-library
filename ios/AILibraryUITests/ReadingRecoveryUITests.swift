@@ -13,13 +13,17 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         app.buttons.matching(NSPredicate(format: "label == %@", "読み取れる記録で復旧"))
     }
 
+    private var recoverySheets: XCUIElementQuery {
+        app.sheets.matching(NSPredicate(format: "label == %@", recoveryTitle))
+    }
+
     func testCancelKeepsRecoveryNoticeAfterRelaunch() throws {
         requireRecoveryNotice()
         requireBookmarkedArticle("Agent ループ", id: "01-concepts/agent-loop")
         returnToLibrary()
 
-        presentRecoveryConfirmation()
-        let cancel = app.buttons["キャンセル"]
+        let dialog = presentRecoveryConfirmation()
+        let cancel = dialog.buttons["キャンセル"]
         requireHittable(cancel)
         cancel.tap()
         waitForRecoveryDialogToClose()
@@ -43,8 +47,8 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         XCTAssertTrue(app.buttons["しおりを削除"].waitForExistence(timeout: 10))
         returnToLibrary()
 
-        presentRecoveryConfirmation()
-        let confirm = app.buttons[confirmLabel]
+        let dialog = presentRecoveryConfirmation()
+        let confirm = dialog.buttons[confirmLabel]
         requireHittable(confirm)
         confirm.tap()
         waitForRecoveryDialogToClose()
@@ -71,18 +75,25 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         XCTAssertTrue(app.staticTexts[recoveryNoticeMessage].exists)
     }
 
-    private func presentRecoveryConfirmation() {
+    private func presentRecoveryConfirmation() -> XCUIElement {
         requireRecoveryNotice()
         recoveryButtons.firstMatch.tap()
-        XCTAssertTrue(app.staticTexts[recoveryTitle].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts[recoveryMessage].exists)
-        requireHittable(app.buttons[confirmLabel])
-        requireHittable(app.buttons["キャンセル"])
+        let dialog = recoverySheets.firstMatch
+        XCTAssertTrue(dialog.staticTexts[recoveryTitle].waitForExistence(timeout: 5))
+        XCTAssertEqual(recoverySheets.count, 1, "Expected one public recovery Sheet")
+        XCTAssertTrue(dialog.staticTexts[recoveryMessage].exists)
+        let confirm = dialog.buttons.matching(NSPredicate(format: "label == %@", confirmLabel))
+        requireHittable(confirm.firstMatch)
+        XCTAssertEqual(confirm.count, 1, "Expected one confirm Button inside the recovery Sheet")
+        let cancel = dialog.buttons.matching(NSPredicate(format: "label == %@", "キャンセル"))
+        requireHittable(cancel.firstMatch)
+        XCTAssertEqual(cancel.count, 1, "Expected one cancel Button inside the recovery Sheet")
+        return dialog
     }
 
     private func waitForRecoveryDialogToClose() {
         let closed = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
-            !self.app.buttons[self.confirmLabel].exists
+            self.recoverySheets.count == 0 && !self.app.buttons[self.confirmLabel].exists
         }, object: nil)
         XCTAssertEqual(XCTWaiter.wait(for: [closed], timeout: 10), .completed)
     }

@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "recorded_date": "2026-10-27",
+  "status": "private-syntax-reviewed-UI-candidate-not-Hosted-or-adopted",
+  "purpose": "Public UI cancel/confirm and sameisolatedsuite relaunch test for reading recovery bookmark preservation.",
+  "context": {
+    "technical_basis_head": "eabf1a67ed6ceb0cd9e7bd2e20ba5bcb413020fa",
+    "technical_basis_tree": "740bbbfa73f1b850f7864c961ba78ab3ecb476d5",
+    "reported_main_short_reference": "main76",
+    "reported_main_SHA": "76d57595b52eb54b92ac188e3cdcd330c18aa116",
+    "reported_main_tree": "740bbbfa73f1b850f7864c961ba78ab3ecb476d5",
+    "main_tree_equals_eab_reported_by_independent_integration_verification": true,
+    "fresh_main_or_beforeblob_checked_in_this_record_step": false,
+    "new_record_paths_absent_on_main76_reported_verified": true,
+    "fresh_before_blob_binding": null
+  },
+  "technical_source5": [
+    {
+      "path": ".github/workflows/ios-native.yml",
+      "bytes": 8119,
+      "sha256": "97885ca2e290d558f380e4ea9a5c1a75f98c64589e3ee679a685168f0a3692ad"
+    },
+    {
+      "path": "ios/AILibrary/Sources/AILibraryApp.swift",
+      "bytes": 1397,
+      "sha256": "677a79c70816fa384d557778a1d112861b8d90bc11d890f5186f4221420340a0"
+    },
+    {
+      "path": "ios/AILibrary.xcodeproj/project.pbxproj",
+      "bytes": 21212,
+      "sha256": "a5f162fb926a278cbcf788c8916327452700aaa44bfc9122c2fd5588956167e3"
+    },
+    {
+      "path": "ios/AILibraryUITests/NativeReaderUITests.swift",
+      "bytes": 28313,
+      "sha256": "972b01afb3ba0af26bc0981ce9282036f5d0147294a97e96d01cb89bcd4bc881"
+    },
+    {
+      "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+      "bytes": 4753,
+      "sha256": "a868b8821f8cb31e7c64dced24d4b039a200c863023f9cc086745bb1a7cf5388"
+    }
+  ],
+  "technical_manifest_sha256": "495f05471f69d748036772276db39e6b67168db16fa104a067b9bcd687be0f20",
+  "technical_proof_sha256": "5747a47f1db563b8d473ce2c72d8c3ba098ee86e5b06a67223a49e50797d2fd9",
+  "seed_boundary": {
+    "DEBUG_only": true,
+    "existing_isolated_suite_prefix": "ailibrary-uitest-",
+    "suite_suffix": "canonical UUID",
+    "additional_environment_flag": "AILIBRARY_UI_TEST_READING_RECOVERY",
+    "exact_flag_value": "partial-v1",
+    "only_empty_named_persistent_domain": true,
+    "before_ReadingStore": true,
+    "fixed_Data_bytes": 57,
+    "fixed_Data_scope": "Legacy readingformat: readableAgentLoopbookmark plus nonstringdamagedsibling; no articlebody injection",
+    "seed_key": "library.reading.v1",
+    "nonempty_domain_reseed": false,
+    "domain_delete_or_reset": false,
+    "standard_defaults_seed": false,
+    "Release_seed": false,
+    "validator_bypass": false,
+    "driver_userData_access": false
+  },
+  "base_hook": {
+    "default": false,
+    "timing": "Before first and only launch",
+    "enabled_by": "ReadingRecoveryUITests only",
+    "same_suite_and_application_reused_on_relaunch": true
+  },
+  "public_UI_cases": [
+    {
+      "name": "ReadingRecoveryUITests.testCancelKeepsRecoveryNoticeAfterRelaunch",
+      "purpose": "Observe partialnotice and readableexistingAgentLoopbookmark; cancel confirmation; after same-suite relaunch retain notice andbookmark."
+    },
+    {
+      "name": "ReadingRecoveryUITests.testConfirmedRecoveryPreservesReadableAndCurrentBookmarksAfterRelaunch",
+      "purpose": "AddToolUsebookmark via realUI beforeconfirmation; confirm; after same-suite relaunch retain existingAgentLoop and liveToolUsebookmark without recoverywarning."
+    }
+  ],
+  "UI_assertion_scope": {
+    "body_path": "Normalpackage/validator and existing open/nativebody helpers",
+    "notice_absence": "Includes positively observed warning common to all recoveryissues, so changing into a different error is not accepted",
+    "no_expected_body_injection": true,
+    "no_direct_defaults_or_backup_byte_assertions": true
+  },
+  "source_declared_selection_not_execution": {
+    "Native_existing": 2,
+    "Recovery_new": 2,
+    "Native_future_selected": 4,
+    "Full_current_selected": 22,
+    "Copy_separate_future_candidate": 23,
+    "Dedicated_F_R": "separate unchanged selectors",
+    "unit": "unchanged",
+    "existing_wait_limits": "unchanged",
+    "Native_job_minutes": 40
+  },
+  "validation": {
+    "Swift_syntax_parse": {
+      "calls": 3,
+      "selections": 5,
+      "first": {
+        "mode": "Swift frontend -parse",
+        "Swift_files": 3,
+        "exit": 0,
+        "output_bytes": 0
+      },
+      "second": {
+        "mode": "Swift frontend -parse -D DEBUG",
+        "Swift_files": 1,
+        "file": "ios/AILibrary/Sources/AILibraryApp.swift",
+        "exit": 0,
+        "output_bytes": 0
+      },
+      "SDK_typecheck": false,
+      "XCTest_or_UI_executed": false,
+      "third": {
+        "mode": "Swift frontend -parse after common-warning absence assertion update",
+        "Swift_files": 1,
+        "file": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+        "exit": 0,
+        "output_bytes": 0
+      }
+    },
+    "fixed_seed_JSON_parse": "success",
+    "existing4_inverse_eab_allbytes": true,
+    "PBX_registration_only": true,
+    "independent_review": {
+      "status": "independently-reviewed-no-P1-P2",
+      "receipt_bytes": 1212,
+      "receipt_sha256": "8f7c61ded268cab6c918ecde19910b1ec0d92a521c71ac23e22447120fa9a369",
+      "scope": "Final technical5 static semantics and structure; no SDK/typecheck/AXdialog/realUI acceptance"
+    }
+  },
+  "actual_SDK_typecheck": null,
+  "actual_UI_execution": null,
+  "current_run": null,
+  "actualmain_adoption": null,
+  "fresh_publication_binding": null,
+  "incomplete": [
+    "reading-position UI recovery",
+    "rawbackup byte identity across kill",
+    "powerloss/diskdurability",
+    "allfailurebranches",
+    "VoiceOver",
+    "physicaldevice",
+    "IOS-22 overall"
+  ],
+  "next": "Separate technical5 and records2 commits in a later Draft PR; fresh actualmain/beforeblob, finalliteral independent review and exacthead Hosted required.",
+  "operations_in_this_record_step": {
+    "source_write": 0,
+    "other_record_write": 0,
+    "index_body_write": 0,
+    "SDK": 0,
+    "UI_or_test_execution": 0,
+    "API": 0,
+    "Git": 0,
+    "helper_execution": 0,
+    "shared_write": 0
+  },
+  "new_head": null,
+  "Hosted": null
+}

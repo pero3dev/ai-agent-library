@@ -157,6 +157,8 @@ IOS-22の準備として[同梱版の明示選択](../../records/2026-10-25/ios-
 
 IOS-22の[読書記録の破損保全と明示復旧](../../records/2026-10-27/ios-reading-state-recovery.md)は0.2.20（22）の候補である。固定head5ebではNative165件実行・skip2・失敗0、追加12件各passとCommon・SDK26・Runtime26の成功を確認し、FullのUI22件は一意22caseが全pass・失敗0である。DedicatedはF1件pass／R1件failで、Fと別PIDのRが置換済みDead bundleの欠損を記録した。F専用の終了確認候補は独立技術レビューまでで、内部機序と新headの効果・Hostedは未確定である。旧Core性能のscopeを保ち、復旧固有UI・実機・VoiceOver・耐電断・記事改名等とIOS-22全体は未完了、32行・完了12件を維持する。
 
+[読書記録復旧のUI回帰](../../records/2026-10-27/ios-reading-recovery-ui.md)は、DEBUG隔離suiteを用い、cancelとconfirm後の再起動で既存・今回追加のしおり保持を調べる2 caseの候補です。構文parseと独立レビューまでを確認し、実SDK／UI・読書位置・backup生bytes・実機・VoiceOverとIOS-22全体の受入は未実施です。
+
 IOS-21の準備として[旧版保持の回帰3件](../../records/2026-10-25/ios-storage-retention-regression.md)を追加する。実repositoryの3世代snapshot・後読asset、孤立版の非選択/非削除、destination検証後のpointer ENOSPC模擬で既存bytes保持を確認する。Macの新3件成功とiOS全122件のcompileを分け、iOS実行はHosted待ち。削除数・自動整理・snapshot pinや処理排他を採択するものではなく、IOS-21全体は未完了を維持する。
 
 Appleの2.5.2は、アプリの機能を導入・変更するコードのダウンロード等を制限する。完成版では構造化記事データとアプリ側の描画機能を分ける。配信署名等は真正性を確認する設計として検討するもので、署名だけでコード更新の制限が免除されるわけではない。現在の手動importを直ちに違反と断定せず、公開する挙動と更新範囲を審査へ説明する。[ソフトウェア要件](https://developer.apple.com/app-store/review/guidelines/#software-requirements)

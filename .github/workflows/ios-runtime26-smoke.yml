@@ -289,7 +289,7 @@ jobs:
             owned_uuid_listed: (destinations.stdout ?? '').toUpperCase().includes(owned.UUID) });
           assert.equal(destinations.error, undefined); assert.equal(destinations.status, 0);
           // Unbound listing is diagnostic. The exact UUID test below owns the bounded destination lookup.
-          const args = ['simctl', 'list', 'devices', '--json'], timeoutMs = 30000, maxBuffer = 16 * 1024 * 1024;
+          const args = ['simctl', 'list', 'devices', '--json'], timeoutMs = 90000, maxBuffer = 16 * 1024 * 1024;
           json('devices-before-test.intent.json', { schema_version: 1, binary: 'xcrun', arguments: args,
             timeout_ms: timeoutMs, max_buffer_bytes: maxBuffer, run_id: owned.run_id,
             run_attempt: owned.run_attempt, source_head: owned.source_head, owned_UUID: owned.UUID });

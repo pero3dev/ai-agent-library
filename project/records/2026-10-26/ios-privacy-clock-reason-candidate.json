@@ -1,0 +1,265 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-26",
+  "task": "ios-privacy-clock-reason-after-icon-private-preview",
+  "status": "technical-direction-selected-private-rebind-preview-not-published",
+  "basis": {
+    "commit": null,
+    "private_tree": "26cc183f23f4d04d6161d619721fa0b902916843",
+    "kind": "Icon preview on private P1 after actual PR270 source; actual main Icon/Core binding pending",
+    "actual_main_Icon_Core_binding": "pending"
+  },
+  "authority": "Root directs the conservative technical implementation candidate under autonomous TODO work; no Store, provider data-use, legal or publication adoption.",
+  "scope": {
+    "App_Swift_PBX_version_CI_changed": false,
+    "manifest_change": "Append one conservative SystemBootTime/35F9.1 reason; preserve all existing values",
+    "IOS27_complete": false,
+    "Icon_source18_changed": false,
+    "Runtime_changed": false,
+    "version_build_preserved": "0.2.17 (19)"
+  },
+  "facts": {
+    "runtime_App_Swift_files": 16,
+    "Reader_CACurrentMediaTime_call_sites": 7,
+    "clock_purpose": "In-app elapsed/deadline/Timer calculation",
+    "CACurrentMediaTime_explicitly_listed": false,
+    "official_wrapper_fact": "Derived from mach_absolute_time and converted into seconds",
+    "system_boot_explicit_symbols": [
+      "systemUptime",
+      "mach_absolute_time()"
+    ],
+    "reason_35F9_1_purpose": "Elapsed time between in-app events or timer calculations; off-device restrictions and elapsed-duration exception apply",
+    "attributesOfItem_type_size": "Not explicitly listed; no required declaration or code change inferred for current usage",
+    "Reader_call_lines_on_private_basis": [
+      311,
+      314,
+      322,
+      588,
+      645,
+      665,
+      679
+    ],
+    "applicability_inference": "The wrapper relation is official; applying the reason to this wrapper call is a conservative inference, not an explicitly listed mandatory gap."
+  },
+  "proposal": {
+    "category": "NSPrivacyAccessedAPICategorySystemBootTime",
+    "reasons": [
+      "35F9.1"
+    ],
+    "mandatory_missing_reason_confirmed": false,
+    "source_calls_changed": false,
+    "collection_or_Store_answer_adopted": false,
+    "technical_direction_selected_by_root": true,
+    "source_manifest_candidate_published": false,
+    "source_binding_and_Archive_audit": "pending final binding/review/Archive",
+    "shipping_legal_acceptance": "not adopted by this technical candidate",
+    "provider_data_use_or_publication_adopted": false
+  },
+  "preserved": {
+    "UserDefaults": [
+      "CA92.1"
+    ],
+    "NSPrivacyTracking": false,
+    "NSPrivacyTrackingDomains": [],
+    "NSPrivacyCollectedDataTypes": [],
+    "LearningIndex": "unchanged",
+    "host_benchmark_APIs": "not App use"
+  },
+  "primary_sources": [
+    {
+      "url": "https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacyaccessedapitypes/nsprivacyaccessedapitype",
+      "local": "official-primary/required-reason-api.docc.json",
+      "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/bundleresources/app-privacy-configuration/nsprivacyaccessedapitypes/nsprivacyaccessedapitype.json",
+      "bytes": 49889,
+      "sha256": "0d7433b45081771a4d1d886e1b753746d678e158f8705a159db6979bc46ecae9",
+      "section": "primaryContentSections[1].values named category records",
+      "why_json": "The official Markdown projection omits possible-value contents; DocC JSON retains the API lists."
+    },
+    {
+      "url": "https://developer.apple.com/documentation/foundation/filemanager/attributesofitem(atpath:)",
+      "local": "official-primary/attributesofitem.md",
+      "bytes": 3500,
+      "sha256": "3e14b6f000091157bd1437dcc13ccc5987200dea0d2ddb4657a9891b5353ee19"
+    },
+    {
+      "url": "https://developer.apple.com/documentation/quartzcore/cacurrentmediatime()",
+      "local": "official-primary/cacurrentmediatime.md",
+      "bytes": 979,
+      "sha256": "18911890cbc50cba36bf325cfbec433e926708f81fa162f96b914e2d4b5393c0"
+    }
+  ],
+  "evidence": {
+    "inventory": {
+      "path": "/private/tmp/ios-privacy-api-inventory-20261026/report.json",
+      "sha256": "929397c7dd7537407c958d6240bb704264b20eba462b6bac2ec3215382126941"
+    },
+    "official_comparison": {
+      "path": "/private/tmp/ios-privacy-api-inventory-20261026/official-comparison.json",
+      "sha256": "3feba4bcc5b524a87b65d1cbac9e5c2e169ad49559975d66e9b85fdfd1e5a335"
+    },
+    "current_clock_inventory": {
+      "local": "evidence/current-clock-inventory.json",
+      "sha256": "ac9b6af7334199f62670f30f12afed78e98ebb7a0db67383b6ef5a7077747209"
+    },
+    "prior_independent_review": {
+      "path": "/private/tmp/ios-privacy-manifest-clock-candidate-20261026/independent-review.json",
+      "sha256": "3b40a78a9aae6adffc19a24b06dd969eb3479c75e03a4d600117dbf409eee3c2",
+      "binding": "656c234582bbe76b852b394eae4d6f6837f0ce04 -> d891142ca920f244d9998063c0438db5ef00c359",
+      "current_preview_review": false
+    },
+    "icon_parent_freeze": {
+      "path": "/private/tmp/ios-app-icon-after-picker85d9-preview-20261026/SHA256.json",
+      "sha256": "54d09e3759f30bf144d5cd62c0f40e002ea3d39e2dbfeb566b8b1abce362bf5c"
+    }
+  },
+  "validators": {
+    "search_basis": "26cc183f23f4d04d6161d619721fa0b902916843",
+    "search_scopes": [
+      "ios",
+      "tests",
+      ".github/workflows"
+    ],
+    "reason_array_exact_pin_found": false,
+    "existing_Archive": "Actual privacy equals source semantics; tracking=false; domains=[]; collected=[]",
+    "additional_code_or_negative_tests": "not needed for data-only proposal; no runtime validation contract changed",
+    "existing_Archive_changed": false
+  },
+  "validation": {
+    "plist_and_source_preservation": "passed private structural comparison; plutil lint/read checked separately",
+    "current_binding_independent_review": "pending",
+    "prior_independent_review": "approved old private technical content only; not reused as current binding approval",
+    "npm_check_or_Hosted_CI": "not-run",
+    "SDK_Archive_or_Privacy_Report": "not-run",
+    "physical_or_network_capture": "not-run",
+    "targeted_Markdownlint": "passed6 with repository config; see separate validation receipt",
+    "private_tree_and_scope": "exact6paths/unchanged nonowned mode-type-blobs and TODO rows asserted"
+  },
+  "unperformed": [
+    "actual-main rebind after Icon/Core and intervening work",
+    "current binding independent review and exact-head common CI/Archive",
+    "App Privacy answers/public policy/provider data-use and legal review",
+    "Store scanner/review/Apple Privacy Report"
+  ],
+  "publishable": false,
+  "parent_sha": null,
+  "preview_only": true,
+  "main142_private_refresh_20261028": {
+    "status": "Fixedmain142 record preparation only; actualmain after Copy/Audio fresh binding and newhead CI/Archive pending",
+    "basis_main": "142041adf3a6ff353555fba78e73f19dd1d977ff",
+    "basis_tree": "2ab281bb467db29646f5b1a5b564b6a764d008a5",
+    "App_version_build": "0.2.20 (22)",
+    "old_private_basis_version_is_historical": "0.2.17 (19), preserved in old keys and MDprefix",
+    "App_Swift_compile_count": 16,
+    "Reader_CACurrentMediaTime_call_lines_on_main142": [
+      312,
+      315,
+      323,
+      616,
+      668,
+      682,
+      708
+    ],
+    "clock_context": "In-app finite placement deadline/CADisplayLink-frame wait/Timer and placement policy elapsed checks. Raw clock persistence or transmission not found in App16 source. Source behavior unchanged by this proposal.",
+    "source_manifest": {
+      "currently_adopted_main142_bytes": 591,
+      "currently_adopted_main142_SHA256": "fc3e139a4c5f2bd5d63d3be656ab417e603f098a390088b5a2dff1e1a4da1871",
+      "current_categories": [
+        "NSPrivacyAccessedAPICategoryUserDefaults"
+      ],
+      "current_reasons": [
+        "CA92.1"
+      ],
+      "private_candidate_bytes": 802,
+      "private_candidate_SHA256": "e0698c69f7f8482f7d501a30404b25c8337f991fe1edffac06f0787f878614dd",
+      "same_old_candidate_all_bytes": true,
+      "only211B_dictionary_appended": true,
+      "dictionary_category": "NSPrivacyAccessedAPICategorySystemBootTime",
+      "dictionary_reasons": [
+        "35F9.1"
+      ],
+      "removing_dictionary_restores_all591B": true,
+      "tracking_domains_collected_and_UserDefaults_values_preserved": true,
+      "FileTimestamp_added": false,
+      "reason_mandatory_gap_confirmed": false,
+      "candidate_currently_published": false
+    },
+    "current_official_readbacks": {
+      "record_date_JST": "2026-10-28",
+      "Markdown_readback": {
+        "retrieved_at_UTC": "2026-10-27T19:20:29.388769+00:00",
+        "receipt_bytes": 1953,
+        "receipt_SHA256": "802e53eaebda2cd5195a37a6df2b7ab1a9fd65676c8d81b87cda30de309b1c05",
+        "category_MD": {
+          "url": "https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacyaccessedapitypes/nsprivacyaccessedapitype.md",
+          "bytes": 1212,
+          "SHA256": "028e7ccddcff25849c33979d084e3167f2341faef9bd0bd50badcd1213f02cf5",
+          "possible_value_content_verified": false,
+          "interpretation": "Projection omits possible-value literals; failed earlier literal assertion is not policy change or a successful category validation"
+        },
+        "CACurrentMediaTime_MD": {
+          "url": "https://developer.apple.com/documentation/quartzcore/cacurrentmediatime%28%29.md",
+          "bytes": 979,
+          "SHA256": "18911890cbc50cba36bf325cfbec433e926708f81fa162f96b914e2d4b5393c0",
+          "wrapper_derived_from_mach_absolute_time_verified": true,
+          "same_old_saved_MD_SHA256": true
+        }
+      },
+      "DocC_JSON_readback": {
+        "retrieved_at_UTC": "2026-10-27T19:21:20.598589+00:00",
+        "receipt_bytes": 1102,
+        "receipt_SHA256": "871a67833d61157e7a00dfebc9493c1b536fa98d69628f6cf4ec1704223eaa60",
+        "url": "https://developer.apple.com/tutorials/data/documentation/bundleresources/app-privacy-configuration/nsprivacyaccessedapitypes/nsprivacyaccessedapitype.json",
+        "source_bytes": 49889,
+        "source_SHA256": "0d7433b45081771a4d1d886e1b753746d678e158f8705a159db6979bc46ecae9",
+        "last_modified": "Thu, 08 Oct 2026 15:11:04 GMT",
+        "same_old_saved_structured_JSON_SHA256": true,
+        "identifiers_verified": [
+          "NSPrivacyAccessedAPICategorySystemBootTime",
+          "35F9.1",
+          "mach_absolute_time"
+        ],
+        "attributesOfItem_literal_anywhere": false
+      },
+      "scope": "Root newly retrieved these official sources. This record-preparation worker made no network call. Entire structured JSON hash matches saved20261026 source; wrapper-to-manifest applicability remains conservative inference. No mandatory FileTimestamp declaration inferred."
+    },
+    "current_inventory": {
+      "report_bytes": 51366,
+      "report_SHA256": "32ae7b921978d438b04ec5bc561d6c8076d10ad5a3f566a70e3ed3ef2e6f46cd",
+      "manifest_SHA256": "18c9d0cd5ab5faf7d281a4f74e132074ee5d4e11f653e3ea8d44d96d0f9da1f1",
+      "outbound": "Explicit fixed GitHub MP3 AVURLAsset; user external Link/openURL; selected Files provider OS network unknown",
+      "local_state": "Reading bookmarks/positions/anchors and fixed original-data recovery backup; audio position/rate/chapter; ApplicationSupport packages/older versions",
+      "clipboard": "Two explicit general pasteboard writes inmain142; no explicit app clipboard read; OS sync unknown",
+      "diagnostics": "DEBUG explicit isolated UI-test suite only, bounded file-set record or numeric geometry stdout/NSLog; actual Release exclusion not checked here",
+      "required_reason_notes": "LearningIndex attributesOfItem selects type/size; resourceValues regular/symlink/size. DEBUG Darwin.fstat/fstatat separate. No FileTimestamp category added by this candidate."
+    },
+    "prior_review": {
+      "SHA256": "9b2aaaa9ec64b253643d0db45ee75be7eb855f96f6bbdb89081919b4b3cbf3e1",
+      "scope": "Existing private Icon26cc technical preview only; retain oldsource semantics review, not current binding, shipping, legal, Store or publication approval"
+    },
+    "preservation": {
+      "approved_old_MD_prefix_bytes": 4784,
+      "all_old_recursive_JSON_values_and_raw_bytes_except_one_insertion_retained": true,
+      "old_private_facts_failures_pending_values_not_reclassified": true,
+      "App16_Swift_PBX_Info_CI_Runtime_About_behavior_changed": false,
+      "TODO_rows": 32,
+      "TODO_complete": 12,
+      "IOS27_complete": false
+    },
+    "pending": [
+      "Fresh binding on actualmain after Copy/Audio",
+      "New completepayload independent review and common CI",
+      "Exactnewhead unsigned Archive actual/source Privacy equivalence and final compiled SDK inventory",
+      "Final privacy/provider logging/public policy URL/contact/owner/data-use/AppPrivacy/Store forms"
+    ],
+    "operations_by_this_worker": {
+      "new_Source_behavior": 0,
+      "About_change": 0,
+      "Store_answer_change": 0,
+      "newtests_SDK_API_network_media": 0,
+      "Git_mutation_shared_edit": 0
+    },
+    "fresh_binding_after_Copy_Audio": null,
+    "actual_newhead_CI_Archive_equivalence": null,
+    "record_and_source_candidate_published": false
+  }
+}

@@ -106,6 +106,8 @@ iPhone向けのネイティブ本文は[開発・起動手順](../ios/README.md)
 
 iOS完成版への作業は[完成版TODO](plans/engineering/ios-app-completion.md)に整理した。ユーザー指定の本文を含むSwiftUI全面移行を前提に、代表3記事のネイティブ描画から全記事・既存音声・更新・品質・配布まで32項目で追跡する。2026-10-25に[コミットとmainへのマージの計画](plans/engineering/ios-app-completion.md#コミットとmainへのマージの計画)を追加し、受入済みの基準PRから機能ごとのPR・公開準備までM0〜M9の節目を設けた。[追記の記録](records/2026-10-25/ios-delivery-checkpoints.md)は計画更新までであり、Git操作は未実施。初版の公開方法・費用等は採択が必要であり、[作成記録](records/2026-10-24/ios-completion-planning.md)と実装の進捗を区別する。
 
+[時計由来APIのPrivacy候補](records/2026-10-26/ios-privacy-clock-reason-candidate.md)は、main142のApp16 Swift・時計7箇所と新しいApple公式DocC JSONの照合を記録しました。現mainのUserDefaultsのみ591Bと、SystemBootTime/35F9.1辞書211Bを追加する私有802B候補を区別します。wrapperへの適用は保守的な推論で、FileTimestamp理由は追加しません。Copy・Audio後の実mainへの結合・独立レビュー・新headのCI/Archive一致、配信先ログ・公開policy・問い合わせ先・Store回答を残し、IOS-27は未完了です。
+
 iOSアプリ化の可能性は[2026-10-21の実現性調査](../research/ios-app-feasibility-2026-10-21.md)に、既存資産の再利用、方式比較、配布・運用上の懸念と次の試作条件をまとめた。[作業記録](records/2026-10-21/ios-app-feasibility.md)は調査の範囲・検証・未実施事項を示す。実装方式の採択やアプリの開発開始を示すものではない。
 
 2026-10-08の総合レビュー親 #224–#231・子 #232–#237 は[是正記録](records/2026-10-08/comprehensive-review-remediation.md)で、6件の修正と検証・独立レビュー・公開後の終了条件を追跡します。最終のmerge・CI・公開確認とCloseの証拠は各Issueに記録します。

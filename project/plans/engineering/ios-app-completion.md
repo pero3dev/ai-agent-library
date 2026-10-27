@@ -122,7 +122,7 @@ IOS-14の次の単位として、[学習案内の構造化生成](../../records/
 
 IOS-18のうち[初期失敗と利用できない記事の復旧](../../records/2026-10-25/ios-load-recovery.md)を追加した。保存を維持した再試行とimport復帰を実Storeの非UI検査で確認し、画面の操作と読み上げ・全体受入は未完了として残す。
 
-[同梱記事の欠損と正常版への更新のUI回帰](../../records/2026-10-26/ios-missing-package-ui.md)では、代表版のJSONを1本取り除いた実エラーと再試行操作、正常版への明示的な上書き更新後の保存維持を専用jobで検証する候補を用意した。Core main f5eへ接続し、Appと通常回帰を保持する。新SDK・F/Rは未実行であり、同じプロセス内の修復後再試行、実機・VoiceOver、IOS-18／25全体は未完了とする。
+[同梱記事の欠損と正常版への更新のUI回帰](../../records/2026-10-26/ios-missing-package-ui.md)は、旧失敗とPR282最終F/R・本文後sentinelのcontrolled受入を分けて保持する。実装main76への通常保護squash後、新push Common・Native・Fullの成功を別に確認した。main76に専用F/R・SDK26・Runtime26の新pushはなく、PR結果を代入しない。固定sentinelを実bookmark・読書位置の更新越し保持とは扱わず、同process内修復・offline・import・実機・VoiceOverとIOS-18／25全体は未完了である。
 
 IOS-14の[本文から章案内への接続](../../records/2026-10-25/ios-native-chapter-link.md)では、既知章URLを有効な索引のある場合だけnativeへ振り分ける。全199本文の前提405・関連1411リンクの保持を確認し、説明文を落とす重複schema追加は避けた。Mac6件・累積SDK compileと、未完了の全UI10件・実機・VoiceOverを分け、Python例10参照の通信境界とIOS-14全体を残す。
 

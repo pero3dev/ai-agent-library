@@ -60,7 +60,7 @@
 
 初期読み込み失敗の再試行と利用できない記事からの一覧復帰は[復旧の記録](records/2026-10-25/ios-load-recovery.md)で追跡する。保存と正常版の維持、実Storeの検証と画面受入を分ける。
 
-[同梱記事の欠損と正常版への更新のUI回帰](records/2026-10-26/ios-missing-package-ui.md)では、代表版のJSONを1本取り除いた実エラーと再試行操作、正常版への明示的な上書き更新後の保存維持を専用jobで検証する候補を用意した。Core main f5eへ接続し、Appと通常回帰を保持する。新SDK・F/Rは未実行であり、同じプロセス内の修復後再試行、実機・VoiceOver、IOS-18／25全体は未完了とする。
+[同梱記事の欠損と正常版への更新のUI回帰](records/2026-10-26/ios-missing-package-ui.md)は、旧失敗とPR282最終F/R・本文後sentinelのcontrolled受入を分けて保持する。実装main76への通常保護squash後、新push Common・Native・Fullの成功を別に確認した。main76に専用F/R・SDK26・Runtime26の新pushはなく、PR結果を代入しない。固定sentinelを実bookmark・読書位置の更新越し保持とは扱わず、同process内修復・offline・import・実機・VoiceOverとIOS-18／25全体は未完了である。
 
 章・難易度のネイティブ一覧絞り込みは[実施記録](records/2026-10-25/ios-category-level-filter.md)で追跡する。検索・しおりとのANDと解除を追加し、タグ・学習ルート等の残件を分ける。
 

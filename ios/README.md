@@ -190,6 +190,8 @@ npm run ios:test:package
 
 `npm run ios:benchmark:core -- --help`と[専用CLI手順](tests/core-performance.md)、[実観測の記録](../project/records/2026-10-26/ios-published-core-benchmark.md)を参照する。b79基線で実施した凍結CLIのraw19process/記録15は旧観測として保持し、最新source4のsnapshotや未実施の再CLIと分ける。通常CIはNode fixtureだけで、SDK・corpus観測は明示した手動CLIと別guardのまま。App/PBX/workflow/P1/Iconと全TODOを保持し、IOS-15と予算採択は未完了である。
 
+2026-10-27の[現行CoreのHosted観測](../project/records/2026-10-27/ios-core-hosted-observation.md)は、b39／Workflow9bの凍結19process・15標本とCore実装main f5eを扱う。上の段落は旧準備時点の履歴として保持する。後続main76の新push Common・Native・Fullは成功し、Nativeの追加12単体と通常UI、Fullの一意22caseを確認した。旧性能値をSource4が変わったApp0.2.20（22）へ転用せず、App・実機・最低iOS17・VoiceOver・p95・性能予算とIOS-15全体は未完了とする。TODO32行・完了12行を保持する。
+
 ## 検証
 
 rootの`npm run check`でコンテンツ変換の単体試験と共通検査を実行します。macOSで一時ディレクトリのsymlink拒否に当たる場合は、`TMPDIR=/private/tmp npm run check`を使います。PNG生成は実ブラウザーを使うため、注入した資産を使う単体試験と区別します。
@@ -236,11 +238,11 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 
 私有Macで新3件は実行成功し、iOS SDKでは全122件・機能UI10件・performance1件のコンパイルを確認しました。iOSでの新3件の実行はHosted待ちです。削除・上限設定・pin/lease・実容量不足・プロセス終了は試していません。容量整理の方針を採用する前の回帰であり、既存の保存処理は変更しません。
 
-[読書記録の破損保全と明示復旧](../project/records/2026-10-27/ios-reading-state-recovery.md)は、原データを保護し、確認後に退避と復旧を行う0.2.20（22）の候補です。固定head5ebでNative165件実行・skip2・失敗0、追加12件各passとCommon・SDK26・Runtime26の成功を確認しました。FullのUI22件は一意22caseが全pass・失敗0でした。DedicatedはF1件pass／R1件failで、RのApp診断がinstalled Contentと異なる置換済みDead bundleを示しました。Fとは別PIDで、内部機序は未確定です。F専用の終了確認候補は効果・新Hosted未検証で、復旧固有UI・実機・VoiceOver等とIOS-22全体は未完了、完了12／32件を維持します。
+[読書記録の破損保全と明示復旧](../project/records/2026-10-27/ios-reading-state-recovery.md)はPR282最終eabの6runとReady最新policy成功後、main76へ通常保護squashで統合した。main76の新push Common・Native・Fullも別観測で成功し、Native追加12単体と通常UI、Fullの一意22caseを確認した。旧Core性能は歴史scopeに保ち、実ユーザーの復旧固有UI・実機・VoiceOver・耐電断等とIOS-22全体は未完了、TODO32行・完了12行を維持する。後続PR283の新Recovery UIはこのmain76 checkpointの受入に含めない。
 
-[読書記録復旧のUI回帰](../project/records/2026-10-27/ios-reading-recovery-ui.md)は、DEBUG隔離suiteを用い、cancelとconfirm後の再起動で既存・今回追加のしおり保持を調べる2 caseの候補です。構文parseと独立レビューまでを確認し、実SDK／UI・読書位置・backup生bytes・実機・VoiceOverとIOS-22全体の受入は未実施です。
+[読書記録復旧のUI回帰](../project/records/2026-10-27/ios-reading-recovery-ui.md)では、DEBUG隔離suiteの取消し・確認と再起動後のしおり保持を確認しています。採用89のNative4件と、通常保護で統合したmainc1の新push（Common10 jobs・Native4件・Full22件）を2026-10-28 checkpointで分けて記録しました。Dedicated89のF成功・R失敗は別Driver作業として保持し、新Driverの効果、読書位置・backup生bytes・実機・VoiceOver・Core性能とIOS-22全体は未受入です。
 
-[更新復旧試験の実行元](../project/records/2026-10-28/ios-destination-artifacts-ui.md)では、head56の実機専用設定による開始拒否と、head3aのApp配下の依存参照が残った準備失敗を記録しました。欠落・復旧の別copyへApp本体と配下の依存productを揃える候補を、36単体と独立レビューで確認しています。新headのF/R・7回のApp一覧・本文後のsentinelと実効果は未確認です。head3aのNative destination不在・Runtime26の目次待機失敗は別結果として残し、実機・VoiceOverやIOS-22全体も未完了です。
+[更新復旧試験の実行元](../project/records/2026-10-28/ios-destination-artifacts-ui.md)では、head56・3aの失敗を保持し、C2のDedicatedでF/R各1ケース、7回のApp一覧・phase source相関・最終52B sentinelとcleanupを限定受入として記録しました。通常6系統とmain142採用、反映後のCommon10job・Native UI4件・Full UI22件も別々に確認しました。Rの新しい診断・実launch root、内部cacheの保証と全userdataは未確認で、実機・VoiceOverやIOS-18・22・25全体は未完了です。
 
 ## 絞り込み中の補助画面と保存分離のUI回帰
 

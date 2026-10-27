@@ -122,7 +122,7 @@ IOS-14の次の単位として、[学習案内の構造化生成](../../records/
 
 IOS-18のうち[初期失敗と利用できない記事の復旧](../../records/2026-10-25/ios-load-recovery.md)を追加した。保存を維持した再試行とimport復帰を実Storeの非UI検査で確認し、画面の操作と読み上げ・全体受入は未完了として残す。
 
-[同梱記事の欠損と正常版への更新のUI回帰](../../records/2026-10-26/ios-missing-package-ui.md)では、代表版のJSONを1本取り除いた実エラーと再試行操作、正常版への明示的な上書き更新後の保存維持を専用jobで検証する候補を用意した。Core main f5eへ接続し、Appと通常回帰を保持する。新SDK・F/Rは未実行であり、同じプロセス内の修復後再試行、実機・VoiceOver、IOS-18／25全体は未完了とする。
+[同梱記事の欠損と正常版への更新のUI回帰](../../records/2026-10-26/ios-missing-package-ui.md)は、旧失敗とPR282最終F/R・本文後sentinelのcontrolled受入を分けて保持する。実装main76への通常保護squash後、新push Common・Native・Fullの成功を別に確認した。main76に専用F/R・SDK26・Runtime26の新pushはなく、PR結果を代入しない。固定sentinelを実bookmark・読書位置の更新越し保持とは扱わず、同process内修復・offline・import・実機・VoiceOverとIOS-18／25全体は未完了である。
 
 IOS-14の[本文から章案内への接続](../../records/2026-10-25/ios-native-chapter-link.md)では、既知章URLを有効な索引のある場合だけnativeへ振り分ける。全199本文の前提405・関連1411リンクの保持を確認し、説明文を落とす重複schema追加は避けた。Mac6件・累積SDK compileと、未完了の全UI10件・実機・VoiceOverを分け、Python例10参照の通信境界とIOS-14全体を残す。
 
@@ -140,6 +140,8 @@ M4の次段階では[全記事の通常同梱候補](../../records/2026-10-25/io
 
 IOS-15の[全記事Core host観測](../../records/2026-10-26/ios-published-core-benchmark.md)はb79基線で実施した凍結CLIのraw19process/記録15は旧観測として保持し、最新source4のsnapshotや未実施の再CLIと分ける。通常CIはNode fixtureだけで、SDK・corpus観測は明示した手動CLIと別guardのまま。App/PBX/workflow/P1/Iconと全TODOを保持し、IOS-15と予算採択は未完了である。
 
+2026-10-27の[現行CoreのHosted観測](../../records/2026-10-27/ios-core-hosted-observation.md)は、b39／Workflow9bの凍結19process・15標本とCore実装main f5eを扱う。上の段落は旧準備時点の履歴として保持する。後続main76の新push Common・Native・Fullは成功し、Nativeの追加12単体と通常UI、Fullの一意22caseを確認した。旧性能値をSource4が変わったApp0.2.20（22）へ転用せず、App・実機・最低iOS17・VoiceOver・p95・性能予算とIOS-15全体は未完了とする。TODO32行・完了12行を保持する。
+
 ### P1: 更新と保存データを運用できる状態にする
 
 | 状態 | ID | TODO | 完了条件 |
@@ -155,11 +157,11 @@ SHA照合・staging検証・原子的切替・失敗時の旧版維持は既存�
 
 IOS-22の準備として[同梱版の明示選択](../../records/2026-10-25/ios-bundled-content-activation.md)を追加する。正常な保存版の優先を維持し、利用者の確認後にだけ同梱版へ切り替える。実3→199→再起動→3で記録bytesと本文fingerprintの復帰を確認し、画面・Hosted・実機、記事改名・削除・容量整理とIOS-22全体は分けて追跡する。
 
-IOS-22の[読書記録の破損保全と明示復旧](../../records/2026-10-27/ios-reading-state-recovery.md)は0.2.20（22）の候補である。固定head5ebではNative165件実行・skip2・失敗0、追加12件各passとCommon・SDK26・Runtime26の成功を確認し、FullのUI22件は一意22caseが全pass・失敗0である。DedicatedはF1件pass／R1件failで、Fと別PIDのRが置換済みDead bundleの欠損を記録した。F専用の終了確認候補は独立技術レビューまでで、内部機序と新headの効果・Hostedは未確定である。旧Core性能のscopeを保ち、復旧固有UI・実機・VoiceOver・耐電断・記事改名等とIOS-22全体は未完了、32行・完了12件を維持する。
+IOS-22の[読書記録の破損保全と明示復旧](../../records/2026-10-27/ios-reading-state-recovery.md)はPR282最終eabの6runとReady最新policy成功後、main76へ通常保護squashで統合した。main76の新push Common・Native・Fullも別観測で成功し、Native追加12単体と通常UI、Fullの一意22caseを確認した。旧Core性能は歴史scopeに保ち、実ユーザーの復旧固有UI・実機・VoiceOver・耐電断等とIOS-22全体は未完了、TODO32行・完了12行を維持する。後続PR283の新Recovery UIはこのmain76 checkpointの受入に含めない。
 
-[読書記録復旧のUI回帰](../../records/2026-10-27/ios-reading-recovery-ui.md)は、DEBUG隔離suiteを用い、cancelとconfirm後の再起動で既存・今回追加のしおり保持を調べる2 caseの候補です。構文parseと独立レビューまでを確認し、実SDK／UI・読書位置・backup生bytes・実機・VoiceOverとIOS-22全体の受入は未実施です。
+[読書記録復旧のUI回帰](../../records/2026-10-27/ios-reading-recovery-ui.md)では、DEBUG隔離suiteの取消し・確認と再起動後のしおり保持を確認しています。採用89のNative4件と、通常保護で統合したmainc1の新push（Common10 jobs・Native4件・Full22件）を2026-10-28 checkpointで分けて記録しました。Dedicated89のF成功・R失敗は別Driver作業として保持し、新Driverの効果、読書位置・backup生bytes・実機・VoiceOver・Core性能とIOS-22全体は未受入です。
 
-[更新復旧試験の実行元](../../records/2026-10-28/ios-destination-artifacts-ui.md)では、head56の実機専用設定による開始拒否と、head3aのApp配下の依存参照が残った準備失敗を記録しました。欠落・復旧の別copyへApp本体と配下の依存productを揃える候補を、36単体と独立レビューで確認しています。新headのF/R・7回のApp一覧・本文後のsentinelと実効果は未確認です。head3aのNative destination不在・Runtime26の目次待機失敗は別結果として残し、実機・VoiceOverやIOS-22全体も未完了です。
+[更新復旧試験の実行元](../../records/2026-10-28/ios-destination-artifacts-ui.md)では、head56・3aの失敗を保持し、C2のDedicatedでF/R各1ケース、7回のApp一覧・phase source相関・最終52B sentinelとcleanupを限定受入として記録しました。通常6系統とmain142採用、反映後のCommon10job・Native UI4件・Full UI22件も別々に確認しました。Rの新しい診断・実launch root、内部cacheの保証と全userdataは未確認で、実機・VoiceOverやIOS-18・22・25全体は未完了です。
 
 IOS-21の準備として[旧版保持の回帰3件](../../records/2026-10-25/ios-storage-retention-regression.md)を追加する。実repositoryの3世代snapshot・後読asset、孤立版の非選択/非削除、destination検証後のpointer ENOSPC模擬で既存bytes保持を確認する。Macの新3件成功とiOS全122件のcompileを分け、iOS実行はHosted待ち。削除数・自動整理・snapshot pinや処理排他を採択するものではなく、IOS-21全体は未完了を維持する。
 

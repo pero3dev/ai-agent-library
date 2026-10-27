@@ -1212,5 +1212,310 @@
       "new diagnostic Hosted run",
       "independent final source/literal review and actualmain adoption"
     ]
+  },
+  "post_b6_main778_and_eab_dedicated_checkpoint": {
+    "recorded_date": "2026-10-27",
+    "stage": "eab-Dedicated-accepted-final-main-and-ordinary-CI-unbound",
+    "preservation": "All prior MD bytes and JSON values remain historical snapshots. Old sourcebasisf5/App0.2.19(21)/153 source declarations are not new App22 execution counts.",
+    "before_public_source": {
+      "head": "eabf1a67ed6ceb0cd9e7bd2e20ba5bcb413020fa",
+      "tree": "740bbbfa73f1b850f7864c961ba78ab3ecb476d5",
+      "MD_sha256": "71cd0bed261cbfaea35ab90efb9ade4d477fd2cee5969fa02b81059af7a12640",
+      "JSON_sha256": "394bc117b9c001a1621df104047d3e3f4778cb6dc5dbed6cd43394b0453c29e4",
+      "canonical_byte_binding": "Previously verified immutablemain778/eab equal frozen records2; small preflight receipt binds these exact inputs."
+    },
+    "b6_Dedicated": {
+      "head": "b6bba8bc708b03da5534ed2583225229f2dd7218",
+      "tree": "779480ca0111484af87dbc4dabcf7009854216af",
+      "run": 40474685046,
+      "job": 122089883004,
+      "attempt": 1,
+      "F_cases_passed": 1,
+      "R_cases_passed": 1,
+      "all7_inventory_path_bytes_SHA_match": true,
+      "known_mode_deltas": 12,
+      "sentinel": {
+        "initial_record_matches_fixed_bytes": true,
+        "app_reads_sentinel": false,
+        "post_upgrade_before_body_preserved": true,
+        "after_successful_body_check_preserved": true,
+        "final_record_present": true,
+        "pre_upgrade_scope": "Controlled restore flow checks sentinel before install; no separate pre-upgrade raw JSON is emitted"
+      },
+      "sentinel_bytes": 52,
+      "cleanup": "owned-simulator-deleted",
+      "compact_bytes": 347145,
+      "whole_SHA_verified": true,
+      "index_entries": 195,
+      "selected_CRC_SHA_members": 53,
+      "unselected_CRC_members_verified": false,
+      "summary_receipt": {
+        "sha256": "28cd4aa85fd1938435a6c2809765098d312e48cae91856fcf8dbcc3a2acd7a57",
+        "bytes": 6718
+      },
+      "selected_read_receipt": {
+        "sha256": "78fad8eea8558e346126387d5a2c5c34bba3b0242b6a08bf8fe5a57c22253127",
+        "bytes": 26580
+      },
+      "old_abe_failure_cause_resolved": false
+    },
+    "historical_main778": {
+      "head": "7784228eb167e5909909437ff9d8a779ceb7fa68",
+      "tree": "779480ca0111484af87dbc4dabcf7009854216af",
+      "ordinary_squash_integration_receipt": {
+        "sha256": "7fa373cc3143b366049745b2df402c479a638627ffbf130a65b43b18e50bbd55",
+        "bytes": 1394
+      },
+      "push_attempt": 1,
+      "Common": {
+        "run": 40479965176,
+        "conclusion": "success"
+      },
+      "Native": {
+        "run": 40479965421,
+        "conclusion": "success",
+        "actual_case_counts": null
+      },
+      "Full": {
+        "run": 40479965177,
+        "job": 122107511343,
+        "conclusion": "failure",
+        "UI_cases": 22,
+        "UI_failures": 1,
+        "failed_case": "PublishedReaderUITests.testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions",
+        "root_cause": null,
+        "artifact_bytes": 270041453,
+        "artifact_downloaded": false
+      },
+      "not_triggered_on_push": [
+        "SDK26",
+        "Runtime26",
+        "Dedicated"
+      ],
+      "push_receipt": {
+        "sha256": "ba9b9c009c86ff4e41d0f2cf5a916dabf1c62c23d4e75f03e74e23e42681f66c",
+        "bytes": 13904
+      },
+      "b6_success_reassigned_to_push": false
+    },
+    "eab_Dedicated": {
+      "head": "eabf1a67ed6ceb0cd9e7bd2e20ba5bcb413020fa",
+      "tree": "740bbbfa73f1b850f7864c961ba78ab3ecb476d5",
+      "run": 40499846007,
+      "job": 122174483445,
+      "attempt": 1,
+      "Root_independently_accepted": true,
+      "F": {
+        "raw_cases": 1,
+        "result": "Passed",
+        "new_F_teardown_and_notRunning_assert_in_passed_case": true
+      },
+      "R": {
+        "raw_cases": 1,
+        "result": "Passed",
+        "case_seconds": 113.376,
+        "exit": 0,
+        "signal": null,
+        "outer_timeout": false,
+        "actual_3_article_body_checked": true
+      },
+      "installed": {
+        "snapshots": 7,
+        "F4_files": 180,
+        "R3_files": 181,
+        "all_paths_bytes_SHA_match": true,
+        "only_known12_modes_0755_to0644": true
+      },
+      "sentinel": {
+        "initial_record_matches_fixed_bytes": true,
+        "app_reads_sentinel": false,
+        "post_upgrade_before_body_preserved": true,
+        "after_successful_body_check_preserved": true,
+        "final_record_present": true,
+        "pre_upgrade_scope": "Controlled restore flow checks sentinel before install; no separate pre-upgrade raw JSON is emitted"
+      },
+      "sentinel_bytes": 52,
+      "cleanup": {
+        "status": "owned-simulator-deleted",
+        "error": null
+      },
+      "compact": {
+        "artifact_id": 12732427906,
+        "bytes": 350088,
+        "sha256": "030f57d0b3bfadd04650b490f47a05b57791adfed5008ffaa4b28e699f1af96f",
+        "index_entries": 197,
+        "whole_SHA_verified": true,
+        "selected_CRC_SHA_verified": true,
+        "combined_unique_selected": 55,
+        "expanded_including_duplicate_bytes": 1315200,
+        "unselected_CRC_verified": false,
+        "raw_ZIP_saved": false
+      },
+      "diagnostic": {
+        "R_launch_UI_lines": 0,
+        "restored_collector_records": 1,
+        "record_same_as_previous_F": true,
+        "R_fresh_App_diagnostic": null,
+        "R_actual_Bundle_root_matches_installed": null,
+        "absence_is_not_acceptance": true
+      },
+      "findings_receipt": {
+        "sha256": "942efb6ed31d40c33b14b22ab99ded0453ad1dc4e5658446f88df64ca94df14a",
+        "bytes": 2799
+      },
+      "selected_read_receipt": {
+        "sha256": "b67e95ebfec218a19716724a4fe107b92b23a66b3f55af260f5c2b34b361f49f",
+        "bytes": 49470
+      },
+      "internal_mechanism_proven": false,
+      "Dead_bundle_recurrence_impossible_proven": false
+    },
+    "future_actualmain": null,
+    "final_ordinary_CI": null,
+    "fresh_main_public9_binding": null,
+    "publication": false,
+    "incomplete": [
+      "actual user bookmarks/readpositions retained across upgrade",
+      "same-process repaired retry",
+      "offline",
+      "import",
+      "legacy migration",
+      "reading recovery-specific UI",
+      "physical device",
+      "VoiceOver",
+      "IOS-18 overall",
+      "IOS-25 overall"
+    ],
+    "new_operations_in_this_record_preparation": {
+      "SDK": 0,
+      "tests": 0,
+      "benchmark": 0,
+      "reGET": 0,
+      "API": 0,
+      "helper": 0,
+      "Git": 0,
+      "shared_write": 0
+    }
+  },
+  "main76_postmerge_ci_checkpoint_20261027": {
+    "schema_version": 1,
+    "recorded_date": "2026-10-27",
+    "scope": "Fixed implementation main76 newpush CI facts; this document payload is not yet bound or published.",
+    "implementation_main": {
+      "sha": "76d57595b52eb54b92ac188e3cdcd330c18aa116",
+      "tree": "740bbbfa73f1b850f7864c961ba78ab3ecb476d5",
+      "parent": "7784228eb167e5909909437ff9d8a779ceb7fa68"
+    },
+    "historical_fields": "All pre-existing fields including pending/null/current wording remain historical preparation snapshots.",
+    "new_main_push": {
+      "Common": {
+        "run": 40505124647,
+        "event": "push",
+        "attempt": 1,
+        "conclusion": "success",
+        "job_counts": {
+          "success": 10,
+          "skipped": 0,
+          "failure": 0
+        },
+        "deploy_success": true,
+        "independent_public_screen_acceptance": false,
+        "actual_checkout": "76d57595b52eb54b92ac188e3cdcd330c18aa116"
+      },
+      "Native": {
+        "run": 40505124651,
+        "event": "push",
+        "attempt": 1,
+        "conclusion": "success",
+        "unit": {
+          "executed": 165,
+          "skipped": 2,
+          "failures": 0,
+          "seconds": 25.028
+        },
+        "new12_each_started_once_passed_once_failed0": true,
+        "ordinary_UI": {
+          "executed": 2,
+          "failures": 0,
+          "seconds": 126.591
+        },
+        "actual_checkout": "76d57595b52eb54b92ac188e3cdcd330c18aa116",
+        "Release_numeric_counts": null,
+        "SDK_profile": null
+      },
+      "Full": {
+        "run": 40505124612,
+        "event": "push",
+        "attempt": 1,
+        "conclusion": "success",
+        "unit": {
+          "suite": "AILibraryTests.xctest",
+          "suite_result": "passed",
+          "tests": 165,
+          "skipped": 2,
+          "failures": 0,
+          "unexpected": 0,
+          "seconds": 21.277,
+          "line_index": 7219,
+          "line": "2026-10-27T12:46:14.4589110Z \t Executed 165 tests, with 2 tests skipped and 0 failures (0 unexpected) in 21.277 (25.179) seconds"
+        },
+        "UI": {
+          "tests": 22,
+          "failures": 0,
+          "seconds": 1247.392,
+          "distinct_raw_case_IDs": 22,
+          "passed_cases": 22,
+          "picker_case_seconds": 146.419,
+          "picker_case_result": "passed"
+        },
+        "picker_prefix_count": 0,
+        "new_JSON_runtime_collection": null,
+        "Release_consumer": {
+          "schema_version": 1,
+          "status": "passed",
+          "native_schema_version": 2,
+          "revision": "11ba5a273030495cec8e95a6aa64964441c9b06a1fe9853165e7de98616e4e78",
+          "articles": 199,
+          "audio": 1,
+          "verified_files": 625,
+          "verified_bytes": 36958905,
+          "test_content_absent": true
+        },
+        "primary_icon_audit": "passed",
+        "icon_visual_acceptance": false,
+        "actual_checkout": null,
+        "SDK_profile": null
+      }
+    },
+    "receipt_SHA256": {
+      "Common": "40cb790c8874cf24b77192139da667dd5340795222fa7e94eacd89fa802014b0",
+      "Native": "68108dcb6db08bf010deb64af886f7a979b30e0688e287792674b870f0cafa2c",
+      "Common_Native_observation": "6a8d4b0781a1540db78cc4b74f23a0ee4c428e00e2cf75d3bb57100fd5634f0d",
+      "Full": "e2f9ab82cb1fbbf1e2fa8745690d9c87e5100bda74a42985a41a4c19c919183a",
+      "Full_observation": "43f8f6a13144c9f762435ecf4c23468f4a1d0138fe91bfc05e705d63ec0483b6"
+    },
+    "separate_scopes": {
+      "new_standalone_SDK26_Runtime26_Dedicated_push": false,
+      "prior_PR_results_assigned_as_new_main_run": false,
+      "Core19process15samples_reassigned_to_current_App": false,
+      "new_performance": null,
+      "XCTest_seconds_are_App_latency_or_p95": false,
+      "private_PR283_Recovery2_acceptance": false
+    },
+    "document_adoption": {
+      "future_actualmain_binding": null,
+      "publication": null,
+      "publishable": false,
+      "Root_independent_review_required": true
+    },
+    "not_accepted_here": [
+      "Current App performance, minimumiOS17, p95 or budget",
+      "Physical device, VoiceOver, actual recovery UI, power-loss durability",
+      "Actual bookmark/reading position survival across upgrade from the sentinel receipt",
+      "New private PR283 or Copy candidates",
+      "Store/signing/distribution or independent public screen acceptance"
+    ],
+    "stream": "Feature",
+    "Feature_scope": "Normal main CI only; existing controlled F/R/sentinel facts remain separate, actual user-data upgrade survival unverified."
   }
 }

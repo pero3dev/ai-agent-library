@@ -112,3 +112,35 @@ Fの4 inventoryは各180ファイル、Rの3 inventoryは各181ファイルのex
 元のassert・45秒待機・selector・成功時の操作とApp/View/Storeは保ち、推測による原因修正や待機延長を加えない。workflow側は既存のfull evidenceを保持したまま、トップ階層のJSON/logだけを含むcompact evidenceを追加する。job60分・step合計55分を維持する。技術候補の最終source・literal結合と独立レビューは別工程である。
 
 この記録追加ではSDK・Simulator・npm ci・prepare・API・Git・HTTPを実行していない。診断追加後のHosted新runは未実施で、run ID・新head・将来の実mainはnullのままである。記録時点のactual mainはf5e、PR #281のabeはDraft・未mergeとして扱う。F/R合格、本文後sentinel、実bookmark／読書位置、import・offline・legacy・記事なしroute・最大文字・VoiceOver・実機、IOS-18／25全体は未完了である。README・TODO・App・版・署名・公開範囲はこの記録候補では変更しない。
+
+## 後続checkpoint: b6・旧main778・eabの結果
+
+前節までの未採用・未実行・未確定の値は、各準備時点の履歴として保持する。最上位のsource basis f5e、App 0.2.19（21）、153件のsource宣言を、新しいApp 0.2.20（22）の実行結果へ付け替えない。以下のcheckpointは元の本文・JSONの全既存値を残した追記であり、最終actualmainと最終通常CIへのbindingは未確定である。
+
+### PR #281のb6で受け入れた専用F/R
+
+head `b6bba8bc708b03da5534ed2583225229f2dd7218`、tree `779480ca0111484af87dbc4dabcf7009854216af`の[専用run40474685046](https://github.com/pero3dev/ai-agent-library/actions/runs/40474685046)（job `122089883004`、attempt 1）は、raw test hierarchy・実行deviceを照合して欠損時Fと正常版への明示更新後Rが各1件Passedだった。全7回のinstalled inventoryはパス・bytes・SHAが一致し、既知12パスのmode差分だけを許容した。Appが読まない固定52-byte sentinelは更新後と代表3記事の本文確認後まで保持され、所有Simulatorのcleanupも確認した。一次要約のSHA-256は`28cd4aa85fd1938435a6c2809765098d312e48cae91856fcf8dbcc3a2acd7a57`、選択読取票は`78fad8eea8558e346126387d5a2c5c34bba3b0242b6a08bf8fe5a57c22253127`。347,145-byte compactの全体SHAとindex195項目、選択53ファイルのCRC・SHAを検証した範囲で、未選択142ファイルのCRCは未検証である。旧abeのR失敗の原因を、この成功で解消済みにしない。
+
+### 旧main778の通常pushは別の失敗を保持
+
+PR #281は通常squashで当時のmain `7784228eb167e5909909437ff9d8a779ceb7fa68`、同treeへ反映した。統合検証票のSHA-256は`7fa373cc3143b366049745b2df402c479a638627ffbf130a65b43b18e50bbd55`である。その後の新pushではCommonとNativeが成功した一方、[Full run40479965177](https://github.com/pero3dev/ai-agent-library/actions/runs/40479965177)（job `122107511343`、attempt 1）はUI22件中1件失敗だった。失敗は`PublishedReaderUITests.testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions`のpicker条件で、原因は未確定である。一次観測票のSHA-256は`ba9b9c009c86ff4e41d0f2cf5a916dabf1c62c23d4e75f03e74e23e42681f66c`。b6のPR成功をこのpushへ転用せず、270,041,453-byte Full artifactは未取得のままにする。このpushでSDK26・Runtime26・Dedicatedが再実行されたとは扱わない。
+
+### eabのF専用停止確認と新しい専用F/R成功
+
+後続head `eabf1a67ed6ceb0cd9e7bd2e20ba5bcb413020fa`、tree `740bbbfa73f1b850f7864c961ba78ab3ecb476d5`では、F専用testの後処理に同期terminateとnotRunning assertionを追加した。既存case本文・待機・selectorを保つ変更で、[専用run40499846007](https://github.com/pero3dev/ai-agent-library/actions/runs/40499846007)（job `122174483445`、attempt 1）のraw F/Rは各1件Passedだった。Fの成功には停止assertionを含み、Rは113.376秒・exit 0で代表3記事の本文を確認した。全7回のinstalled inventoryが一致し、本文確認後まで固定52-byte sentinelが保持され、所有Simulatorのcleanupも成功した。Root独立受入済みの一次findingsはSHA-256 `942efb6ed31d40c33b14b22ab99ded0453ad1dc4e5658446f88df64ca94df14a`、選択読取票は49,470 bytes・`b67e95ebfec218a19716724a4fe107b92b23a66b3f55af260f5c2b34b361f49f`である。350,088-byte compactの全体SHA・index197項目と選択ファイルのCRC・SHAを確認した範囲で、未選択ファイルのCRCは未検証、raw ZIPは保存していない。
+
+Rの失敗時launch診断は0件で、restored collectorの1記録は過去Fの記録と同一だった。これらを新しいRのApp診断や実bundle rootとの一致の証拠にせず、内部cache／lifecycle機序とDead bundleの再発不能は未証明のままにする。今回の新F/R成功を、旧5eb・abe・main778の失敗や別headの結果へ上書きしない。
+
+本追記は専用F/Rの受入範囲に限る。最終actualmainと最終通常CIはJSONでnullを保持し、後続のfresh main／public9 checkpointで別に束縛する。実bookmark・読書位置の更新越し保持、同一process内の修復後再試行、offline・import・旧記録移行、復旧固有UI、実機・VoiceOverとIOS-18／25全体は未完了である。本追記作業によるSDK・tests・benchmark・再取得・API・helper・Git・共有変更はない。
+
+## main76の新push3検査を別に確認したcheckpoint
+
+2026-10-27追記。既存本文・JSONの準備時点、失敗、未完了表記を保持し、実装main `76d57595b52eb54b92ac188e3cdcd330c18aa116`／tree `740bbbfa73f1b850f7864c961ba78ab3ecb476d5` の新push結果を別節に残す。[Common40505124647](https://github.com/pero3dev/ai-agent-library/actions/runs/40505124647)・[Native40505124651](https://github.com/pero3dev/ai-agent-library/actions/runs/40505124651)・[Full40505124612](https://github.com/pero3dev/ai-agent-library/actions/runs/40505124612)は各attempt1、event pushで成功した。PRの成功やtree一致から新runの成功を補ったものではない。
+
+Commonはdeployを含む10job成功であり、公開画面の独立受入は行っていない。Nativeは単体165件・skip2・失敗0／25.028秒、追加12件は各開始1回・pass1回、通常UI2件・失敗0／126.591秒を新ログで確認した。Fullは一意なraw UI22caseが全pass・失敗0／1247.392秒、単体165件・skip2・失敗0／21.277秒だった。これらのXCTest集計時間をAppの起動・入力・scrollやp95の性能値とは扱わない。
+
+Fullのpicker取消caseは146.419秒でpassし、`AILibraryFolderPicker` prefixは0行だった。失敗時JSONの8KiB上限・lastPredicate／postAXの実収集は未発火・未確認のままである。FullのRelease consumerは199記事・1音声・625ファイル・36,958,905B・TestContent不在で成功し、revisionは `11ba5a273030495cec8e95a6aa64964441c9b06a1fe9853165e7de98616e4e78`、必須primary icon監査も成功した。これは同じFull runの値であり、Nativeの未取得数値やPR eabの生成bytes／revisionへ代入せず、PRとの全bundle byte等価も主張しない。32,257,705BのFull artifactは未取得で、宣言digestを実bytesのSHA・CRC検証へ読み替えない。
+
+main76の新push一覧はCommon・Native・Fullの3系統で、SDK26・Runtime26・Dedicatedの新pushはない。旧PR上の専用F/R・SDK等は別のsnapshotとして保持する。Common／Native観測票SHA-256は `6a8d4b0781a1540db78cc4b74f23a0ee4c428e00e2cf75d3bb57100fd5634f0d`、Full票は `e2f9ab82cb1fbbf1e2fa8745690d9c87e5100bda74a42985a41a4c19c919183a` である。同名JSONの `main76_postmerge_ci_checkpoint_20261027` にscopeと各receiptのSHAを残す。
+
+この普通のmain検査は、過去のF/R失敗や後続PR上のcontrolled F/R受入を上書きしない。専用sentinelはAppが読まない固定確認ファイルであり、実bookmark・読書位置の更新越し保持、同process内の修復後再試行、offline・import・legacy・復旧固有UI・実機・VoiceOverとIOS-18／25全体は未完了のままである。TODO32行・完了12行を保持し、公開用actualmain bindingはRootの後段へ残す。今回の私有追記ではSDK・test・生成・依存導入・API／Git／共有変更を行っていない。

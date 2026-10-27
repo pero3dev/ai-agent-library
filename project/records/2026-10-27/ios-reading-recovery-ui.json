@@ -158,5 +158,81 @@
     "shared_write": 0
   },
   "new_head": null,
-  "Hosted": null
+  "Hosted": null,
+  "first_hosted_attempt_and_locator_revision": {
+    "first_head": "3cb328dd87ac3542db9c704456fabb0a8e06f38f",
+    "first_tree": "1470e8fb7a0b8e500c9310918388499d713e23f6",
+    "Native": {
+      "id": 40508046124,
+      "name": "iOS native regression",
+      "path": ".github/workflows/ios-native.yml",
+      "event": "pull_request",
+      "head_sha": "3cb328dd87ac3542db9c704456fabb0a8e06f38f",
+      "head_branch": "codex/ios-reading-recovery-ui",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-10-27T12:58:30Z",
+      "updated_at": "2026-10-27T13:16:34Z",
+      "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40508046124"
+    },
+    "SDK26": {
+      "id": 40508046209,
+      "name": "iOS SDK 26 unsigned archive preflight",
+      "path": ".github/workflows/ios-sdk26-archive.yml",
+      "event": "pull_request",
+      "head_sha": "3cb328dd87ac3542db9c704456fabb0a8e06f38f",
+      "head_branch": "codex/ios-reading-recovery-ui",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-27T12:58:30Z",
+      "updated_at": "2026-10-27T13:16:27Z",
+      "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40508046209"
+    },
+    "summary": {
+      "unit": "Fresh165 executed/2 skipped/0 failures; added12 each Started1/Passed1",
+      "existing_UI": "2 distinct both passed",
+      "new_Recovery_UI": "2 distinct both Started1/Passed0/Failed1 at notice requireHittable line64",
+      "SDK26": "Current unsigned archive compatibility succeeded"
+    },
+    "source_binding": {
+      "Native_synthetic": {
+        "sha": "5b7204ab9a73e5750d84497109af80a5266fc833",
+        "tree": "1470e8fb7a0b8e500c9310918388499d713e23f6",
+        "parents": [
+          "76d57595b52eb54b92ac188e3cdcd330c18aa116",
+          "3cb328dd87ac3542db9c704456fabb0a8e06f38f"
+        ]
+      },
+      "SDK26_actual": {
+        "sha": "3cb328dd87ac3542db9c704456fabb0a8e06f38f",
+        "tree": "1470e8fb7a0b8e500c9310918388499d713e23f6",
+        "parents": [
+          "08bee2555eeea9812a946fae901d2e7eda03f867"
+        ]
+      }
+    },
+    "first_failure": "Both new Recovery cases failed at first notice button lookup after articlecount wait; dialog/cancel/recovery/relaunch/bookmark outcomes not reached",
+    "root_cause": null,
+    "seed_result": null,
+    "actual_AX_hierarchy": null,
+    "evidence_receipt_sha256": "59dd453b312243f914b88c6c3f7225630cd2a871289eb695e30dd9deb0f423c5",
+    "locator_revision": {
+      "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+      "before_bytes": 4753,
+      "before_SHA256": "a868b8821f8cb31e7c64dced24d4b039a200c863023f9cc086745bb1a7cf5388",
+      "after_bytes": 4964,
+      "after_SHA256": "0354bf0f407f6f283e6430dca9cdd10285cc374f50b8497a5df48529ad30a716",
+      "change": "Use one exact public Button-label query for presence/action/absence, with count1 for presence and count0 for absence",
+      "preserved": "All other source bytes recover the exact first-head file by inverse splice; same message, geometry/hittable, scroll/wait, dialog, cancel, bookmark and relaunch conditions",
+      "syntax_parse_calls": 1,
+      "syntax_parse_exit": 0,
+      "production_UI_or_seed_changed": false,
+      "newhead": null,
+      "actual_SDK": null,
+      "actual_UI_effect": null
+    },
+    "first_preparation_fields_remain_historical": true
+  }
 }

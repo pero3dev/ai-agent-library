@@ -693,6 +693,138 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         return (bar, cancel)
     }
 
+    /// This case alone uses the existing unique foreground-navigation viewport.
+    /// A visible article-search field also clips the top; other occlusion still
+    /// depends on XCTest isHittable. These sequential AX reads are not atomic.
+    private func normalResumeCandidates() -> (ready: [XCUIElement], searches: [XCUIElement]) {
+        let resume = app.buttons.matching(identifier: "library-resume").allElementsBoundByIndex.filter {
+            $0.exists && $0.isEnabled && isHittableOnScreen($0, inside: app, fullyVisible: true)
+        }
+        let prompt = "記事の本文を検索"
+        let searches = app.searchFields.matching(
+            NSPredicate(format: "identifier == %@ OR label == %@", prompt, prompt))
+            .allElementsBoundByIndex.filter { $0.exists && $0.isEnabled && isHittableOnScreen($0) }
+        guard searches.count <= 1 else { return ([], searches) }
+        guard let search = searches.first else { return (resume, searches) }
+        let searchFrame = search.frame
+        guard searchFrame.minX.isFinite, searchFrame.minY.isFinite,
+              searchFrame.width.isFinite, searchFrame.height.isFinite,
+              searchFrame.width > 0, searchFrame.height > 0 else { return ([], searches) }
+        return (resume.filter { $0.frame.minY >= searchFrame.maxY }, searches)
+    }
+
+    /// Failure-only public AX evidence, not an application route introspection.
+    /// Bound the attachment bodies; AX property retrieval itself is best effort.
+    private func captureNormalResumeFailure(_ reason: String) {
+        func frameJSON(_ frame: CGRect?) -> [String: Any] {
+            guard let frame else { return ["state": "absent"] }
+            func number(_ value: CGFloat) -> Any { value.isFinite ? Double(value) as Any : NSNull() }
+            return ["x": number(frame.minX), "y": number(frame.minY),
+                    "width": number(frame.width), "height": number(frame.height)]
+        }
+        func rows(_ elements: [XCUIElement]) -> [[String: Any]] {
+            elements.prefix(8).map { control in
+                let exists = control.exists
+                return ["identifier": exists ? String(control.identifier.prefix(128)) : "",
+                        "label": exists ? String(control.label.prefix(128)) : "",
+                        "exists": exists, "enabled": exists && control.isEnabled,
+                        "frame": frameJSON(exists ? control.frame : nil)]
+            }
+        }
+        func hasLabel(_ label: String) -> Bool {
+            app.descendants(matching: .any).matching(NSPredicate(format: "label == %@", label)).count > 0
+        }
+        let observation = normalResumeCandidates()
+        let resume = app.buttons.matching(identifier: "library-resume").allElementsBoundByIndex
+        let search = app.searchFields.allElementsBoundByIndex
+        let bars = app.navigationBars.allElementsBoundByIndex
+        let route: [String: Any] = [
+            "expectedTitle": "Transformer アーキテクチャ詳解",
+            "expectedArticleBarExists": app.navigationBars["Transformer アーキテクチャ詳解"].exists,
+            "libraryBarExists": app.navigationBars["AI Agent Library"].exists,
+            "libraryCountExists": app.staticTexts["library-article-count"].exists,
+            "nativeReaderCount": app.scrollViews.matching(identifier: "native-reader").count,
+            "nativeParagraphExists": app.staticTexts.matching(
+                NSPredicate(format: "identifier BEGINSWITH %@", "native-text-")).firstMatch.exists,
+            "articleLoadingLabelExists": hasLabel("記事を読み込んでいます"),
+            "contentLoadingLabelExists": hasLabel("コンテンツを確認中"),
+            "unavailableRouteLabelExists": hasLabel("記事を利用できません"),
+            "readerLoadFailureLabelExists": hasLabel("記事を表示できません"),
+            "retryButtonExists": app.buttons["再試行"].exists
+        ]
+        let payload: [String: Any] = [
+            "schemaVersion": 1, "sampling": "after-failure-sequential-not-atomic", "reason": reason,
+            "routeEvidence": route, "applicationFrame": frameJSON(app.frame),
+            "resumeMatchCount": resume.count, "readyResumeCount": observation.ready.count,
+            "usableArticleSearchCount": observation.searches.count,
+            "resumeControls": rows(resume), "allSearchFields": rows(search),
+            "usableArticleSearchFields": rows(observation.searches), "navigationBars": rows(bars),
+            "geometryPolicy": "Existing unique foreground-navigation viewport; below a unique usable article search frame; remaining occlusion uses XCTest isHittable",
+            "listedElementLimitPerGroup": 8
+        ]
+        let fallback: [String: Any] = ["schemaVersion": 1, "sampling": "after-failure-sequential-not-atomic",
+            "reason": reason, "routeEvidence": route, "geometryOmitted": "encoding-error-or-over-8192-bytes"]
+        let data = (try? JSONSerialization.data(withJSONObject: payload, options: [.sortedKeys]))
+        let small = data.flatMap { $0.count <= 8192 ? $0 : nil }
+            ?? (try? JSONSerialization.data(withJSONObject: fallback, options: [.sortedKeys]))
+        let json = small.map { String(decoding: $0, as: UTF8.self) }
+            ?? #"{"schemaVersion":1,"encodingError":"serialization-failed"}"#
+        print("AILibraryNormalResume " + json)
+        let state = XCTAttachment(string: json)
+        state.name = "Normal-resume-route-and-geometry"
+        state.lifetime = .keepAlways
+        add(state)
+        // At most 8002 UTF8 bytes after replacement of an incomplete final scalar.
+        let hierarchy = XCTAttachment(string: String(decoding: app.debugDescription.utf8.prefix(8000), as: UTF8.self))
+        hierarchy.name = "Normal-resume-hierarchy-prefix"
+        hierarchy.lifetime = .keepAlways
+        add(hierarchy)
+    }
+
+    private func requireFullyVisibleNormalResume(expectedLabel: String) throws -> XCUIElement {
+        // Preserve the existing maximum eight downward reveals; never retry a tap.
+        for _ in 0..<8 {
+            if !normalResumeCandidates().ready.isEmpty { break }
+            app.swipeDown(velocity: .slow)
+        }
+        let available = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            self.normalResumeCandidates().ready.count == 1
+        }, object: nil)
+        let result = XCTWaiter.wait(for: [available], timeout: 15)
+        let ready = normalResumeCandidates().ready
+        guard result == .completed, ready.count == 1 else {
+            captureNormalResumeFailure("No unique enabled fully visible normal resume control before the one tap")
+            XCTFail("The normal resume control must satisfy the existing foreground viewport and search-frame guards")
+            throw NSError(domain: "PublishedReaderUITests", code: 90)
+        }
+        let control = ready[0]
+        guard control.label == expectedLabel else {
+            captureNormalResumeFailure("The unique normal resume label differs from the saved baseline")
+            XCTFail("The normal resume label must preserve the original saved article")
+            throw NSError(domain: "PublishedReaderUITests", code: 91)
+        }
+        return control
+    }
+
+    private func requireResumedNativeBody() throws {
+        // Match requireNativeBody's 20s reader, 10s paragraph and nonempty checks.
+        // Do not add a second reader wait or any corrective navigation after tap.
+        guard app.scrollViews["native-reader"].waitForExistence(timeout: 20) else {
+            captureNormalResumeFailure("native-reader did not appear within the existing 20-second wait after the one resume tap")
+            XCTFail("The resumed native-reader must appear")
+            throw NSError(domain: "PublishedReaderUITests", code: 92)
+        }
+        let paragraph = app.staticTexts.matching(NSPredicate(format: "identifier BEGINSWITH %@", "native-text-")).firstMatch
+        guard paragraph.waitForExistence(timeout: 10) else {
+            captureNormalResumeFailure("Native body text did not appear within the existing 10-second paragraph wait")
+            XCTFail("Native body text must appear, beyond the navigation title")
+            throw NSError(domain: "PublishedReaderUITests", code: 93)
+        }
+        let empty = paragraph.label.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        if empty { captureNormalResumeFailure("The resumed native paragraph is empty") }
+        XCTAssertFalse(empty)
+    }
+
     func testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions() throws {
         open("Transformer アーキテクチャ詳解", articleID: "11-llm-internals/transformer-architecture")
         goToContents("自己注意の数式", headingID: "自己注意の数式")
@@ -769,11 +901,9 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         XCTAssertTrue(count.waitForExistence(timeout: 45))
         XCTAssertEqual(count.label, originalCount)
         XCTAssertTrue(resume.waitForExistence(timeout: 10))
-        for _ in 0..<8 where !isHittableOnScreen(resume) { app.swipeDown(velocity: .slow) }
-        requireHittable(resume)
-        XCTAssertEqual(resume.label, originalResume)
-        resume.tap()
-        requireNativeBody()
+        let foregroundResume = try requireFullyVisibleNormalResume(expectedLabel: originalResume)
+        foregroundResume.tap()
+        try requireResumedNativeBody()
         XCTAssertTrue(app.navigationBars["Transformer アーキテクチャ詳解"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.buttons["しおりを削除"].waitForExistence(timeout: 10))
         requireHittable(app.staticTexts["native-heading-自己注意の数式"],

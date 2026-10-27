@@ -283,8 +283,65 @@ class NativeReaderUITestCase: XCTestCase {
                        "The requested public UI element must be visible and usable", file: file, line: line)
     }
 
+    /// Failure-only sequential AX reads; output is bounded, not an atomic UI snapshot.
+    private func captureLibraryCountTimeout() {
+        let prefix = "AILibraryLaunchUI "
+        let outputLimit = 32768 - prefix.utf8.count - 1
+        let hierarchyLimit = 24576
+        let appState = app.state
+        let publicElements: [String: Bool] = [
+            "articleCountAfterTimeout": app.staticTexts["library-article-count"].exists,
+            "searchField": app.searchFields.firstMatch.exists,
+            "loadErrorHeading": app.staticTexts["コンテンツを読み込めません"].exists,
+            "retryButton": app.buttons["再試行"].exists,
+            "bundledInventoryMismatchReason": app.staticTexts.matching(
+                NSPredicate(format: "label CONTAINS %@", "ファイル一覧と実際の内容が一致しません。")).firstMatch.exists,
+            "loadingLabel": app.descendants(matching: .any).matching(
+                NSPredicate(format: "label == %@", "コンテンツを確認中")).firstMatch.exists,
+            "bundledSwitchingLabel": app.descendants(matching: .any).matching(
+                NSPredicate(format: "label == %@", "同梱コンテンツへ切り替え中")).firstMatch.exists,
+            "progressIndicator": app.progressIndicators.firstMatch.exists,
+            "nativeReader": app.scrollViews["native-reader"].exists
+        ]
+        let rawHierarchy = app.debugDescription
+        var hierarchy = String(decoding: rawHierarchy.utf8.prefix(hierarchyLimit), as: UTF8.self)
+        for pattern in [
+            #"(?i)\b(?:https?|file)://[^\s\"'<>]+"#,
+            #"(?i)\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b"#,
+            #"/(?:Users|private|var|tmp|home|Volumes)/[^\s\"'<>]*"#,
+            #"(?i)\b[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}\b"#,
+            #"(?im)\b(?:label|value|placeholderValue):[^\r\n]*"#
+        ] {
+            hierarchy = hierarchy.replacingOccurrences(of: pattern, with: "<redacted>", options: .regularExpression)
+        }
+        var payload: [String: Any] = [
+            "schemaVersion": 1, "sampling": "after-library-count-timeout-sequential",
+            "appState": String(describing: appState), "publicElements": publicElements,
+            "hierarchy": hierarchy, "hierarchyTruncated": rawHierarchy.utf8.count > hierarchyLimit
+        ]
+        let json: String
+        if let data = try? JSONSerialization.data(withJSONObject: payload, options: [.sortedKeys]), data.count <= outputLimit {
+            json = String(decoding: data, as: UTF8.self)
+        } else {
+            payload["hierarchy"] = NSNull()
+            payload["hierarchyOmittedReason"] = "serialization-or-32768-byte-output-limit"
+            if let data = try? JSONSerialization.data(withJSONObject: payload, options: [.sortedKeys]), data.count <= outputLimit {
+                json = String(decoding: data, as: UTF8.self)
+            } else {
+                json = #"{"schemaVersion":1,"sampling":"after-library-count-timeout-sequential","diagnosticOmittedReason":"serialization-or-output-limit"}"#
+            }
+        }
+        print(prefix + json)
+        let attachment = XCTAttachment(string: json)
+        attachment.name = "Public-UI-library-count-timeout"
+        attachment.lifetime = .keepAlways
+        add(attachment)
+    }
+
     func open(_ title: String, articleID: String, query: String? = nil) {
-        XCTAssertTrue(app.staticTexts["library-article-count"].waitForExistence(timeout: 45))
+        let libraryCountAppeared = app.staticTexts["library-article-count"].waitForExistence(timeout: 45)
+        if !libraryCountAppeared { captureLibraryCountTimeout() }
+        XCTAssertTrue(libraryCountAppeared)
         let search = app.searchFields.firstMatch
         for _ in 0..<8 where !isHittableOnScreen(search) { app.swipeDown(velocity: .slow) }
         requireHittable(search)

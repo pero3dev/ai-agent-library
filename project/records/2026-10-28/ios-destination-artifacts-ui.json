@@ -393,5 +393,160 @@
     "同一live data container、新R PID、Dead bundleの観測と、内部のcache/install機序の説明を分けます。",
     "Source3の36件単体/driver構文検査は静的な範囲です。Hosted SDK/build/install/UIを証明しません。",
     "本文完了後の52B sentinelは未確認です。Core性能、実機、VoiceOver、オフライン等の製品受入を完了にしません。"
-  ]
+  ],
+  "head56_simulator_rejection_20261028": {
+    "schema_version": 1,
+    "observation_date_jst": "2026-10-28",
+    "source_head": "56fef8f00946aba553a42cc2081d7df6100fb65e",
+    "source_tree": "a6a9184b3c90240c36face73bc7c69d4b70bd5f4",
+    "run": 40533077378,
+    "job": 122290880178,
+    "attempt": 1,
+    "status": "Simulator rejects destination-artifact mode before intended UI execution",
+    "build": "success",
+    "F_exit_code": 70,
+    "R_exit_code": 70,
+    "rejection": "when UseDestinationArtifacts is set, the destination must be an iOS device",
+    "stderr": {
+      "each_bytes": 695,
+      "each_SHA256": "ea16facc1717060f6e5fa1e4098da1f4ff902123e405b6f699f84855e6736256",
+      "full_member_CRC_SHA_verified": true,
+      "truncated": false
+    },
+    "intended_UI_cases_executed": false,
+    "raw_xcresult": "Testing Failed to Start with one synthetic failed leaf per stage; not an executed target UI case",
+    "installed_inventory": {
+      "F_counts": [
+        180,
+        180,
+        180,
+        180
+      ],
+      "R_counts": [
+        181,
+        181,
+        181
+      ],
+      "all7_full_arrays_independently_compared": true,
+      "path_bytes_SHA_allowed_modes_match": true
+    },
+    "sentinel": {
+      "fixed_bytes": 52,
+      "initial_matches": true,
+      "post_upgrade_before_body_preserved": true,
+      "after_successful_body_check_preserved": null,
+      "final_record_present": false
+    },
+    "launch_UI_lines": 0,
+    "app_launch_root_correlated": false,
+    "cleanup": "owned-simulator-deleted",
+    "artifact": {
+      "id": 12746269208,
+      "compressed_bytes": 357870,
+      "SHA256": "d680bdefcb9832692bfc2d51aeaf0439f6369cdab5fefd8ee0e8b4bf88f0e1f8",
+      "whole_compressed_digest_verified": true,
+      "index_entries": 231,
+      "all_duplicate_read_expanded_bytes": 1453983,
+      "unselected_CRC_verified": false,
+      "successful_body_reads": 1,
+      "first_open_failure_separately_retained": true,
+      "raw_ZIP_xcresult_images_saved": false
+    },
+    "compact_observation": {
+      "bytes": 49143,
+      "SHA256": "25e104608858530961960f0baf95973ca2c8bd2d8386cfa22efba3b56e5832fd"
+    },
+    "findings_SHA256": "40d03497d76737647dea19689ca9e137520f00808e56264e15d7e20200448e1f",
+    "reader_independent_review_SHA256": "9c11de5a9e2cf4edd9cf543b4871b233e2325031d4fcc8f23787e06f773cffa3",
+    "alternative_source_phase_driver_acceptance": null,
+    "main_adoption": null,
+    "limitations": "Parent89 cache mechanism, alternate driver effect, physical device and VoiceOver remain unverified."
+  },
+  "simulator_source_phase_candidate_20261028": {
+    "schema_version": 1,
+    "basis_head": "56fef8f00946aba553a42cc2081d7df6100fb65e",
+    "basis_tree": "a6a9184b3c90240c36face73bc7c69d4b70bd5f4",
+    "status": "source phase candidate; fresh Hosted acceptance pending",
+    "source_paths": [
+      {
+        "path": ".github/workflows/ios-missing-package-ui.yml",
+        "bytes": 55069,
+        "SHA256": "c6459792526e973058f222b5605a924b0893e905d3be009b875e471976bd0f86"
+      },
+      {
+        "path": "ios/tests/xctestrun-metadata.mjs",
+        "bytes": 13034,
+        "SHA256": "e5d73c864d1520ff78b05516c89da39133a8bff4a69056303c6720373616f464"
+      },
+      {
+        "path": "tests/unit/ios-xctestrun-metadata.test.mjs",
+        "bytes": 22915,
+        "SHA256": "8947c3ef5071a90ea34eb9b964c16a28390bf65198d09736c4f549038b2a49a8"
+      }
+    ],
+    "frozen_inputs": {
+      "manifest": "069aeec106444df422194ca97ed66254379ae8cf9a1937c7862f89883f0b7cd3",
+      "proof": "cf4c369e66aafae056f616109917e9dacebf30d4374c0571f38b6413f77bf7e8",
+      "diff_from_v1": "3bb8281c925ecfc9ccfd39e65075b7e451dcd16680d9e2cf7237f5dcdfd928ca",
+      "previous_source_manifest": "bca14ddb9a4a3542cf7f59a07d822060a8c2339d959a4a771b5152a68795e7a1",
+      "reader_schema_plan": "6fb4523247ea2b689c5dd9a480a63b55412e8bd2494f7750fcd861aca55e3fc6"
+    },
+    "design": {
+      "baseline_App_and_stock_runfile": "immutable; checked before and after both phases",
+      "copies": "exclusive no-symlink bounded copies; F omits validated one JSON; R complete; file and directory modes and inode nonaliasing checked",
+      "source_paths": "Products/owned-phase-apps/{failure,restored}/AILibrary.app",
+      "runfiles": "Products/owned-{failure,restored}.xctestrun beside stock file",
+      "metadata": "UI target/config1; preserve runner/test paths and TESTROOT; change UITargetAppPath and exact original AUT dependencies only; residual original AUT references refused",
+      "explicit_install": "same phase App as the selected runfile",
+      "destination_flag_and_runner_preinstall": "removed",
+      "no_erase_uninstall_preference_clear_product_fallback_wait_relaxation": true,
+      "dependency_path_validation": "Resolve TESTROOT/TESTHOST prefixes for every dependency, then canonical component validation before AUT equality/replacement. Unknown/unresolved/relative/dot/dotdot/empty aliases refused. Other canonical references kept unchanged; no normalization."
+    },
+    "preserved": {
+      "selector_API_body": true,
+      "old28_test_bodies": true,
+      "YAML_outside_driver": true,
+      "job_stage_deadlines": true,
+      "selectors": true,
+      "seven_installed_App_inventory_call_sites": true,
+      "fixed52byte_sentinel": true,
+      "raw_audit_cleanup_summary": true,
+      "content_diagnostics": true,
+      "App_UI_PBX": true
+    },
+    "author_validation": {
+      "Node24_runs": 1,
+      "total": 36,
+      "old": 28,
+      "phase": 8,
+      "passed": 36,
+      "failed": 0,
+      "skipped": 0,
+      "duration_ms": 424.794416,
+      "driver_parse_exit": 0,
+      "actionlint_available": false,
+      "small_owned_FS_fixtures_cleaned": true,
+      "new_fixture_source_files": 0
+    },
+    "independent_artifact_scope": {
+      "can_recompute": [
+        "phase/baseline file arrays path bytes SHA modes vs original baseline",
+        "strict source metadata conversion vs JSON readback",
+        "command argument and head/UUID correlation"
+      ],
+      "producer_claims": [
+        "on-disk inode separation",
+        "directory modes",
+        "raw XML SHA; XML absent from compact",
+        "filesystem authenticity of reported paths/arrays"
+      ],
+      "reader_implementation_or_GET_this_candidate": false
+    },
+    "new_Hosted_SDK": null,
+    "new_F_R": null,
+    "new_App_launch_root": null,
+    "post_body_sentinel": null,
+    "main_adoption": null,
+    "cache_mechanism_or_fix_guarantee": null
+  }
 }

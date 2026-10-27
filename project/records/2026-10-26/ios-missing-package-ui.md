@@ -4,7 +4,7 @@
 
 ## 目的と作業範囲
 
-ユーザーの自律実装・commit・PR・通常main統合の依頼に基づく。所有は上記workflow、テストSwift、PBX構成、同名JSONと本記録、project索引と完成版TODOに、Runtime26 CIの待機調整、xctestrun helperとNode検査、installed inventory helperとNode検査を加えた12パスである。PBXはUIテストへのファイル登録に必要な2オブジェクトと2参照だけを加える。既存App・UIケース・版番号・署名設定を維持し、既存Runtime26 CIではdevice一覧取得の待機だけを調整する。
+ユーザーの自律実装・commit・PR・通常main統合の依頼に基づく。所有は上記workflow、テストSwift、PBX構成、同名JSONと本記録、project索引と完成版TODOに、Runtime26 CIの待機調整、xctestrun helperとNode検査、installed inventory helperとNode検査、PublishedReaderの復帰操作・診断を加えた13パスである。PBXはUIテストへのファイル登録に必要な2オブジェクトと2参照だけを加える。既存App・UIケース数・版番号・署名設定を維持し、既存Runtime26 CIではdevice一覧取得の待機だけを調整する。
 
 [構造化記録](ios-missing-package-ui.json)の既存フィールドは、固定したprivate準備時点のsnapshotである。`root_proposed_integration`へ現在の入力・提案範囲を追加し、過去の未採用状態を新しい成功へ書き換えない。前提mainの新push CIは[共通](https://github.com/pero3dev/ai-agent-library/actions/runs/40443841890)・[Native](https://github.com/pero3dev/ai-agent-library/actions/runs/40443841894)・[全記事](https://github.com/pero3dev/ai-agent-library/actions/runs/40443841889)の3系統で成功した。最終差分の独立レビュー、新headでの必要CIと実F/Rを確認してから通常squashを判断する。
 
@@ -59,3 +59,14 @@ FはUI実行前、Rはhost側JSONの正しい復元後に、Fのinstallation記�
 次の候補では、hostの欠損・復元はmodeを含む完全一致のまま保ち、installed側だけ実観測12パスの0755→0644または0755維持を明示的に扱う。全パス集合・bytes・SHA、他パスのmode、主実行ファイルやデータは厳密に照合する。比較前にexpected／actual／差分を上限付きJSONへ保存し、RはFの前提不足を明示記録して変更・install・UI前に拒否する。この候補の新しい実F/Rは未実施である。
 
 旧head `f58d61c817dd2c1e4fef80f6a56283e7d26f2484`の[全記事UI run](https://github.com/pero3dev/ai-agent-library/actions/runs/40450998872)は22件中1件が失敗した。初回Transformerの本文表示は到達し、フォルダー選択取消を扱うケースの後段で「続きを読む」を押した後にnative-readerを20秒待って停止した。初期表示の失敗やxctestrunの解析失敗とは別であり、タップ対象・遷移・描画のどこが原因かは未確定である。旧headの失敗を後続headの成功へ置き換えず、実行ごとに追跡する。
+
+
+## 通常復帰テストのタップ条件と診断
+
+同じ2d4 headの[全記事run](https://github.com/pero3dev/ai-agent-library/actions/runs/40454615354)は成功し、UI22件・0失敗・1091.970秒をログで確認した。うちpure geometryは6件・0失敗、前述のフォルダー取消後の復帰ケースは109.849秒で成功した。旧f58とApp・当該Swiftは同じであり、この結果だけでは旧失敗の原因や修正との因果は分からない。32,166,318 Bの大artifactは取得せず、APIの状態・上限付きtailのRelease検査と、GitHub画面でのUI集計を別々の出所として記録した。
+
+次の候補では[PublishedReaderUITests](../../../ios/AILibraryUITests/PublishedReaderUITests.swift)の当該ケースの再起動後操作だけを補強する。通常のresumeボタンを一意・有効・完全可視で選び、既存の前面navigation barで切り取ったviewportと、一意な操作可能検索欄がある場合の下端を使う。最大8回の下向きscrollと15秒の待機の範囲で確認し、保存された記事名と一致したボタンを一度だけ押す。本文20秒・段落10秒・非空の確認と、その後のtitle・しおり・見出し判定は保つ。
+
+失敗時だけ、公開AX上の画面タイトル・一覧／本文／読み込み／エラー表示・ボタンと検索欄の数とframeをJSONへ残す。JSON本文は8,192 Bまで、hierarchyのprefixはUTF-8の末尾補正を含め8,002 Bまでとする。AX取得そのものの時間や一連の観測の同時性を保証するものではなく、その他の遮蔽はXCTestのisHittableに依存する。通常UIの件数は22のままで、App・共通Native helper・他ケースの操作を変えない。
+
+この操作条件と診断の改善は、installed inventoryの補正とは別コミットにする。両候補の独立レビューは実SDK・実F/R・候補の復帰UI実行を代替しない。最終headの実行前であり、本文表示・保存の全体受入や旧失敗の原因解消は未完了のまま残す。

@@ -544,6 +544,137 @@
     "root_cause": "not-established; button target, route, or render not separated",
     "source": "bounded native Chrome UI log observation; no whole raw log/xcresult downloaded",
     "observation_SHA256": "c0a048447eaf36914052d7eb46e63016dde876349a6783f321878b0e49561ce3",
-    "latest_2d_Full": "pending-at-this-private-draft"
+    "latest_2d_Full": {
+      "status": "completed-success",
+      "run": 40454615354,
+      "UI_cases": 22,
+      "UI_failures": 0,
+      "UI_duration_seconds": 1091.97,
+      "pure_geometry_cases": 6,
+      "pure_geometry_failures": 0,
+      "same_case_seconds": 109.849,
+      "same_case_result": "passed",
+      "App_and_case_Swift_unchanged_from_f58": true,
+      "old_failure_cause_and_remedy": "not-established",
+      "UI_observation_SHA256": "d59e58042d4c3ba1ce58ee6055fd1d401cc4349d160392b1599ba356f623b8a5"
+    }
+  },
+  "normal_2d_head_matrix": {
+    "head": "2d4f156bb932322c6be025aaf8b9456d5b3e9988",
+    "common": {
+      "run": 40454615274,
+      "status": "success",
+      "success_jobs": 9,
+      "deploy": "skipped",
+      "node": {
+        "total": 1038,
+        "pass": 1022,
+        "skip": 16
+      },
+      "Windows": {
+        "total": 259,
+        "pass": 258,
+        "skip": 1,
+        "explicit_files": 11
+      },
+      "observation_SHA256": "9b006c2c23ad7c221d5acc223143b96876ccc9edbd49728b26168d3a4c126f6c"
+    },
+    "native": {
+      "run": 40454615311,
+      "status": "success",
+      "unit": {
+        "pass": 151,
+        "skip": 2
+      },
+      "UI_pass": 2,
+      "FailureSwift_architectures": [
+        "x86_64",
+        "arm64"
+      ],
+      "Release": {
+        "articles": 3,
+        "files": 140,
+        "bytes": 2577102
+      }
+    },
+    "SDK26": {
+      "run": 40454615254,
+      "status": "success",
+      "unsigned": true,
+      "articles": 199,
+      "files": 625,
+      "bytes": 36958450
+    },
+    "Runtime26": {
+      "run": 40454615287,
+      "status": "success",
+      "UI_pass": 2,
+      "strict_and_owned_cleanup": "success"
+    },
+    "Full": {
+      "run": 40454615354,
+      "status": "success",
+      "UI_pass": 22,
+      "UI_fail": 0,
+      "Release": {
+        "articles": 199,
+        "files": 625,
+        "bytes": 36958840
+      },
+      "unit_count": null,
+      "Debug_icon_capture": null,
+      "actual_checkout": null
+    },
+    "normal4_manifest_SHA256": "e4d21671a9e5ad7484da6b9109d072ec5cc8f6e894f178d7e2e47bb6251f489a",
+    "new_candidate_results": "not-executed; these results apply to immutable2d before the next two corrections"
+  },
+  "resume_test_hardening_candidate": {
+    "stage": "private-reviewed-candidate-awaiting-same-head-SDK-UI",
+    "source_head": "2d4f156bb932322c6be025aaf8b9456d5b3e9988",
+    "path": "ios/AILibraryUITests/PublishedReaderUITests.swift",
+    "source_bytes": 57693,
+    "source_SHA256": "2c2acabc54010ae52a2dfabf121080a26636975819ea947cc628ac7359b9b0cb",
+    "manifest_SHA256": "dfeb71c7fbc69e856eb984a3faef9ca05317ef4839d1dc54e2c4626afe8a956c",
+    "independent_review_SHA256": "fca29202e3e0c8d300723a235f2bac4e7bc045336fab9b4d7da8b3e76a01c24c",
+    "scope": "Only final post-relaunch resume operation in existing folder-cancel case; all old source restored exactly by inverse delta",
+    "ready_control": "One enabled fully-visible resume inside existing unique foreground nav-clipped viewport and below unique usable article search if present",
+    "remaining_occlusion": "XCTest isHittable; sequential AX snapshots are not atomic",
+    "max_scroll_down": 8,
+    "available_wait_seconds": 15,
+    "body_wait_seconds": 20,
+    "paragraph_wait_seconds": 10,
+    "tap_count": 1,
+    "paragraph_nonempty_assert": "preserved",
+    "later_title_bookmark_heading_asserts": "preserved",
+    "Published_cases": 14,
+    "total_normal_UI_cases": 22,
+    "failure_only_diagnostics": {
+      "JSON_max_bytes": 8192,
+      "hierarchy_max_bytes_after_UTF8_replacement": 8002,
+      "full_geometry_overflow": "bounded route-only fallback",
+      "route_scope": "Public AX evidence, not private app state introspection",
+      "property_retrieval_time": "best-effort not bounded by attachment byte caps"
+    },
+    "App_Native_helper_other_case_PBX_changes": false,
+    "new_actual_SDK_UI": null,
+    "old_failure_cause_fixed": false
+  },
+  "next_integration_checkpoint": {
+    "ownership_paths": 13,
+    "commits": [
+      "Install inventory comparison and stage prerequisites",
+      "Normal resume tap guards and failure diagnostics"
+    ],
+    "App_version": "0.2.19",
+    "App_build": "21",
+    "TODO_rows": 32,
+    "checked": 12,
+    "source_adoption": false,
+    "new_actual_head": null,
+    "new_actual_CI": null,
+    "new_actual_FR": null,
+    "main_merge": null,
+    "authorization": "Continued autonomous implementation/commits/PR/ordinary merge; physical QA may stay incomplete",
+    "fees_contracts_signing_Store": "not-included"
   }
 }

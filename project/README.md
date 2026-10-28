@@ -6,7 +6,13 @@
 
 [iPhone AppIconとビルド後監査](records/2026-10-26/ios-app-icon-native-assets.md)は明示source commit `30a8a1db8d6c30eeb2c6e682f92ba94126cc5e35` へ私有準備した既存ブランドの8PNG/9slot・AppIcon監査候補で、0.2.16(18)から0.2.17(19)を提案する。PNG8/22,198B・source/validator/recipeを保ち、Published cap50・3selectorsへ承認監査呼出だけを加える。旧source check/Node13とactool失敗は履歴で、新compile・実CAR・Home/Store・exact-head CIと別人の最終payloadレビューは未実施。IOS-29全体は未完了で全TODO状態を維持する。
 
+2026-10-29の[App memory観測](records/2026-10-28/ios-app-memory-observation.md#完全summaryの取得とcsv収録前の失敗)では、124bの初回環境失敗を保持し、条件不変の1回の再実行で専用UIと完全な型付きsummary 746,097Bの取得を確認した。CSV出力commandは成功したがmember収集でexit 1となり、CSVと固定指標契約は未採択である。CSVを失わずに失敗原因を残す限定修正を準備し、App0.2.22（24）・TODO32行／完了13行とIOS-15全体の未完了を維持する。
+
+2026-10-29の[App memory固定契約](records/2026-10-28/ios-app-memory-observation.md#実csvの照合と固定契約)は、fb29で得た3指標・各3値・kBとCSV 11列を独立照合し、固定Sourceでの受入を準備する。CSVツールのroot manifestは16KiB以内の診断として保存し、内容をmetric受入に使わない。観測の受入と製品の性能基準を区別し、新headのHosted収集・必要CI・通常統合、実機・IOS-15全体は未完了として残す。App0.2.22（24）とTODO32行／完了13行を維持する。
+
 ## 構造・運用の計画
+
+[App本文表示時のメモリ観測](records/2026-10-28/ios-app-memory-observation.md)では、起動済みの全記事一覧からTransformer本文への移動を、対象Appを指定して測る候補を扱う。既存Clockは維持し、本文シナリオの初回rawから指標・単位を別commitで採択する。実測・性能予算・実機を未確認のまま区別する。 PR296の初回はSimulator起動後の一覧取得でビルド前に失敗し、同条件の再実行1回ではビルド後にmanifest読取上限の不整合が判明した。初回失敗と再実行を別々に保持し、Appと生成元のmanifestの4読取を製品側の8MiBへ揃える。一般JSON・compact・制限時間・未採択契約を保ち、新headの実測と指標採択は未確認のままとする。 起動後一覧取得の再発を受け、タイムアウト時だけの追加読取1回を既存の全体上限内に限定し、元の失敗を保持する回復候補を準備する。実Hostedでの効果と実指標の採択は別に確認する。 実App監査を通過したdef8はUI測定が450秒で停止し、標本は未取得だった。追加AX取得を行わない操作境界と容量上限付きログの診断を準備し、原因・実測・数値比較性は未確認として保持する。 1134の専用UIは113.057秒で成功し、consoleで3指標各3値を確認したが、legacy JSON収録が512KiB上限で停止し型付きsummary・CSVは未取得だった。固定legacy-summaryだけ1MiBへ揃える候補を準備し、既存の総量・期限・未採択契約を保持する。
 
 全記事の[Core host観測](records/2026-10-26/ios-published-core-benchmark.md)はb79基線で実施した凍結CLIのraw19process/記録15は旧観測として保持し、最新source4のsnapshotや未実施の再CLIと分ける。通常CIはNode fixtureだけで、SDK・corpus観測は明示した手動CLIと別guardのまま。App/PBX/workflow/P1/Iconと全TODOを保持し、IOS-15と予算採択は未完了である。
 

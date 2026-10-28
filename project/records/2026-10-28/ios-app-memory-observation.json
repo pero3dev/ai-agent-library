@@ -1,0 +1,805 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-28",
+  "base": "e0c3031f3d62adab017c72949ffa3376e77b18bf",
+  "state": "fixed-source contract prepared fromactualfb29 typed+CSV; newHeadHosted andprotectedmergepending",
+  "objective": "IOS15 target-App memory observation inone bounded unit",
+  "owners": {
+    "Swift": "app_memory_ui_case",
+    "workflow": "restore_ui_ci_contract",
+    "exporter_and_tests": "app_memory_exporter",
+    "records_metadata_Git": "Root"
+  },
+  "source_paths": [
+    "ios/AILibraryUITests/PublishedPerformanceUITests.swift",
+    ".github/workflows/ios-memory.yml",
+    "ios/tests/export-memory.mjs",
+    "tests/unit/ios-memory-export.test.mjs"
+  ],
+  "app_version": "0.2.22(24)",
+  "scenario": "published-article-app-memory",
+  "test_method": "testPublishedArticleAppMemory",
+  "article_id": "11-llm-internals/transformer-architecture",
+  "metric_configuration": "XCTMemoryMetric(application: app)",
+  "expected_invocations": 4,
+  "expected_recorded_values": 3,
+  "trusted_memory_contract": {
+    "id": "xcode16.4-app-memory-v1",
+    "scope": "fixedSourceonly, notperformancebudget",
+    "metrics": [
+      {
+        "identifier": "com.apple.dt.XCTMetric_Memory-dev.pero3.aiagentlibrary.prototype.physical_absolute",
+        "display_name": "Absolute Memory Physical (prototype)",
+        "unit_literal": "kB",
+        "sample_count": 3
+      },
+      {
+        "identifier": "com.apple.dt.XCTMetric_Memory-dev.pero3.aiagentlibrary.prototype.physical_peak",
+        "display_name": "Memory Peak Physical (prototype)",
+        "unit_literal": "kB",
+        "sample_count": 3
+      },
+      {
+        "identifier": "com.apple.dt.XCTMetric_Memory-dev.pero3.aiagentlibrary.prototype.physical",
+        "display_name": "Memory Physical (prototype)",
+        "unit_literal": "kB",
+        "sample_count": 3
+      }
+    ]
+  },
+  "bootstrap_exit": "nonzero withaccepted_measurements null",
+  "verification": {
+    "Swift_grammar": "success",
+    "Swift_single_file_typecheck": "Xcode16.2/iOS18.2Simulator Swift5 targetiOS17 exit0; noApp/link/UI/memoryrun",
+    "UI_independent_review": "P1/P2 0",
+    "workflow_static": "actionlint1.7.12/YAML/Bash11/embeddedNode/selector/caps success",
+    "workflow_independent_review": "P1/P2 0",
+    "Node_memory_tests": "v2 20passed,3P2 negativefixturesincluded",
+    "Node_Clock_tests": "44passed beforememoryv2; Clocksource/tests byteheld",
+    "exporter_independent_review": "v1 P2=3 retained; v2 all3resolved/newP1P2=0, independentreceipt retained",
+    "SDK_UI": "Xcode16.4 Debug build-for-testing passed attempt2; packageauditfailedreadbound; UI/memorynotrun",
+    "actual_metric_set_units_cardinality_CSV": "notobserved/adopted",
+    "physical": "unfinished byauthorization",
+    "root_dependency_preparation": "npm ci --ignore-scripts withisolatedemptyconfigs andcache; Source lockfileunchanged",
+    "root_common_check": {
+      "command": "npm run check",
+      "exit_code": 0,
+      "Node": {
+        "tests": "1130",
+        "pass": "1115",
+        "fail": "0",
+        "skipped": "15"
+      },
+      "environment": "canonicalownedTMPDIR/seededGittemplate/systemglobalGitdisabled/privateGitE0metadata"
+    }
+  },
+  "TODO": {
+    "rows": 32,
+    "completed": 13,
+    "IOS15": "unfinished"
+  },
+  "commit_plan": [
+    "Source4",
+    "records+indexes",
+    "afterfirstempiricalraw strictcontractadoption asnewcommit"
+  ],
+  "merge": "ordinaryprotectedmain afternecessaryCI+independentreview+Ready policies",
+  "external_authority": "human autonomouspriorityTODO andnormalcommit/mainmerge request",
+  "excluded": [
+    "newpayments/contracts/distribution/OSupgrade/signing changes",
+    "hostRSS astargetAppmemory",
+    "cold/lifetime/Release/device/SLO inference"
+  ],
+  "App_PBX_version_unchanged": true,
+  "Clock_cases_helpers_workflow_exporter_bytes_held": true,
+  "prior_experiment": {
+    "PR": 274,
+    "merged": false,
+    "head": "4b6978dec80af528248df9dc186ba1d9feda227b",
+    "run": 40243885319,
+    "job": 121321292208,
+    "App": "0.2.14(16)",
+    "scope": "search transaction, Memory3 rows/5values historicalunadopted",
+    "UI": "passed perpriorrecord",
+    "collector": "failedbeforecommands=contextsealdrift, causeunproven",
+    "artifact_id": 12618446606,
+    "artifact_bytes": 1303267,
+    "artifact_SHA256": "5c6104728aedad0cdfa0a15354e283b29de75f61f5a284fd66ff2a41ae613dab",
+    "not_transferred": [
+      "old5values",
+      "semantics/unitconversion",
+      "performancebaseline"
+    ],
+    "old_branch_unchanged": true
+  },
+  "input_guarantee": "context stable fd/metadata and xcresult root identity; bundleinternalbyteimmutability notverified",
+  "initial_hosted": {
+    "PR": 296,
+    "head": "b7f3ae46b217c15d545a34a8aa8a3b23e752b53b",
+    "run": 40711271095,
+    "job": 122896889463,
+    "attempt": 1,
+    "event": "pull_request",
+    "Xcode": "16.4/16F6",
+    "destination": "iPhone16/iOS18.5",
+    "failure": "devices-after-boot list ETIMEDOUT beforebuild",
+    "boot_exit": 0,
+    "bootstatus_exit": 0,
+    "list_timeout_ms": 59921,
+    "list_elapsed_ms": 61280,
+    "list_signal": "SIGKILL",
+    "list_stdout_bytes": 0,
+    "list_stderr_bytes": 0,
+    "build_UI_measurement": "notreached",
+    "contract_pending_exit2": false,
+    "secondary_export": "failedmissingxcresult exit1",
+    "cleanup": "ownedcreatedUUID shutdown/delete/afterlist passed",
+    "raw_bytes": 75321,
+    "raw_SHA256": "dd5f0d3a83bea242375d9a97eb80c2194443b2393578a7775da87bdbbbb7a746",
+    "artifact_id": 12826727821,
+    "artifact_bytes": 72481,
+    "artifact_SHA256": "449db972a94375f22072b3d09be6d31eadedcdd80d372b54724dcef1b87db9ca",
+    "artifact_members": 78,
+    "independent_review": "77manifestentries byteSHA/contextmatched; transientinfrastructure consistent, causenotproven",
+    "unchanged_retry": {
+      "maximum": 1,
+      "issued": 1,
+      "conditions": "source/timeouts/selectionheld",
+      "firstfailureretained": true,
+      "status": "failedSourceauditmanifestcap beforeUI",
+      "attempt": 2,
+      "job": 122905720245
+    }
+  },
+  "retry_hosted": {
+    "head": "b7f3ae46b217c15d545a34a8aa8a3b23e752b53b",
+    "run": 40711271095,
+    "job": 122905720245,
+    "attempt": 2,
+    "event": "pull_request",
+    "build_for_testing": {
+      "exit_code": 0,
+      "elapsed_ms": 236927
+    },
+    "simulator": {
+      "boot": 0,
+      "bootstatus": 0,
+      "post_boot_list": 0
+    },
+    "failure": "audit Content/manifest read exceeds default524288B; Sourceboundmismatch",
+    "actual_Hosted_manifest_bytes": null,
+    "measurement_result": null,
+    "actual_metric_bootstrap_reached": false,
+    "export": "secondarymissingxcresult exit1",
+    "cleanup": "ownedcreatedUUID deleted;4commands0",
+    "raw": {
+      "bytes": 77325,
+      "SHA256": "fbfbac1cceead5c7631ff1b9f1dbf45a17559f1fad1f06466177026f01dabbc5"
+    },
+    "artifact": {
+      "id": 12827288793,
+      "bytes": 77605,
+      "SHA256": "a51ad185961f16795038e6ff2e711669d76bede241fa4d606336ac99765fe7d6",
+      "members": 86,
+      "manifest_entries": 85,
+      "all_verified": true
+    },
+    "local_manifest_reference": {
+      "articles": 199,
+      "bytes": 3120173,
+      "revision": "5be64a00f783a1df3a2159dcb64b84551e36853c7fe7d0b0d300c80ccd7fd852",
+      "not_Hosted_manifest_bytes": true
+    },
+    "fix": {
+      "scope": "fourexplicitmanifestreadcaps8MiB matchingproduction ContentValidator",
+      "general_metadata_default_bytes": 524288,
+      "compact_limits_unchanged": true,
+      "time_limits_unchanged": true,
+      "trusted_metric_contract": null,
+      "validation": {
+        "workflow_SHA256": "925ab0a5cd8fd8373383829d00b32f4438798c04d9849d4cf9289f180f686d23",
+        "scope": "4auditmanifestreads explicitly8MiB; inverse4replacement equalsoriginal",
+        "static": "YAML/Bash11/embeddedNode/actionlint1.7.12 passed",
+        "smoke": "actualextractedregular+audit; local199manifest3120173B/fixture4manifest78948B beforebytecap reproduced afterpassed/contextcreated; externalpackageaudit/plutil/executablestubbed",
+        "negative_cases": "4slots8MiBplus1 rejected; bothpairmismatches rejected; generic512KiBinclusive/plus1rejected; explicit8MiBinclusive passed",
+        "Hosted_SDK_UI_afterfix": "notyetperformed",
+        "Source_and_limits_other_than4caps": "held"
+      },
+      "independent_review": "P1/P2 0; Source1 fourreads-only accepted",
+      "root_common_check": {
+        "command": "npm run check",
+        "exit_code": 0,
+        "tests": 1130,
+        "pass": 1115,
+        "skip": 15,
+        "fail": 0
+      }
+    },
+    "unchanged_retry_limit": "oneconsumed; noadditionalunchangedretry"
+  },
+  "manifest_bound_fix_first_hosted": {
+    "head": "0811dd5470317ed576fc3c7fc095b37d201e0678",
+    "tree": "34134c39f1800cddaae5c77f358488f273af7fe9",
+    "run": 40718446381,
+    "job": 122922434713,
+    "attempt": 1,
+    "event": "pull_request",
+    "source_workflow_SHA256": "925ab0a5cd8fd8373383829d00b32f4438798c04d9849d4cf9289f180f686d23",
+    "boot": {
+      "exit_code": 0,
+      "elapsed_ms": 2214
+    },
+    "bootstatus": {
+      "exit_code": 0,
+      "elapsed_ms": 60918
+    },
+    "postboot_list": {
+      "timeout_ms": 59998,
+      "elapsed_ms": 60570,
+      "exit_code": null,
+      "signal": "SIGKILL",
+      "error": "spawnSync xcrun ETIMEDOUT",
+      "stdout_bytes": 0,
+      "stderr_bytes": 0
+    },
+    "cleanup": {
+      "same_list_exit": 0,
+      "same_list_elapsed_ms": 7844,
+      "after_list_exit": 0,
+      "after_list_elapsed_ms": 737,
+      "owned_device_deleted": true
+    },
+    "build_UI_memory": "notreached",
+    "metric_pending_exit2": false,
+    "measurement_result": null,
+    "raw": {
+      "bytes": 77137,
+      "SHA256": "a7eca64058e0aa58e591ce2e52c079bd39966406c0b917882c7fcbbf6c5bd2e2"
+    },
+    "artifact": {
+      "id": 12830426561,
+      "bytes": 72529,
+      "SHA256": "5c64e8ea7877014f9225e7794d88effca9e3fbdfcf2814d50d0a3e314dbb1e5d",
+      "members": 78,
+      "manifest_entries": 77,
+      "all_bytes_SHA_verified": true
+    },
+    "unchanged_job_retries": 0
+  },
+  "postboot_read_recovery": {
+    "scope": "postboot read-only list devices only",
+    "trigger": "actual Nodeerror.code ETIMEDOUT AND status null",
+    "maximum_read_attempts": 2,
+    "each_read_cap_ms": 60000,
+    "stage_cap_ms": 330000,
+    "global_work_cap_ms": 1860000,
+    "job_cap_minutes": 40,
+    "other_errors_retried": false,
+    "UI_and_mutations_and_whole_job_retried": false,
+    "first_receipt_retained": true,
+    "first_incomplete_output_rejected": true,
+    "third_postboot_attempt": false,
+    "no_remaining_budget_no_spawn": true,
+    "validation": {
+      "workflow_SHA256": "d6682a672b5fd774026d200ec0a8b8dd1783d59fd94187c6e62f5ebc4cf7f57b",
+      "candidate_manifest_SHA256": "f5fd00fc76a1cb065aaa1e00373bc10453934bd679f23ae1a7f019766b09fb59",
+      "actual_extracted_driver": "realFS +externalspawn/clock stubs, no actualSDK/simctl/UI",
+      "smoke_cases": 28,
+      "smoke_pass": 28,
+      "covered": "firstsuccess1read; typedtimeout+null2reads; othererrors/nonzero/invalidJSON/ownershipstate mismatch noretry; secondfailure no thirdpostbootprobe; exhaustedglobal/stage noactualsecondspawn; bothreceipts immutable andfixedcompactincluded",
+      "static": "YAML/actionlint1.7.12/Bash11/embeddedNode syntax passed",
+      "inverse_patch": "3scoped inverse replacements equals0811workflow925ab0exact",
+      "all_existing_caps_audit_cleanup": "byteheld",
+      "initial_local_harness_failures": "2 VM adaptersetup errors; Sourceunchanged; recorded thenfinal28pass"
+    },
+    "Hosted_effect": "notobserved",
+    "independent_Source_review": "P1/P2 0, scope-limited accepted",
+    "root_common_check": {
+      "command": "npm run check",
+      "exit_code": 0,
+      "tests": 1130,
+      "pass": 1115,
+      "skip": 15,
+      "fail": 0
+    }
+  },
+  "postboot_recovery_first_hosted": {
+    "head": "def8f7ca91ac0f2822a9489bc57580bd95c526d4",
+    "run": 40724373484,
+    "job": 122943532415,
+    "attempt": 1,
+    "event": "pull_request",
+    "actual_application": {
+      "version": "0.2.22",
+      "build": "24",
+      "articles": 199,
+      "fixtures": 4,
+      "content_revision": "b6b8ceed4e5ed19f987427a09a6338130a38960eea48d9a7f83cd90aeb56f900",
+      "manifest_SHA256": "8702eca2ded5604fd1fb3536970f8026901893b82b050280eeb30f7c2869367c"
+    },
+    "build": {
+      "exit_code": 0,
+      "elapsed_ms": 181498
+    },
+    "postboot": {
+      "first_exit_code": 0,
+      "elapsed_ms": 15896,
+      "recovery_planned": false,
+      "recovery_exercised": false
+    },
+    "measure": {
+      "timeout_ms": 450000,
+      "elapsed_ms": 450402,
+      "exit_code": null,
+      "signal": "SIGKILL",
+      "error": "spawnSync xcodebuild ETIMEDOUT",
+      "captured_stdout_bytes": 58240,
+      "captured_stdout_SHA256": "9fd63c7ba2c5be864abc162e495e9bc97faa02aa8f23d1220d8cd8eb4cc0d44c",
+      "retained_stdout_bytes": 512,
+      "stderr_bytes": 403,
+      "stderr_SHA256": "2884ea1a81e714a2c9b238250f866303b8cb6aa228aab2532d16a870d8030c6a",
+      "last_activity": "t120.68 tapTransformer row; t121.11 waitAppidle; ordinal and exactblockingboundary unknown"
+    },
+    "export": {
+      "reader_exit_code": 64,
+      "export_exit_code": 1,
+      "result": "incompletexcresult readerfailed; no metrics/CSV/protocol verified; notunconfirmedexit2"
+    },
+    "measurement_result": null,
+    "case_passed": false,
+    "raw": {
+      "bytes": 83366,
+      "SHA256": "d7dbaf273cc4edab942bc7b5771480d05b9cec6cf8be37ad6521155059caa20b"
+    },
+    "artifact": {
+      "id": 12834372157,
+      "bytes": 95345,
+      "SHA256": "4ff98b01f58734d1a65e7a9e9602d677bf42ccd3670d8aff206703ae7d3315a9",
+      "members": 111,
+      "manifest_entries": 110,
+      "all_verified": true
+    },
+    "cleanup": "ownedUUID shutdown/delete0; afterlistmatchesbefore exactbytes/SHA",
+    "other_workflows": "7 +required11 API success exactdef8 initialDraft; no rawcounts transferred",
+    "whole_job_retry": 0,
+    "source_cause": "unknown"
+  },
+  "UI_diagnostic_candidate": {
+    "scope": "testRunner scalarphase+monotonic+ordinal noextraAX +boundedmeasurelogs only",
+    "new_metric_acceptance": false,
+    "stdout_cap_bytes": 65536,
+    "stderr_cap_bytes": 16384,
+    "compact_cap_bytes": 2097152,
+    "existing_guards_and_timeouts_and_warmup": "held",
+    "numeric_comparability": "unconfirmed becauseRunnerlogging addsobservationoverhead",
+    "validation": {
+      "Swift_SHA256": "92a5876656d025024ba80b96789542763d21dd992f31f705d11bde235a62ad05",
+      "Swift_manifest_SHA256": "c711b7d1da8e6ed4565e42fbecf7316092f1d49d6f7ab5de17e64bb4039cf8a9",
+      "WF_SHA256": "b99342ef7d060458404f5556bb0e599fb35fc1719bfaa4b6c55d4d56ef06e8e2",
+      "WF_manifest_SHA256": "a8c100945e04f03e22dd1515c15597e957758c1c2e7887c5287a8200f1816268",
+      "Swift_validation": "grammar0, Xcode16.2/iOS18.2 singlefiletypecheck0, Foundation-onlyhelper6cases inclconcurrent2000 passed; hostinitialmissingSDKretained theninvocationcorrected Sourceunchanged",
+      "Swift_caps": "phase160/poll24/trunc2; each176B/total32KiB; NSLock; noextraAX",
+      "WF_validation": "18positive (14helper/4wholecompact realFSnospawn) +3negativeinputs; observedsizefixture synthetic; YAML/Bash11/Node/actionlint0",
+      "behavior": "Clock/setup/sharedhelpers/AXexpressions/conditions/15s/iteration3/start-stop/cap8192/64K preserved; WF run/limits/selector/compactgatesheld",
+      "actual_Hosted": "notperformed fornewdiagnostics",
+      "numeric_comparability": "unconfirmed, RunnerIO observationoverhead"
+    },
+    "new_Hosted_effect": "notobserved",
+    "independent_Source_review": "P1/P2 0; boundedphases/noextraAX andWFcapture scope accepted",
+    "root_common_check": {
+      "command": "npm run check",
+      "exit_code": 0,
+      "tests": 1130,
+      "pass": 1115,
+      "skip": 15,
+      "fail": 0
+    }
+  },
+  "diagnostic_first_UI_pass": {
+    "head": "1134e1a3720207d66d1c274a91975d643268292f",
+    "run": 40735397499,
+    "job": 122982456036,
+    "attempt": 1,
+    "case_result": "passed1case113.057s",
+    "measure_child": {
+      "elapsed_ms": 156346,
+      "exit_code": 0,
+      "signal": null,
+      "error": null,
+      "stdout_bytes": 81350,
+      "stdout_sha256": "2a23a8782029a3c5982a28e511fff32fe3622db4186cde213f03deb04ce04fa9"
+    },
+    "application": {
+      "version": "0.2.22",
+      "build": "24",
+      "articles": 199,
+      "content_revision": "9ef5371bcc210eca460cdc4a9f36b58363e41122e3770bfceb51ddd63c22a67c"
+    },
+    "console_only": {
+      "memory_metric_rows": 3,
+      "unit_observed": "kB",
+      "values_per_row": 3,
+      "not_typed_or_CSV_adoption": true
+    },
+    "typed_summary": null,
+    "CSV": null,
+    "collector": "exit1 legacy-summary ENOBUFS captured589824B prefix at512KiBcap; completebytesunknown; CSVnotrun",
+    "metric_contract_pending2": false,
+    "retained_logs": [
+      {
+        "command": "measure",
+        "stream": "stdout",
+        "path": "diagnostics/measure-stdout.log",
+        "cap_bytes": 65536,
+        "captured_bytes": 81350,
+        "captured_sha256": "2a23a8782029a3c5982a28e511fff32fe3622db4186cde213f03deb04ce04fa9",
+        "retained_bytes": 65536,
+        "retained_sha256": "13e527d823854d2cc7d8a1193b91e24aa77bf4d35e7994e8435a1442f3fe1079",
+        "truncated": true,
+        "retention": "prefix-and-tail-with-explicit-marker",
+        "prefix_bytes": 16371,
+        "tail_bytes": 49113,
+        "marker_bytes": 52,
+        "omitted_bytes": 15866,
+        "byte_excerpt_not_metric_input": true,
+        "truncated_byte_boundaries_may_split_UTF8": true
+      },
+      {
+        "command": "measure",
+        "stream": "stderr",
+        "path": "diagnostics/measure-stderr.log",
+        "cap_bytes": 16384,
+        "captured_bytes": 768,
+        "captured_sha256": "b1e032c64b84f9f79dc19864638dd7a49312526a209d9f682e5e9b06475fa36c",
+        "retained_bytes": 768,
+        "retained_sha256": "b1e032c64b84f9f79dc19864638dd7a49312526a209d9f682e5e9b06475fa36c",
+        "truncated": false,
+        "retention": "complete-captured-command-output",
+        "prefix_bytes": 768,
+        "tail_bytes": 0,
+        "marker_bytes": 0,
+        "omitted_bytes": 0,
+        "byte_excerpt_not_metric_input": true,
+        "truncated_byte_boundaries_may_split_UTF8": false
+      }
+    ],
+    "journal": "seq26to53omitted; all4completejournal/protocol/warmup notindependentlyverified",
+    "old_def8_cause": "unknown despitecurrentpass; diagnosticRunnerIO comparabilityunconfirmed",
+    "raw": {
+      "bytes": 83460,
+      "SHA256": "c2edfa1ef73c9b057c1a9810a36c02bdd285c381f6584a487d3d476bbe91c2f1"
+    },
+    "artifact": {
+      "id": 12837867201,
+      "bytes": 109930,
+      "SHA256": "7bef6588441c383d6ef0317a65418aff83197f5a453832a08693ab35e30fe89e",
+      "members": 118,
+      "all_verified": true
+    },
+    "whole_job_retries": 0
+  },
+  "legacy_summary_cap_candidate": {
+    "fixed_filename": "legacy-summary.json",
+    "command_JSON_and_owned_file_and_compact_member_cap_bytes": 1048576,
+    "otherJSON_cap_bytes": 524288,
+    "aggregate_bytes": 2097152,
+    "failure_reserve_bytes": 32768,
+    "child_ms": 60000,
+    "export_ms": 170000,
+    "retention": "fullverbatim orfail; no clipping/minification/reserialization/retry",
+    "trusted_memory_contract": null,
+    "new_Hosted": "notperformed",
+    "validation": {
+      "exporter_SHA256": "339378a3168a9b1ba849c96a9cce7621a6e368894414bf539b65d712e126ab6d",
+      "tests_SHA256": "5e1d51deb7c42f37c8a1802608fe8a8647add2abae338976813b2c42809bfcfa",
+      "exporter_manifest_SHA256": "d24224368c68a7892056ac22cb6061800fd7ffde8e5fb9bb0a525384c475e1a5",
+      "WF_SHA256": "7ba4075538bdbcd545a3056430ce019f0c712eb5ec2392fb17762de4bdafe9aa",
+      "WF_manifest_SHA256": "5818906d0ae9cb2d83a117fd0269f0c5661656b9d8c725af2d33ac5661746cf0",
+      "Node": "24passed;20old bodiesbyteheld +4capverbatim/deadline/reserve regressions",
+      "WF": "5wholeextractedcompact realFSsyntheticcases +13static passed; initialharnessreadyassumption failure corrected Sourceunchanged",
+      "independent_Source3": "P1/P2none bound312d9472a32702e439029c191ec4ac3e1401824d5fbeed1c70fc69ef173b06d3",
+      "new_actual_Hosted": "notperformed",
+      "generic_preparation": "notpublished; no empiricalwireadoption"
+    },
+    "root_common_check": {
+      "command": "npm run check",
+      "exit_code": 0,
+      "tests": 1134,
+      "pass": 1119,
+      "skip": 15,
+      "fail": 0
+    }
+  },
+  "summary_cap_first_hosted": {
+    "head": "124b5281c67933710b50439979fef9cd263b7452",
+    "run": 40741532861,
+    "initial_job": 123004113984,
+    "initial_result": "runtimeinventory ETIMEDOUT cap120000/elapsed120015 beforebuild/UI",
+    "unchanged_retry_count": 1,
+    "more_unchanged_retries": false,
+    "retry_attempt": 2,
+    "retry_job": 123008623901,
+    "commands6_exit0": true,
+    "typed_summary_bytes": 746097,
+    "collector_exit": 1,
+    "error": "Unexpected CSV export member or count",
+    "CSV": null,
+    "trusted_memory_contract": null,
+    "protocol_payload_verified": false,
+    "raw": {
+      "bytes": 83632,
+      "SHA256": "44eb02bc9b77667b93ae93dea27e58bcfe29781dbddd2f4522e82ae3be5f6db7"
+    },
+    "artifact": {
+      "id": 12842125064,
+      "bytes": 149390,
+      "SHA256": "3fef46da48f37204115da0797dde0bdfc9b2c08cd74d648821c9d52648003151",
+      "members": 121,
+      "manifest_files_verified": 120
+    },
+    "root_correlation": "official head/event/attempt and context Source4/tree matched",
+    "UI_case": "oneunique Passed101.588014960289s",
+    "typedmetrics": {
+      "row_type": "ActionTestPerformanceMetricSummary",
+      "rows": 3,
+      "typed_values_per_row": 3,
+      "wire_unit": "kB",
+      "all9finite_positive": true,
+      "noCSV_no_semantic_unit_conversion_mean_or_budget_adoption": true
+    },
+    "journal": "seq26to53gap, protocolattachmentrefonly,payloadnotretrieved",
+    "postboot_recovery": {
+      "first_timeout_elapsed_ms": 60388,
+      "first_cap_ms": 59998,
+      "separate_recovery_elapsed_ms": 17980,
+      "separate_recovery_cap_ms": 59999,
+      "separate_recovery_exit": 0,
+      "additional_reads": 1,
+      "observation_only_no_reliability_guarantee": true
+    },
+    "independent_raw_review_manifest_SHA256": "0681b6889efa5478233883c4fde5afc393f5b8ad65477670c8989767e3b11eb7"
+  },
+  "CSV_capture_diagnostic_candidate": {
+    "base": "124b5281c67933710b50439979fef9cd263b7452",
+    "fixed_files": {
+      "csv-export-stdout.txt": 16384,
+      "csv-export-inventory.json": 16384
+    },
+    "scope": "captureonly, safeCSVbeforeknownfailure; no ignoredunknown orcontractadoption",
+    "enumeration": {
+      "depth": 4,
+      "entries": 64,
+      "relative_path_bytes": 512,
+      "CSVfiles": 16,
+      "CSVbytes_each": 65536
+    },
+    "raw_existing_guards": "held incl170s/60s/aggregate2MiB/reserve32KiB/provenance/case/fd",
+    "trusted_memory_contract": null,
+    "accepted_measurements": null,
+    "newHosted": "notperformed",
+    "Source_validation": {
+      "Node": 29,
+      "pass": 29,
+      "old_tests": 24,
+      "new_tests": 5,
+      "compact_synthetic": 11,
+      "static": 13,
+      "exporter_SHA256": "9921b1143271dca1d5a2cae5165b9062c5de2f7da663181ff919399a8bfba854",
+      "tests_SHA256": "97baeb04c99d0760796cb613f3be009987f97033fc18ffdf61886fb63a952313",
+      "WF_SHA256": "7d38a176dd856972698a9c12a9ff03107dc56f8903eec0c88c34055cf5ce61bb",
+      "Source2_manifest_SHA256": "cdea2d3166aeb422aab23ab90af2453267d32224a7197894450461d3c50d5073",
+      "WF_manifest_SHA256": "3d908ad25831d2aad024ce74dd89548c6a405d90edf479a0214dda0cd799f7b5"
+    },
+    "root_common_check": {
+      "command": "npm run check",
+      "exit_code": 0,
+      "tests": 1139,
+      "pass": 1124,
+      "skip": 15,
+      "fail": 0,
+      "first_format_failure": "MD012 two addedblanklines, Source3 unchanged thencommoncheckrepeated"
+    }
+  },
+  "previous_state_before_source_contract": "specificlegacy-summary1MiB capturefixSource3/Node24/compact5/static/independentreviewpassed; newHosted+typedsummaryCSVpending",
+  "bootstrap_exit_scope": "historical beforefixedSourceadoption; successfulmatchedexportsnow0",
+  "fixed_contract_actual_reference": {
+    "schema_version": 1,
+    "scope": "Actual fb29 run40748853889 attempt1 wire correlation only, not metric or product acceptance.",
+    "head": "fb29b31c4a01dfb7bb7128f325a1ab977b4317b9",
+    "run_id": 40748853889,
+    "attempt": 1,
+    "CSV": {
+      "retained_path": "export/csv/candidate-01.csv",
+      "bytes": 667,
+      "SHA256": "dba73c0c1c1218f1b6ace611d04c28184ffb784fc2250e43eb1801217b67a3db",
+      "header_columns": 11,
+      "data_rows": 1,
+      "strict_UTF8": true,
+      "BOM": false,
+      "NUL": false,
+      "all_fields_quoted_roundtrip_exact_without_final_LF": true,
+      "header": [
+        "Destination",
+        "Configuration",
+        "Absolute Memory Physical (prototype) (Average)",
+        "Absolute Memory Physical (prototype) (Iterations)",
+        "Absolute Memory Physical (prototype) (Baseline)",
+        "Memory Peak Physical (prototype) (Average)",
+        "Memory Peak Physical (prototype) (Iterations)",
+        "Memory Peak Physical (prototype) (Baseline)",
+        "Memory Physical (prototype) (Average)",
+        "Memory Physical (prototype) (Iterations)",
+        "Memory Physical (prototype) (Baseline)"
+      ],
+      "destination": "iPhone 16 iOS Simulator 18.5",
+      "destination_semantics": "Current CSV uses model/platform/version; not custom owned Simulator deviceName.",
+      "configuration": "Test Scheme Action",
+      "configuration_join": "Modern configuration1 name exact, including spaces."
+    },
+    "metrics": [
+      {
+        "typed_path": "/performanceMetrics/_values/0",
+        "typed_row_type": "ActionTestPerformanceMetricSummary",
+        "identifier": "com.apple.dt.XCTMetric_Memory-dev.pero3.aiagentlibrary.prototype.physical_absolute",
+        "display_name": "Absolute Memory Physical (prototype)",
+        "unit_literal": "kB",
+        "measurement_type": "Double",
+        "measurement_value_wire_type": "string",
+        "sample_count": 3,
+        "typed_samples": [
+          "115629.696",
+          "116989.568",
+          "117530.24"
+        ],
+        "csv_columns_1_based": [
+          3,
+          4,
+          5
+        ],
+        "CSV_average_raw": "116716.5013 kB",
+        "CSV_iterations_raw": "[115629.696, 116989.568, 117530.24]",
+        "CSV_baseline_raw": "0",
+        "exact_decimal_values_and_order_equal": true,
+        "exact_decimal_mean_fraction": "43768688/375",
+        "CSV_mean_absolute_difference_fraction": "1/30000",
+        "half_last_printed_decimal_fraction": "1/20000",
+        "within_printed_rounding_half_unit": true,
+        "baseline_average_raw": "0.0",
+        "baseline_name": "",
+        "positive_samples": 3,
+        "zero_samples": 0,
+        "negative_samples": 0
+      },
+      {
+        "typed_path": "/performanceMetrics/_values/1",
+        "typed_row_type": "ActionTestPerformanceMetricSummary",
+        "identifier": "com.apple.dt.XCTMetric_Memory-dev.pero3.aiagentlibrary.prototype.physical_peak",
+        "display_name": "Memory Peak Physical (prototype)",
+        "unit_literal": "kB",
+        "measurement_type": "Double",
+        "measurement_value_wire_type": "string",
+        "sample_count": 3,
+        "typed_samples": [
+          "117972.608",
+          "119398.016",
+          "120151.68"
+        ],
+        "csv_columns_1_based": [
+          6,
+          7,
+          8
+        ],
+        "CSV_average_raw": "119174.1013 kB",
+        "CSV_iterations_raw": "[117972.608, 119398.016, 120151.68]",
+        "CSV_baseline_raw": "0",
+        "exact_decimal_values_and_order_equal": true,
+        "exact_decimal_mean_fraction": "44690288/375",
+        "CSV_mean_absolute_difference_fraction": "1/30000",
+        "half_last_printed_decimal_fraction": "1/20000",
+        "within_printed_rounding_half_unit": true,
+        "baseline_average_raw": "0.0",
+        "baseline_name": "",
+        "positive_samples": 3,
+        "zero_samples": 0,
+        "negative_samples": 0
+      },
+      {
+        "typed_path": "/performanceMetrics/_values/2",
+        "typed_row_type": "ActionTestPerformanceMetricSummary",
+        "identifier": "com.apple.dt.XCTMetric_Memory-dev.pero3.aiagentlibrary.prototype.physical",
+        "display_name": "Memory Physical (prototype)",
+        "unit_literal": "kB",
+        "measurement_type": "Double",
+        "measurement_value_wire_type": "string",
+        "sample_count": 3,
+        "typed_samples": [
+          "3489.792",
+          "3129.344",
+          "2441.216"
+        ],
+        "csv_columns_1_based": [
+          9,
+          10,
+          11
+        ],
+        "CSV_average_raw": "3020.117333 kB",
+        "CSV_iterations_raw": "[3489.792, 3129.344, 2441.216]",
+        "CSV_baseline_raw": "0",
+        "exact_decimal_values_and_order_equal": true,
+        "exact_decimal_mean_fraction": "1132544/375",
+        "CSV_mean_absolute_difference_fraction": "1/3000000",
+        "half_last_printed_decimal_fraction": "1/2000000",
+        "within_printed_rounding_half_unit": true,
+        "baseline_average_raw": "0.0",
+        "baseline_name": "",
+        "positive_samples": 3,
+        "zero_samples": 0,
+        "negative_samples": 0
+      }
+    ],
+    "interpretation_limits": [
+      "Identifiers, literal kB, row3/sample3 and column order are observations of this exact current run, not yet a fixed Source contract.",
+      "No kB conversion, lifetime/cold/physical meaning or product SLO is inferred.",
+      "Empty baseline name and typed0.0/CSV0 do not establish a performance baseline or budget.",
+      "Means were compared using Python Decimal/Fraction on current wire values, independently of private generic code."
+    ],
+    "collector_exit": 1,
+    "error": "known root exportmanifest.json305B was rejected; CSV retained",
+    "typed_summary_bytes": 742166,
+    "typed_summary_SHA256": "ad4ba24916187e2e7fe89d4205366df24f3bffc69f212918d7b646265378710e",
+    "raw_bytes": 83841,
+    "raw_SHA256": "680e99c8729abb0a41383eb3dd033e417d4997aa6ba1cc2a2c68a701c94bb720",
+    "artifact": 12842818735,
+    "ZIP_bytes": 149550,
+    "ZIP_SHA256": "fdce64e00e28e8674a073a13f2491b3181a2e52ee7da5bfa3c88e07bf29baae0",
+    "members": 122,
+    "manifest_files_verified": 121,
+    "actual_case_seconds": 100.91413104534149,
+    "independent_wire_audit_manifest": "bf27a7b492cf2624efd390a1155fd89b27df3fcc763b418d3b67f9700ce313f2",
+    "no_samehead_retry": true
+  },
+  "fixed_contract_source_candidate": {
+    "id": "xcode16.4-app-memory-v1",
+    "CLI_success": 0,
+    "status": "matched-memory-observation",
+    "opaque_manifest": {
+      "fixed_output": "csv-export-manifest.json",
+      "cap": 16384,
+      "root_regular_singlelink_only": true,
+      "body_unobserved_atadoption": true,
+      "schema_not_used": true,
+      "metric_acceptance_depends_on_contents": false,
+      "absence_allowed": true
+    },
+    "protocol_payload_verified": false,
+    "product_performance_acceptance": false,
+    "newHosted": "notperformed",
+    "otherbounds_and_sources_held": true,
+    "validation": {
+      "Node": 47,
+      "pass": 47,
+      "prior_categories": 39,
+      "newtests": 8,
+      "Source2_manifest": "f90a478da92a95b7c730ab3770af44273aba512503d012232696e1ab35fda138",
+      "exporter_SHA256": "d99faf0d7b6478b4e57b4aaf278d9bd3cc304e87e6234a6063b28de626e81938",
+      "tests_SHA256": "d9e858f884815b8d1459ca365750dda7e37c039c85c92827f38bb55cad06ae5c",
+      "WF_SHA256": "76c014f7ff06bef2370127a4c637f3458a111a159807abf0c1ce61ccfc6cb894",
+      "WF_manifest": "c29c97dd3606f51799cdef7f00735e61386d132a9412f47d2011cdabbbc3832f",
+      "WF_compact_synthetic": 14,
+      "WF_export_stage_synthetic": 22,
+      "WF_static": 13,
+      "retained_guard_blocks_byte_exact": 10,
+      "actual_fb29_pure_join": "passed, priorHostedcollector1preserved",
+      "newHosted": "notperformed"
+    },
+    "root_common_check": {
+      "command": "npm run check",
+      "exit_code": 0,
+      "tests": 1157,
+      "pass": 1142,
+      "skip": 15,
+      "fail": 0
+    },
+    "mean_error_model": "printedrounding + exactinputtobinary64 + gamma3sumAbs/3 + gradualunderflow; Appleinternalalgorithmnotverified"
+  }
+}

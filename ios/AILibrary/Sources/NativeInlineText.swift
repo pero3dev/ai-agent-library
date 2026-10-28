@@ -1,6 +1,97 @@
 import Foundation
+import ImageIO
 import SwiftUI
 import UIKit
+
+/// Figure body previews have a separate request and cache purpose from full images.
+/// The limits describe the returned bitmap, not ImageIO's transient allocations or RSS.
+enum NativeFigurePreviewBitmap {
+    static let maximumSourceDimension = 8_192
+    static let maximumSourcePixels = 32_000_000
+    static let maximumPreviewPixels = 8_000_000
+    static let maximumPreviewBytes = 64 * 1_024 * 1_024
+    static let pixelBucket = 64
+
+    struct Request: Hashable {
+        let width: Int
+        let height: Int
+
+        init?(displaySize: CGSize, displayScale: CGFloat) {
+            guard displaySize.width.isFinite, displaySize.height.isFinite,
+                  displaySize.width > 0, displaySize.height > 0,
+                  displayScale.isFinite, (1...4).contains(displayScale) else { return nil }
+            let width = displaySize.width * displayScale, height = displaySize.height * displayScale
+            guard width.isFinite, height.isFinite else { return nil }
+            func bucket(_ value: CGFloat) -> Int {
+                let bounded = max(1, Int(ceil(min(CGFloat(maximumSourceDimension), value))))
+                return min(maximumSourceDimension, ((bounded + pixelBucket - 1) / pixelBucket) * pixelBucket)
+            }
+            self.width = bucket(width)
+            self.height = bucket(height)
+        }
+    }
+
+    static func maximumPixelDimension(sourceWidth: Int, sourceHeight: Int, request: Request) -> Int? {
+        guard sourceWidth > 0, sourceHeight > 0,
+              sourceWidth <= maximumSourceDimension, sourceHeight <= maximumSourceDimension,
+              sourceWidth * sourceHeight <= maximumSourcePixels,
+              request.width > 0, request.height > 0,
+              request.width <= maximumSourceDimension, request.height <= maximumSourceDimension else { return nil }
+        let longer = max(sourceWidth, sourceHeight), shorter = min(sourceWidth, sourceHeight)
+        // Integer floors make the rounded minor axis fit both request axes.
+        // Ceil(longer * ratio) can otherwise produce a one-pixel overshoot.
+        let wanted = min(longer, min(request.width * longer / sourceWidth,
+                                     request.height * longer / sourceHeight))
+        guard wanted > 0 else { return nil }
+        // Bound both axes conservatively, including integral rounding by ImageIO.
+        var lower = 1, upper = wanted
+        while lower < upper {
+            let middle = (lower + upper + 1) / 2
+            let other = (middle * shorter + longer - 1) / longer
+            if middle * other <= maximumPreviewPixels { lower = middle } else { upper = middle - 1 }
+        }
+        return lower
+    }
+
+    static func image(url: URL, expectedWidth: Double, expectedHeight: Double,
+                      assetScale: Double, request: Request) -> CGImage? {
+        guard expectedWidth.isFinite, expectedHeight.isFinite,
+              expectedWidth > 0, expectedHeight > 0,
+              assetScale.isFinite, (1...4).contains(assetScale),
+              let values = try? url.resourceValues(forKeys: [.isRegularFileKey, .fileSizeKey]),
+              values.isRegularFile == true, let fileSize = values.fileSize,
+              fileSize > 0, fileSize <= 32 * 1_024 * 1_024,
+              let source = CGImageSourceCreateWithURL(url as CFURL,
+                  [kCGImageSourceShouldCache as String: false] as CFDictionary),
+              let type = CGImageSourceGetType(source), type as String == "public.png",
+              CGImageSourceGetCount(source) > 0,
+              let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [String: Any],
+              let width = properties[kCGImagePropertyPixelWidth as String] as? NSNumber,
+              let height = properties[kCGImagePropertyPixelHeight as String] as? NSNumber,
+              width.doubleValue == Double(width.intValue), height.doubleValue == Double(height.intValue),
+              abs(width.doubleValue - expectedWidth * assetScale) <= 2,
+              abs(height.doubleValue - expectedHeight * assetScale) <= 2,
+              let maximum = maximumPixelDimension(sourceWidth: width.intValue, sourceHeight: height.intValue,
+                                                   request: request) else { return nil }
+        // Keep the same raw-raster orientation as image(for:...), whose UIImage is .up.
+        // Generated PNGs are upright; interpreting an imported EXIF orientation only here
+        // would make the body disagree with the unchanged original used by zoom.
+        let options: [String: Any] = [
+            kCGImageSourceCreateThumbnailFromImageAlways as String: true,
+            kCGImageSourceCreateThumbnailWithTransform as String: false,
+            kCGImageSourceThumbnailMaxPixelSize as String: maximum,
+            kCGImageSourceShouldCacheImmediately as String: true
+        ]
+        guard let image = CGImageSourceCreateThumbnailAtIndex(source, 0, options as CFDictionary),
+              image.width > 0, image.height > 0,
+              image.width <= width.intValue, image.height <= height.intValue,
+              image.width <= maximum, image.height <= maximum,
+              image.width <= request.width, image.height <= request.height,
+              image.width * image.height <= maximumPreviewPixels,
+              image.bytesPerRow <= maximumPreviewBytes / image.height else { return nil }
+        return image
+    }
+}
 
 /// The package is validated before opening it. Keep UI image reads bounded as well,
 /// including when a future package contains unusually large figures.
@@ -29,6 +120,32 @@ final class NativeAssetImageCache {
               cgImage.width * cgImage.height <= 32 * 1_024 * 1_024 else { return nil }
         let image = UIImage(cgImage: cgImage, scale: CGFloat(asset.scale), orientation: .up)
         images.setObject(image, forKey: key, cost: cgImage.width * cgImage.height * 4)
+        return image
+    }
+
+    func figurePreviewImage(for asset: NativeAsset, snapshot: ContentSnapshot, dark: Bool,
+                            displaySize: CGSize, displayScale: CGFloat) -> UIImage? {
+        let relative = dark ? asset.dark : asset.light
+        guard !relative.hasPrefix("/"), !relative.contains("\\"),
+              !relative.split(separator: "/", omittingEmptySubsequences: false).contains(where: { $0 == ".." || $0 == "." || $0.isEmpty }),
+              relative.lowercased().hasSuffix(".png"), let digest = snapshot.manifest.files[relative],
+              asset.scale.isFinite, (1...4).contains(asset.scale),
+              asset.width.isFinite, asset.height.isFinite, asset.width > 0, asset.height > 0,
+              asset.width <= 8_192, asset.height <= 8_192,
+              let request = NativeFigurePreviewBitmap.Request(displaySize: displaySize, displayScale: displayScale) else { return nil }
+        let directory = snapshot.readAccessRoot
+        let url = directory.appendingPathComponent(relative).standardizedFileURL.resolvingSymlinksInPath()
+        guard url.path.hasPrefix(directory.path + "/") else { return nil }
+        let components = ["figure-preview-v1", directory.path, digest, relative, String(asset.scale),
+                          String(asset.width), String(asset.height), String(request.width), String(request.height)]
+        guard let keyData = try? JSONSerialization.data(withJSONObject: components),
+              let keyString = String(data: keyData, encoding: .utf8) else { return nil }
+        let key = keyString as NSString
+        if let cached = images.object(forKey: key) { return cached }
+        guard let bitmap = NativeFigurePreviewBitmap.image(url: url, expectedWidth: asset.width,
+            expectedHeight: asset.height, assetScale: asset.scale, request: request) else { return nil }
+        let image = UIImage(cgImage: bitmap, scale: CGFloat(asset.scale), orientation: .up)
+        images.setObject(image, forKey: key, cost: bitmap.bytesPerRow * bitmap.height)
         return image
     }
 

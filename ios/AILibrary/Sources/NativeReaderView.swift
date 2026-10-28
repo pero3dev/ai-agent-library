@@ -1098,10 +1098,18 @@ private struct NativeFigureView: View {
     let blockID: String
     let focusedBlock: AccessibilityFocusState<String?>.Binding
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.displayScale) private var displayScale
     @State private var enlarged = false
 
-    private var image: UIImage? {
+    private var originalImage: UIImage? {
         NativeAssetImageCache.shared.image(for: asset, snapshot: snapshot, dark: colorScheme == .dark)
+    }
+
+    private var image: UIImage? {
+        if isMath { return originalImage }
+        return NativeAssetImageCache.shared.figurePreviewImage(for: asset, snapshot: snapshot,
+            dark: colorScheme == .dark, displaySize: CGSize(width: displayWidth, height: displayHeight),
+            displayScale: displayScale)
     }
 
     private var displayWidth: CGFloat {
@@ -1151,9 +1159,19 @@ private struct NativeFigureView: View {
             .font(.callout)
         }
         .sheet(isPresented: $enlarged) {
-            if let image {
+            if let image = originalImage {
                 NativeImageDetail(image: image, description: description,
                                   initialWidth: max(320, min(1_600, CGFloat(asset.width))))
+            } else {
+                NavigationStack {
+                    Label("画像を表示できません。テキスト表現をご確認ください。", systemImage: "photo")
+                        .font(.callout).foregroundStyle(.secondary).padding()
+                        .toolbar {
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("閉じる") { enlarged = false }
+                            }
+                        }
+                }
             }
         }
     }

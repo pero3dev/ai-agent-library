@@ -76,7 +76,7 @@ jobs:
           const commandNames = ['inventory-head','inventory-tree','inventory-diff','xcode','runtimes','device-types',
             'audit-root','install-root','audit-native','install-native','install-chromium','tracked-docs',
             'generate-published','generate-fixtures','audit-content','audit-fixtures','audit-package','audit-fixture-package',
-            'devices-before','create-simulator','boot-simulator','bootstatus','devices-after-boot',
+            'devices-before','create-simulator','boot-simulator','bootstatus','devices-after-boot','devices-after-boot-recovery',
             'build-head','build-diff','build','debug-package','debug-fixture','app-id','app-version','app-build',
             'measure-head','measure-diff','measure','export','cleanup-devices-before','cleanup-shutdown','cleanup-delete',
             'cleanup-devices-after'];
@@ -206,7 +206,7 @@ jobs:
             };
             const top = ['budget.json','environment.json','source-provenance.json','published-sources.json','source-content-audit.json',
               'source-fixture-audit.json','source-package-audit.json','source-fixture-package-audit.json','simulator-selection.json',
-              'simulator-intent.json','owned-simulator.json','actual-application.json','context.json','cleanup.json'];
+              'simulator-intent.json','owned-simulator.json','postboot-list-decision.json','actual-application.json','context.json','cleanup.json'];
             const stages = ['prepare','inventory','dependencies','content','simulator','build','audit','measure','export','cleanup'];
             for (const name of [...top, ...stages.map(x => 'stage-' + x + '.json')])
               include(file(evidence, name), 'workflow/' + name, name.startsWith('stage-') ? 16384 : 512 * 1024);
@@ -335,7 +335,23 @@ jobs:
               json('owned-simulator.json',{ ...intent, UUID, creation_exit_code:0 });
               run('boot-simulator','xcrun',['simctl','boot',UUID],60000,{ deadline });
               run('bootstatus','xcrun',['simctl','bootstatus',UUID,'-b'],240000,{ deadline });
-              const matches = deviceRows(JSON.parse(text('devices-after-boot','xcrun',['simctl','list','devices','--json'],60000,{ deadline, maxBuffer:4*1024*1024 }))).filter(r => r.device.udid.toUpperCase() === UUID);
+              const firstPostboot = run('devices-after-boot','xcrun',['simctl','list','devices','--json'],60000,
+                { deadline,maxBuffer:4*1024*1024,allowFailure:true });
+              const recoveryPlanned = firstPostboot.error?.code === 'ETIMEDOUT' && firstPostboot.status === null;
+              json('postboot-list-decision.json',{ ...ownerContext(),first_command:'devices-after-boot',
+                first_exit_code:firstPostboot.status,first_error_code:firstPostboot.error?.code ?? null,
+                first_error:firstPostboot.error ? smallError(firstPostboot.error) : null,
+                recovery_planned:recoveryPlanned,maximum_additional_reads:1,recovery_command:'devices-after-boot-recovery',
+                command_cap_ms:60000,stage_deadline_epoch_ms:deadline,
+                recovery_performed:null,execution_evidence:'Not asserted by this decision; inspect recovery command intent and exit receipts.' });
+              if (!recoveryPlanned && (firstPostboot.error || firstPostboot.status !== 0)) {
+                const error = new Error('devices-after-boot: bounded command failed: ' +
+                  (firstPostboot.error ? smallError(firstPostboot.error) : firstPostboot.status));
+                error.exitCode = firstPostboot.status === 2 ? 2 : 1; throw error;
+              }
+              const postboot = recoveryPlanned ? run('devices-after-boot-recovery','xcrun',['simctl','list','devices','--json'],60000,
+                { deadline,maxBuffer:4*1024*1024 }) : firstPostboot;
+              const matches = deviceRows(JSON.parse(strictText(postboot.stdout).trim())).filter(r => r.device.udid.toUpperCase() === UUID);
               assert.equal(matches.length,1); assert.equal(matches[0].runtime,intent.runtime_identifier);
               assert.equal(matches[0].device.name,name); assert.equal(matches[0].device.state,'Booted'); assert.equal(matches[0].device.isAvailable,true);
             } else if (stage === 'build') {

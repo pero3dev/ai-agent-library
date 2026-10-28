@@ -55,3 +55,17 @@ attempt 2のraw 77,325Bとcompact ZIP 77,605Bを各1回取得し、公式SHA256 
 修正候補の4引数だけを戻すと元workflowと完全一致する。抽出した実auditとreaderにローカルの全199記事manifestと既存fixtureを通し、修正前のbyte cap失敗と修正後のcontext作成を確認した。4読取それぞれの8MiB超過、両組のbyte不一致を拒否し、一般readerの512KiB境界も維持した。外部のpackage audit・plutil・executableはstubであり、Hosted SDK／UIの再実行成功とはしない。actionlintとYAML・Bash11本・埋込Nodeの静的検査も成功した。
 
 この4引数の修正版の独立レビューは新しいP1・P2が0件だった。隔離済み依存と同じlockfileで共通検査を再実行し、Node1130件中1115成功・15skip・失敗0、`npm run check` exit 0を確認した。既存の本文・App・PBX・版・Clock・新memory caseとexporterは保持する。新headのHosted実行と実指標の採択は別の確認として残す。
+
+## 修正版で再発した起動後の読み取り
+
+manifestの上限を直したhead `0811dd5470317ed576fc3c7fc095b37d201e0678`の[run 40718446381](https://github.com/pero3dev/ai-agent-library/actions/runs/40718446381)、attempt 1／job `122922434713`では、boot約2.2秒とbootstatus約60.9秒がexit 0で終わった後、起動後の一覧取得が約60秒で再びタイムアウトした。その後の同じ一覧取得は約7.8秒、削除後は約0.7秒で成功し、専用端末だけの後片付けも成功した。ビルド・UI・実メモリには進んでいない。
+
+同runのraw 77,137Bと公式compact ZIP 72,529Bを各1回取得し、公式SHA256 `5c64e8ea7877014f9225e7794d88effca9e3fbdfcf2814d50d0a3e314dbb1e5d`、78 memberと77件のmanifest記載ファイルを照合した。起動後の読み取りが繰り返し停止するため、Sourceに限定した回復手順を追加する。同条件のジョブ再実行は行わず、過去の失敗を保持する。
+
+回復の対象は起動後の `simctl list devices --json`だけとし、最初のNodeエラーcodeが `ETIMEDOUT`かつexit statusがnullの場合に限り、別名のcommandで新たに1回取得する。最初の不完全な出力を採用せず、両方のintent・exitと小さな判断記録を保持する。判断記録のretry plannedは実行済みを意味せず、実際のspawn有無はcommandの記録で区別する。それ以外のエラー・非ゼロ終了・JSON不正・端末不一致は失敗のままとし、再取得の失敗後に3回目の起動後確認を行わない。
+
+各読取60秒、Simulator工程330秒、作業31分・job40分の上限と、既存の端末同一性・状態・所有確認を保持する。残り時間がなければ追加読取をspawnしない。端末作成・boot・削除やUIテスト・測定の再試行は追加しない。既存の後片付けは別工程として維持する。この回復も実Hostedでの効果は未確認で、実指標の未採択とTODO32行・完了13行を維持する。
+
+回復候補は、抽出した実driverと実ファイル、外部command・時計のstubを使う28例で確認した。通常成功は1回、対象timeoutだけは2回の起動後確認となり、非対象エラー・不正JSON・端末不一致は追加読取せず失敗した。再取得の失敗後の3回目と、工程・全体の残り時間がない場合の実spawnも行わない。最初と追加の記録が変わらずcompactに含まれることも確認した。VM adapterの準備で発生した2件のローカル失敗はSourceを変えずに修正して記録し、最終28例は成功した。actionlintとYAML・Bash11本・埋込Nodeの構文も成功した。これらはstub検証であり、Hostedでの回復や実UI・実メモリの成功ではない。
+
+回復候補の独立Sourceレビューは新P1・P2が0件だった。隔離済み依存と同じlockfileで共通検査を行い、Node1130件中1115成功・15skip・失敗0、`npm run check` exit 0を確認した。App・PBX・版、Clock、新memory caseとexporterは保持する。追加コミットの新Hosted結果は別途確認する。

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "date": "2026-10-28",
   "base": "e0c3031f3d62adab017c72949ffa3376e77b18bf",
-  "state": "firstinfrastructure andsecondmanifestbound failuresretained; Sourcefixsmoke passed, newheadHosted memory pending",
+  "state": "typed-timeout-only postbootfreshread recoverySource smoke28passed; independentreview/newheadHosted pending; actualmemorynotobserved",
   "objective": "IOS15 target-App memory observation inone bounded unit",
   "owners": {
     "Swift": "app_memory_ui_case",
@@ -193,5 +193,91 @@
       }
     },
     "unchanged_retry_limit": "oneconsumed; noadditionalunchangedretry"
+  },
+  "manifest_bound_fix_first_hosted": {
+    "head": "0811dd5470317ed576fc3c7fc095b37d201e0678",
+    "tree": "34134c39f1800cddaae5c77f358488f273af7fe9",
+    "run": 40718446381,
+    "job": 122922434713,
+    "attempt": 1,
+    "event": "pull_request",
+    "source_workflow_SHA256": "925ab0a5cd8fd8373383829d00b32f4438798c04d9849d4cf9289f180f686d23",
+    "boot": {
+      "exit_code": 0,
+      "elapsed_ms": 2214
+    },
+    "bootstatus": {
+      "exit_code": 0,
+      "elapsed_ms": 60918
+    },
+    "postboot_list": {
+      "timeout_ms": 59998,
+      "elapsed_ms": 60570,
+      "exit_code": null,
+      "signal": "SIGKILL",
+      "error": "spawnSync xcrun ETIMEDOUT",
+      "stdout_bytes": 0,
+      "stderr_bytes": 0
+    },
+    "cleanup": {
+      "same_list_exit": 0,
+      "same_list_elapsed_ms": 7844,
+      "after_list_exit": 0,
+      "after_list_elapsed_ms": 737,
+      "owned_device_deleted": true
+    },
+    "build_UI_memory": "notreached",
+    "metric_pending_exit2": false,
+    "measurement_result": null,
+    "raw": {
+      "bytes": 77137,
+      "SHA256": "a7eca64058e0aa58e591ce2e52c079bd39966406c0b917882c7fcbbf6c5bd2e2"
+    },
+    "artifact": {
+      "id": 12830426561,
+      "bytes": 72529,
+      "SHA256": "5c64e8ea7877014f9225e7794d88effca9e3fbdfcf2814d50d0a3e314dbb1e5d",
+      "members": 78,
+      "manifest_entries": 77,
+      "all_bytes_SHA_verified": true
+    },
+    "unchanged_job_retries": 0
+  },
+  "postboot_read_recovery": {
+    "scope": "postboot read-only list devices only",
+    "trigger": "actual Nodeerror.code ETIMEDOUT AND status null",
+    "maximum_read_attempts": 2,
+    "each_read_cap_ms": 60000,
+    "stage_cap_ms": 330000,
+    "global_work_cap_ms": 1860000,
+    "job_cap_minutes": 40,
+    "other_errors_retried": false,
+    "UI_and_mutations_and_whole_job_retried": false,
+    "first_receipt_retained": true,
+    "first_incomplete_output_rejected": true,
+    "third_postboot_attempt": false,
+    "no_remaining_budget_no_spawn": true,
+    "validation": {
+      "workflow_SHA256": "d6682a672b5fd774026d200ec0a8b8dd1783d59fd94187c6e62f5ebc4cf7f57b",
+      "candidate_manifest_SHA256": "f5fd00fc76a1cb065aaa1e00373bc10453934bd679f23ae1a7f019766b09fb59",
+      "actual_extracted_driver": "realFS +externalspawn/clock stubs, no actualSDK/simctl/UI",
+      "smoke_cases": 28,
+      "smoke_pass": 28,
+      "covered": "firstsuccess1read; typedtimeout+null2reads; othererrors/nonzero/invalidJSON/ownershipstate mismatch noretry; secondfailure no thirdpostbootprobe; exhaustedglobal/stage noactualsecondspawn; bothreceipts immutable andfixedcompactincluded",
+      "static": "YAML/actionlint1.7.12/Bash11/embeddedNode syntax passed",
+      "inverse_patch": "3scoped inverse replacements equals0811workflow925ab0exact",
+      "all_existing_caps_audit_cleanup": "byteheld",
+      "initial_local_harness_failures": "2 VM adaptersetup errors; Sourceunchanged; recorded thenfinal28pass"
+    },
+    "Hosted_effect": "notobserved",
+    "independent_Source_review": "P1/P2 0, scope-limited accepted",
+    "root_common_check": {
+      "command": "npm run check",
+      "exit_code": 0,
+      "tests": 1130,
+      "pass": 1115,
+      "skip": 15,
+      "fail": 0
+    }
   }
 }

@@ -330,7 +330,7 @@ jobs:
               run('install-native','npm',['ci','--ignore-scripts'],120000,{ deadline, cwd: native });
               run('install-chromium',path.join(native,'node_modules/.bin/playwright'),['install','chromium'],120000,{ deadline, cwd: native });
             } else if (stage === 'content') {
-              const deadline = Date.now() + 230000, require = createRequire(import.meta.url);
+              const deadline = Date.now() + 300000, require = createRequire(import.meta.url);
               const { load, JSON_SCHEMA } = require('js-yaml');
               const names = text('tracked-docs','git',['ls-files','-z','docs'],15000,{ deadline }).split('\0')
                 .filter(n => /^docs\/\d{2}-[a-z0-9-]+\/[a-z0-9-]+\.md$/.test(n));
@@ -520,7 +520,7 @@ jobs:
         timeout-minutes: 8
         run: node .local/ios-memory/driver.mjs dependencies
       - name: Generate full published content and audit independent article count
-        timeout-minutes: 4
+        timeout-minutes: 6
         run: node .local/ios-memory/driver.mjs content
       - name: Create and boot only this run's fresh owned Simulator
         timeout-minutes: 6

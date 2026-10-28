@@ -2,7 +2,7 @@
   "schema_version": 1,
   "date": "2026-10-28",
   "base": "e0c3031f3d62adab017c72949ffa3376e77b18bf",
-  "state": "fixed-source contract prepared fromactualfb29 typed+CSV; newHeadHosted andprotectedmergepending",
+  "state": "ec4wireaccepted+PR296normallymergedmain4a6;postpushMemoryfirstAX450stimeout+retrycontent230sbudgetfailure;targetedbudgetfixcandidate",
   "objective": "IOS15 target-App memory observation inone bounded unit",
   "owners": {
     "Swift": "app_memory_ui_case",
@@ -49,28 +49,57 @@
   },
   "bootstrap_exit": "nonzero withaccepted_measurements null",
   "verification": {
-    "Swift_grammar": "success",
-    "Swift_single_file_typecheck": "Xcode16.2/iOS18.2Simulator Swift5 targetiOS17 exit0; noApp/link/UI/memoryrun",
-    "UI_independent_review": "P1/P2 0",
-    "workflow_static": "actionlint1.7.12/YAML/Bash11/embeddedNode/selector/caps success",
-    "workflow_independent_review": "P1/P2 0",
-    "Node_memory_tests": "v2 20passed,3P2 negativefixturesincluded",
-    "Node_Clock_tests": "44passed beforememoryv2; Clocksource/tests byteheld",
-    "exporter_independent_review": "v1 P2=3 retained; v2 all3resolved/newP1P2=0, independentreceipt retained",
-    "SDK_UI": "Xcode16.4 Debug build-for-testing passed attempt2; packageauditfailedreadbound; UI/memorynotrun",
-    "actual_metric_set_units_cardinality_CSV": "notobserved/adopted",
+    "current_fixed_contract_Hosted": {
+      "head": "ec4d71c4d61624bbb8064020556dcae5bf32c79c",
+      "run": 40756465904,
+      "job": 123056587119,
+      "attempt": 1,
+      "event": "pull_request",
+      "conclusion": "success",
+      "scope": "dedicatedfixedwireobservationonly"
+    },
+    "Node_memory_tests": {
+      "tests": 47,
+      "pass": 47,
+      "scope": "fixed-sourcecandidate localtests, notnewmanualrerun"
+    },
+    "SDK_UI": "Xcode16.4/iOS18.5 Debug oneuniquememorycase Passed97.35751390457153s; actualfullpackageaudit199/audio1",
+    "actual_metric_set_units_cardinality_CSV": "independentlymatched3x3 kB,CSV1file/11columns/1row",
+    "protocol_payload_verified": false,
+    "product_performance_acceptance": false,
     "physical": "unfinished byauthorization",
-    "root_dependency_preparation": "npm ci --ignore-scripts withisolatedemptyconfigs andcache; Source lockfileunchanged",
-    "root_common_check": {
-      "command": "npm run check",
-      "exit_code": 0,
-      "Node": {
-        "tests": "1130",
-        "pass": "1115",
-        "fail": "0",
-        "skipped": "15"
+    "final_required_CI": {
+      "head": "ec4d71c4d61624bbb8064020556dcae5bf32c79c",
+      "all8workflow": "attempt1 APIsuccess,failure0,retry0",
+      "source_CI_manifest": "7243810588ef21a9fd0544bb1e668ac298e1b0dbc4c0e71433d1de228b743cdd",
+      "required11": "latestexacthead/githubactions/allSuccess"
+    },
+    "Ready_policy": {
+      "updated_UTC": "2026-10-28T20:33:09Z",
+      "harness_policy": {
+        "check": 123084205507,
+        "started_UTC": "2026-10-28T20:33:15Z",
+        "conclusion": "success"
       },
-      "environment": "canonicalownedTMPDIR/seededGittemplate/systemglobalGitdisabled/privateGitE0metadata"
+      "freshness_policy": {
+        "check": 123084377371,
+        "started_UTC": "2026-10-28T20:33:38Z",
+        "conclusion": "success"
+      },
+      "all11_latest": "success",
+      "gate_manifest": "9b6cff42f0b568f4a120ee7248cd26485baa7111747595769a1080a32fc70b72"
+    },
+    "main_merge": {
+      "PR": 296,
+      "method": "ordinaryprotected squash",
+      "main_sha": "4a6c3633cbc7cbe9fe460043cbefbbe937906b80",
+      "parent": "e0c3031f3d62adab017c72949ffa3376e77b18bf",
+      "tree": "6e0ff2da834ffca9fa2055e313e2ff41998ac308",
+      "merged_UTC": "2026-10-28T20:34:59Z",
+      "all2803tuples_match_approved": true,
+      "format_and_range1commit0merge_valid": true,
+      "message_match": "approvedsubjectandsquashbody,terminalLFnormalizationonly",
+      "admin_or_protection_change": false
     }
   },
   "TODO": {
@@ -801,5 +830,317 @@
       "fail": 0
     },
     "mean_error_model": "printedrounding + exactinputtobinary64 + gamma3sumAbs/3 + gradualunderflow; Appleinternalalgorithmnotverified"
+  },
+  "verification_at_initial_preparation": {
+    "Swift_grammar": "success",
+    "Swift_single_file_typecheck": "Xcode16.2/iOS18.2Simulator Swift5 targetiOS17 exit0; noApp/link/UI/memoryrun",
+    "UI_independent_review": "P1/P2 0",
+    "workflow_static": "actionlint1.7.12/YAML/Bash11/embeddedNode/selector/caps success",
+    "workflow_independent_review": "P1/P2 0",
+    "Node_memory_tests": "v2 20passed,3P2 negativefixturesincluded",
+    "Node_Clock_tests": "44passed beforememoryv2; Clocksource/tests byteheld",
+    "exporter_independent_review": "v1 P2=3 retained; v2 all3resolved/newP1P2=0, independentreceipt retained",
+    "SDK_UI": "Xcode16.4 Debug build-for-testing passed attempt2; packageauditfailedreadbound; UI/memorynotrun",
+    "actual_metric_set_units_cardinality_CSV": "notobserved/adopted",
+    "physical": "unfinished byauthorization",
+    "root_dependency_preparation": "npm ci --ignore-scripts withisolatedemptyconfigs andcache; Source lockfileunchanged",
+    "root_common_check": {
+      "command": "npm run check",
+      "exit_code": 0,
+      "Node": {
+        "tests": "1130",
+        "pass": "1115",
+        "fail": "0",
+        "skipped": "15"
+      },
+      "environment": "canonicalownedTMPDIR/seededGittemplate/systemglobalGitdisabled/privateGitE0metadata"
+    }
+  },
+  "latest_accepted_observation": {
+    "schema_version": 1,
+    "verdict": "accepted-exact-ec4-fixed-wire-observation-only",
+    "head": "ec4d71c4d61624bbb8064020556dcae5bf32c79c",
+    "source_tree": "6e0ff2da834ffca9fa2055e313e2ff41998ac308",
+    "run_id": 40756465904,
+    "attempt": 1,
+    "job_id": 123056587119,
+    "metric_contract_id": "xcode16.4-app-memory-v1",
+    "metric_contract_accepted": true,
+    "product_performance_acceptance": false,
+    "protocol_payload_verified": false,
+    "actual_case_seconds": 97.35751390457153,
+    "application": {
+      "version": "0.2.22",
+      "build": "24",
+      "articles": 199,
+      "audio": 1,
+      "content_revision": "578194b2188a2f528a09cf2f0893d5770821dce50617d9ee332e32e076d92b02",
+      "content_manifest_SHA256": "45ed762669dfe6595a4a1966e2bbe3b085d240df05281ce3c64a25317218483e"
+    },
+    "CSV": {
+      "bytes": 668,
+      "SHA256": "d438dbb933e69618ed465df86ab6820dda585265d840cf00c992713cd0bea54b",
+      "header_columns": 11,
+      "data_rows": 1,
+      "files": 1,
+      "header": [
+        "Destination",
+        "Configuration",
+        "Absolute Memory Physical (prototype) (Average)",
+        "Absolute Memory Physical (prototype) (Iterations)",
+        "Absolute Memory Physical (prototype) (Baseline)",
+        "Memory Peak Physical (prototype) (Average)",
+        "Memory Peak Physical (prototype) (Iterations)",
+        "Memory Peak Physical (prototype) (Baseline)",
+        "Memory Physical (prototype) (Average)",
+        "Memory Physical (prototype) (Iterations)",
+        "Memory Physical (prototype) (Baseline)"
+      ],
+      "destination": "iPhone 16 iOS Simulator 18.5",
+      "configuration": "Test Scheme Action"
+    },
+    "metrics": [
+      {
+        "identifier": "com.apple.dt.XCTMetric_Memory-dev.pero3.aiagentlibrary.prototype.physical_absolute",
+        "display_name": "Absolute Memory Physical (prototype)",
+        "unit_literal": "kB",
+        "typed_row_type": "ActionTestPerformanceMetricSummary",
+        "raw_samples": [
+          "115580.48",
+          "116137.536",
+          "116284.992"
+        ],
+        "sample_count": 3,
+        "accepted_summary_raw_numeric_and_baseline_exact": true,
+        "CSV_iterations_raw": "[115580.48, 116137.536, 116284.992]",
+        "CSV_average_raw": "116001.0027 kB",
+        "CSV_baseline_raw": "0",
+        "sample_values_and_order_exact": true,
+        "mean_exact_fraction": "43500376/375",
+        "CSV_mean_absolute_difference_fraction": "1/30000",
+        "half_last_printed_decimal_fraction": "1/20000",
+        "within_printed_rounding_half_unit": true,
+        "positive_count": 3,
+        "zero_count": 0,
+        "negative_count": 0
+      },
+      {
+        "identifier": "com.apple.dt.XCTMetric_Memory-dev.pero3.aiagentlibrary.prototype.physical_peak",
+        "display_name": "Memory Peak Physical (prototype)",
+        "unit_literal": "kB",
+        "typed_row_type": "ActionTestPerformanceMetricSummary",
+        "raw_samples": [
+          "118054.464",
+          "118578.752",
+          "118726.208"
+        ],
+        "sample_count": 3,
+        "accepted_summary_raw_numeric_and_baseline_exact": true,
+        "CSV_iterations_raw": "[118054.464, 118578.752, 118726.208]",
+        "CSV_average_raw": "118453.1413 kB",
+        "CSV_baseline_raw": "0",
+        "sample_values_and_order_exact": true,
+        "mean_exact_fraction": "44419928/375",
+        "CSV_mean_absolute_difference_fraction": "1/30000",
+        "half_last_printed_decimal_fraction": "1/20000",
+        "within_printed_rounding_half_unit": true,
+        "positive_count": 3,
+        "zero_count": 0,
+        "negative_count": 0
+      },
+      {
+        "identifier": "com.apple.dt.XCTMetric_Memory-dev.pero3.aiagentlibrary.prototype.physical",
+        "display_name": "Memory Physical (prototype)",
+        "unit_literal": "kB",
+        "typed_row_type": "ActionTestPerformanceMetricSummary",
+        "raw_samples": [
+          "3293.184",
+          "2473.984",
+          "2654.208"
+        ],
+        "sample_count": 3,
+        "accepted_summary_raw_numeric_and_baseline_exact": true,
+        "CSV_iterations_raw": "[3293.184, 2473.984, 2654.208]",
+        "CSV_average_raw": "2807.125333 kB",
+        "CSV_baseline_raw": "0",
+        "sample_values_and_order_exact": true,
+        "mean_exact_fraction": "1052672/375",
+        "CSV_mean_absolute_difference_fraction": "1/3000000",
+        "half_last_printed_decimal_fraction": "1/2000000",
+        "within_printed_rounding_half_unit": true,
+        "positive_count": 3,
+        "zero_count": 0,
+        "negative_count": 0
+      }
+    ],
+    "comparison": "Independent Python Decimal/Fraction on this actual current typed/CSV data, not Node generic helper or previous-run values.",
+    "limits": [
+      "Raw wire kB is retained without semantic conversion or budget adoption.",
+      "Debug iOS18.5 Simulator target-process transaction, not physical/cold/lifetime/p95/product-SLO completion."
+    ],
+    "date_JST": "2026-10-29",
+    "run_started_UTC": "2026-10-28T19:40:53Z",
+    "run_completed_or_updated_UTC": "2026-10-28T19:52:24Z",
+    "Source4_SHA256": {
+      ".github/workflows/ios-memory.yml": "76c014f7ff06bef2370127a4c637f3458a111a159807abf0c1ce61ccfc6cb894",
+      "ios/AILibraryUITests/PublishedPerformanceUITests.swift": "92a5876656d025024ba80b96789542763d21dd992f31f705d11bde235a62ad05",
+      "ios/tests/export-memory.mjs": "d99faf0d7b6478b4e57b4aaf278d9bd3cc304e87e6234a6063b28de626e81938",
+      "tests/unit/ios-memory-export.test.mjs": "d9e858f884815b8d1459ca365750dda7e37c039c85c92827f38bb55cad06ae5c"
+    },
+    "publication_manifest_SHA256": "eaa7c3503cd37f0c7145b4cb86d0b41315531215704a588c2bc09e80143af78f",
+    "capture": {
+      "raw_bytes": 85644,
+      "raw_SHA256": "7debfe9887c8f7629d22a762abb2d2a862c99d2b8a0bbf0e67660cfddbf7a919",
+      "ZIP_bytes": 153172,
+      "ZIP_SHA256": "22fe5f6e8a77dec4a908c511c12340b564429120409bac51e3bc4484efee2d3f",
+      "regular_extracted_members": 123,
+      "extracted_bytes": 1146400,
+      "compact_manifest_entries": 122,
+      "exporter_manifest_entries": 13,
+      "all_bytes_SHA_CRC_independently_verified": true
+    },
+    "export": {
+      "official_reader_commands": 6,
+      "all_reader_exit_codes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "exporter_exit_code": 0,
+      "elapsed_ms": 6153,
+      "ten_stages_passed": true,
+      "reviewed_summary_gate_satisfied": true
+    },
+    "opaque_manifest": {
+      "bytes": 305,
+      "SHA256": "06f88b36fb87aa69eb4a91d029726a6d68f1fea99a9edf4b0dce25e27eb474b1",
+      "schema_not_used": true,
+      "metric_acceptance_depends_on_contents": false,
+      "observed_filename_field_has_extra_csv_suffix": true,
+      "schema_or_referential_integrity_verified": false
+    },
+    "independent_review": {
+      "new_P1": 0,
+      "new_P2": 0,
+      "manifest_SHA256": "d4514b23006179319c26c662bec924cf12ee2bba5d33f1c4a72a170622178ae9",
+      "accepted_observation_SHA256": "471d2165509cfdf9fb43b19755f239e6c755358f5ed38db1f984589a8f55f376",
+      "scope": "exactec4 observationonly; notallCI/Ready/merge/product"
+    }
+  },
+  "main_sha": "4a6c3633cbc7cbe9fe460043cbefbbe937906b80",
+  "merge_validation": {
+    "state": "mainmergeverified;postpushMemorynotaccepted;targetedbudgetrepairpending",
+    "PR": 296,
+    "head": "ec4d71c4d61624bbb8064020556dcae5bf32c79c",
+    "final_required_CI": {
+      "head": "ec4d71c4d61624bbb8064020556dcae5bf32c79c",
+      "all8workflow": "attempt1 APIsuccess,failure0,retry0",
+      "source_CI_manifest": "7243810588ef21a9fd0544bb1e668ac298e1b0dbc4c0e71433d1de228b743cdd",
+      "required11": "latestexacthead/githubactions/allSuccess"
+    },
+    "Ready_policy": {
+      "updated_UTC": "2026-10-28T20:33:09Z",
+      "harness_policy": {
+        "check": 123084205507,
+        "started_UTC": "2026-10-28T20:33:15Z",
+        "conclusion": "success"
+      },
+      "freshness_policy": {
+        "check": 123084377371,
+        "started_UTC": "2026-10-28T20:33:38Z",
+        "conclusion": "success"
+      },
+      "all11_latest": "success",
+      "gate_manifest": "9b6cff42f0b568f4a120ee7248cd26485baa7111747595769a1080a32fc70b72"
+    },
+    "ordinary_merge": {
+      "PR": 296,
+      "method": "ordinaryprotected squash",
+      "main_sha": "4a6c3633cbc7cbe9fe460043cbefbbe937906b80",
+      "parent": "e0c3031f3d62adab017c72949ffa3376e77b18bf",
+      "tree": "6e0ff2da834ffca9fa2055e313e2ff41998ac308",
+      "merged_UTC": "2026-10-28T20:34:59Z",
+      "all2803tuples_match_approved": true,
+      "format_and_range1commit0merge_valid": true,
+      "message_match": "approvedsubjectandsquashbody,terminalLFnormalizationonly",
+      "admin_or_protection_change": false
+    },
+    "main_source_tree_match": true,
+    "postpush": {
+      "head": "4a6c3633cbc7cbe9fe460043cbefbbe937906b80",
+      "event": "push",
+      "Memory": {
+        "run": 40764578560,
+        "attempt1_job": 123085158337,
+        "attempt1": "450sUIAXbodypollinv3nonreturn,metricunaccepted",
+        "attempt1_raw_SHA256": "02318eb6be90238bcca30972901a8f29e3fc01fcde6840b28a7ffa07ddb1720f",
+        "attempt1_ZIP_SHA256": "6a4fa6844e6c46db8a650c4985b8b1e447dc975dc4da5df36750373b83ef66a0",
+        "attempt1_audit_manifest": "8be2345686509767fc79d253991fcb6668db805e897392546617ac0a9815489a",
+        "unchanged_retry_count": 1,
+        "no_third_attempt": true,
+        "attempt2_job": 123099168375,
+        "attempt2": "content230sremaining4289ms audit-fixture-package ETIMEDOUT beforecreate/build/UI",
+        "attempt2_raw_SHA256": "8f7e57c6a3dc3e7949e6570754b029a86bc39e2340f03a7651d7e79c29c57dec",
+        "attempt2_ZIP_SHA256": "a9a76fbb7d1500e47043d335e776aa52bd6d363fda289b6bfa6da2520961222a",
+        "attempt2_audit_manifest": "09d19687bc4f65d4e45913c1b91b87682bb81b44959337f2fbdc836d0bb60732",
+        "accepted": false
+      },
+      "Common": "attempt1 APIsuccess10jobsincldeploy",
+      "Clock": "attempt1 APIsuccess",
+      "Native": "attempt1 APIsuccess",
+      "Full": "attempt1 APIsuccess run40764578561/job123085158899",
+      "extraSDK26_Runtime26_Dedicated": "notfiredonpush,nosuccessclaim",
+      "final_CI_manifest": "80776511261daa25fdde8ad227738517d70e868a91b2b10a09a391f90645b29d",
+      "actual5_workflow_state": "allterminal:CommonNativeFullClockAPIsuccess,Memoryfailureattempt1+2,nothirdretry"
+    }
+  },
+  "records_closure": {
+    "state": "acceptedrecordclosurecombinedwithtargetedCIbudgetfix,ordinarynewPRpending",
+    "no_App_PBX_MemorySwift_exporter_or_tests_edits": true
+  },
+  "content_budget_fix_candidate": {
+    "workflow_only_changes": {
+      "content_deadline_ms": [
+        230000,
+        300000
+      ],
+      "CI_step_minutes": [
+        4,
+        6
+      ]
+    },
+    "confirmed_existing_P2": "finalrequiredSwiftfixturepackageauditgets4289msdespite60snominal",
+    "observed_prefix": {
+      "first5commands_ms": 225201,
+      "elapsed_before_final_ms": 225711,
+      "final_allocated_ms": 4289,
+      "final_elapsed_ms": 4298,
+      "final_exit": null,
+      "final_signal": "SIGKILL",
+      "final_error": "ETIMEDOUT"
+    },
+    "new_final_max_total_ms": 285711,
+    "held": "child180/90/audit60,work31/job40/reserve6,UI15s/measure450s/all strictaudits/othercode",
+    "UI_first_hang_cause_or_fix": "unresolved/notaddressed",
+    "WF_SHA256": "871eb90d1323c19c332a8bf38363002cb7671c023ab29568b5ca6c7f40a11eea",
+    "WF_manifest": "47e037591ac5446e59dff2b9af314d3e212be9f22540128e94d869c632066b14",
+    "validation": {
+      "whole_driver_content_synthetic": 8,
+      "static": 13,
+      "last_compile_21220ms": "syntheticillustrationfromotherpackagecompile,notactualfinalcompletion",
+      "initial_harness_inversion_failure": "fixedadapteronly,WFunchanged"
+    },
+    "newHosted": "notperformed",
+    "root_common_check": {
+      "command": "npm run check",
+      "exit": 0,
+      "Node": 1157,
+      "pass": 1142,
+      "skip": 15,
+      "fail": 0
+    }
   }
 }

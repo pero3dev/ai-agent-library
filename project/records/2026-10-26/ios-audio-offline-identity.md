@@ -62,3 +62,17 @@ trusted policy注入はJS関数API内部の依存注入・試験だけで、CLI�
 要約のSHA-256は `9d97d16ed159da40181f65756aaf986ed2b508d539d8afa681284db67f38e021`、証跡manifestは `b4fb181c776da6478f84cb2429242dea8c0e535050557eebc187fce1249936d0`、proofは `fb2afb19c45093ae23e0dc089b9d44bebcfe622291961a4aa1bad354a43e6651`。同名JSONの `limited_main142_related_Node_validation_20261028` で、第1試行の未確定値と第2試行の結果を区別する。
 
 今回もSDK・Simulator・Browser・音声取得/生成・network・API/Git変更・クリップボード操作は行っていない。通常音声は従来の1本を維持し、追加8音声・権利・Store採択、app player/UI・offline・実機受入、IOS-04 / IOS-16は未完了のままである。記録整理とコピー候補の統合後、音声の実統合時点のmainへ再束縛し、別人の最終payloadレビューと新headのCIを行う。
+
+## 2026-10-28: PR #288の通常統合によるsource契約の採択
+
+上のcandidate・preview・pending表記は各時点の履歴として保持します。[PR #288](https://github.com/pero3dev/ai-agent-library/pull/288)のidentity実装は、通常の保護条件によるsquashでmain `516662fe8474a94a069914d3126c412657efb8ca` / tree `2b4e52cee11543c9cd16b15d7d07e8c824f98304` に採択しました。親は `f15f634ab7068549b3d5d42270a0d8223f3cc0e3` で、全2781件のmode/type/blobは採択したhead65と一致します。これはコード採択の記録であり、IOS-04 / IOS-16全体の完了ではありません。
+
+- 旧head `d818536a79c337097f237762acc8e42e236e8966` では、Commonの[run40584688872](https://github.com/pero3dev/ai-agent-library/actions/runs/40584688872)でNode1102件（成功1086・skip16・失敗0）と音声関連3ファイルの54件を確認しました。Nativeはrun40584688902のUI4件、Fullはrun40584688994の一意22件、Runtime26はrun40584689060の2件がそれぞれ成功しました。Native/FullのSwift単体は165件・skip2・失敗0です。これらは固定d818の実行結果です。
+- mainf15を通常取り込みしたhead `65a86520387a074f08b86f52478b3fed4b68bef1` はparentsをd818・f15の順に持ち、承認済み音声Source6・App Swift16ファイルを保持しています。新しい[Common run40592583094](https://github.com/pero3dev/ai-agent-library/actions/runs/40592583094)でNode1102件（成功1086・skip16・失敗0）と関連54件の各Started/Passed1回を確認し、最新の必須11検査も成功しました。Nodeの実checkoutはsynthetic `af7e033e4fa6f66c5fada506eaabf443d74a2590` で、treeはhead65と一致します。
+- 新65の[SDK26 run40592582836](https://github.com/pero3dev/ai-agent-library/actions/runs/40592582836)はhead65自体をcheckoutし、Xcode26.6/SDK26.5の署名なしRelease Archiveで199記事・音声1・625ファイル・36,958,459B、TestContentなしを確認しました。実同梱/sourceのPrivacy SHAはともに `e0698c69f7f8482f7d501a30404b25c8337f991fe1edffac06f0787f878614dd` で、既存auditorの意味的一致検査が成功しています。Archive本体をこの記録作業で取得した結果ではありません。
+
+新65の任意iOS workflow4本（Native・Full・Runtime26・missing package）は取消です。Swift sourceが同じでも、旧UI4・22・2を新65やmain516での新たなUI成功へ読み替えません。Privacy XMLが変わったため、全resource bytesが旧d818と同一とも扱いません。直前節の1773B / `abee691f773ef0ea5830857932229f142fcabfdd4c836ff270351e14cc06838e`は固定main142の限定照合履歴で、f15・65・main516の新計測ではありません。
+
+実統合Git票のSHA-256は `159530904231b0a9758bc0849711898a3ef1b92e60e7945c91ee0163844b2e67`、新65のNode要約は `001b7dcc0f7dab8bad018a958f82f95930a44c4774b3a3723604bccff8fc617e`、SDK26要約は `a1868a0b5ebe9db9265a5e246a5c4ba63db6589d2e2b06f3b59799473b54f796`です。詳細は同名JSONの`adoption_20261028`へ小さな要約として追記しました。
+
+通常MP3のbody照合は、同じbatchの[通常1本の実MP3照合](../2026-10-28/ios-agent-loop-audio-byte-audit.md)で追跡します。本batchの文書化では音声本体の保存・再取得・再ハッシュを行っていません。通常音声はAgentループ1本のままで、追加8本・台本/READYの制作証拠・権利・Store/App Privacy・実機/VoiceOver・offline/playerの全体受入、IOS-04 / IOS-16は未完了です。TODO32行・完了12行は維持します。今回の文書化で新しいSDK・試験・ネットワーク/API操作は行っていません。

@@ -1,0 +1,216 @@
+{
+  "schema_version": 1,
+  "recorded_date_JST": "2026-10-28",
+  "status": "Fixed-snapshot AgentLoop1 actual-MP3 byte audit; script/rights incomplete",
+  "original_observation_SHA256": "adaed074254170b755824af5754afd92ca844c473265a15b5c7072678e85a00d",
+  "observation": {
+    "schema_version": 1,
+    "recorded_date_JST": "2026-10-28",
+    "status": "AgentLoop1 actual MP3 body verified; script and rights incomplete",
+    "scope": {
+      "one_normal_production_episode_only": true,
+      "extra8_included": false,
+      "actual_audio_player_or_device_or_Store_acceptance": false,
+      "feature_download_or_media_generation": false
+    },
+    "source": {
+      "Audio_head": "65a86520387a074f08b86f52478b3fed4b68bef1",
+      "main_snapshot": "f15f634ab7068549b3d5d42270a0d8223f3cc0e3",
+      "head_tree": "2b4e52cee11543c9cd16b15d7d07e8c824f98304",
+      "main_tree": "ca959a1abd8c15d8c7d0cc73f3f587e53310fd1f",
+      "source3_inputs": {
+        "scripts/lib/ios-audio-identity.mjs": {
+          "bytes": 6673,
+          "SHA256": "989472b3eddfa2fe8737bcae7fe488a0e56ba542cb118c370a4ba8226f344fc4",
+          "tuple": [
+            "100644",
+            "blob",
+            "c30454d96a483847c8bcca9d29e2d38f9347daec"
+          ]
+        },
+        "website/audio/catalog.json": {
+          "bytes": 25919,
+          "SHA256": "62cad93c2283cd3b2f6eb2e269e1b863c53e90e817770c10d7792007d715f322",
+          "tuple": [
+            "100644",
+            "blob",
+            "ab9d3be83212b9155b500a2d7de49595bb1a3948"
+          ]
+        },
+        "ios/content-selection.json": {
+          "bytes": 1846,
+          "SHA256": "9dd11a7cd6238bd2a915fc5e4b2872ffc1f693ed48293090b187cc222fa4c537",
+          "tuple": [
+            "100644",
+            "blob",
+            "f4db2323c1a0059f0fe2e053f0f719e2741a9ce9"
+          ]
+        }
+      },
+      "selected_article": "docs/01-concepts/agent-loop.md",
+      "article_raw_bytes": 11065,
+      "article_normalized_SHA256": "3c6f324e5d0d4a60c48cf9be030279731c2e3ea2951f1e51c1c3a570eec7f101",
+      "declaration_equals_catalog_tuple": true,
+      "main_catalog_and_selection_equal_Audio_head": true,
+      "declaration": {
+        "episode_id": "01-concepts--agent-loop-3c6f324e5d0d-7ab8a0e6323a-47803c3cb76f-p01",
+        "article_id": "01-concepts/agent-loop",
+        "article_path": "docs/01-concepts/agent-loop.md",
+        "audio_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-agent-loop-3c6f324e5d0d4a60-7ab8a0e6323a20e7/01-concepts--agent-loop-3c6f324e5d0d-7ab8a0e6323a-47803c3cb76f-p01-47803c3cb76f5e73.mp3",
+        "audio_sha256": "47803c3cb76f5e737a3d2f11a8878886590d4159363f52c453bd44396214942e",
+        "source_digest": "3c6f324e5d0d4a60c48cf9be030279731c2e3ea2951f1e51c1c3a570eec7f101",
+        "script_sha256": "7ab8a0e6323a20e72cada9f6559d5e219786616a2f2e308da5f2af646b60c9fb",
+        "credit": "VOICEVOX Nemo（女声1・男声1）",
+        "license_url": "https://voicevox.hiroshiba.jp/nemo/term/"
+      }
+    },
+    "release": {
+      "id": 387829972,
+      "tag_name": "audio-agent-loop-3c6f324e5d0d4a60-7ab8a0e6323a20e7",
+      "created_at": "2026-09-13T07:33:08Z",
+      "published_at": "2026-09-13T07:46:26Z",
+      "immutable": false,
+      "asset": {
+        "id": 560813683,
+        "name": "01-concepts--agent-loop-3c6f324e5d0d-7ab8a0e6323a-47803c3cb76f-p01-47803c3cb76f5e73.mp3",
+        "size": 13007768,
+        "digest": "sha256:47803c3cb76f5e737a3d2f11a8878886590d4159363f52c453bd44396214942e",
+        "content_type": "audio/mpeg",
+        "browser_download_url": "https://github.com/pero3dev/ai-agent-library/releases/download/audio-agent-loop-3c6f324e5d0d4a60-7ab8a0e6323a20e7/01-concepts--agent-loop-3c6f324e5d0d-7ab8a0e6323a-47803c3cb76f-p01-47803c3cb76f5e73.mp3",
+        "created_at": "2026-09-13T07:46:27Z",
+        "updated_at": "2026-09-13T07:46:29Z",
+        "state": "uploaded"
+      },
+      "body": "記事: docs/01-concepts/agent-loop.md\n\n原文 SHA-256: 3c6f324e5d0d4a60c48cf9be030279731c2e3ea2951f1e51c1c3a570eec7f101\n\nVOICEVOX Nemo（女声1・男声1）\n",
+      "asset_count": 1
+    },
+    "MP3_body": {
+      "source_release": 387829972,
+      "source_asset": 560813683,
+      "expected_bytes": 13007768,
+      "expected_SHA256": "47803c3cb76f5e737a3d2f11a8878886590d4159363f52c453bd44396214942e",
+      "precise_started_UTC": "2026-10-27T22:24:35.003784+00:00",
+      "status": "whole-MP3-body-bytes-and-SHA-match-declared-episode",
+      "body_saved": false,
+      "proxy_used": false,
+      "maximum_body_bytes": 13007768,
+      "deadline_seconds": 120,
+      "attempts": 1,
+      "HTTP_status": 200,
+      "final_host": "release-assets.githubusercontent.com",
+      "Content_Length": 13007768,
+      "Content_Type": "application/octet-stream",
+      "actual_bytes": 13007768,
+      "actual_SHA256": "47803c3cb76f5e737a3d2f11a8878886590d4159363f52c453bd44396214942e",
+      "ID3v2_prefix_present": true,
+      "duration_seconds": 1.415552334,
+      "redirects": [
+        {
+          "from_host": "github.com",
+          "status": 302,
+          "to_host": "release-assets.githubusercontent.com"
+        }
+      ],
+      "HTTP_GET_requests_in_chain": 2,
+      "body_download_chains": 1,
+      "body_retry": 0,
+      "precise_completed_UTC": "2026-10-27T22:24:36.419333+00:00",
+      "duration_measurement": "Not performed: ffprobe is absent; catalog duration remains metadata only."
+    },
+    "duration": {
+      "catalog_seconds": 1625.888413,
+      "actual_decode_or_duration_measurement": false,
+      "reason": "ffprobe not installed; no media parser installed or implemented in this read-only audit",
+      "byte_hash_equality_not_relabelled_duration_measurement": true
+    },
+    "script": {
+      "declared_canonical_SHA256": "7ab8a0e6323a20e72cada9f6559d5e219786616a2f2e308da5f2af646b60c9fb",
+      "hash_definition": "SHA256(JSON.stringify(parsed script)), not raw script file SHA",
+      "source_reference": "scripts/audio/publication.mjs:90 and scripts/audio/pipeline.mjs:107",
+      "current_source_receipt": "private:ios-agent-loop1-byte-audit-20261028/script-scope-current.json",
+      "release_has_script_asset": false,
+      "actual_script_bytes_recovered": false,
+      "READY_review_authorship_or_engine_version_recovered": false,
+      "prior_gap_audit": "private:ios-audio-provenance-gap-audit-20261026/report.json",
+      "prior_gap_audit_SHA256": "15aae6234547258f56efd876b4140345315ec9f9301db21414b394071caa3aef",
+      "prior_episode_record": {
+        "article_path": "docs/01-concepts/agent-loop.md",
+        "title": "Agent ループ",
+        "episode_id": "01-concepts--agent-loop-3c6f324e5d0d-7ab8a0e6323a-47803c3cb76f-p01",
+        "source_comparison": "current-source-match",
+        "source_digest": "3c6f324e5d0d4a60c48cf9be030279731c2e3ea2951f1e51c1c3a570eec7f101",
+        "current_digest": "3c6f324e5d0d4a60c48cf9be030279731c2e3ea2951f1e51c1c3a570eec7f101",
+        "old_source_known_in_git": true,
+        "known_old_source_example_commit": null,
+        "script_sha256_recorded": "7ab8a0e6323a20e72cada9f6559d5e219786616a2f2e308da5f2af646b60c9fb",
+        "actual_script_bytes_verified": false,
+        "audio_sha256_recorded": "47803c3cb76f5e737a3d2f11a8878886590d4159363f52c453bd44396214942e",
+        "actual_MP3_bytes_verified_this_audit": false,
+        "release_id": 387829972,
+        "release_only_asset_MP3": true,
+        "release_digest_matches_catalog": true,
+        "catalog_introduction_commit": "1d8b6e22798ab3ee8435f368887760aeea68a0ed",
+        "production_iOS_trusted_identity": true,
+        "producer_claim_recorded": "VOICEVOX Nemo; listener10005/explainer10001",
+        "per_episode_engine_version_or_READY_or_authorship_verified": false,
+        "rights_adopted": false
+      },
+      "prior_history_search_not_repeated": true,
+      "current_tracked_AgentLoop_script_paths": []
+    },
+    "limits": [
+      "The one current body hash does not establish script provenance, authorship, READY review or any distribution rights.",
+      "Release immutable=false; this is point-in-time equality and does not guarantee future URL bytes.",
+      "Runtime AVPlayer still does not hash every received MP3 body; app code is not modified.",
+      "No additional8, public streaming/storage/license/Store choice or IOS04/IOS16 completion is adopted.",
+      "Published duration is metadata only, not independently measured in this audit."
+    ],
+    "operations": {
+      "official_release_metadata_API_GETs": 1,
+      "body_download_chains": 1,
+      "body_HTTP_GETs_including_official_redirect": 2,
+      "body_retries": 0,
+      "MP3_persisted": false,
+      "script_or_READY_downloads": 0,
+      "shared_writes_Git_or_API_mutations": 0,
+      "SDK_Simulator_newtests_npm_generation": 0,
+      "software_installs": 0
+    },
+    "next": "Recover original production job script.json/review/ready/authorship for this one episode from its producing machine or backup, preserve originals and compare canonical hash; do not reconstruct or infer the missing script from the MP3."
+  },
+  "private_evidence": {
+    "manifest_identifier": "ios-agent-loop1-byte-audit-20261028/manifest.json",
+    "manifest_SHA256": "2da52ca3e7e201ede8d420a6a6bd136bccd04415b305e0e1a02a51fcdb7a64c0",
+    "body_read_receipt": {
+      "identifier": "ios-agent-loop1-byte-audit-20261028/MP3-body-read.json",
+      "SHA256": "1aace33b28cd92a80c43aafaa5efd35fbcf57c2b6d0fbed48c4c19cd12607a96"
+    },
+    "official_release_metadata": {
+      "identifier": "ios-agent-loop1-byte-audit-20261028/release-metadata.json",
+      "SHA256": "8f5a0918f15c6d40021f4a35a2542db5aeb89ffaa3041ab3d4d5b030ef1a440a"
+    },
+    "producer_script_scope": {
+      "identifier": "ios-agent-loop1-byte-audit-20261028/script-scope-current.json",
+      "SHA256": "4167bff35950efd76abd5f5e4812a24554a00a17e77679879981f5a504fee05d"
+    },
+    "raw_MP3_persisted": false
+  },
+  "documentation_step": {
+    "HTTP_or_MP3_retrievals": 0,
+    "SDK_Simulator_newtests_npm_source_execution": 0,
+    "Source_Git_API_shared_edits": 0,
+    "only_private_path_identifier_sanitizations": [
+      {
+        "pointer": "/script/prior_gap_audit",
+        "new_identifier": "private:ios-audio-provenance-gap-audit-20261026/report.json"
+      },
+      {
+        "pointer": "/script/current_source_receipt",
+        "new_identifier": "private:ios-agent-loop1-byte-audit-20261028/script-scope-current.json"
+      }
+    ],
+    "IOS04_or_IOS16_complete": false,
+    "TODO_rows": 32,
+    "TODO_complete": 12
+  }
+}

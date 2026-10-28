@@ -38,6 +38,8 @@
 
 全記事一覧が使えるまでの[性能観測基盤](records/2026-10-25/ios-published-readiness-observation.md)では、機能UIと専用Clockケースを分ける。実Debug全数監査・warm-upと3標本・生xcresult/CSVを保持し、初回の実Clock型・単位・識別子の確認と性能予算の採択を区別する。
 
+[main49のApp起動観測](records/2026-10-28/ios-published-launch-readiness.md)では、Debug・Xcode16.4/iOS18.5の起動から全199記事数と学習ガイドの存在確認までをClock3標本で記録した。平均7.5879547333333335秒とCSVの丸めを照合し、終了処理を除いたUI/AX待機込みの温まったcacheでの観測として扱う。過去のCore CLI、cold起動・p95・RSS・実機・性能予算と区別し、TODOの完了欄は変更しない。
+
 全publishedの開発用標準生成は[入口統合の記録](records/2026-10-25/ios-published-development-default.md)で追跡する。標準npmで全199記事と学習索引を生成・原文監査・実consumer監査し、代表3記事とfixture4記事の回帰入口を保つ。公開申請の採択や全記事の実機受入とは分ける。
 
 本文の既知章URLをアプリ内の章案内へつなぐ[章リンクの記録](records/2026-10-25/ios-native-chapter-link.md)では、全199記事の前提・関連リンク保持と、説明文を保った章・記事への導線を追跡する。厳密URL/helperと累積SDK compile、未完了のHosted/実機を区別する。
@@ -75,6 +77,8 @@
 ネイティブ記事の[パッケージ契約](records/2026-10-25/ios-native-package-contract.md)では、app・renderer・schemaの対応、未対応版の拒否と正常版維持、生成側と端末側の音声・ファイル数・byte上限を揃える。旧HTMLの比較生成は一時出力へ限定し、全記事展開や配信の真正性とは範囲を分ける。
 
 [音声offline identity契約](records/2026-10-26/ios-audio-offline-identity.md)は通常Agentループ1音声を保つ。旧750aのNode検証と1773Bのmetadata等価性を履歴として保持し、今回の実main snapshotと未実施のexact-head CIを分ける。追加8音声・権利・IOS-04/16全体は未採択で、実音声bytesの検証や新しい配信を採択しない。
+
+[通常1本の実MP3照合](records/2026-10-28/ios-agent-loop-audio-byte-audit.md)では、固定mainf15とAudio候補65のAgentループ音声13,007,768Bを取得し、宣言・catalog・公式ReleaseのSHAと一致した。1取得チェーンを文書化し、音声本体の保存や再取得はしていない。台本のcanonical JSON・READY・制作証拠は未回収で、Releaseの将来不変性、受信ごとのhash検証、権利・追加8本・Store・IOS-04/16全体の受入とは分ける。
 
 既存のネイティブUI試験2件のHosted実行は[専用のCI追加記録](records/2026-10-25/ios-native-ui-ci.md)で追跡する。通常3記事の本文とTransformerの目次・しおり・再起動復帰を確認し、未対象のオフライン・コピー・内部リンク等のUI受入を区別する。
 

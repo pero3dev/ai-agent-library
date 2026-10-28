@@ -814,4 +814,265 @@ final class NativeInlineTests: XCTestCase {
                 "Visible exclusion may not extend the legal negative offset range")
         }
     }
+    // BEGIN figure-preview direct production regressions.
+    // A separate fixture keeps PNG pixel dimensions independent of the host screen.
+    private func figurePNG(width: Int = 320, height: Int = 160, color: UIColor) throws -> Data {
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+        format.opaque = true
+        format.preferredRange = .standard
+        let size = CGSize(width: width, height: height)
+        let image = UIGraphicsImageRenderer(size: size, format: format).image { context in
+            color.setFill()
+            context.fill(CGRect(origin: .zero, size: size))
+        }
+        let bitmap = try XCTUnwrap(image.cgImage)
+        XCTAssertEqual(bitmap.width, width)
+        XCTAssertEqual(bitmap.height, height)
+        return try XCTUnwrap(image.pngData())
+    }
+
+    private func figureSnapshot(_ root: URL) throws -> ContentSnapshot {
+        var hashes: [String: String] = [:]
+        for name in ["light.png", "dark.png"] {
+            let data = try Data(contentsOf: root.appendingPathComponent(name))
+            hashes[name] = SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+        }
+        return ContentSnapshot(root: root, manifest: ContentManifest(schema_version: 2,
+            revision: "figure-preview-shared-revision", articles: [], audio: [], files: hashes))
+    }
+
+    private func figureFixture(_ run: (ContentSnapshot, NativeAsset) throws -> Void) throws {
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent("native-figure-" + UUID().uuidString)
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: root) }
+        try figurePNG(color: .black).write(to: root.appendingPathComponent("light.png"))
+        try figurePNG(color: .white).write(to: root.appendingPathComponent("dark.png"))
+        let asset = NativeAsset(light: "light.png", dark: "dark.png", width: 320, height: 160, scale: 1)
+        try run(figureSnapshot(root), asset)
+    }
+
+    func testFigurePreviewRequestRejectsInvalidGeometryAndUsesBoundedPixelBuckets() throws {
+        let two = try XCTUnwrap(NativeFigurePreviewBitmap.Request(displaySize: CGSize(width: 100, height: 50), displayScale: 2))
+        XCTAssertEqual(two.width, 256)
+        XCTAssertEqual(two.height, 128)
+        let exact = try XCTUnwrap(NativeFigurePreviewBitmap.Request(displaySize: CGSize(width: 64, height: 128), displayScale: 1))
+        XCTAssertEqual(exact.width, 64)
+        XCTAssertEqual(exact.height, 128)
+        let next = try XCTUnwrap(NativeFigurePreviewBitmap.Request(displaySize: CGSize(width: 64.01, height: 128.01), displayScale: 1))
+        XCTAssertEqual(next.width, 128)
+        XCTAssertEqual(next.height, 192)
+        let capped = try XCTUnwrap(NativeFigurePreviewBitmap.Request(displaySize: CGSize(width: 10_000, height: 10_000), displayScale: 4))
+        XCTAssertEqual(capped.width, 8_192)
+        XCTAssertEqual(capped.height, 8_192)
+        for invalid in [CGFloat.nan, .infinity, -.infinity, 0, -1] {
+            XCTAssertNil(NativeFigurePreviewBitmap.Request(displaySize: CGSize(width: invalid, height: 80), displayScale: 1))
+            XCTAssertNil(NativeFigurePreviewBitmap.Request(displaySize: CGSize(width: 80, height: invalid), displayScale: 1))
+        }
+        for invalid in [CGFloat.nan, .infinity, -.infinity, -1, 0, 0.5, 4.01] {
+            XCTAssertNil(NativeFigurePreviewBitmap.Request(displaySize: CGSize(width: 80, height: 40), displayScale: invalid))
+        }
+        XCTAssertNil(NativeFigurePreviewBitmap.Request(displaySize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: 40),
+            displayScale: 4), "An overflowing point-to-pixel product must not reach Int conversion")
+    }
+
+    func testFigurePreviewPlannerRejectsSourceCapsAndNeverUpscales() throws {
+        let small = try XCTUnwrap(NativeFigurePreviewBitmap.Request(displaySize: CGSize(width: 100, height: 50), displayScale: 1))
+        XCTAssertEqual(NativeFigurePreviewBitmap.maximumPixelDimension(sourceWidth: 320, sourceHeight: 160, request: small), 128)
+        let large = try XCTUnwrap(NativeFigurePreviewBitmap.Request(displaySize: CGSize(width: 10_000, height: 10_000), displayScale: 4))
+        XCTAssertEqual(NativeFigurePreviewBitmap.maximumPixelDimension(sourceWidth: 32, sourceHeight: 16, request: large), 32)
+        XCTAssertEqual(NativeFigurePreviewBitmap.maximumPixelDimension(sourceWidth: 8_000, sourceHeight: 4_000, request: large),
+            4_000, "The legal 32M source must still produce at most an 8M preview")
+        for (width, height) in [(0, 160), (320, 0), (-1, 160), (320, -1), (8_193, 1),
+                                (1, 8_193), (Int.max, 1), (1, Int.max), (8_000, 4_001)] {
+            XCTAssertNil(NativeFigurePreviewBitmap.maximumPixelDimension(sourceWidth: width, sourceHeight: height, request: large))
+        }
+    }
+
+    func testFigurePreviewDecoderUsesRealPNGAtRequestedScalesWithinReturnedBitmapCaps() throws {
+        try figureFixture { snapshot, asset in
+            let url = snapshot.root.appendingPathComponent(asset.light)
+            var widths: [Int] = []
+            for scale in [CGFloat(1), 2, 3, 4] {
+                let request = try XCTUnwrap(NativeFigurePreviewBitmap.Request(displaySize: CGSize(width: 70, height: 35), displayScale: scale))
+                let image = try XCTUnwrap(NativeFigurePreviewBitmap.image(url: url, expectedWidth: 320, expectedHeight: 160,
+                    assetScale: 1, request: request))
+                widths.append(image.width)
+                XCTAssertGreaterThan(image.width, 0)
+                XCTAssertGreaterThan(image.height, 0)
+                XCTAssertLessThanOrEqual(image.width, request.width)
+                XCTAssertLessThanOrEqual(image.height, request.height)
+                XCTAssertLessThanOrEqual(image.width, 320)
+                XCTAssertLessThanOrEqual(image.height, 160)
+                XCTAssertLessThanOrEqual(image.width * image.height, NativeFigurePreviewBitmap.maximumPreviewPixels)
+                XCTAssertLessThanOrEqual(image.bytesPerRow * image.height, NativeFigurePreviewBitmap.maximumPreviewBytes)
+            }
+            XCTAssertEqual(widths, [128, 192, 256, 320])
+            let oversizedDisplay = try XCTUnwrap(NativeFigurePreviewBitmap.Request(displaySize: CGSize(width: 4_000, height: 4_000),
+                displayScale: 3))
+            let unscaled = try XCTUnwrap(NativeFigurePreviewBitmap.image(url: url, expectedWidth: 320, expectedHeight: 160,
+                assetScale: 1, request: oversizedDisplay))
+            XCTAssertEqual(unscaled.width, 320)
+            XCTAssertEqual(unscaled.height, 160)
+        }
+    }
+
+    func testFigurePreviewDecoderRejectsWrongMetadataAndInvalidFilesWithoutOriginalFallback() throws {
+        try figureFixture { snapshot, asset in
+            let url = snapshot.root.appendingPathComponent(asset.light)
+            let request = try XCTUnwrap(NativeFigurePreviewBitmap.Request(displaySize: CGSize(width: 70, height: 35), displayScale: 1))
+            XCTAssertNotNil(NativeFigurePreviewBitmap.image(url: url, expectedWidth: 322, expectedHeight: 162, assetScale: 1,
+                request: request), "The declared two-pixel metadata tolerance remains usable")
+            XCTAssertNil(NativeFigurePreviewBitmap.image(url: url, expectedWidth: 323, expectedHeight: 160, assetScale: 1, request: request))
+            XCTAssertNil(NativeFigurePreviewBitmap.image(url: url, expectedWidth: 320, expectedHeight: 163, assetScale: 1, request: request))
+            for invalid in [Double.nan, .infinity, -.infinity, 0, -1] {
+                XCTAssertNil(NativeFigurePreviewBitmap.image(url: url, expectedWidth: invalid, expectedHeight: 160,
+                    assetScale: 1, request: request))
+                XCTAssertNil(NativeFigurePreviewBitmap.image(url: url, expectedWidth: 320, expectedHeight: invalid,
+                    assetScale: 1, request: request))
+            }
+            for invalid in [Double.nan, .infinity, -.infinity, 0, 0.5, 4.01] {
+                XCTAssertNil(NativeFigurePreviewBitmap.image(url: url, expectedWidth: 320, expectedHeight: 160,
+                    assetScale: invalid, request: request))
+            }
+            let malformed = snapshot.root.appendingPathComponent("malformed.png")
+            try Data("not a PNG".utf8).write(to: malformed)
+            XCTAssertNil(NativeFigurePreviewBitmap.image(url: malformed, expectedWidth: 320, expectedHeight: 160,
+                assetScale: 1, request: request))
+            let jpeg = snapshot.root.appendingPathComponent("jpeg-disguised.png")
+            let pngImage = try XCTUnwrap(UIImage(contentsOfFile: url.path))
+            try XCTUnwrap(pngImage.jpegData(compressionQuality: 0.8)).write(to: jpeg)
+            XCTAssertNil(NativeFigurePreviewBitmap.image(url: jpeg, expectedWidth: 320, expectedHeight: 160,
+                assetScale: 1, request: request))
+            XCTAssertNil(NativeFigurePreviewBitmap.image(url: snapshot.root.appendingPathComponent("missing.png"),
+                expectedWidth: 320, expectedHeight: 160, assetScale: 1, request: request))
+            XCTAssertNil(NativeFigurePreviewBitmap.image(url: snapshot.root, expectedWidth: 320, expectedHeight: 160,
+                assetScale: 1, request: request))
+        }
+    }
+
+    func testFigurePreviewCacheSeparatesOriginalPurposeInBothCallOrders() throws {
+        for previewFirst in [false, true] {
+            try figureFixture { snapshot, asset in
+                let cache = NativeAssetImageCache.shared
+                let size = CGSize(width: 70, height: 35)
+                var preview: UIImage
+                var original: UIImage
+                if previewFirst {
+                    preview = try XCTUnwrap(cache.figurePreviewImage(for: asset, snapshot: snapshot, dark: false,
+                        displaySize: size, displayScale: 1))
+                    original = try XCTUnwrap(cache.image(for: asset, snapshot: snapshot, dark: false))
+                } else {
+                    original = try XCTUnwrap(cache.image(for: asset, snapshot: snapshot, dark: false))
+                    preview = try XCTUnwrap(cache.figurePreviewImage(for: asset, snapshot: snapshot, dark: false,
+                        displaySize: size, displayScale: 1))
+                }
+                XCTAssertEqual(try XCTUnwrap(original.cgImage).width, 320)
+                XCTAssertEqual(try XCTUnwrap(original.cgImage).height, 160)
+                XCTAssertEqual(try XCTUnwrap(preview.cgImage).width, 128)
+                XCTAssertEqual(try XCTUnwrap(preview.cgImage).height, 64)
+                XCTAssertEqual(try XCTUnwrap(cache.image(for: asset, snapshot: snapshot, dark: false)?.cgImage).width, 320)
+                XCTAssertEqual(try XCTUnwrap(cache.figurePreviewImage(for: asset, snapshot: snapshot, dark: false,
+                    displaySize: size, displayScale: 1)?.cgImage).width, 128)
+            }
+        }
+    }
+
+    func testFigurePreviewCacheSeparatesRequestSizeScaleAndDarkPixels() throws {
+        try figureFixture { snapshot, asset in
+            let cache = NativeAssetImageCache.shared
+            let size = CGSize(width: 70, height: 35)
+            let small = try XCTUnwrap(cache.figurePreviewImage(for: asset, snapshot: snapshot, dark: false,
+                displaySize: size, displayScale: 1))
+            let retina = try XCTUnwrap(cache.figurePreviewImage(for: asset, snapshot: snapshot, dark: false,
+                displaySize: size, displayScale: 2))
+            let wider = try XCTUnwrap(cache.figurePreviewImage(for: asset, snapshot: snapshot, dark: false,
+                displaySize: CGSize(width: 160, height: 80), displayScale: 1))
+            let dark = try XCTUnwrap(cache.figurePreviewImage(for: asset, snapshot: snapshot, dark: true,
+                displaySize: size, displayScale: 1))
+            XCTAssertEqual(try XCTUnwrap(small.cgImage).width, 128)
+            XCTAssertEqual(try XCTUnwrap(retina.cgImage).width, 192)
+            XCTAssertEqual(try XCTUnwrap(wider.cgImage).width, 192)
+            XCTAssertEqual(try XCTUnwrap(dark.cgImage).width, 128)
+            XCTAssertNotEqual(try XCTUnwrap(small.pngData()), try XCTUnwrap(dark.pngData()))
+        }
+    }
+
+    func testFigurePreviewCacheSeparatesRootsAndUpdatedRealDigestsWithTheSameRevision() throws {
+        try figureFixture { first, asset in
+            try figureFixture { second, _ in
+                let cache = NativeAssetImageCache.shared
+                let size = CGSize(width: 70, height: 35)
+                let original = try XCTUnwrap(cache.figurePreviewImage(for: asset, snapshot: first, dark: false,
+                    displaySize: size, displayScale: 1)?.pngData())
+                let black = try Data(contentsOf: first.root.appendingPathComponent("light.png"))
+                try black.write(to: second.root.appendingPathComponent("light.png"))
+                let other = try figureSnapshot(second.root)
+                XCTAssertEqual(first.manifest.files["light.png"], other.manifest.files["light.png"])
+                // With identical digests but an uncached other root, a missing file
+                // must not borrow first's cached pixels. This is not tamper detection
+                // for an already-cached file in the same validated immutable package.
+                try FileManager.default.removeItem(at: second.root.appendingPathComponent("light.png"))
+                XCTAssertNil(cache.figurePreviewImage(for: asset, snapshot: other, dark: false,
+                    displaySize: size, displayScale: 1))
+                let white = try Data(contentsOf: first.root.appendingPathComponent("dark.png"))
+                try white.write(to: first.root.appendingPathComponent("light.png"))
+                let updated = try figureSnapshot(first.root)
+                XCTAssertEqual(first.manifest.revision, updated.manifest.revision)
+                XCTAssertNotEqual(first.manifest.files["light.png"], updated.manifest.files["light.png"])
+                XCTAssertNotEqual(original, try XCTUnwrap(cache.figurePreviewImage(for: asset, snapshot: updated, dark: false,
+                    displaySize: size, displayScale: 1)?.pngData()))
+            }
+        }
+    }
+
+    func testFigurePreviewCacheDoesNotReuseForWrongMetadataOrInvalidDisplayRequest() throws {
+        try figureFixture { snapshot, asset in
+            let cache = NativeAssetImageCache.shared
+            let size = CGSize(width: 70, height: 35)
+            XCTAssertNotNil(cache.figurePreviewImage(for: asset, snapshot: snapshot, dark: false, displaySize: size, displayScale: 1))
+            let wrongWidth = NativeAsset(light: asset.light, dark: asset.dark, width: 323, height: 160, scale: 1)
+            XCTAssertNil(cache.figurePreviewImage(for: wrongWidth, snapshot: snapshot, dark: false, displaySize: size, displayScale: 1))
+            let wrongScale = NativeAsset(light: asset.light, dark: asset.dark, width: 320, height: 160, scale: 2)
+            XCTAssertNil(cache.figurePreviewImage(for: wrongScale, snapshot: snapshot, dark: false, displaySize: size, displayScale: 1))
+            let scaledMetadata = NativeAsset(light: asset.light, dark: asset.dark, width: 160, height: 80, scale: 2)
+            let scaled = try XCTUnwrap(cache.figurePreviewImage(for: scaledMetadata, snapshot: snapshot, dark: false,
+                displaySize: size, displayScale: 1))
+            XCTAssertEqual(scaled.scale, 2)
+            XCTAssertEqual(try XCTUnwrap(scaled.cgImage).width, 128)
+            XCTAssertNil(cache.figurePreviewImage(for: asset, snapshot: snapshot, dark: false,
+                displaySize: CGSize(width: CGFloat.nan, height: 35), displayScale: 1))
+            XCTAssertNil(cache.figurePreviewImage(for: asset, snapshot: snapshot, dark: false, displaySize: size, displayScale: .infinity))
+        }
+    }
+
+    func testFigurePreviewCacheRejectsUnlistedUnsafeAndEscapingAssets() throws {
+        try figureFixture { first, asset in
+            let cache = NativeAssetImageCache.shared
+            let size = CGSize(width: 70, height: 35)
+            XCTAssertNotNil(cache.figurePreviewImage(for: asset, snapshot: first, dark: false, displaySize: size, displayScale: 1))
+            let unlisted = ContentSnapshot(root: first.root, manifest: ContentManifest(schema_version: 2,
+                revision: first.manifest.revision, articles: [], audio: [], files: [:]))
+            XCTAssertNil(cache.figurePreviewImage(for: asset, snapshot: unlisted, dark: false, displaySize: size, displayScale: 1))
+            let digest = try XCTUnwrap(first.manifest.files[asset.light])
+            for name in ["/light.png", "../light.png", "./light.png", "a/../light.png", "a//light.png", "light.jpg", "a\\light.png"] {
+                let unsafe = NativeAsset(light: name, dark: name, width: 320, height: 160, scale: 1)
+                let snapshot = ContentSnapshot(root: first.root, manifest: ContentManifest(schema_version: 2,
+                    revision: first.manifest.revision, articles: [], audio: [], files: [name: digest]))
+                XCTAssertNil(cache.figurePreviewImage(for: unsafe, snapshot: snapshot, dark: false, displaySize: size, displayScale: 1))
+            }
+            try figureFixture { second, _ in
+                let link = first.root.appendingPathComponent("outside.png")
+                try FileManager.default.createSymbolicLink(at: link, withDestinationURL: second.root.appendingPathComponent("light.png"))
+                let outsideData = try Data(contentsOf: second.root.appendingPathComponent("light.png"))
+                let outsideDigest = SHA256.hash(data: outsideData).map { String(format: "%02x", $0) }.joined()
+                let escaping = NativeAsset(light: "outside.png", dark: "outside.png", width: 320, height: 160, scale: 1)
+                let snapshot = ContentSnapshot(root: first.root, manifest: ContentManifest(schema_version: 2,
+                    revision: first.manifest.revision, articles: [], audio: [], files: ["outside.png": outsideDigest]))
+                XCTAssertNil(cache.figurePreviewImage(for: escaping, snapshot: snapshot, dark: false, displaySize: size, displayScale: 1))
+            }
+        }
+    }
+    // END figure-preview direct production regressions.
+
 }

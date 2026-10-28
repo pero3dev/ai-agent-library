@@ -132,10 +132,19 @@ final class PublishedPerformanceUITests: XCTestCase {
             throw NSError(domain: "PublishedAppMemoryObservation", code: 40,
                 userInfo: [NSLocalizedDescriptionKey: "The App memory case requires its dedicated runner and explicit scenario."])
         }
+        let trace = PublishedMemoryPhaseTrace()
+        trace.record("case-enter")
         let articleID = "11-llm-internals/transformer-architecture"
         let articleTitle = "Transformer アーキテクチャ詳解"
-        defer { app.terminate() }
+        defer {
+            trace.record("terminate-enter")
+            app.terminate()
+            trace.record("terminate-return")
+        }
+        trace.record("launch-enter")
         app.launch()
+        trace.record("launch-return")
+        trace.record("readiness-enter")
         let countLabel = app.staticTexts["library-article-count"]
         let guide = app.buttons["library-learning-guide"]
         XCTAssertTrue(countLabel.waitForExistence(timeout: 45))
@@ -143,48 +152,72 @@ final class PublishedPerformanceUITests: XCTestCase {
         XCTAssertEqual(observedCount, "全\(expectedPublishedCount)記事")
         XCTAssertTrue(guide.waitForExistence(timeout: 10))
         let guidePresent = guide.exists
-        try memoryWait("The full library must be the unique foreground navigation context") {
+        try memoryWait("The full library must be the unique foreground navigation context", trace: trace, phase: "library") {
             self.memoryForegroundContext(title: "AI Agent Library") != nil
         }
 
+        trace.record("readiness-return")
+
         // The application is already launched. Never substitute XCTMemoryMetric(),
         // whose default target would be the test Runner's own process.
+        trace.record("metric-init-enter")
         let metric = XCTMemoryMetric(application: app)
+        trace.record("metric-init-return")
         let options = XCTMeasureOptions()
         options.iterationCount = 3
         options.invocationOptions = [.manuallyStart, .manuallyStop]
         var invocations = 0
         var bodyWitnesses: [[String: String]] = []
 
+        trace.record("measure-enter")
         measure(metrics: [metric], options: options) {
+            trace.setInvocation(invocations + 1)
+            trace.record("invocation-enter")
             var measuring = false
             do {
-                if invocations > 0 { try self.memoryReturnToLibrary(articleTitle: articleTitle) }
-                let row = try self.memoryPrepareArticleRow(articleID: articleID, title: articleTitle)
+                trace.record("prepare-enter")
+                if invocations > 0 { try self.memoryReturnToLibrary(articleTitle: articleTitle, trace: trace) }
+                let row = try self.memoryPrepareArticleRow(articleID: articleID, title: articleTitle, trace: trace)
+                trace.record("prepare-return")
                 guard self.app.state == .runningForeground else {
                     throw NSError(domain: "PublishedAppMemoryObservation", code: 41,
                         userInfo: [NSLocalizedDescriptionKey: "The same explicitly launched application must remain foreground."])
                 }
                 invocations += 1
+                trace.record("measure-start-enter")
                 self.startMeasuring()
+                trace.record("measure-start-return")
                 measuring = true
+                trace.record("row-tap-enter")
                 row.tap()
-                try self.memoryWait("The selected Transformer reader must expose foreground native body text") {
+                trace.record("row-tap-return")
+                try self.memoryWait("The selected Transformer reader must expose foreground native body text", trace: trace, phase: "body-witness") {
                     self.memoryBodyWitness(articleTitle: articleTitle) != nil
                 }
+                trace.record("body-final-witness-enter")
                 guard self.app.state == .runningForeground,
                       let witness = self.memoryBodyWitness(articleTitle: articleTitle) else {
                     throw NSError(domain: "PublishedAppMemoryObservation", code: 42,
                         userInfo: [NSLocalizedDescriptionKey: "The foreground native-body witness changed before the measurement stopped."])
                 }
+                trace.record("body-final-witness-return")
+                trace.record("measure-stop-enter")
                 self.stopMeasuring()
+                trace.record("measure-stop-return")
                 measuring = false
                 bodyWitnesses.append(["identifier": witness.identifier, "label": witness.label])
+                trace.record("invocation-return")
             } catch {
-                if measuring { self.stopMeasuring() }
+                trace.record("invocation-error")
+                if measuring {
+                    trace.record("error-stop-enter")
+                    self.stopMeasuring()
+                    trace.record("error-stop-return")
+                }
                 XCTFail("The scoped App memory transaction did not complete: \(error)")
             }
         }
+        trace.record("measure-return")
 
         XCTAssertEqual(invocations, 4)
         XCTAssertEqual(bodyWitnesses.count, 4)
@@ -220,11 +253,22 @@ final class PublishedPerformanceUITests: XCTestCase {
         attachment.name = "Published-app-memory-observation-protocol"
         attachment.lifetime = .keepAlways
         add(attachment)
+        trace.record("protocol-return")
     }
 
-    private func memoryWait(_ message: String, condition: @escaping () -> Bool) throws {
-        let expectation = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in condition() }, object: nil)
+    private func memoryWait(_ message: String, trace: PublishedMemoryPhaseTrace, phase: String,
+                            condition: @escaping () -> Bool) throws {
+        trace.record(phase + ".expectation-init-enter")
+        let expectation = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            trace.record(phase + ".poll-enter", poll: true)
+            let satisfied = condition()
+            trace.record(phase + ".poll-return", poll: true, result: satisfied)
+            return satisfied
+        }, object: nil)
+        trace.record(phase + ".expectation-init-return")
+        trace.record(phase + ".wait-enter")
         let result = XCTWaiter.wait(for: [expectation], timeout: 15)
+        trace.record(phase + ".wait-return")
         guard result == .completed else {
             XCTFail(message)
             throw NSError(domain: "PublishedAppMemoryObservation", code: 50,
@@ -267,7 +311,7 @@ final class PublishedPerformanceUITests: XCTestCase {
         return element.isHittable
     }
 
-    private func memoryPrepareArticleRow(articleID: String, title: String) throws -> XCUIElement {
+    private func memoryPrepareArticleRow(articleID: String, title: String, trace: PublishedMemoryPhaseTrace) throws -> XCUIElement {
         guard memoryForegroundContext(title: "AI Agent Library") != nil,
               !app.scrollViews["native-reader"].exists else {
             throw NSError(domain: "PublishedAppMemoryObservation", code: 51,
@@ -291,7 +335,7 @@ final class PublishedPerformanceUITests: XCTestCase {
             if usableRows().count == 1 { break }
             app.swipeUp(velocity: .slow)
         }
-        try memoryWait("The exact title query and one fully visible Transformer row must agree") {
+        try memoryWait("The exact title query and one fully visible Transformer row must agree", trace: trace, phase: "prepared-row") {
             usableRows().count == 1
         }
         let visible = usableRows()
@@ -325,7 +369,7 @@ final class PublishedPerformanceUITests: XCTestCase {
         return nil
     }
 
-    private func memoryReturnToLibrary(articleTitle: String) throws {
+    private func memoryReturnToLibrary(articleTitle: String, trace: PublishedMemoryPhaseTrace) throws {
         guard let context = memoryForegroundContext(title: articleTitle) else {
             throw NSError(domain: "PublishedAppMemoryObservation", code: 53,
                 userInfo: [NSLocalizedDescriptionKey: "The prior measured reader must still be the foreground navigation context."])
@@ -338,8 +382,10 @@ final class PublishedPerformanceUITests: XCTestCase {
             throw NSError(domain: "PublishedAppMemoryObservation", code: 54,
                 userInfo: [NSLocalizedDescriptionKey: "One public back control must belong to the foreground Transformer bar."])
         }
+        trace.record("back-tap-enter")
         visible[0].tap()
-        try memoryWait("The prior native reader must close before the next memory transaction") {
+        trace.record("back-tap-return")
+        try memoryWait("The prior native reader must close before the next memory transaction", trace: trace, phase: "return-library") {
             !self.app.scrollViews["native-reader"].exists &&
             self.memoryForegroundContext(title: "AI Agent Library") != nil
         }
@@ -400,5 +446,94 @@ final class PublishedPerformanceUITests: XCTestCase {
         }, object: nil)
         XCTAssertEqual(XCTWaiter.wait(for: [applied], timeout: 20), .completed,
                        "The exact query, filter summary and expected empty/witness state must agree")
+    }
+}
+
+// Runner-only progress; it does not validate or time-limit XCTest interactions.
+// No accessibility values are read here. The two event pools keep phase markers
+// available after repetitive polls are capped. At most 186 lines of 176 bytes
+// (32,736 bytes) can be attempted; truncation itself has two reserved lines.
+private final class PublishedMemoryPhaseTrace {
+    static let prefix = "AILIBRARY_MEMORY_PHASE "
+    static let maximumLineBytes = 176
+    static let maximumTotalBytes = 32 * 1024
+    static let maximumPhaseRecords = 160
+    static let maximumPollRecords = 24
+
+    private let lock = NSLock()
+    private let writeLine: (Data) -> Void
+    private let clock: () -> UInt64
+    private var invocation: Int? = 0
+    private var sequence = 0
+    private var phaseRecords = 0
+    private var pollRecords = 0
+    private var totalBytes = 0
+    private var phaseTruncated = false
+    private var pollTruncated = false
+    private var stopped = false
+
+    init(writeLine: @escaping (Data) -> Void = { data in
+        _ = try? FileHandle.standardOutput.write(contentsOf: data)
+    }, clock: @escaping () -> UInt64 = { DispatchTime.now().uptimeNanoseconds }) {
+        self.writeLine = writeLine
+        self.clock = clock
+    }
+
+    func setInvocation(_ value: Int) {
+        lock.lock()
+        defer { lock.unlock() }
+        invocation = (0...9999).contains(value) ? value : nil
+    }
+
+    func record(_ phase: String, poll: Bool = false, result: Bool? = nil) {
+        lock.lock()
+        defer { lock.unlock() }
+        guard !stopped else { return }
+        if poll {
+            guard !pollTruncated else { return }
+            guard pollRecords < Self.maximumPollRecords else {
+                pollTruncated = true
+                _ = emitLocked("poll-budget-exhausted")
+                return
+            }
+        } else {
+            guard !phaseTruncated else { return }
+            guard phaseRecords < Self.maximumPhaseRecords else {
+                phaseTruncated = true
+                _ = emitLocked("phase-budget-exhausted")
+                return
+            }
+        }
+        guard !phase.isEmpty, phase.utf8.count <= 40,
+              phase.utf8.allSatisfy({ (97...122).contains($0) || (48...57).contains($0) || $0 == 45 || $0 == 46 }) else {
+            stopped = true
+            _ = emitLocked("invalid-event")
+            return
+        }
+        guard emitLocked(phase, result: result) else {
+            stopped = true
+            _ = emitLocked("record-bound-exceeded")
+            return
+        }
+        if poll { pollRecords += 1 } else { phaseRecords += 1 }
+    }
+
+    private func emitLocked(_ phase: String, result: Bool? = nil) -> Bool {
+        var payload: [String: Any] = [
+            "v": 1, "seq": sequence + 1, "phase": phase,
+            "invocation": invocation.map { $0 as Any } ?? NSNull(),
+            "uptime_ns": String(clock())
+        ]
+        if let result { payload["result"] = result }
+        guard let json = try? JSONSerialization.data(withJSONObject: payload, options: [.sortedKeys]) else { return false }
+        var line = Data(Self.prefix.utf8)
+        line.append(json)
+        line.append(0x0a)
+        guard line.count <= Self.maximumLineBytes,
+              totalBytes + line.count <= Self.maximumTotalBytes else { return false }
+        sequence += 1
+        totalBytes += line.count
+        writeLine(line)
+        return true
     }
 }

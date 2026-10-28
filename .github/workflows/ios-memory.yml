@@ -184,6 +184,16 @@ jobs:
           const buildArgs = owned => ['-project', 'ios/AILibrary.xcodeproj', '-scheme', 'AILibrary', '-configuration', 'Debug',
             '-destination', 'platform=iOS Simulator,id=' + owned.UUID, '-destination-timeout', '120',
             '-derivedDataPath', path.join(root, 'DerivedData'), '-parallel-testing-enabled', 'NO', '-jobs', '2'];
+          const boundedDiagnosticExcerpt = (bytes, cap) => {
+            assert.ok(Buffer.isBuffer(bytes) && Number.isSafeInteger(cap) && cap >= 1024);
+            if (bytes.length <= cap) return { bytes, truncated: false, prefix_bytes: bytes.length, tail_bytes: 0,
+              marker_bytes: 0, omitted_bytes: 0, retention: 'complete-captured-command-output' };
+            const marker = Buffer.from('\n[bounded diagnostic excerpt: middle bytes omitted]\n');
+            const prefix = Math.floor((cap - marker.length) / 4), tail = cap - marker.length - prefix;
+            return { bytes: Buffer.concat([bytes.subarray(0, prefix), marker, bytes.subarray(bytes.length - tail)]),
+              truncated: true, prefix_bytes: prefix, tail_bytes: tail, marker_bytes: marker.length,
+              omitted_bytes: bytes.length - prefix - tail, retention: 'prefix-and-tail-with-explicit-marker' };
+          };
           const compact = () => {
             const target = path.join(root, 'compact'); fs.mkdirSync(target, { mode: 0o700 }); compactOwned = true;
             const aggregateCap = 2 * 1024 * 1024, payloadCap = aggregateCap - 73728;
@@ -210,7 +220,7 @@ jobs:
             const stages = ['prepare','inventory','dependencies','content','simulator','build','audit','measure','export','cleanup'];
             for (const name of [...top, ...stages.map(x => 'stage-' + x + '.json')])
               include(file(evidence, name), 'workflow/' + name, name.startsWith('stage-') ? 16384 : 512 * 1024);
-            const logReceipts = [], tails = [];
+            const logReceipts = [], tails = [], measureLogReceipts = [];
             for (const name of commandNames) {
               for (const ext of ['intent.json','exit.json']) include(path.join(raw, name + '.' + ext), 'receipts/' + name + '.' + ext, 16384);
               for (const stream of ['stdout','stderr']) {
@@ -220,6 +230,18 @@ jobs:
                 logReceipts.push({ command: name, stream, captured_bytes: b.length, captured_sha256: digest(b),
                   tail_bytes: tail.length, tail_is_not_complete_raw: b.length !== tail.length });
                 tails.push(Buffer.from('[' + name + ' ' + stream + ']\n'), tail, Buffer.from('\n'));
+                if (name === 'measure') {
+                  const cap = stream === 'stdout' ? 65536 : 16384, selected = boundedDiagnosticExcerpt(b, cap);
+                  const diagnosticName = 'measure-' + stream + '.log', diagnosticPath = 'diagnostics/' + diagnosticName;
+                  put(diagnosticName, selected.bytes);
+                  include(file(evidence, diagnosticName), diagnosticPath, cap);
+                  measureLogReceipts.push({ command: name, stream, path: diagnosticPath, cap_bytes: cap,
+                    captured_bytes: b.length, captured_sha256: digest(b), retained_bytes: selected.bytes.length,
+                    retained_sha256: digest(selected.bytes), truncated: selected.truncated, retention: selected.retention,
+                    prefix_bytes: selected.prefix_bytes, tail_bytes: selected.tail_bytes, marker_bytes: selected.marker_bytes,
+                    omitted_bytes: selected.omitted_bytes, byte_excerpt_not_metric_input: true,
+                    truncated_byte_boundaries_may_split_UTF8: selected.truncated });
+                }
               }
             }
             const tailBytes = Buffer.concat(tails);
@@ -228,7 +250,10 @@ jobs:
               const loc = path.join(evidence, 'log-tails.log'); put('log-tails.log', tailBytes);
               include(loc, 'workflow/log-tails.log', 65536);
             }
-            json('log-receipts.json', { raw_logs_uploaded: false, records: logReceipts });
+            json('measure-log-retention.json', { schema_version: 1, ...ownerContext(), diagnostic_only: true,
+              metric_acceptance: false, logs: measureLogReceipts, log_presence_is_not_spawn_or_case_completion_proof: true });
+            include(file(evidence, 'measure-log-retention.json'), 'diagnostics/measure-log-retention.json', 16384);
+            json('log-receipts.json', { all_raw_logs_uploaded: false, selected_bounded_logs: ['measure'], records: logReceipts });
             include(file(evidence, 'log-receipts.json'), 'workflow/log-receipts.json', 512 * 1024);
             const exportRoot = path.join(evidence, 'export');
             const exportNames = ['modern-tests.json','modern-details.json','legacy-root.json','legacy-plan.json','legacy-summary.json',

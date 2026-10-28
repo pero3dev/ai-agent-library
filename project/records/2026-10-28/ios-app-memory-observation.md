@@ -69,3 +69,19 @@ manifestの上限を直したhead `0811dd5470317ed576fc3c7fc095b37d201e0678`の[
 回復候補は、抽出した実driverと実ファイル、外部command・時計のstubを使う28例で確認した。通常成功は1回、対象timeoutだけは2回の起動後確認となり、非対象エラー・不正JSON・端末不一致は追加読取せず失敗した。再取得の失敗後の3回目と、工程・全体の残り時間がない場合の実spawnも行わない。最初と追加の記録が変わらずcompactに含まれることも確認した。VM adapterの準備で発生した2件のローカル失敗はSourceを変えずに修正して記録し、最終28例は成功した。actionlintとYAML・Bash11本・埋込Nodeの構文も成功した。これらはstub検証であり、Hostedでの回復や実UI・実メモリの成功ではない。
 
 回復候補の独立Sourceレビューは新P1・P2が0件だった。隔離済み依存と同じlockfileで共通検査を行い、Node1130件中1115成功・15skip・失敗0、`npm run check` exit 0を確認した。App・PBX・版、Clock、新memory caseとexporterは保持する。追加コミットの新Hosted結果は別途確認する。
+
+## 初回UI測定の停止と診断の追加
+
+[head def8のrun 40724373484](https://github.com/pero3dev/ai-agent-library/actions/runs/40724373484)、attempt 1／job `122943532415`は、初めて実Appのビルドと監査を通過した。App 0.2.22（24）、199記事とfixture 4記事の監査は成功し、ビルドは約181.5秒だった。起動後一覧は最初の読取が約15.9秒で成功し、条件付き追加読取は発火していない。この結果を追加読取そのものの実OS検証成功とはしない。
+
+UI測定のxcodebuildは450秒上限に対して約450.4秒でSIGKILL／ETIMEDOUTとなった。採取stdoutは58,240Bだったが、compactには末尾512Bだけが残り、最後は実行開始約120.7秒のTransformer行tap、約121.1秒のapp idle待機だった。何回目か、tapの内部か、直後のAX取得かを特定できない。15秒のpredicate待機は、tap・期待構築・ブロック中のAX取得を強制的に中断する上限ではない。原因は未確定で、同条件のジョブ再試行や判定の緩和は行わない。
+
+結果bundleの読取もexit 64で失敗し、exporterはexit 1だった。実標本・CSV・protocol payloadは取得できず、契約未採択のexit 2とは区別する。raw 83,366Bと公式compact ZIP 95,345Bを各1回取得し、公式SHA256 `4ff98b01f58734d1a65e7a9e9602d677bf42ccd3670d8aff206703ae7d3315a9`、111 memberと110件のmanifest記載ファイルを独立照合した。専用端末の後片付けは成功し、他の7workflowと初期required11はAPI successだった。
+
+次の診断では、Runnerの操作前後に実行回・monotonic時刻・固定phaseを容量制限付きで記録する。期待の構築前後とwaiterの前後も分け、既存値だけを使い追加AX取得を行わない。workflowは既に採取したmeasure stdoutを64KiB、stderrを16KiBまで固定pathで保持し、元のbyte数・SHAと保持分のbyte数・SHAを分ける。超過時は途中省略を明示するbyte抜粋とし、失われた今回のstdoutを再構成したとはしない。全compactの2MiB上限とmetric入力の非切り詰めを保持する。
+
+これらは停止位置を調べる診断で、Appの不具合修正ではない。計測区間にRunnerのログ出力が加わるため、数値の比較性は未確認として扱う。App・PBX・版、Clock 2case、判定・制限時間・warm-up 1回と記録3回は保持し、実機とIOS-15全体は未完了を維持する。
+
+診断候補のSwift構文とXcode16.2／iOS18.2 SDK単一ファイル型検査は成功し、Foundation-onlyの補助クラス6例（同時2000呼出しを含む）で順序・実行回・出力pool・32KiB上限を確認した。初回のhost補助検査でSDK指定が足りなかった失敗は、Sourceを変えずにコマンドを直して記録した。workflow側は抽出した実compactと実ファイルを使う4例を含む18正常例・3負例、actionlint・YAML・Bash11本・埋込Nodeの構文が成功した。58,240B／403Bの例は今回失われた出力の再構成ではなく、同じサイズの合成fixtureである。これらを新HostedのUI実行・実メモリ取得の成功へ広げない。
+
+Swiftとworkflowの独立Sourceレビューは新しいP1・P2が0件だった。診断候補を隔離した依存で共通検査し、Node1130件中1115成功・15skip・失敗0、`npm run check` exit 0を確認した。旧4コミットを残した追加コミットとして診断を検証し、実Hostedの結果と実指標の採択は別に確認する。

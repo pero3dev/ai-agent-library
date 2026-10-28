@@ -2,7 +2,7 @@
   "schema_version": 1,
   "date": "2026-10-28",
   "base": "e0c3031f3d62adab017c72949ffa3376e77b18bf",
-  "state": "typed-timeout-only postbootfreshread recoverySource smoke28passed; independentreview/newheadHosted pending; actualmemorynotobserved",
+  "state": "UIphases+boundedcaptureSource2 static/SDKtypecheck/helper6/compact21checks passed; combinedreview/newHostedpending; no metric samples",
   "objective": "IOS15 target-App memory observation inone bounded unit",
   "owners": {
     "Swift": "app_memory_ui_case",
@@ -271,6 +271,98 @@
     },
     "Hosted_effect": "notobserved",
     "independent_Source_review": "P1/P2 0, scope-limited accepted",
+    "root_common_check": {
+      "command": "npm run check",
+      "exit_code": 0,
+      "tests": 1130,
+      "pass": 1115,
+      "skip": 15,
+      "fail": 0
+    }
+  },
+  "postboot_recovery_first_hosted": {
+    "head": "def8f7ca91ac0f2822a9489bc57580bd95c526d4",
+    "run": 40724373484,
+    "job": 122943532415,
+    "attempt": 1,
+    "event": "pull_request",
+    "actual_application": {
+      "version": "0.2.22",
+      "build": "24",
+      "articles": 199,
+      "fixtures": 4,
+      "content_revision": "b6b8ceed4e5ed19f987427a09a6338130a38960eea48d9a7f83cd90aeb56f900",
+      "manifest_SHA256": "8702eca2ded5604fd1fb3536970f8026901893b82b050280eeb30f7c2869367c"
+    },
+    "build": {
+      "exit_code": 0,
+      "elapsed_ms": 181498
+    },
+    "postboot": {
+      "first_exit_code": 0,
+      "elapsed_ms": 15896,
+      "recovery_planned": false,
+      "recovery_exercised": false
+    },
+    "measure": {
+      "timeout_ms": 450000,
+      "elapsed_ms": 450402,
+      "exit_code": null,
+      "signal": "SIGKILL",
+      "error": "spawnSync xcodebuild ETIMEDOUT",
+      "captured_stdout_bytes": 58240,
+      "captured_stdout_SHA256": "9fd63c7ba2c5be864abc162e495e9bc97faa02aa8f23d1220d8cd8eb4cc0d44c",
+      "retained_stdout_bytes": 512,
+      "stderr_bytes": 403,
+      "stderr_SHA256": "2884ea1a81e714a2c9b238250f866303b8cb6aa228aab2532d16a870d8030c6a",
+      "last_activity": "t120.68 tapTransformer row; t121.11 waitAppidle; ordinal and exactblockingboundary unknown"
+    },
+    "export": {
+      "reader_exit_code": 64,
+      "export_exit_code": 1,
+      "result": "incompletexcresult readerfailed; no metrics/CSV/protocol verified; notunconfirmedexit2"
+    },
+    "measurement_result": null,
+    "case_passed": false,
+    "raw": {
+      "bytes": 83366,
+      "SHA256": "d7dbaf273cc4edab942bc7b5771480d05b9cec6cf8be37ad6521155059caa20b"
+    },
+    "artifact": {
+      "id": 12834372157,
+      "bytes": 95345,
+      "SHA256": "4ff98b01f58734d1a65e7a9e9602d677bf42ccd3670d8aff206703ae7d3315a9",
+      "members": 111,
+      "manifest_entries": 110,
+      "all_verified": true
+    },
+    "cleanup": "ownedUUID shutdown/delete0; afterlistmatchesbefore exactbytes/SHA",
+    "other_workflows": "7 +required11 API success exactdef8 initialDraft; no rawcounts transferred",
+    "whole_job_retry": 0,
+    "source_cause": "unknown"
+  },
+  "UI_diagnostic_candidate": {
+    "scope": "testRunner scalarphase+monotonic+ordinal noextraAX +boundedmeasurelogs only",
+    "new_metric_acceptance": false,
+    "stdout_cap_bytes": 65536,
+    "stderr_cap_bytes": 16384,
+    "compact_cap_bytes": 2097152,
+    "existing_guards_and_timeouts_and_warmup": "held",
+    "numeric_comparability": "unconfirmed becauseRunnerlogging addsobservationoverhead",
+    "validation": {
+      "Swift_SHA256": "92a5876656d025024ba80b96789542763d21dd992f31f705d11bde235a62ad05",
+      "Swift_manifest_SHA256": "c711b7d1da8e6ed4565e42fbecf7316092f1d49d6f7ab5de17e64bb4039cf8a9",
+      "WF_SHA256": "b99342ef7d060458404f5556bb0e599fb35fc1719bfaa4b6c55d4d56ef06e8e2",
+      "WF_manifest_SHA256": "a8c100945e04f03e22dd1515c15597e957758c1c2e7887c5287a8200f1816268",
+      "Swift_validation": "grammar0, Xcode16.2/iOS18.2 singlefiletypecheck0, Foundation-onlyhelper6cases inclconcurrent2000 passed; hostinitialmissingSDKretained theninvocationcorrected Sourceunchanged",
+      "Swift_caps": "phase160/poll24/trunc2; each176B/total32KiB; NSLock; noextraAX",
+      "WF_validation": "18positive (14helper/4wholecompact realFSnospawn) +3negativeinputs; observedsizefixture synthetic; YAML/Bash11/Node/actionlint0",
+      "behavior": "Clock/setup/sharedhelpers/AXexpressions/conditions/15s/iteration3/start-stop/cap8192/64K preserved; WF run/limits/selector/compactgatesheld",
+      "actual_Hosted": "notperformed fornewdiagnostics",
+      "numeric_comparability": "unconfirmed, RunnerIO observationoverhead"
+    },
+    "new_Hosted_effect": "notobserved",
+    "independent_Source_review": "P1/P2 0; boundedphases/noextraAX andWFcapture scope accepted",
     "root_common_check": {
       "command": "npm run check",
       "exit_code": 0,

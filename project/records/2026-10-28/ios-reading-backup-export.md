@@ -41,3 +41,9 @@ Source内のexport関連XCTestは合計24件で、v3追加はCore5件とMainActo
 Source5＋PBXの技術6ファイルを1commit、記録2本・索引3本と検索観測の採用追記2本を次のcommitとする。後者の親は技術commit作成後に得る実SHAまで未確定のまま残し、予測treeとcommitの実在を分ける。Draft PR作成後、正確なheadの通常検査・SDK検証と独立レビューを確認し、通常保護でmainへ統合する。
 
 全TODO32行・完了13行を保持し、IOS-22全体は未完了とする。実機確認は本人の指示に従い未完了で先へ進める。復元は、preview、件数と0件警告、取消、置換前raw保全、古いpreviewの拒否、保持データの書出し・明示解除を持つ後続PRで扱う。
+
+## PR293の採用追記
+
+採用checkpoint。上の私有準備時点の記述は履歴である。PR293の最終head `f6561b17e0a6b7b50435e7c26878e2eccadb626f`は通常保護でmain `a18a47c2911a51c47b714a589a4067d970602279`へ採用され、tree `4f69f5687bdeab03657863a6da3a48d6344bdbd0`と対象tupleを照合した。Readyの必須検査とexportのSDK観測成功を、[JSONの採用checkpoint](ios-reading-backup-export.json)のRoot提供証跡SHA・fact bindingへ結んだ。管理者例外や保護設定変更は使っていない。
+
+これはexport単独版の観測であり、後続の手動復元Source8のApp71・SDK・provider・実機の受入へ転用しない。ここで新しいCI・SDK・runtime試験やraw取得は行っていない。TODO32行・完了13行とIOS-22未完了を維持する。

@@ -1,0 +1,847 @@
+{
+  "schema_version": 1,
+  "date_JST": "2026-10-28",
+  "status": "private Source8 actual-export-main-bound preparation; final validation and restore publication incomplete",
+  "reference_only": {
+    "export_PR": 293,
+    "head": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+    "tree": "4f69f5687bdeab03657863a6da3a48d6344bdbd0",
+    "reported_state": "Draft CI; main adoption incomplete at preparation",
+    "actual_adopted_main": null,
+    "future_merge_SHA": null,
+    "this_preparation_API_verification": false,
+    "historical_scope": "Original template before export adoption; final_binding is later actual evidence."
+  },
+  "scope": {
+    "normal_only": true,
+    "fixture_rejected_each_wrapper": true,
+    "preview_cancel_writes": 0,
+    "explicit_replace_confirmation": true,
+    "zero_bookmarks_positions_warning": true,
+    "raw_limit_bytes": 1048576,
+    "envelope_limit_bytes": 2097152,
+    "actual_reader_cap_bytes": 2097153,
+    "provider_wait_timeout_or_immediate_interrupt_guarantee": false,
+    "current_supported": [
+      "absent",
+      "strict healthy raw"
+    ],
+    "corrupt_current_direct_restore": false,
+    "retention": "fixed1slot; before full readback then primary write/readback then publish",
+    "success_registers_target_raw_identity": true,
+    "general_stop_flag": "readingSaveSuspended",
+    "uncertain_write_claims_unchanged": false,
+    "unknown_writer_automatic_rollback": false,
+    "legacy_recovery_write_delete": false,
+    "retained_release": "export plus user checks file plus explicit release; absent-before honestly explained; unknown/corrupt slot refused",
+    "guarantees_excluded": [
+      "source authenticity",
+      "CAS",
+      "cross-key atomicity",
+      "power-loss durability",
+      "permanent provider save"
+    ]
+  },
+  "source": {
+    "manifest_SHA256": {
+      "engine": "764c324d17efd04f74aa3de0877fd4d1257081d09262e8142fe21336dd516e8a",
+      "UI": "02b6f17a123c56ff08106304d016039a2b6bb57d0933fe91888776826c396d08",
+      "engine_review": "1181c39f09b9d330779bd97e1cd958cf41e871d4a582e79a1ff74717401c0a23",
+      "UI_review": "69310643c4b9452ccd8f72fed438d8b39843b63d2a9b7f1d8a551bd14d5a2530",
+      "integrated_Source7": "474c2807f0c71c4d7d81400e46796ce0e2beeefe1b9690eb1ecbcae6a1093e30",
+      "integrated_Source8": "8553cb9cb6796df39adec65e67bf359d93cf805bcfe194c1f5d55d5ef2821b08",
+      "Source8_privacy_audit": "b7d2d2d983e47b55b83cf0953bc34f8959697f24f13ab320de2f2a910efe4f29"
+    },
+    "ReadingStore_UI3_exact": true,
+    "Core_actor_seam5_exact_inverse": true,
+    "PBX_only": "0.2.21(23) to 0.2.22(24)",
+    "workflow_comment_only": true,
+    "Native_source_target_cases": 5,
+    "Full_strict_cases_unchanged": 23,
+    "independent_reviews": {
+      "engine_v3_Source2": {
+        "P1": 0,
+        "P2": 0
+      },
+      "UI_v2_and_Source7_added_composition": {
+        "P1": 0,
+        "P2": 0
+      },
+      "reviewer_runtime_repetitions": 0
+    },
+    "predecessor_Source7": {
+      "ios/AILibrary/Sources/ReadingStore.swift": {
+        "bytes": 57005,
+        "SHA256": "d3dcbb95874b8f377d0f4a528425e75adca525f6329869a06d2e1eb895ed118f"
+      },
+      "ios/AILibraryTests/LibraryCoreTests.swift": {
+        "bytes": 261286,
+        "SHA256": "f1cfd98d813dd253f412da778958fafe0584f12f949304a0ce6867b78b057d0c"
+      },
+      "ios/AILibrary.xcodeproj/project.pbxproj": {
+        "bytes": 21212,
+        "SHA256": "974541d5bdec4583bc47db5a1c6711db8da59b69a5b7c3036928a30da890f4ce"
+      },
+      "ios/AILibrary/Sources/LibraryStore.swift": {
+        "bytes": 17759,
+        "SHA256": "77198b8e2d35891473cb8dfbf07e9e78f4075e8cf4017f2daeccf7a881eea0ff"
+      },
+      "ios/AILibrary/Sources/LibraryView.swift": {
+        "bytes": 47529,
+        "SHA256": "9d96da2da36298e7f5c2918e6545778e3766789eb5796e742b3eee54fe49a4a5"
+      },
+      "ios/AILibraryUITests/ReadingRecoveryUITests.swift": {
+        "bytes": 7684,
+        "SHA256": "8dd09b432ac064dcb3f68955f844202d3dd99e6610757acb4130b238a08e5ddd"
+      },
+      ".github/workflows/ios-native.yml": {
+        "bytes": 8124,
+        "SHA256": "e22e56ac1a13bbc1a0ef5135d83678f5d3ea1e1a87a8c55026c135a11f5982e3"
+      }
+    },
+    "Source8": {
+      "ios/AILibrary/Sources/ReadingStore.swift": {
+        "bytes": 57005,
+        "SHA256": "d3dcbb95874b8f377d0f4a528425e75adca525f6329869a06d2e1eb895ed118f"
+      },
+      "ios/AILibraryTests/LibraryCoreTests.swift": {
+        "bytes": 261286,
+        "SHA256": "f1cfd98d813dd253f412da778958fafe0584f12f949304a0ce6867b78b057d0c"
+      },
+      "ios/AILibrary.xcodeproj/project.pbxproj": {
+        "bytes": 21212,
+        "SHA256": "974541d5bdec4583bc47db5a1c6711db8da59b69a5b7c3036928a30da890f4ce"
+      },
+      "ios/AILibrary/Sources/LibraryStore.swift": {
+        "bytes": 17759,
+        "SHA256": "77198b8e2d35891473cb8dfbf07e9e78f4075e8cf4017f2daeccf7a881eea0ff"
+      },
+      "ios/AILibrary/Sources/LibraryView.swift": {
+        "bytes": 47529,
+        "SHA256": "9d96da2da36298e7f5c2918e6545778e3766789eb5796e742b3eee54fe49a4a5"
+      },
+      "ios/AILibraryUITests/ReadingRecoveryUITests.swift": {
+        "bytes": 7684,
+        "SHA256": "8dd09b432ac064dcb3f68955f844202d3dd99e6610757acb4130b238a08e5ddd"
+      },
+      ".github/workflows/ios-native.yml": {
+        "bytes": 8124,
+        "SHA256": "e22e56ac1a13bbc1a0ef5135d83678f5d3ea1e1a87a8c55026c135a11f5982e3"
+      },
+      "ios/AILibrary/PrivacyInfo.xcprivacy": {
+        "bytes": 1035,
+        "SHA256": "29da7723de101f74115e6b6af6ad3a7afecbaaf6cc101c86ad0a50edae587f5e"
+      }
+    },
+    "all_prior_Source7_bytes_identical": true,
+    "Source8_privacy_independent_audit": {
+      "status": "approved Source8 only",
+      "manifest_SHA256": "b7d2d2d983e47b55b83cf0953bc34f8959697f24f13ab320de2f2a910efe4f29",
+      "P1": 0,
+      "P2": 0
+    },
+    "privacy": {
+      "path": "ios/AILibrary/PrivacyInfo.xcprivacy",
+      "bytes": 1035,
+      "SHA256": "29da7723de101f74115e6b6af6ad3a7afecbaaf6cc101c86ad0a50edae587f5e",
+      "category": "NSPrivacyAccessedAPICategoryFileTimestamp",
+      "3B52.1": "new JSON-picker user-selected file st_mode checking in Debug/Release",
+      "C617.1": "existing own Documents diagnostics guarded by #if DEBUG and UI_TEST_SUITE; no Release diagnostic route inclusion/use claim",
+      "existing_categories_preserved": [
+        "UserDefaults CA92.1",
+        "SystemBootTime 35F9.1"
+      ],
+      "tracking_false_empty_domains_collected_data_preserved": true,
+      "new_permissions_or_tracking": false,
+      "Apple_primary_sources": [
+        "https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacyaccessedapitypes/nsprivacyaccessedapitype",
+        "https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacyaccessedapitypes/nsprivacyaccessedapitypereasons"
+      ],
+      "source_facts_SHA256": "e538bb86bd4cb65bf6cc0e8d06c13cf68c2801ab5894236004c67cc9f0d49eb3",
+      "primary_checked_by": "Root",
+      "checked_date": "2026-10-28",
+      "this_preparation_browsed": false,
+      "actual_SDK_Report_Store_acceptance": false
+    }
+  },
+  "inherited_validation": {
+    "engine": {
+      "grammar2_exit": 0,
+      "Foundation_Core62_exit": 0,
+      "export20": 20,
+      "engine39": 39,
+      "integration3": 3,
+      "runtime_invocations": 1,
+      "result_SHA256": "e96eb8a97b42abafcf353960a62a941a82e432f170d621f86b20ae56a1c58bb7",
+      "ReadingStore_SHA256": "d3dcbb95874b8f377d0f4a528425e75adca525f6329869a06d2e1eb895ed118f",
+      "CoreTests_SHA256": "bea92ee1828ec91cd6524230092c3afa3a5cf959543be42c99d4e8088f29f087",
+      "harness": "real ReadingStore/codec; standalone Mac Foundation/CryptoKit assertions; not App XCTest",
+      "isDigest": "literal-identical copied actual function, called",
+      "unrelated_resolver_signatures": "shims, uncalled"
+    },
+    "UI": {
+      "grammar4_exit": 0,
+      "reader_v1_Mac9_exit": 0,
+      "reader_body_SHA256": "6879cad0d60f46a2966ee94a149c2f7a1765e9693b78f9ad87bb97ba297a18ca",
+      "reader_v2_body_exact": true,
+      "reader9_repeated": false,
+      "reader_result_SHA256": "693f0fe8f7dfa3f678729f556381be853b6a357837dcb3105aba287ab1fc8d7c",
+      "initial_reader_sandbox_failure": "filecoordinationd initialization; same executable later passed with local IPC; not provider UI"
+    },
+    "Root_Source7": {
+      "new_Core_syntax_parse_exit": 0,
+      "PBX_plutil_exit": 0,
+      "existing62_and9_repeated": false
+    },
+    "Root_Source8": {
+      "proof_SHA256": "0c8ce8905e5332d25197bc0218836da4c00b6add778858d49105a7ec6ec98e68",
+      "all_prior7_exact": true,
+      "added_Privacy_dictionary_inverse_exact": true,
+      "Privacy_parse": true,
+      "Privacy_plutil_exit": 0,
+      "new_Swift_Script_OS_body_change": false,
+      "Foundation62_Reader9_grammar_repeated": false,
+      "new_scope_guard_declaration_independent_audit": "approved P1=0 P2=0; no new runtime"
+    }
+  },
+  "App_definition_subset": {
+    "engine_export_integration": 66,
+    "actor_added": 5,
+    "related_method_count": 71,
+    "whole_unit_suite_total": null,
+    "App_executed": false,
+    "new_picker_cancel_UI_case": 1,
+    "new_UI_executed": false
+  },
+  "unperformed": [
+    "App related71 execution and observed full unit count",
+    "iOS/SwiftUI typecheck",
+    "new picker cancel UI1",
+    "real provider import/export/restore/cancel/failure",
+    "suspension UI acceptance",
+    "Hosted exact head CI",
+    "physical device",
+    "VoiceOver",
+    "provider wait time bound and immediate blocked coordination cancellation",
+    "signature update retention",
+    "durability/power loss",
+    "actual SDK packaged Privacy resource/report",
+    "App Store Connect privacy declaration acceptance"
+  ],
+  "delivery": {
+    "one_restore_PR": true,
+    "commit_groups": [
+      "engine2 plus PBX3path",
+      "UI3 plus Coreactor WFcomment Privacy6path",
+      "newrestore records2 + index3 + append-only export records2 = 7path"
+    ],
+    "unique_Source_paths": 8,
+    "unique_records_paths": 7,
+    "first_parent": "a18a47c2911a51c47b714a589a4067d970602279",
+    "created_commits": [],
+    "PR": null,
+    "merge_SHA": null,
+    "fresh_binding_required": true,
+    "runbook_snippet_later_Root_binding": {
+      "manifest_SHA256": "55e3b9edc8e6ec405d7a8950f80cb60f8f1ef6ea19454579b344a7dd5ca27a83",
+      "target": "ios/README.md",
+      "inserted_by_this_preparation": true,
+      "version": "Japanese timeless v2; bound to ios README"
+    }
+  },
+  "TODO": {
+    "rows": 32,
+    "completed": 13,
+    "rows_changed": false,
+    "IOS22_complete": false,
+    "personal_use_complete": false
+  },
+  "preparation": {
+    "Source_changes": 0,
+    "API_Git_refs_SDK_new_runtime_tests": 0,
+    "shared_checkout_changes": 0,
+    "only_new_evidence": "hash/reference and record/metadata static checks",
+    "final_checks": "Markdown/links/common/metadata must be executed after actual binding; not reported passed by source-only helper"
+  },
+  "final_binding": {
+    "PR": 293,
+    "main": "a18a47c2911a51c47b714a589a4067d970602279",
+    "tree": "4f69f5687bdeab03657863a6da3a48d6344bdbd0",
+    "approved_export_head": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+    "approved_export_tree": "4f69f5687bdeab03657863a6da3a48d6344bdbd0",
+    "normal_protected_squash": true,
+    "admin_or_protection_change": false,
+    "Ready_required_checks_observed_success": true,
+    "export_SDK_Archive_observed_success": true,
+    "receipts": {
+      "merge": {
+        "SHA256": "aaa2eba2dc8f72c3147c92e695d6162dc21df12d35bd1104ca96316e844233af",
+        "bytes": 1225
+      },
+      "ready_ci": {
+        "SHA256": "ed032162aed2fd4eb76071811d605d18a88b5e348294cca0571480ec663b16e8",
+        "bytes": 7675
+      },
+      "sdk": {
+        "SHA256": "df3596102125eb9a5d260fa728d528304800805d48c5823689316d01becf2b47",
+        "bytes": 5080
+      },
+      "native": {
+        "SHA256": "f849edb8fc552376e2a0f50d7efda97ff763dbb3c09235666923e8a0c736e35d",
+        "bytes": 8924
+      }
+    },
+    "proof_bindings": {
+      "adopted_main": {
+        "receipt": "merge",
+        "pointer": "/main",
+        "value": "a18a47c2911a51c47b714a589a4067d970602279"
+      },
+      "adopted_tree": {
+        "receipt": "merge",
+        "pointer": "/tree",
+        "value": "4f69f5687bdeab03657863a6da3a48d6344bdbd0"
+      },
+      "export_head": {
+        "receipt": "merge",
+        "pointer": "/approved_head",
+        "value": "f6561b17e0a6b7b50435e7c26878e2eccadb626f"
+      },
+      "export_tree": {
+        "receipt": "merge",
+        "pointer": "/tree",
+        "value": "4f69f5687bdeab03657863a6da3a48d6344bdbd0"
+      },
+      "normal_protected_squash": {
+        "receipt": "merge",
+        "pointer": "/normal_protected_squash",
+        "value": true
+      },
+      "admin_or_protection_change": {
+        "receipt": "merge",
+        "pointer": "/admin_or_protection_change",
+        "value": false
+      },
+      "ready_ci_head": {
+        "receipt": "ready_ci",
+        "pointer": "/head",
+        "value": "f6561b17e0a6b7b50435e7c26878e2eccadb626f"
+      },
+      "ready_ci_success": {
+        "receipt": "ready_ci",
+        "pointer": "/all_required11_success",
+        "value": true
+      },
+      "sdk_head": {
+        "receipt": "sdk",
+        "pointer": "/head",
+        "value": "f6561b17e0a6b7b50435e7c26878e2eccadb626f"
+      },
+      "sdk_tree": {
+        "receipt": "sdk",
+        "pointer": "/archive_audit/source_tree",
+        "value": "4f69f5687bdeab03657863a6da3a48d6344bdbd0"
+      },
+      "sdk_archive_success": {
+        "receipt": "sdk",
+        "pointer": "/archive_audit/status",
+        "value": "passed"
+      }
+    },
+    "public_observations": {
+      "sdk": {
+        "PR_head": {
+          "pointer": "/head",
+          "value": "f6561b17e0a6b7b50435e7c26878e2eccadb626f"
+        },
+        "app_version": {
+          "pointer": "/archive_audit/app/version",
+          "value": "0.2.21"
+        },
+        "app_build": {
+          "pointer": "/archive_audit/app/build",
+          "value": "23"
+        },
+        "archive_status": {
+          "pointer": "/archive_audit/status",
+          "value": "passed"
+        },
+        "articles": {
+          "pointer": "/archive_consumer/articles",
+          "value": 199
+        },
+        "audio": {
+          "pointer": "/archive_consumer/audio",
+          "value": 1
+        },
+        "actual_Privacy_SHA256": {
+          "pointer": "/archive_audit/privacy/actual_sha256",
+          "value": "e0698c69f7f8482f7d501a30404b25c8337f991fe1edffac06f0787f878614dd"
+        },
+        "source_Privacy_SHA256": {
+          "pointer": "/archive_audit/privacy/source_sha256",
+          "value": "e0698c69f7f8482f7d501a30404b25c8337f991fe1edffac06f0787f878614dd"
+        },
+        "source_Privacy_semantics_match": {
+          "pointer": "/archive_audit/privacy/source_semantics_match",
+          "value": true
+        },
+        "run_id": {
+          "pointer": "/run_id",
+          "value": 40633560491
+        },
+        "job_id": {
+          "pointer": "/job_id",
+          "value": 122635265679
+        },
+        "verified_files_excluding_manifest": {
+          "pointer": "/archive_consumer/verified_files",
+          "value": 625
+        },
+        "verified_bytes_excluding_manifest": {
+          "pointer": "/archive_consumer/verified_bytes",
+          "value": 36958478
+        }
+      },
+      "native": {
+        "PR_head": {
+          "pointer": "/head",
+          "value": "f6561b17e0a6b7b50435e7c26878e2eccadb626f"
+        },
+        "actual_checkout": {
+          "pointer": "/actual_checkout",
+          "value": {
+            "sha": "34317c34de6b27e02de2e11d098134dc4deda9cf",
+            "kind": "GitHub synthetic PR merge ref",
+            "tree": "4f69f5687bdeab03657863a6da3a48d6344bdbd0",
+            "parents": [
+              "c148d5c75b63f433f667bd8b8b3ba2555f598238",
+              "f6561b17e0a6b7b50435e7c26878e2eccadb626f"
+            ],
+            "tree_matches_approved_head": true
+          }
+        },
+        "unit_total": {
+          "pointer": "/unit/total",
+          "value": 189
+        },
+        "unit_skipped": {
+          "pointer": "/unit/skipped",
+          "value": 2
+        },
+        "unit_failed": {
+          "pointer": "/unit/failed",
+          "value": 0
+        },
+        "new_export_methods": {
+          "pointer": "/unit/new_export_methods",
+          "value": [
+            {
+              "name": "testLibraryStoreOwnHealthyEditDoesNotPublishAnIncorrectSuspension",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testLibraryStorePublishesExportSuspensionOnThrowAndOnInitialization",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testLibraryStorePublishesSuspensionForExternalMetadataOnlyDrift",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testReadingBackupDistinguishesMissingKeyFromExplicitEmptyState",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testReadingBackupPreservesExactRawAndAllRecordsOutsideTheCurrentPackage",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testReadingBackupRawAndEnvelopeBudgetsIncludeExactBoundaries",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testReadingBackupRefusesChangedPersistedBytesWithoutOverwritingTheNewSource",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testReadingBackupRefusesRecoveryStateAndDoesNotTryDefaultsWrites",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testReadingBackupRejectsFutureAndDamagedAnchorsInsteadOfDroppingMetadata",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testReadingBackupRejectsUnknownMalformedAndDuplicateRawWithoutTolerantFallback",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testReadingBackupStrictEnvelopeRejectsTamperingAndAmbiguousMetadata",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testReadingBackupUsesOnlyBoundNamespaceAndFixtureStoreCannotExport",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testReadingExportByteOnlyDriftWithoutOwnMutationAlsoSuspends",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testReadingExportExternalByteDriftBeforeStartIsDetectedEvenWhenStateMatches",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testReadingExportExternalUnsupportedMetadataPreservesIdentityAndSuspends",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testReadingExportInvalidEnvelopeArgumentsDoNotSuspendHealthyRaw",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testReadingExportKnownFutureAnchorAtLoadKeepsLegacyFallbackAvailable",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testReadingExportMissingExplicitEmptyStateIsNotAFirstUseMissingKey",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testReadingExportObservedDataMissingAndNonDataSuspendEveryOrdinaryWrite",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testReadingExportOrdinaryHealthyEditsAndExportsRemainAvailable",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testReadingExportOwnHealthyEditDuringEitherSnapshotDoesNotSuspend",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testReadingExportOwnSaveAndRecoveryRegisterExactRawIdentity",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testReadingExportPreexistingMemoryPersistMismatchIsProtected",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            },
+            {
+              "name": "testReadingExportUnpersistedOwnEditCannotPassTheHealthyRefresh",
+              "started": 1,
+              "passed": 1,
+              "failed": 0
+            }
+          ]
+        },
+        "UI_total": {
+          "pointer": "/UI/total",
+          "value": 4
+        },
+        "UI_started_passed_once": {
+          "pointer": "/UI/started_passed_once",
+          "value": true
+        },
+        "Release_representative_only": {
+          "pointer": "/Release/representative_only",
+          "value": true
+        },
+        "Release_articles": {
+          "pointer": "/Release/articles",
+          "value": 3
+        },
+        "Release_test_content_absent": {
+          "pointer": "/Release/test_content_absent",
+          "value": true
+        },
+        "run_id": {
+          "pointer": "/run_id",
+          "value": 40633560513
+        },
+        "job_id": {
+          "pointer": "/job_id",
+          "value": 122635265796
+        }
+      },
+      "merge": {
+        "main": {
+          "pointer": "/main",
+          "value": "a18a47c2911a51c47b714a589a4067d970602279"
+        },
+        "parent": {
+          "pointer": "/parent",
+          "value": "c148d5c75b63f433f667bd8b8b3ba2555f598238"
+        },
+        "tree": {
+          "pointer": "/tree",
+          "value": "4f69f5687bdeab03657863a6da3a48d6344bdbd0"
+        },
+        "approved_export_head": {
+          "pointer": "/approved_head",
+          "value": "f6561b17e0a6b7b50435e7c26878e2eccadb626f"
+        },
+        "normal_protected_squash": {
+          "pointer": "/normal_protected_squash",
+          "value": true
+        },
+        "admin_or_protection_change": {
+          "pointer": "/admin_or_protection_change",
+          "value": false
+        }
+      },
+      "ready_ci": {
+        "head": {
+          "pointer": "/head",
+          "value": "f6561b17e0a6b7b50435e7c26878e2eccadb626f"
+        },
+        "ready_updated_at": {
+          "pointer": "/ready_updated_at",
+          "value": "2026-10-28T05:35:18Z"
+        },
+        "all_required11_success": {
+          "pointer": "/all_required11_success",
+          "value": true
+        },
+        "all_optional_latest5_success": {
+          "pointer": "/all_optional_latest5_success",
+          "value": true
+        },
+        "checks": {
+          "pointer": "/checks",
+          "value": [
+            {
+              "id": 122635266013,
+              "name": "lint",
+              "status": "completed",
+              "conclusion": "success",
+              "started_at": "2026-10-28T04:39:39Z",
+              "completed_at": "2026-10-28T04:39:56Z",
+              "head_sha": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+              "details_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40633560505/job/122635266013"
+            },
+            {
+              "id": 122635265982,
+              "name": "build",
+              "status": "completed",
+              "conclusion": "success",
+              "started_at": "2026-10-28T04:39:39Z",
+              "completed_at": "2026-10-28T04:59:25Z",
+              "head_sha": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+              "details_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40633560505/job/122635265982"
+            },
+            {
+              "id": 122635265976,
+              "name": "examples",
+              "status": "completed",
+              "conclusion": "success",
+              "started_at": "2026-10-28T04:39:39Z",
+              "completed_at": "2026-10-28T04:40:00Z",
+              "head_sha": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+              "details_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40633560505/job/122635265976"
+            },
+            {
+              "id": 122635265992,
+              "name": "harness",
+              "status": "completed",
+              "conclusion": "success",
+              "started_at": "2026-10-28T04:39:39Z",
+              "completed_at": "2026-10-28T04:39:49Z",
+              "head_sha": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+              "details_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40633560505/job/122635265992"
+            },
+            {
+              "id": 122635265804,
+              "name": "docs",
+              "status": "completed",
+              "conclusion": "success",
+              "started_at": "2026-10-28T04:39:39Z",
+              "completed_at": "2026-10-28T04:40:15Z",
+              "head_sha": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+              "details_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40633560505/job/122635265804"
+            },
+            {
+              "id": 122635266056,
+              "name": "Safari audio playback regression",
+              "status": "completed",
+              "conclusion": "success",
+              "started_at": "2026-10-28T04:48:56Z",
+              "completed_at": "2026-10-28T04:53:31Z",
+              "head_sha": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+              "details_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40633560505/job/122635266056"
+            },
+            {
+              "id": 122635265960,
+              "name": "harness-windows",
+              "status": "completed",
+              "conclusion": "success",
+              "started_at": "2026-10-28T04:39:39Z",
+              "completed_at": "2026-10-28T04:41:09Z",
+              "head_sha": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+              "details_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40633560505/job/122635265960"
+            },
+            {
+              "id": 122635265990,
+              "name": "actionlint",
+              "status": "completed",
+              "conclusion": "success",
+              "started_at": "2026-10-28T04:39:39Z",
+              "completed_at": "2026-10-28T04:39:47Z",
+              "head_sha": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+              "details_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40633560505/job/122635265990"
+            },
+            {
+              "id": 122635266038,
+              "name": "Audio playback regression",
+              "status": "completed",
+              "conclusion": "success",
+              "started_at": "2026-10-28T04:39:39Z",
+              "completed_at": "2026-10-28T04:41:19Z",
+              "head_sha": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+              "details_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40633560505/job/122635266038"
+            },
+            {
+              "id": 122652123132,
+              "name": "harness-policy",
+              "status": "completed",
+              "conclusion": "success",
+              "started_at": "2026-10-28T05:35:34Z",
+              "completed_at": "2026-10-28T05:35:45Z",
+              "head_sha": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+              "details_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40638869407/job/122652123132"
+            },
+            {
+              "id": 122652076215,
+              "name": "freshness-policy",
+              "status": "completed",
+              "conclusion": "success",
+              "started_at": "2026-10-28T05:35:25Z",
+              "completed_at": "2026-10-28T05:35:29Z",
+              "head_sha": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+              "details_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40638869250/job/122652076215"
+            },
+            {
+              "id": 122635265796,
+              "name": "iOS native regression",
+              "status": "completed",
+              "conclusion": "success",
+              "started_at": "2026-10-28T04:39:40Z",
+              "completed_at": "2026-10-28T05:02:01Z",
+              "head_sha": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+              "details_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40633560513/job/122635265796"
+            },
+            {
+              "id": 122635265667,
+              "name": "iOS published app candidate",
+              "status": "completed",
+              "conclusion": "success",
+              "started_at": "2026-10-28T04:39:40Z",
+              "completed_at": "2026-10-28T05:16:35Z",
+              "head_sha": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+              "details_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40633560497/job/122635265667"
+            },
+            {
+              "id": 122635265679,
+              "name": "iOS SDK 26 unsigned archive preflight",
+              "status": "completed",
+              "conclusion": "success",
+              "started_at": "2026-10-28T04:48:40Z",
+              "completed_at": "2026-10-28T04:54:28Z",
+              "head_sha": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+              "details_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40633560491/job/122635265679"
+            },
+            {
+              "id": 122635265761,
+              "name": "iOS initial missing package and restored upgrade preserving data",
+              "status": "completed",
+              "conclusion": "success",
+              "started_at": "2026-10-28T04:39:40Z",
+              "completed_at": "2026-10-28T04:48:54Z",
+              "head_sha": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+              "details_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40633560533/job/122635265761"
+            },
+            {
+              "id": 122645120730,
+              "name": "iOS 26.5 representative UI smoke",
+              "status": "completed",
+              "conclusion": "success",
+              "started_at": "2026-10-28T05:13:03Z",
+              "completed_at": "2026-10-28T05:28:41Z",
+              "head_sha": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+              "details_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40633561964/job/122645120730"
+            }
+          ]
+        },
+        "runtime_history": {
+          "pointer": "/runtime_history",
+          "value": {
+            "run_id": 40633561964,
+            "first_job_id": 122635269922,
+            "first_result": {
+              "Contents": "TOC visibility wait failed at NativeReaderUITests.swift388",
+              "ThreeArticles": "passed"
+            },
+            "first_failure_summary_SHA256": "0ad2fe9c5ea77bb38952e658ee60e15bde4524c918c7449ec50b9b59044a0557",
+            "retry_job_id": 122645120730,
+            "retry_attempt": 2,
+            "retry_count": 1,
+            "source_selector_timeout_changes": 0,
+            "retry_summary_SHA256": "496cca170537e72879f4e8956d7836a2bcce182e5b80f543863bb43a71cbb676",
+            "retry_each2_started1_passed1_failed0": true,
+            "root_cause_fixed_claim": false
+          }
+        }
+      }
+    },
+    "checkout_scope": "PR head metadata is distinct from actual synthetic checkout; see supplied observation projections.",
+    "restore_App71_SDK_provider_device_success_inferred": false,
+    "new_API_or_raw_retrieval_by_binding": 0
+  }
+}

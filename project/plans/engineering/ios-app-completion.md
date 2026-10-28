@@ -204,6 +204,10 @@ IOS-22の[読書記録の破損保全と明示復旧](../../records/2026-10-27/i
 
 IOS-22の[読書記録の手動書き出し](../../records/2026-10-28/ios-reading-backup-export.md)は、normalの永続rawを保持するexportと厳格codecを準備し、v2レビューで見つかった未知metadata P2をv3のexact raw identityで修正した。観測不一致時は保存を停止し、通常編集へ伝播する。Source5＋版上げだけのPBXで0.2.21（23）とし、grammar5・影響旧11＋新5のFoundation16件を確認済み、App XCTest24・SDK・実picker／provider・実機・VoiceOverは残る。最終Source5独立レビューはP1／P2が0件。復元は後続PRで、全TODO行と完了13/32を変更しない。
 
+[読書exportの採用追記](../../records/2026-10-28/ios-reading-backup-export.md#pr293の採用追記)では、PR293を通常保護でmain `a18a47c2911a`へ採用した結果とReady必須検査・export SDKの観測を記録する。旧準備記述を保持し、後続復元のApp71・SDK・provider・実機等の成功へ転用しない。
+
+IOS-22の[読書記録の手動復元](../../records/2026-10-28/ios-reading-manual-restore.md)は、通常側のpreview／明示確認と固定1slot保全・管理、観測差分・不確かな書込後の保存停止を準備した。engineのFoundation62件、UI grammar4と同一readerの旧Mac9件、旧Source7のCore構文・PBX検査を分け、旧7までの独立engine／UI・結合レビューはP1・P2が0件。関連App71メソッド・追加picker UI1件・SDK・実provider・実機・VoiceOverは未実施。0.2.22（24）の3コミット・1PR案は実採用export mainへ結合し、32行・完了13行とIOS-22未完了を変更しない。 現行Source8は旧7を保ち、FileTimestamp理由3B52.1（本人が選択したJSON）・C617.1（DEBUG限定Documents診断）を追記し、plist検査まで確認した。新宣言の独立監査もP1・P2が0件。実SDK Privacy report・Store申告の受入は残る。
+
 IOS-25の[コードコピー回帰検査](../../records/2026-10-27/ios-code-copy-ui-ci.md)は、通常Fullの固定3abaで単体165件（skip2・失敗0）・UI23件・Releaseが成功し、同UUIDのraw結果と実コピー374Bを独立TXTへ全byte照合した。canaryと一意なBooted選択はproducerの申告範囲である。通常保護squashで同じtreeのmain169へ採用した。新push CIは未確認で、実機・VoiceOverとIOS-25全体の受入も残す。このCopy追記ではTODOのチェックを変更しない。
 
 [読書記録復旧のUI回帰](../../records/2026-10-27/ios-reading-recovery-ui.md)では、DEBUG隔離suiteの取消し・確認と再起動後のしおり保持を確認しています。採用89のNative4件と、通常保護で統合したmainc1の新push（Common10 jobs・Native4件・Full22件）を2026-10-28 checkpointで分けて記録しました。Dedicated89のF成功・R失敗は別Driver作業として保持し、新Driverの効果、読書位置・backup生bytes・実機・VoiceOver・Core性能とIOS-22全体は未受入です。

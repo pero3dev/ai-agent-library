@@ -99,3 +99,19 @@ raw 83,460Bと公式compact ZIP 109,930Bを各1回取得し、公式SHA256 `7bef
 限定修正は、新4例を加えたNode24例が成功し、元20例の本文を保持した。約700〜900KiBの合成pretty summaryをrawのまま保存して未採択exit 2まで進むことと、1MiB超過・他JSONの512KiB超過・予約と総量の拒否を確認した。workflow側も実compactと実ファイルの5合成例で1MiB境界と総量を確認し、静的検査が成功した。初回のharnessが「失敗診断artifactのready」と「metricの成功」を同一視した誤りはSourceを変えずに訂正して記録した。独立SourceレビューのP1・P2は0件だった。新Hostedでの完全summary取得と指標採択は未確認のままとする。
 
 この限定修正を隔離済み依存で共通検査し、Node1134件中1119成功・15skip・失敗0、`npm run check` exit 0を確認した。旧5コミットを残した追加コミットとして必要CIを検証する。完全summary・CSVと実metricの固定契約は、新しい収録が成功してから別に採択する。
+
+## 完全summaryの取得とCSV収録前の失敗
+
+head `124b5281c67933710b50439979fef9cd263b7452`の[run 40741532861](https://github.com/pero3dev/ai-agent-library/actions/runs/40741532861)は、attempt 1で環境一覧取得の120秒上限に達し、ビルド・UIへ進まなかった。初回raw 80,673Bとcompact ZIP 11,909Bを保持した。原因を確定せず、条件を変えない1回だけの再実行を行った。このheadの追加再実行は行わない。
+
+attempt 2／job `123008623901`では、全199記事のApp監査と専用UIが成功した。6件のxcresulttool commandはすべてexit 0で、746,097Bの型付きlegacy summaryを切り詰めず取得し、1MiB収録上限内であることを確認した。公式runのhead・event・attemptとproducer context、Source4のhashとtreeも照合した。CSV出力command自体は成功したが、収集器が `Unexpected CSV export member or count`で失敗した。非CSV・非通常ファイル・16件超過のどの条件かを示す情報がなく、CSVは保存前に失われた。これは未採択契約のexit 2ではなくexit 1であり、CSV形式・指標契約は未採択のままである。
+
+raw 83,632Bと公式compact ZIP 149,390Bを各1回取得した。ZIPのSHA256 `3fef46da48f37204115da0797dde0bdfc9b2c08cd74d648821c9d52648003151`、121 memberとmanifestに載る120ファイルのbyte・hashを照合した。完全summaryの取得、専用caseの成功、CSVの未取得とprotocol payloadの未検証を分けて記録する。以前のタイムアウト原因やRunner診断IOの数値比較性が解決したとはしない。
+
+後続修正は、CSV出力のstdoutとmember一覧を各16KiBの固定診断ファイルへ残す。CSV以外のmemberを成功扱いで無視せず、上限・所有・通常ファイル等の確認を通ったCSVを先に保存してから、未知member等があれば失敗を維持する。未知memberの内容を推測で採用せず、次の実データを確認してから必要な変更を決める。型付き指標の値やCSVの固定契約は別の採択まで受入値にしない。
+
+独立のraw監査では、modernとlegacyの一意な専用caseのPassed・約101.588秒と参照を照合し、`ActionTestPerformanceMetricSummary` 3行・各Double3値・wire単位 `kB`を確認した。9値はいずれも有限かつ正だったが、CSV未取得のため意味・換算・平均・性能予算を採択しない。本文診断のseq26から53には保持欠落があり、protocol attachmentは参照だけでpayloadを取得していない。起動後の一覧は初回timeout約60.388秒の後、別commandの追加読取1回が約17.980秒で成功し、限定回復が実行された。今回の1実行の成功として記録し、常時回復の保証にしない。
+
+限定修正のNode29例（既存24例と追加5例）は成功した。未知memberの順序、通常ファイル以外・重複inode等、CSV17本とmember／path／depth等の上限を拒否しつつ、安全な候補を保持することを確認した。workflowの固定診断2名の各16KiB境界を含むcompact合成11例と静的13検査も成功した。これはローカルの合成出力による確認で、新Hostedの実CSV形式や収集成功を示さない。既存の出所・fd・期限・caseと容量のガード、未採択契約・受入値nullを保持する。
+
+修正後の共通検査 `npm run check` は成功し、Node1139件中1124成功・15skip・失敗0を確認した。最初の共通検査は同じNode結果の後、作業記録2ファイルの空行で停止した。空行だけを訂正して再実行し、Source3は変更していない。最終内容の独立レビューと新headのHosted収集は別に確認する。

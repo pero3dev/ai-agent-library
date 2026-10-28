@@ -486,5 +486,95 @@
       "skip": 15,
       "fail": 0
     }
+  },
+  "summary_cap_first_hosted": {
+    "head": "124b5281c67933710b50439979fef9cd263b7452",
+    "run": 40741532861,
+    "initial_job": 123004113984,
+    "initial_result": "runtimeinventory ETIMEDOUT cap120000/elapsed120015 beforebuild/UI",
+    "unchanged_retry_count": 1,
+    "more_unchanged_retries": false,
+    "retry_attempt": 2,
+    "retry_job": 123008623901,
+    "commands6_exit0": true,
+    "typed_summary_bytes": 746097,
+    "collector_exit": 1,
+    "error": "Unexpected CSV export member or count",
+    "CSV": null,
+    "trusted_memory_contract": null,
+    "protocol_payload_verified": false,
+    "raw": {
+      "bytes": 83632,
+      "SHA256": "44eb02bc9b77667b93ae93dea27e58bcfe29781dbddd2f4522e82ae3be5f6db7"
+    },
+    "artifact": {
+      "id": 12842125064,
+      "bytes": 149390,
+      "SHA256": "3fef46da48f37204115da0797dde0bdfc9b2c08cd74d648821c9d52648003151",
+      "members": 121,
+      "manifest_files_verified": 120
+    },
+    "root_correlation": "official head/event/attempt and context Source4/tree matched",
+    "UI_case": "oneunique Passed101.588014960289s",
+    "typedmetrics": {
+      "row_type": "ActionTestPerformanceMetricSummary",
+      "rows": 3,
+      "typed_values_per_row": 3,
+      "wire_unit": "kB",
+      "all9finite_positive": true,
+      "noCSV_no_semantic_unit_conversion_mean_or_budget_adoption": true
+    },
+    "journal": "seq26to53gap, protocolattachmentrefonly,payloadnotretrieved",
+    "postboot_recovery": {
+      "first_timeout_elapsed_ms": 60388,
+      "first_cap_ms": 59998,
+      "separate_recovery_elapsed_ms": 17980,
+      "separate_recovery_cap_ms": 59999,
+      "separate_recovery_exit": 0,
+      "additional_reads": 1,
+      "observation_only_no_reliability_guarantee": true
+    },
+    "independent_raw_review_manifest_SHA256": "0681b6889efa5478233883c4fde5afc393f5b8ad65477670c8989767e3b11eb7"
+  },
+  "CSV_capture_diagnostic_candidate": {
+    "base": "124b5281c67933710b50439979fef9cd263b7452",
+    "fixed_files": {
+      "csv-export-stdout.txt": 16384,
+      "csv-export-inventory.json": 16384
+    },
+    "scope": "captureonly, safeCSVbeforeknownfailure; no ignoredunknown orcontractadoption",
+    "enumeration": {
+      "depth": 4,
+      "entries": 64,
+      "relative_path_bytes": 512,
+      "CSVfiles": 16,
+      "CSVbytes_each": 65536
+    },
+    "raw_existing_guards": "held incl170s/60s/aggregate2MiB/reserve32KiB/provenance/case/fd",
+    "trusted_memory_contract": null,
+    "accepted_measurements": null,
+    "newHosted": "notperformed",
+    "Source_validation": {
+      "Node": 29,
+      "pass": 29,
+      "old_tests": 24,
+      "new_tests": 5,
+      "compact_synthetic": 11,
+      "static": 13,
+      "exporter_SHA256": "9921b1143271dca1d5a2cae5165b9062c5de2f7da663181ff919399a8bfba854",
+      "tests_SHA256": "97baeb04c99d0760796cb613f3be009987f97033fc18ffdf61886fb63a952313",
+      "WF_SHA256": "7d38a176dd856972698a9c12a9ff03107dc56f8903eec0c88c34055cf5ce61bb",
+      "Source2_manifest_SHA256": "cdea2d3166aeb422aab23ab90af2453267d32224a7197894450461d3c50d5073",
+      "WF_manifest_SHA256": "3d908ad25831d2aad024ce74dd89548c6a405d90edf479a0214dda0cd799f7b5"
+    },
+    "root_common_check": {
+      "command": "npm run check",
+      "exit_code": 0,
+      "tests": 1139,
+      "pass": 1124,
+      "skip": 15,
+      "fail": 0,
+      "first_format_failure": "MD012 two addedblanklines, Source3 unchanged thencommoncheckrepeated"
+    }
   }
 }

@@ -117,6 +117,26 @@ else if (args.includes('object')) {
   console.log(JSON.stringify(value, null, isSummary && ['large-summary', 'oversized-summary'].includes(mode) ? 2 : undefined));
 } else if (args.includes('export')) {
   const out = args[args.indexOf('--output-path') + 1];
+  if (mode.startsWith('diagnostic-')) console.log('SYNTHETIC CSV EXPORT');
+  if (mode === 'diagnostic-stdout-cap') process.stdout.write('x'.repeat(16385));
+  if (mode === 'diagnostic-member-before' || mode === 'diagnostic-member-after') {
+    fs.writeFileSync(path.join(out, mode.endsWith('before') ? '000-sidecar.json' : 'zzz-sidecar.json'), 'synthetic unadopted sidecar');
+  }
+  if (mode === 'diagnostic-symlink' || mode === 'diagnostic-hardlink') {
+    fs[mode.endsWith('symlink') ? 'symlinkSync' : 'linkSync'](${JSON.stringify(database)}, path.join(out, '000-unsafe.csv'));
+  }
+  if (mode === 'diagnostic-entry-cap' || mode === 'diagnostic-inventory-byte-cap') {
+    const entries = mode === 'diagnostic-entry-cap' ? 65 : 60;
+    for (let index = 0; index < entries; index++) fs.writeFileSync(path.join(out,
+      '000-' + String(index).padStart(3, '0') + (mode === 'diagnostic-inventory-byte-cap' ? '-'.repeat(220) : '') + '.json'), 'synthetic');
+  }
+  if (mode === 'diagnostic-path-cap' || mode === 'diagnostic-depth-cap') {
+    let folder = out;
+    for (let index = 0; index < (mode === 'diagnostic-path-cap' ? 4 : 5); index++) {
+      folder = path.join(folder, mode === 'diagnostic-path-cap' ? 'a'.repeat(140) : 'a'); fs.mkdirSync(folder);
+    }
+    fs.writeFileSync(path.join(folder, 'deep.csv'), 'uncaptured synthetic');
+  }
   if (mode === 'foreign-csv-directory') fs.mkdirSync(path.join(${JSON.stringify(options.output)}, 'csv'));
   const count = mode === 'many-csv' ? 17 : 2;
   for (let index = 0; index < count; index++) {
@@ -342,6 +362,71 @@ test('larger raw summary preserves the 2MiB aggregate and 32KiB failure-receipt 
   writer.writeFailureReceipt('summary.json', '{}'); writer.write('commands.json', '[]')
   writer.writeFailureReceipt('manifest.json', JSON.stringify({ files: writer.manifest() }))
   assert.ok(enforceCompactCaps([...writer.manifest(), { path: 'manifest.json', bytes: readFileSync(path.join(fixture.output, 'manifest.json')).length }]) <= memoryCaps.aggregate)
+})
+
+test('CSV export captures bounded verbatim stdout and a complete member inventory while remaining pending2', posixOnly, t => {
+  const fixture = fixtureCLI(t, 'diagnostic-complete')
+  assert.equal(fixture.run.status, 2, fixture.run.stderr)
+  assert.equal(readFileSync(path.join(fixture.output, 'csv-export-stdout.txt'), 'utf8'), 'SYNTHETIC CSV EXPORT\n')
+  const inventory = JSON.parse(readFileSync(path.join(fixture.output, 'csv-export-inventory.json'), 'utf8'))
+  assert.equal(inventory.status, 'complete'); assert.equal(inventory.traversal_complete, true)
+  assert.equal(inventory.captured_csv_files, 2); assert.deepEqual(inventory.issues, [])
+  assert.deepEqual(inventory.entries.map(entry => [entry.relative_path, entry.captured_as]),
+    [['synthetic-0.csv', 'csv/candidate-01.csv'], ['synthetic-1.csv', 'csv/candidate-02.csv']])
+  assert.equal(fixture.summary().accepted_measurements, null); assert.equal(fixture.calls().length, 6)
+})
+
+test('unknown CSV export members retain both safe CSVs before and after the rejection without becoming accepted', posixOnly, t => {
+  for (const mode of ['diagnostic-member-before', 'diagnostic-member-after', 'diagnostic-symlink', 'diagnostic-hardlink']) {
+    const fixture = fixtureCLI(t, mode)
+    assert.equal(fixture.run.status, 1, mode + ': ' + fixture.run.stderr)
+    const inventory = JSON.parse(readFileSync(path.join(fixture.output, 'csv-export-inventory.json'), 'utf8'))
+    assert.equal(inventory.status, 'rejected'); assert.equal(inventory.traversal_complete, true)
+    assert.equal(inventory.captured_csv_files, 2); assert.equal(inventory.entries.length, 3)
+    assert.equal(inventory.entries.filter(entry => entry.rejection !== null).length, 1)
+    assert.equal(readdirSync(path.join(fixture.output, 'csv')).length, 2)
+    for (const [index, name] of ['candidate-01.csv', 'candidate-02.csv'].entries()) {
+      assert.equal(readFileSync(path.join(fixture.output, 'csv', name), 'utf8'), 'fictional CSV ' + index + '\n')
+    }
+    assert.equal(fixture.summary().accepted_measurements, null); assert.equal(fixture.summary().metric_contract_accepted, false)
+    assert.equal(fixture.calls().length, 6); assert.equal(fixture.databaseBytes(), 'immutable synthetic result')
+  }
+})
+
+test('CSV count rejection retains only the sixteen bounded candidates and never retries a child', posixOnly, t => {
+  const fixture = fixtureCLI(t, 'many-csv')
+  assert.equal(fixture.run.status, 1)
+  const inventory = JSON.parse(readFileSync(path.join(fixture.output, 'csv-export-inventory.json'), 'utf8'))
+  assert.equal(inventory.status, 'rejected'); assert.equal(inventory.captured_csv_files, 16)
+  assert.equal(inventory.entries.length, 17); assert.ok(inventory.issues.includes('csv-file-count'))
+  assert.equal(readdirSync(path.join(fixture.output, 'csv')).length, 16)
+  assert.equal(fixture.calls().length, 6); assert.equal(fixture.summary().accepted_measurements, null)
+})
+
+test('CSV diagnostic traversal, relative paths and metadata bytes fail closed within fixed bounds', posixOnly, t => {
+  for (const [mode, issue] of [['diagnostic-entry-cap', 'inventory-entry-cap'], ['diagnostic-inventory-byte-cap', 'inventory-byte-cap'],
+    ['diagnostic-path-cap', 'relative-path-cap'], ['diagnostic-depth-cap', 'depth-cap']]) {
+    const fixture = fixtureCLI(t, mode)
+    assert.equal(fixture.run.status, 1, mode + ': ' + fixture.run.stderr)
+    const bytes = readFileSync(path.join(fixture.output, 'csv-export-inventory.json')), inventory = JSON.parse(bytes)
+    assert.ok(bytes.length <= memoryCaps.csvDiagnostic); assert.ok(inventory.entries.length <= memoryCaps.csvInventoryEntries)
+    assert.ok(inventory.issues.includes(issue), mode)
+    if (mode.includes('inventory-') || mode === 'diagnostic-entry-cap') assert.equal(inventory.traversal_complete, false)
+    assert.equal(fixture.summary().accepted_measurements, null); assert.equal(fixture.calls().length, 6)
+  }
+})
+
+test('CSV diagnostic files and stdout enforce their own 16KiB cap without changing JSON or aggregate limits', posixOnly, t => {
+  for (const name of ['csv-export-stdout.txt', 'csv-export-inventory.json']) {
+    assert.equal(enforceCompactCaps([{ path: name, bytes: 16384 }]), 16384)
+    assert.throws(() => enforceCompactCaps([{ path: name, bytes: 16385 }]))
+  }
+  const fixture = fixtureCLI(t, 'diagnostic-stdout-cap')
+  assert.equal(fixture.run.status, 1); assert.equal(fixture.calls().length, 6)
+  assert.equal(existsSync(path.join(fixture.output, 'csv-export-stdout.txt')), false)
+  assert.equal(existsSync(path.join(fixture.output, 'csv')), false)
+  assert.equal(fixture.summary().accepted_measurements, null)
+  assert.equal(memoryCaps.json, 524288); assert.equal(memoryCaps.legacySummary, 1048576); assert.equal(memoryCaps.aggregate, 2097152)
 })
 
 test('CLI failed stage, signal, invalid UTF8, caps and unowned leaves cannot become accepted', posixOnly, t => {

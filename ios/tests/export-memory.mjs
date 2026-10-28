@@ -17,6 +17,7 @@ export const memoryObservation = Object.freeze({
 })
 export const memoryCaps = Object.freeze({ json: 512 * 1024, legacySummary: 1024 * 1024, csv: 64 * 1024,
   aggregate: 2 * 1024 * 1024, csvFiles: 16, commandReceipt: 16 * 1024,
+  csvDiagnostic: 16 * 1024, csvInventoryEntries: 64, csvRelativePath: 512,
   exportMilliseconds: 170000, childMilliseconds: 60000 })
 const sourcePaths = Object.freeze(['.github/workflows/ios-memory.yml',
   'ios/AILibraryUITests/PublishedPerformanceUITests.swift', 'ios/tests/export-memory.mjs',
@@ -224,10 +225,13 @@ function stableFile(file, cap) {
 }
 
 const names = new Set(['modern-tests.json', 'modern-details.json', 'legacy-root.json', 'legacy-plan.json',
-  'legacy-summary.json', 'context.json', 'summary.json', 'commands.json', 'provenance.json', 'manifest.json'])
+  'legacy-summary.json', 'context.json', 'summary.json', 'commands.json', 'provenance.json', 'manifest.json',
+  'csv-export-stdout.txt', 'csv-export-inventory.json'])
 // The dedicated passed-case summary includes verbose UI activity records.
 // Only this fixed raw output name receives a larger cap; callers cannot raise it.
 const memoryJSONCap = name => name === 'legacy-summary.json' ? memoryCaps.legacySummary : memoryCaps.json
+const memoryDiagnosticNames = new Set(['csv-export-stdout.txt', 'csv-export-inventory.json'])
+const memoryCommandOutputCap = name => name === 'csv-export-stdout.txt' ? memoryCaps.csvDiagnostic : memoryJSONCap(name)
 
 export function enforceCompactCaps(entries) {
   if (!Array.isArray(entries)) throw new Error('Invalid evidence inventory')
@@ -237,7 +241,8 @@ export function enforceCompactCaps(entries) {
     if (!plain(entry) || typeof entry.path !== 'string' || !Number.isSafeInteger(entry.bytes) || entry.bytes < 0 ||
         (!names.has(entry.path) && !/^csv\/[a-zA-Z0-9_.-]+\.csv$/.test(entry.path)) || seen.has(entry.path)) throw new Error('Unknown or duplicate compact evidence member')
     seen.add(entry.path)
-    const cap = entry.path.startsWith('csv/') ? memoryCaps.csv : entry.path === 'commands.json' ? memoryCaps.commandReceipt : memoryJSONCap(entry.path)
+    const cap = entry.path.startsWith('csv/') ? memoryCaps.csv : entry.path === 'commands.json' ? memoryCaps.commandReceipt :
+      memoryDiagnosticNames.has(entry.path) ? memoryCaps.csvDiagnostic : memoryJSONCap(entry.path)
     if (entry.bytes > cap) throw new Error('Compact member exceeds byte cap')
     total += entry.bytes
   }
@@ -344,8 +349,31 @@ function json(bytes, cap = memoryCaps.json) {
   return JSON.parse(utf8(bytes))
 }
 
-function collectCSV(directory, checkpoint) {
+function csvInventoryState() {
+  return { schema_version: 1, status: 'collecting', traversal_complete: false, observed_entries: 0,
+    entries_omitted: 0, captured_csv_files: 0, entries: [], issues: [],
+    limits: { depth: 4, entries: memoryCaps.csvInventoryEntries, relative_path_bytes: memoryCaps.csvRelativePath,
+      CSV_files: memoryCaps.csvFiles, CSV_bytes: memoryCaps.csv, inventory_bytes: memoryCaps.csvDiagnostic } }
+}
+
+function collectCSV(directory, checkpoint, capture, inventory) {
   const found = [], identities = new Set()
+  let stopped = false, firstError = null
+  function reject(code, message) {
+    if (!inventory.issues.includes(code)) inventory.issues.push(code)
+    firstError ??= new Error(message)
+  }
+  function append(entry) {
+    const bytes = Buffer.byteLength(JSON.stringify({ ...inventory, entries: [...inventory.entries, entry] }, null, 2))
+    // Reserve room for at most sixteen short captured names and failure status.
+    if (bytes > memoryCaps.csvDiagnostic - 2048) {
+      inventory.entries_omitted++; stopped = true
+      reject('inventory-byte-cap', 'CSV export inventory exceeds its bounded diagnostic allowance')
+      return false
+    }
+    inventory.entries.push(entry)
+    return true
+  }
   function visit(folder, depth) {
     checkpoint()
     if (depth > 4) throw new Error('Unexpected CSV export depth')
@@ -354,24 +382,57 @@ function collectCSV(directory, checkpoint) {
     checkpoint()
     for (const name of children) {
       checkpoint()
-      const file = path.join(folder, name), stat = lstatSync(file, { bigint: true })
-      if (stat.isSymbolicLink()) throw new Error('CSV export symbolic link')
-      if (stat.isDirectory()) visit(file, depth + 1)
-      else {
-        if (!stat.isFile() || !name.endsWith('.csv') || found.length >= memoryCaps.csvFiles) throw new Error('Unexpected CSV export member or count')
-        checkpoint()
-        const read = stableFile(file, memoryCaps.csv)
-        checkpoint()
-        if (identities.has(inode(read.identity))) throw new Error('Duplicate CSV inode')
-        identities.add(inode(read.identity)); found.push({ name: `candidate-${String(found.length + 1).padStart(2, '0')}.csv`,
-          original_relative_path: path.relative(directory, file), bytes: read.bytes })
+      if (stopped) return
+      if (inventory.observed_entries >= memoryCaps.csvInventoryEntries) {
+        inventory.observed_entries++; inventory.entries_omitted++; stopped = true
+        reject('inventory-entry-cap', 'CSV export inventory entry cap exceeded'); return
       }
+      inventory.observed_entries++
+      const relative = path.relative(directory, path.join(folder, name))
+      if (Buffer.byteLength(relative) > memoryCaps.csvRelativePath) {
+        append({ relative_path: null, path_sha256: digest(Buffer.from(relative)), kind: 'uninspected',
+          eligible_csv: false, captured_as: null, rejection: 'relative-path-cap' })
+        reject('relative-path-cap', 'CSV export relative path exceeds its bounded allowance'); continue
+      }
+      const file = path.join(folder, name), stat = lstatSync(file, { bigint: true })
+      const entry = { relative_path: relative,
+        kind: stat.isSymbolicLink() ? 'symbolic-link' : stat.isDirectory() ? 'directory' : stat.isFile() ? 'regular-file' : 'non-regular',
+        bytes: stat.isFile() && stat.size <= BigInt(Number.MAX_SAFE_INTEGER) ? Number(stat.size) : null,
+        eligible_csv: false, captured_as: null, rejection: null }
+      let read = null
+      if (stat.isSymbolicLink()) { entry.rejection = 'symbolic-link'; reject(entry.rejection, 'CSV export symbolic link') }
+      else if (stat.isDirectory()) {
+        if (depth === 4) { entry.rejection = 'depth-cap'; reject(entry.rejection, 'Unexpected CSV export depth') }
+      } else if (!stat.isFile() || !name.endsWith('.csv')) {
+        entry.rejection = 'unexpected-member'; reject(entry.rejection, 'Unexpected CSV export member or count')
+      } else if (found.length >= memoryCaps.csvFiles) {
+        entry.rejection = 'csv-file-count'; reject(entry.rejection, 'Unexpected CSV export member or count')
+      } else {
+        try { read = stableFile(file, memoryCaps.csv) }
+        catch { entry.rejection = 'unsafe-or-oversized-CSV'; reject(entry.rejection, 'CSV export member failed bounded stable-file checks') }
+        checkpoint()
+        if (read && identities.has(inode(read.identity))) {
+          read = null; entry.rejection = 'duplicate-CSV-inode'; reject(entry.rejection, 'Duplicate CSV inode')
+        }
+        entry.eligible_csv = read !== null
+      }
+      if (!append(entry)) return
+      if (read) {
+        const candidate = { name: `candidate-${String(found.length + 1).padStart(2, '0')}.csv`, original_relative_path: relative, bytes: read.bytes }
+        capture(candidate)
+        identities.add(inode(read.identity)); found.push(candidate)
+        entry.captured_as = 'csv/' + candidate.name; inventory.captured_csv_files = found.length
+      }
+      if (stat.isDirectory() && entry.rejection === null) visit(file, depth + 1)
     }
     checkpoint()
   }
   visit(directory, 0)
   checkpoint()
-  return found
+  if (!found.length) reject('missing-CSV', 'Missing CSV export candidates')
+  inventory.traversal_complete = !stopped && !inventory.issues.some(code => ['relative-path-cap', 'depth-cap'].includes(code))
+  inventory.status = firstError ? 'rejected' : 'complete'
+  return { files: found, error: firstError }
 }
 
 function failure(error) {
@@ -391,6 +452,7 @@ export function exportMemory(options) {
   if (!hex40(options.expectedHead)) throw new Error('A separate expected-head 40hex argument is required')
   const started = performance.now(), deadline = started + memoryCaps.exportMilliseconds
   const evidence = writeOwnedEvidence(options), commands = []
+  let csvInventory = null, csvInventoryWritten = false
   // These are boundary checks around synchronous work, not an atomic wall-clock
   // cancellation guarantee for filesystem calls or an entire process tree.
   const checkpoint = () => { memoryCommandBudget(deadline, performance.now()) }
@@ -400,7 +462,7 @@ export function exportMemory(options) {
     evidence.assertIdentity()
     const timeout = memoryCommandBudget(deadline, performance.now())
     const result = spawnSync('xcrun', ['xcresulttool', ...args], { timeout, killSignal: 'SIGKILL',
-      maxBuffer: memoryJSONCap(outputName) + 1, stdio: ['ignore', 'pipe', 'pipe'] })
+      maxBuffer: memoryCommandOutputCap(outputName) + 1, stdio: ['ignore', 'pipe', 'pipe'] })
     const entry = { binary: 'xcrun', arguments: ['xcresulttool', ...args], timeout_ms: timeout,
       exit_code: result.status, signal: result.signal, error: result.error?.message?.slice(0, 500) ?? null,
       stdout_bytes: result.stdout?.length ?? 0, stderr_bytes: result.stderr?.length ?? 0,
@@ -432,9 +494,14 @@ export function exportMemory(options) {
     const summary = rawJSON(['get', 'object', '--legacy', '--path', evidence.options.result, '--id', summaryRef, '--format', 'json'], 'legacy-summary.json')
     const refs = bounded(() => selectLegacySummary(root, plan, summary, id))
     const scratch = bounded(() => evidence.scratch())
-    run(['export', 'metrics', '--test-id', id, '--path', evidence.options.result, '--output-path', scratch])
-    const csv = collectCSV(scratch, checkpoint)
-    for (const file of csv) bounded(() => evidence.write('csv/' + file.name, file.bytes))
+    const csvStdout = run(['export', 'metrics', '--test-id', id, '--path', evidence.options.result, '--output-path', scratch], 'csv-export-stdout.txt')
+    bounded(() => evidence.write('csv-export-stdout.txt', csvStdout))
+    csvInventory = csvInventoryState()
+    const collection = collectCSV(scratch, checkpoint, file => bounded(() => evidence.write('csv/' + file.name, file.bytes)), csvInventory)
+    bounded(() => evidence.write('csv-export-inventory.json', JSON.stringify(csvInventory, null, 2) + '\n'))
+    csvInventoryWritten = true
+    if (collection.error) throw collection.error
+    const csv = collection.files
     // All bounded raw candidates are already retained before interpretation.
     const candidates = bounded(() => normalizeMemoryCandidates(summary, id))
     const csvValidation = bounded(() => validateMemoryCSV(csv, candidates))
@@ -459,6 +526,12 @@ export function exportMemory(options) {
   } catch (error) {
     // Failure diagnostics use the reserved byte allowance even after the work
     // deadline. They are bounded best effort, without another external command.
+    if (csvInventory && !csvInventoryWritten) {
+      try {
+        csvInventory.status = 'aborted'; csvInventory.traversal_complete = false
+        evidence.write('csv-export-inventory.json', JSON.stringify(csvInventory, null, 2) + '\n')
+      } catch { /* Never exceed caps or overwrite a previously written diagnostic. */ }
+    }
     try { evidence.write('commands.json', JSON.stringify(commands, null, 2) + '\n') } catch { /* Keep the original owned receipt if present. */ }
     try { evidence.writeFailureReceipt('summary.json', JSON.stringify(failure(error), null, 2) + '\n') } catch { /* Never truncate an unowned/replaced receipt. */ }
     try { evidence.writeFailureReceipt('manifest.json', JSON.stringify({ schema_version: 1, files: evidence.manifest() }, null, 2) + '\n') } catch { /* Keep original evidence/error. */ }

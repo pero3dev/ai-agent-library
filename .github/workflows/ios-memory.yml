@@ -257,12 +257,14 @@ jobs:
             include(file(evidence, 'log-receipts.json'), 'workflow/log-receipts.json', 512 * 1024);
             const exportRoot = path.join(evidence, 'export');
             const exportNames = ['modern-tests.json','modern-details.json','legacy-root.json','legacy-plan.json','legacy-summary.json',
-              'context.json','provenance.json','summary.json','commands.json','manifest.json'];
+              'context.json','provenance.json','summary.json','commands.json','manifest.json',
+              'csv-export-stdout.txt','csv-export-inventory.json'];
             if (present(exportRoot)) {
               assert.ok(fs.lstatSync(exportRoot).isDirectory() && !fs.lstatSync(exportRoot).isSymbolicLink());
               assert.equal(fs.realpathSync(exportRoot), exportRoot);
               for (const name of exportNames) include(path.join(exportRoot, name), 'export/' + name,
-                name === 'commands.json' ? 16384 : name === 'legacy-summary.json' ? 1024 * 1024 : 512 * 1024);
+                ['commands.json','csv-export-stdout.txt','csv-export-inventory.json'].includes(name) ? 16384
+                  : name === 'legacy-summary.json' ? 1024 * 1024 : 512 * 1024);
               for (const name of fs.readdirSync(exportRoot)) if (!exportNames.includes(name) && name !== 'csv' && !/^\.csv-export-[A-Za-z0-9_-]+$/.test(name))
                 omitted.push({ path: 'export/' + name, reason: 'not-in-fixed-export-allowlist' });
               const csvRoot = path.join(exportRoot, 'csv');

@@ -188,6 +188,8 @@ npm run ios:test:package
 
 生xcresult・CSV・型付きmetric・実行環境をartifactへ残します。欠測や異なるテストID、非数は失敗扱いで、ゼロに置き換えません。初回Xcode16.4のJSON・CSV・log・xcresultで実Clock識別子・表示名・秒単位と3標本を独立確認しました。初回は契約nullで非ゼロ終了を保ち、追加guardでは実CSVの5列・1行・宛先/構成・typed原順3値・秒平均を厳密照合します。平均は印字小数位の半刻みだけをBigIntで許し、欠測を補いません。追加sourceは保存済raw再生で確認し、新headのHosted成功とは区別します。[観測基盤の記録](../project/records/2026-10-25/ios-published-readiness-observation.md)で実測前の静的確認と実行結果を追跡します。
 
+[検索UIのClock観測候補](../project/records/2026-10-28/ios-search-ui-clock.md)は、起動と不一致queryへの復帰を計測外に置き、公開検索欄の置換から正のquery・filter summary・可視witnessまでを対象にする。自動実行は従来の起動1件を保ち、検索はmanual選択時だけ。合成exporter44件・静的確認とXcode16.2付属Swiftの構文解析のみ確認し、SDK型検査・Hosted・実検索metric・性能予算は未受入、TODO32行・完了13行を維持する。
+
 [main49のApp起動観測](../project/records/2026-10-28/ios-published-launch-readiness.md)では、Debug・Xcode16.4/iOS18.5の起動から全199記事数と学習ガイドの存在確認までをClock3標本で記録した。平均7.5879547333333335秒とCSVの丸めを照合し、終了処理を除いたUI/AX待機込みの温まったcacheでの観測として扱う。過去のCore CLI、cold起動・p95・RSS・実機・性能予算と区別し、TODOの完了欄は変更しない。
 
 ## 全記事Coreのhost観測

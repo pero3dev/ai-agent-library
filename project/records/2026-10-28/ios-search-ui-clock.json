@@ -1,0 +1,290 @@
+{
+  "schema_version": 1,
+  "recorded_date_JST": "2026-10-28",
+  "status": "search-UI-Clock-instrumentation-prepared; actual-search-metric-unadopted",
+  "basis": {
+    "Source4_manifest_SHA256": "44a0f31c65bf6cf4e8b833c626873759bd441e0d61f4f3c85f4875e41ad7303f",
+    "Source4": [
+      {
+        "path": "ios/AILibraryUITests/PublishedPerformanceUITests.swift",
+        "bytes": 9816,
+        "SHA256": "f6b3e31de39a9aca24994f543b0ee1a6ba353780b6f9ce3fe1fba1c1c6470175"
+      },
+      {
+        "path": "ios/tests/export-performance.mjs",
+        "bytes": 25933,
+        "SHA256": "c77658a6c87e9981ca1a65e3ea120353a1371e7a341cb71d55faba31ddc50038"
+      },
+      {
+        "path": ".github/workflows/ios-performance.yml",
+        "bytes": 13180,
+        "SHA256": "a02f34b5857903b810c5f9735ec36a7e05a07e47ad016352c70f91d7574bb5ac"
+      },
+      {
+        "path": "tests/unit/ios-performance-export.test.mjs",
+        "bytes": 34262,
+        "SHA256": "9372702531764ae18091c5a9952b3e9f0afb58551c9a63aa8600cefc33261bf1"
+      }
+    ],
+    "independent_code_review_SHA256": "c203372793c0ce48c6ac7666967d38199e8680826bcb68b9128eb4c5b0edff12",
+    "code_review": "Accepted private Source4 only; freshmain binding and SDK/Hosted required",
+    "original_authoring_snapshot": {
+      "main": "516662fe8474a94a069914d3126c412657efb8ca",
+      "tree": "2b4e52cee11543c9cd16b15d7d07e8c824f98304",
+      "Source4_private_tree_hash": "87fc96809fc86e51ca6b76941f4ba2a3e9abd969"
+    },
+    "main": "023cfac164c96dc3d8c1afa91c24e8bf4530161f",
+    "tree": "6664903bf13088f2fe262cef1820fc987a4edfb7",
+    "prior_publication_prepare_manifest_SHA256": "1321653d41b6b2ead3f498749e74acf540c88c7be6b64f0f36e65fe80151d54c",
+    "old_main516_and_Doc719_preview": "Historical preparation only; not current actualmain",
+    "historical_private_bindings": [
+      {
+        "name": "actual-main337",
+        "commit": "33702453d3805024f0763ef39acece7a4ff26b41",
+        "tree": "3b29b3db0b16dba530b9a86cbcb0d4a0fe262eed",
+        "actualmain": true,
+        "preview_only": false,
+        "status": "actualmain snapshot",
+        "base_files": 2785,
+        "technical_tree": "236c6eb7383806ecf49b6728f6e9ad6db7ed88a3"
+      },
+      {
+        "name": "pending-copy3aba-preview",
+        "commit": "3aba86d227b6ec2ce2b8a0b97bcf9a1b1599ec40",
+        "tree": "df2dd2e5428e8050bd49939dd18ce8cdbb05cd05",
+        "actualmain": false,
+        "preview_only": true,
+        "status": "Root-provided Draft and normal Full in-progress snapshot; not merged; no API status refresh",
+        "base_files": 2788,
+        "technical_tree": "c6069f0e1f908a847e34d4a48c1efa9d87159fa5"
+      }
+    ],
+    "historical_private_bindings_scope": "Earlier preparation snapshots only, including then-unmerged Copy3aba; not current state.",
+    "current_binding": {
+      "main": "023cfac164c96dc3d8c1afa91c24e8bf4530161f",
+      "tree": "6664903bf13088f2fe262cef1820fc987a4edfb7",
+      "Docs_PR": 291,
+      "Copy_main": "16930f8ae8feb52fbd6ddedfe25c8d98e0a19106",
+      "Source4_baseline_tuples_equal_main169": true
+    },
+    "personal_final_preparation_manifest_SHA256": "beb5a1f4c8621a961299f1567e3ead78d12a8e0be6ad5c5bbb8c7265d36aa8fb"
+  },
+  "actual_head": null,
+  "actual_CI": null,
+  "actual_search_metric": null,
+  "selection": {
+    "automatic_and_manual_default": {
+      "scenario": "launch-to-published-readiness",
+      "method": "PublishedPerformanceUITests/testLaunchToPublishedReadiness()",
+      "old_method_body_literal_preserved": true,
+      "artifact_prefix": "ios-published-readiness-evidence"
+    },
+    "explicit_manual_search": {
+      "scenario": "search-query-to-visible-witness",
+      "method": "PublishedPerformanceUITests/testSearchQueryToVisibleWitness()",
+      "artifact_prefix": "ios-published-search-evidence"
+    },
+    "unknown_or_implicit_search_rejected": true,
+    "scenario_concurrency_separate": true
+  },
+  "measurement_contract": {
+    "metric": "XCTClockMetric",
+    "declared_recorded_iterations": 3,
+    "declared_discarded_warmup": 1,
+    "declared_invocations_asserted": 4,
+    "actual_iterations_observed": null,
+    "excluded": [
+      "App launch",
+      "Independent full count and learning guide readiness",
+      "Search reveal",
+      "Each negative-query/zero-state/witness-absence reset"
+    ],
+    "start": "Before public negative-query replacement with the positive literal",
+    "stop": "Exact positive query, one visible filter summary, usable visible article witness, and absent zero-state label agree",
+    "negative_query": "AILIBRARY_UI_PERF_NO_MATCH_67404f8127",
+    "positive_query": "データを外部 API に出せるか",
+    "positive_witness_article": "03-implementation/model-selection",
+    "filter_summary_exact": "検索: データを外部 API に出せるか",
+    "keyboard_and_AX_waits_included": true,
+    "expected_result_total": null,
+    "total_equals_one_claimed": false,
+    "all_articles_or_visible_rows_used_as_result_total": false,
+    "engine_only_or_per_keystroke_claimed": false,
+    "boundary_is_Source_design_not_runtime_result": true
+  },
+  "export_contract": {
+    "one_exact_selected_case": true,
+    "search_requires_exact_scenario_method_context_query_witness": true,
+    "legacy_context_without_scenario": "Launch only; cannot implicitly select search",
+    "Clock_identifier_and_seconds_type_preserved": true,
+    "typed_samples": 3,
+    "CSV_columns": 5,
+    "CSV_rows": 1,
+    "original_order_and_precision_required": true,
+    "mean_rounding": "Exactly half the last printed decimal place",
+    "missing_metrics_and_CSV_mismatch_remain_failure": true
+  },
+  "completed_private_checks": {
+    "Node_exporter": {
+      "existing": 36,
+      "added": 8,
+      "tests": 44,
+      "passed": 44,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "Node": "v24.19.0",
+      "wall_seconds": 23.261890375,
+      "TAP_duration_ms": 22785.95775,
+      "scope": "Synthetic xcresulttool/CSV, not SDK or runtime UI",
+      "parallelism": 1,
+      "heap_MiB": 384,
+      "outer_seconds": 120,
+      "combined_output_cap_bytes": 524288,
+      "output_bytes": 4229,
+      "private_cap_bytes": 2097152,
+      "free_floor_bytes": 734003200,
+      "observed_private_logical_peak_bytes": 165682,
+      "OS_quota_or_RSS_measurement": false,
+      "dependency_install": false
+    },
+    "static": {
+      "YAML": "Existing js-yaml5.4.1 pinned to declared lock version/integrity",
+      "Bash_run_steps_parsed": 13,
+      "selection_cases": [
+        {
+          "input": "launch-to-published-readiness",
+          "exit": 0,
+          "literal_method": "testLaunchToPublishedReadiness",
+          "artifact_prefix": "ios-published-readiness-evidence"
+        },
+        {
+          "input": "search-query-to-visible-witness",
+          "exit": 0,
+          "literal_method": "testSearchQueryToVisibleWitness",
+          "artifact_prefix": "ios-published-search-evidence"
+        },
+        {
+          "input": "unrecognized",
+          "exit": 1,
+          "literal_method": null,
+          "artifact_prefix": null
+        }
+      ],
+      "Node_syntax_checks": 2,
+      "SDK_typecheck_or_link": false
+    },
+    "fixed_source_witness": {
+      "main": "516662fe8474a94a069914d3126c412657efb8ca",
+      "published_articles": 199,
+      "negative_literal_absent": true,
+      "positive_article": "03-implementation/model-selection",
+      "source": "docs/03-implementation/model-selection.md",
+      "raw_bytes": 16674,
+      "raw_SHA256": "84bf14965deb40ae111c9d900c9a478d212a97d00be05b67f06ebc4f1c64bdb5",
+      "generated_result_total_or_runtime_acceptance": false
+    },
+    "initial_static_failure": {
+      "scope": "Private qualification helper only",
+      "reason": "Status regex did not accept existing quoted published in docs/00-overview/learning-roadmap.md",
+      "repair": "Only helper accepts matching optional single/double quotes; static qualification repeated",
+      "Source4_changed": false,
+      "Node44_repeated": false
+    },
+    "Swift_frontend_parse": {
+      "toolchain": "Swift compiler supplied with Xcode16.2",
+      "mode": "-frontend -parse",
+      "source_SHA256": "f6b3e31de39a9aca24994f543b0ee1a6ba353780b6f9ce3fe1fba1c1c6470175",
+      "exit": 0,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "receipt_SHA256": "74c420cbac2add2d8aef99020f23f119dbaed7561f8bc779c10279f1ed1ee117",
+      "grammar_only": true,
+      "SDK_typecheck_import_resolution_link_UI_metric": false,
+      "reexecuted_during_this_preparation": false
+    }
+  },
+  "evidence": [
+    {
+      "identifier": "proof.json",
+      "bytes": 3574,
+      "SHA256": "4ef6f73bdf350cf02c11c12aa4607461876ea132bbe1725bd7ab2970dee3438c"
+    },
+    {
+      "identifier": "export-suite-qualification.json",
+      "bytes": 2154,
+      "SHA256": "78ffdf589549543c245d8021f4fbceca579c1ac754c0c8b2cfeebb6fd54d63f3"
+    },
+    {
+      "identifier": "static-qualification.json",
+      "bytes": 1059,
+      "SHA256": "f610eecf34b52b5d540ebf12b3f1123a514609d4f518804de5c86033b6dbfc00"
+    },
+    {
+      "identifier": "source-witness.json",
+      "bytes": 667,
+      "SHA256": "c9fc1256c682c264525002e41f213243f4e579d0f8d9450d3b7b2afdc28ff01e"
+    },
+    {
+      "identifier": "initial-static-qualification-failure.json",
+      "bytes": 585,
+      "SHA256": "157a3040a4690848d6b40196d049e1dd316c42f8bba7a4c63146d3c02a50d5bf"
+    },
+    {
+      "identifier": "Swift-frontend-parse-receipt",
+      "bytes": 627,
+      "SHA256": "74c420cbac2add2d8aef99020f23f119dbaed7561f8bc779c10279f1ed1ee117"
+    }
+  ],
+  "prior_main49_launch": "Historical launch record, different snapshot/scenario; no launch samples transferred to search or this new head.",
+  "publication": {
+    "status": "Source4 then record2/index3 in two commits; Draft PR and exact-head SDK/Hosted validation follow",
+    "basis_is_actual_merged_main": true,
+    "Source4_changed_since_independent_review": false,
+    "existing_Code_Scope_Clock_MP3_and_TODO_preserved": true,
+    "actual_head": null,
+    "actual_CI": null,
+    "actual_search_metric": null
+  },
+  "unperformed": [
+    "SDK typecheck/import resolution/link",
+    "Hosted, actual search Clock/CSV/protocol",
+    "General npm check/actionlint/new exact-head CI",
+    "Small device/minimum OS/physical/VoiceOver",
+    "Cold/Release/p95/CPU/RSS/memory/scroll/engine-only/performance-budget acceptance"
+  ],
+  "TODO": {
+    "rows": 32,
+    "complete": 13,
+    "only_IOS01_completed_before_this_work": true,
+    "IOS15_newly_completed": false
+  },
+  "previous_record_worker_checks": {
+    "Source_changes_SDK_network_API_npm_Git_refs_shared_edits": 0,
+    "Node44_repeated": false,
+    "one_new_MDlint": {
+      "exit": 0,
+      "output_bytes": 0,
+      "scope": "New record MD only; no Source/SDK checks repeated"
+    }
+  },
+  "operations_by_final_prepare_worker": {
+    "Source4_changed": false,
+    "Node44_repeated": false,
+    "Swift_parse_repeated": false,
+    "new_SDK_UI_network_API_npm_Git_refs_shared_edits": 0,
+    "new_record_MDlint": {
+      "exit": 0,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "scope": "Updated new Search record Markdown only",
+      "config_SHA256": "1a98eee76490f0340661b34a37aeb8caceb934c0e67b2b50dc7a3f8dacb646db"
+    }
+  },
+  "Root_final_binding": {
+    "preserves_Source4": true,
+    "old_preparation_history_retained": true,
+    "personal_scope_is_already_adopted": true,
+    "runtime_measurement_not_performed_by_binding": true
+  }
+}

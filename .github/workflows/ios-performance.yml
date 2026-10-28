@@ -2,6 +2,15 @@ name: iOS published readiness observations
 
 on:
   workflow_dispatch:
+    inputs:
+      scenario:
+        description: 'Explicit observation scenario; automatic runs remain launch-only'
+        type: choice
+        required: true
+        default: launch-to-published-readiness
+        options:
+          - launch-to-published-readiness
+          - search-query-to-visible-witness
   push:
     branches: [main]
     paths:
@@ -18,7 +27,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: ios-published-readiness-${{ github.ref }}
+  group: ios-published-readiness-${{ github.ref }}-${{ github.event_name == 'workflow_dispatch' && inputs.scenario || 'launch-to-published-readiness' }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
@@ -36,6 +45,26 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
+      - name: Select one literal observation scenario
+        env:
+          REQUESTED_PERFORMANCE_SCENARIO: ${{ github.event_name == 'workflow_dispatch' && inputs.scenario || 'launch-to-published-readiness' }}
+        run: |
+          set -euo pipefail
+          case "$REQUESTED_PERFORMANCE_SCENARIO" in
+            launch-to-published-readiness)
+              scenario='launch-to-published-readiness'
+              method='testLaunchToPublishedReadiness'
+              artifact='ios-published-readiness-evidence'
+              ;;
+            search-query-to-visible-witness)
+              scenario='search-query-to-visible-witness'
+              method='testSearchQueryToVisibleWitness'
+              artifact='ios-published-search-evidence'
+              ;;
+            *) echo 'Unknown performance scenario' >&2; exit 1 ;;
+          esac
+          printf 'PERFORMANCE_SCENARIO=%s\nPERFORMANCE_TEST_METHOD=%s\nPERFORMANCE_ARTIFACT_PREFIX=%s\n' \
+            "$scenario" "$method" "$artifact" >> "$GITHUB_ENV"
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 22
@@ -65,7 +94,9 @@ jobs:
             node --version
             npm --version
             echo 'Simulator: iPhone 16 / iOS 18.5 / Debug'
-            echo 'One dedicated launch-to-ready Clock case; no daily functional UI sweep.'
+            printf 'Scenario: %s; test method: %s\n' "$PERFORMANCE_SCENARIO" "$PERFORMANCE_TEST_METHOD"
+            echo 'One dedicated Clock case; automatic runs select launch only; search requires explicit manual selection.'
+            echo 'Search measures public query replacement through a visible article witness, including keyboard and AX waits; it does not count all results.'
             echo 'Three recorded iterations after one discarded warm-up; no product baseline or threshold adopted.'
             echo 'Bootstrap rejects an unidentified clock metric until the first retained Xcode 16.4 raw result is reviewed.'
             echo 'Includes UI automation and accessibility polling; not cold disk, first install, Release or physical-device performance.'
@@ -135,6 +166,9 @@ jobs:
           import { createHash } from 'node:crypto';
           import { execFileSync } from 'node:child_process';
           import { readFileSync, writeFileSync } from 'node:fs';
+          import { performanceScenario } from './ios/tests/export-performance.mjs';
+          const selected = performanceScenario(process.env.PERFORMANCE_SCENARIO);
+          if (selected.method !== process.env.PERFORMANCE_TEST_METHOD) throw new Error('Selected scenario and test method differ');
           const read = (binary, args) => execFileSync(binary, args, { encoding: 'utf8' }).trim();
           const expected = Number(process.env.PUBLISHED_ARTICLE_COUNT);
           const app = '.local/ios-performance/DebugDerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app';
@@ -154,17 +188,19 @@ jobs:
             host_memory_bytes: read('/usr/sbin/sysctl', ['-n', 'hw.memsize']),
             locale: 'ja_JP', text_size: 'fresh Simulator default, not overridden',
             appearance: 'fresh Simulator default, not overridden',
-            scenario: 'launch-to-published-readiness', declared_recorded_iterations: 3,
+            scenario: selected.name, test_method: selected.method, search_witness: selected.search_witness ?? null,
+            declared_recorded_iterations: 3,
             discarded_warmup_invocations: 1,
             test_source_sha256: createHash('sha256').update(readFileSync('ios/AILibraryUITests/PublishedPerformanceUITests.swift')).digest('hex'),
             limits: 'The package audit warmed file caches before launches. No disk-cold, first-install, Release, physical-device or product-target claim.'
           };
           writeFileSync('.local/ios-performance/evidence/context.json', JSON.stringify(context, null, 2) + '\n');
           NODE
-      - name: Measure only the dedicated published-readiness case
+      - name: Measure only the selected dedicated UI case
         env:
           TEST_RUNNER_AILIBRARY_EXPECTED_PUBLISHED_COUNT: ${{ env.PUBLISHED_ARTICLE_COUNT }}
           TEST_RUNNER_AILIBRARY_PERFORMANCE_RUNNER: '1'
+          TEST_RUNNER_AILIBRARY_PERFORMANCE_SCENARIO: ${{ env.PERFORMANCE_SCENARIO }}
         run: |
           set -euo pipefail
           xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
@@ -174,7 +210,7 @@ jobs:
             -derivedDataPath .local/ios-performance/DebugDerivedData \
             -resultBundlePath .local/ios-performance/evidence/performance.xcresult \
             -parallel-testing-enabled NO -jobs 2 \
-            -only-testing:AILibraryUITests/PublishedPerformanceUITests \
+            "-only-testing:AILibraryUITests/PublishedPerformanceUITests/${PERFORMANCE_TEST_METHOD}" \
             CODE_SIGNING_ALLOWED=NO test-without-building \
             2>&1 | tee .local/ios-performance/evidence/performance.log
       # Initial extraction intentionally fails closed until the real clock
@@ -186,12 +222,13 @@ jobs:
           node ios/tests/export-performance.mjs \
             --result .local/ios-performance/evidence/performance.xcresult \
             --output .local/ios-performance/evidence/export \
-            --context .local/ios-performance/evidence/context.json
+            --context .local/ios-performance/evidence/context.json \
+            --scenario "$PERFORMANCE_SCENARIO"
       - name: Retain observation results and extraction failures
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: ios-published-readiness-evidence-${{ github.run_id }}
+          name: ${{ env.PERFORMANCE_ARTIFACT_PREFIX }}-${{ github.run_id }}
           path: .local/ios-performance/evidence
           include-hidden-files: true
           if-no-files-found: ignore

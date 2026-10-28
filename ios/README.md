@@ -244,7 +244,7 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 
 [読書記録の破損保全と明示復旧](../project/records/2026-10-27/ios-reading-state-recovery.md)はPR282最終eabの6runとReady最新policy成功後、main76へ通常保護squashで統合した。main76の新push Common・Native・Fullも別観測で成功し、Native追加12単体と通常UI、Fullの一意22caseを確認した。旧Core性能は歴史scopeに保ち、実ユーザーの復旧固有UI・実機・VoiceOver・耐電断等とIOS-22全体は未完了、TODO32行・完了12行を維持する。後続PR283の新Recovery UIはこのmain76 checkpointの受入に含めない。
 
-ネイティブ本文の[コードコピー回帰検査](../project/records/2026-10-27/ios-code-copy-ui-ci.md)は、公開ボタンのコピー済み状態を待ち、同じSimulatorの23件のraw結果とコピー実データ374Bを照合します。固定592の単独診断は成功し、終了後の一致をproducerが報告しました。最新main337へ結合して通常Fullへ復元し、新headの23件・独立raw374B・Releaseを確認する段階です。実機・VoiceOverとIOS-25全体は未完了です。
+ネイティブ本文の[コードコピー回帰検査](../project/records/2026-10-27/ios-code-copy-ui-ci.md)は、通常Fullの固定3abaで単体165件（skip2・失敗0）、UI23件とReleaseが成功し、raw結果・同UUID・コピー実データ374Bの全byte一致を独立照合しました。canaryと一意なBooted選択はproducerの申告範囲です。通常保護squashで同じtreeのmain169へ採用しました。main169の新push CIは未確認で、実機・VoiceOverとIOS-25全体の受入も残します。
 
 [読書記録復旧のUI回帰](../project/records/2026-10-27/ios-reading-recovery-ui.md)では、DEBUG隔離suiteの取消し・確認と再起動後のしおり保持を確認しています。採用89のNative4件と、通常保護で統合したmainc1の新push（Common10 jobs・Native4件・Full22件）を2026-10-28 checkpointで分けて記録しました。Dedicated89のF成功・R失敗は別Driver作業として保持し、新Driverの効果、読書位置・backup生bytes・実機・VoiceOver・Core性能とIOS-22全体は未受入です。
 

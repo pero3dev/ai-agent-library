@@ -432,5 +432,318 @@
         "SHA256": "e7c8713374cfcb849a236042aa00d5e4dfa0766412e0653cb60106e5c6c17112"
       }
     ]
+  },
+  "normal_full_acceptance_20261028": {
+    "schema_version": 1,
+    "date_JST": "2026-10-28",
+    "status": "fixed3aba-normalFull-raw23-and-actual374-accepted-ordinary-main169-adopted-newpush-unobserved",
+    "historical_scope": "All previous fields, typed values, null acceptances, failed-probe history and the single592 diagnostic block remain prior snapshots. Only this new namespace records the normal3aba acceptance.",
+    "source": {
+      "head": "3aba86d227b6ec2ce2b8a0b97bcf9a1b1599ec40",
+      "tree": "df2dd2e5428e8050bd49939dd18ce8cdbb05cd05",
+      "parent": "dd1449d43ff42a87449293333c9a194045fa4016",
+      "technical_merge_parents": [
+        "592cea1e7bc286de76c551ff61bc2218a65671af",
+        "33702453d3805024f0763ef39acece7a4ff26b41"
+      ],
+      "selected_Source4": [
+        {
+          "path": ".github/workflows/ios-published-candidate.yml",
+          "mode": "100644",
+          "type": "blob",
+          "blob": "ac9e0dee29b6b990d4e721ccdbd758a0fd87d312",
+          "bytes": 25561,
+          "SHA256": "e7c8713374cfcb849a236042aa00d5e4dfa0766412e0653cb60106e5c6c17112"
+        },
+        {
+          "path": "ios/AILibrary/Sources/NativeReaderView.swift",
+          "mode": "100644",
+          "type": "blob",
+          "blob": "632f7df56369d64b780da41fea5afcfdd935d77d",
+          "bytes": 62160,
+          "SHA256": "5e9f5c76684a925254ed091ad1da7c9c73338adf5a81251a0f82fe2d483a8858"
+        },
+        {
+          "path": "ios/AILibraryUITests/PublishedReaderUITests.swift",
+          "mode": "100644",
+          "type": "blob",
+          "blob": "4fec1464dad282a89b895e1d42f47f81845da1af",
+          "bytes": 69466,
+          "SHA256": "5a83f1eebfba8b603fe26492845c287a9f6c8a0f6fab8c74526dc6ba6755fcd9"
+        },
+        {
+          "path": "ios/fixtures/first-code-copy-expected.txt",
+          "mode": "100644",
+          "type": "blob",
+          "blob": "1b66e8b846a033cf5c666c28d07ee03fe279a3e0",
+          "bytes": 374,
+          "SHA256": "e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8"
+        }
+      ],
+      "selected_Source8_manifest_SHA256": "834efe1542f3c825a3a99e3bea12203a9078ea8d28ae81076082a4ad82d2a8f7",
+      "Source8_scope": "Eight selected source references only. This is not exhaustive compiler/build provenance; other compiler inputs including Audio helper and other App/CI source are outside Source8.",
+      "Root_actual_two_commit_Gitproof_SHA256": "9c799cb23ac5cc872a05454d05fdbc34d5a9a427e3e35ea212a30eb8de73325e",
+      "actual_Full_checkout": {
+        "actual_Git_checkout": "e0f02a41d9364fd9502fd5bd189643c62a5bb97d",
+        "actual_tree": "df2dd2e5428e8050bd49939dd18ce8cdbb05cd05",
+        "actual_parents": [
+          "33702453d3805024f0763ef39acece7a4ff26b41",
+          "3aba86d227b6ec2ce2b8a0b97bcf9a1b1599ec40"
+        ],
+        "whole_2788_tuples_equal_approved_head": true,
+        "selected_Source8_fresh_Git_verified": true,
+        "Source8_scope": "Eight selected source references only. This is not exhaustive compiler/build provenance; other compiler inputs including Audio helper and other App/CI source are outside Source8.",
+        "runtime_metadata_binding_SHA256": "62372049e16c5d2de0691c0c72a86bffe592fd5532eed540c761af45e217ad99",
+        "body_GET_count": 1,
+        "raw_ZIP_or_clipboard_disk_saved": false
+      },
+      "scope": "Raw evidence binds source3aba only; later documentation head and main adoption require separate fresh metadata/merge record."
+    },
+    "normal_Full": {
+      "run": 40611002470,
+      "job": 122562219321,
+      "attempt": 1,
+      "event": "pull_request",
+      "run_job_conclusion": "completed/success",
+      "toolchain": {
+        "Xcode": "16.4",
+        "build": "16F6",
+        "test_destination_OS": "18.5"
+      },
+      "units": {
+        "executed": 165,
+        "skipped": 2,
+        "failures": 0,
+        "root_summary_repeat_not_double_counted": true,
+        "skip_cases": [
+          "LearningIndexTests/testExplicitGeneratedIndexMatchesItsManifestAndDoesNotChange()",
+          "LearningIndexTests/testExplicitLegacyPackagesHaveNoSidecar()"
+        ]
+      },
+      "UI": {
+        "counts": {
+          "NativeReaderUITests": 2,
+          "PublishedReaderUITests": 15,
+          "ReaderViewportGeometryTests": 6
+        },
+        "total": 23,
+        "exact_case_IDs": [
+          "NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch()",
+          "NativeReaderUITests/testThreeArticlesHaveNativeBodyText()",
+          "PublishedReaderUITests/testBodySearchArrivesAtNestedParagraphContainingAllTermsWithoutReaderGestures()",
+          "PublishedReaderUITests/testBundledContentSelectionCancelConfirmAndRestartKeepReadingAndGuide()",
+          "PublishedReaderUITests/testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions()",
+          "PublishedReaderUITests/testChapter03LargeDiagramCanExpandAndShowSource()",
+          "PublishedReaderUITests/testChapter03LongArticleContentsBookmarkAndResume()",
+          "PublishedReaderUITests/testChapter08LargestTableReachesFinalRowAndColumn()",
+          "PublishedReaderUITests/testFilteredFixtureActionsAndReadingChangesRemainIsolatedFromNormalLibrary()",
+          "PublishedReaderUITests/testFilteredMoreActionsAboutRoundTripPreservesQueryAndLearningTag()",
+          "PublishedReaderUITests/testFixtureFirstCodeCopyUsesThePublicButton()",
+          "PublishedReaderUITests/testFixtureTallSingleBlockResumesNearItsMeasuredInternalRowAfterRelaunch()",
+          "PublishedReaderUITests/testGlossarySearchRelatedArticleAndReturnPreserveReaderState()",
+          "PublishedReaderUITests/testLearningRouteShowsItsInstructionChapterOrderAndArticle()",
+          "PublishedReaderUITests/testLearningTagSearchCombinesWithArticleSearchAndClearsZeroResults()",
+          "PublishedReaderUITests/testRelatedChapterLinkClosesInPlaceAndOpensAnArticleWithoutLosingTheReader()",
+          "PublishedReaderUITests/testResumeUsesLaterReadingPositionInsteadOfReplayingThePreviousBodyQuery()",
+          "ReaderViewportGeometryTests/testCopiedFramesSelectLowestFullyVisibleParagraph()",
+          "ReaderViewportGeometryTests/testEqualTopFramesPreserveCollectionOrder()",
+          "ReaderViewportGeometryTests/testForegroundOcclusionAndPartialFrameRemainExcluded()",
+          "ReaderViewportGeometryTests/testInvalidViewportAndEmptyCollectionFailClosed()",
+          "ReaderViewportGeometryTests/testNonfiniteEmptyAndOccludedFramesCannotWin()",
+          "ReaderViewportGeometryTests/testUnknownOrAmbiguousForegroundDoesNotBecomeVisible()"
+        ],
+        "raw_all_containers_and_leaves_Passed": true,
+        "each_console_Started": 1,
+        "each_console_Passed": 1,
+        "console_Failed": 0,
+        "console_explicit_skip": 0,
+        "same_device_UUID": "F0E646EF-4792-4F36-B48B-EC89B3A6B73B",
+        "OS": "18.5"
+      },
+      "public_copy_AX": {
+        "case": "PublishedReaderUITests/testFixtureFirstCodeCopyUsesThePublicButton()",
+        "runtime_public_Tap": true,
+        "runtime_copied_value_predicate": true,
+        "case_with_pre_copy_and_post_copy_assertions_Passed": true,
+        "independent_raw_AX_value_dump": false
+      },
+      "actual_pasteboard": {
+        "bytes": 374,
+        "SHA256": "e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8",
+        "full_bytes_equal_independent_expected_TXT": true
+      },
+      "canary": {
+        "scope": "Producer assertion only: seed/canary command and raw bytes are absent from compact11.",
+        "declared_bytes": 78,
+        "declared_SHA256": "7606af1c4335baae54ad1a8d73c7f60e43d0dfdf89dfc958934266b033225552",
+        "independent_roundtrip_verified": false
+      },
+      "device_selection": "Unique Booted inventory remains producer assertion; actual raw xcresult device is independently correlated.",
+      "Release": {
+        "normal_Full_step16": "completed/success",
+        "raw_BUILD_SUCCEEDED": true,
+        "separate_from_SDK26_unsigned_Archive": true
+      },
+      "compact_artifact": {
+        "id": 12785216584,
+        "name": "ios-published-code-copy-evidence-40611002470-1",
+        "compressed_bytes": 70063,
+        "official_digest": "sha256:75b8cb6e86717d62535520b36bf393f9d01a54bd92feb7cbfb78f600143a3a74",
+        "whole_compressed_SHA256_verified": true,
+        "exact_flat_members": 11,
+        "every_selected_CRC_verified": true,
+        "raw_UI_member": {
+          "name": "copy-results.stdout.bin",
+          "bytes": 15726,
+          "SHA256": "bd618d8470b1c44ebc90b43a976bce53a82e95217ed84959056c4f5f681831bd",
+          "CRC32": "a1bec70a",
+          "CRC_verified": true
+        },
+        "actual_copy_member": {
+          "name": "copy-actual.stdout.bin",
+          "bytes": 374,
+          "SHA256": "e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8",
+          "CRC32": "083366ea",
+          "CRC_verified": true
+        }
+      },
+      "evidence": {
+        "Root_compact_receipt_SHA256": "958dd2a6b912a79f740b48fafa8cca5f0fcee21aca6ca77c4a0826bfbdab14ef",
+        "Full_observer_summary_SHA256": "a3b97078a54f30bba4290f79495ee042c6e9d8a57dbb886a520c72592315df57",
+        "Full_observer_manifest_SHA256": "93171f6bf017d8366b14a65009c772f7e390628c307d22c7e2de4962c23c54df",
+        "official_runtime_binding_SHA256": "62372049e16c5d2de0691c0c72a86bffe592fd5532eed540c761af45e217ad99",
+        "decoded_log_UTF8_SHA256": "609b0be04ee644d51dc152e9e45a562ac1f204c274cf54d259ff35194a79d0e4",
+        "Root_body_GET": 1,
+        "record_author_new_GET": 0,
+        "raw_ZIP_clipboard_or_log_saved_in_repository": false
+      },
+      "acceptance_scope": "First nonempty fixture code copy only; no host pasteboard data or expected bytes injected. Independent actualraw374 full byte comparison, not a summary-only or singlecase transfer."
+    },
+    "Common11_snapshot": {
+      "head": "3aba86d227b6ec2ce2b8a0b97bcf9a1b1599ec40",
+      "Common_run": 40611002458,
+      "Common_required_jobs": 9,
+      "postbody_policy_runs": [
+        40611016013,
+        40611016115
+      ],
+      "policy_jobs": 2,
+      "total_required": 11,
+      "all_completed_success": true,
+      "snapshot_was_Draft": true,
+      "scope": "Frozen3aba initial-postbody Common11 API metadata only. No new Node/browser/Audio counts inferred. Future Ready/body policy pair must be read separately by Root.",
+      "receipt_SHA256": "6065a82bfbdb1909d2c56cf9324e59ab19e6de10eeca4555c8a46d488f71afae"
+    },
+    "SDK26_unsigned_Archive": {
+      "head": "3aba86d227b6ec2ce2b8a0b97bcf9a1b1599ec40",
+      "run": 40611002226,
+      "job": 122562218868,
+      "attempt": 1,
+      "run_job_conclusion": "completed/success",
+      "actual_direct_checkout": "3aba86d227b6ec2ce2b8a0b97bcf9a1b1599ec40",
+      "actual_tree": "df2dd2e5428e8050bd49939dd18ce8cdbb05cd05",
+      "articles": 199,
+      "audio": 1,
+      "verified_files": 625,
+      "verified_bytes": 36958420,
+      "TestContent_absent": true,
+      "actual_source_Privacy_SHA256": "e0698c69f7f8482f7d501a30404b25c8337f991fe1edffac06f0787f878614dd",
+      "Privacy_semantic_source_match": true,
+      "Release_configuration_Archive_is_not_normalFull_Release": true,
+      "signed_distribution_legal_Store_physical_VO_performance_acceptance": false,
+      "receipt_SHA256": "5dcc50bdf4333063de5287726c3f18f142c3414d99054cb4290d1da7c0efb711"
+    },
+    "auxiliary3_API_snapshot": {
+      "head": "3aba86d227b6ec2ce2b8a0b97bcf9a1b1599ec40",
+      "runs": [
+        {
+          "kind": "Native",
+          "run": 40611002502,
+          "job": 122562218844,
+          "run_job_status": "completed/success"
+        },
+        {
+          "kind": "Runtime26",
+          "run": 40611002477,
+          "job": 122562219052,
+          "run_job_status": "completed/success"
+        },
+        {
+          "kind": "Dedicated",
+          "run": 40611002304,
+          "job": 122562218692,
+          "run_job_status": "completed/success"
+        }
+      ],
+      "metadata_only": true,
+      "raw_job_GET": 0,
+      "new_raw_UI_unit_case_counts": null,
+      "actual_runner_checkout_tree_parents_read": false,
+      "scope": "No raw case result inferred from workflow/step labels or API green statuses. Separate from normal Full and SDK26 raw receipts.",
+      "receipt_SHA256": "612a76d9b3916191708bee6ddce2656dfbcbefaa21f62ed4bc7287629e04c28b"
+    },
+    "main_adoption": {
+      "status": "ordinary-protected-squash-observed",
+      "main_before_merge": "33702453d3805024f0763ef39acece7a4ff26b41",
+      "actual_main": "16930f8ae8feb52fbd6ddedfe25c8d98e0a19106",
+      "actual_main_tree": "df2dd2e5428e8050bd49939dd18ce8cdbb05cd05",
+      "merge_commit": "16930f8ae8feb52fbd6ddedfe25c8d98e0a19106",
+      "parent": "33702453d3805024f0763ef39acece7a4ff26b41",
+      "PR": 286,
+      "accepted_branch_head": "3aba86d227b6ec2ce2b8a0b97bcf9a1b1599ec40",
+      "whole_2788_tuples_equal_accepted_branch": true,
+      "normal_protected_squash": true,
+      "admin_or_protection_change": false,
+      "latest_Ready_postbody_policy_runs": [
+        {
+          "run": 40616658647,
+          "job": 122580657294,
+          "name": "harness-policy",
+          "status": "completed/success"
+        },
+        {
+          "run": 40616658671,
+          "job": 122580622867,
+          "name": "freshness-policy",
+          "status": "completed/success"
+        }
+      ],
+      "fresh_final_gate": {
+        "required11": "all completed/success",
+        "optional5_API": "all success per Root receipt; raw scopes are separate",
+        "receipt_SHA256": "840982a729cf2dac9d140538e6691a6c7fae04e195472cd4c7578f0d062d598f"
+      },
+      "actual_Git_proof_SHA256": "d5115ea2a064b5b9d56399ac73a5d1fdb698a9388d6bd144ec00f2f9bc58546f",
+      "new_main_push_CI": {
+        "status": "unconfirmed-in-this-candidate",
+        "run": null,
+        "job": null,
+        "result": null
+      },
+      "post_merge_runtime_observation": null
+    },
+    "remaining": {
+      "IOS25": "incomplete",
+      "other_code_empty_inline_copy": "not accepted by this one fixture operation",
+      "first_offline_legacy_migration": "not accepted by this operation",
+      "physical_device_pasteboard_and_VoiceOver": "not verified",
+      "minimum_OS_runtime_performance_and_distribution": "not accepted",
+      "TODO_rows": 32,
+      "completed_rows_in_this_Copy_candidate": 12,
+      "checkboxes_changed": false,
+      "TODO_count_scope": "Accepted code-head3aba/main169 Copy-acceptance snapshot only:32/12. Separate Root-adopted IOS01 ScopeStage13/32 is composed independently; these historical counts are not the current combined aggregate."
+    },
+    "record_work": {
+      "Source5_docs_only": [
+        "project/records/2026-10-27/ios-code-copy-ui-ci.md",
+        "project/records/2026-10-27/ios-code-copy-ui-ci.json",
+        "ios/README.md",
+        "project/README.md",
+        "project/plans/engineering/ios-app-completion.md"
+      ],
+      "Source_WF_App_PBX_changed": false,
+      "new_network_API_GET_SDK_UI_tests_or_shared_Git_changes": 0,
+      "other_concurrent_scope_adoption_overlay": "Root combines separately adopted IOS01 ScopeStage13/32 with narrow owned paragraphs and checkbox only. Code index paragraphs do not fix the current aggregate at12; this Copy-only candidate preserves the accepted code-head snapshot."
+    }
   }
 }

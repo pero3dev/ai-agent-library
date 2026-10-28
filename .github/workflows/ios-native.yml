@@ -122,7 +122,7 @@ jobs:
             2>&1 | tee .local/ios-ci/evidence/debug-app-icon.json
       # The existing two UI tests cover nonempty bodies, TOC, bookmarks and relaunch.
       # Offline launch, copying, internal links and legacy migration need more UI tests.
-      # Two separately selected recovery tests cover cancel/confirm and isolated relaunch.
+      # Recovery tests cover cancel/confirm, isolated relaunch and restore-picker cancellation.
       - name: Run native UI smoke tests on the iPhone Simulator
         run: |
           set -euo pipefail

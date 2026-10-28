@@ -61,6 +61,49 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         requireBookmarkedArticle("ツール使用(Tool Use / Function Calling)", id: "01-concepts/tool-use")
     }
 
+    func testRestoreFilePickerCancelKeepsHealthyBookmarksAfterRelaunch() throws {
+        let dialog = presentRecoveryConfirmation()
+        dialog.buttons[confirmLabel].tap()
+        waitForRecoveryDialogToClose()
+        requireNoRecoveryNotice()
+        requireBookmarkedArticle("Agent ループ", id: "01-concepts/agent-loop")
+        returnToLibrary()
+
+        let more = app.buttons.matching(NSPredicate(format: "label == %@", "その他の操作")).firstMatch
+        requireHittable(more)
+        more.tap()
+        let restore = app.buttons["library-restore-reading"]
+        XCTAssertTrue(restore.waitForExistence(timeout: 10))
+        requireHittable(restore)
+        restore.tap()
+
+        let choose = app.buttons["reading-restore-choose-file"]
+        XCTAssertTrue(choose.waitForExistence(timeout: 10))
+        requireHittable(choose)
+        XCTAssertTrue(app.staticTexts["reading-restore-no-retained"].exists)
+        XCTAssertFalse(app.buttons["reading-restore-review"].exists)
+        choose.tap()
+
+        let pickerCancel = app.buttons.matching(NSPredicate(format: "label == %@ OR label == %@", "キャンセル", "Cancel")).firstMatch
+        XCTAssertTrue(pickerCancel.waitForExistence(timeout: 30))
+        requireHittable(pickerCancel)
+        pickerCancel.tap()
+        let pickerClosed = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            self.isHittableOnScreen(choose) && !pickerCancel.exists
+        }, object: nil)
+        XCTAssertEqual(XCTWaiter.wait(for: [pickerClosed], timeout: 15), .completed)
+        XCTAssertFalse(app.buttons["reading-restore-review"].exists)
+        let close = app.buttons["reading-restore-close"]
+        requireHittable(close)
+        close.tap()
+        waitForLibrary()
+        requireHittable(app.staticTexts["library-article-count"])
+
+        relaunchSameSuite()
+        requireNoRecoveryNotice()
+        requireBookmarkedArticle("Agent ループ", id: "01-concepts/agent-loop")
+    }
+
     private func waitForLibrary() {
         XCTAssertTrue(app.staticTexts["library-article-count"].waitForExistence(timeout: 45))
     }

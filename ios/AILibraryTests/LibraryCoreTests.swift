@@ -114,6 +114,18 @@ private final class ReadingRestoreProbeDefaults: UserDefaults {
     func resetLedger() { setKeys.removeAll(); removeKeys.removeAll() }
 }
 
+private final class ReadingRestoreActorProbeDefaults: UserDefaults {
+    var writeCalls = 0
+    var denyPrimaryWrite = false
+    let watchedPrimary = "library.reading.v1"
+    override func set(_ value: Any?, forKey defaultName: String) {
+        writeCalls += 1
+        if denyPrimaryWrite, defaultName == watchedPrimary { return }
+        super.set(value, forKey: defaultName)
+    }
+}
+
+
 final class LibraryCoreTests: XCTestCase {
     private var directory: URL!
 
@@ -3111,6 +3123,149 @@ final class LibraryCoreTests: XCTestCase {
         XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
     }
     // END RESTORE V3 IDENTITY INTEGRATION
+
+    private var actorRestoreDate: Date { Date(timeIntervalSince1970: 1_793_145_600) }
+
+    private func actorRestoreTarget() throws -> (raw: Data, backup: Data) {
+        let raw = Data(#"{"bookmarks":["removed/target"],"positions":{"removed/target":{"heading":"saved","fraction":0.75}},"lastArticleID":"removed/target"}"#.utf8)
+        return (raw, try ReadingBackupCodec.encode(rawData: raw, createdAt: actorRestoreDate, appVersion: "0.2.20"))
+    }
+
+    private func actorRestoreDefaults() throws -> (name: String, defaults: ReadingRestoreActorProbeDefaults) {
+        let name = "reading-restore-actor-" + UUID().uuidString
+        let defaults = try XCTUnwrap(ReadingRestoreActorProbeDefaults(suiteName: name))
+        return (name, defaults)
+    }
+
+    @MainActor
+    func testReadingRestoreActorPreviewAndCancelPreservePublishedAndPersistedStateWithoutWrites() throws {
+        let (name, defaults) = try actorRestoreDefaults()
+        defer { defaults.removePersistentDomain(forName: name) }
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("before")
+        reading.markOpened("before")
+        let store = LibraryStore(reading: reading)
+        let prior = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+        let target = try actorRestoreTarget()
+        XCTAssertEqual(ReadingBackupDocumentReader.maximumBytes, ReadingBackupCodec.maximumEnvelopeBytes)
+        defaults.writeCalls = 0
+        let preview = try store.previewReadingRestore(from: target.backup)
+        XCTAssertEqual(preview.counts.bookmarks, 1)
+        XCTAssertEqual(preview.currentCounts?.bookmarks, 1)
+        // Cancel is dropping the preview; neither an engine apply nor a defaults write.
+        XCTAssertEqual(defaults.writeCalls, 0)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), prior)
+        XCTAssertEqual(store.bookmarks, ["before"])
+        XCTAssertEqual(store.lastArticleID, "before")
+        XCTAssertFalse(store.readingSaveSuspended)
+        XCTAssertNil(defaults.object(forKey: "library.reading.v1.restore-backup.v1"))
+    }
+
+    @MainActor
+    func testReadingRestoreActorPublishesOnlyConfirmedTargetAndKeepsItAfterReload() throws {
+        let (name, defaults) = try actorRestoreDefaults()
+        defer { defaults.removePersistentDomain(forName: name) }
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("before")
+        let store = LibraryStore(reading: reading)
+        let target = try actorRestoreTarget()
+        let preview = try store.previewReadingRestore(from: target.backup)
+        try store.applyReadingRestore(preview, backupCreatedAt: actorRestoreDate)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), target.raw)
+        XCTAssertEqual(store.bookmarks, ["removed/target"])
+        XCTAssertEqual(store.lastArticleID, "removed/target")
+        XCTAssertFalse(store.readingSaveSuspended)
+        XCTAssertNil(store.readingRecoveryIssue)
+        let reloaded = LibraryStore(reading: ReadingStore(defaults: defaults))
+        XCTAssertEqual(reloaded.bookmarks, store.bookmarks)
+        XCTAssertEqual(reloaded.lastArticleID, store.lastArticleID)
+        XCTAssertNotNil(try store.retainedReadingRestoreBackup())
+    }
+
+    @MainActor
+    func testReadingRestoreActorFixtureGateRejectsEveryRestoreManagementEntryBeforeWrites() throws {
+        let (name, defaults) = try actorRestoreDefaults()
+        defer { defaults.removePersistentDomain(forName: name) }
+        let normal = LibraryStore(reading: ReadingStore(defaults: defaults))
+        let target = try actorRestoreTarget()
+        let preview = try normal.previewReadingRestore(from: target.backup)
+        try normal.applyReadingRestore(preview, backupCreatedAt: actorRestoreDate)
+        let retained = try XCTUnwrap(normal.retainedReadingRestoreBackup())
+        let fixtureReading = ReadingStore(defaults: defaults, key: "fixture.reading.v1")
+        fixtureReading.toggleBookmark("fixture")
+        let fixture = LibraryStore(reading: fixtureReading, isTestLibrary: true)
+        let normalRaw = defaults.data(forKey: "library.reading.v1")
+        let fixtureRaw = defaults.data(forKey: "fixture.reading.v1")
+        let slot = defaults.data(forKey: "library.reading.v1.restore-backup.v1")
+        defaults.writeCalls = 0
+        XCTAssertFalse(fixture.allowsReadingRestore)
+        @MainActor func requireFixtureRefusal(_ operation: () throws -> Void) {
+            XCTAssertThrowsError(try operation()) { XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .unsupportedScope) }
+        }
+        requireFixtureRefusal { _ = try fixture.previewReadingRestore(from: target.backup) }
+        requireFixtureRefusal { try fixture.applyReadingRestore(preview, backupCreatedAt: actorRestoreDate) }
+        requireFixtureRefusal { _ = try fixture.retainedReadingRestoreBackup() }
+        requireFixtureRefusal { _ = try fixture.exportRetainedReadingRestoreBackup(retained, appVersion: "0.2.20") }
+        requireFixtureRefusal { try fixture.releaseReadingRestoreBackup(retained) }
+        XCTAssertEqual(defaults.writeCalls, 0)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), normalRaw)
+        XCTAssertEqual(defaults.data(forKey: "fixture.reading.v1"), fixtureRaw)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1.restore-backup.v1"), slot)
+        XCTAssertNil(defaults.object(forKey: "fixture.reading.v1.restore-backup.v1"))
+    }
+
+    @MainActor
+    func testReadingRestoreActorFailedPrimaryWritePublishesStopAndBlocksNormalEditing() throws {
+        let (name, defaults) = try actorRestoreDefaults()
+        defer { defaults.removePersistentDomain(forName: name) }
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("before")
+        reading.markOpened("before")
+        let store = LibraryStore(reading: reading)
+        let target = try actorRestoreTarget()
+        let preview = try store.previewReadingRestore(from: target.backup)
+        defaults.denyPrimaryWrite = true
+        XCTAssertThrowsError(try store.applyReadingRestore(preview, backupCreatedAt: actorRestoreDate)) {
+            XCTAssertEqual($0 as? ReadingStore.RestoreFailure, .primaryWriteUnconfirmed)
+        }
+        XCTAssertTrue(store.readingSaveSuspended)
+        XCTAssertEqual(store.bookmarks, ["before"])
+        XCTAssertEqual(store.lastArticleID, "before")
+        let prior = defaults.data(forKey: "library.reading.v1")
+        let slot = defaults.data(forKey: "library.reading.v1.restore-backup.v1")
+        defaults.denyPrimaryWrite = false
+        defaults.writeCalls = 0
+        store.toggleBookmark("must-not-save")
+        store.markOpened("must-not-open")
+        store.record(articleID: "must-not-record", heading: nil, fraction: 0.5)
+        store.recoverReadingState()
+        XCTAssertEqual(defaults.writeCalls, 0)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), prior)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1.restore-backup.v1"), slot)
+        XCTAssertEqual(store.bookmarks, ["before"])
+        XCTAssertEqual(store.lastArticleID, "before")
+    }
+
+    @MainActor
+    func testReadingRestoreActorReleaseFailurePropagatesObservedExternalPrimaryStop() throws {
+        let (name, defaults) = try actorRestoreDefaults()
+        defer { defaults.removePersistentDomain(forName: name) }
+        let store = LibraryStore(reading: ReadingStore(defaults: defaults))
+        let target = try actorRestoreTarget()
+        let preview = try store.previewReadingRestore(from: target.backup)
+        try store.applyReadingRestore(preview, backupCreatedAt: actorRestoreDate)
+        let retained = try XCTUnwrap(store.retainedReadingRestoreBackup())
+        let external = Data(#"{"bookmarks":["external-newer"],"positions":{}}"#.utf8)
+        defaults.set(external, forKey: "library.reading.v1")
+        defaults.writeCalls = 0
+        XCTAssertThrowsError(try store.releaseReadingRestoreBackup(retained))
+        // This regression requires the engine correction and general reading-save stop backport.
+        XCTAssertTrue(store.readingSaveSuspended)
+        store.toggleBookmark("must-not-overwrite")
+        XCTAssertEqual(defaults.writeCalls, 0)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), external)
+        XCTAssertNotNil(defaults.object(forKey: "library.reading.v1.restore-backup.v1"))
+    }
 
     private func readingDocument(_ blocks: [NativeBlock]) -> NativeDocument {
         NativeDocument(schema_version: 1, article_id: "example", source_sha256: article().source_sha256, blocks: blocks)

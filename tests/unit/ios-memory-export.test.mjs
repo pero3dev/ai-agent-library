@@ -65,6 +65,14 @@ function inputFixture(t) {
   return { root, result, context, output: path.join(root, 'export'), expectedHead: head }
 }
 
+function verboseSummaryFixture(summary, count) {
+  return { ...summary, activitySummaries: { _values: Array.from({ length: count }, (_, index) => ({
+    _type: { _name: 'ActionTestActivitySummary' },
+    title: { _value: 'Synthetic UI activity ' + String(index).padStart(4, '0') + '; no empirical payload' },
+    activityType: { _value: 'synthetic.ui.activity' }
+  })) } }
+}
+
 function fixtureCLI(t, mode = 'complete', flags = []) {
   const options = inputFixture(t), bin = path.join(options.root, 'bin'); mkdirSync(bin)
   const commands = path.join(options.root, 'calls.jsonl'), database = path.join(options.result, 'database.sqlite3')
@@ -78,6 +86,7 @@ function fixtureCLI(t, mode = 'complete', flags = []) {
   const script = `#!${process.execPath}
 const fs = require('node:fs'), path = require('node:path');
 const args = process.argv.slice(2), data = ${JSON.stringify(fixtures)}, mode = ${JSON.stringify(mode)};
+const verboseSummaryFixture = ${verboseSummaryFixture.toString()};
 fs.appendFileSync(${JSON.stringify(commands)}, JSON.stringify(args) + '\\n');
 if (args.includes('tests')) {
   if (mode === 'command-exit') process.exit(9);
@@ -91,10 +100,21 @@ if (args.includes('tests')) {
   if (mode === 'oversized-json') { process.stdout.write(' '.repeat(524289)); process.exit(0); }
   if (mode === 'invalid-utf8') { process.stdout.write(Buffer.from([255])); process.exit(0); }
   console.log(JSON.stringify(data.tests));
-} else if (args.includes('test-details')) console.log(JSON.stringify(data.details));
+} else if (args.includes('test-details')) {
+  if (mode === 'oversized-details') data.details.syntheticPadding = 'x'.repeat(524288);
+  console.log(JSON.stringify(data.details));
+}
 else if (args.includes('object')) {
   const idx = args.indexOf('--id');
-  console.log(JSON.stringify(idx < 0 ? data.root : args[idx + 1] === 'plan-id' ? data.plan : data.summary));
+  let value = idx < 0 ? data.root : args[idx + 1] === 'plan-id' ? data.plan : data.summary;
+  if ((mode === 'oversized-root' && idx < 0) || (mode === 'oversized-plan' && idx >= 0 && args[idx + 1] === 'plan-id')) {
+    value = { ...value, syntheticPadding: 'x'.repeat(524288) };
+  }
+  const isSummary = idx >= 0 && args[idx + 1] === 'summary-id';
+  if (isSummary && ['large-summary', 'oversized-summary'].includes(mode)) {
+    value = verboseSummaryFixture(value, mode === 'large-summary' ? 2800 : 4200);
+  }
+  console.log(JSON.stringify(value, null, isSummary && ['large-summary', 'oversized-summary'].includes(mode) ? 2 : undefined));
 } else if (args.includes('export')) {
   const out = args[args.indexOf('--output-path') + 1];
   if (mode === 'foreign-csv-directory') fs.mkdirSync(path.join(${JSON.stringify(options.output)}, 'csv'));
@@ -114,6 +134,7 @@ else if (args.includes('object')) {
   assert.equal(run.error, undefined)
   return { ...options, run, calls: () => existsSync(commands) ? readFileSync(commands, 'utf8').trim().split('\n').map(JSON.parse) : [],
     summary: () => JSON.parse(readFileSync(path.join(options.output, 'summary.json'), 'utf8')),
+    verboseSummaryBytes: () => Buffer.from(JSON.stringify(verboseSummaryFixture(fixtures.summary, mode === 'large-summary' ? 2800 : 4200), null, 2) + '\n'),
     databaseBytes: () => readFileSync(database, 'utf8') }
 }
 
@@ -261,6 +282,66 @@ test('actual CLI double collects two arbitrary metric rows and two CSVs but exit
   const commands = JSON.parse(readFileSync(path.join(fixture.output, 'commands.json'), 'utf8'))
   assert.equal(commands.length, 6); assert.ok(commands.every(command => command.timeout_ms > 0 && command.timeout_ms <= 60000))
   assert.equal(fixture.databaseBytes(), 'immutable synthetic result')
+})
+
+test('only the fixed raw legacy summary gets a 1MiB member cap', () => {
+  assert.equal(memoryCaps.json, 512 * 1024); assert.equal(memoryCaps.legacySummary, 1024 * 1024)
+  assert.equal(memoryCaps.aggregate, 2 * 1024 * 1024)
+  assert.equal(enforceCompactCaps([{ path: 'legacy-summary.json', bytes: memoryCaps.legacySummary }]), memoryCaps.legacySummary)
+  assert.throws(() => enforceCompactCaps([{ path: 'legacy-summary.json', bytes: memoryCaps.legacySummary + 1 }]))
+  for (const name of ['modern-tests.json', 'modern-details.json', 'legacy-root.json', 'legacy-plan.json',
+    'context.json', 'summary.json', 'provenance.json', 'manifest.json']) {
+    assert.equal(enforceCompactCaps([{ path: name, bytes: memoryCaps.json }]), memoryCaps.json)
+    assert.throws(() => enforceCompactCaps([{ path: name, bytes: memoryCaps.json + 1 }]), name)
+  }
+  assert.throws(() => enforceCompactCaps([{ path: 'commands.json', bytes: memoryCaps.commandReceipt + 1 }]))
+})
+
+test('CLI retains a verbose 700–900KiB synthetic legacy summary verbatim and remains pending2', posixOnly, t => {
+  const fixture = fixtureCLI(t, 'large-summary'), expected = fixture.verboseSummaryBytes()
+  assert.ok(expected.length >= 700 * 1024 && expected.length <= 900 * 1024)
+  assert.equal(fixture.run.status, 2, fixture.run.stderr)
+  const retained = readFileSync(path.join(fixture.output, 'legacy-summary.json'))
+  assert.deepEqual(retained, expected, 'Pretty raw stdout is not truncated, minified or transformed')
+  const summary = fixture.summary(); assert.equal(summary.status, 'metric-contract-unconfirmed')
+  assert.equal(summary.accepted_measurements, null); assert.equal(summary.metric_contract_accepted, false)
+  assert.equal(summary.candidates.length, 2); assert.equal(summary.csv_validation.files.length, 2)
+  assert.equal(readdirSync(path.join(fixture.output, 'csv')).length, 2)
+  assert.equal(fixture.calls().length, 6, 'Each existing fixed child command runs exactly once')
+  const manifest = JSON.parse(readFileSync(path.join(fixture.output, 'manifest.json'), 'utf8'))
+  for (const member of manifest.files) {
+    const bytes = readFileSync(path.join(fixture.output, member.path))
+    assert.equal(bytes.length, member.bytes); assert.equal(hash(bytes), member.sha256)
+  }
+  assert.equal(fixture.databaseBytes(), 'immutable synthetic result')
+})
+
+test('CLI refuses over-1MiB legacy summary and over-512KiB other JSON without partial acceptance', posixOnly, t => {
+  for (const [mode, calls] of [['oversized-summary', 5], ['oversized-details', 2], ['oversized-root', 3], ['oversized-plan', 4]]) {
+    const fixture = fixtureCLI(t, mode)
+    assert.equal(fixture.run.status, 1, mode + ': ' + fixture.run.stderr)
+    assert.equal(fixture.summary().accepted_measurements, null); assert.equal(fixture.summary().metric_contract_accepted, false)
+    assert.equal(fixture.calls().length, calls, 'No child is retried or CSV export started')
+    assert.equal(existsSync(path.join(fixture.output, 'legacy-summary.json')), false, 'Oversized or incomplete raw summary is not written')
+    assert.equal(existsSync(path.join(fixture.output, 'csv')), false)
+    assert.equal(fixture.databaseBytes(), 'immutable synthetic result')
+    if (mode === 'oversized-summary') assert.ok(fixture.verboseSummaryBytes().length > memoryCaps.legacySummary)
+  }
+})
+
+test('larger raw summary preserves the 2MiB aggregate and 32KiB failure-receipt reserve', t => {
+  const maximum = [{ path: 'legacy-summary.json', bytes: memoryCaps.legacySummary },
+    { path: 'modern-tests.json', bytes: memoryCaps.json }, { path: 'legacy-plan.json', bytes: memoryCaps.json }]
+  assert.equal(enforceCompactCaps(maximum), memoryCaps.aggregate)
+  assert.throws(() => enforceCompactCaps([...maximum, { path: 'modern-details.json', bytes: 1 }]), /aggregate/)
+  const fixture = inputFixture(t), writer = writeOwnedEvidence(fixture)
+  writer.write('legacy-summary.json', Buffer.alloc(memoryCaps.legacySummary))
+  writer.write('modern-tests.json', Buffer.alloc(memoryCaps.json))
+  writer.write('legacy-plan.json', Buffer.alloc(memoryCaps.json - 32 * 1024))
+  assert.throws(() => writer.write('modern-details.json', 'x'), /reserved failure receipts/)
+  writer.writeFailureReceipt('summary.json', '{}'); writer.write('commands.json', '[]')
+  writer.writeFailureReceipt('manifest.json', JSON.stringify({ files: writer.manifest() }))
+  assert.ok(enforceCompactCaps([...writer.manifest(), { path: 'manifest.json', bytes: readFileSync(path.join(fixture.output, 'manifest.json')).length }]) <= memoryCaps.aggregate)
 })
 
 test('CLI failed stage, signal, invalid UTF8, caps and unowned leaves cannot become accepted', posixOnly, t => {

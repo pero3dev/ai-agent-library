@@ -261,7 +261,8 @@ jobs:
             if (present(exportRoot)) {
               assert.ok(fs.lstatSync(exportRoot).isDirectory() && !fs.lstatSync(exportRoot).isSymbolicLink());
               assert.equal(fs.realpathSync(exportRoot), exportRoot);
-              for (const name of exportNames) include(path.join(exportRoot, name), 'export/' + name, name === 'commands.json' ? 16384 : 512 * 1024);
+              for (const name of exportNames) include(path.join(exportRoot, name), 'export/' + name,
+                name === 'commands.json' ? 16384 : name === 'legacy-summary.json' ? 1024 * 1024 : 512 * 1024);
               for (const name of fs.readdirSync(exportRoot)) if (!exportNames.includes(name) && name !== 'csv' && !/^\.csv-export-[A-Za-z0-9_-]+$/.test(name))
                 omitted.push({ path: 'export/' + name, reason: 'not-in-fixed-export-allowlist' });
               const csvRoot = path.join(exportRoot, 'csv');

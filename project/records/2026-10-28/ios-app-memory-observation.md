@@ -85,3 +85,17 @@ UI測定のxcodebuildは450秒上限に対して約450.4秒でSIGKILL／ETIMEDOU
 診断候補のSwift構文とXcode16.2／iOS18.2 SDK単一ファイル型検査は成功し、Foundation-onlyの補助クラス6例（同時2000呼出しを含む）で順序・実行回・出力pool・32KiB上限を確認した。初回のhost補助検査でSDK指定が足りなかった失敗は、Sourceを変えずにコマンドを直して記録した。workflow側は抽出した実compactと実ファイルを使う4例を含む18正常例・3負例、actionlint・YAML・Bash11本・埋込Nodeの構文が成功した。58,240B／403Bの例は今回失われた出力の再構成ではなく、同じサイズの合成fixtureである。これらを新HostedのUI実行・実メモリ取得の成功へ広げない。
 
 Swiftとworkflowの独立Sourceレビューは新しいP1・P2が0件だった。診断候補を隔離した依存で共通検査し、Node1130件中1115成功・15skip・失敗0、`npm run check` exit 0を確認した。旧4コミットを残した追加コミットとして診断を検証し、実Hostedの結果と実指標の採択は別に確認する。
+
+## 診断headの初回成功とlegacy JSONの収録上限
+
+[head 1134のrun 40735397499](https://github.com/pero3dev/ai-agent-library/actions/runs/40735397499)、attempt 1／job `122982456036`では、専用UI 1 caseが113.057秒で成功した。consoleにはMemory 3指標・生単位kB・各3値が出たが、型付きsummaryとCSVはまだ取得できていない。診断のRunner出力を加えた観測であり、以前のdef8の停止原因や数値の比較性を解決したとはしない。
+
+modern tests／detailsとlegacy root／planの読取は成功し、次のlegacy summary読取で512KiB上限に達した。childはENOBUFS／SIGKILL、stdoutは589,824Bのprefixで、完全なJSONサイズの下限しか分からない。collectorはexit 1となり、CSV exportへ進まなかった。契約未採択で正常収録した際のexit 2とは区別する。
+
+raw 83,460Bと公式compact ZIP 109,930Bを各1回取得し、公式SHA256 `7bef6588441c383d6ef0317a65418aff83197f5a453832a08693ab35e30fe89e`、118 memberとmanifest記載ファイルを照合した。64KiBのstdout抜粋は途中を省略しており、保持phaseにseq 26→53の欠落がある。全4回の完全なjournal、protocol payloadやwarm-upの独立検証は主張しない。case成功と、review済Sourceの4呼出しassert、保持された各ordinalの存在、consoleの3値を別の証拠として扱う。
+
+後続の限定修正は、内部固定名 `legacy-summary.json`のchild出力・JSON parse・所有ファイル・compact memberだけを1MiBへ揃える。他のJSONは512KiB、全体2MiB・診断予約32KiB・child60秒・export170秒と既存のfd／出所／case guardを保持する。値やactivityを削除・切り詰め・再serializeせず、上限内のrawをそのまま保存し、超過時は失敗とする。consoleの値や旧PR274の形式を使った契約採択は行わない。新headで完全な型付きmetric・CSVを得てから独立に確認する。
+
+限定修正は、新4例を加えたNode24例が成功し、元20例の本文を保持した。約700〜900KiBの合成pretty summaryをrawのまま保存して未採択exit 2まで進むことと、1MiB超過・他JSONの512KiB超過・予約と総量の拒否を確認した。workflow側も実compactと実ファイルの5合成例で1MiB境界と総量を確認し、静的検査が成功した。初回のharnessが「失敗診断artifactのready」と「metricの成功」を同一視した誤りはSourceを変えずに訂正して記録した。独立SourceレビューのP1・P2は0件だった。新Hostedでの完全summary取得と指標採択は未確認のままとする。
+
+この限定修正を隔離済み依存で共通検査し、Node1134件中1119成功・15skip・失敗0、`npm run check` exit 0を確認した。旧5コミットを残した追加コミットとして必要CIを検証する。完全summary・CSVと実metricの固定契約は、新しい収録が成功してから別に採択する。

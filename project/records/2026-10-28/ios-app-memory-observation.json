@@ -2,7 +2,7 @@
   "schema_version": 1,
   "date": "2026-10-28",
   "base": "e0c3031f3d62adab017c72949ffa3376e77b18bf",
-  "state": "UIphases+boundedcaptureSource2 static/SDKtypecheck/helper6/compact21checks passed; combinedreview/newHostedpending; no metric samples",
+  "state": "specificlegacy-summary1MiB capturefixSource3/Node24/compact5/static/independentreviewpassed; newHosted+typedsummaryCSVpending",
   "objective": "IOS15 target-App memory observation inone bounded unit",
   "owners": {
     "Swift": "app_memory_ui_case",
@@ -368,6 +368,121 @@
       "exit_code": 0,
       "tests": 1130,
       "pass": 1115,
+      "skip": 15,
+      "fail": 0
+    }
+  },
+  "diagnostic_first_UI_pass": {
+    "head": "1134e1a3720207d66d1c274a91975d643268292f",
+    "run": 40735397499,
+    "job": 122982456036,
+    "attempt": 1,
+    "case_result": "passed1case113.057s",
+    "measure_child": {
+      "elapsed_ms": 156346,
+      "exit_code": 0,
+      "signal": null,
+      "error": null,
+      "stdout_bytes": 81350,
+      "stdout_sha256": "2a23a8782029a3c5982a28e511fff32fe3622db4186cde213f03deb04ce04fa9"
+    },
+    "application": {
+      "version": "0.2.22",
+      "build": "24",
+      "articles": 199,
+      "content_revision": "9ef5371bcc210eca460cdc4a9f36b58363e41122e3770bfceb51ddd63c22a67c"
+    },
+    "console_only": {
+      "memory_metric_rows": 3,
+      "unit_observed": "kB",
+      "values_per_row": 3,
+      "not_typed_or_CSV_adoption": true
+    },
+    "typed_summary": null,
+    "CSV": null,
+    "collector": "exit1 legacy-summary ENOBUFS captured589824B prefix at512KiBcap; completebytesunknown; CSVnotrun",
+    "metric_contract_pending2": false,
+    "retained_logs": [
+      {
+        "command": "measure",
+        "stream": "stdout",
+        "path": "diagnostics/measure-stdout.log",
+        "cap_bytes": 65536,
+        "captured_bytes": 81350,
+        "captured_sha256": "2a23a8782029a3c5982a28e511fff32fe3622db4186cde213f03deb04ce04fa9",
+        "retained_bytes": 65536,
+        "retained_sha256": "13e527d823854d2cc7d8a1193b91e24aa77bf4d35e7994e8435a1442f3fe1079",
+        "truncated": true,
+        "retention": "prefix-and-tail-with-explicit-marker",
+        "prefix_bytes": 16371,
+        "tail_bytes": 49113,
+        "marker_bytes": 52,
+        "omitted_bytes": 15866,
+        "byte_excerpt_not_metric_input": true,
+        "truncated_byte_boundaries_may_split_UTF8": true
+      },
+      {
+        "command": "measure",
+        "stream": "stderr",
+        "path": "diagnostics/measure-stderr.log",
+        "cap_bytes": 16384,
+        "captured_bytes": 768,
+        "captured_sha256": "b1e032c64b84f9f79dc19864638dd7a49312526a209d9f682e5e9b06475fa36c",
+        "retained_bytes": 768,
+        "retained_sha256": "b1e032c64b84f9f79dc19864638dd7a49312526a209d9f682e5e9b06475fa36c",
+        "truncated": false,
+        "retention": "complete-captured-command-output",
+        "prefix_bytes": 768,
+        "tail_bytes": 0,
+        "marker_bytes": 0,
+        "omitted_bytes": 0,
+        "byte_excerpt_not_metric_input": true,
+        "truncated_byte_boundaries_may_split_UTF8": false
+      }
+    ],
+    "journal": "seq26to53omitted; all4completejournal/protocol/warmup notindependentlyverified",
+    "old_def8_cause": "unknown despitecurrentpass; diagnosticRunnerIO comparabilityunconfirmed",
+    "raw": {
+      "bytes": 83460,
+      "SHA256": "c2edfa1ef73c9b057c1a9810a36c02bdd285c381f6584a487d3d476bbe91c2f1"
+    },
+    "artifact": {
+      "id": 12837867201,
+      "bytes": 109930,
+      "SHA256": "7bef6588441c383d6ef0317a65418aff83197f5a453832a08693ab35e30fe89e",
+      "members": 118,
+      "all_verified": true
+    },
+    "whole_job_retries": 0
+  },
+  "legacy_summary_cap_candidate": {
+    "fixed_filename": "legacy-summary.json",
+    "command_JSON_and_owned_file_and_compact_member_cap_bytes": 1048576,
+    "otherJSON_cap_bytes": 524288,
+    "aggregate_bytes": 2097152,
+    "failure_reserve_bytes": 32768,
+    "child_ms": 60000,
+    "export_ms": 170000,
+    "retention": "fullverbatim orfail; no clipping/minification/reserialization/retry",
+    "trusted_memory_contract": null,
+    "new_Hosted": "notperformed",
+    "validation": {
+      "exporter_SHA256": "339378a3168a9b1ba849c96a9cce7621a6e368894414bf539b65d712e126ab6d",
+      "tests_SHA256": "5e1d51deb7c42f37c8a1802608fe8a8647add2abae338976813b2c42809bfcfa",
+      "exporter_manifest_SHA256": "d24224368c68a7892056ac22cb6061800fd7ffde8e5fb9bb0a525384c475e1a5",
+      "WF_SHA256": "7ba4075538bdbcd545a3056430ce019f0c712eb5ec2392fb17762de4bdafe9aa",
+      "WF_manifest_SHA256": "5818906d0ae9cb2d83a117fd0269f0c5661656b9d8c725af2d33ac5661746cf0",
+      "Node": "24passed;20old bodiesbyteheld +4capverbatim/deadline/reserve regressions",
+      "WF": "5wholeextractedcompact realFSsyntheticcases +13static passed; initialharnessreadyassumption failure corrected Sourceunchanged",
+      "independent_Source3": "P1/P2none bound312d9472a32702e439029c191ec4ac3e1401824d5fbeed1c70fc69ef173b06d3",
+      "new_actual_Hosted": "notperformed",
+      "generic_preparation": "notpublished; no empiricalwireadoption"
+    },
+    "root_common_check": {
+      "command": "npm run check",
+      "exit_code": 0,
+      "tests": 1134,
+      "pass": 1119,
       "skip": 15,
       "fail": 0
     }

@@ -15,7 +15,7 @@ export const memoryObservation = Object.freeze({
   metric_configuration: 'XCTMemoryMetric(application: app)',
   article_id: '11-llm-internals/transformer-architecture'
 })
-export const memoryCaps = Object.freeze({ json: 512 * 1024, csv: 64 * 1024,
+export const memoryCaps = Object.freeze({ json: 512 * 1024, legacySummary: 1024 * 1024, csv: 64 * 1024,
   aggregate: 2 * 1024 * 1024, csvFiles: 16, commandReceipt: 16 * 1024,
   exportMilliseconds: 170000, childMilliseconds: 60000 })
 const sourcePaths = Object.freeze(['.github/workflows/ios-memory.yml',
@@ -225,6 +225,9 @@ function stableFile(file, cap) {
 
 const names = new Set(['modern-tests.json', 'modern-details.json', 'legacy-root.json', 'legacy-plan.json',
   'legacy-summary.json', 'context.json', 'summary.json', 'commands.json', 'provenance.json', 'manifest.json'])
+// The dedicated passed-case summary includes verbose UI activity records.
+// Only this fixed raw output name receives a larger cap; callers cannot raise it.
+const memoryJSONCap = name => name === 'legacy-summary.json' ? memoryCaps.legacySummary : memoryCaps.json
 
 export function enforceCompactCaps(entries) {
   if (!Array.isArray(entries)) throw new Error('Invalid evidence inventory')
@@ -234,7 +237,7 @@ export function enforceCompactCaps(entries) {
     if (!plain(entry) || typeof entry.path !== 'string' || !Number.isSafeInteger(entry.bytes) || entry.bytes < 0 ||
         (!names.has(entry.path) && !/^csv\/[a-zA-Z0-9_.-]+\.csv$/.test(entry.path)) || seen.has(entry.path)) throw new Error('Unknown or duplicate compact evidence member')
     seen.add(entry.path)
-    const cap = entry.path.startsWith('csv/') ? memoryCaps.csv : entry.path === 'commands.json' ? memoryCaps.commandReceipt : memoryCaps.json
+    const cap = entry.path.startsWith('csv/') ? memoryCaps.csv : entry.path === 'commands.json' ? memoryCaps.commandReceipt : memoryJSONCap(entry.path)
     if (entry.bytes > cap) throw new Error('Compact member exceeds byte cap')
     total += entry.bytes
   }
@@ -392,12 +395,12 @@ export function exportMemory(options) {
   // cancellation guarantee for filesystem calls or an entire process tree.
   const checkpoint = () => { memoryCommandBudget(deadline, performance.now()) }
   const bounded = action => { checkpoint(); const value = action(); checkpoint(); return value }
-  const run = args => {
+  const run = (args, outputName) => {
     checkpoint()
     evidence.assertIdentity()
     const timeout = memoryCommandBudget(deadline, performance.now())
     const result = spawnSync('xcrun', ['xcresulttool', ...args], { timeout, killSignal: 'SIGKILL',
-      maxBuffer: memoryCaps.json + 1, stdio: ['ignore', 'pipe', 'pipe'] })
+      maxBuffer: memoryJSONCap(outputName) + 1, stdio: ['ignore', 'pipe', 'pipe'] })
     const entry = { binary: 'xcrun', arguments: ['xcresulttool', ...args], timeout_ms: timeout,
       exit_code: result.status, signal: result.signal, error: result.error?.message?.slice(0, 500) ?? null,
       stdout_bytes: result.stdout?.length ?? 0, stderr_bytes: result.stderr?.length ?? 0,
@@ -410,7 +413,7 @@ export function exportMemory(options) {
     return result.stdout ?? Buffer.alloc(0)
   }
   const rawJSON = (args, name) => {
-    const bytes = run(args); bounded(() => evidence.write(name, bytes)); return bounded(() => json(bytes))
+    const bytes = run(args, name); bounded(() => evidence.write(name, bytes)); return bounded(() => json(bytes, memoryJSONCap(name)))
   }
   try {
     bounded(() => evidence.write('context.json', evidence.contextBytes))

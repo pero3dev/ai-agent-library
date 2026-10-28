@@ -286,5 +286,97 @@
     "old_preparation_history_retained": true,
     "personal_scope_is_already_adopted": true,
     "runtime_measurement_not_performed_by_binding": true
+  },
+  "adoption_checkpoint_2026_10_28": {
+    "date_JST": "2026-10-28",
+    "status": "PR292-main-adopted; Clock observations correlated; product budget unadopted",
+    "supersedes_scope": "Earlier preparation-only null/status/unperformed fields remain historical; this additive checkpoint records later adoption and selected actual observations.",
+    "main": "c148d5c75b63f433f667bd8b8b3ba2555f598238",
+    "tree": "9a13070e0bb567f88be5c91de4f2b3d718e39999",
+    "approved_head": "358988e5876e4c8641b41286cccfd4ac4f7ffdeb",
+    "normal_protected_squash": true,
+    "all_2792_mode_type_blob_tuples_equal": true,
+    "admin_or_protection_change": false,
+    "integration_proof_SHA256": "f33551c354421becf4513b247411f737a6dc84fd5075c6941e711f1afed0aad1",
+    "terminal_scope": "Common, SDK26 unsigned Archive, automatic launch, explicit manual search, Native, Dedicated and Full within their recorded scopes; not export validation",
+    "Runtime26": {
+      "attempt1_failed": true,
+      "unchanged_source_limited_attempt2": true,
+      "same_two_cases_passed": true,
+      "first_failure_preserved": true
+    },
+    "Clock_observations": [
+      {
+        "scenario": "launch-to-published-readiness",
+        "run_id": 40626005965,
+        "job_id": 122610959233,
+        "attempt": 1,
+        "event": "pull_request",
+        "test_id": "PublishedPerformanceUITests/testLaunchToPublishedReadiness()",
+        "raw_samples_seconds_strings": [
+          "10.073117062000001",
+          "8.644345454",
+          "7.73651714"
+        ],
+        "CSV_average_seconds": 8.817993219,
+        "typed_mean_seconds_JS_binary64_order": 8.817993218666668,
+        "source_app_version": "0.2.20",
+        "source_app_build": "22",
+        "device": {
+          "name": "iPhone 16",
+          "platform": "iOS Simulator",
+          "OS": "18.5"
+        },
+        "Xcode": "Xcode 16.4\nBuild version 16F6",
+        "scope": "Debug launch-to-count-and-guide readiness; termination excluded/cachewarmed/UIautomation andAXpolling included; no coldlaunch/p95/search/memory/physical/productbudget acceptance",
+        "independent_Root_selected_read_SHA256": "7d5e810bbd7382c0e76829d7425e2830bb0f3081c1ab8ce8a5f77f104c7638b4",
+        "whole_compressed_SHA_verified": true,
+        "selected_CRC_and_SHA_verified": true,
+        "selected_source4_and_actual_checkout_recorrelated": true,
+        "new_raw_GET_by_this_preparation": 0
+      },
+      {
+        "scenario": "search-query-to-visible-witness",
+        "run_id": 40626633151,
+        "job_id": 122612998129,
+        "attempt": 1,
+        "event": "workflow_dispatch",
+        "test_id": "PublishedPerformanceUITests/testSearchQueryToVisibleWitness()",
+        "raw_samples_seconds_strings": [
+          "6.288212189",
+          "6.059885608",
+          "6.113109553"
+        ],
+        "CSV_average_seconds": 6.153735783,
+        "typed_mean_seconds_JS_binary64_order": 6.1537357833333335,
+        "source_app_version": "0.2.20",
+        "source_app_build": "22",
+        "device": {
+          "name": "iPhone 16",
+          "platform": "iOS Simulator",
+          "OS": "18.5"
+        },
+        "Xcode": "Xcode 16.4\nBuild version 16F6",
+        "scope": "Debug public negative-query replacement through positive-query/filter-summary/visible-witness readiness; launch/negative reset excluded; keyboard/UIautomation/AXpolling included; no engine-only/per-keystroke/result-total-one/cold/Release/p95/memory/physical/productbudget acceptance",
+        "independent_Root_selected_read_SHA256": "5449ea426d0e8e338c3553d892e11f6611f0b45ad677a81216e21552f04258ec",
+        "whole_compressed_SHA_verified": true,
+        "selected_CRC_and_SHA_verified": true,
+        "selected_source4_and_actual_checkout_recorrelated": true,
+        "new_raw_GET_by_this_preparation": 0
+      }
+    ],
+    "producer_reports_distinct_from_Root_body_validation": true,
+    "UIautomation_AX_polling_included": true,
+    "keyboard_in_search": true,
+    "performance_budget_acceptance": "unadopted",
+    "IOS15_complete": false,
+    "physical_cold_Release_p95_CPU_RSS_memory_scroll": "unadopted",
+    "TODO": {
+      "rows": 32,
+      "completed": 13,
+      "changed": false
+    },
+    "Source4_measurement_changes": false,
+    "new_SDK_UI_metric_or_raw_retrieval_by_preparation": false
   }
 }

@@ -1,0 +1,219 @@
+{
+  "schema_version": 1,
+  "date_JST": "2026-10-28",
+  "status": "private-export-v3-Source6-publication-preparation; Source5-review-approved",
+  "base": {
+    "commit": "c148d5c75b63f433f667bd8b8b3ba2555f598238",
+    "tree": "9a13070e0bb567f88be5c91de4f2b3d718e39999",
+    "PR292_adopted": true
+  },
+  "scope": {
+    "export_only": true,
+    "Restore_engine_or_UI": false,
+    "normal_namespace_only": true,
+    "fixture_UI_and_API_refused": true,
+    "raw_bytes_preserved": true,
+    "current_package_unknown_article_IDs_preserved": true,
+    "raw_limit_bytes": 1048576,
+    "envelope_limit_bytes": 2097152,
+    "mutates_primary_recovery_audio_content_in_export": false,
+    "ordinary_edit_stop": "after observed identity mismatch; no CAS/durability guarantee"
+  },
+  "source": {
+    "v3_manifest_SHA256": "671b538ae1588ef00f5e4e735744a226caf11b7ee6f50a4d8b10c9cdec1eb006",
+    "files": [
+      {
+        "path": "ios/AILibrary/Sources/ReadingStore.swift",
+        "before": [
+          "100644",
+          "blob",
+          "3e052fa93627338e4676c8469fdc498c29cab582"
+        ],
+        "after_blob": "475a2901777e114598d98b2745a5ca02e28dbd2b",
+        "frozen_SHA256": "650069c424f8ebe27f2059ba3753d3889c699a6e15279c0a3d74361619072bca",
+        "frozen_bytes": 36623,
+        "exact_v3": true
+      },
+      {
+        "path": "ios/AILibrary/Sources/LibraryStore.swift",
+        "before": [
+          "100644",
+          "blob",
+          "1e83b0194b9f198547ccef3fd93ccd6622e50c3d"
+        ],
+        "after_blob": "09292982287c2092f128d880bbe7ac3d2731aae9",
+        "frozen_SHA256": "db85b99aaa1206e969c468480156e6ebf1b608ddf1dfc423e5d0f2a5c07f5c30",
+        "frozen_bytes": 12327,
+        "exact_v3": true
+      },
+      {
+        "path": "ios/AILibrary/Sources/LibraryView.swift",
+        "before": [
+          "100644",
+          "blob",
+          "0ee4a7aa561064d236d433f47764cfff71abee26"
+        ],
+        "after_blob": "db33675c0b49ebd1ecd7a20aeed9044dd016c498",
+        "frozen_SHA256": "6240ee8daafeff35eaf6a081ac83877119c2eb2f81ccc95d658af7d2581193a3",
+        "frozen_bytes": 31420,
+        "exact_v3": true
+      },
+      {
+        "path": "ios/AILibraryTests/LibraryCoreTests.swift",
+        "before": [
+          "100644",
+          "blob",
+          "f5f06437b98b82572cf6b1faf2345481a09fc48c"
+        ],
+        "after_blob": "7ecf18f0de0a8a35c95d9b54f6e14d6acde25513",
+        "frozen_SHA256": "5a9c586c1e65bdce21c77688b3c667e58f25d97912e322c4f1251f58a17145d7",
+        "frozen_bytes": 195155,
+        "exact_v3": true
+      },
+      {
+        "path": "ios/AILibrary/Sources/ArticleReaderView.swift",
+        "before": [
+          "100644",
+          "blob",
+          "82aabe8083c597813be056522209221c9ac788f3"
+        ],
+        "after_blob": "b6b6c3f203c56248bba4dafe50240fd09cb2844d",
+        "frozen_SHA256": "71dfc03a02c57d84fa60f70e812fa23f90e3154578f63519bdd52c17255222ad",
+        "frozen_bytes": 9954,
+        "exact_v3": true
+      }
+    ],
+    "Source5_bytes_changed_in_preparation": false,
+    "technical_Source6_extra": {
+      "path": "ios/AILibrary.xcodeproj/project.pbxproj",
+      "version_before": "0.2.20",
+      "build_before": 22,
+      "version_after": "0.2.21",
+      "build_after": 23,
+      "Debug_Release_replacements_each": 2,
+      "other_PBX_bytes_unchanged": true,
+      "BundleID_Team_OS_changes": false
+    },
+    "review": {
+      "v2_R1_P2": "Unknown metadata can survive tolerant State equality but strict codec invalid alone did not suspend later old-memory writes.",
+      "review_manifest_SHA256": "9b83bbc6481a11d40464dfca70df7918946f4ff0f7134b8f40f6b5c2d50e53fa",
+      "v3_correction": "Track expected raw identity at load and immediately before own writes; compare observed bytes/presence before and after encode; propagate general save suspension.",
+      "v3_independent_review": "approved Source5 only; P1=0 P2=0",
+      "v3_independent_review_manifest_SHA256": "4742be609e788b4240e62e5719eedba0a3ff59f31dbe9256865dd8ab0a450a50",
+      "Root_review_SHA256": "5bfaffc857a061ee495d0042921ed977afbf8ce23fb97da0070e25a483f8e3ca"
+    }
+  },
+  "validation_from_exact_v3": {
+    "Source5_SHA256": {
+      "ios/AILibrary/Sources/ReadingStore.swift": "650069c424f8ebe27f2059ba3753d3889c699a6e15279c0a3d74361619072bca",
+      "ios/AILibrary/Sources/LibraryStore.swift": "db85b99aaa1206e969c468480156e6ebf1b608ddf1dfc423e5d0f2a5c07f5c30",
+      "ios/AILibrary/Sources/LibraryView.swift": "6240ee8daafeff35eaf6a081ac83877119c2eb2f81ccc95d658af7d2581193a3",
+      "ios/AILibraryTests/LibraryCoreTests.swift": "5a9c586c1e65bdce21c77688b3c667e58f25d97912e322c4f1251f58a17145d7",
+      "ios/AILibrary/Sources/ArticleReaderView.swift": "71dfc03a02c57d84fa60f70e812fa23f90e3154578f63519bdd52c17255222ad"
+    },
+    "grammar5": {
+      "exit_code": 0,
+      "meaning": "Syntax only, not iOS/SwiftUI typecheck"
+    },
+    "Foundation_compile": {
+      "exit_code": 0,
+      "language_mode": 5,
+      "compiled_Core_case_bodies": 20,
+      "real_Source": "ReadingStore/codec",
+      "isDigest": "Literal-identical copied real function, called",
+      "resolver": "Unrelated signature shims, uncalled"
+    },
+    "Foundation_run": {
+      "source_SHA256": "650069c424f8ebe27f2059ba3753d3889c699a6e15279c0a3d74361619072bca",
+      "exit_code": 0,
+      "selected_affected_old": 11,
+      "new_v3": 5,
+      "total": 16,
+      "runtime_invocations": 1,
+      "wall_seconds": 0.5251257500000001,
+      "unaffected_old_codec_only_not_repeated": [
+        "testReadingBackupRawAndEnvelopeBudgetsIncludeExactBoundaries",
+        "testReadingBackupRejectsFutureAndDamagedAnchorsInsteadOfDroppingMetadata",
+        "testReadingBackupRejectsUnknownMalformedAndDuplicateRawWithoutTolerantFallback",
+        "testReadingBackupStrictEnvelopeRejectsTamperingAndAmbiguousMetadata"
+      ],
+      "result_SHA256": "434a51f437d0b0db2c1a38a466a33806f9cccb71778514d2c3e114e06a0bd8ef",
+      "not_App_XCTest": true
+    },
+    "v2_historical_Foundation15": "Earlier source only; not relabeled as complete v3 run",
+    "new_v3_XCTest_count": 6,
+    "total_export_XCTest_Source_count": 24,
+    "App_target_methods_not_run": [
+      "testReadingBackupUsesOnlyBoundNamespaceAndFixtureStoreCannotExport",
+      "testLibraryStorePublishesExportSuspensionOnThrowAndOnInitialization",
+      "testLibraryStoreOwnHealthyEditDoesNotPublishAnIncorrectSuspension",
+      "testLibraryStorePublishesSuspensionForExternalMetadataOnlyDrift"
+    ],
+    "unperformed": [
+      "App XCTest24",
+      "iOS/SwiftUI typecheck",
+      "picker/provider/banner/disabled UI",
+      "Hosted",
+      "device",
+      "VoiceOver",
+      "OS durability",
+      "restore/import"
+    ],
+    "independent_review": "pending",
+    "old_v1_v2_other_candidates_shared_unchanged": true
+  },
+  "validation_evidence_scope": "Author freeze evidence retained, including then-pending review field; final Source5 review status is source.review above.",
+  "validation_not_replayed_by_preparation": {
+    "Swift_grammar": true,
+    "Foundation16": true,
+    "new_SDK_or_Hosted": false,
+    "App_XCTest": false
+  },
+  "unperformed": [
+    "App XCTest24 including four MainActor/fixture cases",
+    "iOS/SwiftUI typecheck",
+    "real picker/provider failure/cancel",
+    "save-stop banner/disabled UI",
+    "Hosted for export",
+    "physical device",
+    "VoiceOver",
+    "OS durability/power-loss",
+    "real container acquisition/restore",
+    "Restore engine/UI integration"
+  ],
+  "commit_plan": {
+    "technical_paths": 6,
+    "records_paths": 7,
+    "records_scope": [
+      "export records2",
+      "index3",
+      "append-only PR292 search adoption records2"
+    ],
+    "first_commit_parent": "c148d5c75b63f433f667bd8b8b3ba2555f598238",
+    "first_commit_created": null,
+    "second_commit_parent": null,
+    "second_parent_resolution": "use actual Source6 commit SHA returned after creation; never a predicted/fabricated commit"
+  },
+  "TODO": {
+    "rows": 32,
+    "completed": 13,
+    "rows_changed": false,
+    "IOS22_complete": false
+  },
+  "publication": {
+    "branch_created": false,
+    "Git_refs_changed": false,
+    "GitHub_API_calls": 0,
+    "CI_started": false,
+    "public_head": null,
+    "main_merge": null,
+    "next": "Final PBX/records binding review, then Draft PR exact-head normal checks/App/SDK and protected merge"
+  },
+  "subsequent_restore_unit": [
+    "preview counts/zero warning",
+    "cancel write0",
+    "preserve prior raw",
+    "reject stale preview",
+    "before export and explicit release"
+  ]
+}

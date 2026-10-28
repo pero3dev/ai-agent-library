@@ -1,0 +1,43 @@
+# 正常な読書記録の手動書き出し
+
+2026-10-28。本人用の読書記録を端末外へ手動保存する小単位として、exportだけの提出候補を準備した。基準はPR292を通常保護で採用したmain `c148d5c75b63f433f667bd8b8b3ba2555f598238` / tree `9a13070e0bb567f88be5c91de4f2b3d718e39999`。この記録は私有準備時点の実装と検証を示し、exportの公開head・CI成功・main採用を示さない。
+
+## 対象と保存内容
+
+通常ライブラリの「その他の操作」へ「読書記録を書き出す」を追加する。既存の小画面シート終了後の処理を通し、利用者が保存先を選ぶFileDocument／fileExporterを開く。本文表示テスト側はUIに操作を表示せず、LibraryStoreのAPIでも拒否する。復元engine・復元UI・外部ファイルからの取り込み・クラウド同期・自動送信は含めない。
+
+現在の名前空間で保存されたraw Dataを正確なbytesのまま包み、現在一覧にない記事IDも落とさない。しおり、全読書位置、見出し、block ID、semantic anchor、block内位置、最後に開いた記事を保持する。表示中の状態を再encodeしたり、現パッケージに合わせて位置を解決し直したりしない。export処理自体は主記録、破損復旧用backup、本文パッケージ、音声の保存値へ書き込まない。
+
+保存keyが未作成なら「まだ記録がありません」と案内し、正常な明示空stateは書き出せる。空objectや未知shapeを黙って空記録へ変換しない。破損・部分破損・未来anchor・不正な任意metadata・容量超過を拒否し、通常読書でのlegacy位置fallbackと、外部保全形式の厳格な受入を分ける。
+
+## raw identityと保存停止
+
+v2の独立レビューでP2を指摘された。保存Dataへ新しい未知metadataだけが加わった場合、寛容なState比較は同じと判断し、strict codecのinvalidで止まる一方、その後の古いmemoryからの通常編集が未知fieldを落とせる問題である。
+
+v3は、load時の欠損・正確なData・未対応の存在をexpected identityとして保持する。通常saveと明示復旧はprimary set直前に自分のencode結果を登録し、exportはstrict encode前後の観測値と照合する。load後の未知metadata・future anchor追加、意味が同じbyte変更も、観測した不一致としてchangedを返し保存を停止する。登録は書込意図であり、保存成功や永続化の保証ではない。
+
+停止はLibraryStoreの公開値へ失敗時にも同期し、一覧の案内、しおり操作と明示復旧の無効化、Coreの通常編集抑止につなぐ。利用者へアプリを開き直した確認を案内する。初回load時から存在したfuture anchorのlegacy fallbackや、createdAt／appVersion引数だけのinvalidは別に扱い、健全な編集を誤停止しない。処理内の正常な自分の編集は、新しいstrict identity・memory一致・世代不変の再確認を経て区別する。
+
+これは観測した不一致への停止であり、未観測の外部writerに対する排他制御・CAS・耐電断保証ではない。外部データを自動reload・rollbackして修復したとは扱わない。
+
+## 共通codecと上限
+
+ReadingStore.swift内のReadingBackupCodecは専用format、schemaVersion 1、normal-library scope、UTC createdAt、appVersion、rawのBase64、SHA256、しおり数・位置数を扱う。exportとdecodeが同じ契約を通り、未知field、必須collection欠落、不正型、重複JSONキー・しおり、未来anchor、hash・件数不一致を拒否する。SHA256は破損検出用で、作成元の真正性を保証しない。
+
+rawは1,048,576B、envelopeは2,097,152Bを上限とし、JSON深さも制限する。decode後のrawも完全一致し、外部値から保存先domainを選ばない。codecのdecodeとFileDocumentの読取実装があっても、利用者向け復元操作は提供しない。
+
+## 提出候補と検証
+
+凍結したexport v3のSource5はReadingStore、LibraryStore、LibraryView、ArticleReaderView、LibraryCoreTestsで、manifest SHA256は `671b538ae1588ef00f5e4e735744a226caf11b7ee6f50a4d8b10c9cdec1eb006`。この準備でSource5のbytesを変更していない。技術commitにはPBXの通常版上げだけを追加し、Debug／Releaseとも0.2.21（23）とする。Bundle ID、Team、最低OS、既存workflow、計測Source4は変えない。v3の最終独立レビューとRootのSource5照合はいずれもP1／P2が0件だった。独立レビューmanifest SHA256は `4742be609e788b4240e62e5719eedba0a3ff59f31dbe9256865dd8ab0a450a50`、Root票は `5bfaffc857a061ee495d0042921ed977afbf8ce23fb97da0070e25a483f8e3ca`。これはSourceの承認で、未実施のApp・UI受入を補わない。
+
+Source5のSwift grammarは5ファイル成功した。Mac Foundation／CryptoKitの独立harnessではCore20ケース本文をcompileし、影響する旧11件と新5件の計16件を1回実行して全成功した。無関係な既存codec専用4件は反復していない。v2の旧15件成功は履歴で、v3全件成功とは読み替えない。
+
+harnessは実候補のReadingStore／codecを使う。ContentValidator.isDigestは実bodyとliteral一致を確認した複製で、codecから実際に呼ばれる。無関係な記事・document resolverはsignature shimで、対象16経路では呼ばれない。これはApp XCTestではない。今回の提出準備でgrammarや同16件を反復していない。
+
+Source内のexport関連XCTestは合計24件で、v3追加はCore5件とMainActor1件の計6件。App targetの24件、うちMainActor／fixtureに関わる4件は実行していない。iOS／SwiftUI型検査、実picker・providerの失敗／取消、停止banner・disabled UI、Hosted、実機、VoiceOver、OS永続化・耐電断も未実施である。実containerの取得・復元は行っておらず、JSONを復元成功済みbackupと呼ばない。
+
+## コミットと残件
+
+Source5＋PBXの技術6ファイルを1commit、記録2本・索引3本と検索観測の採用追記2本を次のcommitとする。後者の親は技術commit作成後に得る実SHAまで未確定のまま残し、予測treeとcommitの実在を分ける。Draft PR作成後、正確なheadの通常検査・SDK検証と独立レビューを確認し、通常保護でmainへ統合する。
+
+全TODO32行・完了13行を保持し、IOS-22全体は未完了とする。実機確認は本人の指示に従い未完了で先へ進める。復元は、preview、件数と0件警告、取消、置換前raw保全、古いpreviewの拒否、保持データの書出し・明示解除を持つ後続PRで扱う。

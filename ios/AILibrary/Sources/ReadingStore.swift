@@ -1,3 +1,4 @@
+import CryptoKit
 import Foundation
 
 /// Optional local metadata. Invalid or future versions are ignored independently
@@ -222,6 +223,247 @@ struct NativeReadingProgressSession {
     }
 }
 
+/// A read-only, bounded interchange format. Restore can share this decoder later;
+/// accepting a backup never writes defaults or selects a destination namespace.
+enum ReadingBackupCodec {
+    static let maximumRawBytes = 1_048_576
+    static let maximumEnvelopeBytes = 2_097_152
+    private static let format = "dev.pero3.aiagentlibrary.reading-backup"
+    private static let scope = "normal-library"
+
+    enum Failure: LocalizedError, Equatable {
+        case noRecords, unavailable, savingSuspended, unsupportedScope, invalid, tooLarge, changed
+        var errorDescription: String? {
+            switch self {
+            case .noRecords: return "まだ記録がありません。記事を開くか、しおりを付けてから書き出してください。"
+            case .unavailable: return "読書記録の復旧が必要なため書き出せません。元の記録は変更していません。"
+            case .savingSuspended: return "保存内容の変化を確認したため、読書記録の保存と編集を止めています。アプリを開き直して保存内容を確認してください。"
+            case .unsupportedScope: return "本文表示テストの読書記録は書き出せません。"
+            case .invalid: return "この読書記録の形式には書き出しが対応していません。元の記録は変更していません。アプリを削除せず、この状態を開発者へお知らせください。"
+            case .tooLarge: return "読書記録が書き出しの容量上限を超えています。元の記録は変更していません。"
+            case .changed: return "保存内容が変わったため書き出しを中止しました。アプリを開き直して、保存されている読書記録を確認してください。"
+            }
+        }
+    }
+
+    struct Counts: Codable, Equatable {
+        let bookmarks: Int
+        let positions: Int
+        init(bookmarks: Int, positions: Int) { self.bookmarks = bookmarks; self.positions = positions }
+        init(from decoder: Decoder) throws {
+            let f = try fields(decoder, required: ["bookmarks", "positions"])
+            bookmarks = try f.decode(Int.self, forKey: Key("bookmarks"))
+            positions = try f.decode(Int.self, forKey: Key("positions"))
+            guard bookmarks >= 0, positions >= 0 else { throw Failure.invalid }
+        }
+    }
+    struct Validated {
+        let rawData: Data
+        let counts: Counts
+        let createdAt: String
+        let appVersion: String
+    }
+
+    static func encode(rawData: Data, createdAt: Date, appVersion: String) throws -> Data {
+        let counts = try validateRaw(rawData)
+        guard createdAt.timeIntervalSince1970.isFinite, validAppVersion(appVersion) else { throw Failure.invalid }
+        let envelope = Envelope(format: format, schemaVersion: 1, scope: scope,
+            createdAt: dateFormatter().string(from: createdAt), appVersion: appVersion,
+            rawBase64: rawData.base64EncodedString(), sha256: digest(rawData), counts: counts)
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys]
+        let data = try encoder.encode(envelope)
+        // Both directions use the same acceptance contract, including size limits.
+        _ = try decode(data)
+        return data
+    }
+
+    static func decode(_ data: Data) throws -> Validated {
+        guard data.count <= maximumEnvelopeBytes else { throw Failure.tooLarge }
+        do {
+            try UniqueJSONKeys.check(data)
+            let value = try JSONDecoder().decode(Envelope.self, from: data)
+            guard value.format == format, value.schemaVersion == 1, value.scope == scope,
+                  validAppVersion(value.appVersion),
+                  let date = dateFormatter().date(from: value.createdAt),
+                  dateFormatter().string(from: date) == value.createdAt,
+                  value.rawBase64.utf8.count <= ((maximumRawBytes + 2) / 3) * 4,
+                  let raw = Data(base64Encoded: value.rawBase64),
+                  raw.base64EncodedString() == value.rawBase64,
+                  value.sha256 == digest(raw),
+                  try validateRaw(raw) == value.counts else { throw Failure.invalid }
+            return Validated(rawData: raw, counts: value.counts,
+                             createdAt: value.createdAt, appVersion: value.appVersion)
+        } catch let error as Failure { throw error }
+        catch { throw Failure.invalid }
+    }
+
+    fileprivate static func validateRaw(_ data: Data) throws -> Counts {
+        guard data.count <= maximumRawBytes else { throw Failure.tooLarge }
+        do {
+            try UniqueJSONKeys.check(data)
+            let value = try JSONDecoder().decode(RawState.self, from: data)
+            return Counts(bookmarks: value.bookmarkCount, positions: value.positionCount)
+        } catch let error as Failure { throw error }
+        catch { throw Failure.invalid }
+    }
+    private static func digest(_ data: Data) -> String {
+        SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+    }
+    private static func validAppVersion(_ value: String) -> Bool {
+        !value.isEmpty && value.utf8.count <= 128 &&
+        value.unicodeScalars.allSatisfy { !CharacterSet.controlCharacters.contains($0) }
+    }
+    private static func dateFormatter() -> ISO8601DateFormatter {
+        let formatter = ISO8601DateFormatter()
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.formatOptions = [.withInternetDateTime]
+        return formatter
+    }
+    private struct Key: CodingKey {
+        let stringValue: String
+        let intValue: Int? = nil
+        init(_ value: String) { stringValue = value }
+        init?(stringValue: String) { self.init(stringValue) }
+        init?(intValue: Int) { return nil }
+    }
+    private static func fields(_ decoder: Decoder, required: Set<String>, optional: Set<String> = []) throws
+        -> KeyedDecodingContainer<Key> {
+        let result = try decoder.container(keyedBy: Key.self)
+        let actual = Set(result.allKeys.map(\.stringValue))
+        guard required.isSubset(of: actual), actual.isSubset(of: required.union(optional)) else { throw Failure.invalid }
+        return result
+    }
+    private struct RawState: Decodable {
+        let bookmarkCount: Int
+        let positionCount: Int
+        init(from decoder: Decoder) throws {
+            let f = try fields(decoder, required: ["bookmarks", "positions"], optional: ["lastArticleID"])
+            let bookmarks = try f.decode([String].self, forKey: Key("bookmarks"))
+            guard Set(bookmarks).count == bookmarks.count else { throw Failure.invalid }
+            bookmarkCount = bookmarks.count
+            positionCount = try f.decode([String: RawPosition].self, forKey: Key("positions")).count
+            _ = try f.decodeIfPresent(String.self, forKey: Key("lastArticleID"))
+        }
+    }
+    private struct RawPosition: Decodable {
+        init(from decoder: Decoder) throws {
+            let f = try fields(decoder, required: ["fraction"], optional: ["heading", "blockID", "anchor"])
+            let fraction = try f.decode(Double.self, forKey: Key("fraction"))
+            guard fraction.isFinite, (0...1).contains(fraction) else { throw Failure.invalid }
+            _ = try f.decodeIfPresent(String.self, forKey: Key("heading"))
+            _ = try f.decodeIfPresent(String.self, forKey: Key("blockID"))
+            _ = try f.decodeIfPresent(RawAnchor.self, forKey: Key("anchor"))
+        }
+    }
+    private struct RawAnchor: Decodable {
+        init(from decoder: Decoder) throws {
+            let f = try fields(decoder, required: ["version", "documentDigest", "blockFingerprint"],
+                optional: ["headingFingerprint", "intraBlockFraction"])
+            guard try f.decode(Int.self, forKey: Key("version")) == 1,
+                  ContentValidator.isDigest(try f.decode(String.self, forKey: Key("documentDigest"))),
+                  ContentValidator.isDigest(try f.decode(String.self, forKey: Key("blockFingerprint"))) else { throw Failure.invalid }
+            if let heading = try f.decodeIfPresent(String.self, forKey: Key("headingFingerprint")),
+               !ContentValidator.isDigest(heading) { throw Failure.invalid }
+            if let progress = try f.decodeIfPresent(Double.self, forKey: Key("intraBlockFraction")),
+               !progress.isFinite || !(0...1).contains(progress) { throw Failure.invalid }
+        }
+    }
+    private struct Envelope: Codable {
+        let format: String
+        let schemaVersion: Int
+        let scope: String
+        let createdAt: String
+        let appVersion: String
+        let rawBase64: String
+        let sha256: String
+        let counts: Counts
+        init(format: String, schemaVersion: Int, scope: String, createdAt: String, appVersion: String,
+             rawBase64: String, sha256: String, counts: Counts) {
+            self.format = format; self.schemaVersion = schemaVersion; self.scope = scope
+            self.createdAt = createdAt; self.appVersion = appVersion
+            self.rawBase64 = rawBase64; self.sha256 = sha256; self.counts = counts
+        }
+        init(from decoder: Decoder) throws {
+            let f = try fields(decoder, required: ["format", "schemaVersion", "scope", "createdAt", "appVersion", "rawBase64", "sha256", "counts"])
+            format = try f.decode(String.self, forKey: Key("format"))
+            schemaVersion = try f.decode(Int.self, forKey: Key("schemaVersion"))
+            scope = try f.decode(String.self, forKey: Key("scope"))
+            createdAt = try f.decode(String.self, forKey: Key("createdAt"))
+            appVersion = try f.decode(String.self, forKey: Key("appVersion"))
+            rawBase64 = try f.decode(String.self, forKey: Key("rawBase64"))
+            sha256 = try f.decode(String.self, forKey: Key("sha256"))
+            counts = try f.decode(Counts.self, forKey: Key("counts"))
+        }
+    }
+
+    /// JSONDecoder alone accepts duplicate object keys. Check keys recursively
+    /// before typed decoding, with bounded depth and no file/network access.
+    private struct UniqueJSONKeys {
+        let bytes: [UInt8]
+        var cursor = 0
+        static func check(_ data: Data) throws {
+            var parser = Self(bytes: Array(data))
+            try parser.value(depth: 0)
+            parser.whitespace()
+            guard parser.cursor == parser.bytes.count else { throw Failure.invalid }
+        }
+        mutating func whitespace() {
+            while cursor < bytes.count, [9, 10, 13, 32].contains(bytes[cursor]) { cursor += 1 }
+        }
+        mutating func take(_ byte: UInt8) throws {
+            whitespace()
+            guard cursor < bytes.count, bytes[cursor] == byte else { throw Failure.invalid }
+            cursor += 1
+        }
+        mutating func stringRange() throws -> Range<Int> {
+            whitespace()
+            let start = cursor
+            try take(34)
+            while cursor < bytes.count {
+                let byte = bytes[cursor]; cursor += 1
+                if byte == 34 { return start..<cursor }
+                if byte == 92 { cursor += 1 }
+            }
+            throw Failure.invalid
+        }
+        mutating func value(depth: Int) throws {
+            guard depth <= 8 else { throw Failure.invalid }
+            whitespace()
+            guard cursor < bytes.count else { throw Failure.invalid }
+            switch bytes[cursor] {
+            case 123:
+                cursor += 1; whitespace()
+                if cursor < bytes.count, bytes[cursor] == 125 { cursor += 1; return }
+                var keys = Set<String>()
+                while true {
+                    let range = try stringRange()
+                    let key = try JSONDecoder().decode(String.self, from: Data(bytes[range]))
+                    guard keys.insert(key).inserted else { throw Failure.invalid }
+                    try take(58); try value(depth: depth + 1); whitespace()
+                    guard cursor < bytes.count else { throw Failure.invalid }
+                    if bytes[cursor] == 125 { cursor += 1; return }
+                    try take(44)
+                }
+            case 91:
+                cursor += 1; whitespace()
+                if cursor < bytes.count, bytes[cursor] == 93 { cursor += 1; return }
+                while true {
+                    try value(depth: depth + 1); whitespace()
+                    guard cursor < bytes.count else { throw Failure.invalid }
+                    if bytes[cursor] == 93 { cursor += 1; return }
+                    try take(44)
+                }
+            case 34: _ = try stringRange()
+            default:
+                let start = cursor
+                while cursor < bytes.count, ![9, 10, 13, 32, 44, 93, 125].contains(bytes[cursor]) { cursor += 1 }
+                guard cursor > start else { throw Failure.invalid }
+            }
+        }
+    }
+}
+
 /// Only local reading records; no account, analytics or network synchronization.
 final class ReadingStore {
     /// Raw data stays at the original key until the user chooses recovery.
@@ -311,6 +553,14 @@ final class ReadingStore {
     private var state: State
     private var originalForRecovery: Data?
     private(set) var recoveryIssue: RecoveryIssue?
+    /// Observed persistence changes require a fresh store before ordinary edits resume.
+    /// This is not a lock or a guarantee against unobserved external writers.
+    private(set) var readingSaveSuspended = false
+    private var mutationGeneration: UInt64 = 0
+    private enum ReadingPersistenceIdentity: Equatable { case absent, data(Data), unsupported }
+    /// Exact loaded bytes or the latest raw produced by our own write attempt.
+    /// A readback still decides whether those bytes are actually present.
+    private var expectedReadingIdentity: ReadingPersistenceIdentity = .absent
     // Cap damaged input before parsing/copying it. Healthy writes keep the legacy format.
     static let maximumRecoveryBytes = 1_048_576
     var bookmarks: Set<String> { state.bookmarks }
@@ -321,19 +571,75 @@ final class ReadingStore {
         self.key = key
         state = State()
         guard defaults.object(forKey: key) != nil else { return }
+        expectedReadingIdentity = .unsupported
         guard let data = defaults.data(forKey: key) else { recoveryIssue = .unsupported; return }
         guard data.count <= Self.maximumRecoveryBytes else { recoveryIssue = .tooLarge; return }
+        expectedReadingIdentity = .data(data)
         do {
             state = try JSONDecoder().decode(State.self, from: data)
             if state.needsRecovery { recoveryIssue = .partial; originalForRecovery = data }
         } catch { recoveryIssue = .unreadable; originalForRecovery = data }
     }
 
+    /// Read only the bound namespace's persisted bytes, never the tolerant live state.
+    func exportBackup(createdAt: Date, appVersion: String) throws -> Data {
+        guard !readingSaveSuspended else { throw ReadingBackupCodec.Failure.savingSuspended }
+        guard recoveryIssue == nil else { throw ReadingBackupCodec.Failure.unavailable }
+        let generation = mutationGeneration
+        let observed = observedReadingIdentity()
+        guard observed == expectedReadingIdentity else {
+            suspendUnlessOwnHealthyEdit(since: generation)
+            throw ReadingBackupCodec.Failure.changed
+        }
+        if observed == .absent, stateIsEmpty { throw ReadingBackupCodec.Failure.noRecords }
+        guard case .data(let raw) = observed, persistedStateMatchesMemory(raw) else {
+            suspendUnlessOwnHealthyEdit(since: generation)
+            throw ReadingBackupCodec.Failure.changed
+        }
+        let data = try ReadingBackupCodec.encode(rawData: raw, createdAt: createdAt, appVersion: appVersion)
+        let current = observedReadingIdentity()
+        guard generation == mutationGeneration, current == observed, current == expectedReadingIdentity else {
+            suspendUnlessOwnHealthyEdit(since: generation)
+            throw ReadingBackupCodec.Failure.changed
+        }
+        return data
+    }
+
+    private func observedReadingIdentity() -> ReadingPersistenceIdentity {
+        guard defaults.object(forKey: key) != nil else { return .absent }
+        guard let data = defaults.data(forKey: key) else { return .unsupported }
+        return .data(data)
+    }
+    private var stateIsEmpty: Bool {
+        !state.needsRecovery && state.bookmarks.isEmpty && state.positions.isEmpty && state.lastArticleID == nil
+    }
+    private func persistedStateMatchesMemory(_ data: Data) -> Bool {
+        guard data.count <= Self.maximumRecoveryBytes,
+              let saved = try? JSONDecoder().decode(State.self, from: data),
+              !saved.needsRecovery, !state.needsRecovery else { return false }
+        return saved.bookmarks == state.bookmarks && saved.positions == state.positions &&
+               saved.lastArticleID == state.lastArticleID
+    }
+    private func suspendUnlessOwnHealthyEdit(since generation: UInt64) {
+        // A serialized own edit may have completed inside a provider/test callback.
+        // Refresh once, and accept it only if both the strict raw and live state agree.
+        if generation != mutationGeneration {
+            let refreshedGeneration = mutationGeneration
+            let refreshed = observedReadingIdentity()
+            if case .data(let raw) = refreshed, refreshed == expectedReadingIdentity,
+               (try? ReadingBackupCodec.validateRaw(raw)) != nil, persistedStateMatchesMemory(raw),
+               refreshedGeneration == mutationGeneration { return }
+        }
+        readingSaveSuspended = true
+    }
+
     /// Preserve the source before replacing it with readable records and live edits.
     /// A failed backup, existing backup, or changed source never overwrites the main key.
     @discardableResult
     func recoverReadableState() -> Bool {
+        guard !readingSaveSuspended else { return false }
         guard recoveryIssue?.canRecover == true, let original = originalForRecovery else { return false }
+        mutationGeneration &+= 1
         guard defaults.data(forKey: key) == original else { recoveryIssue = .changed; return false }
         let backupKey = key + ".recovery.v1"
         guard defaults.object(forKey: backupKey) == nil else { recoveryIssue = .backupExists; return false }
@@ -344,6 +650,7 @@ final class ReadingStore {
         guard defaults.data(forKey: backupKey) == original else { recoveryIssue = .backupFailed; return false }
         // Check again after the backup operation before touching the original key.
         guard defaults.data(forKey: key) == original else { recoveryIssue = .changed; return false }
+        expectedReadingIdentity = .data(data)
         defaults.set(data, forKey: key)
         guard defaults.data(forKey: key) == data else { recoveryIssue = .writeFailed; return false }
         state.needsRecovery = false
@@ -353,19 +660,23 @@ final class ReadingStore {
     }
 
     func toggleBookmark(_ id: String) {
+        guard !readingSaveSuspended else { return }
+        mutationGeneration &+= 1
         if !state.bookmarks.insert(id).inserted { state.bookmarks.remove(id) }
         save()
     }
 
     func markOpened(_ articleID: String) {
-        guard state.lastArticleID != articleID else { return }
+        guard !readingSaveSuspended, state.lastArticleID != articleID else { return }
+        mutationGeneration &+= 1
         state.lastArticleID = articleID
         save()
     }
 
     func record(articleID: String, heading: String?, fraction: Double, blockID: String? = nil,
                 anchor: NativeReadingAnchor? = nil) {
-        guard fraction.isFinite else { return }
+        guard !readingSaveSuspended, fraction.isFinite else { return }
+        mutationGeneration &+= 1
         state.positions[articleID] = ReadingPosition(heading: heading, fraction: fraction, blockID: blockID, anchor: anchor)
         state.lastArticleID = articleID
         save()
@@ -391,7 +702,10 @@ final class ReadingStore {
     }
 
     private func save() {
-        guard recoveryIssue == nil else { return }
-        if let data = try? JSONEncoder().encode(state) { defaults.set(data, forKey: key) }
+        guard recoveryIssue == nil, !readingSaveSuspended else { return }
+        if let data = try? JSONEncoder().encode(state) {
+            expectedReadingIdentity = .data(data)
+            defaults.set(data, forKey: key)
+        }
     }
 }

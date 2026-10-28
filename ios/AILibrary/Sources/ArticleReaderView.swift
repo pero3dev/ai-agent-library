@@ -114,6 +114,7 @@ struct ArticleReaderView: View {
                 Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
             }
             .accessibilityLabel(isBookmarked ? "しおりを削除" : "しおりを追加")
+            .disabled(store.readingSaveSuspended)
             if store.allowsAudioPlayback, let audio = snapshot.episode(for: article) {
                 Button { episode = audio } label: { Image(systemName: "headphones") }
                     .accessibilityLabel("音声で聴く")

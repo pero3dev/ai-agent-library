@@ -29,3 +29,13 @@ Source4を1コミット、記録2本と索引3を次のコミットに分け、1
 [既存の観測基盤](../2026-10-25/ios-published-readiness-observation.md)を使い、新headのSDK/Hostedと最初の検索Clock3値・CSV・操作状態を確認する。[main49の起動値](ios-published-launch-readiness.md)は異なるsnapshotとscenarioの履歴で、新しい検索やAppの性能合格に読み替えない。
 
 実機・VoiceOver・小型端末・最低OS、cold/Release・p95・CPU/RSS・memory/scroll・性能予算とIOS-15全体は未受入である。実測していない値をゼロや成功として補わない。
+
+## PR292の採用と実観測の追記
+
+2026-10-28 checkpoint。上の未確認・未受入という記述とJSONのnullは作成時点の履歴である。その後、[PR #292](https://github.com/pero3dev/ai-agent-library/pull/292)の最終head `358988e5876e4c8641b41286cccfd4ac4f7ffdeb` を通常保護squashでmain `c148d5c75b63f433f667bd8b8b3ba2555f598238` へ採用し、全2792 tupleが同じtree `9a13070e0bb567f88be5c91de4f2b3d718e39999` であることを照合した。管理者例外や保護設定の変更は使っていない。
+
+最終headではCommon、SDK26 unsigned Archive、自動起動、明示manual検索、Native、Dedicated、Fullが記録した範囲で成功した。Runtime26の最初の見出し可視性待機失敗は保持し、Source・timeout・selectorを変えない1回の限定再実行で同じ代表2件が成功したことと分ける。これらはPR292のheadに対する結果で、後続の読書export 0.2.21（23）のSDK・UI検証へ転用しない。
+
+Rootがscenarioごとに1回だけ圧縮artifact bodyを独立に読み、全圧縮SHA、選択したraw／Clock typed3標本／CSVのCRCとSHA、実checkoutと選択Source4を照合した。自動起動の原値は10.073117062000001、8.644345454、7.73651714秒でCSV平均8.817993219秒、明示検索は6.288212189、6.059885608、6.113109553秒でCSV平均6.153735783秒だった。producerの丸めたconsole表示だけを根拠にしていない。今回の追記では再取得・再実行していない。
+
+測定対象はApp0.2.20（22）、Xcode16.4、iPhone16／iOS18.5のDebug Simulatorである。起動は終了処理を計測外、cache warmを含む。検索は起動・不一致状態への復帰を計測外とし、公開query置換・filter summary・可視witnessまでを測る。いずれもUI automationとAX pollingを含み、検索はkeyboard入力も含む。実機、cold／Release、p95、CPU／RSS、memory／scroll、検索engine単体と性能予算、IOS-15全体は未受入のまま。TODO32行・完了13行を変更しない。

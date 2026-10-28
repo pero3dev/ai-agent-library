@@ -16,6 +16,8 @@
 
 [読書記録の破損保全と明示復旧](records/2026-10-27/ios-reading-state-recovery.md)はPR282最終eabの6runとReady最新policy成功後、main76へ通常保護squashで統合した。main76の新push Common・Native・Fullも別観測で成功し、Native追加12単体と通常UI、Fullの一意22caseを確認した。旧Core性能は歴史scopeに保ち、実ユーザーの復旧固有UI・実機・VoiceOver・耐電断等とIOS-22全体は未完了、TODO32行・完了12行を維持する。後続PR283の新Recovery UIはこのmain76 checkpointの受入に含めない。
 
+[読書記録の手動書き出し](records/2026-10-28/ios-reading-backup-export.md)は、正常な永続rawと現一覧外IDを保持するexportだけを準備した。v2レビューの未知metadata P2をraw identityで修正し、観測不一致後の一般保存停止をUIへ同期する。v3 Source5を保ち、PBXだけ0.2.21（23）へ上げる。grammar5と影響旧11＋新5のFoundation16件成功までで、App XCTest24・SDK・実picker／provider・実機・VoiceOverは未実施。最終Source5独立レビューはP1／P2が0件。復元は後続とし、TODO32行・完了13行、IOS-22未完了を維持する。
+
 [コードコピー回帰検査](records/2026-10-27/ios-code-copy-ui-ci.md)では、通常Fullの固定3abaで単体165件（skip2・失敗0）・UI23件・Releaseが成功し、同UUIDのraw結果と実コピー374Bを独立TXTへ全byte照合しました。canaryと一意なBooted選択はproducerの申告範囲です。通常保護squashで同じtreeのmain169へ採用しました。新push CIは未確認で、実機・VoiceOverとIOS-25全体の受入も残します。
 
 [読書記録復旧のUI回帰](records/2026-10-27/ios-reading-recovery-ui.md)では、DEBUG隔離suiteの取消し・確認と再起動後のしおり保持を確認しています。採用89のNative4件と、通常保護で統合したmainc1の新push（Common10 jobs・Native4件・Full22件）を2026-10-28 checkpointで分けて記録しました。Dedicated89のF成功・R失敗は別Driver作業として保持し、新Driverの効果、読書位置・backup生bytes・実機・VoiceOver・Core性能とIOS-22全体は未受入です。
@@ -43,6 +45,8 @@
 全記事一覧が使えるまでの[性能観測基盤](records/2026-10-25/ios-published-readiness-observation.md)では、機能UIと専用Clockケースを分ける。実Debug全数監査・warm-upと3標本・生xcresult/CSVを保持し、初回の実Clock型・単位・識別子の確認と性能予算の採択を区別する。
 
 [検索UIのClock観測候補](records/2026-10-28/ios-search-ui-clock.md)は、起動と不一致queryへの復帰を計測外に置き、公開検索欄の置換から正のquery・filter summary・可視witnessまでを対象にする。自動実行は従来の起動1件を保ち、検索はmanual選択時だけ。合成exporter44件・静的確認とXcode16.2付属Swiftの構文解析のみ確認し、SDK型検査・Hosted・実検索metric・性能予算は未受入、TODO32行・完了13行を維持する。
+
+[検索Clockの採用追記](records/2026-10-28/ios-search-ui-clock.md#pr292の採用と実観測の追記)では、PR292のmainc148通常採用と独立raw／typed3標本／CSV照合を記録する。App0.2.20（22）のDebug SimulatorでCSV平均は起動8.817993219秒・検索6.153735783秒。UI automation／AXを含み、実機・性能予算・IOS-15全体は未受入のまま。後続exportの検証へ転用しない。
 
 [main49のApp起動観測](records/2026-10-28/ios-published-launch-readiness.md)では、Debug・Xcode16.4/iOS18.5の起動から全199記事数と学習ガイドの存在確認までをClock3標本で記録した。平均7.5879547333333335秒とCSVの丸めを照合し、終了処理を除いたUI/AX待機込みの温まったcacheでの観測として扱う。過去のCore CLI、cold起動・p95・RSS・実機・性能予算と区別し、TODOの完了欄は変更しない。
 

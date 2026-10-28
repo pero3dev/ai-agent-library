@@ -61,6 +61,122 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         requireBookmarkedArticle("ツール使用(Tool Use / Function Calling)", id: "01-concepts/tool-use")
     }
 
+    func testRestoreFilePickerCancelKeepsHealthyBookmarksAfterRelaunch() throws {
+        let dialog = presentRecoveryConfirmation()
+        dialog.buttons[confirmLabel].tap()
+        waitForRecoveryDialogToClose()
+        requireNoRecoveryNotice()
+        requireBookmarkedArticle("Agent ループ", id: "01-concepts/agent-loop")
+        returnToLibrary()
+
+        let more = app.buttons.matching(NSPredicate(format: "label == %@", "その他の操作")).firstMatch
+        requireHittable(more)
+        more.tap()
+        let restore = app.buttons["library-restore-reading"]
+        XCTAssertTrue(restore.waitForExistence(timeout: 10))
+        requireHittable(restore)
+        restore.tap()
+
+        let choose = app.buttons["reading-restore-choose-file"]
+        XCTAssertTrue(choose.waitForExistence(timeout: 10))
+        requireHittable(choose)
+        requireNoRetainedBeforeRestore()
+        XCTAssertFalse(app.buttons["reading-restore-review"].exists)
+        let previousNavigationIDs = Set(app.navigationBars.allElementsBoundByIndex
+            .map(\.identifier).filter { !$0.isEmpty })
+        choose.tap()
+
+        let pickerBars = app.navigationBars.matching(
+            identifier: "FullDocumentManagerViewControllerNavigationBar")
+        XCTAssertTrue(pickerBars.firstMatch.waitForExistence(timeout: 30))
+        let picker = try requireNewReadingRestorePicker(after: previousNavigationIDs)
+        let pickerCancel = picker.cancel
+        pickerCancel.tap()
+        let pickerClosed = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            self.isHittableOnScreen(choose) && !picker.bar.exists && !pickerCancel.exists
+        }, object: nil)
+        XCTAssertEqual(XCTWaiter.wait(for: [pickerClosed], timeout: 15), .completed)
+        requireNoRetainedBeforeRestore()
+        XCTAssertFalse(app.buttons["reading-restore-review"].exists)
+        let close = app.buttons["reading-restore-close"]
+        requireHittable(close)
+        close.tap()
+        waitForLibrary()
+        requireHittable(app.staticTexts["library-article-count"])
+
+        relaunchSameSuite()
+        requireNoRecoveryNotice()
+        requireBookmarkedArticle("Agent ループ", id: "01-concepts/agent-loop")
+    }
+
+    /// The observed system picker must be new; background search cancellation is excluded.
+    private func requireNewReadingRestorePicker(after previousIDs: Set<String>) throws
+        -> (bar: XCUIElement, cancel: XCUIElement) {
+        // Observed in this JSON-picker failure on iOS 18.5, not inferred from any new bar.
+        let identifier = "FullDocumentManagerViewControllerNavigationBar"
+        let query = app.navigationBars.matching(identifier: identifier)
+        let cancelPredicate = NSPredicate(format: "label == %@ OR label == %@", "キャンセル", "Cancel")
+        func usableCancels() -> [XCUIElement] {
+            guard !previousIDs.contains(identifier), query.count == 1 else { return [] }
+            let bar = query.element(boundBy: 0)
+            guard bar.exists else { return [] }
+            return bar.buttons.matching(cancelPredicate).allElementsBoundByIndex.filter {
+                $0.exists && $0.isEnabled && $0.isHittable
+            }
+        }
+        func failure(_ reason: String) -> NSError {
+            capture("Reading-restore-picker-not-identified")
+            let attachment = XCTAttachment(string: reason + "\n" + app.debugDescription)
+            attachment.name = "Reading-restore-picker-context"
+            attachment.lifetime = .keepAlways
+            add(attachment)
+            XCTFail(reason)
+            return NSError(domain: "ReadingRecoveryUITests", code: 1,
+                           userInfo: [NSLocalizedDescriptionKey: reason])
+        }
+        let ready = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            usableCancels().count == 1
+        }, object: nil)
+        guard XCTWaiter.wait(for: [ready], timeout: 15) == .completed else {
+            throw failure("Expected one new document-picker bar and one enabled hittable cancellation inside it")
+        }
+        // Rebind the same observed identifier after readiness; never use all-app firstMatch.
+        guard !previousIDs.contains(identifier), query.count == 1 else {
+            throw failure("The newly presented document-picker context became missing or ambiguous")
+        }
+        let bar = query.element(boundBy: 0)
+        guard bar.exists else {
+            throw failure("The unique document-picker bar disappeared before cancellation")
+        }
+        let usable = bar.buttons.matching(cancelPredicate).allElementsBoundByIndex.filter {
+            $0.exists && $0.isEnabled && $0.isHittable
+        }
+        guard usable.count == 1 else {
+            throw failure("Cancellation became missing or ambiguous inside the document-picker bar")
+        }
+        let cancel = usable[0]
+        // Sequential AX observations, not an atomic snapshot; read each frame once.
+        let barFrame = bar.frame, appFrame = app.frame, cancelFrame = cancel.frame
+        let framesAreValid = [barFrame, appFrame, cancelFrame].allSatisfy {
+            $0.minX.isFinite && $0.minY.isFinite && $0.width.isFinite && $0.height.isFinite &&
+                $0.width > 0 && $0.height > 0
+        }
+        guard bar.exists, bar.identifier == identifier, !previousIDs.contains(bar.identifier),
+              cancel.exists, cancel.isEnabled, cancel.isHittable, framesAreValid,
+              appFrame.contains(barFrame), barFrame.contains(cancelFrame) else {
+            throw failure("Cancellation no longer belongs to the new on-screen document-picker bar")
+        }
+        return (bar, cancel)
+    }
+
+    private func requireNoRetainedBeforeRestore() {
+        let messages = app.staticTexts.matching(NSPredicate(
+            format: "label == %@", "保全した復元前データはありません。"))
+        XCTAssertTrue(messages.firstMatch.waitForExistence(timeout: 10))
+        XCTAssertEqual(messages.count, 1, "Expected one public no-retained message")
+        XCTAssertFalse(app.staticTexts["reading-restore-retention-error"].exists)
+    }
+
     private func waitForLibrary() {
         XCTAssertTrue(app.staticTexts["library-article-count"].waitForExistence(timeout: 45))
     }

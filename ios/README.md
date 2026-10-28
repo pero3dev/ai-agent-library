@@ -250,6 +250,10 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 
 [読書記録の手動書き出し](../project/records/2026-10-28/ios-reading-backup-export.md)では、通常の「その他の操作」から正常な永続rawを外部へ保存します。v2レビューの未知metadata P2をv3のraw identityで修正し、観測不一致時の保存停止を画面へ反映します。凍結Source5とPBXの版上げだけで0.2.21（23）を準備し、grammar5・影響旧11＋新5のFoundation16件まで確認しました。App XCTest24・SDK・実picker／provider・実機・VoiceOverは未完了です。最終Source5独立レビューはP1／P2が0件でした。復元は後続、TODO32行・完了13行を維持します。
 
+[読書exportの採用追記](../project/records/2026-10-28/ios-reading-backup-export.md#pr293の採用追記)では、PR293を通常保護でmain `a18a47c2911a`へ採用した結果とReady必須検査・export SDKの観測を記録する。旧準備記述を保持し、後続復元のApp71・SDK・provider・実機等の成功へ転用しない。
+
+[読書記録の手動復元](../project/records/2026-10-28/ios-reading-manual-restore.md)では、通常の「その他の操作」からpreviewし、明示確認後に置き換える候補を準備しました。復元前rawは固定1slotへ保全し、書出し・本人による保存先確認・別の明示解除を用意します。engineのFoundation62件、UI grammar4、同一readerの旧Mac9件と、旧Source7のCore構文・PBX検査を区別します。旧7までの独立engine／UI・結合レビューはP1・P2が0件です。関連App71メソッド・追加picker UI1件・SDK・実provider・実機・VoiceOverは未実施で、0.2.22（24）の3コミット・1PR案は実採用export mainへ結合しました。TODO32行・完了13行を維持します。 現行Source8は旧7を保ち、FileTimestamp理由3B52.1（本人が選択したJSON）・C617.1（DEBUG限定Documents診断）を追記しました。plist検査までで、新宣言の独立監査もP1・P2が0件。実SDK Privacy report・Store申告の受入は残ります。
+
 ネイティブ本文の[コードコピー回帰検査](../project/records/2026-10-27/ios-code-copy-ui-ci.md)は、通常Fullの固定3abaで単体165件（skip2・失敗0）、UI23件とReleaseが成功し、raw結果・同UUID・コピー実データ374Bの全byte一致を独立照合しました。canaryと一意なBooted選択はproducerの申告範囲です。通常保護squashで同じtreeのmain169へ採用しました。main169の新push CIは未確認で、実機・VoiceOverとIOS-25全体の受入も残します。
 
 [読書記録復旧のUI回帰](../project/records/2026-10-27/ios-reading-recovery-ui.md)では、DEBUG隔離suiteの取消し・確認と再起動後のしおり保持を確認しています。採用89のNative4件と、通常保護で統合したmainc1の新push（Common10 jobs・Native4件・Full22件）を2026-10-28 checkpointで分けて記録しました。Dedicated89のF成功・R失敗は別Driver作業として保持し、新Driverの効果、読書位置・backup生bytes・実機・VoiceOver・Core性能とIOS-22全体は未受入です。
@@ -301,3 +305,36 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 開発時の標準同梱対象は全published記事と既存音声1本のmetadataです。音声はストリーミングで、専用テスト記事はDebugの別画面へ限定します。音声保存、独立したネットワーク更新、アカウント、課金、プッシュ通知、端末間同期は実装していません。正常な取り込み済み版と以前のパッケージは保持し、旧版の容量整理は未完了です。読書復帰はblock ID・見出し・割合を使い、block内の厳密な文字位置までは保存しません。大きな記事改訂や見出し変更後の同一位置への復帰は保証しません。
 
 数式の読み上げ文は自動生成し、図には手動の流れの説明と抽出ラベルを含めます。代表3記事の指定箇所はVoiceOverで理解できるとユーザーから確認を得ました。追加記事・未収録形式の代替文は引き続き実機受入が必要です。行内数式の独立した画像拡大操作は未実装です。全記事と新しい画面の実機・VoiceOver・最大文字・性能の全体受入、公開用SDK26環境、アイコン、配布用メタデータ、App Store向けの最終ポリシーと公開申請は[完成版TODO](../project/plans/engineering/ios-app-completion.md)で追跡します。
+
+## 自分用iPhoneの更新と署名期限
+
+この節は更新手順です。既存Personal Teamを使う方針と候補コードの確認を、実機での更新成功とは分けます。新しい実機確認は未完了で記録し、本人の許可に従いスキップできます。
+
+### Macだけで進める準備
+
+1. レビューした版のcleanなcheckoutを用意し、対象commit・検証結果・作業差分を確認します。作業中の差分を導入版へ混ぜません。
+2. 既存手順で同梱記事を生成し、その版の通常検査・SDK/App検査の成功／未実施を記録して、`ios/AILibrary.xcodeproj`をXcodeで開きます。ここで新しい検査やビルドを実施したという意味ではありません。
+3. 更新用のBundle IDは既存の`dev.pero3.aiagentlibrary.prototype`、署名は本人の既存Personal Teamを維持します。別ID・別Teamの新規アプリへ置き換えません。
+
+Personal Teamのprovisioning profileは発行から7日で失効し、期限後はMac/Xcodeで再ビルド・再インストールが必要です。7日は開発証明書の寿命ではありません。個別profileの失効日時と証明書の状態は未取得です。[Appleの説明](https://developer.apple.com/help/account/basics/about-your-developer-account)
+
+### USB接続と本人の操作が必要な更新
+
+1. 対応版でアプリが開ける間に、通常一覧の「その他の操作」→「読書記録を書き出す」でJSONを保存し、本人が保存先のファイルを確認します。旧版に入口がない場合やアプリが開かない場合は、書き出し未完了として記録します。
+2. iPhoneをUSB接続してロック解除し、信頼・pairing・Developer Mode等が求められた場合は本人が対応します。[Appleの接続・信頼手順](https://developer.apple.com/documentation/xcode/managing-your-simulated-and-physical-devices-in-device-hub)
+3. Xcodeで既存iPhoneを実行先に選び、**アプリを削除せず**同じID・Teamで上書き導入します。profile期限前の更新と期限後の再導入を分けて記録します。
+4. 更新後は起動、しおり、読書位置を確認します。保存内容の変化による停止案内が出た場合は、編集を続けず開き直して確認します。上書き後のデータ保持は実機未確認です。
+
+### 読書記録を戻す場合
+
+以下は実装に沿った操作手順です。使用版のCI結果と、このiPhoneでの受入結果は別に記録します。導入済みアプリに入口がある場合だけ、通常一覧の「その他の操作」→「読書記録を復元」を使います。記事パッケージの取り込みは読書JSONの復元とは別です。
+
+1. JSON選択後の日時・件数と現在の記録を確認し、置き換える場合だけ明示確認します。しおり・読書位置0件の警告も確認し、置き換えない場合は取り消します。
+2. 復元前の記録は1世代だけ端末内に保全します。正常な記録を端末外へ書き出し、本人が保存先を確認してから別の明示操作で保全を削除します。復元前に記録がなかった場合は、その状態を確認して保全を解除します。形式を確認できない保全データや破損した保全データは削除・上書きしません。
+3. 読書位置・しおりを再確認し、失敗や保存停止はそのまま記録します。書き出し完了を永続保存や復元成功の保証にはしません。
+
+### 保存記事版と未確認事項
+
+正常な保存記事版の優先を維持し、199記事表示へ強制切替しません。同梱版を使う必要がある場合だけ、本人が「同梱コンテンツへ切り替える」の版・件数を確認して選びます。
+
+期限前後の署名更新、上書き後のデータ維持、読書記録の書き出し・復元、実ファイル提供元での操作は実機未確認です。証明書・profileの有効性とデータ保持を別に扱います。Program加入、新契約・支払い、TestFlight/Store等の外部配布は後続の判断です。

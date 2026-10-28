@@ -70,6 +70,62 @@ private final class ReadingSaveSuspensionProbeDefaults: UserDefaults {
     }
 }
 
+/// Exact-key failure injection for restore tests, isolated from production defaults.
+private final class ReadingRestoreProbeDefaults: UserDefaults {
+    var setKeys: [String] = []
+    var removeKeys: [String] = []
+    var rejectedSetKeys: Set<String> = []
+    var rejectedRemoveKeys: Set<String> = []
+    var replacementSetValues: [String: Data] = [:]
+    var afterSet: ((String) -> Void)?
+    var beforeDataRead: ((String) -> Void)?
+    var afterDataRead: ((String) -> Void)?
+    private var directInjection = false
+    private var removing = false
+    override func set(_ value: Any?, forKey defaultName: String) {
+        if directInjection || removing { super.set(value, forKey: defaultName); return }
+        setKeys.append(defaultName)
+        guard !rejectedSetKeys.contains(defaultName) else { return }
+        if let replacement = replacementSetValues[defaultName] { super.set(replacement, forKey: defaultName) }
+        else { super.set(value, forKey: defaultName) }
+        afterSet?(defaultName)
+    }
+    override func removeObject(forKey defaultName: String) {
+        if directInjection { super.removeObject(forKey: defaultName); return }
+        removeKeys.append(defaultName)
+        guard !rejectedRemoveKeys.contains(defaultName) else { return }
+        removing = true
+        defer { removing = false }
+        super.removeObject(forKey: defaultName)
+    }
+    override func data(forKey defaultName: String) -> Data? {
+        beforeDataRead?(defaultName)
+        let value = super.data(forKey: defaultName)
+        afterDataRead?(defaultName)
+        return value
+    }
+    // Direct injection is a separate writer, not an engine write in the ledger.
+    func inject(_ value: Any?, forKey key: String) {
+        directInjection = true
+        defer { directInjection = false }
+        if let value { super.set(value, forKey: key) }
+        else { super.removeObject(forKey: key) }
+    }
+    func resetLedger() { setKeys.removeAll(); removeKeys.removeAll() }
+}
+
+private final class ReadingRestoreActorProbeDefaults: UserDefaults {
+    var writeCalls = 0
+    var denyPrimaryWrite = false
+    let watchedPrimary = "library.reading.v1"
+    override func set(_ value: Any?, forKey defaultName: String) {
+        writeCalls += 1
+        if denyPrimaryWrite, defaultName == watchedPrimary { return }
+        super.set(value, forKey: defaultName)
+    }
+}
+
+
 final class LibraryCoreTests: XCTestCase {
     private var directory: URL!
 
@@ -2285,6 +2341,931 @@ final class LibraryCoreTests: XCTestCase {
         XCTAssertEqual(defaults.setKeys, []); XCTAssertEqual(defaults.data(forKey: key), changed)
     }
     // END EXPORT V3 RAW IDENTITY REGRESSIONS
+
+    // BEGIN PRIVATE RESTORE ENGINE TESTS
+    private var restoreDate: Date { Date(timeIntervalSince1970: 1_793_145_600) }
+    private var restoreKey: String { "library.reading.v1" }
+    private var restoreSlot: String { restoreKey + ".restore-backup.v1" }
+    private func restoreDefaults() throws -> ReadingRestoreProbeDefaults {
+        let suite = "library-reading-restore-test-" + UUID().uuidString
+        let defaults = try XCTUnwrap(ReadingRestoreProbeDefaults(suiteName: suite))
+        addTeardownBlock { UserDefaults(suiteName: suite)?.removePersistentDomain(forName: suite) }
+        return defaults
+    }
+    private func restoreRaw(_ id: String, fraction: Double = 0.4) throws -> Data {
+        try JSONSerialization.data(withJSONObject: ["bookmarks": [id], "positions": [id: ["fraction": fraction]],
+                                                     "lastArticleID": id], options: [.sortedKeys])
+    }
+    private func restoreEnvelope(_ raw: Data) throws -> Data {
+        try ReadingBackupCodec.encode(rawData: raw, createdAt: restoreDate, appVersion: "0.2.20")
+    }
+    private func assertRestoreError<T>(_ expected: ReadingStore.RestoreFailure,
+                                       _ action: @autoclosure () throws -> T) {
+        XCTAssertThrowsError(try action()) { XCTAssertEqual($0 as? ReadingStore.RestoreFailure, expected) }
+    }
+
+    func testRestorePreviewAndCancellationLeaveAllKeysAndLiveStateUntouched() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target")
+        let recovery = Data("prior recovery".utf8)
+        d.inject(before, forKey: restoreKey); d.inject(recovery, forKey: restoreKey + ".recovery.v1")
+        let reading = ReadingStore(defaults: d)
+        let preview = try reading.previewRestore(from: restoreEnvelope(target))
+        XCTAssertEqual(preview.counts, ReadingBackupCodec.Counts(bookmarks: 1, positions: 1))
+        XCTAssertEqual(preview.currentCounts, ReadingBackupCodec.Counts(bookmarks: 1, positions: 1))
+        XCTAssertTrue(preview.currentHasSavedData)
+        XCTAssertEqual(preview.createdAt, "2026-10-28T00:00:00Z")
+        XCTAssertEqual(preview.sourceAppVersion, "0.2.20")
+        // Cancellation is deliberately the absence of an apply call.
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+        XCTAssertEqual(d.data(forKey: restoreKey), before)
+        XCTAssertEqual(d.data(forKey: restoreKey + ".recovery.v1"), recovery)
+        XCTAssertNil(d.object(forKey: restoreSlot))
+        XCTAssertEqual(reading.bookmarks, ["before"])
+    }
+
+    func testRestoreRejectsInvalidInputBeforeAnyDefaultsWrite() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before")
+        d.inject(before, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d)
+        for invalid in [Data("{}".utf8), Data("broken".utf8), Data(repeating: 0x20, count: 2_097_153)] {
+            XCTAssertThrowsError(try reading.previewRestore(from: invalid))
+        }
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+        XCTAssertEqual(d.data(forKey: restoreKey), before)
+        XCTAssertNil(d.object(forKey: restoreSlot))
+    }
+
+    func testRestoreMissingBeforeIsDistinctFromAnExplicitEmptySavedState() throws {
+        let d = try restoreDefaults(), target = try restoreRaw("target")
+        let reading = ReadingStore(defaults: d)
+        let preview = try reading.previewRestore(from: restoreEnvelope(target))
+        XCTAssertFalse(preview.currentHasSavedData); XCTAssertNil(preview.currentCounts)
+        try reading.applyRestore(preview, backupCreatedAt: restoreDate)
+        let retained = try XCTUnwrap(reading.retainedRestoreBackup())
+        XCTAssertFalse(retained.beforeHasSavedData); XCTAssertNil(retained.beforeCounts)
+        assertRestoreError(.noPreviousSavedData, try reading.exportRetainedRestoreBackup(retained, appVersion: "0.2.20"))
+        XCTAssertEqual(d.data(forKey: restoreKey), target)
+        let slot = try XCTUnwrap(d.data(forKey: restoreSlot))
+        let json = try XCTUnwrap(JSONSerialization.jsonObject(with: slot) as? [String: Any])
+        XCTAssertEqual(json["beforePresent"] as? Bool, false)
+        XCTAssertEqual(json["beforeBase64"] as? String, "")
+    }
+
+    func testRestoreExplicitEmptyBeforeCanBeExportedWithoutInventingMissingData() throws {
+        let d = try restoreDefaults(), empty = Data(#"{"bookmarks":[],"positions":{}}"#.utf8), target = try restoreRaw("target")
+        d.inject(empty, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d), preview = try reading.previewRestore(from: restoreEnvelope(target))
+        XCTAssertTrue(preview.currentHasSavedData)
+        XCTAssertEqual(preview.currentCounts, ReadingBackupCodec.Counts(bookmarks: 0, positions: 0))
+        try reading.applyRestore(preview, backupCreatedAt: restoreDate)
+        let retained = try XCTUnwrap(reading.retainedRestoreBackup())
+        XCTAssertTrue(retained.beforeHasSavedData)
+        XCTAssertEqual(retained.beforeCounts, ReadingBackupCodec.Counts(bookmarks: 0, positions: 0))
+        XCTAssertEqual(try ReadingBackupCodec.decode(reading.exportRetainedRestoreBackup(retained, appVersion: "0.2.20")).rawData, empty)
+    }
+
+    func testRestoreEmptyTargetReportsZeroCountsAndPersistsTheExactEmptyRaw() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), empty = Data(#"{"bookmarks":[],"positions":{}}"#.utf8)
+        d.inject(before, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d), preview = try reading.previewRestore(from: restoreEnvelope(empty))
+        XCTAssertTrue(preview.containsNoBookmarksOrPositions)
+        XCTAssertEqual(preview.counts, ReadingBackupCodec.Counts(bookmarks: 0, positions: 0))
+        try reading.applyRestore(preview, backupCreatedAt: restoreDate)
+        XCTAssertEqual(d.data(forKey: restoreKey), empty)
+        XCTAssertEqual(reading.bookmarks, []); XCTAssertNil(reading.lastArticleID)
+        XCTAssertEqual(ReadingStore(defaults: d).bookmarks, [])
+    }
+
+    func testRestoreAlreadyCurrentRawDoesNotCreateOrReplaceARetainedSlot() throws {
+        let d = try restoreDefaults(), raw = try restoreRaw("same")
+        d.inject(raw, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d)
+        assertRestoreError(.alreadyCurrent, try reading.previewRestore(from: restoreEnvelope(raw)))
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+        XCTAssertNil(d.object(forKey: restoreSlot))
+    }
+
+    func testRestorePreviewCannotBeAppliedByAnotherStoreEvenInTheSameNamespace() throws {
+        let d = try restoreDefaults(), raw = try restoreRaw("before"), target = try restoreRaw("target")
+        d.inject(raw, forKey: restoreKey)
+        let first = ReadingStore(defaults: d), second = ReadingStore(defaults: d)
+        let preview = try first.previewRestore(from: restoreEnvelope(target))
+        assertRestoreError(.stale, try second.applyRestore(preview, backupCreatedAt: restoreDate))
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+        XCTAssertFalse(first.restoreSaveSuspended); XCTAssertFalse(second.restoreSaveSuspended)
+        XCTAssertEqual(d.data(forKey: restoreKey), raw)
+    }
+
+    func testRestoreCustomKeyAndRetainedManagementRemainNamespaceBound() throws {
+        let d = try restoreDefaults(), normal = try restoreRaw("normal"), before = try restoreRaw("custom"), target = try restoreRaw("target")
+        let customKey = "custom.reading.v1", customSlot = customKey + ".restore-backup.v1"
+        d.inject(normal, forKey: restoreKey); d.inject(before, forKey: customKey)
+        let oldRecovery = Data("custom prior recovery".utf8)
+        d.inject(oldRecovery, forKey: customKey + ".recovery.v1")
+        let custom = ReadingStore(defaults: d, key: customKey), other = ReadingStore(defaults: d)
+        let preview = try custom.previewRestore(from: restoreEnvelope(target))
+        assertRestoreError(.stale, try other.applyRestore(preview, backupCreatedAt: restoreDate))
+        try custom.applyRestore(preview, backupCreatedAt: restoreDate)
+        let retained = try XCTUnwrap(custom.retainedRestoreBackup())
+        assertRestoreError(.stale, try other.exportRetainedRestoreBackup(retained, appVersion: "0.2.20"))
+        assertRestoreError(.stale, try other.releaseRetainedRestoreBackup(retained))
+        XCTAssertEqual(d.data(forKey: restoreKey), normal)
+        XCTAssertNil(d.object(forKey: restoreSlot))
+        XCTAssertEqual(d.data(forKey: customKey), target)
+        XCTAssertNotNil(d.data(forKey: customSlot))
+        XCTAssertEqual(d.data(forKey: customKey + ".recovery.v1"), oldRecovery)
+        XCTAssertEqual(d.setKeys, [customSlot, customKey]); XCTAssertEqual(d.removeKeys, [])
+    }
+
+    func testRestoreGenerationRejectsLiveEditsEvenWhenTheirDefaultsWriteWasRejected() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target")
+        d.inject(before, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d), preview = try reading.previewRestore(from: restoreEnvelope(target))
+        d.rejectedSetKeys.insert(restoreKey)
+        reading.toggleBookmark("unsaved-live-edit")
+        XCTAssertEqual(d.data(forKey: restoreKey), before)
+        XCTAssertTrue(reading.bookmarks.contains("unsaved-live-edit"))
+        d.resetLedger()
+        assertRestoreError(.stale, try reading.applyRestore(preview, backupCreatedAt: restoreDate))
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+        XCTAssertNil(d.object(forKey: restoreSlot))
+    }
+
+    func testRestoreRefusesAHealthyRawWhenCurrentLiveEditsHaveNotBeenSaved() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target")
+        d.inject(before, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d)
+        d.rejectedSetKeys.insert(restoreKey); reading.toggleBookmark("live-only"); d.resetLedger()
+        assertRestoreError(.currentHasUnsavedChanges, try reading.previewRestore(from: restoreEnvelope(target)))
+        XCTAssertTrue(reading.bookmarks.contains("live-only"))
+        XCTAssertEqual(d.data(forKey: restoreKey), before)
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+    }
+
+    func testRestoreRawChangeAfterPreviewIsPreservedAndOldLiveStateCannotOverwriteIt() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target"), newer = try restoreRaw("external-newer")
+        d.inject(before, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d), preview = try reading.previewRestore(from: restoreEnvelope(target))
+        d.inject(newer, forKey: restoreKey)
+        assertRestoreError(.stale, try reading.applyRestore(preview, backupCreatedAt: restoreDate))
+        XCTAssertEqual(d.data(forKey: restoreKey), newer)
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+        XCTAssertNil(d.object(forKey: restoreSlot)); XCTAssertTrue(reading.restoreSaveSuspended)
+        reading.toggleBookmark("must-not-save"); reading.markOpened("must-not-save")
+        reading.record(articleID: "must-not-save", heading: nil, fraction: 0.8)
+        XCTAssertEqual(reading.bookmarks, ["before"])
+        XCTAssertEqual(reading.lastArticleID, "before")
+        XCTAssertEqual(d.setKeys, [])
+    }
+
+    func testRestoreSlotChangeAfterPreviewIsNotOverwrittenOrDeleted() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target")
+        d.inject(before, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d), preview = try reading.previewRestore(from: restoreEnvelope(target))
+        let foreign = Data("foreign retained data".utf8); d.inject(foreign, forKey: restoreSlot)
+        assertRestoreError(.stale, try reading.applyRestore(preview, backupCreatedAt: restoreDate))
+        XCTAssertEqual(d.data(forKey: restoreSlot), foreign)
+        XCTAssertEqual(d.data(forKey: restoreKey), before)
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+    }
+
+    func testRestoreRefusesDamagedNonDataAndOversizedCurrentWithoutCreatingABackup() throws {
+        let target = try restoreRaw("target")
+        let originals: [Any] = [Data("broken".utf8), Data(#"{"bookmarks":["x",7],"positions":{}}"#.utf8),
+                                "not Data", Data(repeating: 0x20, count: 1_048_577)]
+        for original in originals {
+            let d = try restoreDefaults(); d.inject(original, forKey: restoreKey)
+            let recovery = Data("existing recovery".utf8); d.inject(recovery, forKey: restoreKey + ".recovery.v1")
+            let reading = ReadingStore(defaults: d)
+            assertRestoreError(.currentNeedsRecovery, try reading.previewRestore(from: restoreEnvelope(target)))
+            XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+            if let bytes = original as? Data { XCTAssertEqual(d.data(forKey: restoreKey), bytes) }
+            else { XCTAssertEqual(d.string(forKey: restoreKey), original as? String) }
+            XCTAssertEqual(d.data(forKey: restoreKey + ".recovery.v1"), recovery)
+            XCTAssertNil(d.object(forKey: restoreSlot))
+        }
+    }
+
+    func testRestoreRejectedBackupWriteNeverAttemptsThePrimaryWrite() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target")
+        d.inject(before, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d), preview = try reading.previewRestore(from: restoreEnvelope(target))
+        d.rejectedSetKeys.insert(restoreSlot)
+        assertRestoreError(.backupWriteUnconfirmed, try reading.applyRestore(preview, backupCreatedAt: restoreDate))
+        XCTAssertEqual(d.setKeys, [restoreSlot]); XCTAssertEqual(d.removeKeys, [])
+        XCTAssertEqual(d.data(forKey: restoreKey), before)
+        XCTAssertNil(d.object(forKey: restoreSlot)); XCTAssertFalse(reading.restoreSaveSuspended)
+        XCTAssertEqual(reading.bookmarks, ["before"])
+    }
+
+    func testRestoreUnconfirmedBackupBytesAreRetainedWithoutTouchingThePrimary() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target")
+        d.inject(before, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d), preview = try reading.previewRestore(from: restoreEnvelope(target))
+        let wrong = Data("unconfirmed retention".utf8); d.replacementSetValues[restoreSlot] = wrong
+        assertRestoreError(.backupWriteUnconfirmed, try reading.applyRestore(preview, backupCreatedAt: restoreDate))
+        XCTAssertEqual(d.setKeys, [restoreSlot]); XCTAssertEqual(d.removeKeys, [])
+        XCTAssertEqual(d.data(forKey: restoreKey), before); XCTAssertEqual(d.data(forKey: restoreSlot), wrong)
+        assertRestoreError(.retainedBackupUnsupported, try reading.previewRestore(from: restoreEnvelope(target)))
+    }
+
+    func testRestorePrimaryChangeDuringBackupStopsBeforePrimaryAndSuspendsOldLiveWrites() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target"), newer = try restoreRaw("external-newer")
+        d.inject(before, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d), preview = try reading.previewRestore(from: restoreEnvelope(target))
+        d.afterSet = { [weak d] key in
+            guard key == self.restoreSlot else { return }
+            d?.afterSet = nil; d?.inject(newer, forKey: self.restoreKey)
+        }
+        assertRestoreError(.stale, try reading.applyRestore(preview, backupCreatedAt: restoreDate))
+        XCTAssertEqual(d.setKeys, [restoreSlot]); XCTAssertEqual(d.removeKeys, [])
+        XCTAssertEqual(d.data(forKey: restoreKey), newer); XCTAssertNotNil(d.data(forKey: restoreSlot))
+        XCTAssertTrue(reading.restoreSaveSuspended); XCTAssertEqual(reading.bookmarks, ["before"])
+        d.resetLedger(); reading.toggleBookmark("do-not-save"); reading.record(articleID: "later", heading: nil, fraction: 0.9)
+        XCTAssertEqual(d.setKeys, [])
+    }
+
+    func testRestoreRejectedPrimaryWriteStopsEditingAndRetainsBeforeData() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target")
+        d.inject(before, forKey: restoreKey)
+        let oldRecovery = Data("old recovery".utf8); d.inject(oldRecovery, forKey: restoreKey + ".recovery.v1")
+        let reading = ReadingStore(defaults: d), preview = try reading.previewRestore(from: restoreEnvelope(target))
+        d.rejectedSetKeys.insert(restoreKey)
+        assertRestoreError(.primaryWriteUnconfirmed, try reading.applyRestore(preview, backupCreatedAt: restoreDate))
+        XCTAssertEqual(d.setKeys, [restoreSlot, restoreKey]); XCTAssertEqual(d.removeKeys, [])
+        XCTAssertTrue(reading.restoreSaveSuspended); XCTAssertEqual(reading.bookmarks, ["before"])
+        XCTAssertEqual(d.data(forKey: restoreKey), before)
+        XCTAssertEqual(d.data(forKey: restoreKey + ".recovery.v1"), oldRecovery)
+        let retained = try XCTUnwrap(reading.retainedRestoreBackup())
+        XCTAssertEqual(try ReadingBackupCodec.decode(reading.exportRetainedRestoreBackup(retained, appVersion: "0.2.20")).rawData, before)
+        d.resetLedger(); reading.toggleBookmark("no"); reading.markOpened("no")
+        reading.record(articleID: "no", heading: nil, fraction: 0.4)
+        XCTAssertFalse(reading.recoverReadableState())
+        XCTAssertThrowsError(try reading.exportBackup(createdAt: restoreDate, appVersion: "0.2.20"))
+        assertRestoreError(.primaryWriteUnconfirmed, try reading.releaseRetainedRestoreBackup(retained))
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+    }
+
+    func testRestoreSameBeforeAndTargetCanRetryWithoutReplacingTheRetainedSlot() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target")
+        d.inject(before, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d), initial = try reading.previewRestore(from: restoreEnvelope(target))
+        d.rejectedSetKeys.insert(restoreKey)
+        assertRestoreError(.primaryWriteUnconfirmed, try reading.applyRestore(initial, backupCreatedAt: restoreDate))
+        let retainedRaw = try XCTUnwrap(d.data(forKey: restoreSlot))
+        d.rejectedSetKeys.remove(restoreKey); d.resetLedger()
+        let retry = try reading.previewRestore(from: restoreEnvelope(target))
+        try reading.applyRestore(retry, backupCreatedAt: restoreDate.addingTimeInterval(60))
+        XCTAssertEqual(d.setKeys, [restoreKey]); XCTAssertEqual(d.removeKeys, [])
+        XCTAssertEqual(d.data(forKey: restoreSlot), retainedRaw)
+        XCTAssertEqual(d.data(forKey: restoreKey), target)
+        XCTAssertFalse(reading.restoreSaveSuspended); XCTAssertEqual(reading.bookmarks, ["target"])
+    }
+
+    func testRestoreDifferentPrimaryReadbackNeverRollsBackAnUnknownWriterOrPublishesTarget() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target"), other = try restoreRaw("other-writer")
+        d.inject(before, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d), preview = try reading.previewRestore(from: restoreEnvelope(target))
+        d.replacementSetValues[restoreKey] = other
+        assertRestoreError(.primaryWriteUnconfirmed, try reading.applyRestore(preview, backupCreatedAt: restoreDate))
+        XCTAssertEqual(d.setKeys, [restoreSlot, restoreKey]); XCTAssertEqual(d.removeKeys, [])
+        XCTAssertEqual(d.data(forKey: restoreKey), other)
+        XCTAssertEqual(reading.bookmarks, ["before"]); XCTAssertTrue(reading.restoreSaveSuspended)
+        let retained = try XCTUnwrap(reading.retainedRestoreBackup())
+        XCTAssertEqual(try ReadingBackupCodec.decode(reading.exportRetainedRestoreBackup(retained, appVersion: "0.2.20")).rawData, before)
+        XCTAssertFalse(ReadingStore.RestoreFailure.primaryWriteUnconfirmed.localizedDescription.contains("変更していません"))
+    }
+
+    func testRestoreSuccessPreservesAllRawAnchorsOrphanRecordsAndUnrelatedKeys() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), digest = String(repeating: "a", count: 64)
+        let id = "removed/日本語"
+        let target = try JSONSerialization.data(withJSONObject: ["bookmarks": [id, "another-removed"],
+            "positions": [id: ["fraction": 0.75, "heading": "旧見出し", "blockID": "old-block",
+                "anchor": ["version": 1, "documentDigest": digest, "blockFingerprint": digest,
+                           "headingFingerprint": digest, "intraBlockFraction": 0.25]],
+                "another-removed": ["fraction": 0.1]], "lastArticleID": id], options: [.sortedKeys])
+        let recovery = Data("old corrupt raw".utf8), pointer = Data("unchanged pointer".utf8)
+        d.inject(before, forKey: restoreKey); d.inject(recovery, forKey: restoreKey + ".recovery.v1")
+        d.inject(pointer, forKey: "content.pointer"); d.inject(55.0, forKey: "ios.audio.example.position")
+        let reading = ReadingStore(defaults: d), preview = try reading.previewRestore(from: restoreEnvelope(target))
+        XCTAssertEqual(preview.counts, ReadingBackupCodec.Counts(bookmarks: 2, positions: 2))
+        try reading.applyRestore(preview, backupCreatedAt: restoreDate)
+        XCTAssertEqual(d.data(forKey: restoreKey), target)
+        XCTAssertEqual(reading.bookmarks, [id, "another-removed"]); XCTAssertEqual(reading.lastArticleID, id)
+        XCTAssertEqual(try ReadingBackupCodec.decode(reading.exportBackup(createdAt: restoreDate, appVersion: "0.2.20")).rawData, target)
+        let recreated = ReadingStore(defaults: d)
+        XCTAssertEqual(recreated.bookmarks, reading.bookmarks); XCTAssertEqual(recreated.lastArticleID, id)
+        XCTAssertEqual(try ReadingBackupCodec.decode(recreated.exportBackup(createdAt: restoreDate, appVersion: "0.2.20")).rawData, target)
+        XCTAssertEqual(d.data(forKey: restoreKey + ".recovery.v1"), recovery)
+        XCTAssertEqual(d.data(forKey: "content.pointer"), pointer); XCTAssertEqual(d.double(forKey: "ios.audio.example.position"), 55)
+        XCTAssertEqual(d.setKeys, [restoreSlot, restoreKey]); XCTAssertEqual(d.removeKeys, [])
+    }
+
+    func testRestoreSuccessfulSlotBlocksAnotherRestoreUntilExplicitManagement() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target"), next = try restoreRaw("next")
+        d.inject(before, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d), preview = try reading.previewRestore(from: restoreEnvelope(target))
+        try reading.applyRestore(preview, backupCreatedAt: restoreDate)
+        let slot = try XCTUnwrap(d.data(forKey: restoreSlot)); d.resetLedger()
+        assertRestoreError(.retainedBackupExists, try reading.previewRestore(from: restoreEnvelope(next)))
+        XCTAssertEqual(d.data(forKey: restoreSlot), slot); XCTAssertEqual(d.data(forKey: restoreKey), target)
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+    }
+
+    func testRestoreUnknownCorruptAndOversizedSlotsAreNeverOverwrittenOrRemoved() throws {
+        let before = try restoreRaw("before"), target = try restoreRaw("target")
+        for invalid in [Data("{}".utf8), Data("not JSON".utf8), Data(repeating: 0x20, count: 2_097_153)] {
+            let d = try restoreDefaults(); d.inject(before, forKey: restoreKey); d.inject(invalid, forKey: restoreSlot)
+            let reading = ReadingStore(defaults: d)
+            assertRestoreError(.retainedBackupUnsupported, try reading.previewRestore(from: restoreEnvelope(target)))
+            XCTAssertThrowsError(try reading.retainedRestoreBackup())
+            XCTAssertEqual(d.data(forKey: restoreSlot), invalid); XCTAssertEqual(d.data(forKey: restoreKey), before)
+            XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+        }
+    }
+
+    func testRestoreRetainedExportAndExplicitReleaseTouchOnlyTheBoundRetainedSlot() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target"), next = try restoreRaw("next")
+        let recovery = Data("prior recovery".utf8); d.inject(before, forKey: restoreKey); d.inject(recovery, forKey: restoreKey + ".recovery.v1")
+        let reading = ReadingStore(defaults: d), preview = try reading.previewRestore(from: restoreEnvelope(target))
+        try reading.applyRestore(preview, backupCreatedAt: restoreDate)
+        let retained = try XCTUnwrap(reading.retainedRestoreBackup()), slot = try XCTUnwrap(d.data(forKey: restoreSlot))
+        XCTAssertEqual(retained.createdAt, "2026-10-28T00:00:00Z")
+        XCTAssertEqual(retained.beforeCounts, ReadingBackupCodec.Counts(bookmarks: 1, positions: 1))
+        d.resetLedger()
+        XCTAssertEqual(try ReadingBackupCodec.decode(reading.exportRetainedRestoreBackup(retained, appVersion: "0.2.20")).rawData, before)
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+        XCTAssertEqual(d.data(forKey: restoreSlot), slot) // Viewing/exporting is not release.
+        try reading.releaseRetainedRestoreBackup(retained)
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [restoreSlot])
+        XCTAssertNil(d.object(forKey: restoreSlot)); XCTAssertEqual(d.data(forKey: restoreKey), target)
+        XCTAssertEqual(d.data(forKey: restoreKey + ".recovery.v1"), recovery)
+        XCTAssertEqual(reading.bookmarks, ["target"])
+        _ = try reading.previewRestore(from: restoreEnvelope(next))
+    }
+
+    func testRestoreRetainedReleaseRejectsCurrentEditsAndKeepsTheSavedBackup() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target")
+        d.inject(before, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d), preview = try reading.previewRestore(from: restoreEnvelope(target))
+        try reading.applyRestore(preview, backupCreatedAt: restoreDate)
+        let retained = try XCTUnwrap(reading.retainedRestoreBackup()), slot = try XCTUnwrap(d.data(forKey: restoreSlot))
+        reading.toggleBookmark("new-edit"); let current = d.data(forKey: restoreKey); d.resetLedger()
+        assertRestoreError(.stale, try reading.releaseRetainedRestoreBackup(retained))
+        XCTAssertEqual(d.data(forKey: restoreSlot), slot); XCTAssertEqual(d.data(forKey: restoreKey), current)
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+        // The immutable before snapshot can still be exported while its slot is unchanged.
+        XCTAssertEqual(try ReadingBackupCodec.decode(reading.exportRetainedRestoreBackup(retained, appVersion: "0.2.20")).rawData, before)
+    }
+
+    func testRestoreRetainedReleaseRejectsChangedSlotWithoutDeletingTheForeignBytes() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target")
+        d.inject(before, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d), preview = try reading.previewRestore(from: restoreEnvelope(target))
+        try reading.applyRestore(preview, backupCreatedAt: restoreDate)
+        let retained = try XCTUnwrap(reading.retainedRestoreBackup())
+        let foreign = Data("new owner of this slot".utf8); d.inject(foreign, forKey: restoreSlot); d.resetLedger()
+        assertRestoreError(.stale, try reading.releaseRetainedRestoreBackup(retained))
+        XCTAssertThrowsError(try reading.exportRetainedRestoreBackup(retained, appVersion: "0.2.20"))
+        XCTAssertEqual(d.data(forKey: restoreSlot), foreign); XCTAssertEqual(d.data(forKey: restoreKey), target)
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+    }
+
+    func testRestoreRejectedRetentionReleaseReportsFailureAndRequiresANewConfirmation() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target")
+        d.inject(before, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d), preview = try reading.previewRestore(from: restoreEnvelope(target))
+        try reading.applyRestore(preview, backupCreatedAt: restoreDate)
+        let retained = try XCTUnwrap(reading.retainedRestoreBackup()), slot = try XCTUnwrap(d.data(forKey: restoreSlot))
+        d.rejectedRemoveKeys.insert(restoreSlot); d.resetLedger()
+        assertRestoreError(.retentionReleaseUnconfirmed, try reading.releaseRetainedRestoreBackup(retained))
+        XCTAssertEqual(d.data(forKey: restoreSlot), slot); XCTAssertEqual(d.data(forKey: restoreKey), target)
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [restoreSlot])
+        assertRestoreError(.stale, try reading.releaseRetainedRestoreBackup(retained))
+        d.rejectedRemoveKeys.remove(restoreSlot)
+        let refreshed = try XCTUnwrap(reading.retainedRestoreBackup())
+        try reading.releaseRetainedRestoreBackup(refreshed)
+        XCTAssertNil(d.object(forKey: restoreSlot))
+    }
+
+    func testRestoreApplyBlocksReentrantEditsAndNestedRestoreCalls() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target")
+        d.inject(before, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d), backup = try restoreEnvelope(target)
+        let preview = try reading.previewRestore(from: backup)
+        var inspected = false
+        d.afterSet = { [weak d] key in
+            guard key == self.restoreSlot else { return }
+            d?.afterSet = nil; inspected = true
+            reading.toggleBookmark("reentrant"); reading.markOpened("reentrant")
+            reading.record(articleID: "reentrant", heading: nil, fraction: 0.8)
+            do { _ = try reading.previewRestore(from: backup); XCTFail("Nested preview must fail") }
+            catch { XCTAssertEqual(error as? ReadingStore.RestoreFailure, .busy) }
+            do { try reading.applyRestore(preview, backupCreatedAt: self.restoreDate); XCTFail("Nested apply must fail") }
+            catch { XCTAssertEqual(error as? ReadingStore.RestoreFailure, .busy) }
+            do { _ = try reading.retainedRestoreBackup(); XCTFail("Nested retention read must fail") }
+            catch { XCTAssertEqual(error as? ReadingStore.RestoreFailure, .busy) }
+            do { _ = try reading.exportBackup(createdAt: self.restoreDate, appVersion: "0.2.20"); XCTFail("Nested export must fail") }
+            catch { XCTAssertEqual(error as? ReadingBackupCodec.Failure, .unavailable) }
+            XCTAssertEqual(reading.bookmarks, ["before"])
+        }
+        try reading.applyRestore(preview, backupCreatedAt: restoreDate)
+        XCTAssertTrue(inspected); XCTAssertEqual(d.setKeys, [restoreSlot, restoreKey]); XCTAssertEqual(d.removeKeys, [])
+        XCTAssertEqual(reading.bookmarks, ["target"]); XCTAssertEqual(d.data(forKey: restoreKey), target)
+    }
+
+    func testRestoreMaximumHealthyRawBeforeFitsItsBoundedRetainedEnvelope() throws {
+        let d = try restoreDefaults(), target = try restoreRaw("target")
+        var before = Data(#"{"bookmarks":[],"positions":{}}"#.utf8)
+        before.append(Data(repeating: 0x20, count: 1_048_576 - before.count))
+        d.inject(before, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d), preview = try reading.previewRestore(from: restoreEnvelope(target))
+        try reading.applyRestore(preview, backupCreatedAt: restoreDate)
+        let retained = try XCTUnwrap(reading.retainedRestoreBackup()), slot = try XCTUnwrap(d.data(forKey: restoreSlot))
+        XCTAssertTrue(slot.count <= 2_097_152)
+        XCTAssertEqual(try ReadingBackupCodec.decode(reading.exportRetainedRestoreBackup(retained, appVersion: "0.2.20")).rawData, before)
+        XCTAssertEqual(d.data(forKey: restoreKey), target)
+    }
+    func testRestoreNilOrNonDataPrimaryReadbackKeepsTheBeforeSlotAndSuspendsSaving() throws {
+        let before = try restoreRaw("before"), target = try restoreRaw("target")
+        for becomesMissing in [true, false] {
+            let d = try restoreDefaults(); d.inject(before, forKey: restoreKey)
+            let recovery = Data("prior recovery".utf8); d.inject(recovery, forKey: restoreKey + ".recovery.v1")
+            let reading = ReadingStore(defaults: d), preview = try reading.previewRestore(from: restoreEnvelope(target))
+            d.afterSet = { [weak d] key in
+                guard key == self.restoreKey else { return }
+                d?.afterSet = nil
+                d?.inject(becomesMissing ? nil : "foreign non-Data value", forKey: self.restoreKey)
+            }
+            assertRestoreError(.primaryWriteUnconfirmed, try reading.applyRestore(preview, backupCreatedAt: restoreDate))
+            XCTAssertTrue(reading.restoreSaveSuspended); XCTAssertEqual(reading.bookmarks, ["before"])
+            if becomesMissing { XCTAssertNil(d.object(forKey: restoreKey)) }
+            else { XCTAssertEqual(d.string(forKey: restoreKey), "foreign non-Data value") }
+            let retained = try XCTUnwrap(reading.retainedRestoreBackup())
+            XCTAssertEqual(try ReadingBackupCodec.decode(reading.exportRetainedRestoreBackup(retained, appVersion: "0.2.20")).rawData, before)
+            XCTAssertEqual(d.data(forKey: restoreKey + ".recovery.v1"), recovery)
+            XCTAssertEqual(d.setKeys, [restoreSlot, restoreKey]); XCTAssertEqual(d.removeKeys, [])
+            d.resetLedger(); reading.toggleBookmark("do-not-save"); reading.markOpened("do-not-save")
+            XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+        }
+    }
+
+    func testRestoreRejectsMalformedRetainedMetadataWithoutOverwritingIt() throws {
+        let before = try restoreRaw("before"), target = try restoreRaw("target"), next = try restoreRaw("next")
+        let seed = try restoreDefaults(); seed.inject(before, forKey: restoreKey)
+        let initial = ReadingStore(defaults: seed)
+        try initial.applyRestore(initial.previewRestore(from: restoreEnvelope(target)), backupCreatedAt: restoreDate)
+        let valid = try XCTUnwrap(seed.data(forKey: restoreSlot))
+        let object = try XCTUnwrap(JSONSerialization.jsonObject(with: valid) as? [String: Any])
+        let edits: [(String, Any)] = [
+            ("format", "future"), ("schemaVersion", 2), ("beforePresent", false),
+            ("beforeBase64", Data("{}".utf8).base64EncodedString()),
+            ("beforeSHA256", String(repeating: "0", count: 64)), ("targetSHA256", "bad"),
+            ("createdAt", "2026-10-28T01:00:00+01:00"), ("future", true)
+        ]
+        var variants: [Data] = try edits.map { key, value in
+            var changed = object; changed[key] = value
+            return try JSONSerialization.data(withJSONObject: changed, options: [.sortedKeys])
+        }
+        let text = try XCTUnwrap(String(data: valid, encoding: .utf8))
+        variants.append(Data(("{\"schemaVersion\":1," + text.dropFirst()).utf8))
+        for malformed in variants {
+            let d = try restoreDefaults(); d.inject(target, forKey: restoreKey); d.inject(malformed, forKey: restoreSlot)
+            let reading = ReadingStore(defaults: d)
+            assertRestoreError(.retainedBackupUnsupported, try reading.previewRestore(from: restoreEnvelope(next)))
+            XCTAssertThrowsError(try reading.retainedRestoreBackup())
+            XCTAssertEqual(d.data(forKey: restoreSlot), malformed); XCTAssertEqual(d.data(forKey: restoreKey), target)
+            XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+        }
+    }
+    // END PRIVATE RESTORE ENGINE TESTS
+
+    // BEGIN RESTORE V2 MISMATCH REGRESSIONS
+    func testRestoreReleaseForeignPrimarySuspendsAllLaterEditsAndPreservesBothBackups() throws {
+        let before = try restoreRaw("before"), target = try restoreRaw("target"), foreign = try restoreRaw("external-newer")
+        for scenario in 0..<3 {
+            let d = try restoreDefaults(), recovery = Data("old recovery".utf8)
+            d.inject(before, forKey: restoreKey); d.inject(recovery, forKey: restoreKey + ".recovery.v1")
+            let reading = ReadingStore(defaults: d)
+            try reading.applyRestore(reading.previewRestore(from: restoreEnvelope(target)), backupCreatedAt: restoreDate)
+            let retained = try XCTUnwrap(reading.retainedRestoreBackup()), slot = try XCTUnwrap(d.data(forKey: restoreSlot))
+            if scenario == 0 { d.inject(foreign, forKey: restoreKey) }
+            else if scenario == 1 { d.inject(nil, forKey: restoreKey) }
+            else { d.inject("foreign non-Data", forKey: restoreKey) }
+            d.resetLedger()
+            assertRestoreError(.stale, try reading.releaseRetainedRestoreBackup(retained))
+            XCTAssertTrue(reading.restoreSaveSuspended)
+            reading.toggleBookmark("must-not-save"); reading.markOpened("must-not-save")
+            reading.record(articleID: "must-not-save", heading: nil, fraction: 0.8)
+            XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+            XCTAssertEqual(reading.bookmarks, ["target"]); XCTAssertEqual(reading.lastArticleID, "target")
+            if scenario == 0 { XCTAssertEqual(d.data(forKey: restoreKey), foreign) }
+            else if scenario == 1 { XCTAssertNil(d.object(forKey: restoreKey)) }
+            else { XCTAssertEqual(d.string(forKey: restoreKey), "foreign non-Data") }
+            XCTAssertEqual(d.data(forKey: restoreSlot), slot)
+            XCTAssertEqual(d.data(forKey: restoreKey + ".recovery.v1"), recovery)
+            assertRestoreError(.observedPrimaryChange, try reading.releaseRetainedRestoreBackup(retained))
+        }
+    }
+
+    func testRestorePreviewForeignPrimaryDetectionAlsoSuspendsStaleLiveWrites() throws {
+        let before = try restoreRaw("before"), target = try restoreRaw("target"), foreign = try restoreRaw("external-newer")
+        for scenario in 0..<3 {
+            let d = try restoreDefaults(), recovery = Data("old recovery".utf8)
+            d.inject(before, forKey: restoreKey); d.inject(recovery, forKey: restoreKey + ".recovery.v1")
+            let reading = ReadingStore(defaults: d)
+            if scenario == 0 { d.inject(foreign, forKey: restoreKey) }
+            else if scenario == 1 { d.inject(nil, forKey: restoreKey) }
+            else { d.inject("foreign non-Data", forKey: restoreKey) }
+            d.resetLedger()
+            XCTAssertThrowsError(try reading.previewRestore(from: restoreEnvelope(target)))
+            XCTAssertTrue(reading.restoreSaveSuspended)
+            reading.toggleBookmark("must-not-save"); reading.markOpened("must-not-save")
+            reading.record(articleID: "must-not-save", heading: nil, fraction: 0.8)
+            XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+            if scenario == 0 { XCTAssertEqual(d.data(forKey: restoreKey), foreign) }
+            else if scenario == 1 { XCTAssertNil(d.object(forKey: restoreKey)) }
+            else { XCTAssertEqual(d.string(forKey: restoreKey), "foreign non-Data") }
+            XCTAssertNil(d.object(forKey: restoreSlot))
+            XCTAssertEqual(d.data(forKey: restoreKey + ".recovery.v1"), recovery)
+            XCTAssertFalse(ReadingStore.RestoreFailure.observedPrimaryChange.localizedDescription.contains("退避は確認"))
+        }
+    }
+
+    func testRestoreRetainedReadForeignPrimarySuspendsEditingButCanExportTheBeforeSnapshot() throws {
+        let before = try restoreRaw("before"), target = try restoreRaw("target"), foreign = try restoreRaw("external-newer")
+        for scenario in 0..<3 {
+            let d = try restoreDefaults(), recovery = Data("old recovery".utf8)
+            d.inject(before, forKey: restoreKey); d.inject(recovery, forKey: restoreKey + ".recovery.v1")
+            let reading = ReadingStore(defaults: d)
+            try reading.applyRestore(reading.previewRestore(from: restoreEnvelope(target)), backupCreatedAt: restoreDate)
+            let slot = try XCTUnwrap(d.data(forKey: restoreSlot))
+            if scenario == 0 { d.inject(foreign, forKey: restoreKey) }
+            else if scenario == 1 { d.inject(nil, forKey: restoreKey) }
+            else { d.inject("foreign non-Data", forKey: restoreKey) }
+            d.resetLedger()
+            let retained = try XCTUnwrap(reading.retainedRestoreBackup())
+            XCTAssertTrue(reading.restoreSaveSuspended)
+            XCTAssertEqual(try ReadingBackupCodec.decode(reading.exportRetainedRestoreBackup(retained, appVersion: "0.2.20")).rawData, before)
+            reading.toggleBookmark("must-not-save"); reading.markOpened("must-not-save")
+            reading.record(articleID: "must-not-save", heading: nil, fraction: 0.8)
+            XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+            if scenario == 0 { XCTAssertEqual(d.data(forKey: restoreKey), foreign) }
+            else if scenario == 1 { XCTAssertNil(d.object(forKey: restoreKey)) }
+            else { XCTAssertEqual(d.string(forKey: restoreKey), "foreign non-Data") }
+            XCTAssertEqual(d.data(forKey: restoreSlot), slot)
+            XCTAssertEqual(d.data(forKey: restoreKey + ".recovery.v1"), recovery)
+        }
+    }
+
+    func testRestorePreviewDetectsForeignByteSnapshotChangeEvenWhenTheStateIsEquivalent() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target")
+        var foreign = before; foreign.append(0x20)
+        let recovery = Data("old recovery".utf8)
+        d.inject(before, forKey: restoreKey); d.inject(recovery, forKey: restoreKey + ".recovery.v1")
+        let reading = ReadingStore(defaults: d)
+        var reads = 0
+        d.beforeDataRead = { [weak d] key in
+            guard key == self.restoreKey else { return }
+            reads += 1
+            if reads == 2 { d?.beforeDataRead = nil; d?.inject(foreign, forKey: self.restoreKey) }
+        }
+        assertRestoreError(.stale, try reading.previewRestore(from: restoreEnvelope(target)))
+        XCTAssertTrue(reading.restoreSaveSuspended)
+        reading.toggleBookmark("must-not-save"); reading.markOpened("must-not-save")
+        reading.record(articleID: "must-not-save", heading: nil, fraction: 0.8)
+        XCTAssertEqual(d.data(forKey: restoreKey), foreign)
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+        XCTAssertNil(d.object(forKey: restoreSlot))
+        XCTAssertEqual(d.data(forKey: restoreKey + ".recovery.v1"), recovery)
+    }
+
+    func testRestoreOwnHealthyEditMakesReleaseStaleWithoutSuspendingNormalUse() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target")
+        let recovery = Data("old recovery".utf8)
+        d.inject(before, forKey: restoreKey); d.inject(recovery, forKey: restoreKey + ".recovery.v1")
+        let reading = ReadingStore(defaults: d)
+        try reading.applyRestore(reading.previewRestore(from: restoreEnvelope(target)), backupCreatedAt: restoreDate)
+        let retained = try XCTUnwrap(reading.retainedRestoreBackup()), slot = try XCTUnwrap(d.data(forKey: restoreSlot))
+        reading.toggleBookmark("own-edit"); let ownRaw = d.data(forKey: restoreKey); d.resetLedger()
+        assertRestoreError(.stale, try reading.releaseRetainedRestoreBackup(retained))
+        XCTAssertFalse(reading.restoreSaveSuspended)
+        XCTAssertEqual(d.data(forKey: restoreKey), ownRaw)
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+        reading.markOpened("still-usable")
+        XCTAssertEqual(d.setKeys, [restoreKey]); XCTAssertEqual(ReadingStore(defaults: d).lastArticleID, "still-usable")
+        XCTAssertEqual(d.data(forKey: restoreSlot), slot)
+        XCTAssertEqual(d.data(forKey: restoreKey + ".recovery.v1"), recovery)
+    }
+
+    func testRestoreOwnHealthyEditMakesApplyStaleWithoutSuspendingNormalUse() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target")
+        let recovery = Data("old recovery".utf8)
+        d.inject(before, forKey: restoreKey); d.inject(recovery, forKey: restoreKey + ".recovery.v1")
+        let reading = ReadingStore(defaults: d), preview = try reading.previewRestore(from: restoreEnvelope(target))
+        reading.toggleBookmark("own-edit"); let ownRaw = d.data(forKey: restoreKey); d.resetLedger()
+        assertRestoreError(.stale, try reading.applyRestore(preview, backupCreatedAt: restoreDate))
+        XCTAssertFalse(reading.restoreSaveSuspended)
+        XCTAssertEqual(d.data(forKey: restoreKey), ownRaw)
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+        reading.markOpened("still-usable")
+        XCTAssertEqual(d.setKeys, [restoreKey]); XCTAssertEqual(ReadingStore(defaults: d).lastArticleID, "still-usable")
+        XCTAssertNil(d.object(forKey: restoreSlot))
+        XCTAssertEqual(d.data(forKey: restoreKey + ".recovery.v1"), recovery)
+    }
+
+    func testRestoreOwnPersistedEditDuringPreviewIsStaleWithoutFalseSuspension() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target")
+        let recovery = Data("old recovery".utf8)
+        d.inject(before, forKey: restoreKey); d.inject(recovery, forKey: restoreKey + ".recovery.v1")
+        let reading = ReadingStore(defaults: d)
+        var reads = 0
+        d.afterDataRead = { [weak d] key in
+            guard key == self.restoreKey else { return }
+            reads += 1
+            if reads == 2 { d?.afterDataRead = nil; reading.toggleBookmark("own-during-preview") }
+        }
+        assertRestoreError(.stale, try reading.previewRestore(from: restoreEnvelope(target)))
+        XCTAssertFalse(reading.restoreSaveSuspended)
+        XCTAssertTrue(reading.bookmarks.contains("own-during-preview"))
+        XCTAssertEqual(d.setKeys, [restoreKey]); XCTAssertEqual(d.removeKeys, [])
+        d.resetLedger(); reading.markOpened("still-usable")
+        XCTAssertEqual(d.setKeys, [restoreKey]); XCTAssertEqual(ReadingStore(defaults: d).lastArticleID, "still-usable")
+        XCTAssertNil(d.object(forKey: restoreSlot))
+        XCTAssertEqual(d.data(forKey: restoreKey + ".recovery.v1"), recovery)
+    }
+    func testRestoreNormalExportForeignPrimaryChangeAlsoStopsSubsequentStaleEdits() throws {
+        let before = try restoreRaw("before"), foreign = try restoreRaw("external-newer")
+        for scenario in 0..<3 {
+            let d = try restoreDefaults(), recovery = Data("old recovery".utf8)
+            d.inject(before, forKey: restoreKey); d.inject(recovery, forKey: restoreKey + ".recovery.v1")
+            let reading = ReadingStore(defaults: d)
+            var reads = 0
+            d.beforeDataRead = { [weak d] key in
+                guard key == self.restoreKey else { return }
+                reads += 1
+                if reads == 2 {
+                    d?.beforeDataRead = nil
+                    if scenario == 0 { d?.inject(foreign, forKey: self.restoreKey) }
+                    else if scenario == 1 { d?.inject(nil, forKey: self.restoreKey) }
+                    else { d?.inject("foreign non-Data", forKey: self.restoreKey) }
+                }
+            }
+            XCTAssertThrowsError(try reading.exportBackup(createdAt: restoreDate, appVersion: "0.2.20")) {
+                XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .changed)
+            }
+            XCTAssertTrue(reading.restoreSaveSuspended)
+            reading.toggleBookmark("must-not-save"); reading.markOpened("must-not-save")
+            reading.record(articleID: "must-not-save", heading: nil, fraction: 0.8)
+            XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+            if scenario == 0 { XCTAssertEqual(d.data(forKey: restoreKey), foreign) }
+            else if scenario == 1 { XCTAssertNil(d.object(forKey: restoreKey)) }
+            else { XCTAssertEqual(d.string(forKey: restoreKey), "foreign non-Data") }
+            XCTAssertNil(d.object(forKey: restoreSlot))
+            XCTAssertEqual(d.data(forKey: restoreKey + ".recovery.v1"), recovery)
+        }
+    }
+
+    func testRestoreOwnHealthyEditDuringNormalExportDoesNotSuspendFutureEditing() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), recovery = Data("old recovery".utf8)
+        d.inject(before, forKey: restoreKey); d.inject(recovery, forKey: restoreKey + ".recovery.v1")
+        let reading = ReadingStore(defaults: d)
+        d.afterDataRead = { [weak d] key in
+            guard key == self.restoreKey else { return }
+            d?.afterDataRead = nil; reading.toggleBookmark("own-during-export")
+        }
+        XCTAssertThrowsError(try reading.exportBackup(createdAt: restoreDate, appVersion: "0.2.20")) {
+            XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .changed)
+        }
+        XCTAssertFalse(reading.restoreSaveSuspended)
+        XCTAssertTrue(reading.bookmarks.contains("own-during-export"))
+        XCTAssertEqual(d.setKeys, [restoreKey]); XCTAssertEqual(d.removeKeys, [])
+        d.resetLedger(); reading.markOpened("still-usable")
+        XCTAssertEqual(d.setKeys, [restoreKey]); XCTAssertEqual(ReadingStore(defaults: d).lastArticleID, "still-usable")
+        XCTAssertNil(d.object(forKey: restoreSlot))
+        XCTAssertEqual(d.data(forKey: restoreKey + ".recovery.v1"), recovery)
+    }
+    // END RESTORE V2 MISMATCH REGRESSIONS
+
+    // BEGIN RESTORE V3 IDENTITY INTEGRATION
+    func testRestoreApplyRegistersGeneralIdentityAndNextOperationsRemainHealthy() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target")
+        let recovery = Data("old recovery".utf8)
+        d.inject(before, forKey: restoreKey); d.inject(recovery, forKey: restoreKey + ".recovery.v1")
+        let reading = ReadingStore(defaults: d)
+        try reading.applyRestore(reading.previewRestore(from: restoreEnvelope(target)), backupCreatedAt: restoreDate)
+        XCTAssertFalse(reading.readingSaveSuspended); XCTAssertEqual(reading.restoreSaveSuspended, reading.readingSaveSuspended)
+        // This must succeed before any normal write could refresh the identity incidentally.
+        XCTAssertEqual(try ReadingBackupCodec.decode(reading.exportBackup(createdAt: restoreDate, appVersion: "0.2.20")).rawData, target)
+        reading.markOpened("later"); reading.record(articleID: "later", heading: nil, fraction: 0.7)
+        let current = try XCTUnwrap(d.data(forKey: restoreKey))
+        XCTAssertEqual(try ReadingBackupCodec.decode(reading.exportBackup(createdAt: restoreDate, appVersion: "0.2.20")).rawData, current)
+        XCTAssertFalse(reading.readingSaveSuspended); XCTAssertFalse(reading.restoreSaveSuspended)
+        let retained = try XCTUnwrap(reading.retainedRestoreBackup())
+        XCTAssertEqual(try ReadingBackupCodec.decode(reading.exportRetainedRestoreBackup(retained, appVersion: "0.2.20")).rawData, before)
+        try reading.releaseRetainedRestoreBackup(retained)
+        XCTAssertNil(d.object(forKey: restoreSlot))
+        XCTAssertEqual(d.data(forKey: restoreKey + ".recovery.v1"), recovery)
+        XCTAssertFalse(reading.readingSaveSuspended)
+    }
+
+    func testRestoreForeignMetadataIdentityStopsPreviewRetainedReadAndRelease() throws {
+        let before = try restoreRaw("before"), target = try restoreRaw("target")
+        for scenario in 0..<3 {
+            let d = try restoreDefaults(), recovery = Data("old recovery".utf8)
+            d.inject(before, forKey: restoreKey); d.inject(recovery, forKey: restoreKey + ".recovery.v1")
+            let reading = ReadingStore(defaults: d)
+            var retained: ReadingStore.RetainedRestoreBackup?
+            if scenario != 0 {
+                try reading.applyRestore(reading.previewRestore(from: restoreEnvelope(target)), backupCreatedAt: restoreDate)
+                retained = try reading.retainedRestoreBackup()
+            }
+            let known = scenario == 0 ? before : target
+            var object = try XCTUnwrap(JSONSerialization.jsonObject(with: known) as? [String: Any])
+            object["future"] = ["externalNote": "must-preserve"]
+            let foreign = try JSONSerialization.data(withJSONObject: object, options: [.sortedKeys])
+            let slot = d.data(forKey: restoreSlot)
+            d.inject(foreign, forKey: restoreKey); d.resetLedger()
+            if scenario == 0 { XCTAssertThrowsError(try reading.previewRestore(from: restoreEnvelope(target))) }
+            else if scenario == 1 {
+                let refreshed = try XCTUnwrap(reading.retainedRestoreBackup())
+                XCTAssertEqual(try ReadingBackupCodec.decode(reading.exportRetainedRestoreBackup(refreshed, appVersion: "0.2.20")).rawData, before)
+            } else { assertRestoreError(.stale, try reading.releaseRetainedRestoreBackup(try XCTUnwrap(retained))) }
+            XCTAssertTrue(reading.readingSaveSuspended); XCTAssertEqual(reading.restoreSaveSuspended, reading.readingSaveSuspended)
+            reading.toggleBookmark("no"); reading.markOpened("no"); reading.record(articleID: "no", heading: nil, fraction: 0.8)
+            XCTAssertFalse(reading.recoverReadableState())
+            XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+            XCTAssertEqual(d.data(forKey: restoreKey), foreign); XCTAssertEqual(d.data(forKey: restoreSlot), slot)
+            XCTAssertEqual(d.data(forKey: restoreKey + ".recovery.v1"), recovery)
+        }
+    }
+
+    func testRestoreRetryRegistersTargetAndLaterExportDriftUsesObservedStopReason() throws {
+        let d = try restoreDefaults(), before = try restoreRaw("before"), target = try restoreRaw("target")
+        d.inject(before, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d), initial = try reading.previewRestore(from: restoreEnvelope(target))
+        d.rejectedSetKeys.insert(restoreKey)
+        assertRestoreError(.primaryWriteUnconfirmed, try reading.applyRestore(initial, backupCreatedAt: restoreDate))
+        XCTAssertTrue(reading.readingSaveSuspended)
+        d.rejectedSetKeys.remove(restoreKey)
+        try reading.applyRestore(reading.previewRestore(from: restoreEnvelope(target)), backupCreatedAt: restoreDate)
+        XCTAssertEqual(try ReadingBackupCodec.decode(reading.exportBackup(createdAt: restoreDate, appVersion: "0.2.20")).rawData, target)
+        XCTAssertFalse(reading.readingSaveSuspended)
+        let retained = try XCTUnwrap(reading.retainedRestoreBackup()), slot = d.data(forKey: restoreSlot)
+        var foreign = target; foreign.append(0x20)
+        d.inject(foreign, forKey: restoreKey); d.resetLedger()
+        XCTAssertThrowsError(try reading.exportBackup(createdAt: restoreDate, appVersion: "0.2.20")) {
+            XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .changed)
+        }
+        assertRestoreError(.observedPrimaryChange, try reading.releaseRetainedRestoreBackup(retained))
+        XCTAssertTrue(reading.readingSaveSuspended); XCTAssertTrue(reading.restoreSaveSuspended)
+        XCTAssertEqual(d.data(forKey: restoreKey), foreign); XCTAssertEqual(d.data(forKey: restoreSlot), slot)
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+    }
+    // END RESTORE V3 IDENTITY INTEGRATION
+
+    private var actorRestoreDate: Date { Date(timeIntervalSince1970: 1_793_145_600) }
+
+    private func actorRestoreTarget() throws -> (raw: Data, backup: Data) {
+        let raw = Data(#"{"bookmarks":["removed/target"],"positions":{"removed/target":{"heading":"saved","fraction":0.75}},"lastArticleID":"removed/target"}"#.utf8)
+        return (raw, try ReadingBackupCodec.encode(rawData: raw, createdAt: actorRestoreDate, appVersion: "0.2.20"))
+    }
+
+    private func actorRestoreDefaults() throws -> (name: String, defaults: ReadingRestoreActorProbeDefaults) {
+        let name = "reading-restore-actor-" + UUID().uuidString
+        let defaults = try XCTUnwrap(ReadingRestoreActorProbeDefaults(suiteName: name))
+        return (name, defaults)
+    }
+
+    @MainActor
+    func testReadingRestoreActorPreviewAndCancelPreservePublishedAndPersistedStateWithoutWrites() throws {
+        let (name, defaults) = try actorRestoreDefaults()
+        defer { defaults.removePersistentDomain(forName: name) }
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("before")
+        reading.markOpened("before")
+        let store = LibraryStore(reading: reading)
+        let prior = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+        let target = try actorRestoreTarget()
+        XCTAssertEqual(ReadingBackupDocumentReader.maximumBytes, ReadingBackupCodec.maximumEnvelopeBytes)
+        defaults.writeCalls = 0
+        let preview = try store.previewReadingRestore(from: target.backup)
+        XCTAssertEqual(preview.counts.bookmarks, 1)
+        XCTAssertEqual(preview.currentCounts?.bookmarks, 1)
+        // Cancel is dropping the preview; neither an engine apply nor a defaults write.
+        XCTAssertEqual(defaults.writeCalls, 0)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), prior)
+        XCTAssertEqual(store.bookmarks, ["before"])
+        XCTAssertEqual(store.lastArticleID, "before")
+        XCTAssertFalse(store.readingSaveSuspended)
+        XCTAssertNil(defaults.object(forKey: "library.reading.v1.restore-backup.v1"))
+    }
+
+    @MainActor
+    func testReadingRestoreActorPublishesOnlyConfirmedTargetAndKeepsItAfterReload() throws {
+        let (name, defaults) = try actorRestoreDefaults()
+        defer { defaults.removePersistentDomain(forName: name) }
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("before")
+        let store = LibraryStore(reading: reading)
+        let target = try actorRestoreTarget()
+        let preview = try store.previewReadingRestore(from: target.backup)
+        try store.applyReadingRestore(preview, backupCreatedAt: actorRestoreDate)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), target.raw)
+        XCTAssertEqual(store.bookmarks, ["removed/target"])
+        XCTAssertEqual(store.lastArticleID, "removed/target")
+        XCTAssertFalse(store.readingSaveSuspended)
+        XCTAssertNil(store.readingRecoveryIssue)
+        let reloaded = LibraryStore(reading: ReadingStore(defaults: defaults))
+        XCTAssertEqual(reloaded.bookmarks, store.bookmarks)
+        XCTAssertEqual(reloaded.lastArticleID, store.lastArticleID)
+        XCTAssertNotNil(try store.retainedReadingRestoreBackup())
+    }
+
+    @MainActor
+    func testReadingRestoreActorFixtureGateRejectsEveryRestoreManagementEntryBeforeWrites() throws {
+        let (name, defaults) = try actorRestoreDefaults()
+        defer { defaults.removePersistentDomain(forName: name) }
+        let normal = LibraryStore(reading: ReadingStore(defaults: defaults))
+        let target = try actorRestoreTarget()
+        let preview = try normal.previewReadingRestore(from: target.backup)
+        try normal.applyReadingRestore(preview, backupCreatedAt: actorRestoreDate)
+        let retained = try XCTUnwrap(normal.retainedReadingRestoreBackup())
+        let fixtureReading = ReadingStore(defaults: defaults, key: "fixture.reading.v1")
+        fixtureReading.toggleBookmark("fixture")
+        let fixture = LibraryStore(reading: fixtureReading, isTestLibrary: true)
+        let normalRaw = defaults.data(forKey: "library.reading.v1")
+        let fixtureRaw = defaults.data(forKey: "fixture.reading.v1")
+        let slot = defaults.data(forKey: "library.reading.v1.restore-backup.v1")
+        defaults.writeCalls = 0
+        XCTAssertFalse(fixture.allowsReadingRestore)
+        @MainActor func requireFixtureRefusal(_ operation: () throws -> Void) {
+            XCTAssertThrowsError(try operation()) { XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .unsupportedScope) }
+        }
+        requireFixtureRefusal { _ = try fixture.previewReadingRestore(from: target.backup) }
+        requireFixtureRefusal { try fixture.applyReadingRestore(preview, backupCreatedAt: actorRestoreDate) }
+        requireFixtureRefusal { _ = try fixture.retainedReadingRestoreBackup() }
+        requireFixtureRefusal { _ = try fixture.exportRetainedReadingRestoreBackup(retained, appVersion: "0.2.20") }
+        requireFixtureRefusal { try fixture.releaseReadingRestoreBackup(retained) }
+        XCTAssertEqual(defaults.writeCalls, 0)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), normalRaw)
+        XCTAssertEqual(defaults.data(forKey: "fixture.reading.v1"), fixtureRaw)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1.restore-backup.v1"), slot)
+        XCTAssertNil(defaults.object(forKey: "fixture.reading.v1.restore-backup.v1"))
+    }
+
+    @MainActor
+    func testReadingRestoreActorFailedPrimaryWritePublishesStopAndBlocksNormalEditing() throws {
+        let (name, defaults) = try actorRestoreDefaults()
+        defer { defaults.removePersistentDomain(forName: name) }
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("before")
+        reading.markOpened("before")
+        let store = LibraryStore(reading: reading)
+        let target = try actorRestoreTarget()
+        let preview = try store.previewReadingRestore(from: target.backup)
+        defaults.denyPrimaryWrite = true
+        XCTAssertThrowsError(try store.applyReadingRestore(preview, backupCreatedAt: actorRestoreDate)) {
+            XCTAssertEqual($0 as? ReadingStore.RestoreFailure, .primaryWriteUnconfirmed)
+        }
+        XCTAssertTrue(store.readingSaveSuspended)
+        XCTAssertEqual(store.bookmarks, ["before"])
+        XCTAssertEqual(store.lastArticleID, "before")
+        let prior = defaults.data(forKey: "library.reading.v1")
+        let slot = defaults.data(forKey: "library.reading.v1.restore-backup.v1")
+        defaults.denyPrimaryWrite = false
+        defaults.writeCalls = 0
+        store.toggleBookmark("must-not-save")
+        store.markOpened("must-not-open")
+        store.record(articleID: "must-not-record", heading: nil, fraction: 0.5)
+        store.recoverReadingState()
+        XCTAssertEqual(defaults.writeCalls, 0)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), prior)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1.restore-backup.v1"), slot)
+        XCTAssertEqual(store.bookmarks, ["before"])
+        XCTAssertEqual(store.lastArticleID, "before")
+    }
+
+    @MainActor
+    func testReadingRestoreActorReleaseFailurePropagatesObservedExternalPrimaryStop() throws {
+        let (name, defaults) = try actorRestoreDefaults()
+        defer { defaults.removePersistentDomain(forName: name) }
+        let store = LibraryStore(reading: ReadingStore(defaults: defaults))
+        let target = try actorRestoreTarget()
+        let preview = try store.previewReadingRestore(from: target.backup)
+        try store.applyReadingRestore(preview, backupCreatedAt: actorRestoreDate)
+        let retained = try XCTUnwrap(store.retainedReadingRestoreBackup())
+        let external = Data(#"{"bookmarks":["external-newer"],"positions":{}}"#.utf8)
+        defaults.set(external, forKey: "library.reading.v1")
+        defaults.writeCalls = 0
+        XCTAssertThrowsError(try store.releaseReadingRestoreBackup(retained))
+        // This regression requires the engine correction and general reading-save stop backport.
+        XCTAssertTrue(store.readingSaveSuspended)
+        store.toggleBookmark("must-not-overwrite")
+        XCTAssertEqual(defaults.writeCalls, 0)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), external)
+        XCTAssertNotNil(defaults.object(forKey: "library.reading.v1.restore-backup.v1"))
+    }
 
     private func readingDocument(_ blocks: [NativeBlock]) -> NativeDocument {
         NativeDocument(schema_version: 1, article_id: "example", source_sha256: article().source_sha256, blocks: blocks)

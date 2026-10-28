@@ -1,7 +1,7 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
-/// Export only: no file-import or restore action is exposed by the library.
+/// Validated JSON data for backup exports; importing is handled by the restore engine.
 private struct ReadingBackupFile: FileDocument {
     static var readableContentTypes: [UTType] { [.json] }
     let data: Data
@@ -23,6 +23,7 @@ struct LibraryView: View {
     @State private var readingBackupPresented = false
     @State private var readingBackupFile: ReadingBackupFile?
     @State private var readingBackupMessage: String?
+    @State private var readingRestorePresented = false
     @State private var aboutPresented = false
     @State private var readingRecoveryPresented = false
     @State private var moreActionsPresented = false
@@ -44,7 +45,7 @@ struct LibraryView: View {
     #endif
 
     private enum MoreAction {
-        case importContent, bundledContent, exportReadingBackup, about
+        case importContent, bundledContent, exportReadingBackup, restoreReadingBackup, about
         #if DEBUG
         case readerTest
         #endif
@@ -132,6 +133,13 @@ struct LibraryView: View {
             .accessibilityIdentifier("library-export-reading")
             .disabled(store.readingSaveSuspended)
         }
+        if store.allowsReadingRestore {
+            Button("読書記録を復元", systemImage: "arrow.counterclockwise") {
+                selectMoreAction(.restoreReadingBackup, inSheet: inSheet)
+            }
+            .accessibilityIdentifier("library-restore-reading")
+            .disabled(!path.isEmpty)
+        }
         #if DEBUG
         if !store.isTestLibrary {
             Button("本文表示テスト", systemImage: "doc.text.magnifyingglass") {
@@ -182,6 +190,9 @@ struct LibraryView: View {
                 readingBackupFile = ReadingBackupFile(data: try store.exportReadingBackup(createdAt: Date(), appVersion: version))
                 readingBackupPresented = true
             } catch { readingBackupMessage = error.localizedDescription }
+        case .restoreReadingBackup:
+            guard path.isEmpty, store.allowsReadingRestore else { return }
+            readingRestorePresented = true
         case .about: aboutPresented = true
         #if DEBUG
         case .readerTest: readerTestPresented = true
@@ -397,6 +408,7 @@ struct LibraryView: View {
             bundledContentConfirmation
         }
         .sheet(isPresented: $aboutPresented) { LibraryAboutView(snapshot: store.snapshot) }
+        .sheet(isPresented: $readingRestorePresented) { ReadingRestoreCenter(store: store, isPresented: $readingRestorePresented) }
         #if DEBUG
         .sheet(isPresented: $readerTestPresented) { ReaderTestLibrarySheet() }
         #endif
@@ -607,5 +619,313 @@ private struct LibraryAboutView: View {
             .navigationTitle("このアプリについて")
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("閉じる") { dismiss() } } }
         }
+    }
+}
+
+/// Restore and retention management have their own presentation owner so the
+/// content-folder importer and the ordinary backup exporter remain independent.
+private struct ReadingRestoreCenter: View {
+    @ObservedObject var store: LibraryStore
+    @Binding var isPresented: Bool
+    @Environment(\.dismiss) private var dismiss
+    @State private var pickerPresented = false
+    @State private var preview: ReadingStore.RestorePreview?
+    @State private var retained: ReadingStore.RetainedRestoreBackup?
+    @State private var retentionMessage: String?
+    @State private var statusMessage: String?
+    @State private var isReading = false
+    @State private var selectionToken = UUID()
+    @State private var readTask: Task<Data, Error>?
+    @State private var completionTask: Task<Void, Never>?
+    @State private var didLoadRetention = false
+    @State private var confirmation: Confirmation?
+    @State private var exportPresented = false
+    @State private var exportFile: ReadingBackupFile?
+    @State private var exportSnapshot: ReadingStore.RetainedRestoreBackup?
+    @State private var releaseSnapshot: ReadingStore.RetainedRestoreBackup?
+    @State private var exportCompleted = false
+    @State private var personallyCheckedExport = false
+
+    private enum Confirmation {
+        case restore(ReadingStore.RestorePreview)
+        case release(ReadingStore.RetainedRestoreBackup)
+    }
+
+    private var busy: Bool { isReading || pickerPresented || exportPresented }
+    private var appVersion: String {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "unknown"
+    }
+    private var confirmationTitle: String {
+        switch confirmation {
+        case .some(.restore(_)): return "現在の読書記録を置き換えますか？"
+        case .some(.release(_)): return "復元前の保全を削除しますか？"
+        case .none: return "読書記録"
+        }
+    }
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                if store.allowsReadingRestore {
+                    if store.readingSaveSuspended {
+                        Section("保存と編集を停止しています") {
+                            Text("保存内容と編集中の記録の一致を確認できません。アプリを開き直して確認してください。保全した復元前データがある場合は、この画面から書き出せます。")
+                        }
+                        .accessibilityIdentifier("reading-restore-suspended")
+                    }
+                    Section("バックアップを選ぶ") {
+                        Text("対象はしおり・読書位置・続きを読むの記録です。ファイルの内容を確認してから、現在の記録を置き換えます。")
+                        Button("バックアップファイルを選ぶ", systemImage: "doc") { chooseFile() }
+                            .accessibilityIdentifier("reading-restore-choose-file")
+                            .disabled(busy)
+                        if isReading {
+                            ProgressView("ファイルを確認中")
+                            Button("読み込みを取り消す", role: .cancel) { cancelRead() }
+                                .accessibilityIdentifier("reading-restore-cancel-read")
+                        }
+                    }
+                    if let preview { previewSection(preview) }
+                    if let statusMessage {
+                        Section("結果") {
+                            Text(statusMessage).textSelection(.enabled)
+                                .accessibilityIdentifier("reading-restore-result")
+                        }
+                    }
+                    retentionSection
+                } else {
+                    Text("本文表示テストでは読書記録の復元を利用できません。")
+                }
+            }
+            .accessibilityIdentifier("reading-restore-center")
+            .navigationTitle("読書記録の復元")
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("閉じる") { isPresented = false; cancelRead(); dismiss() }
+                        .accessibilityIdentifier("reading-restore-close")
+                        .disabled(pickerPresented || exportPresented)
+                }
+            }
+        }
+        .interactiveDismissDisabled(busy || confirmation != nil)
+        .task {
+            if !didLoadRetention { didLoadRetention = true; refreshRetention() }
+        }
+        .onDisappear { cancelRead() }
+        .fileImporter(isPresented: $pickerPresented, allowedContentTypes: [.json]) { result in
+            switch result {
+            case .success(let url):
+                if isPresented { beginRead(url) }
+            case .failure(let error):
+                if !isCancellation(error) { statusMessage = error.localizedDescription }
+            }
+        }
+        .fileExporter(isPresented: $exportPresented, document: exportFile, contentType: .json,
+                      defaultFilename: "AI-Agent-Library-Before-Restore") { result in
+            switch result {
+            case .success:
+                // Keep the exact engine handle. A later external slot/current
+                // change still makes release fail its own validation.
+                releaseSnapshot = exportSnapshot
+                exportCompleted = true
+                personallyCheckedExport = false
+                statusMessage = "書き出し操作が完了しました。保存先にファイルがあることを、ご自身で確認してください。"
+            case .failure(let error):
+                if !isCancellation(error) { statusMessage = error.localizedDescription }
+            }
+            exportFile = nil
+            exportSnapshot = nil
+        }
+        .alert(confirmationTitle,
+               isPresented: Binding(get: { confirmation != nil }, set: { if !$0 { confirmation = nil } }),
+               presenting: confirmation) { value in
+            switch value {
+            case .restore(let target):
+                Button(target.containsNoBookmarksOrPositions ? "しおり・読書位置0件で復元" : "この記録で復元する", role: .destructive) {
+                    confirmation = nil
+                    apply(target)
+                }
+                .accessibilityIdentifier("reading-restore-confirm")
+            case .release(let snapshot):
+                Button("復元前の保全を削除", role: .destructive) {
+                    confirmation = nil
+                    release(snapshot)
+                }
+                .accessibilityIdentifier("reading-restore-release-confirm")
+            }
+            Button("キャンセル", role: .cancel) { confirmation = nil }
+        } message: { value in
+            switch value {
+            case .restore(let target):
+                Text(target.containsNoBookmarksOrPositions
+                     ? "このファイルのしおりと読書位置は0件です。現在の記録を、このファイルの内容へ置き換えます。復元前の保存データは端末内に保全します。"
+                     : "現在の記録を、表示したバックアップの内容へ置き換えます。復元前の保存データは端末内に保全します。")
+            case .release(let snapshot):
+                Text(snapshot.beforeHasSavedData
+                     ? "保存先のバックアップファイルを確認したうえで、端末内の復元前データを削除します。現在の読書記録は置き換えません。"
+                     : "復元前は保存記録が未作成でした。その状態を示す端末内の保全を削除します。現在の読書記録は置き換えません。")
+            }
+        }
+    }
+
+    private func previewSection(_ target: ReadingStore.RestorePreview) -> some View {
+        Section("選んだバックアップ") {
+            LabeledContent("作成日時", value: displayDate(target.createdAt))
+            LabeledContent("作成したアプリ", value: target.sourceAppVersion)
+            LabeledContent("しおり", value: "\(target.counts.bookmarks)件")
+            LabeledContent("読書位置", value: "\(target.counts.positions)件")
+            if let current = target.currentCounts {
+                Text("現在の保存記録: しおり\(current.bookmarks)件・読書位置\(current.positions)件")
+            } else {
+                Text("現在は保存記録がまだ作成されていません。")
+            }
+            if target.containsNoBookmarksOrPositions {
+                Text("注意: このバックアップのしおりと読書位置は0件です。")
+                    .foregroundStyle(.orange).font(.headline)
+                    .accessibilityIdentifier("reading-restore-empty-warning")
+            }
+            Button("置き換える内容を確認") { confirmation = .restore(target) }
+                .accessibilityIdentifier("reading-restore-review")
+                .disabled(busy)
+            Button("この選択を取り消す", role: .cancel) { preview = nil }
+                .accessibilityIdentifier("reading-restore-cancel-preview")
+                .disabled(busy)
+        }
+        .accessibilityIdentifier("reading-restore-preview")
+    }
+
+    @ViewBuilder private var retentionSection: some View {
+        Section("復元前データの保全") {
+            if let retained {
+                LabeledContent("保全日時", value: displayDate(retained.createdAt))
+                if let counts = retained.beforeCounts {
+                    Text("しおり\(counts.bookmarks)件・読書位置\(counts.positions)件")
+                }
+                if retained.beforeHasSavedData {
+                    Button("復元前の記録を書き出す", systemImage: "square.and.arrow.up") { export(retained) }
+                        .accessibilityIdentifier("reading-restore-export-retained")
+                        .disabled(busy)
+                    Text("書き出した後、保存先にファイルがあることを確認してください。")
+                    if exportCompleted {
+                        Toggle("保存先のバックアップファイルを自分で確認しました", isOn: $personallyCheckedExport)
+                            .accessibilityIdentifier("reading-restore-checked-export")
+                    }
+                } else {
+                    Text("復元前は保存記録が未作成でした。書き出す読書記録はありません。")
+                }
+                Button("復元前の保全を削除", role: .destructive) {
+                    let snapshot = retained.beforeHasSavedData ? releaseSnapshot : retained
+                    if let snapshot { confirmation = .release(snapshot) }
+                }
+                .accessibilityIdentifier("reading-restore-release")
+                .disabled(busy || store.readingSaveSuspended ||
+                          (retained.beforeHasSavedData && (!exportCompleted || !personallyCheckedExport || releaseSnapshot == nil)))
+            } else if let retentionMessage {
+                Text(retentionMessage)
+                    .accessibilityIdentifier("reading-restore-retention-error")
+            } else {
+                Text("保全した復元前データはありません。")
+                    .accessibilityIdentifier("reading-restore-no-retained")
+            }
+            Button("保全の状態を読み直す") { refreshRetention() }
+                .accessibilityIdentifier("reading-restore-refresh-retained")
+                .disabled(busy)
+        }
+        .accessibilityIdentifier("reading-restore-retention")
+    }
+
+    private func chooseFile() {
+        guard isPresented else { return }
+        cancelRead()
+        preview = nil
+        statusMessage = nil
+        pickerPresented = true
+    }
+
+    private func beginRead(_ url: URL) {
+        guard isPresented else { return }
+        cancelRead()
+        preview = nil
+        statusMessage = nil
+        let token = UUID()
+        selectionToken = token
+        isReading = true
+        let reader = Task.detached(priority: .userInitiated) { try ReadingBackupDocumentReader.read(from: url) }
+        readTask = reader
+        completionTask = Task { @MainActor in
+            do {
+                let data = try await reader.value
+                guard !Task.isCancelled, isPresented, selectionToken == token else { return }
+                preview = try store.previewReadingRestore(from: data)
+            } catch {
+                guard !Task.isCancelled, isPresented, selectionToken == token else { return }
+                if !isCancellation(error) { statusMessage = error.localizedDescription }
+            }
+            guard selectionToken == token else { return }
+            isReading = false
+            readTask = nil
+            completionTask = nil
+        }
+    }
+
+    private func cancelRead() {
+        selectionToken = UUID()
+        readTask?.cancel()
+        completionTask?.cancel()
+        readTask = nil
+        completionTask = nil
+        isReading = false
+    }
+
+    private func apply(_ target: ReadingStore.RestorePreview) {
+        guard isPresented else { return }
+        do {
+            try store.applyReadingRestore(target, backupCreatedAt: Date())
+            statusMessage = "読書記録を復元しました。復元前の保存データを端末内に保全しています。"
+        } catch { statusMessage = error.localizedDescription }
+        preview = nil
+        refreshRetention()
+    }
+
+    private func refreshRetention() {
+        guard isPresented else { return }
+        retained = nil
+        retentionMessage = nil
+        exportCompleted = false
+        personallyCheckedExport = false
+        releaseSnapshot = nil
+        do { retained = try store.retainedReadingRestoreBackup() }
+        catch { retentionMessage = error.localizedDescription }
+    }
+
+    private func export(_ retained: ReadingStore.RetainedRestoreBackup) {
+        guard isPresented else { return }
+        do {
+            exportFile = ReadingBackupFile(data: try store.exportRetainedReadingRestoreBackup(retained, appVersion: appVersion))
+            exportSnapshot = retained
+            exportCompleted = false
+            personallyCheckedExport = false
+            releaseSnapshot = nil
+            exportPresented = true
+        } catch { statusMessage = error.localizedDescription }
+    }
+
+    private func release(_ retained: ReadingStore.RetainedRestoreBackup) {
+        guard isPresented else { return }
+        do {
+            try store.releaseReadingRestoreBackup(retained)
+            statusMessage = "復元前データの端末内での保全を削除しました。"
+        } catch { statusMessage = error.localizedDescription }
+        refreshRetention()
+    }
+
+    private func displayDate(_ value: String) -> String {
+        guard let date = ISO8601DateFormatter().date(from: value) else { return value }
+        return date.formatted(date: .abbreviated, time: .standard)
+    }
+
+    private func isCancellation(_ error: Error) -> Bool {
+        if error is CancellationError { return true }
+        let value = error as NSError
+        return value.domain == NSCocoaErrorDomain && value.code == NSUserCancelledError
     }
 }

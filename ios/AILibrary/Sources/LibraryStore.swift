@@ -1,5 +1,73 @@
 import Foundation
 import SwiftUI
+import Darwin
+
+/// The provider URL is coordinated and scoped only for this bounded read. The
+/// returned bytes still require the restore engine's strict backup validation.
+enum ReadingBackupDocumentReader {
+    static let maximumBytes = 2_097_152
+
+    enum Failure: LocalizedError {
+        case notRegularFile, cannotRead, tooLarge
+        var errorDescription: String? {
+            switch self {
+            case .notRegularFile: return "通常のバックアップファイルを選んでください。"
+            case .cannotRead: return "バックアップファイルを読み取れませんでした。保存先を確認して、もう一度選んでください。"
+            case .tooLarge: return "バックアップファイルが容量上限を超えています。"
+            }
+        }
+    }
+
+    static func read(from url: URL) throws -> Data {
+        try Task.checkCancellation()
+        guard url.isFileURL else { throw Failure.notRegularFile }
+        let scoped = url.startAccessingSecurityScopedResource()
+        defer { if scoped { url.stopAccessingSecurityScopedResource() } }
+        // Reject known special files before coordination. An unmaterialized
+        // provider URL may not exist yet; coordination gets the chance to load it.
+        let knownSpecialFile = url.withUnsafeFileSystemRepresentation { path -> Bool in
+            guard let path else { return true }
+            var information = stat()
+            return lstat(path, &information) == 0 && information.st_mode & S_IFMT != S_IFREG
+        }
+        guard !knownSpecialFile else { throw Failure.notRegularFile }
+        var coordinationError: NSError?
+        var result: Result<Data, Error>?
+        NSFileCoordinator().coordinate(readingItemAt: url, options: .withoutChanges,
+                                       error: &coordinationError) { coordinatedURL in
+            result = Result { try readRegularFile(from: coordinatedURL) }
+        }
+        try Task.checkCancellation()
+        if let coordinationError { throw coordinationError }
+        guard let result else { throw Failure.cannotRead }
+        return try result.get()
+    }
+
+    private static func readRegularFile(from url: URL) throws -> Data {
+        try Task.checkCancellation()
+        // A nonblocking open cannot wait on a substituted FIFO. fstat checks the
+        // opened descriptor; final symlinks and directories are not accepted.
+        let descriptor = url.withUnsafeFileSystemRepresentation { path -> Int32 in
+            guard let path else { return -1 }
+            return Darwin.open(path, O_RDONLY | O_CLOEXEC | O_NONBLOCK | O_NOFOLLOW)
+        }
+        guard descriptor >= 0 else { throw Failure.cannotRead }
+        let handle = FileHandle(fileDescriptor: descriptor, closeOnDealloc: true)
+        defer { try? handle.close() }
+        var information = stat()
+        guard fstat(descriptor, &information) == 0,
+              information.st_mode & S_IFMT == S_IFREG else { throw Failure.notRegularFile }
+        var bytes = Data()
+        while true {
+            try Task.checkCancellation()
+            let remaining = maximumBytes + 1 - bytes.count
+            guard remaining > 0 else { throw Failure.tooLarge }
+            guard let chunk = try handle.read(upToCount: min(65_536, remaining)), !chunk.isEmpty else { return bytes }
+            bytes.append(chunk)
+            guard bytes.count <= maximumBytes else { throw Failure.tooLarge }
+        }
+    }
+}
 
 @MainActor
 final class LibraryStore: ObservableObject {
@@ -24,6 +92,9 @@ final class LibraryStore: ObservableObject {
     var learningError: String? { loadedContent?.learningError }
 
     var allowsReadingBackup: Bool { !isTestLibrary }
+    var allowsReadingRestore: Bool { !isTestLibrary }
+    // Compatibility name only; the general reading-save state has one publisher.
+    var restoreSaveSuspended: Bool { readingSaveSuspended }
     var allowsAudioPlayback: Bool { !isTestLibrary }
     var allowsContentImport: Bool { !isTestLibrary }
     var allowsBundledContentActivation: Bool { !isTestLibrary }
@@ -214,6 +285,40 @@ final class LibraryStore: ObservableObject {
         defer { syncReadingSaveSuspension() }
         guard allowsReadingBackup else { throw ReadingBackupCodec.Failure.unsupportedScope }
         return try reading.exportBackup(createdAt: createdAt, appVersion: appVersion)
+    }
+
+    func previewReadingRestore(from data: Data) throws -> ReadingStore.RestorePreview {
+        guard allowsReadingRestore else { throw ReadingBackupCodec.Failure.unsupportedScope }
+        defer { syncReadingSaveSuspension() }
+        return try reading.previewRestore(from: data)
+    }
+
+    func applyReadingRestore(_ preview: ReadingStore.RestorePreview, backupCreatedAt: Date) throws {
+        guard allowsReadingRestore else { throw ReadingBackupCodec.Failure.unsupportedScope }
+        defer { syncReadingSaveSuspension() }
+        try reading.applyRestore(preview, backupCreatedAt: backupCreatedAt)
+        // The engine confirms the exact primary bytes before this publication.
+        bookmarks = reading.bookmarks
+        lastArticleID = reading.lastArticleID
+    }
+
+    func retainedReadingRestoreBackup() throws -> ReadingStore.RetainedRestoreBackup? {
+        guard allowsReadingRestore else { throw ReadingBackupCodec.Failure.unsupportedScope }
+        defer { syncReadingSaveSuspension() }
+        return try reading.retainedRestoreBackup()
+    }
+
+    func exportRetainedReadingRestoreBackup(_ retained: ReadingStore.RetainedRestoreBackup,
+                                           appVersion: String) throws -> Data {
+        guard allowsReadingRestore else { throw ReadingBackupCodec.Failure.unsupportedScope }
+        defer { syncReadingSaveSuspension() }
+        return try reading.exportRetainedRestoreBackup(retained, appVersion: appVersion)
+    }
+
+    func releaseReadingRestoreBackup(_ retained: ReadingStore.RetainedRestoreBackup) throws {
+        guard allowsReadingRestore else { throw ReadingBackupCodec.Failure.unsupportedScope }
+        defer { syncReadingSaveSuspension() }
+        try reading.releaseRetainedRestoreBackup(retained)
     }
 
     func recoverReadingState() {

@@ -298,6 +298,13 @@ enum ReadingBackupCodec {
         catch { throw Failure.invalid }
     }
 
+    // File-local restore reuse keeps the public backup format unchanged.
+    fileprivate static func checkedRestoreRaw(_ data: Data) throws -> Counts { try validateRaw(data) }
+    fileprivate static func checkedObjectKeys(_ data: Data, exact: Set<String>) throws {
+        try UniqueJSONKeys.check(data)
+        guard let value = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+              Set(value.keys) == exact else { throw Failure.invalid }
+    }
     fileprivate static func validateRaw(_ data: Data) throws -> Counts {
         guard data.count <= maximumRawBytes else { throw Failure.tooLarge }
         do {
@@ -557,6 +564,11 @@ final class ReadingStore {
     /// This is not a lock or a guarantee against unobserved external writers.
     private(set) var readingSaveSuspended = false
     private var mutationGeneration: UInt64 = 0
+    private let restoreStoreToken = UUID()
+    private var restoreInProgress = false
+    private var restoreSuspendedFailure: RestoreFailure = .observedPrimaryChange
+    /// Compatibility for the restore wrapper; the single stored flag is shared.
+    var restoreSaveSuspended: Bool { readingSaveSuspended }
     private enum ReadingPersistenceIdentity: Equatable { case absent, data(Data), unsupported }
     /// Exact loaded bytes or the latest raw produced by our own write attempt.
     /// A readback still decides whether those bytes are actually present.
@@ -581,8 +593,328 @@ final class ReadingStore {
         } catch { recoveryIssue = .unreadable; originalForRecovery = data }
     }
 
+    enum RestoreFailure: LocalizedError, Equatable {
+        case busy, currentNeedsRecovery, currentUnsupported, currentHasUnsavedChanges, stale, alreadyCurrent
+        case retainedBackupExists, retainedBackupUnsupported, backupWriteUnconfirmed
+        case primaryWriteUnconfirmed, observedPrimaryChange, noPreviousSavedData, retentionReleaseUnconfirmed
+
+        var errorDescription: String? {
+            switch self {
+            case .busy: return "読書記録の処理中です。処理が終わってから、もう一度お試しください。"
+            case .currentNeedsRecovery:
+                return "現在の読書記録の復旧を先に確認してください。保存されていない変更を保護するため、復元を開始していません。"
+            case .currentUnsupported:
+                return "現在の読書記録の形式またはサイズを確認できないため、復元を開始していません。"
+            case .currentHasUnsavedChanges:
+                return "現在の編集と保存内容が一致しません。保存状態を確認するまで復元を開始していません。"
+            case .stale: return "読書記録または退避データが変わりました。内容をもう一度確認してください。"
+            case .alreadyCurrent: return "現在保存されている読書記録と同じ内容です。置き換えは行っていません。"
+            case .retainedBackupExists:
+                return "以前の復元前データを保全しています。内容の確認と書き出し、明示的な保持解除を先に行ってください。"
+            case .retainedBackupUnsupported:
+                return "保全した復元前データの形式を確認できません。上書きや削除は行っていません。"
+            case .backupWriteUnconfirmed:
+                return "復元前データの退避を確認できないため、読書記録の置き換えを中止しました。"
+            case .primaryWriteUnconfirmed:
+                return "復元した記録の保存を確認できません。復元前データの退避は確認しました。読書記録の保存と編集を止めています。アプリを開き直して確認してください。"
+            case .observedPrimaryChange:
+                return "保存した読書記録との不一致を検出したため、保存と編集を止めています。現在の保存内容を確認してください。"
+            case .noPreviousSavedData:
+                return "復元前には保存された読書記録がありませんでした。通常の読書バックアップとして書き出す内容はありません。"
+            case .retentionReleaseUnconfirmed:
+                return "復元前データの保持解除を確認できません。現在の読書記録の置き換えは行っていません。"
+            }
+        }
+    }
+
+    fileprivate enum RestoreSnapshot: Equatable {
+        case absent, data(Data)
+        var rawData: Data? { if case .data(let value) = self { return value }; return nil }
+    }
+
+    /// Immutable confirmation data, bound to this store rather than to file-supplied keys.
+    struct RestorePreview {
+        let counts: ReadingBackupCodec.Counts
+        let currentCounts: ReadingBackupCodec.Counts?
+        let currentHasSavedData: Bool
+        let createdAt: String
+        let sourceAppVersion: String
+        var containsNoBookmarksOrPositions: Bool { counts.bookmarks == 0 && counts.positions == 0 }
+        fileprivate let storeToken: UUID
+        fileprivate let generation: UInt64
+        fileprivate let before: RestoreSnapshot
+        fileprivate let retainedSnapshot: RestoreSnapshot
+        fileprivate let targetRaw: Data
+    }
+
+    /// A read-only handle for a separate, explicit retained-backup management UI.
+    struct RetainedRestoreBackup {
+        let createdAt: String
+        let beforeHasSavedData: Bool
+        let beforeCounts: ReadingBackupCodec.Counts?
+        fileprivate let storeToken: UUID
+        fileprivate let generation: UInt64
+        fileprivate let current: RestoreSnapshot?
+        fileprivate let storedBytes: Data
+    }
+
+    private struct RestoreRetention: Codable {
+        let format: String
+        let schemaVersion: Int
+        let createdAt: String
+        let beforePresent: Bool
+        let beforeBase64: String
+        let beforeSHA256: String
+        let targetSHA256: String
+    }
+    private var restoreBackupKey: String { key + ".restore-backup.v1" }
+    private static let retentionFormat = "dev.pero3.aiagentlibrary.restore-before"
+    private static let maximumRetainedRestoreBytes = 2_097_152
+
+    /// Preparation and cancellation write nothing. Callers serialize these APIs on
+    /// the owning actor; there are no awaits or file-supplied namespace selections.
+    func previewRestore(from backup: Data) throws -> RestorePreview {
+        guard !restoreInProgress else { throw RestoreFailure.busy }
+        guard recoveryIssue == nil else { throw RestoreFailure.currentNeedsRecovery }
+        let generation = mutationGeneration
+        let target = try ReadingBackupCodec.decode(backup)
+        let candidate = try JSONDecoder().decode(State.self, from: target.rawData)
+        guard !candidate.needsRecovery else { throw ReadingBackupCodec.Failure.invalid }
+        let before = try healthyRestoreSnapshot()
+        guard before.rawData != target.rawData else { throw RestoreFailure.alreadyCurrent }
+        let retained = try retainedSnapshot()
+        try allowRetention(retained, before: before, target: target.rawData)
+        try requireCurrentSnapshot(before, generation: generation)
+        guard try retainedSnapshot() == retained, generation == mutationGeneration else { throw RestoreFailure.stale }
+        return RestorePreview(counts: target.counts,
+            currentCounts: try before.rawData.map { try ReadingBackupCodec.checkedRestoreRaw($0) },
+            currentHasSavedData: before.rawData != nil, createdAt: target.createdAt,
+            sourceAppVersion: target.appVersion, storeToken: restoreStoreToken,
+            generation: generation, before: before, retainedSnapshot: retained, targetRaw: target.rawData)
+    }
+
+    /// Only an explicit confirmation calls apply. A nonmatching primary readback
+    /// preserves the before slot and stops later edits; it never rolls back an
+    /// unknown writer or claims that the primary value necessarily stayed unchanged.
+    func applyRestore(_ preview: RestorePreview, backupCreatedAt: Date) throws {
+        guard !restoreInProgress else { throw RestoreFailure.busy }
+        guard recoveryIssue == nil else { throw RestoreFailure.currentNeedsRecovery }
+        guard preview.storeToken == restoreStoreToken, preview.generation == mutationGeneration else { throw RestoreFailure.stale }
+        restoreInProgress = true
+        var primaryConfirmed = false
+        defer {
+            // Observing an external primary change also invalidates the old live
+            // state; do not let a subsequent ordinary save overwrite that writer.
+            if !primaryConfirmed, (try? rawSnapshot(forKey: key)) != preview.before { suspendForObservedPrimaryChange() }
+            restoreInProgress = false
+        }
+        try requireCurrentSnapshot(preview.before, generation: preview.generation)
+        guard (try? retainedSnapshot()) == preview.retainedSnapshot else { throw RestoreFailure.stale }
+        let counts = try ReadingBackupCodec.checkedRestoreRaw(preview.targetRaw)
+        let candidate = try JSONDecoder().decode(State.self, from: preview.targetRaw)
+        guard counts == preview.counts, !candidate.needsRecovery else { throw ReadingBackupCodec.Failure.invalid }
+        try allowRetention(preview.retainedSnapshot, before: preview.before, target: preview.targetRaw)
+        let slot: Data
+        switch preview.retainedSnapshot {
+        case .absent:
+            slot = try encodedRetention(before: preview.before, target: preview.targetRaw, date: backupCreatedAt)
+        case .data(let existing): slot = existing
+        }
+        if preview.retainedSnapshot == .absent { defaults.set(slot, forKey: restoreBackupKey) }
+        guard (try? retainedSnapshot()) == .data(slot) else { throw RestoreFailure.backupWriteUnconfirmed }
+        try requireCurrentSnapshot(preview.before, generation: preview.generation)
+        // A primary write attempt invalidates every older confirmation, including
+        // failure cases whose readback still happens to show the original bytes.
+        mutationGeneration &+= 1
+        defaults.set(preview.targetRaw, forKey: key)
+        guard (try? rawSnapshot(forKey: key)) == .data(preview.targetRaw) else {
+            readingSaveSuspended = true
+            restoreSuspendedFailure = .primaryWriteUnconfirmed
+            throw RestoreFailure.primaryWriteUnconfirmed
+        }
+        state = candidate
+        // Primary readback is confirmed: publish the target's exact identity with memory.
+        expectedReadingIdentity = .data(preview.targetRaw)
+        originalForRecovery = nil
+        recoveryIssue = nil
+        readingSaveSuspended = false
+        restoreSuspendedFailure = .observedPrimaryChange
+        primaryConfirmed = true
+    }
+
+    func retainedRestoreBackup() throws -> RetainedRestoreBackup? {
+        guard !restoreInProgress else { throw RestoreFailure.busy }
+        let generation = mutationGeneration, current = try? healthyRestoreSnapshot()
+        guard case .data(let bytes) = try retainedSnapshot() else { return nil }
+        let retention = try decodedRetention(bytes)
+        guard generation == mutationGeneration, try retainedSnapshot() == .data(bytes) else { throw RestoreFailure.stale }
+        let before = try beforeSnapshot(retention)
+        return RetainedRestoreBackup(createdAt: retention.createdAt,
+            beforeHasSavedData: retention.beforePresent,
+            beforeCounts: try before.rawData.map { try ReadingBackupCodec.checkedRestoreRaw($0) },
+            storeToken: restoreStoreToken, generation: generation, current: current, storedBytes: bytes)
+    }
+
+    func exportRetainedRestoreBackup(_ retained: RetainedRestoreBackup, appVersion: String) throws -> Data {
+        guard !restoreInProgress else { throw RestoreFailure.busy }
+        guard retained.storeToken == restoreStoreToken,
+              try retainedSnapshot() == .data(retained.storedBytes) else { throw RestoreFailure.stale }
+        let value = try decodedRetention(retained.storedBytes)
+        guard let raw = try beforeSnapshot(value).rawData else { throw RestoreFailure.noPreviousSavedData }
+        guard let date = Self.restoreDateFormatter().date(from: value.createdAt) else { throw RestoreFailure.retainedBackupUnsupported }
+        let exported = try ReadingBackupCodec.encode(rawData: raw, createdAt: date, appVersion: appVersion)
+        guard try retainedSnapshot() == .data(retained.storedBytes) else { throw RestoreFailure.stale }
+        return exported
+    }
+
+    /// Separate explicit confirmation only. Cancelling the management screen must
+    /// not call this method. The primary key and corruption-recovery key are untouched.
+    func releaseRetainedRestoreBackup(_ retained: RetainedRestoreBackup) throws {
+        guard !restoreInProgress else { throw RestoreFailure.busy }
+        guard !restoreSaveSuspended else { throw restoreSuspendedFailure }
+        guard recoveryIssue == nil else { throw RestoreFailure.currentNeedsRecovery }
+        guard retained.storeToken == restoreStoreToken, retained.generation == mutationGeneration,
+              let expectedCurrent = retained.current else { throw RestoreFailure.stale }
+        try requireCurrentSnapshot(expectedCurrent, generation: retained.generation)
+        guard (try? retainedSnapshot()) == .data(retained.storedBytes),
+              retained.generation == mutationGeneration else { throw RestoreFailure.stale }
+        _ = try decodedRetention(retained.storedBytes)
+        restoreInProgress = true
+        defer { restoreInProgress = false }
+        mutationGeneration &+= 1
+        defaults.removeObject(forKey: restoreBackupKey)
+        guard defaults.object(forKey: restoreBackupKey) == nil else { throw RestoreFailure.retentionReleaseUnconfirmed }
+    }
+
+    private func rawSnapshot(forKey storageKey: String) throws -> RestoreSnapshot {
+        guard defaults.object(forKey: storageKey) != nil else { return .absent }
+        guard let data = defaults.data(forKey: storageKey) else { throw RestoreFailure.currentUnsupported }
+        return .data(data)
+    }
+    private func healthyRestoreSnapshot() throws -> RestoreSnapshot {
+        let generation = mutationGeneration
+        do { return try checkedHealthyRestoreSnapshot() }
+        catch {
+            // A normal edit may have completed during a read-only check. Confirm
+            // that fresh persisted/live state agrees before treating it as foreign.
+            if generation != mutationGeneration {
+                let refreshedGeneration = mutationGeneration
+                if let refreshed = try? checkedHealthyRestoreSnapshot(), refreshedGeneration == mutationGeneration {
+                    return refreshed
+                }
+            }
+            if recoveryIssue == nil { suspendForObservedPrimaryChange() }
+            throw error
+        }
+    }
+    private func checkedHealthyRestoreSnapshot() throws -> RestoreSnapshot {
+        let snapshot = try rawSnapshot(forKey: key)
+        let identity: ReadingPersistenceIdentity
+        switch snapshot {
+        case .absent: identity = .absent
+        case .data(let data): identity = .data(data)
+        }
+        guard identity == expectedReadingIdentity else { throw RestoreFailure.currentHasUnsavedChanges }
+        if let data = snapshot.rawData {
+            do { _ = try ReadingBackupCodec.checkedRestoreRaw(data) }
+            catch { throw RestoreFailure.currentUnsupported }
+            let decoded = try JSONDecoder().decode(State.self, from: data)
+            guard !decoded.needsRecovery, !state.needsRecovery,
+                  decoded.bookmarks == state.bookmarks, decoded.positions == state.positions,
+                  decoded.lastArticleID == state.lastArticleID else { throw RestoreFailure.currentHasUnsavedChanges }
+        } else {
+            guard !state.needsRecovery, state.bookmarks.isEmpty, state.positions.isEmpty,
+                  state.lastArticleID == nil else { throw RestoreFailure.currentHasUnsavedChanges }
+        }
+        return snapshot
+    }
+    private func requireCurrentSnapshot(_ expected: RestoreSnapshot, generation: UInt64) throws {
+        guard generation == mutationGeneration else { throw RestoreFailure.stale }
+        let actual = try? healthyRestoreSnapshot()
+        // Own valid edits invalidate a confirmation without stopping normal use.
+        guard generation == mutationGeneration else { throw RestoreFailure.stale }
+        guard actual == expected else {
+            suspendForObservedPrimaryChange()
+            throw RestoreFailure.stale
+        }
+    }
+    private func suspendForObservedPrimaryChange() {
+        if !restoreSaveSuspended { restoreSuspendedFailure = .observedPrimaryChange }
+        readingSaveSuspended = true
+    }
+    private func retainedSnapshot() throws -> RestoreSnapshot {
+        do {
+            let result = try rawSnapshot(forKey: restoreBackupKey)
+            if let data = result.rawData {
+                guard data.count <= Self.maximumRetainedRestoreBytes else { throw RestoreFailure.retainedBackupUnsupported }
+                _ = try decodedRetention(data)
+            }
+            return result
+        } catch { throw RestoreFailure.retainedBackupUnsupported }
+    }
+    private func allowRetention(_ slot: RestoreSnapshot, before: RestoreSnapshot, target: Data) throws {
+        if restoreSaveSuspended, restoreSuspendedFailure != .primaryWriteUnconfirmed { throw restoreSuspendedFailure }
+        switch slot {
+        case .absent:
+            guard !restoreSaveSuspended else { throw restoreSuspendedFailure }
+        case .data(let bytes):
+            let retained = try decodedRetention(bytes)
+            guard try beforeSnapshot(retained) == before,
+                  retained.targetSHA256 == Self.restoreDigest(target), before.rawData != target else {
+                throw RestoreFailure.retainedBackupExists
+            }
+        }
+    }
+    private func encodedRetention(before: RestoreSnapshot, target: Data, date: Date) throws -> Data {
+        guard date.timeIntervalSince1970.isFinite else { throw RestoreFailure.retainedBackupUnsupported }
+        let raw = before.rawData ?? Data()
+        let value = RestoreRetention(format: Self.retentionFormat, schemaVersion: 1,
+            createdAt: Self.restoreDateFormatter().string(from: date), beforePresent: before.rawData != nil,
+            beforeBase64: raw.base64EncodedString(), beforeSHA256: Self.restoreDigest(raw),
+            targetSHA256: Self.restoreDigest(target))
+        let encoder = JSONEncoder(); encoder.outputFormatting = [.sortedKeys]
+        let data = try encoder.encode(value)
+        _ = try decodedRetention(data)
+        return data
+    }
+    private func decodedRetention(_ data: Data) throws -> RestoreRetention {
+        guard data.count <= Self.maximumRetainedRestoreBytes else { throw RestoreFailure.retainedBackupUnsupported }
+        do {
+            try ReadingBackupCodec.checkedObjectKeys(data, exact: ["format", "schemaVersion", "createdAt", "beforePresent", "beforeBase64", "beforeSHA256", "targetSHA256"])
+            let value = try JSONDecoder().decode(RestoreRetention.self, from: data)
+            guard value.format == Self.retentionFormat, value.schemaVersion == 1,
+                  let date = Self.restoreDateFormatter().date(from: value.createdAt),
+                  Self.restoreDateFormatter().string(from: date) == value.createdAt,
+                  ContentValidator.isDigest(value.targetSHA256) else { throw RestoreFailure.retainedBackupUnsupported }
+            _ = try beforeSnapshot(value)
+            return value
+        } catch { throw RestoreFailure.retainedBackupUnsupported }
+    }
+    private func beforeSnapshot(_ value: RestoreRetention) throws -> RestoreSnapshot {
+        guard value.beforeBase64.utf8.count <= ((ReadingBackupCodec.maximumRawBytes + 2) / 3) * 4,
+              let data = Data(base64Encoded: value.beforeBase64), data.base64EncodedString() == value.beforeBase64,
+              data.count <= ReadingBackupCodec.maximumRawBytes,
+              Self.restoreDigest(data) == value.beforeSHA256 else { throw RestoreFailure.retainedBackupUnsupported }
+        if value.beforePresent {
+            do { _ = try ReadingBackupCodec.checkedRestoreRaw(data) }
+            catch { throw RestoreFailure.retainedBackupUnsupported }
+            return .data(data)
+        }
+        guard data.isEmpty else { throw RestoreFailure.retainedBackupUnsupported }
+        return .absent
+    }
+    private static func restoreDigest(_ data: Data) -> String {
+        SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+    }
+    private static func restoreDateFormatter() -> ISO8601DateFormatter {
+        let formatter = ISO8601DateFormatter(); formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.formatOptions = [.withInternetDateTime]
+        return formatter
+    }
+
     /// Read only the bound namespace's persisted bytes, never the tolerant live state.
     func exportBackup(createdAt: Date, appVersion: String) throws -> Data {
+        guard !restoreInProgress else { throw ReadingBackupCodec.Failure.unavailable }
         guard !readingSaveSuspended else { throw ReadingBackupCodec.Failure.savingSuspended }
         guard recoveryIssue == nil else { throw ReadingBackupCodec.Failure.unavailable }
         let generation = mutationGeneration
@@ -630,14 +962,14 @@ final class ReadingStore {
                (try? ReadingBackupCodec.validateRaw(raw)) != nil, persistedStateMatchesMemory(raw),
                refreshedGeneration == mutationGeneration { return }
         }
-        readingSaveSuspended = true
+        suspendForObservedPrimaryChange()
     }
 
     /// Preserve the source before replacing it with readable records and live edits.
     /// A failed backup, existing backup, or changed source never overwrites the main key.
     @discardableResult
     func recoverReadableState() -> Bool {
-        guard !readingSaveSuspended else { return false }
+        guard !readingSaveSuspended, !restoreInProgress else { return false }
         guard recoveryIssue?.canRecover == true, let original = originalForRecovery else { return false }
         mutationGeneration &+= 1
         guard defaults.data(forKey: key) == original else { recoveryIssue = .changed; return false }
@@ -660,14 +992,14 @@ final class ReadingStore {
     }
 
     func toggleBookmark(_ id: String) {
-        guard !readingSaveSuspended else { return }
+        guard !readingSaveSuspended, !restoreInProgress else { return }
         mutationGeneration &+= 1
         if !state.bookmarks.insert(id).inserted { state.bookmarks.remove(id) }
         save()
     }
 
     func markOpened(_ articleID: String) {
-        guard !readingSaveSuspended, state.lastArticleID != articleID else { return }
+        guard !readingSaveSuspended, !restoreInProgress, state.lastArticleID != articleID else { return }
         mutationGeneration &+= 1
         state.lastArticleID = articleID
         save()
@@ -675,7 +1007,7 @@ final class ReadingStore {
 
     func record(articleID: String, heading: String?, fraction: Double, blockID: String? = nil,
                 anchor: NativeReadingAnchor? = nil) {
-        guard !readingSaveSuspended, fraction.isFinite else { return }
+        guard !readingSaveSuspended, !restoreInProgress, fraction.isFinite else { return }
         mutationGeneration &+= 1
         state.positions[articleID] = ReadingPosition(heading: heading, fraction: fraction, blockID: blockID, anchor: anchor)
         state.lastArticleID = articleID
@@ -702,7 +1034,7 @@ final class ReadingStore {
     }
 
     private func save() {
-        guard recoveryIssue == nil, !readingSaveSuspended else { return }
+        guard recoveryIssue == nil, !readingSaveSuspended, !restoreInProgress else { return }
         if let data = try? JSONEncoder().encode(state) {
             expectedReadingIdentity = .data(data)
             defaults.set(data, forKey: key)

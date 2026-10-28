@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "date_JST": "2026-10-28",
-  "status": "PR294 published; initial Native picker witness failure retained; test-only correction awaiting exact-head validation",
+  "status": "PR294 second observed Native failure diagnosed as background search cancellation; strict foreground picker correction awaiting exact-head validation",
   "reference_only": {
     "export_PR": 293,
     "head": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
@@ -891,5 +891,78 @@
       "new_head_validation": "not yet observed"
     },
     "preparation_fields_above": "Historical preparation scope; this object records later actual initial Native observation only."
+  },
+  "PR294_second_observation": {
+    "head": "cc98855b9c01e0c966ba33e297c10a7e822a75ba",
+    "run": 40646888170,
+    "job": 122677667301,
+    "attempt": 1,
+    "actual_checkout": "4530d6167c37013192baef2dc01e8bdc1e694097",
+    "actual_checkout_parents": [
+      "a18a47c2911a51c47b714a589a4067d970602279",
+      "cc98855b9c01e0c966ba33e297c10a7e822a75ba"
+    ],
+    "actual_checkout_tree": "736534ed2ef97fab611767842462da812660af1b",
+    "all_tree_equal_approved_head": true,
+    "unit": {
+      "total": 236,
+      "skipped": 2,
+      "failures": 0,
+      "related71_each_started1_passed1": true
+    },
+    "UI": {
+      "old_native2": "passed",
+      "old_recovery2": "passed",
+      "no_retained_exact_public_label_checks": "passed before picker",
+      "JSON_picker_opened": true,
+      "cancel_tapped": false,
+      "failure": "global firstMatch selected background library-search Cancel; requireHittable failed before tap"
+    },
+    "actual_attachment_diagnosis": {
+      "artifact_id": 12799210885,
+      "artifact_bytes": 128500845,
+      "official_SHA256": "3ab35b79267fbfb6f6929cadf4c047b635f7e43f0e9a2baefe8d76b248c89100",
+      "artifact_digest_matches": true,
+      "geometry_target_matches_background_search_cancel_each_component_within": 0.05,
+      "observed_picker_bar": "FullDocumentManagerViewControllerNavigationBar",
+      "front_picker_cancel_isHittable_or_tap_success": "not observed; required in next correction",
+      "retained_image": "normal Files recent-items; no onboarding or alert shown",
+      "hierarchy_SHA256": "0acfc2445f447ed464e008f7fba400462e25a50e04b2fe80d0be9a6fd3f92010",
+      "screenshot_SHA256": "eb963dedb416e31bad4c383f9f79040fd8aae7a85457d1da6f62282b31f4b868",
+      "geometry_SHA256": "087c481569ed94608ccfce4ab662217b26cc07afb9672710ec261d31c13be40e",
+      "independent_readonly_correlation": true,
+      "actual_no_retained_identifier": "reading-restore-retention; not generalized to unobserved runs/OS",
+      "GitHub_artifact_body_GETs": 1,
+      "connector_returned_file_transfer": 1,
+      "large_download_and_extraction_removed_bytes": 257373325,
+      "tracked_raw_or_media_added": false
+    },
+    "raw_log": {
+      "GETs": 1,
+      "bytes": 950459,
+      "SHA256": "1b409389978382239eb012ce4960fec26efc92eaf0a2fec06521e114e77ee5ab",
+      "tracked_body": false
+    },
+    "correction": {
+      "paths": [
+        "ios/AILibraryUITests/ReadingRecoveryUITests.swift"
+      ],
+      "Source_SHA256": "beb38c6b849b2f292281079230a5c3c62948df9e603f1f2a2160e274b4369624",
+      "requires_new_observed_bar_and_before_navigation_IDs": true,
+      "unique_enabled_hittable_scoped_cancel": true,
+      "rebind_and_finite_frame_containment": true,
+      "appearance_readiness_closed_seconds": [
+        30,
+        15,
+        15
+      ],
+      "closed_requires_choose_usable_and_picker_bar_and_scoped_cancel_absent": true,
+      "old2_no_retained_helper_and_App_PBX_workflow_unchanged": true,
+      "grammar_exit": 0,
+      "inverse_exact": true,
+      "new_UI_SDK_runtime_or_CI_acceptance": "not observed"
+    },
+    "unchanged_retry_count": 0,
+    "initial_head_failure_retained": true
   }
 }

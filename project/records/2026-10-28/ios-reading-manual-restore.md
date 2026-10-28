@@ -63,3 +63,15 @@ parent・commit・PR・merge SHAは実際の作成結果から得る。最終Sou
 訂正はテストだけである。利用者に見える正確な文言「保全した復元前データはありません。」を最大10秒待ち、一意性と保全エラーの不在を確認する。同じ確認をpicker取消後にも行う。文言が出なければ引き続き失敗する。既存2復旧テスト、pickerの30秒・閉じる15秒、既存selector・assertionを保ち、App・PBX・workflowは変更しない。訂正headのApp・UI・必須CIは別途確認する。
 
 初回失敗は保持し、訂正後の成功へ置き換えない。実provider・実機・VoiceOver・署名更新時の記録維持・耐電断は未確認であり、IOS-22と自分用完成の判定は未完了を保つ。
+
+## 訂正headで確認したPickerの選択先
+
+訂正head `cc98855b9c01e0c966ba33e297c10a7e822a75ba`の[Native run 40646888170](https://github.com/pero3dev/ai-agent-library/actions/runs/40646888170)は、単体236件（skip2・失敗0）、関連71件の各1回成功、既存UI4件が成功した。追加UIは公開文言の待機・一意性確認を通過し、実際にJSON pickerを開いたが、取消をtapする前の操作可能性確認で失敗した。変更なしretryは0回である。
+
+失敗時のgeometryと階層を照合すると、全アプリから最初に検索した「キャンセル」は背面のライブラリ検索のボタンだった。座標は両者で各成分0.05未満の差で一致した。前面は通常のFiles「最近使った項目」で、`FullDocumentManagerViewControllerNavigationBar`内に別の「キャンセル」が存在した。保持画像に初回案内やalertはなかった。これは検索対象の誤りであり、前面ボタンをtapした成功はまだ観測していない。
+
+同じApp本文の階層では「保全した復元前データはありません。」のStaticTextのidentifierが親Sectionの`reading-restore-retention`になっていた。公開文言を使う先の訂正を保持し、この観測を他OSや初回runの未取得階層まで一般化しない。
+
+次の訂正もテストだけである。選択操作前のnavigation IDを保持し、実観測の新しい一意なpickerバー内の取消だけを選ぶ。存在・有効・操作可が一意であることを15秒まで待ち、同じqueryへ結び直してApp→バー→ボタンのframe包含を確認する。出現30秒、取消後15秒、既存2復旧テストと公開文言の確認を保ち、取消後にはpickerバーの消失も要求する。背景検索へのfallbackやApp・PBX・workflow変更はない。訂正headのSDK・UI・CI受入は別に確認する。
+
+取得したartifactは公式SHA-256を照合し、対象テストの画面・階層・geometryだけを診断に残した。約257MBのZIPと展開結果は整理済みで、追跡ファイルへ画面・raw log・traceを追加していない。初回2headの失敗は保持し、実機・provider・VoiceOver・IOS-22全体は未確認を維持する。

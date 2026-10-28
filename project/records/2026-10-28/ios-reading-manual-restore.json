@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "date_JST": "2026-10-28",
-  "status": "private Source8 actual-export-main-bound preparation; final validation and restore publication incomplete",
+  "status": "PR294 published; initial Native picker witness failure retained; test-only correction awaiting exact-head validation",
   "reference_only": {
     "export_PR": 293,
     "head": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
@@ -843,5 +843,53 @@
     "checkout_scope": "PR head metadata is distinct from actual synthetic checkout; see supplied observation projections.",
     "restore_App71_SDK_provider_device_success_inferred": false,
     "new_API_or_raw_retrieval_by_binding": 0
+  },
+  "PR294_initial_observation": {
+    "head": "5d37bb3f297123e25fcda699e7031fdb3f459499",
+    "native_run": 40642150306,
+    "job": 122662506536,
+    "attempt": 1,
+    "actual_checkout": "37dc5c4a73452d134a15031ce6cdb9b4f63e2da2",
+    "actual_checkout_kind": "pull_request synthetic merge",
+    "actual_checkout_parents": [
+      "a18a47c2911a51c47b714a589a4067d970602279",
+      "5d37bb3f297123e25fcda699e7031fdb3f459499"
+    ],
+    "actual_checkout_tree_equal_approved_head": true,
+    "unit": {
+      "total": 236,
+      "skipped": 2,
+      "failures": 0,
+      "related_subset": 71,
+      "each_subset_method_started_and_passed_once": true
+    },
+    "UI": {
+      "old_native_passed": 2,
+      "old_recovery_passed": 2,
+      "new_picker_cancel": "failed before choose.tap at ReadingRecoveryUITests.swift:83 immediate identifier StaticText.exists",
+      "actual_picker_open_or_cancel_passed": false
+    },
+    "failure_cause": "AX identity/type/visibility/timing not established",
+    "unchanged_retry_count": 0,
+    "raw_log": {
+      "GETs": 1,
+      "bytes": 944350,
+      "SHA256": "3175a34660ad40eca206ed8e53efd3eb00f38147e1ad497bd97a347fc7374ab0",
+      "tracked_raw_body": false
+    },
+    "correction": {
+      "source_paths": [
+        "ios/AILibraryUITests/ReadingRecoveryUITests.swift"
+      ],
+      "public_text": "保全した復元前データはありません。",
+      "wait_seconds": 10,
+      "requires_unique_message": true,
+      "requires_no_retention_error": true,
+      "after_picker_cancel_rechecked": true,
+      "old_recovery2_picker30_closed15_other_assertions_unchanged": true,
+      "App_PBX_workflow_unchanged": true,
+      "new_head_validation": "not yet observed"
+    },
+    "preparation_fields_above": "Historical preparation scope; this object records later actual initial Native observation only."
   }
 }

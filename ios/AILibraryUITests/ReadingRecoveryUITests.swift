@@ -80,7 +80,7 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         let choose = app.buttons["reading-restore-choose-file"]
         XCTAssertTrue(choose.waitForExistence(timeout: 10))
         requireHittable(choose)
-        XCTAssertTrue(app.staticTexts["reading-restore-no-retained"].exists)
+        requireNoRetainedBeforeRestore()
         XCTAssertFalse(app.buttons["reading-restore-review"].exists)
         choose.tap()
 
@@ -92,6 +92,7 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
             self.isHittableOnScreen(choose) && !pickerCancel.exists
         }, object: nil)
         XCTAssertEqual(XCTWaiter.wait(for: [pickerClosed], timeout: 15), .completed)
+        requireNoRetainedBeforeRestore()
         XCTAssertFalse(app.buttons["reading-restore-review"].exists)
         let close = app.buttons["reading-restore-close"]
         requireHittable(close)
@@ -102,6 +103,14 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         relaunchSameSuite()
         requireNoRecoveryNotice()
         requireBookmarkedArticle("Agent ループ", id: "01-concepts/agent-loop")
+    }
+
+    private func requireNoRetainedBeforeRestore() {
+        let messages = app.staticTexts.matching(NSPredicate(
+            format: "label == %@", "保全した復元前データはありません。"))
+        XCTAssertTrue(messages.firstMatch.waitForExistence(timeout: 10))
+        XCTAssertEqual(messages.count, 1, "Expected one public no-retained message")
+        XCTAssertFalse(app.staticTexts["reading-restore-retention-error"].exists)
     }
 
     private func waitForLibrary() {

@@ -53,3 +53,13 @@ export実採用mainを起点に、1つの復元PRを3コミットで進める。
 3. この記録2ファイル・索引3と既存export記録2への採用追記を反映する（7path）。
 
 parent・commit・PR・merge SHAは実際の作成結果から得る。最終Source・metadata・通常CIを再照合し、実機操作はユーザー指定どおり未完了で記録して依存しない作業を進める。TODOは32行・完了13行とIOS-22未完了を維持する。この単位だけで破損移行全体や自分用アプリの完成を示さない。
+
+## PR294初回の観測と取消テストの訂正
+
+以下は公開前の準備状態に対する後続観測である。[PR #294](https://github.com/pero3dev/ai-agent-library/pull/294)の初回head `5d37bb3f297123e25fcda699e7031fdb3f459499`で、[Native run](https://github.com/pero3dev/ai-agent-library/actions/runs/40642150306)のApp単体は236件、skip2件、失敗0件だった。関連71メソッドは各1回の開始・成功をログで照合した。Nativeの実checkoutはPR synthetic merge `37dc5c4a73452d134a15031ce6cdb9b4f63e2da2`であり、parentsがbase main `a18a47c2911a51c47b714a589a4067d970602279`／承認head `5d37bb3f297123e25fcda699e7031fdb3f459499`であり、全treeが承認headに一致することを確認した。
+
+既存Native2件と既存復旧2件は成功した。新しいpicker取消テスト1件は、pickerを開く前に`reading-restore-no-retained`をStaticTextとして即時検索する確認で失敗した。pickerの選択・取消を成功扱いにしない。ログからAXの型・identifier伝播・非表示・タイミングの原因は確定できず、変更なしの再試行は実施していない。
+
+訂正はテストだけである。利用者に見える正確な文言「保全した復元前データはありません。」を最大10秒待ち、一意性と保全エラーの不在を確認する。同じ確認をpicker取消後にも行う。文言が出なければ引き続き失敗する。既存2復旧テスト、pickerの30秒・閉じる15秒、既存selector・assertionを保ち、App・PBX・workflowは変更しない。訂正headのApp・UI・必須CIは別途確認する。
+
+初回失敗は保持し、訂正後の成功へ置き換えない。実provider・実機・VoiceOver・署名更新時の記録維持・耐電断は未確認であり、IOS-22と自分用完成の判定は未完了を保つ。

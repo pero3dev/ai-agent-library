@@ -6,7 +6,7 @@ import { existsSync, linkSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, 
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { exportPerformance, metricReference, normalizeMetrics, validateClockCSV, verifiedCase, verifiedDetails } from '../../ios/tests/export-performance.mjs';
+import { exportPerformance, metricReference, normalizeMetrics, validateClockCSV, verifiedCase, verifiedDetails, performanceScenario, verifiedScenarioContext } from '../../ios/tests/export-performance.mjs';
 
 const exporter = fileURLToPath(new URL('../../ios/tests/export-performance.mjs', import.meta.url));
 const identifier = 'PublishedPerformanceUITests/testLaunchToPublishedReadiness()';
@@ -65,13 +65,13 @@ function temporary(t) {
 
 // Runs the actual exporter CLI with a local xcrun double. This exercises command
 // selection, exit status and retained files without Xcode, Simulator or a device.
-function runFixtureCLI(t, mode = 'complete') {
+function runFixtureCLI(t, mode = 'complete', fixtureOptions = {}) {
   const root = temporary(t);
   const result = path.join(root, 'raw.xcresult');
   const bin = path.join(root, 'bin');
   mkdirSync(result); mkdirSync(bin);
   const context = path.join(root, 'context.json');
-  const contextBytes = JSON.stringify({ expected_articles: 4, configuration: 'Debug' });
+  const contextBytes = JSON.stringify({ expected_articles: 4, configuration: 'Debug', ...fixtureOptions.context });
   writeFileSync(context, contextBytes);
   const database = path.join(result, 'database.sqlite3');
   const databaseBytes = 'synthetic immutable xcresult bytes';
@@ -84,6 +84,13 @@ function runFixtureCLI(t, mode = 'complete') {
     plan: { summaries: [reference()] },
     summary: clockSummary(mode === 'missing-sample' ? ['1', '2'] : undefined),
   };
+  if (fixtureOptions.caseID) {
+    const id = fixtureOptions.caseID;
+    outputs.report = { testNodes: [{ nodeType: 'Test Suite', children: [caseNode('Passed', id)] }] };
+    outputs.details.testIdentifier = id;
+    outputs.plan = { summaries: [reference('summary-id', id)] };
+    outputs.summary.identifier._value = id;
+  }
   if (mode === 'legacy-status-missing') delete outputs.summary.testStatus;
   if (mode === 'legacy-status-conflict') outputs.summary.testStatus._value = 'Failure';
   if (mode === 'foreign-metric') outputs.summary.performanceMetrics._values[0].identifier._value = 'foreign.metric';
@@ -119,7 +126,8 @@ else if (args.includes('object')) {
 } else process.exit(9);
 `;
   writeFileSync(path.join(bin, 'xcrun'), mockSource, { mode: 0o755 });
-  const run = spawnSync(process.execPath, [exporter, '--result', result, '--output', output, '--context', context], {
+  const scenarioArgs = fixtureOptions.scenario === undefined ? [] : ['--scenario', fixtureOptions.scenario];
+  const run = spawnSync(process.execPath, [exporter, '--result', result, '--output', output, '--context', context, ...scenarioArgs], {
     encoding: 'utf8', timeout: 15000,
     env: { ...process.env, PATH: [bin, path.dirname(process.execPath), process.env.PATH ?? ''].join(path.delimiter) },
   });
@@ -468,4 +476,93 @@ test('CLI failures retain every raw CSV while rejecting header-only, foreign, in
     assert.equal(readFileSync(value.context, 'utf8'), value.contextBytes, mode);
     assert.equal(readFileSync(value.database, 'utf8'), value.databaseBytes, mode);
   }
+});
+
+
+const searchName = 'search-query-to-visible-witness';
+const searchID = 'PublishedPerformanceUITests/testSearchQueryToVisibleWitness()';
+const searchContext = () => ({ scenario: searchName, test_method: 'testSearchQueryToVisibleWitness',
+  search_witness: { negative_query: 'AILIBRARY_UI_PERF_NO_MATCH_67404f8127',
+    positive_query: 'データを外部 API に出せるか', article_id: '03-implementation/model-selection' } });
+const searchFixture = () => ({ scenario: searchName, caseID: searchID, context: searchContext() });
+
+test('only the literal launch and explicit search scenarios select a method', () => {
+  assert.equal(performanceScenario().name, 'launch-to-published-readiness');
+  assert.equal(performanceScenario().method, 'testLaunchToPublishedReadiness');
+  assert.equal(performanceScenario(searchName).method, 'testSearchQueryToVisibleWitness');
+  for (const value of ['search', 'constructor', '__proto__', '', null, 0, {}, ['launch-to-published-readiness']]) {
+    assert.throws(() => performanceScenario(value), /Unknown performance scenario/);
+  }
+});
+
+test('search requires its exact one case and never falls back to the launch case', () => {
+  const searchReport = { testNodes: [caseNode('Passed', searchID)] };
+  assert.equal(verifiedCase(searchReport, searchName), searchID);
+  assert.throws(() => verifiedCase(searchReport));
+  for (const value of [report('Passed'), { testNodes: [] },
+    { testNodes: [caseNode('Skipped', searchID)] },
+    { testNodes: [caseNode('Passed', searchID), caseNode('Passed', identifier)] }]) {
+    assert.throws(() => verifiedCase(value, searchName));
+  }
+});
+
+test('legacy launch context remains compatible while search context must be explicit and exact', () => {
+  assert.equal(verifiedScenarioContext({}).name, 'launch-to-published-readiness');
+  assert.equal(verifiedScenarioContext(searchContext(), searchName).name, searchName);
+  assert.throws(() => verifiedScenarioContext(searchContext()));
+  for (const value of [{}, { scenario: searchName },
+    { ...searchContext(), test_method: 'testLaunchToPublishedReadiness' },
+    { ...searchContext(), search_witness: { ...searchContext().search_witness, positive_query: 'another query' } },
+    { ...searchContext(), search_witness: { ...searchContext().search_witness, result_count: 1 } }]) {
+    assert.throws(() => verifiedScenarioContext(value, searchName));
+  }
+  for (const value of [null, '', 'search', '__proto__']) {
+    assert.throws(() => verifiedScenarioContext({ scenario: value }));
+  }
+});
+
+test('explicit search CLI retains its own case, three typed samples and strict CSV identity', posixOnly, t => {
+  const value = runFixtureCLI(t, 'complete', searchFixture());
+  assert.equal(value.run.status, 0, value.run.stderr);
+  assert.equal(value.summary.scenario, searchName);
+  assert.equal(value.summary.test_id, searchID);
+  assert.equal(value.summary.context.scenario, searchName);
+  assert.equal(value.summary.metrics[0].sample_count, 3);
+  assert.deepEqual(value.summary.metrics[0].samples, [3, 1, 2]);
+  assert.equal(value.summary.csv_validation.status, 'matched-clock-and-typed-values');
+  assert.match(value.summary.boundary, /keyboard and AX polling/);
+  assert.equal(value.summary.acceptance_status, 'unadopted');
+  assert.ok(value.commands().filter(args => args.includes('--test-id')).every(args => args[args.indexOf('--test-id') + 1] === searchID));
+});
+
+test('search context/method mismatch fails before xcresult commands and creates no fake observations', posixOnly, t => {
+  const fixture = searchFixture(); fixture.context.test_method = 'testLaunchToPublishedReadiness';
+  const value = runFixtureCLI(t, 'complete', fixture);
+  assert.equal(value.run.status, 1);
+  assert.equal(value.summary.measurements, null);
+  assert.equal(existsSync(path.join(value.root, 'commands.jsonl')), false);
+});
+
+test('explicit search cannot inspect a launch result as a search result', posixOnly, t => {
+  const fixture = searchFixture(); fixture.caseID = identifier;
+  const value = runFixtureCLI(t, 'complete', fixture);
+  assert.equal(value.run.status, 1);
+  assert.equal(value.summary.measurements, null);
+  assert.equal(value.commands().length, 1);
+});
+
+test('search retains missing metric samples and CSV disagreements as failures', posixOnly, t => {
+  for (const mode of ['missing-sample', 'different-samples', 'bad-rounding']) {
+    const value = runFixtureCLI(t, mode, searchFixture());
+    assert.equal(value.run.status, 1, mode);
+    assert.equal(value.summary.measurements, null);
+    assert.equal(value.summary.acceptance_status, 'unadopted');
+  }
+});
+
+test('an unrecognized CLI scenario is rejected before creating output or invoking xcrun', posixOnly, t => {
+  const value = runFixtureCLI(t, 'complete', { scenario: '__proto__' });
+  assert.equal(value.run.status, 1);
+  assert.equal(existsSync(value.output), false);
+  assert.equal(existsSync(path.join(value.root, 'commands.jsonl')), false);
 });

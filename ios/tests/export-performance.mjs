@@ -5,7 +5,40 @@ import { closeSync, constants, existsSync, fstatSync, lstatSync, mkdirSync, mkdt
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-const scenario = 'testLaunchToPublishedReadiness'
+const launchScenario = 'launch-to-published-readiness'
+const searchScenario = 'search-query-to-visible-witness'
+const scenarioContracts = Object.freeze({
+  [launchScenario]: Object.freeze({
+    name: launchScenario, method: 'testLaunchToPublishedReadiness',
+    boundary: 'Debug Simulator launch through exact published-count label and learning guide; termination excluded; UI automation and AX polling included'
+  }),
+  [searchScenario]: Object.freeze({
+    name: searchScenario, method: 'testSearchQueryToVisibleWitness',
+    search_witness: Object.freeze({ negative_query: 'AILIBRARY_UI_PERF_NO_MATCH_67404f8127',
+      positive_query: 'データを外部 API に出せるか', article_id: '03-implementation/model-selection' }),
+    boundary: 'Debug Simulator public negative-query replacement through exact positive query, filter summary and visible article witness; launch and negative reset excluded; keyboard and AX polling included'
+  })
+})
+
+export function performanceScenario(name = launchScenario) {
+  if (typeof name !== 'string' || !Object.hasOwn(scenarioContracts, name)) throw new Error('Unknown performance scenario')
+  return scenarioContracts[name]
+}
+
+export function verifiedScenarioContext(context, requested = launchScenario) {
+  const selected = performanceScenario(requested)
+  // Missing scenario is accepted only for the already-observed legacy launch context.
+  if ((context.scenario === undefined ? launchScenario : context.scenario) !== selected.name ||
+      (context.test_method !== undefined && context.test_method !== selected.method)) {
+    throw new Error('Measurement context and explicitly selected scenario/method must agree')
+  }
+  if (selected.name === searchScenario && (context.scenario !== selected.name || context.test_method !== selected.method ||
+      !context.search_witness || Object.keys(context.search_witness).length !== 3 ||
+      Object.entries(selected.search_witness).some(([key, value]) => context.search_witness[key] !== value))) {
+    throw new Error('The explicit search scenario requires its fixed query and article witness context')
+  }
+  return selected
+}
 const className = 'PublishedPerformanceUITests'
 const maxJSONBytes = 16 * 1024 * 1024
 // Adopted from the retained Xcode 16.4 result, not inferred from a generic metric.
@@ -21,16 +54,16 @@ const verifiedClockContract = Object.freeze({
 const digest = bytes => createHash('sha256').update(bytes).digest('hex')
 
 function parseOptions(args) {
-  const allowed = new Set(['result', 'output', 'context'])
+  const allowed = new Set(['result', 'output', 'context', 'scenario'])
   const options = {}
   for (let i = 0; i < args.length; i += 2) {
     const name = args[i]?.replace(/^--/, '')
     if (!args[i]?.startsWith('--') || !allowed.has(name) || !args[i + 1] || Object.hasOwn(options, name)) {
-      throw new Error('Use --result <xcresult> --output <evidence directory> --context <JSON>')
+      throw new Error('Use --result <xcresult> --output <evidence directory> --context <JSON> [--scenario <allowed scenario>]')
     }
-    options[name] = path.resolve(args[i + 1])
+    options[name] = name === 'scenario' ? performanceScenario(args[i + 1]).name : path.resolve(args[i + 1])
   }
-  if (Object.keys(options).length !== 3) throw new Error('All result/output/context paths are required')
+  if (['result', 'output', 'context'].some(key => !Object.hasOwn(options, key))) throw new Error('All result/output/context paths are required')
   return options
 }
 
@@ -47,7 +80,8 @@ function walk(value, visit) {
   else for (const child of Object.values(value)) walk(child, visit)
 }
 
-export function verifiedCase(report) {
+export function verifiedCase(report, requested = launchScenario) {
+  const selected = performanceScenario(requested)
   const cases = []
   walk(report.testNodes, node => {
     if (node.nodeType === 'Test Case') cases.push(node)
@@ -57,8 +91,8 @@ export function verifiedCase(report) {
   const id = test.nodeIdentifier
   if (typeof id !== 'string' || id.length > 500 ||
       !id.split('/').includes(className) ||
-      !id.endsWith('/' + scenario + '()') || !['Passed', 'Failed'].includes(test.result)) {
-    throw new Error('The dedicated readiness performance case is missing, skipped or has an unexpected identifier')
+      !id.endsWith('/' + selected.method + '()') || !['Passed', 'Failed'].includes(test.result)) {
+    throw new Error('The selected dedicated performance case is missing, skipped or has an unexpected identifier')
   }
   return id
 }
@@ -275,6 +309,7 @@ const inodeKey = stat => `${stat.dev}:${stat.ino}`
 function prepareOutput(input) {
   const options = Object.fromEntries(['result', 'output', 'context'].map(key => [key, path.resolve(input[key])]))
   for (const file of Object.values(options)) assertNoSymlinkAncestors(file)
+  options.scenario = performanceScenario(input.scenario).name
   // A fresh output tree cannot contain or be contained by either input path.
   // This also rejects context == any fixed output leaf, not just the summary.
   for (const file of [options.result, options.context]) {
@@ -354,9 +389,10 @@ function collectPerformance(options, evidence, commands) {
       context.expected_articles > 2000 || context.configuration !== 'Debug') {
     throw new Error('Invalid independent article count or measurement configuration')
   }
+  const selected = verifiedScenarioContext(context, options.scenario)
   if (!existsSync(options.result) || !lstatSync(options.result).isDirectory()) throw new Error('Performance xcresult is unavailable')
   const report = jsonCommand(['get', 'test-results', 'tests', '--path', options.result, '--compact'], 'tests.raw.json')
-  const id = verifiedCase(report)
+  const id = verifiedCase(report, selected.name)
   const details = jsonCommand(['get', 'test-results', 'test-details', '--test-id', id, '--path', options.result, '--compact'], 'test-details.raw.json')
   verifiedDetails(report, details, id)
   const csvDirectory = evidence.csvDirectory()
@@ -394,7 +430,7 @@ function collectPerformance(options, evidence, commands) {
   const csvValidation = validateClockCSV(new TextDecoder('utf-8', { fatal: true }).decode(readFileSync(files[0])), metrics[0], details)
   const clockContractConfirmed = true
   const result = {
-    schema_version: 1, status: 'measured-and-exported', context, test_id: id,
+    schema_version: 1, status: 'measured-and-exported', context, scenario: selected.name, test_id: id,
     test_result: details.testResult, devices: details.devices,
     declared_metric: 'XCTClockMetric', declared_recorded_iterations: 3,
     discarded_warmup_invocations: 1, metrics, csv, commands,
@@ -404,7 +440,7 @@ function collectPerformance(options, evidence, commands) {
     legacy_test_status: summary.testStatus?._value ?? null,
     extraction: 'CSV export plus documented legacy ActionTestPerformanceMetricSummary fields; missing data fails instead of becoming zero',
     acceptance_status: 'unadopted',
-    boundary: 'Debug Simulator launch through exact published-count label and learning guide; termination excluded; UI automation and AX polling included',
+    boundary: selected.boundary,
     not_measured: ['first-frame launch', 'disk-cold or first install', 'Release', 'physical device', 'CPU', 'memory', 'per-keystroke response', 'scrolling', 'image decoding', 'product performance budgets']
   }
   return result

@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-28",
+  "base": "e0c3031f3d62adab017c72949ffa3376e77b18bf",
+  "state": "candidate preparation, no SDK/UI/memory measurement performed",
+  "objective": "IOS15 target-App memory observation inone bounded unit",
+  "owners": {
+    "Swift": "app_memory_ui_case",
+    "workflow": "restore_ui_ci_contract",
+    "exporter_and_tests": "app_memory_exporter",
+    "records_metadata_Git": "Root"
+  },
+  "source_paths": [
+    "ios/AILibraryUITests/PublishedPerformanceUITests.swift",
+    ".github/workflows/ios-memory.yml",
+    "ios/tests/export-memory.mjs",
+    "tests/unit/ios-memory-export.test.mjs"
+  ],
+  "app_version": "0.2.22(24)",
+  "scenario": "published-article-app-memory",
+  "test_method": "testPublishedArticleAppMemory",
+  "article_id": "11-llm-internals/transformer-architecture",
+  "metric_configuration": "XCTMemoryMetric(application: app)",
+  "expected_invocations": 4,
+  "expected_recorded_values": 3,
+  "trusted_memory_contract": null,
+  "bootstrap_exit": "nonzero withaccepted_measurements null",
+  "verification": {
+    "Swift_grammar": "success",
+    "Swift_single_file_typecheck": "Xcode16.2/iOS18.2Simulator Swift5 targetiOS17 exit0; noApp/link/UI/memoryrun",
+    "UI_independent_review": "P1/P2 0",
+    "workflow_static": "actionlint1.7.12/YAML/Bash11/embeddedNode/selector/caps success",
+    "workflow_independent_review": "P1/P2 0",
+    "Node_memory_tests": "v2 20passed,3P2 negativefixturesincluded",
+    "Node_Clock_tests": "44passed beforememoryv2; Clocksource/tests byteheld",
+    "exporter_independent_review": "v1 P2=3 retained; v2 all3resolved/newP1P2=0, independentreceipt retained",
+    "SDK_UI": "notperformed",
+    "actual_metric_set_units_cardinality_CSV": "notobserved/adopted",
+    "physical": "unfinished byauthorization",
+    "root_dependency_preparation": "npm ci --ignore-scripts withisolatedemptyconfigs andcache; Source lockfileunchanged",
+    "root_common_check": {
+      "command": "npm run check",
+      "exit_code": 0,
+      "Node": {
+        "tests": "1130",
+        "pass": "1115",
+        "fail": "0",
+        "skipped": "15"
+      },
+      "environment": "canonicalownedTMPDIR/seededGittemplate/systemglobalGitdisabled/privateGitE0metadata"
+    }
+  },
+  "TODO": {
+    "rows": 32,
+    "completed": 13,
+    "IOS15": "unfinished"
+  },
+  "commit_plan": [
+    "Source4",
+    "records+indexes",
+    "afterfirstempiricalraw strictcontractadoption asnewcommit"
+  ],
+  "merge": "ordinaryprotectedmain afternecessaryCI+independentreview+Ready policies",
+  "external_authority": "human autonomouspriorityTODO andnormalcommit/mainmerge request",
+  "excluded": [
+    "newpayments/contracts/distribution/OSupgrade/signing changes",
+    "hostRSS astargetAppmemory",
+    "cold/lifetime/Release/device/SLO inference"
+  ],
+  "App_PBX_version_unchanged": true,
+  "Clock_cases_helpers_workflow_exporter_bytes_held": true,
+  "prior_experiment": {
+    "PR": 274,
+    "merged": false,
+    "head": "4b6978dec80af528248df9dc186ba1d9feda227b",
+    "run": 40243885319,
+    "job": 121321292208,
+    "App": "0.2.14(16)",
+    "scope": "search transaction, Memory3 rows/5values historicalunadopted",
+    "UI": "passed perpriorrecord",
+    "collector": "failedbeforecommands=contextsealdrift, causeunproven",
+    "artifact_id": 12618446606,
+    "artifact_bytes": 1303267,
+    "artifact_SHA256": "5c6104728aedad0cdfa0a15354e283b29de75f61f5a284fd66ff2a41ae613dab",
+    "not_transferred": [
+      "old5values",
+      "semantics/unitconversion",
+      "performancebaseline"
+    ],
+    "old_branch_unchanged": true
+  },
+  "input_guarantee": "context stable fd/metadata and xcresult root identity; bundleinternalbyteimmutability notverified"
+}

@@ -84,11 +84,137 @@ private enum ReaderViewportGeometry {
     }
 }
 
+/// Diagnostic boundaries only: stores no XCUIElement or newly read AX property.
+/// One lock protects callback state; the last eight starts stay bounded even if a poll outlives the waiter.
+private final class ReaderWaitBoundaryTrace {
+    enum Boundary: String {
+        case waitReturned = "wait-returned"
+        case geometryStarted = "failure-geometry-started"
+        case geometryReturned = "failure-geometry-returned"
+    }
+
+    private struct Poll {
+        let sequence: UInt64
+        let started: UInt64
+        var returned: UInt64?
+        var satisfied: Bool?
+    }
+
+    private let lock = NSLock()
+    private let now: () -> UInt64
+    private let origin: UInt64
+    private let traceID = UUID().uuidString
+    private let callsiteLine: UInt
+    private let fullyVisible: Bool
+    private let timeout: TimeInterval
+    private var expectationStarted: UInt64?
+    private var expectationReturned: UInt64?
+    private var waitStarted: UInt64?
+    private var waitReturned: UInt64?
+    private var waiterCompleted: Bool?
+    private var inflightAtWaitReturn: UInt64?
+    private var geometryStarted: UInt64?
+    private var geometryReturned: UInt64?
+    private var totalStarted: UInt64 = 0
+    private var totalReturned: UInt64 = 0
+    private var polls: [Poll] = []
+
+    init(callsiteLine: UInt, fullyVisible: Bool, timeout: TimeInterval,
+         now: @escaping () -> UInt64 = { DispatchTime.now().uptimeNanoseconds }) {
+        self.callsiteLine = callsiteLine
+        self.fullyVisible = fullyVisible
+        self.timeout = timeout
+        self.now = now
+        origin = now()
+    }
+
+    private func locked<T>(_ body: () -> T) -> T {
+        lock.lock()
+        defer { lock.unlock() }
+        return body()
+    }
+
+    func markExpectationStarted() { locked { expectationStarted = now() } }
+    func markExpectationReturned() { locked { expectationReturned = now() } }
+    func markWaitStarted() { locked { waitStarted = now() } }
+
+    func beginPoll() -> UInt64 {
+        locked {
+            totalStarted += 1
+            if polls.count == 8 { polls.removeFirst() }
+            polls.append(Poll(sequence: totalStarted, started: now(), returned: nil, satisfied: nil))
+            return totalStarted
+        }
+    }
+
+    func endPoll(_ sequence: UInt64, satisfied: Bool) {
+        locked {
+            totalReturned += 1
+            if let index = polls.firstIndex(where: { $0.sequence == sequence }) {
+                polls[index].returned = now()
+                polls[index].satisfied = satisfied
+            }
+        }
+    }
+
+    /// Snapshot and boundary mutation share the lock; serialization/console I/O never holds it.
+    /// This uses test-process monotonic time and existing Bool results, not AX getters.
+    func json(at boundary: Boundary, completed: Bool? = nil) -> String {
+        let payload: [String: Any] = locked {
+            let timestamp = now()
+            let inflight = totalStarted - totalReturned
+            switch boundary {
+            case .waitReturned:
+                waitReturned = timestamp
+                waiterCompleted = completed
+                inflightAtWaitReturn = inflight
+            case .geometryStarted: geometryStarted = timestamp
+            case .geometryReturned: geometryReturned = timestamp
+            }
+            func milliseconds(_ value: UInt64?) -> Any {
+                guard let value else { return NSNull() }
+                return Double(value >= origin ? value - origin : 0) / 1_000_000
+            }
+            return [
+                "schemaVersion": 1, "sampling": "predicate-boundaries-no-extra-AX",
+                "scope": "NativeReaderUITests-iOS26plus", "traceID": traceID,
+                "event": boundary.rawValue, "callsiteLine": callsiteLine,
+                "fullyVisible": fullyVisible, "timeoutSeconds": timeout.isFinite ? timeout as Any : NSNull(),
+                "snapshotMilliseconds": milliseconds(timestamp),
+                "expectation": ["startedMilliseconds": milliseconds(expectationStarted),
+                    "returnedMilliseconds": milliseconds(expectationReturned)],
+                "wait": ["startedMilliseconds": milliseconds(waitStarted),
+                    "returnedMilliseconds": milliseconds(waitReturned),
+                    "completed": waiterCompleted.map { $0 as Any } ?? NSNull(),
+                    "inflightAtReturn": inflightAtWaitReturn.map { $0 as Any } ?? NSNull()],
+                "polls": ["totalStarted": totalStarted, "totalReturned": totalReturned,
+                    "inflightAtSnapshot": inflight, "retainedLimit": 8,
+                    "omittedStarts": totalStarted - UInt64(polls.count),
+                    "last": polls.map { poll -> [String: Any] in
+                        ["sequence": poll.sequence, "startedMilliseconds": milliseconds(poll.started),
+                         "returnedMilliseconds": milliseconds(poll.returned),
+                         "returnedBoolean": poll.satisfied.map { $0 as Any } ?? NSNull()]
+                    }],
+                "failureGeometry": ["startedMilliseconds": milliseconds(geometryStarted),
+                    "returnedMilliseconds": milliseconds(geometryReturned)]
+            ]
+        }
+        guard let data = try? JSONSerialization.data(withJSONObject: payload, options: [.sortedKeys]) else {
+            return #"{"schemaVersion":1,"sampling":"predicate-boundaries-no-extra-AX","encodingError":"serialization-failed"}"#
+        }
+        guard data.count <= 8192 else {
+            return #"{"schemaVersion":1,"sampling":"predicate-boundaries-no-extra-AX","encodingError":"payload-exceeded-8192-bytes"}"#
+        }
+        return String(decoding: data, as: UTF8.self)
+    }
+}
+
 /// Shared public-UI actions for both the three-article baseline and the full catalog.
 /// Waits and gesture limits synchronize tests; they are not performance targets.
 class NativeReaderUITestCase: XCTestCase {
     private(set) var app: XCUIApplication!
     var seedsPartialReadingRecovery: Bool { false }
+    var recordsRuntime26WaitBoundaries: Bool { false }
 
     override func setUpWithError() throws {
         continueAfterFailure = false
@@ -270,13 +396,26 @@ class NativeReaderUITestCase: XCTestCase {
     func requireHittable(_ element: XCUIElement, inside container: XCUIElement? = nil,
                          fullyVisible: Bool = false, timeout: TimeInterval = 15,
                          file: StaticString = #filePath, line: UInt = #line) {
+        let trace: ReaderWaitBoundaryTrace?
+        if #available(iOS 26.0, *), recordsRuntime26WaitBoundaries {
+            trace = ReaderWaitBoundaryTrace(callsiteLine: line, fullyVisible: fullyVisible, timeout: timeout)
+        } else { trace = nil }
         let predicate = NSPredicate { _, _ in
-            self.isHittableOnScreen(element, inside: container, fullyVisible: fullyVisible)
+            let poll = trace?.beginPoll()
+            let satisfied = self.isHittableOnScreen(element, inside: container, fullyVisible: fullyVisible)
+            if let poll { trace?.endPoll(poll, satisfied: satisfied) }
+            return satisfied
         }
+        trace?.markExpectationStarted()
         let visible = XCTNSPredicateExpectation(predicate: predicate, object: nil)
+        trace?.markExpectationReturned()
+        trace?.markWaitStarted()
         let result = XCTWaiter.wait(for: [visible], timeout: timeout)
+        if let trace { print("AILibraryReaderWait " + trace.json(at: .waitReturned, completed: result == .completed)) }
         if result != .completed {
+            if let trace { print("AILibraryReaderWait " + trace.json(at: .geometryStarted)) }
             captureReaderGeometry(element, inside: container, fullyVisible: fullyVisible)
+            if let trace { print("AILibraryReaderWait " + trace.json(at: .geometryReturned)) }
             capture("Public-UI-target-not-visible")
             let hierarchy = XCTAttachment(string: app.debugDescription)
             hierarchy.name = "Public-UI-target-not-visible-hierarchy"
@@ -411,6 +550,7 @@ class NativeReaderUITestCase: XCTestCase {
 }
 
 final class NativeReaderUITests: NativeReaderUITestCase {
+    override var recordsRuntime26WaitBoundaries: Bool { true }
     func testThreeArticlesHaveNativeBodyText() throws {
         // Chapters 01 and 11 remain covered in both the baseline and full-catalog jobs.
         for (id, title) in [("01-concepts/agent-loop", "Agent ループ"),

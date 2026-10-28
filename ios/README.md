@@ -252,7 +252,9 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 
 [読書exportの採用追記](../project/records/2026-10-28/ios-reading-backup-export.md#pr293の採用追記)では、PR293を通常保護でmain `a18a47c2911a`へ採用した結果とReady必須検査・export SDKの観測を記録する。旧準備記述を保持し、後続復元のApp71・SDK・provider・実機等の成功へ転用しない。
 
-[読書記録の手動復元](../project/records/2026-10-28/ios-reading-manual-restore.md)では、通常の「その他の操作」からpreviewし、明示確認後に置き換える候補を準備しました。復元前rawは固定1slotへ保全し、書出し・本人による保存先確認・別の明示解除を用意します。engineのFoundation62件、UI grammar4、同一readerの旧Mac9件と、旧Source7のCore構文・PBX検査を区別します。旧7までの独立engine／UI・結合レビューはP1・P2が0件です。関連App71メソッド・追加picker UI1件・SDK・実provider・実機・VoiceOverは未実施で、0.2.22（24）の3コミット・1PR案は実採用export mainへ結合しました。TODO32行・完了13行を維持します。 現行Source8は旧7を保ち、FileTimestamp理由3B52.1（本人が選択したJSON）・C617.1（DEBUG限定Documents診断）を追記しました。plist検査までで、新宣言の独立監査もP1・P2が0件。実SDK Privacy report・Store申告の受入は残ります。
+[読書記録の手動復元](../project/records/2026-10-28/ios-reading-manual-restore.md)はPR #294をmain `d74c68179aa2053a457b964f4cf756d0a9bf77b1`へ通常統合しました。0.2.22（24）のpreview・明示置換・復元前1世代保全と解除を実装し、訂正headの単体236件（skip2・失敗0）・UI5件と必要CIの成功を確認しました（Dedicatedは初回を保持し条件不変で1回retry）。ローカル既存署名Releaseと学習索引のMac consumerを別範囲で確認しました。実機・実provider・新版VoiceOver・署名更新後の保持は未確認で、TODO32行・完了13行とIOS-22未完了を維持します。
+
+[iOS26本文待機の境界診断](../project/records/2026-10-28/ios-runtime26-wait-trace.md)は、通常2ケースに限ってwait／pollと既存geometry captureの境界を記録する候補です。既存の15秒・fullyVisible・前面一意性・hittableを保ち、追加AX0・NSLock＋last8で記録します。synthetic helper5件・grammar・独立レビューまでで、新SDK／UI・実traceは未確認です。過去のPR292／293のretry成功を原因修正へ読み替えず、Clock値不変も保証しません。復元採用後の別PRとし、版上げなし・TODO32行／完了13行とIOS-23・25未完了を維持します。
 
 ネイティブ本文の[コードコピー回帰検査](../project/records/2026-10-27/ios-code-copy-ui-ci.md)は、通常Fullの固定3abaで単体165件（skip2・失敗0）、UI23件とReleaseが成功し、raw結果・同UUID・コピー実データ374Bの全byte一致を独立照合しました。canaryと一意なBooted選択はproducerの申告範囲です。通常保護squashで同じtreeのmain169へ採用しました。main169の新push CIは未確認で、実機・VoiceOverとIOS-25全体の受入も残します。
 
@@ -316,7 +318,11 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 2. 既存手順で同梱記事を生成し、その版の通常検査・SDK/App検査の成功／未実施を記録して、`ios/AILibrary.xcodeproj`をXcodeで開きます。ここで新しい検査やビルドを実施したという意味ではありません。
 3. 更新用のBundle IDは既存の`dev.pero3.aiagentlibrary.prototype`、署名は本人の既存Personal Teamを維持します。別ID・別Teamの新規アプリへ置き換えません。
 
-Personal Teamのprovisioning profileは発行から7日で失効し、期限後はMac/Xcodeで再ビルド・再インストールが必要です。7日は開発証明書の寿命ではありません。個別profileの失効日時と証明書の状態は未取得です。[Appleの説明](https://developer.apple.com/help/account/basics/about-your-developer-account)
+Personal Teamのprovisioning profileは発行から7日で失効し、期限後はMac/Xcodeで再ビルド・再インストールが必要です。7日は開発証明書の寿命ではありません。[Appleの説明](https://developer.apple.com/help/account/basics/about-your-developer-account)
+
+2026-10-28に、既存のprofileと開発署名の適合・有効性を読み取りで確認し、0.2.22（24）の候補をローカルXcode 16.2／iOS 18.2 SDKでunsignedと署名付きReleaseへビルドしました。完成アプリの署名・199記事と音声1本・Privacy Manifest・テスト記事除外の監査が通りました。確認したprofileの期限は**2026-10-31 14:32（日本時間）**です。既存の署名情報だけを使い、新規発行・更新・認証操作・支払いは行っていません。将来の期限更新は運用上残りますが、今回の確認に新規更新や有料加入・契約が必要だったという意味ではありません。
+
+ローカルの実ビルド対象はhead 5d37bb3です。PR #294の最終承認head a8b882cとの追跡差分は復元UI試験1ファイルと実施記録2ファイルだけで、App・PBX・resources・依存は同じbyteです。採用main `d74c68179aa2053a457b964f4cf756d0a9bf77b1`でもApp入力の一致を照合しました。a8b882cや採用mainをローカルで再ビルドした結果ではなく、実機の更新成功も示しません。通信禁止の隔離を保つため、署名ビルドでは内側のscript sandboxだけを一時CLIで無効化し、ソース・PBXは変更していません。
 
 ### USB接続と本人の操作が必要な更新
 
@@ -337,4 +343,4 @@ Personal Teamのprovisioning profileは発行から7日で失効し、期限後�
 
 正常な保存記事版の優先を維持し、199記事表示へ強制切替しません。同梱版を使う必要がある場合だけ、本人が「同梱コンテンツへ切り替える」の版・件数を確認して選びます。
 
-期限前後の署名更新、上書き後のデータ維持、読書記録の書き出し・復元、実ファイル提供元での操作は実機未確認です。証明書・profileの有効性とデータ保持を別に扱います。Program加入、新契約・支払い、TestFlight/Store等の外部配布は後続の判断です。
+2026-10-28の読み取りでは、現在利用可能なiPhoneの接続tunnelは確認できませんでした。導入・起動、期限前後の署名更新、上書き後のデータ維持、読書記録の書き出し・復元、実ファイル提供元での操作と新版のVoiceOverは実機未確認です。本人の許可に従い未完了のままスキップし、CIと文書作業は独立して続けられます。証明書・profileの有効性とデータ保持を別に扱います。Program加入、新契約・支払い、TestFlight/Store等の外部配布は後続の判断です。

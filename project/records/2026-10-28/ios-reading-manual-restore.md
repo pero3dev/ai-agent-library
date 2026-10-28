@@ -75,3 +75,19 @@ parent・commit・PR・merge SHAは実際の作成結果から得る。最終Sou
 次の訂正もテストだけである。選択操作前のnavigation IDを保持し、実観測の新しい一意なpickerバー内の取消だけを選ぶ。存在・有効・操作可が一意であることを15秒まで待ち、同じqueryへ結び直してApp→バー→ボタンのframe包含を確認する。出現30秒、取消後15秒、既存2復旧テストと公開文言の確認を保ち、取消後にはpickerバーの消失も要求する。背景検索へのfallbackやApp・PBX・workflow変更はない。訂正headのSDK・UI・CI受入は別に確認する。
 
 取得したartifactは公式SHA-256を照合し、対象テストの画面・階層・geometryだけを診断に残した。約257MBのZIPと展開結果は整理済みで、追跡ファイルへ画面・raw log・traceを追加していない。初回2headの失敗は保持し、実機・provider・VoiceOver・IOS-22全体は未確認を維持する。
+
+## PR294の採用とローカル自用ビルド
+
+[PR #294](https://github.com/pero3dev/ai-agent-library/pull/294)を通常の保護ルールでmain `d74c68179aa2053a457b964f4cf756d0a9bf77b1`へ統合した。承認headは `a8b882c8bcd7ea6182ded4d4e2f3ebb639216160`、tree `fc7a9f10041461efd9de728fec2985724fd02207`。全tupleとparentを照合し、管理者例外・保護設定変更は行っていない。
+
+訂正headの[Native実行](https://github.com/pero3dev/ai-agent-library/actions/runs/40652127346)は単体236件（skip2・失敗0）、関連71メソッドの各1回開始・成功、UI5件の全成功をログで照合した。新しいFiles取消・復元画面への復帰・再起動後のしおり保持も成功した。実checkoutはPR synthetic merge `12c56c78610ca97284307328e52c155bbd17ea42`で、parentsがbase main／承認head、全treeが承認headと一致した。NativeのReleaseは代表3記事の範囲で、全199記事のbyte観測へ広げない。
+
+共通必須11件・SDK26 archive・Runtime26・FullのAPI成功を確認した。[Dedicated run](https://github.com/pero3dev/ai-agent-library/actions/runs/40652127402)は初回に180秒制限でSIGKILLされ、case開始を確認するログがなく、result metadata取得と後段監査も失敗した。条件を変えずfailed jobだけ1回再実行し、欠落側・記事パッケージ復帰側が各1回開始・成功した。初回と過去2headのNative失敗を保持し、停止原因や根本原因の修正とは扱わない。Full raw23件やcopy結果、新SDKの個別byte値は今回取得していない。
+
+実採用mainの新pushでは、Common全10jobとNativeはAPI成功した。別の[Full初回実行](https://github.com/pero3dev/ai-agent-library/actions/runs/40659076562)は単体236件（skip2・失敗0）、UITest target23件（Native2＋Published15＋pure geometry6）のうち22成功・1失敗だった。失敗は本文検索の到着先であり、失敗後の逐次測定では段落上端がviewport境界を約0.070pt越えていた。productionのoffset確認は0.5pt許容、UI検査はAXの全CGRectを厳密に確認するが、今回のproduction完了状態や待機中の座標をこの測定だけで断定しない。コード・selector・時間制限・表示判定を変えずFull jobだけ1回再実行を依頼した。結果は未確認で、初回と原因未確定を保持する。新しいiOS26通常2ケース用のtraceは、このiOS18.5の検索ケースを観測するものではない。
+
+ローカルではXcode16.2／iOS18.2 SDKで0.2.22（24）のunsignedと既存無料署名のReleaseが成功した。署名検証・199記事と音声1本・Privacy Manifest一致・テスト記事除外を確認した。Mac hostではactual LearningIndex Source5の実APIで同梱索引を1回読み、全学習参照のmetadata条件も確認した。ローカル実ビルドのheadは `5d37bb3f297123e25fcda699e7031fdb3f459499`である。承認headと実採用mainとの変更はUIテストと実施記録だけで、App・PBX・記事・依存の全tupleは同じと照合した。新しいmainそのものを再ビルド・実機導入した結果ではない。
+
+既存の署名情報だけを使い、新規発行・更新・認証回答・支払いは行っていない。通信禁止の隔離を保つため、署名ビルドだけ内側のscript sandboxを一時CLIで無効にし、ソース・PBXは変更していない。確認したprofile期限は2026-10-31 14:32（日本時間）。期限後の再署名・再導入と、実機の上書き保持は未確認であり、今の有料加入・新契約を必要とする確認ではない。
+
+現在操作できる実機の接続は確認できず、導入・起動・上書き保持、実providerの保存・復元、新版VoiceOverは未完了としてスキップした。Mac検査とCIはこれらへ広げない。IOS-22全体・TODO32行／完了13行を変更せず、過去2headの初回失敗も保持する。

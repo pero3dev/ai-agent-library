@@ -20,7 +20,9 @@
 
 [読書exportの採用追記](records/2026-10-28/ios-reading-backup-export.md#pr293の採用追記)では、PR293を通常保護でmain `a18a47c2911a`へ採用した結果とReady必須検査・export SDKの観測を記録する。旧準備記述を保持し、後続復元のApp71・SDK・provider・実機等の成功へ転用しない。
 
-[読書記録の手動復元](records/2026-10-28/ios-reading-manual-restore.md)は、通常側のpreview・明示確認、復元前rawの固定1slot保全と管理を準備した。engineのFoundation62件、UI grammar4と同一readerの旧Mac9件、旧Source7のCore構文・PBX検査を分ける。旧7までの独立engine／UI・結合レビューはP1・P2が0件。関連App71メソッド・追加picker UI1件・SDK・実provider・実機・VoiceOverは未実施。0.2.22（24）を3コミット・1PRで進める案で、export PR293実採用mainへ結合し、TODO32行・完了13行とIOS-22未完了を維持する。 現行Source8は旧7を保ち、FileTimestamp理由3B52.1（本人が選択したJSON）・C617.1（DEBUG限定Documents診断）を追記し、plist検査まで確認した。新宣言の独立監査もP1・P2が0件。実SDK Privacy report・Store申告の受入は残る。
+[読書記録の手動復元](records/2026-10-28/ios-reading-manual-restore.md)はPR #294をmain `d74c68179aa2053a457b964f4cf756d0a9bf77b1`へ通常統合した。0.2.22（24）のpreview・明示置換・復元前1世代保全と解除を実装し、訂正headの単体236件（skip2・失敗0）・UI5件と必要CIの成功を確認した（Dedicatedは初回を保持し条件不変で1回retry）。ローカル既存署名Releaseと学習索引のMac consumerは別範囲で確認した。実機・実provider・新版VoiceOver・署名更新後の保持は未確認で、TODO32行・完了13行とIOS-22未完了を維持する。
+
+[iOS26の本文待機診断](records/2026-10-28/ios-runtime26-wait-trace.md)は、15秒・fullyVisible・前面一意性・hittableを保持し、通常2ケースのwait／poll／既存geometry capture境界を追加AX0で記録する候補である。NSLockとlast8でboundedにし、wait-return直後のlock時点とcapture出力費用を区別する。synthetic helper5件・grammarと独立レビューP1・P2が0件までで、新SDK／UI・実traceは未実施。PR292／293初回失敗と各1回の同条件retry2成功を残し、原因修正とはしない。復元採用後の別2コミット／1PR案で、TODO32行・完了13行とIOS-23・25未完了を維持する。
 
 [コードコピー回帰検査](records/2026-10-27/ios-code-copy-ui-ci.md)では、通常Fullの固定3abaで単体165件（skip2・失敗0）・UI23件・Releaseが成功し、同UUIDのraw結果と実コピー374Bを独立TXTへ全byte照合しました。canaryと一意なBooted選択はproducerの申告範囲です。通常保護squashで同じtreeのmain169へ採用しました。新push CIは未確認で、実機・VoiceOverとIOS-25全体の受入も残します。
 

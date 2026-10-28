@@ -1,0 +1,58 @@
+name: iOS 17.0 functional pilot
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/ios17-functional-pilot.yml'
+      - 'ios/tests/ios17-functional-pilot.mjs'
+      - 'tests/unit/ios17-functional-pilot.test.mjs'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios17-functional-pilot-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ios17-functional-pilot:
+    name: iOS 17.0 functional pilot
+    if: github.repository == 'pero3dev/ai-agent-library' && github.event.repository.private == false
+    runs-on: macos-15
+    # Proposed resource ceilings, not measured runtime availability or duration.
+    timeout-minutes: 25
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+      EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+      REPOSITORY_IS_PRIVATE: ${{ github.event.repository.private }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        timeout-minutes: 1
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            ios/tools/package-lock.json
+      - name: Probe exact runtime and attempt bounded functional subset
+        timeout-minutes: 22
+        run: node ios/tests/ios17-functional-pilot.mjs
+      - name: Retain only bounded receipts and functional JSON
+        if: always()
+        timeout-minutes: 1
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ios17-functional-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/ios17-functional/evidence
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 90

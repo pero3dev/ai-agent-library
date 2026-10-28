@@ -1,0 +1,201 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-29",
+  "state": "final7 candidate pre-publication checkpoint; actualiOS17 unknown",
+  "objective": "Bounded exact iOS17.0 functional subset pilot on existing public macos15/Xcode16.4",
+  "owned_paths": [
+    ".github/workflows/ios17-functional-pilot.yml",
+    "ios/tests/ios17-functional-pilot.mjs",
+    "tests/unit/ios17-functional-pilot.test.mjs",
+    "project/records/2026-10-29/ios17-functional-ci-pilot.md",
+    "project/records/2026-10-29/ios17-functional-ci-pilot.json",
+    "project/README.md",
+    "project/plans/engineering/ios-app-completion.md"
+  ],
+  "authority": "Direct human ongoing autonomous implementation and ordinary protected integration; manual device checks may remain incomplete; parent delegated private7 preparation only",
+  "actual_base": {
+    "main": "cc2f0aec9e6d741a431dd1fc02250439b8dd0c27",
+    "tree": "e1647536dbf7e040e2f3b36cd4f7b0647e86272a",
+    "approved_PR298_source": "2037565e2ab78bcaf14589322bc8695e93b2d7cf",
+    "all2805_tuples_equal_approved": true,
+    "App": "0.2.23 (25)",
+    "PR298_merged_UTC": "2026-10-28T23:19:07Z"
+  },
+  "existing_acceptance": {
+    "Source203_PR6_workflows": "all first attempt API success",
+    "Native": {
+      "units": 245,
+      "skipped": 2,
+      "failed": 0,
+      "NativeInline": 46,
+      "new_image_tests": 9,
+      "UI": 5
+    },
+    "Full": {
+      "run": 40780081292,
+      "job": 123139245338,
+      "units": 245,
+      "skipped": 2,
+      "failed": 0,
+      "target": 23,
+      "app_gesture": 17,
+      "geometry": 6,
+      "exact_unique_source_cases_once": true,
+      "copy": "strict producer guard printed exact374B success at rawline15780; script echo7669 excluded; no independent byte read in this preparation"
+    },
+    "local_unsigned25": {
+      "exit": 0,
+      "seconds": 39.404,
+      "articles": 199,
+      "PNG": 422,
+      "audio": 1,
+      "Content_files": 626,
+      "content": "previously generated reused; not regenerated here",
+      "Xcode": "16.2",
+      "SDK": "iphoneos18.2",
+      "physical_signing_VO_performance": false
+    },
+    "new_main_push": {
+      "scope": "Rootobserver23:35:02Z: CommonAPI success10jobs incldeploy;Native/FullUIpending, distinctfromPR",
+      "Common": 40786500129,
+      "Native": 40786500120,
+      "Full": 40786500147,
+      "Common_API": "success10jobs incldeploy123165893241"
+    },
+    "parent9a2_Full": "initial and sole unchanged retry failed destination lookup exit70 before cases; cause unknown; no image-fix claim"
+  },
+  "pilot": {
+    "OS": "exact17.0",
+    "device": "iPhone15",
+    "fallback17_5": false,
+    "runner": "public standard macos-15",
+    "Xcode": "16.4",
+    "architecture": "arm64 guard; current PR298 Native actualheader observed macos15-arm64 image20260907.0337; future x64 fails closed",
+    "current_NativeInline_source_methods": 46,
+    "legacy_source37_allowance_preserved": true,
+    "UI_subset": [
+      "NativeReaderUITests/testThreeArticlesHaveNativeBodyText"
+    ],
+    "all245_fullminimumOS_or_AppMemory17_acceptance": false,
+    "trigger": "own Source3 pull_request paths plus manual workflow_dispatch; actual autonomous execution via ordinary PR; no supported connector dispatch mutation used",
+    "unknown": [
+      "anonymous exact17.0 catalog/download availability",
+      "import compatibility",
+      "boot",
+      "actual Hosted functional cases"
+    ]
+  },
+  "proposed_caps": {
+    "job_minutes": 25,
+    "driver_step_minutes": 22,
+    "work_minutes": 19,
+    "cleanup_entry_minutes": 2,
+    "download_minutes": 10,
+    "import_minutes": 5,
+    "boot_seconds": 240,
+    "actual_free_floor_GiB": 2,
+    "owned_cap_GiB": 14,
+    "DMG_cap_GiB": 12,
+    "command_output_MiB": 4,
+    "retained_evidence_MiB": 2,
+    "retention_days": 90,
+    "observed_requirements_or_hardquota_guarantee": false
+  },
+  "safety": {
+    "exact_source_head": true,
+    "existing_App_PBX_Workflows_held": true,
+    "public_readonly_credentials_not_persisted": true,
+    "owned_runtime_model_UUID_and_nonce_guards": true,
+    "no_global_device_reset": true,
+    "no_deletion_of_imported_system_runtime": true,
+    "no_signin_new_contract_firstlaunchaccept": true,
+    "actual_local_runtime_install_signing_device_network_API_Git_mutations": false,
+    "no_large_raw_DMG_App_xcresult_upload": true,
+    "diagnostic_redaction": "URLs/query credentials/emails with bounded text; not independent secret-proof audit",
+    "normal_signals": "retain first SIGINT/SIGTERM, stop active owned group, prevent postcancel work, best-effort finally cleanup; preserve first failure",
+    "cleanup_deadline": "min(started+work19m+cleanup2m,cleanup_entry+2m)",
+    "not_guaranteed": [
+      "SIGKILL",
+      "runner loss",
+      "blocked event loop/filesystem",
+      "launchd descendants",
+      "hard RSS/disk/wallclock"
+    ]
+  },
+  "preparation_evidence": {
+    "primary_research_manifest_SHA256": "eb7a039347b8a017f2ade1688caa5431a2cc240b4ae17f043a94bd9a73929daf",
+    "v1_manifest_SHA256": "f7bd2e3fce3fb2d7a71974a3a122eba2d9c0ba8e507a48382db7f029602aa9e3",
+    "v2_manifest_SHA256": "dd829fe4dc1a3d0ff69e65461792a331a66e20dbfd9263a282eacf45a8c1c3ba",
+    "v2_review_manifest_SHA256": "cb980dc4c2dc38cbf4a3fc315c77dde050b11db17bf72adb45afb41d4ad8879a",
+    "v2_P1": 0,
+    "v2_P2": 0,
+    "synthetic_Node": {
+      "old": 6,
+      "added": 3,
+      "passed_on_Mac": 9,
+      "failed": 0,
+      "POSIX_owned_Node_process_probe": true,
+      "Windows_POSIX_probe_skip": true,
+      "iOS_runtime_network": false
+    },
+    "static": "v2 syntax/YAML/actionlint/Markdown exit0; no new SDK/Hosted",
+    "Source3": [
+      {
+        "path": ".github/workflows/ios17-functional-pilot.yml",
+        "bytes": 2051,
+        "SHA256": "bb1e15c6bc736fa51d5cbf4c35b8e811f9a9ae73ec596baa892b8c551874035c",
+        "new_in_base": true,
+        "byte_equal_v2": true
+      },
+      {
+        "path": "ios/tests/ios17-functional-pilot.mjs",
+        "bytes": 23528,
+        "SHA256": "4e232d312d3f8b790eab293fa083f361769da428701fa3011df004e7e2b609c9",
+        "new_in_base": true,
+        "byte_equal_v2": true
+      },
+      {
+        "path": "tests/unit/ios17-functional-pilot.test.mjs",
+        "bytes": 10233,
+        "SHA256": "95f72aeec80002cf5f4920aed7ce533e1f3416368dd414d950c384d32d275de6",
+        "new_in_base": true,
+        "byte_equal_v2": true
+      }
+    ],
+    "historical_failures_retained": [
+      "v1 initial const-name syntax error",
+      "v1 review two P2 before fixes"
+    ]
+  },
+  "TODO": {
+    "rows": 32,
+    "completed": 13,
+    "all_rows_byte_held": true,
+    "IOS15_and_other_unchecked_items": "unchanged incomplete"
+  },
+  "pending": [
+    "final7 independent review",
+    "ordinary PR and exact newhead Hosted pilot",
+    "actual runtime download/import/boot/functional acceptance",
+    "required CI and protected main merge",
+    "physical/VO/visual/performance/full iOS17 acceptance"
+  ],
+  "notes": "Root final7 candidate over actualcc2; Source3 v2 frozen unchanged, Source/context guards verified; before newPR/real iOS17/publish review checkpoint",
+  "Root_common_check": {
+    "manifest_SHA256": "0cc928cb78230e28da4771c0f2c31f076cb0df51de71150c02cce1240f35eecc",
+    "exit_code": 0,
+    "tests": 1166,
+    "pass": 1151,
+    "fail": 0,
+    "skipped": 15,
+    "seconds": 46.571,
+    "base2805verified": true,
+    "Source3_exact_v2": true,
+    "App_PBX_oldWFheld": true,
+    "final_records4_updates_require_narrowchecks": true,
+    "actual_iOS17_runtime": "notexecuted",
+    "log_SHA256": "f69fee092e2b7aa3984a5620cb4bbec12a6105866b4e7eb7a53fd110ce1e5e34",
+    "same_lock_previous_npm_ci_reused": true,
+    "Source3_v2_nochange_after_common": true
+  }
+}

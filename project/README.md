@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+iOS 17.0の[機能CI試行](records/2026-10-29/ios17-functional-ci-pilot.md)を、0.2.23（25）採用済みのmaincc2を基準に準備した。exact17.0／iPhone15でNativeInline46件と3記事本文UI1件だけを対象にし、17.5へ置き換えず、認証・契約の代行やローカルOS導入は行わない。通常signalとcleanup上限の2点を修正したSource3は独立レビュー済みで、共通1166件中1151成功・15skip・失敗0を確認した。実download・import・boot・機能実行と最終7ファイルレビュー・通常PR／main統合は後続であり、全245件・全OS・実機・VoiceOver・性能の受入へ広げない。TODO32行／完了13行を保持する。
+
 本文図の[表示サイズ別プレビュー](records/2026-10-29/ios-figure-preview-images.md)を0.2.23（25）の候補として準備した。基準はPR #297を通常統合したmain9a2で、同PRの3系統・Ready後11検査とMemoryのraw／typed／CSV照合を確認済みである。本文図だけを表示サイズに合わせ、拡大と数式の経路を保つ。回帰9メソッドの追加とSDK型検査、共通1157件中1142成功・15skip・失敗0、新版unsigned Releaseと199記事の同梱監査を確認した。最終8ファイルレビューと新headの実XCTest・必要CI・通常統合は後続で確認する。実機・VoiceOver・性能比較とIOS-15全体は未完了、TODO32行／完了13行を保持する。後続の旧時点の記述は履歴として保持する。
 
 2026-10-29の[固定契約後のApp memory収集](records/2026-10-28/ios-app-memory-observation.md#固定契約後の初回hosted収集成功)では、ec4の専用Hostedがexport exit 0となり、3指標・各3標本（wire単位kB）とCSV 1ファイル／11列／データ1行を独立照合して、この観測を受入れた。App0.2.22（24）・全199記事で、CSV平均は116001.0027／118453.1413／2807.125333 kBだった。opaque manifestの内容・protocol payload・製品の性能基準の受入には広げず、PR296の8系統とReady後の必須11検査を確認し、main `4a6c3633cbc7cbe9fe460043cbefbbe937906b80`へ通常統合した。反映後Memoryの2失敗は別に保持し、生成監査の工程上限を修正する新headのHosted効果は未確認である。TODO32行／完了13行とIOS-15全体・実機の未完了を維持する。

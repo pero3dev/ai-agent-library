@@ -8,7 +8,7 @@
 
 ## 構造・運用の計画
 
-[App本文表示時のメモリ観測](records/2026-10-28/ios-app-memory-observation.md)では、起動済みの全記事一覧からTransformer本文への移動を、対象Appを指定して測る候補を扱う。既存Clockは維持し、本文シナリオの初回rawから指標・単位を別commitで採択する。実測・性能予算・実機を未確認のまま区別する。
+[App本文表示時のメモリ観測](records/2026-10-28/ios-app-memory-observation.md)では、起動済みの全記事一覧からTransformer本文への移動を、対象Appを指定して測る候補を扱う。既存Clockは維持し、本文シナリオの初回rawから指標・単位を別commitで採択する。実測・性能予算・実機を未確認のまま区別する。 PR296の初回はSimulator起動後の一覧取得でビルド前に失敗し、同条件の再実行1回ではビルド後にmanifest読取上限の不整合が判明した。初回失敗と再実行を別々に保持し、Appと生成元のmanifestの4読取を製品側の8MiBへ揃える。一般JSON・compact・制限時間・未採択契約を保ち、新headの実測と指標採択は未確認のままとする。
 
 全記事の[Core host観測](records/2026-10-26/ios-published-core-benchmark.md)はb79基線で実施した凍結CLIのraw19process/記録15は旧観測として保持し、最新source4のsnapshotや未実施の再CLIと分ける。通常CIはNode fixtureだけで、SDK・corpus観測は明示した手動CLIと別guardのまま。App/PBX/workflow/P1/Iconと全TODOを保持し、IOS-15と予算採択は未完了である。
 

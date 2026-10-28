@@ -344,9 +344,9 @@ jobs:
                 'CODE_SIGNING_ALLOWED=NO','build-for-testing'],690000);
             } else if (stage === 'audit') {
               const app = path.join(root,'DerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app');
-              const count = read('published-sources.json').articles, manifest = regular(path.join(app,'Content/manifest.json'));
-              assert.ok(manifest.equals(regular(path.join(repo,'ios/AILibrary/Content/manifest.json'))));
-              assert.ok(regular(path.join(app,'TestContent/manifest.json')).equals(regular(path.join(repo,'ios/AILibrary/TestContent/manifest.json'))));
+              const count = read('published-sources.json').articles, manifest = regular(path.join(app,'Content/manifest.json'),8 * 1024 * 1024);
+              assert.ok(manifest.equals(regular(path.join(repo,'ios/AILibrary/Content/manifest.json'),8 * 1024 * 1024)));
+              assert.ok(regular(path.join(app,'TestContent/manifest.json'),8 * 1024 * 1024).equals(regular(path.join(repo,'ios/AILibrary/TestContent/manifest.json'),8 * 1024 * 1024)));
               const packageAudit = JSON.parse(text('debug-package','bash',['ios/tests/check-package.sh',path.join(app,'Content'),String(count)],60000));
               const fixtureAudit = JSON.parse(text('debug-fixture','bash',['ios/tests/check-package.sh',path.join(app,'TestContent'),'4'],60000));
               assert.equal(packageAudit.status,'passed'); assert.equal(packageAudit.articles,count); assert.equal(fixtureAudit.status,'passed'); assert.equal(fixtureAudit.articles,4);

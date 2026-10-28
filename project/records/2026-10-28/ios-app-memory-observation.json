@@ -2,7 +2,7 @@
   "schema_version": 1,
   "date": "2026-10-28",
   "base": "e0c3031f3d62adab017c72949ffa3376e77b18bf",
-  "state": "candidate preparation, no SDK/UI/memory measurement performed",
+  "state": "firstinfrastructure andsecondmanifestbound failuresretained; Sourcefixsmoke passed, newheadHosted memory pending",
   "objective": "IOS15 target-App memory observation inone bounded unit",
   "owners": {
     "Swift": "app_memory_ui_case",
@@ -34,7 +34,7 @@
     "Node_memory_tests": "v2 20passed,3P2 negativefixturesincluded",
     "Node_Clock_tests": "44passed beforememoryv2; Clocksource/tests byteheld",
     "exporter_independent_review": "v1 P2=3 retained; v2 all3resolved/newP1P2=0, independentreceipt retained",
-    "SDK_UI": "notperformed",
+    "SDK_UI": "Xcode16.4 Debug build-for-testing passed attempt2; packageauditfailedreadbound; UI/memorynotrun",
     "actual_metric_set_units_cardinality_CSV": "notobserved/adopted",
     "physical": "unfinished byauthorization",
     "root_dependency_preparation": "npm ci --ignore-scripts withisolatedemptyconfigs andcache; Source lockfileunchanged",
@@ -89,5 +89,109 @@
     ],
     "old_branch_unchanged": true
   },
-  "input_guarantee": "context stable fd/metadata and xcresult root identity; bundleinternalbyteimmutability notverified"
+  "input_guarantee": "context stable fd/metadata and xcresult root identity; bundleinternalbyteimmutability notverified",
+  "initial_hosted": {
+    "PR": 296,
+    "head": "b7f3ae46b217c15d545a34a8aa8a3b23e752b53b",
+    "run": 40711271095,
+    "job": 122896889463,
+    "attempt": 1,
+    "event": "pull_request",
+    "Xcode": "16.4/16F6",
+    "destination": "iPhone16/iOS18.5",
+    "failure": "devices-after-boot list ETIMEDOUT beforebuild",
+    "boot_exit": 0,
+    "bootstatus_exit": 0,
+    "list_timeout_ms": 59921,
+    "list_elapsed_ms": 61280,
+    "list_signal": "SIGKILL",
+    "list_stdout_bytes": 0,
+    "list_stderr_bytes": 0,
+    "build_UI_measurement": "notreached",
+    "contract_pending_exit2": false,
+    "secondary_export": "failedmissingxcresult exit1",
+    "cleanup": "ownedcreatedUUID shutdown/delete/afterlist passed",
+    "raw_bytes": 75321,
+    "raw_SHA256": "dd5f0d3a83bea242375d9a97eb80c2194443b2393578a7775da87bdbbbb7a746",
+    "artifact_id": 12826727821,
+    "artifact_bytes": 72481,
+    "artifact_SHA256": "449db972a94375f22072b3d09be6d31eadedcdd80d372b54724dcef1b87db9ca",
+    "artifact_members": 78,
+    "independent_review": "77manifestentries byteSHA/contextmatched; transientinfrastructure consistent, causenotproven",
+    "unchanged_retry": {
+      "maximum": 1,
+      "issued": 1,
+      "conditions": "source/timeouts/selectionheld",
+      "firstfailureretained": true,
+      "status": "failedSourceauditmanifestcap beforeUI",
+      "attempt": 2,
+      "job": 122905720245
+    }
+  },
+  "retry_hosted": {
+    "head": "b7f3ae46b217c15d545a34a8aa8a3b23e752b53b",
+    "run": 40711271095,
+    "job": 122905720245,
+    "attempt": 2,
+    "event": "pull_request",
+    "build_for_testing": {
+      "exit_code": 0,
+      "elapsed_ms": 236927
+    },
+    "simulator": {
+      "boot": 0,
+      "bootstatus": 0,
+      "post_boot_list": 0
+    },
+    "failure": "audit Content/manifest read exceeds default524288B; Sourceboundmismatch",
+    "actual_Hosted_manifest_bytes": null,
+    "measurement_result": null,
+    "actual_metric_bootstrap_reached": false,
+    "export": "secondarymissingxcresult exit1",
+    "cleanup": "ownedcreatedUUID deleted;4commands0",
+    "raw": {
+      "bytes": 77325,
+      "SHA256": "fbfbac1cceead5c7631ff1b9f1dbf45a17559f1fad1f06466177026f01dabbc5"
+    },
+    "artifact": {
+      "id": 12827288793,
+      "bytes": 77605,
+      "SHA256": "a51ad185961f16795038e6ff2e711669d76bede241fa4d606336ac99765fe7d6",
+      "members": 86,
+      "manifest_entries": 85,
+      "all_verified": true
+    },
+    "local_manifest_reference": {
+      "articles": 199,
+      "bytes": 3120173,
+      "revision": "5be64a00f783a1df3a2159dcb64b84551e36853c7fe7d0b0d300c80ccd7fd852",
+      "not_Hosted_manifest_bytes": true
+    },
+    "fix": {
+      "scope": "fourexplicitmanifestreadcaps8MiB matchingproduction ContentValidator",
+      "general_metadata_default_bytes": 524288,
+      "compact_limits_unchanged": true,
+      "time_limits_unchanged": true,
+      "trusted_metric_contract": null,
+      "validation": {
+        "workflow_SHA256": "925ab0a5cd8fd8373383829d00b32f4438798c04d9849d4cf9289f180f686d23",
+        "scope": "4auditmanifestreads explicitly8MiB; inverse4replacement equalsoriginal",
+        "static": "YAML/Bash11/embeddedNode/actionlint1.7.12 passed",
+        "smoke": "actualextractedregular+audit; local199manifest3120173B/fixture4manifest78948B beforebytecap reproduced afterpassed/contextcreated; externalpackageaudit/plutil/executablestubbed",
+        "negative_cases": "4slots8MiBplus1 rejected; bothpairmismatches rejected; generic512KiBinclusive/plus1rejected; explicit8MiBinclusive passed",
+        "Hosted_SDK_UI_afterfix": "notyetperformed",
+        "Source_and_limits_other_than4caps": "held"
+      },
+      "independent_review": "P1/P2 0; Source1 fourreads-only accepted",
+      "root_common_check": {
+        "command": "npm run check",
+        "exit_code": 0,
+        "tests": 1130,
+        "pass": 1115,
+        "skip": 15,
+        "fail": 0
+      }
+    },
+    "unchanged_retry_limit": "oneconsumed; noadditionalunchangedretry"
+  }
 }

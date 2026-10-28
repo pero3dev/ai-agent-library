@@ -37,3 +37,21 @@ job40分とビルド・UI実行の別上限はCI資源の制限で、製品の�
 候補のSwift構文と、Xcode16.2／iOS18.2 Simulator SDKを使う単一UIファイルの型検査が成功した。Appのlink・実UI・実メモリ実行ではない。workflowのactionlint・YAML・Bash・埋込Nodeの静的検査、新memory Node20件と既存Clock44件が成功した。exporterの初回レビューで見つかった別case混入・open直前のサイズ増加・最終child後の期限確認の3件を修正し、負例を追加した。3件の修正版の独立差分レビューでも新しいP1・P2は0件だった。lockfileから依存を隔離準備した `npm run check` も成功し、Node1130件中1115成功・15skip・失敗0を確認した。Macの一時path・Git設定は専用配置で隔離し、既存sourceをこのために変更していない。独立レビューと実SDK型検査、実UIと3標本、identifier・unit・cardinality・CSVの採択、必要CIと通常main統合を区別して記録する。実protocol payloadを取得していなければ、sourceのassertとcase成功をpayload検証済みへ広げない。
 
 IOS-15全体と受入目標、他のTODOは未完了を維持する。実機確認は本人の許可により未完了のままスキップできる。TODO32行・完了13行を保持し、旧0.2.20のClock値を今回の実メモリや現行版の値として転用しない。
+
+## 初回Hostedの環境失敗と再確認
+
+2026-10-29追記。Draftの[PR #296](https://github.com/pero3dev/ai-agent-library/pull/296)、head `b7f3ae46b217c15d545a34a8aa8a3b23e752b53b`の[初回run](https://github.com/pero3dev/ai-agent-library/actions/runs/40711271095/attempts/1)は、専用Simulator起動後の端末一覧取得で停止した。bootとbootstatusはexit 0で、後続の `simctl list devices --json` が約59.9秒の制限でタイムアウトした。ビルド・UI・メモリ計測は未到達であり、契約未採択のexit 2ではない。後続exportはxcresult未作成で失敗した。
+
+同じ一覧取得は後片付け時に成功し、今回作成した端末だけのshutdown・deleteと削除後の一覧確認も成功した。初回raw 75,321Bと公式compact ZIP 72,481Bを1回ずつ取得し、ZIPの公式SHA256 `449db972a94375f22072b3d09be6d31eadedcdd80d372b54724dcef1b87db9ca`と78 memberの上限・hashを独立に照合した。一時的な管理コマンドの無応答と整合するが、原因は確定しない。初回失敗を保持し、Source・timeout・選択条件を変えない1回だけの再実行を行った。実測未採択を同条件retryで置き換える手順とは区別する。
+
+## 再実行で分かったmanifest読取上限の不整合
+
+[同runのattempt 2](https://github.com/pero3dev/ai-agent-library/actions/runs/40711271095/attempts/2)、job `122905720245`では専用Simulatorの起動後確認とDebugのbuild-for-testingが成功した。ビルドは約237秒だったが、App内のContent manifestを読む際に一般メタデータ向けの512KiB上限へ達して停止し、UI・メモリ計測には進まなかった。これはSource側の上限の不整合であり、追加の同条件retryは行わない。後続exportはxcresult未作成で失敗し、専用端末の後片付けは成功した。
+
+[アプリの検証器](../../../ios/AILibrary/Sources/ContentValidator.swift)はmanifestに8MiB上限を設けている。Appと生成元のContent／TestContentの4読取だけをこの上限に揃える。一般JSONの512KiB、compact全体2MiBと各ファイル上限、ビルド・起動・測定の制限時間、未採択の指標契約は保持する。ローカルの全199記事manifestは3,120,173Bで同じ種類の失敗を再現できるが、その生成revisionはHostedと異なり、Hosted Appのmanifest実サイズとして転用しない。
+
+attempt 2のraw 77,325Bとcompact ZIP 77,605Bを各1回取得し、公式SHA256 `a51ad185961f16795038e6ff2e711669d76bede241fa4d606336ac99765fe7d6`、86 memberと85件のmanifest記載ファイルのbyte・hash、出所を独立に照合した。修正後の実行で初めて実metricとCSVを確認する。現時点の測定結果は未取得で、IOS-15・性能予算・実機の未完了を保持する。
+
+修正候補の4引数だけを戻すと元workflowと完全一致する。抽出した実auditとreaderにローカルの全199記事manifestと既存fixtureを通し、修正前のbyte cap失敗と修正後のcontext作成を確認した。4読取それぞれの8MiB超過、両組のbyte不一致を拒否し、一般readerの512KiB境界も維持した。外部のpackage audit・plutil・executableはstubであり、Hosted SDK／UIの再実行成功とはしない。actionlintとYAML・Bash11本・埋込Nodeの静的検査も成功した。
+
+この4引数の修正版の独立レビューは新しいP1・P2が0件だった。隔離済み依存と同じlockfileで共通検査を再実行し、Node1130件中1115成功・15skip・失敗0、`npm run check` exit 0を確認した。既存の本文・App・PBX・版・Clock・新memory caseとexporterは保持する。新headのHosted実行と実指標の採択は別の確認として残す。

@@ -1,10 +1,28 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
+/// Export only: no file-import or restore action is exposed by the library.
+private struct ReadingBackupFile: FileDocument {
+    static var readableContentTypes: [UTType] { [.json] }
+    let data: Data
+    init(data: Data) { self.data = data }
+    init(configuration: ReadConfiguration) throws {
+        guard let contents = configuration.file.regularFileContents else { throw ReadingBackupCodec.Failure.invalid }
+        _ = try ReadingBackupCodec.decode(contents)
+        data = contents
+    }
+    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        FileWrapper(regularFileWithContents: data)
+    }
+}
+
 struct LibraryView: View {
     @ObservedObject var store: LibraryStore
     @State private var filter = LibraryArticleFilter()
     @State private var importPresented = false
+    @State private var readingBackupPresented = false
+    @State private var readingBackupFile: ReadingBackupFile?
+    @State private var readingBackupMessage: String?
     @State private var aboutPresented = false
     @State private var readingRecoveryPresented = false
     @State private var moreActionsPresented = false
@@ -26,7 +44,7 @@ struct LibraryView: View {
     #endif
 
     private enum MoreAction {
-        case importContent, bundledContent, about
+        case importContent, bundledContent, exportReadingBackup, about
         #if DEBUG
         case readerTest
         #endif
@@ -107,6 +125,13 @@ struct LibraryView: View {
             .accessibilityIdentifier("library-bundled-content")
             .disabled(store.snapshot == nil || !path.isEmpty)
         }
+        if store.allowsReadingBackup {
+            Button("読書記録を書き出す", systemImage: "square.and.arrow.up") {
+                selectMoreAction(.exportReadingBackup, inSheet: inSheet)
+            }
+            .accessibilityIdentifier("library-export-reading")
+            .disabled(store.readingSaveSuspended)
+        }
         #if DEBUG
         if !store.isTestLibrary {
             Button("本文表示テスト", systemImage: "doc.text.magnifyingglass") {
@@ -151,6 +176,12 @@ struct LibraryView: View {
         switch action {
         case .importContent: importPresented = true
         case .bundledContent: previewBundledContent()
+        case .exportReadingBackup:
+            do {
+                let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "unknown"
+                readingBackupFile = ReadingBackupFile(data: try store.exportReadingBackup(createdAt: Date(), appVersion: version))
+                readingBackupPresented = true
+            } catch { readingBackupMessage = error.localizedDescription }
         case .about: aboutPresented = true
         #if DEBUG
         case .readerTest: readerTestPresented = true
@@ -161,6 +192,13 @@ struct LibraryView: View {
     var body: some View {
         NavigationStack(path: $path) {
             List {
+                if store.readingSaveSuspended {
+                    Section("読書記録の保存を停止しています") {
+                        Text("保存内容の変化を確認したため、しおりと読書位置の保存・編集を止めています。アプリを開き直して、保存されている読書記録を確認してください。")
+                            .font(.callout)
+                    }
+                    .accessibilityIdentifier("library-reading-save-suspended")
+                }
                 if let issue = store.readingRecoveryIssue {
                     Section("読書記録の復旧が必要です") {
                         Text(issue.message).font(.callout)
@@ -169,6 +207,7 @@ struct LibraryView: View {
                         if issue.canRecover {
                             Button("読み取れる記録で復旧") { readingRecoveryPresented = true }
                                 .accessibilityIdentifier("library-reading-recovery")
+                                .disabled(store.readingSaveSuspended)
                         }
                     }
                     .accessibilityIdentifier("library-reading-recovery-notice")
@@ -367,6 +406,20 @@ struct LibraryView: View {
             case .failure(let error): store.message = error.localizedDescription
             }
         }
+        .fileExporter(isPresented: $readingBackupPresented, document: readingBackupFile, contentType: .json,
+                      defaultFilename: "AI-Agent-Library-Reading-Backup") { result in
+            if case .failure(let error) = result {
+                let failure = error as NSError
+                if failure.domain != NSCocoaErrorDomain || failure.code != NSUserCancelledError {
+                    readingBackupMessage = "読書記録を書き出せませんでした。元の記録は変更していません。 " + error.localizedDescription
+                }
+            }
+            readingBackupFile = nil
+        }
+        .alert("読書記録", isPresented: Binding(get: { readingBackupMessage != nil },
+                                            set: { if !$0 { readingBackupMessage = nil } })) {
+            Button("閉じる", role: .cancel) { readingBackupMessage = nil }
+        } message: { Text(readingBackupMessage ?? "") }
         .alert("コンテンツ", isPresented: Binding(get: { store.message != nil }, set: { if !$0 { store.message = nil } })) {
             Button("閉じる", role: .cancel) { store.message = nil }
         } message: { Text(store.message ?? "") }

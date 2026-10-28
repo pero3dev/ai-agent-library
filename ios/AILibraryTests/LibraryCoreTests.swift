@@ -21,6 +21,55 @@ private final class ReadingRecoveryWriteDefaults: UserDefaults {
     }
 }
 
+/// Export probes stay inside a random suite and never touch production defaults.
+private final class ReadingBackupProbeDefaults: UserDefaults {
+    var writeCalls = 0
+    var watchedKey: String?
+    var replacementAfterRead: Data?
+    override func set(_ value: Any?, forKey defaultName: String) {
+        writeCalls += 1
+        super.set(value, forKey: defaultName)
+    }
+    override func data(forKey defaultName: String) -> Data? {
+        let value = super.data(forKey: defaultName)
+        if defaultName == watchedKey, let replacementAfterRead {
+            watchedKey = nil
+            super.set(replacementAfterRead, forKey: defaultName)
+        }
+        return value
+    }
+}
+
+/// One-shot observed-writer seam. All values stay in a fresh synthetic domain.
+private final class ReadingSaveSuspensionProbeDefaults: UserDefaults {
+    var setKeys: [String] = []
+    var watchedKey: String?
+    var readsUntilCallback = 1
+    var afterRead: (() -> Void)?
+    var rejectedSetKeys = Set<String>()
+    private var injecting = false
+    override func set(_ value: Any?, forKey defaultName: String) {
+        if injecting { super.set(value, forKey: defaultName); return }
+        setKeys.append(defaultName)
+        guard !rejectedSetKeys.contains(defaultName) else { return }
+        super.set(value, forKey: defaultName)
+    }
+    override func data(forKey defaultName: String) -> Data? {
+        let value = super.data(forKey: defaultName)
+        if defaultName == watchedKey, let callback = afterRead {
+            readsUntilCallback -= 1
+            if readsUntilCallback == 0 { afterRead = nil; callback() }
+        }
+        return value
+    }
+    func inject(_ value: Any?, forKey key: String) {
+        injecting = true
+        defer { injecting = false }
+        if let value { super.set(value, forKey: key) }
+        else { super.removeObject(forKey: key) }
+    }
+}
+
 final class LibraryCoreTests: XCTestCase {
     private var directory: URL!
 
@@ -1769,6 +1818,473 @@ final class LibraryCoreTests: XCTestCase {
         XCTAssertEqual(ReadingStore(defaults: defaults).bookmarks, ["example"])
         XCTAssertEqual(defaults.data(forKey: key + ".recovery.v1"), original)
     }
+
+    private var backupDate: Date { Date(timeIntervalSince1970: 1_793_145_600) }
+    private func backupData(_ raw: String) throws -> Data {
+        try ReadingBackupCodec.encode(rawData: Data(raw.utf8), createdAt: backupDate, appVersion: "0.2.20")
+    }
+
+    func testReadingBackupPreservesExactRawAndAllRecordsOutsideTheCurrentPackage() throws {
+        let defaults = try recoveryDefaults(), key = "library.reading.v1"
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("removed/日本語")
+        let anchor = try XCTUnwrap(NativeReadingAnchor(documentDigest: readingDigest, blockFingerprint: readingDigest,
+                                                       headingFingerprint: readingDigest, intraBlockFraction: 0.25))
+        reading.record(articleID: "removed/日本語", heading: "旧見出し", fraction: 0.75, blockID: "old-block", anchor: anchor)
+        reading.record(articleID: "another-removed", heading: nil, fraction: 0.1)
+        reading.markOpened("opened-without-position")
+        let raw = try XCTUnwrap(defaults.data(forKey: key)), priorBackup = Data("prior damaged source".utf8)
+        defaults.set(priorBackup, forKey: key + ".recovery.v1")
+        defaults.set(55.0, forKey: "ios.audio.example.position")
+        let data = try reading.exportBackup(createdAt: backupDate, appVersion: "0.2.20")
+        let value = try ReadingBackupCodec.decode(data)
+        XCTAssertEqual(value.rawData, raw)
+        XCTAssertEqual(value.counts, ReadingBackupCodec.Counts(bookmarks: 1, positions: 2))
+        XCTAssertEqual(value.createdAt, "2026-10-28T00:00:00Z")
+        XCTAssertEqual(value.appVersion, "0.2.20")
+        XCTAssertEqual(defaults.data(forKey: key), raw)
+        XCTAssertEqual(defaults.data(forKey: key + ".recovery.v1"), priorBackup)
+        XCTAssertEqual(defaults.double(forKey: "ios.audio.example.position"), 55)
+        XCTAssertEqual(ReadingStore(defaults: defaults).lastArticleID, "opened-without-position")
+    }
+
+    func testReadingBackupDistinguishesMissingKeyFromExplicitEmptyState() throws {
+        let defaults = try recoveryDefaults(), key = "library.reading.v1"
+        XCTAssertThrowsError(try ReadingStore(defaults: defaults).exportBackup(createdAt: backupDate, appVersion: "0.2.20")) {
+            XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .noRecords)
+        }
+        XCTAssertNil(defaults.object(forKey: key))
+        let raw = Data(#"{"bookmarks":[],"positions":{}}"#.utf8)
+        defaults.set(raw, forKey: key)
+        let data = try ReadingStore(defaults: defaults).exportBackup(createdAt: backupDate, appVersion: "0.2.20")
+        XCTAssertEqual(try ReadingBackupCodec.decode(data).rawData, raw)
+        XCTAssertEqual(try ReadingBackupCodec.decode(data).counts, ReadingBackupCodec.Counts(bookmarks: 0, positions: 0))
+    }
+
+    func testReadingBackupRejectsUnknownMalformedAndDuplicateRawWithoutTolerantFallback() throws {
+        let malformed = [
+            "{}", "[]", "null", #"{"bookmarks":[]}"#, #"{"positions":{}}"#,
+            #"{"bookmarks":[],"positions":{},"future":1}"#,
+            #"{"bookmarks":["x",7],"positions":{}}"#,
+            #"{"bookmarks":["x","x"],"positions":{}}"#,
+            #"{"bookmarks":[],"positions":{},"lastArticleID":5}"#,
+            #"{"bookmarks":[],"positions":{"x":{}}}"#,
+            #"{"bookmarks":[],"positions":{"x":{"fraction":1.1}}}"#,
+            #"{"bookmarks":[],"positions":{"x":{"fraction":true}}}"#,
+            #"{"bookmarks":[],"positions":{"x":{"fraction":0.5,"heading":3}}}"#,
+            #"{"bookmarks":[],"positions":{"x":{"fraction":0.5,"future":1}}}"#,
+            #"{"bookmarks":[],"bookmarks":[],"positions":{}}"#,
+            #"{"bookmarks":[],"positions":{"x":{"fraction":0.5},"x":{"fraction":0.4}}}"#,
+            #"{"bookmarks":[],"positions":{"x":{"fraction":0.5,"fr\u0061ction":0.4}}}"#
+        ]
+        for raw in malformed { XCTAssertThrowsError(try backupData(raw), raw) }
+        XCTAssertThrowsError(try backupData(#"{"bookmarks":[],"positions":{}} trailing"#))
+    }
+
+    func testReadingBackupRejectsFutureAndDamagedAnchorsInsteadOfDroppingMetadata() throws {
+        let anchors = [
+            "{\"version\":2,\"documentDigest\":\"\(readingDigest)\",\"blockFingerprint\":\"\(readingDigest)\"}",
+            "{\"version\":1,\"documentDigest\":\"bad\",\"blockFingerprint\":\"\(readingDigest)\"}",
+            "{\"version\":1,\"documentDigest\":\"\(readingDigest)\",\"blockFingerprint\":\"\(readingDigest)\",\"intraBlockFraction\":\"bad\"}",
+            "{\"version\":1,\"documentDigest\":\"\(readingDigest)\",\"blockFingerprint\":\"\(readingDigest)\",\"intraBlockFraction\":1.1}",
+            "{\"version\":1,\"documentDigest\":\"\(readingDigest)\",\"blockFingerprint\":\"\(readingDigest)\",\"future\":1}"
+        ]
+        for anchor in anchors {
+            let raw = "{\"bookmarks\":[],\"positions\":{\"x\":{\"fraction\":0.5,\"anchor\":\(anchor)}}}"
+            XCTAssertThrowsError(try backupData(raw))
+        }
+    }
+
+    func testReadingBackupStrictEnvelopeRejectsTamperingAndAmbiguousMetadata() throws {
+        let good = try backupData(#"{"bookmarks":["x"],"positions":{"x":{"fraction":0.5}}}"#)
+        let object = try XCTUnwrap(JSONSerialization.jsonObject(with: good) as? [String: Any])
+        let changes: [(String, Any)] = [
+            ("format", "other"), ("schemaVersion", 2), ("scope", "reader-test"),
+            ("createdAt", "2026-10-28T01:00:00+01:00"), ("appVersion", ""),
+            ("rawBase64", "not base64"), ("rawBase64", Data("{}".utf8).base64EncodedString()),
+            ("sha256", String(repeating: "0", count: 64)), ("counts", ["bookmarks": 0, "positions": 1]),
+            ("counts", ["bookmarks": 1, "positions": 1, "future": 0]), ("future", 1)
+        ]
+        for (key, value) in changes {
+            var changed = object; changed[key] = value
+            XCTAssertThrowsError(try ReadingBackupCodec.decode(JSONSerialization.data(withJSONObject: changed)), key)
+        }
+        var missing = object; missing.removeValue(forKey: "counts")
+        XCTAssertThrowsError(try ReadingBackupCodec.decode(JSONSerialization.data(withJSONObject: missing)))
+        let text = try XCTUnwrap(String(data: good, encoding: .utf8))
+        XCTAssertThrowsError(try ReadingBackupCodec.decode(Data(("{\"schemaVersion\":1," + text.dropFirst()).utf8)))
+    }
+
+    func testReadingBackupRawAndEnvelopeBudgetsIncludeExactBoundaries() throws {
+        let small = Data(#"{"bookmarks":[],"positions":{}}"#.utf8)
+        var raw = small
+        raw.append(Data(repeating: 0x20, count: ReadingBackupCodec.maximumRawBytes - raw.count))
+        let encoded = try ReadingBackupCodec.encode(rawData: raw, createdAt: backupDate, appVersion: "0.2.20")
+        XCTAssertEqual(try ReadingBackupCodec.decode(encoded).rawData, raw)
+        raw.append(0x20)
+        XCTAssertThrowsError(try ReadingBackupCodec.encode(rawData: raw, createdAt: backupDate, appVersion: "0.2.20")) {
+            XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .tooLarge)
+        }
+        var envelope = encoded
+        envelope.append(Data(repeating: 0x20, count: ReadingBackupCodec.maximumEnvelopeBytes - envelope.count))
+        XCTAssertEqual(try ReadingBackupCodec.decode(envelope).rawData.count, ReadingBackupCodec.maximumRawBytes)
+        envelope.append(0x20)
+        XCTAssertThrowsError(try ReadingBackupCodec.decode(envelope)) {
+            XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .tooLarge)
+        }
+    }
+
+    @MainActor
+    func testReadingBackupUsesOnlyBoundNamespaceAndFixtureStoreCannotExport() throws {
+        let defaults = try recoveryDefaults(), normalKey = "library.reading.v1", otherKey = "custom.reading.v1"
+        let normal = ReadingStore(defaults: defaults, key: normalKey)
+        normal.toggleBookmark("normal")
+        let isolated = ReadingStore(defaults: defaults, key: otherKey)
+        isolated.toggleBookmark("isolated")
+        let before = defaults.data(forKey: normalKey), otherBefore = defaults.data(forKey: otherKey)
+        let data = try isolated.exportBackup(createdAt: backupDate, appVersion: "0.2.20")
+        XCTAssertEqual(try ReadingBackupCodec.decode(data).rawData, otherBefore)
+        let fixture = LibraryStore(reading: isolated, isTestLibrary: true)
+        XCTAssertFalse(fixture.allowsReadingBackup)
+        XCTAssertThrowsError(try fixture.exportReadingBackup(createdAt: backupDate, appVersion: "0.2.20")) {
+            XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .unsupportedScope)
+        }
+        let store = LibraryStore(reading: normal)
+        XCTAssertTrue(store.allowsReadingBackup)
+        XCTAssertEqual(try ReadingBackupCodec.decode(store.exportReadingBackup(createdAt: backupDate, appVersion: "0.2.20")).rawData, before)
+        XCTAssertEqual(defaults.data(forKey: normalKey), before)
+        XCTAssertEqual(defaults.data(forKey: otherKey), otherBefore)
+        XCTAssertNil(defaults.object(forKey: normalKey + ".recovery.v1"))
+        XCTAssertNil(defaults.object(forKey: otherKey + ".recovery.v1"))
+    }
+
+    func testReadingBackupRefusesRecoveryStateAndDoesNotTryDefaultsWrites() throws {
+        let suite = "library-reading-backup-" + UUID().uuidString
+        let defaults = try XCTUnwrap(ReadingBackupProbeDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let key = "library.reading.v1", raw = Data(#"{"bookmarks":["x"],"positions":{}}"#.utf8)
+        defaults.set(raw, forKey: key)
+        let reading = ReadingStore(defaults: defaults)
+        defaults.writeCalls = 0
+        _ = try reading.exportBackup(createdAt: backupDate, appVersion: "0.2.20")
+        XCTAssertEqual(defaults.writeCalls, 0)
+        for damaged in [Data("broken".utf8), Data(#"{"bookmarks":["x",7],"positions":{}}"#.utf8)] {
+            defaults.set(damaged, forKey: key)
+            let invalid = ReadingStore(defaults: defaults)
+            defaults.writeCalls = 0
+            XCTAssertThrowsError(try invalid.exportBackup(createdAt: backupDate, appVersion: "0.2.20")) {
+                XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .unavailable)
+            }
+            XCTAssertEqual(defaults.writeCalls, 0)
+            XCTAssertEqual(defaults.data(forKey: key), damaged)
+            XCTAssertNil(defaults.object(forKey: key + ".recovery.v1"))
+        }
+    }
+
+    func testReadingBackupRefusesChangedPersistedBytesWithoutOverwritingTheNewSource() throws {
+        let suite = "library-reading-backup-race-" + UUID().uuidString
+        let defaults = try XCTUnwrap(ReadingBackupProbeDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let key = "library.reading.v1", raw = Data(#"{"bookmarks":["old"],"positions":{}}"#.utf8)
+        let changed = Data(#"{"bookmarks":["new"],"positions":{}}"#.utf8)
+        defaults.set(raw, forKey: key)
+        let reading = ReadingStore(defaults: defaults)
+        defaults.watchedKey = key; defaults.replacementAfterRead = changed; defaults.writeCalls = 0
+        XCTAssertThrowsError(try reading.exportBackup(createdAt: backupDate, appVersion: "0.2.20")) {
+            XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .changed)
+        }
+        XCTAssertEqual(defaults.data(forKey: key), changed)
+        XCTAssertEqual(defaults.writeCalls, 0)
+        XCTAssertNil(defaults.object(forKey: key + ".recovery.v1"))
+    }
+
+    private func suspensionDefaults() throws -> ReadingSaveSuspensionProbeDefaults {
+        let suite = "library-reading-export-suspension-" + UUID().uuidString
+        let defaults = try XCTUnwrap(ReadingSaveSuspensionProbeDefaults(suiteName: suite))
+        addTeardownBlock { UserDefaults(suiteName: suite)?.removePersistentDomain(forName: suite) }
+        return defaults
+    }
+    private func suspensionRaw(_ id: String) throws -> Data {
+        try JSONSerialization.data(withJSONObject: ["bookmarks": [id], "positions": [:], "lastArticleID": id], options: [.sortedKeys])
+    }
+    private func assertSuspendedEditsPreserveSource(_ reading: ReadingStore, defaults: ReadingSaveSuspensionProbeDefaults,
+                                                   current: Any?, recovery: Data) throws {
+        let key = "library.reading.v1"
+        let bookmarks = reading.bookmarks, lastArticle = reading.lastArticleID
+        defaults.setKeys.removeAll()
+        reading.toggleBookmark("must-not-save"); reading.markOpened("must-not-save")
+        reading.record(articleID: "must-not-save", heading: "new", fraction: 0.8)
+        XCTAssertFalse(reading.recoverReadableState())
+        XCTAssertThrowsError(try reading.exportBackup(createdAt: backupDate, appVersion: "0.2.20")) {
+            XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .savingSuspended)
+        }
+        XCTAssertTrue(reading.readingSaveSuspended)
+        XCTAssertEqual(reading.bookmarks, bookmarks); XCTAssertEqual(reading.lastArticleID, lastArticle)
+        XCTAssertEqual(defaults.setKeys, [])
+        if let bytes = current as? Data { XCTAssertEqual(defaults.data(forKey: key), bytes) }
+        else if let text = current as? String { XCTAssertEqual(defaults.string(forKey: key), text) }
+        else { XCTAssertNil(defaults.object(forKey: key)) }
+        XCTAssertEqual(defaults.data(forKey: key + ".recovery.v1"), recovery)
+    }
+
+    func testReadingExportObservedDataMissingAndNonDataSuspendEveryOrdinaryWrite() throws {
+        let key = "library.reading.v1", before = try suspensionRaw("before"), newer = try suspensionRaw("external-newer")
+        let variants: [Any?] = [newer, nil, "foreign non-Data"]
+        for foreign in variants {
+            let defaults = try suspensionDefaults(), recovery = Data("old recovery sentinel".utf8)
+            defaults.inject(before, forKey: key); defaults.inject(recovery, forKey: key + ".recovery.v1")
+            let reading = ReadingStore(defaults: defaults)
+            defaults.watchedKey = key
+            defaults.afterRead = { [weak defaults] in defaults?.inject(foreign, forKey: key) }
+            XCTAssertThrowsError(try reading.exportBackup(createdAt: backupDate, appVersion: "0.2.20")) {
+                XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .changed)
+            }
+            XCTAssertTrue(reading.readingSaveSuspended)
+            try assertSuspendedEditsPreserveSource(reading, defaults: defaults, current: foreign, recovery: recovery)
+            let reopened = ReadingStore(defaults: defaults)
+            XCTAssertFalse(reopened.readingSaveSuspended)
+            if foreign is Data { XCTAssertEqual(reopened.bookmarks, ["external-newer"]) }
+            else if foreign == nil { XCTAssertNil(reopened.recoveryIssue); XCTAssertEqual(reopened.bookmarks, []) }
+            else { XCTAssertEqual(reopened.recoveryIssue, .unsupported) }
+        }
+        XCTAssertTrue(ReadingBackupCodec.Failure.changed.localizedDescription.contains("開き直して"))
+        XCTAssertFalse(ReadingBackupCodec.Failure.savingSuspended.localizedDescription.contains("復旧が必要"))
+    }
+
+    func testReadingExportPreexistingMemoryPersistMismatchIsProtected() throws {
+        let key = "library.reading.v1", before = try suspensionRaw("before"), newer = try suspensionRaw("external-newer")
+        let variants: [Any?] = [newer, nil, "foreign non-Data", Data("broken external raw".utf8)]
+        for foreign in variants {
+            let defaults = try suspensionDefaults(), recovery = Data("old recovery".utf8)
+            defaults.inject(before, forKey: key); defaults.inject(recovery, forKey: key + ".recovery.v1")
+            let reading = ReadingStore(defaults: defaults)
+            defaults.inject(foreign, forKey: key)
+            XCTAssertThrowsError(try reading.exportBackup(createdAt: backupDate, appVersion: "0.2.20")) {
+                XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .changed)
+            }
+            try assertSuspendedEditsPreserveSource(reading, defaults: defaults, current: foreign, recovery: recovery)
+        }
+    }
+
+    func testReadingExportMissingExplicitEmptyStateIsNotAFirstUseMissingKey() throws {
+        let defaults = try suspensionDefaults(), key = "library.reading.v1", recovery = Data("old recovery".utf8)
+        defaults.inject(Data(#"{"bookmarks":[],"positions":{}}"#.utf8), forKey: key)
+        defaults.inject(recovery, forKey: key + ".recovery.v1")
+        let reading = ReadingStore(defaults: defaults)
+        defaults.inject(nil, forKey: key)
+        XCTAssertThrowsError(try reading.exportBackup(createdAt: backupDate, appVersion: "0.2.20")) {
+            XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .changed)
+        }
+        try assertSuspendedEditsPreserveSource(reading, defaults: defaults, current: nil, recovery: recovery)
+    }
+
+    func testReadingExportByteOnlyDriftWithoutOwnMutationAlsoSuspends() throws {
+        let defaults = try suspensionDefaults(), key = "library.reading.v1", before = try suspensionRaw("before")
+        var drift = before; drift.append(0x20)
+        let recovery = Data("old recovery".utf8)
+        defaults.inject(before, forKey: key); defaults.inject(recovery, forKey: key + ".recovery.v1")
+        let reading = ReadingStore(defaults: defaults)
+        defaults.watchedKey = key; defaults.afterRead = { [weak defaults] in defaults?.inject(drift, forKey: key) }
+        XCTAssertThrowsError(try reading.exportBackup(createdAt: backupDate, appVersion: "0.2.20")) {
+            XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .changed)
+        }
+        try assertSuspendedEditsPreserveSource(reading, defaults: defaults, current: drift, recovery: recovery)
+    }
+
+    func testReadingExportOwnHealthyEditDuringEitherSnapshotDoesNotSuspend() throws {
+        let key = "library.reading.v1", before = try suspensionRaw("before")
+        for read in [1, 2] {
+            let defaults = try suspensionDefaults(); defaults.inject(before, forKey: key)
+            let reading = ReadingStore(defaults: defaults)
+            defaults.watchedKey = key; defaults.readsUntilCallback = read
+            defaults.afterRead = { reading.toggleBookmark("own-edit") }
+            XCTAssertThrowsError(try reading.exportBackup(createdAt: backupDate, appVersion: "0.2.20")) {
+                XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .changed)
+            }
+            XCTAssertFalse(reading.readingSaveSuspended)
+            XCTAssertEqual(reading.bookmarks, ["before", "own-edit"])
+            reading.record(articleID: "later", heading: nil, fraction: 0.4)
+            XCTAssertEqual(ReadingStore(defaults: defaults).lastArticleID, "later")
+            let data = try reading.exportBackup(createdAt: backupDate, appVersion: "0.2.20")
+            XCTAssertEqual(try ReadingBackupCodec.decode(data).rawData, defaults.data(forKey: key))
+        }
+    }
+
+    func testReadingExportUnpersistedOwnEditCannotPassTheHealthyRefresh() throws {
+        let defaults = try suspensionDefaults(), key = "library.reading.v1", before = try suspensionRaw("before")
+        let recovery = Data("old recovery".utf8)
+        defaults.inject(before, forKey: key); defaults.inject(recovery, forKey: key + ".recovery.v1")
+        let reading = ReadingStore(defaults: defaults)
+        defaults.rejectedSetKeys.insert(key); defaults.watchedKey = key
+        defaults.afterRead = { reading.toggleBookmark("unsaved-own-edit") }
+        XCTAssertThrowsError(try reading.exportBackup(createdAt: backupDate, appVersion: "0.2.20")) {
+            XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .changed)
+        }
+        XCTAssertTrue(reading.bookmarks.contains("unsaved-own-edit"))
+        try assertSuspendedEditsPreserveSource(reading, defaults: defaults, current: before, recovery: recovery)
+    }
+
+    func testReadingExportOrdinaryHealthyEditsAndExportsRemainAvailable() throws {
+        let defaults = try suspensionDefaults(), reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("normal"); reading.markOpened("normal")
+        reading.record(articleID: "normal", heading: nil, fraction: 0.7)
+        let raw = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+        XCTAssertEqual(try ReadingBackupCodec.decode(reading.exportBackup(createdAt: backupDate, appVersion: "0.2.20")).rawData, raw)
+        XCTAssertFalse(reading.readingSaveSuspended)
+        reading.toggleBookmark("next")
+        XCTAssertEqual(ReadingStore(defaults: defaults).bookmarks, ["normal", "next"])
+    }
+
+    @MainActor
+    func testLibraryStorePublishesExportSuspensionOnThrowAndOnInitialization() throws {
+        let defaults = try suspensionDefaults(), key = "library.reading.v1", before = try suspensionRaw("before")
+        let newer = try suspensionRaw("external-newer")
+        defaults.inject(before, forKey: key)
+        let reading = ReadingStore(defaults: defaults), store = LibraryStore(reading: reading)
+        XCTAssertFalse(store.readingSaveSuspended)
+        defaults.watchedKey = key; defaults.afterRead = { [weak defaults] in defaults?.inject(newer, forKey: key) }
+        XCTAssertThrowsError(try store.exportReadingBackup(createdAt: backupDate, appVersion: "0.2.20"))
+        XCTAssertTrue(store.readingSaveSuspended)
+        defaults.setKeys.removeAll(); store.toggleBookmark("no"); store.markOpened("no")
+        store.record(articleID: "no", heading: nil, fraction: 0.5); store.recoverReadingState()
+        XCTAssertTrue(store.readingSaveSuspended); XCTAssertEqual(defaults.setKeys, [])
+        XCTAssertEqual(defaults.data(forKey: key), newer)
+        XCTAssertTrue(LibraryStore(reading: reading).readingSaveSuspended)
+    }
+
+    @MainActor
+    func testLibraryStoreOwnHealthyEditDoesNotPublishAnIncorrectSuspension() throws {
+        let defaults = try suspensionDefaults(), key = "library.reading.v1", before = try suspensionRaw("before")
+        defaults.inject(before, forKey: key)
+        let store = LibraryStore(reading: ReadingStore(defaults: defaults))
+        defaults.watchedKey = key; defaults.afterRead = { store.toggleBookmark("own-edit") }
+        XCTAssertThrowsError(try store.exportReadingBackup(createdAt: backupDate, appVersion: "0.2.20"))
+        XCTAssertFalse(store.readingSaveSuspended); XCTAssertEqual(store.bookmarks, ["before", "own-edit"])
+        store.markOpened("next"); XCTAssertEqual(ReadingStore(defaults: defaults).lastArticleID, "next")
+    }
+
+    // BEGIN EXPORT V3 RAW IDENTITY REGRESSIONS
+    func testReadingExportExternalUnsupportedMetadataPreservesIdentityAndSuspends() throws {
+        let key = "library.reading.v1", digest = String(repeating: "a", count: 64)
+        let known: [String: Any] = ["bookmarks": ["before"], "positions": ["before": ["fraction": 0.4]], "lastArticleID": "before"]
+        let before = try JSONSerialization.data(withJSONObject: known, options: [.sortedKeys])
+        var future = known; future["future"] = ["externalNote": "must-preserve"]
+        var positionFuture = known
+        positionFuture["positions"] = ["before": ["fraction": 0.4, "future": "must-preserve"]]
+        var futureAnchor = known
+        futureAnchor["positions"] = ["before": ["fraction": 0.4, "anchor": ["version": 2,
+            "documentDigest": digest, "blockFingerprint": digest]]]
+        let variants = try [future, positionFuture, futureAnchor].map {
+            try JSONSerialization.data(withJSONObject: $0, options: [.sortedKeys])
+        }
+        for foreign in variants {
+            let defaults = try suspensionDefaults(), recovery = Data("old recovery".utf8)
+            defaults.inject(before, forKey: key); defaults.inject(recovery, forKey: key + ".recovery.v1")
+            let reading = ReadingStore(defaults: defaults)
+            defaults.inject(foreign, forKey: key)
+            // The strict format remains unsupported even though tolerant State sees the same known fields.
+            XCTAssertThrowsError(try ReadingBackupCodec.encode(rawData: foreign, createdAt: backupDate, appVersion: "0.2.20")) {
+                XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .invalid)
+            }
+            XCTAssertThrowsError(try reading.exportBackup(createdAt: backupDate, appVersion: "0.2.20")) {
+                XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .changed)
+            }
+            XCTAssertTrue(reading.readingSaveSuspended)
+            try assertSuspendedEditsPreserveSource(reading, defaults: defaults, current: foreign, recovery: recovery)
+        }
+    }
+
+    func testReadingExportKnownFutureAnchorAtLoadKeepsLegacyFallbackAvailable() throws {
+        let defaults = try suspensionDefaults(), key = "library.reading.v1", digest = String(repeating: "a", count: 64)
+        let raw = try JSONSerialization.data(withJSONObject: ["bookmarks": ["before"],
+            "positions": ["before": ["fraction": 0.4, "anchor": ["version": 2,
+                "documentDigest": digest, "blockFingerprint": digest]]]], options: [.sortedKeys])
+        defaults.inject(raw, forKey: key)
+        let reading = ReadingStore(defaults: defaults)
+        XCTAssertNil(reading.recoveryIssue)
+        XCTAssertThrowsError(try reading.exportBackup(createdAt: backupDate, appVersion: "0.2.20")) {
+            XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .invalid)
+        }
+        XCTAssertFalse(reading.readingSaveSuspended)
+        XCTAssertEqual(defaults.data(forKey: key), raw)
+        reading.toggleBookmark("own-edit")
+        let normalized = try XCTUnwrap(defaults.data(forKey: key))
+        XCTAssertNotEqual(normalized, raw)
+        XCTAssertEqual(try ReadingBackupCodec.decode(reading.exportBackup(createdAt: backupDate, appVersion: "0.2.20")).rawData, normalized)
+        XCTAssertFalse(reading.readingSaveSuspended)
+        XCTAssertEqual(ReadingStore(defaults: defaults).bookmarks, ["before", "own-edit"])
+    }
+
+    func testReadingExportInvalidEnvelopeArgumentsDoNotSuspendHealthyRaw() throws {
+        let key = "library.reading.v1", before = try suspensionRaw("before")
+        let invalid: [(Date, String)] = [(backupDate, ""), (backupDate, String(repeating: "a", count: 129)),
+                                        (Date(timeIntervalSince1970: .nan), "0.2.20")]
+        for (date, version) in invalid {
+            let defaults = try suspensionDefaults(); defaults.inject(before, forKey: key)
+            let reading = ReadingStore(defaults: defaults)
+            XCTAssertThrowsError(try reading.exportBackup(createdAt: date, appVersion: version)) {
+                XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .invalid)
+            }
+            XCTAssertFalse(reading.readingSaveSuspended); XCTAssertEqual(defaults.setKeys, [])
+            XCTAssertEqual(defaults.data(forKey: key), before)
+            reading.toggleBookmark("own-edit")
+            let current = try XCTUnwrap(defaults.data(forKey: key))
+            XCTAssertEqual(try ReadingBackupCodec.decode(reading.exportBackup(createdAt: backupDate, appVersion: "0.2.20")).rawData, current)
+            XCTAssertFalse(reading.readingSaveSuspended)
+        }
+    }
+
+    func testReadingExportOwnSaveAndRecoveryRegisterExactRawIdentity() throws {
+        let defaults = try suspensionDefaults(), key = "library.reading.v1"
+        let partial = Data(#"{"bookmarks":["before",7],"positions":{}}"#.utf8)
+        defaults.inject(partial, forKey: key)
+        let reading = ReadingStore(defaults: defaults)
+        XCTAssertEqual(reading.recoveryIssue, .partial)
+        reading.toggleBookmark("own-live")
+        XCTAssertEqual(defaults.data(forKey: key), partial)
+        XCTAssertTrue(reading.recoverReadableState())
+        let recovered = try XCTUnwrap(defaults.data(forKey: key))
+        XCTAssertEqual(defaults.data(forKey: key + ".recovery.v1"), partial)
+        XCTAssertEqual(try ReadingBackupCodec.decode(reading.exportBackup(createdAt: backupDate, appVersion: "0.2.20")).rawData, recovered)
+        XCTAssertFalse(reading.readingSaveSuspended)
+        reading.markOpened("later"); reading.record(articleID: "later", heading: nil, fraction: 0.6)
+        let saved = try XCTUnwrap(defaults.data(forKey: key))
+        XCTAssertEqual(try ReadingBackupCodec.decode(reading.exportBackup(createdAt: backupDate, appVersion: "0.2.20")).rawData, saved)
+        XCTAssertFalse(reading.readingSaveSuspended)
+        XCTAssertEqual(defaults.data(forKey: key + ".recovery.v1"), partial)
+    }
+
+    func testReadingExportExternalByteDriftBeforeStartIsDetectedEvenWhenStateMatches() throws {
+        let defaults = try suspensionDefaults(), key = "library.reading.v1", before = try suspensionRaw("before")
+        let recovery = Data("old recovery".utf8)
+        defaults.inject(before, forKey: key); defaults.inject(recovery, forKey: key + ".recovery.v1")
+        let reading = ReadingStore(defaults: defaults)
+        var foreign = before; foreign.append(0x20)
+        defaults.inject(foreign, forKey: key)
+        XCTAssertThrowsError(try reading.exportBackup(createdAt: backupDate, appVersion: "0.2.20")) {
+            XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .changed)
+        }
+        try assertSuspendedEditsPreserveSource(reading, defaults: defaults, current: foreign, recovery: recovery)
+    }
+
+    @MainActor
+    func testLibraryStorePublishesSuspensionForExternalMetadataOnlyDrift() throws {
+        let defaults = try suspensionDefaults(), key = "library.reading.v1", before = try suspensionRaw("before")
+        defaults.inject(before, forKey: key)
+        let store = LibraryStore(reading: ReadingStore(defaults: defaults))
+        var foreign = try XCTUnwrap(JSONSerialization.jsonObject(with: before) as? [String: Any])
+        foreign["future"] = "must-preserve"
+        let changed = try JSONSerialization.data(withJSONObject: foreign, options: [.sortedKeys])
+        defaults.inject(changed, forKey: key)
+        XCTAssertThrowsError(try store.exportReadingBackup(createdAt: backupDate, appVersion: "0.2.20")) {
+            XCTAssertEqual($0 as? ReadingBackupCodec.Failure, .changed)
+        }
+        XCTAssertTrue(store.readingSaveSuspended)
+        defaults.setKeys.removeAll(); store.toggleBookmark("no"); store.markOpened("no")
+        store.record(articleID: "no", heading: nil, fraction: 0.8)
+        XCTAssertEqual(defaults.setKeys, []); XCTAssertEqual(defaults.data(forKey: key), changed)
+    }
+    // END EXPORT V3 RAW IDENTITY REGRESSIONS
 
     private func readingDocument(_ blocks: [NativeBlock]) -> NativeDocument {
         NativeDocument(schema_version: 1, article_id: "example", source_sha256: article().source_sha256, blocks: blocks)

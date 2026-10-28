@@ -9,6 +9,7 @@ final class LibraryStore: ObservableObject {
     @Published private(set) var bookmarks: Set<String>
     @Published private(set) var lastArticleID: String?
     @Published private(set) var readingRecoveryIssue: ReadingStore.RecoveryIssue?
+    @Published private(set) var readingSaveSuspended: Bool
     @Published var message: String?
     let reading: ReadingStore
     let isTestLibrary: Bool
@@ -22,6 +23,7 @@ final class LibraryStore: ObservableObject {
     var learningIndex: NativeLearningIndex? { loadedContent?.learningIndex }
     var learningError: String? { loadedContent?.learningError }
 
+    var allowsReadingBackup: Bool { !isTestLibrary }
     var allowsAudioPlayback: Bool { !isTestLibrary }
     var allowsContentImport: Bool { !isTestLibrary }
     var allowsBundledContentActivation: Bool { !isTestLibrary }
@@ -61,6 +63,7 @@ final class LibraryStore: ObservableObject {
         bookmarks = readingStore.bookmarks
         lastArticleID = readingStore.lastArticleID
         readingRecoveryIssue = readingStore.recoveryIssue
+        readingSaveSuspended = readingStore.readingSaveSuspended
     }
 
     #if DEBUG
@@ -201,7 +204,20 @@ final class LibraryStore: ObservableObject {
         loadedContent = loaded
     }
 
+    private func syncReadingSaveSuspension() {
+        if readingSaveSuspended != reading.readingSaveSuspended {
+            readingSaveSuspended = reading.readingSaveSuspended
+        }
+    }
+
+    func exportReadingBackup(createdAt: Date, appVersion: String) throws -> Data {
+        defer { syncReadingSaveSuspension() }
+        guard allowsReadingBackup else { throw ReadingBackupCodec.Failure.unsupportedScope }
+        return try reading.exportBackup(createdAt: createdAt, appVersion: appVersion)
+    }
+
     func recoverReadingState() {
+        defer { syncReadingSaveSuspension() }
         reading.recoverReadableState()
         readingRecoveryIssue = reading.recoveryIssue
         bookmarks = reading.bookmarks
@@ -209,17 +225,20 @@ final class LibraryStore: ObservableObject {
     }
 
     func toggleBookmark(_ id: String) {
+        defer { syncReadingSaveSuspension() }
         reading.toggleBookmark(id)
         bookmarks = reading.bookmarks
     }
 
     func markOpened(_ articleID: String) {
+        defer { syncReadingSaveSuspension() }
         reading.markOpened(articleID)
         if lastArticleID != reading.lastArticleID { lastArticleID = reading.lastArticleID }
     }
 
     func record(articleID: String, heading: String?, fraction: Double, blockID: String? = nil,
                 anchor: NativeReadingAnchor? = nil) {
+        defer { syncReadingSaveSuspension() }
         reading.record(articleID: articleID, heading: heading, fraction: fraction, blockID: blockID,
                        anchor: anchor)
         if lastArticleID != reading.lastArticleID { lastArticleID = reading.lastArticleID }

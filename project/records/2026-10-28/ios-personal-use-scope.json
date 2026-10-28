@@ -1,0 +1,356 @@
+{
+  "recorded_on": "2026-10-28",
+  "status": "Root-adopted-personal-v1-scope; IOS01-only-complete13of32; publication-and-final-review-pending",
+  "decision": {
+    "direct_human_answer": "まず自分用を完成させる",
+    "directly_decided": "initial recipient is the user",
+    "context": [
+      "iPhone",
+      "all bundled articles offline",
+      "one existing audio stream"
+    ],
+    "other_baseline_choices_are_not_separate_direct_answers": true,
+    "contract_payment_or_external_distribution_authorized_by_this_answer": false,
+    "Root_baseline_adoption": {
+      "status": "explicitly adopted",
+      "on_JST": "2026-10-28",
+      "adopted_by": "Root under existing autonomous-work instruction",
+      "separate_from_direct_human_answer": true,
+      "current_baseline_reused": true,
+      "IOS01_scope_only_complete": true,
+      "runtime_or_otherTODO_acceptance": false,
+      "new_charges_added": false,
+      "existing_free_PersonalTeam_for_self_use": true,
+      "Store_price_contract_payment_external_distribution": "unselected",
+      "independent_original_scope_review_SHA256": "5bb446dd922eaa0f6c4eb9378516b275734c80037a295385a1d906b5afed8efd",
+      "final_v2_independent_review": "pending; v2 author was original scope reviewer"
+    }
+  },
+  "basis": {
+    "actual_main_commit": "16930f8ae8feb52fbd6ddedfe25c8d98e0a19106",
+    "actual_main_tree": "df2dd2e5428e8050bd49939dd18ce8cdbb05cd05",
+    "accepted_Copy_head": "3aba86d227b6ec2ce2b8a0b97bcf9a1b1599ec40",
+    "scope_publication_head": null,
+    "scope_ci": null,
+    "new_main169_push_CI": "not-yet-confirmed"
+  },
+  "current_implementation_baseline": {
+    "platform": {
+      "device": "iPhone",
+      "minimum_ios_major": 17,
+      "ipad_scope_added": false
+    },
+    "content": {
+      "profile": "all published",
+      "current_article_count": 199,
+      "native_body": true,
+      "bundled_offline": [
+        "body",
+        "diagrams",
+        "math",
+        "search",
+        "learning navigation"
+      ],
+      "external_reference_links_require_network": true
+    },
+    "account": {
+      "app_account_added": false,
+      "cloud_sync_added": false
+    },
+    "audio": {
+      "selection": "existing Agent loop only",
+      "count": 1,
+      "delivery": "streaming",
+      "network_required": true,
+      "background_and_lock_controls_with_player_open": "preserve existing behavior",
+      "closing_player": "stop",
+      "queue_added": false,
+      "download_added": false,
+      "additional_eight_adopted": false
+    },
+    "updates": {
+      "primary": "rebuild app with bundled content",
+      "existing_trusted_manual_import": "auxiliary only",
+      "new_network_update_service": false,
+      "valid_saved_package_priority": "preserved",
+      "bundled_activation": "existing explicit confirmation",
+      "bookmark_and_reading_position": "preserve; physical overwrite validation remains incomplete"
+    },
+    "baseline_is_new_feature_or_price_or_public_terms_adoption": false,
+    "personal_cost": {
+      "new_charges": false,
+      "existing_free_PersonalTeam": true,
+      "Store_free_paid_price_regions": "unselected",
+      "new_Program_contract_payment_external_distribution": "unselected"
+    }
+  },
+  "personal_team": {
+    "existing_operation": "free Personal Team on the user device",
+    "official_facts": {
+      "profile_expiry_days_from_issue": 7,
+      "expiry_object": "provisioning profile",
+      "rebuild_and_reinstall_required": true,
+      "seven_days_is_certificate_lifetime": false,
+      "personal_account_can_install_and_test_on_own_device": true,
+      "testflight_app_store_connect": "Program functionality"
+    },
+    "operation_choices": [
+      "same Mac and Xcode project",
+      "same existing bundle ID and Team",
+      "do not delete the app; overwrite install",
+      "rebuild/reinstall with Mac and Xcode for profile renewal",
+      "user handles trust, pairing and Developer Mode prompts",
+      "verify launch, bookmarks and reading position after update"
+    ],
+    "data_retention_guaranteed": false,
+    "individual_profile_expiry": null,
+    "individual_certificate_state": null,
+    "physical_checks_incomplete": [
+      "before-expiry update",
+      "after-expiry update",
+      "bookmark and reading-position retention after overwrite",
+      "reading-data backup scope and acquisition",
+      "reading-data backup restoration"
+    ],
+    "content_package_import_is_reading_data_backup": false,
+    "paid_membership_or_new_contract_or_external_distribution_adopted": false,
+    "unlimited_lifetime_installation_promised": false,
+    "primary_source_research": {
+      "observed_on": "2026-10-28",
+      "research_json": {
+        "bytes": 6735,
+        "sha256": "b877808811b37f728810b460bc2befce3e0e006c27f10fd0ab718c41017cbcdc"
+      },
+      "sources": [
+        {
+          "id": "S1",
+          "title": "Developer account overview",
+          "url": "https://developer.apple.com/help/account/basics/about-your-developer-account",
+          "bytes": 200223,
+          "sha256": "7c733d4be1b2689f079431d20e8bdecbc56b07880b6ca3bc0d7aae0b116f15d5"
+        },
+        {
+          "id": "S2",
+          "title": "Running your app on simulated or physical devices",
+          "url": "https://developer.apple.com/documentation/xcode/running-your-app-on-simulated-or-physical-devices",
+          "bytes": 7489,
+          "sha256": "71714f5e6cbaca807a93ca9206c0eaa670a62b3eab3813339d21a4e8698dd7ca"
+        },
+        {
+          "id": "S3",
+          "title": "Managing your simulated and physical devices in Device Hub",
+          "url": "https://developer.apple.com/documentation/xcode/managing-your-simulated-and-physical-devices-in-device-hub",
+          "bytes": 6682,
+          "sha256": "1986a0e0a28fc9ff1e0676472aedab7d7680ab4c326f6f8c9c0974c76232ef87"
+        }
+      ]
+    }
+  },
+  "completion_work_order": [
+    {
+      "order": 1,
+      "work": "accept exact-head normal Copy Full 23 cases, strict same-device canary and independent raw clipboard374, units and Release",
+      "status": "Root accepted PR286 normal Full raw23/actual374 and Release/units; newmain169 pushCI not yet confirmed, separate from IOS01 scope completion"
+    },
+    {
+      "order": 2,
+      "work": "correlate final native body, search, bookmarks, resume, diagram/math, one audio regression and bundle audits with saved-state preservation",
+      "status": "per-head evidence required; prior successes are historical"
+    },
+    {
+      "order": 3,
+      "work": "prepare installation, rebuild, bundled-content activation and profile-renewal instructions",
+      "status": "physical update and backup restoration incomplete"
+    },
+    {
+      "order": 4,
+      "work": "record unperformed new device, VoiceOver and call-interruption checks",
+      "status": "may be skipped with human authorization; not counted as success"
+    }
+  ],
+  "frozen_copy_preview_context_at_drafting": {
+    "commit": "3aba86d227b6ec2ce2b8a0b97bcf9a1b1599ec40",
+    "is_main": false,
+    "received_frozen_observations": {
+      "common_required_metadata_successes": 11,
+      "sdk26_actual_archive": {
+        "article_count": 199,
+        "audio_count": 1,
+        "file_count": 625,
+        "bytes": 36958420
+      },
+      "auxiliary_workflow_api_successes": 3
+    },
+    "this_task_independently_ran_or_fetched_ci": false,
+    "final_normal_full_case_count": null,
+    "independent_raw_clipboard374_acceptance": null,
+    "final_normal_full_release_acceptance": null,
+    "diagnostic_producer_equality_is_independent_raw_acceptance": false
+  },
+  "deferred_from_personal_use_critical_path": {
+    "not_complete": [
+      "IOS-03",
+      "IOS-30",
+      "IOS-31",
+      "IOS-32",
+      "App Privacy and other Store declarations",
+      "public price and distribution regions",
+      "public support/contact PII and policy URLs",
+      "Program contract and payment",
+      "external distribution"
+    ],
+    "other_incomplete": [
+      "article/audio rights and IOS-04",
+      "additional eight audio and IOS-16",
+      "audio queue/download",
+      "independent network updates",
+      "performance budget, p95, memory, device performance and IOS-15"
+    ],
+    "prices_regions_contacts_or_terms_chosen": false
+  },
+  "todo_preservation": {
+    "total_rows": 32,
+    "completed_rows": 13,
+    "IOS-01_complete": true,
+    "only_IOS01_status_changed": true,
+    "all_other31_rows_literal_equal": true,
+    "all_existing_completion_conditions_literal_equal": true,
+    "historical12_checkpoint_prose_retained": true,
+    "all_32_required_to_call_personal_use_scope_complete": false,
+    "self_use_app_complete": false,
+    "unperformed_checks_promoted_to_success": false
+  },
+  "task_contract": {
+    "purpose": "Record explicit Root baseline adoption and IOS01-only13/32; prepare small work-unit/normal main merge plan",
+    "owned_paths": [
+      "project/records/2026-10-28/ios-personal-use-scope.md",
+      "project/records/2026-10-28/ios-personal-use-scope.json",
+      "project/plans/engineering/ios-app-completion.md",
+      "ios/README.md",
+      "project/README.md"
+    ],
+    "shared_checkout_modified": false,
+    "existing_private_inputs_modified": false,
+    "git_ref_or_api_or_signing_or_device_mutation": false,
+    "validation": "New record MD lint, strict JSON, only IOS01 checkbox diff and other31/conditions/history preservation, narrow Source5 pure bindings and metadata static",
+    "not_run": [
+      "npm ci",
+      "npm check",
+      "SDK",
+      "Hosted CI",
+      "new Node or performance suite",
+      "new search metric",
+      "physical device",
+      "VoiceOver",
+      "call interruption",
+      "backup/update rehearsal"
+    ],
+    "publication_requires": [
+      "Root freshbinds Scope and Code-owned record/index deltas onto latest actualmain169 or successor",
+      "independent final joined-v2 review",
+      "final joined Markdown validation",
+      "normal commit/PR/CI/protected main merge"
+    ],
+    "private_capacity_bytes": 2097152,
+    "free_space_floor_bytes": 734003200
+  },
+  "scope_adoption_checkpoint": {
+    "current_TODO_rows": 32,
+    "current_done": 13,
+    "only_newly_completed": "IOS-01 scope decision",
+    "previous_draft_done": 12,
+    "all_other31_statuses_and_all_conditions_unchanged": true,
+    "unperformed_physical_checks_may_be_recorded_and_skipped": true,
+    "self_use_app_or_otherTODO_complete": false,
+    "current_Copy_adoption": {
+      "PR": 286,
+      "main": "16930f8ae8feb52fbd6ddedfe25c8d98e0a19106",
+      "parent": "33702453d3805024f0763ef39acece7a4ff26b41",
+      "tree": "df2dd2e5428e8050bd49939dd18ce8cdbb05cd05",
+      "accepted_head": "3aba86d227b6ec2ce2b8a0b97bcf9a1b1599ec40",
+      "all2788_tuples_equal": true,
+      "ordinary_protected_squash": true,
+      "integration_proof_SHA256": "d5115ea2a064b5b9d56399ac73a5d1fdb698a9388d6bd144ec00f2f9bc58546f",
+      "Root_selected_Full_read_SHA256": "958dd2a6b912a79f740b48fafa8cca5f0fcee21aca6ca77c4a0826bfbdab14ef",
+      "Root_Full_binding_SHA256": "62372049e16c5d2de0691c0c72a86bffe592fd5532eed540c761af45e217ad99",
+      "Root_independent_raw23_and_actual374_equality_accepted": true,
+      "Root_Release_and_unit165_skip2_fail0_received": true,
+      "new_main169_push_CI": "not-yet-confirmed",
+      "new_SDK_or_artifact_GET_by_this_worker": false,
+      "acceptance_scope": "First nonempty fixture copy and same selected raw23; independent canary roundtrip remains producer assertion; no device/VO/offline/legacy or IOS25-wide acceptance"
+    }
+  },
+  "delivery_work_units": [
+    {
+      "order": 1,
+      "scope": "scope record Source5 and IOS01-only checkbox",
+      "commit_PR_normal_main_merge": "one small docs commit and PR; normal protected merge",
+      "implemented_by_this_task": "docs only"
+    },
+    {
+      "order": 2,
+      "scope": "search observation",
+      "commit_PR_normal_main_merge": "necessary Source/docs commits in separate small PR; exact-head checks, review and normal protected merge",
+      "new_actual_search_metric": null
+    },
+    {
+      "order": 3,
+      "scope": "reading export",
+      "commit_PR_normal_main_merge": "investigate data/format/acquisition then minimal export and tests in separate commit/PR; normal protected merge",
+      "implemented_or_accepted": false
+    },
+    {
+      "order": 4,
+      "scope": "restore",
+      "commit_PR_normal_main_merge": "separate commit/PR using isolated reading data first; test preservation and normal protected merge",
+      "implemented_or_accepted": false
+    }
+  ],
+  "delivery_rule": "Record diff/limits, commit, Draft PR, independent review, required checks and normal CI, protected normal main merge; then rebase next work unit on fresh main. No completion inference for actual app or another unit.",
+  "draft_todo_snapshot": {
+    "total_rows": 32,
+    "completed_rows": 12,
+    "all_existing_rows_and_conditions_unchanged": true,
+    "IOS-01_complete": false,
+    "all_32_required_to_call_personal_use_scope_complete": false,
+    "unperformed_checks_promoted_to_success": false,
+    "role": "Historical original personal scope draft; not current aggregate"
+  },
+  "adoption_v2_worker_operations": {
+    "new_app_Source_changes": false,
+    "old_candidate_shared_checkout_API_refs_SDK_signing_device_changes": 0,
+    "local_immutable_Git_objects_read_only_for_requested_bindings": true,
+    "new_MDlint": {
+      "exit": 0,
+      "invocations": 4,
+      "MD_SHA256": "237e3df5ba80c8d443f5460630b7093f3c26801e4afcb45604f6f852f7c78929",
+      "scope": "new v2 record only",
+      "history": "Attempt1 terminal newline fix; later v2 validation-scope wording and main169 integration checkpoint updates; final attempt4 covers final body"
+    },
+    "metadata_static": {
+      "passed": 4,
+      "actual_commit_or_merge_range_checked": false
+    },
+    "original_independent_review_is_final_v2_review": false
+  },
+  "draft_basis_snapshot": {
+    "actual_main_commit": "33702453d3805024f0763ef39acece7a4ff26b41",
+    "actual_main_tree": "3b29b3db0b16dba530b9a86cbcb0d4a0fe262eed",
+    "copy_preview_commit": "3aba86d227b6ec2ce2b8a0b97bcf9a1b1599ec40",
+    "copy_preview_tree": "df2dd2e5428e8050bd49939dd18ce8cdbb05cd05",
+    "preview_is_actual_main": false,
+    "scope_publication_head": null,
+    "scope_ci": null,
+    "role": "Historical main337/Copy3aba preparation basis, not current actualmain"
+  },
+  "early_adoption_preparation_Copy_snapshot": {
+    "commit": "3aba86d227b6ec2ce2b8a0b97bcf9a1b1599ec40",
+    "Draft": true,
+    "Full_UI_step_metadata": "success",
+    "Release": "in-progress",
+    "independent_raw374_acceptance": null,
+    "final_Full_acceptance": null,
+    "independently_fetched_by_this_worker": false,
+    "role": "Historical early adoption preparation snapshot; null and in-progress values are preserved"
+  }
+}

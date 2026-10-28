@@ -16,13 +16,15 @@
 
 [読書記録の破損保全と明示復旧](records/2026-10-27/ios-reading-state-recovery.md)はPR282最終eabの6runとReady最新policy成功後、main76へ通常保護squashで統合した。main76の新push Common・Native・Fullも別観測で成功し、Native追加12単体と通常UI、Fullの一意22caseを確認した。旧Core性能は歴史scopeに保ち、実ユーザーの復旧固有UI・実機・VoiceOver・耐電断等とIOS-22全体は未完了、TODO32行・完了12行を維持する。後続PR283の新Recovery UIはこのmain76 checkpointの受入に含めない。
 
-[コードコピー回帰検査](records/2026-10-27/ios-code-copy-ui-ci.md)では、コピー済み状態の待機と同一Simulatorのcanary・23件のraw結果・実データ374Bの照合を追加します。固定592の単独診断と終了後の一致報告を、通常Fullへ復元した新headの独立raw受入とは分けます。main337へ再結合し、全23件とReleaseの新CIを確認する段階で、IOS-25全体は未完了です。
+[コードコピー回帰検査](records/2026-10-27/ios-code-copy-ui-ci.md)では、通常Fullの固定3abaで単体165件（skip2・失敗0）・UI23件・Releaseが成功し、同UUIDのraw結果と実コピー374Bを独立TXTへ全byte照合しました。canaryと一意なBooted選択はproducerの申告範囲です。通常保護squashで同じtreeのmain169へ採用しました。新push CIは未確認で、実機・VoiceOverとIOS-25全体の受入も残します。
 
 [読書記録復旧のUI回帰](records/2026-10-27/ios-reading-recovery-ui.md)では、DEBUG隔離suiteの取消し・確認と再起動後のしおり保持を確認しています。採用89のNative4件と、通常保護で統合したmainc1の新push（Common10 jobs・Native4件・Full22件）を2026-10-28 checkpointで分けて記録しました。Dedicated89のF成功・R失敗は別Driver作業として保持し、新Driverの効果、読書位置・backup生bytes・実機・VoiceOver・Core性能とIOS-22全体は未受入です。
 
 [更新復旧試験の実行元](records/2026-10-28/ios-destination-artifacts-ui.md)では、head56・3aの失敗を保持し、C2のDedicatedでF/R各1ケース、7回のApp一覧・phase source相関・最終52B sentinelとcleanupを限定受入として記録しました。通常6系統とmain142採用、反映後のCommon10job・Native UI4件・Full UI22件も別々に確認しました。Rの新しい診断・実launch root、内部cacheの保証と全userdataは未確認で、実機・VoiceOverやIOS-18・22・25全体は未完了です。
 
 [iOS TODOと統合状況のチェックポイント](records/2026-10-26/ios-todo-integration-checkpoint.md)で、main955を基準とするIOS-02・10・13・14の達成と、12／32件の完了を追跡します。SDK26のunsigned Archive用技術環境・native導線・全199記事生成・学習案内が対象です。PR275は未マージで、iOS26.5の再起動復帰に失敗が残っています。実機・性能・配布資格・契約・公開と最新OS27の受入は未完了として分けます。
+
+[iOS自分用初版の方針](records/2026-10-28/ios-personal-use-scope.md)では、本人の直接回答で配布先を自用とし、Rootが既存自律依頼に基づきiPhone/iOS17以降・全記事native同梱・音声1本等の現行baselineを採択しました。新課金なし・既存無料Teamで自用し、Store価格・契約・外部配布は未選択です。IOS-01の範囲決定だけ完了し現行13/32、他31行と旧12件のcheckpoint履歴を保持します。RootはPR286のFull raw23/実374B独立一致・Releaseを受入れmain169へ通常統合済みですが、新main pushCI・実機・上書き保持/読書backup復元は未確認です。旧Draft/nullは履歴に保ち、範囲記録→検索観測→読書export→復元を各小commit・PR・通常main mergeへ分けます。
 
 [block内部の読書位置候補](records/2026-10-26/ios-intrablock-reading-progress.md)は、旧anchorと保存を保ち、実測した相対位置の復帰・自動配置失敗時の保全・layout再起動を扱う。承認済みv3 codeの旧SDK4段階は成功したが、新snapshot/pickerを持つPublishedは未compileである。unit152・機能16＋pure geometry6＝22 selectedはsource数で、実main270へのbind後の確認とexact-head CI・実機等をIOS-11へ残す。 実main270 `955c066c8dc0fdbedf6f0c845a461abda39ac476`（tree `9d2525e28ce3d9b6659eeac57b0b6f910e7e262b`）へbindした私有候補である。親PR270 head85d9のunit133（131成功＋2skip）・full21・Releaseと全15check成功は親の履歴で、新P1 unit152／UI22の実登録・実行は未確認とする。独立review後にrootがDraftへ反映してCIを実行し、必要exact-head CI成功までmainへ統合しない。 Published CIのjob上限だけ40分から50分へ調整し、selector・個別15秒・assert・commandは維持する。これはCI実行上限で製品性能budgetではない。
 

@@ -37,3 +37,23 @@ artifact12781436776の圧縮39145BはRoot readerが全digestを照合し、固�
 Docs290の通常統合で採択したmain `33702453d3805024f0763ef39acece7a4ff26b41` / tree `3b29b3db0b16dba530b9a86cbcb0d4a0fe262eed`は、Copyの最終採択とは別です。次はこのmainへの再結合と、元Full workflow25561B / SHA-256 `e7c8713374cfcb849a236042aa00d5e4dfa0766412e0653cb60106e5c6c17112`への完全復元を予定します。新head・新head CI・normal23・strict sameUUID canary/raw actual374・Swift単体・Full Releaseの結果は、同名JSONでもnullのままです。1件診断やAPIの緑を代わりに使いません。
 
 実機・VoiceOver、他code block・空/inlineのコピー、初回offline・legacy移行とIOS-25全体は未完了です。TODO32行・完了12行を保ち、この記録作業では2記録の追記だけを作成しました。索引の再結合とSource/WF復元は別作業で、新SDK・試験・通信/API・共有checkout変更は行っていません。
+
+## 2026-10-28: 通常Fullの23件と実コピー374Bの受入
+
+この追記は、通常Fullを復元した固定head `3aba86d227b6ec2ce2b8a0b97bcf9a1b1599ec40` / tree `df2dd2e5428e8050bd49939dd18ce8cdbb05cd05`の受入です。旧候補・失敗したprobe・固定592の1件診断と当時のnull値は履歴として保持します。通常workflowは25561B / SHA-256 `e7c8713374cfcb849a236042aa00d5e4dfa0766412e0653cb60106e5c6c17112`へ復元され、Source2と独立した期待TXT374Bは592と同一です。
+
+### 新しいFull実行と実データ照合
+
+[通常Full run40611002470](https://github.com/pero3dev/ai-agent-library/actions/runs/40611002470) / job122562219321 / attempt1は成功しました。新rawの単体集計は165件実施・skip2・失敗0で、同じroot集計2行を二重加算しません。UIはNative2・Published15・geometry6の固定23 IDが各Started1・Passed1、失敗・明示skipは0でした。公開copyボタンのTapとコピー済みpredicateを含むcaseがPassedし、通常FullのRelease stepもBUILD SUCCEEDEDでした。
+
+Rootはcompact artifact12785216584の圧縮70063Bを1 GETし、公式digest `75b8cb6e86717d62535520b36bf393f9d01a54bd92feb7cbfb78f600143a3a74`と固定11メンバーのCRC/SHAを確認しました。raw treeの全container・23 leafがPassedで、同UUID `F0E646EF-4792-4F36-B48B-EC89B3A6B73B` / iOS18.5と実行intent・exitに対応します。actual stdout374Bを独立TXTへ全byte比較し、SHA-256 `e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8`と一致しました。空白・tab・emoji・長い行・末尾LFを正規化していません。canaryのseed/read roundtripと一意なBooted選択はproducerの申告範囲で、compactだけで独立検証した扱いにはしません。
+
+実checkout `e0f02a41d9364fd9502fd5bd189643c62a5bb97d`のtreeと親は別Git照合で確認し、承認headの全2788 tupleに一致しました。選択Source8はその参照票で、Audio helper等を含む全compiler provenanceの網羅を主張しません。Rootのcompact受入票SHAは `958dd2a6b912a79f740b48fafa8cca5f0fcee21aca6ca77c4a0826bfbdab14ef`、Full observer票SHAは `a3b97078a54f30bba4290f79495ee042c6e9d8a57dbb886a520c72592315df57`です。生clipboard・ZIP・logは本記録へ保存しません。
+
+### 別系統の検査とmain反映
+
+同じ3abaのCommon40611002458の9件と、当時の本文更新後policy40611016013・40611016115の2件はAPI metadataで成功でした。SDK26 run40611002226 / job122562218868は別のunsigned Archive実同梱監査で、199記事・音声1本・625ファイル・36958420B、TestContent不存在、Privacyのactual/source SHAと意味の一致を確認しました。このRelease構成のArchiveは、上の通常Full Releaseと別の証跡です。Native40611002502・Runtime2640611002477・Dedicated40611002304の3系統はAPI metadataのみの成功で、新しいraw UI・単体件数やactual runner checkoutを推測しません。
+
+PR286はReady後の最新Harness40616658647 / job122580657294とFreshness40616658671 / job122580622867、および必須11件・補助5系統の成功guardを確認し、通常保護squashでmain `16930f8ae8feb52fbd6ddedfe25c8d98e0a19106`へ統合しました。treeは `df2dd2e5428e8050bd49939dd18ce8cdbb05cd05`、親はmain337で、accepted3abaの全2788 tupleと一致します。統合Git票のSHAは `d5115ea2a064b5b9d56399ac73a5d1fdb698a9388d6bd144ec00f2f9bc58546f`、通常統合receiptのSHAは `840982a729cf2dac9d140538e6691a6c7fae04e195472cd4c7578f0d062d598f`です。main169の新push CIと実行結果はこの候補では未確認で、3abaのraw結果を新push成功へ付け替えません。同名JSONの新namespaceに、固定headの受入・実mainの採用・未確認の新pushを分けました。
+
+実機・VoiceOver、他のcode block・空/inlineコピー、初回offline・legacy移行とIOS-25全体は未完了です。Copy受入のhead3aba/main169時点の観測はTODO32行・完了12行で、accepted code-headの履歴として残します。別scopeのIOS-01採択13/32と分け、このCopy追記自体ではcheckboxを変更しません。今回の作業は記録2の追記と索引3のCopy専用段落だけで、Source/WF/App/PBX・共有checkout・refsを変更せず、新SDK・試験・通信/API・GETを実行していません。

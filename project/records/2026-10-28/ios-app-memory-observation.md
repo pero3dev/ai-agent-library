@@ -2,7 +2,7 @@
 
 2026-10-28。IOS-15の次の小単位として、指定iOS Appの本文表示区間を観測する候補を準備する。自分用初版の実装・検証を優先度順に自律実施し、commit・PR・通常main統合へ分ける本人の依頼を根拠とする。新しい課金・契約・外部配布・署名更新・OS更新は対象にしない。
 
-2026-10-29の現行契約は[実CSVの照合と固定契約](#実csvの照合と固定契約)にまとめる。以下の初期準備と各runの記録を保持し、初期の未採択状態と後続Sourceでの採択を区別する。
+2026-10-29の最新状態は[固定契約後の初回Hosted収集成功](#固定契約後の初回hosted収集成功)を参照する。head `ec4d71c4d61624bbb8064020556dcae5bf32c79c`の専用Hostedで3指標・各3標本とCSVの収集・固定契約の照合が成功し、独立監査で受入れた。PR296の8系統とReady後の必須11検査を確認し、同じtreeのmain `4a6c3633cbc7cbe9fe460043cbefbbe937906b80`へ通常統合した。main反映後のMemory初回・再実行は別の段階で失敗しており、後述の工程上限修正で対応する。以下の初期準備・bootstrap・各失敗と修正の履歴を保持する。
 
 ## 目的と対象
 
@@ -145,3 +145,43 @@ CSVツールのmanifestは、出力rootの正確な名前・通常ファイル�
 固定契約候補のNode47例は成功した。既存の39カテゴリに加えて、実CSVのfixture、3 identifier・単位・標本数・raw token・平均・device／configuration・baselineの不一致、既知manifestの限定保存と未知／nested／unsafe／oversizeの拒否を検査した。実fb29のpure auditも成功したが、これは旧collectorのexit 1を成功へ書き換える証拠ではない。workflowはcompact合成14例、成功summaryの必須項目と非ゼロ終了を確認するexport工程の合成22例、静的13検査が成功した。実Hostedの再実行とは区別する。
 
 隔離済み依存と同じlockfileで共通検査 `npm run check` が成功し、Node1157件中1142成功・15skip・失敗0を確認した。Source3と記録4を最終レビューの対象とし、新headでの実収集と通常保護のmain反映を別に確認する。平均検証の誤差モデルは一般的なbinary64演算の上限であり、Apple内部の集計実装を検証したものではない。
+
+## 固定契約後の初回Hosted収集成功
+
+2026-10-29追記。固定契約を採択したhead `ec4d71c4d61624bbb8064020556dcae5bf32c79c`、tree `6e0ff2da834ffca9fa2055e313e2ff41998ac308`の[run 40756465904／attempt 1](https://github.com/pero3dev/ai-agent-library/actions/runs/40756465904/attempts/1)、job `123056587119`で初回のHosted収集が成功した。公式runのhead・pull_request・attempt、実checkoutのhead／treeとSource4のhashをreview済Sourceへ対応付け、GitHubのsynthetic merge SHAと区別した。modernのPassedとlegacyのSuccessは一意な専用caseとして一致し、所要時間は約97.358秒だった。このcase時間をメモリ測定区間の所要時間とは扱わない。
+
+Appは0.2.22（24）、全199記事・音声metadata 1件。今回のContent revisionは `578194b2188a2f528a09cf2f0893d5770821dce50617d9ee332e32e076d92b02`、manifest SHA256は `45ed762669dfe6595a4a1966e2bbe3b085d240df05281ce3c64a25317218483e`で、実Appの監査と一致した。Xcode16.4／iOS18.5のiPhone 16 Simulator・Debugで、起動済み一覧からTransformer本文が読めるまでの区間を対象とする。UI／AX同期・cache・Runner診断IOの影響を含む。
+
+6件の公式readerはすべてexit 0、exporterは6,153msでexit 0となり、10工程の記録とworkflowの成功summary gateも通過した。`matched-memory-observation`・`xcode16.4-app-memory-v1`・`metric_contract_accepted: true`の3行・各3標本と、CSV 1ファイル・11列・データ1行を照合した。今回のraw単位はすべて `kB`であり、下記はec4の値だけである。
+
+| wireの表示名 | 今回の3標本（kB） | CSV平均 |
+| --- | --- | --- |
+| Absolute Memory Physical (prototype) | 115580.48, 116137.536, 116284.992 | 116001.0027 kB |
+| Memory Peak Physical (prototype) | 118054.464, 118578.752, 118726.208 | 118453.1413 kB |
+| Memory Physical (prototype) | 3293.184, 2473.984, 2654.208 | 2807.125333 kB |
+
+独立したPython Decimal／Fractionで型付きraw・受入summary・CSVの標本値と順序を照合した。CSV平均との差は順に1/30000、1/30000、1/3000000で、各表示桁の半単位以内だった。Destinationは `iPhone 16 iOS Simulator 18.5`、Configurationは `Test Scheme Action`で、modernのmodel／platform／OSと所有した端末のcontextへ対応する。typed baseline 0.0・名前なしとCSV baseline 0は一致したが、製品の性能基準や予算は採用しない。
+
+raw 85,644Bと公式compact ZIP 153,172Bを各1回取得した。ZIP SHA256 `22fe5f6e8a77dec4a908c511c12340b564429120409bac51e3bc4484efee2d3f`、123個の通常ファイル・展開後1,146,400B、compactの122件とexporterの13件のmanifest記載ファイルについてbyte・SHA・CRCを独立照合した。今回のCSVは668B、SHA256 `d438dbb933e69618ed465df86ab6820dda585265d840cf00c992713cd0bea54b`である。独立監査の新しいP1・P2は0件で、この固定wire観測の範囲を受入れた。
+
+CSVツールのmanifestは305Bのopaque診断として保存した。実CSV名にさらに`.csv`が付いた文字列を含むが、そのschemaや参照整合性を確認済みとはせず、参照を辿らず、metricやファイル名の採用にも使わない。CSVと型付き値の照合はこの内容から独立している。
+
+`protocol_payload_verified: false`・`product_performance_acceptance: false`を保つ。stdoutにはseq 1〜29と53〜138の保持分があり、完全なenter／return journalを確認できたのはinvocation 3・4だけだった。protocol 4,527Bはmetadataのみでpayload未取得である。Sourceの4呼出しassertとcase成功を、全warm-up・protocolの独立確認へ広げない。初回postboot読取は成功し追加読取は発火せず、所有した端末のshutdown／deleteと終了後一覧の対応も確認した。以前の失敗原因やRunner診断IOの数値比較性、xcresult内部全byte不変を解決したとはしない。
+
+PR296はhead ec4の全8系統が初回成功・再実行0で、Ready更新20:33:09 UTC以後に開始した最新2 policyを含む必須11検査も成功した。2026-10-28 20:34:59 UTCに通常保護のsquashでmain `4a6c3633cbc7cbe9fe460043cbefbbe937906b80`へ統合し、親E0・全2803ファイルのmode／type／blobと承認tree `6e0ff2da834ffca9fa2055e313e2ff41998ac308`、本文・名義と1コミットの形式を確認した。管理者例外や保護設定の変更は行っていない。main反映後のMemoryの失敗は、PRの成功で置き換えない。今回の3標本を実機・cold起動・Release・p95・lifetime peak・製品SLOへ転用せず、IOS-15全体・性能目標・実機とTODO32行／完了13行を維持する。
+
+## main反映後の失敗と生成監査の工程上限
+
+main 4a6の[push run 40764578560](https://github.com/pero3dev/ai-agent-library/actions/runs/40764578560)のattempt 1は、測定450,000msの上限で450,960ms後に終了した。容量による切り詰めのない54,747Bのstdoutにはseq 1〜95が連続し、invocation 1・2の停止と復帰、3の行tap・expectation初期化の復帰を確認した。3回目の最初のbody witness pollは戻らず、最後はnavigation barのButton検索だった。個別のgetterとApp／XCTest／hostの原因は未確定であり、case・metricを受け入れない。所有端末の後片付けは成功した。
+
+初回raw 85,587Bとcompact ZIP 102,362B（SHA256 `6a4fa6844e6c46db8a650c4985b8b1e447dc975dc4da5df36750373b83ef66a0`）を各1回取得し、114ファイル／113 manifest記載ファイルを照合した。同じ承認treeのPR成功と、今回の不成立を保持したまま、独立監査を経て条件不変の再実行を1回だけ行った。このmainに対する追加の同条件再実行は行わない。
+
+attempt 2／job `123099168375`では、記事生成と前半の監査がすべてexit 0となった後、生成監査工程の共有230秒が不足した。生成・fixture生成・本文監査・fixture監査・package監査の5 commandに225,201msを使い、周辺処理を含めて225,711msが経過したため、最後の `audit-fixture-package`へ4,289msしか割り当てられず、4,298msでtimeoutした。これは最初のUI停止とは別の工程で、端末作成・ビルド・UI・metricには進んでいない。
+
+attempt 2のraw 81,708B、ZIP 54,005B（SHA256 `a9a76fbb7d1500e47043d335e776aa52bd6d363fda289b6bfa6da2520961222a`）を各1回取得し、57ファイル／56 manifest記載ファイルを照合した。独立監査でP2の工程配分不足を確認した。現行の生成180秒・fixture生成90秒・監査各60秒を保ち、工程全体だけ230秒から300秒、外側CIステップだけ4分から6分へ変更する。同じ前半時間なら最終監査の60秒を全て割り当てても285,711msで工程内に収まるが、将来の実所要や成功を保証しない。
+
+全体31分・job40分・後処理の予約、strictな全監査・fd／source／case guard・本文15秒・測定450秒は保持する。実driverのcontent工程と実ファイル、時計・外部commandのstubを使う8例で、旧上限の4,289ms割当と新上限の60,000ms割当、個別上限と全体期限による拒否を確認した。最後のSwift監査に21,220msを仮定する例は他のpackage監査の実時間に基づく合成例であり、停止した監査の完了時間を実測したものではない。最初のVM adapterの逆変換誤りはharnessだけを訂正して保持し、workflowは2値の変更だけとする。静的13検査も成功した。
+
+この修正は生成監査の配分に限定し、初回のAX poll停止を修正したとはしない。新headの通常CIとmain反映後の確認を別に行い、過去の2失敗と未取得のmetricを成功へ読み替えない。
+
+この候補の共通検査 `npm run check` は成功し、Node1157件中1142成功・15skip・失敗0を確認した。新headのHosted効果とSourceの独立最終レビューを別に確認し、通常の保護されたmain統合へ進める。

@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+2026-10-29の[固定契約後のApp memory収集](records/2026-10-28/ios-app-memory-observation.md#固定契約後の初回hosted収集成功)では、ec4の専用Hostedがexport exit 0となり、3指標・各3標本（wire単位kB）とCSV 1ファイル／11列／データ1行を独立照合して、この観測を受入れた。App0.2.22（24）・全199記事で、CSV平均は116001.0027／118453.1413／2807.125333 kBだった。opaque manifestの内容・protocol payload・製品の性能基準の受入には広げず、PR296の8系統とReady後の必須11検査を確認し、main `4a6c3633cbc7cbe9fe460043cbefbbe937906b80`へ通常統合した。反映後Memoryの2失敗は別に保持し、生成監査の工程上限を修正する新headのHosted効果は未確認である。TODO32行／完了13行とIOS-15全体・実機の未完了を維持する。
+
 記事拡張、サイト、定期最新化、ハーネスの採択計画と実施記録をまとめます。作業の共通契約は [AGENTS.md](../AGENTS.md)、検証手順は [CONTRIBUTING.md](../CONTRIBUTING.md)、記事タスクと定点観測の正本は [ROADMAP.md](../ROADMAP.md) です。
 
 計画本文の「現状」「未着手」「追加予定」は、各計画の作成・採択時点を表します。実施結果は後継記録で確認してください。計画の終了に合わせてファイルを移し直さず、状態と適用時点をこの索引で案内します。記事の公開状態は各記事の front matter が正本です。
@@ -9,6 +11,8 @@
 2026-10-29の[App memory観測](records/2026-10-28/ios-app-memory-observation.md#完全summaryの取得とcsv収録前の失敗)では、124bの初回環境失敗を保持し、条件不変の1回の再実行で専用UIと完全な型付きsummary 746,097Bの取得を確認した。CSV出力commandは成功したがmember収集でexit 1となり、CSVと固定指標契約は未採択である。CSVを失わずに失敗原因を残す限定修正を準備し、App0.2.22（24）・TODO32行／完了13行とIOS-15全体の未完了を維持する。
 
 2026-10-29の[App memory固定契約](records/2026-10-28/ios-app-memory-observation.md#実csvの照合と固定契約)は、fb29で得た3指標・各3値・kBとCSV 11列を独立照合し、固定Sourceでの受入を準備する。CSVツールのroot manifestは16KiB以内の診断として保存し、内容をmetric受入に使わない。観測の受入と製品の性能基準を区別し、新headのHosted収集・必要CI・通常統合、実機・IOS-15全体は未完了として残す。App0.2.22（24）とTODO32行／完了13行を維持する。
+
+2026-10-29の[App memory採用と工程配分](records/2026-10-28/ios-app-memory-observation.md#main反映後の失敗と生成監査の工程上限)では、ec4の3指標・各3標本の受入、全8系統・Ready後11検査とmain4a6への通常統合を記録する。反映後Memoryの初回AX停止と、条件不変の1回の再実行で見つかった230秒枠不足を分けて保持し、全体31分／job40分・個別上限・全監査を保って生成監査だけ300秒／CI6分へ修正する。新headでの効果と以前のAX原因は未確認で、App0.2.22（24）・TODO32行／完了13行・IOS-15未完了を維持する。
 
 ## 構造・運用の計画
 

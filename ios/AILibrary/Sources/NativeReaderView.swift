@@ -985,11 +985,14 @@ private struct NativeCodeView: View {
                 }
                 .frame(minHeight: 44)
                 .accessibilityLabel("コードをコピー")
+                .accessibilityValue(copied ? "コピー済み" : "未コピー")
+                .accessibilityIdentifier("native-code-copy-\(blockID)")
             }.padding(.horizontal, 12)
             Divider()
             ScrollView(.horizontal) {
                 Text(text).font(.system(.body, design: .monospaced))
                     .textSelection(.enabled).fixedSize(horizontal: true, vertical: false)
+                    .accessibilityIdentifier("native-code-text-\(blockID)")
                     .accessibilityFocused(focusedBlock, equals: blockID)
                     .padding(12)
             }

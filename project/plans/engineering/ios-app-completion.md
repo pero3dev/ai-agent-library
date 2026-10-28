@@ -138,6 +138,8 @@ M4の次段階では[全記事の通常同梱候補](../../records/2026-10-25/io
 
 0.2.14（16）では[全記事一覧が使えるまでの観測](../../records/2026-10-25/ios-published-readiness-observation.md)を専用Hosted jobへ分ける。Debug起動要求から独立した全記事数・学習ガイドの表示確認までを測り、warm-up1回と記録3回、生xcresult/CSV/型付きmetricを保持する。初回は契約未採択で非ゼロ終了を保ち、生JSON/CSV/log/添付の独立照合後に実Clock識別子・秒単位・3値と厳密CSV guardを追加した。保存済raw再生と新headのHostedを区別し、欠測をゼロへ置き換えない。機能UI10件を別に維持し、操作自動化・AX同期を含む参考観測と、初回インストール・Release・実機・CPU/メモリ・スクロール・性能予算を分ける。IOS-15の完了欄は維持する。
 
+[main49のApp起動観測](../../records/2026-10-28/ios-published-launch-readiness.md)では、Debug・Xcode16.4/iOS18.5の起動から全199記事数と学習ガイドの存在確認までをClock3標本で記録した。平均7.5879547333333335秒とCSVの丸めを照合し、終了処理を除いたUI/AX待機込みの温まったcacheでの観測として扱う。過去のCore CLI、cold起動・p95・RSS・実機・性能予算と区別し、TODOの完了欄は変更しない。
+
 IOS-15の[全記事Core host観測](../../records/2026-10-26/ios-published-core-benchmark.md)はb79基線で実施した凍結CLIのraw19process/記録15は旧観測として保持し、最新source4のsnapshotや未実施の再CLIと分ける。通常CIはNode fixtureだけで、SDK・corpus観測は明示した手動CLIと別guardのまま。App/PBX/workflow/P1/Iconと全TODOを保持し、IOS-15と予算採択は未完了である。
 
 2026-10-27の[現行CoreのHosted観測](../../records/2026-10-27/ios-core-hosted-observation.md)は、b39／Workflow9bの凍結19process・15標本とCore実装main f5eを扱う。上の段落は旧準備時点の履歴として保持する。後続main76の新push Common・Native・Fullは成功し、Nativeの追加12単体と通常UI、Fullの一意22caseを確認した。旧性能値をSource4が変わったApp0.2.20（22）へ転用せず、App・実機・最低iOS17・VoiceOver・p95・性能予算とIOS-15全体は未完了とする。TODO32行・完了12行を保持する。
@@ -156,6 +158,8 @@ SHA照合・staging検証・原子的切替・失敗時の旧版維持は既存�
 2026-10-25の[形式契約の確認](../../records/2026-10-25/ios-native-package-contract.md)でIOS-19を完了した。manifest 2・document 1・renderer v1とappの対応、未対応形式の拒否・保存済みfuture版のfallbackを定義・検査し、旧HTML CLIを比較用一時出力へ限定した。生成側の音声時間・manifest込み件数／容量・PNG byte上限もconsumerへ揃え、通常とfixtureの実生成revisionを維持した。続くHosted実行で追加2件を含むXCTest52件とRelease監査も成功した。独立配信の採択・真正性・容量管理やIOS-22全体の完了を示さない。
 
 IOS-04・16の[音声identity契約候補](../../records/2026-10-26/ios-audio-offline-identity.md)は、通常Agentループ1音声のまま宣言tupleと実原文のSHAを束縛し、catalogや選定データによる許可policyの注入を拒否します。実main142の関連Node54件とmetadata1773Bの旧converter一致を、全package・実音声bytes・app playerの受入と分けます。追加8音声・権利・配信/保存方式、最終統合headのCIと実機は残し、IOS-04・16全体のcheckboxは完了にしません。
+
+[通常1本の実MP3照合](../../records/2026-10-28/ios-agent-loop-audio-byte-audit.md)では、固定mainf15とAudio候補65のAgentループ音声13,007,768Bを取得し、宣言・catalog・公式ReleaseのSHAと一致した。1取得チェーンを文書化し、音声本体の保存や再取得はしていない。台本のcanonical JSON・READY・制作証拠は未回収で、Releaseの将来不変性、受信ごとのhash検証、権利・追加8本・Store・IOS-04/16全体の受入とは分ける。
 
 IOS-22の準備として[同梱版の明示選択](../../records/2026-10-25/ios-bundled-content-activation.md)を追加する。正常な保存版の優先を維持し、利用者の確認後にだけ同梱版へ切り替える。実3→199→再起動→3で記録bytesと本文fingerprintの復帰を確認し、画面・Hosted・実機、記事改名・削除・容量整理とIOS-22全体は分けて追跡する。
 

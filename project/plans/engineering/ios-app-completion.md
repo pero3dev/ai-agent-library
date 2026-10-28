@@ -165,7 +165,7 @@ IOS-22の準備として[同梱版の明示選択](../../records/2026-10-25/ios-
 
 IOS-22の[読書記録の破損保全と明示復旧](../../records/2026-10-27/ios-reading-state-recovery.md)はPR282最終eabの6runとReady最新policy成功後、main76へ通常保護squashで統合した。main76の新push Common・Native・Fullも別観測で成功し、Native追加12単体と通常UI、Fullの一意22caseを確認した。旧Core性能は歴史scopeに保ち、実ユーザーの復旧固有UI・実機・VoiceOver・耐電断等とIOS-22全体は未完了、TODO32行・完了12行を維持する。後続PR283の新Recovery UIはこのmain76 checkpointの受入に含めない。
 
-IOS-25の[コードコピーCI検査候補](../../records/2026-10-27/ios-code-copy-ui-ci.md)は最初の非空fixture codeだけを対象とする。23件と実374Bの受入は未確認で、実SDK・UI・新run・実main採用およびIOS-25全体は未完了である。
+IOS-25の[コードコピー回帰検査](../../records/2026-10-27/ios-code-copy-ui-ci.md)は、最初の非空fixture codeでコピー済み状態を待ち、同じSimulatorの全23件と実データ374Bを照合する。固定592の単独診断は成功したが、通常Fullへ復元した新headの23件・独立raw374B・Releaseの確認は別に残す。実機・VoiceOverとIOS-25全体は未完了を維持する。
 
 [読書記録復旧のUI回帰](../../records/2026-10-27/ios-reading-recovery-ui.md)では、DEBUG隔離suiteの取消し・確認と再起動後のしおり保持を確認しています。採用89のNative4件と、通常保護で統合したmainc1の新push（Common10 jobs・Native4件・Full22件）を2026-10-28 checkpointで分けて記録しました。Dedicated89のF成功・R失敗は別Driver作業として保持し、新Driverの効果、読書位置・backup生bytes・実機・VoiceOver・Core性能とIOS-22全体は未受入です。
 

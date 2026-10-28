@@ -186,5 +186,251 @@
     "links_and_preservation": "passed;4 local Markdown links +3 proposed record links; no index body writes",
     "index_body_writes": 0,
     "new_tests_SDK_GET_benchmark_generation_npmci_API_Git_shared": 0
+  },
+  "single_case_diagnostic_and_restore_preparation_20261028": {
+    "schema_version": 1,
+    "date_JST": "2026-10-28",
+    "status": "fixed592-one-case-diagnostic-observed; normal-workflow-restoration-preparation-only",
+    "historical_scope": "All older fields, id-only Source claims, null acceptance and status remain unchanged as earlier snapshots. This block describes current592 Source2 and diagnostic evidence only.",
+    "fixed_source": {
+      "head": "592cea1e7bc286de76c551ff61bc2218a65671af",
+      "tree": "760576fc6b3ddd8c0b60d58034fed311c03ab1a8",
+      "Source2": [
+        {
+          "path": "ios/AILibrary/Sources/NativeReaderView.swift",
+          "bytes": 62160,
+          "SHA256": "5e9f5c76684a925254ed091ad1da7c9c73338adf5a81251a0f82fe2d483a8858"
+        },
+        {
+          "path": "ios/AILibraryUITests/PublishedReaderUITests.swift",
+          "bytes": 69466,
+          "SHA256": "5a83f1eebfba8b603fe26492845c287a9f6c8a0f6fab8c74526dc6ba6755fcd9"
+        }
+      ],
+      "oldid_only_SOURCE_historical": true,
+      "current_delta": "Add copied AX value and predicate wait after public button tap; current Source2 is not the earlier id-only delta",
+      "actual_checkout": "3834df9d032bad730d3253ca5588143781bfe162",
+      "checkout_tree_equals_fixed_head": true,
+      "checkout_parents": [
+        "516662fe8474a94a069914d3126c412657efb8ca",
+        "592cea1e7bc286de76c551ff61bc2218a65671af"
+      ]
+    },
+    "one_case_diagnostic": {
+      "run": 40605473931,
+      "job": 122543761239,
+      "attempt": 1,
+      "official_run_job_success": true,
+      "case": "PublishedReaderUITests/testFixtureFirstCodeCopyUsesThePublicButton()",
+      "console_Started": 1,
+      "console_Passed": 1,
+      "console_Failed": 0,
+      "console_duration_seconds": 147.483,
+      "raw_case_duration_seconds": 147.48285901546478,
+      "xcodebuild_exit": 0,
+      "xcresulttool_exit": 0,
+      "raw_test_tree_levels": [
+        {
+          "type": "Test Plan",
+          "name": "AILibrary",
+          "result": "Passed"
+        },
+        {
+          "type": "UI test bundle",
+          "name": "AILibraryUITests",
+          "result": "Passed"
+        },
+        {
+          "type": "Test Suite",
+          "name": "PublishedReaderUITests",
+          "result": "Passed"
+        },
+        {
+          "type": "Test Case",
+          "name": "testFixtureFirstCodeCopyUsesThePublicButton()",
+          "result": "Passed"
+        }
+      ],
+      "raw_test_tree_independently_parsed_by_Root": true,
+      "device": {
+        "UUID": "F0E646EF-4792-4F36-B48B-EC89B3A6B73B",
+        "OS": "18.5",
+        "platform": "iOS Simulator",
+        "model": "iPhone 16",
+        "same_UUID_seed_roundtrip": true
+      },
+      "public_copy_action": {
+        "tap_and_copied_value_predicate_trace_present": true,
+        "pinned_uncopied_assertion_tap_and_copied_wait_case_Passed": true,
+        "direct_raw_AX_value_dump": false,
+        "only_first_nonempty_fixture_code": true
+      },
+      "configured_count": {
+        "context_integer": 199,
+        "step_env": "TEST_RUNNER_AILIBRARY_EXPECTED_PUBLISHED_COUNT",
+        "runner_env": "AILIBRARY_EXPECTED_PUBLISHED_COUNT",
+        "direct_runner_environment_dump": false,
+        "separate_basis": "Pinned passed case includes setUp count guard and catalog count assertion; context config is not a direct Runner receipt"
+      }
+    },
+    "live_observation": {
+      "attempted_polls": 5,
+      "completed_captures": 4,
+      "deduplicated_change_states": 1,
+      "all_retained_states_are78B_canary": true,
+      "equals_expected_in_retained_live_states": false,
+      "four_raw_clipboard_payloads_saved": false,
+      "missing_samples": 1,
+      "missing_reason": "command-timeout",
+      "failure_elapsed_seconds": 10.38524741599997,
+      "parent_reaped": true,
+      "polling_status": "stopped-after-command-timeout",
+      "observation_clock": "Controller observation of raw Started/Finished markers, not actual on-device execution time",
+      "live_copy_success_inferred": false
+    },
+    "after_xcodebuild_producer_report": {
+      "phase": "after-xcodebuild-exit-observed",
+      "exit": 0,
+      "bytes": 374,
+      "SHA256": "e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8",
+      "equals_expected": true,
+      "equals_canary": false,
+      "Root_committed_expectedTXT_len_SHA_checked": true,
+      "recorder_committed_expectedTXT_len_SHA_checked": true,
+      "artifact_saves_raw_clipboard_bytes": false,
+      "independent_raw374_whole_bytes_acceptance": null,
+      "scope": "Producer reports bounded RAM comparison; independent artifact raw clipboard body is unavailable. ExpectedTXT is verified separately, not used to replace missing clipboard bytes."
+    },
+    "artifact": {
+      "id": 12781436776,
+      "compressed_bytes": 39145,
+      "official_digest": "sha256:36f7ee2231124e9fac1e5d838ca488567c0c924c2a3bbe36a7648ae44bf69b46",
+      "whole_digest_verified_by_Root_reader": true,
+      "members": [
+        {
+          "name": "copy-probe-summary.json",
+          "bytes": 7000,
+          "SHA256": "f147165f5fb79064ffa701f1ba559ed3883ed12ab659b667e7843cd6706b066f",
+          "CRC_verified": true
+        },
+        {
+          "name": "copy-probe-context.json",
+          "bytes": 1240,
+          "SHA256": "b1b3bbff4a123807b2501524392016db7a6c326143f9e9faf950aac83b28b2f4",
+          "CRC_verified": true
+        },
+        {
+          "name": "copy-probe-device.json",
+          "bytes": 390,
+          "SHA256": "338f6e076e6f5bb66a4133dc3eaafe964e0863bdc57fc7014ee8573f132dac36",
+          "CRC_verified": true
+        },
+        {
+          "name": "copy-probe-command.json",
+          "bytes": 1390,
+          "SHA256": "8044bed6e7007000578ca35e5f2dbaecaeac98459dbbc820188aa4693355bd9b",
+          "CRC_verified": true
+        },
+        {
+          "name": "copy-probe-tests.json",
+          "bytes": 1663,
+          "SHA256": "7c28ce5abb8e7f0df76c6188a4fba81813eb02fcf8657211ad62e7cc616509eb",
+          "CRC_verified": true
+        },
+        {
+          "name": "copy-probe-xcode-tail.log",
+          "bytes": 453135,
+          "SHA256": "7a9cfc3fc2d910daf9a60a749350672adb03b883bbdc4a30cc5f6618aa92fc3b",
+          "CRC_verified": true
+        }
+      ],
+      "expanded_selected_bytes": 464818,
+      "raw_ZIP_or_clipboard_saved_by_reader": false
+    },
+    "fixed592_Common_SDK_metadata": {
+      "observed_at_UTC": "2026-10-28T00:18:41Z",
+      "Common_run": 40605473929,
+      "required_count": 11,
+      "all_required_completed_success": true,
+      "latest_policy_runs": [
+        {
+          "id": 40605485286,
+          "name": "Harness policy PR #286",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 40605485292,
+          "name": "Freshness policy PR #286",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ],
+      "SDK26_run": 40605473950,
+      "SDK26_job": 122543761452,
+      "SDK26_official_API_success": true,
+      "decoded_joblog_GET": 0,
+      "artifact_GET": 0,
+      "new_Node_Archive_counts_bytes_Privacy_or_runner_checkout_claimed": false,
+      "scope": "Fixed592 API metadata only; neither new raw Archive audit nor final restored-head success."
+    },
+    "normal_restoration_target": {
+      "latest_docs_main_from_Root": "33702453d3805024f0763ef39acece7a4ff26b41",
+      "main_tree": "3b29b3db0b16dba530b9a86cbcb0d4a0fe262eed",
+      "main337_is_Docs290_adoption_not_Copy_adoption": true,
+      "workflow_path": ".github/workflows/ios-published-candidate.yml",
+      "restore_exact_bytes": 25561,
+      "restore_exact_SHA256": "e7c8713374cfcb849a236042aa00d5e4dfa0766412e0653cb60106e5c6c17112",
+      "status": "Separate worker prepares normal workflow plus main337 binding; this append does not execute or adopt it",
+      "new_restored_head": null,
+      "new_head_CI": null,
+      "normal23_raw_results": null,
+      "strict_sameUUID_canary_and_actual_raw374": null,
+      "Swift_units": null,
+      "Full_Release_package": null,
+      "restore_required_before_merge": true
+    },
+    "limits": {
+      "diagnostic_other22_units_FullRelease": "not-run",
+      "fixed592_onecase_or_metadata_not_substituted_for_finalnormal23": true,
+      "physical_VoiceOver_first_offline_legacy_empty_inline_other_code_copy": "unconfirmed",
+      "IOS25_complete": false,
+      "TODO_rows": 32,
+      "TODO_done": 12,
+      "record_worker_Source_index_or_shared_edits": 0,
+      "new_SDK_tests_network_API_npm_Git_mutations": 0
+    },
+    "evidence": [
+      {
+        "identifier": "Root_v7_selected_read",
+        "bytes": 17207,
+        "SHA256": "1ce0788e70fec73566dfca623d0916a038928a06d666f2f1acd63ad8deee063a"
+      },
+      {
+        "identifier": "v7_observer_binding",
+        "bytes": 6246,
+        "SHA256": "75a2c916dfcb58dda13bca8daecc18c508325cd33b5c4cbccadcc30d5f2aa2b4"
+      },
+      {
+        "identifier": "v7_Common_metadata",
+        "bytes": 11510,
+        "SHA256": "d9cab418b743256277252b099fc1dbdd528434564fd8c7496c4d2dc934d47720"
+      },
+      {
+        "identifier": "v7_SDK26_metadata",
+        "bytes": 2139,
+        "SHA256": "0c72b50b90c6d4e3f06c2ac5b384b4a0af04ac911f71a0f8a55175bca7021f5a"
+      },
+      {
+        "identifier": "Common_SDK_metadata_manifest",
+        "bytes": 889,
+        "SHA256": "4e2c7c89cf9fdb3d6abe1403212603466e8242f9daf43f4f866c194c23b45af6"
+      },
+      {
+        "identifier": "normal_workflow_restoration_reference",
+        "bytes": 25561,
+        "SHA256": "e7c8713374cfcb849a236042aa00d5e4dfa0766412e0653cb60106e5c6c17112"
+      }
+    ]
   }
 }

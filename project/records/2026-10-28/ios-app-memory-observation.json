@@ -2,7 +2,7 @@
   "schema_version": 1,
   "date": "2026-10-28",
   "base": "e0c3031f3d62adab017c72949ffa3376e77b18bf",
-  "state": "specificlegacy-summary1MiB capturefixSource3/Node24/compact5/static/independentreviewpassed; newHosted+typedsummaryCSVpending",
+  "state": "fixed-source contract prepared fromactualfb29 typed+CSV; newHeadHosted andprotectedmergepending",
   "objective": "IOS15 target-App memory observation inone bounded unit",
   "owners": {
     "Swift": "app_memory_ui_case",
@@ -23,7 +23,30 @@
   "metric_configuration": "XCTMemoryMetric(application: app)",
   "expected_invocations": 4,
   "expected_recorded_values": 3,
-  "trusted_memory_contract": null,
+  "trusted_memory_contract": {
+    "id": "xcode16.4-app-memory-v1",
+    "scope": "fixedSourceonly, notperformancebudget",
+    "metrics": [
+      {
+        "identifier": "com.apple.dt.XCTMetric_Memory-dev.pero3.aiagentlibrary.prototype.physical_absolute",
+        "display_name": "Absolute Memory Physical (prototype)",
+        "unit_literal": "kB",
+        "sample_count": 3
+      },
+      {
+        "identifier": "com.apple.dt.XCTMetric_Memory-dev.pero3.aiagentlibrary.prototype.physical_peak",
+        "display_name": "Memory Peak Physical (prototype)",
+        "unit_literal": "kB",
+        "sample_count": 3
+      },
+      {
+        "identifier": "com.apple.dt.XCTMetric_Memory-dev.pero3.aiagentlibrary.prototype.physical",
+        "display_name": "Memory Physical (prototype)",
+        "unit_literal": "kB",
+        "sample_count": 3
+      }
+    ]
+  },
   "bootstrap_exit": "nonzero withaccepted_measurements null",
   "verification": {
     "Swift_grammar": "success",
@@ -576,5 +599,207 @@
       "fail": 0,
       "first_format_failure": "MD012 two addedblanklines, Source3 unchanged thencommoncheckrepeated"
     }
+  },
+  "previous_state_before_source_contract": "specificlegacy-summary1MiB capturefixSource3/Node24/compact5/static/independentreviewpassed; newHosted+typedsummaryCSVpending",
+  "bootstrap_exit_scope": "historical beforefixedSourceadoption; successfulmatchedexportsnow0",
+  "fixed_contract_actual_reference": {
+    "schema_version": 1,
+    "scope": "Actual fb29 run40748853889 attempt1 wire correlation only, not metric or product acceptance.",
+    "head": "fb29b31c4a01dfb7bb7128f325a1ab977b4317b9",
+    "run_id": 40748853889,
+    "attempt": 1,
+    "CSV": {
+      "retained_path": "export/csv/candidate-01.csv",
+      "bytes": 667,
+      "SHA256": "dba73c0c1c1218f1b6ace611d04c28184ffb784fc2250e43eb1801217b67a3db",
+      "header_columns": 11,
+      "data_rows": 1,
+      "strict_UTF8": true,
+      "BOM": false,
+      "NUL": false,
+      "all_fields_quoted_roundtrip_exact_without_final_LF": true,
+      "header": [
+        "Destination",
+        "Configuration",
+        "Absolute Memory Physical (prototype) (Average)",
+        "Absolute Memory Physical (prototype) (Iterations)",
+        "Absolute Memory Physical (prototype) (Baseline)",
+        "Memory Peak Physical (prototype) (Average)",
+        "Memory Peak Physical (prototype) (Iterations)",
+        "Memory Peak Physical (prototype) (Baseline)",
+        "Memory Physical (prototype) (Average)",
+        "Memory Physical (prototype) (Iterations)",
+        "Memory Physical (prototype) (Baseline)"
+      ],
+      "destination": "iPhone 16 iOS Simulator 18.5",
+      "destination_semantics": "Current CSV uses model/platform/version; not custom owned Simulator deviceName.",
+      "configuration": "Test Scheme Action",
+      "configuration_join": "Modern configuration1 name exact, including spaces."
+    },
+    "metrics": [
+      {
+        "typed_path": "/performanceMetrics/_values/0",
+        "typed_row_type": "ActionTestPerformanceMetricSummary",
+        "identifier": "com.apple.dt.XCTMetric_Memory-dev.pero3.aiagentlibrary.prototype.physical_absolute",
+        "display_name": "Absolute Memory Physical (prototype)",
+        "unit_literal": "kB",
+        "measurement_type": "Double",
+        "measurement_value_wire_type": "string",
+        "sample_count": 3,
+        "typed_samples": [
+          "115629.696",
+          "116989.568",
+          "117530.24"
+        ],
+        "csv_columns_1_based": [
+          3,
+          4,
+          5
+        ],
+        "CSV_average_raw": "116716.5013 kB",
+        "CSV_iterations_raw": "[115629.696, 116989.568, 117530.24]",
+        "CSV_baseline_raw": "0",
+        "exact_decimal_values_and_order_equal": true,
+        "exact_decimal_mean_fraction": "43768688/375",
+        "CSV_mean_absolute_difference_fraction": "1/30000",
+        "half_last_printed_decimal_fraction": "1/20000",
+        "within_printed_rounding_half_unit": true,
+        "baseline_average_raw": "0.0",
+        "baseline_name": "",
+        "positive_samples": 3,
+        "zero_samples": 0,
+        "negative_samples": 0
+      },
+      {
+        "typed_path": "/performanceMetrics/_values/1",
+        "typed_row_type": "ActionTestPerformanceMetricSummary",
+        "identifier": "com.apple.dt.XCTMetric_Memory-dev.pero3.aiagentlibrary.prototype.physical_peak",
+        "display_name": "Memory Peak Physical (prototype)",
+        "unit_literal": "kB",
+        "measurement_type": "Double",
+        "measurement_value_wire_type": "string",
+        "sample_count": 3,
+        "typed_samples": [
+          "117972.608",
+          "119398.016",
+          "120151.68"
+        ],
+        "csv_columns_1_based": [
+          6,
+          7,
+          8
+        ],
+        "CSV_average_raw": "119174.1013 kB",
+        "CSV_iterations_raw": "[117972.608, 119398.016, 120151.68]",
+        "CSV_baseline_raw": "0",
+        "exact_decimal_values_and_order_equal": true,
+        "exact_decimal_mean_fraction": "44690288/375",
+        "CSV_mean_absolute_difference_fraction": "1/30000",
+        "half_last_printed_decimal_fraction": "1/20000",
+        "within_printed_rounding_half_unit": true,
+        "baseline_average_raw": "0.0",
+        "baseline_name": "",
+        "positive_samples": 3,
+        "zero_samples": 0,
+        "negative_samples": 0
+      },
+      {
+        "typed_path": "/performanceMetrics/_values/2",
+        "typed_row_type": "ActionTestPerformanceMetricSummary",
+        "identifier": "com.apple.dt.XCTMetric_Memory-dev.pero3.aiagentlibrary.prototype.physical",
+        "display_name": "Memory Physical (prototype)",
+        "unit_literal": "kB",
+        "measurement_type": "Double",
+        "measurement_value_wire_type": "string",
+        "sample_count": 3,
+        "typed_samples": [
+          "3489.792",
+          "3129.344",
+          "2441.216"
+        ],
+        "csv_columns_1_based": [
+          9,
+          10,
+          11
+        ],
+        "CSV_average_raw": "3020.117333 kB",
+        "CSV_iterations_raw": "[3489.792, 3129.344, 2441.216]",
+        "CSV_baseline_raw": "0",
+        "exact_decimal_values_and_order_equal": true,
+        "exact_decimal_mean_fraction": "1132544/375",
+        "CSV_mean_absolute_difference_fraction": "1/3000000",
+        "half_last_printed_decimal_fraction": "1/2000000",
+        "within_printed_rounding_half_unit": true,
+        "baseline_average_raw": "0.0",
+        "baseline_name": "",
+        "positive_samples": 3,
+        "zero_samples": 0,
+        "negative_samples": 0
+      }
+    ],
+    "interpretation_limits": [
+      "Identifiers, literal kB, row3/sample3 and column order are observations of this exact current run, not yet a fixed Source contract.",
+      "No kB conversion, lifetime/cold/physical meaning or product SLO is inferred.",
+      "Empty baseline name and typed0.0/CSV0 do not establish a performance baseline or budget.",
+      "Means were compared using Python Decimal/Fraction on current wire values, independently of private generic code."
+    ],
+    "collector_exit": 1,
+    "error": "known root exportmanifest.json305B was rejected; CSV retained",
+    "typed_summary_bytes": 742166,
+    "typed_summary_SHA256": "ad4ba24916187e2e7fe89d4205366df24f3bffc69f212918d7b646265378710e",
+    "raw_bytes": 83841,
+    "raw_SHA256": "680e99c8729abb0a41383eb3dd033e417d4997aa6ba1cc2a2c68a701c94bb720",
+    "artifact": 12842818735,
+    "ZIP_bytes": 149550,
+    "ZIP_SHA256": "fdce64e00e28e8674a073a13f2491b3181a2e52ee7da5bfa3c88e07bf29baae0",
+    "members": 122,
+    "manifest_files_verified": 121,
+    "actual_case_seconds": 100.91413104534149,
+    "independent_wire_audit_manifest": "bf27a7b492cf2624efd390a1155fd89b27df3fcc763b418d3b67f9700ce313f2",
+    "no_samehead_retry": true
+  },
+  "fixed_contract_source_candidate": {
+    "id": "xcode16.4-app-memory-v1",
+    "CLI_success": 0,
+    "status": "matched-memory-observation",
+    "opaque_manifest": {
+      "fixed_output": "csv-export-manifest.json",
+      "cap": 16384,
+      "root_regular_singlelink_only": true,
+      "body_unobserved_atadoption": true,
+      "schema_not_used": true,
+      "metric_acceptance_depends_on_contents": false,
+      "absence_allowed": true
+    },
+    "protocol_payload_verified": false,
+    "product_performance_acceptance": false,
+    "newHosted": "notperformed",
+    "otherbounds_and_sources_held": true,
+    "validation": {
+      "Node": 47,
+      "pass": 47,
+      "prior_categories": 39,
+      "newtests": 8,
+      "Source2_manifest": "f90a478da92a95b7c730ab3770af44273aba512503d012232696e1ab35fda138",
+      "exporter_SHA256": "d99faf0d7b6478b4e57b4aaf278d9bd3cc304e87e6234a6063b28de626e81938",
+      "tests_SHA256": "d9e858f884815b8d1459ca365750dda7e37c039c85c92827f38bb55cad06ae5c",
+      "WF_SHA256": "76c014f7ff06bef2370127a4c637f3458a111a159807abf0c1ce61ccfc6cb894",
+      "WF_manifest": "c29c97dd3606f51799cdef7f00735e61386d132a9412f47d2011cdabbbc3832f",
+      "WF_compact_synthetic": 14,
+      "WF_export_stage_synthetic": 22,
+      "WF_static": 13,
+      "retained_guard_blocks_byte_exact": 10,
+      "actual_fb29_pure_join": "passed, priorHostedcollector1preserved",
+      "newHosted": "notperformed"
+    },
+    "root_common_check": {
+      "command": "npm run check",
+      "exit_code": 0,
+      "tests": 1157,
+      "pass": 1142,
+      "skip": 15,
+      "fail": 0
+    },
+    "mean_error_model": "printedrounding + exactinputtobinary64 + gamma3sumAbs/3 + gradualunderflow; Appleinternalalgorithmnotverified"
   }
 }

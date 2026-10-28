@@ -6,9 +6,23 @@ import path from 'node:path'
 import { performance } from 'node:perf_hooks'
 import { pathToFileURL } from 'node:url'
 
-// No memory metric wire identifier, unit, cardinality or CSV schema has yet been
-// adopted. Runtime data and CLI arguments cannot turn this bootstrap green.
-export const trustedMemoryContract = null
+// Fixed source adoption from PR296 fb29 / run40748853889 attempt1 raw JSON/CSV.
+// Baselines remain unadopted budgets; this contract verifies recorded wire data.
+export const trustedMemoryContract = Object.freeze({
+  id: 'xcode16.4-app-memory-v1', sample_count: 3,
+  metrics: Object.freeze([
+    Object.freeze({ identifier: 'com.apple.dt.XCTMetric_Memory-dev.pero3.aiagentlibrary.prototype.physical_absolute',
+      display_name: 'Absolute Memory Physical (prototype)', unit: 'kB' }),
+    Object.freeze({ identifier: 'com.apple.dt.XCTMetric_Memory-dev.pero3.aiagentlibrary.prototype.physical_peak',
+      display_name: 'Memory Peak Physical (prototype)', unit: 'kB' }),
+    Object.freeze({ identifier: 'com.apple.dt.XCTMetric_Memory-dev.pero3.aiagentlibrary.prototype.physical',
+      display_name: 'Memory Physical (prototype)', unit: 'kB' })
+  ]),
+  csv: Object.freeze({ file_count: 1, data_rows: 1, header_columns: 11,
+    fixed_headers: Object.freeze(['Destination', 'Configuration']),
+    suffixes: Object.freeze(['Average', 'Iterations', 'Baseline']),
+    configuration: 'Test Scheme Action', baseline: '0' })
+})
 export const memoryObservation = Object.freeze({
   scenario: 'published-article-app-memory', test_method: 'testPublishedArticleAppMemory',
   target_application: 'dev.pero3.aiagentlibrary.prototype',
@@ -155,37 +169,226 @@ export function normalizeMemoryCandidates(summary, selectedID) {
   return metrics.map(metric => {
     if (metric._type?._name !== 'ActionTestPerformanceMetricSummary') throw new Error('Unexpected metric type')
     const id = metric.identifier?._value, display = metric.displayName?._value, unit = metric.unitOfMeasurement?._value
+    if ([metric.identifier, metric.displayName, metric.unitOfMeasurement].some(value => value?._type?._name !== 'String')) throw new Error('Expected typed String metric metadata')
     if (!spelling(id) || !spelling(display) || !spelling(unit) || identifiers.has(id)) throw new Error('Missing or duplicate metric metadata')
     identifiers.add(id)
     const values = metric.measurements?._values
-    if (!Array.isArray(values) || values.length !== 3 || values.some(value => value?._type?._name !== 'Double')) throw new Error('Expected exactly three typed Double samples per candidate')
+    if (!Array.isArray(values) || values.length !== 3 || values.some(value => value?._type?._name !== 'Double' ||
+        typeof value._value !== 'string')) throw new Error('Expected exactly three typed Double string tokens per candidate')
     const raw = values.map(value => value._value)
+    if (metric.baselineAverage?._type?._name !== 'Double' || typeof metric.baselineAverage._value !== 'string' || metric.baselineName?._type?._name !== 'String' ||
+        typeof metric.baselineName._value !== 'string') throw new Error('Expected typed memory baseline metadata')
+    numberToken(metric.baselineAverage._value)
     return { identifier: id, display_name: display, unit, raw_samples: raw,
-      samples: raw.map(numberToken), sample_count: raw.length, interpretation: 'unadopted-candidate' }
+      samples: raw.map(numberToken), sample_count: raw.length, interpretation: 'unadopted-candidate',
+      baseline: { average_raw: metric.baselineAverage._value, name: metric.baselineName._value, acceptance: 'unadopted' } }
   })
 }
 
 export function validateMemoryMetricSet(candidates, contract = trustedMemoryContract) {
-  if (contract !== trustedMemoryContract || trustedMemoryContract !== null) throw new Error('Runtime memory contract overrides are forbidden; source adoption is required')
-  if (!Array.isArray(candidates) || !candidates.length) throw new Error('No metric candidates')
-  return { status: 'metric-contract-unconfirmed', confirmed: false,
-    accepted_measurements: null, candidate_count: candidates.length }
+  if (contract !== trustedMemoryContract) throw new Error('Runtime memory contract overrides are forbidden')
+  if (!Array.isArray(candidates) || candidates.length !== contract.metrics.length) throw new Error('Expected the exact fixed three memory metrics')
+  const byID = new Map()
+  for (const candidate of candidates) {
+    if (!plain(candidate) || byID.has(candidate.identifier)) throw new Error('Duplicate or invalid memory metric')
+    byID.set(candidate.identifier, candidate)
+  }
+  const metrics = contract.metrics.map(expected => {
+    const candidate = byID.get(expected.identifier)
+    if (!candidate || candidate.display_name !== expected.display_name || candidate.unit !== expected.unit ||
+        candidate.sample_count !== contract.sample_count || !Array.isArray(candidate.raw_samples) ||
+        candidate.raw_samples.length !== contract.sample_count || !Array.isArray(candidate.samples) ||
+        candidate.samples.length !== contract.sample_count ||
+        candidate.raw_samples.some((value, index) => typeof value !== 'string' || numberToken(value) !== candidate.samples[index])) throw new Error('Memory metadata or three typed samples differ from the fixed contract')
+    if (!plain(candidate.baseline) || typeof candidate.baseline.average_raw !== 'string' || candidate.baseline.name !== '' ||
+        !equalMemoryDecimalTokens(candidate.baseline.average_raw, contract.csv.baseline)) throw new Error('Unexpected unadopted memory baseline')
+    return { ...expected, raw_samples: [...candidate.raw_samples], samples: [...candidate.samples],
+      sample_count: contract.sample_count, baseline: { ...candidate.baseline, acceptance: 'unadopted' },
+      interpretation: 'verified-raw-observation' }
+  })
+  return { status: 'matched-fixed-memory-metric-set', confirmed: true, metrics, candidate_count: candidates.length }
 }
 
-export function validateMemoryCSV(files, candidates, contract = trustedMemoryContract) {
-  validateMemoryMetricSet(candidates, contract)
-  if (!Array.isArray(files) || !files.length || files.length > memoryCaps.csvFiles) throw new Error('Missing or oversized CSV candidate set')
-  const names = new Set()
-  return { status: 'retained-unadopted-CSV', schema_verified: false, metric_set_correlated: false,
-    files: files.map(file => {
-      if (!plain(file) || typeof file.name !== 'string' || !/^[a-zA-Z0-9_.-]+\.csv$/.test(file.name) ||
-          names.has(file.name) || !Buffer.isBuffer(file.bytes) || !file.bytes.length ||
-          file.bytes.length > memoryCaps.csv) throw new Error('Invalid or duplicate CSV candidate')
-      names.add(file.name)
-      const text = utf8(file.bytes)
-      if (text.includes('\0')) throw new Error('NUL in CSV candidate')
-      return { file: 'csv/' + file.name, bytes: file.bytes.length, sha256: digest(file.bytes) }
-    }) }
+export function validateMemoryCSV(files, candidates, details, context, contract = trustedMemoryContract) {
+  const typed = validateMemoryMetricSet(candidates, contract)
+  if (!Array.isArray(files) || files.length !== contract.csv.file_count) throw new Error('Expected exactly one dedicated memory CSV')
+  const file = files[0]
+  if (!plain(file) || typeof file.name !== 'string' || !/^[a-zA-Z0-9_.-]+\.csv$/.test(file.name) ||
+      !Buffer.isBuffer(file.bytes) || !file.bytes.length || file.bytes.length > memoryCaps.csv) throw new Error('Invalid bounded CSV candidate')
+  const { header, row } = parseMemoryCSV(file.bytes)
+  const expectedHeaders = [...contract.csv.fixed_headers, ...contract.metrics.flatMap(metric =>
+    contract.csv.suffixes.map(suffix => metric.display_name + ' (' + suffix + ')'))]
+  if (header.length !== contract.csv.header_columns || expectedHeaders.some(name => !header.includes(name)) ||
+      header.some(name => !expectedHeaders.includes(name))) throw new Error('Unexpected fixed memory CSV header set')
+  const columns = new Map(header.map((name, index) => [name, row[index]]))
+  if (!Array.isArray(details?.devices) || details.devices.length !== 1 ||
+      !Array.isArray(details.testPlanConfigurations) || details.testPlanConfigurations.length !== 1) throw new Error('Expected one CSV device and configuration')
+  const device = details.devices[0], destination = context?.destination
+  if (!plain(destination) || typeof device.deviceId !== 'string' || typeof destination.uuid !== 'string' ||
+      !/^[A-Fa-f0-9]{8}(?:-[A-Fa-f0-9]{4}){3}-[A-Fa-f0-9]{12}$/.test(device.deviceId) ||
+      device.deviceId.toUpperCase() !== destination.uuid.toUpperCase() || device.deviceName !== destination.device_name ||
+      destination.owned !== true || destination.device_type_identifier !== 'com.apple.CoreSimulator.SimDeviceType.iPhone-16' ||
+      destination.runtime_identifier !== 'com.apple.CoreSimulator.SimRuntime.iOS-18-5' ||
+      device.modelName !== 'iPhone 16' || device.modelName !== destination.device_model_name ||
+      device.platform !== 'iOS Simulator' || device.osVersion !== '18.5' || device.osVersion !== destination.os_version ||
+      context.configuration !== 'Debug' || details.testPlanConfigurations[0].configurationName !== contract.csv.configuration) throw new Error('CSV result device/configuration differs from owned producer context')
+  const destinationLabel = [device.modelName, device.platform, device.osVersion].join(' ')
+  if (columns.get('Destination') !== destinationLabel || columns.get('Configuration') !== contract.csv.configuration) throw new Error('CSV destination or configuration differs from actual result metadata')
+  const metrics = typed.metrics.map(metric => {
+    const average = columns.get(metric.display_name + ' (Average)'), iterations = columns.get(metric.display_name + ' (Iterations)')
+    const match = /^([+-]?(?:\d+(?:\.\d+)?|\.\d+)) kB$/.exec(average)
+    if (!match) throw new Error('Expected the observed plain decimal kB average spelling')
+    const comparison = compareMemoryCSVNumbers(metric.raw_samples, iterations, match[1])
+    const baseline = columns.get(metric.display_name + ' (Baseline)')
+    if (baseline !== contract.csv.baseline || !equalMemoryDecimalTokens(baseline, metric.baseline.average_raw)) throw new Error('CSV and typed unadopted baselines differ')
+    return { identifier: metric.identifier, display_name: metric.display_name, unit: metric.unit,
+      ...comparison, average_raw: average, baseline_raw: baseline, baseline_average_raw: metric.baseline.average_raw, baseline_acceptance: 'unadopted' }
+  })
+  return { status: 'matched-fixed-memory-csv', schema_verified: true, metric_set_correlated: true,
+    header_columns: header.length, data_rows: contract.csv.data_rows, file_count: files.length,
+    destination: destinationLabel, configuration: contract.csv.configuration, metrics,
+    files: [{ file: 'csv/' + file.name, bytes: file.bytes.length, sha256: digest(file.bytes) }] }
+}
+
+// Parsing and numeric correlation alone do not adopt a memory metric, unit or
+// CSV wire schema. These helpers cannot enable acceptance in the exporter.
+export function parseMemoryCSV(bytes) {
+  if (!Buffer.isBuffer(bytes) || !bytes.length || bytes.length > memoryCaps.csv) throw new Error('Expected bounded CSV bytes')
+  if (bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf) throw new Error('Unexpected CSV byte-order marker')
+  const text = utf8(bytes)
+  if (text.includes('\0')) throw new Error('NUL in CSV text')
+  const rows = []
+  let cursor = 0
+  while (cursor < text.length) {
+    const row = []
+    while (true) {
+      if (text[cursor++] !== '"') throw new Error('CSV fields must be quoted')
+      let value = '', closed = false
+      while (cursor < text.length) {
+        const character = text[cursor++]
+        if (character !== '"') { value += character; continue }
+        if (text[cursor] === '"') { value += '"'; cursor++; continue }
+        closed = true
+        break
+      }
+      if (!closed) throw new Error('Unterminated CSV field')
+      row.push(value)
+      if (row.length > 64) throw new Error('CSV column safety cap exceeded')
+      if (text[cursor] === ',') { cursor++; continue }
+      if (text[cursor] === '\r') {
+        if (text[cursor + 1] !== '\n') throw new Error('Invalid CSV line ending')
+        cursor += 2
+      } else if (text[cursor] === '\n') cursor++
+      else if (cursor !== text.length) throw new Error('Unexpected text after CSV field')
+      break
+    }
+    rows.push(row)
+    if (rows.length > 2) throw new Error('Expected one CSV header and one data row')
+  }
+  if (rows.length !== 2 || rows[0].length !== rows[1].length) throw new Error('CSV header and data widths must agree')
+  const [header, row] = rows
+  if (header.some(name => !name.length) || new Set(header).size !== header.length) throw new Error('CSV headers must be nonempty and unique')
+  return { header, row }
+}
+
+function memoryDecimal(value) {
+  const number = numberToken(value), token = String(value)
+  const match = /^([+-]?)(?:(\d+)(?:\.(\d*))?|\.(\d+))(?:[eE]([+-]?\d+))?$/.exec(token)
+  if (!match) throw new Error('Invalid exact decimal token')
+  const exponent = Number(match[5] ?? 0)
+  if (!Number.isSafeInteger(exponent) || Math.abs(exponent) > 400) throw new Error('Decimal exponent exceeds arithmetic safety cap')
+  const fraction = match[3] ?? match[4] ?? ''
+  const coefficient = BigInt((match[2] ?? '0') + fraction) * (match[1] === '-' ? -1n : 1n)
+  return { coefficient, scale: fraction.length - exponent, number, token }
+}
+const memoryPower10 = exponent => 10n ** BigInt(exponent)
+const memoryDecimalUnits = (value, scale) => value.coefficient * memoryPower10(scale - value.scale)
+const sameMemoryDecimal = (left, right) => {
+  const scale = Math.max(0, left.scale, right.scale)
+  return memoryDecimalUnits(left, scale) === memoryDecimalUnits(right, scale)
+}
+
+export function equalMemoryDecimalTokens(left, right) {
+  return sameMemoryDecimal(memoryDecimal(left), memoryDecimal(right))
+}
+
+function exactMemoryDouble(value) {
+  if (!Number.isFinite(value)) throw new Error('Cannot represent a non-finite binary64 value')
+  if (value === 0) return { coefficient: 0n, scale: 0 }
+  const storage = new DataView(new ArrayBuffer(8))
+  storage.setFloat64(0, value, false)
+  const bits = storage.getBigUint64(0, false), exponent = Number((bits >> 52n) & 0x7ffn)
+  const fraction = bits & ((1n << 52n) - 1n)
+  const significand = exponent === 0 ? fraction : (1n << 52n) | fraction
+  const power = exponent === 0 ? -1074 : exponent - 1023 - 52
+  const sign = (bits >> 63n) === 1n ? -1n : 1n
+  let coefficient = power >= 0 ? sign * significand * (1n << BigInt(power)) : sign * significand * 5n ** BigInt(-power)
+  let scale = Math.max(0, -power)
+  while (scale > 0 && coefficient % 10n === 0n) { coefficient /= 10n; scale-- }
+  return { coefficient, scale }
+}
+
+const memoryAbsolute = value => value < 0n ? -value : value
+function memoryFraction(numerator, denominator) {
+  if (denominator <= 0n) throw new Error('Invalid exact arithmetic denominator')
+  let a = memoryAbsolute(numerator), b = denominator
+  while (b !== 0n) { const next = a % b; a = b; b = next }
+  return { numerator: numerator / a, denominator: denominator / a }
+}
+const addMemoryFractions = (left, right) => memoryFraction(left.numerator * right.denominator + right.numerator * left.denominator,
+  left.denominator * right.denominator)
+const memoryFractionReceipt = value => ({ numerator: value.numerator.toString(), denominator: value.denominator.toString() })
+
+export function compareMemoryCSVNumbers(rawSamples, csvIterations, csvAverage) {
+  if (!Array.isArray(rawSamples) || rawSamples.length !== 3 ||
+      typeof csvIterations !== 'string' || csvIterations.length > memoryCaps.csv ||
+      typeof csvAverage !== 'string' || csvAverage.length > 512 || !/^[+-]?(?:\d+(?:\.\d+)?|\.\d+)$/.test(csvAverage)) {
+    throw new Error('Expected three typed samples, CSV iterations and a plain printed average')
+  }
+  const match = /^\[([^\[\]]*)\]$/.exec(csvIterations)
+  if (!match) throw new Error('Invalid CSV iteration array')
+  const rawIterations = match[1].split(',').map(value => value.trim())
+  if (rawIterations.length !== 3) throw new Error('Expected exactly three CSV iterations')
+  const typed = rawSamples.map(memoryDecimal), iterations = rawIterations.map(memoryDecimal), average = memoryDecimal(csvAverage)
+  if (typed.some((value, index) => !sameMemoryDecimal(value, iterations[index]))) throw new Error('CSV iteration order or values differ from typed samples')
+  const binary = typed.map(value => exactMemoryDouble(value.number))
+  const scale = Math.max(0, average.scale, ...typed.map(value => value.scale), ...binary.map(value => value.scale))
+  const decimalDenominator = memoryPower10(scale)
+  const sum = typed.reduce((total, value) => total + memoryDecimalUnits(value, scale), 0n), count = 3n
+  const signedDifference = memoryDecimalUnits(average, scale) * count - sum
+  const difference = signedDifference < 0n ? -signedDifference : signedDifference
+  const binaryUnits = binary.map(value => memoryDecimalUnits(value, scale))
+  const sumAbsolute = binaryUnits.reduce((total, value) => total + memoryAbsolute(value), 0n)
+  const maximum = exactMemoryDouble(Number.MAX_VALUE)
+  if (sumAbsolute > memoryDecimalUnits(maximum, scale)) throw new Error('Binary64 reduction could overflow; mean comparison is unavailable')
+  const conversion = binaryUnits.reduce((total, value, index) => total + memoryAbsolute(value - memoryDecimalUnits(typed[index], scale)), 0n)
+  // This is an explicit common reduction model, not proof of Apple's internal
+  // implementation: sum three inputs then divide by three, or divide each and
+  // sum. Each input sees at most three rounded operations; gamma(3) = 3u/(1-3u),
+  // u=2^-53, bounds the arithmetic error by sum(abs(binary inputs))/(2^53-3).
+  // Five operations at most contribute gradual-underflow errors <= eta/2 each.
+  // Their propagation is <= (1+u)^2, so 5/2*(1+u)^2*eta < 3eta, eta=2^-1074.
+  // Keep this term rational: Number.MIN_VALUE/2 would silently become zero.
+  const allowances = {
+    printed_decimal: memoryFraction(1n, 2n * memoryPower10(average.scale)),
+    wire_decimal_to_binary64: memoryFraction(conversion, count * decimalDenominator),
+    binary64_arithmetic: memoryFraction(sumAbsolute, ((1n << 53n) - 3n) * decimalDenominator),
+    gradual_underflow: memoryFraction(3n, 1n << 1074n)
+  }
+  const total = Object.values(allowances).reduce(addMemoryFractions, memoryFraction(0n, 1n))
+  if (difference * total.denominator > total.numerator * count * decimalDenominator) throw new Error('CSV mean differs beyond its printed and derived binary64 rounding bounds')
+  const mean = typed.reduce((total, value) => total + value.number / 3, 0)
+  if (!Number.isFinite(mean)) throw new Error('Non-finite typed mean')
+  return { sample_count: 3, raw_iterations: rawIterations, average_raw: csvAverage,
+    CSV_average: average.number, typed_mean: mean,
+    mean_comparison: { method: 'exact signed decimal integer arithmetic', printed_decimal_scale: average.scale,
+      empirical_absolute_epsilon: 0,
+      arithmetic_model: { operations: 'sum-then-divide or divide-each-then-sum for three binary64 inputs',
+        maximum_rounding_depth: 3, maximum_rounded_operations: 5, Apple_implementation_verified: false,
+        unit_roundoff: { numerator: '1', denominator: (1n << 53n).toString() } },
+      rounding_allowances: Object.fromEntries(Object.entries({ ...allowances, total }).map(([key, value]) => [key, memoryFractionReceipt(value)])),
+      difference_numerator: difference.toString(), difference_denominator: (count * decimalDenominator).toString(),
+      typed_mean_numerator: sum.toString(), typed_mean_denominator: (count * decimalDenominator).toString() } }
 }
 
 function includesPath(parent, child) {
@@ -226,11 +429,11 @@ function stableFile(file, cap) {
 
 const names = new Set(['modern-tests.json', 'modern-details.json', 'legacy-root.json', 'legacy-plan.json',
   'legacy-summary.json', 'context.json', 'summary.json', 'commands.json', 'provenance.json', 'manifest.json',
-  'csv-export-stdout.txt', 'csv-export-inventory.json'])
+  'csv-export-stdout.txt', 'csv-export-inventory.json', 'csv-export-manifest.json'])
 // The dedicated passed-case summary includes verbose UI activity records.
 // Only this fixed raw output name receives a larger cap; callers cannot raise it.
 const memoryJSONCap = name => name === 'legacy-summary.json' ? memoryCaps.legacySummary : memoryCaps.json
-const memoryDiagnosticNames = new Set(['csv-export-stdout.txt', 'csv-export-inventory.json'])
+const memoryDiagnosticNames = new Set(['csv-export-stdout.txt', 'csv-export-inventory.json', 'csv-export-manifest.json'])
 const memoryCommandOutputCap = name => name === 'csv-export-stdout.txt' ? memoryCaps.csvDiagnostic : memoryJSONCap(name)
 
 export function enforceCompactCaps(entries) {
@@ -313,7 +516,7 @@ export function writeOwnedEvidence(input) {
       } finally { closeSync(fd) }
       inventory.push({ path: name, bytes: bytes.length, sha256: digest(bytes) })
     },
-    // A deadline can expire just after a pending receipt was written. Downgrade
+    // A deadline can expire just after a successful receipt was written. Downgrade
     // only our still-identical summary/manifest in that failure path; never open
     // a replacement, linked leaf or unowned output with truncation enabled.
     writeFailureReceipt(name, value) {
@@ -351,21 +554,21 @@ function json(bytes, cap = memoryCaps.json) {
 
 function csvInventoryState() {
   return { schema_version: 1, status: 'collecting', traversal_complete: false, observed_entries: 0,
-    entries_omitted: 0, captured_csv_files: 0, entries: [], issues: [],
+    entries_omitted: 0, captured_csv_files: 0, retained_opaque_manifest: false, entries: [], issues: [],
     limits: { depth: 4, entries: memoryCaps.csvInventoryEntries, relative_path_bytes: memoryCaps.csvRelativePath,
       CSV_files: memoryCaps.csvFiles, CSV_bytes: memoryCaps.csv, inventory_bytes: memoryCaps.csvDiagnostic } }
 }
 
-function collectCSV(directory, checkpoint, capture, inventory) {
+function collectCSV(directory, checkpoint, capture, inventory, captureManifest) {
   const found = [], identities = new Set()
-  let stopped = false, firstError = null
+  let stopped = false, firstError = null, opaqueManifest = null
   function reject(code, message) {
     if (!inventory.issues.includes(code)) inventory.issues.push(code)
     firstError ??= new Error(message)
   }
   function append(entry) {
     const bytes = Buffer.byteLength(JSON.stringify({ ...inventory, entries: [...inventory.entries, entry] }, null, 2))
-    // Reserve room for at most sixteen short captured names and failure status.
+    // Reserve room for sixteen CSV names, one opaque manifest and failure status.
     if (bytes > memoryCaps.csvDiagnostic - 2048) {
       inventory.entries_omitted++; stopped = true
       reject('inventory-byte-cap', 'CSV export inventory exceeds its bounded diagnostic allowance')
@@ -399,8 +602,21 @@ function collectCSV(directory, checkpoint, capture, inventory) {
         kind: stat.isSymbolicLink() ? 'symbolic-link' : stat.isDirectory() ? 'directory' : stat.isFile() ? 'regular-file' : 'non-regular',
         bytes: stat.isFile() && stat.size <= BigInt(Number.MAX_SAFE_INTEGER) ? Number(stat.size) : null,
         eligible_csv: false, captured_as: null, rejection: null }
-      let read = null
+      let read = null, diagnosticManifest = false
       if (stat.isSymbolicLink()) { entry.rejection = 'symbolic-link'; reject(entry.rejection, 'CSV export symbolic link') }
+      else if (name === 'manifest.json') {
+        if (relative !== 'manifest.json' || !stat.isFile()) {
+          entry.rejection = 'unsafe-or-nested-manifest'; reject(entry.rejection, 'Only one regular root manifest may be retained as opaque diagnostics')
+        } else {
+          try { read = stableFile(file, memoryCaps.csvDiagnostic) }
+          catch { entry.rejection = 'unsafe-or-oversized-manifest'; reject(entry.rejection, 'Opaque export manifest failed bounded stable-file checks') }
+          checkpoint()
+          if (read && identities.has(inode(read.identity))) {
+            read = null; entry.rejection = 'duplicate-manifest-inode'; reject(entry.rejection, 'Duplicate opaque manifest inode')
+          }
+          diagnosticManifest = read !== null
+        }
+      }
       else if (stat.isDirectory()) {
         if (depth === 4) { entry.rejection = 'depth-cap'; reject(entry.rejection, 'Unexpected CSV export depth') }
       } else if (!stat.isFile() || !name.endsWith('.csv')) {
@@ -418,10 +634,17 @@ function collectCSV(directory, checkpoint, capture, inventory) {
       }
       if (!append(entry)) return
       if (read) {
-        const candidate = { name: `candidate-${String(found.length + 1).padStart(2, '0')}.csv`, original_relative_path: relative, bytes: read.bytes }
-        capture(candidate)
-        identities.add(inode(read.identity)); found.push(candidate)
-        entry.captured_as = 'csv/' + candidate.name; inventory.captured_csv_files = found.length
+        if (diagnosticManifest) {
+          captureManifest(read.bytes)
+          identities.add(inode(read.identity)); inventory.retained_opaque_manifest = true
+          entry.captured_as = 'csv-export-manifest.json'
+          opaqueManifest = { file: entry.captured_as, bytes: read.bytes.length, sha256: digest(read.bytes) }
+        } else {
+          const candidate = { name: `candidate-${String(found.length + 1).padStart(2, '0')}.csv`, original_relative_path: relative, bytes: read.bytes }
+          capture(candidate)
+          identities.add(inode(read.identity)); found.push(candidate)
+          entry.captured_as = 'csv/' + candidate.name; inventory.captured_csv_files = found.length
+        }
       }
       if (stat.isDirectory() && entry.rejection === null) visit(file, depth + 1)
     }
@@ -432,7 +655,7 @@ function collectCSV(directory, checkpoint, capture, inventory) {
   if (!found.length) reject('missing-CSV', 'Missing CSV export candidates')
   inventory.traversal_complete = !stopped && !inventory.issues.some(code => ['relative-path-cap', 'depth-cap'].includes(code))
   inventory.status = firstError ? 'rejected' : 'complete'
-  return { files: found, error: firstError }
+  return { files: found, error: firstError, opaqueManifest }
 }
 
 function failure(error) {
@@ -497,17 +720,18 @@ export function exportMemory(options) {
     const csvStdout = run(['export', 'metrics', '--test-id', id, '--path', evidence.options.result, '--output-path', scratch], 'csv-export-stdout.txt')
     bounded(() => evidence.write('csv-export-stdout.txt', csvStdout))
     csvInventory = csvInventoryState()
-    const collection = collectCSV(scratch, checkpoint, file => bounded(() => evidence.write('csv/' + file.name, file.bytes)), csvInventory)
+    const collection = collectCSV(scratch, checkpoint, file => bounded(() => evidence.write('csv/' + file.name, file.bytes)), csvInventory,
+      bytes => bounded(() => evidence.write('csv-export-manifest.json', bytes)))
     bounded(() => evidence.write('csv-export-inventory.json', JSON.stringify(csvInventory, null, 2) + '\n'))
     csvInventoryWritten = true
     if (collection.error) throw collection.error
     const csv = collection.files
     // All bounded raw candidates are already retained before interpretation.
     const candidates = bounded(() => normalizeMemoryCandidates(summary, id))
-    const csvValidation = bounded(() => validateMemoryCSV(csv, candidates))
+    const csvValidation = bounded(() => validateMemoryCSV(csv, candidates, details, context))
     const contract = bounded(() => validateMemoryMetricSet(candidates))
-    const result = { schema_version: 1, status: contract.status, accepted_measurements: null,
-      metric_contract_accepted: false, product_performance_acceptance: false,
+    const result = { schema_version: 1, status: 'matched-memory-observation', accepted_measurements: contract.metrics,
+      metric_contract_id: trustedMemoryContract.id, metric_contract_accepted: true, product_performance_acceptance: false,
       scenario: memoryObservation.scenario, test_id: id, test_result: details.testResult,
       provenance, declared_metric_configuration: memoryObservation.metric_configuration,
       declared_recorded_iterations: 3, declared_discarded_warmup_invocations: 1,
@@ -515,9 +739,11 @@ export function exportMemory(options) {
         source_assertion_independently_verified: false,
         note: 'The consumer must join this passed case and typed three samples to the reviewed Swift four-invocation assertion; typed three alone do not prove warm-up.' },
       protocol_payload_verified: false, candidates, csv_validation: csvValidation,
+      CSV_export_manifest: { status: collection.opaqueManifest ? 'retained-opaque-diagnostic' : 'absent',
+        ...(collection.opaqueManifest ?? {}), schema_not_used: true, metric_acceptance_depends_on_contents: false },
       CSV_original_paths: csv.map(file => ({ file: 'csv/' + file.name, original_relative_path: file.original_relative_path })),
       legacy_references: refs, observed_devices: details.devices,
-      limits: 'Unaccepted Debug iOS18.5 Simulator candidates including UI/AX and warm-cache effects; not cold launch, lifetime peak, Mac/test-runner RSS, physical-device safety or product SLO.' }
+      limits: 'Verified wire observations for Debug iOS18.5 Simulator including UI/AX and warm-cache effects; not cold launch, lifetime peak, Mac/test-runner RSS, physical-device safety or product SLO. Mean arithmetic uses a bounded reduction model, not a verified Apple implementation. Export-manifest bytes are opaque diagnostics.' }
     bounded(() => evidence.write('commands.json', JSON.stringify(commands, null, 2) + '\n'))
     bounded(() => evidence.write('summary.json', JSON.stringify(result, null, 2) + '\n'))
     bounded(() => evidence.write('manifest.json', JSON.stringify({ schema_version: 1, files: evidence.manifest() }, null, 2) + '\n'))
@@ -554,8 +780,9 @@ function parseOptions(args) {
 function main() {
   try {
     const result = exportMemory(parseOptions(process.argv.slice(2)))
-    console.log(JSON.stringify({ status: result.status, accepted_measurements: null, metric_contract_accepted: false }))
-    process.exitCode = 2
+    console.log(JSON.stringify({ status: result.status, accepted_measurement_count: result.accepted_measurements.length,
+      metric_contract_id: result.metric_contract_id, metric_contract_accepted: result.metric_contract_accepted }))
+    process.exitCode = 0
   } catch (error) {
     console.error(JSON.stringify(failure(error)))
     process.exitCode = 1

@@ -258,12 +258,12 @@ jobs:
             const exportRoot = path.join(evidence, 'export');
             const exportNames = ['modern-tests.json','modern-details.json','legacy-root.json','legacy-plan.json','legacy-summary.json',
               'context.json','provenance.json','summary.json','commands.json','manifest.json',
-              'csv-export-stdout.txt','csv-export-inventory.json'];
+              'csv-export-stdout.txt','csv-export-inventory.json','csv-export-manifest.json'];
             if (present(exportRoot)) {
               assert.ok(fs.lstatSync(exportRoot).isDirectory() && !fs.lstatSync(exportRoot).isSymbolicLink());
               assert.equal(fs.realpathSync(exportRoot), exportRoot);
               for (const name of exportNames) include(path.join(exportRoot, name), 'export/' + name,
-                ['commands.json','csv-export-stdout.txt','csv-export-inventory.json'].includes(name) ? 16384
+                ['commands.json','csv-export-stdout.txt','csv-export-inventory.json','csv-export-manifest.json'].includes(name) ? 16384
                   : name === 'legacy-summary.json' ? 1024 * 1024 : 512 * 1024);
               for (const name of fs.readdirSync(exportRoot)) if (!exportNames.includes(name) && name !== 'csv' && !/^\.csv-export-[A-Za-z0-9_-]+$/.test(name))
                 omitted.push({ path: 'export/' + name, reason: 'not-in-fixed-export-allowlist' });
@@ -301,7 +301,7 @@ jobs:
               json('budget.json', { schema_version: 1, started_epoch_ms: started, work_deadline_epoch_ms: started + 31 * 60000,
                 work_minutes: 31, job_minutes: 40, reserved_postprocessing_minutes: 6, limits_are_resource_bounds: true });
               json('environment.json', { ...ownerContext(), scenario, method, selector, configuration: 'Debug',
-                developer_dir: process.env.DEVELOPER_DIR, metric_contract: 'unconfirmed', expected_bootstrap_exit_code: 2,
+                developer_dir: process.env.DEVELOPER_DIR, metric_contract: 'xcode16.4-app-memory-v1', expected_export_exit_code: 0,
                 limits: 'App-process interval in Debug Simulator; no startup, cold, lifetime peak, RSS, physical-device or product SLO claim.' });
             } else if (stage === 'inventory') {
               const deadline = Date.now() + 150000;
@@ -426,6 +426,22 @@ jobs:
               run('export',process.execPath,['ios/tests/export-memory.mjs','--result',path.join(evidence,'memory.xcresult'),
                 '--output',path.join(evidence,'export'),'--context',path.join(evidence,'context.json'),'--expected-head',expected],
                 170000,{ deadline:Date.now()+170000 });
+              const summary = read('export/summary.json');
+              assert.equal(summary.status,'matched-memory-observation');
+              assert.equal(summary.metric_contract_id,'xcode16.4-app-memory-v1');
+              assert.equal(summary.metric_contract_accepted,true);
+              assert.ok(Array.isArray(summary.accepted_measurements) && summary.accepted_measurements.length===3);
+              for (const metric of summary.accepted_measurements) {
+                assert.equal(metric.unit,'kB'); assert.equal(metric.sample_count,3);
+                assert.ok(Array.isArray(metric.raw_samples) && metric.raw_samples.length===3);
+                assert.ok(Array.isArray(metric.samples) && metric.samples.length===3 && metric.samples.every(Number.isFinite));
+              }
+              const csv = summary.csv_validation;
+              assert.equal(csv.status,'matched-fixed-memory-csv');
+              assert.equal(csv.schema_verified,true); assert.equal(csv.metric_set_correlated,true);
+              assert.equal(csv.header_columns,11); assert.equal(csv.data_rows,1); assert.equal(csv.file_count,1);
+              assert.equal(summary.protocol_payload_verified,false);
+              assert.equal(summary.product_performance_acceptance,false);
             } else if (stage === 'cleanup') {
               const deadline = Date.now() + 55000;
               if (!present(file(evidence,'simulator-intent.json'))) json('cleanup.json',{ ...ownerContext(),status:'not-created',unrelated_devices_touched:false });

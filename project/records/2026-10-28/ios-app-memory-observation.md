@@ -2,6 +2,8 @@
 
 2026-10-28。IOS-15の次の小単位として、指定iOS Appの本文表示区間を観測する候補を準備する。自分用初版の実装・検証を優先度順に自律実施し、commit・PR・通常main統合へ分ける本人の依頼を根拠とする。新しい課金・契約・外部配布・署名更新・OS更新は対象にしない。
 
+2026-10-29の現行契約は[実CSVの照合と固定契約](#実csvの照合と固定契約)にまとめる。以下の初期準備と各runの記録を保持し、初期の未採択状態と後続Sourceでの採択を区別する。
+
 ## 目的と対象
 
 基準はmain `e0c3031f3d62adab017c72949ffa3376e77b18bf`、App 0.2.22（24）。既存のMac Core CLIのRSSをAppのメモリと扱わず、UIテストから対象Appを指定する。App・PBX・版・本文の実装を変えず、既存Clockの2ケースとexport契約を保持する。
@@ -115,3 +117,31 @@ raw 83,632Bと公式compact ZIP 149,390Bを各1回取得した。ZIPのSHA256 `3
 限定修正のNode29例（既存24例と追加5例）は成功した。未知memberの順序、通常ファイル以外・重複inode等、CSV17本とmember／path／depth等の上限を拒否しつつ、安全な候補を保持することを確認した。workflowの固定診断2名の各16KiB境界を含むcompact合成11例と静的13検査も成功した。これはローカルの合成出力による確認で、新Hostedの実CSV形式や収集成功を示さない。既存の出所・fd・期限・caseと容量のガード、未採択契約・受入値nullを保持する。
 
 修正後の共通検査 `npm run check` は成功し、Node1139件中1124成功・15skip・失敗0を確認した。最初の共通検査は同じNode結果の後、作業記録2ファイルの空行で停止した。空行だけを訂正して再実行し、Source3は変更していない。最終内容の独立レビューと新headのHosted収集は別に確認する。
+
+## 実CSVの照合と固定契約
+
+head `fb29b31c4a01dfb7bb7128f325a1ab977b4317b9`の[run 40748853889](https://github.com/pero3dev/ai-agent-library/actions/runs/40748853889)、attempt 1／job `123029792404`で、専用caseは約100.914秒で成功した。公式runのhead・event・attempt、checkoutとSource4、modern／legacyの一意なcase・参照・型を照合した。Appは0.2.22（24）・全199記事で、今回のContent revisionは `702aaa3591c121e43dd40facf261849f79351c32b521550a7453ebff455cb284`である。
+
+6件の公式reader commandがexit 0となり、型付きsummary 742,166BとCSV 667Bを取得した。raw 83,841B、公式compact ZIP 149,550Bを各1回取得し、ZIP SHA256 `fdce64e00e28e8674a073a13f2491b3181a2e52ee7da5bfa3c88e07bf29baae0`、122 memberとmanifestに載る121ファイルを照合した。独立のDecimal／Fraction照合で、下記の3行・各3値と順序・単位が一致し、CSV平均はそれぞれ表示桁の丸め幅内だった。数値はwireの `kB`のままで、換算や性能予算を採択しない。
+
+| wireの表示名 | 3標本 | CSV平均 |
+| --- | --- | --- |
+| Absolute Memory Physical (prototype) | 115629.696, 116989.568, 117530.24 | 116716.5013 kB |
+| Memory Peak Physical (prototype) | 117972.608, 119398.016, 120151.68 | 119174.1013 kB |
+| Memory Physical (prototype) | 3489.792, 3129.344, 2441.216 | 3020.117333 kB |
+
+CSVは11列・データ1行・1ファイルで、Destinationは `iPhone 16 iOS Simulator 18.5`、Configurationは `Test Scheme Action`だった。列名で対応させ、列位置や専用Simulatorの任意の名前では照合しない。typed baselineは0.0・名前なし、CSV baselineは0で一致したが、性能基準の採用とはしない。平均の比較は表示丸めとbinary64で生じる誤差を分け、極小値へ一律の絶対許容差を追加しない。
+
+この実行のcollectorは、CSVと同じ出力rootにツールが生成した通常ファイル `manifest.json` 305Bを拒否してexit 1となった。stdoutにも生成manifestの案内があり、member一覧は2件・走査完了・CSV1件保存・manifestだけ拒否だった。このheadの成功収集や契約採択を主張せず、同条件の再実行は行わない。
+
+後続Sourceの固定契約は `xcode16.4-app-memory-v1`とし、現行Appに対応する3 identifier・wire単位 `kB`・各3値と、上記CSVの列名・device／configuration・標本の順序・平均・baselineの照合を条件にする。契約は入れ子も凍結し、引数・実データから別契約を与えて成功へ変えない。型付き標本のゼロ・負値を一律に除外しない。
+
+CSVツールのmanifestは、出力rootの正確な名前・通常ファイル・単一link・16KiB以内だけを `csv-export-manifest.json`へraw保存する。不在も許容し、内容はopaqueな診断として扱う。本文のschemaはまだ確認しておらず、JSONの指示や参照先・metric・ファイル名を採用する入力にしない。CSVと型付きデータの照合だけで受入条件を満たす必要があり、他の未知member・nested manifest・unsafe／oversizeは失敗を維持する。
+
+すべての照合に成功した観測だけ `matched-memory-observation`・`metric_contract_accepted: true`・CLI exit 0とする。workflowも終了コードに加えて固定契約名、3行・各3標本、CSVの照合状態を確認する。`protocol_payload_verified: false`と`product_performance_acceptance: false`を保つ。Runner診断には保持欠落があり、protocolは添付参照だけでpayload未取得、全4呼出しの完全journalやwarm-upを独立検証したとはしない。
+
+このSource採択後の新headでのHosted収集・必要CI・通常main統合は別に確認する。先行124bの通常Native検査では、Transformer本文の前の一覧行待機が失敗し、待機後の行は操作可能だったが、原因は未特定である。fb29のFull runはfailure／job cancelled・実行stepなしで、取消理由やactorは未確認のまま残す。今回のCSV契約をその原因修正とせず、必要な最終headの検証を別に行う。App・PBX・版・既存Clock・TODO32行／完了13行とIOS-15全体の未完了を保持する。
+
+固定契約候補のNode47例は成功した。既存の39カテゴリに加えて、実CSVのfixture、3 identifier・単位・標本数・raw token・平均・device／configuration・baselineの不一致、既知manifestの限定保存と未知／nested／unsafe／oversizeの拒否を検査した。実fb29のpure auditも成功したが、これは旧collectorのexit 1を成功へ書き換える証拠ではない。workflowはcompact合成14例、成功summaryの必須項目と非ゼロ終了を確認するexport工程の合成22例、静的13検査が成功した。実Hostedの再実行とは区別する。
+
+隔離済み依存と同じlockfileで共通検査 `npm run check` が成功し、Node1157件中1142成功・15skip・失敗0を確認した。Source3と記録4を最終レビューの対象とし、新headでの実収集と通常保護のmain反映を別に確認する。平均検証の誤差モデルは一般的なbinary64演算の上限であり、Apple内部の集計実装を検証したものではない。

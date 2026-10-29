@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[iOS17のdownload進捗と収集上限](records/2026-10-29/ios17-functional-ci-pilot.md#ダウンロード進捗による収集上限の停止)に、head003の初回停止とquietを1個指定する限定候補を記録する。機能検査・最低OS全体の成功には広げない。
+
 [iOS17.0機能CIの初回失敗と限定復旧](records/2026-10-29/ios17-functional-ci-pilot.md#初回hostedの失敗と端末一覧だけの限定復旧)では、取得・import・bootstatusまでのCLI成功と、未実行の機能検査を区別する。起動後の端末一覧だけを既存の時間枠で1回再取得する候補を準備し、元の失敗を保持する。
 
 iOS 17.0の[機能CI試行](records/2026-10-29/ios17-functional-ci-pilot.md)を、0.2.23（25）採用済みのmaincc2を基準に準備した。exact17.0／iPhone15でNativeInline46件と3記事本文UI1件だけを対象にし、17.5へ置き換えず、認証・契約の代行やローカルOS導入は行わない。通常signalとcleanup上限の2点を修正したSource3は独立レビュー済みで、共通1166件中1151成功・15skip・失敗0を確認した。実download・import・boot・機能実行と最終7ファイルレビュー・通常PR／main統合は後続であり、全245件・全OS・実機・VoiceOver・性能の受入へ広げない。TODO32行／完了13行を保持する。

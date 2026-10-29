@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "date": "2026-10-29",
-  "state": "postboot metadata recovery candidate; initialHostedfailure retained; nexthead functional acceptance pending",
+  "state": "quiet-download single-argument candidate after003firstoutput-cap; actualfunctional stillunknown",
   "objective": "Bounded exact iOS17.0 functional subset pilot on existing public macos15/Xcode16.4",
   "owned_paths": [
     ".github/workflows/ios17-functional-pilot.yml",
@@ -175,10 +175,10 @@
     "IOS15_and_other_unchecked_items": "unchanged incomplete"
   },
   "pending": [
-    "final6 static and independent review",
-    "new exacthead Hosted functional subset and all necessary CI",
-    "required11 afterReady and protected main merge",
-    "physical/VO/visual/performance/full minimumOS acceptance"
+    "final5static andindependentreview",
+    "new exactheadHostedactual47subset/allnecessaryCI",
+    "Ready/freshrequired11/normalprotectedmain",
+    "physical/VO/visual/performance/fullminimumOS"
   ],
   "notes": "Root final7 candidate over actualcc2; Source3 v2 frozen unchanged, Source/context guards verified; before newPR/real iOS17/publish review checkpoint",
   "Root_common_check": {
@@ -296,5 +296,81 @@
     "actual_iOS17": false,
     "original_npm_run_check_exit_code": 1,
     "continuation": "original npm run check exit1 atRootrecordMD012 after unit1174pass andAppIconpass; onlyextraLFfixed andallremaining6components explicitlycontinued; passedunits/iconnotrepeated"
+  },
+  "postboot_source003_first_Hosted": {
+    "head": "003de3ea2c7f796f6a7a8c19a569b58064a13937",
+    "tree": "826c2264ed0e7fb74efced4ba7ff03623c189059",
+    "run": 40795867714,
+    "job": 123192082726,
+    "attempt": 1,
+    "stage": "runtime-download",
+    "stop": "output-cap",
+    "exit_code": null,
+    "signal": "SIGKILL",
+    "spawn_error": null,
+    "cancelled_signal": null,
+    "resource_failure_observed": false,
+    "download_elapsed_ms": 107575.732542,
+    "summary_elapsed_ms": 125560.551875,
+    "observed_stream_bytes": 4194565,
+    "captured_stdout_bytes": 4194293,
+    "captured_stderr_bytes": 0,
+    "captured_stdout_SHA256": "0ac8739003d00ee8fd4322a75af29bfd817b7fa16da8b1b56949930fa9934bf1",
+    "not_retained_observed_bytes": 272,
+    "progress_tail_only": "4096 bytes show repeatedCR78.3/78.4percent; whole4MiB notindependentlyavailable",
+    "download_terminal_error": "not proven",
+    "import_owner_postboot_content_functional_reached": false,
+    "functional": null,
+    "functional_acceptance": false,
+    "cleanup": "not-created",
+    "raw_bytes": 20947,
+    "raw_SHA256": "6e591a71def54bfeebe10bebbbd583f3d86c6154c36609746582057c3e54193e",
+    "ZIP_bytes": 10780,
+    "ZIP_SHA256": "8711165cd49c293ed41fac879f5f17d953f3831e1397753a503767e94dea2620",
+    "compact_files": 22,
+    "compact_bytes": 23755,
+    "independent_review_manifest_SHA256": "8bb5db0f460c91e432368b94ac5df4d62237643c3dc8366fe5cd889f35ff48d7",
+    "P1": 0,
+    "P2": 1,
+    "P2_scope": "collector stopped acquisition before terminal result; later stages unobserved",
+    "samehead_retry": 0
+  },
+  "quiet_preparation": {
+    "parent": "003de3ea2c7f796f6a7a8c19a569b58064a13937",
+    "Source_change": "one -quiet argument to runtime-download only",
+    "primary_local_man": "Xcode16.2 xcodebuild(1) lines578-579 defines quietwarnings/errors only",
+    "Hosted_Xcode16_4_download_suppression": "unverified",
+    "output_time_resource_ownership_case_and_cleanup_guards": "held",
+    "no_local_runtime_download_install_or_newSDK": true,
+    "newSource_or_Hosted_not_yet_verified": "Source checks accepted; actualHostedquieteffect remainsunknown",
+    "worker_manifest_SHA256": "9725212e95233c8daf6dac9560b69658351785e86cfee1ae4f2dcba129dcccf7",
+    "Source_SHA256": "868ff3a8e7c9c0ccd4efbac14d209c31c96aabf89796be92f88ba1f52d6c5238",
+    "Source_bytes": 26550,
+    "inverse_removing_one_quiet_matches_base": true,
+    "unchanged_Node17": {
+      "pass": 17,
+      "fail": 0,
+      "skip": 0,
+      "seconds": 0.424302625
+    },
+    "syntax_checks": 2,
+    "test_input_byte_held": true,
+    "state": "Source1 inverse/Node17/syntax/review/common passed; final5review andHostedpending",
+    "source1_review_manifest_SHA256": "b27d859ff87b2dc7eb05c0eafcc0859a96ee481e8bfcbd6b61d33bef0d67f843"
+  },
+  "quiet_Root_common": {
+    "tests": 1174,
+    "pass": 1159,
+    "fail": 0,
+    "skipped": 15,
+    "exit_code": 0,
+    "seconds": 41.84,
+    "manifest_SHA256": "5d0616cf9d32770456167e285fee8a008e76cc4efccacbdf5b997cdad5e8a187",
+    "all2810_parent_blobs_verified": true,
+    "same_lock_prepared_npm_ci_reused": true,
+    "Source1_held_after_common": true,
+    "externalIP_denied_localhost_allowed": true,
+    "records4_only_after_common": true,
+    "actual_iOS17": false
   }
 }

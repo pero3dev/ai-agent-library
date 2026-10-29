@@ -1,5 +1,13 @@
 # iOS 17.0の機能CI試行
 
+## ダウンロード進捗による収集上限の停止
+
+起動後の一覧を限定回復するhead `003de3ea2c7f796f6a7a8c19a569b58064a13937`の初回専用run `40795867714`／job `123192082726`は、別の箇所で失敗した。downloadの通常進捗がCRで繰り返され、観測4,194,565 byte、保持stdout 4,194,293 byte・stderr 0となった時点で、元の4MiB出力guardが`output-cap`としてSIGKILLした。107.576秒はdownloadの10分枠より前で、全体125.561秒も19分内だった。取得処理が終端エラーを返した証拠ではなく、保持した末尾4,096 byteでは78.3／78.4%の進捗反復が確認できる。全4MiBが重複だったとは扱わない。
+
+この実行はimport・所有device作成・起動後の一覧回復・機能検査に到達していない。functionalはnull、受入false、cleanupはnot-createdで、前の回復処理が有効だったかもまだ分からない。初回失敗と小さい診断の独立レビューは保持し、同じheadのjob再実行は行わない。
+
+次の候補はdownloadのxcodebuild引数に`-quiet`を1個加えるだけとし、4MiBの出力上限やdownload 10分・work 19分・cleanup最大2分・機能集合・判定条件を維持する。このMacのXcode16.2付属`xcodebuild(1)`では、quietは警告とエラー以外の出力を抑えるoptionと定義されている。ただしHosted Xcode16.4のdownloadに実際に効くかは未確認で、新headの実行で確認する。ローカルではruntimeを取得・導入せず、quietの効果を確かめるためだけのOS導入もしない。[Appleのcomponent取得手順](https://developer.apple.com/documentation/xcode/downloading-and-installing-additional-xcode-components)が示すdownload／importの経路は変えない。quiet Source1は1引数10 byteの追加だけで、逆変換が親Source全byteと一致した。既存Node17件と構文検査、Source1の独立レビューP1／P2なしを確認した。親003の全2,810 blobを照合した隔離コピーで、新しい共通1174件中1159成功・15skip・失敗0、約41.840秒を確認した。この新しいnpm run checkはexit 0で、前の候補にあった記録空行エラーとは別の実行である。Source1は検査後も同一で、追記した記録4だけを限定静的検査する。最終5ファイルの独立レビューと新headのHostedを後続で確認し、以下の過去の候補・pendingはそれぞれ作成時点の記録として保持する。
+
 ## 初回Hostedの失敗と端末一覧だけの限定復旧
 
 PR #299の初回head `f5285cfa5188efae4fbf931276e94dcdedb043dc`では、専用run `40790439617`／job `123174049002`のattempt 1が失敗した。CLIによるiOS17.0のdownloadは63.696秒・importは36.008秒でexit 0、inventoryでは17.0／21A328がavailableだった。新規所有iPhone15のbootは2.089秒、bootstatusは215.446秒でexit 0とFinishedを返した。ただし、その直後の厳密なBooted状態を確認する一覧は取得できず、アプリの機能テストはまだ実行していない。

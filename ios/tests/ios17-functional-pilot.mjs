@@ -262,7 +262,7 @@ export async function runPilot(env = process.env) {
       no_auth_or_new_contract_inputs: true, download_if_missing_only: true })
     if (!selected) {
       stage = 'runtime-download'
-      await run('runtime-download', 'xcodebuild', ['-downloadPlatform', 'iOS', '-exportPath', download, '-buildVersion', '17.0'], PILOT.downloadMs)
+      await run('runtime-download', 'xcodebuild', ['-quiet', '-downloadPlatform', 'iOS', '-exportPath', download, '-buildVersion', '17.0'], PILOT.downloadMs)
       const dmg = ownedDMG(download), beforeFile = fs.statSync(dmg)
       put('runtime-export.json', { relative_path: diagnostic(path.relative(root, dmg)), bytes: beforeFile.size, dev: beforeFile.dev, ino: beforeFile.ino,
         catalog_or_signature_independently_verified: false, export_command_exit0: true })

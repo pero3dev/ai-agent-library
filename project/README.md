@@ -1,8 +1,28 @@
 # project — 計画と実施記録
 
+iOS17の[実測に基づく時間予算](records/2026-10-30/ios17-measured-time-budget.md)は、07eでUI試験中に8分が尽きた結果を保存し、次の1回だけfunctional10分・共有23分（probe26分／job29分）を試す。47件と容量・取消等の合格条件を保ち、未完ならDraftを残して自用候補の仕上げへ進む。下の段落は各準備時点の履歴である。
+
+iOS17の[初回runtime一覧だけの回復候補](records/2026-10-30/ios17-initial-runtime-query-recovery.md)は、276のfull60秒・無出力停止を保持し、初回metadata読取に限り最大1回・full30秒を既存19分内で追加する。cold原因・実回復・39GiB効果と47件は未確認で、postbootと厳密なOS選択を保つ。下の予算・内訳等の段落は元の準備時点の履歴として保持する。
+
+iOS17の[compiler cacheを含む次回予算](records/2026-10-30/ios17-compilation-cache-budget.md)では、8aの同じ走査で25GiBのlogical reservationを確認し、総owned logicalを次回試行用39GiBへ明示変更する。free2GiBと他guardを保ち、物理quotaや独立した非cache14GiB枠とは扱わない。新headの47件・必要CIと通常統合は未受入で、下の各段落は元の準備時点の履歴として保持する。
+
+iOS17の[所有領域内訳を残す候補](records/2026-10-30/ios17-owned-size-breakdown.md)は、5faの最初の監視で空き容量ではなくowned logical上限の違反を確認したことを受け、同じlstat走査の上位最大8件を追加する。上限・計測・killを保ち、実file原因・機能47件と新headのCIは未受入とする。下の各段落は元の準備・採用時点の履歴として保持する。
+
 Fullの[単体失敗後のinventory収集](records/2026-10-29/ios-full-core-failure-inventory.md)は、元の失敗を保持し、非cancel時だけ同VMで2つの読取を追加する候補である。Source3のfixture15件と独立レビューを確認し、自然なHosted失敗時経路・共通検査・main反映は後続として、IOS-15全体を未完了に保つ。
 
+iOS17の[最初の資源違反を記録する候補](records/2026-10-29/ios17-resource-threshold-observation.md)では、取得・起動後の機能buildが資源閾値で停止した初回を保持し、既存monitorの観測値と違反側だけを追加する。上限・短絡・killを保ち、機能47件・Runtime26の別失敗・新headのCIと通常統合は未完了のまま進める。後続の取得進捗や復旧UIの段落は準備時点の履歴として保持する。
+
+iOS17の[取得進捗を分離する候補](records/2026-10-29/ios17-download-progress-capture.md)は、quiet後の収集上限再発を保持し、downloadだけ既知の同一進捗を限定して間引く。raw64MiBと保持4MiBを分け、機能47件・runtime曖昧さ・main反映は未確認として進める。
+
 [読書位置としおりの明示復旧UI回帰](records/2026-10-29/ios-reading-recovery-position-ui.md)では、既存の部分復旧画面から確認操作を通し、他の記事や目次を挟まず再起動直後に非先頭の見出しへ戻る1ケースを準備した。既存3件・全helperを保ったSource1のSDK18.2型検査と独立レビューを確認し、現在のmain cc2へ結び付け、共通1157件中1142成功・15skip・失敗0を確認し、実UI・Hostedと必要CIは後続へ残す。App0.2.23（25）とTODO32行／完了13行を保持し、IOS-22／25と実機・VoiceOver・上書き確認は未完了である。
+
+[iOS17取得後のruntime状態](records/2026-10-29/ios17-functional-ci-pilot.md#取得後のruntime状態と明示importの条件分岐)では、取得・起動後のpretest曖昧判定による停止を記録し、既に利用可能ならimportを省く候補と、guard前の識別情報保存を準備する。機能47件とmain反映は未確認のままとする。
+
+[iOS17のdownload進捗と収集上限](records/2026-10-29/ios17-functional-ci-pilot.md#ダウンロード進捗による収集上限の停止)に、head003の初回停止とquietを1個指定する限定候補を記録する。機能検査・最低OS全体の成功には広げない。
+
+[iOS17.0機能CIの初回失敗と限定復旧](records/2026-10-29/ios17-functional-ci-pilot.md#初回hostedの失敗と端末一覧だけの限定復旧)では、取得・import・bootstatusまでのCLI成功と、未実行の機能検査を区別する。起動後の端末一覧だけを既存の時間枠で1回再取得する候補を準備し、元の失敗を保持する。
+
+iOS 17.0の[機能CI試行](records/2026-10-29/ios17-functional-ci-pilot.md)を、0.2.23（25）採用済みのmaincc2を基準に準備した。exact17.0／iPhone15でNativeInline46件と3記事本文UI1件だけを対象にし、17.5へ置き換えず、認証・契約の代行やローカルOS導入は行わない。通常signalとcleanup上限の2点を修正したSource3は独立レビュー済みで、共通1166件中1151成功・15skip・失敗0を確認した。実download・import・boot・機能実行と最終7ファイルレビュー・通常PR／main統合は後続であり、全245件・全OS・実機・VoiceOver・性能の受入へ広げない。TODO32行／完了13行を保持する。
 
 本文図の[表示サイズ別プレビュー](records/2026-10-29/ios-figure-preview-images.md)を0.2.23（25）の候補として準備した。基準はPR #297を通常統合したmain9a2で、同PRの3系統・Ready後11検査とMemoryのraw／typed／CSV照合を確認済みである。本文図だけを表示サイズに合わせ、拡大と数式の経路を保つ。回帰9メソッドの追加とSDK型検査、共通1157件中1142成功・15skip・失敗0、新版unsigned Releaseと199記事の同梱監査を確認した。最終8ファイルレビューと新headの実XCTest・必要CI・通常統合は後続で確認する。実機・VoiceOver・性能比較とIOS-15全体は未完了、TODO32行／完了13行を保持する。後続の旧時点の記述は履歴として保持する。
 

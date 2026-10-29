@@ -1,0 +1,356 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-30",
+  "state": "Source73 independently accepted and common passed; final documentation and new exact-head Hosted pending; bounded trial not main adoption",
+  "purpose": "Bounded next-trial total39GiB owned logical allowance including observed25GiB compiler cache reservation",
+  "owned_paths": [
+    "ios/tests/ios17-functional-pilot.mjs",
+    "tests/unit/ios17-functional-pilot.test.mjs",
+    "project/records/2026-10-30/ios17-compilation-cache-budget.md",
+    "project/records/2026-10-30/ios17-compilation-cache-budget.json",
+    "project/README.md",
+    "project/plans/engineering/ios-app-completion.md"
+  ],
+  "authority": "Direct human autonomous personal iOS continuation and ordinary commit/PR/main progression; Root explicitly adopts next-trial39GiB total logical budget. Physical checks may remain incomplete; private preparation only.",
+  "author_base": {
+    "head": "8a2c9c2701469484a3842fe61faec3dd59ecda39",
+    "tree": "4dd770f54c2801a0718552fb5b5ead038b90a86e",
+    "files": 2822,
+    "contains_adopted_main": "ca59520b9a8d616ef0a749101de558afbd412b9a",
+    "existing_increment": 4,
+    "new_records": 2,
+    "prospective_files": 2824,
+    "additional_mainSync_needed": false,
+    "Root_actual_head_and_blob_binding": "Later before normal FF; no ref/main acceptance here"
+  },
+  "observed_8a_Pilot": {
+    "head": "8a2c9c2701469484a3842fe61faec3dd59ecda39",
+    "run": 40908548283,
+    "job": 123569886096,
+    "attempt": 1,
+    "Root_manifest_SHA256": "f182800755d1bbcf0b4d5710b87e325f57a32bbaf9584acb2cf3127d8f04d7a8",
+    "selected_existing_inputs_rehashed": [
+      {
+        "path": "execution-summary.json",
+        "bytes": 9423,
+        "SHA256": "e447a31307fb9a87bc625f760493d57b9c704e60857df0aa4bb524d0d79a77f6"
+      },
+      {
+        "path": "artifact/extracted/functional.exit.json",
+        "bytes": 8037,
+        "SHA256": "76475abaf969abef7adc38340f953c270d19616ca2c637610892adbac2ebc21f"
+      },
+      {
+        "path": "artifact/extracted/summary.json",
+        "bytes": 966,
+        "SHA256": "ca4f4533085a0e4aea7c630125ca51df7fc0da1b036a127b4264ed410cc07cad"
+      }
+    ],
+    "resource_observation": {
+      "command": "functional",
+      "stage": "functional",
+      "phase": "monitor",
+      "elapsed_ms": 14053.594374999986,
+      "free_bytes": 31598936064,
+      "free_floor_bytes": 2147483648,
+      "free_value_status": "observed",
+      "owned_bytes": 34425496060,
+      "owned_cap_bytes": 15032385536,
+      "owned_value_status": "observed",
+      "violated_check": "owned-cap",
+      "observation_error": false,
+      "observation_error_probe": null,
+      "observation_error_code": null,
+      "stop_already_set": null,
+      "measurement": "non-atomic logical bytes; symlinks contribute zero"
+    },
+    "owned_size_breakdown": {
+      "same_monitor_walk": true,
+      "complete": true,
+      "selection_complete": true,
+      "atomic": false,
+      "blocks_unit": null,
+      "total_logical_bytes": 34425496060,
+      "counted_entries_seen": 390,
+      "top_limit": 8,
+      "omitted_by_budget": 1,
+      "unlisted_entries_seen": 383,
+      "listed_logical_bytes": 34415253848,
+      "unlisted_logical_bytes": 10242212,
+      "entries": [
+        {
+          "path": "DerivedData/CompilationCache.noindex/generic/v1.1/v8.data",
+          "kind": "file",
+          "logical_bytes": 17179869184,
+          "blocks_raw": 0
+        },
+        {
+          "path": "DerivedData/CompilationCache.noindex/generic/v1.1/v8.index",
+          "kind": "file",
+          "logical_bytes": 8589934592,
+          "blocks_raw": 0
+        },
+        {
+          "path": "runtime-download/iphonesimulator_17.0_21A328.dmg",
+          "kind": "file",
+          "logical_bytes": 7559529352,
+          "blocks_raw": 14764712
+        },
+        {
+          "path": "DerivedData/CompilationCache.noindex/generic/v1.1/v3.actions",
+          "kind": "file",
+          "logical_bytes": 1073741824,
+          "blocks_raw": 0
+        },
+        {
+          "path": "DerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app/Frameworks/Testing.framework/Testing",
+          "kind": "file",
+          "logical_bytes": 5693024,
+          "blocks_raw": 11120
+        },
+        {
+          "path": "DerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app/Frameworks/XCTestCore.framework/XCTestCore",
+          "kind": "file",
+          "logical_bytes": 3339616,
+          "blocks_raw": 6528
+        },
+        {
+          "path": "DerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app/Frameworks/XCUIAutomation.framework/XCUIAutomation",
+          "kind": "file",
+          "logical_bytes": 3146256,
+          "blocks_raw": 6152
+        }
+      ]
+    },
+    "same_walk_complete_nonatomic_top7_390entries_omitbudget1": true,
+    "compiler_cache_logical_bytes": 26843545600,
+    "noncache_logical_bytes": 7581950460,
+    "blocks_raw_zero_is_not_total_physical_or_future_allocation_guarantee": true,
+    "functional_code": null,
+    "functional_error": null,
+    "functional_signal": "SIGKILL",
+    "functional_stop": "resource-floor-or-cap",
+    "functional_elapsed_ms": 14076.475500000059,
+    "no_case_prefix_seen_not_proof_no_execution": true,
+    "functional47_accepted": false,
+    "cleanup": "owned-device-deleted",
+    "functional_remaining_budget_ms": 445439.512292,
+    "earlier_postboot_recovery_not_terminal_cause": {
+      "first": {
+        "code": null,
+        "stop": "command-or-shared-deadline",
+        "elapsed_ms": 70483.68650000001
+      },
+      "recovery": {
+        "code": 0,
+        "stop": null,
+        "elapsed_ms": 14121.159333999967
+      },
+      "is_terminal_cause": false
+    },
+    "download": {
+      "code": 0,
+      "elapsed_ms": 157659.940167,
+      "observed_stream_bytes": 5865991,
+      "retained_stream_bytes": 901459,
+      "deduplicated_progress_records": 73131,
+      "deduplicated_progress_bytes": 4964532,
+      "captured_output_complete": false
+    },
+    "actual_Hosted_Node": "22.23.2",
+    "actual_Xcode": "16.4/16F6",
+    "actual_SDK": "18.5",
+    "actual_host": "15.7.9",
+    "Root_rawGET": 1,
+    "Root_artifactGET": 1,
+    "new_GET_or_SDK_or_CI": 0,
+    "raw_log_bytes": 21804,
+    "raw_log_SHA256": "e07c1a5bc3d042f7782b7ab590ec070b13b08add797d32e69c6ca20322e7fdee",
+    "ZIP_bytes": 71739,
+    "ZIP_SHA256": "e2247e4f2a57f06414f0756da3b07905c5dbc1cfa6d4809d1a3e37bcdd76fa3b",
+    "artifact_members": 88,
+    "artifact_uncompressed_bytes": 240098,
+    "run_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40908548283/attempts/1",
+    "retrieval_date": "2026-10-30",
+    "restore": "Use named run/job/attempt bounded artifact and verify ZIP/member digests against Root frozen manifestf1828. Job raw is a separate Root one-GET receipt; no new acquisition here."
+  },
+  "diagnosis": {
+    "manifest_SHA256": "ef3aca5423656e365dfdf22cdc142400539ffaa009e56bf421484c963498d986",
+    "verified_original_members": 3,
+    "member_bytes": 13082,
+    "proposal": "Bounded39GiB total logical next trial with limitations",
+    "Source_approval": false,
+    "Root_policy_adoption": true
+  },
+  "policy": {
+    "old_total_owned_logical_bytes": 15032385536,
+    "new_total_owned_logical_bytes": 41875931136,
+    "formula": "old ordinary14GiB plus observed25GiB compiler cache logical reservation",
+    "independent_enforced14GiB_noncache_quota": false,
+    "source_change": "ONE PILOT.ownedBytes constant only; pre/monitor/post already share this field",
+    "intentional_owned_budget_change": true,
+    "all_other_caps_held": true,
+    "not_physical_quota_or_future_sufficiency": true,
+    "limits": [
+      "three zero-block samples do not prove total physical allocation",
+      "later writes may allocate within unchanged logical sizes",
+      "larger dense-write allowance is possible",
+      "independent2GiB free-floor is best effort, not burst/race prevention",
+      "future cache size and functional47 success unaccepted"
+    ],
+    "metric_cache_detector_exclusion_allocated_conversion_disable_flag_changes": false
+  },
+  "Source2": {
+    "manifest_SHA256": "365cbaef7f97203b108a83ef63245682d215ceec8a521257630b86a40fdbcafe",
+    "files": [
+      {
+        "path": "ios/tests/ios17-functional-pilot.mjs",
+        "before_bytes": 42337,
+        "before_SHA256": "9ae0953eac27d5d0687442f2c568dbf4e354a49e653bdacd4302bed720b16f3a",
+        "bytes": 42337,
+        "SHA256": "1048826c2494beeb09b7249eba616570389d9cd74dd5b97bd3a26a108191ab55"
+      },
+      {
+        "path": "tests/unit/ios17-functional-pilot.test.mjs",
+        "before_bytes": 71896,
+        "before_SHA256": "068c3bfab34a0e33d0d036fb85657eb0e18ea593518cffae31471a1077b6d749",
+        "bytes": 75083,
+        "SHA256": "9eda010dc672915e7169d0a6124ecc7187220886439ef4aa6448aa913024970a"
+      }
+    ],
+    "unedited_copy": true,
+    "one_constant_inverse": true,
+    "old69_full_testfile_prefix": true,
+    "old70_full_testfile_prefix": false,
+    "fixture70": "Root-approved only two old monitor setup lines→three production ownedSizeProbe read/snapshot lines; all70 identities/assertions and105B path coverage held",
+    "fixture_inverse": "revert minimal setup, remove append3 and separator1LF yields original70 exact bytes"
+  },
+  "checks": {
+    "Node": {
+      "tests": 73,
+      "pass": 73,
+      "fail": 0,
+      "skip": 0,
+      "cancelled": 0,
+      "old_cases": 70,
+      "added": 3,
+      "exit_code": 0,
+      "seconds": 2.27432875
+    },
+    "syntax_exit_codes": [
+      0,
+      0
+    ],
+    "production_scope": "actual8a sample, strict39GiB equality/+1, free2GiB priority via evaluator/monitor; no real Hosted/large file",
+    "this_preparation_reran_Source73_Node": false,
+    "Source2_review_common_final6_and_CI": "Source2 and whole-tree common accepted; final documentation/metadata review and new exact-head7/47/Runtime2 pending",
+    "independent_Source2_review": {
+      "manifest_SHA256": "114d8450da2fa9428ea65b8b3d47d7cfded80c01424f99a250c30e7f32fcd6c0",
+      "P1": 0,
+      "P2": 0,
+      "scope": "Source2 only; one intentional owned logical threshold change; old69 full prefix and all70 semantic identities held with test70 fixture correction"
+    },
+    "common": {
+      "manifest_SHA256": "eae1e1ec040a4025d0109e72805bda6d7688efffda48cec55cf29b95d68c80c0",
+      "tests": 1245,
+      "pass": 1230,
+      "skip": 15,
+      "fail": 0,
+      "cancelled": 0,
+      "npm_exit": 0,
+      "seconds": 41.867,
+      "candidate_tree": "2b31eceddd7f2069087eeaba19e331977dcd761f",
+      "tracked": 2824,
+      "Source73_unedited": true,
+      "same_verified_lockfile_previous_actual_npm_ci_reused": true,
+      "record_only_final_delta": "Narrow documentation and metadata checks; no Source/common/SDK rerun"
+    }
+  },
+  "existing_8a_Runtime26": {
+    "head": "8a2c9c2701469484a3842fe61faec3dd59ecda39",
+    "run": 40908548292,
+    "job": 123569886216,
+    "attempt": 1,
+    "Root_rawGET": 1,
+    "bytes": 481631,
+    "SHA256": "400b5a430473820f1f824208894a87b27035ae945e7bd3ccddc238451dc2d35a",
+    "raw_hash_scope": "Root UTF8 returneddecoded content; fullrawnotcopied",
+    "methods": [
+      {
+        "method": "testContentsBookmarkAndResumeAfterRelaunch",
+        "seconds": 99.629
+      },
+      {
+        "method": "testThreeArticlesHaveNativeBodyText",
+        "seconds": 166.975
+      }
+    ],
+    "each1start1pass": true,
+    "selected2_fail0": true,
+    "complete_result_lines": 9,
+    "wait527": {
+      "timeoutSeconds": 15,
+      "fullyVisible": true,
+      "completed": true,
+      "poll_started_ms": 1028.42525,
+      "poll_returned_relative_ms": 2949.119041,
+      "poll_duration_ms": 1920.693791,
+      "wait_completed_ms": 2950.491666
+    },
+    "artifact_bodyGET": 0,
+    "Source_of_predicate_and_cases_unchanged": true,
+    "no_SLO_or_prior_A032_cause_claim": true,
+    "manifest_SHA256": "53d2cf9e513a2ae9b9c997346213dc39983ab7af37195e286c64dd40847f50ab",
+    "Source73_or_prior_A032_cause_acceptance": false
+  },
+  "Root_attributed_8a_partial_checkpoint": {
+    "source7": {
+      "Pilot": "failure",
+      "Runtime26": "success",
+      "SDK26": "success",
+      "Common": "failure: Safari job123569888282 APIcancelled/emptySteps, reasonunknown not test-failure proof",
+      "Native_Full_Dedicated": "pending3"
+    },
+    "known_required11": {
+      "success": 10,
+      "cancelled": 1
+    },
+    "scope": "Root-reported partial historical checkpoint; no independent API refresh here, final observer receipt later",
+    "adoption_sufficient": false,
+    "frozen_manifest_SHA256": "75a5276d254e1b4465eb04d6b1eb3a7f38c3faec1fa48db94f07b4a2f355e8c4",
+    "last_API_UTC": "2026-10-29T16:32:34Z"
+  },
+  "App": "0.2.23 (25)",
+  "TODO": {
+    "rows": 32,
+    "completed": 13,
+    "all_row_bytes_held": true
+  },
+  "ordinary_plan": {
+    "existing_PR": 301,
+    "branch": "codex/ios17-functional-pilot",
+    "base": "main",
+    "stages": [
+      "Source budget plus records one commit",
+      "normal existing301 FF",
+      "fresh7 and actual47/Runtime2",
+      "Ready latest11 and final metadata",
+      "normal protected main merge",
+      "after-push"
+    ],
+    "additional_sync_new_Draft_admin_or_oldhead_reruns": false,
+    "Root_owns_final_wholefeature_PR_title_body_and_Git": true
+  },
+  "unfinished": [
+    "final documentation and metadata independent review",
+    "new exact-head39GiB observed behavior and actual47",
+    "fresh7 and Runtime2",
+    "Ready latest11 and normal main/after-push",
+    "39GiB future sufficiency",
+    "minimumOS full acceptance",
+    "Full diagnostics actual failure path",
+    "physical overwrite/data preservation",
+    "VoiceOver/performance"
+  ],
+  "private_boundary": "No shared Source/Git/GitHub/API/network/SDK/CI/deletions or giant file creation; no raw/ZIP/88members copied; public records omit profile paths"
+}

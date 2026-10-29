@@ -1,0 +1,536 @@
+{
+  "latest_acquisition_update": {
+    "state": "Source2 review and actual common1182 completed; final6/new-head Hosted and ordinary integration pending",
+    "historical_fields_below": "Existing state, unknown, pending, and prior checks are preserved as snapshots of their earlier preparation stages; this latest_acquisition_update describes the current candidate.",
+    "objective": "Avoid unnecessary explicit import after download, and retain projectable runtime identities before strict selection fails",
+    "authority": "Human ongoing autonomous iOS implementation and ordinary protected PR/main integration; device checks may remain unfinished. Parent delegated private6 publication preparation only; no new contract, payment, local OS install or distribution.",
+    "source_author_base": {
+      "head": "11ea9663147600824c5d286eb685fe0b2f1e6181",
+      "tree": "9e76cb7ac08b36002808f0f56e6e2dff8a73c495",
+      "tracked_tuples": 2810,
+      "is_merged_main": false,
+      "actual_adopted_main": "cc2f0aec9e6d741a431dd1fc02250439b8dd0c27",
+      "App": "0.2.23 (25)"
+    },
+    "path_scope": {
+      "increment_existing_files": 6,
+      "new_files": 0,
+      "cumulative_PR_files": 7,
+      "prospective_tracked_files": 2810,
+      "recovery_UI_candidate_included": false
+    },
+    "email_and_restart": {
+      "human_email_confirmation": true,
+      "Root_PR_body_update_UTC": "2026-10-29T11:15:05Z",
+      "same_Draft_reopened_UTC": "2026-10-29T11:17:26Z",
+      "head": "11ea9663147600824c5d286eb685fe0b2f1e6181",
+      "new_runs_triggered": 7,
+      "all_CI_accepted": false,
+      "provenance": "human session reply and Root-reported successful API operations; no new API query in this preparation"
+    },
+    "actual_first_resumed_Hosted": {
+      "schema_version": 1,
+      "head": "11ea9663147600824c5d286eb685fe0b2f1e6181",
+      "run": 40864239322,
+      "job": 123414823525,
+      "attempt": 1,
+      "stage_label": "functional",
+      "actual_failure": "strict pretest runtime guard reported Ambiguous exact17.0 runtime before XCTest command/case contract",
+      "functional": null,
+      "functional_acceptance": false,
+      "quiet_download": {
+        "exit": 0,
+        "elapsed_ms": 115363.65495800001,
+        "captured_stdout_bytes": 3818979,
+        "progress_still_present": true,
+        "terminal_tail": "Installing/registering, Mounting, Done, Exported",
+        "quiet_eliminated_progress": false,
+        "old_outputcap_P2_proven_fixed": false,
+        "raw4MiB_cap_not_exceeded_this_run": true
+      },
+      "explicit_import": {
+        "exit": 0,
+        "elapsed_ms": 32861.606415999995
+      },
+      "runtime_snapshots": {
+        "before_count": 16,
+        "before_exact17": 0,
+        "after_import_count": 17,
+        "after_import_exact17_available": 1,
+        "build": "21A328",
+        "full_pretest_projection_retained": false,
+        "pretest_command_exit": 0,
+        "pretest_stdout_bytes": 163685,
+        "pretest_stdout_SHA256": "58d5575b29b4813e0baf82640a6831f63a9dafc332593625adbc6de92d1b8731",
+        "actual_ambiguous_row_builds_locations_architectures": "unknown; full stdout was not retained, only last diagnostic tail plus byte count/hash"
+      },
+      "postboot": {
+        "bootstatus_exit": 0,
+        "bootstatus_elapsed_ms": 205808.890375,
+        "first_inventory_stop": "command-or-shared-deadline",
+        "first_inventory_elapsed_ms": 92263.45250000001,
+        "one_recovery_exit": 0,
+        "one_recovery_elapsed_ms": 25787.730792000017,
+        "one_recovery_captured_stdout_bytes": 78033,
+        "recovery_was_exercised_and_StrictBooted_passed_before_content": true
+      },
+      "cleanup": "owned-device-deleted",
+      "summary_elapsed_ms": 755688.051291,
+      "hypothesis_not_causality": "Download terminal progress reports installation/registration before explicit import; redundant import may contribute to later asynchronous registration ambiguity, but no after-download/pretest full identity witness exists in this run to prove that cause.",
+      "new_external_fetches_or_runtime_execution": false
+    },
+    "actual_retained_evidence": {
+      "compact_files": 83,
+      "compact_bytes": 176500,
+      "ZIP_bytes": 58363,
+      "ZIP_SHA256": "2fa3198e88b839a673eae60dd7b615c1509db293fecd7f7eea97327ef9453002",
+      "raw_bytes": 26637,
+      "raw_SHA256": "6a053dd93a79325b17e187ac33ccb2279d2eb7b4e2df19f703f5340e6c7161de",
+      "new_downloads_in_this_preparation": 0
+    },
+    "Source2": {
+      "manifest_SHA256": "bac87ca7fd31cbfdb791bce9571569fb9578914588426d028a9864fd4e6ff0de",
+      "files": [
+        {
+          "path": "ios/tests/ios17-functional-pilot.mjs",
+          "bytes": 27791,
+          "SHA256": "a2e73e64c10f4bbc16dd73fce61d74a58fd98223f6d1d3e09a1d236e288ba603"
+        },
+        {
+          "path": "tests/unit/ios17-functional-pilot.test.mjs",
+          "bytes": 24932,
+          "SHA256": "30f763bb019992017d417371d37fd1d0dabbf88855c8f2f1d01d4c1d8c2a48cc"
+        }
+      ],
+      "policy": "query and record bounded projected inventory after ownedDMG export, then unchanged strict selector; available exact17 skips import, missing permits one old import plus unchanged DMG identity guards and second recorded selection; ambiguity/invalid metadata/query/write/import/missing result fail terminal; no dedupe, extra import, OS fallback or reset",
+      "pretest_witness": "projected snapshot before exact17 guard; retain duplicate rows, identity/platform/location/architecture; omit supportedDeviceTypes bulk. Malformed outer shape or rows may fail projection without snapshot; no full raw claim.",
+      "protected": "strict selector, default query budget, all original caps, cancellation, ownership, limited postboot recovery, functional cases and XCTest/cleanup tail held by four-region inverse; old17 test file exact prefix"
+    },
+    "local_validation": {
+      "synthetic_Node": {
+        "exit_code": 0,
+        "tests": 25,
+        "old": 17,
+        "added": 8,
+        "pass": 25,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "seconds": 0.579771,
+        "actual_runtime_SDK_network": false
+      },
+      "syntax_exit_codes": [
+        0,
+        0
+      ],
+      "source_review_manifest_SHA256": "a9ea24aaa32cef4d7b0ad1370aac5d485180ca7b4256d2f85f8bb230c79fcc74",
+      "review_P1": 0,
+      "review_P2": 0,
+      "this_preparation_reran_tests": false,
+      "common_for_this_Source2": "Root executed npm run check over exactparent11ea+Source2:1182tests/1167pass15skip0fail/40.297s; details inRoot_common"
+    },
+    "unfinished": [
+      "final6 independent review",
+      "new exact-head Hosted acquisition and functional47",
+      "necessary CI and ordinary main integration",
+      "full minimumOS acceptance",
+      "physical overwrite and data preservation",
+      "VoiceOver and visual/performance acceptance"
+    ],
+    "TODO": {
+      "rows": 32,
+      "completed": 13,
+      "all_rows_byte_held": true
+    },
+    "publication_boundary": "Private candidate only. Six existing paths over exact author11ea; frozen Source2 not edited. Root owns common checks, final publication, new PR head and normal integration. Private artifact paths are omitted from public records.",
+    "Root_common": {
+      "tests": 1182,
+      "pass": 1167,
+      "fail": 0,
+      "skipped": 15,
+      "exit_code": 0,
+      "seconds": 40.297,
+      "manifest_SHA256": "a8870b9f4556014777ce1cf1b44c347e19b81fb8f18cb3f8a9a715d2af707b31",
+      "parent11ea_all2810_blob_verified": true,
+      "Source2_held_after_common": true,
+      "same_lock_prepared_npm_ci_reused": true,
+      "externalIP_denied_localhost_allowed": true,
+      "record4_only_after_common": true,
+      "actualruntime47acceptance": false
+    }
+  },
+  "schema_version": 1,
+  "date": "2026-10-29",
+  "state": "quiet-download single-argument candidate after003firstoutput-cap; actualfunctional stillunknown",
+  "objective": "Bounded exact iOS17.0 functional subset pilot on existing public macos15/Xcode16.4",
+  "owned_paths": [
+    ".github/workflows/ios17-functional-pilot.yml",
+    "ios/tests/ios17-functional-pilot.mjs",
+    "tests/unit/ios17-functional-pilot.test.mjs",
+    "project/records/2026-10-29/ios17-functional-ci-pilot.md",
+    "project/records/2026-10-29/ios17-functional-ci-pilot.json",
+    "project/README.md",
+    "project/plans/engineering/ios-app-completion.md"
+  ],
+  "authority": "Direct human ongoing autonomous implementation and ordinary protected integration; manual device checks may remain incomplete; parent delegated private7 preparation only",
+  "actual_base": {
+    "main": "cc2f0aec9e6d741a431dd1fc02250439b8dd0c27",
+    "tree": "e1647536dbf7e040e2f3b36cd4f7b0647e86272a",
+    "approved_PR298_source": "2037565e2ab78bcaf14589322bc8695e93b2d7cf",
+    "all2805_tuples_equal_approved": true,
+    "App": "0.2.23 (25)",
+    "PR298_merged_UTC": "2026-10-28T23:19:07Z"
+  },
+  "existing_acceptance": {
+    "Source203_PR6_workflows": "all first attempt API success",
+    "Native": {
+      "units": 245,
+      "skipped": 2,
+      "failed": 0,
+      "NativeInline": 46,
+      "new_image_tests": 9,
+      "UI": 5
+    },
+    "Full": {
+      "run": 40780081292,
+      "job": 123139245338,
+      "units": 245,
+      "skipped": 2,
+      "failed": 0,
+      "target": 23,
+      "app_gesture": 17,
+      "geometry": 6,
+      "exact_unique_source_cases_once": true,
+      "copy": "strict producer guard printed exact374B success at rawline15780; script echo7669 excluded; no independent byte read in this preparation"
+    },
+    "local_unsigned25": {
+      "exit": 0,
+      "seconds": 39.404,
+      "articles": 199,
+      "PNG": 422,
+      "audio": 1,
+      "Content_files": 626,
+      "content": "previously generated reused; not regenerated here",
+      "Xcode": "16.2",
+      "SDK": "iphoneos18.2",
+      "physical_signing_VO_performance": false
+    },
+    "new_main_push": {
+      "scope": "All3 first API success by2026-10-29T00:05:56Z; no new raw case or metric count",
+      "Common": 40786500129,
+      "Native": 40786500120,
+      "Full": 40786500147,
+      "Common_API": "success10jobs incldeploy123165893241",
+      "Native_API": "success attempt1",
+      "Full_API": "success attempt1",
+      "observer_manifest_SHA256": "ffef50eb19670073102c8e44acff71acc1cdc974c6c0310fdc1d6cfea2282bd3"
+    },
+    "parent9a2_Full": "initial and sole unchanged retry failed destination lookup exit70 before cases; cause unknown; no image-fix claim"
+  },
+  "pilot": {
+    "OS": "exact17.0",
+    "device": "iPhone15",
+    "fallback17_5": false,
+    "runner": "public standard macos-15",
+    "Xcode": "16.4",
+    "architecture": "arm64 guard; current PR298 Native actualheader observed macos15-arm64 image20260907.0337; future x64 fails closed",
+    "current_NativeInline_source_methods": 46,
+    "legacy_source37_allowance_preserved": true,
+    "UI_subset": [
+      "NativeReaderUITests/testThreeArticlesHaveNativeBodyText"
+    ],
+    "all245_fullminimumOS_or_AppMemory17_acceptance": false,
+    "trigger": "own Source3 pull_request paths plus manual workflow_dispatch; actual autonomous execution via ordinary PR; no supported connector dispatch mutation used",
+    "unknown": [
+      "fresh complete strict Booted witness after metadata recovery",
+      "actual Hosted functional cases"
+    ]
+  },
+  "proposed_caps": {
+    "job_minutes": 25,
+    "driver_step_minutes": 22,
+    "work_minutes": 19,
+    "cleanup_entry_minutes": 2,
+    "download_minutes": 10,
+    "import_minutes": 5,
+    "boot_seconds": 240,
+    "actual_free_floor_GiB": 2,
+    "owned_cap_GiB": 14,
+    "DMG_cap_GiB": 12,
+    "command_output_MiB": 4,
+    "retained_evidence_MiB": 2,
+    "retention_days": 90,
+    "observed_requirements_or_hardquota_guarantee": false
+  },
+  "safety": {
+    "exact_source_head": true,
+    "existing_App_PBX_Workflows_held": true,
+    "public_readonly_credentials_not_persisted": true,
+    "owned_runtime_model_UUID_and_nonce_guards": true,
+    "no_global_device_reset": true,
+    "no_deletion_of_imported_system_runtime": true,
+    "no_signin_new_contract_firstlaunchaccept": true,
+    "actual_local_runtime_install_signing_device_network_API_Git_mutations": "initial preparation only; current remote PR/Hosted occurred, no local runtime install or device operation",
+    "no_large_raw_DMG_App_xcresult_upload": true,
+    "diagnostic_redaction": "URLs/query credentials/emails with bounded text; not independent secret-proof audit",
+    "normal_signals": "retain first SIGINT/SIGTERM, stop active owned group, prevent postcancel work, best-effort finally cleanup; preserve first failure",
+    "cleanup_deadline": "min(started+work19m+cleanup2m,cleanup_entry+2m)",
+    "not_guaranteed": [
+      "SIGKILL",
+      "runner loss",
+      "blocked event loop/filesystem",
+      "launchd descendants",
+      "hard RSS/disk/wallclock"
+    ]
+  },
+  "preparation_evidence": {
+    "primary_research_manifest_SHA256": "eb7a039347b8a017f2ade1688caa5431a2cc240b4ae17f043a94bd9a73929daf",
+    "v1_manifest_SHA256": "f7bd2e3fce3fb2d7a71974a3a122eba2d9c0ba8e507a48382db7f029602aa9e3",
+    "v2_manifest_SHA256": "dd829fe4dc1a3d0ff69e65461792a331a66e20dbfd9263a282eacf45a8c1c3ba",
+    "v2_review_manifest_SHA256": "cb980dc4c2dc38cbf4a3fc315c77dde050b11db17bf72adb45afb41d4ad8879a",
+    "v2_P1": 0,
+    "v2_P2": 0,
+    "synthetic_Node": {
+      "old": 6,
+      "added": 3,
+      "passed_on_Mac": 9,
+      "failed": 0,
+      "POSIX_owned_Node_process_probe": true,
+      "Windows_POSIX_probe_skip": true,
+      "iOS_runtime_network": false
+    },
+    "static": "v2 syntax/YAML/actionlint/Markdown exit0; no new SDK/Hosted",
+    "Source3": [
+      {
+        "path": ".github/workflows/ios17-functional-pilot.yml",
+        "bytes": 2051,
+        "SHA256": "bb1e15c6bc736fa51d5cbf4c35b8e811f9a9ae73ec596baa892b8c551874035c",
+        "new_in_base": true,
+        "byte_equal_v2": true
+      },
+      {
+        "path": "ios/tests/ios17-functional-pilot.mjs",
+        "bytes": 23528,
+        "SHA256": "4e232d312d3f8b790eab293fa083f361769da428701fa3011df004e7e2b609c9",
+        "new_in_base": true,
+        "byte_equal_v2": true
+      },
+      {
+        "path": "tests/unit/ios17-functional-pilot.test.mjs",
+        "bytes": 10233,
+        "SHA256": "95f72aeec80002cf5f4920aed7ce533e1f3416368dd414d950c384d32d275de6",
+        "new_in_base": true,
+        "byte_equal_v2": true
+      }
+    ],
+    "historical_failures_retained": [
+      "v1 initial const-name syntax error",
+      "v1 review two P2 before fixes"
+    ]
+  },
+  "TODO": {
+    "rows": 32,
+    "completed": 13,
+    "all_rows_byte_held": true,
+    "IOS15_and_other_unchecked_items": "unchanged incomplete"
+  },
+  "pending": [
+    "final5static andindependentreview",
+    "new exactheadHostedactual47subset/allnecessaryCI",
+    "Ready/freshrequired11/normalprotectedmain",
+    "physical/VO/visual/performance/fullminimumOS"
+  ],
+  "notes": "Root final7 candidate over actualcc2; Source3 v2 frozen unchanged, Source/context guards verified; before newPR/real iOS17/publish review checkpoint",
+  "Root_common_check": {
+    "manifest_SHA256": "0cc928cb78230e28da4771c0f2c31f076cb0df51de71150c02cce1240f35eecc",
+    "exit_code": 0,
+    "tests": 1166,
+    "pass": 1151,
+    "fail": 0,
+    "skipped": 15,
+    "seconds": 46.571,
+    "base2805verified": true,
+    "Source3_exact_v2": true,
+    "App_PBX_oldWFheld": true,
+    "final_records4_updates_require_narrowchecks": true,
+    "actual_iOS17_runtime": "notexecuted",
+    "log_SHA256": "f69fee092e2b7aa3984a5620cb4bbec12a6105866b4e7eb7a53fd110ce1e5e34",
+    "same_lock_previous_npm_ci_reused": true,
+    "Source3_v2_nochange_after_common": true
+  },
+  "first_Hosted": {
+    "head": "f5285cfa5188efae4fbf931276e94dcdedb043dc",
+    "run": 40790439617,
+    "job": 123174049002,
+    "attempt": 1,
+    "download_exit": 0,
+    "download_ms": 63696.152334,
+    "import_exit": 0,
+    "import_ms": 36008.287792,
+    "runtime": "17.0/21A328 available",
+    "boot_exit": 0,
+    "boot_ms": 2088.877791,
+    "bootstatus_exit": 0,
+    "bootstatus_ms": 215446.15525,
+    "strict_Booted_witness": false,
+    "failed_command": "devices-after-boot",
+    "intent_timeout_ms": 60000,
+    "elapsed_ms": 79650.461291,
+    "exit_code": null,
+    "signal": "SIGKILL",
+    "spawn_error": null,
+    "stop": "command-or-shared-deadline",
+    "output_bytes": 0,
+    "cancelled_signal": null,
+    "summary_elapsed_ms": 467258.087125,
+    "cleanup_status": "owned-device-deleted",
+    "functional": null,
+    "functional_acceptance": false,
+    "raw_bytes": 21929,
+    "raw_SHA256": "af69f6ed23c25bda69c8868a0e22a62d410650bb22cbebf5c1872f0f087f0990",
+    "ZIP_bytes": 39185,
+    "ZIP_SHA256": "1b6161582df7b8100b4ecebd97203d471489f7004f6f0a6afb7b4514a80b376b",
+    "independent_review_manifest_SHA256": "63bc24d4e75b4ac307369b4af0db2548a2d1deea956d3c31e6523080484312ef",
+    "cause_and_extra_close_delay": "unknown; no functional failure or transient cause inferred",
+    "samehead_retry_count": 0
+  },
+  "dedicated_first_Hosted": {
+    "run": 40790439478,
+    "job": 123174048884,
+    "attempt": 1,
+    "StageF": "UI180s deadline before retained case activity; postUIcontainer20s deadline; not accepted",
+    "StageR": "singleNativeReader case126.1548589468s passed; source raw result strictgate; remoteFS not independently read",
+    "cleanup": "owneddevice deleted",
+    "whole_workflow_accepted": false,
+    "samehead_retry_count": 0,
+    "next": "normal newheadrun after Source change; no deadline/predicate relaxation",
+    "review_manifest_SHA256": "18b47f58856eaa763213ae09ce740e184e49d9ee0c968d5197934eaba0c4f029"
+  },
+  "postboot_recovery_preparation": {
+    "state": "Source2 synthetic17 and Root common1174 complete; final6 independent review and newhead Hosted pending",
+    "worker_manifest_SHA256": "60c7aa35a83fee918ea12480eeaa9b40b22d3dc90da6ad28b9babd1f11fb4c8c",
+    "Source2": [
+      {
+        "path": "ios/tests/ios17-functional-pilot.mjs",
+        "bytes": 26540,
+        "SHA256": "be2892387e459e33709a0051cdbe578283cdeb1d3c1b7d356971671910b59794"
+      },
+      {
+        "path": "tests/unit/ios17-functional-pilot.test.mjs",
+        "bytes": 17485,
+        "SHA256": "f3514292a2859a5532ef2a08855fe09ce6fe5b016c7fff9cd2ddd405754275eb"
+      }
+    ],
+    "synthetic_Node": {
+      "tests": 17,
+      "old_byte_prefix_tests": 9,
+      "new": 8,
+      "pass": 17,
+      "fail": 0,
+      "skip": 0,
+      "seconds": 0.448423,
+      "actual_iOS_or_network": false
+    },
+    "eligibility": "exact owned-boot/devices-after-boot/xcrun readonlyargv/full60000ms/nullcode/SIGKILL/errornull/deadlinestop/cancelnull/explicitresource_failurefalse/incomplete/silent/elapsed>=60000; at least full60000 sharedremaining beforefreshread",
+    "attempts": "firstread + at mostone distinct freshread; no third; plan is not execution proof",
+    "resource_flag": "new receipt retains later resource errors even after original stop reason; original receipts cannot independently exclude a later masked resource event",
+    "budgets_workflow_cases_cleanup_cancel_preserved": true,
+    "first_failure_preserved": true,
+    "no_OSfallback_or_functional_waiver": true,
+    "source2_review_manifest_SHA256": "4ead5b79e8aa24ef9d948eb8a15abf5976133c025e776821cfbaa81d6683f850"
+  },
+  "postboot_Root_common": {
+    "tests": 1174,
+    "pass": 1159,
+    "fail": 0,
+    "skipped": 15,
+    "exit_code": 0,
+    "seconds": 46.915,
+    "manifest_SHA256": "9123b9cb9d71956435c74242f5011e701864251affc124031a726e21d4cb65ca",
+    "all2810_parent_blobs_verified": true,
+    "Source2_after_common_held": true,
+    "same_lock_prepared_npm_ci_reused": true,
+    "App_PBX_existing_workflows_held": true,
+    "external_IP_denied_localhost_allowed": true,
+    "record4_only_after_common": true,
+    "actual_iOS17": false,
+    "original_npm_run_check_exit_code": 1,
+    "continuation": "original npm run check exit1 atRootrecordMD012 after unit1174pass andAppIconpass; onlyextraLFfixed andallremaining6components explicitlycontinued; passedunits/iconnotrepeated"
+  },
+  "postboot_source003_first_Hosted": {
+    "head": "003de3ea2c7f796f6a7a8c19a569b58064a13937",
+    "tree": "826c2264ed0e7fb74efced4ba7ff03623c189059",
+    "run": 40795867714,
+    "job": 123192082726,
+    "attempt": 1,
+    "stage": "runtime-download",
+    "stop": "output-cap",
+    "exit_code": null,
+    "signal": "SIGKILL",
+    "spawn_error": null,
+    "cancelled_signal": null,
+    "resource_failure_observed": false,
+    "download_elapsed_ms": 107575.732542,
+    "summary_elapsed_ms": 125560.551875,
+    "observed_stream_bytes": 4194565,
+    "captured_stdout_bytes": 4194293,
+    "captured_stderr_bytes": 0,
+    "captured_stdout_SHA256": "0ac8739003d00ee8fd4322a75af29bfd817b7fa16da8b1b56949930fa9934bf1",
+    "not_retained_observed_bytes": 272,
+    "progress_tail_only": "4096 bytes show repeatedCR78.3/78.4percent; whole4MiB notindependentlyavailable",
+    "download_terminal_error": "not proven",
+    "import_owner_postboot_content_functional_reached": false,
+    "functional": null,
+    "functional_acceptance": false,
+    "cleanup": "not-created",
+    "raw_bytes": 20947,
+    "raw_SHA256": "6e591a71def54bfeebe10bebbbd583f3d86c6154c36609746582057c3e54193e",
+    "ZIP_bytes": 10780,
+    "ZIP_SHA256": "8711165cd49c293ed41fac879f5f17d953f3831e1397753a503767e94dea2620",
+    "compact_files": 22,
+    "compact_bytes": 23755,
+    "independent_review_manifest_SHA256": "8bb5db0f460c91e432368b94ac5df4d62237643c3dc8366fe5cd889f35ff48d7",
+    "P1": 0,
+    "P2": 1,
+    "P2_scope": "collector stopped acquisition before terminal result; later stages unobserved",
+    "samehead_retry": 0
+  },
+  "quiet_preparation": {
+    "parent": "003de3ea2c7f796f6a7a8c19a569b58064a13937",
+    "Source_change": "one -quiet argument to runtime-download only",
+    "primary_local_man": "Xcode16.2 xcodebuild(1) lines578-579 defines quietwarnings/errors only",
+    "Hosted_Xcode16_4_download_suppression": "unverified",
+    "output_time_resource_ownership_case_and_cleanup_guards": "held",
+    "no_local_runtime_download_install_or_newSDK": true,
+    "newSource_or_Hosted_not_yet_verified": "Source checks accepted; actualHostedquieteffect remainsunknown",
+    "worker_manifest_SHA256": "9725212e95233c8daf6dac9560b69658351785e86cfee1ae4f2dcba129dcccf7",
+    "Source_SHA256": "868ff3a8e7c9c0ccd4efbac14d209c31c96aabf89796be92f88ba1f52d6c5238",
+    "Source_bytes": 26550,
+    "inverse_removing_one_quiet_matches_base": true,
+    "unchanged_Node17": {
+      "pass": 17,
+      "fail": 0,
+      "skip": 0,
+      "seconds": 0.424302625
+    },
+    "syntax_checks": 2,
+    "test_input_byte_held": true,
+    "state": "Source1 inverse/Node17/syntax/review/common passed; final5review andHostedpending",
+    "source1_review_manifest_SHA256": "b27d859ff87b2dc7eb05c0eafcc0859a96ee481e8bfcbd6b61d33bef0d67f843"
+  },
+  "quiet_Root_common": {
+    "tests": 1174,
+    "pass": 1159,
+    "fail": 0,
+    "skipped": 15,
+    "exit_code": 0,
+    "seconds": 41.84,
+    "manifest_SHA256": "5d0616cf9d32770456167e285fee8a008e76cc4efccacbdf5b997cdad5e8a187",
+    "all2810_parent_blobs_verified": true,
+    "same_lock_prepared_npm_ci_reused": true,
+    "Source1_held_after_common": true,
+    "externalIP_denied_localhost_allowed": true,
+    "records4_only_after_common": true,
+    "actual_iOS17": false
+  }
+}

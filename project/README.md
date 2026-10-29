@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[自分用候補の現況](records/2026-10-30/ios-personal-use-candidate-checkpoint.md)に、採用main ca595／App0.2.23（25）の署名候補と期限2026-10-31 14:32:21 JST、既存の更新・復元手順をまとめる。未採用Draft #301のa4dでは10分枠の停止と別のAX UI失敗を確認し、47件は未受入のまま保留する。Runtime26の成功とiOS17受入を区別し、接続端末未確認の実機操作は未完了でスキップした。19:23:02 UTCに他6系統は成功・Pilot失敗で全終了し、既知11成功は旧body時点の履歴とする。SourceとTODO32行／完了13行、旧記録の履歴を保持する。
+
 Fullの[単体失敗後のinventory収集](records/2026-10-29/ios-full-core-failure-inventory.md)は、元の失敗を保持し、非cancel時だけ同VMで2つの読取を追加する候補である。Source3のfixture15件と独立レビューを確認し、自然なHosted失敗時経路・共通検査・main反映は後続として、IOS-15全体を未完了に保つ。
 
 [読書位置としおりの明示復旧UI回帰](records/2026-10-29/ios-reading-recovery-position-ui.md)では、既存の部分復旧画面から確認操作を通し、他の記事や目次を挟まず再起動直後に非先頭の見出しへ戻る1ケースを準備した。既存3件・全helperを保ったSource1のSDK18.2型検査と独立レビューを確認し、現在のmain cc2へ結び付け、共通1157件中1142成功・15skip・失敗0を確認し、実UI・Hostedと必要CIは後続へ残す。App0.2.23（25）とTODO32行／完了13行を保持し、IOS-22／25と実機・VoiceOver・上書き確認は未完了である。

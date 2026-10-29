@@ -1,5 +1,17 @@
 # iOS 17.0の機能CI試行
 
+## 初回Hostedの失敗と端末一覧だけの限定復旧
+
+PR #299の初回head `f5285cfa5188efae4fbf931276e94dcdedb043dc`では、専用run `40790439617`／job `123174049002`のattempt 1が失敗した。CLIによるiOS17.0のdownloadは63.696秒・importは36.008秒でexit 0、inventoryでは17.0／21A328がavailableだった。新規所有iPhone15のbootは2.089秒、bootstatusは215.446秒でexit 0とFinishedを返した。ただし、その直後の厳密なBooted状態を確認する一覧は取得できず、アプリの機能テストはまだ実行していない。
+
+失敗したのは`devices-after-boot`の`simctl list devices --json`で、名目60秒のintentに対し79.650秒でSIGKILLとなった。code null・spawn error null・stopは`command-or-shared-deadline`・出力0 byte・cancelなしで、summary全体467.258秒は19分の共有枠内だった。timerからcloseまでの超過19.65秒の理由や、一時的なhost障害という原因は確定しない。cleanupの一覧は33.191秒で成功し、所有deviceのshutdown・deleteと削除後一覧も成功した。functionalはnull、受入はfalseである。
+
+この初回失敗を保持し、起動後の最初の一覧がこの特定の時間切れになった場合だけ、新しい一覧を1回取得する候補を準備する。最初と再取得のintent・exitは別に保存し、再取得も60秒・既存19分共有枠内とする。cancel・spawn error・出力や容量制限・他のcommand・不正JSON・所有不一致・Booted以外・2回目失敗には広げない。download・import・boot・機能テストの再試行やOS17.5へのfallbackは追加しない。新headの実Hosted効果は未確認として残す。 Source2の合成Node検査は旧9件の全文をprefixとして保ち、新8件を加えた17件が約0.448秒で成功した。実runtime・ネットワークは使っていない。新しいreceiptのresource failureは最初のstop理由の後でも別に記録し、再取得には明示的なfalseを要求する。旧receiptから後発のresource事象が絶対になかったとは証明しない。Rootは親f528の全2,810 blobを照合した隔離コピーへ6ファイルを重ね、共通1174件中1159成功・15skip・失敗0、約46.915秒を確認した。lockfile不変で準備済み依存を再利用し、外部通信を禁止してlocalhostの試験だけを許可した。初回npm run checkは単体とicon成功後、Root記録のMD012でexit 1となった。余分な空行1個だけを直し、単体を繰り返さず残り6工程をすべて成功まで明示実行した。Source2の独立レビューはP1／P2なしで受入済み。Source2は共通検査後も同一で、記録4の追記だけを限定静的検査する。最終6ファイルの独立レビューと新headのHostedは後続で確認する。
+
+同じheadで発火した既存の欠損／復元UI専用run `40790439478`も初回失敗した。Stage Fのxcodebuildは180秒で停止し、保持された出力に対象ケースの開始・完了はなく、後続のapp container照会も20秒で停止した。Stage Rの代表3記事UI1件は126.155秒で成功し、所有deviceのcleanupも完了したが、専用検査全体の成功ではない。Source変更後の通常実行を優先し、この旧headのjob再実行は行っていない。本文の不具合や待機上限延長を必要とする証拠とは扱わない。
+
+親main cc2のpush後Common・Native・Fullは、その後3系統すべて初回API成功となった。新しいrawケース数・性能値の採取ではない。main cc2から実ビルドした自分用0.2.23（25）はunsigned／既存無料Team署名済みの候補と独立監査を保持し、実機への上書き・保存維持・VoiceOver・性能と最低OS全体は未完了のままとする。以下の準備段階の未知・pendingは当時の履歴で、この追記の観測と区別する。
+
 2026-10-29。状態は実mainへの統合準備で、iOS 17.0の実行成功ではない。ユーザーの継続した自律実装依頼に基づき、最低対応OSの機能確認に進むための小さい専用CIを準備する。実機操作は未完了のまま進めてよいという許可を使い、本CIでは新しい課金・契約・署名・ローカルOS導入は行わない。[対応方針](../2026-10-28/ios-personal-use-scope.md)と[完成版の計画](../../plans/engineering/ios-app-completion.md)の未完了状態を保つ。
 
 ## 基準と既存の受入

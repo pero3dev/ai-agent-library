@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+iOS17.0の[専用機能CI試行](../../records/2026-10-29/ios17-functional-ci-pilot.md#初回hostedの失敗と端末一覧だけの限定復旧)は、初回Hostedでdownload・import・bootstatusが成功した後、端末一覧の60秒制限で失敗した。機能47件は未実行で、同じ共有枠内の一覧取得だけ1回回復する候補を準備する。親main cc2のpush検査3系統は初回API成功、自分用0.2.23（25）の既存無料Team署名済み候補と独立監査を保持した。実機・最低OS全体・IOS-15は未完了、TODO32行／完了13行を維持する。
+
 iOS 17.0の[機能CI試行](../../records/2026-10-29/ios17-functional-ci-pilot.md)を、0.2.23（25）採用済みのmaincc2を基準に準備した。exact17.0／iPhone15でNativeInline46件と3記事本文UI1件だけを対象にし、17.5へ置き換えず、認証・契約の代行やローカルOS導入は行わない。通常signalとcleanup上限の2点を修正したSource3は独立レビュー済みで、共通1166件中1151成功・15skip・失敗0を確認した。実download・import・boot・機能実行と最終7ファイルレビュー・通常PR／main統合は後続であり、全245件・全OS・実機・VoiceOver・性能の受入へ広げない。TODO32行／完了13行を保持する。
 
 本文図の[表示サイズ別プレビュー](../../records/2026-10-29/ios-figure-preview-images.md)を0.2.23（25）の候補として準備した。基準はPR #297を通常統合したmain9a2で、同PRの3系統・Ready後11検査とMemoryのraw／typed／CSV照合を確認済みである。本文図だけを表示サイズに合わせ、拡大と数式の経路を保つ。回帰9メソッドの追加とSDK型検査、共通1157件中1142成功・15skip・失敗0、新版unsigned Releaseと199記事の同梱監査を確認した。最終8ファイルレビューと新headの実XCTest・必要CI・通常統合は後続で確認する。実機・VoiceOver・性能比較とIOS-15全体は未完了、TODO32行／完了13行を保持する。後続の旧時点の記述は履歴として保持する。

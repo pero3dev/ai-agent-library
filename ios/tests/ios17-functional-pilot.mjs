@@ -47,6 +47,40 @@ export function pilotCancellation(events = process) {
   }
 }
 
+// This permits one new metadata read, never a boot, test, or whole-job retry.
+export function postbootRecoveryAllowed(receipt, remainingMs, cancelledSignal) {
+  return receipt?.name === 'devices-after-boot' && receipt.stage === 'owned-boot'
+    && receipt.binary === 'xcrun' && Array.isArray(receipt.arguments)
+    && JSON.stringify(receipt.arguments) === JSON.stringify(['simctl', 'list', 'devices', '--json'])
+    && receipt.timeout_ms === 60000 && receipt.code === null && receipt.signal === 'SIGKILL'
+    && receipt.error === null && receipt.stop === 'command-or-shared-deadline'
+    && receipt.cancelled_signal === null && cancelledSignal === null && receipt.resource_failure === false
+    && receipt.captured_output_complete === false && Number.isFinite(receipt.elapsed_ms) && receipt.elapsed_ms >= 60000
+    && receipt.observed_stream_bytes === 0 && receipt.captured_stdout_bytes === 0 && receipt.captured_stderr_bytes === 0
+    && Number.isFinite(remainingMs) && remainingMs >= 60000
+}
+export async function readPostbootInventory({ read, validate, remainingMs, cancellation, recordRecovery }) {
+  cancellation.assertWorkAllowed()
+  let inventory
+  try { inventory = await read('devices-after-boot') }
+  catch (error) {
+    cancellation.assertWorkAllowed()
+    const remaining = remainingMs()
+    if (!postbootRecoveryAllowed(error?.pilotCommand, remaining, cancellation.signal)) throw error
+    recordRecovery({ failed_read: 'devices-after-boot', fresh_read: 'devices-after-boot-recovery',
+      read_only: true, maximum_fresh_reads: 1, required_timeout_ms: 60000, shared_remaining_ms: remaining,
+      shared_work_budget_ms: PILOT.workMs, plan_is_not_execution_proof: true, timeout_cause_unresolved: true })
+    cancellation.assertWorkAllowed()
+    const beforeRead = remainingMs()
+    if (!Number.isFinite(beforeRead) || beforeRead < 60000) throw error
+    // The runner also requires the full cap immediately before its intent/spawn path.
+    inventory = await read('devices-after-boot-recovery', error)
+  }
+  // Parse failures and owner/Booted failures never trigger another inventory read.
+  validate(inventory)
+  return inventory
+}
+
 export function selectExact17(inventory) {
   assert.ok(Array.isArray(inventory.runtimes), 'Unknown runtime inventory')
   const exact = inventory.runtimes.filter(row => row?.version === PILOT.version)
@@ -156,17 +190,22 @@ export async function runPilot(env = process.env) {
     return sum + (st.isSymbolicLink() ? 0 : st.isDirectory() ? ownedBytes(file) : st.size)
   }, 0)
   const free = () => { const st = fs.statfsSync(root); return st.bavail * st.bsize }
-  const run = async (name, binary, args, cap, cleanup = false) => {
+  const run = async (name, binary, args, cap, cleanup = false, fullCapFailure = null) => {
     if (!cleanup) cancellation.assertWorkAllowed()
     const remaining = deadline - performance.now(), timeout = Math.min(cap, remaining)
+    if (fullCapFailure && timeout !== cap) throw fullCapFailure
     assert.ok(timeout > 0, 'Shared deadline exhausted before spawn')
     if (!cleanup) assert.ok(free() >= PILOT.freeBytes && ownedBytes(root) <= PILOT.ownedBytes, 'Resource floor/cap')
+    if (fullCapFailure && deadline - performance.now() < cap) throw fullCapFailure
     put(name + '.intent.json', { ...context, stage, binary, arguments: args.map(value => diagnostic(value)), timeout_ms: timeout })
-    const begin = performance.now(), out = [], err = []; let bytes = 0, stop = null, spawnError = null
+    const begin = performance.now(), out = [], err = []; let bytes = 0, stop = null, spawnError = null, resourceFailure = false
     const childEnv = Object.fromEntries(['PATH', 'HOME', 'LANG', 'LC_ALL', 'TMPDIR', 'DEVELOPER_DIR', 'CI', 'GITHUB_ACTIONS']
       .filter(key => typeof env[key] === 'string').map(key => [key, env[key]]))
     const child = spawn(binary, args, { cwd: repo, env: childEnv, stdio: ['ignore', 'pipe', 'pipe'], detached: true })
-    const kill = reason => { stop ??= reason; try { process.kill(-child.pid, 'SIGKILL') } catch {} }
+    const kill = reason => {
+      if (reason.startsWith('resource-')) resourceFailure = true
+      stop ??= reason; try { process.kill(-child.pid, 'SIGKILL') } catch {}
+    }
     cancellation.bindOwnedStop(kill)
     const take = list => chunk => { bytes += chunk.length; if (bytes > PILOT.outputBytes) kill('output-cap'); else list.push(chunk) }
     child.stdout.on('data', take(out)); child.stderr.on('data', take(err)); child.on('error', error => { spawnError = diagnostic(error.message) })
@@ -179,18 +218,27 @@ export async function runPilot(env = process.env) {
     }))
     clearTimeout(timer); clearInterval(monitor)
     const stdout = Buffer.concat(out), stderr = Buffer.concat(err)
-    if (!cleanup && (free() < PILOT.freeBytes || ownedBytes(root) > PILOT.ownedBytes)) stop ??= 'post-command-resource-floor-or-cap'
+    if (!cleanup && (free() < PILOT.freeBytes || ownedBytes(root) > PILOT.ownedBytes)) {
+      resourceFailure = true; stop ??= 'post-command-resource-floor-or-cap'
+    }
     if (['runtime-download', 'runtime-import', 'first-launch-status'].includes(name) && requiresConsent(stdout + '\n' + stderr)) stop ??= 'auth-or-new-consent-required'
-    put(name + '.exit.json', { ...context, stage, ...result, error: spawnError, stop,
+    const receipt = { ...context, stage, ...result, error: spawnError, stop, resource_failure: resourceFailure,
       cancelled_signal: cancellation.signal, elapsed_ms: performance.now() - begin, captured_output_complete: stop === null && spawnError === null, observed_stream_bytes: bytes, captured_stdout_bytes: stdout.length,
       captured_stdout_sha256: sha(stdout), captured_stderr_bytes: stderr.length, captured_stderr_sha256: sha(stderr),
-      stdout_diagnostic_tail: diagnostic(stdout.toString('utf8')), stderr_diagnostic_tail: diagnostic(stderr.toString('utf8')) })
-    if (!cleanup) cancellation.assertWorkAllowed()
-    assert.equal(spawnError, null); assert.equal(stop, null); assert.equal(result.signal, null); assert.equal(result.code, 0, name)
+      stdout_diagnostic_tail: diagnostic(stdout.toString('utf8')), stderr_diagnostic_tail: diagnostic(stderr.toString('utf8')) }
+    put(name + '.exit.json', receipt)
+    try {
+      if (!cleanup) cancellation.assertWorkAllowed()
+      assert.equal(spawnError, null); assert.equal(stop, null); assert.equal(result.signal, null); assert.equal(result.code, 0, name)
+    } catch (error) {
+      if (name === 'devices-after-boot') Object.defineProperty(error, 'pilotCommand', { value: { ...receipt,
+        name, binary, arguments: [...args], timeout_ms: timeout } })
+      throw error
+    }
     return stdout.toString('utf8').trim()
   }
   const inventory = async label => JSON.parse(await run(label, 'xcrun', ['simctl', 'list', 'runtimes', '--json'], 60000))
-  const devices = async label => JSON.parse(await run(label, 'xcrun', ['simctl', 'list', 'devices', '--json'], 60000, stage === 'cleanup'))
+  const devices = async (label, fullCapFailure = null) => JSON.parse(await run(label, 'xcrun', ['simctl', 'list', 'devices', '--json'], 60000, stage === 'cleanup', fullCapFailure))
   const sameHead = async label => assert.equal(await run(label, 'git', ['rev-parse', 'HEAD'], 15000), context.source_head)
   try {
     await sameHead('initial-head')
@@ -237,7 +285,9 @@ export async function runPilot(env = process.env) {
     owner = { ...intent, UUID: created, creation_exit: 0 }; assert.match(created, UUID); assert.ok(!preexisting.includes(created))
     put('owned-device.json', owner); await run('boot-device', 'xcrun', ['simctl', 'boot', created], 60000)
     await run('bootstatus', 'xcrun', ['simctl', 'bootstatus', created, '-b'], PILOT.bootMs)
-    assert.equal(proveOwner(owner, context, await devices('devices-after-boot'))?.state, 'Booted')
+    await readPostbootInventory({ read: devices, remainingMs: () => deadline - performance.now(), cancellation,
+      recordRecovery: plan => put('devices-after-boot-recovery-plan.json', { ...context, stage, ...plan }),
+      validate: value => assert.equal(proveOwner(owner, context, value)?.state, 'Booted') })
     stage = 'content'
     for (const [name, cwd, args] of [['root-audit', null, ['audit', '--package-lock-only', '--audit-level=high']],
       ['root-ci', null, ['ci', '--ignore-scripts']], ['tools-audit', 'ios/tools', ['audit', '--prefix', 'ios/tools', '--package-lock-only', '--audit-level=high']],

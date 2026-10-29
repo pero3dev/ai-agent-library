@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+iOS17の[最初の資源違反を記録する候補](records/2026-10-29/ios17-resource-threshold-observation.md)では、取得・起動後の機能buildが資源閾値で停止した初回を保持し、既存monitorの観測値と違反側だけを追加する。上限・短絡・killを保ち、機能47件・Runtime26の別失敗・新headのCIと通常統合は未完了のまま進める。後続の取得進捗や復旧UIの段落は準備時点の履歴として保持する。
+
 iOS17の[取得進捗を分離する候補](records/2026-10-29/ios17-download-progress-capture.md)は、quiet後の収集上限再発を保持し、downloadだけ既知の同一進捗を限定して間引く。raw64MiBと保持4MiBを分け、機能47件・runtime曖昧さ・main反映は未確認として進める。
 
 [読書位置としおりの明示復旧UI回帰](records/2026-10-29/ios-reading-recovery-position-ui.md)では、既存の部分復旧画面から確認操作を通し、他の記事や目次を挟まず再起動直後に非先頭の見出しへ戻る1ケースを準備した。既存3件・全helperを保ったSource1のSDK18.2型検査と独立レビューを確認し、現在のmain cc2へ結び付け、共通1157件中1142成功・15skip・失敗0を確認し、実UI・Hostedと必要CIは後続へ残す。App0.2.23（25）とTODO32行／完了13行を保持し、IOS-22／25と実機・VoiceOver・上書き確認は未完了である。

@@ -534,3 +534,173 @@ test('finish preserves a pending partial diagnostic, is idempotent, and cannot c
   assert.equal(state.signal, 'SIGTERM'); assert.deepEqual(reasons, ['cancelled-SIGTERM'])
   assert.throws(() => state.assertWorkAllowed()); assert.deepEqual(h.stops, [])
 })
+
+import { evaluateResourceThresholds, resourceThresholdMonitor } from '../../ios/tests/ios17-functional-pilot.mjs'
+function resourceHarness({ free = PILOT.freeBytes, owned = PILOT.ownedBytes, initialStop = null,
+  command = 'functional', stage = 'functional', elapsed = () => 12.5 } = {}) {
+  let stop = initialStop, resourceFailure = false, freeValue = free, ownedValue = owned, monitor
+  const events = [], read = value => { if (typeof value === 'function') return value(); return value }
+  monitor = resourceThresholdMonitor({ command, stage,
+    readFree: () => { events.push('free'); return read(freeValue) },
+    readOwned: () => { events.push('owned'); return read(ownedValue) },
+    kill: reason => { events.push(['kill', reason, monitor.firstFailure]); if (reason.startsWith('resource-')) resourceFailure = true; stop ??= reason },
+    stopReason: () => stop, elapsedMs: () => { events.push('elapsed'); return elapsed() } })
+  return { monitor, events, get stop() { return stop }, get resourceFailure() { return resourceFailure },
+    values(nextFree, nextOwned) { freeValue = nextFree; ownedValue = nextOwned } }
+}
+
+test('resource evaluator retains exact floor/cap boundaries and free-first OR short circuit', () => {
+  for (const free of [PILOT.freeBytes - 1, PILOT.freeBytes, PILOT.freeBytes + 1]) {
+    for (const owned of [PILOT.ownedBytes - 1, PILOT.ownedBytes, PILOT.ownedBytes + 1]) {
+      const calls = [], sample = {}
+      const failed = evaluateResourceThresholds(() => { calls.push('free'); return free }, () => { calls.push('owned'); return owned }, sample)
+      assert.equal(failed, free < PILOT.freeBytes || owned > PILOT.ownedBytes)
+      assert.deepEqual(calls, free < PILOT.freeBytes ? ['free'] : ['free', 'owned'])
+      assert.equal(sample.free_bytes, free); assert.equal(sample.free_completed, true)
+      assert.equal(sample.owned_bytes, free < PILOT.freeBytes ? null : owned)
+      assert.equal(sample.owned_completed, free >= PILOT.freeBytes)
+    }
+  }
+})
+
+test('free-floor failure skips owned, requests the original kill first and records measured zero honestly', () => {
+  const h = resourceHarness({ free: 0, owned: () => assert.fail('short-circuited owned probe') })
+  h.monitor.poll(); const r = h.monitor.firstFailure
+  assert.deepEqual(h.events, ['free', ['kill', 'resource-floor-or-cap', null], 'elapsed'])
+  assert.equal(h.stop, 'resource-floor-or-cap'); assert.equal(h.resourceFailure, true)
+  assert.equal(r.free_bytes, 0); assert.equal(r.free_value_status, 'observed')
+  assert.equal(r.owned_bytes, null); assert.equal(r.owned_value_status, 'not-completed')
+  assert.equal(r.violated_check, 'free-floor'); assert.equal(r.observation_error, false)
+  assert.equal(r.phase, 'monitor'); assert.equal(r.command, 'functional'); assert.equal(r.stage, 'functional')
+  assert.equal(r.elapsed_ms, 12.5); assert.equal(r.stop_already_set, null)
+})
+
+test('owned-cap failure uses the same single free and owned measurements without a diagnostic rescan', () => {
+  const h = resourceHarness({ free: PILOT.freeBytes, owned: PILOT.ownedBytes + 1 })
+  h.monitor.poll(); const r = h.monitor.firstFailure
+  assert.deepEqual(h.events, ['free', 'owned', ['kill', 'resource-floor-or-cap', null], 'elapsed'])
+  assert.equal(r.free_bytes, PILOT.freeBytes); assert.equal(r.owned_bytes, PILOT.ownedBytes + 1)
+  assert.equal(r.free_floor_bytes, PILOT.freeBytes); assert.equal(r.owned_cap_bytes, PILOT.ownedBytes)
+  assert.equal(r.violated_check, 'owned-cap'); assert.equal(r.observation_error_probe, null)
+  const receipt = JSON.parse(JSON.stringify({ resource_failure: h.resourceFailure, resource_observation: r }))
+  assert.deepEqual(receipt.resource_observation, r); assert.equal(receipt.resource_failure, true)
+})
+
+test('FS exceptions retain their identity in the evaluator and the original separate monitor classification', () => {
+  for (const side of ['free', 'owned']) {
+    const error = Object.assign(new Error('private path must not be retained'), { code: side === 'free' ? 'ENOSPC' : 'EACCES' })
+    const sample = {}, probes = { free: () => { if (side === 'free') throw error; return PILOT.freeBytes }, owned: () => { throw error } }
+    let caught; try { evaluateResourceThresholds(probes.free, probes.owned, sample) } catch (value) { caught = value }
+    assert.equal(caught, error); assert.equal(sample.active_probe, side)
+    const h = resourceHarness({ free: probes.free, owned: probes.owned }); h.monitor.poll(); const r = h.monitor.firstFailure
+    assert.equal(h.stop, 'resource-observation-failed'); assert.equal(h.resourceFailure, true)
+    assert.equal(r.observation_error, true); assert.equal(r.observation_error_probe, side); assert.equal(r.observation_error_code, error.code)
+    assert.equal(r.violated_check, null); assert.equal(r.free_bytes, side === 'free' ? null : PILOT.freeBytes)
+    assert.equal(r.owned_bytes, null); assert.ok(!JSON.stringify(r).includes('private path'))
+  }
+})
+
+test('first resource sample is immutable across later thresholds, healthy polls and FS errors', () => {
+  const h = resourceHarness({ free: PILOT.freeBytes - 1 }); h.monitor.poll()
+  const first = h.monitor.firstFailure, text = JSON.stringify(first)
+  h.values(PILOT.freeBytes + 100, PILOT.ownedBytes + 100); h.monitor.poll()
+  h.values(() => { throw Object.assign(new Error('later'), { code: 'EIO' }) }, PILOT.ownedBytes); h.monitor.poll()
+  h.values(PILOT.freeBytes, PILOT.ownedBytes); h.monitor.poll()
+  assert.equal(h.monitor.firstFailure, first); assert.equal(JSON.stringify(first), text); assert.equal(Object.isFrozen(first), true)
+  assert.throws(() => { first.free_bytes = 999 }, TypeError)
+  assert.equal(h.stop, 'resource-floor-or-cap'); assert.equal(h.events.filter(x => x === 'free').length, 4)
+  assert.equal(h.events.filter(x => x === 'owned').length, 2)
+  const errorFirst = resourceHarness({ free: () => { throw Object.assign(new Error('first'), { code: 'EIO' }) } })
+  errorFirst.monitor.poll(); const error = errorFirst.monitor.firstFailure
+  errorFirst.values(0, 0); errorFirst.monitor.poll()
+  assert.equal(errorFirst.monitor.firstFailure, error); assert.equal(errorFirst.stop, 'resource-observation-failed')
+})
+
+test('earlier cancellation, deadline or output stops retain priority while the original resource boolean becomes true', () => {
+  for (const previous of ['cancelled-SIGTERM', 'command-or-shared-deadline', 'output-cap']) {
+    const h = resourceHarness({ free: PILOT.freeBytes - 1, initialStop: previous }); h.monitor.poll()
+    assert.equal(h.stop, previous); assert.equal(h.resourceFailure, true); assert.equal(h.monitor.firstFailure.stop_already_set, previous)
+    assert.equal(h.monitor.firstFailure.violated_check, 'free-floor')
+  }
+})
+
+test('healthy or cleanup polls do not latch samples, read metadata callbacks or add FS probes', () => {
+  const h = resourceHarness({ elapsed: () => assert.fail('no failed observation') })
+  for (let i = 0; i < 4; i++) h.monitor.poll()
+  assert.deepEqual(h.events, ['free', 'owned', 'free', 'owned', 'free', 'owned', 'free', 'owned'])
+  assert.equal(h.monitor.firstFailure, null); assert.equal(h.resourceFailure, false); assert.equal(h.stop, null)
+  const cleanup = resourceHarness({ free: () => assert.fail('cleanup free read'), owned: () => assert.fail('cleanup owned read') })
+  cleanup.monitor.poll(true); assert.deepEqual(cleanup.events, []); assert.equal(cleanup.monitor.firstFailure, null)
+  h.values(0, 0); h.monitor.poll(); const first = h.monitor.firstFailure
+  h.monitor.poll(true); assert.equal(h.monitor.firstFailure, first)
+})
+
+test('nonfinite probe values keep original comparisons while telemetry uses null with an explicit value status', () => {
+  for (const [free, owned] of [[NaN, PILOT.ownedBytes], [Infinity, PILOT.ownedBytes + 1], [PILOT.freeBytes, Infinity], [-Infinity, 0]]) {
+    const sample = {}, calls = []
+    const failed = evaluateResourceThresholds(() => { calls.push('free'); return free }, () => { calls.push('owned'); return owned }, sample)
+    assert.equal(failed, free < PILOT.freeBytes || owned > PILOT.ownedBytes)
+    assert.equal(calls.includes('owned'), !(free < PILOT.freeBytes))
+    const h = resourceHarness({ free, owned }); h.monitor.poll()
+    assert.equal(h.monitor.firstFailure !== null, failed)
+    if (failed) {
+      if (!Number.isFinite(free)) { assert.equal(h.monitor.firstFailure.free_bytes, null); assert.equal(h.monitor.firstFailure.free_value_status, 'not-finite-number') }
+      if (!(free < PILOT.freeBytes) && !Number.isFinite(owned)) { assert.equal(h.monitor.firstFailure.owned_bytes, null); assert.equal(h.monitor.firstFailure.owned_value_status, 'not-finite-number') }
+    }
+  }
+})
+
+test('monitor receipt stays below2KiB without error messages or paths, and telemetry getters cannot mask the stop', () => {
+  const error = new Error('/private/never-retain/' + 'x'.repeat(10000))
+  Object.defineProperty(error, 'code', { get() { throw new Error('getter failure') } })
+  const h = resourceHarness({ command: '\u0000'.repeat(10000), stage: '\u0000'.repeat(10000),
+    initialStop: '\u0000'.repeat(10000), free: () => { throw error }, elapsed: () => { throw new Error('clock observer failed') } })
+  h.monitor.poll(); const r = h.monitor.firstFailure, json = JSON.stringify(r)
+  assert.ok(Buffer.byteLength(json) <= 2048); assert.equal(r.elapsed_ms, null); assert.equal(r.observation_error_code, null)
+  assert.equal(r.observation_error, true); assert.equal(r.free_bytes, null); assert.equal(r.owned_bytes, null)
+  assert.ok(!json.includes('/private/')); assert.equal(h.resourceFailure, true); assert.equal(h.stop, '\u0000'.repeat(10000))
+  const missingCode = resourceHarness({ free: () => { throw undefined } }); missingCode.monitor.poll()
+  assert.equal(missingCode.monitor.firstFailure.observation_error, true); assert.equal(missingCode.monitor.firstFailure.observation_error_code, null)
+})
+
+test('a healthy monitor has an explicitly nullable receipt rather than invented measurement history', () => {
+  const h = resourceHarness(); h.monitor.poll()
+  const receipt = JSON.parse(JSON.stringify({ resource_observation: h.monitor.firstFailure }))
+  assert.deepEqual(receipt, { resource_observation: null }); assert.deepEqual(h.events, ['free', 'owned'])
+})
+
+async function ownedResourceFixture(t, cancelled) {
+  const child = spawn(process.execPath, ['-e', 'process.stdout.write("ready");setInterval(()=>{},1000)'],
+    { detached: true, stdio: ['ignore', 'pipe', 'pipe'] })
+  let closed = false, stop = null, resourceFailure = false, monitor
+  const close = new Promise(resolve => child.on('close', (code, signal) => { closed = true; resolve({ code, signal }) }))
+  t.after(() => { if (!closed) { try { process.kill(-child.pid, 'SIGKILL') } catch {} } })
+  await new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error('fixture readiness timeout')), 2000)
+    child.stdout.once('data', () => { clearTimeout(timer); resolve() }); child.once('error', reject)
+  })
+  const events = new EventEmitter(), cancellation = pilotCancellation(events), ordering = []
+  t.after(() => cancellation.close())
+  const kill = reason => {
+    ordering.push({ reason, latched: monitor?.firstFailure ?? null })
+    if (reason.startsWith('resource-')) resourceFailure = true
+    stop ??= reason; try { process.kill(-child.pid, 'SIGKILL') } catch {}
+  }
+  monitor = resourceThresholdMonitor({ command: 'fixture-child', stage: 'functional',
+    readFree: () => PILOT.freeBytes - 1, readOwned: () => assert.fail('short-circuit'),
+    kill, stopReason: () => stop, elapsedMs: () => 10 })
+  cancellation.bindOwnedStop(kill)
+  if (cancelled) events.emit('SIGTERM')
+  monitor.poll(); const result = await close; cancellation.releaseOwnedStop(kill)
+  assert.deepEqual(result, { code: null, signal: 'SIGKILL' })
+  assert.equal(resourceFailure, true); assert.equal(ordering.at(-1).latched, null)
+  assert.equal(stop, cancelled ? 'cancelled-SIGTERM' : 'resource-floor-or-cap')
+  assert.equal(monitor.firstFailure.stop_already_set, cancelled ? 'cancelled-SIGTERM' : null)
+  assert.equal(monitor.firstFailure.free_bytes, PILOT.freeBytes - 1)
+  if (cancelled) { assert.equal(cancellation.signal, 'SIGTERM'); assert.throws(() => cancellation.assertWorkAllowed()) }
+}
+
+test('production monitor kills an actual owned fixture before retaining its first resource observation',
+  { skip: process.platform === 'win32' }, async t => ownedResourceFixture(t, false))
+test('actual fixture cancellation remains the original stop when the monitor also observes a resource violation',
+  { skip: process.platform === 'win32' }, async t => ownedResourceFixture(t, true))

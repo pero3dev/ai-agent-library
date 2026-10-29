@@ -131,6 +131,62 @@ const diagnostic = value => String(value).replace(/https?:\/\/[^\s"'<>]+/g, '<ur
 
 export const requiresConsent = text => /(?:sign[ -]+in|log[ -]+in|authentication required|license agreement|terms and conditions|Apple (?:Account|ID)|accept.{0,80}(?:licen[sc]e|agreement)|(?:licen[sc]e|agreement).{0,80}(?:required|accept))/is.test(text)
 
+export function evaluateResourceThresholds(readFree, readOwned, sample) {
+  Object.assign(sample, { free_bytes: null, owned_bytes: null, free_completed: false, owned_completed: false,
+    active_probe: 'free', violated_check: null })
+  sample.free_bytes = readFree(); sample.free_completed = true
+  if (sample.free_bytes < PILOT.freeBytes) { sample.violated_check = 'free-floor'; sample.active_probe = null; return true }
+  sample.active_probe = 'owned'
+  sample.owned_bytes = readOwned(); sample.owned_completed = true
+  const violated = sample.owned_bytes > PILOT.ownedBytes
+  if (violated) sample.violated_check = 'owned-cap'
+  sample.active_probe = null; return violated
+}
+
+export function resourceThresholdMonitor({ command, stage, readFree, readOwned, kill, stopReason, elapsedMs }) {
+  let first = null, observedFailure = false
+  const label = (value, max) => typeof value === 'string' ? value.slice(0, max) : null
+  const number = value => typeof value === 'number' && Number.isFinite(value) ? value : null
+  const priorStop = () => { try { return stopReason() } catch { return null } }
+  const retainFirst = (sample, observationError, error, previousStop) => {
+    if (observedFailure) return
+    observedFailure = true
+    // This runs after the original kill request. No FS work or serialization is added to the stop path.
+    try {
+      let elapsed = null, code = null
+      try { elapsed = number(elapsedMs()) } catch {}
+      try { const candidate = error?.code
+        if (typeof candidate === 'string' && candidate.length <= 32 && /^[A-Z0-9_]+$/.test(candidate)) code = candidate
+      } catch {}
+      const status = (completed, value) => !completed ? 'not-completed' : number(value) === null ? 'not-finite-number' : 'observed'
+      first = Object.freeze({ command: label(command, 64), stage: label(stage, 48), phase: 'monitor', elapsed_ms: elapsed,
+        free_bytes: number(sample.free_bytes), free_floor_bytes: PILOT.freeBytes,
+        free_value_status: status(sample.free_completed, sample.free_bytes),
+        owned_bytes: number(sample.owned_bytes), owned_cap_bytes: PILOT.ownedBytes,
+        owned_value_status: status(sample.owned_completed, sample.owned_bytes),
+        violated_check: sample.violated_check, observation_error: observationError,
+        observation_error_probe: observationError ? sample.active_probe : null, observation_error_code: observationError ? code : null,
+        stop_already_set: label(previousStop, 64), measurement: 'non-atomic logical bytes; symlinks contribute zero' })
+    } catch { /* Telemetry must not replace the already-requested original stop. */ }
+  }
+  return {
+    get firstFailure() { return first },
+    poll(cleanup = false) {
+      if (cleanup) return
+      const sample = {}
+      try {
+        if (evaluateResourceThresholds(readFree, readOwned, sample)) {
+          const previousStop = priorStop(); kill('resource-floor-or-cap')
+          retainFirst(sample, false, null, previousStop)
+        }
+      } catch (error) {
+        const previousStop = priorStop(); kill('resource-observation-failed')
+        retainFirst(sample, true, error, previousStop)
+      }
+    }
+  }
+}
+
 export function cleanupDeadline(started, now) {
   assert.ok(Number.isFinite(started) && Number.isFinite(now) && now >= started)
   return Math.min(started + PILOT.workMs + PILOT.cleanupMs, now + PILOT.cleanupMs)
@@ -334,13 +390,13 @@ export async function runPilot(env = process.env) {
       if (reason.startsWith('resource-')) resourceFailure = true
       stop ??= reason; try { process.kill(-child.pid, 'SIGKILL') } catch {}
     }
+    const resourceMonitor = resourceThresholdMonitor({ command: name, stage, readFree: free, readOwned: () => ownedBytes(root),
+      kill, stopReason: () => stop, elapsedMs: () => performance.now() - begin })
     const output = commandOutputCapture(name, kill)
     cancellation.bindOwnedStop(kill)
     child.stdout.on('data', output.stdout); child.stderr.on('data', output.stderr); child.on('error', error => { spawnError = diagnostic(error.message) })
     const timer = setTimeout(() => kill('command-or-shared-deadline'), timeout)
-    const monitor = setInterval(() => { try {
-      if (!cleanup && (free() < PILOT.freeBytes || ownedBytes(root) > PILOT.ownedBytes)) kill('resource-floor-or-cap')
-    } catch { kill('resource-observation-failed') } }, 2000)
+    const monitor = setInterval(() => resourceMonitor.poll(cleanup), 2000)
     const result = await new Promise(resolve => child.on('close', (code, signal) => {
       cancellation.releaseOwnedStop(kill); resolve({ code, signal })
     }))
@@ -351,6 +407,7 @@ export async function runPilot(env = process.env) {
     }
     if (['runtime-download', 'runtime-import', 'first-launch-status'].includes(name) && requiresConsent(stdout + '\n' + stderr)) stop ??= 'auth-or-new-consent-required'
     const receipt = { ...context, stage, ...result, error: spawnError, stop, resource_failure: resourceFailure,
+      resource_observation: resourceMonitor.firstFailure,
       cancelled_signal: cancellation.signal, elapsed_ms: performance.now() - begin, ...outputReceipt,
       captured_output_complete: stop === null && spawnError === null && outputReceipt.captured_output_complete,
       stdout_diagnostic_tail: diagnostic(stdout.toString('utf8')), stderr_diagnostic_tail: diagnostic(stderr.toString('utf8')) }

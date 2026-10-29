@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "date": "2026-10-30",
-  "purpose": "IOS-15 fixed-interval long-scroll Clock observation infrastructure; no product SLO or version adoption",
+  "purpose": "Record actual bounded long-scroll Clock observation and format acceptance; no product performance budget/improvement causality",
   "authority": {
     "basis": "direct user personal-use and autonomous ordinary commit/PR/main work, Root delegated private preparation",
     "this_unit_external_operations": false,
     "paid_contract_distribution_or_new_execution_surface": false,
-    "this_unit_scope": "private final Source8 copies and Doc2 metadata-only finalization; no shared Source/Git/API/CI/SDK operation"
+    "this_unit_scope": "Existing Doc2 only, current observation from saved independent QC; no new GET/checker/test/SDK/common/Source action"
   },
   "scenario": {
     "name": "long-article-bounded-scroll",
@@ -49,14 +49,23 @@
     "configured_recorded_iterations": 3,
     "configured_discarded_warmup": 1,
     "required_completed_protocol_invocations": 4,
-    "actual_scroll_invocations_observed": false,
-    "actual_scroll_Clock_samples": null,
-    "actual_scroll_CSV": null,
+    "actual_scroll_invocations_observed": true,
+    "actual_scroll_Clock_samples": [
+      "25.047341160000002",
+      "32.883148205000005",
+      "30.555287187"
+    ],
+    "actual_scroll_CSV": {
+      "average_seconds": "29.49525885",
+      "ordered_three_values_match": true,
+      "files": 1,
+      "data_rows": 1
+    },
     "same_verified_Clock_format": "com.apple.dt.XCTMetric_Clock.time.monotonic / Clock Monotonic Time / s",
     "actual_export_acceptance": "exactly1 Passed selected case; exact workload/context,4 ordered bounded invocations;3 typed Double samples,CSV3 ordered values and strict decimal average rounding; no missing-as-zero fallback",
     "legacy_reference_scope": "metric/CSV format only; previous launch values are not scroll baseline",
-    "acceptance_status": "unadopted; first manual failed before Clock; future4-invocation/3sample contract unverified",
-    "actual_first_manual_attempt": "failed before Clock; complete protocol0 and no typed/CSV"
+    "acceptance_status": "Root observation/format accepted for exactfda; raw artifact acceptance_status remains unadopted; no product budget",
+    "actual_first_manual_attempt": "old5ee failed beforeClock0protocol, retained in preparation_history.before_observation_actual_first_attempts"
   },
   "not_measured": [
     "FPS",
@@ -127,7 +136,79 @@
       "common_rerun": false,
       "final_doc_delta_only": "four metadata records/index files changed after saved common; final-tree common execution not claimed"
     },
-    "scope": "Original Source4 preparation history; hashes/source versions and tested trees below do not cover the new combined Source3 followup"
+    "scope": "Original Source4 preparation history; hashes/source versions and tested trees below do not cover the new combined Source3 followup",
+    "current_Doc2": {
+      "scope": "Current change is common receipt/validation text only in existing2 records; no Source/measurement change or child Source/SDK/UI/Node/common/API execution",
+      "Root_common": {
+        "status": "passed",
+        "receipt_manifest_SHA256": "d3255c66efc9f821cf7763411baef5a0ffb7862055a449b3be7b02ffb253e0ce",
+        "base": "759e5adb6068a143657bb5d7c14f4b9efd87dcd5",
+        "tested_tree": "ae6c26047f4e95607ff01d06270f6afb31f45baa",
+        "tracked": 2815,
+        "tested_Doc2": {
+          "project/records/2026-10-30/ios-long-scroll-clock.json": {
+            "bytes": 48805,
+            "SHA256": "e969fe8475accfb0069defe9bb3dc0896b1070b47bdbeb1176bd80d772e5fc93"
+          },
+          "project/records/2026-10-30/ios-long-scroll-clock.md": {
+            "bytes": 20886,
+            "SHA256": "1f26dbf337cdb35ff1f926a8aa11a27f13d9511e9bcc8bbe90238f2ed4f56b19"
+          }
+        },
+        "counts": {
+          "tests": 1186,
+          "pass": 1171,
+          "fail": 0,
+          "skipped": 15,
+          "cancelled": 0
+        },
+        "npm_exit": 0,
+        "seconds": 49.895,
+        "index_and_working2815_exact_before": true,
+        "index_and_working2815_held_after": true,
+        "same_lockfile_previous_npm_ci_reused": true,
+        "external_network_denied_localhost_only": true,
+        "actual_npm_retry_count_after_initial": 1,
+        "initial_incomplete_attempt": {
+          "receipt_name": "ios-long-scroll-adoption-common-check-20261030",
+          "accepted": false,
+          "failed_markers": 50,
+          "final_counts": null,
+          "npm_exit": null,
+          "wrapper_error": "IndexError parsing missing final counts",
+          "ENOSPC_observed": true,
+          "all_failed_marker_causes_attributed_to_ENOSPC": false
+        },
+        "intermediate_capacity_retry": {
+          "receipt_name": "ios-long-scroll-adoption-common-check-capacity-retry-20261030",
+          "phase": "preflight stopped",
+          "npm_executed": false,
+          "working_bytes_already_current": true,
+          "private_index_stale_paths": 2,
+          "stale_index_basis": "earlier ReaderSource3",
+          "Source_changed": false
+        },
+        "recovery_before_success": {
+          "all_known_private_index_paths_aligned": 2815,
+          "owned_regenerable_Swift_Clang_module_cache_directories_removed": 11,
+          "free_capacity_approximately_GiB": 3.1,
+          "manifest_members_Source_logs_App_Content_profiles_preserved": true,
+          "original109_and_managedclean_rechecked": true,
+          "Source_Doc2_dependencies_isolation_changed_to_fix_tests": false
+        },
+        "receipt_only_delta_after_test": true,
+        "common_rerun_on_post_receipt_tree": false,
+        "scope": "Successful actual npm retry tested exact pre-receipt Doc2 treeae6. Current2-record receipt/validation delta is limited-checked, not a claim of common execution on its later tree."
+      },
+      "pre_receipt_independent_review": {
+        "manifest_SHA256": "59cf581e70cfbb7531d2d2bf93632c8f563b83111d3671ee0106f1072770aebd",
+        "P1": 0,
+        "P2": 0,
+        "scope": "Actual-main-bound pre-receipt Doc2 only; common receipt delta review pending"
+      },
+      "final_Doc2_independent_review": "receipt-only delta pending",
+      "actual_commit_PR_range": "not created; Root later"
+    }
   },
   "held": {
     "automatic_default": "launch-to-published-readiness",
@@ -274,20 +355,53 @@
       "name": "ios-long-scroll-preparation-wait-trace-source-review-20261030",
       "manifest_SHA256": "fc30a6f95238655d6c64dbd8ff3b1ef02c3bb244ca753de11ce7365b6c89c691",
       "scope": "saved small proof/review/common receipt; no source checks reexecuted; final Doc2 metadata-only delta afterward"
+    },
+    {
+      "name": "ios-pr304-fda-long-independent-review-20261030",
+      "manifest_SHA256": "dfbdade2f500ee1f4c3d777ffe518f8b882ede700b0bf1b602e885cdf871aedf",
+      "scope": "saved small observation/QC receipt only; no child GET/checker rerun"
+    },
+    {
+      "name": "ios-pr304-fda-long-first-success-root-20261030",
+      "manifest_SHA256": "022e0e06f991404607b669c4fd8bdff39e0db06164dc57153f8a00fbe0136bdc",
+      "scope": "saved small observation/QC receipt only; no child GET/checker rerun"
+    },
+    {
+      "name": "ios-pr304-fda-startup-first-success-root-20261030",
+      "manifest_SHA256": "4ff6eeb9b918bb9bdbfd2df1c2474dd058397109823891c03610c9846cd349e2",
+      "scope": "saved small observation/QC receipt only; no child GET/checker rerun"
+    },
+    {
+      "name": "ios-pr304-main-integration-verification-20261030",
+      "manifest_SHA256": "8600a186725e11e61376af97e5f9addc17b6f2c68c5e58cae46ab896d8a55cbf",
+      "scope": "Verified saved small receipt members only; no API/test/log acquisition or rerun by this Doc2 unit"
+    },
+    {
+      "name": "ios-pr304-final-scope-ready-ci-observation-20261030",
+      "manifest_SHA256": "7bcb5262ff0f1d12386c1583860ad0aed9fc93fd030a01d9918ae82871ae8ccd",
+      "scope": "Verified saved small receipt members only; no API/test/log acquisition or rerun by this Doc2 unit"
+    },
+    {
+      "name": "ios-pr304-fda-full-first-cancellation-root-20261030",
+      "manifest_SHA256": "1e76dad6fabee275074efc75ca74f0ca2cdebbd9d254ceef3b8badf238a9871b",
+      "scope": "Verified saved small receipt members only; no API/test/log acquisition or rerun by this Doc2 unit"
+    },
+    {
+      "name": "ios-pr304-fda-full-cancellation-scope-review-20261030",
+      "manifest_SHA256": "3ee26a997d2336720c7db0871daa37cbe28d6023117f95ab31339809c0847940",
+      "scope": "Verified saved small receipt members only; no API/test/log acquisition or rerun by this Doc2 unit"
+    },
+    {
+      "name": "ios-long-scroll-adoption-common-check-isolated-retry-20261030",
+      "manifest_SHA256": "d3255c66efc9f821cf7763411baef5a0ffb7862055a449b3be7b02ffb253e0ce",
+      "scope": "Saved small Root common or pre-receipt review members verified; no rerun by this Doc2 unit"
+    },
+    {
+      "name": "ios-long-scroll-observation-adoption-mainbound-review-20261030",
+      "manifest_SHA256": "59cf581e70cfbb7531d2d2bf93632c8f563b83111d3671ee0106f1072770aebd",
+      "scope": "Saved small Root common or pre-receipt review members verified; no rerun by this Doc2 unit"
     }
   ],
-  "integration_base": {
-    "head": "6bfa82b621027a482348c9edc2c1e568405dc4bf",
-    "tree": "32d79138c0e0ca71f88aec561e1e762a656c75b0",
-    "tracked": 2813,
-    "parent": "ca59520b9a8d616ef0a749101de558afbd412b9a",
-    "PR": 303,
-    "normal_squash": true,
-    "whole_tree_equals_original_author": true,
-    "Source4_before_same_in_Ca_author_main": true,
-    "main_proof_manifest_SHA256": "fdf5b4a9b29b4b05c6eb7bb7a011bebd34b7d81608ee8d38b515a7c5a21f6098",
-    "Root_actual_percent_B_format_exit": 0
-  },
   "preparation_history": {
     "original_manifest_SHA256": "6a8ae03911f31fa6c7301462ae16d581bd6b0a2a1677ed2789eaf495a2a13f7f",
     "original_candidate_tree": "7321a5877096a0916238c650f0a3c78eeab2cdb8",
@@ -414,6 +528,267 @@
       "MD_SHA256": "c2e56c0175f698f52eb135642d07b382716003393a036a9be7b7444d986c8ba0",
       "JSON_SHA256": "4ee54f9bd38dc2524d9be4981ca2e7eea6dd85ffe996e3f48a6540db4ef7ba8f",
       "state": "immutable early Doc2 snapshot included in actual combined common; Source1 SDK known, SourceIR/common still written pending at that time"
+    },
+    "before_observation_state": "final_private_Source8_followup_ready_for_final8_review; current public Draft304 head5ee unchanged; no newhead or adopted measurement",
+    "before_observation_ownership": {
+      "cumulative_PR_paths": 8,
+      "scope": "initialCode4+records2+indices2,followupCode3+records2 incremental5; this new unit Doc2 only",
+      "full_details_ref": "immutable fda record blob below"
+    },
+    "before_observation_current_PR304": {
+      "PR": 304,
+      "url": "https://github.com/pero3dev/ai-agent-library/pull/304",
+      "head": "5ee42249a6243b4a89231ff33b00ca4a06fd29d7",
+      "head_tree": "b81de0c90dbf144049768abcf492a62d2f83eb77",
+      "tracked": 2815,
+      "base": "6bfa82b621027a482348c9edc2c1e568405dc4bf",
+      "Draft": true,
+      "main_adopted": false,
+      "actual_test_merge": "b9e8afa13fd0d681cc9a6aa0cf4544a951169d53",
+      "all2815_source_equals_actual_test_merge": true,
+      "test_merge_binding_manifest_SHA256": "7956253e2bee257d4ee8e522150dc411f6de8b2173ae04e125a95e53e1ed0b60",
+      "first_epoch_API": {
+        "observed_at": "2026-10-29 21:20:00 UTC",
+        "source_PR_workflows": 8,
+        "success": 6,
+        "failure": 2,
+        "pending": 0,
+        "failures": [
+          "Performance PR default startup export",
+          "Dedicated"
+        ],
+        "manual_separate": "first explicit long-article-bounded-scroll failed",
+        "known11": {
+          "success": 11,
+          "failure": 0,
+          "pending": 0,
+          "observed_at": "2026-10-29 20:54:06 UTC",
+          "scope": "Draft-created preReady metadata only; not Ready, not measurement acceptance, not future new-head gate"
+        },
+        "guard_problems": 0,
+        "observer_manifest_SHA256": "a42c07e41207e135d139e9b41a168b0d9cb3f65d9c3cb36d06ff5e1e1746eb2f"
+      }
+    },
+    "before_observation_actual_first_attempts": {
+      "startup": {
+        "run": 40950051081,
+        "job": 123715442159,
+        "attempt": 1,
+        "scenario": "launch-to-published-readiness",
+        "case": {
+          "method": "testLaunchToPublishedReadiness",
+          "passed": 1,
+          "failed": 0,
+          "seconds": 41.825
+        },
+        "export": "Bash empty protocol_args array under nounset failed before Node CLI",
+        "typed_summary": false,
+        "CSV": false,
+        "raw_GETs_by_Root": 1,
+        "raw_bytes": 787289,
+        "raw_SHA256": "b79dce09598d391e3004d9733d5211916982d58db39ea21037bb9d5803f7fd6a",
+        "manifest_SHA256": "52087f1f95e3feaa4a8587957acb9d1fcbc2a93cabf83a27b10e581013be6530",
+        "console_only_values_are_metric_acceptance": false
+      },
+      "manual_long_scroll": {
+        "run": 40950354834,
+        "job": 123716530622,
+        "attempt": 1,
+        "event": "workflow_dispatch",
+        "actual_bound_scenario": "long-article-bounded-scroll",
+        "actual_head": "5ee42249a6243b4a89231ff33b00ca4a06fd29d7",
+        "case": {
+          "method": "testLongArticleBoundedScroll",
+          "failed": 1,
+          "seconds": 89.792,
+          "phase": "preparation article-row final wait, before article opened and Clock start",
+          "error_domain": "PublishedLongScrollObservation",
+          "code": 60
+        },
+        "Clock_started": false,
+        "complete_protocols": 0,
+        "actual_invocations_completed": null,
+        "typed_Clock_samples": false,
+        "CSV": false,
+        "raw_GETs_by_Root": 1,
+        "raw_bytes": 798091,
+        "raw_SHA256": "c2f77847824a943c34707aa5a64a0c7cbae9238b562a3ae36a1ac08feec3b041",
+        "manifest_SHA256": "d668d0fd4cce1325c5e6d1c1c2f0f111c635660f895edb9e693b566bb3bd9e3f",
+        "artifact_bytes": 75799362,
+        "artifact_downloads": 0,
+        "row_label_equals_title_predicate_present": false,
+        "precheck_pass": "inferred from no swipe and exact loop, not an explicitly logged returned Bool",
+        "final_Bool_callback_return_inflight": "unknown",
+        "cause_confirmed": false,
+        "diagnosis_manifest_SHA256": "a7be5a975823fe232b61372e078c18d30f3c33e7159d4489506c5cf1f1981e4b"
+      },
+      "Dedicated_separate": {
+        "run": 40950051190,
+        "job": 123715442627,
+        "attempt": 1,
+        "stageF": {
+          "timeout_ms": 180000,
+          "signal": "SIGKILL",
+          "exit": null,
+          "XCTest_case_or_result_seen": false,
+          "stdout_bytes": 863,
+          "acceptance": "not-completed",
+          "cause": "unknown"
+        },
+        "stageR": "typed exactly one NativeReader body case Passed",
+        "cleanup": "success",
+        "browser_outcome": "success; earlier transient browser download is not established as F cause",
+        "compact_artifact": {
+          "ZIP_bytes": 432471,
+          "ZIP_SHA256": "0bfdcc345361d3df23762fa03743706360dbbdac56babd26631dcde124c89f75",
+          "members": 219,
+          "uncompressed_bytes": 2233769,
+          "Root_download_GETs": 1,
+          "full_artifact_downloads": 0
+        },
+        "timecaps_changed": false,
+        "selected_manifest_SHA256": "a1dfd5de186afee4a3897526345ffe1fb8002f012a38bf8bb285073473d41d42"
+      }
+    },
+    "before_observation_followup_candidate": {
+      "snapshot_ref": "immutable parent fda record + private4ff publication below",
+      "Bash2_manifest_SHA256": "8db5bfcd6065ab9ad1d2c7bc40838099f76d49bb9dd0db2158a95d88690ee681",
+      "Bash2_review_manifest_SHA256": "38365ea35f732b2179ac349a73b5fb52b6246b867f9daa5634cc9f48ed4e89cc",
+      "Bash2_local_proof": "Mac3.2 before[1,1,0] after[0,0,0],longargv held;Node58,syntax/actionlint0,initialmissingcorpus failure retained",
+      "rowtrace1_manifest_SHA256": "67b01265795f8fa2683c94b13e171a1c76df06d01e1f95b9801f396922252ea6",
+      "rowtrace1_SHA256": "276efbf621cb38bd59190e5a905a9dd39c36ef53c297777049e6976da9aa6b6a",
+      "rowtrace_SDK_manifest_SHA256": "8dd4e224d7ec3d9db04d6e98aa901f44b4d89ebed6f3bdd1a91f5e5e79321461",
+      "Code3_review_manifest_SHA256": "fc30a6f95238655d6c64dbd8ff3b1ef02c3bb244ca753de11ce7365b6c89c691",
+      "actual_combined_common": {
+        "manifest_SHA256": "90bfca85cbe647c7f9af4e355946416fcd794cab8dc5db0c76fe779ebb27a2f5",
+        "tested_tree": "da812dbff7497ff67668250a638f25c0e66643d0",
+        "tested_parent": "5ee42249a6243b4a89231ff33b00ca4a06fd29d7",
+        "tested_parent_tree": "b81de0c90dbf144049768abcf492a62d2f83eb77",
+        "tracked": 2815,
+        "tests": 1186,
+        "pass": 1171,
+        "skip": 15,
+        "fail": 0,
+        "cancel": 0,
+        "npm_exit": 0,
+        "seconds": 47.312,
+        "scope": "actual Code3+earlyDoc2 overlay5 on all2815 actual5ee archive; current Code3 same bytes",
+        "tested_Doc2_snapshot_manifest_SHA256": "b2e1592ecd1cf6f14ddc3f445334e4f0035d9e4ec56536e8a8412b67431c0f48",
+        "final_Doc2_delta": "only2 record metadata files updated afterward for IR/common/current status; final-tree common rerun NOT claimed",
+        "common_rerun": false
+      },
+      "old_private_state": "newhead uncreated in that preparation snapshot; final8IR/newhead gates then pending; not current state"
+    },
+    "before_observation_planned_run": {
+      "scope": "pre-fda execution plan, not current; original5ee failure preserved separately",
+      "scenario": "long-article-bounded-scroll",
+      "required": "onepassedcase,1protocolrecord/4invocations,typedClock3/raw/CSV bound to exacthead",
+      "full_details_ref": "immutable fda record blob below"
+    },
+    "before_observation_unfinished": [
+      "final exact8path independent review",
+      "normal followup increment commit on5ee/newhead and fresh required CI/current Ready metadata",
+      "newhead explicit Hosted longscroll one Passed case/4 complete protocol invocations/Clock3 typed samples/raw/CSV match",
+      "Dedicated F actual case/failed path remains unaccepted",
+      "PR304 actual main adoption/postpush verification",
+      "physical/VoiceOver/profile expiry acceptance",
+      "product performance/Release SLO/IOS15 overall",
+      "PR301 iOS17 UI493 failure/minimumOS47 remains unaccepted"
+    ],
+    "before_observation_operational_finish": "Final private Source8 followup assembled: frozen Code3, exact initial exporter/indices, metadata-only final Doc2, saved checks and narrow metadata. Root final8 review/newcommit/newheadCI/manual/normal main remain pending.",
+    "before_observation_future_main_binding": "Parent main6bf already bound. Draft PR304/followup remain unadopted; followup head not yet created and final actual-main binding/gates are Root-owned.",
+    "before_observation_integration_base": {
+      "head": "6bfa82b621027a482348c9edc2c1e568405dc4bf",
+      "tree": "32d79138c0e0ca71f88aec561e1e762a656c75b0",
+      "tracked": 2813,
+      "parent": "ca59520b9a8d616ef0a749101de558afbd412b9a",
+      "PR": 303,
+      "normal_squash": true,
+      "whole_tree_equals_original_author": true,
+      "Source4_before_same_in_Ca_author_main": true,
+      "main_proof_manifest_SHA256": "fdf5b4a9b29b4b05c6eb7bb7a011bebd34b7d81608ee8d38b515a7c5a21f6098",
+      "Root_actual_percent_B_format_exit": 0
+    },
+    "before_observation_record_snapshot": {
+      "head": "fda72133e6b0697aa02654d2aa0d3f8718928ed3",
+      "record_path": "project/records/2026-10-30/ios-long-scroll-clock.json",
+      "blob": "21164cdf66d2ac81e75384b7e308c058da97bc43",
+      "SHA256": "35fa5ae5cb96214dd15ae9cefba4b7dab07df8da3d2465b52e1cc8dd8327f680",
+      "private_final_Source8_manifest_SHA256": "4ff460e450b0dd12f1ab4abcf955258bdab50f8e7dbca4fa1a72a1471f014fda",
+      "retention": "full earlier states remain in immutable parent record/private snapshot; compact summaries here do not replace those originals"
+    },
+    "observation_pre_main_snapshot": {
+      "manifest_SHA256": "0df7125c72b704dd18bda021a75080aaa5f5ffe427b234cffe0df63a7e0b203d",
+      "as_of_UTC": "2026-10-29T22:46:55Z",
+      "state": "Root accepted exact-fda longscroll observation/format after independent QC; raw artifact unadopted preserved; private Doc2 waits for304main binding",
+      "authorbase": {
+        "head": "fda72133e6b0697aa02654d2aa0d3f8718928ed3",
+        "tree": "df9dfc30993379e0fa0f954728a9abe7273dc518",
+        "tracked": 2815,
+        "PR": 304,
+        "Draft": true,
+        "adopted_main": false
+      },
+      "actual_main_at_preparation": {
+        "head": "6bfa82b621027a482348c9edc2c1e568405dc4bf",
+        "tree": "32d79138c0e0ca71f88aec561e1e762a656c75b0",
+        "Root_report_scope": "before304 Ready/main completion; no child fresh API"
+      },
+      "current_PR304": {
+        "head": "fda72133e6b0697aa02654d2aa0d3f8718928ed3",
+        "Draft": true,
+        "main_adopted": false,
+        "body_observation_adoption_readback_UTC": "2026-10-29T22:46:55Z",
+        "Source8_API_at_Root_snapshot": {
+          "success": 7,
+          "Full_pending": 1,
+          "scope": "API only; Full completion not yet supplied"
+        },
+        "known11_history": {
+          "success": 11,
+          "observed_at": "2026-10-29 22:18:27 UTC",
+          "guard": 0,
+          "scope": "Draft before22:46:55 body update, not current Ready or future main gate"
+        },
+        "Ready_main_postpush": "not yet performed in Root preparation report"
+      },
+      "Root_observation_adoption": {
+        "accepted": true,
+        "scope": "actual observation and format only",
+        "basis": "Root decision after independent QC dfbd",
+        "separate_from_raw_artifact_status": true,
+        "PR304_main_adopted": false,
+        "product_budget_adopted": false
+      },
+      "future_main_binding": "Root must first ordinarily adopt304 and bind actual mainSHA/tree to author fda before this Doc2 normal commit/PR; no early publication",
+      "scope": "Immutable pre-main observation snapshot; older statuses do not describe the adopted Source8 or this actual-main-bound Doc2 preparation."
+    },
+    "before_common_receipt_snapshot": {
+      "manifest_SHA256": "4893c587b0edf830f9a060a097cdea876adc6ca32114e34bb00fcc0d2161360f",
+      "tested_tree": "ae6c26047f4e95607ff01d06270f6afb31f45baa",
+      "Doc2": {
+        "project/records/2026-10-30/ios-long-scroll-clock.json": {
+          "bytes": 48805,
+          "SHA256": "e969fe8475accfb0069defe9bb3dc0896b1070b47bdbeb1176bd80d772e5fc93"
+        },
+        "project/records/2026-10-30/ios-long-scroll-clock.md": {
+          "bytes": 20886,
+          "SHA256": "1f26dbf337cdb35ff1f926a8aa11a27f13d9511e9bcc8bbe90238f2ed4f56b19"
+        }
+      },
+      "state": "Source8 ordinarily adopted into actualmain759e; exact-fda longscroll observation/format accepted; this record-only Doc2 candidate is private, with Root common/final review/publication pending",
+      "current_Doc2_validation": {
+        "scope": "Only current Doc2 JSON/publicrecords/Markdown/local links/metadata format checks; saved Source/SDK/UI/Node/common evidence not reexecuted",
+        "Root_common": {
+          "status": "pending",
+          "receipt_manifest_SHA256": null,
+          "tested_tree": null,
+          "counts": null
+        },
+        "final_Doc2_independent_review": "pending",
+        "actual_commit_PR_range": "not yet created; Root later"
+      },
+      "scope": "Immutable pre-common-receipt Doc2; Root_common null/pending described that earlier snapshot only."
     }
   },
   "PR303_context": {
@@ -437,330 +812,315 @@
       "private_reader_diagnoses_adopted_or_included": false
     }
   },
-  "state": "final_private_Source8_followup_ready_for_final8_review; current public Draft304 head5ee unchanged; no newhead or adopted measurement",
+  "state": "Source8 adopted into actualmain759e; longscroll observation/format held; this record-only Doc2 has successful Root common on pre-receipt treeae6, with receipt-only final review and ordinary publication pending",
   "ownership": {
-    "this_private_unit": [
+    "existing_records_only": [
       "project/records/2026-10-30/ios-long-scroll-clock.md",
       "project/records/2026-10-30/ios-long-scroll-clock.json"
     ],
-    "this_private_unit_total": 2,
-    "followup_increment_prospective_existing_paths": [
-      ".github/workflows/ios-performance.yml",
-      "tests/unit/ios-performance-export.test.mjs",
-      "ios/AILibraryUITests/PublishedPerformanceUITests.swift",
-      "project/records/2026-10-30/ios-long-scroll-clock.md",
-      "project/records/2026-10-30/ios-long-scroll-clock.json"
-    ],
-    "followup_increment_total": 5,
-    "followup_new_paths": 0,
-    "cumulative_PR_paths": 8,
-    "original_Source4_records2_indices2_scope_retained": true,
-    "indices_plan_checkpoint303_records": "held; not owned or modified here",
-    "separate_reader_diagnostics": "Native/ReadingRecovery/PublishedReader private Source3 are unrelated and not included",
-    "private_final_preview_paths": [
-      ".github/workflows/ios-performance.yml",
-      "ios/AILibraryUITests/PublishedPerformanceUITests.swift",
-      "ios/tests/export-performance.mjs",
-      "project/README.md",
-      "project/plans/engineering/ios-app-completion.md",
-      "project/records/2026-10-30/ios-long-scroll-clock.json",
-      "project/records/2026-10-30/ios-long-scroll-clock.md",
-      "tests/unit/ios-performance-export.test.mjs"
-    ],
-    "private_final_preview_total": 8,
-    "this_private_unit_edits_only": [
-      "project/records/2026-10-30/ios-long-scroll-clock.md",
-      "project/records/2026-10-30/ios-long-scroll-clock.json"
-    ]
+    "total": 2,
+    "new_paths": 0,
+    "Source_indices_plan_changes": false
   },
-  "future_main_binding": "Parent main6bf already bound. Draft PR304/followup remain unadopted; followup head not yet created and final actual-main binding/gates are Root-owned.",
-  "current_PR304": {
-    "PR": 304,
-    "url": "https://github.com/pero3dev/ai-agent-library/pull/304",
-    "head": "5ee42249a6243b4a89231ff33b00ca4a06fd29d7",
-    "head_tree": "b81de0c90dbf144049768abcf492a62d2f83eb77",
+  "authorbase": {
+    "head": "759e5adb6068a143657bb5d7c14f4b9efd87dcd5",
+    "tree": "df9dfc30993379e0fa0f954728a9abe7273dc518",
     "tracked": 2815,
-    "base": "6bfa82b621027a482348c9edc2c1e568405dc4bf",
-    "Draft": true,
-    "main_adopted": false,
-    "actual_test_merge": "b9e8afa13fd0d681cc9a6aa0cf4544a951169d53",
-    "all2815_source_equals_actual_test_merge": true,
-    "test_merge_binding_manifest_SHA256": "7956253e2bee257d4ee8e522150dc411f6de8b2173ae04e125a95e53e1ed0b60",
-    "first_epoch_API": {
-      "observed_at": "2026-10-29 21:20:00 UTC",
-      "source_PR_workflows": 8,
-      "success": 6,
-      "failure": 2,
+    "kind": "actual adopted main; prospective parent of this Doc2 unit",
+    "measurement_source_author": "fda72133e6b0697aa02654d2aa0d3f8718928ed3",
+    "PR304_source_adopted": true
+  },
+  "actual_main_at_preparation": {
+    "head": "759e5adb6068a143657bb5d7c14f4b9efd87dcd5",
+    "tree": "df9dfc30993379e0fa0f954728a9abe7273dc518",
+    "single_parent": "6bfa82b621027a482348c9edc2c1e568405dc4bf",
+    "PR": 304,
+    "merged_at_UTC": "2026-10-29T23:08:47Z",
+    "whole2815_equals_measurement_author": true,
+    "Root_receipt_manifest_SHA256": "8600a186725e11e61376af97e5f9addc17b6f2c68c5e58cae46ab896d8a55cbf",
+    "scope": "Actual local publicobjects read-only equality plus saved Root normal merge/message proof; no child API or publication"
+  },
+  "future_main_binding": "Completed for this preparation: actualmain759e tree/all2815 equals measurement-author fda. Any subsequent main advance requires Root normal ref/before-blob recheck; this Doc2 has no created commit/PR yet.",
+  "current_PR304": {
+    "head": "fda72133e6b0697aa02654d2aa0d3f8718928ed3",
+    "head_tree": "df9dfc30993379e0fa0f954728a9abe7273dc518",
+    "state": "MERGED",
+    "Draft": false,
+    "Ready_at_UTC": "2026-10-29T22:50:17Z",
+    "final_body_baseline_UTC": "2026-10-29T23:05:49Z",
+    "final_fresh_mandatory11": {
+      "success": 11,
       "pending": 0,
-      "failures": [
-        "Performance PR default startup export",
-        "Dedicated"
-      ],
-      "manual_separate": "first explicit long-article-bounded-scroll failed",
-      "known11": {
-        "success": 11,
-        "failure": 0,
-        "pending": 0,
-        "observed_at": "2026-10-29 20:54:06 UTC",
-        "scope": "Draft-created preReady metadata only; not Ready, not measurement acceptance, not future new-head gate"
-      },
+      "failure": 0,
       "guard_problems": 0,
-      "observer_manifest_SHA256": "a42c07e41207e135d139e9b41a168b0d9cb3f65d9c3cb36d06ff5e1e1746eb2f"
+      "observed_at_UTC": "2026-10-29T23:07:58Z",
+      "manifest_SHA256": "7bcb5262ff0f1d12386c1583860ad0aed9fc93fd030a01d9918ae82871ae8ccd",
+      "scope": "Final PR304 metadata, not future Doc2 CI or main-push results"
+    },
+    "main_adopted": true,
+    "actual_main": "759e5adb6068a143657bb5d7c14f4b9efd87dcd5",
+    "merged_at_UTC": "2026-10-29T23:08:47Z",
+    "ordinary_protected_squash": true,
+    "admin_force_bypass": false,
+    "Source8_API_terminal": {
+      "success": 7,
+      "Full_cancelled": 1,
+      "Full_success_claimed": false
+    },
+    "main_push": {
+      "status": "Root observer started; results not yet established at this preparation",
+      "observer": "ios-pr304-main-push-ci-observation-20261030",
+      "results_transferred_from_PR": false
     }
   },
-  "actual_first_attempts": {
-    "startup": {
-      "run": 40950051081,
-      "job": 123715442159,
-      "attempt": 1,
-      "scenario": "launch-to-published-readiness",
-      "case": {
-        "method": "testLaunchToPublishedReadiness",
-        "passed": 1,
-        "failed": 0,
-        "seconds": 41.825
-      },
-      "export": "Bash empty protocol_args array under nounset failed before Node CLI",
-      "typed_summary": false,
-      "CSV": false,
-      "raw_GETs_by_Root": 1,
-      "raw_bytes": 787289,
-      "raw_SHA256": "b79dce09598d391e3004d9733d5211916982d58db39ea21037bb9d5803f7fd6a",
-      "manifest_SHA256": "52087f1f95e3feaa4a8587957acb9d1fcbc2a93cabf83a27b10e581013be6530",
-      "console_only_values_are_metric_acceptance": false
+  "measurement": {
+    "status": "measured-and-exported, independently consistent; Root accepts observation/format only",
+    "Root_observation_adoption": {
+      "accepted": true,
+      "scope": "actual observation and format only",
+      "basis": "Root decision after independent QC dfbd",
+      "separate_from_raw_artifact_status": true,
+      "product_budget_adopted": false,
+      "decision_time_pre_main_snapshot_preserved": true,
+      "main_integration_is_separate": "See actual_main_integration; the original false-at-observation-time field remains in preparation_history/observation_pre_main_snapshot."
     },
-    "manual_long_scroll": {
-      "run": 40950354834,
-      "job": 123716530622,
-      "attempt": 1,
-      "event": "workflow_dispatch",
-      "actual_bound_scenario": "long-article-bounded-scroll",
-      "actual_head": "5ee42249a6243b4a89231ff33b00ca4a06fd29d7",
-      "case": {
-        "method": "testLongArticleBoundedScroll",
-        "failed": 1,
-        "seconds": 89.792,
-        "phase": "preparation article-row final wait, before article opened and Clock start",
-        "error_domain": "PublishedLongScrollObservation",
-        "code": 60
-      },
-      "Clock_started": false,
-      "complete_protocols": 0,
-      "actual_invocations_completed": null,
-      "typed_Clock_samples": false,
-      "CSV": false,
-      "raw_GETs_by_Root": 1,
-      "raw_bytes": 798091,
-      "raw_SHA256": "c2f77847824a943c34707aa5a64a0c7cbae9238b562a3ae36a1ac08feec3b041",
-      "manifest_SHA256": "d668d0fd4cce1325c5e6d1c1c2f0f111c635660f895edb9e693b566bb3bd9e3f",
-      "artifact_bytes": 75799362,
-      "artifact_downloads": 0,
-      "row_label_equals_title_predicate_present": false,
-      "precheck_pass": "inferred from no swipe and exact loop, not an explicitly logged returned Bool",
-      "final_Bool_callback_return_inflight": "unknown",
-      "cause_confirmed": false,
-      "diagnosis_manifest_SHA256": "a7be5a975823fe232b61372e078c18d30f3c33e7159d4489506c5cf1f1981e4b"
+    "raw_artifact_acceptance_status": "unadopted",
+    "independent_review": {
+      "manifest_SHA256": "dfbdade2f500ee1f4c3d777ffe518f8b882ede700b0bf1b602e885cdf871aedf",
+      "decision": "OBSERVATION_FORMAT_CONSISTENT_ROOT_ADOPTION_SEPARATE",
+      "P1": 0,
+      "P2": 0,
+      "checker_not_rerun_by_this_unit": true
     },
-    "Dedicated_separate": {
-      "run": 40950051190,
-      "job": 123715442627,
-      "attempt": 1,
-      "stageF": {
-        "timeout_ms": 180000,
-        "signal": "SIGKILL",
-        "exit": null,
-        "XCTest_case_or_result_seen": false,
-        "stdout_bytes": 863,
-        "acceptance": "not-completed",
-        "cause": "unknown"
+    "run": 40962315847,
+    "job": 123758028782,
+    "attempt": 1,
+    "event": "workflow_dispatch",
+    "head": "fda72133e6b0697aa02654d2aa0d3f8718928ed3",
+    "tree": "df9dfc30993379e0fa0f954728a9abe7273dc518",
+    "branch": "codex/ios-long-scroll-clock",
+    "scenario": "long-article-bounded-scroll",
+    "environment": {
+      "configuration": "Debug",
+      "device_class": "iPhone16 iOS18.5 Simulator",
+      "Xcode": "16.4/16F6",
+      "App": "0.2.23(25)",
+      "published_articles": 199,
+      "fixture_articles_separate": 4
+    },
+    "case": {
+      "test_id": "PublishedPerformanceUITests/testLongArticleBoundedScroll()",
+      "modern_result": "Passed",
+      "legacy_result": "Success",
+      "case_count": 1,
+      "duration_seconds": 339.5632200241089
+    },
+    "Clock": {
+      "identifier": "com.apple.dt.XCTMetric_Clock.time.monotonic",
+      "display_name": "Clock Monotonic Time",
+      "unit": "s",
+      "typed_double_seconds": [
+        25.047341160000002,
+        32.883148205000005,
+        30.555287187
+      ],
+      "raw_Double_decimal_strings": [
+        "25.047341160000002",
+        "32.883148205000005",
+        "30.555287187"
+      ],
+      "sample_count": 3,
+      "display_rounding": "Markdown sample table rounded8 decimal places; exact typed values above",
+      "CSV_average_seconds": "29.49525885",
+      "exact_mean_seconds_from_wire_decimal_strings": "29.495258850666669",
+      "CSV_rounding_difference_seconds": "6.66669E-10",
+      "CSV_half_last_place_seconds": "5E-9",
+      "CSV_files": 1,
+      "CSV_header_columns": 5,
+      "CSV_data_rows": 1,
+      "CSV_iteration_order_exact": true,
+      "CSV_baseline0_is_not_performance_target": true
+    },
+    "protocol": {
+      "complete_records": 1,
+      "invocations_inside_the_one_record": 4,
+      "declared_warmup": 1,
+      "recorded": 3,
+      "drag_counts": [
+        8,
+        9,
+        8,
+        9
+      ],
+      "maximum_each": 16,
+      "start_offsets_points": [
+        5.898734177215374,
+        5.898734177215374,
+        5.898734177215374,
+        5.898734177215374
+      ],
+      "end_offsets_points": [
+        450.8987341772144,
+        667.2320675105484,
+        447.23206751054835,
+        504.5654008438814
+      ],
+      "start_end_visibility_witnesses_verified": true,
+      "same_count_or_fixed_pixel_distance_guaranteed": false,
+      "raw_payload_matches_exported_JSON": true,
+      "raw_payload_SHA256": "664a7054d912985462443d26a3672d9dbef19d9c8424c79af0ae79f4e609f3cd"
+    },
+    "preparation_trace": {
+      "separate_records": 4,
+      "each_poll_count": 1,
+      "each_completed": true,
+      "each_inflight_at_return": 0,
+      "bounded_last8_verified": true,
+      "scope": "current successful capture only; not old failure cause repair or timing-equivalence proof"
+    },
+    "input_binding": {
+      "test_source_SHA256": "276efbf621cb38bd59190e5a905a9dd39c36ef53c297777049e6976da9aa6b6a",
+      "fixed_original_source_SHA256": "d81e7f0984464c530d0b8bbdd8fbfffea6c1e398f037ae2f2133f053dce5a45f",
+      "Debug": {
+        "source_sha256": "d81e7f0984464c530d0b8bbdd8fbfffea6c1e398f037ae2f2133f053dce5a45f",
+        "document_source_sha256": "d81e7f0984464c530d0b8bbdd8fbfffea6c1e398f037ae2f2133f053dce5a45f",
+        "document_sha256": "c2ccd7bcc8e0df5c3d2710d5c22b847455b958d0aa8db270440e919bc3aa4f13",
+        "manifest_document_sha256": "c2ccd7bcc8e0df5c3d2710d5c22b847455b958d0aa8db270440e919bc3aa4f13",
+        "manifest_sha256": "648fe4d6172ddab4081f4d30770a72f6c35218687256747d117dc8634d5ea83e",
+        "actual_Debug_package_audit": "passed"
       },
-      "stageR": "typed exactly one NativeReader body case Passed",
-      "cleanup": "success",
-      "browser_outcome": "success; earlier transient browser download is not established as F cause",
-      "compact_artifact": {
-        "ZIP_bytes": 432471,
-        "ZIP_SHA256": "0bfdcc345361d3df23762fa03743706360dbbdac56babd26631dcde124c89f75",
-        "members": 219,
-        "uncompressed_bytes": 2233769,
-        "Root_download_GETs": 1,
-        "full_artifact_downloads": 0
-      },
-      "timecaps_changed": false,
-      "selected_manifest_SHA256": "a1dfd5de186afee4a3897526345ffe1fb8002f012a38bf8bb285073473d41d42"
+      "boundary": "Bundle document/manifest bytes are not in selected archive. Verified captured hash binding against exact workflow reads, bind function, independent199 source listing/static audit and actual Debug audit; not a fresh bundle-content recomputation."
+    },
+    "extraction_commands": {
+      "count": 6,
+      "all_exit0": true,
+      "roles": [
+        "modern tests",
+        "modern selected-case detail",
+        "metrics CSV export",
+        "legacy summary",
+        "legacy test plan",
+        "legacy invocation"
+      ],
+      "source": "saved actual extraction receipt; no reexecution"
+    },
+    "artifact": {
+      "id": 12938046838,
+      "ZIP_bytes": 3955645,
+      "ZIP_SHA256": "52393c44a42e7ca8e492e60d5b0ddefd6b1b7f2e192f8b98f0c65c0c2cdeccd6",
+      "safe_members": 64,
+      "metadata_uncompressed_bytes": 7416446,
+      "selected_members": 19,
+      "selected_bytes": 2707257,
+      "xcresult_body_extracted_or_read": false
+    },
+    "wire_hashes": {
+      "CSV_SHA256": "96e2d8e5b19cd176dc0390098341d02ee036c61f5c8913f65d2163453a72170d",
+      "normalized_summary_SHA256": "b2febfa9b8d9b3ed96f9b4debc84652d571f59994e84359094179f8da9bef1cc",
+      "exported_protocol_SHA256": "2a54f9e763c2f970808e3f296ec0f3a630b9f5ec14511ba719d516c06f4d67b3",
+      "raw_protocol_payload_SHA256": "664a7054d912985462443d26a3672d9dbef19d9c8424c79af0ae79f4e609f3cd",
+      "artifact_UI_log_SHA256": "af4ac2fee4d0f1c1f976c25d757ddab8c74043a64e844ee0019c1e39d204b168",
+      "extraction_commands_SHA256": "b1ff077ac959067be626af83f5a2ddab3239ee784e9a207abe45249f93cfce3f"
+    },
+    "Root_jobraw": {
+      "GETs": 1,
+      "bytes": 1071757,
+      "SHA256": "8e9e5e7453b99ce92a114daa8b3e9080a8550df8d2af12324e4f4f5f836c8ab6",
+      "receipt_manifest_SHA256": "022e0e06f991404607b669c4fd8bdff39e0db06164dc57153f8a00fbe0136bdc",
+      "full_jobraw_body_saved_claimed": false,
+      "scope": "Root digest plus selected lines/JSON, separate from artifact UI log"
     }
   },
-  "followup_candidate": {
-    "prospective_parent": "5ee42249a6243b4a89231ff33b00ca4a06fd29d7",
-    "new_head_created": false,
-    "one_followup_commit": "Bash export argument fix + performance preparation row-wait diagnostic + these2 record updates; cumulative PR8 paths unchanged",
-    "Bash_Source2": {
-      "manifest_SHA256": "8db5bfcd6065ab9ad1d2c7bc40838099f76d49bb9dd0db2158a95d88690ee681",
-      "changes": "always nonempty export_args array, append --protocol-log only for long scenario; exact long argv, defaults/set-euo/paths/caps/exporter held",
-      "Mac_Bash": "3.2.57",
-      "before_exit_launch_search_long": [
-        1,
-        1,
-        0
-      ],
-      "after_exit_launch_search_long": [
-        0,
-        0,
-        0
-      ],
-      "long_exact_argv_held": true,
-      "targeted_Node": {
-        "tests": 58,
-        "pass": 58,
-        "fail": 0,
-        "skip": 0,
-        "cancel": 0,
-        "seconds": 14.351,
-        "scope": "actual workflow Bash argument capture + prior synthetic/mock-xcrun tests, not Hosted extraction"
-      },
-      "initial_attempt": "private validation missing existing corpus caused module-load failure; Source unchanged; exact blob then supplied",
-      "syntax_actionlint": "exit0; external shellcheck/pyflakes disabled",
-      "Source_review": {
-        "manifest_SHA256": "38365ea35f732b2179ac349a73b5fb52b6246b867f9daa5634cc9f48ed4e89cc",
-        "decision": "ACCEPT_SOURCE2",
-        "P1": 0,
-        "P2": 0
-      },
-      "Root_common": {
-        "manifest_SHA256": "e03a7ac246249b9735df4d02c74864c021bb31a6d9a3e097a7a9f6cb88ca4232",
-        "tested_tree": "44f71272b67800a14adee5a22f391ab83b768413",
-        "tests": 1186,
-        "pass": 1171,
-        "skip": 15,
-        "fail": 0,
-        "cancel": 0,
-        "exit": 0,
-        "seconds": 47.843,
-        "scope": "Bash2 overlay ONLY; Swift held; not final Source3 or Doc2 candidate common"
-      }
-    },
-    "performance_row_trace_Source1": {
-      "state": "private Source1 frozen; saved SDK and independent Source1/Code3 review accepted; actual UI/trace/Clock not run",
-      "path": "ios/AILibraryUITests/PublishedPerformanceUITests.swift",
-      "source_SHA256": "276efbf621cb38bd59190e5a905a9dd39c36ef53c297777049e6976da9aa6b6a",
-      "source_manifest_SHA256": "67b01265795f8fa2683c94b13e171a1c76df06d01e1f95b9801f396922252ea6",
-      "SDK_typecheck": {
-        "manifest_SHA256": "8dd4e224d7ec3d9db04d6e98aa901f44b4d89ebed6f3bdd1a91f5e5e79321461",
-        "SDK": "18.2",
-        "target": "arm64-apple-ios17.0",
-        "Swift_mode": 5,
-        "UI_files": 5,
-        "overlay_files": 1,
-        "exit": 0,
-        "seconds": 8.029,
-        "stdout_bytes": 0,
-        "stderr_bytes": 0,
-        "executed_XCTest_or_scroll": false,
-        "scope": "Root actual row-trace Source1 overlay on unchanged otherUI sources; not actual UI/Clock"
-      },
-      "independent_review": {
-        "manifest_SHA256": "fc30a6f95238655d6c64dbd8ff3b1ef02c3bb244ca753de11ce7365b6c89c691",
-        "decision": "ACCEPT_SOURCE1_AND_CODE3_INTEGRATION",
-        "P1": 0,
-        "P2": 0,
-        "Source1_same_SHA256": true,
-        "combined_code_only_tree": "6fbbd2944eeeb4c42b81cb63b848b4984790c199",
-        "scope": "Source1 and disjoint accepted Bash2 integration only; not final Doc2/8-path publication or Hosted acceptance"
-      },
-      "final_combined_common": {
-        "manifest_SHA256": "90bfca85cbe647c7f9af4e355946416fcd794cab8dc5db0c76fe779ebb27a2f5",
-        "tested_tree": "da812dbff7497ff67668250a638f25c0e66643d0",
-        "tested_parent": "5ee42249a6243b4a89231ff33b00ca4a06fd29d7",
-        "tested_parent_tree": "b81de0c90dbf144049768abcf492a62d2f83eb77",
-        "tracked": 2815,
-        "tests": 1186,
-        "pass": 1171,
-        "skip": 15,
-        "fail": 0,
-        "cancel": 0,
-        "npm_exit": 0,
-        "seconds": 47.312,
-        "scope": "actual Code3+earlyDoc2 overlay5 on all2815 actual5ee archive; current Code3 same bytes",
-        "tested_Doc2_snapshot_manifest_SHA256": "b2e1592ecd1cf6f14ddc3f445334e4f0035d9e4ec56536e8a8412b67431c0f48",
-        "final_Doc2_delta": "only2 record metadata files updated afterward for IR/common/current status; final-tree common rerun NOT claimed",
-        "common_rerun": false
-      },
-      "intended_scope": "existing preparation row wait only, no extra AX; existing Bool/monotonic boundaries, separate prefix, NSLock/last8/8192B; no change to15s/8/12/18/16, predicates, Clock/protocol/export guards",
-      "source_bytes": 47405,
-      "source1_only_projection_tree": "4139147b951fd63893fd04855fd4ce2ec4e575aa",
-      "syntax": {
-        "exit": 0,
-        "seconds": 0.688,
-        "stdout_bytes": 0,
-        "stderr_bytes": 0,
-        "typecheck_or_execution": false
-      },
-      "prefix": "AILIBRARY_LONG_SCROLL_PREPARATION ",
-      "maximum_record_bytes_including_prefix_LF": 8192,
-      "actual_scope": "Only preparation row opt-in; other3 longScrollWait callers/default old helper body held. Existing nonthrowing condition Bool once per evaluation, precheck max12 aggregate, NSLock/last8/inflight and numeric helper result; one after-wait defer line, no raw AX throw capture. Clock/protocol/results unchanged."
-    },
-    "Root_finalization_required": [
-      "final8path independent review of exact final candidate",
-      "fresh main/PR branch lease, create one increment commit on exact5ee and verify actual2-commit0-merge PR range",
-      "normal same Draft304 fast-forward and final metadata update, no force",
-      "fresh required CI/current Ready metadata and exact newhead manual long scenario; no oldhead result transfer"
-    ],
-    "Root_combined_common": {
-      "manifest_SHA256": "90bfca85cbe647c7f9af4e355946416fcd794cab8dc5db0c76fe779ebb27a2f5",
-      "tested_tree": "da812dbff7497ff67668250a638f25c0e66643d0",
-      "tested_parent": "5ee42249a6243b4a89231ff33b00ca4a06fd29d7",
-      "tested_parent_tree": "b81de0c90dbf144049768abcf492a62d2f83eb77",
-      "tracked": 2815,
-      "tests": 1186,
-      "pass": 1171,
-      "skip": 15,
-      "fail": 0,
-      "cancel": 0,
-      "npm_exit": 0,
-      "seconds": 47.312,
-      "scope": "actual Code3+earlyDoc2 overlay5 on all2815 actual5ee archive; current Code3 same bytes",
-      "tested_Doc2_snapshot_manifest_SHA256": "b2e1592ecd1cf6f14ddc3f445334e4f0035d9e4ec56536e8a8412b67431c0f48",
-      "final_Doc2_delta": "only2 record metadata files updated afterward for IR/common/current status; final-tree common rerun NOT claimed",
-      "common_rerun": false
-    },
-    "private_validation_state": "Code3 saved SourceIR/SDK/actual combined common complete; final Doc2 metadata-only narrow checks in this private unit; final8 independent review and publication/newhead gates remain pending",
-    "expected_increment_commit_parent": "5ee42249a6243b4a89231ff33b00ca4a06fd29d7",
-    "expected_PR_base": "6bfa82b621027a482348c9edc2c1e568405dc4bf"
-  },
-  "planned_run": {
-    "requested_scenario": "long-article-bounded-scroll",
-    "first_dispatch_issued": true,
-    "first_dispatch_result": "actual head5ee run40950354834 failed before Clock; historical first attempt retained",
-    "next_dispatch_issued": false,
-    "next_head": null,
-    "next_head_status": "uncreated; Source3 saved IR/SDK/common done, final8 independent review and Root actual commit/lease binding pending",
-    "required_evidence": [
-      "one passed selected case",
-      "4 complete ordered protocol invocations",
-      "3 actual typed Clock seconds samples",
-      "CSV3 values/order/average match",
-      "actual source/document/manifest context binding",
-      "raw/typed/CSV binding and actual one-case success"
-    ],
-    "exact_head_binding": [
-      "expected source head",
-      "actual run head",
-      "actual checkout/context head",
-      "test_source_sha256"
-    ],
-    "publication_gate": "fresh source CI, current metadata/Ready required checks and successful scoped actual measurement before normal main adoption",
-    "no_blind_oldhead_rerun_or_new_execution_surface": true,
-    "if_unavailable": "retain incomplete; no auth workaround, trigger expansion, predicate/cap relaxation or substitute performance claim",
-    "next_expected_parent": "5ee42249a6243b4a89231ff33b00ca4a06fd29d7"
+  "startup_followup_observation": {
+    "head": "fda72133e6b0697aa02654d2aa0d3f8718928ed3",
+    "run": 40962053728,
+    "job": 123757105655,
+    "attempt": 1,
+    "case_passed": 1,
+    "case_seconds": 99.213,
+    "Node_CLI_status": "measured-and-exported",
+    "extraction_commands": 6,
+    "all_command_exits0": true,
+    "manifest_SHA256": "4ff6eeb9b918bb9bdbfd2df1c2474dd058397109823891c03610c9846cd349e2",
+    "scope": "Root saved startup actualcase/CLI, no independent startupCSV comparison or average table in this unit"
   },
   "unfinished": [
-    "final exact8path independent review",
-    "normal followup increment commit on5ee/newhead and fresh required CI/current Ready metadata",
-    "newhead explicit Hosted longscroll one Passed case/4 complete protocol invocations/Clock3 typed samples/raw/CSV match",
-    "Dedicated F actual case/failed path remains unaccepted",
-    "PR304 actual main adoption/postpush verification",
+    "main759e postpush CI results not yet established at this preparation",
+    "this Doc2 receipt-only final independent review/actual range/normal commit-PR-main-postpush",
+    "Full Release completion and final package/icon audits from this cancelled run",
     "physical/VoiceOver/profile expiry acceptance",
-    "product performance/Release SLO/IOS15 overall",
-    "PR301 iOS17 UI493 failure/minimumOS47 remains unaccepted"
+    "product performance budget/Release/physical device/p95/SLO and IOS15 overall",
+    "PR301 minimumOS47 and unrelated Reader failures remain unaccepted"
   ],
-  "operational_finish": "Final private Source8 followup assembled: frozen Code3, exact initial exporter/indices, metadata-only final Doc2, saved checks and narrow metadata. Root final8 review/newcommit/newheadCI/manual/normal main remain pending."
+  "next_operation": {
+    "new_run_planned": false,
+    "Source_optimization_implemented": false,
+    "read_only_comparison_0bdba": "not implemented; scoped observation succeeded",
+    "future_measurement": "Only a new explicit need/source/input change justifies exacthead repeat; preserve protocol/raw/typed/CSV binding and limits, do not infer prior value equivalence",
+    "Doc2_delivery": "Actualmain759e-bound record-only one commit and small normal PR after receipt-only finalIR; successful Root common is bound to pre-receipt treeae6, current2-record metadata delta is limited-checked. Fresh refs/before-blobs/range/current metadata/required gates and ordinary protected main/postpush remain Root-owned.",
+    "Memory_QC": "separate observation unit; no Memory averages mixed here"
+  },
+  "operational_finish": "Private Doc2 bound to actualmain759e with successful Root common on exact pre-receipt treeae6; measurement/history/Source unchanged. Current2-record common-receipt/validation delta only, no child acquisition/checker/Source/SDK/UI/common/API execution. Receipt-only final review and ordinary publication remain pending.",
+  "actual_main_integration": {
+    "PR": 304,
+    "main": "759e5adb6068a143657bb5d7c14f4b9efd87dcd5",
+    "single_parent": "6bfa82b621027a482348c9edc2c1e568405dc4bf",
+    "tree": "df9dfc30993379e0fa0f954728a9abe7273dc518",
+    "tracked": 2815,
+    "source_author": "fda72133e6b0697aa02654d2aa0d3f8718928ed3",
+    "whole_tree_mode_blob_equal": true,
+    "merged_at_UTC": "2026-10-29T23:08:47Z",
+    "actual_commit_message_canonical_equal": true,
+    "message_check_exit": 0,
+    "manifest_SHA256": "8600a186725e11e61376af97e5f9addc17b6f2c68c5e58cae46ab896d8a55cbf",
+    "scope": "Adopts Source8 test/measurement infrastructure; separate from observation/format judgment, product performance budget and this Doc2 publication"
+  },
+  "Full_terminal_scope": {
+    "run": 40962053595,
+    "job": 123757105573,
+    "attempt": 1,
+    "head": "fda72133e6b0697aa02654d2aa0d3f8718928ed3",
+    "event": "pull_request",
+    "API_conclusion": "cancelled",
+    "Core": {
+      "total": 245,
+      "skipped": 2,
+      "failed": 0,
+      "TEST_SUCCEEDED": true
+    },
+    "UI": {
+      "unique_cases": 23,
+      "passed": 23,
+      "failed": 0,
+      "TEST_SUCCEEDED": true,
+      "Root_fullraw_inventory": true,
+      "independent_selected_pass_lines": 17,
+      "scope": "Independent review uses suite summaries/two TEST SUCCEEDED and saved Root fullraw inventory; not a reread of complete raw"
+    },
+    "Release": {
+      "compile_interrupted": true,
+      "BUILD_SUCCEEDED_seen": false,
+      "completion_and_final_package_icon_audits_accepted": false
+    },
+    "cause": "generic operation canceled; configured50min/actual50min51s consistent but exact cause unconfirmed",
+    "independent_scope_review": {
+      "manifest_SHA256": "3ee26a997d2336720c7db0871daa37cbe28d6023117f95ab31339809c0847940",
+      "decision": "NORMAL_PROTECTED_MERGE_ACCEPTABLE_WITH_TERMINAL_CANCELLATION_DISCLOSED",
+      "P1": 0,
+      "P2": 0,
+      "scope": "Additional validation for unchanged-product PR304 Source8 only; not Full overall success or Release completion"
+    },
+    "raw_receipt": {
+      "manifest_SHA256": "1e76dad6fabee275074efc75ca74f0ca2cdebbd9d254ceef3b8badf238a9871b",
+      "Root_GETs": 1,
+      "bytes": 1860472,
+      "SHA256": "3bebb2fc33b74106e597db2af9a4d40582b90fac1049bc454d78d74d58d74e28",
+      "full_raw_body_saved_to_disk": false,
+      "artifact_downloads": 0
+    },
+    "old_resume_case_pass_is_causal_fix_proof": false,
+    "cap_changes": 0,
+    "retries": 0,
+    "admin_bypass": 0
+  }
 }

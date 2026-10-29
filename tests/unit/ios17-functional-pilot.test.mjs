@@ -1016,3 +1016,236 @@ test('independent2GiB free floor still short-circuits owned under the larger log
   assert.equal(monitor.firstFailure.owned_bytes, null); assert.equal(monitor.firstFailure.owned_cap_bytes, 41875931136)
   assert.equal(monitor.ownedSizeBreakdown, null)
 })
+
+import { initialRuntimeRecoveryPlan, readInitialRuntimeInventory } from '../../ios/tests/ios17-functional-pilot.mjs'
+function initialRuntimeFailureReceipt(overrides = {}) {
+  const empty = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+  return { name: 'runtimes-before', stage: 'inventory', binary: 'xcrun', arguments: ['simctl', 'list', 'runtimes', '--json'],
+    timeout_ms: 60000, code: null, signal: 'SIGKILL', error: null, stop: 'command-or-shared-deadline',
+    resource_failure: false, resource_observation: null, cancelled_signal: null, captured_output_complete: false, elapsed_ms: 60048.20525,
+    output_capture_policy: 'raw-v1', raw_wire_cap_bytes: PILOT.outputBytes, retained_output_cap_bytes: PILOT.outputBytes,
+    known_progress_record_cap_bytes: null, raw_wire_cap_exceeded: false, retained_output_cap_exceeded: false, output_limit_reason: null,
+    stdout_diagnostic_tail: '', stderr_diagnostic_tail: '', observed_stream_bytes: 0, raw_stdout_bytes: 0, raw_stderr_bytes: 0,
+    captured_stdout_bytes: 0, captured_stderr_bytes: 0, retained_stream_bytes: 0, deduplicated_progress_records: 0,
+    deduplicated_progress_bytes: 0, uncaptured_stream_bytes: 0, max_pending_stdout_bytes: 0,
+    raw_stdout_sha256: empty, raw_stderr_sha256: empty, captured_stdout_sha256: empty, captured_stderr_sha256: empty, ...overrides }
+}
+function initialRuntimeError(receipt = initialRuntimeFailureReceipt()) {
+  const error = new Error('arbitrary message is not recovery authority')
+  Object.defineProperty(error, 'pilotCommand', { value: receipt }); return error
+}
+function initialRuntimeHarness({ error = initialRuntimeError(), first = null, fresh = () => ({ runtimes: [runtime] }),
+  remaining = () => 90000, onPlan = () => {} } = {}) {
+  const events = new EventEmitter(), cancellation = pilotCancellation(events), calls = [], plans = [], sequence = []
+  const options = { cancellation, remainingMs: remaining,
+    read: async (name, originalError = null) => {
+      calls.push({ name, originalError }); sequence.push(name)
+      if (name === 'runtimes-before') { if (first) return await first(); throw error }
+      assert.equal(name, 'runtimes-before-recovery'); return await fresh(originalError)
+    },
+    recordRecovery: async plan => { plans.push(plan); sequence.push('plan'); await onPlan(plan) } }
+  return { options, calls, plans, sequence, cancellation, events, error, run: () => readInitialRuntimeInventory(options), close: () => cancellation.close() }
+}
+
+test('initial runtime planner binds exact silent full60s metadata and a separate bounded30s before-download plan', () => {
+  const receipt = initialRuntimeFailureReceipt(), plan = initialRuntimeRecoveryPlan(receipt, 30000, null)
+  assert.equal(plan.failed_read, 'runtimes-before'); assert.equal(plan.fresh_read, 'runtimes-before-recovery')
+  assert.equal(plan.required_timeout_ms, 30000); assert.equal(plan.first_timeout_ms, 60000)
+  assert.equal(plan.maximum_fresh_reads, 1); assert.equal(plan.shared_work_budget_ms, 19 * 60000)
+  assert.equal(plan.shared_remaining_ms, 30000); assert.equal(plan.read_only, true)
+  assert.equal(plan.result_snapshot, 'runtimes-before.json'); assert.equal(plan.snapshot_source_read, 'runtimes-before-recovery')
+  assert.equal(plan.snapshot_before_download, true); assert.equal(plan.first_failure_preserved, true)
+  assert.equal(plan.plan_is_not_execution_proof, true); assert.equal(plan.timeout_cause_unresolved, true)
+  assert.equal(Object.isFrozen(plan), true); assert.throws(() => { plan.maximum_fresh_reads = 2 }, TypeError)
+})
+
+test('each altered or missing initial command receipt field fails closed and preserves original error without a fresh read', async () => {
+  const changed = { name: 'runtimes-before-recovery', stage: 'owned-boot', binary: 'other', arguments: ['simctl', 'list', 'devices', '--json'],
+    timeout_ms: 59999, code: 0, signal: 'SIGTERM', error: 'spawn error', stop: 'output-cap', resource_failure: true,
+    resource_observation: {}, cancelled_signal: 'SIGTERM', captured_output_complete: true, elapsed_ms: 59999,
+    output_capture_policy: 'known-progress', raw_wire_cap_bytes: 1, retained_output_cap_bytes: 1,
+    known_progress_record_cap_bytes: 256, raw_wire_cap_exceeded: true, retained_output_cap_exceeded: true, output_limit_reason: 'output-cap',
+    stdout_diagnostic_tail: 'authentication required', stderr_diagnostic_tail: 'warning' }
+  for (const key of ['observed_stream_bytes', 'raw_stdout_bytes', 'raw_stderr_bytes', 'captured_stdout_bytes', 'captured_stderr_bytes',
+    'retained_stream_bytes', 'deduplicated_progress_records', 'deduplicated_progress_bytes', 'uncaptured_stream_bytes', 'max_pending_stdout_bytes']) changed[key] = 1
+  for (const key of ['raw_stdout_sha256', 'raw_stderr_sha256', 'captured_stdout_sha256', 'captured_stderr_sha256']) changed[key] = 'bad'
+  for (const [key, value] of Object.entries(changed)) {
+    for (const replacement of [value, undefined]) {
+      const receipt = initialRuntimeFailureReceipt({ [key]: replacement })
+      assert.equal(initialRuntimeRecoveryPlan(receipt, 90000, null), null, key)
+      const h = initialRuntimeHarness({ error: initialRuntimeError(receipt) })
+      try { await assert.rejects(h.run(), error => error === h.error); assert.equal(h.calls.length, 1); assert.equal(h.plans.length, 0) }
+      finally { h.close() }
+    }
+  }
+})
+
+test('unknown metadata and exception messages cannot authorize an initial runtime recovery', async () => {
+  for (const value of [null, {}, new Error('silent60000 deadline SIGKILL runtimes-before'),
+    initialRuntimeError({}), initialRuntimeError(initialRuntimeFailureReceipt({ arguments: ['simctl', 'list', 'runtimes', '--json', 'extra'] }))]) {
+    const error = value, h = initialRuntimeHarness({ error })
+    try { await assert.rejects(h.run(), thrown => thrown === error); assert.equal(h.calls.length, 1); assert.equal(h.plans.length, 0) }
+    finally { h.close() }
+  }
+  const error = new Error('metadata getter'); Object.defineProperty(error, 'pilotCommand', { get() { throw new Error('not original') } })
+  const h = initialRuntimeHarness({ error }); try { await assert.rejects(h.run(), value => value === error) } finally { h.close() }
+  const circular = []; circular.push(circular)
+  assert.equal(initialRuntimeRecoveryPlan(initialRuntimeFailureReceipt({ arguments: circular }), 90000, null), null)
+  for (const elapsed_ms of [NaN, Infinity, '60000']) assert.equal(initialRuntimeRecoveryPlan(initialRuntimeFailureReceipt({ elapsed_ms }), 90000, null), null)
+})
+
+test('successful first runtime inventory requires one read and no recovery plan', async () => {
+  const value = { runtimes: [runtime] }, h = initialRuntimeHarness({ first: () => value, onPlan: () => assert.fail('no plan') })
+  try { assert.equal(await h.run(), value); assert.deepEqual(h.sequence, ['runtimes-before']); assert.equal(h.plans.length, 0) } finally { h.close() }
+})
+
+test('eligible initial failure keeps first receipt and error identity then records plan before one fresh result', async () => {
+  const first = initialRuntimeError(), before = JSON.stringify(first.pilotCommand), fresh = { runtimes: [runtime] }
+  const h = initialRuntimeHarness({ error: first, fresh: original => { assert.equal(original, first); return fresh } })
+  try {
+    assert.equal(await h.run(), fresh); assert.deepEqual(h.sequence, ['runtimes-before', 'plan', 'runtimes-before-recovery'])
+    assert.equal(h.plans.length, 1); assert.equal(h.calls.length, 2); assert.equal(h.calls[1].originalError, first)
+    assert.equal(JSON.stringify(first.pilotCommand), before)
+  } finally { h.close() }
+})
+
+test('first JSON, shape or strict runtime validation failures remain outside initial recovery', async () => {
+  let jsonError; try { JSON.parse('{bad') } catch (error) { jsonError = error }
+  const brokenJSON = initialRuntimeHarness({ first: () => { throw jsonError } })
+  try { await assert.rejects(brokenJSON.run(), error => error === jsonError); assert.equal(brokenJSON.calls.length, 1); assert.equal(brokenJSON.plans.length, 0) }
+  finally { brokenJSON.close() }
+  for (const value of [{}, { runtimes: null }, { runtimes: [{ ...runtime, buildversion: undefined }] }, { runtimes: [runtime, runtime] }]) {
+    const h = initialRuntimeHarness({ first: () => value })
+    try {
+      const data = await h.run(); assert.throws(() => { runtimeReceipt(data); selectExact17(data) })
+      assert.equal(h.calls.length, 1); assert.equal(h.plans.length, 0)
+    } finally { h.close() }
+  }
+})
+
+test('nonempty output and consent/error stops cannot become silent initial-read eligibility', async () => {
+  for (const receipt of [initialRuntimeFailureReceipt({ observed_stream_bytes: 1 }),
+    initialRuntimeFailureReceipt({ stdout_diagnostic_tail: 'Sign in with Apple Account' }),
+    initialRuntimeFailureReceipt({ stop: 'auth-or-new-consent-required' }), initialRuntimeFailureReceipt({ error: 'xcrun failed' })]) {
+    const h = initialRuntimeHarness({ error: initialRuntimeError(receipt) })
+    try { await assert.rejects(h.run(), error => error === h.error); assert.equal(h.calls.length, 1); assert.equal(h.plans.length, 0) }
+    finally { h.close() }
+  }
+})
+
+test('initial recovery requires full30s both before plan and after plan and retains first error on clipped budget', async () => {
+  for (const remaining of [29999, -1, NaN, Infinity, '30000']) {
+    const h = initialRuntimeHarness({ remaining: () => remaining })
+    try { await assert.rejects(h.run(), error => error === h.error); assert.equal(h.plans.length, 0); assert.equal(h.calls.length, 1) }
+    finally { h.close() }
+  }
+  for (const afterPlan of [29999, NaN, Infinity]) {
+    let reads = 0; const h = initialRuntimeHarness({ remaining: () => ++reads === 1 ? 60000 : afterPlan })
+    try { await assert.rejects(h.run(), error => error === h.error); assert.equal(h.plans.length, 1); assert.equal(h.calls.length, 1) }
+    finally { h.close() }
+  }
+})
+
+test('known cancellation before first, after failure, during plan or before fresh prevents new initial work', async () => {
+  for (const point of ['before-first', 'after-first', 'during-plan', 'before-fresh']) {
+    let h, budgetCalls = 0
+    h = initialRuntimeHarness({ first: () => { if (point === 'after-first') h.events.emit('SIGTERM'); throw h.error },
+      onPlan: async () => { if (point === 'during-plan') { await Promise.resolve(); h.events.emit('SIGTERM') } },
+      remaining: () => { budgetCalls++; if (point === 'before-fresh' && budgetCalls === 2) h.events.emit('SIGTERM'); return 90000 } })
+    if (point === 'before-first') h.events.emit('SIGTERM')
+    try {
+      await assert.rejects(h.run(), /Pilot cancelled/); assert.equal(h.cancellation.signal, 'SIGTERM')
+      assert.equal(h.calls.length, point === 'before-first' ? 0 : 1)
+      assert.equal(h.plans.length, ['during-plan', 'before-fresh'].includes(point) ? 1 : 0)
+    } finally { h.close() }
+  }
+  assert.equal(initialRuntimeRecoveryPlan(initialRuntimeFailureReceipt(), 90000, 'SIGINT'), null)
+})
+
+test('recovery-plan write failure starts no fresh query and leaves first command metadata unchanged', async () => {
+  const failedWrite = new Error('fixture plan write failure'), first = initialRuntimeError(), text = JSON.stringify(first.pilotCommand)
+  const h = initialRuntimeHarness({ error: first, onPlan: () => { throw failedWrite } })
+  try {
+    await assert.rejects(h.run(), error => error === failedWrite); assert.equal(h.calls.length, 1); assert.equal(h.plans.length, 1)
+    assert.equal(JSON.stringify(first.pilotCommand), text)
+  } finally { h.close() }
+})
+
+test('fresh command failure or malformed JSON receives no third read or mutation operation', async () => {
+  let parseError; try { JSON.parse('{fresh-bad') } catch (error) { parseError = error }
+  for (const failure of [initialRuntimeError(initialRuntimeFailureReceipt({ name: 'runtimes-before-recovery', timeout_ms: 30000, elapsed_ms: 30001 })), parseError]) {
+    const h = initialRuntimeHarness({ fresh: () => { throw failure } })
+    try { await assert.rejects(h.run(), error => error === failure); assert.equal(h.calls.length, 2); assert.equal(h.plans.length, 1) }
+    finally { h.close() }
+  }
+})
+
+test('fresh shape and strict identifier/build/duplicate failures stop outside helper without a third read', async () => {
+  for (const data of [{}, { runtimes: null }, { runtimes: [runtime, runtime] },
+    { runtimes: [{ ...runtime, identifier: 'wrong' }] }, { runtimes: [{ ...runtime, buildversion: undefined }] }]) {
+    const h = initialRuntimeHarness({ fresh: () => data })
+    try {
+      const value = await h.run(); assert.throws(() => { runtimeReceipt(value); selectExact17(value) })
+      assert.equal(h.calls.length, 2); assert.equal(h.plans.length, 1)
+    } finally { h.close() }
+  }
+})
+
+test('fresh valid inventory without available17 keeps null selection and the existing conditional acquisition contract', async () => {
+  for (const runtimes of [[], [{ ...runtime, isAvailable: false }], [{ ...runtime, name: 'iOS17.5', version: '17.5' }]]) {
+    const h = initialRuntimeHarness({ fresh: () => ({ runtimes }) })
+    try {
+      const before = await h.run(); runtimeReceipt(before); assert.equal(selectExact17(before), null)
+      const records = []; let imports = 0
+      const selected = await ensureDownloadedRuntime({ query: async () => ({ runtimes: [runtime] }),
+        record: (name, value) => records.push({ name, value }), importRuntime: async () => { imports++ } })
+      assert.equal(selected, runtime); assert.equal(imports, 0); assert.ok(records.some(row => row.name === 'runtimes-after-download.json'))
+      assert.equal(h.calls.length, 2)
+    } finally { h.close() }
+  }
+})
+
+test('original initial failure is forwarded for existing runner full-cap refusal without another attempt', async () => {
+  const first = initialRuntimeError(), intents = [], h = initialRuntimeHarness({ error: first,
+    fresh: original => { assert.equal(original, first); assert.equal(intents.length, 0); throw original } })
+  try { await assert.rejects(h.run(), error => error === first); assert.equal(h.calls.length, 2); assert.equal(h.plans.length, 1); assert.equal(intents.length, 0) }
+  finally { h.close() }
+})
+
+async function initialOwnedNode(t, script, killAfterMs = null) {
+  const child = spawn(process.execPath, ['-e', script], { detached: true, stdio: ['ignore', 'pipe', 'pipe'] })
+  const stdout = [], stderr = []; let closed = false, timer
+  child.stdout.on('data', bytes => stdout.push(bytes)); child.stderr.on('data', bytes => stderr.push(bytes))
+  t.after(() => { clearTimeout(timer); if (!closed) { try { process.kill(-child.pid, 'SIGKILL') } catch {} } })
+  if (killAfterMs !== null) timer = setTimeout(() => { try { process.kill(-child.pid, 'SIGKILL') } catch {} }, killAfterMs)
+  const result = await new Promise((resolve, reject) => { child.once('error', reject); child.once('close', (code, signal) => { closed = true; resolve({ code, signal }) }) })
+  clearTimeout(timer); return { ...result, stdout: Buffer.concat(stdout), stderr: Buffer.concat(stderr) }
+}
+
+test('owned Node fixtures use an explicit synthetic full-timeout receipt then one fresh JSON read through production helper',
+  { skip: process.platform === 'win32' }, async t => {
+    let savedFirst
+    const h = initialRuntimeHarness({ first: async () => {
+      const result = await initialOwnedNode(t, 'setInterval(()=>{},1000)', 40)
+      assert.deepEqual({ code: result.code, signal: result.signal }, { code: null, signal: 'SIGKILL' })
+      assert.equal(result.stdout.length, 0); assert.equal(result.stderr.length, 0)
+      // This fixture's clock is synthetic60000ms; its actual child is deliberately bounded to40ms.
+      savedFirst = initialRuntimeError(initialRuntimeFailureReceipt({ code: result.code, signal: result.signal, elapsed_ms: 60000 }))
+      throw savedFirst
+    }, fresh: async original => {
+      assert.equal(original, savedFirst)
+      const result = await initialOwnedNode(t, 'process.stdout.write(JSON.stringify({runtimes:[]}))')
+      assert.equal(result.code, 0); assert.equal(result.signal, null); assert.equal(result.stderr.length, 0)
+      return JSON.parse(result.stdout.toString('utf8'))
+    } })
+    try {
+      const value = await h.run(); assert.equal(selectExact17(value), null); assert.equal(h.calls.length, 2); assert.equal(h.plans.length, 1)
+      assert.equal(savedFirst.pilotCommand.timeout_ms, 60000); assert.deepEqual(h.sequence, ['runtimes-before', 'plan', 'runtimes-before-recovery'])
+    } finally { h.close() }
+  })
+
+test('initial and existing postboot recovery stay separate command-specific predicates', () => {
+  assert.equal(initialRuntimeRecoveryPlan(timeoutReceipt(), 90000, null), null)
+  assert.equal(postbootRecoveryAllowed(initialRuntimeFailureReceipt(), 90000, null), false)
+  assert.equal(postbootRecoveryAllowed(timeoutReceipt(), 60000, null), true)
+})

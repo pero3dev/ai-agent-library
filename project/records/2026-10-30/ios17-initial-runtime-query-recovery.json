@@ -1,0 +1,335 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-30",
+  "state": "Source89 independently accepted and common passed; final documentation review and new-head actual recovery/47 remain pending",
+  "purpose": "One exact initial-runtime-list silent full60s timeout recovery, fresh full30s once within existing19m shared budget",
+  "owned_paths": [
+    "ios/tests/ios17-functional-pilot.mjs",
+    "tests/unit/ios17-functional-pilot.test.mjs",
+    "project/records/2026-10-30/ios17-initial-runtime-query-recovery.md",
+    "project/records/2026-10-30/ios17-initial-runtime-query-recovery.json",
+    "project/README.md",
+    "project/plans/engineering/ios-app-completion.md"
+  ],
+  "authority": "Direct human autonomous personal iOS implementation, commit and ordinary protected PR/main progression; Root adopts bounded initial-query proposal and delegates private preparation. Physical checks may remain incomplete; no new contract/payment/distribution.",
+  "author_base": {
+    "head": "276fb067aee86363e204e0fe0f41c84a1281c125",
+    "tree": "6ba3b91c476c04974650647e213bfde783bdfd16",
+    "files": 2824,
+    "contains_current_main": "ca59520b9a8d616ef0a749101de558afbd412b9a",
+    "existing_increment": 4,
+    "new_records": 2,
+    "prospective_files": 2826,
+    "additional_mainSync": false,
+    "Root_final_newhead_binding": "Later before normal FF; not ref/main acceptance here"
+  },
+  "observed_first_276_Pilot": {
+    "head": "276fb067aee86363e204e0fe0f41c84a1281c125",
+    "run": 40916070056,
+    "job": 123596511199,
+    "attempt": 1,
+    "Root_manifest_SHA256": "19b06a303f3fb029ad369c91a36843b0aad505f66232edac38e8cf6938ba1601",
+    "diagnosis_manifest_SHA256": "d595124e8abeb40eae0091fd324227a8d9a2893ea5b5aafe9cd528f2561f9879",
+    "selected_existing_inputs_rehashed": [
+      {
+        "path": "execution-summary.json",
+        "bytes": 4209,
+        "SHA256": "f1800fdc8384b8458695e4df76b01b09ece523dc9d0a363826d587f38e63e5f0"
+      },
+      {
+        "path": "artifact/extracted/runtimes-before.intent.json",
+        "bytes": 330,
+        "SHA256": "8d20dae3a64923a24549545979868a385d6daf76c28e7eb996a6461f1a47d8e0"
+      },
+      {
+        "path": "artifact/extracted/runtimes-before.exit.json",
+        "bytes": 1498,
+        "SHA256": "ccec297130d5c2fb2b5b9c1647ba2ee44b5fa2d82887546d912545db8e30015b"
+      },
+      {
+        "path": "artifact/extracted/summary.json",
+        "bytes": 961,
+        "SHA256": "991d0f2e8d882c952af51bc49b9a7b5e9a762dcc3cfb22c48143b9de04c2b1f3"
+      }
+    ],
+    "initial_command": {
+      "repository": "pero3dev/ai-agent-library",
+      "event": "pull_request",
+      "source_head": "276fb067aee86363e204e0fe0f41c84a1281c125",
+      "run_id": "40916070056",
+      "run_attempt": "1",
+      "stage": "inventory",
+      "binary": "xcrun",
+      "arguments": [
+        "simctl",
+        "list",
+        "runtimes",
+        "--json"
+      ],
+      "timeout_ms": 60000
+    },
+    "initial_exit": {
+      "repository": "pero3dev/ai-agent-library",
+      "event": "pull_request",
+      "source_head": "276fb067aee86363e204e0fe0f41c84a1281c125",
+      "run_id": "40916070056",
+      "run_attempt": "1",
+      "stage": "inventory",
+      "code": null,
+      "signal": "SIGKILL",
+      "error": null,
+      "stop": "command-or-shared-deadline",
+      "resource_failure": false,
+      "resource_observation": null,
+      "cancelled_signal": null,
+      "elapsed_ms": 60048.20525,
+      "output_capture_policy": "raw-v1",
+      "raw_wire_cap_bytes": 4194304,
+      "retained_output_cap_bytes": 4194304,
+      "known_progress_record_cap_bytes": null,
+      "observed_stream_bytes": 0,
+      "raw_stdout_bytes": 0,
+      "raw_stderr_bytes": 0,
+      "raw_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "captured_stdout_bytes": 0,
+      "captured_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "captured_stderr_bytes": 0,
+      "captured_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retained_stream_bytes": 0,
+      "deduplicated_progress_records": 0,
+      "deduplicated_progress_bytes": 0,
+      "uncaptured_stream_bytes": 0,
+      "raw_wire_cap_exceeded": false,
+      "retained_output_cap_exceeded": false,
+      "max_pending_stdout_bytes": 0,
+      "output_limit_reason": null,
+      "captured_output_complete": false,
+      "stdout_diagnostic_tail": "",
+      "stderr_diagnostic_tail": "",
+      "owned_size_breakdown": null
+    },
+    "first_launch_status_code": 0,
+    "total_elapsed_ms": 64626.828625,
+    "cleanup": "not-created",
+    "no_download_device_or_functional_intents": true,
+    "functional47_accepted": false,
+    "39GiB_effect_observed": false,
+    "cold_service_cause_and_actual_recovery_success": "not established",
+    "Root_rawGET": 1,
+    "Root_artifactGET": 1,
+    "new_GET_or_runtime_execution": 0,
+    "raw_log_bytes": 24006,
+    "raw_log_SHA256": "4650a6285ee9f9a5c24ffcac6b0389213c03a1c446741f20d8e272cc8db80a83",
+    "ZIP_bytes": 9684,
+    "ZIP_SHA256": "1fa34790118a4e2ad7455adc75c99b68bd314e69e8ff7d4c8da2fe0b93c78655",
+    "artifact_members": 18,
+    "artifact_uncompressed_bytes": 16381,
+    "run_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40916070056/attempts/1",
+    "retrieval_date": "2026-10-30",
+    "restore": "Retrieve bounded artifact from named run/job/attempt, verify ZIP/member digests against Root frozen manifest19b06a. Raw job log is a separate Root one-GET receipt; no new acquisition here.",
+    "limits": "firstLaunch0 does not prove runtime-service readiness. Cold cause, actual fresh-read success,39GiB effect and47 remain unknown."
+  },
+  "diagnosis": {
+    "manifest_SHA256": "d595124e8abeb40eae0091fd324227a8d9a2893ea5b5aafe9cd528f2561f9879",
+    "verified_original_members": 2,
+    "read_only": true,
+    "Root_proposal_adoption": true,
+    "cold_cause_or_Source_approval": false
+  },
+  "recovery_policy": {
+    "failed_read": "runtimes-before",
+    "fresh_read": "runtimes-before-recovery",
+    "stage": "inventory",
+    "binary": "xcrun",
+    "arguments": [
+      "simctl",
+      "list",
+      "runtimes",
+      "--json"
+    ],
+    "first_timeout_ms": 60000,
+    "fresh_full_timeout_ms": 30000,
+    "maximum_fresh_reads": 1,
+    "eligibility": "Exact post-put assertion metadata only: full60s/finiteelapsed>=60000/nullcode/error/SIGKILL/deadline/resourcefalse/observationnull/receipt+livecancelnull/raw-v1/4MiB/zero all counters/empty hashes+tails/no output flags/incomplete; finite remaining>=30000",
+    "unknown_or_missing_fields": "ineligible; no message guessing",
+    "metadata_site": "Separate initial-only if in existing post-exit-put assertioncatch, not outer run catch; pre-spawn FS/put/JSON errors unmarked",
+    "plan_before_fresh": true,
+    "plan_execution_proof": false,
+    "plan_snapshot_provenance": "runtimes-before.json from fresh read before download, first failure intent/exit retained",
+    "after_plan": "Recheck cancel and full30s; pass original error to unchanged run fullCapFailure for recheck before intent after resource guard",
+    "budget_shrinks": "Original first error; no truncated fresh command",
+    "record_failure": "Record error returned, no fresh; original metadata unchanged",
+    "fresh_failure_or_invalid_JSON": "No third read",
+    "shape_and_selector": "runtimeReceipt/selectExact17 outside recoverycatch unchanged",
+    "valid_missing17": "Existing download-if-missing contract, no OS fallback or strict guard change",
+    "not_retried": [
+      "download",
+      "import",
+      "device create",
+      "boot",
+      "build",
+      "test",
+      "whole job"
+    ],
+    "service_kill_restart_runFirstLaunch_or_account_changes": false,
+    "postboot_helper_and_metadata_allbytes_held": true,
+    "all_caps_metric39GiB_free2GiB_shared19m_and_other_code_held": true,
+    "timers_FS_scheduling": "Existing best-effort, no hard completion guarantee"
+  },
+  "Source2": {
+    "manifest_SHA256": "ab679763ebc4533eb8f5f36ae9082c8e45ddc50b9037513eca00b6b3137e3e20",
+    "files": [
+      {
+        "path": "ios/tests/ios17-functional-pilot.mjs",
+        "before_bytes": 42337,
+        "before_SHA256": "1048826c2494beeb09b7249eba616570389d9cd74dd5b97bd3a26a108191ab55",
+        "bytes": 46131,
+        "SHA256": "2d16712283c4ecd98f3193f525bd22b20276225dbf05a283d5c78e482efebaf2"
+      },
+      {
+        "path": "tests/unit/ios17-functional-pilot.test.mjs",
+        "before_bytes": 75083,
+        "before_SHA256": "9eda010dc672915e7169d0a6124ecc7187220886439ef4aa6448aa913024970a",
+        "bytes": 91962,
+        "SHA256": "bb9a0a65fac16ae06419b0bc1c9a0f89d72cba05f1a5bb11e281052dc48c86c2"
+      }
+    ],
+    "unedited_copy": true,
+    "old73_full_testfile_prefix": true,
+    "inverse_regions": 3
+  },
+  "checks": {
+    "Node": {
+      "tests": 89,
+      "pass": 89,
+      "fail": 0,
+      "skip": 0,
+      "cancelled": 0,
+      "old": 73,
+      "added": 16,
+      "exit_code": 0,
+      "seconds": 2.378720833
+    },
+    "syntax_exit_codes": [
+      0,
+      0
+    ],
+    "actual_saved_receipt_planner": {
+      "exit_code": 0,
+      "remaining30000_is_synthetic": true,
+      "actual_runtime_recovery_proof": false
+    },
+    "owned_Node_fixture": "First actual child silent-killed after40ms; explicitly synthetic60000ms receipt, then fresh smallJSON child; no simctl/real60s test",
+    "this_publication_preparation_reexecuted_Source_tests": false,
+    "SourceIR_common_final6_newhead": "SourceIR and common accepted; final documentation/metadata review and fresh exact-head7/actual47/Runtime2 remain pending",
+    "independent_Source2_review": {
+      "manifest_SHA256": "c9bc1da0dbb59c785f88de8318513ebee110ae5f88f7e27abb6d8a476af43c67",
+      "P1": 0,
+      "P2": 0,
+      "scope": "Source2 only; old73 full prefix, three changed regions, existing postboot and all caps held; synthetic fixture is not actual simctl recovery"
+    },
+    "common": {
+      "manifest_SHA256": "2920958dd9dd816a28671a375ae75ab11612fc743e5f6e44bc07ba9680d328f6",
+      "tests": 1261,
+      "pass": 1246,
+      "skip": 15,
+      "fail": 0,
+      "cancelled": 0,
+      "npm_exit": 0,
+      "seconds": 55.402,
+      "candidate_tree": "c02526de5fa786e106232fb028b1194140ec50de",
+      "tracked": 2826,
+      "Source89_unedited": true,
+      "same_verified_lockfile_previous_actual_npm_ci_reused": true,
+      "record_only_final_delta": "Narrow project documentation and metadata checks; no Source/common/SDK rerun"
+    }
+  },
+  "existing_276_Runtime26": {
+    "head": "276fb067aee86363e204e0fe0f41c84a1281c125",
+    "run": 40916070075,
+    "job": 123596511435,
+    "attempt": 1,
+    "Root_rawGET": 1,
+    "bytes": 482620,
+    "SHA256": "6555669a7e4015facbe9330f57b12807a400ca0f25a4f80b178e0ae798441289",
+    "raw_hash_scope": "Root UTF8 returneddecoded content; fullrawnotcopied",
+    "methods": [
+      {
+        "method": "testContentsBookmarkAndResumeAfterRelaunch",
+        "seconds": 134.995
+      },
+      {
+        "method": "testThreeArticlesHaveNativeBodyText",
+        "seconds": 164.265
+      }
+    ],
+    "each1start1pass": true,
+    "selected2_fail0": true,
+    "complete_result_lines": 9,
+    "wait527": {
+      "timeoutSeconds": 15,
+      "fullyVisible": true,
+      "completed": true,
+      "poll_started_ms": 1049.502334,
+      "poll_returned_relative_ms": 2821.231209,
+      "poll_duration_ms": 1771.728875,
+      "wait_completed_ms": 2821.747375
+    },
+    "artifact_bodyGET": 0,
+    "Source_case_predicate_timeout_held": true,
+    "no_SLO_prior_cause_claim": true,
+    "manifest_SHA256": "65e3b01b0847e3286f710ee39de6cd4aa0916cacef1a660f1287288d955e2c7e",
+    "Source89_or_old_cause_acceptance": false
+  },
+  "Root_attributed_276_partial_checkpoint": {
+    "last_API_UTC_time": "17:26:44Z",
+    "source7": {
+      "success": 5,
+      "Pilot": "failure",
+      "Full": "pending"
+    },
+    "known11_preReady": {
+      "success": 11
+    },
+    "scope": "Root-reported partial oldhead checkpoint; observer receipt later, no fresh API/Source raw read here",
+    "adoption_sufficient": false,
+    "manifest_SHA256": "c8c572742c638a68fc9a30701a45f62a693b60a19fec07df2af376db6b328e26",
+    "last_API_UTC": "2026-10-29T17:26:44Z"
+  },
+  "App": "0.2.23 (25)",
+  "TODO": {
+    "rows": 32,
+    "completed": 13,
+    "all_rowbytes_held": true
+  },
+  "ordinary_plan": {
+    "parent": "276fb067aee86363e204e0fe0f41c84a1281c125",
+    "single_commit": "Source89 plus records",
+    "existing_PR": 301,
+    "branch": "codex/ios17-functional-pilot",
+    "base": "main",
+    "stages": [
+      "independent Source/common/final6 checks",
+      "normal existing301 FF",
+      "fresh7 and actual47/Runtime2",
+      "Ready latest11 and final metadata",
+      "normal protected main merge",
+      "post-push"
+    ],
+    "new_sync_oldhead_rerun_newDraft_admin": false,
+    "Root_owns_final_PR_message_squash_and_external_operations": true
+  },
+  "unfinished": [
+    "final documentation and metadata independent review",
+    "new exact-head initial-query recovery",
+    "39GiB empirical effect/sufficiency",
+    "actual47",
+    "fresh7 and Runtime2",
+    "Ready latest11/main/post-push",
+    "physical overwrite/data preservation",
+    "VoiceOver/minimumOS full/performance",
+    "Full diagnostics actual failure path"
+  ],
+  "private_boundary": "No shared Source/Git/GitHub/network/SDK/CI/runtime commands/deletion/childspawn; Source tests not reexecuted; no rawZIP/fullcases copied; public record has no private profile paths"
+}

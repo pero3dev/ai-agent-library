@@ -345,6 +345,52 @@ export async function readPostbootInventory({ read, validate, remainingMs, cance
   return inventory
 }
 
+export function initialRuntimeRecoveryPlan(receipt, remainingMs, cancelledSignal) {
+  try {
+    const emptyHash = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+    if (!(receipt?.name === 'runtimes-before' && receipt.stage === 'inventory'
+      && receipt.binary === 'xcrun' && Array.isArray(receipt.arguments)
+      && JSON.stringify(receipt.arguments) === JSON.stringify(['simctl', 'list', 'runtimes', '--json'])
+      && receipt.timeout_ms === 60000 && receipt.code === null && receipt.signal === 'SIGKILL'
+      && receipt.error === null && receipt.stop === 'command-or-shared-deadline'
+      && receipt.resource_failure === false && receipt.resource_observation === null
+      && receipt.cancelled_signal === null && cancelledSignal === null
+      && receipt.captured_output_complete === false && Number.isFinite(receipt.elapsed_ms) && receipt.elapsed_ms >= 60000
+      && receipt.output_capture_policy === 'raw-v1' && receipt.raw_wire_cap_bytes === PILOT.outputBytes
+      && receipt.retained_output_cap_bytes === PILOT.outputBytes && receipt.known_progress_record_cap_bytes === null
+      && receipt.raw_wire_cap_exceeded === false && receipt.retained_output_cap_exceeded === false && receipt.output_limit_reason === null
+      && receipt.stdout_diagnostic_tail === '' && receipt.stderr_diagnostic_tail === ''
+      && ['observed_stream_bytes', 'raw_stdout_bytes', 'raw_stderr_bytes', 'captured_stdout_bytes', 'captured_stderr_bytes',
+        'retained_stream_bytes', 'deduplicated_progress_records', 'deduplicated_progress_bytes', 'uncaptured_stream_bytes',
+        'max_pending_stdout_bytes'].every(key => receipt[key] === 0)
+      && ['raw_stdout_sha256', 'raw_stderr_sha256', 'captured_stdout_sha256', 'captured_stderr_sha256'].every(key => receipt[key] === emptyHash)
+      && Number.isFinite(remainingMs) && remainingMs >= 30000)) return null
+    return Object.freeze({ failed_read: 'runtimes-before', fresh_read: 'runtimes-before-recovery',
+      read_only: true, maximum_fresh_reads: 1, first_timeout_ms: 60000, required_timeout_ms: 30000,
+      shared_remaining_ms: remainingMs, shared_work_budget_ms: PILOT.workMs,
+      result_snapshot: 'runtimes-before.json', snapshot_source_read: 'runtimes-before-recovery', snapshot_before_download: true,
+      first_failure_preserved: true, plan_is_not_execution_proof: true, timeout_cause_unresolved: true })
+  } catch { return null }
+}
+export async function readInitialRuntimeInventory({ read, remainingMs, cancellation, recordRecovery }) {
+  cancellation.assertWorkAllowed()
+  try { return await read('runtimes-before') }
+  catch (error) {
+    cancellation.assertWorkAllowed()
+    let command
+    try { command = error?.pilotCommand } catch { throw error }
+    const plan = initialRuntimeRecoveryPlan(command, remainingMs(), cancellation.signal)
+    if (!plan) throw error
+    await recordRecovery(plan)
+    cancellation.assertWorkAllowed()
+    const beforeRead = remainingMs()
+    if (!Number.isFinite(beforeRead) || beforeRead < 30000) throw error
+    cancellation.assertWorkAllowed()
+    // The existing runner rechecks the original error's full30s cap after its resource probe.
+    return await read('runtimes-before-recovery', error)
+  }
+}
+
 export function selectExact17(inventory) {
   assert.ok(Array.isArray(inventory.runtimes), 'Unknown runtime inventory')
   const exact = inventory.runtimes.filter(row => row?.version === PILOT.version)
@@ -517,6 +563,8 @@ export async function runPilot(env = process.env) {
     } catch (error) {
       if (name === 'devices-after-boot') Object.defineProperty(error, 'pilotCommand', { value: { ...receipt,
         name, binary, arguments: [...args], timeout_ms: timeout } })
+      if (name === 'runtimes-before') Object.defineProperty(error, 'pilotCommand', { value: { ...receipt,
+        name, binary, arguments: [...args], timeout_ms: timeout } })
       throw error
     }
     return stdout.toString('utf8').trim()
@@ -540,7 +588,11 @@ export async function runPilot(env = process.env) {
     put('environment.json', { ...context, source_tree: sourceTree, xcode, macOS, sdk, architecture: process.arch, image: env.ImageVersion ?? null,
       limits: PILOT, actual_free_bytes: free(), time_storage_caps_are_unobserved_proposals: true, minimum_runtime: PILOT.version,
       no_new_license_account_or_first_launch_acceptance: true })
-    const before = await inventory('runtimes-before'); put('runtimes-before.json', runtimeReceipt(before))
+    const before = await readInitialRuntimeInventory({ remainingMs: () => deadline - performance.now(), cancellation,
+      read: async (label, originalError = null) => label === 'runtimes-before' ? inventory(label)
+        : JSON.parse(await run(label, 'xcrun', ['simctl', 'list', 'runtimes', '--json'], 30000, false, originalError)),
+      recordRecovery: plan => put('runtimes-before-recovery-plan.json', { ...context, stage, ...plan }) })
+    put('runtimes-before.json', runtimeReceipt(before))
     let selected = selectExact17(before)
     put('acquisition-plan.json', { runtime_preexisting_available: selected !== null, requested_version: '17.0',
       no_auth_or_new_contract_inputs: true, download_if_missing_only: true })
